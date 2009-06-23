@@ -33,7 +33,7 @@ KeyframeEdit::KeyframeEdit(QDomElement e, int max, Timecode tc, QWidget* parent)
     //setResizeMode(1, QHeaderView::Interactive);
     m_ui.button_add->setIcon(KIcon("document-new"));
     m_ui.button_delete->setIcon(KIcon("edit-delete"));
-    connect(m_ui.keyframe_list, SIGNAL(itemClicked(QTreeWidgetItem *, int)), this, SLOT(slotAdjustKeyframeInfo()));
+    connect(m_ui.keyframe_list, SIGNAL(itemSelectionChanged()/*itemClicked(QTreeWidgetItem *, int)*/), this, SLOT(slotAdjustKeyframeInfo()));
     setupParam();
     m_ui.keyframe_list->header()->resizeSections(QHeaderView::ResizeToContents);
     connect(m_ui.button_delete, SIGNAL(clicked()), this, SLOT(slotDeleteKeyframe()));
@@ -58,16 +58,18 @@ void KeyframeEdit::setupParam(QDomElement e)
     QTreeWidgetItem *first = m_ui.keyframe_list->topLevelItem(0);
     if (first) m_ui.keyframe_list->setCurrentItem(first);
     slotAdjustKeyframeInfo();
+    m_ui.button_delete->setEnabled(m_ui.keyframe_list->topLevelItemCount() > 2);
 }
 
 void KeyframeEdit::slotDeleteKeyframe()
 {
-    if (m_ui.keyframe_list->topLevelItemCount() < 2) return;
+    if (m_ui.keyframe_list->topLevelItemCount() < 3) return;
     QTreeWidgetItem *item = m_ui.keyframe_list->currentItem();
     if (item) {
         delete item;
         slotGenerateParams();
     }
+    m_ui.button_delete->setEnabled(m_ui.keyframe_list->topLevelItemCount() > 2);
 }
 
 void KeyframeEdit::slotAddKeyframe()
@@ -95,6 +97,7 @@ void KeyframeEdit::slotAddKeyframe()
     m_ui.keyframe_list->setCurrentItem(newItem);
     slotAdjustKeyframeInfo();
     m_ui.keyframe_list->blockSignals(false);
+    m_ui.button_delete->setEnabled(m_ui.keyframe_list->topLevelItemCount() > 2);
     slotGenerateParams();
 }
 
