@@ -40,10 +40,7 @@ public:
 
     void paint(QPainter *painter, const QStyleOptionViewItem &option,
                const QModelIndex &index) const {
-        if (index.column() == 0) {
-            QItemDelegate::paint(painter, option, index);
-            return;
-        } else if (index.column() == 1) {
+        if (index.column() == 1) {
             QRect r1 = option.rect;
             painter->save();
             if (option.state & (QStyle::State_Selected)) {
@@ -63,75 +60,39 @@ public:
             painter->setPen(option.palette.color(QPalette::Mid));
             painter->drawText(r2, Qt::AlignLeft | Qt::AlignVCenter , index.data(Qt::UserRole).toString());
             painter->restore();
-            return;
-        }
-        // Set up a QStyleOptionProgressBar to precisely mimic the
-        // environment of a progress bar.
-        QStyleOptionProgressBar progressBarOption;
-        progressBarOption.state = option.state;
-        progressBarOption.direction = QApplication::layoutDirection();
-        QRect rect = option.rect;
-        if (option.state & (QStyle::State_Selected)) {
-            painter->setPen(option.palette.color(QPalette::HighlightedText));
-            painter->fillRect(rect, option.palette.highlight());
-        }
-
-        int mid = rect.height() / 2;
-        rect.setTop(rect.top() + mid / 2);
-        rect.setHeight(mid);
-        progressBarOption.rect = rect;
-        progressBarOption.fontMetrics = QApplication::fontMetrics();
-        progressBarOption.minimum = 0;
-        progressBarOption.maximum = 100;
-        progressBarOption.textAlignment = Qt::AlignCenter;
-        progressBarOption.textVisible = true;
-
-        // Set the progress and text values of the style option.
-        int progress = index.data(Qt::UserRole).toInt();
-        progressBarOption.progress = progress < 0 ? 0 : progress;
-        progressBarOption.text = QString().sprintf("%d%%", progressBarOption.progress);
-
-        // Draw the progress bar onto the view.
-        QApplication::style()->drawControl(QStyle::CE_ProgressBar, &progressBarOption, painter);
-    }
-};
-
-
-// RenderScriptDelegate is used to draw the script items.
-class RenderScriptDelegate : public QItemDelegate
-{
-    Q_OBJECT
-public:
-    RenderScriptDelegate(QWidget *parent) : QItemDelegate(parent) {}
-
-    void paint(QPainter *painter, const QStyleOptionViewItem &option,
-               const QModelIndex &index) const {
-        if (index.column() == 0) {
-            QRect r1 = option.rect;
-            painter->save();
+        } else if (index.column() == 2) {
+            // Set up a QStyleOptionProgressBar to precisely mimic the
+            // environment of a progress bar.
+            QStyleOptionProgressBar progressBarOption;
+            progressBarOption.state = option.state;
+            progressBarOption.direction = QApplication::layoutDirection();
+            QRect rect = option.rect;
             if (option.state & (QStyle::State_Selected)) {
                 painter->setPen(option.palette.color(QPalette::HighlightedText));
-                painter->fillRect(r1, option.palette.highlight());
-            } else painter->setPen(option.palette.color(QPalette::Text));
-            QFont font = painter->font();
-            font.setBold(true);
-            painter->setFont(font);
-            int mid = (int)((r1.height() / 2));
-            r1.setBottom(r1.y() + mid);
-            r1.setLeft(r1.left() + 3);
-            QRect r2 = option.rect;
-            r2.setTop(r2.y() + mid);
-            r2.setLeft(r2.left() + 3);
-            painter->drawText(r1, Qt::AlignLeft | Qt::AlignBottom , index.data().toString());
-            font.setBold(false);
-            painter->setFont(font);
-            painter->setPen(option.palette.color(QPalette::Mid));
-            painter->drawText(r2, Qt::AlignLeft | Qt::AlignVCenter , index.data(Qt::UserRole).toString());
-            painter->restore();
-            return;
+                painter->fillRect(rect, option.palette.highlight());
+            }
+
+            int mid = rect.height() / 2;
+            rect.setTop(rect.top() + mid / 2);
+            rect.setHeight(mid);
+            progressBarOption.rect = rect;
+            progressBarOption.fontMetrics = QApplication::fontMetrics();
+            progressBarOption.minimum = 0;
+            progressBarOption.maximum = 100;
+            progressBarOption.textAlignment = Qt::AlignCenter;
+            progressBarOption.textVisible = true;
+
+            // Set the progress and text values of the style option.
+            int progress = index.data(Qt::UserRole).toInt();
+            progressBarOption.progress = progress < 0 ? 0 : progress;
+            progressBarOption.text = QString().sprintf("%d%%", progressBarOption.progress);
+
+            // Draw the progress bar onto the view.
+            QApplication::style()->drawControl(QStyle::CE_ProgressBar, &progressBarOption, painter);
         } else QItemDelegate::paint(painter, option, index);
     }
 };
+
 
 class RenderWidget : public QDialog
 {

@@ -159,19 +159,20 @@ RenderWidget::RenderWidget(const QString &projectfolder, QWidget * parent) :
 
     QHeaderView *header = m_view.running_jobs->header();
     QFontMetrics fm = fontMetrics();
-    //header->resizeSection(0, fm.width("typical-name-for-a-torrent.torrent"));
     header->setResizeMode(0, QHeaderView::Fixed);
     header->resizeSection(0, 30);
     header->setResizeMode(1, QHeaderView::Interactive);
-    header->resizeSection(1, fm.width("typical-name-for-a-file.torrent"));
     header->setResizeMode(2, QHeaderView::Fixed);
-    header->resizeSection(1, width() * 2 / 3);
+    header->resizeSection(1, width() * 2 / 3 - 15);
     header->setResizeMode(2, QHeaderView::Interactive);
     //header->setResizeMode(1, QHeaderView::Fixed);
 
-    m_view.scripts_list->setHeaderLabels(QStringList() << i18n("Script Files"));
-    m_view.scripts_list->setItemDelegate(new RenderScriptDelegate(this));
 
+    m_view.scripts_list->setHeaderLabels(QStringList() << QString() << i18n("Script Files"));
+    m_view.scripts_list->setItemDelegate(new RenderViewDelegate(this));
+    header = m_view.scripts_list->header();
+    header->setResizeMode(0, QHeaderView::Fixed);
+    header->resizeSection(0, 30);
 
     focusFirstVisibleItem();
 }
@@ -722,7 +723,10 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
         outStream << "#! /bin/sh" << "\n" << "\n";
         outStream << "SOURCE=" << "\"" + playlistPath + "\"" << "\n";
         outStream << "TARGET=" << "\"" + dest + "\"" << "\n";
-        outStream << renderer << " " << render_process_args.join(" ") << "\n" << "\n";
+        outStream << "RENDERER=" << "\"" + renderer + "\"" << "\n";
+        outStream << "MELT=" << "\"" + render_process_args.takeFirst() + "\"" << "\n";
+        outStream << "PARAMETERS=" << "\"" + render_process_args.join(" ") + "\"" << "\n";
+        outStream << "$RENDERER $MELT $PARAMETERS" << "\n" << "\n";
         if (file.error() != QFile::NoError) {
             KMessageBox::error(this, i18n("Cannot write to file %1", scriptPath));
             file.close();
@@ -762,7 +766,6 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
 
     // Set rendering type
     if (group == "dvd") {
-        renderParameters << QString::number(m_view.create_chapter->isChecked());
         if (m_view.open_dvd->isChecked()) {
             renderItem->setData(0, Qt::UserRole, group);
             if (renderArgs.contains("profile=")) {
@@ -774,7 +777,6 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
             }
         }
     } else {
-        renderParameters << QString::number(false);
         if (group == "websites" && m_view.open_browser->isChecked()) {
             renderItem->setData(0, Qt::UserRole, group);
             // pass the url
@@ -791,18 +793,26 @@ void RenderWidget::checkRenderStatus()
     if (m_blockProcessing) return;
     QTreeWidgetItem *item = m_view.running_jobs->topLevelItem(0);
     while (item) {
-        if (item->data(1, Qt::UserRole + 2).toInt() == RUNNINGJOB) break;
-        else if (item->data(1, Qt::UserRole + 2).toInt() == WAITINGJOB) {
+        if (item->data(1, Qt::UserRole + 2).toInt() == RUNNINGJOB) return;
+        item = m_view.running_jobs->itemBelow(item);
+    }
+    item = m_view.running_jobs->topLevelItem(0);
+    while (item) {
+        if (item->data(1, Qt::UserRole + 2).toInt() == WAITINGJOB) {
             item->setData(1, Qt::UserRole + 1, QTime::currentTime());
             if (item->data(1, Qt::UserRole + 4).isNull()) {
+                // Normal render process
                 QString renderer = QCoreApplication::applicationDirPath() + QString("/kdenlive_render");
                 if (!QFile::exists(renderer)) renderer = "kdenlive_render";
                 QProcess::startDetached(renderer, item->data(1, Qt::UserRole + 3).toStringList());
                 KNotification::event("RenderStarted", i18n("Rendering <i>%1</i> started", item->text(1)), QPixmap(), this);
-                //emit doRender(item->data(1, Qt::UserRole + 3).toStringList(), item->data(1, Qt::UserRole + 2).toStringList());
             } else {
                 // Script item
-                QProcess::startDetached(item->data(1, Qt::UserRole + 3).toString());
+                if (QProcess::startDetached(item->data(1, Qt::UserRole + 3).toString()) == false) {
+                    item->setData(1, Qt::UserRole, i18n("Rendering crashed"));
+                    item->setIcon(0, KIcon("dialog-close"));
+                    item->setData(2, Qt::UserRole, 100);
+                }
             }
             break;
         }
@@ -1399,23 +1409,37 @@ void RenderWidget::parseScriptFiles()
     QStringList scriptFiles = QDir(m_projectFolder + "scripts").entryList(scriptsFilter, QDir::Files);
     for (int i = 0; i < scriptFiles.size(); ++i) {
         KUrl scriptpath(m_projectFolder + "scripts/" + scriptFiles.at(i));
-        item = new QTreeWidgetItem(m_view.scripts_list, QStringList() << scriptpath.fileName());
+        item = new QTreeWidgetItem(m_view.scripts_list, QStringList() << QString() << scriptpath.fileName());
         QString target;
+        QString renderer;
+        QString melt;
         QFile file(scriptpath.path());
         if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
             while (!file.atEnd()) {
                 QByteArray line = file.readLine();
                 if (line.startsWith("TARGET=")) {
-                    target = QString(line).section("TARGET=", 1);
+                    target = QString(line).section("TARGET=", 1).simplified();
                     target.remove(QChar('"'));
-                    break;
+                } else if (line.startsWith("RENDERER=")) {
+                    renderer = QString(line).section("RENDERER=", 1).simplified();
+                    renderer.remove(QChar('"'));
+                } else if (line.startsWith("MELT=")) {
+                    melt = QString(line).section("MELT=", 1).simplified();
+                    melt.remove(QChar('"'));
                 }
             }
             file.close();
         }
+        if (!renderer.isEmpty() && renderer.contains('/') && !QFile::exists(renderer)) {
+            item->setIcon(0, KIcon("dialog-cancel"));
+            item->setToolTip(1, i18n("Script contains wrong command: %1", renderer));
+        } else if (!melt.isEmpty() && melt.contains('/') && !QFile::exists(melt)) {
+            item->setIcon(0, KIcon("dialog-cancel"));
+            item->setToolTip(1, i18n("Script contains wrong command: %1", melt));
+        } else item->setIcon(0, KIcon("application-x-executable-script"));
         item->setSizeHint(0, QSize(m_view.scripts_list->columnWidth(0), fontMetrics().height() * 2));
-        item->setData(0, Qt::UserRole, target.simplified());
-        item->setData(0, Qt::UserRole + 1, scriptpath.path());
+        item->setData(1, Qt::UserRole, target.simplified());
+        item->setData(1, Qt::UserRole + 1, scriptpath.path());
     }
     bool activate = false;
     QTreeWidgetItem *script = m_view.scripts_list->topLevelItem(0);
@@ -1441,8 +1465,8 @@ void RenderWidget::slotStartScript()
 {
     QTreeWidgetItem *item = m_view.scripts_list->currentItem();
     if (item) {
-        QString destination = item->data(0, Qt::UserRole).toString();
-        QString path = item->data(0, Qt::UserRole + 1).toString();
+        QString destination = item->data(1, Qt::UserRole).toString();
+        QString path = item->data(1, Qt::UserRole + 1).toString();
         // Insert new job in queue
         QTreeWidgetItem *renderItem;
         QList<QTreeWidgetItem *> existing = m_view.running_jobs->findItems(destination, Qt::MatchExactly, 1);
@@ -1472,7 +1496,7 @@ void RenderWidget::slotDeleteScript()
 {
     QTreeWidgetItem *item = m_view.scripts_list->currentItem();
     if (item) {
-        QString path = item->data(0, Qt::UserRole + 1).toString();
+        QString path = item->data(1, Qt::UserRole + 1).toString();
         KIO::NetAccess::del(path + ".mlt", this);
         KIO::NetAccess::del(path, this);
         parseScriptFiles();
@@ -1548,6 +1572,7 @@ bool RenderWidget::startWaitingRenderJobs()
     if (file.error() != QFile::NoError) {
         KMessageBox::error(0, i18n("Cannot write to file %1", autoscriptFile));
         file.close();
+        m_blockProcessing = false;
         return false;
     }
     file.close();
