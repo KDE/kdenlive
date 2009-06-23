@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>421</width>
-    <height>508</height>
+    <width>392</width>
+    <height>535</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -377,6 +377,9 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="alternatingRowColors">
+           <bool>true</bool>
+          </property>
           <property name="rootIsDecorated">
            <bool>false</bool>
           </property>
@@ -444,6 +447,9 @@
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
+         </property>
+         <property name="alternatingRowColors">
+          <bool>true</bool>
          </property>
          <property name="rootIsDecorated">
           <bool>false</bool>
