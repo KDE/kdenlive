@@ -47,7 +47,7 @@ class TitleWidget : public QDialog , public Ui::TitleWidget_UI
 public:
     /** \brief Constructor
      * \param projectPath Path to use when user requests loading or saving of titles as .kdenlivetitle documents */
-    TitleWidget(KUrl url, QString projectPath, Render *render, QWidget *parent = 0);
+    TitleWidget(KUrl url, QString projectTitlePath, Render *render, QWidget *parent = 0);
     virtual ~TitleWidget();
     QDomDocument xml();
     void setXml(QDomDocument doc);
@@ -58,7 +58,7 @@ public:
      * ".png" as the second element.
      *
      * The path "/titles/" is appended to projectUrl to locate the actual directory that contains the title pngs. */
-    static QStringList getFreeTitleInfo(const KUrl &projectUrl);
+    static QStringList getFreeTitleInfo(const KUrl &projectUrl, bool isClone = false);
 
     /** \brief Build a filename from a projectUrl and a titleName
      * \param projectUrl Url to directory of project.
@@ -98,7 +98,7 @@ private:
     /** \brief Dialog for entering unicode in text fields */
     UnicodeDialog *m_unicodeDialog;
     /** project path for storing title clips */
-    QString m_projectPath;
+    QString m_projectTitlePath;
     /** \brief Store the current choices of font, background and rect values */
     void writeChoices();
     /** \brief Read the last stored choices into the dialog */

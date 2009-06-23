@@ -39,7 +39,7 @@ const int IMAGEITEM = 7;
 const int RECTITEM = 3;
 const int TEXTITEM = 8;
 
-TitleWidget::TitleWidget(KUrl url, QString projectPath, Render *render, QWidget *parent) :
+TitleWidget::TitleWidget(KUrl url, QString projectTitlePath, Render *render, QWidget *parent) :
         QDialog(parent),
         Ui::TitleWidget_UI(),
         m_startViewport(NULL),
@@ -47,7 +47,7 @@ TitleWidget::TitleWidget(KUrl url, QString projectPath, Render *render, QWidget 
         m_render(render),
         m_count(0),
         m_unicodeDialog(new UnicodeDialog(UnicodeDialog::InputHex)),
-        m_projectPath(projectPath)
+        m_projectTitlePath(projectTitlePath)
 {
     setupUi(this);
     setFont(KGlobalSettings::toolBarFont());
@@ -257,27 +257,27 @@ TitleWidget::~TitleWidget()
 }
 
 //static
-QStringList TitleWidget::getFreeTitleInfo(const KUrl &projectUrl)
+QStringList TitleWidget::getFreeTitleInfo(const KUrl &projectUrl, bool isClone)
 {
     QStringList result;
-    QString titlePath = projectUrl.path() + "/titles/";
+    QString titlePath = projectUrl.path(KUrl::AddTrailingSlash) + "titles/";
     KStandardDirs::makeDir(titlePath);
-    QString titleName = "title";
+    titlePath.append((isClone == false) ? "title" : "clone");
     int counter = 0;
-    QString path = titlePath + titleName + QString::number(counter).rightJustified(3, '0', false);
-    while (QFile::exists(path + ".png")) {
+    QString path;
+    while (path.isEmpty() || QFile::exists(path)) {
         counter++;
-        path = titlePath + titleName + QString::number(counter).rightJustified(3, '0', false);
+        path = titlePath + QString::number(counter).rightJustified(3, '0', false) + ".png";
     }
-    result.append(titleName + QString::number(counter).rightJustified(3, '0', false));
-    result.append(path + ".png");
+    result.append(((isClone == false) ? i18n("Title") : i18n("Clone")) + ' ' + QString::number(counter).rightJustified(3, '0', false));
+    result.append(path);
     return result;
 }
 
 QString TitleWidget::getTitleResourceFromName(const KUrl &projectUrl, const QString &titleName)
 {
     QStringList result;
-    QString titlePath = projectUrl.path() + "/titles/";
+    QString titlePath = projectUrl.path(KUrl::AddTrailingSlash) + "titles/";
     KStandardDirs::makeDir(titlePath);
     return titlePath + titleName + ".png";
 }
@@ -1087,7 +1087,7 @@ void TitleWidget::setupViewports()
 
 void TitleWidget::loadTitle()
 {
-    KUrl url = KFileDialog::getOpenUrl(KUrl(m_projectPath), "*.kdenlivetitle", this, i18n("Load Title"));
+    KUrl url = KFileDialog::getOpenUrl(KUrl(m_projectTitlePath), "*.kdenlivetitle", this, i18n("Load Title"));
     if (!url.isEmpty()) {
         QList<QGraphicsItem *> items = m_scene->items();
         for (int i = 0; i < items.size(); i++) {
@@ -1100,7 +1100,7 @@ void TitleWidget::loadTitle()
 
 void TitleWidget::saveTitle(KUrl url)
 {
-    if (url.isEmpty()) url = KFileDialog::getSaveUrl(KUrl(m_projectPath), "*.kdenlivetitle", this, i18n("Save Title"));
+    if (url.isEmpty()) url = KFileDialog::getSaveUrl(KUrl(m_projectTitlePath), "*.kdenlivetitle", this, i18n("Save Title"));
     if (!url.isEmpty()) {
         if (m_titledocument.saveDocument(url, m_startViewport, m_endViewport) == false)
             KMessageBox::error(this, i18n("Cannot write to file %1", url.path()));

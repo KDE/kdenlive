@@ -1092,7 +1092,7 @@ void KdenliveDoc::slotCreateTextTemplateClip(QString group, const QString &group
 
     if (path.isEmpty()) return;
 
-    QStringList titleInfo = TitleWidget::getFreeTitleInfo(projectFolder());
+    QStringList titleInfo = TitleWidget::getFreeTitleInfo(projectFolder(), true);
 
     TitleWidget *dia_ui = new TitleWidget(path, titlesFolder, m_render, kapp->activeWindow());
     QImage pix = dia_ui->renderedPixmap();
