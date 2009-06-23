@@ -1464,6 +1464,7 @@ void RenderWidget::parseScriptFiles()
 void RenderWidget::slotCheckScript()
 {
     QTreeWidgetItem *item = m_view.scripts_list->currentItem();
+    if (item == NULL) return;
     m_view.start_script->setEnabled(item->data(0, Qt::UserRole).toString().isEmpty());
     m_view.delete_script->setEnabled(true);
 }
