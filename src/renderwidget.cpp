@@ -804,11 +804,16 @@ void RenderWidget::checkRenderStatus()
                 // Normal render process
                 QString renderer = QCoreApplication::applicationDirPath() + QString("/kdenlive_render");
                 if (!QFile::exists(renderer)) renderer = "kdenlive_render";
-                QProcess::startDetached(renderer, item->data(1, Qt::UserRole + 3).toStringList());
-                KNotification::event("RenderStarted", i18n("Rendering <i>%1</i> started", item->text(1)), QPixmap(), this);
+                if (QProcess::startDetached(renderer, item->data(1, Qt::UserRole + 3).toStringList()) == false) {
+                    item->setData(1, Qt::UserRole + 2, FINISHEDJOB);
+                    item->setData(1, Qt::UserRole, i18n("Rendering crashed"));
+                    item->setIcon(0, KIcon("dialog-close"));
+                    item->setData(2, Qt::UserRole, 100);
+                } else KNotification::event("RenderStarted", i18n("Rendering <i>%1</i> started", item->text(1)), QPixmap(), this);
             } else {
                 // Script item
                 if (QProcess::startDetached(item->data(1, Qt::UserRole + 3).toString()) == false) {
+                    item->setData(1, Qt::UserRole + 2, FINISHEDJOB);
                     item->setData(1, Qt::UserRole, i18n("Rendering crashed"));
                     item->setIcon(0, KIcon("dialog-close"));
                     item->setData(2, Qt::UserRole, 100);
@@ -1078,8 +1083,8 @@ void RenderWidget::parseProfiles(QString meta, QString group, QString profile)
     // can also override profiles installed by KNewStuff
     fileList.removeAll("customprofiles.xml");
     foreach(const QString &filename, fileList)
-    parseFile(exportFolder + '/' + filename, true);
-    if (QFile::exists(exportFolder + "/customprofiles.xml")) parseFile(exportFolder + "/customprofiles.xml", true);
+    parseFile(exportFolder + filename, true);
+    if (QFile::exists(exportFolder + "customprofiles.xml")) parseFile(exportFolder + "customprofiles.xml", true);
 
     if (!meta.isEmpty()) {
         m_view.destination_list->blockSignals(true);
@@ -1368,6 +1373,7 @@ void RenderWidget::slotAbortCurrentJob()
         else {
             delete current;
             slotCheckJob();
+            checkRenderStatus();
         }
     }
 }
@@ -1409,7 +1415,6 @@ void RenderWidget::parseScriptFiles()
     QStringList scriptFiles = QDir(m_projectFolder + "scripts").entryList(scriptsFilter, QDir::Files);
     for (int i = 0; i < scriptFiles.size(); ++i) {
         KUrl scriptpath(m_projectFolder + "scripts/" + scriptFiles.at(i));
-        item = new QTreeWidgetItem(m_view.scripts_list, QStringList() << QString() << scriptpath.fileName());
         QString target;
         QString renderer;
         QString melt;
@@ -1430,12 +1435,16 @@ void RenderWidget::parseScriptFiles()
             }
             file.close();
         }
+        if (target.isEmpty()) continue;
+        item = new QTreeWidgetItem(m_view.scripts_list, QStringList() << QString() << scriptpath.fileName());
         if (!renderer.isEmpty() && renderer.contains('/') && !QFile::exists(renderer)) {
             item->setIcon(0, KIcon("dialog-cancel"));
             item->setToolTip(1, i18n("Script contains wrong command: %1", renderer));
+            item->setData(0, Qt::UserRole, '1');
         } else if (!melt.isEmpty() && melt.contains('/') && !QFile::exists(melt)) {
             item->setIcon(0, KIcon("dialog-cancel"));
             item->setToolTip(1, i18n("Script contains wrong command: %1", melt));
+            item->setData(0, Qt::UserRole, '1');
         } else item->setIcon(0, KIcon("application-x-executable-script"));
         item->setSizeHint(0, QSize(m_view.scripts_list->columnWidth(0), fontMetrics().height() * 2));
         item->setData(1, Qt::UserRole, target.simplified());
@@ -1454,11 +1463,9 @@ void RenderWidget::parseScriptFiles()
 
 void RenderWidget::slotCheckScript()
 {
-    bool activate = false;
-    QTreeWidgetItemIterator it(m_view.scripts_list);
-    if (*it) activate = true;
-    m_view.start_script->setEnabled(activate);
-    m_view.delete_script->setEnabled(activate);
+    QTreeWidgetItem *item = m_view.scripts_list->currentItem();
+    m_view.start_script->setEnabled(item->data(0, Qt::UserRole).toString().isEmpty());
+    m_view.delete_script->setEnabled(true);
 }
 
 void RenderWidget::slotStartScript()
@@ -1561,9 +1568,14 @@ bool RenderWidget::startWaitingRenderJobs()
     QTreeWidgetItem *item = m_view.running_jobs->topLevelItem(0);
     while (item) {
         if (item->data(1, Qt::UserRole + 2).toInt() == WAITINGJOB) {
-            // Add render process for item
-            const QString params = item->data(1, Qt::UserRole + 3).toStringList().join(" ");
-            outStream << renderer << " " << params << "\n";
+            if (item->data(1, Qt::UserRole + 4).isNull()) {
+                // Add render process for item
+                const QString params = item->data(1, Qt::UserRole + 3).toStringList().join(" ");
+                outStream << renderer << " " << params << "\n";
+            } else {
+                // Script item
+                outStream << item->data(1, Qt::UserRole + 3).toString() << "\n";
+            }
         }
         item = m_view.running_jobs->itemBelow(item);
     }
