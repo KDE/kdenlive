@@ -682,7 +682,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
         renderArgs.append(subsize);
     }
     bool resizeProfile = (subsize != currentSize);
-    QStringList paramsList = renderArgs.split(" ");
+    QStringList paramsList = renderArgs.split(" ", QString::SkipEmptyParts);
     for (int i = 0; i < paramsList.count(); i++) {
         if (paramsList.at(i).startsWith("profile=")) {
             if (paramsList.at(i).section('=', 1) != m_profile.path) resizeProfile = true;
@@ -693,7 +693,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
     if (resizeProfile) render_process_args << "consumer:" + playlistPath;
     else render_process_args << playlistPath;
     render_process_args << dest;
-    render_process_args << renderArgs;
+    render_process_args << paramsList;
 
     QString group = m_view.size_list->currentItem()->data(MetaGroupRole).toString();
 
