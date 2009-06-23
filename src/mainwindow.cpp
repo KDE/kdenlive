@@ -1619,6 +1619,7 @@ void MainWindow::slotRenderProject()
             m_renderWidget->setProfile(m_activeDocument->mltProfile());
             m_renderWidget->setGuides(m_activeDocument->guidesXml(), m_activeDocument->projectDuration());
             m_renderWidget->setRenderProfile(m_activeDocument->getDocumentProperty("renderdestination"), m_activeDocument->getDocumentProperty("renderprofile"));
+            m_renderWidget->setDocumentPath(m_activeDocument->projectFolder().path(KUrl::AddTrailingSlash));
         }
     }
     /*TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
@@ -1893,6 +1894,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     m_activeTimeline = trackView;
     if (m_renderWidget) {
         m_renderWidget->setProfile(doc->mltProfile());
+        m_renderWidget->setGuides(doc->guidesXml(), doc->projectDuration());
         m_renderWidget->setDocumentPath(doc->projectFolder().path(KUrl::AddTrailingSlash));
         m_renderWidget->setRenderProfile(doc->getDocumentProperty("renderdestination"), doc->getDocumentProperty("renderprofile"));
     }
