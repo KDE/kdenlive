@@ -205,7 +205,7 @@ TitleWidget::TitleWidget(KUrl url, QString projectTitlePath, Render *render, QWi
     connect(m_scene, SIGNAL(itemMoved()), this , SLOT(selectionChanged()));
     connect(m_scene, SIGNAL(sceneZoom(bool)), this , SLOT(slotZoom(bool)));
     connect(m_scene, SIGNAL(actionFinished()), this , SLOT(slotSelectTool()));
-    connect(m_scene, SIGNAL(actionFinished()), this , SLOT(selectionChanged()));
+    //connect(m_scene, SIGNAL(actionFinished()), this , SLOT(selectionChanged()));
     connect(m_scene, SIGNAL(newRect(QGraphicsRectItem *)), this , SLOT(slotNewRect(QGraphicsRectItem *)));
     connect(m_scene, SIGNAL(newText(QGraphicsTextItem *)), this , SLOT(slotNewText(QGraphicsTextItem *)));
     connect(zoom_slider, SIGNAL(valueChanged(int)), this , SLOT(slotUpdateZoom(int)));
@@ -672,13 +672,9 @@ void TitleWidget::updateDimension(QGraphicsItem *i)
 /** \brief Updates the coordinates in the text fields from the item */
 void TitleWidget::updateCoordinates(QGraphicsItem *i)
 {
-
-    bool blockX = !value_x->signalsBlocked();
-    bool blockY = !value_y->signalsBlocked();
-
     // Block signals emitted by this method
-    if (blockX) value_x->blockSignals(true);
-    if (blockY) value_y->blockSignals(true);
+    value_x->blockSignals(true);
+    value_y->blockSignals(true);
 
     if (i->type() == TEXTITEM) {
 
@@ -735,14 +731,13 @@ void TitleWidget::updateCoordinates(QGraphicsItem *i)
     }
 
     // Stop blocking signals now
-    if (!blockX) value_x->blockSignals(false);
-    if (!blockY) value_y->blockSignals(false);
+    value_x->blockSignals(false);
+    value_y->blockSignals(false);
 }
 
 /** \brief Updates the position of an item by reading coordinates from the text fields */
 void TitleWidget::updatePosition(QGraphicsItem *i)
 {
-
     if (i->type() == TEXTITEM) {
         QGraphicsTextItem *rec = static_cast <QGraphicsTextItem *>(i);
 
@@ -789,7 +784,6 @@ void TitleWidget::updatePosition(QGraphicsItem *i)
         rec->setPos(posX, posY);
 
     } else if (i->type() == IMAGEITEM) {
-
         int posX;
         if (origin_x_left->isChecked()) {
             // Use the sceneBoundingRect because this also regards transformations like zoom
@@ -833,6 +827,7 @@ void TitleWidget::slotOriginXClicked()
         l.at(0)->setData(TitleDocument::OriginXLeft, origin_x_left->isChecked() ?
                          TitleDocument::AxisInverted : TitleDocument::AxisDefault);
     }
+    graphicsView->setFocus();
 }
 
 void TitleWidget::updateTextOriginY()
@@ -857,6 +852,7 @@ void TitleWidget::slotOriginYClicked()
                          TitleDocument::AxisInverted : TitleDocument::AxisDefault);
 
     }
+    graphicsView->setFocus();
 }
 
 void TitleWidget::updateAxisButtons(QGraphicsItem *i)
