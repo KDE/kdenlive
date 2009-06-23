@@ -215,9 +215,9 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
     }
 
     // Make sure that the necessary folders exist
-    KStandardDirs::makeDir(m_projectFolder.path() + "/titles/");
-    KStandardDirs::makeDir(m_projectFolder.path() + "/thumbs/");
-    KStandardDirs::makeDir(m_projectFolder.path() + "/ladspa/");
+    KStandardDirs::makeDir(m_projectFolder.path(KUrl::AddTrailingSlash) + "titles/");
+    KStandardDirs::makeDir(m_projectFolder.path(KUrl::AddTrailingSlash) + "thumbs/");
+    KStandardDirs::makeDir(m_projectFolder.path(KUrl::AddTrailingSlash) + "ladspa/");
 
     kDebug() << "Kdenlive document, init timecode: " << m_fps;
     if (m_fps == 30000.0 / 1001.0) m_timecode.setFormat(30, true);
@@ -528,8 +528,8 @@ void KdenliveDoc::setProjectFolder(KUrl url)
     if (url == m_projectFolder) return;
     setModified(true);
     KStandardDirs::makeDir(url.path());
-    KStandardDirs::makeDir(url.path() + "/titles/");
-    KStandardDirs::makeDir(url.path() + "/thumbs/");
+    KStandardDirs::makeDir(url.path(KUrl::AddTrailingSlash) + "titles/");
+    KStandardDirs::makeDir(url.path(KUrl::AddTrailingSlash) + "thumbs/");
     if (KMessageBox::questionYesNo(kapp->activeWindow(), i18n("You have changed the project folder. Do you want to copy the cached data from %1 to the new folder %2?").arg(m_projectFolder.path(), url.path())) == KMessageBox::Yes) moveProjectData(url);
     m_projectFolder = url;
 }
@@ -543,20 +543,20 @@ void KdenliveDoc::moveProjectData(KUrl url)
         if (clip->clipType() == TEXT) {
             // the image for title clip must be moved
             KUrl oldUrl = clip->fileURL();
-            KUrl newUrl = KUrl(url.path() + "/titles/" + oldUrl.fileName());
+            KUrl newUrl = KUrl(url.path(KUrl::AddTrailingSlash) + "titles/" + oldUrl.fileName());
             KIO::Job *job = KIO::copy(oldUrl, newUrl);
             if (KIO::NetAccess::synchronousRun(job, 0)) clip->setProperty("resource", newUrl.path());
         }
         QString hash = clip->getClipHash();
-        KUrl oldVideoThumbUrl = KUrl(m_projectFolder.path() + "/thumbs/" + hash + ".png");
-        KUrl oldAudioThumbUrl = KUrl(m_projectFolder.path() + "/thumbs/" + hash + ".thumb");
+        KUrl oldVideoThumbUrl = KUrl(m_projectFolder.path(KUrl::AddTrailingSlash) + "thumbs/" + hash + ".png");
+        KUrl oldAudioThumbUrl = KUrl(m_projectFolder.path(KUrl::AddTrailingSlash) + "thumbs/" + hash + ".thumb");
         if (KIO::NetAccess::exists(oldVideoThumbUrl, KIO::NetAccess::SourceSide, 0)) {
-            KUrl newUrl = KUrl(url.path() + "/thumbs/" + hash + ".png");
+            KUrl newUrl = KUrl(url.path(KUrl::AddTrailingSlash) + "thumbs/" + hash + ".png");
             KIO::Job *job = KIO::copy(oldVideoThumbUrl, newUrl);
             KIO::NetAccess::synchronousRun(job, 0);
         }
         if (KIO::NetAccess::exists(oldAudioThumbUrl, KIO::NetAccess::SourceSide, 0)) {
-            KUrl newUrl = KUrl(url.path() + "/thumbs/" + hash + ".thumb");
+            KUrl newUrl = KUrl(url.path(KUrl::AddTrailingSlash) + "thumbs/" + hash + ".thumb");
             KIO::Job *job = KIO::copy(oldAudioThumbUrl, newUrl);
             if (KIO::NetAccess::synchronousRun(job, 0)) clip->refreshThumbUrl();
         }
@@ -1068,7 +1068,7 @@ void KdenliveDoc::slotCreateSlideshowClipFile(const QString name, const QString 
 
 void KdenliveDoc::slotCreateTextClip(QString group, const QString &groupId, const QString &templatePath)
 {
-    QString titlesFolder = projectFolder().path() + "/titles/";
+    QString titlesFolder = projectFolder().path(KUrl::AddTrailingSlash) + "titles/";
     KStandardDirs::makeDir(titlesFolder);
     TitleWidget *dia_ui = new TitleWidget(templatePath, titlesFolder, m_render, kapp->activeWindow());
     if (dia_ui->exec() == QDialog::Accepted) {
@@ -1085,7 +1085,7 @@ void KdenliveDoc::slotCreateTextClip(QString group, const QString &groupId, cons
 
 void KdenliveDoc::slotCreateTextTemplateClip(QString group, const QString &groupId, KUrl path)
 {
-    QString titlesFolder = projectFolder().path() + "/titles/";
+    QString titlesFolder = projectFolder().path(KUrl::AddTrailingSlash) + "titles/";
     if (path.isEmpty()) {
         path = KFileDialog::getOpenUrl(KUrl(titlesFolder), "*.kdenlivetitle", kapp->activeWindow(), i18n("Enter Template Path"));
     }

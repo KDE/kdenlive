@@ -200,7 +200,7 @@ void RenderWidget::setDocumentPath(const QString path)
 {
     m_projectFolder = path;
     const QString fileName = m_view.out_file->url().fileName();
-    m_view.out_file->setUrl(KUrl(m_projectFolder + '/' + fileName));
+    m_view.out_file->setUrl(KUrl(m_projectFolder + fileName));
     parseScriptFiles();
 }
 
@@ -983,7 +983,7 @@ KUrl RenderWidget::filenameWithExtension(KUrl url, QString extension)
         else path = path.left(pos) + extension;
 
     } else {
-        path = m_projectFolder + "/untitled." + extension;
+        path = m_projectFolder + "untitled." + extension;
     }
     return KUrl(path);
 }
@@ -1396,9 +1396,9 @@ void RenderWidget::parseScriptFiles()
 
     QTreeWidgetItem *item;
     // List the project scripts
-    QStringList scriptFiles = QDir(m_projectFolder + "/scripts").entryList(scriptsFilter, QDir::Files);
+    QStringList scriptFiles = QDir(m_projectFolder + "scripts").entryList(scriptsFilter, QDir::Files);
     for (int i = 0; i < scriptFiles.size(); ++i) {
-        KUrl scriptpath(m_projectFolder + "/scripts/" + scriptFiles.at(i));
+        KUrl scriptpath(m_projectFolder + "scripts/" + scriptFiles.at(i));
         item = new QTreeWidgetItem(m_view.scripts_list, QStringList() << scriptpath.fileName());
         QString target;
         QFile file(scriptpath.path());
@@ -1559,7 +1559,7 @@ bool RenderWidget::startWaitingRenderJobs()
 QString RenderWidget::getFreeScriptName(const QString &prefix)
 {
     int ix = 0;
-    QString scriptsFolder = m_projectFolder + "/scripts/";
+    QString scriptsFolder = m_projectFolder + "scripts/";
     KStandardDirs::makeDir(scriptsFolder);
     QString path;
     while (path.isEmpty() || QFile::exists(path)) {

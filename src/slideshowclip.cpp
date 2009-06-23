@@ -69,7 +69,8 @@ SlideshowClip::SlideshowClip(Timecode tc, QWidget * parent) :
     foreach(const QString &folder, customLumas) {
         QStringList filesnames = QDir(folder).entryList(filters, QDir::Files);
         foreach(const QString &fname, filesnames) {
-            m_view.luma_file->addItem(KIcon(folder + '/' + fname), fname, folder + '/' + fname);
+            QString filePath = KUrl(folder).path(KUrl::AddTrailingSlash) + fname;
+            m_view.luma_file->addItem(KIcon(filePath), fname, filePath);
         }
     }
 
@@ -80,7 +81,8 @@ SlideshowClip::SlideshowClip(Timecode tc, QWidget * parent) :
     QDir lumafolder(folder);
     QStringList filesnames = lumafolder.entryList(filters, QDir::Files);
     foreach(const QString &fname, filesnames) {
-        m_view.luma_file->addItem(KIcon(folder + '/' + fname), fname, folder + '/' + fname);
+        QString filePath = KUrl(folder).path(KUrl::AddTrailingSlash) + fname;
+        m_view.luma_file->addItem(KIcon(filePath), fname, filePath);
     }
 
     //adjustSize();

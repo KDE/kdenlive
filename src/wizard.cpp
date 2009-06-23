@@ -94,7 +94,7 @@ Wizard::Wizard(bool upgrade, QWidget *parent) :
     slotCheckStandard();
     connect(m_standard.profiles_list, SIGNAL(itemSelectionChanged()), this, SLOT(slotCheckSelectedItem()));
 
-
+    // select default profile
     if (!KdenliveSettings::default_profile().isEmpty()) {
         for (int i = 0; i < m_standard.profiles_list->count(); i++) {
             if (m_standard.profiles_list->item(i)->data(Qt::UserRole).toString() == KdenliveSettings::default_profile()) {
@@ -105,12 +105,6 @@ Wizard::Wizard(bool upgrade, QWidget *parent) :
         }
     }
 
-    // select default profile
-    fprintf(stderr, "LOOKING FOR: %s", ProfilesDialog::getProfileDescription(KdenliveSettings::default_profile()).toUtf8().data());
-    QList<QListWidgetItem *> profiles = m_standard.profiles_list->findItems(ProfilesDialog::getProfileDescription(KdenliveSettings::default_profile()), Qt::MatchExactly);
-    if (profiles.count() > 0) m_standard.profiles_list->setCurrentItem(profiles.at(0));
-
-    fprintf(stderr, "LOOKING FOR: %s // %d", ProfilesDialog::getProfileDescription(KdenliveSettings::default_profile()).toUtf8().data(), profiles.count());
     addPage(page2);
 
     QWizardPage *page3 = new QWizardPage;

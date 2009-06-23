@@ -1518,7 +1518,7 @@ void MainWindow::parseProfiles(const QString &mltPath)
             KUrl mltPath = getUrl->selectedUrl();
             delete getUrl;
             if (mltPath.isEmpty()) ::exit(0);
-            KdenliveSettings::setMltpath(mltPath.path());
+            KdenliveSettings::setMltpath(mltPath.path(KUrl::AddTrailingSlash));
             QStringList profilesList = QDir(KdenliveSettings::mltpath()).entryList(profilesFilter, QDir::Files);
         }
     }
@@ -1585,7 +1585,7 @@ void MainWindow::slotEditProjectSettings()
     if (w->exec() == QDialog::Accepted) {
         QString profile = w->selectedProfile();
         m_activeDocument->setProjectFolder(w->selectedFolder());
-        if (m_renderWidget) m_renderWidget->setDocumentPath(w->selectedFolder().path());
+        if (m_renderWidget) m_renderWidget->setDocumentPath(w->selectedFolder().path(KUrl::AddTrailingSlash));
         if (m_activeDocument->profilePath() != profile) {
             // Profile was changed
             double dar = m_activeDocument->dar();
@@ -1608,7 +1608,7 @@ void MainWindow::slotEditProjectSettings()
 void MainWindow::slotRenderProject()
 {
     if (!m_renderWidget) {
-        QString projectfolder = m_activeDocument ? m_activeDocument->projectFolder().path() : KdenliveSettings::defaultprojectfolder();
+        QString projectfolder = m_activeDocument ? m_activeDocument->projectFolder().path(KUrl::AddTrailingSlash) : KdenliveSettings::defaultprojectfolder();
         m_renderWidget = new RenderWidget(projectfolder, this);
         connect(m_renderWidget, SIGNAL(doRender(const QStringList&, const QStringList&)), this, SLOT(slotDoRender(const QStringList&, const QStringList&)));
         connect(m_renderWidget, SIGNAL(selectedRenderProfile(const QString &, const QString &)), this, SLOT(slotSetDocumentRenderProfile(const QString &, const QString &)));
@@ -1893,7 +1893,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     m_activeTimeline = trackView;
     if (m_renderWidget) {
         m_renderWidget->setProfile(doc->mltProfile());
-        m_renderWidget->setDocumentPath(doc->projectFolder().path());
+        m_renderWidget->setDocumentPath(doc->projectFolder().path(KUrl::AddTrailingSlash));
         m_renderWidget->setRenderProfile(doc->getDocumentProperty("renderdestination"), doc->getDocumentProperty("renderprofile"));
     }
     //doc->setRenderer(m_projectMonitor->render);
@@ -2306,7 +2306,7 @@ void MainWindow::slotGotProgressInfo(const QString &message, int progress)
 void MainWindow::slotShowClipProperties(DocClipBase *clip)
 {
     if (clip->clipType() == TEXT) {
-        QString titlepath = m_activeDocument->projectFolder().path() + "/titles/";
+        QString titlepath = m_activeDocument->projectFolder().path(KUrl::AddTrailingSlash) + "titles/";
         if (!clip->getProperty("xmltemplate").isEmpty()) {
             // template text clip
 

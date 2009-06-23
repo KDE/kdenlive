@@ -690,7 +690,7 @@ void ProjectList::slotAddTitleTemplateClip()
     // Get the list of existing templates
     QStringList filter;
     filter << "*.kdenlivetitle";
-    const QString path = m_doc->projectFolder().path() + "/titles/";
+    const QString path = m_doc->projectFolder().path(KUrl::AddTrailingSlash) + "titles/";
     QStringList templateFiles = QDir(path).entryList(filter, QDir::Files);
 
     QDialog *dia = new QDialog(this);

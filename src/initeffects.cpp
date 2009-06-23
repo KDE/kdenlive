@@ -76,18 +76,18 @@ void initEffects::refreshLumas()
         QStringList filesnames = QDir(folder).entryList(filters, QDir::Files);
         foreach(const QString &fname, filesnames) {
             imagenamelist.append(fname);
-            imagefiles.append(folder + '/' + fname);
+            imagefiles.append(KUrl(folder).path(KUrl::AddTrailingSlash) + fname);
         }
     }
 
     // Check for MLT lumas
-    QString folder = mlt_environment("MLT_DATA");
-    folder.append("/lumas/").append(mlt_environment("MLT_NORMALISATION"));
+    QString folder = KUrl(mlt_environment("MLT_DATA")).path(KUrl::AddTrailingSlash);
+    folder.append("lumas/").append(mlt_environment("MLT_NORMALISATION"));
     QDir lumafolder(folder);
     QStringList filesnames = lumafolder.entryList(filters, QDir::Files);
     foreach(const QString &fname, filesnames) {
         imagenamelist.append(fname);
-        imagefiles.append(folder + '/' + fname);
+        imagefiles.append(folder + fname);
     }
     QDomElement lumaTransition = MainWindow::transitions.getEffectByTag("luma", "luma");
     QDomNodeList params = lumaTransition.elementsByTagName("parameter");
@@ -657,13 +657,13 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
             }
 
             // Check for MLT lumas
-            QString folder = mlt_environment("MLT_DATA");
-            folder.append("/lumas/").append(mlt_environment("MLT_NORMALISATION"));
+            QString folder = KUrl(mlt_environment("MLT_DATA")).path(KUrl::AddTrailingSlash);
+            folder.append("lumas/").append(mlt_environment("MLT_NORMALISATION"));
             QDir lumafolder(folder);
             QStringList filesnames = lumafolder.entryList(filters, QDir::Files);
             foreach(const QString &fname, filesnames) {
                 imagenamelist.append(fname);
-                imagefiles.append(folder + '/' + fname);
+                imagefiles.append(folder + fname);
             }
 
             if (name == "luma") {

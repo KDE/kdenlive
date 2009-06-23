@@ -177,7 +177,8 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
         foreach(const QString &folder, customLumas) {
             QStringList filesnames = QDir(folder).entryList(filters, QDir::Files);
             foreach(const QString &fname, filesnames) {
-                m_view.luma_file->addItem(KIcon(folder + '/' + fname), fname, folder + '/' + fname);
+                QString filePath = KUrl(folder).path(KUrl::AddTrailingSlash) + fname;
+                m_view.luma_file->addItem(KIcon(filePath), fname, filePath);
             }
         }
 
@@ -188,7 +189,8 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
         QDir lumafolder(folder);
         QStringList filesnames = lumafolder.entryList(filters, QDir::Files);
         foreach(const QString &fname, filesnames) {
-            m_view.luma_file->addItem(KIcon(folder + '/' + fname), fname, folder + '/' + fname);
+            QString filePath = KUrl(folder).path(KUrl::AddTrailingSlash) + fname;
+            m_view.luma_file->addItem(KIcon(filePath), fname, filePath);
         }
 
         slotEnableLuma(m_view.slide_fade->checkState());
