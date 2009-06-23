@@ -238,9 +238,10 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int in, int out)
             m_items.append(geo);
         } else if (type == "keyframe") {
             // keyframe editor widget
-            KeyframeEdit *geo = new KeyframeEdit(m_timecode);
+            kDebug() << "min: " << m_in << ", MAX: " << m_out;
+            KeyframeEdit *geo = new KeyframeEdit(pa, m_out - m_in, m_timecode);
             connect(geo, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
-            geo->setupParam(100, pa.attribute("min").toInt(), pa.attribute("max").toInt(), pa.attribute("keyframes"));
+            //geo->setupParam(100, pa.attribute("min").toInt(), pa.attribute("max").toInt(), pa.attribute("keyframes"));
             //connect(geo, SIGNAL(seekToPos(int)), this, SLOT(slotSeekToPos(int)));
             //geo->setupParam(pa, minFrame, maxFrame);
             m_vbox->addWidget(geo);

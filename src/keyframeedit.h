@@ -33,20 +33,26 @@ class KeyframeEdit : public QWidget
 {
     Q_OBJECT
 public:
-    explicit KeyframeEdit(Timecode tc, QWidget* parent = 0);
-    void setupParam(int maxFrame, int minValue, int maxValue, QString keyframes);
+    explicit KeyframeEdit(QDomElement e, int max, Timecode tc, QWidget* parent = 0);
+    void setupParam(QDomElement e = QDomElement());
 
 private:
     Ui::KeyframeEditor_UI m_ui;
-    Timecode m_timecode;
-    int m_min;
+    QDomElement m_param;
     int m_max;
-    int m_maxFrame;
+    Timecode m_timecode;
+    int m_previousPos;
 
 public slots:
 
 
 private slots:
+    void slotDeleteKeyframe();
+    void slotAddKeyframe();
+    void slotGenerateParams(QTreeWidgetItem *item = NULL, int column = -1);
+    void slotAdjustKeyframeInfo();
+    void slotAdjustKeyframeValue(int value);
+    void slotSaveCurrentParam(QTreeWidgetItem *item, int column);
 
 signals:
     void parameterChanged();

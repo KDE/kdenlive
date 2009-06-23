@@ -1017,6 +1017,7 @@ void CustomTrackView::mouseDoubleClickEvent(QMouseEvent *event)
                 EditKeyFrameCommand *command = new EditKeyFrameCommand(this, item->track(), item->startPos(), item->selectedEffectIndex(), previous, next, false);
                 m_commandStack->push(command);
                 updateEffect(m_document->tracksCount() - item->track(), item->startPos(), item->selectedEffect(), item->selectedEffectIndex());
+                emit clipItemSelected(item, item->selectedEffectIndex());
             }
 
         } else  {
@@ -1030,6 +1031,7 @@ void CustomTrackView::mouseDoubleClickEvent(QMouseEvent *event)
             EditKeyFrameCommand *command = new EditKeyFrameCommand(this, m_dragItem->track(), m_dragItem->startPos(), item->selectedEffectIndex(), previous, next, false);
             m_commandStack->push(command);
             updateEffect(m_document->tracksCount() - item->track(), item->startPos(), item->selectedEffect(), item->selectedEffectIndex());
+            emit clipItemSelected(item, item->selectedEffectIndex());
         }
     } else if (m_dragItem && !m_dragItem->isItemLocked()) {
         ClipDurationDialog d(m_dragItem, m_document->timecode(), this);
@@ -2719,6 +2721,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
         EditKeyFrameCommand *command = new EditKeyFrameCommand(this, item->track(), item->startPos(), item->selectedEffectIndex(), previous, next, false);
         m_commandStack->push(command);
         updateEffect(m_document->tracksCount() - item->track(), item->startPos(), item->selectedEffect(), item->selectedEffectIndex());
+        emit clipItemSelected(item, item->selectedEffectIndex());
     }
     if (m_dragItem && m_dragItem->type() == TRANSITIONWIDGET && m_dragItem->isSelected()) {
         // A transition is selected
