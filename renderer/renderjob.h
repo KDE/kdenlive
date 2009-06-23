@@ -41,10 +41,11 @@ public slots:
     void start();
 
 private slots:
-    void slotIsOver(int exitcode, QProcess::ExitStatus status);
+    void slotIsOver(QProcess::ExitStatus status);
     void receivedStderr();
     void slotAbort();
     void slotAbort(const QString& url);
+    void slotCheckProcess(QProcess::ProcessState state);
 
 private:
     QString m_scenelist;
