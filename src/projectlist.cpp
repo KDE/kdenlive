@@ -542,6 +542,7 @@ void ProjectList::requestClipInfo(const QDomElement xml, const QString id)
 void ProjectList::slotProcessNextClipInQueue()
 {
     if (m_infoQueue.isEmpty()) {
+        slotProcessNextThumbnail();
         return;
     }
 
@@ -639,6 +640,7 @@ void ProjectList::slotAddClip(const QList <QUrl> givenList, const QString &group
 void ProjectList::slotRemoveInvalidClip(const QString &id, bool replace)
 {
     ProjectItem *item = getItemById(id);
+    QTimer::singleShot(300, this, SLOT(slotProcessNextClipInQueue()));
     if (item) {
         const QString path = item->referencedClip()->fileURL().path();
         if (!path.isEmpty()) {
@@ -651,7 +653,6 @@ void ProjectList::slotRemoveInvalidClip(const QString &id, bool replace)
         ids << id;
         if (replace) m_doc->deleteProjectClip(ids);
     }
-    QTimer::singleShot(300, this, SLOT(slotProcessNextClipInQueue()));
 }
 
 void ProjectList::slotAddColorClip()
@@ -793,7 +794,6 @@ QDomElement ProjectList::producersList()
 void ProjectList::slotCheckForEmptyQueue()
 {
     if (!m_refreshed && m_thumbnailQueue.isEmpty() && m_infoQueue.isEmpty()) {
-        m_listView->setEnabled(true);
         m_refreshed = true;
         emit loadingIsOver();
     } else QTimer::singleShot(300, this, SLOT(slotCheckForEmptyQueue()));
@@ -819,11 +819,12 @@ void ProjectList::requestClipThumbnail(const QString id)
 void ProjectList::slotProcessNextThumbnail()
 {
     if (m_thumbnailQueue.isEmpty() && m_infoQueue.isEmpty()) {
+        m_listView->setEnabled(true);
         slotCheckForEmptyQueue();
         return;
     }
     if (!m_infoQueue.isEmpty()) {
-        QTimer::singleShot(300, this, SLOT(slotProcessNextThumbnail()));
+        //QTimer::singleShot(300, this, SLOT(slotProcessNextThumbnail()));
         return;
     }
     slotRefreshClipThumbnail(m_thumbnailQueue.takeFirst(), false);
@@ -883,9 +884,7 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
         }
     } else kDebug() << "////////  COULD NOT FIND CLIP TO UPDATE PRPS...";
 
-    if (m_infoQueue.isEmpty()) {
-        slotProcessNextThumbnail();
-    }
+    slotProcessNextClipInQueue();
 }
 
 void ProjectList::slotReplyGetImage(const QString &clipId, const QPixmap &pix)
