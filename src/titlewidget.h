@@ -114,11 +114,11 @@ private:
 
     void updateTextOriginX();
     void updateTextOriginY();
-	
-	/** \brief Enables the toolbars suiting to toolType */
-	void enableToolbars(TITLETOOL toolType);
-	/** \brief Shows the toolbars suiting to toolType */
-	void showToolbars(TITLETOOL toolType);
+
+    /** \brief Enables the toolbars suiting to toolType */
+    void enableToolbars(TITLETOOL toolType);
+    /** \brief Shows the toolbars suiting to toolType */
+    void showToolbars(TITLETOOL toolType);
 
 public slots:
     void slotNewText(QGraphicsTextItem *tt);
