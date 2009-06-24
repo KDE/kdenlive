@@ -103,9 +103,8 @@ DvdWizard::DvdWizard(const QString &url, const QString &profile, QWidget *parent
     m_status.button_burn->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     m_status.button_preview->setIcon(KIcon("media-playback-start"));
 
-    // TODO: uncomment after 0.7.4 release (i18n change)
-    /*setButtonText(QWizard::CustomButton1, i19n("Load"));
-    setButtonText(QWizard::CustomButton2, i19n("Save"));*/
+    setButtonText(QWizard::CustomButton1, i18n("Load"));
+    setButtonText(QWizard::CustomButton2, i18n("Save"));
     button(QWizard::CustomButton1)->setIcon(KIcon("document-open"));
     button(QWizard::CustomButton2)->setIcon(KIcon("document-save"));
     connect(button(QWizard::CustomButton1), SIGNAL(clicked()), this, SLOT(slotLoad()));
@@ -196,6 +195,9 @@ void DvdWizard::generateDvd()
     qApp->processEvents();
     QMap <QString, QRect> buttons = m_pageMenu->buttonsInfo();
     QStringList buttonsTarget;
+    m_status.error_log->clear();
+    // initialize html content
+    m_status.error_log->setText("<html></html>");
 
     if (m_pageMenu->createMenu()) {
         m_pageMenu->createButtonImages(temp1.fileName(), temp2.fileName(), temp3.fileName());
@@ -233,14 +235,15 @@ void DvdWizard::generateDvd()
                     kDebug() << "/// RENDERING MENU vob crashed";
                     QByteArray result = renderbg.readAllStandardError();
                     vobitem->setIcon(KIcon("dialog-close"));
-                    m_status.error_log->setText(result);
+                    m_status.error_log->append(result);
                     m_status.error_box->setHidden(false);
                     return;
                 }
             } else {
                 kDebug() << "/// RENDERING MENU vob timed out";
                 vobitem->setIcon(KIcon("dialog-close"));
-                m_status.error_log->setText(i18n("Rendering job timed out"));
+                m_status.error_log->append("<a name=\"result\" /><br><strong>" + i18n("Rendering job timed out"));
+                m_status.error_log->scrollToAnchor("result");
                 m_status.error_box->setHidden(false);
                 return;
             }
@@ -310,13 +313,12 @@ void DvdWizard::generateDvd()
         else spumux.setStandardInputFile(temp5.fileName());
         spumux.setStandardOutputFile(m_menuFile.fileName());
         spumux.start("spumux", args);
-        spumux.setProcessChannelMode(QProcess::MergedChannels);
         if (spumux.waitForFinished()) {
-            kDebug() << QString(spumux.readAll()).simplified();
+            m_status.error_log->append(spumux.readAllStandardError());
             if (spumux.exitStatus() == QProcess::CrashExit) {
                 QByteArray result = spumux.readAllStandardError();
                 spuitem->setIcon(KIcon("dialog-close"));
-                m_status.error_log->setText(result);
+                m_status.error_log->append(result);
                 m_status.error_box->setHidden(false);
                 kDebug() << "/// RENDERING SPUMUX MENU crashed";
                 return;
@@ -324,7 +326,8 @@ void DvdWizard::generateDvd()
         } else {
             kDebug() << "/// RENDERING SPUMUX MENU timed out";
             spuitem->setIcon(KIcon("dialog-close"));
-            m_status.error_log->setText(i18n("Menu job timed out"));
+            m_status.error_log->append("<a name=\"result\" /><br><strong>" + i18n("Menu job timed out"));
+            m_status.error_log->scrollToAnchor("result");
             m_status.error_box->setHidden(false);
             return;
         }
@@ -462,7 +465,7 @@ void DvdWizard::generateDvd()
 void DvdWizard::slotShowRenderInfo()
 {
     QString log = QString(m_dvdauthor->readAll());
-    m_status.error_log->setText(log);
+    m_status.error_log->append(log);
     m_status.error_box->setHidden(false);
 }
 
@@ -471,11 +474,10 @@ void DvdWizard::slotRenderFinished(int exitCode, QProcess::ExitStatus status)
     QListWidgetItem *authitem =  m_status.job_progress->item(3);
     if (status == QProcess::CrashExit || exitCode != 0) {
         QString result(m_dvdauthor->readAllStandardError());
-        result.append("<br><b>");
-
-        //TODO: uncomment after 0.7.4 release (i18n change)
-        //result.append(i19n("DVDAuthor process crashed."));
-        m_status.error_log->setText(result);
+        result.append("<a name=\"result\" /><br><strong>");
+        result.append(i18n("DVDAuthor process crashed."));
+        m_status.error_log->append(result);
+        m_status.error_log->scrollToAnchor("result");
         m_status.error_box->setHidden(false);
         kDebug() << "DVDAuthor process crashed";
         authitem->setIcon(KIcon("dialog-close"));
@@ -495,7 +497,8 @@ void DvdWizard::slotRenderFinished(int exitCode, QProcess::ExitStatus status)
 
     // Check if DVD structure has the necessary infos
     if (!QFile::exists(m_status.tmp_folder->url().path() + "/DVD/VIDEO_TS/VIDEO_TS.IFO")) {
-        m_status.error_log->setText(m_creationLog + '\n' + i18n("DVD structure broken"));
+        m_status.error_log->append(m_creationLog + "<a name=\"result\" /><br /><strong>" + i18n("DVD structure broken"));
+        m_status.error_log->scrollToAnchor("result");
         m_status.error_box->setHidden(false);
         kDebug() << "DVDAuthor process crashed";
         authitem->setIcon(KIcon("dialog-close"));
@@ -529,7 +532,7 @@ void DvdWizard::slotRenderFinished(int exitCode, QProcess::ExitStatus status)
 void DvdWizard::slotShowIsoInfo()
 {
     QString log = QString(m_mkiso->readAll());
-    m_status.error_log->setText(log);
+    m_status.error_log->append(log);
     m_status.error_box->setHidden(false);
 }
 
@@ -539,10 +542,10 @@ void DvdWizard::slotIsoFinished(int exitCode, QProcess::ExitStatus status)
     QListWidgetItem *isoitem =  m_status.job_progress->item(4);
     if (status == QProcess::CrashExit || exitCode != 0) {
         QString result(m_mkiso->readAllStandardError());
-        result.append("<br><b>");
-        //TODO: uncomment after 0.7.4 release (i18n change)
-        // result.append(i19n("ISO creation process crashed."));
-        m_status.error_log->setText(result);
+        result.append("<a name=\"result\" /><br /><strong>");
+        result.append(i18n("ISO creation process crashed."));
+        m_status.error_log->append(result);
+        m_status.error_log->scrollToAnchor("result");
         m_status.error_box->setHidden(false);
         m_mkiso->close();
         delete m_mkiso;
@@ -567,7 +570,8 @@ void DvdWizard::slotIsoFinished(int exitCode, QProcess::ExitStatus status)
         if (iso.exists()) {
             KIO::NetAccess::del(m_status.iso_image->url(), this);
         }
-        m_status.error_log->setText(m_creationLog + '\n' + i18n("DVD ISO is broken"));
+        m_status.error_log->append(m_creationLog + "<br /><a name=\"result\" /><strong>" + i18n("DVD ISO is broken") + "</strong>");
+        m_status.error_log->scrollToAnchor("result");
         m_status.error_box->setHidden(false);
         isoitem->setIcon(KIcon("dialog-close"));
         cleanup();
@@ -579,7 +583,8 @@ void DvdWizard::slotIsoFinished(int exitCode, QProcess::ExitStatus status)
     cleanup();
     kDebug() << m_creationLog;
 
-    m_status.error_log->setText(i18n("DVD ISO image %1 successfully created.", m_status.iso_image->url().path()));
+    m_status.error_log->append("<a name=\"result\" /><strong>" + i18n("DVD ISO image %1 successfully created.", m_status.iso_image->url().path()) + "</strong>");
+    m_status.error_log->scrollToAnchor("result");
     m_status.button_preview->setEnabled(true);
     m_status.button_burn->setEnabled(true);
     m_status.error_box->setHidden(false);
