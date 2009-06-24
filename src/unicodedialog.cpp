@@ -129,7 +129,7 @@ QString UnicodeDialog::unicodeInfo(QString unicode)
     } else if (u == "a0") {
         infoText = i18n("No-break space. &amp;nbsp; in HTML. See U+2009 and U+0020.");
     } else if (u == "ab" || u == "bb" || u == "2039" || u == "203a") {
-        infoText = i18n("<p><strong>«</strong> (u+00ab, <code>&amp;lfquo;</code> in HTML) and <strong>»</strong> (u+00bb, <code>&amp;rfquo;</code> in HTML) are called Guillemets or angle quotes. Usage in different countries: «&nbsp;France&nbsp;» (with non-breaking Space 0x00a0), «Switzerland», »Germany«, »Finland and Sweden».</p><p><strong>&lsaquo;</strong> and <strong>&rsaquo;</strong> (U+2039/203a, <code>&amp;lsaquo;/&amp;rsaquo;</code>) are their single quote equivalents.</p><p>See <a href=\"http://en.wikipedia.org/wiki/Guillemets\">Wikipedia:Guillemets</a></p>");
+        infoText = i18n("<p><strong>&laquo;</strong> (u+00ab, <code>&amp;lfquo;</code> in HTML) and <strong>&raquo;</strong> (u+00bb, <code>&amp;rfquo;</code> in HTML) are called Guillemets or angle quotes. Usage in different countries: France (with non-breaking Space 0x00a0), Switzerland, Germany, Finland and Sweden.</p><p><strong>&lsaquo;</strong> and <strong>&rsaquo;</strong> (U+2039/203a, <code>&amp;lsaquo;/&amp;rsaquo;</code>) are their single quote equivalents.</p><p>See <a href=\"http://en.wikipedia.org/wiki/Guillemets\">Wikipedia:Guillemets</a></p>");
     } else if (u == "2002") {
         infoText = i18n("En Space (width of an n)");
     } else if (u == "2003") {
@@ -155,7 +155,7 @@ QString UnicodeDialog::unicodeInfo(QString unicode)
     } else if (u == "2014") {
         infoText = i18n("<p>An em Dash (dash of the widht of an m).</p><p>Usage examples: In English language to mark&#x2014;like here&#x2014;thoughts. Traditionally without spaces. </p><p>See <a href=\"http://en.wikipedia.org/wiki/Dash\">Wikipedia:Dash</a></p>");
     } else if (u == "202f") {
-        infoText = i18n("<p>Narrow no-break space. Has the same width as U+2009.</p><p>Usage: For units (spaces are marked with U+2423, &#x2423;): 230&#x2423;V, &#x2212;21&#x2423;°C, 50&#x2423;lb, <em>but</em> 90° (no space). In German for abbreviations (like: i.&#x202f;d.&#x202f;R. instead of i.&#xa0;d.&#xa0;R. with U+00a0).</p><p>See <a href=\"http://de.wikipedia.org/wiki/Schmales_Leerzeichen\">Wikipedia:de:Schmales_Leerzeichen</a></p>");
+        infoText = i18n("<p>Narrow no-break space. Has the same width as U+2009.</p><p>Usage: For units (spaces are marked with U+2423, &#x2423;): 230&#x2423;V, &#x2212;21&#x2423;&deg;C, 50&#x2423;lb, <em>but</em> 90&deg; (no space). In German for abbreviations (like: i.&#x202f;d.&#x202f;R. instead of i.&#xa0;d.&#xa0;R. with U+00a0).</p><p>See <a href=\"http://de.wikipedia.org/wiki/Schmales_Leerzeichen\">Wikipedia:de:Schmales_Leerzeichen</a></p>");
     } else if (u == "2026") {
         infoText = i18n("Ellipsis: If text has been left o&#x2026; See <a href=\"http://en.wikipedia.org/wiki/Ellipsis\">Wikipedia:Ellipsis</a>");
     } else if (u == "2212") {
