@@ -33,6 +33,47 @@
      </property>
     </spacer>
    </item>
+   <item row="1" column="1" colspan="9">
+    <widget class="QFrame" name="no_properties">
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Sunken</enum>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QLabel" name="label">
+        <property name="font">
+         <font>
+          <pointsize>9</pointsize>
+          <italic>true</italic>
+         </font>
+        </property>
+        <property name="locale">
+         <locale language="English" country="UnitedStates"/>
+        </property>
+        <property name="text">
+         <string>Item Properties</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_5">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </widget>
+   </item>
    <item row="2" column="1" colspan="9">
     <widget class="QFrame" name="rect_properties">
      <property name="frameShape">
@@ -146,7 +187,7 @@
       <property name="rightMargin">
        <number>2</number>
       </property>
-      <item row="0" column="0">
+      <item row="4" column="0">
        <layout class="QHBoxLayout" name="horizontalLayout_4">
         <item>
          <widget class="QFontComboBox" name="font_family"/>
@@ -338,8 +379,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>443</width>
-         <height>143</height>
+         <width>431</width>
+         <height>140</height>
         </rect>
        </property>
        <attribute name="label">
@@ -457,8 +498,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>96</width>
-         <height>73</height>
+         <width>431</width>
+         <height>144</height>
         </rect>
        </property>
        <attribute name="label">
@@ -505,8 +546,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>272</width>
-         <height>224</height>
+         <width>416</width>
+         <height>198</height>
         </rect>
        </property>
        <attribute name="label">

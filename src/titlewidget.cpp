@@ -167,6 +167,8 @@ TitleWidget::TitleWidget(KUrl url, QString projectTitlePath, Render *render, QWi
     m_buttonCursor->setCheckable(true);
     m_buttonCursor->setShortcut(Qt::ALT + Qt::Key_S);
     connect(m_buttonCursor, SIGNAL(triggered()), this, SLOT(slotSelectTool()));
+	
+	m_toolbar->addSeparator();
 
     m_buttonLoad = m_toolbar->addAction(KIcon("document-open"), i18n("Open Document"));
     m_buttonLoad->setCheckable(false);
@@ -179,7 +181,6 @@ TitleWidget::TitleWidget(KUrl url, QString projectTitlePath, Render *render, QWi
     connect(m_buttonSave, SIGNAL(triggered()), this, SLOT(saveTitle()));
 
     layout->addWidget(m_toolbar);
-    text_properties->setHidden(true);
 
     // initialize graphic scene
     m_scene = new GraphicsSceneRectMove(this);
@@ -237,6 +238,8 @@ TitleWidget::TitleWidget(KUrl url, QString projectTitlePath, Render *render, QWi
     } else {
         slotRectTool();
     }
+	
+	showToolbars(TITLE_NONE);
 }
 
 TitleWidget::~TitleWidget()
@@ -290,18 +293,16 @@ void TitleWidget::resizeEvent(QResizeEvent * /*event*/)
 
 void TitleWidget::slotTextTool()
 {
-    rect_properties->setHidden(true);
-    text_properties->setHidden(false);
     m_scene->setTool(TITLE_TEXT);
+	showToolbars(TITLE_TEXT);
     m_buttonRect->setChecked(false);
     m_buttonCursor->setChecked(false);
 }
 
 void TitleWidget::slotRectTool()
 {
-    text_properties->setHidden(true);
-    rect_properties->setHidden(false);
     m_scene->setTool(TITLE_RECTANGLE);
+	showToolbars(TITLE_RECTANGLE);
     m_buttonText->setChecked(false);
     m_buttonCursor->setChecked(false);
     m_buttonRect->setChecked(true);
@@ -310,6 +311,26 @@ void TitleWidget::slotRectTool()
 void TitleWidget::slotSelectTool()
 {
     m_scene->setTool(TITLE_SELECT);
+	
+	// Find out which toolbars need to be shown, depending on selected item
+	TITLETOOL t = TITLE_SELECT;
+	QList<QGraphicsItem *> l = graphicsView->scene()->selectedItems();
+	if (l.size() > 0) {
+		switch (l.at(0)->type()) {
+			case TEXTITEM:
+				t = TITLE_TEXT;
+				break;
+			case RECTITEM:
+				t = TITLE_RECTANGLE;
+				break;
+			case IMAGEITEM:
+				t = TITLE_IMAGE;
+				break;
+		}
+	}
+	enableToolbars(t);
+	showToolbars(t);
+	
     m_buttonCursor->setChecked(true);
     m_buttonText->setChecked(false);
     m_buttonRect->setChecked(false);
@@ -336,9 +357,68 @@ void TitleWidget::slotImageTool()
         }
     }
     m_scene->setTool(TITLE_SELECT);
+	showToolbars(TITLE_SELECT);
     m_buttonRect->setChecked(false);
     m_buttonCursor->setChecked(true);
     m_buttonText->setChecked(false);
+}
+
+void TitleWidget::showToolbars(TITLETOOL toolType)
+{
+	bool bText = false;
+	bool bRect = false;
+	bool bNone = false;
+	
+	switch (toolType) {
+		case TITLE_TEXT:
+			bText = true;
+			break;
+		case TITLE_RECTANGLE:
+			bRect = true;
+			break;
+		case TITLE_IMAGE: //fall through
+		default:
+			bNone = true;
+			break;
+	}
+	text_properties->setHidden(!bText);
+	rect_properties->setHidden(!bRect);
+	no_properties->setHidden(!bNone);
+}
+
+void TitleWidget::enableToolbars(TITLETOOL toolType)
+{
+	// TITLETOOL is defined in graphicsscenerectmove.h
+	bool bFrame = false;
+	bool bText = false;
+	bool bRect = false;
+	bool bValue_w = false;
+	bool bValue_h = false;
+	
+	switch (toolType) {
+		case TITLE_SELECT:
+			break;
+		case TITLE_TEXT:
+			bFrame = true;
+			bText = true;
+			break;
+		case TITLE_RECTANGLE:
+			bFrame = true;
+			bRect = true;
+			bValue_w = true;
+			bValue_h = true;
+			break;
+		case TITLE_IMAGE:
+			bFrame = true;
+			break;
+		default:
+			break;
+	}
+	frame_properties->setEnabled(bFrame);
+	text_properties->setEnabled(bText);
+	rect_properties->setEnabled(bRect);
+	value_w->setEnabled(bValue_w);
+	value_h->setEnabled(bValue_h);
 }
 
 void TitleWidget::displayBackgroundFrame()
@@ -487,15 +567,12 @@ void TitleWidget::selectionChanged()
         origin_y_top->setChecked(false);
         updateTextOriginX();
         updateTextOriginY();
-        frame_properties->setEnabled(false);
-        text_properties->setEnabled(false);
-        rect_properties->setEnabled(false);
+		enableToolbars(TITLE_NONE);
         if (blockX) origin_x_left->blockSignals(false);
         if (blockY) origin_y_top->blockSignals(false);
     } else if (l.size() == 1) {
         if (l.at(0)->type() == TEXTITEM) {
-            rect_properties->setHidden(true);
-            text_properties->setHidden(false);
+			showToolbars(TITLE_TEXT);
             QGraphicsTextItem* i = static_cast <QGraphicsTextItem *>(l.at(0));
             //if (l[0]->hasFocus())
             toolBox->setCurrentIndex(0);
@@ -545,17 +622,10 @@ void TitleWidget::selectionChanged()
             updateAxisButtons(i);
             updateCoordinates(i);
             updateDimension(i);
-            //value_w->setValue((int) i->boundingRect().width());
-            //value_h->setValue((int) i->boundingRect().height());
-            frame_properties->setEnabled(true);
-            text_properties->setEnabled(true);
-            rect_properties->setEnabled(false);
-            value_w->setEnabled(false);
-            value_h->setEnabled(false);
+			enableToolbars(TITLE_TEXT);
 
         } else if ((l.at(0))->type() == RECTITEM) {
-            rect_properties->setHidden(false);
-            text_properties->setHidden(true);
+			showToolbars(TITLE_RECTANGLE);
             settingUp = true;
             QGraphicsRectItem *rec = static_cast <QGraphicsRectItem *>(l.at(0));
             toolBox->setCurrentIndex(0);
@@ -575,30 +645,20 @@ void TitleWidget::selectionChanged()
             updateAxisButtons(l.at(0));
             updateCoordinates(rec);
             updateDimension(rec);
-            //value_w->setValue((int) rec->rect().width());
-            //value_h->setValue((int) rec->rect().height());
-            frame_properties->setEnabled(true);
-            text_properties->setEnabled(false);
-            rect_properties->setEnabled(true);
-            value_w->setEnabled(true);
-            value_h->setEnabled(true);
+			enableToolbars(TITLE_RECTANGLE);
 
         } else if (l.at(0)->type() == IMAGEITEM) {
             updateCoordinates(l.at(0));
             updateDimension(l.at(0));
 
-            frame_properties->setEnabled(true);
-            text_properties->setEnabled(false);
-            rect_properties->setEnabled(false);
-            value_x->setEnabled(true);
-            value_w->setEnabled(false);
-            value_h->setEnabled(false);
+			enableToolbars(TITLE_IMAGE);
 
         } else {
             //toolBox->setCurrentIndex(0);
-            frame_properties->setEnabled(false);
+			enableToolbars(TITLE_NONE);
+            /*frame_properties->setEnabled(false);
             text_properties->setEnabled(false);
-            rect_properties->setEnabled(false);
+            rect_properties->setEnabled(false);*/
         }
         zValue->setValue((int)l.at(0)->zValue());
         itemzoom->setValue((int)(m_transformations.value(l.at(0)).scalex * 100.0 + 0.5));
