@@ -704,9 +704,8 @@ void ClipItem::paint(QPainter *painter,
         QRectF mappedRect;
         if (m_clipType == AV && !isAudioOnly()) {
             QRectF re =  br;
-            re.setTop(re.y() + re.height() / 2);
             mappedRect = painter->matrix().mapRect(re);
-            //painter->fillRect(mappedRect, QBrush(QColor(200, 200, 200, 140)));
+            mappedRect.setTop(mappedRect.bottom() - re.height() / 2);
         } else mappedRect = mapped;
 
         int channels = baseClip()->getProperty("channels").toInt();
