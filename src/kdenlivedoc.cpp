@@ -99,7 +99,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                         QDomElement infoXml = mlt.firstChildElement("kdenlivedoc");
 
                         profileName = infoXml.attribute("profile");
-                        m_projectFolder = infoXml.attribute("projectfolder");
+                        m_projectFolder = KUrl(infoXml.attribute("projectfolder"));
                         QDomElement docproperties = infoXml.firstChildElement("documentproperties");
                         QDomNamedNodeMap props = docproperties.attributes();
                         for (int i = 0; i < props.count(); i++) {

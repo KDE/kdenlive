@@ -504,6 +504,14 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
     }
     if (item == NULL) item = new ProjectItem(m_listView, clip);
     KUrl url = clip->fileURL();
+
+    if (getProperties == false && !clip->getClipHash().isEmpty()) {
+        QString cachedPixmap = m_doc->projectFolder().path(KUrl::AddTrailingSlash) + "thumbs/" + clip->getClipHash() + ".png";
+        if (QFile::exists(cachedPixmap)) {
+            item->setIcon(0, QPixmap(cachedPixmap));
+        }
+    }
+
     if (!url.isEmpty() && KdenliveSettings::activate_nepomuk()) {
         // if file has Nepomuk comment, use it
         Nepomuk::Resource f(url.path());
@@ -534,9 +542,9 @@ void ProjectList::requestClipInfo(const QDomElement xml, const QString id)
 void ProjectList::slotProcessNextClipInQueue()
 {
     if (m_infoQueue.isEmpty()) {
-        m_listView->setEnabled(true);
         return;
     }
+
     QMap<QString, QDomElement>::const_iterator j = m_infoQueue.constBegin();
     if (j != m_infoQueue.constEnd()) {
         const QDomElement dom = j.value();
@@ -544,8 +552,7 @@ void ProjectList::slotProcessNextClipInQueue()
         m_infoQueue.remove(j.key());
         emit getFileProperties(dom, id, false);
     }
-    if (m_infoQueue.isEmpty()) m_listView->setEnabled(true);
-    else m_queueTimer.start();
+    if (!m_infoQueue.isEmpty()) m_queueTimer.start();
 }
 
 void ProjectList::slotUpdateClip(const QString &id)
@@ -573,26 +580,19 @@ void ProjectList::updateAllClips()
                 pix.save(clip->fileURL().path());
                 delete dia_ui;
             }
-            QString cachedPixmap;
-            if (!item->getClipHash().isEmpty()) {
-                cachedPixmap = m_doc->projectFolder().path(KUrl::AddTrailingSlash) + "thumbs/" + item->getClipHash() + ".png";
-                if (QFile::exists(cachedPixmap)) {
-                    m_listView->blockSignals(true);
-                    item->setIcon(0, QPixmap(cachedPixmap));
-                    m_listView->blockSignals(false);
-                } else {
-                    cachedPixmap.clear();
-                }
-            }
-            if (cachedPixmap.isEmpty() && item->referencedClip()->producer() != NULL) requestClipThumbnail(item->clipId());
 
             if (item->referencedClip()->producer() == NULL) {
                 if (clip->isPlaceHolder() == false) requestClipInfo(clip->toXML(), clip->getId());
                 else item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-            } else if (item->data(1, DurationRole).toString().isEmpty()) {
-                m_listView->blockSignals(true);
-                item->changeDuration(item->referencedClip()->producer()->get_playtime());
-                m_listView->blockSignals(false);
+            } else {
+                if (item->icon(0).isNull()) {
+                    requestClipThumbnail(clip->getId());
+                }
+                if (item->data(1, DurationRole).toString().isEmpty()) {
+                    m_listView->blockSignals(true);
+                    item->changeDuration(item->referencedClip()->producer()->get_playtime());
+                    m_listView->blockSignals(false);
+                }
             }
             m_listView->blockSignals(true);
             item->setData(1, UsageRole, QString::number(item->numReferences()));
@@ -601,7 +601,7 @@ void ProjectList::updateAllClips()
         }
         ++it;
     }
-    QTimer::singleShot(500, this, SLOT(slotCheckForEmptyQueue()));
+    if (m_infoQueue.isEmpty()) slotProcessNextThumbnail();
 }
 
 void ProjectList::slotAddClip(const QList <QUrl> givenList, const QString &groupName, const QString &groupId)
@@ -651,8 +651,7 @@ void ProjectList::slotRemoveInvalidClip(const QString &id, bool replace)
         ids << id;
         if (replace) m_doc->deleteProjectClip(ids);
     }
-    if (!m_infoQueue.isEmpty()) QTimer::singleShot(300, this, SLOT(slotProcessNextClipInQueue()));
-    else m_listView->setEnabled(true);
+    QTimer::singleShot(300, this, SLOT(slotProcessNextClipInQueue()));
 }
 
 void ProjectList::slotAddColorClip()
@@ -752,6 +751,11 @@ void ProjectList::setDocument(KdenliveDoc *doc)
     m_thumbnailQueue.clear();
     m_infoQueue.clear();
     m_refreshed = false;
+    m_fps = doc->fps();
+    m_timecode = doc->timecode();
+    m_commandStack = doc->commandStack();
+    m_doc = doc;
+
     QMap <QString, QString> flist = doc->clipManager()->documentFolderList();
     QMapIterator<QString, QString> f(flist);
     while (f.hasNext()) {
@@ -764,10 +768,7 @@ void ProjectList::setDocument(KdenliveDoc *doc)
         slotAddClip(list.at(i), false);
     }
 
-    m_fps = doc->fps();
-    m_timecode = doc->timecode();
-    m_commandStack = doc->commandStack();
-    m_doc = doc;
+
     QTreeWidgetItem *first = m_listView->topLevelItem(0);
     if (first) m_listView->setCurrentItem(first);
     m_listView->blockSignals(false);
@@ -792,9 +793,10 @@ QDomElement ProjectList::producersList()
 void ProjectList::slotCheckForEmptyQueue()
 {
     if (!m_refreshed && m_thumbnailQueue.isEmpty() && m_infoQueue.isEmpty()) {
+        m_listView->setEnabled(true);
         m_refreshed = true;
         emit loadingIsOver();
-    } else QTimer::singleShot(500, this, SLOT(slotCheckForEmptyQueue()));
+    } else QTimer::singleShot(300, this, SLOT(slotCheckForEmptyQueue()));
 }
 
 void ProjectList::reloadClipThumbnails()
@@ -809,15 +811,19 @@ void ProjectList::reloadClipThumbnails()
     QTimer::singleShot(300, this, SLOT(slotProcessNextThumbnail()));
 }
 
-void ProjectList::requestClipThumbnail(const QString &id)
+void ProjectList::requestClipThumbnail(const QString id)
 {
     m_thumbnailQueue.append(id);
-    if (m_thumbnailQueue.count() == 1) QTimer::singleShot(300, this, SLOT(slotProcessNextThumbnail()));
 }
 
 void ProjectList::slotProcessNextThumbnail()
 {
-    if (m_thumbnailQueue.isEmpty()) {
+    if (m_thumbnailQueue.isEmpty() && m_infoQueue.isEmpty()) {
+        slotCheckForEmptyQueue();
+        return;
+    }
+    if (!m_infoQueue.isEmpty()) {
+        QTimer::singleShot(300, this, SLOT(slotProcessNextThumbnail()));
         return;
     }
     slotRefreshClipThumbnail(m_thumbnailQueue.takeFirst(), false);
@@ -833,7 +839,6 @@ void ProjectList::slotRefreshClipThumbnail(const QString &clipId, bool update)
 void ProjectList::slotRefreshClipThumbnail(ProjectItem *item, bool update)
 {
     if (item) {
-        if (!item->referencedClip()) return;
         int height = 50;
         int width = (int)(height  * m_render->dar());
         DocClipBase *clip = item->referencedClip();
@@ -849,7 +854,7 @@ void ProjectList::slotRefreshClipThumbnail(ProjectItem *item, bool update)
             m_doc->cachePixmap(item->getClipHash(), pix);
         }
         if (update) emit projectModified();
-        if (!m_thumbnailQueue.isEmpty()) QTimer::singleShot(300, this, SLOT(slotProcessNextThumbnail()));
+        QTimer::singleShot(100, this, SLOT(slotProcessNextThumbnail()));
     }
 }
 
@@ -873,15 +878,20 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
             delete producer;
         }*/
         m_listView->blockSignals(false);
+        if (item->icon(0).isNull()) {
+            requestClipThumbnail(clipId);
+        }
     } else kDebug() << "////////  COULD NOT FIND CLIP TO UPDATE PRPS...";
-    if (m_infoQueue.isEmpty()) /*slotProcessNextClipInQueue();
-    else*/ m_listView->setEnabled(true);
+
+    if (m_infoQueue.isEmpty()) {
+        slotProcessNextThumbnail();
+    }
 }
 
 void ProjectList::slotReplyGetImage(const QString &clipId, const QPixmap &pix)
 {
     ProjectItem *item = getItemById(clipId);
-    if (item) {
+    if (item && !pix.isNull()) {
         m_listView->blockSignals(true);
         item->setIcon(0, pix);
         m_doc->cachePixmap(item->getClipHash(), pix);

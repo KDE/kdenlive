@@ -177,7 +177,7 @@ private:
     QMap <QString, QDomElement> m_producerQueue;
     void requestClipInfo(const QDomElement xml, const QString id);
     QList <QString> m_thumbnailQueue;
-    void requestClipThumbnail(const QString &id);
+    void requestClipThumbnail(const QString id);
     void deleteProjectFolder(QMap <QString, QString> map);
     void editFolder(const QString folderName, const QString oldfolderName, const QString &clipId);
     QStringList getGroup() const;
