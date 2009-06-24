@@ -152,7 +152,6 @@ private:
     void checkRenderStatus();
 
 signals:
-    void doRender(const QStringList&, const QStringList&);
     void abortProcess(const QString &url);
     void openDvdWizard(const QString &url, const QString &profile);
     void selectedRenderProfile(const QString &category, const QString &name);

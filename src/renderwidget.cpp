@@ -21,6 +21,7 @@
 #include "renderwidget.h"
 #include "kdenlivesettings.h"
 #include "ui_saveprofile_ui.h"
+#include "timecode.h"
 
 #include <KStandardDirs>
 #include <KDebug>
@@ -235,11 +236,14 @@ void RenderWidget::setGuides(QDomElement guidesxml, double duration)
         m_view.render_guide->setEnabled(false);
         m_view.create_chapter->setEnabled(false);
     }
+    double fps = (double) m_profile.frame_rate_num / m_profile.frame_rate_den;
     for (int i = 0; i < nodes.count(); i++) {
         QDomElement e = nodes.item(i).toElement();
         if (!e.isNull()) {
-            m_view.guide_start->addItem(e.attribute("comment"), e.attribute("time").toDouble());
-            m_view.guide_end->addItem(e.attribute("comment"), e.attribute("time").toDouble());
+            GenTime pos = GenTime(e.attribute("time").toDouble());
+            const QString guidePos = Timecode::getStringTimecode(pos.frames(fps), fps);
+            m_view.guide_start->addItem(e.attribute("comment") + '/' + guidePos, e.attribute("time").toDouble());
+            m_view.guide_end->addItem(e.attribute("comment") + '/' + guidePos, e.attribute("time").toDouble());
         }
     }
     if (nodes.count() > 0)
@@ -705,12 +709,6 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
 
     QString scriptName;
     if (scriptExport) {
-
-        /*renderParameters << scriptName;
-        if (group == "dvd") renderParameters << QString::number(m_view.create_chapter->isChecked());
-        else renderParameters << QString::number(false);
-        emit doRender(renderParameters, overlayargs);*/
-
         // Generate script file
         QFile file(scriptPath);
         if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
