@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-06-24 21:44+0200\n"
+"POT-Creation-Date: 2009-06-24 22:13+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -851,8 +851,8 @@ msgstr ""
 #: src/profilesdialog.cpp:425 src/profilesdialog.cpp:431
 #: src/renderwidget.cpp:368 src/renderwidget.cpp:468 src/renderwidget.cpp:474
 #: src/renderwidget.cpp:534 src/renderwidget.cpp:715 src/renderwidget.cpp:729
-#: src/renderwidget.cpp:1559 src/renderwidget.cpp:1584 src/dvdwizard.cpp:676
-#: src/dvdwizard.cpp:682
+#: src/renderwidget.cpp:1559 src/renderwidget.cpp:1584 src/dvdwizard.cpp:672
+#: src/dvdwizard.cpp:678
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr ""
@@ -1258,12 +1258,12 @@ msgstr ""
 msgid "DVD ISO image"
 msgstr ""
 
-#: src/dvdwizard.cpp:582
+#: src/dvdwizard.cpp:578
 #, kde-format
 msgid "DVD ISO image %1 successfully created."
 msgstr ""
 
-#: src/dvdwizard.cpp:570
+#: src/dvdwizard.cpp:566
 msgid "DVD ISO is broken"
 msgstr ""
 
@@ -1275,8 +1275,12 @@ msgstr ""
 msgid "DVD format"
 msgstr ""
 
-#: src/dvdwizard.cpp:498
+#: src/dvdwizard.cpp:495
 msgid "DVD structure broken"
+msgstr ""
+
+#: src/dvdwizard.cpp:474
+msgid "DVDAuthor process crashed."
 msgstr ""
 
 #: rc.cpp:257 rc.cpp:267
@@ -1845,7 +1849,7 @@ msgid ""
 "Do you want to overwrite it?"
 msgstr ""
 
-#: src/kdenlivedoc.cpp:90 src/dvdwizard.cpp:698
+#: src/kdenlivedoc.cpp:90 src/dvdwizard.cpp:694
 #, kde-format
 msgid "File %1 is not a Kdenlive project file."
 msgstr ""
@@ -1932,7 +1936,7 @@ msgstr ""
 msgid "Folder"
 msgstr ""
 
-#: src/dvdwizard.cpp:626
+#: src/dvdwizard.cpp:622
 #, kde-format
 msgid "Folder %1 already exists. Overwrite?"
 msgstr ""
@@ -2243,6 +2247,10 @@ msgstr ""
 msgid "I"
 msgstr ""
 
+#: src/dvdwizard.cpp:540
+msgid "ISO creation process crashed."
+msgstr ""
+
 #: rc.cpp:691 rc.cpp:1651 rc.cpp:2089 rc.cpp:3049
 msgid "Image"
 msgstr ""
@@ -2263,7 +2271,7 @@ msgstr ""
 msgid "Image editing"
 msgstr ""
 
-#: src/dvdwizard.cpp:628
+#: src/dvdwizard.cpp:624
 #, kde-format
 msgid "Image file %1 already exists. Overwrite?"
 msgstr ""
@@ -2487,6 +2495,10 @@ msgstr ""
 msgid "Lo gain"
 msgstr ""
 
+#: src/dvdwizard.cpp:106
+msgid "Load"
+msgstr ""
+
 #: src/titlewidget.cpp:341
 msgid "Load Image"
 msgstr ""
@@ -2604,7 +2616,7 @@ msgstr ""
 msgid "Melt path"
 msgstr ""
 
-#: src/dvdwizard.cpp:327
+#: src/dvdwizard.cpp:326
 msgid "Menu job timed out"
 msgstr ""
 
@@ -3355,7 +3367,7 @@ msgstr ""
 msgid "Rendering finished in %1"
 msgstr ""
 
-#: src/dvdwizard.cpp:243
+#: src/dvdwizard.cpp:242
 msgid "Rendering job timed out"
 msgstr ""
 
@@ -3523,11 +3535,15 @@ msgstr ""
 msgid "SVGAlib"
 msgstr ""
 
+#: src/dvdwizard.cpp:107
+msgid "Save"
+msgstr ""
+
 #: src/titlewidget.cpp:178
 msgid "Save As"
 msgstr ""
 
-#: src/dvdwizard.cpp:649
+#: src/dvdwizard.cpp:645
 msgid "Save DVD Project"
 msgstr ""
 
@@ -4516,7 +4532,7 @@ msgstr ""
 msgid "You must select one transition for this action"
 msgstr ""
 
-#: src/dvdwizard.cpp:603
+#: src/dvdwizard.cpp:599
 #, kde-format
 msgid "You need program <b>%1</b> to perform this action"
 msgstr ""
