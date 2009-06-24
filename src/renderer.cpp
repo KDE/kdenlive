@@ -549,6 +549,12 @@ void Render::getFileProperties(const QDomElement &xml, const QString &clipId, bo
     char *tmp = decodedString(clipId);
     producer->set("id", tmp);
     delete[] tmp;
+    
+    if (!replaceProducer && xml.hasAttribute("file_hash")) {
+        // Clip  already has all properties
+        emit replyGetFileProperties(clipId, producer, QMap < QString, QString >(), QMap < QString, QString >(), replaceProducer);
+        return;
+    }
 
     int height = 50;
     int width = (int)(height  * m_mltProfile->dar());

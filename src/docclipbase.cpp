@@ -700,7 +700,6 @@ void DocClipBase::getFileHash(const QString url)
         file.close();
         fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
         m_properties.insert("file_hash", QString(fileHash.toHex()));
-        //kDebug() << file.fileName() << file.size() << fileHash.toHex();
     }
 }
 
@@ -711,6 +710,29 @@ QString DocClipBase::getClipHash() const
     else if (m_clipType == COLOR) hash = QCryptographicHash::hash(m_properties.value("colour").toAscii().data(), QCryptographicHash::Md5).toHex();
     else hash = m_properties.value("file_hash");
     return hash;
+}
+
+// static
+QString DocClipBase::getHash(const QString &path)
+{
+    QFile file(path);
+    if (file.open(QIODevice::ReadOnly)) { // write size and hash only if resource points to a file
+        QByteArray fileData;
+        QByteArray fileHash;
+        /*
+               * 1 MB = 1 second per 450 files (or faster)
+               * 10 MB = 9 seconds per 450 files (or faster)
+               */
+        if (file.size() > 1000000*2) {
+            fileData = file.read(1000000);
+            if (file.seek(file.size() - 1000000))
+                fileData.append(file.readAll());
+        } else
+            fileData = file.readAll();
+        file.close();
+        return QCryptographicHash::hash(fileData, QCryptographicHash::Md5).toHex();
+    }
+    return QString();
 }
 
 void DocClipBase::refreshThumbUrl()

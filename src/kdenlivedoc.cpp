@@ -45,7 +45,7 @@
 
 #include <mlt++/Mlt.h>
 
-const double DOCUMENTVERSION = 0.83;
+const double DOCUMENTVERSION = 0.84;
 
 KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, QString profileName, const QPoint tracks, Render *render, MainWindow *parent) :
         QObject(parent),
@@ -95,7 +95,6 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                     // TODO: backup the document or alert the user?
                     success = validator.validate(DOCUMENTVERSION);
                     if (success) { // Let the validator handle error messages
-                        setModified(validator.isModified());
                         QDomElement mlt = m_document.firstChildElement("mlt");
                         QDomElement infoXml = mlt.firstChildElement("kdenlivedoc");
 
@@ -192,6 +191,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                                 infoXml.removeChild(markers);
                             }
                             setProfilePath(profileName);
+                            setModified(validator.isModified());
                             kDebug() << "Reading file: " << url.path() << ", found clips: " << producers.count();
                         }
                     }
@@ -915,7 +915,7 @@ void KdenliveDoc::addClip(QDomElement elem, QString clipId, bool createClipItem)
     if (createClipItem) {
         emit addProjectClip(clip);
         qApp->processEvents();
-        m_render->getFileProperties(clip->toXML(), clip->getId(), false);
+        m_render->getFileProperties(clip->toXML(), clip->getId(), true);
     }
 }
 
@@ -1170,18 +1170,18 @@ QPoint KdenliveDoc::getTracksCount() const
 
 void KdenliveDoc::cachePixmap(const QString &fileId, const QPixmap &pix) const
 {
-    pix.save(m_projectFolder.path() + "/thumbs/" + fileId + ".png");
+    pix.save(m_projectFolder.path(KUrl::AddTrailingSlash) + "thumbs/" + fileId + ".png");
 }
 
 QString KdenliveDoc::getLadspaFile() const
 {
     int ct = 0;
     QString counter = QString::number(ct).rightJustified(5, '0', false);
-    while (QFile::exists(m_projectFolder.path() + "/ladspa/" + counter + ".ladspa")) {
+    while (QFile::exists(m_projectFolder.path(KUrl::AddTrailingSlash) + "ladspa/" + counter + ".ladspa")) {
         ct++;
         counter = QString::number(ct).rightJustified(5, '0', false);
     }
-    return m_projectFolder.path() + "/ladspa/" + counter + ".ladspa";
+    return m_projectFolder.path(KUrl::AddTrailingSlash) + "ladspa/" + counter + ".ladspa";
 }
 
 bool KdenliveDoc::checkDocumentClips(QDomNodeList infoproducers)
@@ -1194,13 +1194,23 @@ bool KdenliveDoc::checkDocumentClips(QDomNodeList infoproducers)
     for (int i = 0; i < infoproducers.count(); i++) {
         e = infoproducers.item(i).toElement();
         clipType = e.attribute("type").toInt();
-        if (clipType == TEXT || clipType == COLOR) continue;
+        if (clipType == COLOR) continue;
+        if (clipType == TEXT) {
+            //TODO: Check is clip template is missing (xmltemplate) or hash changed
+            continue;
+        }
         id = e.attribute("id");
         resource = e.attribute("resource");
         if (clipType == SLIDESHOW) resource = KUrl(resource).directory();
         if (!KIO::NetAccess::exists(KUrl(resource), KIO::NetAccess::SourceSide, 0)) {
             // Missing clip found
             missingClips.append(e);
+        } else {
+            // Check if the clip has changed
+            if (clipType != SLIDESHOW && e.hasAttribute("file_hash")) {
+                if (e.attribute("file_hash") != DocClipBase::getHash(e.attribute("resource")))
+                    e.removeAttribute("file_hash");
+            }
         }
     }
     if (missingClips.isEmpty()) return true;

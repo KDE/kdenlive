@@ -182,6 +182,7 @@ Q_OBJECT public:
 
     /** Returns true is clip is missing but user wants to keep it as placeholder */
     bool isPlaceHolder() const;
+    static QString getHash(const QString &path);
 
 private:   // Private attributes
 

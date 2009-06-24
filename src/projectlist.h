@@ -28,7 +28,7 @@
 #include <QPainter>
 #include <QItemDelegate>
 #include <QUndoStack>
-
+#include <QTimer>
 
 #include <KTreeWidgetSearchLine>
 #include <KUrl>
@@ -159,6 +159,7 @@ private:
     Timecode m_timecode;
     double m_fps;
     QToolBar *m_toolbar;
+    QTimer m_queueTimer;
     QMenu *m_menu;
     QUndoStack *m_commandStack;
     void selectItemById(const QString &clipId);
@@ -173,6 +174,7 @@ private:
     bool m_refreshed;
     QToolButton *m_addButton;
     QMap <QString, QDomElement> m_infoQueue;
+    QMap <QString, QDomElement> m_producerQueue;
     void requestClipInfo(const QDomElement xml, const QString id);
     QList <QString> m_thumbnailQueue;
     void requestClipThumbnail(const QString &id);

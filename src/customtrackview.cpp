@@ -764,7 +764,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         RazorClipCommand* command = new RazorClipCommand(this, clip->info(), GenTime((int)(mapToScene(event->pos()).x()), m_document->fps()));
         m_document->renderer()->pause();
         m_commandStack->push(command);
-        m_document->setModified(true);
+        setDocumentModified();
         m_dragItem = NULL;
         event->accept();
         return;
@@ -1309,7 +1309,7 @@ void CustomTrackView::slotAddGroupEffect(QDomElement effect, AbstractGroupItem *
     }
     if (count > 0) {
         m_commandStack->push(effectCommand);
-        m_document->setModified(true);
+        setDocumentModified();
     } else delete effectCommand;
 }
 
@@ -1365,7 +1365,7 @@ void CustomTrackView::slotAddEffect(QDomElement effect, GenTime pos, int track)
     }
     if (count > 0) {
         m_commandStack->push(effectCommand);
-        m_document->setModified(true);
+        setDocumentModified();
     } else delete effectCommand;
 }
 
@@ -1373,7 +1373,7 @@ void CustomTrackView::slotDeleteEffect(ClipItem *clip, QDomElement effect)
 {
     AddEffectCommand *command = new AddEffectCommand(this, m_document->tracksCount() - clip->track(), clip->startPos(), effect, false);
     m_commandStack->push(command);
-    m_document->setModified(true);
+    setDocumentModified();
 }
 
 void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement effect, int ix, bool triggeredByUser)
@@ -1415,7 +1415,7 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement effect, i
             }
         }
     }
-    m_document->setModified(true);
+    setDocumentModified();
 }
 
 void CustomTrackView::moveEffect(int track, GenTime pos, int oldPos, int newPos)
@@ -1429,7 +1429,7 @@ void CustomTrackView::moveEffect(int track, GenTime pos, int oldPos, int newPos)
         clip->setEffectAt(newPos - 1, before);
         emit clipItemSelected(clip, newPos - 1);
     }
-    m_document->setModified(true);
+    setDocumentModified();
 }
 
 void CustomTrackView::slotChangeEffectState(ClipItem *clip, int effectPos, bool disable)
@@ -1439,14 +1439,14 @@ void CustomTrackView::slotChangeEffectState(ClipItem *clip, int effectPos, bool 
     effect.setAttribute("disabled", disable);
     EditEffectCommand *command = new EditEffectCommand(this, m_document->tracksCount() - clip->track(), clip->startPos(), oldEffect, effect, effectPos, true);
     m_commandStack->push(command);
-    m_document->setModified(true);
+    setDocumentModified();;
 }
 
 void CustomTrackView::slotChangeEffectPosition(ClipItem *clip, int currentPos, int newPos)
 {
     MoveEffectCommand *command = new MoveEffectCommand(this, m_document->tracksCount() - clip->track(), clip->startPos(), currentPos, newPos);
     m_commandStack->push(command);
-    m_document->setModified(true);
+    setDocumentModified();
 }
 
 void CustomTrackView::slotUpdateClipEffect(ClipItem *clip, QDomElement oldeffect, QDomElement effect, int ix)
@@ -1499,7 +1499,7 @@ void CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut)
         if (dup->checkKeyFrames()) slotRefreshEffects(dup);
         item->baseClip()->addReference();
         m_document->updateClip(item->baseClip()->getId());
-        m_document->setModified(true);
+        setDocumentModified();
         kDebug() << "/////////  CUTTING CLIP RESULT: (" << item->startPos().frames(25) << "-" << item->endPos().frames(25) << "), DUP: (" << dup->startPos().frames(25) << "-" << dup->endPos().frames(25) << ")" << ", CUT: " << cutTime.frames(25);
         kDebug() << "//  CUTTING CLIP dONE";
     } else {
@@ -1534,7 +1534,7 @@ void CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut)
         bool success = m_document->renderer()->mltResizeClipEnd(clipinfo, info.endPos - info.startPos);
         if (success) {
             item->resizeEnd((int) info.endPos.frames(m_document->fps()));
-            m_document->setModified(true);
+            setDocumentModified();
         } else
             emit displayMessage(i18n("Error when resizing clip"), ErrorMessage);
 
@@ -1644,7 +1644,7 @@ void CustomTrackView::slotAddTransition(ClipItem* /*clip*/, ItemInfo transitionI
     }
     AddTransitionCommand* command = new AddTransitionCommand(this, transitionInfo, endTrack, transition, false, true);
     m_commandStack->push(command);
-    m_document->setModified(true);
+    setDocumentModified();
 }
 
 void CustomTrackView::addTransition(ItemInfo transitionInfo, int endTrack, QDomElement params)
@@ -1653,7 +1653,7 @@ void CustomTrackView::addTransition(ItemInfo transitionInfo, int endTrack, QDomE
     //kDebug() << "---- ADDING transition " << params.attribute("value");
     if (m_document->renderer()->mltAddTransition(tr->transitionTag(), endTrack, m_document->tracksCount() - transitionInfo.track, transitionInfo.startPos, transitionInfo.endPos, tr->toXML())) {
         scene()->addItem(tr);
-        m_document->setModified(true);
+        setDocumentModified();
     } else {
         emit displayMessage(i18n("Cannot add transition"), ErrorMessage);
         delete tr;
@@ -1671,7 +1671,7 @@ void CustomTrackView::deleteTransition(ItemInfo transitionInfo, int endTrack, QD
     if (m_dragItem == item) m_dragItem = NULL;
     delete item;
     emit transitionItemSelected(NULL);
-    m_document->setModified(true);
+    setDocumentModified();
 }
 
 void CustomTrackView::slotTransitionUpdated(Transition *tr, QDomElement old)
@@ -1679,7 +1679,7 @@ void CustomTrackView::slotTransitionUpdated(Transition *tr, QDomElement old)
     kDebug() << "TRANS UPDATE, TRACKS: " << old.attribute("transition_btrack") << ", NEW: " << tr->toXML().attribute("transition_btrack");
     EditTransitionCommand *command = new EditTransitionCommand(this, tr->track(), tr->startPos(), old, tr->toXML(), false);
     m_commandStack->push(command);
-    m_document->setModified(true);
+    setDocumentModified();
 }
 
 void CustomTrackView::updateTransition(int track, GenTime pos, QDomElement oldTransition, QDomElement transition, bool updateTransitionWidget)
@@ -1703,7 +1703,7 @@ void CustomTrackView::updateTransition(int track, GenTime pos, QDomElement oldTr
         }
         emit transitionItemSelected(item, getPreviousVideoTrack(info.track), p, true);
     }
-    m_document->setModified(true);
+    setDocumentModified();
 }
 
 void CustomTrackView::dragMoveEvent(QDragMoveEvent * event)
@@ -1769,7 +1769,7 @@ void CustomTrackView::dropEvent(QDropEvent * event)
             item->setSelected(true);
         }
         m_commandStack->push(addCommand);
-        m_document->setModified(true);
+        setDocumentModified();
         m_changeSpeedAction->setEnabled(hasVideoClip);
         m_pasteEffectsAction->setEnabled(m_copiedItems.count() == 1);
         if (items.count() > 1) groupSelectedItems(true);
@@ -1957,7 +1957,7 @@ void CustomTrackView::slotSwitchTrackAudio(int ix)
     m_document->switchTrackAudio(tracknumber, !m_document->trackInfoAt(tracknumber).isMute);
     kDebug() << "NEXT TRK STATE: " << m_document->trackInfoAt(tracknumber).isMute << m_document->trackInfoAt(tracknumber).isBlind;
     m_document->renderer()->mltChangeTrackState(tracknumber + 1, m_document->trackInfoAt(tracknumber).isMute, m_document->trackInfoAt(tracknumber).isBlind);
-    m_document->setModified(true);
+    setDocumentModified();
 }
 
 void CustomTrackView::slotSwitchTrackLock(int ix)
@@ -1985,7 +1985,7 @@ void CustomTrackView::lockTrack(int ix, bool lock)
     }
     kDebug() << "NEXT TRK STATE: " << m_document->trackInfoAt(tracknumber).isLocked;
     viewport()->update();
-    m_document->setModified(true);
+    setDocumentModified();
 }
 
 void CustomTrackView::slotSwitchTrackVideo(int ix)
@@ -1993,7 +1993,7 @@ void CustomTrackView::slotSwitchTrackVideo(int ix)
     int tracknumber = m_document->tracksCount() - ix;
     m_document->switchTrackVideo(tracknumber - 1, !m_document->trackInfoAt(tracknumber - 1).isBlind);
     m_document->renderer()->mltChangeTrackState(tracknumber, m_document->trackInfoAt(tracknumber - 1).isMute, m_document->trackInfoAt(tracknumber - 1).isBlind);
-    m_document->setModified(true);
+    setDocumentModified();
 }
 
 void CustomTrackView::slotRemoveSpace()
@@ -2403,7 +2403,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                     KdenliveSettings::setSnaptopoints(snap);
                     emit displayMessage(i18n("Cannot move clip to position %1", m_document->timecode().getTimecodeFromFrames(m_dragItemInfo.startPos.frames(m_document->fps()))), ErrorMessage);
                 }
-                m_document->setModified(true);
+                setDocumentModified();
             }
             if (m_dragItem->type() == TRANSITIONWIDGET && (m_dragItemInfo.startPos != info.startPos || m_dragItemInfo.track != info.track)) {
                 Transition *transition = static_cast <Transition *>(m_dragItem);
@@ -2505,7 +2505,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                     m_selectionGroupInfo.startPos = GenTime(m_selectionGroup->scenePos().x(), m_document->fps());
                     m_selectionGroupInfo.track = m_selectionGroup->track();
                 }
-                m_document->setModified(true);
+                setDocumentModified();
             }
         }
         m_document->renderer()->doRefresh();
@@ -2734,7 +2734,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
         }
         emit transitionItemSelected(static_cast <Transition *>(m_dragItem), getPreviousVideoTrack(m_dragItem->track()), p);
     } else emit transitionItemSelected(NULL);
-    if (m_operationMode != NONE && m_operationMode != MOVE) m_document->setModified(true);
+    if (m_operationMode != NONE && m_operationMode != MOVE) setDocumentModified();
     m_operationMode = NONE;
 }
 
@@ -2764,7 +2764,7 @@ void CustomTrackView::deleteClip(ItemInfo info)
     if (m_dragItem == item) m_dragItem = NULL;
     delete item;
     item = NULL;
-    m_document->setModified(true);
+    setDocumentModified();
     m_document->renderer()->doRefresh();
 }
 
@@ -2866,7 +2866,7 @@ void CustomTrackView::doChangeClipSpeed(ItemInfo info, const double speed, const
         item->updateRectGeometry();
         if (item->cropDuration().frames(m_document->fps()) > endPos)
             item->AbstractClipItem::resizeEnd(info.startPos.frames(m_document->fps()) + endPos, speed);
-        m_document->setModified(true);
+        setDocumentModified();
     } else emit displayMessage(i18n("Invalid clip"), ErrorMessage);
 }
 
@@ -2942,7 +2942,7 @@ void CustomTrackView::doGroupClips(QList <ItemInfo> clipInfos, QList <ItemInfo> 
             }
             tr->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
         }
-        m_document->setModified(true);
+        setDocumentModified();
         return;
     }
 
@@ -2961,7 +2961,7 @@ void CustomTrackView::doGroupClips(QList <ItemInfo> clipInfos, QList <ItemInfo> 
     }
 
     groupSelectedItems(false, true);
-    m_document->setModified(true);
+    setDocumentModified();
 }
 
 void CustomTrackView::addClip(QDomElement xml, const QString &clipId, ItemInfo info, EffectsList effects)
@@ -2992,7 +2992,7 @@ void CustomTrackView::addClip(QDomElement xml, const QString &clipId, ItemInfo i
     for (int i = 0; i < item->effectsCount(); i++) {
         m_document->renderer()->mltAddEffect(info.track, info.startPos, item->getEffectArgs(item->effectAt(i)), false);
     }
-    m_document->setModified(true);
+    setDocumentModified();
     m_document->renderer()->doRefresh();
     m_waitingThumbs.append(item);
     m_thumbsTimer.start();
@@ -3149,7 +3149,7 @@ void CustomTrackView::moveClip(const ItemInfo start, const ItemInfo end)
             }
         }
         KdenliveSettings::setSnaptopoints(snap);
-        m_document->setModified(true);
+        setDocumentModified();
     } else {
         // undo last move and emit error message
         emit displayMessage(i18n("Cannot move clip to position %1", m_document->timecode().getTimecodeFromFrames(end.startPos.frames(m_document->fps()))), ErrorMessage);
@@ -3574,7 +3574,7 @@ void CustomTrackView::addMarker(const QString &id, const GenTime &pos, const QSt
     DocClipBase *base = m_document->clipManager()->getClipById(id);
     if (!comment.isEmpty()) base->addSnapMarker(pos, comment);
     else base->deleteSnapMarker(pos);
-    m_document->setModified(true);
+    setDocumentModified();
     viewport()->update();
 }
 
@@ -4206,7 +4206,7 @@ void CustomTrackView::slotInsertTrack(int ix)
         }
         AddTrackCommand *addTrack = new AddTrackCommand(this, ix, info, true);
         m_commandStack->push(addTrack);
-        m_document->setModified(true);
+        setDocumentModified();
     }
 }
 
@@ -4217,7 +4217,7 @@ void CustomTrackView::slotDeleteTrack(int ix)
     if (ok) {
         TrackInfo info = m_document->trackInfoAt(m_document->tracksCount() - ix - 1);
         deleteTimelineTrack(ix, info);
-        m_document->setModified(true);
+        setDocumentModified();
         /*AddTrackCommand* command = new AddTrackCommand(this, ix, info, false);
         m_commandStack->push(command);*/
     }
@@ -4253,7 +4253,7 @@ void CustomTrackView::slotChangeTrack(int ix)
             info.isBlind = true;
         }
         changeTimelineTrack(ix, info);
-        m_document->setModified(true);
+        setDocumentModified();
     }
 }
 
@@ -4591,7 +4591,7 @@ void CustomTrackView::doChangeClipType(const GenTime &pos, int track, bool video
         m_document->renderer()->mltUpdateClipProducer(m_document->tracksCount() - track, start, clip->baseClip()->producer(track));
     }
     clip->update();
-    m_document->setModified(true);
+    setDocumentModified();
 }
 
 void CustomTrackView::updateClipTypeActions(ClipItem *clip)
