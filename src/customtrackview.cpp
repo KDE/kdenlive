@@ -3736,17 +3736,14 @@ void CustomTrackView::setScale(double scaleFactor, double verticalScale)
     m_visualTip = NULL;
     delete m_animation;
     m_animation = NULL;
-
-    //setSceneRect(0, 0, m_projectDuration + 100 * scaleFactor, sceneRect().height());
+    double verticalPos = mapToScene(QPoint(0, viewport()->height() / 2)).y();
     setMatrix(matrix);
     int diff = sceneRect().width() - m_projectDuration;
     if (diff * matrix.m11() < 50) {
         if (matrix.m11() < 0.4) setSceneRect(0, 0, (m_projectDuration + 100 / matrix.m11()), sceneRect().height());
         else setSceneRect(0, 0, (m_projectDuration + 300), sceneRect().height());
     }
-
-    centerOn(QPointF(cursorPos(), m_tracksHeight));
-    //verticalScrollBar()->setValue(vert);*/
+    centerOn(QPointF(cursorPos(), verticalPos));
 }
 
 void CustomTrackView::slotRefreshGuides()
