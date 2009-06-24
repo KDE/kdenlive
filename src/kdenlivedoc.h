@@ -90,8 +90,8 @@ Q_OBJECT public:
     /** Used to inform main app of the current document loading progress */
     void loadingProgressed();
     void syncGuides(QList <Guide *> guides);
-    void setZoom(int factor);
-    int zoom() const;
+    void setZoom(int horizontal, int vertical);
+    QPoint zoom() const;
     double dar();
     double projectDuration() const;
     bool saveSceneList(const QString &path, const QString &scene);

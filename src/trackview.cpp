@@ -109,7 +109,7 @@ TrackView::TrackView(KdenliveDoc *doc, QWidget *parent) :
     connect(m_trackview, SIGNAL(mousePosition(int)), this, SIGNAL(mousePosition(int)));
     connect(m_trackview, SIGNAL(doTrackLock(int, bool)), this, SLOT(slotChangeTrackLock(int, bool)));
 
-    slotChangeZoom(m_doc->zoom());
+    slotChangeZoom(m_doc->zoom().x(), m_doc->zoom().y());
     slotSetZone(m_doc->zone());
 }
 
@@ -400,12 +400,21 @@ void TrackView::moveCursorPos(int pos)
     m_trackview->setCursorPos(pos, false);
 }
 
-void TrackView::slotChangeZoom(int factor)
+void TrackView::slotChangeZoom(int horizontal, int vertical)
 {
-    m_doc->setZoom(factor);
-    m_ruler->setPixelPerMark(factor);
-    m_scale = (double) FRAME_SIZE / m_ruler->comboScale[factor]; // m_ruler->comboScale[m_currentZoom] /
-    m_trackview->setScale(m_scale, m_scene->scale().y());
+    m_ruler->setPixelPerMark(horizontal);
+    m_scale = (double) FRAME_SIZE / m_ruler->comboScale[horizontal]; // m_ruler->comboScale[m_currentZoom] /
+
+    if (vertical == -1) {
+        // user called zoom
+        m_doc->setZoom(horizontal, m_verticalZoom);
+        m_trackview->setScale(m_scale, m_scene->scale().y());
+    } else {
+        m_verticalZoom = vertical;
+        if (m_verticalZoom == 0) m_trackview->setScale(m_scale, 0.5);
+        else m_trackview->setScale(m_scale, m_verticalZoom);
+        adjustTrackHeaders();
+    }
 }
 
 int TrackView::fitZoom() const
@@ -774,6 +783,7 @@ void TrackView::slotVerticalZoomDown()
 {
     if (m_verticalZoom == 0) return;
     m_verticalZoom--;
+    m_doc->setZoom(m_doc->zoom().x(), m_verticalZoom);
     if (m_verticalZoom == 0) m_trackview->setScale(m_scene->scale().x(), 0.5);
     else m_trackview->setScale(m_scene->scale().x(), 1);
     adjustTrackHeaders();
@@ -785,6 +795,7 @@ void TrackView::slotVerticalZoomUp()
 {
     if (m_verticalZoom == 2) return;
     m_verticalZoom++;
+    m_doc->setZoom(m_doc->zoom().x(), m_verticalZoom);
     /*KdenliveSettings::setTrackheight(KdenliveSettings::trackheight() * 2);
     m_trackview->checkTrackHeight(false);*/
     if (m_verticalZoom == 2) m_trackview->setScale(m_scene->scale().x(), 2);

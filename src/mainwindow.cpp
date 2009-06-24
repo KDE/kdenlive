@@ -1610,7 +1610,6 @@ void MainWindow::slotRenderProject()
     if (!m_renderWidget) {
         QString projectfolder = m_activeDocument ? m_activeDocument->projectFolder().path(KUrl::AddTrailingSlash) : KdenliveSettings::defaultprojectfolder();
         m_renderWidget = new RenderWidget(projectfolder, this);
-        connect(m_renderWidget, SIGNAL(doRender(const QStringList&, const QStringList&)), this, SLOT(slotDoRender(const QStringList&, const QStringList&)));
         connect(m_renderWidget, SIGNAL(selectedRenderProfile(const QString &, const QString &)), this, SLOT(slotSetDocumentRenderProfile(const QString &, const QString &)));
         connect(m_renderWidget, SIGNAL(prepareRenderingData(bool, bool, const QString&)), this, SLOT(slotPrepareRendering(bool, bool, const QString&)));
         connect(m_renderWidget, SIGNAL(abortProcess(const QString &)), this, SIGNAL(abortRenderJob(const QString &)));
@@ -1762,7 +1761,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     connect(trackView->projectView(), SIGNAL(clipItemSelected(ClipItem*, int)), this, SLOT(slotActivateEffectStackView()));
     connect(trackView->projectView(), SIGNAL(transitionItemSelected(Transition*, int, QPoint, bool)), m_transitionConfig, SLOT(slotTransitionItemSelected(Transition*, int, QPoint, bool)));
     connect(trackView->projectView(), SIGNAL(transitionItemSelected(Transition*, int, QPoint, bool)), this, SLOT(slotActivateTransitionView(Transition *)));
-    m_zoomSlider->setValue(doc->zoom());
+    m_zoomSlider->setValue(doc->zoom().x());
     connect(m_zoomSlider, SIGNAL(valueChanged(int)), trackView, SLOT(slotChangeZoom(int)));
     connect(trackView->projectView(), SIGNAL(zoomIn()), this, SLOT(slotZoomIn()));
     connect(trackView->projectView(), SIGNAL(zoomOut()), this, SLOT(slotZoomOut()));

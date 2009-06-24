@@ -61,7 +61,7 @@ public:
 
 public slots:
     void slotDeleteClip(const QString &clipId);
-    void slotChangeZoom(int factor);
+    void slotChangeZoom(int horizontal, int vertical = -1);
     void setDuration(int dur);
     void slotSetZone(QPoint p);
 
