@@ -243,12 +243,12 @@
        </widget>
       </item>
       <item row="4" column="0">
-       <widget class="QLabel" name="label_6">
+       <widget class="QLabel" name="unicode_link">
         <property name="locale">
          <locale language="English" country="UnitedStates"/>
         </property>
         <property name="text">
-         <string>Information about unicode characters: &lt;a href=&quot;http://decodeunicode.org&quot;&gt;http://decodeunicode.org&lt;/a&gt;</string>
+         <string/>
         </property>
         <property name="wordWrap">
          <bool>false</bool>

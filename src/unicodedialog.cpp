@@ -40,7 +40,7 @@ UnicodeDialog::UnicodeDialog(InputMethod inputMeth) :
 
     arrowUp->setShortcut(Qt::Key_Up);
     arrowDown->setShortcut(Qt::Key_Down);
-
+    unicode_link->setText(i18n("Information about unicode characters: <a href=\"http://decodeunicode.org\">http://decodeunicode.org</a>"));
     arrowUp->setToolTip(i18n("Previous Unicode character (Arrow Up)"));
     arrowDown->setToolTip(i18n("Next Unicode character (Arrow Down)"));
     unicodeNumber->setToolTip(i18n("Enter your Unicode number here. Allowed characters: [0-9] and [a-f]."));
