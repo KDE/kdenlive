@@ -169,11 +169,6 @@ void AbstractClipItem::resizeEnd(int posx, double speed, bool /*updateKeyFrames*
     }
 }
 
-GenTime AbstractClipItem::duration() const
-{
-    return m_cropDuration;
-}
-
 GenTime AbstractClipItem::startPos() const
 {
     return m_startPos;

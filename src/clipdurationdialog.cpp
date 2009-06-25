@@ -52,7 +52,7 @@ ClipDurationDialog::ClipDurationDialog(AbstractClipItem *clip, Timecode tc, QWid
 
     m_view.clip_position->setText(tc.getTimecode(m_clip->startPos(), m_fps));
     m_view.crop_position->setText(tc.getTimecode(m_clip->cropStart(), m_fps));
-    m_view.clip_duration->setText(tc.getTimecode(m_clip->duration(), m_fps));
+    m_view.clip_duration->setText(tc.getTimecode(m_clip->cropDuration(), m_fps));
     connect(m_view.position_up, SIGNAL(clicked()), this, SLOT(slotPosUp()));
     connect(m_view.position_down, SIGNAL(clicked()), this, SLOT(slotPosDown()));
     connect(m_view.crop_up, SIGNAL(clicked()), this, SLOT(slotCropUp()));

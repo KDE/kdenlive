@@ -182,7 +182,7 @@ void ClipItem::initEffect(QDomElement effect)
     }
     if (effect.attribute("tag") == "volume" || effect.attribute("tag") == "brightness") {
         if (effect.attribute("id") == "fadeout" || effect.attribute("id") == "fade_to_black") {
-            int end = (duration() + cropStart()).frames(m_fps);
+            int end = (cropDuration() + cropStart()).frames(m_fps);
             int start = end;
             if (effect.attribute("id") == "fadeout") {
                 if (m_effectList.hasEffect(QString(), "fade_to_black") == -1) {
@@ -739,9 +739,9 @@ void ClipItem::paint(QPainter *painter,
     pen.setStyle(Qt::DotLine);
     painter->setPen(pen);
     for (; it != markers.end(); ++it) {
-        pos = (*it).time() - cropStart();
+        pos = (*it).time() / m_speed - cropStart();
         if (pos > GenTime()) {
-            if (pos > duration()) break;
+            if (pos > cropDuration()) break;
             QLineF l(br.x() + pos.frames(m_fps), br.y(), br.x() + pos.frames(m_fps), br.bottom());
             QLineF l2 = painter->matrix().map(l);
             //framepos = scale * pos.frames(m_fps);
@@ -907,7 +907,7 @@ OPERATIONTYPE ClipItem::operationMode(QPointF pos)
         else setToolTip(i18n("Audio fade duration: %1s", GenTime(m_endFade, m_fps).seconds()));
         return FADEOUT;
     } else if ((rect.right() - pos.x() < maximumOffset) && (rect.bottom() - pos.y() > addtransitionOffset)) {
-        setToolTip(i18n("Clip duration: %1s", duration().seconds()));
+        setToolTip(i18n("Clip duration: %1s", cropDuration().seconds()));
         return RESIZEEND;
     } else if ((pos.x() - rect.x() < 16 / scale) && (rect.bottom() - pos.y() <= addtransitionOffset)) {
         setToolTip(i18n("Add transition"));
@@ -927,9 +927,9 @@ QList <GenTime> ClipItem::snapMarkers() const
     GenTime pos;
 
     for (int i = 0; i < markers.size(); i++) {
-        pos = markers.at(i) - cropStart();
+        pos = markers.at(i) / m_speed - cropStart();
         if (pos > GenTime()) {
-            if (pos > duration()) break;
+            if (pos > cropDuration()) break;
             else snaps.append(pos + startPos());
         }
     }
@@ -943,9 +943,9 @@ QList <CommentedTime> ClipItem::commentedSnapMarkers() const
     GenTime pos;
 
     for (int i = 0; i < markers.size(); i++) {
-        pos = markers.at(i).time() - cropStart();
+        pos = markers.at(i).time() / m_speed - cropStart();
         if (pos > GenTime()) {
-            if (pos > duration()) break;
+            if (pos > cropDuration()) break;
             else snaps.append(CommentedTime(pos + startPos(), markers.at(i).comment()));
         }
     }
@@ -1141,10 +1141,10 @@ void ClipItem::resizeEnd(int posx, double /*speed*/, bool updateKeyFrames)
     if (posx > max && maxDuration() != GenTime()) posx = max;
     if (posx == endPos().frames(m_fps)) return;
     //kDebug() << "// NEW POS: " << posx << ", OLD END: " << endPos().frames(m_fps);
-    const int previous = (cropStart() + duration()).frames(m_fps);
+    const int previous = (cropStart() + cropDuration()).frames(m_fps);
     AbstractClipItem::resizeEnd(posx, m_speed);
-    if ((int)(cropStart() + duration()).frames(m_fps) != previous) {
-        if (updateKeyFrames) checkEffectsKeyframesPos(previous, (cropStart() + duration()).frames(m_fps), false);
+    if ((int)(cropStart() + cropDuration()).frames(m_fps) != previous) {
+        if (updateKeyFrames) checkEffectsKeyframesPos(previous, (cropStart() + cropDuration()).frames(m_fps), false);
         if (m_hasThumbs && KdenliveSettings::videothumbnails()) {
             /*connect(m_clip->thumbProducer(), SIGNAL(thumbReady(int, QPixmap)), this, SLOT(slotThumbReady(int, QPixmap)));*/
             m_endThumbTimer->start(150);

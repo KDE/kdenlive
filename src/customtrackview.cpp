@@ -1062,7 +1062,7 @@ void CustomTrackView::mouseDoubleClickEvent(QMouseEvent *event)
                 QUndoCommand *moveCommand = new QUndoCommand();
                 moveCommand->setText(i18n("Edit clip"));
                 ItemInfo clipInfo = m_dragItem->info();
-                if (d.duration() < m_dragItem->duration() || d.cropStart() != clipInfo.cropStart) {
+                if (d.duration() < m_dragItem->cropDuration() || d.cropStart() != clipInfo.cropStart) {
                     // duration was reduced, so process it first
                     ItemInfo startInfo = clipInfo;
                     clipInfo.endPos = clipInfo.startPos + d.duration();
@@ -1075,7 +1075,7 @@ void CustomTrackView::mouseDoubleClickEvent(QMouseEvent *event)
                     clipInfo.endPos = m_dragItem->endPos() + (clipInfo.startPos - startInfo.startPos);
                     new MoveClipCommand(this, startInfo, clipInfo, true, moveCommand);
                 }
-                if (d.duration() > m_dragItem->duration()) {
+                if (d.duration() > m_dragItem->cropDuration()) {
                     // duration was increased, so process it after move
                     ItemInfo startInfo = clipInfo;
                     clipInfo.endPos = clipInfo.startPos + d.duration();
@@ -1206,7 +1206,7 @@ bool CustomTrackView::insertPossible(AbstractGroupItem *group, const QPoint &pos
             ClipItem *clip = static_cast <ClipItem *>(children.at(i));
             ItemInfo info = clip->info();
             kDebug() << " / / INSERT : " << pos.x();
-            QRectF shape = QRectF(clip->startPos().frames(m_document->fps()), clip->track() * m_tracksHeight + 1, clip->duration().frames(m_document->fps()) - 0.02, m_tracksHeight - 1);
+            QRectF shape = QRectF(clip->startPos().frames(m_document->fps()), clip->track() * m_tracksHeight + 1, clip->cropDuration().frames(m_document->fps()) - 0.02, m_tracksHeight - 1);
             kDebug() << " / / INSERT RECT: " << shape;
             path = path.united(QPolygonF(shape));
         }
@@ -1558,7 +1558,7 @@ void CustomTrackView::slotAddTransitionToSelectedClips(QDomElement transition)
             ClipItem *transitionClip = NULL;
             const int transitiontrack = getPreviousVideoTrack(info.track);
             GenTime pos = GenTime((int)(mapToScene(m_menuPosition).x()), m_document->fps());
-            if (pos < item->startPos() + item->duration() / 2) {
+            if (pos < item->startPos() + item->cropDuration() / 2) {
                 // add transition to clip start
                 info.startPos = item->startPos();
                 if (transitiontrack != 0) transitionClip = getClipItemAt((int) info.startPos.frames(m_document->fps()), m_document->tracksCount() - transitiontrack);
@@ -2676,7 +2676,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
         int ix = item->hasEffect("volume", "fadeout");
         if (ix != -1) {
             QDomElement oldeffect = item->effectAt(ix);
-            int end = (item->duration() + item->cropStart()).frames(m_document->fps());
+            int end = (item->cropDuration() + item->cropStart()).frames(m_document->fps());
             int start = item->fadeOut();
             if (start == 0) {
                 slotDeleteEffect(item, oldeffect);
@@ -2698,7 +2698,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
         ix = item->hasEffect("brightness", "fade_to_black");
         if (ix != -1) {
             QDomElement oldeffect = item->effectAt(ix);
-            int end = (item->duration() + item->cropStart()).frames(m_document->fps());
+            int end = (item->cropDuration() + item->cropStart()).frames(m_document->fps());
             int start = item->fadeOut();
             if (start == 0) {
                 slotDeleteEffect(item, oldeffect);
@@ -3436,7 +3436,7 @@ double CustomTrackView::getSnapPointForPos(double pos)
 void CustomTrackView::updateSnapPoints(AbstractClipItem *selected, QList <GenTime> offsetList, bool skipSelectedItems)
 {
     QList <GenTime> snaps;
-    if (selected && offsetList.isEmpty()) offsetList.append(selected->duration());
+    if (selected && offsetList.isEmpty()) offsetList.append(selected->cropDuration());
     QList<QGraphicsItem *> itemList = items();
     for (int i = 0; i < itemList.count(); i++) {
         if (itemList.at(i) == selected) continue;
@@ -4433,7 +4433,7 @@ void CustomTrackView::doSplitAudio(const GenTime &pos, int track, bool split)
             kDebug() << "// CHK DOC TRK:" << freetrack << ", DUR:" << m_document->renderer()->mltTrackDuration(freetrack);
             if (m_document->trackInfoAt(freetrack - 1).type == AUDIOTRACK) {
                 kDebug() << "// CHK DOC TRK:" << freetrack << ", DUR:" << m_document->renderer()->mltTrackDuration(freetrack);
-                if (m_document->renderer()->mltTrackDuration(freetrack) < start || m_document->renderer()->mltGetSpaceLength(pos, freetrack, false) >= clip->duration().frames(m_document->fps())) {
+                if (m_document->renderer()->mltTrackDuration(freetrack) < start || m_document->renderer()->mltGetSpaceLength(pos, freetrack, false) >= clip->cropDuration().frames(m_document->fps())) {
                     kDebug() << "FOUND SPACE ON TRK: " << freetrack;
                     break;
                 }

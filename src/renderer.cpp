@@ -1739,6 +1739,24 @@ void Render::mltInsertSpace(QMap <int, int> trackClipStartList, QMap <int, int> 
     m_mltConsumer->set("refresh", 1);
 }
 
+
+void Render::mltPasteEffects(Mlt::Producer *source, Mlt::Producer *dest)
+{
+    Mlt::Service sourceService(source->get_service());
+    Mlt::Service destService(dest->get_service());
+
+    // move all effects to the correct producer
+    int ct = 0;
+    Mlt::Filter *filter = sourceService.filter(ct);
+    while (filter) {
+        if (filter->get("kdenlive_ix") != 0) {
+            sourceService.detach(*filter);
+            destService.attach(*filter);
+        } else ct++;
+        filter = sourceService.filter(ct);
+    }
+}
+
 int Render::mltChangeClipSpeed(ItemInfo info, double speed, double oldspeed, Mlt::Producer *prod)
 {
     m_isBlocked = true;
@@ -1768,7 +1786,7 @@ int Render::mltChangeClipSpeed(ItemInfo info, double speed, double oldspeed, Mlt
         delete clip;
         return -1;
     }
-    delete clip;
+
     QString serv = clipparent.get("mlt_service");
     QString id = clipparent.get("id");
     //kDebug() << "CLIP SERVICE: " << serv;
@@ -1797,6 +1815,10 @@ int Render::mltChangeClipSpeed(ItemInfo info, double speed, double oldspeed, Mlt
             GenTime maxLength = GenTime(blankEnd, m_fps) - info.startPos;
             cut = slowprod->cut((int)(info.cropStart.frames(m_fps) / speed), (int)(info.cropStart.frames(m_fps) / speed + maxLength.frames(m_fps) - 1));
         } else cut = slowprod->cut((int)(info.cropStart.frames(m_fps) / speed), (int)((info.cropStart.frames(m_fps) + clipLength) / speed - 1));
+
+        // move all effects to the correct producer
+        mltPasteEffects(clip, cut);
+
         trackPlaylist.insert_at(startPos, *cut, 1);
         clipIndex = trackPlaylist.get_clip_index_at(startPos);
         newLength = trackPlaylist.clip_length(clipIndex);
@@ -1818,6 +1840,10 @@ int Render::mltChangeClipSpeed(ItemInfo info, double speed, double oldspeed, Mlt
             GenTime maxLength = GenTime(blankEnd, m_fps) - info.startPos;
             cut = prod->cut((int)(info.cropStart.frames(m_fps)), (int)(info.cropStart.frames(m_fps) + maxLength.frames(m_fps) - 1));
         } else cut = prod->cut((int)(info.cropStart.frames(m_fps)), (int)((info.cropStart + newDuration).frames(m_fps)) - 1);
+
+        // move all effects to the correct producer
+        mltPasteEffects(clip, cut);
+
         trackPlaylist.insert_at(startPos, *cut, 1);
         clipIndex = trackPlaylist.get_clip_index_at(startPos);
         newLength = trackPlaylist.clip_length(clipIndex);
@@ -1855,12 +1881,17 @@ int Render::mltChangeClipSpeed(ItemInfo info, double speed, double oldspeed, Mlt
             cut = slowprod->cut((int)(info.cropStart.frames(m_fps) / speed), (int)(info.cropStart.frames(m_fps) / speed + maxLength.frames(m_fps) - 1));
         } else cut = slowprod->cut((int)(info.cropStart.frames(m_fps) / speed), (int)((info.cropStart / speed + newDuration).frames(m_fps) - 1));
 
+        // move all effects to the correct producer
+        mltPasteEffects(clip, cut);
+
         trackPlaylist.insert_at(startPos, *cut, 1);
         clipIndex = trackPlaylist.get_clip_index_at(startPos);
         newLength = trackPlaylist.clip_length(clipIndex);
 
         mlt_service_unlock(service.get_service());
     }
+
+    delete clip;
     if (clipIndex + 1 == trackPlaylist.count()) mltCheckLength();
     m_isBlocked = false;
     return newLength;
@@ -2400,18 +2431,7 @@ void Render::mltUpdateClipProducer(int track, int pos, Mlt::Producer *prod)
     Mlt::Producer *clip = prod->cut(clipProducer.get_in(), clipProducer.get_out());
 
     // move all effects to the correct producer
-    Mlt::Service clipService(clipProducer.get_service());
-    Mlt::Service newClipService(clip->get_service());
-
-    int ct = 0;
-    Mlt::Filter *filter = clipService.filter(ct);
-    while (filter) {
-        if (filter->get("kdenlive_ix") != 0) {
-            clipService.detach(*filter);
-            newClipService.attach(*filter);
-        } else ct++;
-        filter = clipService.filter(ct);
-    }
+    mltPasteEffects(&clipProducer, clip);
 
     trackPlaylist.insert_at(pos, clip, 1);
     mlt_service_unlock(m_mltConsumer->get_service());
@@ -2488,18 +2508,7 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
             }
 
             // move all effects to the correct producer
-            Mlt::Service clipService(clipProducer.get_service());
-            Mlt::Service newClipService(clip->get_service());
-
-            int ct = 0;
-            Mlt::Filter *filter = clipService.filter(ct);
-            while (filter) {
-                if (filter->get("kdenlive_ix") != 0) {
-                    clipService.detach(*filter);
-                    newClipService.attach(*filter);
-                } else ct++;
-                filter = clipService.filter(ct);
-            }
+            mltPasteEffects(&clipProducer, clip);
 
             int newIndex = destTrackPlaylist.insert_at(moveEnd, clip, 1);
             destTrackPlaylist.consolidate_blanks(0);

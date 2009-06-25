@@ -55,7 +55,6 @@ public:
     virtual GenTime cropDuration() const ;
     virtual void resizeStart(int posx, double speed = 1.0);
     virtual void resizeEnd(int posx, double speed = 1.0, bool updateKeyFrames = true);
-    virtual GenTime duration() const;
     virtual double fps() const;
     virtual GenTime maxDuration() const;
     virtual void setCropStart(GenTime pos);

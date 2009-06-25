@@ -50,7 +50,7 @@ class Frame;
 class Producer;
 class Filter;
 class Profile;
-class Multitrack;
+class Service;
 };
 
 
@@ -221,6 +221,7 @@ private:   // Private attributes & methods
     /** Sets the description of this renderer to desc. */
     void closeMlt();
     void mltCheckLength();
+    void mltPasteEffects(Mlt::Producer *source, Mlt::Producer *dest);
     QMap<QString, QString> mltGetTransitionParamsFromXml(QDomElement xml);
     QMap<QString, Mlt::Producer *> m_slowmotionProducers;
     void buildConsumer();

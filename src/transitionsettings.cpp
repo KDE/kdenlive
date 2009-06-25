@@ -129,15 +129,15 @@ void TransitionSettings::slotTransitionItemSelected(Transition* t, int nextTrack
             else m_ui.transitionTrack->setCurrentIndex(0);
             m_ui.transitionTrack->blockSignals(false);
         }
-        if (update || t->duration() != m_transitionDuration || t->startPos() != m_transitionStart) {
-            m_transitionDuration = t->duration();
+        if (update || t->cropDuration() != m_transitionDuration || t->startPos() != m_transitionStart) {
+            m_transitionDuration = t->cropDuration();
             m_transitionStart = t->startPos();
             slotTransitionChanged(false, true);
         }
         return;
     } else if (update) return;
     if (t) {
-        m_transitionDuration = t->duration();
+        m_transitionDuration = t->cropDuration();
         m_transitionStart = t->startPos();
         m_ui.transitionTrack->blockSignals(true);
         if (!t->forcedTrack()) m_ui.transitionTrack->setCurrentIndex(0);

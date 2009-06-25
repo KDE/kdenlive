@@ -1935,7 +1935,7 @@ void MainWindow::slotAddClipMarker()
         if (m_activeTimeline) {
             ClipItem *item = m_activeTimeline->projectView()->getActiveClipUnderCursor();
             if (item) {
-                pos = m_projectMonitor->position() - item->startPos() + item->cropStart();
+                pos = (m_projectMonitor->position() - item->startPos() + item->cropStart()) / item->speed();
                 clip = item->baseClip();
             }
         }
@@ -1964,7 +1964,7 @@ void MainWindow::slotDeleteClipMarker()
         if (m_activeTimeline) {
             ClipItem *item = m_activeTimeline->projectView()->getActiveClipUnderCursor();
             if (item) {
-                pos = m_projectMonitor->position() - item->startPos() + item->cropStart();
+                pos = (m_projectMonitor->position() - item->startPos() + item->cropStart()) / item->speed();
                 clip = item->baseClip();
             }
         }
@@ -2017,7 +2017,7 @@ void MainWindow::slotEditClipMarker()
         if (m_activeTimeline) {
             ClipItem *item = m_activeTimeline->projectView()->getActiveClipUnderCursor();
             if (item) {
-                pos = m_projectMonitor->position() - item->startPos() + item->cropStart();
+                pos = (m_projectMonitor->position() - item->startPos() + item->cropStart()) / item->speed();
                 clip = item->baseClip();
             }
         }
