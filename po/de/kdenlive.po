@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-06-25 14:26+0200\n"
-"PO-Revision-Date: 2009-06-25 15:16+0200\n"
+"PO-Revision-Date: 2009-06-25 15:29+0200\n"
 "Last-Translator: Markus Slopianka <kamikazow@web.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -27,14 +27,12 @@ msgid "%1 images found"
 msgstr "%1 Bilder gefunden"
 
 #: src/titlewidget.cpp:873 rc.cpp:684 rc.cpp:2076
-#, fuzzy
 msgid "+X"
-msgstr "X"
+msgstr "+X"
 
 #: src/titlewidget.cpp:898 rc.cpp:687 rc.cpp:2079
-#, fuzzy
 msgid "+Y"
-msgstr "Y"
+msgstr "+Y"
 
 #: rc.cpp:603 rc.cpp:606 rc.cpp:609 rc.cpp:612 rc.cpp:615 rc.cpp:618
 #: rc.cpp:621 rc.cpp:624 rc.cpp:630 rc.cpp:633 rc.cpp:970 rc.cpp:976
@@ -285,23 +283,20 @@ msgid "Add Profile"
 msgstr "Profil hinzufügen"
 
 #: src/titlewidget.cpp:151
-#, fuzzy
 msgid "Add Rectangle (Alt+R)"
-msgstr "Rechteck hinzufügen"
+msgstr "Rechteck hinzufügen (Alt+R)"
 
 #: src/mainwindow.cpp:1118 src/slideshowclip.cpp:35
 msgid "Add Slideshow Clip"
 msgstr "Diashow-Clip hinzufügen"
 
 #: src/mainwindow.cpp:1126
-#, fuzzy
 msgid "Add Template Title"
-msgstr "Video-Datei hinzufügen"
+msgstr "Vorlagentitel hinzufügen"
 
 #: src/titlewidget.cpp:156
-#, fuzzy
 msgid "Add Text (Alt+T)"
-msgstr "Text hinzufügen"
+msgstr "Text hinzufügen (Alt+T)"
 
 #: src/mainwindow.cpp:1122
 msgid "Add Title Clip"
@@ -642,12 +637,11 @@ msgstr "Basisoperationen"
 
 #: src/renderwidget.cpp:232
 msgid "Beginning"
-msgstr ""
+msgstr "Starte"
 
 #: src/trackview.cpp:79
-#, fuzzy
 msgid "Bigger tracks"
-msgstr "Videospuren"
+msgstr "Größere Spuren"
 
 #: src/transitionsettings.cpp:73
 msgid "Black"
@@ -670,9 +664,8 @@ msgid "Border color"
 msgstr "Rahmenfarbe"
 
 #: src/titlewidget.cpp:134
-#, fuzzy
 msgid "Border transparency"
-msgstr "Transparenz verwenden"
+msgstr "Rand-Transparenz"
 
 #: src/geometryval.cpp:96 rc.cpp:70
 msgid "Bottom"
@@ -741,12 +734,10 @@ msgid "C"
 msgstr "C"
 
 #: src/customtrackview.cpp:1345
-#, fuzzy
 msgid "Cannot add a video effect to this clip"
 msgstr "Problem beim Hinzufügen des Effekts zum Clip"
 
 #: src/customtrackview.cpp:1339
-#, fuzzy
 msgid "Cannot add an audio effect to this clip"
 msgstr "Problem beim Hinzufügen des Effekts zum Clip"
 
@@ -1072,9 +1063,8 @@ msgid "Clone"
 msgstr "Duplizieren"
 
 #: rc.cpp:484 rc.cpp:1876
-#, fuzzy
 msgid "Clone title clip"
-msgstr "Clip löschen"
+msgstr "Titel-Clip duplizieren"
 
 #: src/cliptranscode.cpp:129 rc.cpp:1501 rc.cpp:1516 rc.cpp:1537 rc.cpp:2893
 #: rc.cpp:2908 rc.cpp:2929
@@ -1314,7 +1304,7 @@ msgstr "DVD-Struktur beschädigt"
 
 #: src/dvdwizard.cpp:478
 msgid "DVDAuthor process crashed."
-msgstr ""
+msgstr "DVDAuthor-Prozess abgestürzt."
 
 #: rc.cpp:257 rc.cpp:267
 msgid "Damping"
@@ -1593,9 +1583,8 @@ msgid "Download New Render Profiles..."
 msgstr "Neue Render-Profile herunterladen …"
 
 #: src/mainwindow.cpp:830
-#, fuzzy
 msgid "Download New Wipes..."
-msgstr "Neue Lumas herunterladen …"
+msgstr "Neue Wipes herunterladen …"
 
 #: rc.cpp:549 rc.cpp:1941
 msgid "Drop B frames on H.264 clips"
@@ -2546,7 +2535,7 @@ msgstr "Tiefenverstärkung"
 
 #: src/dvdwizard.cpp:106
 msgid "Load"
-msgstr ""
+msgstr "Laden"
 
 #: src/titlewidget.cpp:341
 msgid "Load Image"
@@ -4564,7 +4553,7 @@ msgstr "Fenster"
 
 #: rc.cpp:1165 rc.cpp:1414 rc.cpp:2557 rc.cpp:2806
 msgid "Wipe"
-msgstr ""
+msgstr "Wipe"
 
 #: rc.cpp:1024 rc.cpp:2416
 msgid "X"
@@ -4604,6 +4593,8 @@ msgid ""
 "You have %1 rendering jobs waiting in the queue.\n"
 "What do you want to do with these jobs?"
 msgstr ""
+"Sie haben %1 Render-Aufgaben in der Warteschlange "
+"Was soll mit diesen Aufgaben geschehen?"
 
 #: src/kdenlivedoc.cpp:535
 #, kde-format
