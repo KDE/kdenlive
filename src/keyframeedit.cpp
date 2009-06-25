@@ -19,6 +19,7 @@
 #include "kdenlivesettings.h"
 
 #include <KDebug>
+#include <QHeaderView>
 
 
 KeyframeEdit::KeyframeEdit(QDomElement e, int max, Timecode tc, QWidget* parent) :
