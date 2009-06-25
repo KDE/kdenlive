@@ -461,9 +461,9 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
                 QPainterPath mouseArea;
                 mouseArea.addRect(e->scenePos().toPoint().x() - 4 / m_zoom, e->scenePos().toPoint().y() - 4 / m_zoom, 8 / m_zoom, 8 / m_zoom);
                 // Check for collisions between the mouse and the borders
-                if (borderLeft.collidesWithPath(mouseArea) && borderTop.collidesWithPath(mouseArea) || borderRight.collidesWithPath(mouseArea) && borderBottom.collidesWithPath(mouseArea))
+                if ((borderLeft.collidesWithPath(mouseArea) && borderTop.collidesWithPath(mouseArea)) || (borderRight.collidesWithPath(mouseArea) && borderBottom.collidesWithPath(mouseArea)))
                     setResizeCursor(borderLeft.line().angle() - 45);
-                else if (borderLeft.collidesWithPath(mouseArea) && borderBottom.collidesWithPath(mouseArea) || borderRight.collidesWithPath(mouseArea) && borderTop.collidesWithPath(mouseArea))
+                else if ((borderLeft.collidesWithPath(mouseArea) && borderBottom.collidesWithPath(mouseArea)) || (borderRight.collidesWithPath(mouseArea) && borderTop.collidesWithPath(mouseArea)))
                     setResizeCursor(borderLeft.line().angle() + 45);
                 else if (borderLeft.collidesWithPath(mouseArea) || borderRight.collidesWithPath(mouseArea))
                     setResizeCursor(borderLeft.line().angle());
