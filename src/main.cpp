@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
                          ki18n("Copyright (c) 2009 Development team"));
     aboutData.addAuthor(ki18n("Jean-Baptiste Mardelle"), ki18n("MLT porting, KDE 4 porting, Main developer"), "jb@kdenlive.org");
     aboutData.addAuthor(ki18n("Marco Gittler"), ki18n("MLT Connection, Transition, Effect, Timeline Developer"), "g.marco@freenet.de");
-    aboutData.addAuthor(ki18n("Jean-Michel Poure"), ki18n("Rendering profiles customisation"), "jm@poure.com");
+    aboutData.addAuthor(ki18n("Jean-Michel Poure"), ki18n("Rendering profiles customization"), "jm@poure.com");
     aboutData.addAuthor(ki18n("Ray Lehtiniemi"), ki18n("Bug fixing etc."), "rayl@mail.com");
     aboutData.addAuthor(ki18n("Dan Dennedy"), ki18n("Bug fixing etc."), "dan@dennedy.org");
     aboutData.addAuthor(ki18n("Jason Wood"), ki18n("Original KDE 3 version author (not active anymore)"), "jasonwood@blueyonder.co.uk");
