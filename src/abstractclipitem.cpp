@@ -242,7 +242,7 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, QRectF /*exposedRect*/)
 {
     if (m_keyframes.count() < 2) return;
     QRectF br = rect();
-    double maxw = br.width() / m_cropDuration.frames(m_fps);
+    double maxw = br.width() / cropDuration().frames(m_fps);
     double maxh = br.height() / 100.0 * m_keyframeFactor;
     double x1;
     double y1;
@@ -268,7 +268,7 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, QRectF /*exposedRect*/)
     // draw keyframes
     QMap<int, double>::const_iterator i = m_keyframes.constBegin();
     QColor color(Qt::blue);
-    x1 = br.x() + maxw * (i.key() - m_cropStart.frames(m_fps));
+    x1 = br.x() + maxw * (i.key() - cropStart().frames(m_fps));
     y1 = br.bottom() - i.value() * maxh;
     QLineF l2;
     while (i != m_keyframes.constEnd()) {
@@ -276,7 +276,7 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, QRectF /*exposedRect*/)
         else color = QColor(Qt::blue);
         ++i;
         if (i == m_keyframes.constEnd()) break;
-        x2 = br.x() + maxw * (i.key() - m_cropStart.frames(m_fps));
+        x2 = br.x() + maxw * (i.key() - cropStart().frames(m_fps));
         y2 = br.bottom() - i.value() * maxh;
         QLineF l(x1, y1, x2, y2);
         l2 = painter->matrix().map(l);
@@ -293,17 +293,17 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, QRectF /*exposedRect*/)
 int AbstractClipItem::mouseOverKeyFrames(QPointF pos)
 {
     QRectF br = sceneBoundingRect();
-    double maxw = br.width() / m_cropDuration.frames(m_fps);
+    double maxw = br.width() / cropDuration().frames(m_fps);
     double maxh = br.height() / 100.0 * m_keyframeFactor;
     if (m_keyframes.count() > 1) {
         QMap<int, double>::const_iterator i = m_keyframes.constBegin();
         double x1;
         double y1;
         while (i != m_keyframes.constEnd()) {
-            x1 = br.x() + maxw * (i.key() - m_cropStart.frames(m_fps));
+            x1 = br.x() + maxw * (i.key() - cropStart().frames(m_fps));
             y1 = br.bottom() - i.value() * maxh;
             if (qAbs(pos.x() - x1) < 6 && qAbs(pos.y() - y1) < 6) {
-                setToolTip('[' + QString::number((GenTime(i.key(), m_fps) - m_cropStart).seconds(), 'f', 2) + i18n("seconds") + ", " + QString::number(i.value(), 'f', 1) + "%]");
+                setToolTip('[' + QString::number((GenTime(i.key(), m_fps) - cropStart()).seconds(), 'f', 2) + i18n("seconds") + ", " + QString::number(i.value(), 'f', 1) + "%]");
                 return i.key();
             } else if (x1 > pos.x()) break;
             ++i;
@@ -317,11 +317,11 @@ void AbstractClipItem::updateSelectedKeyFrame()
 {
     if (m_editedKeyframe == -1) return;
     QRectF br = sceneBoundingRect();
-    double maxw = br.width() / m_cropDuration.frames(m_fps);
+    double maxw = br.width() / cropDuration().frames(m_fps);
     double maxh = br.height() / 100.0 * m_keyframeFactor;
-    update(br.x() + maxw *(m_selectedKeyframe - m_cropStart.frames(m_fps)) - 3, br.bottom() - m_keyframes[m_selectedKeyframe] * maxh - 3, 12, 12);
+    update(br.x() + maxw *(m_selectedKeyframe - cropStart().frames(m_fps)) - 3, br.bottom() - m_keyframes[m_selectedKeyframe] * maxh - 3, 12, 12);
     m_selectedKeyframe = m_editedKeyframe;
-    update(br.x() + maxw *(m_selectedKeyframe - m_cropStart.frames(m_fps)) - 3, br.bottom() - m_keyframes[m_selectedKeyframe] * maxh - 3, 12, 12);
+    update(br.x() + maxw *(m_selectedKeyframe - cropStart().frames(m_fps)) - 3, br.bottom() - m_keyframes[m_selectedKeyframe] * maxh - 3, 12, 12);
 }
 
 int AbstractClipItem::selectedKeyFramePos() const
@@ -338,8 +338,8 @@ void AbstractClipItem::updateKeyFramePos(const GenTime pos, const double value)
 {
     if (!m_keyframes.contains(m_selectedKeyframe)) return;
     int newpos = (int) pos.frames(m_fps);
-    int start = m_cropStart.frames(m_fps);
-    int end = (m_cropStart + m_cropDuration).frames(m_fps);
+    int start = cropStart().frames(m_fps);
+    int end = (cropStart() + cropDuration()).frames(m_fps);
     newpos = qMax(newpos, start);
     newpos = qMin(newpos, end);
     if (value < -50 && m_selectedKeyframe != start && m_selectedKeyframe != end) {

@@ -174,7 +174,7 @@ void ClipItem::initEffect(QDomElement effect)
             QString def = e.attribute("default");
             // Effect has a keyframe type parameter, we need to set the values
             if (e.attribute("keyframes").isEmpty()) {
-                e.setAttribute("keyframes", QString::number(m_cropStart.frames(m_fps)) + ':' + def + ';' + QString::number((m_cropStart + m_cropDuration).frames(m_fps)) + ':' + def);
+                e.setAttribute("keyframes", QString::number(cropStart().frames(m_fps)) + ':' + def + ';' + QString::number((cropStart() + cropDuration()).frames(m_fps)) + ':' + def);
                 //kDebug() << "///// EFFECT KEYFRAMES INITED: " << e.attribute("keyframes");
                 break;
             }
