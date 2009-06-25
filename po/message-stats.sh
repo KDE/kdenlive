@@ -1,6 +1,7 @@
 #! /bin/sh
 
 MAX=1106
+echo "document.getElementById(\"lastupdated\").innerHTML = \""`date`"\";" > poprogress.js
 
 for f in *; do
   if test -d "$f"; then
@@ -14,5 +15,4 @@ for f in *; do
   fi
 done
 
-      #test -f "$f/kdenlive.po" && msgfmt --statistics "$f/kdenlive.po";
 
