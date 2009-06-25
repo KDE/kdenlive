@@ -495,17 +495,19 @@ void MainWindow::generateClip()
     }
 }
 
-void MainWindow::saveProperties(KConfig*)
+void MainWindow::saveProperties(KConfigGroup &config)
 {
     // save properties here,used by session management
     saveFile();
+    KMainWindow::saveProperties(config);
 }
 
 
-void MainWindow::readProperties(KConfig *config)
+void MainWindow::readProperties(const KConfigGroup &config)
 {
     // read properties here,used by session management
-    QString Lastproject = config->group("Recent Files").readPathEntry("File1", QString());
+    KMainWindow::readProperties(config);
+    QString Lastproject = config.group("Recent Files").readPathEntry("File1", QString());
     openFile(KUrl(Lastproject));
 }
 

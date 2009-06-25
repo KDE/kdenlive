@@ -93,14 +93,14 @@ protected:
      * This function is called when it is time for the app to save its
      * properties for session management purposes.
      */
-    void saveProperties(KConfig *);
+    virtual void saveProperties(KConfigGroup &config);
 
     /**
      * This function is called when this app is restored.  The KConfig
      * object points to the session management config file that was saved
      * with @ref saveProperties
      */
-    void readProperties(KConfig *);
+    virtual void readProperties(const KConfigGroup &config);
 
 private:
     KTabWidget* m_timelineArea;
