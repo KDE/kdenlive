@@ -18,6 +18,9 @@
 #include "titlewidget.h"
 #include "kdenlivesettings.h"
 
+#include <cmath>
+#include <iostream>
+
 #include <KDebug>
 #include <KGlobalSettings>
 #include <KFileDialog>
@@ -90,7 +93,9 @@ TitleWidget::TitleWidget(KUrl url, QString projectTitlePath, Render *render, QWi
 
     connect(value_x, SIGNAL(valueChanged(int)), this, SLOT(slotAdjustSelectedItem()));
     connect(value_y, SIGNAL(valueChanged(int)), this, SLOT(slotAdjustSelectedItem()));
+    connect(value_w, SIGNAL(valueChanged(int)), this, SLOT(slotValueChanged(ValueWidth, int)));
     connect(value_w, SIGNAL(valueChanged(int)), this, SLOT(slotAdjustSelectedItem()));
+    connect(value_h, SIGNAL(valueChanged(int)), this, SLOT(slotValueChanged(ValueHeight, int)));
     connect(value_h, SIGNAL(valueChanged(int)), this, SLOT(slotAdjustSelectedItem()));
     connect(buttonFitZoom, SIGNAL(clicked()), this, SLOT(slotAdjustZoom()));
     connect(buttonRealSize, SIGNAL(clicked()), this, SLOT(slotZoomOneToOne()));
@@ -410,6 +415,8 @@ void TitleWidget::enableToolbars(TITLETOOL toolType)
         break;
     case TITLE_IMAGE:
         bFrame = true;
+        bValue_w = true;
+        bValue_h = true;
         break;
     default:
         break;
@@ -672,6 +679,51 @@ void TitleWidget::selectionChanged()
     }
 }
 
+void TitleWidget::slotValueChanged(ValueType type, int val)
+{
+    std::cerr << "v";
+    QList<QGraphicsItem *> l = graphicsView->scene()->selectedItems();
+    if (l.size() > 0 && l.at(0)->type() == IMAGEITEM) {
+        std::cerr << "i";
+        QGraphicsItem *i = l.at(0);
+        Transform t = m_transformations.value(i);
+
+        // Ratio width:height
+        double phi = (double) i->boundingRect().width() / i->boundingRect().height();
+        double alpha = (double) t.rotate / 180.0 * M_PI;
+
+        // New length
+        double length = val;
+
+        // Scaling factor
+        double scale = 1;
+
+        switch (type) {
+        case ValueWidth:
+            // Add 0.5 because otherwise incrementing by 1 might have no effect
+            length = val / (cos(alpha) + 1 / phi * sin(alpha)) + 0.5;
+            scale = length / i->boundingRect().width();
+            std::cerr << "w";
+            break;
+        case ValueHeight:
+            length = val / (phi * sin(alpha) + cos(alpha)) + 0.5;
+            scale = length / i->boundingRect().height();
+            break;
+        }
+
+        t.scalex = scale;
+        t.scaley = scale;
+        QTransform qtrans;
+        qtrans.scale(scale, scale);
+        qtrans.rotate(t.rotate);
+        i->setTransform(qtrans);
+        m_transformations[i] = t;
+
+        updateDimension(i);
+        updateRotZoom(i);
+    }
+}
+
 /** \brief Updates position/size of the selected item when a value
  * of an item (coordinates, size) has changed */
 void TitleWidget::slotAdjustSelectedItem()
@@ -696,11 +748,8 @@ void TitleWidget::slotAdjustSelectedItem()
 /** \brief Updates width/height int the text fields, regarding transformation matrix */
 void TitleWidget::updateDimension(QGraphicsItem *i)
 {
-    bool blockW = !value_w->signalsBlocked();
-    bool blockH = !value_h->signalsBlocked();
-
-    if (blockW) value_w->blockSignals(true);
-    if (blockH) value_h->blockSignals(true);
+    value_w->blockSignals(true);
+    value_h->blockSignals(true);
 
 
     if (i->type() == IMAGEITEM) {
@@ -725,8 +774,8 @@ void TitleWidget::updateDimension(QGraphicsItem *i)
         value_h->setValue((int) t->boundingRect().height());
     }
 
-    if (blockW) value_w->blockSignals(false);
-    if (blockH) value_h->blockSignals(false);
+    value_w->blockSignals(false);
+    value_h->blockSignals(false);
 }
 
 /** \brief Updates the coordinates in the text fields from the item */
@@ -793,6 +842,19 @@ void TitleWidget::updateCoordinates(QGraphicsItem *i)
     // Stop blocking signals now
     value_x->blockSignals(false);
     value_y->blockSignals(false);
+}
+
+void TitleWidget::updateRotZoom(QGraphicsItem *i)
+{
+    itemzoom->blockSignals(true);
+    itemrotate->blockSignals(false);
+
+    Transform t = m_transformations.value(i);
+    itemzoom->setValue((int)(t.scalex * 100.0 + 0.5));
+    itemrotate->setValue((int)(t.rotate));
+
+    itemzoom->blockSignals(false);
+    itemrotate->blockSignals(false);
 }
 
 /** \brief Updates the position of an item by reading coordinates from the text fields */

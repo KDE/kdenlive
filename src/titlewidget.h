@@ -99,13 +99,20 @@ private:
     UnicodeDialog *m_unicodeDialog;
     /** project path for storing title clips */
     QString m_projectTitlePath;
+
+    enum ValueType { ValueWidth, ValueHeight };
+
     /** \brief Store the current choices of font, background and rect values */
     void writeChoices();
     /** \brief Read the last stored choices into the dialog */
     void readChoices();
-    /** \brief Update the displayed X/Y coordinates */
+    /** \brief Update the displayed X/Y coordinate values */
     void updateCoordinates(QGraphicsItem *i);
+    /** \brief Update displayed width/height values */
     void updateDimension(QGraphicsItem *i);
+    /** \brief Update displayed rotation/zoom values */
+    void updateRotZoom(QGraphicsItem *i);
+
     /** \brief Update the item's position */
     void updatePosition(QGraphicsItem *i);
 
@@ -181,6 +188,8 @@ private slots:
 
     /** \brief Update coorinates of text fields if necessary and text has changed */
     void slotChanged();
+
+    void slotValueChanged(ValueType type, int val);
 
     void slotZoom(bool up);
     void slotUpdateZoom(int pos);
