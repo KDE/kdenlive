@@ -96,6 +96,8 @@ private:
     QAction *m_buttonCursor;
     QAction *m_buttonSave;
     QAction *m_buttonLoad;
+
+    QAction *m_unicodeAction;
     /** \brief Dialog for entering unicode in text fields */
     UnicodeDialog *m_unicodeDialog;
     /** project path for storing title clips */

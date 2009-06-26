@@ -111,7 +111,7 @@ TitleWidget::TitleWidget(KUrl url, QString projectTitlePath, Render *render, QWi
     connect(buttonAlignRight, SIGNAL(clicked()), this, SLOT(slotUpdateText()));
     connect(buttonAlignCenter, SIGNAL(clicked()), this, SLOT(slotUpdateText()));
     connect(buttonAlignNone, SIGNAL(clicked()), this, SLOT(slotUpdateText()));
-    connect(buttonInsertUnicode, SIGNAL(clicked()), this, SLOT(slotInsertUnicode()));
+    //connect(buttonInsertUnicode, SIGNAL(clicked()), this, SLOT(slotInsertUnicode()));
     connect(displayBg, SIGNAL(stateChanged(int)), this, SLOT(displayBackgroundFrame()));
 
     connect(m_unicodeDialog, SIGNAL(charSelected(QString)), this, SLOT(slotInsertUnicodeString(QString)));
@@ -128,14 +128,18 @@ TitleWidget::TitleWidget(KUrl url, QString projectTitlePath, Render *render, QWi
     buttonAlignLeft->setIcon(KIcon("format-justify-left"));
     buttonAlignRight->setIcon(KIcon("format-justify-right"));
     buttonAlignNone->setIcon(KIcon("kdenlive-align-none"));
-    buttonInsertUnicode->setIcon(KIcon("kdenlive-insert-unicode"));
 
     buttonAlignNone->setToolTip(i18n("No alignment"));
     buttonAlignRight->setToolTip(i18n("Align right"));
     buttonAlignLeft->setToolTip(i18n("Align left"));
     buttonAlignCenter->setToolTip(i18n("Align center"));
-    buttonInsertUnicode->setToolTip(i18n("Insert Unicode character (Shift+Ctrl+U)"));
-    buttonInsertUnicode->setShortcut(Qt::SHIFT + Qt::CTRL + Qt::Key_U);
+
+    m_unicodeAction = new QAction(KIcon("kdenlive-insert-unicode"), QString(), this);
+    m_unicodeAction->setShortcut(Qt::SHIFT + Qt::CTRL + Qt::Key_U);
+    m_unicodeAction->setToolTip(i18n("Insert Unicode character") + ' ' + m_unicodeAction->shortcut().toString());
+    connect(m_unicodeAction, SIGNAL(triggered()), this, SLOT(slotInsertUnicode()));
+    buttonInsertUnicode->setDefaultAction(m_unicodeAction);
+
     origin_x_left->setToolTip(i18n("Invert x axis and change 0 point"));
     origin_y_top->setToolTip(i18n("Invert y axis and change 0 point"));
     rectBColor->setToolTip(i18n("Select fill color"));
@@ -158,24 +162,28 @@ TitleWidget::TitleWidget(KUrl url, QString projectTitlePath, Render *render, QWi
     layout->setContentsMargins(2, 2, 2, 2);
     QToolBar *m_toolbar = new QToolBar("titleToolBar", this);
 
-    m_buttonCursor = m_toolbar->addAction(KIcon("transform-move"), i18n("Selection Tool (Alt+S)"));
+    m_buttonCursor = m_toolbar->addAction(KIcon("transform-move"), QString());
     m_buttonCursor->setCheckable(true);
     m_buttonCursor->setShortcut(Qt::ALT + Qt::Key_S);
+    m_buttonCursor->setToolTip(i18n("Selection Tool") + ' ' + m_buttonCursor->shortcut().toString());
     connect(m_buttonCursor, SIGNAL(triggered()), this, SLOT(slotSelectTool()));
 
-    m_buttonText = m_toolbar->addAction(KIcon("insert-text"), i18n("Add Text (Alt+T)"));
+    m_buttonText = m_toolbar->addAction(KIcon("insert-text"), QString());
     m_buttonText->setCheckable(true);
     m_buttonText->setShortcut(Qt::ALT + Qt::Key_T);
+    m_buttonText->setToolTip(i18n("Add Text") + ' ' + m_buttonText->shortcut().toString());
     connect(m_buttonText, SIGNAL(triggered()), this, SLOT(slotTextTool()));
 
-    m_buttonRect = m_toolbar->addAction(KIcon("kdenlive-insert-rect"), i18n("Add Rectangle (Alt+R)"));
+    m_buttonRect = m_toolbar->addAction(KIcon("kdenlive-insert-rect"), QString());
     m_buttonRect->setCheckable(true);
     m_buttonRect->setShortcut(Qt::ALT + Qt::Key_R);
+    m_buttonRect->setToolTip(i18n("Add Rectangle") + ' ' + m_buttonRect->shortcut().toString());
     connect(m_buttonRect, SIGNAL(triggered()), this, SLOT(slotRectTool()));
 
-    m_buttonImage = m_toolbar->addAction(KIcon("insert-image"), i18n("Add Image (Alt+I)"));
+    m_buttonImage = m_toolbar->addAction(KIcon("insert-image"), QString());
     m_buttonImage->setCheckable(false);
     m_buttonImage->setShortcut(Qt::ALT + Qt::Key_I);
+    m_buttonImage->setToolTip(i18n("Add Image") + ' ' + m_buttonImage->shortcut().toString());
     connect(m_buttonImage, SIGNAL(triggered()), this, SLOT(slotImageTool()));
 
     m_toolbar->addSeparator();
@@ -260,6 +268,7 @@ TitleWidget::~TitleWidget()
     delete m_buttonCursor;
     delete m_buttonSave;
     delete m_buttonLoad;
+    delete m_unicodeAction;
 
     delete m_unicodeDialog;
     delete m_frameBorder;
