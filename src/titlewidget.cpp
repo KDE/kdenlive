@@ -19,7 +19,6 @@
 #include "kdenlivesettings.h"
 
 #include <cmath>
-#include <iostream>
 
 #include <KDebug>
 #include <KGlobalSettings>
@@ -33,6 +32,7 @@
 #include <QTimer>
 #include <QToolBar>
 #include <QMenu>
+#include <QSignalMapper>
 #include <QTextBlockFormat>
 #include <QTextCursor>
 
@@ -60,9 +60,9 @@ TitleWidget::TitleWidget(KUrl url, QString projectTitlePath, Render *render, QWi
     text_properties->setFixedHeight(frame_properties->height() + 4);
     m_frameWidth = render->renderWidth();
     m_frameHeight = render->renderHeight();
+
     connect(kcolorbutton, SIGNAL(clicked()), this, SLOT(slotChangeBackground())) ;
     connect(horizontalSlider, SIGNAL(valueChanged(int)), this, SLOT(slotChangeBackground())) ;
-
 
     connect(fontColorButton, SIGNAL(clicked()), this, SLOT(slotUpdateText())) ;
     connect(font_family, SIGNAL(currentFontChanged(const QFont &)), this, SLOT(slotUpdateText())) ;
@@ -91,11 +91,16 @@ TitleWidget::TitleWidget(KUrl url, QString projectTitlePath, Render *render, QWi
     connect(origin_x_left, SIGNAL(clicked()), this, SLOT(slotOriginXClicked()));
     connect(origin_y_top, SIGNAL(clicked()), this, SLOT(slotOriginYClicked()));
 
+    m_signalMapper = new QSignalMapper(this);
+    m_signalMapper->setMapping(value_w, ValueWidth);
+    m_signalMapper->setMapping(value_h, ValueHeight);
+    connect(value_w, SIGNAL(valueChanged(int)), m_signalMapper, SLOT(map()));
+    connect(value_h, SIGNAL(valueChanged(int)), m_signalMapper, SLOT(map()));
+    connect(m_signalMapper, SIGNAL(mapped(int)), this, SLOT(slotValueChanged(int)));
+
     connect(value_x, SIGNAL(valueChanged(int)), this, SLOT(slotAdjustSelectedItem()));
     connect(value_y, SIGNAL(valueChanged(int)), this, SLOT(slotAdjustSelectedItem()));
-    connect(value_w, SIGNAL(valueChanged(int)), this, SLOT(slotValueChanged(ValueWidth, int)));
     connect(value_w, SIGNAL(valueChanged(int)), this, SLOT(slotAdjustSelectedItem()));
-    connect(value_h, SIGNAL(valueChanged(int)), this, SLOT(slotValueChanged(ValueHeight, int)));
     connect(value_h, SIGNAL(valueChanged(int)), this, SLOT(slotAdjustSelectedItem()));
     connect(buttonFitZoom, SIGNAL(clicked()), this, SLOT(slotAdjustZoom()));
     connect(buttonRealSize, SIGNAL(clicked()), this, SLOT(slotZoomOneToOne()));
@@ -153,25 +158,25 @@ TitleWidget::TitleWidget(KUrl url, QString projectTitlePath, Render *render, QWi
     layout->setContentsMargins(2, 2, 2, 2);
     QToolBar *m_toolbar = new QToolBar("titleToolBar", this);
 
-    m_buttonRect = m_toolbar->addAction(KIcon("kdenlive-insert-rect"), i18n("Add Rectangle (Alt+R)"));
-    m_buttonRect->setCheckable(true);
-    m_buttonRect->setShortcut(Qt::ALT + Qt::Key_R);
-    connect(m_buttonRect, SIGNAL(triggered()), this, SLOT(slotRectTool()));
+    m_buttonCursor = m_toolbar->addAction(KIcon("transform-move"), i18n("Selection Tool (Alt+S)"));
+    m_buttonCursor->setCheckable(true);
+    m_buttonCursor->setShortcut(Qt::ALT + Qt::Key_S);
+    connect(m_buttonCursor, SIGNAL(triggered()), this, SLOT(slotSelectTool()));
 
     m_buttonText = m_toolbar->addAction(KIcon("insert-text"), i18n("Add Text (Alt+T)"));
     m_buttonText->setCheckable(true);
     m_buttonText->setShortcut(Qt::ALT + Qt::Key_T);
     connect(m_buttonText, SIGNAL(triggered()), this, SLOT(slotTextTool()));
 
+    m_buttonRect = m_toolbar->addAction(KIcon("kdenlive-insert-rect"), i18n("Add Rectangle (Alt+R)"));
+    m_buttonRect->setCheckable(true);
+    m_buttonRect->setShortcut(Qt::ALT + Qt::Key_R);
+    connect(m_buttonRect, SIGNAL(triggered()), this, SLOT(slotRectTool()));
+
     m_buttonImage = m_toolbar->addAction(KIcon("insert-image"), i18n("Add Image (Alt+I)"));
     m_buttonImage->setCheckable(false);
     m_buttonImage->setShortcut(Qt::ALT + Qt::Key_I);
     connect(m_buttonImage, SIGNAL(triggered()), this, SLOT(slotImageTool()));
-
-    m_buttonCursor = m_toolbar->addAction(KIcon("transform-move"), i18n("Selection Tool (Alt+S)"));
-    m_buttonCursor->setCheckable(true);
-    m_buttonCursor->setShortcut(Qt::ALT + Qt::Key_S);
-    connect(m_buttonCursor, SIGNAL(triggered()), this, SLOT(slotSelectTool()));
 
     m_toolbar->addSeparator();
 
@@ -241,7 +246,7 @@ TitleWidget::TitleWidget(KUrl url, QString projectTitlePath, Render *render, QWi
         m_count = m_titledocument.loadDocument(url, m_startViewport, m_endViewport) + 1;
         slotSelectTool();
     } else {
-        slotRectTool();
+        slotTextTool();
     }
 
     showToolbars(TITLE_NONE);
@@ -262,6 +267,7 @@ TitleWidget::~TitleWidget()
     delete m_startViewport;
     delete m_endViewport;
     delete m_scene;
+    delete m_signalMapper;
 }
 
 //static
@@ -335,6 +341,12 @@ void TitleWidget::slotSelectTool()
     }
     enableToolbars(t);
     showToolbars(t);
+
+    if (l.size() > 0) {
+        updateCoordinates(l.at(0));
+        updateDimension(l.at(0));
+        updateRotZoom(l.at(0));
+    }
 
     m_buttonCursor->setChecked(true);
     m_buttonText->setChecked(false);
@@ -679,12 +691,21 @@ void TitleWidget::selectionChanged()
     }
 }
 
-void TitleWidget::slotValueChanged(ValueType type, int val)
+void TitleWidget::slotValueChanged(int type)
 {
-    std::cerr << "v";
     QList<QGraphicsItem *> l = graphicsView->scene()->selectedItems();
     if (l.size() > 0 && l.at(0)->type() == IMAGEITEM) {
-        std::cerr << "i";
+
+        int val = 0;
+        switch (type) {
+        case ValueWidth:
+            val = value_w->value();
+            break;
+        case ValueHeight:
+            val = value_h->value();
+            break;
+        }
+
         QGraphicsItem *i = l.at(0);
         Transform t = m_transformations.value(i);
 
@@ -703,7 +724,6 @@ void TitleWidget::slotValueChanged(ValueType type, int val)
             // Add 0.5 because otherwise incrementing by 1 might have no effect
             length = val / (cos(alpha) + 1 / phi * sin(alpha)) + 0.5;
             scale = length / i->boundingRect().width();
-            std::cerr << "w";
             break;
         case ValueHeight:
             length = val / (phi * sin(alpha) + cos(alpha)) + 0.5;

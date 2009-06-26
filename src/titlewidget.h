@@ -26,6 +26,7 @@
 #include "unicodedialog.h"
 
 #include <QMap>
+#include <QSignalMapper>
 
 
 class Transform
@@ -100,7 +101,10 @@ private:
     /** project path for storing title clips */
     QString m_projectTitlePath;
 
-    enum ValueType { ValueWidth, ValueHeight };
+    /** See http://doc.trolltech.com/4.5/signalsandslots.html#advanced-signals-and-slots-usage */
+    QSignalMapper *m_signalMapper;
+
+    enum ValueType { ValueWidth = 0, ValueHeight = 1 };
 
     /** \brief Store the current choices of font, background and rect values */
     void writeChoices();
@@ -189,7 +193,8 @@ private slots:
     /** \brief Update coorinates of text fields if necessary and text has changed */
     void slotChanged();
 
-    void slotValueChanged(ValueType type, int val);
+    /** \param valueType Of type ValueType */
+    void slotValueChanged(int valueType);
 
     void slotZoom(bool up);
     void slotUpdateZoom(int pos);
