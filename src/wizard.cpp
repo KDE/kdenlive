@@ -352,10 +352,10 @@ void Wizard::slotCheckPrograms()
         if (program.isEmpty()) program = KStandardDirs::findExe("traverso");
         if (!program.isEmpty()) KdenliveSettings::setDefaultaudioapp(program);
     }
-    if (KdenliveSettings::defaultvideoapp().isEmpty()) {
+    if (KdenliveSettings::defaultplayerapp().isEmpty()) {
         KService::Ptr offer = KMimeTypeTrader::self()->preferredService("video/mpeg");
         if (offer)
-            KdenliveSettings::setDefaultvideoapp(KRun::binaryName(offer->exec(), true));
+            KdenliveSettings::setDefaultplayerapp(KRun::binaryName(offer->exec(), true));
     }
 }
 
