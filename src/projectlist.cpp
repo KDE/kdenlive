@@ -769,9 +769,6 @@ void ProjectList::setDocument(KdenliveDoc *doc)
         slotAddClip(list.at(i), false);
     }
 
-
-    QTreeWidgetItem *first = m_listView->topLevelItem(0);
-    if (first) m_listView->setCurrentItem(first);
     m_listView->blockSignals(false);
     m_toolbar->setEnabled(true);
 }
