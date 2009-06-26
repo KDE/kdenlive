@@ -27,6 +27,8 @@
 #include <KProcess>
 #include <kmimetype.h>
 #include <KRun>
+#include <KService>
+#include <KMimeTypeTrader>
 
 #include <QLabel>
 #include <QFile>
@@ -135,9 +137,6 @@ Wizard::Wizard(bool upgrade, QWidget *parent) :
 
 void Wizard::checkMltComponents()
 {
-    m_mltCheck.programList->setColumnCount(2);
-    m_mltCheck.programList->setRootIsDecorated(false);
-    m_mltCheck.programList->setHeaderHidden(true);
     QSize itemSize(20, fontMetrics().height() * 2.5);
     m_mltCheck.programList->setColumnWidth(0, 30);
     m_mltCheck.programList->setIconSize(QSize(24, 24));
@@ -305,9 +304,6 @@ void Wizard::checkMltComponents()
 
 void Wizard::slotCheckPrograms()
 {
-    m_check.programList->setColumnCount(2);
-    m_check.programList->setRootIsDecorated(false);
-    m_check.programList->setHeaderHidden(true);
     QSize itemSize(20, fontMetrics().height() * 2.5);
     m_check.programList->setColumnWidth(0, 30);
     m_check.programList->setIconSize(QSize(24, 24));
@@ -344,6 +340,23 @@ void Wizard::slotCheckPrograms()
     if (KStandardDirs::findExe("mkisofs").isEmpty()) item->setIcon(0, m_badIcon);
     else item->setIcon(0, m_okIcon);
 
+    // set up some default applications
+    QString program;
+    if (KdenliveSettings::defaultimageapp().isEmpty()) {
+        program = KStandardDirs::findExe("gimp");
+        if (program.isEmpty()) program = KStandardDirs::findExe("krita");
+        if (!program.isEmpty()) KdenliveSettings::setDefaultimageapp(program);
+    }
+    if (KdenliveSettings::defaultaudioapp().isEmpty()) {
+        program = KStandardDirs::findExe("audacity");
+        if (program.isEmpty()) program = KStandardDirs::findExe("traverso");
+        if (!program.isEmpty()) KdenliveSettings::setDefaultaudioapp(program);
+    }
+    if (KdenliveSettings::defaultvideoapp().isEmpty()) {
+        KService::Ptr offer = KMimeTypeTrader::self()->preferredService("video/mpeg");
+        if (offer)
+            KdenliveSettings::setDefaultvideoapp(KRun::binaryName(offer->exec(), true));
+    }
 }
 
 void Wizard::installExtraMimes(QString baseName, QStringList globs)
@@ -546,7 +559,7 @@ bool Wizard::isOk() const
     return m_systemCheckIsOk;
 }
 
-bool Wizard::slotShowWebInfos()
+void Wizard::slotShowWebInfos()
 {
     KRun::runUrl(KUrl("http://kdenlive.org/discover/" + QString(version).section(' ', 0, 0)), "text/html", this);
 }
