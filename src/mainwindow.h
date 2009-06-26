@@ -301,7 +301,7 @@ private slots:
     void slotMaximizeCurrent(bool show);
     void slotTranscode(KUrl::List urls = KUrl::List());
     void slotTranscodeClip();
-    void slotSetDocumentRenderProfile(const QString &dest, const QString &name);
+    void slotSetDocumentRenderProfile(const QString &dest, const QString &name, const QString &file);
     void slotPrepareRendering(bool scriptExport, bool zoneOnly, const QString &chapterFile);
 
 signals:

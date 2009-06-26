@@ -1612,15 +1612,15 @@ void MainWindow::slotRenderProject()
     if (!m_renderWidget) {
         QString projectfolder = m_activeDocument ? m_activeDocument->projectFolder().path(KUrl::AddTrailingSlash) : KdenliveSettings::defaultprojectfolder();
         m_renderWidget = new RenderWidget(projectfolder, this);
-        connect(m_renderWidget, SIGNAL(selectedRenderProfile(const QString &, const QString &)), this, SLOT(slotSetDocumentRenderProfile(const QString &, const QString &)));
+        connect(m_renderWidget, SIGNAL(selectedRenderProfile(const QString &, const QString &, const QString&)), this, SLOT(slotSetDocumentRenderProfile(const QString &, const QString &, const QString&)));
         connect(m_renderWidget, SIGNAL(prepareRenderingData(bool, bool, const QString&)), this, SLOT(slotPrepareRendering(bool, bool, const QString&)));
         connect(m_renderWidget, SIGNAL(abortProcess(const QString &)), this, SIGNAL(abortRenderJob(const QString &)));
         connect(m_renderWidget, SIGNAL(openDvdWizard(const QString &, const QString &)), this, SLOT(slotDvdWizard(const QString &, const QString &)));
         if (m_activeDocument) {
             m_renderWidget->setProfile(m_activeDocument->mltProfile());
             m_renderWidget->setGuides(m_activeDocument->guidesXml(), m_activeDocument->projectDuration());
-            m_renderWidget->setRenderProfile(m_activeDocument->getDocumentProperty("renderdestination"), m_activeDocument->getDocumentProperty("renderprofile"));
             m_renderWidget->setDocumentPath(m_activeDocument->projectFolder().path(KUrl::AddTrailingSlash));
+            m_renderWidget->setRenderProfile(m_activeDocument->getDocumentProperty("renderdestination"), m_activeDocument->getDocumentProperty("renderprofile"), m_activeDocument->getDocumentProperty("renderurl"));
         }
     }
     /*TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
@@ -1791,7 +1791,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
         m_renderWidget->setProfile(doc->mltProfile());
         m_renderWidget->setGuides(doc->guidesXml(), doc->projectDuration());
         m_renderWidget->setDocumentPath(doc->projectFolder().path(KUrl::AddTrailingSlash));
-        m_renderWidget->setRenderProfile(doc->getDocumentProperty("renderdestination"), doc->getDocumentProperty("renderprofile"));
+        m_renderWidget->setRenderProfile(doc->getDocumentProperty("renderdestination"), doc->getDocumentProperty("renderprofile"), doc->getDocumentProperty("renderurl"));
     }
     //doc->setRenderer(m_projectMonitor->render);
     m_commandStack->setActiveStack(doc->commandStack());
@@ -2677,11 +2677,12 @@ void MainWindow::slotTranscodeClip()
     slotTranscode(urls);
 }
 
-void MainWindow::slotSetDocumentRenderProfile(const QString &dest, const QString &name)
+void MainWindow::slotSetDocumentRenderProfile(const QString &dest, const QString &name, const QString &file)
 {
     if (m_activeDocument == NULL) return;
     m_activeDocument->setDocumentProperty("renderdestination", dest);
     m_activeDocument->setDocumentProperty("renderprofile", name);
+    m_activeDocument->setDocumentProperty("renderurl", file);
     m_activeDocument->setModified(true);
 }
 

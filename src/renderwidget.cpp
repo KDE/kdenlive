@@ -200,10 +200,13 @@ void RenderWidget::showInfoPanel()
 
 void RenderWidget::setDocumentPath(const QString path)
 {
+    if (m_view.out_file->url().directory() == KUrl(m_projectFolder).directory()) {
+        const QString fileName = m_view.out_file->url().fileName();
+        m_view.out_file->setUrl(KUrl(path + fileName));
+    }
     m_projectFolder = path;
-    const QString fileName = m_view.out_file->url().fileName();
-    m_view.out_file->setUrl(KUrl(m_projectFolder + fileName));
     parseScriptFiles();
+
 }
 
 void RenderWidget::slotUpdateGuideBox()
@@ -741,7 +744,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
     m_view.tabWidget->setCurrentIndex(1);
 
     // Save rendering profile to document
-    emit selectedRenderProfile(m_view.size_list->currentItem()->data(MetaGroupRole).toString(), m_view.size_list->currentItem()->text());
+    emit selectedRenderProfile(m_view.size_list->currentItem()->data(MetaGroupRole).toString(), m_view.size_list->currentItem()->text(), dest);
 
     // insert item in running jobs list
     QTreeWidgetItem *renderItem;
@@ -1519,11 +1522,14 @@ void RenderWidget::slotHideLog()
     m_view.error_box->setVisible(false);
 }
 
-void RenderWidget::setRenderProfile(const QString &dest, const QString &name)
+void RenderWidget::setRenderProfile(const QString &dest, const QString &name, const QString &url)
 {
     m_view.destination_list->blockSignals(true);
     m_view.format_list->blockSignals(true);
     m_view.size_list->blockSignals(true);
+
+    if (!url.isEmpty()) m_view.out_file->setUrl(KUrl(url));
+
     for (int i = 0; i < m_view.destination_list->count(); i++) {
         if (m_view.destination_list->itemData(i, Qt::UserRole) == dest) {
             m_view.destination_list->setCurrentIndex(i);
