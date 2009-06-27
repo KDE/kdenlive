@@ -147,6 +147,7 @@ void ClipItem::setEffectList(const EffectsList effectList)
 {
     m_effectList = effectList;
     m_effectNames = m_effectList.effectNames().join(" / ");
+    if (!m_effectList.isEmpty()) setSelectedEffect(0);
 }
 
 const EffectsList ClipItem::effectList()
