@@ -931,7 +931,6 @@ void RenderWidget::refreshView()
             if (!sizeItem->isHidden()) {
                 // Make sure the selected profile uses an installed avformat codec / format
                 std = sizeItem->data(ParamsRole).toString();
-
                 if (!formatsList.isEmpty()) {
                     QString format;
                     if (std.startsWith("f=")) format = std.section("f=", 1, 1);
@@ -1122,6 +1121,11 @@ void RenderWidget::parseFile(QString exportFile, bool editable)
     QListWidgetItem *item;
     QDomNodeList groups = doc.elementsByTagName("group");
 
+    const QStringList acodecsList = KdenliveSettings::audiocodecs();
+    bool replaceVorbisCodec = false;
+    if (!acodecsList.contains("vorbis") && acodecsList.contains("libvorbis")) replaceVorbisCodec = true;
+
+
     if (editable || groups.count() == 0) {
         QDomElement profiles = doc.documentElement();
         if (editable && profiles.attribute("version", 0).toInt() < 1) {
@@ -1168,6 +1172,13 @@ void RenderWidget::parseFile(QString exportFile, bool editable)
             QString profileName = profile.attribute("name");
             QString standard = profile.attribute("standard");
             QString params = profile.attribute("args");
+
+            if (replaceVorbisCodec && params.contains("acodec=vorbis")) {
+                // replace vorbis with libvorbis
+                params = params.replace("vorbis", "libvorbis");
+            }
+
+
             QString category = profile.attribute("category", i18n("Custom"));
             QString dest = profile.attribute("destinationid");
             QString prof_extension = profile.attribute("extension");
@@ -1274,6 +1285,11 @@ void RenderWidget::parseFile(QString exportFile, bool editable)
             profileName = profileElement.attribute("name");
             standard = profileElement.attribute("standard");
             params = profileElement.attribute("args");
+
+            if (replaceVorbisCodec && params.contains("acodec=vorbis")) {
+                // replace vorbis with libvorbis
+                params = params.replace("vorbis", "libvorbis");
+            }
             prof_extension = profileElement.attribute("extension");
             if (!prof_extension.isEmpty()) extension = prof_extension;
             item = new QListWidgetItem(profileName, m_view.size_list);
