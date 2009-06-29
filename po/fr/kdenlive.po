@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-06-27 01:49+0200\n"
-"PO-Revision-Date: 2009-06-29 09:35+0200\n"
+"PO-Revision-Date: 2009-06-29 10:05+0200\n"
 "Last-Translator: Stanislas Zeller <uncensored.assault@gmail.com>\n"
 "Language-Team: français <kde-francophone@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -298,9 +298,8 @@ msgid "Add Slideshow Clip"
 msgstr "Ajouter un clip diaporama"
 
 #: src/mainwindow.cpp:1126
-#, fuzzy
 msgid "Add Template Title"
-msgstr "Ajouter un fichier vidéo"
+msgstr "Ajouter un modèle de titre"
 
 #: src/titlewidget.cpp:174
 msgid "Add Text"
@@ -461,7 +460,7 @@ msgstr "Tous les fichiers gérés"
 
 #: src/spacerdialog.cpp:38
 msgid "All tracks"
-msgstr "Ajouter des pistes"
+msgstr "Toutes les pistes"
 
 #: src/complexparameter.cpp:36
 msgid "Allow horizontal moves"
@@ -634,12 +633,11 @@ msgstr "Retour au menu"
 #: rc.cpp:683 rc.cpp:686 rc.cpp:1466 rc.cpp:2455 rc.cpp:2458 rc.cpp:3238
 #: rc.cpp:3837 rc.cpp:3840 rc.cpp:4620
 msgid "Background"
-msgstr "Fond"
+msgstr "Arrière plan"
 
 #: src/titlewidget.cpp:153
-#, fuzzy
 msgid "Background Transparency"
-msgstr "Transparence"
+msgstr "Transparence de l'arrière-plan"
 
 #: rc.cpp:1451 rc.cpp:3223 rc.cpp:4605
 msgid "BasicOperations"
@@ -650,9 +648,8 @@ msgid "Beginning"
 msgstr "Début"
 
 #: src/trackview.cpp:79
-#, fuzzy
 msgid "Bigger tracks"
-msgstr "Pistes vidéo"
+msgstr "Agrandir la taille des pistes"
 
 #: src/transitionsettings.cpp:73
 msgid "Black"
@@ -675,9 +672,8 @@ msgid "Border color"
 msgstr "Couleur de bordure"
 
 #: src/titlewidget.cpp:148
-#, fuzzy
 msgid "Border transparency"
-msgstr "Utiliser la transparence"
+msgstr "Transparence des bordures"
 
 #: src/geometryval.cpp:96 rc.cpp:70 rc.cpp:1842
 msgid "Bottom"
@@ -746,14 +742,12 @@ msgid "C"
 msgstr "C"
 
 #: src/customtrackview.cpp:1345
-#, fuzzy
 msgid "Cannot add a video effect to this clip"
-msgstr "Un problème est survenu durant l'ajout d'un effet au clip"
+msgstr "Impossible d'ajouter un effet video au clip"
 
 #: src/customtrackview.cpp:1339
-#, fuzzy
 msgid "Cannot add an audio effect to this clip"
-msgstr "Un problème est survenu durant l'ajout d'un effet au clip"
+msgstr "Impossible d'ajouter un effet audio au clip"
 
 #: src/customtrackview.cpp:861 src/customtrackview.cpp:890
 #: src/customtrackview.cpp:1582 src/customtrackview.cpp:1608
@@ -1076,14 +1070,12 @@ msgid "Clips folder"
 msgstr "Dossier des clips"
 
 #: src/titlewidget.cpp:295
-#, fuzzy
 msgid "Clone"
-msgstr "Fermer"
+msgstr "Cloner"
 
 #: rc.cpp:764 rc.cpp:2536 rc.cpp:3918
-#, fuzzy
 msgid "Clone title clip"
-msgstr "Supprimer le clip"
+msgstr "Cloner le titre du clip"
 
 #: src/cliptranscode.cpp:129 rc.cpp:553 rc.cpp:568 rc.cpp:589 rc.cpp:2325
 #: rc.cpp:2340 rc.cpp:2361 rc.cpp:3707 rc.cpp:3722 rc.cpp:3743
@@ -1326,7 +1318,7 @@ msgstr "La structure du DVD est corrompue"
 
 #: src/dvdwizard.cpp:478
 msgid "DVDAuthor process crashed."
-msgstr ""
+msgstr "Le processus DVDAuthor s'est terminé par une erreur fatale."
 
 #: rc.cpp:257 rc.cpp:267 rc.cpp:2029 rc.cpp:2039
 msgid "Damping"
@@ -1483,9 +1475,8 @@ msgid "Delete selected items"
 msgstr "Supprimer les éléments sélectionnés"
 
 #: src/mainwindow.cpp:397
-#, fuzzy
 msgid "Delete them"
-msgstr "Supprimer %1"
+msgstr "Les supprimer"
 
 #: src/addtimelineclipcommand.cpp:37
 msgid "Delete timeline clip"
@@ -1780,7 +1771,7 @@ msgstr "Saisir l'emplacement du fichier"
 
 #: src/unicodedialog.cpp:46
 msgid "Enter your Unicode number here. Allowed characters: [0-9] and [a-f]."
-msgstr ""
+msgstr "Saisir la valeur unicode. Caractères autorisés : [0-9] et [a-f]."
 
 #: src/kdenlivesettingsdialog.cpp:72
 msgid "Environment"
@@ -1826,9 +1817,8 @@ msgid "Estimated time %1"
 msgstr "Temps estimé %1"
 
 #: src/kdenlivedoc.cpp:608
-#, fuzzy
 msgid "Existing Profile"
-msgstr "Modifier le profil"
+msgstr "Profil existant"
 
 #: rc.cpp:523 rc.cpp:2295 rc.cpp:3677
 msgid "Export audio"
@@ -1960,9 +1950,8 @@ msgid "Fill color"
 msgstr "Couleur de remplissage"
 
 #: src/titlewidget.cpp:147
-#, fuzzy
 msgid "Fill transparency"
-msgstr "Utiliser la transparence"
+msgstr "Remplir la zone transparente"
 
 #: src/mainwindow.cpp:815
 msgid "Find"
@@ -2320,6 +2309,8 @@ msgstr "I"
 #: src/dvdwizard.cpp:546
 msgid "ISO creation process crashed."
 msgstr ""
+"Le processus de création d'une image ISO a été interrompu par une erreur "
+"fatale."
 
 #: rc.cpp:692 rc.cpp:1652 rc.cpp:2464 rc.cpp:3424 rc.cpp:3846 rc.cpp:4806
 msgid "Image"
@@ -2390,7 +2381,7 @@ msgstr "Insérer une piste"
 
 #: src/titlewidget.cpp:139
 msgid "Insert Unicode character"
-msgstr ""
+msgstr "Insérer un caractère Unicode"
 
 #: src/insertspacecommand.cpp:35
 msgid "Insert space"
@@ -2566,7 +2557,7 @@ msgstr "Amplification faible"
 
 #: src/dvdwizard.cpp:106
 msgid "Load"
-msgstr ""
+msgstr "Charger"
 
 #: src/titlewidget.cpp:367
 msgid "Load Image"
@@ -2723,9 +2714,8 @@ msgid "Misc..."
 msgstr "Divers..."
 
 #: src/kdenlivedoc.cpp:587 src/kdenlivedoc.cpp:603 src/kdenlivedoc.cpp:618
-#, fuzzy
 msgid "Missing Profile"
-msgstr "Modifier le profil"
+msgstr "Profil manquant"
 
 #: rc.cpp:821 rc.cpp:2593 rc.cpp:3975
 msgid "Missing clips"
@@ -2753,7 +2743,7 @@ msgstr "Réglage de la vitesse de lecture du moniteur en aperçu"
 
 #: rc.cpp:1067 rc.cpp:2839 rc.cpp:4221
 msgid "Monitor background color (requires restart)"
-msgstr "Couleur de fond du moniteur (requiert un redémarrage)"
+msgstr "Couleur d'arrière-plan du moniteur (nécessite de redémarrer)"
 
 #: src/monitor.cpp:185
 msgid "Monitor overlay infos"
@@ -2895,9 +2885,8 @@ msgid "None"
 msgstr "Aucun(e)"
 
 #: rc.cpp:761 rc.cpp:2533 rc.cpp:3915
-#, fuzzy
 msgid "Normal title clip"
-msgstr "Normaliser"
+msgstr "Titre de clip normal"
 
 #: rc.cpp:297 rc.cpp:2069
 msgid "Normalise"
@@ -2974,9 +2963,8 @@ msgid "Original size"
 msgstr "Taille d'origine"
 
 #: src/titlewidget.cpp:150
-#, fuzzy
 msgid "Original size (1:1)"
-msgstr "Taille d'origine"
+msgstr "Taille d'origine (1:1)"
 
 #: rc.cpp:92 rc.cpp:1864
 msgid "Out"
@@ -3336,9 +3324,8 @@ msgid "Reached end of project"
 msgstr "Fin du projet atteint"
 
 #: src/monitor.cpp:190
-#, fuzzy
 msgid "Real time (drop frames)"
-msgstr "Délai de propagation (sec)"
+msgstr "Affichage temps réel (supprimer des trames si nécessaire)"
 
 #: src/recmonitor.cpp:78
 msgid "Record"
@@ -3485,9 +3472,8 @@ msgid "Rendering of %1 finished in %2"
 msgstr "Rendu <i>%1</i> terminé dans %2"
 
 #: src/main.cpp:44
-#, fuzzy
 msgid "Rendering profiles customization"
-msgstr "Personnalisation des profils de rendu"
+msgstr "Profils de rendu personnalisés"
 
 #: src/trackview.cpp:528
 #, kde-format
@@ -3775,14 +3761,12 @@ msgstr ""
 "« Echap »."
 
 #: src/titlewidget.cpp:152
-#, fuzzy
 msgid "Select background color"
-msgstr "Afficher le fond d'écran"
+msgstr "Choisir la couleur de l'arrière-plan"
 
 #: src/titlewidget.cpp:146
-#, fuzzy
 msgid "Select border color"
-msgstr "Couleur de bordure"
+msgstr "Choisir la couleur de la bordure"
 
 #: src/customtrackview.cpp:2828
 msgid "Select clip to change speed"
@@ -3805,9 +3789,8 @@ msgid "Select default video player"
 msgstr "Sélectionner le lecteur vidéo par défaut"
 
 #: src/titlewidget.cpp:145
-#, fuzzy
 msgid "Select fill color"
-msgstr "Couleur de remplissage"
+msgstr "Choisir la couleur de remplissage"
 
 #: rc.cpp:541 rc.cpp:2313 rc.cpp:3695
 msgid "Selected zone"
@@ -3875,7 +3858,7 @@ msgstr "Afficher les miniatures audio"
 
 #: rc.cpp:1505 rc.cpp:3277 rc.cpp:4659
 msgid "Show background"
-msgstr "Afficher le fond d'écran"
+msgstr "Afficher l'arrière-plan"
 
 #: src/complexparameter.cpp:40
 msgid "Show keyframes in timeline"
@@ -3929,9 +3912,8 @@ msgid "Slideshow clip"
 msgstr "Clip diaporama"
 
 #: src/trackview.cpp:73
-#, fuzzy
 msgid "Smaller tracks"
-msgstr "Ajouter des pistes"
+msgstr "Diminuer la taille des pistes"
 
 #: src/mainwindow.cpp:760
 msgid "Snap"
@@ -4157,9 +4139,8 @@ msgid "Text"
 msgstr "Texte"
 
 #: src/titledocument.cpp:228
-#, fuzzy
 msgid "Text Clips Updated"
-msgstr "Modifier la vitesse du clip"
+msgstr "Clips texte mis à jour"
 
 #: src/projectitem.cpp:203
 msgid "Text clip"
@@ -4341,7 +4322,7 @@ msgstr "Transparence"
 
 #: rc.cpp:1658 rc.cpp:3430 rc.cpp:4812
 msgid "Transparent background"
-msgstr "Fond d'écran transparent"
+msgstr "Arrière-plan transparent"
 
 #: rc.cpp:64 rc.cpp:1836
 msgid "Trim the edges of a clip"
@@ -4408,9 +4389,8 @@ msgid "Up"
 msgstr "Vers le haut"
 
 #: src/documentvalidator.cpp:692
-#, fuzzy
 msgid "Update Text Clips"
-msgstr "Clip texte"
+msgstr "Mettre à jour les clips texte"
 
 #: rc.cpp:1349 rc.cpp:3121 rc.cpp:4503
 msgid "Use KDE job tracking for render jobs"
@@ -4680,13 +4660,13 @@ msgid "You need program <b>%1</b> to perform this action"
 msgstr "Le programme <b>%1</b> est nécessaire pour réaliser cette action"
 
 #: src/wizard.cpp:51
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Your Kdenlive version was upgraded to version %1. Please take some time to "
 "review the basic settings"
 msgstr ""
-"Votre version de Kdenlive a été mise à jour. Veuillez jeter un œil sur les "
-"paramètres de bases."
+"Votre version de Kdenlive a été mise à jour vers la version %1. Veuillez "
+"vérifier les principaux paramètres de configuration."
 
 #: src/wizard.cpp:518
 msgid ""
@@ -4696,9 +4676,8 @@ msgstr ""
 "relancer Kdenlive.\n"
 
 #: src/wizard.cpp:204
-#, fuzzy
 msgid "Your MLT version is unsupported!!!"
-msgstr "La version MLT est correcte"
+msgstr "La version MLT installé n'est pas supportée !!!"
 
 #: src/kdenlivedoc.cpp:608
 #, kde-format
@@ -4730,11 +4709,11 @@ msgstr "Zoom : "
 
 #: src/titlewidget.cpp:962
 msgid "\\u2212X"
-msgstr ""
+msgstr "\\u2212X"
 
 #: src/titlewidget.cpp:987
 msgid "\\u2212Y"
-msgstr ""
+msgstr "\\u2212Y"
 
 #: rc.cpp:986 rc.cpp:2758 rc.cpp:4140
 msgid "after"
