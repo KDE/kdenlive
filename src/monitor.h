@@ -163,6 +163,7 @@ signals:
     void adjustMonitorSize();
     void zoneUpdated(QPoint);
     void saveZone(Render *, QPoint);
+    void blockMonitors();
 };
 
 #endif

@@ -45,7 +45,7 @@ class TrackView : public QWidget
     Q_OBJECT
 
 public:
-    explicit TrackView(KdenliveDoc *doc, QWidget *parent = 0);
+    explicit TrackView(KdenliveDoc *doc, bool *ok, QWidget *parent = 0);
     virtual ~ TrackView();
     void setEditMode(const QString & editMode);
     const QString & editMode() const;

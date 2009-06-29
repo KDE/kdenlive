@@ -239,13 +239,17 @@ KdenliveDoc::~KdenliveDoc()
     }
 }
 
-void KdenliveDoc::setSceneList()
+int KdenliveDoc::setSceneList()
 {
-    m_render->setSceneList(m_document.toString(), m_documentProperties.value("position").toInt());
+    if (m_render->setSceneList(m_document.toString(), m_documentProperties.value("position").toInt()) == -1) {
+        // INVALID MLT Consumer, something is wrong
+        return -1;
+    }
     m_documentProperties.remove("position");
     // m_document xml is now useless, clear it
     m_document.clear();
     checkProjectClips();
+    return 0;
 }
 
 QDomDocument KdenliveDoc::createEmptyDocument(const int videotracks, const int audiotracks)
@@ -674,45 +678,6 @@ void KdenliveDoc::checkProjectClips()
     kDebug() << "+++++++++++++ + + + + CHK PCLIPS";
     if (m_render == NULL) return;
     m_clipManager->resetProducersList(m_render->producersList());
-    return;
-
-    // Useless now...
-    QList <Mlt::Producer *> prods = m_render->producersList();
-    QString id ;
-    QString prodId ;
-    QString prodTrack ;
-    for (int i = 0; i < prods.count(); i++) {
-        id = prods.at(i)->get("id");
-        prodId = id.section('_', 0, 0);
-        prodTrack = id.section('_', 1, 1);
-        DocClipBase *clip = m_clipManager->getClipById(prodId);
-        if (clip) clip->setProducer(prods.at(i));
-        if (clip && clip->clipType() == TEXT && !QFile::exists(clip->fileURL().path())) {
-            // regenerate text clip image if required
-            //kDebug() << "// TITLE: " << clip->getProperty("titlename") << " Preview file: " << clip->getProperty("resource") << " DOES NOT EXIST";
-            QString titlename = clip->getProperty("name");
-            QString titleresource;
-            if (titlename.isEmpty()) {
-                QStringList titleInfo = TitleWidget::getFreeTitleInfo(projectFolder());
-                titlename = titleInfo.at(0);
-                titleresource = titleInfo.at(1);
-                clip->setProperty("name", titlename);
-                kDebug() << "// New title set to: " << titlename;
-            } else {
-                titleresource = TitleWidget::getFreeTitleInfo(projectFolder()).at(1);
-                //titleresource = TitleWidget::getTitleResourceFromName(projectFolder(), titlename);
-            }
-            TitleWidget *dia_ui = new TitleWidget(KUrl(), KUrl(titleresource).directory(), m_render, kapp->activeWindow());
-            QDomDocument doc;
-            doc.setContent(clip->getProperty("xmldata"));
-            dia_ui->setXml(doc);
-            QImage pix = dia_ui->renderedPixmap();
-            pix.save(titleresource);
-            clip->setProperty("resource", titleresource);
-            delete dia_ui;
-            clip->producer()->set("force_reload", 1);
-        }
-    }
 }
 
 void KdenliveDoc::updatePreviewSettings()

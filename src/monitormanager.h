@@ -52,12 +52,14 @@ public slots:
     void slotStart();
     void slotEnd();
     void slotResetProfiles();
+    void slotBlockMonitors();
 
 private:
     Monitor *m_clipMonitor;
     Monitor *m_projectMonitor;
     QString m_activeMonitor;
     Timecode m_timecode;
+    bool m_blocked;
 
 signals:
     void raiseClipMonitor(bool);

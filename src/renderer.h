@@ -91,9 +91,9 @@ Q_OBJECT public:
 
     /** Wraps the VEML command of the same name. Sets the current scene list to
     be list. */
-    void setSceneList(QDomDocument list, int position = 0);
-    void setSceneList(QString playlist, int position = 0);
-    void setProducer(Mlt::Producer *producer, int position);
+    int setSceneList(QDomDocument list, int position = 0);
+    int setSceneList(QString playlist, int position = 0);
+    int setProducer(Mlt::Producer *producer, int position);
     const QString sceneList();
     bool saveSceneList(QString path, QDomElement kdenliveData = QDomElement());
 
@@ -232,7 +232,7 @@ private slots:  // Private slots
     /** refresh monitor display */
     void refresh();
     void slotOsdTimeout();
-    void connectPlaylist();
+    int connectPlaylist();
     //void initSceneList();
 
 signals:   // Signals
@@ -259,6 +259,7 @@ signals:   // Signals
     void rendererStopped(int);
     void removeInvalidClip(const QString &, bool replaceProducer);
     void refreshDocumentProducers();
+    void blockMonitors();
 
 public slots:  // Public slots
     /** Start Consumer */

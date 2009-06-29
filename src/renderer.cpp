@@ -764,13 +764,13 @@ void Render::initSceneList()
 
 
 /** Create the producer from the MLT XML QDomDocument */
-void Render::setProducer(Mlt::Producer *producer, int position)
+int Render::setProducer(Mlt::Producer *producer, int position)
 {
-    if (m_winid == -1) return;
+    if (m_winid == -1) return -1;
 
     if (m_mltConsumer) {
         m_mltConsumer->stop();
-    } else return;
+    } else return -1;
 
     m_mltConsumer->purge();
 
@@ -791,27 +791,29 @@ void Render::setProducer(Mlt::Producer *producer, int position)
     if (!m_mltProducer || !m_mltProducer->is_valid()) kDebug() << " WARNING - - - - -INVALID PLAYLIST: ";
 
     m_fps = m_mltProducer->get_fps();
-    connectPlaylist();
+    int error = connectPlaylist();
     if (position != -1) {
         m_mltProducer->seek(position);
         emit rendererPosition(position);
     }
     m_isBlocked = false;
+    return error;
 }
 
 
 
 /** Create the producer from the MLT XML QDomDocument */
-void Render::setSceneList(QDomDocument list, int position)
+int Render::setSceneList(QDomDocument list, int position)
 {
-    setSceneList(list.toString(), position);
+    return setSceneList(list.toString(), position);
 }
 
 /** Create the producer from the MLT XML QDomDocument */
-void Render::setSceneList(QString playlist, int position)
+int Render::setSceneList(QString playlist, int position)
 {
-    if (m_winid == -1) return;
+    if (m_winid == -1) return -1;
     m_isBlocked = true;
+    int error;
     qDeleteAll(m_slowmotionProducers.values());
     m_slowmotionProducers.clear();
 
@@ -820,7 +822,7 @@ void Render::setSceneList(QString playlist, int position)
     if (m_mltConsumer == NULL) {
         kWarning() << "///////  ERROR, TRYING TO USE NULL MLT CONSUMER";
         m_isBlocked = false;
-        return;
+        return -1;
     }
 
     if (!m_mltConsumer->is_stopped()) {
@@ -879,12 +881,13 @@ void Render::setSceneList(QString playlist, int position)
     }
 
     kDebug() << "// NEW SCENE LIST DURATION SET TO: " << m_mltProducer->get_playtime();
-    connectPlaylist();
+    error = connectPlaylist();
     fillSlowMotionProducers();
 
     m_isBlocked = false;
     blockSignals(false);
     emit refreshDocumentProducers();
+    return error;
     //kDebug()<<"// SETSCN LST, POS: "<<position;
     //if (position != 0) emit rendererPosition(position);
 }
@@ -969,24 +972,23 @@ double Render::fps() const
     return m_fps;
 }
 
-void Render::connectPlaylist()
+int Render::connectPlaylist()
 {
-    if (!m_mltConsumer) return;
+    if (!m_mltConsumer) return -1;
     //m_mltConsumer->set("refresh", "0");
     m_mltConsumer->connect(*m_mltProducer);
     m_mltProducer->set_speed(0);
-    m_mltConsumer->start();
+    if (m_mltConsumer->start() == -1) {
+        // ARGH CONSUMER BROKEN!!!!
+        KMessageBox::error(qApp->activeWindow(), i18n("Could not create the video preview window.\nThere is something wrong with your Kdenlive install or your driver settings, please fix it."));
+        emit blockMonitors();
+        delete m_mltProducer;
+        m_mltProducer = NULL;
+        return -1;
+    }
     emit durationChanged(m_mltProducer->get_playtime());
+    return 0;
     //refresh();
-    /*
-     if (m_mltConsumer->start() == -1) {
-          KMessageBox::error(qApp->activeWindow(), i18n("Could not create the video preview window.\nThere is something wrong with your Kdenlive install or your driver settings, please fix it."));
-          delete m_mltConsumer;
-          m_mltConsumer = NULL;
-     }
-     else {
-             refresh();
-     }*/
 }
 
 void Render::refreshDisplay()
@@ -1045,14 +1047,13 @@ void Render::start()
         kDebug() << "-----  BROKEN MONITOR: " << m_name << ", RESTART";
         return;
     }
-
     if (m_mltConsumer && m_mltConsumer->is_stopped()) {
         kDebug() << "-----  MONITOR: " << m_name << " WAS STOPPED";
         if (m_mltConsumer->start() == -1) {
             KMessageBox::error(qApp->activeWindow(), i18n("Could not create the video preview window.\nThere is something wrong with your Kdenlive install or your driver settings, please fix it."));
-            delete m_mltConsumer;
-            m_mltConsumer = NULL;
-            return;
+            emit blockMonitors();
+            delete m_mltProducer;
+            m_mltProducer = NULL;
         } else {
             kDebug() << "-----  MONITOR: " << m_name << " REFRESH";
             m_isBlocked = false;
@@ -1081,6 +1082,7 @@ void Render::clear()
 
 void Render::stop()
 {
+    if (m_mltProducer == NULL) return;
     if (m_mltConsumer && !m_mltConsumer->is_stopped()) {
         kDebug() << "/////////////   RENDER STOPPED: " << m_name;
         m_isBlocked = true;
@@ -1254,7 +1256,12 @@ void Render::setDropFrames(bool show)
         if (show == false) dropFrames = 0;
         m_mltConsumer->stop();
         m_mltConsumer->set("play.real_time", dropFrames);
-        m_mltConsumer->start();
+        if (m_mltConsumer->start() == -1) {
+            emit blockMonitors();
+            delete m_mltProducer;
+            m_mltProducer = NULL;
+        }
+
     }
 }
 
@@ -2913,6 +2920,7 @@ void Render::mltSavePlaylist()
 QList <Mlt::Producer *> Render::producersList()
 {
     QList <Mlt::Producer *> prods;
+    if (m_mltProducer == NULL) return prods;
     Mlt::Service service(m_mltProducer->parent().get_service());
     if (service.type() != tractor_type) return prods;
     Mlt::Tractor tractor(service);
@@ -2943,6 +2951,7 @@ QList <Mlt::Producer *> Render::producersList()
 
 void Render::fillSlowMotionProducers()
 {
+    if (m_mltProducer == NULL) return;
     Mlt::Service service(m_mltProducer->parent().get_service());
     if (service.type() != tractor_type) return;
 

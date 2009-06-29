@@ -130,6 +130,7 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent) :
     connect(render, SIGNAL(durationChanged(int)), this, SLOT(adjustRulerSize(int)));
     connect(render, SIGNAL(rendererPosition(int)), this, SLOT(seekCursor(int)));
     connect(render, SIGNAL(rendererStopped(int)), this, SLOT(rendererStopped(int)));
+    connect(render, SIGNAL(blockMonitors()), this, SIGNAL(blockMonitors()));
 
     //render->createVideoXWindow(m_ui.video_frame->winId(), -1);
 
@@ -694,7 +695,10 @@ void Monitor::slotSetXml(DocClipBase *clip, const int position)
     }
     if (clip != m_currentClip) {
         m_currentClip = clip;
-        render->setProducer(clip->producer(), position);
+        if (render->setProducer(clip->producer(), position) == -1) {
+            // MLT CONSUMER is broken
+            emit blockMonitors();
+        }
         m_position = position;
     } else if (position != -1) render->seek(GenTime(position, render->fps()));
 }

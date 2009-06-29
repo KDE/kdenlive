@@ -314,7 +314,14 @@ void KdenliveSettingsDialog::showPage(int page, int option)
     case 5:
         setCurrentPage(m_page5);
         break;
-
+    case 6:
+        setCurrentPage(m_page6);
+        break;
+    case 7:
+        setCurrentPage(m_page7);
+        break;
+    default:
+        setCurrentPage(m_page1);
     }
 }
 

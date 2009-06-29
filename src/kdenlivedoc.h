@@ -110,7 +110,7 @@ Q_OBJECT public:
     QString getLadspaFile() const;
     void setZone(int start, int end);
     QPoint zone() const;
-    void setSceneList();
+    int setSceneList();
     void updatePreviewSettings();
     bool isTrackLocked(int ix) const;
     void setDocumentProperty(const QString &name, const QString &value);

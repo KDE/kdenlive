@@ -30,7 +30,8 @@
 MonitorManager::MonitorManager(QWidget *parent) :
         QObject(parent),
         m_clipMonitor(NULL),
-        m_projectMonitor(NULL)
+        m_projectMonitor(NULL),
+        m_blocked(false)
 {
 }
 
@@ -43,10 +44,13 @@ void MonitorManager::initMonitors(Monitor *clipMonitor, Monitor *projectMonitor)
 {
     m_clipMonitor = clipMonitor;
     m_projectMonitor = projectMonitor;
+    connect(m_clipMonitor, SIGNAL(blockMonitors()), this, SLOT(slotBlockMonitors()));
+    connect(m_projectMonitor, SIGNAL(blockMonitors()), this, SLOT(slotBlockMonitors()));
 }
 
 void MonitorManager::activateMonitor(QString name)
 {
+    if (m_blocked) return;
     if (m_activeMonitor == name) return;
     if (name == "clip") {
         m_projectMonitor->stop();
@@ -63,6 +67,7 @@ void MonitorManager::activateMonitor(QString name)
 
 void MonitorManager::switchMonitors()
 {
+    if (m_blocked) return;
     if (m_clipMonitor->isActive()) {
         m_clipMonitor->stop();
         m_projectMonitor->start();
@@ -79,6 +84,7 @@ void MonitorManager::switchMonitors()
 
 void MonitorManager::stopActiveMonitor()
 {
+    if (m_blocked) return;
     if (m_clipMonitor->isActive()) m_clipMonitor->pause();
     else m_projectMonitor->pause();
 }
@@ -151,18 +157,33 @@ void MonitorManager::slotEnd()
 
 void MonitorManager::resetProfiles(Timecode tc)
 {
+    if (m_blocked) return;
     m_timecode = tc;
     QTimer::singleShot(300, this, SLOT(slotResetProfiles()));
 }
 
 void MonitorManager::slotResetProfiles()
 {
+    if (m_blocked) return;
     if (m_projectMonitor == NULL || m_clipMonitor == NULL) return;
     activateMonitor("clip");
     m_clipMonitor->resetProfile();
     activateMonitor("project");
     m_projectMonitor->resetProfile();
     //m_projectMonitor->refreshMonitor(true);
+}
+
+void MonitorManager::slotBlockMonitors()
+{
+    m_blocked = true;
+    if (m_clipMonitor) {
+        m_clipMonitor->blockSignals(true);
+        m_clipMonitor->setEnabled(false);
+    }
+    if (m_projectMonitor) {
+        m_projectMonitor->blockSignals(true);
+        m_projectMonitor->setEnabled(false);
+    }
 }
 
 #include "monitormanager.moc"

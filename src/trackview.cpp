@@ -36,7 +36,7 @@
 
 #include <QScrollBar>
 
-TrackView::TrackView(KdenliveDoc *doc, QWidget *parent) :
+TrackView::TrackView(KdenliveDoc *doc, bool *ok, QWidget *parent) :
         QWidget(parent),
         m_scale(1.0),
         m_projectTracks(0),
@@ -103,7 +103,9 @@ TrackView::TrackView(KdenliveDoc *doc, QWidget *parent) :
     connect(m_trackview, SIGNAL(trackHeightChanged()), this, SLOT(slotRebuildTrackHeaders()));
 
     parseDocument(m_doc->toXml());
-    m_doc->setSceneList();
+    int error = m_doc->setSceneList();
+    if (error == -1) *ok = false;
+    else *ok = true;
     connect(m_trackview, SIGNAL(cursorMoved(int, int)), m_ruler, SLOT(slotCursorMoved(int, int)));
     connect(m_trackview->horizontalScrollBar(), SIGNAL(valueChanged(int)), m_ruler, SLOT(slotMoveRuler(int)));
     connect(m_trackview, SIGNAL(mousePosition(int)), this, SIGNAL(mousePosition(int)));

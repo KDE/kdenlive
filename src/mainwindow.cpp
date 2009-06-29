@@ -1237,6 +1237,7 @@ void MainWindow::slotRunWizard()
 
 void MainWindow::newFile(bool showProjectSettings)
 {
+    if (!m_timelineArea->isEnabled()) return;
     QString profileName;
     KUrl projectFolder;
     QPoint projectTracks(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks());
@@ -1259,8 +1260,17 @@ void MainWindow::newFile(bool showProjectSettings)
     }
     KdenliveDoc *doc = new KdenliveDoc(KUrl(), projectFolder, m_commandStack, profileName, projectTracks, m_projectMonitor->render, this);
     doc->m_autosave = new KAutoSaveFile(KUrl(), doc);
-    TrackView *trackView = new TrackView(doc, this);
+    bool ok;
+    TrackView *trackView = new TrackView(doc, &ok, this);
     m_timelineArea->addTab(trackView, KIcon("kdenlive"), doc->description());
+    if (!ok) {
+        // MLT is broken
+        m_timelineArea->setEnabled(false);
+        m_projectList->setEnabled(false);
+        m_monitorManager->slotBlockMonitors();
+        slotPreferences(6);
+        return;
+    }
     if (m_timelineArea->count() == 1) {
         connectDocumentInfo(doc);
         connectDocument(trackView, doc);
@@ -1270,7 +1280,7 @@ void MainWindow::newFile(bool showProjectSettings)
 
 void MainWindow::activateDocument()
 {
-    if (m_timelineArea->currentWidget() == NULL) return;
+    if (m_timelineArea->currentWidget() == NULL || !m_timelineArea->isEnabled()) return;
     TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
     KdenliveDoc *currentDoc = currentTab->document();
     connectDocumentInfo(currentDoc);
@@ -1436,6 +1446,7 @@ void MainWindow::openFile(const KUrl &url)
 
 void MainWindow::doOpenFile(const KUrl &url, KAutoSaveFile *stale)
 {
+    if (!m_timelineArea->isEnabled()) return;
     KdenliveDoc *doc = new KdenliveDoc(url, KdenliveSettings::defaultprojectfolder(), m_commandStack, KdenliveSettings::default_profile(), QPoint(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks()), m_projectMonitor->render, this);
     if (stale == NULL) {
         stale = new KAutoSaveFile(url, doc);
@@ -1447,8 +1458,16 @@ void MainWindow::doOpenFile(const KUrl &url, KAutoSaveFile *stale)
         stale->setParent(doc);
     }
     connectDocumentInfo(doc);
-    TrackView *trackView = new TrackView(doc, this);
+    bool ok;
+    TrackView *trackView = new TrackView(doc, &ok, this);
     m_timelineArea->setCurrentIndex(m_timelineArea->addTab(trackView, KIcon("kdenlive"), doc->description()));
+    if (!ok) {
+        m_timelineArea->setEnabled(false);
+        m_projectList->setEnabled(false);
+        m_monitorManager->slotBlockMonitors();
+        slotPreferences(6);
+        return;
+    }
     m_timelineArea->setTabToolTip(m_timelineArea->currentIndex(), doc->url().path());
     trackView->setDuration(trackView->duration());
     trackView->projectView()->initCursorPos(m_projectMonitor->render->seekPosition().frames(doc->fps()));
