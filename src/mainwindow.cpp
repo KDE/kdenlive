@@ -176,7 +176,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
                        actionCollection());
     readOptions();
 
-    slotDetectAudioDriver();
+    //slotDetectAudioDriver();
 
     m_clipMonitorDock = new QDockWidget(i18n("Clip Monitor"), this);
     m_clipMonitorDock->setObjectName("clip_monitor");
@@ -1575,6 +1575,9 @@ void MainWindow::slotEditProfiles()
 
 void MainWindow::slotDetectAudioDriver()
 {
+    /* WARNING: do not use this method because sometimes detects wrong driver (pulse instead of alsa),
+    leading to no audio output, see bug #934 */
+
     //decide which audio driver is really best, in some cases SDL is wrong
     if (KdenliveSettings::audiodrivername().isEmpty()) {
         QString driver;
@@ -1857,7 +1860,7 @@ void MainWindow::slotPreferences(int page, int option)
     // create it :
     KdenliveSettingsDialog* dialog = new KdenliveSettingsDialog(this);
     connect(dialog, SIGNAL(settingsChanged(const QString&)), this, SLOT(updateConfiguration()));
-    connect(dialog, SIGNAL(doResetProfile()), this, SLOT(slotDetectAudioDriver()));
+    //connect(dialog, SIGNAL(doResetProfile()), this, SLOT(slotDetectAudioDriver()));
     connect(dialog, SIGNAL(doResetProfile()), m_monitorManager, SLOT(slotResetProfiles()));
     connect(dialog, SIGNAL(updatePreviewSettings()), this, SLOT(slotUpdatePreviewSettings()));
     connect(dialog, SIGNAL(updateCaptureFolder()), m_recMonitor, SLOT(slotUpdateCaptureFolder()));
