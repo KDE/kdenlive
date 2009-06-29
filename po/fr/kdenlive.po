@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-06-27 01:49+0200\n"
-"PO-Revision-Date: 2009-06-29 10:05+0200\n"
+"PO-Revision-Date: 2009-06-29 10:09+0200\n"
 "Last-Translator: Stanislas Zeller <uncensored.assault@gmail.com>\n"
 "Language-Team: français <kde-francophone@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -1084,7 +1084,7 @@ msgstr "Fermer"
 
 #: rc.cpp:788 rc.cpp:2560 rc.cpp:3942
 msgid "Close after transcode"
-msgstr "Fermer après transcodage"
+msgstr "Fermer après conversion"
 
 #: src/mainwindow.cpp:135
 msgid "Close the current tab"
@@ -4298,19 +4298,19 @@ msgstr "Pistes"
 
 #: src/kdenlivesettingsdialog.cpp:98 rc.cpp:5020
 msgid "Transcode"
-msgstr "Transcoder"
+msgstr "Convertir"
 
 #: src/mainwindow.cpp:871 src/cliptranscode.cpp:34
 msgid "Transcode Clip"
-msgstr "Transcoder le clip"
+msgstr "Convertir le clip"
 
 #: src/cliptranscode.cpp:141
 msgid "Transcoding FAILED!"
-msgstr "Échec du transcodage."
+msgstr "Échec de la conversion !"
 
 #: src/cliptranscode.cpp:133
 msgid "Transcoding finished."
-msgstr "Transcodage terminé"
+msgstr "Conversion achevée."
 
 #: src/mainwindow.cpp:168
 msgid "Transition"
