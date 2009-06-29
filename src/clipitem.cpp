@@ -39,7 +39,6 @@
 ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, bool generateThumbs) :
         AbstractClipItem(info, QRectF(), fps),
         m_clip(clip),
-        m_resizeMode(NONE),
         m_startFade(0),
         m_endFade(0),
         m_audioOnly(false),
@@ -1070,24 +1069,6 @@ void ClipItem::setFadeOut(int pos)
     QRectF rect = boundingRect();
     update(rect.x() + rect.width() - qMax(oldOut, pos), rect.y(), qMax(oldOut, pos), rect.height());
 
-}
-
-// virtual
-void ClipItem::mousePressEvent(QGraphicsSceneMouseEvent * event)
-{
-    /*m_resizeMode = operationMode(event->pos());
-    if (m_resizeMode == MOVE) {
-      m_maxTrack = scene()->sceneRect().height();
-      m_grabPoint = (int) (event->pos().x() - rect().x());
-    }*/
-    QGraphicsRectItem::mousePressEvent(event);
-}
-
-// virtual
-void ClipItem::mouseReleaseEvent(QGraphicsSceneMouseEvent * event)
-{
-    m_resizeMode = NONE;
-    QGraphicsRectItem::mouseReleaseEvent(event);
 }
 
 /*

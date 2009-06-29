@@ -30,7 +30,7 @@
 #include <QStyleOptionGraphicsItem>
 #include <QDomDocument>
 #include <QMimeData>
-
+#include <QGraphicsSceneMouseEvent>
 
 AbstractGroupItem::AbstractGroupItem(double /* fps */) :
         QObject(),
@@ -233,4 +233,13 @@ void AbstractGroupItem::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
 void AbstractGroupItem::dragLeaveEvent(QGraphicsSceneDragDropEvent *event)
 {
     Q_UNUSED(event);
+}
+
+// virtual
+void AbstractGroupItem::mousePressEvent(QGraphicsSceneMouseEvent * event)
+{
+    if (event->modifiers() & Qt::ShiftModifier) {
+        // User want to do a rectangle selection, so ignore the event to pass it to the view
+        event->ignore();
+    } else QGraphicsItem::mousePressEvent(event);
 }

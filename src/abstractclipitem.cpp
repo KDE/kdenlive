@@ -27,6 +27,7 @@
 
 #include <QPainter>
 #include <QToolTip>
+#include <QGraphicsSceneMouseEvent>
 
 AbstractClipItem::AbstractClipItem(const ItemInfo info, const QRectF& rect, double fps) :
         QObject(),
@@ -416,5 +417,14 @@ void AbstractClipItem::setItemLocked(bool locked)
 bool AbstractClipItem::isItemLocked() const
 {
     return !(flags() & (QGraphicsItem::ItemIsSelectable));
+}
+
+// virtual
+void AbstractClipItem::mousePressEvent(QGraphicsSceneMouseEvent * event)
+{
+    if (event->modifiers() & Qt::ShiftModifier) {
+        // User want to do a rectangle selection, so ignore the event to pass it to the view
+        event->ignore();
+    } else QGraphicsItem::mousePressEvent(event);
 }
 

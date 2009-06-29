@@ -28,6 +28,7 @@
 #include <QGraphicsSceneMouseEvent>
 
 class CustomTrackScene;
+class QGraphicsSceneMouseEvent;
 
 class AbstractGroupItem : public QObject , public QGraphicsItemGroup
 {
@@ -46,6 +47,7 @@ protected:
     virtual void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
     virtual void dragLeaveEvent(QGraphicsSceneDragDropEvent *event);
     virtual void dropEvent(QGraphicsSceneDragDropEvent *event);
+    virtual void mousePressEvent(QGraphicsSceneMouseEvent * event);
 
 private:
     QPainterPath groupShape(QPointF);

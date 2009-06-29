@@ -112,8 +112,6 @@ public:
 
 protected:
     //virtual void mouseMoveEvent(QGraphicsSceneMouseEvent * event);
-    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent * event);
-    virtual void mousePressEvent(QGraphicsSceneMouseEvent * event);
     virtual void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
     virtual void dragLeaveEvent(QGraphicsSceneDragDropEvent *event);
     virtual void dropEvent(QGraphicsSceneDragDropEvent *event);
@@ -123,7 +121,6 @@ protected:
 
 private:
     DocClipBase *m_clip;
-    OPERATIONTYPE m_resizeMode;
     QString m_producer;
     CLIPTYPE m_clipType;
     QString m_clipName;

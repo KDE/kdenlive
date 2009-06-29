@@ -26,6 +26,7 @@
 #include "gentime.h"
 
 class CustomTrackScene;
+class QGraphicsSceneMouseEvent;
 
 class AbstractClipItem : public QObject , public QGraphicsRectItem
 {
@@ -76,6 +77,7 @@ protected:
     //QRect visibleRect();
     void drawKeyFrames(QPainter *painter, QRectF exposedRect);
     int mouseOverKeyFrames(QPointF pos);
+    virtual void mousePressEvent(QGraphicsSceneMouseEvent * event);
 };
 
 #endif

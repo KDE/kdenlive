@@ -601,6 +601,18 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         return;
     }
 
+    if (event->modifiers() & Qt::ShiftModifier) {
+        setDragMode(QGraphicsView::RubberBandDrag);
+        if (!(event->modifiers() & Qt::ControlModifier)) {
+            resetSelectionGroup();
+            scene()->clearSelection();
+        }
+        QGraphicsView::mousePressEvent(event);
+        m_blockRefresh = false;
+        m_operationMode = RUBBERSELECTION;
+        return;
+    }
+
     m_blockRefresh = true;
     m_dragItem = NULL;
     m_dragGuide = NULL;
@@ -621,18 +633,6 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         QGraphicsView::mousePressEvent(event);
         m_blockRefresh = false;
         m_operationMode = NONE;
-        return;
-    }
-
-    if (event->modifiers() & Qt::ShiftModifier && collisionList.count() == 0) {
-        setDragMode(QGraphicsView::RubberBandDrag);
-        if (!(event->modifiers() & Qt::ControlModifier)) {
-            resetSelectionGroup();
-            scene()->clearSelection();
-        }
-        QGraphicsView::mousePressEvent(event);
-        m_blockRefresh = false;
-        m_operationMode = RUBBERSELECTION;
         return;
     }
 
@@ -2819,10 +2819,12 @@ void CustomTrackView::deleteSelectedClips()
         if (itemList.at(i)->type() == AVWIDGET) {
             ClipItem *item = static_cast <ClipItem *>(itemList.at(i));
             if (item->parentItem()) resetGroup = true;
+            //kDebug()<<"// DELETE CLP AT: "<<item->info().startPos.frames(25);
             new AddTimelineClipCommand(this, item->xml(), item->clipProducer(), item->info(), item->effectList(), true, true, deleteSelected);
             emit clipItemSelected(NULL);
         } else if (itemList.at(i)->type() == TRANSITIONWIDGET) {
             Transition *item = static_cast <Transition *>(itemList.at(i));
+            //kDebug()<<"// DELETE TRANS AT: "<<item->info().startPos.frames(25);
             if (item->parentItem()) resetGroup = true;
             new AddTransitionCommand(this, item->info(), item->transitionEndTrack(), item->toXML(), true, true, deleteSelected);
             emit transitionItemSelected(NULL);
