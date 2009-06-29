@@ -203,6 +203,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
 
     // Something went wrong, or a new file was requested: create a new project
     if (!success) {
+        setProfilePath(QString());
         m_url = KUrl();
         m_document = createEmptyDocument(tracks.x(), tracks.y());
     }
