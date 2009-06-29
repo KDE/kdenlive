@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-06-25 14:26+0200\n"
-"PO-Revision-Date: 2009-06-29 10:41+0200\n"
+"PO-Revision-Date: 2009-06-29 11:02+0200\n"
 "Last-Translator: Markus Slopianka <kamikazow@web.de>\n"
 "Language-Team: American English <kde-i18n-de@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -3239,9 +3239,9 @@ msgid "Project profile not found, replacing with existing one: %1"
 msgstr ""
 
 #: src/kdenlivedoc.cpp:618
-#, fuzzy
 msgid "Project profile was not found, it will be added to your system now."
 msgstr ""
+"Das Projektprofil wurde nicht gefunden. Er wird zu Ihrem System hinzugefügt."
 
 #: src/kdenlivedoc.cpp:587
 #, fuzzy
