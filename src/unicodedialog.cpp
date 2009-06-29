@@ -164,11 +164,11 @@ QString UnicodeDialog::unicodeInfo(QString unicode)
         infoText = i18n("Open box; stands for a space.");
     } else if (u == "2669") {
         infoText = i18n("Quarter note (Am.) or crochet (Brit.). See <a href=\"http://en.wikipedia.org/wiki/Quarter_note\">Wikipedia:Quarter_note</a>");
-    } else if (u == "266a") {
+    } else if (u == "266a" || u == "266b") {
         infoText = i18n("Eighth note (Am.) or quaver (Brit.). Half as long as a quarter note (U+2669). See <a href=\"http://en.wikipedia.org/wiki/Eighth_note\">Wikipedia:Eighth_note</a>");
-    } else if (u == "266b") {
-        infoText = i18n("Sixteenth note (Am.) or semiquaver (Brit.). Half as long as an eighth note (U+266a). See <a href=\"http://en.wikipedia.org/wiki/Sixteenth_note\">Wikipedia:Sixteenth_note</a>");
     } else if (u == "266c") {
+        infoText = i18n("Sixteenth note (Am.) or semiquaver (Brit.). Half as long as an eighth note (U+266a). See <a href=\"http://en.wikipedia.org/wiki/Sixteenth_note\">Wikipedia:Sixteenth_note</a>");
+    } else if (u == "1D162") {
         infoText = i18n("Thirty-second note (Am.) or demisemiquaver (Brit.). Half as long as a sixteenth note (U+266b). See <a href=\"http://en.wikipedia.org/wiki/Quarter_note\">Wikipedia:Thirty-second_note</a>");
     } else {
         infoText = i18n("<small>No additional information available for this character.</small>");
