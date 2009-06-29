@@ -7,18 +7,19 @@
 # Thomas Holzmann <holzi1@gmx.at>, 2008.
 # Simon Eugster <simon.eu@gmail.com>, 2009.
 # Markus Slopianka <kamikazow@web.de>, 2009.
+# Lukas Lacheta <joshlukas@aryuna.de>, 2009.
 msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-06-25 14:26+0200\n"
-"PO-Revision-Date: 2009-06-25 15:29+0200\n"
-"Last-Translator: Markus Slopianka <kamikazow@web.de>\n"
-"Language-Team: German <kde-i18n-de@kde.org>\n"
+"PO-Revision-Date: 2009-06-27 17:35+0200\n"
+"Last-Translator: Lukas Lacheta <joshlukas@aryuna.de>\n"
+"Language-Team: American English <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.0\n"
+"X-Generator: Lokalize 0.3\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
 
 #: src/clipproperties.cpp:499 src/slideshowclip.cpp:130
@@ -3908,6 +3909,11 @@ msgid ""
 "size, making them portable? It is recommended you do this on the computer "
 "they were first created on, or you could have to adjust their size."
 msgstr ""
+"Einige Ihrer Texte wurden nicht in Pixel gespeichert, sondern in der "
+"Schriftgröße in Punkten. Dies kann zu unerwünschten Effekten führen, "
+"wenn Sie die Texte auf einem anderen Bildschirm mit einer anderen "
+"Auflösung bearbeiten. Es wird empfohlen, die Schriftgröße neu einzustellen "
+"und in Pixel abzuspeichern um die Portabilität des Projekts zu gewährleisten."
 
 #: src/titledocument.cpp:228
 msgid ""
@@ -3915,6 +3921,10 @@ msgid ""
 "different sizes on different displays. They will be converted to pixel size, "
 "making them portable, but you could have to adjust their size."
 msgstr ""
+"Einige Ihrer Texte wurden nicht in Pixel gespeichert, sondern in der "
+"Schriftgröße in Punkten. Sie werden nun in Pixel Größe gespeichert "
+"um das Projekt portabel zu machen. Sie können die Größe des "
+"Textes einstellen."
 
 #: rc.cpp:828 rc.cpp:2220
 msgid "Source"
