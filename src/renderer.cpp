@@ -1541,9 +1541,9 @@ bool Render::mltRemoveClip(int track, GenTime position)
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
     int clipIndex = trackPlaylist.get_clip_index_at((int) position.frames(m_fps));
 
-    /* // Display playlist info
-    kDebug()<<"////  BEFORE";
-    for (int i = 0; i < trackPlaylist.count(); i++) {
+    // Display playlist info
+    //kDebug() << "////  BEFORE -( " << position.frames(m_fps) << " )-------------------------------";
+    /*for (int i = 0; i < trackPlaylist.count(); i++) {
     int blankStart = trackPlaylist.clip_start(i);
     int blankDuration = trackPlaylist.clip_length(i) - 1;
     QString blk;
@@ -1552,8 +1552,10 @@ bool Render::mltRemoveClip(int track, GenTime position)
     }*/
     if (trackPlaylist.is_blank(clipIndex)) {
         kDebug() << "// WARNING, TRYING TO REMOVE A BLANK: " << position.frames(25);
+        mlt_service_unlock(service.get_service());
         return false;
     }
+    //kDebug()<<"////  Deleting at: "<< (int) position.frames(m_fps) <<" --------------------------------------";
     m_isBlocked = true;
     trackPlaylist.replace_with_blank(clipIndex);
     trackPlaylist.consolidate_blanks(0);
