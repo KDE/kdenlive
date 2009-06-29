@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-06-27 01:49+0200\n"
-"PO-Revision-Date: 2009-06-29 10:09+0200\n"
+"PO-Revision-Date: 2009-06-29 14:36+0200\n"
 "Last-Translator: Stanislas Zeller <uncensored.assault@gmail.com>\n"
 "Language-Team: français <kde-francophone@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -2747,7 +2747,7 @@ msgstr "Couleur d'arrière-plan du moniteur (nécessite de redémarrer)"
 
 #: src/monitor.cpp:185
 msgid "Monitor overlay infos"
-msgstr "Informations de recouvrement du moniteur"
+msgstr "Incruster les informations"
 
 #: rc.cpp:28 rc.cpp:1800
 msgid "Mono to stereo"
