@@ -1827,9 +1827,10 @@ void CustomTrackView::addTrack(TrackInfo type, int ix)
         m_selectionGroup = new AbstractGroupItem(m_document->fps());
         scene()->addItem(m_selectionGroup);
         for (int i = 0; i < selection.count(); i++) {
-            if (selection.at(i)->type() == AVWIDGET || selection.at(i)->type() == TRANSITIONWIDGET)
+            if ((!selection.at(i)->parentItem()) && (selection.at(i)->type() == AVWIDGET || selection.at(i)->type() == TRANSITIONWIDGET || selection.at(i)->type() == GROUPWIDGET)) {
                 m_selectionGroup->addToGroup(selection.at(i));
-            selection.at(i)->setFlags(QGraphicsItem::ItemIsSelectable);
+                selection.at(i)->setFlags(QGraphicsItem::ItemIsSelectable);
+            }
         }
         // Move graphic items
         m_selectionGroup->translate(0, m_tracksHeight);
@@ -1837,6 +1838,11 @@ void CustomTrackView::addTrack(TrackInfo type, int ix)
         // adjust track number
         QList<QGraphicsItem *> children = m_selectionGroup->childItems();
         for (int i = 0; i < children.count(); i++) {
+            if (children.at(i)->type() == GROUPWIDGET) {
+                AbstractGroupItem *grp = static_cast<AbstractGroupItem*>(children.at(i));
+                children << grp->childItems();
+                continue;
+            }
             AbstractClipItem *item = static_cast <AbstractClipItem *>(children.at(i));
             item->updateItem();
             ItemInfo clipinfo = item->info();
@@ -1860,8 +1866,8 @@ void CustomTrackView::addTrack(TrackInfo type, int ix)
             }
         }
         resetSelectionGroup(false);
-
     }
+
     int maxHeight = m_tracksHeight * m_document->tracksCount();
     for (int i = 0; i < m_guides.count(); i++) {
         QLineF l = m_guides.at(i)->line();
@@ -1890,7 +1896,7 @@ void CustomTrackView::removeTrack(int ix)
     m_selectionGroup = new AbstractGroupItem(m_document->fps());
     scene()->addItem(m_selectionGroup);
     for (int i = 0; i < selection.count(); i++) {
-        if (selection.at(i)->type() == AVWIDGET || selection.at(i)->type() == TRANSITIONWIDGET) {
+        if ((!selection.at(i)->parentItem()) && (selection.at(i)->type() == AVWIDGET || selection.at(i)->type() == TRANSITIONWIDGET || selection.at(i)->type() == GROUPWIDGET)) {
             m_selectionGroup->addToGroup(selection.at(i));
             selection.at(i)->setFlags(QGraphicsItem::ItemIsSelectable);
         }
@@ -1903,6 +1909,11 @@ void CustomTrackView::removeTrack(int ix)
     QList<QGraphicsItem *> children = m_selectionGroup->childItems();
     //kDebug() << "// FOUND CLIPS TO MOVE: " << children.count();
     for (int i = 0; i < children.count(); i++) {
+        if (children.at(i)->type() == GROUPWIDGET) {
+            AbstractGroupItem *grp = static_cast<AbstractGroupItem*>(children.at(i));
+            children << grp->childItems();
+            continue;
+        }
         if (children.at(i)->type() == AVWIDGET) {
             ClipItem *clip = static_cast <ClipItem *>(children.at(i));
             clip->updateItem();
