@@ -1237,7 +1237,8 @@ void RenderWidget::parseFile(QString exportFile, bool editable)
         if (!gname.isNull()) {
             metagroupName = gname.firstChild().nodeValue();
             metagroupId = gname.toElement().attribute("id");
-            if (!metagroupName.isEmpty() && !m_view.destination_list->contains(metagroupName)) {
+
+            if (!metagroupName.isEmpty() && m_view.destination_list->findData(metagroupId) == -1) {
                 if (metagroupId == "dvd") icon = KIcon("media-optical");
                 else if (metagroupId == "audioonly") icon = KIcon("audio-x-generic");
                 else if (metagroupId == "websites") icon = KIcon("applications-internet");
