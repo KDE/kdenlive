@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-06-27 01:49+0200\n"
-"PO-Revision-Date: 2009-06-30 09:05+0200\n"
+"PO-Revision-Date: 2009-06-30 09:08+0200\n"
 "Last-Translator: Stanislas Zeller <uncensored.assault@gmail.com>\n"
 "Language-Team: français <kde-francophone@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -193,7 +193,7 @@ msgid ""
 "&#xa0;R. with U+00a0).</p><p>See <a href=\"http://de.wikipedia.org/wiki/"
 "Schmales_Leerzeichen\">Wikipedia:de:Schmales_Leerzeichen</a></p>"
 msgstr ""
-"<p>Espace insécable restreint. A la même longueur que U+2009.</p><p> "
+"<p>Espace insécable étroit. A la même longueur que U+2009.</p><p> "
 "Utilisation : pour les unités (les espaces sont affichés avec U+2423, &#x2423;) : "
 "230&#x2423;V, &#x2212;21&#x2423;&deg;C, 50&#x2423;lb, <em>mais</em> 90&deg; "
 "(pas d'espace). En allemand pour les abréviations (comme : i.&#x202f;d.&#x202f;R. "
@@ -2282,9 +2282,8 @@ msgid "HDV"
 msgstr "HDV"
 
 #: src/unicodedialog.cpp:150
-#, fuzzy
 msgid "Hair Space. Thinner than U+2009."
-msgstr "Espace vingt-quatrième de quadratin. "
+msgstr "Espace vingt-quatrième de quadratin. Plus étroit qu'un U+2009."
 
 #: rc.cpp:806 rc.cpp:2578 rc.cpp:3960
 msgid "Height"
