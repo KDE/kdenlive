@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-06-27 01:49+0200\n"
-"PO-Revision-Date: 2009-06-30 09:08+0200\n"
+"PO-Revision-Date: 2009-06-30 15:26+0200\n"
 "Last-Translator: Stanislas Zeller <uncensored.assault@gmail.com>\n"
 "Language-Team: français <kde-francophone@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -163,7 +163,7 @@ msgid ""
 "spaces. </p><p>See <a href=\"http://en.wikipedia.org/wiki/Dash\">Wikipedia:"
 "Dash</a></p>"
 msgstr ""
-"<p> « Em » est un tiret long (de la longueur d'un m).</p><p>Exemples d'utilisation : dans "
+"<p> « Em » est un tiret long (de la largeur d'un m).</p><p>Exemples d'utilisation : dans "
 "la langue anglaise pour écrire &#x2014;comme ceci&#x2014;. Traditionnellement "
 "sans espaces. </p><p>Lire l'article sur <a href=\"http://fr.wikipedia.org/wiki/Tiret\">Wikipedia : "
 "tiret</a></p>."
@@ -177,7 +177,7 @@ msgid ""
 "Ferien &#x2013; ein regnerischer Tag.</p> <p>See <a href=\"http://en."
 "wikipedia.org/wiki/Dash\">Wikipedia:Dash</a></p>"
 msgstr ""
-"<p> « En » est un tiret court (de la longueur d'un n).</p><p>Exemples d'utilisation : "
+"<p> « En » est un tiret court (de la largeur d'un n).</p><p>Exemples d'utilisation : "
 "dans la langue anglaise pour les valeurs de dates (1878&#x2013;1903), pour les "
 "connexions / relations (Zurich&#x2013;Dublin). Dans la langue allemande, il est "
 "aussi utilisé (avec des espaces !) pour afficher des considérations : &ldquo;Es war "
@@ -193,7 +193,7 @@ msgid ""
 "&#xa0;R. with U+00a0).</p><p>See <a href=\"http://de.wikipedia.org/wiki/"
 "Schmales_Leerzeichen\">Wikipedia:de:Schmales_Leerzeichen</a></p>"
 msgstr ""
-"<p>Espace insécable étroit. A la même longueur que U+2009.</p><p> "
+"<p>Espace insécable étroit. A la même largeur que U+2009.</p><p> "
 "Utilisation : pour les unités (les espaces sont affichés avec U+2423, &#x2423;) : "
 "230&#x2423;V, &#x2212;21&#x2423;&deg;C, 50&#x2423;lb, <em>mais</em> 90&deg; "
 "(pas d'espace). En allemand pour les abréviations (comme : i.&#x202f;d.&#x202f;R. "
@@ -1749,11 +1749,11 @@ msgstr ""
 
 #: src/unicodedialog.cpp:136
 msgid "Em Space (width of an m)"
-msgstr "Espace Em (de la longueur d'un m)"
+msgstr "Espace Em (de la largeur d'un m)"
 
 #: src/unicodedialog.cpp:134
 msgid "En Space (width of an n)"
-msgstr "Espace En (de la longueur d'un n)"
+msgstr "Espace En (de la largeur d'un n)"
 
 #: rc.cpp:1076 rc.cpp:2848 rc.cpp:4230
 msgid "Enable Jog Shuttle device"
@@ -2075,7 +2075,7 @@ msgstr "Trouvé : %1"
 
 #: src/unicodedialog.cpp:140
 msgid "Four-Per-Em Space. Width: 1/4 of one <em>em</em>"
-msgstr "Espace quart de cadratin. 1/4 de la longueur d'un <em>em</em>"
+msgstr "Espace quart de cadratin. 1/4 de la largeur d'un <em>em</em>"
 
 #: rc.cpp:1256 rc.cpp:3028 rc.cpp:4410
 msgid "Frame Duration"
@@ -2283,7 +2283,7 @@ msgstr "HDV"
 
 #: src/unicodedialog.cpp:150
 msgid "Hair Space. Thinner than U+2009."
-msgstr "Espace vingt-quatrième de quadratin. Plus étroit qu'un U+2009."
+msgstr "Espace étroite. Plus étroit qu'un U+2009."
 
 #: rc.cpp:806 rc.cpp:2578 rc.cpp:3960
 msgid "Height"
@@ -3301,7 +3301,7 @@ msgid ""
 "Punctuation Space. Width the same as between a punctuation character and the "
 "next character."
 msgstr ""
-"Espace. La longueur est la même qu'entre un caractère de ponctuation "
+"Espace. La largeur est la même qu'entre un caractère de ponctuation "
 "et le caractère suivant."
 
 #: src/wizard.cpp:289
@@ -3908,7 +3908,7 @@ msgstr "Effet audio LADSPA vinyl : simule un lecteur de disque vinyl"
 
 #: src/unicodedialog.cpp:142
 msgid "Six-Per-Em Space. Width: 1/6 of one <em>em</em>"
-msgstr "Espace sixième de cadratin. 1/6 de la longueur d'un <em>em</em>"
+msgstr "Espace sixième de cadratin. 1/6 de la largeur d'un <em>em</em>"
 
 #: src/unicodedialog.cpp:170
 msgid ""
@@ -4213,7 +4213,7 @@ msgid ""
 "Thin space, in HTML also &amp;thinsp;. See U+202f and <a href=\"http://en."
 "wikipedia.org/wiki/Space_(punctuation)\">Wikipedia:Space_(punctuation)</a>"
 msgstr ""
-"Espace cinquième de quadratin, aussi en HTML &amp;thinsp;. Voir U+202f et "
+"Espace fine, noté également  &amp;thinsp; en HTML. Voir U+202f et "
 "<a href=\"http://fr.wikipedia.org/wiki/Espace_typographique\">Wikipedia : espace typographique</a>."
 
 #: src/unicodedialog.cpp:172
@@ -4261,7 +4261,7 @@ msgstr "Cette action supprime les clips sélectionnés de ce projet"
 
 #: src/unicodedialog.cpp:138
 msgid "Three-Per-Em Space. Width: 1/3 of one <em>em</em>"
-msgstr "Espace tiers de cadratin. 1/3 de la longueur d'un <em>em</em>"
+msgstr "Espace tiers de cadratin. 1/3 de la largeur d'un <em>em</em>"
 
 #: rc.cpp:453 rc.cpp:2225
 msgid "Threshold"
