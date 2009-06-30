@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-06-24 22:13+0200\n"
-"PO-Revision-Date: 2009-06-25 15:05+0100\n"
+"PO-Revision-Date: 2009-06-30 22:22+0100\n"
 "Last-Translator: KAMI <kami911@gmail.com>\n"
 "Language-Team:  <hu@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -233,9 +233,8 @@ msgid "<p>Narrow no-break space. Has the same width as U+2009.</p><p>Usage: For 
 msgstr ""
 
 #: src/unicodedialog.cpp:118
-#, fuzzy
 msgid "<small>(no character selected)</small>"
-msgstr "Nincs kijelölve feltétel."
+msgstr "<small>(nincs karakter kiválasztva)</small>"
 
 #: src/unicodedialog.cpp:174
 msgid "<small>No additional information available for this character.</small>"
@@ -339,9 +338,8 @@ msgid "Add Guide"
 msgstr "Segédpont hozzáadása"
 
 #: src/titlewidget.cpp:161
-#, fuzzy
 msgid "Add Image (Alt+I)"
-msgstr "Csillagrobbanás hozzáadása a képhez"
+msgstr "Kép hozzáadása (Alt+I)"
 
 #: src/clipproperties.cpp:293
 #: src/mainwindow.cpp:976
@@ -355,9 +353,8 @@ msgid "Add Profile"
 msgstr "Profil hozzáadása"
 
 #: src/titlewidget.cpp:151
-#, fuzzy
 msgid "Add Rectangle (Alt+R)"
-msgstr "Kurd, latin Alt-Q"
+msgstr "Téglalap hozzáadása (Alt+R)"
 
 #: src/mainwindow.cpp:1116
 #: src/slideshowclip.cpp:35
@@ -365,14 +362,12 @@ msgid "Add Slideshow Clip"
 msgstr "Diavetítés klip hozzáadása"
 
 #: src/mainwindow.cpp:1124
-#, fuzzy
 msgid "Add Template Title"
-msgstr "Új klip hozzáadása a projekthez"
+msgstr "Sabloncím hozzáadása"
 
 #: src/titlewidget.cpp:156
-#, fuzzy
 msgid "Add Text (Alt+T)"
-msgstr "Szöveges index hozzáadása"
+msgstr "Szöveg hozzáadása (Alt+T)"
 
 #: src/mainwindow.cpp:1120
 msgid "Add Title Clip"
@@ -754,9 +749,8 @@ msgid "Background"
 msgstr "Háttér"
 
 #: src/titlewidget.cpp:139
-#, fuzzy
 msgid "Background Transparency"
-msgstr "Háttérkép átlátszósága"
+msgstr "Háttér átlátszósága"
 
 #: rc.cpp:1450
 #: rc.cpp:2848
@@ -764,14 +758,12 @@ msgid "BasicOperations"
 msgstr "Alapműveletek"
 
 #: src/renderwidget.cpp:232
-#, fuzzy
 msgid "Beginning"
 msgstr "Kezdet"
 
 #: src/trackview.cpp:79
-#, fuzzy
 msgid "Bigger tracks"
-msgstr "Összes sáv"
+msgstr "Nagyobb sáv"
 
 #: src/transitionsettings.cpp:73
 msgid "Black"
@@ -795,9 +787,8 @@ msgid "Border color"
 msgstr "Keret szín"
 
 #: src/titlewidget.cpp:134
-#, fuzzy
 msgid "Border transparency"
-msgstr "Átlátszóság használata"
+msgstr "Keret átlátszósága"
 
 #: src/geometryval.cpp:96
 #: rc.cpp:70
@@ -881,14 +872,12 @@ msgid "C"
 msgstr "C"
 
 #: src/customtrackview.cpp:1345
-#, fuzzy
 msgid "Cannot add a video effect to this clip"
-msgstr "Ezen dokumentum exportálása az Open Clip Art Librarybe"
+msgstr "Videóeffektus nem adható hozzá ehhez a kliphez"
 
 #: src/customtrackview.cpp:1339
-#, fuzzy
 msgid "Cannot add an audio effect to this clip"
-msgstr "Ezen dokumentum exportálása az Open Clip Art Librarybe"
+msgstr "Hangeffektus nem adható hozzá ehhez a kliphez"
 
 #: src/customtrackview.cpp:861
 #: src/customtrackview.cpp:890
@@ -1249,9 +1238,8 @@ msgstr "Klónozás"
 
 #: rc.cpp:763
 #: rc.cpp:2161
-#, fuzzy
 msgid "Clone title clip"
-msgstr "Új klip hozzáadása a projekthez"
+msgstr "Klip klónozása"
 
 #: src/cliptranscode.cpp:129
 #: rc.cpp:553
@@ -1543,9 +1531,8 @@ msgid "DVD structure broken"
 msgstr "Hibás DVD struktúra"
 
 #: src/dvdwizard.cpp:474
-#, fuzzy
 msgid "DVDAuthor process crashed."
-msgstr "Nincs ilyen folyamat"
+msgstr "A DVDAuthor folyamat váratlanul kilépett."
 
 #: rc.cpp:257
 #: rc.cpp:267
@@ -1725,9 +1712,8 @@ msgid "Delete selected items"
 msgstr "Kiválsztott elemek törlése"
 
 #: src/mainwindow.cpp:397
-#, fuzzy
 msgid "Delete them"
-msgstr "       --delete-after       helyi fájlok törlése letöltés után.\n"
+msgstr "Törlés"
 
 #: src/addtimelineclipcommand.cpp:37
 msgid "Delete timeline clip"
@@ -2128,9 +2114,8 @@ msgid "Estimated time %1"
 msgstr "Becsült idő: %1"
 
 #: src/kdenlivedoc.cpp:608
-#, fuzzy
 msgid "Existing Profile"
-msgstr "Profil hozzáadása"
+msgstr "Létező profil"
 
 #: rc.cpp:523
 #: rc.cpp:1921
@@ -2276,9 +2261,8 @@ msgid "Fill color"
 msgstr "Kitöltés színe"
 
 #: src/titlewidget.cpp:133
-#, fuzzy
 msgid "Fill transparency"
-msgstr "Kitöltés átlátszó felülettel"
+msgstr "Kitöltés átlátszóra"
 
 #: src/mainwindow.cpp:813
 msgid "Find"
@@ -2310,9 +2294,8 @@ msgstr ""
 " Kérem, telepítse a Libiec618883-at és fordítsa újra a Kdenlive-t!"
 
 #: src/titlewidget.cpp:137
-#, fuzzy
 msgid "Fit zoom"
-msgstr "Ablakmérethez _igazítás"
+msgstr "Kitöltő nagyítás"
 
 #: src/mainwindow.cpp:711
 msgid "Fit zoom to project"
@@ -2705,9 +2688,8 @@ msgid "I"
 msgstr "I"
 
 #: src/dvdwizard.cpp:540
-#, fuzzy
 msgid "ISO creation process crashed."
-msgstr "<strong>%1 leképzése hibát okozott</strong><br />"
+msgstr "Az ISO képfájlt létrehozó folyamat váratlanul kilépett."
 
 #: rc.cpp:691
 #: rc.cpp:1651
@@ -2885,7 +2867,6 @@ msgstr "Feliratkozási címem és nevem megváltoztatása"
 
 #: rc.cpp:1411
 #: rc.cpp:2809
-#, fuzzy
 msgid "Item Properties"
 msgstr "Elem tulajdonságai"
 
@@ -3171,9 +3152,8 @@ msgstr "Egyéb…"
 #: src/kdenlivedoc.cpp:587
 #: src/kdenlivedoc.cpp:603
 #: src/kdenlivedoc.cpp:618
-#, fuzzy
 msgid "Missing Profile"
-msgstr "A profilból („%s”) hiányzik a(z) „%s”kötelező mező."
+msgstr "Hiányzó profil"
 
 #: rc.cpp:820
 #: rc.cpp:2218
@@ -4748,9 +4728,8 @@ msgid "Text"
 msgstr "Szöveg"
 
 #: src/titledocument.cpp:228
-#, fuzzy
 msgid "Text Clips Updated"
-msgstr "A jelszó nem frissült."
+msgstr "Szövegklip frissítve"
 
 #: src/projectitem.cpp:203
 msgid "Text clip"
@@ -5008,9 +4987,8 @@ msgid "Up"
 msgstr "Fel"
 
 #: src/documentvalidator.cpp:692
-#, fuzzy
 msgid "Update Text Clips"
-msgstr "Projekt klippek betöltése"
+msgstr "Szövegklip frissítése"
 
 #: rc.cpp:1348
 #: rc.cpp:2746
@@ -5366,7 +5344,6 @@ msgid "Zoom:"
 msgstr "Nagyítás:"
 
 #: src/titlewidget.cpp:871
-#, fuzzy
 msgid "\\u2212X"
 msgstr "\\u2212X"
 
