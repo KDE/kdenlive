@@ -13,13 +13,13 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-06-25 14:26+0200\n"
-"PO-Revision-Date: 2009-06-29 11:02+0200\n"
-"Last-Translator: Markus Slopianka <kamikazow@web.de>\n"
+"PO-Revision-Date: 2009-06-30 10:31+0200\n"
+"Last-Translator: Simon Eugster\n"
 "Language-Team: American English <kde-i18n-de@kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.0\n"
+"X-Generator: Lokalize 0.3\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
 
 #: src/clipproperties.cpp:499 src/slideshowclip.cpp:130
@@ -134,7 +134,6 @@ msgid ":::"
 msgstr ":::"
 
 #: src/unicodedialog.cpp:132
-#, fuzzy
 msgid ""
 "<p><strong>&laquo;</strong> (u+00ab, <code>&amp;lfquo;</code> in HTML) and "
 "<strong>&raquo;</strong> (u+00bb, <code>&amp;rfquo;</code> in HTML) are "
@@ -145,18 +144,38 @@ msgid ""
 "p><p>See <a href=\"http://en.wikipedia.org/wiki/Guillemets\">Wikipedia:"
 "Guillemets</a></p>"
 msgstr ""
+"<p><strong>&laquo;</strong> (u+00ab, <code>&amp;lfquo;</code> in HTML) und"
+"<strong>&raquo;</strong> (u+00bb, <code>&amp;rfquo;</code> in HTML) werden "
+"Guillemets "
+"oder Französische Anführungszeichen genannt. Verwendung in verschiedenen "
+"Ländern: Frankreich "
+"(mit geschütztem Leerzeichen 0x00a0: &#xab;&nbsp;Text&nbsp;&#xbb;), Schweiz "
+"(&#xab;Text&#xbb;), "
+"Deutschland (&#xbb;Text&#xab;), Finnland und Schweden (&#xbb;Text&#xbb;).</p>"
+" "
+"<p><strong>&lsaquo;</strong> und <strong>&rsaquo;</strong> (U+2039/203a, "
+"<code>&amp;lsaquo;/&amp;rsaquo;</code>) sind die dazugehörigen einfachen "
+"Anführungszeichen.</p> "
+"<p>Siehe <a href=\"http://de.wikipedia.org/wiki/Guillemets\">Wikipedia:"
+"Guillemets</a></p>"
 
 #: src/unicodedialog.cpp:156
-#, fuzzy
 msgid ""
 "<p>An em Dash (dash of the widht of an m).</p><p>Usage examples: In English "
 "language to mark&#x2014;like here&#x2014;thoughts. Traditionally without "
 "spaces. </p><p>See <a href=\"http://en.wikipedia.org/wiki/Dash\">Wikipedia:"
 "Dash</a></p>"
 msgstr ""
+"<p>Ein Geviertstrich (so breit wie ein m).</p><p>Verwendung: Vor allem in "
+"traditionellen Englischen Texten als Gedankenstrich, ohne Leerschläge davor "
+"und "
+"danach. Im Deutschen zur Bezeichnung von glatten Währungsbeträgen (42."
+"&#x2014;&nbsp;CHF)"
+"</p><p>Siehe <a href=\"http://de.wikipedia.org/wiki/Geviertstrich\">"
+"Wikipedia:"
+"Geviertstrich</a></p>"
 
 #: src/unicodedialog.cpp:154
-#, fuzzy
 msgid ""
 "<p>An en Dash (dash of the width of an n).</p><p>Usage examples: In English "
 "language for value ranges (1878&#x2013;1903), for relationships/connections "
@@ -165,9 +184,13 @@ msgid ""
 "Ferien &#x2013; ein regnerischer Tag.</p> <p>See <a href=\"http://en."
 "wikipedia.org/wiki/Dash\">Wikipedia:Dash</a></p>"
 msgstr ""
+"<p>Ein Halbgeviertstrich (Breite eines n).</p><p>Verwendung: Als "
+"Gedankenstrich &ndash; mit Leerschlägen &ndash;, Streckenstrich (Flug "
+"Zürich&ndash;Dublin), Bis-Strich (10&ndash;20 °C).</p><p>Siehe <a "
+"href=\"http://de.wikipedia.org/wiki/Halbgeviertstrich\">"
+"Wikipedia:Halbgeviertstrich</a></p>"
 
 #: src/unicodedialog.cpp:158
-#, fuzzy
 msgid ""
 "<p>Narrow no-break space. Has the same width as U+2009.</p><p>Usage: For "
 "units (spaces are marked with U+2423, &#x2423;): 230&#x2423;V, "
@@ -176,16 +199,22 @@ msgid ""
 "&#xa0;R. with U+00a0).</p><p>See <a href=\"http://de.wikipedia.org/wiki/"
 "Schmales_Leerzeichen\">Wikipedia:de:Schmales_Leerzeichen</a></p>"
 msgstr ""
+"<p>Schmales geschütztes Leerzeichen. Hat die selbe Breite wie U+2009.</p><p>"
+"Verwendung: Für Einheiten (Leerschläge werden mit U+2423, &#x2423;, "
+"markiert): 230&#x2423;V, &#x2212;21&#x2423;&deg;C, 50&#x2423;lb, <em>aber<"
+"/em> 90&deg; (kein Leerschlag). Ausserdem für Abkürzungen (wie i.&#x202f;d."
+"&#x202f;R. statt i.&#xa0;d.&#xa0;R. mit U+00a0).</p><p>Siehe <a "
+"href=\"http://de.wikipedia.org/wiki/Schmales_Leerzeichen\">"
+"Wikipedia:de:Schmales_Leerzeichen</a></p>"
 
 #: src/unicodedialog.cpp:118
-#, fuzzy
 msgid "<small>(no character selected)</small>"
-msgstr ""
+msgstr "<small>(kein Zeichen ausgewählt)</small>"
 
 #: src/unicodedialog.cpp:174
-#, fuzzy
 msgid "<small>No additional information available for this character.</small>"
 msgstr ""
+"<small>Keine zusätzlichen Informationen zu diesem Zeichen verfügbar.</small>"
 
 #: src/kdenlivesettingsdialog.cpp:174
 msgid ""
@@ -1131,11 +1160,13 @@ msgid "Connect"
 msgstr "Verbinden"
 
 #: src/unicodedialog.cpp:124
-#, fuzzy
 msgid ""
 "Control character. Cannot be inserted/printed. See <a href=\"http://en."
 "wikipedia.org/wiki/Control_character\">Wikipedia:Control_character</a>"
 msgstr ""
+"Steuerzeichen. Kann nicht eingefügt/gedruckt werden. Siehe <a "
+"href=\"http://de.wikipedia.org/wiki/Steuerzeichen\">Wikipedia:Steuerzeichen<"
+"/a>"
 
 #: rc.cpp:30
 msgid "Copy the left channel to the right"
@@ -1529,9 +1560,8 @@ msgid "Discard color information"
 msgstr "Farbinformationen verwerfen"
 
 #: src/wizard.cpp:55
-#, fuzzy
 msgid "Discover the features of this Kdenlive release"
-msgstr ""
+msgstr "Entdecke die neuen Features dieses kdenlive-Releases"
 
 #: src/recmonitor.cpp:227
 msgid "Disonnect"
@@ -1558,9 +1588,8 @@ msgid "Display ratio:"
 msgstr "Anzeigeseitenverhältnis:"
 
 #: rc.cpp:1159 rc.cpp:1408 rc.cpp:2551 rc.cpp:2800
-#, fuzzy
 msgid "Dissolve"
-msgstr ""
+msgstr "Auflösen"
 
 #: rc.cpp:143
 msgid "Distort0r"
@@ -1703,19 +1732,23 @@ msgid "Effect already present in clip"
 msgstr "Effekt schon im Clip vorhanden"
 
 #: src/unicodedialog.cpp:168
-#, fuzzy
 msgid ""
 "Eighth note (Am.) or quaver (Brit.). Half as long as a quarter note (U"
 "+2669). See <a href=\"http://en.wikipedia.org/wiki/Eighth_note\">Wikipedia:"
 "Eighth_note</a>"
 msgstr ""
+"Achtelnote. Halb so lange wie die Viertelnote (U+2669). Siehe <a "
+"href=\"http://en.wikipedia.org/wiki/Notenwert\">Wikipedia:"
+"Notenwert</a>"
 
 #: src/unicodedialog.cpp:160
-#, fuzzy
 msgid ""
 "Ellipsis: If text has been left o&#x2026; See <a href=\"http://en.wikipedia."
 "org/wiki/Ellipsis\">Wikipedia:Ellipsis</a>"
 msgstr ""
+"Ellipse oder Auslassungspunkte, falls Text ausgel&#x2026; Falls ein ganzes "
+"Wort fehlt, wird ein Leerschlag &#x2026; Siehe <a href=\"http://de.wikipedia."
+"org/wiki/Auslassungspunkte\">Wikipedia:Auslassungspunkte</a>"
 
 #: src/unicodedialog.cpp:136
 msgid "Em Space (width of an m)"
@@ -1763,9 +1796,9 @@ msgid "Enter new location for file"
 msgstr "Geben Sie den neuen Ort für die Datei an"
 
 #: src/unicodedialog.cpp:46
-#, fuzzy
 msgid "Enter your Unicode number here. Allowed characters: [0-9] and [a-f]."
 msgstr ""
+"Geben Sie hier Ihre Unicode-Nummer ein. Erlaubte Zeichen: [0-9] und [a-f]."
 
 #: src/kdenlivesettingsdialog.cpp:72
 msgid "Environment"
