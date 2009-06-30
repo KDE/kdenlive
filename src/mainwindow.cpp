@@ -2317,9 +2317,9 @@ void MainWindow::slotShowClipProperties(DocClipBase *clip)
 
 void MainWindow::customEvent(QEvent* e)
 {
+    kDebug() << "// GOT ERROR";
     if (e->type() == QEvent::User) {
-        // The timeline playing position changed...
-        kDebug() << "RECEIVED JOG EVEMNT!!!";
+        m_messageLabel->setMessage(static_cast <MltErrorEvent *>(e)->message(), ErrorMessage);
     }
 }
 void MainWindow::slotActivateEffectStackView()
@@ -2498,6 +2498,7 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
         return QMainWindow::eventFilter(obj, event);
     }
 }
+
 
 void MainWindow::slotSaveZone(Render *render, QPoint zone)
 {

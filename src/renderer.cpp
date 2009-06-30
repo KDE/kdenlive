@@ -29,7 +29,6 @@
 #include "definitions.h"
 
 #include <mlt++/Mlt.h>
-//#include <framework/mlt_log.h>
 
 #include <KDebug>
 #include <KStandardDirs>
@@ -44,14 +43,14 @@
 #include <stdlib.h>
 
 
-/*
-static void kdenlive_callback(void* ptr, int level, const char* fmt, va_list vl)
+
+static void kdenlive_callback(void* /*ptr*/, int level, const char* fmt, va_list vl)
 {
     if (level > MLT_LOG_ERROR) return;
     QString error;
-    QProcess::startDetached("kdialog", QStringList() << "--error" << error.vsprintf(fmt, vl));
+    QApplication::postEvent(qApp->activeWindow() , new MltErrorEvent(error.vsprintf(fmt, vl).simplified()));
 }
-*/
+
 
 static void consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr)
 {
@@ -145,7 +144,7 @@ void Render::buildConsumer()
     // FIXME: the event object returned by the listen gets leaked...
     m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
     m_mltConsumer->set("rescale", "nearest");
-    //mlt_log_set_callback(kdenlive_callback);
+    mlt_log_set_callback(kdenlive_callback);
 
     QString audioDevice = KdenliveSettings::audiodevicename();
     if (!audioDevice.isEmpty()) {
