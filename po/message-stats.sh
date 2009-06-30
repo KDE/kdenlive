@@ -1,6 +1,11 @@
 #! /bin/sh
 
-MAX=1106
+#MAX=1106
+
+thing=`msgfmt --statistics "kdenlive.pot" 2>&1`
+set -- $thing
+MAX=$4
+
 echo "document.getElementById(\"lastupdated\").innerHTML = \""`date`"\";" > poprogress.js
 
 for f in *; do
