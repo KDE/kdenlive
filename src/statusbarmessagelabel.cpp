@@ -38,7 +38,7 @@ StatusBarMessageLabel::StatusBarMessageLabel(QWidget* parent) :
         QWidget(parent),
         m_type(DefaultMessage),
         m_state(Default),
-        m_illumination(0),
+        m_illumination(-64),
         m_minTextHeight(-1),
         m_timer(0),
         m_closeButton(0)
@@ -50,13 +50,11 @@ StatusBarMessageLabel::StatusBarMessageLabel(QWidget* parent) :
     setPalette(palette);
 
     m_timer = new QTimer(this);
-    connect(m_timer, SIGNAL(timeout()),
-            this, SLOT(timerDone()));
+    connect(m_timer, SIGNAL(timeout()), this, SLOT(timerDone()));
 
     m_closeButton = new QPushButton(i18nc("@action:button", "Close"), this);
     m_closeButton->hide();
-    connect(m_closeButton, SIGNAL(clicked()),
-            this, SLOT(closeErrorMessage()));
+    connect(m_closeButton, SIGNAL(clicked()), this, SLOT(closeErrorMessage()));
 }
 
 StatusBarMessageLabel::~StatusBarMessageLabel()
@@ -83,9 +81,9 @@ void StatusBarMessageLabel::setMessage(const QString& text,
     m_text = text;
     m_type = type;
 
-    m_timer->stop();
-    m_illumination = 0;
+    m_illumination = -64;
     m_state = Default;
+    m_timer->stop();
 
     const char* iconName = 0;
     QPixmap pixmap;
@@ -105,9 +103,15 @@ void StatusBarMessageLabel::setMessage(const QString& text,
         iconName = "dialog-warning";
         m_timer->start(100);
         m_state = Illuminate;
+        m_closeButton->hide();
+        break;
 
-        //updateCloseButtonPosition();
-        //m_closeButton->show();
+    case MltError:
+        iconName = "dialog-close";
+        m_timer->start(100);
+        m_state = Illuminate;
+        updateCloseButtonPosition();
+        m_closeButton->show();
         break;
 
     case DefaultMessage:
@@ -117,8 +121,8 @@ void StatusBarMessageLabel::setMessage(const QString& text,
     }
 
     m_pixmap = (iconName == 0) ? QPixmap() : SmallIcon(iconName);
-    //QTimer::singleShot(GeometryTimeout, this, SLOT(assureVisibleText()));
-    show(); //update();
+    QTimer::singleShot(GeometryTimeout, this, SLOT(assureVisibleText()));
+    update();
 }
 
 void StatusBarMessageLabel::setMinimumTextHeight(int min)
@@ -126,17 +130,10 @@ void StatusBarMessageLabel::setMinimumTextHeight(int min)
     if (min != m_minTextHeight) {
         m_minTextHeight = min;
         setMinimumHeight(min);
-        /*if (m_closeButton->height() > min) {
+        if (m_closeButton->height() > min) {
             m_closeButton->setFixedHeight(min);
-        }*/
+        }
     }
-}
-
-int StatusBarMessageLabel::widthGap() const
-{
-    QFontMetrics fontMetrics(font());
-    const int defaultGap = 10;
-    return fontMetrics.width(m_text) - availableTextWidth() + defaultGap;
 }
 
 void StatusBarMessageLabel::paintEvent(QPaintEvent* /* event */)
@@ -144,18 +141,16 @@ void StatusBarMessageLabel::paintEvent(QPaintEvent* /* event */)
     QPainter painter(this);
 
     // draw background
-    QColor backgroundColor = palette().window().color();
-    if (m_illumination > 0) {
-        // at this point, a: we are a second label being drawn over the already
-        // painted status area, so we can be translucent, and b: our palette's
-        // window color (bg only) seems to be wrong (always black)
+    QColor backgroundColor;
+    if (m_state == Default || m_illumination < 0) backgroundColor = palette().window().color();
+    else {
         KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Window);
         backgroundColor = scheme.background(KColorScheme::NegativeBackground).color();
-        backgroundColor.setAlpha(qMin(255, m_illumination*2));
     }
-    painter.setBrush(backgroundColor);
-    painter.setPen(Qt::NoPen);
-    painter.drawRect(0, 0, width(), height());
+    if (m_state == Desaturate && m_illumination > 0) {
+        backgroundColor.setAlpha(m_illumination * 2);
+    }
+    painter.fillRect(0, 0, width(), height(), backgroundColor);
 
     // draw pixmap
     int x = BorderGap;
@@ -169,9 +164,9 @@ void StatusBarMessageLabel::paintEvent(QPaintEvent* /* event */)
     // draw text
     painter.setPen(palette().windowText().color());
     int flags = Qt::AlignVCenter;
-    /*if (height() > m_minTextHeight) {
+    if (height() > m_minTextHeight) {
         flags = flags | Qt::TextWordWrap;
-    }*/
+    }
     painter.drawText(QRect(x, 0, availableTextWidth(), height()), flags, m_text);
     painter.end();
 }
@@ -179,8 +174,8 @@ void StatusBarMessageLabel::paintEvent(QPaintEvent* /* event */)
 void StatusBarMessageLabel::resizeEvent(QResizeEvent* event)
 {
     QWidget::resizeEvent(event);
-    //updateCloseButtonPosition();
-    //QTimer::singleShot(GeometryTimeout, this, SLOT(assureVisibleText()));
+    updateCloseButtonPosition();
+    QTimer::singleShot(GeometryTimeout, this, SLOT(assureVisibleText()));
 }
 
 void StatusBarMessageLabel::timerDone()
@@ -197,27 +192,30 @@ void StatusBarMessageLabel::timerDone()
             update();
         } else {
             m_state = Illuminated;
-            m_timer->start(5000);
+            m_timer->start(1500);
         }
         break;
     }
 
     case Illuminated: {
         // start desaturation
-        m_state = Desaturate;
-        m_timer->start(100);
+        if (m_type != MltError) {
+            m_state = Desaturate;
+            m_timer->start(80);
+        }
         break;
     }
 
     case Desaturate: {
         // desaturate
-        if (m_illumination > 0) {
-            m_illumination -= 5;
-            update();
-        } else {
+        if (m_illumination < -128) {
+            m_illumination = 0;
             m_state = Default;
             m_timer->stop();
-            reset();
+            setMessage(QString(), DefaultMessage);
+        } else {
+            m_illumination -= 5;
+            update();
         }
         break;
     }
@@ -271,7 +269,7 @@ void StatusBarMessageLabel::assureVisibleText()
         updateGeometry();
     }
 
-    //updateCloseButtonPosition();
+    updateCloseButtonPosition();
 }
 
 int StatusBarMessageLabel::availableTextWidth() const
@@ -291,27 +289,18 @@ void StatusBarMessageLabel::updateCloseButtonPosition()
 void StatusBarMessageLabel::closeErrorMessage()
 {
     if (!showPendingMessage()) {
-        reset();
-        setMessage(m_defaultText, DefaultMessage);
+        setMessage(QString(), DefaultMessage);
     }
 }
 
 bool StatusBarMessageLabel::showPendingMessage()
 {
     if (!m_pendingMessages.isEmpty()) {
-        reset();
         setMessage(m_pendingMessages.takeFirst(), ErrorMessage);
         return true;
     }
     return false;
 }
 
-void StatusBarMessageLabel::reset()
-{
-    m_text.clear();
-    m_pixmap = QPixmap();
-    m_type = DefaultMessage;
-    update();
-}
 
 #include "statusbarmessagelabel.moc"

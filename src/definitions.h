@@ -25,8 +25,6 @@
 
 #include <KLocale>
 
-#include <QEvent>
-
 const int FRAME_SIZE = 90;
 const int MAXCLIPDURATION = 15000;
 
@@ -49,7 +47,8 @@ enum MessageType {
     DefaultMessage,
     OperationCompletedMessage,
     InformationMessage,
-    ErrorMessage
+    ErrorMessage,
+    MltError
 };
 
 enum TRACKTYPE { AUDIOTRACK = 0, VIDEOTRACK = 1 };
@@ -181,19 +180,6 @@ private:
 
 
 };
-
-class MltErrorEvent : public QEvent
-{
-public:
-    MltErrorEvent(QString message) : QEvent(QEvent::User), m_message(message) {}
-    QString message() const {
-        return m_message;
-    }
-
-private:
-    QString m_message;
-};
-
 
 
 #endif

@@ -790,7 +790,6 @@ void MainWindow::setupActions()
     statusBar()->insertPermanentFixedItem("00:00:00:00", ID_TIMELINE_POS);
     statusBar()->addPermanentWidget(m_timecodeFormat);
     statusBar()->setMaximumHeight(statusBar()->font().pointSize() * 4);
-    m_messageLabel->hide();
 
     collection->addAction("select_tool", m_buttonSelectTool);
     collection->addAction("razor_tool", m_buttonRazorTool);
@@ -2317,9 +2316,8 @@ void MainWindow::slotShowClipProperties(DocClipBase *clip)
 
 void MainWindow::customEvent(QEvent* e)
 {
-    kDebug() << "// GOT ERROR";
     if (e->type() == QEvent::User) {
-        m_messageLabel->setMessage(static_cast <MltErrorEvent *>(e)->message(), ErrorMessage);
+        m_messageLabel->setMessage(static_cast <MltErrorEvent *>(e)->message(), MltError);
     }
 }
 void MainWindow::slotActivateEffectStackView()

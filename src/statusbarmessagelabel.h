@@ -55,19 +55,9 @@ public:
 
     const QString& text() const;
 
-    void setDefaultText(const QString& text);
-    const QString& defaultText() const;
-
     // TODO: maybe a better approach is possible with the size hint
     void setMinimumTextHeight(int min);
     int minimumTextHeight() const;
-
-    /**
-     * Returns the gap of the width of the current set text to the
-     * width of the message label. A gap <= 0 means that the text
-     * fits into the available width.
-     */
-    int widthGap() const;
 
 protected:
     /** @see QWidget::paintEvent() */
@@ -136,7 +126,6 @@ private:
     int m_minTextHeight;
     QTimer* m_timer;
     QString m_text;
-    QString m_defaultText;
     QList<QString> m_pendingMessages;
     QPixmap m_pixmap;
     QPushButton* m_closeButton;
@@ -150,16 +139,6 @@ inline MessageType StatusBarMessageLabel::type() const
 inline const QString& StatusBarMessageLabel::text() const
 {
     return m_text;
-}
-
-inline void StatusBarMessageLabel::setDefaultText(const QString& text)
-{
-    m_defaultText = text;
-}
-
-inline const QString& StatusBarMessageLabel::defaultText() const
-{
-    return m_defaultText;
 }
 
 inline int StatusBarMessageLabel::minimumTextHeight() const

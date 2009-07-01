@@ -18,15 +18,17 @@
 #ifndef RENDERER_H
 #define RENDERER_H
 
+#include "gentime.h"
+#include "definitions.h"
+
+#include <kurl.h>
+
 #include <qdom.h>
 #include <qstring.h>
 #include <qmap.h>
 #include <QList>
+#include <QEvent>
 
-#include <kurl.h>
-
-#include "gentime.h"
-#include "definitions.h"
 
 /**Render encapsulates the client side of the interface to a renderer.
 From Kdenlive's point of view, you treat the Render object as the
@@ -53,6 +55,18 @@ class Profile;
 class Service;
 };
 
+
+class MltErrorEvent : public QEvent
+{
+public:
+    MltErrorEvent(QString message) : QEvent(QEvent::User), m_message(message) {}
+    QString message() const {
+        return m_message;
+    }
+
+private:
+    QString m_message;
+};
 
 
 class Render: public QObject
