@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-06-24 22:13+0200\n"
-"PO-Revision-Date: 2009-07-01 09:49+0100\n"
+"PO-Revision-Date: 2009-07-01 10:16+0100\n"
 "Last-Translator: KAMI <kami911@gmail.com>\n"
 "Language-Team:  <hu@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -218,7 +218,7 @@ msgstr ":::"
 
 #: src/unicodedialog.cpp:132
 msgid "<p><strong>&laquo;</strong> (u+00ab, <code>&amp;lfquo;</code> in HTML) and <strong>&raquo;</strong> (u+00bb, <code>&amp;rfquo;</code> in HTML) are called Guillemets or angle quotes. Usage in different countries: France (with non-breaking Space 0x00a0), Switzerland, Germany, Finland and Sweden.</p><p><strong>&lsaquo;</strong> and <strong>&rsaquo;</strong> (U+2039/203a, <code>&amp;lsaquo;/&amp;rsaquo;</code>) are their single quote equivalents.</p><p>See <a href=\"http://en.wikipedia.org/wiki/Guillemets\">Wikipedia:Guillemets</a></p>"
-msgstr ""
+msgstr "<p><strong>&laquo;</strong> (u+00ab, <code>&amp;lfquo;</code> HTML-ben) és <strong>&raquo;</strong> (u+00bb, <code>&amp;rfquo;</code> HTML-ben) másodlagos idézőjel, belső idézőjel, ludláb, vagyis Guillemets. Használata a különböző országokban: Magyarországon – a többi nemzettel ellentétben – fordítva vannak a nyilak – azaz az idézetre mutatnak: <strong>&raquo;</strong>idézetem<strong>&laquo;</strong> (szóközök nélkül), Franciaország (nem törő szóközzel: 0x00a0), Svájc, Németország, Finnország és Svédország.</p><p><strong>&lsaquo;</strong> és <strong>&rsaquo;</strong> (U+2039/203a, <code>&amp;lsaquo;/&amp;rsaquo;</code>) és szimpla változatai.</p><p>See <a href=\"http://hu.wikipedia.org/wiki/Id%C3%A9z%C5%91jel\">Wikipedia: Idézőjel</a></p>"
 
 #: src/unicodedialog.cpp:156
 msgid "<p>An em Dash (dash of the widht of an m).</p><p>Usage examples: In English language to mark&#x2014;like here&#x2014;thoughts. Traditionally without spaces. </p><p>See <a href=\"http://en.wikipedia.org/wiki/Dash\">Wikipedia:Dash</a></p>"
@@ -2004,7 +2004,7 @@ msgstr "Nyolcad hangjegy, Eighth note (amerikai) vagy quaver (brit). A negyed ha
 
 #: src/unicodedialog.cpp:160
 msgid "Ellipsis: If text has been left o&#x2026; See <a href=\"http://en.wikipedia.org/wiki/Ellipsis\">Wikipedia:Ellipsis</a>"
-msgstr ""
+msgstr "Három pont vagy hármaspont. A többit a nyájas olvasó fantáziájára bízom&#x2026; Lásd <a href=\"http://hu.wikipedia.org/wiki/H%C3%A1rom_pont\">Wikipedia: Három pont</a>"
 
 #: src/unicodedialog.cpp:136
 msgid "Em Space (width of an m)"
