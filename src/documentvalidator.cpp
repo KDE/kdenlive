@@ -128,8 +128,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
 
     // No conversion needed
     if (version == currentVersion) {
-        // TODO: uncomment when currentVersion == 0.84
-        //return true;
+        return true;
     }
 
     // The document is too new
