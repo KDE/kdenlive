@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-06-24 22:13+0200\n"
-"PO-Revision-Date: 2009-06-30 23:38+0100\n"
+"PO-Revision-Date: 2009-07-01 09:49+0100\n"
 "Last-Translator: KAMI <kami911@gmail.com>\n"
 "Language-Team:  <hu@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -222,15 +222,15 @@ msgstr ""
 
 #: src/unicodedialog.cpp:156
 msgid "<p>An em Dash (dash of the widht of an m).</p><p>Usage examples: In English language to mark&#x2014;like here&#x2014;thoughts. Traditionally without spaces. </p><p>See <a href=\"http://en.wikipedia.org/wiki/Dash\">Wikipedia:Dash</a></p>"
-msgstr ""
+msgstr "<p>Kvirtmínusz, Em Dash (m karakter szélességű kötőjel).</p><p>Használata: magyar írásaban: nem használjuk, angol írásban: In English language to mark&#x2014;like here&#x2014;thoughts. Tradiciónálisan szóközök nélkül. </p><p>Lásd: <a href=\"http://en.wikipedia.org/wiki/Dash\">Wikipedia:Dash</a> és <a href=\"http://hu.wikipedia.org/wiki/Nagyk%C3%B6t%C5%91jel\">Wikipedia: Nagykötőjel</a></p>"
 
 #: src/unicodedialog.cpp:154
 msgid "<p>An en Dash (dash of the width of an n).</p><p>Usage examples: In English language for value ranges (1878&#x2013;1903), for relationships/connections (Zurich&#x2013;Dublin). In the German language it is also used (with spaces!) for showing thoughts: &ldquo;Es war &#x2013; wie immer in den Ferien &#x2013; ein regnerischer Tag.</p> <p>See <a href=\"http://en.wikipedia.org/wiki/Dash\">Wikipedia:Dash</a></p>"
-msgstr ""
+msgstr "<p>Félkvirtmínusz, En Dash (n karakter (fél m) szélességű szélességű gondolatjel és nagykötőjel).</p><p>Használata: magyar írásaban: gondolatjelről önálló mondatok (olykor mondatrészek) összekapcsolásakor beszélünk, nagykötőjelről szavak, szókapcsolatok (többnyire lazább, alkalmi) összefűzésekor beszélünk (angol&#x2013;magyar szótár), angol írásban: értéktartományok (1878&#x2013;1903), összefüggések kapcsolatok (Zurich&#x2013;Dublin)</p><p>Lásd: <a href=\"http://en.wikipedia.org/wiki/Dash\">Wikipedia:Dash</a> és <a href=\"http://hu.wikipedia.org/wiki/Nagyk%C3%B6t%C5%91jel\">Wikipedia: Nagykötőjel</a></p>"
 
 #: src/unicodedialog.cpp:158
 msgid "<p>Narrow no-break space. Has the same width as U+2009.</p><p>Usage: For units (spaces are marked with U+2423, &#x2423;): 230&#x2423;V, &#x2212;21&#x2423;&deg;C, 50&#x2423;lb, <em>but</em> 90&deg; (no space). In German for abbreviations (like: i.&#x202f;d.&#x202f;R. instead of i.&#xa0;d.&#xa0;R. with U+00a0).</p><p>See <a href=\"http://de.wikipedia.org/wiki/Schmales_Leerzeichen\">Wikipedia:de:Schmales_Leerzeichen</a></p>"
-msgstr ""
+msgstr "<p>Keskeny nem törhető szóköz. Azonos szélességű, mint a vékony szóköz (U+2009).</p><p>Használata: em törhető szóközzel lehet megakadályozni a szorosabban összetartozó elemek sor végi szétválasztását, például: névelőzékek és név között (dr., ifj., id., özv.), címzésben az emelet, kerület, utca, tér stb. teljes vagy rövid alakja előtt, mérőszámok és mértékegységek között, számokon belül, beleértve a számmal és betűvel írt rész határát (pl. 36 ezer) (Szóközök jelőlése: U+2423, &#x2423;): 230&#x2423;V, &#x2212;21&#x2423;&deg;C, 50&#x2423;kg.</p><p>Lásd: <a href=\"http://hu.wikipedia.org/wiki/Sz%C3%B3k%C3%B6z\">Wikipedia: Szóköz</a></p>"
 
 #: src/unicodedialog.cpp:118
 msgid "<small>(no character selected)</small>"
@@ -238,7 +238,7 @@ msgstr "<small>(nincs karakter kiválasztva)</small>"
 
 #: src/unicodedialog.cpp:174
 msgid "<small>No additional information available for this character.</small>"
-msgstr ""
+msgstr "<small>További információ nem érhető el ehhez a karakterhez.</small>"
 
 #: src/kdenlivesettingsdialog.cpp:174
 msgid "<strong><em>Recordmydesktop</em> utility not found, please install it for screen grabs</strong>"
@@ -1317,7 +1317,7 @@ msgstr "Kapcsolódás"
 
 #: src/unicodedialog.cpp:124
 msgid "Control character. Cannot be inserted/printed. See <a href=\"http://en.wikipedia.org/wiki/Control_character\">Wikipedia:Control_character</a>"
-msgstr ""
+msgstr "Vezérlőkarakter. Nem szórható be és nem nyomtatható. Lásd: <a href=\"http://hu.wikipedia.org/wiki/Vez%C3%A9rl%C5%91karakterek\">Wikipedia: Vezérlőkarakterek</a>"
 
 #: rc.cpp:30
 msgid "Copy the left channel to the right"
@@ -2000,7 +2000,7 @@ msgstr "AZ effektus már szerepel a klipben"
 
 #: src/unicodedialog.cpp:168
 msgid "Eighth note (Am.) or quaver (Brit.). Half as long as a quarter note (U+2669). See <a href=\"http://en.wikipedia.org/wiki/Eighth_note\">Wikipedia:Eighth_note</a>"
-msgstr ""
+msgstr "Nyolcad hangjegy, Eighth note (amerikai) vagy quaver (brit). A negyed hangjegyhez képest fele hosszúságú (U+266b) hangjegy. Lásd <a href=\"http://hu.wikipedia.org/wiki/Kotta\">Wikipedia: Kotta</a>"
 
 #: src/unicodedialog.cpp:160
 msgid "Ellipsis: If text has been left o&#x2026; See <a href=\"http://en.wikipedia.org/wiki/Ellipsis\">Wikipedia:Ellipsis</a>"
@@ -2061,7 +2061,7 @@ msgstr "Kérem adja meg a fájl új helyét"
 
 #: src/unicodedialog.cpp:46
 msgid "Enter your Unicode number here. Allowed characters: [0-9] and [a-f]."
-msgstr ""
+msgstr "Adja meg az Unicode karakter számát. Megengedett karakterek: [0-9] és [a-f]."
 
 #: src/kdenlivesettingsdialog.cpp:72
 msgid "Environment"
@@ -2184,7 +2184,7 @@ msgstr "Visszajelzés"
 
 #: src/unicodedialog.cpp:144
 msgid "Figure space (non-breaking). Width of a digit if digits have fixed width in this font."
-msgstr ""
+msgstr "Számjegyszóköz (nem törő). Az azonos szélességű számjegyeket használó betűtípusokban egy ezzel megegyező szélességű szóköz."
 
 #: src/renderwidget.cpp:158
 #: rc.cpp:1741
@@ -2385,7 +2385,7 @@ msgstr "Találat: %1"
 
 #: src/unicodedialog.cpp:140
 msgid "Four-Per-Em Space. Width: 1/4 of one <em>em</em>"
-msgstr "Négy-Per-Em méretű hely. Szélessége negyede egy <em>em</em> szélességének"
+msgstr "Negyed Em szóköz vagy közepes szóköz. Szélessége negyede egy <em>em</em> karakter szélességének"
 
 #: rc.cpp:1255
 #: rc.cpp:2653
@@ -2631,7 +2631,7 @@ msgstr "HDV"
 
 #: src/unicodedialog.cpp:150
 msgid "Hair Space. Thinner than U+2009."
-msgstr "Hajszál szóköz. Keskenyebb, mint az U+2009 kódú karakter."
+msgstr "Hajszálszóköz. Keskenyebb, mint az U+2009 kódú karakter."
 
 #: rc.cpp:805
 #: rc.cpp:2203
@@ -2749,6 +2749,8 @@ msgid ""
 "Information about unicode characters: <a href=\"http://decodeunicode.org\">http://decodeunicode.org</a></string>\n"
 "        </property>"
 msgstr ""
+"Információk az Unicode karakterekről: <a href=\"http://decodeunicode.org\">http://decodeunicode.org</a></string>\n"
+"        </property>"
 
 #: src/recmonitor.cpp:384
 #: src/recmonitor.cpp:505
@@ -3330,7 +3332,7 @@ msgstr "Nem található jelölő kurzornál"
 
 #: src/unicodedialog.cpp:130
 msgid "No-break space. &amp;nbsp; in HTML. See U+2009 and U+0020."
-msgstr ""
+msgstr "Nem törő szóköz. &amp;nbsp; HTML-ben. Lásd: U+2009 és U+0020."
 
 #: src/initeffects.cpp:69
 #: src/initeffects.cpp:645
@@ -3750,11 +3752,11 @@ msgstr "Projekt mappa"
 #: src/kdenlivedoc.cpp:603
 #, kde-format
 msgid "Project profile not found, replacing with existing one: %1"
-msgstr ""
+msgstr "Projekt profil nem található. A(z) %1 – már létező – profil lesz használva."
 
 #: src/kdenlivedoc.cpp:618
 msgid "Project profile was not found, it will be added to your system now."
-msgstr ""
+msgstr "Projekt profil még nem található, de hozzá lett adva a rendszerben elérhető profilokhoz."
 
 #: src/kdenlivedoc.cpp:587
 msgid "Project profile was not found, using default profile."
@@ -3771,11 +3773,11 @@ msgstr "PulseAudio"
 
 #: src/unicodedialog.cpp:152
 msgid "Punctuation Apostrophe. Should be used instead of U+0027. See <a href=\"http://en.wikipedia.org/wiki/Apostrophe\">Wikipedia:Apostrophe</a>"
-msgstr ""
+msgstr "Aposztróf. Ez használandó a U+0027 karakter helyett. Lásd: <a href=\"http://hu.wikipedia.org/wiki/Aposztr%C3%B3f\">Wikipedia: Aposztróf</a>"
 
 #: src/unicodedialog.cpp:146
 msgid "Punctuation Space. Width the same as between a punctuation character and the next character."
-msgstr ""
+msgstr "Írásjel szóköz. Írásjelek és a következő karakter közé kell tenni. Olyan széles, mint a keskeny írásjelek az adott betűtípusban."
 
 #: src/wizard.cpp:290
 msgid "QImage module"
@@ -3783,7 +3785,7 @@ msgstr "QImage modul"
 
 #: src/unicodedialog.cpp:166
 msgid "Quarter note (Am.) or crochet (Brit.). See <a href=\"http://en.wikipedia.org/wiki/Quarter_note\">Wikipedia:Quarter_note</a>"
-msgstr ""
+msgstr "Negyed hangjegy, Quarter note (amerikai) vagy crochet (brit). Lásd <a href=\"http://hu.wikipedia.org/wiki/Kotta\">Wikipedia: Kotta</a>"
 
 #: rc.cpp:847
 #: rc.cpp:2245
@@ -3927,7 +3929,7 @@ msgstr "Mappa átnevezése"
 
 #: src/mainwindow.cpp:842
 msgid "Render"
-msgstr "Renderelés"
+msgstr "Leképzés"
 
 #: rc.cpp:481
 #: rc.cpp:1879
@@ -3940,7 +3942,7 @@ msgstr "Leképzés fájlba"
 
 #: src/renderwidget.cpp:66
 msgid "Rendering"
-msgstr "Renderelés"
+msgstr "Leképzés"
 
 #: renderer/renderjob.cpp:212
 #, kde-format
@@ -4412,11 +4414,11 @@ msgstr "LADSPA lemezlejátszó hangeffektus"
 
 #: src/unicodedialog.cpp:142
 msgid "Six-Per-Em Space. Width: 1/6 of one <em>em</em>"
-msgstr "Hat-Per-Em méretű hely. Szélessége hatoda egy <em>em</em> szélességének"
+msgstr "Hatod Em szóköz. Szélessége hatoda egy <em>em</em> karakter szélességének"
 
 #: src/unicodedialog.cpp:170
 msgid "Sixteenth note (Am.) or semiquaver (Brit.). Half as long as an eighth note (U+266a). See <a href=\"http://en.wikipedia.org/wiki/Sixteenth_note\">Wikipedia:Sixteenth_note</a>"
-msgstr ""
+msgstr "Tizenhatod hangjegy, sixteenth note (amerikai) vagy semiquaver (brit). A nyolcad hangjegyhez képest fele hosszúságú (U+266b) hangjegy. Lásd <a href=\"http://hu.wikipedia.org/wiki/Kotta\">Wikipedia: Kotta</a>"
 
 #: rc.cpp:718
 #: rc.cpp:1237
@@ -4477,11 +4479,11 @@ msgstr "Finomság"
 
 #: src/documentvalidator.cpp:692
 msgid "Some of your text clips were saved with size in points, which means different sizes on different displays. Do you want to convert them to pixel size, making them portable? It is recommended you do this on the computer they were first created on, or you could have to adjust their size."
-msgstr ""
+msgstr "Néhány szövegklip pontban megadott mérettel lett elmentve, amely különböző megjelenítőkön különböző méretet eredményez. Át kívánja konvertálni a klip méretét képpontra, és így hordozhatóvá tenni? Ajánlott ezt az átalakítást elvégezni azon a számítógépen amelyen ezek a klipek lettek létrehozva, vagy az átalakítás után esetleg át kell majd méretezni a klipeket."
 
 #: src/titledocument.cpp:228
 msgid "Some of your text clips were saved with size in points, which means different sizes on different displays. They will be converted to pixel size, making them portable, but you could have to adjust their size."
-msgstr ""
+msgstr "Néhány szövegklip pontban megadott mérettel lett elmentve, amely különböző megjelenítőkön különböző méretet eredményez. A méretek át lesznek konvertálva képpontra, és így hordozható lesz, de az átalakítás után esetleg át kell majd méretezni a klipeket."
 
 #: rc.cpp:769
 #: rc.cpp:2167
@@ -4611,7 +4613,7 @@ msgstr "Szögletes elmosás"
 
 #: src/unicodedialog.cpp:128
 msgid "Standard space character. (Other space characters: U+00a0, U+2000&#x2013;200b, U+202f)"
-msgstr ""
+msgstr "Általános szóköz karakter. (Egyéb szóköz karakterek: U+00a0, U+2000&#x2013;200b, U+202f)"
 
 #: src/mainwindow.cpp:2749
 #: rc.cpp:82
@@ -4732,11 +4734,11 @@ msgstr "Nincs klip, ezért nem tudok képkockát kiszedni.."
 
 #: src/unicodedialog.cpp:148
 msgid "Thin space, in HTML also &amp;thinsp;. See U+202f and <a href=\"http://en.wikipedia.org/wiki/Space_(punctuation)\">Wikipedia:Space_(punctuation)</a>"
-msgstr ""
+msgstr "Keskeny szóköz. &amp;thinsp; HTML-ben. Lásd: U+202f és <a href=\"http://hu.wikipedia.org/wiki/Sz%C3%B3k%C3%B6z\">Wikipedia: Szóköz</a>"
 
 #: src/unicodedialog.cpp:172
 msgid "Thirty-second note (Am.) or demisemiquaver (Brit.). Half as long as a sixteenth note (U+266b). See <a href=\"http://en.wikipedia.org/wiki/Quarter_note\">Wikipedia:Thirty-second_note</a>"
-msgstr ""
+msgstr "Harmincketted hangjegy, thirty-second note (amerikai) vagy demisemiquaver (brit). A tizenhatod hangjegyhez képest fele hosszúságú (U+266b) hangjegy. Lásd <a href=\"http://hu.wikipedia.org/wiki/Kotta\">Wikipedia: Kotta</a>"
 
 #: src/wizard.cpp:51
 msgid "This is the first time you run Kdenlive. This wizard will let you adjust some basic settings, you will be ready to edit your first movie in a few seconds..."
@@ -4767,7 +4769,7 @@ msgstr "A művelet folytatásával eltávolítja a kiválasztott klipeket ebből
 
 #: src/unicodedialog.cpp:138
 msgid "Three-Per-Em Space. Width: 1/3 of one <em>em</em>"
-msgstr "Három-Per-Em méretű hely. Szélessége harmada egy <em>em</em> szélességének"
+msgstr "Harmad Em szóköz vagy vastag szóköz. Szélessége harmada egy <em>em</em> karakter szélességének"
 
 #: rc.cpp:453
 msgid "Threshold"
@@ -5237,6 +5239,8 @@ msgid ""
 "You have %1 rendering jobs waiting in the queue.\n"
 "What do you want to do with these jobs?"
 msgstr ""
+"%1 leképzési feladat van a feladatsorban.\n"
+"Mit kíván tenni ezekkel a feladatokkal?"
 
 #: src/kdenlivedoc.cpp:535
 #, kde-format
@@ -5295,6 +5299,9 @@ msgid ""
 "It uses an existing profile name: %1.\n"
 "Please choose a new name to save it"
 msgstr ""
+"Ez a projekt ismeretlen profilt használ.\n"
+"A profil neve: „%1” megegyezik egy már létező profil nevével.\n"
+"Adjon meg egy új nevet a profilnak, majd mentse el."
 
 #: rc.cpp:1519
 #: rc.cpp:2917
