@@ -2618,7 +2618,6 @@ void Render::mltUpdateTransitionParams(QString type, int a_track, int b_track, G
     mlt_service_lock(serv);
     m_isBlocked++;
 
-
     mlt_service nextservice = mlt_service_get_producer(serv);
     mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
     QString mlt_type = mlt_properties_get(properties, "mlt_type");
@@ -2641,6 +2640,10 @@ void Render::mltUpdateTransitionParams(QString type, int a_track, int b_track, G
             QString key;
             mlt_properties transproperties = MLT_TRANSITION_PROPERTIES(tr);
             mlt_properties_set_int(transproperties, "force_track", xml.attribute("force_track").toInt());
+            // update the transition id in case it uses the same MLT service but different Kdenlive id
+            char *tmp = decodedString(xml.attribute("id"));
+            mlt_properties_set(transproperties, "kdenlive_id", tmp);
+            delete[] tmp;
             if (currentBTrack != a_track) {
                 mlt_properties_set_int(properties, "a_track", a_track);
             }
