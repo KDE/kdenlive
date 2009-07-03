@@ -9,6 +9,7 @@ frei0r.gamma
 frei0r.bw0r
 frei0r.flippo
 frei0r.invert0r
+frei0r.twolay0r
 
 # effects with XML UI
 frei0r.balanc0r
