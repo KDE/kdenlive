@@ -102,25 +102,18 @@ QImage MltPreview::getFrame(Mlt::Producer *producer, int framepos, int /*width*/
         return result;
     }
 
-    mlt_image_format format = mlt_image_yuv422;
-    int frame_width = 0;
-    int frame_height = 0;
+    mlt_image_format format = mlt_image_rgb24a;
     height = 200;
     double ar = frame->get_double("aspect_ratio");
     if (ar == 0.0) ar = 1.33;
     int calculated_width = (int)((double) height * ar);
-    frame->set("normalised_width", calculated_width);
-    frame->set("normalised_height", height);
-    uint8_t *data = frame->get_image(format, frame_width, frame_height, 0);
-    uint8_t *new_image = (uint8_t *)mlt_pool_alloc(frame_width * (frame_height + 1) * 4);
-    mlt_convert_yuv422_to_rgb24a((uint8_t *)data, new_image, frame_width * frame_height);
-    QImage image((uchar *)new_image, frame_width, frame_height, QImage::Format_ARGB32);
+    uint8_t *data = frame->get_image(format, calculated_width, height, 0);
+    QImage image((uchar *)data, calculated_width, height, QImage::Format_ARGB32);
 
     if (!image.isNull()) {
         result = image.rgbSwapped().convertToFormat(QImage::Format_RGB32);
     }
 
-    mlt_pool_release(new_image);
     delete frame;
     return result;
 }

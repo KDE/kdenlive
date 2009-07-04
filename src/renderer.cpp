@@ -626,25 +626,18 @@ void Render::getFileProperties(const QDomElement &xml, const QString &clipId, bo
             else
                 filePropertyMap["type"] = "video";
 
-            mlt_image_format format = mlt_image_yuv422;
-            int frame_width = 0;
-            int frame_height = 0;
-            //frame->set("rescale.interp", "hyper");
-            frame->set("normalised_height", height);
-            frame->set("normalised_width", width);
+            mlt_image_format format = mlt_image_rgb24a;
+            int frame_width = width;
+            int frame_height = height;
             QPixmap pix(width, height);
-
             uint8_t *data = frame->get_image(format, frame_width, frame_height, 0);
-            uint8_t *new_image = (uint8_t *)mlt_pool_alloc(frame_width * (frame_height + 1) * 4);
-            mlt_convert_yuv422_to_rgb24a((uint8_t *)data, new_image, frame_width * frame_height);
-            QImage image((uchar *)new_image, frame_width, frame_height, QImage::Format_ARGB32);
+            QImage image((uchar *)data, frame_width, frame_height, QImage::Format_ARGB32);
 
             if (!image.isNull()) {
                 pix = QPixmap::fromImage(image.rgbSwapped());
             } else
                 pix.fill(Qt::black);
 
-            mlt_pool_release(new_image);
             emit replyGetImage(clipId, pix);
 
         } else if (frame->get_int("test_audio") == 0) {
