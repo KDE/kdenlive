@@ -72,7 +72,6 @@ void GraphicsSceneRectMove::setTool(TITLETOOL tool)
     }
 }
 
-//virtual
 void GraphicsSceneRectMove::keyPressEvent(QKeyEvent * keyEvent)
 {
     if (m_selectedItem == NULL) {
@@ -117,14 +116,18 @@ void GraphicsSceneRectMove::keyPressEvent(QKeyEvent * keyEvent)
     emit actionFinished();
 }
 
-//virtual
 void GraphicsSceneRectMove::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* e)
 {
     QPointF p = e->scenePos();
     p += QPoint(-2, -2);
     m_resizeMode = NoResize;
     m_selectedItem = NULL;
-    QGraphicsItem* g = items(QRectF(p , QSizeF(4, 4)).toRect()).at(0);
+
+    // http://www.kdenlive.org/mantis/view.php?id=1035
+    QList<QGraphicsItem*> i = items(QRectF(p , QSizeF(4, 4)).toRect());
+    if (i.size() <= 0) return;
+
+    QGraphicsItem* g = i.at(0);
     if (g) {
         if (g->type() == 8) {
             QGraphicsTextItem *t = static_cast<QGraphicsTextItem *>(g);
@@ -267,7 +270,6 @@ void GraphicsSceneRectMove::clearTextSelection()
     clearSelection();
 }
 
-//virtual
 void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
 {
     if ((e->screenPos() - m_clickPoint).manhattanLength() < QApplication::startDragDistance()) {
