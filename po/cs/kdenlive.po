@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-06-27 01:49+0200\n"
-"PO-Revision-Date: 2009-06-27 08:49+0200\n"
+"PO-Revision-Date: 2009-07-14 12:07+0200\n"
 "Last-Translator: Jan Drábek <repli2dev@gmail.com>\n"
 "Language-Team: American English <kde-i18n-doc@lists.kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -3440,7 +3440,7 @@ msgstr "Probíhá renderování %1"
 #: src/renderwidget.cpp:813
 #, kde-format
 msgid "Rendering <i>%1</i> started"
-msgstr "Renverování <i>%1</i> začalo"
+msgstr "Renderování <i>%1</i> začalo"
 
 #: src/renderwidget.cpp:1360
 msgid "Rendering aborted"
