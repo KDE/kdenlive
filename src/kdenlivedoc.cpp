@@ -992,7 +992,6 @@ void KdenliveDoc::deleteProjectClip(QList <QString> ids)
 void KdenliveDoc::deleteClip(const QString &clipId)
 {
     emit signalDeleteProjectClip(clipId);
-    m_clipManager->deleteClip(clipId);
 }
 
 void KdenliveDoc::slotAddClipList(const KUrl::List urls, const QString group, const QString &groupId)

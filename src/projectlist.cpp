@@ -415,7 +415,11 @@ void ProjectList::slotDeleteClip(const QString &clipId)
         kDebug() << "/// Cannot find clip to delete";
         return;
     }
+    m_listView->blockSignals(true);
     delete item;
+    m_doc->clipManager()->deleteClip(clipId);
+    m_listView->blockSignals(false);
+    slotClipSelected();
 }
 
 
