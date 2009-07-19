@@ -1612,22 +1612,23 @@ void MainWindow::slotEditProjectSettings()
         if (m_activeDocument->profilePath() != profile) {
             // Profile was changed
             double dar = m_activeDocument->dar();
-	    
-	    // Deselect current effect / transition
-	    m_effectStack->slotClipItemSelected(NULL, 0);
-	    m_transitionConfig->slotTransitionItemSelected(NULL, 0, QPoint(), false);
-	    
+
+            // Deselect current effect / transition
+            m_effectStack->slotClipItemSelected(NULL, 0);
+            m_transitionConfig->slotTransitionItemSelected(NULL, 0, QPoint(), false);
+
             m_activeDocument->setProfilePath(profile);
             KdenliveSettings::setCurrent_profile(profile);
             KdenliveSettings::setProject_fps(m_activeDocument->fps());
             setCaption(m_activeDocument->description(), m_activeDocument->isModified());
             m_monitorManager->resetProfiles(m_activeDocument->timecode());
-	    m_transitionConfig->updateProjectFormat(m_activeDocument->mltProfile(), m_activeDocument->timecode(), m_activeTimeline->tracksNumber());
-	    m_effectStack->updateProjectFormat(m_activeDocument->mltProfile(), m_activeDocument->timecode());
+            m_transitionConfig->updateProjectFormat(m_activeDocument->mltProfile(), m_activeDocument->timecode(), m_activeTimeline->tracksNumber());
+            m_effectStack->updateProjectFormat(m_activeDocument->mltProfile(), m_activeDocument->timecode());
             if (m_renderWidget) m_renderWidget->setProfile(m_activeDocument->mltProfile());
             m_timelineArea->setTabText(m_timelineArea->currentIndex(), m_activeDocument->description());
             m_activeDocument->clipManager()->resetProducersList(m_projectMonitor->render->producersList());
             if (dar != m_activeDocument->dar()) m_projectList->reloadClipThumbnails();
+            m_activeTimeline->updateProjectFps();
             // We need to desactivate & reactivate monitors to get a refresh
             m_monitorManager->switchMonitors();
         }
@@ -1834,6 +1835,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     setCaption(doc->description(), doc->isModified());
     m_saveAction->setEnabled(doc->isModified());
     m_activeDocument = doc;
+    m_activeTimeline->updateProjectFps();
     if (KdenliveSettings::dropbframes()) slotUpdatePreviewSettings();
 
     // set tool to select tool

@@ -22,7 +22,7 @@
 Timecode::Timecode(Formats format, int framesPerSecond, bool dropFrame) :
         m_format(format),
         m_dropFrame(dropFrame),
-        m_displayedFramesPerSecond(framesPerSecond)
+        m_displayedFramesPerSecond(framesPerSecond + 0.5)
 {
 }
 
@@ -167,7 +167,7 @@ QString Timecode::getTimecodeHH_MM_SS_FF(const GenTime & time, double fps) const
     if (m_dropFrame)
         return getTimecodeDropFrame(time, fps);
 
-    return getTimecodeHH_MM_SS_FF((int)time.frames(fps));
+    return getTimecodeHH_MM_SS_FF((int)(time.frames(fps) + 0.5));
 }
 
 QString Timecode::getTimecodeHH_MM_SS_FF(int frames) const

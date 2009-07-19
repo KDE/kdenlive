@@ -177,12 +177,10 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int in, int out)
             int max;
             if (pa.attribute("min").startsWith('%')) {
                 min = (int) ProfilesDialog::getStringEval(m_profile, pa.attribute("min"));
-            }
-	    else min = pa.attribute("min").toInt();
+            } else min = pa.attribute("min").toInt();
             if (pa.attribute("max").startsWith('%')) {
                 max = (int) ProfilesDialog::getStringEval(m_profile, pa.attribute("max"));
-            }
-	    else max = pa.attribute("max").toInt();
+            } else max = pa.attribute("max").toInt();
             createSliderItem(paramName, (int)(value.toDouble() + 0.5) , min, max);
             delete toFillin;
             toFillin = NULL;

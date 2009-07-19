@@ -223,7 +223,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
 
     kDebug() << "Kdenlive document, init timecode: " << m_fps;
     if (m_fps == 30000.0 / 1001.0) m_timecode.setFormat(30, true);
-    else m_timecode.setFormat((int) m_fps);
+    else m_timecode.setFormat((int)(m_fps + 0.5));
 
     //kDebug() << "// SETTING SCENE LIST:\n\n" << m_document.toString();
     connect(m_autoSaveTimer, SIGNAL(timeout()), this, SLOT(slotAutoSave()));
@@ -636,7 +636,7 @@ void KdenliveDoc::setProfilePath(QString path)
     m_height = m_profile.height;
     kDebug() << "Kdenlive document, init timecode from path: " << path << ",  " << m_fps;
     if (m_fps == 30000.0 / 1001.0) m_timecode.setFormat(30, true);
-    else m_timecode.setFormat((int) m_fps);
+    else m_timecode.setFormat((int)(m_fps + 0.5));
 }
 
 double KdenliveDoc::dar()

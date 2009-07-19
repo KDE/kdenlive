@@ -324,13 +324,12 @@ void TrackView::parseDocument(QDomDocument doc)
                             QDomElement e = params.item(i).toElement();
                             if (!e.isNull() && e.attribute("tag") == paramName) {
                                 if (e.attribute("type") == "double") {
-				    QString factor = e.attribute("factor", "1");
+                                    QString factor = e.attribute("factor", "1");
                                     if (factor != "1") {
-					double fact;
-					if (factor.startsWith('%')) {
-					    fact = ProfilesDialog::getStringEval(m_doc->mltProfile(), factor);
-					}
-					else fact = factor.toDouble();
+                                        double fact;
+                                        if (factor.startsWith('%')) {
+                                            fact = ProfilesDialog::getStringEval(m_doc->mltProfile(), factor);
+                                        } else fact = factor.toDouble();
                                         double val = paramValue.toDouble() * fact;
                                         paramValue = QString::number(val);
                                     }
@@ -624,7 +623,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked)
                                 double fact;
                                 if (factor.isEmpty()) fact = 1;
                                 else if (factor.startsWith('%')) {
-				    fact = ProfilesDialog::getStringEval(m_doc->mltProfile(), factor);
+                                    fact = ProfilesDialog::getStringEval(m_doc->mltProfile(), factor);
                                 } else fact = factor.toDouble();
                                 for (QDomNode n3 = effect.firstChild(); !n3.isNull(); n3 = n3.nextSibling()) {
                                     // parse effect parameters
@@ -700,7 +699,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked)
                                             QString factor = e.attribute("factor", "1");
                                             double fact;
                                             if (factor.startsWith('%')) {
-						fact = ProfilesDialog::getStringEval(m_doc->mltProfile(), factor);
+                                                fact = ProfilesDialog::getStringEval(m_doc->mltProfile(), factor);
                                             } else fact = factor.toDouble();
                                             e.setAttribute("value", paramvalue.toDouble() * fact);
                                         } else e.setAttribute("value", paramvalue);
@@ -818,6 +817,11 @@ void TrackView::slotVerticalZoomUp()
     if (m_verticalZoom == 2) m_trackview->setScale(m_scene->scale().x(), 2);
     else m_trackview->setScale(m_scene->scale().x(), 1);
     adjustTrackHeaders();
+}
+
+void TrackView::updateProjectFps()
+{
+    m_ruler->updateProjectFps(m_doc->timecode());
 }
 
 #include "trackview.moc"

@@ -81,6 +81,14 @@ CustomRuler::CustomRuler(Timecode tc, CustomTrackView *parent) :
     setMinimumHeight(20);
 }
 
+void CustomRuler::updateProjectFps(Timecode t)
+{
+    m_timecode = t;
+    mediumMarkDistance = FRAME_SIZE * m_timecode.fps();
+    bigMarkDistance = FRAME_SIZE * m_timecode.fps() * 60;
+    update();
+}
+
 void CustomRuler::slotEditGuide()
 {
     m_view->slotEditGuide(m_clickedGuide);

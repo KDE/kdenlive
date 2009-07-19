@@ -55,6 +55,7 @@ public:
     int tracksNumber() const;
     KdenliveDoc *document();
     void refresh() ;
+    void updateProjectFps();
     int outPoint() const;
     int inPoint() const;
     int fitZoom() const;

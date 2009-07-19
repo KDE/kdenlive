@@ -40,6 +40,7 @@ public:
     void setDuration(int d);
     void setZone(QPoint p);
     int offset() const;
+    void updateProjectFps(Timecode t);
 
 protected:
     virtual void paintEvent(QPaintEvent * /*e*/);
