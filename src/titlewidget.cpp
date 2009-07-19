@@ -41,6 +41,7 @@ int settingUp = false;
 const int IMAGEITEM = 7;
 const int RECTITEM = 3;
 const int TEXTITEM = 8;
+static bool insertingValues=false;
 
 TitleWidget::TitleWidget(KUrl url, QString projectTitlePath, Render *render, QWidget *parent) :
         QDialog(parent),
@@ -249,7 +250,7 @@ TitleWidget::TitleWidget(KUrl url, QString projectTitlePath, Render *render, QWi
     graphicsView->setInteractive(true);
     //graphicsView->resize(400, 300);
     kDebug() << "// TITLE WIDGWT: " << graphicsView->viewport()->width() << "x" << graphicsView->viewport()->height();
-    toolBox->setItemEnabled(2, false);
+    //toolBox->setItemEnabled(2, false);
     if (!url.isEmpty()) {
         m_count = m_titledocument.loadDocument(url, m_startViewport, m_endViewport) + 1;
         slotSelectTool();
@@ -484,8 +485,8 @@ void TitleWidget::initViewports()
     m_startViewport->setPen(startpen);
     m_endViewport->setPen(endpen);
 
-    startViewportSize->setValue(40);
-    endViewportSize->setValue(40);
+    startViewportSize->setValue(100);
+    endViewportSize->setValue(100);
 
     m_startViewport->setZValue(-1000);
     m_endViewport->setZValue(-1000);
@@ -1215,21 +1216,25 @@ void TitleWidget::itemVCenter()
 void TitleWidget::setupViewports()
 {
     double aspect_ratio = 4.0 / 3.0;//read from project
+    //better zoom centered, but render uses only the created rect, so no problem to change the zoom function 
+    QRectF sp(0, 0, startViewportSize->value() * m_frameWidth/100.0 ,startViewportSize->value()* m_frameHeight/100.0);
+    QRectF ep(0, 0, endViewportSize->value() * m_frameWidth/100.0,endViewportSize->value() * m_frameHeight/100.0);
+    // use a polygon thiat uses 16:9 and 4:3 rects forpreview the size in all aspect ratios ?
+    QPolygonF spoly(sp);
+    QPolygonF epoly(ep);
+    spoly.translate( startViewportX->value(), startViewportY->value() );
+    epoly.translate( endViewportX->value(), endViewportY->value() );
+    m_startViewport->setPolygon(spoly);
+    m_endViewport->setPolygon(epoly);
+    if (! insertingValues){    
+	    m_startViewport->setData(0,startViewportX->value());
+	    m_startViewport->setData(1,startViewportY->value());
+	    m_startViewport->setData(2,startViewportSize->value());
 
-    QRectF sp(0, 0, 0, 0);
-    QRectF ep(0, 0, 0, 0);
-
-    double sv_size = startViewportSize->value();
-    double ev_size = endViewportSize->value();
-    sp.adjust(-sv_size, -sv_size / aspect_ratio, sv_size, sv_size / aspect_ratio);
-    ep.adjust(-ev_size, -ev_size / aspect_ratio, ev_size, ev_size / aspect_ratio);
-
-    m_startViewport->setPos(startViewportX->value(), startViewportY->value());
-    m_endViewport->setPos(endViewportX->value(), endViewportY->value());
-
-    m_startViewport->setPolygon(QPolygonF(sp));
-    m_endViewport->setPolygon(QPolygonF(ep));
-
+	    m_endViewport->setData(0,endViewportX->value());
+	    m_endViewport->setData(1,endViewportY->value());
+	    m_endViewport->setData(2,endViewportSize->value());
+    }
 }
 
 void TitleWidget::loadTitle()
@@ -1241,6 +1246,14 @@ void TitleWidget::loadTitle()
             if (items.at(i)->zValue() > -1000) delete items.at(i);
         }
         m_count = m_titledocument.loadDocument(url, m_startViewport, m_endViewport) + 1;
+	insertingValues=true;
+	startViewportX->setValue(m_startViewport->data(0).toInt());    
+    	startViewportY->setValue(m_startViewport->data(1).toInt());    
+    	startViewportSize->setValue(m_startViewport->data(2).toInt());    
+    	endViewportX->setValue(m_endViewport->data(0).toInt());    
+    	endViewportY->setValue(m_endViewport->data(1).toInt());    
+    	endViewportSize->setValue(m_endViewport->data(2).toInt());    
+	insertingValues=false;
         slotSelectTool();
     }
 }

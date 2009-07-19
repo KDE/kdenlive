@@ -124,13 +124,15 @@ QDomDocument TitleDocument::xml(QGraphicsPolygonItem* startv, QGraphicsPolygonIt
     if (startv && endv) {
         QDomElement endp = doc.createElement("endviewport");
         QDomElement startp = doc.createElement("startviewport");
-        endp.setAttribute("x", endv->pos().x());
-        endp.setAttribute("y", endv->pos().y());
-        endp.setAttribute("size", endv->sceneBoundingRect().width() / 2);
+        endp.setAttribute("x", endv->data(0).toString() );
+        endp.setAttribute("y", endv->data(1).toString() );
+        endp.setAttribute("size", endv->data(2).toString());
+	endp.setAttribute("rect",rectFToString(endv->boundingRect()));
 
-        startp.setAttribute("x", startv->pos().x());
-        startp.setAttribute("y", startv->pos().y());
-        startp.setAttribute("size", startv->sceneBoundingRect().width() / 2);
+        startp.setAttribute("x", startv->data(0).toString() );
+        startp.setAttribute("y", startv->data(1).toString());
+        startp.setAttribute("size", startv->data(2).toString());
+	startp.setAttribute("rect",rectFToString(startv->boundingRect()));
 
         startp.setAttribute("z-index", startv->zValue());
         endp.setAttribute("z-index", endv->zValue());
@@ -205,7 +207,7 @@ int TitleDocument::loadDocument(const KUrl& url, QGraphicsPolygonItem* startv, Q
     return -1;
 }
 
-int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsPolygonItem* /*startv*/, QGraphicsPolygonItem* /*endv*/)
+int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsPolygonItem* startv, QGraphicsPolygonItem* endv)
 {
     QDomNodeList titles = doc.elementsByTagName("kdenlivetitle");
     int maxZValue = 0;
@@ -298,21 +300,26 @@ int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsPolygonItem* /*startv*
                         break;
                     }
                 }
-            } /*else if (items.item(i).nodeName() == "startviewport" && startv) {
-                    QPointF p(items.item(i).attributes().namedItem("x").nodeValue().toDouble(), items.item(i).attributes().namedItem("y").nodeValue().toDouble());
-                    double width = items.item(i).attributes().namedItem("size").nodeValue().toDouble();
-                    QRectF rect(-width, -width / aspect_ratio, width*2.0, width / aspect_ratio*2.0);
-                    kDebug() << width << rect;
-                    startv->setPolygon(rect);
-                    startv->setPos(p);
+            } else if (items.item(i).nodeName() == "startviewport" && startv) {
+		    QString rect = items.item(i).attributes().namedItem("rect").nodeValue();
+                    startv->setPolygon(stringToRect(rect));
+		    int x = items.item(i).attributes().namedItem("x").nodeValue().toInt();
+		    int y = items.item(i).attributes().namedItem("y").nodeValue().toInt();
+		    int size = items.item(i).attributes().namedItem("size").nodeValue().toInt();
+		    startv->setData(0,x);
+		    startv->setData(1,y);
+		    startv->setData(2,size);
+                    //startv->setPos(p);
                 } else if (items.item(i).nodeName() == "endviewport" && endv) {
-                    QPointF p(items.item(i).attributes().namedItem("x").nodeValue().toDouble(), items.item(i).attributes().namedItem("y").nodeValue().toDouble());
-                    double width = items.item(i).attributes().namedItem("size").nodeValue().toDouble();
-                    QRectF rect(-width, -width / aspect_ratio, width*2.0, width / aspect_ratio*2.0);
-                    kDebug() << width << rect;
-                    endv->setPolygon(rect);
-                    endv->setPos(p);
-                }*/
+		    QString rect = items.item(i).attributes().namedItem("rect").nodeValue();
+                    endv->setPolygon(stringToRect(rect));
+                    int x = items.item(i).attributes().namedItem("x").nodeValue().toInt();
+		    int y = items.item(i).attributes().namedItem("y").nodeValue().toInt();
+		    int size = items.item(i).attributes().namedItem("size").nodeValue().toInt();
+		    endv->setData(0,x);
+		    endv->setData(1,y);
+		    endv->setData(2,size);
+                }
         }
     }
     return maxZValue;
@@ -328,7 +335,7 @@ QString TitleDocument::colorToString(const QColor& c)
 QString TitleDocument::rectFToString(const QRectF& c)
 {
     QString ret = "%1,%2,%3,%4";
-    ret = ret.arg(c.top()).arg(c.left()).arg(c.width()).arg(c.height());
+    ret = ret.arg(c.left()).arg(c.top()).arg(c.width()).arg(c.height());
     return ret;
 }
 
