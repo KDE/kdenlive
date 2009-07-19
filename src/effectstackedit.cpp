@@ -28,6 +28,7 @@
 #include "keyframeedit.h"
 #include "effectslist.h"
 #include "kdenlivesettings.h"
+#include "profilesdialog.h"
 
 #include <KDebug>
 #include <KLocale>
@@ -158,6 +159,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int in, int out)
         QWidget * toFillin = new QWidget;
         QString value = pa.attribute("value").isNull() ?
                         pa.attribute("default") : pa.attribute("value");
+
         if (type == "geometry") {
             /*pa.setAttribute("namedesc", "X;Y;Width;Height;Transparency");
             pa.setAttribute("format", "%d%,%d%:%d%x%d%:%d");
@@ -171,7 +173,17 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int in, int out)
 
         //TODO constant, list, bool, complex , color, geometry, position
         if (type == "double" || type == "constant") {
-            createSliderItem(paramName, value.toInt(), pa.attribute("min").toInt(), pa.attribute("max").toInt());
+            int min;
+            int max;
+            if (pa.attribute("min").startsWith('%')) {
+                min = (int) ProfilesDialog::getStringEval(m_profile, pa.attribute("min"));
+            }
+	    else min = pa.attribute("min").toInt();
+            if (pa.attribute("max").startsWith('%')) {
+                max = (int) ProfilesDialog::getStringEval(m_profile, pa.attribute("max"));
+            }
+	    else max = pa.attribute("max").toInt();
+            createSliderItem(paramName, (int)(value.toDouble() + 0.5) , min, max);
             delete toFillin;
             toFillin = NULL;
         } else if (type == "list") {
@@ -501,7 +513,6 @@ void EffectStackEdit::createSliderItem(const QString& name, int val , int min, i
     QWidget* toFillin = new QWidget;
     Constval *ctval = new Constval;
     ctval->setupUi(toFillin);
-
     ctval->horizontalSlider->setMinimum(min);
     ctval->horizontalSlider->setMaximum(max);
     ctval->spinBox->setMinimum(min);

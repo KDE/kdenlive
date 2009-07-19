@@ -26,6 +26,7 @@
 #include "transition.h"
 #include "kdenlivesettings.h"
 #include "kthumb.h"
+#include "profilesdialog.h"
 
 #include <KDebug>
 #include <KIcon>
@@ -170,6 +171,16 @@ void ClipItem::initEffect(QDomElement effect)
     for (int i = 0; i < params.count(); i++) {
         QDomElement e = params.item(i).toElement();
         kDebug() << "// init eff: " << e.attribute("name");
+
+        // Check if this effect has a variable parameter
+        if (e.attribute("default").startsWith('%')) {
+            double evaluatedValue = ProfilesDialog::getStringEval(projectScene()->profile(), e.attribute("default"));
+            e.setAttribute("default", evaluatedValue);
+            if (e.hasAttribute("value") && e.attribute("value").startsWith('%')) {
+                e.setAttribute("value", evaluatedValue);
+            }
+        }
+
         if (!e.isNull() && e.attribute("type") == "keyframe") {
             QString def = e.attribute("default");
             // Effect has a keyframe type parameter, we need to set the values
@@ -1275,7 +1286,7 @@ void ClipItem::setEffectAt(int ix, QDomElement effect)
         kDebug() << "Invalid effect index: " << ix;
         return;
     }
-    kDebug() << "CHange EFFECT AT: " << ix << ", CURR: " << m_effectList.at(ix).attribute("tag") << ", NEW: " << effect.attribute("tag");
+    //kDebug() << "CHange EFFECT AT: " << ix << ", CURR: " << m_effectList.at(ix).attribute("tag") << ", NEW: " << effect.attribute("tag");
     effect.setAttribute("kdenlive_ix", ix + 1);
     m_effectList.insert(ix, effect);
     m_effectList.removeAt(ix + 1);
@@ -1327,9 +1338,7 @@ EffectsParameterList ClipItem::addEffect(QDomElement effect, bool animate)
                 parameters.addParam("endtag", e.attribute("endtag", "end"));
             }
 
-            double f = e.attribute("factor", "1").toDouble();
-
-            if (f == 1) {
+            if (e.attribute("factor", "1") == "1") {
                 parameters.addParam(e.attribute("name"), e.attribute("value"));
 
                 // check if it is a fade effect
@@ -1375,7 +1384,11 @@ EffectsParameterList ClipItem::addEffect(QDomElement effect, bool animate)
                     }
                 }
             } else {
-                parameters.addParam(e.attribute("name"), QString::number(e.attribute("value").toDouble() / f));
+                double fact;
+                if (e.attribute("factor").startsWith('%')) {
+                    fact = ProfilesDialog::getStringEval(projectScene()->profile(), e.attribute("factor"));
+                } else fact = e.attribute("factor", "1").toDouble();
+                parameters.addParam(e.attribute("name"), QString::number(e.attribute("value").toDouble() / fact));
             }
         }
     }
@@ -1435,7 +1448,11 @@ EffectsParameterList ClipItem::getEffectArgs(QDomElement effect)
             parameters.addParam("start", neu);
         } else {
             if (e.attribute("factor", "1") != "1") {
-                parameters.addParam(e.attribute("name"), QString::number(e.attribute("value").toDouble() / e.attribute("factor").toDouble()));
+                double fact;
+                if (e.attribute("factor").startsWith('%')) {
+                    fact = ProfilesDialog::getStringEval(projectScene()->profile(), e.attribute("factor"));
+                } else fact = e.attribute("factor", "1").toDouble();
+                parameters.addParam(e.attribute("name"), QString::number(e.attribute("value").toDouble() / fact));
             } else {
                 parameters.addParam(e.attribute("name"), e.attribute("value"));
             }

@@ -30,6 +30,7 @@
 #include "mainwindow.h"
 #include "customtrackview.h"
 #include "initeffects.h"
+#include "profilesdialog.h"
 
 #include <KDebug>
 #include <KMessageBox>
@@ -323,9 +324,14 @@ void TrackView::parseDocument(QDomDocument doc)
                             QDomElement e = params.item(i).toElement();
                             if (!e.isNull() && e.attribute("tag") == paramName) {
                                 if (e.attribute("type") == "double") {
-                                    QString factor = e.attribute("factor", "1");
+				    QString factor = e.attribute("factor", "1");
                                     if (factor != "1") {
-                                        double val = paramValue.toDouble() * factor.toDouble();
+					double fact;
+					if (factor.startsWith('%')) {
+					    fact = ProfilesDialog::getStringEval(m_doc->mltProfile(), factor);
+					}
+					else fact = factor.toDouble();
+                                        double val = paramValue.toDouble() * fact;
                                         paramValue = QString::number(val);
                                     }
                                 }
@@ -597,7 +603,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked)
                             if (MainWindow::videoEffects.hasKeyFrames(currenteffect)) {
                                 //kDebug() << " * * * * * * * * * * ** CLIP EFF WITH KFR FND  * * * * * * * * * * *";
                                 // effect is key-framable, read all effects to retrieve keyframes
-                                double factor = 0;
+                                QString factor;
                                 QString starttag;
                                 QString endtag;
                                 QDomNodeList params = currenteffect.elementsByTagName("parameter");
@@ -606,7 +612,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked)
                                     if (e.attribute("type") == "keyframe") {
                                         starttag = e.attribute("starttag", "start");
                                         endtag = e.attribute("endtag", "end");
-                                        factor = e.attribute("factor", "1").toDouble();
+                                        factor = e.attribute("factor", "1");
                                         break;
                                     }
                                 }
@@ -615,13 +621,18 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked)
                                 int effectout = effect.attribute("out").toInt();
                                 double startvalue = 0;
                                 double endvalue = 0;
+                                double fact;
+                                if (factor.isEmpty()) fact = 1;
+                                else if (factor.startsWith('%')) {
+				    fact = ProfilesDialog::getStringEval(m_doc->mltProfile(), factor);
+                                } else fact = factor.toDouble();
                                 for (QDomNode n3 = effect.firstChild(); !n3.isNull(); n3 = n3.nextSibling()) {
                                     // parse effect parameters
                                     QDomElement effectparam = n3.toElement();
                                     if (effectparam.attribute("name") == starttag)
-                                        startvalue = effectparam.text().toDouble() * factor;
+                                        startvalue = effectparam.text().toDouble() * fact;
                                     if (effectparam.attribute("name") == endtag)
-                                        endvalue = effectparam.text().toDouble() * factor;
+                                        endvalue = effectparam.text().toDouble() * fact;
                                 }
                                 // add first keyframe
                                 keyframes.append(QString::number(effectin) + ':' + QString::number(startvalue) + ';' + QString::number(effectout) + ':' + QString::number(endvalue) + ';');
@@ -644,7 +655,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked)
                                             continueParsing = false;
                                             break;
                                         } else if (subeffectparam.attribute("name") == endtag) {
-                                            endvalue = subeffectparam.text().toDouble() * factor;
+                                            endvalue = subeffectparam.text().toDouble() * fact;
                                             break;
                                         }
                                     }
@@ -685,9 +696,13 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked)
                                 for (int k = 0; k < clipeffectparams.count(); k++) {
                                     e = clipeffectparams.item(k).toElement();
                                     if (!e.isNull() && e.tagName() == "parameter" && e.attribute("name") == paramname) {
-                                        double factor = e.attribute("factor", "1").toDouble();
-                                        if (factor != 1) {
-                                            e.setAttribute("value", paramvalue.toDouble() * factor);
+                                        if (e.attribute("factor", "1") != "1") {
+                                            QString factor = e.attribute("factor", "1");
+                                            double fact;
+                                            if (factor.startsWith('%')) {
+						fact = ProfilesDialog::getStringEval(m_doc->mltProfile(), factor);
+                                            } else fact = factor.toDouble();
+                                            e.setAttribute("value", paramvalue.toDouble() * fact);
                                         } else e.setAttribute("value", paramvalue);
                                         break;
                                     }

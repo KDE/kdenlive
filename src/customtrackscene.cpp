@@ -92,4 +92,9 @@ int CustomTrackScene::tracksCount() const
     return m_document->tracksCount();
 }
 
+MltVideoProfile CustomTrackScene::profile() const
+{
+    return m_document->mltProfile();
+}
+
 #include "customtrackscene.moc"

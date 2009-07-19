@@ -228,6 +228,20 @@ MltVideoProfile ProfilesDialog::getVideoProfile(QString name)
     return result;
 }
 
+// static
+double ProfilesDialog::getStringEval(const MltVideoProfile &profile, QString eval)
+{
+    double result;
+    eval.replace("%width", QString::number(profile.width));
+    eval.replace("%height", QString::number(profile.height));
+    if (eval.contains('/')) result = (double) eval.section('/', 0, 0).toInt() / eval.section('/', 1, 1).toInt();
+    else if (eval.contains('*')) result = (double) eval.section('*', 0, 0).toInt() * eval.section('*', 1, 1).toInt();
+    else if (eval.contains('+')) result = (double) eval.section('+', 0, 0).toInt() + eval.section('+', 1, 1).toInt();
+    else if (eval.contains('-')) result = (double) eval.section('-', 0, 0).toInt() - eval.section('-', 1, 1).toInt();
+    else result = eval.toDouble();
+    return result;
+}
+
 
 // static
 bool ProfilesDialog::existingProfileDescription(const QString &desc)

@@ -41,6 +41,7 @@ public:
     static void saveProfile(MltVideoProfile &profile);
     static QString existingProfile(MltVideoProfile profile);
     static bool existingProfileDescription(const QString &desc);
+    static double getStringEval(const MltVideoProfile &profile, QString eval);
 
 protected:
     virtual void closeEvent(QCloseEvent *event);

@@ -28,6 +28,7 @@
 #include "gentime.h"
 
 class KdenliveDoc;
+class MltVideoProfile;
 
 /** This class holds all properties that need to be used by clip items */
 
@@ -46,6 +47,7 @@ public:
     QPointF scale() const;
     int tracksCount() const;
     QPixmap m_transitionPixmap;
+    MltVideoProfile profile() const;
 
 private:
     KdenliveDoc *m_document;

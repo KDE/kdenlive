@@ -1612,11 +1612,18 @@ void MainWindow::slotEditProjectSettings()
         if (m_activeDocument->profilePath() != profile) {
             // Profile was changed
             double dar = m_activeDocument->dar();
+	    
+	    // Deselect current effect / transition
+	    m_effectStack->slotClipItemSelected(NULL, 0);
+	    m_transitionConfig->slotTransitionItemSelected(NULL, 0, QPoint(), false);
+	    
             m_activeDocument->setProfilePath(profile);
             KdenliveSettings::setCurrent_profile(profile);
             KdenliveSettings::setProject_fps(m_activeDocument->fps());
             setCaption(m_activeDocument->description(), m_activeDocument->isModified());
             m_monitorManager->resetProfiles(m_activeDocument->timecode());
+	    m_transitionConfig->updateProjectFormat(m_activeDocument->mltProfile(), m_activeDocument->timecode(), m_activeTimeline->tracksNumber());
+	    m_effectStack->updateProjectFormat(m_activeDocument->mltProfile(), m_activeDocument->timecode());
             if (m_renderWidget) m_renderWidget->setProfile(m_activeDocument->mltProfile());
             m_timelineArea->setTabText(m_timelineArea->currentIndex(), m_activeDocument->description());
             m_activeDocument->clipManager()->resetProducersList(m_projectMonitor->render->producersList());
