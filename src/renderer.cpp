@@ -2590,7 +2590,7 @@ bool Render::mltMoveTransition(QString type, int startTrack, int newTrack, int n
     }
     mlt_service_unlock(serv);
     m_isBlocked--;
-    //askForRefresh();
+    refresh();
     //if (m_isBlocked == 0) m_mltConsumer->set("refresh", 1);
     return true;
 }
@@ -2600,8 +2600,9 @@ void Render::mltUpdateTransition(QString oldTag, QString tag, int a_track, int b
     if (oldTag == tag) mltUpdateTransitionParams(tag, a_track, b_track, in, out, xml);
     else {
         mltDeleteTransition(oldTag, a_track, b_track, in, out, xml, false);
-        mltAddTransition(tag, a_track, b_track, in, out, xml);
+        mltAddTransition(tag, a_track, b_track, in, out, xml, false);
     }
+    refresh();
     //mltSavePlaylist();
 }
 
@@ -2883,7 +2884,7 @@ void Render::mltMoveTransparency(int startTime, int endTime, int startTrack, int
 }
 
 
-bool Render::mltAddTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml, bool /*do_refresh*/)
+bool Render::mltAddTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml, bool do_refresh)
 {
     if (in >= out) return false;
     QMap<QString, QString> args = mltGetTransitionParamsFromXml(xml);
@@ -2915,7 +2916,7 @@ bool Render::mltAddTransition(QString tag, int a_track, int b_track, GenTime in,
     // attach filter to the clip
     field->plant_transition(*transition, a_track, b_track);
     delete[] transId;
-    refresh();
+    if (do_refresh) refresh();
     return true;
 }
 
