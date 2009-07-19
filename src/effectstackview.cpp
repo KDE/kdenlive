@@ -255,12 +255,13 @@ void EffectStackView::slotResetEffect()
     foreach(const QString &type, m_effectLists.keys()) {
         EffectsList *list = m_effectLists[type];
         if (list->effectNames().contains(effectName)) {
-            dom = list->getEffectByName(effectName);
+            dom = list->getEffectByName(effectName).cloneNode().toElement();
             break;
         }
     }
     if (!dom.isNull()) {
         dom.setAttribute("kdenlive_ix", old.attribute("kdenlive_ix"));
+        m_clipref->initEffect(dom);
         emit transferParamDesc(dom, m_clipref->cropStart().frames(KdenliveSettings::project_fps()), m_clipref->cropDuration().frames(KdenliveSettings::project_fps()));//minx max frame
         emit updateClipEffect(m_clipref, old, dom, activeRow);
     }
