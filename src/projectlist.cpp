@@ -207,9 +207,11 @@ void ProjectList::slotOpenClip()
     }
 }
 
-void ProjectList::slotReloadClip()
+void ProjectList::slotReloadClip(const QString &id)
 {
-    QList<QTreeWidgetItem *> selected = m_listView->selectedItems();
+    QList<QTreeWidgetItem *> selected;
+    if (id.isEmpty()) selected = m_listView->selectedItems();
+    else selected.append(getItemById(id));
     ProjectItem *item;
     for (int i = 0; i < selected.count(); i++) {
         item = static_cast <ProjectItem *>(selected.at(i));
@@ -760,6 +762,8 @@ void ProjectList::setDocument(KdenliveDoc *doc)
     m_timecode = doc->timecode();
     m_commandStack = doc->commandStack();
     m_doc = doc;
+
+    connect(m_doc->clipManager(), SIGNAL(reloadClip(const QString &)), this, SLOT(slotReloadClip(const QString &)));
 
     QMap <QString, QString> flist = doc->clipManager()->documentFolderList();
     QMapIterator<QString, QString> f(flist);

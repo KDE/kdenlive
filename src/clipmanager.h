@@ -30,6 +30,7 @@
 
 #include <KUrl>
 #include <KUndoStack>
+#include <KDirWatch>
 #include <klocale.h>
 
 #include "gentime.h"
@@ -85,6 +86,9 @@ Q_OBJECT public:
 public slots:
     void updatePreviewSettings();
 
+private slots:
+    void slotClipModified(const QString &path);
+
 private:   // Private attributes
     /** the list of clips in the document */
     QList <DocClipBase*> m_clipList;
@@ -98,7 +102,10 @@ private:   // Private attributes
     int m_folderIdCounter;
     bool m_audioThumbsEnabled;
     QString m_generatingAudioId;
+    KDirWatch m_fileWatcher;
 
+signals:
+    void reloadClip(const QString &);
 };
 
 #endif

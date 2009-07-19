@@ -43,6 +43,7 @@ ClipManager::ClipManager(KdenliveDoc *doc) :
 {
     m_clipIdCounter = 1;
     m_folderIdCounter = 1;
+    connect(&m_fileWatcher, SIGNAL(dirty(const QString &)), this, SLOT(slotClipModified(const QString &)));
 }
 
 ClipManager::~ClipManager()
@@ -136,6 +137,10 @@ QMap <QString, QString> ClipManager::documentFolderList() const
 void ClipManager::addClip(DocClipBase *clip)
 {
     m_clipList.append(clip);
+    if (clip->clipType() == IMAGE || clip->clipType() == AUDIO) {
+        // listen for file change
+        m_fileWatcher.addFile(clip->fileURL().path());
+    }
     const QString id = clip->getId();
     if (id.toInt() >= m_clipIdCounter) m_clipIdCounter = id.toInt() + 1;
     const QString gid = clip->getProperty("groupid");
@@ -155,6 +160,10 @@ void ClipManager::deleteClip(const QString &clipId)
 {
     for (int i = 0; i < m_clipList.count(); i++) {
         if (m_clipList.at(i)->getId() == clipId) {
+            if (m_clipList.at(i)->clipType() == IMAGE || m_clipList.at(i)->clipType() == AUDIO) {
+                // listen for file change
+                m_fileWatcher.removeFile(m_clipList.at(i)->fileURL().path());
+            }
             delete m_clipList.takeAt(i);
             break;
         }
@@ -443,4 +452,13 @@ QDomElement ClipManager::groupsXml() const
         }
     }
     return doc.documentElement();
+}
+
+
+void ClipManager::slotClipModified(const QString &path)
+{
+    //kDebug()<<"// CLIP: "<<path<<" WAS MODIFIED";
+    DocClipBase *clip = getClipByResource(path);
+    if (clip == NULL) return;
+    emit reloadClip(clip->getId());
 }

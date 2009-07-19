@@ -149,7 +149,7 @@ public slots:
     void slotResetProjectList();
     void slotOpenClip();
     void slotEditClip();
-    void slotReloadClip();
+    void slotReloadClip(const QString &id = QString());
     void slotAddColorClip();
     void regenerateTemplate(const QString &id);
 
