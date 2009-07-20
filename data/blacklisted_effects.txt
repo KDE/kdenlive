@@ -15,3 +15,5 @@ frei0r.twolay0r
 frei0r.balanc0r
 frei0r.colordistance
 frei0r.scale0tilt
+frei0r.contrast0r
+frei0r.brightness

@@ -23,10 +23,11 @@
 #include <KDebug>
 #include <KGlobalSettings>
 #include <KMessageBox>
+#include <KFileDialog>
 
 
-ClipTranscode::ClipTranscode(KUrl::List urls, const QString &params, QWidget * parent) :
-        QDialog(parent), m_urls(urls)
+ClipTranscode::ClipTranscode(KUrl::List urls, const QString &params, MltVideoProfile profile, QWidget * parent) :
+        QDialog(parent), m_urls(urls), m_profile(profile)
 {
     setFont(KGlobalSettings::toolBarFont());
     m_view.setupUi(this);
@@ -39,6 +40,8 @@ ClipTranscode::ClipTranscode(KUrl::List urls, const QString &params, QWidget * p
         KUrl dest(newFile);
         m_view.source_url->setUrl(m_urls.at(0));
         m_view.dest_url->setUrl(dest);
+        m_view.dest_url->setMode(KFile::File);
+        m_view.dest_url->fileDialog()->setOperationMode(KFileDialog::Saving);
         m_view.urls_list->setHidden(true);
         connect(m_view.source_url, SIGNAL(textChanged(const QString &)), this, SLOT(slotUpdateParams()));
     } else {
@@ -52,7 +55,7 @@ ClipTranscode::ClipTranscode(KUrl::List urls, const QString &params, QWidget * p
     if (!params.isEmpty()) {
         m_view.label_profile->setHidden(true);
         m_view.profile_list->setHidden(true);
-        m_view.params->setPlainText(params.simplified());
+        m_view.params->setPlainText(prepareParams(params));
     } else {
         // load Profiles
         KSharedConfigPtr config = KSharedConfig::openConfig("kdenlivetranscodingrc");
@@ -149,12 +152,17 @@ void ClipTranscode::slotUpdateParams(int ix)
     QString fileName = m_view.source_url->url().path();
     if (ix != -1) {
         QString params = m_view.profile_list->itemData(ix).toString();
-        m_view.params->setPlainText(params.simplified());
+        m_view.params->setPlainText(prepareParams(params));
     }
 
     QString newFile = m_view.params->toPlainText().simplified().section(' ', -1).replace("%1", fileName);
     m_view.dest_url->setUrl(KUrl(newFile));
 
+}
+
+QString ClipTranscode::prepareParams(QString params)
+{
+    return "-s " + QString::number(m_profile.width) + 'x' + QString::number(m_profile.height) + " -r " + QString::number((double) m_profile.frame_rate_num / m_profile.frame_rate_den) + ' ' + params.simplified();
 }
 
 #include "cliptranscode.moc"

@@ -22,6 +22,7 @@
 #define CLIPTRANSCODE_H
 
 
+#include "definitions.h"
 #include "ui_cliptranscode_ui.h"
 
 #include <KUrl>
@@ -33,7 +34,7 @@ class ClipTranscode : public QDialog
     Q_OBJECT
 
 public:
-    ClipTranscode(KUrl::List urls, const QString &params, QWidget * parent = 0);
+    ClipTranscode(KUrl::List urls, const QString &params, MltVideoProfile profile, QWidget * parent = 0);
     ~ClipTranscode();
 
 
@@ -47,6 +48,8 @@ private:
     Ui::ClipTranscode_UI m_view;
     QProcess m_transcodeProcess;
     KUrl::List m_urls;
+    MltVideoProfile m_profile;
+    QString prepareParams(QString params);
 
 signals:
     void addClip(KUrl url);

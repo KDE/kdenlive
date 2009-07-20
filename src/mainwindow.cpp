@@ -2694,7 +2694,7 @@ void MainWindow::slotTranscode(KUrl::List urls)
         params = action->data().toString();
     }
     if (urls.isEmpty()) return;
-    ClipTranscode *d = new ClipTranscode(urls, params);
+    ClipTranscode *d = new ClipTranscode(urls, params, m_activeDocument->mltProfile());
     connect(d, SIGNAL(addClip(KUrl)), this, SLOT(slotAddProjectClip(KUrl)));
     d->show();
     //QProcess::startDetached("ffmpeg", parameters);
