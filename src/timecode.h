@@ -17,9 +17,9 @@
 #ifndef TIMECODE_H
 #define TIMECODE_H
 
-#include "gentime.h"
-
 #include <qstring.h>
+
+#include "gentime.h"
 
 /**
 Handles the conversion of a GenTime into a nicely formatted string, taking into account things such as drop frame if necessary. Handles multiple formats, such as HH:MM:SS:FF, HH:MM:SS:F, All Frames, All Seconds, etc.

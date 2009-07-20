@@ -673,7 +673,7 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
             }
 
             if (name == "luma") {
-                ktrans.setAttribute("id", "luma");
+                ktrans.setAttribute("id", name);
                 tname.appendChild(ret.createTextNode("Wipe"));
                 desc.appendChild(ret.createTextNode("Applies a stationary transition between the current and next frames"));
 

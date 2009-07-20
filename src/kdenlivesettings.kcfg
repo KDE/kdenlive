@@ -102,11 +102,6 @@
       <default></default>
     </entry>
 
-    <entry name="autoaudiodrivername" type="String">
-      <label>Audio driver selected automatically.</label>
-      <default></default>
-    </entry>
-
     <entry name="videodrivername" type="String">
       <label>Video driver used for output.</label>
       <default></default>
@@ -435,6 +430,11 @@
     <entry name="displayMonitorInfo" type="Bool">
       <label>Show overlay info on monitor (in / out points, markers,...).</label>
       <default>true</default>
+    </entry>
+
+    <entry name="autoaudiodrivername" type="String">
+      <label>Audio driver selected automatically.</label>
+      <default></default>
     </entry>
 
     <entry name="audiocodecs" type="StringList">
