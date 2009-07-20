@@ -63,6 +63,7 @@ ProjectList::ProjectList(QWidget *parent) :
         m_deleteAction(NULL),
         m_openAction(NULL),
         m_reloadAction(NULL),
+        m_transcodeAction(NULL),
         m_selectedItem(NULL),
         m_refreshed(false),
         m_infoQueue(),
@@ -164,6 +165,7 @@ void ProjectList::setupGeneratorMenu(QMenu *addMenu, QMenu *transcodeMenu)
     if (addMenu->isEmpty()) addMenu->setEnabled(false);
     m_menu->addMenu(transcodeMenu);
     if (transcodeMenu->isEmpty()) transcodeMenu->setEnabled(false);
+    m_transcodeAction = transcodeMenu;
     m_menu->addAction(m_reloadAction);
     m_menu->addAction(m_editAction);
     m_menu->addAction(m_openAction);
@@ -245,6 +247,7 @@ void ProjectList::slotClipSelected()
         m_editAction->setEnabled(true);
         m_deleteAction->setEnabled(true);
         m_reloadAction->setEnabled(true);
+        m_transcodeAction->setEnabled(true);
         if (clip->clipType() == IMAGE && !KdenliveSettings::defaultimageapp().isEmpty()) {
             m_openAction->setIcon(KIcon(KdenliveSettings::defaultimageapp()));
             m_openAction->setEnabled(true);
@@ -258,6 +261,7 @@ void ProjectList::slotClipSelected()
         m_deleteAction->setEnabled(false);
         m_openAction->setEnabled(false);
         m_reloadAction->setEnabled(false);
+        m_transcodeAction->setEnabled(false);
     }
 }
 
@@ -358,6 +362,7 @@ void ProjectList::slotContextMenu(const QPoint &pos, QTreeWidgetItem *item)
     m_editAction->setEnabled(enable);
     m_deleteAction->setEnabled(enable);
     m_reloadAction->setEnabled(enable);
+    m_transcodeAction->setEnabled(enable);
     if (enable) {
         ProjectItem *clip = static_cast <ProjectItem*>(item);
         if (clip->clipType() == IMAGE && !KdenliveSettings::defaultimageapp().isEmpty()) {
@@ -400,6 +405,7 @@ void ProjectList::slotRemoveClip()
         m_deleteAction->setEnabled(false);
         m_openAction->setEnabled(false);
         m_reloadAction->setEnabled(false);
+        m_transcodeAction->setEnabled(false);
     }
 }
 
@@ -938,6 +944,7 @@ void ProjectList::slotSelectClip(const QString &ix)
         m_editAction->setEnabled(true);
         m_deleteAction->setEnabled(true);
         m_reloadAction->setEnabled(true);
+        m_transcodeAction->setEnabled(true);
         if (clip->clipType() == IMAGE && !KdenliveSettings::defaultimageapp().isEmpty()) {
             m_openAction->setIcon(KIcon(KdenliveSettings::defaultimageapp()));
             m_openAction->setEnabled(true);

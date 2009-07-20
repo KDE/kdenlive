@@ -169,6 +169,7 @@ private:
     QAction *m_deleteAction;
     QAction *m_openAction;
     QAction *m_reloadAction;
+    QMenu *m_transcodeAction;
     KdenliveDoc *m_doc;
     ProjectItem *m_selectedItem;
     bool m_refreshed;

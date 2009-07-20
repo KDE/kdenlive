@@ -130,6 +130,9 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
             m_view.image_size->setText(props.value("frame_size"));
         if (props.contains("transparency"))
             m_view.image_transparency->setChecked(props.value("transparency").toInt());
+        int width = 180.0 * KdenliveSettings::project_display_ratio();
+        if (width % 2 == 1) width++;
+        m_view.clip_thumb->setPixmap(QPixmap(url.path()).scaled(QSize(width, 180), Qt::KeepAspectRatio));
     } else if (t == COLOR) {
         m_view.clip_path->setEnabled(false);
         m_view.tabWidget->removeTab(METATAB);
@@ -499,7 +502,9 @@ void ClipProperties::parseFolder()
     m_view.slide_info->setText(i18n("%1 images found", m_count));
     QDomElement xml = m_clip->toXML();
     xml.setAttribute("resource", m_view.clip_path->text() + extension);
-    QPixmap pix = m_clip->thumbProducer()->getImage(KUrl(m_view.clip_path->text() + extension), 1, 240, 180);
+    int width = 180.0 * KdenliveSettings::project_display_ratio();
+    if (width % 2 == 1) width++;
+    QPixmap pix = m_clip->thumbProducer()->getImage(KUrl(m_view.clip_path->text() + extension), 1, width, 180);
     QMap <QString, QString> props = m_clip->properties();
     m_view.clip_duration->setText(m_tc.getTimecodeFromFrames(props.value("ttl").toInt() * m_count));
     m_view.clip_thumb->setPixmap(pix);
