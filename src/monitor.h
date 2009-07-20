@@ -101,7 +101,6 @@ private:
     bool m_isActive;
     double m_scale;
     int m_length;
-    int m_position;
     bool m_dragStarted;
     MonitorRefresh *m_monitorRefresh;
     KIcon m_playIcon;

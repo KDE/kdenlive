@@ -240,7 +240,7 @@ void Render::seek(GenTime time)
 {
     if (!m_mltProducer)
         return;
-    m_isBlocked = 0;
+    m_isBlocked = false;
     m_mltProducer->seek((int)(time.frames(m_fps)));
     refresh();
 }
@@ -1236,6 +1236,17 @@ void Render::seekToFrame(int pos)
     refresh();
 }
 
+void Render::seekToFrameDiff(int diff)
+{
+    //kDebug()<<" *********  RENDER SEEK TO POS";
+    if (!m_mltProducer)
+        return;
+    m_isBlocked = false;
+    resetZoneMode();
+    m_mltProducer->seek(m_mltProducer->position() + diff);
+    refresh();
+}
+
 void Render::askForRefresh()
 {
     // Use a Timer so that we don't refresh too much
@@ -1286,6 +1297,11 @@ GenTime Render::seekPosition() const
     else return GenTime();
 }
 
+int Render::seekFramePosition() const
+{
+    if (m_mltProducer) return (int) m_mltProducer->position();
+    return 0;
+}
 
 const QString & Render::rendererName() const
 {
@@ -2101,7 +2117,7 @@ bool Render::mltEditEffect(int track, GenTime position, EffectsParameterList par
         return success;
     }
 
-    // create filter
+    // find filter
     Mlt::Service service(m_mltProducer->parent().get_service());
 
     Mlt::Tractor tractor(service);
@@ -2147,7 +2163,7 @@ bool Render::mltEditEffect(int track, GenTime position, EffectsParameterList par
         m_isBlocked = false;
         return success;
     }
-
+    mlt_service_lock(service.get_service());
     for (int j = 0; j < params.count(); j++) {
         char *name = decodedString(params.at(j).name());
         char *value = decodedString(params.at(j).value());
@@ -2155,6 +2171,7 @@ bool Render::mltEditEffect(int track, GenTime position, EffectsParameterList par
         delete[] name;
         delete[] value;
     }
+    mlt_service_unlock(service.get_service());
 
     m_isBlocked = false;
     refresh();

@@ -83,6 +83,7 @@ Q_OBJECT public:
     /** Seeks the renderer clip to the given time. */
     void seek(GenTime time);
     void seekToFrame(int pos);
+    void seekToFrameDiff(int diff);
     int m_isBlocked;
 
     //static QPixmap getVideoThumbnail(char *profile, QString file, int frame, int width, int height);
@@ -141,6 +142,7 @@ Q_OBJECT public:
     double playSpeed();
     /** Returns the current seek position of the renderer. */
     GenTime seekPosition() const;
+    int seekFramePosition() const;
 
     void emitFrameNumber(double position);
     void emitConsumerStopped();

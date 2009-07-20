@@ -51,7 +51,6 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent) :
         m_isActive(false),
         m_scale(1),
         m_length(0),
-        m_position(-1),
         m_dragStarted(false)
 {
     m_ui.setupUi(this);
@@ -260,7 +259,7 @@ void Monitor::slotSeekToNextSnap()
 
 GenTime Monitor::position()
 {
-    return GenTime(m_position, m_monitorManager->timecode().fps());
+    return render->seekPosition();
 }
 
 GenTime Monitor::getSnapForPos(bool previous)
@@ -278,7 +277,7 @@ GenTime Monitor::getSnapForPos(bool previous)
     snaps.append(m_currentClip->duration());
     qSort(snaps);
 
-    const GenTime pos(m_position, m_monitorManager->timecode().fps());
+    const GenTime pos = render->seekPosition();
     for (int i = 0; i < snaps.size(); ++i) {
         if (previous && snaps.at(i) >= pos) {
             if (i == 0) i = 1;
@@ -301,7 +300,7 @@ void Monitor::slotZoneMoved(int start, int end)
 
 void Monitor::slotSetZoneStart()
 {
-    m_ruler->setZone(m_position, -1);
+    m_ruler->setZone(render->seekFramePosition(), -1);
     emit zoneUpdated(m_ruler->zone());
     checkOverlay();
     setClipZone(m_ruler->zone());
@@ -309,7 +308,7 @@ void Monitor::slotSetZoneStart()
 
 void Monitor::slotSetZoneEnd()
 {
-    m_ruler->setZone(-1, m_position);
+    m_ruler->setZone(-1, render->seekFramePosition());
     emit zoneUpdated(m_ruler->zone());
     checkOverlay();
     setClipZone(m_ruler->zone());
@@ -412,7 +411,7 @@ void Monitor::wheelEvent(QWheelEvent * event)
     if (event->modifiers() == Qt::ControlModifier) {
         int delta = m_monitorManager->timecode().fps();
         if (event->delta() < 0) delta = 0 - delta;
-        slotSeek(m_position - delta);
+        slotSeek(render->seekFramePosition() - delta);
     } else {
         if (event->delta() <= 0) slotForwardOneFrame();
         else slotRewindOneFrame();
@@ -424,13 +423,13 @@ void Monitor::slotSetThumbFrame()
     if (m_currentClip == NULL) {
         return;
     }
-    m_currentClip->setClipThumbFrame((uint) m_position);
+    m_currentClip->setClipThumbFrame((uint) render->seekFramePosition());
     emit refreshClipThumbnail(m_currentClip->getId());
 }
 
 void Monitor::slotExtractCurrentFrame()
 {
-    QPixmap frame = render->extractFrame(m_position);
+    QPixmap frame = render->extractFrame(render->seekFramePosition());
     QString outputFile = KFileDialog::getSaveFileName(KUrl(), "image/png");
     if (!outputFile.isEmpty()) {
         if (QFile::exists(outputFile) && KMessageBox::questionYesNo(this, i18n("File already exists.\nDo you want to overwrite it?")) == KMessageBox::No) return;
@@ -464,20 +463,20 @@ void Monitor::slotSeek(int pos)
 {
     activateMonitor();
     if (render == NULL) return;
-    m_position = pos;
     render->seekToFrame(pos);
-    emit renderPosition(m_position);
+    emit renderPosition(render->seekFramePosition());
 }
 
 void Monitor::checkOverlay()
 {
     if (m_overlay == NULL) return;
+    int pos = render->seekFramePosition();
     QPoint zone = m_ruler->zone();
-    if (m_position == zone.x()) m_overlay->setOverlayText(i18n("In Point"));
-    else if (m_position == zone.y()) m_overlay->setOverlayText(i18n("Out Point"));
+    if (pos == zone.x()) m_overlay->setOverlayText(i18n("In Point"));
+    else if (pos == zone.y()) m_overlay->setOverlayText(i18n("Out Point"));
     else {
         if (m_currentClip) {
-            QString markerComment = m_currentClip->markerComment(GenTime(m_position, m_monitorManager->timecode().fps()));
+            QString markerComment = m_currentClip->markerComment(GenTime(pos, m_monitorManager->timecode().fps()));
             if (markerComment.isEmpty()) m_overlay->setHidden(true);
             else m_overlay->setOverlayText(markerComment, false);
         } else m_overlay->setHidden(true);
@@ -488,36 +487,32 @@ void Monitor::slotStart()
 {
     activateMonitor();
     render->play(0);
-    m_position = 0;
-    render->seekToFrame(m_position);
-    emit renderPosition(m_position);
+    render->seekToFrame(0);
+    emit renderPosition(0);
 }
 
 void Monitor::slotEnd()
 {
     activateMonitor();
     render->play(0);
-    m_position = render->getLength();
-    render->seekToFrame(m_position);
-    emit renderPosition(m_position);
+    render->seekToFrame(render->getLength());
+    emit renderPosition(render->seekFramePosition());
 }
 
 void Monitor::slotZoneStart()
 {
     activateMonitor();
     render->play(0);
-    m_position = m_ruler->zone().x();
-    render->seekToFrame(m_position);
-    emit renderPosition(m_position);
+    render->seekToFrame(m_ruler->zone().x());
+    emit renderPosition(render->seekFramePosition());
 }
 
 void Monitor::slotZoneEnd()
 {
     activateMonitor();
     render->play(0);
-    m_position = m_ruler->zone().y();
-    render->seekToFrame(m_position);
-    emit renderPosition(m_position);
+    render->seekToFrame(m_ruler->zone().y());
+    emit renderPosition(render->seekFramePosition());
 }
 
 void Monitor::slotRewind(double speed)
@@ -548,33 +543,22 @@ void Monitor::slotRewindOneFrame(int diff)
 {
     activateMonitor();
     render->play(0);
-    if (m_position < 1) return;
-    /*
-     * freebsd needs this hack to upgrade m_position value:
-     * http://www.kdenlive.org/mantis/view.php?id=491
-     */
-    int position = m_position - diff;
-    m_position = qMax(position, 0);
-    render->seekToFrame(m_position);
-    emit renderPosition(m_position);
+    render->seekToFrameDiff(-diff);
+    emit renderPosition(render->seekFramePosition());
 }
 
 void Monitor::slotForwardOneFrame(int diff)
 {
     activateMonitor();
     render->play(0);
-    if (m_position >= m_length) return;
-    m_position += diff;
-    m_position = qMin(m_position, m_length);
-    render->seekToFrame(m_position);
-    emit renderPosition(m_position);
+    render->seekToFrameDiff(diff);
+    emit renderPosition(render->seekFramePosition());
 }
 
 void Monitor::seekCursor(int pos)
 {
     activateMonitor();
     checkOverlay();
-    m_position = pos;
     m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(pos));
     m_ruler->slotNewValue(pos);
 }
@@ -589,7 +573,6 @@ void Monitor::rendererStopped(int pos)
         }
     }
     m_ruler->slotNewValue(pos);
-    m_position = pos;
     checkOverlay();
     m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(pos));
     m_playAction->setChecked(false);
@@ -699,7 +682,6 @@ void Monitor::slotSetXml(DocClipBase *clip, const int position)
             // MLT CONSUMER is broken
             emit blockMonitors();
         }
-        m_position = position;
     } else if (position != -1) render->seek(GenTime(position, render->fps()));
 }
 
