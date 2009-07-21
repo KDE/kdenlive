@@ -1933,7 +1933,6 @@ int Render::mltChangeClipSpeed(ItemInfo info, double speed, double oldspeed, Mlt
 
 bool Render::mltRemoveEffect(int track, GenTime position, QString index, bool updateIndex, bool doRefresh)
 {
-    kDebug() << "// TRYing to remove effect at: " << index;
     Mlt::Service service(m_mltProducer->parent().get_service());
     bool success = false;
     Mlt::Tractor tractor(service);
@@ -1953,7 +1952,7 @@ bool Render::mltRemoveEffect(int track, GenTime position, QString index, bool up
     while (filter) {
         if ((index == "-1" && strcmp(filter->get("kdenlive_id"), ""))  || filter->get("kdenlive_ix") == index) {// && filter->get("kdenlive_id") == id) {
             if (clipService.detach(*filter) == 0) success = true;
-            kDebug() << " / / / DLEETED EFFECT: " << ct;
+            //kDebug()<<"Deleted filter id:"<<filter->get("kdenlive_id")<<", ix:"<<filter->get("kdenlive_ix")<<", SERVICE:"<<filter->get("mlt_service");
         } else if (updateIndex) {
             // Adjust the other effects index
             if (QString(filter->get("kdenlive_ix")).toInt() > index.toInt()) filter->set("kdenlive_ix", QString(filter->get("kdenlive_ix")).toInt() - 1);
@@ -2112,7 +2111,7 @@ bool Render::mltEditEffect(int track, GenTime position, EffectsParameterList par
 
     if (!params.paramValue("keyframes").isEmpty() || /*it.key().startsWith("#") || */tag.startsWith("ladspa") || tag == "sox" || tag == "autotrack_rectangle") {
         // This is a keyframe effect, to edit it, we remove it and re-add it.
-        mltRemoveEffect(track, position, index, true);
+        mltRemoveEffect(track, position, index, false);
         bool success = mltAddEffect(track, position, params);
         return success;
     }
