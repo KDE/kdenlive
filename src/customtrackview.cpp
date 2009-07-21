@@ -1388,7 +1388,6 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement effect, i
         // check if we are trying to reset a keyframe effect
         if (effectParams.hasParam("keyframes") && effectParams.paramValue("keyframes").isEmpty()) {
             clip->initEffect(effect);
-            clip->setEffectAt(ix, effect);
             effectParams = clip->getEffectArgs(effect);
         }
         if (effectParams.paramValue("disabled") == "1") {

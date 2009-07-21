@@ -1293,7 +1293,7 @@ void ClipItem::setEffectAt(int ix, QDomElement effect)
     m_effectNames = m_effectList.effectNames().join(" / ");
     QString id = effect.attribute("id");
     if (id == "fadein" || id == "fadeout" || id == "fade_from_black" || id == "fade_to_black")
-        update(boundingRect());
+        update();
     else {
         QRectF r = boundingRect();
         r.setHeight(20);

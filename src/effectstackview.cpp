@@ -65,7 +65,6 @@ EffectStackView::EffectStackView(QWidget *parent) :
     connect(m_ui.buttonDel, SIGNAL(clicked()), this, SLOT(slotItemDel()));
     connect(m_ui.buttonSave, SIGNAL(clicked()), this, SLOT(slotSaveEffect()));
     connect(m_ui.buttonReset, SIGNAL(clicked()), this, SLOT(slotResetEffect()));
-    //connect(this, SIGNAL(transferParamDesc(const QDomElement&, int , int)), m_effectedit , SLOT(transferParamDesc(const QDomElement&, int , int)));
     connect(m_effectedit, SIGNAL(parameterChanged(const QDomElement&, const QDomElement&)), this , SLOT(slotUpdateEffectParams(const QDomElement&, const QDomElement&)));
     m_effectLists["audio"] = &MainWindow::audioEffects;
     m_effectLists["video"] = &MainWindow::videoEffects;
