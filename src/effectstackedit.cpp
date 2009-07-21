@@ -436,6 +436,7 @@ void EffectStackEdit::collectAllParameters()
         if (type == "complex") paramName.append("complex");
         else if (type == "position") paramName.append("position");
         else if (type == "geometry") paramName.append("geometry");
+        else if (type == "keyframe") paramName.append("keyframe");
         if (!m_valueItems.contains(paramName)) {
             kDebug() << "// Param: " << paramName << " NOT FOUND";
             return;
