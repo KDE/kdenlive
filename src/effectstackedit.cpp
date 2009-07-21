@@ -439,7 +439,7 @@ void EffectStackEdit::collectAllParameters()
         else if (type == "keyframe") paramName.append("keyframe");
         if (!m_valueItems.contains(paramName)) {
             kDebug() << "// Param: " << paramName << " NOT FOUND";
-            return;
+            continue;
         }
 
         QString setValue;
