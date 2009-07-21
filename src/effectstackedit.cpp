@@ -204,19 +204,17 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int in, int out)
                 }
             }
             if (!value.isEmpty()) lsval->list->setCurrentIndex(listitems.indexOf(value));
-
-            connect(lsval->list, SIGNAL(currentIndexChanged(int)) , this, SLOT(collectAllParameters()));
             lsval->title->setTitle(paramName);
             m_valueItems[paramName] = lsval;
+            connect(lsval->list, SIGNAL(currentIndexChanged(int)) , this, SLOT(collectAllParameters()));
             m_uiItems.append(lsval);
         } else if (type == "bool") {
             Boolval *bval = new Boolval;
             bval->setupUi(toFillin);
             bval->checkBox->setCheckState(value == "0" ? Qt::Unchecked : Qt::Checked);
-
-            connect(bval->checkBox, SIGNAL(stateChanged(int)) , this, SLOT(collectAllParameters()));
             bval->checkBox->setText(paramName);
             m_valueItems[paramName] = bval;
+            connect(bval->checkBox, SIGNAL(stateChanged(int)) , this, SLOT(collectAllParameters()));
             m_uiItems.append(bval);
         } else if (type == "complex") {
             /*QStringList names=nodeAtts.namedItem("name").nodeValue().split(';');
@@ -233,29 +231,29 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int in, int out)
              };
             }*/
             ComplexParameter *pl = new ComplexParameter;
-            connect(pl, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
             pl->setupParam(d, pa.attribute("name"), 0, 100);
             m_vbox->addWidget(pl);
             m_valueItems[paramName+"complex"] = pl;
+            connect(pl, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
             m_items.append(pl);
         } else if (type == "geometry") {
             Geometryval *geo = new Geometryval(m_profile, m_frameSize);
-            connect(geo, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
-            connect(geo, SIGNAL(seekToPos(int)), this, SLOT(slotSeekToPos(int)));
             geo->setupParam(pa, minFrame, maxFrame);
             m_vbox->addWidget(geo);
             m_valueItems[paramName+"geometry"] = geo;
+            connect(geo, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
+            connect(geo, SIGNAL(seekToPos(int)), this, SLOT(slotSeekToPos(int)));
             m_items.append(geo);
         } else if (type == "keyframe") {
             // keyframe editor widget
             kDebug() << "min: " << m_in << ", MAX: " << m_out;
             KeyframeEdit *geo = new KeyframeEdit(pa, m_out - m_in, m_timecode);
-            connect(geo, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
             //geo->setupParam(100, pa.attribute("min").toInt(), pa.attribute("max").toInt(), pa.attribute("keyframes"));
             //connect(geo, SIGNAL(seekToPos(int)), this, SLOT(slotSeekToPos(int)));
             //geo->setupParam(pa, minFrame, maxFrame);
             m_vbox->addWidget(geo);
             m_valueItems[paramName+"keyframe"] = geo;
+            connect(geo, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
             m_items.append(geo);
         } else if (type == "color") {
             Colorval *cval = new Colorval;
@@ -264,10 +262,9 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int in, int out)
             if (value.startsWith('#')) value = value.replace('#', "0x");
             cval->kcolorbutton->setColor(value.toUInt(&ok, 16));
             //kDebug() << "color: " << value << ", " << value.toUInt(&ok, 16);
-
-            connect(cval->kcolorbutton, SIGNAL(clicked()) , this, SLOT(collectAllParameters()));
             cval->label->setText(paramName);
             m_valueItems[paramName] = cval;
+            connect(cval->kcolorbutton, SIGNAL(clicked()) , this, SLOT(collectAllParameters()));
             m_uiItems.append(cval);
         } else if (type == "position") {
             Positionval *pval = new Positionval;
@@ -280,9 +277,9 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int in, int out)
                 pos = m_out - (pos - m_in);
             }
             pval->krestrictedline->setText(m_timecode.getTimecodeFromFrames(pos));
-            connect(pval->krestrictedline, SIGNAL(editingFinished()), this, SLOT(collectAllParameters()));
             pval->label->setText(paramName);
             m_valueItems[paramName + "position"] = pval;
+            connect(pval->krestrictedline, SIGNAL(editingFinished()), this, SLOT(collectAllParameters()));
             m_uiItems.append(pval);
         } else if (type == "wipe") {
             Wipeval *wpval = new Wipeval;
@@ -324,7 +321,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int in, int out)
             }
             wpval->start_transp->setValue(w.startTransparency);
             wpval->end_transp->setValue(w.endTransparency);
-
+            m_valueItems[paramName] = wpval;
             connect(wpval->end_up, SIGNAL(clicked()), this, SLOT(collectAllParameters()));
             connect(wpval->end_down, SIGNAL(clicked()), this, SLOT(collectAllParameters()));
             connect(wpval->end_left, SIGNAL(clicked()), this, SLOT(collectAllParameters()));
@@ -338,7 +335,6 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int in, int out)
             connect(wpval->start_transp, SIGNAL(valueChanged(int)), this, SLOT(collectAllParameters()));
             connect(wpval->end_transp, SIGNAL(valueChanged(int)), this, SLOT(collectAllParameters()));
             //wpval->title->setTitle(na.toElement().text());
-            m_valueItems[paramName] = wpval;
             m_uiItems.append(wpval);
         } else {
             delete toFillin;
@@ -428,6 +424,7 @@ QString EffectStackEdit::getWipeString(wipeInfo info)
 
 void EffectStackEdit::collectAllParameters()
 {
+    if (m_valueItems.isEmpty()) return;
     QDomElement oldparam = m_params.cloneNode().toElement();
     QDomNodeList namenode = m_params.elementsByTagName("parameter");
 
@@ -436,28 +433,35 @@ void EffectStackEdit::collectAllParameters()
         QDomNode na = pa.firstChildElement("name");
         QString type = pa.attributes().namedItem("type").nodeValue();
         QString paramName = i18n(na.toElement().text().toUtf8().data());
+        if (type == "complex") paramName.append("complex");
+        else if (type == "position") paramName.append("position");
+        else if (type == "geometry") paramName.append("geometry");
+        if (!m_valueItems.contains(paramName)) {
+            kDebug() << "// Param: " << paramName << " NOT FOUND";
+            return;
+        }
 
         QString setValue;
         if (type == "double" || type == "constant") {
-            QSlider* slider = ((Constval*)m_valueItems[paramName])->horizontalSlider;
+            QSlider* slider = ((Constval*)m_valueItems.value(paramName))->horizontalSlider;
             setValue = QString::number(slider->value());
         } else if (type == "list") {
-            KComboBox *box = ((Listval*)m_valueItems[paramName])->list;
+            KComboBox *box = ((Listval*)m_valueItems.value(paramName))->list;
             setValue = box->itemData(box->currentIndex()).toString();
         } else if (type == "bool") {
-            QCheckBox *box = ((Boolval*)m_valueItems[paramName])->checkBox;
+            QCheckBox *box = ((Boolval*)m_valueItems.value(paramName))->checkBox;
             setValue = box->checkState() == Qt::Checked ? "1" : "0" ;
         } else if (type == "color") {
-            KColorButton *color = ((Colorval*)m_valueItems[paramName])->kcolorbutton;
+            KColorButton *color = ((Colorval*)m_valueItems.value(paramName))->kcolorbutton;
             setValue = color->color().name();
         } else if (type == "complex") {
-            ComplexParameter *complex = ((ComplexParameter*)m_valueItems[paramName+"complex"]);
+            ComplexParameter *complex = ((ComplexParameter*)m_valueItems.value(paramName));
             namenode.item(i) = complex->getParamDesc();
         } else if (type == "geometry") {
-            Geometryval *geom = ((Geometryval*)m_valueItems[paramName+"geometry"]);
+            Geometryval *geom = ((Geometryval*)m_valueItems.value(paramName));
             namenode.item(i) = geom->getParamDesc();
         } else if (type == "position") {
-            KRestrictedLine *line = ((Positionval*)m_valueItems[paramName+"position"])->krestrictedline;
+            KRestrictedLine *line = ((Positionval*)m_valueItems.value(paramName))->krestrictedline;
             int pos = m_timecode.getFrameCount(line->text(), KdenliveSettings::project_fps());
             setValue = QString::number(pos);
             if (m_params.attribute("id") == "fadein" || m_params.attribute("id") == "fade_from_black") {
@@ -480,7 +484,7 @@ void EffectStackEdit::collectAllParameters()
                 setValue.clear();
             }
         } else if (type == "wipe") {
-            Wipeval *wp = (Wipeval*)m_valueItems[paramName];
+            Wipeval *wp = (Wipeval*)m_valueItems.value(paramName);
             wipeInfo info;
             if (wp->start_left->isChecked()) info.start = LEFT;
             else if (wp->start_right->isChecked()) info.start = RIGHT;
@@ -532,15 +536,23 @@ void EffectStackEdit::slotSliderMoved(int)
 
 void EffectStackEdit::clearAllItems()
 {
-    qDeleteAll(m_items);
+    blockSignals(true);
+    m_valueItems.clear();
+
+    while (!m_items.isEmpty()) {
+        QWidget * die = m_items.takeFirst();
+        die->disconnect();
+        delete die;
+    }
+
     qDeleteAll(m_uiItems);
     m_uiItems.clear();
     m_items.clear();
-    m_valueItems.clear();
     QLayoutItem *item = m_vbox->itemAt(0);
     while (item) {
         m_vbox->removeItem(item);
         delete item;
         item = m_vbox->itemAt(0);
     }
+    blockSignals(false);
 }
