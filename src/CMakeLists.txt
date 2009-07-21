@@ -168,6 +168,7 @@ set(kdenlive_SRCS
   documentvalidator.cpp
   cliptranscode.cpp
   keyframeedit.cpp
+  positionedit.cpp
 )
 
 add_definitions( ${KDE4_DEFINITIONS} )

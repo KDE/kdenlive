@@ -20,12 +20,12 @@
 #include "ui_listval_ui.h"
 #include "ui_boolval_ui.h"
 #include "ui_colorval_ui.h"
-#include "ui_positionval_ui.h"
 #include "ui_wipeval_ui.h"
 #include "ui_keyframeeditor_ui.h"
 #include "complexparameter.h"
 #include "geometryval.h"
 #include "keyframeedit.h"
+#include "positionedit.h"
 #include "effectslist.h"
 #include "kdenlivesettings.h"
 #include "profilesdialog.h"
@@ -54,10 +54,6 @@ class Constval: public EffectStackEdit::UiItem, public Ui::Constval_UI
 };
 
 class Listval: public EffectStackEdit::UiItem, public Ui::Listval_UI
-{
-};
-
-class Positionval: public EffectStackEdit::UiItem, public Ui::Positionval_UI
 {
 };
 
@@ -267,8 +263,6 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int in, int out)
             connect(cval->kcolorbutton, SIGNAL(clicked()) , this, SLOT(collectAllParameters()));
             m_uiItems.append(cval);
         } else if (type == "position") {
-            Positionval *pval = new Positionval;
-            pval->setupUi(toFillin);
             int pos = value.toInt();
             if (d.attribute("id") == "fadein" || d.attribute("id") == "fade_from_black") {
                 pos = pos - m_in;
@@ -276,11 +270,11 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int in, int out)
                 // fadeout position starts from clip end
                 pos = m_out - (pos - m_in);
             }
-            pval->krestrictedline->setText(m_timecode.getTimecodeFromFrames(pos));
-            pval->label->setText(paramName);
-            m_valueItems[paramName + "position"] = pval;
-            connect(pval->krestrictedline, SIGNAL(editingFinished()), this, SLOT(collectAllParameters()));
-            m_uiItems.append(pval);
+            PositionEdit *posedit = new PositionEdit(paramName, pos, 1, m_out, m_timecode);
+            m_vbox->addWidget(posedit);
+            m_valueItems[paramName+"position"] = posedit;
+            connect(posedit, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
+            m_items.append(posedit);
         } else if (type == "wipe") {
             Wipeval *wpval = new Wipeval;
             wpval->setupUi(toFillin);
@@ -462,24 +456,24 @@ void EffectStackEdit::collectAllParameters()
             Geometryval *geom = ((Geometryval*)m_valueItems.value(paramName));
             namenode.item(i) = geom->getParamDesc();
         } else if (type == "position") {
-            KRestrictedLine *line = ((Positionval*)m_valueItems.value(paramName))->krestrictedline;
-            int pos = m_timecode.getFrameCount(line->text(), KdenliveSettings::project_fps());
+            PositionEdit *pedit = ((PositionEdit*)m_valueItems.value(paramName));
+            int pos = pedit->getPosition();
             setValue = QString::number(pos);
             if (m_params.attribute("id") == "fadein" || m_params.attribute("id") == "fade_from_black") {
                 // Make sure duration is not longer than clip
-                if (pos > m_out) {
+                /*if (pos > m_out) {
                     pos = m_out;
-                    line->setText(m_timecode.getTimecodeFromFrames(pos));
-                }
+                    pedit->setPosition(pos);
+                }*/
                 EffectsList::setParameter(m_params, "in", QString::number(m_in));
                 EffectsList::setParameter(m_params, "out", QString::number(m_in + pos));
                 setValue.clear();
             } else if (m_params.attribute("id") == "fadeout" || m_params.attribute("id") == "fade_to_black") {
                 // Make sure duration is not longer than clip
-                if (pos > m_out) {
+                /*if (pos > m_out) {
                     pos = m_out;
-                    line->setText(m_timecode.getTimecodeFromFrames(pos));
-                }
+                    pedit->setPosition(pos);
+                }*/
                 EffectsList::setParameter(m_params, "in", QString::number(m_out + m_in - pos));
                 EffectsList::setParameter(m_params, "out", QString::number(m_out + m_in));
                 setValue.clear();
