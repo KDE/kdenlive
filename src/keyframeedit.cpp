@@ -19,17 +19,22 @@
 #include "kdenlivesettings.h"
 
 #include <KDebug>
+#include <KGlobalSettings>
+
 #include <QHeaderView>
 
 
-KeyframeEdit::KeyframeEdit(QDomElement e, int max, Timecode tc, QWidget* parent) :
+KeyframeEdit::KeyframeEdit(QDomElement e, int maxFrame, int minVal, int maxVal, Timecode tc, QWidget* parent) :
         QWidget(parent),
         m_param(e),
-        m_max(max),
+        m_max(maxFrame),
+        m_minVal(minVal),
+        m_maxVal(maxVal),
         m_timecode(tc),
         m_previousPos(0)
 {
     m_ui.setupUi(this);
+    m_ui.keyframe_list->setFont(KGlobalSettings::generalFont());
     m_ui.keyframe_list->setHeaderLabels(QStringList() << i18n("Position") << i18n("Value"));
     //setResizeMode(1, QHeaderView::Interactive);
     m_ui.button_add->setIcon(KIcon("document-new"));
@@ -43,6 +48,7 @@ KeyframeEdit::KeyframeEdit(QDomElement e, int max, Timecode tc, QWidget* parent)
     connect(m_ui.keyframe_list, SIGNAL(itemDoubleClicked(QTreeWidgetItem *, int)), this, SLOT(slotSaveCurrentParam(QTreeWidgetItem *, int)));
     connect(m_ui.keyframe_pos, SIGNAL(valueChanged(int)), this, SLOT(slotAdjustKeyframeValue(int)));
     m_ui.keyframe_pos->setPageStep(1);
+    m_ui.keyframe_list->setItemDelegate(new KeyItemDelegate(minVal, maxVal));
 }
 
 void KeyframeEdit::setupParam(QDomElement e)

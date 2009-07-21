@@ -399,7 +399,7 @@ void ClipItem::updateKeyframeEffect()
         if (!e.isNull() && e.attribute("type") == "keyframe") {
             QString keyframes;
             if (m_keyframes.count() > 1) {
-                QMap<int, double>::const_iterator i = m_keyframes.constBegin();
+                QMap<int, int>::const_iterator i = m_keyframes.constBegin();
                 while (i != m_keyframes.constEnd()) {
                     keyframes.append(QString::number(i.key()) + ':' + QString::number(i.value()) + ';');
                     ++i;

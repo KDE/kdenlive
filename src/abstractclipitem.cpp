@@ -267,7 +267,7 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, QRectF /*exposedRect*/)
     }
 
     // draw keyframes
-    QMap<int, double>::const_iterator i = m_keyframes.constBegin();
+    QMap<int, int>::const_iterator i = m_keyframes.constBegin();
     QColor color(Qt::blue);
     x1 = br.x() + maxw * (i.key() - cropStart().frames(m_fps));
     y1 = br.bottom() - i.value() * maxh;
@@ -297,7 +297,7 @@ int AbstractClipItem::mouseOverKeyFrames(QPointF pos)
     double maxw = br.width() / cropDuration().frames(m_fps);
     double maxh = br.height() / 100.0 * m_keyframeFactor;
     if (m_keyframes.count() > 1) {
-        QMap<int, double>::const_iterator i = m_keyframes.constBegin();
+        QMap<int, int>::const_iterator i = m_keyframes.constBegin();
         double x1;
         double y1;
         while (i != m_keyframes.constEnd()) {
@@ -361,7 +361,7 @@ void AbstractClipItem::updateKeyFramePos(const GenTime pos, const double value)
     newval = qMin(newval, 100.0);
     newval = newval / m_keyframeFactor;
     if (m_selectedKeyframe != newpos) m_keyframes.remove(m_selectedKeyframe);
-    m_keyframes[newpos] = newval;
+    m_keyframes[newpos] = (int) newval;
     m_selectedKeyframe = newpos;
     update();
 }
@@ -375,7 +375,7 @@ void AbstractClipItem::addKeyFrame(const GenTime pos, const double value)
 {
     QRectF br = sceneBoundingRect();
     double maxh = 100.0 / br.height() / m_keyframeFactor;
-    double newval = (br.bottom() - value) * maxh;
+    int newval = (br.bottom() - value) * maxh;
     kDebug() << "Rect: " << br << "/ SCENE: " << sceneBoundingRect() << ", VALUE: " << value << ", MAX: " << maxh << ", NEWVAL: " << newval;
     int newpos = (int) pos.frames(m_fps) ;
     m_keyframes[newpos] = newval;
