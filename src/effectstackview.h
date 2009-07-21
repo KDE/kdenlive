@@ -58,7 +58,6 @@ private slots:
     void slotSaveEffect();
 
 signals:
-    void transferParamDesc(const QDomElement&, int , int);
     void removeEffect(ClipItem*, QDomElement);
     /**  Parameters for an effect changed, update the filter in playlist */
     void updateClipEffect(ClipItem*, QDomElement, QDomElement, int);
