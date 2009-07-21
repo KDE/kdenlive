@@ -4,6 +4,6 @@
 	<description>Adjusts the brightness of a source image</description>
 	<author>Jean-Sebastien Senecal</author>
 	<parameter type="constant" name="Brightness" default="500" min="0" max="1000" factor="1000">
-		<name>Contrast</name>
+		<name>Brightness</name>
 	</parameter>
 </effect>

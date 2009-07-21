@@ -51,6 +51,8 @@ frei0r_balanc0r.xml
 frei0r_scale0tilt.xml
 frei0r_contrast0r.xml
 frei0r_brightness.xml
+frei0r_lenscorrection.xml
+frei0r_saturat0r.xml
 gain.xml
 fade_from_black.xml
 fade_to_black.xml

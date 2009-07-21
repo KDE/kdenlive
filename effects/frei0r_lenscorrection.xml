@@ -1,0 +1,22 @@
+<!DOCTYPE kpartgui>
+<effect tag="frei0r.lenscorrection" id="frei0r.lenscorrection">
+	<name>Lens Correction</name>
+	<description>Allows compensation of lens distortion</description>
+	<author>Richard Spindler</author>
+	<parameter type="constant" name="xcenter" default="500" min="0" max="1000" factor="1000">
+		<name>Horizontal center</name>
+	</parameter>
+	<parameter type="constant" name="ycenter" default="500" min="0" max="1000" factor="1000">
+		<name>Vertical center</name>
+	</parameter>
+	<parameter type="constant" name="correctionnearcenter" default="500" min="0" max="1000" factor="1000">
+		<name>Center correction</name>
+	</parameter>
+	<parameter type="constant" name="correctionnearedges" default="500" min="0" max="1000" factor="1000">
+		<name>Edges correction</name>
+	</parameter>
+	<parameter type="constant" name="brightness" default="0" min="0" max="1000" factor="1000">
+		<name>Brightness</name>
+	</parameter>
+
+</effect>
