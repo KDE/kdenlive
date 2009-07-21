@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>906</width>
-    <height>442</height>
+    <width>913</width>
+    <height>519</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -20,7 +20,7 @@
    <string>Title Clip</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
-   <item row="5" column="8">
+   <item row="6" column="8">
     <spacer name="horizontalSpacer_3">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -42,6 +42,18 @@
       <enum>QFrame::Sunken</enum>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <property name="leftMargin">
+       <number>4</number>
+      </property>
+      <property name="topMargin">
+       <number>4</number>
+      </property>
+      <property name="rightMargin">
+       <number>2</number>
+      </property>
+      <property name="bottomMargin">
+       <number>3</number>
+      </property>
       <item>
        <widget class="QLabel" name="label">
         <property name="font">
@@ -83,7 +95,16 @@
       <enum>QFrame::Sunken</enum>
      </property>
      <layout class="QGridLayout" name="gridLayout_4">
-      <property name="margin">
+      <property name="leftMargin">
+       <number>4</number>
+      </property>
+      <property name="topMargin">
+       <number>2</number>
+      </property>
+      <property name="rightMargin">
+       <number>2</number>
+      </property>
+      <property name="bottomMargin">
        <number>2</number>
       </property>
       <item row="0" column="0">
@@ -185,6 +206,9 @@
        <number>2</number>
       </property>
       <property name="rightMargin">
+       <number>4</number>
+      </property>
+      <property name="bottomMargin">
        <number>2</number>
       </property>
       <item row="4" column="0">
@@ -358,7 +382,7 @@
      </layout>
     </widget>
    </item>
-   <item row="4" column="1" colspan="9">
+   <item row="5" column="1" colspan="9">
     <widget class="QSplitter" name="splitter">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -372,15 +396,15 @@
      <widget class="QGraphicsView" name="graphicsView"/>
      <widget class="QToolBox" name="toolBox">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="BasicOperations">
        <property name="geometry">
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>431</width>
-         <height>140</height>
+         <width>450</width>
+         <height>122</height>
         </rect>
        </property>
        <attribute name="label">
@@ -498,8 +522,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>431</width>
-         <height>144</height>
+         <width>450</width>
+         <height>122</height>
         </rect>
        </property>
        <attribute name="label">
@@ -546,8 +570,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>416</width>
-         <height>198</height>
+         <width>434</width>
+         <height>230</height>
         </rect>
        </property>
        <attribute name="label">
@@ -716,21 +740,21 @@
      </widget>
     </widget>
    </item>
-   <item row="5" column="1">
+   <item row="6" column="1">
     <widget class="QToolButton" name="buttonFitZoom">
      <property name="text">
       <string>V</string>
      </property>
     </widget>
    </item>
-   <item row="5" column="2">
+   <item row="6" column="2">
     <widget class="QToolButton" name="buttonRealSize">
      <property name="text">
       <string>V</string>
      </property>
     </widget>
    </item>
-   <item row="5" column="3" colspan="2">
+   <item row="6" column="3" colspan="2">
     <widget class="QSlider" name="zoom_slider">
      <property name="minimumSize">
       <size>
@@ -758,21 +782,21 @@
      </property>
     </widget>
    </item>
-   <item row="5" column="5">
+   <item row="6" column="5">
     <widget class="QLabel" name="zoom_label">
      <property name="text">
       <string>x1</string>
      </property>
     </widget>
    </item>
-   <item row="5" column="6">
+   <item row="6" column="6">
     <widget class="QCheckBox" name="displayBg">
      <property name="text">
       <string>Show background</string>
      </property>
     </widget>
    </item>
-   <item row="5" column="9">
+   <item row="6" column="9">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -920,11 +944,61 @@
      </property>
     </widget>
    </item>
-   <item row="5" column="7">
+   <item row="6" column="7">
     <widget class="QCheckBox" name="cropImage">
      <property name="text">
       <string>Crop to frame size</string>
      </property>
+    </widget>
+   </item>
+   <item row="4" column="1" colspan="9">
+    <widget class="QFrame" name="image_properties">
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_6">
+      <property name="leftMargin">
+       <number>4</number>
+      </property>
+      <property name="topMargin">
+       <number>2</number>
+      </property>
+      <property name="rightMargin">
+       <number>2</number>
+      </property>
+      <property name="bottomMargin">
+       <number>2</number>
+      </property>
+      <item row="0" column="0">
+       <widget class="QCheckBox" name="preserveAspectRatio">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="text">
+         <string>Preserve aspect ratio</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <spacer name="horizontalSpacer_6">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
     </widget>
    </item>
   </layout>

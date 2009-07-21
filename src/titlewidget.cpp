@@ -316,17 +316,14 @@ void TitleWidget::slotTextTool()
 {
     m_scene->setTool(TITLE_TEXT);
     showToolbars(TITLE_TEXT);
-    m_buttonRect->setChecked(false);
-    m_buttonCursor->setChecked(false);
+	checkButton(TITLE_TEXT);
 }
 
 void TitleWidget::slotRectTool()
 {
     m_scene->setTool(TITLE_RECTANGLE);
     showToolbars(TITLE_RECTANGLE);
-    m_buttonText->setChecked(false);
-    m_buttonCursor->setChecked(false);
-    m_buttonRect->setChecked(true);
+	checkButton(TITLE_RECTANGLE);
 }
 
 void TitleWidget::slotSelectTool()
@@ -358,9 +355,7 @@ void TitleWidget::slotSelectTool()
         updateRotZoom(l.at(0));
     }
 
-    m_buttonCursor->setChecked(true);
-    m_buttonText->setChecked(false);
-    m_buttonRect->setChecked(false);
+	checkButton(TITLE_SELECT);
 }
 
 void TitleWidget::slotImageTool()
@@ -385,15 +380,14 @@ void TitleWidget::slotImageTool()
     }
     m_scene->setTool(TITLE_SELECT);
     showToolbars(TITLE_SELECT);
-    m_buttonRect->setChecked(false);
-    m_buttonCursor->setChecked(true);
-    m_buttonText->setChecked(false);
+	checkButton(TITLE_NONE);
 }
 
 void TitleWidget::showToolbars(TITLETOOL toolType)
 {
     bool bText = false;
     bool bRect = false;
+	bool bImage = false;
     bool bNone = false;
 
     switch (toolType) {
@@ -403,13 +397,16 @@ void TitleWidget::showToolbars(TITLETOOL toolType)
     case TITLE_RECTANGLE:
         bRect = true;
         break;
-    case TITLE_IMAGE: //fall through
+    case TITLE_IMAGE:
+        bImage = true;
+		break;
     default:
-        bNone = true;
+		bNone = true;
         break;
     }
     text_properties->setHidden(!bText);
     rect_properties->setHidden(!bRect);
+	image_properties->setHidden(!bImage);
     no_properties->setHidden(!bNone);
 }
 
@@ -419,6 +416,7 @@ void TitleWidget::enableToolbars(TITLETOOL toolType)
     bool bFrame = false;
     bool bText = false;
     bool bRect = false;
+	bool bImage = false;
     bool bValue_w = false;
     bool bValue_h = false;
 
@@ -439,6 +437,7 @@ void TitleWidget::enableToolbars(TITLETOOL toolType)
         bFrame = true;
         bValue_w = true;
         bValue_h = true;
+		bImage = true;
         break;
     default:
         break;
@@ -446,8 +445,39 @@ void TitleWidget::enableToolbars(TITLETOOL toolType)
     frame_properties->setEnabled(bFrame);
     text_properties->setEnabled(bText);
     rect_properties->setEnabled(bRect);
+	image_properties->setEnabled(bImage);
     value_w->setEnabled(bValue_w);
     value_h->setEnabled(bValue_h);
+}
+
+void TitleWidget::checkButton(TITLETOOL toolType)
+{
+	bool bSelect = false;
+	bool bText = false;
+	bool bRect = false;
+	bool bImage = false;
+	
+	switch (toolType) {
+		case TITLE_SELECT:
+			bSelect = true;
+			break;
+		case TITLE_TEXT:
+			bText = true;
+			break;
+		case TITLE_RECTANGLE:
+			bRect = true;
+			break;
+		case TITLE_IMAGE:
+			bImage = true;
+			break;
+		case TITLE_NONE:
+			break;
+	}
+			
+	m_buttonCursor->setChecked(bSelect);
+	m_buttonText->setChecked(bText);
+	m_buttonRect->setChecked(bRect);
+	m_buttonImage->setChecked(bImage);
 }
 
 void TitleWidget::displayBackgroundFrame()
@@ -532,6 +562,8 @@ void TitleWidget::slotZoomOneToOne()
 
 void TitleWidget::slotNewRect(QGraphicsRectItem * rect)
 {
+	updateAxisButtons(rect); // back to default
+	
     QColor f = rectFColor->color();
     f.setAlpha(rectFAlpha->value());
     QPen penf(f);
@@ -547,6 +579,8 @@ void TitleWidget::slotNewRect(QGraphicsRectItem * rect)
 
 void TitleWidget::slotNewText(QGraphicsTextItem *tt)
 {
+	updateAxisButtons(tt); // back to default
+	
     QFont font = font_family->currentFont();
     font.setPixelSize(font_size->value());
     // mbd: issue 551:
@@ -677,6 +711,8 @@ void TitleWidget::selectionChanged()
             enableToolbars(TITLE_RECTANGLE);
 
         } else if (l.at(0)->type() == IMAGEITEM) {
+			showToolbars(TITLE_IMAGE);
+			
             updateCoordinates(l.at(0));
             updateDimension(l.at(0));
 
@@ -684,6 +720,7 @@ void TitleWidget::selectionChanged()
 
         } else {
             //toolBox->setCurrentIndex(0);
+			showToolbars(TITLE_NONE);
             enableToolbars(TITLE_NONE);
             /*frame_properties->setEnabled(false);
             text_properties->setEnabled(false);
@@ -1215,7 +1252,7 @@ void TitleWidget::itemVCenter()
 
 void TitleWidget::setupViewports()
 {
-    double aspect_ratio = 4.0 / 3.0;//read from project
+    //double aspect_ratio = 4.0 / 3.0;//read from project
     //better zoom centered, but render uses only the created rect, so no problem to change the zoom function 
     QRectF sp(0, 0, startViewportSize->value() * m_frameWidth/100.0 ,startViewportSize->value()* m_frameHeight/100.0);
     QRectF ep(0, 0, endViewportSize->value() * m_frameWidth/100.0,endViewportSize->value() * m_frameHeight/100.0);
