@@ -124,15 +124,15 @@ QDomDocument TitleDocument::xml(QGraphicsPolygonItem* startv, QGraphicsPolygonIt
     if (startv && endv) {
         QDomElement endp = doc.createElement("endviewport");
         QDomElement startp = doc.createElement("startviewport");
-        endp.setAttribute("x", endv->data(0).toString() );
-        endp.setAttribute("y", endv->data(1).toString() );
+        endp.setAttribute("x", endv->data(0).toString());
+        endp.setAttribute("y", endv->data(1).toString());
         endp.setAttribute("size", endv->data(2).toString());
-	endp.setAttribute("rect",rectFToString(endv->boundingRect()));
+        endp.setAttribute("rect", rectFToString(endv->boundingRect()));
 
-        startp.setAttribute("x", startv->data(0).toString() );
+        startp.setAttribute("x", startv->data(0).toString());
         startp.setAttribute("y", startv->data(1).toString());
         startp.setAttribute("size", startv->data(2).toString());
-	startp.setAttribute("rect",rectFToString(startv->boundingRect()));
+        startp.setAttribute("rect", rectFToString(startv->boundingRect()));
 
         startp.setAttribute("z-index", startv->zValue());
         endp.setAttribute("z-index", endv->zValue());
@@ -301,25 +301,25 @@ int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsPolygonItem* startv, Q
                     }
                 }
             } else if (items.item(i).nodeName() == "startviewport" && startv) {
-		    QString rect = items.item(i).attributes().namedItem("rect").nodeValue();
-                    startv->setPolygon(stringToRect(rect));
-		    int x = items.item(i).attributes().namedItem("x").nodeValue().toInt();
-		    int y = items.item(i).attributes().namedItem("y").nodeValue().toInt();
-		    int size = items.item(i).attributes().namedItem("size").nodeValue().toInt();
-		    startv->setData(0,x);
-		    startv->setData(1,y);
-		    startv->setData(2,size);
-                    //startv->setPos(p);
-                } else if (items.item(i).nodeName() == "endviewport" && endv) {
-		    QString rect = items.item(i).attributes().namedItem("rect").nodeValue();
-                    endv->setPolygon(stringToRect(rect));
-                    int x = items.item(i).attributes().namedItem("x").nodeValue().toInt();
-		    int y = items.item(i).attributes().namedItem("y").nodeValue().toInt();
-		    int size = items.item(i).attributes().namedItem("size").nodeValue().toInt();
-		    endv->setData(0,x);
-		    endv->setData(1,y);
-		    endv->setData(2,size);
-                }
+                QString rect = items.item(i).attributes().namedItem("rect").nodeValue();
+                startv->setPolygon(stringToRect(rect));
+                int x = items.item(i).attributes().namedItem("x").nodeValue().toInt();
+                int y = items.item(i).attributes().namedItem("y").nodeValue().toInt();
+                int size = items.item(i).attributes().namedItem("size").nodeValue().toInt();
+                startv->setData(0, x);
+                startv->setData(1, y);
+                startv->setData(2, size);
+                //startv->setPos(p);
+            } else if (items.item(i).nodeName() == "endviewport" && endv) {
+                QString rect = items.item(i).attributes().namedItem("rect").nodeValue();
+                endv->setPolygon(stringToRect(rect));
+                int x = items.item(i).attributes().namedItem("x").nodeValue().toInt();
+                int y = items.item(i).attributes().namedItem("y").nodeValue().toInt();
+                int size = items.item(i).attributes().namedItem("size").nodeValue().toInt();
+                endv->setData(0, x);
+                endv->setData(1, y);
+                endv->setData(2, size);
+            }
         }
     }
     return maxZValue;

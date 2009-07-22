@@ -191,12 +191,12 @@ void KThumb::extractImage(int frame, int frame2)
     const int theight = KdenliveSettings::trackheight();
 
     if (frame != -1) {
-            QPixmap pix=getFrame(m_producer,frame,twidth,theight);
-            emit thumbReady(frame, pix);
-    } 
+        QPixmap pix = getFrame(m_producer, frame, twidth, theight);
+        emit thumbReady(frame, pix);
+    }
     if (frame2 != -1) {
-            QPixmap pix=getFrame(m_producer,frame2,twidth,theight);
-            emit thumbReady(frame2, pix);
+        QPixmap pix = getFrame(m_producer, frame2, twidth, theight);
+        emit thumbReady(frame2, pix);
     }
 }
 

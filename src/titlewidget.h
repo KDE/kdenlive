@@ -132,8 +132,8 @@ private:
     void enableToolbars(TITLETOOL toolType);
     /** \brief Shows the toolbars suiting to toolType */
     void showToolbars(TITLETOOL toolType);
-	/** \brief Check a tool button. */
-	void checkButton(TITLETOOL toolType);
+    /** \brief Check a tool button. */
+    void checkButton(TITLETOOL toolType);
 
 public slots:
     void slotNewText(QGraphicsTextItem *tt);
