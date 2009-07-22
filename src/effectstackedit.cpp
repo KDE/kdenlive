@@ -128,7 +128,7 @@ void EffectStackEdit::updateParameter(const QString &name, const QString &value)
     m_params.setAttribute(name, value);
 }
 
-void EffectStackEdit::transferParamDesc(const QDomElement& d, int in, int out)
+void EffectStackEdit::transferParamDesc(const QDomElement d, int in, int out)
 {
     kDebug() << "in";
     m_params = d;

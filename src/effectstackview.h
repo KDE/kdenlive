@@ -46,7 +46,7 @@ private:
 
 public slots:
     void slotClipItemSelected(ClipItem*, int ix);
-    void slotUpdateEffectParams(const QDomElement&, const QDomElement&);
+    void slotUpdateEffectParams(const QDomElement, const QDomElement);
 
 private slots:
     void slotItemSelectionChanged();

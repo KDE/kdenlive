@@ -73,7 +73,7 @@ private:
     QPoint m_frameSize;
 
 public slots:
-    void transferParamDesc(const QDomElement&, int , int);
+    void transferParamDesc(const QDomElement, int , int);
     void slotSliderMoved(int);
     /** \brief Called whenever(?) some parameter is changed in the gui.
      *
@@ -84,7 +84,7 @@ private slots:
     void slotSeekToPos(int);
 
 signals:
-    void parameterChanged(const QDomElement&, const QDomElement&);
+    void parameterChanged(const QDomElement, const QDomElement);
     void seekTimeline(int);
 };
 
