@@ -49,8 +49,6 @@ ComplexParameter::ComplexParameter(QWidget *parent) :
     connect(m_ui.buttonNewPoints, SIGNAL(clicked()), this , SLOT(slotSetNew()));
     connect(m_ui.buttonHelp, SIGNAL(clicked()), this , SLOT(slotSetHelp()));
     connect(m_ui.parameterList, SIGNAL(currentIndexChanged(const QString &)), this, SLOT(slotParameterChanged(const QString&)));
-    //connect (m_ui.effectlist, SIGNAL (itemSelectionChanged() ) , this, SLOT ( itemSelectionChanged()));
-    connect(this, SIGNAL(transferParamDesc(const QDomElement&, const QString&, int , int)), m_ui.kplotwidget, SLOT(setPointLists(const QDomElement&, const QString&, int , int)));
     connect(m_ui.kplotwidget, SIGNAL(parameterChanged(QDomElement)), this , SLOT(slotUpdateEffectParams(QDomElement)));
     connect(m_ui.kplotwidget, SIGNAL(parameterList(QStringList)), this , SLOT(slotUpdateParameterList(QStringList)));
     /*ÜeffectLists["audio"]=audioEffectList;
@@ -116,7 +114,7 @@ void ComplexParameter::slotParameterChanged(const QString& text)
     updateButtonStatus();
 }
 
-void ComplexParameter::setupParam(const QDomElement& d, const QString& paramName, int from, int to)
+void ComplexParameter::setupParam(const QDomElement d, const QString& paramName, int from, int to)
 {
     m_param = d;
     m_ui.kplotwidget->setPointLists(d, paramName, from, to);

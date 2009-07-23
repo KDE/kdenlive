@@ -34,10 +34,10 @@ public:
     QDomElement getParamDesc();
 private:
     Ui::KeyframeWidget_UI m_ui;
+    QDomElement m_param;
     void setupListView();
     void updateButtonStatus();
 
-    QDomElement m_param;
 public slots:
     void slotSetMoveX();
     void slotSetMoveY();
@@ -46,11 +46,10 @@ public slots:
     void slotShowInTimeline();
     void slotParameterChanged(const QString&);
     void itemSelectionChanged();
-    void setupParam(const QDomElement&, const QString& paramName, int, int);
+    void setupParam(const QDomElement, const QString& paramName, int, int);
     void slotUpdateEffectParams(QDomElement e);
     void slotUpdateParameterList(QStringList);
 signals:
-    void transferParamDesc(const QDomElement&, const QString&, int , int);
     void removeEffect(ClipItem*, QDomElement);
     void updateClipEffect(ClipItem*, QDomElement);
     void parameterChanged();

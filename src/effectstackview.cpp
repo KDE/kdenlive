@@ -74,6 +74,12 @@ EffectStackView::EffectStackView(QWidget *parent) :
     setEnabled(false);
 }
 
+EffectStackView::~EffectStackView()
+{
+    m_effectLists.clear();
+    delete m_effectedit;
+}
+
 void EffectStackView::setMenu(QMenu *menu)
 {
     m_ui.buttonNew->setMenu(menu);

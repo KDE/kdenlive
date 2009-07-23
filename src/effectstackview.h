@@ -31,6 +31,7 @@ class EffectStackView : public QWidget
 
 public:
     EffectStackView(QWidget *parent = 0);
+    virtual ~EffectStackView();
     void raiseWindow(QWidget*);
     void clear();
     void setMenu(QMenu *menu);

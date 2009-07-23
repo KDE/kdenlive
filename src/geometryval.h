@@ -41,13 +41,13 @@ class Geometryval : public QWidget
     Q_OBJECT
 public:
     explicit Geometryval(const MltVideoProfile profile, QPoint frame_size, QWidget* parent = 0);
+    virtual ~Geometryval();
     QDomElement getParamDesc();
     void setFrameSize(QPoint p);
 
 private:
     Ui::Geometryval m_ui;
     MltVideoProfile m_profile;
-    //QGraphicsScene* scene;
     GraphicsSceneRectMove *m_scene;
     QDomElement m_param;
     QGraphicsRectItem *m_paramRect;
@@ -59,11 +59,11 @@ private:
     QAction *m_syncAction;
     bool m_fixedMode;
     QPoint m_frameSize;
+    Ui::GeometryPosition_UI m_view;
     void updateTransitionPath();
-    Ui::GeometryPosition_UI *m_view;
 
 public slots:
-    void setupParam(const QDomElement&, int, int);
+    void setupParam(const QDomElement, int, int);
 
 private slots:
     void slotNextFrame();

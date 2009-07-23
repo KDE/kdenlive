@@ -116,6 +116,18 @@ Geometryval::Geometryval(const MltVideoProfile profile, QPoint frame_size, QWidg
 
 }
 
+
+Geometryval::~Geometryval()
+{
+    m_scene->disconnect();
+    delete m_paramRect;
+    delete m_path;
+    delete m_helper;
+    delete m_geom;
+    delete m_scene;
+}
+
+
 void Geometryval::slotAlignCenter()
 {
     int pos = m_ui.spinPos->value();
@@ -403,7 +415,7 @@ QDomElement Geometryval::getParamDesc()
     return m_param;
 }
 
-void Geometryval::setupParam(const QDomElement& par, int minFrame, int maxFrame)
+void Geometryval::setupParam(const QDomElement par, int minFrame, int maxFrame)
 {
     m_param = par;
     QString val = par.attribute("value");
@@ -508,43 +520,41 @@ void Geometryval::slotGeometry()
     QRectF r = m_paramRect->rect().normalized();
 
     QDialog d(this);
-    m_view = new Ui::GeometryPosition_UI();
-    m_view->setupUi(&d);
+    m_view.setupUi(&d);
     d.setWindowTitle(i18n("Frame Geometry"));
-    m_view->value_x->setMaximum(10000);
-    m_view->value_x->setMinimum(-10000);
-    m_view->value_y->setMaximum(10000);
-    m_view->value_y->setMinimum(-10000);
-    m_view->value_width->setMaximum(500000);
-    m_view->value_width->setMinimum(1);
-    m_view->value_height->setMaximum(500000);
-    m_view->value_height->setMinimum(1);
+    m_view.value_x->setMaximum(10000);
+    m_view.value_x->setMinimum(-10000);
+    m_view.value_y->setMaximum(10000);
+    m_view.value_y->setMinimum(-10000);
+    m_view.value_width->setMaximum(500000);
+    m_view.value_width->setMinimum(1);
+    m_view.value_height->setMaximum(500000);
+    m_view.value_height->setMinimum(1);
 
-    m_view->value_x->setValue(m_paramRect->pos().x());
-    m_view->value_y->setValue(m_paramRect->pos().y());
-    m_view->value_width->setValue(r.width());
-    m_view->value_height->setValue(r.height());
-    connect(m_view->button_reset , SIGNAL(clicked()) , this , SLOT(slotResetPosition()));
+    m_view.value_x->setValue(m_paramRect->pos().x());
+    m_view.value_y->setValue(m_paramRect->pos().y());
+    m_view.value_width->setValue(r.width());
+    m_view.value_height->setValue(r.height());
+    connect(m_view.button_reset , SIGNAL(clicked()) , this , SLOT(slotResetPosition()));
 
     if (d.exec() == QDialog::Accepted) {
-        m_paramRect->setPos(m_view->value_x->value(), m_view->value_y->value());
-        m_paramRect->setRect(0, 0, m_view->value_width->value(), m_view->value_height->value());
+        m_paramRect->setPos(m_view.value_x->value(), m_view.value_y->value());
+        m_paramRect->setRect(0, 0, m_view.value_width->value(), m_view.value_height->value());
         slotUpdateTransitionProperties();
     }
-    delete m_view;
 }
 
 void Geometryval::slotResetPosition()
 {
-    m_view->value_x->setValue(0);
-    m_view->value_y->setValue(0);
+    m_view.value_x->setValue(0);
+    m_view.value_y->setValue(0);
 
     if (m_frameSize.isNull()) {
-        m_view->value_width->setValue(m_profile.width);
-        m_view->value_height->setValue(m_profile.height);
+        m_view.value_width->setValue(m_profile.width);
+        m_view.value_height->setValue(m_profile.height);
     } else {
-        m_view->value_width->setValue(m_frameSize.x());
-        m_view->value_height->setValue(m_frameSize.y());
+        m_view.value_width->setValue(m_frameSize.x());
+        m_view.value_height->setValue(m_frameSize.y());
     }
 }
 
