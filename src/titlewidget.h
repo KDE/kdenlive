@@ -108,6 +108,9 @@ private:
 
     enum ValueType { ValueWidth = 0, ValueHeight = 1 };
 
+    /** \brief Sets the font weight value in the combo box. (#909) */
+    void setFontBoxWeight(int weight);
+
     /** \brief Store the current choices of font, background and rect values */
     void writeChoices();
     /** \brief Read the last stored choices into the dialog */

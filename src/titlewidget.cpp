@@ -69,6 +69,7 @@ TitleWidget::TitleWidget(KUrl url, QString projectTitlePath, Render *render, QWi
     connect(font_family, SIGNAL(currentFontChanged(const QFont &)), this, SLOT(slotUpdateText())) ;
     connect(font_size, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateText())) ;
     connect(textAlpha, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateText()));
+    connect(font_weight_box, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateText()));
 
     connect(rectFAlpha, SIGNAL(valueChanged(int)), this, SLOT(rectChanged()));
     connect(rectBAlpha, SIGNAL(valueChanged(int)), this, SLOT(rectChanged()));
@@ -105,7 +106,6 @@ TitleWidget::TitleWidget(KUrl url, QString projectTitlePath, Render *render, QWi
     connect(value_h, SIGNAL(valueChanged(int)), this, SLOT(slotAdjustSelectedItem()));
     connect(buttonFitZoom, SIGNAL(clicked()), this, SLOT(slotAdjustZoom()));
     connect(buttonRealSize, SIGNAL(clicked()), this, SLOT(slotZoomOneToOne()));
-    connect(buttonBold, SIGNAL(clicked()), this, SLOT(slotUpdateText()));
     connect(buttonItalic, SIGNAL(clicked()), this, SLOT(slotUpdateText()));
     connect(buttonUnder, SIGNAL(clicked()), this, SLOT(slotUpdateText()));
     connect(buttonAlignLeft, SIGNAL(clicked()), this, SLOT(slotUpdateText()));
@@ -120,9 +120,18 @@ TitleWidget::TitleWidget(KUrl url, QString projectTitlePath, Render *render, QWi
     // mbd
     connect(this, SIGNAL(accepted()), this, SLOT(slotAccepted()));
 
+    font_weight_box->blockSignals(true);
+    font_weight_box->addItem(i18nc("Font style", "Light"), QFont::Light);
+    font_weight_box->addItem(i18nc("Font style", "Normal"), QFont::Normal);
+    font_weight_box->addItem(i18nc("Font style", "Demi-Bold"), QFont::DemiBold);
+    font_weight_box->addItem(i18nc("Font style", "Bold"), QFont::Bold);
+    font_weight_box->addItem(i18nc("Font style", "Black"), QFont::Black);
+    font_weight_box->setToolTip(i18n("Font weight"));
+    font_weight_box->setCurrentIndex(1);
+    font_weight_box->blockSignals(false);
+
     buttonFitZoom->setIcon(KIcon("zoom-fit-best"));
     buttonRealSize->setIcon(KIcon("zoom-original"));
-    buttonBold->setIcon(KIcon("format-text-bold"));
     buttonItalic->setIcon(KIcon("format-text-italic"));
     buttonUnder->setIcon(KIcon("format-text-underline"));
     buttonAlignCenter->setIcon(KIcon("format-justify-center"));
@@ -584,7 +593,7 @@ void TitleWidget::slotNewText(QGraphicsTextItem *tt)
     QFont font = font_family->currentFont();
     font.setPixelSize(font_size->value());
     // mbd: issue 551:
-    font.setBold(buttonBold->isChecked());
+    font.setWeight(font_weight_box->itemData(font_weight_box->currentIndex()).toInt());
     font.setItalic(buttonItalic->isChecked());
     font.setUnderline(buttonUnder->isChecked());
 
@@ -594,6 +603,15 @@ void TitleWidget::slotNewText(QGraphicsTextItem *tt)
     tt->setDefaultTextColor(color);
     tt->setZValue(m_count++);
     setCurrentItem(tt);
+}
+
+void TitleWidget::setFontBoxWeight(int weight)
+{
+    int index = font_weight_box->findData(weight);
+    if (index < 0) {
+        index = font_weight_box->findData(QFont::Normal);
+    }
+    font_weight_box->setCurrentIndex(index);
 }
 
 void TitleWidget::setCurrentItem(QGraphicsItem *item)
@@ -642,7 +660,7 @@ void TitleWidget::selectionChanged()
             //toolBox->setItemEnabled(2, true);
             font_size->blockSignals(true);
             font_family->blockSignals(true);
-            buttonBold->blockSignals(true);
+            font_weight_box->blockSignals(true);
             buttonItalic->blockSignals(true);
             buttonUnder->blockSignals(true);
             fontColorButton->blockSignals(true);
@@ -655,9 +673,9 @@ void TitleWidget::selectionChanged()
             QFont font = i->font();
             font_family->setCurrentFont(font);
             font_size->setValue(font.pixelSize());
-            buttonBold->setChecked(font.bold());
             buttonItalic->setChecked(font.italic());
             buttonUnder->setChecked(font.underline());
+            setFontBoxWeight(font.weight());
 
             QColor color = i->defaultTextColor();
             fontColorButton->setColor(color);
@@ -672,7 +690,7 @@ void TitleWidget::selectionChanged()
 
             font_size->blockSignals(false);
             font_family->blockSignals(false);
-            buttonBold->blockSignals(false);
+            font_weight_box->blockSignals(false);
             buttonItalic->blockSignals(false);
             buttonUnder->blockSignals(false);
             fontColorButton->blockSignals(false);
@@ -1136,9 +1154,9 @@ void TitleWidget::slotUpdateText()
 {
     QFont font = font_family->currentFont();
     font.setPixelSize(font_size->value());
-    font.setBold(buttonBold->isChecked());
     font.setItalic(buttonItalic->isChecked());
     font.setUnderline(buttonUnder->isChecked());
+    font.setWeight(font_weight_box->itemData(font_weight_box->currentIndex()).toInt());
     QColor color = fontColorButton->color();
     color.setAlpha(textAlpha->value());
 
@@ -1282,6 +1300,7 @@ void TitleWidget::loadTitle()
         for (int i = 0; i < items.size(); i++) {
             if (items.at(i)->zValue() > -1000) delete items.at(i);
         }
+        m_scene->clearTextSelection();
         m_count = m_titledocument.loadDocument(url, m_startViewport, m_endViewport) + 1;
         insertingValues = true;
         startViewportX->setValue(m_startViewport->data(0).toInt());
@@ -1408,7 +1427,7 @@ void TitleWidget::writeChoices()
     titleConfig.writeEntry("font_pixel_size", font_size->value());
     titleConfig.writeEntry("font_color", fontColorButton->color());
     titleConfig.writeEntry("font_alpha", textAlpha->value());
-    titleConfig.writeEntry("font_bold", buttonBold->isChecked());
+    titleConfig.writeEntry("font_weight", font_weight_box->itemData(font_weight_box->currentIndex()).toInt());
     titleConfig.writeEntry("font_italic", buttonItalic->isChecked());
     titleConfig.writeEntry("font_underlined", buttonUnder->isChecked());
 
@@ -1439,7 +1458,10 @@ void TitleWidget::readChoices()
     font_size->setValue(titleConfig.readEntry("font_pixel_size", font_size->value()));
     fontColorButton->setColor(titleConfig.readEntry("font_color", fontColorButton->color()));
     textAlpha->setValue(titleConfig.readEntry("font_alpha", textAlpha->value()));
-    buttonBold->setChecked(titleConfig.readEntry("font_bold", buttonBold->isChecked()));
+    int weight;
+    if (titleConfig.readEntry("font_bold", false)) weight = QFont::Bold;
+    else weight = titleConfig.readEntry("font_weight", font_weight_box->itemData(font_weight_box->currentIndex()).toInt());
+    setFontBoxWeight(weight);
     buttonItalic->setChecked(titleConfig.readEntry("font_italic", buttonItalic->isChecked()));
     buttonUnder->setChecked(titleConfig.readEntry("font_underlined", buttonUnder->isChecked()));
 

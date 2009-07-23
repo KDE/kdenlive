@@ -83,7 +83,7 @@ QDomDocument TitleDocument::xml(QGraphicsPolygonItem* startv, QGraphicsPolygonIt
             content.appendChild(doc.createTextNode(t->toPlainText()));
             font = t->font();
             content.setAttribute("font", font.family());
-            content.setAttribute("font-bold", font.bold());
+            content.setAttribute("font-weight", font.weight());
             content.setAttribute("font-pixel-size", font.pixelSize());
             content.setAttribute("font-italic", font.italic());
             content.setAttribute("font-underline", font.underline());
@@ -222,7 +222,16 @@ int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsPolygonItem* startv, Q
                 if (items.item(i).attributes().namedItem("type").nodeValue() == "QGraphicsTextItem") {
                     QDomNamedNodeMap txtProperties = items.item(i).namedItem("content").attributes();
                     QFont font(txtProperties.namedItem("font").nodeValue());
-                    font.setBold(txtProperties.namedItem("font-bold").nodeValue().toInt());
+
+                    QDomNode node = txtProperties.namedItem("font-bold");
+                    if (!node.isNull()) {
+                        // Old: Bold/Not bold.
+                        font.setBold(node.nodeValue().toInt());
+                    } else {
+                        // New: Font weight (QFont::)
+                        font.setWeight(txtProperties.namedItem("font-weight").nodeValue().toInt());
+                    }
+                    //font.setBold(txtProperties.namedItem("font-bold").nodeValue().toInt());
                     font.setItalic(txtProperties.namedItem("font-italic").nodeValue().toInt());
                     font.setUnderline(txtProperties.namedItem("font-underline").nodeValue().toInt());
                     // Older Kdenlive version did not store pixel size but point size

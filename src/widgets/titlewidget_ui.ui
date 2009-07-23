@@ -260,17 +260,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QToolButton" name="buttonBold">
-          <property name="text">
-           <string>...</string>
-          </property>
-          <property name="checkable">
-           <bool>true</bool>
-          </property>
-          <property name="checked">
-           <bool>false</bool>
-          </property>
-         </widget>
+         <widget class="QComboBox" name="font_weight_box"/>
         </item>
         <item>
          <widget class="QToolButton" name="buttonItalic">
@@ -403,8 +393,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>450</width>
-         <height>122</height>
+         <width>139</width>
+         <height>100</height>
         </rect>
        </property>
        <attribute name="label">
@@ -522,8 +512,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>450</width>
-         <height>122</height>
+         <width>301</width>
+         <height>183</height>
         </rect>
        </property>
        <attribute name="label">
@@ -570,8 +560,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>434</width>
-         <height>230</height>
+         <width>232</width>
+         <height>198</height>
         </rect>
        </property>
        <attribute name="label">
