@@ -71,8 +71,8 @@ private slots:
     void slotNextFrame();
     void slotPreviousFrame();
     void slotPositionChanged(int pos, bool seek = true);
-    void slotDeleteFrame();
-    void slotAddFrame();
+    void slotDeleteFrame(int pos = -1);
+    void slotAddFrame(int pos = -1);
     void slotUpdateTransitionProperties();
     void slotTransparencyChanged(int transp);
     void slotResize50();

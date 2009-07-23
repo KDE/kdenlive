@@ -40,6 +40,7 @@ protected:
     virtual void mousePressEvent(QMouseEvent * event);
     virtual void mouseMoveEvent(QMouseEvent * event);
     virtual void mouseReleaseEvent(QMouseEvent * event);
+    virtual void mouseDoubleClickEvent(QMouseEvent * event);
 
 private:
     Mlt::Geometry *m_geom;
@@ -57,6 +58,8 @@ public slots:
 signals:
     void positionChanged(int);
     void keyframeMoved(int);
+    void addKeyframe(int);
+    void removeKeyframe(int);
 };
 
 #endif

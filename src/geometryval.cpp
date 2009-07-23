@@ -51,7 +51,8 @@ Geometryval::Geometryval(const MltVideoProfile profile, QPoint frame_size, QWidg
 
     connect(m_helper, SIGNAL(positionChanged(int)), this, SLOT(slotPositionChanged(int)));
     connect(m_helper, SIGNAL(keyframeMoved(int)), this, SLOT(slotKeyframeMoved(int)));
-
+    connect(m_helper, SIGNAL(addKeyframe(int)), this, SLOT(slotAddFrame(int)));
+    connect(m_helper, SIGNAL(removeKeyframe(int)), this, SLOT(slotDeleteFrame(int)));
 
     m_scene = new GraphicsSceneRectMove(this);
     m_scene->setTool(TITLE_SELECT);
@@ -347,11 +348,11 @@ void Geometryval::slotPositionChanged(int pos, bool seek)
     m_paramRect->setBrush(QColor(255, 0, 0, item.mix()));
 }
 
-void Geometryval::slotDeleteFrame()
+void Geometryval::slotDeleteFrame(int pos)
 {
     // check there is more than one keyframe
     Mlt::GeometryItem item;
-    const int pos = m_ui.spinPos->value();
+    if (pos == -1) pos = m_ui.spinPos->value();
     int error = m_geom->next_key(&item, pos + 1);
     if (error) {
         error = m_geom->prev_key(&item, pos - 1);
@@ -372,9 +373,9 @@ void Geometryval::slotDeleteFrame()
     emit parameterChanged();
 }
 
-void Geometryval::slotAddFrame()
+void Geometryval::slotAddFrame(int pos)
 {
-    int pos = m_ui.spinPos->value();
+    if (pos = -1) pos = m_ui.spinPos->value();
     Mlt::GeometryItem item;
     item.frame(pos);
     item.x(m_paramRect->pos().x());

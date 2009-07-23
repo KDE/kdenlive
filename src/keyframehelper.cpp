@@ -53,7 +53,7 @@ void KeyframeHelper::mousePressEvent(QMouseEvent * event)
                 m_movingItem.w(item.w());
                 m_movingItem.h(item.h());
                 m_movingItem.mix(item.mix());
-                m_geom->remove(item.frame());
+                m_movingItem.frame(item.frame());
                 m_dragStart = event->pos();
                 m_movingKeyframe = true;
                 return;
@@ -69,8 +69,11 @@ void KeyframeHelper::mousePressEvent(QMouseEvent * event)
 void KeyframeHelper::mouseMoveEvent(QMouseEvent * event)
 {
     if (m_movingKeyframe) {
-        if (!m_dragStart.isNull() && (event->pos() - m_dragStart).manhattanLength() < QApplication::startDragDistance()) return;
-        m_dragStart = QPoint();
+        if (!m_dragStart.isNull()) {
+            if ((event->pos() - m_dragStart).manhattanLength() < QApplication::startDragDistance()) return;
+            m_dragStart = QPoint();
+            m_geom->remove(m_movingItem.frame());
+        }
         int pos = qMax(0, (int)(event->x() / m_scale));
         pos = qMin(m_length, pos);
         m_movingItem.frame(pos);
@@ -82,6 +85,22 @@ void KeyframeHelper::mouseMoveEvent(QMouseEvent * event)
     m_position = qMin(m_length, m_position);
     emit positionChanged(m_position);
     update();
+}
+
+void KeyframeHelper::mouseDoubleClickEvent(QMouseEvent * event)
+{
+    if (m_geom != NULL && event->button() == Qt::LeftButton) {
+        // check if we want to move a keyframe
+        int mousePos = qMax((int)(event->x() / m_scale - 5), 0);
+        Mlt::GeometryItem item;
+        if (m_geom->next_key(&item, mousePos) == 0 && item.frame() - mousePos < 10) {
+            // There is already a keyframe close to mouse click
+            emit removeKeyframe(item.frame());
+            return;
+        }
+        // add new keyframe
+        emit addKeyframe((int)(event->x() / m_scale));
+    }
 }
 
 // virtual
