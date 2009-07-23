@@ -1228,6 +1228,26 @@ bool CustomTrackView::insertPossible(AbstractGroupItem *group, const QPoint &pos
 
 }
 
+
+bool CustomTrackView::itemCollision(AbstractClipItem *item, ItemInfo newPos)
+{
+    QRectF shape = QRectF(newPos.startPos.frames(m_document->fps()), newPos.track * m_tracksHeight + 1, (newPos.endPos - newPos.startPos).frames(m_document->fps()) - 0.02, m_tracksHeight - 1);
+    QList<QGraphicsItem*> collindingItems = scene()->items(shape, Qt::IntersectsItemShape);
+    collindingItems.removeAll(item);
+    if (collindingItems.isEmpty()) return false;
+    else {
+        for (int i = 0; i < collindingItems.count(); i++) {
+            QGraphicsItem *collision = collindingItems.at(i);
+            if (collision->type() == item->type()) {
+                // Collision
+                kDebug() << "// COLLISIION DETECTED";
+                return true;
+            }
+        }
+        return false;
+    }
+}
+
 void CustomTrackView::slotRefreshEffects(ClipItem *clip)
 {
     int track = m_document->tracksCount() - clip->track();
@@ -4060,10 +4080,14 @@ ClipItem *CustomTrackView::getActiveClipUnderCursor(bool allowOutsideCursor) con
 
 void CustomTrackView::setInPoint()
 {
-    ClipItem *clip = getActiveClipUnderCursor(true);
+    AbstractClipItem *clip = getActiveClipUnderCursor(true);
     if (clip == NULL) {
-        emit displayMessage(i18n("You must select one clip for this action"), ErrorMessage);
-        return;
+        if (m_dragItem && m_dragItem->type() == TRANSITIONWIDGET) {
+            clip = m_dragItem;
+        } else {
+            emit displayMessage(i18n("You must select one clip for this action"), ErrorMessage);
+            return;
+        }
     }
     ItemInfo startInfo = clip->info();
     ItemInfo endInfo = startInfo;
@@ -4074,21 +4098,27 @@ void CustomTrackView::setInPoint()
         return;
     } else if (endInfo.startPos < startInfo.startPos) {
         int length = m_document->renderer()->mltGetSpaceLength(endInfo.startPos, m_document->tracksCount() - startInfo.track, false);
-        if (length < (startInfo.startPos - endInfo.startPos).frames(m_document->fps())) {
+        if ((clip->type() == TRANSITIONWIDGET && itemCollision(clip, endInfo) == true) || (
+                    (clip->type() == AVWIDGET) && length < (startInfo.startPos - endInfo.startPos).frames(m_document->fps()))) {
             emit displayMessage(i18n("Invalid action"), ErrorMessage);
             return;
         }
     }
-    ResizeClipCommand *command = new ResizeClipCommand(this, startInfo, endInfo, true);
-    m_commandStack->push(command);
+    if (clip->type() == TRANSITIONWIDGET) {
+        m_commandStack->push(new MoveTransitionCommand(this, startInfo, endInfo, true));
+    } else m_commandStack->push(new ResizeClipCommand(this, startInfo, endInfo, true));
 }
 
 void CustomTrackView::setOutPoint()
 {
-    ClipItem *clip = getActiveClipUnderCursor(true);
+    AbstractClipItem *clip = getActiveClipUnderCursor(true);
     if (clip == NULL) {
-        emit displayMessage(i18n("You must select one clip for this action"), ErrorMessage);
-        return;
+        if (m_dragItem && m_dragItem->type() == TRANSITIONWIDGET) {
+            clip = m_dragItem;
+        } else {
+            emit displayMessage(i18n("You must select one clip for this action"), ErrorMessage);
+            return;
+        }
     }
     ItemInfo startInfo = clip->info();
     ItemInfo endInfo = clip->info();
@@ -4099,16 +4129,16 @@ void CustomTrackView::setOutPoint()
         return;
     } else if (endInfo.endPos > startInfo.endPos) {
         int length = m_document->renderer()->mltGetSpaceLength(endInfo.endPos, m_document->tracksCount() - startInfo.track, false);
-        if (length < (endInfo.endPos - startInfo.endPos).frames(m_document->fps())) {
+        if ((clip->type() == TRANSITIONWIDGET && itemCollision(clip, endInfo) == true) || (clip->type() == AVWIDGET && length < (endInfo.endPos - startInfo.endPos).frames(m_document->fps()))) {
             emit displayMessage(i18n("Invalid action"), ErrorMessage);
             return;
         }
     }
 
 
-
-    ResizeClipCommand *command = new ResizeClipCommand(this, startInfo, endInfo, true);
-    m_commandStack->push(command);
+    if (clip->type() == TRANSITIONWIDGET) {
+        m_commandStack->push(new MoveTransitionCommand(this, startInfo, endInfo, true));
+    } else m_commandStack->push(new ResizeClipCommand(this, startInfo, endInfo, true));
 }
 
 void CustomTrackView::slotUpdateAllThumbs()

@@ -248,6 +248,8 @@ private:
     /** Get available space for transition move (min and max free positions) */
     void getTransitionAvailableSpace(AbstractClipItem *item, GenTime &minimum, GenTime &maximum);
     void updateClipTypeActions(ClipItem *clip);
+    /** Whether an item can be moved to a new position without colliding with similar items */
+    bool itemCollision(AbstractClipItem *item, ItemInfo newPos);
 
 private slots:
     void slotRefreshGuides();
