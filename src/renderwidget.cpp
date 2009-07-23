@@ -594,6 +594,10 @@ void RenderWidget::slotPrepareExport(bool scriptExport)
         KMessageBox::sorry(this, i18n("Cannot play video after rendering because the default video player application is not set.\nPlease define it in Kdenlive settings dialog."));
     QString chapterFile;
     if (m_view.create_chapter->isChecked()) chapterFile = m_view.out_file->url().path() + ".dvdchapter";
+
+    // mantisbt 1051
+    KStandardDirs::makeDir(m_view.out_file->url().path(KUrl::AddTrailingSlash));
+
     emit prepareRenderingData(scriptExport, m_view.render_zone->isChecked(), chapterFile);
 }
 
@@ -990,17 +994,24 @@ void RenderWidget::refreshView()
 
 KUrl RenderWidget::filenameWithExtension(KUrl url, QString extension)
 {
-    QString path;
-    if (!url.isEmpty()) {
-        path = url.path();
-        int pos = path.lastIndexOf('.') + 1;
-        if (pos == 0) path.append('.' + extension);
-        else path = path.left(pos) + extension;
+    QString directory = url.directory(KUrl::AppendTrailingSlash | KUrl::ObeyTrailingSlash);
+    QString filename = url.fileName(KUrl::ObeyTrailingSlash);
+    QString ext;
 
-    } else {
-        path = m_projectFolder + "untitled." + extension;
+    if (extension.at(0) == '.') ext = extension;
+    else ext = '.' + extension;
+
+    if (filename.isEmpty()) filename = i18n("untitled");
+
+    int pos = filename.lastIndexOf('.');
+    if (pos == 0) filename.append(ext);
+    else {
+        if (!filename.endsWith(ext, Qt::CaseInsensitive)) {
+            filename = filename.left(pos) + ext;
+        }
     }
-    return KUrl(path);
+
+    return KUrl(directory + filename);
 }
 
 
