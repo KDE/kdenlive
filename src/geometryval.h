@@ -54,9 +54,11 @@ private:
     Mlt::Geometry *m_geom;
     KeyframeHelper *m_helper;
     QGraphicsPathItem *m_path;
+    QMenu *m_configMenu;
     QMenu *m_scaleMenu;
     QMenu *m_alignMenu;
     QAction *m_syncAction;
+    QAction *m_editGeom;
     bool m_fixedMode;
     QPoint m_frameSize;
     Ui::GeometryPosition_UI m_view;
@@ -88,6 +90,7 @@ private slots:
     void slotSyncCursor();
     void slotGeometry();
     void slotResetPosition();
+    void slotKeyframeMoved(int);
 
 signals:
     void parameterChanged();

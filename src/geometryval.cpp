@@ -50,6 +50,8 @@ Geometryval::Geometryval(const MltVideoProfile profile, QPoint frame_size, QWidg
     vbox2->setContentsMargins(0, 0, 0, 0);
 
     connect(m_helper, SIGNAL(positionChanged(int)), this, SLOT(slotPositionChanged(int)));
+    connect(m_helper, SIGNAL(keyframeMoved(int)), this, SLOT(slotKeyframeMoved(int)));
+
 
     m_scene = new GraphicsSceneRectMove(this);
     m_scene->setTool(TITLE_SELECT);
@@ -69,16 +71,16 @@ Geometryval::Geometryval(const MltVideoProfile profile, QPoint frame_size, QWidg
     m_ui.buttonDelete->setIcon(KIcon("edit-delete"));
     m_ui.buttonDelete->setToolTip(i18n("Delete keyframe"));
 
-    QMenu *configMenu = new QMenu(i18n("Misc..."), this);
+    m_configMenu = new QMenu(i18n("Misc..."), this);
     m_ui.buttonMenu->setIcon(KIcon("system-run"));
-    m_ui.buttonMenu->setMenu(configMenu);
+    m_ui.buttonMenu->setMenu(m_configMenu);
     m_ui.buttonMenu->setPopupMode(QToolButton::QToolButton::InstantPopup);
 
 
-    configMenu->addAction(i18n("Geometry"), this, SLOT(slotGeometry()));
+    m_editGeom = m_configMenu->addAction(i18n("Edit keyframe"), this, SLOT(slotGeometry()));
 
     m_scaleMenu = new QMenu(i18n("Resize..."), this);
-    configMenu->addMenu(m_scaleMenu);
+    m_configMenu->addMenu(m_scaleMenu);
     m_scaleMenu->addAction(i18n("50%"), this, SLOT(slotResize50()));
     m_scaleMenu->addAction(i18n("100%"), this, SLOT(slotResize100()));
     m_scaleMenu->addAction(i18n("200%"), this, SLOT(slotResize200()));
@@ -86,7 +88,7 @@ Geometryval::Geometryval(const MltVideoProfile profile, QPoint frame_size, QWidg
     m_scaleMenu->addAction(i18n("Custom"), this, SLOT(slotResizeCustom()));
 
     m_alignMenu = new QMenu(i18n("Align..."), this);
-    configMenu->addMenu(m_alignMenu);
+    m_configMenu->addMenu(m_alignMenu);
     m_alignMenu->addAction(i18n("Center"), this, SLOT(slotAlignCenter()));
     m_alignMenu->addAction(i18n("Hor. Center"), this, SLOT(slotAlignHCenter()));
     m_alignMenu->addAction(i18n("Vert. Center"), this, SLOT(slotAlignVCenter()));
@@ -96,7 +98,7 @@ Geometryval::Geometryval(const MltVideoProfile profile, QPoint frame_size, QWidg
     m_alignMenu->addAction(i18n("Bottom"), this, SLOT(slotAlignBottom()));
 
 
-    m_syncAction = configMenu->addAction(i18n("Sync timeline cursor"), this, SLOT(slotSyncCursor()));
+    m_syncAction = m_configMenu->addAction(i18n("Sync timeline cursor"), this, SLOT(slotSyncCursor()));
     m_syncAction->setCheckable(true);
     m_syncAction->setChecked(KdenliveSettings::transitionfollowcursor());
 
@@ -120,6 +122,11 @@ Geometryval::Geometryval(const MltVideoProfile profile, QPoint frame_size, QWidg
 Geometryval::~Geometryval()
 {
     m_scene->disconnect();
+    delete m_scaleMenu;
+    delete m_alignMenu;
+    delete m_editGeom;
+    delete m_syncAction;
+    delete m_configMenu;
     delete m_paramRect;
     delete m_path;
     delete m_helper;
@@ -324,6 +331,7 @@ void Geometryval::slotPositionChanged(int pos, bool seek)
         m_ui.spinTransp->setEnabled(false);
         m_scaleMenu->setEnabled(false);
         m_alignMenu->setEnabled(false);
+        m_editGeom->setEnabled(false);
     } else {
         m_ui.buttonAdd->setEnabled(false);
         m_ui.buttonDelete->setEnabled(true);
@@ -331,6 +339,7 @@ void Geometryval::slotPositionChanged(int pos, bool seek)
         m_ui.spinTransp->setEnabled(true);
         m_scaleMenu->setEnabled(true);
         m_alignMenu->setEnabled(true);
+        m_editGeom->setEnabled(true);
     }
     m_paramRect->setPos(item.x(), item.y());
     m_paramRect->setRect(0, 0, item.w(), item.h());
@@ -356,6 +365,7 @@ void Geometryval::slotDeleteFrame()
     m_ui.spinTransp->setEnabled(false);
     m_scaleMenu->setEnabled(false);
     m_alignMenu->setEnabled(false);
+    m_editGeom->setEnabled(false);
     m_helper->update();
     slotPositionChanged(pos, false);
     updateTransitionPath();
@@ -379,6 +389,7 @@ void Geometryval::slotAddFrame()
     m_ui.spinTransp->setEnabled(true);
     m_scaleMenu->setEnabled(true);
     m_alignMenu->setEnabled(true);
+    m_editGeom->setEnabled(true);
     m_helper->update();
     emit parameterChanged();
 }
@@ -429,6 +440,7 @@ void Geometryval::setupParam(const QDomElement par, int minFrame, int maxFrame)
         m_ui.label_pos->setHidden(true);
         m_helper->setHidden(true);
         m_ui.spinPos->setHidden(true);
+
     }
     char *tmp = (char *) qstrdup(val.toUtf8().data());
     if (m_geom) m_geom->parse(tmp, maxFrame - minFrame, m_profile.width, m_profile.height);
@@ -562,3 +574,11 @@ void Geometryval::setFrameSize(QPoint p)
 {
     m_frameSize = p;
 }
+
+
+void Geometryval::slotKeyframeMoved(int pos)
+{
+    slotPositionChanged(pos);
+    slotUpdateTransitionProperties();
+}
+

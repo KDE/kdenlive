@@ -30,7 +30,6 @@
 class KeyframeHelper : public QWidget
 {
     Q_OBJECT
-
 public:
     KeyframeHelper(QWidget *parent = 0);
     int value() const;
@@ -40,12 +39,16 @@ protected:
     virtual void wheelEvent(QWheelEvent * e);
     virtual void mousePressEvent(QMouseEvent * event);
     virtual void mouseMoveEvent(QMouseEvent * event);
+    virtual void mouseReleaseEvent(QMouseEvent * event);
 
 private:
     Mlt::Geometry *m_geom;
     int m_length;
     int m_position;
     double m_scale;
+    bool m_movingKeyframe;
+    Mlt::GeometryItem m_movingItem;
+    QPoint m_dragStart;
 
 public slots:
     void setKeyGeometry(Mlt::Geometry *geom, const int length);
@@ -53,6 +56,7 @@ public slots:
 
 signals:
     void positionChanged(int);
+    void keyframeMoved(int);
 };
 
 #endif
