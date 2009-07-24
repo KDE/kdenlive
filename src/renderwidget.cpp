@@ -596,7 +596,7 @@ void RenderWidget::slotPrepareExport(bool scriptExport)
     if (m_view.create_chapter->isChecked()) chapterFile = m_view.out_file->url().path() + ".dvdchapter";
 
     // mantisbt 1051
-    KStandardDirs::makeDir(m_view.out_file->url().path(KUrl::AddTrailingSlash));
+    KStandardDirs::makeDir(m_view.out_file->url().directory());
 
     emit prepareRenderingData(scriptExport, m_view.render_zone->isChecked(), chapterFile);
 }
@@ -613,7 +613,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
     // Check whether target file has an extension.
     // If not, ask whether extension should be added or not.
     QString extension = item->data(ExtensionRole).toString();
-    if (!dest.endsWith(extension)) {
+    if (!dest.endsWith(extension, Qt::CaseInsensitive)) {
         if (KMessageBox::questionYesNo(this, i18n("File has no extension. Add extension (%1)?", extension)) == KMessageBox::Yes) {
             dest.append("." + extension);
         }
