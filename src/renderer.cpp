@@ -1679,7 +1679,11 @@ void Render::mltInsertSpace(QMap <int, int> trackClipStartList, QMap <int, int> 
                 if (!trackPlaylist.is_blank(clipIndex)) clipIndex --;
                 if (!trackPlaylist.is_blank(clipIndex)) kDebug() << "//// ERROR TRYING TO DELETE SPACE FROM " << insertPos;
                 int position = trackPlaylist.clip_start(clipIndex);
-                trackPlaylist.remove_region(position, - diff - 1);
+                int blankDuration = trackPlaylist.clip_length(clipIndex) - 1;
+                diff = -diff;
+                if (blankDuration - diff == 1)
+                    trackPlaylist.remove(clipIndex);
+                else trackPlaylist.remove_region(position, diff - 1);
             }
             trackPlaylist.consolidate_blanks(0);
         }
@@ -1736,7 +1740,10 @@ void Render::mltInsertSpace(QMap <int, int> trackClipStartList, QMap <int, int> 
                     if (!trackPlaylist.is_blank(clipIndex)) clipIndex --;
                     if (!trackPlaylist.is_blank(clipIndex)) kDebug() << "//// ERROR TRYING TO DELETE SPACE FROM " << insertPos;
                     int position = trackPlaylist.clip_start(clipIndex);
-                    trackPlaylist.remove_region(position, - diff - 1);
+                    int blankDuration = trackPlaylist.clip_length(clipIndex) - 1;
+                    if (diff + blankDuration == 1)
+                        trackPlaylist.remove(clipIndex);
+                    else trackPlaylist.remove_region(position, - diff - 1);
                 }
                 trackPlaylist.consolidate_blanks(0);
             }
