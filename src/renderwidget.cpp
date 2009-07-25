@@ -649,7 +649,8 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
         render_process_args << "in=" + QString::number(GenTime(guideStart).frames(fps)) << "out=" + QString::number(GenTime(guideEnd).frames(fps));
     }
 
-    render_process_args << overlayargs;
+    if (!overlayargs.isEmpty()) render_process_args << "preargs=" + overlayargs.join(" ");
+
     render_process_args << KdenliveSettings::rendererpath() << m_profile.path << item->data(RenderRole).toString();
     if (m_view.play_after->isChecked()) render_process_args << KdenliveSettings::KdenliveSettings::defaultplayerapp();
     else render_process_args << "-";
