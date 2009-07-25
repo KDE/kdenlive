@@ -58,9 +58,13 @@ TitleWidget::TitleWidget(KUrl url, QString projectTitlePath, Render *render, QWi
     //toolBox->setFont(KGlobalSettings::toolBarFont());
     frame_properties->setEnabled(false);
     rect_properties->setFixedHeight(frame_properties->height() + 4);
+    no_properties->setFixedHeight(frame_properties->height() + 4);
+    image_properties->setFixedHeight(frame_properties->height() + 4);
     text_properties->setFixedHeight(frame_properties->height() + 4);
+    frame_properties->setFixedHeight(frame_toolbar->height());
     m_frameWidth = render->renderWidth();
     m_frameHeight = render->renderHeight();
+    showToolbars(TITLE_NONE);
 
     connect(kcolorbutton, SIGNAL(clicked()), this, SLOT(slotChangeBackground())) ;
     connect(horizontalSlider, SIGNAL(valueChanged(int)), this, SLOT(slotChangeBackground())) ;
@@ -266,8 +270,6 @@ TitleWidget::TitleWidget(KUrl url, QString projectTitlePath, Render *render, QWi
     } else {
         slotTextTool();
     }
-
-    showToolbars(TITLE_NONE);
 }
 
 TitleWidget::~TitleWidget()
