@@ -52,20 +52,20 @@ bool EditEffectCommand::mergeWith(const QUndoCommand * other)
     if (other->id() != id()) return false;
     if (m_track != static_cast<const EditEffectCommand*>(other)->m_track) return false;
     if (m_pos != static_cast<const EditEffectCommand*>(other)->m_pos) return false;
-    m_effect = static_cast<const EditEffectCommand*>(other)->m_effect;
+    m_effect = static_cast<const EditEffectCommand*>(other)->m_effect.cloneNode().toElement();
     return true;
 }
 
 // virtual
 void EditEffectCommand::undo()
 {
-    kDebug() << "----  undoing action";
+    //kDebug() << "----  undoing action";
     m_view->updateEffect(m_track, m_pos, m_oldeffect, m_stackPos, false);
 }
 // virtual
 void EditEffectCommand::redo()
 {
-    kDebug() << "----  redoing action";
+    //kDebug() << "----  redoing action";
     m_view->updateEffect(m_track, m_pos, m_effect, m_stackPos, m_doIt);
     m_doIt = false;
 }
