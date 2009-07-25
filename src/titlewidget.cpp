@@ -394,29 +394,32 @@ void TitleWidget::slotImageTool()
 
 void TitleWidget::showToolbars(TITLETOOL toolType)
 {
-    bool bText = false;
-    bool bRect = false;
-    bool bImage = false;
-    bool bNone = false;
-
     switch (toolType) {
     case TITLE_TEXT:
-        bText = true;
+        rect_properties->setHidden(true);
+        image_properties->setHidden(true);
+        no_properties->setHidden(true);
+        text_properties->setHidden(false);
         break;
     case TITLE_RECTANGLE:
-        bRect = true;
+        image_properties->setHidden(true);
+        no_properties->setHidden(true);
+        text_properties->setHidden(true);
+        rect_properties->setHidden(false);
         break;
     case TITLE_IMAGE:
-        bImage = true;
+        no_properties->setHidden(true);
+        text_properties->setHidden(true);
+        rect_properties->setHidden(true);
+        image_properties->setHidden(false);
         break;
     default:
-        bNone = true;
+        text_properties->setHidden(true);
+        rect_properties->setHidden(true);
+        image_properties->setHidden(true);
+        no_properties->setHidden(false);
         break;
     }
-    text_properties->setHidden(!bText);
-    rect_properties->setHidden(!bRect);
-    image_properties->setHidden(!bImage);
-    no_properties->setHidden(!bNone);
 }
 
 void TitleWidget::enableToolbars(TITLETOOL toolType)
