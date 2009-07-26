@@ -375,7 +375,7 @@ void Geometryval::slotDeleteFrame(int pos)
 
 void Geometryval::slotAddFrame(int pos)
 {
-    if (pos = -1) pos = m_ui.spinPos->value();
+    if (pos == -1) pos = m_ui.spinPos->value();
     Mlt::GeometryItem item;
     item.frame(pos);
     item.x(m_paramRect->pos().x());
