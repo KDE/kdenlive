@@ -1305,7 +1305,7 @@ void TitleWidget::setupViewports()
 
 void TitleWidget::loadTitle()
 {
-    KUrl url = KFileDialog::getOpenUrl(KUrl(m_projectTitlePath), "*.kdenlivetitle", this, i18n("Load Title"));
+    KUrl url = KFileDialog::getOpenUrl(KUrl(m_projectTitlePath), "application/x-kdenlivetitle", this, i18n("Load Title"));
     if (!url.isEmpty()) {
         QList<QGraphicsItem *> items = m_scene->items();
         for (int i = 0; i < items.size(); i++) {
@@ -1329,7 +1329,7 @@ void TitleWidget::loadTitle()
 
 void TitleWidget::saveTitle(KUrl url)
 {
-    if (url.isEmpty()) url = KFileDialog::getSaveUrl(KUrl(m_projectTitlePath), "*.kdenlivetitle", this, i18n("Save Title"));
+    if (url.isEmpty()) url = KFileDialog::getSaveUrl(KUrl(m_projectTitlePath), "application/x-kdenlivetitle", this, i18n("Save Title"));
     if (!url.isEmpty()) {
         if (m_titledocument.saveDocument(url, m_startViewport, m_endViewport, GenTime(m_tc.getFrameCount(title_duration->text(), m_render->fps()), m_render->fps()).ms()) == false)
             KMessageBox::error(this, i18n("Cannot write to file %1", url.path()));
