@@ -5,6 +5,5 @@
     <sub-class-of type="application/xml"/>
     <glob pattern="*.westley"/>
     <glob pattern="*.mlt"/>
-    <glob pattern="*.kdenlivetitle"/>
   </mime-type>
 </mime-info>
