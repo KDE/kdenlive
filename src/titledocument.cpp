@@ -165,12 +165,13 @@ QColor TitleDocument::getBackgroundColor()
 }
 
 
-bool TitleDocument::saveDocument(const KUrl& url, QGraphicsPolygonItem* startv, QGraphicsPolygonItem* endv)
+bool TitleDocument::saveDocument(const KUrl& url, QGraphicsPolygonItem* startv, QGraphicsPolygonItem* endv, double out)
 {
     if (!m_scene)
         return false;
 
     QDomDocument doc = xml(startv, endv);
+    doc.documentElement().setAttribute("out", out);
     KTemporaryFile tmpfile;
     if (!tmpfile.open()) {
         kWarning() << "/////  CANNOT CREATE TMP FILE in: " << tmpfile.fileName();
@@ -187,7 +188,7 @@ bool TitleDocument::saveDocument(const KUrl& url, QGraphicsPolygonItem* startv, 
     return KIO::NetAccess::upload(tmpfile.fileName(), url, 0);
 }
 
-int TitleDocument::loadDocument(const KUrl& url, QGraphicsPolygonItem* startv, QGraphicsPolygonItem* endv)
+int TitleDocument::loadDocument(const KUrl& url, QGraphicsPolygonItem* startv, QGraphicsPolygonItem* endv, double *out)
 {
     QString tmpfile;
     QDomDocument doc;
@@ -202,14 +203,21 @@ int TitleDocument::loadDocument(const KUrl& url, QGraphicsPolygonItem* startv, Q
         } else
             return -1;
         KIO::NetAccess::removeTempFile(tmpfile);
-        return loadFromXml(doc, startv, endv);
+        return loadFromXml(doc, startv, endv, out);
     }
     return -1;
 }
 
-int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsPolygonItem* startv, QGraphicsPolygonItem* endv)
+int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsPolygonItem* startv, QGraphicsPolygonItem* endv, double *out)
 {
     QDomNodeList titles = doc.elementsByTagName("kdenlivetitle");
+
+    //TODO: get default title duration instead of hardcoded one
+    if (doc.documentElement().hasAttribute("out"))
+        *out = doc.documentElement().attribute("out").toDouble();
+    else
+        *out = 5000;
+
     int maxZValue = 0;
     if (titles.size()) {
 

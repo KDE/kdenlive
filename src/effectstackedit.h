@@ -63,7 +63,7 @@ private:
     QList<UiItem*> m_uiItems;
     QDomElement m_params;
     QMap<QString, void*> m_valueItems;
-    void createSliderItem(const QString& name, int val , int min, int max);
+    void createSliderItem(const QString& name, int val , int min, int max, const QString);
     wipeInfo getWipeInfo(QString value);
     QString getWipeString(wipeInfo info);
     MltVideoProfile m_profile;

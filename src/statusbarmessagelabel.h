@@ -24,16 +24,16 @@
 #define STATUSBARMESSAGELABEL_H
 
 
-#include <QtCore/QList>
-#include <QtGui/QPixmap>
+#include <QList>
+#include <QPixmap>
+#include <QWidget>
+#include <QTimer>
 
-#include <QtGui/QWidget>
 #include <definitions.h>
 
 class QPaintEvent;
 class QResizeEvent;
 class QPushButton;
-class QTimer;
 
 /**
  * @brief Represents a message text label as part of the status bar.
@@ -124,7 +124,7 @@ private:
     State m_state;
     int m_illumination;
     int m_minTextHeight;
-    QTimer* m_timer;
+    QTimer m_timer;
     QString m_text;
     QList<QString> m_pendingMessages;
     QPixmap m_pixmap;

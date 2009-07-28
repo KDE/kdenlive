@@ -98,7 +98,6 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscen
         m_animation(NULL),
         m_clickPoint(),
         m_autoScroll(KdenliveSettings::autoscroll()),
-        m_changeSpeedAction(NULL),
         m_pasteEffectsAction(NULL),
         m_ungroupAction(NULL),
         m_scrollOffset(0),
@@ -165,8 +164,7 @@ void CustomTrackView::setContextMenu(QMenu *timeline, QMenu *clip, QMenu *transi
     m_clipTypeGroup = clipTypeGroup;
     QList <QAction *> list = m_timelineContextClipMenu->actions();
     for (int i = 0; i < list.count(); i++) {
-        if (list.at(i)->data().toString() == "change_speed") m_changeSpeedAction = list.at(i);
-        else if (list.at(i)->data().toString() == "paste_effects") m_pasteEffectsAction = list.at(i);
+        if (list.at(i)->data().toString() == "paste_effects") m_pasteEffectsAction = list.at(i);
         else if (list.at(i)->data().toString() == "ungroup_clip") m_ungroupAction = list.at(i);
     }
 
@@ -411,9 +409,9 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
             return;
         } else {
             if (m_visualTip) {
+                m_animationTimer->stop();
                 delete m_animation;
                 m_animation = NULL;
-                m_animationTimer->stop();
                 delete m_visualTip;
                 m_visualTip = NULL;
             }
@@ -567,8 +565,8 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
         setCursor(Qt::SplitHCursor);
     } else {
         if (m_visualTip) {
-            delete m_animation;
             m_animationTimer->stop();
+            delete m_animation;
             m_animation = NULL;
             delete m_visualTip;
             m_visualTip = NULL;
@@ -817,7 +815,6 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         groupSelectedItems();
         ClipItem *clip = static_cast <ClipItem *>(m_dragItem);
         updateClipTypeActions(dragGroup == NULL ? clip : NULL);
-        m_changeSpeedAction->setEnabled(clip->clipType() == AV || clip->clipType() == VIDEO);
         m_pasteEffectsAction->setEnabled(m_copiedItems.count() == 1);
     }
 
@@ -1111,7 +1108,6 @@ void CustomTrackView::displayContextMenu(QPoint pos, AbstractClipItem *clip, Abs
     m_editGuide->setEnabled(m_dragGuide != NULL);
     if (clip == NULL) m_timelineContextMenu->popup(pos);
     else if (group != NULL) {
-        m_changeSpeedAction->setEnabled(false);
         m_pasteEffectsAction->setEnabled(m_copiedItems.count() == 1);
         m_ungroupAction->setEnabled(true);
         updateClipTypeActions(NULL);
@@ -1121,7 +1117,6 @@ void CustomTrackView::displayContextMenu(QPoint pos, AbstractClipItem *clip, Abs
         if (clip->type() == AVWIDGET) {
             ClipItem *item = static_cast <ClipItem*>(clip);
             updateClipTypeActions(item);
-            m_changeSpeedAction->setEnabled(item->clipType() == AV || item->clipType() == VIDEO);
             m_pasteEffectsAction->setEnabled(m_copiedItems.count() == 1);
             m_timelineContextClipMenu->popup(pos);
         } else if (clip->type() == TRANSITIONWIDGET) m_timelineContextTransitionMenu->popup(pos);
@@ -1148,7 +1143,7 @@ void CustomTrackView::dragEnterEvent(QDragEnterEvent * event)
         info.cropStart = GenTime(list.at(1).toInt(), m_document->fps());
         info.endPos = GenTime(list.at(2).toInt() - list.at(1).toInt(), m_document->fps());
         info.track = (int)(1 / m_tracksHeight);
-        ClipItem *item = new ClipItem(clip, info, m_document->fps(), 1.0);
+        ClipItem *item = new ClipItem(clip, info, m_document->fps(), 1.0, 1);
         m_selectionGroup->addToGroup(item);
         item->setFlags(QGraphicsItem::ItemIsSelectable);
         //TODO: check if we do not overlap another clip when first dropping in timeline
@@ -1175,7 +1170,7 @@ void CustomTrackView::dragEnterEvent(QDragEnterEvent * event)
             info.startPos = start;
             info.endPos = info.startPos + clip->duration();
             info.track = (int)(1 / m_tracksHeight);
-            ClipItem *item = new ClipItem(clip, info, m_document->fps(), 1.0, false);
+            ClipItem *item = new ClipItem(clip, info, m_document->fps(), 1.0, 1, false);
             start += clip->duration();
             offsetList.append(start);
             m_selectionGroup->addToGroup(item);
@@ -1268,6 +1263,22 @@ void CustomTrackView::addEffect(int track, GenTime pos, QDomElement effect)
 {
     ClipItem *clip = getClipItemAt((int)pos.frames(m_document->fps()) + 1, m_document->tracksCount() - track);
     if (clip) {
+        // Special case: speed effect
+        if (effect.attribute("id") == "speed") {
+            if (clip->clipType() != VIDEO && clip->clipType() != AV && clip->clipType() != PLAYLIST) {
+                emit displayMessage(i18n("Problem adding effect to clip"), ErrorMessage);
+                return;
+            }
+            ItemInfo info = clip->info();
+            double speed = EffectsList::parameter(effect, "speed").toDouble() / 100.0;
+            int strobe = EffectsList::parameter(effect, "strobe").toInt();
+            if (strobe == 0) strobe = 1;
+            doChangeClipSpeed(info, speed, 1.0, strobe, clip->baseClip()->getId());
+            clip->addEffect(effect);
+            emit clipItemSelected(clip);
+            return;
+        }
+
         if (!m_document->renderer()->mltAddEffect(track, pos, clip->addEffect(effect)))
             emit displayMessage(i18n("Problem adding effect to clip"), ErrorMessage);
         emit clipItemSelected(clip);
@@ -1277,6 +1288,17 @@ void CustomTrackView::addEffect(int track, GenTime pos, QDomElement effect)
 void CustomTrackView::deleteEffect(int track, GenTime pos, QDomElement effect)
 {
     QString index = effect.attribute("kdenlive_ix");
+    // Special case: speed effect
+    if (effect.attribute("id") == "speed") {
+        ClipItem *clip = getClipItemAt((int)pos.frames(m_document->fps()) + 1, m_document->tracksCount() - track);
+        if (clip) {
+            ItemInfo info = clip->info();
+            doChangeClipSpeed(info, 1.0, clip->speed(), 1, clip->baseClip()->getId());
+            clip->deleteEffect(index);
+            emit clipItemSelected(clip);
+            return;
+        }
+    }
     if (!m_document->renderer()->mltRemoveEffect(track, pos, index, true) && effect.attribute("disabled") != "1") {
         kDebug() << "// ERROR REMOV EFFECT: " << index << ", DISABLE: " << effect.attribute("disabled");
         emit displayMessage(i18n("Problem deleting effect"), ErrorMessage);
@@ -1400,6 +1422,25 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement effect, i
 {
     ClipItem *clip = getClipItemAt((int)pos.frames(m_document->fps()) + 1, m_document->tracksCount() - track);
     if (clip) {
+
+
+        // Special case: speed effect
+        if (effect.attribute("id") == "speed") {
+            ItemInfo info = clip->info();
+            double speed = EffectsList::parameter(effect, "speed").toDouble() / 100.0;
+            int strobe = EffectsList::parameter(effect, "strobe").toInt();
+            if (strobe == 0) strobe = 1;
+            doChangeClipSpeed(info, speed, clip->speed(), strobe, clip->baseClip()->getId());
+            clip->setEffectAt(ix, effect);
+            if (ix == clip->selectedEffectIndex()) {
+                clip->setSelectedEffect(ix);
+            }
+            return;
+        }
+
+
+
+
         EffectsParameterList effectParams = clip->getEffectArgs(effect);
         if (effect.attribute("tag") == "ladspa") {
             // Update the ladspa affect file
@@ -1455,6 +1496,21 @@ void CustomTrackView::slotChangeEffectState(ClipItem *clip, int effectPos, bool 
 {
     QDomElement effect = clip->effectAt(effectPos);
     QDomElement oldEffect = effect.cloneNode().toElement();
+
+    if (effect.attribute("id") == "speed") {
+        if (clip) {
+            ItemInfo info = clip->info();
+            effect.setAttribute("disabled", disable);
+            if (disable) doChangeClipSpeed(info, 1.0, clip->speed(), 1, clip->baseClip()->getId());
+            else {
+                double speed = EffectsList::parameter(effect, "speed").toDouble() / 100.0;
+                int strobe = EffectsList::parameter(effect, "strobe").toInt();
+                if (strobe == 0) strobe = 1;
+                doChangeClipSpeed(info, speed, 1.0, strobe, clip->baseClip()->getId());
+            }
+            return;
+        }
+    }
     effect.setAttribute("disabled", disable);
     EditEffectCommand *command = new EditEffectCommand(this, m_document->tracksCount() - clip->track(), clip->startPos(), oldEffect, effect, effectPos, true);
     m_commandStack->push(command);
@@ -1779,19 +1835,21 @@ void CustomTrackView::dropEvent(QDropEvent * event)
             bool isLocked = m_document->trackInfoAt(tracknumber).isLocked;
             if (isLocked) item->setItemLocked(true);
 
-            if (item->baseClip()->isTransparent() && getTransitionItemAtStart(info.startPos, info.track) == NULL) {
+            /*if (item->baseClip()->isTransparent() && getTransitionItemAtStart(info.startPos, info.track) == NULL) {
                 // add transparency transition
-                new AddTransitionCommand(this, info, getPreviousVideoTrack(info.track), MainWindow::transitions.getEffectByTag("composite", "composite"), false, true, addCommand);
-            }
+            QDomElement trans = MainWindow::transitions.getEffectByTag("composite", "composite").cloneNode().toElement();
+                new AddTransitionCommand(this, info, getPreviousVideoTrack(info.track), trans, false, true, addCommand);
+            }*/
             info.track = m_document->tracksCount() - item->track();
             m_document->renderer()->mltInsertClip(info, item->xml(), item->baseClip()->producer(item->track()));
             item->setSelected(true);
         }
         m_commandStack->push(addCommand);
         setDocumentModified();
-        m_changeSpeedAction->setEnabled(hasVideoClip);
         m_pasteEffectsAction->setEnabled(m_copiedItems.count() == 1);
         if (items.count() > 1) groupSelectedItems(true);
+        event->setDropAction(Qt::MoveAction);
+        event->accept();
     } else QGraphicsView::dropEvent(event);
     setFocus();
 }
@@ -2349,6 +2407,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                 else if (item->isVideoOnly()) prod = item->baseClip()->videoProducer();
                 else prod = item->baseClip()->producer(m_dragItemInfo.track);
                 bool success = m_document->renderer()->mltMoveClip((int)(m_document->tracksCount() - m_dragItemInfo.track), (int)(m_document->tracksCount() - m_dragItem->track()), (int) m_dragItemInfo.startPos.frames(m_document->fps()), (int)(m_dragItem->startPos().frames(m_document->fps())), prod);
+
                 if (success) {
                     kDebug() << "// get trans info";
                     int tracknumber = m_document->tracksCount() - item->track() - 1;
@@ -2874,7 +2933,7 @@ void CustomTrackView::changeClipSpeed()
             double speed = (double) percent / 100.0;
             if (item->speed() != speed && (item->clipType() == VIDEO || item->clipType() == AV)) {
                 count++;
-                new ChangeSpeedCommand(this, info, item->speed(), speed, item->clipProducer(), changeSelected);
+                //new ChangeSpeedCommand(this, info, item->speed(), speed, item->clipProducer(), changeSelected);
             }
         }
     }
@@ -2882,7 +2941,7 @@ void CustomTrackView::changeClipSpeed()
     else delete changeSelected;
 }
 
-void CustomTrackView::doChangeClipSpeed(ItemInfo info, const double speed, const double oldspeed, const QString &id)
+void CustomTrackView::doChangeClipSpeed(ItemInfo info, const double speed, const double oldspeed, int strobe, const QString &id)
 {
     DocClipBase *baseclip = m_document->clipManager()->getClipById(id);
     ClipItem *item = getClipItemAt((int) info.startPos.frames(m_document->fps()), info.track);
@@ -2892,9 +2951,9 @@ void CustomTrackView::doChangeClipSpeed(ItemInfo info, const double speed, const
         return;
     }
     info.track = m_document->tracksCount() - item->track();
-    int endPos = m_document->renderer()->mltChangeClipSpeed(info, speed, oldspeed, baseclip->producer());
+    int endPos = m_document->renderer()->mltChangeClipSpeed(info, speed, oldspeed, strobe, baseclip->producer());
     if (endPos >= 0) {
-        item->setSpeed(speed);
+        item->setSpeed(speed, strobe);
         item->updateRectGeometry();
         if (item->cropDuration().frames(m_document->fps()) > endPos)
             item->AbstractClipItem::resizeEnd(info.startPos.frames(m_document->fps()) + endPos, speed);
@@ -3003,7 +3062,7 @@ void CustomTrackView::addClip(QDomElement xml, const QString &clipId, ItemInfo i
         emit displayMessage(i18n("No clip copied"), ErrorMessage);
         return;
     }
-    ClipItem *item = new ClipItem(baseclip, info, m_document->fps(), xml.attribute("speed", "1").toDouble());
+    ClipItem *item = new ClipItem(baseclip, info, m_document->fps(), xml.attribute("speed", "1").toDouble(), xml.attribute("strobe", "1").toInt());
     item->setEffectList(effects);
     if (xml.hasAttribute("audio_only")) item->setAudioOnly(true);
     else if (xml.hasAttribute("video_only")) item->setVideoOnly(true);

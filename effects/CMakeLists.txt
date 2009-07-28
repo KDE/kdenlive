@@ -56,5 +56,6 @@ frei0r_saturat0r.xml
 gain.xml
 fade_from_black.xml
 fade_to_black.xml
+speed.xml
 
 DESTINATION ${DATA_INSTALL_DIR}/kdenlive/effects)

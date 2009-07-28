@@ -48,6 +48,7 @@ ClipManager::ClipManager(KdenliveDoc *doc) :
 
 ClipManager::~ClipManager()
 {
+    kDebug() << "\n\n 2222222222222222222222222  CLOSE CM 22222222222";
     qDeleteAll(m_clipList);
 }
 
@@ -257,8 +258,23 @@ void ClipManager::slotAddClipList(const KUrl::List urls, const QString group, co
             KMimeType::Ptr type = KMimeType::findByUrl(file);
             if (type->name().startsWith("image/")) {
                 prod.setAttribute("type", (int) IMAGE);
-                prod.setAttribute("in", "0");
+                prod.setAttribute("in", 0);
                 prod.setAttribute("out", m_doc->getFramePos(KdenliveSettings::image_duration()) - 1);
+            } else if (type->name() == "application/x-kdenlivetitle") {
+                // opening a title file
+                QDomDocument txtdoc("titledocument");
+                QFile txtfile(file.path());
+                if (txtfile.open(QIODevice::ReadOnly) && txtdoc.setContent(&txtfile)) {
+                    txtfile.close();
+                    prod.setAttribute("type", (int) TEXT);
+                    prod.setAttribute("resource", QString());
+                    prod.setAttribute("xmldata", txtdoc.toString());
+                    GenTime outPos(txtdoc.documentElement().attribute("out").toDouble() / 1000.0);
+                    prod.setAttribute("transparency", 1);
+                    prod.setAttribute("in", 0);
+                    int out = (int) outPos.frames(m_doc->fps());
+                    if (out > 0) prod.setAttribute("out", out);
+                } else txtfile.close();
             }
             new AddClipCommand(m_doc, doc.documentElement(), QString::number(id), true, addClips);
         }
@@ -284,6 +300,21 @@ void ClipManager::slotAddClipFile(const KUrl url, const QString group, const QSt
         prod.setAttribute("type", (int) IMAGE);
         prod.setAttribute("in", "0");
         prod.setAttribute("out", m_doc->getFramePos(KdenliveSettings::image_duration()) - 1);
+    } else if (type->name() == "application/x-kdenlivetitle") {
+        // opening a title file
+        QDomDocument txtdoc("titledocument");
+        QFile txtfile(url.path());
+        if (txtfile.open(QIODevice::ReadOnly) && txtdoc.setContent(&txtfile)) {
+            txtfile.close();
+            prod.setAttribute("type", (int) TEXT);
+            prod.setAttribute("resource", QString());
+            prod.setAttribute("xmldata", txtdoc.toString());
+            GenTime outPos(txtdoc.documentElement().attribute("out").toDouble() / 1000.0);
+            prod.setAttribute("transparency", 1);
+            prod.setAttribute("in", 0);
+            int out = (int) outPos.frames(m_doc->fps());
+            if (out > 0) prod.setAttribute("out", out);
+        } else txtfile.close();
     }
     AddClipCommand *command = new AddClipCommand(m_doc, doc.documentElement(), QString::number(id), true);
     m_doc->commandStack()->push(command);
@@ -338,12 +369,12 @@ void ClipManager::slotAddSlideshowClipFile(const QString name, const QString pat
 
 
 
-void ClipManager::slotAddTextClipFile(const QString titleName, const QString imagePath, const QString xml, const QString group, const QString &groupId)
+void ClipManager::slotAddTextClipFile(const QString titleName, int out, const QString xml, const QString group, const QString &groupId)
 {
     QDomDocument doc;
     QDomElement prod = doc.createElement("producer");
     doc.appendChild(prod);
-    prod.setAttribute("resource", imagePath);
+    //prod.setAttribute("resource", imagePath);
     prod.setAttribute("name", titleName);
     prod.setAttribute("xmldata", xml);
     uint id = m_clipIdCounter++;
@@ -355,7 +386,7 @@ void ClipManager::slotAddTextClipFile(const QString titleName, const QString ima
     prod.setAttribute("type", (int) TEXT);
     prod.setAttribute("transparency", "1");
     prod.setAttribute("in", "0");
-    prod.setAttribute("out", m_doc->getFramePos(KdenliveSettings::image_duration()) - 1);
+    prod.setAttribute("out", out);
     AddClipCommand *command = new AddClipCommand(m_doc, doc.documentElement(), QString::number(id), true);
     m_doc->commandStack()->push(command);
 }

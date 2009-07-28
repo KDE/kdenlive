@@ -77,13 +77,11 @@ Render::Render(const QString & rendererName, int winid, int /* extid */, QWidget
         m_winid(winid)
 {
     kDebug() << "//////////  USING PROFILE: " << (char*)KdenliveSettings::current_profile().toUtf8().data();
-    m_refreshTimer = new QTimer(this);
-    connect(m_refreshTimer, SIGNAL(timeout()), this, SLOT(refresh()));
 
     /*if (rendererName == "project") m_monitorId = 10000;
     else m_monitorId = 10001;*/
-    m_osdTimer = new QTimer(this);
-    connect(m_osdTimer, SIGNAL(timeout()), this, SLOT(slotOsdTimeout()));
+    /*m_osdTimer = new QTimer(this);
+    connect(m_osdTimer, SIGNAL(timeout()), this, SLOT(slotOsdTimeout()));*/
 
     buildConsumer();
 
@@ -101,8 +99,22 @@ Render::~Render()
 
 void Render::closeMlt()
 {
-    delete m_osdTimer;
-    delete m_refreshTimer;
+    //delete m_osdTimer;
+
+    Mlt::Service service(m_mltProducer->get_service());
+    if (service.type() == tractor_type) {
+        Mlt::Tractor tractor(service);
+        int trackNb = tractor.count();
+
+        while (trackNb > 1) {
+            Mlt::Producer trackProducer(tractor.track(trackNb - 1));
+            Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
+            trackPlaylist.clear();
+            trackNb--;
+        }
+    }
+
+    kDebug() << "// // // CLOSE RENDERER";
     delete m_mltConsumer;
     delete m_mltProducer;
     delete m_blackClip;
@@ -512,14 +524,23 @@ void Render::getFileProperties(const QDomElement &xml, const QString &clipId, bo
 {
     KUrl url = KUrl(xml.attribute("resource", QString()));
     Mlt::Producer *producer = NULL;
-    if (xml.attribute("type").toInt() == TEXT && !QFile::exists(url.path())) {
+    /*if (xml.attribute("type").toInt() == TEXT && !QFile::exists(url.path())) {
         emit replyGetFileProperties(clipId, producer, QMap < QString, QString >(), QMap < QString, QString >(), replaceProducer);
         return;
-    }
+    }*/
     if (xml.attribute("type").toInt() == COLOR) {
         char *tmp = decodedString("colour:" + xml.attribute("colour"));
         producer = new Mlt::Producer(*m_mltProfile, 0, tmp);
         delete[] tmp;
+    } else if (xml.attribute("type").toInt() == TEXT) {
+        char *tmp = decodedString("kdenlivetitle:" + xml.attribute("resource"));
+        producer = new Mlt::Producer(*m_mltProfile, 0, tmp);
+        delete[] tmp;
+        if (xml.hasAttribute("xmldata")) {
+            char *tmp = decodedString(xml.attribute("xmldata"));
+            producer->set("xmldata", tmp);
+            delete[] tmp;
+        }
     } else if (url.isEmpty()) {
         QDomDocument doc;
         QDomElement mlt = doc.createElement("mlt");
@@ -956,6 +977,7 @@ void Render::saveZone(KUrl url, QString desc, QPoint zone)
         tmppath = decodedString(desc);
         Mlt::Playlist list;
         list.insert_at(0, prod, 0);
+        delete prod;
         list.set("title", tmppath);
         delete[] tmppath;
         xmlConsumer.connect(list);
@@ -1037,7 +1059,7 @@ void Render::setVolume(double /*volume*/)
      if (m_mltProducer->attach(*m_osdInfo) == 1) kDebug()<<"////// error attaching filter";
     }*/
     refresh();
-    m_osdTimer->setSingleShot(2500);
+    //m_osdTimer->setSingleShot(2500);
 }
 
 void Render::slotOsdTimeout()
@@ -1247,12 +1269,6 @@ void Render::seekToFrameDiff(int diff)
     refresh();
 }
 
-void Render::askForRefresh()
-{
-    // Use a Timer so that we don't refresh too much
-    m_refreshTimer->start(300);
-}
-
 void Render::doRefresh()
 {
     // Use a Timer so that we don't refresh too much
@@ -1263,7 +1279,6 @@ void Render::refresh()
 {
     if (!m_mltProducer || m_isBlocked)
         return;
-    m_refreshTimer->stop();
     if (m_mltConsumer) {
         m_mltConsumer->set("refresh", 1);
     }
@@ -1434,19 +1449,23 @@ void Render::mltInsertClip(ItemInfo info, QDomElement element, Mlt::Producer *pr
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
     //kDebug()<<"/// INSERT cLIP: "<<info.cropStart.frames(m_fps)<<", "<<info.startPos.frames(m_fps)<<"-"<<info.endPos.frames(m_fps);
 
-    if (element.attribute("speed", "1.0").toDouble() != 1.0) {
+    if (element.attribute("speed", "1.0").toDouble() != 1.0 || element.attribute("strobe", "1").toInt() > 1) {
         // We want a slowmotion producer
         double speed = element.attribute("speed", "1.0").toDouble();
+        int strobe = element.attribute("strobe", "1").toInt();
         QString url = QString::fromUtf8(prod->get("resource"));
         url.append('?' + QString::number(speed));
+        if (strobe > 1) url.append("&strobe=" + QString::number(strobe));
         Mlt::Producer *slowprod = m_slowmotionProducers.value(url);
         if (!slowprod || slowprod->get_producer() == NULL) {
             char *tmp = decodedString(url);
             slowprod = new Mlt::Producer(*m_mltProfile, "framebuffer", tmp);
+            if (strobe > 1) slowprod->set("strobe", strobe);
             delete[] tmp;
             QString id = prod->get("id");
             if (id.contains('_')) id = id.section('_', 0, 0);
             QString producerid = "slowmotion:" + id + ':' + QString::number(speed);
+            if (strobe > 1) producerid.append(':' + QString::number(strobe));
             tmp = decodedString(producerid);
             slowprod->set("id", tmp);
             delete[] tmp;
@@ -1456,8 +1475,8 @@ void Render::mltInsertClip(ItemInfo info, QDomElement element, Mlt::Producer *pr
     }
 
     Mlt::Producer *clip = prod->cut((int) info.cropStart.frames(m_fps), (int)(info.endPos - info.startPos + info.cropStart).frames(m_fps) - 1);
-    int newIndex = trackPlaylist.insert_at((int) info.startPos.frames(m_fps), *clip, 1);
-
+    int newIndex = trackPlaylist.insert_at((int) info.startPos.frames(m_fps), clip, 1);
+    delete clip;
     /*if (QString(prod->get("transparency")).toInt() == 1)
         mltAddClipTransparency(info, info.track - 1, QString(prod->get("id")).toInt());*/
 
@@ -1514,6 +1533,8 @@ void Render::mltCutClip(int track, GenTime position)
     }
     Mlt::Service clipService(original->get_service());
     Mlt::Service dupService(clip->get_service());
+    delete original;
+    delete clip;
     int ct = 0;
     Mlt::Filter *filter = clipService.filter(ct);
     while (filter) {
@@ -1582,7 +1603,8 @@ bool Render::mltRemoveClip(int track, GenTime position)
     }
     //kDebug()<<"////  Deleting at: "<< (int) position.frames(m_fps) <<" --------------------------------------";
     m_isBlocked = true;
-    trackPlaylist.replace_with_blank(clipIndex);
+    Mlt::Producer *clip = trackPlaylist.replace_with_blank(clipIndex);
+    delete clip;
     trackPlaylist.consolidate_blanks(0);
     /*if (QString(clip.parent().get("transparency")).toInt() == 1)
         mltDeleteTransparency((int) position.frames(m_fps), track, QString(clip.parent().get("id")).toInt());*/
@@ -1679,11 +1701,11 @@ void Render::mltInsertSpace(QMap <int, int> trackClipStartList, QMap <int, int> 
                 if (!trackPlaylist.is_blank(clipIndex)) clipIndex --;
                 if (!trackPlaylist.is_blank(clipIndex)) kDebug() << "//// ERROR TRYING TO DELETE SPACE FROM " << insertPos;
                 int position = trackPlaylist.clip_start(clipIndex);
-                int blankDuration = trackPlaylist.clip_length(clipIndex) - 1;
+                int blankDuration = trackPlaylist.clip_length(clipIndex);
                 diff = -diff;
-                if (blankDuration - diff == 1)
+                if (blankDuration - diff == 0)
                     trackPlaylist.remove(clipIndex);
-                else trackPlaylist.remove_region(position, diff - 1);
+                else trackPlaylist.remove_region(position, diff);
             }
             trackPlaylist.consolidate_blanks(0);
         }
@@ -1740,10 +1762,10 @@ void Render::mltInsertSpace(QMap <int, int> trackClipStartList, QMap <int, int> 
                     if (!trackPlaylist.is_blank(clipIndex)) clipIndex --;
                     if (!trackPlaylist.is_blank(clipIndex)) kDebug() << "//// ERROR TRYING TO DELETE SPACE FROM " << insertPos;
                     int position = trackPlaylist.clip_start(clipIndex);
-                    int blankDuration = trackPlaylist.clip_length(clipIndex) - 1;
-                    if (diff + blankDuration == 1)
+                    int blankDuration = trackPlaylist.clip_length(clipIndex);
+                    if (diff + blankDuration == 0)
                         trackPlaylist.remove(clipIndex);
-                    else trackPlaylist.remove_region(position, - diff - 1);
+                    else trackPlaylist.remove_region(position, - diff);
                 }
                 trackPlaylist.consolidate_blanks(0);
             }
@@ -1798,7 +1820,7 @@ void Render::mltPasteEffects(Mlt::Producer *source, Mlt::Producer *dest)
     }
 }
 
-int Render::mltChangeClipSpeed(ItemInfo info, double speed, double oldspeed, Mlt::Producer *prod)
+int Render::mltChangeClipSpeed(ItemInfo info, double speed, double oldspeed, int strobe, Mlt::Producer *prod)
 {
     m_isBlocked = true;
     int newLength = 0;
@@ -1831,22 +1853,26 @@ int Render::mltChangeClipSpeed(ItemInfo info, double speed, double oldspeed, Mlt
     QString serv = clipparent.get("mlt_service");
     QString id = clipparent.get("id");
     //kDebug() << "CLIP SERVICE: " << serv;
-    if (serv == "avformat" && speed != 1.0) {
+    if (serv == "avformat" && (speed != 1.0 || strobe > 1)) {
         mlt_service_lock(service.get_service());
         QString url = QString::fromUtf8(clipparent.get("resource"));
         url.append('?' + QString::number(speed));
+        if (strobe > 1) url.append("&strobe=" + QString::number(strobe));
         Mlt::Producer *slowprod = m_slowmotionProducers.value(url);
         if (!slowprod || slowprod->get_producer() == NULL) {
             char *tmp = decodedString(url);
             slowprod = new Mlt::Producer(*m_mltProfile, "framebuffer", tmp);
+            if (strobe > 1) slowprod->set("strobe", strobe);
             delete[] tmp;
             QString producerid = "slowmotion:" + id + ':' + QString::number(speed);
+            if (strobe > 1) producerid.append(':' + QString::number(strobe));
             tmp = decodedString(producerid);
             slowprod->set("id", tmp);
             delete[] tmp;
             m_slowmotionProducers.insert(url, slowprod);
         }
-        trackPlaylist.replace_with_blank(clipIndex);
+        Mlt::Producer *clip = trackPlaylist.replace_with_blank(clipIndex);
+        delete clip;
         trackPlaylist.consolidate_blanks(0);
         // Check that the blank space is long enough for our new duration
         clipIndex = trackPlaylist.get_clip_index_at(startPos);
@@ -1860,14 +1886,16 @@ int Render::mltChangeClipSpeed(ItemInfo info, double speed, double oldspeed, Mlt
         // move all effects to the correct producer
         mltPasteEffects(clip, cut);
 
-        trackPlaylist.insert_at(startPos, *cut, 1);
+        trackPlaylist.insert_at(startPos, cut, 1);
+        delete cut;
         clipIndex = trackPlaylist.get_clip_index_at(startPos);
         newLength = trackPlaylist.clip_length(clipIndex);
         mlt_service_unlock(service.get_service());
-    } else if (speed == 1.0) {
+    } else if (speed == 1.0 && strobe < 2) {
         mlt_service_lock(service.get_service());
 
-        trackPlaylist.replace_with_blank(clipIndex);
+        Mlt::Producer *clip = trackPlaylist.replace_with_blank(clipIndex);
+        delete clip;
         trackPlaylist.consolidate_blanks(0);
 
         // Check that the blank space is long enough for our new duration
@@ -1885,7 +1913,8 @@ int Render::mltChangeClipSpeed(ItemInfo info, double speed, double oldspeed, Mlt
         // move all effects to the correct producer
         mltPasteEffects(clip, cut);
 
-        trackPlaylist.insert_at(startPos, *cut, 1);
+        trackPlaylist.insert_at(startPos, cut, 1);
+        delete cut;
         clipIndex = trackPlaylist.get_clip_index_at(startPos);
         newLength = trackPlaylist.clip_length(clipIndex);
         mlt_service_unlock(service.get_service());
@@ -1895,22 +1924,26 @@ int Render::mltChangeClipSpeed(ItemInfo info, double speed, double oldspeed, Mlt
         QString url = QString::fromUtf8(clipparent.get("resource"));
         url = url.section('?', 0, 0);
         url.append('?' + QString::number(speed));
+        if (strobe > 1) url.append("&strobe=" + QString::number(strobe));
         Mlt::Producer *slowprod = m_slowmotionProducers.value(url);
         if (!slowprod || slowprod->get_producer() == NULL) {
             char *tmp = decodedString(url);
             slowprod = new Mlt::Producer(*m_mltProfile, "framebuffer", tmp);
             delete[] tmp;
+            slowprod->set("strobe", strobe);
             QString producerid = "slowmotion:" + id.section(':', 1, 1) + ':' + QString::number(speed);
+            if (strobe > 1) producerid.append(':' + QString::number(strobe));
             tmp = decodedString(producerid);
             slowprod->set("id", tmp);
             delete[] tmp;
             m_slowmotionProducers.insert(url, slowprod);
         }
-        trackPlaylist.replace_with_blank(clipIndex);
+        Mlt::Producer *clip = trackPlaylist.replace_with_blank(clipIndex);
+        delete clip;
         trackPlaylist.consolidate_blanks(0);
 
         GenTime oldDuration = GenTime(clipLength, m_fps);
-        GenTime newDuration = oldDuration * oldspeed / speed;
+        GenTime newDuration = oldDuration * (oldspeed / speed);
 
         // Check that the blank space is long enough for our new duration
         clipIndex = trackPlaylist.get_clip_index_at(startPos);
@@ -1925,7 +1958,8 @@ int Render::mltChangeClipSpeed(ItemInfo info, double speed, double oldspeed, Mlt
         // move all effects to the correct producer
         mltPasteEffects(clip, cut);
 
-        trackPlaylist.insert_at(startPos, *cut, 1);
+        trackPlaylist.insert_at(startPos, cut, 1);
+        delete cut;
         clipIndex = trackPlaylist.get_clip_index_at(startPos);
         newLength = trackPlaylist.clip_length(clipIndex);
 
@@ -1952,6 +1986,7 @@ bool Render::mltRemoveEffect(int track, GenTime position, QString index, bool up
         return success;
     }
     Mlt::Service clipService(clip->get_service());
+    delete clip;
 //    if (tag.startsWith("ladspa")) tag = "ladspa";
     m_isBlocked = true;
     int ct = 0;
@@ -1988,7 +2023,7 @@ bool Render::mltAddEffect(int track, GenTime position, EffectsParameterList para
     }
     Mlt::Service clipService(clip->get_service());
     m_isBlocked = true;
-
+    delete clip;
     // temporarily remove all effects after insert point
     QList <Mlt::Filter *> filtersList;
     const int filter_ix = params.paramValue("kdenlive_ix").toInt();
@@ -2136,6 +2171,7 @@ bool Render::mltEditEffect(int track, GenTime position, EffectsParameterList par
         return false;
     }
     Mlt::Service clipService(clip->get_service());
+    delete clip;
     m_isBlocked = true;
     int ct = 0;
     Mlt::Filter *filter = clipService.filter(ct);
@@ -2200,6 +2236,7 @@ void Render::mltMoveEffect(int track, GenTime position, int oldPos, int newPos)
         return;
     }
     Mlt::Service clipService(clip->get_service());
+    delete clip;
     m_isBlocked = true;
     int ct = 0;
     QList <Mlt::Filter *> filtersList;
@@ -2306,11 +2343,11 @@ bool Render::mltResizeClipEnd(ItemInfo info, GenTime clipDuration)
             // If this is not the last clip in playlist
             if (trackPlaylist.is_blank(clipIndex)) {
                 int blankStart = trackPlaylist.clip_start(clipIndex);
-                int blankDuration = trackPlaylist.clip_length(clipIndex) - 1;
+                int blankDuration = trackPlaylist.clip_length(clipIndex);
                 if (diff > blankDuration) kDebug() << "// ERROR blank clip is not large enough to get back required space!!!";
-                if (diff - blankDuration == 1) {
+                if (diff - blankDuration == 0) {
                     trackPlaylist.remove(clipIndex);
-                } else trackPlaylist.remove_region(blankStart, diff - 1);
+                } else trackPlaylist.remove_region(blankStart, diff);
             } else {
                 kDebug() << "/// RESIZE ERROR, NXT CLIP IS NOT BLK: " << clipIndex;
             }
@@ -2462,19 +2499,21 @@ void Render::mltUpdateClipProducer(int track, int pos, Mlt::Producer *prod)
     Mlt::Producer trackProducer(tractor.track(track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
     int clipIndex = trackPlaylist.get_clip_index_at(pos + 1);
-    Mlt::Producer clipProducer(trackPlaylist.replace_with_blank(clipIndex));
-    if (clipProducer.is_blank()) {
+    Mlt::Producer *clipProducer = trackPlaylist.replace_with_blank(clipIndex);
+    if (clipProducer->is_blank()) {
         kDebug() << "// ERROR UPDATING CLIP PROD";
+        delete clipProducer;
         mlt_service_unlock(m_mltConsumer->get_service());
         m_isBlocked--;
         return;
     }
-    Mlt::Producer *clip = prod->cut(clipProducer.get_in(), clipProducer.get_out());
+    Mlt::Producer *clip = prod->cut(clipProducer->get_in(), clipProducer->get_out());
 
     // move all effects to the correct producer
-    mltPasteEffects(&clipProducer, clip);
-
+    mltPasteEffects(clipProducer, clip);
     trackPlaylist.insert_at(pos, clip, 1);
+    delete clip;
+    delete clipProducer;
     mlt_service_unlock(m_mltConsumer->get_service());
     m_isBlocked--;
 }
@@ -2494,10 +2533,11 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
     kDebug() << "//////  LOOKING FOR CLIP TO MOVE, INDEX: " << clipIndex;
     bool checkLength = false;
     if (endTrack == startTrack) {
-        Mlt::Producer clipProducer(trackPlaylist.replace_with_blank(clipIndex));
-        if (!trackPlaylist.is_blank_at(moveEnd) || clipProducer.is_blank()) {
+        Mlt::Producer *clipProducer = trackPlaylist.replace_with_blank(clipIndex);
+        if (!trackPlaylist.is_blank_at(moveEnd) || clipProducer->is_blank()) {
             // error, destination is not empty
             if (!trackPlaylist.is_blank_at(moveEnd)) trackPlaylist.insert_at(moveStart, clipProducer, 1);
+            delete clipProducer;
             //int ix = trackPlaylist.get_clip_index_at(moveEnd);
             kDebug() << "// ERROR MOVING CLIP TO : " << moveEnd;
             mlt_service_unlock(service.get_service());
@@ -2506,6 +2546,7 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
         } else {
             trackPlaylist.consolidate_blanks(0);
             int newIndex = trackPlaylist.insert_at(moveEnd, clipProducer, 1);
+            delete clipProducer;
             /*if (QString(clipProducer.parent().get("transparency")).toInt() == 1) {
             mltMoveTransparency(moveStart, moveEnd, startTrack, endTrack, QString(clipProducer.parent().get("id")).toInt());
             }*/
@@ -2521,10 +2562,11 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
             m_isBlocked--;
             return false;
         } else {
-            Mlt::Producer clipProducer(trackPlaylist.replace_with_blank(clipIndex));
-            if (clipProducer.is_blank()) {
+            Mlt::Producer *clipProducer = trackPlaylist.replace_with_blank(clipIndex);
+            if (clipProducer->is_blank()) {
                 // error, destination is not empty
                 //int ix = trackPlaylist.get_clip_index_at(moveEnd);
+                delete clipProducer;
                 kDebug() << "// ERROR MOVING CLIP TO : " << moveEnd;
                 mlt_service_unlock(service.get_service());
                 m_isBlocked--;
@@ -2534,24 +2576,27 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
             destTrackPlaylist.consolidate_blanks(1);
             Mlt::Producer *clip;
             // check if we are moving a slowmotion producer
-            QString serv = clipProducer.parent().get("mlt_service");
-            QString currentid = clipProducer.parent().get("id");
+            QString serv = clipProducer->parent().get("mlt_service");
+            QString currentid = clipProducer->parent().get("id");
             if (serv == "framebuffer" || currentid.endsWith("_video")) {
-                clip = &clipProducer;
+                clip = clipProducer;
             } else {
                 if (prod == NULL) {
                     // Special case: prod is null when using placeholder clips.
                     // in that case, use the producer existing in playlist. Note that
                     // it will bypass the one producer per track logic and might cause
                     // Sound cracks if clip is moved so that it overlaps another copy of itself
-                    clip = clipProducer.cut(clipProducer.get_in(), clipProducer.get_out());
-                } else clip = prod->cut(clipProducer.get_in(), clipProducer.get_out());
+                    clip = clipProducer->cut(clipProducer->get_in(), clipProducer->get_out());
+                } else clip = prod->cut(clipProducer->get_in(), clipProducer->get_out());
             }
 
             // move all effects to the correct producer
-            mltPasteEffects(&clipProducer, clip);
+            mltPasteEffects(clipProducer, clip);
 
             int newIndex = destTrackPlaylist.insert_at(moveEnd, clip, 1);
+            delete clip;
+            clip = NULL;
+            if (clipProducer) delete clipProducer;
             destTrackPlaylist.consolidate_blanks(0);
             /*if (QString(clipProducer.parent().get("transparency")).toInt() == 1) {
                 kDebug() << "//////// moving clip transparency";
@@ -3010,6 +3055,8 @@ void Render::fillSlowMotionProducers()
                 if (id.startsWith("slowmotion:") && !nprod->is_blank()) {
                     // this is a slowmotion producer, add it to the list
                     QString url = QString::fromUtf8(nprod->get("resource"));
+                    int strobe = nprod->get_int("strobe");
+                    if (strobe > 1) url.append("&strobe=" + QString::number(strobe));
                     if (!m_slowmotionProducers.contains(url)) {
                         m_slowmotionProducers.insert(url, nprod);
                     }

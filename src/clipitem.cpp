@@ -37,7 +37,7 @@
 #include <QGraphicsScene>
 #include <QMimeData>
 
-ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, bool generateThumbs) :
+ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, int strobe, bool generateThumbs) :
         AbstractClipItem(info, QRectF(), fps),
         m_clip(clip),
         m_startFade(0),
@@ -47,14 +47,13 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, b
         m_startPix(QPixmap()),
         m_endPix(QPixmap()),
         m_hasThumbs(false),
-        m_startThumbTimer(NULL),
-        m_endThumbTimer(NULL),
         m_selectedEffect(-1),
         m_timeLine(0),
         m_startThumbRequested(false),
         m_endThumbRequested(false),
         //m_hover(false),
         m_speed(speed),
+        m_strobe(strobe),
         m_framePixelWidth(0)
 {
     setZValue(2);
@@ -83,12 +82,10 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, b
     if (m_clipType == VIDEO || m_clipType == AV || m_clipType == SLIDESHOW || m_clipType == PLAYLIST) {
         setBrush(QColor(141, 166, 215));
         m_hasThumbs = true;
-        m_startThumbTimer = new QTimer(this);
-        m_startThumbTimer->setSingleShot(true);
-        connect(m_startThumbTimer, SIGNAL(timeout()), this, SLOT(slotGetStartThumb()));
-        m_endThumbTimer = new QTimer(this);
-        m_endThumbTimer->setSingleShot(true);
-        connect(m_endThumbTimer, SIGNAL(timeout()), this, SLOT(slotGetEndThumb()));
+        m_startThumbTimer.setSingleShot(true);
+        connect(&m_startThumbTimer, SIGNAL(timeout()), this, SLOT(slotGetStartThumb()));
+        m_endThumbTimer.setSingleShot(true);
+        connect(&m_endThumbTimer, SIGNAL(timeout()), this, SLOT(slotGetEndThumb()));
 
         connect(this, SIGNAL(getThumb(int, int)), clip->thumbProducer(), SLOT(extractImage(int, int)));
         //connect(this, SIGNAL(getThumb(int, int)), clip->thumbProducer(), SLOT(getVideoThumbs(int, int)));
@@ -122,14 +119,12 @@ ClipItem::~ClipItem()
         disconnect(m_clip->thumbProducer(), SIGNAL(thumbReady(int, QPixmap)), this, SLOT(slotThumbReady(int, QPixmap)));
         disconnect(m_clip, SIGNAL(gotAudioData()), this, SLOT(slotGotAudioData()));
     }
-    delete m_startThumbTimer;
-    delete m_endThumbTimer;
     delete m_timeLine;
 }
 
 ClipItem *ClipItem::clone(ItemInfo info) const
 {
-    ClipItem *duplicate = new ClipItem(m_clip, info, m_fps, m_speed);
+    ClipItem *duplicate = new ClipItem(m_clip, info, m_fps, m_speed, m_strobe);
     if (m_clipType == IMAGE || m_clipType == TEXT) duplicate->slotSetStartThumb(m_startPix);
     else {
         if (info.cropStart == m_cropStart) duplicate->slotSetStartThumb(m_startPix);
@@ -591,6 +586,7 @@ QDomElement ClipItem::xml() const
 {
     QDomElement xml = m_clip->toXML();
     if (m_speed != 1.0) xml.setAttribute("speed", m_speed);
+    if (m_strobe > 1) xml.setAttribute("strobe", m_strobe);
     if (m_audioOnly) xml.setAttribute("audio_only", 1);
     else if (m_videoOnly) xml.setAttribute("video_only", 1);
     return xml;
@@ -1123,7 +1119,7 @@ void ClipItem::resizeStart(int posx, double /*speed*/)
         checkEffectsKeyframesPos(previous, cropStart().frames(m_fps), true);
         if (m_hasThumbs && KdenliveSettings::videothumbnails()) {
             /*connect(m_clip->thumbProducer(), SIGNAL(thumbReady(int, QPixmap)), this, SLOT(slotThumbReady(int, QPixmap)));*/
-            m_startThumbTimer->start(150);
+            m_startThumbTimer.start(150);
         }
     }
 }
@@ -1140,7 +1136,7 @@ void ClipItem::resizeEnd(int posx, double /*speed*/, bool updateKeyFrames)
         if (updateKeyFrames) checkEffectsKeyframesPos(previous, (cropStart() + cropDuration()).frames(m_fps), false);
         if (m_hasThumbs && KdenliveSettings::videothumbnails()) {
             /*connect(m_clip->thumbProducer(), SIGNAL(thumbReady(int, QPixmap)), this, SLOT(slotThumbReady(int, QPixmap)));*/
-            m_endThumbTimer->start(150);
+            m_endThumbTimer.start(150);
         }
     }
 }
@@ -1501,9 +1497,15 @@ double ClipItem::speed() const
     return m_speed;
 }
 
-void ClipItem::setSpeed(const double speed)
+int ClipItem::strobe() const
+{
+    return m_strobe;
+}
+
+void ClipItem::setSpeed(const double speed, const int strobe)
 {
     m_speed = speed;
+    m_strobe = strobe;
     if (m_speed == 1.0) m_clipName = baseClip()->name();
     else m_clipName = baseClip()->name() + " - " + QString::number(speed * 100, 'f', 0) + '%';
     //update();

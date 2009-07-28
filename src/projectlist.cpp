@@ -275,7 +275,7 @@ void ProjectList::slotUpdateClipProperties(const QString &id, QMap <QString, QSt
     ProjectItem *item = getItemById(id);
     if (item) {
         slotUpdateClipProperties(item, properties);
-        if (properties.contains("colour") || properties.contains("resource") || properties.contains("xmldata") || properties.contains("force_aspect_ratio")) {
+        if (properties.contains("colour") || properties.contains("resource") || properties.contains("xmldata") || properties.contains("force_aspect_ratio") || properties.contains("templatetext")) {
             slotRefreshClipThumbnail(item);
             emit refreshClip();
         }
@@ -287,7 +287,7 @@ void ProjectList::slotUpdateClipProperties(ProjectItem *clip, QMap <QString, QSt
 {
     if (!clip) return;
     if (!clip->isGroup()) clip->setProperties(properties);
-    if (properties.contains("xmldata")) regenerateTemplateImage(clip);
+    //if (properties.contains("xmldata")) regenerateTemplateImage(clip);
     if (properties.contains("name")) {
         m_listView->blockSignals(true);
         clip->setText(1, properties.value("name"));
@@ -318,10 +318,12 @@ void ProjectList::slotItemEdited(QTreeWidgetItem *item, int column)
             oldprops["description"] = clip->referencedClip()->getProperty("description");
             newprops["description"] = item->text(2);
 
-            if (clip->clipType() == TEXT && !clip->referencedClip()->getProperty("xmltemplate").isEmpty()) {
+            if (clip->clipType() == TEXT && !clip->referencedClip()->getProperty("xmldata").isEmpty()) {
                 // This is a text template clip, update the image
-                oldprops.insert("xmldata", clip->referencedClip()->getProperty("xmldata"));
-                newprops.insert("xmldata", generateTemplateXml(clip->referencedClip()->getProperty("xmltemplate"), item->text(2)).toString());
+                /*oldprops.insert("xmldata", clip->referencedClip()->getProperty("xmldata"));
+                newprops.insert("xmldata", generateTemplateXml(clip->referencedClip()->getProperty("xmltemplate"), item->text(2)).toString());*/
+                oldprops.insert("templatetext", clip->referencedClip()->getProperty("templatetext"));
+                newprops.insert("templatetext", item->text(2));
             }
 
             slotUpdateClipProperties(clip->clipId(), newprops);
@@ -583,7 +585,7 @@ void ProjectList::updateAllClips()
         ProjectItem *item = static_cast <ProjectItem *>(*it);
         if (!item->isGroup()) {
             DocClipBase *clip = item->referencedClip();
-            if (clip->clipType() == TEXT && !QFile::exists(clip->fileURL().path())) {
+            /*if (clip->clipType() == TEXT && !QFile::exists(clip->fileURL().path())) {
                 // regenerate text clip image if required
                 TitleWidget *dia_ui = new TitleWidget(KUrl(), QString(), m_render, this);
                 QDomDocument doc;
@@ -592,7 +594,7 @@ void ProjectList::updateAllClips()
                 QImage pix = dia_ui->renderedPixmap();
                 pix.save(clip->fileURL().path());
                 delete dia_ui;
-            }
+            }*/
 
             if (item->referencedClip()->producer() == NULL) {
                 if (clip->isPlaceHolder() == false) requestClipInfo(clip->toXML(), clip->getId());
@@ -623,7 +625,7 @@ void ProjectList::slotAddClip(const QList <QUrl> givenList, const QString &group
     KUrl::List list;
     if (givenList.isEmpty()) {
         // Build list of mime types
-        QStringList mimeTypes = QStringList() << "application/x-kdenlive" << "video/x-flv" << "application/vnd.rn-realmedia" << "video/x-dv" << "video/dv" << "video/x-msvideo" << "video/x-matroska" << "video/mlt-playlist" << "video/mpeg" << "video/ogg" << "video/x-ms-wmv" << "audio/x-flac" << "audio/x-matroska" << "audio/mp4" << "audio/mpeg" << "audio/x-mp3" << "audio/ogg" << "audio/x-wav" << "application/ogg" << "video/mp4" << "video/quicktime" << "image/gif" << "image/jpeg" << "image/png" << "image/x-tga" << "image/x-bmp" << "image/svg+xml" << "image/tiff" << "image/x-xcf-gimp" << "image/x-vnd.adobe.photoshop" << "image/x-pcx" << "image/x-exr";
+        QStringList mimeTypes = QStringList() << "application/x-kdenlive" << "application/x-kdenlivetitle" << "video/x-flv" << "application/vnd.rn-realmedia" << "video/x-dv" << "video/dv" << "video/x-msvideo" << "video/x-matroska" << "video/mlt-playlist" << "video/mpeg" << "video/ogg" << "video/x-ms-wmv" << "audio/x-flac" << "audio/x-matroska" << "audio/mp4" << "audio/mpeg" << "audio/x-mp3" << "audio/ogg" << "audio/x-wav" << "application/ogg" << "video/mp4" << "video/quicktime" << "image/gif" << "image/jpeg" << "image/png" << "image/x-tga" << "image/x-bmp" << "image/svg+xml" << "image/tiff" << "image/x-xcf-gimp" << "image/x-vnd.adobe.photoshop" << "image/x-pcx" << "image/x-exr";
 
         QString allExtensions;
         foreach(const QString& mimeType, mimeTypes) {
@@ -970,28 +972,30 @@ void ProjectList::regenerateTemplate(const QString &id)
 
 void ProjectList::regenerateTemplate(ProjectItem *clip)
 {
+    //TODO: remove this unused method, only force_reload is necessary
     // Generate image for template clip
-    const QString comment = clip->referencedClip()->getProperty("description");
-    const QString path = clip->referencedClip()->getProperty("xmltemplate");
+    /*const QString comment = clip->referencedClip()->getProperty("description");
+    const QString path = clip->referencedClip()->getProperty("resource");
     QDomDocument doc = generateTemplateXml(path, comment);
     TitleWidget *dia_ui = new TitleWidget(KUrl(), QString(), m_render, this);
     dia_ui->setXml(doc);
     QImage pix = dia_ui->renderedPixmap();
     pix.save(clip->clipUrl().path());
-    delete dia_ui;
+    delete dia_ui;*/
     clip->referencedClip()->producer()->set("force_reload", 1);
 }
 
 void ProjectList::regenerateTemplateImage(ProjectItem *clip)
 {
+    //TODO: remove this unused method
     // Generate image for template clip
-    TitleWidget *dia_ui = new TitleWidget(KUrl(), QString(), m_render, this);
+    /*TitleWidget *dia_ui = new TitleWidget(KUrl(), QString(), m_render, this);
     QDomDocument doc;
     doc.setContent(clip->referencedClip()->getProperty("xmldata"));
     dia_ui->setXml(doc);
     QImage pix = dia_ui->renderedPixmap();
     pix.save(clip->clipUrl().path());
-    delete dia_ui;
+    delete dia_ui;*/
 }
 
 QDomDocument ProjectList::generateTemplateXml(QString path, const QString &replaceString)

@@ -154,6 +154,9 @@ void ProjectListView::dropEvent(QDropEvent *event)
             }
         }
         emit addClip(event->mimeData()->urls(), groupName, groupId);
+        event->setDropAction(Qt::CopyAction);
+        event->accept();
+        return;
     } else if (event->mimeData()->hasFormat("kdenlive/producerslist")) {
         ProjectItem *item = static_cast <ProjectItem *>(itemAt(event->pos()));
         if (item) {
@@ -258,7 +261,7 @@ void ProjectListView::mouseMoveEvent(QMouseEvent *event)
             drag->setMimeData(mimeData);
             drag->setPixmap(clickItem->icon(0).pixmap(iconSize()));
             drag->setHotSpot(QPoint(0, 50));
-            drag->exec(Qt::MoveAction);
+            drag->exec();
         }
         //event->accept();
     }
@@ -267,8 +270,7 @@ void ProjectListView::mouseMoveEvent(QMouseEvent *event)
 // virtual
 void ProjectListView::dragMoveEvent(QDragMoveEvent * event)
 {
-    event->setDropAction(Qt::IgnoreAction);
-    event->setDropAction(Qt::MoveAction);
+    //event->setDropAction(Qt::MoveAction);
     if (event->mimeData()->hasText()) {
         event->acceptProposedAction();
     }

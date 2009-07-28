@@ -92,11 +92,14 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QStrin
 
 DocClipBase::~DocClipBase()
 {
+    kDebug() << "CLIP " << m_id << " DELETED******************************";
     delete m_thumbProd;
     if (m_audioTimer) {
         m_audioTimer->stop();
         delete m_audioTimer;
     }
+    /*kDebug() <<" * * *CNT "<<m_baseTrackProducers.count();
+    if (m_baseTrackProducers.count() > 0) kDebug()<<"YOYO: "<<m_baseTrackProducers.at(0)->get_out()<<", CUT: "<<m_baseTrackProducers.at(0)->is_cut();*/
     qDeleteAll(m_baseTrackProducers);
     m_baseTrackProducers.clear();
     qDeleteAll(m_audioTrackProducers);
@@ -752,8 +755,16 @@ void DocClipBase::setProperty(const QString &key, const QString &value)
         char *tmp = (char *) qstrdup(value.toUtf8().data());
         setProducerProperty("colour", tmp);
         delete[] tmp;
-    } else if (key == "xmldata") {
+    } else if (key == "templatetext") {
+        char *tmp = (char *) qstrdup(value.toUtf8().data());
+        setProducerProperty("templatetext", tmp);
+        delete[] tmp;
         setProducerProperty("force_reload", 1);
+    } else if (key == "xmldata") {
+        char *tmp = (char *) qstrdup(value.toUtf8().data());
+        setProducerProperty("xmldata", tmp);
+        delete[] tmp;
+        //setProducerProperty("force_reload", 1);
     } else if (key == "force_aspect_ratio") {
         if (value.isEmpty()) {
             m_properties.remove("force_aspect_ratio");

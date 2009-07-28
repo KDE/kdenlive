@@ -68,7 +68,6 @@
     <Menu name="timeline" ><text>Timeline</text>
       <Action name="cut_timeline_clip" />
       <Action name="delete_timeline_clip" />
-      <Action name="change_clip_speed" />
       <Menu name="guide_menu" ><text>Guides</text>
 		<Action name="add_guide" />
 		<Action name="edit_guide" />

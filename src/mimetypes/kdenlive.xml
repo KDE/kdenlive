@@ -5,4 +5,9 @@
     <sub-class-of type="video/mlt-playlist"/>
     <glob pattern="*.kdenlive"/>
   </mime-type>
+  <mime-type type="application/x-kdenlivetitle">
+    <comment>Kdenlive video title</comment>
+    <sub-class-of type="application/xml"/>
+    <glob pattern="*.kdenlivetitle"/>
+  </mime-type>
 </mime-info>

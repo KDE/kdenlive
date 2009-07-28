@@ -150,7 +150,6 @@ Q_OBJECT public:
     /** Gives the aspect ratio of the consumer */
     double consumerRatio() const;
 
-    void askForRefresh();
     void doRefresh();
 
     /** Save current producer frame as image */
@@ -201,7 +200,7 @@ Q_OBJECT public:
     to the clip and 0.6 is the speed in percents. The newly created producer will have it's
     "id" parameter set to: "slowmotion:parentid:speed", where parentid is the id of the original clip
     in the ClipManager list and speed is the current speed */
-    int mltChangeClipSpeed(ItemInfo info, double speed, double oldspeed, Mlt::Producer *prod);
+    int mltChangeClipSpeed(ItemInfo info, double speed, double oldspeed, int strobe, Mlt::Producer *prod);
 
     QList <Mlt::Producer *> producersList();
     void updatePreviewSettings();
@@ -228,7 +227,6 @@ private:   // Private attributes & methods
     Mlt::Producer *m_blackClip;
     QString m_activeProfile;
 
-    QTimer *m_refreshTimer;
     QTimer *m_osdTimer;
 
     /** A human-readable description of this renderer. */

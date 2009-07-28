@@ -150,6 +150,7 @@ Monitor::~Monitor()
     delete m_timePos;
     delete m_overlay;
     delete m_monitorRefresh;
+    delete render;
 }
 
 QString Monitor::name() const

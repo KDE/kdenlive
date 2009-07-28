@@ -24,6 +24,7 @@
 #include "renderer.h"
 #include "graphicsscenerectmove.h"
 #include "unicodedialog.h"
+#include "timecode.h"
 
 #include <QMap>
 #include <QSignalMapper>
@@ -48,7 +49,7 @@ class TitleWidget : public QDialog , public Ui::TitleWidget_UI
 public:
     /** \brief Constructor
      * \param projectPath Path to use when user requests loading or saving of titles as .kdenlivetitle documents */
-    TitleWidget(KUrl url, QString projectTitlePath, Render *render, QWidget *parent = 0);
+    TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render *render, QWidget *parent = 0);
     virtual ~TitleWidget();
     QDomDocument xml();
     void setXml(QDomDocument doc);
@@ -75,6 +76,9 @@ public:
     */
     const QRect renderedRect();
 
+    /** \brief Get clip duration. */
+    int duration() const;
+
 protected:
     virtual void resizeEvent(QResizeEvent * event);
 
@@ -98,10 +102,12 @@ private:
     QAction *m_buttonLoad;
 
     QAction *m_unicodeAction;
+
     /** \brief Dialog for entering unicode in text fields */
     UnicodeDialog *m_unicodeDialog;
     /** project path for storing title clips */
     QString m_projectTitlePath;
+    Timecode m_tc;
 
     /** See http://doc.trolltech.com/4.5/signalsandslots.html#advanced-signals-and-slots-usage */
     QSignalMapper *m_signalMapper;

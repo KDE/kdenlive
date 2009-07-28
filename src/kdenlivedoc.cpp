@@ -231,8 +231,11 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
 
 KdenliveDoc::~KdenliveDoc()
 {
+    m_autoSaveTimer->stop();
     delete m_commandStack;
+    kDebug() << "// DEL CLP MAN";
     delete m_clipManager;
+    kDebug() << "// DEL CLP MAN done";
     delete m_autoSaveTimer;
     if (m_autosave) {
         if (!m_autosave->fileName().isEmpty()) m_autosave->remove();
@@ -803,7 +806,7 @@ void KdenliveDoc::addClip(QDomElement elem, QString clipId, bool createClipItem)
         if (elem.attribute("type").toInt() == SLIDESHOW) {
             extension = KUrl(path).fileName();
             path = KUrl(path).directory();
-        } else if (elem.attribute("type").toInt() == TEXT && QFile::exists(path) == false) {
+        } /*else if (elem.attribute("type").toInt() == TEXT && QFile::exists(path) == false) {
             kDebug() << "// TITLE: " << elem.attribute("name") << " Preview file: " << elem.attribute("resource") << " DOES NOT EXIST";
             QString titlename = elem.attribute("name");
             QString titleresource;
@@ -826,7 +829,7 @@ void KdenliveDoc::addClip(QDomElement elem, QString clipId, bool createClipItem)
             elem.setAttribute("resource", titleresource);
             setNewClipResource(clipId, titleresource);
             delete dia_ui;
-        }
+        }*/
 
         if (path.isEmpty() == false && QFile::exists(path) == false && elem.attribute("type").toInt() != TEXT && !elem.hasAttribute("placeholder")) {
             kDebug() << "// FOUND MISSING CLIP: " << path << ", TYPE: " << elem.attribute("type").toInt();
@@ -1037,13 +1040,13 @@ void KdenliveDoc::slotCreateTextClip(QString group, const QString &groupId, cons
 {
     QString titlesFolder = projectFolder().path(KUrl::AddTrailingSlash) + "titles/";
     KStandardDirs::makeDir(titlesFolder);
-    TitleWidget *dia_ui = new TitleWidget(templatePath, titlesFolder, m_render, kapp->activeWindow());
+    TitleWidget *dia_ui = new TitleWidget(templatePath, m_timecode, titlesFolder, m_render, kapp->activeWindow());
     if (dia_ui->exec() == QDialog::Accepted) {
-        QStringList titleInfo = TitleWidget::getFreeTitleInfo(projectFolder());
+        /*QStringList titleInfo = TitleWidget::getFreeTitleInfo(projectFolder());
         QImage pix = dia_ui->renderedPixmap();
-        pix.save(titleInfo.at(1));
+        pix.save(titleInfo.at(1));*/
         //dia_ui->saveTitle(path + ".kdenlivetitle");
-        m_clipManager->slotAddTextClipFile(titleInfo.at(0), titleInfo.at(1), dia_ui->xml().toString(), group, groupId);
+        m_clipManager->slotAddTextClipFile(i18n("Title clip"), dia_ui->duration(), dia_ui->xml().toString(), group, groupId);
         setModified(true);
         emit selectLastAddedClip(QString::number(m_clipManager->lastClipId()));
     }
@@ -1061,12 +1064,13 @@ void KdenliveDoc::slotCreateTextTemplateClip(QString group, const QString &group
 
     QStringList titleInfo = TitleWidget::getFreeTitleInfo(projectFolder(), true);
 
-    TitleWidget *dia_ui = new TitleWidget(path, titlesFolder, m_render, kapp->activeWindow());
+    //TODO: rewrite with new title system (just set resource)
+    /*TitleWidget *dia_ui = new TitleWidget(path, titlesFolder, m_render, kapp->activeWindow());
     QImage pix = dia_ui->renderedPixmap();
     pix.save(titleInfo.at(1));
     delete dia_ui;
     m_clipManager->slotAddTextTemplateClip(titleInfo.at(0), titleInfo.at(1), path, group, groupId);
-    setModified(true);
+    setModified(true);*/
     emit selectLastAddedClip(QString::number(m_clipManager->lastClipId()));
 }
 

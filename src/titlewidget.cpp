@@ -43,7 +43,7 @@ const int RECTITEM = 3;
 const int TEXTITEM = 8;
 static bool insertingValues = false;
 
-TitleWidget::TitleWidget(KUrl url, QString projectTitlePath, Render *render, QWidget *parent) :
+TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render *render, QWidget *parent) :
         QDialog(parent),
         Ui::TitleWidget_UI(),
         m_startViewport(NULL),
@@ -51,7 +51,8 @@ TitleWidget::TitleWidget(KUrl url, QString projectTitlePath, Render *render, QWi
         m_render(render),
         m_count(0),
         m_unicodeDialog(new UnicodeDialog(UnicodeDialog::InputHex)),
-        m_projectTitlePath(projectTitlePath)
+        m_projectTitlePath(projectTitlePath),
+        m_tc(tc)
 {
     setupUi(this);
     setFont(KGlobalSettings::toolBarFont());
@@ -65,6 +66,9 @@ TitleWidget::TitleWidget(KUrl url, QString projectTitlePath, Render *render, QWi
     m_frameWidth = render->renderWidth();
     m_frameHeight = render->renderHeight();
     showToolbars(TITLE_NONE);
+
+    //TODO: get default title duration instead of hardcoded one
+    title_duration->setText(m_tc.getTimecode(GenTime(5000 / 1000.0), m_render->fps()));
 
     connect(kcolorbutton, SIGNAL(clicked()), this, SLOT(slotChangeBackground())) ;
     connect(horizontalSlider, SIGNAL(valueChanged(int)), this, SLOT(slotChangeBackground())) ;
@@ -265,7 +269,9 @@ TitleWidget::TitleWidget(KUrl url, QString projectTitlePath, Render *render, QWi
     kDebug() << "// TITLE WIDGWT: " << graphicsView->viewport()->width() << "x" << graphicsView->viewport()->height();
     //toolBox->setItemEnabled(2, false);
     if (!url.isEmpty()) {
-        m_count = m_titledocument.loadDocument(url, m_startViewport, m_endViewport) + 1;
+        double out;
+        m_count = m_titledocument.loadDocument(url, m_startViewport, m_endViewport, &out) + 1;
+        title_duration->setText(m_tc.getTimecode(GenTime(out), m_render->fps()));
         slotSelectTool();
     } else {
         slotTextTool();
@@ -1306,7 +1312,9 @@ void TitleWidget::loadTitle()
             if (items.at(i)->zValue() > -1000) delete items.at(i);
         }
         m_scene->clearTextSelection();
-        m_count = m_titledocument.loadDocument(url, m_startViewport, m_endViewport) + 1;
+        double out;
+        m_count = m_titledocument.loadDocument(url, m_startViewport, m_endViewport, &out) + 1;
+        title_duration->setText(m_tc.getTimecode(GenTime(out / 1000.0), m_render->fps()));
         insertingValues = true;
         startViewportX->setValue(m_startViewport->data(0).toInt());
         startViewportY->setValue(m_startViewport->data(1).toInt());
@@ -1323,7 +1331,7 @@ void TitleWidget::saveTitle(KUrl url)
 {
     if (url.isEmpty()) url = KFileDialog::getSaveUrl(KUrl(m_projectTitlePath), "*.kdenlivetitle", this, i18n("Save Title"));
     if (!url.isEmpty()) {
-        if (m_titledocument.saveDocument(url, m_startViewport, m_endViewport) == false)
+        if (m_titledocument.saveDocument(url, m_startViewport, m_endViewport, GenTime(m_tc.getFrameCount(title_duration->text(), m_render->fps()), m_render->fps()).ms()) == false)
             KMessageBox::error(this, i18n("Cannot write to file %1", url.path()));
     }
 }
@@ -1331,15 +1339,30 @@ void TitleWidget::saveTitle(KUrl url)
 QDomDocument TitleWidget::xml()
 {
     QDomDocument doc = m_titledocument.xml(m_startViewport, m_endViewport);
+    doc.documentElement().setAttribute("out", GenTime(m_tc.getFrameCount(title_duration->text(), m_render->fps()), m_render->fps()).ms());
     if (cropImage->isChecked()) {
         doc.documentElement().setAttribute("crop", 1);
     }
     return doc;
 }
 
+int TitleWidget::duration() const
+{
+    return GenTime(m_tc.getFrameCount(title_duration->text(), m_render->fps()), m_render->fps()).frames(m_render->fps());
+}
+
 void TitleWidget::setXml(QDomDocument doc)
 {
-    m_count = m_titledocument.loadFromXml(doc, m_startViewport, m_endViewport);
+    double out;
+    m_count = m_titledocument.loadFromXml(doc, m_startViewport, m_endViewport, &out);
+    kDebug() << "\n\n// TITLE OUT: " << out;
+    title_duration->setText(m_tc.getTimecode(GenTime(out / 1000.0), m_render->fps()));
+    /*if (doc.documentElement().hasAttribute("out")) {
+    GenTime duration = GenTime(doc.documentElement().attribute("out").toDouble() / 1000.0);
+    title_duration->setText(m_tc.getTimecode(duration, m_render->fps()));
+    }
+    else title_duration->setText(m_tc.getTimecode(GenTime(5000), m_render->fps()));*/
+
     QDomElement e = doc.documentElement();
     cropImage->setChecked(e.hasAttribute("crop"));
     m_transformations.clear();

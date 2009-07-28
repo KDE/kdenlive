@@ -177,7 +177,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int in, int out)
             if (pa.attribute("max").startsWith('%')) {
                 max = (int) ProfilesDialog::getStringEval(m_profile, pa.attribute("max"));
             } else max = pa.attribute("max").toInt();
-            createSliderItem(paramName, (int)(value.toDouble() + 0.5) , min, max);
+            createSliderItem(paramName, (int)(value.toDouble() + 0.5) , min, max, pa.attribute("suffix", QString()));
             delete toFillin;
             toFillin = NULL;
         } else if (type == "list") {
@@ -505,13 +505,14 @@ void EffectStackEdit::collectAllParameters()
     emit parameterChanged(oldparam, m_params);
 }
 
-void EffectStackEdit::createSliderItem(const QString& name, int val , int min, int max)
+void EffectStackEdit::createSliderItem(const QString& name, int val , int min, int max, const QString suffix)
 {
     QWidget* toFillin = new QWidget;
     Constval *ctval = new Constval;
     ctval->setupUi(toFillin);
     ctval->horizontalSlider->setMinimum(min);
     ctval->horizontalSlider->setMaximum(max);
+    if (!suffix.isEmpty()) ctval->spinBox->setSuffix(suffix);
     ctval->spinBox->setMinimum(min);
     ctval->spinBox->setMaximum(max);
     ctval->horizontalSlider->setPageStep((int)(max - min) / 10);

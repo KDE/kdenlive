@@ -32,7 +32,7 @@
 #include <QKeyEvent>
 #include <QPushButton>
 #include <QPixmap>
-#include <QTimer>
+
 
 StatusBarMessageLabel::StatusBarMessageLabel(QWidget* parent) :
         QWidget(parent),
@@ -40,7 +40,6 @@ StatusBarMessageLabel::StatusBarMessageLabel(QWidget* parent) :
         m_state(Default),
         m_illumination(-64),
         m_minTextHeight(-1),
-        m_timer(0),
         m_closeButton(0)
 {
     setMinimumHeight(KIconLoader::SizeSmall);
@@ -49,8 +48,7 @@ StatusBarMessageLabel::StatusBarMessageLabel(QWidget* parent) :
     palette.setColor(QPalette::Background, Qt::transparent);
     setPalette(palette);
 
-    m_timer = new QTimer(this);
-    connect(m_timer, SIGNAL(timeout()), this, SLOT(timerDone()));
+    connect(&m_timer, SIGNAL(timeout()), this, SLOT(timerDone()));
 
     m_closeButton = new QPushButton(i18nc("@action:button", "Close"), this);
     m_closeButton->hide();
@@ -83,7 +81,7 @@ void StatusBarMessageLabel::setMessage(const QString& text,
 
     m_illumination = -64;
     m_state = Default;
-    m_timer->stop();
+    m_timer.stop();
 
     const char* iconName = 0;
     QPixmap pixmap;
@@ -101,14 +99,14 @@ void StatusBarMessageLabel::setMessage(const QString& text,
 
     case ErrorMessage:
         iconName = "dialog-warning";
-        m_timer->start(100);
+        m_timer.start(100);
         m_state = Illuminate;
         m_closeButton->hide();
         break;
 
     case MltError:
         iconName = "dialog-close";
-        m_timer->start(100);
+        m_timer.start(100);
         m_state = Illuminate;
         updateCloseButtonPosition();
         m_closeButton->show();
@@ -192,7 +190,7 @@ void StatusBarMessageLabel::timerDone()
             update();
         } else {
             m_state = Illuminated;
-            m_timer->start(1500);
+            m_timer.start(1500);
         }
         break;
     }
@@ -201,7 +199,7 @@ void StatusBarMessageLabel::timerDone()
         // start desaturation
         if (m_type != MltError) {
             m_state = Desaturate;
-            m_timer->start(80);
+            m_timer.start(80);
         }
         break;
     }
@@ -211,7 +209,7 @@ void StatusBarMessageLabel::timerDone()
         if (m_illumination < -128) {
             m_illumination = 0;
             m_state = Default;
-            m_timer->stop();
+            m_timer.stop();
             setMessage(QString(), DefaultMessage);
         } else {
             m_illumination -= 5;

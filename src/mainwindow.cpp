@@ -328,7 +328,6 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
     m_timelineContextMenu->addAction(actionCollection()->action(KStandardAction::name(KStandardAction::Paste)));
 
     m_timelineContextClipMenu->addAction(actionCollection()->action("delete_timeline_clip"));
-    m_timelineContextClipMenu->addAction(actionCollection()->action("change_clip_speed"));
     m_timelineContextClipMenu->addAction(actionCollection()->action("group_clip"));
     m_timelineContextClipMenu->addAction(actionCollection()->action("ungroup_clip"));
     m_timelineContextClipMenu->addAction(actionCollection()->action("cut_timeline_clip"));
@@ -381,11 +380,20 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
 
 void MainWindow::queryQuit()
 {
-    kDebug() << "----- SAVING CONFUIG";
-    if (queryClose()) {
-        Mlt::Factory::close();
-        kapp->quit();
-    }
+    delete m_effectStack;
+    delete m_activeTimeline;
+    delete m_projectMonitor;
+    kDebug() << "// DEL MON 1 done";
+    delete m_clipMonitor;
+    kDebug() << "// DEL MON 2 done";
+    delete m_activeDocument;
+    Mlt::Factory::close();
+    qApp->quit();
+    /*
+       if (queryClose()) {
+           Mlt::Factory::close();
+           kapp->quit();
+       }*/
 }
 
 //virtual
@@ -946,10 +954,10 @@ void MainWindow::setupActions()
     collection->addAction("delete_timeline_clip", deleteTimelineClip);
     connect(deleteTimelineClip, SIGNAL(triggered(bool)), this, SLOT(slotDeleteTimelineClip()));
 
-    KAction* editTimelineClipSpeed = new KAction(i18n("Change Clip Speed"), this);
+    /*KAction* editTimelineClipSpeed = new KAction(i18n("Change Clip Speed"), this);
     collection->addAction("change_clip_speed", editTimelineClipSpeed);
     editTimelineClipSpeed->setData("change_speed");
-    connect(editTimelineClipSpeed, SIGNAL(triggered(bool)), this, SLOT(slotChangeClipSpeed()));
+    connect(editTimelineClipSpeed, SIGNAL(triggered(bool)), this, SLOT(slotChangeClipSpeed()));*/
 
     KAction *stickTransition = collection->addAction("auto_transition");
     stickTransition->setData(QString("auto"));
@@ -1950,13 +1958,6 @@ void MainWindow::slotDeleteTimelineClip()
     }
 }
 
-void MainWindow::slotChangeClipSpeed()
-{
-    if (m_activeTimeline) {
-        m_activeTimeline->projectView()->changeClipSpeed();
-    }
-}
-
 void MainWindow::slotAddClipMarker()
 {
     DocClipBase *clip = NULL;
@@ -2291,7 +2292,7 @@ void MainWindow::slotShowClipProperties(DocClipBase *clip)
             return;
         }
         QString path = clip->getProperty("resource");
-        TitleWidget *dia_ui = new TitleWidget(KUrl(), titlepath, m_projectMonitor->render, this);
+        TitleWidget *dia_ui = new TitleWidget(KUrl(), m_activeDocument->timecode(), titlepath, m_projectMonitor->render, this);
         QDomDocument doc;
         doc.setContent(clip->getProperty("xmldata"));
         dia_ui->setXml(doc);
@@ -2299,6 +2300,7 @@ void MainWindow::slotShowClipProperties(DocClipBase *clip)
             QRect rect = dia_ui->renderedRect();
             QMap <QString, QString> newprops;
             newprops.insert("xmldata", dia_ui->xml().toString());
+            newprops.insert("out", QString::number(dia_ui->duration()));
             newprops.insert("frame_size", QString::number(rect.width()) + 'x' + QString::number(rect.height()));
             EditClipCommand *command = new EditClipCommand(m_projectList, clip->getId(), clip->properties(), newprops, true);
             m_activeDocument->commandStack()->push(command);

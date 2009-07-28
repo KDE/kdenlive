@@ -502,9 +502,12 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked)
             QString idString = elem.attribute("producer");
             QString id = idString;
             double speed = 1.0;
+            int strobe = 1;
             if (idString.startsWith("slowmotion")) {
                 id = idString.section(':', 1, 1);
                 speed = idString.section(':', 2, 2).toDouble();
+                strobe = idString.section(':', 3, 3).toInt();
+                if (strobe == 0) strobe = 1;
             } else id = id.section('_', 0, 0);
             DocClipBase *clip = m_doc->clipManager()->getClipById(id);
             if (clip == NULL) {
@@ -545,13 +548,21 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked)
                 clipinfo.cropStart = GenTime(in, m_doc->fps());
                 clipinfo.track = ix;
                 //kDebug() << "// INSERTING CLIP: " << in << "x" << out << ", track: " << ix << ", ID: " << id << ", SCALE: " << m_scale << ", FPS: " << m_doc->fps();
-                ClipItem *item = new ClipItem(clip, clipinfo, m_doc->fps(), speed, false);
+                ClipItem *item = new ClipItem(clip, clipinfo, m_doc->fps(), speed, strobe, false);
                 if (idString.endsWith("_video")) item->setVideoOnly(true);
                 else if (idString.endsWith("_audio")) item->setAudioOnly(true);
                 m_scene->addItem(item);
                 if (locked) item->setItemLocked(true);
                 clip->addReference();
                 position += (out - in + 1);
+                kDebug() << "/////////\n\n\n" << "CLIP SPEED: " << speed << ", " << strobe << "\n\n\n/////////////////////";
+                if (speed != 1.0 || strobe > 1) {
+                    QDomElement speedeffect = MainWindow::videoEffects.getEffectByTag(QString(), "speed").cloneNode().toElement();
+                    EffectsList::setParameter(speedeffect, "speed", QString::number((int)(100 * speed + 0.5)));
+                    EffectsList::setParameter(speedeffect, "strobe", QString::number(strobe));
+                    item->addEffect(speedeffect, false);
+                    item->effectsCounter();
+                }
 
                 // parse clip effects
                 QDomNodeList effects = elem.childNodes();

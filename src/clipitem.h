@@ -41,7 +41,7 @@ class ClipItem : public AbstractClipItem
     Q_OBJECT
 
 public:
-    ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, bool generateThumbs = true);
+    ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, int strobe, bool generateThumbs = true);
     virtual ~ ClipItem();
     virtual void paint(QPainter *painter,
                        const QStyleOptionGraphicsItem *option,
@@ -95,8 +95,9 @@ public:
     QString keyframes(const int index);
     void setKeyframes(const int ix, const QString keyframes);
     void setEffectList(const EffectsList effectList);
-    void setSpeed(const double speed);
+    void setSpeed(const double speed, int strobe);
     double speed() const;
+    int strobe() const;
     GenTime maxDuration() const;
     GenTime cropStart() const;
     GenTime endPos() const;
@@ -133,8 +134,8 @@ private:
     QPixmap m_startPix;
     QPixmap m_endPix;
     bool m_hasThumbs;
-    QTimer *m_startThumbTimer;
-    QTimer *m_endThumbTimer;
+    QTimer m_startThumbTimer;
+    QTimer m_endThumbTimer;
 
     int m_selectedEffect;
     QTimeLine *m_timeLine;
@@ -142,6 +143,7 @@ private:
     bool m_endThumbRequested;
     //bool m_hover;
     double m_speed;
+    int m_strobe;
 
     EffectsList m_effectList;
     QList <Transition*> m_transitionsList;

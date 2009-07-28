@@ -96,7 +96,7 @@ public:
     void clipStart();
     void clipEnd();
     void changeClipSpeed();
-    void doChangeClipSpeed(ItemInfo info, const double speed, const double oldspeed, const QString &id);
+    void doChangeClipSpeed(ItemInfo info, const double speed, const double oldspeed, int strobe, const QString &id);
     void setDocumentModified();
     void setInPoint();
     void setOutPoint();
@@ -209,7 +209,6 @@ private:
     QMenu *m_timelineContextClipMenu;
     QMenu *m_timelineContextTransitionMenu;
     QAction *m_autoTransition;
-    QAction *m_changeSpeedAction;
     QAction *m_pasteEffectsAction;
     QAction *m_ungroupAction;
     QAction *m_editGuide;
