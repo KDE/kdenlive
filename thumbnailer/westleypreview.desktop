@@ -4,5 +4,5 @@ Name=Westley Playlists
 X-KDE-ServiceTypes=ThumbCreator
 CacheThumbnail=true
 IgnoreMaximumSize=true
-MimeType=video/mlt-playlist;application/x-kdenlive;
+MimeType=video/mlt-playlist;application/x-kdenlive;application/x-kdenlivetitle;
 X-KDE-Library=westleypreview
