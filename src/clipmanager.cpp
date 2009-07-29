@@ -267,7 +267,7 @@ void ClipManager::slotAddClipList(const KUrl::List urls, const QString group, co
                 if (txtfile.open(QIODevice::ReadOnly) && txtdoc.setContent(&txtfile)) {
                     txtfile.close();
                     prod.setAttribute("type", (int) TEXT);
-                    prod.setAttribute("resource", QString());
+                    prod.setAttribute("resource", file.path());
                     prod.setAttribute("xmldata", txtdoc.toString());
                     GenTime outPos(txtdoc.documentElement().attribute("out").toDouble() / 1000.0);
                     prod.setAttribute("transparency", 1);
