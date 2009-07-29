@@ -764,7 +764,7 @@ void DocClipBase::setProperty(const QString &key, const QString &value)
         char *tmp = (char *) qstrdup(value.toUtf8().data());
         setProducerProperty("xmldata", tmp);
         delete[] tmp;
-        //setProducerProperty("force_reload", 1);
+        setProducerProperty("force_reload", 1);
     } else if (key == "force_aspect_ratio") {
         if (value.isEmpty()) {
             m_properties.remove("force_aspect_ratio");
