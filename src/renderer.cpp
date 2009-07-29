@@ -1401,7 +1401,7 @@ void Render::mltCheckLength()
     while (trackNb > 1) {
         Mlt::Producer trackProducer(tractor.track(trackNb - 1));
         trackDuration = trackProducer.get_playtime() - 1;
-        kDebug() << " / / /DURATON FOR TRACK " << trackNb - 1 << " = " << trackDuration;
+        //kDebug() << " / / /DURATON FOR TRACK " << trackNb - 1 << " = " << trackDuration;
         if (trackDuration > duration) duration = trackDuration;
         trackNb--;
     }
