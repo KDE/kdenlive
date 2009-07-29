@@ -1401,8 +1401,7 @@ void Render::mltCheckLength()
     while (trackNb > 1) {
         Mlt::Producer trackProducer(tractor.track(trackNb - 1));
         trackDuration = trackProducer.get_playtime() - 1;
-
-        //kDebug() << " / / /DURATON FOR TRACK " << trackNb - 1 << " = " << trackDuration;
+        kDebug() << " / / /DURATON FOR TRACK " << trackNb - 1 << " = " << trackDuration;
         if (trackDuration > duration) duration = trackDuration;
         trackNb--;
     }
@@ -1414,7 +1413,7 @@ void Render::mltCheckLength()
         Mlt::Producer *blackclip = blackTrackPlaylist.get_clip(0);
         if (duration > m_blackClip->get_length()) {
             m_blackClip->set("length", duration);
-            m_blackClip->set("out", duration - 1);
+	    m_blackClip->set("out", duration - 1);
             if (blackclip) blackclip->set("length", duration);
         }
         if (blackclip == NULL || blackclip->is_blank() || blackTrackPlaylist.count() != 1) {
@@ -1873,7 +1872,6 @@ int Render::mltChangeClipSpeed(ItemInfo info, double speed, double oldspeed, int
             m_slowmotionProducers.insert(url, slowprod);
         }
         Mlt::Producer *clip = trackPlaylist.replace_with_blank(clipIndex);
-        delete clip;
         trackPlaylist.consolidate_blanks(0);
         // Check that the blank space is long enough for our new duration
         clipIndex = trackPlaylist.get_clip_index_at(startPos);
@@ -1886,9 +1884,9 @@ int Render::mltChangeClipSpeed(ItemInfo info, double speed, double oldspeed, int
 
         // move all effects to the correct producer
         mltPasteEffects(clip, cut);
-
         trackPlaylist.insert_at(startPos, cut, 1);
         delete cut;
+	delete clip;
         clipIndex = trackPlaylist.get_clip_index_at(startPos);
         newLength = trackPlaylist.clip_length(clipIndex);
         mlt_service_unlock(service.get_service());
@@ -1896,7 +1894,6 @@ int Render::mltChangeClipSpeed(ItemInfo info, double speed, double oldspeed, int
         mlt_service_lock(service.get_service());
 
         Mlt::Producer *clip = trackPlaylist.replace_with_blank(clipIndex);
-        delete clip;
         trackPlaylist.consolidate_blanks(0);
 
         // Check that the blank space is long enough for our new duration
@@ -1916,6 +1913,7 @@ int Render::mltChangeClipSpeed(ItemInfo info, double speed, double oldspeed, int
 
         trackPlaylist.insert_at(startPos, cut, 1);
         delete cut;
+	delete clip;
         clipIndex = trackPlaylist.get_clip_index_at(startPos);
         newLength = trackPlaylist.clip_length(clipIndex);
         mlt_service_unlock(service.get_service());
@@ -1940,7 +1938,6 @@ int Render::mltChangeClipSpeed(ItemInfo info, double speed, double oldspeed, int
             m_slowmotionProducers.insert(url, slowprod);
         }
         Mlt::Producer *clip = trackPlaylist.replace_with_blank(clipIndex);
-        delete clip;
         trackPlaylist.consolidate_blanks(0);
 
         GenTime oldDuration = GenTime(clipLength, m_fps);
@@ -1961,6 +1958,7 @@ int Render::mltChangeClipSpeed(ItemInfo info, double speed, double oldspeed, int
 
         trackPlaylist.insert_at(startPos, cut, 1);
         delete cut;
+	delete clip;
         clipIndex = trackPlaylist.get_clip_index_at(startPos);
         newLength = trackPlaylist.clip_length(clipIndex);
 
@@ -2326,6 +2324,7 @@ bool Render::mltResizeClipEnd(ItemInfo info, GenTime clipDuration)
     int diff = newDuration - (trackPlaylist.clip_length(clipIndex) - 1);
     if (newDuration > clip->get_length()) {
         clip->parent().set("length", newDuration + 1);
+	clip->parent().set("out", newDuration);
         clip->set("length", newDuration + 1);
     }
     if (newDuration > clip->get_out()) {
