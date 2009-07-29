@@ -1835,11 +1835,11 @@ void CustomTrackView::dropEvent(QDropEvent * event)
             bool isLocked = m_document->trackInfoAt(tracknumber).isLocked;
             if (isLocked) item->setItemLocked(true);
 
-            /*if (item->baseClip()->isTransparent() && getTransitionItemAtStart(info.startPos, info.track) == NULL) {
+            if (item->baseClip()->isTransparent() && getTransitionItemAtStart(info.startPos, info.track) == NULL) {
                 // add transparency transition
-            QDomElement trans = MainWindow::transitions.getEffectByTag("composite", "composite").cloneNode().toElement();
+		QDomElement trans = MainWindow::transitions.getEffectByTag("composite", "composite").cloneNode().toElement();
                 new AddTransitionCommand(this, info, getPreviousVideoTrack(info.track), trans, false, true, addCommand);
-            }*/
+            }
             info.track = m_document->tracksCount() - item->track();
             m_document->renderer()->mltInsertClip(info, item->xml(), item->baseClip()->producer(item->track()));
             item->setSelected(true);
