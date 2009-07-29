@@ -1414,6 +1414,7 @@ void Render::mltCheckLength()
         Mlt::Producer *blackclip = blackTrackPlaylist.get_clip(0);
         if (duration > m_blackClip->get_length()) {
             m_blackClip->set("length", duration);
+            m_blackClip->set("out", duration - 1);
             if (blackclip) blackclip->set("length", duration);
         }
         if (blackclip == NULL || blackclip->is_blank() || blackTrackPlaylist.count() != 1) {
