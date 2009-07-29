@@ -78,6 +78,7 @@ public:
     DocClipBase *activeClip();
     GenTime position();
     void checkOverlay();
+    void updateTimecodeFormat();
 
 protected:
     virtual void mousePressEvent(QMouseEvent * event);
@@ -112,6 +113,7 @@ private:
     QMenu *m_playMenu;
     QPoint m_DragStartPosition;
     GenTime getSnapForPos(bool previous);
+    bool m_frametimecode;
 
 private slots:
     void seekCursor(int pos);

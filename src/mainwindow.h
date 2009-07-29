@@ -302,6 +302,7 @@ private slots:
     void slotTranscodeClip();
     void slotSetDocumentRenderProfile(const QString &dest, const QString &name, const QString &file);
     void slotPrepareRendering(bool scriptExport, bool zoneOnly, const QString &chapterFile);
+    void slotUpdateTimecodeFormat(int ix);
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

@@ -380,20 +380,15 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
 
 void MainWindow::queryQuit()
 {
-    delete m_effectStack;
-    delete m_activeTimeline;
-    delete m_projectMonitor;
-    kDebug() << "// DEL MON 1 done";
-    delete m_clipMonitor;
-    kDebug() << "// DEL MON 2 done";
-    delete m_activeDocument;
-    Mlt::Factory::close();
-    qApp->quit();
-    /*
-       if (queryClose()) {
-           Mlt::Factory::close();
-           kapp->quit();
-       }*/
+    if (queryClose()) {
+        delete m_effectStack;
+        delete m_activeTimeline;
+        delete m_projectMonitor;
+        delete m_clipMonitor;
+        delete m_activeDocument;
+        Mlt::Factory::close();
+        kapp->quit();
+    }
 }
 
 //virtual
@@ -661,6 +656,8 @@ void MainWindow::setupActions()
     m_timecodeFormat = new KComboBox(this);
     m_timecodeFormat->addItem(i18n("hh:mm:ss::ff"));
     m_timecodeFormat->addItem(i18n("Frames"));
+    if (KdenliveSettings::frametimecode()) m_timecodeFormat->setCurrentIndex(1);
+    connect(m_timecodeFormat, SIGNAL(activated(int)), this, SLOT(slotUpdateTimecodeFormat(int)));
 
     m_statusProgressBar = new QProgressBar(this);
     m_statusProgressBar->setMinimum(0);
@@ -2799,5 +2796,15 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
 
     m_renderWidget->slotExport(scriptExport, m_activeTimeline->inPoint(), m_activeTimeline->outPoint(), playlistPath, scriptPath);
 }
+
+void MainWindow::slotUpdateTimecodeFormat(int ix)
+{
+    KdenliveSettings::setFrametimecode(ix == 1);
+    m_clipMonitor->updateTimecodeFormat();
+    m_projectMonitor->updateTimecodeFormat();
+}
+
+
+
 
 #include "mainwindow.moc"

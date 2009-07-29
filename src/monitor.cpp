@@ -106,7 +106,9 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent) :
     toolbar->addWidget(spacer);
     m_timePos = new KRestrictedLine(this);
     m_timePos->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::MinimumExpanding);
-    m_timePos->setInputMask("99:99:99:99");
+    m_frametimecode = KdenliveSettings::frametimecode();
+    if (m_frametimecode) m_timePos->setInputMask("999999999");
+    else m_timePos->setInputMask("99:99:99:99");
     toolbar->addWidget(m_timePos);
 
     connect(m_timePos, SIGNAL(editingFinished()), this, SLOT(slotSeek()));
@@ -450,13 +452,18 @@ void Monitor::activateMonitor()
 
 void Monitor::setTimePos(const QString &pos)
 {
-    m_timePos->setText(pos);
+    if (m_frametimecode) {
+        int frames = m_monitorManager->timecode().getFrameCount(pos, m_monitorManager->timecode().fps());
+        m_timePos->setText(QString::number(frames));
+    } else m_timePos->setText(pos);
     slotSeek();
 }
 
 void Monitor::slotSeek()
 {
-    const int frames = m_monitorManager->timecode().getFrameCount(m_timePos->text(), m_monitorManager->timecode().fps());
+    int frames;
+    if (m_frametimecode) frames = m_timePos->text().toInt();
+    else frames = m_monitorManager->timecode().getFrameCount(m_timePos->text(), m_monitorManager->timecode().fps());
     slotSeek(frames);
 }
 
@@ -560,7 +567,8 @@ void Monitor::seekCursor(int pos)
 {
     activateMonitor();
     checkOverlay();
-    m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(pos));
+    if (m_frametimecode) m_timePos->setText(QString::number(pos));
+    else m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(pos));
     m_ruler->slotNewValue(pos);
 }
 
@@ -575,7 +583,8 @@ void Monitor::rendererStopped(int pos)
     }
     m_ruler->slotNewValue(pos);
     checkOverlay();
-    m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(pos));
+    if (m_frametimecode) m_timePos->setText(QString::number(pos));
+    else m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(pos));
     m_playAction->setChecked(false);
     m_playAction->setIcon(m_playIcon);
 }
@@ -750,6 +759,20 @@ void Monitor::slotSwitchMonitorInfo(bool show)
     } else {
         delete m_overlay;
         m_overlay = NULL;
+    }
+}
+
+void Monitor::updateTimecodeFormat()
+{
+    m_frametimecode = KdenliveSettings::frametimecode();
+    if (m_frametimecode) {
+        int frames = m_monitorManager->timecode().getFrameCount(m_timePos->text(), m_monitorManager->timecode().fps());
+        m_timePos->setInputMask("999999999");
+        m_timePos->setText(QString::number(frames));
+    } else {
+        int pos = m_timePos->text().toInt();
+        m_timePos->setInputMask("99:99:99:99");
+        m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(pos));
     }
 }
 

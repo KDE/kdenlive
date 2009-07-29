@@ -407,6 +407,11 @@
       <default>false</default>
     </entry>
 
+    <entry name="frametimecode" type="Bool">
+      <label>Show timecodes as frame number instead of hh:mm:ss:ff.</label>
+      <default>false</default>
+    </entry>
+
     <entry name="snaptopoints" type="Bool">
       <label>Snap movements to clips, guides and markers.</label>
       <default>true</default>
