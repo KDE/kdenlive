@@ -856,7 +856,10 @@ void ProjectList::slotRefreshClipThumbnail(ProjectItem *item, bool update)
         int height = 50;
         int width = (int)(height  * m_render->dar());
         DocClipBase *clip = item->referencedClip();
-        if (!clip) slotProcessNextThumbnail();
+        if (!clip) {
+            slotProcessNextThumbnail();
+            return;
+        }
         QPixmap pix;
         if (clip->clipType() == AUDIO) pix = KIcon("audio-x-generic").pixmap(QSize(width, height));
         else if (clip->clipType() == TEXT || clip->clipType() == IMAGE) pix = KThumb::getFrame(item->referencedClip()->producer(), 0, width, height);
