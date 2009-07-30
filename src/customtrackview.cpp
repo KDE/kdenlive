@@ -74,6 +74,12 @@
 #include <QInputDialog>
 
 
+bool sortGuidesList(const Guide *g1 , const Guide *g2)
+{
+    return (*g1).position() < (*g2).position();
+}
+
+
 //TODO:
 // disable animation if user asked it in KDE's global settings
 // http://lists.kde.org/?l=kde-commits&m=120398724717624&w=2
@@ -2348,6 +2354,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
             EditGuideCommand *command = new EditGuideCommand(this, m_dragGuide->position(), m_dragGuide->label(), newPos, m_dragGuide->label(), false);
             m_commandStack->push(command);
             m_dragGuide->updateGuide(GenTime(m_dragGuide->pos().x(), m_document->fps()));
+            qSort(m_guides.begin(), m_guides.end(), sortGuidesList);
             m_document->syncGuides(m_guides);
         }
         m_dragGuide = NULL;
@@ -3693,11 +3700,6 @@ void CustomTrackView::addMarker(const QString &id, const GenTime &pos, const QSt
     else base->deleteSnapMarker(pos);
     setDocumentModified();
     viewport()->update();
-}
-
-bool sortGuidesList(const Guide *g1 , const Guide *g2)
-{
-    return (*g1).position() < (*g2).position();
 }
 
 int CustomTrackView::hasGuide(int pos, int offset)
