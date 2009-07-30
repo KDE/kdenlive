@@ -1411,13 +1411,15 @@ void Render::mltCheckLength()
     if (blackTrackProducer.get_playtime() - 1 != duration) {
         Mlt::Playlist blackTrackPlaylist((mlt_playlist) blackTrackProducer.get_service());
         Mlt::Producer *blackclip = blackTrackPlaylist.get_clip(0);
-        if (duration > m_blackClip->get_length()) {
-            m_blackClip->set("length", duration);
-	    m_blackClip->set("out", duration - 1);
-            if (blackclip) blackclip->set("length", duration);
+        if (blackclip && duration > blackclip->parent().get_length()) {
+            blackclip->parent().set("length", duration);
+            blackclip->parent().set("out", duration - 1);
+            blackclip->set("length", duration);
         }
         if (blackclip == NULL || blackclip->is_blank() || blackTrackPlaylist.count() != 1) {
             blackTrackPlaylist.clear();
+            m_blackClip->set("length", duration);
+            m_blackClip->set("out", duration - 1);
             blackTrackPlaylist.append(*m_blackClip, 0, duration - 1);
         } else blackTrackPlaylist.resize_clip(0, 0, duration - 1);
         delete blackclip;
@@ -1886,7 +1888,7 @@ int Render::mltChangeClipSpeed(ItemInfo info, double speed, double oldspeed, int
         mltPasteEffects(clip, cut);
         trackPlaylist.insert_at(startPos, cut, 1);
         delete cut;
-	delete clip;
+        delete clip;
         clipIndex = trackPlaylist.get_clip_index_at(startPos);
         newLength = trackPlaylist.clip_length(clipIndex);
         mlt_service_unlock(service.get_service());
@@ -1913,7 +1915,7 @@ int Render::mltChangeClipSpeed(ItemInfo info, double speed, double oldspeed, int
 
         trackPlaylist.insert_at(startPos, cut, 1);
         delete cut;
-	delete clip;
+        delete clip;
         clipIndex = trackPlaylist.get_clip_index_at(startPos);
         newLength = trackPlaylist.clip_length(clipIndex);
         mlt_service_unlock(service.get_service());
@@ -1958,7 +1960,7 @@ int Render::mltChangeClipSpeed(ItemInfo info, double speed, double oldspeed, int
 
         trackPlaylist.insert_at(startPos, cut, 1);
         delete cut;
-	delete clip;
+        delete clip;
         clipIndex = trackPlaylist.get_clip_index_at(startPos);
         newLength = trackPlaylist.clip_length(clipIndex);
 
@@ -2324,7 +2326,7 @@ bool Render::mltResizeClipEnd(ItemInfo info, GenTime clipDuration)
     int diff = newDuration - (trackPlaylist.clip_length(clipIndex) - 1);
     if (newDuration > clip->get_length()) {
         clip->parent().set("length", newDuration + 1);
-	clip->parent().set("out", newDuration);
+        clip->parent().set("out", newDuration);
         clip->set("length", newDuration + 1);
     }
     if (newDuration > clip->get_out()) {
