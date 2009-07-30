@@ -732,10 +732,36 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
                 kDebug() << "SELELCTING ELEMENTS WITHIN =" << event->pos().x() << "/" <<  1 << ", " << mapFromScene(sceneRect().width(), 0).x() - event->pos().x() << "/" << sceneRect().height();
             }
 
+            QList <GenTime> offsetList;
             for (int i = 0; i < selection.count(); i++) {
-                if (selection.at(i)->type() == AVWIDGET || selection.at(i)->type() == TRANSITIONWIDGET || selection.at(i)->type() == GROUPWIDGET) {
+                if (selection.at(i)->type() == AVWIDGET || selection.at(i)->type() == TRANSITIONWIDGET) {
+                    AbstractClipItem *item = static_cast<AbstractClipItem *>(selection.at(i));
+                    offsetList.append(item->startPos());
+                    offsetList.append(item->endPos());
                     selection.at(i)->setSelected(true);
                 }
+                if (selection.at(i)->type() == GROUPWIDGET) {
+                    QList<QGraphicsItem *> children = selection.at(i)->childItems();
+                    for (int j = 0; j < children.count(); j++) {
+                        AbstractClipItem *item = static_cast<AbstractClipItem *>(children.at(j));
+                        offsetList.append(item->startPos());
+                        offsetList.append(item->endPos());
+                    }
+                    selection.at(i)->setSelected(true);
+                }
+            }
+
+            if (!offsetList.isEmpty()) {
+                qSort(offsetList);
+                QList <GenTime> cleandOffsetList;
+                GenTime startOffset = offsetList.takeFirst();
+                for (int k = 0; k < offsetList.size(); k++) {
+                    GenTime newoffset = offsetList.at(k) - startOffset;
+                    if (newoffset != GenTime() && !cleandOffsetList.contains(newoffset)) {
+                        cleandOffsetList.append(newoffset);
+                    }
+                }
+                updateSnapPoints(NULL, cleandOffsetList, true);
             }
             groupSelectedItems(true);
             m_operationMode = SPACER;
