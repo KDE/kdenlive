@@ -2596,9 +2596,13 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
             mltPasteEffects(clipProducer, clip);
 
             int newIndex = destTrackPlaylist.insert_at(moveEnd, clip, 1);
-            delete clip;
-            clip = NULL;
-            if (clipProducer) delete clipProducer;
+            if (clip == clipProducer) {
+                delete clip;
+                clip = NULL;
+            } else {
+                delete clip;
+                delete clipProducer;
+            }
             destTrackPlaylist.consolidate_blanks(0);
             /*if (QString(clipProducer.parent().get("transparency")).toInt() == 1) {
                 kDebug() << "//////// moving clip transparency";
