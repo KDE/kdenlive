@@ -185,7 +185,7 @@ QPixmap KThumb::getImage(KUrl url, int width, int height)
 void KThumb::extractImage(int frame, int frame2)
 {
     // kDebug() << "//extract thumb: " << frame << ", " << frame2;
-    if (m_url.isEmpty() || !KdenliveSettings::videothumbnails() || m_producer == NULL) return;
+    if (!KdenliveSettings::videothumbnails() || m_producer == NULL) return;
 
     const int twidth = (int)(KdenliveSettings::trackheight() * m_dar);
     const int theight = KdenliveSettings::trackheight();

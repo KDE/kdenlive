@@ -2301,6 +2301,7 @@ void MainWindow::slotShowClipProperties(DocClipBase *clip)
             newprops.insert("frame_size", QString::number(rect.width()) + 'x' + QString::number(rect.height()));
             EditClipCommand *command = new EditClipCommand(m_projectList, clip->getId(), clip->properties(), newprops, true);
             m_activeDocument->commandStack()->push(command);
+            m_activeTimeline->projectView()->slotUpdateClip(clip->getId());
             m_activeDocument->setModified(true);
         }
         delete dia_ui;
@@ -2311,13 +2312,13 @@ void MainWindow::slotShowClipProperties(DocClipBase *clip)
     ClipProperties dia(clip, m_activeDocument->timecode(), m_activeDocument->fps(), this);
     connect(&dia, SIGNAL(addMarker(const QString &, GenTime, QString)), m_activeTimeline->projectView(), SLOT(slotAddClipMarker(const QString &, GenTime, QString)));
     if (dia.exec() == QDialog::Accepted) {
-        EditClipCommand *command = new EditClipCommand(m_projectList, dia.clipId(), clip->properties(), dia.properties(), true);
+        EditClipCommand *command = new EditClipCommand(m_projectList, clip->getId(), clip->properties(), dia.properties(), true);
         m_activeDocument->commandStack()->push(command);
 
         //m_projectList->slotUpdateClipProperties(dia.clipId(), dia.properties());
         if (dia.needsTimelineRefresh()) {
             // update clip occurences in timeline
-            m_activeTimeline->projectView()->slotUpdateClip(dia.clipId());
+            m_activeTimeline->projectView()->slotUpdateClip(clip->getId());
         }
     }
 }

@@ -104,6 +104,10 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, i
         setBrush(QColor(colour.left(7)));
     } else if (m_clipType == IMAGE || m_clipType == TEXT) {
         setBrush(QColor(141, 166, 215));
+        if (m_clipType == TEXT) {
+            connect(this, SIGNAL(getThumb(int, int)), clip->thumbProducer(), SLOT(extractImage(int, int)));
+            connect(clip->thumbProducer(), SIGNAL(thumbReady(int, QPixmap)), this, SLOT(slotThumbReady(int, QPixmap)));
+        }
         //m_startPix = KThumb::getImage(KUrl(clip->getProperty("resource")), (int)(KdenliveSettings::trackheight() * KdenliveSettings::project_display_ratio()), KdenliveSettings::trackheight());
     } else if (m_clipType == AUDIO) {
         setBrush(QColor(141, 215, 166));
@@ -452,11 +456,16 @@ void ClipItem::refreshClip(bool checkDuration)
 
 void ClipItem::slotFetchThumbs()
 {
-    if (m_clipType == IMAGE || m_clipType == TEXT) {
+    if (m_clipType == IMAGE) {
         if (m_startPix.isNull()) {
             m_startPix = KThumb::getImage(KUrl(m_clip->getProperty("resource")), (int)(KdenliveSettings::trackheight() * KdenliveSettings::project_display_ratio()), KdenliveSettings::trackheight());
             update();
         }
+        return;
+    }
+
+    if (m_clipType == TEXT) {
+        if (m_startPix.isNull()) slotGetStartThumb();
         return;
     }
 
@@ -668,26 +677,24 @@ void ClipItem::paint(QPainter *painter,
     if (KdenliveSettings::videothumbnails() && !isAudioOnly()) {
         QPen pen = painter->pen();
         pen.setColor(QColor(255, 255, 255, 150));
+        const QRectF source(0.0, 0.0, (double) m_startPix.width(), (double) m_startPix.height());
         painter->setPen(pen);
         if ((m_clipType == IMAGE || m_clipType == TEXT) && !m_startPix.isNull()) {
             double left = itemWidth - m_startPix.width() * vscale / scale;
-            QRectF pixrect(left, 0.0, m_startPix.width() * vscale / scale, m_startPix.height());
-            QRectF source(0.0, 0.0, (double) m_startPix.width(), (double) m_startPix.height());
+            const QRectF pixrect(left, 0.0, m_startPix.width() * vscale / scale, m_startPix.height());
             painter->drawPixmap(pixrect, m_startPix, source);
             QLineF l2(left, 0, left, m_startPix.height());
             painter->drawLine(l2);
         } else if (!m_endPix.isNull()) {
             double left = itemWidth - m_endPix.width() * vscale / scale;
-            QRectF pixrect(left, 0.0, m_endPix.width() * vscale / scale, m_endPix.height());
-            QRectF source(0.0, 0.0, (double) m_endPix.width(), (double) m_endPix.height());
+            const QRectF pixrect(left, 0.0, m_endPix.width() * vscale / scale, m_endPix.height());
             painter->drawPixmap(pixrect, m_endPix, source);
             QLineF l2(left, 0, left, m_startPix.height());
             painter->drawLine(l2);
         }
         if (!m_startPix.isNull()) {
             double right = m_startPix.width() * vscale / scale;
-            QRectF pixrect(0.0, 0.0, right, m_startPix.height());
-            QRectF source(0.0, 0.0, (double) m_startPix.width(), (double) m_startPix.height());
+            const QRectF pixrect(0.0, 0.0, right, m_startPix.height());
             painter->drawPixmap(pixrect, m_startPix, source);
             QLineF l2(right, 0, right, m_startPix.height());
             painter->drawLine(l2);
@@ -739,8 +746,7 @@ void ClipItem::paint(QPainter *painter,
     QList < CommentedTime >::Iterator it = markers.begin();
     GenTime pos;
     double framepos;
-    QBrush markerBrush;
-    markerBrush = QBrush(QColor(120, 120, 0, 140));
+    QBrush markerBrush(QColor(120, 120, 0, 140));
     QPen pen = painter->pen();
     pen.setColor(QColor(255, 255, 255, 200));
     pen.setStyle(Qt::DotLine);
