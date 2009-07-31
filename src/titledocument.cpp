@@ -172,6 +172,8 @@ bool TitleDocument::saveDocument(const KUrl& url, QGraphicsPolygonItem* startv, 
 
     QDomDocument doc = xml(startv, endv);
     doc.documentElement().setAttribute("out", out);
+    doc.documentElement().setAttribute("width", m_scene->width());
+    doc.documentElement().setAttribute("height", m_scene->height());
     KTemporaryFile tmpfile;
     if (!tmpfile.open()) {
         kWarning() << "/////  CANNOT CREATE TMP FILE in: " << tmpfile.fileName();
@@ -211,7 +213,7 @@ int TitleDocument::loadDocument(const KUrl& url, QGraphicsPolygonItem* startv, Q
 int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsPolygonItem* startv, QGraphicsPolygonItem* endv, double *out)
 {
     QDomNodeList titles = doc.elementsByTagName("kdenlivetitle");
-
+    //TODO: Check if the opened title size is equal to project size, otherwise warn user and rescale
     //TODO: get default title duration instead of hardcoded one
     if (doc.documentElement().hasAttribute("out"))
         *out = doc.documentElement().attribute("out").toDouble();
