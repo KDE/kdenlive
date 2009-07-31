@@ -50,6 +50,8 @@ QDomDocument TitleDocument::xml(QGraphicsPolygonItem* startv, QGraphicsPolygonIt
     QDomDocument doc;
 
     QDomElement main = doc.createElement("kdenlivetitle");
+    main.setAttribute("width", m_scene->width());
+    main.setAttribute("height", m_scene->height());
     doc.appendChild(main);
 
     foreach(QGraphicsItem* item, m_scene->items()) {
@@ -172,8 +174,6 @@ bool TitleDocument::saveDocument(const KUrl& url, QGraphicsPolygonItem* startv, 
 
     QDomDocument doc = xml(startv, endv);
     doc.documentElement().setAttribute("out", out);
-    doc.documentElement().setAttribute("width", m_scene->width());
-    doc.documentElement().setAttribute("height", m_scene->height());
     KTemporaryFile tmpfile;
     if (!tmpfile.open()) {
         kWarning() << "/////  CANNOT CREATE TMP FILE in: " << tmpfile.fileName();
