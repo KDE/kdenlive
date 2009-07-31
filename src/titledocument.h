@@ -29,7 +29,7 @@ class TitleDocument
 
 public:
     TitleDocument();
-    void setScene(QGraphicsScene* scene);
+    void setScene(QGraphicsScene* scene, int width, int height);
     bool saveDocument(const KUrl& url, QGraphicsPolygonItem* startv, QGraphicsPolygonItem* endv, double out);
     int loadDocument(const KUrl& url, QGraphicsPolygonItem* startv, QGraphicsPolygonItem* endv, double *out);
     QDomDocument xml(QGraphicsPolygonItem* startv, QGraphicsPolygonItem* endv);
@@ -43,6 +43,8 @@ public:
 
 private:
     QGraphicsScene* m_scene;
+    int m_width;
+    int m_height;
     QString colorToString(const QColor&);
     QString rectFToString(const QRectF&);
     QRectF stringToRect(const QString &);

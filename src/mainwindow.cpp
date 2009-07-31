@@ -1621,7 +1621,7 @@ void MainWindow::slotEditProjectSettings()
             // Deselect current effect / transition
             m_effectStack->slotClipItemSelected(NULL, 0);
             m_transitionConfig->slotTransitionItemSelected(NULL, 0, QPoint(), false);
-
+            m_clipMonitor->slotSetXml(NULL, 0);
             m_activeDocument->setProfilePath(profile);
             KdenliveSettings::setCurrent_profile(profile);
             KdenliveSettings::setProject_fps(m_activeDocument->fps());

@@ -40,9 +40,11 @@ TitleDocument::TitleDocument()
     m_scene = NULL;
 }
 
-void TitleDocument::setScene(QGraphicsScene* _scene)
+void TitleDocument::setScene(QGraphicsScene* _scene, int width, int height)
 {
     m_scene = _scene;
+    m_width = width;
+    m_height = height;
 }
 
 QDomDocument TitleDocument::xml(QGraphicsPolygonItem* startv, QGraphicsPolygonItem* endv)
@@ -50,8 +52,8 @@ QDomDocument TitleDocument::xml(QGraphicsPolygonItem* startv, QGraphicsPolygonIt
     QDomDocument doc;
 
     QDomElement main = doc.createElement("kdenlivetitle");
-    main.setAttribute("width", m_scene->width());
-    main.setAttribute("height", m_scene->height());
+    main.setAttribute("width", m_width);
+    main.setAttribute("height", m_height);
     doc.appendChild(main);
 
     foreach(QGraphicsItem* item, m_scene->items()) {
