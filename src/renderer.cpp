@@ -100,21 +100,22 @@ Render::~Render()
 void Render::closeMlt()
 {
     //delete m_osdTimer;
+    if (m_mltProducer) {
+        Mlt::Service service(m_mltProducer->get_service());
+        if (service.type() == tractor_type) {
+            Mlt::Tractor tractor(service);
+            int trackNb = tractor.count();
 
-    Mlt::Service service(m_mltProducer->get_service());
-    if (service.type() == tractor_type) {
-        Mlt::Tractor tractor(service);
-        int trackNb = tractor.count();
-
-        while (trackNb > 1) {
-            Mlt::Producer trackProducer(tractor.track(trackNb - 1));
-            Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
-            trackPlaylist.clear();
-            trackNb--;
+            while (trackNb > 1) {
+                Mlt::Producer trackProducer(tractor.track(trackNb - 1));
+                Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
+                trackPlaylist.clear();
+                trackNb--;
+            }
         }
     }
 
-    kDebug() << "// // // CLOSE RENDERER";
+    kDebug() << "// // // CLOSE RENDERER " << m_name;
     delete m_mltConsumer;
     delete m_mltProducer;
     delete m_blackClip;
@@ -212,13 +213,29 @@ int Render::resetProfile()
     int pos = 0;
     if (m_mltProducer) {
         pos = m_mltProducer->position();
+
+
+        Mlt::Service service(m_mltProducer->get_service());
+        if (service.type() == tractor_type) {
+            Mlt::Tractor tractor(service);
+            int trackNb = tractor.count();
+            while (trackNb > 1) {
+                Mlt::Producer trackProducer(tractor.track(trackNb - 1));
+                Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
+                trackPlaylist.clear();
+                trackNb--;
+            }
+        }
+
+
         delete m_mltProducer;
     }
     m_mltProducer = NULL;
+    delete m_blackClip;
+    m_blackClip = NULL;
 
-    //WARNING: Trying to delete the profile will crash when trying to display a clip afterwards...
-    /*if (m_mltProfile) delete m_mltProfile;
-    m_mltProfile = NULL;*/
+    if (m_mltProfile) delete m_mltProfile;
+    m_mltProfile = NULL;
 
     buildConsumer();
 
@@ -864,6 +881,19 @@ int Render::setSceneList(QString playlist, int position)
         m_mltProducer->set_speed(0);
         //if (KdenliveSettings::osdtimecode() && m_osdInfo) m_mltProducer->detach(*m_osdInfo);
 
+
+        Mlt::Service service(m_mltProducer->get_service());
+        if (service.type() == tractor_type) {
+            Mlt::Tractor tractor(service);
+            int trackNb = tractor.count();
+            while (trackNb > 1) {
+                Mlt::Producer trackProducer(tractor.track(trackNb - 1));
+                Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
+                trackPlaylist.clear();
+                trackNb--;
+            }
+        }
+
         delete m_mltProducer;
         m_mltProducer = NULL;
         emit stopped();
@@ -1092,23 +1122,6 @@ void Render::start()
         }
     }
     m_isBlocked = false;
-}
-
-void Render::clear()
-{
-    kDebug() << " *********  RENDER CLEAR";
-    if (m_mltConsumer) {
-        //m_mltConsumer->set("refresh", 0);
-        if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
-    }
-
-    if (m_mltProducer) {
-        //if (KdenliveSettings::osdtimecode() && m_osdInfo) m_mltProducer->detach(*m_osdInfo);
-        m_mltProducer->set_speed(0.0);
-        delete m_mltProducer;
-        m_mltProducer = NULL;
-        emit stopped();
-    }
 }
 
 void Render::stop()
@@ -3208,9 +3221,8 @@ void Render::updatePreviewSettings()
     int pos = 0;
     if (m_mltProducer) {
         pos = m_mltProducer->position();
-        delete m_mltProducer;
     }
-    m_mltProducer = NULL;
+
     setSceneList(scene, pos);
 }
 

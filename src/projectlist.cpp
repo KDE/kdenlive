@@ -772,6 +772,7 @@ void ProjectList::setDocument(KdenliveDoc *doc)
     m_doc = doc;
 
     connect(m_doc->clipManager(), SIGNAL(reloadClip(const QString &)), this, SLOT(slotReloadClip(const QString &)));
+    connect(m_doc->clipManager(), SIGNAL(checkAllClips()), this, SLOT(updateAllClips()));
 
     QMap <QString, QString> flist = doc->clipManager()->documentFolderList();
     QMapIterator<QString, QString> f(flist);
@@ -853,14 +854,14 @@ void ProjectList::slotRefreshClipThumbnail(const QString &clipId, bool update)
 void ProjectList::slotRefreshClipThumbnail(ProjectItem *item, bool update)
 {
     if (item) {
-        int height = 50;
-        int width = (int)(height  * m_render->dar());
         DocClipBase *clip = item->referencedClip();
         if (!clip) {
             slotProcessNextThumbnail();
             return;
         }
         QPixmap pix;
+        int height = 50;
+        int width = (int)(height  * m_render->dar());
         if (clip->clipType() == AUDIO) pix = KIcon("audio-x-generic").pixmap(QSize(width, height));
         else if (clip->clipType() == TEXT || clip->clipType() == IMAGE) pix = KThumb::getFrame(item->referencedClip()->producer(), 0, width, height);
         else pix = item->referencedClip()->thumbProducer()->extractImage(item->referencedClip()->getClipThumbFrame(), width, height);

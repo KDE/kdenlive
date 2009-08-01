@@ -216,6 +216,14 @@ int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsPolygonItem* startv, Q
 {
     QDomNodeList titles = doc.elementsByTagName("kdenlivetitle");
     //TODO: Check if the opened title size is equal to project size, otherwise warn user and rescale
+    if (doc.documentElement().hasAttribute("width") && doc.documentElement().hasAttribute("height")) {
+        int doc_width = doc.documentElement().attribute("width").toInt();
+        int doc_height = doc.documentElement().attribute("height").toInt();
+        if (doc_width != m_width || doc_height != m_height) {
+            KMessageBox::information(kapp->activeWindow(), i18n("This title clip was created with a different frame size. It will now be converted to the current project's size."), i18n("Resizing Title Clip"));
+            //TODO: convert using QTransform
+        }
+    }
     //TODO: get default title duration instead of hardcoded one
     if (doc.documentElement().hasAttribute("out"))
         *out = doc.documentElement().attribute("out").toDouble();

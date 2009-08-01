@@ -123,7 +123,6 @@ public:
     QDomElement producersList();
     void setRenderer(Render *projectRender);
     void slotUpdateClipProperties(const QString &id, QMap <QString, QString> properties);
-    void updateAllClips();
     QByteArray headerInfo() const;
     void setHeaderInfo(const QByteArray &state);
     void setupMenu(QMenu *addMenu, QAction *defaultAction);
@@ -134,6 +133,7 @@ public:
 
 public slots:
     void setDocument(KdenliveDoc *doc);
+    void updateAllClips();
     void slotReplyGetImage(const QString &clipId, const QPixmap &pix);
     void slotReplyGetFileProperties(const QString &clipId, Mlt::Producer *producer, const QMap < QString, QString > &properties, const QMap < QString, QString > &metadata, bool replace);
     void slotAddClip(DocClipBase *clip, bool getProperties);

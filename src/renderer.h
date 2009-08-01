@@ -280,7 +280,6 @@ public slots:  // Public slots
     void start();
     /** Stop Consumer */
     void stop();
-    void clear();
     int getLength();
     /** If the file is readable by mlt, return true, otherwise false */
     bool isValid(KUrl url);

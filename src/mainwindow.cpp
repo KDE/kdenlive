@@ -1626,16 +1626,20 @@ void MainWindow::slotEditProjectSettings()
             KdenliveSettings::setCurrent_profile(profile);
             KdenliveSettings::setProject_fps(m_activeDocument->fps());
             setCaption(m_activeDocument->description(), m_activeDocument->isModified());
+
+            m_activeDocument->clipManager()->clearUnusedProducers();
             m_monitorManager->resetProfiles(m_activeDocument->timecode());
+
             m_transitionConfig->updateProjectFormat(m_activeDocument->mltProfile(), m_activeDocument->timecode(), m_activeTimeline->tracksNumber());
             m_effectStack->updateProjectFormat(m_activeDocument->mltProfile(), m_activeDocument->timecode());
             if (m_renderWidget) m_renderWidget->setProfile(m_activeDocument->mltProfile());
             m_timelineArea->setTabText(m_timelineArea->currentIndex(), m_activeDocument->description());
-            m_activeDocument->clipManager()->resetProducersList(m_projectMonitor->render->producersList());
+            //m_activeDocument->clipManager()->resetProducersList(m_projectMonitor->render->producersList());
             if (dar != m_activeDocument->dar()) m_projectList->reloadClipThumbnails();
             m_activeTimeline->updateProjectFps();
+
             // We need to desactivate & reactivate monitors to get a refresh
-            m_monitorManager->switchMonitors();
+            //m_monitorManager->switchMonitors();
         }
     }
     delete w;

@@ -159,7 +159,8 @@ void MonitorManager::resetProfiles(Timecode tc)
 {
     if (m_blocked) return;
     m_timecode = tc;
-    QTimer::singleShot(300, this, SLOT(slotResetProfiles()));
+    slotResetProfiles();
+    //QTimer::singleShot(300, this, SLOT(slotResetProfiles()));
 }
 
 void MonitorManager::slotResetProfiles()

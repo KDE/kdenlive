@@ -219,6 +219,13 @@ void ClipManager::updatePreviewSettings()
     }
 }
 
+void ClipManager::clearUnusedProducers()
+{
+    for (int i = 0; i < m_clipList.count(); i++) {
+        if (m_clipList.at(i)->numReferences() == 0) m_clipList.at(i)->deleteProducers();
+    }
+}
+
 void ClipManager::resetProducersList(QList <Mlt::Producer *> prods)
 {
     for (int i = 0; i < m_clipList.count(); i++) {
@@ -236,6 +243,7 @@ void ClipManager::resetProducersList(QList <Mlt::Producer *> prods)
             kDebug() << "// // // REPLACE CLIP: " << id;
         }
     }
+    emit checkAllClips();
 }
 
 void ClipManager::slotAddClipList(const KUrl::List urls, const QString group, const QString &groupId)

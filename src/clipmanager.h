@@ -75,6 +75,7 @@ Q_OBJECT public:
     void endAudioThumbsGeneration(const QString &requestedId);
     void askForAudioThumb(const QString &id);
     QString projectFolder() const;
+    void clearUnusedProducers();
     void resetProducersList(QList <Mlt::Producer *> prods);
     void addFolder(const QString&, const QString&);
     void deleteFolder(const QString&);
@@ -106,6 +107,7 @@ private:   // Private attributes
 
 signals:
     void reloadClip(const QString &);
+    void checkAllClips();
 };
 
 #endif
