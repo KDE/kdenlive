@@ -106,7 +106,7 @@ void Render::closeMlt()
             Mlt::Tractor tractor(service);
             int trackNb = tractor.count();
 
-            while (trackNb > 1) {
+            while (trackNb > 0) {
                 Mlt::Producer trackProducer(tractor.track(trackNb - 1));
                 Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
                 trackPlaylist.clear();
@@ -211,15 +211,18 @@ int Render::resetProfile()
     m_mltConsumer = NULL;
     QString scene = sceneList();
     int pos = 0;
+
+    delete m_blackClip;
+    m_blackClip = NULL;
+
     if (m_mltProducer) {
         pos = m_mltProducer->position();
-
 
         Mlt::Service service(m_mltProducer->get_service());
         if (service.type() == tractor_type) {
             Mlt::Tractor tractor(service);
             int trackNb = tractor.count();
-            while (trackNb > 1) {
+            while (trackNb > 0) {
                 Mlt::Producer trackProducer(tractor.track(trackNb - 1));
                 Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
                 trackPlaylist.clear();
@@ -227,12 +230,9 @@ int Render::resetProfile()
             }
         }
 
-
         delete m_mltProducer;
     }
     m_mltProducer = NULL;
-    delete m_blackClip;
-    m_blackClip = NULL;
 
     if (m_mltProfile) delete m_mltProfile;
     m_mltProfile = NULL;
@@ -886,7 +886,7 @@ int Render::setSceneList(QString playlist, int position)
         if (service.type() == tractor_type) {
             Mlt::Tractor tractor(service);
             int trackNb = tractor.count();
-            while (trackNb > 1) {
+            while (trackNb > 0) {
                 Mlt::Producer trackProducer(tractor.track(trackNb - 1));
                 Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
                 trackPlaylist.clear();
@@ -1394,70 +1394,80 @@ void Render::exportCurrentFrame(KUrl url, bool /*notify*/)
 /** MLT PLAYLIST DIRECT MANIPULATON  **/
 
 
-void Render::mltCheckLength()
+void Render::mltCheckLength(Mlt::Tractor *tractor)
 {
     //kDebug()<<"checking track length: "<<track<<"..........";
 
-    Mlt::Service service(m_mltProducer->get_service());
-    Mlt::Tractor tractor(service);
-
-    int trackNb = tractor.count();
+    int trackNb = tractor->count();
     int duration = 0;
     int trackDuration;
     if (trackNb == 1) {
-        Mlt::Producer trackProducer(tractor.track(0));
+        Mlt::Producer trackProducer(tractor->track(0));
         duration = trackProducer.get_playtime() - 1;
         m_mltProducer->set("out", duration);
         emit durationChanged(duration);
         return;
     }
     while (trackNb > 1) {
-        Mlt::Producer trackProducer(tractor.track(trackNb - 1));
+        Mlt::Producer trackProducer(tractor->track(trackNb - 1));
         trackDuration = trackProducer.get_playtime() - 1;
         //kDebug() << " / / /DURATON FOR TRACK " << trackNb - 1 << " = " << trackDuration;
         if (trackDuration > duration) duration = trackDuration;
         trackNb--;
     }
 
-    Mlt::Producer blackTrackProducer(tractor.track(0));
+    Mlt::Producer blackTrackProducer(tractor->track(0));
 
     if (blackTrackProducer.get_playtime() - 1 != duration) {
         Mlt::Playlist blackTrackPlaylist((mlt_playlist) blackTrackProducer.get_service());
         Mlt::Producer *blackclip = blackTrackPlaylist.get_clip(0);
-        if (blackclip && duration > blackclip->parent().get_length()) {
-            blackclip->parent().set("length", duration);
-            blackclip->parent().set("out", duration - 1);
-            blackclip->set("length", duration);
+        if (blackclip && blackclip->is_blank()) {
+            delete blackclip;
+            blackclip = NULL;
         }
-        if (blackclip == NULL || blackclip->is_blank() || blackTrackPlaylist.count() != 1) {
+
+        if (blackclip == NULL || blackTrackPlaylist.count() != 1) {
             blackTrackPlaylist.clear();
             m_blackClip->set("length", duration);
             m_blackClip->set("out", duration - 1);
-            blackTrackPlaylist.append(*m_blackClip, 0, duration - 1);
-        } else blackTrackPlaylist.resize_clip(0, 0, duration - 1);
+            blackclip = m_blackClip->cut(0, duration - 1);
+            blackTrackPlaylist.insert_at(0, blackclip, 1);
+        } else {
+            if (duration > blackclip->parent().get_length()) {
+                blackclip->parent().set("length", duration);
+                blackclip->parent().set("out", duration - 1);
+                blackclip->set("length", duration);
+            }
+            blackTrackPlaylist.resize_clip(0, 0, duration - 1);
+        }
+
         delete blackclip;
         m_mltProducer->set("out", duration);
         emit durationChanged(duration);
     }
 }
 
-void Render::mltInsertClip(ItemInfo info, QDomElement element, Mlt::Producer *prod)
+int Render::mltInsertClip(ItemInfo info, QDomElement element, Mlt::Producer *prod)
 {
     if (m_mltProducer == NULL) {
         kDebug() << "PLAYLIST NOT INITIALISED //////";
-        return;
+        return -1;
     }
     Mlt::Producer parentProd(m_mltProducer->parent());
     if (parentProd.get_producer() == NULL) {
         kDebug() << "PLAYLIST BROKEN, CANNOT INSERT CLIP //////";
-        return;
+        return -1;
     }
 
     Mlt::Service service(parentProd.get_service());
+    if (service.type() != tractor_type) {
+        kWarning() << "// TRACTOR PROBLEM";
+        return -1;
+    }
     Mlt::Tractor tractor(service);
     if (info.track > tractor.count() - 1) {
         kDebug() << "ERROR TRYING TO INSERT CLIP ON TRACK " << info.track << ", at POS: " << info.startPos.frames(25);
-        return;
+        return -1;
     }
     mlt_service_lock(service.get_service());
     Mlt::Producer trackProducer(tractor.track(info.track));
@@ -1495,11 +1505,11 @@ void Render::mltInsertClip(ItemInfo info, QDomElement element, Mlt::Producer *pr
     /*if (QString(prod->get("transparency")).toInt() == 1)
         mltAddClipTransparency(info, info.track - 1, QString(prod->get("id")).toInt());*/
 
+    if (info.track != 0 && (newIndex + 1 == trackPlaylist.count())) mltCheckLength(&tractor);
     mlt_service_unlock(service.get_service());
-
-    if (info.track != 0 && (newIndex + 1 == trackPlaylist.count())) mltCheckLength();
-    //tractor.multitrack()->refresh();
-    //tractor.refresh();
+    /*tractor.multitrack()->refresh();
+    tractor.refresh();*/
+    return 0;
 }
 
 
@@ -1634,7 +1644,7 @@ bool Render::mltRemoveClip(int track, GenTime position)
     kDebug()<<"CLIP "<<i<<": ("<<blankStart<<'x'<<blankStart + blankDuration<<")"<<blk;
     }*/
     mlt_service_unlock(service.get_service());
-    if (track != 0 && trackPlaylist.count() <= clipIndex) mltCheckLength();
+    if (track != 0 && trackPlaylist.count() <= clipIndex) mltCheckLength(&tractor);
     m_isBlocked = false;
     return true;
 }
@@ -1813,7 +1823,7 @@ void Render::mltInsertSpace(QMap <int, int> trackClipStartList, QMap <int, int> 
         }
     }
     mlt_service_unlock(service.get_service());
-    mltCheckLength();
+    mltCheckLength(&tractor);
     m_mltConsumer->set("refresh", 1);
 }
 
@@ -1981,7 +1991,7 @@ int Render::mltChangeClipSpeed(ItemInfo info, double speed, double oldspeed, int
     }
 
     delete clip;
-    if (clipIndex + 1 == trackPlaylist.count()) mltCheckLength();
+    if (clipIndex + 1 == trackPlaylist.count()) mltCheckLength(&tractor);
     m_isBlocked = false;
     return newLength;
 }
@@ -2371,7 +2381,7 @@ bool Render::mltResizeClipEnd(ItemInfo info, GenTime clipDuration)
     trackPlaylist.consolidate_blanks(0);
     mlt_service_unlock(service.get_service());
 
-    if (info.track != 0 && clipIndex == trackPlaylist.count()) mltCheckLength();
+    if (info.track != 0 && clipIndex == trackPlaylist.count()) mltCheckLength(&tractor);
     /*if (QString(clip->parent().get("transparency")).toInt() == 1) {
         //mltResizeTransparency(previousStart, previousStart, previousStart + newDuration, track, QString(clip->parent().get("id")).toInt());
         mltDeleteTransparency(info.startPos.frames(m_fps), info.track, QString(clip->parent().get("id")).toInt());
@@ -2626,7 +2636,7 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
         }
     }
     mlt_service_unlock(service.get_service());
-    if (checkLength) mltCheckLength();
+    if (checkLength) mltCheckLength(&tractor);
     m_isBlocked--;
     //askForRefresh();
     //m_mltConsumer->set("refresh", 1);
@@ -3202,7 +3212,17 @@ void Render::mltDeleteTrack(int ix)
     tractor.removeChild(track);
     //kDebug() << "/////////// RESULT SCENE: \n" << doc.toString();
     setSceneList(doc.toString(), m_framePosition);
-    mltCheckLength();
+
+    if (m_mltProducer != NULL) {
+        Mlt::Producer parentProd(m_mltProducer->parent());
+        if (parentProd.get_producer() != NULL) {
+            Mlt::Service service(parentProd.get_service());
+            if (service.type() == tractor_type) {
+                Mlt::Tractor tractor(service);
+                mltCheckLength(&tractor);
+            }
+        }
+    }
 }
 
 

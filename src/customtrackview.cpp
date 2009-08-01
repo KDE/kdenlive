@@ -1866,14 +1866,17 @@ void CustomTrackView::dropEvent(QDropEvent * event)
             int tracknumber = m_document->tracksCount() - info.track - 1;
             bool isLocked = m_document->trackInfoAt(tracknumber).isLocked;
             if (isLocked) item->setItemLocked(true);
+            ItemInfo clipInfo = info;
+            clipInfo.track = m_document->tracksCount() - item->track();
+            if (m_document->renderer()->mltInsertClip(clipInfo, item->xml(), item->baseClip()->producer(item->track())) == -1) {
+                emit displayMessage(i18n("Cannot insert clip in timeline"), ErrorMessage);
+            }
 
             if (item->baseClip()->isTransparent() && getTransitionItemAtStart(info.startPos, info.track) == NULL) {
                 // add transparency transition
                 QDomElement trans = MainWindow::transitions.getEffectByTag("composite", "composite").cloneNode().toElement();
                 new AddTransitionCommand(this, info, getPreviousVideoTrack(info.track), trans, false, true, addCommand);
             }
-            info.track = m_document->tracksCount() - item->track();
-            m_document->renderer()->mltInsertClip(info, item->xml(), item->baseClip()->producer(item->track()));
             item->setSelected(true);
         }
         m_commandStack->push(addCommand);

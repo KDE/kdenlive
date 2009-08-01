@@ -165,7 +165,7 @@ Q_OBJECT public:
     double dar() const;
 
     /** Playlist manipulation */
-    void mltInsertClip(ItemInfo info, QDomElement element, Mlt::Producer *prod);
+    int mltInsertClip(ItemInfo info, QDomElement element, Mlt::Producer *prod);
     void mltUpdateClip(ItemInfo info, QDomElement element, Mlt::Producer *prod);
     void mltCutClip(int track, GenTime position);
     void mltInsertSpace(QMap <int, int> trackClipStartList, QMap <int, int> trackTransitionStartList, int track, const GenTime duration, const GenTime timeOffset);
@@ -234,7 +234,7 @@ private:   // Private attributes & methods
 
     /** Sets the description of this renderer to desc. */
     void closeMlt();
-    void mltCheckLength();
+    void mltCheckLength(Mlt::Tractor *tractor);
     void mltPasteEffects(Mlt::Producer *source, Mlt::Producer *dest);
     QMap<QString, QString> mltGetTransitionParamsFromXml(QDomElement xml);
     QMap<QString, Mlt::Producer *> m_slowmotionProducers;

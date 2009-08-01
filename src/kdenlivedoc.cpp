@@ -276,6 +276,53 @@ QDomDocument KdenliveDoc::createEmptyDocument(const int videotracks, const int a
     audioTrack.isBlind = true;
     audioTrack.isLocked = false;
 
+    // Create black producer
+    // For some unknown reason, we have to build the black producer here and not in renderer.cpp, otherwise
+    // the composite transitions with the black track are corrupted.
+    QDomElement blk = doc.createElement("producer");
+    blk.setAttribute("in", 0);
+    blk.setAttribute("out", 500);
+    blk.setAttribute("id", "black");
+
+    QDomElement property = doc.createElement("property");
+    property.setAttribute("name", "mlt_type");
+    QDomText value = doc.createTextNode("producer");
+    property.appendChild(value);
+    blk.appendChild(property);
+
+    property = doc.createElement("property");
+    property.setAttribute("name", "aspect_ratio");
+    value = doc.createTextNode(QString::number(0.0));
+    property.appendChild(value);
+    blk.appendChild(property);
+
+    property = doc.createElement("property");
+    property.setAttribute("name", "length");
+    value = doc.createTextNode(QString::number(15000));
+    property.appendChild(value);
+    blk.appendChild(property);
+
+    property = doc.createElement("property");
+    property.setAttribute("name", "eof");
+    value = doc.createTextNode("pause");
+    property.appendChild(value);
+    blk.appendChild(property);
+
+    property = doc.createElement("property");
+    property.setAttribute("name", "resource");
+    value = doc.createTextNode("black");
+    property.appendChild(value);
+    blk.appendChild(property);
+
+    property = doc.createElement("property");
+    property.setAttribute("name", "mlt_service");
+    value = doc.createTextNode("colour");
+    property.appendChild(value);
+    blk.appendChild(property);
+
+    mlt.appendChild(blk);
+
+
     QDomElement tractor = doc.createElement("tractor");
     tractor.setAttribute("id", "maintractor");
     QDomElement multitrack = doc.createElement("multitrack");
@@ -283,6 +330,11 @@ QDomDocument KdenliveDoc::createEmptyDocument(const int videotracks, const int a
     playlist.setAttribute("id", "black_track");
     mlt.appendChild(playlist);
 
+    QDomElement blank0 = doc.createElement("entry");
+    blank0.setAttribute("in", "0");
+    blank0.setAttribute("out", "0");
+    blank0.setAttribute("producer", "black");
+    playlist.appendChild(blank0);
 
     // create playlists
     int total = audiotracks + videotracks + 1;
