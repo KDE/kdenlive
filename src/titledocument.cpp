@@ -220,8 +220,10 @@ int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsPolygonItem* startv, Q
         int doc_width = doc.documentElement().attribute("width").toInt();
         int doc_height = doc.documentElement().attribute("height").toInt();
         if (doc_width != m_width || doc_height != m_height) {
-            KMessageBox::information(kapp->activeWindow(), i18n("This title clip was created with a different frame size. It will now be converted to the current project's size."), i18n("Resizing Title Clip"));
+            KMessageBox::information(kapp->activeWindow(), i18n("This title clip was created with a different frame size."), i18n("Title Profile"));
             //TODO: convert using QTransform
+            m_width = doc_width;
+            m_height = doc_height;
         }
     }
     //TODO: get default title duration instead of hardcoded one
@@ -395,3 +397,15 @@ QTransform TitleDocument::stringToTransform(const QString& s)
                l.at(6).toDouble(), l.at(7).toDouble(), l.at(8).toDouble()
            );
 }
+
+int TitleDocument::frameWidth() const
+{
+    return m_width;
+}
+
+int TitleDocument::frameHeight() const
+{
+    return m_height;
+}
+
+

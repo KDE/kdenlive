@@ -261,7 +261,6 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     readChoices();
 
     initViewports();
-    QTimer::singleShot(500, this, SLOT(slotAdjustZoom()));
     graphicsView->show();
     //graphicsView->setRenderHint(QPainter::Antialiasing);
     graphicsView->setInteractive(true);
@@ -271,11 +270,13 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     if (!url.isEmpty()) {
         double out;
         m_count = m_titledocument.loadDocument(url, m_startViewport, m_endViewport, &out) + 1;
+        adjustFrameSize();
         title_duration->setText(m_tc.getTimecode(GenTime(out), m_render->fps()));
         slotSelectTool();
     } else {
         slotTextTool();
     }
+    QTimer::singleShot(200, this, SLOT(slotAdjustZoom()));
 }
 
 TitleWidget::~TitleWidget()
@@ -1314,6 +1315,7 @@ void TitleWidget::loadTitle()
         m_scene->clearTextSelection();
         double out;
         m_count = m_titledocument.loadDocument(url, m_startViewport, m_endViewport, &out) + 1;
+        adjustFrameSize();
         title_duration->setText(m_tc.getTimecode(GenTime(out / 1000.0), m_render->fps()));
         insertingValues = true;
         startViewportX->setValue(m_startViewport->data(0).toInt());
@@ -1324,6 +1326,7 @@ void TitleWidget::loadTitle()
         endViewportSize->setValue(m_endViewport->data(2).toInt());
         insertingValues = false;
         slotSelectTool();
+        slotAdjustZoom();
     }
 }
 
@@ -1355,7 +1358,7 @@ void TitleWidget::setXml(QDomDocument doc)
 {
     double out;
     m_count = m_titledocument.loadFromXml(doc, m_startViewport, m_endViewport, &out);
-    kDebug() << "\n\n// TITLE OUT: " << out;
+    adjustFrameSize();
     title_duration->setText(m_tc.getTimecode(GenTime(out / 1000.0), m_render->fps()));
     /*if (doc.documentElement().hasAttribute("out")) {
     GenTime duration = GenTime(doc.documentElement().attribute("out").toDouble() / 1000.0);
@@ -1385,7 +1388,7 @@ void TitleWidget::setXml(QDomDocument doc)
     kcolorbutton->setColor(background_color);
     horizontalSlider->blockSignals(false);
     kcolorbutton->blockSignals(false);
-
+    QTimer::singleShot(200, this, SLOT(slotAdjustZoom()));
     slotSelectTool();
 }
 
@@ -1504,4 +1507,15 @@ void TitleWidget::readChoices()
 
     cropImage->setChecked(titleConfig.readEntry("crop_image", cropImage->isChecked()));
 }
+
+void TitleWidget::adjustFrameSize()
+{
+    m_frameWidth = m_titledocument.frameWidth();
+    m_frameHeight = m_titledocument.frameHeight();
+    m_frameBorder->setRect(0, 0, m_frameWidth, m_frameHeight);
+    displayBackgroundFrame();
+}
+
+
+
 

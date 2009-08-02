@@ -144,6 +144,8 @@ private:
     /** \brief Check a tool button. */
     void checkButton(TITLETOOL toolType);
 
+    void adjustFrameSize();
+
 public slots:
     void slotNewText(QGraphicsTextItem *tt);
     void slotNewRect(QGraphicsRectItem *rect);
