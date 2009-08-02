@@ -2047,6 +2047,7 @@ bool Render::mltAddEffect(int track, GenTime position, EffectsParameterList para
     }
     Mlt::Service clipService(clip->get_service());
     m_isBlocked = true;
+    int duration = clip->get_playtime();
     delete clip;
     // temporarily remove all effects after insert point
     QList <Mlt::Filter *> filtersList;
@@ -2076,7 +2077,6 @@ bool Render::mltAddEffect(int track, GenTime position, EffectsParameterList para
         char *starttag = decodedString(params.paramValue("starttag", "start"));
         char *endtag = decodedString(params.paramValue("endtag", "end"));
         kDebug() << "// ADDING KEYFRAME TAGS: " << starttag << ", " << endtag;
-        int duration = clip->get_playtime();
         //double max = params.paramValue("max").toDouble();
         double min = params.paramValue("min").toDouble();
         double factor = params.paramValue("factor", "1").toDouble();
