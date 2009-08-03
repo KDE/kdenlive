@@ -151,6 +151,9 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
     m_projectListDock->setWidget(m_projectList);
     addDockWidget(Qt::TopDockWidgetArea, m_projectListDock);
 
+    m_shortcutRemoveFocus = new QShortcut(QKeySequence("Esc"), this);
+    connect(m_shortcutRemoveFocus, SIGNAL(activated()), this, SLOT(slotRemoveFocus()));
+
     m_effectListDock = new QDockWidget(i18n("Effect List"), this);
     m_effectListDock->setObjectName("effect_list");
     m_effectList = new EffectsListView();
@@ -386,6 +389,7 @@ void MainWindow::queryQuit()
         delete m_projectMonitor;
         delete m_clipMonitor;
         delete m_activeDocument;
+        delete m_shortcutRemoveFocus;
         Mlt::Factory::close();
         kapp->quit();
     }
@@ -678,16 +682,19 @@ void MainWindow::setupActions()
     QString style1 = "QToolButton {background-color: rgba(230, 230, 230, 220); border-style: inset; border:1px solid #999999;border-radius: 3px;margin: 0px 3px;padding: 0px;} QToolButton:checked { background-color: rgba(224, 224, 0, 100); border-style: inset; border:1px solid #cc6666;border-radius: 3px;}";
 
     m_buttonSelectTool = new KAction(KIcon("kdenlive-select-tool"), i18n("Selection tool"), this);
+    m_buttonSelectTool->setShortcut(i18nc("Selection tool shortcut", "s"));
     toolbar->addAction(m_buttonSelectTool);
     m_buttonSelectTool->setCheckable(true);
     m_buttonSelectTool->setChecked(true);
 
     m_buttonRazorTool = new KAction(KIcon("edit-cut"), i18n("Razor tool"), this);
+    m_buttonRazorTool->setShortcut(i18nc("Razor tool shortcut", "x"));
     toolbar->addAction(m_buttonRazorTool);
     m_buttonRazorTool->setCheckable(true);
     m_buttonRazorTool->setChecked(false);
 
     m_buttonSpacerTool = new KAction(KIcon("kdenlive-spacer-tool"), i18n("Spacer tool"), this);
+    m_buttonSpacerTool->setShortcut(i18nc("Spacer tool shortcut", "m"));
     toolbar->addAction(m_buttonSpacerTool);
     m_buttonSpacerTool->setCheckable(true);
     m_buttonSpacerTool->setChecked(false);
@@ -2807,6 +2814,12 @@ void MainWindow::slotUpdateTimecodeFormat(int ix)
     KdenliveSettings::setFrametimecode(ix == 1);
     m_clipMonitor->updateTimecodeFormat();
     m_projectMonitor->updateTimecodeFormat();
+}
+
+void MainWindow::slotRemoveFocus()
+{
+    statusBar()->setFocus();
+    statusBar()->clearFocus();
 }
 
 

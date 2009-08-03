@@ -27,6 +27,7 @@
 #include <QProgressBar>
 #include <QEvent>
 #include <QTimer>
+#include <QShortcut>
 
 #include <KXmlGuiWindow>
 #include <KTextEdit>
@@ -142,6 +143,12 @@ private:
     QMenu *m_timelineContextMenu;
     QMenu *m_timelineContextClipMenu;
     QMenu *m_timelineContextTransitionMenu;
+
+    /**
+     * Shortcut to remove the focus of any element. Allows to get out
+     * of e.g. text input fields and to press another shortcut.
+     */
+    QShortcut* m_shortcutRemoveFocus;
 
     RenderWidget *m_renderWidget;
 
@@ -303,6 +310,8 @@ private slots:
     void slotSetDocumentRenderProfile(const QString &dest, const QString &name, const QString &file);
     void slotPrepareRendering(bool scriptExport, bool zoneOnly, const QString &chapterFile);
     void slotUpdateTimecodeFormat(int ix);
+    /** Removes the focus of anything */
+    void slotRemoveFocus();
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);
