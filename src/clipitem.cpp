@@ -1316,11 +1316,8 @@ EffectsParameterList ClipItem::addEffect(QDomElement effect, bool animate)
     parameters.addParam("tag", effect.attribute("tag"));
     parameters.addParam("kdenlive_ix", effect.attribute("kdenlive_ix"));
     if (effect.hasAttribute("src")) parameters.addParam("src", effect.attribute("src"));
+    if (effect.hasAttribute("disabled")) parameters.addParam("disabled", effect.attribute("disabled"));
 
-    QString state = effect.attribute("disabled");
-    if (!state.isEmpty()) {
-        parameters.addParam("disabled", state);
-    }
 
     QString effectId = effect.attribute("id");
     if (effectId.isEmpty()) effectId = effect.attribute("tag");
@@ -1411,17 +1408,14 @@ EffectsParameterList ClipItem::addEffect(QDomElement effect, bool animate)
     return parameters;
 }
 
-EffectsParameterList ClipItem::getEffectArgs(QDomElement effect)
+EffectsParameterList ClipItem::getEffectArgs(const QDomElement effect)
 {
     EffectsParameterList parameters;
     parameters.addParam("tag", effect.attribute("tag"));
     parameters.addParam("kdenlive_ix", effect.attribute("kdenlive_ix"));
     parameters.addParam("id", effect.attribute("id"));
     if (effect.hasAttribute("src")) parameters.addParam("src", effect.attribute("src"));
-    QString state = effect.attribute("disabled");
-    if (!state.isEmpty()) {
-        parameters.addParam("disabled", state);
-    }
+    if (effect.hasAttribute("disabled")) parameters.addParam("disabled", effect.attribute("disabled"));
 
     QDomNodeList params = effect.elementsByTagName("parameter");
     for (int i = 0; i < params.count(); i++) {

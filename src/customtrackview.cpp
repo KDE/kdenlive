@@ -401,9 +401,9 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
         AbstractClipItem *clip = static_cast <AbstractClipItem*>(item);
         if (m_tool == RAZORTOOL) {
             // razor tool over a clip, display current frame in monitor
-            if (!m_blockRefresh && item->type() == AVWIDGET) {
+            if (/*!m_blockRefresh && */item->type() == AVWIDGET) {
                 //TODO: solve crash when showing frame when moving razor over clip
-                //emit showClipFrame(((ClipItem *) item)->baseClip(), mappedXPos - (clip->startPos() - clip->cropStart()).frames(m_document->fps()));
+		emit showClipFrame(((ClipItem *) item)->baseClip(), mappedXPos - (clip->startPos() - clip->cropStart()).frames(m_document->fps()));
             }
             event->accept();
             return;
@@ -1455,7 +1455,6 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement effect, i
     ClipItem *clip = getClipItemAt((int)pos.frames(m_document->fps()) + 1, m_document->tracksCount() - track);
     if (clip) {
 
-
         // Special case: speed effect
         if (effect.attribute("id") == "speed") {
             ItemInfo info = clip->info();
@@ -1469,9 +1468,6 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement effect, i
             }
             return;
         }
-
-
-
 
         EffectsParameterList effectParams = clip->getEffectArgs(effect);
         if (effect.attribute("tag") == "ladspa") {
@@ -1513,26 +1509,26 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement effect, i
 void CustomTrackView::moveEffect(int track, GenTime pos, int oldPos, int newPos)
 {
     ClipItem *clip = getClipItemAt((int)pos.frames(m_document->fps()) + 1, m_document->tracksCount() - track);
-    if (clip) {
-        m_document->renderer()->mltMoveEffect(track, pos, oldPos, newPos);
+    if (clip && !clip->effectAt(newPos - 1).isNull() && !clip->effectAt(oldPos - 1).isNull()) {
         QDomElement act = clip->effectAt(newPos - 1).cloneNode().toElement();
         QDomElement before = clip->effectAt(oldPos - 1).cloneNode().toElement();
         clip->setEffectAt(oldPos - 1, act);
         clip->setEffectAt(newPos - 1, before);
+	m_document->renderer()->mltMoveEffect(track, pos, oldPos, newPos);
         emit clipItemSelected(clip, newPos - 1);
+	setDocumentModified();
     }
-    setDocumentModified();
+    else emit displayMessage(i18n("Cannot move effect"), ErrorMessage);
 }
 
 void CustomTrackView::slotChangeEffectState(ClipItem *clip, int effectPos, bool disable)
 {
-    QDomElement effect = clip->effectAt(effectPos);
+    QDomElement effect = clip->effectAt(effectPos).cloneNode().toElement();
     QDomElement oldEffect = effect.cloneNode().toElement();
-
     if (effect.attribute("id") == "speed") {
         if (clip) {
             ItemInfo info = clip->info();
-            effect.setAttribute("disabled", disable);
+            effect.setAttribute("disabled", (int) disable);
             if (disable) doChangeClipSpeed(info, 1.0, clip->speed(), 1, clip->baseClip()->getId());
             else {
                 double speed = EffectsList::parameter(effect, "speed").toDouble() / 100.0;
@@ -1543,7 +1539,7 @@ void CustomTrackView::slotChangeEffectState(ClipItem *clip, int effectPos, bool 
             return;
         }
     }
-    effect.setAttribute("disabled", disable);
+    effect.setAttribute("disabled", (int) disable);
     EditEffectCommand *command = new EditEffectCommand(this, m_document->tracksCount() - clip->track(), clip->startPos(), oldEffect, effect, effectPos, true);
     m_commandStack->push(command);
     setDocumentModified();;
@@ -1566,7 +1562,7 @@ void CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut)
 {
     if (cut) {
         // cut clip
-        ClipItem *item = getClipItemAt((int) info.startPos.frames(m_document->fps()) + 1, info.track);
+        ClipItem *item = getClipItemAt((int) info.startPos.frames(m_document->fps()), info.track);
         if (!item || cutTime >= item->endPos() || cutTime <= item->startPos()) {
             emit displayMessage(i18n("Cannot find clip to cut"), ErrorMessage);
             kDebug() << "/////////  ERROR CUTTING CLIP : (" << item->startPos().frames(25) << "-" << item->endPos().frames(25) << "), INFO: (" << info.startPos.frames(25) << "-" << info.endPos.frames(25) << ")" << ", CUT: " << cutTime.frames(25);
@@ -2761,7 +2757,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
         ClipItem * item = (ClipItem *) m_dragItem;
         int ix = item->hasEffect("volume", "fadein");
         if (ix != -1) {
-            QDomElement oldeffect = item->effectAt(ix);
+            QDomElement oldeffect = item->effectAt(ix).cloneNode().toElement();
             int start = item->cropStart().frames(m_document->fps());
             int end = item->fadeIn();
             if (end == 0) {
@@ -2781,7 +2777,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
         }
         ix = item->hasEffect("volume", "fade_from_black");
         if (ix != -1) {
-            QDomElement oldeffect = item->effectAt(ix);
+            QDomElement oldeffect = item->effectAt(ix).cloneNode().toElement();
             int start = item->cropStart().frames(m_document->fps());
             int end = item->fadeIn();
             if (end == 0) {
@@ -2800,7 +2796,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
         ClipItem * item = (ClipItem *) m_dragItem;
         int ix = item->hasEffect("volume", "fadeout");
         if (ix != -1) {
-            QDomElement oldeffect = item->effectAt(ix);
+            QDomElement oldeffect = item->effectAt(ix).cloneNode().toElement();
             int end = (item->cropDuration() + item->cropStart()).frames(m_document->fps());
             int start = item->fadeOut();
             if (start == 0) {
@@ -2822,7 +2818,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
         }
         ix = item->hasEffect("brightness", "fade_to_black");
         if (ix != -1) {
-            QDomElement oldeffect = item->effectAt(ix);
+            QDomElement oldeffect = item->effectAt(ix).cloneNode().toElement();
             int end = (item->cropDuration() + item->cropStart()).frames(m_document->fps());
             int start = item->fadeOut();
             if (start == 0) {
@@ -3187,8 +3183,7 @@ ClipItem *CustomTrackView::getClipItemAt(int pos, int track)
 
 ClipItem *CustomTrackView::getClipItemAt(GenTime pos, int track)
 {
-    int framepos = (int)(pos.frames(m_document->fps()));
-    return getClipItemAt(framepos, track);
+    return getClipItemAt((int) pos.frames(m_document->fps()), track);
 }
 
 Transition *CustomTrackView::getTransitionItemAt(int pos, int track)
@@ -3241,7 +3236,7 @@ Transition *CustomTrackView::getTransitionItemAtStart(GenTime pos, int track)
 void CustomTrackView::moveClip(const ItemInfo start, const ItemInfo end)
 {
     if (m_selectionGroup) resetSelectionGroup(false);
-    ClipItem *item = getClipItemAt((int) start.startPos.frames(m_document->fps()) + 1, start.track);
+    ClipItem *item = getClipItemAt((int) start.startPos.frames(m_document->fps()), start.track);
     if (!item) {
         emit displayMessage(i18n("Cannot move clip at time: %1 on track %2", m_document->timecode().getTimecodeFromFrames(start.startPos.frames(m_document->fps())), start.track), ErrorMessage);
         kDebug() << "----------------  ERROR, CANNOT find clip to move at.. ";

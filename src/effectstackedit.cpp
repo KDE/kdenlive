@@ -430,7 +430,7 @@ void EffectStackEdit::collectAllParameters()
 
     // Make sure we don't modify params
     mutex.lock();
-    QDomElement oldparam = m_params.cloneNode().toElement();
+    const QDomElement oldparam = m_params.cloneNode().toElement();
     QDomNodeList namenode = m_params.elementsByTagName("parameter");
 
     for (int i = 0; i < namenode.count() ; i++) {
@@ -513,7 +513,7 @@ void EffectStackEdit::collectAllParameters()
             pa.attributes().namedItem("value").setNodeValue(setValue);
         }
     }
-    emit parameterChanged(oldparam, m_params);
+    emit parameterChanged(oldparam, m_params.cloneNode().toElement());
     mutex.unlock();
 }
 

@@ -18,14 +18,15 @@
 #ifndef EFFECTSTACKEDIT_H
 #define EFFECTSTACKEDIT_H
 
+#include "definitions.h"
+#include "timecode.h"
+
+
 #include <QWidget>
 #include <QDomElement>
 #include <QVBoxLayout>
 #include <QList>
 #include <QMap>
-
-#include "definitions.h"
-#include "timecode.h"
 
 enum WIPE_DIRECTON { UP = 0, DOWN = 1, LEFT = 2, RIGHT = 3, CENTER = 4 };
 

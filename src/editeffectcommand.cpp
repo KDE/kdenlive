@@ -28,11 +28,11 @@ EditEffectCommand::EditEffectCommand(CustomTrackView *view, const int track, Gen
         m_view(view),
         m_track(track),
         m_oldeffect(oldeffect),
-        m_pos(pos),
+        m_effect(effect),
+	m_pos(pos),
         m_stackPos(stackPos),
         m_doIt(doIt)
 {
-    m_effect = effect.cloneNode().toElement();
     QString effectName;
     QDomNode namenode = effect.elementsByTagName("name").item(0);
     if (!namenode.isNull()) effectName = i18n(namenode.toElement().text().toUtf8().data());
