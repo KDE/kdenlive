@@ -39,6 +39,9 @@
 #include <QPushButton>
 #include <QCheckBox>
 #include <QScrollArea>
+#include <QMutex>
+
+static QMutex mutex;
 
 
 class Boolval: public EffectStackEdit::UiItem, public Ui::Boolval_UI
@@ -130,12 +133,16 @@ void EffectStackEdit::updateParameter(const QString &name, const QString &value)
 
 void EffectStackEdit::transferParamDesc(const QDomElement d, int in, int out)
 {
-    kDebug() << "in";
+    kDebug() << " + + + +DELETING EFFECT STACK";
+    mutex.lock();
     m_params = d;
     m_in = in;
     m_out = out;
     clearAllItems();
-    if (m_params.isNull()) return;
+    if (m_params.isNull()) {
+        mutex.unlock();
+        return;
+    }
 
     QDomDocument doc;
     doc.appendChild(doc.importNode(m_params, true));
@@ -341,6 +348,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int in, int out)
         }
     }
     m_vbox->addStretch();
+    mutex.unlock();
 }
 
 void EffectStackEdit::slotSeekToPos(int pos)
@@ -419,6 +427,9 @@ QString EffectStackEdit::getWipeString(wipeInfo info)
 void EffectStackEdit::collectAllParameters()
 {
     if (m_valueItems.isEmpty()) return;
+
+    // Make sure we don't modify params
+    mutex.lock();
     QDomElement oldparam = m_params.cloneNode().toElement();
     QDomNodeList namenode = m_params.elementsByTagName("parameter");
 
@@ -503,6 +514,7 @@ void EffectStackEdit::collectAllParameters()
         }
     }
     emit parameterChanged(oldparam, m_params);
+    mutex.unlock();
 }
 
 void EffectStackEdit::createSliderItem(const QString& name, int val , int min, int max, const QString suffix)
