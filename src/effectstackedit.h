@@ -39,7 +39,7 @@ struct wipeInfo {
 
 class QFrame;
 
-class EffectStackEdit : public QWidget
+class EffectStackEdit : public QObject
 {
     Q_OBJECT
 public:

@@ -65,12 +65,11 @@ class Wipeval: public EffectStackEdit::UiItem, public Ui::Wipeval_UI
 QMap<QString, QImage> EffectStackEdit::iconCache;
 
 EffectStackEdit::EffectStackEdit(QWidget *parent) :
-        QWidget(parent),
+        QObject(parent),
         m_in(0),
         m_out(0),
         m_frameSize(QPoint())
 {
-    setSizePolicy(QSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding));
     QVBoxLayout *vbox1 = new QVBoxLayout(parent);
     vbox1->setContentsMargins(0, 0, 0, 0);
     vbox1->setSpacing(0);
@@ -80,7 +79,7 @@ EffectStackEdit::EffectStackEdit(QWidget *parent) :
     area->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     area->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     area->setFrameStyle(QFrame::NoFrame);
-    wid->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
+    parent->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
     area->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::MinimumExpanding));
 
     vbox1->addWidget(area);
@@ -89,8 +88,7 @@ EffectStackEdit::EffectStackEdit(QWidget *parent) :
     m_vbox = new QVBoxLayout(wid);
     m_vbox->setContentsMargins(0, 0, 0, 0);
     m_vbox->setSpacing(0);
-    wid->show();
-
+    //wid->show();
 }
 
 EffectStackEdit::~EffectStackEdit()
@@ -421,12 +419,12 @@ QString EffectStackEdit::getWipeString(wipeInfo info)
 
 void EffectStackEdit::collectAllParameters()
 {
-    if (m_valueItems.isEmpty()) return;
+    if (m_valueItems.isEmpty() || m_params.isNull()) return;
 
     const QDomElement oldparam = m_params.cloneNode().toElement();
     QDomElement newparam = oldparam.cloneNode().toElement();
     QDomNodeList namenode = newparam.elementsByTagName("parameter");
-
+    
     for (int i = 0; i < namenode.count() ; i++) {
         QDomNode pa = namenode.item(i);
         QDomNode na = pa.firstChildElement("name");
