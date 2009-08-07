@@ -39,9 +39,6 @@
 #include <QPushButton>
 #include <QCheckBox>
 #include <QScrollArea>
-#include <QMutex>
-
-static QMutex mutex;
 
 
 class Boolval: public EffectStackEdit::UiItem, public Ui::Boolval_UI
@@ -134,19 +131,18 @@ void EffectStackEdit::updateParameter(const QString &name, const QString &value)
 void EffectStackEdit::transferParamDesc(const QDomElement d, int in, int out)
 {
     kDebug() << " + + + +DELETING EFFECT STACK";
-    mutex.lock();
+    clearAllItems();
     m_params = d;
     m_in = in;
     m_out = out;
-    clearAllItems();
     if (m_params.isNull()) {
-        mutex.unlock();
         return;
     }
 
-    QDomDocument doc;
+    /*QDomDocument doc;
     doc.appendChild(doc.importNode(m_params, true));
-    //kDebug() << "IMPORTED TRANS: " << doc.toString();
+    kDebug() << "IMPORTED TRANS: " << doc.toString();*/
+
     QDomNodeList namenode = m_params.elementsByTagName("parameter");
     QDomElement e = m_params.toElement();
     const int minFrame = e.attribute("start").toInt();
@@ -348,7 +344,6 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int in, int out)
         }
     }
     m_vbox->addStretch();
-    mutex.unlock();
 }
 
 void EffectStackEdit::slotSeekToPos(int pos)
@@ -428,10 +423,9 @@ void EffectStackEdit::collectAllParameters()
 {
     if (m_valueItems.isEmpty()) return;
 
-    // Make sure we don't modify params
-    mutex.lock();
     const QDomElement oldparam = m_params.cloneNode().toElement();
-    QDomNodeList namenode = m_params.elementsByTagName("parameter");
+    QDomElement newparam = oldparam.cloneNode().toElement();
+    QDomNodeList namenode = newparam.elementsByTagName("parameter");
 
     for (int i = 0; i < namenode.count() ; i++) {
         QDomNode pa = namenode.item(i);
@@ -443,7 +437,7 @@ void EffectStackEdit::collectAllParameters()
         else if (type == "geometry") paramName.append("geometry");
         else if (type == "keyframe") paramName.append("keyframe");
         if (!m_valueItems.contains(paramName)) {
-            kDebug() << "// Param: " << paramName << " NOT FOUND";
+            // kDebug() << "// Param: " << paramName << " NOT FOUND";
             continue;
         }
 
@@ -470,23 +464,23 @@ void EffectStackEdit::collectAllParameters()
             PositionEdit *pedit = ((PositionEdit*)m_valueItems.value(paramName));
             int pos = pedit->getPosition();
             setValue = QString::number(pos);
-            if (m_params.attribute("id") == "fadein" || m_params.attribute("id") == "fade_from_black") {
+            if (newparam.attribute("id") == "fadein" || newparam.attribute("id") == "fade_from_black") {
                 // Make sure duration is not longer than clip
                 /*if (pos > m_out) {
                     pos = m_out;
                     pedit->setPosition(pos);
                 }*/
-                EffectsList::setParameter(m_params, "in", QString::number(m_in));
-                EffectsList::setParameter(m_params, "out", QString::number(m_in + pos));
+                EffectsList::setParameter(newparam, "in", QString::number(m_in));
+                EffectsList::setParameter(newparam, "out", QString::number(m_in + pos));
                 setValue.clear();
-            } else if (m_params.attribute("id") == "fadeout" || m_params.attribute("id") == "fade_to_black") {
+            } else if (newparam.attribute("id") == "fadeout" || newparam.attribute("id") == "fade_to_black") {
                 // Make sure duration is not longer than clip
                 /*if (pos > m_out) {
                     pos = m_out;
                     pedit->setPosition(pos);
                 }*/
-                EffectsList::setParameter(m_params, "in", QString::number(m_out + m_in - pos));
-                EffectsList::setParameter(m_params, "out", QString::number(m_out + m_in));
+                EffectsList::setParameter(newparam, "in", QString::number(m_out + m_in - pos));
+                EffectsList::setParameter(newparam, "out", QString::number(m_out + m_in));
                 setValue.clear();
             }
         } else if (type == "wipe") {
@@ -513,8 +507,7 @@ void EffectStackEdit::collectAllParameters()
             pa.attributes().namedItem("value").setNodeValue(setValue);
         }
     }
-    emit parameterChanged(oldparam, m_params.cloneNode().toElement());
-    mutex.unlock();
+    emit parameterChanged(oldparam, newparam);
 }
 
 void EffectStackEdit::createSliderItem(const QString& name, int val , int min, int max, const QString suffix)
