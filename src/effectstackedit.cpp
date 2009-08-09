@@ -424,7 +424,7 @@ void EffectStackEdit::collectAllParameters()
     const QDomElement oldparam = m_params.cloneNode().toElement();
     QDomElement newparam = oldparam.cloneNode().toElement();
     QDomNodeList namenode = newparam.elementsByTagName("parameter");
-    
+
     for (int i = 0; i < namenode.count() ; i++) {
         QDomNode pa = namenode.item(i);
         QDomNode na = pa.firstChildElement("name");

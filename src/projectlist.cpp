@@ -621,7 +621,9 @@ void ProjectList::updateAllClips()
 
 void ProjectList::slotAddClip(const QList <QUrl> givenList, const QString &groupName, const QString &groupId)
 {
-    if (!m_commandStack) kDebug() << "!!!!!!!!!!!!!!!! NO CMD STK";
+    if (!m_commandStack) {
+        kDebug() << "!!!!!!!!!!!!!!!! NO CMD STK";
+    }
     KUrl::List list;
     if (givenList.isEmpty()) {
         // Build list of mime types
@@ -671,7 +673,9 @@ void ProjectList::slotRemoveInvalidClip(const QString &id, bool replace)
 
 void ProjectList::slotAddColorClip()
 {
-    if (!m_commandStack) kDebug() << "!!!!!!!!!!!!!!!! NO CMD STK";
+    if (!m_commandStack) {
+        kDebug() << "!!!!!!!!!!!!!!!! NO CMD STK";
+    }
     QDialog *dia = new QDialog(this);
     Ui::ColorClip_UI dia_ui;
     dia_ui.setupUi(dia);
@@ -689,7 +693,9 @@ void ProjectList::slotAddColorClip()
 
 void ProjectList::slotAddSlideshowClip()
 {
-    if (!m_commandStack) kDebug() << "!!!!!!!!!!!!!!!! NO CMD STK";
+    if (!m_commandStack) {
+        kDebug() << "!!!!!!!!!!!!!!!! NO CMD STK";
+    }
     SlideshowClip *dia = new SlideshowClip(m_timecode, this);
 
     if (dia->exec() == QDialog::Accepted) {
@@ -708,7 +714,9 @@ void ProjectList::slotAddTitleClip()
 void ProjectList::slotAddTitleTemplateClip()
 {
     QStringList groupInfo = getGroup();
-    if (!m_commandStack) kDebug() << "!!!!!!!!!!!!!!!! NO CMD STK";
+    if (!m_commandStack) {
+        kDebug() << "!!!!!!!!!!!!!!!! NO CMD STK";
+    }
 
     // Get the list of existing templates
     QStringList filter;

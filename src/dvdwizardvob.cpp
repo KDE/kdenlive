@@ -287,7 +287,7 @@ QString DvdWizardVob::introMovie() const
 
 void DvdWizardVob::setIntroMovie(const QString path)
 {
-    m_view.intro_vob->setPath(path);
+    m_view.intro_vob->setUrl(KUrl(path));
     m_view.use_intro->setChecked(path.isEmpty() == false);
 }
 

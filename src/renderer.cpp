@@ -835,7 +835,10 @@ int Render::setProducer(Mlt::Producer *producer, int position)
     m_mltProducer->set("skip_loop_filter", "all");
         m_mltProducer->set("skip_frame", "bidir");
     }*/
-    if (!m_mltProducer || !m_mltProducer->is_valid()) kDebug() << " WARNING - - - - -INVALID PLAYLIST: ";
+    if (!m_mltProducer || !m_mltProducer->is_valid()) {
+        kDebug() << " WARNING - - - - -INVALID PLAYLIST: ";
+        return -1;
+    }
 
     m_fps = m_mltProducer->get_fps();
     int error = connectPlaylist();
@@ -1519,7 +1522,10 @@ void Render::mltCutClip(int track, GenTime position)
     m_isBlocked = true;
 
     Mlt::Service service(m_mltProducer->parent().get_service());
-    if (service.type() != tractor_type) kWarning() << "// TRACTOR PROBLEM";
+    if (service.type() != tractor_type) {
+        kWarning() << "// TRACTOR PROBLEM";
+        return;
+    }
 
     Mlt::Tractor tractor(service);
     Mlt::Producer trackProducer(tractor.track(track));
@@ -1604,7 +1610,10 @@ void Render::mltUpdateClip(ItemInfo info, QDomElement element, Mlt::Producer *pr
 bool Render::mltRemoveClip(int track, GenTime position)
 {
     Mlt::Service service(m_mltProducer->parent().get_service());
-    if (service.type() != tractor_type) kWarning() << "// TRACTOR PROBLEM";
+    if (service.type() != tractor_type) {
+        kWarning() << "// TRACTOR PROBLEM";
+        return false;
+    }
 
     Mlt::Tractor tractor(service);
     mlt_service_lock(service.get_service());
@@ -1721,16 +1730,19 @@ void Render::mltInsertSpace(QMap <int, int> trackClipStartList, QMap <int, int> 
         if (insertPos != -1) {
             insertPos += offset;
             int clipIndex = trackPlaylist.get_clip_index_at(insertPos);
-            if (diff > 0) trackPlaylist.insert_blank(clipIndex, diff - 1);
-            else {
+            if (diff > 0) {
+                trackPlaylist.insert_blank(clipIndex, diff - 1);
+            } else {
                 if (!trackPlaylist.is_blank(clipIndex)) clipIndex --;
-                if (!trackPlaylist.is_blank(clipIndex)) kDebug() << "//// ERROR TRYING TO DELETE SPACE FROM " << insertPos;
+                if (!trackPlaylist.is_blank(clipIndex)) {
+                    kDebug() << "//// ERROR TRYING TO DELETE SPACE FROM " << insertPos;
+                }
                 int position = trackPlaylist.clip_start(clipIndex);
                 int blankDuration = trackPlaylist.clip_length(clipIndex);
                 diff = -diff;
-                if (blankDuration - diff == 0)
+                if (blankDuration - diff == 0) {
                     trackPlaylist.remove(clipIndex);
-                else trackPlaylist.remove_region(position, diff);
+                } else trackPlaylist.remove_region(position, diff);
             }
             trackPlaylist.consolidate_blanks(0);
         }
@@ -1782,15 +1794,20 @@ void Render::mltInsertSpace(QMap <int, int> trackClipStartList, QMap <int, int> 
 
 
                 int clipIndex = trackPlaylist.get_clip_index_at(insertPos);
-                if (diff > 0) trackPlaylist.insert_blank(clipIndex, diff - 1);
-                else {
-                    if (!trackPlaylist.is_blank(clipIndex)) clipIndex --;
-                    if (!trackPlaylist.is_blank(clipIndex)) kDebug() << "//// ERROR TRYING TO DELETE SPACE FROM " << insertPos;
+                if (diff > 0) {
+                    trackPlaylist.insert_blank(clipIndex, diff - 1);
+                } else {
+                    if (!trackPlaylist.is_blank(clipIndex)) {
+                        clipIndex --;
+                    }
+                    if (!trackPlaylist.is_blank(clipIndex)) {
+                        kDebug() << "//// ERROR TRYING TO DELETE SPACE FROM " << insertPos;
+                    }
                     int position = trackPlaylist.clip_start(clipIndex);
                     int blankDuration = trackPlaylist.clip_length(clipIndex);
-                    if (diff + blankDuration == 0)
+                    if (diff + blankDuration == 0) {
                         trackPlaylist.remove(clipIndex);
-                    else trackPlaylist.remove_region(position, - diff);
+                    } else trackPlaylist.remove_region(position, - diff);
                 }
                 trackPlaylist.consolidate_blanks(0);
             }
@@ -1850,7 +1867,10 @@ int Render::mltChangeClipSpeed(ItemInfo info, double speed, double oldspeed, int
     m_isBlocked = true;
     int newLength = 0;
     Mlt::Service service(m_mltProducer->parent().get_service());
-    if (service.type() != tractor_type) kWarning() << "// TRACTOR PROBLEM";
+    if (service.type() != tractor_type) {
+        kWarning() << "// TRACTOR PROBLEM";
+        return -1;
+    }
     //kDebug() << "Changing clip speed, set in and out: " << info.cropStart.frames(m_fps) << " to " << (info.endPos - info.startPos).frames(m_fps) - 1;
     Mlt::Tractor tractor(service);
     Mlt::Producer trackProducer(tractor.track(info.track));
@@ -2369,7 +2389,9 @@ bool Render::mltResizeClipEnd(ItemInfo info, GenTime clipDuration)
             if (trackPlaylist.is_blank(clipIndex)) {
                 int blankStart = trackPlaylist.clip_start(clipIndex);
                 int blankDuration = trackPlaylist.clip_length(clipIndex);
-                if (diff > blankDuration) kDebug() << "// ERROR blank clip is not large enough to get back required space!!!";
+                if (diff > blankDuration) {
+                    kDebug() << "// ERROR blank clip is not large enough to get back required space!!!";
+                }
                 if (diff - blankDuration == 0) {
                     trackPlaylist.remove(clipIndex);
                 } else trackPlaylist.remove_region(blankStart, diff);
@@ -2516,9 +2538,12 @@ void Render::mltUpdateClipProducer(int track, int pos, Mlt::Producer *prod)
     kDebug() << "NEW PROD ID: " << prod->get("id");
     m_isBlocked++;
     kDebug() << "// TRYING TO UPDATE CLIP at: " << pos << ", TK: " << track;
-    mlt_service_lock(m_mltConsumer->get_service());
     Mlt::Service service(m_mltProducer->parent().get_service());
-    if (service.type() != tractor_type) kWarning() << "// TRACTOR PROBLEM";
+    if (service.type() != tractor_type) {
+        kWarning() << "// TRACTOR PROBLEM";
+        return;
+    }
+    mlt_service_lock(m_mltConsumer->get_service());
 
     Mlt::Tractor tractor(service);
     Mlt::Producer trackProducer(tractor.track(track));
@@ -2548,7 +2573,10 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
     m_isBlocked++;
 
     Mlt::Service service(m_mltProducer->parent().get_service());
-    if (service.type() != tractor_type) kWarning() << "// TRACTOR PROBLEM";
+    if (service.type() != tractor_type) {
+        kWarning() << "// TRACTOR PROBLEM";
+        return false;
+    }
 
     Mlt::Tractor tractor(service);
     mlt_service_lock(service.get_service());
@@ -3103,7 +3131,10 @@ void Render::mltInsertTrack(int ix, bool videoTrack)
 
     Mlt::Service service(m_mltProducer->parent().get_service());
     mlt_service_lock(service.get_service());
-    if (service.type() != tractor_type) kWarning() << "// TRACTOR PROBLEM";
+    if (service.type() != tractor_type) {
+        kWarning() << "// TRACTOR PROBLEM";
+        return;
+    }
 
     Mlt::Tractor tractor(service);
 

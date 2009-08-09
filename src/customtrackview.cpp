@@ -401,9 +401,9 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
         AbstractClipItem *clip = static_cast <AbstractClipItem*>(item);
         if (m_tool == RAZORTOOL) {
             // razor tool over a clip, display current frame in monitor
-            if (/*!m_blockRefresh && */item->type() == AVWIDGET) {
+            if (false && /*!m_blockRefresh && */item->type() == AVWIDGET) {
                 //TODO: solve crash when showing frame when moving razor over clip
-		emit showClipFrame(((ClipItem *) item)->baseClip(), mappedXPos - (clip->startPos() - clip->cropStart()).frames(m_document->fps()));
+                emit showClipFrame(((ClipItem *) item)->baseClip(), mappedXPos - (clip->startPos() - clip->cropStart()).frames(m_document->fps()));
             }
             event->accept();
             return;
@@ -1169,7 +1169,10 @@ void CustomTrackView::dragEnterEvent(QDragEnterEvent * event)
         m_selectionGroup = new AbstractGroupItem(m_document->fps());
         QPoint pos;
         DocClipBase *clip = m_document->getBaseClip(list.at(0));
-        if (clip == NULL) kDebug() << " WARNING))))))))) CLIP NOT FOUND : " << list.at(0);
+        if (clip == NULL) {
+            kDebug() << " WARNING))))))))) CLIP NOT FOUND : " << list.at(0);
+            return;
+        }
         ItemInfo info;
         info.startPos = GenTime();
         info.cropStart = GenTime(list.at(1).toInt(), m_document->fps());
@@ -1197,7 +1200,10 @@ void CustomTrackView::dragEnterEvent(QDragEnterEvent * event)
         QList <GenTime> offsetList;
         for (int i = 0; i < ids.size(); ++i) {
             DocClipBase *clip = m_document->getBaseClip(ids.at(i));
-            if (clip == NULL) kDebug() << " WARNING))))))))) CLIP NOT FOUND : " << ids.at(i);
+            if (clip == NULL) {
+                kDebug() << " WARNING))))))))) CLIP NOT FOUND : " << ids.at(i);
+                return;
+            }
             ItemInfo info;
             info.startPos = start;
             info.endPos = info.startPos + clip->duration();
@@ -1514,11 +1520,10 @@ void CustomTrackView::moveEffect(int track, GenTime pos, int oldPos, int newPos)
         QDomElement before = clip->effectAt(oldPos - 1).cloneNode().toElement();
         clip->setEffectAt(oldPos - 1, act);
         clip->setEffectAt(newPos - 1, before);
-	m_document->renderer()->mltMoveEffect(track, pos, oldPos, newPos);
+        m_document->renderer()->mltMoveEffect(track, pos, oldPos, newPos);
         emit clipItemSelected(clip, newPos - 1);
-	setDocumentModified();
-    }
-    else emit displayMessage(i18n("Cannot move effect"), ErrorMessage);
+        setDocumentModified();
+    } else emit displayMessage(i18n("Cannot move effect"), ErrorMessage);
 }
 
 void CustomTrackView::slotChangeEffectState(ClipItem *clip, int effectPos, bool disable)

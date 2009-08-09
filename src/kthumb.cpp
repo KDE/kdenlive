@@ -88,11 +88,10 @@ void MyThread::run()
         m_producer.seek(z);
         Mlt::Frame *mlt_frame = m_producer.get_frame();
         if (mlt_frame && mlt_frame->is_valid()) {
-            double m_framesPerSecond = mlt_producer_get_fps(m_producer.get_producer());   //mlt_frame->get_double( "fps" );
+            double m_framesPerSecond = mlt_producer_get_fps(m_producer.get_producer());
             int m_samples = mlt_sample_calculator(m_framesPerSecond, m_frequency, mlt_frame_get_position(mlt_frame->get_frame()));
             mlt_audio_format m_audioFormat = mlt_audio_pcm;
-
-			qint16* m_pcm = static_cast<qint16*>( mlt_frame->get_audio(m_audioFormat, m_frequency, m_channels, m_samples));
+            qint16* m_pcm = static_cast<qint16*>(mlt_frame->get_audio(m_audioFormat, m_frequency, m_channels, m_samples));
 
             for (int c = 0; c < m_channels; c++) {
                 QByteArray m_array;
@@ -248,11 +247,16 @@ QPixmap KThumb::getFrame(Mlt::Producer *producer, int framepos, int width, int h
         return p;
     }
 
+    /*Mlt::Producer parentProd(producer->parent());
+    Mlt::Service service(parentProd.get_service());
+    mlt_service_lock(service.get_service());*/
+
     mlt_image_format format = mlt_image_rgb24a;
     int frame_width = width;
     int frame_height = height;
     uint8_t *data = frame->get_image(format, frame_width, frame_height, 0);
     QImage image((uchar *)data, frame_width, frame_height, QImage::Format_ARGB32);
+    //mlt_service_unlock(service.get_service());
 
     if (!image.isNull()) {
         p = QPixmap::fromImage(image.rgbSwapped());

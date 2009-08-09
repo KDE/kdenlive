@@ -113,7 +113,7 @@ Wizard::Wizard(bool upgrade, QWidget *parent) :
     page3->setTitle(i18n("Additional Settings"));
     m_extra.setupUi(page3);
     m_extra.projectfolder->setMode(KFile::Directory);
-    m_extra.projectfolder->setPath(KdenliveSettings::defaultprojectfolder());
+    m_extra.projectfolder->setUrl(KUrl(KdenliveSettings::defaultprojectfolder()));
     m_extra.videothumbs->setChecked(KdenliveSettings::videothumbnails());
     m_extra.audiothumbs->setChecked(KdenliveSettings::audiothumbnails());
     m_extra.autosave->setChecked(KdenliveSettings::crashrecovery());
@@ -506,8 +506,9 @@ void Wizard::adjustSettings()
         KdenliveSettings::setDefault_profile(selectedProfile);
     }
     QString path = m_extra.projectfolder->url().path();
-    if (KStandardDirs::makeDir(path) == false) kDebug() << "/// ERROR CREATING PROJECT FOLDER: " << path;
-    KdenliveSettings::setDefaultprojectfolder(path);
+    if (KStandardDirs::makeDir(path) == false) {
+        kDebug() << "/// ERROR CREATING PROJECT FOLDER: " << path;
+    } else KdenliveSettings::setDefaultprojectfolder(path);
 
 }
 

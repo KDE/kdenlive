@@ -838,11 +838,19 @@ void MainWindow::setupActions()
     collection->addAction("manage_profiles", profilesAction);
     connect(profilesAction, SIGNAL(triggered(bool)), this, SLOT(slotEditProfiles()));
 
+#if KDE_IS_VERSION(4,3,63)
+    KNS::standardAction(i18n("Download New Wipes..."), this, SLOT(slotGetNewLumaStuff()), actionCollection(), QString("get_new_lumas"));
+
+    KNS::standardAction(i18n("Download New Render Profiles..."), this, SLOT(slotGetNewRenderStuff()), actionCollection(), QString("get_new_profiles"));
+
+    KNS::standardAction(i18n("Download New Project Profiles..."), this, SLOT(slotGetNewMltProfileStuff()), actionCollection(), QString("get_new_mlt_profiles"));
+#else
     KNS::standardAction(i18n("Download New Wipes..."), this, SLOT(slotGetNewLumaStuff()), actionCollection(), "get_new_lumas");
 
     KNS::standardAction(i18n("Download New Render Profiles..."), this, SLOT(slotGetNewRenderStuff()), actionCollection(), "get_new_profiles");
 
     KNS::standardAction(i18n("Download New Project Profiles..."), this, SLOT(slotGetNewMltProfileStuff()), actionCollection(), "get_new_mlt_profiles");
+#endif
 
     KAction* wizAction = new KAction(KIcon("configure"), i18n("Run Config Wizard"), this);
     collection->addAction("run_wizard", wizAction);
@@ -1206,15 +1214,17 @@ void MainWindow::readOptions()
     KConfigGroup initialGroup(config, "version");
     bool upgrade = false;
     if (initialGroup.exists()) {
-        if (initialGroup.readEntry("version", QString()).section(' ', 0, 0) != QString(version).section(' ', 0, 0))
+        if (initialGroup.readEntry("version", QString()).section(' ', 0, 0) != QString(version).section(' ', 0, 0)) {
             upgrade = true;
+        }
 
         if (initialGroup.readEntry("version") == "0.7") {
             //Add new settings from 0.7.1
             if (KdenliveSettings::defaultprojectfolder().isEmpty()) {
                 QString path = QDir::homePath() + "/kdenlive";
-                if (KStandardDirs::makeDir(path)  == false) kDebug() << "/// ERROR CREATING PROJECT FOLDER: " << path;
-                KdenliveSettings::setDefaultprojectfolder(path);
+                if (KStandardDirs::makeDir(path)  == false) {
+                    kDebug() << "/// ERROR CREATING PROJECT FOLDER: " << path;
+                } else KdenliveSettings::setDefaultprojectfolder(path);
             }
         }
 
@@ -2799,8 +2809,9 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
                 kWarning() << "//////  ERROR writing DVD CHAPTER file: " << chapterFile;
             } else {
                 file.write(doc.toString().toUtf8());
-                if (file.error() != QFile::NoError)
+                if (file.error() != QFile::NoError) {
                     kWarning() << "//////  ERROR writing DVD CHAPTER file: " << chapterFile;
+                }
                 file.close();
             }
         }

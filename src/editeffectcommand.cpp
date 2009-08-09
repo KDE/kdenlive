@@ -29,7 +29,7 @@ EditEffectCommand::EditEffectCommand(CustomTrackView *view, const int track, Gen
         m_track(track),
         m_oldeffect(oldeffect),
         m_effect(effect),
-	m_pos(pos),
+        m_pos(pos),
         m_stackPos(stackPos),
         m_doIt(doIt)
 {

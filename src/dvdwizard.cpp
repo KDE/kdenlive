@@ -67,9 +67,9 @@ DvdWizard::DvdWizard(const QString &url, const QString &profile, QWidget *parent
     page4->setTitle(i18n("Creating DVD Image"));
     m_status.setupUi(page4);
     m_status.error_box->setHidden(true);
-    m_status.tmp_folder->setPath(KdenliveSettings::currenttmpfolder());
+    m_status.tmp_folder->setUrl(KUrl(KdenliveSettings::currenttmpfolder()));
     m_status.tmp_folder->setMode(KFile::Directory | KFile::ExistingOnly);
-    m_status.iso_image->setPath(QDir::homePath() + "/untitled.iso");
+    m_status.iso_image->setUrl(KUrl(QDir::homePath() + "/untitled.iso"));
     m_status.iso_image->setFilter("*.iso");
     m_status.iso_image->setMode(KFile::File);
     m_status.iso_image->fileDialog()->setOperationMode(KFileDialog::Saving);
@@ -707,8 +707,8 @@ void DvdWizard::slotLoad()
     QString profile = dvdproject.attribute("profile");
     m_pageVob->setProfile(profile);
 
-    m_status.tmp_folder->setPath(dvdproject.attribute("tmp_folder"));
-    m_status.iso_image->setPath(dvdproject.attribute("iso_image"));
+    m_status.tmp_folder->setUrl(KUrl(dvdproject.attribute("tmp_folder")));
+    m_status.iso_image->setUrl(KUrl(dvdproject.attribute("iso_image")));
     m_pageVob->setIntroMovie(dvdproject.attribute("intro_movie"));
 
     QDomNodeList vobs = doc.elementsByTagName("vob");

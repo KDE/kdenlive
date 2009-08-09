@@ -78,7 +78,7 @@ void DvdWizardChapters::slotUpdateChaptersList()
     m_view.chapters_list->clear();
     m_view.chapters_list->addItems(chaptersString);
 
-    bool modified = m_view.vob_list->itemData(m_view.vob_list->currentIndex(), Qt::UserRole + 2).toInt();
+    //bool modified = m_view.vob_list->itemData(m_view.vob_list->currentIndex(), Qt::UserRole + 2).toInt();
 }
 
 void DvdWizardChapters::slotAddChapter()

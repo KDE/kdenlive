@@ -563,10 +563,10 @@ void DvdWizardMenu::loadXml(QDomElement xml)
         m_view.background_color->setColor(xml.attribute("background_color"));
     } else if (xml.hasAttribute("background_image")) {
         m_view.background_list->setCurrentIndex(1);
-        m_view.background_image->setPath(xml.attribute("background_image"));
+        m_view.background_image->setUrl(KUrl(xml.attribute("background_image")));
     } else if (xml.hasAttribute("background_video")) {
         m_view.background_list->setCurrentIndex(2);
-        m_view.background_image->setPath(xml.attribute("background_video"));
+        m_view.background_image->setUrl(KUrl(xml.attribute("background_video")));
     }
 
     m_view.text_color->setColor(xml.attribute("text_color"));
