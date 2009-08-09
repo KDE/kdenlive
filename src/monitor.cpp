@@ -453,7 +453,7 @@ void Monitor::activateMonitor()
 void Monitor::setTimePos(const QString &pos)
 {
     if (m_frametimecode) {
-        int frames = m_monitorManager->timecode().getFrameCount(pos, m_monitorManager->timecode().fps());
+        int frames = m_monitorManager->timecode().getFrameCount(pos);
         m_timePos->setText(QString::number(frames));
     } else m_timePos->setText(pos);
     slotSeek();
@@ -463,7 +463,7 @@ void Monitor::slotSeek()
 {
     int frames;
     if (m_frametimecode) frames = m_timePos->text().toInt();
-    else frames = m_monitorManager->timecode().getFrameCount(m_timePos->text(), m_monitorManager->timecode().fps());
+    else frames = m_monitorManager->timecode().getFrameCount(m_timePos->text());
     slotSeek(frames);
 }
 
@@ -766,7 +766,7 @@ void Monitor::updateTimecodeFormat()
 {
     m_frametimecode = KdenliveSettings::frametimecode();
     if (m_frametimecode) {
-        int frames = m_monitorManager->timecode().getFrameCount(m_timePos->text(), m_monitorManager->timecode().fps());
+        int frames = m_monitorManager->timecode().getFrameCount(m_timePos->text());
         m_timePos->setInputMask("999999999");
         m_timePos->setText(QString::number(frames));
     } else {

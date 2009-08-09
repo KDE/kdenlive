@@ -1033,11 +1033,11 @@ void CustomTrackView::mouseDoubleClickEvent(QMouseEvent *event)
             QDialog d(parentWidget());
             Ui::KeyFrameDialog_UI view;
             view.setupUi(&d);
-            view.kfr_position->setText(m_document->timecode().getTimecode(GenTime(m_dragItem->selectedKeyFramePos(), m_document->fps()) - m_dragItem->cropStart(), m_document->fps()));
+            view.kfr_position->setText(m_document->timecode().getTimecode(GenTime(m_dragItem->selectedKeyFramePos(), m_document->fps()) - m_dragItem->cropStart()));
             view.kfr_value->setValue(m_dragItem->selectedKeyFrameValue());
             view.kfr_value->setFocus();
             if (d.exec() == QDialog::Accepted) {
-                int pos = m_document->timecode().getFrameCount(view.kfr_position->text(), m_document->fps());
+                int pos = m_document->timecode().getFrameCount(view.kfr_position->text());
                 m_dragItem->updateKeyFramePos(GenTime(pos, m_document->fps()) + m_dragItem->cropStart(), (double) view.kfr_value->value() * m_dragItem->keyFrameFactor());
                 ClipItem *item = (ClipItem *)m_dragItem;
                 QString previous = item->keyframes(item->selectedEffectIndex());

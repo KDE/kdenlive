@@ -53,7 +53,7 @@ void PositionEdit::slotUpdateTimecode()
 void PositionEdit::slotUpdatePosition()
 {
     m_ui.horizontalSlider->blockSignals(true);
-    int pos = m_tc.getFrameCount(m_ui.krestrictedline->text(), KdenliveSettings::project_fps());
+    int pos = m_tc.getFrameCount(m_ui.krestrictedline->text());
     m_ui.horizontalSlider->setValue(pos);
     if (pos != m_ui.horizontalSlider->value()) {
         // Value out of range

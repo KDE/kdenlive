@@ -31,14 +31,15 @@ class Timecode
 public:
     enum Formats { HH_MM_SS_FF, HH_MM_SS_HH, Frames, Seconds };
 
-    explicit Timecode(Formats format = HH_MM_SS_FF, int framesPerSecond =
+    explicit Timecode(Formats format = HH_MM_SS_FF, double framesPerSecond =
                           25, bool dropFrame = false);
 
     /** Set the current timecode format; this is the output format for this timecode. */
-    void setFormat(int framesPerSecond, bool dropFrame = false, Formats format = HH_MM_SS_FF) {
-        m_displayedFramesPerSecond = framesPerSecond;
+    void setFormat(double framesPerSecond, bool dropFrame = false, Formats format = HH_MM_SS_FF) {
+        m_displayedFramesPerSecond = (int) (framesPerSecond + 0.5);
         m_dropFrame = dropFrame;
         m_format = format;
+	m_realFps = framesPerSecond;
     }
 
     Formats format() const {
@@ -48,8 +49,8 @@ public:
     ~Timecode();
 
     /** Returns the timecode for a given time */
-    QString getTimecode(const GenTime & time, double fps) const;
-    int getFrameCount(const QString duration, double fps) const;
+    QString getTimecode(const GenTime & time) const;
+    int getFrameCount(const QString duration) const;
     static QString getEasyTimecode(const GenTime & time, const double &fps);
     static QString getStringTimecode(int frames, const double &fps);
     QString getTimecodeFromFrames(int frames) const;
@@ -59,13 +60,16 @@ private:
     Formats m_format;
     bool m_dropFrame;
     int m_displayedFramesPerSecond;
+    double m_realFps;
 
-    QString getTimecodeHH_MM_SS_FF(const GenTime & time, double fps) const;
+    QString getTimecodeHH_MM_SS_FF(const GenTime & time) const;
     QString getTimecodeHH_MM_SS_FF(int frames) const;
+    
     QString getTimecodeHH_MM_SS_HH(const GenTime & time) const;
-    QString getTimecodeFrames(const GenTime & time, double fps) const;
+    QString getTimecodeFrames(const GenTime & time) const;
     QString getTimecodeSeconds(const GenTime & time) const;
-    QString getTimecodeDropFrame(const GenTime & time, double fps) const;
+    QString getTimecodeDropFrame(const GenTime & time) const;
+    QString getTimecodeDropFrame(int frames) const;
 };
 
 #endif

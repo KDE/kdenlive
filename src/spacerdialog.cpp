@@ -33,7 +33,7 @@ SpacerDialog::SpacerDialog(const GenTime duration, Timecode tc, int track, int t
     setFont(KGlobalSettings::toolBarFont());
     m_fps = m_tc.fps();
     m_view.setupUi(this);
-    m_view.space_duration->setText(tc.getTimecode(duration, m_fps));
+    m_view.space_duration->setText(tc.getTimecode(duration));
     QStringList tracks;
     tracks << i18n("All tracks");
     for (int i = 0; i < trackNumber - 1; i++) {
@@ -54,22 +54,22 @@ SpacerDialog::~SpacerDialog()
 
 void SpacerDialog::slotTimeUp()
 {
-    int duration = m_tc.getFrameCount(m_view.space_duration->text(), m_fps);
+    int duration = m_tc.getFrameCount(m_view.space_duration->text());
     duration ++;
-    m_view.space_duration->setText(m_tc.getTimecode(GenTime(duration, m_fps), m_fps));
+    m_view.space_duration->setText(m_tc.getTimecode(GenTime(duration, m_fps)));
 }
 
 void SpacerDialog::slotTimeDown()
 {
-    int duration = m_tc.getFrameCount(m_view.space_duration->text(), m_fps);
+    int duration = m_tc.getFrameCount(m_view.space_duration->text());
     if (duration <= 0) return;
     duration --;
-    m_view.space_duration->setText(m_tc.getTimecode(GenTime(duration, m_fps), m_fps));
+    m_view.space_duration->setText(m_tc.getTimecode(GenTime(duration, m_fps)));
 }
 
 GenTime SpacerDialog::selectedDuration()
 {
-    return GenTime(m_tc.getFrameCount(m_view.space_duration->text(), m_fps), m_fps);
+    return GenTime(m_tc.getFrameCount(m_view.space_duration->text()), m_fps);
 }
 
 void SpacerDialog::wheelEvent(QWheelEvent * event)

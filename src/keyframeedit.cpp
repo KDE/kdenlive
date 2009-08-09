@@ -86,14 +86,14 @@ void KeyframeEdit::slotAddKeyframe()
     QTreeWidgetItem *item = m_ui.keyframe_list->currentItem();
     if (item == NULL) return;
     int ix = m_ui.keyframe_list->indexOfTopLevelItem(item);
-    int pos1 = m_timecode.getFrameCount(item->text(0), m_timecode.fps());
+    int pos1 = m_timecode.getFrameCount(item->text(0));
     QTreeWidgetItem *below = m_ui.keyframe_list->topLevelItem(ix + 1);
     if (below == NULL) below = m_ui.keyframe_list->topLevelItem(ix - 1);
     if (below == NULL) {
         if (pos1 == 0) pos2 = m_max;
         else pos2 = 0;
     } else {
-        pos2 = m_timecode.getFrameCount(below->text(0), m_timecode.fps());
+        pos2 = m_timecode.getFrameCount(below->text(0));
     }
 
     int result = (pos1 + pos2) / 2;
@@ -113,7 +113,7 @@ void KeyframeEdit::slotGenerateParams(QTreeWidgetItem *item, int column)
     if (item) {
         if (column == 0) {
             QString val = item->text(0);
-            int pos = m_timecode.getFrameCount(val, m_timecode.fps());
+            int pos = m_timecode.getFrameCount(val);
             if (pos <= 0) {
                 pos = 0;
                 val = m_timecode.getTimecodeFromFrames(pos);
@@ -138,7 +138,7 @@ void KeyframeEdit::slotGenerateParams(QTreeWidgetItem *item, int column)
     QString keyframes;
     for (int i = 0; i < m_ui.keyframe_list->topLevelItemCount(); i++) {
         QTreeWidgetItem *item = m_ui.keyframe_list->topLevelItem(i);
-        keyframes.append(QString::number(m_timecode.getFrameCount(item->text(0), m_timecode.fps())) + ':' + item->text(1) + ';');
+        keyframes.append(QString::number(m_timecode.getFrameCount(item->text(0))) + ':' + item->text(1) + ';');
     }
     m_param.setAttribute("keyframes", keyframes);
     emit parameterChanged();
@@ -152,11 +152,11 @@ void KeyframeEdit::slotAdjustKeyframeInfo()
     int max = m_max;
     QTreeWidgetItem *above = m_ui.keyframe_list->itemAbove(item);
     QTreeWidgetItem *below = m_ui.keyframe_list->itemBelow(item);
-    if (above) min = m_timecode.getFrameCount(above->text(0), m_timecode.fps()) + 1;
-    if (below) max = m_timecode.getFrameCount(below->text(0), m_timecode.fps()) - 1;
+    if (above) min = m_timecode.getFrameCount(above->text(0)) + 1;
+    if (below) max = m_timecode.getFrameCount(below->text(0)) - 1;
     m_ui.keyframe_pos->blockSignals(true);
     m_ui.keyframe_pos->setRange(min, max);
-    m_ui.keyframe_pos->setValue(m_timecode.getFrameCount(item->text(0), m_timecode.fps()));
+    m_ui.keyframe_pos->setValue(m_timecode.getFrameCount(item->text(0)));
     m_ui.keyframe_pos->blockSignals(false);
 }
 
@@ -168,6 +168,6 @@ void KeyframeEdit::slotAdjustKeyframeValue(int value)
 
 void KeyframeEdit::slotSaveCurrentParam(QTreeWidgetItem *item, int column)
 {
-    if (item && column == 0) m_previousPos = m_timecode.getFrameCount(item->text(0), m_timecode.fps());
+    if (item && column == 0) m_previousPos = m_timecode.getFrameCount(item->text(0));
 }
 

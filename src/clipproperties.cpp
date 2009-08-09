@@ -234,7 +234,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
 
     KFileItem f(KFileItem::Unknown, KFileItem::Unknown, url, true);
     m_view.clip_filesize->setText(KIO::convertSize(f.size()));
-    m_view.clip_duration->setText(tc.getTimecode(m_clip->duration(), m_fps));
+    m_view.clip_duration->setText(tc.getTimecode(m_clip->duration()));
     if (t != IMAGE && t != COLOR && t != TEXT) m_view.clip_duration->setReadOnly(true);
     else connect(m_view.clip_duration, SIGNAL(editingFinished()), this, SLOT(slotCheckMaxLength()));
 
@@ -283,7 +283,7 @@ void ClipProperties::slotFillMarkersList()
     m_view.markers_list->clear();
     QList < CommentedTime > marks = m_clip->commentedSnapMarkers();
     for (int count = 0; count < marks.count(); ++count) {
-        QString time = m_tc.getTimecode(marks[count].time(), m_tc.fps());
+        QString time = m_tc.getTimecode(marks[count].time());
         QStringList itemtext;
         itemtext << time << marks[count].comment();
         (void) new QTreeWidgetItem(m_view.markers_list, itemtext);
@@ -381,7 +381,7 @@ QMap <QString, QString> ClipProperties::properties()
             m_clipNeedsRefresh = true;
             props["colour"] = "0x" + new_color.right(6) + "ff";
         }
-        int duration = m_tc.getFrameCount(m_view.clip_duration->text(), m_fps);
+        int duration = m_tc.getFrameCount(m_view.clip_duration->text());
         if (duration != m_clip->duration().frames(m_fps)) {
             props["out"] = QString::number(duration);
         }
@@ -390,7 +390,7 @@ QMap <QString, QString> ClipProperties::properties()
             props["transparency"] = QString::number((int)m_view.image_transparency->isChecked());
             m_clipNeedsRefresh = true;
         }
-        int duration = m_tc.getFrameCount(m_view.clip_duration->text(), m_fps);
+        int duration = m_tc.getFrameCount(m_view.clip_duration->text());
         if (duration != m_clip->duration().frames(m_fps)) {
             props["out"] = QString::number(duration);
         }
@@ -427,7 +427,7 @@ QMap <QString, QString> ClipProperties::properties()
         if (m_view.slide_duration_format->currentIndex() == 1) {
             // we are in frames mode
             duration = m_view.slide_duration_frames->value();
-        } else duration = m_tc.getFrameCount(m_view.slide_duration->text(), m_fps);
+        } else duration = m_tc.getFrameCount(m_view.slide_duration->text());
         if (duration != old_props.value("ttl").toInt()) {
             m_clipNeedsRefresh = true;
             props["ttl"] = QString::number(duration);
@@ -442,7 +442,7 @@ QMap <QString, QString> ClipProperties::properties()
             if (m_view.slide_duration_format->currentIndex() == 1) {
                 // we are in frames mode
                 luma_duration = m_view.luma_duration_frames->value();
-            } else luma_duration = m_tc.getFrameCount(m_view.luma_duration->text(), m_fps);
+            } else luma_duration = m_tc.getFrameCount(m_view.luma_duration->text());
             if (luma_duration != old_props.value("luma_duration").toInt()) {
                 m_clipNeedsRefresh = true;
                 props["luma_duration"] = QString::number(luma_duration);
@@ -513,9 +513,9 @@ void ClipProperties::parseFolder()
 void ClipProperties::slotCheckMaxLength()
 {
     if (m_clip->maxDuration() == GenTime()) return;
-    int duration = m_tc.getFrameCount(m_view.clip_duration->text(), m_fps);
+    int duration = m_tc.getFrameCount(m_view.clip_duration->text());
     if (duration > m_clip->maxDuration().frames(m_fps)) {
-        m_view.clip_duration->setText(m_tc.getTimecode(m_clip->maxDuration(), m_fps));
+        m_view.clip_duration->setText(m_tc.getTimecode(m_clip->maxDuration()));
     }
 }
 
@@ -524,8 +524,8 @@ void ClipProperties::slotUpdateDurationFormat(int ix)
     bool framesFormat = ix == 1;
     if (framesFormat) {
         // switching to frames count, update widget
-        m_view.slide_duration_frames->setValue(m_tc.getFrameCount(m_view.slide_duration->text(), m_tc.fps()));
-        m_view.luma_duration_frames->setValue(m_tc.getFrameCount(m_view.luma_duration->text(), m_tc.fps()));
+        m_view.slide_duration_frames->setValue(m_tc.getFrameCount(m_view.slide_duration->text()));
+        m_view.luma_duration_frames->setValue(m_tc.getFrameCount(m_view.luma_duration->text()));
         m_view.slide_duration->setHidden(true);
         m_view.luma_duration->setHidden(true);
         m_view.slide_duration_frames->setHidden(false);

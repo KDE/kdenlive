@@ -82,7 +82,7 @@ MarkerDialog::MarkerDialog(DocClipBase *clip, CommentedTime t, Timecode tc, cons
         connect(m_view.marker_position, SIGNAL(textChanged(const QString &)), this, SIGNAL(updateThumb()));
     } else m_view.clip_thumb->setHidden(true);
 
-    m_view.marker_position->setText(tc.getTimecode(t.time(), m_fps));
+    m_view.marker_position->setText(tc.getTimecode(t.time()));
 
     m_view.marker_comment->setText(t.comment());
     m_view.marker_comment->selectAll();
@@ -104,7 +104,7 @@ MarkerDialog::~MarkerDialog()
 void MarkerDialog::slotUpdateThumb()
 {
     m_previewTimer->stop();
-    int pos = m_tc.getFrameCount(m_view.marker_position->text(), m_fps);
+    int pos = m_tc.getFrameCount(m_view.marker_position->text());
     int width = 100.0 * m_dar;
     if (width % 2 == 1) width++;
     QPixmap p = KThumb::getFrame(m_producer, pos, width, 100);
@@ -114,23 +114,23 @@ void MarkerDialog::slotUpdateThumb()
 
 void MarkerDialog::slotTimeUp()
 {
-    int duration = m_tc.getFrameCount(m_view.marker_position->text(), m_fps);
+    int duration = m_tc.getFrameCount(m_view.marker_position->text());
     if (m_clip && duration >= m_clip->duration().frames(m_fps)) return;
     duration ++;
-    m_view.marker_position->setText(m_tc.getTimecode(GenTime(duration, m_fps), m_fps));
+    m_view.marker_position->setText(m_tc.getTimecode(GenTime(duration, m_fps)));
 }
 
 void MarkerDialog::slotTimeDown()
 {
-    int duration = m_tc.getFrameCount(m_view.marker_position->text(), m_fps);
+    int duration = m_tc.getFrameCount(m_view.marker_position->text());
     if (duration <= 0) return;
     duration --;
-    m_view.marker_position->setText(m_tc.getTimecode(GenTime(duration, m_fps), m_fps));
+    m_view.marker_position->setText(m_tc.getTimecode(GenTime(duration, m_fps)));
 }
 
 CommentedTime MarkerDialog::newMarker()
 {
-    return CommentedTime(GenTime(m_tc.getFrameCount(m_view.marker_position->text(), m_fps), m_fps), m_view.marker_comment->text());
+    return CommentedTime(GenTime(m_tc.getFrameCount(m_view.marker_position->text()), m_fps), m_view.marker_comment->text());
 }
 
 void MarkerDialog::wheelEvent(QWheelEvent * event)

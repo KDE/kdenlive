@@ -301,7 +301,6 @@ void CustomRuler::paintEvent(QPaintEvent *e)
     offsetmin = offsetmin * m_textSpacing;
     for (f = offsetmin; f < offsetmax; f += m_textSpacing) {
         QString lab = m_timecode.getTimecodeFromFrames((int)(f / m_factor + 0.5));
-
         p.drawText(f - m_offset + 2, LABEL_SIZE, lab);
     }
 

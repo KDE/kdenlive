@@ -258,7 +258,7 @@ QDomElement DocClipBase::toXML() const
         if (!i.value().isEmpty()) clip.setAttribute(i.key(), i.value());
     }
     doc.appendChild(clip);
-    //kDebug()<<"/// CLIP XML: "<<doc.toString();
+    //kDebug() << "/// CLIP XML: " << doc.toString();
     return doc.documentElement();
 }
 

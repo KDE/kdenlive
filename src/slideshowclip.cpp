@@ -220,8 +220,8 @@ void SlideshowClip::slotUpdateDurationFormat(int ix)
     bool framesFormat = ix == 1;
     if (framesFormat) {
         // switching to frames count, update widget
-        m_view.clip_duration_frames->setValue(m_timecode.getFrameCount(m_view.clip_duration->text(), m_timecode.fps()));
-        m_view.luma_duration_frames->setValue(m_timecode.getFrameCount(m_view.luma_duration->text(), m_timecode.fps()));
+        m_view.clip_duration_frames->setValue(m_timecode.getFrameCount(m_view.clip_duration->text()));
+        m_view.luma_duration_frames->setValue(m_timecode.getFrameCount(m_view.luma_duration->text()));
     } else {
         // switching to timecode format
         m_view.clip_duration->setText(m_timecode.getTimecodeFromFrames(m_view.clip_duration_frames->value()));

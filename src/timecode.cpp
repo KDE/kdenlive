@@ -19,10 +19,11 @@
 #include <kdebug.h>
 #include <klocale.h>
 
-Timecode::Timecode(Formats format, int framesPerSecond, bool dropFrame) :
+Timecode::Timecode(Formats format, double framesPerSecond, bool dropFrame) :
         m_format(format),
         m_dropFrame(dropFrame),
-        m_displayedFramesPerSecond(framesPerSecond + 0.5)
+        m_displayedFramesPerSecond(framesPerSecond + 0.5),
+	m_realFps(framesPerSecond)
 {
 }
 
@@ -36,12 +37,12 @@ int Timecode::fps() const
 }
 
 
-int Timecode::getFrameCount(const QString duration, double fps) const
+int Timecode::getFrameCount(const QString duration) const
 {
     if (m_dropFrame) {
         // calculate how many frames need to be dropped every minute.
         int frames;
-        int toDrop = (int) floor(600.0 * (m_displayedFramesPerSecond - fps)  + 0.5);
+        int toDrop = (int) floor(600.0 * (m_displayedFramesPerSecond - m_realFps)  + 0.5);
 
         int perMinute = toDrop / 9;
         int tenthMinute = toDrop % 9;
@@ -65,20 +66,20 @@ int Timecode::getFrameCount(const QString duration, double fps) const
         frames += duration.section(':', 2, 2).toInt() * m_displayedFramesPerSecond + duration.section(':', 3, 3).toInt();
         return frames;
     }
-    return (int)((duration.section(':', 0, 0).toInt()*3600.0 + duration.section(':', 1, 1).toInt()*60.0 + duration.section(':', 2, 2).toInt()) * fps + duration.section(':', 3, 3).toInt());
+    return (int)((duration.section(':', 0, 0).toInt()*3600.0 + duration.section(':', 1, 1).toInt()*60.0 + duration.section(':', 2, 2).toInt()) * m_realFps + duration.section(':', 3, 3).toInt());
 }
 
-QString Timecode::getTimecode(const GenTime & time, double fps) const
+QString Timecode::getTimecode(const GenTime & time) const
 {
     switch (m_format) {
     case HH_MM_SS_FF:
-        return getTimecodeHH_MM_SS_FF(time, fps);
+        return getTimecodeHH_MM_SS_FF(time);
         break;
     case HH_MM_SS_HH:
         return getTimecodeHH_MM_SS_HH(time);
         break;
     case Frames:
-        return getTimecodeFrames(time, fps);
+        return getTimecodeFrames(time);
         break;
     case Seconds:
         return getTimecodeSeconds(time);
@@ -87,7 +88,7 @@ QString Timecode::getTimecode(const GenTime & time, double fps) const
         kWarning() <<
         "Unknown timecode format specified, defaulting to HH_MM_SS_FF"
         << endl;
-        return getTimecodeHH_MM_SS_FF(time, fps);
+        return getTimecodeHH_MM_SS_FF(time);
     }
 }
 
@@ -162,16 +163,19 @@ QString Timecode::getEasyTimecode(const GenTime & time, const double &fps)
 }
 
 
-QString Timecode::getTimecodeHH_MM_SS_FF(const GenTime & time, double fps) const
+QString Timecode::getTimecodeHH_MM_SS_FF(const GenTime & time) const
 {
     if (m_dropFrame)
-        return getTimecodeDropFrame(time, fps);
+        return getTimecodeDropFrame(time);
 
-    return getTimecodeHH_MM_SS_FF((int)(time.frames(fps) + 0.5));
+    return getTimecodeHH_MM_SS_FF((int) time.frames(m_realFps));
 }
 
 QString Timecode::getTimecodeHH_MM_SS_FF(int frames) const
 {
+    if (m_dropFrame) {
+	return getTimecodeDropFrame(frames);
+    }
     int seconds = frames / m_displayedFramesPerSecond;
     frames = frames % m_displayedFramesPerSecond;
 
@@ -215,9 +219,9 @@ QString Timecode::getTimecodeHH_MM_SS_HH(const GenTime & time) const
     return text;
 }
 
-QString Timecode::getTimecodeFrames(const GenTime & time, double fps) const
+QString Timecode::getTimecodeFrames(const GenTime & time) const
 {
-    return QString::number(time.frames(fps));
+    return QString::number(time.frames(m_realFps));
 }
 
 QString Timecode::getTimecodeSeconds(const GenTime & time) const
@@ -225,15 +229,19 @@ QString Timecode::getTimecodeSeconds(const GenTime & time) const
     return QString::number(time.seconds());
 }
 
-QString Timecode::getTimecodeDropFrame(const GenTime & time, double fps) const
+QString Timecode::getTimecodeDropFrame(const GenTime & time) const
+{
+    return getTimecodeDropFrame((int)time.frames(m_realFps));
+}
+
+QString Timecode::getTimecodeDropFrame(int frames) const
 {
     // Calculate the timecode using dropframes to remove the difference in fps. Note that this algorithm should work
     // for NTSC times, but is untested for any others - it is in no way an "official" algorithm, unless it's by fluke.
-    int frames = (int)time.frames(fps);
 
     // calculate how many frames need to be dropped every minute.
-    int toDrop = (int) floor(600.0 * (m_displayedFramesPerSecond - fps)  + 0.5);
-
+    int toDrop = (int) floor(600.0 * (m_displayedFramesPerSecond - m_realFps)  + 0.5);
+    
     int perMinute = toDrop / 9;
     int tenthMinute = toDrop % 9;
 

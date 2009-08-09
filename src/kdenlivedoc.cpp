@@ -224,8 +224,8 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
     KStandardDirs::makeDir(m_projectFolder.path(KUrl::AddTrailingSlash) + "ladspa/");
 
     kDebug() << "Kdenlive document, init timecode: " << m_fps;
-    if (m_fps == 30000.0 / 1001.0) m_timecode.setFormat(30, true);
-    else m_timecode.setFormat((int)(m_fps + 0.5));
+    if (m_fps == 30000.0 / 1001.0) m_timecode.setFormat(m_fps, true);
+    else m_timecode.setFormat(m_fps);
 
     //kDebug() << "// SETTING SCENE LIST:\n\n" << m_document.toString();
     connect(m_autoSaveTimer, SIGNAL(timeout()), this, SLOT(slotAutoSave()));
@@ -693,8 +693,8 @@ void KdenliveDoc::setProfilePath(QString path)
     m_width = m_profile.width;
     m_height = m_profile.height;
     kDebug() << "Kdenlive document, init timecode from path: " << path << ",  " << m_fps;
-    if (m_fps == 30000.0 / 1001.0) m_timecode.setFormat(30, true);
-    else m_timecode.setFormat((int)(m_fps + 0.5));
+    if (m_fps == 30000.0 / 1001.0) m_timecode.setFormat(m_fps, true);
+    else m_timecode.setFormat(m_fps);
 }
 
 double KdenliveDoc::dar()
@@ -759,7 +759,7 @@ void KdenliveDoc::updateClip(const QString &id)
 
 int KdenliveDoc::getFramePos(QString duration)
 {
-    return m_timecode.getFrameCount(duration, m_fps);
+    return m_timecode.getFrameCount(duration);
 }
 
 QString KdenliveDoc::producerName(const QString &id)
