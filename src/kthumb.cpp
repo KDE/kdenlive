@@ -252,10 +252,8 @@ QPixmap KThumb::getFrame(Mlt::Producer *producer, int framepos, int width, int h
     mlt_service_lock(service.get_service());*/
 
     mlt_image_format format = mlt_image_rgb24a;
-    int frame_width = width;
-    int frame_height = height;
-    uint8_t *data = frame->get_image(format, frame_width, frame_height, 0);
-    QImage image((uchar *)data, frame_width, frame_height, QImage::Format_ARGB32);
+    uint8_t *data = frame->get_image(format, width, height, 0);
+    QImage image((uchar *)data, width, height, QImage::Format_ARGB32);
     //mlt_service_unlock(service.get_service());
 
     if (!image.isNull()) {

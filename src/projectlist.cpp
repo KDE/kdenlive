@@ -497,8 +497,8 @@ void ProjectList::deleteProjectFolder(QMap <QString, QString> map)
 void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
 {
     if (getProperties) {
-	m_listView->setEnabled(false);
-	m_listView->blockSignals(true);
+        m_listView->setEnabled(false);
+        m_listView->blockSignals(true);
     }
     const QString parent = clip->getProperty("groupid");
     kDebug() << "Adding clip with groupid: " << parent;
@@ -582,7 +582,7 @@ void ProjectList::slotUpdateClip(const QString &id)
 void ProjectList::updateAllClips()
 {
     m_listView->setSortingEnabled(false);
-    
+
     QTreeWidgetItemIterator it(m_listView);
     DocClipBase *clip;
     ProjectItem *item;
@@ -603,9 +603,8 @@ void ProjectList::updateAllClips()
             }*/
             if (item->referencedClip()->producer() == NULL) {
                 if (clip->isPlaceHolder() == false) {
-		    requestClipInfo(clip->toXML(), clip->getId());
-		}
-                else item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+                    requestClipInfo(clip->toXML(), clip->getId());
+                } else item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
             } else {
                 if (item->icon(0).isNull()) {
                     requestClipThumbnail(clip->getId());
@@ -614,7 +613,7 @@ void ProjectList::updateAllClips()
                     item->changeDuration(item->referencedClip()->producer()->get_playtime());
                 }
             }
-	    item->setData(1, UsageRole, QString::number(item->numReferences()));
+            item->setData(1, UsageRole, QString::number(item->numReferences()));
             qApp->processEvents();
         }
         ++it;
@@ -797,7 +796,7 @@ void ProjectList::setDocument(KdenliveDoc *doc)
     for (int i = 0; i < list.count(); i++) {
         slotAddClip(list.at(i), false);
     }
-    
+
     m_listView->blockSignals(false);
     m_toolbar->setEnabled(true);
     connect(m_doc->clipManager(), SIGNAL(reloadClip(const QString &)), this, SLOT(slotReloadClip(const QString &)));

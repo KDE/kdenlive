@@ -69,7 +69,7 @@ Render::Render(const QString & rendererName, int winid, int /* extid */, QWidget
         m_name(rendererName),
         m_mltConsumer(NULL),
         m_mltProducer(NULL),
-	m_mltProfile(NULL),
+        m_mltProfile(NULL),
         m_framePosition(0),
         m_isZoneMode(false),
         m_isLoopMode(false),

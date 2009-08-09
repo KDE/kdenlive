@@ -208,6 +208,8 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
         m_document = createEmptyDocument(tracks.x(), tracks.y());
     }
 
+    KdenliveSettings::setCurrent_profile(profilePath());
+
     // Set the video profile (empty == default)
 
     // Make sure the project folder is usable
@@ -245,6 +247,7 @@ KdenliveDoc::~KdenliveDoc()
 
 int KdenliveDoc::setSceneList()
 {
+    m_render->resetProfile();
     if (m_render->setSceneList(m_document.toString(), m_documentProperties.value("position").toInt()) == -1) {
         // INVALID MLT Consumer, something is wrong
         return -1;
