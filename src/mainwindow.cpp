@@ -624,7 +624,7 @@ void MainWindow::slotConnectMonitors()
     m_projectList->setRenderer(m_projectMonitor->render);
     connect(m_projectList, SIGNAL(receivedClipDuration(const QString &)), this, SLOT(slotUpdateClip(const QString &)));
     connect(m_projectList, SIGNAL(showClipProperties(DocClipBase *)), this, SLOT(slotShowClipProperties(DocClipBase *)));
-    connect(m_projectList, SIGNAL(getFileProperties(const QDomElement &, const QString &, bool)), m_projectMonitor->render, SLOT(getFileProperties(const QDomElement &, const QString &, bool)));
+    connect(m_projectList, SIGNAL(getFileProperties(const QDomElement, const QString &, bool)), m_projectMonitor->render, SLOT(getFileProperties(const QDomElement, const QString &, bool)));
     connect(m_projectMonitor->render, SIGNAL(replyGetImage(const QString &, const QPixmap &)), m_projectList, SLOT(slotReplyGetImage(const QString &, const QPixmap &)));
     connect(m_projectMonitor->render, SIGNAL(replyGetFileProperties(const QString &, Mlt::Producer*, const QMap < QString, QString > &, const QMap < QString, QString > &, bool)), m_projectList, SLOT(slotReplyGetFileProperties(const QString &, Mlt::Producer*, const QMap < QString, QString > &, const QMap < QString, QString > &, bool)));
 
@@ -1744,7 +1744,6 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
             disconnect(m_projectList, SIGNAL(projectModified()), m_activeDocument, SLOT(setModified()));
             disconnect(m_projectMonitor->render, SIGNAL(refreshDocumentProducers()), m_activeDocument, SLOT(checkProjectClips()));
 
-
             disconnect(m_activeDocument, SIGNAL(guidesUpdated()), this, SLOT(slotGuidesUpdated()));
             disconnect(m_activeDocument, SIGNAL(addProjectClip(DocClipBase *, bool)), m_projectList, SLOT(slotAddClip(DocClipBase *, bool)));
             disconnect(m_activeDocument, SIGNAL(resetProjectList()), m_projectList, SLOT(slotResetProjectList()));
@@ -1803,6 +1802,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     connect(m_projectMonitor, SIGNAL(zoneUpdated(QPoint)), trackView, SLOT(slotSetZone(QPoint)));
     connect(m_projectMonitor, SIGNAL(durationChanged(int)), trackView, SLOT(setDuration(int)));
     connect(m_projectMonitor->render, SIGNAL(refreshDocumentProducers()), doc, SLOT(checkProjectClips()));
+    
     connect(doc, SIGNAL(addProjectClip(DocClipBase *, bool)), m_projectList, SLOT(slotAddClip(DocClipBase *, bool)));
     connect(doc, SIGNAL(resetProjectList()), m_projectList, SLOT(slotResetProjectList()));
     connect(doc, SIGNAL(signalDeleteProjectClip(const QString &)), m_projectList, SLOT(slotDeleteClip(const QString &)));
@@ -1851,7 +1851,6 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     //doc->setRenderer(m_projectMonitor->render);
     m_commandStack->setActiveStack(doc->commandStack());
     KdenliveSettings::setProject_display_ratio(doc->dar());
-    m_projectList->updateAllClips();
     //doc->clipManager()->checkAudioThumbs();
 
     //m_overView->setScene(trackView->projectScene());
@@ -1862,6 +1861,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     m_saveAction->setEnabled(doc->isModified());
     m_activeDocument = doc;
     m_activeTimeline->updateProjectFps();
+    m_projectList->updateAllClips();
     if (KdenliveSettings::dropbframes()) slotUpdatePreviewSettings();
 
     // set tool to select tool

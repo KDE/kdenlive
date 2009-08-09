@@ -287,7 +287,7 @@ public slots:  // Public slots
     /** Wraps the VEML command of the same name. Requests the file properties
     for the specified url from the renderer. Upon return, the result will be emitted
     via replyGetFileProperties(). */
-    void getFileProperties(const QDomElement &xml, const QString &clipId, bool replaceProducer = true);
+    void getFileProperties(const QDomElement xml, const QString &clipId, bool replaceProducer = true);
 
     void exportFileToFirewire(QString srcFileName, int port, GenTime startTime, GenTime endTime);
     static char *decodedString(QString str);

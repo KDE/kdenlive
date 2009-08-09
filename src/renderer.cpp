@@ -69,6 +69,7 @@ Render::Render(const QString & rendererName, int winid, int /* extid */, QWidget
         m_name(rendererName),
         m_mltConsumer(NULL),
         m_mltProducer(NULL),
+	m_mltProfile(NULL),
         m_framePosition(0),
         m_isZoneMode(false),
         m_isLoopMode(false),
@@ -132,6 +133,7 @@ void Render::buildConsumer()
     delete m_blackClip;
     m_blackClip = NULL;
 
+    if (m_mltProfile) delete m_mltProfile;
     m_mltProfile = new Mlt::Profile(tmp);
     delete[] tmp;
 
@@ -233,9 +235,6 @@ int Render::resetProfile()
         delete m_mltProducer;
     }
     m_mltProducer = NULL;
-
-    if (m_mltProfile) delete m_mltProfile;
-    m_mltProfile = NULL;
 
     buildConsumer();
 
@@ -537,10 +536,11 @@ void Render::slotSplitView(bool doit)
     }
 }
 
-void Render::getFileProperties(const QDomElement &xml, const QString &clipId, bool replaceProducer)
+void Render::getFileProperties(const QDomElement xml, const QString &clipId, bool replaceProducer)
 {
     KUrl url = KUrl(xml.attribute("resource", QString()));
     Mlt::Producer *producer = NULL;
+    //kDebug() << "PROFILE WIDT: "<< xml.attribute("mlt_service") << ": "<< m_mltProfile->width() << "\n...................\n\n";
     /*if (xml.attribute("type").toInt() == TEXT && !QFile::exists(url.path())) {
         emit replyGetFileProperties(clipId, producer, QMap < QString, QString >(), QMap < QString, QString >(), replaceProducer);
         return;
