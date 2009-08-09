@@ -44,7 +44,7 @@ void MoveClipCommand::undo()
 // virtual
 void MoveClipCommand::redo()
 {
-    kDebug() << "----  redoing action";
+    //kDebug() << "----  redoing action";
     if (m_doIt)
         m_view->moveClip(m_startPos, m_endPos);
     m_doIt = true;

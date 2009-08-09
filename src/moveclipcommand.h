@@ -21,12 +21,9 @@
 #ifndef MOVECLIPCOMMAND_H
 #define MOVECLIPCOMMAND_H
 
-#include <QUndoCommand>
-#include <QGraphicsView>
-#include <QPointF>
 
-#include <KDebug>
 #include "definitions.h"
+#include <QUndoCommand>
 
 class CustomTrackView;
 

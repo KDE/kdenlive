@@ -34,8 +34,8 @@ public:
     bool isModified() const;
 
 private:
-    bool m_modified;
     QDomDocument m_doc;
+    bool m_modified;
     bool upgrade(double version, const double currentVersion);
     QString colorToString(const QColor& c);
 };

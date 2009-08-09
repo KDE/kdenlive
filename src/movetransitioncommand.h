@@ -18,13 +18,9 @@
 #ifndef MOVETRANSITIONCOMMAND_H
 #define MOVETRANSITIONCOMMAND_H
 
-#include <QUndoCommand>
-#include <QGraphicsView>
-#include <QPointF>
-
-#include <KDebug>
-
 #include "definitions.h"
+
+#include <QUndoCommand>
 
 class CustomTrackView;
 

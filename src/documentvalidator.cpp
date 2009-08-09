@@ -674,7 +674,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
     if (version <= 0.83) {
         // Replace point size with pixel size in text titles
         if (m_doc.toString().contains("font-size")) {
-            KMessageBox::ButtonCode convert;
+            KMessageBox::ButtonCode convert = KMessageBox::Continue;
             QDomNodeList kproducerNodes = m_doc.elementsByTagName("kdenlive_producer");
             for (int i = 0; i < kproducerNodes.count() && convert != KMessageBox::No; ++i) {
                 QDomElement kproducer = kproducerNodes.at(i).toElement();

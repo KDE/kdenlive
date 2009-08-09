@@ -41,9 +41,9 @@ void MoveTransitionCommand::undo()
 // virtual
 void MoveTransitionCommand::redo()
 {
-    kDebug() << "----  redoing action";
+    //kDebug() << "----  redoing action";
     if (m_doIt) m_view->moveTransition(m_startPos, m_endPos);
     m_doIt = true;
 }
 
-#include "moveclipcommand.moc"
+

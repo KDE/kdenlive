@@ -21,12 +21,8 @@
 #ifndef MOVEGROUPCOMMAND_H
 #define MOVEGROUPCOMMAND_H
 
-#include <QUndoCommand>
-#include <QGraphicsView>
-#include <QPointF>
-
-#include <KDebug>
 #include "definitions.h"
+#include <QUndoCommand>
 
 class GenTime;
 class CustomTrackView;
