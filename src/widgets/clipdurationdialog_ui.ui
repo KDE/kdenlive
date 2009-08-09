@@ -1,43 +1,87 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>ClipDurationDialog_UI</class>
- <widget class="QDialog" name="ClipDurationDialog_UI" >
-  <property name="geometry" >
+ <widget class="QDialog" name="ClipDurationDialog_UI">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>226</width>
-    <height>149</height>
+    <height>169</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Duration</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout" >
-   <item row="0" column="0" >
-    <widget class="QLabel" name="position_label" >
-     <property name="text" >
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QLabel" name="position_label">
+     <property name="text">
       <string>Position</string>
      </property>
     </widget>
    </item>
-   <item row="0" column="1" >
-    <layout class="QHBoxLayout" name="horizontalLayout" >
+   <item row="0" column="1">
+    <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="KRestrictedLine" name="clip_position" >
-       <property name="inputMask" >
+      <widget class="KRestrictedLine" name="clip_position">
+       <property name="inputMask">
         <string>99:99:99:99; </string>
        </property>
       </widget>
      </item>
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout" >
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <property name="spacing">
+        <number>0</number>
+       </property>
        <item>
-        <widget class="KArrowButton" name="position_up" />
+        <widget class="QToolButton" name="position_up">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Maximum">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>18</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>...</string>
+         </property>
+         <property name="autoRaise">
+          <bool>true</bool>
+         </property>
+         <property name="arrowType">
+          <enum>Qt::UpArrow</enum>
+         </property>
+        </widget>
        </item>
        <item>
-        <widget class="KArrowButton" name="position_down" >
-         <property name="arrowType" stdset="0" >
-          <number>2</number>
+        <widget class="QToolButton" name="position_down">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Maximum">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>18</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>...</string>
+         </property>
+         <property name="autoRaise">
+          <bool>true</bool>
+         </property>
+         <property name="arrowType">
+          <enum>Qt::DownArrow</enum>
          </property>
         </widget>
        </item>
@@ -45,31 +89,74 @@
      </item>
     </layout>
    </item>
-   <item row="1" column="0" >
-    <widget class="QLabel" name="crop_label" >
-     <property name="text" >
+   <item row="1" column="0">
+    <widget class="QLabel" name="crop_label">
+     <property name="text">
       <string>Crop start</string>
      </property>
     </widget>
    </item>
-   <item row="1" column="1" >
-    <layout class="QHBoxLayout" name="horizontalLayout_2" >
+   <item row="1" column="1">
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
-      <widget class="KRestrictedLine" name="crop_position" >
-       <property name="inputMask" >
+      <widget class="KRestrictedLine" name="crop_position">
+       <property name="inputMask">
         <string>99:99:99:99; </string>
        </property>
       </widget>
      </item>
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout_2" >
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <property name="spacing">
+        <number>0</number>
+       </property>
        <item>
-        <widget class="KArrowButton" name="crop_up" />
+        <widget class="QToolButton" name="crop_up">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Maximum">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>18</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>...</string>
+         </property>
+         <property name="autoRaise">
+          <bool>true</bool>
+         </property>
+         <property name="arrowType">
+          <enum>Qt::UpArrow</enum>
+         </property>
+        </widget>
        </item>
        <item>
-        <widget class="KArrowButton" name="crop_down" >
-         <property name="arrowType" stdset="0" >
-          <number>2</number>
+        <widget class="QToolButton" name="crop_down">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Maximum">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>18</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>...</string>
+         </property>
+         <property name="autoRaise">
+          <bool>true</bool>
+         </property>
+         <property name="arrowType">
+          <enum>Qt::DownArrow</enum>
          </property>
         </widget>
        </item>
@@ -77,31 +164,77 @@
      </item>
     </layout>
    </item>
-   <item row="2" column="0" >
-    <widget class="QLabel" name="duration_label" >
-     <property name="text" >
+   <item row="2" column="0">
+    <widget class="QLabel" name="duration_label">
+     <property name="text">
       <string>Duration</string>
      </property>
     </widget>
    </item>
-   <item row="2" column="1" >
-    <layout class="QHBoxLayout" name="horizontalLayout_3" >
+   <item row="2" column="1">
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
-      <widget class="KRestrictedLine" name="clip_duration" >
-       <property name="inputMask" >
+      <widget class="KRestrictedLine" name="clip_duration">
+       <property name="inputMask">
         <string>99:99:99:99; </string>
+       </property>
+       <property name="frame">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout_3" >
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <property name="spacing">
+        <number>0</number>
+       </property>
        <item>
-        <widget class="KArrowButton" name="duration_up" />
+        <widget class="QToolButton" name="duration_up">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Maximum">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>18</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>...</string>
+         </property>
+         <property name="autoRaise">
+          <bool>true</bool>
+         </property>
+         <property name="arrowType">
+          <enum>Qt::UpArrow</enum>
+         </property>
+        </widget>
        </item>
        <item>
-        <widget class="KArrowButton" name="duration_down" >
-         <property name="arrowType" stdset="0" >
-          <number>2</number>
+        <widget class="QToolButton" name="duration_down">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Maximum">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>18</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>...</string>
+         </property>
+         <property name="autoRaise">
+          <bool>true</bool>
+         </property>
+         <property name="arrowType">
+          <enum>Qt::DownArrow</enum>
          </property>
         </widget>
        </item>
@@ -109,12 +242,12 @@
      </item>
     </layout>
    </item>
-   <item row="3" column="0" colspan="2" >
-    <spacer name="verticalSpacer" >
-     <property name="orientation" >
+   <item row="3" column="0" colspan="2">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
-     <property name="sizeHint" stdset="0" >
+     <property name="sizeHint" stdset="0">
       <size>
        <width>218</width>
        <height>2</height>
@@ -122,12 +255,12 @@
      </property>
     </spacer>
    </item>
-   <item row="4" column="0" colspan="2" >
-    <widget class="QDialogButtonBox" name="buttonBox" >
-     <property name="orientation" >
+   <item row="4" column="0" colspan="2">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
-     <property name="standardButtons" >
+     <property name="standardButtons">
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
      </property>
     </widget>
@@ -136,9 +269,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KArrowButton</class>
-   <extends>QPushButton</extends>
-   <header>karrowbutton.h</header>
+   <class>KLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>klineedit.h</header>
   </customwidget>
   <customwidget>
    <class>KRestrictedLine</class>
@@ -154,11 +287,11 @@
    <receiver>ClipDurationDialog_UI</receiver>
    <slot>accept()</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>248</x>
      <y>254</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>157</x>
      <y>274</y>
     </hint>
@@ -170,11 +303,11 @@
    <receiver>ClipDurationDialog_UI</receiver>
    <slot>reject()</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>316</x>
      <y>260</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>286</x>
      <y>274</y>
     </hint>

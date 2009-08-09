@@ -1,56 +1,80 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>MarkerDialog_UI</class>
- <widget class="QDialog" name="MarkerDialog_UI" >
-  <property name="geometry" >
+ <widget class="QDialog" name="MarkerDialog_UI">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>312</width>
+    <width>321</width>
     <height>111</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Marker</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout" >
-   <item rowspan="2" row="0" column="0" >
-    <widget class="QLabel" name="clip_thumb" >
-     <property name="frameShape" >
-      <enum>QFrame::Box</enum>
-     </property>
-     <property name="text" >
-      <string>Image preview</string>
-     </property>
-     <property name="alignment" >
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="1" >
-    <widget class="QLabel" name="clip_filesize_2" >
-     <property name="text" >
-      <string>Position</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="2" >
-    <layout class="QHBoxLayout" name="horizontalLayout" >
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="2">
+    <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="KRestrictedLine" name="marker_position" >
-       <property name="inputMask" >
+      <widget class="KRestrictedLine" name="marker_position">
+       <property name="inputMask">
         <string>99:99:99:99; </string>
        </property>
       </widget>
      </item>
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout" >
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <property name="spacing">
+        <number>0</number>
+       </property>
        <item>
-        <widget class="KArrowButton" name="position_up" />
+        <widget class="QToolButton" name="position_up">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Maximum">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>18</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>...</string>
+         </property>
+         <property name="autoRaise">
+          <bool>true</bool>
+         </property>
+         <property name="arrowType">
+          <enum>Qt::UpArrow</enum>
+         </property>
+        </widget>
        </item>
        <item>
-        <widget class="KArrowButton" name="position_down" >
-         <property name="arrowType" stdset="0" >
-          <number>2</number>
+        <widget class="QToolButton" name="position_down">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Maximum">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>18</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>...</string>
+         </property>
+         <property name="autoRaise">
+          <bool>true</bool>
+         </property>
+         <property name="arrowType">
+          <enum>Qt::DownArrow</enum>
          </property>
         </widget>
        </item>
@@ -58,22 +82,29 @@
      </item>
     </layout>
    </item>
-   <item row="1" column="1" >
-    <widget class="QLabel" name="clip_filesize_3" >
-     <property name="text" >
+   <item row="3" column="0" colspan="3">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QLabel" name="clip_filesize_3">
+     <property name="text">
       <string>Comment</string>
      </property>
     </widget>
    </item>
-   <item row="1" column="2" >
-    <widget class="KLineEdit" name="marker_comment" />
-   </item>
-   <item row="2" column="1" colspan="2" >
-    <spacer name="verticalSpacer" >
-     <property name="orientation" >
+   <item row="2" column="1" colspan="2">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
-     <property name="sizeHint" stdset="0" >
+     <property name="sizeHint" stdset="0">
       <size>
        <width>218</width>
        <height>2</height>
@@ -81,21 +112,31 @@
      </property>
     </spacer>
    </item>
-   <item row="3" column="0" colspan="3" >
-    <widget class="QDialogButtonBox" name="buttonBox" >
-     <property name="orientation" >
-      <enum>Qt::Horizontal</enum>
+   <item row="0" column="0" rowspan="2">
+    <widget class="QLabel" name="clip_thumb">
+     <property name="frameShape">
+      <enum>QFrame::Box</enum>
      </property>
-     <property name="standardButtons" >
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     <property name="text">
+      <string>Image preview</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="2">
+    <widget class="KLineEdit" name="marker_comment"/>
+   </item>
+   <item row="0" column="1">
+    <widget class="QLabel" name="clip_filesize_2">
+     <property name="text">
+      <string>Position</string>
      </property>
     </widget>
    </item>
   </layout>
   <zorder>buttonBox</zorder>
-  <zorder>marker_position</zorder>
-  <zorder>position_up</zorder>
-  <zorder>position_down</zorder>
   <zorder>clip_filesize_3</zorder>
   <zorder>verticalSpacer</zorder>
   <zorder>clip_thumb</zorder>
@@ -103,11 +144,6 @@
   <zorder>clip_filesize_2</zorder>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>KArrowButton</class>
-   <extends>QPushButton</extends>
-   <header>karrowbutton.h</header>
-  </customwidget>
   <customwidget>
    <class>KLineEdit</class>
    <extends>QLineEdit</extends>
@@ -127,11 +163,11 @@
    <receiver>MarkerDialog_UI</receiver>
    <slot>accept()</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>248</x>
      <y>254</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>157</x>
      <y>274</y>
     </hint>
@@ -143,11 +179,11 @@
    <receiver>MarkerDialog_UI</receiver>
    <slot>reject()</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>316</x>
      <y>260</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>286</x>
      <y>274</y>
     </hint>
