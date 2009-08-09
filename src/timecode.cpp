@@ -23,7 +23,7 @@ Timecode::Timecode(Formats format, double framesPerSecond, bool dropFrame) :
         m_format(format),
         m_dropFrame(dropFrame),
         m_displayedFramesPerSecond(framesPerSecond + 0.5),
-	m_realFps(framesPerSecond)
+        m_realFps(framesPerSecond)
 {
 }
 
@@ -174,7 +174,7 @@ QString Timecode::getTimecodeHH_MM_SS_FF(const GenTime & time) const
 QString Timecode::getTimecodeHH_MM_SS_FF(int frames) const
 {
     if (m_dropFrame) {
-	return getTimecodeDropFrame(frames);
+        return getTimecodeDropFrame(frames);
     }
     int seconds = frames / m_displayedFramesPerSecond;
     frames = frames % m_displayedFramesPerSecond;
@@ -241,7 +241,7 @@ QString Timecode::getTimecodeDropFrame(int frames) const
 
     // calculate how many frames need to be dropped every minute.
     int toDrop = (int) floor(600.0 * (m_displayedFramesPerSecond - m_realFps)  + 0.5);
-    
+
     int perMinute = toDrop / 9;
     int tenthMinute = toDrop % 9;
 

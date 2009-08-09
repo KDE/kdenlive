@@ -36,10 +36,10 @@ public:
 
     /** Set the current timecode format; this is the output format for this timecode. */
     void setFormat(double framesPerSecond, bool dropFrame = false, Formats format = HH_MM_SS_FF) {
-        m_displayedFramesPerSecond = (int) (framesPerSecond + 0.5);
+        m_displayedFramesPerSecond = (int)(framesPerSecond + 0.5);
         m_dropFrame = dropFrame;
         m_format = format;
-	m_realFps = framesPerSecond;
+        m_realFps = framesPerSecond;
     }
 
     Formats format() const {
@@ -64,7 +64,7 @@ private:
 
     QString getTimecodeHH_MM_SS_FF(const GenTime & time) const;
     QString getTimecodeHH_MM_SS_FF(int frames) const;
-    
+
     QString getTimecodeHH_MM_SS_HH(const GenTime & time) const;
     QString getTimecodeFrames(const GenTime & time) const;
     QString getTimecodeSeconds(const GenTime & time) const;
