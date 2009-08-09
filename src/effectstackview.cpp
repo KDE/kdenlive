@@ -166,6 +166,7 @@ void EffectStackView::slotItemChanged(QListWidgetItem *item)
 
 void EffectStackView::setupListView(int ix)
 {
+    m_ui.effectlist->blockSignals(true);
     m_ui.effectlist->clear();
 
     // Issue 238: Add icons for effect type in effectstack.
@@ -194,7 +195,6 @@ void EffectStackView::setupListView(int ix)
         }
     }
     if (m_clipref->effectsCount() == 0) {
-        m_effectedit->transferParamDesc(QDomElement(), 0, 0);
         m_ui.buttonDel->setEnabled(false);
         m_ui.buttonSave->setEnabled(false);
         m_ui.buttonReset->setEnabled(false);
@@ -204,12 +204,10 @@ void EffectStackView::setupListView(int ix)
         if (ix < 0) ix = 0;
         if (ix > m_ui.effectlist->count() - 1) ix = m_ui.effectlist->count() - 1;
         m_ui.effectlist->setCurrentRow(ix);
-        m_ui.buttonDel->setEnabled(true);
-        m_ui.buttonSave->setEnabled(true);
-        m_ui.buttonReset->setEnabled(true);
-        m_ui.buttonUp->setEnabled(ix > 0);
-        m_ui.buttonDown->setEnabled(ix < m_clipref->effectsCount() - 1);
     }
+    m_ui.effectlist->blockSignals(false);
+    if (m_ui.effectlist->count() == 0) m_effectedit->transferParamDesc(QDomElement(), 0, 0);
+    else slotItemSelectionChanged();
 }
 
 void EffectStackView::slotItemSelectionChanged()
@@ -283,6 +281,7 @@ void EffectStackView::raiseWindow(QWidget* dock)
 
 void EffectStackView::clear()
 {
+    m_ui.effectlist->blockSignals(true);
     m_ui.effectlist->clear();
     m_ui.buttonDel->setEnabled(false);
     m_ui.buttonSave->setEnabled(false);
@@ -290,6 +289,7 @@ void EffectStackView::clear()
     m_ui.buttonUp->setEnabled(false);
     m_ui.buttonDown->setEnabled(false);
     m_effectedit->transferParamDesc(QDomElement(), 0, 0);
+    m_ui.effectlist->blockSignals(false);
 }
 
 #include "effectstackview.moc"
