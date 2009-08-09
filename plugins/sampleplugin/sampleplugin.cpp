@@ -67,7 +67,7 @@ KUrl SamplePlugin::generatedClip(const QString &generator, const KUrl &projectFo
     view.path->setMode(KFile::File);
 
     QString clipFile = prePath + counter + ".mlt";
-    view.path->setPath(clipFile);
+    view.path->setUrl(KUrl(clipFile));
     if (d.exec() == QDialog::Accepted) {
         QDomDocument doc;
         QDomElement mlt = doc.createElement("mlt");
