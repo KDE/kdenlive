@@ -175,6 +175,14 @@ RenderWidget::RenderWidget(const QString &projectfolder, QWidget * parent) :
     header->setResizeMode(0, QHeaderView::Fixed);
     header->resizeSection(0, 30);
 
+    // Find path for Kdenlive renderer
+    m_renderer = QCoreApplication::applicationDirPath() + QString("/kdenlive_render");
+    if (!QFile::exists(m_renderer)) {
+        m_renderer = KStandardDirs::findExe("kdenlive_render");
+        if (m_renderer.isEmpty()) m_renderer = KStandardDirs::locate("exe", "kdenlive_render");
+        if (m_renderer.isEmpty()) m_renderer = "kdenlive_render";
+    }
+
     focusFirstVisibleItem();
 }
 
@@ -723,13 +731,11 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
             KMessageBox::error(this, i18n("Cannot write to file %1", scriptPath));
             return;
         }
-        QString renderer = QCoreApplication::applicationDirPath() + QString("/kdenlive_render");
-        if (!QFile::exists(renderer)) renderer = "kdenlive_render";
         QTextStream outStream(&file);
         outStream << "#! /bin/sh" << "\n" << "\n";
         outStream << "SOURCE=" << "\"" + playlistPath + "\"" << "\n";
         outStream << "TARGET=" << "\"" + dest + "\"" << "\n";
-        outStream << "RENDERER=" << "\"" + renderer + "\"" << "\n";
+        outStream << "RENDERER=" << "\"" + m_renderer + "\"" << "\n";
         outStream << "MELT=" << "\"" + render_process_args.takeFirst() + "\"" << "\n";
         outStream << "PARAMETERS=" << "\"" + render_process_args.join(" ") + "\"" << "\n";
         outStream << "$RENDERER $MELT $PARAMETERS" << "\n" << "\n";
@@ -808,9 +814,7 @@ void RenderWidget::checkRenderStatus()
             item->setData(1, Qt::UserRole + 1, QTime::currentTime());
             if (item->data(1, Qt::UserRole + 4).isNull()) {
                 // Normal render process
-                QString renderer = QCoreApplication::applicationDirPath() + QString("/kdenlive_render");
-                if (!QFile::exists(renderer)) renderer = "kdenlive_render";
-                if (QProcess::startDetached(renderer, item->data(1, Qt::UserRole + 3).toStringList()) == false) {
+                if (QProcess::startDetached(m_renderer, item->data(1, Qt::UserRole + 3).toStringList()) == false) {
                     item->setData(1, Qt::UserRole + 2, FINISHEDJOB);
                     item->setData(1, Qt::UserRole, i18n("Rendering crashed"));
                     item->setIcon(0, KIcon("dialog-close"));
@@ -1595,8 +1599,6 @@ bool RenderWidget::startWaitingRenderJobs()
         return false;
     }
 
-    QString renderer = QCoreApplication::applicationDirPath() + QString("/kdenlive_render");
-    if (!QFile::exists(renderer)) renderer = "kdenlive_render";
     QTextStream outStream(&file);
     outStream << "#! /bin/sh" << "\n" << "\n";
     QTreeWidgetItem *item = m_view.running_jobs->topLevelItem(0);
@@ -1605,7 +1607,7 @@ bool RenderWidget::startWaitingRenderJobs()
             if (item->data(1, Qt::UserRole + 4).isNull()) {
                 // Add render process for item
                 const QString params = item->data(1, Qt::UserRole + 3).toStringList().join(" ");
-                outStream << renderer << " " << params << "\n";
+                outStream << m_renderer << " " << params << "\n";
             } else {
                 // Script item
                 outStream << item->data(1, Qt::UserRole + 3).toString() << "\n";

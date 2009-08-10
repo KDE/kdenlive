@@ -145,6 +145,7 @@ private:
     MltVideoProfile m_profile;
     QString m_projectFolder;
     bool m_blockProcessing;
+    QString m_renderer;
     void parseProfiles(QString meta = QString(), QString group = QString(), QString profile = QString());
     void parseFile(QString exportFile, bool editable);
     void updateButtons();
