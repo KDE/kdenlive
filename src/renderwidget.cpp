@@ -999,6 +999,7 @@ void RenderWidget::refreshView()
 
 KUrl RenderWidget::filenameWithExtension(KUrl url, QString extension)
 {
+    if (url.isEmpty()) url = KUrl(m_projectFolder);
     QString directory = url.directory(KUrl::AppendTrailingSlash | KUrl::ObeyTrailingSlash);
     QString filename = url.fileName(KUrl::ObeyTrailingSlash);
     QString ext;
