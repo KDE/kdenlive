@@ -142,8 +142,10 @@ void EffectStackView::slotClipItemSelected(ClipItem* c, int ix)
         else ix = 0;
     }
     if (m_clipref == NULL) {
+        m_ui.effectlist->blockSignals(true);
         m_ui.effectlist->clear();
         m_effectedit->transferParamDesc(QDomElement(), 0, 0);
+        m_ui.effectlist->blockSignals(false);
         setEnabled(false);
         return;
     }
@@ -175,7 +177,15 @@ void EffectStackView::setupListView(int ix)
     QListWidgetItem* item;
 
     for (int i = 0; i < m_clipref->effectsCount(); i++) {
-        QDomElement d = m_clipref->effectAt(i);
+        const QDomElement d = m_clipref->effectAt(i);
+        if (d.isNull()) {
+            kDebug() << " . . . . WARNING, NULL EFFECT IN STACK!!!!!!!!!";
+            continue;
+        }
+
+        /*QDomDocument doc;
+        doc.appendChild(doc.importNode(d, true));
+        kDebug() << "IMPORTED STK: " << doc.toString();*/
 
         QDomNode namenode = d.elementsByTagName("name").item(0);
         if (!namenode.isNull()) {
@@ -194,7 +204,7 @@ void EffectStackView::setupListView(int ix)
             else item->setCheckState(Qt::Checked);
         }
     }
-    if (m_clipref->effectsCount() == 0) {
+    if (m_ui.effectlist->count() == 0) {
         m_ui.buttonDel->setEnabled(false);
         m_ui.buttonSave->setEnabled(false);
         m_ui.buttonReset->setEnabled(false);
@@ -207,10 +217,10 @@ void EffectStackView::setupListView(int ix)
     }
     m_ui.effectlist->blockSignals(false);
     if (m_ui.effectlist->count() == 0) m_effectedit->transferParamDesc(QDomElement(), 0, 0);
-    else slotItemSelectionChanged();
+    else slotItemSelectionChanged(false);
 }
 
-void EffectStackView::slotItemSelectionChanged()
+void EffectStackView::slotItemSelectionChanged(bool update)
 {
     bool hasItem = m_ui.effectlist->currentItem();
     int activeRow = m_ui.effectlist->currentRow();
@@ -219,7 +229,7 @@ void EffectStackView::slotItemSelectionChanged()
     if (hasItem && m_ui.effectlist->currentItem()->isSelected()) {
         m_effectedit->transferParamDesc(m_clipref->effectAt(activeRow), m_clipref->cropStart().frames(KdenliveSettings::project_fps()), m_clipref->cropDuration().frames(KdenliveSettings::project_fps()));//minx max frame
     }
-    if (m_clipref) m_clipref->setSelectedEffect(activeRow);
+    if (m_clipref && update) m_clipref->setSelectedEffect(activeRow);
     m_ui.buttonDel->setEnabled(hasItem);
     m_ui.buttonSave->setEnabled(hasItem);
     m_ui.buttonReset->setEnabled(hasItem && isChecked);

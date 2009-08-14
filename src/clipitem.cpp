@@ -135,7 +135,7 @@ ClipItem *ClipItem::clone(ItemInfo info) const
         if (info.cropStart + (info.endPos - info.startPos) == m_cropStart + m_cropDuration) duplicate->slotSetEndThumb(m_endPix);
     }
     //kDebug() << "// CLoning clip: " << (info.cropStart + (info.endPos - info.startPos)).frames(m_fps) << ", CURRENT end: " << (cropStart() + duration()).frames(m_fps);
-    duplicate->setEffectList(m_effectList.clone());
+    duplicate->setEffectList(m_effectList);
     duplicate->setVideoOnly(m_videoOnly);
     duplicate->setAudioOnly(m_audioOnly);
     //duplicate->setSpeed(m_speed);
@@ -144,12 +144,12 @@ ClipItem *ClipItem::clone(ItemInfo info) const
 
 void ClipItem::setEffectList(const EffectsList effectList)
 {
-    m_effectList = effectList;
+    m_effectList.clone(effectList);
     m_effectNames = m_effectList.effectNames().join(" / ");
     if (!m_effectList.isEmpty()) setSelectedEffect(0);
 }
 
-const EffectsList ClipItem::effectList()
+const EffectsList ClipItem::effectList() const
 {
     return m_effectList;
 }
@@ -1150,7 +1150,7 @@ void ClipItem::resizeEnd(int posx, double /*speed*/, bool updateKeyFrames)
 
 void ClipItem::checkEffectsKeyframesPos(const int previous, const int current, bool fromStart)
 {
-    for (int i = 0; i < m_effectList.size(); i++) {
+    for (int i = 0; i < m_effectList.count(); i++) {
         QDomElement effect = m_effectList.at(i);
         QDomNodeList params = effect.elementsByTagName("parameter");
         for (int j = 0; j < params.count(); j++) {
@@ -1263,7 +1263,7 @@ int ClipItem::effectsCounter()
 
 int ClipItem::effectsCount()
 {
-    return m_effectList.size();
+    return m_effectList.count();
 }
 
 int ClipItem::hasEffect(const QString &tag, const QString &id) const
@@ -1276,10 +1276,10 @@ QStringList ClipItem::effectNames()
     return m_effectList.effectNames();
 }
 
-QDomElement ClipItem::effectAt(int ix)
+QDomElement ClipItem::effectAt(int ix) const
 {
-    if (ix > m_effectList.count() - 1 || ix < 0) return QDomElement();
-    return m_effectList.at(ix);
+    if (ix > m_effectList.count() - 1 || ix < 0 || m_effectList.at(ix).isNull()) return QDomElement();
+    return m_effectList.at(ix).cloneNode().toElement();
 }
 
 void ClipItem::setEffectAt(int ix, QDomElement effect)
@@ -1303,15 +1303,10 @@ void ClipItem::setEffectAt(int ix, QDomElement effect)
     }
 }
 
-EffectsParameterList ClipItem::addEffect(QDomElement effect, bool animate)
+EffectsParameterList ClipItem::addEffect(const QDomElement effect, bool animate)
 {
-
     bool needRepaint = false;
-    /*QDomDocument doc;
-    doc.appendChild(doc.importNode(effect, true));
-    kDebug() << "///////  CLIP ADD EFFECT: " << doc.toString();*/
     m_effectList.append(effect);
-
     EffectsParameterList parameters;
     parameters.addParam("tag", effect.attribute("tag"));
     parameters.addParam("kdenlive_ix", effect.attribute("kdenlive_ix"));
@@ -1462,7 +1457,7 @@ void ClipItem::deleteEffect(QString index)
     bool needRepaint = false;
     QString ix;
 
-    for (int i = 0; i < m_effectList.size(); ++i) {
+    for (int i = 0; i < m_effectList.count(); ++i) {
         ix = m_effectList.at(i).attribute("kdenlive_ix");
         if (ix == index) {
             QString effectId = m_effectList.at(i).attribute("id");
@@ -1478,7 +1473,7 @@ void ClipItem::deleteEffect(QString index)
             m_effectList.removeAt(i);
             i--;
         } else if (ix.toInt() > index.toInt()) {
-            m_effectList[i].setAttribute("kdenlive_ix", ix.toInt() - 1);
+            m_effectList.item(i).setAttribute("kdenlive_ix", ix.toInt() - 1);
         }
     }
     m_effectNames = m_effectList.effectNames().join(" / ");
@@ -1534,12 +1529,15 @@ GenTime ClipItem::endPos() const
 //virtual
 void ClipItem::dropEvent(QGraphicsSceneDragDropEvent * event)
 {
-    QString effects = QString(event->mimeData()->data("kdenlive/effectslist"));
+    const QString effects = QString(event->mimeData()->data("kdenlive/effectslist"));
     QDomDocument doc;
     doc.setContent(effects, true);
-    QDomElement e = doc.documentElement();
-    CustomTrackView *view = (CustomTrackView *) scene()->views()[0];
-    if (view) view->slotAddEffect(e, m_startPos, track());
+    const QDomElement e = doc.documentElement();
+    if (scene() && !scene()->views().isEmpty()) {
+        event->accept();
+        CustomTrackView *view = (CustomTrackView *) scene()->views()[0];
+        if (view) view->slotAddEffect(e, m_startPos, track());
+    }
 }
 
 //virtual

@@ -57,13 +57,13 @@ public:
     void setClipName(const QString &name);
     QDomElement xml() const;
     ClipItem *clone(ItemInfo info) const;
-    const EffectsList effectList();
+    const EffectsList effectList() const;
     void setFadeOut(int pos);
     void setFadeIn(int pos);
     /** Give a string list of the clip's effect names */
     QStringList effectNames();
     /** Add an effect to the clip and return the parameters that will be passed to Mlt */
-    EffectsParameterList addEffect(QDomElement effect, bool animate = true);
+    EffectsParameterList addEffect(const QDomElement effect, bool animate = true);
     /** Get the effect parameters that will be passed to Mlt */
     EffectsParameterList getEffectArgs(QDomElement effect);
     /** Delete effect with id index */
@@ -73,7 +73,7 @@ public:
     /** return a unique effect id */
     int effectsCounter();
     /** return the xml of effect at index ix in stack */
-    QDomElement effectAt(int ix);
+    QDomElement effectAt(int ix) const;
     /** Replace effect at pos ix with given value */
     void setEffectAt(int ix, QDomElement effect);
     void flashClip();

@@ -618,7 +618,6 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
     }
 
     m_blockRefresh = true;
-    m_dragItem = NULL;
     m_dragGuide = NULL;
     bool collision = false;
 
@@ -663,9 +662,15 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
     // Find first clip, transition or group under mouse (when no guides selected)
     int ct = 0;
     AbstractGroupItem *dragGroup = NULL;
+    AbstractClipItem *collisionClip = NULL;
+    bool found = false;
     while (!m_dragGuide && ct < collisionList.count()) {
         if (collisionList.at(ct)->type() == AVWIDGET || collisionList.at(ct)->type() == TRANSITIONWIDGET) {
-            m_dragItem = static_cast <AbstractClipItem *>(collisionList.at(ct));
+            collisionClip = static_cast <AbstractClipItem *>(collisionList.at(ct));
+            if (collisionClip == m_dragItem) {
+                collisionClip = NULL;
+            } else m_dragItem = collisionClip;
+            found = true;
             m_dragItemInfo = m_dragItem->info();
             if (m_dragItem->parentItem() && m_dragItem->parentItem()->type() == GROUPWIDGET && m_dragItem->parentItem() != m_selectionGroup) {
                 // kDebug()<<"// KLIK FOUND GRP: "<<m_dragItem->sceneBoundingRect();
@@ -675,6 +680,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         }
         ct++;
     }
+    if (!found) m_dragItem = NULL;
 
     if (m_dragItem && m_dragItem->type() == TRANSITIONWIDGET) {
         // update transition menu action
@@ -773,7 +779,6 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
             m_operationMode = SPACER;
         } else setCursorPos((int)(mapToScene(event->x(), 0).x()));
         QGraphicsView::mousePressEvent(event);
-        kDebug() << "END mousePress EVENT ";
         return;
     }
 
@@ -825,16 +830,13 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         }
     }
 
-    if (m_dragItem->type() == AVWIDGET && !m_dragItem->isItemLocked()) emit clipItemSelected((ClipItem*) m_dragItem);
-    else emit clipItemSelected(NULL);
-
     bool itemSelected = false;
     if (m_dragItem->isSelected()) itemSelected = true;
     else if (m_dragItem->parentItem() && m_dragItem->parentItem()->isSelected()) itemSelected = true;
     else if (dragGroup && dragGroup->isSelected()) itemSelected = true;
     if (event->modifiers() == Qt::ControlModifier || itemSelected == false) {
-        resetSelectionGroup();
         if (event->modifiers() != Qt::ControlModifier) m_scene->clearSelection();
+        resetSelectionGroup();
         dragGroup = NULL;
         if (m_dragItem->parentItem() && m_dragItem->parentItem()->type() == GROUPWIDGET) {
             //kDebug()<<"// KLIK FOUND GRP: "<<m_dragItem->sceneBoundingRect();
@@ -848,6 +850,14 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         ClipItem *clip = static_cast <ClipItem *>(m_dragItem);
         updateClipTypeActions(dragGroup == NULL ? clip : NULL);
         m_pasteEffectsAction->setEnabled(m_copiedItems.count() == 1);
+    }
+
+    if (collisionClip != NULL || m_dragItem == NULL) {
+        if (m_dragItem && m_dragItem->type() == AVWIDGET && !m_dragItem->isItemLocked()) {
+            kDebug() << "//////// CLIP ITEM SELECTED, TRANSMITTING . . . . . . .";
+            ClipItem *selected = static_cast <ClipItem*>(m_dragItem);
+            emit clipItemSelected(selected);
+        } else emit clipItemSelected(NULL);
     }
 
     // If clicked item is selected, allow move
@@ -1026,7 +1036,6 @@ void CustomTrackView::groupSelectedItems(bool force, bool createNewGroup)
 
 void CustomTrackView::mouseDoubleClickEvent(QMouseEvent *event)
 {
-    kDebug() << "++++++++++++ DBL CLK";
     if (m_dragItem && m_dragItem->hasKeyFrames()) {
         if (m_moveOpMode == KEYFRAME) {
             // user double clicked on a keyframe, open edit dialog
@@ -1039,7 +1048,7 @@ void CustomTrackView::mouseDoubleClickEvent(QMouseEvent *event)
             if (d.exec() == QDialog::Accepted) {
                 int pos = m_document->timecode().getFrameCount(view.kfr_position->text());
                 m_dragItem->updateKeyFramePos(GenTime(pos, m_document->fps()) + m_dragItem->cropStart(), (double) view.kfr_value->value() * m_dragItem->keyFrameFactor());
-                ClipItem *item = (ClipItem *)m_dragItem;
+                ClipItem *item = static_cast <ClipItem *>(m_dragItem);
                 QString previous = item->keyframes(item->selectedEffectIndex());
                 item->updateKeyframeEffect();
                 QString next = item->keyframes(item->selectedEffectIndex());
@@ -1053,7 +1062,7 @@ void CustomTrackView::mouseDoubleClickEvent(QMouseEvent *event)
             // add keyframe
             GenTime keyFramePos = GenTime((int)(mapToScene(event->pos()).x()), m_document->fps()) - m_dragItem->startPos() + m_dragItem->cropStart();
             m_dragItem->addKeyFrame(keyFramePos, mapToScene(event->pos()).toPoint().y());
-            ClipItem * item = (ClipItem *) m_dragItem;
+            ClipItem * item = static_cast <ClipItem *>(m_dragItem);
             QString previous = item->keyframes(item->selectedEffectIndex());
             item->updateKeyframeEffect();
             QString next = item->keyframes(item->selectedEffectIndex());
@@ -1313,13 +1322,14 @@ void CustomTrackView::addEffect(int track, GenTime pos, QDomElement effect)
             if (strobe == 0) strobe = 1;
             doChangeClipSpeed(info, speed, 1.0, strobe, clip->baseClip()->getId());
             clip->addEffect(effect);
-            emit clipItemSelected(clip);
+            if (clip->isSelected()) emit clipItemSelected(clip);
             return;
         }
 
-        if (!m_document->renderer()->mltAddEffect(track, pos, clip->addEffect(effect)))
+        EffectsParameterList params = clip->addEffect(effect);
+        if (!m_document->renderer()->mltAddEffect(track, pos, params))
             emit displayMessage(i18n("Problem adding effect to clip"), ErrorMessage);
-        emit clipItemSelected(clip);
+        if (clip->isSelected()) emit clipItemSelected(clip);
     } else emit displayMessage(i18n("Cannot find clip to add effect"), ErrorMessage);
 }
 
@@ -1405,14 +1415,14 @@ void CustomTrackView::slotAddEffect(QDomElement effect, GenTime pos, int track)
     int count = 0;
     if (track == -1) itemList = scene()->selectedItems();
     if (itemList.isEmpty()) {
-        ClipItem *clip = getClipItemAt((int)pos.frames(m_document->fps()) + 1, track);
+        ClipItem *clip = getClipItemAt((int) pos.frames(m_document->fps()), track);
         if (clip) itemList.append(clip);
         else emit displayMessage(i18n("Select a clip if you want to apply an effect"), ErrorMessage);
     }
     kDebug() << "// REQUESTING EFFECT ON CLIP: " << pos.frames(25) << ", TRK: " << track << "SELECTED ITEMS: " << itemList.count();
     for (int i = 0; i < itemList.count(); i++) {
         if (itemList.at(i)->type() == AVWIDGET) {
-            ClipItem *item = (ClipItem *)itemList.at(i);
+            ClipItem *item = static_cast <ClipItem *>(itemList.at(i));
             if (effect.attribute("type") == "audio") {
                 // Don't add audio effects on video clips
                 if (item->isVideoOnly() || (item->clipType() != AUDIO && item->clipType() != AV && item->clipType() != PLAYLIST)) {
@@ -1608,8 +1618,7 @@ void CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut)
         item->baseClip()->addReference();
         m_document->updateClip(item->baseClip()->getId());
         setDocumentModified();
-        kDebug() << "/////////  CUTTING CLIP RESULT: (" << item->startPos().frames(25) << "-" << item->endPos().frames(25) << "), DUP: (" << dup->startPos().frames(25) << "-" << dup->endPos().frames(25) << ")" << ", CUT: " << cutTime.frames(25);
-        kDebug() << "//  CUTTING CLIP dONE";
+        //kDebug() << "/////////  CUTTING CLIP RESULT: (" << item->startPos().frames(25) << "-" << item->endPos().frames(25) << "), DUP: (" << dup->startPos().frames(25) << "-" << dup->endPos().frames(25) << ")" << ", CUT: " << cutTime.frames(25);
     } else {
         // uncut clip
 
@@ -1625,9 +1634,9 @@ void CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut)
             return;
         }
 
-        kDebug() << "// UNCUTTING CLIPS: ITEM 1 (" << item->startPos().frames(25) << "x" << item->endPos().frames(25) << ")";
+        /*kDebug() << "// UNCUTTING CLIPS: ITEM 1 (" << item->startPos().frames(25) << "x" << item->endPos().frames(25) << ")";
         kDebug() << "// UNCUTTING CLIPS: ITEM 2 (" << dup->startPos().frames(25) << "x" << dup->endPos().frames(25) << ")";
-        kDebug() << "// UNCUTTING CLIPS, INFO (" << info.startPos.frames(25) << "x" << info.endPos.frames(25) << ") , CUT: " << cutTime.frames(25);;
+        kDebug() << "// UNCUTTING CLIPS, INFO (" << info.startPos.frames(25) << "x" << info.endPos.frames(25) << ") , CUT: " << cutTime.frames(25);;*/
         //deleteClip(dup->info());
 
 
@@ -1784,7 +1793,7 @@ void CustomTrackView::deleteTransition(ItemInfo transitionInfo, int endTrack, QD
 
 void CustomTrackView::slotTransitionUpdated(Transition *tr, QDomElement old)
 {
-    kDebug() << "TRANS UPDATE, TRACKS: " << old.attribute("transition_btrack") << ", NEW: " << tr->toXML().attribute("transition_btrack");
+    //kDebug() << "TRANS UPDATE, TRACKS: " << old.attribute("transition_btrack") << ", NEW: " << tr->toXML().attribute("transition_btrack");
     EditTransitionCommand *command = new EditTransitionCommand(this, tr->track(), tr->startPos(), old, tr->toXML(), false);
     m_commandStack->push(command);
     setDocumentModified();
@@ -1968,7 +1977,6 @@ void CustomTrackView::addTrack(TrackInfo type, int ix)
                     else if (clip->isVideoOnly()) prod = clip->baseClip()->videoProducer();
                     else prod = clip->baseClip()->producer(clipinfo.track);
                     m_document->renderer()->mltUpdateClipProducer((int)(m_document->tracksCount() - clipinfo.track), clipinfo.startPos.frames(m_document->fps()), prod);
-                    kDebug() << "// UPDATING CLIP TO TRACK PROD: " << clipinfo.track;
                 }
             } else if (item->type() == TRANSITIONWIDGET) {
                 Transition *tr = static_cast <Transition *>(item);
@@ -2446,7 +2454,6 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                 bool success = m_document->renderer()->mltMoveClip((int)(m_document->tracksCount() - m_dragItemInfo.track), (int)(m_document->tracksCount() - m_dragItem->track()), (int) m_dragItemInfo.startPos.frames(m_document->fps()), (int)(m_dragItem->startPos().frames(m_document->fps())), prod);
 
                 if (success) {
-                    kDebug() << "// get trans info";
                     int tracknumber = m_document->tracksCount() - item->track() - 1;
                     bool isLocked = m_document->trackInfoAt(tracknumber).isLocked;
                     if (isLocked) item->setItemLocked(true);
@@ -2456,7 +2463,6 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                     new MoveClipCommand(this, m_dragItemInfo, info, false, moveCommand);
                     // Also move automatic transitions (on lower track)
                     Transition *tr = getTransitionItemAtStart(m_dragItemInfo.startPos, m_dragItemInfo.track);
-                    kDebug() << "// get trans info2";
                     if (tr && tr->isAutomatic()) {
                         ItemInfo trInfo = tr->info();
                         ItemInfo newTrInfo = trInfo;
@@ -2759,7 +2765,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
         //m_document->renderer()->doRefresh();
     } else if (m_operationMode == FADEIN) {
         // resize fade in effect
-        ClipItem * item = (ClipItem *) m_dragItem;
+        ClipItem * item = static_cast <ClipItem *>(m_dragItem);
         int ix = item->hasEffect("volume", "fadein");
         if (ix != -1) {
             QDomElement oldeffect = item->effectAt(ix).cloneNode().toElement();
@@ -2798,7 +2804,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
         }
     } else if (m_operationMode == FADEOUT) {
         // resize fade in effect
-        ClipItem * item = (ClipItem *) m_dragItem;
+        ClipItem * item = static_cast <ClipItem *>(m_dragItem);
         int ix = item->hasEffect("volume", "fadeout");
         if (ix != -1) {
             QDomElement oldeffect = item->effectAt(ix).cloneNode().toElement();
@@ -2840,7 +2846,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
         }
     } else if (m_operationMode == KEYFRAME) {
         // update the MLT effect
-        ClipItem * item = (ClipItem *) m_dragItem;
+        ClipItem * item = static_cast <ClipItem *>(m_dragItem);
         QString previous = item->keyframes(item->selectedEffectIndex());
         item->updateKeyframeEffect();
         QString next = item->keyframes(item->selectedEffectIndex());
@@ -3327,8 +3333,6 @@ void CustomTrackView::moveGroup(QList <ItemInfo> startClip, QList <ItemInfo> sta
 
         m_selectionGroup->moveBy(offset.frames(m_document->fps()), trackOffset *(qreal) m_tracksHeight);
 
-        kDebug() << "%% GRP NEW POS: " << m_selectionGroup->scenePos().x();
-
         QList<QGraphicsItem *> children = m_selectionGroup->childItems();
         // Expand groups
         int max = children.count();
@@ -3337,7 +3341,6 @@ void CustomTrackView::moveGroup(QList <ItemInfo> startClip, QList <ItemInfo> sta
                 children += children.at(i)->childItems();
             }
         }
-        kDebug() << "// GRP MOVE; FOUND CHILDREN:" << children.count();
 
         for (int i = 0; i < children.count(); i++) {
             // re-add items in correct place
@@ -3871,7 +3874,6 @@ void CustomTrackView::setScale(double scaleFactor, double verticalScale)
 void CustomTrackView::slotRefreshGuides()
 {
     if (KdenliveSettings::showmarkers()) {
-        kDebug() << "// refresh GUIDES";
         for (int i = 0; i < m_guides.count(); i++) {
             m_guides.at(i)->update();
         }
@@ -3976,8 +3978,9 @@ void CustomTrackView::copyClip()
     }
     for (int i = 0; i < itemList.count(); i++) {
         if (itemList.at(i)->type() == AVWIDGET) {
-            ClipItem *dup = static_cast <ClipItem *>(itemList.at(i));
-            m_copiedItems.append(dup->clone(dup->info()));
+            ClipItem *clip = static_cast <ClipItem *>(itemList.at(i));
+            ClipItem *clone = clip->clone(clip->info());
+            m_copiedItems.append(clone);
         } else if (itemList.at(i)->type() == TRANSITIONWIDGET) {
             Transition *dup = static_cast <Transition *>(itemList.at(i));
             m_copiedItems.append(dup->clone());
@@ -4097,7 +4100,6 @@ void CustomTrackView::pasteClipEffects()
         return;
     }
     ClipItem *clip = static_cast < ClipItem *>(m_copiedItems.at(0));
-    EffectsList effects = clip->effectList();
 
     QUndoCommand *paste = new QUndoCommand();
     paste->setText("Paste effects");
@@ -4106,8 +4108,8 @@ void CustomTrackView::pasteClipEffects()
     for (int i = 0; i < clips.count(); ++i) {
         if (clips.at(i)->type() == AVWIDGET) {
             ClipItem *item = static_cast < ClipItem *>(clips.at(i));
-            for (int i = 0; i < clip->effectsCount(); i++) {
-                new AddEffectCommand(this, m_document->tracksCount() - item->track(), item->startPos(), clip->effectAt(i), true, paste);
+            for (int j = 0; j < clip->effectsCount(); j++) {
+                new AddEffectCommand(this, m_document->tracksCount() - item->track(), item->startPos(), clip->effectAt(j), true, paste);
             }
         }
     }

@@ -93,12 +93,12 @@ void EffectsListWidget::initList()
     }
 }
 
-QDomElement EffectsListWidget::currentEffect()
+const QDomElement EffectsListWidget::currentEffect() const
 {
     return itemEffect(currentItem());
 }
 
-QDomElement EffectsListWidget::itemEffect(QListWidgetItem *item)
+const QDomElement EffectsListWidget::itemEffect(QListWidgetItem *item) const
 {
     QDomElement effect;
     if (!item) return effect;
@@ -106,13 +106,13 @@ QDomElement EffectsListWidget::itemEffect(QListWidgetItem *item)
     kDebug() << "// EFFECT SELECTED: " << effectInfo;
     switch (item->data(TypeRole).toInt()) {
     case 1:
-        effect =  MainWindow::videoEffects.getEffectByTag(effectInfo.at(0), effectInfo.at(1));
+        effect =  MainWindow::videoEffects.getEffectByTag(effectInfo.at(0), effectInfo.at(1)).cloneNode().toElement();
         break;
     case 2:
-        effect = MainWindow::audioEffects.getEffectByTag(effectInfo.at(0), effectInfo.at(1));
+        effect = MainWindow::audioEffects.getEffectByTag(effectInfo.at(0), effectInfo.at(1)).cloneNode().toElement();
         break;
     default:
-        effect = MainWindow::customEffects.getEffectByTag(effectInfo.at(0), effectInfo.at(1));
+        effect = MainWindow::customEffects.getEffectByTag(effectInfo.at(0), effectInfo.at(1)).cloneNode().toElement();
         break;
     }
     return effect;
@@ -165,7 +165,7 @@ void EffectsListWidget::mouseMoveEvent(QMouseEvent *event)
             const QList <QListWidgetItem *>list = selectedItems();
             QDomDocument doc;
             foreach(QListWidgetItem *item, list) {
-                QDomElement e = itemEffect(item);
+                const QDomElement e = itemEffect(item);
                 if (!e.isNull()) doc.appendChild(doc.importNode(e, true));
             }
             QByteArray data;
@@ -175,17 +175,15 @@ void EffectsListWidget::mouseMoveEvent(QMouseEvent *event)
             //QPixmap pix = qVariantValue<QPixmap>(clickItem->data(Qt::DecorationRole));
             //drag->setPixmap(pix);
             //drag->setHotSpot(QPoint(0, 50));
-            drag->start(Qt::MoveAction);
+            drag->start(Qt::CopyAction);
         }
-        //event->accept();
+        event->accept();
     }
 }
 
 void EffectsListWidget::dragMoveEvent(QDragMoveEvent * event)
 {
-    event->setDropAction(Qt::IgnoreAction);
-    //if (item) {
-    event->setDropAction(Qt::MoveAction);
+    event->setDropAction(Qt::CopyAction);
     if (event->mimeData()->hasText()) {
         event->acceptProposedAction();
     }

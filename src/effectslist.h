@@ -18,8 +18,7 @@
 #ifndef EFFECTSLIST_H
 #define EFFECTSLIST_H
 
-#include <QList>
-#include <QDomElement>
+#include <QDomDocument>
 
 /**A List for DocClipBase objects. Use this instead of QList<DocClipBase> so as to sort lists correctly.
  * Also contains the ability to set a "master clip", which can be used by a number of operations where
@@ -28,7 +27,7 @@
   */
 
 
-class EffectsList: public QList < QDomElement >
+class EffectsList: public QDomDocument
 {
 public:
     EffectsList();
@@ -42,10 +41,21 @@ public:
     QStringList effectNames();
     QString getInfo(const QString & tag, const QString & id) const;
     QString getInfoFromIndex(const int ix) const;
-    EffectsList clone() const;
+    void clone(const EffectsList original);
+    void append(QDomElement e);
+    bool isEmpty() const;
+    int count() const;
+    const QDomElement at(int ix) const;
+    void removeAt(int ix);
+    QDomElement item(int ix);
+    void insert(int ix, QDomElement effect);
     static bool hasKeyFrames(QDomElement effect);
     static void setParameter(QDomElement effect, const QString &name, const QString &value);
     static QString parameter(QDomElement effect, const QString &name);
+
+private:
+    QDomElement m_baseElement;
+
 };
 
 #endif

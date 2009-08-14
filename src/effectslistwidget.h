@@ -33,9 +33,9 @@ class EffectsListWidget : public KListWidget
 public:
     explicit EffectsListWidget(QMenu *menu, QWidget *parent = 0);
     virtual ~EffectsListWidget();
-    QDomElement currentEffect();
+    const QDomElement currentEffect() const;
     QString currentInfo();
-    QDomElement itemEffect(QListWidgetItem *item);
+    const QDomElement itemEffect(QListWidgetItem *item) const;
     void initList();
 
 protected:

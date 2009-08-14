@@ -55,7 +55,7 @@ private slots:
 public slots:
 
 signals:
-    void addEffect(QDomElement);
+    void addEffect(const QDomElement);
     void reloadEffects();
 };
 

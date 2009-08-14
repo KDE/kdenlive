@@ -41,23 +41,23 @@
 #include <QScrollArea>
 
 
-class Boolval: public EffectStackEdit::UiItem, public Ui::Boolval_UI
+class Boolval: public QWidget, public Ui::Boolval_UI
 {
 };
 
-class Colorval: public EffectStackEdit::UiItem, public Ui::Colorval_UI
+class Colorval: public QWidget, public Ui::Colorval_UI
 {
 };
 
-class Constval: public EffectStackEdit::UiItem, public Ui::Constval_UI
+class Constval: public QWidget, public Ui::Constval_UI
 {
 };
 
-class Listval: public EffectStackEdit::UiItem, public Ui::Listval_UI
+class Listval: public QWidget, public Ui::Listval_UI
 {
 };
 
-class Wipeval: public EffectStackEdit::UiItem, public Ui::Wipeval_UI
+class Wipeval: public QWidget, public Ui::Wipeval_UI
 {
 };
 
@@ -75,7 +75,7 @@ EffectStackEdit::EffectStackEdit(QWidget *parent) :
     vbox1->setSpacing(0);
 
     QScrollArea *area = new QScrollArea;
-    QWidget *wid = new QWidget(parent);
+    m_baseWidget = new QWidget(parent);
     area->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     area->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     area->setFrameStyle(QFrame::NoFrame);
@@ -83,9 +83,9 @@ EffectStackEdit::EffectStackEdit(QWidget *parent) :
     area->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::MinimumExpanding));
 
     vbox1->addWidget(area);
-    area->setWidget(wid);
+    area->setWidget(m_baseWidget);
     area->setWidgetResizable(true);
-    m_vbox = new QVBoxLayout(wid);
+    m_vbox = new QVBoxLayout(m_baseWidget);
     m_vbox->setContentsMargins(0, 0, 0, 0);
     m_vbox->setSpacing(0);
     //wid->show();
@@ -128,12 +128,12 @@ void EffectStackEdit::updateParameter(const QString &name, const QString &value)
 
 void EffectStackEdit::transferParamDesc(const QDomElement d, int in, int out)
 {
-    kDebug() << " + + + +DELETING EFFECT STACK";
     clearAllItems();
     m_params = d;
     m_in = in;
     m_out = out;
     if (m_params.isNull()) {
+        kDebug() << "// EMPTY EFFECT STACK";
         return;
     }
 
@@ -148,12 +148,11 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int in, int out)
 
 
     for (int i = 0; i < namenode.count() ; i++) {
-        kDebug() << "in form";
         QDomElement pa = namenode.item(i).toElement();
         QDomNode na = pa.firstChildElement("name");
         QString type = pa.attribute("type");
         QString paramName = i18n(na.toElement().text().toUtf8().data());
-        QWidget * toFillin = new QWidget;
+        QWidget * toFillin = new QWidget(m_baseWidget);
         QString value = pa.attribute("value").isNull() ?
                         pa.attribute("default") : pa.attribute("value");
 
@@ -232,7 +231,6 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int in, int out)
             m_vbox->addWidget(pl);
             m_valueItems[paramName+"complex"] = pl;
             connect(pl, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
-            m_items.append(pl);
         } else if (type == "geometry") {
             Geometryval *geo = new Geometryval(m_profile, m_frameSize);
             geo->setupParam(pa, minFrame, maxFrame);
@@ -240,7 +238,6 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int in, int out)
             m_valueItems[paramName+"geometry"] = geo;
             connect(geo, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
             connect(geo, SIGNAL(seekToPos(int)), this, SLOT(slotSeekToPos(int)));
-            m_items.append(geo);
         } else if (type == "keyframe") {
             // keyframe editor widget
             kDebug() << "min: " << m_in << ", MAX: " << m_out;
@@ -251,7 +248,6 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int in, int out)
             m_vbox->addWidget(geo);
             m_valueItems[paramName+"keyframe"] = geo;
             connect(geo, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
-            m_items.append(geo);
         } else if (type == "color") {
             Colorval *cval = new Colorval;
             cval->setupUi(toFillin);
@@ -275,7 +271,6 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int in, int out)
             m_vbox->addWidget(posedit);
             m_valueItems[paramName+"position"] = posedit;
             connect(posedit, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
-            m_items.append(posedit);
         } else if (type == "wipe") {
             Wipeval *wpval = new Wipeval;
             wpval->setupUi(toFillin);
@@ -337,7 +332,6 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int in, int out)
         }
 
         if (toFillin) {
-            m_items.append(toFillin);
             m_vbox->addWidget(toFillin);
         }
     }
@@ -420,7 +414,6 @@ QString EffectStackEdit::getWipeString(wipeInfo info)
 void EffectStackEdit::collectAllParameters()
 {
     if (m_valueItems.isEmpty() || m_params.isNull()) return;
-
     const QDomElement oldparam = m_params.cloneNode().toElement();
     QDomElement newparam = oldparam.cloneNode().toElement();
     QDomNodeList namenode = newparam.elementsByTagName("parameter");
@@ -510,7 +503,7 @@ void EffectStackEdit::collectAllParameters()
 
 void EffectStackEdit::createSliderItem(const QString& name, int val , int min, int max, const QString suffix)
 {
-    QWidget* toFillin = new QWidget;
+    QWidget* toFillin = new QWidget(m_baseWidget);
     Constval *ctval = new Constval;
     ctval->setupUi(toFillin);
     ctval->horizontalSlider->setMinimum(min);
@@ -524,7 +517,6 @@ void EffectStackEdit::createSliderItem(const QString& name, int val , int min, i
     m_valueItems[name] = ctval;
     m_uiItems.append(ctval);
     connect(ctval->horizontalSlider, SIGNAL(valueChanged(int)) , this, SLOT(collectAllParameters()));
-    m_items.append(toFillin);
     m_vbox->addWidget(toFillin);
 }
 
@@ -537,21 +529,17 @@ void EffectStackEdit::clearAllItems()
 {
     blockSignals(true);
     m_valueItems.clear();
-
-    while (!m_items.isEmpty()) {
-        QWidget * die = m_items.takeFirst();
+    m_uiItems.clear();
+    /*while (!m_items.isEmpty()) {
+        QWidget *die = m_items.takeFirst();
         die->disconnect();
         delete die;
-    }
-
-    qDeleteAll(m_uiItems);
-    m_uiItems.clear();
-    m_items.clear();
-    QLayoutItem *item = m_vbox->itemAt(0);
-    while (item) {
-        m_vbox->removeItem(item);
-        delete item;
-        item = m_vbox->itemAt(0);
+    }*/
+    //qDeleteAll(m_uiItems);
+    QLayoutItem *child;
+    while ((child = m_vbox->takeAt(0)) != 0) {
+        if (child->widget()) delete child->widget();
+        delete child;
     }
     blockSignals(false);
 }

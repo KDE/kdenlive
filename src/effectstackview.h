@@ -50,7 +50,7 @@ public slots:
     void slotUpdateEffectParams(const QDomElement, const QDomElement);
 
 private slots:
-    void slotItemSelectionChanged();
+    void slotItemSelectionChanged(bool update = true);
     void slotItemUp();
     void slotItemDown();
     void slotItemDel();

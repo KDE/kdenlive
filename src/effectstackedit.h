@@ -50,20 +50,13 @@ public:
     void updateParameter(const QString &name, const QString &value);
     void setFrameSize(QPoint p);
 
-    class UiItem
-    {
-    public:
-        UiItem() {};
-        ~UiItem() {};
-    };
-
 private:
     void clearAllItems();
     QVBoxLayout *m_vbox;
-    QList<QWidget*> m_items;
-    QList<UiItem*> m_uiItems;
+    QList<QWidget*> m_uiItems;
+    QWidget *m_baseWidget;
     QDomElement m_params;
-    QMap<QString, void*> m_valueItems;
+    QMap<QString, QWidget*> m_valueItems;
     void createSliderItem(const QString& name, int val , int min, int max, const QString);
     wipeInfo getWipeInfo(QString value);
     QString getWipeString(wipeInfo info);

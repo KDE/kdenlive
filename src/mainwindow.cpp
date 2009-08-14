@@ -355,7 +355,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
     connect(m_clipMonitorDock, SIGNAL(visibilityChanged(bool)), m_clipMonitor, SLOT(refreshMonitor(bool)));
     //connect(m_monitorManager, SIGNAL(connectMonitors()), this, SLOT(slotConnectMonitors()));
     connect(m_monitorManager, SIGNAL(raiseClipMonitor(bool)), this, SLOT(slotRaiseMonitor(bool)));
-    connect(m_effectList, SIGNAL(addEffect(QDomElement)), this, SLOT(slotAddEffect(QDomElement)));
+    connect(m_effectList, SIGNAL(addEffect(const QDomElement)), this, SLOT(slotAddEffect(const QDomElement)));
     connect(m_effectList, SIGNAL(reloadEffects()), this, SLOT(slotReloadEffects()));
 
     m_monitorManager->initMonitors(m_clipMonitor, m_projectMonitor);
@@ -596,14 +596,15 @@ void MainWindow::slotFullScreen()
     KToggleFullScreenAction::setFullScreen(this, actionCollection()->action("fullscreen")->isChecked());
 }
 
-void MainWindow::slotAddEffect(QDomElement effect, GenTime pos, int track)
+void MainWindow::slotAddEffect(const QDomElement effect, GenTime pos, int track)
 {
     if (!m_activeDocument) return;
     if (effect.isNull()) {
         kDebug() << "--- ERROR, TRYING TO APPEND NULL EFFECT";
         return;
     }
-    m_activeTimeline->projectView()->slotAddEffect(effect.cloneNode().toElement(), pos, track);
+    QDomElement effectToAdd = effect.cloneNode().toElement();
+    m_activeTimeline->projectView()->slotAddEffect(effectToAdd, pos, track);
 }
 
 void MainWindow::slotRaiseMonitor(bool clipMonitor)
@@ -838,19 +839,11 @@ void MainWindow::setupActions()
     collection->addAction("manage_profiles", profilesAction);
     connect(profilesAction, SIGNAL(triggered(bool)), this, SLOT(slotEditProfiles()));
 
-#if KDE_IS_VERSION(4,3,63)
-    KNS::standardAction(i18n("Download New Wipes..."), this, SLOT(slotGetNewLumaStuff()), actionCollection(), QString("get_new_lumas"));
-
-    KNS::standardAction(i18n("Download New Render Profiles..."), this, SLOT(slotGetNewRenderStuff()), actionCollection(), QString("get_new_profiles"));
-
-    KNS::standardAction(i18n("Download New Project Profiles..."), this, SLOT(slotGetNewMltProfileStuff()), actionCollection(), QString("get_new_mlt_profiles"));
-#else
     KNS::standardAction(i18n("Download New Wipes..."), this, SLOT(slotGetNewLumaStuff()), actionCollection(), "get_new_lumas");
 
     KNS::standardAction(i18n("Download New Render Profiles..."), this, SLOT(slotGetNewRenderStuff()), actionCollection(), "get_new_profiles");
 
     KNS::standardAction(i18n("Download New Project Profiles..."), this, SLOT(slotGetNewMltProfileStuff()), actionCollection(), "get_new_mlt_profiles");
-#endif
 
     KAction* wizAction = new KAction(KIcon("configure"), i18n("Run Config Wizard"), this);
     collection->addAction("run_wizard", wizAction);
