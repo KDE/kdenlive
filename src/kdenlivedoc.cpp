@@ -199,11 +199,11 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                 }
             }
         }
-    } else setProfilePath(profileName);
+    }
 
     // Something went wrong, or a new file was requested: create a new project
     if (!success) {
-        setProfilePath(QString());
+        setProfilePath(profileName);
         m_url = KUrl();
         m_document = createEmptyDocument(tracks.x(), tracks.y());
     }
