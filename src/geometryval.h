@@ -49,6 +49,7 @@ public:
 private:
     Ui::Geometryval m_ui;
     MltVideoProfile m_profile;
+    int m_realWidth;
     GraphicsSceneRectMove *m_scene;
     QGraphicsRectItem *m_paramRect;
     Mlt::Geometry *m_geom;

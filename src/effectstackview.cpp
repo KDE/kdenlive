@@ -142,7 +142,8 @@ void EffectStackView::slotClipItemSelected(ClipItem* c, int ix)
         if (c) {
             ix = c->selectedEffectIndex();
             QString size = c->baseClip()->getProperty("frame_size");
-            QPoint p(size.section('x', 0, 0).toInt(), size.section('x', 1, 1).toInt());
+            double factor = c->baseClip()->getProperty("aspect_ratio").toDouble();
+            QPoint p((int)(size.section('x', 0, 0).toInt() * factor + 0.5), size.section('x', 1, 1).toInt());
             m_effectedit->setFrameSize(p);
         } else ix = 0;
     }

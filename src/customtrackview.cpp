@@ -1815,7 +1815,8 @@ void CustomTrackView::updateTransition(int track, GenTime pos, QDomElement oldTr
         ClipItem *transitionClip = getClipItemAt(info.startPos, info.track);
         if (transitionClip && transitionClip->baseClip()) {
             QString size = transitionClip->baseClip()->getProperty("frame_size");
-            p.setX(size.section('x', 0, 0).toInt());
+            double factor = transitionClip->baseClip()->getProperty("aspect_ratio").toDouble();
+            p.setX((int)(size.section('x', 0, 0).toInt() * factor + 0.5));
             p.setY(size.section('x', 1, 1).toInt());
         }
         emit transitionItemSelected(item, getPreviousVideoTrack(info.track), p, true);
@@ -2861,7 +2862,8 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
         ClipItem *transitionClip = getClipItemAt(m_dragItemInfo.startPos, m_dragItemInfo.track);
         if (transitionClip && transitionClip->baseClip()) {
             QString size = transitionClip->baseClip()->getProperty("frame_size");
-            p.setX(size.section('x', 0, 0).toInt());
+            double factor = transitionClip->baseClip()->getProperty("aspect_ratio").toDouble();
+            p.setX((int)(size.section('x', 0, 0).toInt() * factor + 0.5));
             p.setY(size.section('x', 1, 1).toInt());
         }
         emit transitionItemSelected(static_cast <Transition *>(m_dragItem), getPreviousVideoTrack(m_dragItem->track()), p);
@@ -3416,7 +3418,8 @@ void CustomTrackView::moveTransition(const ItemInfo start, const ItemInfo end)
         ClipItem *transitionClip = getClipItemAt(item->startPos(), item->track());
         if (transitionClip && transitionClip->baseClip()) {
             QString size = transitionClip->baseClip()->getProperty("frame_size");
-            p.setX(size.section('x', 0, 0).toInt());
+            double factor = transitionClip->baseClip()->getProperty("aspect_ratio").toDouble();
+            p.setX((int)(size.section('x', 0, 0).toInt() * factor + 0.5));
             p.setY(size.section('x', 1, 1).toInt());
         }
         emit transitionItemSelected(item, getPreviousVideoTrack(item->track()), p);

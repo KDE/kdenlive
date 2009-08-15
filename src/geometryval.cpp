@@ -57,11 +57,12 @@ Geometryval::Geometryval(const MltVideoProfile profile, QPoint frame_size, QWidg
     m_scene = new GraphicsSceneRectMove(this);
     m_scene->setTool(TITLE_SELECT);
     view->setScene(m_scene);
-    QGraphicsRectItem *m_frameBorder = new QGraphicsRectItem(QRectF(0, 0, profile.width, profile.height));
-    m_frameBorder->setZValue(-1100);
-    m_frameBorder->setBrush(QColor(255, 255, 0, 30));
-    m_frameBorder->setPen(QPen(QBrush(QColor(255, 255, 255, 255)), 1.0, Qt::DashLine));
-    m_scene->addItem(m_frameBorder);
+    m_realWidth = (int)(profile.height * profile.display_aspect_num / (double) profile.display_aspect_den);
+    QGraphicsRectItem *frameBorder = new QGraphicsRectItem(QRectF(0, 0, m_realWidth, profile.height));
+    frameBorder->setZValue(-1100);
+    frameBorder->setBrush(QColor(255, 255, 0, 30));
+    frameBorder->setPen(QPen(QBrush(QColor(255, 255, 255, 255)), 1.0, Qt::DashLine));
+    m_scene->addItem(frameBorder);
 
     m_ui.buttonNext->setIcon(KIcon("media-skip-forward"));
     m_ui.buttonNext->setToolTip(i18n("Go to next keyframe"));
@@ -109,7 +110,7 @@ Geometryval::Geometryval(const MltVideoProfile profile, QPoint frame_size, QWidg
     QRectF srect = view->sceneRect();
     view->setSceneRect(srect.x(), -srect.height() / 3 + 10, srect.width(), srect.height() + srect.height() / 3 * 2 - 10);
     m_scene->setZoom(sc);
-    view->centerOn(m_frameBorder);
+    view->centerOn(frameBorder);
     connect(m_ui.buttonNext , SIGNAL(clicked()) , this , SLOT(slotNextFrame()));
     connect(m_ui.buttonPrevious , SIGNAL(clicked()) , this , SLOT(slotPreviousFrame()));
     connect(m_ui.buttonDelete , SIGNAL(clicked()) , this , SLOT(slotDeleteFrame()));
@@ -145,7 +146,7 @@ void Geometryval::slotAlignCenter()
         // no keyframe under cursor
         return;
     }
-    m_paramRect->setPos((m_profile.width - m_paramRect->rect().width()) / 2, (m_profile.height - m_paramRect->rect().height()) / 2);
+    m_paramRect->setPos((m_realWidth - m_paramRect->rect().width()) / 2, (m_profile.height - m_paramRect->rect().height()) / 2);
     slotUpdateTransitionProperties();
 }
 
@@ -158,7 +159,7 @@ void Geometryval::slotAlignHCenter()
         // no keyframe under cursor
         return;
     }
-    m_paramRect->setPos((m_profile.width - m_paramRect->rect().width()) / 2, m_paramRect->pos().y());
+    m_paramRect->setPos((m_realWidth - m_paramRect->rect().width()) / 2, m_paramRect->pos().y());
     slotUpdateTransitionProperties();
 }
 
@@ -223,7 +224,7 @@ void Geometryval::slotAlignRight()
         // no keyframe under cursor
         return;
     }
-    m_paramRect->setPos(m_profile.width - m_paramRect->rect().width(), m_paramRect->pos().y());
+    m_paramRect->setPos(m_realWidth - m_paramRect->rect().width(), m_paramRect->pos().y());
     slotUpdateTransitionProperties();
 }
 
@@ -236,7 +237,7 @@ void Geometryval::slotResize50()
         // no keyframe under cursor
         return;
     }
-    m_paramRect->setRect(0, 0, m_profile.width / 2, m_profile.height / 2);
+    m_paramRect->setRect(0, 0, m_realWidth / 2, m_profile.height / 2);
     slotUpdateTransitionProperties();
 }
 
@@ -249,7 +250,7 @@ void Geometryval::slotResize100()
         // no keyframe under cursor
         return;
     }
-    m_paramRect->setRect(0, 0, m_profile.width, m_profile.height);
+    m_paramRect->setRect(0, 0, m_realWidth, m_profile.height);
     slotUpdateTransitionProperties();
 }
 
@@ -262,7 +263,7 @@ void Geometryval::slotResize200()
         // no keyframe under cursor
         return;
     }
-    m_paramRect->setRect(0, 0, m_profile.width * 2, m_profile.height * 2);
+    m_paramRect->setRect(0, 0, m_realWidth * 2, m_profile.height * 2);
     slotUpdateTransitionProperties();
 }
 
@@ -289,11 +290,11 @@ void Geometryval::slotResizeCustom()
         // no keyframe under cursor
         return;
     }
-    int scale = m_paramRect->rect().width() * 100 / m_profile.width;
+    int scale = m_paramRect->rect().width() * 100 / m_realWidth;
     bool ok;
     scale =  QInputDialog::getInteger(this, i18n("Resize..."), i18n("Scale"), scale, 1, 2147483647, 10, &ok);
     if (!ok) return;
-    m_paramRect->setRect(0, 0, m_profile.width * scale / 100, m_profile.height * scale / 100);
+    m_paramRect->setRect(0, 0, m_realWidth * scale / 100, m_profile.height * scale / 100);
     slotUpdateTransitionProperties();
 }
 
@@ -342,8 +343,9 @@ void Geometryval::slotPositionChanged(int pos, bool seek)
         m_alignMenu->setEnabled(true);
         m_editGeom->setEnabled(true);
     }
-    m_paramRect->setPos(item.x(), item.y());
-    m_paramRect->setRect(0, 0, item.w(), item.h());
+    double dar = (m_profile.height * m_profile.display_aspect_num / (double) m_profile.display_aspect_den) / (double) m_profile.width;
+    m_paramRect->setPos(item.x() * dar, item.y());
+    m_paramRect->setRect(0, 0, item.w() * dar, item.h());
     m_ui.spinTransp->setValue(item.mix());
     m_paramRect->setBrush(QColor(255, 0, 0, item.mix()));
 }
@@ -485,13 +487,14 @@ void Geometryval::updateTransitionPath()
     int pos = 0;
     int counter = 0;
     QPainterPath path;
+    double dar = (m_profile.height * m_profile.display_aspect_num / (double) m_profile.display_aspect_den) / (double) m_profile.width;
     while (true) {
         if (m_geom->next_key(&item, pos) == 1) break;
         pos = item.frame();
         if (counter == 0) {
-            path.moveTo(item.x() + item.w() / 2, item.y() + item.h() / 2);
+            path.moveTo(item.x() * dar + item.w() * dar / 2, item.y() + item.h() / 2);
         } else {
-            path.lineTo(item.x() + item.w() / 2, item.y() + item.h() / 2);
+            path.lineTo(item.x() * dar + item.w() * dar / 2, item.y() + item.h() / 2);
         }
         counter++;
         pos++;
@@ -508,10 +511,11 @@ void Geometryval::slotUpdateTransitionProperties()
         // no keyframe under cursor
         return;
     }
+    double dar = (double) m_profile.width / (m_profile.height * m_profile.display_aspect_num / (double) m_profile.display_aspect_den);
     QRectF r = m_paramRect->rect().normalized();
-    item.x(m_paramRect->pos().x());
+    item.x(m_paramRect->pos().x() * dar);
     item.y(m_paramRect->pos().y());
-    item.w(r.width());
+    item.w(r.width() * dar);
     item.h(r.height());
     m_geom->insert(item);
     updateTransitionPath();
@@ -560,7 +564,7 @@ void Geometryval::slotResetPosition()
     m_view.value_y->setValue(0);
 
     if (m_frameSize.isNull()) {
-        m_view.value_width->setValue(m_profile.width);
+        m_view.value_width->setValue(m_realWidth);
         m_view.value_height->setValue(m_profile.height);
     } else {
         m_view.value_width->setValue(m_frameSize.x());
