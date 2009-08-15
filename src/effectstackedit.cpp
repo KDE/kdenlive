@@ -450,7 +450,7 @@ void EffectStackEdit::collectAllParameters()
             namenode.item(i) = complex->getParamDesc();
         } else if (type == "geometry") {
             Geometryval *geom = ((Geometryval*)m_valueItems.value(paramName));
-            namenode.item(i) = geom->getParamDesc();
+            namenode.item(i).toElement().setAttribute("value", geom->getValue());
         } else if (type == "position") {
             PositionEdit *pedit = ((PositionEdit*)m_valueItems.value(paramName));
             int pos = pedit->getPosition();

@@ -420,16 +420,13 @@ void Geometryval::slotPreviousFrame()
 }
 
 
-QDomElement Geometryval::getParamDesc()
+QString Geometryval::getValue() const
 {
-    m_param.setAttribute("value", m_geom->serialise());
-    kDebug() << " / / UPDATING TRANSITION VALUE: " << m_param.attribute("value");
-    return m_param;
+    return m_geom->serialise();
 }
 
 void Geometryval::setupParam(const QDomElement par, int minFrame, int maxFrame)
 {
-    m_param = par;
     QString val = par.attribute("value");
     if (par.attribute("fixed") == "1") {
         m_fixedMode = true;

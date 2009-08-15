@@ -20,6 +20,7 @@
 #include "effectslist.h"
 #include "clipitem.h"
 #include "mainwindow.h"
+#include "docclipbase.h"
 #include "kdenlivesettings.h"
 
 #include <KDebug>
@@ -138,8 +139,12 @@ void EffectStackView::slotClipItemSelected(ClipItem* c, int ix)
         if (ix == -1) ix = m_ui.effectlist->currentRow();
     } else {
         m_clipref = c;
-        if (c) ix = c->selectedEffectIndex();
-        else ix = 0;
+        if (c) {
+            ix = c->selectedEffectIndex();
+            QString size = c->baseClip()->getProperty("frame_size");
+            QPoint p(size.section('x', 0, 0).toInt(), size.section('x', 1, 1).toInt());
+            m_effectedit->setFrameSize(p);
+        } else ix = 0;
     }
     if (m_clipref == NULL) {
         m_ui.effectlist->blockSignals(true);

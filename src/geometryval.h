@@ -43,13 +43,13 @@ public:
     explicit Geometryval(const MltVideoProfile profile, QPoint frame_size, QWidget* parent = 0);
     virtual ~Geometryval();
     QDomElement getParamDesc();
+    QString getValue() const;
     void setFrameSize(QPoint p);
 
 private:
     Ui::Geometryval m_ui;
     MltVideoProfile m_profile;
     GraphicsSceneRectMove *m_scene;
-    QDomElement m_param;
     QGraphicsRectItem *m_paramRect;
     Mlt::Geometry *m_geom;
     KeyframeHelper *m_helper;
