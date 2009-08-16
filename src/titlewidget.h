@@ -159,7 +159,7 @@ public slots:
     void itemHCenter();
     void itemVCenter();
     void saveTitle(KUrl url = KUrl());
-    void loadTitle();
+    void loadTitle(KUrl url = KUrl());
     QImage renderedPixmap();
 
 private slots:

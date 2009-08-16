@@ -277,10 +277,9 @@ void ClipManager::slotAddClipList(const KUrl::List urls, const QString group, co
                     prod.setAttribute("type", (int) TEXT);
                     prod.setAttribute("resource", file.path());
                     prod.setAttribute("xmldata", txtdoc.toString());
-                    GenTime outPos(txtdoc.documentElement().attribute("out").toDouble() / 1000.0);
                     prod.setAttribute("transparency", 1);
                     prod.setAttribute("in", 0);
-                    int out = (int) outPos.frames(m_doc->fps());
+                    int out = txtdoc.documentElement().attribute("out").toInt();
                     if (out > 0) prod.setAttribute("out", out);
                 } else txtfile.close();
             }

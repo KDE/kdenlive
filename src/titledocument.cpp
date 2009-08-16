@@ -169,7 +169,7 @@ QColor TitleDocument::getBackgroundColor()
 }
 
 
-bool TitleDocument::saveDocument(const KUrl& url, QGraphicsPolygonItem* startv, QGraphicsPolygonItem* endv, double out)
+bool TitleDocument::saveDocument(const KUrl& url, QGraphicsPolygonItem* startv, QGraphicsPolygonItem* endv, int out)
 {
     if (!m_scene)
         return false;
@@ -192,27 +192,7 @@ bool TitleDocument::saveDocument(const KUrl& url, QGraphicsPolygonItem* startv, 
     return KIO::NetAccess::upload(tmpfile.fileName(), url, 0);
 }
 
-int TitleDocument::loadDocument(const KUrl& url, QGraphicsPolygonItem* startv, QGraphicsPolygonItem* endv, double *out)
-{
-    QString tmpfile;
-    QDomDocument doc;
-    if (!m_scene)
-        return -1;
-
-    if (KIO::NetAccess::download(url, tmpfile, 0)) {
-        QFile file(tmpfile);
-        if (file.open(QIODevice::ReadOnly)) {
-            doc.setContent(&file, false);
-            file.close();
-        } else
-            return -1;
-        KIO::NetAccess::removeTempFile(tmpfile);
-        return loadFromXml(doc, startv, endv, out);
-    }
-    return -1;
-}
-
-int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsPolygonItem* startv, QGraphicsPolygonItem* endv, double *out)
+int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsPolygonItem* startv, QGraphicsPolygonItem* endv, int *out)
 {
     QDomNodeList titles = doc.elementsByTagName("kdenlivetitle");
     //TODO: Check if the opened title size is equal to project size, otherwise warn user and rescale
@@ -228,9 +208,9 @@ int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsPolygonItem* startv, Q
     }
     //TODO: get default title duration instead of hardcoded one
     if (doc.documentElement().hasAttribute("out"))
-        *out = doc.documentElement().attribute("out").toDouble();
+        *out = doc.documentElement().attribute("out").toInt();
     else
-        *out = 5000;
+        *out = 125;
 
     int maxZValue = 0;
     if (titles.size()) {

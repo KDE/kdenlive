@@ -25,6 +25,7 @@
 #include <KFileDialog>
 #include <KStandardDirs>
 #include <KMessageBox>
+#include <kio/netaccess.h>
 
 #include <QDomDocument>
 #include <QGraphicsItem>
@@ -267,16 +268,11 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     //graphicsView->resize(400, 300);
     kDebug() << "// TITLE WIDGWT: " << graphicsView->viewport()->width() << "x" << graphicsView->viewport()->height();
     //toolBox->setItemEnabled(2, false);
-    if (!url.isEmpty()) {
-        double out;
-        m_count = m_titledocument.loadDocument(url, m_startViewport, m_endViewport, &out) + 1;
-        adjustFrameSize();
-        title_duration->setText(m_tc.getTimecode(GenTime(out)));
-        slotSelectTool();
-    } else {
+    if (!url.isEmpty()) loadTitle(url);
+    else {
         slotTextTool();
+        QTimer::singleShot(200, this, SLOT(slotAdjustZoom()));
     }
-    QTimer::singleShot(200, this, SLOT(slotAdjustZoom()));
 }
 
 TitleWidget::~TitleWidget()
@@ -1304,19 +1300,31 @@ void TitleWidget::setupViewports()
     }
 }
 
-void TitleWidget::loadTitle()
+void TitleWidget::loadTitle(KUrl url)
 {
-    KUrl url = KFileDialog::getOpenUrl(KUrl(m_projectTitlePath), "application/x-kdenlivetitle", this, i18n("Load Title"));
+    if (url.isEmpty()) url = KFileDialog::getOpenUrl(KUrl(m_projectTitlePath), "application/x-kdenlivetitle", this, i18n("Load Title"));
     if (!url.isEmpty()) {
         QList<QGraphicsItem *> items = m_scene->items();
         for (int i = 0; i < items.size(); i++) {
             if (items.at(i)->zValue() > -1000) delete items.at(i);
         }
         m_scene->clearTextSelection();
-        double out;
+        QDomDocument doc;
+        QString tmpfile;
+
+        if (KIO::NetAccess::download(url, tmpfile, 0)) {
+            QFile file(tmpfile);
+            if (file.open(QIODevice::ReadOnly)) {
+                doc.setContent(&file, false);
+                file.close();
+            } else return;
+            KIO::NetAccess::removeTempFile(tmpfile);
+        }
+        setXml(doc);
+        /*int out;
         m_count = m_titledocument.loadDocument(url, m_startViewport, m_endViewport, &out) + 1;
         adjustFrameSize();
-        title_duration->setText(m_tc.getTimecode(GenTime(out / 1000.0)));
+        title_duration->setText(m_tc.getTimecode(GenTime(out, m_render->fps())));
         insertingValues = true;
         startViewportX->setValue(m_startViewport->data(0).toInt());
         startViewportY->setValue(m_startViewport->data(1).toInt());
@@ -1324,9 +1332,10 @@ void TitleWidget::loadTitle()
         endViewportX->setValue(m_endViewport->data(0).toInt());
         endViewportY->setValue(m_endViewport->data(1).toInt());
         endViewportSize->setValue(m_endViewport->data(2).toInt());
+
         insertingValues = false;
         slotSelectTool();
-        slotAdjustZoom();
+        slotAdjustZoom();*/
     }
 }
 
@@ -1334,7 +1343,7 @@ void TitleWidget::saveTitle(KUrl url)
 {
     if (url.isEmpty()) url = KFileDialog::getSaveUrl(KUrl(m_projectTitlePath), "application/x-kdenlivetitle", this, i18n("Save Title"));
     if (!url.isEmpty()) {
-        if (m_titledocument.saveDocument(url, m_startViewport, m_endViewport, GenTime(m_tc.getFrameCount(title_duration->text()), m_render->fps()).ms()) == false)
+        if (m_titledocument.saveDocument(url, m_startViewport, m_endViewport, m_tc.getFrameCount(title_duration->text())) == false)
             KMessageBox::error(this, i18n("Cannot write to file %1", url.path()));
     }
 }
@@ -1342,7 +1351,7 @@ void TitleWidget::saveTitle(KUrl url)
 QDomDocument TitleWidget::xml()
 {
     QDomDocument doc = m_titledocument.xml(m_startViewport, m_endViewport);
-    doc.documentElement().setAttribute("out", GenTime(m_tc.getFrameCount(title_duration->text()), m_render->fps()).ms());
+    doc.documentElement().setAttribute("out", m_tc.getFrameCount(title_duration->text()));
     if (cropImage->isChecked()) {
         doc.documentElement().setAttribute("crop", 1);
     }
@@ -1356,10 +1365,10 @@ int TitleWidget::duration() const
 
 void TitleWidget::setXml(QDomDocument doc)
 {
-    double out;
+    int out;
     m_count = m_titledocument.loadFromXml(doc, m_startViewport, m_endViewport, &out);
     adjustFrameSize();
-    title_duration->setText(m_tc.getTimecode(GenTime(out / 1000.0)));
+    title_duration->setText(m_tc.getTimecode(GenTime(out, m_render->fps())));
     /*if (doc.documentElement().hasAttribute("out")) {
     GenTime duration = GenTime(doc.documentElement().attribute("out").toDouble() / 1000.0);
     title_duration->setText(m_tc.getTimecode(duration));
@@ -1388,6 +1397,14 @@ void TitleWidget::setXml(QDomDocument doc)
     kcolorbutton->setColor(background_color);
     horizontalSlider->blockSignals(false);
     kcolorbutton->blockSignals(false);
+
+    startViewportX->setValue(m_startViewport->data(0).toInt());
+    startViewportY->setValue(m_startViewport->data(1).toInt());
+    startViewportSize->setValue(m_startViewport->data(2).toInt());
+    endViewportX->setValue(m_endViewport->data(0).toInt());
+    endViewportY->setValue(m_endViewport->data(1).toInt());
+    endViewportSize->setValue(m_endViewport->data(2).toInt());
+
     QTimer::singleShot(200, this, SLOT(slotAdjustZoom()));
     slotSelectTool();
 }
