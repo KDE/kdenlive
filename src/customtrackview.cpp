@@ -355,13 +355,14 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
                 pos = (br.bottom() - pos) * maxh;
                 m_dragItem->updateKeyFramePos(keyFramePos, pos);
             }
-
+            m_animationTimer->stop();
             delete m_animation;
             m_animation = NULL;
             delete m_visualTip;
             m_visualTip = NULL;
             return;
         } else if (m_operationMode == MOVEGUIDE) {
+            m_animationTimer->stop();
             delete m_animation;
             m_animation = NULL;
             delete m_visualTip;
