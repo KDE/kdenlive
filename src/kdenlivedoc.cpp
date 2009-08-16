@@ -121,6 +121,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                                     projectTrack.isMute = e.attribute("mute").toInt();
                                     projectTrack.isBlind = e.attribute("blind").toInt();
                                     projectTrack.isLocked = e.attribute("locked").toInt();
+                                    projectTrack.trackName = e.attribute("trackname");
                                     m_tracksList.append(projectTrack);
                                 }
                             }
@@ -518,6 +519,7 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene)
         trackinfo.setAttribute("mute", info.isMute);
         trackinfo.setAttribute("blind", info.isBlind);
         trackinfo.setAttribute("locked", info.isLocked);
+        trackinfo.setAttribute("trackname", info.trackName);
         tracksinfo.appendChild(trackinfo);
     }
     addedXml.appendChild(tracksinfo);
@@ -1176,6 +1178,7 @@ void KdenliveDoc::setTrackType(int ix, TrackInfo type)
     m_tracksList[ix].isMute = type.isMute;
     m_tracksList[ix].isBlind = type.isBlind;
     m_tracksList[ix].isLocked = type.isLocked;
+    m_tracksList[ix].trackName = type.trackName;
 }
 
 const QList <TrackInfo> KdenliveDoc::tracksList() const

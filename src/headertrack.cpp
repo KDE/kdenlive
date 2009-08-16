@@ -36,7 +36,7 @@ HeaderTrack::HeaderTrack(int index, TrackInfo info, int height, QWidget *parent)
 {
     setFixedHeight(height);
     m_view.setupUi(this);
-    m_view.track_number->setText(QString::number(m_index));
+    m_view.track_number->setText(info.trackName.isEmpty() ? QString::number(m_index) : info.trackName);
 
     m_view.buttonVideo->setChecked(!info.isBlind);
     m_view.buttonVideo->setToolTip(i18n("Hide track"));
@@ -83,6 +83,11 @@ HeaderTrack::HeaderTrack(int index, TrackInfo info, int height, QWidget *parent)
     QAction *changeAction = new QAction(i18n("Change Track Type"), this);
     addAction(changeAction);
     connect(changeAction, SIGNAL(triggered()), this, SLOT(slotChangeTrack()));
+
+    QAction *renameAction = new QAction(i18n("Rename Track"), this);
+    addAction(renameAction);
+    connect(renameAction, SIGNAL(triggered()), this, SLOT(slotRenameTrack()));
+
 }
 
 HeaderTrack::~HeaderTrack()
@@ -151,6 +156,10 @@ void HeaderTrack::slotChangeTrack()
     emit changeTrack(m_index);
 }
 
+void HeaderTrack::slotRenameTrack()
+{
+    emit renameTrack(m_index);
+}
 
 // virtual
 /*void HeaderTrack::paintEvent(QPaintEvent *e) {

@@ -36,6 +36,7 @@
 #include <KMessageBox>
 
 #include <QScrollBar>
+#include <QInputDialog>
 
 TrackView::TrackView(KdenliveDoc *doc, bool *ok, QWidget *parent) :
         QWidget(parent),
@@ -462,6 +463,7 @@ void TrackView::slotRebuildTrackHeaders()
         connect(header, SIGNAL(deleteTrack(int)), this, SIGNAL(deleteTrack(int)));
         connect(header, SIGNAL(insertTrack(int)), this, SIGNAL(insertTrack(int)));
         connect(header, SIGNAL(changeTrack(int)), this, SIGNAL(changeTrack(int)));
+        connect(header, SIGNAL(renameTrack(int)), this, SLOT(slotRenameTrack(int)));
         m_headersLayout->addWidget(header);
     }
 }
@@ -834,5 +836,19 @@ void TrackView::updateProjectFps()
 {
     m_ruler->updateProjectFps(m_doc->timecode());
 }
+
+void TrackView::slotRenameTrack(int ix)
+{
+    int tracknumber = m_doc->tracksCount() - ix;
+    TrackInfo info = m_doc->trackInfoAt(tracknumber - 1);
+    bool ok;
+    QString newName = QInputDialog::getText(this, i18n("New Track Name"), i18n("Enter new name"), QLineEdit::Normal, info.trackName, &ok);
+    if (ok) {
+        info.trackName = newName;
+        m_doc->setTrackType(tracknumber - 1, info);
+        QTimer::singleShot(300, this, SLOT(slotRebuildTrackHeaders()));
+    }
+}
+
 
 #include "trackview.moc"

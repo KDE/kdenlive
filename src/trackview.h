@@ -92,6 +92,7 @@ private slots:
     void slotChangeTrackLock(int ix, bool lock);
     void slotVerticalZoomDown();
     void slotVerticalZoomUp();
+    void slotRenameTrack(int ix);
 
 signals:
     void mousePosition(int);
@@ -100,6 +101,7 @@ signals:
     void insertTrack(int);
     void deleteTrack(int);
     void changeTrack(int);
+    void renameTrack(int);
 };
 
 #endif

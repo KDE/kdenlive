@@ -959,11 +959,11 @@ void CustomTrackView::resetSelectionGroup(bool selectItems)
         for (int i = 0; i < children.count(); i++) {
             if (children.at(i)->type() == AVWIDGET || children.at(i)->type() == TRANSITIONWIDGET) {
                 if (!static_cast <AbstractClipItem *>(children.at(i))->isItemLocked()) {
-                    children.at(i)->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+                    children.at(i)->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemClipsToShape);
                     children.at(i)->setSelected(selectItems);
                 }
             } else if (children.at(i)->type() == GROUPWIDGET) {
-                children.at(i)->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+                children.at(i)->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemClipsToShape);
                 children.at(i)->setSelected(selectItems);
             }
         }
@@ -3075,7 +3075,7 @@ void CustomTrackView::doGroupClips(QList <ItemInfo> clipInfos, QList <ItemInfo> 
                 m_document->clipManager()->removeGroup(grp);
                 scene()->destroyItemGroup(grp);
             }
-            clip->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+            clip->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemClipsToShape);
         }
         for (int i = 0; i < transitionInfos.count(); i++) {
             Transition *tr = getTransitionItemAt(transitionInfos.at(i).startPos, transitionInfos.at(i).track);
@@ -3085,7 +3085,7 @@ void CustomTrackView::doGroupClips(QList <ItemInfo> clipInfos, QList <ItemInfo> 
                 m_document->clipManager()->removeGroup(grp);
                 scene()->destroyItemGroup(grp);
             }
-            tr->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+            tr->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemClipsToShape);
         }
         setDocumentModified();
         return;
@@ -4629,7 +4629,7 @@ void CustomTrackView::doSplitAudio(const GenTime &pos, int track, bool split)
                 break;
             }
         }
-        clip->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+        clip->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemClipsToShape);
         m_document->clipManager()->removeGroup(grp);
         scene()->destroyItemGroup(grp);
     }

@@ -55,6 +55,7 @@ enum TRACKTYPE { AUDIOTRACK = 0, VIDEOTRACK = 1 };
 
 struct TrackInfo {
     TRACKTYPE type;
+    QString trackName;
     bool isMute;
     bool isBlind;
     bool isLocked;

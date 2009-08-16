@@ -74,8 +74,6 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, i
     m_maxDuration = clip->maxDuration();
     setAcceptDrops(true);
     m_audioThumbReady = clip->audioThumbCreated();
-
-    setFlags(QGraphicsItem::ItemClipsToShape | QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
     //setAcceptsHoverEvents(true);
     connect(this , SIGNAL(prepareAudioThumb(double, int, int, int)) , this, SLOT(slotPrepareAudioThumb(double, int, int, int)));
 

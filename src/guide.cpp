@@ -34,7 +34,7 @@ Guide::Guide(CustomTrackView *view, GenTime pos, QString label, double fps, doub
         m_fps(fps),
         m_view(view)
 {
-    setFlags(QGraphicsItem::ItemIsMovable);
+    setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemClipsToShape);
     setToolTip(label);
     setLine(0, 0, 0, height);
     setPos(m_position.frames(m_fps), 0);

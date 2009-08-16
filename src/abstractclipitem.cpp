@@ -38,7 +38,7 @@ AbstractClipItem::AbstractClipItem(const ItemInfo info, const QRectF& rect, doub
         m_keyframeFactor(1),
         m_fps(fps)
 {
-    setFlags(/*QGraphicsItem::ItemClipsToShape | */QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+    setFlags(QGraphicsItem::ItemClipsToShape | QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
     setTrack(info.track);
     m_startPos = info.startPos;
     m_cropDuration = info.endPos - info.startPos;
@@ -411,7 +411,7 @@ void AbstractClipItem::setItemLocked(bool locked)
         setSelected(false);
         setFlag(QGraphicsItem::ItemIsMovable, false);
         setFlag(QGraphicsItem::ItemIsSelectable, false);
-    } else setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+    } else setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemClipsToShape);
 }
 
 bool AbstractClipItem::isItemLocked() const
