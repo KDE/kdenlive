@@ -711,6 +711,7 @@ QString DocClipBase::getClipHash() const
     QString hash;
     if (m_clipType == SLIDESHOW) hash = QCryptographicHash::hash(m_properties.value("resource").toAscii().data(), QCryptographicHash::Md5).toHex();
     else if (m_clipType == COLOR) hash = QCryptographicHash::hash(m_properties.value("colour").toAscii().data(), QCryptographicHash::Md5).toHex();
+    else if (m_clipType == TEXT) hash = QCryptographicHash::hash(QString("title" + getId() + m_properties.value("xmldata")).toUtf8().data(), QCryptographicHash::Md5).toHex();
     else hash = m_properties.value("file_hash");
     return hash;
 }
