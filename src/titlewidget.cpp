@@ -1342,7 +1342,7 @@ void TitleWidget::saveTitle(KUrl url)
 QDomDocument TitleWidget::xml()
 {
     QDomDocument doc = m_titledocument.xml(m_startViewport, m_endViewport);
-    doc.documentElement().setAttribute("out", GenTime(m_tc.getFrameCount(title_duration->text())).ms());
+    doc.documentElement().setAttribute("out", GenTime(m_tc.getFrameCount(title_duration->text()), m_render->fps()).ms());
     if (cropImage->isChecked()) {
         doc.documentElement().setAttribute("crop", 1);
     }
@@ -1351,7 +1351,7 @@ QDomDocument TitleWidget::xml()
 
 int TitleWidget::duration() const
 {
-    return GenTime(m_tc.getFrameCount(title_duration->text())).frames(m_render->fps());
+    return m_tc.getFrameCount(title_duration->text());
 }
 
 void TitleWidget::setXml(QDomDocument doc)
