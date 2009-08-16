@@ -594,7 +594,6 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
 // virtual
 void CustomTrackView::mousePressEvent(QMouseEvent * event)
 {
-    //kDebug() << "mousePressEvent STARTED";
     setFocus(Qt::MouseFocusReason);
     m_menuPosition = QPoint();
 
@@ -607,6 +606,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
     }
 
     if (event->modifiers() & Qt::ShiftModifier) {
+        // Rectangle selection
         setDragMode(QGraphicsView::RubberBandDrag);
         if (!(event->modifiers() & Qt::ControlModifier)) {
             resetSelectionGroup();
@@ -633,6 +633,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
     QList<QGraphicsItem *> collisionList = items(m_clickEvent);
 
     if (event->modifiers() == Qt::ControlModifier && m_tool != SPACERTOOL && collisionList.count() == 0) {
+        // Pressing Ctrl + left mouse button in an empty area scrolls the timeline
         setDragMode(QGraphicsView::ScrollHandDrag);
         QGraphicsView::mousePressEvent(event);
         m_blockRefresh = false;
@@ -806,10 +807,36 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         return;
     }
 
-    if (dragGroup == NULL) updateSnapPoints(m_dragItem);
+    bool itemSelected = false;
+    if (m_dragItem->isSelected()) itemSelected = true;
+    else if (m_dragItem->parentItem() && m_dragItem->parentItem()->isSelected()) itemSelected = true;
+    else if (dragGroup && dragGroup->isSelected()) itemSelected = true;
+
+    if (event->modifiers() == Qt::ControlModifier || itemSelected == false) {
+        if (event->modifiers() != Qt::ControlModifier) {
+            m_scene->clearSelection();
+            resetSelectionGroup(false);
+        } else resetSelectionGroup();
+        dragGroup = NULL;
+        if (m_dragItem->parentItem() && m_dragItem->parentItem()->type() == GROUPWIDGET) {
+            //kDebug()<<"// KLIK FOUND GRP: "<<m_dragItem->sceneBoundingRect();
+            dragGroup = static_cast <AbstractGroupItem *>(m_dragItem->parentItem());
+        }
+        bool selected = !m_dragItem->isSelected();
+        if (dragGroup) dragGroup->setSelected(selected);
+        else m_dragItem->setSelected(selected);
+
+        groupSelectedItems();
+        ClipItem *clip = static_cast <ClipItem *>(m_dragItem);
+        updateClipTypeActions(dragGroup == NULL ? clip : NULL);
+        m_pasteEffectsAction->setEnabled(m_copiedItems.count() == 1);
+    }
+
+    // Update snap points
+    if (m_selectionGroup == NULL) updateSnapPoints(m_dragItem);
     else {
         QList <GenTime> offsetList;
-        QList<QGraphicsItem *> children = dragGroup->childItems();
+        QList<QGraphicsItem *> children = m_selectionGroup->childItems();
         for (int i = 0; i < children.count(); i++) {
             if (children.at(i)->type() == AVWIDGET || children.at(i)->type() == TRANSITIONWIDGET) {
                 AbstractClipItem *item = static_cast <AbstractClipItem *>(children.at(i));
@@ -831,31 +858,8 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         }
     }
 
-    bool itemSelected = false;
-    if (m_dragItem->isSelected()) itemSelected = true;
-    else if (m_dragItem->parentItem() && m_dragItem->parentItem()->isSelected()) itemSelected = true;
-    else if (dragGroup && dragGroup->isSelected()) itemSelected = true;
-    if (event->modifiers() == Qt::ControlModifier || itemSelected == false) {
-        if (event->modifiers() != Qt::ControlModifier) m_scene->clearSelection();
-        resetSelectionGroup();
-        dragGroup = NULL;
-        if (m_dragItem->parentItem() && m_dragItem->parentItem()->type() == GROUPWIDGET) {
-            //kDebug()<<"// KLIK FOUND GRP: "<<m_dragItem->sceneBoundingRect();
-            dragGroup = static_cast <AbstractGroupItem *>(m_dragItem->parentItem());
-        }
-        bool selected = !m_dragItem->isSelected();
-        if (dragGroup) dragGroup->setSelected(selected);
-        else m_dragItem->setSelected(selected);
-
-        groupSelectedItems();
-        ClipItem *clip = static_cast <ClipItem *>(m_dragItem);
-        updateClipTypeActions(dragGroup == NULL ? clip : NULL);
-        m_pasteEffectsAction->setEnabled(m_copiedItems.count() == 1);
-    }
-
     if (collisionClip != NULL || m_dragItem == NULL) {
         if (m_dragItem && m_dragItem->type() == AVWIDGET && !m_dragItem->isItemLocked()) {
-            kDebug() << "//////// CLIP ITEM SELECTED, TRANSMITTING . . . . . . .";
             ClipItem *selected = static_cast <ClipItem*>(m_dragItem);
             emit clipItemSelected(selected);
         } else emit clipItemSelected(NULL);
