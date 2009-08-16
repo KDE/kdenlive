@@ -134,6 +134,10 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscen
     verticalScrollBar()->setMaximum(maxWidth);
     m_cursorLine = projectscene->addLine(0, 0, 0, maxWidth);
     m_cursorLine->setZValue(1000);
+    QPen pen1;
+    pen1.setWidthF(1.0);
+    pen1.setCosmetic(true);
+    m_cursorLine->setPen(pen1);
 
     KIcon razorIcon("edit-cut");
     m_razorCursor = QCursor(razorIcon.pixmap(22, 22));

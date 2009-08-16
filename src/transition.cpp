@@ -193,6 +193,7 @@ void Transition::paint(QPainter *painter,
         painter->drawText(painter->matrix().map(p3) + QPointF(25, 0), transitionName());*/
     painter->setMatrixEnabled(true);
     QPen pen = painter->pen();
+
     if (isSelected()) {
         pen.setColor(Qt::red);
         //pen.setWidth(2);
@@ -200,11 +201,11 @@ void Transition::paint(QPainter *painter,
         pen.setColor(Qt::black);
         //pen.setWidth(1);
     }
-    // expand clip rect to allow correct painting of clip border
-    exposed.setRight(exposed.right() + 1 / scale + 0.5);
-    exposed.setBottom(exposed.bottom() + 1);
-    painter->setClipRect(exposed);
+
+    pen.setWidthF(1.0);
+    pen.setCosmetic(true);
     painter->setPen(pen);
+    painter->setClipping(false);
     painter->drawRect(br);
 }
 

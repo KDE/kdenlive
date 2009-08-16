@@ -643,9 +643,6 @@ void ClipItem::paint(QPainter *painter,
                      const QStyleOptionGraphicsItem *option,
                      QWidget *)
 {
-    /*if (parentItem()) m_opacity = 0.5;
-    else m_opacity = 1.0;
-    painter->setOpacity(m_opacity);*/
     QColor paintColor;
     if (parentItem()) paintColor = QColor(255, 248, 149);
     else paintColor = brush().color();
@@ -774,9 +771,7 @@ void ClipItem::paint(QPainter *painter,
             //painter->fillRect(QRect(br.x() + framepos, br.y(), 10, br.height()), QBrush(QColor(0, 0, 0, 150)));
         }
     }
-    pen.setColor(Qt::black);
-    pen.setStyle(Qt::SolidLine);
-    painter->setPen(pen);
+    painter->setPen(QPen());
 
     // draw start / end fades
     QBrush fades;
@@ -867,12 +862,16 @@ void ClipItem::paint(QPainter *painter,
 
     // draw clip border
     // expand clip rect to allow correct painting of clip border
+    QPen pen1(frameColor);
+    pen1.setWidthF(1.0);
+    pen1.setCosmetic(true);
+    painter->setPen(pen1);
 
-    exposed.setRight(exposed.right() + xoffset + 0.5);
+    /*exposed.setRight(exposed.right() + xoffset + 0.5);
     exposed.setBottom(exposed.bottom() + 1);
-    painter->setClipRect(exposed);
-
-    frameColor.setAlpha(alphaBase);
+    painter->setClipRect(exposed);*/
+    painter->setClipping(false);
+    /*frameColor.setAlpha(alphaBase);
     painter->setPen(frameColor);
     QLineF line(br.left() + xoffset, br.top(), br.right() - xoffset, br.top());
     painter->drawLine(line);
@@ -888,8 +887,8 @@ void ClipItem::paint(QPainter *painter,
 
     painter->setPen(QColor(255, 255, 255, 60));
     line.setLine(br.right() - xoffset, br.bottom() - 1.0, br.left() + xoffset, br.bottom() - 1.0);
-    painter->drawLine(line);
-    //painter->drawRect(br);
+    painter->drawLine(line);*/
+    painter->drawRect(br);
 }
 
 
