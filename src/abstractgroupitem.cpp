@@ -97,15 +97,15 @@ void AbstractGroupItem::fixItemRect()
 void AbstractGroupItem::paint(QPainter *p, const QStyleOptionGraphicsItem *option, QWidget *)
 {
     const double scale = option->matrix.m11();
-    QRect clipRect = option->exposedRect.toRect();
-    clipRect.adjust(0, 0, 1 / scale + 0.5, 1);
     p->fillRect(option->exposedRect, QColor(100, 100, 200, 100));
-    p->setClipRect(clipRect);
+    p->setClipping(false);
     QPen pen = p->pen();
     pen.setColor(QColor(200, 90, 90));
     pen.setStyle(Qt::DashLine);
+    pen.setWidthF(1.0);
+    pen.setCosmetic(true);
     p->setPen(pen);
-    p->drawRect(boundingRect());
+    p->drawRect(boundingRect().adjusted(0, 0, - 1 / scale, 0));
 }
 
 //virtual

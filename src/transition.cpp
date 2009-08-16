@@ -41,7 +41,7 @@ Transition::Transition(const ItemInfo info, int transitiontrack, double fps, QDo
     setZValue(3);
     setRect(0, 0, (info.endPos - info.startPos).frames(fps) - 0.02, (qreal)(KdenliveSettings::trackheight() / 3 * 2 - 1));
     setPos(info.startPos.frames(fps), (qreal)(info.track * KdenliveSettings::trackheight() + KdenliveSettings::trackheight() / 3 * 2));
-
+    
     m_cropStart = GenTime();
     m_maxDuration = GenTime(600);
 
@@ -206,7 +206,7 @@ void Transition::paint(QPainter *painter,
     pen.setCosmetic(true);
     painter->setPen(pen);
     painter->setClipping(false);
-    painter->drawRect(br);
+    painter->drawRect(br.adjusted(0, 0, -1 / scale, 0));
 }
 
 int Transition::type() const
