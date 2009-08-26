@@ -106,16 +106,6 @@
        <property name="margin">
         <number>0</number>
        </property>
-       <item row="0" column="0">
-        <widget class="QWidget" name="headers_container" native="true">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-        </widget>
-       </item>
        <item row="1" column="0">
         <spacer name="verticalSpacer">
          <property name="orientation">
@@ -131,6 +121,16 @@
           </size>
          </property>
         </spacer>
+       </item>
+       <item row="0" column="0">
+        <widget class="QFrame" name="headers_container">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
