@@ -360,6 +360,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
                 pos = (br.bottom() - pos) * maxh;
                 m_dragItem->updateKeyFramePos(keyFramePos, pos);
             }
+            scene()->removeItem(m_visualTip);
             m_animationTimer->stop();
             delete m_animation;
             m_animation = NULL;
@@ -367,6 +368,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
             m_visualTip = NULL;
             return;
         } else if (m_operationMode == MOVEGUIDE) {
+            scene()->removeItem(m_visualTip);
             m_animationTimer->stop();
             delete m_animation;
             m_animation = NULL;
@@ -421,6 +423,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
             return;
         } else {
             if (m_visualTip) {
+                scene()->removeItem(m_visualTip);
                 m_animationTimer->stop();
                 delete m_animation;
                 m_animation = NULL;
@@ -577,6 +580,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
         setCursor(Qt::SplitHCursor);
     } else {
         if (m_visualTip) {
+            scene()->removeItem(m_visualTip);
             m_animationTimer->stop();
             delete m_animation;
             m_animation = NULL;
@@ -3873,6 +3877,7 @@ void CustomTrackView::setScale(double scaleFactor, double verticalScale)
     QMatrix matrix;
     matrix = matrix.scale(scaleFactor, verticalScale);
     m_scene->setScale(scaleFactor, verticalScale);
+    scene()->removeItem(m_visualTip);
     m_animationTimer->stop();
     delete m_visualTip;
     m_visualTip = NULL;
