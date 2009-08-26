@@ -102,18 +102,35 @@ void Render::closeMlt()
 {
     //delete m_osdTimer;
     if (m_mltProducer) {
-        Mlt::Service service(m_mltProducer->get_service());
+        Mlt::Service service(m_mltProducer->parent().get_service());
+        mlt_service_lock(service.get_service());
+
         if (service.type() == tractor_type) {
             Mlt::Tractor tractor(service);
-            int trackNb = tractor.count();
+            Mlt::Field *field = tractor.field();
+            mlt_service nextservice = mlt_service_get_producer(service.get_service());
+            mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
+            QString mlt_type = mlt_properties_get(properties, "mlt_type");
+            QString resource = mlt_properties_get(properties, "mlt_service");
+            // Delete all transitions
+            while (mlt_type == "transition") {
+                mlt_field_disconnect_service(field->get_field(), nextservice);
+                nextservice = mlt_service_producer(nextservice);
+                if (nextservice == NULL) break;
+                properties = MLT_SERVICE_PROPERTIES(nextservice);
+                mlt_type = mlt_properties_get(properties, "mlt_type");
+                resource = mlt_properties_get(properties, "mlt_service");
+            }
 
+            int trackNb = tractor.count();
             while (trackNb > 0) {
                 Mlt::Producer trackProducer(tractor.track(trackNb - 1));
                 Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
-                trackPlaylist.clear();
+                if (trackPlaylist.type() == playlist_type) trackPlaylist.clear();
                 trackNb--;
             }
         }
+        mlt_service_unlock(service.get_service());
     }
 
     kDebug() << "// // // CLOSE RENDERER " << m_name;
@@ -133,7 +150,8 @@ void Render::buildConsumer()
     delete m_blackClip;
     m_blackClip = NULL;
 
-    if (m_mltProfile) delete m_mltProfile;
+    //TODO: uncomment following line when everything is clean
+    //if (m_mltProfile) delete m_mltProfile;
     m_mltProfile = new Mlt::Profile(tmp);
     delete[] tmp;
 
@@ -864,8 +882,6 @@ int Render::setSceneList(QString playlist, int position)
     if (m_winid == -1) return -1;
     m_isBlocked = true;
     int error;
-    qDeleteAll(m_slowmotionProducers.values());
-    m_slowmotionProducers.clear();
 
     //kWarning() << "//////  RENDER, SET SCENE LIST: " << playlist;
 
@@ -877,25 +893,46 @@ int Render::setSceneList(QString playlist, int position)
 
     if (!m_mltConsumer->is_stopped()) {
         m_mltConsumer->stop();
-        //m_mltConsumer->set("refresh", 0);
     }
+    m_mltConsumer->set("refresh", 0);
 
     if (m_mltProducer) {
         m_mltProducer->set_speed(0);
         //if (KdenliveSettings::osdtimecode() && m_osdInfo) m_mltProducer->detach(*m_osdInfo);
 
 
-        Mlt::Service service(m_mltProducer->get_service());
+        Mlt::Service service(m_mltProducer->parent().get_service());
+        mlt_service_lock(service.get_service());
+
         if (service.type() == tractor_type) {
             Mlt::Tractor tractor(service);
+            Mlt::Field *field = tractor.field();
+            mlt_service nextservice = mlt_service_get_producer(service.get_service());
+            mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
+            QString mlt_type = mlt_properties_get(properties, "mlt_type");
+            QString resource = mlt_properties_get(properties, "mlt_service");
+            // Delete all transitions
+            while (mlt_type == "transition") {
+                mlt_field_disconnect_service(field->get_field(), nextservice);
+                nextservice = mlt_service_producer(nextservice);
+                if (nextservice == NULL) break;
+                properties = MLT_SERVICE_PROPERTIES(nextservice);
+                mlt_type = mlt_properties_get(properties, "mlt_type");
+                resource = mlt_properties_get(properties, "mlt_service");
+            }
+
             int trackNb = tractor.count();
             while (trackNb > 0) {
                 Mlt::Producer trackProducer(tractor.track(trackNb - 1));
                 Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
-                trackPlaylist.clear();
+                if (trackPlaylist.type() == playlist_type) trackPlaylist.clear();
                 trackNb--;
             }
         }
+        mlt_service_unlock(service.get_service());
+
+        qDeleteAll(m_slowmotionProducers.values());
+        m_slowmotionProducers.clear();
 
         delete m_mltProducer;
         m_mltProducer = NULL;
@@ -1638,7 +1675,7 @@ bool Render::mltRemoveClip(int track, GenTime position)
     //kDebug()<<"////  Deleting at: "<< (int) position.frames(m_fps) <<" --------------------------------------";
     m_isBlocked = true;
     Mlt::Producer *clip = trackPlaylist.replace_with_blank(clipIndex);
-    delete clip;
+    if (clip) delete clip;
     trackPlaylist.consolidate_blanks(0);
     /*if (QString(clip.parent().get("transparency")).toInt() == 1)
         mltDeleteTransparency((int) position.frames(m_fps), track, QString(clip.parent().get("id")).toInt());*/
@@ -3057,7 +3094,7 @@ void Render::mltSavePlaylist()
     fileConsumer.start();
 }
 
-QList <Mlt::Producer *> Render::producersList()
+const QList <Mlt::Producer *> Render::producersList()
 {
     QList <Mlt::Producer *> prods;
     if (m_mltProducer == NULL) return prods;
@@ -3244,16 +3281,16 @@ void Render::mltDeleteTrack(int ix)
     //kDebug() << "/////////// RESULT SCENE: \n" << doc.toString();
     setSceneList(doc.toString(), m_framePosition);
 
-    if (m_mltProducer != NULL) {
-        Mlt::Producer parentProd(m_mltProducer->parent());
-        if (parentProd.get_producer() != NULL) {
-            Mlt::Service service(parentProd.get_service());
-            if (service.type() == tractor_type) {
-                Mlt::Tractor tractor(service);
-                mltCheckLength(&tractor);
+    /*    if (m_mltProducer != NULL) {
+            Mlt::Producer parentProd(m_mltProducer->parent());
+            if (parentProd.get_producer() != NULL) {
+                Mlt::Service service(parentProd.get_service());
+                if (service.type() == tractor_type) {
+                    Mlt::Tractor tractor(service);
+                    mltCheckLength(&tractor);
+                }
             }
-        }
-    }
+        }*/
 }
 
 

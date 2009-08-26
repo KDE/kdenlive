@@ -169,6 +169,7 @@ set(kdenlive_SRCS
   cliptranscode.cpp
   keyframeedit.cpp
   positionedit.cpp
+  trackdialog.cpp
 )
 
 add_definitions( ${KDE4_DEFINITIONS} )

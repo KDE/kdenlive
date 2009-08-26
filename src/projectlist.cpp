@@ -642,8 +642,7 @@ void ProjectList::slotAddClip(const QList <QUrl> givenList, const QString &group
                 allExtensions.append(' ');
             }
         }
-        QString dialogFilter = allExtensions + ' ' + QLatin1Char('|') + i18n("All Supported Files");
-        dialogFilter.append("\n*" + QLatin1Char('|') + i18n("All Files"));
+        const QString dialogFilter = allExtensions.simplified() + ' ' + QLatin1Char('|') + i18n("All Supported Files") + "\n* " + QLatin1Char('|') + i18n("All Files");
         list = KFileDialog::getOpenUrls(KUrl("kfiledialog:///clipfolder"), dialogFilter, this);
 
     } else {

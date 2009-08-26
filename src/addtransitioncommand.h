@@ -43,6 +43,7 @@ private:
     int m_track;
     bool m_doIt;
     bool m_remove;
+    bool m_refresh;
 };
 
 #endif

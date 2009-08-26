@@ -38,7 +38,7 @@ AbstractClipItem::AbstractClipItem(const ItemInfo info, const QRectF& rect, doub
         m_keyframeFactor(1),
         m_fps(fps)
 {
-    setFlags(QGraphicsItem::ItemClipsToShape | QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+    setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
     setTrack(info.track);
     m_startPos = info.startPos;
     m_cropDuration = info.endPos - info.startPos;
@@ -190,55 +190,6 @@ GenTime AbstractClipItem::maxDuration() const
     return m_maxDuration;
 }
 
-QPainterPath AbstractClipItem::upperRectPart(QRectF br)
-{
-    QPainterPath roundRectPathUpper;
-    double roundingY = 20;
-    double roundingX = 20;
-    double offset = 1;
-
-    while (roundingX > br.width() / 2) {
-        roundingX = roundingX / 2;
-        roundingY = roundingY / 2;
-    }
-    int br_endx = (int)(br.x() + br .width() - offset);
-    int br_startx = (int)(br.x() + offset);
-    int br_starty = (int)(br.y());
-    int br_halfy = (int)(br.y() + br.height() / 2 - offset);
-
-    roundRectPathUpper.moveTo(br_endx  , br_halfy);
-    roundRectPathUpper.arcTo(br_endx - roundingX , br_starty , roundingX, roundingY, 0.0, 90.0);
-    roundRectPathUpper.lineTo(br_startx + roundingX , br_starty);
-    roundRectPathUpper.arcTo(br_startx , br_starty , roundingX, roundingY, 90.0, 90.0);
-    roundRectPathUpper.lineTo(br_startx , br_halfy);
-
-    return roundRectPathUpper;
-}
-
-QPainterPath AbstractClipItem::lowerRectPart(QRectF br)
-{
-    QPainterPath roundRectPathLower;
-    double roundingY = 20;
-    double roundingX = 20;
-    double offset = 1;
-
-    int br_endx = (int)(br.x() + br .width() - offset);
-    int br_startx = (int)(br.x() + offset);
-    int br_halfy = (int)(br.y() + br.height() / 2 - offset);
-    int br_endy = (int)(br.y() + br.height() - 1);
-
-    while (roundingX > br.width() / 2) {
-        roundingX = roundingX / 2;
-        roundingY = roundingY / 2;
-    }
-    roundRectPathLower.moveTo(br_startx, br_halfy);
-    roundRectPathLower.arcTo(br_startx , br_endy - roundingY , roundingX, roundingY, 180.0, 90.0);
-    roundRectPathLower.lineTo(br_endx - roundingX  , br_endy);
-    roundRectPathLower.arcTo(br_endx - roundingX , br_endy - roundingY, roundingX, roundingY, 270.0, 90.0);
-    roundRectPathLower.lineTo(br_endx  , br_halfy);
-    return roundRectPathLower;
-}
-
 void AbstractClipItem::drawKeyFrames(QPainter *painter, QRectF /*exposedRect*/)
 {
     if (m_keyframes.count() < 2) return;
@@ -260,9 +211,8 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, QRectF /*exposedRect*/)
         QLineF l2 = painter->matrix().map(l);
         painter->setPen(QColor(168, 168, 168, 180));
         painter->drawLine(l2);
-        l2.translate(0, 1);
         painter->setPen(QColor(108, 108, 108, 180));
-        painter->drawLine(l2);
+        painter->drawLine(l2.translated(0, 1));
         painter->setPen(QColor(Qt::white));
     }
 
@@ -283,12 +233,12 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, QRectF /*exposedRect*/)
         l2 = painter->matrix().map(l);
         painter->drawLine(l2);
         if (active) {
-            painter->fillRect(l2.x1() - 3, l2.y1() - 3, 6, 6, QBrush(color));
+            painter->fillRect(l2.x1() - 3, l2.y1() - 3, 6, 6, color);
         }
         x1 = x2;
         y1 = y2;
     }
-    if (active) painter->fillRect(l2.x2() - 3, l2.y2() - 3, 6, 6, QBrush(color));
+    if (active) painter->fillRect(l2.x2() - 3, l2.y2() - 3, 6, 6, color);
 }
 
 int AbstractClipItem::mouseOverKeyFrames(QPointF pos)
@@ -411,7 +361,7 @@ void AbstractClipItem::setItemLocked(bool locked)
         setSelected(false);
         setFlag(QGraphicsItem::ItemIsMovable, false);
         setFlag(QGraphicsItem::ItemIsSelectable, false);
-    } else setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemClipsToShape);
+    } else setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
 }
 
 bool AbstractClipItem::isItemLocked() const

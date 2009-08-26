@@ -62,13 +62,13 @@ TrackView::TrackView(KdenliveDoc *doc, bool *ok, QWidget *parent) :
     m_view.ruler_frame->setLayout(layout);
     layout->addWidget(m_ruler);
 
-
     QHBoxLayout *sizeLayout = new QHBoxLayout;
     sizeLayout->setContentsMargins(0, 0, 0, 0);
     sizeLayout->setSpacing(0);
     m_view.size_frame->setLayout(sizeLayout);
 
     QString style1 = "QToolButton {border-style: none;margin: 0px 3px;padding: 0px;} QToolButton:pressed:hover { background-color: rgba(224, 224, 0, 100); border-style: inset; border:1px solid #cc6666;border-radius: 3px;} QToolButton:hover { background-color: rgba(255, 255, 255, 100); border-style: inset; border:1px solid #cc6666;border-radius: 3px;}";
+
 
     QToolButton *butSmall = new QToolButton(this);
     butSmall->setIcon(KIcon("kdenlive-zoom-small"));
@@ -83,7 +83,6 @@ TrackView::TrackView(KdenliveDoc *doc, bool *ok, QWidget *parent) :
     sizeLayout->addWidget(butLarge);
     m_view.size_frame->setStyleSheet(style1);
 
-
     QHBoxLayout *tracksLayout = new QHBoxLayout;
     tracksLayout->setContentsMargins(0, 0, 0, 0);
     tracksLayout->setSpacing(0);
@@ -96,11 +95,9 @@ TrackView::TrackView(KdenliveDoc *doc, bool *ok, QWidget *parent) :
     m_headersLayout->setContentsMargins(0, m_trackview->frameWidth(), 0, 0);
     m_headersLayout->setSpacing(0);
     m_view.headers_container->setLayout(m_headersLayout);
-
     connect(m_view.headers_area->verticalScrollBar(), SIGNAL(valueChanged(int)), m_trackview->verticalScrollBar(), SLOT(setValue(int)));
 
     tracksLayout->addWidget(m_trackview);
-
     connect(m_trackview->verticalScrollBar(), SIGNAL(valueChanged(int)), m_view.headers_area->verticalScrollBar(), SLOT(setValue(int)));
     connect(m_trackview, SIGNAL(trackHeightChanged()), this, SLOT(slotRebuildTrackHeaders()));
 
@@ -446,14 +443,17 @@ void TrackView::refresh()
 
 void TrackView::slotRebuildTrackHeaders()
 {
-    QList <TrackInfo> list = m_doc->tracksList();
+    kDebug() << "--------- - - - -REBUILD TLK HEAD";
+    const QList <TrackInfo> list = m_doc->tracksList();
     QLayoutItem *child;
+    m_view.headers_container->hide();
     while ((child = m_headersLayout->takeAt(0)) != 0) {
         if (child->widget()) delete child->widget();
         delete child;
     }
     int max = list.count();
     int height = KdenliveSettings::trackheight() * m_scene->scale().y();
+
     for (int i = 0; i < max; i++) {
         HeaderTrack *header = new HeaderTrack(i, list.at(max - i - 1), height, this);
         connect(header, SIGNAL(switchTrackVideo(int)), m_trackview, SLOT(slotSwitchTrackVideo(int)));
@@ -466,6 +466,7 @@ void TrackView::slotRebuildTrackHeaders()
         connect(header, SIGNAL(renameTrack(int)), this, SLOT(slotRenameTrack(int)));
         m_headersLayout->addWidget(header);
     }
+    m_view.headers_container->show();
 }
 
 
@@ -847,6 +848,7 @@ void TrackView::slotRenameTrack(int ix)
         info.trackName = newName;
         m_doc->setTrackType(tracknumber - 1, info);
         QTimer::singleShot(300, this, SLOT(slotRebuildTrackHeaders()));
+        m_doc->setModified(true);
     }
 }
 

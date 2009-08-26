@@ -61,7 +61,6 @@ public:
     void setTransitionParameters(const QDomElement params);
     void setTransitionDirection(bool inv);
     void setTransitionTrack(int track);
-    QPixmap transitionPixmap() const;
     //Transition *reparent(ClipItem * clip);
     bool isValid() const;
     /** Transition should be linked to another track */

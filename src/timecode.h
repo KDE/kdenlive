@@ -53,7 +53,7 @@ public:
     int getFrameCount(const QString duration) const;
     static QString getEasyTimecode(const GenTime & time, const double &fps);
     static QString getStringTimecode(int frames, const double &fps);
-    QString getTimecodeFromFrames(int frames) const;
+    const QString getTimecodeFromFrames(int frames) const;
     int fps() const;
 
 private:
@@ -62,8 +62,8 @@ private:
     int m_displayedFramesPerSecond;
     double m_realFps;
 
-    QString getTimecodeHH_MM_SS_FF(const GenTime & time) const;
-    QString getTimecodeHH_MM_SS_FF(int frames) const;
+    const QString getTimecodeHH_MM_SS_FF(const GenTime & time) const;
+    const QString getTimecodeHH_MM_SS_FF(int frames) const;
 
     QString getTimecodeHH_MM_SS_HH(const GenTime & time) const;
     QString getTimecodeFrames(const GenTime & time) const;

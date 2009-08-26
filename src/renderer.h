@@ -202,7 +202,7 @@ Q_OBJECT public:
     in the ClipManager list and speed is the current speed */
     int mltChangeClipSpeed(ItemInfo info, double speed, double oldspeed, int strobe, Mlt::Producer *prod);
 
-    QList <Mlt::Producer *> producersList();
+    const QList <Mlt::Producer *> producersList();
     void updatePreviewSettings();
     void setDropFrames(bool show);
 

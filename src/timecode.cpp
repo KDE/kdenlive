@@ -92,7 +92,7 @@ QString Timecode::getTimecode(const GenTime & time) const
     }
 }
 
-QString Timecode::getTimecodeFromFrames(int frames) const
+const QString Timecode::getTimecodeFromFrames(int frames) const
 {
     return getTimecodeHH_MM_SS_FF(frames);
 }
@@ -163,7 +163,7 @@ QString Timecode::getEasyTimecode(const GenTime & time, const double &fps)
 }
 
 
-QString Timecode::getTimecodeHH_MM_SS_FF(const GenTime & time) const
+const QString Timecode::getTimecodeHH_MM_SS_FF(const GenTime & time) const
 {
     if (m_dropFrame)
         return getTimecodeDropFrame(time);
@@ -171,7 +171,7 @@ QString Timecode::getTimecodeHH_MM_SS_FF(const GenTime & time) const
     return getTimecodeHH_MM_SS_FF((int) time.frames(m_realFps));
 }
 
-QString Timecode::getTimecodeHH_MM_SS_FF(int frames) const
+const QString Timecode::getTimecodeHH_MM_SS_FF(int frames) const
 {
     if (m_dropFrame) {
         return getTimecodeDropFrame(frames);

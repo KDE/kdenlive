@@ -28,6 +28,7 @@
 #include <QWidget>
 #include <QPainter>
 #include <QAction>
+#include <QTimer>
 
 HeaderTrack::HeaderTrack(int index, TrackInfo info, int height, QWidget *parent) :
         QWidget(parent),
@@ -142,6 +143,11 @@ void HeaderTrack::setLock(bool lock)
 }
 
 void HeaderTrack::slotDeleteTrack()
+{
+    QTimer::singleShot(500, this, SLOT(deleteTrack()));
+}
+
+void HeaderTrack::deleteTrack()
 {
     emit deleteTrack(m_index);
 }

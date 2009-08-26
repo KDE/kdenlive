@@ -46,6 +46,7 @@ private:
     QDomElement m_xml;
     bool m_doIt;
     bool m_remove;
+    bool m_refresh;
 };
 
 #endif

@@ -408,15 +408,34 @@ QString DocClipBase::markerComment(GenTime t)
     return QString();
 }
 
+void DocClipBase::clearProducers()
+{
+    m_baseTrackProducers.clear();
+}
+
 void DocClipBase::deleteProducers()
 {
-    qDeleteAll(m_baseTrackProducers);
-    m_baseTrackProducers.clear();
+    kDebug() << "// CLIP KILL PRODS ct: " << m_baseTrackProducers.count();
     if (m_thumbProd) m_thumbProd->clearProducer();
-    qDeleteAll(m_audioTrackProducers);
-    m_audioTrackProducers.clear();
+    /*kDebug()<<"// CLIP KILL PRODS ct: "<<m_baseTrackProducers.count();
+    int max = m_baseTrackProducers.count();
+    for (int i = 0; i < max; i++) {
+        kDebug()<<"// CLIP KILL PROD "<<i;
+    Mlt::Producer *p = m_baseTrackProducers.takeAt(i);
+    if (p != NULL) {
+     delete p;
+     p = NULL;
+    }
+    m_baseTrackProducers.insert(i, NULL);
+    }*/
+
     delete m_videoOnlyProducer;
     m_videoOnlyProducer = NULL;
+
+    qDeleteAll(m_baseTrackProducers);
+    m_baseTrackProducers.clear();
+    qDeleteAll(m_audioTrackProducers);
+    m_audioTrackProducers.clear();
 }
 
 void DocClipBase::setProducer(Mlt::Producer *producer, bool reset)
@@ -424,9 +443,11 @@ void DocClipBase::setProducer(Mlt::Producer *producer, bool reset)
     if (producer == NULL) return;
     if (reset) {
         // Clear all previous producers
+        kDebug() << "/+++++++++++++++   DELETE ALL PRODS " << producer->get("id");
         deleteProducers();
     }
     QString id = producer->get("id");
+    kDebug() << "// set prod: " << id;
     if (id.contains('_')) {
         // this is a subtrack producer, insert it at correct place
         id = id.section('_', 1);
@@ -439,8 +460,7 @@ void DocClipBase::setProducer(Mlt::Producer *producer, bool reset)
             }
             if (m_audioTrackProducers.at(pos) == NULL) m_audioTrackProducers[pos] = producer;
             return;
-        }
-        if (id.endsWith("video")) {
+        } else if (id.endsWith("video")) {
             m_videoOnlyProducer = producer;
             return;
         }

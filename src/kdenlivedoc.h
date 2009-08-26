@@ -73,7 +73,7 @@ Q_OBJECT public:
     void deleteClip(const QString &clipId);
     int getFramePos(QString duration);
     DocClipBase *getBaseClip(const QString &clipId);
-    void updateClip(const QString &id);
+    void updateClip(const QString id);
     void deleteProjectClip(QList <QString> ids);
     /** Inform application of the audio thumbnails generation progress */
     void setThumbsProgress(const QString &message, int progress);

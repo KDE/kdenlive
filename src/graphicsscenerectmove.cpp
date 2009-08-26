@@ -246,7 +246,7 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e)
     } else if (m_tool == TITLE_TEXT) {
         m_selectedItem = addText(QString());
         emit newText((QGraphicsTextItem *) m_selectedItem);
-        m_selectedItem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemClipsToShape);
+        m_selectedItem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
         ((QGraphicsTextItem *)m_selectedItem)->setTextInteractionFlags(Qt::TextEditorInteraction);
         m_selectedItem->setPos(e->scenePos());
         QGraphicsScene::mousePressEvent(e);
@@ -483,7 +483,7 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
             // create new rect item
             m_selectedItem = addRect(0, 0, e->scenePos().x() - m_sceneClickPoint.x(), e->scenePos().y() - m_sceneClickPoint.y());
             emit newRect((QGraphicsRectItem *) m_selectedItem);
-            m_selectedItem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemClipsToShape);
+            m_selectedItem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
             m_selectedItem->setPos(m_sceneClickPoint);
             m_resizeMode = BottomRight;
             QGraphicsScene::mouseMoveEvent(e);

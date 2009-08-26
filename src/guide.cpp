@@ -19,26 +19,30 @@
 
 #include "guide.h"
 #include "customtrackview.h"
-#include "customtrackscene.h"
 #include "kdenlivesettings.h"
 
 #include <KDebug>
 
 #include <QPen>
 #include <QBrush>
+#include <QStyleOptionGraphicsItem>
 
 Guide::Guide(CustomTrackView *view, GenTime pos, QString label, double fps, double height) :
         QGraphicsLineItem(),
         m_position(pos),
         m_label(label),
         m_fps(fps),
-        m_view(view)
+        m_view(view),
+        m_pen(QPen())
 {
-    setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemClipsToShape);
+    setFlags(QGraphicsItem::ItemIsMovable);
     setToolTip(label);
     setLine(0, 0, 0, height);
     setPos(m_position.frames(m_fps), 0);
-    setPen(QPen(QBrush(QColor(0, 0, 200, 180)), 2));
+    m_pen.setWidthF(0);
+    m_pen.setColor(QColor(0, 0, 200, 180));
+    //m_pen.setCosmetic(true);
+    setPen(m_pen);
     setZValue(999);
     setAcceptsHoverEvents(true);
     const QFontMetrics metric = m_view->fontMetrics();
@@ -83,13 +87,15 @@ int Guide::type() const
 //virtual
 void Guide::hoverEnterEvent(QGraphicsSceneHoverEvent *)
 {
-    setPen(QPen(QBrush(QColor(200, 0, 0, 180)), 2));
+    m_pen.setColor(QColor(200, 0, 0, 180));
+    setPen(m_pen);
 }
 
 //virtual
 void Guide::hoverLeaveEvent(QGraphicsSceneHoverEvent *)
 {
-    setPen(QPen(QBrush(QColor(0, 0, 200, 180)), 2));
+    m_pen.setColor(QColor(0, 0, 200, 180));
+    setPen(m_pen);
 }
 
 //virtual
@@ -108,44 +114,46 @@ QVariant Guide::itemChange(GraphicsItemChange change, const QVariant &value)
 // virtual
 QRectF Guide::boundingRect() const
 {
+    double scale = m_view->matrix().m11();
+    double width = m_pen.widthF() / scale * 2;
+    QRectF rect(line().x1() - width / 2 , line().y1(), width, line().y2() - line().y1());
     if (KdenliveSettings::showmarkers()) {
-        QRectF rect = QGraphicsLineItem::boundingRect();
-        rect.setLeft(line().x1());
-        rect.setWidth(m_width / static_cast <CustomTrackScene*>(scene())->scale().x());
-        return rect;
-    } else return QGraphicsLineItem::boundingRect();
+        rect.setWidth(width + m_width / scale);
+    }
+    return rect;
 }
 
 // virtual
 QPainterPath Guide::shape() const
 {
     QPainterPath path;
-    path.addRect(line().x1() - pen().widthF() / 2, line().y1(), pen().widthF(), line().y2() - line().y1());
+    if (!scene()) return path;
+    double scale = m_view->matrix().m11();
+    double width = m_pen.widthF() / scale * 2;
+    path.addRect(line().x1() - width / 2 , line().y1(), width, line().y2() - line().y1());
     if (KdenliveSettings::showmarkers()) {
         const QFontMetrics metric = m_view->fontMetrics();
-        int height = metric.height();
-        path.addRoundedRect(line().x1(), line().y1() + 10, m_width / static_cast <CustomTrackScene*>(scene())->scale().x(), height, 3, 3);
+        QRectF txtBounding(line().x1() + 1 / scale, line().y1() + 10, m_width / scale, metric.height() / m_view->matrix().m22());
+        path.addRect(txtBounding);
     }
     return path;
 }
 
 // virtual
-void Guide::paint(QPainter *painter, const QStyleOptionGraphicsItem */*option*/, QWidget */*w*/)
+void Guide::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget */*w*/)
 {
-    painter->setMatrixEnabled(false);
-    QLineF guideline = painter->matrix().map(line());
-    painter->setPen(pen());
-    painter->drawLine(guideline);
-    //painter->fillRect(painter->matrix().mapRect(boundingRect()), QColor(200, 100, 100, 100));
-    //QGraphicsLineItem::paint(painter, option, w);
+    QGraphicsLineItem::paint(painter, option);
     if (KdenliveSettings::showmarkers()) {
-        QPointF p1 = guideline.p1() + QPointF(1, 0);
-        QRectF txtBounding = painter->boundingRect(p1.x(), p1.y() + 10, m_width, 50, Qt::AlignLeft | Qt::AlignTop, ' ' + m_label + ' ');
+        painter->setMatrixEnabled(false);
+        QPointF p1 = painter->matrix().map(line()).p1() + QPointF(1, 0);
+        const QFontMetrics metric = m_view->fontMetrics();
+        QRectF txtBounding = painter->boundingRect(p1.x(), p1.y() + 10, m_width, metric.height(), Qt::AlignLeft | Qt::AlignTop, ' ' + m_label + ' ');
         QPainterPath path;
         path.addRoundedRect(txtBounding, 3, 3);
-        painter->fillPath(path, QBrush(pen().color()));
+        painter->fillPath(path, QBrush(m_pen.color()));
         painter->setPen(Qt::white);
         painter->drawText(txtBounding, Qt::AlignCenter, m_label);
+        painter->setMatrixEnabled(true);
     }
 }
 

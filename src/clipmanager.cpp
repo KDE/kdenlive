@@ -226,21 +226,21 @@ void ClipManager::clearUnusedProducers()
     }
 }
 
-void ClipManager::resetProducersList(QList <Mlt::Producer *> prods)
+void ClipManager::resetProducersList(const QList <Mlt::Producer *> prods)
 {
     for (int i = 0; i < m_clipList.count(); i++) {
         if (m_clipList.at(i)->numReferences() > 0) {
-            m_clipList.at(i)->deleteProducers();
+            m_clipList.at(i)->clearProducers();
         }
     }
     QString id;
     for (int i = 0; i < prods.count(); i++) {
         id = prods.at(i)->get("id");
+        kDebug() << "// // // REPLACE CLIP: " << id;
         if (id.contains('_')) id = id.section('_', 0, 0);
         DocClipBase *clip = getClipById(id);
         if (clip) {
             clip->setProducer(prods.at(i));
-            kDebug() << "// // // REPLACE CLIP: " << id;
         }
     }
     emit checkAllClips();

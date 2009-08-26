@@ -50,7 +50,7 @@ public:
     void resizeStart(int posx, double speed = 1.0);
     void resizeEnd(int posx, double speed = 1.0, bool updateKeyFrames = true);
     OPERATIONTYPE operationMode(QPointF pos);
-    const QString &clipProducer() const;
+    const QString clipProducer() const;
     int clipType() const;
     DocClipBase *baseClip() const;
     QString clipName() const;

@@ -37,7 +37,7 @@ AbstractGroupItem::AbstractGroupItem(double /* fps */) :
         QGraphicsItemGroup()
 {
     setZValue(1);
-    setFlags(QGraphicsItem::ItemClipsToShape | QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+    setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
     setAcceptDrops(true);
 }
 
@@ -97,13 +97,14 @@ void AbstractGroupItem::fixItemRect()
 void AbstractGroupItem::paint(QPainter *p, const QStyleOptionGraphicsItem *option, QWidget *)
 {
     const double scale = option->matrix.m11();
-    p->fillRect(option->exposedRect, QColor(100, 100, 200, 100));
+    QColor bgcolor(100, 100, 200, 100);
+    p->fillRect(option->exposedRect, bgcolor);
     p->setClipping(false);
     QPen pen = p->pen();
     pen.setColor(QColor(200, 90, 90));
     pen.setStyle(Qt::DashLine);
-    pen.setWidthF(1.0);
-    pen.setCosmetic(true);
+    pen.setWidthF(0.0);
+    //pen.setCosmetic(true);
     p->setPen(pen);
     p->drawRect(boundingRect().adjusted(0, 0, - 1 / scale, 0));
 }

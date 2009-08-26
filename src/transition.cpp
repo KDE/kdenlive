@@ -117,22 +117,6 @@ bool Transition::invertedTransition() const
     return false; //m_parameters.attribute("reverse").toInt();
 }
 
-QPixmap Transition::transitionPixmap() const
-{
-    KIcon icon;
-    QString tag = transitionTag();
-    if (tag == "luma") {
-        if (invertedTransition()) icon = KIcon("kdenlive_trans_up");
-        else icon = KIcon("kdenlive_trans_down");
-    } else if (tag == "composite") {
-        icon = KIcon("kdenlive_trans_wiper");
-    } else if (tag == "lumafile") {
-        icon = KIcon("kdenlive_trans_luma");
-    } else icon = KIcon("kdenlive_trans_pip");
-    return icon.pixmap(QSize(15, 15));
-}
-
-
 void Transition::setTransitionDirection(bool /*inv*/)
 {
     //m_parameters.setAttribute("reverse", inv);
@@ -166,8 +150,8 @@ void Transition::paint(QPainter *painter,
     const double scale = option->matrix.m11();
     QRectF exposed = option->exposedRect;
     painter->setClipRect(exposed);
-    QRectF br = rect();
-    QRectF mapped = painter->matrix().mapRect(br);
+    const QRectF br = rect();
+    const QRectF mapped = painter->matrix().mapRect(br);
 
     painter->fillRect(exposed, brush());
 
@@ -175,12 +159,17 @@ void Transition::paint(QPainter *painter,
     QPointF p1(br.x(), br.y() + br.height() / 2 - 7);
     painter->setMatrixEnabled(false);
     //painter->drawPixmap(painter->matrix().map(p1) + QPointF(5, 0), transitionPixmap());
-    QString text = transitionName();
-    if (m_forceTransitionTrack) text.append("|>");
-    QRectF txtBounding = painter->boundingRect(mapped, Qt::AlignHCenter | Qt::AlignVCenter, ' ' + text + ' ');
-    painter->fillRect(txtBounding, QBrush(QColor(50, 50, 0, 150)));
-    txtBounding.translate(QPointF(1, 1));
-    painter->setPen(QColor(255, 255, 255, 255));
+    const QString text = m_name + (m_forceTransitionTrack ? "|>" : QString());
+    const QRectF txtBounding = painter->boundingRect(mapped, Qt::AlignHCenter | Qt::AlignVCenter, ' ' + text + ' ');
+
+    QColor frameColor(Qt::black);
+    if (isSelected() || (parentItem() && parentItem()->isSelected())) {
+        frameColor = QColor(Qt::red);
+    }
+    frameColor.setAlpha(150);
+    painter->fillRect(txtBounding, frameColor);
+
+    painter->setPen(Qt::white);
     painter->drawText(txtBounding, Qt::AlignCenter, text);
 
     /*    painter->setPen(QColor(0, 0, 0, 180));
@@ -201,8 +190,7 @@ void Transition::paint(QPainter *painter,
         //pen.setWidth(1);
     }
 
-    pen.setWidthF(1.0);
-    pen.setCosmetic(true);
+    //pen.setCosmetic(true);
     painter->setPen(pen);
     painter->setClipping(false);
     painter->drawRect(br.adjusted(0, 0, -1 / scale, 0));
@@ -323,7 +311,7 @@ QDomElement Transition::toXML()
         m_parameters.setAttribute("clipb_starttime", m_secondClip->startPos().frames(m_referenceClip->fps()));
         m_parameters.setAttribute("clipb_track", transitionEndTrack());
     }
-    return m_parameters;
+    return m_parameters.cloneNode().toElement();
 }
 
 bool Transition::hasGeometry()

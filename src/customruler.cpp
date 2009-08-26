@@ -161,10 +161,19 @@ void CustomRuler::mouseMoveEvent(QMouseEvent * event)
     } else {
         int pos = (int)((event->x() + offset()));
         if (event->y() <= 10) setCursor(Qt::ArrowCursor);
-        else if (qAbs(pos - m_zoneStart * m_factor) < 4) setCursor(KCursor("left_side", Qt::SizeHorCursor));
-        else if (qAbs(pos - m_zoneEnd * m_factor) < 4) setCursor(KCursor("right_side", Qt::SizeHorCursor));
-        else if (qAbs(pos - (m_zoneStart + (m_zoneEnd - m_zoneStart) / 2) * m_factor) < 4) setCursor(Qt::SizeHorCursor);
-        else setCursor(Qt::ArrowCursor);
+        else if (qAbs(pos - m_zoneStart * m_factor) < 4) {
+            setCursor(KCursor("left_side", Qt::SizeHorCursor));
+            setToolTip(i18n("Zone start: %1", m_timecode.getTimecodeFromFrames(m_zoneStart)));
+        } else if (qAbs(pos - m_zoneEnd * m_factor) < 4) {
+            setCursor(KCursor("right_side", Qt::SizeHorCursor));
+            setToolTip(i18n("Zone end: %1", m_timecode.getTimecodeFromFrames(m_zoneEnd)));
+        } else if (qAbs(pos - (m_zoneStart + (m_zoneEnd - m_zoneStart) / 2) * m_factor) < 4) {
+            setCursor(Qt::SizeHorCursor);
+            setToolTip(i18n("Zone duration: %1", m_timecode.getTimecodeFromFrames(m_zoneEnd - m_zoneStart)));
+        } else {
+            setCursor(Qt::ArrowCursor);
+            setToolTip(QString());
+        }
     }
 }
 
@@ -334,8 +343,10 @@ void CustomRuler::paintEvent(QPaintEvent *e)
     }
 
     if (zoneEnd > 0) {
+        QColor center(Qt::white);
+        center.setAlpha(150);
         QRect rec(zoneStart - off + (zoneEnd - zoneStart) / 2 - 4, 9, 8, 9);
-        p.fillRect(rec, QColor(255, 255, 255, 150));
+        p.fillRect(rec, center);
         p.drawRect(rec);
 
         QPolygon pa(4);

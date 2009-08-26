@@ -614,7 +614,7 @@ void ClipItem::setClipName(const QString &name)
     m_clipName = name;
 }
 
-const QString &ClipItem::clipProducer() const
+const QString ClipItem::clipProducer() const
 {
     return m_producer;
 }
@@ -645,9 +645,9 @@ void ClipItem::paint(QPainter *painter,
     if (parentItem()) paintColor = QColor(255, 248, 149);
     else paintColor = brush().color();
     if (isSelected() || (parentItem() && parentItem()->isSelected())) paintColor = paintColor.darker();
-    QRectF br = rect();
-    QRectF exposed = option->exposedRect;
-    QRectF mapped = painter->matrix().mapRect(br);
+    const QRectF br = rect();
+    const QRectF exposed = option->exposedRect;
+    const QRectF mapped = painter->matrix().mapRect(br);
 
     const double itemWidth = br.width();
     const double itemHeight = br.height();
@@ -806,8 +806,7 @@ void ClipItem::paint(QPainter *painter,
 
     // Draw effects names
     if (!m_effectNames.isEmpty() && itemWidth * scale > 40) {
-        QRectF txtBounding = painter->boundingRect(mapped, Qt::AlignLeft | Qt::AlignTop, m_effectNames);
-        txtBounding.setRight(txtBounding.right() + 15);
+        QRectF txtBounding = painter->boundingRect(mapped, Qt::AlignLeft | Qt::AlignTop, m_effectNames).adjusted(0, 0, 15, 0);
         painter->setPen(Qt::white);
         QBrush markerBrush(Qt::SolidPattern);
         if (m_timeLine && m_timeLine->state() == QTimeLine::Running) {
@@ -840,7 +839,6 @@ void ClipItem::paint(QPainter *painter,
     } else if (m_audioOnly) {
         painter->drawPixmap(txtBounding.topLeft() - QPointF(17, -1), m_audioPix);
     }
-    txtBounding.translate(QPointF(1, 1));
     painter->setPen(QColor(255, 255, 255, 255));
     painter->drawText(txtBounding, Qt::AlignCenter, m_clipName);
 
@@ -861,8 +859,7 @@ void ClipItem::paint(QPainter *painter,
     // draw clip border
     // expand clip rect to allow correct painting of clip border
     QPen pen1(frameColor);
-    pen1.setWidthF(1.0);
-    pen1.setCosmetic(true);
+    //pen1.setCosmetic(true);
     painter->setPen(pen1);
 
     /*exposed.setRight(exposed.right() + xoffset + 0.5);

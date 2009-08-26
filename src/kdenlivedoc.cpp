@@ -745,8 +745,10 @@ void KdenliveDoc::updatePreviewSettings()
 {
     m_clipManager->updatePreviewSettings();
     m_render->updatePreviewSettings();
+    QList <Mlt::Producer *> prods = m_render->producersList();
     m_clipManager->resetProducersList(m_render->producersList());
-
+    qDeleteAll(prods);
+    prods.clear();
 }
 
 Render *KdenliveDoc::renderer()
@@ -754,7 +756,7 @@ Render *KdenliveDoc::renderer()
     return m_render;
 }
 
-void KdenliveDoc::updateClip(const QString &id)
+void KdenliveDoc::updateClip(const QString id)
 {
     emit updateClipDisplay(id);
 }

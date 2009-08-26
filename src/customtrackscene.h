@@ -46,7 +46,6 @@ public:
     void setScale(double scale, double vscale);
     QPointF scale() const;
     int tracksCount() const;
-    QPixmap m_transitionPixmap;
     MltVideoProfile profile() const;
 
 private:

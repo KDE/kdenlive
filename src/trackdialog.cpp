@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *   Copyright (C) 2008 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,45 +17,34 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#ifndef GUIDE_H
-#define GUIDE_H
 
-#include <QGraphicsLineItem>
-#include <QPen>
+#include "trackdialog.h"
+#include "kdenlivedoc.h"
+#include "kdenlivesettings.h"
 
-#include "gentime.h"
-#include "definitions.h"
+#include <KDebug>
 
-#define GUIDEITEM 8000
 
-class CustomTrackView;
-
-class Guide : public QGraphicsLineItem
+TrackDialog::TrackDialog(KdenliveDoc *doc, QWidget * parent) :
+        QDialog(parent),
+        m_doc(doc)
 {
+    //setFont(KGlobalSettings::toolBarFont());
+    view.setupUi(this);
+    connect(view.track_nb, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateName(int)));
+}
 
-public:
-    Guide(CustomTrackView *view, GenTime pos, QString label, double fps, double height);
-    GenTime position() const;
-    void updateGuide(const GenTime newPos, const QString &comment = QString());
-    QString label() const;
-    CommentedTime info() const;
-    virtual int type() const;
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *w);
-    virtual QRectF boundingRect() const;
-    virtual QPainterPath shape() const;
+TrackDialog::~TrackDialog()
+{
+}
 
-protected:
-    virtual void hoverEnterEvent(QGraphicsSceneHoverEvent *);
-    virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent *);
-    virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
+void TrackDialog::slotUpdateName(int ix)
+{
+    ix = m_doc->tracksCount() - ix;
+    view.track_name->setText(m_doc->trackInfoAt(ix - 1).trackName);
+}
 
-private:
-    GenTime m_position;
-    QString m_label;
-    double m_fps;
-    CustomTrackView *m_view;
-    int m_width;
-    QPen m_pen;
-};
 
-#endif
+#include "trackdialog.moc"
+
+

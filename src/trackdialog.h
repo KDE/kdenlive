@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *   Copyright (C) 2008 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,45 +17,32 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#ifndef GUIDE_H
-#define GUIDE_H
 
-#include <QGraphicsLineItem>
-#include <QPen>
+#ifndef TRACKDIALOG_H
+#define TRACKDIALOG_H
 
-#include "gentime.h"
-#include "definitions.h"
 
-#define GUIDEITEM 8000
+#include "ui_addtrack_ui.h"
 
-class CustomTrackView;
+class KdenliveDoc;
 
-class Guide : public QGraphicsLineItem
+class TrackDialog : public QDialog
 {
+    Q_OBJECT
 
 public:
-    Guide(CustomTrackView *view, GenTime pos, QString label, double fps, double height);
-    GenTime position() const;
-    void updateGuide(const GenTime newPos, const QString &comment = QString());
-    QString label() const;
-    CommentedTime info() const;
-    virtual int type() const;
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *w);
-    virtual QRectF boundingRect() const;
-    virtual QPainterPath shape() const;
+    TrackDialog(KdenliveDoc *doc, QWidget * parent = 0);
+    ~TrackDialog();
+    Ui::AddTrack_UI view;
 
-protected:
-    virtual void hoverEnterEvent(QGraphicsSceneHoverEvent *);
-    virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent *);
-    virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
+public slots:
+
+    void slotUpdateName(int);
 
 private:
-    GenTime m_position;
-    QString m_label;
-    double m_fps;
-    CustomTrackView *m_view;
-    int m_width;
-    QPen m_pen;
+    KdenliveDoc *m_doc;
 };
 
+
 #endif
+

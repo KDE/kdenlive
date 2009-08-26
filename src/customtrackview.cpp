@@ -57,6 +57,7 @@
 #include "groupclipscommand.h"
 #include "splitaudiocommand.h"
 #include "changecliptypecommand.h"
+#include "trackdialog.h"
 
 #include <KDebug>
 #include <KLocale>
@@ -134,10 +135,10 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscen
     verticalScrollBar()->setMaximum(maxWidth);
     m_cursorLine = projectscene->addLine(0, 0, 0, maxWidth);
     m_cursorLine->setZValue(1000);
-    QPen pen1;
+    /*QPen pen1;
     pen1.setWidthF(1.0);
     pen1.setCosmetic(true);
-    m_cursorLine->setPen(pen1);
+    m_cursorLine->setPen(pen1);*/
 
     KIcon razorIcon("edit-cut");
     m_razorCursor = QCursor(razorIcon.pixmap(22, 22));
@@ -686,7 +687,10 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         }
         ct++;
     }
-    if (!found) m_dragItem = NULL;
+    if (!found) {
+        if (m_dragItem) emit clipItemSelected(NULL);
+        m_dragItem = NULL;
+    }
 
     if (m_dragItem && m_dragItem->type() == TRANSITIONWIDGET) {
         // update transition menu action
@@ -734,7 +738,6 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         setCursor(Qt::ArrowCursor);
         m_scene->clearSelection();
         //event->accept();
-        emit clipItemSelected(NULL);
         updateClipTypeActions(NULL);
         if (m_tool == SPACERTOOL) {
             QList<QGraphicsItem *> selection;
@@ -959,11 +962,11 @@ void CustomTrackView::resetSelectionGroup(bool selectItems)
         for (int i = 0; i < children.count(); i++) {
             if (children.at(i)->type() == AVWIDGET || children.at(i)->type() == TRANSITIONWIDGET) {
                 if (!static_cast <AbstractClipItem *>(children.at(i))->isItemLocked()) {
-                    children.at(i)->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemClipsToShape);
+                    children.at(i)->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
                     children.at(i)->setSelected(selectItems);
                 }
             } else if (children.at(i)->type() == GROUPWIDGET) {
-                children.at(i)->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemClipsToShape);
+                children.at(i)->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
                 children.at(i)->setSelected(selectItems);
             }
         }
@@ -1773,11 +1776,11 @@ void CustomTrackView::slotAddTransition(ClipItem* /*clip*/, ItemInfo transitionI
     setDocumentModified();
 }
 
-void CustomTrackView::addTransition(ItemInfo transitionInfo, int endTrack, QDomElement params)
+void CustomTrackView::addTransition(ItemInfo transitionInfo, int endTrack, QDomElement params, bool refresh)
 {
     Transition *tr = new Transition(transitionInfo, endTrack, m_document->fps(), params, true);
     //kDebug() << "---- ADDING transition " << params.attribute("value");
-    if (m_document->renderer()->mltAddTransition(tr->transitionTag(), endTrack, m_document->tracksCount() - transitionInfo.track, transitionInfo.startPos, transitionInfo.endPos, tr->toXML())) {
+    if (m_document->renderer()->mltAddTransition(tr->transitionTag(), endTrack, m_document->tracksCount() - transitionInfo.track, transitionInfo.startPos, transitionInfo.endPos, tr->toXML(), refresh)) {
         scene()->addItem(tr);
         setDocumentModified();
     } else {
@@ -1786,14 +1789,14 @@ void CustomTrackView::addTransition(ItemInfo transitionInfo, int endTrack, QDomE
     }
 }
 
-void CustomTrackView::deleteTransition(ItemInfo transitionInfo, int endTrack, QDomElement /*params*/)
+void CustomTrackView::deleteTransition(ItemInfo transitionInfo, int endTrack, QDomElement /*params*/, bool refresh)
 {
     Transition *item = getTransitionItemAt(transitionInfo.startPos, transitionInfo.track);
     if (!item) {
         emit displayMessage(i18n("Select clip to delete"), ErrorMessage);
         return;
     }
-    m_document->renderer()->mltDeleteTransition(item->transitionTag(), endTrack, m_document->tracksCount() - transitionInfo.track, transitionInfo.startPos, transitionInfo.endPos, item->toXML());
+    m_document->renderer()->mltDeleteTransition(item->transitionTag(), endTrack, m_document->tracksCount() - transitionInfo.track, transitionInfo.startPos, transitionInfo.endPos, item->toXML(), refresh);
     if (m_dragItem == item) m_dragItem = NULL;
     delete item;
     emit transitionItemSelected(NULL);
@@ -2007,8 +2010,9 @@ void CustomTrackView::addTrack(TrackInfo type, int ix)
     }
     m_cursorLine->setLine(m_cursorLine->line().x1(), 0, m_cursorLine->line().x1(), maxHeight);
     setSceneRect(0, 0, sceneRect().width(), maxHeight);
-    QTimer::singleShot(300, this, SIGNAL(trackHeightChanged()));
-    viewport()->update();
+    //viewport()->update();
+    emit trackHeightChanged();
+    //QTimer::singleShot(500, this, SIGNAL(trackHeightChanged()));
     //setFixedHeight(50 * m_tracksCount);
 }
 
@@ -2077,8 +2081,9 @@ void CustomTrackView::removeTrack(int ix)
     }
     m_cursorLine->setLine(m_cursorLine->line().x1(), 0, m_cursorLine->line().x1(), maxHeight);
     setSceneRect(0, 0, sceneRect().width(), maxHeight);
-    QTimer::singleShot(300, this, SIGNAL(trackHeightChanged()));
-    viewport()->update();
+    //viewport()->update();
+    emit trackHeightChanged();
+    //QTimer::singleShot(500, this, SIGNAL(trackHeightChanged()));
 }
 
 void CustomTrackView::changeTrack(int ix, TrackInfo type)
@@ -2881,7 +2886,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
     m_operationMode = NONE;
 }
 
-void CustomTrackView::deleteClip(ItemInfo info)
+void CustomTrackView::deleteClip(ItemInfo info, bool refresh)
 {
     ClipItem *item = getClipItemAt((int) info.startPos.frames(m_document->fps()), info.track);
 
@@ -2902,13 +2907,13 @@ void CustomTrackView::deleteClip(ItemInfo info)
             delete tr;
         }
     }*/
-    scene()->removeItem(item);
     m_waitingThumbs.removeAll(item);
     if (m_dragItem == item) m_dragItem = NULL;
+    scene()->removeItem(item);
     delete item;
     item = NULL;
     setDocumentModified();
-    m_document->renderer()->doRefresh();
+    if (refresh) m_document->renderer()->doRefresh();
 }
 
 void CustomTrackView::deleteSelectedClips()
@@ -3075,7 +3080,7 @@ void CustomTrackView::doGroupClips(QList <ItemInfo> clipInfos, QList <ItemInfo> 
                 m_document->clipManager()->removeGroup(grp);
                 scene()->destroyItemGroup(grp);
             }
-            clip->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemClipsToShape);
+            clip->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
         }
         for (int i = 0; i < transitionInfos.count(); i++) {
             Transition *tr = getTransitionItemAt(transitionInfos.at(i).startPos, transitionInfos.at(i).track);
@@ -3085,7 +3090,7 @@ void CustomTrackView::doGroupClips(QList <ItemInfo> clipInfos, QList <ItemInfo> 
                 m_document->clipManager()->removeGroup(grp);
                 scene()->destroyItemGroup(grp);
             }
-            tr->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemClipsToShape);
+            tr->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
         }
         setDocumentModified();
         return;
@@ -3109,7 +3114,7 @@ void CustomTrackView::doGroupClips(QList <ItemInfo> clipInfos, QList <ItemInfo> 
     setDocumentModified();
 }
 
-void CustomTrackView::addClip(QDomElement xml, const QString &clipId, ItemInfo info, EffectsList effects)
+void CustomTrackView::addClip(QDomElement xml, const QString &clipId, ItemInfo info, EffectsList effects, bool refresh)
 {
     DocClipBase *baseclip = m_document->clipManager()->getClipById(clipId);
     if (baseclip == NULL) {
@@ -3138,7 +3143,7 @@ void CustomTrackView::addClip(QDomElement xml, const QString &clipId, ItemInfo i
         m_document->renderer()->mltAddEffect(info.track, info.startPos, item->getEffectArgs(item->effectAt(i)), false);
     }
     setDocumentModified();
-    m_document->renderer()->doRefresh();
+    if (refresh) m_document->renderer()->doRefresh();
     m_waitingThumbs.append(item);
     m_thumbsTimer.start();
 }
@@ -3894,8 +3899,7 @@ void CustomTrackView::slotRefreshGuides()
 
 void CustomTrackView::drawBackground(QPainter * painter, const QRectF &rect)
 {
-    QRectF r = rect;
-    r.setWidth(r.width() + 1);
+    QRectF r = rect.adjusted(0, 0, 1, 0);
     painter->setClipRect(r);
     painter->drawLine(r.left(), 0, r.right(), 0);
     uint max = m_document->tracksCount();
@@ -3904,13 +3908,13 @@ void CustomTrackView::drawBackground(QPainter * painter, const QRectF &rect)
     QColor audioColor = palette().alternateBase().color();
     QColor base = scheme.background(KColorScheme::NormalBackground).color();
     for (uint i = 0; i < max; i++) {
-        if (m_document->trackInfoAt(max - i - 1).isLocked == true) painter->fillRect(r.left(), m_tracksHeight * i + 1, r.right() - r.left() + 1, m_tracksHeight - 1, QBrush(lockedColor));
-        else if (m_document->trackInfoAt(max - i - 1).type == AUDIOTRACK) painter->fillRect(r.left(), m_tracksHeight * i + 1, r.right() - r.left() + 1, m_tracksHeight - 1, QBrush(audioColor));
+        if (m_document->trackInfoAt(max - i - 1).isLocked == true) painter->fillRect(r.left(), m_tracksHeight * i + 1, r.right() - r.left() + 1, m_tracksHeight - 1, lockedColor);
+        else if (m_document->trackInfoAt(max - i - 1).type == AUDIOTRACK) painter->fillRect(r.left(), m_tracksHeight * i + 1, r.right() - r.left() + 1, m_tracksHeight - 1, audioColor);
         painter->drawLine(r.left(), m_tracksHeight *(i + 1), r.right(), m_tracksHeight *(i + 1));
     }
     int lowerLimit = m_tracksHeight * m_document->tracksCount() + 1;
     if (height() > lowerLimit)
-        painter->fillRect(QRectF(r.left(), lowerLimit, r.width(), height() - lowerLimit), QBrush(base));
+        painter->fillRect(QRectF(r.left(), lowerLimit, r.width(), height() - lowerLimit), base);
 }
 
 bool CustomTrackView::findString(const QString &text)
@@ -4322,21 +4326,20 @@ void CustomTrackView::saveThumbnails()
 
 void CustomTrackView::slotInsertTrack(int ix)
 {
-    kDebug() << "// INSERTING TRK: " << ix;
-    QDialog d(parentWidget());
-    Ui::AddTrack_UI view;
-    view.setupUi(&d);
-    view.track_nb->setMaximum(m_document->tracksCount() - 1);
-    view.track_nb->setValue(ix);
-    d.setWindowTitle(i18n("Insert Track"));
+    TrackDialog d(m_document, parentWidget());
+    d.view.label->setText(i18n("Insert track"));
+    d.view.track_nb->setMaximum(m_document->tracksCount() - 1);
+    d.view.track_nb->setValue(ix);
+    d.setWindowTitle(i18n("Insert New Track"));
+    d.slotUpdateName(ix);
 
     if (d.exec() == QDialog::Accepted) {
-        ix = view.track_nb->value();
-        if (view.before_select->currentIndex() == 1) {
+        ix = d.view.track_nb->value();
+        if (d.view.before_select->currentIndex() == 1) {
             ix++;
         }
         TrackInfo info;
-        if (view.video_track->isChecked()) {
+        if (d.view.video_track->isChecked()) {
             info.type = VIDEOTRACK;
             info.isMute = false;
             info.isBlind = false;
@@ -4355,9 +4358,17 @@ void CustomTrackView::slotInsertTrack(int ix)
 
 void CustomTrackView::slotDeleteTrack(int ix)
 {
-    bool ok;
-    ix = QInputDialog::getInteger(this, i18n("Remove Track"), i18n("Track"), ix, 0, m_document->tracksCount() - 1, 1, &ok);
-    if (ok) {
+    TrackDialog d(m_document, parentWidget());
+    d.view.label->setText(i18n("Delete track"));
+    d.view.before_select->setHidden(true);
+    d.view.track_nb->setMaximum(m_document->tracksCount() - 1);
+    d.view.track_nb->setValue(ix);
+    d.slotUpdateName(ix);
+    d.setWindowTitle(i18n("Delete Track"));
+    d.view.video_track->setHidden(true);
+    d.view.audio_track->setHidden(true);
+    if (d.exec() == QDialog::Accepted) {
+        ix = d.view.track_nb->value();
         TrackInfo info = m_document->trackInfoAt(m_document->tracksCount() - ix - 1);
         deleteTimelineTrack(ix, info);
         setDocumentModified();
@@ -4368,27 +4379,26 @@ void CustomTrackView::slotDeleteTrack(int ix)
 
 void CustomTrackView::slotChangeTrack(int ix)
 {
-    QDialog d(parentWidget());
-    Ui::AddTrack_UI view;
-    view.setupUi(&d);
-    view.label->setText(i18n("Change track"));
-    view.before_select->setHidden(true);
-    view.track_nb->setMaximum(m_document->tracksCount() - 1);
-    view.track_nb->setValue(ix);
+    TrackDialog d(m_document, parentWidget());
+    d.view.label->setText(i18n("Change track"));
+    d.view.before_select->setHidden(true);
+    d.view.track_nb->setMaximum(m_document->tracksCount() - 1);
+    d.view.track_nb->setValue(ix);
+    d.slotUpdateName(ix);
     d.setWindowTitle(i18n("Change Track Type"));
 
     if (m_document->trackInfoAt(m_document->tracksCount() - ix - 1).type == VIDEOTRACK)
-        view.video_track->setChecked(true);
+        d.view.video_track->setChecked(true);
     else
-        view.audio_track->setChecked(true);
+        d.view.audio_track->setChecked(true);
 
     if (d.exec() == QDialog::Accepted) {
         TrackInfo info;
         info.isLocked = false;
         info.isMute = false;
-        ix = view.track_nb->value();
+        ix = d.view.track_nb->value();
 
-        if (view.video_track->isChecked()) {
+        if (d.view.video_track->isChecked()) {
             info.type = VIDEOTRACK;
             info.isBlind = false;
         } else {
@@ -4426,7 +4436,6 @@ void CustomTrackView::deleteTimelineTrack(int ix, TrackInfo trackinfo)
         }
     }
 
-    selection = m_scene->items();
     new AddTrackCommand(this, ix, trackinfo, false, deleteTrack);
     m_commandStack->push(deleteTrack);
 }
@@ -4629,7 +4638,7 @@ void CustomTrackView::doSplitAudio(const GenTime &pos, int track, bool split)
                 break;
             }
         }
-        clip->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemClipsToShape);
+        clip->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
         m_document->clipManager()->removeGroup(grp);
         scene()->destroyItemGroup(grp);
     }

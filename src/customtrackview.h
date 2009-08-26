@@ -59,8 +59,8 @@ public:
     /** move transition, startPos = (old start, old end), endPos = (new start, new end) */
     void moveTransition(const ItemInfo start, const ItemInfo end);
     void resizeClip(const ItemInfo start, const ItemInfo end);
-    void addClip(QDomElement xml, const QString &clipId, ItemInfo info, EffectsList list = EffectsList());
-    void deleteClip(ItemInfo info);
+    void addClip(QDomElement xml, const QString &clipId, ItemInfo info, EffectsList list = EffectsList(), bool refresh = true);
+    void deleteClip(ItemInfo info, bool refresh = true);
     void slotDeleteClipMarker(const QString &comment, const QString &id, const GenTime &position);
     void slotDeleteAllClipMarkers(const QString &id);
     void addMarker(const QString &id, const GenTime &pos, const QString comment);
@@ -72,8 +72,8 @@ public:
     void deleteEffect(int track, GenTime pos, QDomElement effect);
     void updateEffect(int track, GenTime pos, QDomElement effect, int ix, bool triggeredByUser = true);
     void moveEffect(int track, GenTime pos, int oldPos, int newPos);
-    void addTransition(ItemInfo transitionInfo, int endTrack, QDomElement params);
-    void deleteTransition(ItemInfo transitionInfo, int endTrack, QDomElement params);
+    void addTransition(ItemInfo transitionInfo, int endTrack, QDomElement params, bool refresh);
+    void deleteTransition(ItemInfo transitionInfo, int endTrack, QDomElement params, bool refresh);
     void updateTransition(int track, GenTime pos,  QDomElement oldTransition, QDomElement transition, bool updateTransitionWidget);
     void moveTransition(GenTime oldpos, GenTime newpos);
     void activateMonitor();

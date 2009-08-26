@@ -48,7 +48,7 @@ public:
                 painter->setPen(option.palette.color(QPalette::HighlightedText));
                 QColor backgroundColor = option.palette.color(QPalette::Highlight);
                 painter->setBrush(QBrush(backgroundColor));
-                painter->fillRect(r1, QBrush(backgroundColor));
+                painter->fillRect(r1, backgroundColor);
             }
             QFont font = painter->font();
             font.setBold(true);

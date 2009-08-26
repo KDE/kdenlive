@@ -76,7 +76,7 @@ Q_OBJECT public:
     void askForAudioThumb(const QString &id);
     QString projectFolder() const;
     void clearUnusedProducers();
-    void resetProducersList(QList <Mlt::Producer *> prods);
+    void resetProducersList(const QList <Mlt::Producer *> prods);
     void addFolder(const QString&, const QString&);
     void deleteFolder(const QString&);
     void clear();

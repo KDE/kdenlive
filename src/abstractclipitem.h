@@ -72,8 +72,6 @@ protected:
     double m_keyframeFactor;
     double m_keyframeDefault;
     double m_fps;
-    QPainterPath upperRectPart(QRectF);
-    QPainterPath lowerRectPart(QRectF);
     //QRect visibleRect();
     void drawKeyFrames(QPainter *painter, QRectF exposedRect);
     int mouseOverKeyFrames(QPointF pos);

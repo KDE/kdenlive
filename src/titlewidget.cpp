@@ -503,10 +503,11 @@ void TitleWidget::displayBackgroundFrame()
         QPixmap bg(m_frameWidth / 2, m_frameHeight / 2);
         QPixmap pattern(20, 20);
         pattern.fill();
+        QColor bgcolor(210, 210, 210);
         QPainter p;
         p.begin(&pattern);
-        p.fillRect(QRect(0, 0, 10, 10), QColor(210, 210, 210));
-        p.fillRect(QRect(10, 10, 20, 20), QColor(210, 210, 210));
+        p.fillRect(QRect(0, 0, 10, 10), bgcolor);
+        p.fillRect(QRect(10, 10, 20, 20), bgcolor);
         p.end();
         QBrush br(pattern);
 
