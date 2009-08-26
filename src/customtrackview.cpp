@@ -120,6 +120,9 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscen
     else m_commandStack = NULL;
     setMouseTracking(true);
     setAcceptDrops(true);
+    setFrameShape(QFrame::NoFrame);
+    setLineWidth(0);
+
     KdenliveSettings::setTrackheight(m_tracksHeight);
     m_animationTimer = new QTimeLine(800);
     m_animationTimer->setFrameRange(0, 5);

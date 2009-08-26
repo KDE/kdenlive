@@ -63,17 +63,11 @@
    </item>
    <item row="1" column="0">
     <widget class="QScrollArea" name="headers_area">
-     <property name="minimumSize">
-      <size>
-       <width>60</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>60</width>
-       <height>16777215</height>
-      </size>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Maximum" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
      </property>
      <property name="focusPolicy">
       <enum>Qt::NoFocus</enum>
@@ -116,7 +110,7 @@
          </property>
          <property name="sizeHint" stdset="0">
           <size>
-           <width>57</width>
+           <width>40</width>
            <height>145</height>
           </size>
          </property>
@@ -125,7 +119,7 @@
        <item row="0" column="0">
         <widget class="QFrame" name="headers_container">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -138,6 +132,12 @@
    </item>
    <item row="1" column="1">
     <widget class="QFrame" name="tracks_frame">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="frameShape">
       <enum>QFrame::NoFrame</enum>
      </property>
