@@ -2138,7 +2138,8 @@ bool Render::mltAddEffect(int track, GenTime position, EffectsParameterList para
     int ct = 0;
     Mlt::Filter *filter = clipService.filter(ct);
     while (filter) {
-        if (QString(filter->get("kdenlive_ix")).toInt() > filter_ix) {
+        if (QString(filter->get("kdenlive_ix")).toInt() >= filter_ix) {
+            filter->set("kdenlive_ix", QString(filter->get("kdenlive_ix")).toInt() + 1);
             filtersList.append(filter);
             clipService.detach(*filter);
         } else ct++;

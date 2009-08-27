@@ -72,8 +72,10 @@ public:
     int effectsCount();
     /** return a unique effect id */
     int effectsCounter();
-    /** return the xml of effect at index ix in stack */
+    /** return a copy of the xml of effect at index ix in stack */
     QDomElement effectAt(int ix) const;
+    /** return the xml of effect at index ix in stack */
+    QDomElement getEffectAt(int ix) const;
     /** Replace effect at pos ix with given value */
     void setEffectAt(int ix, QDomElement effect);
     void flashClip();
@@ -130,6 +132,7 @@ private:
     int m_endFade;
     bool m_audioOnly;
     bool m_videoOnly;
+    QColor m_baseColor;
 
     QPixmap m_startPix;
     QPixmap m_endPix;

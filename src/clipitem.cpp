@@ -59,7 +59,6 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, i
     setZValue(2);
     setRect(0, 0, (info.endPos - info.startPos).frames(fps) - 0.02, (double)(KdenliveSettings::trackheight() - 2));
     setPos(info.startPos.frames(fps), (double)(info.track * KdenliveSettings::trackheight()) + 1);
-
     m_videoPix = KIcon("kdenlive-show-video").pixmap(QSize(16, 16));
     m_audioPix = KIcon("kdenlive-show-audio").pixmap(QSize(16, 16));
 
@@ -78,7 +77,7 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, i
     connect(this , SIGNAL(prepareAudioThumb(double, int, int, int)) , this, SLOT(slotPrepareAudioThumb(double, int, int, int)));
 
     if (m_clipType == VIDEO || m_clipType == AV || m_clipType == SLIDESHOW || m_clipType == PLAYLIST) {
-        setBrush(QColor(141, 166, 215));
+        m_baseColor = QColor(141, 166, 215);
         m_hasThumbs = true;
         m_startThumbTimer.setSingleShot(true);
         connect(&m_startThumbTimer, SIGNAL(timeout()), this, SLOT(slotGetStartThumb()));
@@ -99,16 +98,16 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, i
     } else if (m_clipType == COLOR) {
         QString colour = clip->getProperty("colour");
         colour = colour.replace(0, 2, "#");
-        setBrush(QColor(colour.left(7)));
+        m_baseColor = QColor(colour.left(7));
     } else if (m_clipType == IMAGE || m_clipType == TEXT) {
-        setBrush(QColor(141, 166, 215));
+        m_baseColor = QColor(141, 166, 215);
         if (m_clipType == TEXT) {
             connect(this, SIGNAL(getThumb(int, int)), clip->thumbProducer(), SLOT(extractImage(int, int)));
             connect(clip->thumbProducer(), SIGNAL(thumbReady(int, QPixmap)), this, SLOT(slotThumbReady(int, QPixmap)));
         }
         //m_startPix = KThumb::getImage(KUrl(clip->getProperty("resource")), (int)(KdenliveSettings::trackheight() * KdenliveSettings::project_display_ratio()), KdenliveSettings::trackheight());
     } else if (m_clipType == AUDIO) {
-        setBrush(QColor(141, 215, 166));
+        m_baseColor = QColor(141, 215, 166);
         connect(clip, SIGNAL(gotAudioData()), this, SLOT(slotGotAudioData()));
     }
 }
@@ -182,7 +181,7 @@ void ClipItem::initEffect(QDomElement effect)
             QString def = e.attribute("default");
             // Effect has a keyframe type parameter, we need to set the values
             if (e.attribute("keyframes").isEmpty()) {
-                e.setAttribute("keyframes", QString::number(cropStart().frames(m_fps)) + ':' + def + ';' + QString::number((cropStart() + cropDuration()).frames(m_fps)) + ':' + def);
+                e.setAttribute("keyframes", QString::number(cropStart().frames(m_fps)) + ':' + def + ';' + QString::number((cropStart() + cropDuration()).frames(m_fps) - 1) + ':' + def);
                 //kDebug() << "///// EFFECT KEYFRAMES INITED: " << e.attribute("keyframes");
                 break;
             }
@@ -387,7 +386,7 @@ QString ClipItem::keyframes(const int index)
 void ClipItem::updateKeyframeEffect()
 {
     // regenerate xml parameter from the clip keyframes
-    QDomElement effect = effectAt(m_selectedEffect);
+    QDomElement effect = getEffectAt(m_selectedEffect);
     if (effect.attribute("disabled") == "1") return;
     QDomNodeList params = effect.elementsByTagName("parameter");
 
@@ -448,7 +447,7 @@ void ClipItem::refreshClip(bool checkDuration)
     if (m_clipType == COLOR) {
         QString colour = m_clip->getProperty("colour");
         colour = colour.replace(0, 2, "#");
-        setBrush(QColor(colour.left(7)));
+        m_baseColor = QColor(colour.left(7));
     } else resetThumbs(checkDuration);
 }
 
@@ -623,13 +622,15 @@ void ClipItem::flashClip()
 {
     if (m_timeLine == 0) {
         m_timeLine = new QTimeLine(750, this);
+        m_timeLine->setUpdateInterval(80);
         m_timeLine->setCurveShape(QTimeLine::EaseInOutCurve);
+        m_timeLine->setFrameRange(0, 100);
         connect(m_timeLine, SIGNAL(valueChanged(qreal)), this, SLOT(animate(qreal)));
     }
-    m_timeLine->start();
+    //m_timeLine->start();
 }
 
-void ClipItem::animate(qreal /*value*/)
+void ClipItem::animate(qreal value)
 {
     QRectF r = boundingRect();
     r.setHeight(20);
@@ -643,63 +644,42 @@ void ClipItem::paint(QPainter *painter,
 {
     QColor paintColor;
     if (parentItem()) paintColor = QColor(255, 248, 149);
-    else paintColor = brush().color();
+    else paintColor = m_baseColor;
     if (isSelected() || (parentItem() && parentItem()->isSelected())) paintColor = paintColor.darker();
-    const QRectF br = rect();
+
+    painter->setMatrixEnabled(false);
+    const QRectF mapped = painter->matrix().mapRect(rect()).adjusted(0.5, 0, 0.5, 0);
     const QRectF exposed = option->exposedRect;
-    const QRectF mapped = painter->matrix().mapRect(br);
-
-    const double itemWidth = br.width();
-    const double itemHeight = br.height();
-    const double scale = option->matrix.m11();
-    const double vscale = option->matrix.m22();
-    const qreal xoffset = pen().widthF() / scale;
-
-    //painter->setRenderHints(QPainter::Antialiasing);
-
-    //QPainterPath roundRectPathUpper = upperRectPart(br), roundRectPathLower = lowerRectPart(br);
-    painter->setClipRect(exposed);
-
-    //Fill clip rectangle
-    /*QRectF bgRect = br;
-    bgRect.setLeft(br.left() + xoffset);*/
-    painter->fillRect(exposed, paintColor);
-
-    //painter->setClipPath(resultClipPath, Qt::IntersectClip);
+    painter->setClipRect(mapped);
+    painter->fillRect(mapped, paintColor);
 
     // draw thumbnails
-
     if (KdenliveSettings::videothumbnails() && !isAudioOnly()) {
         QPen pen = painter->pen();
         pen.setColor(QColor(255, 255, 255, 150));
         const QRectF source(0.0, 0.0, (double) m_startPix.width(), (double) m_startPix.height());
         painter->setPen(pen);
         if ((m_clipType == IMAGE || m_clipType == TEXT) && !m_startPix.isNull()) {
-            double left = itemWidth - m_startPix.width() * vscale / scale;
-            const QRectF pixrect(left, 0.0, m_startPix.width() * vscale / scale, m_startPix.height());
-            painter->drawPixmap(pixrect, m_startPix, source);
-            QLineF l2(left, 0, left, m_startPix.height());
+            const QPointF top = mapped.topRight() - QPointF(m_startPix.width() - 1, 0);
+            painter->drawPixmap(top, m_startPix);
+            QLineF l2(top.x(), mapped.top(), top.x(), mapped.bottom());
             painter->drawLine(l2);
         } else if (!m_endPix.isNull()) {
-            double left = itemWidth - m_endPix.width() * vscale / scale;
-            const QRectF pixrect(left, 0.0, m_endPix.width() * vscale / scale, m_endPix.height());
-            painter->drawPixmap(pixrect, m_endPix, source);
-            QLineF l2(left, 0, left, m_startPix.height());
+            const QPointF top = mapped.topRight() - QPointF(m_endPix.width() - 1, 0);
+            painter->drawPixmap(top, m_endPix);
+            QLineF l2(top.x(), mapped.top(), top.x(), mapped.bottom());
             painter->drawLine(l2);
         }
         if (!m_startPix.isNull()) {
-            double right = m_startPix.width() * vscale / scale;
-            const QRectF pixrect(0.0, 0.0, right, m_startPix.height());
-            painter->drawPixmap(pixrect, m_startPix, source);
-            QLineF l2(right, 0, right, m_startPix.height());
+            painter->drawPixmap(mapped.topLeft(), m_startPix);
+            QLineF l2(mapped.left() + m_startPix.width(), mapped.top(), mapped.left() + m_startPix.width(), mapped.bottom());
             painter->drawLine(l2);
         }
         painter->setPen(Qt::black);
     }
-    painter->setMatrixEnabled(false);
 
     // draw audio thumbnails
-    if (KdenliveSettings::audiothumbnails() && m_speed == 1.0 && !isVideoOnly() && ((m_clipType == AV && (exposed.bottom() > (itemHeight / 2) || isAudioOnly())) || m_clipType == AUDIO) && m_audioThumbReady) {
+    if (KdenliveSettings::audiothumbnails() && m_speed == 1.0 && !isVideoOnly() && ((m_clipType == AV && (exposed.bottom() > (rect().height() / 2) || isAudioOnly())) || m_clipType == AUDIO) && m_audioThumbReady) {
 
         double startpixel = exposed.left();
         if (startpixel < 0)
@@ -712,11 +692,11 @@ void ClipItem::paint(QPainter *painter,
         /*QPainterPath path = m_clipType == AV ? roundRectPathLower : resultClipPath;*/
         QRectF mappedRect;
         if (m_clipType == AV && !isAudioOnly()) {
-            QRectF re =  br;
-            mappedRect = painter->matrix().mapRect(re);
-            mappedRect.setTop(mappedRect.bottom() - re.height() / 2);
+            mappedRect = mapped;
+            mappedRect.setTop(mappedRect.bottom() - mapped.height() / 2);
         } else mappedRect = mapped;
 
+        double scale = painter->matrix().m11();
         int channels = baseClip()->getProperty("channels").toInt();
         if (scale != m_framePixelWidth)
             m_audioThumbCachePic.clear();
@@ -736,6 +716,51 @@ void ClipItem::paint(QPainter *painter,
         }
     }
 
+    // Draw effects names
+    if (!m_effectNames.isEmpty() && mapped.width() > 40) {
+        QRectF txtBounding = painter->boundingRect(mapped, Qt::AlignLeft | Qt::AlignTop, m_effectNames);
+        QColor bgColor;
+        if (m_timeLine && m_timeLine->state() == QTimeLine::Running) {
+            qreal value = m_timeLine->currentValue();
+            txtBounding.setWidth(txtBounding.width() * value);
+            bgColor.setRgb(50 + 200 *(1.0 - value), 50, 50, 100 + 50 * value);
+        } else bgColor.setRgb(50, 50, 90, 180);
+
+        QPainterPath rounded;
+        rounded.moveTo(txtBounding.bottomRight());
+        rounded.arcTo(txtBounding.right() - txtBounding.height() - 2, txtBounding.top() - txtBounding.height(), txtBounding.height() * 2, txtBounding.height() * 2, 270, 90);
+        rounded.lineTo(txtBounding.topLeft());
+        rounded.lineTo(txtBounding.bottomLeft());
+        painter->fillPath(rounded, bgColor);
+        painter->setPen(Qt::lightGray);
+        painter->drawText(txtBounding.adjusted(1, 0, 1, 0), Qt::AlignCenter, m_effectNames);
+    }
+
+    // Draw clip name
+    QColor frameColor(paintColor.darker());
+    if (isSelected() || (parentItem() && parentItem()->isSelected())) {
+        frameColor = QColor(Qt::red);
+    }
+    frameColor.setAlpha(160);
+
+    const QRectF txtBounding2 = painter->boundingRect(mapped, Qt::AlignHCenter | Qt::AlignVCenter, ' ' + m_clipName + ' ');
+    //painter->fillRect(txtBounding2, frameColor);
+    painter->setBrush(frameColor);
+    painter->setPen(Qt::NoPen);
+    painter->drawRoundedRect(txtBounding2, 3, 3);
+    painter->setBrush(QBrush(Qt::NoBrush));
+
+    //painter->setPen(QColor(0, 0, 0, 180));
+    //painter->drawText(txtBounding, Qt::AlignCenter, m_clipName);
+    if (m_videoOnly) {
+        painter->drawPixmap(txtBounding2.topLeft() - QPointF(17, -1), m_videoPix);
+    } else if (m_audioOnly) {
+        painter->drawPixmap(txtBounding2.topLeft() - QPointF(17, -1), m_audioPix);
+    }
+    painter->setPen(Qt::white);
+    painter->drawText(txtBounding2, Qt::AlignCenter, m_clipName);
+
+
     // draw markers
     QList < CommentedTime > markers = baseClip()->commentedSnapMarkers();
     QList < CommentedTime >::Iterator it = markers.begin();
@@ -750,26 +775,26 @@ void ClipItem::paint(QPainter *painter,
         pos = (*it).time() / m_speed - cropStart();
         if (pos > GenTime()) {
             if (pos > cropDuration()) break;
-            QLineF l(br.x() + pos.frames(m_fps), br.y(), br.x() + pos.frames(m_fps), br.bottom());
+            QLineF l(rect().x() + pos.frames(m_fps), rect().y(), rect().x() + pos.frames(m_fps), rect().bottom());
             QLineF l2 = painter->matrix().map(l);
             //framepos = scale * pos.frames(m_fps);
             //QLineF l(framepos, 5, framepos, itemHeight - 5);
             painter->drawLine(l2);
             if (KdenliveSettings::showmarkers()) {
-                framepos = br.x() + pos.frames(m_fps);
-                const QRectF r1(framepos + 0.04, 10, itemWidth - framepos - 2, itemHeight - 10);
+                framepos = rect().x() + pos.frames(m_fps);
+                const QRectF r1(framepos + 0.04, 10, rect().width() - framepos - 2, rect().height() - 10);
                 const QRectF r2 = painter->matrix().mapRect(r1);
-                const QRectF txtBounding = painter->boundingRect(r2, Qt::AlignLeft | Qt::AlignTop, ' ' + (*it).comment() + ' ');
+                const QRectF txtBounding3 = painter->boundingRect(r2, Qt::AlignLeft | Qt::AlignTop, ' ' + (*it).comment() + ' ');
                 painter->setBrush(markerBrush);
                 painter->setPen(Qt::NoPen);
-                painter->drawRoundedRect(txtBounding, 3, 3);
+                painter->drawRoundedRect(txtBounding3, 3, 3);
+                painter->setBrush(QBrush(Qt::NoBrush));
                 painter->setPen(Qt::white);
-                painter->drawText(txtBounding, Qt::AlignCenter, (*it).comment());
+                painter->drawText(txtBounding3, Qt::AlignCenter, (*it).comment());
             }
             //painter->fillRect(QRect(br.x() + framepos, br.y(), 10, br.height()), QBrush(QColor(0, 0, 0, 150)));
         }
     }
-    painter->setPen(QPen());
 
     // draw start / end fades
     QBrush fades;
@@ -780,7 +805,7 @@ void ClipItem::paint(QPainter *painter,
     if (m_startFade != 0) {
         QPainterPath fadeInPath;
         fadeInPath.moveTo(0, 0);
-        fadeInPath.lineTo(0, itemHeight);
+        fadeInPath.lineTo(0, rect().height());
         fadeInPath.lineTo(m_startFade, 0);
         fadeInPath.closeSubpath();
         QPainterPath f1 = painter->matrix().map(fadeInPath);
@@ -792,9 +817,9 @@ void ClipItem::paint(QPainter *painter,
     }
     if (m_endFade != 0) {
         QPainterPath fadeOutPath;
-        fadeOutPath.moveTo(itemWidth, 0);
-        fadeOutPath.lineTo(itemWidth, itemHeight);
-        fadeOutPath.lineTo(itemWidth - m_endFade, 0);
+        fadeOutPath.moveTo(rect().width(), 0);
+        fadeOutPath.lineTo(rect().width(), rect().height());
+        fadeOutPath.lineTo(rect().width() - m_endFade, 0);
         fadeOutPath.closeSubpath();
         QPainterPath f1 = painter->matrix().map(fadeOutPath);
         painter->fillPath(f1/*.intersected(resultClipPath)*/, fades);
@@ -804,86 +829,19 @@ void ClipItem::paint(QPainter *painter,
         }*/
     }
 
-    // Draw effects names
-    if (!m_effectNames.isEmpty() && itemWidth * scale > 40) {
-        QRectF txtBounding = painter->boundingRect(mapped, Qt::AlignLeft | Qt::AlignTop, m_effectNames).adjusted(0, 0, 15, 0);
-        painter->setPen(Qt::white);
-        QBrush markerBrush(Qt::SolidPattern);
-        if (m_timeLine && m_timeLine->state() == QTimeLine::Running) {
-            qreal value = m_timeLine->currentValue();
-            txtBounding.setWidth(txtBounding.width() * value);
-            markerBrush.setColor(QColor(50 + 200 *(1.0 - value), 50, 50, 100 + 50 * value));
-        } else markerBrush.setColor(QColor(50, 50, 50, 150));
-        painter->setBrush(markerBrush);
-        painter->setPen(Qt::NoPen);
-        painter->drawRoundedRect(txtBounding, 3, 3);
-        painter->setPen(Qt::white);
-        painter->drawText(txtBounding, Qt::AlignCenter, m_effectNames);
-        painter->setPen(Qt::black);
-    }
 
-    // Draw clip name
-    QColor frameColor(Qt::black);
-    int alphaBase = 60;
-    if (isSelected() || (parentItem() && parentItem()->isSelected())) {
-        frameColor = QColor(Qt::red);
-        alphaBase = 90;
-    }
-    frameColor.setAlpha(150);
-    QRectF txtBounding = painter->boundingRect(mapped, Qt::AlignHCenter | Qt::AlignVCenter, ' ' + m_clipName + ' ');
-    painter->fillRect(txtBounding, frameColor);
-    //painter->setPen(QColor(0, 0, 0, 180));
-    //painter->drawText(txtBounding, Qt::AlignCenter, m_clipName);
-    if (m_videoOnly) {
-        painter->drawPixmap(txtBounding.topLeft() - QPointF(17, -1), m_videoPix);
-    } else if (m_audioOnly) {
-        painter->drawPixmap(txtBounding.topLeft() - QPointF(17, -1), m_audioPix);
-    }
-    painter->setPen(QColor(255, 255, 255, 255));
-    painter->drawText(txtBounding, Qt::AlignCenter, m_clipName);
-
-
-    // draw transition handles on hover
-    /*if (m_hover && itemWidth * scale > 40) {
-        QPointF p1 = painter->matrix().map(QPointF(0, itemHeight / 2)) + QPointF(10, 0);
-        painter->drawPixmap(p1, projectScene()->m_transitionPixmap);
-        p1 = painter->matrix().map(QPointF(itemWidth, itemHeight / 2)) - QPointF(22, 0);
-        painter->drawPixmap(p1, projectScene()->m_transitionPixmap);
-    }*/
-
+    painter->setPen(QPen(Qt::lightGray));
     // draw effect or transition keyframes
     if (mapped.width() > 20) drawKeyFrames(painter, exposed);
 
-    painter->setMatrixEnabled(true);
+    //painter->setMatrixEnabled(true);
 
     // draw clip border
     // expand clip rect to allow correct painting of clip border
     QPen pen1(frameColor);
-    //pen1.setCosmetic(true);
     painter->setPen(pen1);
-
-    /*exposed.setRight(exposed.right() + xoffset + 0.5);
-    exposed.setBottom(exposed.bottom() + 1);
-    painter->setClipRect(exposed);*/
     painter->setClipping(false);
-    /*frameColor.setAlpha(alphaBase);
-    painter->setPen(frameColor);
-    QLineF line(br.left() + xoffset, br.top(), br.right() - xoffset, br.top());
-    painter->drawLine(line);
-
-    frameColor.setAlpha(alphaBase * 2);
-    painter->setPen(frameColor);
-    line.setLine(br.right(), br.top() + 1.0, br.right(), br.bottom() - 1.0);
-    painter->drawLine(line);
-    line.setLine(br.right() - xoffset, br.bottom(), br.left() + xoffset, br.bottom());
-    painter->drawLine(line);
-    line.setLine(br.left(), br.bottom() - 1.0, br.left(), br.top() + 1.0);
-    painter->drawLine(line);
-
-    painter->setPen(QColor(255, 255, 255, 60));
-    line.setLine(br.right() - xoffset, br.bottom() - 1.0, br.left() + xoffset, br.bottom() - 1.0);
-    painter->drawLine(line);*/
-    painter->drawRect(br);
+    painter->drawRect(painter->matrix().mapRect(rect()));
 }
 
 
@@ -1276,6 +1234,12 @@ QDomElement ClipItem::effectAt(int ix) const
     return m_effectList.at(ix).cloneNode().toElement();
 }
 
+QDomElement ClipItem::getEffectAt(int ix) const
+{
+    if (ix > m_effectList.count() - 1 || ix < 0 || m_effectList.at(ix).isNull()) return QDomElement();
+    return m_effectList.at(ix);
+}
+
 void ClipItem::setEffectAt(int ix, QDomElement effect)
 {
     if (ix < 0 || ix > (m_effectList.count() - 1)) {
@@ -1300,7 +1264,15 @@ void ClipItem::setEffectAt(int ix, QDomElement effect)
 EffectsParameterList ClipItem::addEffect(const QDomElement effect, bool animate)
 {
     bool needRepaint = false;
-    m_effectList.append(effect);
+    int ix = effect.attribute("kdenlive_ix").toInt();
+    if (ix <= m_effectList.count()) {
+        needRepaint = true;
+        m_effectList.insert(ix - 1, effect);
+        for (int i = ix; i < m_effectList.count(); i++) {
+            int index = m_effectList.item(i).attribute("kdenlive_ix").toInt();
+            if (index >= ix) m_effectList.item(i).setAttribute("kdenlive_ix", index + 1);
+        }
+    } else m_effectList.append(effect);
     EffectsParameterList parameters;
     parameters.addParam("tag", effect.attribute("tag"));
     parameters.addParam("kdenlive_ix", effect.attribute("kdenlive_ix"));
@@ -1383,16 +1355,17 @@ EffectsParameterList ClipItem::addEffect(const QDomElement effect, bool animate)
     m_effectNames = m_effectList.effectNames().join(" / ");
     if (fade > 0) m_startFade = fade;
     else if (fade < 0) m_endFade = -fade;
+    if (m_selectedEffect == -1) {
+        setSelectedEffect(0);
+    }
     if (needRepaint) update(boundingRect());
-    if (animate) {
+    /*if (animate) {
         flashClip();
-    } else if (!needRepaint) {
+    } */
+    else { /*if (!needRepaint) */
         QRectF r = boundingRect();
         r.setHeight(20);
         update(r);
-    }
-    if (m_selectedEffect == -1) {
-        setSelectedEffect(0);
     }
     return parameters;
 }
@@ -1463,7 +1436,7 @@ void ClipItem::deleteEffect(QString index)
                        (effectId == "fade_to_black" && hasEffect(QString(), "fadeout") == -1)) {
                 m_endFade = 0;
                 needRepaint = true;
-            }
+            } else if (EffectsList::hasKeyFrames(m_effectList.at(i))) needRepaint = true;
             m_effectList.removeAt(i);
             i--;
         } else if (ix.toInt() > index.toInt()) {
@@ -1471,14 +1444,14 @@ void ClipItem::deleteEffect(QString index)
         }
     }
     m_effectNames = m_effectList.effectNames().join(" / ");
-    if (m_effectList.isEmpty() || m_selectedEffect - 1 == index.toInt()) {
+    if (m_effectList.isEmpty() || m_selectedEffect + 1 == index.toInt()) {
         // Current effect was removed
         if (index.toInt() > m_effectList.count() - 1) {
             setSelectedEffect(m_effectList.count() - 1);
         } else setSelectedEffect(index.toInt());
     }
-    if (needRepaint) update();
-    flashClip();
+    if (needRepaint) update(boundingRect());
+    if (!m_effectList.isEmpty()) flashClip();
 }
 
 double ClipItem::speed() const
@@ -1563,8 +1536,8 @@ void ClipItem::setVideoOnly(bool force)
 void ClipItem::setAudioOnly(bool force)
 {
     m_audioOnly = force;
-    if (m_audioOnly) setBrush(QColor(141, 215, 166));
-    else setBrush(QColor(141, 166, 215));
+    if (m_audioOnly) m_baseColor = QColor(141, 215, 166);
+    else m_baseColor = QColor(141, 166, 215);
     m_audioThumbCachePic.clear();
 }
 

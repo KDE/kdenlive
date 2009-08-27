@@ -148,7 +148,7 @@ void Transition::paint(QPainter *painter,
                        QWidget */*widget*/)
 {
     const double scale = option->matrix.m11();
-    QRectF exposed = option->exposedRect;
+    const QRectF exposed = option->exposedRect;
     painter->setClipRect(exposed);
     const QRectF br = rect();
     const QRectF mapped = painter->matrix().mapRect(br);
