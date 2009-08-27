@@ -384,6 +384,8 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
 void MainWindow::queryQuit()
 {
     if (queryClose()) {
+        if (m_projectMonitor) m_projectMonitor->stop();
+        if (m_clipMonitor) m_clipMonitor->stop();
         delete m_effectStack;
         delete m_activeTimeline;
         delete m_projectMonitor;

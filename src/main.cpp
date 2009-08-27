@@ -28,10 +28,6 @@
 #include <KUrl> //new
 
 
-#if defined(__APPLE_KDE__) || defined(__DARWIN__)
-#include <SDL/SDL.h>
-#endif
-
 int main(int argc, char *argv[])
 {
     KAboutData aboutData(QByteArray("kdenlive"), QByteArray("kdenlive"),

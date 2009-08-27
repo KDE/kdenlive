@@ -207,12 +207,14 @@ void KdenliveSettingsDialog::initDevices()
 {
     // Fill audio drivers
     m_configSdl.kcfg_audio_driver->addItem(i18n("Automatic"), QString());
+#ifndef Q_WS_MAC
     m_configSdl.kcfg_audio_driver->addItem(i18n("OSS"), "dsp");
     m_configSdl.kcfg_audio_driver->addItem(i18n("ALSA"), "alsa");
     m_configSdl.kcfg_audio_driver->addItem(i18n("PulseAudio"), "pulse");
     m_configSdl.kcfg_audio_driver->addItem(i18n("OSS with DMA access"), "dma");
     m_configSdl.kcfg_audio_driver->addItem(i18n("Esound daemon"), "esd");
     m_configSdl.kcfg_audio_driver->addItem(i18n("ARTS daemon"), "artsc");
+#endif
 
     if (!KdenliveSettings::audiodrivername().isEmpty())
         for (int i = 1; i < m_configSdl.kcfg_audio_driver->count(); i++) {
@@ -224,6 +226,7 @@ void KdenliveSettingsDialog::initDevices()
 
     // Fill video drivers
     m_configSdl.kcfg_video_driver->addItem(i18n("Automatic"), QString());
+#ifndef Q_WS_MAC
     m_configSdl.kcfg_video_driver->addItem(i18n("XVideo"), "x11");
     m_configSdl.kcfg_video_driver->addItem(i18n("X11"), "x11_noaccel");
     m_configSdl.kcfg_video_driver->addItem(i18n("XFree86 DGA 2.0"), "dga");
@@ -233,6 +236,7 @@ void KdenliveSettingsDialog::initDevices()
     m_configSdl.kcfg_video_driver->addItem(i18n("SVGAlib"), "svgalib");
     m_configSdl.kcfg_video_driver->addItem(i18n("General graphics interface"), "ggi");
     m_configSdl.kcfg_video_driver->addItem(i18n("Ascii art library"), "aalib");
+#endif
 
     // Fill the list of audio playback devices
     m_configSdl.kcfg_audio_device->addItem(i18n("Default"), QString());

@@ -56,7 +56,11 @@ static void consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr
 {
     // detect if the producer has finished playing. Is there a better way to do it?
     if (self->m_isBlocked) return;
-    if (mlt_properties_get_double(MLT_FRAME_PROPERTIES(frame_ptr), "_speed") == 0.0) {
+    Mlt::Frame frame(frame_ptr);
+#ifdef Q_WS_MAC
+    self->showFrame(frame);
+#endif
+    if (frame.get_double("_speed") == 0.0) {
         self->emitConsumerStopped();
     } else {
         self->emitFrameNumber(mlt_frame_get_position(frame_ptr));
@@ -76,6 +80,9 @@ Render::Render(const QString & rendererName, int winid, int /* extid */, QWidget
         m_isSplitView(false),
         m_blackClip(NULL),
         m_winid(winid)
+#ifdef Q_WS_MAC
+        , m_glWidget(0)
+#endif
 {
     kDebug() << "//////////  USING PROFILE: " << (char*)KdenliveSettings::current_profile().toUtf8().data();
 
@@ -166,7 +173,13 @@ void Render::buildConsumer()
     }
     setenv("SDL_VIDEO_ALLOW_SCREENSAVER", "1", 1);
 
+#ifdef Q_WS_MAC
+    m_mltConsumer = new Mlt::Consumer(*m_mltProfile , "sdl_audio");
+    m_mltConsumer->set("preview_off", 1);
+    m_mltConsumer->set("preview_format", mlt_image_rgb24a);
+#else
     m_mltConsumer = new Mlt::Consumer(*m_mltProfile , "sdl_preview");
+#endif
     m_mltConsumer->set("resize", 1);
     m_mltConsumer->set("window_id", m_winid);
     m_mltConsumer->set("terminate_on_pause", 1);
@@ -1430,6 +1443,19 @@ void Render::exportCurrentFrame(KUrl url, bool /*notify*/)
     pix.save(url.path(), "PNG");
     //if (notify) QApplication::postEvent(qApp->activeWindow(), new UrlEvent(url, 10003));
 }
+
+#ifdef Q_WS_MAC
+void Render::showFrame(Mlt::Frame& frame)
+{
+    mlt_image_format format = mlt_image_rgb24a;
+    int width = 0;
+    int height = 0;
+    const uchar* image = frame.get_image(format, width, height);
+    QImage qimage(width, height, QImage::Format_ARGB32);
+    memcpy(qimage.scanLine(0), image, width * height * 4);
+    emit showImageSignal(qimage);
+}
+#endif
 
 /** MLT PLAYLIST DIRECT MANIPULATON  **/
 

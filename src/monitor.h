@@ -30,6 +30,9 @@
 
 #include "gentime.h"
 #include "ui_monitor_ui.h"
+#ifdef Q_WS_MAC
+#include "videoglwidget.h"
+#endif
 
 class MonitorManager;
 class Render;
@@ -112,6 +115,9 @@ private:
     QMenu *m_configMenu;
     QMenu *m_playMenu;
     QPoint m_DragStartPosition;
+#ifdef Q_WS_MAC
+    VideoGLWidget *m_glWidget;
+#endif
     GenTime getSnapForPos(bool previous);
     bool m_frametimecode;
 

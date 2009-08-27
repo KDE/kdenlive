@@ -1,8 +1,12 @@
-
 add_subdirectory( widgets )
 add_subdirectory( mimetypes )
 
 find_package(Nepomuk REQUIRED)
+
+if (APPLE)
+  find_package(OpenGL)
+  set(QT_USE_QTOPENGL TRUE)
+endif (APPLE)
 
 include_directories (
     ${KDE4_INCLUDE_DIR}
@@ -180,6 +184,10 @@ else(NO_JOGSHUTTLE)
   set(kdenlive_SRCS jogshuttle.cpp ${kdenlive_SRCS})
 endif(NO_JOGSHUTTLE)
 
+if (APPLE)
+  set(kdenlive_SRCS videoglwidget.cpp ${kdenlive_SRCS})
+endif (APPLE)
+
 kde4_add_kcfg_files(kdenlive_SRCS kdenlivesettings.kcfgc )
 QT4_ADD_DBUS_ADAPTOR(kdenlive_SRCS org.kdenlive.MainWindow.xml mainwindow.h MainWindow)
 kde4_add_executable(kdenlive ${kdenlive_SRCS} ${kdenlive_UI})
@@ -199,6 +207,8 @@ target_link_libraries(kdenlive
 if (APPLE)
   find_package(SDL REQUIRED)
   target_link_libraries(kdenlive ${SDL_LIBRARY})
+  target_link_libraries(kdenlive ${QT_QTOPENGL_LIBRARY})
+  target_link_libraries(kdenlive ${OPENGL_LIBRARIES})
 endif (APPLE)
 
 install(TARGETS kdenlive DESTINATION ${BIN_INSTALL_DIR})

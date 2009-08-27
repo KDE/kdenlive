@@ -29,6 +29,10 @@
 #include <QList>
 #include <QEvent>
 
+#ifdef Q_WS_MAC
+#include "videoglwidget.h"
+#endif
+
 
 /**Render encapsulates the client side of the interface to a renderer.
 From Kdenlive's point of view, you treat the Render object as the
@@ -205,6 +209,9 @@ Q_OBJECT public:
     const QList <Mlt::Producer *> producersList();
     void updatePreviewSettings();
     void setDropFrames(bool show);
+#ifdef Q_WS_MAC
+    void showFrame(Mlt::Frame&);
+#endif
 
 private:   // Private attributes & methods
     /** The name of this renderer - useful to identify the renderes by what they do - e.g. background rendering, workspace monitor, etc... */
@@ -231,6 +238,10 @@ private:   // Private attributes & methods
 
     /** A human-readable description of this renderer. */
     int m_winid;
+
+#ifdef Q_WS_MAC
+    VideoGLWidget *m_glWidget;
+#endif
 
     /** Sets the description of this renderer to desc. */
     void closeMlt();
@@ -274,6 +285,8 @@ signals:   // Signals
     void removeInvalidClip(const QString &, bool replaceProducer);
     void refreshDocumentProducers();
     void blockMonitors();
+    /** Used on OS X - emitted when a frame's image is to be shown. */
+    void showImageSignal(QImage);
 
 public slots:  // Public slots
     /** Start Consumer */

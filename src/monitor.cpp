@@ -122,10 +122,21 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent) :
 
     QVBoxLayout *rendererBox = new QVBoxLayout(m_ui.video_frame);
     rendererBox->setContentsMargins(0, 0, 0, 0);
+#ifdef Q_WS_MAC
+    m_glWidget = new VideoGLWidget(m_ui.video_frame);
+    rendererBox->addWidget(m_glWidget);
+    render = new Render(m_name, (int) m_ui.video_frame->winId(), -1, this);
+    m_glWidget->setImageAspectRatio(render->dar());
+    m_glWidget->setBackgroundColor(KdenliveSettings::window_background());
+    m_glWidget->resize(m_ui.video_frame->size());
+    connect(render, SIGNAL(showImageSignal(QImage)), m_glWidget, SLOT(showImage(QImage)));
+    m_monitorRefresh = 0;
+#else
     m_monitorRefresh = new MonitorRefresh(m_ui.video_frame);
     rendererBox->addWidget(m_monitorRefresh);
     render = new Render(m_name, (int) m_monitorRefresh->winId(), -1, this);
     m_monitorRefresh->setRenderer(render);
+#endif
 
     connect(m_ruler, SIGNAL(seekRenderer(int)), this, SLOT(slotSeek(int)));
     connect(render, SIGNAL(durationChanged(int)), this, SLOT(adjustRulerSize(int)));
@@ -142,7 +153,9 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent) :
     } else {
         connect(m_ruler, SIGNAL(zoneChanged(QPoint)), this, SLOT(setClipZone(QPoint)));
     }
+#ifndef Q_WS_MAC
     m_monitorRefresh->show();
+#endif
     kDebug() << "/////// BUILDING MONITOR, ID: " << m_ui.video_frame->winId();
 }
 
@@ -753,9 +766,13 @@ void Monitor::slotSwitchMonitorInfo(bool show)
     KdenliveSettings::setDisplayMonitorInfo(show);
     if (show) {
         if (m_overlay) return;
+#ifndef Q_WS_MAC
         m_overlay = new Overlay(m_monitorRefresh);
         m_overlay->raise();
         m_overlay->setHidden(true);
+#else
+        m_overlay = new Overlay(m_glWidget);
+#endif
     } else {
         delete m_overlay;
         m_overlay = NULL;
