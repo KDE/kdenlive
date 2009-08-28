@@ -26,7 +26,7 @@
 #include "definitions.h"
 #include "ui_trackheader_ui.h"
 
-class HeaderTrack : public QWidget
+class HeaderTrack : public QWidget, public Ui::TrackHeader_UI
 {
     Q_OBJECT
 
@@ -39,7 +39,6 @@ public:
 private:
     int m_index;
     TRACKTYPE m_type;
-    Ui::TrackHeader_UI m_view;
 
 private slots:
     void switchAudio();
