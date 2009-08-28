@@ -836,8 +836,10 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
 
     if (event->modifiers() == Qt::ControlModifier || itemSelected == false) {
         if (event->modifiers() != Qt::ControlModifier) {
-            m_scene->clearSelection();
             resetSelectionGroup(false);
+            m_scene->clearSelection();
+            // A refresh seems necessary otherwise in zoomed mode, some clips disappear
+            viewport()->update();
         } else resetSelectionGroup();
         dragGroup = NULL;
         if (m_dragItem->parentItem() && m_dragItem->parentItem()->type() == GROUPWIDGET) {
