@@ -122,7 +122,7 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscen
     setAcceptDrops(true);
     setFrameShape(QFrame::NoFrame);
     setLineWidth(0);
-
+    
     KdenliveSettings::setTrackheight(m_tracksHeight);
     m_animationTimer = new QTimeLine(800);
     m_animationTimer->setFrameRange(0, 5);
@@ -133,13 +133,13 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscen
     m_tipPen.setColor(border);
     m_tipPen.setWidth(3);
     setContentsMargins(0, 0, 0, 0);
-    const int maxWidth = m_tracksHeight * m_document->tracksCount();
-    setSceneRect(0, 0, sceneRect().width(), maxWidth);
-    verticalScrollBar()->setMaximum(maxWidth);
-    m_cursorLine = projectscene->addLine(0, 0, 0, maxWidth);
+    const int maxHeight = m_tracksHeight * m_document->tracksCount();
+    setSceneRect(0, 0, sceneRect().width(), maxHeight);
+    verticalScrollBar()->setMaximum(maxHeight);
+    m_cursorLine = projectscene->addLine(0, 0, 0, maxHeight);
     m_cursorLine->setZValue(1000);
     /*QPen pen1;
-    pen1.setWidthF(1.0);
+    pen1.setWidthF(0);
     pen1.setCosmetic(true);
     m_cursorLine->setPen(pen1);*/
 
@@ -323,9 +323,10 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
     emit mousePosition(mappedXPos);
 
     if (event->buttons() & Qt::MidButton) return;
-    if (m_operationMode == RUBBERSELECTION || (event->modifiers() == Qt::ControlModifier && m_tool != SPACERTOOL)) {
-        QGraphicsView::mouseMoveEvent(event);
+    if (dragMode() == QGraphicsView::RubberBandDrag || (event->modifiers() == Qt::ControlModifier && m_tool != SPACERTOOL)) {
+        event->setAccepted(true);
         m_moveOpMode = NONE;
+        QGraphicsView::mouseMoveEvent(event);
         return;
     }
 
@@ -412,7 +413,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
         AbstractClipItem *clip = static_cast <AbstractClipItem*>(item);
         if (m_tool == RAZORTOOL) {
             // razor tool over a clip, display current frame in monitor
-            if (false && /*!m_blockRefresh && */item->type() == AVWIDGET) {
+            if (false && !m_blockRefresh && item->type() == AVWIDGET) {
                 //TODO: solve crash when showing frame when moving razor over clip
                 emit showClipFrame(((ClipItem *) item)->baseClip(), mappedXPos - (clip->startPos() - clip->cropStart()).frames(m_document->fps()));
             }
@@ -619,14 +620,15 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
 
     if (event->modifiers() & Qt::ShiftModifier) {
         // Rectangle selection
+        setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
         setDragMode(QGraphicsView::RubberBandDrag);
         if (!(event->modifiers() & Qt::ControlModifier)) {
             resetSelectionGroup();
             scene()->clearSelection();
         }
-        QGraphicsView::mousePressEvent(event);
         m_blockRefresh = false;
         m_operationMode = RUBBERSELECTION;
+        QGraphicsView::mousePressEvent(event);
         return;
     }
 
@@ -880,7 +882,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
     }
 
     // If clicked item is selected, allow move
-    if (event->modifiers() != Qt::ControlModifier && m_operationMode == NONE/* && (m_dragItem->isSelected() || (dragGroup && dragGroup->isSelected()))*/) QGraphicsView::mousePressEvent(event);
+    if (event->modifiers() != Qt::ControlModifier && m_operationMode == NONE) QGraphicsView::mousePressEvent(event);
 
     m_clickPoint = QPoint((int)(mapToScene(event->pos()).x() - m_dragItem->startPos().frames(m_document->fps())), (int)(event->pos().y() - m_dragItem->pos().y()));
     m_operationMode = m_dragItem->operationMode(mapToScene(event->pos()));
@@ -2374,6 +2376,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
 {
     if (m_moveOpMode == SEEK) m_moveOpMode = NONE;
     QGraphicsView::mouseReleaseEvent(event);
+    setViewportUpdateMode(QGraphicsView::MinimalViewportUpdate);
     if (m_scrollTimer.isActive()) m_scrollTimer.stop();
     if (event->button() == Qt::MidButton) {
         return;
