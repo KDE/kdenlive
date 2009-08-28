@@ -234,12 +234,13 @@ private:
     /** Get the index of the video track that is just below current track */
     int getPreviousVideoTrack(int track);
     void updateClipFade(ClipItem * item);
+    bool insertDropClips(const QMimeData *data, const QPoint pos);
     bool canBePastedTo(ItemInfo info, int type) const;
+    bool canBePastedTo(QList <ItemInfo> infoList, int type) const;
     bool canBePasted(QList<AbstractClipItem *> items, GenTime offset, int trackOffset) const;
     bool canBeMoved(QList<AbstractClipItem *> items, GenTime offset, int trackOffset) const;
     ClipItem *getClipUnderCursor() const;
     ClipItem *getMainActiveClip() const;
-    bool insertPossible(AbstractGroupItem *group, const QPoint &pos) const;
     void resetSelectionGroup(bool selectItems = true);
     void groupSelectedItems(bool force = false, bool createNewGroup = false);
     /** Get available space for clip move (min and max free positions) */

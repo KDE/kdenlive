@@ -1198,107 +1198,108 @@ void CustomTrackView::activateMonitor()
     emit activateDocumentMonitor();
 }
 
-void CustomTrackView::dragEnterEvent(QDragEnterEvent * event)
+bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint pos)
 {
-    if (event->mimeData()->hasFormat("kdenlive/clip")) {
+    if (data->hasFormat("kdenlive/clip")) {
         m_clipDrag = true;
         resetSelectionGroup();
-        QStringList list = QString(event->mimeData()->data("kdenlive/clip")).split(';');
-        m_selectionGroup = new AbstractGroupItem(m_document->fps());
-        QPoint pos;
+        QStringList list = QString(data->data("kdenlive/clip")).split(';');
         DocClipBase *clip = m_document->getBaseClip(list.at(0));
         if (clip == NULL) {
             kDebug() << " WARNING))))))))) CLIP NOT FOUND : " << list.at(0);
-            return;
+            return false;
         }
+        const QPointF framePos = mapToScene(pos);
         ItemInfo info;
         info.startPos = GenTime();
         info.cropStart = GenTime(list.at(1).toInt(), m_document->fps());
         info.endPos = GenTime(list.at(2).toInt() - list.at(1).toInt(), m_document->fps());
-        info.track = (int)(1 / m_tracksHeight);
+        info.track = 0;
+
+        // Check if clip can be inserted at that position
+        ItemInfo pasteInfo = info;
+        pasteInfo.startPos = GenTime((int)(framePos.x() + 0.5), m_document->fps());
+        pasteInfo.track = (int)(framePos.y() / m_tracksHeight);
+        if (!canBePastedTo(pasteInfo, AVWIDGET)) {
+            return true;
+        }
+        m_selectionGroup = new AbstractGroupItem(m_document->fps());
         ClipItem *item = new ClipItem(clip, info, m_document->fps(), 1.0, 1);
         m_selectionGroup->addToGroup(item);
         item->setFlags(QGraphicsItem::ItemIsSelectable);
-        //TODO: check if we do not overlap another clip when first dropping in timeline
-        // if (insertPossible(m_selectionGroup, event->pos()))
+
         QList <GenTime> offsetList;
         offsetList.append(info.endPos);
         updateSnapPoints(NULL, offsetList);
+        m_selectionGroup->setPos(framePos);
         scene()->addItem(m_selectionGroup);
-        event->acceptProposedAction();
-    } else if (event->mimeData()->hasFormat("kdenlive/producerslist")) {
+        return true;
+    } else if (data->hasFormat("kdenlive/producerslist")) {
         m_clipDrag = true;
-        QStringList ids = QString(event->mimeData()->data("kdenlive/producerslist")).split(';');
+        QStringList ids = QString(data->data("kdenlive/producerslist")).split(';');
         m_scene->clearSelection();
         resetSelectionGroup(false);
 
-        m_selectionGroup = new AbstractGroupItem(m_document->fps());
-        QPoint pos;
-        GenTime start;
         QList <GenTime> offsetList;
+        QList <ItemInfo> infoList;
+        const QPointF framePos = mapToScene(pos);
+        GenTime start = GenTime((int)(framePos.x() + 0.5), m_document->fps());
+        int track = (int)(framePos.y() / m_tracksHeight);
+
+        // Check if clips can be inserted at that position
         for (int i = 0; i < ids.size(); ++i) {
             DocClipBase *clip = m_document->getBaseClip(ids.at(i));
             if (clip == NULL) {
                 kDebug() << " WARNING))))))))) CLIP NOT FOUND : " << ids.at(i);
-                return;
+                return false;
             }
             ItemInfo info;
             info.startPos = start;
             info.endPos = info.startPos + clip->duration();
-            info.track = (int)(1 / m_tracksHeight);
-            ClipItem *item = new ClipItem(clip, info, m_document->fps(), 1.0, 1, false);
+            info.track = track;
+            infoList.append(info);
+            start += clip->duration();
+        }
+        if (!canBePastedTo(infoList, AVWIDGET)) {
+            return true;
+        }
+        m_selectionGroup = new AbstractGroupItem(m_document->fps());
+        start = GenTime();
+        for (int i = 0; i < ids.size(); ++i) {
+            DocClipBase *clip = m_document->getBaseClip(ids.at(i));
+            ItemInfo info;
+            info.startPos = start;
+            info.endPos = info.startPos + clip->duration();
+            info.track = 0;
             start += clip->duration();
             offsetList.append(start);
-            m_selectionGroup->addToGroup(item);
+            ClipItem *item = new ClipItem(clip, info, m_document->fps(), 1.0, 1, false);
             item->setFlags(QGraphicsItem::ItemIsSelectable);
+            m_selectionGroup->addToGroup(item);
             m_waitingThumbs.append(item);
         }
-        //TODO: check if we do not overlap another clip when first dropping in timeline
-        //if (insertPossible(m_selectionGroup, event->pos()))
+
         updateSnapPoints(NULL, offsetList);
+        m_selectionGroup->setPos(framePos);
         scene()->addItem(m_selectionGroup);
         m_thumbsTimer.start();
-        event->acceptProposedAction();
+        return true;
 
     } else {
         // the drag is not a clip (may be effect, ...)
         m_clipDrag = false;
-        QGraphicsView::dragEnterEvent(event);
+        return false;
     }
 }
 
 
-bool CustomTrackView::insertPossible(AbstractGroupItem *group, const QPoint &pos) const
+
+void CustomTrackView::dragEnterEvent(QDragEnterEvent * event)
 {
-    QPolygonF path;
-    QList<QGraphicsItem *> children = group->childItems();
-    for (int i = 0; i < children.count(); i++) {
-        if (children.at(i)->type() == AVWIDGET) {
-            ClipItem *clip = static_cast <ClipItem *>(children.at(i));
-            ItemInfo info = clip->info();
-            kDebug() << " / / INSERT : " << pos.x();
-            QRectF shape = QRectF(clip->startPos().frames(m_document->fps()), clip->track() * m_tracksHeight + 1, clip->cropDuration().frames(m_document->fps()) - 0.02, m_tracksHeight - 1);
-            kDebug() << " / / INSERT RECT: " << shape;
-            path = path.united(QPolygonF(shape));
-        }
-    }
-
-    QList<QGraphicsItem*> collindingItems = scene()->items(path, Qt::IntersectsItemShape);
-    if (collindingItems.isEmpty()) return true;
-    else {
-        for (int i = 0; i < collindingItems.count(); i++) {
-            QGraphicsItem *collision = collindingItems.at(i);
-            if (collision->type() == AVWIDGET) {
-                // Collision
-                kDebug() << "// COLLISIION DETECTED";
-                return false;
-            }
-        }
-        return true;
-    }
-
+    if (insertDropClips(event->mimeData(), event->pos())) {
+        event->acceptProposedAction();
+    } else QGraphicsView::dragEnterEvent(event);
 }
-
 
 bool CustomTrackView::itemCollision(AbstractClipItem *item, ItemInfo newPos)
 {
@@ -1855,11 +1856,17 @@ void CustomTrackView::updateTransition(int track, GenTime pos, QDomElement oldTr
 
 void CustomTrackView::dragMoveEvent(QDragMoveEvent * event)
 {
-    const QPointF pos = mapToScene(event->pos());
-    if (m_selectionGroup && m_clipDrag) {
-        m_selectionGroup->setPos(pos.x(), pos.y());
-        emit mousePosition((int)(m_selectionGroup->scenePos().x() + 0.5));
-        event->acceptProposedAction();
+    if (m_clipDrag) {
+        const QPointF pos = mapToScene(event->pos());
+        if (m_selectionGroup) {
+            m_selectionGroup->setPos(pos);
+            emit mousePosition((int)(m_selectionGroup->scenePos().x() + 0.5));
+            event->acceptProposedAction();
+        } else {
+            // Drag enter was not possible, try again at mouse position
+            insertDropClips(event->mimeData(), event->pos());
+            event->accept();
+        }
     } else {
         QGraphicsView::dragMoveEvent(event);
     }
@@ -4040,6 +4047,20 @@ bool CustomTrackView::canBePastedTo(ItemInfo info, int type) const
 {
     QRectF rect((double) info.startPos.frames(m_document->fps()), (double)(info.track * m_tracksHeight + 1), (double)(info.endPos - info.startPos).frames(m_document->fps()), (double)(m_tracksHeight - 1));
     QList<QGraphicsItem *> collisions = scene()->items(rect, Qt::IntersectsItemBoundingRect);
+    for (int i = 0; i < collisions.count(); i++) {
+        if (collisions.at(i)->type() == type) return false;
+    }
+    return true;
+}
+
+bool CustomTrackView::canBePastedTo(QList <ItemInfo> infoList, int type) const
+{
+    QPainterPath path;
+    for (int i = 0; i < infoList.count(); i++) {
+        const QRectF rect((double) infoList.at(i).startPos.frames(m_document->fps()), (double)(infoList.at(i).track * m_tracksHeight + 1), (double)(infoList.at(i).endPos - infoList.at(i).startPos).frames(m_document->fps()), (double)(m_tracksHeight - 1));
+        path.addRect(rect);
+    }
+    QList<QGraphicsItem *> collisions = scene()->items(path);
     for (int i = 0; i < collisions.count(); i++) {
         if (collisions.at(i)->type() == type) return false;
     }
