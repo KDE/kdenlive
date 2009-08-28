@@ -32,7 +32,7 @@ class HeaderTrack : public QWidget
 
 public:
     HeaderTrack(int index, TrackInfo info, int height, QWidget *parent = 0);
-    virtual ~HeaderTrack();
+    //virtual ~HeaderTrack();
     void setLock(bool lock);
     void adjustSize(int height);
 

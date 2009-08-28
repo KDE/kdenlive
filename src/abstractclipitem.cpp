@@ -233,12 +233,16 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, QRectF /*exposedRect*/)
         l2 = painter->matrix().map(l);
         painter->drawLine(l2);
         if (active) {
-            painter->fillRect(l2.x1() - 3, l2.y1() - 3, 6, 6, color);
+            const QRectF frame(l2.x1() - 3, l2.y1() - 3, 6, 6);
+            painter->fillRect(frame, color);
         }
         x1 = x2;
         y1 = y2;
     }
-    if (active) painter->fillRect(l2.x2() - 3, l2.y2() - 3, 6, 6, color);
+    if (active) {
+        const QRectF frame(l2.x2() - 3, l2.y2() - 3, 6, 6);
+        painter->fillRect(frame, color);
+    }
 }
 
 int AbstractClipItem::mouseOverKeyFrames(QPointF pos)

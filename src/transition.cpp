@@ -160,40 +160,30 @@ void Transition::paint(QPainter *painter,
     painter->setMatrixEnabled(false);
     //painter->drawPixmap(painter->matrix().map(p1) + QPointF(5, 0), transitionPixmap());
     const QString text = m_name + (m_forceTransitionTrack ? "|>" : QString());
-    const QRectF txtBounding = painter->boundingRect(mapped, Qt::AlignHCenter | Qt::AlignVCenter, ' ' + text + ' ');
 
-    QColor frameColor(Qt::black);
+    // Draw clip name
+    QColor frameColor(brush().color().darker());
     if (isSelected() || (parentItem() && parentItem()->isSelected())) {
         frameColor = QColor(Qt::red);
     }
-    frameColor.setAlpha(150);
-    painter->fillRect(txtBounding, frameColor);
+    frameColor.setAlpha(160);
+
+    const QRectF txtBounding = painter->boundingRect(mapped, Qt::AlignHCenter | Qt::AlignVCenter, ' ' + text + ' ');
+    //painter->fillRect(txtBounding2, frameColor);
+    painter->setBrush(frameColor);
+    painter->setPen(Qt::NoPen);
+    painter->drawRoundedRect(txtBounding, 3, 3);
+    painter->setBrush(QBrush(Qt::NoBrush));
 
     painter->setPen(Qt::white);
     painter->drawText(txtBounding, Qt::AlignCenter, text);
 
-    /*    painter->setPen(QColor(0, 0, 0, 180));
-        top += painter->fontInfo().pixelSize();
-        QPointF p2(br.x(), top);
-        painter->drawText(painter->matrix().map(p2) + QPointF(26, 1), transitionName());
-        painter->setPen(QColor(255, 255, 255, 180));
-        QPointF p3(br.x(), top);
-        painter->drawText(painter->matrix().map(p3) + QPointF(25, 0), transitionName());*/
-    painter->setMatrixEnabled(true);
+    // Draw frame
     QPen pen = painter->pen();
-
-    if (isSelected()) {
-        pen.setColor(Qt::red);
-        //pen.setWidth(2);
-    } else {
-        pen.setColor(Qt::black);
-        //pen.setWidth(1);
-    }
-
-    //pen.setCosmetic(true);
+    pen.setColor(frameColor);
     painter->setPen(pen);
     painter->setClipping(false);
-    painter->drawRect(br.adjusted(0, 0, -1 / scale, 0));
+    painter->drawRect(painter->matrix().mapRect(rect()));
 }
 
 int Transition::type() const

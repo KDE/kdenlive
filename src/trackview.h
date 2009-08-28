@@ -22,7 +22,6 @@
 #define TRACKVIEW_H
 
 #include <QScrollArea>
-#include <QVBoxLayout>
 #include <KRuler>
 #include <QGroupBox>
 #include <QGraphicsScene>
@@ -78,7 +77,6 @@ private:
 
     KdenliveDoc *m_doc;
     int m_verticalZoom;
-    QVBoxLayout *m_headersLayout;
     QString m_documentErrors;
     void parseDocument(QDomDocument doc);
     int slotAddProjectTrack(int ix, QDomElement xml, bool locked);

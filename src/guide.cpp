@@ -150,7 +150,7 @@ void Guide::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
         QRectF txtBounding = painter->boundingRect(p1.x(), p1.y() + 10, m_width, metric.height(), Qt::AlignLeft | Qt::AlignTop, ' ' + m_label + ' ');
         QPainterPath path;
         path.addRoundedRect(txtBounding, 3, 3);
-        painter->fillPath(path, QBrush(m_pen.color()));
+        painter->fillPath(path, m_pen.color());
         painter->setPen(Qt::white);
         painter->drawText(txtBounding, Qt::AlignCenter, m_label);
         painter->setMatrixEnabled(true);

@@ -2017,7 +2017,7 @@ void CustomTrackView::addTrack(TrackInfo type, int ix)
     }
     m_cursorLine->setLine(m_cursorLine->line().x1(), 0, m_cursorLine->line().x1(), maxHeight);
     setSceneRect(0, 0, sceneRect().width(), maxHeight);
-    //viewport()->update();
+    viewport()->update();
     emit trackHeightChanged();
     //QTimer::singleShot(500, this, SIGNAL(trackHeightChanged()));
     //setFixedHeight(50 * m_tracksCount);
@@ -2088,7 +2088,7 @@ void CustomTrackView::removeTrack(int ix)
     }
     m_cursorLine->setLine(m_cursorLine->line().x1(), 0, m_cursorLine->line().x1(), maxHeight);
     setSceneRect(0, 0, sceneRect().width(), maxHeight);
-    //viewport()->update();
+    viewport()->update();
     emit trackHeightChanged();
     //QTimer::singleShot(500, this, SIGNAL(trackHeightChanged()));
 }
@@ -3204,7 +3204,8 @@ ClipItem *CustomTrackView::getClipItemAtStart(GenTime pos, int track)
 
 ClipItem *CustomTrackView::getClipItemAt(int pos, int track)
 {
-    QList<QGraphicsItem *> list = scene()->items(QPointF(pos, track * m_tracksHeight + m_tracksHeight / 2));
+    const QPointF p(pos, track * m_tracksHeight + m_tracksHeight / 2);
+    QList<QGraphicsItem *> list = scene()->items(p);
     ClipItem *clip = NULL;
     for (int i = 0; i < list.size(); i++) {
         if (list.at(i)->type() == AVWIDGET) {
@@ -3222,7 +3223,8 @@ ClipItem *CustomTrackView::getClipItemAt(GenTime pos, int track)
 
 Transition *CustomTrackView::getTransitionItemAt(int pos, int track)
 {
-    QList<QGraphicsItem *> list = scene()->items(QPointF(pos, (track + 1) * m_tracksHeight));
+    const QPointF p(pos, (track + 1) * m_tracksHeight);
+    QList<QGraphicsItem *> list = scene()->items(p);
     Transition *clip = NULL;
     for (int i = 0; i < list.size(); i++) {
         if (list.at(i)->type() == TRANSITIONWIDGET) {
@@ -3241,7 +3243,8 @@ Transition *CustomTrackView::getTransitionItemAt(GenTime pos, int track)
 Transition *CustomTrackView::getTransitionItemAtEnd(GenTime pos, int track)
 {
     int framepos = (int)(pos.frames(m_document->fps()));
-    QList<QGraphicsItem *> list = scene()->items(QPointF(framepos - 1, (track + 1) * m_tracksHeight));
+    const QPointF p(framepos - 1, (track + 1) * m_tracksHeight);
+    QList<QGraphicsItem *> list = scene()->items(p);
     Transition *clip = NULL;
     for (int i = 0; i < list.size(); i++) {
         if (list.at(i)->type() == TRANSITIONWIDGET) {
@@ -3255,7 +3258,8 @@ Transition *CustomTrackView::getTransitionItemAtEnd(GenTime pos, int track)
 
 Transition *CustomTrackView::getTransitionItemAtStart(GenTime pos, int track)
 {
-    QList<QGraphicsItem *> list = scene()->items(QPointF(pos.frames(m_document->fps()), (track + 1) * m_tracksHeight));
+    const QPointF p(pos.frames(m_document->fps()), (track + 1) * m_tracksHeight);
+    QList<QGraphicsItem *> list = scene()->items(p);
     Transition *clip = NULL;
     for (int i = 0; i < list.size(); ++i) {
         if (list.at(i)->type() == TRANSITIONWIDGET) {
@@ -3907,7 +3911,7 @@ void CustomTrackView::slotRefreshGuides()
 
 void CustomTrackView::drawBackground(QPainter * painter, const QRectF &rect)
 {
-    QRectF r = rect.adjusted(0, 0, 1, 0);
+    const QRectF r = rect.adjusted(0, 0, 1, 0);
     painter->setClipRect(r);
     painter->drawLine(r.left(), 0, r.right(), 0);
     uint max = m_document->tracksCount();
@@ -3916,13 +3920,18 @@ void CustomTrackView::drawBackground(QPainter * painter, const QRectF &rect)
     QColor audioColor = palette().alternateBase().color();
     QColor base = scheme.background(KColorScheme::NormalBackground).color();
     for (uint i = 0; i < max; i++) {
-        if (m_document->trackInfoAt(max - i - 1).isLocked == true) painter->fillRect(r.left(), m_tracksHeight * i + 1, r.right() - r.left() + 1, m_tracksHeight - 1, lockedColor);
-        else if (m_document->trackInfoAt(max - i - 1).type == AUDIOTRACK) painter->fillRect(r.left(), m_tracksHeight * i + 1, r.right() - r.left() + 1, m_tracksHeight - 1, audioColor);
-        painter->drawLine(r.left(), m_tracksHeight *(i + 1), r.right(), m_tracksHeight *(i + 1));
+        TrackInfo info = m_document->trackInfoAt(max - i - 1);
+        if (info.isLocked || info.type == AUDIOTRACK) {
+            const QRectF track(r.left(), m_tracksHeight * i + 1, r.right() - r.left() + 1, m_tracksHeight - 1);
+            painter->fillRect(track, info.isLocked ? lockedColor : audioColor);
+        }
+        painter->drawLine(QPointF(r.left(), m_tracksHeight *(i + 1)), QPointF(r.right(), m_tracksHeight *(i + 1)));
     }
     int lowerLimit = m_tracksHeight * m_document->tracksCount() + 1;
-    if (height() > lowerLimit)
-        painter->fillRect(QRectF(r.left(), lowerLimit, r.width(), height() - lowerLimit), base);
+    if (height() > lowerLimit) {
+        const QRectF bg(r.left(), lowerLimit, r.width(), height() - lowerLimit);
+        painter->fillRect(bg, base);
+    }
 }
 
 bool CustomTrackView::findString(const QString &text)
