@@ -138,10 +138,12 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscen
     verticalScrollBar()->setMaximum(maxHeight);
     m_cursorLine = projectscene->addLine(0, 0, 0, maxHeight);
     m_cursorLine->setZValue(1000);
-    /*QPen pen1;
-    pen1.setWidthF(0);
-    pen1.setCosmetic(true);
-    m_cursorLine->setPen(pen1);*/
+    
+    QPen pen1 = QPen();
+    pen1.setWidth(1);
+    pen1.setColor(Qt::black);
+    m_cursorLine->setPen(pen1);
+    m_cursorLine->setFlag(QGraphicsItem::ItemIgnoresTransformations, true);
 
     KIcon razorIcon("edit-cut");
     m_razorCursor = QCursor(razorIcon.pixmap(22, 22));
@@ -795,7 +797,9 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
             }
             groupSelectedItems(true);
             m_operationMode = SPACER;
-        } else setCursorPos((int)(mapToScene(event->x(), 0).x()));
+        } else {
+            setCursorPos((int)(mapToScene(event->x(), 0).x()));
+        }
         QGraphicsView::mousePressEvent(event);
         return;
     }

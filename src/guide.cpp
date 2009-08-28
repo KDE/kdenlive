@@ -35,7 +35,7 @@ Guide::Guide(CustomTrackView *view, GenTime pos, QString label, double fps, doub
         m_view(view),
         m_pen(QPen())
 {
-    setFlags(QGraphicsItem::ItemIsMovable);
+    setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIgnoresTransformations);
     setToolTip(label);
     setLine(0, 0, 0, height);
     setPos(m_position.frames(m_fps), 0);
@@ -144,8 +144,8 @@ void Guide::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
 {
     QGraphicsLineItem::paint(painter, option);
     if (KdenliveSettings::showmarkers()) {
-        painter->setMatrixEnabled(false);
-        QPointF p1 = painter->matrix().map(line()).p1() + QPointF(1, 0);
+        //QPointF p1 = painter->matrix().map(line()).p1() + QPointF(1, 0);
+        QPointF p1 = line().p1() + QPointF(1, 0);
         const QFontMetrics metric = m_view->fontMetrics();
         QRectF txtBounding = painter->boundingRect(p1.x(), p1.y() + 10, m_width, metric.height(), Qt::AlignLeft | Qt::AlignTop, ' ' + m_label + ' ');
         QPainterPath path;
@@ -153,7 +153,6 @@ void Guide::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
         painter->fillPath(path, m_pen.color());
         painter->setPen(Qt::white);
         painter->drawText(txtBounding, Qt::AlignCenter, m_label);
-        painter->setMatrixEnabled(true);
     }
 }
 
