@@ -122,7 +122,9 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscen
     setAcceptDrops(true);
     setFrameShape(QFrame::NoFrame);
     setLineWidth(0);
-    
+    //setCacheMode(QGraphicsView::CacheBackground);
+    //setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
+
     KdenliveSettings::setTrackheight(m_tracksHeight);
     m_animationTimer = new QTimeLine(800);
     m_animationTimer->setFrameRange(0, 5);
@@ -138,7 +140,7 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscen
     verticalScrollBar()->setMaximum(maxHeight);
     m_cursorLine = projectscene->addLine(0, 0, 0, maxHeight);
     m_cursorLine->setZValue(1000);
-    
+
     QPen pen1 = QPen();
     pen1.setWidth(1);
     pen1.setColor(Qt::black);
@@ -960,7 +962,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
 
     m_blockRefresh = false;
     //kDebug()<<pos;
-    //QGraphicsView::mousePressEvent(event);
+    QGraphicsView::mousePressEvent(event);
 }
 
 void CustomTrackView::resetSelectionGroup(bool selectItems)
@@ -1851,12 +1853,10 @@ void CustomTrackView::updateTransition(int track, GenTime pos, QDomElement oldTr
 
 void CustomTrackView::dragMoveEvent(QDragMoveEvent * event)
 {
-    event->setDropAction(Qt::IgnoreAction);
     const QPointF pos = mapToScene(event->pos());
     if (m_selectionGroup && m_clipDrag) {
         m_selectionGroup->setPos(pos.x(), pos.y());
         emit mousePosition((int)(m_selectionGroup->scenePos().x() + 0.5));
-        event->setDropAction(Qt::MoveAction);
         event->acceptProposedAction();
     } else {
         QGraphicsView::dragMoveEvent(event);
@@ -3918,25 +3918,30 @@ void CustomTrackView::slotRefreshGuides()
 
 void CustomTrackView::drawBackground(QPainter * painter, const QRectF &rect)
 {
-    const QRectF r = rect.adjusted(0, 0, 1, 0);
-    painter->setClipRect(r);
-    painter->drawLine(r.left(), 0, r.right(), 0);
-    uint max = m_document->tracksCount();
+    //kDebug() << "// DRAW BG: " << rect.width();
+    painter->setClipRect(rect);
     KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Window);
+    QPen pen1 = painter->pen();
+    pen1.setColor(scheme.shade(KColorScheme::DarkShade));
+    painter->setPen(pen1);
+    double min = rect.left();
+    double max = rect.right();
+    painter->drawLine(QPointF(min, 0), QPointF(max, 0));
+    uint maxTrack = m_document->tracksCount();
     QColor lockedColor = scheme.background(KColorScheme::NegativeBackground).color();
     QColor audioColor = palette().alternateBase().color();
     QColor base = scheme.background(KColorScheme::NormalBackground).color();
-    for (uint i = 0; i < max; i++) {
-        TrackInfo info = m_document->trackInfoAt(max - i - 1);
+    for (uint i = 0; i < maxTrack; i++) {
+        TrackInfo info = m_document->trackInfoAt(maxTrack - i - 1);
         if (info.isLocked || info.type == AUDIOTRACK) {
-            const QRectF track(r.left(), m_tracksHeight * i + 1, r.right() - r.left() + 1, m_tracksHeight - 1);
+            const QRectF track(min, m_tracksHeight * i + 1, max - min, m_tracksHeight - 1);
             painter->fillRect(track, info.isLocked ? lockedColor : audioColor);
         }
-        painter->drawLine(QPointF(r.left(), m_tracksHeight *(i + 1)), QPointF(r.right(), m_tracksHeight *(i + 1)));
+        painter->drawLine(QPointF(min, m_tracksHeight *(i + 1)), QPointF(max, m_tracksHeight *(i + 1)));
     }
-    int lowerLimit = m_tracksHeight * m_document->tracksCount() + 1;
+    int lowerLimit = m_tracksHeight * maxTrack + 1;
     if (height() > lowerLimit) {
-        const QRectF bg(r.left(), lowerLimit, r.width(), height() - lowerLimit);
+        const QRectF bg(min, lowerLimit, max - min, height() - lowerLimit);
         painter->fillRect(bg, base);
     }
 }
