@@ -30,8 +30,8 @@ TrackDialog::TrackDialog(KdenliveDoc *doc, QWidget * parent) :
         m_doc(doc)
 {
     //setFont(KGlobalSettings::toolBarFont());
-    view.setupUi(this);
-    connect(view.track_nb, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateName(int)));
+    setupUi(this);
+    connect(track_nb, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateName(int)));
 }
 
 TrackDialog::~TrackDialog()
@@ -41,7 +41,7 @@ TrackDialog::~TrackDialog()
 void TrackDialog::slotUpdateName(int ix)
 {
     ix = m_doc->tracksCount() - ix;
-    view.track_name->setText(m_doc->trackInfoAt(ix - 1).trackName);
+    track_name->setText(m_doc->trackInfoAt(ix - 1).trackName);
 }
 
 

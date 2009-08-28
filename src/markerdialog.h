@@ -32,7 +32,7 @@ class Producer;
 class Profile;
 };
 
-class MarkerDialog : public QDialog
+class MarkerDialog : public QDialog, public Ui::MarkerDialog_UI
 {
     Q_OBJECT
 
@@ -52,7 +52,6 @@ protected:
 private:
     Mlt::Producer *m_producer;
     Mlt::Profile *m_profile;
-    Ui::MarkerDialog_UI m_view;
     DocClipBase *m_clip;
     Timecode m_tc;
     double m_fps;

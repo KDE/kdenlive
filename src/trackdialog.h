@@ -26,14 +26,13 @@
 
 class KdenliveDoc;
 
-class TrackDialog : public QDialog
+class TrackDialog : public QDialog, public Ui::AddTrack_UI
 {
     Q_OBJECT
 
 public:
     TrackDialog(KdenliveDoc *doc, QWidget * parent = 0);
     ~TrackDialog();
-    Ui::AddTrack_UI view;
 
 public slots:
 
