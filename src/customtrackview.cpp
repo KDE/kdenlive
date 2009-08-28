@@ -2602,7 +2602,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                         items += items.at(i)->childItems();
                     }
                 }
-
+                m_document->renderer()->blockSignals(true);
                 for (int i = 0; i < items.count(); i++) {
                     if (items.at(i)->type() != AVWIDGET && items.at(i)->type() != TRANSITIONWIDGET) continue;
                     AbstractClipItem *item = static_cast <AbstractClipItem *>(items.at(i));
@@ -2620,7 +2620,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                         m_document->renderer()->mltDeleteTransition(tr->transitionTag(), tr->transitionEndTrack(), m_document->tracksCount() - info.track, info.startPos, info.endPos, tr->toXML());
                     }
                 }
-
+                m_document->renderer()->blockSignals(false);
                 for (int i = 0; i < items.count(); i++) {
                     // re-add items in correct place
                     if (items.at(i)->type() != AVWIDGET && items.at(i)->type() != TRANSITIONWIDGET) continue;
@@ -3334,7 +3334,7 @@ void CustomTrackView::moveGroup(QList <ItemInfo> startClip, QList <ItemInfo> sta
     kDebug() << "// GROUP MOV; OFFSET: " << offset.frames(25) << ", TK OFF: " << trackOffset;*/
     resetSelectionGroup();
     m_scene->clearSelection();
-
+    m_document->renderer()->blockSignals(true);
     for (int i = 0; i < startClip.count(); i++) {
         if (reverseMove) {
             startClip[i].startPos = startClip.at(i).startPos - offset;
@@ -3362,6 +3362,7 @@ void CustomTrackView::moveGroup(QList <ItemInfo> startClip, QList <ItemInfo> sta
             m_document->renderer()->mltDeleteTransition(tr->transitionTag(), tr->transitionEndTrack(), m_document->tracksCount() - startTransition.at(i).track, startTransition.at(i).startPos, startTransition.at(i).endPos, tr->toXML());
         } else kDebug() << "//MISSING TRANSITION AT: " << startTransition.at(i).startPos.frames(25);
     }
+    m_document->renderer()->blockSignals(false);
     groupSelectedItems(true);
     if (m_selectionGroup) {
         bool snap = KdenliveSettings::snaptopoints();
