@@ -29,6 +29,7 @@ pan_zoom.xml
 obscure.xml
 rotation.xml
 sepia.xml
+sox_balance.xml
 sox_bass.xml
 sox_gain.xml
 sox_phaser.xml
@@ -53,6 +54,7 @@ frei0r_contrast0r.xml
 frei0r_brightness.xml
 frei0r_lenscorrection.xml
 frei0r_saturat0r.xml
+frei0r_vertigo.xml
 gain.xml
 fade_from_black.xml
 fade_to_black.xml
