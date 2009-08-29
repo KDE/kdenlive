@@ -305,7 +305,7 @@ bool ClipItem::checkKeyFrames()
 
 void ClipItem::setKeyframes(const int ix, const QString keyframes)
 {
-    QDomElement effect = effectAt(ix);
+    QDomElement effect = getEffectAt(ix);
     if (effect.attribute("disabled") == "1") return;
     QDomNodeList params = effect.elementsByTagName("parameter");
     for (int i = 0; i < params.count(); i++) {
@@ -1074,7 +1074,6 @@ void ClipItem::resizeStart(int posx, double /*speed*/)
     const int previous = cropStart().frames(m_fps);
     AbstractClipItem::resizeStart(posx, m_speed);
     if ((int) cropStart().frames(m_fps) != previous) {
-        checkEffectsKeyframesPos(previous, cropStart().frames(m_fps), true);
         if (m_hasThumbs && KdenliveSettings::videothumbnails()) {
             /*connect(m_clip->thumbProducer(), SIGNAL(thumbReady(int, QPixmap)), this, SLOT(slotThumbReady(int, QPixmap)));*/
             m_startThumbTimer.start(150);
@@ -1082,16 +1081,16 @@ void ClipItem::resizeStart(int posx, double /*speed*/)
     }
 }
 
-void ClipItem::resizeEnd(int posx, double /*speed*/, bool updateKeyFrames)
+void ClipItem::resizeEnd(int posx, double /*speed*/)
 {
     const int max = (startPos() - cropStart() + maxDuration()).frames(m_fps);
     if (posx > max && maxDuration() != GenTime()) posx = max;
     if (posx == endPos().frames(m_fps)) return;
     //kDebug() << "// NEW POS: " << posx << ", OLD END: " << endPos().frames(m_fps);
-    const int previous = (cropStart() + cropDuration()).frames(m_fps);
+    const int previous = (int)(cropStart() + cropDuration()).frames(m_fps) - 1;
     AbstractClipItem::resizeEnd(posx, m_speed);
-    if ((int)(cropStart() + cropDuration()).frames(m_fps) != previous) {
-        if (updateKeyFrames) checkEffectsKeyframesPos(previous, (cropStart() + cropDuration()).frames(m_fps), false);
+    const int current = (int)(cropStart() + cropDuration()).frames(m_fps) - 1;
+    if (current != previous) {
         if (m_hasThumbs && KdenliveSettings::videothumbnails()) {
             /*connect(m_clip->thumbProducer(), SIGNAL(thumbReady(int, QPixmap)), this, SLOT(slotThumbReady(int, QPixmap)));*/
             m_endThumbTimer.start(150);
@@ -1100,8 +1099,9 @@ void ClipItem::resizeEnd(int posx, double /*speed*/, bool updateKeyFrames)
 }
 
 
-void ClipItem::checkEffectsKeyframesPos(const int previous, const int current, bool fromStart)
+bool ClipItem::checkEffectsKeyframesPos(const int previous, const int current, bool fromStart)
 {
+    bool modified = false;
     for (int i = 0; i < m_effectList.count(); i++) {
         QDomElement effect = m_effectList.at(i);
         QDomNodeList params = effect.elementsByTagName("parameter");
@@ -1116,24 +1116,31 @@ void ClipItem::checkEffectsKeyframesPos(const int previous, const int current, b
                 foreach(const QString &str, keyframes) {
                     pos = str.section(':', 0, 0).toInt();
                     val = str.section(':', 1, 1).toDouble();
-                    if (pos == previous) kfr[current] = val;
-                    else {
-                        if (fromStart && pos >= current) kfr[pos] = val;
-                        else if (!fromStart && pos <= current) kfr[pos] = val;
+                    if (pos == previous) {
+                        kfr[current] = val;
+                        modified = true;
+                    } else {
+                        if ((fromStart && pos >= current) || (!fromStart && pos <= current)) {
+                            kfr[pos] = val;
+                            modified = true;
+                        }
                     }
                 }
-                QString newkfr;
-                QMap<int, double>::const_iterator k = kfr.constBegin();
-                while (k != kfr.constEnd()) {
-                    newkfr.append(QString::number(k.key()) + ':' + QString::number(k.value()) + ';');
-                    ++k;
+                if (modified) {
+                    QString newkfr;
+                    QMap<int, double>::const_iterator k = kfr.constBegin();
+                    while (k != kfr.constEnd()) {
+                        newkfr.append(QString::number(k.key()) + ':' + QString::number(k.value()) + ';');
+                        ++k;
+                    }
+                    e.setAttribute("keyframes", newkfr);
+                    break;
                 }
-                e.setAttribute("keyframes", newkfr);
-                break;
             }
         }
     }
-    if (m_selectedEffect >= 0) setSelectedEffect(m_selectedEffect);
+    if (modified && m_selectedEffect >= 0) setSelectedEffect(m_selectedEffect);
+    return modified;
 }
 
 //virtual
@@ -1248,8 +1255,7 @@ void ClipItem::setEffectAt(int ix, QDomElement effect)
     }
     //kDebug() << "CHange EFFECT AT: " << ix << ", CURR: " << m_effectList.at(ix).attribute("tag") << ", NEW: " << effect.attribute("tag");
     effect.setAttribute("kdenlive_ix", ix + 1);
-    m_effectList.insert(ix, effect);
-    m_effectList.removeAt(ix + 1);
+    m_effectList.replace(ix, effect);
     m_effectNames = m_effectList.effectNames().join(" / ");
     QString id = effect.attribute("id");
     if (id == "fadein" || id == "fadeout" || id == "fade_from_black" || id == "fade_to_black")

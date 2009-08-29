@@ -39,6 +39,7 @@ private:
     const ItemInfo m_startPos;
     const ItemInfo m_endPos;
     bool m_doIt;
+    bool m_refresh;
 };
 
 #endif

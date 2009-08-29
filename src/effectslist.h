@@ -49,6 +49,7 @@ public:
     void removeAt(int ix);
     QDomElement item(int ix);
     void insert(int ix, QDomElement effect);
+    void replace(int ix, QDomElement effect);
     static bool hasKeyFrames(QDomElement effect);
     static void setParameter(QDomElement effect, const QString &name, const QString &value);
     static QString parameter(QDomElement effect, const QString &name);

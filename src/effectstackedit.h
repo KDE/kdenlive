@@ -27,6 +27,7 @@
 #include <QVBoxLayout>
 #include <QList>
 #include <QMap>
+#include <QScrollArea>
 
 enum WIPE_DIRECTON { UP = 0, DOWN = 1, LEFT = 2, RIGHT = 3, CENTER = 4 };
 
@@ -39,7 +40,7 @@ struct wipeInfo {
 
 class QFrame;
 
-class EffectStackEdit : public QObject
+class EffectStackEdit : public QScrollArea
 {
     Q_OBJECT
 public:

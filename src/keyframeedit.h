@@ -71,21 +71,22 @@ private:
     int m_max;
 };
 
-class KeyframeEdit : public QWidget
+class KeyframeEdit : public QWidget, public Ui::KeyframeEditor_UI
 {
     Q_OBJECT
 public:
     explicit KeyframeEdit(QDomElement e, int maxFrame, int minVal, int maxVal, Timecode tc, QWidget* parent = 0);
+    virtual ~KeyframeEdit();
     void setupParam(QDomElement e = QDomElement());
 
 private:
-    Ui::KeyframeEditor_UI m_ui;
     QDomElement m_param;
     int m_max;
     int m_minVal;
     int m_maxVal;
     Timecode m_timecode;
     int m_previousPos;
+    KeyItemDelegate *m_delegate;
 
 public slots:
 

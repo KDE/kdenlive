@@ -142,7 +142,7 @@ void AbstractClipItem::resizeStart(int posx, double speed)
         }*/
 }
 
-void AbstractClipItem::resizeEnd(int posx, double speed, bool /*updateKeyFrames*/)
+void AbstractClipItem::resizeEnd(int posx, double speed)
 {
     GenTime durationDiff = GenTime(posx, m_fps) - endPos();
     if (durationDiff == GenTime()) return;
@@ -294,7 +294,7 @@ void AbstractClipItem::updateKeyFramePos(const GenTime pos, const double value)
     if (!m_keyframes.contains(m_selectedKeyframe)) return;
     int newpos = (int) pos.frames(m_fps);
     int start = cropStart().frames(m_fps);
-    int end = (cropStart() + cropDuration()).frames(m_fps);
+    int end = (cropStart() + cropDuration()).frames(m_fps) - 1;
     newpos = qMax(newpos, start);
     newpos = qMin(newpos, end);
     if (value < -50 && m_selectedKeyframe != start && m_selectedKeyframe != end) {
@@ -330,7 +330,7 @@ void AbstractClipItem::addKeyFrame(const GenTime pos, const double value)
     QRectF br = sceneBoundingRect();
     double maxh = 100.0 / br.height() / m_keyframeFactor;
     int newval = (br.bottom() - value) * maxh;
-    kDebug() << "Rect: " << br << "/ SCENE: " << sceneBoundingRect() << ", VALUE: " << value << ", MAX: " << maxh << ", NEWVAL: " << newval;
+    //kDebug() << "Rect: " << br << "/ SCENE: " << sceneBoundingRect() << ", VALUE: " << value << ", MAX: " << maxh << ", NEWVAL: " << newval;
     int newpos = (int) pos.frames(m_fps) ;
     m_keyframes[newpos] = newval;
     m_selectedKeyframe = newpos;

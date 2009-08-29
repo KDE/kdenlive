@@ -28,6 +28,10 @@ MoveTransitionCommand::MoveTransitionCommand(CustomTrackView *view, const ItemIn
         m_doIt(doIt)
 {
     setText(i18n("Move transition"));
+    if (parent) {
+        // command has a parent, so there are several operations ongoing, do not refresh monitor
+        m_refresh = false;
+    } else m_refresh = true;
 }
 
 
@@ -36,13 +40,13 @@ void MoveTransitionCommand::undo()
 {
 // kDebug()<<"----  undoing action";
     m_doIt = true;
-    m_view->moveTransition(m_endPos, m_startPos);
+    m_view->moveTransition(m_endPos, m_startPos, m_refresh);
 }
 // virtual
 void MoveTransitionCommand::redo()
 {
     //kDebug() << "----  redoing action";
-    if (m_doIt) m_view->moveTransition(m_startPos, m_endPos);
+    if (m_doIt) m_view->moveTransition(m_startPos, m_endPos, m_refresh);
     m_doIt = true;
 }
 

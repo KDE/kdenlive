@@ -48,7 +48,7 @@ public:
                        QWidget *);
     virtual int type() const;
     void resizeStart(int posx, double speed = 1.0);
-    void resizeEnd(int posx, double speed = 1.0, bool updateKeyFrames = true);
+    void resizeEnd(int posx, double speed = 1.0);
     OPERATIONTYPE operationMode(QPointF pos);
     const QString clipProducer() const;
     int clipType() const;
@@ -112,6 +112,8 @@ public:
     void setAudioOnly(bool force);
     bool isVideoOnly() const;
     bool isAudioOnly() const;
+    /** Called when clip start is resized, adjust keyframes values */
+    bool checkEffectsKeyframesPos(const int previous, const int current, bool fromStart);
 
 protected:
     //virtual void mouseMoveEvent(QGraphicsSceneMouseEvent * event);
@@ -153,8 +155,7 @@ private:
     QMap<int, QPixmap> m_audioThumbCachePic;
     bool m_audioThumbReady;
     double m_framePixelWidth;
-    /** Called when clip start is resized, adjust keyframes values */
-    void checkEffectsKeyframesPos(const int previous, const int current, bool fromStart);
+
     QPixmap m_videoPix;
     QPixmap m_audioPix;
 

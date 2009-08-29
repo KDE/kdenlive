@@ -156,7 +156,8 @@ RenderWidget::RenderWidget(const QString &projectfolder, QWidget * parent) :
     m_view.out_file->setMode(KFile::File);
 
     m_view.running_jobs->setHeaderLabels(QStringList() << QString() << i18n("File") << i18n("Progress"));
-    m_view.running_jobs->setItemDelegate(new RenderViewDelegate(this));
+    m_jobsDelegate = new RenderViewDelegate(this);
+    m_view.running_jobs->setItemDelegate(m_jobsDelegate);
 
     QHeaderView *header = m_view.running_jobs->header();
     QFontMetrics fm = fontMetrics();
@@ -170,7 +171,8 @@ RenderWidget::RenderWidget(const QString &projectfolder, QWidget * parent) :
 
 
     m_view.scripts_list->setHeaderLabels(QStringList() << QString() << i18n("Script Files"));
-    m_view.scripts_list->setItemDelegate(new RenderViewDelegate(this));
+    m_scriptsDelegate = new RenderViewDelegate(this);
+    m_view.scripts_list->setItemDelegate(m_scriptsDelegate);
     header = m_view.scripts_list->header();
     header->setResizeMode(0, QHeaderView::Fixed);
     header->resizeSection(0, 30);
@@ -184,6 +186,16 @@ RenderWidget::RenderWidget(const QString &projectfolder, QWidget * parent) :
     }
 
     focusFirstVisibleItem();
+}
+
+RenderWidget::~RenderWidget()
+{
+    m_view.running_jobs->blockSignals(true);
+    m_view.scripts_list->blockSignals(true);
+    m_view.running_jobs->clear();
+    m_view.scripts_list->clear();
+    delete m_jobsDelegate;
+    delete m_scriptsDelegate;
 }
 
 void RenderWidget::slotEditItem(QListWidgetItem *item)

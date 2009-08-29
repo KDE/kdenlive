@@ -36,6 +36,7 @@ private:
     ItemInfo m_startPos;
     ItemInfo m_endPos;
     bool m_doIt;
+    bool m_refresh;
 };
 
 #endif

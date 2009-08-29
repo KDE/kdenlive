@@ -33,62 +33,70 @@ KeyframeEdit::KeyframeEdit(QDomElement e, int maxFrame, int minVal, int maxVal, 
         m_timecode(tc),
         m_previousPos(0)
 {
-    m_ui.setupUi(this);
-    m_ui.keyframe_list->setFont(KGlobalSettings::generalFont());
-    m_ui.keyframe_list->setHeaderLabels(QStringList() << i18n("Position") << i18n("Value"));
+    setupUi(this);
+    keyframe_list->setFont(KGlobalSettings::generalFont());
+    keyframe_list->setHeaderLabels(QStringList() << i18n("Position") << i18n("Value"));
     //setResizeMode(1, QHeaderView::Interactive);
-    m_ui.button_add->setIcon(KIcon("document-new"));
-    m_ui.button_delete->setIcon(KIcon("edit-delete"));
-    connect(m_ui.keyframe_list, SIGNAL(itemSelectionChanged()/*itemClicked(QTreeWidgetItem *, int)*/), this, SLOT(slotAdjustKeyframeInfo()));
+    button_add->setIcon(KIcon("document-new"));
+    button_delete->setIcon(KIcon("edit-delete"));
+    connect(keyframe_list, SIGNAL(itemSelectionChanged()/*itemClicked(QTreeWidgetItem *, int)*/), this, SLOT(slotAdjustKeyframeInfo()));
     setupParam();
-    m_ui.keyframe_list->header()->resizeSections(QHeaderView::ResizeToContents);
-    connect(m_ui.button_delete, SIGNAL(clicked()), this, SLOT(slotDeleteKeyframe()));
-    connect(m_ui.button_add, SIGNAL(clicked()), this, SLOT(slotAddKeyframe()));
-    connect(m_ui.keyframe_list, SIGNAL(itemChanged(QTreeWidgetItem *, int)), this, SLOT(slotGenerateParams(QTreeWidgetItem *, int)));
-    connect(m_ui.keyframe_list, SIGNAL(itemDoubleClicked(QTreeWidgetItem *, int)), this, SLOT(slotSaveCurrentParam(QTreeWidgetItem *, int)));
-    connect(m_ui.keyframe_pos, SIGNAL(valueChanged(int)), this, SLOT(slotAdjustKeyframeValue(int)));
-    m_ui.keyframe_pos->setPageStep(1);
-    m_ui.keyframe_list->setItemDelegate(new KeyItemDelegate(minVal, maxVal));
+    keyframe_list->header()->resizeSections(QHeaderView::ResizeToContents);
+    connect(button_delete, SIGNAL(clicked()), this, SLOT(slotDeleteKeyframe()));
+    connect(button_add, SIGNAL(clicked()), this, SLOT(slotAddKeyframe()));
+    connect(keyframe_list, SIGNAL(itemChanged(QTreeWidgetItem *, int)), this, SLOT(slotGenerateParams(QTreeWidgetItem *, int)));
+    connect(keyframe_list, SIGNAL(itemDoubleClicked(QTreeWidgetItem *, int)), this, SLOT(slotSaveCurrentParam(QTreeWidgetItem *, int)));
+    connect(keyframe_pos, SIGNAL(valueChanged(int)), this, SLOT(slotAdjustKeyframeValue(int)));
+    keyframe_pos->setPageStep(1);
+    m_delegate = new KeyItemDelegate(minVal, maxVal);
+    keyframe_list->setItemDelegate(m_delegate);
+}
+
+KeyframeEdit::~KeyframeEdit()
+{
+    keyframe_list->blockSignals(true);
+    keyframe_list->clear();
+    delete m_delegate;
 }
 
 void KeyframeEdit::setupParam(QDomElement e)
 {
     if (!e.isNull()) m_param = e;
-    m_ui.keyframe_list->clear();
+    keyframe_list->clear();
     QStringList frames = m_param.attribute("keyframes").split(";", QString::SkipEmptyParts);
     for (int i = 0; i < frames.count(); i++) {
         QString framePos = m_timecode.getTimecodeFromFrames(frames.at(i).section(':', 0, 0).toInt());
         QTreeWidgetItem *item = new QTreeWidgetItem(QStringList() << framePos << frames.at(i).section(':', 1, 1));
         item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsEnabled);
-        m_ui.keyframe_list->addTopLevelItem(item);
+        keyframe_list->addTopLevelItem(item);
     }
-    QTreeWidgetItem *first = m_ui.keyframe_list->topLevelItem(0);
-    if (first) m_ui.keyframe_list->setCurrentItem(first);
+    QTreeWidgetItem *first = keyframe_list->topLevelItem(0);
+    if (first) keyframe_list->setCurrentItem(first);
     slotAdjustKeyframeInfo();
-    m_ui.button_delete->setEnabled(m_ui.keyframe_list->topLevelItemCount() > 2);
+    button_delete->setEnabled(keyframe_list->topLevelItemCount() > 2);
 }
 
 void KeyframeEdit::slotDeleteKeyframe()
 {
-    if (m_ui.keyframe_list->topLevelItemCount() < 3) return;
-    QTreeWidgetItem *item = m_ui.keyframe_list->currentItem();
+    if (keyframe_list->topLevelItemCount() < 3) return;
+    QTreeWidgetItem *item = keyframe_list->currentItem();
     if (item) {
         delete item;
         slotGenerateParams();
     }
-    m_ui.button_delete->setEnabled(m_ui.keyframe_list->topLevelItemCount() > 2);
+    button_delete->setEnabled(keyframe_list->topLevelItemCount() > 2);
 }
 
 void KeyframeEdit::slotAddKeyframe()
 {
-    m_ui.keyframe_list->blockSignals(true);
+    keyframe_list->blockSignals(true);
     int pos2;
-    QTreeWidgetItem *item = m_ui.keyframe_list->currentItem();
+    QTreeWidgetItem *item = keyframe_list->currentItem();
     if (item == NULL) return;
-    int ix = m_ui.keyframe_list->indexOfTopLevelItem(item);
+    int ix = keyframe_list->indexOfTopLevelItem(item);
     int pos1 = m_timecode.getFrameCount(item->text(0));
-    QTreeWidgetItem *below = m_ui.keyframe_list->topLevelItem(ix + 1);
-    if (below == NULL) below = m_ui.keyframe_list->topLevelItem(ix - 1);
+    QTreeWidgetItem *below = keyframe_list->topLevelItem(ix + 1);
+    if (below == NULL) below = keyframe_list->topLevelItem(ix - 1);
     if (below == NULL) {
         if (pos1 == 0) pos2 = m_max;
         else pos2 = 0;
@@ -100,11 +108,11 @@ void KeyframeEdit::slotAddKeyframe()
     if (result > pos1) ix++;
     QTreeWidgetItem *newItem = new QTreeWidgetItem(QStringList() << m_timecode.getTimecodeFromFrames(result) << item->text(1));
     newItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsEnabled);
-    m_ui.keyframe_list->insertTopLevelItem(ix, newItem);
-    m_ui.keyframe_list->setCurrentItem(newItem);
+    keyframe_list->insertTopLevelItem(ix, newItem);
+    keyframe_list->setCurrentItem(newItem);
     slotAdjustKeyframeInfo();
-    m_ui.keyframe_list->blockSignals(false);
-    m_ui.button_delete->setEnabled(m_ui.keyframe_list->topLevelItemCount() > 2);
+    keyframe_list->blockSignals(false);
+    button_delete->setEnabled(keyframe_list->topLevelItemCount() > 2);
     slotGenerateParams();
 }
 
@@ -122,7 +130,7 @@ void KeyframeEdit::slotGenerateParams(QTreeWidgetItem *item, int column)
                 pos = m_max;
                 val = m_timecode.getTimecodeFromFrames(pos);
             }
-            QList<QTreeWidgetItem *> duplicates = m_ui.keyframe_list->findItems(val, Qt::MatchExactly, 0);
+            QList<QTreeWidgetItem *> duplicates = keyframe_list->findItems(val, Qt::MatchExactly, 0);
             duplicates.removeAll(item);
             if (!duplicates.isEmpty()) {
                 // Trying to insert a keyframe at existing value, revert it
@@ -136,8 +144,8 @@ void KeyframeEdit::slotGenerateParams(QTreeWidgetItem *item, int column)
         }
     }
     QString keyframes;
-    for (int i = 0; i < m_ui.keyframe_list->topLevelItemCount(); i++) {
-        QTreeWidgetItem *item = m_ui.keyframe_list->topLevelItem(i);
+    for (int i = 0; i < keyframe_list->topLevelItemCount(); i++) {
+        QTreeWidgetItem *item = keyframe_list->topLevelItem(i);
         keyframes.append(QString::number(m_timecode.getFrameCount(item->text(0))) + ':' + item->text(1) + ';');
     }
     m_param.setAttribute("keyframes", keyframes);
@@ -146,23 +154,23 @@ void KeyframeEdit::slotGenerateParams(QTreeWidgetItem *item, int column)
 
 void KeyframeEdit::slotAdjustKeyframeInfo()
 {
-    QTreeWidgetItem *item = m_ui.keyframe_list->currentItem();
+    QTreeWidgetItem *item = keyframe_list->currentItem();
     if (!item) return;
     int min = 0;
     int max = m_max;
-    QTreeWidgetItem *above = m_ui.keyframe_list->itemAbove(item);
-    QTreeWidgetItem *below = m_ui.keyframe_list->itemBelow(item);
+    QTreeWidgetItem *above = keyframe_list->itemAbove(item);
+    QTreeWidgetItem *below = keyframe_list->itemBelow(item);
     if (above) min = m_timecode.getFrameCount(above->text(0)) + 1;
     if (below) max = m_timecode.getFrameCount(below->text(0)) - 1;
-    m_ui.keyframe_pos->blockSignals(true);
-    m_ui.keyframe_pos->setRange(min, max);
-    m_ui.keyframe_pos->setValue(m_timecode.getFrameCount(item->text(0)));
-    m_ui.keyframe_pos->blockSignals(false);
+    keyframe_pos->blockSignals(true);
+    keyframe_pos->setRange(min, max);
+    keyframe_pos->setValue(m_timecode.getFrameCount(item->text(0)));
+    keyframe_pos->blockSignals(false);
 }
 
 void KeyframeEdit::slotAdjustKeyframeValue(int value)
 {
-    QTreeWidgetItem *item = m_ui.keyframe_list->currentItem();
+    QTreeWidgetItem *item = keyframe_list->currentItem();
     item->setText(0, m_timecode.getTimecodeFromFrames(value));
 }
 

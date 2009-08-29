@@ -103,8 +103,8 @@ ProjectList::ProjectList(QWidget *parent) :
     connect(m_listView, SIGNAL(itemChanged(QTreeWidgetItem *, int)), this, SLOT(slotItemEdited(QTreeWidgetItem *, int)));
     connect(m_listView, SIGNAL(showProperties(DocClipBase *)), this, SIGNAL(showClipProperties(DocClipBase *)));
 
-    ItemDelegate *listViewDelegate = new ItemDelegate(m_listView);
-    m_listView->setItemDelegate(listViewDelegate);
+    m_listViewDelegate = new ItemDelegate(m_listView);
+    m_listView->setItemDelegate(m_listViewDelegate);
 
     if (KdenliveSettings::activate_nepomuk()) {
         Nepomuk::ResourceManager::instance()->init();
@@ -119,6 +119,9 @@ ProjectList::~ProjectList()
 {
     delete m_menu;
     delete m_toolbar;
+    m_listView->blockSignals(true);
+    m_listView->clear();
+    delete m_listViewDelegate;
 }
 
 void ProjectList::setupMenu(QMenu *addMenu, QAction *defaultAction)

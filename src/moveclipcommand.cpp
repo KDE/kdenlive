@@ -31,6 +31,10 @@ MoveClipCommand::MoveClipCommand(CustomTrackView *view, const ItemInfo start, co
         m_doIt(doIt)
 {
     setText(i18n("Move clip"));
+    if (parent) {
+        // command has a parent, so there are several operations ongoing, do not refresh monitor
+        m_refresh = false;
+    } else m_refresh = true;
 }
 
 
@@ -39,14 +43,14 @@ void MoveClipCommand::undo()
 {
 // kDebug()<<"----  undoing action";
     m_doIt = true;
-    m_view->moveClip(m_endPos, m_startPos);
+    m_view->moveClip(m_endPos, m_startPos, m_refresh);
 }
 // virtual
 void MoveClipCommand::redo()
 {
     //kDebug() << "----  redoing action";
     if (m_doIt)
-        m_view->moveClip(m_startPos, m_endPos);
+        m_view->moveClip(m_startPos, m_endPos, m_refresh);
     m_doIt = true;
 }
 

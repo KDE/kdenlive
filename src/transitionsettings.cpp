@@ -33,7 +33,12 @@ TransitionSettings::TransitionSettings(QWidget* parent) :
         m_autoTrackTransition(0)
 {
     m_ui.setupUi(this);
+    QVBoxLayout *vbox1 = new QVBoxLayout(m_ui.frame);
     m_effectEdit = new EffectStackEdit(m_ui.frame);
+    vbox1->setContentsMargins(0, 0, 0, 0);
+    vbox1->setSpacing(0);
+    vbox1->addWidget(m_effectEdit);
+    m_ui.frame->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
     connect(m_effectEdit, SIGNAL(seekTimeline(int)), this, SIGNAL(seekTimeline(int)));
     setEnabled(false);
 

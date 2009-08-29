@@ -172,6 +172,7 @@ private:
     QMenu *m_transcodeAction;
     KdenliveDoc *m_doc;
     ProjectItem *m_selectedItem;
+    ItemDelegate *m_listViewDelegate;
     bool m_refreshed;
     QToolButton *m_addButton;
     QMap <QString, QDomElement> m_infoQueue;

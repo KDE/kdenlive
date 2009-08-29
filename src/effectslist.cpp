@@ -221,7 +221,14 @@ QDomElement EffectsList::item(int ix)
 void EffectsList::insert(int ix, QDomElement effect)
 {
     QDomNodeList effects = m_baseElement.childNodes();
-    if (ix >= effects.count()) m_baseElement.appendChild(effect);
-    else m_baseElement.insertBefore(effect, effects.at(ix));
+    if (ix >= effects.count()) m_baseElement.appendChild(importNode(effect, true));
+    else m_baseElement.insertBefore(importNode(effect, true), effects.at(ix));
 }
 
+void EffectsList::replace(int ix, QDomElement effect)
+{
+    QDomNodeList effects = m_baseElement.childNodes();
+    if (ix < effects.count()) m_baseElement.removeChild(effects.at(ix));
+    if (ix == effects.count()) m_baseElement.appendChild(importNode(effect, true));
+    else m_baseElement.insertBefore(importNode(effect, true), effects.at(ix));
+}

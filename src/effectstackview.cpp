@@ -38,7 +38,12 @@ EffectStackView::EffectStackView(QWidget *parent) :
         QWidget(parent)
 {
     m_ui.setupUi(this);
+    QVBoxLayout *vbox1 = new QVBoxLayout(m_ui.frame);
     m_effectedit = new EffectStackEdit(m_ui.frame);
+    vbox1->setContentsMargins(0, 0, 0, 0);
+    vbox1->setSpacing(0);
+    vbox1->addWidget(m_effectedit);
+    m_ui.frame->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
     //m_ui.effectlist->horizontalHeader()->setVisible(false);
     //m_ui.effectlist->verticalHeader()->setVisible(false);
     m_clipref = NULL;
@@ -144,6 +149,7 @@ void EffectStackView::slotClipItemSelected(ClipItem* c, int ix)
             QString size = c->baseClip()->getProperty("frame_size");
             double factor = c->baseClip()->getProperty("aspect_ratio").toDouble();
             QPoint p((int)(size.section('x', 0, 0).toInt() * factor + 0.5), size.section('x', 1, 1).toInt());
+            m_effectedit->setFrameSize(p);
             m_effectedit->setFrameSize(p);
         } else ix = 0;
     }

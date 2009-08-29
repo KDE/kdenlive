@@ -65,26 +65,19 @@ class Wipeval: public QWidget, public Ui::Wipeval_UI
 QMap<QString, QImage> EffectStackEdit::iconCache;
 
 EffectStackEdit::EffectStackEdit(QWidget *parent) :
-        QObject(parent),
+        QScrollArea(parent),
         m_in(0),
         m_out(0),
         m_frameSize(QPoint())
 {
-    QVBoxLayout *vbox1 = new QVBoxLayout(parent);
-    vbox1->setContentsMargins(0, 0, 0, 0);
-    vbox1->setSpacing(0);
+    m_baseWidget = new QWidget(this);
+    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    setFrameStyle(QFrame::NoFrame);
+    setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::MinimumExpanding));
 
-    QScrollArea *area = new QScrollArea;
-    m_baseWidget = new QWidget(parent);
-    area->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    area->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-    area->setFrameStyle(QFrame::NoFrame);
-    parent->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
-    area->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::MinimumExpanding));
-
-    vbox1->addWidget(area);
-    area->setWidget(m_baseWidget);
-    area->setWidgetResizable(true);
+    setWidget(m_baseWidget);
+    setWidgetResizable(true);
     m_vbox = new QVBoxLayout(m_baseWidget);
     m_vbox->setContentsMargins(0, 0, 0, 0);
     m_vbox->setSpacing(0);
@@ -241,7 +234,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int in, int out)
         } else if (type == "keyframe") {
             // keyframe editor widget
             kDebug() << "min: " << m_in << ", MAX: " << m_out;
-            KeyframeEdit *geo = new KeyframeEdit(pa, m_out - m_in, pa.attribute("min").toInt(), pa.attribute("max").toInt(), m_timecode);
+            KeyframeEdit *geo = new KeyframeEdit(pa, m_out - m_in - 1, pa.attribute("min").toInt(), pa.attribute("max").toInt(), m_timecode);
             //geo->setupParam(100, pa.attribute("min").toInt(), pa.attribute("max").toInt(), pa.attribute("keyframes"));
             //connect(geo, SIGNAL(seekToPos(int)), this, SLOT(slotSeekToPos(int)));
             //geo->setupParam(pa, minFrame, maxFrame);
@@ -538,8 +531,9 @@ void EffectStackEdit::clearAllItems()
     //qDeleteAll(m_uiItems);
     QLayoutItem *child;
     while ((child = m_vbox->takeAt(0)) != 0) {
-        if (child->widget()) delete child->widget();
+        QWidget *wid = child->widget();
         delete child;
+        if (wid) delete wid;
     }
     blockSignals(false);
 }

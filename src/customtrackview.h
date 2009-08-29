@@ -54,11 +54,11 @@ public:
     void changeTrack(int ix, TrackInfo type);
     int cursorPos();
     void checkAutoScroll();
-    void moveClip(const ItemInfo start, const ItemInfo end);
+    void moveClip(const ItemInfo start, const ItemInfo end, bool refresh);
     void moveGroup(QList <ItemInfo> startClip, QList <ItemInfo> startTransition, const GenTime offset, const int trackOffset, bool reverseMove = false);
     /** move transition, startPos = (old start, old end), endPos = (new start, new end) */
-    void moveTransition(const ItemInfo start, const ItemInfo end);
-    void resizeClip(const ItemInfo start, const ItemInfo end);
+    void moveTransition(const ItemInfo start, const ItemInfo end, bool m_refresh);
+    void resizeClip(const ItemInfo start, const ItemInfo end, bool dontWorry = false);
     void addClip(QDomElement xml, const QString &clipId, ItemInfo info, EffectsList list = EffectsList(), bool refresh = true);
     void deleteClip(ItemInfo info, bool refresh = true);
     void slotDeleteClipMarker(const QString &comment, const QString &id, const GenTime &position);
@@ -70,7 +70,7 @@ public:
     void slotAddGroupEffect(QDomElement effect, AbstractGroupItem *group);
     void addEffect(int track, GenTime pos, QDomElement effect);
     void deleteEffect(int track, GenTime pos, QDomElement effect);
-    void updateEffect(int track, GenTime pos, QDomElement effect, int ix, bool triggeredByUser = true);
+    void updateEffect(int track, GenTime pos, QDomElement insertedEffect, int ix, bool triggeredByUser = true);
     void moveEffect(int track, GenTime pos, int oldPos, int newPos);
     void addTransition(ItemInfo transitionInfo, int endTrack, QDomElement params, bool refresh);
     void deleteTransition(ItemInfo transitionInfo, int endTrack, QDomElement params, bool refresh);

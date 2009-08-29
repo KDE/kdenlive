@@ -1134,7 +1134,7 @@ void CustomTrackView::mouseDoubleClickEvent(QMouseEvent *event)
                     ItemInfo startInfo = clipInfo;
                     clipInfo.endPos = clipInfo.startPos + d.duration();
                     clipInfo.cropStart = d.cropStart();
-                    new ResizeClipCommand(this, startInfo, clipInfo, true, moveCommand);
+                    new ResizeClipCommand(this, startInfo, clipInfo, true, false, moveCommand);
                 }
                 if (d.startPos() != clipInfo.startPos) {
                     ItemInfo startInfo = clipInfo;
@@ -1147,7 +1147,7 @@ void CustomTrackView::mouseDoubleClickEvent(QMouseEvent *event)
                     ItemInfo startInfo = clipInfo;
                     clipInfo.endPos = clipInfo.startPos + d.duration();
                     clipInfo.cropStart = d.cropStart();
-                    new ResizeClipCommand(this, startInfo, clipInfo, true, moveCommand);
+                    new ResizeClipCommand(this, startInfo, clipInfo, true, false, moveCommand);
                 }
                 m_commandStack->push(moveCommand);
             }
@@ -1167,7 +1167,7 @@ void CustomTrackView::editKeyFrame(const GenTime pos, const int track, const int
     ClipItem *clip = getClipItemAt((int)pos.frames(m_document->fps()), track);
     if (clip) {
         clip->setKeyframes(index, keyframes);
-        updateEffect(m_document->tracksCount() - clip->track(), clip->startPos(), clip->effectAt(index), index);
+        updateEffect(m_document->tracksCount() - clip->track(), clip->startPos(), clip->effectAt(index), index, false);
     } else emit displayMessage(i18n("Cannot find clip with keyframe"), ErrorMessage);
 }
 
@@ -1496,11 +1496,11 @@ void CustomTrackView::slotDeleteEffect(ClipItem *clip, QDomElement effect)
     setDocumentModified();
 }
 
-void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement effect, int ix, bool triggeredByUser)
+void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedEffect, int ix, bool triggeredByUser)
 {
     ClipItem *clip = getClipItemAt((int)pos.frames(m_document->fps()) + 1, m_document->tracksCount() - track);
+    QDomElement effect = insertedEffect.cloneNode().toElement();
     if (clip) {
-
         // Special case: speed effect
         if (effect.attribute("id") == "speed") {
             ItemInfo info = clip->info();
@@ -2709,8 +2709,40 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                         new MoveTransitionCommand(this, trInfo, newTrInfo, true, resizeCommand);
                     }
                 }
-                updateClipFade(static_cast <ClipItem *>(m_dragItem));
-                new ResizeClipCommand(this, m_dragItemInfo, info, false, resizeCommand);
+
+                ClipItem *clip = static_cast < ClipItem * >(m_dragItem);
+                updateClipFade(clip);
+
+                // check keyframes
+                QDomDocument doc;
+                QDomElement root = doc.createElement("list");
+                doc.appendChild(root);
+                QList <int> indexes;
+                for (int i = 0; i < clip->effectsCount(); i++) {
+                    QDomElement effect = clip->effectAt(i);
+                    if (EffectsList::hasKeyFrames(effect)) {
+                        doc.appendChild(doc.importNode(effect, true));
+                        indexes.append(i);
+                    }
+                }
+
+                if (clip->checkEffectsKeyframesPos(m_dragItemInfo.cropStart.frames(m_document->fps()), clip->cropStart().frames(m_document->fps()), true)) {
+                    // Keyframes were modified, updateClip
+                    QDomNodeList effs = doc.elementsByTagName("effect");
+                    // Hack:
+                    // Since we must always resize clip before updating the keyframes, we
+                    // put a resize command before & after checking keyframes so that
+                    // we are sure the resize is performed before whenever we do or undo the action
+
+                    new ResizeClipCommand(this, m_dragItemInfo, info, false, true, resizeCommand);
+                    for (int i = 0; i < indexes.count(); i++) {
+                        new EditEffectCommand(this, m_document->tracksCount() - clip->track(), clip->startPos(), effs.at(i).cloneNode().toElement(), clip->effectAt(indexes.at(i)), indexes.at(i), false, resizeCommand);
+                        updateEffect(m_document->tracksCount() - clip->track(), clip->startPos(), clip->effectAt(indexes.at(i)), indexes.at(i));
+                    }
+                    new ResizeClipCommand(this, m_dragItemInfo, info, false, true, resizeCommand);
+                    emit clipItemSelected(clip);
+                } else new ResizeClipCommand(this, m_dragItemInfo, info, false, false, resizeCommand);
+
                 m_commandStack->push(resizeCommand);
             } else {
                 m_dragItem->resizeStart((int) m_dragItemInfo.startPos.frames(m_document->fps()));
@@ -2771,9 +2803,39 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                     }
                 }
 
-                new ResizeClipCommand(this, m_dragItemInfo, info, false, resizeCommand);
+                // check keyframes
+                ClipItem *clip = static_cast < ClipItem * >(m_dragItem);
+                QDomDocument doc;
+                QDomElement root = doc.createElement("list");
+                doc.appendChild(root);
+                QList <int> indexes;
+                for (int i = 0; i < clip->effectsCount(); i++) {
+                    QDomElement effect = clip->effectAt(i);
+                    if (EffectsList::hasKeyFrames(effect)) {
+                        doc.appendChild(doc.importNode(effect, true));
+                        indexes.append(i);
+                    }
+                }
+
+                if (clip->checkEffectsKeyframesPos((m_dragItemInfo.cropStart + m_dragItemInfo.endPos - m_dragItemInfo.startPos).frames(m_document->fps()) - 1, (clip->cropStart() + clip->cropDuration()).frames(m_document->fps()) - 1, false)) {
+                    // Keyframes were modified, updateClip
+                    QDomNodeList effs = doc.elementsByTagName("effect");
+                    // Hack:
+                    // Since we must always resize clip before updating the keyframes, we
+                    // put a resize command before & after checking keyframes so that
+                    // we are sure the resize is performed before whenever we do or undo the action
+
+                    new ResizeClipCommand(this, m_dragItemInfo, info, false, true, resizeCommand);
+                    for (int i = 0; i < indexes.count(); i++) {
+                        new EditEffectCommand(this, m_document->tracksCount() - clip->track(), clip->startPos(), effs.at(i).cloneNode().toElement(), clip->effectAt(indexes.at(i)), indexes.at(i), false, resizeCommand);
+                        updateEffect(m_document->tracksCount() - clip->track(), clip->startPos(), clip->effectAt(indexes.at(i)), indexes.at(i));
+                    }
+                    new ResizeClipCommand(this, m_dragItemInfo, info, false, true, resizeCommand);
+                    emit clipItemSelected(clip);
+                } else new ResizeClipCommand(this, m_dragItemInfo, info, false, false, resizeCommand);
+
                 m_commandStack->push(resizeCommand);
-                updateClipFade(static_cast <ClipItem *>(m_dragItem));
+                updateClipFade(clip);
             } else {
                 m_dragItem->resizeEnd((int) m_dragItemInfo.endPos.frames(m_document->fps()));
                 emit displayMessage(i18n("Error when resizing clip"), ErrorMessage);
@@ -3287,7 +3349,7 @@ Transition *CustomTrackView::getTransitionItemAtStart(GenTime pos, int track)
     return clip;
 }
 
-void CustomTrackView::moveClip(const ItemInfo start, const ItemInfo end)
+void CustomTrackView::moveClip(const ItemInfo start, const ItemInfo end, bool refresh)
 {
     if (m_selectionGroup) resetSelectionGroup(false);
     ClipItem *item = getClipItemAt((int) start.startPos.frames(m_document->fps()), start.track);
@@ -3330,7 +3392,7 @@ void CustomTrackView::moveClip(const ItemInfo start, const ItemInfo end)
         // undo last move and emit error message
         emit displayMessage(i18n("Cannot move clip to position %1", m_document->timecode().getTimecodeFromFrames(end.startPos.frames(m_document->fps()))), ErrorMessage);
     }
-    m_document->renderer()->doRefresh();
+    if (refresh) m_document->renderer()->doRefresh();
     //kDebug() << " // MOVED CLIP TO: " << end.startPos.frames(25) << ", ITEM START: " << item->startPos().frames(25);
 }
 
@@ -3424,7 +3486,7 @@ void CustomTrackView::moveGroup(QList <ItemInfo> startClip, QList <ItemInfo> sta
     } else kDebug() << "///////// WARNING; NO GROUP TO MOVE";
 }
 
-void CustomTrackView::moveTransition(const ItemInfo start, const ItemInfo end)
+void CustomTrackView::moveTransition(const ItemInfo start, const ItemInfo end, bool m_refresh)
 {
     Transition *item = getTransitionItemAt(start.startPos, start.track);
     if (!item) {
@@ -3466,17 +3528,15 @@ void CustomTrackView::moveTransition(const ItemInfo start, const ItemInfo end)
         }
         emit transitionItemSelected(item, getPreviousVideoTrack(item->track()), p);
     }
-    m_document->renderer()->doRefresh();
+    if (m_refresh) m_document->renderer()->doRefresh();
 }
 
-void CustomTrackView::resizeClip(const ItemInfo start, const ItemInfo end)
+void CustomTrackView::resizeClip(const ItemInfo start, const ItemInfo end, bool dontWorry)
 {
-    bool resizeClipStart = true;
-    if (start.startPos == end.startPos) resizeClipStart = false;
-    /*if (resizeClipStart) offset = 1;
-    else offset = -1;*/
-    ClipItem *item = getClipItemAt((int)(start.startPos.frames(m_document->fps())), start.track);
+    bool resizeClipStart = (start.startPos != end.startPos);
+    ClipItem *item = getClipItemAtStart(start.startPos, start.track);
     if (!item) {
+        if (dontWorry) return;
         emit displayMessage(i18n("Cannot move clip at time: %1 on track %2", m_document->timecode().getTimecodeFromFrames(start.startPos.frames(m_document->fps())), start.track), ErrorMessage);
         kDebug() << "----------------  ERROR, CANNOT find clip to resize at... "; // << startPos;
         return;
@@ -3485,18 +3545,19 @@ void CustomTrackView::resizeClip(const ItemInfo start, const ItemInfo end)
         // Item is part of a group, reset group
         resetSelectionGroup();
     }
+
     bool snap = KdenliveSettings::snaptopoints();
     KdenliveSettings::setSnaptopoints(false);
-    if (resizeClipStart && start.startPos != end.startPos) {
+    if (resizeClipStart) {
         ItemInfo clipinfo = item->info();
         clipinfo.track = m_document->tracksCount() - clipinfo.track;
-        bool success = m_document->renderer()->mltResizeClipStart(clipinfo, end.startPos - item->startPos());
+        bool success = m_document->renderer()->mltResizeClipStart(clipinfo, end.startPos - clipinfo.startPos);
         if (success) {
             kDebug() << "RESIZE CLP STRAT TO:" << end.startPos.frames(m_document->fps()) << ", OLD ST: " << start.startPos.frames(25);
             item->resizeStart((int) end.startPos.frames(m_document->fps()));
             updateClipFade(item);
         } else emit displayMessage(i18n("Error when resizing clip"), ErrorMessage);
-    } else if (!resizeClipStart) {
+    } else {
         ItemInfo clipinfo = item->info();
         clipinfo.track = m_document->tracksCount() - clipinfo.track;
         bool success = m_document->renderer()->mltResizeClipEnd(clipinfo, end.endPos - clipinfo.startPos);
@@ -3505,7 +3566,7 @@ void CustomTrackView::resizeClip(const ItemInfo start, const ItemInfo end)
             updateClipFade(item);
         } else emit displayMessage(i18n("Error when resizing clip"), ErrorMessage);
     }
-    if (end.cropStart != start.cropStart) {
+    if (!resizeClipStart && end.cropStart != start.cropStart) {
         kDebug() << "// RESIZE CROP, DIFF: " << (end.cropStart - start.cropStart).frames(25);
         ItemInfo clipinfo = end;
         clipinfo.track = m_document->tracksCount() - end.track;
@@ -4267,7 +4328,7 @@ void CustomTrackView::setInPoint()
     }
     if (clip->type() == TRANSITIONWIDGET) {
         m_commandStack->push(new MoveTransitionCommand(this, startInfo, endInfo, true));
-    } else m_commandStack->push(new ResizeClipCommand(this, startInfo, endInfo, true));
+    } else m_commandStack->push(new ResizeClipCommand(this, startInfo, endInfo, true, false));
 }
 
 void CustomTrackView::setOutPoint()
@@ -4299,7 +4360,7 @@ void CustomTrackView::setOutPoint()
 
     if (clip->type() == TRANSITIONWIDGET) {
         m_commandStack->push(new MoveTransitionCommand(this, startInfo, endInfo, true));
-    } else m_commandStack->push(new ResizeClipCommand(this, startInfo, endInfo, true));
+    } else m_commandStack->push(new ResizeClipCommand(this, startInfo, endInfo, true, false));
 }
 
 void CustomTrackView::slotUpdateAllThumbs()

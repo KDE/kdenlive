@@ -23,12 +23,13 @@
 
 #include <KLocale>
 
-ResizeClipCommand::ResizeClipCommand(CustomTrackView *view, const ItemInfo start, const ItemInfo end, bool doIt, QUndoCommand * parent) :
+ResizeClipCommand::ResizeClipCommand(CustomTrackView *view, const ItemInfo start, const ItemInfo end, bool doIt, bool dontWorry, QUndoCommand * parent) :
         QUndoCommand(parent),
         m_view(view),
         m_startPos(start),
         m_endPos(end),
-        m_doIt(doIt)
+        m_doIt(doIt),
+        m_dontWorry(dontWorry)
 {
     setText(i18n("Resize clip"));
 }
@@ -38,13 +39,13 @@ void ResizeClipCommand::undo()
 {
 // kDebug()<<"----  undoing action";
     m_doIt = true;
-    if (m_doIt) m_view->resizeClip(m_endPos, m_startPos);
+    if (m_doIt) m_view->resizeClip(m_endPos, m_startPos, m_dontWorry);
 }
 // virtual
 void ResizeClipCommand::redo()
 {
     kDebug() << "----  redoing action";
-    if (m_doIt) m_view->resizeClip(m_startPos, m_endPos);
+    if (m_doIt) m_view->resizeClip(m_startPos, m_endPos, m_dontWorry);
     m_doIt = true;
 }
 

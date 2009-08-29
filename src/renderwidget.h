@@ -100,6 +100,7 @@ class RenderWidget : public QDialog
 
 public:
     explicit RenderWidget(const QString &projectfolder, QWidget * parent = 0);
+    virtual ~RenderWidget();
     void setGuides(QDomElement guidesxml, double duration);
     void focusFirstVisibleItem();
     void setProfile(MltVideoProfile profile);
@@ -144,6 +145,8 @@ private:
     Ui::RenderWidget_UI m_view;
     MltVideoProfile m_profile;
     QString m_projectFolder;
+    RenderViewDelegate *m_scriptsDelegate;
+    RenderViewDelegate *m_jobsDelegate;
     bool m_blockProcessing;
     QString m_renderer;
     void parseProfiles(QString meta = QString(), QString group = QString(), QString profile = QString());

@@ -44,6 +44,7 @@ EditKeyFrameCommand::EditKeyFrameCommand(CustomTrackView *view, const int track,
 void EditKeyFrameCommand::undo()
 {
     m_view->editKeyFrame(m_pos, m_track, m_index, m_oldkfr);
+    m_doIt = true;
 }
 // virtual
 void EditKeyFrameCommand::redo()
