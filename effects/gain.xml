@@ -3,7 +3,7 @@
 	<name>Gain</name>
 	<description>Adjust the audio volume without keyframes</description>
 	<author>Dan Dennedy</author>
-	<parameter type="constant" name="gain" max="1000" min="0" factor="100" default="10">
-		<name>Gain as Percentage</name>
+	<parameter type="constant" name="gain" max="1000" min="0" factor="100" default="100" suffix="%">
+		<name>Gain</name>
 	</parameter>
 </effect>
