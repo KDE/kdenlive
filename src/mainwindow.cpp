@@ -194,6 +194,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
     m_projectMonitorDock->setWidget(m_projectMonitor);
     addDockWidget(Qt::TopDockWidgetArea, m_projectMonitorDock);
 
+#ifndef Q_WS_MAC
     m_recMonitorDock = new QDockWidget(i18n("Record Monitor"), this);
     m_recMonitorDock->setObjectName("record_monitor");
     m_recMonitor = new RecMonitor("record", this);
@@ -202,6 +203,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
 
     connect(m_recMonitor, SIGNAL(addProjectClip(KUrl)), this, SLOT(slotAddProjectClip(KUrl)));
     connect(m_recMonitor, SIGNAL(showConfigDialog(int, int)), this, SLOT(slotPreferences(int, int)));
+#endif
 
     m_undoViewDock = new QDockWidget(i18n("Undo History"), this);
     m_undoViewDock->setObjectName("undo_history");
@@ -226,7 +228,9 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
 
 
     tabifyDockWidget(m_clipMonitorDock, m_projectMonitorDock);
+#ifndef Q_WS_MAC
     tabifyDockWidget(m_clipMonitorDock, m_recMonitorDock);
+#endif
     setCentralWidget(m_timelineArea);
 
 
@@ -744,7 +748,11 @@ void MainWindow::setupActions()
     m_zoomSlider->setMaximumWidth(150);
     m_zoomSlider->setMinimumWidth(100);
 
+#ifdef Q_WS_MAC
+    const int contentHeight = QFontMetrics(w->font()).height() + 14;
+#else
     const int contentHeight = QFontMetrics(w->font()).height() + 8;
+#endif
 
     QString style = "QSlider::groove:horizontal { background-color: rgba(230, 230, 230, 220);border: 1px solid #999999;height: 8px;border-radius: 3px;margin-top:3px }";
     style.append("QSlider::handle:horizontal {  background-color: white; border: 1px solid #999999;width: 9px;margin: -2px 0;border-radius: 3px; }");
@@ -1895,7 +1903,9 @@ void MainWindow::slotPreferences(int page, int option)
     //connect(dialog, SIGNAL(doResetProfile()), this, SLOT(slotDetectAudioDriver()));
     connect(dialog, SIGNAL(doResetProfile()), m_monitorManager, SLOT(slotResetProfiles()));
     connect(dialog, SIGNAL(updatePreviewSettings()), this, SLOT(slotUpdatePreviewSettings()));
+#ifndef Q_WS_MAC
     connect(dialog, SIGNAL(updateCaptureFolder()), m_recMonitor, SLOT(slotUpdateCaptureFolder()));
+#endif
     //connect(dialog, SIGNAL(updatePreviewSettings()), this, SLOT(slotUpdatePreviewSettings()));
     dialog->show();
     if (page != -1) dialog->showPage(page, option);

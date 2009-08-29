@@ -1356,7 +1356,11 @@ void Render::setDropFrames(bool show)
         int dropFrames = 1;
         if (show == false) dropFrames = 0;
         m_mltConsumer->stop();
+#ifdef Q_WS_MAC
+        m_mltConsumer->set("real_time", dropFrames);
+#else
         m_mltConsumer->set("play.real_time", dropFrames);
+#endif
         if (m_mltConsumer->start() == -1) {
             emit blockMonitors();
             delete m_mltProducer;

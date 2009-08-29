@@ -190,9 +190,11 @@ void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMe
     m_contextMenu->addAction(extractFrame);
 
     if (m_name != "clip") {
+#ifndef Q_WS_MAC
         QAction *splitView = m_contextMenu->addAction(KIcon("view-split-left-right"), i18n("Split view"), render, SLOT(slotSplitView(bool)));
         splitView->setCheckable(true);
         m_configMenu->addAction(splitView);
+#endif
     } else {
         QAction *setThumbFrame = m_contextMenu->addAction(KIcon("document-new"), i18n("Set current image as thumbnail"), this, SLOT(slotSetThumbFrame()));
         m_configMenu->addAction(setThumbFrame);
