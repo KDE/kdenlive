@@ -29,7 +29,6 @@ pan_zoom.xml
 obscure.xml
 rotation.xml
 sepia.xml
-sox_balance.xml
 sox_bass.xml
 sox_gain.xml
 sox_phaser.xml
