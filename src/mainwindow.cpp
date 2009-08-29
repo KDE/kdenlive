@@ -522,9 +522,12 @@ void MainWindow::readProperties(const KConfigGroup &config)
 
 void MainWindow::slotReloadEffects()
 {
-    initEffects::parseCustomEffectsFile();
+    kDebug()<<"START RELOAD; COUNR: "<<m_customEffectsMenu->actions().count();
     m_customEffectsMenu->clear();
+    kDebug()<<"START RELOAD; CLR: "<<m_customEffectsMenu->actions().count();
+    initEffects::parseCustomEffectsFile();
     const QStringList effects = customEffects.effectNames();
+    kDebug()<<"NEW EFFS: "<<effects;
     QAction *action;
     if (effects.isEmpty()) m_customEffectsMenu->setEnabled(false);
     else m_customEffectsMenu->setEnabled(true);

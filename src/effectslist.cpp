@@ -156,6 +156,12 @@ void EffectsList::clone(const EffectsList original)
     m_baseElement = documentElement();
 }
 
+void EffectsList::clearList()
+{
+    while (!m_baseElement.firstChild().isNull())
+        m_baseElement.removeChild(m_baseElement.firstChild());
+}
+
 // static
 void EffectsList::setParameter(QDomElement effect, const QString &name, const QString &value)
 {

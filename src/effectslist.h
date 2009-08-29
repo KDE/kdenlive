@@ -53,6 +53,7 @@ public:
     static bool hasKeyFrames(QDomElement effect);
     static void setParameter(QDomElement effect, const QString &name, const QString &value);
     static QString parameter(QDomElement effect, const QString &name);
+    void clearList();
 
 private:
     QDomElement m_baseElement;

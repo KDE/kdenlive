@@ -232,7 +232,7 @@ Mlt::Repository *initEffects::parseEffectFiles()
 // static
 void initEffects::parseCustomEffectsFile()
 {
-    MainWindow::customEffects.clear();
+    MainWindow::customEffects.clearList();
     QString path = KStandardDirs::locateLocal("appdata", "effects/", true);
     QDir directory = QDir(path);
     QStringList filter;
