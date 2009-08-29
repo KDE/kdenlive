@@ -1360,9 +1360,11 @@ EffectsParameterList ClipItem::addEffect(const QDomElement effect, bool animate)
     m_effectNames = m_effectList.effectNames().join(" / ");
     if (fade > 0) m_startFade = fade;
     else if (fade < 0) m_endFade = -fade;
+
     if (m_selectedEffect == -1) {
         setSelectedEffect(0);
     }
+    else if (m_selectedEffect == ix - 1) setSelectedEffect(m_selectedEffect);
     if (needRepaint) update(boundingRect());
     /*if (animate) {
         flashClip();
@@ -1449,6 +1451,7 @@ void ClipItem::deleteEffect(QString index)
         }
     }
     m_effectNames = m_effectList.effectNames().join(" / ");
+
     if (m_effectList.isEmpty() || m_selectedEffect + 1 == index.toInt()) {
         // Current effect was removed
         if (index.toInt() > m_effectList.count() - 1) {
@@ -1456,7 +1459,12 @@ void ClipItem::deleteEffect(QString index)
         } else setSelectedEffect(index.toInt());
     }
     if (needRepaint) update(boundingRect());
-    if (!m_effectList.isEmpty()) flashClip();
+    else {
+        QRectF r = boundingRect();
+        r.setHeight(20);
+        update(r);
+    }
+    //if (!m_effectList.isEmpty()) flashClip();
 }
 
 double ClipItem::speed() const
