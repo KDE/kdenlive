@@ -3970,6 +3970,7 @@ void CustomTrackView::setScale(double scaleFactor, double verticalScale)
     m_animation = NULL;
     double verticalPos = mapToScene(QPoint(0, viewport()->height() / 2)).y();
     setMatrix(matrix);
+    m_cursorLine->setLine(m_cursorLine->line().x1(), 0, m_cursorLine->line().x1(), m_tracksHeight * m_document->tracksCount() * verticalScale);
     int diff = sceneRect().width() - m_projectDuration;
     if (diff * matrix.m11() < 50) {
         if (matrix.m11() < 0.4) setSceneRect(0, 0, (m_projectDuration + 100 / matrix.m11()), sceneRect().height());

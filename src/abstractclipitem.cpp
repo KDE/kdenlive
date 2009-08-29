@@ -245,9 +245,9 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, QRectF /*exposedRect*/)
     }
 }
 
-int AbstractClipItem::mouseOverKeyFrames(QPointF pos)
+int AbstractClipItem::mouseOverKeyFrames(QPointF pos, double maxOffset)
 {
-    QRectF br = sceneBoundingRect();
+    const QRectF br = sceneBoundingRect();
     double maxw = br.width() / cropDuration().frames(m_fps);
     double maxh = br.height() / 100.0 * m_keyframeFactor;
     if (m_keyframes.count() > 1) {
@@ -257,7 +257,7 @@ int AbstractClipItem::mouseOverKeyFrames(QPointF pos)
         while (i != m_keyframes.constEnd()) {
             x1 = br.x() + maxw * (i.key() - cropStart().frames(m_fps));
             y1 = br.bottom() - i.value() * maxh;
-            if (qAbs(pos.x() - x1) < 6 && qAbs(pos.y() - y1) < 6) {
+            if (qAbs(pos.x() - x1) < maxOffset && qAbs(pos.y() - y1) < 10) {
                 setToolTip('[' + QString::number((GenTime(i.key(), m_fps) - cropStart()).seconds(), 'f', 2) + i18n("seconds") + ", " + QString::number(i.value(), 'f', 1) + "%]");
                 return i.key();
             } else if (x1 > pos.x()) break;

@@ -848,14 +848,13 @@ void ClipItem::paint(QPainter *painter,
 OPERATIONTYPE ClipItem::operationMode(QPointF pos)
 {
     if (isItemLocked()) return NONE;
-
+    const double scale = projectScene()->scale().x();
+    double maximumOffset = 6 / scale;
     if (isSelected() || (parentItem() && parentItem()->isSelected())) {
-        m_editedKeyframe = mouseOverKeyFrames(pos);
+        m_editedKeyframe = mouseOverKeyFrames(pos, maximumOffset);
         if (m_editedKeyframe != -1) return KEYFRAME;
     }
     QRectF rect = sceneBoundingRect();
-    const double scale = projectScene()->scale().x();
-    double maximumOffset = 6 / scale;
     int addtransitionOffset = 10;
     // Don't allow add transition if track height is very small
     if (rect.height() < 30) addtransitionOffset = 0;

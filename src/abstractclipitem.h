@@ -74,7 +74,7 @@ protected:
     double m_fps;
     //QRect visibleRect();
     void drawKeyFrames(QPainter *painter, QRectF exposedRect);
-    int mouseOverKeyFrames(QPointF pos);
+    int mouseOverKeyFrames(QPointF pos, double maxOffset);
     virtual void mousePressEvent(QGraphicsSceneMouseEvent * event);
 };
 
