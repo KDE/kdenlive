@@ -62,6 +62,7 @@ void EffectsListWidget::initList()
     QStringList effectInfo;
     KIcon videoIcon("kdenlive-show-video");
     KIcon audioIcon("kdenlive-show-audio");
+    KIcon customIcon("kdenlive-custom-effect");
     int ct = MainWindow::videoEffects.count();
     for (int ix = 0; ix < ct; ix ++) {
         effectInfo = MainWindow::videoEffects.effectIdInfo(ix);
@@ -86,7 +87,7 @@ void EffectsListWidget::initList()
     for (int ix = 0; ix < ct; ix ++) {
         effectInfo = MainWindow::customEffects.effectIdInfo(ix);
         if (!effectInfo.isEmpty()) {
-            item = new QListWidgetItem(effectInfo.takeFirst(), this);
+            item = new QListWidgetItem(customIcon, effectInfo.takeFirst(), this);
             item->setData(TypeRole, QString::number((int) EFFECT_CUSTOM));
             item->setData(IdRole, effectInfo);
         }

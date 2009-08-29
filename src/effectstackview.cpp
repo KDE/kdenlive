@@ -186,6 +186,7 @@ void EffectStackView::setupListView(int ix)
     // Issue 238: Add icons for effect type in effectstack.
     KIcon videoIcon("kdenlive-show-video");
     KIcon audioIcon("kdenlive-show-audio");
+    KIcon customIcon("kdenlive-custom-effect");
     QListWidgetItem* item;
 
     for (int i = 0; i < m_clipref->effectsCount(); i++) {
@@ -207,7 +208,7 @@ void EffectStackView::setupListView(int ix)
             if ("audio" == type) {
                 item = new QListWidgetItem(audioIcon, i18n(namenode.toElement().text().toUtf8().data()), m_ui.effectlist);
             } else if ("custom" == type) {
-                item = new QListWidgetItem(i18n(namenode.toElement().text().toUtf8().data()), m_ui.effectlist);
+                item = new QListWidgetItem(customIcon, i18n(namenode.toElement().text().toUtf8().data()), m_ui.effectlist);
             } else {
                 item = new QListWidgetItem(videoIcon, i18n(namenode.toElement().text().toUtf8().data()), m_ui.effectlist);
             }
