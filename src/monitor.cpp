@@ -107,7 +107,10 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent) :
     m_timePos = new KRestrictedLine(this);
     m_timePos->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::MinimumExpanding);
     m_frametimecode = KdenliveSettings::frametimecode();
-    if (m_frametimecode) m_timePos->setInputMask("999999999");
+    if (m_frametimecode) {
+        m_timePos->setInputMask(QString());
+        m_timePos->setValidator(new QIntValidator(this));
+    }
     else m_timePos->setInputMask("99:99:99:99");
     toolbar->addWidget(m_timePos);
 
@@ -428,10 +431,10 @@ void Monitor::wheelEvent(QWheelEvent * event)
 {
     if (event->modifiers() == Qt::ControlModifier) {
         int delta = m_monitorManager->timecode().fps();
-        if (event->delta() < 0) delta = 0 - delta;
+        if (event->delta() > 0) delta = 0 - delta;
         slotSeek(render->seekFramePosition() - delta);
     } else {
-        if (event->delta() <= 0) slotForwardOneFrame();
+        if (event->delta() >= 0) slotForwardOneFrame();
         else slotRewindOneFrame();
     }
 }
@@ -479,6 +482,7 @@ void Monitor::slotSeek()
     int frames;
     if (m_frametimecode) frames = m_timePos->text().toInt();
     else frames = m_monitorManager->timecode().getFrameCount(m_timePos->text());
+    kDebug()<<"// / / SEEK TO: "<<frames;
     slotSeek(frames);
 }
 
@@ -786,10 +790,12 @@ void Monitor::updateTimecodeFormat()
     m_frametimecode = KdenliveSettings::frametimecode();
     if (m_frametimecode) {
         int frames = m_monitorManager->timecode().getFrameCount(m_timePos->text());
-        m_timePos->setInputMask("999999999");
+        m_timePos->setValidator(new QIntValidator(this));
+        m_timePos->setInputMask(QString());
         m_timePos->setText(QString::number(frames));
     } else {
         int pos = m_timePos->text().toInt();
+        m_timePos->setValidator(0);
         m_timePos->setInputMask("99:99:99:99");
         m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(pos));
     }
