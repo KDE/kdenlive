@@ -31,6 +31,7 @@
 #include <KIO/NetAccess>
 #include <KColorScheme>
 #include <KNotification>
+#include <KStartupInfo>
 // #include <knewstuff2/engine.h>
 
 #include <QDomDocument>
@@ -39,8 +40,8 @@
 #include <QListWidgetItem>
 #include <QHeaderView>
 #include <QMenu>
-#include <QProcess>
 #include <QInputDialog>
+#include <QProcess>
 
 const int GroupRole = Qt::UserRole;
 const int ExtensionRole = GroupRole + 1;
@@ -1658,7 +1659,9 @@ QString RenderWidget::getFreeScriptName(const QString &prefix)
 void RenderWidget::slotPlayRendering(QTreeWidgetItem *item, int)
 {
     if (KdenliveSettings::defaultplayerapp().isEmpty() || item->data(1, Qt::UserRole + 2).toInt() != FINISHEDJOB) return;
-    QProcess::startDetached(KdenliveSettings::defaultplayerapp(), QStringList() << item->text(1));
+    const QByteArray startId = KStartupInfo::createNewStartupId ();
+    const QString command = KdenliveSettings::defaultplayerapp() + ' ' + item->text(1);
+    KRun::runCommand(command, KdenliveSettings::defaultplayerapp(), KdenliveSettings::defaultplayerapp(), this, startId);
 }
 
 
