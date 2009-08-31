@@ -74,7 +74,7 @@ void GraphicsSceneRectMove::setTool(TITLETOOL tool)
 
 void GraphicsSceneRectMove::keyPressEvent(QKeyEvent * keyEvent)
 {
-    if (m_selectedItem == NULL) {
+    if (m_selectedItem == NULL || !(m_selectedItem->flags() & QGraphicsItem::ItemIsMovable)) {
         QGraphicsScene::keyPressEvent(keyEvent);
         return;
     }
@@ -165,7 +165,7 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e)
                 break;
             }
         }
-        if (item == NULL) {
+        if (item == NULL  || !(item->flags() & QGraphicsItem::ItemIsSelectable)) {
             if (m_selectedItem && m_selectedItem->type() == 8) {
                 // disable text editing
                 QGraphicsTextItem *t = static_cast<QGraphicsTextItem *>(m_selectedItem);
@@ -182,7 +182,7 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e)
                 }
             }
         }
-        if (item != NULL) {
+        if (item != NULL && item->flags() & QGraphicsItem::ItemIsMovable) {
             m_sceneClickPoint = e->scenePos();
             m_selectedItem = item;
             kDebug() << "/////////  ITEM TYPE: " << item->type();

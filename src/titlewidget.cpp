@@ -86,12 +86,12 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     connect(rectBColor, SIGNAL(clicked()), this, SLOT(rectChanged()));
     connect(rectLineWidth, SIGNAL(valueChanged(int)), this, SLOT(rectChanged()));
 
-    connect(startViewportX, SIGNAL(valueChanged(int)), this, SLOT(setupViewports()));
+    /*connect(startViewportX, SIGNAL(valueChanged(int)), this, SLOT(setupViewports()));
     connect(startViewportY, SIGNAL(valueChanged(int)), this, SLOT(setupViewports()));
     connect(startViewportSize, SIGNAL(valueChanged(int)), this, SLOT(setupViewports()));
     connect(endViewportX, SIGNAL(valueChanged(int)), this, SLOT(setupViewports()));
     connect(endViewportY, SIGNAL(valueChanged(int)), this, SLOT(setupViewports()));
-    connect(endViewportSize, SIGNAL(valueChanged(int)), this, SLOT(setupViewports()));
+    connect(endViewportSize, SIGNAL(valueChanged(int)), this, SLOT(setupViewports()));*/
 
     connect(zValue, SIGNAL(valueChanged(int)), this, SLOT(zIndexChanged(int)));
     connect(itemzoom, SIGNAL(valueChanged(int)), this, SLOT(itemScaled(int)));
@@ -261,18 +261,22 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     // mbd: load saved settings
     readChoices();
 
-    initViewports();
     graphicsView->show();
     //graphicsView->setRenderHint(QPainter::Antialiasing);
     graphicsView->setInteractive(true);
     //graphicsView->resize(400, 300);
     kDebug() << "// TITLE WIDGWT: " << graphicsView->viewport()->width() << "x" << graphicsView->viewport()->height();
     //toolBox->setItemEnabled(2, false);
+    m_startViewport = new QGraphicsRectItem(QRectF(0, 0, m_frameWidth, m_frameHeight));
+    m_endViewport = new QGraphicsRectItem(QRectF(0, 0, m_frameWidth, m_frameHeight));
     if (!url.isEmpty()) loadTitle(url);
     else {
         slotTextTool();
         QTimer::singleShot(200, this, SLOT(slotAdjustZoom()));
     }
+    initAnimation();
+    connect(anim_start, SIGNAL(toggled(bool)), this, SLOT(slotAnimStart(bool)));
+    connect(anim_end, SIGNAL(toggled(bool)), this, SLOT(slotAnimEnd(bool)));
 }
 
 TitleWidget::~TitleWidget()
@@ -360,7 +364,12 @@ void TitleWidget::slotSelectTool()
             break;
         }
     }
+
     enableToolbars(t);
+    if (t == TITLE_RECTANGLE && (l.at(0) == m_endViewport || l.at(0) == m_startViewport)) {
+        //graphicsView->centerOn(l.at(0));
+        t = TITLE_NONE;
+    }
     showToolbars(t);
 
     if (l.size() > 0) {
@@ -520,11 +529,10 @@ void TitleWidget::displayBackgroundFrame()
     }
 }
 
-void TitleWidget::initViewports()
+void TitleWidget::initAnimation()
 {
-    m_startViewport = new QGraphicsPolygonItem(QPolygonF(QRectF(0, 0, 0, 0)));
-    m_endViewport = new QGraphicsPolygonItem(QPolygonF(QRectF(0, 0, 0, 0)));
-
+    align_box->setEnabled(false);
+    align_box->setVisible(false);
     QPen startpen(Qt::DotLine);
     QPen endpen(Qt::DashDotLine);
     startpen.setColor(QColor(100, 200, 100, 140));
@@ -532,9 +540,6 @@ void TitleWidget::initViewports()
 
     m_startViewport->setPen(startpen);
     m_endViewport->setPen(endpen);
-
-    startViewportSize->setValue(100);
-    endViewportSize->setValue(100);
 
     m_startViewport->setZValue(-1000);
     m_endViewport->setZValue(-1000);
@@ -718,24 +723,34 @@ void TitleWidget::selectionChanged()
             showToolbars(TITLE_RECTANGLE);
             settingUp = true;
             QGraphicsRectItem *rec = static_cast <QGraphicsRectItem *>(l.at(0));
-            toolBox->setCurrentIndex(0);
-            //toolBox->setItemEnabled(3, true);
-            rectFAlpha->setValue(rec->pen().color().alpha());
-            rectBAlpha->setValue(rec->brush().color().alpha());
-            //kDebug() << rec->brush().color().alpha();
-            QColor fcol = rec->pen().color();
-            QColor bcol = rec->brush().color();
-            //fcol.setAlpha(255);
-            //bcol.setAlpha(255);
-            rectFColor->setColor(fcol);
-            rectBColor->setColor(bcol);
-            settingUp = false;
-            rectLineWidth->setValue(rec->pen().width());
+            if (rec == m_startViewport || rec == m_endViewport) {
+                toolBox->setCurrentIndex(3);
+                toolBox->widget(0)->setEnabled(false);
+                toolBox->widget(1)->setEnabled(false);
+                enableToolbars(TITLE_NONE);
+            }
+            else {
+                toolBox->widget(0)->setEnabled(true);
+                toolBox->widget(1)->setEnabled(true);
+                toolBox->setCurrentIndex(0);
+                //toolBox->setItemEnabled(3, true);
+                rectFAlpha->setValue(rec->pen().color().alpha());
+                rectBAlpha->setValue(rec->brush().color().alpha());
+                //kDebug() << rec->brush().color().alpha();
+                QColor fcol = rec->pen().color();
+                QColor bcol = rec->brush().color();
+                //fcol.setAlpha(255);
+                //bcol.setAlpha(255);
+                rectFColor->setColor(fcol);
+                rectBColor->setColor(bcol);
+                settingUp = false;
+                rectLineWidth->setValue(rec->pen().width());
+                enableToolbars(TITLE_RECTANGLE);
+            }
 
             updateAxisButtons(l.at(0));
             updateCoordinates(rec);
             updateDimension(rec);
-            enableToolbars(TITLE_RECTANGLE);
 
         } else if (l.at(0)->type() == IMAGEITEM) {
             showToolbars(TITLE_IMAGE);
@@ -1281,7 +1296,7 @@ void TitleWidget::setupViewports()
 {
     //double aspect_ratio = 4.0 / 3.0;//read from project
     //better zoom centered, but render uses only the created rect, so no problem to change the zoom function
-    QRectF sp(0, 0, startViewportSize->value() * m_frameWidth / 100.0 , startViewportSize->value()* m_frameHeight / 100.0);
+    /*QRectF sp(0, 0, startViewportSize->value() * m_frameWidth / 100.0 , startViewportSize->value()* m_frameHeight / 100.0);
     QRectF ep(0, 0, endViewportSize->value() * m_frameWidth / 100.0, endViewportSize->value() * m_frameHeight / 100.0);
     // use a polygon thiat uses 16:9 and 4:3 rects forpreview the size in all aspect ratios ?
     QPolygonF spoly(sp);
@@ -1298,7 +1313,7 @@ void TitleWidget::setupViewports()
         m_endViewport->setData(0, endViewportX->value());
         m_endViewport->setData(1, endViewportY->value());
         m_endViewport->setData(2, endViewportSize->value());
-    }
+    }*/
 }
 
 void TitleWidget::loadTitle(KUrl url)
@@ -1322,6 +1337,7 @@ void TitleWidget::loadTitle(KUrl url)
             KIO::NetAccess::removeTempFile(tmpfile);
         }
         setXml(doc);
+        
         /*int out;
         m_count = m_titledocument.loadDocument(url, m_startViewport, m_endViewport, &out) + 1;
         adjustFrameSize();
@@ -1342,6 +1358,8 @@ void TitleWidget::loadTitle(KUrl url)
 
 void TitleWidget::saveTitle(KUrl url)
 {
+    if (anim_start->isChecked()) slotAnimStart(false);
+    if (anim_end->isChecked()) slotAnimEnd(false);
     if (url.isEmpty()) url = KFileDialog::getSaveUrl(KUrl(m_projectTitlePath), "application/x-kdenlivetitle", this, i18n("Save Title"));
     if (!url.isEmpty()) {
         if (m_titledocument.saveDocument(url, m_startViewport, m_endViewport, m_tc.getFrameCount(title_duration->text())) == false)
@@ -1399,12 +1417,12 @@ void TitleWidget::setXml(QDomDocument doc)
     horizontalSlider->blockSignals(false);
     kcolorbutton->blockSignals(false);
 
-    startViewportX->setValue(m_startViewport->data(0).toInt());
+    /*startViewportX->setValue(m_startViewport->data(0).toInt());
     startViewportY->setValue(m_startViewport->data(1).toInt());
     startViewportSize->setValue(m_startViewport->data(2).toInt());
     endViewportX->setValue(m_endViewport->data(0).toInt());
     endViewportY->setValue(m_endViewport->data(1).toInt());
-    endViewportSize->setValue(m_endViewport->data(2).toInt());
+    endViewportSize->setValue(m_endViewport->data(2).toInt());*/
 
     QTimer::singleShot(200, this, SLOT(slotAdjustZoom()));
     slotSelectTool();
@@ -1461,6 +1479,8 @@ QImage TitleWidget::renderedPixmap()
 /** \brief Connected to the accepted signal - calls writeChoices */
 void TitleWidget::slotAccepted()
 {
+    if (anim_start->isChecked()) slotAnimStart(false);
+    if (anim_end->isChecked()) slotAnimEnd(false);
     writeChoices();
 }
 
@@ -1534,6 +1554,65 @@ void TitleWidget::adjustFrameSize()
     displayBackgroundFrame();
 }
 
+void TitleWidget::slotAnimStart(bool anim)
+{
+    if (anim && anim_end->isChecked()) {
+        anim_end->setChecked(false);
+        m_endViewport->setZValue(-1000);
+        m_endViewport->setBrush(QBrush());
+    }
+    slotSelectTool();
+    QList<QGraphicsItem *> list = m_scene->items();
+    for (int i = 0; i < list.count(); i++) {
+        list.at(i)->setFlag(QGraphicsItem::ItemIsMovable, !anim);
+        list.at(i)->setFlag(QGraphicsItem::ItemIsSelectable, !anim);
+    }
+    align_box->setEnabled(anim);
+    frame_toolbar->setEnabled(!anim);
+    rect_properties->setEnabled(!anim);
+    if (anim) {
+        m_startViewport->setZValue(1100);
+        QColor col = m_startViewport->pen().color();
+        col.setAlpha(100);
+        m_startViewport->setBrush(col);
+        m_startViewport->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+    }
+    else {
+        m_startViewport->setZValue(-1000);
+        m_startViewport->setBrush(QBrush());
+        m_startViewport->setFlags(0);
+    }
+    
+}
 
+void TitleWidget::slotAnimEnd(bool anim)
+{
+    if (anim && anim_start->isChecked()) {
+        anim_start->setChecked(false);
+        m_startViewport->setZValue(-1000);
+        m_startViewport->setBrush(QBrush());
+    }
+    slotSelectTool();
+    QList<QGraphicsItem *> list = m_scene->items();
+    for (int i = 0; i < list.count(); i++) {
+        list.at(i)->setFlag(QGraphicsItem::ItemIsMovable, !anim);
+        list.at(i)->setFlag(QGraphicsItem::ItemIsSelectable, !anim);
+    }
+    align_box->setEnabled(anim);
+    frame_toolbar->setEnabled(!anim);
+    rect_properties->setEnabled(!anim);
+    if (anim) {
+        m_endViewport->setZValue(1100);
+        QColor col = m_endViewport->pen().color();
+        col.setAlpha(100);
+        m_endViewport->setBrush(col);
+        m_endViewport->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+    }
+    else {
+        m_endViewport->setZValue(-1000);
+        m_endViewport->setBrush(QBrush());
+        m_endViewport->setFlags(0);
+    }
+}
 
 

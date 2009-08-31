@@ -878,7 +878,7 @@ void ProjectList::slotRefreshClipThumbnail(ProjectItem *item, bool update)
         int height = 50;
         int width = (int)(height  * m_render->dar());
         if (clip->clipType() == AUDIO) pix = KIcon("audio-x-generic").pixmap(QSize(width, height));
-        else if (clip->clipType() == TEXT || clip->clipType() == IMAGE) pix = KThumb::getFrame(item->referencedClip()->producer(), 0, width, height);
+        else if (clip->clipType() == IMAGE) pix = KThumb::getFrame(item->referencedClip()->producer(), 0, width, height);
         else pix = item->referencedClip()->thumbProducer()->extractImage(item->referencedClip()->getClipThumbFrame(), width, height);
         if (!pix.isNull()) {
             m_listView->blockSignals(true);

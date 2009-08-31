@@ -83,9 +83,9 @@ protected:
     virtual void resizeEvent(QResizeEvent * event);
 
 private:
-    QGraphicsPolygonItem *m_startViewport, *m_endViewport;
+    QGraphicsRectItem *m_startViewport, *m_endViewport;
     GraphicsSceneRectMove *m_scene;
-    void initViewports();
+    void initAnimation();
     QMap<QGraphicsItem*, Transform > m_transformations;
     TitleDocument m_titledocument;
     QGraphicsRectItem *m_frameBorder;
@@ -229,6 +229,8 @@ private slots:
     void slotSelectTool();
     void slotImageTool();
 
+    void slotAnimStart(bool);
+    void slotAnimEnd(bool);
 
     /** \brief Called when accepted, stores the user selections for next time use */
     void slotAccepted();

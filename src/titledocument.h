@@ -22,7 +22,7 @@
 #include <KUrl>
 
 class QGraphicsScene;
-class QGraphicsPolygonItem;
+class QGraphicsRectItem;
 
 class TitleDocument
 {
@@ -30,9 +30,9 @@ class TitleDocument
 public:
     TitleDocument();
     void setScene(QGraphicsScene* scene, int width, int height);
-    bool saveDocument(const KUrl& url, QGraphicsPolygonItem* startv, QGraphicsPolygonItem* endv, int out);
-    QDomDocument xml(QGraphicsPolygonItem* startv, QGraphicsPolygonItem* endv);
-    int loadFromXml(QDomDocument doc, QGraphicsPolygonItem* startv, QGraphicsPolygonItem* endv, int *out);
+    bool saveDocument(const KUrl& url, QGraphicsRectItem* startv, QGraphicsRectItem* endv, int out);
+    QDomDocument xml(QGraphicsRectItem* startv, QGraphicsRectItem* endv);
+    int loadFromXml(QDomDocument doc, QGraphicsRectItem* startv, QGraphicsRectItem* endv, int *out);
     /** \brief Get the background color (incl. alpha) from the document, if possibly
      * \returns The background color of the document, inclusive alpha. If none found, returns (0,0,0,0) */
     QColor getBackgroundColor();

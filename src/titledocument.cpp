@@ -47,7 +47,7 @@ void TitleDocument::setScene(QGraphicsScene* _scene, int width, int height)
     m_height = height;
 }
 
-QDomDocument TitleDocument::xml(QGraphicsPolygonItem* startv, QGraphicsPolygonItem* endv)
+QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* endv)
 {
     QDomDocument doc;
 
@@ -128,18 +128,11 @@ QDomDocument TitleDocument::xml(QGraphicsPolygonItem* startv, QGraphicsPolygonIt
     if (startv && endv) {
         QDomElement endp = doc.createElement("endviewport");
         QDomElement startp = doc.createElement("startviewport");
-        endp.setAttribute("x", endv->data(0).toString());
-        endp.setAttribute("y", endv->data(1).toString());
-        endp.setAttribute("size", endv->data(2).toString());
-        endp.setAttribute("rect", rectFToString(endv->boundingRect()));
+        QRectF r(endv->pos().x(), endv->pos().y(), endv->rect().width(), endv->rect().height());
+        endp.setAttribute("rect", rectFToString(r));
+        QRectF r2(startv->pos().x(), startv->pos().y(), startv->rect().width(), startv->rect().height());
+        startp.setAttribute("rect", rectFToString(r2));
 
-        startp.setAttribute("x", startv->data(0).toString());
-        startp.setAttribute("y", startv->data(1).toString());
-        startp.setAttribute("size", startv->data(2).toString());
-        startp.setAttribute("rect", rectFToString(startv->boundingRect()));
-
-        startp.setAttribute("z-index", startv->zValue());
-        endp.setAttribute("z-index", endv->zValue());
         main.appendChild(startp);
         main.appendChild(endp);
     }
@@ -169,7 +162,7 @@ QColor TitleDocument::getBackgroundColor()
 }
 
 
-bool TitleDocument::saveDocument(const KUrl& url, QGraphicsPolygonItem* startv, QGraphicsPolygonItem* endv, int out)
+bool TitleDocument::saveDocument(const KUrl& url, QGraphicsRectItem* startv, QGraphicsRectItem* endv, int out)
 {
     if (!m_scene)
         return false;
@@ -192,7 +185,7 @@ bool TitleDocument::saveDocument(const KUrl& url, QGraphicsPolygonItem* startv, 
     return KIO::NetAccess::upload(tmpfile.fileName(), url, 0);
 }
 
-int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsPolygonItem* startv, QGraphicsPolygonItem* endv, int *out)
+int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsRectItem* startv, QGraphicsRectItem* endv, int *out)
 {
     QDomNodeList titles = doc.elementsByTagName("kdenlivetitle");
     //TODO: Check if the opened title size is equal to project size, otherwise warn user and rescale
@@ -313,23 +306,14 @@ int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsPolygonItem* startv, Q
                 }
             } else if (items.item(i).nodeName() == "startviewport" && startv) {
                 QString rect = items.item(i).attributes().namedItem("rect").nodeValue();
-                startv->setPolygon(stringToRect(rect));
-                int x = items.item(i).attributes().namedItem("x").nodeValue().toInt();
-                int y = items.item(i).attributes().namedItem("y").nodeValue().toInt();
-                int size = items.item(i).attributes().namedItem("size").nodeValue().toInt();
-                startv->setData(0, x);
-                startv->setData(1, y);
-                startv->setData(2, size);
-                //startv->setPos(p);
+                QRectF r = stringToRect(rect);
+                startv->setRect(0, 0, r.width(), r.height());
+                startv->setPos(r.topLeft());
             } else if (items.item(i).nodeName() == "endviewport" && endv) {
                 QString rect = items.item(i).attributes().namedItem("rect").nodeValue();
-                endv->setPolygon(stringToRect(rect));
-                int x = items.item(i).attributes().namedItem("x").nodeValue().toInt();
-                int y = items.item(i).attributes().namedItem("y").nodeValue().toInt();
-                int size = items.item(i).attributes().namedItem("size").nodeValue().toInt();
-                endv->setData(0, x);
-                endv->setData(1, y);
-                endv->setData(2, size);
+                QRectF r = stringToRect(rect);
+                endv->setRect(0, 0, r.width(), r.height());
+                endv->setPos(r.topLeft());
             }
         }
     }
