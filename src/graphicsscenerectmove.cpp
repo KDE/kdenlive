@@ -479,9 +479,11 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
         }
         QGraphicsScene::mouseMoveEvent(e);
     } else if (m_tool == TITLE_RECTANGLE && e->buttons() & Qt::LeftButton) {
-        if (m_selectedItem == NULL && (m_clickPoint - e->screenPos()).manhattanLength() >= QApplication::startDragDistance()) {
+        if (m_selectedItem == NULL) {   
             // create new rect item
-            m_selectedItem = addRect(0, 0, e->scenePos().x() - m_sceneClickPoint.x(), e->scenePos().y() - m_sceneClickPoint.y());
+            QRectF r(0, 0, e->scenePos().x() - m_sceneClickPoint.x(), e->scenePos().y() - m_sceneClickPoint.y());
+            r = r.normalized();
+            m_selectedItem = addRect(QRectF(0, 0, r.width(), r.height()));
             emit newRect((QGraphicsRectItem *) m_selectedItem);
             m_selectedItem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
             m_selectedItem->setPos(m_sceneClickPoint);
