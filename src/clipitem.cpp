@@ -1269,8 +1269,12 @@ void ClipItem::setEffectAt(int ix, QDomElement effect)
 EffectsParameterList ClipItem::addEffect(const QDomElement effect, bool animate)
 {
     bool needRepaint = false;
-    int ix = effect.attribute("kdenlive_ix").toInt();
-    if (ix <= m_effectList.count()) {
+    int ix;
+    if (!effect.hasAttribute("kdenlive_ix")) {
+        ix = effectsCounter();
+    }
+    else ix = effect.attribute("kdenlive_ix").toInt();
+    if (!m_effectList.isEmpty() && ix <= m_effectList.count()) {
         needRepaint = true;
         m_effectList.insert(ix - 1, effect);
         for (int i = ix; i < m_effectList.count(); i++) {
