@@ -9,6 +9,8 @@
 
 #include "unicodedialog.h"
 
+#include <QWheelEvent>
+
 /// CONSTANTS
 
 const int MAX_LENGTH_HEX = 4;
@@ -364,6 +366,14 @@ void UnicodeDialog::slotPrevUnicode()
 {
     QString text = unicodeNumber->text();
     unicodeNumber->setText(nextUnicode(text, Backward));
+}
+
+void UnicodeDialog::wheelEvent(QWheelEvent * event)
+{
+    if (frame->underMouse()) {
+        if (event->delta() > 0) slotNextUnicode();
+        else slotPrevUnicode();
+    }
 }
 
 #include "unicodedialog.moc"

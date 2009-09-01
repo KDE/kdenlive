@@ -28,6 +28,9 @@ public:
 
     void showLastUnicode();
 
+protected:
+    virtual void wheelEvent(QWheelEvent * event);
+
 public slots:
     /** \brief Override QDialog::exec() to assure the focus being on the unicode input field */
     int exec();
