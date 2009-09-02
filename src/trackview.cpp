@@ -789,8 +789,10 @@ DocClipBase *TrackView::getMissingProducer(const QString id) const
     // prepend MLT XML document root if no path in clip resource and not a color clip
     if (!resource.startsWith('/') && !resource.startsWith("0x")) resource.prepend(docRoot);
     DocClipBase *missingClip = NULL;
-    if (!resource.isEmpty())
-        missingClip = m_doc->clipManager()->getClipByResource(resource);
+    if (!resource.isEmpty()) {
+        QList <DocClipBase *> list = m_doc->clipManager()->getClipByResource(resource);
+        if (!list.isEmpty()) missingClip = list.at(0);
+    }
     return missingClip;
 }
 

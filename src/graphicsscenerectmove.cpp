@@ -415,7 +415,7 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
                     else newrect.setWidth(m_selectedItem->data(0).toInt() * vRatio);
                 }
 
-                gi->setRect(newrect);                
+                gi->setRect(newrect);
             }
             /*else {
             qreal s;
@@ -488,7 +488,7 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
         }
         QGraphicsScene::mouseMoveEvent(e);
     } else if (m_tool == TITLE_RECTANGLE && e->buttons() & Qt::LeftButton) {
-        if (m_selectedItem == NULL) {   
+        if (m_selectedItem == NULL) {
             // create new rect item
             QRectF r(0, 0, e->scenePos().x() - m_sceneClickPoint.x(), e->scenePos().y() - m_sceneClickPoint.y());
             r = r.normalized();

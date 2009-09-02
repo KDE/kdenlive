@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>736</width>
-    <height>536</height>
+    <height>566</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -36,7 +36,7 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="4" colspan="4">
+   <item row="0" column="4" colspan="3">
     <widget class="QFrame" name="frame_properties">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
@@ -158,7 +158,7 @@
      </layout>
     </widget>
    </item>
-   <item row="1" column="0" colspan="8">
+   <item row="1" column="0" colspan="7">
     <widget class="QFrame" name="no_properties">
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
@@ -211,7 +211,7 @@
      </layout>
     </widget>
    </item>
-   <item row="2" column="0" colspan="8">
+   <item row="2" column="0" colspan="7">
     <widget class="QFrame" name="rect_properties">
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
@@ -315,7 +315,7 @@
      </layout>
     </widget>
    </item>
-   <item row="3" column="0" colspan="8">
+   <item row="3" column="0" colspan="7">
     <widget class="QFrame" name="text_properties">
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
@@ -497,7 +497,7 @@
      </layout>
     </widget>
    </item>
-   <item row="4" column="0" colspan="8">
+   <item row="4" column="0" colspan="7">
     <widget class="QFrame" name="image_properties">
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
@@ -547,7 +547,7 @@
      </layout>
     </widget>
    </item>
-   <item row="5" column="0" colspan="8">
+   <item row="5" column="0" colspan="7">
     <widget class="QSplitter" name="splitter">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -560,7 +560,7 @@
        </sizepolicy>
       </property>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <layout class="QGridLayout" name="gridLayout_2">
        <item row="0" column="0">
         <widget class="QLabel" name="label_3">
@@ -882,13 +882,6 @@
     </widget>
    </item>
    <item row="6" column="5">
-    <widget class="QCheckBox" name="cropImage">
-     <property name="text">
-      <string>Crop to frame size</string>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="6">
     <spacer name="horizontalSpacer_3">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -901,7 +894,7 @@
      </property>
     </spacer>
    </item>
-   <item row="6" column="7">
+   <item row="6" column="6">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>

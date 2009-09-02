@@ -71,11 +71,6 @@ public:
      * returned. */
     static QString getTitleResourceFromName(const KUrl &projectUrl, const QString &titleName);
 
-    /** \brief returns the size of the rendered pixmap
-    *
-    */
-    const QRect renderedRect();
-
     /** \brief Get clip duration. */
     int duration() const;
 
@@ -158,7 +153,6 @@ public slots:
     void itemRotate(int);
     void saveTitle(KUrl url = KUrl());
     void loadTitle(KUrl url = KUrl());
-    QImage renderedPixmap();
 
 private slots:
     void slotAdjustSelectedItem();

@@ -290,7 +290,6 @@ void ProjectList::slotUpdateClipProperties(ProjectItem *clip, QMap <QString, QSt
 {
     if (!clip) return;
     if (!clip->isGroup()) clip->setProperties(properties);
-    //if (properties.contains("xmldata")) regenerateTemplateImage(clip);
     if (properties.contains("name")) {
         m_listView->blockSignals(true);
         clip->setText(1, properties.value("name"));
@@ -321,7 +320,7 @@ void ProjectList::slotItemEdited(QTreeWidgetItem *item, int column)
             oldprops["description"] = clip->referencedClip()->getProperty("description");
             newprops["description"] = item->text(2);
 
-            if (clip->clipType() == TEXT && !clip->referencedClip()->getProperty("xmldata").isEmpty()) {
+            if (clip->clipType() == TEXT) {
                 // This is a text template clip, update the image
                 /*oldprops.insert("xmldata", clip->referencedClip()->getProperty("xmldata"));
                 newprops.insert("xmldata", generateTemplateXml(clip->referencedClip()->getProperty("xmltemplate"), item->text(2)).toString());*/
@@ -594,16 +593,6 @@ void ProjectList::updateAllClips()
         item = static_cast <ProjectItem *>(*it);
         if (!item->isGroup()) {
             clip = item->referencedClip();
-            /*if (clip->clipType() == TEXT && !QFile::exists(clip->fileURL().path())) {
-                // regenerate text clip image if required
-                TitleWidget *dia_ui = new TitleWidget(KUrl(), QString(), m_render, this);
-                QDomDocument doc;
-                doc.setContent(clip->getProperty("xmldata"));
-                dia_ui->setXml(doc);
-                QImage pix = dia_ui->renderedPixmap();
-                pix.save(clip->fileURL().path());
-                delete dia_ui;
-            }*/
             if (item->referencedClip()->producer() == NULL) {
                 if (clip->isPlaceHolder() == false) {
                     requestClipInfo(clip->toXML(), clip->getId());
@@ -741,17 +730,12 @@ void ProjectList::slotAddTitleTemplateClip()
     //warning: setting base directory doesn't work??
     KUrl startDir(path);
     dia_ui.template_list->fileDialog()->setUrl(startDir);
-    dia_ui.description->setHidden(true);
+    dia_ui.text_box->setHidden(true);
     if (dia->exec() == QDialog::Accepted) {
         QString textTemplate = dia_ui.template_list->comboBox()->itemData(dia_ui.template_list->comboBox()->currentIndex()).toString();
         if (textTemplate.isEmpty()) textTemplate = dia_ui.template_list->comboBox()->currentText();
-        if (dia_ui.normal_clip->isChecked()) {
-            // Create a normal title clip
-            m_doc->slotCreateTextClip(groupInfo.at(0), groupInfo.at(1), textTemplate);
-        } else {
-            // Create a cloned template clip
-            m_doc->slotCreateTextTemplateClip(groupInfo.at(0), groupInfo.at(1), KUrl(textTemplate));
-        }
+        // Create a cloned template clip
+        m_doc->slotCreateTextTemplateClip(groupInfo.at(0), groupInfo.at(1), KUrl(textTemplate));
     }
     delete dia;
 }
@@ -992,29 +976,7 @@ void ProjectList::regenerateTemplate(const QString &id)
 void ProjectList::regenerateTemplate(ProjectItem *clip)
 {
     //TODO: remove this unused method, only force_reload is necessary
-    // Generate image for template clip
-    /*const QString comment = clip->referencedClip()->getProperty("description");
-    const QString path = clip->referencedClip()->getProperty("resource");
-    QDomDocument doc = generateTemplateXml(path, comment);
-    TitleWidget *dia_ui = new TitleWidget(KUrl(), QString(), m_render, this);
-    dia_ui->setXml(doc);
-    QImage pix = dia_ui->renderedPixmap();
-    pix.save(clip->clipUrl().path());
-    delete dia_ui;*/
     clip->referencedClip()->producer()->set("force_reload", 1);
-}
-
-void ProjectList::regenerateTemplateImage(ProjectItem *clip)
-{
-    //TODO: remove this unused method
-    // Generate image for template clip
-    /*TitleWidget *dia_ui = new TitleWidget(KUrl(), QString(), m_render, this);
-    QDomDocument doc;
-    doc.setContent(clip->referencedClip()->getProperty("xmldata"));
-    dia_ui->setXml(doc);
-    QImage pix = dia_ui->renderedPixmap();
-    pix.save(clip->clipUrl().path());
-    delete dia_ui;*/
 }
 
 QDomDocument ProjectList::generateTemplateXml(QString path, const QString &replaceString)

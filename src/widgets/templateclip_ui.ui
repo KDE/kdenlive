@@ -6,11 +6,11 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>363</width>
-    <height>161</height>
+    <width>372</width>
+    <height>178</height>
    </rect>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
+  <layout class="QGridLayout" name="gridLayout_2">
    <item row="0" column="0">
     <widget class="QLabel" name="label">
      <property name="text">
@@ -18,43 +18,31 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="1" colspan="4">
-    <widget class="KUrlComboRequester" name="template_list"/>
-   </item>
-   <item row="1" column="0" colspan="2">
-    <widget class="QRadioButton" name="normal_clip">
-     <property name="text">
-      <string>Normal title clip</string>
-     </property>
-     <property name="checked">
-      <bool>true</bool>
+   <item row="0" column="1" colspan="2">
+    <widget class="KUrlComboRequester" name="template_list">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
      </property>
     </widget>
    </item>
-   <item row="1" column="2" colspan="2">
-    <widget class="QRadioButton" name="clone_clip">
-     <property name="text">
-      <string>Clone title clip</string>
+   <item row="1" column="0" colspan="3">
+    <widget class="QGroupBox" name="text_box">
+     <property name="title">
+      <string>Text</string>
      </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0">
+       <widget class="KTextEdit" name="description"/>
+      </item>
+     </layout>
+     <zorder>description</zorder>
+     <zorder>description</zorder>
     </widget>
    </item>
-   <item row="1" column="4">
-    <spacer name="horizontalSpacer">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>109</width>
-       <height>15</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="2" column="0" colspan="5">
-    <widget class="KTextEdit" name="description"/>
-   </item>
-   <item row="3" column="4">
+   <item row="2" column="2">
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -67,7 +55,7 @@
      </property>
     </spacer>
    </item>
-   <item row="4" column="3" colspan="2">
+   <item row="3" column="2">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>

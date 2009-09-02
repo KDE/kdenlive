@@ -184,7 +184,6 @@ private:
     void editFolder(const QString folderName, const QString oldfolderName, const QString &clipId);
     QStringList getGroup() const;
     void regenerateTemplate(ProjectItem *clip);
-    void regenerateTemplateImage(ProjectItem *clip);
 
 private slots:
     void slotClipSelected();

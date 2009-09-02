@@ -1455,9 +1455,6 @@ QDomDocument TitleWidget::xml()
 {
     QDomDocument doc = m_titledocument.xml(m_startViewport, m_endViewport);
     doc.documentElement().setAttribute("out", m_tc.getFrameCount(title_duration->text()));
-    if (cropImage->isChecked()) {
-        doc.documentElement().setAttribute("crop", 1);
-    }
     return doc;
 }
 
@@ -1479,7 +1476,6 @@ void TitleWidget::setXml(QDomDocument doc)
     else title_duration->setText(m_tc.getTimecode(GenTime(5000)));*/
 
     QDomElement e = doc.documentElement();
-    cropImage->setChecked(e.hasAttribute("crop"));
     m_transformations.clear();
     QList <QGraphicsItem *> items = graphicsView->scene()->items();
     const double PI = 4.0 * atan(1.0);
@@ -1510,54 +1506,6 @@ void TitleWidget::setXml(QDomDocument doc)
 
     QTimer::singleShot(200, this, SLOT(slotAdjustZoom()));
     slotSelectTool();
-}
-
-const QRect TitleWidget::renderedRect()
-{
-    int minX = 0;
-    int minY = 0;
-    int maxX = m_frameWidth;
-    int maxY = m_frameHeight;
-    if (!cropImage->isChecked()) {
-        m_scene->removeItem(m_startViewport);
-        m_scene->removeItem(m_endViewport);
-        QRect boundingRect = m_scene->itemsBoundingRect().toRect();
-        if (boundingRect.left() < 0) minX = boundingRect.left();
-        if (boundingRect.top() < 0) minY = boundingRect.top();
-        if (boundingRect.right() > maxX) maxX = boundingRect.right();
-        if (boundingRect.bottom() > maxY) maxY = boundingRect.bottom();
-        if (minX < 0) {
-            maxX = maxX - minX;
-        }
-        if (minY < 0) {
-            maxY = maxY - minY;
-        }
-    }
-    QRect rect(minX, minY, maxX, maxY);
-    return rect;
-}
-
-QImage TitleWidget::renderedPixmap()
-{
-    QRect rect = renderedRect();
-    QImage pix(rect.width(), rect.height(), QImage::Format_ARGB32);
-    pix.fill(Qt::transparent);
-    QPainter painter(&pix);
-    painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::HighQualityAntialiasing);
-    m_scene->clearTextSelection();
-    QPen framepen = m_frameBorder->pen();
-    m_frameBorder->setPen(Qt::NoPen);
-    m_startViewport->setVisible(false);
-    m_endViewport->setVisible(false);
-    m_frameImage->setVisible(false);
-
-    m_scene->render(&painter, QRectF(), rect); //QRectF(minX, minY, maxX - minX, maxY - minY));
-    painter.end();
-    m_frameBorder->setPen(framepen);
-    m_startViewport->setVisible(true);
-    m_endViewport->setVisible(true);
-    m_frameImage->setVisible(true);
-    return pix;
 }
 
 /** \brief Connected to the accepted signal - calls writeChoices */
@@ -1593,8 +1541,6 @@ void TitleWidget::writeChoices()
     titleConfig.writeEntry("background_color", kcolorbutton->color());
     titleConfig.writeEntry("background_alpha", horizontalSlider->value());
 
-    titleConfig.writeEntry("crop_image", cropImage->isChecked());
-
     //! \todo Not sure if I should sync - it is probably safe to do it
     config->sync();
 
@@ -1626,8 +1572,6 @@ void TitleWidget::readChoices()
 
     kcolorbutton->setColor(titleConfig.readEntry("background_color", kcolorbutton->color()));
     horizontalSlider->setValue(titleConfig.readEntry("background_alpha", horizontalSlider->value()));
-
-    cropImage->setChecked(titleConfig.readEntry("crop_image", cropImage->isChecked()));
 }
 
 void TitleWidget::adjustFrameSize()

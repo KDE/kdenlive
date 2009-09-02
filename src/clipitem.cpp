@@ -1272,8 +1272,7 @@ EffectsParameterList ClipItem::addEffect(const QDomElement effect, bool animate)
     int ix;
     if (!effect.hasAttribute("kdenlive_ix")) {
         ix = effectsCounter();
-    }
-    else ix = effect.attribute("kdenlive_ix").toInt();
+    } else ix = effect.attribute("kdenlive_ix").toInt();
     if (!m_effectList.isEmpty() && ix <= m_effectList.count()) {
         needRepaint = true;
         m_effectList.insert(ix - 1, effect);
@@ -1367,8 +1366,7 @@ EffectsParameterList ClipItem::addEffect(const QDomElement effect, bool animate)
 
     if (m_selectedEffect == -1) {
         setSelectedEffect(0);
-    }
-    else if (m_selectedEffect == ix - 1) setSelectedEffect(m_selectedEffect);
+    } else if (m_selectedEffect == ix - 1) setSelectedEffect(m_selectedEffect);
     if (needRepaint) update(boundingRect());
     /*if (animate) {
         flashClip();

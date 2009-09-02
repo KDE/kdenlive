@@ -138,7 +138,7 @@ QMap <QString, QString> ClipManager::documentFolderList() const
 void ClipManager::addClip(DocClipBase *clip)
 {
     m_clipList.append(clip);
-    if (clip->clipType() == IMAGE || clip->clipType() == AUDIO) {
+    if (clip->clipType() == IMAGE || clip->clipType() == AUDIO || (clip->clipType() == TEXT && !clip->fileURL().isEmpty())) {
         // listen for file change
         m_fileWatcher.addFile(clip->fileURL().path());
     }
@@ -161,7 +161,7 @@ void ClipManager::deleteClip(const QString &clipId)
 {
     for (int i = 0; i < m_clipList.count(); i++) {
         if (m_clipList.at(i)->getId() == clipId) {
-            if (m_clipList.at(i)->clipType() == IMAGE || m_clipList.at(i)->clipType() == AUDIO) {
+            if (m_clipList.at(i)->clipType() == IMAGE || m_clipList.at(i)->clipType() == AUDIO || (m_clipList.at(i)->clipType() == TEXT && !m_clipList.at(i)->fileURL().isEmpty())) {
                 // listen for file change
                 m_fileWatcher.removeFile(m_clipList.at(i)->fileURL().path());
             }
@@ -189,17 +189,18 @@ DocClipBase *ClipManager::getClipById(QString clipId)
     return NULL;
 }
 
-DocClipBase *ClipManager::getClipByResource(QString resource)
+const QList <DocClipBase *> ClipManager::getClipByResource(QString resource)
 {
+    QList <DocClipBase *> list;
     QString clipResource;
     for (int i = 0; i < m_clipList.count(); i++) {
         clipResource = m_clipList.at(i)->getProperty("resource");
         if (clipResource.isEmpty()) clipResource = m_clipList.at(i)->getProperty("colour");
         if (clipResource == resource) {
-            return m_clipList.at(i);
+            list.append(m_clipList.at(i));
         }
     }
-    return NULL;
+    return list;
 }
 
 void ClipManager::updatePreviewSettings()
@@ -398,14 +399,13 @@ void ClipManager::slotAddTextClipFile(const QString titleName, int out, const QS
     m_doc->commandStack()->push(command);
 }
 
-void ClipManager::slotAddTextTemplateClip(QString titleName, const QString imagePath, const KUrl path, const QString group, const QString &groupId)
+void ClipManager::slotAddTextTemplateClip(QString titleName, const KUrl path, const QString group, const QString &groupId)
 {
     QDomDocument doc;
     QDomElement prod = doc.createElement("producer");
     doc.appendChild(prod);
-    prod.setAttribute("resource", imagePath);
     prod.setAttribute("name", titleName);
-    prod.setAttribute("xmltemplate", path.path());
+    prod.setAttribute("resource", path.path());
     uint id = m_clipIdCounter++;
     prod.setAttribute("id", QString::number(id));
     if (!group.isEmpty()) {
@@ -415,7 +415,18 @@ void ClipManager::slotAddTextTemplateClip(QString titleName, const QString image
     prod.setAttribute("type", (int) TEXT);
     prod.setAttribute("transparency", "1");
     prod.setAttribute("in", "0");
-    prod.setAttribute("out", m_doc->getFramePos(KdenliveSettings::image_duration()) - 1);
+
+    int out = 0;
+    QDomDocument titledoc;
+    QFile txtfile(path.path());
+    if (txtfile.open(QIODevice::ReadOnly) && titledoc.setContent(&txtfile)) {
+        txtfile.close();
+        out = titledoc.documentElement().attribute("out").toInt();
+    } else txtfile.close();
+
+    if (out == 0) out = m_doc->getFramePos(KdenliveSettings::image_duration()) - 1;
+    prod.setAttribute("out", out);
+
     AddClipCommand *command = new AddClipCommand(m_doc, doc.documentElement(), QString::number(id), true);
     m_doc->commandStack()->push(command);
 }
@@ -496,7 +507,10 @@ QDomElement ClipManager::groupsXml() const
 void ClipManager::slotClipModified(const QString &path)
 {
     //kDebug()<<"// CLIP: "<<path<<" WAS MODIFIED";
-    DocClipBase *clip = getClipByResource(path);
-    if (clip == NULL) return;
-    emit reloadClip(clip->getId());
+    const QList <DocClipBase *> list = getClipByResource(path);
+    for (int i = 0; i < list.count(); i++) {
+        DocClipBase *clip = list.at(i);
+        if (clip != NULL) emit reloadClip(clip->getId());
+    }
 }
+

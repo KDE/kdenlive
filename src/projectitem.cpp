@@ -200,7 +200,8 @@ void ProjectItem::slotSetToolTip()
         tip.append(i18n("Image clip") + "</b><br />" + clipUrl().path());
         break;
     case TEXT:
-        tip.append(i18n("Text clip") + "</b><br />" + clipUrl().path());
+        if (!clipUrl().isEmpty() && m_clip->getProperty("xmldata").isEmpty()) tip.append(i18n("Template text clip") + "</b><br />" + clipUrl().path());
+        else tip.append(i18n("Text clip") + "</b><br />" + clipUrl().path());
         break;
     case SLIDESHOW:
         tip.append(i18n("Slideshow clip") + "</b><br />" + clipUrl().directory());

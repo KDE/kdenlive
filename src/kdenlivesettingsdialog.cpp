@@ -76,9 +76,9 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent) :
     m_page4 = addPage(p4, i18n("Capture"), "media-record");
     m_configCapture.tabWidget->setCurrentIndex(KdenliveSettings::defaultcapture());
 #ifdef Q_WS_MAC
-	m_configCapture.tabWidget->setEnabled(false);
-	m_configCapture.kcfg_defaultcapture->setEnabled(false);
-	m_configCapture.label->setText(i18n("Capture is not yet available on OS X."));
+    m_configCapture.tabWidget->setEnabled(false);
+    m_configCapture.kcfg_defaultcapture->setEnabled(false);
+    m_configCapture.label->setText(i18n("Capture is not yet available on OS X."));
 #endif
 
     QWidget *p5 = new QWidget;

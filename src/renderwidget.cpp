@@ -1659,7 +1659,7 @@ QString RenderWidget::getFreeScriptName(const QString &prefix)
 void RenderWidget::slotPlayRendering(QTreeWidgetItem *item, int)
 {
     if (KdenliveSettings::defaultplayerapp().isEmpty() || item->data(1, Qt::UserRole + 2).toInt() != FINISHEDJOB) return;
-    const QByteArray startId = KStartupInfo::createNewStartupId ();
+    const QByteArray startId = KStartupInfo::createNewStartupId();
     const QString command = KdenliveSettings::defaultplayerapp() + ' ' + item->text(1);
     KRun::runCommand(command, KdenliveSettings::defaultplayerapp(), KdenliveSettings::defaultplayerapp(), this, startId);
 }

@@ -526,12 +526,12 @@ void MainWindow::readProperties(const KConfigGroup &config)
 
 void MainWindow::slotReloadEffects()
 {
-    kDebug()<<"START RELOAD; COUNR: "<<m_customEffectsMenu->actions().count();
+    kDebug() << "START RELOAD; COUNR: " << m_customEffectsMenu->actions().count();
     m_customEffectsMenu->clear();
-    kDebug()<<"START RELOAD; CLR: "<<m_customEffectsMenu->actions().count();
+    kDebug() << "START RELOAD; CLR: " << m_customEffectsMenu->actions().count();
     initEffects::parseCustomEffectsFile();
     const QStringList effects = customEffects.effectNames();
-    kDebug()<<"NEW EFFS: "<<effects;
+    kDebug() << "NEW EFFS: " << effects;
     QAction *action;
     if (effects.isEmpty()) m_customEffectsMenu->setEnabled(false);
     else m_customEffectsMenu->setEnabled(true);
@@ -2261,7 +2261,7 @@ void MainWindow::slotShowClipProperties(DocClipBase *clip)
 {
     if (clip->clipType() == TEXT) {
         QString titlepath = m_activeDocument->projectFolder().path(KUrl::AddTrailingSlash) + "titles/";
-        if (!clip->getProperty("xmltemplate").isEmpty()) {
+        if (!clip->getProperty("resource").isEmpty() && clip->getProperty("xmldata").isEmpty()) {
             // template text clip
 
             // Get the list of existing templates
@@ -2273,7 +2273,7 @@ void MainWindow::slotShowClipProperties(DocClipBase *clip)
             Ui::TemplateClip_UI dia_ui;
             dia_ui.setupUi(dia);
             int ix = -1;
-            const QString templatePath = clip->getProperty("xmltemplate");
+            const QString templatePath = clip->getProperty("resource");
             for (int i = 0; i < templateFiles.size(); ++i) {
                 dia_ui.template_list->comboBox()->addItem(templateFiles.at(i), titlepath + templateFiles.at(i));
                 if (templatePath == KUrl(titlepath + templateFiles.at(i)).path()) ix = i;
@@ -2285,7 +2285,6 @@ void MainWindow::slotShowClipProperties(DocClipBase *clip)
             KUrl startDir(titlepath);
             dia_ui.template_list->fileDialog()->setUrl(startDir);
             dia_ui.description->setText(clip->getProperty("description"));
-            dia_ui.clone_clip->setChecked(true);
             if (dia->exec() == QDialog::Accepted) {
                 QString textTemplate = dia_ui.template_list->comboBox()->itemData(dia_ui.template_list->comboBox()->currentIndex()).toString();
                 if (textTemplate.isEmpty()) textTemplate = dia_ui.template_list->comboBox()->currentText();
@@ -2294,7 +2293,7 @@ void MainWindow::slotShowClipProperties(DocClipBase *clip)
 
                 if (KUrl(textTemplate).path() != templatePath) {
                     // The template was changed
-                    newprops.insert("xmltemplate", textTemplate);
+                    newprops.insert("resource", textTemplate);
                 }
 
                 if (dia_ui.description->toPlainText() != clip->getProperty("description")) {
@@ -2307,11 +2306,9 @@ void MainWindow::slotShowClipProperties(DocClipBase *clip)
                 // template modified we need to update xmldata
                 QString description = newprops.value("description");
                 if (description.isEmpty()) description = clip->getProperty("description");
-                newprops.insert("xmldata", m_projectList->generateTemplateXml(newtemplate, description).toString());
-                if (dia_ui.normal_clip->isChecked()) {
-                    // Switch clip to normal clip
-                    newprops.insert("xmltemplate", QString());
-                }
+                else newprops.insert("templatetext", description);
+                //newprops.insert("xmldata", m_projectList->generateTemplateXml(newtemplate, description).toString());
+
                 EditClipCommand *command = new EditClipCommand(m_projectList, clip->getId(), clip->properties(), newprops, true);
                 m_activeDocument->commandStack()->push(command);
             }
@@ -2323,11 +2320,9 @@ void MainWindow::slotShowClipProperties(DocClipBase *clip)
         doc.setContent(clip->getProperty("xmldata"));
         dia_ui->setXml(doc);
         if (dia_ui->exec() == QDialog::Accepted) {
-            QRect rect = dia_ui->renderedRect();
             QMap <QString, QString> newprops;
             newprops.insert("xmldata", dia_ui->xml().toString());
             newprops.insert("out", QString::number(dia_ui->duration()));
-            newprops.insert("frame_size", QString::number(rect.width()) + 'x' + QString::number(rect.height()));
             EditClipCommand *command = new EditClipCommand(m_projectList, clip->getId(), clip->properties(), newprops, true);
             m_activeDocument->commandStack()->push(command);
             m_activeTimeline->projectView()->slotUpdateClip(clip->getId());

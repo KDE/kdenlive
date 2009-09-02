@@ -58,11 +58,11 @@ Q_OBJECT public:
     void slotAddClipFile(const KUrl url, const QString group, const QString &groupId);
     void slotAddClipList(const KUrl::List urls, const QString group, const QString &groupId);
     void slotAddTextClipFile(const QString titleName, int out, const QString xml, const QString group, const QString &groupId);
-    void slotAddTextTemplateClip(QString titleName, const QString imagePath, const KUrl path, const QString group, const QString &groupId);
+    void slotAddTextTemplateClip(QString titleName, const KUrl path, const QString group, const QString &groupId);
     void slotAddColorClipFile(const QString name, const QString color, QString duration, const QString group, const QString &groupId);
     void slotAddSlideshowClipFile(const QString name, const QString path, int count, const QString duration, const bool loop, const bool fade, const QString &luma_duration, const QString &luma_file, const int softness, const QString group, const QString &groupId);
     DocClipBase *getClipById(QString clipId);
-    DocClipBase *getClipByResource(QString resource);
+    const QList <DocClipBase *> getClipByResource(QString resource);
     void slotDeleteClip(const QString & clipId);
     void setThumbsProgress(const QString &message, int progress);
     void checkAudioThumbs();

@@ -110,8 +110,7 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent) :
     if (m_frametimecode) {
         m_timePos->setInputMask(QString());
         m_timePos->setValidator(new QIntValidator(this));
-    }
-    else m_timePos->setInputMask("99:99:99:99");
+    } else m_timePos->setInputMask("99:99:99:99");
     toolbar->addWidget(m_timePos);
 
     connect(m_timePos, SIGNAL(editingFinished()), this, SLOT(slotSeek()));
@@ -482,7 +481,7 @@ void Monitor::slotSeek()
     int frames;
     if (m_frametimecode) frames = m_timePos->text().toInt();
     else frames = m_monitorManager->timecode().getFrameCount(m_timePos->text());
-    kDebug()<<"// / / SEEK TO: "<<frames;
+    //kDebug() << "// / / SEEK TO: " << frames;
     slotSeek(frames);
 }
 
