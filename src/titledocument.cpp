@@ -123,7 +123,7 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
 
         e.appendChild(pos);
         e.appendChild(content);
-        if (item->zValue() > -1100) main.appendChild(e);
+        if (item->zValue() > -1000) main.appendChild(e);
     }
     if (startv && endv) {
         QDomElement endp = doc.createElement("endviewport");

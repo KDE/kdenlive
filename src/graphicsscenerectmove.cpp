@@ -406,7 +406,16 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
             }
             if (m_selectedItem->type() == 3 && m_resizeMode != NoResize) {
                 QGraphicsRectItem *gi = (QGraphicsRectItem*)m_selectedItem;
-                gi->setRect(newrect);
+                // Resize using aspect ratio
+                if (!m_selectedItem->data(0).isNull()) {
+                    // we want to keep aspect ratio
+                    double hRatio = (double) newrect.width() / m_selectedItem->data(0).toInt();
+                    double vRatio = (double) newrect.height() / m_selectedItem->data(1).toInt();
+                    if (hRatio < vRatio) newrect.setHeight(m_selectedItem->data(1).toInt() * hRatio);
+                    else newrect.setWidth(m_selectedItem->data(0).toInt() * vRatio);
+                }
+
+                gi->setRect(newrect);                
             }
             /*else {
             qreal s;

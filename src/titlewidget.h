@@ -156,8 +156,6 @@ public slots:
     void zIndexChanged(int);
     void itemScaled(int);
     void itemRotate(int);
-    void itemHCenter();
-    void itemVCenter();
     void saveTitle(KUrl url = KUrl());
     void loadTitle(KUrl url = KUrl());
     QImage renderedPixmap();
@@ -231,6 +229,17 @@ private slots:
 
     void slotAnimStart(bool);
     void slotAnimEnd(bool);
+    void slotKeepAspect(bool keep);
+
+    void itemHCenter();
+    void itemVCenter();
+    void itemTop();
+    void itemBottom();
+    void itemLeft();
+    void itemRight();
+    void slotResize50();
+    void slotResize100();
+    void slotResize200();
 
     /** \brief Called when accepted, stores the user selections for next time use */
     void slotAccepted();
