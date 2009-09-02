@@ -102,7 +102,7 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     connect(itembottom, SIGNAL(clicked()), this, SLOT(itemBottom()));
     connect(itemleft, SIGNAL(clicked()), this, SLOT(itemLeft()));
     connect(itemright, SIGNAL(clicked()), this, SLOT(itemRight()));
-    
+
     connect(origin_x_left, SIGNAL(clicked()), this, SLOT(slotOriginXClicked()));
     connect(origin_y_top, SIGNAL(clicked()), this, SLOT(slotOriginYClicked()));
 
@@ -188,7 +188,7 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     itemleft->setIcon(KIcon("kdenlive-align-left"));
     itemleft->setToolTip(i18n("Align item to left"));
 
-    
+
     QHBoxLayout *layout = new QHBoxLayout;
     frame_toolbar->setLayout(layout);
     layout->setContentsMargins(2, 2, 2, 2);
@@ -248,7 +248,7 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     qtrans.scale(2.0, 2.0);
     m_frameImage->setTransform(qtrans);
     m_frameImage->setZValue(-1200);
-    m_frameImage->setFlags(QGraphicsItem::ItemClipsToShape);
+    m_frameImage->setFlags(0);
     displayBackgroundFrame();
     graphicsView->scene()->addItem(m_frameImage);
 
@@ -268,7 +268,7 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     m_frameBorder->setPen(framepen);
     m_frameBorder->setZValue(-1100);
     m_frameBorder->setBrush(Qt::transparent);
-    m_frameBorder->setFlags(QGraphicsItem::ItemClipsToShape);
+    m_frameBorder->setFlags(0);
     graphicsView->scene()->addItem(m_frameBorder);
 
     // mbd: load saved settings
@@ -282,12 +282,11 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     //toolBox->setItemEnabled(2, false);
     m_startViewport = new QGraphicsRectItem(QRectF(0, 0, m_frameWidth, m_frameHeight));
     m_endViewport = new QGraphicsRectItem(QRectF(0, 0, m_frameWidth, m_frameHeight));
-    
     m_startViewport->setData(0, m_frameWidth);
     m_startViewport->setData(1, m_frameHeight);
     m_endViewport->setData(0, m_frameWidth);
     m_endViewport->setData(1, m_frameHeight);
-    
+
     if (!url.isEmpty()) loadTitle(url);
     else {
         slotTextTool();
@@ -562,8 +561,8 @@ void TitleWidget::initAnimation()
     m_startViewport->setZValue(-1000);
     m_endViewport->setZValue(-1000);
 
-    m_startViewport->setFlags(/*QGraphicsItem::ItemIsMovable|*/QGraphicsItem::ItemIsSelectable);
-    m_endViewport->setFlags(/*QGraphicsItem::ItemIsMovable|*/QGraphicsItem::ItemIsSelectable);
+    m_startViewport->setFlags(0);
+    m_endViewport->setFlags(0);
 
     graphicsView->scene()->addItem(m_startViewport);
     graphicsView->scene()->addItem(m_endViewport);
@@ -688,7 +687,16 @@ void TitleWidget::selectionChanged()
         enableToolbars(TITLE_NONE);
         if (blockX) origin_x_left->blockSignals(false);
         if (blockY) origin_y_top->blockSignals(false);
+        itemzoom->setEnabled(false);
+        itemrotate->setEnabled(false);
     } else if (l.size() == 1) {
+        if (l.at(0) != m_startViewport && l.at(0) != m_endViewport) {
+            itemzoom->setEnabled(true);
+            itemrotate->setEnabled(true);
+        } else {
+            itemzoom->setEnabled(false);
+            itemrotate->setEnabled(false);
+        }
         if (l.at(0)->type() == TEXTITEM) {
             showToolbars(TITLE_TEXT);
             QGraphicsTextItem* i = static_cast <QGraphicsTextItem *>(l.at(0));
@@ -751,8 +759,7 @@ void TitleWidget::selectionChanged()
                 toolBox->widget(0)->setEnabled(false);
                 toolBox->widget(1)->setEnabled(false);*/
                 enableToolbars(TITLE_NONE);
-            }
-            else {
+            } else {
                 /*toolBox->widget(0)->setEnabled(true);
                 toolBox->widget(1)->setEnabled(true);
                 toolBox->setCurrentIndex(0);*/
@@ -1414,7 +1421,7 @@ void TitleWidget::loadTitle(KUrl url)
             KIO::NetAccess::removeTempFile(tmpfile);
         }
         setXml(doc);
-        
+
         /*int out;
         m_count = m_titledocument.loadDocument(url, m_startViewport, m_endViewport, &out) + 1;
         adjustFrameSize();
@@ -1661,13 +1668,12 @@ void TitleWidget::slotAnimStart(bool anim)
         m_startViewport->setSelected(true);
         selectionChanged();
         slotSelectTool();
-    }
-    else {
+    } else {
         m_startViewport->setZValue(-1000);
         m_startViewport->setBrush(QBrush());
         m_startViewport->setFlags(0);
     }
-    
+
 }
 
 void TitleWidget::slotAnimEnd(bool anim)
@@ -1700,8 +1706,7 @@ void TitleWidget::slotAnimEnd(bool anim)
         m_endViewport->setSelected(true);
         selectionChanged();
         slotSelectTool();
-    }
-    else {
+    } else {
         m_endViewport->setZValue(-1000);
         m_endViewport->setBrush(QBrush());
         m_endViewport->setFlags(0);
@@ -1713,8 +1718,7 @@ void TitleWidget::slotKeepAspect(bool keep)
     if (m_endViewport->zValue() == 1100) {
         m_endViewport->setData(0, keep == true ? m_frameWidth : QVariant());
         m_endViewport->setData(1, keep == true ? m_frameHeight : QVariant());
-    }
-    else{
+    } else {
         m_startViewport->setData(0, keep == true ? m_frameWidth : QVariant());
         m_startViewport->setData(1, keep == true ? m_frameHeight : QVariant());
     }
@@ -1724,24 +1728,21 @@ void TitleWidget::slotResize50()
 {
     if (m_endViewport->zValue() == 1100) {
         m_endViewport->setRect(0, 0, m_frameWidth / 2, m_frameHeight / 2);
-    }
-    else m_startViewport->setRect(0, 0, m_frameWidth / 2, m_frameHeight / 2);
+    } else m_startViewport->setRect(0, 0, m_frameWidth / 2, m_frameHeight / 2);
 }
 
 void TitleWidget::slotResize100()
 {
     if (m_endViewport->zValue() == 1100) {
         m_endViewport->setRect(0, 0, m_frameWidth, m_frameHeight);
-    }
-    else m_startViewport->setRect(0, 0, m_frameWidth, m_frameHeight);
+    } else m_startViewport->setRect(0, 0, m_frameWidth, m_frameHeight);
 }
 
 void TitleWidget::slotResize200()
 {
     if (m_endViewport->zValue() == 1100) {
         m_endViewport->setRect(0, 0, m_frameWidth * 2, m_frameHeight * 2);
-    }
-    else m_startViewport->setRect(0, 0, m_frameWidth * 2, m_frameHeight * 2);
+    } else m_startViewport->setRect(0, 0, m_frameWidth * 2, m_frameHeight * 2);
 }
 
 
