@@ -240,7 +240,7 @@ private:
     bool canBePasted(QList<AbstractClipItem *> items, GenTime offset, int trackOffset) const;
     bool canBeMoved(QList<AbstractClipItem *> items, GenTime offset, int trackOffset) const;
     ClipItem *getClipUnderCursor() const;
-    ClipItem *getMainActiveClip() const;
+    AbstractClipItem *getMainActiveClip() const;
     void resetSelectionGroup(bool selectItems = true);
     void groupSelectedItems(bool force = false, bool createNewGroup = false);
     /** Get available space for clip move (min and max free positions) */

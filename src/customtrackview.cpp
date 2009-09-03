@@ -3758,7 +3758,7 @@ void CustomTrackView::slotSeekToNextSnap()
 
 void CustomTrackView::clipStart()
 {
-    ClipItem *item = getMainActiveClip();
+    AbstractClipItem *item = getMainActiveClip();
     if (item != NULL) {
         setCursorPos((int) item->startPos().frames(m_document->fps()));
         checkScrolling();
@@ -3767,7 +3767,7 @@ void CustomTrackView::clipStart()
 
 void CustomTrackView::clipEnd()
 {
-    ClipItem *item = getMainActiveClip();
+    AbstractClipItem *item = getMainActiveClip();
     if (item != NULL) {
         setCursorPos((int) item->endPos().frames(m_document->fps()) - 1);
         checkScrolling();
@@ -4260,17 +4260,18 @@ ClipItem *CustomTrackView::getClipUnderCursor() const
     return NULL;
 }
 
-ClipItem *CustomTrackView::getMainActiveClip() const
+AbstractClipItem *CustomTrackView::getMainActiveClip() const
 {
     QList<QGraphicsItem *> clips = scene()->selectedItems();
     if (clips.isEmpty()) {
         return getClipUnderCursor();
     } else {
-        ClipItem *item = NULL;
+        AbstractClipItem *item = NULL;
         for (int i = 0; i < clips.count(); ++i) {
-            if (clips.at(i)->type() == AVWIDGET)
-                item = static_cast < ClipItem *>(clips.at(i));
-            if (item->startPos().frames(m_document->fps()) <= m_cursorPos && item->endPos().frames(m_document->fps()) >= m_cursorPos) break;
+            if (clips.count() == 1 || clips.at(i)->type() == AVWIDGET) {
+                item = static_cast < AbstractClipItem *>(clips.at(i));
+                if (clips.count() > 1 && item->startPos().frames(m_document->fps()) <= m_cursorPos && item->endPos().frames(m_document->fps()) >= m_cursorPos) break;
+            }
         }
         if (item) return item;
     }
