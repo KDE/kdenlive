@@ -751,7 +751,7 @@ void MainWindow::setupActions()
 #ifdef Q_WS_MAC
     const int contentHeight = QFontMetrics(w->font()).height() + 14;
 #else
-    const int contentHeight = QFontMetrics(w->font()).height() + 8;
+	const int contentHeight = QFontMetrics(w->font()).height() + 10;
 #endif
 
     QString style = "QSlider::groove:horizontal { background-color: rgba(230, 230, 230, 220);border: 1px solid #999999;height: 8px;border-radius: 3px;margin-top:3px }";
