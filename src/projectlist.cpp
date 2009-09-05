@@ -884,7 +884,7 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
         Q_ASSERT_X(item->referencedClip(), "void ProjectList::slotReplyGetFileProperties", QString("Item with groupName %1 does not have a clip associated").arg(item->groupName()).toLatin1());
         item->referencedClip()->setProducer(producer, replace);
         emit receivedClipDuration(clipId);
-        if (replace) {
+        if (m_listView->isEnabled() && replace) {
             // update clip in clip monitor
             emit clipSelected(NULL);
             emit clipSelected(item->referencedClip());
