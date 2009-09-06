@@ -62,7 +62,7 @@ CustomRuler::CustomRuler(Timecode tc, CustomTrackView *parent) :
 {
     setFont(KGlobalSettings::toolBarFont());
     QFontMetricsF fontMetrics(font());
-    LABEL_SIZE = fontMetrics.ascent ();
+    LABEL_SIZE = fontMetrics.ascent() - 2;
     m_scale = 3;
     m_zoneColor = QColor(133, 255, 143);
     littleMarkDistance = FRAME_SIZE;

@@ -235,6 +235,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
 
 
     setupGUI();
+    
     /*ScriptingPart* sp = new ScriptingPart(this, QStringList());
     guiFactory()->addClient(sp);*/
 
@@ -679,17 +680,11 @@ void MainWindow::setupActions()
     m_statusProgressBar->setMaximumWidth(150);
     m_statusProgressBar->setVisible(false);
 
-    QWidget *w = new QWidget;
-
-    QHBoxLayout *layout = new QHBoxLayout;
-    w->setLayout(layout);
-    layout->setContentsMargins(5, 0, 5, 0);
     QToolBar *toolbar = new QToolBar("statusToolBar", this);
-
-
+    toolbar->setMovable(false);
     m_toolGroup = new QActionGroup(this);
 
-    QString style1 = "QToolButton {background-color: rgba(230, 230, 230, 220); border-style: inset; border:1px solid #999999;border-radius: 3px;margin: 0px 3px;padding: 0px;} QToolButton:checked { background-color: rgba(224, 224, 0, 100); border-style: inset; border:1px solid #cc6666;border-radius: 3px;}";
+    QString style1 = "QToolBar {border:0px} QToolButton {background-color: rgba(230, 230, 230, 220); border-style: inset; border:1px solid #999999;border-radius: 3px;margin: 0px 3px;padding: 0px;} QToolButton:checked { background-color: rgba(224, 224, 0, 100); border-style: inset; border:1px solid #cc6666;border-radius: 3px;}";
 
     m_buttonSelectTool = new KAction(KIcon("kdenlive-select-tool"), i18n("Selection tool"), this);
     m_buttonSelectTool->setShortcut(i18nc("Selection tool shortcut", "s"));
@@ -747,22 +742,6 @@ void MainWindow::setupActions()
 
     m_zoomSlider->setMaximumWidth(150);
     m_zoomSlider->setMinimumWidth(100);
-
-#ifdef Q_WS_MAC
-    const int contentHeight = QFontMetrics(w->font()).height() + 14;
-#else
-	const int contentHeight = QFontMetrics(w->font()).height() + 10;
-#endif
-
-    QString style = "QSlider::groove:horizontal { background-color: rgba(230, 230, 230, 220);border: 1px solid #999999;height: 8px;border-radius: 3px;margin-top:3px }";
-    style.append("QSlider::handle:horizontal {  background-color: white; border: 1px solid #999999;width: 9px;margin: -2px 0;border-radius: 3px; }");
-
-    m_zoomSlider->setStyleSheet(style);
-
-    //m_zoomSlider->height() + 5;
-    statusBar()->setMinimumHeight(contentHeight);
-
-
     toolbar->addWidget(m_zoomSlider);
 
     m_buttonVideoThumbs = new KAction(KIcon("kdenlive-show-videothumb"), i18n("Show video thumbnails"), this);
@@ -788,8 +767,6 @@ void MainWindow::setupActions()
     m_buttonSnap->setCheckable(true);
     m_buttonSnap->setChecked(KdenliveSettings::snaptopoints());
     connect(m_buttonSnap, SIGNAL(triggered()), this, SLOT(slotSwitchSnap()));
-    layout->addWidget(toolbar);
-
 
     actionWidget = toolbar->widgetForAction(m_buttonVideoThumbs);
     actionWidget->setMaximumWidth(24);
@@ -812,7 +789,7 @@ void MainWindow::setupActions()
 
     statusBar()->addWidget(m_messageLabel, 10);
     statusBar()->addWidget(m_statusProgressBar, 0);
-    statusBar()->addPermanentWidget(w);
+    statusBar()->addPermanentWidget(toolbar);
     statusBar()->insertPermanentFixedItem("00:00:00:00", ID_TIMELINE_POS);
     statusBar()->addPermanentWidget(m_timecodeFormat);
     statusBar()->setMaximumHeight(statusBar()->font().pointSize() * 4);
