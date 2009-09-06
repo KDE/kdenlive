@@ -40,7 +40,7 @@ static const int LITTLE_MARK_LENGTH = (MIDDLE_MARK_LENGTH / 2);
 static const int LITTLE_MARK_X2 = LINE_END;
 static const int LITTLE_MARK_X1 = (LITTLE_MARK_X2 - LITTLE_MARK_LENGTH);
 
-static const int LABEL_SIZE = 9;
+static int LABEL_SIZE;
 static const int END_LABEL_X = 4;
 static const int END_LABEL_Y = (END_LABEL_X + LABEL_SIZE - 2);
 
@@ -61,6 +61,8 @@ CustomRuler::CustomRuler(Timecode tc, CustomTrackView *parent) :
         m_clickedGuide(-1)
 {
     setFont(KGlobalSettings::toolBarFont());
+    QFontMetricsF fontMetrics(font());
+    LABEL_SIZE = fontMetrics.ascent ();
     m_scale = 3;
     m_zoneColor = QColor(133, 255, 143);
     littleMarkDistance = FRAME_SIZE;
