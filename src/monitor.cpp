@@ -38,6 +38,7 @@
 #include <QToolBar>
 #include <QDesktopWidget>
 #include <QLabel>
+#include <QIntValidator>
 
 
 Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent) :
