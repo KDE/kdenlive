@@ -21,6 +21,7 @@
 #include "documentchecker.h"
 #include "kthumb.h"
 #include "definitions.h"
+#include "kdenlivesettings.h"
 
 #include <KDebug>
 #include <KGlobalSettings>
@@ -47,16 +48,33 @@ const int statusRole = Qt::UserRole + 3;
 const int CLIPMISSING = 0;
 const int CLIPOK = 1;
 const int CLIPPLACEHOLDER = 2;
+const int LUMAMISSING = 10;
+const int LUMAOK = 11;
+const int LUMAPLACEHOLDER = 12;
 
 DocumentChecker::DocumentChecker(QList <QDomElement> missingClips, QDomDocument doc, QWidget * parent) :
         QDialog(parent),
         m_doc(doc)
 {
     setFont(KGlobalSettings::toolBarFont());
-    m_view.setupUi(this);
+    setupUi(this);
     QDomElement e;
+    QStringList missingLumas;
+    QDomNodeList trans = doc.elementsByTagName("transition");
+    for (int i = 0; i < trans.count(); i++) {
+        QString luma = getProperty(trans.at(i).toElement(), "luma");
+        if (!luma.isEmpty() && !QFile::exists(luma)) {
+            if (!missingLumas.contains(luma)) {
+                missingLumas.append(luma);
+                QTreeWidgetItem *item = new QTreeWidgetItem(treeWidget, QStringList() << i18n("Luma file") << luma);
+                item->setIcon(0, KIcon("dialog-close"));
+                item->setData(0, idRole, luma);
+                item->setData(0, statusRole, LUMAMISSING);
+            }
+        }
+    }
 
-    m_view.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
+    buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
     for (int i = 0; i < missingClips.count(); i++) {
         e = missingClips.at(i).toElement();
         QString clipType;
@@ -82,29 +100,53 @@ DocumentChecker::DocumentChecker(QList <QDomElement> missingClips, QDomDocument 
         default:
             clipType = i18n("Video clip");
         }
-        QTreeWidgetItem *item = new QTreeWidgetItem(m_view.treeWidget, QStringList() << clipType << e.attribute("resource"));
+        QTreeWidgetItem *item = new QTreeWidgetItem(treeWidget, QStringList() << clipType << e.attribute("resource"));
         item->setIcon(0, KIcon("dialog-close"));
         item->setData(0, hashRole, e.attribute("file_hash"));
         item->setData(0, sizeRole, e.attribute("file_size"));
         item->setData(0, idRole, e.attribute("id"));
         item->setData(0, statusRole, CLIPMISSING);
     }
-    connect(m_view.recursiveSearch, SIGNAL(pressed()), this, SLOT(slotSearchClips()));
-    connect(m_view.usePlaceholders, SIGNAL(pressed()), this, SLOT(slotPlaceholders()));
-    connect(m_view.removeSelected, SIGNAL(pressed()), this, SLOT(slotDeleteSelected()));
-    connect(m_view.treeWidget, SIGNAL(itemDoubleClicked(QTreeWidgetItem *, int)), this, SLOT(slotEditItem(QTreeWidgetItem *, int)));
+    connect(recursiveSearch, SIGNAL(pressed()), this, SLOT(slotSearchClips()));
+    connect(usePlaceholders, SIGNAL(pressed()), this, SLOT(slotPlaceholders()));
+    connect(removeSelected, SIGNAL(pressed()), this, SLOT(slotDeleteSelected()));
+    connect(treeWidget, SIGNAL(itemDoubleClicked(QTreeWidgetItem *, int)), this, SLOT(slotEditItem(QTreeWidgetItem *, int)));
     //adjustSize();
 }
 
 DocumentChecker::~DocumentChecker() {}
+
+
+QString DocumentChecker::getProperty(QDomElement effect, const QString &name)
+{
+    QDomNodeList params = effect.elementsByTagName("property");
+    for (int i = 0; i < params.count(); i++) {
+        QDomElement e = params.item(i).toElement();
+        if (e.attribute("name") == name) {
+            return e.firstChild().nodeValue();
+        }
+    }
+    return QString();
+}
+
+void DocumentChecker::setProperty(QDomElement effect, const QString &name, const QString value)
+{
+    QDomNodeList params = effect.elementsByTagName("property");
+    for (int i = 0; i < params.count(); i++) {
+        QDomElement e = params.item(i).toElement();
+        if (e.attribute("name") == name) {
+            e.firstChild().setNodeValue(value);
+        }
+    }
+}
 
 void DocumentChecker::slotSearchClips()
 {
     QString newpath = KFileDialog::getExistingDirectory(KUrl("kfiledialog:///clipfolder"), kapp->activeWindow(), i18n("Clips folder"));
     if (newpath.isEmpty()) return;
     int ix = 0;
-    m_view.recursiveSearch->setEnabled(false);
-    QTreeWidgetItem *child = m_view.treeWidget->topLevelItem(ix);
+    recursiveSearch->setEnabled(false);
+    QTreeWidgetItem *child = treeWidget->topLevelItem(ix);
     while (child) {
         if (child->data(0, statusRole).toInt() == CLIPMISSING) {
             QString clipPath = searchFileRecursively(QDir(newpath), child->data(0, sizeRole).toString(), child->data(0, hashRole).toString());
@@ -114,12 +156,35 @@ void DocumentChecker::slotSearchClips()
                 child->setData(0, statusRole, CLIPOK);
             }
         }
+        else if (child->data(0, statusRole).toInt() == LUMAMISSING) {
+            QString fileName = searchLuma(child->data(0, idRole).toString());
+            if (!fileName.isEmpty()) {
+                child->setText(1, fileName);
+                child->setIcon(0, KIcon("dialog-ok"));
+                child->setData(0, statusRole, LUMAOK);
+            }
+        }
         ix++;
-        child = m_view.treeWidget->topLevelItem(ix);
+        child = treeWidget->topLevelItem(ix);
     }
-    m_view.recursiveSearch->setEnabled(true);
+    recursiveSearch->setEnabled(true);
     checkStatus();
 }
+
+
+QString DocumentChecker::searchLuma(QString file) const
+{
+    KUrl searchPath(KdenliveSettings::mltpath());
+    if (file.contains("PAL"))
+        searchPath.cd("../lumas/PAL");
+    else
+        searchPath.cd("../lumas/NTSC");
+    QString result = searchPath.path(KUrl::AddTrailingSlash) + KUrl(file).fileName();
+    if (QFile::exists(result))
+        return result;
+    return QString();
+}
+
 
 QString DocumentChecker::searchFileRecursively(const QDir &dir, const QString &matchSize, const QString &matchHash) const
 {
@@ -165,7 +230,9 @@ void DocumentChecker::slotEditItem(QTreeWidgetItem *item, int)
     item->setText(1, url.path());
     if (KIO::NetAccess::exists(url, KIO::NetAccess::SourceSide, 0)) {
         item->setIcon(0, KIcon("dialog-ok"));
-        item->setData(0, statusRole, CLIPOK);
+        int id = item->data(0, statusRole).toInt();
+        if (id < 10) item->setData(0, statusRole, CLIPOK);
+        else item->setData(0, statusRole, LUMAOK);
         checkStatus();
     }
 }
@@ -178,7 +245,11 @@ void DocumentChecker::accept()
     QDomNodeList infoproducers = m_doc.elementsByTagName("kdenlive_producer");
     QDomNodeList properties;
     int ix = 0;
-    QTreeWidgetItem *child = m_view.treeWidget->topLevelItem(ix);
+
+    // prepare transitions
+    QDomNodeList trans = m_doc.elementsByTagName("transition");
+    
+    QTreeWidgetItem *child = treeWidget->topLevelItem(ix);
     while (child) {
         if (child->data(0, statusRole).toInt() == CLIPOK) {
             QString id = child->data(0, idRole).toString();
@@ -216,9 +287,25 @@ void DocumentChecker::accept()
                     break;
                 }
             }
+        } else if (child->data(0, statusRole).toInt() == LUMAOK) {
+            for (int i = 0; i < trans.count(); i++) {
+                QString luma = getProperty(trans.at(i).toElement(), "luma");
+                kDebug()<< "luma: "<<luma;
+                if (!luma.isEmpty() && luma == child->data(0, idRole).toString()) {
+                    setProperty(trans.at(i).toElement(), "luma", child->text(1));
+                    kDebug()<< "replace with; "<<child->text(1);
+                }
+            }
+        } else if (child->data(0, statusRole).toInt() == LUMAMISSING) {
+            for (int i = 0; i < trans.count(); i++) {
+                QString luma = getProperty(trans.at(i).toElement(), "luma");
+                if (!luma.isEmpty() && luma == child->data(0, idRole).toString()) {
+                    setProperty(trans.at(i).toElement(), "luma", QString());
+                }
+            }
         }
         ix++;
-        child = m_view.treeWidget->topLevelItem(ix);
+        child = treeWidget->topLevelItem(ix);
     }
     QDialog::accept();
 }
@@ -226,14 +313,18 @@ void DocumentChecker::accept()
 void DocumentChecker::slotPlaceholders()
 {
     int ix = 0;
-    QTreeWidgetItem *child = m_view.treeWidget->topLevelItem(ix);
+    QTreeWidgetItem *child = treeWidget->topLevelItem(ix);
     while (child) {
         if (child->data(0, statusRole).toInt() == CLIPMISSING) {
             child->setData(0, statusRole, CLIPPLACEHOLDER);
             child->setIcon(0, KIcon("dialog-ok"));
         }
+        else if (child->data(0, statusRole).toInt() == LUMAMISSING) {
+            child->setData(0, statusRole, LUMAPLACEHOLDER);
+            child->setIcon(0, KIcon("dialog-ok"));
+        }
         ix++;
-        child = m_view.treeWidget->topLevelItem(ix);
+        child = treeWidget->topLevelItem(ix);
     }
     checkStatus();
 }
@@ -243,16 +334,16 @@ void DocumentChecker::checkStatus()
 {
     bool status = true;
     int ix = 0;
-    QTreeWidgetItem *child = m_view.treeWidget->topLevelItem(ix);
+    QTreeWidgetItem *child = treeWidget->topLevelItem(ix);
     while (child) {
-        if (child->data(0, statusRole).toInt() == CLIPMISSING) {
+        if (child->data(0, statusRole).toInt() == CLIPMISSING || child->data(0, statusRole).toInt() == LUMAMISSING) {
             status = false;
             break;
         }
         ix++;
-        child = m_view.treeWidget->topLevelItem(ix);
+        child = treeWidget->topLevelItem(ix);
     }
-    m_view.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(status);
+    buttonBox->button(QDialogButtonBox::Ok)->setEnabled(status);
 }
 
 
@@ -261,18 +352,19 @@ void DocumentChecker::slotDeleteSelected()
     if (KMessageBox::warningContinueCancel(this, i18n("This will remove the selected clips from this project"), i18n("Remove clips")) == KMessageBox::Cancel) return;
     int ix = 0;
     QStringList deletedIds;
-    QTreeWidgetItem *child = m_view.treeWidget->topLevelItem(ix);
+    QTreeWidgetItem *child = treeWidget->topLevelItem(ix);
     QDomNodeList playlists = m_doc.elementsByTagName("playlist");
 
     while (child) {
-        if (child->isSelected()) {
+        int id = child->data(0, statusRole).toInt();
+        if (child->isSelected() && id < 10) {
             QString id = child->data(0, idRole).toString();
             deletedIds.append(id);
             for (int j = 0; j < playlists.count(); j++)
                 deletedIds.append(id + '_' + QString::number(j));
             delete child;
         } else ix++;
-        child = m_view.treeWidget->topLevelItem(ix);
+        child = treeWidget->topLevelItem(ix);
     }
     kDebug() << "// Clips to delete: " << deletedIds;
 

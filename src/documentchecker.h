@@ -29,7 +29,7 @@
 #include <QDomElement>
 
 
-class DocumentChecker : public QDialog
+class DocumentChecker : public QDialog, public Ui::MissingClips_UI
 {
     Q_OBJECT
 
@@ -43,9 +43,11 @@ private slots:
     void slotEditItem(QTreeWidgetItem *item, int);
     void slotPlaceholders();
     void slotDeleteSelected();
+    QString getProperty(QDomElement effect, const QString &name);
+    void setProperty(QDomElement effect, const QString &name, const QString value);
+    QString searchLuma(QString file) const;
 
 private:
-    Ui::MissingClips_UI m_view;
     QDomDocument m_doc;
     QString searchFileRecursively(const QDir &dir, const QString &matchSize, const QString &matchHash) const;
     void checkStatus();
