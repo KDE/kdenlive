@@ -393,8 +393,11 @@ void MainWindow::queryQuit()
         if (m_clipMonitor) m_clipMonitor->stop();
         delete m_effectStack;
         delete m_activeTimeline;
+#ifndef Q_WS_MAC
+        // This sometimes causes crash on exit on OS X for some reason.
         delete m_projectMonitor;
         delete m_clipMonitor;
+#endif
         delete m_activeDocument;
         delete m_shortcutRemoveFocus;
         Mlt::Factory::close();
