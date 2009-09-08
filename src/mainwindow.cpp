@@ -684,7 +684,7 @@ void MainWindow::setupActions()
     m_statusProgressBar->setMaximumWidth(150);
     m_statusProgressBar->setVisible(false);
 
-    KToolBar *toolbar = new KToolBar("statusToolBar", this);
+    KToolBar *toolbar = new KToolBar("statusToolBar", this, Qt::NoToolBarArea);
     toolbar->setMovable(false);
     m_toolGroup = new QActionGroup(this);
     statusBar()->setStyleSheet(QString("QStatusBar QLabel {font-size:%1pt;} QStatusBar::item { border: 0px; font-size:%1pt;padding:0px; }").arg(statusBar()->font().pointSize()));
