@@ -81,6 +81,7 @@
 #include <KNotifyConfigWidget>
 #include <knewstuff2/engine.h>
 #include <knewstuff2/ui/knewstuffaction.h>
+#include <KToolBar>
 
 #include <QTextStream>
 #include <QTimer>
@@ -235,7 +236,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
 
 
     setupGUI();
-    
+
     /*ScriptingPart* sp = new ScriptingPart(this, QStringList());
     guiFactory()->addClient(sp);*/
 
@@ -683,11 +684,11 @@ void MainWindow::setupActions()
     m_statusProgressBar->setMaximumWidth(150);
     m_statusProgressBar->setVisible(false);
 
-    QToolBar *toolbar = new QToolBar("statusToolBar", this);
+    KToolBar *toolbar = new KToolBar("statusToolBar", this);
     toolbar->setMovable(false);
     m_toolGroup = new QActionGroup(this);
-
-    QString style1 = "QToolBar {border:0px} QToolButton {background-color: rgba(230, 230, 230, 220); border-style: inset; border:1px solid #999999;border-radius: 3px;margin: 0px 3px;padding: 0px;} QToolButton:checked { background-color: rgba(224, 224, 0, 100); border-style: inset; border:1px solid #cc6666;border-radius: 3px;}";
+    statusBar()->setStyleSheet(QString("QStatusBar QLabel {font-size:%1pt;} QStatusBar::item { border: 0px; font-size:%1pt;padding:0px; }").arg(statusBar()->font().pointSize()));
+    QString style1 = "QToolBar { border: 0px } QToolButton {background-color: rgba(230, 230, 230, 220); border-style: inset; border:1px solid #999999;border-radius: 3px;margin: 0px 3px;padding: 0px;} QToolButton:checked { background-color: rgba(224, 224, 0, 100); border-style: inset; border:1px solid #cc6666;border-radius: 3px;}";
 
     m_buttonSelectTool = new KAction(KIcon("kdenlive-select-tool"), i18n("Selection tool"), this);
     m_buttonSelectTool->setShortcut(i18nc("Selection tool shortcut", "s"));
@@ -714,17 +715,18 @@ void MainWindow::setupActions()
     toolbar->setToolButtonStyle(Qt::ToolButtonIconOnly);
 
     QWidget * actionWidget;
+    int max = toolbar->iconSizeDefault() + 2;
     actionWidget = toolbar->widgetForAction(m_buttonSelectTool);
-    actionWidget->setMaximumWidth(24);
-    actionWidget->setMinimumHeight(18);
+    actionWidget->setMaximumWidth(max);
+    actionWidget->setMaximumHeight(max - 4);
 
     actionWidget = toolbar->widgetForAction(m_buttonRazorTool);
-    actionWidget->setMaximumWidth(24);
-    actionWidget->setMinimumHeight(18);
+    actionWidget->setMaximumWidth(max);
+    actionWidget->setMaximumHeight(max - 4);
 
     actionWidget = toolbar->widgetForAction(m_buttonSpacerTool);
-    actionWidget->setMaximumWidth(24);
-    actionWidget->setMinimumHeight(18);
+    actionWidget->setMaximumWidth(max);
+    actionWidget->setMaximumHeight(max - 4);
 
     toolbar->setStyleSheet(style1);
     connect(m_toolGroup, SIGNAL(triggered(QAction *)), this, SLOT(slotChangeTool(QAction *)));
@@ -736,8 +738,8 @@ void MainWindow::setupActions()
     connect(m_buttonFitZoom, SIGNAL(triggered()), this, SLOT(slotFitZoom()));
 
     actionWidget = toolbar->widgetForAction(m_buttonFitZoom);
-    actionWidget->setMaximumWidth(24);
-    actionWidget->setMinimumHeight(18);
+    actionWidget->setMaximumWidth(max);
+    actionWidget->setMaximumHeight(max - 4);
 
     m_zoomSlider = new QSlider(Qt::Horizontal, this);
     m_zoomSlider->setMaximum(13);
@@ -772,20 +774,20 @@ void MainWindow::setupActions()
     connect(m_buttonSnap, SIGNAL(triggered()), this, SLOT(slotSwitchSnap()));
 
     actionWidget = toolbar->widgetForAction(m_buttonVideoThumbs);
-    actionWidget->setMaximumWidth(24);
-    actionWidget->setMinimumHeight(18);
+    actionWidget->setMaximumWidth(max);
+    actionWidget->setMaximumHeight(max - 4);
 
     actionWidget = toolbar->widgetForAction(m_buttonAudioThumbs);
-    actionWidget->setMaximumWidth(24);
-    actionWidget->setMinimumHeight(18);
+    actionWidget->setMaximumWidth(max);
+    actionWidget->setMaximumHeight(max - 4);
 
     actionWidget = toolbar->widgetForAction(m_buttonShowMarkers);
-    actionWidget->setMaximumWidth(24);
-    actionWidget->setMinimumHeight(18);
+    actionWidget->setMaximumWidth(max);
+    actionWidget->setMaximumHeight(max - 4);
 
     actionWidget = toolbar->widgetForAction(m_buttonSnap);
-    actionWidget->setMaximumWidth(24);
-    actionWidget->setMinimumHeight(18);
+    actionWidget->setMaximumWidth(max);
+    actionWidget->setMaximumHeight(max - 4);
 
     m_messageLabel = new StatusBarMessageLabel(this);
     m_messageLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::MinimumExpanding);
@@ -795,7 +797,7 @@ void MainWindow::setupActions()
     statusBar()->addPermanentWidget(toolbar);
     statusBar()->insertPermanentFixedItem("00:00:00:00", ID_TIMELINE_POS);
     statusBar()->addPermanentWidget(m_timecodeFormat);
-    statusBar()->setMaximumHeight(statusBar()->font().pointSize() * 4);
+    //statusBar()->setMaximumHeight(statusBar()->font().pointSize() * 3);
 
     collection->addAction("select_tool", m_buttonSelectTool);
     collection->addAction("razor_tool", m_buttonRazorTool);
