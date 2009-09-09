@@ -447,7 +447,7 @@ void TrackView::slotRebuildTrackHeaders()
     while ((child = m_view.headers_container->layout()->takeAt(0)) != 0) {
         QWidget *wid = child->widget();
         delete child;
-        if (wid) delete wid;
+        if (wid) wid->deleteLater();
     }
     int max = list.count();
     int height = KdenliveSettings::trackheight() * m_scene->scale().y() - 1;
