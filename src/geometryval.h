@@ -36,7 +36,7 @@ class QGraphicsRectItem;
 class QMouseEvent;
 
 
-class Geometryval : public QWidget
+class Geometryval : public QWidget, public Ui::Geometryval
 {
     Q_OBJECT
 public:
@@ -47,7 +47,6 @@ public:
     void setFrameSize(QPoint p);
 
 private:
-    Ui::Geometryval m_ui;
     MltVideoProfile m_profile;
     int m_realWidth;
     GraphicsSceneRectMove *m_scene;
@@ -64,6 +63,7 @@ private:
     QPoint m_frameSize;
     Ui::GeometryPosition_UI m_view;
     void updateTransitionPath();
+    double m_dar;
 
 public slots:
     void setupParam(const QDomElement, int, int);

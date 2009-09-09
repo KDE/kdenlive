@@ -37,14 +37,14 @@ Geometryval::Geometryval(const MltVideoProfile profile, QPoint frame_size, QWidg
         m_fixedMode(false),
         m_frameSize(frame_size)
 {
-    m_ui.setupUi(this);
-    QVBoxLayout* vbox = new QVBoxLayout(m_ui.widget);
+    setupUi(this);
+    QVBoxLayout* vbox = new QVBoxLayout(widget);
     QGraphicsView *view = new QGraphicsView(this);
     view->setBackgroundBrush(QBrush(Qt::black));
     vbox->addWidget(view);
     vbox->setContentsMargins(0, 0, 0, 0);
 
-    QVBoxLayout* vbox2 = new QVBoxLayout(m_ui.keyframeWidget);
+    QVBoxLayout* vbox2 = new QVBoxLayout(keyframeWidget);
     m_helper = new KeyframeHelper(this);
     vbox2->addWidget(m_helper);
     vbox2->setContentsMargins(0, 0, 0, 0);
@@ -57,6 +57,8 @@ Geometryval::Geometryval(const MltVideoProfile profile, QPoint frame_size, QWidg
     m_scene = new GraphicsSceneRectMove(this);
     m_scene->setTool(TITLE_SELECT);
     view->setScene(m_scene);
+    m_dar = (m_profile.height * m_profile.display_aspect_num / (double) m_profile.display_aspect_den) / (double) m_profile.width;
+
     m_realWidth = (int)(profile.height * profile.display_aspect_num / (double) profile.display_aspect_den);
     QGraphicsRectItem *frameBorder = new QGraphicsRectItem(QRectF(0, 0, m_realWidth, profile.height));
     frameBorder->setZValue(-1100);
@@ -64,19 +66,19 @@ Geometryval::Geometryval(const MltVideoProfile profile, QPoint frame_size, QWidg
     frameBorder->setPen(QPen(QBrush(QColor(255, 255, 255, 255)), 1.0, Qt::DashLine));
     m_scene->addItem(frameBorder);
 
-    m_ui.buttonNext->setIcon(KIcon("media-skip-forward"));
-    m_ui.buttonNext->setToolTip(i18n("Go to next keyframe"));
-    m_ui.buttonPrevious->setIcon(KIcon("media-skip-backward"));
-    m_ui.buttonPrevious->setToolTip(i18n("Go to previous keyframe"));
-    m_ui.buttonAdd->setIcon(KIcon("document-new"));
-    m_ui.buttonAdd->setToolTip(i18n("Add keyframe"));
-    m_ui.buttonDelete->setIcon(KIcon("edit-delete"));
-    m_ui.buttonDelete->setToolTip(i18n("Delete keyframe"));
+    buttonNext->setIcon(KIcon("media-skip-forward"));
+    buttonNext->setToolTip(i18n("Go to next keyframe"));
+    buttonPrevious->setIcon(KIcon("media-skip-backward"));
+    buttonPrevious->setToolTip(i18n("Go to previous keyframe"));
+    buttonAdd->setIcon(KIcon("document-new"));
+    buttonAdd->setToolTip(i18n("Add keyframe"));
+    buttonDelete->setIcon(KIcon("edit-delete"));
+    buttonDelete->setToolTip(i18n("Delete keyframe"));
 
     m_configMenu = new QMenu(i18n("Misc..."), this);
-    m_ui.buttonMenu->setIcon(KIcon("system-run"));
-    m_ui.buttonMenu->setMenu(m_configMenu);
-    m_ui.buttonMenu->setPopupMode(QToolButton::QToolButton::InstantPopup);
+    buttonMenu->setIcon(KIcon("system-run"));
+    buttonMenu->setMenu(m_configMenu);
+    buttonMenu->setPopupMode(QToolButton::QToolButton::InstantPopup);
 
 
     m_editGeom = m_configMenu->addAction(i18n("Edit keyframe"), this, SLOT(slotGeometry()));
@@ -111,10 +113,10 @@ Geometryval::Geometryval(const MltVideoProfile profile, QPoint frame_size, QWidg
     view->setSceneRect(srect.x(), -srect.height() / 3 + 10, srect.width(), srect.height() + srect.height() / 3 * 2 - 10);
     m_scene->setZoom(sc);
     view->centerOn(frameBorder);
-    connect(m_ui.buttonNext , SIGNAL(clicked()) , this , SLOT(slotNextFrame()));
-    connect(m_ui.buttonPrevious , SIGNAL(clicked()) , this , SLOT(slotPreviousFrame()));
-    connect(m_ui.buttonDelete , SIGNAL(clicked()) , this , SLOT(slotDeleteFrame()));
-    connect(m_ui.buttonAdd , SIGNAL(clicked()) , this , SLOT(slotAddFrame()));
+    connect(buttonNext , SIGNAL(clicked()) , this , SLOT(slotNextFrame()));
+    connect(buttonPrevious , SIGNAL(clicked()) , this , SLOT(slotPreviousFrame()));
+    connect(buttonDelete , SIGNAL(clicked()) , this , SLOT(slotDeleteFrame()));
+    connect(buttonAdd , SIGNAL(clicked()) , this , SLOT(slotAddFrame()));
     connect(m_scene, SIGNAL(actionFinished()), this, SLOT(slotUpdateTransitionProperties()));
     connect(m_scene, SIGNAL(doubleClickEvent()), this, SLOT(slotGeometry()));
 
@@ -139,7 +141,7 @@ Geometryval::~Geometryval()
 
 void Geometryval::slotAlignCenter()
 {
-    int pos = m_ui.spinPos->value();
+    int pos = spinPos->value();
     Mlt::GeometryItem item;
     int error = m_geom->fetch(&item, pos);
     if (error || item.key() == false) {
@@ -152,7 +154,7 @@ void Geometryval::slotAlignCenter()
 
 void Geometryval::slotAlignHCenter()
 {
-    int pos = m_ui.spinPos->value();
+    int pos = spinPos->value();
     Mlt::GeometryItem item;
     int error = m_geom->fetch(&item, pos);
     if (error || item.key() == false) {
@@ -165,7 +167,7 @@ void Geometryval::slotAlignHCenter()
 
 void Geometryval::slotAlignVCenter()
 {
-    int pos = m_ui.spinPos->value();
+    int pos = spinPos->value();
     Mlt::GeometryItem item;
     int error = m_geom->fetch(&item, pos);
     if (error || item.key() == false) {
@@ -178,7 +180,7 @@ void Geometryval::slotAlignVCenter()
 
 void Geometryval::slotAlignTop()
 {
-    int pos = m_ui.spinPos->value();
+    int pos = spinPos->value();
     Mlt::GeometryItem item;
     int error = m_geom->fetch(&item, pos);
     if (error || item.key() == false) {
@@ -191,7 +193,7 @@ void Geometryval::slotAlignTop()
 
 void Geometryval::slotAlignBottom()
 {
-    int pos = m_ui.spinPos->value();
+    int pos = spinPos->value();
     Mlt::GeometryItem item;
     int error = m_geom->fetch(&item, pos);
     if (error || item.key() == false) {
@@ -204,7 +206,7 @@ void Geometryval::slotAlignBottom()
 
 void Geometryval::slotAlignLeft()
 {
-    int pos = m_ui.spinPos->value();
+    int pos = spinPos->value();
     Mlt::GeometryItem item;
     int error = m_geom->fetch(&item, pos);
     if (error || item.key() == false) {
@@ -217,7 +219,7 @@ void Geometryval::slotAlignLeft()
 
 void Geometryval::slotAlignRight()
 {
-    int pos = m_ui.spinPos->value();
+    int pos = spinPos->value();
     Mlt::GeometryItem item;
     int error = m_geom->fetch(&item, pos);
     if (error || item.key() == false) {
@@ -230,7 +232,7 @@ void Geometryval::slotAlignRight()
 
 void Geometryval::slotResize50()
 {
-    int pos = m_ui.spinPos->value();
+    int pos = spinPos->value();
     Mlt::GeometryItem item;
     int error = m_geom->fetch(&item, pos);
     if (error || item.key() == false) {
@@ -243,7 +245,7 @@ void Geometryval::slotResize50()
 
 void Geometryval::slotResize100()
 {
-    int pos = m_ui.spinPos->value();
+    int pos = spinPos->value();
     Mlt::GeometryItem item;
     int error = m_geom->fetch(&item, pos);
     if (error || item.key() == false) {
@@ -256,7 +258,7 @@ void Geometryval::slotResize100()
 
 void Geometryval::slotResize200()
 {
-    int pos = m_ui.spinPos->value();
+    int pos = spinPos->value();
     Mlt::GeometryItem item;
     int error = m_geom->fetch(&item, pos);
     if (error || item.key() == false) {
@@ -270,7 +272,7 @@ void Geometryval::slotResize200()
 void Geometryval::slotResizeOriginal()
 {
     if (m_frameSize.isNull()) slotResize100();
-    int pos = m_ui.spinPos->value();
+    int pos = spinPos->value();
     Mlt::GeometryItem item;
     int error = m_geom->fetch(&item, pos);
     if (error || item.key() == false) {
@@ -283,7 +285,7 @@ void Geometryval::slotResizeOriginal()
 
 void Geometryval::slotResizeCustom()
 {
-    int pos = m_ui.spinPos->value();
+    int pos = spinPos->value();
     Mlt::GeometryItem item;
     int error = m_geom->fetch(&item, pos);
     if (error || item.key() == false) {
@@ -300,7 +302,7 @@ void Geometryval::slotResizeCustom()
 
 void Geometryval::slotTransparencyChanged(int transp)
 {
-    int pos = m_ui.spinPos->value();
+    int pos = spinPos->value();
     Mlt::GeometryItem item;
     int error = m_geom->fetch(&item, pos);
     if (error || item.key() == false) {
@@ -321,32 +323,32 @@ void Geometryval::slotSyncCursor()
 void Geometryval::slotPositionChanged(int pos, bool seek)
 {
     if (seek && KdenliveSettings::transitionfollowcursor()) emit seekToPos(pos);
-    m_ui.spinPos->setValue(pos);
+    spinPos->setValue(pos);
     m_helper->setValue(pos);
     Mlt::GeometryItem item;
     int error = m_geom->fetch(&item, pos);
     if (error || item.key() == false) {
         // no keyframe under cursor, adjust buttons
-        m_ui.buttonAdd->setEnabled(true);
-        m_ui.buttonDelete->setEnabled(false);
-        m_ui.widget->setEnabled(false);
-        m_ui.spinTransp->setEnabled(false);
+        buttonAdd->setEnabled(true);
+        buttonDelete->setEnabled(false);
+        widget->setEnabled(false);
+        spinTransp->setEnabled(false);
         m_scaleMenu->setEnabled(false);
         m_alignMenu->setEnabled(false);
         m_editGeom->setEnabled(false);
     } else {
-        m_ui.buttonAdd->setEnabled(false);
-        m_ui.buttonDelete->setEnabled(true);
-        m_ui.widget->setEnabled(true);
-        m_ui.spinTransp->setEnabled(true);
+        buttonAdd->setEnabled(false);
+        buttonDelete->setEnabled(true);
+        widget->setEnabled(true);
+        spinTransp->setEnabled(true);
         m_scaleMenu->setEnabled(true);
         m_alignMenu->setEnabled(true);
         m_editGeom->setEnabled(true);
     }
-    double dar = (m_profile.height * m_profile.display_aspect_num / (double) m_profile.display_aspect_den) / (double) m_profile.width;
-    m_paramRect->setPos(item.x() * dar, item.y());
-    m_paramRect->setRect(0, 0, item.w() * dar, item.h());
-    m_ui.spinTransp->setValue(item.mix());
+
+    m_paramRect->setPos(item.x() * m_dar, item.y());
+    m_paramRect->setRect(0, 0, item.w() * m_dar, item.h());
+    spinTransp->setValue(item.mix());
     m_paramRect->setBrush(QColor(255, 0, 0, item.mix()));
 }
 
@@ -354,18 +356,18 @@ void Geometryval::slotDeleteFrame(int pos)
 {
     // check there is more than one keyframe
     Mlt::GeometryItem item;
-    if (pos == -1) pos = m_ui.spinPos->value();
+    if (pos == -1) pos = spinPos->value();
     int error = m_geom->next_key(&item, pos + 1);
     if (error) {
         error = m_geom->prev_key(&item, pos - 1);
         if (error || item.frame() == pos) return;
     }
 
-    m_geom->remove(m_ui.spinPos->value());
-    m_ui.buttonAdd->setEnabled(true);
-    m_ui.buttonDelete->setEnabled(false);
-    m_ui.widget->setEnabled(false);
-    m_ui.spinTransp->setEnabled(false);
+    m_geom->remove(spinPos->value());
+    buttonAdd->setEnabled(true);
+    buttonDelete->setEnabled(false);
+    widget->setEnabled(false);
+    spinTransp->setEnabled(false);
     m_scaleMenu->setEnabled(false);
     m_alignMenu->setEnabled(false);
     m_editGeom->setEnabled(false);
@@ -377,19 +379,20 @@ void Geometryval::slotDeleteFrame(int pos)
 
 void Geometryval::slotAddFrame(int pos)
 {
-    if (pos == -1) pos = m_ui.spinPos->value();
+    if (pos == -1) pos = spinPos->value();
     Mlt::GeometryItem item;
     item.frame(pos);
-    item.x(m_paramRect->pos().x());
-    item.y(m_paramRect->pos().y());
-    item.w(m_paramRect->rect().width());
-    item.h(m_paramRect->rect().height());
-    item.mix(m_ui.spinTransp->value());
+    QRectF r = m_paramRect->sceneBoundingRect().normalized();
+    item.x(r.left() / m_dar);
+    item.y(r.top());
+    item.w(r.width() / m_dar);
+    item.h(r.height());
+    item.mix(spinTransp->value());
     m_geom->insert(item);
-    m_ui.buttonAdd->setEnabled(false);
-    m_ui.buttonDelete->setEnabled(true);
-    m_ui.widget->setEnabled(true);
-    m_ui.spinTransp->setEnabled(true);
+    buttonAdd->setEnabled(false);
+    buttonDelete->setEnabled(true);
+    widget->setEnabled(true);
+    spinTransp->setEnabled(true);
     m_scaleMenu->setEnabled(true);
     m_alignMenu->setEnabled(true);
     m_editGeom->setEnabled(true);
@@ -404,11 +407,11 @@ void Geometryval::slotNextFrame()
     kDebug() << "// SEEK TO NEXT KFR: " << error;
     if (error) {
         // Go to end
-        m_ui.spinPos->setValue(m_ui.spinPos->maximum());
+        spinPos->setValue(spinPos->maximum());
         return;
     }
     int pos = item.frame();
-    m_ui.spinPos->setValue(pos);
+    spinPos->setValue(pos);
 }
 
 void Geometryval::slotPreviousFrame()
@@ -418,7 +421,7 @@ void Geometryval::slotPreviousFrame()
     kDebug() << "// SEEK TO NEXT KFR: " << error;
     if (error) return;
     int pos = item.frame();
-    m_ui.spinPos->setValue(pos);
+    spinPos->setValue(pos);
 }
 
 
@@ -432,14 +435,14 @@ void Geometryval::setupParam(const QDomElement par, int minFrame, int maxFrame)
     QString val = par.attribute("value");
     if (par.attribute("fixed") == "1") {
         m_fixedMode = true;
-        m_ui.buttonPrevious->setHidden(true);
-        m_ui.buttonNext->setHidden(true);
-        m_ui.buttonDelete->setHidden(true);
-        m_ui.buttonAdd->setHidden(true);
-        m_ui.spinTransp->setMaximum(500);
-        m_ui.label_pos->setHidden(true);
+        buttonPrevious->setHidden(true);
+        buttonNext->setHidden(true);
+        buttonDelete->setHidden(true);
+        buttonAdd->setHidden(true);
+        spinTransp->setMaximum(500);
+        label_pos->setHidden(true);
         m_helper->setHidden(true);
-        m_ui.spinPos->setHidden(true);
+        spinPos->setHidden(true);
 
     }
     char *tmp = (char *) qstrdup(val.toUtf8().data());
@@ -455,7 +458,7 @@ void Geometryval::setupParam(const QDomElement par, int minFrame, int maxFrame)
         /*QDomDocument doc;
         doc.appendChild(doc.importNode(par, true));
         kDebug() << "IMPORTED TRANS: " << doc.toString();*/
-        m_ui.spinPos->setMaximum(maxFrame - minFrame - 1);
+        spinPos->setMaximum(maxFrame - minFrame - 1);
         if (m_path == NULL) {
             m_path = new QGraphicsPathItem();
             m_path->setPen(QPen(Qt::red));
@@ -467,17 +470,18 @@ void Geometryval::setupParam(const QDomElement par, int minFrame, int maxFrame)
 
     m_geom->fetch(&item, 0);
     delete m_paramRect;
-    m_paramRect = new QGraphicsRectItem(QRectF(0, 0, item.w(), item.h()));
-    m_paramRect->setPos(item.x(), item.y());
+    m_paramRect = new QGraphicsRectItem(QRectF(0, 0, item.w() * m_dar, item.h()));
+    m_paramRect->setPos(item.x() * m_dar, item.y());
     m_paramRect->setZValue(0);
+    m_paramRect->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
 
     m_paramRect->setPen(QPen(QBrush(QColor(255, 0, 0, 255)), 1.0));
     m_scene->addItem(m_paramRect);
     slotPositionChanged(0, false);
     if (!m_fixedMode) {
-        connect(m_ui.spinPos, SIGNAL(valueChanged(int)), this , SLOT(slotPositionChanged(int)));
+        connect(spinPos, SIGNAL(valueChanged(int)), this , SLOT(slotPositionChanged(int)));
     }
-    connect(m_ui.spinTransp, SIGNAL(valueChanged(int)), this , SLOT(slotTransparencyChanged(int)));
+    connect(spinTransp, SIGNAL(valueChanged(int)), this , SLOT(slotTransparencyChanged(int)));
 }
 
 void Geometryval::updateTransitionPath()
@@ -487,14 +491,13 @@ void Geometryval::updateTransitionPath()
     int pos = 0;
     int counter = 0;
     QPainterPath path;
-    double dar = (m_profile.height * m_profile.display_aspect_num / (double) m_profile.display_aspect_den) / (double) m_profile.width;
     while (true) {
         if (m_geom->next_key(&item, pos) == 1) break;
         pos = item.frame();
         if (counter == 0) {
-            path.moveTo(item.x() * dar + item.w() * dar / 2, item.y() + item.h() / 2);
+            path.moveTo(item.x() * m_dar + item.w() * m_dar / 2, item.y() + item.h() / 2);
         } else {
-            path.lineTo(item.x() * dar + item.w() * dar / 2, item.y() + item.h() / 2);
+            path.lineTo(item.x() * m_dar + item.w() * m_dar / 2, item.y() + item.h() / 2);
         }
         counter++;
         pos++;
@@ -504,18 +507,17 @@ void Geometryval::updateTransitionPath()
 
 void Geometryval::slotUpdateTransitionProperties()
 {
-    int pos = m_ui.spinPos->value();
+    int pos = spinPos->value();
     Mlt::GeometryItem item;
     int error = m_geom->next_key(&item, pos);
     if (error || item.frame() != pos) {
         // no keyframe under cursor
         return;
     }
-    double dar = (double) m_profile.width / (m_profile.height * m_profile.display_aspect_num / (double) m_profile.display_aspect_den);
-    QRectF r = m_paramRect->rect().normalized();
-    item.x(m_paramRect->pos().x() * dar);
-    item.y(m_paramRect->pos().y());
-    item.w(r.width() * dar);
+    QRectF r = m_paramRect->sceneBoundingRect().normalized();
+    item.x(r.left() / m_dar);
+    item.y(r.top());
+    item.w(r.width() / m_dar);
     item.h(r.height());
     m_geom->insert(item);
     updateTransitionPath();
@@ -524,14 +526,14 @@ void Geometryval::slotUpdateTransitionProperties()
 
 void Geometryval::slotGeometry()
 {
-    int pos = m_ui.spinPos->value();
+    int pos = spinPos->value();
     Mlt::GeometryItem item;
     int error = m_geom->fetch(&item, pos);
     if (error || item.key() == false) {
         // no keyframe under cursor
         return;
     }
-    QRectF r = m_paramRect->rect().normalized();
+    QRectF r = m_paramRect->sceneBoundingRect().normalized();
 
     QDialog d(this);
     m_view.setupUi(&d);
