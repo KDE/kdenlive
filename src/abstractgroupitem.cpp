@@ -98,8 +98,9 @@ void AbstractGroupItem::paint(QPainter *p, const QStyleOptionGraphicsItem *optio
 {
     const double scale = option->matrix.m11();
     QColor bgcolor(100, 100, 200, 100);
+    QRectF bound = option->exposedRect.adjusted(0, 0, 1, 1);
+    p->setClipRect(bound);
     p->fillRect(option->exposedRect, bgcolor);
-    p->setClipping(false);
     QPen pen = p->pen();
     pen.setColor(QColor(200, 90, 90));
     pen.setStyle(Qt::DashLine);
@@ -112,7 +113,7 @@ void AbstractGroupItem::paint(QPainter *p, const QStyleOptionGraphicsItem *optio
 //virtual
 QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant &value)
 {
-    if (change == ItemPositionChange && scene()) {
+    if (change == ItemPositionChange && scene() && parentItem() == 0) {
         // calculate new position.
         const int trackHeight = KdenliveSettings::trackheight();
         QPointF start = sceneBoundingRect().topLeft();
@@ -150,6 +151,26 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
                     offset = (int)(trackHeight / 3 * 2 - 1);
                     topTrack = currentTrack;
                 }
+            } else if (children.at(i)->type() == GROUPWIDGET) {
+                QList<QGraphicsItem *> subchildren = children.at(i)->childItems();
+                bool clipGroup = false;
+                for (int j = 0; j < subchildren.count(); j++) {
+                    if (subchildren.at(j)->type() == AVWIDGET) {
+                        clipGroup = true;
+                        break;
+                    }
+                }
+                if (clipGroup) {
+                    if (topTrack == -1 || currentTrack <= topTrack) {
+                        offset = 0;
+                        topTrack = currentTrack;
+                    }
+                } else {
+                    if (topTrack == -1 || currentTrack < topTrack) {
+                        offset = (int)(trackHeight / 3 * 2 - 1);
+                        topTrack = currentTrack;
+                    }
+                }
             }
         }
         newPos.setY((int)((proposedTrack) * trackHeight) + offset);
@@ -159,6 +180,7 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
             // If group goes below 0, adjust position to 0
             return QPointF(pos().x() - start.x(), pos().y());
         }*/
+
         QPainterPath shape = groupShape(newPos - pos());
         QList<QGraphicsItem*> collindingItems = scene()->items(shape, Qt::IntersectsItemShape);
         for (int i = 0; i < children.count(); i++) {
@@ -173,7 +195,6 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
                 QGraphicsItem *collision = collindingItems.at(i);
                 if (collision->type() == AVWIDGET) {
                     // Collision
-                    //kDebug()<<"// COLLISION WIT:"<<collision->sceneBoundingRect();
                     if (newPos.y() != pos().y()) {
                         // Track change results in collision, restore original position
                         return pos();
