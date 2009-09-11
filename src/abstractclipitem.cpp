@@ -185,6 +185,13 @@ double AbstractClipItem::fps() const
     return m_fps;
 }
 
+void AbstractClipItem::updateFps(double fps)
+{
+    m_fps = fps;
+    setPos((qreal) startPos().frames(m_fps), pos().y());
+    updateRectGeometry();
+}
+
 GenTime AbstractClipItem::maxDuration() const
 {
     return m_maxDuration;

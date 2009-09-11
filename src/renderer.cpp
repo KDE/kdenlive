@@ -116,12 +116,15 @@ void Render::closeMlt()
             Mlt::Tractor tractor(service);
             Mlt::Field *field = tractor.field();
             mlt_service nextservice = mlt_service_get_producer(service.get_service());
+            mlt_service nextservicetodisconnect;
             mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
             QString mlt_type = mlt_properties_get(properties, "mlt_type");
             QString resource = mlt_properties_get(properties, "mlt_service");
             // Delete all transitions
             while (mlt_type == "transition") {
-                mlt_field_disconnect_service(field->get_field(), nextservice);
+                nextservicetodisconnect = nextservice;
+                nextservice = mlt_service_producer(nextservice);
+                mlt_field_disconnect_service(field->get_field(), nextservicetodisconnect);
                 nextservice = mlt_service_producer(nextservice);
                 if (nextservice == NULL) break;
                 properties = MLT_SERVICE_PROPERTIES(nextservice);
@@ -244,7 +247,7 @@ int Render::resetProfile()
     m_mltConsumer = NULL;
     QString scene = sceneList();
     int pos = 0;
-
+    double current_fps = m_mltProfile->fps();
     delete m_blackClip;
     m_blackClip = NULL;
 
@@ -268,7 +271,11 @@ int Render::resetProfile()
     m_mltProducer = NULL;
 
     buildConsumer();
-
+    double new_fps = m_mltProfile->fps();
+    if (current_fps != new_fps) {
+        // fps changed, we must update the scenelist positions
+        scene = updateSceneListFps(current_fps, new_fps, scene);
+    }
     //kDebug() << "//RESET WITHSCENE: " << scene;
     setSceneList(scene, pos);
 
@@ -927,13 +934,15 @@ int Render::setSceneList(QString playlist, int position)
             Mlt::Tractor tractor(service);
             Mlt::Field *field = tractor.field();
             mlt_service nextservice = mlt_service_get_producer(service.get_service());
+            mlt_service nextservicetodisconnect;
             mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
             QString mlt_type = mlt_properties_get(properties, "mlt_type");
             QString resource = mlt_properties_get(properties, "mlt_service");
             // Delete all transitions
             while (mlt_type == "transition") {
-                mlt_field_disconnect_service(field->get_field(), nextservice);
+                nextservicetodisconnect = nextservice;
                 nextservice = mlt_service_producer(nextservice);
+                mlt_field_disconnect_service(field->get_field(), nextservicetodisconnect);
                 if (nextservice == NULL) break;
                 properties = MLT_SERVICE_PROPERTIES(nextservice);
                 mlt_type = mlt_properties_get(properties, "mlt_type");
@@ -3349,6 +3358,101 @@ void Render::updatePreviewSettings()
     }
 
     setSceneList(scene, pos);
+}
+
+
+QString Render::updateSceneListFps(double current_fps, double new_fps, QString scene)
+{
+    // Update all frame positions to the new fps value
+    //WARNING: there are probably some effects or other that hold a frame value
+    // as parameter and will also need to be updated here!
+    QDomDocument doc;
+    doc.setContent(scene);
+
+    double factor = new_fps / current_fps;
+    QDomNodeList producers = doc.elementsByTagName("producer");
+    for (int i = 0; i < producers.count(); i++) {
+        QDomElement prod = producers.at(i).toElement();
+        prod.removeAttribute("in");
+        prod.removeAttribute("out");
+
+        QDomNodeList props = prod.childNodes();
+        for (int j = 0; j < props.count(); j++) {
+            QDomElement param =  props.at(j).toElement();
+            QString paramName = param.attribute("name");
+            if (paramName.startsWith("meta.") || paramName == "length") {
+                prod.removeChild(props.at(j));
+                j--;
+            }
+        }
+    }
+
+    QDomNodeList entries = doc.elementsByTagName("entry");
+    for (int i = 0; i < entries.count(); i++) {
+        QDomElement entry = entries.at(i).toElement();
+        int in = entry.attribute("in").toInt();
+        int out = entry.attribute("out").toInt();
+        in = factor * in + 0.5;
+        out = factor * out + 0.5;
+        entry.setAttribute("in", in);
+        entry.setAttribute("out", out);
+    }
+
+    QDomNodeList blanks = doc.elementsByTagName("blank");
+    for (int i = 0; i < blanks.count(); i++) {
+        QDomElement blank = blanks.at(i).toElement();
+        int length = blank.attribute("length").toInt();
+        length = factor * length + 0.5;
+        blank.setAttribute("length", QString::number(length));
+    }
+
+    QDomNodeList filters = doc.elementsByTagName("filter");
+    for (int i = 0; i < filters.count(); i++) {
+        QDomElement filter = filters.at(i).toElement();
+        int in = filter.attribute("in").toInt();
+        int out = filter.attribute("out").toInt();
+        in = factor * in + 0.5;
+        out = factor * out + 0.5;
+        filter.setAttribute("in", in);
+        filter.setAttribute("out", out);
+    }
+
+    QDomNodeList transitions = doc.elementsByTagName("transition");
+    for (int i = 0; i < transitions.count(); i++) {
+        QDomElement transition = transitions.at(i).toElement();
+        int in = transition.attribute("in").toInt();
+        int out = transition.attribute("out").toInt();
+        in = factor * in + 0.5;
+        out = factor * out + 0.5;
+        transition.setAttribute("in", in);
+        transition.setAttribute("out", out);
+        QDomNodeList props = transition.childNodes();
+        for (int j = 0; j < props.count(); j++) {
+            QDomElement param =  props.at(j).toElement();
+            QString paramName = param.attribute("name");
+            if (paramName == "geometry") {
+                QString geom = param.firstChild().nodeValue();
+                QStringList keys = geom.split(';');
+                QStringList newKeys;
+                for (int k = 0; k < keys.size(); ++k) {
+                    if (keys.at(k).contains('=')) {
+                        int pos = keys.at(k).section('=', 0, 0).toInt();
+                        pos = factor * pos + 0.5;
+                        newKeys.append(QString::number(pos) + '=' + keys.at(k).section('=', 1));
+                    } else newKeys.append(keys.at(k));
+                }
+                param.firstChild().setNodeValue(newKeys.join(";"));
+            }
+        }
+    }
+    QDomElement tractor = doc.elementsByTagName("tractor").at(0).toElement();
+    int out = tractor.attribute("out").toInt();
+    out = factor * out + 0.5;
+    tractor.setAttribute("out", out);
+    emit durationChanged(out);
+
+    kDebug() << "///////////////////////////// " << out << " \n" << doc.toString() << "\n-------------------------";
+    return doc.toString();
 }
 
 #include "renderer.moc"

@@ -155,8 +155,7 @@ void DocumentChecker::slotSearchClips()
                 child->setIcon(0, KIcon("dialog-ok"));
                 child->setData(0, statusRole, CLIPOK);
             }
-        }
-        else if (child->data(0, statusRole).toInt() == LUMAMISSING) {
+        } else if (child->data(0, statusRole).toInt() == LUMAMISSING) {
             QString fileName = searchLuma(child->data(0, idRole).toString());
             if (!fileName.isEmpty()) {
                 child->setText(1, fileName);
@@ -248,7 +247,7 @@ void DocumentChecker::accept()
 
     // prepare transitions
     QDomNodeList trans = m_doc.elementsByTagName("transition");
-    
+
     QTreeWidgetItem *child = treeWidget->topLevelItem(ix);
     while (child) {
         if (child->data(0, statusRole).toInt() == CLIPOK) {
@@ -290,10 +289,10 @@ void DocumentChecker::accept()
         } else if (child->data(0, statusRole).toInt() == LUMAOK) {
             for (int i = 0; i < trans.count(); i++) {
                 QString luma = getProperty(trans.at(i).toElement(), "luma");
-                kDebug()<< "luma: "<<luma;
+                kDebug() << "luma: " << luma;
                 if (!luma.isEmpty() && luma == child->data(0, idRole).toString()) {
                     setProperty(trans.at(i).toElement(), "luma", child->text(1));
-                    kDebug()<< "replace with; "<<child->text(1);
+                    kDebug() << "replace with; " << child->text(1);
                 }
             }
         } else if (child->data(0, statusRole).toInt() == LUMAMISSING) {
@@ -318,8 +317,7 @@ void DocumentChecker::slotPlaceholders()
         if (child->data(0, statusRole).toInt() == CLIPMISSING) {
             child->setData(0, statusRole, CLIPPLACEHOLDER);
             child->setIcon(0, KIcon("dialog-ok"));
-        }
-        else if (child->data(0, statusRole).toInt() == LUMAMISSING) {
+        } else if (child->data(0, statusRole).toInt() == LUMAMISSING) {
             child->setData(0, statusRole, LUMAPLACEHOLDER);
             child->setIcon(0, KIcon("dialog-ok"));
         }

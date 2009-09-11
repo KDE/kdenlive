@@ -81,7 +81,8 @@ Q_OBJECT public:
     MltVideoProfile mltProfile() const;
     const QString description() const;
     void setUrl(KUrl url);
-    void setProfilePath(QString path);
+    /** update project profile, returns true if fps was changed */
+    bool setProfilePath(QString path);
     const QString getFreeClipId();
     /** does the document need saving */
     bool isModified() const;
@@ -139,13 +140,12 @@ private:
     QMap <QString, QString> m_documentProperties;
 
     QList <TrackInfo> m_tracksList;
-
-    QDomDocument createEmptyDocument(const int videotracks, const int audiotracks);
-
     void setNewClipResource(const QString &id, const QString &path);
     QString searchFileRecursively(const QDir &dir, const QString &matchSize, const QString &matchHash) const;
     void moveProjectData(KUrl url);
     bool checkDocumentClips(QDomNodeList infoproducers);
+    QDomDocument createEmptyDocument(int videotracks, int audiotracks);
+    QDomDocument createEmptyDocument(QList <TrackInfo> tracks);
 
 public slots:
     void slotCreateColorClip(const QString &name, const QString &color, const QString &duration, QString group, const QString &groupId);

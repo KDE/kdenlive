@@ -27,18 +27,17 @@
 #include <QBrush>
 #include <QStyleOptionGraphicsItem>
 
-Guide::Guide(CustomTrackView *view, GenTime pos, QString label, double fps, double height) :
+Guide::Guide(CustomTrackView *view, GenTime pos, QString label, double height) :
         QGraphicsLineItem(),
         m_position(pos),
         m_label(label),
-        m_fps(fps),
         m_view(view),
         m_pen(QPen())
 {
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIgnoresTransformations);
     setToolTip(label);
     setLine(0, 0, 0, height);
-    setPos(m_position.frames(m_fps), 0);
+    setPos(m_position.frames(m_view->fps()), 0);
     m_pen.setWidthF(0);
     m_pen.setColor(QColor(0, 0, 200, 180));
     //m_pen.setCosmetic(true);
@@ -68,7 +67,7 @@ CommentedTime Guide::info() const
 void Guide::updateGuide(const GenTime newPos, const QString &comment)
 {
     m_position = newPos;
-    setPos(m_position.frames(m_fps), 0);
+    setPos(m_position.frames(m_view->fps()), 0);
     if (!comment.isEmpty()) {
         m_label = comment;
         setToolTip(m_label);
@@ -76,6 +75,11 @@ void Guide::updateGuide(const GenTime newPos, const QString &comment)
         m_width = metric.width(' ' + m_label + ' ') + 2;
         prepareGeometryChange();
     }
+}
+
+void Guide::updatePos()
+{
+    setPos(m_position.frames(m_view->fps()), 0);
 }
 
 //virtual

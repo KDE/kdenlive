@@ -209,6 +209,7 @@ Q_OBJECT public:
     const QList <Mlt::Producer *> producersList();
     void updatePreviewSettings();
     void setDropFrames(bool show);
+    QString updateSceneListFps(double current_fps, double new_fps, QString scene);
 #ifdef Q_WS_MAC
     void showFrame(Mlt::Frame&);
 #endif

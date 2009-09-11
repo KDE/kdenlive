@@ -847,6 +847,7 @@ void TrackView::slotVerticalZoomUp()
 void TrackView::updateProjectFps()
 {
     m_ruler->updateProjectFps(m_doc->timecode());
+    m_trackview->updateProjectFps();
 }
 
 void TrackView::slotRenameTrack(int ix)

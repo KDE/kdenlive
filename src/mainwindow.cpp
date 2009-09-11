@@ -684,7 +684,7 @@ void MainWindow::setupActions()
     m_statusProgressBar->setMaximumWidth(150);
     m_statusProgressBar->setVisible(false);
 
-	KToolBar *toolbar = new KToolBar("statusToolBar", this, Qt::BottomToolBarArea);
+    KToolBar *toolbar = new KToolBar("statusToolBar", this, Qt::BottomToolBarArea);
     toolbar->setMovable(false);
     m_toolGroup = new QActionGroup(this);
     statusBar()->setStyleSheet(QString("QStatusBar QLabel {font-size:%1pt;} QStatusBar::item { border: 0px; font-size:%1pt;padding:0px; }").arg(statusBar()->font().pointSize()));
@@ -1627,7 +1627,7 @@ void MainWindow::slotEditProjectSettings()
             m_effectStack->slotClipItemSelected(NULL, 0);
             m_transitionConfig->slotTransitionItemSelected(NULL, 0, QPoint(), false);
             m_clipMonitor->slotSetXml(NULL, 0);
-            m_activeDocument->setProfilePath(profile);
+            bool updateFps = m_activeDocument->setProfilePath(profile);
             KdenliveSettings::setCurrent_profile(profile);
             KdenliveSettings::setProject_fps(m_activeDocument->fps());
             setCaption(m_activeDocument->description(), m_activeDocument->isModified());
@@ -1641,7 +1641,7 @@ void MainWindow::slotEditProjectSettings()
             m_timelineArea->setTabText(m_timelineArea->currentIndex(), m_activeDocument->description());
             //m_activeDocument->clipManager()->resetProducersList(m_projectMonitor->render->producersList());
             if (dar != m_activeDocument->dar()) m_projectList->reloadClipThumbnails();
-            m_activeTimeline->updateProjectFps();
+            if (updateFps) m_activeTimeline->updateProjectFps();
 
             // We need to desactivate & reactivate monitors to get a refresh
             //m_monitorManager->switchMonitors();

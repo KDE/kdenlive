@@ -34,11 +34,12 @@ class Guide : public QGraphicsLineItem
 {
 
 public:
-    Guide(CustomTrackView *view, GenTime pos, QString label, double fps, double height);
+    Guide(CustomTrackView *view, GenTime pos, QString label, double height);
     GenTime position() const;
     void updateGuide(const GenTime newPos, const QString &comment = QString());
     QString label() const;
     CommentedTime info() const;
+    void updatePos();
     virtual int type() const;
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *w);
     virtual QRectF boundingRect() const;
@@ -52,7 +53,6 @@ protected:
 private:
     GenTime m_position;
     QString m_label;
-    double m_fps;
     CustomTrackView *m_view;
     int m_width;
     QPen m_pen;

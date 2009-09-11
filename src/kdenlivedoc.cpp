@@ -81,6 +81,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
             success = m_document.setContent(&file, false, &errorMsg);
             file.close();
             KIO::NetAccess::removeTempFile(tmpFile);
+
             if (!success) // It is corrupted
                 KMessageBox::error(parent, errorMsg);
             else {
@@ -260,14 +261,8 @@ int KdenliveDoc::setSceneList()
     return 0;
 }
 
-QDomDocument KdenliveDoc::createEmptyDocument(const int videotracks, const int audiotracks)
+QDomDocument KdenliveDoc::createEmptyDocument(int videotracks, int audiotracks)
 {
-    // Creating new document
-    QDomDocument doc;
-    QDomElement mlt = doc.createElement("mlt");
-    doc.appendChild(mlt);
-
-
     TrackInfo videoTrack;
     videoTrack.type = VIDEOTRACK;
     videoTrack.isMute = false;
@@ -279,6 +274,25 @@ QDomDocument KdenliveDoc::createEmptyDocument(const int videotracks, const int a
     audioTrack.isMute = false;
     audioTrack.isBlind = true;
     audioTrack.isLocked = false;
+
+    m_tracksList.clear();
+
+    for (int i = 0; i < audiotracks; i++) {
+        m_tracksList.append(audioTrack);
+    }
+    for (int i = 0; i < videotracks; i++) {
+        m_tracksList.append(videoTrack);
+    }
+    return createEmptyDocument(m_tracksList);
+}
+
+QDomDocument KdenliveDoc::createEmptyDocument(QList <TrackInfo> tracks)
+{
+    // Creating new document
+    QDomDocument doc;
+    QDomElement mlt = doc.createElement("mlt");
+    doc.appendChild(mlt);
+
 
     // Create black producer
     // For some unknown reason, we have to build the black producer here and not in renderer.cpp, otherwise
@@ -341,7 +355,7 @@ QDomDocument KdenliveDoc::createEmptyDocument(const int videotracks, const int a
     playlist.appendChild(blank0);
 
     // create playlists
-    int total = audiotracks + videotracks + 1;
+    int total = tracks.count() + 1;
 
     for (int i = 1; i < total; i++) {
         QDomElement playlist = doc.createElement("playlist");
@@ -354,20 +368,16 @@ QDomDocument KdenliveDoc::createEmptyDocument(const int videotracks, const int a
     tractor.appendChild(track0);
 
     // create audio tracks
-    for (int i = 1; i < audiotracks + 1; i++) {
+    for (int i = 1; i < total; i++) {
         QDomElement track = doc.createElement("track");
         track.setAttribute("producer", "playlist" + QString::number(i));
-        track.setAttribute("hide", "video");
+        if (tracks.at(i - 1).type == AUDIOTRACK)
+            track.setAttribute("hide", "video");
+        else if (tracks.at(i - 1).isBlind)
+            track.setAttribute("hide", "video");
+        if (tracks.at(i - 1).isMute)
+            track.setAttribute("hide", "audio");
         tractor.appendChild(track);
-        m_tracksList.append(audioTrack);
-    }
-
-    // create video tracks
-    for (int i = audiotracks + 1; i < total; i++) {
-        QDomElement track = doc.createElement("track");
-        track.setAttribute("producer", "playlist" + QString::number(i));
-        tractor.appendChild(track);
-        m_tracksList.append(videoTrack);
     }
 
     for (int i = 2; i < total ; i++) {
@@ -640,11 +650,12 @@ MltVideoProfile KdenliveDoc::mltProfile() const
     return m_profile;
 }
 
-void KdenliveDoc::setProfilePath(QString path)
+bool KdenliveDoc::setProfilePath(QString path)
 {
     if (path.isEmpty()) path = KdenliveSettings::default_profile();
     if (path.isEmpty()) path = "dv_pal";
     m_profile = ProfilesDialog::getVideoProfile(path);
+    bool current_fps = m_fps;
     if (m_profile.path.isEmpty()) {
         // Profile not found, use embedded profile
         QDomElement profileInfo = m_document.elementsByTagName("profileinfo").at(0).toElement();
@@ -697,6 +708,7 @@ void KdenliveDoc::setProfilePath(QString path)
     kDebug() << "Kdenlive document, init timecode from path: " << path << ",  " << m_fps;
     if (m_fps == 30000.0 / 1001.0) m_timecode.setFormat(m_fps, true);
     else m_timecode.setFormat(m_fps);
+    return (current_fps != m_fps);
 }
 
 double KdenliveDoc::dar()

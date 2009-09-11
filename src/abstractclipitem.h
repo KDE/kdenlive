@@ -57,6 +57,7 @@ public:
     virtual void resizeStart(int posx, double speed = 1.0);
     virtual void resizeEnd(int posx, double speed = 1.0);
     virtual double fps() const;
+    virtual void updateFps(double fps);
     virtual GenTime maxDuration() const;
     virtual void setCropStart(GenTime pos);
 
