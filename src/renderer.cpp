@@ -3451,7 +3451,7 @@ QString Render::updateSceneListFps(double current_fps, double new_fps, QString s
     tractor.setAttribute("out", out);
     emit durationChanged(out);
 
-    kDebug() << "///////////////////////////// " << out << " \n" << doc.toString() << "\n-------------------------";
+    //kDebug() << "///////////////////////////// " << out << " \n" << doc.toString() << "\n-------------------------";
     return doc.toString();
 }
 

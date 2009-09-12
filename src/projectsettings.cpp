@@ -22,58 +22,66 @@
 #include "profilesdialog.h"
 
 #include <KStandardDirs>
+#include <KMessageBox>
 #include <KDebug>
 
 #include <QDir>
+#include <kmessagebox.h>
 
-ProjectSettings::ProjectSettings(int videotracks, int audiotracks, const QString projectPath, bool readOnlyTracks, QWidget * parent) :
-        QDialog(parent)
+ProjectSettings::ProjectSettings(int videotracks, int audiotracks, const QString projectPath, bool readOnlyTracks, bool savedProject, QWidget * parent) :
+        QDialog(parent), m_savedProject(savedProject)
 {
-    m_view.setupUi(this);
+    setupUi(this);
 
     QMap <QString, QString> profilesInfo = ProfilesDialog::getProfilesInfo();
     QMapIterator<QString, QString> i(profilesInfo);
     while (i.hasNext()) {
         i.next();
-        m_view.profiles_list->addItem(i.key(), i.value());
+        profiles_list->addItem(i.key(), i.value());
     }
-    m_view.project_folder->setMode(KFile::Directory);
-    m_view.project_folder->setPath(projectPath);
+    project_folder->setMode(KFile::Directory);
+    project_folder->setUrl(KUrl(projectPath));
     QString currentProf = KdenliveSettings::current_profile();
 
-    for (int i = 0; i < m_view.profiles_list->count(); i++) {
-        if (m_view.profiles_list->itemData(i).toString() == currentProf) {
-            m_view.profiles_list->setCurrentIndex(i);
+    for (int i = 0; i < profiles_list->count(); i++) {
+        if (profiles_list->itemData(i).toString() == currentProf) {
+            profiles_list->setCurrentIndex(i);
             break;
         }
     }
 
-    m_buttonOk = m_view.buttonBox->button(QDialogButtonBox::Ok);
+    m_buttonOk = buttonBox->button(QDialogButtonBox::Ok);
     //buttonOk->setEnabled(false);
-    m_view.audio_thumbs->setChecked(KdenliveSettings::audiothumbnails());
-    m_view.video_thumbs->setChecked(KdenliveSettings::videothumbnails());
-    m_view.audio_tracks->setValue(audiotracks);
-    m_view.video_tracks->setValue(videotracks);
+    audio_thumbs->setChecked(KdenliveSettings::audiothumbnails());
+    video_thumbs->setChecked(KdenliveSettings::videothumbnails());
+    audio_tracks->setValue(audiotracks);
+    video_tracks->setValue(videotracks);
     if (readOnlyTracks) {
-        m_view.video_tracks->setEnabled(false);
-        m_view.audio_tracks->setEnabled(false);
+        video_tracks->setEnabled(false);
+        audio_tracks->setEnabled(false);
     }
     slotUpdateDisplay();
-    connect(m_view.profiles_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateDisplay()));
-    connect(m_view.project_folder, SIGNAL(textChanged(const QString &)), this, SLOT(slotUpdateButton(const QString &)));
+    connect(profiles_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateDisplay()));
+    connect(project_folder, SIGNAL(textChanged(const QString &)), this, SLOT(slotUpdateButton(const QString &)));
 }
 
+void ProjectSettings::accept()
+{
+    if (!m_savedProject && selectedProfile() != KdenliveSettings::current_profile())
+        if (KMessageBox::warningContinueCancel(this, i18n("Changing the profile of your project cannot be undone.\nIt is recommended to save your project before attempting this operation that might cause some corruption in transitions.\n Are you sure you want to proceed?"), i18n("Confirm profile change")) == KMessageBox::Cancel) return;
+    QDialog::accept();
+}
 
 void ProjectSettings::slotUpdateDisplay()
 {
-    QString currentProfile = m_view.profiles_list->itemData(m_view.profiles_list->currentIndex()).toString();
+    QString currentProfile = profiles_list->itemData(profiles_list->currentIndex()).toString();
     QMap< QString, QString > values = ProfilesDialog::getSettingsFromFile(currentProfile);
-    m_view.p_size->setText(values.value("width") + 'x' + values.value("height"));
-    m_view.p_fps->setText(values.value("frame_rate_num") + '/' + values.value("frame_rate_den"));
-    m_view.p_aspect->setText(values.value("sample_aspect_num") + '/' + values.value("sample_aspect_den"));
-    m_view.p_display->setText(values.value("display_aspect_num") + '/' + values.value("display_aspect_den"));
-    if (values.value("progressive").toInt() == 0) m_view.p_progressive->setText(i18n("Interlaced"));
-    else m_view.p_progressive->setText(i18n("Progressive"));
+    p_size->setText(values.value("width") + 'x' + values.value("height"));
+    p_fps->setText(values.value("frame_rate_num") + '/' + values.value("frame_rate_den"));
+    p_aspect->setText(values.value("sample_aspect_num") + '/' + values.value("sample_aspect_den"));
+    p_display->setText(values.value("display_aspect_num") + '/' + values.value("display_aspect_den"));
+    if (values.value("progressive").toInt() == 0) p_progressive->setText(i18n("Interlaced"));
+    else p_progressive->setText(i18n("Progressive"));
 }
 
 void ProjectSettings::slotUpdateButton(const QString &path)
@@ -84,30 +92,30 @@ void ProjectSettings::slotUpdateButton(const QString &path)
 
 QString ProjectSettings::selectedProfile() const
 {
-    return m_view.profiles_list->itemData(m_view.profiles_list->currentIndex()).toString();
+    return profiles_list->itemData(profiles_list->currentIndex()).toString();
 }
 
 KUrl ProjectSettings::selectedFolder() const
 {
-    return m_view.project_folder->url();
+    return project_folder->url();
 }
 
 QPoint ProjectSettings::tracks()
 {
     QPoint p;
-    p.setX(m_view.video_tracks->value());
-    p.setY(m_view.audio_tracks->value());
+    p.setX(video_tracks->value());
+    p.setY(audio_tracks->value());
     return p;
 }
 
 bool ProjectSettings::enableVideoThumbs() const
 {
-    return m_view.video_thumbs->isChecked();
+    return video_thumbs->isChecked();
 }
 
 bool ProjectSettings::enableAudioThumbs() const
 {
-    return m_view.audio_thumbs->isChecked();
+    return audio_thumbs->isChecked();
 }
 
 #include "projectsettings.moc"

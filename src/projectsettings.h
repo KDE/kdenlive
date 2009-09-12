@@ -26,25 +26,28 @@
 
 #include "ui_projectsettings_ui.h"
 
-class ProjectSettings : public QDialog
+class ProjectSettings : public QDialog, public Ui::ProjectSettings_UI
 {
     Q_OBJECT
 
 public:
-    ProjectSettings(int videotracks, int audiotracks, const QString projectPath, bool readOnlyTracks, QWidget * parent = 0);
+    ProjectSettings(int videotracks, int audiotracks, const QString projectPath, bool readOnlyTracks, bool unsavedProject, QWidget * parent = 0);
     QString selectedProfile() const;
     KUrl selectedFolder() const;
     QPoint tracks();
     bool enableVideoThumbs() const;
     bool enableAudioThumbs() const;
 
+public slots:
+    virtual void accept();
+
 private slots:
     void slotUpdateDisplay();
     void slotUpdateButton(const QString &path);
 
 private:
-    Ui::ProjectSettings_UI m_view;
     QPushButton *m_buttonOk;
+    bool m_savedProject;
 };
 
 

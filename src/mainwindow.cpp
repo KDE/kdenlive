@@ -412,7 +412,7 @@ bool MainWindow::queryClose()
     if (m_renderWidget) {
         int waitingJobs = m_renderWidget->waitingJobsCount();
         if (waitingJobs > 0) {
-            switch (KMessageBox::warningYesNoCancel(this, i18n("You have %1 rendering jobs waiting in the queue.\nWhat do you want to do with these jobs?", waitingJobs), QString(), KGuiItem(i18n("Start them now")), KGuiItem(i18n("Delete them")))) {
+            switch (KMessageBox::warningYesNoCancel(this, i18np("You have 1 rendering job waiting in the queue.\nWhat do you want to do with this job?", "You have %1 rendering jobs waiting in the queue.\nWhat do you want to do with these jobs?", waitingJobs), QString(), KGuiItem(i18n("Start them now")), KGuiItem(i18n("Delete them")))) {
             case KMessageBox::Yes :
                 // create script with waiting jobs and start it
                 if (m_renderWidget->startWaitingRenderJobs() == false) return false;
@@ -1255,7 +1255,7 @@ void MainWindow::newFile(bool showProjectSettings)
         profileName = KdenliveSettings::default_profile();
         projectFolder = KdenliveSettings::defaultprojectfolder();
     } else {
-        ProjectSettings *w = new ProjectSettings(projectTracks.x(), projectTracks.y(), KdenliveSettings::defaultprojectfolder(), false, this);
+        ProjectSettings *w = new ProjectSettings(projectTracks.x(), projectTracks.y(), KdenliveSettings::defaultprojectfolder(), false, true, this);
         if (w->exec() != QDialog::Accepted) return;
         if (!KdenliveSettings::activatetabs()) closeCurrentDocument();
         KdenliveSettings::setVideothumbnails(w->enableVideoThumbs());
@@ -1613,7 +1613,7 @@ void MainWindow::slotDetectAudioDriver()
 void MainWindow::slotEditProjectSettings()
 {
     QPoint p = m_activeDocument->getTracksCount();
-    ProjectSettings *w = new ProjectSettings(p.x(), p.y(), m_activeDocument->projectFolder().path(), true, this);
+    ProjectSettings *w = new ProjectSettings(p.x(), p.y(), m_activeDocument->projectFolder().path(), true, !m_activeDocument->isModified(), this);
 
     if (w->exec() == QDialog::Accepted) {
         QString profile = w->selectedProfile();
@@ -1642,7 +1642,8 @@ void MainWindow::slotEditProjectSettings()
             //m_activeDocument->clipManager()->resetProducersList(m_projectMonitor->render->producersList());
             if (dar != m_activeDocument->dar()) m_projectList->reloadClipThumbnails();
             if (updateFps) m_activeTimeline->updateProjectFps();
-
+            m_activeDocument->setModified(true);
+            m_commandStack->activeStack()->clear();
             // We need to desactivate & reactivate monitors to get a refresh
             //m_monitorManager->switchMonitors();
         }

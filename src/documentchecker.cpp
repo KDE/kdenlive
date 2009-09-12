@@ -347,7 +347,7 @@ void DocumentChecker::checkStatus()
 
 void DocumentChecker::slotDeleteSelected()
 {
-    if (KMessageBox::warningContinueCancel(this, i18n("This will remove the selected clips from this project"), i18n("Remove clips")) == KMessageBox::Cancel) return;
+    if (KMessageBox::warningContinueCancel(this, i18np("This will remove the selected clip from this project", "This will remove the selected clips from this project", treeWidget->selectedItems().count()), i18n("Remove clips")) == KMessageBox::Cancel) return;
     int ix = 0;
     QStringList deletedIds;
     QTreeWidgetItem *child = treeWidget->topLevelItem(ix);

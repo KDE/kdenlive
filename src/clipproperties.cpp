@@ -499,7 +499,7 @@ void ClipProperties::parseFolder()
     dir.setNameFilters(filters);
     QStringList result = dir.entryList(QDir::Files);
     m_count = result.count();
-    m_view.slide_info->setText(i18n("%1 images found", m_count));
+    m_view.slide_info->setText(i18np("1 image found", "%1 images found", m_count));
     QDomElement xml = m_clip->toXML();
     xml.setAttribute("resource", m_view.clip_path->text() + extension);
     int width = 180.0 * KdenliveSettings::project_display_ratio();

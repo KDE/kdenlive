@@ -2197,7 +2197,7 @@ void CustomTrackView::slotRemoveSpace()
     int length = m_document->renderer()->mltGetSpaceLength(pos, m_document->tracksCount() - track, true);
     //kDebug() << "// GOT LENGT; " << length;
     if (length <= 0) {
-        emit displayMessage(i18n("You must be in an empty space to remove space (time=%1, track:%2)", m_document->timecode().getTimecodeFromFrames(mapToScene(m_menuPosition).x()), track), ErrorMessage);
+        emit displayMessage(i18n("You must be in an empty space to remove space (time: %1, track:%2)", m_document->timecode().getTimecodeFromFrames(mapToScene(m_menuPosition).x()), track), ErrorMessage);
         return;
     }
 
@@ -2343,7 +2343,6 @@ void CustomTrackView::deleteClip(const QString &clipId)
     resetSelectionGroup();
     QList<QGraphicsItem *> itemList = items();
     QUndoCommand *deleteCommand = new QUndoCommand();
-    deleteCommand->setText(i18n("Delete timeline clips"));
     int count = 0;
     for (int i = 0; i < itemList.count(); i++) {
         if (itemList.at(i)->type() == AVWIDGET) {
@@ -2358,6 +2357,7 @@ void CustomTrackView::deleteClip(const QString &clipId)
             }
         }
     }
+    deleteCommand->setText(i18np("Delete timeline clip", "Delete timeline clips", count));
     if (count == 0) delete deleteCommand;
     else m_commandStack->push(deleteCommand);
 }
@@ -3030,12 +3030,15 @@ void CustomTrackView::deleteSelectedClips()
     }
     scene()->clearSelection();
     QUndoCommand *deleteSelected = new QUndoCommand();
-    deleteSelected->setText(i18n("Delete selected items"));
-    bool resetGroup = false;
 
+    bool resetGroup = false;
+    int groupCount = 0;
+    int clipCount = 0;
+    int transitionCount = 0;
     // expand & destroy groups
     for (int i = 0; i < itemList.count(); i++) {
         if (itemList.at(i)->type() == GROUPWIDGET) {
+            groupCount++;
             QList<QGraphicsItem *> children = itemList.at(i)->childItems();
             itemList += children;
             QList <ItemInfo> clipInfos;
@@ -3058,12 +3061,14 @@ void CustomTrackView::deleteSelectedClips()
 
     for (int i = 0; i < itemList.count(); i++) {
         if (itemList.at(i)->type() == AVWIDGET) {
+            clipCount++;
             ClipItem *item = static_cast <ClipItem *>(itemList.at(i));
             if (item->parentItem()) resetGroup = true;
             //kDebug()<<"// DELETE CLP AT: "<<item->info().startPos.frames(25);
             new AddTimelineClipCommand(this, item->xml(), item->clipProducer(), item->info(), item->effectList(), true, true, deleteSelected);
             emit clipItemSelected(NULL);
         } else if (itemList.at(i)->type() == TRANSITIONWIDGET) {
+            transitionCount++;
             Transition *item = static_cast <Transition *>(itemList.at(i));
             //kDebug()<<"// DELETE TRANS AT: "<<item->info().startPos.frames(25);
             if (item->parentItem()) resetGroup = true;
@@ -3071,7 +3076,13 @@ void CustomTrackView::deleteSelectedClips()
             emit transitionItemSelected(NULL);
         }
     }
-
+    if (groupCount > 0 && clipCount == transitionCount == 0)
+        deleteSelected->setText(i18np("Delete selected group", "Delete selected groups", groupCount));
+    else if (clipCount > 0 && groupCount == transitionCount == 0)
+        deleteSelected->setText(i18np("Delete selected clip", "Delete selected clips", clipCount));
+    else if (transitionCount > 0 && groupCount == clipCount == 0)
+        deleteSelected->setText(i18np("Delete selected transition", "Delete selected transitions", transitionCount));
+    else deleteSelected->setText(i18n("Delete selected items"));
     m_commandStack->push(deleteSelected);
 }
 

@@ -127,7 +127,7 @@ void SlideshowClip::parseFolder()
     m_count = result.count();
     if (m_count == 0) m_view.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
     else m_view.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
-    m_view.label_info->setText(i18n("%1 images found", m_count));
+    m_view.label_info->setText(i18np("1 image found", "%1 images found", m_count));
     QListWidgetItem *item;
     int i = 0;
     KIcon unknownicon("unknown");
