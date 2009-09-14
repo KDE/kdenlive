@@ -64,6 +64,8 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     image_properties->setFixedHeight(frame_properties->height() + 4);
     text_properties->setFixedHeight(frame_properties->height() + 4);
     frame_properties->setFixedHeight(frame_toolbar->height());
+
+    itemzoom->setSuffix(i18n("%"));
     m_frameWidth = render->renderWidth();
     m_frameHeight = render->renderHeight();
     showToolbars(TITLE_NONE);
@@ -1444,7 +1446,16 @@ void TitleWidget::saveTitle(KUrl url)
 {
     if (anim_start->isChecked()) slotAnimStart(false);
     if (anim_end->isChecked()) slotAnimEnd(false);
-    if (url.isEmpty()) url = KFileDialog::getSaveUrl(KUrl(m_projectTitlePath), "application/x-kdenlivetitle", this, i18n("Save Title"));
+    if (url.isEmpty()) {
+        KFileDialog *fs = new KFileDialog(KUrl(m_projectTitlePath), "application/x-kdenlivetitle",this);
+        fs->setOperationMode(KFileDialog::Saving);
+        fs->setMode(KFile::File);
+        fs->setConfirmOverwrite(true);
+        fs->setKeepLocation(true);
+        fs->exec();
+        url = fs->selectedUrl();
+        delete fs;
+    }
     if (!url.isEmpty()) {
         if (m_titledocument.saveDocument(url, m_startViewport, m_endViewport, m_tc.getFrameCount(title_duration->text())) == false)
             KMessageBox::error(this, i18n("Cannot write to file %1", url.path()));
