@@ -127,7 +127,7 @@ Q_OBJECT public:
     void stop(const GenTime & startTime);
     void setVolume(double volume);
 
-    QPixmap extractFrame(int frame_position, int width = -1, int height = -1);
+    QImage extractFrame(int frame_position, int width = -1, int height = -1);
     /** Wraps the VEML command of the same name. Tells the renderer to
     play the current scene at the speed specified, relative to normal
     playback. e.g. 1.0 is normal speed, 0.0 is paused, -1.0 means play

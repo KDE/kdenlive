@@ -3076,11 +3076,11 @@ void CustomTrackView::deleteSelectedClips()
             emit transitionItemSelected(NULL);
         }
     }
-    if (groupCount > 0 && clipCount == transitionCount == 0)
+    if (groupCount > 0 && (clipCount == transitionCount == 0))
         deleteSelected->setText(i18np("Delete selected group", "Delete selected groups", groupCount));
-    else if (clipCount > 0 && groupCount == transitionCount == 0)
+    else if (clipCount > 0 && (groupCount == transitionCount == 0))
         deleteSelected->setText(i18np("Delete selected clip", "Delete selected clips", clipCount));
-    else if (transitionCount > 0 && groupCount == clipCount == 0)
+    else if (transitionCount > 0 && (groupCount == clipCount == 0))
         deleteSelected->setText(i18np("Delete selected transition", "Delete selected transitions", transitionCount));
     else deleteSelected->setText(i18n("Delete selected items"));
     m_commandStack->push(deleteSelected);

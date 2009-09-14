@@ -450,11 +450,17 @@ void Monitor::slotSetThumbFrame()
 
 void Monitor::slotExtractCurrentFrame()
 {
-    QPixmap frame = render->extractFrame(render->seekFramePosition());
-    QString outputFile = KFileDialog::getSaveFileName(KUrl(), "image/png");
-    if (!outputFile.isEmpty()) {
-        if (QFile::exists(outputFile) && KMessageBox::questionYesNo(this, i18n("File already exists.\nDo you want to overwrite it?")) == KMessageBox::No) return;
-        frame.save(outputFile);
+    QImage frame = render->extractFrame(render->seekFramePosition());
+    KFileDialog *fs = new KFileDialog(KUrl(), "image/png",this);
+    fs->setOperationMode(KFileDialog::Saving);
+    fs->setMode(KFile::File);
+    fs->setConfirmOverwrite(true);
+    fs->setKeepLocation(true);
+    fs->exec();
+    QString path = fs->selectedFile();
+    delete fs;
+    if (!path.isEmpty()) {
+        frame.save(path);
     }
 }
 

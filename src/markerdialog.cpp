@@ -65,7 +65,7 @@ MarkerDialog::MarkerDialog(DocClipBase *clip, CommentedTime t, Timecode tc, cons
             connect(this, SIGNAL(updateThumb()), m_previewTimer, SLOT(start()));
         case IMAGE:
         case TEXT:
-            p = KThumb::getFrame(m_producer, t.time().frames(m_fps), width, 100);
+            p = QPixmap::fromImage(KThumb::getFrame(m_producer, t.time().frames(m_fps), width, 100));
             break;
         case COLOR:
             colour = colour.replace(0, 2, "#");
@@ -107,7 +107,7 @@ void MarkerDialog::slotUpdateThumb()
     int pos = m_tc.getFrameCount(marker_position->text());
     int width = 100.0 * m_dar;
     if (width % 2 == 1) width++;
-    QPixmap p = KThumb::getFrame(m_producer, pos, width, 100);
+    QPixmap p = QPixmap::fromImage(KThumb::getFrame(m_producer, pos, width, 100));
     if (!p.isNull()) clip_thumb->setPixmap(p);
     else kDebug() << "!!!!!!!!!!!  ERROR CREATING THUMB";
 }

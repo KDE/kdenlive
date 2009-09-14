@@ -100,7 +100,7 @@ public slots:
     void removeAudioThumb();
     void getAudioThumbs(int channel, double frame, double frameLength, int arrayWidth);
     static QPixmap getImage(KUrl url, int frame, int width, int height);
-    static QPixmap getFrame(Mlt::Producer *producer, int framepos, int width, int height);
+    static QImage getFrame(Mlt::Producer *producer, int framepos, int width, int height);
 
 private slots:
     void slotAudioThumbProgress(const int progress);

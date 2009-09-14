@@ -933,8 +933,7 @@ void KdenliveDoc::addClip(QDomElement elem, QString clipId, bool createClipItem)
 
     if (createClipItem) {
         emit addProjectClip(clip);
-        qApp->processEvents();
-        m_render->getFileProperties(clip->toXML(), clip->getId(), true);
+        //qApp->processEvents();
     }
 }
 

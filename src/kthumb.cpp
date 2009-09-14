@@ -190,18 +190,18 @@ void KThumb::extractImage(int frame, int frame2)
     const int theight = KdenliveSettings::trackheight();
 
     if (frame != -1) {
-        QPixmap pix = getFrame(m_producer, frame, twidth, theight);
+        QPixmap pix = QPixmap::fromImage(getFrame(m_producer, frame, twidth, theight));
         emit thumbReady(frame, pix);
     }
     if (frame2 != -1) {
-        QPixmap pix = getFrame(m_producer, frame2, twidth, theight);
+        QPixmap pix = QPixmap::fromImage(getFrame(m_producer, frame2, twidth, theight));
         emit thumbReady(frame2, pix);
     }
 }
 
 QPixmap KThumb::extractImage(int frame, int width, int height)
 {
-    return getFrame(m_producer, frame, width, height);
+    return QPixmap::fromImage(getFrame(m_producer, frame, width, height));
 }
 
 //static
@@ -219,16 +219,16 @@ QPixmap KThumb::getImage(KUrl url, int frame, int width, int height)
     Mlt::Producer *producer = new Mlt::Producer(profile, tmp);
     delete[] tmp;
 
-    pix = getFrame(producer, frame, width, height);
+    pix = QPixmap::fromImage(getFrame(producer, frame, width, height));
     delete producer;
     return pix;
 }
 
 
 //static
-QPixmap KThumb::getFrame(Mlt::Producer *producer, int framepos, int width, int height)
+QImage KThumb::getFrame(Mlt::Producer *producer, int framepos, int width, int height)
 {
-    QPixmap p(width, height);
+    QImage p(width, height, QImage::Format_ARGB32);
     if (producer == NULL) {
         p.fill(Qt::red);
         return p;
@@ -257,7 +257,7 @@ QPixmap KThumb::getFrame(Mlt::Producer *producer, int framepos, int width, int h
     //mlt_service_unlock(service.get_service());
 
     if (!image.isNull()) {
-        p = QPixmap::fromImage(image.rgbSwapped());
+        p = image.rgbSwapped();
     } else
         p.fill(Qt::red);
 

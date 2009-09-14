@@ -125,8 +125,7 @@ void DvdWizardVob::slotAddVobFile(KUrl url, const QString &chapters)
     if (producer->is_blank() == false) {
         int width = 45.0 * profile.dar();
         if (width % 2 == 1) width++;
-        pix = KThumb::getFrame(producer, 0, width, 45);
-        item->setIcon(0, pix);
+        item->setIcon(0, QPixmap::fromImage(KThumb::getFrame(producer, 0, width, 45)));
         int playTime = producer->get_playtime();
         item->setText(1, Timecode::getStringTimecode(playTime, profile.fps()));
         item->setData(1, Qt::UserRole, playTime);
