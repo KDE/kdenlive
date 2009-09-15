@@ -148,13 +148,18 @@ void ClipManager::addClip(DocClipBase *clip)
     if (!gid.isEmpty() && gid.toInt() >= m_folderIdCounter) m_folderIdCounter = gid.toInt() + 1;
 }
 
-void ClipManager::slotDeleteClip(const QString &clipId)
+void ClipManager::slotDeleteClips(QStringList ids)
 {
-    DocClipBase *clip = getClipById(clipId);
-    if (clip) {
-        AddClipCommand *command = new AddClipCommand(m_doc, clip->toXML(), clipId, false);
-        m_doc->commandStack()->push(command);
+    QUndoCommand *delClips = new QUndoCommand();
+    delClips->setText(i18np("Delete clip", "Delete clips", ids.size()));
+    
+    for (int i = 0; i < ids.size(); i++) {
+        DocClipBase *clip = getClipById(ids.at(i));
+        if (clip) {
+            new AddClipCommand(m_doc, clip->toXML(), ids.at(i), false, delClips);
+        }
     }
+    m_doc->commandStack()->push(delClips);
 }
 
 void ClipManager::deleteClip(const QString &clipId)

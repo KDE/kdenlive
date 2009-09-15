@@ -71,7 +71,7 @@ public:
       extendItem(w,
     }
     */
-    void drawFocus ( QPainter * painter, const QStyleOptionViewItem & option, const QRect & rect ) const {
+    void drawFocus ( QPainter *, const QStyleOptionViewItem &, const QRect & ) const {
     }
     
     void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const {
@@ -133,6 +133,7 @@ public:
     QString currentClipUrl() const;
     void reloadClipThumbnails();
     QDomDocument generateTemplateXml(QString data, const QString &replaceString);
+    void cleanup();
 
 public slots:
     void setDocument(KdenliveDoc *doc);

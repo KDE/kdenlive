@@ -853,6 +853,10 @@ void MainWindow::setupActions()
     projectRender->setShortcut(Qt::CTRL + Qt::Key_Return);
     connect(projectRender, SIGNAL(triggered(bool)), this, SLOT(slotRenderProject()));
 
+    KAction* projectClean = new KAction(KIcon("edit-clear"), i18n("Clean Project"), this);
+    collection->addAction("project_clean", projectClean);
+    connect(projectClean, SIGNAL(triggered(bool)), this, SLOT(slotCleanProject()));
+    
     KAction* monitorPlay = new KAction(KIcon("media-playback-start"), i18n("Play"), this);
     KShortcut playShortcut;
     playShortcut.setPrimary(Qt::Key_Space);
@@ -1682,6 +1686,12 @@ void MainWindow::setRenderingProgress(const QString &url, int progress)
 void MainWindow::setRenderingFinished(const QString &url, int status, const QString &error)
 {
     if (m_renderWidget) m_renderWidget->setRenderStatus(url, status, error);
+}
+
+void MainWindow::slotCleanProject()
+{
+    if (KMessageBox::warningContinueCancel(this, i18n("This will remove all unused clips from your project."), i18n("Clean up project")) == KMessageBox::Cancel) return;
+    m_projectList->cleanup();
 }
 
 void MainWindow::slotUpdateMousePosition(int pos)

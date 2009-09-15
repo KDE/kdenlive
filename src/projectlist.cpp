@@ -212,6 +212,19 @@ void ProjectList::slotOpenClip()
     }
 }
 
+void ProjectList::cleanup()
+{
+    m_listView->clearSelection();
+    QTreeWidgetItemIterator it(m_listView);
+    ProjectItem *item;
+    while (*it) {
+        item = static_cast <ProjectItem *>(*it);
+        if (item->numReferences() == 0) item->setSelected(true);
+        it++;
+    }
+    slotRemoveClip();
+}
+
 void ProjectList::slotReloadClip(const QString &id)
 {
     QList<QTreeWidgetItem *> selected;
@@ -383,7 +396,7 @@ void ProjectList::slotContextMenu(const QPoint &pos, QTreeWidgetItem *item)
 void ProjectList::slotRemoveClip()
 {
     if (!m_listView->currentItem()) return;
-    QList <QString> ids;
+    QStringList ids;
     QMap <QString, QString> folderids;
     QList<QTreeWidgetItem *> selected = m_listView->selectedItems();
     ProjectItem *item;
@@ -670,7 +683,7 @@ void ProjectList::slotRemoveInvalidClip(const QString &id, bool replace)
                 if (KMessageBox::questionYesNo(this, i18n("Clip <b>%1</b><br>is missing or invalid. Remove it from project?", path), i18n("Invalid clip")) == KMessageBox::Yes) replace = true;
             }
         }
-        QList <QString> ids;
+        QStringList ids;
         ids << id;
         if (replace) m_doc->deleteProjectClip(ids);
     }

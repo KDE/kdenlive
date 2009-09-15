@@ -1030,12 +1030,12 @@ void KdenliveDoc::addClipInfo(QDomElement elem, QDomElement orig, QString clipId
     }
 }
 
-void KdenliveDoc::deleteProjectClip(QList <QString> ids)
+void KdenliveDoc::deleteProjectClip(QStringList ids)
 {
     for (int i = 0; i < ids.size(); ++i) {
         emit deleteTimelineClip(ids.at(i));
-        m_clipManager->slotDeleteClip(ids.at(i));
     }
+    m_clipManager->slotDeleteClips(ids);
     setModified(true);
 }
 

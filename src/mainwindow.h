@@ -312,6 +312,7 @@ private slots:
     void slotUpdateTimecodeFormat(int ix);
     /** Removes the focus of anything */
     void slotRemoveFocus();
+    void slotCleanProject();
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);
