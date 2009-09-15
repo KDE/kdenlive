@@ -229,7 +229,6 @@ void ProjectItem::setProperties(const QMap < QString, QString > &attributes, con
         GenTime duration = GenTime(attributes.value("duration").toInt(), KdenliveSettings::project_fps());
         setData(1, DurationRole, Timecode::getEasyTimecode(duration, KdenliveSettings::project_fps()));
         m_clip->setDuration(duration);
-        //kDebug() << "//// LOADED CLIP, DURATIONÂ SET TO: " << duration.frames(KdenliveSettings::project_fps());
     } else  {
         // No duration known, use an arbitrary one until it is.
     }

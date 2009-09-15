@@ -71,6 +71,9 @@ public:
       extendItem(w,
     }
     */
+    void drawFocus ( QPainter * painter, const QStyleOptionViewItem & option, const QRect & rect ) const {
+    }
+    
     void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const {
         if (index.column() == 1) {
             QRect r1 = option.rect;
@@ -83,9 +86,9 @@ public:
             font.setBold(true);
             painter->setFont(font);
             int mid = (int)((r1.height() / 2));
-            r1.setBottom(r1.y() + mid);
+            r1.adjust(2, 0, 0, -mid);
             QRect r2 = option.rect;
-            r2.setTop(r2.y() + mid);
+            r2.adjust(2, mid, 0, 0);
             painter->drawText(r1, Qt::AlignLeft | Qt::AlignBottom , index.data().toString());
             //painter->setPen(Qt::green);
             font.setBold(false);
