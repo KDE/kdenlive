@@ -502,7 +502,10 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
     if (getProperties) {
         m_listView->blockSignals(true);
         m_refreshed = false;
-        m_infoQueue.insert(clip->getId(), clip->toXML());
+        // remove file_hash so that we load all properties for the clip
+        QDomElement e = clip->toXML().cloneNode().toElement();
+        e.removeAttribute("file_hash");
+        m_infoQueue.insert(clip->getId(), e);
         //m_render->getFileProperties(clip->toXML(), clip->getId(), true);
     }
     const QString parent = clip->getProperty("groupid");
