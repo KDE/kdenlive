@@ -1,228 +1,333 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>ProjectSettings_UI</class>
- <widget class="QDialog" name="ProjectSettings_UI" >
-  <property name="geometry" >
+ <widget class="QDialog" name="ProjectSettings_UI">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>582</width>
-    <height>366</height>
+    <width>447</width>
+    <height>299</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Project Settings</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout_3" >
-   <item row="3" column="5" colspan="3" >
-    <spacer name="horizontalSpacer" >
-     <property name="orientation" >
+  <layout class="QGridLayout" name="gridLayout_5">
+   <item row="0" column="0">
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="tab">
+      <attribute name="title">
+       <string>Settings</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_3">
+       <item row="0" column="0" colspan="2">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>Project folder</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2" colspan="5">
+        <widget class="KUrlRequester" name="project_folder"/>
+       </item>
+       <item row="1" column="0" colspan="7">
+        <widget class="QGroupBox" name="properties">
+         <property name="title">
+          <string>Video Profile</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_2">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string>Profile</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="KComboBox" name="profiles_list"/>
+          </item>
+          <item row="1" column="0" colspan="2">
+           <layout class="QGridLayout" name="gridLayout">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_5">
+              <property name="text">
+               <string>Size:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLabel" name="p_size">
+              <property name="text">
+               <string>720x576</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="2">
+             <widget class="QLabel" name="label_3">
+              <property name="text">
+               <string>Frame rate:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="3">
+             <widget class="QLabel" name="p_fps">
+              <property name="text">
+               <string>25/1</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_9">
+              <property name="text">
+               <string>Pixel aspect ratio:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLabel" name="p_aspect">
+              <property name="text">
+               <string>59/54</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="2">
+             <widget class="QLabel" name="label_10">
+              <property name="text">
+               <string>Display aspect ratio:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="3">
+             <widget class="QLabel" name="p_display">
+              <property name="text">
+               <string>4/3</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="2" column="0" colspan="2">
+           <widget class="QLabel" name="p_progressive">
+            <property name="text">
+             <string>Interlaced</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_7">
+         <property name="text">
+          <string>Video tracks</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="2">
+        <widget class="QSpinBox" name="video_tracks"/>
+       </item>
+       <item row="2" column="3" colspan="2">
+        <widget class="QLabel" name="label_8">
+         <property name="text">
+          <string>Audio tracks</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="5">
+        <widget class="QSpinBox" name="audio_tracks"/>
+       </item>
+       <item row="2" column="6">
+        <spacer name="horizontalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>67</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Thumbnails:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1" colspan="2">
+        <widget class="QCheckBox" name="video_thumbs">
+         <property name="text">
+          <string>Video</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="3">
+        <widget class="QCheckBox" name="audio_thumbs">
+         <property name="text">
+          <string>Audio</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="4" colspan="3">
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>229</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="4" column="2" colspan="3">
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>105</width>
+           <height>17</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_2">
+      <attribute name="title">
+       <string>Project Files</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_4">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_12">
+         <property name="text">
+          <string>Clips used in project:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLabel" name="used_count">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QLabel" name="used_size">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_6">
+         <property name="text">
+          <string>Unused clips:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLabel" name="unused_count">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2">
+        <widget class="QLabel" name="unused_size">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="3">
+        <widget class="KPushButton" name="delete_unused">
+         <property name="text">
+          <string>Delete files</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_11">
+         <property name="text">
+          <string>Thumbnails cache:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLabel" name="thumbs_count">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="2">
+        <widget class="QLabel" name="thumbs_size">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="3">
+        <widget class="KPushButton" name="clear_cache">
+         <property name="text">
+          <string>Clear cache</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="3">
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>142</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
-     <property name="sizeHint" stdset="0" >
-      <size>
-       <width>229</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="4" column="3" colspan="3" >
-    <spacer name="verticalSpacer" >
-     <property name="orientation" >
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0" >
-      <size>
-       <width>105</width>
-       <height>17</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="0" column="0" colspan="3" >
-    <widget class="QLabel" name="label_4" >
-     <property name="text" >
-      <string>Project folder</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="3" colspan="5" >
-    <widget class="KUrlRequester" name="project_folder" />
-   </item>
-   <item row="1" column="0" colspan="8" >
-    <widget class="QGroupBox" name="properties" >
-     <property name="title" >
-      <string>Video Profile</string>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_2" >
-      <item row="0" column="0" >
-       <widget class="QLabel" name="label" >
-        <property name="text" >
-         <string>Profile</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1" >
-       <widget class="KComboBox" name="profiles_list" />
-      </item>
-      <item row="1" column="0" colspan="2" >
-       <layout class="QGridLayout" name="gridLayout" >
-        <item row="0" column="0" >
-         <widget class="QLabel" name="label_5" >
-          <property name="text" >
-           <string>Size:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1" >
-         <widget class="QLabel" name="p_size" >
-          <property name="text" >
-           <string>720x576</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="2" >
-         <widget class="QLabel" name="label_3" >
-          <property name="text" >
-           <string>Frame rate:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="3" >
-         <widget class="QLabel" name="p_fps" >
-          <property name="text" >
-           <string>25/1</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0" >
-         <widget class="QLabel" name="label_9" >
-          <property name="text" >
-           <string>Pixel aspect ratio:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1" >
-         <widget class="QLabel" name="p_aspect" >
-          <property name="text" >
-           <string>59/54</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="2" >
-         <widget class="QLabel" name="label_10" >
-          <property name="text" >
-           <string>Display aspect ratio:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="3" >
-         <widget class="QLabel" name="p_display" >
-          <property name="text" >
-           <string>4/3</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item row="2" column="0" colspan="2" >
-       <widget class="QLabel" name="p_progressive" >
-        <property name="text" >
-         <string>Interlaced</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="3" column="0" >
-    <widget class="QLabel" name="label_2" >
-     <property name="text" >
-      <string>Thumbnails:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="1" colspan="3" >
-    <widget class="QCheckBox" name="video_thumbs" >
-     <property name="text" >
-      <string>Video</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="4" >
-    <widget class="QCheckBox" name="audio_thumbs" >
-     <property name="text" >
-      <string>Audio</string>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="1" colspan="7" >
-    <widget class="QDialogButtonBox" name="buttonBox" >
-     <property name="orientation" >
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons" >
+     <property name="standardButtons">
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
      </property>
     </widget>
    </item>
-   <item row="2" column="7" >
-    <spacer name="horizontalSpacer_2" >
-     <property name="orientation" >
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeHint" stdset="0" >
-      <size>
-       <width>67</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="2" column="4" colspan="2" >
-    <widget class="QLabel" name="label_8" >
-     <property name="text" >
-      <string>Audio tracks</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0" colspan="2" >
-    <widget class="QLabel" name="label_7" >
-     <property name="text" >
-      <string>Video tracks</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="2" colspan="2" >
-    <widget class="QSpinBox" name="video_tracks" />
-   </item>
-   <item row="2" column="6" >
-    <widget class="QSpinBox" name="audio_tracks" />
-   </item>
   </layout>
-  <zorder>label_4</zorder>
-  <zorder>project_folder</zorder>
-  <zorder>properties</zorder>
-  <zorder>label_2</zorder>
-  <zorder>video_thumbs</zorder>
-  <zorder>audio_thumbs</zorder>
-  <zorder>buttonBox</zorder>
-  <zorder>horizontalSpacer_2</zorder>
-  <zorder>label_8</zorder>
-  <zorder>label_7</zorder>
-  <zorder>video_tracks</zorder>
-  <zorder>audio_tracks</zorder>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>KComboBox</class>
-   <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
-  </customwidget>
   <customwidget>
    <class>KUrlRequester</class>
    <extends>QFrame</extends>
    <header>kurlrequester.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KPushButton</class>
+   <extends>QPushButton</extends>
+   <header>kpushbutton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
@@ -233,11 +338,11 @@
    <receiver>ProjectSettings_UI</receiver>
    <slot>accept()</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>248</x>
      <y>254</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>157</x>
      <y>274</y>
     </hint>
@@ -249,11 +354,11 @@
    <receiver>ProjectSettings_UI</receiver>
    <slot>reject()</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>316</x>
      <y>260</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>286</x>
      <y>274</y>
     </hint>
