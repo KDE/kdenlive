@@ -24,6 +24,7 @@
 #include <QDialog>
 #include <QPushButton>
 
+#include "clipmanager.h"
 #include "ui_projectsettings_ui.h"
 
 class ProjectSettings : public QDialog, public Ui::ProjectSettings_UI
@@ -31,12 +32,13 @@ class ProjectSettings : public QDialog, public Ui::ProjectSettings_UI
     Q_OBJECT
 
 public:
-    ProjectSettings(int videotracks, int audiotracks, const QString projectPath, bool readOnlyTracks, bool unsavedProject, QWidget * parent = 0);
+    ProjectSettings(ClipManager *manager, int videotracks, int audiotracks, const QString projectPath, bool readOnlyTracks, bool unsavedProject, QWidget * parent = 0);
     QString selectedProfile() const;
     KUrl selectedFolder() const;
     QPoint tracks();
     bool enableVideoThumbs() const;
     bool enableAudioThumbs() const;
+    bool deleteUnused() const;
 
 public slots:
     virtual void accept();
@@ -44,10 +46,15 @@ public slots:
 private slots:
     void slotUpdateDisplay();
     void slotUpdateButton(const QString &path);
+    void slotUpdateFiles(bool cacheOnly = false);
+    void slotClearCache();
+    void slotDeleteUnused();
 
 private:
     QPushButton *m_buttonOk;
     bool m_savedProject;
+    ClipManager *m_clipManager;
+    bool m_deleteUnused;
 };
 
 

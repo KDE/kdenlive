@@ -134,6 +134,7 @@ public:
     void reloadClipThumbnails();
     QDomDocument generateTemplateXml(QString data, const QString &replaceString);
     void cleanup();
+    void trashUnusedClips();
 
 public slots:
     void setDocument(KdenliveDoc *doc);

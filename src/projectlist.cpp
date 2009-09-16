@@ -41,6 +41,8 @@
 #include <KFileDialog>
 #include <KInputDialog>
 #include <KMessageBox>
+#include <KIO/NetAccess>
+#include <KFileItem>
 
 #include <nepomuk/global.h>
 #include <nepomuk/resourcemanager.h>
@@ -223,6 +225,27 @@ void ProjectList::cleanup()
         it++;
     }
     slotRemoveClip();
+}
+
+void ProjectList::trashUnusedClips()
+{
+    QTreeWidgetItemIterator it(m_listView);
+    ProjectItem *item;
+    QStringList ids;
+    KUrl::List urls;
+    while (*it) {
+        item = static_cast <ProjectItem *>(*it);
+        if (item->numReferences() == 0) {
+            ids << item->clipId();
+            KUrl url = item->clipUrl();
+            if (!url.isEmpty()) urls << url;
+        }
+        it++;
+    }
+    m_doc->deleteProjectClip(ids);
+    for (int i = 0; i < urls.count(); i++) {
+        KIO::NetAccess::del(urls.at(i), this);
+    }
 }
 
 void ProjectList::slotReloadClip(const QString &id)

@@ -147,7 +147,7 @@ Q_OBJECT public:
     bool hasFileSize() const;
 
     /** Returns the filesize, or 0 if there is no appropriate filesize. */
-    uint fileSize() const;
+    qulonglong fileSize() const;
 
     /** Returns true if this clip refers to the clip passed in. A clip refers to another clip if
      * it uses it as part of it's own composition. */

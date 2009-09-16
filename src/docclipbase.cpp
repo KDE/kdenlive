@@ -245,6 +245,10 @@ bool DocClipBase::hasFileSize() const
     return true;
 }
 
+qulonglong DocClipBase::fileSize() const
+{
+    return m_properties.value("file_size").toULongLong();
+}
 
 // virtual
 QDomElement DocClipBase::toXML() const

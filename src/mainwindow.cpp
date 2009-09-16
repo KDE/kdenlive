@@ -52,6 +52,7 @@
 #include "kdenlive-config.h"
 #include "cliptranscode.h"
 #include "ui_templateclip_ui.h"
+#include "ui_projectfiles_ui.h"
 
 #include <KApplication>
 #include <KAction>
@@ -1259,7 +1260,7 @@ void MainWindow::newFile(bool showProjectSettings)
         profileName = KdenliveSettings::default_profile();
         projectFolder = KdenliveSettings::defaultprojectfolder();
     } else {
-        ProjectSettings *w = new ProjectSettings(projectTracks.x(), projectTracks.y(), KdenliveSettings::defaultprojectfolder(), false, true, this);
+        ProjectSettings *w = new ProjectSettings(NULL, projectTracks.x(), projectTracks.y(), KdenliveSettings::defaultprojectfolder(), false, true, this);
         if (w->exec() != QDialog::Accepted) return;
         if (!KdenliveSettings::activatetabs()) closeCurrentDocument();
         KdenliveSettings::setVideothumbnails(w->enableVideoThumbs());
@@ -1617,9 +1618,13 @@ void MainWindow::slotDetectAudioDriver()
 void MainWindow::slotEditProjectSettings()
 {
     QPoint p = m_activeDocument->getTracksCount();
-    ProjectSettings *w = new ProjectSettings(p.x(), p.y(), m_activeDocument->projectFolder().path(), true, !m_activeDocument->isModified(), this);
+    ProjectSettings *w = new ProjectSettings(m_activeDocument->clipManager(), p.x(), p.y(), m_activeDocument->projectFolder().path(), true, !m_activeDocument->isModified(), this);
 
     if (w->exec() == QDialog::Accepted) {
+        if (w->deleteUnused()) {
+            // we are going to trash the unused clips
+            m_projectList->trashUnusedClips();
+        }
         QString profile = w->selectedProfile();
         m_activeDocument->setProjectFolder(w->selectedFolder());
         if (m_renderWidget) m_renderWidget->setDocumentPath(w->selectedFolder().path(KUrl::AddTrailingSlash));
@@ -1654,6 +1659,7 @@ void MainWindow::slotEditProjectSettings()
     }
     delete w;
 }
+
 
 void MainWindow::slotRenderProject()
 {

@@ -20,16 +20,19 @@
 #include "projectsettings.h"
 #include "kdenlivesettings.h"
 #include "profilesdialog.h"
+#include "docclipbase.h"
 
 #include <KStandardDirs>
 #include <KMessageBox>
 #include <KDebug>
+#include <kio/directorysizejob.h>
+#include <KIO/NetAccess>
 
 #include <QDir>
 #include <kmessagebox.h>
 
-ProjectSettings::ProjectSettings(int videotracks, int audiotracks, const QString projectPath, bool readOnlyTracks, bool savedProject, QWidget * parent) :
-        QDialog(parent), m_savedProject(savedProject)
+ProjectSettings::ProjectSettings(ClipManager *manager, int videotracks, int audiotracks, const QString projectPath, bool readOnlyTracks, bool savedProject, QWidget * parent) :
+        QDialog(parent), m_savedProject(savedProject), m_clipManager(manager), m_deleteUnused(false)
 {
     setupUi(this);
 
@@ -61,8 +64,80 @@ ProjectSettings::ProjectSettings(int videotracks, int audiotracks, const QString
         audio_tracks->setEnabled(false);
     }
     slotUpdateDisplay();
+    if (manager != NULL) {
+        slotUpdateFiles();
+        connect(clear_cache, SIGNAL(clicked()), this, SLOT(slotClearCache()));
+        connect(delete_unused, SIGNAL(clicked()), this, SLOT(slotDeleteUnused()));
+    }
+    else tabWidget->widget(1)->setEnabled(false);
     connect(profiles_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateDisplay()));
     connect(project_folder, SIGNAL(textChanged(const QString &)), this, SLOT(slotUpdateButton(const QString &)));
+}
+
+void ProjectSettings::slotDeleteUnused()
+{
+    QStringList toDelete;
+    QList <DocClipBase*> list = m_clipManager->documentClipList();
+    for (int i = 0; i < list.count(); i++) {
+        DocClipBase *clip = list.at(i);
+        if (clip->numReferences() == 0) {
+            KUrl url = clip->fileURL();
+            if (!url.isEmpty()) toDelete << url.path();
+        }
+    }
+    if (toDelete.count() == 0) {
+        KMessageBox::sorry(this, i18n("No clip to delete"));
+        return;
+    }
+    if (KMessageBox::warningYesNoList(this, i18n("This will remove the following files from your hard drive.\nThis action cannot be undone, only use if you know what you are doing.\nAre you sure you want to continue?"), toDelete, i18n("Delete unused clips")) != KMessageBox::Yes) return;
+    m_deleteUnused = true;
+    delete_unused->setEnabled(false);
+}
+
+bool ProjectSettings::deleteUnused() const
+{
+    return m_deleteUnused;
+}
+
+void ProjectSettings::slotClearCache()
+{
+    buttonBox->setEnabled(false);
+    KIO::NetAccess::del(KUrl(project_folder->url().path(KUrl::AddTrailingSlash) + "thumbs/"), this);
+    KStandardDirs::makeDir(project_folder->url().path(KUrl::AddTrailingSlash) + "thumbs/");
+    buttonBox->setEnabled(true);
+    slotUpdateFiles(true);
+}
+
+void ProjectSettings::slotUpdateFiles(bool cacheOnly)
+{   
+    KIO::DirectorySizeJob * job = KIO::directorySize( project_folder->url().path(KUrl::AddTrailingSlash) + "thumbs/" );
+    job->exec();
+    thumbs_count->setText(QString::number(job->totalFiles()));
+    thumbs_size->setText(KIO::convertSize(job->totalSize()));
+    delete job;
+    if (cacheOnly) return;
+    int unused = 0;
+    int used = 0;
+    KIO::filesize_t usedSize = 0;
+    KIO::filesize_t unUsedSize = 0;
+    QList <DocClipBase*> list = m_clipManager->documentClipList();
+
+    for (int i = 0; i < list.count(); i++) {
+        DocClipBase *clip = list.at(i);
+        if (clip->numReferences() == 0) {
+            unused++;
+            unUsedSize += clip->fileSize();
+        }
+        else {
+            used++;
+            usedSize += clip->fileSize();
+        }
+    }
+    used_count->setText(QString::number(used));
+    used_size->setText(KIO::convertSize(usedSize));
+    unused_count->setText(QString::number(unused));
+    unused_size->setText(KIO::convertSize(unUsedSize));
+    if (!m_deleteUnused) delete_unused->setEnabled(unused > 0);
 }
 
 void ProjectSettings::accept()
@@ -87,7 +162,10 @@ void ProjectSettings::slotUpdateDisplay()
 void ProjectSettings::slotUpdateButton(const QString &path)
 {
     if (path.isEmpty()) m_buttonOk->setEnabled(false);
-    else m_buttonOk->setEnabled(true);
+    else {
+        m_buttonOk->setEnabled(true);
+        slotUpdateFiles(true);
+    }
 }
 
 QString ProjectSettings::selectedProfile() const
