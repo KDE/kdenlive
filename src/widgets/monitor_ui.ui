@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>Monitor_UI</class>
- <widget class="QWidget" name="Monitor_UI" >
-  <property name="geometry" >
+ <widget class="QWidget" name="Monitor_UI">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,65 +10,65 @@
     <height>177</height>
    </rect>
   </property>
-  <layout class="QGridLayout" name="gridLayout" >
-   <property name="margin" >
+  <layout class="QGridLayout" name="gridLayout">
+   <property name="margin">
     <number>0</number>
    </property>
-   <property name="spacing" >
+   <property name="spacing">
     <number>0</number>
    </property>
-   <item row="0" column="0" colspan="2" >
-    <widget class="QFrame" name="video_frame" >
-     <property name="font" >
+   <item row="0" column="0" colspan="2">
+    <widget class="QFrame" name="video_frame">
+     <property name="font">
       <font>
        <stylestrategy>NoAntialias</stylestrategy>
       </font>
      </property>
-     <property name="lineWidth" >
+     <property name="lineWidth">
       <number>0</number>
      </property>
     </widget>
    </item>
-   <item row="1" column="0" colspan="2" >
-    <widget class="QFrame" name="ruler_frame" >
-     <property name="sizePolicy" >
-      <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
+   <item row="1" column="0" colspan="2">
+    <widget class="QFrame" name="ruler_frame">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <property name="minimumSize" >
+     <property name="minimumSize">
       <size>
        <width>16</width>
-       <height>15</height>
+       <height>10</height>
       </size>
      </property>
-     <property name="maximumSize" >
+     <property name="maximumSize">
       <size>
        <width>16777215</width>
-       <height>15</height>
+       <height>10</height>
       </size>
      </property>
-     <property name="lineWidth" >
+     <property name="lineWidth">
       <number>0</number>
      </property>
     </widget>
    </item>
-   <item row="2" column="0" colspan="2" >
-    <widget class="QFrame" name="button_frame" >
-     <property name="sizePolicy" >
-      <sizepolicy vsizetype="Maximum" hsizetype="Preferred" >
+   <item row="2" column="0" colspan="2">
+    <widget class="QFrame" name="button_frame">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <property name="minimumSize" >
+     <property name="minimumSize">
       <size>
        <width>0</width>
        <height>15</height>
       </size>
      </property>
-     <property name="lineWidth" >
+     <property name="lineWidth">
       <number>0</number>
      </property>
     </widget>

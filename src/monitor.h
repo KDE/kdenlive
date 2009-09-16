@@ -82,6 +82,7 @@ public:
     GenTime position();
     void checkOverlay();
     void updateTimecodeFormat();
+    void updateMarkers(DocClipBase *source);
 
 protected:
     virtual void mousePressEvent(QMouseEvent * event);
@@ -114,6 +115,7 @@ private:
     QMenu *m_contextMenu;
     QMenu *m_configMenu;
     QMenu *m_playMenu;
+    QMenu *m_markerMenu;
     QPoint m_DragStartPosition;
 #ifdef Q_WS_MAC
     VideoGLWidget *m_glWidget;
@@ -133,6 +135,7 @@ private slots:
     void setClipZone(QPoint pos);
     void slotSwitchMonitorInfo(bool show);
     void slotSwitchDropFrames(bool show);
+    void slotGoToMarker(QAction *action);
 
 public slots:
     void slotOpenFile(const QString &);

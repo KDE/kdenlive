@@ -52,7 +52,7 @@ void SmallRuler::adjustScale(int maximum)
         m_medium = 60 * 25;
     }
     m_cursorPosition = m_cursorFramePosition * m_scale;
-    update();
+    updatePixmap();
 }
 
 void SmallRuler::setZone(int start, int end)
@@ -75,7 +75,13 @@ void SmallRuler::setZone(int start, int end)
             m_zoneEnd = end;
         } else m_zoneEnd = end;
     }
-    update();
+    updatePixmap();
+}
+
+void SmallRuler::setMarkers(QList < int > list)
+{
+    m_markers = list;
+    updatePixmap();
 }
 
 QPoint SmallRuler::zone()
@@ -92,7 +98,7 @@ void SmallRuler::mousePressEvent(QMouseEvent * event)
         if (qAbs(pos - m_zoneStart) < qAbs(pos - m_zoneEnd)) m_zoneStart = pos;
         else m_zoneEnd = pos;
         emit zoneChanged(QPoint(m_zoneStart, m_zoneEnd));
-        update();
+        updatePixmap();
 
     } else emit seekRenderer((int) pos);
 }
@@ -113,13 +119,47 @@ void SmallRuler::slotNewValue(int value)
     const int offset = 6;
     const int x = qMin(oldPos, m_cursorPosition);
     const int w = qAbs(oldPos - m_cursorPosition);
-    update(x - offset, 9, w + 2 * offset, 6);
+    update(x - offset, 4, w + 2 * offset, 6);
 }
 
 //virtual
 void SmallRuler::resizeEvent(QResizeEvent *)
 {
     adjustScale(m_maxval);
+}
+
+void SmallRuler::updatePixmap()
+{
+    m_pixmap = QPixmap(width(), height());
+    m_pixmap.fill(palette().window().color());
+    QPainter p(&m_pixmap);
+    double f, fend;
+
+    const int zoneStart = (int)(m_zoneStart * m_scale);
+    const int zoneEnd = (int)(m_zoneEnd * m_scale);
+    p.fillRect(zoneStart, height() / 2 - 1, zoneEnd - zoneStart, height() / 2, m_zoneColor);
+    
+    // draw markers
+    if (!m_markers.isEmpty()) {
+        p.setPen(Qt::red);
+        for (int i = 0; i < m_markers.count(); i++) {
+            p.drawLine(m_markers.at(i) * m_scale, 0, m_markers.at(i) * m_scale, 9);
+        }
+    }
+    p.setPen(palette().dark().color());
+    // draw the little marks
+    fend = m_scale * m_small;
+    if (fend > 2) for (f = 0; f < width(); f += fend) {
+        p.drawLine((int)f, 0, (int)f, 3);
+    }
+
+    // draw medium marks
+    fend = m_scale * m_medium;
+    if (fend > 2) for (f = 0; f < width(); f += fend) {
+        p.drawLine((int)f, 0, (int)f, 6);
+    }
+    p.end();
+    update();
 }
 
 // virtual
@@ -129,33 +169,13 @@ void SmallRuler::paintEvent(QPaintEvent *e)
     QPainter p(this);
     QRect r = e->rect();
     p.setClipRect(r);
-
-    double f, fend;
-    p.setPen(palette().dark().color());
-
-    const int zoneStart = (int)(m_zoneStart * m_scale);
-    const int zoneEnd = (int)(m_zoneEnd * m_scale);
-
-    p.fillRect(zoneStart, height() / 2, zoneEnd - zoneStart, height() / 2, m_zoneColor);
-
-    if (r.top() < 9) {
-        // draw the little marks
-        fend = m_scale * m_small;
-        if (fend > 2) for (f = 0; f < width(); f += fend) {
-                p.drawLine((int)f, 1, (int)f, 3);
-            }
-
-        // draw medium marks
-        fend = m_scale * m_medium;
-        if (fend > 2) for (f = 0; f < width(); f += fend) {
-                p.drawLine((int)f, 1, (int)f, 5);
-            }
-    }
+    p.drawPixmap(QPointF(), m_pixmap);
 
     // draw pointer
     QPolygon pa(3);
-    pa.setPoints(3, m_cursorPosition - 5, 14, m_cursorPosition + 5, 14, m_cursorPosition/*+0*/, 9);
+    pa.setPoints(3, m_cursorPosition - 5, 10, m_cursorPosition + 5, 10, m_cursorPosition/*+0*/, 5);
     p.setBrush(palette().dark().color());
+    p.setPen(Qt::NoPen);
     p.drawPolygon(pa);
 }
 

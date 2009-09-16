@@ -98,6 +98,13 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent) :
         configButton->setMenu(m_configMenu);
         configButton->setPopupMode(QToolButton::QToolButton::InstantPopup);
         toolbar->addWidget(configButton);
+
+        if (name == "clip") {
+            m_markerMenu = new QMenu(i18n("Go to marker..."), this);
+            m_markerMenu->setEnabled(false);
+            m_configMenu->addMenu(m_markerMenu);
+            connect(m_markerMenu, SIGNAL(triggered(QAction *)), this, SLOT(slotGoToMarker(QAction *)));
+        }
         m_configMenu->addAction(KIcon("transform-scale"), i18n("Resize (100%)"), this, SLOT(slotSetSizeOneToOne()));
         m_configMenu->addAction(KIcon("transform-scale"), i18n("Resize (50%)"), this, SLOT(slotSetSizeOneToTwo()));
     }
@@ -218,6 +225,12 @@ void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMe
 
 }
 
+void Monitor::slotGoToMarker(QAction *action)
+{
+    int pos = action->data().toInt();
+    slotSeek(pos);
+}
+
 void Monitor::slotSetSizeOneToOne()
 {
     QRect r = QApplication::desktop()->screenGeometry();
@@ -266,6 +279,26 @@ void Monitor::resetSize()
 DocClipBase *Monitor::activeClip()
 {
     return m_currentClip;
+}
+
+void Monitor::updateMarkers(DocClipBase *source)
+{
+    if (source == m_currentClip) {
+        m_markerMenu->clear();
+        QList <CommentedTime> markers = m_currentClip->commentedSnapMarkers();
+        if (!markers.isEmpty()) {
+            QList <int> marks;
+            for (int i = 0; i < markers.count(); i++) {
+                int pos = (int) markers.at(i).time().frames(render->fps());
+                marks.append(pos);
+                QString position = m_monitorManager->timecode().getTimecode(markers.at(i).time()) + ' ' + markers.at(i).comment();
+                QAction *go = m_markerMenu->addAction(position);
+                go->setData(pos);
+            }
+            m_ruler->setMarkers(marks);
+        } else m_ruler->setMarkers(QList <int>());
+        m_markerMenu->setEnabled(!m_markerMenu->isEmpty());
+    }
 }
 
 void Monitor::slotSeekToPreviousSnap()
@@ -713,6 +746,7 @@ void Monitor::slotSetXml(DocClipBase *clip, const int position)
     }
     if (clip != m_currentClip) {
         m_currentClip = clip;
+        updateMarkers(clip);        
         if (render->setProducer(clip->producer(), position) == -1) {
             // MLT CONSUMER is broken
             emit blockMonitors();

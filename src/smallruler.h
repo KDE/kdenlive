@@ -34,6 +34,7 @@ public:
     void adjustScale(int maximum);
     void setZone(int start, int end);
     QPoint zone();
+    void setMarkers(QList < int > list);
 
 protected:
     virtual void paintEvent(QPaintEvent *e);
@@ -49,6 +50,9 @@ private:
     int m_zoneStart;
     int m_zoneEnd;
     QColor m_zoneColor;
+    QList <int> m_markers;
+    QPixmap m_pixmap;
+    void updatePixmap();
 
 public slots:
     void slotNewValue(int value);

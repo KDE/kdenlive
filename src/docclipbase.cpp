@@ -296,7 +296,7 @@ QList < GenTime > DocClipBase::snapMarkers() const
     QList < GenTime > markers;
 
     for (int count = 0; count < m_snapMarkers.count(); ++count) {
-        markers.append(m_snapMarkers[count].time());
+        markers.append(m_snapMarkers.at(count).time());
     }
 
     return markers;
@@ -380,23 +380,23 @@ GenTime DocClipBase::findPreviousSnapMarker(const GenTime & currTime)
 {
     int it;
     for (it = 0; it < m_snapMarkers.count(); it++) {
-        if (m_snapMarkers[it].time() >= currTime)
+        if (m_snapMarkers.at(it).time() >= currTime)
             break;
     }
     if (it == 0) return GenTime();
-    else if (it == m_snapMarkers.count() - 1 && m_snapMarkers[it].time() < currTime)
-        return m_snapMarkers[it].time();
-    else return m_snapMarkers[it-1].time();
+    else if (it == m_snapMarkers.count() - 1 && m_snapMarkers.at(it).time() < currTime)
+        return m_snapMarkers.at(it).time();
+    else return m_snapMarkers.at(it-1).time();
 }
 
 GenTime DocClipBase::findNextSnapMarker(const GenTime & currTime)
 {
     int it;
     for (it = 0; it < m_snapMarkers.count(); it++) {
-        if (m_snapMarkers[it].time() > currTime)
+        if (m_snapMarkers.at(it).time() > currTime)
             break;
     }
-    if (it < m_snapMarkers.count() && m_snapMarkers[it].time() > currTime) return m_snapMarkers[it].time();
+    if (it < m_snapMarkers.count() && m_snapMarkers.at(it).time() > currTime) return m_snapMarkers.at(it).time();
     return duration();
 }
 
