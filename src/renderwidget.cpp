@@ -794,7 +794,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
         if (m_view.open_dvd->isChecked()) {
             renderItem->setData(0, Qt::UserRole, group);
             if (renderArgs.contains("profile=")) {
-                // rendering profile contains an MLT profile, so pass it to the running jog item, useful for dvd
+                // rendering profile contains an MLT profile, so pass it to the running jog item, useful for dvd
                 QString prof = renderArgs.section("profile=", 1, 1);
                 prof = prof.section(' ', 0, 0);
                 kDebug() << "// render profile: " << prof;
@@ -804,7 +804,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
     } else {
         if (group == "websites" && m_view.open_browser->isChecked()) {
             renderItem->setData(0, Qt::UserRole, group);
-            // pass the url
+            // pass the url
             QString url = m_view.size_list->currentItem()->data(ExtraRole).toString();
             renderItem->setData(0, Qt::UserRole + 1, url);
         }
@@ -1154,6 +1154,8 @@ void RenderWidget::parseFile(QString exportFile, bool editable)
     const QStringList acodecsList = KdenliveSettings::audiocodecs();
     bool replaceVorbisCodec = false;
     if (!acodecsList.contains("vorbis") && acodecsList.contains("libvorbis")) replaceVorbisCodec = true;
+	bool replaceLibfaacCodec = false;
+	if (!acodecsList.contains("libfaac") && acodecsList.contains("aac")) replaceLibfaacCodec = true;
 
 
     if (editable || groups.count() == 0) {
@@ -1207,7 +1209,10 @@ void RenderWidget::parseFile(QString exportFile, bool editable)
                 // replace vorbis with libvorbis
                 params = params.replace("vorbis", "libvorbis");
             }
-
+			if (replaceLibfaacCodec && params.contains("acodec=libfaac")) {
+				// replace libfaac with aac
+				params = params.replace("libfaac", "aac");
+			}
 
             QString category = profile.attribute("category", i18n("Custom"));
             QString dest = profile.attribute("destinationid");
