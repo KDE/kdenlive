@@ -316,6 +316,7 @@ void Wizard::slotCheckPrograms()
     else if (KStandardDirs::findExe("ffplay").isEmpty()) item->setIcon(0, m_badIcon);
     else item->setIcon(0, m_okIcon);
 
+#ifndef Q_WS_MAC
     item = new QTreeWidgetItem(m_check.programList, QStringList() << QString() << i18n("Recordmydesktop"));
     item->setData(1, Qt::UserRole, i18n("Required for screen capture"));
     item->setSizeHint(0, itemSize);
@@ -327,6 +328,7 @@ void Wizard::slotCheckPrograms()
     item->setSizeHint(0, itemSize);
     if (KStandardDirs::findExe("dvgrab").isEmpty()) item->setIcon(0, m_badIcon);
     else item->setIcon(0, m_okIcon);
+#endif
 
     item = new QTreeWidgetItem(m_check.programList, QStringList() << QString() << i18n("Dvdauthor"));
     item->setData(1, Qt::UserRole, i18n("Required for creation of DVD"));
