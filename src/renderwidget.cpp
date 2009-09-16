@@ -1325,7 +1325,12 @@ void RenderWidget::parseFile(QString exportFile, bool editable)
                 // replace vorbis with libvorbis
                 params = params.replace("vorbis", "libvorbis");
             }
-            prof_extension = profileElement.attribute("extension");
+			if (replaceLibfaacCodec && params.contains("acodec=libfaac")) {
+				// replace libfaac with aac
+				params = params.replace("libfaac", "aac");
+			}
+
+			prof_extension = profileElement.attribute("extension");
             if (!prof_extension.isEmpty()) extension = prof_extension;
             item = new QListWidgetItem(profileName, m_view.size_list);
             item->setData(GroupRole, groupName);
