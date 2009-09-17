@@ -257,7 +257,6 @@ int KdenliveDoc::setSceneList()
     m_documentProperties.remove("position");
     // m_document xml is now useless, clear it
     m_document.clear();
-    checkProjectClips();
     return 0;
 }
 

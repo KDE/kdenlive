@@ -637,7 +637,7 @@ void MainWindow::slotConnectMonitors()
 {
 
     m_projectList->setRenderer(m_projectMonitor->render);
-    connect(m_projectList, SIGNAL(receivedClipDuration(const QString &)), this, SLOT(slotUpdateClip(const QString &)));
+    //connect(m_projectList, SIGNAL(receivedClipDuration(const QString &)), this, SLOT(slotUpdateClip(const QString &)));
     connect(m_projectList, SIGNAL(showClipProperties(DocClipBase *)), this, SLOT(slotShowClipProperties(DocClipBase *)));
     connect(m_projectList, SIGNAL(getFileProperties(const QDomElement, const QString &, bool)), m_projectMonitor->render, SLOT(getFileProperties(const QDomElement, const QString &, bool)));
     connect(m_projectMonitor->render, SIGNAL(replyGetImage(const QString &, const QPixmap &)), m_projectList, SLOT(slotReplyGetImage(const QString &, const QPixmap &)));
@@ -2344,10 +2344,9 @@ void MainWindow::slotShowClipProperties(DocClipBase *clip)
         EditClipCommand *command = new EditClipCommand(m_projectList, clip->getId(), clip->properties(), dia.properties(), true);
         m_activeDocument->commandStack()->push(command);
 
-        //m_projectList->slotUpdateClipProperties(dia.clipId(), dia.properties());
         if (dia.needsTimelineRefresh()) {
             // update clip occurences in timeline
-            m_activeTimeline->projectView()->slotUpdateClip(clip->getId());
+            m_activeTimeline->projectView()->slotUpdateClip(clip->getId(), dia.needsTimelineReload());
         }
     }
 }

@@ -49,7 +49,8 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
         m_tc(tc),
         m_fps(fps),
         m_count(0),
-        m_clipNeedsRefresh(false)
+        m_clipNeedsRefresh(false),
+        m_clipNeedsReLoad(false)
 {
     setFont(KGlobalSettings::toolBarFont());
     m_view.setupUi(this);
@@ -388,7 +389,7 @@ QMap <QString, QString> ClipProperties::properties()
     } else if (t == IMAGE) {
         if ((int) m_view.image_transparency->isChecked() != old_props.value("transparency").toInt()) {
             props["transparency"] = QString::number((int)m_view.image_transparency->isChecked());
-            m_clipNeedsRefresh = true;
+            //m_clipNeedsRefresh = true;
         }
         int duration = m_tc.getFrameCount(m_view.clip_duration->text());
         if (duration != m_clip->duration().frames(m_fps)) {
@@ -419,7 +420,7 @@ QMap <QString, QString> ClipProperties::properties()
         }
         QString new_path = m_view.clip_path->text() + extension;
         if (new_path != old_props.value("resource")) {
-            m_clipNeedsRefresh = true;
+            m_clipNeedsReLoad = true;
             props["resource"] = new_path;
             kDebug() << "////  SLIDE EDIT, NEW:" << new_path << ", OLD; " << old_props.value("resource");
         }
@@ -467,6 +468,11 @@ QMap <QString, QString> ClipProperties::properties()
 bool ClipProperties::needsTimelineRefresh() const
 {
     return m_clipNeedsRefresh;
+}
+
+bool ClipProperties::needsTimelineReload() const
+{
+    return m_clipNeedsReLoad;
 }
 
 void ClipProperties::parseFolder()

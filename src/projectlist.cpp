@@ -363,7 +363,6 @@ void ProjectList::slotItemEdited(QTreeWidgetItem *item, int column)
                 oldprops.insert("templatetext", clip->referencedClip()->getProperty("templatetext"));
                 newprops.insert("templatetext", item->text(2));
             }
-
             slotUpdateClipProperties(clip->clipId(), newprops);
             EditClipCommand *command = new EditClipCommand(this, clip->clipId(), oldprops, newprops, false);
             m_commandStack->push(command);
@@ -934,7 +933,7 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
         item->setProperties(properties, metadata);
         Q_ASSERT_X(item->referencedClip(), "void ProjectList::slotReplyGetFileProperties", QString("Item with groupName %1 does not have a clip associated").arg(item->groupName()).toLatin1());
         item->referencedClip()->setProducer(producer, replace);
-        emit receivedClipDuration(clipId);
+        //emit receivedClipDuration(clipId);
         if (m_listView->isEnabled() && replace) {
             // update clip in clip monitor
             emit clipSelected(NULL);

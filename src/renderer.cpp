@@ -278,7 +278,8 @@ int Render::resetProfile()
     }
     //kDebug() << "//RESET WITHSCENE: " << scene;
     setSceneList(scene, pos);
-
+    // producers have changed (different profile), so reset them...
+    emit refreshDocumentProducers();
     /*char *tmp = decodedString(scene);
     Mlt::Producer *producer = new Mlt::Producer(*m_mltProfile , "xml-string", tmp);
     delete[] tmp;
@@ -1015,7 +1016,7 @@ int Render::setSceneList(QString playlist, int position)
 
     m_isBlocked = false;
     blockSignals(false);
-    emit refreshDocumentProducers();
+
     return error;
     //kDebug()<<"// SETSCN LST, POS: "<<position;
     //if (position != 0) emit rendererPosition(position);
@@ -1685,8 +1686,40 @@ void Render::mltCutClip(int track, GenTime position)
 void Render::mltUpdateClip(ItemInfo info, QDomElement element, Mlt::Producer *prod)
 {
     // TODO: optimize
+    Mlt::Service service(m_mltProducer->parent().get_service());
+    if (service.type() != tractor_type) {
+        kWarning() << "// TRACTOR PROBLEM";
+        return;
+    }
+    Mlt::Tractor tractor(service);
+    Mlt::Producer trackProducer(tractor.track(info.track));
+    Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
+    int startPos = info.startPos.frames(m_fps);
+    int clipIndex = trackPlaylist.get_clip_index_at(startPos);
+    Mlt::Producer *clip = trackPlaylist.get_clip(clipIndex);
+
+    // keep effects
+    QList <Mlt::Filter *> filtersList;
+    Mlt::Service sourceService(clip->get_service());
+    int ct = 0;
+    Mlt::Filter *filter = sourceService.filter(ct);
+    while (filter) {
+        if (filter->get("kdenlive_ix") != 0) {
+            filtersList.append(filter);
+        }
+        ct++;
+        filter = sourceService.filter(ct);
+    }    
     mltRemoveClip(info.track, info.startPos);
     mltInsertClip(info, element, prod);
+    if (!filtersList.isEmpty()) {
+        clipIndex = trackPlaylist.get_clip_index_at(startPos);
+        Mlt::Producer *destclip = trackPlaylist.get_clip(clipIndex);
+        Mlt::Service destService(destclip->get_service());
+        delete destclip;
+        for (int i = 0; i < filtersList.count(); i++)
+            destService.attach(*(filtersList.at(i)));
+    }
 }
 
 

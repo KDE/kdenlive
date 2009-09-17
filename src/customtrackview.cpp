@@ -3263,7 +3263,7 @@ void CustomTrackView::addClip(QDomElement xml, const QString &clipId, ItemInfo i
     m_thumbsTimer.start();
 }
 
-void CustomTrackView::slotUpdateClip(const QString &clipId)
+void CustomTrackView::slotUpdateClip(const QString &clipId, bool reload)
 {
     QList<QGraphicsItem *> list = scene()->items();
     ClipItem *clip = NULL;
@@ -3273,7 +3273,7 @@ void CustomTrackView::slotUpdateClip(const QString &clipId)
             if (clip->clipProducer() == clipId) {
                 ItemInfo info = clip->info();
                 info.track = m_document->tracksCount() - clip->track();
-                m_document->renderer()->mltUpdateClip(info, clip->xml(), clip->baseClip()->producer());
+                if (reload) m_document->renderer()->mltUpdateClip(info, clip->xml(), clip->baseClip()->producer());
                 clip->refreshClip(true);
                 clip->update();
             }

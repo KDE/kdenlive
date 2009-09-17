@@ -36,6 +36,7 @@ public:
     QMap <QString, QString> properties();
     const QString &clipId() const;
     bool needsTimelineRefresh() const;
+    bool needsTimelineReload() const;
 
 private slots:
     void parseFolder();
@@ -55,7 +56,10 @@ private:
     double m_fps;
     /** used to count images in slideshow clip */
     int m_count;
+    /** some visual properties changed, reload thumbnails */
     bool m_clipNeedsRefresh;
+    /** clip resource changed, reload it */
+    bool m_clipNeedsReLoad;
 
 signals:
     void addMarker(const QString &, GenTime, QString);

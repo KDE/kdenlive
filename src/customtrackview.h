@@ -141,7 +141,7 @@ public slots:
     void slotSwitchTrackAudio(int ix);
     void slotSwitchTrackVideo(int ix);
     void slotSwitchTrackLock(int ix);
-    void slotUpdateClip(const QString &clipId);
+    void slotUpdateClip(const QString &clipId, bool reload = true);
     void slotAddClipMarker(const QString &id, GenTime t, QString c);
     bool addGuide(const GenTime pos, const QString &comment);
     void slotAddGuide();

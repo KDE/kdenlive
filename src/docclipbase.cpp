@@ -793,6 +793,7 @@ void DocClipBase::setProperty(const QString &key, const QString &value)
     } else if (key == "force_aspect_ratio") {
         if (value.isEmpty()) {
             m_properties.remove("force_aspect_ratio");
+            //TODO: find a was to remove the "force_aspect_ratio" property from producer, currently does not work
             setProducerProperty("force_aspect_ratio", 0);
         } else setProducerProperty("force_aspect_ratio", value.toDouble());
     } else if (key == "threads") {
