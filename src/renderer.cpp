@@ -2665,9 +2665,9 @@ void Render::mltUpdateClipProducer(int track, int pos, Mlt::Producer *prod)
     Mlt::Tractor tractor(service);
     Mlt::Producer trackProducer(tractor.track(track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
-    int clipIndex = trackPlaylist.get_clip_index_at(pos + 1);
+    int clipIndex = trackPlaylist.get_clip_index_at(pos);
     Mlt::Producer *clipProducer = trackPlaylist.replace_with_blank(clipIndex);
-    if (clipProducer->is_blank()) {
+    if (clipProducer == NULL || clipProducer->is_blank()) {
         kDebug() << "// ERROR UPDATING CLIP PROD";
         delete clipProducer;
         mlt_service_unlock(m_mltConsumer->get_service());

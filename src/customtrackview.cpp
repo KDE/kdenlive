@@ -1349,7 +1349,7 @@ void CustomTrackView::slotRefreshEffects(ClipItem *clip)
 
 void CustomTrackView::addEffect(int track, GenTime pos, QDomElement effect)
 {
-    ClipItem *clip = getClipItemAt((int)pos.frames(m_document->fps()) + 1, m_document->tracksCount() - track);
+    ClipItem *clip = getClipItemAt((int)pos.frames(m_document->fps()), m_document->tracksCount() - track);
     if (clip) {
         // Special case: speed effect
         if (effect.attribute("id") == "speed") {
@@ -1379,7 +1379,7 @@ void CustomTrackView::deleteEffect(int track, GenTime pos, QDomElement effect)
     QString index = effect.attribute("kdenlive_ix");
     // Special case: speed effect
     if (effect.attribute("id") == "speed") {
-        ClipItem *clip = getClipItemAt((int)pos.frames(m_document->fps()) + 1, m_document->tracksCount() - track);
+        ClipItem *clip = getClipItemAt((int)pos.frames(m_document->fps()), m_document->tracksCount() - track);
         if (clip) {
             ItemInfo info = clip->info();
             doChangeClipSpeed(info, 1.0, clip->speed(), 1, clip->baseClip()->getId());
@@ -1393,7 +1393,7 @@ void CustomTrackView::deleteEffect(int track, GenTime pos, QDomElement effect)
         emit displayMessage(i18n("Problem deleting effect"), ErrorMessage);
         return;
     }
-    ClipItem *clip = getClipItemAt((int)pos.frames(m_document->fps()) + 1, m_document->tracksCount() - track);
+    ClipItem *clip = getClipItemAt((int)pos.frames(m_document->fps()), m_document->tracksCount() - track);
     if (clip) {
         clip->deleteEffect(index);
         emit clipItemSelected(clip);
@@ -1509,7 +1509,7 @@ void CustomTrackView::slotDeleteEffect(ClipItem *clip, QDomElement effect)
 
 void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedEffect, int ix, bool triggeredByUser)
 {
-    ClipItem *clip = getClipItemAt((int)pos.frames(m_document->fps()) + 1, m_document->tracksCount() - track);
+    ClipItem *clip = getClipItemAt((int)pos.frames(m_document->fps()), m_document->tracksCount() - track);
     QDomElement effect = insertedEffect.cloneNode().toElement();
     if (clip) {
         // Special case: speed effect
@@ -1565,7 +1565,7 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedE
 
 void CustomTrackView::moveEffect(int track, GenTime pos, int oldPos, int newPos)
 {
-    ClipItem *clip = getClipItemAt((int)pos.frames(m_document->fps()) + 1, m_document->tracksCount() - track);
+    ClipItem *clip = getClipItemAt((int)pos.frames(m_document->fps()), m_document->tracksCount() - track);
     if (clip && !clip->effectAt(newPos - 1).isNull() && !clip->effectAt(oldPos - 1).isNull()) {
         QDomElement act = clip->effectAt(newPos - 1).cloneNode().toElement();
         QDomElement before = clip->effectAt(oldPos - 1).cloneNode().toElement();
@@ -1664,7 +1664,7 @@ void CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut)
         // uncut clip
 
         ClipItem *item = getClipItemAt((int) info.startPos.frames(m_document->fps()), info.track);
-        ClipItem *dup = getClipItemAt((int) cutTime.frames(m_document->fps()) + 1, info.track);
+        ClipItem *dup = getClipItemAt((int) cutTime.frames(m_document->fps()), info.track);
         if (!item || !dup || item == dup) {
             emit displayMessage(i18n("Cannot find clip to uncut"), ErrorMessage);
             m_blockRefresh = false;
