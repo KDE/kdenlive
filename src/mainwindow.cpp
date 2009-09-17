@@ -52,7 +52,6 @@
 #include "kdenlive-config.h"
 #include "cliptranscode.h"
 #include "ui_templateclip_ui.h"
-#include "ui_projectfiles_ui.h"
 
 #include <KApplication>
 #include <KAction>
