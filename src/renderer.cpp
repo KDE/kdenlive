@@ -1930,6 +1930,7 @@ void Render::mltInsertSpace(QMap <int, int> trackClipStartList, QMap <int, int> 
 
 void Render::mltPasteEffects(Mlt::Producer *source, Mlt::Producer *dest)
 {
+    if (source == dest) return;
     Mlt::Service sourceService(source->get_service());
     Mlt::Service destService(dest->get_service());
 
@@ -2729,8 +2730,9 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
 
             // move all effects to the correct producer
             mltPasteEffects(clipProducer, clip);
-
+            
             int newIndex = destTrackPlaylist.insert_at(moveEnd, clip, 1);
+            
             if (clip == clipProducer) {
                 delete clip;
                 clip = NULL;
