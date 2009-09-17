@@ -1996,21 +1996,22 @@ int Render::mltChangeClipSpeed(ItemInfo info, double speed, double oldspeed, int
     int clipIndex = trackPlaylist.get_clip_index_at(startPos);
     int clipLength = trackPlaylist.clip_length(clipIndex);
 
-    Mlt::Producer *clip = trackPlaylist.get_clip(clipIndex);
-    if (clip == NULL) {
+    Mlt::Producer *original = trackPlaylist.get_clip(clipIndex);
+    if (original == NULL) {
         return -1;
     }
-    if (!clip->is_valid() || clip->is_blank()) {
+    if (!original->is_valid() || original->is_blank()) {
         // invalid clip
-        delete clip;
+        delete original;
         return -1;
     }
-    Mlt::Producer clipparent = clip->parent();
+    Mlt::Producer clipparent = original->parent();
     if (!clipparent.is_valid() || clipparent.is_blank()) {
         // invalid clip
-        delete clip;
+        delete original;
         return -1;
     }
+    delete original;
 
     QString serv = clipparent.get("mlt_service");
     QString id = clipparent.get("id");
@@ -2022,8 +2023,8 @@ int Render::mltChangeClipSpeed(ItemInfo info, double speed, double oldspeed, int
         if (strobe > 1) url.append("&strobe=" + QString::number(strobe));
         Mlt::Producer *slowprod = m_slowmotionProducers.value(url);
         if (!slowprod || slowprod->get_producer() == NULL) {
-            char *tmp = decodedString(url);
-            slowprod = new Mlt::Producer(*m_mltProfile, "framebuffer", tmp);
+            char *tmp = decodedString("framebuffer:" + url);
+            slowprod = new Mlt::Producer(*m_mltProfile, 0, tmp);
             if (strobe > 1) slowprod->set("strobe", strobe);
             delete[] tmp;
             QString producerid = "slowmotion:" + id + ':' + QString::number(speed);
@@ -2088,8 +2089,8 @@ int Render::mltChangeClipSpeed(ItemInfo info, double speed, double oldspeed, int
         if (strobe > 1) url.append("&strobe=" + QString::number(strobe));
         Mlt::Producer *slowprod = m_slowmotionProducers.value(url);
         if (!slowprod || slowprod->get_producer() == NULL) {
-            char *tmp = decodedString(url);
-            slowprod = new Mlt::Producer(*m_mltProfile, "framebuffer", tmp);
+            char *tmp = decodedString("framebuffer:" + url);
+            slowprod = new Mlt::Producer(*m_mltProfile, 0, tmp);
             delete[] tmp;
             slowprod->set("strobe", strobe);
             QString producerid = "slowmotion:" + id.section(':', 1, 1) + ':' + QString::number(speed);
@@ -2127,7 +2128,6 @@ int Render::mltChangeClipSpeed(ItemInfo info, double speed, double oldspeed, int
         mlt_service_unlock(service.get_service());
     }
 
-    delete clip;
     if (clipIndex + 1 == trackPlaylist.count()) mltCheckLength(&tractor);
     m_isBlocked = false;
     return newLength;
@@ -2302,7 +2302,6 @@ bool Render::mltAddEffect(int track, GenTime position, EffectsParameterList para
     for (int i = 0; i < filtersList.count(); i++) {
         clipService.attach(*(filtersList.at(i)));
     }
-
     m_isBlocked = false;
     if (doRefresh) refresh();
     return true;
