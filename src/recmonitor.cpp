@@ -30,6 +30,7 @@
 #include <KComboBox>
 #include <KIO/NetAccess>
 #include <KFileItem>
+#include <KDiskFreeSpaceInfo>
 
 #include <QMouseEvent>
 #include <QMenu>
@@ -86,6 +87,22 @@ RecMonitor::RecMonitor(QString name, QWidget *parent) :
     configAction->setCheckable(false);
 
     layout->addWidget(toolbar);
+
+#if KDE_IS_VERSION(4,2,0)
+    m_freeSpace = new KCapacityBar(KCapacityBar::DrawTextInline, this);
+    m_freeSpace->setMaximumWidth(150);
+    QFontMetricsF fontMetrics(font());
+    m_freeSpace->setMaximumHeight(fontMetrics.height() * 1.5);
+    KDiskFreeSpaceInfo info = KDiskFreeSpaceInfo::freeSpaceInfo(KdenliveSettings::capturefolder());
+    if( info.isValid() ) {
+        m_freeSpace->setValue(100 * info.used() / info.size());
+        m_freeSpace->setText(i18n("Free space: %1", KIO::convertSize(info.available())));
+        m_freeSpace->update();
+    }
+
+    layout->addWidget(m_freeSpace);
+#endif
+
     m_ui.control_frame_firewire->setLayout(layout);
 
     slotVideoDeviceChanged(m_ui.device_selector->currentIndex());
@@ -139,6 +156,17 @@ void RecMonitor::slotUpdateCaptureFolder()
 {
     if (m_captureProcess) m_captureProcess->setWorkingDirectory(KdenliveSettings::capturefolder());
     slotVideoDeviceChanged(m_ui.device_selector->currentIndex());
+    kDebug()<<"// UPDATE CAPT FOLD: "<<KdenliveSettings::capturefolder();
+    
+#if KDE_IS_VERSION(4,2,0)
+    // update free space info
+    KDiskFreeSpaceInfo info = KDiskFreeSpaceInfo::freeSpaceInfo(KdenliveSettings::capturefolder());
+    if( info.isValid() ) {
+        m_freeSpace->setValue(100 * info.used() / info.size());
+        m_freeSpace->setText(i18n("Free space: %1", KIO::convertSize(info.available())));
+        m_freeSpace->update();
+    }
+#endif
 }
 
 void RecMonitor::slotVideoDeviceChanged(int ix)
@@ -567,6 +595,16 @@ void RecMonitor::slotProcessStatus(QProcess::ProcessState status)
             else m_ui.video_frame->setPixmap(mergeSideBySide(KIcon("video-display").pixmap(QSize(50, 50)), i18n("Press record button\nto start screen capture\nFiles will be saved in:\n%1", KdenliveSettings::capturefolder())));
         }
         m_isCapturing = false;
+        
+#if KDE_IS_VERSION(4,2,0)
+        // update free space info
+        KDiskFreeSpaceInfo info = KDiskFreeSpaceInfo::freeSpaceInfo(KdenliveSettings::capturefolder());
+        if( info.isValid() ) {
+            m_freeSpace->setValue(100 * info.used() / info.size());
+            m_freeSpace->setText(i18n("Free space: %1", KIO::convertSize(info.available())));
+        }
+#endif
+
     } else {
         if (m_ui.device_selector->currentIndex() != SCREENGRAB) m_stopAction->setEnabled(true);
         m_ui.device_selector->setEnabled(false);

@@ -30,6 +30,11 @@
 #include <KAction>
 #include <KRestrictedLine>
 #include <KDateTime>
+#include <kdeversion.h>
+
+#if KDE_IS_VERSION(4,2,0)
+#include <kcapacitybar.h>
+#endif
 
 #include "ui_recmonitor_ui.h"
 
@@ -53,6 +58,10 @@ private:
     QString m_name;
     bool m_isActive;
     KDateTime m_captureTime;
+    
+#if KDE_IS_VERSION(4,2,0)
+    KCapacityBar *m_freeSpace;
+#endif
 
     KUrl m_captureFile;
     KIcon m_playIcon;
