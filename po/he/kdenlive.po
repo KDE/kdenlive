@@ -2,7 +2,6 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
-# amir s. <amir_in@netvision.net.il>, 2008, 2009.
 # Amir S. <amir_in@netvision.net.il>, 2008, 2009.
 msgid ""
 msgstr ""
