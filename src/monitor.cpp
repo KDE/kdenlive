@@ -194,8 +194,10 @@ void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMe
     m_playMenu->addAction(loopZone);
 
     //TODO: add save zone to timeline monitor when fixed
-    if (m_name == "clip") m_contextMenu->addAction(KIcon("document-save"), i18n("Save zone"), this, SLOT(slotSaveZone()));
-
+    if (m_name == "clip") {
+	m_contextMenu->addMenu(m_markerMenu);
+	m_contextMenu->addAction(KIcon("document-save"), i18n("Save zone"), this, SLOT(slotSaveZone()));
+    }
     QAction *extractFrame = m_configMenu->addAction(KIcon("document-new"), i18n("Extract frame"), this, SLOT(slotExtractCurrentFrame()));
     m_contextMenu->addAction(extractFrame);
 
