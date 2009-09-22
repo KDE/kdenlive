@@ -1235,6 +1235,7 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint pos)
         // Check if clip can be inserted at that position
         ItemInfo pasteInfo = info;
         pasteInfo.startPos = GenTime((int)(framePos.x() + 0.5), m_document->fps());
+	pasteInfo.endPos = pasteInfo.startPos + info.endPos;
         pasteInfo.track = (int)(framePos.y() / m_tracksHeight);
         if (!canBePastedTo(pasteInfo, AVWIDGET)) {
             return true;
