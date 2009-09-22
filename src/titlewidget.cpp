@@ -26,6 +26,7 @@
 #include <KStandardDirs>
 #include <KMessageBox>
 #include <kio/netaccess.h>
+#include <kdeversion.h>
 
 #include <QDomDocument>
 #include <QGraphicsItem>
@@ -1450,7 +1451,9 @@ void TitleWidget::saveTitle(KUrl url)
         KFileDialog *fs = new KFileDialog(KUrl(m_projectTitlePath), "application/x-kdenlivetitle",this);
         fs->setOperationMode(KFileDialog::Saving);
         fs->setMode(KFile::File);
+#if KDE_IS_VERSION(4,2,0)
         fs->setConfirmOverwrite(true);
+#endif
         fs->setKeepLocation(true);
         fs->exec();
         url = fs->selectedUrl();

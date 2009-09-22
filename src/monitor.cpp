@@ -487,7 +487,9 @@ void Monitor::slotExtractCurrentFrame()
     KFileDialog *fs = new KFileDialog(KUrl(), "image/png",this);
     fs->setOperationMode(KFileDialog::Saving);
     fs->setMode(KFile::File);
+#if KDE_IS_VERSION(4,2,0)
     fs->setConfirmOverwrite(true);
+#endif
     fs->setKeepLocation(true);
     fs->exec();
     QString path = fs->selectedFile();

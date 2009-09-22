@@ -84,6 +84,10 @@ private:
     void checkDeviceAvailability();
     QPixmap mergeSideBySide(const QPixmap& pix, const QString txt);
     void manageCapturedFiles();
+    
+#if KDE_IS_VERSION(4,2,0)
+    void updatedFreeSpace();
+#endif
 
 private slots:
     void slotStartCapture(bool play = true);

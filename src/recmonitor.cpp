@@ -30,7 +30,10 @@
 #include <KComboBox>
 #include <KIO/NetAccess>
 #include <KFileItem>
+
+#if KDE_IS_VERSION(4,2,0)
 #include <KDiskFreeSpaceInfo>
+#endif
 
 #include <QMouseEvent>
 #include <QMenu>
@@ -93,13 +96,7 @@ RecMonitor::RecMonitor(QString name, QWidget *parent) :
     m_freeSpace->setMaximumWidth(150);
     QFontMetricsF fontMetrics(font());
     m_freeSpace->setMaximumHeight(fontMetrics.height() * 1.5);
-    KDiskFreeSpaceInfo info = KDiskFreeSpaceInfo::freeSpaceInfo(KdenliveSettings::capturefolder());
-    if( info.isValid() ) {
-        m_freeSpace->setValue(100 * info.used() / info.size());
-        m_freeSpace->setText(i18n("Free space: %1", KIO::convertSize(info.available())));
-        m_freeSpace->update();
-    }
-
+    updatedFreeSpace();
     layout->addWidget(m_freeSpace);
 #endif
 
@@ -160,12 +157,7 @@ void RecMonitor::slotUpdateCaptureFolder()
     
 #if KDE_IS_VERSION(4,2,0)
     // update free space info
-    KDiskFreeSpaceInfo info = KDiskFreeSpaceInfo::freeSpaceInfo(KdenliveSettings::capturefolder());
-    if( info.isValid() ) {
-        m_freeSpace->setValue(100 * info.used() / info.size());
-        m_freeSpace->setText(i18n("Free space: %1", KIO::convertSize(info.available())));
-        m_freeSpace->update();
-    }
+    updatedFreeSpace();
 #endif
 }
 
@@ -654,10 +646,24 @@ void RecMonitor::manageCapturedFiles()
 }
 
 // virtual
-void RecMonitor::mousePressEvent(QMouseEvent * /*event*/)
-{
-    slotPlay();
+void RecMonitor::mousePressEvent(QMouseEvent *event)
+{   
+#if KDE_IS_VERSION(4,2,0)
+    if (m_freeSpace->underMouse()) updatedFreeSpace();
+#endif
 }
+
+#if KDE_IS_VERSION(4,2,0)
+void RecMonitor::updatedFreeSpace()
+{
+    KDiskFreeSpaceInfo info = KDiskFreeSpaceInfo::freeSpaceInfo(KdenliveSettings::capturefolder());
+    if( info.isValid() ) {
+        m_freeSpace->setValue(100 * info.used() / info.size());
+        m_freeSpace->setText(i18n("Free space: %1", KIO::convertSize(info.available())));
+        m_freeSpace->update();
+    }
+}
+#endif
 
 void RecMonitor::activateRecMonitor()
 {
