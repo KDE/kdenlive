@@ -646,7 +646,7 @@ void RecMonitor::manageCapturedFiles()
 }
 
 // virtual
-void RecMonitor::mousePressEvent(QMouseEvent *event)
+void RecMonitor::mousePressEvent(QMouseEvent * /*event*/)
 {   
 #if KDE_IS_VERSION(4,2,0)
     if (m_freeSpace->underMouse()) updatedFreeSpace();
