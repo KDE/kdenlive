@@ -40,8 +40,8 @@ public:
     explicit CustomTrackScene(KdenliveDoc *doc, QObject *parent = 0);
     virtual ~ CustomTrackScene();
     void setSnapList(QList <GenTime> snaps);
-    GenTime previousSnapPoint(GenTime pos);
-    GenTime nextSnapPoint(GenTime pos);
+    GenTime previousSnapPoint(GenTime pos) const;
+    GenTime nextSnapPoint(GenTime pos) const;
     double getSnapPointForPos(double pos, bool doSnap = true);
     void setScale(double scale, double vscale);
     QPointF scale() const;

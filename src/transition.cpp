@@ -42,7 +42,7 @@ Transition::Transition(const ItemInfo info, int transitiontrack, double fps, QDo
     setRect(0, 0, (info.endPos - info.startPos).frames(fps) - 0.02, (qreal)(KdenliveSettings::trackheight() / 3 * 2 - 1));
     setPos(info.startPos.frames(fps), (qreal)(info.track * KdenliveSettings::trackheight() + KdenliveSettings::trackheight() / 3 * 2));
 
-    m_cropStart = GenTime();
+    m_info.cropStart = GenTime();
     m_maxDuration = GenTime(600);
 
     if (m_automaticTransition) setBrush(QColor(200, 200, 50, 100));
@@ -218,22 +218,22 @@ QVariant Transition::itemChange(GraphicsItemChange change, const QVariant &value
                     if ((int) otherPos.y() != (int) pos().y()) return pos();
                     //kDebug()<<"////  CURRENT Y: "<<pos().y()<<", COLLIDING Y: "<<otherPos.y();
                     if (pos().x() < otherPos.x()) {
-                        int npos = (static_cast < AbstractClipItem* >(items.at(i))->startPos() - m_cropDuration).frames(m_fps);
+                        int npos = (static_cast < AbstractClipItem* >(items.at(i))->startPos() - m_info.cropDuration).frames(m_fps);
                         newPos.setX(npos);
                     } else {
                         // get pos just after colliding clip
                         int npos = static_cast < AbstractClipItem* >(items.at(i))->endPos().frames(m_fps);
                         newPos.setX(npos);
                     }
-                    m_track = newTrack;
+                    m_info.track = newTrack;
                     //kDebug()<<"// ITEM NEW POS: "<<newPos.x()<<", mapped: "<<mapToScene(newPos.x(), 0).x();
-                    m_startPos = GenTime((int) newPos.x(), m_fps);
+                    m_info.startPos = GenTime((int) newPos.x(), m_fps);
                     return newPos;
                 }
             }
         }
-        m_track = newTrack;
-        m_startPos = GenTime((int) newPos.x(), m_fps);
+        m_info.track = newTrack;
+        m_info.startPos = GenTime((int) newPos.x(), m_fps);
         //kDebug()<<"// ITEM NEW POS: "<<newPos.x()<<", mapped: "<<mapToScene(newPos.x(), 0).x();
         return newPos;
     }

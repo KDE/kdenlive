@@ -958,6 +958,7 @@ int Render::setSceneList(QString playlist, int position)
                 if (trackPlaylist.type() == playlist_type) trackPlaylist.clear();
                 trackNb--;
             }
+	    delete field;
         }
         mlt_service_unlock(service.get_service());
 
@@ -2036,6 +2037,7 @@ int Render::mltChangeClipSpeed(ItemInfo info, double speed, double oldspeed, int
         }
         Mlt::Producer *clip = trackPlaylist.replace_with_blank(clipIndex);
         trackPlaylist.consolidate_blanks(0);
+
         // Check that the blank space is long enough for our new duration
         clipIndex = trackPlaylist.get_clip_index_at(startPos);
         int blankEnd = trackPlaylist.clip_start(clipIndex) + trackPlaylist.clip_length(clipIndex);
@@ -2064,12 +2066,12 @@ int Render::mltChangeClipSpeed(ItemInfo info, double speed, double oldspeed, int
         int blankEnd = trackPlaylist.clip_start(clipIndex) + trackPlaylist.clip_length(clipIndex);
 
         Mlt::Producer *cut;
-        GenTime oldDuration = GenTime(clipLength, m_fps);
-        GenTime newDuration = oldDuration * oldspeed;
-        if (clipIndex + 1 < trackPlaylist.count() && (info.startPos + newDuration).frames(m_fps) > blankEnd) {
+        GenTime duration = info.cropDuration;
+	int originalStart = (int)(info.originalcropStart.frames(m_fps));
+        if (clipIndex + 1 < trackPlaylist.count() && (info.startPos + info.cropDuration).frames(m_fps) > blankEnd) {
             GenTime maxLength = GenTime(blankEnd, m_fps) - info.startPos;
-            cut = prod->cut((int)(info.cropStart.frames(m_fps)), (int)(info.cropStart.frames(m_fps) + maxLength.frames(m_fps) - 1));
-        } else cut = prod->cut((int)(info.cropStart.frames(m_fps)), (int)((info.cropStart + newDuration).frames(m_fps)) - 1);
+            cut = prod->cut(originalStart, (int)(originalStart + maxLength.frames(m_fps) - 1));
+        } else cut = prod->cut(originalStart, (int)(originalStart + info.cropDuration.frames(m_fps)) - 1);
 
         // move all effects to the correct producer
         mltPasteEffects(clip, cut);
@@ -2102,19 +2104,19 @@ int Render::mltChangeClipSpeed(ItemInfo info, double speed, double oldspeed, int
         }
         Mlt::Producer *clip = trackPlaylist.replace_with_blank(clipIndex);
         trackPlaylist.consolidate_blanks(0);
-
-        GenTime oldDuration = GenTime(clipLength, m_fps);
-        GenTime newDuration = oldDuration * (oldspeed / speed);
+	
+	GenTime duration = info.cropDuration / speed;
+	int originalStart = (int)(info.originalcropStart.frames(m_fps) / speed);
 
         // Check that the blank space is long enough for our new duration
         clipIndex = trackPlaylist.get_clip_index_at(startPos);
         int blankEnd = trackPlaylist.clip_start(clipIndex) + trackPlaylist.clip_length(clipIndex);
 
         Mlt::Producer *cut;
-        if (clipIndex + 1 < trackPlaylist.count() && (info.startPos + newDuration).frames(m_fps) > blankEnd) {
+        if (clipIndex + 1 < trackPlaylist.count() && (info.startPos + duration).frames(m_fps) > blankEnd) {
             GenTime maxLength = GenTime(blankEnd, m_fps) - info.startPos;
-            cut = slowprod->cut((int)(info.cropStart.frames(m_fps) / speed), (int)(info.cropStart.frames(m_fps) / speed + maxLength.frames(m_fps) - 1));
-        } else cut = slowprod->cut((int)(info.cropStart.frames(m_fps) / speed), (int)((info.cropStart / speed + newDuration).frames(m_fps) - 1));
+            cut = slowprod->cut(originalStart, (int)(originalStart + maxLength.frames(m_fps) - 1));
+        } else cut = slowprod->cut(originalStart, (int)(originalStart + duration.frames(m_fps)) - 1);
 
         // move all effects to the correct producer
         mltPasteEffects(clip, cut);

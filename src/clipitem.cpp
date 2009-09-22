@@ -65,11 +65,10 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, i
     if (m_speed == 1.0) m_clipName = clip->name();
     else {
         m_clipName = clip->name() + " - " + QString::number(m_speed * 100, 'f', 0) + '%';
-        m_cropDuration = m_cropDuration * m_speed;
     }
     m_producer = clip->getId();
     m_clipType = clip->clipType();
-    m_cropStart = info.cropStart;
+    //m_cropStart = info.cropStart;
     m_maxDuration = clip->maxDuration();
     setAcceptDrops(true);
     m_audioThumbReady = clip->audioThumbCreated();
@@ -128,8 +127,8 @@ ClipItem *ClipItem::clone(ItemInfo info) const
     ClipItem *duplicate = new ClipItem(m_clip, info, m_fps, m_speed, m_strobe);
     if (m_clipType == IMAGE || m_clipType == TEXT) duplicate->slotSetStartThumb(m_startPix);
     else {
-        if (info.cropStart == m_cropStart) duplicate->slotSetStartThumb(m_startPix);
-        if (info.cropStart + (info.endPos - info.startPos) == m_cropStart + m_cropDuration) duplicate->slotSetEndThumb(m_endPix);
+        if (info.cropStart == m_info.cropStart) duplicate->slotSetStartThumb(m_startPix);
+        if (info.cropStart + (info.endPos - info.startPos) == m_info.cropStart + (m_info.endPos - m_info.startPos)) duplicate->slotSetEndThumb(m_endPix);
     }
     //kDebug() << "// CLoning clip: " << (info.cropStart + (info.endPos - info.startPos)).frames(m_fps) << ", CURRENT end: " << (cropStart() + duration()).frames(m_fps);
     duplicate->setEffectList(m_effectList);
@@ -256,8 +255,8 @@ bool ClipItem::checkKeyFrames()
             bool modified = false;
             int lastPos = -1;
             double lastValue = -1;
-            int start = m_cropStart.frames(m_fps);
-            int end = (m_cropStart + m_cropDuration).frames(m_fps);
+            int start = cropStart().frames(m_fps);
+            int end = (cropStart() + cropDuration()).frames(m_fps);
             foreach(const QString &str, keyframes) {
                 int pos = str.section(':', 0, 0).toInt();
                 double val = str.section(':', 1, 1).toDouble();
@@ -431,14 +430,14 @@ void ClipItem::refreshClip(bool checkDuration)
     if (checkDuration && (m_maxDuration != m_clip->maxDuration())) {
         m_maxDuration = m_clip->maxDuration();
         if (m_clipType != IMAGE && m_clipType != TEXT && m_clipType != COLOR) {
-            if (m_maxDuration != GenTime() && m_cropStart + m_cropDuration > m_maxDuration) {
+            if (m_maxDuration != GenTime() && m_info.cropStart + m_info.cropDuration > m_maxDuration) {
                 // Clip duration changed, make sure to stay in correct range
-                if (m_cropStart > m_maxDuration) {
-                    m_cropStart = GenTime();
-                    m_cropDuration = qMin(m_cropDuration, m_maxDuration);
+                if (m_info.cropStart > m_maxDuration) {
+                    m_info.cropStart = GenTime();
+                    m_info.cropDuration = qMin(m_info.cropDuration, m_maxDuration);
                     updateRectGeometry();
                 } else {
-                    m_cropDuration = m_maxDuration;
+                    m_info.cropDuration = m_maxDuration;
                     updateRectGeometry();
                 }
             }
@@ -700,7 +699,7 @@ void ClipItem::paint(QPainter *painter,
         int channels = baseClip()->getProperty("channels").toInt();
         if (scale != m_framePixelWidth)
             m_audioThumbCachePic.clear();
-        double cropLeft = m_cropStart.frames(m_fps);
+        double cropLeft = m_info.cropStart.frames(m_fps);
         const int clipStart = mappedRect.x();
         const int mappedStartPixel =  painter->matrix().map(QPointF(startpixel + cropLeft, 0)).x() - clipStart;
         const int mappedEndPixel =  painter->matrix().map(QPointF(endpixel + cropLeft, 0)).x() - clipStart;
@@ -772,7 +771,7 @@ void ClipItem::paint(QPainter *painter,
     pen.setStyle(Qt::DotLine);
     painter->setPen(pen);
     for (; it != markers.end(); ++it) {
-        pos = (*it).time() / m_speed - cropStart();
+        pos = GenTime((int) ((*it).time().frames(m_fps) / m_speed + 0.5), m_fps) - cropStart();
         if (pos > GenTime()) {
             if (pos > cropDuration()) break;
             QLineF l(rect().x() + pos.frames(m_fps), rect().y(), rect().x() + pos.frames(m_fps), rect().bottom());
@@ -891,7 +890,8 @@ QList <GenTime> ClipItem::snapMarkers() const
     GenTime pos;
 
     for (int i = 0; i < markers.size(); i++) {
-        pos = markers.at(i) / m_speed - cropStart();
+      
+        pos = GenTime((int) (markers.at(i).frames(m_fps) / m_speed + 0.5), m_fps) - cropStart();
         if (pos > GenTime()) {
             if (pos > cropDuration()) break;
             else snaps.append(pos + startPos());
@@ -907,7 +907,7 @@ QList <CommentedTime> ClipItem::commentedSnapMarkers() const
     GenTime pos;
 
     for (int i = 0; i < markers.size(); i++) {
-        pos = markers.at(i).time() / m_speed - cropStart();
+        pos = GenTime((int) (markers.at(i).time().frames(m_fps) / m_speed + 0.5), m_fps) - cropStart();
         if (pos > GenTime()) {
             if (pos > cropDuration()) break;
             else snaps.append(CommentedTime(pos + startPos(), markers.at(i).comment()));
@@ -1017,7 +1017,7 @@ void ClipItem::setFadeIn(int pos)
     if (pos == m_startFade) return;
     int oldIn = m_startFade;
     if (pos < 0) pos = 0;
-    if (pos > m_cropDuration.frames(m_fps)) pos = (int)(m_cropDuration.frames(m_fps));
+    if (pos > cropDuration().frames(m_fps)) pos = (int)(cropDuration().frames(m_fps));
     m_startFade = pos;
     QRectF rect = boundingRect();
     update(rect.x(), rect.y(), qMax(oldIn, pos), rect.height());
@@ -1028,7 +1028,7 @@ void ClipItem::setFadeOut(int pos)
     if (pos == m_endFade) return;
     int oldOut = m_endFade;
     if (pos < 0) pos = 0;
-    if (pos > m_cropDuration.frames(m_fps)) pos = (int)(m_cropDuration.frames(m_fps));
+    if (pos > cropDuration().frames(m_fps)) pos = (int)(cropDuration().frames(m_fps));
     m_endFade = pos;
     QRectF rect = boundingRect();
     update(rect.x() + rect.width() - qMax(oldOut, pos), rect.y(), qMax(oldOut, pos), rect.height());
@@ -1190,20 +1190,20 @@ QVariant ClipItem::itemChange(GraphicsItemChange change, const QVariant &value)
                         subitems.removeAll(this);
                         for (int j = 0; j < subitems.count(); j++) {
                             if (subitems.at(j)->type() == type()) {
-                                m_startPos = GenTime((int) pos().x(), m_fps);
+                                m_info.startPos = GenTime((int) pos().x(), m_fps);
                                 return pos();
                             }
                         }
                     }
 
-                    m_track = newTrack;
-                    m_startPos = GenTime((int) newPos.x(), m_fps);
+                    m_info.track = newTrack;
+                    m_info.startPos = GenTime((int) newPos.x(), m_fps);
                     return newPos;
                 }
             }
         }
-        m_track = newTrack;
-        m_startPos = GenTime((int) newPos.x(), m_fps);
+        m_info.track = newTrack;
+        m_info.startPos = GenTime((int) newPos.x(), m_fps);
         //kDebug()<<"// ITEM NEW POS: "<<newPos.x()<<", mapped: "<<mapToScene(newPos.x(), 0).x();
         return newPos;
     }
@@ -1490,22 +1490,22 @@ void ClipItem::setSpeed(const double speed, const int strobe)
 
 GenTime ClipItem::maxDuration() const
 {
-    return m_maxDuration / m_speed;
+    return GenTime((int) (m_maxDuration.frames(m_fps) / m_speed + 0.5), m_fps);
 }
 
 GenTime ClipItem::cropStart() const
 {
-    return m_cropStart / m_speed;
+    return GenTime((int) (m_info.originalcropStart.frames(m_fps) / m_speed + 0.5), m_fps);
 }
 
 GenTime ClipItem::cropDuration() const
 {
-    return m_cropDuration / m_speed;
+    return GenTime((int) (m_info.cropDuration.frames(m_fps) / m_speed + 0.5), m_fps);
 }
 
 GenTime ClipItem::endPos() const
 {
-    return m_startPos + cropDuration();
+    return m_info.startPos + cropDuration();
 }
 
 //virtual
@@ -1518,7 +1518,7 @@ void ClipItem::dropEvent(QGraphicsSceneDragDropEvent * event)
     if (scene() && !scene()->views().isEmpty()) {
         event->accept();
         CustomTrackView *view = (CustomTrackView *) scene()->views()[0];
-        if (view) view->slotAddEffect(e, m_startPos, track());
+        if (view) view->slotAddEffect(e, m_info.startPos, track());
     }
 }
 

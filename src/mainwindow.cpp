@@ -1993,7 +1993,7 @@ void MainWindow::slotAddClipMarker()
         if (m_activeTimeline) {
             ClipItem *item = m_activeTimeline->projectView()->getActiveClipUnderCursor();
             if (item) {
-                pos = (m_projectMonitor->position() - item->startPos() + item->cropStart()) / item->speed();
+                pos = GenTime((int) ((m_projectMonitor->position() - item->startPos() + item->cropStart()).frames(m_activeDocument->fps()) * item->speed() + 0.5), m_activeDocument->fps());
                 clip = item->baseClip();
             }
         }

@@ -39,7 +39,7 @@ class KdenliveDoc;
 class CustomRuler;
 class DocClipBase;
 
-class TrackView : public QWidget
+class TrackView : public QWidget, public Ui::TimeLine_UI
 {
     Q_OBJECT
 
@@ -66,7 +66,6 @@ public slots:
     void slotSetZone(QPoint p);
 
 private:
-    Ui::TimeLine_UI m_view;
     CustomRuler *m_ruler;
     CustomTrackView *m_trackview;
     QList <QString> m_invalidProducers;

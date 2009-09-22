@@ -46,8 +46,9 @@ TrackView::TrackView(KdenliveDoc *doc, bool *ok, QWidget *parent) :
         m_verticalZoom(1)
 {
 
-    m_view.setupUi(this);
-
+    setupUi(this);
+//    ruler_frame->setMaximumHeight();
+//    size_frame->setMaximumHeight();
     m_scene = new CustomTrackScene(doc);
     m_trackview = new CustomTrackView(doc, m_scene, parent);
     m_trackview->scale(1, 1);
@@ -59,13 +60,13 @@ TrackView::TrackView(KdenliveDoc *doc, bool *ok, QWidget *parent) :
     QHBoxLayout *layout = new QHBoxLayout;
     layout->setContentsMargins(m_trackview->frameWidth(), 0, 0, 0);
     layout->setSpacing(0);
-    m_view.ruler_frame->setLayout(layout);
+    ruler_frame->setLayout(layout);
     layout->addWidget(m_ruler);
 
     QHBoxLayout *sizeLayout = new QHBoxLayout;
     sizeLayout->setContentsMargins(0, 0, 0, 0);
     sizeLayout->setSpacing(0);
-    m_view.size_frame->setLayout(sizeLayout);
+    size_frame->setLayout(sizeLayout);
 
     QToolButton *butSmall = new QToolButton(this);
     butSmall->setIcon(KIcon("kdenlive-zoom-small"));
@@ -84,20 +85,20 @@ TrackView::TrackView(KdenliveDoc *doc, bool *ok, QWidget *parent) :
     QHBoxLayout *tracksLayout = new QHBoxLayout;
     tracksLayout->setContentsMargins(0, 0, 0, 0);
     tracksLayout->setSpacing(0);
-    m_view.tracks_frame->setLayout(tracksLayout);
+    tracks_frame->setLayout(tracksLayout);
 
-    m_view.headers_area->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    m_view.headers_area->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    m_view.headers_area->setFixedWidth(70);
+    headers_area->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    headers_area->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    headers_area->setFixedWidth(70);
 
     QVBoxLayout *headersLayout = new QVBoxLayout;
     headersLayout->setContentsMargins(0, m_trackview->frameWidth(), 0, 0);
     headersLayout->setSpacing(0);
-    m_view.headers_container->setLayout(headersLayout);
-    connect(m_view.headers_area->verticalScrollBar(), SIGNAL(valueChanged(int)), m_trackview->verticalScrollBar(), SLOT(setValue(int)));
+    headers_container->setLayout(headersLayout);
+    connect(headers_area->verticalScrollBar(), SIGNAL(valueChanged(int)), m_trackview->verticalScrollBar(), SLOT(setValue(int)));
 
     tracksLayout->addWidget(m_trackview);
-    connect(m_trackview->verticalScrollBar(), SIGNAL(valueChanged(int)), m_view.headers_area->verticalScrollBar(), SLOT(setValue(int)));
+    connect(m_trackview->verticalScrollBar(), SIGNAL(valueChanged(int)), headers_area->verticalScrollBar(), SLOT(setValue(int)));
     connect(m_trackview, SIGNAL(trackHeightChanged()), this, SLOT(slotRebuildTrackHeaders()));
 
     parseDocument(m_doc->toXml());
@@ -444,7 +445,7 @@ void TrackView::slotRebuildTrackHeaders()
 {
     const QList <TrackInfo> list = m_doc->tracksList();
     QLayoutItem *child;
-    while ((child = m_view.headers_container->layout()->takeAt(0)) != 0) {
+    while ((child = headers_container->layout()->takeAt(0)) != 0) {
         QWidget *wid = child->widget();
         delete child;
         if (wid) wid->deleteLater();
@@ -454,14 +455,14 @@ void TrackView::slotRebuildTrackHeaders()
     HeaderTrack *header = NULL;
     QFrame *frame = NULL;
     for (int i = 0; i < max; i++) {
-        frame = new QFrame(m_view.headers_container);
+        frame = new QFrame(headers_container);
         frame->setFixedHeight(1);
         frame->setFrameStyle(QFrame::Plain);
         frame->setFrameShape(QFrame::Box);
         frame->setLineWidth(1);
-        m_view.headers_container->layout()->addWidget(frame);
+        headers_container->layout()->addWidget(frame);
         TrackInfo info = list.at(max - i - 1);
-        header = new HeaderTrack(i, info, height, m_view.headers_container);
+        header = new HeaderTrack(i, info, height, headers_container);
         connect(header, SIGNAL(switchTrackVideo(int)), m_trackview, SLOT(slotSwitchTrackVideo(int)));
         connect(header, SIGNAL(switchTrackAudio(int)), m_trackview, SLOT(slotSwitchTrackAudio(int)));
         connect(header, SIGNAL(switchTrackLock(int)), m_trackview, SLOT(slotSwitchTrackLock(int)));
@@ -470,14 +471,14 @@ void TrackView::slotRebuildTrackHeaders()
         connect(header, SIGNAL(insertTrack(int)), this, SIGNAL(insertTrack(int)));
         connect(header, SIGNAL(changeTrack(int)), this, SIGNAL(changeTrack(int)));
         connect(header, SIGNAL(renameTrack(int)), this, SLOT(slotRenameTrack(int)));
-        m_view.headers_container->layout()->addWidget(header);
+        headers_container->layout()->addWidget(header);
     }
     frame = new QFrame(this);
     frame->setFixedHeight(1);
     frame->setFrameStyle(QFrame::Plain);
     frame->setFrameShape(QFrame::Box);
     frame->setLineWidth(1);
-    m_view.headers_container->layout()->addWidget(frame);
+    headers_container->layout()->addWidget(frame);
 }
 
 
@@ -485,8 +486,8 @@ void TrackView::adjustTrackHeaders()
 {
     int height = KdenliveSettings::trackheight() * m_scene->scale().y() - 1;
     QLayoutItem *child;
-    for (int i = 0; i < m_view.headers_container->layout()->count(); i++) {
-        child = m_view.headers_container->layout()->itemAt(i);
+    for (int i = 0; i < headers_container->layout()->count(); i++) {
+        child = headers_container->layout()->itemAt(i);
         if (child->widget() && child->widget()->height() > 5)(static_cast <HeaderTrack *>(child->widget()))->adjustSize(height);
     }
 }
@@ -560,6 +561,9 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked)
                 clipinfo.startPos = GenTime(position, m_doc->fps());
                 clipinfo.endPos = clipinfo.startPos + GenTime(out - in + 1, m_doc->fps());
                 clipinfo.cropStart = GenTime(in, m_doc->fps());
+		clipinfo.cropDuration = GenTime((int) ((clipinfo.endPos - clipinfo.startPos).frames(m_doc->fps()) * speed + 0.5), m_doc->fps());
+		clipinfo.originalcropStart = GenTime((int) ((clipinfo.cropStart).frames(m_doc->fps()) * speed + 0.5), m_doc->fps());
+		
                 clipinfo.track = ix;
                 //kDebug() << "// INSERTING CLIP: " << in << "x" << out << ", track: " << ix << ", ID: " << id << ", SCALE: " << m_scale << ", FPS: " << m_doc->fps();
                 ClipItem *item = new ClipItem(clip, clipinfo, m_doc->fps(), speed, strobe, false);
@@ -830,7 +834,7 @@ void TrackView::slotVerticalZoomDown()
     if (m_verticalZoom == 0) m_trackview->setScale(m_scene->scale().x(), 0.5);
     else m_trackview->setScale(m_scene->scale().x(), 1);
     adjustTrackHeaders();
-    m_trackview->verticalScrollBar()->setValue(m_view.headers_area->verticalScrollBar()->value());
+    m_trackview->verticalScrollBar()->setValue(headers_area->verticalScrollBar()->value());
 }
 
 void TrackView::slotVerticalZoomUp()
@@ -841,7 +845,7 @@ void TrackView::slotVerticalZoomUp()
     if (m_verticalZoom == 2) m_trackview->setScale(m_scene->scale().x(), 2);
     else m_trackview->setScale(m_scene->scale().x(), 1);
     adjustTrackHeaders();
-    m_trackview->verticalScrollBar()->setValue(m_view.headers_area->verticalScrollBar()->value());
+    m_trackview->verticalScrollBar()->setValue(headers_area->verticalScrollBar()->value());
 }
 
 void TrackView::updateProjectFps()

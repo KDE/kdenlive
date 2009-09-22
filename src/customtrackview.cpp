@@ -863,8 +863,24 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         m_pasteEffectsAction->setEnabled(m_copiedItems.count() == 1);
     }
 
+    if (collisionClip != NULL || m_dragItem == NULL) {
+        if (m_dragItem && m_dragItem->type() == AVWIDGET && !m_dragItem->isItemLocked()) {
+            ClipItem *selected = static_cast <ClipItem*>(m_dragItem);
+            emit clipItemSelected(selected);
+        } else emit clipItemSelected(NULL);
+    }
+
+    // If clicked item is selected, allow move
+    if (event->modifiers() != Qt::ControlModifier && m_operationMode == NONE) QGraphicsView::mousePressEvent(event);
+
+    m_clickPoint = QPoint((int)(mapToScene(event->pos()).x() - m_dragItem->startPos().frames(m_document->fps())), (int)(event->pos().y() - m_dragItem->pos().y()));
+    m_operationMode = m_dragItem->operationMode(mapToScene(event->pos()));
+    
     // Update snap points
-    if (m_selectionGroup == NULL) updateSnapPoints(m_dragItem);
+    if (m_selectionGroup == NULL) {
+	if (m_operationMode == RESIZEEND || m_operationMode == RESIZESTART) updateSnapPoints(NULL);
+	else updateSnapPoints(m_dragItem);
+    }
     else {
         QList <GenTime> offsetList;
         QList<QGraphicsItem *> children = m_selectionGroup->childItems();
@@ -888,19 +904,6 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
             updateSnapPoints(NULL, cleandOffsetList, true);
         }
     }
-
-    if (collisionClip != NULL || m_dragItem == NULL) {
-        if (m_dragItem && m_dragItem->type() == AVWIDGET && !m_dragItem->isItemLocked()) {
-            ClipItem *selected = static_cast <ClipItem*>(m_dragItem);
-            emit clipItemSelected(selected);
-        } else emit clipItemSelected(NULL);
-    }
-
-    // If clicked item is selected, allow move
-    if (event->modifiers() != Qt::ControlModifier && m_operationMode == NONE) QGraphicsView::mousePressEvent(event);
-
-    m_clickPoint = QPoint((int)(mapToScene(event->pos()).x() - m_dragItem->startPos().frames(m_document->fps())), (int)(event->pos().y() - m_dragItem->pos().y()));
-    m_operationMode = m_dragItem->operationMode(mapToScene(event->pos()));
 
     if (m_operationMode == KEYFRAME) {
         m_dragItem->updateSelectedKeyFrame();
@@ -1225,6 +1228,8 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint pos)
         info.startPos = GenTime();
         info.cropStart = GenTime(list.at(1).toInt(), m_document->fps());
         info.endPos = GenTime(list.at(2).toInt() - list.at(1).toInt(), m_document->fps());
+	info.cropDuration = info.endPos - info.startPos;
+	info.originalcropStart = info.cropStart;
         info.track = 0;
 
         // Check if clip can be inserted at that position
@@ -1266,7 +1271,8 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint pos)
             }
             ItemInfo info;
             info.startPos = start;
-            info.endPos = info.startPos + clip->duration();
+	    info.cropDuration = clip->duration();
+            info.endPos = info.startPos + info.cropDuration;
             info.track = track;
             infoList.append(info);
             start += clip->duration();
@@ -1280,9 +1286,10 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint pos)
             DocClipBase *clip = m_document->getBaseClip(ids.at(i));
             ItemInfo info;
             info.startPos = start;
-            info.endPos = info.startPos + clip->duration();
+	    info.cropDuration = clip->duration();
+            info.endPos = info.startPos + info.cropDuration;
             info.track = 0;
-            start += clip->duration();
+            start += info.cropDuration;
             offsetList.append(start);
             ClipItem *item = new ClipItem(clip, info, m_document->fps(), 1.0, 1, false);
             item->setFlags(QGraphicsItem::ItemIsSelectable);
@@ -1633,7 +1640,7 @@ void CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut)
 
         m_document->renderer()->mltCutClip(m_document->tracksCount() - info.track, cutTime);
         int cutPos = (int) cutTime.frames(m_document->fps());
-        ItemInfo newPos;
+        ItemInfo newPos = info;
         double speed = item->speed();
         newPos.startPos = cutTime;
         newPos.endPos = info.endPos;
@@ -4252,11 +4259,10 @@ void CustomTrackView::pasteClip()
         // parse all clip names
         if (m_copiedItems.at(i) && m_copiedItems.at(i)->type() == AVWIDGET) {
             ClipItem *clip = static_cast <ClipItem *>(m_copiedItems.at(i));
-            ItemInfo info;
-            info.startPos = clip->startPos() + offset;
-            info.endPos = clip->endPos() + offset;
-            info.cropStart = clip->cropStart();
-            info.track = clip->track() + trackOffset;
+            ItemInfo info = clip->info();
+            info.startPos += offset;
+            info.endPos += offset;
+            info.track += trackOffset;
             if (canBePastedTo(info, AVWIDGET)) {
                 new AddTimelineClipCommand(this, clip->xml(), clip->clipProducer(), info, clip->effectList(), true, false, pasteClips);
             } else emit displayMessage(i18n("Cannot paste clip to selected place"), ErrorMessage);
@@ -4766,10 +4772,7 @@ void CustomTrackView::doSplitAudio(const GenTime &pos, int track, bool split)
         if (freetrack == 0) {
             emit displayMessage(i18n("No empty space to put clip audio"), ErrorMessage);
         } else {
-            ItemInfo info;
-            info.startPos = clip->startPos();
-            info.endPos = clip->endPos();
-            info.cropStart = clip->cropStart();
+            ItemInfo info = clip->info();
             info.track = m_document->tracksCount() - freetrack;
             addClip(clip->xml(), clip->clipProducer(), info, clip->effectList());
             scene()->clearSelection();

@@ -289,7 +289,7 @@ void Monitor::updateMarkers(DocClipBase *source)
         if (!markers.isEmpty()) {
             QList <int> marks;
             for (int i = 0; i < markers.count(); i++) {
-                int pos = (int) markers.at(i).time().frames(render->fps());
+                int pos = (int) markers.at(i).time().frames(m_monitorManager->timecode().fps());
                 marks.append(pos);
                 QString position = m_monitorManager->timecode().getTimecode(markers.at(i).time()) + ' ' + markers.at(i).comment();
                 QAction *go = m_markerMenu->addAction(position);
@@ -720,7 +720,7 @@ void Monitor::slotPlayZone()
     if (render == NULL) return;
     activateMonitor();
     QPoint p = m_ruler->zone();
-    render->playZone(GenTime(p.x(), render->fps()), GenTime(p.y(), render->fps()));
+    render->playZone(GenTime(p.x(), m_monitorManager->timecode().fps()), GenTime(p.y(), m_monitorManager->timecode().fps()));
     m_playAction->setChecked(true);
     m_playAction->setIcon(m_pauseIcon);
 }
@@ -730,7 +730,7 @@ void Monitor::slotLoopZone()
     if (render == NULL) return;
     activateMonitor();
     QPoint p = m_ruler->zone();
-    render->loopZone(GenTime(p.x(), render->fps()), GenTime(p.y(), render->fps()));
+    render->loopZone(GenTime(p.x(), m_monitorManager->timecode().fps()), GenTime(p.y(), m_monitorManager->timecode().fps()));
     m_playAction->setChecked(true);
     m_playAction->setIcon(m_pauseIcon);
 }
@@ -751,7 +751,7 @@ void Monitor::slotSetXml(DocClipBase *clip, const int position)
             // MLT CONSUMER is broken
             emit blockMonitors();
         }
-    } else if (position != -1) render->seek(GenTime(position, render->fps()));
+    } else if (position != -1) render->seek(GenTime(position, m_monitorManager->timecode().fps()));
 }
 
 void Monitor::slotOpenFile(const QString &file)
