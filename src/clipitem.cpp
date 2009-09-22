@@ -1086,10 +1086,9 @@ void ClipItem::resizeEnd(int posx, double /*speed*/)
     if (posx > max && maxDuration() != GenTime()) posx = max;
     if (posx == endPos().frames(m_fps)) return;
     //kDebug() << "// NEW POS: " << posx << ", OLD END: " << endPos().frames(m_fps);
-    const int previous = (int)(cropStart() + cropDuration()).frames(m_fps) - 1;
+    const int previous = cropDuration().frames(m_fps);
     AbstractClipItem::resizeEnd(posx, m_speed);
-    const int current = (int)(cropStart() + cropDuration()).frames(m_fps) - 1;
-    if (current != previous) {
+    if ((int) cropDuration().frames(m_fps) != previous) {
         if (m_hasThumbs && KdenliveSettings::videothumbnails()) {
             /*connect(m_clip->thumbProducer(), SIGNAL(thumbReady(int, QPixmap)), this, SLOT(slotThumbReady(int, QPixmap)));*/
             m_endThumbTimer.start(150);
