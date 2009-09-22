@@ -26,6 +26,7 @@
 #include "timecode.h"
 
 enum RULER_MOVE { RULER_CURSOR = 0, RULER_START = 1, RULER_MIDDLE = 2, RULER_END = 3 };
+enum MOUSE_MOVE { NO_MOVE = 0, HORIZONTAL_MOVE = 1, VERTICAL_MOVE = 2 };
 
 class CustomRuler : public QWidget
 {
@@ -33,7 +34,7 @@ class CustomRuler : public QWidget
 
 public:
     CustomRuler(Timecode tc, CustomTrackView *parent);
-    void setPixelPerMark(double rate);
+    void setPixelPerMark(int rate);
     static const int comboScale[];
     int outPoint() const;
     int inPoint() const;
@@ -46,6 +47,7 @@ protected:
     virtual void paintEvent(QPaintEvent * /*e*/);
     virtual void wheelEvent(QWheelEvent * e);
     virtual void mousePressEvent(QMouseEvent * event);
+    virtual void mouseReleaseEvent(QMouseEvent * event);
     virtual void mouseMoveEvent(QMouseEvent * event);
 
 private:
@@ -66,6 +68,12 @@ private:
     QAction *m_editGuide;
     QAction *m_deleteGuide;
     int m_clickedGuide;
+    /** Used for zooming through vertical move */
+    QPoint m_clickPoint;
+    int m_rate;
+    int m_startRate;
+    MOUSE_MOVE m_mouseMove;
+
 
 public slots:
     void slotMoveRuler(int newPos);
@@ -77,6 +85,7 @@ private slots:
 
 signals:
     void zoneMoved(int, int);
+    void adjustZoom(int);
 };
 
 #endif

@@ -24,6 +24,7 @@
 #include <KCursor>
 #include <KGlobalSettings>
 
+#include <QApplication>
 #include <QMouseEvent>
 #include <QStylePainter>
 
@@ -58,7 +59,8 @@ CustomRuler::CustomRuler(Timecode tc, CustomTrackView *parent) :
         m_view(parent),
         m_duration(0),
         m_offset(0),
-        m_clickedGuide(-1)
+        m_clickedGuide(-1),
+        m_mouseMove(NO_MOVE)
 {
     setFont(KGlobalSettings::toolBarFont());
     QFontMetricsF fontMetrics(font());
@@ -110,6 +112,11 @@ void CustomRuler::setZone(QPoint p)
     update(min * m_factor - 2, 0, (max - min) * m_factor + 4, height());
 }
 
+void CustomRuler::mouseReleaseEvent(QMouseEvent * event)
+{
+    m_mouseMove = NO_MOVE;
+}
+
 // virtual
 void CustomRuler::mousePressEvent(QMouseEvent * event)
 {
@@ -129,8 +136,11 @@ void CustomRuler::mousePressEvent(QMouseEvent * event)
         else if (qAbs(pos - (m_zoneStart + (m_zoneEnd - m_zoneStart) / 2) * m_factor) < 4) m_moveCursor = RULER_MIDDLE;
         else if (qAbs(pos - m_zoneEnd * m_factor) < 4) m_moveCursor = RULER_END;
     }
-    if (m_moveCursor == RULER_CURSOR)
+    if (m_moveCursor == RULER_CURSOR) {
         m_view->setCursorPos((int) pos / m_factor);
+        m_clickPoint = event->pos();
+        m_startRate = m_rate;
+    }
 }
 
 // virtual
@@ -142,8 +152,21 @@ void CustomRuler::mouseMoveEvent(QMouseEvent * event)
         int zoneEnd = m_zoneEnd;
         if (pos < 0) pos = 0;
         if (m_moveCursor == RULER_CURSOR) {
-            m_view->setCursorPos(pos);
-            m_view->slotCheckPositionScrolling();
+            QPoint diff = event->pos() - m_clickPoint;
+            if (m_mouseMove == NO_MOVE) {
+                if (qAbs(diff.x()) >= QApplication::startDragDistance()) {
+                    m_mouseMove = HORIZONTAL_MOVE;
+                } else if (qAbs(diff.y()) >= QApplication::startDragDistance()) {
+                    m_mouseMove = VERTICAL_MOVE;
+                } else return;
+            }
+            if (m_mouseMove == HORIZONTAL_MOVE) {
+                m_view->setCursorPos(pos);
+                m_view->slotCheckPositionScrolling();
+            } else {
+                int verticalDiff = m_startRate - (diff.y()) / 7;
+                if (verticalDiff != m_rate) emit adjustZoom(verticalDiff);
+            }
             return;
         } else if (m_moveCursor == RULER_START) m_zoneStart = pos;
         else if (m_moveCursor == RULER_END) m_zoneEnd = pos;
@@ -218,9 +241,10 @@ void CustomRuler::slotCursorMoved(int oldpos, int newpos)
     } else update(qMin(oldpos, newpos) * m_factor - offset() - 6, 0, qAbs(oldpos - newpos) * m_factor + 17, height());
 }
 
-void CustomRuler::setPixelPerMark(double rate)
+void CustomRuler::setPixelPerMark(int rate)
 {
-    int scale = comboScale[(int) rate];
+    int scale = comboScale[rate];
+    m_rate = rate;
     m_factor = 1.0 / (double) scale * FRAME_SIZE;
     m_scale = 1.0 / (double) scale;
     double fend = m_scale * littleMarkDistance;
@@ -237,7 +261,7 @@ void CustomRuler::setPixelPerMark(double rate)
         mediumMarkDistance = (double) FRAME_SIZE * m_timecode.fps();
         bigMarkDistance = (double) FRAME_SIZE * m_timecode.fps() * 60;
     }
-    switch ((int) rate) {
+    switch (rate) {
     case 0:
         m_textSpacing = fend;
         break;

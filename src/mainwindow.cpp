@@ -1827,6 +1827,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     connect(m_zoomSlider, SIGNAL(valueChanged(int)), trackView, SLOT(slotChangeZoom(int)));
     connect(trackView->projectView(), SIGNAL(zoomIn()), this, SLOT(slotZoomIn()));
     connect(trackView->projectView(), SIGNAL(zoomOut()), this, SLOT(slotZoomOut()));
+    connect(trackView, SIGNAL(setZoom(int)), this, SLOT(slotSetZoom(int)));
     connect(trackView->projectView(), SIGNAL(displayMessage(const QString&, MessageType)), m_messageLabel, SLOT(setMessage(const QString&, MessageType)));
 
     connect(trackView->projectView(), SIGNAL(showClipFrame(DocClipBase *, const int)), m_clipMonitor, SLOT(slotSetXml(DocClipBase *, const int)));
@@ -2248,6 +2249,11 @@ void MainWindow::slotFitZoom()
     if (m_activeTimeline) {
         m_zoomSlider->setValue(m_activeTimeline->fitZoom());
     }
+}
+
+void MainWindow::slotSetZoom(int value)
+{
+    m_zoomSlider->setValue(value);
 }
 
 void MainWindow::slotGotProgressInfo(const QString &message, int progress)

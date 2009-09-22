@@ -57,6 +57,7 @@ TrackView::TrackView(KdenliveDoc *doc, bool *ok, QWidget *parent) :
 
     m_ruler = new CustomRuler(doc->timecode(), m_trackview);
     connect(m_ruler, SIGNAL(zoneMoved(int, int)), this, SIGNAL(zoneMoved(int, int)));
+    connect(m_ruler, SIGNAL(adjustZoom(int)), this, SIGNAL(setZoom(int)));
     QHBoxLayout *layout = new QHBoxLayout;
     layout->setContentsMargins(m_trackview->frameWidth(), 0, 0, 0);
     layout->setSpacing(0);
@@ -346,6 +347,7 @@ void TrackView::parseDocument(QDomDocument doc)
             transitionInfo.startPos = GenTime(e.attribute("in").toInt(), m_doc->fps());
             transitionInfo.endPos = GenTime(e.attribute("out").toInt() + 1, m_doc->fps());
             transitionInfo.track = m_projectTracks - 1 - b_track;
+
             //kDebug() << "///////////////   +++++++++++  ADDING TRANSITION ON TRACK: " << b_track << ", TOTAL TRKA: " << m_projectTracks;
             if (transitionInfo.startPos >= transitionInfo.endPos) {
                 // invalid transition, remove it.
@@ -408,7 +410,7 @@ void TrackView::moveCursorPos(int pos)
 void TrackView::slotChangeZoom(int horizontal, int vertical)
 {
     m_ruler->setPixelPerMark(horizontal);
-    m_scale = (double) FRAME_SIZE / m_ruler->comboScale[horizontal]; // m_ruler->comboScale[m_currentZoom] /
+    m_scale = (double) FRAME_SIZE / m_ruler->comboScale[horizontal];
 
     if (vertical == -1) {
         // user called zoom
@@ -825,6 +827,7 @@ void TrackView::slotChangeTrackLock(int ix, bool lock)
     QList<HeaderTrack *> widgets = findChildren<HeaderTrack *>();
     widgets.at(ix)->setLock(lock);
 }
+
 
 void TrackView::slotVerticalZoomDown()
 {

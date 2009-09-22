@@ -99,6 +99,7 @@ signals:
     void deleteTrack(int);
     void changeTrack(int);
     void renameTrack(int);
+    void setZoom(int);
 };
 
 #endif
