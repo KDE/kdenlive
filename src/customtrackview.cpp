@@ -759,6 +759,17 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
                 // Ctrl + click, select all items on track after click position
                 int track = (int)(mapToScene(m_clickEvent).y() / m_tracksHeight);
                 selection = items(m_clickEvent.x(), track * m_tracksHeight + m_tracksHeight / 2, mapFromScene(sceneRect().width(), 0).x() - m_clickEvent.x(), m_tracksHeight / 2 - 2);
+                int maxHeight = m_tracksHeight * 1.5;
+                for (int i = 0; i < selection.count(); i++) {
+                    // Check that we don't try to move a group with clips on other tracks
+                    if (selection.at(i)->type() == GROUPWIDGET && (selection.at(i)->boundingRect().height() >= maxHeight)) {
+                        emit displayMessage(i18n("Cannot use spacer in a track with a group"), ErrorMessage);
+                        return;
+                    } else if (selection.at(i)->parentItem() && (selection.at(i)->parentItem()->boundingRect().height() >= maxHeight)) {
+                        emit displayMessage(i18n("Cannot use spacer in a track with a group"), ErrorMessage);
+                        return;
+                    }
+                }
 
                 kDebug() << "SPACER TOOL + CTRL, SELECTING ALL CLIPS ON TRACK " << track << " WITH SELECTION RECT " << m_clickEvent.x() << "/" <<  track * m_tracksHeight + 1 << "; " << mapFromScene(sceneRect().width(), 0).x() - m_clickEvent.x() << "/" << m_tracksHeight - 2;
             } else {
