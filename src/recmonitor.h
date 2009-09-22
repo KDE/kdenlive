@@ -58,7 +58,7 @@ private:
     QString m_name;
     bool m_isActive;
     KDateTime m_captureTime;
-    
+
 #if KDE_IS_VERSION(4,2,0)
     KCapacityBar *m_freeSpace;
 #endif
@@ -84,7 +84,7 @@ private:
     void checkDeviceAvailability();
     QPixmap mergeSideBySide(const QPixmap& pix, const QString txt);
     void manageCapturedFiles();
-    
+
 #if KDE_IS_VERSION(4,2,0)
     void updatedFreeSpace();
 #endif

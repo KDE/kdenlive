@@ -152,7 +152,7 @@ void ClipManager::slotDeleteClips(QStringList ids)
 {
     QUndoCommand *delClips = new QUndoCommand();
     delClips->setText(i18np("Delete clip", "Delete clips", ids.size()));
-    
+
     for (int i = 0; i < ids.size(); i++) {
         DocClipBase *clip = getClipById(ids.at(i));
         if (clip) {

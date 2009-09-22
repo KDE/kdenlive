@@ -153,8 +153,8 @@ void RecMonitor::slotUpdateCaptureFolder()
 {
     if (m_captureProcess) m_captureProcess->setWorkingDirectory(KdenliveSettings::capturefolder());
     slotVideoDeviceChanged(m_ui.device_selector->currentIndex());
-    kDebug()<<"// UPDATE CAPT FOLD: "<<KdenliveSettings::capturefolder();
-    
+    kDebug() << "// UPDATE CAPT FOLD: " << KdenliveSettings::capturefolder();
+
 #if KDE_IS_VERSION(4,2,0)
     // update free space info
     updatedFreeSpace();
@@ -587,11 +587,11 @@ void RecMonitor::slotProcessStatus(QProcess::ProcessState status)
             else m_ui.video_frame->setPixmap(mergeSideBySide(KIcon("video-display").pixmap(QSize(50, 50)), i18n("Press record button\nto start screen capture\nFiles will be saved in:\n%1", KdenliveSettings::capturefolder())));
         }
         m_isCapturing = false;
-        
+
 #if KDE_IS_VERSION(4,2,0)
         // update free space info
         KDiskFreeSpaceInfo info = KDiskFreeSpaceInfo::freeSpaceInfo(KdenliveSettings::capturefolder());
-        if( info.isValid() ) {
+        if (info.isValid()) {
             m_freeSpace->setValue(100 * info.used() / info.size());
             m_freeSpace->setText(i18n("Free space: %1", KIO::convertSize(info.available())));
         }
@@ -647,7 +647,7 @@ void RecMonitor::manageCapturedFiles()
 
 // virtual
 void RecMonitor::mousePressEvent(QMouseEvent * /*event*/)
-{   
+{
 #if KDE_IS_VERSION(4,2,0)
     if (m_freeSpace->underMouse()) updatedFreeSpace();
 #endif
@@ -657,7 +657,7 @@ void RecMonitor::mousePressEvent(QMouseEvent * /*event*/)
 void RecMonitor::updatedFreeSpace()
 {
     KDiskFreeSpaceInfo info = KDiskFreeSpaceInfo::freeSpaceInfo(KdenliveSettings::capturefolder());
-    if( info.isValid() ) {
+    if (info.isValid()) {
         m_freeSpace->setValue(100 * info.used() / info.size());
         m_freeSpace->setText(i18n("Free space: %1", KIO::convertSize(info.available())));
         m_freeSpace->update();

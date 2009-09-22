@@ -1448,7 +1448,7 @@ void TitleWidget::saveTitle(KUrl url)
     if (anim_start->isChecked()) slotAnimStart(false);
     if (anim_end->isChecked()) slotAnimEnd(false);
     if (url.isEmpty()) {
-        KFileDialog *fs = new KFileDialog(KUrl(m_projectTitlePath), "application/x-kdenlivetitle",this);
+        KFileDialog *fs = new KFileDialog(KUrl(m_projectTitlePath), "application/x-kdenlivetitle", this);
         fs->setOperationMode(KFileDialog::Saving);
         fs->setMode(KFile::File);
 #if KDE_IS_VERSION(4,2,0)

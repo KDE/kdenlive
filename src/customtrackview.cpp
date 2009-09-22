@@ -875,13 +875,12 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
 
     m_clickPoint = QPoint((int)(mapToScene(event->pos()).x() - m_dragItem->startPos().frames(m_document->fps())), (int)(event->pos().y() - m_dragItem->pos().y()));
     m_operationMode = m_dragItem->operationMode(mapToScene(event->pos()));
-    
+
     // Update snap points
     if (m_selectionGroup == NULL) {
-	if (m_operationMode == RESIZEEND || m_operationMode == RESIZESTART) updateSnapPoints(NULL);
-	else updateSnapPoints(m_dragItem);
-    }
-    else {
+        if (m_operationMode == RESIZEEND || m_operationMode == RESIZESTART) updateSnapPoints(NULL);
+        else updateSnapPoints(m_dragItem);
+    } else {
         QList <GenTime> offsetList;
         QList<QGraphicsItem *> children = m_selectionGroup->childItems();
         for (int i = 0; i < children.count(); i++) {
@@ -1228,14 +1227,14 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint pos)
         info.startPos = GenTime();
         info.cropStart = GenTime(list.at(1).toInt(), m_document->fps());
         info.endPos = GenTime(list.at(2).toInt() - list.at(1).toInt(), m_document->fps());
-	info.cropDuration = info.endPos - info.startPos;
-	info.originalcropStart = info.cropStart;
+        info.cropDuration = info.endPos - info.startPos;
+        info.originalcropStart = info.cropStart;
         info.track = 0;
 
         // Check if clip can be inserted at that position
         ItemInfo pasteInfo = info;
         pasteInfo.startPos = GenTime((int)(framePos.x() + 0.5), m_document->fps());
-	pasteInfo.endPos = pasteInfo.startPos + info.endPos;
+        pasteInfo.endPos = pasteInfo.startPos + info.endPos;
         pasteInfo.track = (int)(framePos.y() / m_tracksHeight);
         if (!canBePastedTo(pasteInfo, AVWIDGET)) {
             return true;
@@ -1272,7 +1271,7 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint pos)
             }
             ItemInfo info;
             info.startPos = start;
-	    info.cropDuration = clip->duration();
+            info.cropDuration = clip->duration();
             info.endPos = info.startPos + info.cropDuration;
             info.track = track;
             infoList.append(info);
@@ -1287,7 +1286,7 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint pos)
             DocClipBase *clip = m_document->getBaseClip(ids.at(i));
             ItemInfo info;
             info.startPos = start;
-	    info.cropDuration = clip->duration();
+            info.cropDuration = clip->duration();
             info.endPos = info.startPos + info.cropDuration;
             info.track = 0;
             start += info.cropDuration;

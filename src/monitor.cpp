@@ -195,8 +195,8 @@ void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMe
 
     //TODO: add save zone to timeline monitor when fixed
     if (m_name == "clip") {
-	m_contextMenu->addMenu(m_markerMenu);
-	m_contextMenu->addAction(KIcon("document-save"), i18n("Save zone"), this, SLOT(slotSaveZone()));
+        m_contextMenu->addMenu(m_markerMenu);
+        m_contextMenu->addAction(KIcon("document-save"), i18n("Save zone"), this, SLOT(slotSaveZone()));
     }
     QAction *extractFrame = m_configMenu->addAction(KIcon("document-new"), i18n("Extract frame"), this, SLOT(slotExtractCurrentFrame()));
     m_contextMenu->addAction(extractFrame);
@@ -486,7 +486,7 @@ void Monitor::slotSetThumbFrame()
 void Monitor::slotExtractCurrentFrame()
 {
     QImage frame = render->extractFrame(render->seekFramePosition());
-    KFileDialog *fs = new KFileDialog(KUrl(), "image/png",this);
+    KFileDialog *fs = new KFileDialog(KUrl(), "image/png", this);
     fs->setOperationMode(KFileDialog::Saving);
     fs->setMode(KFile::File);
 #if KDE_IS_VERSION(4,2,0)
@@ -750,7 +750,7 @@ void Monitor::slotSetXml(DocClipBase *clip, const int position)
     }
     if (clip != m_currentClip) {
         m_currentClip = clip;
-        updateMarkers(clip);        
+        updateMarkers(clip);
         if (render->setProducer(clip->producer(), position) == -1) {
             // MLT CONSUMER is broken
             emit blockMonitors();

@@ -856,7 +856,7 @@ void MainWindow::setupActions()
     KAction* projectClean = new KAction(KIcon("edit-clear"), i18n("Clean Project"), this);
     collection->addAction("project_clean", projectClean);
     connect(projectClean, SIGNAL(triggered(bool)), this, SLOT(slotCleanProject()));
-    
+
     KAction* monitorPlay = new KAction(KIcon("media-playback-start"), i18n("Play"), this);
     KShortcut playShortcut;
     playShortcut.setPrimary(Qt::Key_Space);
@@ -1846,7 +1846,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     connect(m_projectList, SIGNAL(loadingIsOver()), trackView->projectView(), SLOT(slotUpdateAllThumbs()));
     connect(m_projectList, SIGNAL(displayMessage(const QString&, MessageType)), m_messageLabel, SLOT(setMessage(const QString&, MessageType)));
 
-    
+
     trackView->projectView()->setContextMenu(m_timelineContextMenu, m_timelineContextClipMenu, m_timelineContextTransitionMenu, m_clipTypeGroup);
     m_activeTimeline = trackView;
     if (m_renderWidget) {
@@ -1993,7 +1993,7 @@ void MainWindow::slotAddClipMarker()
         if (m_activeTimeline) {
             ClipItem *item = m_activeTimeline->projectView()->getActiveClipUnderCursor();
             if (item) {
-                pos = GenTime((int) ((m_projectMonitor->position() - item->startPos() + item->cropStart()).frames(m_activeDocument->fps()) * item->speed() + 0.5), m_activeDocument->fps());
+                pos = GenTime((int)((m_projectMonitor->position() - item->startPos() + item->cropStart()).frames(m_activeDocument->fps()) * item->speed() + 0.5), m_activeDocument->fps());
                 clip = item->baseClip();
             }
         }

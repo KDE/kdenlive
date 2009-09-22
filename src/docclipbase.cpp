@@ -386,7 +386,7 @@ GenTime DocClipBase::findPreviousSnapMarker(const GenTime & currTime)
     if (it == 0) return GenTime();
     else if (it == m_snapMarkers.count() - 1 && m_snapMarkers.at(it).time() < currTime)
         return m_snapMarkers.at(it).time();
-    else return m_snapMarkers.at(it-1).time();
+    else return m_snapMarkers.at(it -1).time();
 }
 
 GenTime DocClipBase::findNextSnapMarker(const GenTime & currTime)

@@ -61,14 +61,14 @@ public:
     virtual GenTime maxDuration() const;
     virtual void setCropStart(GenTime pos);
 
-protected:    
+protected:
     ItemInfo m_info;
 //    int m_track;
     int m_editedKeyframe;
     int m_selectedKeyframe;
-/*    GenTime m_cropStart;
-    GenTime m_cropDuration;
-    GenTime m_startPos;*/
+    /*    GenTime m_cropStart;
+        GenTime m_cropDuration;
+        GenTime m_startPos;*/
     GenTime m_maxDuration;
     QMap <int, int> m_keyframes;
     double m_keyframeFactor;

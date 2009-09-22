@@ -138,7 +138,7 @@ void SmallRuler::updatePixmap()
     const int zoneStart = (int)(m_zoneStart * m_scale);
     const int zoneEnd = (int)(m_zoneEnd * m_scale);
     p.fillRect(zoneStart, height() / 2 - 1, zoneEnd - zoneStart, height() / 2, m_zoneColor);
-    
+
     // draw markers
     if (!m_markers.isEmpty()) {
         p.setPen(Qt::red);
@@ -150,14 +150,14 @@ void SmallRuler::updatePixmap()
     // draw the little marks
     fend = m_scale * m_small;
     if (fend > 2) for (f = 0; f < width(); f += fend) {
-        p.drawLine((int)f, 0, (int)f, 3);
-    }
+            p.drawLine((int)f, 0, (int)f, 3);
+        }
 
     // draw medium marks
     fend = m_scale * m_medium;
     if (fend > 2) for (f = 0; f < width(); f += fend) {
-        p.drawLine((int)f, 0, (int)f, 6);
-    }
+            p.drawLine((int)f, 0, (int)f, 6);
+        }
     p.end();
     update();
 }

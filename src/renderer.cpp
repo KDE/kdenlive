@@ -958,7 +958,7 @@ int Render::setSceneList(QString playlist, int position)
                 if (trackPlaylist.type() == playlist_type) trackPlaylist.clear();
                 trackNb--;
             }
-	    delete field;
+            delete field;
         }
         mlt_service_unlock(service.get_service());
 
@@ -1710,7 +1710,7 @@ void Render::mltUpdateClip(ItemInfo info, QDomElement element, Mlt::Producer *pr
         }
         ct++;
         filter = sourceService.filter(ct);
-    }    
+    }
     mltRemoveClip(info.track, info.startPos);
     mltInsertClip(info, element, prod);
     if (!filtersList.isEmpty()) {
@@ -2067,7 +2067,7 @@ int Render::mltChangeClipSpeed(ItemInfo info, double speed, double oldspeed, int
 
         Mlt::Producer *cut;
         GenTime duration = info.cropDuration;
-	int originalStart = (int)(info.originalcropStart.frames(m_fps));
+        int originalStart = (int)(info.originalcropStart.frames(m_fps));
         if (clipIndex + 1 < trackPlaylist.count() && (info.startPos + info.cropDuration).frames(m_fps) > blankEnd) {
             GenTime maxLength = GenTime(blankEnd, m_fps) - info.startPos;
             cut = prod->cut(originalStart, (int)(originalStart + maxLength.frames(m_fps) - 1));
@@ -2104,9 +2104,9 @@ int Render::mltChangeClipSpeed(ItemInfo info, double speed, double oldspeed, int
         }
         Mlt::Producer *clip = trackPlaylist.replace_with_blank(clipIndex);
         trackPlaylist.consolidate_blanks(0);
-	
-	GenTime duration = info.cropDuration / speed;
-	int originalStart = (int)(info.originalcropStart.frames(m_fps) / speed);
+
+        GenTime duration = info.cropDuration / speed;
+        int originalStart = (int)(info.originalcropStart.frames(m_fps) / speed);
 
         // Check that the blank space is long enough for our new duration
         clipIndex = trackPlaylist.get_clip_index_at(startPos);
@@ -2764,9 +2764,9 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
 
             // move all effects to the correct producer
             mltPasteEffects(clipProducer, clip);
-            
+
             int newIndex = destTrackPlaylist.insert_at(moveEnd, clip, 1);
-            
+
             if (clip == clipProducer) {
                 delete clip;
                 clip = NULL;

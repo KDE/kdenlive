@@ -771,7 +771,7 @@ void ClipItem::paint(QPainter *painter,
     pen.setStyle(Qt::DotLine);
     painter->setPen(pen);
     for (; it != markers.end(); ++it) {
-        pos = GenTime((int) ((*it).time().frames(m_fps) / m_speed + 0.5), m_fps) - cropStart();
+        pos = GenTime((int)((*it).time().frames(m_fps) / m_speed + 0.5), m_fps) - cropStart();
         if (pos > GenTime()) {
             if (pos > cropDuration()) break;
             QLineF l(rect().x() + pos.frames(m_fps), rect().y(), rect().x() + pos.frames(m_fps), rect().bottom());
@@ -890,8 +890,8 @@ QList <GenTime> ClipItem::snapMarkers() const
     GenTime pos;
 
     for (int i = 0; i < markers.size(); i++) {
-      
-        pos = GenTime((int) (markers.at(i).frames(m_fps) / m_speed + 0.5), m_fps) - cropStart();
+
+        pos = GenTime((int)(markers.at(i).frames(m_fps) / m_speed + 0.5), m_fps) - cropStart();
         if (pos > GenTime()) {
             if (pos > cropDuration()) break;
             else snaps.append(pos + startPos());
@@ -907,7 +907,7 @@ QList <CommentedTime> ClipItem::commentedSnapMarkers() const
     GenTime pos;
 
     for (int i = 0; i < markers.size(); i++) {
-        pos = GenTime((int) (markers.at(i).time().frames(m_fps) / m_speed + 0.5), m_fps) - cropStart();
+        pos = GenTime((int)(markers.at(i).time().frames(m_fps) / m_speed + 0.5), m_fps) - cropStart();
         if (pos > GenTime()) {
             if (pos > cropDuration()) break;
             else snaps.append(CommentedTime(pos + startPos(), markers.at(i).comment()));
@@ -1490,17 +1490,17 @@ void ClipItem::setSpeed(const double speed, const int strobe)
 
 GenTime ClipItem::maxDuration() const
 {
-    return GenTime((int) (m_maxDuration.frames(m_fps) / m_speed + 0.5), m_fps);
+    return GenTime((int)(m_maxDuration.frames(m_fps) / m_speed + 0.5), m_fps);
 }
 
 GenTime ClipItem::cropStart() const
 {
-    return GenTime((int) (m_info.originalcropStart.frames(m_fps) / m_speed + 0.5), m_fps);
+    return GenTime((int)(m_info.originalcropStart.frames(m_fps) / m_speed + 0.5), m_fps);
 }
 
 GenTime ClipItem::cropDuration() const
 {
-    return GenTime((int) (m_info.cropDuration.frames(m_fps) / m_speed + 0.5), m_fps);
+    return GenTime((int)(m_info.cropDuration.frames(m_fps) / m_speed + 0.5), m_fps);
 }
 
 GenTime ClipItem::endPos() const

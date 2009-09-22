@@ -1154,8 +1154,8 @@ void RenderWidget::parseFile(QString exportFile, bool editable)
     const QStringList acodecsList = KdenliveSettings::audiocodecs();
     bool replaceVorbisCodec = false;
     if (!acodecsList.contains("vorbis") && acodecsList.contains("libvorbis")) replaceVorbisCodec = true;
-	bool replaceLibfaacCodec = false;
-	if (!acodecsList.contains("libfaac") && acodecsList.contains("aac")) replaceLibfaacCodec = true;
+    bool replaceLibfaacCodec = false;
+    if (!acodecsList.contains("libfaac") && acodecsList.contains("aac")) replaceLibfaacCodec = true;
 
 
     if (editable || groups.count() == 0) {
@@ -1209,10 +1209,10 @@ void RenderWidget::parseFile(QString exportFile, bool editable)
                 // replace vorbis with libvorbis
                 params = params.replace("vorbis", "libvorbis");
             }
-			if (replaceLibfaacCodec && params.contains("acodec=libfaac")) {
-				// replace libfaac with aac
-				params = params.replace("libfaac", "aac");
-			}
+            if (replaceLibfaacCodec && params.contains("acodec=libfaac")) {
+                // replace libfaac with aac
+                params = params.replace("libfaac", "aac");
+            }
 
             QString category = profile.attribute("category", i18n("Custom"));
             QString dest = profile.attribute("destinationid");
@@ -1325,12 +1325,12 @@ void RenderWidget::parseFile(QString exportFile, bool editable)
                 // replace vorbis with libvorbis
                 params = params.replace("vorbis", "libvorbis");
             }
-			if (replaceLibfaacCodec && params.contains("acodec=libfaac")) {
-				// replace libfaac with aac
-				params = params.replace("libfaac", "aac");
-			}
+            if (replaceLibfaacCodec && params.contains("acodec=libfaac")) {
+                // replace libfaac with aac
+                params = params.replace("libfaac", "aac");
+            }
 
-			prof_extension = profileElement.attribute("extension");
+            prof_extension = profileElement.attribute("extension");
             if (!prof_extension.isEmpty()) extension = prof_extension;
             item = new QListWidgetItem(profileName, m_view.size_list);
             item->setData(GroupRole, groupName);

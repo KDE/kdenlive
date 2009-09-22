@@ -71,9 +71,9 @@ public:
       extendItem(w,
     }
     */
-    void drawFocus ( QPainter *, const QStyleOptionViewItem &, const QRect & ) const {
+    void drawFocus(QPainter *, const QStyleOptionViewItem &, const QRect &) const {
     }
-    
+
     void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const {
         if (index.column() == 1) {
             QRect r1 = option.rect;

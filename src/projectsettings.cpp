@@ -68,8 +68,7 @@ ProjectSettings::ProjectSettings(ClipManager *manager, int videotracks, int audi
         slotUpdateFiles();
         connect(clear_cache, SIGNAL(clicked()), this, SLOT(slotClearCache()));
         connect(delete_unused, SIGNAL(clicked()), this, SLOT(slotDeleteUnused()));
-    }
-    else tabWidget->widget(1)->setEnabled(false);
+    } else tabWidget->widget(1)->setEnabled(false);
     connect(profiles_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateDisplay()));
     connect(project_folder, SIGNAL(textChanged(const QString &)), this, SLOT(slotUpdateButton(const QString &)));
 }
@@ -109,8 +108,8 @@ void ProjectSettings::slotClearCache()
 }
 
 void ProjectSettings::slotUpdateFiles(bool cacheOnly)
-{   
-    KIO::DirectorySizeJob * job = KIO::directorySize( project_folder->url().path(KUrl::AddTrailingSlash) + "thumbs/" );
+{
+    KIO::DirectorySizeJob * job = KIO::directorySize(project_folder->url().path(KUrl::AddTrailingSlash) + "thumbs/");
     job->exec();
     thumbs_count->setText(QString::number(job->totalFiles()));
     thumbs_size->setText(KIO::convertSize(job->totalSize()));
@@ -127,8 +126,7 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
         if (clip->numReferences() == 0) {
             unused++;
             unUsedSize += clip->fileSize();
-        }
-        else {
+        } else {
             used++;
             usedSize += clip->fileSize();
         }
