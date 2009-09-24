@@ -273,6 +273,7 @@ signals:
     void displayMessage(const QString, MessageType);
     void showClipFrame(DocClipBase *, const int);
     void doTrackLock(int, bool);
+    void updateClipMarkers(DocClipBase *);
 };
 
 #endif

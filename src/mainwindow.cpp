@@ -1820,6 +1820,8 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
 
 
     connect(trackView->projectView(), SIGNAL(clipItemSelected(ClipItem*, int)), m_effectStack, SLOT(slotClipItemSelected(ClipItem*, int)));
+    connect(trackView->projectView(), SIGNAL(updateClipMarkers(DocClipBase *)), this, SLOT(slotUpdateClipMarkers(DocClipBase*)));
+
     connect(trackView->projectView(), SIGNAL(clipItemSelected(ClipItem*, int)), this, SLOT(slotActivateEffectStackView()));
     connect(trackView->projectView(), SIGNAL(transitionItemSelected(Transition*, int, QPoint, bool)), m_transitionConfig, SLOT(slotTransitionItemSelected(Transition*, int, QPoint, bool)));
     connect(trackView->projectView(), SIGNAL(transitionItemSelected(Transition*, int, QPoint, bool)), this, SLOT(slotActivateTransitionView(Transition *)));
@@ -1986,6 +1988,12 @@ void MainWindow::slotDeleteTimelineClip()
     }
 }
 
+void MainWindow::slotUpdateClipMarkers(DocClipBase *clip)
+{
+    if (m_clipMonitor->isActive()) m_clipMonitor->checkOverlay();
+    m_clipMonitor->updateMarkers(clip);
+}
+
 void MainWindow::slotAddClipMarker()
 {
     DocClipBase *clip = NULL;
@@ -2011,8 +2019,6 @@ void MainWindow::slotAddClipMarker()
     MarkerDialog d(clip, marker, m_activeDocument->timecode(), i18n("Add Marker"), this);
     if (d.exec() == QDialog::Accepted) {
         m_activeTimeline->projectView()->slotAddClipMarker(id, d.newMarker().time(), d.newMarker().comment());
-        if (m_clipMonitor->isActive()) m_clipMonitor->checkOverlay();
-        m_clipMonitor->updateMarkers(clip);
     }
 }
 
@@ -2044,9 +2050,6 @@ void MainWindow::slotDeleteClipMarker()
         return;
     }
     m_activeTimeline->projectView()->slotDeleteClipMarker(comment, id, pos);
-    if (m_clipMonitor->isActive()) m_clipMonitor->checkOverlay();
-    m_clipMonitor->updateMarkers(clip);
-
 }
 
 void MainWindow::slotDeleteAllClipMarkers()
@@ -2067,8 +2070,6 @@ void MainWindow::slotDeleteAllClipMarkers()
         return;
     }
     m_activeTimeline->projectView()->slotDeleteAllClipMarkers(clip->getId());
-    if (m_clipMonitor->isActive()) m_clipMonitor->checkOverlay();
-    m_clipMonitor->updateMarkers(clip);
 }
 
 void MainWindow::slotEditClipMarker()
@@ -2106,9 +2107,7 @@ void MainWindow::slotEditClipMarker()
         if (d.newMarker().time() != pos) {
             // remove old marker
             m_activeTimeline->projectView()->slotAddClipMarker(id, pos, QString());
-            m_clipMonitor->updateMarkers(clip);
         }
-        if (m_clipMonitor->isActive()) m_clipMonitor->checkOverlay();
     }
 }
 

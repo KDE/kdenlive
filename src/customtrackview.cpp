@@ -2532,7 +2532,6 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                     int tracknumber = m_document->tracksCount() - item->track() - 1;
                     bool isLocked = m_document->trackInfoAt(tracknumber).isLocked;
                     if (isLocked) item->setItemLocked(true);
-
                     QUndoCommand *moveCommand = new QUndoCommand();
                     moveCommand->setText(i18n("Move clip"));
                     new MoveClipCommand(this, m_dragItemInfo, info, false, moveCommand);
@@ -2591,6 +2590,8 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                             ItemInfo trInfo = tr->info();
                             ItemInfo newTrInfo = trInfo;
                             newTrInfo.endPos = m_dragItem->endPos();
+                            kDebug() << "CLIP ENDS AT: " << newTrInfo.endPos.frames(25);
+                            kDebug() << "CLIP STARTS AT: " << newTrInfo.startPos.frames(25);
                             ClipItem * upperClip = getClipItemAt(m_dragItemInfo.startPos, m_dragItemInfo.track - 1);
                             if (!upperClip || !upperClip->baseClip()->isTransparent()) {
                                 if (!getClipItemAtStart(trInfo.startPos, tr->track())) {
@@ -3576,6 +3577,7 @@ void CustomTrackView::moveTransition(const ItemInfo start, const ItemInfo end, b
         item->resizeStart((int) end.startPos.frames(m_document->fps()));
     } else if (end.startPos == start.startPos) {
         // Transition end resize;
+        kDebug() << "// resize END: " << end.endPos.frames(m_document->fps());
         item->resizeEnd((int) end.endPos.frames(m_document->fps()));
     } else {
         // Move & resize
@@ -3880,6 +3882,7 @@ void CustomTrackView::addMarker(const QString &id, const GenTime &pos, const QSt
     DocClipBase *base = m_document->clipManager()->getClipById(id);
     if (!comment.isEmpty()) base->addSnapMarker(pos, comment);
     else base->deleteSnapMarker(pos);
+    emit updateClipMarkers(base);
     setDocumentModified();
     viewport()->update();
 }
@@ -5046,5 +5049,3 @@ void CustomTrackView::updateProjectFps()
     }
     viewport()->update();
 }
-
-#include "customtrackview.moc"

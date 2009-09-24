@@ -314,6 +314,7 @@ private slots:
     void slotRemoveFocus();
     void slotCleanProject();
     void slotSetZoom(int value);
+    void slotUpdateClipMarkers(DocClipBase *clip);
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

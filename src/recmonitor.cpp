@@ -95,7 +95,7 @@ RecMonitor::RecMonitor(QString name, QWidget *parent) :
     m_freeSpace = new KCapacityBar(KCapacityBar::DrawTextInline, this);
     m_freeSpace->setMaximumWidth(150);
     QFontMetricsF fontMetrics(font());
-    m_freeSpace->setMaximumHeight(fontMetrics.height() * 1.5);
+    m_freeSpace->setMaximumHeight(fontMetrics.height() * 1.2);
     updatedFreeSpace();
     layout->addWidget(m_freeSpace);
 #endif

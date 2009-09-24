@@ -285,7 +285,7 @@ DocClipBase *Monitor::activeClip()
 
 void Monitor::updateMarkers(DocClipBase *source)
 {
-    if (source == m_currentClip) {
+    if (source == m_currentClip && source != NULL) {
         m_markerMenu->clear();
         QList <CommentedTime> markers = m_currentClip->commentedSnapMarkers();
         if (!markers.isEmpty()) {
