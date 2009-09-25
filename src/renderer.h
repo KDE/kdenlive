@@ -81,7 +81,7 @@ Q_OBJECT public:
                       APP_NOEXIST
                     };
 
-    Render(const QString & rendererName, int winid, int extid, QWidget *parent = 0);
+    Render(const QString & rendererName, int winid, int extid, QString profile = QString(), QWidget *parent = 0);
     ~Render();
 
     /** Seeks the renderer clip to the given time. */
@@ -161,7 +161,7 @@ Q_OBJECT public:
 
     /** Turn on or off on screen display */
     void refreshDisplay();
-    int resetProfile();
+    int resetProfile(const QString profileName);
     double fps() const;
     int renderWidth() const;
     int renderHeight() const;
@@ -250,7 +250,7 @@ private:   // Private attributes & methods
     void mltPasteEffects(Mlt::Producer *source, Mlt::Producer *dest);
     QMap<QString, QString> mltGetTransitionParamsFromXml(QDomElement xml);
     QMap<QString, Mlt::Producer *> m_slowmotionProducers;
-    void buildConsumer();
+    void buildConsumer(const QString profileName);
     void resetZoneMode();
     void fillSlowMotionProducers();
 

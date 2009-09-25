@@ -50,7 +50,7 @@ void MonitorManager::initMonitors(Monitor *clipMonitor, Monitor *projectMonitor)
 
 void MonitorManager::activateMonitor(QString name)
 {
-    if (m_blocked) return;
+    if (m_blocked || m_clipMonitor == NULL) return;
     if (m_activeMonitor == name) return;
     if (name == "clip") {
         m_projectMonitor->stop();
@@ -67,7 +67,7 @@ void MonitorManager::activateMonitor(QString name)
 
 void MonitorManager::switchMonitors()
 {
-    if (m_blocked) return;
+    if (m_blocked || m_clipMonitor == NULL) return;
     if (m_clipMonitor->isActive()) {
         m_clipMonitor->stop();
         m_projectMonitor->start();
@@ -168,9 +168,9 @@ void MonitorManager::slotResetProfiles()
     if (m_blocked) return;
     if (m_projectMonitor == NULL || m_clipMonitor == NULL) return;
     activateMonitor("clip");
-    m_clipMonitor->resetProfile();
+    m_clipMonitor->resetProfile(KdenliveSettings::current_profile());
     activateMonitor("project");
-    m_projectMonitor->resetProfile();
+    m_projectMonitor->resetProfile(KdenliveSettings::current_profile());
     //m_projectMonitor->refreshMonitor(true);
 }
 

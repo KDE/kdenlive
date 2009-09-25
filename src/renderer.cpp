@@ -67,7 +67,7 @@ static void consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr
     }
 }
 
-Render::Render(const QString & rendererName, int winid, int /* extid */, QWidget *parent) :
+Render::Render(const QString & rendererName, int winid, int /* extid */, QString profile, QWidget *parent) :
         QObject(parent),
         m_isBlocked(0),
         m_name(rendererName),
@@ -84,14 +84,12 @@ Render::Render(const QString & rendererName, int winid, int /* extid */, QWidget
         , m_glWidget(0)
 #endif
 {
-    kDebug() << "//////////  USING PROFILE: " << (char*)KdenliveSettings::current_profile().toUtf8().data();
-
     /*if (rendererName == "project") m_monitorId = 10000;
     else m_monitorId = 10001;*/
     /*m_osdTimer = new QTimer(this);
     connect(m_osdTimer, SIGNAL(timeout()), this, SLOT(slotOsdTimeout()));*/
-
-    buildConsumer();
+    if (profile.isEmpty()) profile = KdenliveSettings::current_profile();
+    buildConsumer(profile);
 
     m_mltProducer = m_blackClip->cut(0, 50);
     m_mltConsumer->connect(*m_mltProducer);
@@ -151,10 +149,10 @@ void Render::closeMlt()
 }
 
 
-void Render::buildConsumer()
+void Render::buildConsumer(const QString profileName)
 {
     char *tmp;
-    m_activeProfile = KdenliveSettings::current_profile();
+    m_activeProfile = profileName;
     tmp = decodedString(m_activeProfile);
     setenv("MLT_PROFILE", tmp, 1);
     delete m_blackClip;
@@ -232,14 +230,14 @@ void Render::buildConsumer()
 
 }
 
-int Render::resetProfile()
+int Render::resetProfile(const QString profileName)
 {
     if (!m_mltConsumer) return 0;
-    if (m_activeProfile == KdenliveSettings::current_profile()) {
+    if (m_activeProfile == profileName) {
         kDebug() << "reset to same profile, nothing to do";
         return 1;
     }
-    kDebug() << "// RESETTING PROFILE FROM: " << m_activeProfile << " TO: " << KdenliveSettings::current_profile();
+    kDebug() << "// RESETTING PROFILE FROM: " << m_activeProfile << " TO: " << profileName; //KdenliveSettings::current_profile();
     if (m_isSplitView) slotSplitView(false);
     if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
     m_mltConsumer->purge();
@@ -270,7 +268,7 @@ int Render::resetProfile()
     }
     m_mltProducer = NULL;
 
-    buildConsumer();
+    buildConsumer(profileName);
     double new_fps = m_mltProfile->fps();
     if (current_fps != new_fps) {
         // fps changed, we must update the scenelist positions

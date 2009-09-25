@@ -61,10 +61,13 @@
      </property>
     </spacer>
    </item>
-   <item row="0" column="0" colspan="5">
-    <widget class="QGroupBox" name="monitor_frame">
-     <property name="title">
-      <string/>
+   <item row="0" column="0" colspan="4">
+    <widget class="QFrame" name="monitor_frame">
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
      </property>
     </widget>
    </item>

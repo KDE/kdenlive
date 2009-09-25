@@ -25,7 +25,8 @@
 
 DvdWizardChapters::DvdWizardChapters(bool isPal, QWidget *parent) :
         QWizardPage(parent),
-        m_isPal(isPal)
+        m_isPal(isPal),
+        m_monitor(NULL)
 
 {
     m_view.setupUi(this);
@@ -41,19 +42,15 @@ DvdWizardChapters::DvdWizardChapters(bool isPal, QWidget *parent) :
 
     m_manager = new MonitorManager(this);
     m_manager->resetProfiles(m_tc);
-    m_monitor = new Monitor("chapter", m_manager, this);
-    m_monitor->start();
-
-    QVBoxLayout *vbox = new QVBoxLayout;
-    vbox->addWidget(m_monitor);
-    m_view.monitor_frame->setLayout(vbox);
-
-
+    //m_view.monitor_frame->setVisible(false);
 }
 
 DvdWizardChapters::~DvdWizardChapters()
 {
-    delete m_monitor;
+    if (m_monitor) {
+        m_monitor->stop();
+        delete m_monitor;
+    }
     delete m_manager;
 }
 
@@ -62,6 +59,11 @@ DvdWizardChapters::~DvdWizardChapters()
 bool DvdWizardChapters::isComplete() const
 {
     return true;
+}
+
+void DvdWizardChapters::stopMonitor()
+{
+    if (m_monitor) m_monitor->stop();
 }
 
 void DvdWizardChapters::slotUpdateChaptersList()
@@ -132,13 +134,30 @@ void DvdWizardChapters::slotGoToChapter()
     m_monitor->setTimePos(m_view.chapters_list->currentItem()->text() + ":00");
 }
 
-void DvdWizardChapters::setVobFiles(bool isPal, const QStringList movies, const QStringList durations, const QStringList chapters)
+void DvdWizardChapters::setVobFiles(bool isPal, bool isWide, const QStringList movies, const QStringList durations, const QStringList chapters)
 {
     m_isPal = isPal;
-    if (m_isPal) m_tc.setFormat(25);
-    else m_tc.setFormat(30000.0 / 1001, true);
+    QString profile;
+    if (m_isPal) {
+        m_tc.setFormat(25);
+        profile = "dv_pal";
+    } else {
+        m_tc.setFormat(30000.0 / 1001, true);
+        profile = "dv_ntsc";
+    }
+    if (isWide) profile.append("_wide");
     m_manager->resetProfiles(m_tc);
-    m_monitor->resetProfile();
+
+    if (m_monitor == NULL) {
+
+        m_monitor = new Monitor("chapter", m_manager, profile, this);
+        m_monitor->start();
+        QVBoxLayout *vbox = new QVBoxLayout;
+        vbox->addWidget(m_monitor);
+        m_view.monitor_frame->setLayout(vbox);
+        /*updateGeometry();
+        adjustSize();*/
+    } else m_monitor->resetProfile(profile);
 
     m_view.vob_list->clear();
     for (int i = 0; i < movies.count(); i++) {

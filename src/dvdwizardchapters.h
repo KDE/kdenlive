@@ -39,12 +39,13 @@ public:
     virtual bool isComplete() const;
     void changeProfile(bool isPal);
     void setPal(bool isPal);
-    void setVobFiles(bool isPal, const QStringList movies, const QStringList durations, const QStringList chapters);
+    void setVobFiles(bool isPal, bool isWide, const QStringList movies, const QStringList durations, const QStringList chapters);
     QStringList selectedTitles() const;
     QStringList selectedTargets() const;
     QStringList chapters(int ix) const;
     QDomElement toXml() const;
     QMap <QString, QString> chaptersData() const;
+    void stopMonitor();
 
 private:
     Ui::DvdWizardChapters_UI m_view;

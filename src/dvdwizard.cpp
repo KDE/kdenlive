@@ -46,7 +46,6 @@ DvdWizard::DvdWizard(const QString &url, const QString &profile, QWidget *parent
 {
     setWindowTitle(i18n("DVD Wizard"));
     //setPixmap(QWizard::WatermarkPixmap, QPixmap(KStandardDirs::locate("appdata", "banner.png")));
-    setAttribute(Qt::WA_DeleteOnClose);
     m_pageVob = new DvdWizardVob(profile, this);
     m_pageVob->setTitle(i18n("Select Files For Your DVD"));
     addPage(m_pageVob);
@@ -75,8 +74,6 @@ DvdWizard::DvdWizard(const QString &url, const QString &profile, QWidget *parent
     m_status.iso_image->fileDialog()->setOperationMode(KFileDialog::Saving);
 
     addPage(page4);
-
-
 
     connect(this, SIGNAL(currentIdChanged(int)), this, SLOT(slotPageChanged(int)));
     connect(m_status.button_start, SIGNAL(clicked()), this, SLOT(slotGenerate()));
@@ -119,6 +116,7 @@ DvdWizard::DvdWizard(const QString &url, const QString &profile, QWidget *parent
 DvdWizard::~DvdWizard()
 {
     // m_menuFile.remove();
+    blockSignals(true);
     delete m_burnMenu;
     if (m_dvdauthor) {
         m_dvdauthor->blockSignals(true);
@@ -138,10 +136,12 @@ void DvdWizard::slotPageChanged(int page)
     //kDebug() << "// PAGE CHGD: " << page << ", ID: " << visitedPages();
     if (page == 0) {
         // Update chapters that were modified in page 1
+        m_pageChapters->stopMonitor();
         m_pageVob->updateChapters(m_pageChapters->chaptersData());
     } else if (page == 1) {
-        m_pageChapters->setVobFiles(m_pageVob->isPal(), m_pageVob->selectedUrls(), m_pageVob->durations(), m_pageVob->chapters());
+        m_pageChapters->setVobFiles(m_pageVob->isPal(), m_pageVob->isWide(), m_pageVob->selectedUrls(), m_pageVob->durations(), m_pageVob->chapters());
     } else if (page == 2) {
+        m_pageChapters->stopMonitor();
         m_pageMenu->setTargets(m_pageChapters->selectedTitles(), m_pageChapters->selectedTargets());
         m_pageMenu->changeProfile(m_pageVob->isPal());
     }
@@ -654,7 +654,7 @@ void DvdWizard::slotSave()
     KUrl url = KFileDialog::getSaveUrl(KUrl("kfiledialog:///projectfolder"), "*.kdvd", this, i18n("Save DVD Project"));
     if (url.isEmpty()) return;
 
-    if (currentId() == 0) m_pageChapters->setVobFiles(m_pageVob->isPal(), m_pageVob->selectedUrls(), m_pageVob->durations(), m_pageVob->chapters());
+    if (currentId() == 0) m_pageChapters->setVobFiles(m_pageVob->isPal(), m_pageVob->isWide(), m_pageVob->selectedUrls(), m_pageVob->durations(), m_pageVob->chapters());
 
     QDomDocument doc;
     QDomElement dvdproject = doc.createElement("dvdproject");

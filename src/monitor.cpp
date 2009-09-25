@@ -41,7 +41,7 @@
 #include <QIntValidator>
 
 
-Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent) :
+Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget *parent) :
         QWidget(parent),
         render(NULL),
         m_name(name),
@@ -130,12 +130,14 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent) :
 
     //m_ruler->setPixelPerMark(3);
 
+    if (profile.isEmpty()) profile = KdenliveSettings::current_profile();
+
     QVBoxLayout *rendererBox = new QVBoxLayout(m_ui.video_frame);
     rendererBox->setContentsMargins(0, 0, 0, 0);
 #ifdef Q_WS_MAC
     m_glWidget = new VideoGLWidget(m_ui.video_frame);
     rendererBox->addWidget(m_glWidget);
-    render = new Render(m_name, (int) m_ui.video_frame->winId(), -1, this);
+    render = new Render(m_name, (int) m_ui.video_frame->winId(), -1, profile, this);
     m_glWidget->setImageAspectRatio(render->dar());
     m_glWidget->setBackgroundColor(KdenliveSettings::window_background());
     m_glWidget->resize(m_ui.video_frame->size());
@@ -144,7 +146,7 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent) :
 #else
     m_monitorRefresh = new MonitorRefresh(m_ui.video_frame);
     rendererBox->addWidget(m_monitorRefresh);
-    render = new Render(m_name, (int) m_monitorRefresh->winId(), -1, this);
+    render = new Render(m_name, (int) m_monitorRefresh->winId(), -1, profile, this);
     m_monitorRefresh->setRenderer(render);
 #endif
 
@@ -781,10 +783,10 @@ void Monitor::slotSaveZone()
 }
 
 
-void Monitor::resetProfile()
+void Monitor::resetProfile(const QString profile)
 {
     if (render == NULL) return;
-    render->resetProfile();
+    render->resetProfile(profile);
 }
 
 void Monitor::saveSceneList(QString path, QDomElement info)

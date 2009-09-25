@@ -184,14 +184,14 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
 
     m_clipMonitorDock = new QDockWidget(i18n("Clip Monitor"), this);
     m_clipMonitorDock->setObjectName("clip_monitor");
-    m_clipMonitor = new Monitor("clip", m_monitorManager, this);
+    m_clipMonitor = new Monitor("clip", m_monitorManager, QString(), this);
     m_clipMonitorDock->setWidget(m_clipMonitor);
     addDockWidget(Qt::TopDockWidgetArea, m_clipMonitorDock);
     //m_clipMonitor->stop();
 
     m_projectMonitorDock = new QDockWidget(i18n("Project Monitor"), this);
     m_projectMonitorDock->setObjectName("project_monitor");
-    m_projectMonitor = new Monitor("project", m_monitorManager, this);
+    m_projectMonitor = new Monitor("project", m_monitorManager, QString(), this);
     m_projectMonitorDock->setWidget(m_projectMonitor);
     addDockWidget(Qt::TopDockWidgetArea, m_projectMonitorDock);
 
@@ -2667,8 +2667,8 @@ void MainWindow::slotUpdateClipType(QAction *action)
 
 void MainWindow::slotDvdWizard(const QString &url, const QString &profile)
 {
-    DvdWizard *w = new DvdWizard(url, profile, this);
-    w->exec();
+    DvdWizard w(url, profile, this);
+    w.exec();
 }
 
 void MainWindow::slotShowTimeline(bool show)

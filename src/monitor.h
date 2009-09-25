@@ -68,10 +68,10 @@ class Monitor : public QWidget
     Q_OBJECT
 
 public:
-    Monitor(QString name, MonitorManager *manager, QWidget *parent = 0);
+    Monitor(QString name, MonitorManager *manager, QString profile = QString(), QWidget *parent = 0);
     virtual ~Monitor();
     Render *render;
-    void resetProfile();
+    void resetProfile(const QString profile);
     QString name() const;
     void resetSize();
     bool isActive() const;

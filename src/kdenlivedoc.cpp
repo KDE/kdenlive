@@ -249,7 +249,7 @@ KdenliveDoc::~KdenliveDoc()
 
 int KdenliveDoc::setSceneList()
 {
-    m_render->resetProfile();
+    m_render->resetProfile(KdenliveSettings::current_profile());
     if (m_render->setSceneList(m_document.toString(), m_documentProperties.value("position").toInt()) == -1) {
         // INVALID MLT Consumer, something is wrong
         return -1;
