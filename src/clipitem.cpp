@@ -769,7 +769,7 @@ void ClipItem::paint(QPainter *painter,
     QPen pen = painter->pen();
     pen.setColor(QColor(255, 255, 255, 200));
     pen.setStyle(Qt::DotLine);
-    painter->setPen(pen);
+    
     for (; it != markers.end(); ++it) {
         pos = GenTime((int)((*it).time().frames(m_fps) / m_speed + 0.5), m_fps) - cropStart();
         if (pos > GenTime()) {
@@ -778,6 +778,7 @@ void ClipItem::paint(QPainter *painter,
             QLineF l2 = painter->matrix().map(l);
             //framepos = scale * pos.frames(m_fps);
             //QLineF l(framepos, 5, framepos, itemHeight - 5);
+            painter->setPen(pen);
             painter->drawLine(l2);
             if (KdenliveSettings::showmarkers()) {
                 framepos = rect().x() + pos.frames(m_fps);
