@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-09-17 16:38+0200\n"
-"PO-Revision-Date: 2009-09-26 00:03+0300\n"
+"PO-Revision-Date: 2009-09-26 11:37+0300\n"
 "Last-Translator: Antti Sokero <tohtoris@gmail.com>\n"
-"Language-Team: Finnish <>\n"
+"Language-Team: American English <>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,15 +19,15 @@ msgstr ""
 #: src/titlewidget.cpp:68 rc.cpp:1819 rc.cpp:3289
 #, no-c-format
 msgid "%"
-msgstr ""
+msgstr "%"
 
 #: src/titlewidget.cpp:1076 rc.cpp:1515 rc.cpp:2985
 msgid "+X"
-msgstr ""
+msgstr "+X"
 
 #: src/titlewidget.cpp:1101 rc.cpp:1518 rc.cpp:2988
 msgid "+Y"
-msgstr ""
+msgstr "+Y"
 
 #: rc.cpp:632 rc.cpp:717 rc.cpp:720 rc.cpp:975 rc.cpp:981 rc.cpp:987
 #: rc.cpp:993 rc.cpp:1002 rc.cpp:1077 rc.cpp:1080 rc.cpp:1089 rc.cpp:1092
@@ -374,11 +374,11 @@ msgstr "Lisää tallennusaika kaapatun tiedoston nimeen"
 
 #: rc.cpp:1479 rc.cpp:2949
 msgid "Add space"
-msgstr ""
+msgstr "Lisää tyhjää tilaa"
 
 #: src/addtimelineclipcommand.cpp:36 src/customtrackview.cpp:1906
 msgid "Add timeline clip"
-msgstr ""
+msgstr "Lisää aikajanaleike"
 
 #: src/addtrackcommand.cpp:33
 msgid "Add track"
@@ -530,11 +530,11 @@ msgstr "Animoi pyöritys (Z)"
 
 #: rc.cpp:377
 msgid "Animate Shear X"
-msgstr ""
+msgstr "Animoi murtuma (x)"
 
 #: rc.cpp:379
 msgid "Animate Shear Y"
-msgstr ""
+msgstr "Animoi murtuma (Y)"
 
 #: rc.cpp:1602 rc.cpp:3072
 msgid "Animation"
@@ -604,7 +604,7 @@ msgstr "Äänen taajuus"
 
 #: rc.cpp:1809 rc.cpp:3279
 msgid "Audio index"
-msgstr ""
+msgstr "Ääni-indeksi"
 
 #: src/renderwidget.cpp:1097 src/customtrackview.cpp:4849
 msgid "Audio only"
@@ -1121,9 +1121,8 @@ msgid "Clip Properties"
 msgstr "Videoleikkeen ominaisuudet"
 
 #: rc.cpp:193
-#, fuzzy
 msgid "Clip bottom"
-msgstr "Leikemonitori"
+msgstr "Leike alas"
 
 #: rc.cpp:1822 rc.cpp:3292
 msgid "Clip duration"
@@ -1139,23 +1138,20 @@ msgid "Clip has no markers"
 msgstr "Videoleikkeellä ei ole merkintöjä"
 
 #: rc.cpp:187
-#, fuzzy
 msgid "Clip left"
-msgstr "Kaappauskansio"
+msgstr "Leike vasemmalle"
 
 #: rc.cpp:189
-#, fuzzy
 msgid "Clip right"
-msgstr "Leikemonitori"
+msgstr "Leike oikealle"
 
 #: rc.cpp:1815 rc.cpp:3285
 msgid "Clip speed"
 msgstr "Leikkeen nopeus"
 
 #: rc.cpp:191
-#, fuzzy
 msgid "Clip top"
-msgstr "Leikemonitori"
+msgstr "Leike ylös"
 
 #: src/documentchecker.cpp:145
 msgid "Clips folder"
@@ -1189,7 +1185,7 @@ msgstr "Sulje tämänhetkinen välilehti"
 
 #: rc.cpp:285
 msgid "Co-efficient"
-msgstr ""
+msgstr "Kerroin"
 
 #: rc.cpp:747 rc.cpp:1725 rc.cpp:1728 rc.cpp:2217 rc.cpp:3195 rc.cpp:3198
 msgid "Color"
@@ -1200,9 +1196,8 @@ msgid "Color Clip"
 msgstr "Värileike"
 
 #: rc.cpp:144
-#, fuzzy
 msgid "Color Distance"
-msgstr "Värileikkeet"
+msgstr "Värietäisyys"
 
 #: src/projectitem.cpp:197
 msgid "Color clip"
@@ -1214,7 +1209,7 @@ msgstr "Värileikkeet"
 
 #: rc.cpp:50 rc.cpp:58
 msgid "Color key"
-msgstr ""
+msgstr "Väriavain"
 
 #: src/projectlistview.cpp:71
 msgctxt "@title:menu"
@@ -1231,11 +1226,11 @@ msgstr "Asetusvelho"
 
 #: src/recmonitor.cpp:85
 msgid "Configure"
-msgstr ""
+msgstr "Muuta asetuksia"
 
 #: src/projectsettings.cpp:146
 msgid "Confirm profile change"
-msgstr ""
+msgstr "Vahvista profiilin muutos"
 
 #: src/recmonitor.cpp:64 src/recmonitor.cpp:580
 msgid "Connect"
@@ -1243,11 +1238,11 @@ msgstr "Yhdistä"
 
 #: rc.cpp:153
 msgid "Contrast"
-msgstr ""
+msgstr "Kontrasti"
 
 #: rc.cpp:149
 msgid "Contrast0r"
-msgstr ""
+msgstr "Kontrast0ija"
 
 #: src/unicodedialog.cpp:126
 msgid ""
@@ -1257,7 +1252,7 @@ msgstr ""
 
 #: rc.cpp:30
 msgid "Copy the left channel to the right"
-msgstr ""
+msgstr "Kopioi vasen kanava oikeaan"
 
 #: src/main.cpp:37
 msgid "Copyright (c) 2009 Development team"
@@ -1269,6 +1264,8 @@ msgid ""
 "There is something wrong with your Kdenlive install or your driver settings, "
 "please fix it."
 msgstr ""
+"Videon esikatseluikkunan luominen epäonnistui.\n"
+"Kdenlive-asennuksessasi tai ajuriasetuksissasi on jotain vikaa."
 
 #: rc.cpp:321
 msgid "Crackle"
@@ -1276,7 +1273,7 @@ msgstr ""
 
 #: rc.cpp:1377 rc.cpp:2847
 msgid "Crash recovery (automatic backup)"
-msgstr ""
+msgstr "Kaatumisesta toipuminen (autom. varmuuskopionti)"
 
 #: src/dvdwizard.cpp:63
 msgid "Create DVD Menu"
@@ -1316,7 +1313,7 @@ msgstr "Luodaan DVD-levyn rakenne"
 
 #: rc.cpp:948 rc.cpp:2418
 msgid "Creating iso file"
-msgstr ""
+msgstr "Luodaan ISO-tiedostoa"
 
 #: rc.cpp:939 rc.cpp:2409
 msgid "Creating menu background"
@@ -1324,38 +1321,38 @@ msgstr "Luodaan valikon taustakuvaa"
 
 #: rc.cpp:936 rc.cpp:2406
 msgid "Creating menu images"
-msgstr ""
+msgstr "Luodaan valikoiden kuvia"
 
 #: rc.cpp:942 rc.cpp:2412
 msgid "Creating menu movie"
-msgstr ""
+msgstr "Luodaan valikkoelokuvaa"
 
 #: src/kthumb.cpp:404 src/kthumb.cpp:409
 msgid "Creating thumbnail for %1"
-msgstr ""
+msgstr "Luodaan pienoiskuvaa %1"
 
 #: rc.cpp:62
 msgid "Crop"
-msgstr ""
+msgstr "Rajaa"
 
 #: src/clipitem.cpp:867
 #, c-format
 msgid "Crop from start: %1s"
-msgstr ""
+msgstr "Rajaa alusta: %1s"
 
 #: rc.cpp:1083 rc.cpp:2553
 msgid "Crop start"
-msgstr ""
+msgstr "Rajaa alku"
 
 #: src/geometryval.cpp:92 src/renderwidget.cpp:321 src/renderwidget.cpp:353
 #: src/renderwidget.cpp:424 src/renderwidget.cpp:460 src/renderwidget.cpp:1172
 #: src/renderwidget.cpp:1217 src/renderwidget.cpp:1297 rc.cpp:1897 rc.cpp:3367
 msgid "Custom"
-msgstr ""
+msgstr "Mukautettu"
 
 #: src/kdenlivesettingsdialog.cpp:111
 msgid "Cut"
-msgstr ""
+msgstr "Leikkaa"
 
 #: src/mainwindow.cpp:984
 msgid "Cut Clip"
@@ -1365,35 +1362,35 @@ msgstr "Leikkaa leike"
 #: rc.cpp:1904 rc.cpp:2036 rc.cpp:2169 rc.cpp:2184 rc.cpp:2283 rc.cpp:2397
 #: rc.cpp:3255 rc.cpp:3374
 msgid "D"
-msgstr ""
+msgstr "D"
 
 #: rc.cpp:1470 rc.cpp:2940
 msgid "DV"
-msgstr ""
+msgstr "DV"
 
 #: rc.cpp:1215 rc.cpp:2685
 msgid "DV AVI type 1"
-msgstr ""
+msgstr "DV AVI tyyppi 1"
 
 #: rc.cpp:1218 rc.cpp:2688
 msgid "DV AVI type 2"
-msgstr ""
+msgstr "DV AVI tyyppi 2"
 
 #: rc.cpp:1212 rc.cpp:2682
 msgid "DV Raw"
-msgstr ""
+msgstr "DV Raw (raakadata)"
 
 #: src/wizard.cpp:279
 msgid "DV module (libdv)"
-msgstr ""
+msgstr "DV moduuli (libdv)"
 
 #: src/renderwidget.cpp:1096
 msgid "DVD"
-msgstr ""
+msgstr "DVD"
 
 #: src/dvdwizard.cpp:57
 msgid "DVD Chapters"
-msgstr ""
+msgstr "DVD-kappaleet"
 
 #: rc.cpp:969 rc.cpp:2439
 msgid "DVD ISO image"
@@ -1401,11 +1398,11 @@ msgstr "DVD-ISO-levykuva"
 
 #: src/dvdwizard.cpp:586
 msgid "DVD ISO image %1 successfully created."
-msgstr ""
+msgstr "DVD-ISO-kuva %1 luotiin onnistuneesti"
 
 #: src/dvdwizard.cpp:573
 msgid "DVD ISO is broken"
-msgstr ""
+msgstr "DVD-ISO-kuva on rikkonainen"
 
 #: src/mainwindow.cpp:878 src/dvdwizard.cpp:47
 msgid "DVD Wizard"
@@ -1417,11 +1414,11 @@ msgstr "DVD-formaatti"
 
 #: src/dvdwizard.cpp:500
 msgid "DVD structure broken"
-msgstr ""
+msgstr "DVDn rakenne on rikkonainen"
 
 #: src/dvdwizard.cpp:478
 msgid "DVDAuthor process crashed."
-msgstr ""
+msgstr "DVDAuthor-prosessi kaatui."
 
 #: rc.cpp:299 rc.cpp:309
 msgid "Damping"
@@ -1433,7 +1430,7 @@ msgstr ""
 
 #: rc.cpp:8
 msgid "Debug"
-msgstr ""
+msgstr "Jäljitä ohjelmavirhe (debug)"
 
 #: rc.cpp:433 rc.cpp:445 rc.cpp:465
 msgid "Decay"
@@ -1477,11 +1474,11 @@ msgstr "Oletuskansiot"
 
 #: rc.cpp:431 rc.cpp:443 rc.cpp:463 rc.cpp:485
 msgid "Delay"
-msgstr ""
+msgstr "Viive"
 
 #: rc.cpp:307
 msgid "Delay (s/10)"
-msgstr ""
+msgstr "Viive (s/10)"
 
 #: src/addeffectcommand.cpp:39
 msgid "Delete %1"
@@ -1530,15 +1527,19 @@ msgstr "Poista raita"
 #: src/clipmanager.cpp:154 src/addclipcommand.cpp:34
 msgid "Delete clip"
 msgid_plural "Delete clips"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Poista leike"
+msgstr[1] "Poista leikkeet"
 
 #: src/projectlist.cpp:430
 msgid "Delete clip <b>%2</b>?<br>This will also remove the clip in timeline"
 msgid_plural ""
 "Delete clip <b>%2</b>?<br>This will also remove its %1 clips in timeline"
 msgstr[0] ""
+"Poistetaanko leike <b>%2</b>? Tällöin poistetaan myös aikajanalla oleva "
+"leike %1"
 msgstr[1] ""
+"Poistetaanko leike <b>%2</b>? Tällöin poistetaan myös aikajanalla olevat "
+"leikeet %1"
 
 #: src/dvdwizardmenu.cpp:44
 msgid "Delete current button"
@@ -1558,7 +1559,7 @@ msgstr "Poista tiedostot"
 
 #: src/addfoldercommand.cpp:34
 msgid "Delete folder"
-msgstr ""
+msgstr "Poista kansio"
 
 #: src/projectlist.cpp:433
 msgid ""
@@ -1566,7 +1567,10 @@ msgid ""
 msgid_plural ""
 "Delete folder <b>%2</b>?<br>This will also remove the %1 clips in that folder"
 msgstr[0] ""
+"Poistetaanko kansio <b>%2</b>? Tällöin poistetaan kansiossa oleva leike %1 "
 msgstr[1] ""
+"Poistetaanko kansio <b>%2</b>? Tällöin poistetaan kansiossa olevat leikeet %"
+"1 "
 
 #: src/editguidecommand.cpp:35
 msgid "Delete guide"
@@ -1574,7 +1578,7 @@ msgstr ""
 
 #: src/geometryval.cpp:76 src/editkeyframecommand.cpp:37
 msgid "Delete keyframe"
-msgstr ""
+msgstr "Poista keyframe"
 
 #: src/clipproperties.cpp:248 src/addmarkercommand.cpp:32
 msgid "Delete marker"
@@ -1598,7 +1602,7 @@ msgstr[1] "Poista valitut ryhmät"
 
 #: src/customtrackview.cpp:3085
 msgid "Delete selected items"
-msgstr ""
+msgstr "Poista valitut kohteet"
 
 #: src/customtrackview.cpp:3084
 msgid "Delete selected transition"
@@ -1613,8 +1617,8 @@ msgstr "Poista ne"
 #: src/addtimelineclipcommand.cpp:37 src/customtrackview.cpp:2360
 msgid "Delete timeline clip"
 msgid_plural "Delete timeline clips"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Poista aikajanalla oleva leike"
+msgstr[1] "Poista aikajanalla olevat leikkeet"
 
 #: src/customtrackview.cpp:4530 src/addtrackcommand.cpp:34
 msgid "Delete track"
@@ -1622,7 +1626,7 @@ msgstr "Poista raita"
 
 #: src/addtransitioncommand.cpp:33
 msgid "Delete transition from clip"
-msgstr ""
+msgstr "Poista siirtymä leikkeestä"
 
 #: src/projectsettings.cpp:92
 msgid "Delete unused clips"
@@ -1635,15 +1639,15 @@ msgstr ""
 
 #: rc.cpp:269
 msgid "Depth"
-msgstr ""
+msgstr "Syvyys"
 
 #: src/projectlistview.cpp:46 rc.cpp:774 rc.cpp:1680 rc.cpp:2244 rc.cpp:3150
 msgid "Description"
-msgstr ""
+msgstr "Kuvaus"
 
 #: src/mainwindow.cpp:2554
 msgid "Description:"
-msgstr ""
+msgstr "Kuvaus:"
 
 #: rc.cpp:1005 rc.cpp:2475
 msgid "Desktop search integration"
@@ -1651,33 +1655,33 @@ msgstr "Työpöytähaun integrointi"
 
 #: rc.cpp:542 rc.cpp:846 rc.cpp:1131 rc.cpp:2012 rc.cpp:2316 rc.cpp:2601
 msgid "Destination"
-msgstr ""
+msgstr "Kohde"
 
 #: rc.cpp:1176 rc.cpp:2646
 msgid "Device"
-msgstr ""
+msgstr "Laite"
 
 #: rc.cpp:1173 rc.cpp:2643
 msgid "Device configuration"
-msgstr ""
+msgstr "Laitteen asetukset"
 
 #: rc.cpp:536 rc.cpp:822 rc.cpp:840 rc.cpp:867 rc.cpp:1050 rc.cpp:1659
 #: rc.cpp:1812 rc.cpp:2006 rc.cpp:2292 rc.cpp:2310 rc.cpp:2337 rc.cpp:2520
 #: rc.cpp:3129 rc.cpp:3282
 msgid "Dialog"
-msgstr ""
+msgstr "Dialogi"
 
 #: src/kdenlivesettingsdialog.cpp:240
 msgid "Direct FB"
-msgstr ""
+msgstr "Suora FB (Direct FB)"
 
 #: rc.cpp:233
 msgid "Discard color information"
-msgstr ""
+msgstr "Hylkää väri-informaatio"
 
 #: src/wizard.cpp:57
 msgid "Discover the features of this Kdenlive release"
-msgstr ""
+msgstr "Tutustu tämän Kdenlive-version uusiin ominaisuuksiin"
 
 #: src/recmonitor.cpp:255
 msgid "Disonnect"
@@ -1697,7 +1701,7 @@ msgstr "Kuvasuhde"
 
 #: rc.cpp:1119 rc.cpp:2589
 msgid "Display clip markers comments"
-msgstr ""
+msgstr "Näytä merkkausten kommentit"
 
 #: rc.cpp:1425 rc.cpp:2895
 msgid "Display ratio:"
@@ -1705,7 +1709,7 @@ msgstr "Kuvasuhde"
 
 #: rc.cpp:1359 rc.cpp:1746 rc.cpp:2829 rc.cpp:3216
 msgid "Dissolve"
-msgstr ""
+msgstr "Häivytä"
 
 #: rc.cpp:155
 msgid "Distort0r"
@@ -1713,7 +1717,7 @@ msgstr ""
 
 #: src/kdenlivesettingsdialog.cpp:109
 msgid "Do nothing"
-msgstr ""
+msgstr "Älä tee mitään"
 
 #: src/kdenlivedoc.cpp:219
 msgid "Document project folder is invalid, setting it to the default one: %1"
@@ -1751,23 +1755,23 @@ msgstr "Kesto"
 
 #: src/wizard.cpp:333
 msgid "Dvdauthor"
-msgstr ""
+msgstr "DVDauthor"
 
 #: src/wizard.cpp:326
 msgid "Dvgrab"
-msgstr ""
+msgstr "Dvgrab"
 
 #: rc.cpp:918 rc.cpp:2388
 msgid "Dw"
-msgstr ""
+msgstr "Dw"
 
 #: rc.cpp:560 rc.cpp:924 rc.cpp:1782 rc.cpp:2030 rc.cpp:2394 rc.cpp:3252
 msgid "E"
-msgstr ""
+msgstr "E"
 
 #: src/main.cpp:47
 msgid "EMAIL OF TRANSLATORS"
-msgstr ""
+msgstr "Kääntäjien sähköpostiosoitteet"
 
 #: rc.cpp:173
 msgid "Edges correction"
@@ -1779,7 +1783,7 @@ msgstr "Muokkaa leikettä"
 
 #: src/customtrackview.cpp:3105
 msgid "Edit Clip Speed"
-msgstr ""
+msgstr "Muokkaa leikkeen nopeutta"
 
 #: src/customruler.cpp:76 src/mainwindow.cpp:1059 src/customtrackview.cpp:203
 #: src/customtrackview.cpp:3952 src/customtrackview.cpp:3964
@@ -1788,7 +1792,7 @@ msgstr ""
 
 #: rc.cpp:1846 rc.cpp:3316
 msgid "Edit Keyframe"
-msgstr ""
+msgstr "Muokkaa keyframea"
 
 #: src/clipproperties.cpp:309 src/mainwindow.cpp:1001 src/mainwindow.cpp:2102
 msgid "Edit Marker"
@@ -1804,7 +1808,7 @@ msgstr "Muokkaa leikettä"
 
 #: src/editeffectcommand.cpp:40
 msgid "Edit effect %1"
-msgstr ""
+msgstr "Muokkaa tehostetta %1"
 
 #: rc.cpp:1608 rc.cpp:3078
 msgid "Edit end"
@@ -1816,7 +1820,7 @@ msgstr ""
 
 #: src/geometryval.cpp:84 src/editkeyframecommand.cpp:36
 msgid "Edit keyframe"
-msgstr ""
+msgstr "Muokkaa keyframea"
 
 #: src/clipproperties.cpp:246 src/addmarkercommand.cpp:34
 msgid "Edit marker"
@@ -1832,7 +1836,7 @@ msgstr "Muokkaa alkua"
 
 #: src/edittransitioncommand.cpp:36
 msgid "Edit transition %1"
-msgstr ""
+msgstr "Muokkaa siirtymää %1"
 
 #: src/trackview.cpp:619
 msgid "Effect %1:%2 not found in MLT, it was removed from this project\n"
@@ -2060,7 +2064,7 @@ msgstr "Tiedostoa ei löydy"
 
 #: src/renderwidget.cpp:1095
 msgid "File rendering"
-msgstr ""
+msgstr "Renderöi tiedostoon"
 
 #: rc.cpp:1692 rc.cpp:3162
 msgid "File size"
@@ -2324,9 +2328,8 @@ msgid "Go to Project Start"
 msgstr ""
 
 #: src/monitor.cpp:103
-#, fuzzy
 msgid "Go to marker..."
-msgstr "Muokkaa merkintää"
+msgstr "Siirry merkkaukseen..."
 
 #: src/geometryval.cpp:70
 msgid "Go to next keyframe"
@@ -3793,7 +3796,7 @@ msgstr "Tallenna leikkeen alue nimellä:"
 
 #: src/effectstackview.cpp:60
 msgid "Save effect"
-msgstr ""
+msgstr "Tallenna tehoste"
 
 #: src/profilesdialog.cpp:44
 msgid "Save profile"
@@ -3837,11 +3840,11 @@ msgstr "Ruudunkaappaus"
 
 #: src/renderwidget.cpp:174
 msgid "Script Files"
-msgstr ""
+msgstr "Skriptitiedostot"
 
 #: src/renderwidget.cpp:1500 src/renderwidget.cpp:1504
 msgid "Script contains wrong command: %1"
-msgstr ""
+msgstr "Skriptissä on väärä komento: %1"
 
 #: src/mainwindow.cpp:2762
 msgid "Script file already exists. Do you want to overwrite it?"
@@ -3853,19 +3856,19 @@ msgstr ""
 
 #: rc.cpp:638 rc.cpp:2108
 msgid "Scripts"
-msgstr ""
+msgstr "Skriptit"
 
 #: src/kdenlivedoc.cpp:889
 msgid "Search automatically"
-msgstr ""
+msgstr "Etsi automaattisesti"
 
 #: src/kdenlivedoc.cpp:892 src/kdenlivedoc.cpp:900
 msgid "Search manually"
-msgstr ""
+msgstr "Etsi manuaalisesti"
 
 #: rc.cpp:903 rc.cpp:2373
 msgid "Search recursively"
-msgstr ""
+msgstr "Etsi rekursiivisesti"
 
 #: src/dvdwizard.cpp:51
 msgid "Select Files For Your DVD"
@@ -3873,17 +3876,19 @@ msgstr "Valitse tiedostot DVD-levylle"
 
 #: src/customtrackview.cpp:4145
 msgid "Select a clip before copying"
-msgstr ""
+msgstr "Valitse leike ennen kopiointia"
 
 #: src/customtrackview.cpp:1461
 msgid "Select a clip if you want to apply an effect"
-msgstr ""
+msgstr "Valitse leike, haluat lisätä tehosteen"
 
 #: src/regiongrabber.cpp:114
 msgid ""
 "Select a region using the mouse. To take the snapshot, press the Enter key. "
 "Press Esc to quit."
 msgstr ""
+"Valitse alue hiirellä. Ottaaksesi kuvan paina Enter-näppäintä. Paina Esc-"
+"näppäintä keskeyttääksesi."
 
 #: src/titlewidget.cpp:177
 msgid "Select background color"
@@ -3895,7 +3900,7 @@ msgstr "Aseta reunuksen väri"
 
 #: src/customtrackview.cpp:3093
 msgid "Select clip to change speed"
-msgstr ""
+msgstr "Valitse leike, jonka nopeutta muutetaan"
 
 #: src/customtrackview.cpp:1825 src/customtrackview.cpp:3028
 msgid "Select clip to delete"
@@ -3931,7 +3936,7 @@ msgstr "Valintatyökalu"
 
 #: rc.cpp:383
 msgid "Sepia"
-msgstr ""
+msgstr "Sepia"
 
 #: src/mainwindow.cpp:887
 msgid "Set In Point"
@@ -3947,7 +3952,7 @@ msgstr "Aseta tämänhetkinen kuva leikkeen pienoiskuvaksi"
 
 #: src/main.cpp:53
 msgid "Set the path for MLT environnement"
-msgstr ""
+msgstr "Aseta MLT-ympäristön polku"
 
 #: src/monitor.cpp:73
 msgid "Set zone end"
@@ -3963,15 +3968,15 @@ msgstr "Asetukset"
 
 #: rc.cpp:373
 msgid "Shear X"
-msgstr ""
+msgstr "Keritse (X)"
 
 #: rc.cpp:375
 msgid "Shear Y"
-msgstr ""
+msgstr "Keritse (Y)"
 
 #: rc.cpp:279 rc.cpp:473
 msgid "Shift"
-msgstr ""
+msgstr "Vaihto"
 
 #: rc.cpp:1476 rc.cpp:2946
 msgid "Show All"
@@ -3991,7 +3996,7 @@ msgstr "Näytä tausta"
 
 #: src/complexparameter.cpp:40
 msgid "Show keyframes in timeline"
-msgstr ""
+msgstr "Näytä keyframet aikajanalla"
 
 #: src/mainwindow.cpp:764
 msgid "Show markers comments"
@@ -4003,11 +4008,11 @@ msgstr "Näytä videoleikkeistä pienoiskuvakkeet"
 
 #: src/main.cpp:43
 msgid "Simon A. Eugster"
-msgstr ""
+msgstr "Simon A. Eugster"
 
 #: rc.cpp:313
 msgid "Simulates a vinyl audio player - LADSPA audio effect"
-msgstr ""
+msgstr "Simuloi vinyylisointinta - LADSPA äänitehoste"
 
 #: src/unicodedialog.cpp:144
 msgid "Six-Per-Em Space. Width: 1/6 of one <em>em</em>"
@@ -4047,7 +4052,7 @@ msgstr "Pienemmät raidat"
 
 #: src/mainwindow.cpp:770
 msgid "Snap"
-msgstr ""
+msgstr "Tartu"
 
 #: rc.cpp:1368 rc.cpp:1755 rc.cpp:2838 rc.cpp:3225
 msgid "Softness"
@@ -4070,7 +4075,7 @@ msgstr ""
 
 #: rc.cpp:843 rc.cpp:2313
 msgid "Source"
-msgstr ""
+msgstr "Lähde"
 
 #: rc.cpp:147
 msgid "Source Color"
@@ -4078,7 +4083,7 @@ msgstr "Lähteen väri"
 
 #: rc.cpp:391
 msgid "Sox Balance"
-msgstr ""
+msgstr "Sox -balanssi"
 
 #: rc.cpp:407
 msgid "Sox Band"
@@ -4086,11 +4091,11 @@ msgstr ""
 
 #: rc.cpp:415
 msgid "Sox Bass"
-msgstr ""
+msgstr "Sox -basso"
 
 #: rc.cpp:423
 msgid "Sox Echo"
-msgstr ""
+msgstr "Sox -kaiku"
 
 #: rc.cpp:435
 msgid "Sox Flanger"
@@ -4098,7 +4103,7 @@ msgstr ""
 
 #: rc.cpp:449
 msgid "Sox Gain"
-msgstr ""
+msgstr "Sox -lisää voimakkuutta"
 
 #: rc.cpp:455
 msgid "Sox Phaser"
@@ -4114,7 +4119,7 @@ msgstr ""
 
 #: rc.cpp:487
 msgid "Sox Stretch"
-msgstr ""
+msgstr "Sox -venytä"
 
 #: rc.cpp:495
 msgid "Sox Vibro"
@@ -4174,7 +4179,7 @@ msgstr "Tilantekijä"
 
 #: rc.cpp:447 rc.cpp:467 rc.cpp:499 rc.cpp:501 rc.cpp:505
 msgid "Speed"
-msgstr ""
+msgstr "Nopeus"
 
 #: src/mainwindow.cpp:1005
 msgid "Split Audio"
@@ -4190,11 +4195,11 @@ msgstr "Jaa näkymä"
 
 #: rc.cpp:273
 msgid "Spread"
-msgstr ""
+msgstr "Levitä"
 
 #: rc.cpp:203
 msgid "Square Blur"
-msgstr ""
+msgstr "Neliöpehmennys"
 
 #: src/unicodedialog.cpp:130
 msgid ""
@@ -4205,7 +4210,7 @@ msgstr ""
 #: src/mainwindow.cpp:2810 rc.cpp:82 rc.cpp:94 rc.cpp:855 rc.cpp:1994
 #: rc.cpp:2325 rc.cpp:3464
 msgid "Start"
-msgstr ""
+msgstr "Aloita"
 
 #: rc.cpp:105 rc.cpp:116
 msgid "Start Gain"
@@ -4213,15 +4218,15 @@ msgstr ""
 
 #: src/renderwidget.cpp:90
 msgid "Start Rendering"
-msgstr ""
+msgstr "Aloita renderöinti"
 
 #: rc.cpp:641 rc.cpp:2111
 msgid "Start Script"
-msgstr ""
+msgstr "Aloita skripti"
 
 #: src/mainwindow.cpp:415
 msgid "Start them now"
-msgstr ""
+msgstr "Aloita nyt"
 
 #: src/mainwindow.cpp:2442
 msgid "Starting -- find text as you type"
@@ -4229,19 +4234,19 @@ msgstr ""
 
 #: rc.cpp:951 rc.cpp:2421
 msgid "Status"
-msgstr ""
+msgstr "Tila"
 
 #: src/recmonitor.cpp:73
 msgid "Stop"
-msgstr ""
+msgstr "Pysäytä"
 
 #: rc.cpp:507
 msgid "Stroboscope"
-msgstr ""
+msgstr "Stroboskooppi"
 
 #: rc.cpp:1828 rc.cpp:3298
 msgid "Stroboscope effect"
-msgstr ""
+msgstr "Stroboskooppitehoste"
 
 #: rc.cpp:319
 msgid "Surface warping"
@@ -4257,17 +4262,15 @@ msgstr "Kohde"
 
 #: rc.cpp:816 rc.cpp:2286
 msgid "Template"
-msgstr ""
+msgstr "Mallipohja"
 
 #: src/projectitem.cpp:203
-#, fuzzy
 msgid "Template text clip"
-msgstr "Tekstileike"
+msgstr "Tekstileikkeen mallipohja"
 
 #: src/kdenlivedoc.cpp:1108
-#, fuzzy
 msgid "Template title clip"
-msgstr "Poista leike"
+msgstr "Otsikkoleikkeen mallipohja"
 
 #: rc.cpp:966 rc.cpp:2436
 msgid "Temporary data folder"
@@ -4275,7 +4278,7 @@ msgstr "Kansio tilapäisille tiedostoille"
 
 #: rc.cpp:1023 rc.cpp:2493
 msgid "Temporary files"
-msgstr ""
+msgstr "Väliaikaiset tiedostot"
 
 #: rc.cpp:726 rc.cpp:819 rc.cpp:2196 rc.cpp:2289
 msgid "Text"
@@ -4283,7 +4286,7 @@ msgstr "Teksti"
 
 #: src/titledocument.cpp:234
 msgid "Text Clips Updated"
-msgstr ""
+msgstr "Tekstileikkeet päivitetty"
 
 #: src/projectitem.cpp:204
 msgid "Text clip"
@@ -4295,7 +4298,7 @@ msgstr ""
 
 #: src/profilesdialog.cpp:114
 msgid "The custom profile was modified, do you want to save it?"
-msgstr ""
+msgstr "Mukautettua profiilia on muokattu. Tallennetaanko se?"
 
 #: src/renderwidget.cpp:779 src/renderwidget.cpp:1543
 msgid ""
@@ -4354,7 +4357,7 @@ msgstr ""
 
 #: src/mainwindow.cpp:1698
 msgid "This will remove all unused clips from your project."
-msgstr ""
+msgstr "Tämä poistaa projektista kaikki käyttämättömät leikkeet."
 
 #: src/projectsettings.cpp:92
 msgid ""
@@ -4362,12 +4365,15 @@ msgid ""
 "This action cannot be undone, only use if you know what you are doing.\n"
 "Are you sure you want to continue?"
 msgstr ""
+"Tämä poistaa kaikki seuraavat tiedostot kovalevyltäsi.\n"
+"Toimintoa EI voi peruuttaa.\n"
+"Haluatko varmasti jatkaa?"
 
 #: src/documentchecker.cpp:350
 msgid "This will remove the selected clip from this project"
 msgid_plural "This will remove the selected clips from this project"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Tämä poistaa valitun leikkeen projektista"
+msgstr[1] "Tämä poistaa valitut leikkeet projektista"
 
 #: src/unicodedialog.cpp:140
 msgid "Three-Per-Em Space. Width: 1/3 of one <em>em</em>"
@@ -4375,11 +4381,11 @@ msgstr ""
 
 #: rc.cpp:511
 msgid "Threshold"
-msgstr ""
+msgstr "Kynnys"
 
 #: rc.cpp:515
 msgid "Threshold value"
-msgstr ""
+msgstr "Kynnysarvo"
 
 #: src/projectlistview.cpp:46
 msgid "Thumbnail"
@@ -4399,19 +4405,19 @@ msgstr "Pienoiskuvakkeet"
 
 #: rc.cpp:199
 msgid "Tilt X"
-msgstr ""
+msgstr "Kallista (X)"
 
 #: rc.cpp:201
 msgid "Tilt Y"
-msgstr ""
+msgstr "Kallista (Y)"
 
 #: rc.cpp:1773 rc.cpp:3243
 msgid "Time"
-msgstr ""
+msgstr "Aika"
 
 #: rc.cpp:475
 msgid "Time window (ms)"
-msgstr ""
+msgstr "Aikaikkuna (ms)"
 
 #: rc.cpp:587 rc.cpp:2057
 msgid "Timecode overlay"
@@ -4427,7 +4433,7 @@ msgstr "Otsikko"
 
 #: rc.cpp:1512 rc.cpp:2982
 msgid "Title Clip"
-msgstr ""
+msgstr "Otsikkoleike"
 
 #: src/titledocument.cpp:196
 msgid "Title Profile"
@@ -4439,7 +4445,7 @@ msgstr "Otsikkoleike"
 
 #: rc.cpp:1509 rc.cpp:2979
 msgid "Toggle selection"
-msgstr ""
+msgstr "Vaihda valinta"
 
 #: rc.cpp:3491
 msgid "Tool"
@@ -4483,7 +4489,7 @@ msgstr "Siirtymä"
 
 #: rc.cpp:1997 rc.cpp:2003 rc.cpp:3467 rc.cpp:3473
 msgid "Transparency"
-msgstr ""
+msgstr "Läpinäkyvyys"
 
 #: rc.cpp:1767 rc.cpp:3237
 msgid "Transparent background"
@@ -4495,11 +4501,11 @@ msgstr ""
 
 #: rc.cpp:385
 msgid "Turn clip colors to sepia"
-msgstr ""
+msgstr "Muuta leikkeen värit Sepiaksi"
 
 #: rc.cpp:897 rc.cpp:930 rc.cpp:2367 rc.cpp:2400
 msgid "Type"
-msgstr ""
+msgstr "Tyyppi"
 
 #: src/documentvalidator.cpp:137 src/documentvalidator.cpp:144
 msgid "Unable to open project"
@@ -4507,7 +4513,7 @@ msgstr "Projektia ei voitu avata"
 
 #: src/renderwidget.cpp:385 src/renderwidget.cpp:552 src/renderwidget.cpp:1186
 msgid "Unable to write to file %1"
-msgstr ""
+msgstr "Tiedostoa %1 ei voitu kirjoittaa"
 
 #: src/mainwindow.cpp:209
 msgid "Undo History"
@@ -4515,15 +4521,15 @@ msgstr "Kumoa (historia)"
 
 #: src/mainwindow.cpp:978
 msgid "Ungroup Clips"
-msgstr ""
+msgstr "Poista leikkeiden ryhmitys"
 
 #: src/groupclipscommand.cpp:34
 msgid "Ungroup clips"
-msgstr ""
+msgstr "Poista leikkeiden ryhmitys"
 
 #: src/projectitem.cpp:216
 msgid "Unknown clip"
-msgstr ""
+msgstr "Tuntematon leike"
 
 #: src/locktrackcommand.cpp:32
 msgid "Unlock track"
@@ -4531,28 +4537,27 @@ msgstr "Poista raidan lukitus"
 
 #: src/renderwidget.cpp:982
 msgid "Unsupported audio codec: %1"
-msgstr ""
+msgstr "Äänikodeekki %1 ei ole tuettu"
 
 #: src/renderwidget.cpp:999
 msgid "Unsupported video codec: %1"
-msgstr ""
+msgstr "Videokodeekki %1 ei ole tuettu"
 
 #: src/renderwidget.cpp:966
 msgid "Unsupported video format: %1"
-msgstr ""
+msgstr "Videomuoto %1 ei ole tuettu"
 
 #: src/kdenlivedoc.cpp:862
 msgid "Untitled"
-msgstr ""
+msgstr "Nimetön"
 
 #: rc.cpp:828 rc.cpp:1973 rc.cpp:2298 rc.cpp:3443
-#, fuzzy
 msgid "Unused clips:"
-msgstr "Lisää leikkeitä"
+msgstr "Käyttämättömät leikkeet:"
 
 #: rc.cpp:915 rc.cpp:2385
 msgid "Up"
-msgstr ""
+msgstr "Ylös"
 
 #: src/documentvalidator.cpp:691
 msgid "Update Text Clips"
@@ -4572,16 +4577,16 @@ msgstr ""
 
 #: rc.cpp:517
 msgid "Use transparency"
-msgstr ""
+msgstr "Käytä läpinäkyvyyttä"
 
 #: rc.cpp:1629 rc.cpp:1632 rc.cpp:1985 rc.cpp:1988 rc.cpp:3099 rc.cpp:3102
 #: rc.cpp:3455 rc.cpp:3458
 msgid "V"
-msgstr ""
+msgstr "V"
 
 #: src/keyframeedit.cpp:38 rc.cpp:1855 rc.cpp:3325
 msgid "Value"
-msgstr ""
+msgstr "Arvo"
 
 #: rc.cpp:205
 msgid "Variable-size square blur (frei0r.squareblur)"
@@ -4589,7 +4594,7 @@ msgstr ""
 
 #: rc.cpp:52 rc.cpp:60
 msgid "Variance"
-msgstr ""
+msgstr "Varianssi"
 
 #: src/geometryval.cpp:98
 msgid "Vert. Center"
@@ -4618,11 +4623,11 @@ msgstr ""
 #: rc.cpp:753 rc.cpp:1110 rc.cpp:1698 rc.cpp:1891 rc.cpp:1961 rc.cpp:2223
 #: rc.cpp:2580 rc.cpp:3168 rc.cpp:3361 rc.cpp:3431
 msgid "Video"
-msgstr ""
+msgstr "Video"
 
 #: rc.cpp:663 rc.cpp:2133
 msgid "Video Codecs"
-msgstr ""
+msgstr "Videokodeekit"
 
 #: src/mainwindow.cpp:1014
 msgid "Video Only"
@@ -4643,15 +4648,15 @@ msgstr "Videomuoto"
 #: src/projectitem.cpp:194 src/documentchecker.cpp:83
 #: src/documentchecker.cpp:101
 msgid "Video clip"
-msgstr ""
+msgstr "Videoleike"
 
 #: rc.cpp:1701 rc.cpp:3171
 msgid "Video codec"
-msgstr ""
+msgstr "Videokodeekki"
 
 #: rc.cpp:1236 rc.cpp:2706
 msgid "Video device"
-msgstr ""
+msgstr "Videolaite"
 
 #: rc.cpp:1149 rc.cpp:2619
 msgid "Video driver:"
@@ -4679,7 +4684,7 @@ msgstr "Videoraidat"
 
 #: rc.cpp:681 rc.cpp:1200 rc.cpp:1230 rc.cpp:2151 rc.cpp:2670 rc.cpp:2700
 msgid "Video4Linux"
-msgstr ""
+msgstr "Video4Linux"
 
 #: rc.cpp:3524
 msgid "View"
@@ -4687,24 +4692,24 @@ msgstr "Näytä"
 
 #: rc.cpp:311
 msgid "Vinyl"
-msgstr ""
+msgstr "Vinyyli"
 
 #: src/projectitem.cpp:210
 msgid "Virtual clip"
-msgstr ""
+msgstr "Virtuaalinen leike"
 
 #: rc.cpp:519
 msgid "Volume (keyframable)"
-msgstr ""
+msgstr "Äänenvoimakkuus (keyframe)"
 
 #: rc.cpp:1521 rc.cpp:2991
 msgid "W"
-msgstr ""
+msgstr "W"
 
 #: src/renderwidget.cpp:788 src/renderwidget.cpp:1362
 #: src/renderwidget.cpp:1551
 msgid "Waiting..."
-msgstr ""
+msgstr "Odottaa..."
 
 #: rc.cpp:1146 rc.cpp:2616
 msgid ""
@@ -4716,7 +4721,7 @@ msgstr ""
 
 #: rc.cpp:525
 msgid "Wave"
-msgstr ""
+msgstr "Aalto"
 
 #: rc.cpp:323
 msgid "Wear"
@@ -4724,7 +4729,7 @@ msgstr ""
 
 #: src/renderwidget.cpp:1098
 msgid "Web sites"
-msgstr ""
+msgstr "Verkkosivut"
 
 #: src/wizard.cpp:48
 msgid "Welcome"
@@ -4732,7 +4737,7 @@ msgstr "Tervetuloa"
 
 #: rc.cpp:130
 msgid "White Balance"
-msgstr ""
+msgstr "Valkobalanssi"
 
 #: rc.cpp:413 rc.cpp:876 rc.cpp:1539 rc.cpp:2346 rc.cpp:3009
 msgid "Width"
@@ -4740,35 +4745,35 @@ msgstr "Leveys"
 
 #: rc.cpp:493
 msgid "Window"
-msgstr ""
+msgstr "Ikkuna"
 
 #: rc.cpp:1365 rc.cpp:1752 rc.cpp:2835 rc.cpp:3222
 msgid "Wipe"
-msgstr ""
+msgstr "Pyyhkäise"
 
 #: rc.cpp:870 rc.cpp:2340
 msgid "X"
-msgstr ""
+msgstr "X"
 
 #: src/kdenlivesettingsdialog.cpp:236
 msgid "X11"
-msgstr ""
+msgstr "X11"
 
 #: src/kdenlivesettingsdialog.cpp:237
 msgid "XFree86 DGA 2.0"
-msgstr ""
+msgstr "XFree86 DGA 2.0"
 
 #: src/kdenlivesettingsdialog.cpp:235
 msgid "XVideo"
-msgstr ""
+msgstr "XVideo"
 
 #: rc.cpp:873 rc.cpp:2343
 msgid "Y"
-msgstr ""
+msgstr "Y"
 
 #: rc.cpp:315
 msgid "Year"
-msgstr ""
+msgstr "Vuosi"
 
 #: src/mainwindow.cpp:415
 msgid ""
@@ -4802,7 +4807,7 @@ msgstr ""
 #: src/customtrackview.cpp:4725 src/customtrackview.cpp:4820
 #: src/customtrackview.cpp:4845 src/customtrackview.cpp:4870
 msgid "You must select one clip for this action"
-msgstr ""
+msgstr "Valitse leike, jolle toiminto suoritetaan"
 
 #: src/customtrackview.cpp:4622
 msgid "You must select one transition for this action"
@@ -4817,6 +4822,8 @@ msgid ""
 "Your Kdenlive version was upgraded to version %1. Please take some time to "
 "review the basic settings"
 msgstr ""
+"Kdenlive on päivittynyt versioon %1. Käytä hetki aikaa perusasetusten "
+"tarkastamiseen."
 
 #: src/wizard.cpp:521
 msgid ""
@@ -4837,7 +4844,7 @@ msgstr ""
 
 #: rc.cpp:1527 rc.cpp:2997
 msgid "Z-Index:"
-msgstr ""
+msgstr "Z-indeksi:"
 
 #: src/customruler.cpp:174
 msgid "Zone duration: %1"
@@ -4893,11 +4900,11 @@ msgstr ""
 
 #: rc.cpp:1059 rc.cpp:2529
 msgid "after"
-msgstr ""
+msgstr "jälkeen"
 
 #: rc.cpp:1056 rc.cpp:2526
 msgid "before"
-msgstr ""
+msgstr "ennen"
 
 #: rc.cpp:990 rc.cpp:2460
 msgid "create new points"
@@ -4921,7 +4928,7 @@ msgstr ""
 #: src/customtrackview.cpp:1410 src/customtrackview.cpp:1454
 #: src/addeffectcommand.cpp:37
 msgid "effect"
-msgstr ""
+msgstr "tehoste"
 
 #: src/timecode.cpp:159
 msgid "frames"
@@ -4929,28 +4936,28 @@ msgstr "kuvat"
 
 #: src/clipproperties.cpp:165 src/mainwindow.cpp:676 src/slideshowclip.cpp:58
 msgid "hh:mm:ss::ff"
-msgstr ""
+msgstr "hh:mm:ss:ff"
 
 #: src/timecode.cpp:138
 msgid "hour"
-msgstr ""
+msgstr "tunti"
 
 #: src/managecapturesdialog.cpp:43
 msgid "import"
-msgstr ""
+msgstr "tuo"
 
 #: src/mainwindow.cpp:706
 msgctxt "Spacer tool shortcut"
 msgid "m"
-msgstr ""
+msgstr "m"
 
 #: src/timecode.cpp:146
 msgid "min."
-msgstr ""
+msgstr "min."
 
 #: src/dvdwizardvob.cpp:56
 msgid "mkisofs"
-msgstr ""
+msgstr "mkisofs"
 
 #: rc.cpp:972 rc.cpp:2442
 msgid "move on X axis"
@@ -4962,20 +4969,20 @@ msgstr ""
 
 #: rc.cpp:1254 rc.cpp:2724
 msgid "oss"
-msgstr ""
+msgstr "oss"
 
 #: rc.cpp:999 rc.cpp:2469
 msgid "parameter description"
-msgstr ""
+msgstr "parametrin kuvaus"
 
 #: src/mainwindow.cpp:694
 msgctxt "Selection tool shortcut"
 msgid "s"
-msgstr ""
+msgstr "s"
 
 #: src/renderwidget.cpp:1664
 msgid "script"
-msgstr ""
+msgstr "skripti"
 
 #: src/timecode.cpp:154
 msgid "sec."
@@ -4983,7 +4990,7 @@ msgstr ""
 
 #: src/abstractclipitem.cpp:268
 msgid "seconds"
-msgstr ""
+msgstr "sekuntia"
 
 #: rc.cpp:608 rc.cpp:2078
 msgid "to"
@@ -4991,15 +4998,15 @@ msgstr ""
 
 #: src/renderwidget.cpp:1023
 msgid "untitled"
-msgstr ""
+msgstr "nimetön"
 
 #: rc.cpp:984 rc.cpp:2454
 msgid "update values in timeline"
-msgstr ""
+msgstr "päivitä aikajanan arvot"
 
 #: rc.cpp:1257 rc.cpp:2727
 msgid "video4linux2"
-msgstr ""
+msgstr "video4linux2"
 
 #: rc.cpp:933 rc.cpp:2403
 msgid "with track"
@@ -5008,15 +5015,15 @@ msgstr "raitaan"
 #: src/mainwindow.cpp:700
 msgctxt "Razor tool shortcut"
 msgid "x"
-msgstr ""
+msgstr "x"
 
 #: rc.cpp:780 rc.cpp:2250
 msgid "x"
-msgstr ""
+msgstr "x"
 
 #: rc.cpp:1635 rc.cpp:3105
 msgid "x1"
-msgstr ""
+msgstr "x1"
 
 #~ msgid "BasicOperations"
 #~ msgstr "Perustoiminnot"
