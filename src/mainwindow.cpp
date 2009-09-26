@@ -176,9 +176,10 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
     addDockWidget(Qt::TopDockWidgetArea, m_transitionConfigDock);
 
     KdenliveSettings::setCurrent_profile(KdenliveSettings::default_profile());
-    m_fileOpenRecent = KStandardAction::openRecent(this, SLOT(openFile(const KUrl &)),
-                       actionCollection());
+    m_fileOpenRecent = KStandardAction::openRecent(this, SLOT(openFile(const KUrl &)), actionCollection());
     readOptions();
+    m_fileRevert = KStandardAction::revert(this, SLOT(slotRevert()), actionCollection());
+    m_fileRevert->setEnabled(false);
 
     //slotDetectAudioDriver();
 
@@ -1251,6 +1252,7 @@ void MainWindow::slotRunWizard()
 void MainWindow::newFile(bool showProjectSettings)
 {
     if (!m_timelineArea->isEnabled()) return;
+    m_fileRevert->setEnabled(false);
     QString profileName;
     KUrl projectFolder;
     QPoint projectTracks(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks());
@@ -1300,7 +1302,7 @@ void MainWindow::activateDocument()
     connectDocument(currentTab, currentDoc);
 }
 
-void MainWindow::closeCurrentDocument()
+void MainWindow::closeCurrentDocument(bool saveChanges)
 {
     QWidget *w = m_timelineArea->currentWidget();
     if (!w) return;
@@ -1310,7 +1312,7 @@ void MainWindow::closeCurrentDocument()
     m_timelineArea->setCurrentIndex(ix);
     TrackView *tabToClose = (TrackView *) w;
     KdenliveDoc *docToClose = tabToClose->document();
-    if (docToClose && docToClose->isModified()) {
+    if (docToClose && docToClose->isModified() && saveChanges) {
         switch (KMessageBox::warningYesNoCancel(this, i18n("Save changes to document?"))) {
         case KMessageBox::Yes :
             // save document here. If saving fails, return false;
@@ -1365,6 +1367,7 @@ bool MainWindow::saveFileAs(const QString &outputFileName)
     m_timelineArea->setTabToolTip(m_timelineArea->currentIndex(), m_activeDocument->url().path());
     m_activeDocument->setModified(false);
     m_fileOpenRecent->addUrl(KUrl(outputFileName));
+    m_fileRevert->setEnabled(true);
     return true;
 }
 
@@ -1460,6 +1463,7 @@ void MainWindow::openFile(const KUrl &url)
 void MainWindow::doOpenFile(const KUrl &url, KAutoSaveFile *stale)
 {
     if (!m_timelineArea->isEnabled()) return;
+    m_fileRevert->setEnabled(true);
     KdenliveDoc *doc = new KdenliveDoc(url, KdenliveSettings::defaultprojectfolder(), m_commandStack, KdenliveSettings::default_profile(), QPoint(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks()), m_projectMonitor->render, this);
     if (stale == NULL) {
         stale = new KAutoSaveFile(url, doc);
@@ -2849,7 +2853,12 @@ void MainWindow::slotRemoveFocus()
     statusBar()->clearFocus();
 }
 
-
-
+void MainWindow::slotRevert()
+{
+    if (KMessageBox::warningContinueCancel(this, i18n("This will delete all changes made since you last saved your project. Are you sure you want to continue?"), i18n("Revert to last saved version")) == KMessageBox::Cancel) return;
+    KUrl url = m_activeDocument->url();
+    closeCurrentDocument(false);
+    doOpenFile(url, NULL);
+}
 
 #include "mainwindow.moc"

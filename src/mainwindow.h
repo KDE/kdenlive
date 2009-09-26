@@ -157,6 +157,7 @@ private:
 #endif /* NO_JOGSHUTTLE */
 
     KRecentFilesAction *m_fileOpenRecent;
+    KAction *m_fileRevert;
     KAction *m_projectSearch;
     KAction *m_projectSearchNext;
 
@@ -239,7 +240,7 @@ private slots:
     void slotZoomIn();
     void slotZoomOut();
     void slotFitZoom();
-    void closeCurrentDocument();
+    void closeCurrentDocument(bool saveChanges = true);
     void slotDeleteTimelineClip();
     void slotAddClipMarker();
     void slotDeleteClipMarker();
@@ -315,6 +316,7 @@ private slots:
     void slotCleanProject();
     void slotSetZoom(int value);
     void slotUpdateClipMarkers(DocClipBase *clip);
+    void slotRevert();
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);
