@@ -42,6 +42,8 @@
 #include <QMenu>
 #include <QInputDialog>
 #include <QProcess>
+#include <QDBusConnectionInterface>
+#include <QDBusInterface>
 
 const int GroupRole = Qt::UserRole;
 const int ExtensionRole = GroupRole + 1;
@@ -184,6 +186,11 @@ RenderWidget::RenderWidget(const QString &projectfolder, QWidget * parent) :
         m_renderer = KStandardDirs::findExe("kdenlive_render");
         if (m_renderer.isEmpty()) m_renderer = KStandardDirs::locate("exe", "kdenlive_render");
         if (m_renderer.isEmpty()) m_renderer = "kdenlive_render";
+    }
+
+    QDBusConnectionInterface* interface = QDBusConnection::sessionBus().interface();
+    if (!interface || !interface->isServiceRegistered("org.kde.ksmserver")) {
+        m_view.shutdown->setEnabled(false);
     }
 
     focusFirstVisibleItem();
@@ -815,6 +822,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
 
 void RenderWidget::checkRenderStatus()
 {
+    // check if we have a job waiting to render
     if (m_blockProcessing) return;
     QTreeWidgetItem *item = m_view.running_jobs->topLevelItem(0);
     while (item) {
@@ -822,9 +830,11 @@ void RenderWidget::checkRenderStatus()
         item = m_view.running_jobs->itemBelow(item);
     }
     item = m_view.running_jobs->topLevelItem(0);
+    bool waitingJob = false;
     while (item) {
         if (item->data(1, Qt::UserRole + 2).toInt() == WAITINGJOB) {
             item->setData(1, Qt::UserRole + 1, QTime::currentTime());
+            waitingJob = true;
             if (item->data(1, Qt::UserRole + 4).isNull()) {
                 // Normal render process
                 if (QProcess::startDetached(m_renderer, item->data(1, Qt::UserRole + 3).toStringList()) == false) {
@@ -846,6 +856,7 @@ void RenderWidget::checkRenderStatus()
         }
         item = m_view.running_jobs->itemBelow(item);
     }
+    if (waitingJob == false && m_view.shutdown->isChecked()) emit shutdown();
 }
 
 int RenderWidget::waitingJobsCount() const

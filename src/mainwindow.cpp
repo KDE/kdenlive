@@ -1669,6 +1669,7 @@ void MainWindow::slotRenderProject()
     if (!m_renderWidget) {
         QString projectfolder = m_activeDocument ? m_activeDocument->projectFolder().path(KUrl::AddTrailingSlash) : KdenliveSettings::defaultprojectfolder();
         m_renderWidget = new RenderWidget(projectfolder, this);
+        connect(m_renderWidget, SIGNAL(shutdown()), this, SLOT(slotShutdown()));
         connect(m_renderWidget, SIGNAL(selectedRenderProfile(const QString &, const QString &, const QString&)), this, SLOT(slotSetDocumentRenderProfile(const QString &, const QString &, const QString&)));
         connect(m_renderWidget, SIGNAL(prepareRenderingData(bool, bool, const QString&)), this, SLOT(slotPrepareRendering(bool, bool, const QString&)));
         connect(m_renderWidget, SIGNAL(abortProcess(const QString &)), this, SIGNAL(abortRenderJob(const QString &)));
@@ -2859,6 +2860,18 @@ void MainWindow::slotRevert()
     KUrl url = m_activeDocument->url();
     closeCurrentDocument(false);
     doOpenFile(url, NULL);
+}
+
+
+void MainWindow::slotShutdown()
+{
+    if (m_activeDocument) m_activeDocument->setModified(false);
+    // Call shutdown
+    QDBusConnectionInterface* interface = QDBusConnection::sessionBus().interface();
+    if (interface && interface->isServiceRegistered("org.kde.ksmserver")) {
+        QDBusInterface smserver("org.kde.ksmserver", "/KSMServer", "org.kde.KSMServerInterface");
+        smserver.call("logout", 1, 2, 2);
+    }
 }
 
 #include "mainwindow.moc"

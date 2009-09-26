@@ -162,6 +162,7 @@ signals:
     (profile destination, profile name and url of rendered file */
     void selectedRenderProfile(const QString &, const QString &, const QString &);
     void prepareRenderingData(bool scriptExport, bool zoneOnly, const QString &chapterFile);
+    void shutdown();
 };
 
 
