@@ -416,12 +416,24 @@ void KdenliveSettingsDialog::updateSettings()
     KdenliveSettings::setDefault_profile(m_defaultPath);
 
     bool resetProfile = false;
+    bool updateCapturePath = false;
 
     if (m_configEnv.capturefolderurl->url().path() != KdenliveSettings::capturefolder()) {
-        kDebug() << "/// CAPT FOLDER UPDATED";
         KdenliveSettings::setCapturefolder(m_configEnv.capturefolderurl->url().path());
-        emit updateCaptureFolder();
+        updateCapturePath = true;
     }
+
+    if (m_configCapture.kcfg_dvgrabfilename->text() != KdenliveSettings::dvgrabfilename()) {
+        KdenliveSettings::setDvgrabfilename(m_configCapture.kcfg_dvgrabfilename->text());
+        updateCapturePath = true;
+    }
+
+    if ((uint) m_configCapture.kcfg_firewireformat->currentIndex() != KdenliveSettings::firewireformat()) {
+        KdenliveSettings::setFirewireformat(m_configCapture.kcfg_firewireformat->currentIndex());
+        updateCapturePath = true;
+    }
+
+    if (updateCapturePath) emit updateCaptureFolder();
 
     QString value = m_configCapture.kcfg_rmd_alsa_device->itemData(m_configCapture.kcfg_rmd_alsa_device->currentIndex()).toString();
     if (value != KdenliveSettings::rmd_alsadevicename()) {

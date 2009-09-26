@@ -1,107 +1,114 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>ConfigCapture_UI</class>
- <widget class="QWidget" name="ConfigCapture_UI" >
-  <property name="geometry" >
+ <widget class="QWidget" name="ConfigCapture_UI">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>509</width>
-    <height>464</height>
+    <width>409</width>
+    <height>428</height>
    </rect>
   </property>
-  <layout class="QGridLayout" name="gridLayout_6" >
-   <item row="0" column="0" >
-    <widget class="QLabel" name="label" >
-     <property name="text" >
+  <layout class="QGridLayout" name="gridLayout_6">
+   <item row="0" column="0">
+    <widget class="QLabel" name="label">
+     <property name="text">
       <string>Default capture device</string>
      </property>
     </widget>
    </item>
-   <item row="0" column="1" >
-    <widget class="KComboBox" name="kcfg_defaultcapture" >
+   <item row="0" column="1">
+    <widget class="KComboBox" name="kcfg_defaultcapture">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <item>
-      <property name="text" >
+      <property name="text">
        <string>Firewire</string>
       </property>
      </item>
      <item>
-      <property name="text" >
+      <property name="text">
        <string>Video4Linux</string>
       </property>
      </item>
      <item>
-      <property name="text" >
+      <property name="text">
        <string>Screen Grab</string>
       </property>
      </item>
     </widget>
    </item>
-   <item row="1" column="0" colspan="2" >
-    <widget class="QTabWidget" name="tabWidget" >
-     <property name="minimumSize" >
+   <item row="1" column="0" colspan="2">
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="minimumSize">
       <size>
        <width>401</width>
        <height>0</height>
       </size>
      </property>
-     <property name="currentIndex" >
+     <property name="currentIndex">
       <number>0</number>
      </property>
-     <widget class="QWidget" name="tab" >
-      <attribute name="title" >
+     <widget class="QWidget" name="tab">
+      <attribute name="title">
        <string>Firewire</string>
       </attribute>
-      <layout class="QGridLayout" name="gridLayout_2" >
-       <item row="0" column="0" colspan="3" >
-        <widget class="QLabel" name="dvgrab_info" >
-         <property name="frameShape" >
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="0" colspan="3">
+        <widget class="QLabel" name="dvgrab_info">
+         <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
          </property>
-         <property name="frameShadow" >
+         <property name="frameShadow">
           <enum>QFrame::Raised</enum>
          </property>
-         <property name="text" >
+         <property name="text">
           <string/>
          </property>
         </widget>
        </item>
-       <item row="1" column="0" >
-        <widget class="QLabel" name="label_2" >
-         <property name="text" >
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
           <string>Capture format</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="1" >
-        <widget class="KComboBox" name="kcfg_firewireformat" >
+       <item row="1" column="1">
+        <widget class="KComboBox" name="kcfg_firewireformat">
          <item>
-          <property name="text" >
+          <property name="text">
            <string>DV Raw</string>
           </property>
          </item>
          <item>
-          <property name="text" >
+          <property name="text">
            <string>DV AVI type 1</string>
           </property>
          </item>
          <item>
-          <property name="text" >
+          <property name="text">
            <string>DV AVI type 2</string>
           </property>
          </item>
          <item>
-          <property name="text" >
+          <property name="text">
            <string>HDV</string>
           </property>
          </item>
         </widget>
        </item>
-       <item row="1" column="2" >
-        <spacer name="horizontalSpacer" >
-         <property name="orientation" >
+       <item row="1" column="2">
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
-         <property name="sizeHint" stdset="0" >
+         <property name="sizeHint" stdset="0">
           <size>
            <width>241</width>
            <height>20</height>
@@ -109,26 +116,46 @@
          </property>
         </spacer>
        </item>
-       <item row="2" column="0" colspan="3" >
-        <widget class="QCheckBox" name="kcfg_firewireautosplit" >
-         <property name="text" >
+       <item row="2" column="0" colspan="3">
+        <widget class="QCheckBox" name="kcfg_firewireautosplit">
+         <property name="text">
           <string>Automatically start a new file on scene cut</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="0" colspan="3" >
-        <widget class="QCheckBox" name="kcfg_firewiretimestamp" >
-         <property name="text" >
+       <item row="3" column="0" colspan="3">
+        <widget class="QCheckBox" name="kcfg_firewiretimestamp">
+         <property name="text">
           <string>Add recording time to captured file name</string>
          </property>
         </widget>
        </item>
-       <item row="4" column="1" >
-        <spacer name="verticalSpacer_2" >
-         <property name="orientation" >
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>Capture file name</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1" colspan="2">
+        <widget class="QLineEdit" name="kcfg_dvgrabfilename"/>
+       </item>
+       <item row="5" column="0" colspan="2">
+        <widget class="QLabel" name="label_7">
+         <property name="text">
+          <string>dvgrab additional parameters</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0" colspan="3">
+        <widget class="QLineEdit" name="kcfg_dvgrabextra"/>
+       </item>
+       <item row="7" column="1">
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
-         <property name="sizeHint" stdset="0" >
+         <property name="sizeHint" stdset="0">
           <size>
            <width>20</width>
            <height>188</height>
@@ -138,17 +165,17 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_2" >
-      <attribute name="title" >
+     <widget class="QWidget" name="tab_2">
+      <attribute name="title">
        <string>Video4Linux</string>
       </attribute>
-      <layout class="QGridLayout" name="gridLayout" >
-       <item row="9" column="2" >
-        <spacer name="verticalSpacer" >
-         <property name="orientation" >
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="9" column="2">
+        <spacer name="verticalSpacer">
+         <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
-         <property name="sizeHint" stdset="0" >
+         <property name="sizeHint" stdset="0">
           <size>
            <width>20</width>
            <height>40</height>
@@ -156,208 +183,208 @@
          </property>
         </spacer>
        </item>
-       <item row="0" column="3" >
-        <widget class="QLabel" name="label_3" >
-         <property name="sizePolicy" >
-          <sizepolicy vsizetype="Preferred" hsizetype="Maximum" >
+       <item row="0" column="3">
+        <widget class="QLabel" name="label_3">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <property name="text" >
+         <property name="text">
           <string>Format</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="0" >
-        <widget class="QLabel" name="label_14" >
-         <property name="text" >
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_14">
+         <property name="text">
           <string>Video device</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="1" colspan="2" >
-        <widget class="KLineEdit" name="kcfg_video4adevice" >
-         <property name="text" >
+       <item row="2" column="1" colspan="2">
+        <widget class="KLineEdit" name="kcfg_video4adevice">
+         <property name="text">
           <string>/dev/dsp</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="3" >
-        <widget class="QLabel" name="label_9" >
-         <property name="sizePolicy" >
-          <sizepolicy vsizetype="Preferred" hsizetype="Maximum" >
+       <item row="2" column="3">
+        <widget class="QLabel" name="label_9">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <property name="text" >
+         <property name="text">
           <string>Format</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="0" >
-        <widget class="QLabel" name="label_16" >
-         <property name="text" >
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_16">
+         <property name="text">
           <string>Audio device</string>
          </property>
         </widget>
        </item>
-       <item row="5" column="0" colspan="2" >
-        <widget class="QLabel" name="label_11" >
-         <property name="sizePolicy" >
-          <sizepolicy vsizetype="Preferred" hsizetype="Maximum" >
+       <item row="5" column="0" colspan="2">
+        <widget class="QLabel" name="label_11">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <property name="text" >
+         <property name="text">
           <string>Capture params</string>
          </property>
         </widget>
        </item>
-       <item row="8" column="0" colspan="6" >
-        <widget class="KLineEdit" name="kcfg_video4encoding" />
+       <item row="8" column="0" colspan="6">
+        <widget class="KLineEdit" name="kcfg_video4encoding"/>
        </item>
-       <item row="7" column="0" colspan="2" >
-        <widget class="QLabel" name="label_12" >
-         <property name="sizePolicy" >
-          <sizepolicy vsizetype="Preferred" hsizetype="Maximum" >
+       <item row="7" column="0" colspan="2">
+        <widget class="QLabel" name="label_12">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <property name="text" >
+         <property name="text">
           <string>Encoding params</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="4" colspan="2" >
-        <widget class="KLineEdit" name="kcfg_video4aformat" >
-         <property name="text" >
+       <item row="2" column="4" colspan="2">
+        <widget class="KLineEdit" name="kcfg_video4aformat">
+         <property name="text">
           <string>oss</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="4" colspan="2" >
-        <widget class="KLineEdit" name="kcfg_video4vformat" >
-         <property name="text" >
+       <item row="0" column="4" colspan="2">
+        <widget class="KLineEdit" name="kcfg_video4vformat">
+         <property name="text">
           <string>video4linux2</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="1" colspan="2" >
-        <widget class="KLineEdit" name="kcfg_video4vdevice" >
-         <property name="text" >
+       <item row="0" column="1" colspan="2">
+        <widget class="KLineEdit" name="kcfg_video4vdevice">
+         <property name="text">
           <string>/dev/video0</string>
          </property>
         </widget>
        </item>
-       <item row="6" column="0" colspan="6" >
-        <widget class="KLineEdit" name="kcfg_video4capture" >
-         <property name="sizePolicy" >
-          <sizepolicy vsizetype="Fixed" hsizetype="MinimumExpanding" >
+       <item row="6" column="0" colspan="6">
+        <widget class="KLineEdit" name="kcfg_video4capture">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
         </widget>
        </item>
-       <item row="4" column="0" colspan="6" >
-        <widget class="Line" name="line_3" >
-         <property name="orientation" >
+       <item row="4" column="0" colspan="6">
+        <widget class="Line" name="line_3">
+         <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
         </widget>
        </item>
-       <item row="1" column="0" >
-        <widget class="QLabel" name="label_4" >
-         <property name="sizePolicy" >
-          <sizepolicy vsizetype="Preferred" hsizetype="Maximum" >
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_4">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <property name="text" >
+         <property name="text">
           <string>Image size</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="1" colspan="2" >
-        <widget class="KLineEdit" name="kcfg_video4size" >
-         <property name="text" >
+       <item row="1" column="1" colspan="2">
+        <widget class="KLineEdit" name="kcfg_video4size">
+         <property name="text">
           <string>320x240</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="3" >
-        <widget class="QLabel" name="label_6" >
-         <property name="text" >
+       <item row="1" column="3">
+        <widget class="QLabel" name="label_6">
+         <property name="text">
           <string>Frame rate</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="4" >
-        <widget class="QSpinBox" name="kcfg_video4rate" >
-         <property name="value" >
+       <item row="1" column="4">
+        <widget class="QSpinBox" name="kcfg_video4rate">
+         <property name="value">
           <number>15</number>
          </property>
         </widget>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_3" >
-      <attribute name="title" >
+     <widget class="QWidget" name="tab_3">
+      <attribute name="title">
        <string>Screen Grab</string>
       </attribute>
-      <layout class="QGridLayout" name="gridLayout_5" >
-       <item row="0" column="0" colspan="3" >
-        <widget class="QLabel" name="rmd_info" >
-         <property name="frameShape" >
+      <layout class="QGridLayout" name="gridLayout_5">
+       <item row="0" column="0" colspan="3">
+        <widget class="QLabel" name="rmd_info">
+         <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
          </property>
-         <property name="frameShadow" >
+         <property name="frameShadow">
           <enum>QFrame::Raised</enum>
          </property>
-         <property name="text" >
+         <property name="text">
           <string/>
          </property>
         </widget>
        </item>
-       <item row="1" column="0" colspan="3" >
-        <widget class="QCheckBox" name="kcfg_rmd_capture_audio" >
-         <property name="text" >
+       <item row="1" column="0" colspan="3">
+        <widget class="QCheckBox" name="kcfg_rmd_capture_audio">
+         <property name="text">
           <string>Capture audio</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="0" colspan="3" >
-        <widget class="QFrame" name="audio_group" >
-         <property name="frameShape" >
+       <item row="2" column="0" colspan="3">
+        <widget class="QFrame" name="audio_group">
+         <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
          </property>
-         <property name="frameShadow" >
+         <property name="frameShadow">
           <enum>QFrame::Raised</enum>
          </property>
-         <layout class="QGridLayout" name="gridLayout_4" >
-          <item row="0" column="0" colspan="5" >
-           <layout class="QHBoxLayout" name="horizontalLayout_2" >
+         <layout class="QGridLayout" name="gridLayout_4">
+          <item row="0" column="0" colspan="5">
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
             <item>
-             <widget class="QLabel" name="label_8" >
-              <property name="text" >
+             <widget class="QLabel" name="label_8">
+              <property name="text">
                <string>Audio channels</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="KIntSpinBox" name="kcfg_rmd_audio_channels" />
+             <widget class="KIntSpinBox" name="kcfg_rmd_audio_channels"/>
             </item>
             <item>
-             <spacer name="horizontalSpacer_3" >
-              <property name="orientation" >
+             <spacer name="horizontalSpacer_3">
+              <property name="orientation">
                <enum>Qt::Horizontal</enum>
               </property>
-              <property name="sizeHint" stdset="0" >
+              <property name="sizeHint" stdset="0">
                <size>
                 <width>40</width>
                 <height>20</height>
@@ -366,36 +393,36 @@
              </spacer>
             </item>
             <item>
-             <widget class="QLabel" name="label_22" >
-              <property name="text" >
+             <widget class="QLabel" name="label_22">
+              <property name="text">
                <string>Audio frequency</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="KComboBox" name="kcfg_rmd_audio_freq" >
+             <widget class="KComboBox" name="kcfg_rmd_audio_freq">
               <item>
-               <property name="text" >
+               <property name="text">
                 <string>48000</string>
                </property>
               </item>
               <item>
-               <property name="text" >
+               <property name="text">
                 <string>41000</string>
                </property>
               </item>
               <item>
-               <property name="text" >
+               <property name="text">
                 <string>32000</string>
                </property>
               </item>
               <item>
-               <property name="text" >
+               <property name="text">
                 <string>22500</string>
                </property>
               </item>
               <item>
-               <property name="text" >
+               <property name="text">
                 <string>11250</string>
                </property>
               </item>
@@ -403,122 +430,122 @@
             </item>
            </layout>
           </item>
-          <item row="1" column="0" >
-           <widget class="QRadioButton" name="radioButton_2" >
-            <property name="text" >
+          <item row="1" column="0">
+           <widget class="QRadioButton" name="radioButton_2">
+            <property name="text">
              <string>ALSA</string>
             </property>
-            <property name="checked" >
+            <property name="checked">
              <bool>true</bool>
             </property>
            </widget>
           </item>
-          <item row="1" column="1" colspan="2" >
-           <widget class="KComboBox" name="kcfg_rmd_alsa_device" >
-            <property name="sizePolicy" >
-             <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+          <item row="1" column="1" colspan="2">
+           <widget class="KComboBox" name="kcfg_rmd_alsa_device">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
            </widget>
           </item>
-          <item row="1" column="3" >
-           <widget class="QLabel" name="label_17" >
-            <property name="text" >
+          <item row="1" column="3">
+           <widget class="QLabel" name="label_17">
+            <property name="text">
              <string>Buffer</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="4" >
-           <widget class="KIntSpinBox" name="kcfg_rmd_alsa_buffer" >
-            <property name="maximum" >
+          <item row="1" column="4">
+           <widget class="KIntSpinBox" name="kcfg_rmd_alsa_buffer">
+            <property name="maximum">
              <number>999</number>
             </property>
            </widget>
           </item>
-          <item row="2" column="0" >
-           <widget class="QRadioButton" name="kcfg_rmd_use_jack" >
-            <property name="text" >
+          <item row="2" column="0">
+           <widget class="QRadioButton" name="kcfg_rmd_use_jack">
+            <property name="text">
              <string>Jack</string>
             </property>
            </widget>
           </item>
-          <item row="2" column="1" >
-           <widget class="QLabel" name="label_10" >
-            <property name="text" >
+          <item row="2" column="1">
+           <widget class="QLabel" name="label_10">
+            <property name="text">
              <string>Ports:</string>
             </property>
            </widget>
           </item>
-          <item row="2" column="2" >
-           <widget class="KLineEdit" name="kcfg_rmd_jackports" >
-            <property name="sizePolicy" >
-             <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+          <item row="2" column="2">
+           <widget class="KLineEdit" name="kcfg_rmd_jackports">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
            </widget>
           </item>
-          <item row="2" column="3" >
-           <widget class="QLabel" name="label_21" >
-            <property name="text" >
+          <item row="2" column="3">
+           <widget class="QLabel" name="label_21">
+            <property name="text">
              <string>Buffer</string>
             </property>
            </widget>
           </item>
-          <item row="2" column="4" >
-           <widget class="KDoubleNumInput" name="kcfg_rmd_jack_buffer" />
+          <item row="2" column="4">
+           <widget class="KDoubleNumInput" name="kcfg_rmd_jack_buffer"/>
           </item>
          </layout>
         </widget>
        </item>
-       <item row="3" column="0" colspan="3" >
-        <widget class="KComboBox" name="kcfg_rmd_capture_type" >
+       <item row="3" column="0" colspan="3">
+        <widget class="KComboBox" name="kcfg_rmd_capture_type">
          <item>
-          <property name="text" >
+          <property name="text">
            <string>Full screen capture</string>
           </property>
          </item>
          <item>
-          <property name="text" >
+          <property name="text">
            <string>Region capture</string>
           </property>
          </item>
         </widget>
        </item>
-       <item row="4" column="0" colspan="3" >
-        <widget class="QFrame" name="region_group" >
-         <property name="frameShape" >
+       <item row="4" column="0" colspan="3">
+        <widget class="QFrame" name="region_group">
+         <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
          </property>
-         <property name="frameShadow" >
+         <property name="frameShadow">
           <enum>QFrame::Raised</enum>
          </property>
-         <layout class="QGridLayout" name="gridLayout_3" >
-          <item row="0" column="0" colspan="3" >
-           <layout class="QHBoxLayout" name="horizontalLayout" >
+         <layout class="QGridLayout" name="gridLayout_3">
+          <item row="0" column="0" colspan="3">
+           <layout class="QHBoxLayout" name="horizontalLayout">
             <item>
-             <widget class="QCheckBox" name="kcfg_rmd_follow_mouse" >
-              <property name="text" >
+             <widget class="QCheckBox" name="kcfg_rmd_follow_mouse">
+              <property name="text">
                <string>Follow mouse</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QCheckBox" name="kcfg_rmd_hide_frame" >
-              <property name="text" >
+             <widget class="QCheckBox" name="kcfg_rmd_hide_frame">
+              <property name="text">
                <string>Hide frame</string>
               </property>
              </widget>
             </item>
             <item>
-             <spacer name="horizontalSpacer_4" >
-              <property name="orientation" >
+             <spacer name="horizontalSpacer_4">
+              <property name="orientation">
                <enum>Qt::Horizontal</enum>
               </property>
-              <property name="sizeHint" stdset="0" >
+              <property name="sizeHint" stdset="0">
                <size>
                 <width>40</width>
                 <height>20</height>
@@ -528,62 +555,62 @@
             </item>
            </layout>
           </item>
-          <item row="1" column="0" >
-           <widget class="QLabel" name="label_19" >
-            <property name="text" >
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_19">
+            <property name="text">
              <string>Offset</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="1" >
-           <widget class="KIntSpinBox" name="kcfg_rmd_offsetx" >
-            <property name="sizePolicy" >
-             <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+          <item row="1" column="1">
+           <widget class="KIntSpinBox" name="kcfg_rmd_offsetx">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
-            <property name="minimum" >
+            <property name="minimum">
              <number>1</number>
             </property>
-            <property name="maximum" >
+            <property name="maximum">
              <number>5000</number>
             </property>
            </widget>
           </item>
-          <item row="1" column="2" >
-           <widget class="KIntSpinBox" name="kcfg_rmd_offsety" >
-            <property name="sizePolicy" >
-             <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+          <item row="1" column="2">
+           <widget class="KIntSpinBox" name="kcfg_rmd_offsety">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
-            <property name="minimum" >
+            <property name="minimum">
              <number>1</number>
             </property>
-            <property name="maximum" >
+            <property name="maximum">
              <number>5000</number>
             </property>
            </widget>
           </item>
-          <item row="2" column="0" >
-           <widget class="QLabel" name="label_20" >
-            <property name="text" >
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_20">
+            <property name="text">
              <string>Size</string>
             </property>
            </widget>
           </item>
-          <item row="2" column="1" >
-           <widget class="KIntSpinBox" name="kcfg_rmd_width" >
-            <property name="maximum" >
+          <item row="2" column="1">
+           <widget class="KIntSpinBox" name="kcfg_rmd_width">
+            <property name="maximum">
              <number>5000</number>
             </property>
            </widget>
           </item>
-          <item row="2" column="2" >
-           <widget class="KIntSpinBox" name="kcfg_rmd_height" >
-            <property name="maximum" >
+          <item row="2" column="2">
+           <widget class="KIntSpinBox" name="kcfg_rmd_height">
+            <property name="maximum">
              <number>5000</number>
             </property>
            </widget>
@@ -591,22 +618,22 @@
          </layout>
         </widget>
        </item>
-       <item row="5" column="0" >
-        <widget class="QLabel" name="label_18" >
-         <property name="text" >
+       <item row="5" column="0">
+        <widget class="QLabel" name="label_18">
+         <property name="text">
           <string>Frame rate</string>
          </property>
         </widget>
        </item>
-       <item row="5" column="1" >
-        <widget class="KDoubleNumInput" name="kcfg_rmd_fps" />
+       <item row="5" column="1">
+        <widget class="KDoubleNumInput" name="kcfg_rmd_fps"/>
        </item>
-       <item row="5" column="2" >
-        <spacer name="horizontalSpacer_2" >
-         <property name="orientation" >
+       <item row="5" column="2">
+        <spacer name="horizontalSpacer_2">
+         <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
-         <property name="sizeHint" stdset="0" >
+         <property name="sizeHint" stdset="0">
           <size>
            <width>237</width>
            <height>20</height>
@@ -614,19 +641,19 @@
          </property>
         </spacer>
        </item>
-       <item row="6" column="0" colspan="3" >
-        <widget class="QCheckBox" name="kcfg_rmd_fullshots" >
-         <property name="text" >
+       <item row="6" column="0" colspan="3">
+        <widget class="QCheckBox" name="kcfg_rmd_fullshots">
+         <property name="text">
           <string>Full shots</string>
          </property>
         </widget>
        </item>
-       <item row="7" column="0" colspan="3" >
-        <spacer name="verticalSpacer_3" >
-         <property name="orientation" >
+       <item row="7" column="0" colspan="3">
+        <spacer name="verticalSpacer_3">
+         <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
-         <property name="sizeHint" stdset="0" >
+         <property name="sizeHint" stdset="0">
           <size>
            <width>383</width>
            <height>160</height>
@@ -642,9 +669,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KComboBox</class>
-   <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
+   <class>KIntSpinBox</class>
+   <extends>QSpinBox</extends>
+   <header>knuminput.h</header>
   </customwidget>
   <customwidget>
    <class>KDoubleNumInput</class>
@@ -652,14 +679,14 @@
    <header>knuminput.h</header>
   </customwidget>
   <customwidget>
-   <class>KIntSpinBox</class>
-   <extends>QSpinBox</extends>
-   <header>knuminput.h</header>
-  </customwidget>
-  <customwidget>
    <class>KLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

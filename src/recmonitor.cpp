@@ -195,14 +195,35 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
         m_playAction->setEnabled(false);
         m_rewAction->setEnabled(false);
         m_fwdAction->setEnabled(false);
-        //m_ui.video_frame->setText(i18n("Plug your camcorder and\npress connect button\nto initialize connection"));
+
+        // Check that dvgab is available
         if (KdenliveSettings::dvgrab_path().isEmpty()) {
             QString dvgrabpath = KStandardDirs::findExe("dvgrab");
             if (dvgrabpath.isEmpty()) m_ui.video_frame->setPixmap(mergeSideBySide(KIcon("dialog-warning").pixmap(QSize(50, 50)), i18n("dvgrab utility not found,\n please install it for firewire capture")));
             else KdenliveSettings::setDvgrab_path(dvgrabpath);
+        } else {
+            // Show capture info
+            QString capturefile = KdenliveSettings::capturefolder();
+            if (!capturefile.endsWith("/")) capturefile.append("/");
+            QString capturename = KdenliveSettings::dvgrabfilename();
+            if (capturename.isEmpty()) capturename = "capture";
+            QString extension;
+            switch (KdenliveSettings::firewireformat()) {
+            case 0:
+                extension = ".dv";
+                break;
+            case 1:
+            case 2:
+                extension = ".avi";
+                break;
+            case 3:
+                extension = ".m2t";
+                break;
+            }
+            capturename.append("xxx" + extension);
+            capturefile.append(capturename);
+            m_ui.video_frame->setPixmap(mergeSideBySide(KIcon("network-connect").pixmap(QSize(50, 50)), i18n("Plug your camcorder and\npress connect button\nto initialize connection\nFiles will be saved in:\n%1", capturefile)));
         }
-
-        if (!KdenliveSettings::dvgrab_path().isEmpty()) m_ui.video_frame->setPixmap(mergeSideBySide(KIcon("network-connect").pixmap(QSize(50, 50)), i18n("Plug your camcorder and\npress connect button\nto initialize connection\nFiles will be saved in:\n%1", KdenliveSettings::capturefolder())));
         break;
     }
 }
@@ -293,45 +314,6 @@ void RecMonitor::slotStopCapture()
 
 void RecMonitor::slotStartCapture(bool play)
 {
-
-    /*
-    *captureProcess<<"dvgrab";
-
-    bool isHdv = false;
-
-    switch (m_recPanel->capture_format->currentItem()){
-        case 0:
-      *captureProcess<<"--format"<<"dv1";
-     break;
-        case 1:
-      *captureProcess<<"--format"<<"dv2";
-     break;
-        case 3:
-      *captureProcess<<"--format"<<"hdv";
-     isHdv = true;
-     break;
-        default:
-            *captureProcess<<"--format"<<"raw";
-     break;
-    }
-
-    if (KdenliveSettings::autosplit()) *captureProcess<<"--autosplit";
-    if (KdenliveSettings::timestamp()) *captureProcess<<"--timestamp";
-    *captureProcess<<"-i"<<"capture"<<"-";*/
-
-    /*
-        QStringList captureArgs;
-        captureArgs<<"--format"<<"hdv"<<"-i"<<"capture"<<"-";
-        QStringList displayArgs;
-
-        displayArgs<<"-f"<<"mpegts"<<"-x"<<QString::number(m_ui.video_frame->width())<<"-y"<<QString::number(m_ui.video_frame->height())<<"-";
-
-        captureProcess->setStandardOutputProcess(displayProcess);
-        m_ui.video_frame->setScaledContents(false);
-        captureProcess->start("dvgrab",captureArgs);
-        displayProcess->start("ffplay",  displayArgs);*/
-
-
     if (m_captureProcess->state() != QProcess::NotRunning) {
         if (m_ui.device_selector->currentIndex() == FIREWIRE) {
             if (m_isPlaying) {
@@ -350,6 +332,8 @@ void RecMonitor::slotStartCapture(bool play)
     m_captureArgs.clear();
     m_displayArgs.clear();
     m_isPlaying = false;
+    QString capturename = KdenliveSettings::dvgrabfilename();
+    QStringList dvargs = KdenliveSettings::dvgrabextra().simplified().split(" ", QString::SkipEmptyParts);
 
     switch (m_ui.device_selector->currentIndex()) {
     case FIREWIRE:
@@ -377,7 +361,13 @@ void RecMonitor::slotStartCapture(bool play)
         }
         if (KdenliveSettings::firewireautosplit()) m_captureArgs << "--autosplit";
         if (KdenliveSettings::firewiretimestamp()) m_captureArgs << "--timestamp";
-        m_captureArgs << "-i" << "capture" << "-";
+        if (!dvargs.isEmpty()) {
+            m_captureArgs << dvargs;
+        }
+        m_captureArgs << "-i";
+        if (capturename.isEmpty()) capturename = "capture";
+        m_captureArgs << capturename << "-";
+
         m_displayArgs << "-x" << QString::number(m_ui.video_frame->width()) << "-y" << QString::number(m_ui.video_frame->height()) << "-";
 
         m_captureProcess->setStandardOutputProcess(m_displayProcess);
@@ -453,21 +443,15 @@ void RecMonitor::slotRecord()
             path = KdenliveSettings::capturefolder() + "/capture" + num + '.' + extension;
             i++;
         }
-
         m_captureFile = KUrl(path);
 
         m_captureArgs.clear();
         m_displayArgs.clear();
         QString args;
+        QString capturename = KdenliveSettings::dvgrabfilename();
+        if (capturename.isEmpty()) capturename = "capture";
 
         switch (m_ui.device_selector->currentIndex()) {
-        case FIREWIRE:
-            m_captureArgs << "--format" << "hdv" << "-i" << "capture" << "-";
-            m_displayArgs << "-f" << "mpegts" << "-x" << QString::number(m_ui.video_frame->width()) << "-y" << QString::number(m_ui.video_frame->height()) << "-";
-            m_captureProcess->setStandardOutputProcess(m_displayProcess);
-            kDebug() << "Capture: Running dvgrab " << m_captureArgs.join(" ");
-            m_captureProcess->start(KdenliveSettings::dvgrab_path(), m_captureArgs);
-            break;
         case VIDEO4LINUX:
             m_captureArgs << KdenliveSettings::video4capture().simplified().split(' ') << KdenliveSettings::video4encoding().simplified().split(' ') << "-vcodec" << "mpeg4" << "-acodec" << "mp2" << "-y" << m_captureFile.path() << "-f" << "mpegts" << "-vcodec" << "mpeg4" << "-acodec" << "mp2" << "-";
             m_displayArgs << "-f" << "mpegts" << "-x" << QString::number(m_ui.video_frame->width()) << "-y" << QString::number(m_ui.video_frame->height()) << "-";
@@ -620,7 +604,9 @@ void RecMonitor::manageCapturedFiles()
     }
     QDir dir(KdenliveSettings::capturefolder());
     QStringList filters;
-    filters << "capture*" + extension;
+    QString capturename = KdenliveSettings::dvgrabfilename();
+    if (capturename.isEmpty()) capturename = "capture";
+    filters << capturename + "*" + extension;
     const QStringList result = dir.entryList(filters, QDir::Files, QDir::Time);
     KUrl::List capturedFiles;
     foreach(const QString &name, result) {

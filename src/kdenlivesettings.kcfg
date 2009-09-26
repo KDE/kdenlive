@@ -339,6 +339,15 @@
       <label>Path for the dvgrab binary.</label>
       <default></default>
     </entry>
+
+    <entry name="dvgrabfilename" type="String">
+      <label>Default name for dvgrab capture.</label>
+      <default>capture</default>
+    </entry>
+    <entry name="dvgrabextra" type="String">
+      <label>Additionnal dvgrab parameters.</label>
+      <default></default>
+    </entry>
   </group>
 
   <group name="shuttle">

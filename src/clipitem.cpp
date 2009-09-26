@@ -769,7 +769,7 @@ void ClipItem::paint(QPainter *painter,
     QPen pen = painter->pen();
     pen.setColor(QColor(255, 255, 255, 200));
     pen.setStyle(Qt::DotLine);
-    
+
     for (; it != markers.end(); ++it) {
         pos = GenTime((int)((*it).time().frames(m_fps) / m_speed + 0.5), m_fps) - cropStart();
         if (pos > GenTime()) {
