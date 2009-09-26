@@ -58,6 +58,7 @@ private:
     QString m_name;
     bool m_isActive;
     KDateTime m_captureTime;
+    QLabel m_dvinfo;
 
 #if KDE_IS_VERSION(4,2,0)
     KCapacityBar *m_freeSpace;
@@ -100,6 +101,7 @@ private slots:
     void slotDisconnect();
     //void slotStartGrab(const QRect &rect);
     void slotConfigure();
+    void slotReadDvgrabInfo();
 
 public slots:
     void refreshRecMonitor(bool visible);

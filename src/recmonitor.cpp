@@ -91,6 +91,8 @@ RecMonitor::RecMonitor(QString name, QWidget *parent) :
 
     layout->addWidget(toolbar);
 
+    layout->addWidget(&m_dvinfo);
+
 #if KDE_IS_VERSION(4,2,0)
     m_freeSpace = new KCapacityBar(KCapacityBar::DrawTextInline, this);
     m_freeSpace->setMaximumWidth(150);
@@ -373,6 +375,7 @@ void RecMonitor::slotStartCapture(bool play)
         m_captureProcess->setStandardOutputProcess(m_displayProcess);
         m_captureProcess->setWorkingDirectory(KdenliveSettings::capturefolder());
         kDebug() << "Capture: Running dvgrab " << m_captureArgs.join(" ");
+        connect(m_captureProcess, SIGNAL(readyReadStandardError()), this, SLOT(slotReadDvgrabInfo()));
         m_captureProcess->start(KdenliveSettings::dvgrab_path(), m_captureArgs);
         if (play) m_captureProcess->write(" ", 1);
         m_discAction->setEnabled(true);
@@ -681,6 +684,14 @@ void RecMonitor::slotPlay()
 
     //if (!m_isActive) m_monitorManager->activateRecMonitor(m_name);
 
+}
+
+void RecMonitor::slotReadDvgrabInfo()
+{
+    QString data = m_captureProcess->readAllStandardError().simplified();
+    data = data.section('"', 2, 2).simplified();
+    m_dvinfo.setText(data);
+    m_dvinfo.updateGeometry();
 }
 
 
