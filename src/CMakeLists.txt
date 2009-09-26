@@ -144,7 +144,6 @@ set(kdenlive_SRCS
   guide.cpp
   editguidecommand.cpp
   statusbarmessagelabel.cpp
-  regiongrabber.cpp
   editkeyframecommand.cpp
   clipdurationdialog.cpp
   managecapturesdialog.cpp
@@ -215,7 +214,6 @@ install(TARGETS kdenlive DESTINATION ${BIN_INSTALL_DIR})
 install( FILES kdenliveui.rc kdenlive.notifyrc DESTINATION  ${DATA_INSTALL_DIR}/kdenlive )
 install (FILES kdenlivesettings.kcfg DESTINATION ${KCFG_INSTALL_DIR})
 install (FILES kdenlive.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
-install (FILES application-x-kdenlive.svgz video-mlt-playlist.svgz DESTINATION ${ICON_INSTALL_DIR}/oxygen/scalable/mimetypes)
 install( FILES kdenlive.knsrc kdenlive_render.knsrc kdenlive_mltprofiles.knsrc kdenlivetranscodingrc DESTINATION  ${CONFIG_INSTALL_DIR} )
 kde4_install_icons( ${ICON_INSTALL_DIR} )
 
