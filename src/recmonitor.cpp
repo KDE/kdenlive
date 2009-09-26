@@ -112,6 +112,7 @@ RecMonitor::RecMonitor(QString name, QWidget *parent) :
     m_captureProcess = new QProcess;
 
     connect(m_captureProcess, SIGNAL(stateChanged(QProcess::ProcessState)), this, SLOT(slotProcessStatus(QProcess::ProcessState)));
+    connect(m_captureProcess, SIGNAL(readyReadStandardError()), this, SLOT(slotReadDvgrabInfo()));
 
     QStringList env = QProcess::systemEnvironment();
     env << "SDL_WINDOWID=" + QString::number(video_frame->winId());
@@ -379,7 +380,7 @@ void RecMonitor::slotStartCapture(bool play)
         m_captureProcess->setStandardOutputProcess(m_displayProcess);
         m_captureProcess->setWorkingDirectory(KdenliveSettings::capturefolder());
         kDebug() << "Capture: Running dvgrab " << m_captureArgs.join(" ");
-        connect(m_captureProcess, SIGNAL(readyReadStandardError()), this, SLOT(slotReadDvgrabInfo()));
+        
         m_captureProcess->start(KdenliveSettings::dvgrab_path(), m_captureArgs);
         if (play) m_captureProcess->write(" ", 1);
         m_discAction->setEnabled(true);
