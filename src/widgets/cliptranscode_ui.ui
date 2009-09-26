@@ -42,7 +42,7 @@
     </widget>
    </item>
    <item row="5" column="0" colspan="3">
-    <widget class="QTextEdit" name="params">
+    <widget class="QTextEdit" name="ffmpeg_params">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
        <horstretch>0</horstretch>
@@ -59,7 +59,7 @@
     </widget>
    </item>
    <item row="7" column="0" colspan="3">
-    <widget class="QTextEdit" name="log">
+    <widget class="QTextEdit" name="log_text">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
        <horstretch>0</horstretch>
@@ -129,7 +129,11 @@
     <widget class="KComboBox" name="profile_list"/>
    </item>
    <item row="2" column="0" colspan="3">
-    <widget class="QListWidget" name="urls_list"/>
+    <widget class="QListWidget" name="urls_list">
+     <property name="alternatingRowColors">
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>

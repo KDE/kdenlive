@@ -28,7 +28,7 @@
 
 #include <QProcess>
 
-class ClipTranscode : public QDialog
+class ClipTranscode : public QDialog, public Ui::ClipTranscode_UI
 {
     Q_OBJECT
 
@@ -44,7 +44,6 @@ private slots:
     void slotUpdateParams(int ix = -1);
 
 private:
-    Ui::ClipTranscode_UI m_view;
     QProcess m_transcodeProcess;
     KUrl::List m_urls;
 

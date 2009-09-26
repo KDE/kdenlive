@@ -879,7 +879,7 @@ void MainWindow::setupActions()
     collection->addAction("dvd_wizard", dvdWizard);
     connect(dvdWizard, SIGNAL(triggered(bool)), this, SLOT(slotDvdWizard()));
 
-    KAction *transcodeClip =  new KAction(KIcon("edit-copy"), i18n("Transcode Clip"), this);
+    KAction *transcodeClip =  new KAction(KIcon("edit-copy"), i18n("Transcode Clips"), this);
     collection->addAction("transcode_clip", transcodeClip);
     connect(transcodeClip, SIGNAL(triggered(bool)), this, SLOT(slotTranscodeClip()));
 
