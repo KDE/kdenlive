@@ -62,6 +62,7 @@ private:
 
 #if KDE_IS_VERSION(4,2,0)
     KCapacityBar *m_freeSpace;
+    QTimer m_spaceTimer;
 #endif
 
     KUrl m_captureFile;
@@ -86,10 +87,6 @@ private:
     QPixmap mergeSideBySide(const QPixmap& pix, const QString txt);
     void manageCapturedFiles();
 
-#if KDE_IS_VERSION(4,2,0)
-    void updatedFreeSpace();
-#endif
-
 private slots:
     void slotStartCapture(bool play = true);
     void slotStopCapture();
@@ -102,6 +99,10 @@ private slots:
     //void slotStartGrab(const QRect &rect);
     void slotConfigure();
     void slotReadDvgrabInfo();
+
+#if KDE_IS_VERSION(4,2,0)
+    void slotUpdatedFreeSpace();
+#endif
 
 public slots:
     void refreshRecMonitor(bool visible);

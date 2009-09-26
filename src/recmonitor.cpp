@@ -98,8 +98,11 @@ RecMonitor::RecMonitor(QString name, QWidget *parent) :
     m_freeSpace->setMaximumWidth(150);
     QFontMetricsF fontMetrics(font());
     m_freeSpace->setMaximumHeight(fontMetrics.height() * 1.2);
-    updatedFreeSpace();
+    slotUpdatedFreeSpace();
     layout->addWidget(m_freeSpace);
+    connect(&m_spaceTimer, SIGNAL(timeout()), this, SLOT(slotUpdatedFreeSpace()));
+    m_spaceTimer.setInterval(30000);
+    m_spaceTimer.setSingleShot(false);
 #endif
 
     m_ui.control_frame_firewire->setLayout(layout);
@@ -137,6 +140,7 @@ RecMonitor::RecMonitor(QString name, QWidget *parent) :
 
 RecMonitor::~RecMonitor()
 {
+    m_spaceTimer.stop();
     delete m_captureProcess;
     delete m_displayProcess;
 }
@@ -159,7 +163,7 @@ void RecMonitor::slotUpdateCaptureFolder()
 
 #if KDE_IS_VERSION(4,2,0)
     // update free space info
-    updatedFreeSpace();
+    slotUpdatedFreeSpace();
 #endif
 }
 
@@ -433,6 +437,7 @@ void RecMonitor::slotRecord()
         m_isCapturing = true;
         m_didCapture = true;
         m_captureProcess->write("c\n", 3);
+        m_spaceTimer.start();
         return;
     }
     if (m_captureProcess->state() == QProcess::NotRunning) {
@@ -574,14 +579,11 @@ void RecMonitor::slotProcessStatus(QProcess::ProcessState status)
             else m_ui.video_frame->setPixmap(mergeSideBySide(KIcon("video-display").pixmap(QSize(50, 50)), i18n("Press record button\nto start screen capture\nFiles will be saved in:\n%1", KdenliveSettings::capturefolder())));
         }
         m_isCapturing = false;
+        m_spaceTimer.stop();
 
 #if KDE_IS_VERSION(4,2,0)
         // update free space info
-        KDiskFreeSpaceInfo info = KDiskFreeSpaceInfo::freeSpaceInfo(KdenliveSettings::capturefolder());
-        if (info.isValid()) {
-            m_freeSpace->setValue(100 * info.used() / info.size());
-            m_freeSpace->setText(i18n("Free space: %1", KIO::convertSize(info.available())));
-        }
+        slotUpdatedFreeSpace();
 #endif
 
     } else {
@@ -638,12 +640,12 @@ void RecMonitor::manageCapturedFiles()
 void RecMonitor::mousePressEvent(QMouseEvent * /*event*/)
 {
 #if KDE_IS_VERSION(4,2,0)
-    if (m_freeSpace->underMouse()) updatedFreeSpace();
+    if (m_freeSpace->underMouse()) slotUpdatedFreeSpace();
 #endif
 }
 
 #if KDE_IS_VERSION(4,2,0)
-void RecMonitor::updatedFreeSpace()
+void RecMonitor::slotUpdatedFreeSpace()
 {
     KDiskFreeSpaceInfo info = KDiskFreeSpaceInfo::freeSpaceInfo(KdenliveSettings::capturefolder());
     if (info.isValid()) {
