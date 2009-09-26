@@ -3150,6 +3150,7 @@ void CustomTrackView::doChangeClipSpeed(ItemInfo info, const double speed, const
         item->updateRectGeometry();
         if (item->cropDuration().frames(m_document->fps()) > endPos)
             item->AbstractClipItem::resizeEnd(info.startPos.frames(m_document->fps()) + endPos, speed);
+        updateClipFade(item);
         setDocumentModified();
     } else emit displayMessage(i18n("Invalid clip"), ErrorMessage);
 }
