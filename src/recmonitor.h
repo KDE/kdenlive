@@ -21,6 +21,8 @@
 #ifndef RECMONITOR_H
 #define RECMONITOR_H
 
+#include "ui_recmonitor_ui.h"
+
 #include <QToolBar>
 #include <QTimer>
 #include <QProcess>
@@ -36,9 +38,7 @@
 #include <kcapacitybar.h>
 #endif
 
-#include "ui_recmonitor_ui.h"
-
-class RecMonitor : public QWidget
+class RecMonitor : public QWidget, public Ui::RecMonitor_UI
 {
     Q_OBJECT
 
@@ -54,7 +54,6 @@ protected:
     virtual void mousePressEvent(QMouseEvent * event);
 
 private:
-    Ui::RecMonitor_UI m_ui;
     QString m_name;
     bool m_isActive;
     KDateTime m_captureTime;
@@ -99,10 +98,7 @@ private slots:
     //void slotStartGrab(const QRect &rect);
     void slotConfigure();
     void slotReadDvgrabInfo();
-
-#if KDE_IS_VERSION(4,2,0)
-    void slotUpdatedFreeSpace();
-#endif
+    void slotUpdateFreeSpace();
 
 public slots:
     void refreshRecMonitor(bool visible);
