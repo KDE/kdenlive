@@ -1385,8 +1385,12 @@ void CustomTrackView::addEffect(int track, GenTime pos, QDomElement effect)
             if (clip->isSelected()) emit clipItemSelected(clip);
             return;
         }
-
         EffectsParameterList params = clip->addEffect(effect);
+        if (effect.attribute("disabled") == "1") {
+            // Effect is disabled, don't add it to MLT playlist
+            if (clip->isSelected()) emit clipItemSelected(clip);
+            return;
+        }
         if (!m_document->renderer()->mltAddEffect(track, pos, params))
             emit displayMessage(i18n("Problem adding effect to clip"), ErrorMessage);
         if (clip->isSelected()) emit clipItemSelected(clip);
@@ -1531,6 +1535,7 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedE
 {
     ClipItem *clip = getClipItemAt((int)pos.frames(m_document->fps()), m_document->tracksCount() - track);
     QDomElement effect = insertedEffect.cloneNode().toElement();
+    kDebug()<<"UPDATE EFFECT, DISAB: "<<effect.attribute("disabled");
     if (clip) {
         // Special case: speed effect
         if (effect.attribute("id") == "speed") {
@@ -1587,8 +1592,8 @@ void CustomTrackView::moveEffect(int track, GenTime pos, int oldPos, int newPos)
 {
     ClipItem *clip = getClipItemAt((int)pos.frames(m_document->fps()), m_document->tracksCount() - track);
     if (clip && !clip->effectAt(newPos - 1).isNull() && !clip->effectAt(oldPos - 1).isNull()) {
-        QDomElement act = clip->effectAt(newPos - 1).cloneNode().toElement();
-        QDomElement before = clip->effectAt(oldPos - 1).cloneNode().toElement();
+        QDomElement act = clip->effectAt(newPos - 1);
+        QDomElement before = clip->effectAt(oldPos - 1);
         clip->setEffectAt(oldPos - 1, act);
         clip->setEffectAt(newPos - 1, before);
         // special case: speed effect, which is a pseudo-effect, not appearing in MLT's effects
@@ -1604,7 +1609,7 @@ void CustomTrackView::moveEffect(int track, GenTime pos, int oldPos, int newPos)
 
 void CustomTrackView::slotChangeEffectState(ClipItem *clip, int effectPos, bool disable)
 {
-    QDomElement effect = clip->effectAt(effectPos).cloneNode().toElement();
+    QDomElement effect = clip->effectAt(effectPos);
     QDomElement oldEffect = effect.cloneNode().toElement();
     if (effect.attribute("id") == "speed") {
         if (clip) {
@@ -2913,7 +2918,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
         ClipItem * item = static_cast <ClipItem *>(m_dragItem);
         int ix = item->hasEffect("volume", "fadein");
         if (ix != -1) {
-            QDomElement oldeffect = item->effectAt(ix).cloneNode().toElement();
+            QDomElement oldeffect = item->effectAt(ix);
             int start = item->cropStart().frames(m_document->fps());
             int end = item->fadeIn();
             if (end == 0) {
@@ -2933,7 +2938,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
         }
         ix = item->hasEffect("volume", "fade_from_black");
         if (ix != -1) {
-            QDomElement oldeffect = item->effectAt(ix).cloneNode().toElement();
+            QDomElement oldeffect = item->effectAt(ix);
             int start = item->cropStart().frames(m_document->fps());
             int end = item->fadeIn();
             if (end == 0) {
@@ -2952,7 +2957,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
         ClipItem * item = static_cast <ClipItem *>(m_dragItem);
         int ix = item->hasEffect("volume", "fadeout");
         if (ix != -1) {
-            QDomElement oldeffect = item->effectAt(ix).cloneNode().toElement();
+            QDomElement oldeffect = item->effectAt(ix);
             int end = (item->cropDuration() + item->cropStart()).frames(m_document->fps());
             int start = item->fadeOut();
             if (start == 0) {
@@ -2974,7 +2979,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
         }
         ix = item->hasEffect("brightness", "fade_to_black");
         if (ix != -1) {
-            QDomElement oldeffect = item->effectAt(ix).cloneNode().toElement();
+            QDomElement oldeffect = item->effectAt(ix);
             int end = (item->cropDuration() + item->cropStart()).frames(m_document->fps());
             int start = item->fadeOut();
             if (start == 0) {

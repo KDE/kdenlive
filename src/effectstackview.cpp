@@ -173,6 +173,7 @@ void EffectStackView::slotItemChanged(QListWidgetItem *item)
     m_ui.buttonReset->setEnabled(!disable);
     int activeRow = m_ui.effectlist->currentRow();
     if (activeRow >= 0) {
+        m_effectedit->updateParameter("disabled", QString::number((int) disable));
         emit changeEffectState(m_clipref, activeRow, disable);
     }
 }
