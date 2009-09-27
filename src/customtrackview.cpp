@@ -1535,18 +1535,21 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedE
 {
     ClipItem *clip = getClipItemAt((int)pos.frames(m_document->fps()), m_document->tracksCount() - track);
     QDomElement effect = insertedEffect.cloneNode().toElement();
-    kDebug()<<"UPDATE EFFECT, DISAB: "<<effect.attribute("disabled");
     if (clip) {
         // Special case: speed effect
         if (effect.attribute("id") == "speed") {
             ItemInfo info = clip->info();
-            double speed = EffectsList::parameter(effect, "speed").toDouble() / 100.0;
-            int strobe = EffectsList::parameter(effect, "strobe").toInt();
-            if (strobe == 0) strobe = 1;
-            doChangeClipSpeed(info, speed, clip->speed(), strobe, clip->baseClip()->getId());
+            if (effect.attribute("disabled") == "1") doChangeClipSpeed(info, 1.0, clip->speed(), 1, clip->baseClip()->getId());
+            else {
+                double speed = EffectsList::parameter(effect, "speed").toDouble() / 100.0;
+                int strobe = EffectsList::parameter(effect, "strobe").toInt();
+                if (strobe == 0) strobe = 1;
+                doChangeClipSpeed(info, speed, clip->speed(), strobe, clip->baseClip()->getId());
+            }
             clip->setEffectAt(ix, effect);
             if (ix == clip->selectedEffectIndex()) {
                 clip->setSelectedEffect(ix);
+                if (!triggeredByUser) emit clipItemSelected(clip, ix);
             }
             return;
         }
@@ -1611,20 +1614,7 @@ void CustomTrackView::slotChangeEffectState(ClipItem *clip, int effectPos, bool 
 {
     QDomElement effect = clip->effectAt(effectPos);
     QDomElement oldEffect = effect.cloneNode().toElement();
-    if (effect.attribute("id") == "speed") {
-        if (clip) {
-            ItemInfo info = clip->info();
-            effect.setAttribute("disabled", (int) disable);
-            if (disable) doChangeClipSpeed(info, 1.0, clip->speed(), 1, clip->baseClip()->getId());
-            else {
-                double speed = EffectsList::parameter(effect, "speed").toDouble() / 100.0;
-                int strobe = EffectsList::parameter(effect, "strobe").toInt();
-                if (strobe == 0) strobe = 1;
-                doChangeClipSpeed(info, speed, 1.0, strobe, clip->baseClip()->getId());
-            }
-            return;
-        }
-    }
+
     effect.setAttribute("disabled", (int) disable);
     EditEffectCommand *command = new EditEffectCommand(this, m_document->tracksCount() - clip->track(), clip->startPos(), oldEffect, effect, effectPos, true);
     m_commandStack->push(command);
