@@ -39,6 +39,8 @@ public:
     CustomTrackScene* projectScene();
     void addItem(QGraphicsItem * item);
     int track() const;
+    QPainterPath clipGroupShape(QPointF) const;
+    QPainterPath transitionGroupShape(QPointF) const;
 //    ItemInfo info() const;
 
 protected:
@@ -50,7 +52,6 @@ protected:
     virtual void mousePressEvent(QGraphicsSceneMouseEvent * event);
 
 private:
-    QPainterPath groupShape(QPointF);
     void fixItemRect();
 };
 

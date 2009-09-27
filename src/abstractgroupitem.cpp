@@ -57,12 +57,26 @@ CustomTrackScene* AbstractGroupItem::projectScene()
     return NULL;
 }
 
-QPainterPath AbstractGroupItem::groupShape(QPointF offset)
+QPainterPath AbstractGroupItem::clipGroupShape(QPointF offset) const
 {
     QPainterPath path;
     QList<QGraphicsItem *> children = childItems();
     for (int i = 0; i < children.count(); i++) {
         if (children.at(i)->type() == AVWIDGET) {
+            QRectF r(children.at(i)->sceneBoundingRect());
+            r.translate(offset);
+            path.addRect(r);
+        }
+    }
+    return path;
+}
+
+QPainterPath AbstractGroupItem::transitionGroupShape(QPointF offset) const
+{
+    QPainterPath path;
+    QList<QGraphicsItem *> children = childItems();
+    for (int i = 0; i < children.count(); i++) {
+        if (children.at(i)->type() == TRANSITIONWIDGET) {
             QRectF r(children.at(i)->sceneBoundingRect());
             r.translate(offset);
             path.addRect(r);
@@ -181,14 +195,13 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
             return QPointF(pos().x() - start.x(), pos().y());
         }*/
 
-        QPainterPath shape = groupShape(newPos - pos());
+        QPainterPath shape = clipGroupShape(newPos - pos());
         QList<QGraphicsItem*> collindingItems = scene()->items(shape, Qt::IntersectsItemShape);
         for (int i = 0; i < children.count(); i++) {
             collindingItems.removeAll(children.at(i));
         }
-
-        if (collindingItems.isEmpty()) return newPos;
-        else {
+        
+        if (!collindingItems.isEmpty()) {
             bool forwardMove = xpos > start.x();
             int offset = 0;
             for (int i = 0; i < collindingItems.count(); i++) {
@@ -222,15 +235,65 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
                     newPos.setX(newPos.x() + offset);
                 }
                 // If there is still a collision after our position adjust, restore original pos
-                collindingItems = scene()->items(groupShape(newPos - pos()), Qt::IntersectsItemShape);
+                collindingItems = scene()->items(clipGroupShape(newPos - pos()), Qt::IntersectsItemShape);
                 for (int i = 0; i < children.count(); i++) {
                     collindingItems.removeAll(children.at(i));
                 }
                 for (int i = 0; i < collindingItems.count(); i++)
                     if (collindingItems.at(i)->type() == AVWIDGET) return pos();
             }
-            return newPos;
         }
+
+
+        shape = transitionGroupShape(newPos - pos());
+        collindingItems = scene()->items(shape, Qt::IntersectsItemShape);
+        for (int i = 0; i < children.count(); i++) {
+            collindingItems.removeAll(children.at(i));
+        }
+        if (collindingItems.isEmpty()) return newPos;
+        else {
+            bool forwardMove = xpos > start.x();
+            int offset = 0;
+            for (int i = 0; i < collindingItems.count(); i++) {
+                QGraphicsItem *collision = collindingItems.at(i);
+                if (collision->type() == TRANSITIONWIDGET) {
+                    // Collision
+                    if (newPos.y() != pos().y()) {
+                        // Track change results in collision, restore original position
+                        return pos();
+                    }
+                    AbstractClipItem *item = static_cast <AbstractClipItem *>(collision);
+                    if (forwardMove) {
+                        // Moving forward, determine best pos
+                        QPainterPath clipPath;
+                        clipPath.addRect(item->sceneBoundingRect());
+                        QPainterPath res = shape.intersected(clipPath);
+                        offset = qMax(offset, (int)(res.boundingRect().width() + 0.5));
+                    } else {
+                        // Moving backward, determine best pos
+                        QPainterPath clipPath;
+                        clipPath.addRect(item->sceneBoundingRect());
+                        QPainterPath res = shape.intersected(clipPath);
+                        offset = qMax(offset, (int)(res.boundingRect().width() + 0.5));
+                    }
+                }
+            }
+            if (offset > 0) {
+                if (forwardMove) {
+                    newPos.setX(newPos.x() - offset);
+                } else {
+                    newPos.setX(newPos.x() + offset);
+                }
+                // If there is still a collision after our position adjust, restore original pos
+                collindingItems = scene()->items(transitionGroupShape(newPos - pos()), Qt::IntersectsItemShape);
+                for (int i = 0; i < children.count(); i++) {
+                    collindingItems.removeAll(children.at(i));
+                }
+                for (int i = 0; i < collindingItems.count(); i++)
+                    if (collindingItems.at(i)->type() == TRANSITIONWIDGET) return pos();
+            }
+        }
+        return newPos;
     }
     return QGraphicsItemGroup::itemChange(change, value);
 }

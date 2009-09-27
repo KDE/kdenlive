@@ -324,6 +324,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
 {
     int pos = event->x();
     int mappedXPos = (int)(mapToScene(event->pos()).x() + 0.5);
+    double snappedPos = getSnapPointForPos(mappedXPos);
     emit mousePosition(mappedXPos);
 
     if (event->buttons() & Qt::MidButton) return;
@@ -349,11 +350,9 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
                 } else if (m_scrollTimer.isActive()) m_scrollTimer.stop();
 
             } else if (m_operationMode == RESIZESTART && move) {
-                double snappedPos = getSnapPointForPos(mappedXPos);
                 m_document->renderer()->pause();
                 m_dragItem->resizeStart((int)(snappedPos));
             } else if (m_operationMode == RESIZEEND && move) {
-                double snappedPos = getSnapPointForPos(mappedXPos);
                 m_document->renderer()->pause();
                 m_dragItem->resizeEnd((int)(snappedPos));
             } else if (m_operationMode == FADEIN && move) {
@@ -387,7 +386,40 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
         } else if (m_operationMode == SPACER && move && m_selectionGroup) {
             // spacer tool
             int mappedClick = (int)(mapToScene(m_clickEvent).x() + 0.5);
-            m_selectionGroup->translate(mappedXPos - m_selectionGroup->sceneBoundingRect().left(), 0);
+            
+            // Make sure there is no collision
+            QList<QGraphicsItem *> children = m_selectionGroup->childItems();
+            QPainterPath shape = m_selectionGroup->clipGroupShape(QPointF(snappedPos - m_selectionGroup->sceneBoundingRect().left(), 0));
+            QList<QGraphicsItem*> collidingItems = scene()->items(shape, Qt::IntersectsItemShape);
+            collidingItems.removeAll(m_selectionGroup);
+            for (int i = 0; i < children.count(); i++) {
+                collidingItems.removeAll(children.at(i));
+            }
+            bool collision = false;
+            for (int i = 0; i < collidingItems.count(); i++) {
+                if (collidingItems.at(i)->type() == AVWIDGET) {
+                    collision = true;
+                    break;
+                }
+            }
+            if (!collision) {
+                // Check transitions
+                shape = m_selectionGroup->transitionGroupShape(QPointF(snappedPos - m_selectionGroup->sceneBoundingRect().left(), 0));
+                collidingItems = scene()->items(shape, Qt::IntersectsItemShape);
+                collidingItems.removeAll(m_selectionGroup);
+                for (int i = 0; i < children.count(); i++) {
+                    collidingItems.removeAll(children.at(i));
+                }
+                for (int i = 0; i < collidingItems.count(); i++) {
+                    if (collidingItems.at(i)->type() == TRANSITIONWIDGET) {
+                        collision = true;
+                        break;
+                    }
+                }
+            }
+            
+            if (!collision)
+                m_selectionGroup->translate(snappedPos - m_selectionGroup->sceneBoundingRect().left(), 0);
             //m_selectionGroup->setPos(mappedXPos + (((int) m_selectionGroup->boundingRect().topLeft().x() + 0.5) - mappedClick) , m_selectionGroup->pos().y());
         }
     }
@@ -758,17 +790,14 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
             if (event->modifiers() == Qt::ControlModifier) {
                 // Ctrl + click, select all items on track after click position
                 int track = (int)(mapToScene(m_clickEvent).y() / m_tracksHeight);
-                selection = items(m_clickEvent.x(), track * m_tracksHeight + m_tracksHeight / 2, mapFromScene(sceneRect().width(), 0).x() - m_clickEvent.x(), m_tracksHeight / 2 - 2);
-                int maxHeight = m_tracksHeight * 1.5;
-                for (int i = 0; i < selection.count(); i++) {
-                    // Check that we don't try to move a group with clips on other tracks
-                    if (selection.at(i)->type() == GROUPWIDGET && (selection.at(i)->boundingRect().height() >= maxHeight)) {
-                        emit displayMessage(i18n("Cannot use spacer in a track with a group"), ErrorMessage);
-                        return;
-                    } else if (selection.at(i)->parentItem() && (selection.at(i)->parentItem()->boundingRect().height() >= maxHeight)) {
-                        emit displayMessage(i18n("Cannot use spacer in a track with a group"), ErrorMessage);
-                        return;
-                    }
+                QRectF rect(mapToScene(m_clickEvent).x(), track * m_tracksHeight + m_tracksHeight / 2, sceneRect().width() - mapToScene(m_clickEvent).x(), m_tracksHeight / 2 - 2);
+
+                bool isOk;
+                selection = checkForGroups(rect, isOk);
+                if (!isOk) {
+                    // groups found on track, do not allow the move
+                    emit displayMessage(i18n("Cannot use spacer in a track with a group"), ErrorMessage);
+                    return;
                 }
 
                 kDebug() << "SPACER TOOL + CTRL, SELECTING ALL CLIPS ON TRACK " << track << " WITH SELECTION RECT " << m_clickEvent.x() << "/" <<  track * m_tracksHeight + 1 << "; " << mapFromScene(sceneRect().width(), 0).x() - m_clickEvent.x() << "/" << m_tracksHeight - 2;
@@ -2196,6 +2225,24 @@ void CustomTrackView::slotSwitchTrackVideo(int ix)
     setDocumentModified();
 }
 
+QList<QGraphicsItem *> CustomTrackView::checkForGroups(const QRectF &rect, bool &ok)
+{
+    // Check there is no group going over several tracks there, or that would result in timeline corruption
+    QList<QGraphicsItem *> selection = scene()->items(rect);
+    int maxHeight = m_tracksHeight * 1.5;
+    for (int i = 0; i < selection.count(); i++) {
+        // Check that we don't try to move a group with clips on other tracks
+        if (selection.at(i)->type() == GROUPWIDGET && (selection.at(i)->boundingRect().height() >= maxHeight)) {
+            ok = false;
+            break;
+        } else if (selection.at(i)->parentItem() && (selection.at(i)->parentItem()->boundingRect().height() >= maxHeight)) {
+            ok = false;
+            break;
+        }
+    }
+    return selection;
+}
+
 void CustomTrackView::slotRemoveSpace()
 {
     GenTime pos;
@@ -2209,6 +2256,7 @@ void CustomTrackView::slotRemoveSpace()
         pos = GenTime((int)(mapToScene(m_menuPosition).x()), m_document->fps());
         track = (int)(mapToScene(m_menuPosition).y() / m_tracksHeight);
     }
+
     ClipItem *item = getClipItemAt(pos, track);
     if (item) {
         emit displayMessage(i18n("You must be in an empty space to remove space (time: %1, track: %2)", m_document->timecode().getTimecodeFromFrames(mapToScene(m_menuPosition).x()), track), ErrorMessage);
@@ -2221,8 +2269,16 @@ void CustomTrackView::slotRemoveSpace()
         return;
     }
 
-    QRectF r(pos.frames(m_document->fps()), track * m_tracksHeight + m_tracksHeight / 2, sceneRect().width() - pos.frames(m_document->fps()), m_tracksHeight / 2 - 1);
-    QList<QGraphicsItem *> items = m_scene->items(r);
+    // Make sure there is no group in the way
+    QRectF rect(pos.frames(m_document->fps()), track * m_tracksHeight + m_tracksHeight / 2, sceneRect().width() - pos.frames(m_document->fps()), m_tracksHeight / 2 - 2);
+    
+    bool isOk;
+    QList<QGraphicsItem *> items = checkForGroups(rect, isOk);
+    if (!isOk) {
+        // groups found on track, do not allow the move
+        emit displayMessage(i18n("Cannot remove space in a track with a group"), ErrorMessage);
+        return;
+    }
 
     QList<ItemInfo> clipsToMove;
     QList<ItemInfo> transitionsToMove;
@@ -2257,18 +2313,19 @@ void CustomTrackView::slotInsertSpace()
     if (d.exec() != QDialog::Accepted) return;
     GenTime spaceDuration = d.selectedDuration();
     track = d.selectedTrack();
+
     ClipItem *item = getClipItemAt(pos, track);
     if (item) pos = item->startPos();
 
-    int minh = 0;
-    int maxh = sceneRect().height();
-    if (track != -1) {
-        minh = track * m_tracksHeight + m_tracksHeight / 2;
-        maxh = m_tracksHeight / 2 - 1;
+    // Make sure there is no group in the way
+    QRectF rect(pos.frames(m_document->fps()), track * m_tracksHeight + m_tracksHeight / 2, sceneRect().width() - pos.frames(m_document->fps()), m_tracksHeight / 2 - 2);
+    bool isOk;
+    QList<QGraphicsItem *> items = checkForGroups(rect, isOk);
+    if (!isOk) {
+        // groups found on track, do not allow the move
+        emit displayMessage(i18n("Cannot insert space in a track with a group"), ErrorMessage);
+        return;
     }
-
-    QRectF r(pos.frames(m_document->fps()), minh, sceneRect().width() - pos.frames(m_document->fps()), maxh);
-    QList<QGraphicsItem *> items = m_scene->items(r);
 
     QList<ItemInfo> clipsToMove;
     QList<ItemInfo> transitionsToMove;
