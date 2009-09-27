@@ -1380,7 +1380,8 @@ void CustomTrackView::addEffect(int track, GenTime pos, QDomElement effect)
             int strobe = EffectsList::parameter(effect, "strobe").toInt();
             if (strobe == 0) strobe = 1;
             doChangeClipSpeed(info, speed, 1.0, strobe, clip->baseClip()->getId());
-            clip->addEffect(effect);
+            EffectsParameterList params = clip->addEffect(effect);
+            m_document->renderer()->mltAddEffect(track, pos, params);
             if (clip->isSelected()) emit clipItemSelected(clip);
             return;
         }
@@ -1403,6 +1404,7 @@ void CustomTrackView::deleteEffect(int track, GenTime pos, QDomElement effect)
             doChangeClipSpeed(info, 1.0, clip->speed(), 1, clip->baseClip()->getId());
             clip->deleteEffect(index);
             emit clipItemSelected(clip);
+            m_document->renderer()->mltRemoveEffect(track, pos, index, true);
             return;
         }
     }
@@ -1589,7 +1591,12 @@ void CustomTrackView::moveEffect(int track, GenTime pos, int oldPos, int newPos)
         QDomElement before = clip->effectAt(oldPos - 1).cloneNode().toElement();
         clip->setEffectAt(oldPos - 1, act);
         clip->setEffectAt(newPos - 1, before);
-        m_document->renderer()->mltMoveEffect(track, pos, oldPos, newPos);
+        // special case: speed effect, which is a pseudo-effect, not appearing in MLT's effects
+        if (act.attribute("id") == "speed") {
+            m_document->renderer()->mltUpdateEffectPosition(track, pos, oldPos, newPos);
+        } else if (before.attribute("id") == "speed") {
+            m_document->renderer()->mltUpdateEffectPosition(track, pos, newPos, oldPos);
+        } else m_document->renderer()->mltMoveEffect(track, pos, oldPos, newPos);
         emit clipItemSelected(clip, newPos - 1);
         setDocumentModified();
     } else emit displayMessage(i18n("Cannot move effect"), ErrorMessage);

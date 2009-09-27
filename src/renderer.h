@@ -181,10 +181,17 @@ Q_OBJECT public:
     bool mltMoveClip(int startTrack, int endTrack, GenTime pos, GenTime moveStart, Mlt::Producer *prod);
     bool mltMoveClip(int startTrack, int endTrack, int pos, int moveStart, Mlt::Producer *prod);
     bool mltRemoveClip(int track, GenTime position);
+    /** Delete an effect to a clip in MLT's playlist */
     bool mltRemoveEffect(int track, GenTime position, QString index, bool updateIndex, bool doRefresh = true);
+    /** Add an effect to a clip in MLT's playlist */
     bool mltAddEffect(int track, GenTime position, EffectsParameterList params, bool doRefresh = true);
+    /** Edit an effect parameters in MLT */
     bool mltEditEffect(int track, GenTime position, EffectsParameterList params);
+    /** This only updates the "kdenlive_ix" (index) value of an effect */
+    void mltUpdateEffectPosition(int track, GenTime position, int oldPos, int newPos);
+    /** This changes the order of effects in MLT, inverting effects from oldPos and newPos, also updating the kdenlive_ix value */
     void mltMoveEffect(int track, GenTime position, int oldPos, int newPos);
+    /** This changes the state of a track, enabling / disabling audio and video */
     void mltChangeTrackState(int track, bool mute, bool blind);
     bool mltMoveTransition(QString type, int startTrack,  int newTrack, int newTransitionTrack, GenTime oldIn, GenTime oldOut, GenTime newIn, GenTime newOut);
     bool mltAddTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml, bool refresh = true);
