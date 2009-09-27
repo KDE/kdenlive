@@ -1055,6 +1055,9 @@ void CustomTrackView::groupSelectedItems(bool force, bool createNewGroup)
         if (selection.at(i)->parentItem() == 0 && (selection.at(i)->type() == AVWIDGET || selection.at(i)->type() == TRANSITIONWIDGET || selection.at(i)->type() == GROUPWIDGET)) {
             rectUnion = rectUnion.united(selection.at(i)->sceneBoundingRect());
         }
+        else if (selection.at(i)->parentItem()) {
+            rectUnion = rectUnion.united(selection.at(i)->parentItem()->sceneBoundingRect());
+        }
     }
 
     if (force || selection.count() > 1) {
