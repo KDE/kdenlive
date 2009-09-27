@@ -386,7 +386,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
         } else if (m_operationMode == SPACER && move && m_selectionGroup) {
             // spacer tool
             int mappedClick = (int)(mapToScene(m_clickEvent).x() + 0.5);
-            
+            if (snappedPos < 0) snappedPos = 0;
             // Make sure there is no collision
             QList<QGraphicsItem *> children = m_selectionGroup->childItems();
             QPainterPath shape = m_selectionGroup->clipGroupShape(QPointF(snappedPos - m_selectionGroup->sceneBoundingRect().left(), 0));
