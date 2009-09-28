@@ -53,7 +53,7 @@ DvdWizardVob::DvdWizardVob(const QString &profile, QWidget *parent) :
     m_view.vobs_list->setIconSize(QSize(60, 45));
 
     if (KStandardDirs::findExe("dvdauthor").isEmpty()) m_errorMessage.append(i18n("<strong>Program %1 is required for the DVD wizard.</strong>", i18n("dvdauthor")));
-    if (KStandardDirs::findExe("mkisofs").isEmpty()) m_errorMessage.append(i18n("<strong>Program %1 is required for the DVD wizard.</strong>", i18n("mkisofs")));
+    if (KStandardDirs::findExe("mkisofs").isEmpty() && KStandardDirs::findExe("genisoimage").isEmpty()) m_errorMessage.append(i18n("<strong>Program %1 or %2 is required for the DVD wizard.</strong>", i18n("mkisofs"), i18n("genisoimage")));
     if (m_errorMessage.isEmpty()) m_view.error_message->setVisible(false);
     else m_view.error_message->setText(m_errorMessage);
 

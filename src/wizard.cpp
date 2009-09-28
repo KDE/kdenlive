@@ -317,29 +317,36 @@ void Wizard::slotCheckPrograms()
     else item->setIcon(0, m_okIcon);
 
 #ifndef Q_WS_MAC
-    item = new QTreeWidgetItem(m_check.programList, QStringList() << QString() << i18n("Recordmydesktop"));
+    item = new QTreeWidgetItem(m_check.programList, QStringList() << QString() << i18n("recordmydesktop"));
     item->setData(1, Qt::UserRole, i18n("Required for screen capture"));
     item->setSizeHint(0, itemSize);
     if (KStandardDirs::findExe("recordmydesktop").isEmpty()) item->setIcon(0, m_badIcon);
     else item->setIcon(0, m_okIcon);
 
-    item = new QTreeWidgetItem(m_check.programList, QStringList() << QString() << i18n("Dvgrab"));
+    item = new QTreeWidgetItem(m_check.programList, QStringList() << QString() << i18n("dvgrab"));
     item->setData(1, Qt::UserRole, i18n("Required for firewire capture"));
     item->setSizeHint(0, itemSize);
     if (KStandardDirs::findExe("dvgrab").isEmpty()) item->setIcon(0, m_badIcon);
     else item->setIcon(0, m_okIcon);
 #endif
 
-    item = new QTreeWidgetItem(m_check.programList, QStringList() << QString() << i18n("Dvdauthor"));
+    item = new QTreeWidgetItem(m_check.programList, QStringList() << QString() << i18n("dvdauthor"));
     item->setData(1, Qt::UserRole, i18n("Required for creation of DVD"));
     item->setSizeHint(0, itemSize);
     if (KStandardDirs::findExe("dvdauthor").isEmpty()) item->setIcon(0, m_badIcon);
     else item->setIcon(0, m_okIcon);
 
-    item = new QTreeWidgetItem(m_check.programList, QStringList() << QString() << i18n("Mkisofs"));
+    
+    item = new QTreeWidgetItem(m_check.programList, QStringList() << QString() << i18n("genisoimage or mkisofs"));
     item->setData(1, Qt::UserRole, i18n("Required for creation of DVD ISO images"));
     item->setSizeHint(0, itemSize);
-    if (KStandardDirs::findExe("mkisofs").isEmpty()) item->setIcon(0, m_badIcon);
+    if (KStandardDirs::findExe("genisoimage").isEmpty()) {
+        // no GenIso, check for mkisofs
+        if (!KStandardDirs::findExe("mkisofs").isEmpty()) {
+            item->setIcon(0, m_okIcon);
+        }
+        else item->setIcon(0, m_badIcon);
+    }
     else item->setIcon(0, m_okIcon);
 
     // set up some default applications

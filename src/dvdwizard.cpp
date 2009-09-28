@@ -525,7 +525,8 @@ void DvdWizard::slotRenderFinished(int exitCode, QProcess::ExitStatus status)
     m_mkiso->setProcessChannelMode(QProcess::MergedChannels);
     QListWidgetItem *isoitem =  m_status.job_progress->item(4);
     isoitem->setIcon(KIcon("system-run"));
-    m_mkiso->start("mkisofs", args);
+    if (!KStandardDirs::findExe("genisoimage").isEmpty()) m_mkiso->start("genisoimage", args);
+    else m_mkiso->start("mkisofs", args);
 
 }
 
