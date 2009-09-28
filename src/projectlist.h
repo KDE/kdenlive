@@ -213,7 +213,7 @@ signals:
     void showClipProperties(DocClipBase *);
     void projectModified();
     void loadingIsOver();
-    void displayMessage(const QString, MessageType);
+    void displayMessage(const QString, int progress);
     void clipNameChanged(const QString, const QString);
     void refreshClip();
 };

@@ -200,7 +200,7 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
         for (int i = 0; i < children.count(); i++) {
             collindingItems.removeAll(children.at(i));
         }
-        
+
         if (!collindingItems.isEmpty()) {
             bool forwardMove = xpos > start.x();
             int offset = 0;

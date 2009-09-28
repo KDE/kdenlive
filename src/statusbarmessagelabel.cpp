@@ -119,7 +119,12 @@ void StatusBarMessageLabel::setMessage(const QString& text,
     }
 
     m_pixmap = (iconName == 0) ? QPixmap() : SmallIcon(iconName);
-    QTimer::singleShot(GeometryTimeout, this, SLOT(assureVisibleText()));
+
+    /*QFontMetrics fontMetrics(font());
+    setMaximumWidth(fontMetrics.boundingRect(m_text).width() + m_pixmap.width() + (BorderGap * 4));
+    updateGeometry();*/
+
+    //QTimer::singleShot(GeometryTimeout, this, SLOT(assureVisibleText()));
     update();
 }
 
@@ -173,7 +178,7 @@ void StatusBarMessageLabel::resizeEvent(QResizeEvent* event)
 {
     QWidget::resizeEvent(event);
     updateCloseButtonPosition();
-    QTimer::singleShot(GeometryTimeout, this, SLOT(assureVisibleText()));
+    //QTimer::singleShot(GeometryTimeout, this, SLOT(assureVisibleText()));
 }
 
 void StatusBarMessageLabel::timerDone()

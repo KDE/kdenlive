@@ -88,8 +88,6 @@ Q_OBJECT public:
     bool isModified() const;
     /** Returns project folder, used to store project files (titles, effects,...) */
     KUrl projectFolder() const;
-    /** Used to inform main app of the current document loading progress */
-    void loadingProgressed();
     void syncGuides(QList <Guide *> guides);
     void setZoom(int horizontal, int vertical);
     QPoint zoom() const;
@@ -134,8 +132,6 @@ private:
     bool m_modified;
     /** Project folder, used to store project files (titles, effects,...) */
     KUrl m_projectFolder;
-    double m_documentLoadingStep;
-    double m_documentLoadingProgress;
     bool m_abortLoading;
     QMap <QString, QString> m_documentProperties;
 

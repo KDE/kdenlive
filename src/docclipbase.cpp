@@ -451,7 +451,6 @@ void DocClipBase::setProducer(Mlt::Producer *producer, bool reset)
         deleteProducers();
     }
     QString id = producer->get("id");
-    kDebug() << "// set prod: " << id;
     if (id.contains('_')) {
         // this is a subtrack producer, insert it at correct place
         id = id.section('_', 1);

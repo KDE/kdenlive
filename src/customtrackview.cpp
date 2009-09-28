@@ -417,7 +417,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
                     }
                 }
             }
-            
+
             if (!collision)
                 m_selectionGroup->translate(snappedPos - m_selectionGroup->sceneBoundingRect().left(), 0);
             //m_selectionGroup->setPos(mappedXPos + (((int) m_selectionGroup->boundingRect().topLeft().x() + 0.5) - mappedClick) , m_selectionGroup->pos().y());
@@ -1054,8 +1054,7 @@ void CustomTrackView::groupSelectedItems(bool force, bool createNewGroup)
     for (int i = 0; i < selection.count(); i++) {
         if (selection.at(i)->parentItem() == 0 && (selection.at(i)->type() == AVWIDGET || selection.at(i)->type() == TRANSITIONWIDGET || selection.at(i)->type() == GROUPWIDGET)) {
             rectUnion = rectUnion.united(selection.at(i)->sceneBoundingRect());
-        }
-        else if (selection.at(i)->parentItem()) {
+        } else if (selection.at(i)->parentItem()) {
             rectUnion = rectUnion.united(selection.at(i)->parentItem()->sceneBoundingRect());
         }
     }
@@ -2274,7 +2273,7 @@ void CustomTrackView::slotRemoveSpace()
 
     // Make sure there is no group in the way
     QRectF rect(pos.frames(m_document->fps()), track * m_tracksHeight + m_tracksHeight / 2, sceneRect().width() - pos.frames(m_document->fps()), m_tracksHeight / 2 - 2);
-    
+
     bool isOk;
     QList<QGraphicsItem *> items = checkForGroups(rect, isOk);
     if (!isOk) {

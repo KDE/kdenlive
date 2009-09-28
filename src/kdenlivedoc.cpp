@@ -55,8 +55,6 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
         m_commandStack(new QUndoStack(undoGroup)),
         m_modified(false),
         m_projectFolder(projectFolder),
-        m_documentLoadingStep(0.0),
-        m_documentLoadingProgress(0),
         m_abortLoading(false)
 {
     m_clipManager = new ClipManager(this);
@@ -85,14 +83,13 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
             if (!success) // It is corrupted
                 KMessageBox::error(parent, errorMsg);
             else {
-                parent->slotGotProgressInfo(i18n("Validating file %1", m_url.path()), 0);
+                parent->slotGotProgressInfo(i18n("Validating"), 0);
                 DocumentValidator validator(m_document);
                 success = validator.isProject();
                 if (!success) {
                     // It is not a project file
-                    parent->slotGotProgressInfo(i18n("File %1 is not a Kdenlive project file.", m_url.path()), 0);
-                }
-                else {
+                    parent->slotGotProgressInfo(i18n("File %1 is not a Kdenlive project file", m_url.path()), 0);
+                } else {
                     /*
                      * Validate the file against the current version (upgrade
                      * and recover it if needed). It is NOT a passive operation
@@ -100,7 +97,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                     // TODO: backup the document or alert the user?
                     success = validator.validate(DOCUMENTVERSION);
                     if (success) { // Let the validator handle error messages
-                        parent->slotGotProgressInfo(i18n("Loading file %1", m_url.path()), 0);
+                        parent->slotGotProgressInfo(i18n("Loading"), 0);
                         QDomElement mlt = m_document.firstChildElement("mlt");
                         QDomElement infoXml = mlt.firstChildElement("kdenlivedoc");
 
@@ -134,6 +131,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                         }
                         QDomNodeList producers = m_document.elementsByTagName("producer");
                         QDomNodeList infoproducers = m_document.elementsByTagName("kdenlive_producer");
+                        parent->slotGotProgressInfo(i18n("Check missing clips"), 0);
                         if (checkDocumentClips(infoproducers) == false) m_abortLoading = true;
                         const int max = producers.count();
                         const int infomax = infoproducers.count();
@@ -144,19 +142,8 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                             m_clipManager->addFolder(e.attribute("id"), e.attribute("name"));
                         }
 
-                        /*if (max > 0) {
-                            m_documentLoadingStep = 100.0 / (max + infomax + m_document.elementsByTagName("entry").count());
-                            parent->slotGotProgressInfo(i18n("Loading project clips"), (int) m_documentLoadingProgress);
-                        }*/
-
-
                         for (int i = 0; i < infomax && !m_abortLoading; i++) {
                             e = infoproducers.item(i).cloneNode().toElement();
-                            /*if (m_documentLoadingStep > 0) {
-                                m_documentLoadingProgress += m_documentLoadingStep;
-                                parent->slotGotProgressInfo(QString(), (int) m_documentLoadingProgress);
-                                // QApp->processEvents();
-                            }*/
                             QString prodId = e.attribute("id");
                             if (!e.isNull() && prodId != "black" && !prodId.startsWith("slowmotion") && !m_abortLoading) {
                                 e.setTagName("producer");
@@ -722,12 +709,6 @@ double KdenliveDoc::dar()
 void KdenliveDoc::setThumbsProgress(const QString &message, int progress)
 {
     emit progressInfo(message, progress);
-}
-
-void KdenliveDoc::loadingProgressed()
-{
-    m_documentLoadingProgress += m_documentLoadingStep;
-    emit progressInfo(QString(), (int) m_documentLoadingProgress);
 }
 
 QUndoStack *KdenliveDoc::commandStack()

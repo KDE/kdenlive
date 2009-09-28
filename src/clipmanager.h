@@ -83,6 +83,7 @@ Q_OBJECT public:
     AbstractGroupItem *createGroup();
     void removeGroup(AbstractGroupItem *group);
     QDomElement groupsXml() const;
+    int clipsCount() const;
 
 public slots:
     void updatePreviewSettings();

@@ -519,3 +519,9 @@ void ClipManager::slotClipModified(const QString &path)
     }
 }
 
+int ClipManager::clipsCount() const
+{
+    return m_clipList.count();
+}
+
+

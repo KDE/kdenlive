@@ -544,7 +544,6 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
         //m_render->getFileProperties(clip->toXML(), clip->getId(), true);
     }
     const QString parent = clip->getProperty("groupid");
-    kDebug() << "Adding clip with groupid: " << parent;
     ProjectItem *item = NULL;
     if (!parent.isEmpty()) {
         ProjectItem *parentitem = getFolderItemById(parent);
@@ -852,7 +851,7 @@ void ProjectList::slotCheckForEmptyQueue()
     if (!m_refreshed && m_thumbnailQueue.isEmpty() && m_infoQueue.isEmpty()) {
         m_refreshed = true;
         emit loadingIsOver();
-        emit displayMessage(QString(), DefaultMessage);
+        emit displayMessage(QString(), -1);
         m_listView->blockSignals(false);
         m_listView->setEnabled(true);
     } else if (!m_refreshed) QTimer::singleShot(300, this, SLOT(slotCheckForEmptyQueue()));
@@ -860,6 +859,7 @@ void ProjectList::slotCheckForEmptyQueue()
 
 void ProjectList::reloadClipThumbnails()
 {
+    kDebug() << "//////////////  RELOAD CLIPS THUMBNAILS!!!";
     m_thumbnailQueue.clear();
     QTreeWidgetItemIterator it(m_listView);
     while (*it) {
@@ -872,7 +872,7 @@ void ProjectList::reloadClipThumbnails()
 
 void ProjectList::requestClipThumbnail(const QString id)
 {
-    m_thumbnailQueue.append(id);
+    if (!m_thumbnailQueue.contains(id)) m_thumbnailQueue.append(id);
 }
 
 void ProjectList::slotProcessNextThumbnail()
@@ -885,10 +885,11 @@ void ProjectList::slotProcessNextThumbnail()
         //QTimer::singleShot(300, this, SLOT(slotProcessNextThumbnail()));
         return;
     }
-    slotRefreshClipThumbnail(m_thumbnailQueue.takeFirst(), false);
     if (m_thumbnailQueue.count() > 1) {
-        emit displayMessage(i18n("Loading thumbnails (%1)", m_thumbnailQueue.count()), InformationMessage);
+        int max = m_doc->clipManager()->clipsCount();
+        emit displayMessage(i18n("Loading thumbnails"), (int)(100 * (max - m_thumbnailQueue.count()) / max));
     }
+    slotRefreshClipThumbnail(m_thumbnailQueue.takeFirst(), false);
 }
 
 void ProjectList::slotRefreshClipThumbnail(const QString &clipId, bool update)
@@ -947,8 +948,8 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
             requestClipThumbnail(clipId);
         }
     } else kDebug() << "////////  COULD NOT FIND CLIP TO UPDATE PRPS...";
-    emit displayMessage(i18n("Loading clips (%1)", m_infoQueue.count()), InformationMessage);
-    
+    int max = m_doc->clipManager()->clipsCount();
+    emit displayMessage(i18n("Loading clips"), (int)(100 * (max - m_infoQueue.count()) / max));
     // small delay so that the app can display the progress info
     QTimer::singleShot(30, this, SLOT(slotProcessNextClipInQueue()));
 }

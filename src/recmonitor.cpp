@@ -164,8 +164,7 @@ void RecMonitor::slotUpdateCaptureFolder()
         if (device_selector->currentIndex() == FIREWIRE)
             KMessageBox::information(this, i18n("You need to disconnect and reconnect in the capture monitor to apply your changes"), i18n("Capturing"));
         else KMessageBox::information(this, i18n("You need to stop capture before your changes can be applied"), i18n("Capturing"));
-    }
-    else slotVideoDeviceChanged(device_selector->currentIndex());
+    } else slotVideoDeviceChanged(device_selector->currentIndex());
     kDebug() << "// UPDATE CAPT FOLD: " << KdenliveSettings::capturefolder();
 
 #if KDE_IS_VERSION(4,2,0)

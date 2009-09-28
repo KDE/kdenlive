@@ -242,9 +242,6 @@ void TrackView::parseDocument(QDomDocument doc)
                 if (p.attribute("id") == playlist_name) break;
             }
             int black_clips = p.childNodes().count();
-            for (int i = 0; i < black_clips; i++)
-                m_doc->loadingProgressed();
-            qApp->processEvents();
             pos--;
         }
     }
@@ -505,8 +502,6 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked)
         if (elem.tagName() == "blank") {
             position += elem.attribute("length").toInt();
         } else if (elem.tagName() == "entry") {
-            m_doc->loadingProgressed();
-            qApp->processEvents();
             // Found a clip
             int in = elem.attribute("in").toInt();
             int out = elem.attribute("out").toInt();
