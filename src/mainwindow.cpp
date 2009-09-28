@@ -372,13 +372,13 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
     // precedence, then "openlastproject", then just a plain empty file.
     // If opening Url fails, openlastproject will _not_ be used.
     if (!Url.isEmpty()) {
-        openFile(Url);
-    } else {
-        if (KdenliveSettings::openlastproject()) {
-            openLastFile();
-        }
+        // delay loading so that the window shows up
+        m_startUrl = Url;
+        QTimer::singleShot(500, this, SLOT(openFile()));
+    } else if (KdenliveSettings::openlastproject()) {
+        QTimer::singleShot(500, this, SLOT(openLastFile()));
     }
-    if (m_timelineArea->count() == 0) {
+    else { //if (m_timelineArea->count() == 0) {
         newFile(false);
     }
 
@@ -1400,6 +1400,11 @@ bool MainWindow::saveFile()
 
 void MainWindow::openFile()
 {
+    if (!m_startUrl.isEmpty()) {
+        openFile(m_startUrl);
+        m_startUrl = KUrl();
+        return;
+    }
     // Check that the Kdenlive mime type is correctly installed
     QString mimetype = "application/x-kdenlive";
     KMimeType::Ptr mime = KMimeType::mimeType(mimetype);
@@ -1457,6 +1462,8 @@ void MainWindow::openFile(const KUrl &url)
         }
     }
     if (!KdenliveSettings::activatetabs()) closeCurrentDocument();
+    m_messageLabel->setMessage(i18n("Opening file %1", url.path()), InformationMessage);
+    qApp->processEvents();
     doOpenFile(url, NULL);
 }
 

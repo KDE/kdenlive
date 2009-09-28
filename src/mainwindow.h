@@ -143,6 +143,7 @@ private:
     QMenu *m_timelineContextMenu;
     QMenu *m_timelineContextClipMenu;
     QMenu *m_timelineContextTransitionMenu;
+    KUrl m_startUrl;
 
     /**
      * Shortcut to remove the focus of any element. Allows to get out

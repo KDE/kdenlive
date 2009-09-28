@@ -85,10 +85,13 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
             if (!success) // It is corrupted
                 KMessageBox::error(parent, errorMsg);
             else {
+                parent->slotGotProgressInfo(i18n("Validating file %1", m_url.path()), 0);
                 DocumentValidator validator(m_document);
                 success = validator.isProject();
-                if (!success) // It is not a project file
-                    parent->slotGotProgressInfo(i18n("File %1 is not a Kdenlive project file.", m_url.path()), 100);
+                if (!success) {
+                    // It is not a project file
+                    parent->slotGotProgressInfo(i18n("File %1 is not a Kdenlive project file.", m_url.path()), 0);
+                }
                 else {
                     /*
                      * Validate the file against the current version (upgrade
@@ -97,6 +100,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                     // TODO: backup the document or alert the user?
                     success = validator.validate(DOCUMENTVERSION);
                     if (success) { // Let the validator handle error messages
+                        parent->slotGotProgressInfo(i18n("Loading file %1", m_url.path()), 0);
                         QDomElement mlt = m_document.firstChildElement("mlt");
                         QDomElement infoXml = mlt.firstChildElement("kdenlivedoc");
 
@@ -134,25 +138,25 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                         const int max = producers.count();
                         const int infomax = infoproducers.count();
 
-                        QDomNodeList folders = m_document.elementsByTagName("folder");
+                        QDomNodeList                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    folders = m_document.elementsByTagName("folder");
                         for (int i = 0; i < folders.count(); i++) {
                             e = folders.item(i).cloneNode().toElement();
                             m_clipManager->addFolder(e.attribute("id"), e.attribute("name"));
                         }
 
-                        if (max > 0) {
+                        /*if (max > 0) {
                             m_documentLoadingStep = 100.0 / (max + infomax + m_document.elementsByTagName("entry").count());
                             parent->slotGotProgressInfo(i18n("Loading project clips"), (int) m_documentLoadingProgress);
-                        }
+                        }*/
 
 
                         for (int i = 0; i < infomax && !m_abortLoading; i++) {
                             e = infoproducers.item(i).cloneNode().toElement();
-                            if (m_documentLoadingStep > 0) {
+                            /*if (m_documentLoadingStep > 0) {
                                 m_documentLoadingProgress += m_documentLoadingStep;
                                 parent->slotGotProgressInfo(QString(), (int) m_documentLoadingProgress);
-                                //qApp->processEvents();
-                            }
+                                // QApp->processEvents();
+                            }*/
                             QString prodId = e.attribute("id");
                             if (!e.isNull() && prodId != "black" && !prodId.startsWith("slowmotion") && !m_abortLoading) {
                                 e.setTagName("producer");
