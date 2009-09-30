@@ -66,11 +66,11 @@ struct ItemInfo {
     GenTime startPos;
     /** endPos is the duration where the clip ends on the track */
     GenTime endPos;
-    /** cropStart is the position where the sub-clip starts, relative to the clip's 0 position. Doe not depend on speed */
+    /** originalcropStart is the position where the sub-clip starts, relative to the clip's 0 position. Doe not depend on speed */
     GenTime originalcropStart;
-    /** adjustedCropStart is the position where the sub-clip starts, depend on effects (speed,...) */
+    /** cropStart is the position where the sub-clip starts, depend on effects (speed,...) */
     GenTime cropStart;
-    /** cropDuration is the position where the sub-clip ends, relative to the clip's 0 position. Doe not depend on speed */
+    /** cropDuration is the duration of the clip, does not depend on speed */
     GenTime cropDuration;
     int track;
 };
