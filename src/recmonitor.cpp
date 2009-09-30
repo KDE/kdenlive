@@ -142,7 +142,9 @@ RecMonitor::RecMonitor(QString name, QWidget *parent) :
 
 RecMonitor::~RecMonitor()
 {
+#if KDE_IS_VERSION(4,2,0)
     m_spaceTimer.stop();
+#endif
     delete m_captureProcess;
     delete m_displayProcess;
 }
@@ -443,7 +445,9 @@ void RecMonitor::slotRecord()
         m_isCapturing = true;
         m_didCapture = true;
         m_captureProcess->write("c\n", 3);
+#if KDE_IS_VERSION(4,2,0)
         m_spaceTimer.start();
+#endif
         return;
     }
     if (m_captureProcess->state() == QProcess::NotRunning) {
@@ -585,9 +589,9 @@ void RecMonitor::slotProcessStatus(QProcess::ProcessState status)
             else video_frame->setPixmap(mergeSideBySide(KIcon("video-display").pixmap(QSize(50, 50)), i18n("Press record button\nto start screen capture\nFiles will be saved in:\n%1", KdenliveSettings::capturefolder())));
         }
         m_isCapturing = false;
-        m_spaceTimer.stop();
-
+        
 #if KDE_IS_VERSION(4,2,0)
+        m_spaceTimer.stop();
         // update free space info
         slotUpdateFreeSpace();
 #endif
@@ -703,3 +707,4 @@ void RecMonitor::slotReadDvgrabInfo()
 }
 
 #include "recmonitor.moc"
+
