@@ -2426,6 +2426,19 @@ void MainWindow::slotSetTool(PROJECTTOOL tool)
 {
     if (m_activeDocument && m_activeTimeline) {
         //m_activeDocument->setTool(tool);
+        QString message;
+        switch (tool)  {
+        case SPACERTOOL:
+            message = i18n("Ctrl + click to use spacer on current track only");
+            break;
+        case RAZORTOOL:
+            message = i18n("Click on a clip to cut it");
+            break;
+        default:
+            message = i18n("Shift + click to create a selection rectangle, Ctrl + click to add an item to selection");
+            break;
+        }
+        m_messageLabel->setMessage(message, InformationMessage);
         m_activeTimeline->projectView()->setTool(tool);
     }
 }
