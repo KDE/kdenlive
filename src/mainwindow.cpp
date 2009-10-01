@@ -1882,7 +1882,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     m_saveAction->setEnabled(doc->isModified());
     m_activeDocument = doc;
     m_activeTimeline->updateProjectFps();
-    m_projectList->updateAllClips();
+    m_activeDocument->checkProjectClips();
     if (KdenliveSettings::dropbframes()) slotUpdatePreviewSettings();
 
     // set tool to select tool
