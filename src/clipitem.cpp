@@ -540,10 +540,13 @@ void ClipItem::slotThumbReady(int frame, QPixmap pix)
         m_startPix = pix;
         m_startThumbRequested = false;
         update(r.left(), r.top(), width, pix.height());
+        if (m_clipType == IMAGE || m_clipType == TEXT) {
+            update(r.right() - width, r.top(), width, pix.height());
+        }
     } else if (m_endThumbRequested && frame == (cropStart() + cropDuration()).frames(m_fps) - 1) {
         m_endPix = pix;
         m_endThumbRequested = false;
-        update(r.right() - width, r.y(), width, pix.height());
+        update(r.right() - width, r.top(), width, pix.height());
     }
 }
 
