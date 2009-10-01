@@ -2768,10 +2768,10 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
     bool checkLength = false;
     if (endTrack == startTrack) {
         Mlt::Producer *clipProducer = trackPlaylist.replace_with_blank(clipIndex);
-        if (!trackPlaylist.is_blank_at(moveEnd) || clipProducer->is_blank()) {
+        if (!trackPlaylist.is_blank_at(moveEnd) || !clipProducer || clipProducer->is_blank()) {
             // error, destination is not empty
             if (!trackPlaylist.is_blank_at(moveEnd)) trackPlaylist.insert_at(moveStart, clipProducer, 1);
-            delete clipProducer;
+            if (clipProducer) delete clipProducer;
             //int ix = trackPlaylist.get_clip_index_at(moveEnd);
             kDebug() << "// ERROR MOVING CLIP TO : " << moveEnd;
             mlt_service_unlock(service.get_service());
@@ -2797,10 +2797,10 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
             return false;
         } else {
             Mlt::Producer *clipProducer = trackPlaylist.replace_with_blank(clipIndex);
-            if (clipProducer->is_blank()) {
+            if (!clipProducer || clipProducer->is_blank()) {
                 // error, destination is not empty
                 //int ix = trackPlaylist.get_clip_index_at(moveEnd);
-                delete clipProducer;
+                if (clipProducer) delete clipProducer;
                 kDebug() << "// ERROR MOVING CLIP TO : " << moveEnd;
                 mlt_service_unlock(service.get_service());
                 m_isBlocked--;
