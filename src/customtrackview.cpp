@@ -1693,7 +1693,7 @@ void CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut)
         newPos.cropDuration = GenTime((int)((newPos.endPos - newPos.startPos).frames(m_document->fps()) * speed), m_document->fps());
         newPos.originalcropStart = GenTime((int)(newPos.cropStart .frames(m_document->fps()) * speed), m_document->fps());
 
-        
+
         ClipItem *dup = item->clone(newPos);
         // remove unwanted effects (fade in) from 2nd part of cutted clip
         int ix = dup->hasEffect(QString(), "fadein");

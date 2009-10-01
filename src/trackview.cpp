@@ -34,6 +34,7 @@
 
 #include <KDebug>
 #include <KMessageBox>
+#include <KIO/NetAccess>
 
 #include <QScrollBar>
 #include <QInputDialog>
@@ -241,7 +242,6 @@ void TrackView::parseDocument(QDomDocument doc)
                 p = playlists.item(j).toElement();
                 if (p.attribute("id") == playlist_name) break;
             }
-            int black_clips = p.childNodes().count();
             pos--;
         }
     }
@@ -385,6 +385,18 @@ void TrackView::parseDocument(QDomDocument doc)
 
     slotRebuildTrackHeaders();
     if (!m_documentErrors.isNull()) KMessageBox::sorry(this, m_documentErrors);
+    if (infoXml.hasAttribute("upgraded")) {
+        // Our document was upgraded, create a backup copy just in case
+        QString baseFile = m_doc->url().path().section(".kdenlive", 0, 0);
+        int ct = 0;
+        QString backupFile = baseFile + "_backup" + QString::number(ct) + ".kdenlive";
+        while (QFile::exists(backupFile)) {
+            ct++;
+            backupFile = baseFile + "_backup" + QString::number(ct) + ".kdenlive";
+        }
+        if (KIO::NetAccess::file_copy(m_doc->url(), KUrl(backupFile), this)) KMessageBox::information(this, i18n("Your project file was upgraded to the latest Kdenlive document version.\n To make sure you don't loose data, a backup copy called: %1 was created.", backupFile));
+        else KMessageBox::information(this, i18n("Your project file was upgraded to the latest Kdenlive document version, it was not possible to create a backup copy.", backupFile));
+    }
     //m_trackview->setCursorPos(cursorPos);
     //m_scrollBox->setGeometry(0, 0, 300 * zoomFactor(), m_scrollArea->height());
 }

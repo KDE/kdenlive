@@ -144,9 +144,11 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         KMessageBox::sorry(kapp->activeWindow(), i18n("This project type is unsupported (version %1) and can't be loaded.", version), i18n("Unable to open project"));
         return false;
     }
+
     // <kdenlivedoc />
     QDomNode infoXmlNode = m_doc.elementsByTagName("kdenlivedoc").at(0);
     QDomElement infoXml = infoXmlNode.toElement();
+    infoXml.setAttribute("upgraded", "1");
 
     if (version <= 0.6) {
         QDomElement infoXml_old = infoXmlNode.cloneNode(true).toElement(); // Needed for folders
@@ -721,67 +723,65 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
     }
 
     if (version <= 0.84) {
-            // update the title clips to use the new MLT kdenlivetitle producer
-            QDomNodeList kproducerNodes = m_doc.elementsByTagName("kdenlive_producer");
-            for (int i = 0; i < kproducerNodes.count(); ++i) {
-                QDomElement kproducer = kproducerNodes.at(i).toElement();
-                if (kproducer.attribute("type").toInt() == TEXT) {
-                    QString data = kproducer.attribute("xmldata");
-                    QString datafile = kproducer.attribute("resource");
-                    if (!datafile.endsWith(".kdenlivetitle")) {
-                        datafile = QString();
-                        kproducer.setAttribute("resource", QString());
-                    }
-                    QString id = kproducer.attribute("id");
-                    QDomNodeList mltproducers = m_doc.elementsByTagName("producer");
-                    bool foundData = false;
-                    bool foundResource = false;
-                    bool foundService = false;
-                    for (int j = 0; j < mltproducers.count(); j++) {
-                        QDomElement wproducer = mltproducers.at(j).toElement();
-                        if (wproducer.attribute("id") == id) {
-                            QDomNodeList props = wproducer.childNodes();
-                            for (int k = 0; k < props.count(); k++) {
-                                if (props.at(k).toElement().attribute("name") == "xmldata") {
-                                    props.at(k).firstChild().setNodeValue(data);
-                                    foundData = true;
-                                }
-                                else if (props.at(k).toElement().attribute("name") == "mlt_service") {
-                                    props.at(k).firstChild().setNodeValue("kdenlivetitle");
-                                    foundService = true;
-                                }
-                                else if (props.at(k).toElement().attribute("name") == "resource") {
-                                    props.at(k).firstChild().setNodeValue(datafile);
-                                    foundResource = true;
-                                }
+        // update the title clips to use the new MLT kdenlivetitle producer
+        QDomNodeList kproducerNodes = m_doc.elementsByTagName("kdenlive_producer");
+        for (int i = 0; i < kproducerNodes.count(); ++i) {
+            QDomElement kproducer = kproducerNodes.at(i).toElement();
+            if (kproducer.attribute("type").toInt() == TEXT) {
+                QString data = kproducer.attribute("xmldata");
+                QString datafile = kproducer.attribute("resource");
+                if (!datafile.endsWith(".kdenlivetitle")) {
+                    datafile = QString();
+                    kproducer.setAttribute("resource", QString());
+                }
+                QString id = kproducer.attribute("id");
+                QDomNodeList mltproducers = m_doc.elementsByTagName("producer");
+                bool foundData = false;
+                bool foundResource = false;
+                bool foundService = false;
+                for (int j = 0; j < mltproducers.count(); j++) {
+                    QDomElement wproducer = mltproducers.at(j).toElement();
+                    if (wproducer.attribute("id") == id) {
+                        QDomNodeList props = wproducer.childNodes();
+                        for (int k = 0; k < props.count(); k++) {
+                            if (props.at(k).toElement().attribute("name") == "xmldata") {
+                                props.at(k).firstChild().setNodeValue(data);
+                                foundData = true;
+                            } else if (props.at(k).toElement().attribute("name") == "mlt_service") {
+                                props.at(k).firstChild().setNodeValue("kdenlivetitle");
+                                foundService = true;
+                            } else if (props.at(k).toElement().attribute("name") == "resource") {
+                                props.at(k).firstChild().setNodeValue(datafile);
+                                foundResource = true;
                             }
-                            if (!foundData) {
-                                QDomElement e = m_doc.createElement("property");
-                                e.setAttribute("name", "xmldata");
-                                QDomText value = m_doc.createTextNode(data);
-                                e.appendChild(value);
-                                wproducer.appendChild(e);
-                            }
-                            if (!foundService) {
-                                QDomElement e = m_doc.createElement("property");
-                                e.setAttribute("name", "mlt_service");
-                                QDomText value = m_doc.createTextNode("kdenlivetitle");
-                                e.appendChild(value);
-                                wproducer.appendChild(e);
-                            }                            
-                            if (!foundResource) {
-                                QDomElement e = m_doc.createElement("property");
-                                e.setAttribute("name", "resource");
-                                QDomText value = m_doc.createTextNode(datafile);
-                                e.appendChild(value);
-                                wproducer.appendChild(e);
-                            }
-                            break;
                         }
+                        if (!foundData) {
+                            QDomElement e = m_doc.createElement("property");
+                            e.setAttribute("name", "xmldata");
+                            QDomText value = m_doc.createTextNode(data);
+                            e.appendChild(value);
+                            wproducer.appendChild(e);
+                        }
+                        if (!foundService) {
+                            QDomElement e = m_doc.createElement("property");
+                            e.setAttribute("name", "mlt_service");
+                            QDomText value = m_doc.createTextNode("kdenlivetitle");
+                            e.appendChild(value);
+                            wproducer.appendChild(e);
+                        }
+                        if (!foundResource) {
+                            QDomElement e = m_doc.createElement("property");
+                            e.setAttribute("name", "resource");
+                            QDomText value = m_doc.createTextNode(datafile);
+                            e.appendChild(value);
+                            wproducer.appendChild(e);
+                        }
+                        break;
                     }
                 }
             }
         }
+    }
 
 
     // The document has been converted: mark it as modified

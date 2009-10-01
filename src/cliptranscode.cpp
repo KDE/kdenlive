@@ -114,8 +114,8 @@ void ClipTranscode::slotStartTransCode()
         if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", destination + extension)) == KMessageBox::No) return;
         parameters << "-y";
     }
-    foreach (QString s, params.split(' '))
-        parameters << s.replace("%1", destination);
+    foreach(QString s, params.split(' '))
+    parameters << s.replace("%1", destination);
     buttonBox->button(QDialogButtonBox::Abort)->setText(i18n("Abort"));
 
     //kDebug() << "/// FFMPEG ARGS: " << parameters;

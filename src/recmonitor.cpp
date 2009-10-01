@@ -589,7 +589,7 @@ void RecMonitor::slotProcessStatus(QProcess::ProcessState status)
             else video_frame->setPixmap(mergeSideBySide(KIcon("video-display").pixmap(QSize(50, 50)), i18n("Press record button\nto start screen capture\nFiles will be saved in:\n%1", KdenliveSettings::capturefolder())));
         }
         m_isCapturing = false;
-        
+
 #if KDE_IS_VERSION(4,2,0)
         m_spaceTimer.stop();
         // update free space info
