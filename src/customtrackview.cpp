@@ -2820,7 +2820,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                 }
 
                 ClipItem *clip = static_cast < ClipItem * >(m_dragItem);
-                updateClipFade(clip);
+                updatePositionEffects(clip, m_dragItemInfo);
 
                 // check keyframes
                 QDomDocument doc;
@@ -2944,7 +2944,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                 } else new ResizeClipCommand(this, m_dragItemInfo, info, false, false, resizeCommand);
 
                 m_commandStack->push(resizeCommand);
-                updateClipFade(clip);
+                updatePositionEffects(clip, m_dragItemInfo);
             } else {
                 m_dragItem->resizeEnd((int) m_dragItemInfo.endPos.frames(m_document->fps()));
                 emit displayMessage(i18n("Error when resizing clip"), ErrorMessage);
@@ -3221,7 +3221,7 @@ void CustomTrackView::doChangeClipSpeed(ItemInfo info, const double speed, const
         item->updateRectGeometry();
         if (item->cropDuration().frames(m_document->fps()) > endPos)
             item->AbstractClipItem::resizeEnd(info.startPos.frames(m_document->fps()) + endPos, speed);
-        updateClipFade(item);
+        updatePositionEffects(item, info);
         setDocumentModified();
     } else emit displayMessage(i18n("Invalid clip"), ErrorMessage);
 }
@@ -3701,7 +3701,7 @@ void CustomTrackView::resizeClip(const ItemInfo start, const ItemInfo end, bool 
         if (success) {
             kDebug() << "RESIZE CLP STRAT TO:" << end.startPos.frames(m_document->fps()) << ", OLD ST: " << start.startPos.frames(25);
             item->resizeStart((int) end.startPos.frames(m_document->fps()));
-            updateClipFade(item);
+            updatePositionEffects(item, clipinfo);
         } else emit displayMessage(i18n("Error when resizing clip"), ErrorMessage);
     } else {
         ItemInfo clipinfo = item->info();
@@ -3709,7 +3709,7 @@ void CustomTrackView::resizeClip(const ItemInfo start, const ItemInfo end, bool 
         bool success = m_document->renderer()->mltResizeClipEnd(clipinfo, end.endPos - clipinfo.startPos);
         if (success) {
             item->resizeEnd((int) end.endPos.frames(m_document->fps()));
-            updateClipFade(item);
+            updatePositionEffects(item, clipinfo);
         } else emit displayMessage(i18n("Error when resizing clip"), ErrorMessage);
     }
     if (!resizeClipStart && end.cropStart != start.cropStart) {
@@ -3726,7 +3726,7 @@ void CustomTrackView::resizeClip(const ItemInfo start, const ItemInfo end, bool 
     KdenliveSettings::setSnaptopoints(snap);
 }
 
-void CustomTrackView::updateClipFade(ClipItem * item)
+void CustomTrackView::updatePositionEffects(ClipItem * item, ItemInfo info)
 {
     int end = item->fadeIn();
     if (end != 0) {
@@ -3808,7 +3808,20 @@ void CustomTrackView::updateClipFade(ClipItem * item)
             if (item->isSelected() && effectPos == item->selectedEffectIndex()) emit clipItemSelected(item, effectPos);
         }
     }
-    if (item->isSelected() && item->selectedEffect().attribute("id") == "freeze") emit clipItemSelected(item, item->selectedEffectIndex());
+
+    int effectPos = item->hasEffect("freeze", "freeze");
+    if (effectPos != -1) {
+        // Freeze effect needs to be adjusted with clip resize
+        int diff = (info.startPos - item->startPos()).frames(m_document->fps());
+        QDomElement eff = item->getEffectAt(effectPos);
+        if (!eff.isNull()) {
+            int freeze_pos = EffectsList::parameter(eff, "frame").toInt() + diff;
+            EffectsList::setParameter(eff, "frame", QString::number(freeze_pos));
+            if (item->isSelected() && item->selectedEffect().attribute("id") == "freeze") {
+                emit clipItemSelected(item, item->selectedEffectIndex());
+            }
+        }
+    }
 }
 
 double CustomTrackView::getSnapPointForPos(double pos)

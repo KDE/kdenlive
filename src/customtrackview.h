@@ -235,7 +235,7 @@ private:
 
     /** Get the index of the video track that is just below current track */
     int getPreviousVideoTrack(int track);
-    void updateClipFade(ClipItem * item);
+    void updatePositionEffects(ClipItem * item, ItemInfo info);
     bool insertDropClips(const QMimeData *data, const QPoint pos);
     bool canBePastedTo(ItemInfo info, int type) const;
     bool canBePastedTo(QList <ItemInfo> infoList, int type) const;
