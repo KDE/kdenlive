@@ -1539,7 +1539,9 @@ void CustomTrackView::slotAddEffect(QDomElement effect, GenTime pos, int track)
             if (item->isItemLocked()) {
                 continue;
             }
-            item->initEffect(effect);
+            if (effect.attribute("id") == "freeze" && m_cursorPos > item->startPos().frames(m_document->fps()) && m_cursorPos < item->endPos().frames(m_document->fps())) {
+                item->initEffect(effect, m_cursorPos - item->startPos().frames(m_document->fps()));
+            } else item->initEffect(effect);
             if (effect.attribute("tag") == "ladspa") {
                 QString ladpsaFile = m_document->getLadspaFile();
                 initEffects::ladspaEffectFile(ladpsaFile, effect.attribute("ladspaid").toInt(), getLadspaParams(effect));
@@ -3806,6 +3808,7 @@ void CustomTrackView::updateClipFade(ClipItem * item)
             if (item->isSelected() && effectPos == item->selectedEffectIndex()) emit clipItemSelected(item, effectPos);
         }
     }
+    if (item->isSelected() && item->selectedEffect().attribute("id") == "freeze") emit clipItemSelected(item, item->selectedEffectIndex());
 }
 
 double CustomTrackView::getSnapPointForPos(double pos)

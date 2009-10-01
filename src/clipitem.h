@@ -93,7 +93,7 @@ public:
     void updateKeyframeEffect();
     QDomElement selectedEffect();
     int selectedEffectIndex() const;
-    void initEffect(QDomElement effect);
+    void initEffect(QDomElement effect, int diff = 0);
     QString keyframes(const int index);
     void setKeyframes(const int ix, const QString keyframes);
     void setEffectList(const EffectsList effectList);

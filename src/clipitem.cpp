@@ -155,13 +155,18 @@ int ClipItem::selectedEffectIndex() const
     return m_selectedEffect;
 }
 
-void ClipItem::initEffect(QDomElement effect)
+void ClipItem::initEffect(QDomElement effect, int diff)
 {
     // the kdenlive_ix int is used to identify an effect in mlt's playlist, should
     // not be changed
     if (effect.attribute("kdenlive_ix").toInt() == 0)
         effect.setAttribute("kdenlive_ix", QString::number(effectsCounter()));
-    // init keyframes if required
+
+    if (effect.attribute("id") == "freeze" && diff > 0) {
+        EffectsList::setParameter(effect, "frame", QString::number(diff));
+    }
+
+    // Init parameter value & keyframes if required
     QDomNodeList params = effect.elementsByTagName("parameter");
     for (int i = 0; i < params.count(); i++) {
         QDomElement e = params.item(i).toElement();
