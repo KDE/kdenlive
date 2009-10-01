@@ -107,7 +107,6 @@ void ClipTranscode::slotStartTransCode()
         destination = dest_url->url().path().section('.', 0, -2);
     }
     QString extension = params.section("%1", 1, 1).section(' ', 0, 0);
-    params = params.replace("%1", destination);
     QString s_url = source_url->url().path();
 
     parameters << "-i" << s_url;
@@ -115,9 +114,9 @@ void ClipTranscode::slotStartTransCode()
         if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", destination + extension)) == KMessageBox::No) return;
         parameters << "-y";
     }
+    foreach (QString s, params.split(' '))
+        parameters << s.replace("%1", destination);
     buttonBox->button(QDialogButtonBox::Abort)->setText(i18n("Abort"));
-
-    parameters << params.split(' ');
 
     //kDebug() << "/// FFMPEG ARGS: " << parameters;
 
