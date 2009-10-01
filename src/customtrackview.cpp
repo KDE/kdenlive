@@ -2076,7 +2076,10 @@ void CustomTrackView::addTrack(TrackInfo type, int ix)
                     if (clip->isAudioOnly()) prod = clip->baseClip()->audioProducer(clipinfo.track);
                     else if (clip->isVideoOnly()) prod = clip->baseClip()->videoProducer();
                     else prod = clip->baseClip()->producer(clipinfo.track);
-                    m_document->renderer()->mltUpdateClipProducer((int)(m_document->tracksCount() - clipinfo.track), clipinfo.startPos.frames(m_document->fps()), prod);
+                    if (m_document->renderer()->mltUpdateClipProducer((int)(m_document->tracksCount() - clipinfo.track), clipinfo.startPos.frames(m_document->fps()), prod) == false) {
+                        // problem updating clip
+                        emit displayMessage(i18n("Cannot update clip (time: %1, track: %2)", clipinfo.startPos.frames(m_document->fps()), clipinfo.track), ErrorMessage);
+                    }
                 }
             } else if (item->type() == TRANSITIONWIDGET) {
                 Transition *tr = static_cast <Transition *>(item);
@@ -2146,7 +2149,9 @@ void CustomTrackView::removeTrack(int ix)
                 if (clip->isAudioOnly()) prod = clip->baseClip()->audioProducer(clipinfo.track);
                 else if (clip->isVideoOnly()) prod = clip->baseClip()->videoProducer();
                 else prod = clip->baseClip()->producer(clipinfo.track);
-                m_document->renderer()->mltUpdateClipProducer((int)(m_document->tracksCount() - clipinfo.track), clipinfo.startPos.frames(m_document->fps()), prod);
+                if (!m_document->renderer()->mltUpdateClipProducer((int)(m_document->tracksCount() - clipinfo.track), clipinfo.startPos.frames(m_document->fps()), prod)) {
+                    emit displayMessage(i18n("Cannot update clip (time: %1, track: %2)", clipinfo.startPos.frames(m_document->fps()), clipinfo.track), ErrorMessage);
+                }
             }
         } else if (children.at(i)->type() == TRANSITIONWIDGET) {
             Transition *tr = static_cast <Transition *>(children.at(i));
@@ -3357,7 +3362,9 @@ void CustomTrackView::slotUpdateClip(const QString &clipId, bool reload)
             if (clip->clipProducer() == clipId) {
                 ItemInfo info = clip->info();
                 info.track = m_document->tracksCount() - clip->track();
-                if (reload) m_document->renderer()->mltUpdateClip(info, clip->xml(), clip->baseClip()->producer());
+                if (reload && !m_document->renderer()->mltUpdateClip(info, clip->xml(), clip->baseClip()->producer())) {
+                    emit displayMessage(i18n("Cannot update clip (time: %1, track: %2)", info.startPos.frames(m_document->fps()), info.track), ErrorMessage);
+                }
                 clip->refreshClip(true);
                 clip->update();
             }
@@ -4859,8 +4866,12 @@ void CustomTrackView::doSplitAudio(const GenTime &pos, int track, bool split)
             ClipItem *audioClip = getClipItemAt(start, info.track);
             if (audioClip) {
                 clip->setVideoOnly(true);
-                m_document->renderer()->mltUpdateClipProducer(m_document->tracksCount() - track, start, clip->baseClip()->videoProducer());
-                m_document->renderer()->mltUpdateClipProducer(m_document->tracksCount() - info.track, start, clip->baseClip()->audioProducer(info.track));
+                if (m_document->renderer()->mltUpdateClipProducer(m_document->tracksCount() - track, start, clip->baseClip()->videoProducer()) == false) {
+                    emit displayMessage(i18n("Cannot update clip (time: %1, track: %2)", start, track), ErrorMessage);
+                }
+                if (m_document->renderer()->mltUpdateClipProducer(m_document->tracksCount() - info.track, start, clip->baseClip()->audioProducer(info.track)) == false) {
+                    emit displayMessage(i18n("Cannot update clip (time: %1, track: %2)", start, info.track), ErrorMessage);
+                }
                 audioClip->setSelected(true);
                 audioClip->setAudioOnly(true);
                 groupSelectedItems(false, true);
@@ -4884,7 +4895,9 @@ void CustomTrackView::doSplitAudio(const GenTime &pos, int track, bool split)
                 ItemInfo info = clip->info();
                 deleteClip(clp->info());
                 clip->setVideoOnly(false);
-                m_document->renderer()->mltUpdateClipProducer(m_document->tracksCount() - info.track, info.startPos.frames(m_document->fps()), clip->baseClip()->producer(info.track));
+                if (!m_document->renderer()->mltUpdateClipProducer(m_document->tracksCount() - info.track, info.startPos.frames(m_document->fps()), clip->baseClip()->producer(info.track))) {
+                    emit displayMessage(i18n("Cannot update clip (time: %1, track: %2)", info.startPos.frames(m_document->fps()), info.track), ErrorMessage);
+                }
                 break;
             }
         }
@@ -4980,17 +4993,23 @@ void CustomTrackView::doChangeClipType(const GenTime &pos, int track, bool video
         int start = pos.frames(m_document->fps());
         clip->setVideoOnly(true);
         clip->setAudioOnly(false);
-        m_document->renderer()->mltUpdateClipProducer(m_document->tracksCount() - track, start, clip->baseClip()->videoProducer());
+        if (m_document->renderer()->mltUpdateClipProducer(m_document->tracksCount() - track, start, clip->baseClip()->videoProducer()) == false) {
+            emit displayMessage(i18n("Cannot update clip (time: %1, track: %2)", start, track), ErrorMessage);
+        }
     } else if (audioOnly) {
         int start = pos.frames(m_document->fps());
         clip->setAudioOnly(true);
         clip->setVideoOnly(false);
-        m_document->renderer()->mltUpdateClipProducer(m_document->tracksCount() - track, start, clip->baseClip()->audioProducer(track));
+        if (m_document->renderer()->mltUpdateClipProducer(m_document->tracksCount() - track, start, clip->baseClip()->audioProducer(track)) == false) {
+            emit displayMessage(i18n("Cannot update clip (time: %1, track: %2)", start, track), ErrorMessage);
+        }
     } else {
         int start = pos.frames(m_document->fps());
         clip->setAudioOnly(false);
         clip->setVideoOnly(false);
-        m_document->renderer()->mltUpdateClipProducer(m_document->tracksCount() - track, start, clip->baseClip()->producer(track));
+        if (m_document->renderer()->mltUpdateClipProducer(m_document->tracksCount() - track, start, clip->baseClip()->producer(track)) == false) {
+            emit displayMessage(i18n("Cannot update clip (time: %1, track: %2)", start, track), ErrorMessage);
+        }
     }
     clip->update();
     setDocumentModified();

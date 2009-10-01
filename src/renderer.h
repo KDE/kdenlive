@@ -170,7 +170,7 @@ Q_OBJECT public:
 
     /** Playlist manipulation */
     int mltInsertClip(ItemInfo info, QDomElement element, Mlt::Producer *prod);
-    void mltUpdateClip(ItemInfo info, QDomElement element, Mlt::Producer *prod);
+    bool mltUpdateClip(ItemInfo info, QDomElement element, Mlt::Producer *prod);
     void mltCutClip(int track, GenTime position);
     void mltInsertSpace(QMap <int, int> trackClipStartList, QMap <int, int> trackTransitionStartList, int track, const GenTime duration, const GenTime timeOffset);
     int mltGetSpaceLength(const GenTime pos, int track, bool fromBlankStart);
@@ -204,7 +204,7 @@ Q_OBJECT public:
     void mltResizeTransparency(int oldStart, int newStart, int newEnd, int track, int id);
     void mltInsertTrack(int ix, bool videoTrack);
     void mltDeleteTrack(int ix);
-    void mltUpdateClipProducer(int track, int pos, Mlt::Producer *prod);
+    bool mltUpdateClipProducer(int track, int pos, Mlt::Producer *prod);
 
     /** Change speed of a clip in playlist. To do this, we create a new "framebuffer" producer.
     This new producer must have its "resource" param set to: video.mpg?0.6 where video.mpg is the path
