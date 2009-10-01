@@ -1,4 +1,5 @@
 [Transcoding]
 DNxHD 1920x1080=-s 1920x1080 -r pal -b 220000k -threads 2 -vcodec dnxhd -acodec copy %1.mov
 Fix MPEG-1=-sameq -acodec copy -vcodec mpeg1video %1.mpg
-
+Fix Ogg Theora=-sameq -vcodec libtheora -acodec copy %1.ogv
+Remux MPEG-2 PS/VOB=-vcodec copy -acodec copy %1.mpg
