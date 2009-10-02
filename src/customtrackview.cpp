@@ -4507,13 +4507,15 @@ void CustomTrackView::setOutPoint()
     ItemInfo startInfo = clip->info();
     ItemInfo endInfo = clip->info();
     endInfo.endPos = GenTime(m_cursorPos, m_document->fps());
-    if (endInfo.endPos <= startInfo.startPos || endInfo.endPos > startInfo.startPos + clip->maxDuration() - startInfo.cropStart) {
+    CLIPTYPE type = (CLIPTYPE) static_cast <ClipItem *> (clip)->clipType();
+    if (endInfo.endPos <= startInfo.startPos || (type != IMAGE && type != COLOR && type != TEXT && endInfo.endPos > startInfo.startPos + clip->maxDuration() - startInfo.cropStart)) {
         // Check for invalid resize
         emit displayMessage(i18n("Invalid action"), ErrorMessage);
         return;
     } else if (endInfo.endPos > startInfo.endPos) {
-        int length = m_document->renderer()->mltGetSpaceLength(endInfo.endPos, m_document->tracksCount() - startInfo.track, false);
-        if ((clip->type() == TRANSITIONWIDGET && itemCollision(clip, endInfo) == true) || (clip->type() == AVWIDGET && length < (endInfo.endPos - startInfo.endPos).frames(m_document->fps()))) {
+        int length = m_document->renderer()->mltGetSpaceLength(startInfo.endPos, m_document->tracksCount() - startInfo.track, false);
+        if ((clip->type() == TRANSITIONWIDGET && itemCollision(clip, endInfo) == true) || (clip->type() == AVWIDGET && length != -1 && length < (endInfo.endPos - startInfo.endPos).frames(m_document->fps()))) {
+            kDebug()<<" RESIZE ERROR, BLNK: "<<length<<", RESIZE: "<<(endInfo.endPos - startInfo.endPos).frames(m_document->fps());
             emit displayMessage(i18n("Invalid action"), ErrorMessage);
             return;
         }

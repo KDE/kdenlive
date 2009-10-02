@@ -1786,12 +1786,12 @@ int Render::mltGetSpaceLength(const GenTime pos, int track, bool fromBlankStart)
 {
     if (!m_mltProducer) {
         kDebug() << "PLAYLIST NOT INITIALISED //////";
-        return -1;
+        return 0;
     }
     Mlt::Producer parentProd(m_mltProducer->parent());
     if (parentProd.get_producer() == NULL) {
         kDebug() << "PLAYLIST BROKEN, CANNOT INSERT CLIP //////";
-        return -1;
+        return 0;
     }
 
     Mlt::Service service(parentProd.get_service());
@@ -1801,7 +1801,11 @@ int Render::mltGetSpaceLength(const GenTime pos, int track, bool fromBlankStart)
     Mlt::Producer trackProducer(tractor.track(track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
     int clipIndex = trackPlaylist.get_clip_index_at(insertPos);
-    if (!trackPlaylist.is_blank(clipIndex)) return -1;
+    if (clipIndex == trackPlaylist.count()) {
+        // We are after the end of the playlist
+        return -1;
+    }
+    if (!trackPlaylist.is_blank(clipIndex)) return 0;
     if (fromBlankStart) return trackPlaylist.clip_length(clipIndex);
     return trackPlaylist.clip_length(clipIndex) + trackPlaylist.clip_start(clipIndex) - insertPos;
 }
