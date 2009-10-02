@@ -4476,7 +4476,7 @@ void CustomTrackView::setInPoint()
     ItemInfo startInfo = clip->info();
     ItemInfo endInfo = startInfo;
     endInfo.startPos = GenTime(m_cursorPos, m_document->fps());
-    if (endInfo.startPos >= startInfo.endPos) {
+    if (endInfo.startPos >= startInfo.endPos || endInfo.startPos < startInfo.startPos - startInfo.cropStart) {
         // Check for invalid resize
         emit displayMessage(i18n("Invalid action"), ErrorMessage);
         return;
@@ -4507,7 +4507,7 @@ void CustomTrackView::setOutPoint()
     ItemInfo startInfo = clip->info();
     ItemInfo endInfo = clip->info();
     endInfo.endPos = GenTime(m_cursorPos, m_document->fps());
-    if (endInfo.endPos <= startInfo.startPos) {
+    if (endInfo.endPos <= startInfo.startPos || endInfo.endPos > startInfo.startPos + clip->maxDuration() - startInfo.cropStart) {
         // Check for invalid resize
         emit displayMessage(i18n("Invalid action"), ErrorMessage);
         return;
