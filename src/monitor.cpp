@@ -388,7 +388,8 @@ void Monitor::mouseReleaseEvent(QMouseEvent * event)
 {
     if (m_dragStarted) {
         if (m_ui.video_frame->underMouse()) {
-            slotPlay();
+            if (isActive()) slotPlay();
+            else activateMonitor();
         } else QWidget::mouseReleaseEvent(event);
         m_dragStarted = false;
     }

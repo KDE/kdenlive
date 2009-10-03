@@ -1682,8 +1682,7 @@ void CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut)
 
         m_document->renderer()->mltCutClip(m_document->tracksCount() - info.track, cutTime);
         int cutPos = (int) cutTime.frames(m_document->fps());
-        ItemInfo newPos = info;
-        double speed = item->speed();
+        ItemInfo newPos;
         newPos.startPos = cutTime;
         newPos.endPos = info.endPos;
         newPos.cropStart = item->info().cropStart + (cutTime - info.startPos);
