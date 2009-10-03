@@ -504,12 +504,15 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
 
 void GraphicsSceneRectMove::wheelEvent(QGraphicsSceneWheelEvent * wheelEvent)
 {
-    QList<QGraphicsView*> viewlist = views();
-    //kDebug() << wheelEvent->delta() << " " << zoom;
-    if (viewlist.size() > 0) {
-        if (wheelEvent->delta() < 0) emit sceneZoom(true);
-        else emit sceneZoom(false);
+    if (wheelEvent->modifiers() == Qt::ControlModifier) {
+        QList<QGraphicsView*> viewlist = views();
+        //kDebug() << wheelEvent->delta() << " " << zoom;
+        if (viewlist.size() > 0) {
+            if (wheelEvent->delta() > 0) emit sceneZoom(true);
+            else emit sceneZoom(false);
+        }
     }
+    else wheelEvent->setAccepted(false);
 }
 
 void GraphicsSceneRectMove::setScale(double s)

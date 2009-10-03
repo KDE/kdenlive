@@ -385,7 +385,6 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
             return;
         } else if (m_operationMode == SPACER && move && m_selectionGroup) {
             // spacer tool
-            int mappedClick = (int)(mapToScene(m_clickEvent).x() + 0.5);
             if (snappedPos < 0) snappedPos = 0;
             // Make sure there is no collision
             QList<QGraphicsItem *> children = m_selectionGroup->childItems();
@@ -3578,7 +3577,7 @@ void CustomTrackView::moveGroup(QList <ItemInfo> startClip, QList <ItemInfo> sta
         for (int i = 0; i < max; i++) {
             if (children.at(i)->type() == GROUPWIDGET) {
                 children += children.at(i)->childItems();
-                AbstractGroupItem *grp = static_cast<AbstractGroupItem *>(children.at(i));
+                //AbstractGroupItem *grp = static_cast<AbstractGroupItem *>(children.at(i));
                 //grp->moveBy(offset.frames(m_document->fps()), trackOffset *(qreal) m_tracksHeight);
                 /*m_document->clipManager()->removeGroup(grp);
                 m_scene->destroyItemGroup(grp);*/
