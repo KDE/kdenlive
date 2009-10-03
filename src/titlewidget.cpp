@@ -58,7 +58,6 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
 {
     setupUi(this);
     setFont(KGlobalSettings::toolBarFont());
-    //toolBox->setFont(KGlobalSettings::toolBarFont());
     frame_properties->setEnabled(false);
     rect_properties->setFixedHeight(frame_properties->height() + 4);
     no_properties->setFixedHeight(frame_properties->height() + 4);
@@ -699,6 +698,7 @@ void TitleWidget::selectionChanged()
         } else {
             itemzoom->setEnabled(false);
             itemrotate->setEnabled(false);
+            updateInfoText();
         }
         if (l.at(0)->type() == TEXTITEM) {
             showToolbars(TITLE_TEXT);
@@ -1626,10 +1626,12 @@ void TitleWidget::slotAnimStart(bool anim)
         m_startViewport->setSelected(true);
         selectionChanged();
         slotSelectTool();
+        if (m_startViewport->childItems().isEmpty()) addAnimInfoText();
     } else {
         m_startViewport->setZValue(-1000);
         m_startViewport->setBrush(QBrush());
         m_startViewport->setFlags(0);
+        if (!anim_end->isChecked()) deleteAnimInfoText();
     }
 
 }
@@ -1664,12 +1666,69 @@ void TitleWidget::slotAnimEnd(bool anim)
         m_endViewport->setSelected(true);
         selectionChanged();
         slotSelectTool();
+        if (m_endViewport->childItems().isEmpty()) addAnimInfoText();
     } else {
         m_endViewport->setZValue(-1000);
         m_endViewport->setBrush(QBrush());
         m_endViewport->setFlags(0);
+        if (!anim_start->isChecked()) deleteAnimInfoText();
     }
 }
+
+void TitleWidget::addAnimInfoText()
+{
+    // add text to anim viewport
+    QGraphicsTextItem *t = new QGraphicsTextItem(i18n("Start"), m_startViewport);
+    QGraphicsTextItem *t2 = new QGraphicsTextItem(i18n("End"), m_endViewport);
+    QFont font = t->font();
+    font.setPixelSize(m_startViewport->rect().width() / 10);
+    QColor col = m_startViewport->pen().color();
+    col.setAlpha(255);
+    t->setDefaultTextColor(col);
+    t->setFont(font);
+    font.setPixelSize(m_endViewport->rect().width() / 10);
+    col = m_endViewport->pen().color();
+    col.setAlpha(255);
+    t2->setDefaultTextColor(col);
+    t2->setFont(font);
+}
+
+void TitleWidget::updateInfoText()
+{
+    // update info text font
+    if (!m_startViewport->childItems().isEmpty()) {
+        QGraphicsTextItem *item = static_cast <QGraphicsTextItem *>(m_startViewport->childItems().at(0));
+        if (item) {
+            QFont font = item->font();
+            font.setPixelSize(m_startViewport->rect().width() / 10);
+            item->setFont(font);
+        }
+    }
+    if (!m_endViewport->childItems().isEmpty()) {
+        QGraphicsTextItem *item = static_cast <QGraphicsTextItem *>(m_endViewport->childItems().at(0));
+        if (item) {
+            QFont font = item->font();
+            font.setPixelSize(m_endViewport->rect().width() / 10);
+            item->setFont(font);
+        }
+    }
+}
+
+void TitleWidget::deleteAnimInfoText()
+{
+    // end animation editing, remove info text
+    while (!m_startViewport->childItems().isEmpty()) {
+        QGraphicsItem *item = m_startViewport->childItems().at(0);
+        m_scene->removeItem(item);
+        delete item;
+    }
+    while (!m_endViewport->childItems().isEmpty()) {
+        QGraphicsItem *item = m_endViewport->childItems().at(0);
+        m_scene->removeItem(item);
+        delete item;
+    }
+}
+
 
 void TitleWidget::slotKeepAspect(bool keep)
 {

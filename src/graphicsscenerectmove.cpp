@@ -511,8 +511,7 @@ void GraphicsSceneRectMove::wheelEvent(QGraphicsSceneWheelEvent * wheelEvent)
             if (wheelEvent->delta() > 0) emit sceneZoom(true);
             else emit sceneZoom(false);
         }
-    }
-    else wheelEvent->setAccepted(false);
+    } else wheelEvent->setAccepted(false);
 }
 
 void GraphicsSceneRectMove::setScale(double s)

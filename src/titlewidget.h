@@ -78,8 +78,13 @@ protected:
     virtual void resizeEvent(QResizeEvent * event);
 
 private:
-    QGraphicsRectItem *m_startViewport, *m_endViewport;
+    /** \brief Rectangle describing animation start viewport */
+    QGraphicsRectItem *m_startViewport;
+    /** \brief Rectangle describing animation end viewport */
+    QGraphicsRectItem *m_endViewport;
+    /** \brief Scene for the titler */
     GraphicsSceneRectMove *m_scene;
+    /** \brief Initialize the animation properties (viewport size,...) */
     void initAnimation();
     QMap<QGraphicsItem*, Transform > m_transformations;
     TitleDocument m_titledocument;
@@ -140,6 +145,12 @@ private:
     void checkButton(TITLETOOL toolType);
 
     void adjustFrameSize();
+    /** \brief Add a "start" and "end" info text to the animation viewports */
+    void addAnimInfoText();
+    /** \brief Update font for the "start" and "end" info text */
+    void updateInfoText();
+    /** \brief Remove the "start" and "end" info text from animation viewports */
+    void deleteAnimInfoText();
 
 public slots:
     void slotNewText(QGraphicsTextItem *tt);
