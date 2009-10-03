@@ -1270,7 +1270,6 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint pos)
         info.cropStart = GenTime(list.at(1).toInt(), m_document->fps());
         info.endPos = GenTime(list.at(2).toInt() - list.at(1).toInt(), m_document->fps());
         info.cropDuration = info.endPos - info.startPos;
-        info.originalcropStart = info.cropStart;
         info.track = 0;
 
         // Check if clip can be inserted at that position
@@ -1406,11 +1405,10 @@ void CustomTrackView::addEffect(int track, GenTime pos, QDomElement effect)
                 emit displayMessage(i18n("Problem adding effect to clip"), ErrorMessage);
                 return;
             }
-            ItemInfo info = clip->info();
             double speed = EffectsList::parameter(effect, "speed").toDouble() / 100.0;
             int strobe = EffectsList::parameter(effect, "strobe").toInt();
             if (strobe == 0) strobe = 1;
-            doChangeClipSpeed(info, speed, 1.0, strobe, clip->baseClip()->getId());
+            doChangeClipSpeed(clip->info(), clip->speedIndependantInfo(), speed, 1.0, strobe, clip->baseClip()->getId());
             EffectsParameterList params = clip->addEffect(effect);
             m_document->renderer()->mltAddEffect(track, pos, params);
             if (clip->isSelected()) emit clipItemSelected(clip);
@@ -1435,8 +1433,7 @@ void CustomTrackView::deleteEffect(int track, GenTime pos, QDomElement effect)
     if (effect.attribute("id") == "speed") {
         ClipItem *clip = getClipItemAt((int)pos.frames(m_document->fps()), m_document->tracksCount() - track);
         if (clip) {
-            ItemInfo info = clip->info();
-            doChangeClipSpeed(info, 1.0, clip->speed(), 1, clip->baseClip()->getId());
+            doChangeClipSpeed(clip->info(), clip->speedIndependantInfo(), 1.0, clip->speed(), 1, clip->baseClip()->getId());
             clip->deleteEffect(index);
             emit clipItemSelected(clip);
             m_document->renderer()->mltRemoveEffect(track, pos, index, true);
@@ -1571,13 +1568,12 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedE
     if (clip) {
         // Special case: speed effect
         if (effect.attribute("id") == "speed") {
-            ItemInfo info = clip->info();
-            if (effect.attribute("disabled") == "1") doChangeClipSpeed(info, 1.0, clip->speed(), 1, clip->baseClip()->getId());
+            if (effect.attribute("disabled") == "1") doChangeClipSpeed(clip->info(), clip->speedIndependantInfo(), 1.0, clip->speed(), 1, clip->baseClip()->getId());
             else {
                 double speed = EffectsList::parameter(effect, "speed").toDouble() / 100.0;
                 int strobe = EffectsList::parameter(effect, "strobe").toInt();
                 if (strobe == 0) strobe = 1;
-                doChangeClipSpeed(info, speed, clip->speed(), strobe, clip->baseClip()->getId());
+                doChangeClipSpeed(clip->info(), clip->speedIndependantInfo(), speed, clip->speed(), strobe, clip->baseClip()->getId());
             }
             clip->setEffectAt(ix, effect);
             if (ix == clip->selectedEffectIndex()) {
@@ -1692,8 +1688,7 @@ void CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut)
         newPos.endPos = info.endPos;
         newPos.cropStart = item->info().cropStart + (cutTime - info.startPos);
         newPos.track = info.track;
-        newPos.cropDuration = GenTime((int)((newPos.endPos - newPos.startPos).frames(m_document->fps()) * speed), m_document->fps());
-        newPos.originalcropStart = GenTime((int)(newPos.cropStart .frames(m_document->fps()) * speed), m_document->fps());
+        newPos.cropDuration = newPos.endPos - newPos.startPos;
 
 
         ClipItem *dup = item->clone(newPos);
@@ -1708,7 +1703,7 @@ void CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut)
             QDomElement oldeffect = item->effectAt(ix);
             dup->deleteEffect(oldeffect.attribute("kdenlive_ix"));
         }
-        item->resizeEnd(cutPos, false);
+        item->resizeEnd(cutPos);
         scene()->addItem(dup);
         if (item->checkKeyFrames()) slotRefreshEffects(item);
         if (dup->checkKeyFrames()) slotRefreshEffects(dup);
@@ -3205,7 +3200,7 @@ void CustomTrackView::changeClipSpeed()
     else delete changeSelected;
 }
 
-void CustomTrackView::doChangeClipSpeed(ItemInfo info, const double speed, const double oldspeed, int strobe, const QString &id)
+void CustomTrackView::doChangeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, const double speed, const double oldspeed, int strobe, const QString &id)
 {
     DocClipBase *baseclip = m_document->clipManager()->getClipById(id);
     ClipItem *item = getClipItemAt((int) info.startPos.frames(m_document->fps()), info.track);
@@ -3215,12 +3210,13 @@ void CustomTrackView::doChangeClipSpeed(ItemInfo info, const double speed, const
         return;
     }
     info.track = m_document->tracksCount() - item->track();
-    int endPos = m_document->renderer()->mltChangeClipSpeed(info, speed, oldspeed, strobe, baseclip->producer());
+    int endPos = m_document->renderer()->mltChangeClipSpeed(info, speedIndependantInfo, speed, oldspeed, strobe, baseclip->producer());
     if (endPos >= 0) {
         item->setSpeed(speed, strobe);
         item->updateRectGeometry();
-        if (item->cropDuration().frames(m_document->fps()) > endPos)
-            item->AbstractClipItem::resizeEnd(info.startPos.frames(m_document->fps()) + endPos, speed);
+        if (item->cropDuration().frames(m_document->fps()) != endPos) {
+            item->resizeEnd((int) info.startPos.frames(m_document->fps()) + endPos - 1);
+        }
         updatePositionEffects(item, info);
         setDocumentModified();
     } else emit displayMessage(i18n("Invalid clip"), ErrorMessage);
@@ -4507,7 +4503,7 @@ void CustomTrackView::setOutPoint()
     ItemInfo startInfo = clip->info();
     ItemInfo endInfo = clip->info();
     endInfo.endPos = GenTime(m_cursorPos, m_document->fps());
-    CLIPTYPE type = (CLIPTYPE) static_cast <ClipItem *> (clip)->clipType();
+    CLIPTYPE type = (CLIPTYPE) static_cast <ClipItem *>(clip)->clipType();
     if (endInfo.endPos <= startInfo.startPos || (type != IMAGE && type != COLOR && type != TEXT && endInfo.endPos > startInfo.startPos + clip->maxDuration() - startInfo.cropStart)) {
         // Check for invalid resize
         emit displayMessage(i18n("Invalid action"), ErrorMessage);
@@ -4515,7 +4511,7 @@ void CustomTrackView::setOutPoint()
     } else if (endInfo.endPos > startInfo.endPos) {
         int length = m_document->renderer()->mltGetSpaceLength(startInfo.endPos, m_document->tracksCount() - startInfo.track, false);
         if ((clip->type() == TRANSITIONWIDGET && itemCollision(clip, endInfo) == true) || (clip->type() == AVWIDGET && length != -1 && length < (endInfo.endPos - startInfo.endPos).frames(m_document->fps()))) {
-            kDebug()<<" RESIZE ERROR, BLNK: "<<length<<", RESIZE: "<<(endInfo.endPos - startInfo.endPos).frames(m_document->fps());
+            kDebug() << " RESIZE ERROR, BLNK: " << length << ", RESIZE: " << (endInfo.endPos - startInfo.endPos).frames(m_document->fps());
             emit displayMessage(i18n("Invalid action"), ErrorMessage);
             return;
         }

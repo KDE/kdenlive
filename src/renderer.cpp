@@ -1991,7 +1991,7 @@ void Render::mltPasteEffects(Mlt::Producer *source, Mlt::Producer *dest)
     }
 }
 
-int Render::mltChangeClipSpeed(ItemInfo info, double speed, double oldspeed, int strobe, Mlt::Producer *prod)
+int Render::mltChangeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, double speed, double oldspeed, int strobe, Mlt::Producer *prod)
 {
     m_isBlocked = true;
     int newLength = 0;
@@ -2077,12 +2077,11 @@ int Render::mltChangeClipSpeed(ItemInfo info, double speed, double oldspeed, int
         int blankEnd = trackPlaylist.clip_start(clipIndex) + trackPlaylist.clip_length(clipIndex);
 
         Mlt::Producer *cut;
-        GenTime duration = info.cropDuration;
-        int originalStart = (int)(info.originalcropStart.frames(m_fps));
-        if (clipIndex + 1 < trackPlaylist.count() && (info.startPos + info.cropDuration).frames(m_fps) > blankEnd) {
+        int originalStart = (int)(speedIndependantInfo.cropStart.frames(m_fps));
+        if (clipIndex + 1 < trackPlaylist.count() && (info.startPos + speedIndependantInfo.cropDuration).frames(m_fps) > blankEnd) {
             GenTime maxLength = GenTime(blankEnd, m_fps) - info.startPos;
             cut = prod->cut(originalStart, (int)(originalStart + maxLength.frames(m_fps) - 1));
-        } else cut = prod->cut(originalStart, (int)(originalStart + info.cropDuration.frames(m_fps)) - 1);
+        } else cut = prod->cut(originalStart, (int)(originalStart + speedIndependantInfo.cropDuration.frames(m_fps)) - 1);
 
         // move all effects to the correct producer
         mltPasteEffects(clip, cut);
@@ -2116,8 +2115,8 @@ int Render::mltChangeClipSpeed(ItemInfo info, double speed, double oldspeed, int
         Mlt::Producer *clip = trackPlaylist.replace_with_blank(clipIndex);
         trackPlaylist.consolidate_blanks(0);
 
-        GenTime duration = info.cropDuration / speed;
-        int originalStart = (int)(info.originalcropStart.frames(m_fps) / speed);
+        GenTime duration = speedIndependantInfo.cropDuration / speed;
+        int originalStart = (int)(speedIndependantInfo.cropStart.frames(m_fps) / speed);
 
         // Check that the blank space is long enough for our new duration
         clipIndex = trackPlaylist.get_clip_index_at(startPos);

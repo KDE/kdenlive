@@ -570,8 +570,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked)
                 clipinfo.startPos = GenTime(position, m_doc->fps());
                 clipinfo.endPos = clipinfo.startPos + GenTime(out - in + 1, m_doc->fps());
                 clipinfo.cropStart = GenTime(in, m_doc->fps());
-                clipinfo.cropDuration = GenTime((int)((clipinfo.endPos - clipinfo.startPos).frames(m_doc->fps()) * speed + 0.5), m_doc->fps());
-                clipinfo.originalcropStart = GenTime((int)((clipinfo.cropStart).frames(m_doc->fps()) * speed + 0.5), m_doc->fps());
+                clipinfo.cropDuration = clipinfo.endPos - clipinfo.startPos;
 
                 clipinfo.track = ix;
                 //kDebug() << "// INSERTING CLIP: " << in << "x" << out << ", track: " << ix << ", ID: " << id << ", SCALE: " << m_scale << ", FPS: " << m_doc->fps();

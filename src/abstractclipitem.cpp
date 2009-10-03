@@ -85,7 +85,7 @@ void AbstractClipItem::updateRectGeometry()
     setRect(0, 0, cropDuration().frames(m_fps) - 0.02, rect().height());
 }
 
-void AbstractClipItem::resizeStart(int posx, double speed)
+void AbstractClipItem::resizeStart(int posx)
 {
     GenTime durationDiff = GenTime(posx, m_fps) - m_info.startPos;
     if (durationDiff == GenTime()) return;
@@ -100,27 +100,22 @@ void AbstractClipItem::resizeStart(int posx, double speed)
     }
     //kDebug()<<"// DURATION DIFF: "<<durationDiff.frames(25)<<", POS: "<<pos().x();
     m_info.startPos += durationDiff;
-    GenTime originalDiff = GenTime((int)(durationDiff.frames(m_fps) * speed), m_fps);
 
     if (type() == AVWIDGET) {
         m_info.cropStart += durationDiff;
-        m_info.originalcropStart += originalDiff;
     }
-    m_info.cropDuration = m_info.cropDuration - originalDiff;
-
+    m_info.cropDuration = m_info.cropDuration - durationDiff;
     setRect(0, 0, cropDuration().frames(m_fps) - 0.02, rect().height());
     moveBy(durationDiff.frames(m_fps), 0);
     //setPos(m_startPos.frames(m_fps), pos().y());
     if ((int) scenePos().x() != posx) {
         //kDebug()<<"//////  WARNING, DIFF IN XPOS: "<<pos().x()<<" == "<<m_startPos.frames(m_fps);
         GenTime diff = GenTime((int) pos().x() - posx, m_fps);
-        GenTime originalDiff = GenTime((int)(diff.frames(m_fps) * speed), m_fps);
 
         if (type() == AVWIDGET) {
             m_info.cropStart += diff;
-            m_info.originalcropStart += originalDiff;
         }
-        m_info.cropDuration = m_info.cropDuration - originalDiff;
+        m_info.cropDuration = m_info.cropDuration - diff;
         setRect(0, 0, cropDuration().frames(m_fps) - 0.02, rect().height());
         //kDebug()<<"// NEW START: "<<m_startPos.frames(25)<<", NW DUR: "<<m_cropDuration.frames(25);
     }
@@ -147,7 +142,7 @@ void AbstractClipItem::resizeStart(int posx, double speed)
         }*/
 }
 
-void AbstractClipItem::resizeEnd(int posx, double speed)
+void AbstractClipItem::resizeEnd(int posx)
 {
     GenTime durationDiff = GenTime(posx, m_fps) - endPos();
     if (durationDiff == GenTime()) return;
@@ -155,7 +150,7 @@ void AbstractClipItem::resizeEnd(int posx, double speed)
         durationDiff = GenTime() - (cropDuration() - GenTime(3, m_fps));
     }
 
-    m_info.cropDuration += GenTime((int)(durationDiff.frames(m_fps) * speed), m_fps);
+    m_info.cropDuration += durationDiff;
 
     setRect(0, 0, cropDuration().frames(m_fps) - 0.02, rect().height());
     if (durationDiff > GenTime()) {
@@ -167,7 +162,7 @@ void AbstractClipItem::resizeEnd(int posx, double speed)
                 kDebug() << "/////////  CURRENT: " << startPos().frames(25) << "x" << endPos().frames(25) << ", RECT: " << rect() << "-" << pos();
                 kDebug() << "/////////  COLLISION: " << ((AbstractClipItem *)item)->startPos().frames(25) << "x" << ((AbstractClipItem *)item)->endPos().frames(25) << ", RECT: " << ((AbstractClipItem *)item)->rect() << "-" << item->pos();*/
                 GenTime diff = ((AbstractClipItem *)item)->startPos() - GenTime(1, m_fps) - startPos();
-                m_info.cropDuration = GenTime((int)(diff.frames(m_fps) * speed), m_fps);
+                m_info.cropDuration = diff;
                 setRect(0, 0, cropDuration().frames(m_fps) - 0.02, rect().height());
                 break;
             }

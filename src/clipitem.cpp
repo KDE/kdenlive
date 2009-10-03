@@ -59,6 +59,12 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, i
     setZValue(2);
     setRect(0, 0, (info.endPos - info.startPos).frames(fps) - 0.02, (double)(KdenliveSettings::trackheight() - 2));
     setPos(info.startPos.frames(fps), (double)(info.track * KdenliveSettings::trackheight()) + 1);
+
+    // set speed independant info
+    m_speedIndependantInfo = m_info;
+    m_speedIndependantInfo.cropStart = GenTime((int)(m_info.cropStart.frames(m_fps) * m_speed), m_fps);
+    m_speedIndependantInfo.cropDuration = GenTime((int)(m_info.cropDuration.frames(m_fps) * m_speed), m_fps);
+
     m_videoPix = KIcon("kdenlive-show-video").pixmap(QSize(16, 16));
     m_audioPix = KIcon("kdenlive-show-audio").pixmap(QSize(16, 16));
 
@@ -1074,13 +1080,19 @@ void ClipItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *)
 }
 */
 
-void ClipItem::resizeStart(int posx, double /*speed*/)
+void ClipItem::resizeStart(int posx)
 {
     const int min = (startPos() - cropStart()).frames(m_fps);
     if (posx < min) posx = min;
     if (posx == startPos().frames(m_fps)) return;
     const int previous = cropStart().frames(m_fps);
-    AbstractClipItem::resizeStart(posx, m_speed);
+    AbstractClipItem::resizeStart(posx);
+
+    // set speed independant info
+    m_speedIndependantInfo = m_info;
+    m_speedIndependantInfo.cropStart = GenTime((int)(m_info.cropStart.frames(m_fps) * m_speed), m_fps);
+    m_speedIndependantInfo.cropDuration = GenTime((int)(m_info.cropDuration.frames(m_fps) * m_speed), m_fps);
+
     if ((int) cropStart().frames(m_fps) != previous) {
         if (m_hasThumbs && KdenliveSettings::videothumbnails()) {
             /*connect(m_clip->thumbProducer(), SIGNAL(thumbReady(int, QPixmap)), this, SLOT(slotThumbReady(int, QPixmap)));*/
@@ -1089,14 +1101,20 @@ void ClipItem::resizeStart(int posx, double /*speed*/)
     }
 }
 
-void ClipItem::resizeEnd(int posx, double /*speed*/)
+void ClipItem::resizeEnd(int posx)
 {
     const int max = (startPos() - cropStart() + maxDuration()).frames(m_fps);
     if (posx > max && maxDuration() != GenTime()) posx = max;
     if (posx == endPos().frames(m_fps)) return;
     //kDebug() << "// NEW POS: " << posx << ", OLD END: " << endPos().frames(m_fps);
     const int previous = cropDuration().frames(m_fps);
-    AbstractClipItem::resizeEnd(posx, m_speed);
+    AbstractClipItem::resizeEnd(posx);
+
+    // set speed independant info
+    m_speedIndependantInfo = m_info;
+    m_speedIndependantInfo.cropStart = GenTime((int)(m_info.cropStart.frames(m_fps) * m_speed), m_fps);
+    m_speedIndependantInfo.cropDuration = GenTime((int)(m_info.cropDuration.frames(m_fps) * m_speed), m_fps);
+
     if ((int) cropDuration().frames(m_fps) != previous) {
         if (m_hasThumbs && KdenliveSettings::videothumbnails()) {
             /*connect(m_clip->thumbProducer(), SIGNAL(thumbReady(int, QPixmap)), this, SLOT(slotThumbReady(int, QPixmap)));*/
@@ -1493,6 +1511,8 @@ void ClipItem::setSpeed(const double speed, const int strobe)
     m_strobe = strobe;
     if (m_speed == 1.0) m_clipName = baseClip()->name();
     else m_clipName = baseClip()->name() + " - " + QString::number(speed * 100, 'f', 0) + '%';
+    m_info.cropStart = GenTime((int)(m_speedIndependantInfo.cropStart.frames(m_fps) / m_speed + 0.5), m_fps);
+    m_info.cropDuration = GenTime((int)(m_speedIndependantInfo.cropDuration.frames(m_fps) / m_speed + 0.5), m_fps);
     //update();
 }
 
@@ -1501,19 +1521,20 @@ GenTime ClipItem::maxDuration() const
     return GenTime((int)(m_maxDuration.frames(m_fps) / m_speed + 0.5), m_fps);
 }
 
-GenTime ClipItem::cropStart() const
+GenTime ClipItem::speedIndependantCropStart() const
 {
-    return GenTime((int)(m_info.originalcropStart.frames(m_fps) / m_speed + 0.5), m_fps);
+    return m_speedIndependantInfo.cropStart;
 }
 
-GenTime ClipItem::cropDuration() const
+GenTime ClipItem::speedIndependantCropDuration() const
 {
-    return GenTime((int)(m_info.cropDuration.frames(m_fps) / m_speed + 0.5), m_fps);
+    return m_speedIndependantInfo.cropDuration;
 }
 
-GenTime ClipItem::endPos() const
+
+const ItemInfo ClipItem::speedIndependantInfo() const
 {
-    return m_info.startPos + cropDuration();
+    return m_speedIndependantInfo;
 }
 
 //virtual

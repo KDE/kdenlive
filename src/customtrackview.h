@@ -96,7 +96,7 @@ public:
     void clipStart();
     void clipEnd();
     void changeClipSpeed();
-    void doChangeClipSpeed(ItemInfo info, const double speed, const double oldspeed, int strobe, const QString &id);
+    void doChangeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, const double speed, const double oldspeed, int strobe, const QString &id);
     void setDocumentModified();
     void setInPoint();
     void setOutPoint();

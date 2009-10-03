@@ -47,8 +47,8 @@ public:
                        const QStyleOptionGraphicsItem *option,
                        QWidget *);
     virtual int type() const;
-    void resizeStart(int posx, double speed = 1.0);
-    void resizeEnd(int posx, double speed = 1.0);
+    void resizeStart(int posx);
+    void resizeEnd(int posx);
     OPERATIONTYPE operationMode(QPointF pos);
     const QString clipProducer() const;
     int clipType() const;
@@ -101,9 +101,9 @@ public:
     double speed() const;
     int strobe() const;
     GenTime maxDuration() const;
-    GenTime cropStart() const;
-    GenTime endPos() const;
-    GenTime cropDuration() const;
+    GenTime speedIndependantCropStart() const;
+    GenTime speedIndependantCropDuration() const;
+    const ItemInfo speedIndependantInfo() const;
     int hasEffect(const QString &tag, const QString &id) const;
     bool checkKeyFrames();
     QPixmap startThumb() const;
@@ -126,6 +126,7 @@ protected:
 
 private:
     DocClipBase *m_clip;
+    ItemInfo m_speedIndependantInfo;
     QString m_producer;
     CLIPTYPE m_clipType;
     QString m_clipName;

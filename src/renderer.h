@@ -211,7 +211,7 @@ Q_OBJECT public:
     to the clip and 0.6 is the speed in percents. The newly created producer will have it's
     "id" parameter set to: "slowmotion:parentid:speed", where parentid is the id of the original clip
     in the ClipManager list and speed is the current speed */
-    int mltChangeClipSpeed(ItemInfo info, double speed, double oldspeed, int strobe, Mlt::Producer *prod);
+    int mltChangeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, double speed, double oldspeed, int strobe, Mlt::Producer *prod);
 
     const QList <Mlt::Producer *> producersList();
     void updatePreviewSettings();
