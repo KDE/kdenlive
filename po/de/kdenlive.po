@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-10-01 23:51+0200\n"
-"PO-Revision-Date: 2009-10-03 16:20+0200\n"
+"PO-Revision-Date: 2009-10-03 16:32+0200\n"
 "Last-Translator: Markus Slopianka <kamikazow@web.de>\n"
 "Language-Team: American English <kde-i18n-de@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -25,7 +25,7 @@ msgstr ""
 #: src/titlewidget.cpp:69 rc.cpp:1828 rc.cpp:3746 rc.cpp:5225
 #, no-c-format
 msgid "%"
-msgstr ""
+msgstr "%"
 
 #: src/titlewidget.cpp:1077 rc.cpp:1524 rc.cpp:3442 rc.cpp:4921
 msgid "+X"
@@ -180,7 +180,6 @@ msgstr ""
 "Guillemets\">Wikipedia:Guillemets</a></p>"
 
 #: src/unicodedialog.cpp:158
-#, fuzzy
 msgid ""
 "<p>An em Dash (dash of the width of an m).</p><p>Usage examples: In English "
 "language to mark&#x2014;like here&#x2014;thoughts. Traditionally without "
@@ -446,9 +445,8 @@ msgid "Add transition to clip"
 msgstr "Übergang zu Clip hinzufügen"
 
 #: rc.cpp:1918
-#, fuzzy
 msgid "Additional Information"
-msgstr "Zusätzliche Einstellungen"
+msgstr "Zusätzliche Informationen"
 
 #: src/wizard.cpp:113
 msgid "Additional Settings"
@@ -475,14 +473,17 @@ msgid "Adjust the white balance / color temperature"
 msgstr "Weißabgleich/Farbtemperatur anpassen"
 
 #: rc.cpp:140 rc.cpp:2058
+#, fuzzy
 msgid "Adjusts the brightness of a source image"
 msgstr ""
 
 #: rc.cpp:151 rc.cpp:2069
+#, fuzzy
 msgid "Adjusts the contrast of a source image"
 msgstr ""
 
 #: rc.cpp:179 rc.cpp:2097
+#, fuzzy
 msgid "Adjusts the saturation of a source image"
 msgstr ""
 
@@ -499,24 +500,20 @@ msgid "Align item horizontally"
 msgstr "Element horizontal ausrichten"
 
 #: src/titlewidget.cpp:188
-#, fuzzy
 msgid "Align item to bottom"
-msgstr "Element horizontal ausrichten"
+msgstr "Unten ausrichten"
 
 #: src/titlewidget.cpp:192
-#, fuzzy
 msgid "Align item to left"
 msgstr "Links ausrichten"
 
 #: src/titlewidget.cpp:190
-#, fuzzy
 msgid "Align item to right"
 msgstr "Rechts ausrichten"
 
 #: src/titlewidget.cpp:186
-#, fuzzy
 msgid "Align item to top"
-msgstr "Element horizontal ausrichten"
+msgstr "Oben ausrichten"
 
 #: src/titlewidget.cpp:184
 msgid "Align item vertically"
@@ -559,10 +556,12 @@ msgid "Allow vertical moves"
 msgstr "Vertikales Verschieben erlauben"
 
 #: rc.cpp:165 rc.cpp:2083
+#, fuzzy
 msgid "Allows compensation of lens distortion"
 msgstr ""
 
 #: rc.cpp:211 rc.cpp:2129
+#, fuzzy
 msgid "Alpha blending with zoomed and rotated images"
 msgstr ""
 
@@ -806,7 +805,6 @@ msgid "Buffer"
 msgstr "Puffer"
 
 #: src/main.cpp:41 src/main.cpp:42 src/main.cpp:43
-#, fuzzy
 msgid "Bug fixing, etc."
 msgstr "Fehlerberichtigung usw."
 
@@ -1047,6 +1045,7 @@ msgid "Capture format"
 msgstr "Aufnahmeformat"
 
 #: src/kdenlivesettingsdialog.cpp:81
+#, fuzzy
 msgid "Capture is not yet available on OS X."
 msgstr ""
 
@@ -1109,6 +1108,7 @@ msgid "Change track type"
 msgstr "Spur-Typ ändern"
 
 #: src/projectsettings.cpp:144
+#, fuzzy
 msgid ""
 "Changing the profile of your project cannot be undone.\n"
 "It is recommended to save your project before attempting this operation that "
@@ -1153,9 +1153,8 @@ msgid "Charcoal drawing effect"
 msgstr "Kohlezeichnung-Effekt"
 
 #: src/kdenlivedoc.cpp:134
-#, fuzzy
 msgid "Check missing clips"
-msgstr "Fehlende Clips"
+msgstr "Fehlende Clips überprüfen"
 
 #: rc.cpp:672 rc.cpp:2590 rc.cpp:4069
 msgid "CheckBox"
@@ -1198,6 +1197,7 @@ msgid "Clean up project"
 msgstr "Projekt bereinigen"
 
 #: rc.cpp:840 rc.cpp:2758 rc.cpp:3909 rc.cpp:4237 rc.cpp:5388
+#, fuzzy
 msgid "Clear cache"
 msgstr ""
 
@@ -1243,9 +1243,8 @@ msgid "Clip bottom"
 msgstr "Clip unten"
 
 #: rc.cpp:1831 rc.cpp:3749 rc.cpp:5228
-#, fuzzy
 msgid "Clip duration"
-msgstr "Clip-Länge: %1 Sek."
+msgstr "Clip-Länge"
 
 #: src/clipitem.cpp:882
 #, c-format
@@ -1265,9 +1264,8 @@ msgid "Clip right"
 msgstr "Clip rechts"
 
 #: rc.cpp:1824 rc.cpp:3742 rc.cpp:5221
-#, fuzzy
 msgid "Clip speed"
-msgstr "Clip-Geschwindigkeit bearbeiten"
+msgstr "Clip-Geschwindigkeit"
 
 #: rc.cpp:191 rc.cpp:2109
 msgid "Clip top"
@@ -1278,6 +1276,7 @@ msgid "Clips folder"
 msgstr "Clip-Ordner"
 
 #: rc.cpp:828 rc.cpp:2746 rc.cpp:3897 rc.cpp:4225 rc.cpp:5376
+#, fuzzy
 msgid "Clips used in project:"
 msgstr ""
 
@@ -1350,6 +1349,7 @@ msgid "Configure"
 msgstr "Einrichten"
 
 #: src/projectsettings.cpp:144
+#, fuzzy
 msgid "Confirm profile change"
 msgstr ""
 
@@ -1359,9 +1359,10 @@ msgstr "Verbinden"
 
 #: rc.cpp:153 rc.cpp:2071
 msgid "Contrast"
-msgstr ""
+msgstr "Kontrast"
 
 #: rc.cpp:149 rc.cpp:2067
+#, fuzzy
 msgid "Contrast0r"
 msgstr ""
 
@@ -1469,6 +1470,7 @@ msgid "Crop start"
 msgstr "Beginn abschneiden"
 
 #: src/mainwindow.cpp:2432
+#, fuzzy
 msgid "Ctrl + click to use spacer on current track only"
 msgstr ""
 
@@ -1686,9 +1688,8 @@ msgid "Delete effect"
 msgstr "Effekt löschen"
 
 #: rc.cpp:834 rc.cpp:2752 rc.cpp:3903 rc.cpp:4231 rc.cpp:5382
-#, fuzzy
 msgid "Delete files"
-msgstr "Profil löschen"
+msgstr "Dateien löschen"
 
 #: src/addfoldercommand.cpp:34
 msgid "Delete folder"
@@ -1775,7 +1776,7 @@ msgstr "Zeitleisten-Clips löschen"
 #: src/titlewidget.cpp:142
 msgctxt "Font style"
 msgid "Demi-Bold"
-msgstr ""
+msgstr "Halbfett"
 
 #: rc.cpp:269 rc.cpp:2187
 msgid "Depth"
@@ -1800,9 +1801,8 @@ msgid "Destination"
 msgstr "Ziel"
 
 #: src/cliptranscode.cpp:50
-#, fuzzy
 msgid "Destination folder"
-msgstr "Ziel"
+msgstr "Zielordner"
 
 #: rc.cpp:1179 rc.cpp:3097 rc.cpp:4576
 msgid "Device"
@@ -1921,7 +1921,7 @@ msgstr ""
 
 #: rc.cpp:173 rc.cpp:2091
 msgid "Edges correction"
-msgstr ""
+msgstr "Kantenkorrektur"
 
 #: src/mainwindow.cpp:1151
 msgid "Edit Clip"
@@ -2027,6 +2027,7 @@ msgid "Em Space (width of an m)"
 msgstr "Geviert-Leerzeichen"
 
 #: src/unicodedialog.cpp:136
+#, fuzzy
 msgid "En Space (width of an n)"
 msgstr ""
 
@@ -2181,6 +2182,7 @@ msgid "Feedback"
 msgstr "Rückmeldung"
 
 #: src/unicodedialog.cpp:146
+#, fuzzy
 msgid ""
 "Figure space (non-breaking). Width of a digit if digits have fixed width in "
 "this font."
@@ -2199,7 +2201,6 @@ msgstr ""
 "Wollen Sie sie überschreiben?"
 
 #: src/kdenlivedoc.cpp:91
-#, fuzzy
 msgid "File %1 is not a Kdenlive project file"
 msgstr "Datei %1 ist keine Kdenlive Projektdatei."
 
@@ -2277,6 +2278,7 @@ msgstr ""
 "Bitte installieren Sie Libiec61883 und kompilieren Sie Kdenlive neu"
 
 #: src/titlewidget.cpp:177
+#, fuzzy
 msgid "Fit zoom"
 msgstr ""
 
@@ -2307,7 +2309,7 @@ msgstr "Schrift"
 
 #: src/titlewidget.cpp:145
 msgid "Font weight"
-msgstr ""
+msgstr "Schriftstärke"
 
 #: rc.cpp:578 rc.cpp:2496 rc.cpp:3975
 msgid "Force Interlaced"
@@ -2566,6 +2568,7 @@ msgid "HDV"
 msgstr "HDV"
 
 #: src/unicodedialog.cpp:152
+#, fuzzy
 msgid "Hair Space. Thinner than U+2009."
 msgstr ""
 
@@ -2810,9 +2813,8 @@ msgid "Keep as placeholder"
 msgstr "Behalte als Platzhalter"
 
 #: rc.cpp:1635 rc.cpp:3553 rc.cpp:5032
-#, fuzzy
 msgid "Keep aspect ratio"
-msgstr "Pixel-Seitenverhältnis (PAR)"
+msgstr "Seitenverhältnis beibehalten"
 
 #: rc.cpp:207 rc.cpp:2125
 msgid "Kernel size"
@@ -2860,7 +2862,7 @@ msgstr "Links"
 
 #: rc.cpp:163 rc.cpp:2081
 msgid "Lens Correction"
-msgstr ""
+msgstr "Linsenkorrektur"
 
 #: src/titlewidget.cpp:140
 #, fuzzy
@@ -2903,9 +2905,8 @@ msgid "Loading"
 msgstr "Lade"
 
 #: src/projectlist.cpp:952
-#, fuzzy
 msgid "Loading clips"
-msgstr "Lade Clips des Projekts"
+msgstr "Lade Clips"
 
 #: src/projectlist.cpp:890
 #, fuzzy
@@ -3183,7 +3184,7 @@ msgstr "Neutrale Farbe"
 
 #: src/trackview.cpp:872
 msgid "New Track Name"
-msgstr ""
+msgstr "Neuer Spurname"
 
 #: src/customtrackview.cpp:3195
 msgid "New speed (percents)"
@@ -3379,6 +3380,7 @@ msgid "Path"
 msgstr "Pfad"
 
 #: rc.cpp:215 rc.cpp:2133
+#, fuzzy
 msgid "Phase Increment"
 msgstr ""
 
@@ -3779,9 +3781,8 @@ msgid "Removed invalid transition: %1"
 msgstr "Ungültiger Übergang entfernt: %1"
 
 #: src/headertrack.cpp:88
-#, fuzzy
 msgid "Rename Track"
-msgstr "Entferne Spur"
+msgstr "Spur umbenennen"
 
 #: src/editfoldercommand.cpp:34
 msgid "Rename folder"
@@ -3922,6 +3923,7 @@ msgid "Reverse playing"
 msgstr "Rückwärts abspielen"
 
 #: src/mainwindow.cpp:2878
+#, fuzzy
 msgid "Revert to last saved version"
 msgstr ""
 
@@ -3990,6 +3992,7 @@ msgid "SVGAlib"
 msgstr "SVGAlib"
 
 #: rc.cpp:177 rc.cpp:2095
+#, fuzzy
 msgid "Saturat0r"
 msgstr ""
 
@@ -4195,9 +4198,8 @@ msgid "Set zone start"
 msgstr "Bereichs-Anfangspunkt setzen"
 
 #: rc.cpp:3840 rc.cpp:5319
-#, fuzzy
 msgid "Settings"
-msgstr "Projekteinstellungen"
+msgstr "Einstellungen"
 
 #: rc.cpp:373 rc.cpp:2291
 msgid "Shear X"
@@ -4212,6 +4214,7 @@ msgid "Shift"
 msgstr "Umschalt"
 
 #: src/mainwindow.cpp:2438
+#, fuzzy
 msgid ""
 "Shift + click to create a selection rectangle, Ctrl + click to add an item "
 "to selection"
@@ -4246,12 +4249,13 @@ msgid "Show video thumbnails"
 msgstr "Zeige Videobilder"
 
 #: rc.cpp:638 rc.cpp:2556 rc.cpp:4035
+#, fuzzy
 msgid "Shutdown computer after renderings"
 msgstr ""
 
 #: src/main.cpp:43
 msgid "Simon A. Eugster"
-msgstr ""
+msgstr "Simon A. Eugster"
 
 #: rc.cpp:313 rc.cpp:2231
 msgid "Simulates a vinyl audio player - LADSPA audio effect"
@@ -4262,6 +4266,7 @@ msgid "Six-Per-Em Space. Width: 1/6 of one <em>em</em>"
 msgstr "Sechstelgeviert-Leerzeichen"
 
 #: src/unicodedialog.cpp:172
+#, fuzzy
 msgid ""
 "Sixteenth note (Am.) or semiquaver (Brit.). Half as long as an eighth note (U"
 "+266a). See <a href=\"http://en.wikipedia.org/wiki/Sixteenth_note"
@@ -4335,9 +4340,8 @@ msgid "Source Color"
 msgstr "Quellfarbe"
 
 #: rc.cpp:391 rc.cpp:2309
-#, fuzzy
 msgid "Sox Balance"
-msgstr "Sox-Band"
+msgstr "Sox-Balance"
 
 #: rc.cpp:407 rc.cpp:2325
 msgid "Sox Band"
@@ -4574,12 +4578,14 @@ msgid "There is no clip, cannot extract frame."
 msgstr "Kein Clip vorhanden, kann kein Frame extrahieren."
 
 #: src/unicodedialog.cpp:150
+#, fuzzy
 msgid ""
 "Thin space, in HTML also &amp;thinsp;. See U+202f and <a href=\"http://en."
 "wikipedia.org/wiki/Space_(punctuation)\">Wikipedia:Space_(punctuation)</a>"
 msgstr ""
 
 #: src/unicodedialog.cpp:174
+#, fuzzy
 msgid ""
 "Thirty-second note (Am.) or demisemiquaver (Brit.). Half as long as a "
 "sixteenth note (U+266b). See <a href=\"http://en.wikipedia.org/wiki/"
@@ -4620,10 +4626,12 @@ msgstr ""
 "Bitte aktualisieren Sie Ihre Kdenlive-Version, falls möglich."
 
 #: src/titledocument.cpp:196
+#, fuzzy
 msgid "This title clip was created with a different frame size."
 msgstr ""
 
 #: src/mainwindow.cpp:2878
+#, fuzzy
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
 "sure you want to continue?"
@@ -4635,6 +4643,7 @@ msgid "This will remove all unused clips from your project."
 msgstr "Dies wird die ausgewählten Clips aus diesem Projekt entfernen"
 
 #: src/projectsettings.cpp:91
+#, fuzzy
 msgid ""
 "This will remove the following files from your hard drive.\n"
 "This action cannot be undone, only use if you know what you are doing.\n"
@@ -4715,7 +4724,6 @@ msgid "Title Profile"
 msgstr "Profil bearbeiten"
 
 #: src/kdenlivedoc.cpp:1076
-#, fuzzy
 msgid "Title clip"
 msgstr "Titel-Clip"
 
@@ -4906,7 +4914,7 @@ msgstr "Vertikale Streuung"
 
 #: rc.cpp:209 rc.cpp:2127
 msgid "Vertigo"
-msgstr ""
+msgstr "Vertigo"
 
 #: rc.cpp:756 rc.cpp:1113 rc.cpp:1707 rc.cpp:1900 rc.cpp:2674 rc.cpp:3031
 #: rc.cpp:3625 rc.cpp:3818 rc.cpp:3888 rc.cpp:4153 rc.cpp:4510 rc.cpp:5104
@@ -5121,12 +5129,14 @@ msgid "You need program <b>%1</b> to perform this action"
 msgstr "Sie benötigen das Programm <b>%1</b> um diesen Vorgang auszuführen"
 
 #: src/recmonitor.cpp:167
+#, fuzzy
 msgid ""
 "You need to disconnect and reconnect in the capture monitor to apply your "
 "changes"
 msgstr ""
 
 #: src/recmonitor.cpp:168
+#, fuzzy
 msgid "You need to stop capture before your changes can be applied"
 msgstr ""
 
@@ -5150,12 +5160,14 @@ msgid "Your MLT version is unsupported!!!"
 msgstr "Ihre MLT-Version wird nicht unterstützt."
 
 #: src/trackview.cpp:398
+#, fuzzy
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version, it "
 "was not possible to create a backup copy."
 msgstr ""
 
 #: src/trackview.cpp:397
+#, fuzzy
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version.\n"
 " To make sure you don't loose data, a backup copy called: %1 was created."
@@ -5255,6 +5267,7 @@ msgid "dvgrab"
 msgstr "Dvgrab"
 
 #: rc.cpp:1236 rc.cpp:3154 rc.cpp:4633
+#, fuzzy
 msgid "dvgrab additional parameters"
 msgstr ""
 
@@ -5286,7 +5299,7 @@ msgstr "genisoimage"
 
 #: src/wizard.cpp:340
 msgid "genisoimage or mkisofs"
-msgstr ""
+msgstr "genisoimage oder mkisofs"
 
 #: src/clipproperties.cpp:165 src/mainwindow.cpp:676 src/slideshowclip.cpp:58
 msgid "hh:mm:ss::ff"
@@ -5303,7 +5316,7 @@ msgstr "importieren"
 #: src/mainwindow.cpp:706
 msgctxt "Spacer tool shortcut"
 msgid "m"
-msgstr ""
+msgstr "Min"
 
 #: src/timecode.cpp:146
 msgid "min."
@@ -5336,7 +5349,7 @@ msgstr "recordmydesktop"
 #: src/mainwindow.cpp:694
 msgctxt "Selection tool shortcut"
 msgid "s"
-msgstr ""
+msgstr "Sek"
 
 #: src/renderwidget.cpp:1675
 msgid "script"
