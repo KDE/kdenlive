@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-10-01 23:51+0200\n"
-"PO-Revision-Date: 2009-10-03 15:59+0200\n"
+"PO-Revision-Date: 2009-10-03 17:59+0200\n"
 "Last-Translator: Mariusz Pluciński <vshader@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -766,7 +766,7 @@ msgstr "Przezroczystość krawędzi"
 
 #: src/geometryval.cpp:102 rc.cpp:70 rc.cpp:1988
 msgid "Bottom"
-msgstr "Przycisk"
+msgstr "Dół"
 
 # better translation possible
 #: rc.cpp:12 rc.cpp:1930
