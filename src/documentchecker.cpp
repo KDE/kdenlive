@@ -273,7 +273,6 @@ void DocumentChecker::accept()
                             break;
                         }
                     }
-                    break;
                 }
             }
         } else if (child->data(0, statusRole).toInt() == CLIPPLACEHOLDER) {
