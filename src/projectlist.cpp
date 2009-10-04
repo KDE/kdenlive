@@ -314,11 +314,14 @@ void ProjectList::slotUpdateClipProperties(const QString &id, QMap <QString, QSt
     ProjectItem *item = getItemById(id);
     if (item) {
         slotUpdateClipProperties(item, properties);
-        if (properties.contains("colour") || properties.contains("resource") || properties.contains("xmldata") || properties.contains("force_aspect_ratio") || properties.contains("templatetext")) {
+        if (properties.contains("out")) {
+            slotReloadClip(id);
+            //item->changeDuration(properties.value("out").toInt());
+        }
+        else if (properties.contains("colour") || properties.contains("resource") || properties.contains("xmldata") || properties.contains("force_aspect_ratio") || properties.contains("templatetext")) {
             slotRefreshClipThumbnail(item);
             emit refreshClip();
         }
-        if (properties.contains("out")) item->changeDuration(properties.value("out").toInt());
     }
 }
 

@@ -287,6 +287,7 @@ void ClipManager::slotAddClipList(const KUrl::List urls, const QString group, co
                     prod.setAttribute("in", 0);
                     int out = txtdoc.documentElement().attribute("out").toInt();
                     if (out > 0) prod.setAttribute("out", out);
+                    else prod.setAttribute("out", m_doc->getFramePos(KdenliveSettings::image_duration()) - 1);
                 } else txtfile.close();
             }
             new AddClipCommand(m_doc, doc.documentElement(), QString::number(id), true, addClips);
@@ -327,6 +328,7 @@ void ClipManager::slotAddClipFile(const KUrl url, const QString group, const QSt
             prod.setAttribute("in", 0);
             int out = (int) outPos.frames(m_doc->fps());
             if (out > 0) prod.setAttribute("out", out);
+            else prod.setAttribute("out", m_doc->getFramePos(KdenliveSettings::image_duration()) - 1);
         } else txtfile.close();
     }
     AddClipCommand *command = new AddClipCommand(m_doc, doc.documentElement(), QString::number(id), true);
