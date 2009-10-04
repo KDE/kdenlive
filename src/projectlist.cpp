@@ -316,9 +316,7 @@ void ProjectList::slotUpdateClipProperties(const QString &id, QMap <QString, QSt
         slotUpdateClipProperties(item, properties);
         if (properties.contains("out")) {
             slotReloadClip(id);
-            //item->changeDuration(properties.value("out").toInt());
-        }
-        else if (properties.contains("colour") || properties.contains("resource") || properties.contains("xmldata") || properties.contains("force_aspect_ratio") || properties.contains("templatetext")) {
+        } else if (properties.contains("colour") || properties.contains("resource") || properties.contains("xmldata") || properties.contains("force_aspect_ratio") || properties.contains("templatetext")) {
             slotRefreshClipThumbnail(item);
             emit refreshClip();
         }
