@@ -2608,23 +2608,27 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                     moveCommand->setText(i18n("Move clip"));
                     new MoveClipCommand(this, m_dragItemInfo, info, false, moveCommand);
                     // Also move automatic transitions (on lower track)
-                    Transition *tr = getTransitionItemAtStart(m_dragItemInfo.startPos, m_dragItemInfo.track);
-                    if (tr && tr->isAutomatic()) {
-                        ItemInfo trInfo = tr->info();
-                        ItemInfo newTrInfo = trInfo;
-                        newTrInfo.track = info.track;
-                        newTrInfo.startPos = m_dragItem->startPos();
-                        if (m_dragItemInfo.track == info.track && !item->baseClip()->isTransparent() && getClipItemAtEnd(newTrInfo.endPos, m_document->tracksCount() - tr->transitionEndTrack())) {
+                    Transition *startTransition = getTransitionItemAtStart(m_dragItemInfo.startPos, m_dragItemInfo.track);
+                    ItemInfo startTrInfo;
+                    ItemInfo newStartTrInfo;
+                    bool moveStartTrans = false;
+                    bool moveEndTrans = false;
+                    if (startTransition && startTransition->isAutomatic()) {
+                        startTrInfo = startTransition->info();
+                        newStartTrInfo = startTrInfo;
+                        newStartTrInfo.track = info.track;
+                        newStartTrInfo.startPos = info.startPos;
+                        if (m_dragItemInfo.track == info.track && !item->baseClip()->isTransparent() && getClipItemAtEnd(newStartTrInfo.endPos, m_document->tracksCount() - startTransition->transitionEndTrack())) {
                             // transition end should stay the same
                         } else {
                             // transition end should be adjusted to clip
-                            newTrInfo.endPos = newTrInfo.endPos + (newTrInfo.startPos - trInfo.startPos);
+                            newStartTrInfo.endPos = newStartTrInfo.endPos + (newStartTrInfo.startPos - startTrInfo.startPos);
                         }
-                        if (newTrInfo.startPos < newTrInfo.endPos) new MoveTransitionCommand(this, trInfo, newTrInfo, true, moveCommand);
+                        if (newStartTrInfo.startPos < newStartTrInfo.endPos) moveStartTrans = true;
                     }
-                    if (tr == NULL || tr->endPos() < m_dragItemInfo.endPos) {
+                    if (startTransition == NULL || startTransition->endPos() < m_dragItemInfo.endPos) {
                         // Check if there is a transition at clip end
-                        tr = getTransitionItemAtEnd(m_dragItemInfo.endPos, m_dragItemInfo.track);
+                        Transition *tr = getTransitionItemAtEnd(m_dragItemInfo.endPos, m_dragItemInfo.track);
                         if (tr && tr->isAutomatic()) {
                             ItemInfo trInfo = tr->info();
                             ItemInfo newTrInfo = trInfo;
@@ -2636,12 +2640,29 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                                 // transition start should be moved
                                 newTrInfo.startPos = newTrInfo.startPos + (newTrInfo.endPos - trInfo.endPos);
                             }
-                            if (newTrInfo.startPos < newTrInfo.endPos)
+                            if (newTrInfo.startPos < newTrInfo.endPos) {
+                                moveEndTrans = true;
+                                if (moveStartTrans) {
+                                    // we have to move both transitions, remove the start one so that there is no collision
+                                    new AddTransitionCommand(this, startTrInfo, startTransition->transitionEndTrack(), startTransition->toXML(), true, true, moveCommand);
+                                }
                                 new MoveTransitionCommand(this, trInfo, newTrInfo, true, moveCommand);
+                                if (moveStartTrans) {
+                                    // re-add transition in correct place
+                                    int transTrack = startTransition->transitionEndTrack();
+                                    if (m_dragItemInfo.track != info.track && !startTransition->forcedTrack()) {
+                                        transTrack = getPreviousVideoTrack(info.track);
+                                    }
+                                    new AddTransitionCommand(this, newStartTrInfo, transTrack, startTransition->toXML(), false, true, moveCommand);
+                                }
+                            }
                         }
                     }
+
+                    if (moveStartTrans && !moveEndTrans) new MoveTransitionCommand(this, startTrInfo, newStartTrInfo, true, moveCommand);
+
                     // Also move automatic transitions (on upper track)
-                    tr = getTransitionItemAtStart(m_dragItemInfo.startPos, m_dragItemInfo.track - 1);
+                    Transition *tr = getTransitionItemAtStart(m_dragItemInfo.startPos, m_dragItemInfo.track - 1);
                     if (m_dragItemInfo.track == info.track && tr && tr->isAutomatic() && (m_document->tracksCount() - tr->transitionEndTrack()) == m_dragItemInfo.track) {
                         ItemInfo trInfo = tr->info();
                         ItemInfo newTrInfo = trInfo;
