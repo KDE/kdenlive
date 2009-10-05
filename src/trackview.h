@@ -85,7 +85,10 @@ private:
 private slots:
     void setCursorPos(int pos);
     void moveCursorPos(int pos);
+    /** \brief Rebuild the track headers */
     void slotRebuildTrackHeaders();
+    /** \brief The tracks count or a track name changed, rebuild and notify */
+    void slotReloadTracks();
     void slotChangeTrackLock(int ix, bool lock);
     void slotVerticalZoomDown();
     void slotVerticalZoomUp();
@@ -98,7 +101,7 @@ signals:
     void insertTrack(int);
     void deleteTrack(int);
     void changeTrack(int);
-    void renameTrack(int);
+    void updateTracksInfo();
     void setZoom(int);
 };
 

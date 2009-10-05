@@ -102,6 +102,7 @@ TrackView::TrackView(KdenliveDoc *doc, bool *ok, QWidget *parent) :
     tracksLayout->addWidget(m_trackview);
     connect(m_trackview->verticalScrollBar(), SIGNAL(valueChanged(int)), headers_area->verticalScrollBar(), SLOT(setValue(int)));
     connect(m_trackview, SIGNAL(trackHeightChanged()), this, SLOT(slotRebuildTrackHeaders()));
+    connect(m_trackview, SIGNAL(tracksChanged()), this, SLOT(slotReloadTracks()));
 
     parseDocument(m_doc->toXml());
     int error = m_doc->setSceneList();
@@ -450,6 +451,12 @@ KdenliveDoc *TrackView::document()
 void TrackView::refresh()
 {
     m_trackview->viewport()->update();
+}
+
+void TrackView::slotReloadTracks()
+{
+    slotRebuildTrackHeaders();
+    emit updateTracksInfo();
 }
 
 void TrackView::slotRebuildTrackHeaders()
@@ -872,7 +879,7 @@ void TrackView::slotRenameTrack(int ix)
     if (ok) {
         info.trackName = newName;
         m_doc->setTrackType(tracknumber - 1, info);
-        QTimer::singleShot(300, this, SLOT(slotRebuildTrackHeaders()));
+        QTimer::singleShot(300, this, SLOT(slotReloadTracks()));
         m_doc->setModified(true);
     }
 }

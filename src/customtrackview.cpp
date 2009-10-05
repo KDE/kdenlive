@@ -2104,7 +2104,7 @@ void CustomTrackView::addTrack(TrackInfo type, int ix)
     m_cursorLine->setLine(m_cursorLine->line().x1(), 0, m_cursorLine->line().x1(), maxHeight);
     setSceneRect(0, 0, sceneRect().width(), maxHeight);
     viewport()->update();
-    emit trackHeightChanged();
+    emit tracksChanged();
     //QTimer::singleShot(500, this, SIGNAL(trackHeightChanged()));
     //setFixedHeight(50 * m_tracksCount);
 }
@@ -2177,7 +2177,7 @@ void CustomTrackView::removeTrack(int ix)
     m_cursorLine->setLine(m_cursorLine->line().x1(), 0, m_cursorLine->line().x1(), maxHeight);
     setSceneRect(0, 0, sceneRect().width(), maxHeight);
     viewport()->update();
-    emit trackHeightChanged();
+    emit tracksChanged();
     //QTimer::singleShot(500, this, SIGNAL(trackHeightChanged()));
 }
 
@@ -2687,14 +2687,17 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
             }
             if (m_dragItem->type() == TRANSITIONWIDGET && (m_dragItemInfo.startPos != info.startPos || m_dragItemInfo.track != info.track)) {
                 Transition *transition = static_cast <Transition *>(m_dragItem);
-                if (!m_document->renderer()->mltMoveTransition(transition->transitionTag(), (int)(m_document->tracksCount() - m_dragItemInfo.track), (int)(m_document->tracksCount() - m_dragItem->track()), transition->transitionEndTrack(), m_dragItemInfo.startPos, m_dragItemInfo.endPos, info.startPos, info.endPos)) {
+                int transitionTrack;
+                if (!transition->forcedTrack()) transitionTrack = getPreviousVideoTrack(m_dragItem->track());
+                else transitionTrack = transition->transitionEndTrack();
+                if (!m_document->renderer()->mltMoveTransition(transition->transitionTag(), (int)(m_document->tracksCount() - m_dragItemInfo.track), (int)(m_document->tracksCount() - m_dragItem->track()), transitionTrack, m_dragItemInfo.startPos, m_dragItemInfo.endPos, info.startPos, info.endPos)) {
                     // Moving transition failed, revert to previous position
                     emit displayMessage(i18n("Cannot move transition"), ErrorMessage);
                     transition->setPos((int) m_dragItemInfo.startPos.frames(m_document->fps()), (m_dragItemInfo.track) * m_tracksHeight + 1);
                 } else {
                     MoveTransitionCommand *command = new MoveTransitionCommand(this, m_dragItemInfo, info, false);
                     m_commandStack->push(command);
-                    transition->updateTransitionEndTrack(getPreviousVideoTrack(m_dragItem->track()));
+                    transition->updateTransitionEndTrack(transitionTrack);
                 }
             }
         } else {
@@ -3616,10 +3619,11 @@ void CustomTrackView::moveGroup(QList <ItemInfo> startClip, QList <ItemInfo> sta
                 kDebug() << "// inserting new clp: " << info.startPos.frames(25);
             } else if (item->type() == TRANSITIONWIDGET) {
                 Transition *tr = static_cast <Transition*>(item);
-                int newTrack = tr->transitionEndTrack();
+                int newTrack;
                 kDebug() << "/// TRANSITION CURR TRK: " << newTrack;
-                if (!tr->forcedTrack()) {
-                    newTrack += trackOffset;
+                if (!tr->forcedTrack()) newTrack = getPreviousVideoTrack(info.track);
+                else {
+                    newTrack = tr->transitionEndTrack() + trackOffset;
                     if (newTrack < 0 || newTrack > m_document->tracksCount()) newTrack = getPreviousVideoTrack(info.track);
                 }
                 tr->updateTransitionEndTrack(newTrack);
@@ -4379,7 +4383,7 @@ void CustomTrackView::pasteClip()
             info.endPos = tr->endPos() + offset;
             info.track = tr->track() + trackOffset;
             int transitionEndTrack;
-            if (tr->isAutomatic()) transitionEndTrack = getPreviousVideoTrack(info.track);
+            if (!tr->forcedTrack()) transitionEndTrack = getPreviousVideoTrack(info.track);
             else transitionEndTrack = tr->transitionEndTrack();
             if (canBePastedTo(info, TRANSITIONWIDGET)) {
                 if (info.startPos >= info.endPos) {

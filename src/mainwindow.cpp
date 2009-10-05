@@ -1653,7 +1653,7 @@ void MainWindow::slotEditProjectSettings()
             m_activeDocument->clipManager()->clearUnusedProducers();
             m_monitorManager->resetProfiles(m_activeDocument->timecode());
 
-            m_transitionConfig->updateProjectFormat(m_activeDocument->mltProfile(), m_activeDocument->timecode(), m_activeTimeline->tracksNumber());
+            m_transitionConfig->updateProjectFormat(m_activeDocument->mltProfile(), m_activeDocument->timecode(), m_activeDocument->tracksList());
             m_effectStack->updateProjectFormat(m_activeDocument->mltProfile(), m_activeDocument->timecode());
             if (m_renderWidget) m_renderWidget->setProfile(m_activeDocument->mltProfile());
             m_timelineArea->setTabText(m_timelineArea->currentIndex(), m_activeDocument->description());
@@ -1801,7 +1801,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     KdenliveSettings::setProject_fps(doc->fps());
     m_monitorManager->resetProfiles(doc->timecode());
     m_projectList->setDocument(doc);
-    m_transitionConfig->updateProjectFormat(doc->mltProfile(), doc->timecode(), trackView->tracksNumber());
+    m_transitionConfig->updateProjectFormat(doc->mltProfile(), doc->timecode(), doc->tracksList());
     m_effectStack->updateProjectFormat(doc->mltProfile(), doc->timecode());
     connect(m_projectList, SIGNAL(clipSelected(DocClipBase *)), m_clipMonitor, SLOT(slotSetXml(DocClipBase *)));
     connect(m_projectList, SIGNAL(refreshClip()), m_clipMonitor, SLOT(refreshMonitor()));
@@ -1813,6 +1813,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     connect(trackView, SIGNAL(insertTrack(int)), this, SLOT(slotInsertTrack(int)));
     connect(trackView, SIGNAL(deleteTrack(int)), this, SLOT(slotDeleteTrack(int)));
     connect(trackView, SIGNAL(changeTrack(int)), this, SLOT(slotChangeTrack(int)));
+    connect(trackView, SIGNAL(updateTracksInfo()), this, SLOT(slotUpdateTrackInfo()));
     connect(trackView, SIGNAL(mousePosition(int)), this, SLOT(slotUpdateMousePosition(int)));
     connect(m_projectMonitor, SIGNAL(renderPosition(int)), trackView, SLOT(moveCursorPos(int)));
     connect(m_projectMonitor, SIGNAL(zoneUpdated(QPoint)), trackView, SLOT(slotSetZone(QPoint)));
@@ -2894,6 +2895,12 @@ void MainWindow::slotShutdown()
         QDBusInterface smserver("org.kde.ksmserver", "/KSMServer", "org.kde.KSMServerInterface");
         smserver.call("logout", 1, 2, 2);
     }
+}
+
+void MainWindow::slotUpdateTrackInfo()
+{
+    if (m_activeDocument)
+        m_transitionConfig->updateProjectFormat(m_activeDocument->mltProfile(), m_activeDocument->timecode(), m_activeDocument->tracksList());
 }
 
 #include "mainwindow.moc"

@@ -27,17 +27,16 @@ class Transition;
 class EffectsList;
 class EffectStackEdit;
 
-class TransitionSettings : public QWidget
+class TransitionSettings : public QWidget, public Ui::TransitionSettings_UI
 {
     Q_OBJECT
 
 public:
     TransitionSettings(QWidget* parent = 0);
     void raiseWindow(QWidget*);
-    void updateProjectFormat(MltVideoProfile profile, Timecode t, const uint tracksCount);
+    void updateProjectFormat(MltVideoProfile profile, Timecode t, const QList <TrackInfo> info);
 
 private:
-    Ui::TransitionSettings_UI m_ui;
     EffectStackEdit *m_effectEdit;
     Transition* m_usedTransition;
     GenTime m_transitionDuration;

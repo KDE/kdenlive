@@ -32,13 +32,13 @@ TransitionSettings::TransitionSettings(QWidget* parent) :
         m_tracksCount(0),
         m_autoTrackTransition(0)
 {
-    m_ui.setupUi(this);
-    QVBoxLayout *vbox1 = new QVBoxLayout(m_ui.frame);
-    m_effectEdit = new EffectStackEdit(m_ui.frame);
+    setupUi(this);
+    QVBoxLayout *vbox1 = new QVBoxLayout(frame);
+    m_effectEdit = new EffectStackEdit(frame);
     vbox1->setContentsMargins(0, 0, 0, 0);
     vbox1->setSpacing(0);
     vbox1->addWidget(m_effectEdit);
-    m_ui.frame->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
+    frame->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
     connect(m_effectEdit, SIGNAL(seekTimeline(int)), this, SIGNAL(seekTimeline(int)));
     setEnabled(false);
 
@@ -54,32 +54,33 @@ TransitionSettings::TransitionSettings(QWidget* parent) :
     }
     ix = 0;
     foreach(const QStringList &value, transitionsList) {
-        m_ui.transitionList->addItem(value.at(0));
-        m_ui.transitionList->setItemData(ix, MainWindow::transitions.getInfoFromIndex(value.last().toInt()), Qt::ToolTipRole);
+        transitionList->addItem(value.at(0));
+        transitionList->setItemData(ix, MainWindow::transitions.getInfoFromIndex(value.last().toInt()), Qt::ToolTipRole);
         ix++;
     }
 
-    connect(m_ui.transitionList, SIGNAL(activated(int)), this, SLOT(slotTransitionChanged()));
-    connect(m_ui.transitionTrack, SIGNAL(activated(int)), this, SLOT(slotTransitionTrackChanged()));
+    connect(transitionList, SIGNAL(activated(int)), this, SLOT(slotTransitionChanged()));
+    connect(transitionTrack, SIGNAL(activated(int)), this, SLOT(slotTransitionTrackChanged()));
 
     connect(this, SIGNAL(transferParamDesc(const QDomElement&, int , int)), m_effectEdit , SLOT(transferParamDesc(const QDomElement&, int , int)));
     connect(m_effectEdit, SIGNAL(parameterChanged(const QDomElement&, const QDomElement&)), this , SLOT(slotUpdateEffectParams(const QDomElement&, const QDomElement&)));
 }
 
-void TransitionSettings::updateProjectFormat(MltVideoProfile profile, Timecode t, const uint tracksCount)
+void TransitionSettings::updateProjectFormat(MltVideoProfile profile, Timecode t, const QList <TrackInfo> info)
 {
-    m_tracksCount = tracksCount;
+    m_tracksCount = info.count();
     m_effectEdit->updateProjectFormat(profile, t);
     QStringList tracksList;
-    tracksList << i18n("Auto");
-    for (uint i = 0; i < tracksCount; i++) {
-        tracksList << QString::number(i);
+    transitionTrack->blockSignals(true);
+    transitionTrack->clear();
+    transitionTrack->addItem(i18n("Auto"), -1);
+    for (uint i = 0; i < m_tracksCount; i++) {
+        if (!info.at(i).trackName.isEmpty())
+            transitionTrack->addItem(info.at(i).trackName + '(' + QString::number(i) + ')', i);
+        else transitionTrack->addItem(QString::number(i));
     }
-    tracksList << i18n("Black");
-    m_ui.transitionTrack->blockSignals(true);
-    m_ui.transitionTrack->clear();
-    m_ui.transitionTrack->addItems(tracksList);
-    m_ui.transitionTrack->blockSignals(false);
+    transitionTrack->addItem(i18n("Black"), m_tracksCount);
+    transitionTrack->blockSignals(false);
 }
 
 
@@ -88,7 +89,7 @@ void TransitionSettings::slotTransitionChanged(bool reinit, bool updateCurrent)
     QDomElement e = m_usedTransition->toXML().cloneNode().toElement();
     if (reinit) {
         // Reset the transition parameters to the default one
-        QDomElement newTransition = MainWindow::transitions.getEffectByName(m_ui.transitionList->currentText()).cloneNode().toElement();
+        QDomElement newTransition = MainWindow::transitions.getEffectByName(transitionList->currentText()).cloneNode().toElement();
         slotUpdateEffectParams(e, newTransition);
         emit transferParamDesc(newTransition, m_usedTransition->startPos().frames(KdenliveSettings::project_fps()), m_usedTransition->endPos().frames(KdenliveSettings::project_fps()));
     } else if (!updateCurrent) {
@@ -107,8 +108,8 @@ void TransitionSettings::slotTransitionTrackChanged()
     if (m_usedTransition == NULL) return;
     int ix = 0;
     QDomElement oldxml = m_usedTransition->toXML().cloneNode().toElement();
-    if (m_ui.transitionTrack->currentIndex() > 0) {
-        ix = m_ui.transitionTrack->count() - m_ui.transitionTrack->currentIndex() - 1;
+    if (transitionTrack->currentIndex() > 0) {
+        ix = transitionTrack->count() - transitionTrack->currentIndex() - 1;
         m_usedTransition->setForcedTrack(true, ix);
         m_effectEdit->updateParameter("force_track", "1");
         emit transitionUpdated(m_usedTransition, oldxml);
@@ -129,10 +130,10 @@ void TransitionSettings::slotTransitionItemSelected(Transition* t, int nextTrack
     if (t == m_usedTransition) {
         if (t == NULL) return;
         if (update) {
-            m_ui.transitionTrack->blockSignals(true);
-            if (t->forcedTrack()) m_ui.transitionTrack->setCurrentIndex(m_tracksCount + 1 - t->transitionEndTrack());
-            else m_ui.transitionTrack->setCurrentIndex(0);
-            m_ui.transitionTrack->blockSignals(false);
+            transitionTrack->blockSignals(true);
+            if (t->forcedTrack()) transitionTrack->setCurrentIndex(m_tracksCount + 1 - t->transitionEndTrack());
+            else transitionTrack->setCurrentIndex(0);
+            transitionTrack->blockSignals(false);
         }
         if (update || t->cropDuration() != m_transitionDuration || t->startPos() != m_transitionStart) {
             m_transitionDuration = t->cropDuration();
@@ -144,17 +145,17 @@ void TransitionSettings::slotTransitionItemSelected(Transition* t, int nextTrack
     if (t) {
         m_transitionDuration = t->cropDuration();
         m_transitionStart = t->startPos();
-        m_ui.transitionTrack->blockSignals(true);
-        if (!t->forcedTrack()) m_ui.transitionTrack->setCurrentIndex(0);
-        else m_ui.transitionTrack->setCurrentIndex(m_tracksCount + 1 - t->transitionEndTrack());
-        m_ui.transitionTrack->blockSignals(false);
-        int ix = m_ui.transitionList->findText(t->transitionName(), Qt::MatchExactly);
+        transitionTrack->blockSignals(true);
+        if (!t->forcedTrack()) transitionTrack->setCurrentIndex(0);
+        else transitionTrack->setCurrentIndex(m_tracksCount + 1 - t->transitionEndTrack());
+        transitionTrack->blockSignals(false);
+        int ix = transitionList->findText(t->transitionName(), Qt::MatchExactly);
         m_usedTransition = t;
         if (ix != -1) {
-            m_ui.transitionList->blockSignals(true);
-            m_ui.transitionList->setCurrentIndex(ix);
+            transitionList->blockSignals(true);
+            transitionList->setCurrentIndex(ix);
             slotTransitionChanged(false, false);
-            m_ui.transitionList->blockSignals(false);
+            transitionList->blockSignals(false);
         }
     } else {
         // null transition selected
