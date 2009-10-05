@@ -958,7 +958,11 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         if (transitiontrack != 0) transitionClip = getClipItemAt((int) info.startPos.frames(m_document->fps()), m_document->tracksCount() - transitiontrack);
         if (transitionClip && transitionClip->endPos() < m_dragItem->endPos()) {
             info.endPos = transitionClip->endPos();
-        } else info.endPos = info.startPos + GenTime(65, m_document->fps());
+        } else {
+            GenTime transitionDuration(65, m_document->fps());
+            if (m_dragItem->cropDuration() < transitionDuration) info.endPos = m_dragItem->endPos();
+            else info.endPos = info.startPos + transitionDuration;
+        }
         if (info.endPos == info.startPos) info.endPos = info.startPos + GenTime(65, m_document->fps());
         // Check there is no other transition at that place
         double startY = info.track * m_tracksHeight + 1 + m_tracksHeight / 2;
@@ -984,7 +988,11 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         if (transitiontrack != 0) transitionClip = getClipItemAt((int) info.endPos.frames(m_document->fps()), m_document->tracksCount() - transitiontrack);
         if (transitionClip && transitionClip->startPos() > m_dragItem->startPos()) {
             info.startPos = transitionClip->startPos();
-        } else info.startPos = info.endPos - GenTime(65, m_document->fps());
+        } else {
+            GenTime transitionDuration(65, m_document->fps());
+            if (m_dragItem->cropDuration() < transitionDuration) info.startPos = m_dragItem->startPos();
+            else info.startPos = info.endPos - transitionDuration;
+        }
         if (info.endPos == info.startPos) info.startPos = info.endPos - GenTime(65, m_document->fps());
         QDomElement transition = MainWindow::transitions.getEffectByTag("luma", "dissolve").cloneNode().toElement();
         EffectsList::setParameter(transition, "reverse", "1");
