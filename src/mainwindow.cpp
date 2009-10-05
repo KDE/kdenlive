@@ -1994,7 +1994,7 @@ void MainWindow::slotSwitchSnap()
 
 void MainWindow::slotDeleteTimelineClip()
 {
-    if (QApplication::focusWidget()->parentWidget()->parentWidget() == m_projectListDock) m_projectList->slotRemoveClip();
+    if (QApplication::focusWidget() && QApplication::focusWidget()->parentWidget() && QApplication::focusWidget()->parentWidget()->parentWidget() && QApplication::focusWidget()->parentWidget()->parentWidget() == m_projectListDock) m_projectList->slotRemoveClip();
     else if (m_activeTimeline) {
         m_activeTimeline->projectView()->deleteSelectedClips();
     }
