@@ -3669,6 +3669,7 @@ void CustomTrackView::moveTransition(const ItemInfo start, const ItemInfo end, b
         emit transitionItemSelected(item, getPreviousVideoTrack(item->track()), p);
     }
     if (m_refresh) m_document->renderer()->doRefresh();
+    setDocumentModified();
 }
 
 void CustomTrackView::resizeClip(const ItemInfo start, const ItemInfo end, bool dontWorry)
@@ -3718,6 +3719,7 @@ void CustomTrackView::resizeClip(const ItemInfo start, const ItemInfo end, bool 
     }
     m_document->renderer()->doRefresh();
     KdenliveSettings::setSnaptopoints(snap);
+    setDocumentModified();
 }
 
 void CustomTrackView::updatePositionEffects(ClipItem * item, ItemInfo info)
@@ -4368,10 +4370,13 @@ void CustomTrackView::pasteClip()
             info.startPos = tr->startPos() + offset;
             info.endPos = tr->endPos() + offset;
             info.track = tr->track() + trackOffset;
+            int transitionEndTrack;
+            if (tr->isAutomatic()) transitionEndTrack = getPreviousVideoTrack(info.track);
+            else transitionEndTrack = tr->transitionEndTrack();
             if (canBePastedTo(info, TRANSITIONWIDGET)) {
                 if (info.startPos >= info.endPos) {
                     emit displayMessage(i18n("Invalid transition"), ErrorMessage);
-                } else new AddTransitionCommand(this, info, tr->transitionEndTrack() + trackOffset, tr->toXML(), false, true, pasteClips);
+                } else new AddTransitionCommand(this, info, transitionEndTrack, tr->toXML(), false, true, pasteClips);
             } else emit displayMessage(i18n("Cannot paste transition to selected place"), ErrorMessage);
         }
     }
