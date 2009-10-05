@@ -1587,6 +1587,10 @@ int Render::mltInsertClip(ItemInfo info, QDomElement element, Mlt::Producer *pro
             m_slowmotionProducers.insert(url, slowprod);
         }
         prod = slowprod;
+        if (prod == NULL || !prod->is_valid()) {
+            mlt_service_unlock(service.get_service());
+            return -1;
+        }
     }
 
     Mlt::Producer *clip = prod->cut((int) info.cropStart.frames(m_fps), (int)(info.endPos - info.startPos + info.cropStart).frames(m_fps) - 1);
@@ -2023,7 +2027,6 @@ int Render::mltChangeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, dou
         delete original;
         return -1;
     }
-    delete original;
 
     QString serv = clipparent.get("mlt_service");
     QString id = clipparent.get("id");
@@ -2043,6 +2046,16 @@ int Render::mltChangeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, dou
             if (strobe > 1) producerid.append(':' + QString::number(strobe));
             tmp = decodedString(producerid);
             slowprod->set("id", tmp);
+            delete[] tmp;
+            // copy producer props
+            tmp = original->parent().get("force_aspect_ratio");
+            if (tmp != NULL) slowprod->set("force_aspect_ratio", tmp);
+            delete[] tmp;
+            tmp = original->parent().get("threads");
+            if (tmp != NULL) slowprod->set("threads", tmp);
+            delete[] tmp;
+            tmp = original->parent().get("video_index");
+            if (tmp != NULL) slowprod->set("video_index", tmp);
             delete[] tmp;
             m_slowmotionProducers.insert(url, slowprod);
         }
@@ -2110,6 +2123,16 @@ int Render::mltChangeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, dou
             tmp = decodedString(producerid);
             slowprod->set("id", tmp);
             delete[] tmp;
+            // copy producer props
+            tmp = original->parent().get("force_aspect_ratio");
+            if (tmp != NULL) slowprod->set("force_aspect_ratio", tmp);
+            delete[] tmp;
+            tmp = original->parent().get("threads");
+            if (tmp != NULL) slowprod->set("threads", tmp);
+            delete[] tmp;
+            tmp = original->parent().get("video_index");
+            if (tmp != NULL) slowprod->set("video_index", tmp);
+            delete[] tmp;
             m_slowmotionProducers.insert(url, slowprod);
         }
         Mlt::Producer *clip = trackPlaylist.replace_with_blank(clipIndex);
@@ -2139,7 +2162,7 @@ int Render::mltChangeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, dou
 
         mlt_service_unlock(service.get_service());
     }
-
+    delete original;
     if (clipIndex + 1 == trackPlaylist.count()) mltCheckLength(&tractor);
     m_isBlocked = false;
     return newLength;
