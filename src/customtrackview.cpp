@@ -4768,6 +4768,7 @@ void CustomTrackView::autoTransition()
     tr->setAutomatic(!tr->isAutomatic());
     QDomElement transition = tr->toXML();
     m_document->renderer()->mltUpdateTransition(transition.attribute("tag"), transition.attribute("tag"), transition.attribute("transition_btrack").toInt(), m_document->tracksCount() - transition.attribute("transition_atrack").toInt(), tr->startPos(), tr->endPos(), transition);
+    setDocumentModified();
 }
 
 
