@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDEnlive 0.7.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-09-17 16:38+0200\n"
-"PO-Revision-Date: 2009-09-19 13:06+0100\n"
+"POT-Creation-Date: 2009-10-01 23:51+0200\n"
+"PO-Revision-Date: 2009-10-04 23:40+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Martin Srebotnjak <miles@filmsi.net>\n"
 "MIME-Version: 1.0\n"
@@ -19,122 +19,167 @@ msgstr ""
 "X-Poedit-SourceCharset: iso-8859-1\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n%100==4 ? 3 : 0);\n"
 
-#: src/titlewidget.cpp:68
-#: rc.cpp:1819
-#: rc.cpp:3289
+#: src/titlewidget.cpp:69
+#: rc.cpp:1828
+#: rc.cpp:3746
+#: rc.cpp:5225
 #, no-c-format
 msgid "%"
 msgstr "%"
 
-#: src/titlewidget.cpp:1076
-#: rc.cpp:1515
-#: rc.cpp:2985
+#: src/titlewidget.cpp:1077
+#: rc.cpp:1524
+#: rc.cpp:3442
+#: rc.cpp:4921
 msgid "+X"
 msgstr "+X"
 
-#: src/titlewidget.cpp:1101
-#: rc.cpp:1518
-#: rc.cpp:2988
+#: src/titlewidget.cpp:1102
+#: rc.cpp:1527
+#: rc.cpp:3445
+#: rc.cpp:4924
 msgid "+Y"
 msgstr "+Y"
 
 #: rc.cpp:632
-#: rc.cpp:717
 #: rc.cpp:720
-#: rc.cpp:975
-#: rc.cpp:981
-#: rc.cpp:987
-#: rc.cpp:993
-#: rc.cpp:1002
-#: rc.cpp:1077
+#: rc.cpp:723
+#: rc.cpp:978
+#: rc.cpp:984
+#: rc.cpp:990
+#: rc.cpp:996
+#: rc.cpp:1005
 #: rc.cpp:1080
-#: rc.cpp:1089
+#: rc.cpp:1083
 #: rc.cpp:1092
-#: rc.cpp:1101
+#: rc.cpp:1095
 #: rc.cpp:1104
-#: rc.cpp:1449
-#: rc.cpp:1452
-#: rc.cpp:1485
-#: rc.cpp:1488
-#: rc.cpp:1545
-#: rc.cpp:1548
-#: rc.cpp:1551
+#: rc.cpp:1107
+#: rc.cpp:1458
+#: rc.cpp:1461
+#: rc.cpp:1494
+#: rc.cpp:1497
 #: rc.cpp:1554
 #: rc.cpp:1557
 #: rc.cpp:1560
 #: rc.cpp:1563
-#: rc.cpp:1581
-#: rc.cpp:1584
-#: rc.cpp:1587
+#: rc.cpp:1566
+#: rc.cpp:1569
+#: rc.cpp:1572
 #: rc.cpp:1590
 #: rc.cpp:1593
 #: rc.cpp:1596
-#: rc.cpp:1873
-#: rc.cpp:1876
-#: rc.cpp:2102
-#: rc.cpp:2187
-#: rc.cpp:2190
-#: rc.cpp:2445
-#: rc.cpp:2451
-#: rc.cpp:2457
-#: rc.cpp:2463
-#: rc.cpp:2472
-#: rc.cpp:2547
+#: rc.cpp:1599
+#: rc.cpp:1602
+#: rc.cpp:1605
+#: rc.cpp:1882
+#: rc.cpp:1885
+#: rc.cpp:1915
 #: rc.cpp:2550
-#: rc.cpp:2559
-#: rc.cpp:2562
-#: rc.cpp:2571
-#: rc.cpp:2574
-#: rc.cpp:2919
-#: rc.cpp:2922
-#: rc.cpp:2955
-#: rc.cpp:2958
-#: rc.cpp:3015
-#: rc.cpp:3018
-#: rc.cpp:3021
-#: rc.cpp:3024
-#: rc.cpp:3027
-#: rc.cpp:3030
-#: rc.cpp:3033
-#: rc.cpp:3051
-#: rc.cpp:3054
-#: rc.cpp:3057
-#: rc.cpp:3060
-#: rc.cpp:3063
-#: rc.cpp:3066
-#: rc.cpp:3343
-#: rc.cpp:3346
+#: rc.cpp:2638
+#: rc.cpp:2641
+#: rc.cpp:2896
+#: rc.cpp:2902
+#: rc.cpp:2908
+#: rc.cpp:2914
+#: rc.cpp:2923
+#: rc.cpp:2998
+#: rc.cpp:3001
+#: rc.cpp:3010
+#: rc.cpp:3013
+#: rc.cpp:3022
+#: rc.cpp:3025
+#: rc.cpp:3376
+#: rc.cpp:3379
+#: rc.cpp:3412
+#: rc.cpp:3415
+#: rc.cpp:3472
+#: rc.cpp:3475
+#: rc.cpp:3478
+#: rc.cpp:3481
+#: rc.cpp:3484
+#: rc.cpp:3487
+#: rc.cpp:3490
+#: rc.cpp:3508
+#: rc.cpp:3511
+#: rc.cpp:3514
+#: rc.cpp:3517
+#: rc.cpp:3520
+#: rc.cpp:3523
+#: rc.cpp:3800
+#: rc.cpp:3803
+#: rc.cpp:4029
+#: rc.cpp:4117
+#: rc.cpp:4120
+#: rc.cpp:4375
+#: rc.cpp:4381
+#: rc.cpp:4387
+#: rc.cpp:4393
+#: rc.cpp:4402
+#: rc.cpp:4477
+#: rc.cpp:4480
+#: rc.cpp:4489
+#: rc.cpp:4492
+#: rc.cpp:4501
+#: rc.cpp:4504
+#: rc.cpp:4855
+#: rc.cpp:4858
+#: rc.cpp:4891
+#: rc.cpp:4894
+#: rc.cpp:4951
+#: rc.cpp:4954
+#: rc.cpp:4957
+#: rc.cpp:4960
+#: rc.cpp:4963
+#: rc.cpp:4966
+#: rc.cpp:4969
+#: rc.cpp:4987
+#: rc.cpp:4990
+#: rc.cpp:4993
+#: rc.cpp:4996
+#: rc.cpp:4999
+#: rc.cpp:5002
+#: rc.cpp:5279
+#: rc.cpp:5282
 msgid "..."
 msgstr "..."
 
-#: rc.cpp:786
-#: rc.cpp:792
-#: rc.cpp:798
-#: rc.cpp:2256
-#: rc.cpp:2262
-#: rc.cpp:2268
+#: rc.cpp:789
+#: rc.cpp:795
+#: rc.cpp:801
+#: rc.cpp:2707
+#: rc.cpp:2713
+#: rc.cpp:2719
+#: rc.cpp:4186
+#: rc.cpp:4192
+#: rc.cpp:4198
 msgid "/"
 msgstr "/"
 
-#: rc.cpp:1239
-#: rc.cpp:2709
+#: rc.cpp:1248
+#: rc.cpp:3166
+#: rc.cpp:4645
 msgid "/dev/dsp"
 msgstr "/dev/dsp"
 
-#: rc.cpp:1260
-#: rc.cpp:2730
+#: rc.cpp:1269
+#: rc.cpp:3187
+#: rc.cpp:4666
 msgid "/dev/video0"
 msgstr "/dev/video0"
 
-#: rc.cpp:1641
-#: rc.cpp:3111
+#: rc.cpp:1650
+#: rc.cpp:3568
+#: rc.cpp:5047
 msgid "0"
 msgstr "0"
 
-#: rc.cpp:653
-#: rc.cpp:1791
-#: rc.cpp:2123
-#: rc.cpp:3261
+#: rc.cpp:656
+#: rc.cpp:1800
+#: rc.cpp:2574
+#: rc.cpp:3718
+#: rc.cpp:4053
+#: rc.cpp:5197
 msgid "1"
 msgstr "1"
 
@@ -148,128 +193,160 @@ msgstr[2] "%1 najdeni sliki"
 msgstr[3] "%1 najdene slike"
 
 #: src/geometryval.cpp:89
-#: rc.cpp:1619
-#: rc.cpp:3089
+#: rc.cpp:1628
+#: rc.cpp:3546
+#: rc.cpp:5025
 #, no-c-format
 msgid "100%"
 msgstr "100%"
 
-#: rc.cpp:1296
-#: rc.cpp:2766
+#: rc.cpp:1305
+#: rc.cpp:3223
+#: rc.cpp:4702
 msgid "11250"
 msgstr "11250"
 
-#: rc.cpp:1794
-#: rc.cpp:3264
+#: rc.cpp:1803
+#: rc.cpp:3721
+#: rc.cpp:5200
 msgid "2"
 msgstr "2"
 
 #: src/geometryval.cpp:90
-#: rc.cpp:1623
-#: rc.cpp:3093
+#: rc.cpp:1632
+#: rc.cpp:3550
+#: rc.cpp:5029
 #, no-c-format
 msgid "200%"
 msgstr "200%"
 
-#: rc.cpp:1293
-#: rc.cpp:2763
+#: rc.cpp:1302
+#: rc.cpp:3220
+#: rc.cpp:4699
 msgid "22500"
 msgstr "22500"
 
-#: rc.cpp:1416
-#: rc.cpp:1934
-#: rc.cpp:2886
-#: rc.cpp:3404
+#: rc.cpp:1425
+#: rc.cpp:3343
+#: rc.cpp:3861
+#: rc.cpp:4822
+#: rc.cpp:5340
 msgid "25/1"
 msgstr "25/1"
 
-#: rc.cpp:1290
-#: rc.cpp:2760
+#: rc.cpp:1299
+#: rc.cpp:3217
+#: rc.cpp:4696
 msgid "32000"
 msgstr "32000"
 
-#: rc.cpp:1266
-#: rc.cpp:2736
+#: rc.cpp:1275
+#: rc.cpp:3193
+#: rc.cpp:4672
 msgid "320x240"
 msgstr "320x240"
 
-#: rc.cpp:1428
-#: rc.cpp:1946
-#: rc.cpp:2898
-#: rc.cpp:3416
+#: rc.cpp:1437
+#: rc.cpp:3355
+#: rc.cpp:3873
+#: rc.cpp:4834
+#: rc.cpp:5352
 msgid "4/3"
 msgstr "4/3"
 
-#: rc.cpp:1287
-#: rc.cpp:2757
+#: rc.cpp:1296
+#: rc.cpp:3214
+#: rc.cpp:4693
 msgid "41000"
 msgstr "41000"
 
-#: rc.cpp:1284
-#: rc.cpp:2754
+#: rc.cpp:1293
+#: rc.cpp:3211
+#: rc.cpp:4690
 msgid "48000"
 msgstr "48000"
 
 #: src/geometryval.cpp:88
-#: rc.cpp:1615
-#: rc.cpp:3085
+#: rc.cpp:1624
+#: rc.cpp:3542
+#: rc.cpp:5021
 #, no-c-format
 msgid "50%"
 msgstr "50%"
 
-#: rc.cpp:1422
-#: rc.cpp:1940
-#: rc.cpp:2892
-#: rc.cpp:3410
+#: rc.cpp:1431
+#: rc.cpp:3349
+#: rc.cpp:3867
+#: rc.cpp:4828
+#: rc.cpp:5346
 msgid "59/54"
 msgstr "59/54"
 
-#: rc.cpp:1410
-#: rc.cpp:1928
-#: rc.cpp:2880
-#: rc.cpp:3398
+#: rc.cpp:1419
+#: rc.cpp:3337
+#: rc.cpp:3855
+#: rc.cpp:4816
+#: rc.cpp:5334
 msgid "720x576"
 msgstr "720x576"
 
-#: rc.cpp:888
-#: rc.cpp:1074
-#: rc.cpp:1086
-#: rc.cpp:1098
-#: rc.cpp:1350
-#: rc.cpp:1362
-#: rc.cpp:1389
+#: rc.cpp:891
+#: rc.cpp:1077
+#: rc.cpp:1089
+#: rc.cpp:1101
+#: rc.cpp:1359
+#: rc.cpp:1371
 #: rc.cpp:1398
-#: rc.cpp:1446
-#: rc.cpp:1482
-#: rc.cpp:1572
-#: rc.cpp:1671
-#: rc.cpp:1686
-#: rc.cpp:1740
+#: rc.cpp:1407
+#: rc.cpp:1455
+#: rc.cpp:1491
+#: rc.cpp:1581
+#: rc.cpp:1680
+#: rc.cpp:1695
 #: rc.cpp:1749
-#: rc.cpp:1825
-#: rc.cpp:1852
-#: rc.cpp:2358
-#: rc.cpp:2544
-#: rc.cpp:2556
-#: rc.cpp:2568
-#: rc.cpp:2820
-#: rc.cpp:2832
-#: rc.cpp:2859
-#: rc.cpp:2868
-#: rc.cpp:2916
-#: rc.cpp:2952
-#: rc.cpp:3042
-#: rc.cpp:3141
-#: rc.cpp:3156
-#: rc.cpp:3210
-#: rc.cpp:3219
-#: rc.cpp:3295
-#: rc.cpp:3322
+#: rc.cpp:1758
+#: rc.cpp:1834
+#: rc.cpp:1861
+#: rc.cpp:2809
+#: rc.cpp:2995
+#: rc.cpp:3007
+#: rc.cpp:3019
+#: rc.cpp:3277
+#: rc.cpp:3289
+#: rc.cpp:3316
+#: rc.cpp:3325
+#: rc.cpp:3373
+#: rc.cpp:3409
+#: rc.cpp:3499
+#: rc.cpp:3598
+#: rc.cpp:3613
+#: rc.cpp:3667
+#: rc.cpp:3676
+#: rc.cpp:3752
+#: rc.cpp:3779
+#: rc.cpp:4288
+#: rc.cpp:4474
+#: rc.cpp:4486
+#: rc.cpp:4498
+#: rc.cpp:4756
+#: rc.cpp:4768
+#: rc.cpp:4795
+#: rc.cpp:4804
+#: rc.cpp:4852
+#: rc.cpp:4888
+#: rc.cpp:4978
+#: rc.cpp:5077
+#: rc.cpp:5092
+#: rc.cpp:5146
+#: rc.cpp:5155
+#: rc.cpp:5231
+#: rc.cpp:5258
 msgid "99:99:99:99; "
 msgstr "99:99:99:99; "
 
-#: rc.cpp:1392
-#: rc.cpp:2862
+#: rc.cpp:1401
+#: rc.cpp:3319
+#: rc.cpp:4798
 msgid ":::"
 msgstr ":::"
 
@@ -306,26 +383,31 @@ msgid "<strong><em>dvgrab</em> utility not found, please install it for firewire
 msgstr "Orodja <strong><em>dvgrab</em> ni mogoče najti, namestite ga za zajemanje prek vrat firewire</strong>"
 
 #: src/dvdwizardvob.cpp:55
-#: src/dvdwizardvob.cpp:56
 msgid "<strong>Program %1 is required for the DVD wizard.</strong>"
 msgstr "<strong>Program %1 je potreben za čarovnika DVD.</strong>"
 
-#: src/renderwidget.cpp:1411
+#: src/dvdwizardvob.cpp:56
+msgid "<strong>Program %1 or %2 is required for the DVD wizard.</strong>"
+msgstr "<strong>Program %1 ali %2 je potreben za čarovnika DVD.</strong>"
+
+#: src/renderwidget.cpp:1422
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>Upodabljanje %1 se je sesulo</strong><br/>"
 
-#: rc.cpp:696
-#: rc.cpp:711
-#: rc.cpp:1901
-#: rc.cpp:1991
-#: rc.cpp:2166
-#: rc.cpp:2181
-#: rc.cpp:3371
-#: rc.cpp:3461
+#: rc.cpp:699
+#: rc.cpp:714
+#: rc.cpp:2617
+#: rc.cpp:2632
+#: rc.cpp:3828
+#: rc.cpp:3918
+#: rc.cpp:4096
+#: rc.cpp:4111
+#: rc.cpp:5307
+#: rc.cpp:5397
 msgid "A"
 msgstr "A"
 
-#: src/customtrackview.cpp:3911
+#: src/customtrackview.cpp:4020
 msgid "A guide already exists at position %1"
 msgstr "Na mestu %1 že obstaja vodilo"
 
@@ -334,8 +416,9 @@ msgid "A profile with same name already exists in MLT's default profiles, please
 msgstr "Istoimenski profil med privzetimi profili MLT že obstaja. Izberite drug opis za vaš profil po meri."
 
 #: src/kdenlivesettingsdialog.cpp:217
-#: rc.cpp:1299
-#: rc.cpp:2769
+#: rc.cpp:1308
+#: rc.cpp:3226
+#: rc.cpp:4705
 msgid "ALSA"
 msgstr "ALSA"
 
@@ -343,30 +426,33 @@ msgstr "ALSA"
 msgid "ARTS daemon"
 msgstr "Demon ARTS"
 
-#: src/cliptranscode.cpp:108
-#: rc.cpp:963
-#: rc.cpp:2433
+#: src/cliptranscode.cpp:119
+#: rc.cpp:966
+#: rc.cpp:2884
+#: rc.cpp:4363
 msgid "Abort"
 msgstr "Prekini"
 
-#: src/renderwidget.cpp:1445
+#: src/renderwidget.cpp:1456
 #: rc.cpp:623
-#: rc.cpp:2093
+#: rc.cpp:2541
+#: rc.cpp:4020
 msgid "Abort Job"
 msgstr "Prekini opravilo"
 
-#: rc.cpp:1653
-#: rc.cpp:3123
+#: rc.cpp:1662
+#: rc.cpp:3580
+#: rc.cpp:5059
 msgid "Activate crash recovery (auto save)"
 msgstr "Aktiviraj obnovitev po sesutju (samodejno shranjevanje)"
 
-#: src/customtrackview.cpp:1411
-#: src/customtrackview.cpp:1455
+#: src/customtrackview.cpp:1466
+#: src/customtrackview.cpp:1510
 #: src/addeffectcommand.cpp:38
 msgid "Add %1"
 msgstr "Dodaj %1"
 
-#: rc.cpp:3512
+#: rc.cpp:5448
 msgid "Add Audio Effect"
 msgstr "Dodaj zvočni učinek"
 
@@ -378,32 +464,33 @@ msgstr "Dodaj posnetek"
 msgid "Add Color Clip"
 msgstr "Dodaj barvni posnetek"
 
-#: rc.cpp:3515
+#: rc.cpp:5451
 msgid "Add Custom Effect"
 msgstr "Dodaj učinek po meri"
 
-#: src/customruler.cpp:74
+#: src/customruler.cpp:76
 #: src/mainwindow.cpp:1051
-#: src/customtrackview.cpp:3926
+#: src/customtrackview.cpp:4035
 msgid "Add Guide"
 msgstr "Dodaj vodilo"
 
-#: src/titlewidget.cpp:220
+#: src/titlewidget.cpp:221
 msgid "Add Image"
 msgstr "Dodaj sliko"
 
 #: src/clipproperties.cpp:297
 #: src/mainwindow.cpp:989
-#: src/mainwindow.cpp:2010
+#: src/mainwindow.cpp:2030
 msgid "Add Marker"
 msgstr "Dodaj označevalca"
 
-#: rc.cpp:1837
-#: rc.cpp:3307
+#: rc.cpp:1846
+#: rc.cpp:3764
+#: rc.cpp:5243
 msgid "Add Profile"
 msgstr "Dodaj profil"
 
-#: src/titlewidget.cpp:214
+#: src/titlewidget.cpp:215
 msgid "Add Rectangle"
 msgstr "Dodaj pravokotnik"
 
@@ -416,7 +503,7 @@ msgstr "Dodaj posnetek projekcije"
 msgid "Add Template Title"
 msgstr "Dodaj naslov predloge"
 
-#: src/titlewidget.cpp:208
+#: src/titlewidget.cpp:209
 msgid "Add Text"
 msgstr "Dodaj besedilo"
 
@@ -424,21 +511,22 @@ msgstr "Dodaj besedilo"
 msgid "Add Title Clip"
 msgstr "Dodaj posnetek naslova"
 
-#: src/mainwindow.cpp:320
+#: src/mainwindow.cpp:321
 msgid "Add Transition"
 msgstr "Dodaj prehod"
 
-#: rc.cpp:3509
+#: rc.cpp:5445
 msgid "Add Video Effect"
 msgstr "Dodaj slikovni učinek"
 
-#: src/clipitem.cpp:863
-#: src/clipitem.cpp:870
+#: src/clipitem.cpp:871
+#: src/clipitem.cpp:878
 msgid "Add audio fade"
 msgstr "Dodaj zvočni preliv"
 
-#: rc.cpp:759
-#: rc.cpp:2229
+#: rc.cpp:762
+#: rc.cpp:2680
+#: rc.cpp:4159
 msgid "Add chapter"
 msgstr "Dodaj poglavje"
 
@@ -446,10 +534,16 @@ msgstr "Dodaj poglavje"
 msgid "Add clip"
 msgstr "Dodaj posnetek"
 
-#: rc.cpp:858
-#: rc.cpp:2328
+#: src/cliptranscode.cpp:36
+#: rc.cpp:861
+#: rc.cpp:2779
+#: rc.cpp:4258
 msgid "Add clip to project"
-msgstr "Prilagodi posnetek projektu"
+msgid_plural "Add clips to project"
+msgstr[0] "Dodaj posnetke projektu"
+msgstr[1] "Dodaj posnetek projektu"
+msgstr[2] "Dodaj posnetka projektu"
+msgstr[3] "Dodaj posnetke projektu"
 
 #: src/clipmanager.cpp:258
 msgid "Add clips"
@@ -474,8 +568,9 @@ msgstr "Dodaj ključno točko"
 msgid "Add marker"
 msgstr "Dodaj označbo"
 
-#: rc.cpp:1882
-#: rc.cpp:3352
+#: rc.cpp:1891
+#: rc.cpp:3809
+#: rc.cpp:5288
 msgid "Add movie file"
 msgstr "Dodaj datoteko filma"
 
@@ -491,18 +586,20 @@ msgstr "Dodaj nov učinek"
 msgid "Add new video file"
 msgstr "Dodaj novo video datoteko"
 
-#: rc.cpp:1227
-#: rc.cpp:2697
+#: rc.cpp:1230
+#: rc.cpp:3148
+#: rc.cpp:4627
 msgid "Add recording time to captured file name"
 msgstr "Dodaj čas snemanja imenu zajete datoteke"
 
-#: rc.cpp:1479
-#: rc.cpp:2949
+#: rc.cpp:1488
+#: rc.cpp:3406
+#: rc.cpp:4885
 msgid "Add space"
 msgstr "Dodaj prostor"
 
 #: src/addtimelineclipcommand.cpp:36
-#: src/customtrackview.cpp:1906
+#: src/customtrackview.cpp:1962
 msgid "Add timeline clip"
 msgstr "Dodaj posnetek časovnici"
 
@@ -510,8 +607,8 @@ msgstr "Dodaj posnetek časovnici"
 msgid "Add track"
 msgstr "Dodaj sled"
 
-#: src/clipitem.cpp:877
-#: src/clipitem.cpp:880
+#: src/clipitem.cpp:885
+#: src/clipitem.cpp:888
 msgid "Add transition"
 msgstr "Dodaj prehod"
 
@@ -519,11 +616,16 @@ msgstr "Dodaj prehod"
 msgid "Add transition to clip"
 msgstr "Dodaj prehod posnetku"
 
+#: rc.cpp:1918
+msgid "Additional Information"
+msgstr "Dodatne informacije"
+
 #: src/wizard.cpp:113
 msgid "Additional Settings"
 msgstr "Dodatne nastavitve"
 
 #: rc.cpp:521
+#: rc.cpp:2439
 msgid "Adjust audio volume with keyframes"
 msgstr "Prilagodi jakost zvoka s ključnimi sličicami"
 
@@ -532,67 +634,74 @@ msgid "Adjust clip length"
 msgstr "Prilagodi dolžino posnetka"
 
 #: rc.cpp:353
+#: rc.cpp:2271
 msgid "Adjust size and position of clip"
 msgstr "Prilagodi velikost in položaj posnetka"
 
 #: rc.cpp:221
+#: rc.cpp:2139
 msgid "Adjust the audio volume without keyframes"
 msgstr "Prilagodi jakost zvoka brez ključnih sličic"
 
 #: rc.cpp:132
+#: rc.cpp:2050
 msgid "Adjust the white balance / color temperature"
 msgstr "Prilagodi uravnoteženje beline / barvno temperaturo"
 
 #: rc.cpp:140
+#: rc.cpp:2058
 msgid "Adjusts the brightness of a source image"
 msgstr "Prilagodi svetlost izvorne slike"
 
 #: rc.cpp:151
+#: rc.cpp:2069
 msgid "Adjusts the contrast of a source image"
 msgstr "Prilagodi kontrast izvorne slike"
 
 #: rc.cpp:179
+#: rc.cpp:2097
 msgid "Adjusts the saturation of a source image"
 msgstr "Prilagodi nasičenost izvorne slike"
 
-#: rc.cpp:1797
-#: rc.cpp:3267
+#: rc.cpp:1806
+#: rc.cpp:3724
+#: rc.cpp:5203
 msgid "Advanced"
 msgstr "Napredno"
 
-#: src/titlewidget.cpp:160
+#: src/titlewidget.cpp:161
 msgid "Align center"
 msgstr "Poravnaj sredinsko"
 
-#: src/titlewidget.cpp:181
+#: src/titlewidget.cpp:182
 msgid "Align item horizontally"
 msgstr "Poravnaj vodoravno"
 
-#: src/titlewidget.cpp:187
+#: src/titlewidget.cpp:188
 msgid "Align item to bottom"
 msgstr "Poravnaj na dno"
 
-#: src/titlewidget.cpp:191
+#: src/titlewidget.cpp:192
 msgid "Align item to left"
 msgstr "Poravnaj levo"
 
-#: src/titlewidget.cpp:189
+#: src/titlewidget.cpp:190
 msgid "Align item to right"
 msgstr "Poravnaj desno"
 
-#: src/titlewidget.cpp:185
+#: src/titlewidget.cpp:186
 msgid "Align item to top"
 msgstr "Poravnaj na vrh"
 
-#: src/titlewidget.cpp:183
+#: src/titlewidget.cpp:184
 msgid "Align item vertically"
 msgstr "Poravnaj navpično"
 
-#: src/titlewidget.cpp:159
+#: src/titlewidget.cpp:160
 msgid "Align left"
 msgstr "Poravnaj levo"
 
-#: src/titlewidget.cpp:158
+#: src/titlewidget.cpp:159
 msgid "Align right"
 msgstr "Poravnaj desno"
 
@@ -600,16 +709,17 @@ msgstr "Poravnaj desno"
 msgid "Align..."
 msgstr "Poravnaj ..."
 
-#: rc.cpp:1888
-#: rc.cpp:3358
+#: rc.cpp:1897
+#: rc.cpp:3815
+#: rc.cpp:5294
 msgid "All"
 msgstr "Vse"
 
-#: src/projectlist.cpp:681
+#: src/projectlist.cpp:679
 msgid "All Files"
 msgstr "Vse datoteke"
 
-#: src/projectlist.cpp:681
+#: src/projectlist.cpp:679
 msgid "All Supported Files"
 msgstr "Vse podprte datoteke"
 
@@ -626,20 +736,24 @@ msgid "Allow vertical moves"
 msgstr "Dovoli navpične premike"
 
 #: rc.cpp:165
+#: rc.cpp:2083
 msgid "Allows compensation of lens distortion"
 msgstr "Omogoča izravnavo popačenj objektiva"
 
 #: rc.cpp:211
+#: rc.cpp:2129
 msgid "Alpha blending with zoomed and rotated images"
 msgstr "Alfa-spajanje s povečanimi in zasukanimi slikami"
 
-#: src/renderwidget.cpp:779
-#: src/renderwidget.cpp:1543
+#: src/renderwidget.cpp:786
+#: src/renderwidget.cpp:1554
 msgid "Already running"
 msgstr "Že teče"
 
 #: rc.cpp:159
 #: rc.cpp:529
+#: rc.cpp:2077
+#: rc.cpp:2447
 msgid "Amplitude"
 msgstr "Amplituda"
 
@@ -648,27 +762,33 @@ msgid "An open source video editor."
 msgstr "Odprtokodni program za videomontažo."
 
 #: rc.cpp:367
+#: rc.cpp:2285
 msgid "Animate Rotate X"
 msgstr "Animiraj zasuk X"
 
 #: rc.cpp:369
+#: rc.cpp:2287
 msgid "Animate Rotate Y"
 msgstr "Animiraj zasuk Y"
 
 #: rc.cpp:371
+#: rc.cpp:2289
 msgid "Animate Rotate Z"
 msgstr "Animiraj zasuk Z"
 
 #: rc.cpp:377
+#: rc.cpp:2295
 msgid "Animate Shear X"
 msgstr "Animiraj ostriženi X"
 
 #: rc.cpp:379
+#: rc.cpp:2297
 msgid "Animate Shear Y"
 msgstr "Animiraj ostriženi Y"
 
-#: rc.cpp:1602
-#: rc.cpp:3072
+#: rc.cpp:1611
+#: rc.cpp:3529
+#: rc.cpp:5008
 msgid "Animation"
 msgstr "Animacija"
 
@@ -676,24 +796,29 @@ msgstr "Animacija"
 msgid "Ascii art library"
 msgstr "Knjižnica slik ASCII"
 
-#: rc.cpp:1419
-#: rc.cpp:2889
+#: rc.cpp:1428
+#: rc.cpp:3346
+#: rc.cpp:4825
 msgid "Aspect ratio:"
 msgstr "Razmerje stranic:"
 
-#: rc.cpp:1113
-#: rc.cpp:1713
-#: rc.cpp:1894
-#: rc.cpp:1964
-#: rc.cpp:2583
-#: rc.cpp:3183
-#: rc.cpp:3364
-#: rc.cpp:3434
+#: rc.cpp:1116
+#: rc.cpp:1722
+#: rc.cpp:1903
+#: rc.cpp:3034
+#: rc.cpp:3640
+#: rc.cpp:3821
+#: rc.cpp:3891
+#: rc.cpp:4513
+#: rc.cpp:5119
+#: rc.cpp:5300
+#: rc.cpp:5370
 msgid "Audio"
 msgstr "Zvok"
 
-#: rc.cpp:666
-#: rc.cpp:2136
+#: rc.cpp:669
+#: rc.cpp:2587
+#: rc.cpp:4066
 msgid "Audio Codecs"
 msgstr "Zvočni kodeki"
 
@@ -702,12 +827,13 @@ msgid "Audio Only"
 msgstr "Samo zvok"
 
 #: src/mainwindow.cpp:1019
-#: src/customtrackview.cpp:4874
+#: src/customtrackview.cpp:4985
 msgid "Audio and Video"
 msgstr "Zvok in video"
 
-#: rc.cpp:1278
-#: rc.cpp:2748
+#: rc.cpp:1287
+#: rc.cpp:3205
+#: rc.cpp:4684
 msgid "Audio channels"
 msgstr "Zvočni kanali"
 
@@ -716,61 +842,70 @@ msgstr "Zvočni kanali"
 msgid "Audio clip"
 msgstr "Zvočni posnetek"
 
-#: rc.cpp:1716
-#: rc.cpp:3186
+#: rc.cpp:1725
+#: rc.cpp:3643
+#: rc.cpp:5122
 msgid "Audio codec"
 msgstr "Zvočni kodek"
 
-#: rc.cpp:1245
-#: rc.cpp:2715
+#: rc.cpp:1254
+#: rc.cpp:3172
+#: rc.cpp:4651
 msgid "Audio device"
 msgstr "Zvočna naprava"
 
-#: rc.cpp:1155
-#: rc.cpp:2625
+#: rc.cpp:1158
+#: rc.cpp:3076
+#: rc.cpp:4555
 msgid "Audio device:"
 msgstr "Zvočna naprava:"
 
-#: rc.cpp:1152
-#: rc.cpp:2622
+#: rc.cpp:1155
+#: rc.cpp:3073
+#: rc.cpp:4552
 msgid "Audio driver:"
 msgstr "Gonilnik za zvok:"
 
-#: rc.cpp:1038
-#: rc.cpp:2508
+#: rc.cpp:1041
+#: rc.cpp:2959
+#: rc.cpp:4438
 msgid "Audio editing"
 msgstr "Zvočna montaža"
 
-#: src/clipitem.cpp:864
-#: src/clipitem.cpp:871
+#: src/clipitem.cpp:872
+#: src/clipitem.cpp:879
 #, c-format
 msgid "Audio fade duration: %1s"
 msgstr "Trajanje zvočnega prehoda: %1s"
 
-#: rc.cpp:1281
-#: rc.cpp:2751
+#: rc.cpp:1290
+#: rc.cpp:3208
+#: rc.cpp:4687
 msgid "Audio frequency"
 msgstr "Frekvenca zvoka"
 
-#: rc.cpp:1809
-#: rc.cpp:3279
+#: rc.cpp:1818
+#: rc.cpp:3736
+#: rc.cpp:5215
 msgid "Audio index"
 msgstr "Zvočno kazalo"
 
-#: src/renderwidget.cpp:1097
-#: src/customtrackview.cpp:4849
+#: src/renderwidget.cpp:1108
+#: src/customtrackview.cpp:4960
 msgid "Audio only"
 msgstr "Samo zvok"
 
-#: rc.cpp:1065
-#: rc.cpp:2535
+#: rc.cpp:1068
+#: rc.cpp:2986
+#: rc.cpp:4465
 msgid "Audio track"
 msgstr "Zvočna sled"
 
-#: rc.cpp:1437
-#: rc.cpp:1955
-#: rc.cpp:2907
-#: rc.cpp:3425
+#: rc.cpp:1446
+#: rc.cpp:3364
+#: rc.cpp:3882
+#: rc.cpp:4843
+#: rc.cpp:5361
 msgid "Audio tracks"
 msgstr "Zvočne sledi"
 
@@ -781,20 +916,23 @@ msgstr "Avtor:"
 
 #: src/transitionsettings.cpp:74
 #: rc.cpp:572
-#: rc.cpp:2042
+#: rc.cpp:2490
+#: rc.cpp:3969
 msgid "Auto"
 msgstr "Samodejno"
 
 #: rc.cpp:2
+#: rc.cpp:1920
 msgid "Auto Mask"
 msgstr "Samodejno maskiraj"
 
-#: rc.cpp:675
-#: rc.cpp:2145
+#: rc.cpp:678
+#: rc.cpp:2596
+#: rc.cpp:4075
 msgid "Auto add"
 msgstr "Samodejno dodaj"
 
-#: src/mainwindow.cpp:1443
+#: src/mainwindow.cpp:1450
 msgid "Auto-saved files exist. Do you want to recover them now?"
 msgstr "Obstajajo samodejno shranjene datoteke. Jih želite zdaj obnoviti?"
 
@@ -807,18 +945,21 @@ msgstr "Samodejno"
 msgid "Automatic Transition"
 msgstr "Samodejni prehod"
 
-#: rc.cpp:1224
-#: rc.cpp:2694
+#: rc.cpp:1227
+#: rc.cpp:3145
+#: rc.cpp:4624
 msgid "Automatically start a new file on scene cut"
 msgstr "Samodejno zaženi novo datoteko ob rezu prizora"
 
-#: rc.cpp:1122
-#: rc.cpp:2592
+#: rc.cpp:1125
+#: rc.cpp:3043
+#: rc.cpp:4522
 msgid "Autoscroll while playing"
 msgstr "Samodejno drsaj med predvajanjem"
 
-#: rc.cpp:657
-#: rc.cpp:2127
+#: rc.cpp:660
+#: rc.cpp:2578
+#: rc.cpp:4057
 msgid "Available Codecs (avformat)"
 msgstr "Kodeki na voljo (avformat)"
 
@@ -826,33 +967,37 @@ msgstr "Kodeki na voljo (avformat)"
 msgid "Avformat module (FFmpeg)"
 msgstr "Modul avformat (FFmpeg)"
 
-#: rc.cpp:738
-#: rc.cpp:2208
+#: rc.cpp:741
+#: rc.cpp:2659
+#: rc.cpp:4138
 msgid "Back to menu"
 msgstr "Nazaj v meni"
 
-#: rc.cpp:741
 #: rc.cpp:744
-#: rc.cpp:1599
-#: rc.cpp:2211
-#: rc.cpp:2214
-#: rc.cpp:3069
+#: rc.cpp:747
+#: rc.cpp:1608
+#: rc.cpp:2662
+#: rc.cpp:2665
+#: rc.cpp:3526
+#: rc.cpp:4141
+#: rc.cpp:4144
+#: rc.cpp:5005
 msgid "Background"
 msgstr "Ozadje"
 
-#: src/titlewidget.cpp:178
+#: src/titlewidget.cpp:179
 msgid "Background Transparency"
 msgstr "Prosojnost ozadja"
 
-#: src/renderwidget.cpp:256
+#: src/renderwidget.cpp:263
 msgid "Beginning"
 msgstr "Začetek"
 
-#: src/trackview.cpp:79
+#: src/trackview.cpp:82
 msgid "Bigger tracks"
 msgstr "Širše sledi"
 
-#: src/titlewidget.cpp:143
+#: src/titlewidget.cpp:144
 msgctxt "Font style"
 msgid "Black"
 msgstr "Črna"
@@ -862,58 +1007,70 @@ msgid "Black"
 msgstr "Črna"
 
 #: rc.cpp:46
+#: rc.cpp:1964
 msgid "Blue Screen"
 msgstr "Modro ozadje"
 
 #: rc.cpp:16
+#: rc.cpp:1934
 msgid "Blur factor"
 msgstr "Faktor zabrisanosti"
 
 #: rc.cpp:14
+#: rc.cpp:1932
 msgid "Blur image with keyframes"
 msgstr "Zabriši sliko s ključnimi sličicami"
 
-#: src/titlewidget.cpp:142
+#: src/titlewidget.cpp:143
 msgctxt "Font style"
 msgid "Bold"
 msgstr "Krepko"
 
-#: rc.cpp:1536
-#: rc.cpp:3006
+#: rc.cpp:1545
+#: rc.cpp:3463
+#: rc.cpp:4942
 msgid "Border color"
 msgstr "Barva obrobe"
 
-#: src/titlewidget.cpp:173
+#: src/titlewidget.cpp:174
 msgid "Border transparency"
 msgstr "Prosojnost obrob"
 
 #: src/geometryval.cpp:102
 #: rc.cpp:70
+#: rc.cpp:1988
 msgid "Bottom"
 msgstr "Na dno"
 
 #: rc.cpp:12
+#: rc.cpp:1930
 msgid "Box Blur"
 msgstr "Škatlasta zabrisanost"
 
 #: rc.cpp:138
 #: rc.cpp:142
 #: rc.cpp:175
+#: rc.cpp:2056
+#: rc.cpp:2060
+#: rc.cpp:2093
 msgid "Brightness"
 msgstr "Svetlost"
 
 #: rc.cpp:22
+#: rc.cpp:1940
 msgid "Brightness (keyframable)"
 msgstr "Svetlost (s ključnimi sličicami)"
 
-#: src/trackview.cpp:549
+#: src/trackview.cpp:559
 msgid "Broken clip producer %1"
 msgstr "Okvarjen izdelovalec posnetkov %1"
 
-#: rc.cpp:1302
 #: rc.cpp:1311
-#: rc.cpp:2772
-#: rc.cpp:2781
+#: rc.cpp:1320
+#: rc.cpp:3229
+#: rc.cpp:3238
+#: rc.cpp:4708
+#: rc.cpp:4717
 msgid "Buffer"
 msgstr "Medpomnilnik"
 
@@ -923,175 +1080,188 @@ msgstr "Medpomnilnik"
 msgid "Bug fixing, etc."
 msgstr "Iztrebljanje hroščev itn."
 
-#: rc.cpp:957
-#: rc.cpp:2427
+#: rc.cpp:960
+#: rc.cpp:2878
+#: rc.cpp:4357
 msgid "Burn"
 msgstr "Zapeci"
 
-#: src/dvdwizard.cpp:90
-#: src/dvdwizard.cpp:97
+#: src/dvdwizard.cpp:87
+#: src/dvdwizard.cpp:94
 msgid "Burn with %1"
 msgstr "Zapeci z %1"
 
-#: rc.cpp:723
-#: rc.cpp:2193
+#: rc.cpp:726
+#: rc.cpp:2644
+#: rc.cpp:4123
 msgid "Button"
 msgstr "Gumb"
 
-#: rc.cpp:1179
-#: rc.cpp:2649
+#: rc.cpp:1182
+#: rc.cpp:3100
+#: rc.cpp:4579
 msgid "Button 1"
 msgstr "Gumb 1"
 
-#: rc.cpp:1182
-#: rc.cpp:2652
+#: rc.cpp:1185
+#: rc.cpp:3103
+#: rc.cpp:4582
 msgid "Button 2"
 msgstr "Gumb 2"
 
-#: rc.cpp:1185
-#: rc.cpp:2655
+#: rc.cpp:1188
+#: rc.cpp:3106
+#: rc.cpp:4585
 msgid "Button 3"
 msgstr "Gumb 3"
 
-#: rc.cpp:1188
-#: rc.cpp:2658
+#: rc.cpp:1191
+#: rc.cpp:3109
+#: rc.cpp:4588
 msgid "Button 4"
 msgstr "Gumb 4"
 
-#: rc.cpp:1191
-#: rc.cpp:2661
+#: rc.cpp:1194
+#: rc.cpp:3112
+#: rc.cpp:4591
 msgid "Button 5"
 msgstr "Gumb 5"
 
-#: rc.cpp:735
-#: rc.cpp:2205
+#: rc.cpp:738
+#: rc.cpp:2656
+#: rc.cpp:4135
 msgid "Button colors"
 msgstr "Barve gumbov"
 
-#: rc.cpp:807
-#: rc.cpp:2277
+#: rc.cpp:810
+#: rc.cpp:2728
+#: rc.cpp:4207
 msgid "C"
 msgstr "C"
 
-#: src/customtrackview.cpp:1476
+#: src/customtrackview.cpp:1531
 msgid "Cannot add a video effect to this clip"
 msgstr "Slikovnega učinka temu posnetku ni mogoče dodati"
 
-#: src/customtrackview.cpp:1470
+#: src/customtrackview.cpp:1525
 msgid "Cannot add an audio effect to this clip"
 msgstr "Zvočnega učinka temu posnetku ni mogoče dodati"
 
-#: src/customtrackview.cpp:936
-#: src/customtrackview.cpp:965
-#: src/customtrackview.cpp:1740
-#: src/customtrackview.cpp:1766
-#: src/customtrackview.cpp:1792
-#: src/customtrackview.cpp:1816
+#: src/customtrackview.cpp:978
+#: src/customtrackview.cpp:1007
+#: src/customtrackview.cpp:1796
+#: src/customtrackview.cpp:1822
+#: src/customtrackview.cpp:1848
+#: src/customtrackview.cpp:1872
 msgid "Cannot add transition"
 msgstr "Prehoda ni mogoče dodati"
 
-#: src/customtrackview.cpp:4830
-#: src/customtrackview.cpp:4855
-#: src/customtrackview.cpp:4880
+#: src/customtrackview.cpp:4941
+#: src/customtrackview.cpp:4966
+#: src/customtrackview.cpp:4991
 msgid "Cannot change grouped clips"
 msgstr "Združenih posnetkov ni mogoče spreminjati"
 
-#: src/customtrackview.cpp:824
-#: src/customtrackview.cpp:3146
+#: src/customtrackview.cpp:864
+#: src/customtrackview.cpp:3237
 msgid "Cannot cut a clip in a group"
 msgstr "Posnetka iz skupine ni mogoče rezati"
 
-#: src/customtrackview.cpp:819
+#: src/customtrackview.cpp:859
 msgid "Cannot cut a transition"
 msgstr "Med prehodom ni mogoče rezati"
 
-#: src/customtrackview.cpp:3124
+#: src/customtrackview.cpp:3214
 msgid "Cannot find clip for speed change"
 msgstr "Posnetka, ki bi mu spremenili hitrost, ni mogoče najti"
 
-#: src/customtrackview.cpp:1374
+#: src/customtrackview.cpp:1428
 msgid "Cannot find clip to add effect"
 msgstr "Posnetka, ki bi mu dodali učinek, ni mogoče najti"
 
-#: src/mainwindow.cpp:2005
+#: src/mainwindow.cpp:2025
 msgid "Cannot find clip to add marker"
 msgstr "Posnetka, ki bi mu dodali označevalca, ni mogoče najti"
 
-#: src/customtrackview.cpp:1623
+#: src/customtrackview.cpp:1676
 msgid "Cannot find clip to cut"
 msgstr "Posnetka za rezanje ni mogoče najti"
 
-#: src/mainwindow.cpp:2035
-#: src/mainwindow.cpp:2065
-#: src/mainwindow.cpp:2090
+#: src/mainwindow.cpp:2053
+#: src/mainwindow.cpp:2080
+#: src/mainwindow.cpp:2103
 msgid "Cannot find clip to remove marker"
 msgstr "Posnetka za odstranjevanje označevalca ni mogoče najti"
 
-#: src/customtrackview.cpp:1669
+#: src/customtrackview.cpp:1725
 msgid "Cannot find clip to uncut"
 msgstr "Posnetka za umik reza ni mogoče najti"
 
-#: src/customtrackview.cpp:1182
+#: src/customtrackview.cpp:1226
 msgid "Cannot find clip with keyframe"
 msgstr "Posnetka s ključno sličico ni mogoče najti"
 
-#: src/mainwindow.cpp:1562
-#: src/renderwidget.cpp:611
+#: src/mainwindow.cpp:1572
+#: src/renderwidget.cpp:618
 msgid "Cannot find the melt program required for rendering (part of Mlt)"
 msgstr "Programa melt, potrebnega za upodabljanje, ni mogoče najti (sicer del Mlt)."
 
-#: src/mainwindow.cpp:1547
+#: src/mainwindow.cpp:1557
 msgid "Cannot find your Mlt profiles, please give the path"
 msgstr "Vaših profilov Mlt ni mogoče najti, podajte pot"
 
-#: src/customtrackview.cpp:1928
+#: src/customtrackview.cpp:1984
 msgid "Cannot insert clip in timeline"
 msgstr "Posnetka ni mogoče vstaviti v časovnico"
 
-#: src/customtrackview.cpp:2303
+#: src/customtrackview.cpp:2338
+msgid "Cannot insert space in a track with a group"
+msgstr "Razmika v sled s skupino ni mogoče vstaviti"
+
+#: src/customtrackview.cpp:2392
 msgid "Cannot move clip at position %1, track %2"
 msgstr "Posnetka na položaju %1 na sledi %2 ni mogoče premakniti"
 
-#: src/customtrackview.cpp:3387
-#: src/customtrackview.cpp:3592
+#: src/customtrackview.cpp:3480
+#: src/customtrackview.cpp:3686
 msgid "Cannot move clip at time: %1 on track %2"
 msgstr "Posnetka na kodi %1 na sledi %2 ni mogoče premakniti"
 
-#: src/customtrackview.cpp:2593
-#: src/customtrackview.cpp:3423
+#: src/customtrackview.cpp:2683
+#: src/customtrackview.cpp:3516
 msgid "Cannot move clip to position %1"
 msgstr "Posnetka ni mogoče premakniti na položaj %1"
 
-#: src/customtrackview.cpp:1577
+#: src/customtrackview.cpp:1643
 msgid "Cannot move effect"
 msgstr "Učinka ni mogoče premakniti"
 
-#: src/customtrackview.cpp:2601
+#: src/customtrackview.cpp:2691
 msgid "Cannot move transition"
 msgstr "Prehoda ni mogoče premakniti"
 
-#: src/customtrackview.cpp:2318
+#: src/customtrackview.cpp:2407
 msgid "Cannot move transition at position %1, track %2"
 msgstr "Prehoda ni mogoče postaviti na %1 na sledi %2"
 
-#: src/customtrackview.cpp:3545
+#: src/customtrackview.cpp:3638
 msgid "Cannot move transition at time: %1 on track %2"
 msgstr "Prehoda ni mogoče postaviti na %1 na sledi %2"
 
-#: src/customtrackview.cpp:4262
+#: src/customtrackview.cpp:4370
 msgid "Cannot paste clip to selected place"
 msgstr "Posnetka ni mogoče prilepiti na izbrano mesto"
 
-#: src/customtrackview.cpp:4233
-#: src/customtrackview.cpp:4245
+#: src/customtrackview.cpp:4342
+#: src/customtrackview.cpp:4354
 msgid "Cannot paste selected clips"
 msgstr "Izbranih posnetkov ni mogoče prilepiti"
 
-#: src/customtrackview.cpp:4273
+#: src/customtrackview.cpp:4381
 msgid "Cannot paste transition to selected place"
 msgstr "Prehoda ni mogoče prilepiti na izbrano mesto"
 
-#: src/renderwidget.cpp:615
+#: src/renderwidget.cpp:622
 msgid ""
 "Cannot play video after rendering because the default video player application is not set.\n"
 "Please define it in Kdenlive settings dialog."
@@ -1099,7 +1269,7 @@ msgstr ""
 "Videa po upodabljanju ni mogoče predvajati, ker privzeti program za predvajanje videa ni nastavljen.\n"
 "Določite ga v pogovornem oknu nastavitev Kdenlive."
 
-#: src/recmonitor.cpp:241
+#: src/recmonitor.cpp:268
 msgid ""
 "Cannot read from device %1\n"
 "Please check drivers and access rights."
@@ -1107,32 +1277,52 @@ msgstr ""
 "Z naprave %1 ni mogoče brati.\n"
 "Preverite gonilnike in pravico dostopanja."
 
-#: src/customtrackview.cpp:2775
-#: src/customtrackview.cpp:2867
+#: src/customtrackview.cpp:2291
+msgid "Cannot remove space in a track with a group"
+msgstr "Razmika v sledi s skupino ni mogoče odstraniti"
+
+#: src/customtrackview.cpp:2865
+#: src/customtrackview.cpp:2957
 msgid "Cannot resize transition"
 msgstr "Prehodu ni mogoče spremeniti parametrov"
 
-#: src/customtrackview.cpp:4735
+#: src/customtrackview.cpp:4843
 msgid "Cannot split audio of grouped clips"
 msgstr "Zvoka posnetkov iz skupine ni mogoče razdeliti"
 
-#: src/kdenlivedoc.cpp:577
-#: src/kdenlivedoc.cpp:583
-#: src/titlewidget.cpp:1461
+#: src/customtrackview.cpp:2083
+#: src/customtrackview.cpp:2155
+#: src/customtrackview.cpp:3368
+#: src/customtrackview.cpp:4886
+#: src/customtrackview.cpp:4889
+#: src/customtrackview.cpp:4915
+#: src/customtrackview.cpp:5013
+#: src/customtrackview.cpp:5020
+#: src/customtrackview.cpp:5027
+msgid "Cannot update clip (time: %1, track: %2)"
+msgstr "Posnetka ni mogoče posodobiti (koda %1, sled %2)"
+
+#: src/customtrackview.cpp:799
+msgid "Cannot use spacer in a track with a group"
+msgstr "Orodja za razmikanje v sledi iz skupine ni mogoče uporabiti"
+
+#: src/kdenlivedoc.cpp:568
+#: src/kdenlivedoc.cpp:574
+#: src/titlewidget.cpp:1464
 #: src/profilesdialog.cpp:166
 #: src/profilesdialog.cpp:172
 #: src/profilesdialog.cpp:439
 #: src/profilesdialog.cpp:445
-#: src/renderwidget.cpp:392
-#: src/renderwidget.cpp:492
-#: src/renderwidget.cpp:498
-#: src/renderwidget.cpp:558
-#: src/renderwidget.cpp:744
-#: src/renderwidget.cpp:756
-#: src/renderwidget.cpp:1622
-#: src/renderwidget.cpp:1645
-#: src/dvdwizard.cpp:681
-#: src/dvdwizard.cpp:687
+#: src/renderwidget.cpp:399
+#: src/renderwidget.cpp:499
+#: src/renderwidget.cpp:505
+#: src/renderwidget.cpp:565
+#: src/renderwidget.cpp:751
+#: src/renderwidget.cpp:763
+#: src/renderwidget.cpp:1633
+#: src/renderwidget.cpp:1656
+#: src/dvdwizard.cpp:682
+#: src/dvdwizard.cpp:688
 msgid "Cannot write to file %1"
 msgstr "V datoteko %1 ni mogoče pisati"
 
@@ -1140,22 +1330,31 @@ msgstr "V datoteko %1 ni mogoče pisati"
 msgid "Capture"
 msgstr "Zajemi"
 
-#: rc.cpp:1275
-#: rc.cpp:2745
+#: rc.cpp:1284
+#: rc.cpp:3202
+#: rc.cpp:4681
 msgid "Capture audio"
 msgstr "Zajemi zvok"
 
-#: src/recmonitor.cpp:592
+#: src/recmonitor.cpp:586
 msgid "Capture crashed, please check your parameters"
 msgstr "Zajem se je sesul, preverite parametre zajema"
 
-#: rc.cpp:1026
-#: rc.cpp:2496
+#: rc.cpp:1233
+#: rc.cpp:3151
+#: rc.cpp:4630
+msgid "Capture file name"
+msgstr "Ime zajete datoteke"
+
+#: rc.cpp:1029
+#: rc.cpp:2947
+#: rc.cpp:4426
 msgid "Capture folder"
 msgstr "Mapa zajemanja"
 
-#: rc.cpp:1209
-#: rc.cpp:2679
+#: rc.cpp:1212
+#: rc.cpp:3130
+#: rc.cpp:4609
 msgid "Capture format"
 msgstr "Oblika zajemanja"
 
@@ -1163,34 +1362,46 @@ msgstr "Oblika zajemanja"
 msgid "Capture is not yet available on OS X."
 msgstr "Na OS X zajem še ni podprt."
 
-#: rc.cpp:1248
-#: rc.cpp:2718
+#: rc.cpp:1257
+#: rc.cpp:3175
+#: rc.cpp:4654
 msgid "Capture params"
 msgstr "Parametri zajemanja"
 
-#: rc.cpp:1497
-#: rc.cpp:2967
+#: rc.cpp:1506
+#: rc.cpp:3424
+#: rc.cpp:4903
 msgid "Captured files"
 msgstr "Zajete datoteke"
+
+#: src/recmonitor.cpp:167
+#: src/recmonitor.cpp:168
+msgid "Capturing"
+msgstr "Zajemanje"
 
 #: src/geometryval.cpp:96
 msgid "Center"
 msgstr "Sredina"
 
 #: rc.cpp:411
+#: rc.cpp:2329
 msgid "Center Frequency"
 msgstr "Središči frekvenco"
 
 #: rc.cpp:171
+#: rc.cpp:2089
 msgid "Center correction"
 msgstr "Središčna poprava"
 
-#: rc.cpp:1035
-#: rc.cpp:1041
-#: rc.cpp:1047
-#: rc.cpp:2505
-#: rc.cpp:2511
-#: rc.cpp:2517
+#: rc.cpp:1038
+#: rc.cpp:1044
+#: rc.cpp:1050
+#: rc.cpp:2956
+#: rc.cpp:2962
+#: rc.cpp:2968
+#: rc.cpp:4435
+#: rc.cpp:4441
+#: rc.cpp:4447
 msgid "Change"
 msgstr "Spremeni"
 
@@ -1198,7 +1409,7 @@ msgstr "Spremeni"
 msgid "Change Track"
 msgstr "Spremeni sled"
 
-#: src/customtrackview.cpp:4556
+#: src/customtrackview.cpp:4664
 #: src/headertrack.cpp:84
 msgid "Change Track Type"
 msgstr "Spremeni vrsto sledi"
@@ -1208,14 +1419,16 @@ msgid "Change clip type"
 msgstr "Spremeni vrsto posnetka"
 
 #: rc.cpp:227
+#: rc.cpp:2145
 msgid "Change gamma color value"
 msgstr "Spremeni barvno vrednost gama"
 
 #: rc.cpp:24
+#: rc.cpp:1942
 msgid "Change image brightness with keyframes"
 msgstr "Spremeni svetlost slike s ključnimi sličicami"
 
-#: src/customtrackview.cpp:4551
+#: src/customtrackview.cpp:4659
 msgid "Change track"
 msgstr "Spremeni sled"
 
@@ -1223,7 +1436,7 @@ msgstr "Spremeni sled"
 msgid "Change track type"
 msgstr "Spremeni vrsto sledi"
 
-#: src/projectsettings.cpp:146
+#: src/projectsettings.cpp:144
 msgid ""
 "Changing the profile of your project cannot be undone.\n"
 "It is recommended to save your project before attempting this operation that might cause some corruption in transitions.\n"
@@ -1234,44 +1447,58 @@ msgstr ""
 "Ste prepričani, da želite nadaljevati?"
 
 #: rc.cpp:395
+#: rc.cpp:2313
 msgid "Channel 1"
 msgstr "Kanal 1"
 
 #: rc.cpp:397
+#: rc.cpp:2315
 msgid "Channel 2"
 msgstr "Kanal 2"
 
 #: rc.cpp:399
+#: rc.cpp:2317
 msgid "Channel 3"
 msgstr "Kanal 3"
 
 #: rc.cpp:401
+#: rc.cpp:2319
 msgid "Channel 4"
 msgstr "Kanal 4"
 
 #: rc.cpp:403
+#: rc.cpp:2321
 msgid "Channel 5"
 msgstr "Kanal 5"
 
 #: rc.cpp:405
+#: rc.cpp:2323
 msgid "Channel 6"
 msgstr "Kanal 6"
 
-#: rc.cpp:1719
-#: rc.cpp:3189
+#: rc.cpp:1728
+#: rc.cpp:3646
+#: rc.cpp:5125
 msgid "Channels"
 msgstr "Kanali"
 
 #: rc.cpp:32
+#: rc.cpp:1950
 msgid "Charcoal"
 msgstr "Oglje"
 
 #: rc.cpp:34
+#: rc.cpp:1952
 msgid "Charcoal drawing effect"
 msgstr "Učinek risanja z ogljem"
 
-#: rc.cpp:669
-#: rc.cpp:2139
+#: src/kdenlivedoc.cpp:134
+msgid "Check missing clips"
+msgstr "Preveri manjkajoče posnetke"
+
+#: rc.cpp:672
+#: rc.cpp:2590
+#: rc.cpp:4069
 msgid "CheckBox"
 msgstr "Potrditveno polje"
 
@@ -1284,18 +1511,21 @@ msgid "Checking system"
 msgstr "Preverjanje sistema"
 
 #: rc.cpp:54
+#: rc.cpp:1972
 msgid "Chroma Hold"
 msgstr "Zadržana kromatičnost"
 
 #: rc.cpp:387
+#: rc.cpp:2305
 msgid "Chrominance U"
 msgstr "Kromatičnost U"
 
 #: rc.cpp:389
+#: rc.cpp:2307
 msgid "Chrominance V"
 msgstr "Kromatičnost V"
 
-#: src/mainwindow.cpp:213
+#: src/mainwindow.cpp:214
 msgid "Clean"
 msgstr "Počisti"
 
@@ -1304,89 +1534,103 @@ msgid "Clean Project"
 msgstr "Počisti projekt"
 
 #: rc.cpp:635
-#: rc.cpp:2105
+#: rc.cpp:2553
+#: rc.cpp:4032
 msgid "Clean Up"
 msgstr "Počisti"
 
-#: src/mainwindow.cpp:1698
+#: src/mainwindow.cpp:1709
 msgid "Clean up project"
 msgstr "Počisti in prevetri projekt"
 
-#: rc.cpp:837
-#: rc.cpp:1982
-#: rc.cpp:2307
-#: rc.cpp:3452
+#: rc.cpp:840
+#: rc.cpp:2758
+#: rc.cpp:3909
+#: rc.cpp:4237
+#: rc.cpp:5388
 msgid "Clear cache"
 msgstr "Počisti predpomnilnik"
 
-#: rc.cpp:3494
+#: src/mainwindow.cpp:2435
+msgid "Click on a clip to cut it"
+msgstr "Klikni na posnetek za rezanje"
+
+#: rc.cpp:5430
 msgid "Clip"
 msgstr "Posnetek"
 
-#: src/kdenlivedoc.cpp:892
-#: src/kdenlivedoc.cpp:900
+#: src/kdenlivedoc.cpp:877
+#: src/kdenlivedoc.cpp:885
 msgid "Clip <b>%1</b><br>is invalid or missing, what do you want to do?"
 msgstr "Posnetek <b>%1</b><br>ni veljaven ali manjka, kaj želite storiti?"
 
-#: src/kdenlivedoc.cpp:889
+#: src/kdenlivedoc.cpp:874
 msgid "Clip <b>%1</b><br>is invalid, what do you want to do?"
 msgstr "Posnetek <b>%1</b><br>ni veljaven, kaj želite z njim storiti?"
 
-#: src/projectlist.cpp:703
+#: src/projectlist.cpp:701
 msgid "Clip <b>%1</b><br>is invalid, will be removed from project."
 msgstr "Posnetek <b>%1</b><br>ni veljaven, odstranjen bo iz projekta."
 
-#: src/projectlist.cpp:705
+#: src/projectlist.cpp:703
 msgid "Clip <b>%1</b><br>is missing or invalid. Remove it from project?"
 msgstr "Posnetek <b>%1</b><br>manjka ali ni veljaven. Ga želite odstraniti iz projekta?"
 
-#: rc.cpp:1665
-#: rc.cpp:3135
+#: rc.cpp:1674
+#: rc.cpp:3592
+#: rc.cpp:5071
 msgid "Clip Color"
 msgstr "Barva posnetka"
 
-#: src/mainwindow.cpp:185
+#: src/mainwindow.cpp:186
 msgid "Clip Monitor"
 msgstr "Monitor posnetka"
 
 #: src/mainwindow.cpp:1145
-#: rc.cpp:1674
-#: rc.cpp:3144
+#: rc.cpp:1683
+#: rc.cpp:3601
+#: rc.cpp:5080
 msgid "Clip Properties"
 msgstr "Lastnosti posnetka"
 
 #: rc.cpp:193
+#: rc.cpp:2111
 msgid "Clip bottom"
 msgstr "Poreži na dnu"
 
-#: rc.cpp:1822
-#: rc.cpp:3292
+#: rc.cpp:1831
+#: rc.cpp:3749
+#: rc.cpp:5228
 msgid "Clip duration"
 msgstr "Trajanje posnetka"
 
-#: src/clipitem.cpp:874
+#: src/clipitem.cpp:882
 #, c-format
 msgid "Clip duration: %1s"
 msgstr "Trajanje posnetka: %1s"
 
-#: src/customtrackview.cpp:3848
+#: src/customtrackview.cpp:3956
 msgid "Clip has no markers"
 msgstr "Posnetek nima označb"
 
 #: rc.cpp:187
+#: rc.cpp:2105
 msgid "Clip left"
 msgstr "Poreži na levi"
 
 #: rc.cpp:189
+#: rc.cpp:2107
 msgid "Clip right"
 msgstr "Poreži na desni"
 
-#: rc.cpp:1815
-#: rc.cpp:3285
+#: rc.cpp:1824
+#: rc.cpp:3742
+#: rc.cpp:5221
 msgid "Clip speed"
 msgstr "Hitrost posnetka"
 
 #: rc.cpp:191
+#: rc.cpp:2109
 msgid "Clip top"
 msgstr "Poreži na vrhu"
 
@@ -1394,24 +1638,28 @@ msgstr "Poreži na vrhu"
 msgid "Clips folder"
 msgstr "Mapa s posnetki"
 
-#: rc.cpp:825
-#: rc.cpp:1970
-#: rc.cpp:2295
-#: rc.cpp:3440
+#: rc.cpp:828
+#: rc.cpp:2746
+#: rc.cpp:3897
+#: rc.cpp:4225
+#: rc.cpp:5376
 msgid "Clips used in project:"
 msgstr "V projektu uporabljeni posnetki:"
 
-#: src/titlewidget.cpp:334
+#: src/titlewidget.cpp:335
 msgid "Clone"
 msgstr "Kloniraj"
 
-#: src/cliptranscode.cpp:129
+#: src/cliptranscode.cpp:137
 #: rc.cpp:611
 #: rc.cpp:626
-#: rc.cpp:647
-#: rc.cpp:2081
-#: rc.cpp:2096
-#: rc.cpp:2117
+#: rc.cpp:650
+#: rc.cpp:2529
+#: rc.cpp:2544
+#: rc.cpp:2568
+#: rc.cpp:4008
+#: rc.cpp:4023
+#: rc.cpp:4047
 msgid "Close"
 msgstr "Zapri"
 
@@ -1420,8 +1668,9 @@ msgctxt "@action:button"
 msgid "Close"
 msgstr "Zapri"
 
-#: rc.cpp:861
-#: rc.cpp:2331
+#: rc.cpp:864
+#: rc.cpp:2782
+#: rc.cpp:4261
 msgid "Close after transcode"
 msgstr "Zapri po upodobitvi"
 
@@ -1430,23 +1679,28 @@ msgid "Close the current tab"
 msgstr "Zapri trenutni zavihek"
 
 #: rc.cpp:285
+#: rc.cpp:2203
 msgid "Co-efficient"
 msgstr "Koeficient"
 
-#: rc.cpp:747
-#: rc.cpp:1725
-#: rc.cpp:1728
-#: rc.cpp:2217
-#: rc.cpp:3195
-#: rc.cpp:3198
+#: rc.cpp:750
+#: rc.cpp:1734
+#: rc.cpp:1737
+#: rc.cpp:2668
+#: rc.cpp:3652
+#: rc.cpp:3655
+#: rc.cpp:4147
+#: rc.cpp:5131
+#: rc.cpp:5134
 msgid "Color"
 msgstr "Barva"
 
-#: src/projectlist.cpp:722
+#: src/projectlist.cpp:720
 msgid "Color Clip"
 msgstr "Obarvaj posnetek"
 
 #: rc.cpp:144
+#: rc.cpp:2062
 msgid "Color Distance"
 msgstr "Barvna razdalja"
 
@@ -1454,13 +1708,16 @@ msgstr "Barvna razdalja"
 msgid "Color clip"
 msgstr "Obarvaj posnetek"
 
-#: rc.cpp:1386
-#: rc.cpp:2856
+#: rc.cpp:1395
+#: rc.cpp:3313
+#: rc.cpp:4792
 msgid "Color clips"
 msgstr "Obarvaj posnetke"
 
 #: rc.cpp:50
 #: rc.cpp:58
+#: rc.cpp:1968
+#: rc.cpp:1976
 msgid "Color key"
 msgstr "Ključenje z barvo"
 
@@ -1469,10 +1726,12 @@ msgctxt "@title:menu"
 msgid "Columns"
 msgstr "Stolpci"
 
-#: rc.cpp:1455
-#: rc.cpp:1776
-#: rc.cpp:2925
-#: rc.cpp:3246
+#: rc.cpp:1464
+#: rc.cpp:1785
+#: rc.cpp:3382
+#: rc.cpp:3703
+#: rc.cpp:4861
+#: rc.cpp:5182
 msgid "Comment"
 msgstr "Komentar"
 
@@ -1480,24 +1739,26 @@ msgstr "Komentar"
 msgid "Config Wizard"
 msgstr "Čarovnik za nastavitev"
 
-#: src/recmonitor.cpp:85
+#: src/recmonitor.cpp:89
 msgid "Configure"
 msgstr "Prilagodi"
 
-#: src/projectsettings.cpp:146
+#: src/projectsettings.cpp:144
 msgid "Confirm profile change"
 msgstr "Potrditev spremembe profila"
 
-#: src/recmonitor.cpp:64
-#: src/recmonitor.cpp:580
+#: src/recmonitor.cpp:68
+#: src/recmonitor.cpp:574
 msgid "Connect"
 msgstr "Poveži"
 
 #: rc.cpp:153
+#: rc.cpp:2071
 msgid "Contrast"
 msgstr "Kontrast"
 
 #: rc.cpp:149
+#: rc.cpp:2067
 msgid "Contrast0r"
 msgstr "Contrast0r"
 
@@ -1506,6 +1767,7 @@ msgid "Control character. Cannot be inserted/printed. See <a href=\"http://en.wi
 msgstr "Kontrolni znak. Ni ga mogoče vstaviti oz. natisniti. Glejte <a href=\"http://en.wikipedia.org/wiki/Control_character\">Wikipedia:Control_character</a> (v angl.)"
 
 #: rc.cpp:30
+#: rc.cpp:1948
 msgid "Copy the left channel to the right"
 msgstr "Kopiraj levi kanal na desno"
 
@@ -1513,8 +1775,8 @@ msgstr "Kopiraj levi kanal na desno"
 msgid "Copyright (c) 2009 Development team"
 msgstr "Copyright (c) 2009, razvojna ekipa"
 
-#: src/renderer.cpp:1114
-#: src/renderer.cpp:1184
+#: src/renderer.cpp:1113
+#: src/renderer.cpp:1183
 msgid ""
 "Could not create the video preview window.\n"
 "There is something wrong with your Kdenlive install or your driver settings, please fix it."
@@ -1523,15 +1785,17 @@ msgstr ""
 "Z vašo namestitvijo programa Kdenlive ali nastavitvami gonilnika je nekaj narobe, prosimo, preverite."
 
 #: rc.cpp:321
+#: rc.cpp:2239
 msgid "Crackle"
 msgstr "Presket"
 
-#: rc.cpp:1377
-#: rc.cpp:2847
+#: rc.cpp:1386
+#: rc.cpp:3304
+#: rc.cpp:4783
 msgid "Crash recovery (automatic backup)"
 msgstr "Obnovitev po sesutju (samodejna varnostna kopija)"
 
-#: src/dvdwizard.cpp:63
+#: src/dvdwizard.cpp:62
 msgid "Create DVD Menu"
 msgstr "Ustvari meni za DVD"
 
@@ -1539,56 +1803,64 @@ msgstr "Ustvari meni za DVD"
 msgid "Create Folder"
 msgstr "Ustvari mapo"
 
-#: rc.cpp:960
-#: rc.cpp:2430
+#: rc.cpp:963
+#: rc.cpp:2881
+#: rc.cpp:4360
 msgid "Create ISO image"
 msgstr "Ustvari sliko ISO"
 
-#: src/mainwindow.cpp:2757
+#: src/mainwindow.cpp:2790
 msgid "Create Render Script"
 msgstr "Ustvari skript upodabljanja"
 
-#: rc.cpp:708
-#: rc.cpp:2178
+#: rc.cpp:711
+#: rc.cpp:2629
+#: rc.cpp:4108
 msgid "Create basic menu"
 msgstr "Ustvari osnovni meni"
 
 #: rc.cpp:617
-#: rc.cpp:2087
+#: rc.cpp:2535
+#: rc.cpp:4014
 msgid "Create chapter file based on guides"
 msgstr "Ustvari datoteko poglavij glede na vodila"
 
 #: src/profilesdialog.cpp:46
-#: src/renderwidget.cpp:77
+#: src/renderwidget.cpp:79
 msgid "Create new profile"
 msgstr "Ustvari nov profil"
 
-#: src/dvdwizard.cpp:67
+#: src/dvdwizard.cpp:66
 msgid "Creating DVD Image"
 msgstr "Ustvarjanje slike DVD"
 
-#: rc.cpp:945
-#: rc.cpp:2415
+#: rc.cpp:948
+#: rc.cpp:2866
+#: rc.cpp:4345
 msgid "Creating dvd structure"
 msgstr "Ustvarjanje strukture DVD"
 
-#: rc.cpp:948
-#: rc.cpp:2418
+#: rc.cpp:951
+#: rc.cpp:2869
+#: rc.cpp:4348
 msgid "Creating iso file"
 msgstr "Ustvarjanje datoteke ISO"
 
-#: rc.cpp:939
-#: rc.cpp:2409
+#: rc.cpp:942
+#: rc.cpp:2860
+#: rc.cpp:4339
 msgid "Creating menu background"
 msgstr "Ustvarjanje menijskega ozadja"
 
-#: rc.cpp:936
-#: rc.cpp:2406
+#: rc.cpp:939
+#: rc.cpp:2857
+#: rc.cpp:4336
 msgid "Creating menu images"
 msgstr "Ustvarjanje slik za meni"
 
-#: rc.cpp:942
-#: rc.cpp:2412
+#: rc.cpp:945
+#: rc.cpp:2863
+#: rc.cpp:4342
 msgid "Creating menu movie"
 msgstr "Ustvarjanje filma za meni"
 
@@ -1598,29 +1870,36 @@ msgid "Creating thumbnail for %1"
 msgstr "Ustvarjanje predogledne sličice za %1"
 
 #: rc.cpp:62
+#: rc.cpp:1980
 msgid "Crop"
 msgstr "Obreži"
 
-#: src/clipitem.cpp:867
+#: src/clipitem.cpp:875
 #, c-format
 msgid "Crop from start: %1s"
 msgstr "Obreži od začetka: %1s"
 
-#: rc.cpp:1083
-#: rc.cpp:2553
+#: rc.cpp:1086
+#: rc.cpp:3004
+#: rc.cpp:4483
 msgid "Crop start"
 msgstr "Obreži začetek"
 
+#: src/mainwindow.cpp:2432
+msgid "Ctrl + click to use spacer on current track only"
+msgstr "Ctrl + klik uporabi orodje za razmikanje le na trenutni sledi"
+
 #: src/geometryval.cpp:92
-#: src/renderwidget.cpp:321
-#: src/renderwidget.cpp:353
-#: src/renderwidget.cpp:424
-#: src/renderwidget.cpp:460
-#: src/renderwidget.cpp:1172
-#: src/renderwidget.cpp:1217
-#: src/renderwidget.cpp:1297
-#: rc.cpp:1897
-#: rc.cpp:3367
+#: src/renderwidget.cpp:328
+#: src/renderwidget.cpp:360
+#: src/renderwidget.cpp:431
+#: src/renderwidget.cpp:467
+#: src/renderwidget.cpp:1183
+#: src/renderwidget.cpp:1228
+#: src/renderwidget.cpp:1308
+#: rc.cpp:1906
+#: rc.cpp:3824
+#: rc.cpp:5303
 msgid "Custom"
 msgstr "Po meri"
 
@@ -1633,39 +1912,49 @@ msgid "Cut Clip"
 msgstr "Izreži posnetek"
 
 #: rc.cpp:566
-#: rc.cpp:699
-#: rc.cpp:714
-#: rc.cpp:813
-#: rc.cpp:927
-#: rc.cpp:1785
-#: rc.cpp:1904
-#: rc.cpp:2036
-#: rc.cpp:2169
-#: rc.cpp:2184
-#: rc.cpp:2283
-#: rc.cpp:2397
-#: rc.cpp:3255
-#: rc.cpp:3374
+#: rc.cpp:702
+#: rc.cpp:717
+#: rc.cpp:816
+#: rc.cpp:930
+#: rc.cpp:1794
+#: rc.cpp:2484
+#: rc.cpp:2620
+#: rc.cpp:2635
+#: rc.cpp:2734
+#: rc.cpp:2848
+#: rc.cpp:3712
+#: rc.cpp:3831
+#: rc.cpp:3963
+#: rc.cpp:4099
+#: rc.cpp:4114
+#: rc.cpp:4213
+#: rc.cpp:4327
+#: rc.cpp:5191
+#: rc.cpp:5310
 msgid "D"
 msgstr "D"
 
-#: rc.cpp:1470
-#: rc.cpp:2940
+#: rc.cpp:1479
+#: rc.cpp:3397
+#: rc.cpp:4876
 msgid "DV"
 msgstr "DV"
 
-#: rc.cpp:1215
-#: rc.cpp:2685
+#: rc.cpp:1218
+#: rc.cpp:3136
+#: rc.cpp:4615
 msgid "DV AVI type 1"
 msgstr "DV AVI vrste 1"
 
-#: rc.cpp:1218
-#: rc.cpp:2688
+#: rc.cpp:1221
+#: rc.cpp:3139
+#: rc.cpp:4618
 msgid "DV AVI type 2"
 msgstr "DV AVI vrste 2"
 
-#: rc.cpp:1212
-#: rc.cpp:2682
+#: rc.cpp:1215
+#: rc.cpp:3133
+#: rc.cpp:4612
 msgid "DV Raw"
 msgstr "DV Raw"
 
@@ -1673,24 +1962,25 @@ msgstr "DV Raw"
 msgid "DV module (libdv)"
 msgstr "Modul DV (libdv)"
 
-#: src/renderwidget.cpp:1096
+#: src/renderwidget.cpp:1107
 msgid "DVD"
 msgstr "DVD"
 
-#: src/dvdwizard.cpp:57
+#: src/dvdwizard.cpp:56
 msgid "DVD Chapters"
 msgstr "DVD-poglavja"
 
-#: rc.cpp:969
-#: rc.cpp:2439
+#: rc.cpp:972
+#: rc.cpp:2890
+#: rc.cpp:4369
 msgid "DVD ISO image"
 msgstr "Slika ISO za DVD"
 
-#: src/dvdwizard.cpp:586
+#: src/dvdwizard.cpp:587
 msgid "DVD ISO image %1 successfully created."
 msgstr "DVD-slika ISO %1 uspešno ustvarjena."
 
-#: src/dvdwizard.cpp:573
+#: src/dvdwizard.cpp:574
 msgid "DVD ISO is broken"
 msgstr "ISO DVD-ja je okvarjen"
 
@@ -1699,8 +1989,9 @@ msgstr "ISO DVD-ja je okvarjen"
 msgid "DVD Wizard"
 msgstr "Čarovnik za DVD"
 
-#: rc.cpp:1879
-#: rc.cpp:3349
+#: rc.cpp:1888
+#: rc.cpp:3806
+#: rc.cpp:5285
 msgid "DVD format"
 msgstr "Vrsta DVD"
 
@@ -1714,6 +2005,8 @@ msgstr "Postopek DVDAuthor se je sesul."
 
 #: rc.cpp:299
 #: rc.cpp:309
+#: rc.cpp:2217
+#: rc.cpp:2227
 msgid "Damping"
 msgstr "Dušenje"
 
@@ -1722,21 +2015,27 @@ msgid "Dan Dennedy"
 msgstr "Dan Dennedy"
 
 #: rc.cpp:8
+#: rc.cpp:1926
 msgid "Debug"
 msgstr "Razhrošči"
 
 #: rc.cpp:433
 #: rc.cpp:445
 #: rc.cpp:465
+#: rc.cpp:2351
+#: rc.cpp:2363
+#: rc.cpp:2383
 msgid "Decay"
 msgstr "Razkroj"
 
 #: rc.cpp:239
+#: rc.cpp:2157
 msgid "Declipper"
 msgstr "Odstranjevalnik porezave"
 
-#: rc.cpp:1803
-#: rc.cpp:3273
+#: rc.cpp:1812
+#: rc.cpp:3730
+#: rc.cpp:5209
 msgid "Decoding threads"
 msgstr "Niti dekodiranja"
 
@@ -1745,33 +2044,39 @@ msgstr "Niti dekodiranja"
 msgid "Default"
 msgstr "Privzeto"
 
-#: rc.cpp:1383
-#: rc.cpp:2853
+#: rc.cpp:1392
+#: rc.cpp:3310
+#: rc.cpp:4789
 msgid "Default Durations"
 msgstr "Privzeta trajanja"
 
-#: rc.cpp:1401
-#: rc.cpp:2871
+#: rc.cpp:1410
+#: rc.cpp:3328
+#: rc.cpp:4807
 msgid "Default Profile"
 msgstr "Privzeti profil"
 
-#: rc.cpp:1029
-#: rc.cpp:2499
+#: rc.cpp:1032
+#: rc.cpp:2950
+#: rc.cpp:4429
 msgid "Default apps"
 msgstr "Privzeti programi"
 
-#: rc.cpp:1194
-#: rc.cpp:2664
+#: rc.cpp:1197
+#: rc.cpp:3115
+#: rc.cpp:4594
 msgid "Default capture device"
 msgstr "Privzeta naprava za zajem"
 
-#: rc.cpp:1644
-#: rc.cpp:3114
+#: rc.cpp:1653
+#: rc.cpp:3571
+#: rc.cpp:5050
 msgid "Default folder for project files"
 msgstr "Privzeta mapa za projektne datoteke"
 
-#: rc.cpp:1017
-#: rc.cpp:2487
+#: rc.cpp:1020
+#: rc.cpp:2938
+#: rc.cpp:4417
 msgid "Default folders"
 msgstr "Privzete mape"
 
@@ -1779,10 +2084,15 @@ msgstr "Privzete mape"
 #: rc.cpp:443
 #: rc.cpp:463
 #: rc.cpp:485
+#: rc.cpp:2349
+#: rc.cpp:2361
+#: rc.cpp:2381
+#: rc.cpp:2403
 msgid "Delay"
 msgstr "Zamuda"
 
 #: rc.cpp:307
+#: rc.cpp:2225
 msgid "Delay (s/10)"
 msgstr "Zamuda (s/10)"
 
@@ -1790,7 +2100,7 @@ msgstr "Zamuda (s/10)"
 msgid "Delete %1"
 msgstr "Izbriši %1"
 
-#: src/customruler.cpp:80
+#: src/customruler.cpp:82
 #: src/mainwindow.cpp:1063
 msgid "Delete All Guides"
 msgstr "Izbriši vsa vodila"
@@ -1809,7 +2119,7 @@ msgstr "Izbriši posnetek"
 msgid "Delete Folder"
 msgstr "Izbriši mapo"
 
-#: src/customruler.cpp:78
+#: src/customruler.cpp:80
 #: src/mainwindow.cpp:1055
 #: src/customtrackview.cpp:199
 msgid "Delete Guide"
@@ -1819,13 +2129,15 @@ msgstr "Izbriši vodilo"
 msgid "Delete Marker"
 msgstr "Izbriši označevalca"
 
-#: rc.cpp:1840
-#: rc.cpp:3310
+#: rc.cpp:1849
+#: rc.cpp:3767
+#: rc.cpp:5246
 msgid "Delete Profile"
 msgstr "Izbriši profil"
 
-#: rc.cpp:644
-#: rc.cpp:2114
+#: rc.cpp:647
+#: rc.cpp:2565
+#: rc.cpp:4044
 msgid "Delete Script"
 msgstr "Izbriši skript"
 
@@ -1834,7 +2146,7 @@ msgid "Delete Selected Item"
 msgstr "Izbriši izbrani element"
 
 #: src/mainwindow.cpp:1043
-#: src/customtrackview.cpp:4535
+#: src/customtrackview.cpp:4643
 #: src/headertrack.cpp:80
 msgid "Delete Track"
 msgstr "Izbriši sled"
@@ -1860,8 +2172,9 @@ msgstr[3] "Želite izbrisati posnetek <b>%2</b>?<br>S tem boste odstranili tudi 
 msgid "Delete current button"
 msgstr "Izbriši trenutni gumb"
 
-#: rc.cpp:1506
-#: rc.cpp:2976
+#: rc.cpp:1515
+#: rc.cpp:3433
+#: rc.cpp:4912
 msgid "Delete current file"
 msgstr "Izbriši trenutno datoteko"
 
@@ -1870,10 +2183,11 @@ msgstr "Izbriši trenutno datoteko"
 msgid "Delete effect"
 msgstr "Izbriši učinek"
 
-#: rc.cpp:831
-#: rc.cpp:1976
-#: rc.cpp:2301
-#: rc.cpp:3446
+#: rc.cpp:834
+#: rc.cpp:2752
+#: rc.cpp:3903
+#: rc.cpp:4231
+#: rc.cpp:5382
 msgid "Delete files"
 msgstr "Izbriši datoteke"
 
@@ -1904,11 +2218,11 @@ msgid "Delete marker"
 msgstr "Izbriši označbo"
 
 #: src/profilesdialog.cpp:42
-#: src/renderwidget.cpp:69
+#: src/renderwidget.cpp:71
 msgid "Delete profile"
 msgstr "Izbriši profil"
 
-#: src/customtrackview.cpp:3082
+#: src/customtrackview.cpp:3172
 msgid "Delete selected clip"
 msgid_plural "Delete selected clips"
 msgstr[0] "Izbriši izbrane posnetke"
@@ -1916,7 +2230,7 @@ msgstr[1] "Izbriši izbrani posnetek"
 msgstr[2] "Izbriši izbrana posnetka"
 msgstr[3] "Izbriši izbrane posnetke"
 
-#: src/customtrackview.cpp:3080
+#: src/customtrackview.cpp:3170
 msgid "Delete selected group"
 msgid_plural "Delete selected groups"
 msgstr[0] "Izbriši izbrane skupine"
@@ -1924,11 +2238,11 @@ msgstr[1] "Izbriši izbrano skupino"
 msgstr[2] "Izbriši izbrani skupini"
 msgstr[3] "Izbriši izbrane skupine"
 
-#: src/customtrackview.cpp:3085
+#: src/customtrackview.cpp:3175
 msgid "Delete selected items"
 msgstr "Izbriši izbrane elemente"
 
-#: src/customtrackview.cpp:3084
+#: src/customtrackview.cpp:3174
 msgid "Delete selected transition"
 msgid_plural "Delete selected transitions"
 msgstr[0] "Izbriši izbrane prehode"
@@ -1941,7 +2255,7 @@ msgid "Delete them"
 msgstr "Izbriši jih"
 
 #: src/addtimelineclipcommand.cpp:37
-#: src/customtrackview.cpp:2360
+#: src/customtrackview.cpp:2449
 msgid "Delete timeline clip"
 msgid_plural "Delete timeline clips"
 msgstr[0] "Izbriši posnetke na časovnici"
@@ -1949,7 +2263,7 @@ msgstr[1] "Izbriši posnetek na časovnici"
 msgstr[2] "Izbriši posnetka na časovnici"
 msgstr[3] "Izbriši posnetke na časovnici"
 
-#: src/customtrackview.cpp:4530
+#: src/customtrackview.cpp:4638
 #: src/addtrackcommand.cpp:34
 msgid "Delete track"
 msgstr "Izbriši sled"
@@ -1958,69 +2272,89 @@ msgstr "Izbriši sled"
 msgid "Delete transition from clip"
 msgstr "Izbriši prehod s posnetka"
 
-#: src/projectsettings.cpp:92
+#: src/projectsettings.cpp:91
 msgid "Delete unused clips"
 msgstr "Izbriši neuporabljene posnetke"
 
-#: src/titlewidget.cpp:141
+#: src/titlewidget.cpp:142
 msgctxt "Font style"
 msgid "Demi-Bold"
 msgstr "Pol-krepko"
 
 #: rc.cpp:269
+#: rc.cpp:2187
 msgid "Depth"
 msgstr "Globina"
 
 #: src/projectlistview.cpp:46
-#: rc.cpp:774
-#: rc.cpp:1680
-#: rc.cpp:2244
-#: rc.cpp:3150
+#: rc.cpp:777
+#: rc.cpp:1689
+#: rc.cpp:2695
+#: rc.cpp:3607
+#: rc.cpp:4174
+#: rc.cpp:5086
 msgid "Description"
 msgstr "Opis"
 
-#: src/mainwindow.cpp:2554
+#: src/mainwindow.cpp:2583
 msgid "Description:"
 msgstr "Opis:"
 
-#: rc.cpp:1005
-#: rc.cpp:2475
+#: rc.cpp:1008
+#: rc.cpp:2926
+#: rc.cpp:4405
 msgid "Desktop search integration"
 msgstr "Vključitev sistema namiznega iskanja"
 
 #: rc.cpp:542
-#: rc.cpp:846
-#: rc.cpp:1131
-#: rc.cpp:2012
-#: rc.cpp:2316
-#: rc.cpp:2601
+#: rc.cpp:849
+#: rc.cpp:1134
+#: rc.cpp:2460
+#: rc.cpp:2767
+#: rc.cpp:3052
+#: rc.cpp:3939
+#: rc.cpp:4246
+#: rc.cpp:4531
 msgid "Destination"
 msgstr "Cilj"
 
-#: rc.cpp:1176
-#: rc.cpp:2646
+#: src/cliptranscode.cpp:50
+msgid "Destination folder"
+msgstr "Ciljna mapa"
+
+#: rc.cpp:1179
+#: rc.cpp:3097
+#: rc.cpp:4576
 msgid "Device"
 msgstr "Naprava"
 
-#: rc.cpp:1173
-#: rc.cpp:2643
+#: rc.cpp:1176
+#: rc.cpp:3094
+#: rc.cpp:4573
 msgid "Device configuration"
 msgstr "Konfiguracija naprave"
 
 #: rc.cpp:536
-#: rc.cpp:822
-#: rc.cpp:840
-#: rc.cpp:867
-#: rc.cpp:1050
-#: rc.cpp:1659
-#: rc.cpp:1812
-#: rc.cpp:2006
-#: rc.cpp:2292
-#: rc.cpp:2310
-#: rc.cpp:2337
-#: rc.cpp:2520
-#: rc.cpp:3129
-#: rc.cpp:3282
+#: rc.cpp:825
+#: rc.cpp:843
+#: rc.cpp:870
+#: rc.cpp:1053
+#: rc.cpp:1668
+#: rc.cpp:1821
+#: rc.cpp:2454
+#: rc.cpp:2743
+#: rc.cpp:2761
+#: rc.cpp:2788
+#: rc.cpp:2971
+#: rc.cpp:3586
+#: rc.cpp:3739
+#: rc.cpp:3933
+#: rc.cpp:4222
+#: rc.cpp:4240
+#: rc.cpp:4267
+#: rc.cpp:4450
+#: rc.cpp:5065
+#: rc.cpp:5218
 msgid "Dialog"
 msgstr "Pogovorno okno"
 
@@ -2029,6 +2363,7 @@ msgid "Direct FB"
 msgstr "Neposredni medpomn. sličic"
 
 #: rc.cpp:233
+#: rc.cpp:2151
 msgid "Discard color information"
 msgstr "Zavrzi barvne informacije"
 
@@ -2036,7 +2371,7 @@ msgstr "Zavrzi barvne informacije"
 msgid "Discover the features of this Kdenlive release"
 msgstr "Odkrijte novosti te izdaje Kdenlive"
 
-#: src/recmonitor.cpp:255
+#: src/recmonitor.cpp:282
 msgid "Disonnect"
 msgstr "Prekini povezavo"
 
@@ -2044,35 +2379,41 @@ msgstr "Prekini povezavo"
 msgid "Display"
 msgstr "Pokaži"
 
-#: rc.cpp:795
-#: rc.cpp:2265
+#: rc.cpp:798
+#: rc.cpp:2716
+#: rc.cpp:4195
 msgid "Display aspect ratio"
 msgstr "Prikazano razmerje stranic"
 
-#: src/wizard.cpp:476
-#: rc.cpp:1943
-#: rc.cpp:3413
+#: src/wizard.cpp:481
+#: rc.cpp:3870
+#: rc.cpp:5349
 msgid "Display aspect ratio:"
 msgstr "Prikazano razmerje stranic:"
 
-#: rc.cpp:1119
-#: rc.cpp:2589
+#: rc.cpp:1122
+#: rc.cpp:3040
+#: rc.cpp:4519
 msgid "Display clip markers comments"
 msgstr "Pokaži komentarje označb posnetka"
 
-#: rc.cpp:1425
-#: rc.cpp:2895
+#: rc.cpp:1434
+#: rc.cpp:3352
+#: rc.cpp:4831
 msgid "Display ratio:"
 msgstr "Razmerje stranic:"
 
-#: rc.cpp:1359
-#: rc.cpp:1746
-#: rc.cpp:2829
-#: rc.cpp:3216
+#: rc.cpp:1368
+#: rc.cpp:1755
+#: rc.cpp:3286
+#: rc.cpp:3673
+#: rc.cpp:4765
+#: rc.cpp:5152
 msgid "Dissolve"
 msgstr "Preliv"
 
 #: rc.cpp:155
+#: rc.cpp:2073
 msgid "Distort0r"
 msgstr "Distort0r"
 
@@ -2080,7 +2421,7 @@ msgstr "Distort0r"
 msgid "Do nothing"
 msgstr "Ne naredi ničesar"
 
-#: src/kdenlivedoc.cpp:219
+#: src/kdenlivedoc.cpp:210
 msgid "Document project folder is invalid, setting it to the default one: %1"
 msgstr "Mapa dokumenta projekta ni veljavna, uporabljena bo privzeta: %1"
 
@@ -2088,7 +2429,7 @@ msgstr "Mapa dokumenta projekta ni veljavna, uporabljena bo privzeta: %1"
 msgid "Document to open"
 msgstr "Dokument za odprtje"
 
-#: src/mainwindow.cpp:1445
+#: src/mainwindow.cpp:1452
 msgid "Don't recover"
 msgstr "Ne obnovi"
 
@@ -2104,8 +2445,9 @@ msgstr "Prenesi nove profile upodabljanja ..."
 msgid "Download New Wipes..."
 msgstr "Prenesi nove zavese ..."
 
-#: rc.cpp:1164
-#: rc.cpp:2634
+#: rc.cpp:1167
+#: rc.cpp:3085
+#: rc.cpp:4564
 msgid "Drop B frames on H.264 clips"
 msgstr "Izpusti B-sličice pri posnetkih H.264"
 
@@ -2113,42 +2455,49 @@ msgstr "Izpusti B-sličice pri posnetkih H.264"
 #: rc.cpp:90
 #: rc.cpp:103
 #: rc.cpp:113
-#: rc.cpp:1068
-#: rc.cpp:1095
-#: rc.cpp:1494
-#: rc.cpp:1569
-#: rc.cpp:1668
-#: rc.cpp:1683
-#: rc.cpp:1867
-#: rc.cpp:2538
-#: rc.cpp:2565
-#: rc.cpp:2964
-#: rc.cpp:3039
-#: rc.cpp:3138
-#: rc.cpp:3153
-#: rc.cpp:3337
+#: rc.cpp:1071
+#: rc.cpp:1098
+#: rc.cpp:1503
+#: rc.cpp:1578
+#: rc.cpp:1677
+#: rc.cpp:1692
+#: rc.cpp:1876
+#: rc.cpp:1996
+#: rc.cpp:2008
+#: rc.cpp:2021
+#: rc.cpp:2031
+#: rc.cpp:2989
+#: rc.cpp:3016
+#: rc.cpp:3421
+#: rc.cpp:3496
+#: rc.cpp:3595
+#: rc.cpp:3610
+#: rc.cpp:3794
+#: rc.cpp:4468
+#: rc.cpp:4495
+#: rc.cpp:4900
+#: rc.cpp:4975
+#: rc.cpp:5074
+#: rc.cpp:5089
+#: rc.cpp:5273
 msgid "Duration"
 msgstr "Trajanje"
 
-#: src/wizard.cpp:333
-msgid "Dvdauthor"
-msgstr "Dvdauthor"
-
-#: src/wizard.cpp:326
-msgid "Dvgrab"
-msgstr "Dvgrab"
-
-#: rc.cpp:918
-#: rc.cpp:2388
+#: rc.cpp:921
+#: rc.cpp:2839
+#: rc.cpp:4318
 msgid "Dw"
 msgstr "Dw"
 
 #: rc.cpp:560
-#: rc.cpp:924
-#: rc.cpp:1782
-#: rc.cpp:2030
-#: rc.cpp:2394
-#: rc.cpp:3252
+#: rc.cpp:927
+#: rc.cpp:1791
+#: rc.cpp:2478
+#: rc.cpp:2845
+#: rc.cpp:3709
+#: rc.cpp:3957
+#: rc.cpp:4324
+#: rc.cpp:5188
 msgid "E"
 msgstr "E"
 
@@ -2157,6 +2506,7 @@ msgid "EMAIL OF TRANSLATORS"
 msgstr "E-naslov prevajalcev"
 
 #: rc.cpp:173
+#: rc.cpp:2091
 msgid "Edges correction"
 msgstr "Poprava robov"
 
@@ -2164,35 +2514,36 @@ msgstr "Poprava robov"
 msgid "Edit Clip"
 msgstr "Uredi posnetek"
 
-#: src/customtrackview.cpp:3105
+#: src/customtrackview.cpp:3195
 msgid "Edit Clip Speed"
 msgstr "Uredi hitrost posnetka"
 
-#: src/customruler.cpp:76
+#: src/customruler.cpp:78
 #: src/mainwindow.cpp:1059
 #: src/customtrackview.cpp:203
-#: src/customtrackview.cpp:3952
-#: src/customtrackview.cpp:3964
+#: src/customtrackview.cpp:4061
+#: src/customtrackview.cpp:4073
 msgid "Edit Guide"
 msgstr "Uredi vodilo"
 
-#: rc.cpp:1846
-#: rc.cpp:3316
+#: rc.cpp:1855
+#: rc.cpp:3773
+#: rc.cpp:5252
 msgid "Edit Keyframe"
 msgstr "Uredi ključno sličico"
 
 #: src/clipproperties.cpp:309
 #: src/mainwindow.cpp:1001
-#: src/mainwindow.cpp:2102
+#: src/mainwindow.cpp:2115
 msgid "Edit Marker"
 msgstr "Uredi označbo"
 
-#: src/renderwidget.cpp:431
+#: src/renderwidget.cpp:438
 msgid "Edit Profile"
 msgstr "Uredi profil"
 
 #: src/editclipcommand.cpp:33
-#: src/customtrackview.cpp:1141
+#: src/customtrackview.cpp:1185
 msgid "Edit clip"
 msgstr "Uredi posnetek"
 
@@ -2200,8 +2551,9 @@ msgstr "Uredi posnetek"
 msgid "Edit effect %1"
 msgstr "Uredi učinek %1"
 
-#: rc.cpp:1608
-#: rc.cpp:3078
+#: rc.cpp:1617
+#: rc.cpp:3535
+#: rc.cpp:5014
 msgid "Edit end"
 msgstr "Uredi konec"
 
@@ -2219,12 +2571,13 @@ msgstr "Uredi ključno sličico"
 msgid "Edit marker"
 msgstr "Uredi označbo"
 
-#: src/renderwidget.cpp:73
+#: src/renderwidget.cpp:75
 msgid "Edit profile"
 msgstr "Uredi profil"
 
-#: rc.cpp:1605
-#: rc.cpp:3075
+#: rc.cpp:1614
+#: rc.cpp:3532
+#: rc.cpp:5011
 msgid "Edit start"
 msgstr "Uredi začetek"
 
@@ -2232,7 +2585,7 @@ msgstr "Uredi začetek"
 msgid "Edit transition %1"
 msgstr "Uredi prehod %1"
 
-#: src/trackview.cpp:619
+#: src/trackview.cpp:632
 msgid "Effect %1:%2 not found in MLT, it was removed from this project\n"
 msgstr "Učinka %1:%2 ni mogoče najti v MLT, iz tega projekta je bil odstranjen\n"
 
@@ -2244,8 +2597,8 @@ msgstr "Seznam učinkov"
 msgid "Effect Stack"
 msgstr "Sklad učinkov"
 
-#: src/customtrackview.cpp:1425
-#: src/customtrackview.cpp:1481
+#: src/customtrackview.cpp:1480
+#: src/customtrackview.cpp:1536
 msgid "Effect already present in clip"
 msgstr "Učinek v posnetku že obstaja"
 
@@ -2265,42 +2618,52 @@ msgstr "Presledek em (širina m-ja)"
 msgid "En Space (width of an n)"
 msgstr "Presledek en (širina n-ja)"
 
-#: rc.cpp:1167
-#: rc.cpp:2637
+#: rc.cpp:1170
+#: rc.cpp:3088
+#: rc.cpp:4567
 msgid "Enable Jog Shuttle device"
 msgstr "Omogoči delo z montažno konzolo"
 
-#: src/recmonitor.cpp:441
+#: src/recmonitor.cpp:438
 msgid "Encoding captured video..."
 msgstr "Kodiranje zajetega posnetka ..."
 
-#: rc.cpp:1251
-#: rc.cpp:2721
+#: rc.cpp:1260
+#: rc.cpp:3178
+#: rc.cpp:4657
 msgid "Encoding params"
 msgstr "Parametri kodiranja"
 
-#: src/renderwidget.cpp:274
+#: src/renderwidget.cpp:281
 #: rc.cpp:84
 #: rc.cpp:96
-#: rc.cpp:2000
-#: rc.cpp:3470
+#: rc.cpp:2002
+#: rc.cpp:2014
+#: rc.cpp:3927
+#: rc.cpp:5406
 msgid "End"
 msgstr "Konec"
 
 #: rc.cpp:107
 #: rc.cpp:118
+#: rc.cpp:2025
+#: rc.cpp:2036
 msgid "End Gain"
 msgstr "Končna ojačitev"
 
-#: src/kdenlivedoc.cpp:1102
+#: src/kdenlivedoc.cpp:1087
 msgid "Enter Template Path"
 msgstr "Vnesite pot do predloge"
+
+#: rc.cpp:1909
+msgid "Enter Unicode value"
+msgstr "Vnesite vrednost Unicode"
 
 #: src/documentchecker.cpp:227
 msgid "Enter new location for file"
 msgstr "Vnesite novo mesto za datoteko"
 
-#: src/trackview.cpp:858
+#: src/trackview.cpp:872
 msgid "Enter new name"
 msgstr "Vnesite novo ime"
 
@@ -2313,17 +2676,19 @@ msgid "Environment"
 msgstr "Okolje"
 
 #: rc.cpp:243
+#: rc.cpp:2161
 msgid "Equalizer"
 msgstr "Izenačevalnik"
 
 #: rc.cpp:629
-#: rc.cpp:2099
+#: rc.cpp:2547
+#: rc.cpp:4026
 msgid "Error Log"
 msgstr "Dnevnik napak"
 
-#: src/customtrackview.cpp:1674
-#: src/customtrackview.cpp:2639
-#: src/customtrackview.cpp:2998
+#: src/customtrackview.cpp:1730
+#: src/customtrackview.cpp:2729
+#: src/customtrackview.cpp:3088
 msgid "Error removing clip at %1 on track %2"
 msgstr "Napaka pri odstranjevanju posnetka z %1 na sledi %2"
 
@@ -2331,15 +2696,15 @@ msgstr "Napaka pri odstranjevanju posnetka z %1 na sledi %2"
 msgid "Error starting MLT's command line player (melt)"
 msgstr "Napaka pri zagonu predvajalnika MLT v ukazni vrstici (melt)"
 
-#: src/wizard.cpp:536
+#: src/wizard.cpp:541
 msgid "Error starting MLT's command line player (melt)."
 msgstr "Napaka pri zagonu predvajalnika MLT v ukazni vrstici (melt)."
 
-#: src/customtrackview.cpp:1697
-#: src/customtrackview.cpp:2768
-#: src/customtrackview.cpp:2860
-#: src/customtrackview.cpp:3611
-#: src/customtrackview.cpp:3619
+#: src/customtrackview.cpp:1753
+#: src/customtrackview.cpp:2858
+#: src/customtrackview.cpp:2950
+#: src/customtrackview.cpp:3705
+#: src/customtrackview.cpp:3713
 msgid "Error when resizing clip"
 msgstr "Napaka pri spreminjanju velikosti posnetka"
 
@@ -2347,29 +2712,31 @@ msgstr "Napaka pri spreminjanju velikosti posnetka"
 msgid "Esound daemon"
 msgstr "Demon esound"
 
-#: src/renderwidget.cpp:1375
+#: src/renderwidget.cpp:1386
 msgid "Estimated time %1"
 msgstr "Pričakovan čas %1"
 
-#: src/kdenlivedoc.cpp:683
+#: src/kdenlivedoc.cpp:674
 msgid "Existing Profile"
 msgstr "Obstoječi profil"
 
 #: rc.cpp:581
-#: rc.cpp:2051
+#: rc.cpp:2499
+#: rc.cpp:3978
 msgid "Export audio"
 msgstr "Izvozi zvok"
 
-#: rc.cpp:1140
-#: rc.cpp:2610
+#: rc.cpp:1143
+#: rc.cpp:3061
+#: rc.cpp:4540
 msgid "Extension"
 msgstr "Pripona"
 
-#: rc.cpp:3476
+#: rc.cpp:5412
 msgid "Extra Toolbar"
 msgstr "Dodatna orodna vrstica"
 
-#: src/monitor.cpp:199
+#: src/monitor.cpp:203
 msgid "Extract frame"
 msgstr "Izlušči fotogram"
 
@@ -2377,51 +2744,63 @@ msgstr "Izlušči fotogram"
 msgid "FFmpeg & ffplay"
 msgstr "FFmpeg in ffplay"
 
-#: rc.cpp:849
-#: rc.cpp:1834
-#: rc.cpp:2319
-#: rc.cpp:3304
+#: rc.cpp:852
+#: rc.cpp:1843
+#: rc.cpp:2770
+#: rc.cpp:3761
+#: rc.cpp:4249
+#: rc.cpp:5240
 msgid "FFmpeg parameters"
 msgstr "Parametri FFmpeg"
 
 #: rc.cpp:491
+#: rc.cpp:2409
 msgid "Factor"
 msgstr "Faktor"
 
 #: rc.cpp:74
+#: rc.cpp:1992
 msgid "Fade from Black"
 msgstr "Prelij iz črnine"
 
 #: rc.cpp:98
+#: rc.cpp:2016
 msgid "Fade in"
 msgstr "Odtemnitev"
 
 #: rc.cpp:100
 #: rc.cpp:111
+#: rc.cpp:2018
+#: rc.cpp:2029
 msgid "Fade in audio track"
 msgstr "Prelij v zvočno sled"
 
 #: rc.cpp:109
+#: rc.cpp:2027
 msgid "Fade out"
 msgstr "Zatemnitev"
 
 #: rc.cpp:86
+#: rc.cpp:2004
 msgid "Fade to Black"
 msgstr "Prelij v črnino"
 
 #: rc.cpp:76
+#: rc.cpp:1994
 msgid "Fade video from black"
 msgstr "Prelij v sliko iz črnine"
 
 #: rc.cpp:88
+#: rc.cpp:2006
 msgid "Fade video to black"
 msgstr "Prelij sliko v črnino"
 
-#: src/wizard.cpp:544
+#: src/wizard.cpp:549
 msgid "Fatal Error"
 msgstr "Usodna napaka"
 
 #: rc.cpp:271
+#: rc.cpp:2189
 msgid "Feedback"
 msgstr "Odmev"
 
@@ -2429,13 +2808,14 @@ msgstr "Odmev"
 msgid "Figure space (non-breaking). Width of a digit if digits have fixed width in this font."
 msgstr ""
 
-#: src/renderwidget.cpp:159
-#: rc.cpp:1864
-#: rc.cpp:3334
+#: src/renderwidget.cpp:161
+#: rc.cpp:1873
+#: rc.cpp:3791
+#: rc.cpp:5270
 msgid "File"
 msgstr "Datoteka"
 
-#: src/cliptranscode.cpp:105
+#: src/cliptranscode.cpp:114
 msgid ""
 "File %1 already exists.\n"
 "Do you want to overwrite it?"
@@ -2444,15 +2824,18 @@ msgstr ""
 "Jo želite prepisati?"
 
 #: src/kdenlivedoc.cpp:91
-#: src/dvdwizard.cpp:703
+msgid "File %1 is not a Kdenlive project file"
+msgstr "Datoteka %1 ni projektna datoteka Kdenlive"
+
+#: src/dvdwizard.cpp:704
 msgid "File %1 is not a Kdenlive project file."
 msgstr "Datoteka %1 ni projektna datotekaKdenlive."
 
-#: src/mainwindow.cpp:1444
+#: src/mainwindow.cpp:1451
 msgid "File Recovery"
 msgstr "Obnovitev datoteke"
 
-#: src/mainwindow.cpp:1381
+#: src/mainwindow.cpp:1383
 #: src/effectstackview.cpp:105
 msgid ""
 "File already exists.\n"
@@ -2461,27 +2844,29 @@ msgstr ""
 "Datoteka že obstaja.\n"
 "Jo želite prepisati?"
 
-#: src/renderwidget.cpp:638
+#: src/renderwidget.cpp:645
 msgid "File has no extension. Add extension (%1)?"
 msgstr "Datoteka nima končnice. Želite dodati končnico (%1)?"
 
-#: rc.cpp:1500
-#: rc.cpp:2970
+#: rc.cpp:1509
+#: rc.cpp:3427
+#: rc.cpp:4906
 msgid "File name"
 msgstr "Ime datoteke"
 
-#: src/kdenlivedoc.cpp:889
-#: src/kdenlivedoc.cpp:892
-#: src/kdenlivedoc.cpp:900
+#: src/kdenlivedoc.cpp:874
+#: src/kdenlivedoc.cpp:877
+#: src/kdenlivedoc.cpp:885
 msgid "File not found"
 msgstr "Datoteke ni mogoče najti"
 
-#: src/renderwidget.cpp:1095
+#: src/renderwidget.cpp:1106
 msgid "File rendering"
 msgstr "Upodabljanje datoteke"
 
-#: rc.cpp:1692
-#: rc.cpp:3162
+#: rc.cpp:1701
+#: rc.cpp:3619
+#: rc.cpp:5098
 msgid "File size"
 msgstr "Velikost datoteke"
 
@@ -2489,12 +2874,13 @@ msgstr "Velikost datoteke"
 msgid "Filename"
 msgstr "Ime datoteke"
 
-#: rc.cpp:1533
-#: rc.cpp:3003
+#: rc.cpp:1542
+#: rc.cpp:3460
+#: rc.cpp:4939
 msgid "Fill color"
 msgstr "Barva polnila"
 
-#: src/titlewidget.cpp:172
+#: src/titlewidget.cpp:173
 msgid "Fill transparency"
 msgstr "Prosojnost polnila"
 
@@ -2506,20 +2892,23 @@ msgstr "Najdi"
 msgid "Find Next"
 msgstr "Najdi naslednjega"
 
-#: src/mainwindow.cpp:2473
+#: src/mainwindow.cpp:2502
 msgid "Find stopped"
 msgstr "Najdi ustavljeno"
 
-#: rc.cpp:678
-#: rc.cpp:1197
-#: rc.cpp:1206
-#: rc.cpp:2148
-#: rc.cpp:2667
-#: rc.cpp:2676
+#: rc.cpp:681
+#: rc.cpp:1200
+#: rc.cpp:1209
+#: rc.cpp:2599
+#: rc.cpp:3118
+#: rc.cpp:3127
+#: rc.cpp:4078
+#: rc.cpp:4597
+#: rc.cpp:4606
 msgid "Firewire"
 msgstr "Firewire"
 
-#: src/renderer.cpp:1438
+#: src/renderer.cpp:1437
 msgid ""
 "Firewire is not enabled on your system.\n"
 " Please install Libiec61883 and recompile Kdenlive"
@@ -2527,7 +2916,7 @@ msgstr ""
 "Na vašem sistemu Firewire ni omogočen.\n"
 " Namestite Libiec61883 in ponovno prevedite Kdenlive"
 
-#: src/titlewidget.cpp:176
+#: src/titlewidget.cpp:177
 msgid "Fit zoom"
 msgstr "Umeri povečavo"
 
@@ -2536,67 +2925,78 @@ msgid "Fit zoom to project"
 msgstr "Prilagodi povečavo projektu"
 
 #: rc.cpp:327
+#: rc.cpp:2245
 msgid "Flip your image in any direction"
 msgstr "Prevrnite sliko v poljubno smer"
 
 #: src/projectlist.cpp:482
-#: src/projectlist.cpp:555
+#: src/projectlist.cpp:554
 #: src/projectitem.cpp:43
-#: rc.cpp:1344
-#: rc.cpp:2814
+#: rc.cpp:1353
+#: rc.cpp:3271
+#: rc.cpp:4750
 msgid "Folder"
 msgstr "Mapa"
 
-#: src/dvdwizard.cpp:631
+#: src/dvdwizard.cpp:632
 msgid "Folder %1 already exists. Overwrite?"
 msgstr "Mapa %1 že obstaja. Jo želite prepisati?"
 
-#: rc.cpp:1320
-#: rc.cpp:2790
+#: rc.cpp:1329
+#: rc.cpp:3247
+#: rc.cpp:4726
 msgid "Follow mouse"
 msgstr "Sledi miški"
 
-#: rc.cpp:732
-#: rc.cpp:2202
+#: rc.cpp:735
+#: rc.cpp:2653
+#: rc.cpp:4132
 msgid "Font"
 msgstr "Pisava"
 
-#: src/titlewidget.cpp:144
+#: src/titlewidget.cpp:145
 msgid "Font weight"
 msgstr "Debelina pisave"
 
 #: rc.cpp:578
-#: rc.cpp:2048
+#: rc.cpp:2496
+#: rc.cpp:3975
 msgid "Force Interlaced"
 msgstr "Vsili prepleteno"
 
 #: rc.cpp:575
-#: rc.cpp:2045
+#: rc.cpp:2493
+#: rc.cpp:3972
 msgid "Force Progressive"
 msgstr "Vsili progresivno"
 
-#: rc.cpp:1800
-#: rc.cpp:3270
+#: rc.cpp:1809
+#: rc.cpp:3727
+#: rc.cpp:5206
 msgid "Force pixel aspect ratio"
 msgstr "Vsili razmerje stranic slike"
 
 #: rc.cpp:551
-#: rc.cpp:1233
 #: rc.cpp:1242
-#: rc.cpp:2021
-#: rc.cpp:2703
-#: rc.cpp:2712
+#: rc.cpp:1251
+#: rc.cpp:2469
+#: rc.cpp:3160
+#: rc.cpp:3169
+#: rc.cpp:3948
+#: rc.cpp:4639
+#: rc.cpp:4648
 msgid "Format"
 msgstr "Format"
 
-#: rc.cpp:660
-#: rc.cpp:2130
+#: rc.cpp:663
+#: rc.cpp:2581
+#: rc.cpp:4060
 msgid "Formats"
 msgstr "Vrste datotek"
 
 #: src/monitor.cpp:90
 #: src/mainwindow.cpp:916
-#: src/recmonitor.cpp:76
+#: src/recmonitor.cpp:80
 msgid "Forward"
 msgstr "Previj"
 
@@ -2612,8 +3012,8 @@ msgstr "Naprej 1 sekundo"
 msgid "Forward 1 frame"
 msgstr "Nazaj 1 sličico"
 
-#: src/mainwindow.cpp:2450
-#: src/mainwindow.cpp:2461
+#: src/mainwindow.cpp:2479
+#: src/mainwindow.cpp:2490
 msgid "Found: %1"
 msgstr "Najdeno: %1"
 
@@ -2621,8 +3021,9 @@ msgstr "Najdeno: %1"
 msgid "Four-Per-Em Space. Width: 1/4 of one <em>em</em>"
 msgstr ""
 
-#: rc.cpp:1347
-#: rc.cpp:2817
+#: rc.cpp:1356
+#: rc.cpp:3274
+#: rc.cpp:4753
 msgid "Frame Duration"
 msgstr "Trajanje fotograma"
 
@@ -2630,36 +3031,43 @@ msgstr "Trajanje fotograma"
 msgid "Frame Geometry"
 msgstr "Geometrija izreza"
 
-#: rc.cpp:1737
-#: rc.cpp:3207
+#: rc.cpp:1746
+#: rc.cpp:3664
+#: rc.cpp:5143
 msgid "Frame duration"
 msgstr "Trajanje fotograma"
 
-#: rc.cpp:783
-#: rc.cpp:1269
-#: rc.cpp:1332
-#: rc.cpp:1707
-#: rc.cpp:2253
-#: rc.cpp:2739
-#: rc.cpp:2802
-#: rc.cpp:3177
+#: rc.cpp:786
+#: rc.cpp:1278
+#: rc.cpp:1341
+#: rc.cpp:1716
+#: rc.cpp:2704
+#: rc.cpp:3196
+#: rc.cpp:3259
+#: rc.cpp:3634
+#: rc.cpp:4183
+#: rc.cpp:4675
+#: rc.cpp:4738
+#: rc.cpp:5113
 msgid "Frame rate"
 msgstr "Hitrost"
 
-#: src/wizard.cpp:476
-#: rc.cpp:1413
-#: rc.cpp:1931
-#: rc.cpp:2883
-#: rc.cpp:3401
+#: src/wizard.cpp:481
+#: rc.cpp:1422
+#: rc.cpp:3340
+#: rc.cpp:3858
+#: rc.cpp:4819
+#: rc.cpp:5337
 msgid "Frame rate:"
 msgstr "Hitrost:"
 
-#: rc.cpp:1704
-#: rc.cpp:3174
+#: rc.cpp:1713
+#: rc.cpp:3631
+#: rc.cpp:5110
 msgid "Frame size"
 msgstr "Velikost sličice"
 
-#: src/wizard.cpp:476
+#: src/wizard.cpp:481
 msgid "Frame size:"
 msgstr "Velikost sličice:"
 
@@ -2673,56 +3081,66 @@ msgstr "Konzola medpomnilnika sličic"
 msgid "Frames"
 msgstr "sličic"
 
-#: src/recmonitor.cpp:99
-#: src/recmonitor.cpp:166
-#: src/recmonitor.cpp:604
+#: src/recmonitor.cpp:663
 msgid "Free space: %1"
 msgstr "Prostor na voljo: %1"
 
 #: rc.cpp:120
+#: rc.cpp:2038
 msgid "Freeze"
 msgstr "Zamrzni"
 
 #: rc.cpp:128
+#: rc.cpp:2046
 msgid "Freeze After"
 msgstr "Zamrzni po"
 
 #: rc.cpp:126
+#: rc.cpp:2044
 msgid "Freeze Before"
 msgstr "Zamrzni pred"
 
 #: rc.cpp:124
+#: rc.cpp:2042
 msgid "Freeze at"
 msgstr "Zamrzni na"
 
 #: rc.cpp:122
+#: rc.cpp:2040
 msgid "Freeze video on a chosen frame"
 msgstr "Zamrzni video na izbrani sličici"
 
 #: rc.cpp:161
 #: rc.cpp:421
-#: rc.cpp:1722
-#: rc.cpp:3192
+#: rc.cpp:1731
+#: rc.cpp:2079
+#: rc.cpp:2339
+#: rc.cpp:3649
+#: rc.cpp:5128
 msgid "Frequency"
 msgstr "Frekvenca"
 
 #: rc.cpp:605
-#: rc.cpp:2075
+#: rc.cpp:2523
+#: rc.cpp:4002
 msgid "From"
 msgstr "Od"
 
 #: rc.cpp:596
-#: rc.cpp:2066
+#: rc.cpp:2514
+#: rc.cpp:3993
 msgid "Full project"
 msgstr "Cel projekt"
 
-#: rc.cpp:1314
-#: rc.cpp:2784
+#: rc.cpp:1323
+#: rc.cpp:3241
+#: rc.cpp:4720
 msgid "Full screen capture"
 msgstr "Celozaslonski zajem"
 
-#: rc.cpp:1335
-#: rc.cpp:2805
+#: rc.cpp:1344
+#: rc.cpp:3262
+#: rc.cpp:4741
 msgid "Full shots"
 msgstr "Celi posnetki"
 
@@ -2733,27 +3151,43 @@ msgstr "Celi posnetki"
 #: rc.cpp:419
 #: rc.cpp:453
 #: rc.cpp:523
+#: rc.cpp:2137
+#: rc.cpp:2141
+#: rc.cpp:2255
+#: rc.cpp:2261
+#: rc.cpp:2337
+#: rc.cpp:2371
+#: rc.cpp:2441
 msgid "Gain"
 msgstr "Ojačitev"
 
 #: rc.cpp:427
 #: rc.cpp:439
 #: rc.cpp:459
+#: rc.cpp:2345
+#: rc.cpp:2357
+#: rc.cpp:2377
 msgid "Gain In"
 msgstr "Vhodna ojačitev"
 
 #: rc.cpp:429
 #: rc.cpp:441
 #: rc.cpp:461
+#: rc.cpp:2347
+#: rc.cpp:2359
+#: rc.cpp:2379
 msgid "Gain Out"
 msgstr "Izhodna ojačitev"
 
 #: rc.cpp:481
+#: rc.cpp:2399
 msgid "Gain out"
 msgstr "Izhodna ojačitev"
 
 #: rc.cpp:225
 #: rc.cpp:229
+#: rc.cpp:2143
+#: rc.cpp:2147
 msgid "Gamma"
 msgstr "Gama"
 
@@ -2761,19 +3195,20 @@ msgstr "Gama"
 msgid "General graphics interface"
 msgstr "Splošni grafični vmesnik"
 
-#: src/renderwidget.cpp:93
+#: src/renderwidget.cpp:95
 msgid "Generate Script"
 msgstr "Izdelaj skript"
 
-#: rc.cpp:3485
+#: rc.cpp:5421
 msgid "Generators"
 msgstr "Generatorji"
 
 #: rc.cpp:6
+#: rc.cpp:1924
 msgid "Geometry"
 msgstr "Geometrija"
 
-#: rc.cpp:3521
+#: rc.cpp:5457
 msgid "Go To"
 msgstr "Pojdi na"
 
@@ -2813,21 +3248,25 @@ msgstr "Pojdi na naslednjo ključno točko"
 msgid "Go to previous keyframe"
 msgstr "Pojdi na prejšnjo ključno točko"
 
-#: rc.cpp:996
-#: rc.cpp:2466
+#: rc.cpp:999
+#: rc.cpp:2917
+#: rc.cpp:4396
 msgid "GraphView"
 msgstr "GraphView"
 
 #: rc.cpp:136
+#: rc.cpp:2054
 msgid "Green Tint"
 msgstr "Zelena obarvanost"
 
 #: rc.cpp:231
+#: rc.cpp:2149
 msgid "Greyscale"
 msgstr "Sivinsko"
 
-#: rc.cpp:1134
-#: rc.cpp:2604
+#: rc.cpp:1137
+#: rc.cpp:3055
+#: rc.cpp:4534
 msgid "Group"
 msgstr "Združi"
 
@@ -2839,33 +3278,38 @@ msgstr "Združi posnetke"
 msgid "Group clips"
 msgstr "Združi posnetke"
 
-#: rc.cpp:1858
-#: rc.cpp:3328
+#: rc.cpp:1867
+#: rc.cpp:3785
+#: rc.cpp:5264
 msgid "GroupBox"
 msgstr "Skupinsko polje"
 
-#: src/customtrackview.cpp:3925
+#: src/customtrackview.cpp:4034
 msgid "Guide"
 msgstr "Vodilo"
 
 #: rc.cpp:602
-#: rc.cpp:2072
+#: rc.cpp:2520
+#: rc.cpp:3999
 msgid "Guide zone"
 msgstr "Območje vodil"
 
-#: rc.cpp:3503
+#: rc.cpp:5439
 msgid "Guides"
 msgstr "Vodila"
 
-#: rc.cpp:1524
-#: rc.cpp:2994
+#: rc.cpp:1533
+#: rc.cpp:3451
+#: rc.cpp:4930
 msgid "H"
 msgstr "H"
 
-#: rc.cpp:1221
-#: rc.cpp:1473
-#: rc.cpp:2691
-#: rc.cpp:2943
+#: rc.cpp:1224
+#: rc.cpp:1482
+#: rc.cpp:3142
+#: rc.cpp:3400
+#: rc.cpp:4621
+#: rc.cpp:4879
 msgid "HDV"
 msgstr "HDV"
 
@@ -2873,25 +3317,30 @@ msgstr "HDV"
 msgid "Hair Space. Thinner than U+2009."
 msgstr "Lasni presledek. Tanjši kot U+2009."
 
-#: rc.cpp:879
-#: rc.cpp:2349
+#: rc.cpp:882
+#: rc.cpp:2800
+#: rc.cpp:4279
 msgid "Height"
 msgstr "Višina"
 
 #: rc.cpp:251
+#: rc.cpp:2169
 msgid "Hi gain"
 msgstr "Visoka ojačitev"
 
 #: rc.cpp:347
+#: rc.cpp:2265
 msgid "Hide a region of the clip"
 msgstr "Skrij območje posnetka"
 
 #: rc.cpp:4
+#: rc.cpp:1922
 msgid "Hide a selected zone and follow its movements"
 msgstr "Skrijte izbrani izsek in sledite njegovemu gibanju"
 
-#: rc.cpp:1323
-#: rc.cpp:2793
+#: rc.cpp:1332
+#: rc.cpp:3250
+#: rc.cpp:4729
 msgid "Hide frame"
 msgstr "Skrij sličico"
 
@@ -2904,39 +3353,47 @@ msgid "Hor. Center"
 msgstr "Vod. sredina"
 
 #: rc.cpp:167
+#: rc.cpp:2085
 msgid "Horizontal center"
 msgstr "Vodoravna sredina"
 
 #: rc.cpp:531
+#: rc.cpp:2449
 msgid "Horizontal factor"
 msgstr "Vodoravni faktor"
 
 #: rc.cpp:18
+#: rc.cpp:1936
 msgid "Horizontal multiplicator"
 msgstr "Vodoravni multiplikator"
 
 #: rc.cpp:36
+#: rc.cpp:1954
 msgid "Horizontal scatter"
 msgstr "Vodoravna razpršenost"
 
 #: rc.cpp:548
-#: rc.cpp:2018
+#: rc.cpp:2466
+#: rc.cpp:3945
 msgid "I"
 msgstr "I"
 
-#: src/dvdwizard.cpp:546
+#: src/dvdwizard.cpp:547
 msgid "ISO creation process crashed."
 msgstr "Postopek izdelave ISO se je sesul."
 
-#: rc.cpp:750
-#: rc.cpp:1761
-#: rc.cpp:2220
-#: rc.cpp:3231
+#: rc.cpp:753
+#: rc.cpp:1770
+#: rc.cpp:2671
+#: rc.cpp:3688
+#: rc.cpp:4150
+#: rc.cpp:5167
 msgid "Image"
 msgstr "Slika"
 
-#: rc.cpp:1353
-#: rc.cpp:2823
+#: rc.cpp:1362
+#: rc.cpp:3280
+#: rc.cpp:4759
 msgid "Image Type"
 msgstr "Vrsta slike"
 
@@ -2945,44 +3402,52 @@ msgstr "Vrsta slike"
 msgid "Image clip"
 msgstr "Posnetek iz slike"
 
-#: rc.cpp:1395
-#: rc.cpp:2865
+#: rc.cpp:1404
+#: rc.cpp:3322
+#: rc.cpp:4801
 msgid "Image clips"
 msgstr "Posnetki iz slik"
 
-#: rc.cpp:1032
-#: rc.cpp:2502
+#: rc.cpp:1035
+#: rc.cpp:2953
+#: rc.cpp:4432
 msgid "Image editing"
 msgstr "Urejanje slike"
 
-#: src/dvdwizard.cpp:633
+#: src/dvdwizard.cpp:634
 msgid "Image file %1 already exists. Overwrite?"
 msgstr "Slikovna datoteka z imenom %1 že obstaja. Jo želite prepisati?"
 
-#: rc.cpp:1458
-#: rc.cpp:1695
-#: rc.cpp:2928
-#: rc.cpp:3165
+#: rc.cpp:1467
+#: rc.cpp:1704
+#: rc.cpp:3385
+#: rc.cpp:3622
+#: rc.cpp:4864
+#: rc.cpp:5101
 msgid "Image preview"
 msgstr "Predogled slike"
 
-#: rc.cpp:1263
-#: rc.cpp:1764
-#: rc.cpp:2733
-#: rc.cpp:3234
+#: rc.cpp:1272
+#: rc.cpp:1773
+#: rc.cpp:3190
+#: rc.cpp:3691
+#: rc.cpp:4669
+#: rc.cpp:5170
 msgid "Image size"
 msgstr "Velikost slike"
 
-#: rc.cpp:1734
-#: rc.cpp:3204
+#: rc.cpp:1743
+#: rc.cpp:3661
+#: rc.cpp:5140
 msgid "Image type"
 msgstr "Vrsta slike"
 
 #: rc.cpp:80
+#: rc.cpp:1998
 msgid "In"
 msgstr "Vhod"
 
-#: src/monitor.cpp:541
+#: src/monitor.cpp:547
 msgid "In Point"
 msgstr "Vhodna točka"
 
@@ -2990,16 +3455,17 @@ msgstr "Vhodna točka"
 msgid "Information about unicode characters: <a href=\"http://decodeunicode.org\">http://decodeunicode.org</a>"
 msgstr "Informacije o znakih Unicode: <a href=\"http://decodeunicode.org\">http://decodeunicode.org</a>"
 
-#: src/recmonitor.cpp:412
-#: src/recmonitor.cpp:533
+#: src/recmonitor.cpp:409
+#: src/recmonitor.cpp:527
 msgid "Initialising..."
 msgstr "Inicializacija ..."
 
 #: rc.cpp:257
+#: rc.cpp:2175
 msgid "Input gain (dB)"
 msgstr "Vhodna okrepitev (dB)"
 
-#: src/customtrackview.cpp:4501
+#: src/customtrackview.cpp:4609
 msgid "Insert New Track"
 msgstr "Vstavi novo sled"
 
@@ -3012,7 +3478,7 @@ msgstr "Vstavi presledek"
 msgid "Insert Track"
 msgstr "Vstavi sled"
 
-#: src/titlewidget.cpp:164
+#: src/titlewidget.cpp:165
 msgid "Insert Unicode character"
 msgstr "Vnesite znak Unicode"
 
@@ -3020,90 +3486,102 @@ msgstr "Vnesite znak Unicode"
 msgid "Insert space"
 msgstr "Vstavi presledek"
 
-#: src/customtrackview.cpp:4498
-#: rc.cpp:1053
-#: rc.cpp:2523
+#: src/customtrackview.cpp:4606
+#: rc.cpp:1056
+#: rc.cpp:2974
+#: rc.cpp:4453
 msgid "Insert track"
 msgstr "Vstavi sled"
 
-#: rc.cpp:1656
-#: rc.cpp:3126
+#: rc.cpp:1665
+#: rc.cpp:3583
+#: rc.cpp:5062
 msgid "Install extra video mimetypes"
 msgstr "Namesti dodatne vrste mime za video"
 
-#: rc.cpp:650
-#: rc.cpp:2120
+#: rc.cpp:653
+#: rc.cpp:2571
+#: rc.cpp:4050
 msgid "Installed modules"
 msgstr "Nameščeni moduli"
 
 #: rc.cpp:26
+#: rc.cpp:1944
 msgid "Intensity"
 msgstr "Intenzivnost"
 
-#: src/kdenlivesettingsdialog.cpp:491
-#: src/projectsettings.cpp:158
-#: rc.cpp:1431
-#: rc.cpp:1949
-#: rc.cpp:2901
-#: rc.cpp:3419
+#: src/kdenlivesettingsdialog.cpp:503
+#: src/projectsettings.cpp:156
+#: rc.cpp:1440
+#: rc.cpp:3358
+#: rc.cpp:3876
+#: rc.cpp:4837
+#: rc.cpp:5355
 msgid "Interlaced"
 msgstr "Prepleteno"
 
-#: rc.cpp:1861
-#: rc.cpp:3331
+#: rc.cpp:1870
+#: rc.cpp:3788
+#: rc.cpp:5267
 msgid "Intro movie"
 msgstr "Uvodni filmček"
 
-#: src/customtrackview.cpp:4373
-#: src/customtrackview.cpp:4379
-#: src/customtrackview.cpp:4404
-#: src/customtrackview.cpp:4409
+#: src/customtrackview.cpp:4481
+#: src/customtrackview.cpp:4487
+#: src/customtrackview.cpp:4512
+#: src/customtrackview.cpp:4517
 msgid "Invalid action"
 msgstr "Neveljaven ukaz"
 
-#: src/projectlist.cpp:705
-#: src/customtrackview.cpp:3135
+#: src/projectlist.cpp:703
+#: src/customtrackview.cpp:3226
 msgid "Invalid clip"
 msgstr "Neveljaven posnetek"
 
-#: src/trackview.cpp:204
+#: src/trackview.cpp:207
 msgid "Invalid clip producer %1\n"
 msgstr "Neveljaven izdelovalec posnetkov %1\n"
 
-#: src/trackview.cpp:511
+#: src/trackview.cpp:521
 msgid "Invalid clip removed from track %1 at %2\n"
 msgstr "Neveljaven posnetek odstranjen s sledi %1 pri %2\n"
 
-#: src/customtrackview.cpp:1800
-#: src/customtrackview.cpp:4271
+#: src/customtrackview.cpp:1856
+#: src/customtrackview.cpp:4379
 msgid "Invalid transition"
 msgstr "Neveljaven prehod"
 
 #: rc.cpp:44
 #: rc.cpp:235
 #: rc.cpp:331
+#: rc.cpp:1962
+#: rc.cpp:2153
+#: rc.cpp:2249
 msgid "Invert"
 msgstr "Preobrni"
 
 #: rc.cpp:237
+#: rc.cpp:2155
 msgid "Invert colors"
 msgstr "Preobrni barve"
 
-#: src/titlewidget.cpp:168
+#: src/titlewidget.cpp:169
 msgid "Invert x axis and change 0 point"
 msgstr "Preobrni os X in spremeni točko 0"
 
-#: src/titlewidget.cpp:169
+#: src/titlewidget.cpp:170
 msgid "Invert y axis and change 0 point"
 msgstr "Preobrni os Y in spremeni točko 0"
 
-#: rc.cpp:1530
-#: rc.cpp:3000
+#: rc.cpp:1539
+#: rc.cpp:3457
+#: rc.cpp:4936
 msgid "Item Properties"
 msgstr "Lastnosti elementa"
 
-#: rc.cpp:1305
-#: rc.cpp:2775
+#: rc.cpp:1314
+#: rc.cpp:3232
+#: rc.cpp:4711
 msgid "Jack"
 msgstr "Priključek"
 
@@ -3120,17 +3598,20 @@ msgid "Jean-Michel Poure"
 msgstr "Jean-Michel Poure"
 
 #: rc.cpp:620
-#: rc.cpp:2090
+#: rc.cpp:2538
+#: rc.cpp:4017
 msgid "Job Queue"
 msgstr "Vrsta poslov"
 
-#: rc.cpp:852
-#: rc.cpp:2322
+#: rc.cpp:855
+#: rc.cpp:2773
+#: rc.cpp:4252
 msgid "Job status"
 msgstr "Stanje opravila"
 
-#: rc.cpp:1170
-#: rc.cpp:2640
+#: rc.cpp:1173
+#: rc.cpp:3091
+#: rc.cpp:4570
 msgid "Jog Shuttle device disabled."
 msgstr "Montažna konzola je kot naprava onemogočena."
 
@@ -3142,76 +3623,91 @@ msgstr "Montažna konzola"
 msgid "Kdenlive"
 msgstr "Kdenlive"
 
-#: src/kdenlivedoc.cpp:889
-#: src/kdenlivedoc.cpp:892
-#: src/kdenlivedoc.cpp:900
+#: src/kdenlivedoc.cpp:874
+#: src/kdenlivedoc.cpp:877
+#: src/kdenlivedoc.cpp:885
 msgid "Keep as placeholder"
 msgstr "Ohrani kot ogrado"
 
-#: rc.cpp:1626
-#: rc.cpp:3096
+#: rc.cpp:1635
+#: rc.cpp:3553
+#: rc.cpp:5032
 msgid "Keep aspect ratio"
 msgstr "Ohrani razmerje stranic"
 
 #: rc.cpp:207
+#: rc.cpp:2125
 msgid "Kernel size"
 msgstr "Velikost jedra"
 
 #: rc.cpp:277
+#: rc.cpp:2195
 msgid "LADSPA change pitch audio effect"
 msgstr "Zvočni učinek spremembe višine tona LADSPA"
 
 #: rc.cpp:241
+#: rc.cpp:2159
 msgid "LADSPA declipper audio effect"
 msgstr "Zvočni učinek odstranitve porezave LADSPA"
 
 #: rc.cpp:245
+#: rc.cpp:2163
 msgid "LADSPA equalizer audio effect"
 msgstr "Zvočni učinek izenačevalnika LADSPA"
 
 #: rc.cpp:255
+#: rc.cpp:2173
 msgid "LADSPA limiter audio effect"
 msgstr "Zvočni učinek omejevalnika LADSPA"
 
 #: rc.cpp:265
+#: rc.cpp:2183
 msgid "LADSPA phaser audio effect"
 msgstr "Zvočni učinek faznika LADSPA"
 
 #: rc.cpp:283
+#: rc.cpp:2201
 msgid "LADSPA pitch scale audio effect"
 msgstr "Zvočni učinek spremembe višine tona LADSPA"
 
 #: rc.cpp:289
+#: rc.cpp:2207
 msgid "LADSPA rate scale audio effect"
 msgstr "Zvočni učinek spremembe bitne hitrosti LADSPA"
 
 #: rc.cpp:295
+#: rc.cpp:2213
 msgid "LADSPA reverb audio effect"
 msgstr "Zvočni učinek odboja LADSPA"
 
 #: rc.cpp:303
+#: rc.cpp:2221
 msgid "LADSPA room reverb audio effect"
 msgstr "Zvočni učinek sobnega odmeva LADSPA"
 
 #: src/geometryval.cpp:100
 #: rc.cpp:68
+#: rc.cpp:1986
 msgid "Left"
 msgstr "Levo"
 
 #: rc.cpp:163
+#: rc.cpp:2081
 msgid "Lens Correction"
 msgstr "Poprave objektiva"
 
-#: src/titlewidget.cpp:139
+#: src/titlewidget.cpp:140
 msgctxt "Font style"
 msgid "Light"
 msgstr "Svetloba"
 
 #: rc.cpp:259
+#: rc.cpp:2177
 msgid "Limit (dB)"
 msgstr "Meja (dB)"
 
 #: rc.cpp:253
+#: rc.cpp:2171
 msgid "Limiter"
 msgstr "Omejevalnik"
 
@@ -3224,43 +3720,50 @@ msgstr ""
 ")"
 
 #: rc.cpp:247
+#: rc.cpp:2165
 msgid "Lo gain"
 msgstr "Nizka ojačitev"
 
-#: src/dvdwizard.cpp:106
+#: src/dvdwizard.cpp:103
 msgid "Load"
 msgstr "Naloži"
 
-#: src/titlewidget.cpp:406
+#: src/titlewidget.cpp:407
 msgid "Load Image"
 msgstr "Naloži sliko"
 
-#: src/titlewidget.cpp:1407
+#: src/titlewidget.cpp:1408
 msgid "Load Title"
 msgstr "Naloži napis"
 
-#: src/projectlist.cpp:891
-msgid "Loading clips (%1)"
-msgstr "Nalaganje posnetkov (%1)"
+#: src/kdenlivedoc.cpp:100
+msgid "Loading"
+msgstr "Nalaganje"
 
-#: src/kdenlivedoc.cpp:145
-msgid "Loading project clips"
-msgstr "Nalaganje posnetkov projekta"
+#: src/projectlist.cpp:952
+msgid "Loading clips"
+msgstr "Nalaganje posnetkov"
+
+#: src/projectlist.cpp:890
+msgid "Loading thumbnails"
+msgstr "Nalaganje predoglednih sličic"
 
 #: src/locktrackcommand.cpp:31
 #: src/headertrack.cpp:47
 msgid "Lock track"
 msgstr "Zakleni sled"
 
-#: src/kdenlivedoc.cpp:894
-#: src/kdenlivedoc.cpp:902
+#: src/kdenlivedoc.cpp:879
+#: src/kdenlivedoc.cpp:887
 msgid "Looking for %1"
 msgstr "Iskanje %1 ..."
 
-#: rc.cpp:1356
-#: rc.cpp:1743
-#: rc.cpp:2826
-#: rc.cpp:3213
+#: rc.cpp:1365
+#: rc.cpp:1752
+#: rc.cpp:3283
+#: rc.cpp:3670
+#: rc.cpp:4762
+#: rc.cpp:5149
 msgid "Loop"
 msgstr "Zankaj"
 
@@ -3268,7 +3771,7 @@ msgstr "Zankaj"
 msgid "Loop Zone"
 msgstr "Obseg zankanja"
 
-#: src/renderwidget.cpp:1100
+#: src/renderwidget.cpp:1111
 msgid "Lossless / HQ"
 msgstr "Brez izgub / visoka kakovost"
 
@@ -3276,8 +3779,9 @@ msgstr "Brez izgub / visoka kakovost"
 msgid "Luma file"
 msgstr "Datoteka luma"
 
-#: rc.cpp:687
-#: rc.cpp:2157
+#: rc.cpp:690
+#: rc.cpp:2608
+#: rc.cpp:4087
 msgid "M"
 msgstr "M"
 
@@ -3285,8 +3789,9 @@ msgstr "M"
 msgid "MLT Connection, Transition, Effect, Timeline Developer"
 msgstr "Razvijalec povezave z MLT, prehodov, učinkov, časovnice"
 
-#: rc.cpp:1008
-#: rc.cpp:2478
+#: rc.cpp:1011
+#: rc.cpp:2929
+#: rc.cpp:4408
 msgid "MLT environment"
 msgstr "Okolje MLT"
 
@@ -3294,8 +3799,9 @@ msgstr "Okolje MLT"
 msgid "MLT porting, KDE 4 porting, Main developer"
 msgstr "Glavni razvijalec, prenos iz MLT in KDE 4"
 
-#: rc.cpp:1011
-#: rc.cpp:2481
+#: rc.cpp:1014
+#: rc.cpp:2932
+#: rc.cpp:4411
 msgid "MLT profiles folder"
 msgstr "Mapa s profili MLT"
 
@@ -3307,27 +3813,32 @@ msgstr "Različica MLT ustreza"
 msgid "MLT version: %1"
 msgstr "Različica MLT: %1"
 
-#: src/wizard.cpp:541
+#: src/wizard.cpp:546
 msgid "MLT's SDL module not found. Please check your MLT install. Kdenlive will not work until this issue is fixed."
 msgstr "Modula SDL v MLT ni mogoče najti. Preverite svojo namestitev MLT. Dokler te težave ne odpravite, Kdenlive ne bo deloval."
 
 #: rc.cpp:503
+#: rc.cpp:2421
 msgid "Make clip play faster or slower"
 msgstr "Posnetek naj se predvaja hitreje ali počasneje"
 
 #: rc.cpp:56
+#: rc.cpp:1974
 msgid "Make image greyscale except for chosen color"
 msgstr "Naredite sliko sivinsko z izjemo izbrane barve"
 
 #: rc.cpp:513
+#: rc.cpp:2431
 msgid "Make monochrome clip"
 msgstr "Naredi posnetek monokromatski"
 
 #: rc.cpp:48
+#: rc.cpp:1966
 msgid "Make selected color transparent"
 msgstr "Naredi izbrano barvo prosojno"
 
 #: rc.cpp:527
+#: rc.cpp:2445
 msgid "Make waves on your clip with keyframes"
 msgstr "Naredite valove na svojem posnetku, s ključnimi sličicami"
 
@@ -3339,22 +3850,24 @@ msgstr "Upravljaj s profili projektov"
 msgid "Marco Gittler"
 msgstr "Marco Gittler"
 
-#: src/definitions.h:144
+#: src/definitions.h:151
 #: src/clipproperties.cpp:296
-#: src/mainwindow.cpp:2009
+#: src/mainwindow.cpp:2029
 #: src/docclipbase.cpp:349
-#: rc.cpp:1443
-#: rc.cpp:2913
+#: rc.cpp:1452
+#: rc.cpp:3370
+#: rc.cpp:4849
 msgid "Marker"
 msgstr "Označba"
 
-#: rc.cpp:1770
-#: rc.cpp:3240
-#: rc.cpp:3497
+#: rc.cpp:1779
+#: rc.cpp:3697
+#: rc.cpp:5176
+#: rc.cpp:5433
 msgid "Markers"
 msgstr "Označbe"
 
-#: src/renderwidget.cpp:1099
+#: src/renderwidget.cpp:1110
 msgid "Media players"
 msgstr "Medijski predvajalniki"
 
@@ -3362,8 +3875,9 @@ msgstr "Medijski predvajalniki"
 msgid "Melt"
 msgstr "Melt"
 
-#: rc.cpp:1014
-#: rc.cpp:2484
+#: rc.cpp:1017
+#: rc.cpp:2935
+#: rc.cpp:4414
 msgid "Melt path"
 msgstr "Pot za melt"
 
@@ -3371,12 +3885,14 @@ msgstr "Pot za melt"
 msgid "Menu job timed out"
 msgstr "Opravilo menija je prekoračilo čas"
 
-#: rc.cpp:1788
-#: rc.cpp:3258
+#: rc.cpp:1797
+#: rc.cpp:3715
+#: rc.cpp:5194
 msgid "Metadata"
 msgstr "Metapodatki"
 
 #: rc.cpp:249
+#: rc.cpp:2167
 msgid "Mid gain"
 msgstr "Sredinska ojačitev"
 
@@ -3385,10 +3901,12 @@ msgid "Minus sign. For numbers: &#x2212;42"
 msgstr "Znak za minus. Za številke: &#x2212;42"
 
 #: rc.cpp:325
+#: rc.cpp:2243
 msgid "Mirror"
 msgstr "Zrcali"
 
 #: rc.cpp:329
+#: rc.cpp:2247
 msgid "Mirroring direction"
 msgstr "Smer zrcaljenja"
 
@@ -3401,57 +3919,59 @@ msgstr "Razno"
 msgid "Misc..."
 msgstr "Razno ..."
 
-#: src/kdenlivedoc.cpp:662
-#: src/kdenlivedoc.cpp:678
-#: src/kdenlivedoc.cpp:693
+#: src/kdenlivedoc.cpp:653
+#: src/kdenlivedoc.cpp:669
+#: src/kdenlivedoc.cpp:684
 msgid "Missing Profile"
 msgstr "Manjkajoči profil"
 
-#: rc.cpp:894
-#: rc.cpp:2364
+#: rc.cpp:897
+#: rc.cpp:2815
+#: rc.cpp:4294
 msgid "Missing clips"
 msgstr "Manjkajoči posnetki"
 
 #: rc.cpp:42
+#: rc.cpp:1960
 msgid "Mix"
 msgstr "Zmešaj"
 
-#: src/wizard.cpp:339
-msgid "Mkisofs"
-msgstr "Mkisofs"
-
-#: src/renderwidget.cpp:1101
+#: src/renderwidget.cpp:1112
 msgid "Mobile devices"
 msgstr "Mobilne naprave"
 
 #: rc.cpp:213
+#: rc.cpp:2131
 msgid "Mode"
 msgstr "Način"
 
-#: rc.cpp:3518
+#: rc.cpp:5454
 msgid "Monitor"
 msgstr "Monitor"
 
-#: rc.cpp:1161
-#: rc.cpp:2631
+#: rc.cpp:1164
+#: rc.cpp:3082
+#: rc.cpp:4561
 msgid "Monitor Preview Speedup Settings"
 msgstr "Nastavitve pohitritve predogleda na monitorju"
 
-#: rc.cpp:1158
-#: rc.cpp:2628
+#: rc.cpp:1161
+#: rc.cpp:3079
+#: rc.cpp:4558
 msgid "Monitor background color (requires restart)"
 msgstr "Barva ozadja monitorja (zahteva ponoven zagon)"
 
-#: src/monitor.cpp:213
+#: src/monitor.cpp:217
 msgid "Monitor overlay infos"
 msgstr "Podatki v sliki monitorja"
 
 #: rc.cpp:28
+#: rc.cpp:1946
 msgid "Mono to stereo"
 msgstr "Mono v stereo"
 
 #: src/moveclipcommand.cpp:33
-#: src/customtrackview.cpp:2519
+#: src/customtrackview.cpp:2607
 msgid "Move clip"
 msgstr "Premakni posnetek"
 
@@ -3479,16 +3999,19 @@ msgstr "Premakni vodilo"
 msgid "Move transition"
 msgstr "Premakni prehod"
 
-#: rc.cpp:756
-#: rc.cpp:2226
+#: rc.cpp:759
+#: rc.cpp:2677
+#: rc.cpp:4156
 msgid "Movie file"
 msgstr "Datoteka filma"
 
 #: rc.cpp:333
+#: rc.cpp:2251
 msgid "Mute"
 msgstr "Nemo"
 
 #: rc.cpp:335
+#: rc.cpp:2253
 msgid "Mute clip"
 msgstr "Nemi posnetek"
 
@@ -3501,12 +4024,15 @@ msgstr "Onemi sled"
 msgid "Mute video clip"
 msgstr "Posnetek naredi nem"
 
-#: rc.cpp:693
-#: rc.cpp:912
-#: rc.cpp:1779
-#: rc.cpp:2163
-#: rc.cpp:2382
-#: rc.cpp:3249
+#: rc.cpp:696
+#: rc.cpp:915
+#: rc.cpp:1788
+#: rc.cpp:2614
+#: rc.cpp:2833
+#: rc.cpp:3706
+#: rc.cpp:4093
+#: rc.cpp:4312
+#: rc.cpp:5185
 msgid "N"
 msgstr "N"
 
@@ -3515,7 +4041,8 @@ msgid "NAME OF TRANSLATORS"
 msgstr "Imena prevajalcev"
 
 #: rc.cpp:557
-#: rc.cpp:2027
+#: rc.cpp:2475
+#: rc.cpp:3954
 msgid "NTSC"
 msgstr "NTSC"
 
@@ -3527,13 +4054,16 @@ msgstr "NTSC 16:9"
 msgid "NTSC 4:3"
 msgstr "NTSC 4:3"
 
-#: src/kdenlivesettingsdialog.cpp:536
-#: rc.cpp:1341
-#: rc.cpp:1662
-#: rc.cpp:1831
-#: rc.cpp:2811
-#: rc.cpp:3132
-#: rc.cpp:3301
+#: src/kdenlivesettingsdialog.cpp:548
+#: rc.cpp:1350
+#: rc.cpp:1671
+#: rc.cpp:1840
+#: rc.cpp:3268
+#: rc.cpp:3589
+#: rc.cpp:3758
+#: rc.cpp:4747
+#: rc.cpp:5068
+#: rc.cpp:5237
 msgid "Name"
 msgstr "Ime"
 
@@ -3546,14 +4076,15 @@ msgid "Nano X"
 msgstr "Nano X"
 
 #: rc.cpp:134
+#: rc.cpp:2052
 msgid "Neutral Color"
 msgstr "Nevtralna barva"
 
-#: src/trackview.cpp:858
+#: src/trackview.cpp:872
 msgid "New Track Name"
 msgstr "Ime nove sledi"
 
-#: src/customtrackview.cpp:3105
+#: src/customtrackview.cpp:3195
 msgid "New speed (percents)"
 msgstr "Nova hitrost (odstotki)"
 
@@ -3561,42 +4092,44 @@ msgstr "Nova hitrost (odstotki)"
 msgid "Next Unicode character (Arrow Down)"
 msgstr "Naslednji znak Unicode (puščica navzdol)"
 
-#: src/titlewidget.cpp:157
+#: src/titlewidget.cpp:158
 msgid "No alignment"
 msgstr "Brez poravnave"
 
-#: src/dvdwizard.cpp:100
+#: src/dvdwizard.cpp:97
 msgid "No burning program found (K3b, Brasero)"
 msgstr "Programa za peko (K3b, Brasero) ni mogoče najti"
 
-#: src/customtrackview.cpp:3236
-#: src/customtrackview.cpp:4226
+#: src/customtrackview.cpp:3327
+#: src/customtrackview.cpp:4335
 msgid "No clip copied"
 msgstr "Noben posnetek ni kopiran"
 
-#: src/projectsettings.cpp:89
+#: src/projectsettings.cpp:88
 msgid "No clip to delete"
 msgstr "Ni posnetkov, ki bi jih lahko izbrisali"
 
-#: src/customtrackview.cpp:4767
+#: src/customtrackview.cpp:4875
 msgid "No empty space to put clip audio"
 msgstr "Ni prostora za postavitev zvočnega posnetka"
 
-#: src/customtrackview.cpp:3901
-#: src/customtrackview.cpp:3947
-#: src/customtrackview.cpp:3985
+#: src/customtrackview.cpp:4010
+#: src/customtrackview.cpp:4056
+#: src/customtrackview.cpp:4094
 msgid "No guide at cursor time"
 msgstr "Na položaju kazalke ni vodil"
 
-#: rc.cpp:1371
-#: rc.cpp:1758
-#: rc.cpp:2841
-#: rc.cpp:3228
+#: rc.cpp:1380
+#: rc.cpp:1767
+#: rc.cpp:3298
+#: rc.cpp:3685
+#: rc.cpp:4777
+#: rc.cpp:5164
 msgid "No image found"
 msgstr "Slike ne obstajajo"
 
-#: src/mainwindow.cpp:2042
-#: src/mainwindow.cpp:2097
+#: src/mainwindow.cpp:2060
+#: src/mainwindow.cpp:2110
 msgid "No marker found at cursor time"
 msgstr "Na položaju kazalke ni označb"
 
@@ -3609,31 +4142,35 @@ msgstr "Nedeljivi presledek. &amp;nbsp; v HTML. Glejte U+2009 in U+0020."
 msgid "None"
 msgstr "Brez"
 
-#: src/titlewidget.cpp:140
+#: src/titlewidget.cpp:141
 msgctxt "Font style"
 msgid "Normal"
 msgstr "Navadno"
 
 #: rc.cpp:339
+#: rc.cpp:2257
 msgid "Normalise"
 msgstr "Normaliziraj"
 
-#: rc.cpp:1116
-#: rc.cpp:2586
+#: rc.cpp:1119
+#: rc.cpp:3037
+#: rc.cpp:4516
 msgid "Normalise audio for thumbnails"
 msgstr "Normaliziraj zvok za preposlušanje"
 
 #: rc.cpp:341
+#: rc.cpp:2259
 msgid "Normalise audio volume"
 msgstr "Normaliziraj jakost zvoka"
 
-#: src/recmonitor.cpp:594
-#: rc.cpp:672
-#: rc.cpp:2142
+#: src/recmonitor.cpp:588
+#: rc.cpp:675
+#: rc.cpp:2593
+#: rc.cpp:4072
 msgid "Not connected"
 msgstr "Ni povezano"
 
-#: src/mainwindow.cpp:2464
+#: src/mainwindow.cpp:2493
 msgid "Not found: %1"
 msgstr "Ni mogoče najti: %1"
 
@@ -3647,25 +4184,30 @@ msgstr "OSS z dostopom DMA"
 
 #: rc.cpp:10
 #: rc.cpp:345
+#: rc.cpp:1928
+#: rc.cpp:2263
 msgid "Obscure"
 msgstr "Zakrij"
 
-#: rc.cpp:1326
-#: rc.cpp:2796
+#: rc.cpp:1335
+#: rc.cpp:3253
+#: rc.cpp:4732
 msgid "Offset"
 msgstr "Zamik"
 
-#: rc.cpp:705
-#: rc.cpp:2175
+#: rc.cpp:708
+#: rc.cpp:2626
+#: rc.cpp:4105
 msgid "Opacity"
 msgstr "Prekrivnost"
 
-#: src/titlewidget.cpp:225
+#: src/titlewidget.cpp:226
 msgid "Open Document"
 msgstr "Odpri dokument"
 
 #: rc.cpp:614
-#: rc.cpp:2084
+#: rc.cpp:2532
+#: rc.cpp:4011
 msgid "Open Dvd wizard after rendering"
 msgstr "Odpri čarovnika za DVD po upodabljanju"
 
@@ -3674,19 +4216,26 @@ msgid "Open box; stands for a space."
 msgstr "Odprto polje; nadomešča presledek."
 
 #: rc.cpp:590
-#: rc.cpp:2060
+#: rc.cpp:2508
+#: rc.cpp:3987
 msgid "Open browser window after export"
 msgstr "Po izvozu odpri okno brskalnika"
 
-#: rc.cpp:1374
-#: rc.cpp:2844
+#: rc.cpp:1383
+#: rc.cpp:3301
+#: rc.cpp:4780
 msgid "Open last project on startup"
 msgstr "Ob zagonu odpri zadnji projekt"
 
-#: rc.cpp:1380
-#: rc.cpp:2850
+#: rc.cpp:1389
+#: rc.cpp:3307
+#: rc.cpp:4786
 msgid "Open projects in new tabs"
 msgstr "Odpri projekte v novih zavihkih"
+
+#: src/mainwindow.cpp:1464
+msgid "Opening file %1"
+msgstr "Odpiranje datoteke %1"
 
 #: src/main.cpp:44
 msgid "Original KDE 3 version author (not active anymore)"
@@ -3696,34 +4245,38 @@ msgstr "Avtor izvorne različice za KDE 3 (nič več aktiven)"
 msgid "Original size"
 msgstr "Izvorna velikost"
 
-#: src/titlewidget.cpp:175
+#: src/titlewidget.cpp:176
 msgid "Original size (1:1)"
 msgstr "Izvorna velikost (1:1)"
 
 #: rc.cpp:92
+#: rc.cpp:2010
 msgid "Out"
 msgstr "Izhod"
 
-#: src/monitor.cpp:542
+#: src/monitor.cpp:548
 msgid "Out Point"
 msgstr "Izhodna točka"
 
 #: rc.cpp:545
-#: rc.cpp:2015
+#: rc.cpp:2463
+#: rc.cpp:3942
 msgid "Output file"
 msgstr "Izhodna datoteka"
 
-#: src/renderwidget.cpp:645
+#: src/renderwidget.cpp:652
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "Izhodna datoteka že obstaja. Jo želite prepisati?"
 
-#: rc.cpp:690
-#: rc.cpp:2160
+#: rc.cpp:693
+#: rc.cpp:2611
+#: rc.cpp:4090
 msgid "P"
 msgstr "P"
 
 #: rc.cpp:554
-#: rc.cpp:2024
+#: rc.cpp:2472
+#: rc.cpp:3951
 msgid "PAL"
 msgstr "PAL"
 
@@ -3737,11 +4290,14 @@ msgstr "PAL 4:3"
 
 #: rc.cpp:351
 #: rc.cpp:381
+#: rc.cpp:2269
+#: rc.cpp:2299
 msgid "Pan and Zoom"
 msgstr "Zasuk in primik"
 
-#: rc.cpp:891
-#: rc.cpp:2361
+#: rc.cpp:894
+#: rc.cpp:2812
+#: rc.cpp:4291
 msgid "Param"
 msgstr "Param"
 
@@ -3749,9 +4305,10 @@ msgstr "Param"
 msgid "Parameter info"
 msgstr "Podatki o parametru"
 
-#: src/kdenlivesettingsdialog.cpp:536
-#: rc.cpp:1143
-#: rc.cpp:2613
+#: src/kdenlivesettingsdialog.cpp:548
+#: rc.cpp:1146
+#: rc.cpp:3064
+#: rc.cpp:4543
 msgid "Parameters"
 msgstr "Parametri"
 
@@ -3759,26 +4316,32 @@ msgstr "Parametri"
 msgid "Paste Effects"
 msgstr "Prilepi učinke"
 
-#: rc.cpp:900
-#: rc.cpp:1677
-#: rc.cpp:2370
-#: rc.cpp:3147
+#: rc.cpp:903
+#: rc.cpp:1686
+#: rc.cpp:2821
+#: rc.cpp:3604
+#: rc.cpp:4300
+#: rc.cpp:5083
 msgid "Path"
 msgstr "Pot"
 
 #: rc.cpp:215
+#: rc.cpp:2133
 msgid "Phase Increment"
 msgstr "Fazni korak"
 
 #: rc.cpp:263
+#: rc.cpp:2181
 msgid "Phaser"
 msgstr "Faznik"
 
 #: rc.cpp:281
+#: rc.cpp:2199
 msgid "Pitch Scaler"
 msgstr "Nastavitev višine tona"
 
 #: rc.cpp:275
+#: rc.cpp:2193
 msgid "Pitch Shift"
 msgstr "Zamikj višine tona"
 
@@ -3786,27 +4349,30 @@ msgstr "Zamikj višine tona"
 msgid "Pixbuf module"
 msgstr "Modul pixbuf"
 
-#: rc.cpp:789
-#: rc.cpp:1710
-#: rc.cpp:2259
-#: rc.cpp:3180
+#: rc.cpp:792
+#: rc.cpp:1719
+#: rc.cpp:2710
+#: rc.cpp:3637
+#: rc.cpp:4189
+#: rc.cpp:5116
 msgid "Pixel aspect ratio"
 msgstr "Razmerje stranic"
 
-#: src/wizard.cpp:476
-#: rc.cpp:1937
-#: rc.cpp:3407
+#: src/wizard.cpp:481
+#: rc.cpp:3864
+#: rc.cpp:5343
 msgid "Pixel aspect ratio:"
 msgstr "Razmerje stranic:"
 
 #: rc.cpp:157
+#: rc.cpp:2075
 msgid "Plasma"
 msgstr "Plazma"
 
 #: src/dvdwizardmenu.cpp:31
 #: src/monitor.cpp:81
 #: src/mainwindow.cpp:860
-#: src/recmonitor.cpp:70
+#: src/recmonitor.cpp:74
 msgid "Play"
 msgstr "Predvajaj"
 
@@ -3823,7 +4389,8 @@ msgid "Play Zone"
 msgstr "Predvajaj območje"
 
 #: rc.cpp:593
-#: rc.cpp:2063
+#: rc.cpp:2511
+#: rc.cpp:3990
 msgid "Play after render"
 msgstr "Predvajaj po upodobitvi"
 
@@ -3856,8 +4423,9 @@ msgstr "Nastavite privzeti program za odpiranje zvočnih datotek v pogovornem ok
 msgid "Please set a default application to open images in the Settings dialog"
 msgstr "Nastavite privzeti program za odpiranje slik v pogovornem oknu Nastavitve"
 
-#: rc.cpp:1464
-#: rc.cpp:2934
+#: rc.cpp:1473
+#: rc.cpp:3391
+#: rc.cpp:4870
 msgid "Please set your default video profile"
 msgstr "Izberite svoj privzeti profil za video"
 
@@ -3865,7 +4433,7 @@ msgstr "Izberite svoj privzeti profil za video"
 msgid "Please upgrade to the latest MLT version"
 msgstr "Prosimo, nadgradite na najnovejšo različico MLT"
 
-#: src/recmonitor.cpp:213
+#: src/recmonitor.cpp:239
 msgid ""
 "Plug your camcorder and\n"
 "press connect button\n"
@@ -3879,36 +4447,43 @@ msgstr ""
 "Datoteke bodo shranjene v:\n"
 "%1"
 
-#: rc.cpp:1308
-#: rc.cpp:2778
+#: rc.cpp:1317
+#: rc.cpp:3235
+#: rc.cpp:4714
 msgid "Ports:"
 msgstr "Vrata:"
 
-#: rc.cpp:702
-#: rc.cpp:1907
-#: rc.cpp:2172
-#: rc.cpp:3377
+#: rc.cpp:705
+#: rc.cpp:2623
+#: rc.cpp:3834
+#: rc.cpp:4102
+#: rc.cpp:5313
 msgid "Pos"
 msgstr "Pol"
 
 #: src/keyframeedit.cpp:38
-#: rc.cpp:885
-#: rc.cpp:1071
-#: rc.cpp:1461
-#: rc.cpp:1849
-#: rc.cpp:2355
-#: rc.cpp:2541
-#: rc.cpp:2931
-#: rc.cpp:3319
+#: rc.cpp:888
+#: rc.cpp:1074
+#: rc.cpp:1470
+#: rc.cpp:1858
+#: rc.cpp:2806
+#: rc.cpp:2992
+#: rc.cpp:3388
+#: rc.cpp:3776
+#: rc.cpp:4285
+#: rc.cpp:4471
+#: rc.cpp:4867
+#: rc.cpp:5255
 msgid "Position"
 msgstr "Položaj"
 
-#: rc.cpp:1566
-#: rc.cpp:3036
+#: rc.cpp:1575
+#: rc.cpp:3493
+#: rc.cpp:4972
 msgid "Preserve aspect ratio"
 msgstr "Obvaruj razmerje stranic"
 
-#: src/recmonitor.cpp:244
+#: src/recmonitor.cpp:271
 msgid ""
 "Press play or record button\n"
 "to start video capture\n"
@@ -3920,8 +4495,8 @@ msgstr ""
 "Datoteke bodo shranjene v:\n"
 "%1"
 
-#: src/recmonitor.cpp:187
-#: src/recmonitor.cpp:595
+#: src/recmonitor.cpp:193
+#: src/recmonitor.cpp:589
 msgid ""
 "Press record button\n"
 "to start screen capture\n"
@@ -3933,8 +4508,9 @@ msgstr ""
 "Datoteke bodo shranjene v:\n"
 "%1"
 
-#: rc.cpp:954
-#: rc.cpp:2424
+#: rc.cpp:957
+#: rc.cpp:2875
+#: rc.cpp:4354
 msgid "Preview"
 msgstr "Predogled"
 
@@ -3942,79 +4518,85 @@ msgstr "Predogled"
 msgid "Previous Unicode character (Arrow Up)"
 msgstr "Prejšnji znak Unicode (puščica navzgor)"
 
-#: src/customtrackview.cpp:1346
-#: src/customtrackview.cpp:1357
-#: src/customtrackview.cpp:1372
+#: src/customtrackview.cpp:1395
+#: src/customtrackview.cpp:1406
+#: src/customtrackview.cpp:1426
 msgid "Problem adding effect to clip"
 msgstr "Težava pri dodajanju učinka posnetku"
 
-#: src/customtrackview.cpp:1339
-#: src/customtrackview.cpp:1393
-#: src/customtrackview.cpp:1542
+#: src/customtrackview.cpp:1388
+#: src/customtrackview.cpp:1448
+#: src/customtrackview.cpp:1603
 msgid "Problem deleting effect"
 msgstr "Težava pri brisanju učinka"
 
-#: src/customtrackview.cpp:1544
-#: src/customtrackview.cpp:3654
-#: src/customtrackview.cpp:3672
-#: src/customtrackview.cpp:3694
-#: src/customtrackview.cpp:3712
+#: src/customtrackview.cpp:1605
+#: src/customtrackview.cpp:3748
+#: src/customtrackview.cpp:3766
+#: src/customtrackview.cpp:3788
+#: src/customtrackview.cpp:3806
 msgid "Problem editing effect"
 msgstr "Težava pri urejanju učinka"
 
-#: rc.cpp:768
-#: rc.cpp:864
-#: rc.cpp:1404
-#: rc.cpp:1922
-#: rc.cpp:2238
-#: rc.cpp:2334
-#: rc.cpp:2874
-#: rc.cpp:3392
+#: rc.cpp:771
+#: rc.cpp:867
+#: rc.cpp:1413
+#: rc.cpp:2689
+#: rc.cpp:2785
+#: rc.cpp:3331
+#: rc.cpp:3849
+#: rc.cpp:4168
+#: rc.cpp:4264
+#: rc.cpp:4810
+#: rc.cpp:5328
 msgid "Profile"
 msgstr "Profil"
 
-#: src/renderwidget.cpp:364
-#: src/renderwidget.cpp:471
+#: src/renderwidget.cpp:371
+#: src/renderwidget.cpp:478
 msgid "Profile already exists"
 msgstr "Profil že obstaja"
 
-#: rc.cpp:1137
-#: rc.cpp:2607
+#: rc.cpp:1140
+#: rc.cpp:3058
+#: rc.cpp:4537
 msgid "Profile name"
 msgstr "Ime profila"
 
-#: rc.cpp:765
-#: rc.cpp:2235
+#: rc.cpp:768
+#: rc.cpp:2686
+#: rc.cpp:4165
 msgid "Profiles"
 msgstr "Profili"
 
-#: src/renderwidget.cpp:159
+#: src/renderwidget.cpp:161
 msgid "Progress"
 msgstr "Napredek"
 
-#: src/kdenlivesettingsdialog.cpp:492
-#: src/projectsettings.cpp:159
-#: rc.cpp:801
-#: rc.cpp:2271
+#: src/kdenlivesettingsdialog.cpp:504
+#: src/projectsettings.cpp:157
+#: rc.cpp:804
+#: rc.cpp:2722
+#: rc.cpp:4201
 msgid "Progressive"
 msgstr "Progresivno"
 
-#: rc.cpp:3479
+#: rc.cpp:5415
 msgid "Project"
 msgstr "Projekt"
 
-#: rc.cpp:1967
-#: rc.cpp:3437
+#: rc.cpp:3894
+#: rc.cpp:5373
 msgid "Project Files"
 msgstr "Projektne datoteke"
 
-#: src/mainwindow.cpp:192
+#: src/mainwindow.cpp:193
 msgid "Project Monitor"
 msgstr "Monitor projekta"
 
 #: src/mainwindow.cpp:847
-#: rc.cpp:1910
-#: rc.cpp:3380
+#: rc.cpp:3837
+#: rc.cpp:5316
 msgid "Project Settings"
 msgstr "Nastavitve projekta"
 
@@ -4022,27 +4604,29 @@ msgstr "Nastavitve projekta"
 msgid "Project Tree"
 msgstr "Drevo projekta"
 
-#: rc.cpp:1020
-#: rc.cpp:1916
-#: rc.cpp:2490
-#: rc.cpp:3386
+#: rc.cpp:1023
+#: rc.cpp:2941
+#: rc.cpp:3843
+#: rc.cpp:4420
+#: rc.cpp:5322
 msgid "Project folder"
 msgstr "Mapa projekta"
 
-#: src/kdenlivedoc.cpp:678
+#: src/kdenlivedoc.cpp:669
 msgid "Project profile not found, replacing with existing one: %1"
 msgstr "Profila projekta ni mogoče najti, zamenjan bo z obstoječim: %1"
 
-#: src/kdenlivedoc.cpp:693
+#: src/kdenlivedoc.cpp:684
 msgid "Project profile was not found, it will be added to your system now."
 msgstr "Profila projekta ni mogoče najti, zdaj bo dodan vašemu sistemu."
 
-#: src/kdenlivedoc.cpp:662
+#: src/kdenlivedoc.cpp:653
 msgid "Project profile was not found, using default profile."
 msgstr "Profila projekta ni mogoče najti, uporabljen bo privzeti profil."
 
-#: rc.cpp:771
-#: rc.cpp:2241
+#: rc.cpp:774
+#: rc.cpp:2692
+#: rc.cpp:4171
 msgid "Properties"
 msgstr "Lastnosti"
 
@@ -4066,24 +4650,29 @@ msgstr "Modul QImage"
 msgid "Quarter note (Am.) or crochet (Brit.). See <a href=\"http://en.wikipedia.org/wiki/Quarter_note\">Wikipedia:Quarter_note</a>"
 msgstr "Četrtinka. Glejte <a href=\"http://sl.wikipedia.org/wiki/%C4%8Cetrtinka\">Wikipedia:Četrtinka</a>"
 
-#: rc.cpp:921
-#: rc.cpp:2391
+#: rc.cpp:924
+#: rc.cpp:2842
+#: rc.cpp:4321
 msgid "R"
 msgstr "R"
 
 #: rc.cpp:317
+#: rc.cpp:2235
 msgid "RPM"
 msgstr "RPM"
 
 #: rc.cpp:291
+#: rc.cpp:2209
 msgid "Rate"
 msgstr "Bitna hitrost"
 
 #: rc.cpp:267
+#: rc.cpp:2185
 msgid "Rate (Hz)"
 msgstr "Frekvenca (Hz)"
 
 #: rc.cpp:287
+#: rc.cpp:2205
 msgid "Rate Scaler"
 msgstr "Nastavitev bitne hitrosti"
 
@@ -4103,31 +4692,27 @@ msgstr "Prireži posnetek"
 msgid "Razor tool"
 msgstr "Britvica"
 
-#: src/mainwindow.cpp:2452
+#: src/mainwindow.cpp:2481
 msgid "Reached end of project"
 msgstr "Dosežen konec projekta"
 
-#: src/monitor.cpp:218
+#: src/monitor.cpp:222
 msgid "Real time (drop frames)"
 msgstr "Dejanski čas (opuščene sličice)"
 
-#: src/recmonitor.cpp:79
+#: src/recmonitor.cpp:83
 msgid "Record"
 msgstr "Snemaj"
 
-#: src/mainwindow.cpp:199
+#: src/mainwindow.cpp:200
 msgid "Record Monitor"
 msgstr "Snemalni monitor"
-
-#: src/wizard.cpp:320
-msgid "Recordmydesktop"
-msgstr "Recordmydesktop"
 
 #: src/kdenlivesettingsdialog.cpp:180
 msgid "Recordmydesktop found at: %1"
 msgstr "Recordmydesktop najden tukaj: %1"
 
-#: src/recmonitor.cpp:184
+#: src/recmonitor.cpp:190
 msgid ""
 "Recordmydesktop utility not found,\n"
 " please install it for screen grabs"
@@ -4135,24 +4720,28 @@ msgstr ""
 "Orodja Recordmydesktop ni mogoče najti,\n"
 " namestite ga za potrebe zajemanja zaslona"
 
-#: src/mainwindow.cpp:1445
+#: src/mainwindow.cpp:1452
 msgid "Recover"
 msgstr "Obnovi"
 
 #: rc.cpp:355
+#: rc.cpp:2273
 msgid "Rectangle"
 msgstr "Pravokotnik"
 
 #: rc.cpp:349
+#: rc.cpp:2267
 msgid "Region"
 msgstr "Območje"
 
-#: rc.cpp:1317
-#: rc.cpp:2787
+#: rc.cpp:1326
+#: rc.cpp:3244
+#: rc.cpp:4723
 msgid "Region capture"
 msgstr "Zajem območja"
 
 #: rc.cpp:261
+#: rc.cpp:2179
 msgid "Release time (s)"
 msgstr "Odstopni čas (s)"
 
@@ -4160,17 +4749,18 @@ msgstr "Odstopni čas (s)"
 msgid "Reload Clip"
 msgstr "Ponovno naloži posnetek"
 
-#: src/renderwidget.cpp:1446
+#: src/renderwidget.cpp:1457
 msgid "Remove Job"
 msgstr "Odstrani posel"
 
 #: src/mainwindow.cpp:1035
-#: src/customtrackview.cpp:2186
+#: src/customtrackview.cpp:2265
 msgid "Remove Space"
 msgstr "Odstrani prostor"
 
-#: rc.cpp:762
-#: rc.cpp:2232
+#: rc.cpp:765
+#: rc.cpp:2683
+#: rc.cpp:4162
 msgid "Remove chapter"
 msgstr "Odstrani poglavje"
 
@@ -4178,13 +4768,15 @@ msgstr "Odstrani poglavje"
 msgid "Remove clips"
 msgstr "Odstrani posnetke"
 
-#: rc.cpp:1885
-#: rc.cpp:3355
+#: rc.cpp:1894
+#: rc.cpp:3812
+#: rc.cpp:5291
 msgid "Remove file"
 msgstr "Odstrani datoteko"
 
-#: rc.cpp:909
-#: rc.cpp:2379
+#: rc.cpp:912
+#: rc.cpp:2830
+#: rc.cpp:4309
 msgid "Remove selected clips"
 msgstr "Izbranih izbrane posnetke"
 
@@ -4209,33 +4801,34 @@ msgid "Render"
 msgstr "Upodobi"
 
 #: rc.cpp:539
-#: rc.cpp:2009
+#: rc.cpp:2457
+#: rc.cpp:3936
 msgid "Render Project"
 msgstr "Upodobi projekt"
 
-#: src/renderwidget.cpp:91
+#: src/renderwidget.cpp:93
 msgid "Render to File"
 msgstr "Upodobi v datoteko"
 
-#: src/renderwidget.cpp:67
+#: src/renderwidget.cpp:69
 msgid "Rendering"
 msgstr "Upodabljanje"
 
-#: src/renderwidget.cpp:835
+#: src/renderwidget.cpp:845
 msgid "Rendering <i>%1</i> started"
 msgstr "Upodabljanje <i>%1</i> poteka"
 
-#: src/renderwidget.cpp:1417
+#: src/renderwidget.cpp:1428
 msgid "Rendering aborted"
 msgstr "Upodabljanje prekinjeno"
 
-#: src/renderwidget.cpp:832
-#: src/renderwidget.cpp:840
-#: src/renderwidget.cpp:1408
+#: src/renderwidget.cpp:842
+#: src/renderwidget.cpp:850
+#: src/renderwidget.cpp:1419
 msgid "Rendering crashed"
 msgstr "Upodabljanje se je sesulo"
 
-#: src/renderwidget.cpp:1397
+#: src/renderwidget.cpp:1408
 msgid "Rendering finished in %1"
 msgstr "Upodabljanje končano v %1"
 
@@ -4247,7 +4840,7 @@ msgstr "Opravilo upodabljanja je prekoračilo čas"
 msgid "Rendering profiles customization"
 msgstr "Prilagajanje profilov za upodabljanje"
 
-#: src/trackview.cpp:552
+#: src/trackview.cpp:562
 msgid "Replaced wrong clip producer %1 with %2"
 msgstr "Zamenjan napačen izdelovalec posnetkov %1 z %2"
 
@@ -4255,7 +4848,7 @@ msgstr "Zamenjan napačen izdelovalec posnetkov %1 z %2"
 msgid "Required for creation of DVD"
 msgstr "Potrebno za izdelavo DVD"
 
-#: src/wizard.cpp:340
+#: src/wizard.cpp:341
 msgid "Required for creation of DVD ISO images"
 msgstr "Potrebno za ustvarjanje slik ISO DVD-jev"
 
@@ -4289,12 +4882,14 @@ msgid "Required to work with various video formats (hdv, mpeg, flash, ...)"
 msgstr "Potreben za delo z različnimi video zapisi (hdv, mpeg, flash, ...)"
 
 #: rc.cpp:584
-#: rc.cpp:2054
+#: rc.cpp:2502
+#: rc.cpp:3981
 msgid "Rescale"
 msgstr "Spremeni razmerje velikosti"
 
-#: rc.cpp:882
-#: rc.cpp:2352
+#: rc.cpp:885
+#: rc.cpp:2803
+#: rc.cpp:4282
 msgid "Reset"
 msgstr "Ponastavi"
 
@@ -4302,8 +4897,9 @@ msgstr "Ponastavi"
 msgid "Reset effect"
 msgstr "Ponastavi učinek"
 
-#: rc.cpp:1611
-#: rc.cpp:3081
+#: rc.cpp:1620
+#: rc.cpp:3538
+#: rc.cpp:5017
 msgid "Resize"
 msgstr "Spremeni velikost"
 
@@ -4316,8 +4912,8 @@ msgid "Resize (50%)"
 msgstr "Spremeni velikost (50%)"
 
 #: src/resizeclipcommand.cpp:34
-#: src/customtrackview.cpp:2709
-#: src/customtrackview.cpp:2802
+#: src/customtrackview.cpp:2799
+#: src/customtrackview.cpp:2892
 msgid "Resize clip"
 msgstr "Spremeni velikost posnetka"
 
@@ -4327,24 +4923,32 @@ msgid "Resize..."
 msgstr "Spremeni velikost ..."
 
 #: rc.cpp:293
+#: rc.cpp:2211
 msgid "Reverb"
 msgstr "Zvočni odboj"
 
 #: rc.cpp:483
+#: rc.cpp:2401
 msgid "Reverb Time"
 msgstr "Čas odboja"
 
 #: rc.cpp:297
+#: rc.cpp:2215
 msgid "Reverb time"
 msgstr "Čas odboja"
 
 #: rc.cpp:509
+#: rc.cpp:2427
 msgid "Reverse playing"
 msgstr "Vzvratno predvajanje"
 
+#: src/mainwindow.cpp:2878
+msgid "Revert to last saved version"
+msgstr "Povrni na nazadnje shranjeno različico"
+
 #: src/monitor.cpp:76
 #: src/mainwindow.cpp:896
-#: src/recmonitor.cpp:67
+#: src/recmonitor.cpp:71
 msgid "Rewind"
 msgstr "Prevrti"
 
@@ -4362,39 +4966,48 @@ msgstr "Prevrti 1 sličico"
 
 #: src/geometryval.cpp:99
 #: rc.cpp:72
+#: rc.cpp:1990
 msgid "Right"
 msgstr "Desno"
 
 #: rc.cpp:301
+#: rc.cpp:2219
 msgid "Room Reverb"
 msgstr "Sobni odboj"
 
 #: rc.cpp:305
+#: rc.cpp:2223
 msgid "Room size (m)"
 msgstr "Velikost sobe (m2)"
 
 #: rc.cpp:361
+#: rc.cpp:2279
 msgid "Rotate X"
 msgstr "Zasukaj X"
 
 #: rc.cpp:363
+#: rc.cpp:2281
 msgid "Rotate Y"
 msgstr "Zasukaj Y"
 
 #: rc.cpp:365
+#: rc.cpp:2283
 msgid "Rotate Z"
 msgstr "Zasukaj Z"
 
 #: rc.cpp:357
+#: rc.cpp:2275
 msgid "Rotate and Shear"
 msgstr "Zavrti in ostiži"
 
 #: rc.cpp:359
+#: rc.cpp:2277
 msgid "Rotate clip in any 3 directions"
 msgstr "Zasukajte posnetek v poljubno izmed 3 smeri"
 
-#: rc.cpp:1578
-#: rc.cpp:3048
+#: rc.cpp:1587
+#: rc.cpp:3505
+#: rc.cpp:4984
 msgid "Rotate:"
 msgstr "Zasukaj:"
 
@@ -4403,9 +5016,11 @@ msgid "Run Config Wizard"
 msgstr "Zaženi čarovnika za nastavitev"
 
 #: rc.cpp:563
-#: rc.cpp:810
-#: rc.cpp:2033
-#: rc.cpp:2280
+#: rc.cpp:813
+#: rc.cpp:2481
+#: rc.cpp:2731
+#: rc.cpp:3960
+#: rc.cpp:4210
 msgid "S"
 msgstr "S"
 
@@ -4414,22 +5029,24 @@ msgid "SVGAlib"
 msgstr "SVGAlib"
 
 #: rc.cpp:177
+#: rc.cpp:2095
 msgid "Saturat0r"
 msgstr "Saturat0r"
 
 #: rc.cpp:181
+#: rc.cpp:2099
 msgid "Saturation"
 msgstr "Nasičenost"
 
-#: src/dvdwizard.cpp:107
+#: src/dvdwizard.cpp:104
 msgid "Save"
 msgstr "Shrani"
 
-#: src/titlewidget.cpp:230
+#: src/titlewidget.cpp:231
 msgid "Save As"
 msgstr "Shrani kot"
 
-#: src/dvdwizard.cpp:654
+#: src/dvdwizard.cpp:655
 msgid "Save DVD Project"
 msgstr "Shrani projekt DVD"
 
@@ -4437,17 +5054,18 @@ msgstr "Shrani projekt DVD"
 msgid "Save Effect"
 msgstr "Shrani učinek"
 
-#: rc.cpp:1128
-#: rc.cpp:2598
+#: rc.cpp:1131
+#: rc.cpp:3049
+#: rc.cpp:4528
 msgid "Save Profile"
 msgstr "Shrani profil"
 
 #: src/mainwindow.cpp:431
-#: src/mainwindow.cpp:1314
+#: src/mainwindow.cpp:1315
 msgid "Save changes to document?"
 msgstr "Želite shraniti spremembe v dokument?"
 
-#: src/mainwindow.cpp:2548
+#: src/mainwindow.cpp:2577
 msgid "Save clip zone as:"
 msgstr "Shrani izsek posnetka kot:"
 
@@ -4459,93 +5077,104 @@ msgstr "Shrani učinek"
 msgid "Save profile"
 msgstr "Shrani profil"
 
-#: src/monitor.cpp:197
+#: src/monitor.cpp:201
 msgid "Save zone"
 msgstr "Shrani izsek"
 
 #: src/geometryval.cpp:297
 #: rc.cpp:40
+#: rc.cpp:1958
 msgid "Scale"
 msgstr "Spremeni merilo"
 
 #: rc.cpp:195
+#: rc.cpp:2113
 msgid "Scale X"
 msgstr "Spremeni merilo X"
 
 #: rc.cpp:197
+#: rc.cpp:2115
 msgid "Scale Y"
 msgstr "Spremeni merilo Y"
 
 #: rc.cpp:183
+#: rc.cpp:2101
 msgid "Scale0tilt"
 msgstr "Spremeni merilo z zasukom"
 
 #: rc.cpp:185
+#: rc.cpp:2103
 msgid "Scales, Tilts and Crops an Image"
 msgstr "Spremeni velikost, zasuka in obreže sliko"
 
 #: rc.cpp:569
-#: rc.cpp:2039
+#: rc.cpp:2487
+#: rc.cpp:3966
 msgid "Scanning"
 msgstr "Pregledovanje"
 
-#: rc.cpp:1203
-#: rc.cpp:1272
-#: rc.cpp:2673
-#: rc.cpp:2742
+#: rc.cpp:1206
+#: rc.cpp:1281
+#: rc.cpp:3124
+#: rc.cpp:3199
+#: rc.cpp:4603
+#: rc.cpp:4678
 msgid "Screen Grab"
 msgstr "Zajem zaslonske slike"
 
-#: rc.cpp:684
-#: rc.cpp:2154
+#: rc.cpp:687
+#: rc.cpp:2605
+#: rc.cpp:4084
 msgid "Screen grab"
 msgstr "Zajem zaslonske slike"
 
-#: src/renderwidget.cpp:174
+#: src/renderwidget.cpp:176
 msgid "Script Files"
 msgstr "Datoteke skriptov"
 
-#: src/renderwidget.cpp:1500
-#: src/renderwidget.cpp:1504
+#: src/renderwidget.cpp:1511
+#: src/renderwidget.cpp:1515
 msgid "Script contains wrong command: %1"
 msgstr "Skript vsebuje napačen ukaz: %1"
 
-#: src/mainwindow.cpp:2762
+#: src/mainwindow.cpp:2795
 msgid "Script file already exists. Do you want to overwrite it?"
 msgstr "Datoteka skripta že obstaja. Jo želite prepisati?"
 
-#: src/mainwindow.cpp:2757
+#: src/mainwindow.cpp:2790
 msgid "Script name (will be saved in: %1)"
 msgstr "Ime skripta (shranjeno v: %1)"
 
-#: rc.cpp:638
-#: rc.cpp:2108
+#: rc.cpp:641
+#: rc.cpp:2559
+#: rc.cpp:4038
 msgid "Scripts"
 msgstr "Skripti"
 
-#: src/kdenlivedoc.cpp:889
+#: src/kdenlivedoc.cpp:874
 msgid "Search automatically"
 msgstr "Samodejno poišči"
 
-#: src/kdenlivedoc.cpp:892
-#: src/kdenlivedoc.cpp:900
+#: src/kdenlivedoc.cpp:877
+#: src/kdenlivedoc.cpp:885
 msgid "Search manually"
 msgstr "Poišči ročno"
 
-#: rc.cpp:903
-#: rc.cpp:2373
+#: rc.cpp:906
+#: rc.cpp:2824
+#: rc.cpp:4303
 msgid "Search recursively"
 msgstr "Poišči rekurzivno"
 
-#: src/dvdwizard.cpp:51
+#: src/dvdwizard.cpp:50
 msgid "Select Files For Your DVD"
 msgstr "Izberite datoteke za svoj DVD"
 
-#: src/customtrackview.cpp:4145
+#: src/customtrackview.cpp:4254
 msgid "Select a clip before copying"
 msgstr "Izberite posnetek pred kopiranjem"
 
-#: src/customtrackview.cpp:1461
+#: src/customtrackview.cpp:1516
 msgid "Select a clip if you want to apply an effect"
 msgstr "Izberite posnetek, če želite dodati učinek"
 
@@ -4553,20 +5182,20 @@ msgstr "Izberite posnetek, če želite dodati učinek"
 msgid "Select a region using the mouse. To take the snapshot, press the Enter key. Press Esc to quit."
 msgstr "Z miško izberite območje. Če želite zajeti zaslonsko sliko, pritisnite tipko Enter. Pritisnite Esc, ko želite končati z delom."
 
-#: src/titlewidget.cpp:177
+#: src/titlewidget.cpp:178
 msgid "Select background color"
 msgstr "Izberite barvo ozadja"
 
-#: src/titlewidget.cpp:171
+#: src/titlewidget.cpp:172
 msgid "Select border color"
 msgstr "Izberite barvo obrobe"
 
-#: src/customtrackview.cpp:3093
+#: src/customtrackview.cpp:3183
 msgid "Select clip to change speed"
 msgstr "Izberite posnetek, ki mu želite spremeniti hitrost"
 
-#: src/customtrackview.cpp:1825
-#: src/customtrackview.cpp:3028
+#: src/customtrackview.cpp:1881
+#: src/customtrackview.cpp:3118
 msgid "Select clip to delete"
 msgstr "Izberite posnetek, ki ga želite izbrisati"
 
@@ -4582,16 +5211,17 @@ msgstr "Izberite privzeti urejevalnik slik"
 msgid "Select default video player"
 msgstr "Izberite privzeti video predvajalnik"
 
-#: src/titlewidget.cpp:170
+#: src/titlewidget.cpp:171
 msgid "Select fill color"
 msgstr "Izberite barvo polnila"
 
 #: rc.cpp:599
-#: rc.cpp:2069
+#: rc.cpp:2517
+#: rc.cpp:3996
 msgid "Selected zone"
 msgstr "Izbrani izsek"
 
-#: src/titlewidget.cpp:202
+#: src/titlewidget.cpp:203
 msgid "Selection Tool"
 msgstr "Izbirnik"
 
@@ -4600,6 +5230,7 @@ msgid "Selection tool"
 msgstr "Izbirnik"
 
 #: rc.cpp:383
+#: rc.cpp:2301
 msgid "Sepia"
 msgstr "Sepija"
 
@@ -4611,7 +5242,7 @@ msgstr "Določi začetno točko"
 msgid "Set Out Point"
 msgstr "Določi končno točko"
 
-#: src/monitor.cpp:209
+#: src/monitor.cpp:213
 msgid "Set current image as thumbnail"
 msgstr "Določite trenutno sliko kot sličico za predogled"
 
@@ -4627,26 +5258,35 @@ msgstr "Določite konec izseka"
 msgid "Set zone start"
 msgstr "Določite začetek izseka"
 
-#: rc.cpp:1913
-#: rc.cpp:3383
+#: rc.cpp:3840
+#: rc.cpp:5319
 msgid "Settings"
 msgstr "Nastavitve"
 
 #: rc.cpp:373
+#: rc.cpp:2291
 msgid "Shear X"
 msgstr "Ostriži X"
 
 #: rc.cpp:375
+#: rc.cpp:2293
 msgid "Shear Y"
 msgstr "Ostriži Y"
 
 #: rc.cpp:279
 #: rc.cpp:473
+#: rc.cpp:2197
+#: rc.cpp:2391
 msgid "Shift"
 msgstr "Zamakni"
 
-#: rc.cpp:1476
-#: rc.cpp:2946
+#: src/mainwindow.cpp:2438
+msgid "Shift + click to create a selection rectangle, Ctrl + click to add an item to selection"
+msgstr "Shift + klik ustvari pravokotnik izbora, Ctrl + klik doda element izboru"
+
+#: rc.cpp:1485
+#: rc.cpp:3403
+#: rc.cpp:4882
 msgid "Show All"
 msgstr "Prikaži vse"
 
@@ -4655,13 +5295,15 @@ msgid "Show Timeline"
 msgstr "Pokaži časovnico"
 
 #: src/mainwindow.cpp:758
-#: rc.cpp:1650
-#: rc.cpp:3120
+#: rc.cpp:1659
+#: rc.cpp:3577
+#: rc.cpp:5056
 msgid "Show audio thumbnails"
 msgstr "Pokaži zvočne sličice"
 
-#: rc.cpp:1638
-#: rc.cpp:3108
+#: rc.cpp:1647
+#: rc.cpp:3565
+#: rc.cpp:5044
 msgid "Show background"
 msgstr "Pokaži ozadje"
 
@@ -4674,16 +5316,24 @@ msgid "Show markers comments"
 msgstr "Pokaži komentarje označb"
 
 #: src/mainwindow.cpp:752
-#: rc.cpp:1647
-#: rc.cpp:3117
+#: rc.cpp:1656
+#: rc.cpp:3574
+#: rc.cpp:5053
 msgid "Show video thumbnails"
 msgstr "Pokaži predogledne sličice"
+
+#: rc.cpp:638
+#: rc.cpp:2556
+#: rc.cpp:4035
+msgid "Shutdown computer after renderings"
+msgstr "Izklopi računalnik po končanem upodabljanju"
 
 #: src/main.cpp:43
 msgid "Simon A. Eugster"
 msgstr "Simon A. Eugster"
 
 #: rc.cpp:313
+#: rc.cpp:2231
 msgid "Simulates a vinyl audio player - LADSPA audio effect"
 msgstr "Simulira gramofon, predvajalnik vinilk - zvočni učinek LADSPA"
 
@@ -4695,36 +5345,45 @@ msgstr ""
 msgid "Sixteenth note (Am.) or semiquaver (Brit.). Half as long as an eighth note (U+266a). See <a href=\"http://en.wikipedia.org/wiki/Sixteenth_note\">Wikipedia:Sixteenth_note</a>"
 msgstr "Šestnajstinka. Pol krajša od osminke (U+266a). Glejte <a href=\"http://sl.wikipedia.org/wiki/%C5%A0estnajstinka\">Wikipedia:Šestnajstinka</a>"
 
-#: rc.cpp:777
-#: rc.cpp:1329
-#: rc.cpp:1503
-#: rc.cpp:1542
-#: rc.cpp:1870
-#: rc.cpp:2247
-#: rc.cpp:2799
-#: rc.cpp:2973
-#: rc.cpp:3012
-#: rc.cpp:3340
+#: rc.cpp:780
+#: rc.cpp:1338
+#: rc.cpp:1512
+#: rc.cpp:1551
+#: rc.cpp:1879
+#: rc.cpp:2698
+#: rc.cpp:3256
+#: rc.cpp:3430
+#: rc.cpp:3469
+#: rc.cpp:3797
+#: rc.cpp:4177
+#: rc.cpp:4735
+#: rc.cpp:4909
+#: rc.cpp:4948
+#: rc.cpp:5276
 msgid "Size"
 msgstr "Velikost"
 
-#: rc.cpp:1407
-#: rc.cpp:1689
-#: rc.cpp:1925
-#: rc.cpp:2877
-#: rc.cpp:3159
-#: rc.cpp:3395
+#: rc.cpp:1416
+#: rc.cpp:1698
+#: rc.cpp:3334
+#: rc.cpp:3616
+#: rc.cpp:3852
+#: rc.cpp:4813
+#: rc.cpp:5095
+#: rc.cpp:5331
 msgid "Size:"
 msgstr "Velikost:"
 
-#: rc.cpp:1731
-#: rc.cpp:3201
+#: rc.cpp:1740
+#: rc.cpp:3658
+#: rc.cpp:5137
 msgid "Slideshow"
 msgstr "Projekcija"
 
 #: src/slideshowclip.cpp:37
-#: rc.cpp:1338
-#: rc.cpp:2808
+#: rc.cpp:1347
+#: rc.cpp:3265
+#: rc.cpp:4744
 msgid "Slideshow Clip"
 msgstr "Projekcijski posnetek"
 
@@ -4733,7 +5392,7 @@ msgstr "Projekcijski posnetek"
 msgid "Slideshow clip"
 msgstr "Projekcijski posnetek"
 
-#: src/trackview.cpp:72
+#: src/trackview.cpp:75
 msgid "Smaller tracks"
 msgstr "Ožje sledi"
 
@@ -4741,14 +5400,16 @@ msgstr "Ožje sledi"
 msgid "Snap"
 msgstr "Pripni"
 
-#: rc.cpp:1368
-#: rc.cpp:1755
-#: rc.cpp:2838
-#: rc.cpp:3225
+#: rc.cpp:1377
+#: rc.cpp:1764
+#: rc.cpp:3295
+#: rc.cpp:3682
+#: rc.cpp:4774
+#: rc.cpp:5161
 msgid "Softness"
 msgstr "Mehkoba"
 
-#: src/documentvalidator.cpp:691
+#: src/documentvalidator.cpp:692
 msgid "Some of your text clips were saved with size in points, which means different sizes on different displays. Do you want to convert them to pixel size, making them portable? It is recommended you do this on the computer they were first created on, or you could have to adjust their size."
 msgstr "Nekateri vaši posnetki besedila so shranjeni z velikostjo v točkah, kar pomeni različne velikosti na različnih zaslonih. Želite pretvoriti velikost v slikovne točke, s čimer bodo postali prenosljivi? Priporočamo, da to storite na računalniku, na katerem ste jih ustvarili, sicer boste morali prilagajati njihovo velikost."
 
@@ -4756,104 +5417,128 @@ msgstr "Nekateri vaši posnetki besedila so shranjeni z velikostjo v točkah, ka
 msgid "Some of your text clips were saved with size in points, which means different sizes on different displays. They will be converted to pixel size, making them portable, but you could have to adjust their size."
 msgstr "Nekateri vaši posnetki besedila so shranjeni z velikostjo v točkah, kar pomeni različne velikosti na različnih zaslonih. Velikost bo pretvorjena v slikovne točke, s čimer bodo postali prenosljivi, vendar boste morda morali prilagoditi njihovo velikost."
 
-#: rc.cpp:843
-#: rc.cpp:2313
+#: rc.cpp:846
+#: rc.cpp:2764
+#: rc.cpp:4243
 msgid "Source"
 msgstr "Vir"
 
 #: rc.cpp:147
+#: rc.cpp:2065
 msgid "Source Color"
 msgstr "Barva vira"
 
 #: rc.cpp:391
+#: rc.cpp:2309
 msgid "Sox Balance"
 msgstr "Ravnotežje Sox"
 
 #: rc.cpp:407
+#: rc.cpp:2325
 msgid "Sox Band"
 msgstr "Pas Sox"
 
 #: rc.cpp:415
+#: rc.cpp:2333
 msgid "Sox Bass"
 msgstr "Nizki toni Sox"
 
 #: rc.cpp:423
+#: rc.cpp:2341
 msgid "Sox Echo"
 msgstr "Odmev Sox"
 
 #: rc.cpp:435
+#: rc.cpp:2353
 msgid "Sox Flanger"
 msgstr "Flanger Sox"
 
 #: rc.cpp:449
+#: rc.cpp:2367
 msgid "Sox Gain"
 msgstr "Ojačitev Sox"
 
 #: rc.cpp:455
+#: rc.cpp:2373
 msgid "Sox Phaser"
 msgstr "Faznik Sox"
 
 #: rc.cpp:469
+#: rc.cpp:2387
 msgid "Sox Pitch Shift"
 msgstr "Zamik višine tona Sox"
 
 #: rc.cpp:477
+#: rc.cpp:2395
 msgid "Sox Reverb"
 msgstr "Zvočni odboj Sox"
 
 #: rc.cpp:487
+#: rc.cpp:2405
 msgid "Sox Stretch"
 msgstr "Razteg Sox"
 
 #: rc.cpp:495
+#: rc.cpp:2413
 msgid "Sox Vibro"
 msgstr "Vibro Sox"
 
 #: rc.cpp:409
+#: rc.cpp:2327
 msgid "Sox band audio effect"
 msgstr "Pasovni zvočni učinek Sox"
 
 #: rc.cpp:417
+#: rc.cpp:2335
 msgid "Sox bass audio effect"
 msgstr "Zvočni učinek nizkih tonov Sox"
 
 #: rc.cpp:393
+#: rc.cpp:2311
 msgid "Sox change audio balance"
 msgstr "Zvočni učinek spremembe zvočnega ravnotežja Sox"
 
 #: rc.cpp:471
+#: rc.cpp:2389
 msgid "Sox change pitch audio effect"
 msgstr "Zvočni učinek spremembe višine tona Sox"
 
 #: rc.cpp:425
+#: rc.cpp:2343
 msgid "Sox echo audio effect"
 msgstr "Zvočni učinek odboja Sox"
 
 #: rc.cpp:437
+#: rc.cpp:2355
 msgid "Sox flanger audio effect"
 msgstr "Zvočni učinek flangerja Sox"
 
 #: rc.cpp:451
+#: rc.cpp:2369
 msgid "Sox gain audio effect"
 msgstr "Zvočni učinek ojačitve Sox"
 
 #: rc.cpp:457
+#: rc.cpp:2375
 msgid "Sox phaser audio effect"
 msgstr "Zvočni učinek faznika Sox"
 
 #: rc.cpp:479
+#: rc.cpp:2397
 msgid "Sox reverb audio effect"
 msgstr "Zvočni učinek odboja Sox"
 
 #: rc.cpp:489
+#: rc.cpp:2407
 msgid "Sox stretch audio effect"
 msgstr "Zvočni učinek raztega Sox"
 
 #: rc.cpp:497
+#: rc.cpp:2415
 msgid "Sox vibro audio effect"
 msgstr "Vibro zvočni učinek Sox"
 
-#: rc.cpp:3506
+#: rc.cpp:5442
 msgid "Space"
 msgstr "Presledek"
 
@@ -4866,6 +5551,11 @@ msgstr "Orodje za razmikanje"
 #: rc.cpp:499
 #: rc.cpp:501
 #: rc.cpp:505
+#: rc.cpp:2365
+#: rc.cpp:2385
+#: rc.cpp:2417
+#: rc.cpp:2419
+#: rc.cpp:2423
 msgid "Speed"
 msgstr "Hitrost"
 
@@ -4874,19 +5564,21 @@ msgid "Split Audio"
 msgstr "Razdeli zvok"
 
 #: src/splitaudiocommand.cpp:32
-#: src/customtrackview.cpp:4729
+#: src/customtrackview.cpp:4837
 msgid "Split audio"
 msgstr "Razdeli zvok"
 
-#: src/monitor.cpp:204
+#: src/monitor.cpp:208
 msgid "Split view"
 msgstr "Deljeni pogled"
 
 #: rc.cpp:273
+#: rc.cpp:2191
 msgid "Spread"
 msgstr "Razpostri"
 
 #: rc.cpp:203
+#: rc.cpp:2121
 msgid "Square Blur"
 msgstr "Kvadratna zabrisanost"
 
@@ -4894,27 +5586,33 @@ msgstr "Kvadratna zabrisanost"
 msgid "Standard space character. (Other space characters: U+00a0, U+2000&#x2013;200b, U+202f)"
 msgstr "Običajni znak za presledek. (Drugi znaki za presledek: U+00a0, U+2000&#x2013;200b, U+202f)"
 
-#: src/mainwindow.cpp:2810
+#: src/mainwindow.cpp:2843
 #: rc.cpp:82
 #: rc.cpp:94
-#: rc.cpp:855
-#: rc.cpp:1994
-#: rc.cpp:2325
-#: rc.cpp:3464
+#: rc.cpp:858
+#: rc.cpp:2000
+#: rc.cpp:2012
+#: rc.cpp:2776
+#: rc.cpp:3921
+#: rc.cpp:4255
+#: rc.cpp:5400
 msgid "Start"
 msgstr "Začetek"
 
 #: rc.cpp:105
 #: rc.cpp:116
+#: rc.cpp:2023
+#: rc.cpp:2034
 msgid "Start Gain"
 msgstr "Začetna ojačitev"
 
-#: src/renderwidget.cpp:90
+#: src/renderwidget.cpp:92
 msgid "Start Rendering"
 msgstr "Začni upodabljati"
 
-#: rc.cpp:641
-#: rc.cpp:2111
+#: rc.cpp:644
+#: rc.cpp:2562
+#: rc.cpp:4041
 msgid "Start Script"
 msgstr "Zaženi skript"
 
@@ -4922,29 +5620,33 @@ msgstr "Zaženi skript"
 msgid "Start them now"
 msgstr "Zaženi jih zdaj"
 
-#: src/mainwindow.cpp:2442
+#: src/mainwindow.cpp:2471
 msgid "Starting -- find text as you type"
 msgstr "Začenjanje -- najde besedilo, ko ga vnašate"
 
-#: rc.cpp:951
-#: rc.cpp:2421
+#: rc.cpp:954
+#: rc.cpp:2872
+#: rc.cpp:4351
 msgid "Status"
 msgstr "Stanje"
 
-#: src/recmonitor.cpp:73
+#: src/recmonitor.cpp:77
 msgid "Stop"
 msgstr "Ustavi"
 
 #: rc.cpp:507
+#: rc.cpp:2425
 msgid "Stroboscope"
 msgstr "Stroboskopija"
 
-#: rc.cpp:1828
-#: rc.cpp:3298
+#: rc.cpp:1837
+#: rc.cpp:3755
+#: rc.cpp:5234
 msgid "Stroboscope effect"
 msgstr "Učinek stroboskopije"
 
 #: rc.cpp:319
+#: rc.cpp:2237
 msgid "Surface warping"
 msgstr "Ukrivljanje ploskve"
 
@@ -4952,13 +5654,15 @@ msgstr "Ukrivljanje ploskve"
 msgid "Sync timeline cursor"
 msgstr "Sinhroniziraj kazalko časovnice"
 
-#: rc.cpp:729
-#: rc.cpp:2199
+#: rc.cpp:732
+#: rc.cpp:2650
+#: rc.cpp:4129
 msgid "Target"
 msgstr "Cilj"
 
-#: rc.cpp:816
-#: rc.cpp:2286
+#: rc.cpp:819
+#: rc.cpp:2737
+#: rc.cpp:4216
 msgid "Template"
 msgstr "Predloga"
 
@@ -4966,24 +5670,28 @@ msgstr "Predloga"
 msgid "Template text clip"
 msgstr "Predloga posnetka besedila"
 
-#: src/kdenlivedoc.cpp:1108
+#: src/kdenlivedoc.cpp:1093
 msgid "Template title clip"
 msgstr "Predloga posnetka napisa"
 
-#: rc.cpp:966
-#: rc.cpp:2436
+#: rc.cpp:969
+#: rc.cpp:2887
+#: rc.cpp:4366
 msgid "Temporary data folder"
 msgstr "Mapa za začasne podatke"
 
-#: rc.cpp:1023
-#: rc.cpp:2493
+#: rc.cpp:1026
+#: rc.cpp:2944
+#: rc.cpp:4423
 msgid "Temporary files"
 msgstr "Začasne datoteke"
 
-#: rc.cpp:726
-#: rc.cpp:819
-#: rc.cpp:2196
-#: rc.cpp:2289
+#: rc.cpp:729
+#: rc.cpp:822
+#: rc.cpp:2647
+#: rc.cpp:2740
+#: rc.cpp:4126
+#: rc.cpp:4219
 msgid "Text"
 msgstr "Besedilo"
 
@@ -4995,8 +5703,9 @@ msgstr "Posnetki z besedilom posodobljeni"
 msgid "Text clip"
 msgstr "Posnetek z besedilom"
 
-#: rc.cpp:1843
-#: rc.cpp:3313
+#: rc.cpp:1852
+#: rc.cpp:3770
+#: rc.cpp:5249
 msgid "TextLabel"
 msgstr "Nalepka"
 
@@ -5004,12 +5713,12 @@ msgstr "Nalepka"
 msgid "The custom profile was modified, do you want to save it?"
 msgstr "Profil po meri je bil spremenjen, ga želite shraniti?"
 
-#: src/renderwidget.cpp:779
-#: src/renderwidget.cpp:1543
+#: src/renderwidget.cpp:786
+#: src/renderwidget.cpp:1554
 msgid "There is already a job writing file:<br><b>%1</b><br>Abort the job if you want to overwrite it..."
 msgstr "Posel pisanja v datoteko že obstaja:<br><b>%1</b><br>Prekinite ta posel, če jo želite prepisati ..."
 
-#: src/renderer.cpp:1445
+#: src/renderer.cpp:1444
 msgid "There is no clip, cannot extract frame."
 msgstr "Ni posnetka, zato fotograma ni mogoče izluščiti."
 
@@ -5025,8 +5734,8 @@ msgstr "Dvaintridesetinka. Pol krajša kot šestnajstinka (U+266b). Glejte <a hr
 msgid "This is the first time you run Kdenlive. This wizard will let you adjust some basic settings, you will be ready to edit your first movie in a few seconds..."
 msgstr "Program Kdenlive ste zagnali prvič. Ta čarovnik vas bo vodil skozi osnovne nastavitve in že čez nekaj sekund boste lahko montirali svoj prvi film ..."
 
-#: src/renderwidget.cpp:364
-#: src/renderwidget.cpp:471
+#: src/renderwidget.cpp:371
+#: src/renderwidget.cpp:478
 msgid "This profile name already exists. Change the name if you don't want to overwrite it."
 msgstr "Ime profila že obstaja. Spremenite ime, če ga ne želite prepisati."
 
@@ -5046,11 +5755,15 @@ msgstr ""
 msgid "This title clip was created with a different frame size."
 msgstr "Ta posnetek z napisi je bil ustvarjen v drugačni velikosti sličice."
 
-#: src/mainwindow.cpp:1698
+#: src/mainwindow.cpp:2878
+msgid "This will delete all changes made since you last saved your project. Are you sure you want to continue?"
+msgstr "S tem boste izbrisali vse opravljene spremembe od zadnjega shranjevanja projekta. Ste prepričani, da želite nadaljevati?"
+
+#: src/mainwindow.cpp:1709
 msgid "This will remove all unused clips from your project."
 msgstr "S tem boste odstranili neuporabljene posnetke iz vašega projekta."
 
-#: src/projectsettings.cpp:92
+#: src/projectsettings.cpp:91
 msgid ""
 "This will remove the following files from your hard drive.\n"
 "This action cannot be undone, only use if you know what you are doing.\n"
@@ -5073,10 +5786,12 @@ msgid "Three-Per-Em Space. Width: 1/3 of one <em>em</em>"
 msgstr ""
 
 #: rc.cpp:511
+#: rc.cpp:2429
 msgid "Threshold"
 msgstr "Prag"
 
 #: rc.cpp:515
+#: rc.cpp:2433
 msgid "Threshold value"
 msgstr "Vrednost praga"
 
@@ -5084,55 +5799,63 @@ msgstr "Vrednost praga"
 msgid "Thumbnail"
 msgstr "Predogledna sličica"
 
-#: rc.cpp:1107
-#: rc.cpp:2577
+#: rc.cpp:1110
+#: rc.cpp:3028
+#: rc.cpp:4507
 msgid "Thumbnails"
 msgstr "Predogledne sličice"
 
-#: rc.cpp:834
-#: rc.cpp:1979
-#: rc.cpp:2304
-#: rc.cpp:3449
+#: rc.cpp:837
+#: rc.cpp:2755
+#: rc.cpp:3906
+#: rc.cpp:4234
+#: rc.cpp:5385
 msgid "Thumbnails cache:"
 msgstr "Predpomnilnik predoglednih sličic:"
 
-#: rc.cpp:1958
-#: rc.cpp:3428
+#: rc.cpp:3885
+#: rc.cpp:5364
 msgid "Thumbnails:"
 msgstr "Predogledne sličice:"
 
 #: rc.cpp:199
+#: rc.cpp:2117
 msgid "Tilt X"
 msgstr "Zasuk X"
 
 #: rc.cpp:201
+#: rc.cpp:2119
 msgid "Tilt Y"
 msgstr "Zasuk Y"
 
-#: rc.cpp:1773
-#: rc.cpp:3243
+#: rc.cpp:1782
+#: rc.cpp:3700
+#: rc.cpp:5179
 msgid "Time"
 msgstr "Čas"
 
 #: rc.cpp:475
+#: rc.cpp:2393
 msgid "Time window (ms)"
 msgstr "Časovno okno (ms)"
 
 #: rc.cpp:587
-#: rc.cpp:2057
+#: rc.cpp:2505
+#: rc.cpp:3984
 msgid "Timecode overlay"
 msgstr "Časovna koda v sliki"
 
-#: rc.cpp:3500
+#: rc.cpp:5436
 msgid "Timeline"
 msgstr "Časovnica"
 
-#: src/titlewidget.cpp:334
+#: src/titlewidget.cpp:335
 msgid "Title"
 msgstr "Napis"
 
-#: rc.cpp:1512
-#: rc.cpp:2982
+#: rc.cpp:1521
+#: rc.cpp:3439
+#: rc.cpp:4918
 msgid "Title Clip"
 msgstr "Posnetek naslova"
 
@@ -5140,54 +5863,61 @@ msgstr "Posnetek naslova"
 msgid "Title Profile"
 msgstr "Profil naslovov"
 
-#: src/kdenlivedoc.cpp:1091
+#: src/kdenlivedoc.cpp:1076
 msgid "Title clip"
 msgstr "Posnetek z naslovi"
 
-#: rc.cpp:1509
-#: rc.cpp:2979
+#: rc.cpp:1518
+#: rc.cpp:3436
+#: rc.cpp:4915
 msgid "Toggle selection"
 msgstr "Vključi/izključi izbor"
 
-#: rc.cpp:3491
+#: rc.cpp:5427
 msgid "Tool"
 msgstr "Orodje"
 
 #: src/geometryval.cpp:101
 #: rc.cpp:66
+#: rc.cpp:1984
 msgid "Top"
 msgstr "Na vrh"
 
-#: src/customtrackview.cpp:2186
-#: rc.cpp:1491
-#: rc.cpp:2961
+#: src/customtrackview.cpp:2265
+#: rc.cpp:1500
+#: rc.cpp:3418
+#: rc.cpp:4897
 msgid "Track"
 msgstr "Sled"
 
-#: rc.cpp:1125
-#: rc.cpp:2595
+#: rc.cpp:1128
+#: rc.cpp:3046
+#: rc.cpp:4525
 msgid "Track height"
 msgstr "Višina sledi"
 
-#: rc.cpp:3488
+#: rc.cpp:5424
 msgid "Tracks"
 msgstr "Sledi"
 
 #: src/kdenlivesettingsdialog.cpp:103
-#: rc.cpp:3482
+#: rc.cpp:5418
 msgid "Transcode"
 msgstr "Prekodiraj"
 
-#: src/mainwindow.cpp:882
-#: src/cliptranscode.cpp:34
+#: src/cliptranscode.cpp:35
 msgid "Transcode Clip"
 msgstr "Prekodiraj posnetek"
 
-#: src/cliptranscode.cpp:141
+#: src/mainwindow.cpp:882
+msgid "Transcode Clips"
+msgstr "Prekodiraj posnetke"
+
+#: src/cliptranscode.cpp:157
 msgid "Transcoding FAILED!"
 msgstr "Prekodiranje NI USPELO!"
 
-#: src/cliptranscode.cpp:133
+#: src/cliptranscode.cpp:141
 msgid "Transcoding finished."
 msgstr "Prekodiranje končano."
 
@@ -5195,30 +5925,35 @@ msgstr "Prekodiranje končano."
 msgid "Transition"
 msgstr "Prehod"
 
-#: rc.cpp:1997
-#: rc.cpp:2003
-#: rc.cpp:3467
-#: rc.cpp:3473
+#: rc.cpp:3924
+#: rc.cpp:3930
+#: rc.cpp:5403
+#: rc.cpp:5409
 msgid "Transparency"
 msgstr "Prosojnost"
 
-#: rc.cpp:1767
-#: rc.cpp:3237
+#: rc.cpp:1776
+#: rc.cpp:3694
+#: rc.cpp:5173
 msgid "Transparent background"
 msgstr "Prosojno ozadje"
 
 #: rc.cpp:64
+#: rc.cpp:1982
 msgid "Trim the edges of a clip"
 msgstr "Poreži konca posnetka"
 
 #: rc.cpp:385
+#: rc.cpp:2303
 msgid "Turn clip colors to sepia"
 msgstr "Pretvori barve posnetka v sepijo"
 
-#: rc.cpp:897
-#: rc.cpp:930
-#: rc.cpp:2367
-#: rc.cpp:2400
+#: rc.cpp:900
+#: rc.cpp:933
+#: rc.cpp:2818
+#: rc.cpp:2851
+#: rc.cpp:4297
+#: rc.cpp:4330
 msgid "Type"
 msgstr "Vrsta"
 
@@ -5227,13 +5962,13 @@ msgstr "Vrsta"
 msgid "Unable to open project"
 msgstr "Projekta ni mogoče odpreti"
 
-#: src/renderwidget.cpp:385
-#: src/renderwidget.cpp:552
-#: src/renderwidget.cpp:1186
+#: src/renderwidget.cpp:392
+#: src/renderwidget.cpp:559
+#: src/renderwidget.cpp:1197
 msgid "Unable to write to file %1"
 msgstr "V datoteko %1 ni mogoče pisati"
 
-#: src/mainwindow.cpp:209
+#: src/mainwindow.cpp:210
 msgid "Undo History"
 msgstr "Razveljavi zgodovino"
 
@@ -5253,80 +5988,96 @@ msgstr "Neznani posnetek"
 msgid "Unlock track"
 msgstr "Odkleni sled"
 
-#: src/renderwidget.cpp:982
+#: src/renderwidget.cpp:993
 msgid "Unsupported audio codec: %1"
 msgstr "Nepodprt zvočni kodek: %1"
 
-#: src/renderwidget.cpp:999
+#: src/renderwidget.cpp:1010
 msgid "Unsupported video codec: %1"
 msgstr "Nepodprt slikovni kodek: %1"
 
-#: src/renderwidget.cpp:966
+#: src/renderwidget.cpp:977
 msgid "Unsupported video format: %1"
 msgstr "Nepodprt video zapis: %1"
 
-#: src/kdenlivedoc.cpp:862
+#: src/kdenlivedoc.cpp:847
 msgid "Untitled"
 msgstr "Neimenovano"
 
-#: rc.cpp:828
-#: rc.cpp:1973
-#: rc.cpp:2298
-#: rc.cpp:3443
+#: rc.cpp:831
+#: rc.cpp:2749
+#: rc.cpp:3900
+#: rc.cpp:4228
+#: rc.cpp:5379
 msgid "Unused clips:"
 msgstr "Neuporabljeni posnetki:"
 
-#: rc.cpp:915
-#: rc.cpp:2385
+#: rc.cpp:918
+#: rc.cpp:2836
+#: rc.cpp:4315
 msgid "Up"
 msgstr "Navzgor"
 
-#: src/documentvalidator.cpp:691
+#: src/documentvalidator.cpp:692
 msgid "Update Text Clips"
 msgstr "Posodobi posnetke z besedilom"
 
-#: rc.cpp:1440
-#: rc.cpp:2910
+#: rc.cpp:1449
+#: rc.cpp:3367
+#: rc.cpp:4846
 msgid "Use KDE job tracking for render jobs"
 msgstr "Uporabi sledenje opravilom KDE za posle upodabljanja"
 
-#: rc.cpp:804
-#: rc.cpp:2274
+#: rc.cpp:807
+#: rc.cpp:2725
+#: rc.cpp:4204
 msgid "Use as default"
 msgstr "Uporabi kot privzeto"
 
-#: rc.cpp:906
-#: rc.cpp:2376
+#: rc.cpp:909
+#: rc.cpp:2827
+#: rc.cpp:4306
 msgid "Use placeholders for missing clips"
 msgstr "Za manjkajoče posnetke uporabi ograde"
 
 #: rc.cpp:517
+#: rc.cpp:2435
 msgid "Use transparency"
 msgstr "Uporabi prosojnost"
 
-#: rc.cpp:1629
-#: rc.cpp:1632
-#: rc.cpp:1985
-#: rc.cpp:1988
-#: rc.cpp:3099
-#: rc.cpp:3102
-#: rc.cpp:3455
-#: rc.cpp:3458
+#: rc.cpp:1638
+#: rc.cpp:1641
+#: rc.cpp:3556
+#: rc.cpp:3559
+#: rc.cpp:3912
+#: rc.cpp:3915
+#: rc.cpp:5035
+#: rc.cpp:5038
+#: rc.cpp:5391
+#: rc.cpp:5394
 msgid "V"
 msgstr "V"
 
+#: src/kdenlivedoc.cpp:86
+msgid "Validating"
+msgstr "Preverjanje veljavnosti"
+
 #: src/keyframeedit.cpp:38
-#: rc.cpp:1855
-#: rc.cpp:3325
+#: rc.cpp:1864
+#: rc.cpp:3782
+#: rc.cpp:5261
 msgid "Value"
 msgstr "Vrednost"
 
 #: rc.cpp:205
+#: rc.cpp:2123
 msgid "Variable-size square blur (frei0r.squareblur)"
 msgstr "Spremenljiva kvadratna zabrisanost (frei0r.squareblur)"
 
 #: rc.cpp:52
 #: rc.cpp:60
+#: rc.cpp:1970
+#: rc.cpp:1978
 msgid "Variance"
 msgstr "Varianca"
 
@@ -5335,40 +6086,50 @@ msgid "Vert. Center"
 msgstr "Navp. sredina"
 
 #: rc.cpp:169
+#: rc.cpp:2087
 msgid "Vertical center"
 msgstr "Navpična sredina"
 
 #: rc.cpp:533
+#: rc.cpp:2451
 msgid "Vertical factor"
 msgstr "Navpični faktor"
 
 #: rc.cpp:20
+#: rc.cpp:1938
 msgid "Vertical multiplicator"
 msgstr "Navpični multiplikator"
 
 #: rc.cpp:38
+#: rc.cpp:1956
 msgid "Vertical scatter"
 msgstr "Navpična razpršenost"
 
 #: rc.cpp:209
+#: rc.cpp:2127
 msgid "Vertigo"
 msgstr "Vrtoglavica"
 
-#: rc.cpp:753
-#: rc.cpp:1110
-#: rc.cpp:1698
-#: rc.cpp:1891
-#: rc.cpp:1961
-#: rc.cpp:2223
-#: rc.cpp:2580
-#: rc.cpp:3168
-#: rc.cpp:3361
-#: rc.cpp:3431
+#: rc.cpp:756
+#: rc.cpp:1113
+#: rc.cpp:1707
+#: rc.cpp:1900
+#: rc.cpp:2674
+#: rc.cpp:3031
+#: rc.cpp:3625
+#: rc.cpp:3818
+#: rc.cpp:3888
+#: rc.cpp:4153
+#: rc.cpp:4510
+#: rc.cpp:5104
+#: rc.cpp:5297
+#: rc.cpp:5367
 msgid "Video"
 msgstr "Video"
 
-#: rc.cpp:663
-#: rc.cpp:2133
+#: rc.cpp:666
+#: rc.cpp:2584
+#: rc.cpp:4063
 msgid "Video Codecs"
 msgstr "Slikovni kodeki"
 
@@ -5376,13 +6137,14 @@ msgstr "Slikovni kodeki"
 msgid "Video Only"
 msgstr "Samo slika"
 
-#: rc.cpp:1919
-#: rc.cpp:3389
+#: rc.cpp:3846
+#: rc.cpp:5325
 msgid "Video Profile"
 msgstr "Video-profil"
 
-#: rc.cpp:1467
-#: rc.cpp:2937
+#: rc.cpp:1476
+#: rc.cpp:3394
+#: rc.cpp:4873
 msgid "Video Resolution"
 msgstr "Ločljivost videa"
 
@@ -5396,61 +6158,72 @@ msgstr "Video standard"
 msgid "Video clip"
 msgstr "Videoposnetek"
 
-#: rc.cpp:1701
-#: rc.cpp:3171
+#: rc.cpp:1710
+#: rc.cpp:3628
+#: rc.cpp:5107
 msgid "Video codec"
 msgstr "Kodek videa"
 
-#: rc.cpp:1236
-#: rc.cpp:2706
+#: rc.cpp:1245
+#: rc.cpp:3163
+#: rc.cpp:4642
 msgid "Video device"
 msgstr "Slikovna naprava"
 
-#: rc.cpp:1149
-#: rc.cpp:2619
+#: rc.cpp:1152
+#: rc.cpp:3070
+#: rc.cpp:4549
 msgid "Video driver:"
 msgstr "Gonilnik za video:"
 
-#: rc.cpp:1806
-#: rc.cpp:3276
+#: rc.cpp:1815
+#: rc.cpp:3733
+#: rc.cpp:5212
 msgid "Video index"
 msgstr "Video kazalo"
 
-#: src/customtrackview.cpp:4824
+#: src/customtrackview.cpp:4935
 msgid "Video only"
 msgstr "Samo slika"
 
-#: rc.cpp:1044
-#: rc.cpp:2514
+#: rc.cpp:1047
+#: rc.cpp:2965
+#: rc.cpp:4444
 msgid "Video player"
 msgstr "Predvajalnik videa"
 
-#: rc.cpp:1062
-#: rc.cpp:2532
+#: rc.cpp:1065
+#: rc.cpp:2983
+#: rc.cpp:4462
 msgid "Video track"
 msgstr "Slikovna sled"
 
-#: rc.cpp:1434
-#: rc.cpp:1952
-#: rc.cpp:2904
-#: rc.cpp:3422
+#: rc.cpp:1443
+#: rc.cpp:3361
+#: rc.cpp:3879
+#: rc.cpp:4840
+#: rc.cpp:5358
 msgid "Video tracks"
 msgstr "Video sledi"
 
-#: rc.cpp:681
-#: rc.cpp:1200
-#: rc.cpp:1230
-#: rc.cpp:2151
-#: rc.cpp:2670
-#: rc.cpp:2700
+#: rc.cpp:684
+#: rc.cpp:1203
+#: rc.cpp:1239
+#: rc.cpp:2602
+#: rc.cpp:3121
+#: rc.cpp:3157
+#: rc.cpp:4081
+#: rc.cpp:4600
+#: rc.cpp:4636
 msgid "Video4Linux"
 msgstr "Video4Linux"
 
-#: rc.cpp:3524
+#: rc.cpp:5460
 msgid "View"
 msgstr "Pogled"
 
 #: rc.cpp:311
+#: rc.cpp:2229
 msgid "Vinyl"
 msgstr "Vinil"
 
@@ -5459,34 +6232,39 @@ msgid "Virtual clip"
 msgstr "Navidezni posnetek"
 
 #: rc.cpp:519
+#: rc.cpp:2437
 msgid "Volume (keyframable)"
 msgstr "Glasnost (s ključnimi točkami)"
 
-#: rc.cpp:1521
-#: rc.cpp:2991
+#: rc.cpp:1530
+#: rc.cpp:3448
+#: rc.cpp:4927
 msgid "W"
 msgstr "W"
 
-#: src/renderwidget.cpp:788
-#: src/renderwidget.cpp:1362
-#: src/renderwidget.cpp:1551
+#: src/renderwidget.cpp:795
+#: src/renderwidget.cpp:1373
+#: src/renderwidget.cpp:1562
 msgid "Waiting..."
 msgstr "Čakanje ..."
 
-#: rc.cpp:1146
-#: rc.cpp:2616
+#: rc.cpp:1149
+#: rc.cpp:3067
+#: rc.cpp:4546
 msgid "Warning: changes to the drivers and devices can make Kdenlive unstable. Change only if you know what you do."
 msgstr "Opozorilo: sprememba gonilnikov in naprav lahko povzroči nestabilnost programa Kdenlive. Spremenite le, če dobro veste, kaj počnete."
 
 #: rc.cpp:525
+#: rc.cpp:2443
 msgid "Wave"
 msgstr "Valovanje"
 
 #: rc.cpp:323
+#: rc.cpp:2241
 msgid "Wear"
 msgstr "Oguli"
 
-#: src/renderwidget.cpp:1098
+#: src/renderwidget.cpp:1109
 msgid "Web sites"
 msgstr "Spletna mesta"
 
@@ -5495,30 +6273,38 @@ msgid "Welcome"
 msgstr "Dobrodošli"
 
 #: rc.cpp:130
+#: rc.cpp:2048
 msgid "White Balance"
 msgstr "Uravnoteženje beline"
 
 #: rc.cpp:413
-#: rc.cpp:876
-#: rc.cpp:1539
-#: rc.cpp:2346
-#: rc.cpp:3009
+#: rc.cpp:879
+#: rc.cpp:1548
+#: rc.cpp:2331
+#: rc.cpp:2797
+#: rc.cpp:3466
+#: rc.cpp:4276
+#: rc.cpp:4945
 msgid "Width"
 msgstr "Širina"
 
 #: rc.cpp:493
+#: rc.cpp:2411
 msgid "Window"
 msgstr "Okno"
 
-#: rc.cpp:1365
-#: rc.cpp:1752
-#: rc.cpp:2835
-#: rc.cpp:3222
+#: rc.cpp:1374
+#: rc.cpp:1761
+#: rc.cpp:3292
+#: rc.cpp:3679
+#: rc.cpp:4771
+#: rc.cpp:5158
 msgid "Wipe"
 msgstr "Zavesa"
 
-#: rc.cpp:870
-#: rc.cpp:2340
+#: rc.cpp:873
+#: rc.cpp:2791
+#: rc.cpp:4270
 msgid "X"
 msgstr "X"
 
@@ -5534,12 +6320,14 @@ msgstr "XFREE86 DGA 2.0"
 msgid "XVideo"
 msgstr "XVideo"
 
-#: rc.cpp:873
-#: rc.cpp:2343
+#: rc.cpp:876
+#: rc.cpp:2794
+#: rc.cpp:4273
 msgid "Y"
 msgstr "Y"
 
 #: rc.cpp:315
+#: rc.cpp:2233
 msgid "Year"
 msgstr "Leto"
 
@@ -5563,44 +6351,52 @@ msgstr[3] ""
 "V vrsti čakajo %1 posli upodabljanja.\n"
 "Kaj želite storiti z njimi?"
 
-#: src/kdenlivedoc.cpp:609
+#: src/kdenlivedoc.cpp:600
 msgid "You have changed the project folder. Do you want to copy the cached data from %1 to the new folder %2?"
 msgstr "Spremenili ste mapo projekta. Želite kopirati pomnjene podatke iz %1 v novo mapo %2?"
 
-#: src/customtrackview.cpp:2194
+#: src/customtrackview.cpp:2274
 msgid "You must be in an empty space to remove space (time: %1, track: %2)"
 msgstr "Da bi odstranili praznino, morate biti v praznini (čas=%1, sled: %2)"
 
-#: src/customtrackview.cpp:2200
+#: src/customtrackview.cpp:2280
 msgid "You must be in an empty space to remove space (time: %1, track:%2)"
 msgstr "Da bi odstranili praznino, morate biti v praznini (čas: %1, sled: %2)"
 
-#: src/customtrackview.cpp:4282
+#: src/customtrackview.cpp:4390
 msgid "You must copy exactly one clip before pasting effects"
 msgstr "Pred lepljenjem učinkov morate kopirati natanko en posnetek"
 
-#: src/customtrackview.cpp:4364
-#: src/customtrackview.cpp:4395
-#: src/customtrackview.cpp:4725
-#: src/customtrackview.cpp:4820
-#: src/customtrackview.cpp:4845
-#: src/customtrackview.cpp:4870
+#: src/customtrackview.cpp:4472
+#: src/customtrackview.cpp:4503
+#: src/customtrackview.cpp:4833
+#: src/customtrackview.cpp:4931
+#: src/customtrackview.cpp:4956
+#: src/customtrackview.cpp:4981
 msgid "You must select one clip for this action"
 msgstr "Za to dejanje morate izbrati en posnetek"
 
-#: src/customtrackview.cpp:4622
+#: src/customtrackview.cpp:4730
 msgid "You must select one transition for this action"
 msgstr "Za to dejanje morate izbrati en prehod"
 
-#: src/dvdwizard.cpp:608
+#: src/dvdwizard.cpp:609
 msgid "You need program <b>%1</b> to perform this action"
 msgstr "Za izvedbo tega dejanja potrebujete program <b>%1</b>"
+
+#: src/recmonitor.cpp:167
+msgid "You need to disconnect and reconnect in the capture monitor to apply your changes"
+msgstr "Za uveljavitev sprememb morate odklopiti in ponovno povezati monitor zajemanja"
+
+#: src/recmonitor.cpp:168
+msgid "You need to stop capture before your changes can be applied"
+msgstr "Preden bodo spremembe uveljavljene, morate prenehati z zajemanjem"
 
 #: src/wizard.cpp:51
 msgid "Your Kdenlive version was upgraded to version %1. Please take some time to review the basic settings"
 msgstr "Vaš Kdenlive je bil nadgrajen z novejšo različico %1. Vzemite si nekaj časa, da si ogledate osnovne nastavitve"
 
-#: src/wizard.cpp:521
+#: src/wizard.cpp:526
 msgid "Your MLT installation cannot be found. Install MLT and restart Kdenlive.\n"
 msgstr "Vaše namestitve MLT ni mogoče najti. Namestite MLT in ponovno zaženite Kdenlive.\n"
 
@@ -5608,7 +6404,19 @@ msgstr "Vaše namestitve MLT ni mogoče najti. Namestite MLT in ponovno zaženit
 msgid "Your MLT version is unsupported!!!"
 msgstr "Vaša različica MLT ni podprta!"
 
-#: src/kdenlivedoc.cpp:683
+#: src/trackview.cpp:398
+msgid "Your project file was upgraded to the latest Kdenlive document version, it was not possible to create a backup copy."
+msgstr "Vaša projektna datoteka je bila posodobljena na najnovejšo različico dokumentov Kdenlive, varnostne kopije ni bilo mogoče ustvariti."
+
+#: src/trackview.cpp:397
+msgid ""
+"Your project file was upgraded to the latest Kdenlive document version.\n"
+" To make sure you don't loose data, a backup copy called: %1 was created."
+msgstr ""
+"Vaša projektna datoteka je bila posodobljena na najnovejšo različico dokumentov Kdenlive.\n"
+"V izogib izgubi podatkov je bila ustvarjena varnostna kopija z naslednjim imenom: %1"
+
+#: src/kdenlivedoc.cpp:674
 msgid ""
 "Your project uses an unknown profile.\n"
 "It uses an existing profile name: %1.\n"
@@ -5618,24 +6426,25 @@ msgstr ""
 "Uporablja pa ime obstoječega profila: %1.\n"
 "Če ga želite shraniti, izberite drugo ime."
 
-#: rc.cpp:1527
-#: rc.cpp:2997
+#: rc.cpp:1536
+#: rc.cpp:3454
+#: rc.cpp:4933
 msgid "Z-Index:"
 msgstr "Z-kazalo:"
 
-#: src/customruler.cpp:174
+#: src/customruler.cpp:197
 msgid "Zone duration: %1"
 msgstr "Trajanje območja: %1"
 
-#: src/customruler.cpp:171
+#: src/customruler.cpp:194
 msgid "Zone end: %1"
 msgstr "Konec območja: %1"
 
-#: src/customruler.cpp:168
+#: src/customruler.cpp:191
 msgid "Zone start: %1"
 msgstr "Začetek območja: %1"
 
-#: src/titlewidget.cpp:174
+#: src/titlewidget.cpp:175
 msgid "Zoom"
 msgstr "Povečava"
 
@@ -5648,19 +6457,21 @@ msgid "Zoom Out"
 msgstr "Pomanjšaj"
 
 #: rc.cpp:217
+#: rc.cpp:2135
 msgid "Zoom Rate"
 msgstr "Korak povečave"
 
-#: rc.cpp:1575
-#: rc.cpp:3045
+#: rc.cpp:1584
+#: rc.cpp:3502
+#: rc.cpp:4981
 msgid "Zoom:"
 msgstr "Povečava:"
 
-#: src/titlewidget.cpp:1074
+#: src/titlewidget.cpp:1075
 msgid "\\u2212X"
 msgstr "\\u2212X"
 
-#: src/titlewidget.cpp:1099
+#: src/titlewidget.cpp:1100
 msgid "\\u2212Y"
 msgstr "\\u2212Y"
 
@@ -5680,26 +6491,40 @@ msgstr ""
 "_: NAME OF TRANSLATORS\n"
 "Martin Srebotnjak"
 
-#: rc.cpp:1059
-#: rc.cpp:2529
+#: rc.cpp:1062
+#: rc.cpp:2980
+#: rc.cpp:4459
 msgid "after"
 msgstr "po"
 
-#: rc.cpp:1056
-#: rc.cpp:2526
+#: rc.cpp:1059
+#: rc.cpp:2977
+#: rc.cpp:4456
 msgid "before"
 msgstr "Pred"
 
-#: rc.cpp:990
-#: rc.cpp:2460
+#: rc.cpp:993
+#: rc.cpp:2911
+#: rc.cpp:4390
 msgid "create new points"
 msgstr "Ustvari nove točke"
 
 #: src/dvdwizardvob.cpp:55
+#: src/wizard.cpp:333
 msgid "dvdauthor"
 msgstr "dvdauthor"
 
-#: src/recmonitor.cpp:209
+#: src/wizard.cpp:326
+msgid "dvgrab"
+msgstr "dvgrab"
+
+#: rc.cpp:1236
+#: rc.cpp:3154
+#: rc.cpp:4633
+msgid "dvgrab additional parameters"
+msgstr "Dodatni parametri za dvgrab"
+
+#: src/recmonitor.cpp:216
 msgid ""
 "dvgrab utility not found,\n"
 " please install it for firewire capture"
@@ -5713,8 +6538,8 @@ msgstr "dvgrab različice %1 pri %2"
 
 #: src/editeffectcommand.cpp:39
 #: src/edittransitioncommand.cpp:35
-#: src/customtrackview.cpp:1410
-#: src/customtrackview.cpp:1454
+#: src/customtrackview.cpp:1465
+#: src/customtrackview.cpp:1509
 #: src/addeffectcommand.cpp:37
 msgid "effect"
 msgstr "učinek"
@@ -5722,6 +6547,14 @@ msgstr "učinek"
 #: src/timecode.cpp:159
 msgid "frames"
 msgstr "sličic"
+
+#: src/dvdwizardvob.cpp:56
+msgid "genisoimage"
+msgstr "genisoimage"
+
+#: src/wizard.cpp:340
+msgid "genisoimage or mkisofs"
+msgstr "genisoimage ali mkisofs"
 
 #: src/clipproperties.cpp:165
 #: src/mainwindow.cpp:676
@@ -5750,32 +6583,40 @@ msgstr "min."
 msgid "mkisofs"
 msgstr "mkisofs"
 
-#: rc.cpp:972
-#: rc.cpp:2442
+#: rc.cpp:975
+#: rc.cpp:2893
+#: rc.cpp:4372
 msgid "move on X axis"
 msgstr "Premakni po osi X"
 
-#: rc.cpp:978
-#: rc.cpp:2448
+#: rc.cpp:981
+#: rc.cpp:2899
+#: rc.cpp:4378
 msgid "move on Y axis"
 msgstr "Premakni po osi Y"
 
-#: rc.cpp:1254
-#: rc.cpp:2724
+#: rc.cpp:1263
+#: rc.cpp:3181
+#: rc.cpp:4660
 msgid "oss"
 msgstr "OSS"
 
-#: rc.cpp:999
-#: rc.cpp:2469
+#: rc.cpp:1002
+#: rc.cpp:2920
+#: rc.cpp:4399
 msgid "parameter description"
 msgstr "Opis parametra"
+
+#: src/wizard.cpp:320
+msgid "recordmydesktop"
+msgstr "recordmydesktop"
 
 #: src/mainwindow.cpp:694
 msgctxt "Selection tool shortcut"
 msgid "s"
 msgstr "s"
 
-#: src/renderwidget.cpp:1664
+#: src/renderwidget.cpp:1675
 msgid "script"
 msgstr "Skript"
 
@@ -5783,31 +6624,35 @@ msgstr "Skript"
 msgid "sec."
 msgstr "s"
 
-#: src/abstractclipitem.cpp:268
+#: src/abstractclipitem.cpp:273
 msgid "seconds"
 msgstr "sekund"
 
 #: rc.cpp:608
-#: rc.cpp:2078
+#: rc.cpp:2526
+#: rc.cpp:4005
 msgid "to"
 msgstr "do"
 
-#: src/renderwidget.cpp:1023
+#: src/renderwidget.cpp:1034
 msgid "untitled"
 msgstr "neimenovano"
 
-#: rc.cpp:984
-#: rc.cpp:2454
+#: rc.cpp:987
+#: rc.cpp:2905
+#: rc.cpp:4384
 msgid "update values in timeline"
 msgstr "Posodobi vrednosti na časovnici"
 
-#: rc.cpp:1257
-#: rc.cpp:2727
+#: rc.cpp:1266
+#: rc.cpp:3184
+#: rc.cpp:4663
 msgid "video4linux2"
 msgstr "Video4Linux2"
 
-#: rc.cpp:933
-#: rc.cpp:2403
+#: rc.cpp:936
+#: rc.cpp:2854
+#: rc.cpp:4333
 msgid "with track"
 msgstr "s sledjo"
 
@@ -5816,13 +6661,22 @@ msgctxt "Razor tool shortcut"
 msgid "x"
 msgstr "x"
 
-#: rc.cpp:780
-#: rc.cpp:2250
+#: rc.cpp:783
+#: rc.cpp:2701
+#: rc.cpp:4180
 msgid "x"
 msgstr "X"
 
-#: rc.cpp:1635
-#: rc.cpp:3105
+#: rc.cpp:1644
+#: rc.cpp:3562
+#: rc.cpp:5041
 msgid "x1"
 msgstr "x1"
+
+#~ msgid "Dvdauthor"
+#~ msgstr "Dvdauthor"
+#~ msgid "Loading project clips"
+#~ msgstr "Nalaganje posnetkov projekta"
+#~ msgid "Mkisofs"
+#~ msgstr "Mkisofs"
 
