@@ -382,7 +382,8 @@ void Geometryval::slotAddFrame(int pos)
     if (pos == -1) pos = spinPos->value();
     Mlt::GeometryItem item;
     item.frame(pos);
-    QRectF r = m_paramRect->sceneBoundingRect().normalized();
+    QRectF r = m_paramRect->rect().normalized();
+
     item.x(r.left() / m_dar);
     item.y(r.top());
     item.w(r.width() / m_dar);
@@ -514,7 +515,7 @@ void Geometryval::slotUpdateTransitionProperties()
         // no keyframe under cursor
         return;
     }
-    QRectF r = m_paramRect->sceneBoundingRect().normalized();
+    QRectF r = m_paramRect->rect().normalized();
     item.x(r.left() / m_dar);
     item.y(r.top());
     item.w(r.width() / m_dar);
@@ -533,7 +534,7 @@ void Geometryval::slotGeometry()
         // no keyframe under cursor
         return;
     }
-    QRectF r = m_paramRect->sceneBoundingRect().normalized();
+    QRectF r = m_paramRect->rect().normalized();
 
     QDialog d(this);
     m_view.setupUi(&d);
