@@ -1574,6 +1574,10 @@ void CustomTrackView::slotDeleteEffect(ClipItem *clip, QDomElement effect)
 
 void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedEffect, int ix, bool triggeredByUser)
 {
+    if (insertedEffect.isNull()) {
+        emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
+        return;
+    }
     ClipItem *clip = getClipItemAt((int)pos.frames(m_document->fps()), m_document->tracksCount() - track);
     QDomElement effect = insertedEffect.cloneNode().toElement();
     if (clip) {
