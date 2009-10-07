@@ -1274,7 +1274,7 @@ QDomElement ClipItem::getEffectAt(int ix) const
 
 void ClipItem::setEffectAt(int ix, QDomElement effect)
 {
-    if (ix < 0 || ix > (m_effectList.count() - 1)) {
+    if (ix < 0 || ix > (m_effectList.count() - 1) || effect.isNull()) {
         kDebug() << "Invalid effect index: " << ix;
         return;
     }
