@@ -383,9 +383,9 @@ void Geometryval::slotAddFrame(int pos)
     Mlt::GeometryItem item;
     item.frame(pos);
     QRectF r = m_paramRect->rect().normalized();
-
-    item.x(r.left() / m_dar);
-    item.y(r.top());
+    QPointF rectpos = m_paramRect->pos();
+    item.x(rectpos.x() / m_dar);
+    item.y(rectpos.y());
     item.w(r.width() / m_dar);
     item.h(r.height());
     item.mix(spinTransp->value());
@@ -516,8 +516,9 @@ void Geometryval::slotUpdateTransitionProperties()
         return;
     }
     QRectF r = m_paramRect->rect().normalized();
-    item.x(r.left() / m_dar);
-    item.y(r.top());
+    QPointF rectpos = m_paramRect->pos();
+    item.x(rectpos.x() / m_dar);
+    item.y(rectpos.y());
     item.w(r.width() / m_dar);
     item.h(r.height());
     m_geom->insert(item);
