@@ -2048,15 +2048,12 @@ int Render::mltChangeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, dou
             slowprod->set("id", tmp);
             delete[] tmp;
             // copy producer props
-            tmp = original->parent().get("force_aspect_ratio");
-            if (tmp != NULL) slowprod->set("force_aspect_ratio", tmp);
-            delete[] tmp;
-            tmp = original->parent().get("threads");
-            if (tmp != NULL) slowprod->set("threads", tmp);
-            delete[] tmp;
-            tmp = original->parent().get("video_index");
-            if (tmp != NULL) slowprod->set("video_index", tmp);
-            delete[] tmp;
+            double ar = original->parent().get_double("force_aspect_ratio");
+            if (ar != 0.0) slowprod->set("force_aspect_ratio", ar);
+            int threads = original->parent().get_int("threads");
+            if (threads != 0) slowprod->set("threads", threads);
+            int ix = original->parent().get_int("video_index");
+            if (ix != 0) slowprod->set("video_index", ix);
             m_slowmotionProducers.insert(url, slowprod);
         }
         Mlt::Producer *clip = trackPlaylist.replace_with_blank(clipIndex);
@@ -2124,15 +2121,12 @@ int Render::mltChangeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, dou
             slowprod->set("id", tmp);
             delete[] tmp;
             // copy producer props
-            tmp = original->parent().get("force_aspect_ratio");
-            if (tmp != NULL) slowprod->set("force_aspect_ratio", tmp);
-            delete[] tmp;
-            tmp = original->parent().get("threads");
-            if (tmp != NULL) slowprod->set("threads", tmp);
-            delete[] tmp;
-            tmp = original->parent().get("video_index");
-            if (tmp != NULL) slowprod->set("video_index", tmp);
-            delete[] tmp;
+            double ar = original->parent().get_double("force_aspect_ratio");
+            if (ar != 0.0) slowprod->set("force_aspect_ratio", ar);
+            int threads = original->parent().get_int("threads");
+            if (threads != 0) slowprod->set("threads", threads);
+            int ix = original->parent().get_int("video_index");
+            if (ix != 0) slowprod->set("video_index", ix);
             m_slowmotionProducers.insert(url, slowprod);
         }
         Mlt::Producer *clip = trackPlaylist.replace_with_blank(clipIndex);
@@ -2895,34 +2889,39 @@ bool Render::mltMoveTransition(QString type, int startTrack, int newTrack, int n
     int new_out = (int)newOut.frames(m_fps) - 1;
     if (new_in >= new_out) return false;
 
-    mlt_service serv = m_mltProducer->parent().get_service();
+    Mlt::Service service(m_mltProducer->parent().get_service());
+    Mlt::Tractor tractor(service);
+    Mlt::Field *field = tractor.field();
+
     m_isBlocked++;
-    mlt_service_lock(serv);
-    //m_mltConsumer->set("refresh", 0);
+    mlt_service_lock(service.get_service());
 
-
-    mlt_service nextservice = mlt_service_get_producer(serv);
+    mlt_service nextservice = mlt_service_get_producer(service.get_service());
     mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
     QString mlt_type = mlt_properties_get(properties, "mlt_type");
     QString resource = mlt_properties_get(properties, "mlt_service");
     int old_pos = (int)(oldIn.frames(m_fps) + oldOut.frames(m_fps)) / 2;
+    bool found = false;
 
     while (mlt_type == "transition") {
-        mlt_transition tr = (mlt_transition) nextservice;
-        int currentTrack = mlt_transition_get_b_track(tr);
-        int currentIn = (int) mlt_transition_get_in(tr);
-        int currentOut = (int) mlt_transition_get_out(tr);
-
+        Mlt::Transition transition((mlt_transition) nextservice);
+        int currentTrack = transition.get_b_track();
+        int currentIn = (int) transition.get_in();
+        int currentOut = (int) transition.get_out();
+        
         if (resource == type && startTrack == currentTrack && currentIn <= old_pos && currentOut >= old_pos) {
-            mlt_transition_set_in_and_out(tr, new_in, new_out);
+            found = true;
             if (newTrack - startTrack != 0) {
-                //kDebug() << "///// TRANSITION CHANGE TRACK. CUrrent (b): " << currentTrack << 'x' << mlt_transition_get_a_track(tr) << ", NEw: " << newTrack << 'x' << newTransitionTrack;
-
-                mlt_properties properties = MLT_TRANSITION_PROPERTIES(tr);
-                mlt_properties_set_int(properties, "a_track", newTransitionTrack);
-                mlt_properties_set_int(properties, "b_track", newTrack);
-                //kDebug() << "set new start & end :" << new_in << new_out<< "TR OFFSET: "<<trackOffset<<", TRACKS: "<<mlt_transition_get_a_track(tr)<<'x'<<mlt_transition_get_b_track(tr);
-            }
+                Mlt::Properties trans_props(transition.get_properties());
+                char *tmp = decodedString(transition.get("mlt_service"));
+                Mlt::Transition new_transition(*m_mltProfile, tmp);
+                delete[] tmp;
+                Mlt::Properties new_trans_props(new_transition.get_properties());
+                new_trans_props.inherit(trans_props);
+                new_transition.set_in_and_out(new_in, new_out);
+                field->disconnect_service(transition);
+                field->plant_transition(new_transition, newTransitionTrack, newTrack);
+            } else transition.set_in_and_out(new_in, new_out);
             break;
         }
         nextservice = mlt_service_producer(nextservice);
@@ -2931,11 +2930,11 @@ bool Render::mltMoveTransition(QString type, int startTrack, int newTrack, int n
         mlt_type = mlt_properties_get(properties, "mlt_type");
         resource = mlt_properties_get(properties, "mlt_service");
     }
-    mlt_service_unlock(serv);
+    mlt_service_unlock(service.get_service());
     m_isBlocked--;
     refresh();
     //if (m_isBlocked == 0) m_mltConsumer->set("refresh", 1);
-    return true;
+    return found;
 }
 
 void Render::mltUpdateTransition(QString oldTag, QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml)

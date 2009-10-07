@@ -2712,7 +2712,6 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
             }
             if (m_dragItem->type() == TRANSITIONWIDGET && (m_dragItemInfo.startPos != info.startPos || m_dragItemInfo.track != info.track)) {
                 Transition *transition = static_cast <Transition *>(m_dragItem);
-                int transitionTrack;
                 transition->updateTransitionEndTrack(getPreviousVideoTrack(m_dragItem->track()));
                 if (!m_document->renderer()->mltMoveTransition(transition->transitionTag(), (int)(m_document->tracksCount() - m_dragItemInfo.track), (int)(m_document->tracksCount() - m_dragItem->track()), transition->transitionEndTrack(), m_dragItemInfo.startPos, m_dragItemInfo.endPos, info.startPos, info.endPos)) {
                     // Moving transition failed, revert to previous position
@@ -2721,7 +2720,6 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                 } else {
                     MoveTransitionCommand *command = new MoveTransitionCommand(this, m_dragItemInfo, info, false);
                     m_commandStack->push(command);
-                    transition->updateTransitionEndTrack(transitionTrack);
                 }
             }
         } else {
