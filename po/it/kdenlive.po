@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-10-01 23:51+0200\n"
-"PO-Revision-Date: 2009-10-06 15:20+0200\n"
+"PO-Revision-Date: 2009-10-07 01:23+0200\n"
 "Last-Translator: Tore Brigaglia <opensourcecat@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -169,7 +169,7 @@ msgstr ""
 "anche chiamati sergenti, caporali o virgolette. Sono usati in differenti "
 "paesi: Francia (con spazio senza interruzione 0x00a0), Svizzera, Germania, "
 "Finlandia e Svezia.</p><p><strong>&lsaquo;</strong> e <strong>&rsaquo;</"
-"strong> (U+2039/203a, <code>&amp;lsaquo;/&amp;rsaquo;</code>) costituiscolo "
+"strong> (U+2039/203a, <code>&amp;lsaquo;/&amp;rsaquo;</code>) costituiscono "
 "l'equivalente singolo alle doppie virgolette.</p><p>Vedi anche, in inglese, "
 "<a href=\"http://en.wikipedia.org/wiki/Guillemets\">Wikipedia:Guillemets</"
 "a></p>"
@@ -248,13 +248,13 @@ msgstr ""
 msgid "<strong>Program %1 is required for the DVD wizard.</strong>"
 msgstr ""
 "<strong>Il programma %1 è necessario per la procedura guidata di creazione "
-"DVD</strog>"
+"DVD</strong>"
 
 #: src/dvdwizardvob.cpp:56
 msgid "<strong>Program %1 or %2 is required for the DVD wizard.</strong>"
 msgstr ""
-"<strong>Uno deo programmi %1 o %2 è necessario per la procedura guidata di creazione "
-"DVD</strog>"
+"<strong>Uno dei programmi %1 o %2 è necessario per la procedura guidata di creazione "
+"DVD</strong>"
 
 #: src/renderwidget.cpp:1422
 msgid "<strong>Rendering of %1 crashed</strong><br />"
@@ -1105,7 +1105,7 @@ msgid ""
 msgstr ""
 "Il cambiamento del profilo del progetto non può essere annullato.\n"
 "È consigliato un salvataggio del progetto prima di applicare il cambiamento poiché "
-"questa operazione potrebbe causare alcune correzioni nelle transizioni. "
+"questa operazione potrebbe causare alcune corruzioni nelle transizioni. "
 "Sei sicuro di voler proseguire?"
 
 #: rc.cpp:395 rc.cpp:2313
@@ -1354,7 +1354,7 @@ msgstr "Contrasto"
 
 #: rc.cpp:149 rc.cpp:2067
 msgid "Contrast0r"
-msgstr ""
+msgstr "Contrast0r"
 
 #: src/unicodedialog.cpp:126
 msgid ""
@@ -2523,7 +2523,7 @@ msgstr "Guide"
 
 #: rc.cpp:1533 rc.cpp:3451 rc.cpp:4930
 msgid "H"
-msgstr "H"
+msgstr "L"
 
 #: rc.cpp:1224 rc.cpp:1482 rc.cpp:3142 rc.cpp:3400 rc.cpp:4621 rc.cpp:4879
 msgid "HDV"
@@ -2575,7 +2575,7 @@ msgstr "Moltiplicatore orizzontale"
 
 #: rc.cpp:36 rc.cpp:1954
 msgid "Horizontal scatter"
-msgstr "Horizontal scatter"
+msgstr "Segni orizzontali"
 
 #: rc.cpp:548 rc.cpp:2466 rc.cpp:3945
 msgid "I"
@@ -2838,7 +2838,7 @@ msgstr "Limitatore"
 
 #: src/unicodedialog.cpp:128
 msgid "Line Feed (newline character, \\\\n)"
-msgstr "Interruzionde di linea (carattere di nuova linea, \\\\n)"
+msgstr "Interruzione di linea (carattere di nuova linea, \\\\n)"
 
 #: rc.cpp:247 rc.cpp:2165
 msgid "Lo gain"
@@ -2898,7 +2898,7 @@ msgstr "M"
 
 #: src/main.cpp:39
 msgid "MLT Connection, Transition, Effect, Timeline Developer"
-msgstr "Interfacciamento con MLT,  Transizioni, Effetti,  Sviluppatore della TimeLine"
+msgstr "Interfacciamento con MLT,  Transizioni, Effetti,  Sviluppatore della Timeline"
 
 #: rc.cpp:1011 rc.cpp:2929 rc.cpp:4408
 msgid "MLT environment"
@@ -3567,7 +3567,7 @@ msgstr "Profilo di progetto non trovato, sarà aggiunto al tuo sistema."
 
 #: src/kdenlivedoc.cpp:653
 msgid "Project profile was not found, using default profile."
-msgstr "Profilo di progetto non trovato, utilizzo il profilo oredefinito."
+msgstr "Profilo di progetto non trovato, utilizzo il profilo predefinito."
 
 #: rc.cpp:774 rc.cpp:2692 rc.cpp:4171
 msgid "Properties"
@@ -4252,7 +4252,7 @@ msgid ""
 "they were first created on, or you could have to adjust their size."
 msgstr ""
 "Alcune delle clip sono state salvate con le dimensioni in punti (come unità "
-"di misura), il chè significa che queste avranno una dimensione differente su "
+"di misura), il che significa che queste avranno una dimensione differente su "
 "diversi tipi di display. Vuoi convertire queste misure in pixel, rendendole "
 "universali? Questa operazione è raccomandata solo nel computer nel quale le "
 "clip interessate sono state create, altrimenti si potrebbe verificare le "
@@ -4463,11 +4463,11 @@ msgstr "Modelli"
 
 #: src/projectitem.cpp:203
 msgid "Template text clip"
-msgstr ""
+msgstr "Modello di clip di testo"
 
 #: src/kdenlivedoc.cpp:1093
 msgid "Template title clip"
-msgstr ""
+msgstr "Modello di clip di testo"
 
 #: rc.cpp:969 rc.cpp:2887 rc.cpp:4366
 msgid "Temporary data folder"
@@ -4659,7 +4659,7 @@ msgstr "Profilo di titolo"
 
 #: src/kdenlivedoc.cpp:1076
 msgid "Title clip"
-msgstr "Titolatrice"
+msgstr "Clip di testo"
 
 #: rc.cpp:1518 rc.cpp:3436 rc.cpp:4915
 msgid "Toggle selection"
@@ -4691,7 +4691,7 @@ msgstr "Converti"
 
 #: src/cliptranscode.cpp:35
 msgid "Transcode Clip"
-msgstr "Converti la clip"
+msgstr "Convertitore di clip"
 
 #: src/mainwindow.cpp:882
 msgid "Transcode Clips"
@@ -4833,7 +4833,7 @@ msgstr "Centratura in verticale"
 
 #: rc.cpp:533 rc.cpp:2451
 msgid "Vertical factor"
-msgstr "Vertical factor"
+msgstr "Fattore verticale"
 
 #: rc.cpp:20 rc.cpp:1938
 msgid "Vertical multiplicator"
@@ -4841,7 +4841,7 @@ msgstr "Vertical multiplicator"
 
 #: rc.cpp:38 rc.cpp:1956
 msgid "Vertical scatter"
-msgstr "Vertical scatter"
+msgstr "Segni verticali"
 
 #: rc.cpp:209 rc.cpp:2127
 msgid "Vertigo"
@@ -4933,7 +4933,7 @@ msgstr "Volume (con fotogramma chiave)"
 
 #: rc.cpp:1530 rc.cpp:3448 rc.cpp:4927
 msgid "W"
-msgstr "W"
+msgstr "L"
 
 #: src/renderwidget.cpp:795 src/renderwidget.cpp:1373
 #: src/renderwidget.cpp:1562
@@ -5106,7 +5106,7 @@ msgid ""
 "Please choose a new name to save it"
 msgstr ""
 "Il progetto utilizza un profilo sconosciuto.\n"
-"Utilizza unnome di profilo già esistente: %1.\n"
+"Utilizza un nome di profilo già esistente: %1.\n"
 "Scegliere un nuovo nome per salvarlo"
 
 #: rc.cpp:1536 rc.cpp:3454 rc.cpp:4933
@@ -5302,7 +5302,6 @@ msgid "with track"
 msgstr "con la traccia"
 
 #: src/mainwindow.cpp:700
-#, fuzzy
 msgctxt "Razor tool shortcut"
 msgid "x"
 msgstr "x"
