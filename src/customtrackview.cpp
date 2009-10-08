@@ -323,7 +323,7 @@ void CustomTrackView::slotCheckPositionScrolling()
 void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
 {
     int pos = event->x();
-    int mappedXPos = (int)(mapToScene(event->pos()).x() + 0.5);
+    int mappedXPos = qMax((int)(mapToScene(event->pos()).x() + 0.5), 0);
     double snappedPos = getSnapPointForPos(mappedXPos);
     emit mousePosition(mappedXPos);
 
@@ -3650,18 +3650,15 @@ void CustomTrackView::moveGroup(QList <ItemInfo> startClip, QList <ItemInfo> sta
                 else if (clip->isVideoOnly()) prod = clip->baseClip()->videoProducer();
                 else prod = clip->baseClip()->producer(info.track);
                 m_document->renderer()->mltInsertClip(info, clip->xml(), prod);
-                kDebug() << "// inserting new clp: " << info.startPos.frames(25);
             } else if (item->type() == TRANSITIONWIDGET) {
                 Transition *tr = static_cast <Transition*>(item);
                 int newTrack;
-                kDebug() << "/// TRANSITION CURR TRK: " << newTrack;
                 if (!tr->forcedTrack()) newTrack = getPreviousVideoTrack(info.track);
                 else {
                     newTrack = tr->transitionEndTrack() + trackOffset;
                     if (newTrack < 0 || newTrack > m_document->tracksCount()) newTrack = getPreviousVideoTrack(info.track);
                 }
                 tr->updateTransitionEndTrack(newTrack);
-                kDebug() << "/// TRANSITION UPDATED TRK: " << newTrack;
                 m_document->renderer()->mltAddTransition(tr->transitionTag(), newTrack, m_document->tracksCount() - info.track, info.startPos, info.endPos, tr->toXML());
             }
         }
@@ -4594,8 +4591,8 @@ void CustomTrackView::slotUpdateAllThumbs()
                 } else {
                     QString startThumb = thumbBase + item->baseClip()->getClipHash() + '_';
                     QString endThumb = startThumb;
-                    startThumb.append(QString::number(item->cropStart().frames(m_document->fps())) + ".png");
-                    endThumb.append(QString::number((item->cropStart() + item->cropDuration()).frames(m_document->fps()) - 1) + ".png");
+                    startThumb.append(QString::number(item->speedIndependantCropStart().frames(m_document->fps())) + ".png");
+                    endThumb.append(QString::number((item->speedIndependantCropStart() + item->speedIndependantCropDuration()).frames(m_document->fps()) - 1) + ".png");
                     if (QFile::exists(startThumb)) {
                         QPixmap pix(startThumb);
                         item->slotSetStartThumb(pix);
@@ -4632,8 +4629,8 @@ void CustomTrackView::saveThumbnails()
                 } else {
                     QString startThumb = thumbBase + item->baseClip()->getClipHash() + '_';
                     QString endThumb = startThumb;
-                    startThumb.append(QString::number(item->cropStart().frames(m_document->fps())) + ".png");
-                    endThumb.append(QString::number((item->cropStart() + item->cropDuration()).frames(m_document->fps()) - 1) + ".png");
+                    startThumb.append(QString::number(item->speedIndependantCropStart().frames(m_document->fps())) + ".png");
+                    endThumb.append(QString::number((item->speedIndependantCropStart() + item->speedIndependantCropDuration()).frames(m_document->fps()) - 1) + ".png");
                     if (!QFile::exists(startThumb)) {
                         QPixmap pix(item->startThumb());
                         pix.save(startThumb);
