@@ -479,7 +479,7 @@ void ClipItem::slotFetchThumbs()
     if (m_endPix.isNull() && m_startPix.isNull()) {
         m_startThumbRequested = true;
         m_endThumbRequested = true;
-        emit getThumb((int)cropStart().frames(m_fps), (int)(cropStart() + cropDuration()).frames(m_fps) - 1);
+        emit getThumb((int)m_speedIndependantInfo.cropStart.frames(m_fps), (int)(m_speedIndependantInfo.cropStart + m_speedIndependantInfo.cropDuration).frames(m_fps) - 1);
     } else {
         if (m_endPix.isNull()) {
             slotGetEndThumb();
@@ -506,7 +506,7 @@ void ClipItem::slotFetchThumbs()
 void ClipItem::slotGetStartThumb()
 {
     m_startThumbRequested = true;
-    emit getThumb((int)cropStart().frames(m_fps), -1);
+    emit getThumb((int)m_speedIndependantInfo.cropStart.frames(m_fps), -1);
     //videoThumbProducer.setThumbFrames(m_clip->producer(), (int)m_cropStart.frames(m_fps),  - 1);
     //videoThumbProducer.start(QThread::LowestPriority);
 }
@@ -514,7 +514,7 @@ void ClipItem::slotGetStartThumb()
 void ClipItem::slotGetEndThumb()
 {
     m_endThumbRequested = true;
-    emit getThumb(-1, (int)(cropStart() + cropDuration()).frames(m_fps) - 1);
+    emit getThumb(-1, (int)(m_speedIndependantInfo.cropStart + m_speedIndependantInfo.cropDuration).frames(m_fps) - 1);
     //videoThumbProducer.setThumbFrames(m_clip->producer(), -1, (int)(m_cropStart + m_cropDuration).frames(m_fps) - 1);
     //videoThumbProducer.start(QThread::LowestPriority);
 }
@@ -547,14 +547,14 @@ void ClipItem::slotThumbReady(int frame, QPixmap pix)
     if (scene() == NULL) return;
     QRectF r = boundingRect();
     double width = pix.width() / projectScene()->scale().x();
-    if (m_startThumbRequested && frame == cropStart().frames(m_fps)) {
+    if (m_startThumbRequested && frame == m_speedIndependantInfo.cropStart.frames(m_fps)) {
         m_startPix = pix;
         m_startThumbRequested = false;
         update(r.left(), r.top(), width, pix.height());
         if (m_clipType == IMAGE || m_clipType == TEXT) {
             update(r.right() - width, r.top(), width, pix.height());
         }
-    } else if (m_endThumbRequested && frame == (cropStart() + cropDuration()).frames(m_fps) - 1) {
+    } else if (m_endThumbRequested && frame == (m_speedIndependantInfo.cropStart + m_speedIndependantInfo.cropDuration).frames(m_fps) - 1) {
         m_endPix = pix;
         m_endThumbRequested = false;
         update(r.right() - width, r.top(), width, pix.height());
@@ -643,7 +643,7 @@ void ClipItem::flashClip()
     //m_timeLine->start();
 }
 
-void ClipItem::animate(qreal value)
+void ClipItem::animate(qreal /*value*/)
 {
     QRectF r = boundingRect();
     r.setHeight(20);
@@ -1292,7 +1292,7 @@ void ClipItem::setEffectAt(int ix, QDomElement effect)
     }
 }
 
-EffectsParameterList ClipItem::addEffect(const QDomElement effect, bool animate)
+EffectsParameterList ClipItem::addEffect(const QDomElement effect, bool /*animate*/)
 {
     bool needRepaint = false;
     int ix;
