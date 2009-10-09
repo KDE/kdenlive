@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-10-01 23:51+0200\n"
-"PO-Revision-Date: 2009-10-03 16:32+0200\n"
-"Last-Translator: Markus Slopianka <kamikazow@web.de>\n"
+"PO-Revision-Date: 2009-10-09 21:16+0200\n"
+"Last-Translator: Simon Eugster\n"
 "Language-Team: American English <kde-i18n-de@kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1032,9 +1032,8 @@ msgid "Capture crashed, please check your parameters"
 msgstr "Aufnahme abgebrochen, bitte überprüfen Sie die Einstellungen"
 
 #: rc.cpp:1233 rc.cpp:3151 rc.cpp:4630
-#, fuzzy
 msgid "Capture file name"
-msgstr "Aufgenommene Dateien"
+msgstr "Dateiname aufnehmen"
 
 #: rc.cpp:1029 rc.cpp:2947 rc.cpp:4426
 msgid "Capture folder"
@@ -1045,9 +1044,8 @@ msgid "Capture format"
 msgstr "Aufnahmeformat"
 
 #: src/kdenlivesettingsdialog.cpp:81
-#, fuzzy
 msgid "Capture is not yet available on OS X."
-msgstr ""
+msgstr "Bildschirmaufnahme ist noch nicht verfügbar auf OS X."
 
 #: rc.cpp:1257 rc.cpp:3175 rc.cpp:4654
 msgid "Capture params"
@@ -1070,9 +1068,8 @@ msgid "Center Frequency"
 msgstr "Mittenfrequenz"
 
 #: rc.cpp:171 rc.cpp:2089
-#, fuzzy
 msgid "Center correction"
-msgstr "Mittenfrequenz"
+msgstr "Mittenkorrektur"
 
 #: rc.cpp:1038 rc.cpp:1044 rc.cpp:1050 rc.cpp:2956 rc.cpp:2962 rc.cpp:2968
 #: rc.cpp:4435 rc.cpp:4441 rc.cpp:4447
@@ -1108,13 +1105,16 @@ msgid "Change track type"
 msgstr "Spur-Typ ändern"
 
 #: src/projectsettings.cpp:144
-#, fuzzy
 msgid ""
 "Changing the profile of your project cannot be undone.\n"
 "It is recommended to save your project before attempting this operation that "
 "might cause some corruption in transitions.\n"
 " Are you sure you want to proceed?"
 msgstr ""
+"Eine Profiländerung kann nicht rückgängig gemacht werden.\n"
+"Es wird empfohlen, das Projekt zu speichern, bevor die Operation ausgeführt "
+"wird, um korrupte Übergänge zu vermeiden.\n"
+"Wollen Sie mit dem Vorgang fortfahren?"
 
 #: rc.cpp:395 rc.cpp:2313
 msgid "Channel 1"
@@ -1197,14 +1197,12 @@ msgid "Clean up project"
 msgstr "Projekt bereinigen"
 
 #: rc.cpp:840 rc.cpp:2758 rc.cpp:3909 rc.cpp:4237 rc.cpp:5388
-#, fuzzy
 msgid "Clear cache"
-msgstr ""
+msgstr "Cache leeren"
 
 #: src/mainwindow.cpp:2435
-#, fuzzy
 msgid "Click on a clip to cut it"
-msgstr "Keinen Clip gefunden um zu schneiden"
+msgstr "Zum Schneiden auf einen Clip klicken"
 
 #: rc.cpp:5430
 msgid "Clip"
@@ -1276,9 +1274,8 @@ msgid "Clips folder"
 msgstr "Clip-Ordner"
 
 #: rc.cpp:828 rc.cpp:2746 rc.cpp:3897 rc.cpp:4225 rc.cpp:5376
-#, fuzzy
 msgid "Clips used in project:"
-msgstr ""
+msgstr "Clips verwendet im Projekt:"
 
 #: src/titlewidget.cpp:335
 msgid "Clone"
@@ -1349,9 +1346,8 @@ msgid "Configure"
 msgstr "Einrichten"
 
 #: src/projectsettings.cpp:144
-#, fuzzy
 msgid "Confirm profile change"
-msgstr ""
+msgstr "Profiländerung bestätigen"
 
 #: src/recmonitor.cpp:68 src/recmonitor.cpp:574
 msgid "Connect"
@@ -1362,9 +1358,8 @@ msgid "Contrast"
 msgstr "Kontrast"
 
 #: rc.cpp:149 rc.cpp:2067
-#, fuzzy
 msgid "Contrast0r"
-msgstr ""
+msgstr "Contrast0r"
 
 #: src/unicodedialog.cpp:126
 msgid ""
@@ -1470,9 +1465,9 @@ msgid "Crop start"
 msgstr "Beginn abschneiden"
 
 #: src/mainwindow.cpp:2432
-#, fuzzy
 msgid "Ctrl + click to use spacer on current track only"
 msgstr ""
+"Strg + Klick, um Abstandwerkzeug nur auf der aktuellen Spur zu verwenden"
 
 #: src/geometryval.cpp:92 src/renderwidget.cpp:328 src/renderwidget.cpp:360
 #: src/renderwidget.cpp:431 src/renderwidget.cpp:467 src/renderwidget.cpp:1183
@@ -1664,16 +1659,15 @@ msgstr[0] "Clip löschen"
 msgstr[1] "Clips löschen"
 
 #: src/projectlist.cpp:430
-#, fuzzy
 msgid "Delete clip <b>%2</b>?<br>This will also remove the clip in timeline"
 msgid_plural ""
 "Delete clip <b>%2</b>?<br>This will also remove its %1 clips in timeline"
 msgstr[0] ""
-"Ordner <b>%2</b> löschen? Dadurch werden auch die %1 Clips in diesem Ordner "
-"gelöscht"
+"Clip <b>%2</b> löschen?<br />Dies wird den Clip auch aus der Zeitleiste "
+"entfernen."
 msgstr[1] ""
-"Ordner <b>%2</b> löschen? Dadurch werden auch die %1 Clips in diesem Ordner "
-"gelöscht"
+"Clip <b>%2</b> löschen?<br />Dies wird die Clips auch aus der Zeitleiste "
+"entfernen."
 
 #: src/dvdwizardmenu.cpp:44
 msgid "Delete current button"
@@ -1696,17 +1690,16 @@ msgid "Delete folder"
 msgstr "Ordner löschen"
 
 #: src/projectlist.cpp:433
-#, fuzzy
 msgid ""
 "Delete folder <b>%2</b>?<br>This will also remove the clip in that folder"
 msgid_plural ""
 "Delete folder <b>%2</b>?<br>This will also remove the %1 clips in that folder"
 msgstr[0] ""
-"Ordner <b>%2</b> löschen? Dadurch werden auch die %1 Clips in diesem Ordner "
-"gelöscht"
+"Ordner <b>%2</b> löschen?<br />Dies wird auch den Clip in diesem Ordner "
+"entfernen."
 msgstr[1] ""
-"Ordner <b>%2</b> löschen? Dadurch werden auch die %1 Clips in diesem Ordner "
-"gelöscht"
+"Ordner <b>%2</b> löschen?<br />Dies wird auch die Clips in diesem Ordner "
+"entfernen."
 
 #: src/editguidecommand.cpp:35
 msgid "Delete guide"
@@ -1725,29 +1718,26 @@ msgid "Delete profile"
 msgstr "Profil löschen"
 
 #: src/customtrackview.cpp:3172
-#, fuzzy
 msgid "Delete selected clip"
 msgid_plural "Delete selected clips"
-msgstr[0] "Ausgewähltes Element löschen"
-msgstr[1] "Ausgewähltes Element löschen"
+msgstr[0] "Ausgewählten Clip löschen"
+msgstr[1] "Ausgewählte Clips löschen"
 
 #: src/customtrackview.cpp:3170
-#, fuzzy
 msgid "Delete selected group"
 msgid_plural "Delete selected groups"
-msgstr[0] "Ausgewähltes Element löschen"
-msgstr[1] "Ausgewähltes Element löschen"
+msgstr[0] "Ausgewählte Gruppe löschen"
+msgstr[1] "Ausgewählte Gruppen löschen"
 
 #: src/customtrackview.cpp:3175
 msgid "Delete selected items"
 msgstr "Ausgewähltes Element löschen"
 
 #: src/customtrackview.cpp:3174
-#, fuzzy
 msgid "Delete selected transition"
 msgid_plural "Delete selected transitions"
-msgstr[0] "Ausgewähltes Element löschen"
-msgstr[1] "Ausgewähltes Element löschen"
+msgstr[0] "Ausgewählten Übergang löschen"
+msgstr[1] "Ausgewählte Übergänge löschen"
 
 #: src/mainwindow.cpp:415
 msgid "Delete them"
@@ -1769,9 +1759,8 @@ msgid "Delete transition from clip"
 msgstr "Übergang von Datei löschen"
 
 #: src/projectsettings.cpp:91
-#, fuzzy
 msgid "Delete unused clips"
-msgstr "Zeitleisten-Clips löschen"
+msgstr "Unbenutzte Clips löschen"
 
 #: src/titlewidget.cpp:142
 msgctxt "Font style"
@@ -1957,9 +1946,8 @@ msgid "Edit effect %1"
 msgstr "Effekt %1 bearbeiten"
 
 #: rc.cpp:1617 rc.cpp:3535 rc.cpp:5014
-#, fuzzy
 msgid "Edit end"
-msgstr "Hilfslinie bearbeiten"
+msgstr "Ende bearbeiten"
 
 #: src/editguidecommand.cpp:34
 msgid "Edit guide"
@@ -1978,9 +1966,8 @@ msgid "Edit profile"
 msgstr "Profil bearbeiten"
 
 #: rc.cpp:1614 rc.cpp:3532 rc.cpp:5011
-#, fuzzy
 msgid "Edit start"
-msgstr "Marker bearbeiten"
+msgstr "Start bearbeiten"
 
 #: src/edittransitioncommand.cpp:36
 msgid "Edit transition %1"
@@ -2065,9 +2052,8 @@ msgid "Enter new location for file"
 msgstr "Geben Sie den neuen Ort für die Datei an"
 
 #: src/trackview.cpp:872
-#, fuzzy
 msgid "Enter new name"
-msgstr "Unicode-Wert eingeben"
+msgstr "Neuen Namen eingeben"
 
 #: src/unicodedialog.cpp:48
 msgid "Enter your Unicode number here. Allowed characters: [0-9] and [a-f]."
@@ -2278,9 +2264,8 @@ msgstr ""
 "Bitte installieren Sie Libiec61883 und kompilieren Sie Kdenlive neu"
 
 #: src/titlewidget.cpp:177
-#, fuzzy
 msgid "Fit zoom"
-msgstr ""
+msgstr "Zoom einpassen"
 
 #: src/mainwindow.cpp:735
 msgid "Fit zoom to project"
@@ -2395,9 +2380,8 @@ msgid "Frames"
 msgstr "Bilder"
 
 #: src/recmonitor.cpp:663
-#, fuzzy
 msgid "Free space: %1"
-msgstr "Abstand entfernen"
+msgstr "Freier Platz: %1"
 
 #: rc.cpp:120 rc.cpp:2038
 msgid "Freeze"
@@ -2507,9 +2491,8 @@ msgid "Go to Project Start"
 msgstr "Gehe zum Anfang des Projekts"
 
 #: src/monitor.cpp:103
-#, fuzzy
 msgid "Go to marker..."
-msgstr "Marker bearbeiten"
+msgstr "Gehe zu Marker"
 
 #: src/geometryval.cpp:70
 msgid "Go to next keyframe"
@@ -2601,9 +2584,8 @@ msgid "Hor. Center"
 msgstr "Hor. Mitte"
 
 #: rc.cpp:167 rc.cpp:2085
-#, fuzzy
 msgid "Horizontal center"
-msgstr "Horizontale Streuung"
+msgstr "Horizontale Zentrierung"
 
 #: rc.cpp:531 rc.cpp:2449
 msgid "Horizontal factor"
@@ -2686,9 +2668,8 @@ msgid "Input gain (dB)"
 msgstr "Eingangsverstärkung (dB)"
 
 #: src/customtrackview.cpp:4609
-#, fuzzy
 msgid "Insert New Track"
-msgstr "Spur einfügen"
+msgstr "Neue Spur einfügen"
 
 #: src/mainwindow.cpp:1031
 msgid "Insert Space"
@@ -2865,10 +2846,9 @@ msgid "Lens Correction"
 msgstr "Linsenkorrektur"
 
 #: src/titlewidget.cpp:140
-#, fuzzy
 msgctxt "Font style"
 msgid "Light"
-msgstr "Rechts"
+msgstr "Light"
 
 #: rc.cpp:259 rc.cpp:2177
 msgid "Limit (dB)"
@@ -2909,9 +2889,8 @@ msgid "Loading clips"
 msgstr "Lade Clips"
 
 #: src/projectlist.cpp:890
-#, fuzzy
 msgid "Loading thumbnails"
-msgstr "Zeige Tonspur"
+msgstr "Lade Vorschaubilder"
 
 #: src/locktrackcommand.cpp:31 src/headertrack.cpp:47
 msgid "Lock track"
@@ -2974,9 +2953,8 @@ msgstr ""
 "Installation. Kdenlive wird nicht funktionieren bis das Problem behoben ist."
 
 #: rc.cpp:503 rc.cpp:2421
-#, fuzzy
 msgid "Make clip play faster or slower"
-msgstr "Lasse Clip allmählich schneller werden"
+msgstr "Lasse Clip schneller oder langsamer abspielen"
 
 #: rc.cpp:56 rc.cpp:1974
 msgid "Make image greyscale except for chosen color"
@@ -3207,9 +3185,8 @@ msgid "No clip copied"
 msgstr "Kein Clip kopiert"
 
 #: src/projectsettings.cpp:88
-#, fuzzy
 msgid "No clip to delete"
-msgstr "Wählen Sie einen Clip, den Sie löschen möchten"
+msgstr "Kein Clip zum Löschen"
 
 #: src/customtrackview.cpp:4875
 msgid "No empty space to put clip audio"
@@ -3237,10 +3214,9 @@ msgid "None"
 msgstr "Kein"
 
 #: src/titlewidget.cpp:141
-#, fuzzy
 msgctxt "Font style"
 msgid "Normal"
-msgstr "Normalisieren"
+msgstr "Normal"
 
 #: rc.cpp:339 rc.cpp:2257
 msgid "Normalise"
@@ -3307,9 +3283,8 @@ msgid "Open projects in new tabs"
 msgstr "Projekte in neuem Tab öffnen"
 
 #: src/mainwindow.cpp:1464
-#, fuzzy
 msgid "Opening file %1"
-msgstr "Rendern in %1 fertiggestellt"
+msgstr "Öffne Datei %1"
 
 #: src/main.cpp:44
 msgid "Original KDE 3 version author (not active anymore)"
@@ -3507,9 +3482,8 @@ msgid "Position"
 msgstr "Position"
 
 #: rc.cpp:1575 rc.cpp:3493 rc.cpp:4972
-#, fuzzy
 msgid "Preserve aspect ratio"
-msgstr "Pixel-Seitenverhältnis (PAR)"
+msgstr "Seitenverhältnis beibehalten"
 
 #: src/recmonitor.cpp:271
 msgid ""
@@ -3590,9 +3564,8 @@ msgid "Project"
 msgstr "Projekt"
 
 #: rc.cpp:3894 rc.cpp:5373
-#, fuzzy
 msgid "Project Files"
-msgstr "Projektordner"
+msgstr "Projektdateien"
 
 #: src/mainwindow.cpp:193
 msgid "Project Monitor"
@@ -3885,9 +3858,8 @@ msgid "Reset effect"
 msgstr "Effekt zurücksetzen"
 
 #: rc.cpp:1620 rc.cpp:3538 rc.cpp:5017
-#, fuzzy
 msgid "Resize"
-msgstr "Größenanpassung …"
+msgstr "Größe ändern"
 
 #: src/monitor.cpp:108
 msgid "Resize (100%)"
@@ -3923,9 +3895,8 @@ msgid "Reverse playing"
 msgstr "Rückwärts abspielen"
 
 #: src/mainwindow.cpp:2878
-#, fuzzy
 msgid "Revert to last saved version"
-msgstr ""
+msgstr "Zur letzten gespeicherten Version zurückkehren"
 
 #: src/monitor.cpp:76 src/mainwindow.cpp:896 src/recmonitor.cpp:71
 msgid "Rewind"
@@ -3992,14 +3963,12 @@ msgid "SVGAlib"
 msgstr "SVGAlib"
 
 #: rc.cpp:177 rc.cpp:2095
-#, fuzzy
 msgid "Saturat0r"
-msgstr ""
+msgstr "Saturat0r"
 
 #: rc.cpp:181 rc.cpp:2099
-#, fuzzy
 msgid "Saturation"
-msgstr "Dauer"
+msgstr "Sättigung"
 
 #: src/dvdwizard.cpp:104
 msgid "Save"
@@ -4214,11 +4183,12 @@ msgid "Shift"
 msgstr "Umschalt"
 
 #: src/mainwindow.cpp:2438
-#, fuzzy
 msgid ""
 "Shift + click to create a selection rectangle, Ctrl + click to add an item "
 "to selection"
 msgstr ""
+"Umschalt + Klick zum erstellen eines Auswahlrechteckes, Strg + Klick zum "
+"hinzufügen eines Items zur Auswahl"
 
 #: rc.cpp:1485 rc.cpp:3403 rc.cpp:4882
 msgid "Show All"
@@ -4249,9 +4219,8 @@ msgid "Show video thumbnails"
 msgstr "Zeige Videobilder"
 
 #: rc.cpp:638 rc.cpp:2556 rc.cpp:4035
-#, fuzzy
 msgid "Shutdown computer after renderings"
-msgstr ""
+msgstr "Computer nach Rendern herunterfahren"
 
 #: src/main.cpp:43
 msgid "Simon A. Eugster"
@@ -4507,9 +4476,8 @@ msgid "Stroboscope"
 msgstr "Stroboskop"
 
 #: rc.cpp:1837 rc.cpp:3755 rc.cpp:5234
-#, fuzzy
 msgid "Stroboscope effect"
-msgstr "Stroboskop"
+msgstr "Stroboskop-Effekt"
 
 #: rc.cpp:319 rc.cpp:2237
 msgid "Surface warping"
@@ -4528,14 +4496,12 @@ msgid "Template"
 msgstr "Vorlage"
 
 #: src/projectitem.cpp:203
-#, fuzzy
 msgid "Template text clip"
-msgstr "Clip löschen"
+msgstr "Textclip-Vorlage"
 
 #: src/kdenlivedoc.cpp:1093
-#, fuzzy
 msgid "Template title clip"
-msgstr "Titel-Clip duplizieren"
+msgstr "Titelclip-Vorlage"
 
 #: rc.cpp:969 rc.cpp:2887 rc.cpp:4366
 msgid "Temporary data folder"
@@ -4626,35 +4592,37 @@ msgstr ""
 "Bitte aktualisieren Sie Ihre Kdenlive-Version, falls möglich."
 
 #: src/titledocument.cpp:196
-#, fuzzy
 msgid "This title clip was created with a different frame size."
 msgstr ""
+"Dieser Titel-Clip wurde mit einer unterschiedlichen Frame-Grösse erstellt."
 
 #: src/mainwindow.cpp:2878
-#, fuzzy
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
 "sure you want to continue?"
 msgstr ""
+"Dies wird alle Änderungen seit dem letzten Mal Speichern verwerfen. "
+"Fortfahren?"
 
 #: src/mainwindow.cpp:1709
-#, fuzzy
 msgid "This will remove all unused clips from your project."
-msgstr "Dies wird die ausgewählten Clips aus diesem Projekt entfernen"
+msgstr "Dies wird alle unbenutzten Clips aus diesem Projekt entfernen"
 
 #: src/projectsettings.cpp:91
-#, fuzzy
 msgid ""
 "This will remove the following files from your hard drive.\n"
 "This action cannot be undone, only use if you know what you are doing.\n"
 "Are you sure you want to continue?"
 msgstr ""
+"Dies wird die folgenden Dateien von Ihrer Festplatte entfernen.\n"
+"Dieser Vorgang kann nicht rückgängig gemacht werden, setzen Sie die Funktion "
+"mit Bedacht ein.\n"
+"Sind Sie sicher, dass Sie fortfahren wollen?"
 
 #: src/documentchecker.cpp:350
-#, fuzzy
 msgid "This will remove the selected clip from this project"
 msgid_plural "This will remove the selected clips from this project"
-msgstr[0] "Dies wird die ausgewählten Clips aus diesem Projekt entfernen"
+msgstr[0] "Dies wird den ausgewählten Clip aus diesem Projekt entfernen"
 msgstr[1] "Dies wird die ausgewählten Clips aus diesem Projekt entfernen"
 
 #: src/unicodedialog.cpp:140
@@ -4678,9 +4646,8 @@ msgid "Thumbnails"
 msgstr "Vorschau"
 
 #: rc.cpp:837 rc.cpp:2755 rc.cpp:3906 rc.cpp:4234 rc.cpp:5385
-#, fuzzy
 msgid "Thumbnails cache:"
-msgstr "Vorschau:"
+msgstr "Vorschau-Cache:"
 
 #: rc.cpp:3885 rc.cpp:5364
 msgid "Thumbnails:"
@@ -4719,9 +4686,8 @@ msgid "Title Clip"
 msgstr "Titel-Clip"
 
 #: src/titledocument.cpp:196
-#, fuzzy
 msgid "Title Profile"
-msgstr "Profil bearbeiten"
+msgstr "Titelprofil"
 
 #: src/kdenlivedoc.cpp:1076
 msgid "Title clip"
@@ -4760,9 +4726,8 @@ msgid "Transcode Clip"
 msgstr "Clip transkodieren"
 
 #: src/mainwindow.cpp:882
-#, fuzzy
 msgid "Transcode Clips"
-msgstr "Clip transkodieren"
+msgstr "Clips transkodieren"
 
 #: src/cliptranscode.cpp:157
 msgid "Transcoding FAILED!"
@@ -4841,9 +4806,8 @@ msgid "Untitled"
 msgstr "Unbenannt"
 
 #: rc.cpp:831 rc.cpp:2749 rc.cpp:3900 rc.cpp:4228 rc.cpp:5379
-#, fuzzy
 msgid "Unused clips:"
-msgstr "Clip-Gruppierung auflösen"
+msgstr "Unbenutzte Clips:"
 
 #: rc.cpp:918 rc.cpp:2836 rc.cpp:4315
 msgid "Up"
@@ -4875,9 +4839,8 @@ msgid "V"
 msgstr "V"
 
 #: src/kdenlivedoc.cpp:86
-#, fuzzy
 msgid "Validating"
-msgstr "Ungültige Aktion"
+msgstr "Validiere"
 
 #: src/keyframeedit.cpp:38 rc.cpp:1864 rc.cpp:3782 rc.cpp:5261
 msgid "Value"
@@ -4896,9 +4859,8 @@ msgid "Vert. Center"
 msgstr "Vert. Mitte"
 
 #: rc.cpp:169 rc.cpp:2087
-#, fuzzy
 msgid "Vertical center"
-msgstr "Vertikale Streuung"
+msgstr "Vertikale Zentrierung"
 
 #: rc.cpp:533 rc.cpp:2451
 msgid "Vertical factor"
@@ -5083,8 +5045,8 @@ msgid_plural ""
 "You have %1 rendering jobs waiting in the queue.\n"
 "What do you want to do with these jobs?"
 msgstr[0] ""
-"Sie haben %1 Render-Aufgaben in der Warteschlange Was soll mit diesen "
-"Aufgaben geschehen?"
+"Sie haben 1 Render-Aufgabe in der Warteschlange.\n"
+"Was soll mit dieser Aufgabe geschehen?"
 msgstr[1] ""
 "Sie haben %1 Render-Aufgaben in der Warteschlange Was soll mit diesen "
 "Aufgaben geschehen?"
@@ -5215,9 +5177,8 @@ msgid "Zoom Out"
 msgstr "Heraus zoomen"
 
 #: rc.cpp:217 rc.cpp:2135
-#, fuzzy
 msgid "Zoom Rate"
-msgstr "Heraus zoomen"
+msgstr "Zoomstufe"
 
 #: rc.cpp:1584 rc.cpp:3502 rc.cpp:4981
 msgid "Zoom:"
@@ -5267,9 +5228,8 @@ msgid "dvgrab"
 msgstr "Dvgrab"
 
 #: rc.cpp:1236 rc.cpp:3154 rc.cpp:4633
-#, fuzzy
 msgid "dvgrab additional parameters"
-msgstr ""
+msgstr "dvgrab: Zusätzliche Parameter"
 
 #: src/recmonitor.cpp:216
 msgid ""
