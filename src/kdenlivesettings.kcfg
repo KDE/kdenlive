@@ -470,5 +470,10 @@
       <label>List of available MLT producers.</label>
       <default></default>
     </entry>
+
+    <entry name="colortheme" type="String">
+      <label>Name of the chosen color theme.</label>
+      <default></default>
+    </entry>
   </group>
 </kcfg>

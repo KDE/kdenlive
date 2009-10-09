@@ -320,7 +320,7 @@ private slots:
     void slotShutdown();
     void slotUpdateTrackInfo();
     /** \brief Change color scheme */
-    void slotChangePalette(QAction *action);
+    void slotChangePalette(QAction *action, const QString &themename = QString());
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);
