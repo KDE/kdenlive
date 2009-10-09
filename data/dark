@@ -4,3 +4,7 @@ TextRegularColor=#7F7F7F
 TextSelectedColor=#B4B4B4
 TextSpecialRegularColor=#549FB6
 TextSpecialSelectedColor=#83B8BD
+# window background
+Window=#333333
+# menu and tab labels
+Foreground=#cccccc
