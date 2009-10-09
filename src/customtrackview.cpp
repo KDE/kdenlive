@@ -143,7 +143,7 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscen
 
     QPen pen1 = QPen();
     pen1.setWidth(1);
-    pen1.setColor(Qt::black);
+    pen1.setColor(palette().text().color());
     m_cursorLine->setPen(pen1);
     m_cursorLine->setFlag(QGraphicsItem::ItemIgnoresTransformations, true);
 

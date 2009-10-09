@@ -88,6 +88,7 @@
 #include <QAction>
 #include <QKeyEvent>
 #include <QInputDialog>
+#include <QDesktopWidget>
 
 #include <stdlib.h>
 
@@ -249,8 +250,23 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
     m_clipMonitor->setupMenu(static_cast<QMenu*>(factory()->container("monitor_go", this)), m_playZone, m_loopZone, static_cast<QMenu*>(factory()->container("marker_menu", this)));
     m_projectList->setupGeneratorMenu(static_cast<QMenu*>(factory()->container("generators", this)), static_cast<QMenu*>(factory()->container("transcoders", this)));
 
-    // build effects menus
     QAction *action;
+    // build themes menus
+    QMenu *themesMenu = static_cast<QMenu*>(factory()->container("themes_menu", this));
+    action = new QAction(i18n("Default"), this);
+    themesMenu->addAction(action);
+    fprintf(stderr, "THEMES: %s\n", KStandardDirs::installPath("data").toUtf8().data());
+    KGlobal::dirs()->addResourceDir("themes", KStandardDirs::installPath("data") + QString("kdenlive/themes"));
+    QStringList themes = KGlobal::dirs()->findAllResources("themes", QString(), KStandardDirs::Recursive | KStandardDirs::NoDuplicates);
+    for (QStringList::const_iterator it = themes.constBegin(); it != themes.constEnd(); ++it) {
+        QFileInfo fi(*it);
+        action = new QAction(fi.fileName(), this);
+        action->setData(*it);
+        themesMenu->addAction(action);
+    }
+    connect(themesMenu, SIGNAL(triggered(QAction *)), this, SLOT(slotChangePalette(QAction*)));
+
+    // build effects menus
     QMenu *videoEffectsMenu = static_cast<QMenu*>(factory()->container("video_effects_menu", this));
 
     QStringList effectInfo;
@@ -688,7 +704,7 @@ void MainWindow::setupActions()
     toolbar->setMovable(false);
     m_toolGroup = new QActionGroup(this);
     statusBar()->setStyleSheet(QString("QStatusBar QLabel {font-size:%1pt;} QStatusBar::item { border: 0px; font-size:%1pt;padding:0px; }").arg(statusBar()->font().pointSize()));
-    QString style1 = "QToolBar { border: 0px } QToolButton {background-color: rgba(230, 230, 230, 220); border-style: inset; border:1px solid #999999;border-radius: 3px;margin: 0px 3px;padding: 0px;} QToolButton:checked { background-color: rgba(224, 224, 0, 100); border-style: inset; border:1px solid #cc6666;border-radius: 3px;}";
+    QString style1 = "QToolBar { border: 0px } QToolButton { border-style: inset; border:1px solid #999999;border-radius: 3px;margin: 0px 3px;padding: 0px;} QToolButton:checked { background-color: rgba(224, 224, 0, 100); border-style: inset; border:1px solid #cc6666;border-radius: 3px;}";
 
     m_buttonSelectTool = new KAction(KIcon("kdenlive-select-tool"), i18n("Selection tool"), this);
     m_buttonSelectTool->setShortcut(i18nc("Selection tool shortcut", "s"));
@@ -2903,4 +2919,82 @@ void MainWindow::slotUpdateTrackInfo()
         m_transitionConfig->updateProjectFormat(m_activeDocument->mltProfile(), m_activeDocument->timecode(), m_activeDocument->tracksList());
 }
 
+void MainWindow::slotChangePalette(QAction *action)
+{
+    // Load the theme file
+    QString theme = action->data().toString();
+
+    // Make palette for all widgets.
+    QPalette plt;
+    if (theme.isEmpty())
+        plt = QApplication::desktop()->palette();
+    else {
+        KConfig confFile(theme, KConfig::SimpleConfig);
+        plt = kapp->palette();
+        int h, s, v;
+        const QColor fg(confFile.entryMap().value("TextRegularColor"));
+        const QColor bg(confFile.entryMap().value("BaseColor"));
+
+        bg.getHsv(&h, &s, &v);
+        v += (v < 128) ? + 50 : -50;
+        v &= 255; //ensures 0 <= v < 256
+        const QColor highlight = QColor::fromHsv(h, s, v);
+
+        fg.getHsv(&h, &s, &v);
+        v += (v < 128) ? + 150 : -150;
+        v &= 255; //ensures 0 <= v < 256
+        const QColor alternate = QColor::fromHsv(h, s, v);
+
+        plt.setColor(QPalette::Active,   QPalette::Base,            bg);
+        plt.setColor(QPalette::Active,   QPalette::AlternateBase,   alternate);
+        plt.setColor(QPalette::Active,   QPalette::Background,      bg.dark(115));
+        plt.setColor(QPalette::Active,   QPalette::Foreground,      fg);
+        plt.setColor(QPalette::Active,   QPalette::Highlight,       highlight);
+        plt.setColor(QPalette::Active,   QPalette::HighlightedText, confFile.entryMap().value("TextSelectedColor"));
+        plt.setColor(QPalette::Active,   QPalette::Dark,            Qt::darkGray);
+        plt.setColor(QPalette::Active,   QPalette::Button,          bg);
+        plt.setColor(QPalette::Active,   QPalette::ButtonText,      fg);
+        plt.setColor(QPalette::Active,   QPalette::Text,            fg);
+        plt.setColor(QPalette::Active,   QPalette::Link,            confFile.entryMap().value("TextSpecialRegularColor"));
+        plt.setColor(QPalette::Active,   QPalette::LinkVisited,     confFile.entryMap().value("TextSpecialSelectedColor"));
+
+        plt.setColor(QPalette::Inactive, QPalette::Base,            bg);
+        plt.setColor(QPalette::Inactive,   QPalette::AlternateBase, alternate);
+        plt.setColor(QPalette::Inactive, QPalette::Background,      bg.dark(115));
+        plt.setColor(QPalette::Inactive, QPalette::Foreground,      fg);
+        plt.setColor(QPalette::Inactive, QPalette::Highlight,       highlight);
+        plt.setColor(QPalette::Inactive, QPalette::HighlightedText, confFile.entryMap().value("TextSelectedColor"));
+        plt.setColor(QPalette::Inactive, QPalette::Dark,            Qt::darkGray);
+        plt.setColor(QPalette::Inactive, QPalette::Button,          bg);
+        plt.setColor(QPalette::Inactive, QPalette::ButtonText,      fg);
+        plt.setColor(QPalette::Inactive, QPalette::Text,            fg);
+        plt.setColor(QPalette::Inactive, QPalette::Link,            confFile.entryMap().value("TextSpecialRegularColor"));
+        plt.setColor(QPalette::Inactive, QPalette::LinkVisited,     confFile.entryMap().value("TextSpecialSelectedColor"));
+
+        plt.setColor(QPalette::Disabled, QPalette::Base,            bg);
+        plt.setColor(QPalette::Disabled,   QPalette::AlternateBase, alternate);
+        plt.setColor(QPalette::Disabled, QPalette::Background,      bg.dark(115));
+        plt.setColor(QPalette::Disabled, QPalette::Foreground,      fg);
+        plt.setColor(QPalette::Disabled, QPalette::Highlight,       highlight);
+        plt.setColor(QPalette::Disabled, QPalette::HighlightedText, confFile.entryMap().value("TextSelectedColor"));
+        plt.setColor(QPalette::Disabled, QPalette::Dark,            Qt::darkGray);
+        plt.setColor(QPalette::Disabled, QPalette::Button,          bg);
+        plt.setColor(QPalette::Disabled, QPalette::ButtonText,      fg);
+        plt.setColor(QPalette::Disabled, QPalette::Text,            fg);
+        plt.setColor(QPalette::Disabled, QPalette::Link,            confFile.entryMap().value("TextSpecialRegularColor"));
+        plt.setColor(QPalette::Disabled, QPalette::LinkVisited,     confFile.entryMap().value("TextSpecialSelectedColor"));
+
+        /*
+        cg.setColor(QColorGroup::Light,           ThemeEngine::instance()->textRegColor());
+        cg.setColor(QColorGroup::Midlight,        ThemeEngine::instance()->textRegColor());
+        cg.setColor(QColorGroup::Mid,             ThemeEngine::instance()->textRegColor());
+        cg.setColor(QColorGroup::Shadow,          ThemeEngine::instance()->textRegColor());
+        */
+    }
+
+    kapp->setPalette(plt);
+}
+
+
 #include "mainwindow.moc"
+

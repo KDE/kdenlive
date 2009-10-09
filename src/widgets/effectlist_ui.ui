@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>EffectList_UI</class>
- <widget class="QWidget" name="EffectList_UI" >
-  <property name="geometry" >
+ <widget class="QWidget" name="EffectList_UI">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,92 +10,90 @@
     <height>296</height>
    </rect>
   </property>
-  <layout class="QGridLayout" name="gridLayout" >
-   <item row="0" column="0" >
-    <widget class="KComboBox" name="type_combo" >
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="KComboBox" name="type_combo">
      <item>
-      <property name="text" >
+      <property name="text">
        <string>All</string>
       </property>
      </item>
      <item>
-      <property name="text" >
+      <property name="text">
        <string>Video</string>
       </property>
      </item>
      <item>
-      <property name="text" >
+      <property name="text">
        <string>Audio</string>
       </property>
      </item>
      <item>
-      <property name="text" >
+      <property name="text">
        <string>Custom</string>
       </property>
      </item>
     </widget>
    </item>
-   <item row="0" column="1" >
-    <widget class="KListWidgetSearchLine" name="search_effect" />
+   <item row="0" column="1">
+    <widget class="KListWidgetSearchLine" name="search_effect"/>
    </item>
-   <item row="0" column="2" >
-    <widget class="QToolButton" name="buttonInfo" >
-     <property name="enabled" >
+   <item row="0" column="2">
+    <widget class="QToolButton" name="buttonInfo">
+     <property name="enabled">
       <bool>true</bool>
      </property>
-     <property name="text" >
+     <property name="text">
       <string/>
      </property>
     </widget>
    </item>
-   <item row="1" column="0" colspan="3" >
-    <widget class="QSplitter" name="splitter" >
-     <property name="orientation" >
+   <item row="1" column="0" colspan="3">
+    <widget class="QSplitter" name="splitter">
+     <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
-     <widget class="QFrame" name="effectlistframe" >
-      <property name="frameShape" >
-       <enum>QFrame::StyledPanel</enum>
+     <widget class="QFrame" name="effectlistframe">
+      <property name="frameShape">
+       <enum>QFrame::NoFrame</enum>
       </property>
-      <property name="frameShadow" >
+      <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
      </widget>
-     <widget class="QLabel" name="infopanel" >
-      <property name="sizePolicy" >
-       <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
+     <widget class="QLabel" name="infopanel">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
-      <property name="frameShape" >
+      <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
       </property>
-      <property name="frameShadow" >
+      <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
-      <property name="text" >
+      <property name="text">
        <string/>
       </property>
-      <property name="alignment" >
+      <property name="alignment">
        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
       </property>
-      <property name="wordWrap" >
+      <property name="wordWrap">
        <bool>true</bool>
       </property>
      </widget>
     </widget>
    </item>
   </layout>
-  <zorder>type_combo</zorder>
-  <zorder>search_effect</zorder>
-  <zorder>buttonInfo</zorder>
-  <zorder>effectlistframe</zorder>
-  <zorder>infopanel</zorder>
-  <zorder>infopanel</zorder>
-  <zorder>splitter</zorder>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>klineedit.h</header>
+  </customwidget>
   <customwidget>
    <class>KComboBox</class>
    <extends>QComboBox</extends>
@@ -106,6 +105,11 @@
    <header>klistwidgetsearchline.h</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>type_combo</tabstop>
+  <tabstop>search_effect</tabstop>
+  <tabstop>buttonInfo</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

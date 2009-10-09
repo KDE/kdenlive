@@ -203,7 +203,6 @@ private:
     QByteArray m_timelineState;
     void loadTranscoders();
 
-
 public slots:
     void openFile(const KUrl &url);
     void slotGotProgressInfo(const QString &message, int progress);
@@ -320,6 +319,8 @@ private slots:
     void slotRevert();
     void slotShutdown();
     void slotUpdateTrackInfo();
+    /** \brief Change color scheme */
+    void slotChangePalette(QAction *action);
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

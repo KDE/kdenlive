@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<gui name="kdenlive" version="46">
+<gui name="kdenlive" version="47">
   <ToolBar name="extraToolBar" >
     <text>Extra Toolbar</text>
 	<Action name="project_render" />
@@ -131,6 +131,8 @@
       <Action name="get_new_profiles" />
       <Action name="get_new_mlt_profiles" />
       <Action name="run_wizard" />
+      <Menu name="themes_menu" ><text>Themes</text>
+      </Menu>
 </Menu>
   </MenuBar>
 </gui>
