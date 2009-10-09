@@ -123,7 +123,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
     dbus.registerObject("/MainWindow", this);
 
     setlocale(LC_NUMERIC, "POSIX");
-    slotChangePalette(NULL, KdenliveSettings::colortheme());
+    if (!KdenliveSettings::colortheme().isEmpty()) slotChangePalette(NULL, KdenliveSettings::colortheme());
     setFont(KGlobalSettings::toolBarFont());
     parseProfiles(MltPath);
     m_commandStack = new QUndoGroup;
@@ -254,8 +254,12 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
     QAction *action;
     // build themes menus
     QMenu *themesMenu = static_cast<QMenu*>(factory()->container("themes_menu", this));
+    QActionGroup *themegroup = new QActionGroup(this);
+    themegroup->setExclusive(true);
     action = new QAction(i18n("Default"), this);
-    themesMenu->addAction(action);
+    action->setCheckable(true);
+    themegroup->addAction(action);
+    if (KdenliveSettings::colortheme().isEmpty()) action->setChecked(true);
     KGlobal::dirs()->addResourceDir("themes", KStandardDirs::installPath("data") + QString("kdenlive/themes"));
     QStringList themes = KGlobal::dirs()->findAllResources("themes", QString(), KStandardDirs::Recursive | KStandardDirs::NoDuplicates);
     for (QStringList::const_iterator it = themes.constBegin(); it != themes.constEnd(); ++it)
@@ -263,8 +267,11 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
 	QFileInfo fi(*it);
         action = new QAction(fi.fileName(), this);
         action->setData(*it);
-        themesMenu->addAction(action);
+	action->setCheckable(true);
+	themegroup->addAction(action);
+	if (KdenliveSettings::colortheme() == *it) action->setChecked(true);
     }
+    themesMenu->addActions(themegroup->actions());
     connect(themesMenu, SIGNAL(triggered(QAction *)), this, SLOT(slotChangePalette(QAction*)));
 
     // build effects menus
@@ -2952,7 +2959,7 @@ void MainWindow::slotChangePalette(QAction *action, const QString &themename)
         plt.setColor(QPalette::Active,   QPalette::Base,            bg);
 	plt.setColor(QPalette::Active,   QPalette::AlternateBase,   alternate);
         plt.setColor(QPalette::Active,   QPalette::Background,      bg.dark(115));
-        plt.setColor(QPalette::Active,   QPalette::Foreground,      fg);
+        plt.setColor(QPalette::Active,   QPalette::Foreground,      confFile.entryMap().value("Foreground"));
         plt.setColor(QPalette::Active,   QPalette::Highlight,       highlight);
         plt.setColor(QPalette::Active,   QPalette::HighlightedText, confFile.entryMap().value("TextSelectedColor"));
         plt.setColor(QPalette::Active,   QPalette::Dark,            Qt::darkGray);
@@ -2961,6 +2968,7 @@ void MainWindow::slotChangePalette(QAction *action, const QString &themename)
         plt.setColor(QPalette::Active,   QPalette::Text,            fg);
         plt.setColor(QPalette::Active,   QPalette::Link,            confFile.entryMap().value("TextSpecialRegularColor"));
         plt.setColor(QPalette::Active,   QPalette::LinkVisited,     confFile.entryMap().value("TextSpecialSelectedColor"));
+	plt.setColor(QPalette::Active,   QPalette::Window,      confFile.entryMap().value("Window"));
 
         plt.setColor(QPalette::Inactive, QPalette::Base,            bg);
 	plt.setColor(QPalette::Inactive,   QPalette::AlternateBase, alternate);
@@ -2974,6 +2982,7 @@ void MainWindow::slotChangePalette(QAction *action, const QString &themename)
         plt.setColor(QPalette::Inactive, QPalette::Text,            fg);
         plt.setColor(QPalette::Inactive, QPalette::Link,            confFile.entryMap().value("TextSpecialRegularColor"));
         plt.setColor(QPalette::Inactive, QPalette::LinkVisited,     confFile.entryMap().value("TextSpecialSelectedColor"));
+	plt.setColor(QPalette::Inactive,   QPalette::Window,   confFile.entryMap().value("Window"));
 
         plt.setColor(QPalette::Disabled, QPalette::Base,            bg);
 	plt.setColor(QPalette::Disabled,   QPalette::AlternateBase, alternate);
