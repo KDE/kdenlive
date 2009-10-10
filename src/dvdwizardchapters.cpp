@@ -151,7 +151,7 @@ void DvdWizardChapters::setVobFiles(bool isPal, bool isWide, const QStringList m
     if (m_monitor == NULL) {
 
         m_monitor = new Monitor("chapter", m_manager, profile, this);
-        m_monitor->start();
+        //m_monitor->start();
         QVBoxLayout *vbox = new QVBoxLayout;
         vbox->addWidget(m_monitor);
         m_view.monitor_frame->setLayout(vbox);
