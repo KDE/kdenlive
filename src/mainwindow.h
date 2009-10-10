@@ -202,6 +202,7 @@ private:
     QStringList m_pluginFileNames;
     QByteArray m_timelineState;
     void loadTranscoders();
+    QPixmap createSchemePreviewIcon(const KSharedConfigPtr &config);
 
 public slots:
     void openFile(const KUrl &url);

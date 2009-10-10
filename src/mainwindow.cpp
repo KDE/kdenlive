@@ -82,6 +82,7 @@
 #include <knewstuff2/engine.h>
 #include <knewstuff2/ui/knewstuffaction.h>
 #include <KToolBar>
+#include <KColorScheme>
 
 #include <QTextStream>
 #include <QTimer>
@@ -89,6 +90,7 @@
 #include <QKeyEvent>
 #include <QInputDialog>
 #include <QDesktopWidget>
+#include <QBitmap>
 
 #include <stdlib.h>
 
@@ -110,10 +112,12 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
         KXmlGuiWindow(parent),
         m_activeDocument(NULL),
         m_activeTimeline(NULL),
+        m_timecodeFormat(NULL),
         m_renderWidget(NULL),
 #ifndef NO_JOGSHUTTLE
         m_jogProcess(NULL),
 #endif /* NO_JOGSHUTTLE */
+        m_zoomSlider(NULL),
         m_findActivated(false)
 {
 
@@ -260,17 +264,44 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
     action->setCheckable(true);
     themegroup->addAction(action);
     if (KdenliveSettings::colortheme().isEmpty()) action->setChecked(true);
-    KGlobal::dirs()->addResourceDir("themes", KStandardDirs::installPath("data") + QString("kdenlive/themes"));
+
+
+    const QStringList schemeFiles = KGlobal::dirs()->findAllResources("data", "color-schemes/*.colors", KStandardDirs::NoDuplicates);
+
+    for (int i = 0; i < schemeFiles.size(); ++i) {
+        // get the file name
+        const QString filename = schemeFiles.at(i);
+        const QFileInfo info(filename);
+
+        // add the entry
+        KSharedConfigPtr config = KSharedConfig::openConfig(filename);
+        QIcon icon = createSchemePreviewIcon(config);
+        KConfigGroup group(config, "General");
+        const QString name = group.readEntry("Name", info.baseName());
+        action = new QAction(name, this);
+        action->setData(filename);
+        action->setIcon(icon);
+        action->setCheckable(true);
+        themegroup->addAction(action);
+        if (KdenliveSettings::colortheme() == filename) action->setChecked(true);
+    }
+
+
+
+
+
+
+    /*KGlobal::dirs()->addResourceDir("themes", KStandardDirs::installPath("data") + QString("kdenlive/themes"));
     QStringList themes = KGlobal::dirs()->findAllResources("themes", QString(), KStandardDirs::Recursive | KStandardDirs::NoDuplicates);
     for (QStringList::const_iterator it = themes.constBegin(); it != themes.constEnd(); ++it)
     {
-	QFileInfo fi(*it);
+    QFileInfo fi(*it);
         action = new QAction(fi.fileName(), this);
         action->setData(*it);
-	action->setCheckable(true);
-	themegroup->addAction(action);
-	if (KdenliveSettings::colortheme() == *it) action->setChecked(true);
-    }
+    action->setCheckable(true);
+    themegroup->addAction(action);
+    if (KdenliveSettings::colortheme() == *it) action->setChecked(true);
+    }*/
     themesMenu->addActions(themegroup->actions());
     connect(themesMenu, SIGNAL(triggered(QAction *)), this, SLOT(slotChangePalette(QAction*)));
 
@@ -2938,76 +2969,57 @@ void MainWindow::slotChangePalette(QAction *action, const QString &themename)
     QPalette plt;
     if (theme.isEmpty())
         plt = QApplication::desktop()->palette();
-    else
-    {
-	KConfig confFile(theme, KConfig::SimpleConfig);
-        plt = kapp->palette();
-        int h, s, v;
-        const QColor fg(confFile.entryMap().value("TextRegularColor"));
-        const QColor bg(confFile.entryMap().value("BaseColor"));
-
-        bg.getHsv(&h, &s, &v);
-        v += (v < 128) ? +50 : -50;
-        v &= 255; //ensures 0 <= v < 256
-        const QColor highlight = QColor::fromHsv(h, s, v);
-
-        fg.getHsv(&h, &s, &v);
-        v += (v < 128) ? +150 : -150;
-        v &= 255; //ensures 0 <= v < 256
-        const QColor alternate = QColor::fromHsv(h, s, v);
-
-        plt.setColor(QPalette::Active,   QPalette::Base,            bg);
-	plt.setColor(QPalette::Active,   QPalette::AlternateBase,   alternate);
-        plt.setColor(QPalette::Active,   QPalette::Background,      bg.dark(115));
-        plt.setColor(QPalette::Active,   QPalette::Foreground,      confFile.entryMap().value("Foreground"));
-        plt.setColor(QPalette::Active,   QPalette::Highlight,       highlight);
-        plt.setColor(QPalette::Active,   QPalette::HighlightedText, confFile.entryMap().value("TextSelectedColor"));
-        plt.setColor(QPalette::Active,   QPalette::Dark,            Qt::darkGray);
-        plt.setColor(QPalette::Active,   QPalette::Button,          bg);
-        plt.setColor(QPalette::Active,   QPalette::ButtonText,      fg);
-        plt.setColor(QPalette::Active,   QPalette::Text,            fg);
-        plt.setColor(QPalette::Active,   QPalette::Link,            confFile.entryMap().value("TextSpecialRegularColor"));
-        plt.setColor(QPalette::Active,   QPalette::LinkVisited,     confFile.entryMap().value("TextSpecialSelectedColor"));
-	plt.setColor(QPalette::Active,   QPalette::Window,      confFile.entryMap().value("Window"));
-
-        plt.setColor(QPalette::Inactive, QPalette::Base,            bg);
-	plt.setColor(QPalette::Inactive,   QPalette::AlternateBase, alternate);
-	plt.setColor(QPalette::Inactive, QPalette::Background,      bg.dark(115));
-        plt.setColor(QPalette::Inactive, QPalette::Foreground,      fg);
-        plt.setColor(QPalette::Inactive, QPalette::Highlight,       highlight);
-        plt.setColor(QPalette::Inactive, QPalette::HighlightedText, confFile.entryMap().value("TextSelectedColor"));
-        plt.setColor(QPalette::Inactive, QPalette::Dark,            Qt::darkGray);
-        plt.setColor(QPalette::Inactive, QPalette::Button,          bg);
-        plt.setColor(QPalette::Inactive, QPalette::ButtonText,      fg);
-        plt.setColor(QPalette::Inactive, QPalette::Text,            fg);
-        plt.setColor(QPalette::Inactive, QPalette::Link,            confFile.entryMap().value("TextSpecialRegularColor"));
-        plt.setColor(QPalette::Inactive, QPalette::LinkVisited,     confFile.entryMap().value("TextSpecialSelectedColor"));
-	plt.setColor(QPalette::Inactive,   QPalette::Window,   confFile.entryMap().value("Window"));
-
-        plt.setColor(QPalette::Disabled, QPalette::Base,            bg);
-	plt.setColor(QPalette::Disabled,   QPalette::AlternateBase, alternate);
-        plt.setColor(QPalette::Disabled, QPalette::Background,      bg.dark(115));
-        plt.setColor(QPalette::Disabled, QPalette::Foreground,      fg);
-        plt.setColor(QPalette::Disabled, QPalette::Highlight,       highlight);
-        plt.setColor(QPalette::Disabled, QPalette::HighlightedText, confFile.entryMap().value("TextSelectedColor"));
-        plt.setColor(QPalette::Disabled, QPalette::Dark,            Qt::darkGray);
-        plt.setColor(QPalette::Disabled, QPalette::Button,          bg);
-        plt.setColor(QPalette::Disabled, QPalette::ButtonText,      fg);
-        plt.setColor(QPalette::Disabled, QPalette::Text,            fg);
-        plt.setColor(QPalette::Disabled, QPalette::Link,            confFile.entryMap().value("TextSpecialRegularColor"));
-        plt.setColor(QPalette::Disabled, QPalette::LinkVisited,     confFile.entryMap().value("TextSpecialSelectedColor"));
-
-        /*
-        cg.setColor(QColorGroup::Light,           ThemeEngine::instance()->textRegColor());
-        cg.setColor(QColorGroup::Midlight,        ThemeEngine::instance()->textRegColor());
-        cg.setColor(QColorGroup::Mid,             ThemeEngine::instance()->textRegColor());
-        cg.setColor(QColorGroup::Shadow,          ThemeEngine::instance()->textRegColor());
-        */
+    else {
+        fprintf(stderr, "CReate pal %s\n", theme.toUtf8().data());
+        KSharedConfigPtr config = KSharedConfig::openConfig(theme);
+        plt = KGlobalSettings::createApplicationPalette(config);
     }
 
     kapp->setPalette(plt);
+    if (m_zoomSlider) m_zoomSlider->setPalette(plt);
+    if (m_timecodeFormat) m_timecodeFormat->setPalette(plt);
 }
 
+
+QPixmap MainWindow::createSchemePreviewIcon(const KSharedConfigPtr &config)
+{
+    // code taken from kdebase/workspace/kcontrol/colors/colorscm.cpp
+    const uchar bits1[] = { 0xff, 0xff, 0xff, 0x2c, 0x16, 0x0b };
+    const uchar bits2[] = { 0x68, 0x34, 0x1a, 0xff, 0xff, 0xff };
+    const QSize bitsSize(24, 2);
+    const QBitmap b1 = QBitmap::fromData(bitsSize, bits1);
+    const QBitmap b2 = QBitmap::fromData(bitsSize, bits2);
+
+    QPixmap pixmap(23, 16);
+    pixmap.fill(Qt::black); // ### use some color other than black for borders?
+
+    KConfigGroup group(config, "WM");
+    QPainter p(&pixmap);
+    KColorScheme windowScheme(QPalette::Active, KColorScheme::Window, config);
+    p.fillRect(1,  1, 7, 7, windowScheme.background());
+    p.fillRect(2,  2, 5, 2, QBrush(windowScheme.foreground().color(), b1));
+
+    KColorScheme buttonScheme(QPalette::Active, KColorScheme::Button, config);
+    p.fillRect(8,  1, 7, 7, buttonScheme.background());
+    p.fillRect(9,  2, 5, 2, QBrush(buttonScheme.foreground().color(), b1));
+
+    p.fillRect(15,  1, 7, 7, group.readEntry("activeBackground", QColor(96, 148, 207)));
+    p.fillRect(16,  2, 5, 2, QBrush(group.readEntry("activeForeground", QColor(255, 255, 255)), b1));
+
+    KColorScheme viewScheme(QPalette::Active, KColorScheme::View, config);
+    p.fillRect(1,  8, 7, 7, viewScheme.background());
+    p.fillRect(2, 12, 5, 2, QBrush(viewScheme.foreground().color(), b2));
+
+    KColorScheme selectionScheme(QPalette::Active, KColorScheme::Selection, config);
+    p.fillRect(8,  8, 7, 7, selectionScheme.background());
+    p.fillRect(9, 12, 5, 2, QBrush(selectionScheme.foreground().color(), b2));
+
+    p.fillRect(15,  8, 7, 7, group.readEntry("inactiveBackground", QColor(224, 223, 222)));
+    p.fillRect(16, 12, 5, 2, QBrush(group.readEntry("inactiveForeground", QColor(20, 19, 18)), b2));
+
+    p.end();
+    return pixmap;
+}
 
 #include "mainwindow.moc"
 
