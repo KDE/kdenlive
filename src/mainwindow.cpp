@@ -112,12 +112,10 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
         KXmlGuiWindow(parent),
         m_activeDocument(NULL),
         m_activeTimeline(NULL),
-        m_timecodeFormat(NULL),
         m_renderWidget(NULL),
 #ifndef NO_JOGSHUTTLE
         m_jogProcess(NULL),
 #endif /* NO_JOGSHUTTLE */
-        m_zoomSlider(NULL),
         m_findActivated(false)
 {
 
@@ -2970,14 +2968,22 @@ void MainWindow::slotChangePalette(QAction *action, const QString &themename)
     if (theme.isEmpty())
         plt = QApplication::desktop()->palette();
     else {
-        fprintf(stderr, "CReate pal %s\n", theme.toUtf8().data());
         KSharedConfigPtr config = KSharedConfig::openConfig(theme);
         plt = KGlobalSettings::createApplicationPalette(config);
     }
 
     kapp->setPalette(plt);
-    if (m_zoomSlider) m_zoomSlider->setPalette(plt);
-    if (m_timecodeFormat) m_timecodeFormat->setPalette(plt);
+    const QObjectList children = statusBar()->children();
+
+    foreach (QObject *child, children) {
+	if (child->isWidgetType())
+	    ((QWidget*)child)->setPalette(plt);
+	const QObjectList subchildren = child->children();
+	foreach (QObject *subchild, subchildren) {
+	    if (subchild->isWidgetType())
+		((QWidget*)subchild)->setPalette(plt);
+	}
+    }
 }
 
 
