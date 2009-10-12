@@ -188,6 +188,32 @@ QString EffectsList::parameter(QDomElement effect, const QString &name)
     return QString();
 }
 
+// static
+void EffectsList::setProperty(QDomElement effect, const QString &name, const QString &value)
+{
+    QDomNodeList params = effect.elementsByTagName("property");
+    for (int i = 0; i < params.count(); i++) {
+        QDomElement e = params.item(i).toElement();
+        if (e.attribute("name") == name) {
+            e.firstChild().setNodeValue(value);
+            break;
+        }
+    }
+}
+
+// static
+QString EffectsList::property(QDomElement effect, const QString &name)
+{
+    QDomNodeList params = effect.elementsByTagName("property");
+    for (int i = 0; i < params.count(); i++) {
+        QDomElement e = params.item(i).toElement();
+        if (e.attribute("name") == name) {
+            return e.firstChild().nodeValue();
+        }
+    }
+    return QString();
+}
+
 void EffectsList::append(QDomElement e)
 {
     m_baseElement.appendChild(importNode(e, true));

@@ -271,8 +271,24 @@ void TrackView::parseDocument(QDomDocument doc)
                     transitionAdd = false;
                     //kDebug() << "//  TRANSITRION " << i << " IS NOT VALID (INTERN ADDED)";
                     //break;
-                } else if (paramName == "a_track") a_track = p.text().toInt();
-                else if (paramName == "b_track") b_track = p.text().toInt();
+                } else if (paramName == "a_track") {
+		    a_track = qMax(0, p.text().toInt());
+		    a_track = qMin(m_projectTracks - 1, a_track);
+		    if (a_track != p.text().toInt()) {
+			// the transition track was out of bounds
+			m_documentErrors.append(i18n("Transition %1 had an invalid track: %2 > %3", e.attribute("id"), p.text().toInt(), a_track) + '\n');
+			EffectsList::setProperty(e, "a_track", QString::number(a_track));
+		    }
+		}
+                else if (paramName == "b_track") {
+		    b_track = qMax(0, p.text().toInt());
+		    b_track = qMin(m_projectTracks - 1, b_track);
+		    if (b_track != p.text().toInt()) {
+			// the transition track was out of bounds
+			m_documentErrors.append(i18n("Transition %1 had an invalid track: %2 > %3", e.attribute("id"), p.text().toInt(), b_track) + '\n');
+			EffectsList::setProperty(e, "b_track", QString::number(b_track));
+		    }
+		}
                 else if (paramName == "mlt_service") mlt_service = p.text();
                 else if (paramName == "kdenlive_id") transitionId = p.text();
                 else if (paramName == "geometry") mlt_geometry = p.text();
