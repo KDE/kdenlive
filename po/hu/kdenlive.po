@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-10-01 23:51+0200\n"
-"PO-Revision-Date: 2009-10-09 10:58+0100\n"
+"PO-Revision-Date: 2009-10-13 11:51+0100\n"
 "Last-Translator: KAMI <kami911@gmail.com>\n"
 "Language-Team:  <hu@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -378,9 +378,8 @@ msgid "<strong>Program %1 is required for the DVD wizard.</strong>"
 msgstr "<strong>A(z) %1 program szükséges a DVD Tündér használatához.</strong>"
 
 #: src/dvdwizardvob.cpp:56
-#, fuzzy
 msgid "<strong>Program %1 or %2 is required for the DVD wizard.</strong>"
-msgstr "„%s” felkészítéséhez tanúsítványok vagy kulcsok tárolásához egy jelszó szükséges"
+msgstr "<strong>A(z) %1 vagy a(z) %2 program szükséges a DVD Tündér futtatásához.</strong>"
 
 #: src/renderwidget.cpp:1422
 msgid "<strong>Rendering of %1 crashed</strong><br />"
@@ -640,21 +639,18 @@ msgstr "Fehéregyensúly és színhőmérséklet beállítása"
 
 #: rc.cpp:140
 #: rc.cpp:2058
-#, fuzzy
 msgid "Adjusts the brightness of a source image"
-msgstr "Előbb állítson be egy forrásképet."
+msgstr "Fényerő megváltoztatása a forrásképnél"
 
 #: rc.cpp:151
 #: rc.cpp:2069
-#, fuzzy
 msgid "Adjusts the contrast of a source image"
-msgstr "Előbb állítson be egy forrásképet."
+msgstr "Kontraszt megváltoztatása a forrásképnél"
 
 #: rc.cpp:179
 #: rc.cpp:2097
-#, fuzzy
 msgid "Adjusts the saturation of a source image"
-msgstr "Előbb állítson be egy forrásképet."
+msgstr "Telítettség megváltoztatása a forrásképnél"
 
 #: rc.cpp:1806
 #: rc.cpp:3724
@@ -671,24 +667,20 @@ msgid "Align item horizontally"
 msgstr "Elemek rendezése vízszintesen"
 
 #: src/titlewidget.cpp:188
-#, fuzzy
 msgid "Align item to bottom"
-msgstr "Az objektumok tetejének igazítása a horgony aljához"
+msgstr "Elem igazítása alulra"
 
 #: src/titlewidget.cpp:192
-#, fuzzy
 msgid "Align item to left"
-msgstr "Csökkenti a behúzást és balra igazítja a tartalmat"
+msgstr "Elem igazítása balra"
 
 #: src/titlewidget.cpp:190
-#, fuzzy
 msgid "Align item to right"
-msgstr "Az objektumok bal oldalának igazítása a horgony jobb oldalához"
+msgstr "Elem igazítása jobbra"
 
 #: src/titlewidget.cpp:186
-#, fuzzy
 msgid "Align item to top"
-msgstr "Az objektumok aljának igazítása a horgony tetejéhez"
+msgstr "Elem igazítása felülre"
 
 #: src/titlewidget.cpp:184
 msgid "Align item vertically"
@@ -734,15 +726,13 @@ msgstr "Függőleges mozgások engedélyezése"
 
 #: rc.cpp:165
 #: rc.cpp:2083
-#, fuzzy
 msgid "Allows compensation of lens distortion"
-msgstr "A lencse nincs bekötve\n"
+msgstr "Lencsetorzítás kompenzálása"
 
 #: rc.cpp:211
 #: rc.cpp:2129
-#, fuzzy
 msgid "Alpha blending with zoomed and rotated images"
-msgstr "A FITS-mentés nem tudja kezelni az alfa-csatornát tartalmazó képeket"
+msgstr "Áttetszőség nagyított és elforgatott képekkel"
 
 #: src/renderwidget.cpp:786
 #: src/renderwidget.cpp:1554
@@ -1210,14 +1200,12 @@ msgid "Cannot find your Mlt profiles, please give the path"
 msgstr "Az MLT keretrendszer nem található. Adja meg a keretrendszer telepítési útvonalát."
 
 #: src/customtrackview.cpp:1984
-#, fuzzy
 msgid "Cannot insert clip in timeline"
-msgstr "Csoportban lévő klip nem vágható meg"
+msgstr "A klip nem illeszthető bele az idővonalba"
 
 #: src/customtrackview.cpp:2338
-#, fuzzy
 msgid "Cannot insert space in a track with a group"
-msgstr "A szám szétvágása rögzített méretű darabokra"
+msgstr "Üres hely nem illeszthető bele csoportban lévő sávokba"
 
 #: src/customtrackview.cpp:2392
 msgid "Cannot move clip at position %1, track %2"
@@ -1234,9 +1222,8 @@ msgid "Cannot move clip to position %1"
 msgstr "Nem lehet áthelyezni a klipet a(z) %1 pozícióba"
 
 #: src/customtrackview.cpp:1643
-#, fuzzy
 msgid "Cannot move effect"
-msgstr "Effektus lefele mozgatása"
+msgstr "Effektus nem mozgatható"
 
 #: src/customtrackview.cpp:2691
 msgid "Cannot move transition"
@@ -1280,9 +1267,8 @@ msgstr ""
 "Kérem ellenőrizze az eszközöket és hozzáférési jogosultságokat."
 
 #: src/customtrackview.cpp:2291
-#, fuzzy
 msgid "Cannot remove space in a track with a group"
-msgstr "Egy üres helyen kell lennie ahhoz, hogy eltávolítsa az üres helyet (idő: %1, sáv: %2)"
+msgstr "Üres hely nem távolítható el csoportban lévő sávokból"
 
 #: src/customtrackview.cpp:2865
 #: src/customtrackview.cpp:2957
@@ -1302,14 +1288,12 @@ msgstr "Csoportban lévő hang nem osztható fel"
 #: src/customtrackview.cpp:5013
 #: src/customtrackview.cpp:5020
 #: src/customtrackview.cpp:5027
-#, fuzzy
 msgid "Cannot update clip (time: %1, track: %2)"
-msgstr "Nem lehet áthelyezni a klipet a(z) %1 időben a(z) %2 sávon"
+msgstr "A klip nem frissíthető (idő: %1, sáv: %2)"
 
 #: src/customtrackview.cpp:799
-#, fuzzy
 msgid "Cannot use spacer in a track with a group"
-msgstr "A szám szétvágása rögzített méretű darabokra"
+msgstr "Üres hely eszköz nem használható csoportban lévő sávokon"
 
 #: src/kdenlivedoc.cpp:568
 #: src/kdenlivedoc.cpp:574
@@ -1395,9 +1379,8 @@ msgstr "Középső frekvencia"
 
 #: rc.cpp:171
 #: rc.cpp:2089
-#, fuzzy
 msgid "Center correction"
-msgstr "Gamma-korrekció"
+msgstr "Középpont-korrekció"
 
 #: rc.cpp:1038
 #: rc.cpp:1044
@@ -1448,6 +1431,9 @@ msgid ""
 "It is recommended to save your project before attempting this operation that might cause some corruption in transitions.\n"
 " Are you sure you want to proceed?"
 msgstr ""
+"Az aktuális projektben végzett profilmódosítás nem vonható vissza.\n"
+"Lehetőleg mentse el az aktuális projektet, mielőtt olyan műveletet hajt végre, amely az áttérés során hibákat okozhat a projektben.\n"
+"Biztosan végre kívánja hajtani a műveletet?"
 
 #: rc.cpp:395
 #: rc.cpp:2313
@@ -1496,9 +1482,8 @@ msgid "Charcoal drawing effect"
 msgstr "Szénrajz effektus"
 
 #: src/kdenlivedoc.cpp:134
-#, fuzzy
 msgid "Check missing clips"
-msgstr "Figyel&meztetés a hiányzó mellékletekre"
+msgstr "Hiányzó klippek ellenőrzése"
 
 #: rc.cpp:672
 #: rc.cpp:2590
@@ -1556,9 +1541,8 @@ msgid "Clear cache"
 msgstr "Gyorsítótár ürítése"
 
 #: src/mainwindow.cpp:2435
-#, fuzzy
 msgid "Click on a clip to cut it"
-msgstr "Kattintson egy színre annak eltávolításához"
+msgstr "Kattintson a vágandó klipre"
 
 #: rc.cpp:5430
 msgid "Clip"
@@ -1727,7 +1711,6 @@ msgid "Color key"
 msgstr "Szín kulcs"
 
 #: src/projectlistview.cpp:71
-#, fuzzy
 msgctxt "@title:menu"
 msgid "Columns"
 msgstr "Hasábok"
@@ -1750,9 +1733,8 @@ msgid "Configure"
 msgstr "Beállítás"
 
 #: src/projectsettings.cpp:144
-#, fuzzy
 msgid "Confirm profile change"
-msgstr "A cím sikeresen megváltoztatva"
+msgstr "Profilváltoztatás jóváhagyása"
 
 #: src/recmonitor.cpp:68
 #: src/recmonitor.cpp:574
@@ -1894,7 +1876,7 @@ msgstr "Levágás"
 
 #: src/mainwindow.cpp:2432
 msgid "Ctrl + click to use spacer on current track only"
-msgstr ""
+msgstr "Ctrl + kattintás: üres hely eszköz alkalmazása csak az aktuális sávon"
 
 #: src/geometryval.cpp:92
 #: src/renderwidget.cpp:328
@@ -2224,29 +2206,26 @@ msgid "Delete profile"
 msgstr "Profil törlése"
 
 #: src/customtrackview.cpp:3172
-#, fuzzy
 msgid "Delete selected clip"
 msgid_plural "Delete selected clips"
-msgstr[0] "Idővonal klip törlése"
-msgstr[1] "Kiválsztott elemek törlése"
+msgstr[0] "Kiválsztott klip törlése"
+msgstr[1] "Kiválsztott klipek törlése"
 
 #: src/customtrackview.cpp:3170
-#, fuzzy
 msgid "Delete selected group"
 msgid_plural "Delete selected groups"
-msgstr[0] "A kijelölt objektumok csoportba foglalása"
-msgstr[1] "Kiválsztott elemek törlése"
+msgstr[0] "Kiválsztott csoport törlése"
+msgstr[1] "Kiválsztott csoportok törlése"
 
 #: src/customtrackview.cpp:3175
 msgid "Delete selected items"
 msgstr "Kiválsztott elemek törlése"
 
 #: src/customtrackview.cpp:3174
-#, fuzzy
 msgid "Delete selected transition"
 msgid_plural "Delete selected transitions"
-msgstr[0] "A kiválasztott kapcsolat törlése."
-msgstr[1] "Átmenet törlése"
+msgstr[0] "Kiválsztott átmenet törlése"
+msgstr[1] "Kiválsztott átmenetek törlése"
 
 #: src/mainwindow.cpp:415
 msgid "Delete them"
@@ -2505,9 +2484,8 @@ msgstr ""
 
 #: rc.cpp:173
 #: rc.cpp:2091
-#, fuzzy
 msgid "Edges correction"
-msgstr "Gamma-korrekció"
+msgstr "Keret-korrekció"
 
 #: src/mainwindow.cpp:1151
 msgid "Edit Clip"
@@ -2553,9 +2531,8 @@ msgstr "Effektus szerkesztés: %1"
 #: rc.cpp:1617
 #: rc.cpp:3535
 #: rc.cpp:5014
-#, fuzzy
 msgid "Edit end"
-msgstr "A száminformációk szerkesztése (kezdet, vég, szerző, …)"
+msgstr "Kezdet szerkesztése"
 
 #: src/editguidecommand.cpp:34
 msgid "Edit guide"
@@ -2578,9 +2555,8 @@ msgstr "Profil szerkesztés"
 #: rc.cpp:1614
 #: rc.cpp:3532
 #: rc.cpp:5011
-#, fuzzy
 msgid "Edit start"
-msgstr "Projekt kezdetének szerkesztése"
+msgstr "Vég szerkesztése"
 
 #: src/edittransitioncommand.cpp:36
 msgid "Edit transition %1"
@@ -3357,9 +3333,8 @@ msgstr "Vizszintesen középre"
 
 #: rc.cpp:167
 #: rc.cpp:2085
-#, fuzzy
 msgid "Horizontal center"
-msgstr "Középre igazítás a vízszintes tengelyhez"
+msgstr "Vízszintesen középre"
 
 #: rc.cpp:531
 #: rc.cpp:2449
@@ -3825,9 +3800,8 @@ msgstr "Az MLT program SDL összetevője nem található. Kérem ellenőrizze a 
 
 #: rc.cpp:503
 #: rc.cpp:2421
-#, fuzzy
 msgid "Make clip play faster or slower"
-msgstr "Teniszezz a számítógép vagy egy barátod ellen"
+msgstr "Klip lejátszásának gyorsítása vagy lassítása"
 
 #: rc.cpp:56
 #: rc.cpp:1974
@@ -4336,9 +4310,8 @@ msgstr "Elérési út"
 
 #: rc.cpp:215
 #: rc.cpp:2133
-#, fuzzy
 msgid "Phase Increment"
-msgstr "Oldalnövekmény"
+msgstr "Fázis növelés"
 
 #: rc.cpp:263
 #: rc.cpp:2181
@@ -5293,7 +5266,7 @@ msgstr "Eltolás (Shift)"
 
 #: src/mainwindow.cpp:2438
 msgid "Shift + click to create a selection rectangle, Ctrl + click to add an item to selection"
-msgstr ""
+msgstr "Shift + kattintás: négyzet-alakú kiválasztás, Ctrl + kattintás: elem hozzáadása a kiválasztáshoz"
 
 #: rc.cpp:1485
 #: rc.cpp:3403
@@ -5336,9 +5309,8 @@ msgstr "Videó minta előállítása"
 #: rc.cpp:638
 #: rc.cpp:2556
 #: rc.cpp:4035
-#, fuzzy
 msgid "Shutdown computer after renderings"
-msgstr "leállítás rendszerleállítás után (a -h ebből következik)"
+msgstr "A számítógép leállítása a leképzés befejezése után"
 
 #: src/main.cpp:43
 msgid "Simon A. Eugster"
@@ -5442,9 +5414,8 @@ msgstr "Forrásszín"
 
 #: rc.cpp:391
 #: rc.cpp:2309
-#, fuzzy
 msgid "Sox Balance"
-msgstr "<b>Fehéregyensúly</b>"
+msgstr "Sox egyensúly"
 
 #: rc.cpp:407
 #: rc.cpp:2325
@@ -5508,9 +5479,8 @@ msgstr "Sox mélyhang-kiemelés hangeffektus"
 
 #: rc.cpp:393
 #: rc.cpp:2311
-#, fuzzy
 msgid "Sox change audio balance"
-msgstr "Sox hangszínváltó hangeffektus"
+msgstr "A Sox megváltoztatja a hangegyensúlyt"
 
 #: rc.cpp:471
 #: rc.cpp:2389
@@ -5656,9 +5626,8 @@ msgstr "Stroboszkóp"
 #: rc.cpp:1837
 #: rc.cpp:3755
 #: rc.cpp:5234
-#, fuzzy
 msgid "Stroboscope effect"
-msgstr "_Hatás alkalmazása:"
+msgstr "Stroboszkóp effektus"
 
 #: rc.cpp:319
 #: rc.cpp:2237
@@ -5682,14 +5651,12 @@ msgid "Template"
 msgstr "Sablon"
 
 #: src/projectitem.cpp:203
-#, fuzzy
 msgid "Template text clip"
-msgstr "Kivágott téglalap feltöltése"
+msgstr "Szövegklip sablon"
 
 #: src/kdenlivedoc.cpp:1093
-#, fuzzy
 msgid "Template title clip"
-msgstr "Új klip hozzáadása a projekthez"
+msgstr "Cím klip sablon"
 
 #: rc.cpp:969
 #: rc.cpp:2887
@@ -5770,16 +5737,15 @@ msgstr ""
 
 #: src/titledocument.cpp:196
 msgid "This title clip was created with a different frame size."
-msgstr ""
+msgstr "A cím klip eltérő képkockamérethez készült."
 
 #: src/mainwindow.cpp:2878
 msgid "This will delete all changes made since you last saved your project. Are you sure you want to continue?"
 msgstr "Ez a művelet eltávolítja az összes módosítást, amelyet a projekt legutóbbi mentése óta végzett. Biztosan végre kívánja hajtani a műveletet?"
 
 #: src/mainwindow.cpp:1709
-#, fuzzy
 msgid "This will remove all unused clips from your project."
-msgstr "A kijelölt fájlok eltávolításához a projektből:"
+msgstr "Ez a művelet eltávolítja az összes nem használt klipet a projektből."
 
 #: src/projectsettings.cpp:91
 msgid ""
@@ -5787,6 +5753,9 @@ msgid ""
 "This action cannot be undone, only use if you know what you are doing.\n"
 "Are you sure you want to continue?"
 msgstr ""
+"Ez a művelet eltávolítja a következő fájlokat a lemezről.\n"
+"Ez a művelet nem vonható vissza, ezért csak akkor hajtsa végre, ha valóban tudja, hogy ez mivel jár.\n"
+"Biztosan végre kívánja hajtani a műveletet?"
 
 #: src/documentchecker.cpp:350
 msgid "This will remove the selected clip from this project"
@@ -6100,9 +6069,8 @@ msgstr "Függőlegesen középre"
 
 #: rc.cpp:169
 #: rc.cpp:2087
-#, fuzzy
 msgid "Vertical center"
-msgstr "Középre igazítás a függőleges tengelyhez"
+msgstr "Függőlegesen középre"
 
 #: rc.cpp:533
 #: rc.cpp:2451
@@ -6121,9 +6089,8 @@ msgstr "Függőleges szórás"
 
 #: rc.cpp:209
 #: rc.cpp:2127
-#, fuzzy
 msgid "Vertigo"
-msgstr "Elmosás"
+msgstr "Szédülés"
 
 #: rc.cpp:756
 #: rc.cpp:1113
@@ -6395,11 +6362,11 @@ msgstr "A művelet végrehajtásához a következő programot kell telepítenie:
 
 #: src/recmonitor.cpp:167
 msgid "You need to disconnect and reconnect in the capture monitor to apply your changes"
-msgstr ""
+msgstr "A beállítások alkalmazásához távolítsa el majd csatlakoztassa újra a felvétel monitort"
 
 #: src/recmonitor.cpp:168
 msgid "You need to stop capture before your changes can be applied"
-msgstr ""
+msgstr "A beállítások alkalmazásához le kell állítania a felvételt."
 
 #: src/wizard.cpp:51
 msgid "Your Kdenlive version was upgraded to version %1. Please take some time to review the basic settings"
@@ -6442,9 +6409,8 @@ msgid "Z-Index:"
 msgstr "Z-Index:"
 
 #: src/customruler.cpp:197
-#, fuzzy
 msgid "Zone duration: %1"
-msgstr "Hívás időtartama: %s\n"
+msgstr "Zóna időtartama: %1"
 
 #: src/customruler.cpp:194
 msgid "Zone end: %1"
@@ -6581,7 +6547,6 @@ msgid "import"
 msgstr "Importálás"
 
 #: src/mainwindow.cpp:706
-#, fuzzy
 msgctxt "Spacer tool shortcut"
 msgid "m"
 msgstr "m"
@@ -6623,7 +6588,6 @@ msgid "recordmydesktop"
 msgstr "recordmydesktop"
 
 #: src/mainwindow.cpp:694
-#, fuzzy
 msgctxt "Selection tool shortcut"
 msgid "s"
 msgstr "v"
@@ -6669,10 +6633,9 @@ msgid "with track"
 msgstr "sávval"
 
 #: src/mainwindow.cpp:700
-#, fuzzy
 msgctxt "Razor tool shortcut"
 msgid "x"
-msgstr "v"
+msgstr "r"
 
 #: rc.cpp:783
 #: rc.cpp:2701
