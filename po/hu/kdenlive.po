@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-10-01 23:51+0200\n"
-"PO-Revision-Date: 2009-10-13 11:51+0100\n"
+"PO-Revision-Date: 2009-10-13 13:44+0100\n"
 "Last-Translator: KAMI <kami911@gmail.com>\n"
 "Language-Team:  <hu@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -343,19 +343,19 @@ msgstr ":::"
 
 #: src/unicodedialog.cpp:134
 msgid "<p><strong>&laquo;</strong> (u+00ab, <code>&amp;lfquo;</code> in HTML) and <strong>&raquo;</strong> (u+00bb, <code>&amp;rfquo;</code> in HTML) are called Guillemets or angle quotes. Usage in different countries: France (with non-breaking Space 0x00a0), Switzerland, Germany, Finland and Sweden.</p><p><strong>&lsaquo;</strong> and <strong>&rsaquo;</strong> (U+2039/203a, <code>&amp;lsaquo;/&amp;rsaquo;</code>) are their single quote equivalents.</p><p>See <a href=\"http://en.wikipedia.org/wiki/Guillemets\">Wikipedia:Guillemets</a></p>"
-msgstr "<p><strong>&laquo;</strong> (u+00ab, <code>&amp;lfquo;</code> HTML-ben) és <strong>&raquo;</strong> (u+00bb, <code>&amp;rfquo;</code> HTML-ben) másodlagos idézőjel, belső idézőjel, ludláb, vagyis Guillemets. Használata a különböző országokban: Magyarországon – a többi nemzettel ellentétben – fordítva vannak a nyilak – azaz az idézetre mutatnak: <strong>&raquo;</strong>idézetem<strong>&laquo;</strong> (szóközök nélkül), Franciaország (nem törő szóközzel: 0x00a0), Svájc, Németország, Finnország és Svédország.</p><p><strong>&lsaquo;</strong> és <strong>&rsaquo;</strong> (U+2039/203a, <code>&amp;lsaquo;/&amp;rsaquo;</code>) és szimpla változatai.</p><p>See <a href=\"http://hu.wikipedia.org/wiki/Id%C3%A9z%C5%91jel\">Wikipedia: Idézőjel</a></p>"
+msgstr "<p><strong>&laquo;</strong> (u+00ab, <code>&amp;lfquo;</code> HTML-ben) és <strong>&raquo;</strong> (u+00bb, <code>&amp;rfquo;</code> HTML-ben) másodlagos idézőjel, belső idézőjel, lúdláb, vagyis Guillemets. Használata a különböző országokban: Magyarországon – a többi nemzettel ellentétben – fordítva vannak a nyilak – azaz az idézetre mutatnak: <strong>&raquo;</strong>idézetem<strong>&laquo;</strong> (szóközök nélkül), Franciaország (nem törő szóközzel: 0x00a0), Svájc, Németország, Finnország és Svédország.</p><p><strong>&lsaquo;</strong> és <strong>&rsaquo;</strong> (U+2039/203a, <code>&amp;lsaquo;/&amp;rsaquo;</code>) és szimpla változatai.</p><p>See <a href=\"http://hu.wikipedia.org/wiki/Id%C3%A9z%C5%91jel\">Wikipedia: Idézőjel</a></p>"
 
 #: src/unicodedialog.cpp:158
 msgid "<p>An em Dash (dash of the width of an m).</p><p>Usage examples: In English language to mark&#x2014;like here&#x2014;thoughts. Traditionally without spaces. </p><p>See <a href=\"http://en.wikipedia.org/wiki/Dash\">Wikipedia:Dash</a></p>"
-msgstr "<p>Kvirtmínusz, Em Dash (m karakter szélességű kötőjel).</p><p>Használata: magyar írásaban: nem használjuk, angol írásban: In English language to mark&#x2014;like here&#x2014;thoughts. Tradiciónálisan szóközök nélkül. </p><p>Lásd: <a href=\"http://en.wikipedia.org/wiki/Dash\">Wikipedia:Dash</a> és <a href=\"http://hu.wikipedia.org/wiki/Nagyk%C3%B6t%C5%91jel\">Wikipedia: Nagykötőjel</a></p>"
+msgstr "<p>Kvirtmínusz, Em Dash (m karakter szélességű kötőjel).</p><p>Használata: magyar írásban: nem használjuk, angol írásban: In English language to mark&#x2014;like here&#x2014;thoughts. Tradicionálisan szóközök nélkül. </p><p>Lásd: <a href=\"http://en.wikipedia.org/wiki/Dash\">Wikipedia:Dash</a> és <a href=\"http://hu.wikipedia.org/wiki/Nagyk%C3%B6t%C5%91jel\">Wikipedia: Nagykötőjel</a></p>"
 
 #: src/unicodedialog.cpp:156
 msgid "<p>An en Dash (dash of the width of an n).</p><p>Usage examples: In English language for value ranges (1878&#x2013;1903), for relationships/connections (Zurich&#x2013;Dublin). In the German language it is also used (with spaces!) for showing thoughts: &ldquo;Es war &#x2013; wie immer in den Ferien &#x2013; ein regnerischer Tag.</p> <p>See <a href=\"http://en.wikipedia.org/wiki/Dash\">Wikipedia:Dash</a></p>"
-msgstr "<p>Félkvirtmínusz, En Dash (n karakter (fél m) szélességű szélességű gondolatjel és nagykötőjel).</p><p>Használata: magyar írásaban: gondolatjelről önálló mondatok (olykor mondatrészek) összekapcsolásakor beszélünk, nagykötőjelről szavak, szókapcsolatok (többnyire lazább, alkalmi) összefűzésekor beszélünk (angol&#x2013;magyar szótár), angol írásban: értéktartományok (1878&#x2013;1903), összefüggések kapcsolatok (Zurich&#x2013;Dublin)</p><p>Lásd: <a href=\"http://en.wikipedia.org/wiki/Dash\">Wikipedia:Dash</a> és <a href=\"http://hu.wikipedia.org/wiki/Nagyk%C3%B6t%C5%91jel\">Wikipedia: Nagykötőjel</a></p>"
+msgstr "<p>Félkvirtmínusz, En Dash (n karakter (fél m) szélességű szélességű gondolatjel és nagykötőjel).</p><p>Használata: magyar írásban: gondolatjelről önálló mondatok (olykor mondatrészek) összekapcsolásakor beszélünk, nagykötőjelről szavak, szókapcsolatok (többnyire lazább, alkalmi) összefűzésekor beszélünk (angol&#x2013;magyar szótár), angol írásban: értéktartományok (1878&#x2013;1903), összefüggések kapcsolatok (Zurich&#x2013;Dublin)</p><p>Lásd: <a href=\"http://en.wikipedia.org/wiki/Dash\">Wikipedia:Dash</a> és <a href=\"http://hu.wikipedia.org/wiki/Nagyk%C3%B6t%C5%91jel\">Wikipedia: Nagykötőjel</a></p>"
 
 #: src/unicodedialog.cpp:160
 msgid "<p>Narrow no-break space. Has the same width as U+2009.</p><p>Usage: For units (spaces are marked with U+2423, &#x2423;): 230&#x2423;V, &#x2212;21&#x2423;&deg;C, 50&#x2423;lb, <em>but</em> 90&deg; (no space). In German for abbreviations (like: i.&#x202f;d.&#x202f;R. instead of i.&#xa0;d.&#xa0;R. with U+00a0).</p><p>See <a href=\"http://de.wikipedia.org/wiki/Schmales_Leerzeichen\">Wikipedia:de:Schmales_Leerzeichen</a></p>"
-msgstr "<p>Keskeny nem törhető szóköz. Azonos szélességű, mint a vékony szóköz (U+2009).</p><p>Használata: em törhető szóközzel lehet megakadályozni a szorosabban összetartozó elemek sor végi szétválasztását, például: névelőzékek és név között (dr., ifj., id., özv.), címzésben az emelet, kerület, utca, tér stb. teljes vagy rövid alakja előtt, mérőszámok és mértékegységek között, számokon belül, beleértve a számmal és betűvel írt rész határát (pl. 36 ezer) (Szóközök jelőlése: U+2423, &#x2423;): 230&#x2423;V, &#x2212;21&#x2423;&deg;C, 50&#x2423;kg.</p><p>Lásd: <a href=\"http://hu.wikipedia.org/wiki/Sz%C3%B3k%C3%B6z\">Wikipedia: Szóköz</a></p>"
+msgstr "<p>Keskeny nem törhető szóköz. Azonos szélességű, mint a vékony szóköz (U+2009).</p><p>Használata: em törhető szóközzel lehet megakadályozni a szorosabban összetartozó elemek sor végi szétválasztását, például: névelőzékek és név között (dr., ifj., id., özv.), címzésben az emelet, kerület, utca, tér stb. teljes vagy rövid alakja előtt, mérőszámok és mértékegységek között, számokon belül, beleértve a számmal és betűvel írt rész határát (pl. 36 ezer) (Szóközök jelölése: U+2423, &#x2423;): 230&#x2423;V, &#x2212;21&#x2423;&deg;C, 50&#x2423;kg.</p><p>Lásd: <a href=\"http://hu.wikipedia.org/wiki/Sz%C3%B3k%C3%B6z\">Wikipedia: Szóköz</a></p>"
 
 #: src/unicodedialog.cpp:120
 msgid "<small>(no character selected)</small>"
@@ -513,7 +513,7 @@ msgstr "Videó effektus hozzáadása"
 #: src/clipitem.cpp:871
 #: src/clipitem.cpp:878
 msgid "Add audio fade"
-msgstr "Hang áttünés hozzáadása"
+msgstr "Hang áttűnés hozzáadása"
 
 #: rc.cpp:762
 #: rc.cpp:2680
@@ -616,7 +616,7 @@ msgstr "További beállítások"
 #: rc.cpp:521
 #: rc.cpp:2439
 msgid "Adjust audio volume with keyframes"
-msgstr "Hangerőszabályzás a kucskockáknál"
+msgstr "Hangerőszabályzás a kulcskockáknál"
 
 #: src/changespeedcommand.cpp:36
 msgid "Adjust clip length"
@@ -630,7 +630,7 @@ msgstr "Klip méretének és pozíciójának megváltoztatása"
 #: rc.cpp:221
 #: rc.cpp:2139
 msgid "Adjust the audio volume without keyframes"
-msgstr "Hangerőszabályzás kucskockák nélkül"
+msgstr "Hangerőszabályzás kulcskockák nélkül"
 
 #: rc.cpp:132
 #: rc.cpp:2050
@@ -744,7 +744,7 @@ msgstr "A program már fut."
 #: rc.cpp:2077
 #: rc.cpp:2447
 msgid "Amplitude"
-msgstr "Amplitudó"
+msgstr "Amplitúdó"
 
 #: src/main.cpp:35
 msgid "An open source video editor."
@@ -783,7 +783,7 @@ msgstr "Animáció"
 
 #: src/kdenlivesettingsdialog.cpp:243
 msgid "Ascii art library"
-msgstr "Ascii art könyvtár"
+msgstr "ASCII art könyvtár"
 
 #: rc.cpp:1428
 #: rc.cpp:3346
@@ -1034,7 +1034,7 @@ msgstr "Lent"
 #: rc.cpp:12
 #: rc.cpp:1930
 msgid "Box Blur"
-msgstr "Szogletes elmosás"
+msgstr "Szögletes elmosás"
 
 #: rc.cpp:138
 #: rc.cpp:142
@@ -1483,7 +1483,7 @@ msgstr "Szénrajz effektus"
 
 #: src/kdenlivedoc.cpp:134
 msgid "Check missing clips"
-msgstr "Hiányzó klippek ellenőrzése"
+msgstr "Hiányzó klipek ellenőrzése"
 
 #: rc.cpp:672
 #: rc.cpp:2590
@@ -1633,7 +1633,7 @@ msgstr "Klip mappa"
 #: rc.cpp:4225
 #: rc.cpp:5376
 msgid "Clips used in project:"
-msgstr "A projektben felhasznált klippek:"
+msgstr "A projektben felhasznált klipek:"
 
 #: src/titlewidget.cpp:335
 msgid "Clone"
@@ -1771,7 +1771,7 @@ msgid ""
 "There is something wrong with your Kdenlive install or your driver settings, please fix it."
 msgstr ""
 "Nem tudom létrehozni a videó előnézeti ablakot.\n"
-"Valami hibás a Kdenlive telepítéssel.vagy a meghajtó beállításokkal. Kérem, javítsa ki."
+"Valami hibás a Kdenlive telepítéssel, vagy a meghajtó beállításokkal. Kérem, javítsa ki."
 
 #: rc.cpp:321
 #: rc.cpp:2239
@@ -1812,7 +1812,7 @@ msgstr "Alap menü létrehozása"
 #: rc.cpp:2535
 #: rc.cpp:4014
 msgid "Create chapter file based on guides"
-msgstr "Fejelezetk létrehozása a segédpontok alapján"
+msgstr "Fejezetfájlok létrehozása a segédpontok alapján"
 
 #: src/profilesdialog.cpp:46
 #: src/renderwidget.cpp:79
@@ -1861,7 +1861,7 @@ msgstr "Előnézeti kép létrehozása a következőhöz: %1"
 #: rc.cpp:62
 #: rc.cpp:1980
 msgid "Crop"
-msgstr "Kiágás"
+msgstr "Kivágás"
 
 #: src/clipitem.cpp:875
 #, c-format
@@ -2150,8 +2150,8 @@ msgstr[1] "Klipek törlése "
 #: src/projectlist.cpp:430
 msgid "Delete clip <b>%2</b>?<br>This will also remove the clip in timeline"
 msgid_plural "Delete clip <b>%2</b>?<br>This will also remove its %1 clips in timeline"
-msgstr[0] "Törölni kívánja a(z) „<b>%2</b>” mappát?<br>Ez a művelet eltávolítja a klippet is az idővonalból."
-msgstr[1] "Törölni kívánja a(z) „<b>%2</b>” mappát?<br>Ez a művelet eltávolít %1 klippet is az idővonalból."
+msgstr[0] "Törölni kívánja a(z) „<b>%2</b>” mappát?<br>Ez a művelet eltávolítja a klipet is az idővonalból."
+msgstr[1] "Törölni kívánja a(z) „<b>%2</b>” mappát?<br>Ez a művelet eltávolít %1 klipet is az idővonalból."
 
 #: src/dvdwizardmenu.cpp:44
 msgid "Delete current button"
@@ -2183,8 +2183,8 @@ msgstr "Mappa törlése"
 #: src/projectlist.cpp:433
 msgid "Delete folder <b>%2</b>?<br>This will also remove the clip in that folder"
 msgid_plural "Delete folder <b>%2</b>?<br>This will also remove the %1 clips in that folder"
-msgstr[0] "Törölni kívánja a(z) „<b>%2</b>” mappát?<br>Ez a művelet törli a klippet is abból a mappából."
-msgstr[1] "Törölni kívánja a(z) „<b>%2</b>” mappát?<br>Ez a művelet töröl %1 klippet is abból a mappából."
+msgstr[0] "Törölni kívánja a(z) „<b>%2</b>” mappát?<br>Ez a művelet törli a klipet is abból a mappából."
+msgstr[1] "Törölni kívánja a(z) „<b>%2</b>” mappát?<br>Ez a művelet töröl %1 klipet is abból a mappából."
 
 #: src/editguidecommand.cpp:35
 msgid "Delete guide"
@@ -2208,24 +2208,24 @@ msgstr "Profil törlése"
 #: src/customtrackview.cpp:3172
 msgid "Delete selected clip"
 msgid_plural "Delete selected clips"
-msgstr[0] "Kiválsztott klip törlése"
-msgstr[1] "Kiválsztott klipek törlése"
+msgstr[0] "Kiválasztott klip törlése"
+msgstr[1] "Kiválasztott klipek törlése"
 
 #: src/customtrackview.cpp:3170
 msgid "Delete selected group"
 msgid_plural "Delete selected groups"
-msgstr[0] "Kiválsztott csoport törlése"
-msgstr[1] "Kiválsztott csoportok törlése"
+msgstr[0] "Kiválasztott csoport törlése"
+msgstr[1] "Kiválasztott csoportok törlése"
 
 #: src/customtrackview.cpp:3175
 msgid "Delete selected items"
-msgstr "Kiválsztott elemek törlése"
+msgstr "Kiválasztott elemek törlése"
 
 #: src/customtrackview.cpp:3174
 msgid "Delete selected transition"
 msgid_plural "Delete selected transitions"
-msgstr[0] "Kiválsztott átmenet törlése"
-msgstr[1] "Kiválsztott átmenetek törlése"
+msgstr[0] "Kiválasztott átmenet törlése"
+msgstr[1] "Kiválasztott átmenetek törlése"
 
 #: src/mainwindow.cpp:415
 msgid "Delete them"
@@ -2711,7 +2711,7 @@ msgstr "Kiterjesztés"
 
 #: rc.cpp:5412
 msgid "Extra Toolbar"
-msgstr "Extra Eszköztár "
+msgstr "Extra eszköztár "
 
 #: src/monitor.cpp:203
 msgid "Extract frame"
@@ -2770,7 +2770,7 @@ msgstr "Video előtűnése feketéből"
 #: rc.cpp:88
 #: rc.cpp:2006
 msgid "Fade video to black"
-msgstr "Videó eltűntetése feketébe"
+msgstr "Videó eltüntetése feketébe"
 
 #: src/wizard.cpp:549
 msgid "Fatal Error"
@@ -2871,7 +2871,7 @@ msgstr "Következő keresése"
 
 #: src/mainwindow.cpp:2502
 msgid "Find stopped"
-msgstr "Keresés leálltva"
+msgstr "Keresés leállítva"
 
 #: rc.cpp:681
 #: rc.cpp:1200
@@ -2891,7 +2891,7 @@ msgid ""
 " Please install Libiec61883 and recompile Kdenlive"
 msgstr ""
 "Firewire nincs engedélyezve a rendszerén.\n"
-" Kérem, telepítse a Libiec618883-at és fordítsa újra a Kdenlive-t!"
+" Kérem, telepítse a Libiec618883 csomagot és fordítsa újra a Kdenlive programot!"
 
 #: src/titlewidget.cpp:177
 msgid "Fit zoom"
@@ -3305,7 +3305,7 @@ msgstr "Magasság"
 #: rc.cpp:251
 #: rc.cpp:2169
 msgid "Hi gain"
-msgstr "Magashang-kiemenlés (Hi gain)"
+msgstr "Magashang-kiemelés (Hi gain)"
 
 #: rc.cpp:347
 #: rc.cpp:2265
@@ -3329,7 +3329,7 @@ msgstr "Sáv elrejtése"
 
 #: src/geometryval.cpp:97
 msgid "Hor. Center"
-msgstr "Vizszintesen középre"
+msgstr "Vízszintesen középre"
 
 #: rc.cpp:167
 #: rc.cpp:2085
@@ -3385,7 +3385,7 @@ msgstr "Kép klip"
 #: rc.cpp:3322
 #: rc.cpp:4801
 msgid "Image clips"
-msgstr "Kép klippek"
+msgstr "Kép klipek"
 
 #: rc.cpp:1035
 #: rc.cpp:2953
@@ -3594,7 +3594,7 @@ msgstr "Feladat állapota"
 #: rc.cpp:3091
 #: rc.cpp:4570
 msgid "Jog Shuttle device disabled."
-msgstr "A JogShuttle eszkö le van tiltva."
+msgstr "A JogShuttle eszköz le van tiltva."
 
 #: src/kdenlivesettingsdialog.cpp:95
 msgid "JogShuttle"
@@ -3723,7 +3723,7 @@ msgstr "Betöltés"
 
 #: src/projectlist.cpp:952
 msgid "Loading clips"
-msgstr "Projekt klippek betöltése"
+msgstr "Projekt klipek betöltése"
 
 #: src/projectlist.cpp:890
 msgid "Loading thumbnails"
@@ -4424,10 +4424,10 @@ msgid ""
 "Files will be saved in:\n"
 "%1"
 msgstr ""
-"Csatlakoztassa a kemerát és\n"
+"Csatlakoztassa a kamerát és\n"
 "nyomja meg a „Kapcsolódás”\n"
 "gombot a kapcsolat létesítéséhez.\n"
-"A fálok a következő helyre lesznek elmentve:\n"
+"A fájlok a következő helyre lesznek elmentve:\n"
 "%1"
 
 #: rc.cpp:1317
@@ -4476,7 +4476,7 @@ msgstr ""
 "Nyomja meg a „Lejátszás”\n"
 "vagy a „Rögzítés” gombot a\n"
 "felvétel megkezdéséhez.\n"
-"A fálok a következő helyre lesznek elmentve:\n"
+"A fájlok a következő helyre lesznek elmentve:\n"
 "%1"
 
 #: src/recmonitor.cpp:193
@@ -4488,8 +4488,8 @@ msgid ""
 "%1"
 msgstr ""
 "Nyomja meg a „Rögzítés” gombot\n"
-"a képernyő felvétel indításáhot.\n"
-"A fálok a következő helyre lesznek elmentve:\n"
+"a képernyő felvétel indításához.\n"
+"A fájlok a következő helyre lesznek elmentve:\n"
 "%1"
 
 #: rc.cpp:957
@@ -4682,7 +4682,7 @@ msgstr "A projekt végére ért"
 
 #: src/monitor.cpp:222
 msgid "Real time (drop frames)"
-msgstr "Valósidejú (képkockák eldobással)"
+msgstr "Valósidejű (képkockák eldobással)"
 
 #: src/recmonitor.cpp:83
 msgid "Record"
@@ -4938,11 +4938,11 @@ msgstr "Klip visszatekerése"
 
 #: src/mainwindow.cpp:901
 msgid "Rewind 1 Frame"
-msgstr "Ugrás az elöző képkockára"
+msgstr "Ugrás az előző képkockára"
 
 #: src/mainwindow.cpp:906
 msgid "Rewind 1 Second"
-msgstr "Ugrás 1 másoperccel vissza"
+msgstr "Ugrás 1 másodperccel vissza"
 
 #: src/monitor.cpp:77
 msgid "Rewind 1 frame"
@@ -5500,7 +5500,7 @@ msgstr "Sox flanger hangeffektus"
 #: rc.cpp:451
 #: rc.cpp:2369
 msgid "Sox gain audio effect"
-msgstr "Sox ferősítés hangeffektus"
+msgstr "Sox felrősítés hangeffektus"
 
 #: rc.cpp:457
 #: rc.cpp:2375
@@ -5793,7 +5793,7 @@ msgstr "Gyorsnézeti képek "
 #: rc.cpp:4234
 #: rc.cpp:5385
 msgid "Thumbnails cache:"
-msgstr "Bélyegkép-gyosrítótár:"
+msgstr "Bélyegkép-gyorsítótár:"
 
 #: rc.cpp:3885
 #: rc.cpp:5364
@@ -5992,7 +5992,7 @@ msgstr "Névtelen"
 #: rc.cpp:4228
 #: rc.cpp:5379
 msgid "Unused clips:"
-msgstr "Fel nem használt klippek:"
+msgstr "Fel nem használt klipek:"
 
 #: rc.cpp:918
 #: rc.cpp:2836
@@ -6354,7 +6354,7 @@ msgstr "Ehhez a művelethez válasszon ki egy klipet."
 
 #: src/customtrackview.cpp:4730
 msgid "You must select one transition for this action"
-msgstr "Ehhez a művelethez meg kell adnia egy áttünési effektust"
+msgstr "Ehhez a művelethez meg kell adnia egy áttűnési effektust"
 
 #: src/dvdwizard.cpp:609
 msgid "You need program <b>%1</b> to perform this action"
@@ -6435,7 +6435,7 @@ msgstr "Kicsinyítés"
 #: rc.cpp:217
 #: rc.cpp:2135
 msgid "Zoom Rate"
-msgstr "Nagyitás mértéke"
+msgstr "Nagyítás mértéke"
 
 #: rc.cpp:1584
 #: rc.cpp:3502
