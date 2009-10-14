@@ -47,7 +47,7 @@ Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget
         m_name(name),
         m_monitorManager(manager),
         m_currentClip(NULL),
-        m_ruler(new SmallRuler()),
+        m_ruler(new SmallRuler(m_monitorManager)),
         m_overlay(NULL),
         m_isActive(false),
         m_scale(1),

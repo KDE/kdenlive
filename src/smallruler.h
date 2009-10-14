@@ -23,12 +23,14 @@
 
 #include <QWidget>
 
+#include "monitormanager.h"
+
 class SmallRuler : public QWidget
 {
     Q_OBJECT
 
 public:
-    SmallRuler(QWidget *parent = 0);
+    SmallRuler(MonitorManager *manager, QWidget *parent = 0);
     virtual void mousePressEvent(QMouseEvent * event);
     virtual void mouseMoveEvent(QMouseEvent * event);
     void adjustScale(int maximum);
@@ -52,6 +54,7 @@ private:
     QColor m_zoneColor;
     QList <int> m_markers;
     QPixmap m_pixmap;
+    MonitorManager *m_manager;
     void updatePixmap();
 
 public slots:

@@ -2975,14 +2975,14 @@ void MainWindow::slotChangePalette(QAction *action, const QString &themename)
     kapp->setPalette(plt);
     const QObjectList children = statusBar()->children();
 
-    foreach (QObject *child, children) {
-	if (child->isWidgetType())
-	    ((QWidget*)child)->setPalette(plt);
-	const QObjectList subchildren = child->children();
-	foreach (QObject *subchild, subchildren) {
-	    if (subchild->isWidgetType())
-		((QWidget*)subchild)->setPalette(plt);
-	}
+    foreach(QObject *child, children) {
+        if (child->isWidgetType())
+            ((QWidget*)child)->setPalette(plt);
+        const QObjectList subchildren = child->children();
+        foreach(QObject *subchild, subchildren) {
+            if (subchild->isWidgetType())
+                ((QWidget*)subchild)->setPalette(plt);
+        }
     }
 }
 

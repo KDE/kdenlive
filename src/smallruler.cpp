@@ -25,14 +25,16 @@
 #include <QMouseEvent>
 #include <QStylePainter>
 
-SmallRuler::SmallRuler(QWidget *parent) :
+SmallRuler::SmallRuler(MonitorManager *manager, QWidget *parent) :
         QWidget(parent),
         m_scale(1),
-        m_maxval(25)
+        m_maxval(25),
+        m_manager(manager)
 {
     m_zoneStart = 10;
     m_zoneEnd = 60;
     m_zoneColor = QColor(133, 255, 143);
+    setMouseTracking(true);
 }
 
 void SmallRuler::adjustScale(int maximum)
@@ -108,6 +110,15 @@ void SmallRuler::mouseMoveEvent(QMouseEvent * event)
 {
     const int pos = event->x() / m_scale;
     if (event->buttons() & Qt::LeftButton) emit seekRenderer((int) pos);
+    else {
+        if (qAbs((pos - m_zoneStart) * m_scale) < 4) {
+            setToolTip(i18n("Zone start: %1", m_manager->timecode().getTimecodeFromFrames(m_zoneStart)));
+        } else if (qAbs((pos - m_zoneEnd) * m_scale) < 4) {
+            setToolTip(i18n("Zone end: %1", m_manager->timecode().getTimecodeFromFrames(m_zoneEnd)));
+        } else if (pos > m_zoneStart && pos < m_zoneEnd) {
+            setToolTip(i18n("Zone duration: %1", m_manager->timecode().getTimecodeFromFrames(m_zoneEnd - m_zoneStart)));
+        } else setToolTip(i18n("Position: %1", m_manager->timecode().getTimecodeFromFrames(pos)));
+    }
 }
 
 void SmallRuler::slotNewValue(int value)
