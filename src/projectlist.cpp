@@ -221,7 +221,7 @@ void ProjectList::cleanup()
     ProjectItem *item;
     while (*it) {
         item = static_cast <ProjectItem *>(*it);
-        if (item->numReferences() == 0) item->setSelected(true);
+        if (!item->isGroup() && item->numReferences() == 0) item->setSelected(true);
         it++;
     }
     slotRemoveClip();
@@ -235,13 +235,24 @@ void ProjectList::trashUnusedClips()
     KUrl::List urls;
     while (*it) {
         item = static_cast <ProjectItem *>(*it);
-        if (item->numReferences() == 0) {
+        if (!item->isGroup() && item->numReferences() == 0) {
             ids << item->clipId();
             KUrl url = item->clipUrl();
             if (!url.isEmpty()) urls << url;
         }
         it++;
     }
+    // Check that we don't use the URL in another clip
+    QTreeWidgetItemIterator it2(m_listView);
+    while (*it2) {
+        item = static_cast <ProjectItem *>(*it2);
+        if (item->numReferences() > 0) {
+            KUrl url = item->clipUrl();
+            if (!url.isEmpty() && urls.contains(url)) urls.removeAll(url);
+        }
+        it2++;
+    }
+
     m_doc->deleteProjectClip(ids);
     for (int i = 0; i < urls.count(); i++) {
         KIO::NetAccess::del(urls.at(i), this);

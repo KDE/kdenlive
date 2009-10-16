@@ -84,6 +84,16 @@ void ProjectSettings::slotDeleteUnused()
             if (!url.isEmpty()) toDelete << url.path();
         }
     }
+
+    // make sure our urls are not used in another clip
+    for (int i = 0; i < list.count(); i++) {
+        DocClipBase *clip = list.at(i);
+        if (clip->numReferences() > 0) {
+            KUrl url = clip->fileURL();
+            if (!url.isEmpty() && toDelete.contains(url.path())) toDelete.removeAll(url.path());
+        }
+    }
+
     if (toDelete.count() == 0) {
         KMessageBox::sorry(this, i18n("No clip to delete"));
         return;
