@@ -1484,7 +1484,7 @@ void CustomTrackView::slotAddGroupEffect(QDomElement effect, AbstractGroupItem *
                 if (item->isAudioOnly() || item->clipType() == AUDIO) continue;
             }
 
-            if (item->hasEffect(effect.attribute("tag"), effect.attribute("id")) != -1 && effect.attribute("unique", "0") != "0") {
+            if (effect.attribute("unique", "0") != "0" && item->hasEffect(effect.attribute("tag"), effect.attribute("id")) != -1) {
                 emit displayMessage(i18n("Effect already present in clip"), ErrorMessage);
                 continue;
             }
@@ -3853,7 +3853,7 @@ void CustomTrackView::updatePositionEffects(ClipItem * item, ItemInfo info)
         // Freeze effect needs to be adjusted with clip resize
         int diff = (info.startPos - item->startPos()).frames(m_document->fps());
         QDomElement eff = item->getEffectAt(effectPos);
-        if (!eff.isNull()) {
+        if (!eff.isNull() && diff != 0) {
             int freeze_pos = EffectsList::parameter(eff, "frame").toInt() + diff;
             EffectsList::setParameter(eff, "frame", QString::number(freeze_pos));
             if (item->isSelected() && item->selectedEffect().attribute("id") == "freeze") {
@@ -4444,11 +4444,20 @@ void CustomTrackView::pasteClipEffects()
         if (clips.at(i)->type() == AVWIDGET) {
             ClipItem *item = static_cast < ClipItem *>(clips.at(i));
             for (int j = 0; j < clip->effectsCount(); j++) {
-                new AddEffectCommand(this, m_document->tracksCount() - item->track(), item->startPos(), clip->effectAt(j), true, paste);
+                QDomElement eff = clip->effectAt(j);
+                if (eff.attribute("unique", "0") == "0" || item->hasEffect(eff.attribute("tag"), eff.attribute("id")) == -1) {
+                    new AddEffectCommand(this, m_document->tracksCount() - item->track(), item->startPos(), eff, true, paste);
+                }
             }
         }
     }
     m_commandStack->push(paste);
+
+    // adjust effects (fades, ...)
+    for (int i = 0; i < clips.count(); ++i) {
+        ClipItem *item = static_cast < ClipItem *>(clips.at(i));
+        updatePositionEffects(item, item->info());
+    }
 }
 
 
