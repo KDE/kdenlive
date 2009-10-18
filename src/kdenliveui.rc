@@ -106,8 +106,10 @@
       <Menu name="monitor_go" ><text>Go To</text>
 	    <Action name="seek_start" />
 	    <Action name="monitor_seek_snap_backward" />
-	    <Action name="seek_clip_start" />     
+	    <Action name="seek_zone_start" />
+	    <Action name="seek_clip_start" />
 	    <Action name="seek_clip_end" />
+	    <Action name="seek_zone_end" />
 	    <Action name="monitor_seek_snap_forward" />
 	    <Action name="seek_end" />
       </Menu>

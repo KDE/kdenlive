@@ -981,6 +981,16 @@ void MainWindow::setupActions()
     collection->addAction("seek_clip_end", clipEnd);
     connect(clipEnd, SIGNAL(triggered(bool)), this, SLOT(slotClipEnd()));
 
+    KAction* zoneStart = new KAction(KIcon("media-seek-backward"), i18n("Go to Zone Start"), this);
+    zoneStart->setShortcut(Qt::SHIFT + Qt::Key_I);
+    collection->addAction("seek_zone_start", zoneStart);
+    connect(zoneStart, SIGNAL(triggered(bool)), this, SLOT(slotZoneStart()));
+
+    KAction* zoneEnd = new KAction(KIcon("media-seek-forward"), i18n("Go to Zone End"), this);
+    zoneEnd->setShortcut(Qt::SHIFT + Qt::Key_O);
+    collection->addAction("seek_zone_end", zoneEnd);
+    connect(zoneEnd, SIGNAL(triggered(bool)), this, SLOT(slotZoneEnd()));
+
     KAction* projectStart = new KAction(KIcon("go-first"), i18n("Go to Project Start"), this);
     projectStart->setShortcut(Qt::CTRL + Qt::Key_Home);
     collection->addAction("seek_start", projectStart);
@@ -2466,6 +2476,18 @@ void MainWindow::slotClipEnd()
         if (m_activeTimeline)
             m_activeTimeline->projectView()->clipEnd();
     }
+}
+
+void MainWindow::slotZoneStart()
+{
+    if (m_projectMonitor->isActive()) m_projectMonitor->slotZoneStart();
+    else m_clipMonitor->slotZoneStart();
+}
+
+void MainWindow::slotZoneEnd()
+{
+    if (m_projectMonitor->isActive()) m_projectMonitor->slotZoneEnd();
+    else m_clipMonitor->slotZoneEnd();
 }
 
 void MainWindow::slotChangeTool(QAction * action)
