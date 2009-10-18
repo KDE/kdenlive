@@ -8,14 +8,15 @@
 # Simon Eugster <simon.eu@gmail.com>, 2009.
 # Markus Slopianka <kamikazow@web.de>, 2009.
 # Lukas Lacheta <joshlukas@aryuna.de>, 2009.
+# Till Theato <root@ttill.de>, 2009.
 msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-10-01 23:51+0200\n"
-"PO-Revision-Date: 2009-10-09 21:16+0200\n"
-"Last-Translator: Simon Eugster\n"
-"Language-Team: American English <kde-i18n-de@kde.org>\n"
+"PO-Revision-Date: 2009-10-17 21:49+0200\n"
+"Last-Translator: Till Theato <root@ttill.de>\n"
+"Language-Team: American English <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -254,9 +255,9 @@ msgid "<strong>Program %1 is required for the DVD wizard.</strong>"
 msgstr "<strong>Programm %1 wird für den DVD-Assistenten benötigt.</strong>"
 
 #: src/dvdwizardvob.cpp:56
-#, fuzzy
 msgid "<strong>Program %1 or %2 is required for the DVD wizard.</strong>"
-msgstr "<strong>Programm %1 wird für den DVD-Assistenten benötigt.</strong>"
+msgstr ""
+"<strong>Programm %1 oder %2 wird für den DVD-Assistenten benötigt.</strong>"
 
 #: src/renderwidget.cpp:1422
 msgid "<strong>Rendering of %1 crashed</strong><br />"
@@ -377,11 +378,10 @@ msgid "Add clip"
 msgstr "Clip hinzufügen"
 
 #: src/cliptranscode.cpp:36 rc.cpp:861 rc.cpp:2779 rc.cpp:4258
-#, fuzzy
 msgid "Add clip to project"
 msgid_plural "Add clips to project"
 msgstr[0] "Clip zum Projekt hinzufügen"
-msgstr[1] "Clip zum Projekt hinzufügen"
+msgstr[1] "Clips zum Projekt hinzufügen"
 
 #: src/clipmanager.cpp:258
 msgid "Add clips"
@@ -473,19 +473,16 @@ msgid "Adjust the white balance / color temperature"
 msgstr "Weißabgleich/Farbtemperatur anpassen"
 
 #: rc.cpp:140 rc.cpp:2058
-#, fuzzy
 msgid "Adjusts the brightness of a source image"
-msgstr ""
+msgstr "Passt die Helligkeit des Quell-Bildes an"
 
 #: rc.cpp:151 rc.cpp:2069
-#, fuzzy
 msgid "Adjusts the contrast of a source image"
-msgstr ""
+msgstr "Passt den Kontrast des Quell-Bildes an"
 
 #: rc.cpp:179 rc.cpp:2097
-#, fuzzy
 msgid "Adjusts the saturation of a source image"
-msgstr ""
+msgstr "Pass die Sättigung des Quell-Bildes an"
 
 #: rc.cpp:1806 rc.cpp:3724 rc.cpp:5203
 msgid "Advanced"
@@ -556,14 +553,12 @@ msgid "Allow vertical moves"
 msgstr "Vertikales Verschieben erlauben"
 
 #: rc.cpp:165 rc.cpp:2083
-#, fuzzy
 msgid "Allows compensation of lens distortion"
-msgstr ""
+msgstr "Ermöglicht die Kompensierung einer Linsenverzerrung"
 
 #: rc.cpp:211 rc.cpp:2129
-#, fuzzy
 msgid "Alpha blending with zoomed and rotated images"
-msgstr ""
+msgstr "Alpha Abmischung mit herangezoomten und gedrehten Bildern"
 
 #: src/renderwidget.cpp:786 src/renderwidget.cpp:1554
 msgid "Already running"
@@ -914,14 +909,12 @@ msgid "Cannot find your Mlt profiles, please give the path"
 msgstr "Kann MLT-Profile nicht finden. Bitte geben Sie den Pfad an"
 
 #: src/customtrackview.cpp:1984
-#, fuzzy
 msgid "Cannot insert clip in timeline"
-msgstr "Keinen Clip gefunden um zu schneiden"
+msgstr "Kann den Clip nicht in die Zeitleiste einfügen"
 
 #: src/customtrackview.cpp:2338
-#, fuzzy
 msgid "Cannot insert space in a track with a group"
-msgstr "Kann in einer Gruppe keine Clips schneiden"
+msgstr "Kann in einer Spur mit einer Gruppe keinen Abstand einfügen"
 
 #: src/customtrackview.cpp:2392
 msgid "Cannot move clip at position %1, track %2"
@@ -936,9 +929,8 @@ msgid "Cannot move clip to position %1"
 msgstr "Kann Clip nicht an die Position %1 bewegen"
 
 #: src/customtrackview.cpp:1643
-#, fuzzy
 msgid "Cannot move effect"
-msgstr "Effekt verschieben"
+msgstr "Kann den Effekt nicht verschieben"
 
 #: src/customtrackview.cpp:2691
 msgid "Cannot move transition"
@@ -983,9 +975,8 @@ msgstr ""
 "Bitte überprüfen Sie Treiber und Zugriffsrechte"
 
 #: src/customtrackview.cpp:2291
-#, fuzzy
 msgid "Cannot remove space in a track with a group"
-msgstr "Kann in einer Gruppe keine Clips schneiden"
+msgstr "Kann in einer Spur mit einer Gruppe keinen Abstand entfernen"
 
 #: src/customtrackview.cpp:2865 src/customtrackview.cpp:2957
 msgid "Cannot resize transition"
@@ -1000,14 +991,13 @@ msgstr "Kann Audio der gruppierten Clips nicht teilen"
 #: src/customtrackview.cpp:4889 src/customtrackview.cpp:4915
 #: src/customtrackview.cpp:5013 src/customtrackview.cpp:5020
 #: src/customtrackview.cpp:5027
-#, fuzzy
 msgid "Cannot update clip (time: %1, track: %2)"
-msgstr "Kann Clip bei Zeitpunkt %1 auf Spur %2 nicht bewegen"
+msgstr "Kann Clip nicht aktualisieren (Zeit: %1, Spur: %2)"
 
 #: src/customtrackview.cpp:799
-#, fuzzy
 msgid "Cannot use spacer in a track with a group"
-msgstr "Kann in einer Gruppe keine Clips schneiden"
+msgstr ""
+"Kann das Abstandswerkzeug in einer Spur mit einer Gruppe nicht verwenden"
 
 #: src/kdenlivedoc.cpp:568 src/kdenlivedoc.cpp:574 src/titlewidget.cpp:1464
 #: src/profilesdialog.cpp:166 src/profilesdialog.cpp:172
@@ -1744,11 +1734,10 @@ msgid "Delete them"
 msgstr "Lösche diese"
 
 #: src/addtimelineclipcommand.cpp:37 src/customtrackview.cpp:2449
-#, fuzzy
 msgid "Delete timeline clip"
 msgid_plural "Delete timeline clips"
 msgstr[0] "Datei aus Zeitleiste entfernen"
-msgstr[1] "Datei aus Zeitleiste entfernen"
+msgstr[1] "Dateien aus Zeitleiste entfernen"
 
 #: src/customtrackview.cpp:4638 src/addtrackcommand.cpp:34
 msgid "Delete track"
@@ -2014,9 +2003,8 @@ msgid "Em Space (width of an m)"
 msgstr "Geviert-Leerzeichen"
 
 #: src/unicodedialog.cpp:136
-#, fuzzy
 msgid "En Space (width of an n)"
-msgstr ""
+msgstr "Halbgeviert-Leerzeichen"
 
 #: rc.cpp:1170 rc.cpp:3088 rc.cpp:4567
 msgid "Enable Jog Shuttle device"
@@ -2168,11 +2156,12 @@ msgid "Feedback"
 msgstr "Rückmeldung"
 
 #: src/unicodedialog.cpp:146
-#, fuzzy
 msgid ""
 "Figure space (non-breaking). Width of a digit if digits have fixed width in "
 "this font."
 msgstr ""
+"Figure Space (kein Umbruch). In Schriften mit Ziffern fester Breite "
+"entspricht Figure Space der Breite einer Ziffer."
 
 #: src/renderwidget.cpp:161 rc.cpp:1873 rc.cpp:3791 rc.cpp:5270
 msgid "File"
@@ -2551,9 +2540,8 @@ msgid "HDV"
 msgstr "HDV"
 
 #: src/unicodedialog.cpp:152
-#, fuzzy
 msgid "Hair Space. Thinner than U+2009."
-msgstr ""
+msgstr "Hair Space. Noch dünner als U+2009."
 
 #: rc.cpp:882 rc.cpp:2800 rc.cpp:4279
 msgid "Height"
@@ -3355,9 +3343,8 @@ msgid "Path"
 msgstr "Pfad"
 
 #: rc.cpp:215 rc.cpp:2133
-#, fuzzy
 msgid "Phase Increment"
-msgstr ""
+msgstr "Phasen Erhöhung"
 
 #: rc.cpp:263 rc.cpp:2181
 msgid "Phaser"
@@ -4235,12 +4222,14 @@ msgid "Six-Per-Em Space. Width: 1/6 of one <em>em</em>"
 msgstr "Sechstelgeviert-Leerzeichen"
 
 #: src/unicodedialog.cpp:172
-#, fuzzy
 msgid ""
 "Sixteenth note (Am.) or semiquaver (Brit.). Half as long as an eighth note (U"
 "+266a). See <a href=\"http://en.wikipedia.org/wiki/Sixteenth_note"
 "\">Wikipedia:Sixteenth_note</a>"
 msgstr ""
+"Sechzehntelnote. Halb so lang wie eine Achtelnote (U+266a). Siehe <a href="
+"\"http://de.wikipedia.org/wiki/Sechzehntelnote\">Wikipedia:Sechzehntelnote</"
+"a>"
 
 #: rc.cpp:780 rc.cpp:1338 rc.cpp:1512 rc.cpp:1551 rc.cpp:1879 rc.cpp:2698
 #: rc.cpp:3256 rc.cpp:3430 rc.cpp:3469 rc.cpp:3797 rc.cpp:4177 rc.cpp:4735
@@ -4361,9 +4350,8 @@ msgid "Sox bass audio effect"
 msgstr "Sox-Bass (Audioeffekt)"
 
 #: rc.cpp:393 rc.cpp:2311
-#, fuzzy
 msgid "Sox change audio balance"
-msgstr "Sox-Tonhöhe ändern (Audioeffekt)"
+msgstr "Sox-Tonbalance ändern (Audioeffekt)"
 
 #: rc.cpp:471 rc.cpp:2389
 msgid "Sox change pitch audio effect"
@@ -4544,19 +4532,22 @@ msgid "There is no clip, cannot extract frame."
 msgstr "Kein Clip vorhanden, kann kein Frame extrahieren."
 
 #: src/unicodedialog.cpp:150
-#, fuzzy
 msgid ""
 "Thin space, in HTML also &amp;thinsp;. See U+202f and <a href=\"http://en."
 "wikipedia.org/wiki/Space_(punctuation)\">Wikipedia:Space_(punctuation)</a>"
 msgstr ""
+"Thin space, in HTML auch &amp;thinsp; Siehe U+202f und <a href=\"http://de."
+"wikipedia.org/wiki/Leerzeichen\">Wikipedia:Leerzeichen</a>"
 
 #: src/unicodedialog.cpp:174
-#, fuzzy
 msgid ""
 "Thirty-second note (Am.) or demisemiquaver (Brit.). Half as long as a "
 "sixteenth note (U+266b). See <a href=\"http://en.wikipedia.org/wiki/"
 "Quarter_note\">Wikipedia:Thirty-second_note</a>"
 msgstr ""
+"Zweiunddreißigstelnote. Halb so lang wie eine Sechzehntelnote (U+266b). "
+"Siehe <a href=\"http://de.wikipedia.org/wiki/Zweiunddrei%C3%9Figstelnote"
+"\">Wikipedia:Zweiunddreißigstelnote</a>"
 
 #: src/wizard.cpp:53
 msgid ""
@@ -5037,7 +5028,6 @@ msgid "Year"
 msgstr "Jahr"
 
 #: src/mainwindow.cpp:415
-#, fuzzy
 msgid ""
 "You have 1 rendering job waiting in the queue.\n"
 "What do you want to do with this job?"
@@ -5048,8 +5038,8 @@ msgstr[0] ""
 "Sie haben 1 Render-Aufgabe in der Warteschlange.\n"
 "Was soll mit dieser Aufgabe geschehen?"
 msgstr[1] ""
-"Sie haben %1 Render-Aufgaben in der Warteschlange Was soll mit diesen "
-"Aufgaben geschehen?"
+"Sie haben %1 Render-Aufgaben in der Warteschlange.\n"
+"Was soll mit diesen Aufgaben geschehen?"
 
 #: src/kdenlivedoc.cpp:600
 msgid ""
@@ -5066,11 +5056,10 @@ msgstr ""
 "Spur: %2)"
 
 #: src/customtrackview.cpp:2280
-#, fuzzy
 msgid "You must be in an empty space to remove space (time: %1, track:%2)"
 msgstr ""
 "Sie müssen in einem leeren Raum sein, um ihn entfernen zu können (Zeit: %1, "
-"Spur: %2)"
+"Spur:%2)"
 
 #: src/customtrackview.cpp:4390
 msgid "You must copy exactly one clip before pasting effects"
@@ -5091,16 +5080,18 @@ msgid "You need program <b>%1</b> to perform this action"
 msgstr "Sie benötigen das Programm <b>%1</b> um diesen Vorgang auszuführen"
 
 #: src/recmonitor.cpp:167
-#, fuzzy
 msgid ""
 "You need to disconnect and reconnect in the capture monitor to apply your "
 "changes"
 msgstr ""
+"Sie müssen die Verbindung im Aufnahmemonitor trennen und wiederherstellen um "
+"ihre Änderungen anzuwenden."
 
 #: src/recmonitor.cpp:168
-#, fuzzy
 msgid "You need to stop capture before your changes can be applied"
 msgstr ""
+"Sie müssen die Aufnahme beenden, bevor ihre Änderungen angewandt werden "
+"können."
 
 #: src/wizard.cpp:51
 msgid ""
@@ -5122,18 +5113,21 @@ msgid "Your MLT version is unsupported!!!"
 msgstr "Ihre MLT-Version wird nicht unterstützt."
 
 #: src/trackview.cpp:398
-#, fuzzy
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version, it "
 "was not possible to create a backup copy."
 msgstr ""
+"Ihre Projektdatei wurde zur neusten Kdenlive Dokumentversion aufgebessert. "
+"Es war nicht möglich eine Sicherheitskopie zu erstellen."
 
 #: src/trackview.cpp:397
-#, fuzzy
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version.\n"
 " To make sure you don't loose data, a backup copy called: %1 was created."
 msgstr ""
+"Ihre Projektdatei wurde zur neusten Kdenlive Dokumentversion aufgebessert.\n"
+" Um sicherzustellen, dass sie keine Daten verlieren wurde eine "
+"Sicherheitskopie namens %1 erstellt."
 
 #: src/kdenlivedoc.cpp:674
 msgid ""
@@ -5150,19 +5144,16 @@ msgid "Z-Index:"
 msgstr "Z-Index:"
 
 #: src/customruler.cpp:197
-#, fuzzy
 msgid "Zone duration: %1"
-msgstr "Clip-Länge: %1 Sek."
+msgstr "Zonendauer: %1"
 
 #: src/customruler.cpp:194
-#, fuzzy
 msgid "Zone end: %1"
-msgstr "Gefunden: %1"
+msgstr "Zonenende: %1"
 
 #: src/customruler.cpp:191
-#, fuzzy
 msgid "Zone start: %1"
-msgstr "Vom Beginn %1 Sekunde abscheiden"
+msgstr "Zonenbeginn: %1"
 
 #: src/titlewidget.cpp:175
 msgid "Zoom"
