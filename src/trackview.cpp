@@ -103,6 +103,7 @@ TrackView::TrackView(KdenliveDoc *doc, bool *ok, QWidget *parent) :
     connect(m_trackview->verticalScrollBar(), SIGNAL(valueChanged(int)), headers_area->verticalScrollBar(), SLOT(setValue(int)));
     connect(m_trackview, SIGNAL(trackHeightChanged()), this, SLOT(slotRebuildTrackHeaders()));
     connect(m_trackview, SIGNAL(tracksChanged()), this, SLOT(slotReloadTracks()));
+    connect(m_trackview, SIGNAL(updateTrackHeaders()), this, SLOT(slotRepaintTracks()));
 
     parseDocument(m_doc->toXml());
     int error = m_doc->setSceneList();
@@ -272,24 +273,22 @@ void TrackView::parseDocument(QDomDocument doc)
                     //kDebug() << "//  TRANSITRION " << i << " IS NOT VALID (INTERN ADDED)";
                     //break;
                 } else if (paramName == "a_track") {
-		    a_track = qMax(0, p.text().toInt());
-		    a_track = qMin(m_projectTracks - 1, a_track);
-		    if (a_track != p.text().toInt()) {
-			// the transition track was out of bounds
-			m_documentErrors.append(i18n("Transition %1 had an invalid track: %2 > %3", e.attribute("id"), p.text().toInt(), a_track) + '\n');
-			EffectsList::setProperty(e, "a_track", QString::number(a_track));
-		    }
-		}
-                else if (paramName == "b_track") {
-		    b_track = qMax(0, p.text().toInt());
-		    b_track = qMin(m_projectTracks - 1, b_track);
-		    if (b_track != p.text().toInt()) {
-			// the transition track was out of bounds
-			m_documentErrors.append(i18n("Transition %1 had an invalid track: %2 > %3", e.attribute("id"), p.text().toInt(), b_track) + '\n');
-			EffectsList::setProperty(e, "b_track", QString::number(b_track));
-		    }
-		}
-                else if (paramName == "mlt_service") mlt_service = p.text();
+                    a_track = qMax(0, p.text().toInt());
+                    a_track = qMin(m_projectTracks - 1, a_track);
+                    if (a_track != p.text().toInt()) {
+                        // the transition track was out of bounds
+                        m_documentErrors.append(i18n("Transition %1 had an invalid track: %2 > %3", e.attribute("id"), p.text().toInt(), a_track) + '\n');
+                        EffectsList::setProperty(e, "a_track", QString::number(a_track));
+                    }
+                } else if (paramName == "b_track") {
+                    b_track = qMax(0, p.text().toInt());
+                    b_track = qMin(m_projectTracks - 1, b_track);
+                    if (b_track != p.text().toInt()) {
+                        // the transition track was out of bounds
+                        m_documentErrors.append(i18n("Transition %1 had an invalid track: %2 > %3", e.attribute("id"), p.text().toInt(), b_track) + '\n');
+                        EffectsList::setProperty(e, "b_track", QString::number(b_track));
+                    }
+                } else if (paramName == "mlt_service") mlt_service = p.text();
                 else if (paramName == "kdenlive_id") transitionId = p.text();
                 else if (paramName == "geometry") mlt_geometry = p.text();
                 else if (paramName == "automatic" && p.text() == "1") isAutomatic = true;
@@ -469,6 +468,18 @@ void TrackView::refresh()
     m_trackview->viewport()->update();
 }
 
+void TrackView::slotRepaintTracks()
+{
+    QLayoutItem *child;
+    for (int i = 0; i < headers_container->layout()->count(); i++) {
+        child = headers_container->layout()->itemAt(i);
+        if (child->widget() && child->widget()->height() > 5) {
+            HeaderTrack *head = static_cast <HeaderTrack *>(child->widget());
+            if (head) head->setSelectedIndex(m_trackview->selectedTrack());
+        }
+    }
+}
+
 void TrackView::slotReloadTracks()
 {
     slotRebuildTrackHeaders();
@@ -497,6 +508,7 @@ void TrackView::slotRebuildTrackHeaders()
         headers_container->layout()->addWidget(frame);
         TrackInfo info = list.at(max - i - 1);
         header = new HeaderTrack(i, info, height, headers_container);
+        header->setSelectedIndex(m_trackview->selectedTrack());
         connect(header, SIGNAL(switchTrackVideo(int)), m_trackview, SLOT(slotSwitchTrackVideo(int)));
         connect(header, SIGNAL(switchTrackAudio(int)), m_trackview, SLOT(slotSwitchTrackAudio(int)));
         connect(header, SIGNAL(switchTrackLock(int)), m_trackview, SLOT(slotSwitchTrackLock(int)));

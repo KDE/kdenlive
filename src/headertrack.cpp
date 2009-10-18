@@ -23,6 +23,7 @@
 #include <KIcon>
 #include <KLocale>
 #include <KDebug>
+#include <KColorScheme>
 
 #include <QMouseEvent>
 #include <QWidget>
@@ -45,6 +46,11 @@ HeaderTrack::HeaderTrack(int index, TrackInfo info, int height, QWidget *parent)
     buttonAudio->setToolTip(i18n("Mute track"));
     buttonLock->setChecked(info.isLocked);
     buttonLock->setToolTip(i18n("Lock track"));
+
+    QPalette p = palette();
+    KColorScheme scheme(p.currentColorGroup(), KColorScheme::Window);
+    p.setColor(QPalette::Button, scheme.background(KColorScheme::ActiveBackground).color().darker(120));
+    setPalette(p);
 
     if (m_type == VIDEOTRACK) {
         setBackgroundRole(QPalette::AlternateBase);
@@ -94,6 +100,16 @@ HeaderTrack::HeaderTrack(int index, TrackInfo info, int height, QWidget *parent)
 /*HeaderTrack::~HeaderTrack()
 {
 }*/
+
+void HeaderTrack::setSelectedIndex(int ix)
+{
+    if (m_index == ix) {
+        setBackgroundRole(QPalette::Button);
+        setAutoFillBackground(true);
+    } else if (m_type != VIDEOTRACK) setAutoFillBackground(false);
+    else setBackgroundRole(QPalette::AlternateBase);
+    update();
+}
 
 void HeaderTrack::adjustSize(int height)
 {

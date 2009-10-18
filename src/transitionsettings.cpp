@@ -74,7 +74,7 @@ void TransitionSettings::updateProjectFormat(MltVideoProfile profile, Timecode t
     transitionTrack->blockSignals(true);
     transitionTrack->clear();
     transitionTrack->addItem(i18n("Auto"), -1);
-    for (uint i = 0; i < m_tracksCount; i++) {
+    for (int i = 0; i < m_tracksCount; i++) {
         if (!info.at(i).trackName.isEmpty())
             transitionTrack->addItem(info.at(i).trackName + '(' + QString::number(i) + ')', i);
         else transitionTrack->addItem(QString::number(i));

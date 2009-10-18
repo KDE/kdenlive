@@ -124,6 +124,7 @@ public:
     void reloadTransitionLumas();
     void updateProjectFps();
     double fps() const;
+    int selectedTrack() const;
 
 public slots:
     void setCursorPos(int pos, bool seek = true);
@@ -159,6 +160,8 @@ public slots:
     void slotDeleteTrack(int ix);
     void slotChangeTrack(int ix);
     void clipNameChanged(const QString id, const QString name);
+    void slotTrackUp();
+    void slotTrackDown();
 
 protected:
     virtual void drawBackground(QPainter * painter, const QRectF & rect);
@@ -232,6 +235,7 @@ private:
     bool m_blockRefresh;
     AbstractGroupItem *m_selectionGroup;
     QList <ClipItem *> m_waitingThumbs;
+    int m_selectedTrack;
 
     /** Get the index of the video track that is just below current track */
     int getPreviousVideoTrack(int track);
@@ -277,6 +281,7 @@ signals:
     void showClipFrame(DocClipBase *, const int);
     void doTrackLock(int, bool);
     void updateClipMarkers(DocClipBase *);
+    void updateTrackHeaders();
 };
 
 #endif

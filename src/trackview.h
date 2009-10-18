@@ -93,6 +93,7 @@ private slots:
     void slotVerticalZoomDown();
     void slotVerticalZoomUp();
     void slotRenameTrack(int ix);
+    void slotRepaintTracks();
 
 signals:
     void mousePosition(int);

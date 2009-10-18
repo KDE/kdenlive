@@ -114,7 +114,8 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscen
         m_copiedItems(),
         m_menuPosition(),
         m_blockRefresh(false),
-        m_selectionGroup(NULL)
+        m_selectionGroup(NULL),
+        m_selectedTrack(0)
 {
     if (doc) m_commandStack = doc->commandStack();
     else m_commandStack = NULL;
@@ -4201,15 +4202,16 @@ void CustomTrackView::drawBackground(QPainter * painter, const QRectF &rect)
     double min = rect.left();
     double max = rect.right();
     painter->drawLine(QPointF(min, 0), QPointF(max, 0));
-    uint maxTrack = m_document->tracksCount();
+    int maxTrack = m_document->tracksCount();
     QColor lockedColor = scheme.background(KColorScheme::NegativeBackground).color();
     QColor audioColor = palette().alternateBase().color();
     QColor base = scheme.background(KColorScheme::NormalBackground).color();
-    for (uint i = 0; i < maxTrack; i++) {
+    for (int i = 0; i < maxTrack; i++) {
         TrackInfo info = m_document->trackInfoAt(maxTrack - i - 1);
-        if (info.isLocked || info.type == AUDIOTRACK) {
+        if (info.isLocked || info.type == AUDIOTRACK || i == m_selectedTrack) {
             const QRectF track(min, m_tracksHeight * i + 1, max - min, m_tracksHeight - 1);
-            painter->fillRect(track, info.isLocked ? lockedColor : audioColor);
+            if (i == m_selectedTrack) painter->fillRect(track, scheme.background(KColorScheme::ActiveBackground).color());
+            else painter->fillRect(track, info.isLocked ? lockedColor : audioColor);
         }
         painter->drawLine(QPointF(min, m_tracksHeight *(i + 1)), QPointF(max, m_tracksHeight *(i + 1)));
     }
@@ -5205,3 +5207,25 @@ void CustomTrackView::updateProjectFps()
     }
     viewport()->update();
 }
+
+void CustomTrackView::slotTrackDown()
+{
+    if (m_selectedTrack > m_document->tracksCount() - 2) m_selectedTrack = 0;
+    else m_selectedTrack++;
+    emit updateTrackHeaders();
+    viewport()->update();
+}
+
+void CustomTrackView::slotTrackUp()
+{
+    if (m_selectedTrack > 0) m_selectedTrack--;
+    else m_selectedTrack = m_document->tracksCount() - 1;
+    emit updateTrackHeaders();
+    viewport()->update();
+}
+
+int CustomTrackView::selectedTrack() const
+{
+    return m_selectedTrack;
+}
+

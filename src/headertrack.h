@@ -35,6 +35,7 @@ public:
     //virtual ~HeaderTrack();
     void setLock(bool lock);
     void adjustSize(int height);
+    void setSelectedIndex(int ix);
 
 private:
     int m_index;
