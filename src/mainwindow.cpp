@@ -1680,13 +1680,9 @@ void MainWindow::slotDetectAudioDriver()
 void MainWindow::slotEditProjectSettings()
 {
     QPoint p = m_activeDocument->getTracksCount();
-    ProjectSettings *w = new ProjectSettings(m_activeDocument->clipManager(), p.x(), p.y(), m_activeDocument->projectFolder().path(), true, !m_activeDocument->isModified(), this);
+    ProjectSettings *w = new ProjectSettings(m_projectList, p.x(), p.y(), m_activeDocument->projectFolder().path(), true, !m_activeDocument->isModified(), this);
 
     if (w->exec() == QDialog::Accepted) {
-        if (w->deleteUnused()) {
-            // we are going to trash the unused clips
-            m_projectList->trashUnusedClips();
-        }
         QString profile = w->selectedProfile();
         m_activeDocument->setProjectFolder(w->selectedFolder());
         if (m_renderWidget) m_renderWidget->setDocumentPath(w->selectedFolder().path(KUrl::AddTrailingSlash));

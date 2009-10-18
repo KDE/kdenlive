@@ -31,8 +31,8 @@
 #include <QDir>
 #include <kmessagebox.h>
 
-ProjectSettings::ProjectSettings(ClipManager *manager, int videotracks, int audiotracks, const QString projectPath, bool readOnlyTracks, bool savedProject, QWidget * parent) :
-        QDialog(parent), m_savedProject(savedProject), m_clipManager(manager), m_deleteUnused(false)
+ProjectSettings::ProjectSettings(ProjectList *projectlist, int videotracks, int audiotracks, const QString projectPath, bool readOnlyTracks, bool savedProject, QWidget * parent) :
+        QDialog(parent), m_savedProject(savedProject), m_projectList(projectlist)
 {
     setupUi(this);
 
@@ -64,7 +64,7 @@ ProjectSettings::ProjectSettings(ClipManager *manager, int videotracks, int audi
         audio_tracks->setEnabled(false);
     }
     slotUpdateDisplay();
-    if (manager != NULL) {
+    if (m_projectList != NULL) {
         slotUpdateFiles();
         connect(clear_cache, SIGNAL(clicked()), this, SLOT(slotClearCache()));
         connect(delete_unused, SIGNAL(clicked()), this, SLOT(slotDeleteUnused()));
@@ -76,7 +76,7 @@ ProjectSettings::ProjectSettings(ClipManager *manager, int videotracks, int audi
 void ProjectSettings::slotDeleteUnused()
 {
     QStringList toDelete;
-    QList <DocClipBase*> list = m_clipManager->documentClipList();
+    QList <DocClipBase*> list = m_projectList->documentClipList();
     for (int i = 0; i < list.count(); i++) {
         DocClipBase *clip = list.at(i);
         if (clip->numReferences() == 0) {
@@ -84,6 +84,7 @@ void ProjectSettings::slotDeleteUnused()
             if (!url.isEmpty()) toDelete << url.path();
         }
     }
+    toDelete.removeDuplicates();
 
     // make sure our urls are not used in another clip
     for (int i = 0; i < list.count(); i++) {
@@ -95,17 +96,15 @@ void ProjectSettings::slotDeleteUnused()
     }
 
     if (toDelete.count() == 0) {
-        KMessageBox::sorry(this, i18n("No clip to delete"));
+        // No physical url to delete, we only remove unused clips from project (color clips for example have no physical url)
+        if (KMessageBox::warningContinueCancel(this, i18n("This will remove all unused clips from your project."), i18n("Clean up project")) == KMessageBox::Cancel) return;
+        m_projectList->cleanup();
+        slotUpdateFiles();
         return;
     }
     if (KMessageBox::warningYesNoList(this, i18n("This will remove the following files from your hard drive.\nThis action cannot be undone, only use if you know what you are doing.\nAre you sure you want to continue?"), toDelete, i18n("Delete unused clips")) != KMessageBox::Yes) return;
-    m_deleteUnused = true;
-    delete_unused->setEnabled(false);
-}
-
-bool ProjectSettings::deleteUnused() const
-{
-    return m_deleteUnused;
+    m_projectList->trashUnusedClips();
+    slotUpdateFiles();
 }
 
 void ProjectSettings::slotClearCache()
@@ -129,7 +128,7 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
     int used = 0;
     KIO::filesize_t usedSize = 0;
     KIO::filesize_t unUsedSize = 0;
-    QList <DocClipBase*> list = m_clipManager->documentClipList();
+    QList <DocClipBase*> list = m_projectList->documentClipList();
 
     for (int i = 0; i < list.count(); i++) {
         DocClipBase *clip = list.at(i);
@@ -145,7 +144,7 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
     used_size->setText(KIO::convertSize(usedSize));
     unused_count->setText(QString::number(unused));
     unused_size->setText(KIO::convertSize(unUsedSize));
-    if (!m_deleteUnused) delete_unused->setEnabled(unused > 0);
+    delete_unused->setEnabled(unused > 0);
 }
 
 void ProjectSettings::accept()

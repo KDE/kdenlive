@@ -96,7 +96,7 @@ public:
             QString subText = index.data(DurationRole).toString();
             int usage = index.data(UsageRole).toInt();
             if (usage != 0) subText.append(QString(" (%1)").arg(usage));
-            painter->setPen(option.palette.color(QPalette::Mid));
+            if (option.state & (QStyle::State_Selected)) painter->setPen(option.palette.color(QPalette::Mid));
             painter->drawText(r2, Qt::AlignLeft | Qt::AlignVCenter , subText);
             painter->restore();
         } else if (index.column() == 3 && KdenliveSettings::activate_nepomuk()) {
@@ -135,6 +135,7 @@ public:
     QDomDocument generateTemplateXml(QString data, const QString &replaceString);
     void cleanup();
     void trashUnusedClips();
+    QList <DocClipBase*> documentClipList() const;
 
 public slots:
     void setDocument(KdenliveDoc *doc);

@@ -66,6 +66,7 @@ ProjectList::ProjectList(QWidget *parent) :
         m_openAction(NULL),
         m_reloadAction(NULL),
         m_transcodeAction(NULL),
+        m_doc(NULL),
         m_selectedItem(NULL),
         m_refreshed(false),
         m_infoQueue(),
@@ -232,30 +233,31 @@ void ProjectList::trashUnusedClips()
     QTreeWidgetItemIterator it(m_listView);
     ProjectItem *item;
     QStringList ids;
-    KUrl::List urls;
+    QStringList urls;
     while (*it) {
         item = static_cast <ProjectItem *>(*it);
         if (!item->isGroup() && item->numReferences() == 0) {
             ids << item->clipId();
             KUrl url = item->clipUrl();
-            if (!url.isEmpty()) urls << url;
+            if (!url.isEmpty()) urls << url.path();
         }
         it++;
     }
+    urls.removeDuplicates();
     // Check that we don't use the URL in another clip
     QTreeWidgetItemIterator it2(m_listView);
     while (*it2) {
         item = static_cast <ProjectItem *>(*it2);
         if (item->numReferences() > 0) {
             KUrl url = item->clipUrl();
-            if (!url.isEmpty() && urls.contains(url)) urls.removeAll(url);
+            if (!url.isEmpty() && urls.contains(url.path())) urls.removeAll(url.path());
         }
         it2++;
     }
 
     m_doc->deleteProjectClip(ids);
     for (int i = 0; i < urls.count(); i++) {
-        KIO::NetAccess::del(urls.at(i), this);
+        KIO::NetAccess::del(KUrl(urls.at(i)), this);
     }
 }
 
@@ -841,6 +843,12 @@ void ProjectList::setDocument(KdenliveDoc *doc)
     m_toolbar->setEnabled(true);
     connect(m_doc->clipManager(), SIGNAL(reloadClip(const QString &)), this, SLOT(slotReloadClip(const QString &)));
     connect(m_doc->clipManager(), SIGNAL(checkAllClips()), this, SLOT(updateAllClips()));
+}
+
+QList <DocClipBase*> ProjectList::documentClipList() const
+{
+    if (m_doc == NULL) return QList <DocClipBase*> ();
+    return m_doc->clipManager()->documentClipList();
 }
 
 QDomElement ProjectList::producersList()
