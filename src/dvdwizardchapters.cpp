@@ -147,9 +147,7 @@ void DvdWizardChapters::setVobFiles(bool isPal, bool isWide, const QStringList m
     }
     if (isWide) profile.append("_wide");
     m_manager->resetProfiles(m_tc);
-
     if (m_monitor == NULL) {
-
         m_monitor = new Monitor("chapter", m_manager, profile, this);
         //m_monitor->start();
         QVBoxLayout *vbox = new QVBoxLayout;
@@ -159,11 +157,13 @@ void DvdWizardChapters::setVobFiles(bool isPal, bool isWide, const QStringList m
         adjustSize();*/
     } else m_monitor->resetProfile(profile);
 
+    m_view.vob_list->blockSignals(true);
     m_view.vob_list->clear();
     for (int i = 0; i < movies.count(); i++) {
         m_view.vob_list->addItem(movies.at(i), durations.at(i));
         m_view.vob_list->setItemData(i, chapters.at(i).split(';'), Qt::UserRole + 1);
     }
+    m_view.vob_list->blockSignals(false);
     slotUpdateChaptersList();
 }
 
