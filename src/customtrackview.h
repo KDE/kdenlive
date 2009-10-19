@@ -125,6 +125,8 @@ public:
     void updateProjectFps();
     double fps() const;
     int selectedTrack() const;
+    void selectClip(bool add, bool group = false);
+    void selectTransition(bool add, bool group = false);
 
 public slots:
     void setCursorPos(int pos, bool seek = true);

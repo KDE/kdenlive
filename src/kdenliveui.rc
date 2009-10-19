@@ -67,6 +67,12 @@
 </Menu>
 
     <Menu name="timeline" ><text>Timeline</text>
+      <Action name="select_timeline_clip" />
+      <Action name="select_add_timeline_clip" />
+      <Action name="deselect_timeline_clip" />
+      <Action name="select_timeline_transition" />
+      <Action name="select_add_timeline_transition" />
+      <Action name="deselect_timeline_transition" />
       <Action name="cut_timeline_clip" />
       <Action name="delete_timeline_clip" />
       <Menu name="guide_menu" ><text>Guides</text>

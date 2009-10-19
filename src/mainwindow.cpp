@@ -1044,6 +1044,36 @@ void MainWindow::setupActions()
     ungroupClip->setData("ungroup_clip");
     connect(ungroupClip, SIGNAL(triggered(bool)), this, SLOT(slotUnGroupClips()));
 
+    KAction* selectTimelineClip = new KAction(KIcon("edit-select"), i18n("Select Clip"), this);
+    selectTimelineClip->setShortcut(Qt::Key_Plus);
+    collection->addAction("select_timeline_clip", selectTimelineClip);
+    connect(selectTimelineClip, SIGNAL(triggered(bool)), this, SLOT(slotSelectTimelineClip()));
+
+    KAction* deselectTimelineClip = new KAction(KIcon("edit-select"), i18n("Deselect Clip"), this);
+    deselectTimelineClip->setShortcut(Qt::Key_Minus);
+    collection->addAction("deselect_timeline_clip", deselectTimelineClip);
+    connect(deselectTimelineClip, SIGNAL(triggered(bool)), this, SLOT(slotDeselectTimelineClip()));
+
+    KAction* selectAddTimelineClip = new KAction(KIcon("edit-select"), i18n("Add Clip To Selection"), this);
+    selectAddTimelineClip->setShortcut(Qt::ALT + Qt::Key_Plus);
+    collection->addAction("select_add_timeline_clip", selectAddTimelineClip);
+    connect(selectAddTimelineClip, SIGNAL(triggered(bool)), this, SLOT(slotSelectAddTimelineClip()));
+
+    KAction* selectTimelineTransition = new KAction(KIcon("edit-select"), i18n("Select Transition"), this);
+    selectTimelineTransition->setShortcut(Qt::SHIFT + Qt::Key_Plus);
+    collection->addAction("select_timeline_transition", selectTimelineTransition);
+    connect(selectTimelineTransition, SIGNAL(triggered(bool)), this, SLOT(slotSelectTimelineTransition()));
+
+    KAction* deselectTimelineTransition = new KAction(KIcon("edit-select"), i18n("Deselect Transition"), this);
+    deselectTimelineTransition->setShortcut(Qt::SHIFT + Qt::Key_Minus);
+    collection->addAction("deselect_timeline_transition", deselectTimelineTransition);
+    connect(deselectTimelineTransition, SIGNAL(triggered(bool)), this, SLOT(slotDeselectTimelineTransition()));
+
+    KAction* selectAddTimelineTransition = new KAction(KIcon("edit-select"), i18n("Add Transition To Selection"), this);
+    selectAddTimelineTransition->setShortcut(Qt::ALT + Qt::SHIFT + Qt::Key_Plus);
+    collection->addAction("select_add_timeline_transition", selectAddTimelineTransition);
+    connect(selectAddTimelineTransition, SIGNAL(triggered(bool)), this, SLOT(slotSelectAddTimelineTransition()));
+
     KAction* cutTimelineClip = new KAction(KIcon("edit-cut"), i18n("Cut Clip"), this);
     cutTimelineClip->setShortcut(Qt::SHIFT + Qt::Key_R);
     collection->addAction("cut_timeline_clip", cutTimelineClip);
@@ -2243,6 +2273,48 @@ void MainWindow::slotCutTimelineClip()
 {
     if (m_activeTimeline) {
         m_activeTimeline->projectView()->cutSelectedClips();
+    }
+}
+
+void MainWindow::slotSelectTimelineClip()
+{
+    if (m_activeTimeline) {
+        m_activeTimeline->projectView()->selectClip(true);
+    }
+}
+
+void MainWindow::slotSelectTimelineTransition()
+{
+    if (m_activeTimeline) {
+        m_activeTimeline->projectView()->selectTransition(true);
+    }
+}
+
+void MainWindow::slotDeselectTimelineClip()
+{
+    if (m_activeTimeline) {
+        m_activeTimeline->projectView()->selectClip(false, true);
+    }
+}
+
+void MainWindow::slotDeselectTimelineTransition()
+{
+    if (m_activeTimeline) {
+        m_activeTimeline->projectView()->selectTransition(false, true);
+    }
+}
+
+void MainWindow::slotSelectAddTimelineClip()
+{
+    if (m_activeTimeline) {
+        m_activeTimeline->projectView()->selectClip(true, true);
+    }
+}
+
+void MainWindow::slotSelectAddTimelineTransition()
+{
+    if (m_activeTimeline) {
+        m_activeTimeline->projectView()->selectTransition(true, true);
     }
 }
 

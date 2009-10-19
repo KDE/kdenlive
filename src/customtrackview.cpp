@@ -5257,3 +5257,32 @@ void CustomTrackView::slotSelectTrack(int ix)
     viewport()->update();
 }
 
+void CustomTrackView::selectClip(bool add, bool group)
+{
+    QRectF rect(m_cursorPos, m_selectedTrack * m_tracksHeight + m_tracksHeight / 2, 1, 1);
+    QList<QGraphicsItem *> selection = m_scene->items(rect);
+    resetSelectionGroup(group);
+    if (!group) m_scene->clearSelection();
+    for (int i = 0; i < selection.count(); i++) {
+        if (selection.at(i)->type() == AVWIDGET) {
+            selection.at(i)->setSelected(add);
+            break;
+        }
+    }
+    if (group) groupSelectedItems();
+}
+
+void CustomTrackView::selectTransition(bool add, bool group)
+{
+    QRectF rect(m_cursorPos, m_selectedTrack * m_tracksHeight + m_tracksHeight, 1, 1);
+    QList<QGraphicsItem *> selection = m_scene->items(rect);
+    resetSelectionGroup(group);
+    if (!group) m_scene->clearSelection();
+    for (int i = 0; i < selection.count(); i++) {
+        if (selection.at(i)->type() == TRANSITIONWIDGET) {
+            selection.at(i)->setSelected(add);
+            break;
+        }
+    }
+    if (group) groupSelectedItems();
+}
