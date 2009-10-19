@@ -946,6 +946,16 @@ void MainWindow::setupActions()
     markOut->setShortcut(Qt::Key_O);
     connect(markOut, SIGNAL(triggered(bool)), this, SLOT(slotSetOutPoint()));
 
+    KAction *resizeStart =  new KAction(KIcon(), i18n("Resize Item Start"), this);
+    collection->addAction("resize_timeline_clip_start", resizeStart);
+    resizeStart->setShortcut(Qt::Key_1);
+    connect(resizeStart, SIGNAL(triggered(bool)), this, SLOT(slotResizeItemStart()));
+
+    KAction *resizeEnd =  new KAction(KIcon(), i18n("Resize Item End"), this);
+    collection->addAction("resize_timeline_clip_end", resizeEnd);
+    resizeEnd->setShortcut(Qt::Key_2);
+    connect(resizeEnd, SIGNAL(triggered(bool)), this, SLOT(slotResizeItemEnd()));
+
     KAction* monitorSeekBackward = new KAction(KIcon("media-seek-backward"), i18n("Rewind"), this);
     monitorSeekBackward->setShortcut(Qt::Key_J);
     collection->addAction("monitor_seek_backward", monitorSeekBackward);
@@ -2751,6 +2761,16 @@ void MainWindow::slotSetOutPoint()
         m_clipMonitor->slotSetZoneEnd();
     } else m_projectMonitor->slotSetZoneEnd();
     // else m_activeTimeline->projectView()->setOutPoint();
+}
+
+void MainWindow::slotResizeItemStart()
+{
+    if (m_activeTimeline) m_activeTimeline->projectView()->setInPoint();
+}
+
+void MainWindow::slotResizeItemEnd()
+{
+    if (m_activeTimeline) m_activeTimeline->projectView()->setOutPoint();
 }
 
 void MainWindow::slotGetNewLumaStuff()

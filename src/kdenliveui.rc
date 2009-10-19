@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<gui name="kdenlive" version="47">
+<gui name="kdenlive" version="48">
   <ToolBar name="extraToolBar" >
     <text>Extra Toolbar</text>
 	<Action name="project_render" />
@@ -73,6 +73,8 @@
       <Action name="select_timeline_transition" />
       <Action name="select_add_timeline_transition" />
       <Action name="deselect_timeline_transition" />
+      <Action name="resize_timeline_clip_start" />
+      <Action name="resize_timeline_clip_end" />
       <Action name="cut_timeline_clip" />
       <Action name="delete_timeline_clip" />
       <Menu name="guide_menu" ><text>Guides</text>
