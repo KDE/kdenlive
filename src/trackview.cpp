@@ -124,6 +124,18 @@ TrackView::~TrackView()
     delete m_trackview;
 }
 
+//virtual
+void TrackView::keyPressEvent(QKeyEvent * event)
+{
+    if (event->key() == Qt::Key_Up) {
+        m_trackview->slotTrackUp();
+        event->accept();
+    } else if (event->key() == Qt::Key_Down) {
+        m_trackview->slotTrackDown();
+        event->accept();
+    } else QWidget::keyPressEvent(event);
+}
+
 int TrackView::duration() const
 {
     return m_trackview->duration();
@@ -512,7 +524,7 @@ void TrackView::slotRebuildTrackHeaders()
         connect(header, SIGNAL(switchTrackVideo(int)), m_trackview, SLOT(slotSwitchTrackVideo(int)));
         connect(header, SIGNAL(switchTrackAudio(int)), m_trackview, SLOT(slotSwitchTrackAudio(int)));
         connect(header, SIGNAL(switchTrackLock(int)), m_trackview, SLOT(slotSwitchTrackLock(int)));
-
+        connect(header, SIGNAL(selectTrack(int)), m_trackview, SLOT(slotSelectTrack(int)));
         connect(header, SIGNAL(deleteTrack(int)), this, SIGNAL(deleteTrack(int)));
         connect(header, SIGNAL(insertTrack(int)), this, SIGNAL(insertTrack(int)));
         connect(header, SIGNAL(changeTrack(int)), this, SIGNAL(changeTrack(int)));

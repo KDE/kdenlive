@@ -59,6 +59,9 @@ public:
     int inPoint() const;
     int fitZoom() const;
 
+protected:
+    virtual void keyPressEvent(QKeyEvent * event);
+
 public slots:
     void slotDeleteClip(const QString &clipId);
     void slotChangeZoom(int horizontal, int vertical = -1);

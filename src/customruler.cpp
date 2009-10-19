@@ -112,7 +112,7 @@ void CustomRuler::setZone(QPoint p)
     update(min * m_factor - 2, 0, (max - min) * m_factor + 4, height());
 }
 
-void CustomRuler::mouseReleaseEvent(QMouseEvent * event)
+void CustomRuler::mouseReleaseEvent(QMouseEvent * /*event*/)
 {
     m_mouseMove = NO_MOVE;
 }

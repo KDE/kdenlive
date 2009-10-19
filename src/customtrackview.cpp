@@ -171,6 +171,18 @@ CustomTrackView::~CustomTrackView()
     m_waitingThumbs.clear();
 }
 
+//virtual
+void CustomTrackView::keyPressEvent(QKeyEvent * event)
+{
+    if (event->key() == Qt::Key_Up) {
+        slotTrackUp();
+        event->accept();
+    } else if (event->key() == Qt::Key_Down) {
+        slotTrackDown();
+        event->accept();
+    } else QWidget::keyPressEvent(event);
+}
+
 void CustomTrackView::setDocumentModified()
 {
     m_document->setModified(true);
@@ -2185,6 +2197,8 @@ void CustomTrackView::removeTrack(int ix)
     }
     m_cursorLine->setLine(m_cursorLine->line().x1(), 0, m_cursorLine->line().x1(), maxHeight);
     setSceneRect(0, 0, sceneRect().width(), maxHeight);
+
+    m_selectedTrack = qMin(m_selectedTrack, m_document->tracksCount() - 1);
     viewport()->update();
     emit tracksChanged();
     //QTimer::singleShot(500, this, SIGNAL(trackHeightChanged()));
@@ -5213,6 +5227,8 @@ void CustomTrackView::slotTrackDown()
     if (m_selectedTrack > m_document->tracksCount() - 2) m_selectedTrack = 0;
     else m_selectedTrack++;
     emit updateTrackHeaders();
+    QRectF rect(mapToScene(QPoint()).x(), m_selectedTrack * m_tracksHeight, 10, m_tracksHeight);
+    ensureVisible(rect);
     viewport()->update();
 }
 
@@ -5221,11 +5237,23 @@ void CustomTrackView::slotTrackUp()
     if (m_selectedTrack > 0) m_selectedTrack--;
     else m_selectedTrack = m_document->tracksCount() - 1;
     emit updateTrackHeaders();
+    QRectF rect(mapToScene(QPoint()).x(), m_selectedTrack * m_tracksHeight, 10, m_tracksHeight);
+    ensureVisible(rect);
     viewport()->update();
 }
 
 int CustomTrackView::selectedTrack() const
 {
     return m_selectedTrack;
+}
+
+void CustomTrackView::slotSelectTrack(int ix)
+{
+    m_selectedTrack = qMax(0, ix);
+    m_selectedTrack = qMin(ix, m_document->tracksCount() - 1);
+    emit updateTrackHeaders();
+    QRectF rect(mapToScene(QPoint()).x(), m_selectedTrack * m_tracksHeight, 10, m_tracksHeight);
+    ensureVisible(rect);
+    viewport()->update();
 }
 

@@ -37,6 +37,9 @@ public:
     void adjustSize(int height);
     void setSelectedIndex(int ix);
 
+protected:
+    virtual void mousePressEvent(QMouseEvent * event);
+
 private:
     int m_index;
     TRACKTYPE m_type;
@@ -59,6 +62,7 @@ signals:
     void deleteTrack(int);
     void changeTrack(int);
     void renameTrack(int);
+    void selectTrack(int);
 };
 
 #endif

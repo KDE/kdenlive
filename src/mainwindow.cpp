@@ -937,12 +937,12 @@ void MainWindow::setupActions()
     connect(transcodeClip, SIGNAL(triggered(bool)), this, SLOT(slotTranscodeClip()));
 
     KAction *markIn = collection->addAction("mark_in");
-    markIn->setText(i18n("Set In Point"));
+    markIn->setText(i18n("Set Zone In"));
     markIn->setShortcut(Qt::Key_I);
     connect(markIn, SIGNAL(triggered(bool)), this, SLOT(slotSetInPoint()));
 
     KAction *markOut = collection->addAction("mark_out");
-    markOut->setText(i18n("Set Out Point"));
+    markOut->setText(i18n("Set Zone Out"));
     markOut->setShortcut(Qt::Key_O);
     connect(markOut, SIGNAL(triggered(bool)), this, SLOT(slotSetOutPoint()));
 
@@ -950,16 +950,6 @@ void MainWindow::setupActions()
     monitorSeekBackward->setShortcut(Qt::Key_J);
     collection->addAction("monitor_seek_backward", monitorSeekBackward);
     connect(monitorSeekBackward, SIGNAL(triggered(bool)), m_monitorManager, SLOT(slotRewind()));
-
-    KAction* trackUp = new KAction(KIcon(), i18n("Previous Track"), this);
-    trackUp->setShortcut(Qt::Key_Up);
-    collection->addAction("track_up", trackUp);
-    connect(trackUp, SIGNAL(triggered(bool)), this, SLOT(slotTrackUp()));
-
-    KAction* trackDown = new KAction(KIcon(), i18n("Next Track"), this);
-    trackDown->setShortcut(Qt::Key_Down);
-    collection->addAction("track_down", trackDown);
-    connect(trackDown, SIGNAL(triggered(bool)), this, SLOT(slotTrackDown()));
 
     KAction* monitorSeekBackwardOneFrame = new KAction(KIcon("media-skip-backward"), i18n("Rewind 1 Frame"), this);
     monitorSeekBackwardOneFrame->setShortcut(Qt::Key_Left);
@@ -2679,14 +2669,16 @@ void MainWindow::slotSetInPoint()
 {
     if (m_clipMonitor->isActive()) {
         m_clipMonitor->slotSetZoneStart();
-    } else m_activeTimeline->projectView()->setInPoint();
+    } else m_projectMonitor->slotSetZoneStart();
+    //else m_activeTimeline->projectView()->setInPoint();
 }
 
 void MainWindow::slotSetOutPoint()
 {
     if (m_clipMonitor->isActive()) {
         m_clipMonitor->slotSetZoneEnd();
-    } else m_activeTimeline->projectView()->setOutPoint();
+    } else m_projectMonitor->slotSetZoneEnd();
+    // else m_activeTimeline->projectView()->setOutPoint();
 }
 
 void MainWindow::slotGetNewLumaStuff()
@@ -3055,15 +3047,6 @@ QPixmap MainWindow::createSchemePreviewIcon(const KSharedConfigPtr &config)
     return pixmap;
 }
 
-void MainWindow::slotTrackUp()
-{
-    if (m_activeTimeline) m_activeTimeline->projectView()->slotTrackUp();
-}
-
-void MainWindow::slotTrackDown()
-{
-    if (m_activeTimeline) m_activeTimeline->projectView()->slotTrackDown();
-}
 
 #include "mainwindow.moc"
 

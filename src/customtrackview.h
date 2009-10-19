@@ -162,6 +162,7 @@ public slots:
     void clipNameChanged(const QString id, const QString name);
     void slotTrackUp();
     void slotTrackDown();
+    void slotSelectTrack(int ix);
 
 protected:
     virtual void drawBackground(QPainter * painter, const QRectF & rect);
@@ -171,6 +172,7 @@ protected:
     virtual void dragLeaveEvent(QDragLeaveEvent * event);
     virtual void dropEvent(QDropEvent * event);
     virtual void wheelEvent(QWheelEvent * e);
+    virtual void keyPressEvent(QKeyEvent * event);
     virtual QStringList mimeTypes() const;
     virtual Qt::DropActions supportedDropActions() const;
 

@@ -101,6 +101,13 @@ HeaderTrack::HeaderTrack(int index, TrackInfo info, int height, QWidget *parent)
 {
 }*/
 
+// virtual
+void HeaderTrack::mousePressEvent(QMouseEvent * event)
+{
+    emit selectTrack(m_index);
+    QWidget::mousePressEvent(event);
+}
+
 void HeaderTrack::setSelectedIndex(int ix)
 {
     if (m_index == ix) {
