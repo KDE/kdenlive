@@ -38,6 +38,7 @@ public:
     QPoint tracks();
     bool enableVideoThumbs() const;
     bool enableAudioThumbs() const;
+    static QStringList extractPlaylistUrls(QString path);
 
 public slots:
     virtual void accept();

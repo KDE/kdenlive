@@ -345,7 +345,7 @@ QString TitleWidget::getTitleResourceFromName(const KUrl &projectUrl, const QStr
     return titlePath + titleName + ".png";
 }
 
-// static 
+// static
 QStringList TitleWidget::extractImageList(QString xml)
 {
     QStringList result;
@@ -354,8 +354,8 @@ QStringList TitleWidget::extractImageList(QString xml)
     doc.setContent(xml);
     QDomNodeList images = doc.elementsByTagName("content");
     for (int i = 0; i < images.count(); i++) {
-	if (images.at(i).toElement().hasAttribute("url"))
-	    result.append(images.at(i).toElement().attribute("url"));
+        if (images.at(i).toElement().hasAttribute("url"))
+            result.append(images.at(i).toElement().attribute("url"));
     }
     return result;
 }

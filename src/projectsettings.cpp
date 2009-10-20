@@ -22,6 +22,7 @@
 #include "profilesdialog.h"
 #include "docclipbase.h"
 #include "titlewidget.h"
+#include "effectslist.h"
 
 #include <KStandardDirs>
 #include <KMessageBox>
@@ -36,7 +37,7 @@ ProjectSettings::ProjectSettings(ProjectList *projectlist, int videotracks, int 
         QDialog(parent), m_savedProject(savedProject), m_projectList(projectlist)
 {
     setupUi(this);
-    
+
     list_search->setListWidget(files_list);
 
     QMap <QString, QString> profilesInfo = ProfilesDialog::getProfilesInfo();
@@ -133,33 +134,35 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
     KIO::filesize_t unUsedSize = 0;
     QList <DocClipBase*> list = m_projectList->documentClipList();
     files_list->clear();
-    
+
     // List all files that are used in the project. That also means:
-    // images included in slideshow, titles
-    // TODO: images used in luma transitions, files used in playlist clips, files used for LADSPA effects
-    
+    // images included in slideshow and titles, files in playlist clips
+    // TODO: images used in luma transitions, files used for LADSPA effects?
+
     QStringList allFiles;
     for (int i = 0; i < list.count(); i++) {
         DocClipBase *clip = list.at(i);
-	if (clip->clipType() == SLIDESHOW) {
-	    // special case, list all images
-	    QString path = clip->fileURL().directory();
-	    QString ext = clip->fileURL().path().section('.', -1);
-	    QDir dir(path);
-	    QStringList filters;
-	    filters << "*." + ext;
-	    dir.setNameFilters(filters);
-	    QStringList result = dir.entryList(QDir::Files);
-	    for (int j = 0; j < result.count(); j++) {
-		allFiles.append(path + result.at(j));
-	    }
-	}
-	else if (!clip->fileURL().isEmpty()) allFiles.append(clip->fileURL().path());
-	if (clip->clipType() == TEXT) {
-	    QStringList images = TitleWidget::extractImageList(clip->getProperty("xmldata"));
-	    allFiles << images;
-	}
-	
+        if (clip->clipType() == SLIDESHOW) {
+            // special case, list all images
+            QString path = clip->fileURL().directory();
+            QString ext = clip->fileURL().path().section('.', -1);
+            QDir dir(path);
+            QStringList filters;
+            filters << "*." + ext;
+            dir.setNameFilters(filters);
+            QStringList result = dir.entryList(QDir::Files);
+            for (int j = 0; j < result.count(); j++) {
+                allFiles.append(path + result.at(j));
+            }
+        } else if (!clip->fileURL().isEmpty()) allFiles.append(clip->fileURL().path());
+        if (clip->clipType() == TEXT) {
+            QStringList images = TitleWidget::extractImageList(clip->getProperty("xmldata"));
+            allFiles << images;
+        } else if (clip->clipType() == PLAYLIST) {
+            QStringList files = extractPlaylistUrls(clip->fileURL().path());
+            allFiles << files;
+        }
+
         if (clip->numReferences() == 0) {
             unused++;
             unUsedSize += clip->fileSize();
@@ -232,6 +235,40 @@ bool ProjectSettings::enableVideoThumbs() const
 bool ProjectSettings::enableAudioThumbs() const
 {
     return audio_thumbs->isChecked();
+}
+
+//static
+QStringList ProjectSettings::extractPlaylistUrls(QString path)
+{
+    QStringList urls;
+    QDomDocument doc;
+    QFile file(path);
+    if (!file.open(QIODevice::ReadOnly))
+        return urls;
+    if (!doc.setContent(&file)) {
+        file.close();
+        return urls;
+    }
+    file.close();
+    QString root = doc.documentElement().attribute("root");
+    QDomNodeList files = doc.elementsByTagName("producer");
+    for (int i = 0; i < files.count(); i++) {
+        QDomElement e = files.at(i).toElement();
+        QString type = EffectsList::property(e, "mlt_service");
+        if (type != "colour") {
+            //TODO: slideshows (.all.*)
+            QString url = EffectsList::property(e, "resource");
+            if (!url.isEmpty()) {
+                if (!url.startsWith('/')) url.prepend(root);
+                urls << url;
+                if (url.endsWith(".mlt") || url.endsWith(".kdenlive")) {
+                    //TODO: Do something to avoid infinite loops if 2 files reference themselves...
+                    urls << extractPlaylistUrls(url);
+                }
+            }
+        }
+    }
+    return urls;
 }
 
 #include "projectsettings.moc"
