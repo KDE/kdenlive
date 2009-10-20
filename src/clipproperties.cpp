@@ -38,11 +38,6 @@ static const int MARKERTAB = 5;
 static const int METATAB = 6;
 static const int ADVANCEDTAB = 7;
 
-static const int TYPE_JPEG = 0;
-static const int TYPE_PNG = 1;
-static const int TYPE_BMP = 2;
-static const int TYPE_GIF = 3;
-
 ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidget * parent) :
         QDialog(parent),
         m_clip(clip),
@@ -150,16 +145,28 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
         m_view.tabWidget->removeTab(COLORTAB);
         m_view.tabWidget->removeTab(AUDIOTAB);
         m_view.tabWidget->removeTab(VIDEOTAB);
-        QStringList types;
-        types << "JPG" << "PNG" << "BMP" << "GIF";
-        m_view.image_type->addItems(types);
+	
+	//WARNING: Keep in sync with slideshowclip.cpp
+	m_view.image_type->addItem("JPG (*.jpg)", "jpg");
+	m_view.image_type->addItem("JPEG (*.jpeg)", "jpeg");
+	m_view.image_type->addItem("PNG (*.png)", "png");
+	m_view.image_type->addItem("BMP (*.bmp)", "bmp");
+	m_view.image_type->addItem("GIF (*.gif)", "gif");
+	m_view.image_type->addItem("TGA (*.tga)", "tga");
+	m_view.image_type->addItem("TIFF (*.tiff)", "tiff");
+	m_view.image_type->addItem("Open EXR (*.exr)", "exr");
+	
         m_view.slide_loop->setChecked(props.value("loop").toInt());
         m_view.slide_fade->setChecked(props.value("fade").toInt());
         m_view.luma_softness->setValue(props.value("softness").toInt());
         QString path = props.value("resource");
-        if (path.endsWith("png")) m_view.image_type->setCurrentIndex(TYPE_PNG);
-        else if (path.endsWith("bmp")) m_view.image_type->setCurrentIndex(TYPE_BMP);
-        else if (path.endsWith("gif")) m_view.image_type->setCurrentIndex(TYPE_GIF);
+	QString ext = path.section('.', -1);
+	for (int i = 0; i < m_view.image_type->count(); i++) {
+	    if (m_view.image_type->itemData(i).toString() == ext) {
+		m_view.image_type->setCurrentIndex(i);
+		break;
+	    }
+	}
         m_view.slide_duration->setText(tc.getTimecodeFromFrames(props.value("ttl").toInt()));
 
         m_view.slide_duration_format->addItem(i18n("hh:mm:ss::ff"));
@@ -403,21 +410,7 @@ QMap <QString, QString> ClipProperties::properties()
         value = QString::number((int) m_view.luma_softness->value());
         if (old_props.value("softness") != value) props["softness"] = value;
 
-        QString extension;
-        switch (m_view.image_type->currentIndex()) {
-        case TYPE_PNG:
-            extension = "/.all.png";
-            break;
-        case TYPE_BMP:
-            extension = "/.all.bmp";
-            break;
-        case TYPE_GIF:
-            extension = "/.all.gif";
-            break;
-        default:
-            extension = "/.all.jpg";
-            break;
-        }
+        QString extension = "/.all." + m_view.image_type->itemData(m_view.image_type->currentIndex()).toString();
         QString new_path = m_view.clip_path->text() + extension;
         if (new_path != old_props.value("resource")) {
             m_clipNeedsReLoad = true;
@@ -480,31 +473,19 @@ void ClipProperties::parseFolder()
 
     QDir dir(m_view.clip_path->text());
     QStringList filters;
-    QString extension;
-    switch (m_view.image_type->currentIndex()) {
-    case TYPE_PNG:
-        filters << "*.png";
-        extension = "/.all.png";
-        break;
-    case TYPE_BMP:
-        filters << "*.bmp";
-        extension = "/.all.bmp";
-        break;
-    case TYPE_GIF:
-        filters << "*.gif";
-        extension = "/.all.gif";
-        break;
-    default:
-        filters << "*.jpg";
-        // TODO: improve jpeg image detection with extension like jpeg, requires change in MLT image producers
-        // << "*.jpeg";
-        extension = "/.all.jpg";
-        break;
-    }
+    filters << "*." + m_view.image_type->itemData(m_view.image_type->currentIndex()).toString();
+    QString extension = "/.all." + m_view.image_type->itemData(m_view.image_type->currentIndex()).toString();
 
     dir.setNameFilters(filters);
     QStringList result = dir.entryList(QDir::Files);
     m_count = result.count();
+    if (m_count == 0) {
+	// no images, do not accept that
+	m_view.slide_info->setText(i18n("No image found"));
+	m_view.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
+	return;
+    }
+    m_view.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
     m_view.slide_info->setText(i18np("1 image found", "%1 images found", m_count));
     QDomElement xml = m_clip->toXML();
     xml.setAttribute("resource", m_view.clip_path->text() + extension);
