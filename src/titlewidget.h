@@ -61,6 +61,11 @@ public:
      *
      * The path "/titles/" is appended to projectUrl to locate the actual directory that contains the title pngs. */
     static QStringList getFreeTitleInfo(const KUrl &projectUrl, bool isClone = false);
+    
+    /** \brief Return a list af all images included in a title 
+     * \param xml The xml data for title
+    */
+    static QStringList extractImageList(QString xml);
 
     /** \brief Build a filename from a projectUrl and a titleName
      * \param projectUrl Url to directory of project.

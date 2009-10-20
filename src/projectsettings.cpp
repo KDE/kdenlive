@@ -21,6 +21,7 @@
 #include "kdenlivesettings.h"
 #include "profilesdialog.h"
 #include "docclipbase.h"
+#include "titlewidget.h"
 
 #include <KStandardDirs>
 #include <KMessageBox>
@@ -35,7 +36,7 @@ ProjectSettings::ProjectSettings(ProjectList *projectlist, int videotracks, int 
         QDialog(parent), m_savedProject(savedProject), m_projectList(projectlist)
 {
     setupUi(this);
-
+    
     list_search->setListWidget(files_list);
 
     QMap <QString, QString> profilesInfo = ProfilesDialog::getProfilesInfo();
@@ -132,28 +133,33 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
     KIO::filesize_t unUsedSize = 0;
     QList <DocClipBase*> list = m_projectList->documentClipList();
     files_list->clear();
-
+    
     // List all files that are used in the project. That also means:
-    // images included in slideshow
-    // TODO: images included in titles, images used in luma transitions, files used in playlist clips, files used for LADSPA effects
-
+    // images included in slideshow, titles
+    // TODO: images used in luma transitions, files used in playlist clips, files used for LADSPA effects
+    
     QStringList allFiles;
     for (int i = 0; i < list.count(); i++) {
         DocClipBase *clip = list.at(i);
-        if (clip->clipType() == SLIDESHOW) {
-            // special case, list all images
-            QString path = clip->fileURL().directory();
-            QString ext = clip->fileURL().path().section('.', -1);
-            QDir dir(path);
-            QStringList filters;
-            filters << "*." + ext;
-            dir.setNameFilters(filters);
-            QStringList result = dir.entryList(QDir::Files);
-            for (int j = 0; j < result.count(); j++) {
-                allFiles.append(path + result.at(j));
-            }
-        } else if (!clip->fileURL().isEmpty()) allFiles.append(clip->fileURL().path());
-
+	if (clip->clipType() == SLIDESHOW) {
+	    // special case, list all images
+	    QString path = clip->fileURL().directory();
+	    QString ext = clip->fileURL().path().section('.', -1);
+	    QDir dir(path);
+	    QStringList filters;
+	    filters << "*." + ext;
+	    dir.setNameFilters(filters);
+	    QStringList result = dir.entryList(QDir::Files);
+	    for (int j = 0; j < result.count(); j++) {
+		allFiles.append(path + result.at(j));
+	    }
+	}
+	else if (!clip->fileURL().isEmpty()) allFiles.append(clip->fileURL().path());
+	if (clip->clipType() == TEXT) {
+	    QStringList images = TitleWidget::extractImageList(clip->getProperty("xmldata"));
+	    allFiles << images;
+	}
+	
         if (clip->numReferences() == 0) {
             unused++;
             unUsedSize += clip->fileSize();

@@ -336,6 +336,7 @@ QStringList TitleWidget::getFreeTitleInfo(const KUrl &projectUrl, bool isClone)
     return result;
 }
 
+// static
 QString TitleWidget::getTitleResourceFromName(const KUrl &projectUrl, const QString &titleName)
 {
     QStringList result;
@@ -343,6 +344,22 @@ QString TitleWidget::getTitleResourceFromName(const KUrl &projectUrl, const QStr
     KStandardDirs::makeDir(titlePath);
     return titlePath + titleName + ".png";
 }
+
+// static 
+QStringList TitleWidget::extractImageList(QString xml)
+{
+    QStringList result;
+    if (xml.isEmpty()) return result;
+    QDomDocument doc;
+    doc.setContent(xml);
+    QDomNodeList images = doc.elementsByTagName("content");
+    for (int i = 0; i < images.count(); i++) {
+	if (images.at(i).toElement().hasAttribute("url"))
+	    result.append(images.at(i).toElement().attribute("url"));
+    }
+    return result;
+}
+
 
 //virtual
 void TitleWidget::resizeEvent(QResizeEvent * /*event*/)
@@ -403,7 +420,9 @@ void TitleWidget::slotSelectTool()
 
 void TitleWidget::slotImageTool()
 {
-    KUrl url = KFileDialog::getOpenUrl(KUrl(), "*.svg *.png *.jpg *.jpeg *.gif *.raw", this, i18n("Load Image"));
+    // TODO: find a way to get a list of all supported image types...
+    QString allExtensions = "image/gif image/jpeg image/png image/x-tga image/x-bmp image/svg+xml image/tiff image/x-xcf-gimp image/x-vnd.adobe.photoshop image/x-pcx image/x-exr";
+    KUrl url = KFileDialog::getOpenUrl(KUrl(), allExtensions, this, i18n("Load Image")); //"*.svg *.png *.jpg *.jpeg *.gif *.raw"
     if (!url.isEmpty()) {
         if (url.path().endsWith(".svg")) {
             QGraphicsSvgItem *svg = new QGraphicsSvgItem(url.toLocalFile());
