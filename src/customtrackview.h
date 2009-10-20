@@ -261,7 +261,7 @@ private:
     /** Whether an item can be moved to a new position without colliding with similar items */
     bool itemCollision(AbstractClipItem *item, ItemInfo newPos);
     /** Selects all items in the scene rect, and sets ok to false if a group going over several tracks is found in it */
-    QList<QGraphicsItem *> checkForGroups(const QRectF &rect, bool &ok);
+    QList<QGraphicsItem *> checkForGroups(const QRectF &rect, bool *ok);
 
 private slots:
     void slotRefreshGuides();

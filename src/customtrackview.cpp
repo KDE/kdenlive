@@ -809,7 +809,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
                 QRectF rect(mapToScene(m_clickEvent).x(), track * m_tracksHeight + m_tracksHeight / 2, sceneRect().width() - mapToScene(m_clickEvent).x(), m_tracksHeight / 2 - 2);
 
                 bool isOk;
-                selection = checkForGroups(rect, isOk);
+                selection = checkForGroups(rect, &isOk);
                 if (!isOk) {
                     // groups found on track, do not allow the move
                     emit displayMessage(i18n("Cannot use spacer in a track with a group"), ErrorMessage);
@@ -2261,18 +2261,19 @@ void CustomTrackView::slotSwitchTrackVideo(int ix)
     setDocumentModified();
 }
 
-QList<QGraphicsItem *> CustomTrackView::checkForGroups(const QRectF &rect, bool &ok)
+QList<QGraphicsItem *> CustomTrackView::checkForGroups(const QRectF &rect, bool *ok)
 {
     // Check there is no group going over several tracks there, or that would result in timeline corruption
     QList<QGraphicsItem *> selection = scene()->items(rect);
+    *ok = true;
     int maxHeight = m_tracksHeight * 1.5;
     for (int i = 0; i < selection.count(); i++) {
         // Check that we don't try to move a group with clips on other tracks
         if (selection.at(i)->type() == GROUPWIDGET && (selection.at(i)->boundingRect().height() >= maxHeight)) {
-            ok = false;
+            *ok = false;
             break;
         } else if (selection.at(i)->parentItem() && (selection.at(i)->parentItem()->boundingRect().height() >= maxHeight)) {
-            ok = false;
+            *ok = false;
             break;
         }
     }
@@ -2309,7 +2310,7 @@ void CustomTrackView::slotRemoveSpace()
     QRectF rect(pos.frames(m_document->fps()), track * m_tracksHeight + m_tracksHeight / 2, sceneRect().width() - pos.frames(m_document->fps()), m_tracksHeight / 2 - 2);
 
     bool isOk;
-    QList<QGraphicsItem *> items = checkForGroups(rect, isOk);
+    QList<QGraphicsItem *> items = checkForGroups(rect, &isOk);
     if (!isOk) {
         // groups found on track, do not allow the move
         emit displayMessage(i18n("Cannot remove space in a track with a group"), ErrorMessage);
@@ -2356,7 +2357,7 @@ void CustomTrackView::slotInsertSpace()
     // Make sure there is no group in the way
     QRectF rect(pos.frames(m_document->fps()), track * m_tracksHeight + m_tracksHeight / 2, sceneRect().width() - pos.frames(m_document->fps()), m_tracksHeight / 2 - 2);
     bool isOk;
-    QList<QGraphicsItem *> items = checkForGroups(rect, isOk);
+    QList<QGraphicsItem *> items = checkForGroups(rect, &isOk);
     if (!isOk) {
         // groups found on track, do not allow the move
         emit displayMessage(i18n("Cannot insert space in a track with a group"), ErrorMessage);
