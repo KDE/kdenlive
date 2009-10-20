@@ -284,18 +284,29 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="3">
-        <spacer name="verticalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_13">
+         <property name="text">
+          <string>Project files</string>
          </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>142</height>
-          </size>
+        </widget>
+       </item>
+       <item row="4" column="0" colspan="4">
+        <widget class="QListWidget" name="files_list"/>
+       </item>
+       <item row="3" column="2" colspan="2">
+        <widget class="KListWidgetSearchLine" name="list_search">
+         <property name="clickMessage">
+          <string>Search</string>
          </property>
-        </spacer>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QLabel" name="files_count">
+         <property name="text">
+          <string>TextLabel</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
@@ -325,9 +336,19 @@
    <header>kpushbutton.h</header>
   </customwidget>
   <customwidget>
+   <class>KLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>klineedit.h</header>
+  </customwidget>
+  <customwidget>
    <class>KComboBox</class>
    <extends>QComboBox</extends>
    <header>kcombobox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KListWidgetSearchLine</class>
+   <extends>KLineEdit</extends>
+   <header>klistwidgetsearchline.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
