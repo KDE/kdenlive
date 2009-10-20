@@ -36,6 +36,8 @@ ProjectSettings::ProjectSettings(ProjectList *projectlist, int videotracks, int 
 {
     setupUi(this);
 
+    list_search->setListWidget(files_list);
+
     QMap <QString, QString> profilesInfo = ProfilesDialog::getProfilesInfo();
     QMapIterator<QString, QString> i(profilesInfo);
     while (i.hasNext()) {
@@ -79,7 +81,7 @@ void ProjectSettings::slotDeleteUnused()
     QList <DocClipBase*> list = m_projectList->documentClipList();
     for (int i = 0; i < list.count(); i++) {
         DocClipBase *clip = list.at(i);
-        if (clip->numReferences() == 0) {
+        if (clip->numReferences() == 0 && clip->clipType() != SLIDESHOW) {
             KUrl url = clip->fileURL();
             if (!url.isEmpty()) toDelete << url.path();
         }
@@ -129,9 +131,29 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
     KIO::filesize_t usedSize = 0;
     KIO::filesize_t unUsedSize = 0;
     QList <DocClipBase*> list = m_projectList->documentClipList();
+    files_list->clear();
 
+    // List all files that are used in the project. That also means:
+    // images included in slideshow
+    // TODO: images included in titles, images used in luma transitions, files used in playlist clips, files used for LADSPA effects
+
+    QStringList allFiles;
     for (int i = 0; i < list.count(); i++) {
         DocClipBase *clip = list.at(i);
+        if (clip->clipType() == SLIDESHOW) {
+            // special case, list all images
+            QString path = clip->fileURL().directory();
+            QString ext = clip->fileURL().path().section('.', -1);
+            QDir dir(path);
+            QStringList filters;
+            filters << "*." + ext;
+            dir.setNameFilters(filters);
+            QStringList result = dir.entryList(QDir::Files);
+            for (int j = 0; j < result.count(); j++) {
+                allFiles.append(path + result.at(j));
+            }
+        } else if (!clip->fileURL().isEmpty()) allFiles.append(clip->fileURL().path());
+
         if (clip->numReferences() == 0) {
             unused++;
             unUsedSize += clip->fileSize();
@@ -140,6 +162,9 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
             usedSize += clip->fileSize();
         }
     }
+    allFiles.removeDuplicates();
+    files_count->setText(QString::number(allFiles.count()));
+    files_list->addItems(allFiles);
     used_count->setText(QString::number(used));
     used_size->setText(KIO::convertSize(usedSize));
     unused_count->setText(QString::number(unused));

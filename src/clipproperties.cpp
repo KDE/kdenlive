@@ -145,28 +145,28 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
         m_view.tabWidget->removeTab(COLORTAB);
         m_view.tabWidget->removeTab(AUDIOTAB);
         m_view.tabWidget->removeTab(VIDEOTAB);
-	
-	//WARNING: Keep in sync with slideshowclip.cpp
-	m_view.image_type->addItem("JPG (*.jpg)", "jpg");
-	m_view.image_type->addItem("JPEG (*.jpeg)", "jpeg");
-	m_view.image_type->addItem("PNG (*.png)", "png");
-	m_view.image_type->addItem("BMP (*.bmp)", "bmp");
-	m_view.image_type->addItem("GIF (*.gif)", "gif");
-	m_view.image_type->addItem("TGA (*.tga)", "tga");
-	m_view.image_type->addItem("TIFF (*.tiff)", "tiff");
-	m_view.image_type->addItem("Open EXR (*.exr)", "exr");
-	
+
+        //WARNING: Keep in sync with slideshowclip.cpp
+        m_view.image_type->addItem("JPG (*.jpg)", "jpg");
+        m_view.image_type->addItem("JPEG (*.jpeg)", "jpeg");
+        m_view.image_type->addItem("PNG (*.png)", "png");
+        m_view.image_type->addItem("BMP (*.bmp)", "bmp");
+        m_view.image_type->addItem("GIF (*.gif)", "gif");
+        m_view.image_type->addItem("TGA (*.tga)", "tga");
+        m_view.image_type->addItem("TIFF (*.tiff)", "tiff");
+        m_view.image_type->addItem("Open EXR (*.exr)", "exr");
+
         m_view.slide_loop->setChecked(props.value("loop").toInt());
         m_view.slide_fade->setChecked(props.value("fade").toInt());
         m_view.luma_softness->setValue(props.value("softness").toInt());
         QString path = props.value("resource");
-	QString ext = path.section('.', -1);
-	for (int i = 0; i < m_view.image_type->count(); i++) {
-	    if (m_view.image_type->itemData(i).toString() == ext) {
-		m_view.image_type->setCurrentIndex(i);
-		break;
-	    }
-	}
+        QString ext = path.section('.', -1);
+        for (int i = 0; i < m_view.image_type->count(); i++) {
+            if (m_view.image_type->itemData(i).toString() == ext) {
+                m_view.image_type->setCurrentIndex(i);
+                break;
+            }
+        }
         m_view.slide_duration->setText(tc.getTimecodeFromFrames(props.value("ttl").toInt()));
 
         m_view.slide_duration_format->addItem(i18n("hh:mm:ss::ff"));
@@ -480,10 +480,10 @@ void ClipProperties::parseFolder()
     QStringList result = dir.entryList(QDir::Files);
     m_count = result.count();
     if (m_count == 0) {
-	// no images, do not accept that
-	m_view.slide_info->setText(i18n("No image found"));
-	m_view.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
-	return;
+        // no images, do not accept that
+        m_view.slide_info->setText(i18n("No image found"));
+        m_view.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
+        return;
     }
     m_view.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
     m_view.slide_info->setText(i18np("1 image found", "%1 images found", m_count));
