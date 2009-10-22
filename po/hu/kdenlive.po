@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-10-01 23:51+0200\n"
-"PO-Revision-Date: 2009-10-13 13:44+0100\n"
+"PO-Revision-Date: 2009-10-22 08:19+0100\n"
 "Last-Translator: KAMI <kami911@gmail.com>\n"
 "Language-Team:  <hu@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -3180,7 +3180,7 @@ msgstr "Szkript létrehozása"
 
 #: rc.cpp:5421
 msgid "Generators"
-msgstr "Létrehozók"
+msgstr "Létrehozás"
 
 #: rc.cpp:6
 #: rc.cpp:1924
