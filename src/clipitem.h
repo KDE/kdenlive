@@ -168,7 +168,7 @@ private slots:
     void animate(qreal value);
     void slotSetStartThumb(QImage img);
     void slotSetEndThumb(QImage img);
-    void slotThumbReady(int frame, QPixmap pix);
+    void slotThumbReady(int frame, QImage img);
 
 public slots:
     void slotFetchThumbs();

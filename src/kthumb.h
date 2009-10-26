@@ -23,6 +23,7 @@
 #include <QThread>
 #include <QMutex>
 #include <QDomElement>
+#include <QFuture>
 
 #include <KUrl>
 
@@ -114,9 +115,12 @@ private:
     Mlt::Producer *m_producer;
     ClipManager *m_clipManager;
     QString m_id;
+    QList <int> m_requestedThumbs;
+    QFuture<void> m_future;
+    void doGetThumbs();
 
 signals:
-    void thumbReady(int, QPixmap);
+    void thumbReady(int, QImage);
     void mainThumbReady(const QString &, QPixmap);
     void audioThumbReady(QMap <int, QMap <int, QByteArray> >);
 };

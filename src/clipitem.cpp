@@ -92,7 +92,7 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, i
         connect(this, SIGNAL(getThumb(int, int)), clip->thumbProducer(), SLOT(extractImage(int, int)));
         //connect(this, SIGNAL(getThumb(int, int)), clip->thumbProducer(), SLOT(getVideoThumbs(int, int)));
 
-        connect(clip->thumbProducer(), SIGNAL(thumbReady(int, QPixmap)), this, SLOT(slotThumbReady(int, QPixmap)));
+        connect(clip->thumbProducer(), SIGNAL(thumbReady(int, QImage)), this, SLOT(slotThumbReady(int, QImage)));
         connect(clip, SIGNAL(gotAudioData()), this, SLOT(slotGotAudioData()));
         if (generateThumbs) QTimer::singleShot(200, this, SLOT(slotFetchThumbs()));
 
@@ -108,7 +108,7 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, i
         m_baseColor = QColor(141, 166, 215);
         if (m_clipType == TEXT) {
             connect(this, SIGNAL(getThumb(int, int)), clip->thumbProducer(), SLOT(extractImage(int, int)));
-            connect(clip->thumbProducer(), SIGNAL(thumbReady(int, QPixmap)), this, SLOT(slotThumbReady(int, QPixmap)));
+            connect(clip->thumbProducer(), SIGNAL(thumbReady(int, QImage)), this, SLOT(slotThumbReady(int, QImage)));
         }
         //m_startPix = KThumb::getImage(KUrl(clip->getProperty("resource")), (int)(KdenliveSettings::trackheight() * KdenliveSettings::project_display_ratio()), KdenliveSettings::trackheight());
     } else if (m_clipType == AUDIO) {
@@ -122,7 +122,7 @@ ClipItem::~ClipItem()
 {
     blockSignals(true);
     if (m_clipType == VIDEO || m_clipType == AV || m_clipType == SLIDESHOW || m_clipType == PLAYLIST) {
-        disconnect(m_clip->thumbProducer(), SIGNAL(thumbReady(int, QPixmap)), this, SLOT(slotThumbReady(int, QPixmap)));
+        disconnect(m_clip->thumbProducer(), SIGNAL(thumbReady(int, QImage)), this, SLOT(slotThumbReady(int, QImage)));
         disconnect(m_clip, SIGNAL(gotAudioData()), this, SLOT(slotGotAudioData()));
     }
     delete m_timeLine;
@@ -543,10 +543,11 @@ void ClipItem::slotSetEndThumb(QImage img)
     }
 }
 
-void ClipItem::slotThumbReady(int frame, QPixmap pix)
+void ClipItem::slotThumbReady(int frame, QImage img)
 {
     if (scene() == NULL) return;
     QRectF r = boundingRect();
+    QPixmap pix = QPixmap::fromImage(img);
     double width = pix.width() / projectScene()->scale().x();
     if (m_startThumbRequested && frame == m_speedIndependantInfo.cropStart.frames(m_fps)) {
         m_startPix = pix;

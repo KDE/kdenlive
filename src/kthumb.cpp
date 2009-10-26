@@ -37,6 +37,7 @@
 #include <qxml.h>
 #include <QImage>
 #include <QApplication>
+#include <QtConcurrentRun>
 
 void MyThread::init(KUrl url, QString target, double frame, double frameLength, int frequency, int channels, int arrayWidth)
 {
@@ -115,6 +116,7 @@ void MyThread::run()
     } else emit audioThumbOver();
 }
 
+
 KThumb::KThumb(ClipManager *clipManager, KUrl url, const QString &id, const QString &hash, QObject * parent, const char */*name*/) :
         QObject(parent),
         m_audioThumbProducer(),
@@ -128,16 +130,17 @@ KThumb::KThumb(ClipManager *clipManager, KUrl url, const QString &id, const QStr
     m_thumbFile = clipManager->projectFolder() + "/thumbs/" + hash + ".thumb";
     connect(&m_audioThumbProducer, SIGNAL(audioThumbProgress(const int)), this, SLOT(slotAudioThumbProgress(const int)));
     connect(&m_audioThumbProducer, SIGNAL(audioThumbOver()), this, SLOT(slotAudioThumbOver()));
-
 }
 
 KThumb::~KThumb()
 {
+    m_requestedThumbs.clear();
     if (m_audioThumbProducer.isRunning()) {
         m_audioThumbProducer.stop_me = true;
         m_audioThumbProducer.wait();
         slotAudioThumbOver();
     }
+    m_future.waitForFinished();
 }
 
 void KThumb::setProducer(Mlt::Producer *producer)
@@ -183,19 +186,23 @@ QPixmap KThumb::getImage(KUrl url, int width, int height)
 
 void KThumb::extractImage(int frame, int frame2)
 {
-    // kDebug() << "//extract thumb: " << frame << ", " << frame2;
     if (!KdenliveSettings::videothumbnails() || m_producer == NULL) return;
+    if (frame != -1 && !m_requestedThumbs.contains(frame)) m_requestedThumbs.append(frame);
+    if (frame2 != -1 && !m_requestedThumbs.contains(frame2)) m_requestedThumbs.append(frame2);
+    if (!m_future.isRunning()) m_future = QtConcurrent::run(this, &KThumb::doGetThumbs);
+}
 
+void KThumb::doGetThumbs()
+{
     const int twidth = (int)(KdenliveSettings::trackheight() * m_dar);
     const int theight = KdenliveSettings::trackheight();
 
-    if (frame != -1) {
-        QPixmap pix = QPixmap::fromImage(getFrame(m_producer, frame, twidth, theight));
-        emit thumbReady(frame, pix);
-    }
-    if (frame2 != -1) {
-        QPixmap pix = QPixmap::fromImage(getFrame(m_producer, frame2, twidth, theight));
-        emit thumbReady(frame2, pix);
+    while (!m_requestedThumbs.isEmpty()) {
+        int frame = m_requestedThumbs.takeFirst();
+        if (frame != -1) {
+            QImage img = getFrame(m_producer, frame, twidth, theight);
+            emit thumbReady(frame, img);
+        }
     }
 }
 
