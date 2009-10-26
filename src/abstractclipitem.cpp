@@ -52,6 +52,11 @@ ItemInfo AbstractClipItem::info() const
     return info;
 }
 
+int AbstractClipItem::defaultZValue() const
+{
+    return 2;
+}
+
 GenTime AbstractClipItem::endPos() const
 {
     return m_info.startPos + m_info.cropDuration;

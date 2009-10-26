@@ -267,6 +267,7 @@ private:
     QList<QGraphicsItem *> checkForGroups(const QRectF &rect, bool *ok);
     /** Adjust clips under another one when working in overwrite mode */
     void adjustTimelineClips(EDITMODE mode, AbstractClipItem *item, QUndoCommand *command);
+    void adjustTimelineTransitions(EDITMODE mode, Transition *item, QUndoCommand *command);
 
 private slots:
     void slotRefreshGuides();

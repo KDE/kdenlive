@@ -68,16 +68,16 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, i
     m_videoPix = KIcon("kdenlive-show-video").pixmap(QSize(16, 16));
     m_audioPix = KIcon("kdenlive-show-audio").pixmap(QSize(16, 16));
 
-    if (m_speed == 1.0) m_clipName = clip->name();
+    if (m_speed == 1.0) m_clipName = m_clip->name();
     else {
-        m_clipName = clip->name() + " - " + QString::number(m_speed * 100, 'f', 0) + '%';
+        m_clipName = m_clip->name() + " - " + QString::number(m_speed * 100, 'f', 0) + '%';
     }
-    m_producer = clip->getId();
-    m_clipType = clip->clipType();
+    m_producer = m_clip->getId();
+    m_clipType = m_clip->clipType();
     //m_cropStart = info.cropStart;
-    m_maxDuration = clip->maxDuration();
+    m_maxDuration = m_clip->maxDuration();
     setAcceptDrops(true);
-    m_audioThumbReady = clip->audioThumbCreated();
+    m_audioThumbReady = m_clip->audioThumbCreated();
     //setAcceptsHoverEvents(true);
     connect(this , SIGNAL(prepareAudioThumb(double, int, int, int)) , this, SLOT(slotPrepareAudioThumb(double, int, int, int)));
 
@@ -89,11 +89,11 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, i
         m_endThumbTimer.setSingleShot(true);
         connect(&m_endThumbTimer, SIGNAL(timeout()), this, SLOT(slotGetEndThumb()));
 
-        connect(this, SIGNAL(getThumb(int, int)), clip->thumbProducer(), SLOT(extractImage(int, int)));
+        connect(this, SIGNAL(getThumb(int, int)), m_clip->thumbProducer(), SLOT(extractImage(int, int)));
         //connect(this, SIGNAL(getThumb(int, int)), clip->thumbProducer(), SLOT(getVideoThumbs(int, int)));
 
-        connect(clip->thumbProducer(), SIGNAL(thumbReady(int, QImage)), this, SLOT(slotThumbReady(int, QImage)));
-        connect(clip, SIGNAL(gotAudioData()), this, SLOT(slotGotAudioData()));
+        connect(m_clip->thumbProducer(), SIGNAL(thumbReady(int, QImage)), this, SLOT(slotThumbReady(int, QImage)));
+        connect(m_clip, SIGNAL(gotAudioData()), this, SLOT(slotGotAudioData()));
         if (generateThumbs) QTimer::singleShot(200, this, SLOT(slotFetchThumbs()));
 
         /*if (m_clip->producer()) {
@@ -101,19 +101,19 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, i
             slotFetchThumbs();
         }*/
     } else if (m_clipType == COLOR) {
-        QString colour = clip->getProperty("colour");
+        QString colour = m_clip->getProperty("colour");
         colour = colour.replace(0, 2, "#");
         m_baseColor = QColor(colour.left(7));
     } else if (m_clipType == IMAGE || m_clipType == TEXT) {
         m_baseColor = QColor(141, 166, 215);
         if (m_clipType == TEXT) {
-            connect(this, SIGNAL(getThumb(int, int)), clip->thumbProducer(), SLOT(extractImage(int, int)));
-            connect(clip->thumbProducer(), SIGNAL(thumbReady(int, QImage)), this, SLOT(slotThumbReady(int, QImage)));
+            connect(this, SIGNAL(getThumb(int, int)), m_clip->thumbProducer(), SLOT(extractImage(int, int)));
+            connect(m_clip->thumbProducer(), SIGNAL(thumbReady(int, QImage)), this, SLOT(slotThumbReady(int, QImage)));
         }
         //m_startPix = KThumb::getImage(KUrl(clip->getProperty("resource")), (int)(KdenliveSettings::trackheight() * KdenliveSettings::project_display_ratio()), KdenliveSettings::trackheight());
     } else if (m_clipType == AUDIO) {
         m_baseColor = QColor(141, 215, 166);
-        connect(clip, SIGNAL(gotAudioData()), this, SLOT(slotGotAudioData()));
+        connect(m_clip, SIGNAL(gotAudioData()), this, SLOT(slotGotAudioData()));
     }
 }
 
@@ -132,7 +132,7 @@ ClipItem *ClipItem::clone(ItemInfo info) const
 {
     ClipItem *duplicate = new ClipItem(m_clip, info, m_fps, m_speed, m_strobe);
     if (m_clipType == IMAGE || m_clipType == TEXT) duplicate->slotSetStartThumb(m_startPix);
-    else {
+    else if (m_clipType != COLOR) {
         if (info.cropStart == m_info.cropStart) duplicate->slotSetStartThumb(m_startPix);
         if (info.cropStart + (info.endPos - info.startPos) == m_info.cropStart + (m_info.endPos - m_info.startPos)) duplicate->slotSetEndThumb(m_endPix);
     }
@@ -1585,7 +1585,13 @@ void ClipItem::setAudioOnly(bool force)
 {
     m_audioOnly = force;
     if (m_audioOnly) m_baseColor = QColor(141, 215, 166);
-    else m_baseColor = QColor(141, 166, 215);
+    else {
+        if (m_clipType == COLOR) {
+            QString colour = m_clip->getProperty("colour");
+            colour = colour.replace(0, 2, "#");
+            m_baseColor = QColor(colour.left(7));
+        } else m_baseColor = QColor(141, 166, 215);
+    }
     m_audioThumbCachePic.clear();
 }
 

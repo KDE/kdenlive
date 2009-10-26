@@ -316,3 +316,8 @@ bool Transition::hasGeometry()
     return false;
 }
 
+int Transition::defaultZValue() const
+{
+    return 3;
+}
+

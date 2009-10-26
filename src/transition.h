@@ -72,6 +72,7 @@ public:
     bool isAutomatic() const;
     void setAutomatic(bool automatic);
     bool hasGeometry();
+    int defaultZValue() const;
 
 protected:
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);

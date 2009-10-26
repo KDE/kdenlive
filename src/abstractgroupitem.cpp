@@ -198,9 +198,10 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
             return QPointF(pos().x() - start.x(), pos().y());
         }*/
 
-        QPainterPath shape = clipGroupShape(newPos - pos());
         QList<QGraphicsItem*> collindingItems;
+        QPainterPath shape;
         if (projectScene()->editMode() == NORMALEDIT) {
+            shape = clipGroupShape(newPos - pos());
             collindingItems = scene()->items(shape, Qt::IntersectsItemShape);
             for (int i = 0; i < children.count(); i++) {
                 collindingItems.removeAll(children.at(i));
@@ -249,11 +250,12 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
             }
         }
 
-
-        shape = transitionGroupShape(newPos - pos());
-        collindingItems = scene()->items(shape, Qt::IntersectsItemShape);
-        for (int i = 0; i < children.count(); i++) {
-            collindingItems.removeAll(children.at(i));
+        if (projectScene()->editMode() == NORMALEDIT) {
+            shape = transitionGroupShape(newPos - pos());
+            collindingItems = scene()->items(shape, Qt::IntersectsItemShape);
+            for (int i = 0; i < children.count(); i++) {
+                collindingItems.removeAll(children.at(i));
+            }
         }
         if (collindingItems.isEmpty()) return newPos;
         else {
