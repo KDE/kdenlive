@@ -52,6 +52,7 @@ namespace Mlt
 class Consumer;
 class Playlist;
 class Tractor;
+class Transition;
 class Frame;
 class Producer;
 class Filter;

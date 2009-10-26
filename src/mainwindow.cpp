@@ -741,14 +741,14 @@ void MainWindow::setupActions()
     toolbar->setMovable(false);
     statusBar()->setStyleSheet(QString("QStatusBar QLabel {font-size:%1pt;} QStatusBar::item { border: 0px; font-size:%1pt;padding:0px; }").arg(statusBar()->font().pointSize()));
     QString style1 = "QToolBar { border: 0px } QToolButton { border-style: inset; border:1px solid #999999;border-radius: 3px;margin: 0px 3px;padding: 0px;} QToolButton:checked { background-color: rgba(224, 224, 0, 100); border-style: inset; border:1px solid #cc6666;border-radius: 3px;}";
-    
+
     // create edit mode buttons
     KAction *normaledit = new KAction(KIcon("kdenlive-normal-edit"), i18n("Normal mode"), this);
     normaledit->setShortcut(i18nc("Normal editing", "n"));
     toolbar->addAction(normaledit);
     normaledit->setCheckable(true);
     normaledit->setChecked(true);
-    
+
     m_overwriteModeTool = new KAction(KIcon("kdenlive-overwrite-edit"), i18n("Overwrite mode"), this);
     m_overwriteModeTool->setShortcut(i18nc("Overwrite mode shortcut", "o"));
     toolbar->addAction(m_overwriteModeTool);
@@ -762,7 +762,7 @@ void MainWindow::setupActions()
     m_insertModeTool->setChecked(false);
     // not implemented yet
     m_insertModeTool->setEnabled(false);
-    
+
     QActionGroup *editGroup = new QActionGroup(this);
     editGroup->addAction(normaledit);
     editGroup->addAction(m_overwriteModeTool);
@@ -770,7 +770,7 @@ void MainWindow::setupActions()
     editGroup->setExclusive(true);
     connect(editGroup, SIGNAL(triggered(QAction *)), this, SLOT(slotChangeEdit(QAction *)));
     //connect(m_overwriteModeTool, SIGNAL(toggled(bool)), this, SLOT(slotSetOverwriteMode(bool)));
-    
+
     toolbar->addSeparator();
 
     // create tools buttons
@@ -808,11 +808,11 @@ void MainWindow::setupActions()
     actionWidget = toolbar->widgetForAction(m_insertModeTool);
     actionWidget->setMaximumWidth(max);
     actionWidget->setMaximumHeight(max - 4);
-    
+
     actionWidget = toolbar->widgetForAction(m_overwriteModeTool);
     actionWidget->setMaximumWidth(max);
     actionWidget->setMaximumHeight(max - 4);
-    
+
     actionWidget = toolbar->widgetForAction(m_buttonSelectTool);
     actionWidget->setMaximumWidth(max);
     actionWidget->setMaximumHeight(max - 4);
@@ -896,7 +896,7 @@ void MainWindow::setupActions()
     statusBar()->addPermanentWidget(m_timecodeFormat);
     //statusBar()->setMaximumHeight(statusBar()->font().pointSize() * 3);
 
-    collection->addAction("normal_mode", normaledit);    
+    collection->addAction("normal_mode", normaledit);
     collection->addAction("overwrite_mode", m_overwriteModeTool);
     collection->addAction("insert_mode", m_insertModeTool);
     collection->addAction("select_tool", m_buttonSelectTool);
@@ -1410,7 +1410,7 @@ void MainWindow::newFile(bool showProjectSettings)
         profileName = KdenliveSettings::default_profile();
         projectFolder = KdenliveSettings::defaultprojectfolder();
     } else {
-        ProjectSettings *w = new ProjectSettings(NULL, projectTracks.x(), projectTracks.y(), KdenliveSettings::defaultprojectfolder(), false, true, this);
+        ProjectSettings *w = new ProjectSettings(NULL, QStringList(), projectTracks.x(), projectTracks.y(), KdenliveSettings::defaultprojectfolder(), false, true, this);
         if (w->exec() != QDialog::Accepted) return;
         if (!KdenliveSettings::activatetabs()) closeCurrentDocument();
         KdenliveSettings::setVideothumbnails(w->enableVideoThumbs());
@@ -1777,7 +1777,7 @@ void MainWindow::slotDetectAudioDriver()
 void MainWindow::slotEditProjectSettings()
 {
     QPoint p = m_activeDocument->getTracksCount();
-    ProjectSettings *w = new ProjectSettings(m_projectList, p.x(), p.y(), m_activeDocument->projectFolder().path(), true, !m_activeDocument->isModified(), this);
+    ProjectSettings *w = new ProjectSettings(m_projectList, m_activeTimeline->projectView()->extractTransitionsLumas(), p.x(), p.y(), m_activeDocument->projectFolder().path(), true, !m_activeDocument->isModified(), this);
 
     if (w->exec() == QDialog::Accepted) {
         QString profile = w->selectedProfile();

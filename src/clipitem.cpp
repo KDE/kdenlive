@@ -463,6 +463,7 @@ void ClipItem::refreshClip(bool checkDuration)
 
 void ClipItem::slotFetchThumbs()
 {
+    if (scene() == NULL) return;
     if (m_clipType == IMAGE) {
         if (m_startPix.isNull()) {
             m_startPix = KThumb::getImage(KUrl(m_clip->getProperty("resource")), (int)(KdenliveSettings::trackheight() * KdenliveSettings::project_display_ratio()), KdenliveSettings::trackheight());

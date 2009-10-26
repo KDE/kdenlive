@@ -82,8 +82,40 @@ bool DocumentValidator::validate(const double currentVersion)
         if (playlists.count() - 1 < tracksMax ||
                 tracks.count() - 1 < tracksMax ||
                 tracksinfo.count() < tracksMax) {
+            kDebug() << "//// WARNING, PROJECT IS CORRUPTED, MISSING TRACK";
             m_modified = true;
             int difference;
+            // use the MLT tracks as reference
+            if (tracks.count() - 1 < tracksMax) {
+                // Looks like one MLT track is missing, remove the extra Kdenlive track if there is one.
+                if (tracksinfo.count() != tracks.count() - 1) {
+                    // The Kdenlive tracks are not ok, clear and rebuild them
+                    QDomNode tinfo = m_doc.elementsByTagName("tracksinfo").at(0);
+                    QDomNode tnode = tinfo.firstChild();
+                    while (!tnode.isNull()) {
+                        tinfo.removeChild(tnode);
+                        tnode = tinfo.firstChild();
+                    }
+
+                    for (int i = 1; i < tracks.count(); i++) {
+                        QString hide = tracks.at(i).toElement().attribute("hide");
+                        QDomElement newTrack = m_doc.createElement("trackinfo");
+                        if (hide == "video") {
+                            // audio track;
+                            newTrack.setAttribute("type", "audio");
+                            newTrack.setAttribute("blind", 1);
+                            newTrack.setAttribute("mute", 0);
+                            newTrack.setAttribute("lock", 0);
+                        } else {
+                            newTrack.setAttribute("blind", 0);
+                            newTrack.setAttribute("mute", 0);
+                            newTrack.setAttribute("lock", 0);
+                        }
+                        tinfo.appendChild(newTrack);
+                    }
+                }
+            }
+
             if (playlists.count() - 1 < tracksMax) {
                 difference = tracksMax - (playlists.count() - 1);
                 for (int i = 0; i < difference; ++i) {

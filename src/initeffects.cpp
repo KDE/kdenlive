@@ -651,11 +651,12 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
             filters << "*.pgm" << "*.png";
 
             QStringList customLumas = KGlobal::dirs()->findDirs("appdata", "lumas");
-            foreach(const QString &folder, customLumas) {
+            foreach(QString folder, customLumas) {
+                if (!folder.endsWith('/')) folder.append('/');
                 QStringList filesnames = QDir(folder).entryList(filters, QDir::Files);
                 foreach(const QString &fname, filesnames) {
                     imagenamelist.append(fname);
-                    imagefiles.append(folder + '/' + fname);
+                    imagefiles.append(folder + fname);
                 }
             }
 

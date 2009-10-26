@@ -32,13 +32,14 @@ class ProjectSettings : public QDialog, public Ui::ProjectSettings_UI
     Q_OBJECT
 
 public:
-    ProjectSettings(ProjectList *projectlist, int videotracks, int audiotracks, const QString projectPath, bool readOnlyTracks, bool unsavedProject, QWidget * parent = 0);
+    ProjectSettings(ProjectList *projectlist, QStringList lumas, int videotracks, int audiotracks, const QString projectPath, bool readOnlyTracks, bool unsavedProject, QWidget * parent = 0);
     QString selectedProfile() const;
     KUrl selectedFolder() const;
     QPoint tracks();
     bool enableVideoThumbs() const;
     bool enableAudioThumbs() const;
     static QStringList extractPlaylistUrls(QString path);
+    static QStringList extractSlideshowUrls(KUrl url);
 
 public slots:
     virtual void accept();
@@ -54,6 +55,7 @@ private:
     QPushButton *m_buttonOk;
     bool m_savedProject;
     ProjectList *m_projectList;
+    QStringList m_lumas;
 };
 
 

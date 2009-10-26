@@ -33,29 +33,36 @@
 EffectsListView::EffectsListView(QWidget *parent) :
         QWidget(parent)
 {
-    m_ui.setupUi(this);
+    setupUi(this);
 
     QMenu *menu = new QMenu(this);
     m_effectsList = new EffectsListWidget(menu);
-    QVBoxLayout *lyr = new QVBoxLayout(m_ui.effectlistframe);
+    QVBoxLayout *lyr = new QVBoxLayout(effectlistframe);
     lyr->addWidget(m_effectsList);
     lyr->setContentsMargins(0, 0, 0, 0);
-    m_ui.search_effect->setListWidget(m_effectsList);
-    m_ui.buttonInfo->setIcon(KIcon("help-about"));
+    search_effect->setListWidget(m_effectsList);
+    buttonInfo->setIcon(KIcon("help-about"));
+    setFocusPolicy(Qt::StrongFocus);
 
     if (KdenliveSettings::showeffectinfo()) {
-        m_ui.buttonInfo->setDown(true);
-    } else m_ui.infopanel->hide();
+        buttonInfo->setDown(true);
+    } else infopanel->hide();
     menu->addAction(KIcon("edit-delete"), i18n("Delete effect"), this, SLOT(slotRemoveEffect()));
 
-    connect(m_ui.type_combo, SIGNAL(currentIndexChanged(int)), this, SLOT(filterList(int)));
-    connect(m_ui.buttonInfo, SIGNAL(clicked()), this, SLOT(showInfoPanel()));
+    connect(type_combo, SIGNAL(currentIndexChanged(int)), this, SLOT(filterList(int)));
+    connect(buttonInfo, SIGNAL(clicked()), this, SLOT(showInfoPanel()));
     connect(m_effectsList, SIGNAL(itemSelectionChanged()), this, SLOT(slotUpdateInfo()));
     connect(m_effectsList, SIGNAL(doubleClicked(QListWidgetItem *, const QPoint &)), this, SLOT(slotEffectSelected()));
 
     m_effectsList->setCurrentRow(0);
 }
 
+
+void EffectsListView::focusInEvent(QFocusEvent * event)
+{
+    kDebug() << "// got foc";
+    search_effect->setFocus();
+}
 
 void EffectsListView::filterList(int pos)
 {
@@ -78,13 +85,13 @@ void EffectsListView::filterList(int pos)
 
 void EffectsListView::showInfoPanel()
 {
-    if (m_ui.infopanel->isVisible()) {
-        m_ui.infopanel->setVisible(false);
-        m_ui.buttonInfo->setDown(false);
+    if (infopanel->isVisible()) {
+        infopanel->setVisible(false);
+        buttonInfo->setDown(false);
         KdenliveSettings::setShoweffectinfo(false);
     } else {
-        m_ui.infopanel->setVisible(true);
-        m_ui.buttonInfo->setDown(true);
+        infopanel->setVisible(true);
+        buttonInfo->setDown(true);
         KdenliveSettings::setShoweffectinfo(true);
     }
 }
@@ -97,7 +104,7 @@ void EffectsListView::slotEffectSelected()
 
 void EffectsListView::slotUpdateInfo()
 {
-    m_ui.infopanel->setText(m_effectsList->currentInfo());
+    infopanel->setText(m_effectsList->currentInfo());
 }
 
 KListWidget *EffectsListView::listView()

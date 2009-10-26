@@ -43,7 +43,6 @@ int settingUp = false;
 const int IMAGEITEM = 7;
 const int RECTITEM = 3;
 const int TEXTITEM = 8;
-static bool insertingValues = false;
 
 TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render *render, QWidget *parent) :
         QDialog(parent),

@@ -33,8 +33,8 @@
 #include <QDir>
 #include <kmessagebox.h>
 
-ProjectSettings::ProjectSettings(ProjectList *projectlist, int videotracks, int audiotracks, const QString projectPath, bool readOnlyTracks, bool savedProject, QWidget * parent) :
-        QDialog(parent), m_savedProject(savedProject), m_projectList(projectlist)
+ProjectSettings::ProjectSettings(ProjectList *projectlist, QStringList lumas, int videotracks, int audiotracks, const QString projectPath, bool readOnlyTracks, bool savedProject, QWidget * parent) :
+        QDialog(parent), m_savedProject(savedProject), m_projectList(projectlist), m_lumas(lumas)
 {
     setupUi(this);
 
@@ -140,20 +140,13 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
     // TODO: images used in luma transitions, files used for LADSPA effects?
 
     QStringList allFiles;
+    allFiles << m_lumas;
     for (int i = 0; i < list.count(); i++) {
         DocClipBase *clip = list.at(i);
         if (clip->clipType() == SLIDESHOW) {
             // special case, list all images
-            QString path = clip->fileURL().directory();
-            QString ext = clip->fileURL().path().section('.', -1);
-            QDir dir(path);
-            QStringList filters;
-            filters << "*." + ext;
-            dir.setNameFilters(filters);
-            QStringList result = dir.entryList(QDir::Files);
-            for (int j = 0; j < result.count(); j++) {
-                allFiles.append(path + result.at(j));
-            }
+            QStringList files = extractSlideshowUrls(clip->fileURL());
+            allFiles << files;
         } else if (!clip->fileURL().isEmpty()) allFiles.append(clip->fileURL().path());
         if (clip->clipType() == TEXT) {
             QStringList images = TitleWidget::extractImageList(clip->getProperty("xmldata"));
@@ -251,22 +244,55 @@ QStringList ProjectSettings::extractPlaylistUrls(QString path)
     }
     file.close();
     QString root = doc.documentElement().attribute("root");
+    if (!root.isEmpty() && !root.endsWith('/')) root.append('/');
     QDomNodeList files = doc.elementsByTagName("producer");
     for (int i = 0; i < files.count(); i++) {
         QDomElement e = files.at(i).toElement();
         QString type = EffectsList::property(e, "mlt_service");
         if (type != "colour") {
-            //TODO: slideshows (.all.*)
             QString url = EffectsList::property(e, "resource");
             if (!url.isEmpty()) {
                 if (!url.startsWith('/')) url.prepend(root);
-                urls << url;
+                if (url.section('.', 0, -2).endsWith("/.all")) {
+                    // slideshow clip, extract image urls
+                    urls << extractSlideshowUrls(KUrl(url));
+                } else urls << url;
                 if (url.endsWith(".mlt") || url.endsWith(".kdenlive")) {
                     //TODO: Do something to avoid infinite loops if 2 files reference themselves...
                     urls << extractPlaylistUrls(url);
                 }
             }
         }
+    }
+
+    // luma files for transitions
+    files = doc.elementsByTagName("transition");
+    for (int i = 0; i < files.count(); i++) {
+        QDomElement e = files.at(i).toElement();
+        QString url = EffectsList::property(e, "luma");
+        if (!url.isEmpty()) {
+            if (!url.startsWith('/')) url.prepend(root);
+            urls << url;
+        }
+    }
+
+    return urls;
+}
+
+
+//static
+QStringList ProjectSettings::extractSlideshowUrls(KUrl url)
+{
+    QStringList urls;
+    QString path = url.directory(KUrl::AppendTrailingSlash);
+    QString ext = url.path().section('.', -1);
+    QDir dir(path);
+    QStringList filters;
+    filters << "*." + ext;
+    dir.setNameFilters(filters);
+    QStringList result = dir.entryList(QDir::Files);
+    for (int j = 0; j < result.count(); j++) {
+        urls.append(path + result.at(j));
     }
     return urls;
 }

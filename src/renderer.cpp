@@ -174,6 +174,7 @@ void Render::buildConsumer(const QString profileName)
     }
     setenv("SDL_VIDEO_ALLOW_SCREENSAVER", "1", 1);
 
+    //m_mltConsumer->set("fullscreen", 1);
 #ifdef Q_WS_MAC
     m_mltConsumer = new Mlt::Consumer(*m_mltProfile , "sdl_audio");
     m_mltConsumer->set("preview_off", 1);
@@ -909,7 +910,7 @@ int Render::setSceneList(QString playlist, int position)
     m_isBlocked = true;
     int error;
 
-    //kWarning() << "//////  RENDER, SET SCENE LIST: " << playlist;
+    kDebug() << "//////  RENDER, SET SCENE LIST: " << playlist;
 
     if (m_mltConsumer == NULL) {
         kWarning() << "///////  ERROR, TRYING TO USE NULL MLT CONSUMER";

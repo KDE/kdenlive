@@ -966,6 +966,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
     } else if (m_operationMode == MOVE) {
         setCursor(Qt::ClosedHandCursor);
         if (m_dragItem) m_dragItem->setZValue(10);
+        if (m_selectionGroup) m_selectionGroup->setZValue(10);
     } else if (m_operationMode == TRANSITIONSTART && event->modifiers() != Qt::ControlModifier) {
         ItemInfo info;
         info.startPos = m_dragItem->startPos();
@@ -2011,53 +2012,7 @@ void CustomTrackView::dropEvent(QDropEvent * event)
             if (m_document->renderer()->mltInsertClip(clipInfo, item->xml(), item->baseClip()->producer(item->track()), m_scene->editMode() == OVERWRITEEDIT, m_scene->editMode() == INSERTEDIT) == -1) {
                 emit displayMessage(i18n("Cannot insert clip in timeline"), ErrorMessage);
             }
-            if (m_scene->editMode() == OVERWRITEEDIT) {
-                // if we are in overwrite or push mode, move clips accordingly
-                QRectF rect(clipInfo.startPos.frames(m_document->fps()), info.track * m_tracksHeight + m_tracksHeight / 2, (clipInfo.endPos - clipInfo.startPos).frames(m_document->fps()) - 1, m_tracksHeight / 2 - 2);
-                QList<QGraphicsItem *> selection = m_scene->items(rect);
-                selection.removeAll(item);
-                for (int i = 0; i < selection.count(); i++) {
-                    if (selection.at(i)->type() == AVWIDGET) {
-                        ClipItem *clip = static_cast<ClipItem *>(selection.at(i));
-                        kDebug() << " - - FOUND COLLIDE CLIP: " << clip->baseClip()->getId();
-                        if (clip->startPos() < item->startPos()) {
-                            if (clip->endPos() > item->endPos()) {
-                                ItemInfo clipInfo = clip->info();
-                                ItemInfo dupInfo = clipInfo;
-                                GenTime diff = item->startPos() - clip->startPos();
-                                dupInfo.startPos = item->startPos();
-                                dupInfo.cropStart += diff + GenTime(1, m_document->fps());
-                                dupInfo.cropDuration += GenTime() - diff;
-                                ItemInfo newdupInfo = dupInfo;
-                                GenTime diff2 = item->endPos() - item->startPos();
-                                newdupInfo.startPos = GenTime(item->endPos().frames(m_document->fps()), m_document->fps());
-                                newdupInfo.cropStart += diff2;
-                                newdupInfo.cropDuration += GenTime() - diff2;
-                                new RazorClipCommand(this, clipInfo, item->startPos(), false, addCommand);
-                                new ResizeClipCommand(this, dupInfo, newdupInfo, false, false, addCommand);
-                                ClipItem *dup = cutClip(clipInfo, item->startPos(), true, false);
-                                if (dup) dup->resizeStart(item->endPos().frames(m_document->fps()));
-
-                            } else {
-                                ItemInfo newclipInfo = clip->info();
-                                newclipInfo.endPos = item->startPos();
-                                new ResizeClipCommand(this, clip->info(), newclipInfo, false, false, addCommand);
-                                clip->resizeEnd(item->startPos().frames(m_document->fps()));
-                            }
-                        } else if (clip->endPos() < item->endPos()) {
-                            new AddTimelineClipCommand(this, clip->xml(), clip->clipProducer(), clip->info(), clip->effectList(), false, true, addCommand);
-                            scene()->removeItem(clip);
-                            delete clip;
-                            clip = NULL;
-                        } else {
-                            ItemInfo newclipInfo = clip->info();
-                            newclipInfo.startPos = item->endPos();
-                            new ResizeClipCommand(this, clip->info(), newclipInfo, false, false, addCommand);
-                            clip->resizeStart(item->endPos().frames(m_document->fps()));
-                        }
-                    }
-                }
-            }
+            adjustTimelineClips(m_scene->editMode(), item, addCommand);
 
             new AddTimelineClipCommand(this, item->xml(), item->clipProducer(), item->info(), item->effectList(), false, false, addCommand);
 
@@ -2076,6 +2031,57 @@ void CustomTrackView::dropEvent(QDropEvent * event)
         event->accept();
     } else QGraphicsView::dropEvent(event);
     setFocus();
+}
+
+void CustomTrackView::adjustTimelineClips(EDITMODE mode, AbstractClipItem *item, QUndoCommand *command)
+{
+    if (mode == OVERWRITEEDIT) {
+        // if we are in overwrite or push mode, move clips accordingly
+        ItemInfo info = item->info();
+        QRectF rect(info.startPos.frames(m_document->fps()), info.track * m_tracksHeight + m_tracksHeight / 2, (info.endPos - info.startPos).frames(m_document->fps()) - 1, m_tracksHeight / 2 - 2);
+        QList<QGraphicsItem *> selection = m_scene->items(rect);
+        selection.removeAll(item);
+        for (int i = 0; i < selection.count(); i++) {
+            if (selection.at(i)->type() == AVWIDGET) {
+                ClipItem *clip = static_cast<ClipItem *>(selection.at(i));
+                if (clip->startPos() < info.startPos) {
+                    if (clip->endPos() > info.endPos) {
+                        ItemInfo clipInfo = clip->info();
+                        ItemInfo dupInfo = clipInfo;
+                        GenTime diff = info.startPos - clip->startPos();
+                        dupInfo.startPos = info.startPos;
+                        dupInfo.cropStart += diff + GenTime(1, m_document->fps());
+                        dupInfo.cropDuration += GenTime() - diff;
+                        ItemInfo newdupInfo = dupInfo;
+                        GenTime diff2 = info.endPos - info.startPos;
+                        newdupInfo.startPos = GenTime(info.endPos.frames(m_document->fps()), m_document->fps());
+                        newdupInfo.cropStart += diff2;
+                        newdupInfo.cropDuration += GenTime() - diff2;
+                        new RazorClipCommand(this, clipInfo, info.startPos, false, command);
+                        new ResizeClipCommand(this, dupInfo, newdupInfo, false, false, command);
+                        ClipItem *dup = cutClip(clipInfo, info.startPos, true, false);
+                        if (dup) dup->resizeStart(info.endPos.frames(m_document->fps()));
+
+                    } else {
+                        ItemInfo newclipInfo = clip->info();
+                        newclipInfo.endPos = info.startPos;
+                        new ResizeClipCommand(this, clip->info(), newclipInfo, false, false, command);
+                        clip->resizeEnd(info.startPos.frames(m_document->fps()));
+                    }
+                } else if (clip->endPos() < info.endPos) {
+                    new AddTimelineClipCommand(this, clip->xml(), clip->clipProducer(), clip->info(), clip->effectList(), false, true, command);
+                    scene()->removeItem(clip);
+                    delete clip;
+                    clip = NULL;
+                } else {
+                    ItemInfo newclipInfo = clip->info();
+                    newclipInfo.startPos = info.endPos;
+                    new ResizeClipCommand(this, clip->info(), newclipInfo, false, false, command);
+                    clip->resizeStart(info.endPos.frames(m_document->fps()));
+                }
+            }
+        }
+    }
 }
 
 
@@ -2669,6 +2675,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
     if (m_operationMode == MOVE) {
         setCursor(Qt::OpenHandCursor);
         if (m_dragItem) m_dragItem->setZValue(2);
+        if (m_selectionGroup) m_selectionGroup->setZValue(2);
         if (m_dragItem->parentItem() == 0) {
             // we are moving one clip, easy
             if (m_dragItem->type() == AVWIDGET && (m_dragItemInfo.startPos != info.startPos || m_dragItemInfo.track != info.track)) {
@@ -2682,52 +2689,8 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                 if (success) {
                     QUndoCommand *moveCommand = new QUndoCommand();
                     moveCommand->setText(i18n("Move clip"));
+                    adjustTimelineClips(m_scene->editMode(), m_dragItem, moveCommand);
 
-                    if (m_scene->editMode() == OVERWRITEEDIT) {
-                        // if we are in overwrite or push mode, move clips accordingly
-                        QRectF rect(info.startPos.frames(m_document->fps()), info.track * m_tracksHeight + m_tracksHeight / 2, (info.endPos - info.startPos).frames(m_document->fps()) - 1, m_tracksHeight / 2 - 2);
-                        QList<QGraphicsItem *> selection = m_scene->items(rect);
-                        selection.removeAll(item);
-                        for (int i = 0; i < selection.count(); i++) {
-                            if (selection.at(i)->type() == AVWIDGET) {
-                                ClipItem *clip = static_cast<ClipItem *>(selection.at(i));
-                                if (clip->startPos() < item->startPos()) {
-                                    if (clip->endPos() > item->endPos()) {
-                                        ItemInfo clipInfo = clip->info();
-                                        ItemInfo dupInfo = clipInfo;
-                                        GenTime diff = item->startPos() - clip->startPos();
-                                        dupInfo.startPos = item->startPos();
-                                        dupInfo.cropStart += diff + GenTime(1, m_document->fps());
-                                        dupInfo.cropDuration += GenTime() - diff;
-                                        ItemInfo newdupInfo = dupInfo;
-                                        GenTime diff2 = item->endPos() - item->startPos();
-                                        newdupInfo.startPos = GenTime(item->endPos().frames(m_document->fps()), m_document->fps());
-                                        newdupInfo.cropStart += diff2;
-                                        newdupInfo.cropDuration += GenTime() - diff2;
-                                        new RazorClipCommand(this, clipInfo, item->startPos(), false, moveCommand);
-                                        new ResizeClipCommand(this, dupInfo, newdupInfo, false, false, moveCommand);
-                                        ClipItem *dup = cutClip(clipInfo, item->startPos(), true, false);
-                                        if (dup) dup->resizeStart(item->endPos().frames(m_document->fps()));
-                                    } else {
-                                        ItemInfo newclipInfo = clip->info();
-                                        newclipInfo.endPos = item->startPos();
-                                        new ResizeClipCommand(this, clip->info(), newclipInfo, false, false, moveCommand);
-                                        clip->resizeEnd(item->startPos().frames(m_document->fps()));
-                                    }
-                                } else if (clip->endPos() < item->endPos()) {
-                                    new AddTimelineClipCommand(this, clip->xml(), clip->clipProducer(), clip->info(), clip->effectList(), false, true, moveCommand);
-                                    scene()->removeItem(clip);
-                                    delete clip;
-                                    clip = NULL;
-                                } else {
-                                    ItemInfo newclipInfo = clip->info();
-                                    newclipInfo.startPos = item->endPos();
-                                    new ResizeClipCommand(this, clip->info(), newclipInfo, false, false, moveCommand);
-                                    clip->resizeStart(item->endPos().frames(m_document->fps()));
-                                }
-                            }
-                        }
-                    }
                     int tracknumber = m_document->tracksCount() - item->track() - 1;
                     bool isLocked = m_document->trackInfoAt(tracknumber).isLocked;
                     if (isLocked) item->setItemLocked(true);
@@ -2855,6 +2818,8 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
             GenTime timeOffset = GenTime(m_dragItem->scenePos().x(), m_document->fps()) - m_dragItemInfo.startPos;
             const int trackOffset = (int)(m_dragItem->scenePos().y() / m_tracksHeight) - m_dragItemInfo.track;
             //kDebug() << "// MOVED SEVERAL CLIPS" << timeOffset.frames(25);
+            QUndoCommand *moveGroup = new QUndoCommand();
+            moveGroup->setText(i18n("Move group"));
             if (timeOffset != GenTime() || trackOffset != 0) {
                 // remove items in MLT playlist
 
@@ -2889,6 +2854,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                     if (items.at(i)->type() != AVWIDGET && items.at(i)->type() != TRANSITIONWIDGET) continue;
                     AbstractClipItem *item = static_cast <AbstractClipItem *>(items.at(i));
                     item->updateItem();
+                    adjustTimelineClips(m_scene->editMode(), item, moveGroup);
                     ItemInfo info = item->info();
                     int tracknumber = m_document->tracksCount() - info.track - 1;
                     bool isLocked = m_document->trackInfoAt(tracknumber).isLocked;
@@ -2904,7 +2870,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                         if (clip->isAudioOnly()) prod = clip->baseClip()->audioProducer(info.track);
                         else if (clip->isVideoOnly()) prod = clip->baseClip()->videoProducer();
                         else prod = clip->baseClip()->producer(info.track);
-                        m_document->renderer()->mltInsertClip(info, clip->xml(), prod);
+                        m_document->renderer()->mltInsertClip(info, clip->xml(), prod, m_scene->editMode() == OVERWRITEEDIT, m_scene->editMode() == INSERTEDIT);
                         for (int i = 0; i < clip->effectsCount(); i++) {
                             m_document->renderer()->mltAddEffect(info.track, info.startPos, clip->getEffectArgs(clip->effectAt(i)), false);
                         }
@@ -2919,8 +2885,8 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                     }
                 }
 
-                MoveGroupCommand *move = new MoveGroupCommand(this, clipsToMove, transitionsToMove, timeOffset, trackOffset, false);
-                m_commandStack->push(move);
+                new MoveGroupCommand(this, clipsToMove, transitionsToMove, timeOffset, trackOffset, false, moveGroup);
+                m_commandStack->push(moveGroup);
 
                 //QPointF top = group->sceneBoundingRect().topLeft();
                 //QPointF oldpos = m_selectionGroup->scenePos();
@@ -5391,6 +5357,23 @@ void CustomTrackView::selectTransition(bool add, bool group)
         }
     }
     if (group) groupSelectedItems();
+}
+
+QStringList CustomTrackView::extractTransitionsLumas()
+{
+    QStringList urls;
+    QList<QGraphicsItem *> itemList = items();
+    Transition *transitionitem;
+    QDomElement transitionXml;
+    for (int i = 0; i < itemList.count(); i++) {
+        if (itemList.at(i)->type() == TRANSITIONWIDGET) {
+            transitionitem = static_cast <Transition*>(itemList.at(i));
+            transitionXml = transitionitem->toXML();
+            QString luma = EffectsList::parameter(transitionXml, "luma");
+            if (!luma.isEmpty()) urls << luma;
+        }
+    }
+    return urls;
 }
 
 void CustomTrackView::setEditMode(EDITMODE mode)

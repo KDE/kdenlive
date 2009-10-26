@@ -127,7 +127,9 @@ public:
     int selectedTrack() const;
     void selectClip(bool add, bool group = false);
     void selectTransition(bool add, bool group = false);
+    QStringList extractTransitionsLumas();
     void setEditMode(EDITMODE mode);
+
 
 public slots:
     void setCursorPos(int pos, bool seek = true);
@@ -263,6 +265,8 @@ private:
     bool itemCollision(AbstractClipItem *item, ItemInfo newPos);
     /** Selects all items in the scene rect, and sets ok to false if a group going over several tracks is found in it */
     QList<QGraphicsItem *> checkForGroups(const QRectF &rect, bool *ok);
+    /** Adjust clips under another one when working in overwrite mode */
+    void adjustTimelineClips(EDITMODE mode, AbstractClipItem *item, QUndoCommand *command);
 
 private slots:
     void slotRefreshGuides();

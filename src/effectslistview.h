@@ -25,13 +25,15 @@
 
 #include "ui_effectlist_ui.h"
 #include "gentime.h"
+
 #include <QDomElement>
+#include <QFocusEvent>
 
 class EffectsList;
 class EffectsListWidget;
 class KListWidget;
 
-class EffectsListView : public QWidget
+class EffectsListView : public QWidget, public Ui::EffectList_UI
 {
     Q_OBJECT
 
@@ -41,8 +43,10 @@ public:
     void reloadEffectList();
     //void slotAddEffect(GenTime pos, int track, QString name);
 
+protected:
+    virtual void focusInEvent(QFocusEvent * event);
+
 private:
-    Ui::EffectList_UI m_ui;
     EffectsListWidget *m_effectsList;
 
 private slots:
