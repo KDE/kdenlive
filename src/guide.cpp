@@ -35,6 +35,9 @@ Guide::Guide(CustomTrackView *view, GenTime pos, QString label, double height) :
         m_pen(QPen())
 {
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIgnoresTransformations);
+#if QT_VERSION >= 0x040600
+    setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
+#endif
     setToolTip(label);
     setLine(0, 0, 0, height);
     setPos(m_position.frames(m_view->fps()), 0);

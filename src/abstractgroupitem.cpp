@@ -38,6 +38,9 @@ AbstractGroupItem::AbstractGroupItem(double /* fps */) :
 {
     setZValue(1);
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+#if QT_VERSION >= 0x040600
+    setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
+#endif
     setAcceptDrops(true);
 }
 

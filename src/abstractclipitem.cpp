@@ -39,6 +39,9 @@ AbstractClipItem::AbstractClipItem(const ItemInfo info, const QRectF& rect, doub
         m_fps(fps)
 {
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+#if QT_VERSION >= 0x040600
+    setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
+#endif
 }
 
 ItemInfo AbstractClipItem::info() const
@@ -372,7 +375,10 @@ void AbstractClipItem::setItemLocked(bool locked)
         setSelected(false);
         setFlag(QGraphicsItem::ItemIsMovable, false);
         setFlag(QGraphicsItem::ItemIsSelectable, false);
-    } else setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+    } else {
+        setFlag(QGraphicsItem::ItemIsMovable, true);
+        setFlag(QGraphicsItem::ItemIsSelectable, true);
+    }
 }
 
 bool AbstractClipItem::isItemLocked() const

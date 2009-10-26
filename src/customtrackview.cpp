@@ -832,7 +832,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
                     offsetList.append(item->startPos());
                     offsetList.append(item->endPos());
                     m_selectionGroup->addToGroup(selection.at(i));
-                    selection.at(i)->setFlags(QGraphicsItem::ItemIsSelectable);
+                    selection.at(i)->setFlag(QGraphicsItem::ItemIsMovable, false);
                 } else if (selection.at(i)->parentItem() == 0 && selection.at(i)->type() == GROUPWIDGET) {
                     QList<QGraphicsItem *> children = selection.at(i)->childItems();
                     for (int j = 0; j < children.count(); j++) {
@@ -841,10 +841,10 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
                         offsetList.append(item->endPos());
                     }
                     m_selectionGroup->addToGroup(selection.at(i));
-                    selection.at(i)->setFlags(QGraphicsItem::ItemIsSelectable);
+                    selection.at(i)->setFlag(QGraphicsItem::ItemIsMovable, false);
                 } else if (selection.at(i)->parentItem()) {
                     m_selectionGroup->addToGroup(selection.at(i)->parentItem());
-                    selection.at(i)->parentItem()->setFlags(QGraphicsItem::ItemIsSelectable);
+                    selection.at(i)->parentItem()->setFlag(QGraphicsItem::ItemIsMovable, false);
                 }
             }
 
@@ -1053,11 +1053,11 @@ void CustomTrackView::resetSelectionGroup(bool selectItems)
         for (int i = 0; i < children.count(); i++) {
             if (children.at(i)->parentItem() == 0 && (children.at(i)->type() == AVWIDGET || children.at(i)->type() == TRANSITIONWIDGET)) {
                 if (!static_cast <AbstractClipItem *>(children.at(i))->isItemLocked()) {
-                    children.at(i)->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+                    children.at(i)->setFlag(QGraphicsItem::ItemIsMovable, true);
                     children.at(i)->setSelected(selectItems);
                 }
             } else if (children.at(i)->type() == GROUPWIDGET) {
-                children.at(i)->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+                children.at(i)->setFlag(QGraphicsItem::ItemIsMovable, true);
                 children.at(i)->setSelected(selectItems);
             }
         }
@@ -1116,7 +1116,7 @@ void CustomTrackView::groupSelectedItems(bool force, bool createNewGroup)
             for (int i = 0; i < selection.count(); i++) {
                 if (selection.at(i)->type() == AVWIDGET || selection.at(i)->type() == TRANSITIONWIDGET) {
                     newGroup->addToGroup(selection.at(i));
-                    selection.at(i)->setFlags(QGraphicsItem::ItemIsSelectable);
+                    selection.at(i)->setFlag(QGraphicsItem::ItemIsMovable, false);
                 }
             }
             KdenliveSettings::setSnaptopoints(snap);
@@ -1131,7 +1131,7 @@ void CustomTrackView::groupSelectedItems(bool force, bool createNewGroup)
             for (int i = 0; i < selection.count(); i++) {
                 if (selection.at(i)->parentItem() == 0 && (selection.at(i)->type() == AVWIDGET || selection.at(i)->type() == TRANSITIONWIDGET || selection.at(i)->type() == GROUPWIDGET)) {
                     m_selectionGroup->addToGroup(selection.at(i));
-                    selection.at(i)->setFlags(QGraphicsItem::ItemIsSelectable);
+                    selection.at(i)->setFlag(QGraphicsItem::ItemIsMovable, false);
                 }
             }
             KdenliveSettings::setSnaptopoints(snap);
@@ -1308,7 +1308,7 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint pos)
         m_selectionGroup = new AbstractGroupItem(m_document->fps());
         ClipItem *item = new ClipItem(clip, info, m_document->fps(), 1.0, 1);
         m_selectionGroup->addToGroup(item);
-        item->setFlags(QGraphicsItem::ItemIsSelectable);
+        item->setFlag(QGraphicsItem::ItemIsMovable, false);
 
         QList <GenTime> offsetList;
         offsetList.append(info.endPos);
@@ -1360,7 +1360,7 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint pos)
             offsetList.append(start);
             ClipItem *item = new ClipItem(clip, info, m_document->fps(), 1.0, 1, false);
             item->setZValue(10);
-            item->setFlags(QGraphicsItem::ItemIsSelectable);
+            item->setFlag(QGraphicsItem::ItemIsMovable, false);
             m_selectionGroup->addToGroup(item);
             m_waitingThumbs.append(item);
         }
@@ -2136,7 +2136,7 @@ void CustomTrackView::addTrack(TrackInfo type, int ix)
         for (int i = 0; i < selection.count(); i++) {
             if ((!selection.at(i)->parentItem()) && (selection.at(i)->type() == AVWIDGET || selection.at(i)->type() == TRANSITIONWIDGET || selection.at(i)->type() == GROUPWIDGET)) {
                 m_selectionGroup->addToGroup(selection.at(i));
-                selection.at(i)->setFlags(QGraphicsItem::ItemIsSelectable);
+                selection.at(i)->setFlag(QGraphicsItem::ItemIsMovable, false);
             }
         }
         // Move graphic items
@@ -2208,7 +2208,7 @@ void CustomTrackView::removeTrack(int ix)
     for (int i = 0; i < selection.count(); i++) {
         if ((!selection.at(i)->parentItem()) && (selection.at(i)->type() == AVWIDGET || selection.at(i)->type() == TRANSITIONWIDGET || selection.at(i)->type() == GROUPWIDGET)) {
             m_selectionGroup->addToGroup(selection.at(i));
-            selection.at(i)->setFlags(QGraphicsItem::ItemIsSelectable);
+            selection.at(i)->setFlag(QGraphicsItem::ItemIsMovable, false);
         }
     }
     // Move graphic items
@@ -2467,10 +2467,10 @@ void CustomTrackView::insertSpace(QList<ItemInfo> clipsToMove, QList<ItemInfo> t
             if (clip) {
                 if (clip->parentItem()) {
                     m_selectionGroup->addToGroup(clip->parentItem());
-                    clip->parentItem()->setFlags(QGraphicsItem::ItemIsSelectable);
+                    clip->parentItem()->setFlag(QGraphicsItem::ItemIsMovable, false);
                 } else {
                     m_selectionGroup->addToGroup(clip);
-                    clip->setFlags(QGraphicsItem::ItemIsSelectable);
+                    clip->setFlag(QGraphicsItem::ItemIsMovable, false);
                 }
                 if (trackClipStartList.value(m_document->tracksCount() - clipsToMove.at(i).track) == -1 || clipsToMove.at(i).startPos.frames(m_document->fps()) < trackClipStartList.value(m_document->tracksCount() - clipsToMove.at(i).track))
                     trackClipStartList[m_document->tracksCount() - clipsToMove.at(i).track] = clipsToMove.at(i).startPos.frames(m_document->fps());
@@ -2483,10 +2483,10 @@ void CustomTrackView::insertSpace(QList<ItemInfo> clipsToMove, QList<ItemInfo> t
             if (transition) {
                 if (transition->parentItem()) {
                     m_selectionGroup->addToGroup(transition->parentItem());
-                    transition->parentItem()->setFlags(QGraphicsItem::ItemIsSelectable);
+                    transition->parentItem()->setFlag(QGraphicsItem::ItemIsMovable, false);
                 } else {
                     m_selectionGroup->addToGroup(transition);
-                    transition->setFlags(QGraphicsItem::ItemIsSelectable);
+                    transition->setFlag(QGraphicsItem::ItemIsMovable, false);
                 }
                 if (trackTransitionStartList.value(m_document->tracksCount() - transToMove.at(i).track) == -1 || transToMove.at(i).startPos.frames(m_document->fps()) < trackTransitionStartList.value(m_document->tracksCount() - transToMove.at(i).track))
                     trackTransitionStartList[m_document->tracksCount() - transToMove.at(i).track] = transToMove.at(i).startPos.frames(m_document->fps());
@@ -3408,7 +3408,7 @@ void CustomTrackView::doGroupClips(QList <ItemInfo> clipInfos, QList <ItemInfo> 
                 m_document->clipManager()->removeGroup(grp);
                 scene()->destroyItemGroup(grp);
             }
-            clip->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+            clip->setFlag(QGraphicsItem::ItemIsMovable, true);
         }
         for (int i = 0; i < transitionInfos.count(); i++) {
             Transition *tr = getTransitionItemAt(transitionInfos.at(i).startPos, transitionInfos.at(i).track);
@@ -3418,7 +3418,7 @@ void CustomTrackView::doGroupClips(QList <ItemInfo> clipInfos, QList <ItemInfo> 
                 m_document->clipManager()->removeGroup(grp);
                 scene()->destroyItemGroup(grp);
             }
-            tr->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+            tr->setFlag(QGraphicsItem::ItemIsMovable, true);
         }
         setDocumentModified();
         return;
@@ -3664,10 +3664,10 @@ void CustomTrackView::moveGroup(QList <ItemInfo> startClip, QList <ItemInfo> sta
             clip->setItemLocked(false);
             if (clip->parentItem()) {
                 m_selectionGroup->addToGroup(clip->parentItem());
-                clip->parentItem()->setFlags(QGraphicsItem::ItemIsSelectable);
+                clip->parentItem()->setFlag(QGraphicsItem::ItemIsMovable, false);
             } else {
                 m_selectionGroup->addToGroup(clip);
-                clip->setFlags(QGraphicsItem::ItemIsSelectable);
+                clip->setFlag(QGraphicsItem::ItemIsMovable, false);
             }
             m_document->renderer()->mltRemoveClip(m_document->tracksCount() - startClip.at(i).track, startClip.at(i).startPos);
         } else kDebug() << "//MISSING CLIP AT: " << startClip.at(i).startPos.frames(25);
@@ -3682,10 +3682,10 @@ void CustomTrackView::moveGroup(QList <ItemInfo> startClip, QList <ItemInfo> sta
             tr->setItemLocked(false);
             if (tr->parentItem()) {
                 m_selectionGroup->addToGroup(tr->parentItem());
-                tr->parentItem()->setFlags(QGraphicsItem::ItemIsSelectable);
+                tr->parentItem()->setFlag(QGraphicsItem::ItemIsMovable, false);
             } else {
                 m_selectionGroup->addToGroup(tr);
-                tr->setFlags(QGraphicsItem::ItemIsSelectable);
+                tr->setFlag(QGraphicsItem::ItemIsMovable, false);
             }
             m_document->renderer()->mltDeleteTransition(tr->transitionTag(), tr->transitionEndTrack(), m_document->tracksCount() - startTransition.at(i).track, startTransition.at(i).startPos, startTransition.at(i).endPos, tr->toXML());
         } else kDebug() << "//MISSING TRANSITION AT: " << startTransition.at(i).startPos.frames(25);
@@ -5061,7 +5061,7 @@ void CustomTrackView::doSplitAudio(const GenTime &pos, int track, bool split)
                 break;
             }
         }
-        clip->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+        clip->setFlag(QGraphicsItem::ItemIsMovable, true);
         m_document->clipManager()->removeGroup(grp);
         scene()->destroyItemGroup(grp);
     }
@@ -5271,7 +5271,7 @@ void CustomTrackView::updateProjectFps()
             for (int j = 0; j < children.count(); j++) {
                 if (children.at(j)->type() == AVWIDGET || children.at(j)->type() == TRANSITIONWIDGET) {
                     AbstractClipItem *clip = static_cast <AbstractClipItem *>(children.at(j));
-                    clip->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+                    clip->setFlag(QGraphicsItem::ItemIsMovable, true);
                     clip->updateFps(m_document->fps());
                 }
             }
