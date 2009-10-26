@@ -166,11 +166,12 @@ private:
     KAction *m_buttonVideoThumbs;
     KAction *m_buttonShowMarkers;
     KAction *m_buttonFitZoom;
+    KAction *m_overwriteModeTool;
+    KAction *m_insertModeTool;
     KAction *m_buttonSelectTool;
     KAction *m_buttonRazorTool;
     KAction *m_buttonSpacerTool;
     KAction *m_buttonSnap;
-    QActionGroup *m_toolGroup;
     KAction *m_saveAction;
     KAction *m_closeAction;
     QSlider *m_zoomSlider;
@@ -266,6 +267,7 @@ private slots:
     void slotActivateEffectStackView();
     void slotActivateTransitionView(Transition *);
     void slotChangeTool(QAction * action);
+    void slotChangeEdit(QAction * action);
     void slotSetTool(PROJECTTOOL tool);
     void slotSnapForward();
     void slotSnapRewind();

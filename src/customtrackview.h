@@ -31,12 +31,12 @@
 #include "docclipbase.h"
 #include "guide.h"
 #include "effectslist.h"
+#include "customtrackscene.h"
 
 class ClipItem;
 class AbstractClipItem;
 class AbstractGroupItem;
 class Transition;
-class CustomTrackScene;
 
 class CustomTrackView : public QGraphicsView
 {
@@ -84,7 +84,7 @@ public:
     void checkTrackHeight();
     //QList <TrackInfo> tracksList() const;
     void setTool(PROJECTTOOL tool);
-    void cutClip(ItemInfo info, GenTime cutTime, bool cut);
+    ClipItem *cutClip(ItemInfo info, GenTime cutTime, bool cut, bool execute = true);
     void slotSeekToPreviousSnap();
     void slotSeekToNextSnap();
     double getSnapPointForPos(double pos);
@@ -127,6 +127,7 @@ public:
     int selectedTrack() const;
     void selectClip(bool add, bool group = false);
     void selectTransition(bool add, bool group = false);
+    void setEditMode(EDITMODE mode);
 
 public slots:
     void setCursorPos(int pos, bool seek = true);

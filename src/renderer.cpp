@@ -1533,7 +1533,7 @@ void Render::mltCheckLength(Mlt::Tractor *tractor)
     }
 }
 
-int Render::mltInsertClip(ItemInfo info, QDomElement element, Mlt::Producer *prod)
+int Render::mltInsertClip(ItemInfo info, QDomElement element, Mlt::Producer *prod, bool overwrite, bool push)
 {
     if (m_mltProducer == NULL) {
         kDebug() << "PLAYLIST NOT INITIALISED //////";
@@ -1561,6 +1561,7 @@ int Render::mltInsertClip(ItemInfo info, QDomElement element, Mlt::Producer *pro
     }
     mlt_service_lock(service.get_service());
     Mlt::Producer trackProducer(tractor.track(info.track));
+    int trackDuration = trackProducer.get_playtime() - 1;
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
     //kDebug()<<"/// INSERT cLIP: "<<info.cropStart.frames(m_fps)<<", "<<info.startPos.frames(m_fps)<<"-"<<info.endPos.frames(m_fps);
 
@@ -1592,9 +1593,22 @@ int Render::mltInsertClip(ItemInfo info, QDomElement element, Mlt::Producer *pro
             return -1;
         }
     }
-
-    Mlt::Producer *clip = prod->cut((int) info.cropStart.frames(m_fps), (int)(info.endPos - info.startPos + info.cropStart).frames(m_fps) - 1);
-    int newIndex = trackPlaylist.insert_at((int) info.startPos.frames(m_fps), clip, 1);
+    int cutPos = (int) info.cropStart.frames(m_fps);
+    int insertPos = (int) info.startPos.frames(m_fps);
+    int cutDuration = (int)(info.endPos - info.startPos).frames(m_fps) - 1;
+    Mlt::Producer *clip = prod->cut(cutPos, cutDuration + cutPos);
+    if (overwrite && (insertPos < trackDuration)) {
+        // Replace zone with blanks
+        //trackPlaylist.split_at(insertPos, true);
+        trackPlaylist.remove_region(insertPos, cutDuration + 1);
+        int clipIndex = trackPlaylist.get_clip_index_at(insertPos);
+        trackPlaylist.insert_blank(clipIndex, cutDuration);
+    } else if (push) {
+        trackPlaylist.split_at(insertPos, true);
+        int clipIndex = trackPlaylist.get_clip_index_at(insertPos);
+        trackPlaylist.insert_blank(clipIndex, cutDuration);
+    }
+    int newIndex = trackPlaylist.insert_at(insertPos, clip, 1);
     delete clip;
     /*if (QString(prod->get("transparency")).toInt() == 1)
         mltAddClipTransparency(info, info.track - 1, QString(prod->get("id")).toInt());*/
@@ -2733,9 +2747,9 @@ bool Render::mltResizeClipStart(ItemInfo info, GenTime diff)
     return true;
 }
 
-bool Render::mltMoveClip(int startTrack, int endTrack, GenTime moveStart, GenTime moveEnd, Mlt::Producer *prod)
+bool Render::mltMoveClip(int startTrack, int endTrack, GenTime moveStart, GenTime moveEnd, Mlt::Producer *prod, bool overwrite, bool insert)
 {
-    return mltMoveClip(startTrack, endTrack, (int) moveStart.frames(m_fps), (int) moveEnd.frames(m_fps), prod);
+    return mltMoveClip(startTrack, endTrack, (int) moveStart.frames(m_fps), (int) moveEnd.frames(m_fps), prod, overwrite, insert);
 }
 
 
@@ -2779,7 +2793,7 @@ bool Render::mltUpdateClipProducer(int track, int pos, Mlt::Producer *prod)
     return true;
 }
 
-bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEnd, Mlt::Producer *prod)
+bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEnd, Mlt::Producer *prod, bool overwrite, bool insert)
 {
     m_isBlocked++;
 
@@ -2798,7 +2812,7 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
     bool checkLength = false;
     if (endTrack == startTrack) {
         Mlt::Producer *clipProducer = trackPlaylist.replace_with_blank(clipIndex);
-        if (!trackPlaylist.is_blank_at(moveEnd) || !clipProducer || clipProducer->is_blank()) {
+        if (!overwrite && (!trackPlaylist.is_blank_at(moveEnd) || !clipProducer || clipProducer->is_blank())) {
             // error, destination is not empty
             if (!trackPlaylist.is_blank_at(moveEnd)) trackPlaylist.insert_at(moveStart, clipProducer, 1);
             if (clipProducer) delete clipProducer;
@@ -2809,6 +2823,11 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
             return false;
         } else {
             trackPlaylist.consolidate_blanks(0);
+            if (overwrite) {
+                trackPlaylist.remove_region(moveEnd, clipProducer->get_playtime());
+                int clipIndex = trackPlaylist.get_clip_index_at(moveEnd);
+                trackPlaylist.insert_blank(clipIndex, clipProducer->get_playtime() - 1);
+            }
             int newIndex = trackPlaylist.insert_at(moveEnd, clipProducer, 1);
             delete clipProducer;
             /*if (QString(clipProducer.parent().get("transparency")).toInt() == 1) {
@@ -2908,7 +2927,7 @@ bool Render::mltMoveTransition(QString type, int startTrack, int newTrack, int n
         int currentTrack = transition.get_b_track();
         int currentIn = (int) transition.get_in();
         int currentOut = (int) transition.get_out();
-        
+
         if (resource == type && startTrack == currentTrack && currentIn <= old_pos && currentOut >= old_pos) {
             found = true;
             if (newTrack - startTrack != 0) {

@@ -1186,7 +1186,9 @@ QVariant ClipItem::itemChange(GraphicsItemChange change, const QVariant &value)
         // Only one clip is moving
         QRectF sceneShape = rect();
         sceneShape.translate(newPos);
-        QList<QGraphicsItem*> items = scene()->items(sceneShape, Qt::IntersectsItemShape);
+        QList<QGraphicsItem*> items;
+        if (projectScene()->editMode() == NORMALEDIT)
+            items = scene()->items(sceneShape, Qt::IntersectsItemShape);
         items.removeAll(this);
         bool forwardMove = newPos.x() > pos().x();
         int offset = 0;

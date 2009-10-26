@@ -30,7 +30,9 @@
 class KdenliveDoc;
 class MltVideoProfile;
 
-/** This class holds all properties that need to be used by clip items */
+/** This class holds all scene properties that need to be used by clip items */
+
+enum EDITMODE { NORMALEDIT = 0 , OVERWRITEEDIT = 1 , INSERTEDIT = 2 };
 
 class CustomTrackScene : public QGraphicsScene
 {
@@ -47,11 +49,14 @@ public:
     QPointF scale() const;
     int tracksCount() const;
     MltVideoProfile profile() const;
+    void setEditMode(EDITMODE mode);
+    EDITMODE editMode() const;
 
 private:
     KdenliveDoc *m_document;
     QList <GenTime> m_snapPoints;
     QPointF m_scale;
+    EDITMODE m_editMode;
 };
 
 #endif

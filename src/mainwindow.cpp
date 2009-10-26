@@ -739,10 +739,41 @@ void MainWindow::setupActions()
 
     KToolBar *toolbar = new KToolBar("statusToolBar", this, Qt::BottomToolBarArea);
     toolbar->setMovable(false);
-    m_toolGroup = new QActionGroup(this);
     statusBar()->setStyleSheet(QString("QStatusBar QLabel {font-size:%1pt;} QStatusBar::item { border: 0px; font-size:%1pt;padding:0px; }").arg(statusBar()->font().pointSize()));
     QString style1 = "QToolBar { border: 0px } QToolButton { border-style: inset; border:1px solid #999999;border-radius: 3px;margin: 0px 3px;padding: 0px;} QToolButton:checked { background-color: rgba(224, 224, 0, 100); border-style: inset; border:1px solid #cc6666;border-radius: 3px;}";
+    
+    // create edit mode buttons
+    KAction *normaledit = new KAction(KIcon("kdenlive-normal-edit"), i18n("Normal mode"), this);
+    normaledit->setShortcut(i18nc("Normal editing", "n"));
+    toolbar->addAction(normaledit);
+    normaledit->setCheckable(true);
+    normaledit->setChecked(true);
+    
+    m_overwriteModeTool = new KAction(KIcon("kdenlive-overwrite-edit"), i18n("Overwrite mode"), this);
+    m_overwriteModeTool->setShortcut(i18nc("Overwrite mode shortcut", "o"));
+    toolbar->addAction(m_overwriteModeTool);
+    m_overwriteModeTool->setCheckable(true);
+    m_overwriteModeTool->setChecked(false);
 
+    m_insertModeTool = new KAction(KIcon("kdenlive-insert-edit"), i18n("Insert mode"), this);
+    m_insertModeTool->setShortcut(i18nc("Insert mode shortcut", "i"));
+    toolbar->addAction(m_insertModeTool);
+    m_insertModeTool->setCheckable(true);
+    m_insertModeTool->setChecked(false);
+    // not implemented yet
+    m_insertModeTool->setEnabled(false);
+    
+    QActionGroup *editGroup = new QActionGroup(this);
+    editGroup->addAction(normaledit);
+    editGroup->addAction(m_overwriteModeTool);
+    editGroup->addAction(m_insertModeTool);
+    editGroup->setExclusive(true);
+    connect(editGroup, SIGNAL(triggered(QAction *)), this, SLOT(slotChangeEdit(QAction *)));
+    //connect(m_overwriteModeTool, SIGNAL(toggled(bool)), this, SLOT(slotSetOverwriteMode(bool)));
+    
+    toolbar->addSeparator();
+
+    // create tools buttons
     m_buttonSelectTool = new KAction(KIcon("kdenlive-select-tool"), i18n("Selection tool"), this);
     m_buttonSelectTool->setShortcut(i18nc("Selection tool shortcut", "s"));
     toolbar->addAction(m_buttonSelectTool);
@@ -761,14 +792,27 @@ void MainWindow::setupActions()
     m_buttonSpacerTool->setCheckable(true);
     m_buttonSpacerTool->setChecked(false);
 
-    m_toolGroup->addAction(m_buttonSelectTool);
-    m_toolGroup->addAction(m_buttonRazorTool);
-    m_toolGroup->addAction(m_buttonSpacerTool);
-    m_toolGroup->setExclusive(true);
+    QActionGroup *toolGroup = new QActionGroup(this);
+    toolGroup->addAction(m_buttonSelectTool);
+    toolGroup->addAction(m_buttonRazorTool);
+    toolGroup->addAction(m_buttonSpacerTool);
+    toolGroup->setExclusive(true);
     toolbar->setToolButtonStyle(Qt::ToolButtonIconOnly);
 
     QWidget * actionWidget;
     int max = toolbar->iconSizeDefault() + 2;
+    actionWidget = toolbar->widgetForAction(normaledit);
+    actionWidget->setMaximumWidth(max);
+    actionWidget->setMaximumHeight(max - 4);
+
+    actionWidget = toolbar->widgetForAction(m_insertModeTool);
+    actionWidget->setMaximumWidth(max);
+    actionWidget->setMaximumHeight(max - 4);
+    
+    actionWidget = toolbar->widgetForAction(m_overwriteModeTool);
+    actionWidget->setMaximumWidth(max);
+    actionWidget->setMaximumHeight(max - 4);
+    
     actionWidget = toolbar->widgetForAction(m_buttonSelectTool);
     actionWidget->setMaximumWidth(max);
     actionWidget->setMaximumHeight(max - 4);
@@ -782,7 +826,7 @@ void MainWindow::setupActions()
     actionWidget->setMaximumHeight(max - 4);
 
     toolbar->setStyleSheet(style1);
-    connect(m_toolGroup, SIGNAL(triggered(QAction *)), this, SLOT(slotChangeTool(QAction *)));
+    connect(toolGroup, SIGNAL(triggered(QAction *)), this, SLOT(slotChangeTool(QAction *)));
 
     toolbar->addSeparator();
     m_buttonFitZoom = new KAction(KIcon("zoom-fit-best"), i18n("Fit zoom to project"), this);
@@ -852,6 +896,9 @@ void MainWindow::setupActions()
     statusBar()->addPermanentWidget(m_timecodeFormat);
     //statusBar()->setMaximumHeight(statusBar()->font().pointSize() * 3);
 
+    collection->addAction("normal_mode", normaledit);    
+    collection->addAction("overwrite_mode", m_overwriteModeTool);
+    collection->addAction("insert_mode", m_insertModeTool);
     collection->addAction("select_tool", m_buttonSelectTool);
     collection->addAction("razor_tool", m_buttonRazorTool);
     collection->addAction("spacer_tool", m_buttonSpacerTool);
@@ -2577,6 +2624,14 @@ void MainWindow::slotChangeTool(QAction * action)
     if (action == m_buttonSelectTool) slotSetTool(SELECTTOOL);
     else if (action == m_buttonRazorTool) slotSetTool(RAZORTOOL);
     else if (action == m_buttonSpacerTool) slotSetTool(SPACERTOOL);
+}
+
+void MainWindow::slotChangeEdit(QAction * action)
+{
+    if (!m_activeTimeline) return;
+    if (action == m_overwriteModeTool) m_activeTimeline->projectView()->setEditMode(OVERWRITEEDIT);
+    else if (action == m_insertModeTool) m_activeTimeline->projectView()->setEditMode(INSERTEDIT);
+    else m_activeTimeline->projectView()->setEditMode(NORMALEDIT);
 }
 
 void MainWindow::slotSetTool(PROJECTTOOL tool)

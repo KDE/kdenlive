@@ -196,11 +196,13 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
         }*/
 
         QPainterPath shape = clipGroupShape(newPos - pos());
-        QList<QGraphicsItem*> collindingItems = scene()->items(shape, Qt::IntersectsItemShape);
-        for (int i = 0; i < children.count(); i++) {
-            collindingItems.removeAll(children.at(i));
+        QList<QGraphicsItem*> collindingItems;
+        if (projectScene()->editMode() == NORMALEDIT) {
+            collindingItems = scene()->items(shape, Qt::IntersectsItemShape);
+            for (int i = 0; i < children.count(); i++) {
+                collindingItems.removeAll(children.at(i));
+            }
         }
-
         if (!collindingItems.isEmpty()) {
             bool forwardMove = xpos > start.x();
             int offset = 0;

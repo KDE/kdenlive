@@ -169,7 +169,7 @@ Q_OBJECT public:
     double dar() const;
 
     /** Playlist manipulation */
-    int mltInsertClip(ItemInfo info, QDomElement element, Mlt::Producer *prod);
+    int mltInsertClip(ItemInfo info, QDomElement element, Mlt::Producer *prod, bool overwrite = false, bool push = false);
     bool mltUpdateClip(ItemInfo info, QDomElement element, Mlt::Producer *prod);
     void mltCutClip(int track, GenTime position);
     void mltInsertSpace(QMap <int, int> trackClipStartList, QMap <int, int> trackTransitionStartList, int track, const GenTime duration, const GenTime timeOffset);
@@ -178,8 +178,8 @@ Q_OBJECT public:
     bool mltResizeClipEnd(ItemInfo info, GenTime clipDuration);
     bool mltResizeClipStart(ItemInfo info, GenTime diff);
     bool mltResizeClipCrop(ItemInfo info, GenTime diff);
-    bool mltMoveClip(int startTrack, int endTrack, GenTime pos, GenTime moveStart, Mlt::Producer *prod);
-    bool mltMoveClip(int startTrack, int endTrack, int pos, int moveStart, Mlt::Producer *prod);
+    bool mltMoveClip(int startTrack, int endTrack, GenTime pos, GenTime moveStart, Mlt::Producer *prod, bool overwrite = false, bool insert = false);
+    bool mltMoveClip(int startTrack, int endTrack, int pos, int moveStart, Mlt::Producer *prod, bool overwrite = false, bool insert = false);
     bool mltRemoveClip(int track, GenTime position);
     /** Delete an effect to a clip in MLT's playlist */
     bool mltRemoveEffect(int track, GenTime position, QString index, bool updateIndex, bool doRefresh = true);
