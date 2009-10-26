@@ -2840,7 +2840,7 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
     } else {
         Mlt::Producer destTrackProducer(tractor.track(endTrack));
         Mlt::Playlist destTrackPlaylist((mlt_playlist) destTrackProducer.get_service());
-        if (!destTrackPlaylist.is_blank_at(moveEnd)) {
+        if (!overwrite && !destTrackPlaylist.is_blank_at(moveEnd)) {
             // error, destination is not empty
             mlt_service_unlock(service.get_service());
             m_isBlocked--;
@@ -2876,6 +2876,12 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
 
             // move all effects to the correct producer
             mltPasteEffects(clipProducer, clip);
+
+            if (overwrite) {
+                destTrackPlaylist.remove_region(moveEnd, clip->get_playtime());
+                int clipIndex = trackPlaylist.get_clip_index_at(moveEnd);
+                trackPlaylist.insert_blank(clipIndex, clip->get_playtime() - 1);
+            }
 
             int newIndex = destTrackPlaylist.insert_at(moveEnd, clip, 1);
 
