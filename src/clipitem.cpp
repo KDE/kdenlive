@@ -90,16 +90,11 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, i
         connect(&m_endThumbTimer, SIGNAL(timeout()), this, SLOT(slotGetEndThumb()));
 
         connect(this, SIGNAL(getThumb(int, int)), m_clip->thumbProducer(), SLOT(extractImage(int, int)));
-        //connect(this, SIGNAL(getThumb(int, int)), clip->thumbProducer(), SLOT(getVideoThumbs(int, int)));
 
         connect(m_clip->thumbProducer(), SIGNAL(thumbReady(int, QImage)), this, SLOT(slotThumbReady(int, QImage)));
         connect(m_clip, SIGNAL(gotAudioData()), this, SLOT(slotGotAudioData()));
         if (generateThumbs) QTimer::singleShot(200, this, SLOT(slotFetchThumbs()));
 
-        /*if (m_clip->producer()) {
-            videoThumbProducer.init(this, m_clip->producer(), KdenliveSettings::trackheight() * KdenliveSettings::project_display_ratio(), KdenliveSettings::trackheight());
-            slotFetchThumbs();
-        }*/
     } else if (m_clipType == COLOR) {
         QString colour = m_clip->getProperty("colour");
         colour = colour.replace(0, 2, "#");
@@ -463,7 +458,7 @@ void ClipItem::refreshClip(bool checkDuration)
 
 void ClipItem::slotFetchThumbs()
 {
-    if (scene() == NULL) return;
+    if (scene() == NULL || m_clipType == AUDIO || m_clipType == COLOR) return;
     if (m_clipType == IMAGE) {
         if (m_startPix.isNull()) {
             m_startPix = KThumb::getImage(KUrl(m_clip->getProperty("resource")), (int)(KdenliveSettings::trackheight() * KdenliveSettings::project_display_ratio()), KdenliveSettings::trackheight());
@@ -489,35 +484,18 @@ void ClipItem::slotFetchThumbs()
             slotGetStartThumb();
         }
     }
-    /*
-        if (m_hasThumbs) {
-            if (m_endPix.isNull() && m_startPix.isNull()) {
-                int frame1 = (int)m_cropStart.frames(m_fps);
-                int frame2 = (int)(m_cropStart + m_cropDuration).frames(m_fps) - 1;
-                //videoThumbProducer.setThumbFrames(m_clip->producer(), frame1, frame2);
-                //videoThumbProducer.start(QThread::LowestPriority);
-            } else {
-                if (m_endPix.isNull()) slotGetEndThumb();
-                else slotGetStartThumb();
-            }
-
-        } else if (m_startPix.isNull()) slotGetStartThumb();*/
 }
 
 void ClipItem::slotGetStartThumb()
 {
     m_startThumbRequested = true;
     emit getThumb((int)m_speedIndependantInfo.cropStart.frames(m_fps), -1);
-    //videoThumbProducer.setThumbFrames(m_clip->producer(), (int)m_cropStart.frames(m_fps),  - 1);
-    //videoThumbProducer.start(QThread::LowestPriority);
 }
 
 void ClipItem::slotGetEndThumb()
 {
     m_endThumbRequested = true;
     emit getThumb(-1, (int)(m_speedIndependantInfo.cropStart + m_speedIndependantInfo.cropDuration).frames(m_fps) - 1);
-    //videoThumbProducer.setThumbFrames(m_clip->producer(), -1, (int)(m_cropStart + m_cropDuration).frames(m_fps) - 1);
-    //videoThumbProducer.start(QThread::LowestPriority);
 }
 
 
@@ -1097,7 +1075,6 @@ void ClipItem::resizeStart(int posx)
 
     if ((int) cropStart().frames(m_fps) != previous) {
         if (m_hasThumbs && KdenliveSettings::videothumbnails()) {
-            /*connect(m_clip->thumbProducer(), SIGNAL(thumbReady(int, QPixmap)), this, SLOT(slotThumbReady(int, QPixmap)));*/
             m_startThumbTimer.start(150);
         }
     }
@@ -1119,7 +1096,6 @@ void ClipItem::resizeEnd(int posx)
 
     if ((int) cropDuration().frames(m_fps) != previous) {
         if (m_hasThumbs && KdenliveSettings::videothumbnails()) {
-            /*connect(m_clip->thumbProducer(), SIGNAL(thumbReady(int, QPixmap)), this, SLOT(slotThumbReady(int, QPixmap)));*/
             m_endThumbTimer.start(150);
         }
     }
@@ -1590,7 +1566,8 @@ void ClipItem::setAudioOnly(bool force)
             QString colour = m_clip->getProperty("colour");
             colour = colour.replace(0, 2, "#");
             m_baseColor = QColor(colour.left(7));
-        } else m_baseColor = QColor(141, 166, 215);
+        } else if (m_clipType == AUDIO) m_baseColor = QColor(141, 215, 166);
+	else m_baseColor = QColor(141, 166, 215);
     }
     m_audioThumbCachePic.clear();
 }
