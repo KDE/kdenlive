@@ -3287,9 +3287,14 @@ void CustomTrackView::deleteClip(ItemInfo info, bool refresh)
     }*/
     m_waitingThumbs.removeAll(item);
     if (m_dragItem == item) m_dragItem = NULL;
-    scene()->removeItem(item);
+#if QT_VERSION >= 0x040600
+    // animate item deletion
+    item->closeAnimation();
+#else
     delete item;
     item = NULL;
+#endif
+    
     setDocumentModified();
     if (refresh) m_document->renderer()->doRefresh();
 }

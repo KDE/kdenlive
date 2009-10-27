@@ -66,6 +66,8 @@ Transition::Transition(const ItemInfo info, int transitiontrack, double fps, QDo
 
 Transition::~Transition()
 {
+    blockSignals(true);
+    if (scene()) scene()->removeItem(this);
 }
 
 Transition *Transition::clone()

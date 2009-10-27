@@ -116,6 +116,7 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, i
 ClipItem::~ClipItem()
 {
     blockSignals(true);
+    if (scene()) scene()->removeItem(this);
     if (m_clipType == VIDEO || m_clipType == AV || m_clipType == SLIDESHOW || m_clipType == PLAYLIST) {
         disconnect(m_clip->thumbProducer(), SIGNAL(thumbReady(int, QImage)), this, SLOT(slotThumbReady(int, QImage)));
         disconnect(m_clip, SIGNAL(gotAudioData()), this, SLOT(slotGotAudioData()));

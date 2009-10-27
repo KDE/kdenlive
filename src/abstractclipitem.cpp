@@ -37,10 +37,40 @@ AbstractClipItem::AbstractClipItem(const ItemInfo info, const QRectF& rect, doub
         m_selectedKeyframe(0),
         m_keyframeFactor(1),
         m_fps(fps)
+#if QT_VERSION >= 0x040600	
+	, m_closeAnimation(NULL)
+#endif
 {
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
 #if QT_VERSION >= 0x040600
     setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
+#endif
+}
+
+AbstractClipItem::~AbstractClipItem()
+{
+#if QT_VERSION >= 0x040600
+    if (m_closeAnimation) delete m_closeAnimation;
+#endif  
+}  
+ 
+void AbstractClipItem::closeAnimation()
+{
+#if QT_VERSION >= 0x040600
+    if (m_closeAnimation) return;
+    m_closeAnimation = new QPropertyAnimation(this, "rect");
+    connect(m_closeAnimation, SIGNAL(finished()), this, SLOT(deleteLater()));
+    m_closeAnimation->setDuration(200);
+    QRectF r = rect();
+    QRectF r2 = r;
+    r2.setLeft(r.left() + r.width() / 2);
+    r2.setTop(r.top() + r.height() / 2);
+    r2.setWidth(1);
+    r2.setHeight(1);
+    m_closeAnimation->setStartValue(r);
+    m_closeAnimation->setEndValue(r2);
+    m_closeAnimation->setEasingCurve(QEasingCurve::InQuad);
+    m_closeAnimation->start();
 #endif
 }
 
