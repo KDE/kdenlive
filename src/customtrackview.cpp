@@ -1911,7 +1911,13 @@ void CustomTrackView::deleteTransition(ItemInfo transitionInfo, int endTrack, QD
     }
     m_document->renderer()->mltDeleteTransition(item->transitionTag(), endTrack, m_document->tracksCount() - transitionInfo.track, transitionInfo.startPos, transitionInfo.endPos, item->toXML(), refresh);
     if (m_dragItem == item) m_dragItem = NULL;
+
+#if QT_VERSION >= 0x040600
+    // animate item deletion
+    item->closeAnimation();
+#else
     delete item;
+#endif
     emit transitionItemSelected(NULL);
     setDocumentModified();
 }

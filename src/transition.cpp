@@ -40,8 +40,20 @@ Transition::Transition(const ItemInfo info, int transitiontrack, double fps, QDo
 {
     setZValue(3);
     m_info.cropDuration = info.endPos - info.startPos;
-    setRect(0, 0, m_info.cropDuration.frames(fps) - 0.02, (qreal)(KdenliveSettings::trackheight() / 3 * 2 - 1));
     setPos(info.startPos.frames(fps), (qreal)(info.track * KdenliveSettings::trackheight() + KdenliveSettings::trackheight() / 3 * 2));
+
+#if QT_VERSION >= 0x040600
+    m_startAnimation = new QPropertyAnimation(this, "rect");
+    m_startAnimation->setDuration(200);
+    QRectF r(0, 0, m_info.cropDuration.frames(fps) - 0.02, 1);
+    QRectF r2(0, 0, m_info.cropDuration.frames(fps) - 0.02, (qreal)(KdenliveSettings::trackheight() / 3 * 2 - 1));
+    m_startAnimation->setStartValue(r);
+    m_startAnimation->setEndValue(r2);
+    m_startAnimation->setEasingCurve(QEasingCurve::OutQuad);
+    m_startAnimation->start();
+#else
+    setRect(0, 0, m_info.cropDuration.frames(fps) - 0.02, (qreal)(KdenliveSettings::trackheight() / 3 * 2 - 1));
+#endif
 
     m_info.cropStart = GenTime();
     m_maxDuration = GenTime(600);
@@ -67,6 +79,7 @@ Transition::Transition(const ItemInfo info, int transitiontrack, double fps, QDo
 Transition::~Transition()
 {
     blockSignals(true);
+    delete m_startAnimation;
     if (scene()) scene()->removeItem(this);
 }
 
