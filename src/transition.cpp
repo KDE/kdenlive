@@ -79,7 +79,9 @@ Transition::Transition(const ItemInfo info, int transitiontrack, double fps, QDo
 Transition::~Transition()
 {
     blockSignals(true);
+#if QT_VERSION >= 0x040600
     delete m_startAnimation;
+#endif
     if (scene()) scene()->removeItem(this);
 }
 
