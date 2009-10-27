@@ -2830,6 +2830,7 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
                 trackPlaylist.insert_blank(clipIndex, clipProducer->get_playtime() - 1);
             }
             int newIndex = trackPlaylist.insert_at(moveEnd, clipProducer, 1);
+            trackPlaylist.consolidate_blanks(1);
             delete clipProducer;
             /*if (QString(clipProducer.parent().get("transparency")).toInt() == 1) {
             mltMoveTransparency(moveStart, moveEnd, startTrack, endTrack, QString(clipProducer.parent().get("id")).toInt());
@@ -2856,7 +2857,7 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
                 m_isBlocked--;
                 return false;
             }
-            trackPlaylist.consolidate_blanks(0);
+            trackPlaylist.consolidate_blanks(1);
             destTrackPlaylist.consolidate_blanks(1);
             Mlt::Producer *clip;
             // check if we are moving a slowmotion producer
@@ -2907,6 +2908,32 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
     //askForRefresh();
     //m_mltConsumer->set("refresh", 1);
     return true;
+}
+
+
+QList <int> Render::checkTrackSequence(int track)
+{
+    QList <int> list;
+    Mlt::Service service(m_mltProducer->parent().get_service());
+    if (service.type() != tractor_type) {
+        kWarning() << "// TRACTOR PROBLEM";
+        return list;
+    }
+    Mlt::Tractor tractor(service);
+    mlt_service_lock(service.get_service());
+    Mlt::Producer trackProducer(tractor.track(track));
+    Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
+    int clipNb = trackPlaylist.count();
+    //kDebug() << "// PARSING SCENE TRACK: " << t << ", CLIPS: " << clipNb;
+    for (int i = 0; i < clipNb; i++) {
+        Mlt::Producer *c = trackPlaylist.get_clip(i);
+        int pos = trackPlaylist.clip_start(i);
+        if (!list.contains(pos)) list.append(pos);
+        pos += c->get_playtime();
+        if (!list.contains(pos)) list.append(pos);
+        delete c;
+    }
+    return list;
 }
 
 bool Render::mltMoveTransition(QString type, int startTrack, int newTrack, int newTransitionTrack, GenTime oldIn, GenTime oldOut, GenTime newIn, GenTime newOut)

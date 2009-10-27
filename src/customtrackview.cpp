@@ -72,7 +72,7 @@
 #include <QScrollBar>
 #include <QApplication>
 #include <QInputDialog>
-
+#include <KMessageBox>
 
 bool sortGuidesList(const Guide *g1 , const Guide *g2)
 {
@@ -2033,12 +2033,14 @@ void CustomTrackView::dropEvent(QDropEvent * event)
     setFocus();
 }
 
-void CustomTrackView::adjustTimelineClips(EDITMODE mode, AbstractClipItem *item, QUndoCommand *command)
+void CustomTrackView::adjustTimelineClips(EDITMODE mode, ClipItem *item, QUndoCommand *command)
 {
     if (mode == OVERWRITEEDIT) {
         // if we are in overwrite or push mode, move clips accordingly
+        bool snap = KdenliveSettings::snaptopoints();
+        KdenliveSettings::setSnaptopoints(false);
         ItemInfo info = item->info();
-        QRectF rect(info.startPos.frames(m_document->fps()), info.track * m_tracksHeight + m_tracksHeight / 2, (info.endPos - info.startPos).frames(m_document->fps()) - 1, m_tracksHeight / 2 - 2);
+        QRectF rect(info.startPos.frames(m_document->fps()), info.track * m_tracksHeight + m_tracksHeight / 2, (info.endPos - info.startPos).frames(m_document->fps()) - 1, 5);
         QList<QGraphicsItem *> selection = m_scene->items(rect);
         selection.removeAll(item);
         for (int i = 0; i < selection.count(); i++) {
@@ -2050,13 +2052,13 @@ void CustomTrackView::adjustTimelineClips(EDITMODE mode, AbstractClipItem *item,
                         ItemInfo dupInfo = clipInfo;
                         GenTime diff = info.startPos - clip->startPos();
                         dupInfo.startPos = info.startPos;
-                        dupInfo.cropStart += diff + GenTime(1, m_document->fps());
-                        dupInfo.cropDuration += GenTime() - diff;
+                        dupInfo.cropStart += diff;
+                        dupInfo.cropDuration = clipInfo.endPos - info.startPos;
                         ItemInfo newdupInfo = dupInfo;
                         GenTime diff2 = info.endPos - info.startPos;
-                        newdupInfo.startPos = GenTime(info.endPos.frames(m_document->fps()), m_document->fps());
+                        newdupInfo.startPos = info.endPos;
                         newdupInfo.cropStart += diff2;
-                        newdupInfo.cropDuration += GenTime() - diff2;
+                        newdupInfo.cropDuration = clipInfo.endPos - info.endPos;
                         new RazorClipCommand(this, clipInfo, info.startPos, false, command);
                         new ResizeClipCommand(this, dupInfo, newdupInfo, false, false, command);
                         ClipItem *dup = cutClip(clipInfo, info.startPos, true, false);
@@ -2081,6 +2083,7 @@ void CustomTrackView::adjustTimelineClips(EDITMODE mode, AbstractClipItem *item,
                 }
             }
         }
+        KdenliveSettings::setSnaptopoints(snap);
     }
 }
 
@@ -2089,6 +2092,8 @@ void CustomTrackView::adjustTimelineTransitions(EDITMODE mode, Transition *item,
 {
     if (mode == OVERWRITEEDIT) {
         // if we are in overwrite or push mode, move clips accordingly
+        bool snap = KdenliveSettings::snaptopoints();
+        KdenliveSettings::setSnaptopoints(false);
         ItemInfo info = item->info();
         QRectF rect(info.startPos.frames(m_document->fps()), info.track * m_tracksHeight + m_tracksHeight, (info.endPos - info.startPos).frames(m_document->fps()) - 1, 5);
         QList<QGraphicsItem *> selection = m_scene->items(rect);
@@ -2117,6 +2122,7 @@ void CustomTrackView::adjustTimelineTransitions(EDITMODE mode, Transition *item,
                 }
             }
         }
+        KdenliveSettings::setSnaptopoints(snap);
     }
 }
 
@@ -2724,7 +2730,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                 if (success) {
                     QUndoCommand *moveCommand = new QUndoCommand();
                     moveCommand->setText(i18n("Move clip"));
-                    adjustTimelineClips(m_scene->editMode(), m_dragItem, moveCommand);
+                    adjustTimelineClips(m_scene->editMode(), item, moveCommand);
 
                     int tracknumber = m_document->tracksCount() - item->track() - 1;
                     bool isLocked = m_document->trackInfoAt(tracknumber).isLocked;
@@ -2830,6 +2836,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                         }
                     }
                     m_commandStack->push(moveCommand);
+                    //checkTrackSequence(m_dragItem->track());
                 } else {
                     // undo last move and emit error message
                     bool snap = KdenliveSettings::snaptopoints();
@@ -2915,7 +2922,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                         ClipItem *clip = static_cast <ClipItem*>(item);
                         info.track = m_document->tracksCount() - info.track;
                         Mlt::Producer *prod;
-                        adjustTimelineClips(m_scene->editMode(), item, moveGroup);
+                        adjustTimelineClips(m_scene->editMode(), clip, moveGroup);
                         if (clip->isAudioOnly()) prod = clip->baseClip()->audioProducer(info.track);
                         else if (clip->isVideoOnly()) prod = clip->baseClip()->videoProducer();
                         else prod = clip->baseClip()->producer(info.track);
@@ -3017,14 +3024,20 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
 
                 m_commandStack->push(resizeCommand);
             } else {
+                bool snap = KdenliveSettings::snaptopoints();
+                KdenliveSettings::setSnaptopoints(false);
                 m_dragItem->resizeStart((int) m_dragItemInfo.startPos.frames(m_document->fps()));
+                KdenliveSettings::setSnaptopoints(snap);
                 emit displayMessage(i18n("Error when resizing clip"), ErrorMessage);
             }
         } else if (m_dragItem->type() == TRANSITIONWIDGET) {
             Transition *transition = static_cast <Transition *>(m_dragItem);
             if (!m_document->renderer()->mltMoveTransition(transition->transitionTag(), (int)(m_document->tracksCount() - m_dragItemInfo.track), (int)(m_document->tracksCount() - m_dragItemInfo.track), transition->transitionEndTrack(), m_dragItemInfo.startPos, m_dragItemInfo.endPos, info.startPos, info.endPos)) {
                 // Cannot resize transition
+                bool snap = KdenliveSettings::snaptopoints();
+                KdenliveSettings::setSnaptopoints(false);
                 transition->resizeStart((int) m_dragItemInfo.startPos.frames(m_document->fps()));
+                KdenliveSettings::setSnaptopoints(snap);
                 emit displayMessage(i18n("Cannot resize transition"), ErrorMessage);
             } else {
                 MoveTransitionCommand *command = new MoveTransitionCommand(this, m_dragItemInfo, info, false);
@@ -5429,6 +5442,28 @@ QStringList CustomTrackView::extractTransitionsLumas()
 void CustomTrackView::setEditMode(EDITMODE mode)
 {
     m_scene->setEditMode(mode);
+}
+
+void CustomTrackView::checkTrackSequence(int track)
+{
+    QList <int> times = m_document->renderer()->checkTrackSequence(m_document->tracksCount() - track);
+    //track = m_document->tracksCount() -track;
+    QRectF rect(0, track * m_tracksHeight + m_tracksHeight / 2, sceneRect().width(), 2);
+    QList<QGraphicsItem *> selection = m_scene->items(rect);
+    QList <int> timelineList;
+    timelineList.append(0);
+    for (int i = 0; i < selection.count(); i++) {
+        if (selection.at(i)->type() == AVWIDGET) {
+            ClipItem *clip = static_cast <ClipItem *>(selection.at(i));
+            int start = clip->startPos().frames(m_document->fps());
+            int end = clip->endPos().frames(m_document->fps());
+            if (!timelineList.contains(start)) timelineList.append(start);
+            if (!timelineList.contains(end)) timelineList.append(end);
+        }
+    }
+    qSort(timelineList);
+    kDebug() << "// COMPARE:\n" << times << "\n" << timelineList << "\n-------------------";
+    if (times != timelineList) KMessageBox::sorry(this, i18n("error"), i18n("TRACTOR"));
 }
 
 

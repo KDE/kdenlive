@@ -221,6 +221,7 @@ Q_OBJECT public:
 #ifdef Q_WS_MAC
     void showFrame(Mlt::Frame&);
 #endif
+    QList <int> checkTrackSequence(int);
 
 private:   // Private attributes & methods
     /** The name of this renderer - useful to identify the renderes by what they do - e.g. background rendering, workspace monitor, etc... */
