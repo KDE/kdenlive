@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-10-01 23:51+0200\n"
-"PO-Revision-Date: 2009-10-29 20:36+0100\n"
+"PO-Revision-Date: 2009-10-29 20:53+0100\n"
 "Last-Translator: Stanislas Zeller <uncensored.assault@gmail.com>\n"
 "Language-Team: français <kde-francophone@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -904,14 +904,12 @@ msgid "Cannot find your Mlt profiles, please give the path"
 msgstr "Impossible de trouver vos profils MLT, veuillez indiquer l'emplacement"
 
 #: src/customtrackview.cpp:1984
-#, fuzzy
 msgid "Cannot insert clip in timeline"
-msgstr "Impossible de trouver le clip à couper"
+msgstr "Impossible d'insérer le clip dans le montage"
 
 #: src/customtrackview.cpp:2338
-#, fuzzy
 msgid "Cannot insert space in a track with a group"
-msgstr "Impossible de couper un clip dans un groupe"
+msgstr "Impossible d'insérer un espace dans un clip comportant un groupe"
 
 #: src/customtrackview.cpp:2392
 msgid "Cannot move clip at position %1, track %2"
@@ -974,9 +972,8 @@ msgstr ""
 "Veuillez vérifier les pilotes et les droits d'accès."
 
 #: src/customtrackview.cpp:2291
-#, fuzzy
 msgid "Cannot remove space in a track with a group"
-msgstr "Impossible de couper un clip dans un groupe"
+msgstr "Impossible de supprimer un espace dans un clip comportant un groupe"
 
 #: src/customtrackview.cpp:2865 src/customtrackview.cpp:2957
 msgid "Cannot resize transition"
@@ -991,9 +988,8 @@ msgstr "Impossible de scinder la piste audio des clips groupés"
 #: src/customtrackview.cpp:4889 src/customtrackview.cpp:4915
 #: src/customtrackview.cpp:5013 src/customtrackview.cpp:5020
 #: src/customtrackview.cpp:5027
-#, fuzzy
 msgid "Cannot update clip (time: %1, track: %2)"
-msgstr "Impossible de déplacer le clip à l'horodatage : %1 sur la piste %2"
+msgstr "Impossible de mettre à jour le clip : (horodatage : %1,piste : %2)"
 
 #: src/customtrackview.cpp:799
 #, fuzzy
@@ -1059,9 +1055,8 @@ msgid "Center Frequency"
 msgstr "Fréquence centrée"
 
 #: rc.cpp:171 rc.cpp:2089
-#, fuzzy
 msgid "Center correction"
-msgstr "Fréquence centrée"
+msgstr "Correction centrée"
 
 #: rc.cpp:1038 rc.cpp:1044 rc.cpp:1050 rc.cpp:2956 rc.cpp:2962 rc.cpp:2968
 #: rc.cpp:4435 rc.cpp:4441 rc.cpp:4447
@@ -1141,9 +1136,8 @@ msgid "Charcoal drawing effect"
 msgstr "Effet de dessin crayonné"
 
 #: src/kdenlivedoc.cpp:134
-#, fuzzy
 msgid "Check missing clips"
-msgstr "Clips manquants"
+msgstr "Chercher les clips manquants"
 
 #: rc.cpp:672 rc.cpp:2590 rc.cpp:4069
 msgid "CheckBox"
@@ -1187,12 +1181,11 @@ msgstr "Nettoyer le projet"
 
 #: rc.cpp:840 rc.cpp:2758 rc.cpp:3909 rc.cpp:4237 rc.cpp:5388
 msgid "Clear cache"
-msgstr ""
+msgstr "Vider le cache"
 
 #: src/mainwindow.cpp:2435
-#, fuzzy
 msgid "Click on a clip to cut it"
-msgstr "Impossible de trouver le clip à couper"
+msgstr "Cliquer sur un clip pour le découper"
 
 #: rc.cpp:5430
 msgid "Clip"
@@ -1266,7 +1259,7 @@ msgstr "Dossier des clips"
 
 #: rc.cpp:828 rc.cpp:2746 rc.cpp:3897 rc.cpp:4225 rc.cpp:5376
 msgid "Clips used in project:"
-msgstr ""
+msgstr "Clips utilisés par le projet :"
 
 #: src/titlewidget.cpp:335
 msgid "Clone"
@@ -1711,18 +1704,16 @@ msgid "Delete profile"
 msgstr "Supprimer le profil"
 
 #: src/customtrackview.cpp:3172
-#, fuzzy
 msgid "Delete selected clip"
 msgid_plural "Delete selected clips"
-msgstr[0] "Supprimer les éléments sélectionnés"
+msgstr[0] "Supprimer l'élément sélectionné"
 msgstr[1] "Supprimer les éléments sélectionnés"
 
 #: src/customtrackview.cpp:3170
-#, fuzzy
 msgid "Delete selected group"
 msgid_plural "Delete selected groups"
-msgstr[0] "Supprimer les éléments sélectionnés"
-msgstr[1] "Supprimer les éléments sélectionnés"
+msgstr[0] "Supprimer le groupe sélectionné"
+msgstr[1] "Supprimer les groupes sélectionnés"
 
 #: src/customtrackview.cpp:3175
 msgid "Delete selected items"
@@ -1739,10 +1730,9 @@ msgid "Delete them"
 msgstr "Les supprimer"
 
 #: src/addtimelineclipcommand.cpp:37 src/customtrackview.cpp:2449
-#, fuzzy
 msgid "Delete timeline clip"
 msgid_plural "Delete timeline clips"
-msgstr[0] "Supprimer le clip de montage"
+msgstr[0] "Supprimer le clip du montage"
 msgstr[1] "Supprimer le clip de montage"
 
 #: src/customtrackview.cpp:4638 src/addtrackcommand.cpp:34
@@ -1754,9 +1744,8 @@ msgid "Delete transition from clip"
 msgstr "Supprimer la transition dans le clip"
 
 #: src/projectsettings.cpp:91
-#, fuzzy
 msgid "Delete unused clips"
-msgstr "Supprimer les clips de montage"
+msgstr "Supprimer les clips non utilisés"
 
 #: src/titlewidget.cpp:142
 msgctxt "Font style"
@@ -1786,9 +1775,8 @@ msgid "Destination"
 msgstr "Cible"
 
 #: src/cliptranscode.cpp:50
-#, fuzzy
 msgid "Destination folder"
-msgstr "Cible"
+msgstr "Dossier cible"
 
 #: rc.cpp:1179 rc.cpp:3097 rc.cpp:4576
 msgid "Device"
@@ -2047,9 +2035,8 @@ msgid "Enter new location for file"
 msgstr "Saisir l'emplacement du fichier"
 
 #: src/trackview.cpp:872
-#, fuzzy
 msgid "Enter new name"
-msgstr "Saisir la valeur unicode"
+msgstr "Saisir le nouveau nom"
 
 #: src/unicodedialog.cpp:48
 msgid "Enter your Unicode number here. Allowed characters: [0-9] and [a-f]."
@@ -2185,9 +2172,8 @@ msgstr ""
 "Voulez-vous l'écraser ?"
 
 #: src/kdenlivedoc.cpp:91
-#, fuzzy
 msgid "File %1 is not a Kdenlive project file"
-msgstr "Le fichier %1 n'est pas un fichier projet Kdenlive."
+msgstr "Le fichier %1 n'est pas un fichier de projet Kdenlive."
 
 #: src/dvdwizard.cpp:704
 msgid "File %1 is not a Kdenlive project file."
@@ -2582,9 +2568,8 @@ msgid "Hor. Center"
 msgstr "Centrer horizontalement"
 
 #: rc.cpp:167 rc.cpp:2085
-#, fuzzy
 msgid "Horizontal center"
-msgstr "Diffusion horizontale"
+msgstr "Centrer horizontalement"
 
 #: rc.cpp:531 rc.cpp:2449
 msgid "Horizontal factor"
@@ -2669,9 +2654,8 @@ msgid "Input gain (dB)"
 msgstr "Amplification à l'entrée (dB)"
 
 #: src/customtrackview.cpp:4609
-#, fuzzy
 msgid "Insert New Track"
-msgstr "Insérer une piste"
+msgstr "Insérer une nouvelle piste"
 
 #: src/mainwindow.cpp:1031
 msgid "Insert Space"
@@ -2914,9 +2898,8 @@ msgid "Lossless / HQ"
 msgstr "Sans perte / Haute qualité"
 
 #: src/documentchecker.cpp:69
-#, fuzzy
 msgid "Luma file"
-msgstr "Charger le titre"
+msgstr "Fichier luma"
 
 #: rc.cpp:690 rc.cpp:2608 rc.cpp:4087
 msgid "M"
@@ -3056,9 +3039,8 @@ msgid "Mobile devices"
 msgstr "Périphériques distants"
 
 #: rc.cpp:213 rc.cpp:2131
-#, fuzzy
 msgid "Mode"
-msgstr "Dossier"
+msgstr "Mode"
 
 #: rc.cpp:5454
 msgid "Monitor"
@@ -3289,9 +3271,8 @@ msgid "Open projects in new tabs"
 msgstr "Ouvrir les projets dans des onglets"
 
 #: src/mainwindow.cpp:1464
-#, fuzzy
 msgid "Opening file %1"
-msgstr "Rendu terminé dans %1"
+msgstr "Ouverture du fichier %1"
 
 #: src/main.cpp:44
 msgid "Original KDE 3 version author (not active anymore)"
@@ -3572,9 +3553,8 @@ msgid "Project"
 msgstr "Projet"
 
 #: rc.cpp:3894 rc.cpp:5373
-#, fuzzy
 msgid "Project Files"
-msgstr "Dossier du projet"
+msgstr "Fichiers du projet"
 
 #: src/mainwindow.cpp:193
 msgid "Project Monitor"
@@ -3767,9 +3747,8 @@ msgid "Removed invalid transition: %1"
 msgstr "Transition non-valable supprimée : %1"
 
 #: src/headertrack.cpp:88
-#, fuzzy
 msgid "Rename Track"
-msgstr "Supprimer la piste"
+msgstr "Renommer la piste"
 
 #: src/editfoldercommand.cpp:34
 msgid "Rename folder"
@@ -3872,9 +3851,8 @@ msgid "Reset effect"
 msgstr "Réinitialiser l'effet"
 
 #: rc.cpp:1620 rc.cpp:3538 rc.cpp:5017
-#, fuzzy
 msgid "Resize"
-msgstr "Redimensionner..."
+msgstr "Redimensionner"
 
 #: src/monitor.cpp:108
 msgid "Resize (100%)"
@@ -3979,12 +3957,11 @@ msgstr "SVGAlib"
 
 #: rc.cpp:177 rc.cpp:2095
 msgid "Saturat0r"
-msgstr ""
+msgstr "Saturat0r"
 
 #: rc.cpp:181 rc.cpp:2099
-#, fuzzy
 msgid "Saturation"
-msgstr "Durée"
+msgstr "Saturation"
 
 #: src/dvdwizard.cpp:104
 msgid "Save"
@@ -4184,9 +4161,8 @@ msgid "Set zone start"
 msgstr "Définir le début de la zone"
 
 #: rc.cpp:3840 rc.cpp:5319
-#, fuzzy
 msgid "Settings"
-msgstr "Configuration du projet"
+msgstr "Configuration"
 
 #: rc.cpp:373 rc.cpp:2291
 msgid "Shear X"
@@ -4236,11 +4212,11 @@ msgstr "Afficher les miniatures vidéo"
 
 #: rc.cpp:638 rc.cpp:2556 rc.cpp:4035
 msgid "Shutdown computer after renderings"
-msgstr ""
+msgstr "Eteindre l'ordinateur après les rendus"
 
 #: src/main.cpp:43
 msgid "Simon A. Eugster"
-msgstr ""
+msgstr "Simon A. Eugster"
 
 #: rc.cpp:313 rc.cpp:2231
 msgid "Simulates a vinyl audio player - LADSPA audio effect"
@@ -4288,7 +4264,7 @@ msgstr "Diminuer la taille des pistes"
 
 #: src/mainwindow.cpp:770
 msgid "Snap"
-msgstr "Aimenter"
+msgstr "Aimanter"
 
 #: rc.cpp:1377 rc.cpp:1764 rc.cpp:3295 rc.cpp:3682 rc.cpp:4774 rc.cpp:5161
 msgid "Softness"
@@ -4327,9 +4303,8 @@ msgid "Source Color"
 msgstr "Couleur de la source"
 
 #: rc.cpp:391 rc.cpp:2309
-#, fuzzy
 msgid "Sox Balance"
-msgstr "SoX groupe de musiciens"
+msgstr "Sox Balance"
 
 #: rc.cpp:407 rc.cpp:2325
 msgid "Sox Band"
@@ -4495,9 +4470,8 @@ msgid "Stroboscope"
 msgstr "Stroboscope"
 
 #: rc.cpp:1837 rc.cpp:3755 rc.cpp:5234
-#, fuzzy
 msgid "Stroboscope effect"
-msgstr "Stroboscope"
+msgstr "Effet stroboscope"
 
 #: rc.cpp:319 rc.cpp:2237
 msgid "Surface warping"
@@ -4707,7 +4681,6 @@ msgid "Title Profile"
 msgstr "Modifier le profil"
 
 #: src/kdenlivedoc.cpp:1076
-#, fuzzy
 msgid "Title clip"
 msgstr "Clip titre"
 
@@ -4744,9 +4717,8 @@ msgid "Transcode Clip"
 msgstr "Convertir le clip"
 
 #: src/mainwindow.cpp:882
-#, fuzzy
 msgid "Transcode Clips"
-msgstr "Convertir le clip"
+msgstr "Transcoder des clips"
 
 #: src/cliptranscode.cpp:157
 msgid "Transcoding FAILED!"
@@ -4825,9 +4797,8 @@ msgid "Untitled"
 msgstr "Sans titre"
 
 #: rc.cpp:831 rc.cpp:2749 rc.cpp:3900 rc.cpp:4228 rc.cpp:5379
-#, fuzzy
 msgid "Unused clips:"
-msgstr "Dégrouper les clips"
+msgstr "Clips non-utilisés :"
 
 #: rc.cpp:918 rc.cpp:2836 rc.cpp:4315
 msgid "Up"
@@ -4859,9 +4830,8 @@ msgid "V"
 msgstr "V"
 
 #: src/kdenlivedoc.cpp:86
-#, fuzzy
 msgid "Validating"
-msgstr "Action non valable"
+msgstr "Validation en cours"
 
 #: src/keyframeedit.cpp:38 rc.cpp:1864 rc.cpp:3782 rc.cpp:5261
 msgid "Value"
@@ -4880,9 +4850,8 @@ msgid "Vert. Center"
 msgstr "Centrer verticalement"
 
 #: rc.cpp:169 rc.cpp:2087
-#, fuzzy
 msgid "Vertical center"
-msgstr "Diffusion verticale"
+msgstr "Centrer verticalement"
 
 #: rc.cpp:533 rc.cpp:2451
 msgid "Vertical factor"
@@ -5197,9 +5166,8 @@ msgid "Zoom Out"
 msgstr "Zoom arrière"
 
 #: rc.cpp:217 rc.cpp:2135
-#, fuzzy
 msgid "Zoom Rate"
-msgstr "Zoom arrière"
+msgstr "Niveau de zoom"
 
 #: rc.cpp:1584 rc.cpp:3502 rc.cpp:4981
 msgid "Zoom:"
@@ -5244,13 +5212,12 @@ msgid "dvdauthor"
 msgstr "dvdauthor"
 
 #: src/wizard.cpp:326
-#, fuzzy
 msgid "dvgrab"
-msgstr "Dvgrab"
+msgstr "dvgrab"
 
 #: rc.cpp:1236 rc.cpp:3154 rc.cpp:4633
 msgid "dvgrab additional parameters"
-msgstr ""
+msgstr "Paramètres additionnels dvgrab"
 
 #: src/recmonitor.cpp:216
 msgid ""
@@ -5276,11 +5243,11 @@ msgstr "images"
 
 #: src/dvdwizardvob.cpp:56
 msgid "genisoimage"
-msgstr ""
+msgstr "genisoimage"
 
 #: src/wizard.cpp:340
 msgid "genisoimage or mkisofs"
-msgstr ""
+msgstr "genisoimage ou mkisofs"
 
 #: src/clipproperties.cpp:165 src/mainwindow.cpp:676 src/slideshowclip.cpp:58
 msgid "hh:mm:ss::ff"
@@ -5324,9 +5291,8 @@ msgid "parameter description"
 msgstr "Description du paramètre"
 
 #: src/wizard.cpp:320
-#, fuzzy
 msgid "recordmydesktop"
-msgstr "Recordmydesktop"
+msgstr "recordmydesktop"
 
 #: src/mainwindow.cpp:694
 msgctxt "Selection tool shortcut"
@@ -5350,7 +5316,6 @@ msgid "to"
 msgstr "jusqu'à"
 
 #: src/renderwidget.cpp:1034
-#, fuzzy
 msgid "untitled"
 msgstr "Sans titre"
 
@@ -5367,7 +5332,6 @@ msgid "with track"
 msgstr "avec la piste"
 
 #: src/mainwindow.cpp:700
-#, fuzzy
 msgctxt "Razor tool shortcut"
 msgid "x"
 msgstr "x"
