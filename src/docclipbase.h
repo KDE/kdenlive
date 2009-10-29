@@ -185,6 +185,12 @@ Q_OBJECT public:
     bool isPlaceHolder() const;
     static QString getHash(const QString &path);
 
+    void addCutZone(int in, int out);
+    bool hasCutZone(QPoint p) const;
+    void removeCutZone(int in, int out);
+    QList <QPoint> cutZones() const;
+    void updateCutZone(int oldin, int oldout, int in, int out);
+
 private:   // Private attributes
 
     /** The number of times this clip is used in the project - the number of references to this clip
@@ -211,6 +217,8 @@ private:   // Private attributes
 
     /** Wheter the clip is a placeholder (clip missing but user wants to see it) */
     bool m_placeHolder;
+
+    QList <QPoint> m_cutZones;
 
     void setAudioThumbCreated(bool isDone);
     /** Holds clip infos like fps, size,... */

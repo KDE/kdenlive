@@ -1568,7 +1568,7 @@ void ClipItem::setAudioOnly(bool force)
             colour = colour.replace(0, 2, "#");
             m_baseColor = QColor(colour.left(7));
         } else if (m_clipType == AUDIO) m_baseColor = QColor(141, 215, 166);
-	else m_baseColor = QColor(141, 166, 215);
+        else m_baseColor = QColor(141, 166, 215);
     }
     m_audioThumbCachePic.clear();
 }

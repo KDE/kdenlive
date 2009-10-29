@@ -58,6 +58,14 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QStrin
         m_properties.insert(attributes.item(i).nodeName(), attributes.item(i).nodeValue());
     }
 
+    if (xml.hasAttribute("cutzones")) {
+        QStringList cuts = xml.attribute("cutzones").split(";", QString::SkipEmptyParts);
+        for (int i = 0; i < cuts.count(); i++) {
+            QString z = cuts.at(i);
+            addCutZone(z.section('-', 0, 0).toInt(), z.section('-', 1, 1).toInt());
+        }
+    }
+
     KUrl url = KUrl(xml.attribute("resource"));
     if (!m_properties.contains("file_hash") && !url.isEmpty()) getFileHash(url.path());
 
@@ -262,6 +270,13 @@ QDomElement DocClipBase::toXML() const
         if (!i.value().isEmpty()) clip.setAttribute(i.key(), i.value());
     }
     doc.appendChild(clip);
+    if (!m_cutZones.isEmpty()) {
+        QStringList cuts;
+        for (int i = 0; i < m_cutZones.size(); i++) {
+            cuts << QString::number(m_cutZones.at(i).x()) + "-" + QString::number(m_cutZones.at(i).y());
+        }
+        clip.setAttribute("cutzones", cuts.join(";"));
+    }
     //kDebug() << "/// CLIP XML: " << doc.toString();
     return doc.documentElement();
 }
@@ -839,5 +854,39 @@ bool DocClipBase::slotGetAudioThumbs()
 bool DocClipBase::isPlaceHolder() const
 {
     return m_placeHolder;
+}
+
+void DocClipBase::addCutZone(int in, int out)
+{
+    if (!m_cutZones.contains(QPoint(in, out))) {
+        m_cutZones.append(QPoint(in, out));
+    }
+}
+
+bool DocClipBase::hasCutZone(QPoint p) const
+{
+    return m_cutZones.contains(p);
+}
+
+
+void DocClipBase::removeCutZone(int in, int out)
+{
+    m_cutZones.removeAll(QPoint(in, out));
+}
+
+void DocClipBase::updateCutZone(int oldin, int oldout, int in, int out)
+{
+    QPoint old(oldin, oldout);
+    for (int i = 0; i < m_cutZones.size(); ++i) {
+        if (m_cutZones.at(i) == old) {
+            m_cutZones.replace(i, QPoint(in, out));
+            break;
+        }
+    }
+}
+
+QList <QPoint> DocClipBase::cutZones() const
+{
+    return m_cutZones;
 }
 

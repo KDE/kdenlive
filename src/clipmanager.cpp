@@ -335,6 +335,7 @@ void ClipManager::slotAddClipFile(const KUrl url, const QString group, const QSt
     m_doc->commandStack()->push(command);
 }
 
+
 void ClipManager::slotAddColorClipFile(const QString name, const QString color, QString duration, const QString group, const QString &groupId)
 {
     QDomDocument doc;

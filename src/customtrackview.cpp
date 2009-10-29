@@ -3300,7 +3300,7 @@ void CustomTrackView::deleteClip(ItemInfo info, bool refresh)
     delete item;
     item = NULL;
 #endif
-    
+
     setDocumentModified();
     if (refresh) m_document->renderer()->doRefresh();
 }

@@ -1790,7 +1790,7 @@ void MainWindow::slotEditProjectSettings()
             // Deselect current effect / transition
             m_effectStack->slotClipItemSelected(NULL, 0);
             m_transitionConfig->slotTransitionItemSelected(NULL, 0, QPoint(), false);
-            m_clipMonitor->slotSetXml(NULL, 0);
+            m_clipMonitor->slotSetXml(NULL);
             bool updateFps = m_activeDocument->setProfilePath(profile);
             KdenliveSettings::setCurrent_profile(profile);
             KdenliveSettings::setProject_fps(m_activeDocument->fps());
@@ -1949,7 +1949,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     m_projectList->setDocument(doc);
     m_transitionConfig->updateProjectFormat(doc->mltProfile(), doc->timecode(), doc->tracksList());
     m_effectStack->updateProjectFormat(doc->mltProfile(), doc->timecode());
-    connect(m_projectList, SIGNAL(clipSelected(DocClipBase *)), m_clipMonitor, SLOT(slotSetXml(DocClipBase *)));
+    connect(m_projectList, SIGNAL(clipSelected(DocClipBase *, QPoint)), m_clipMonitor, SLOT(slotSetXml(DocClipBase *, QPoint)));
     connect(m_projectList, SIGNAL(refreshClip()), m_clipMonitor, SLOT(refreshMonitor()));
     connect(m_projectList, SIGNAL(projectModified()), doc, SLOT(setModified()));
     connect(m_projectList, SIGNAL(clipNameChanged(const QString, const QString)), trackView->projectView(), SLOT(clipNameChanged(const QString, const QString)));
@@ -2076,7 +2076,7 @@ void MainWindow::slotPreferences(int page, int option)
 void MainWindow::slotUpdatePreviewSettings()
 {
     if (m_activeDocument) {
-        m_clipMonitor->slotSetXml(NULL, 0);
+        m_clipMonitor->slotSetXml(NULL);
         m_activeDocument->updatePreviewSettings();
     }
 }

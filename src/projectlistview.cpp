@@ -20,6 +20,7 @@
 
 #include "projectlistview.h"
 #include "projectitem.h"
+#include "subprojectitem.h"
 #include "kdenlivesettings.h"
 
 #include <KDebug>
@@ -114,7 +115,13 @@ void ProjectListView::contextMenuEvent(QContextMenuEvent * event)
 // virtual
 void ProjectListView::mouseDoubleClickEvent(QMouseEvent * event)
 {
-    ProjectItem *item = static_cast <ProjectItem *>(itemAt(event->pos()));
+    QTreeWidgetItem *it = itemAt(event->pos());
+    if (!it) return;
+    ProjectItem *item;
+    if (it->type() == QTreeWidgetItem::UserType + 1) {
+        // subitem
+        item = static_cast <ProjectItem *>(it->parent());
+    } else item = static_cast <ProjectItem *>(it);
     if (!item) {
         emit addClip();
         return;
@@ -141,9 +148,16 @@ void ProjectListView::dragEnterEvent(QDragEnterEvent *event)
 // virtual
 void ProjectListView::dropEvent(QDropEvent *event)
 {
-    kDebug() << "////////////////  DROPPED EVENT";
+    ProjectItem *item = NULL;
+    QTreeWidgetItem *it = itemAt(event->pos());
+    if (it) {
+        if (it->type() == QTreeWidgetItem::UserType + 1) {
+            // subitem
+            item = static_cast <ProjectItem *>(it->parent());
+        } else item = static_cast <ProjectItem *>(it);
+    }
+
     if (event->mimeData()->hasUrls()) {
-        ProjectItem *item = static_cast <ProjectItem *>(itemAt(event->pos()));
         QString groupName;
         QString groupId;
         if (item) {
@@ -158,12 +172,10 @@ void ProjectListView::dropEvent(QDropEvent *event)
         event->accept();
         return;
     } else if (event->mimeData()->hasFormat("kdenlive/producerslist")) {
-        ProjectItem *item = static_cast <ProjectItem *>(itemAt(event->pos()));
         if (item) {
             if (item->parent()) item = static_cast <ProjectItem *>(item->parent());
             if (item->isGroup()) {
                 //emit addClip(event->mimeData->text());
-                kDebug() << "////////////////  DROPPED RIGHT 1 ";
                 const QList <QTreeWidgetItem *> list = selectedItems();
                 ProjectItem *clone;
                 QString parentId = item->clipId();
@@ -184,7 +196,6 @@ void ProjectListView::dropEvent(QDropEvent *event)
             } else item = NULL;
         }
         if (!item) {
-            kDebug() << "////////////////  DROPPED ON EMPTY ZONE";
             // item dropped in empty zone, move it to top level
             const QList <QTreeWidgetItem *> list = selectedItems();
             ProjectItem *clone;
@@ -201,6 +212,9 @@ void ProjectListView::dropEvent(QDropEvent *event)
                 }
             }
         }
+    } else if (event->mimeData()->hasFormat("kdenlive/clip")) {
+        QStringList list = QString(event->mimeData()->data("kdenlive/clip")).split(';');
+        emit addClipCut(list.at(0), list.at(1).toInt(), list.at(2).toInt());
     }
     event->acceptProposedAction();
 }
@@ -235,8 +249,31 @@ void ProjectListView::mouseMoveEvent(QMouseEvent *event)
             < QApplication::startDragDistance())
         return;
 
-    {
-        ProjectItem *clickItem = static_cast <ProjectItem *>(itemAt(m_DragStartPosition));
+    QTreeWidgetItem *it = itemAt(m_DragStartPosition);
+    if (!it) return;
+    if (it->type() == QTreeWidgetItem::UserType + 1) {
+        // subitem
+        SubProjectItem *clickItem = static_cast <SubProjectItem *>(it);
+        if (clickItem && (clickItem->flags() & Qt::ItemIsDragEnabled)) {
+            ProjectItem *clip = static_cast <ProjectItem *>(it->parent());
+            QDrag *drag = new QDrag(this);
+            QMimeData *mimeData = new QMimeData;
+
+            QStringList list;
+            list.append(clip->clipId());
+            QPoint p = clickItem->zone();
+            list.append(QString::number(p.x()));
+            list.append(QString::number(p.y()));
+            QByteArray data;
+            data.append(list.join(";").toUtf8());
+            mimeData->setData("kdenlive/clip", data);
+            drag->setMimeData(mimeData);
+            drag->setPixmap(clickItem->icon(0).pixmap(iconSize()));
+            drag->setHotSpot(QPoint(0, 50));
+            drag->exec();
+        }
+    } else {
+        ProjectItem *clickItem = static_cast <ProjectItem *>(it);
         if (clickItem && (clickItem->flags() & Qt::ItemIsDragEnabled)) {
             QDrag *drag = new QDrag(this);
             QMimeData *mimeData = new QMimeData;
@@ -286,6 +323,7 @@ QStringList ProjectListView::mimeTypes() const
     qstrList.append("text/uri-list");
     qstrList.append("text/plain");
     qstrList.append("kdenlive/producerslist");
+    qstrList.append("kdenlive/clip");
     return qstrList;
 }
 

@@ -136,6 +136,8 @@ public:
     void cleanup();
     void trashUnusedClips();
     QList <DocClipBase*> documentClipList() const;
+    void addClipCut(const QString &id, int in, int out);
+    void removeClipCut(const QString &id, int in, int out);
 
 public slots:
     void setDocument(KdenliveDoc *doc);
@@ -146,7 +148,7 @@ public slots:
     void slotDeleteClip(const QString &clipId);
     void slotUpdateClip(const QString &id);
     void slotRefreshClipThumbnail(const QString &clipId, bool update = true);
-    void slotRefreshClipThumbnail(ProjectItem *item, bool update = true);
+    void slotRefreshClipThumbnail(QTreeWidgetItem *item, bool update = true);
     void slotRemoveInvalidClip(const QString &id, bool replace);
     void slotSelectClip(const QString &ix);
     void slotRemoveClip();
@@ -170,6 +172,7 @@ private:
     QUndoStack *m_commandStack;
     void selectItemById(const QString &clipId);
     ProjectItem *getItemById(const QString &id);
+    QTreeWidgetItem *getAnyItemById(const QString &id);
     ProjectItem *getFolderItemById(const QString &id);
     QAction *m_editAction;
     QAction *m_deleteAction;
@@ -177,7 +180,6 @@ private:
     QAction *m_reloadAction;
     QMenu *m_transcodeAction;
     KdenliveDoc *m_doc;
-    ProjectItem *m_selectedItem;
     ItemDelegate *m_listViewDelegate;
     bool m_refreshed;
     QToolButton *m_addButton;
@@ -205,10 +207,11 @@ private slots:
     void slotProcessNextThumbnail();
     void slotCheckForEmptyQueue();
     void slotPauseMonitor();
+    void slotAddClipCut(const QString &id, int in, int out);
     //void slotShowMenu(const QPoint &pos);
 
 signals:
-    void clipSelected(DocClipBase *);
+    void clipSelected(DocClipBase *, QPoint zone = QPoint());
     void getFileProperties(const QDomElement, const QString &, bool);
     void receivedClipDuration(const QString &);
     void showClipProperties(DocClipBase *);

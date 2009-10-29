@@ -58,7 +58,7 @@ public:
     void setItemLocked(bool locked);
     bool isItemLocked() const;
     void closeAnimation();
-    
+
     virtual  OPERATIONTYPE operationMode(QPointF pos) = 0;
     virtual GenTime startPos() const ;
     virtual void setTrack(int track);
@@ -91,7 +91,7 @@ protected:
     void drawKeyFrames(QPainter *painter, QRectF exposedRect);
     int mouseOverKeyFrames(QPointF pos, double maxOffset);
     virtual void mousePressEvent(QGraphicsSceneMouseEvent * event);
-    
+
 private:
 #if QT_VERSION >= 0x040600
     QPropertyAnimation *m_closeAnimation;

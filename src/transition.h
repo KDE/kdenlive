@@ -97,7 +97,7 @@ private:
 
     /** Return the transition type for a given name */
     TRANSITIONTYPE getTransitionForName(const QString & type);
-    
+
 #if QT_VERSION >= 0x040600
     QPropertyAnimation *m_startAnimation;
 #endif

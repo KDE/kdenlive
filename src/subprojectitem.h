@@ -18,55 +18,36 @@
  ***************************************************************************/
 
 
-#ifndef PROJECTLISTVIEW_H
-#define PROJECTLISTVIEW_H
+#ifndef SUBPROJECTITEM_H
+#define SUBPROJECTITEM_H
 
+#include <QTreeWidgetItem>
 #include <QTreeWidget>
-#include <QContextMenuEvent>
-#include <QPainter>
+#include <QDomElement>
+
+#include <KUrl>
+
+#include "gentime.h"
+#include "definitions.h"
 
 class DocClipBase;
 
-class KUrl;
-
-class ProjectListView : public QTreeWidget
+/** \brief Represents a clip or a folder in the projecttree
+ *
+ * This class represents a clip or folder in the projecttree and in the document(?) */
+class SubProjectItem : public QTreeWidgetItem
 {
-    Q_OBJECT
-
 public:
-    ProjectListView(QWidget *parent = 0);
-    virtual ~ProjectListView();
-
-protected:
-    virtual void contextMenuEvent(QContextMenuEvent * event);
-    virtual void mouseDoubleClickEvent(QMouseEvent * event);
-    virtual void mousePressEvent(QMouseEvent *event);
-    virtual void mouseReleaseEvent(QMouseEvent *event);
-    virtual void mouseMoveEvent(QMouseEvent *event);
-    virtual void dragEnterEvent(QDragEnterEvent *event);
-    virtual void dropEvent(QDropEvent *event);
-    virtual QStringList mimeTypes() const;
-    virtual Qt::DropActions supportedDropActions() const;
-    virtual void dragMoveEvent(QDragMoveEvent * event);
-
-public slots:
-
+    SubProjectItem(QTreeWidgetItem * parent, int in, int out);
+    virtual ~SubProjectItem();
+    QDomElement toXml() const;
+    int numReferences() const;
+    DocClipBase *referencedClip();
+    QPoint zone() const;
 
 private:
-    bool m_dragStarted;
-    QPoint m_DragStartPosition;
-
-private slots:
-    void configureColumns(const QPoint& pos);
-
-signals:
-    void requestMenu(const QPoint &, QTreeWidgetItem *);
-    void addClip();
-    void addClip(const QList <QUrl>, const QString &, const QString &);
-    void showProperties(DocClipBase *);
-    void focusMonitor();
-    void pauseMonitor();
-    void addClipCut(const QString&, int, int);
+    int m_in;
+    int m_out;
 };
 
 #endif

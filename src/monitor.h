@@ -139,7 +139,7 @@ private slots:
 
 public slots:
     void slotOpenFile(const QString &);
-    void slotSetXml(DocClipBase *clip, const int position = -1);
+    void slotSetXml(DocClipBase *clip, QPoint zone = QPoint(), const int position = -1);
     void initMonitor();
     void refreshMonitor(bool visible = true);
     void slotSeek(int pos);

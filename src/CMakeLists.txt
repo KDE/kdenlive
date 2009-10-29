@@ -173,6 +173,8 @@ set(kdenlive_SRCS
   keyframeedit.cpp
   positionedit.cpp
   trackdialog.cpp
+  subprojectitem.cpp
+  addclipcutcommand.cpp
 )
 
 add_definitions( ${KDE4_DEFINITIONS} )

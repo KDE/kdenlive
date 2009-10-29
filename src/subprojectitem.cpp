@@ -18,55 +18,55 @@
  ***************************************************************************/
 
 
-#ifndef PROJECTLISTVIEW_H
-#define PROJECTLISTVIEW_H
+#include "subprojectitem.h"
+#include "timecode.h"
+#include "kdenlivesettings.h"
+#include "docclipbase.h"
 
-#include <QTreeWidget>
-#include <QContextMenuEvent>
-#include <QPainter>
+#include <KDebug>
+#include <KLocale>
+#include <KIcon>
 
-class DocClipBase;
+const int DurationRole = Qt::UserRole + 1;
 
-class KUrl;
-
-class ProjectListView : public QTreeWidget
+SubProjectItem::SubProjectItem(QTreeWidgetItem * parent, int in, int out) :
+        QTreeWidgetItem(parent, QTreeWidgetItem::UserType + 1), m_in(in), m_out(out)
 {
-    Q_OBJECT
-
-public:
-    ProjectListView(QWidget *parent = 0);
-    virtual ~ProjectListView();
-
-protected:
-    virtual void contextMenuEvent(QContextMenuEvent * event);
-    virtual void mouseDoubleClickEvent(QMouseEvent * event);
-    virtual void mousePressEvent(QMouseEvent *event);
-    virtual void mouseReleaseEvent(QMouseEvent *event);
-    virtual void mouseMoveEvent(QMouseEvent *event);
-    virtual void dragEnterEvent(QDragEnterEvent *event);
-    virtual void dropEvent(QDropEvent *event);
-    virtual QStringList mimeTypes() const;
-    virtual Qt::DropActions supportedDropActions() const;
-    virtual void dragMoveEvent(QDragMoveEvent * event);
-
-public slots:
+    setSizeHint(0, QSize(65, 30));
+    setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable);
+    QString name = Timecode::getStringTimecode(in, KdenliveSettings::project_fps());
+    setText(1, name);
+    GenTime duration = GenTime(out - in, KdenliveSettings::project_fps());
+    if (duration != GenTime()) setData(1, DurationRole, Timecode::getEasyTimecode(duration, KdenliveSettings::project_fps()));
+    //setFlags(Qt::NoItemFlags);
+    //kDebug() << "Constructed with clipId: " << m_clipId;
+}
 
 
-private:
-    bool m_dragStarted;
-    QPoint m_DragStartPosition;
+SubProjectItem::~SubProjectItem()
+{
+}
 
-private slots:
-    void configureColumns(const QPoint& pos);
+int SubProjectItem::numReferences() const
+{
+    return 0;
+}
 
-signals:
-    void requestMenu(const QPoint &, QTreeWidgetItem *);
-    void addClip();
-    void addClip(const QList <QUrl>, const QString &, const QString &);
-    void showProperties(DocClipBase *);
-    void focusMonitor();
-    void pauseMonitor();
-    void addClipCut(const QString&, int, int);
-};
+QDomElement SubProjectItem::toXml() const
+{
+    //return m_clip->toXML();
+    return QDomElement();
+}
 
-#endif
+QPoint SubProjectItem::zone() const
+{
+    QPoint z(m_in, m_out);
+    return z;
+}
+
+DocClipBase *SubProjectItem::referencedClip()
+{
+    return NULL; //m_clip;
+}
+
+

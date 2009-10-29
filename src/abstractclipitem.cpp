@@ -37,8 +37,8 @@ AbstractClipItem::AbstractClipItem(const ItemInfo info, const QRectF& rect, doub
         m_selectedKeyframe(0),
         m_keyframeFactor(1),
         m_fps(fps)
-#if QT_VERSION >= 0x040600	
-	, m_closeAnimation(NULL)
+#if QT_VERSION >= 0x040600
+        , m_closeAnimation(NULL)
 #endif
 {
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
@@ -51,9 +51,9 @@ AbstractClipItem::~AbstractClipItem()
 {
 #if QT_VERSION >= 0x040600
     if (m_closeAnimation) delete m_closeAnimation;
-#endif  
-}  
- 
+#endif
+}
+
 void AbstractClipItem::closeAnimation()
 {
 #if QT_VERSION >= 0x040600

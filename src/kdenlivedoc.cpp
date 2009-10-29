@@ -921,7 +921,6 @@ void KdenliveDoc::addClip(QDomElement elem, QString clipId, bool createClipItem)
     }
 }
 
-
 void KdenliveDoc::setNewClipResource(const QString &id, const QString &path)
 {
     QDomNodeList prods = m_document.elementsByTagName("producer");
@@ -1031,7 +1030,7 @@ void KdenliveDoc::deleteClip(const QString &clipId)
 void KdenliveDoc::slotAddClipList(const KUrl::List urls, const QString group, const QString &groupId)
 {
     m_clipManager->slotAddClipList(urls, group, groupId);
-    emit selectLastAddedClip(QString::number(m_clipManager->lastClipId()));
+    //emit selectLastAddedClip(QString::number(m_clipManager->lastClipId()));
     setModified(true);
 }
 

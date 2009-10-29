@@ -420,7 +420,6 @@ void Monitor::mouseMoveEvent(QMouseEvent *event)
         mimeData->setData("kdenlive/clip", data);
         drag->setMimeData(mimeData);
         QPixmap pix = m_currentClip->thumbnail();
-        kDebug() << "/ / / /CLIP DRAGGED PIXMAP: " << pix.width() << "x" << pix.height();
         drag->setPixmap(pix);
         drag->setHotSpot(QPoint(0, 50));
         drag->start(Qt::MoveAction);
@@ -742,11 +741,11 @@ void Monitor::slotLoopZone()
     m_playAction->setIcon(m_pauseIcon);
 }
 
-void Monitor::slotSetXml(DocClipBase *clip, const int position)
+void Monitor::slotSetXml(DocClipBase *clip, QPoint zone, const int position)
 {
     if (render == NULL) return;
     activateMonitor();
-    if (!clip && m_currentClip != NULL) {
+    if (clip == NULL && m_currentClip != NULL) {
         m_currentClip = NULL;
         render->setProducer(NULL, -1);
         return;
@@ -759,6 +758,10 @@ void Monitor::slotSetXml(DocClipBase *clip, const int position)
             emit blockMonitors();
         }
     } else if (position != -1) render->seek(GenTime(position, m_monitorManager->timecode().fps()));
+    if (!zone.isNull()) {
+        m_ruler->setZone(zone.x(), zone.y());
+        render->seek(GenTime(zone.x(), m_monitorManager->timecode().fps()));
+    }
 }
 
 void Monitor::slotOpenFile(const QString &file)

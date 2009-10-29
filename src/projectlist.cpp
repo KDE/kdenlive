@@ -19,6 +19,7 @@
 
 #include "projectlist.h"
 #include "projectitem.h"
+#include "subprojectitem.h"
 #include "addfoldercommand.h"
 #include "kdenlivesettings.h"
 #include "slideshowclip.h"
@@ -33,6 +34,8 @@
 #include "projectlistview.h"
 #include "editclipcommand.h"
 #include "editfoldercommand.h"
+#include "addclipcutcommand.h"
+
 #include "ui_templateclip_ui.h"
 
 #include <KDebug>
@@ -67,7 +70,6 @@ ProjectList::ProjectList(QWidget *parent) :
         m_reloadAction(NULL),
         m_transcodeAction(NULL),
         m_doc(NULL),
-        m_selectedItem(NULL),
         m_refreshed(false),
         m_infoQueue(),
         m_thumbnailQueue()
@@ -103,6 +105,7 @@ ProjectList::ProjectList(QWidget *parent) :
     connect(m_listView, SIGNAL(requestMenu(const QPoint &, QTreeWidgetItem *)), this, SLOT(slotContextMenu(const QPoint &, QTreeWidgetItem *)));
     connect(m_listView, SIGNAL(addClip()), this, SLOT(slotAddClip()));
     connect(m_listView, SIGNAL(addClip(const QList <QUrl>, const QString &, const QString &)), this, SLOT(slotAddClip(const QList <QUrl>, const QString &, const QString &)));
+    connect(m_listView, SIGNAL(addClipCut(const QString &, int, int)), this, SLOT(slotAddClipCut(const QString &, int, int)));
     connect(m_listView, SIGNAL(itemChanged(QTreeWidgetItem *, int)), this, SLOT(slotItemEdited(QTreeWidgetItem *, int)));
     connect(m_listView, SIGNAL(showProperties(DocClipBase *)), this, SIGNAL(showClipProperties(DocClipBase *)));
 
@@ -192,7 +195,10 @@ void ProjectList::setHeaderInfo(const QByteArray &state)
 
 void ProjectList::slotEditClip()
 {
-    ProjectItem *item = static_cast <ProjectItem*>(m_listView->currentItem());
+    ProjectItem *item;
+    if (m_listView->currentItem()->type() == QTreeWidgetItem::UserType + 1) {
+        item = static_cast <ProjectItem*>(m_listView->currentItem()->parent());
+    } else item = static_cast <ProjectItem*>(m_listView->currentItem());
     if (!(item->flags() & Qt::ItemIsDragEnabled)) return;
     if (item && !item->isGroup()) {
         emit clipSelected(item->referencedClip());
@@ -202,7 +208,10 @@ void ProjectList::slotEditClip()
 
 void ProjectList::slotOpenClip()
 {
-    ProjectItem *item = static_cast <ProjectItem*>(m_listView->currentItem());
+    ProjectItem *item;
+    if (m_listView->currentItem()->type() == QTreeWidgetItem::UserType + 1) {
+        item = static_cast <ProjectItem*>(m_listView->currentItem()->parent());
+    } else item = static_cast <ProjectItem*>(m_listView->currentItem());
     if (item && !item->isGroup()) {
         if (item->clipType() == IMAGE) {
             if (KdenliveSettings::defaultimageapp().isEmpty()) KMessageBox::sorry(this, i18n("Please set a default application to open images in the Settings dialog"));
@@ -221,6 +230,10 @@ void ProjectList::cleanup()
     QTreeWidgetItemIterator it(m_listView);
     ProjectItem *item;
     while (*it) {
+        if ((*it)->type() == QTreeWidgetItem::UserType + 1) {
+            it++;
+            continue;
+        }
         item = static_cast <ProjectItem *>(*it);
         if (!item->isGroup() && item->numReferences() == 0) item->setSelected(true);
         it++;
@@ -235,6 +248,10 @@ void ProjectList::trashUnusedClips()
     QStringList ids;
     QStringList urls;
     while (*it) {
+        if ((*it)->type() == QTreeWidgetItem::UserType + 1) {
+            it++;
+            continue;
+        }
         item = static_cast <ProjectItem *>(*it);
         if (!item->isGroup() && item->numReferences() == 0) {
             ids << item->clipId();
@@ -247,6 +264,10 @@ void ProjectList::trashUnusedClips()
     // Check that we don't use the URL in another clip
     QTreeWidgetItemIterator it2(m_listView);
     while (*it2) {
+        if ((*it2)->type() == QTreeWidgetItem::UserType + 1) {
+            it2++;
+            continue;
+        }
         item = static_cast <ProjectItem *>(*it2);
         if (item->numReferences() > 0) {
             KUrl url = item->clipUrl();
@@ -268,6 +289,7 @@ void ProjectList::slotReloadClip(const QString &id)
     else selected.append(getItemById(id));
     ProjectItem *item;
     for (int i = 0; i < selected.count(); i++) {
+        if (selected.at(i)->type() == QTreeWidgetItem::UserType + 1) continue;
         item = static_cast <ProjectItem *>(selected.at(i));
         if (item && !item->isGroup()) {
             if (item->clipType() == IMAGE) {
@@ -291,9 +313,17 @@ void ProjectList::setRenderer(Render *projectRender)
 void ProjectList::slotClipSelected()
 {
     if (m_listView->currentItem()) {
-        ProjectItem *clip = static_cast <ProjectItem*>(m_listView->currentItem());
+        ProjectItem *clip;
+        if (m_listView->currentItem()->type() == QTreeWidgetItem::UserType + 1) {
+            // this is a sub item, use base clip
+            clip = static_cast <ProjectItem*>(m_listView->currentItem()->parent());
+            if (clip == NULL) kDebug() << "-----------ERROR";
+            SubProjectItem *sub = static_cast <SubProjectItem*>(m_listView->currentItem());
+            emit clipSelected(clip->referencedClip(), sub->zone());
+            return;
+        }
+        clip = static_cast <ProjectItem*>(m_listView->currentItem());
         if (!clip->isGroup()) {
-            m_selectedItem = clip;
             emit clipSelected(clip->referencedClip());
         }
         m_editAction->setEnabled(true);
@@ -362,6 +392,11 @@ void ProjectList::slotUpdateClipProperties(ProjectItem *clip, QMap <QString, QSt
 
 void ProjectList::slotItemEdited(QTreeWidgetItem *item, int column)
 {
+    if (item->type() == QTreeWidgetItem::UserType + 1) {
+        // this is a sub-item
+        return;
+    }
+
     ProjectItem *clip = static_cast <ProjectItem*>(item);
     if (column == 2) {
         if (clip->referencedClip()) {
@@ -417,7 +452,10 @@ void ProjectList::slotContextMenu(const QPoint &pos, QTreeWidgetItem *item)
     m_reloadAction->setEnabled(enable);
     m_transcodeAction->setEnabled(enable);
     if (enable) {
-        ProjectItem *clip = static_cast <ProjectItem*>(item);
+        ProjectItem *clip;
+        if (m_listView->currentItem()->type() == QTreeWidgetItem::UserType + 1) {
+            clip = static_cast <ProjectItem*>(item->parent());
+        } else clip = static_cast <ProjectItem*>(item);
         if (clip->clipType() == IMAGE && !KdenliveSettings::defaultimageapp().isEmpty()) {
             m_openAction->setIcon(KIcon(KdenliveSettings::defaultimageapp()));
             m_openAction->setEnabled(true);
@@ -435,9 +473,19 @@ void ProjectList::slotRemoveClip()
     QStringList ids;
     QMap <QString, QString> folderids;
     QList<QTreeWidgetItem *> selected = m_listView->selectedItems();
-    ProjectItem *item;
+
+    QUndoCommand *delCommand = new QUndoCommand();
+    delCommand->setText(i18n("Delete Clip Zone"));
+
     for (int i = 0; i < selected.count(); i++) {
-        item = static_cast <ProjectItem *>(selected.at(i));
+        if (selected.at(i)->type() == QTreeWidgetItem::UserType + 1) {
+            // subitem
+            SubProjectItem *sub = static_cast <SubProjectItem *>(selected.at(i));
+            ProjectItem *item = static_cast <ProjectItem *>(sub->parent());
+            new AddClipCutCommand(this, item->clipId(), sub->zone().x(), sub->zone().y(), true, delCommand);
+            continue;
+        }
+        ProjectItem *item = static_cast <ProjectItem *>(selected.at(i));
         if (item->isGroup()) folderids[item->groupName()] = item->clipId();
         else ids << item->clipId();
         if (item->numReferences() > 0) {
@@ -451,6 +499,8 @@ void ProjectList::slotRemoveClip()
             }
         }
     }
+    if (delCommand->childCount() == 0) delete delCommand;
+    else m_commandStack->push(delCommand);
     if (!ids.isEmpty()) m_doc->deleteProjectClip(ids);
     if (!folderids.isEmpty()) deleteProjectFolder(folderids);
     if (m_listView->topLevelItemCount() == 0) {
@@ -590,6 +640,23 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
         if (!annotation.isEmpty()) item->setText(2, annotation);
         item->setText(3, QString::number(f.rating()));
     }
+
+    // Add cut zones
+    QList <QPoint> cuts = clip->cutZones();
+    if (!cuts.isEmpty()) {
+        m_listView->blockSignals(true);
+        for (int i = 0; i < cuts.count(); i++) {
+            SubProjectItem *sub = new SubProjectItem(item, cuts.at(i).x(), cuts.at(i).y());
+            if (!clip->getClipHash().isEmpty()) {
+                QString cachedPixmap = m_doc->projectFolder().path(KUrl::AddTrailingSlash) + "thumbs/" + clip->getClipHash() + '#' + QString::number(cuts.at(i).x()) + ".png";
+                if (QFile::exists(cachedPixmap)) {
+                    sub->setIcon(0, QPixmap(cachedPixmap));
+                }
+            }
+        }
+        m_listView->blockSignals(false);
+    }
+
     if (getProperties && m_listView->isEnabled()) m_listView->blockSignals(false);
     if (getProperties && !m_queueTimer.isActive()) m_queueTimer.start();
 }
@@ -624,7 +691,6 @@ void ProjectList::slotProcessNextClipInQueue()
         m_infoQueue.remove(j.key());
         emit getFileProperties(dom, id, false);
     }
-    //if (!m_infoQueue.isEmpty() && !m_queueTimer.isActive()) m_queueTimer.start();
 }
 
 void ProjectList::slotUpdateClip(const QString &id)
@@ -644,6 +710,16 @@ void ProjectList::updateAllClips()
     ProjectItem *item;
     m_listView->blockSignals(true);
     while (*it) {
+        if ((*it)->type() == QTreeWidgetItem::UserType + 1) {
+            // subitem
+            SubProjectItem *sub = static_cast <SubProjectItem *>(*it);
+            if (sub->icon(0).isNull()) {
+                item = static_cast <ProjectItem *>((*it)->parent());
+                requestClipThumbnail(item->clipId() + '#' + QString::number(sub->zone().x()));
+            }
+            ++it;
+            continue;
+        }
         item = static_cast <ProjectItem *>(*it);
         if (!item->isGroup()) {
             clip = item->referencedClip();
@@ -799,7 +875,11 @@ void ProjectList::slotAddTitleTemplateClip()
 QStringList ProjectList::getGroup() const
 {
     QStringList result;
-    ProjectItem *item = static_cast <ProjectItem*>(m_listView->currentItem());
+    ProjectItem *item = NULL;
+    if (m_listView->currentItem() && m_listView->currentItem()->type() == QTreeWidgetItem::UserType + 1) {
+        // sub item selected
+        item = static_cast <ProjectItem*>(m_listView->currentItem()->parent());
+    } else item = static_cast <ProjectItem*>(m_listView->currentItem());
     if (item && !item->isGroup()) {
         while (item->parent()) {
             item = static_cast <ProjectItem*>(item->parent());
@@ -859,6 +939,11 @@ QDomElement ProjectList::producersList()
     kDebug() << "////////////  PRO LIST BUILD PRDSLIST ";
     QTreeWidgetItemIterator it(m_listView);
     while (*it) {
+        if ((*it)->type() == QTreeWidgetItem::UserType + 1) {
+            // subitem
+            ++it;
+            continue;
+        }
         if (!((ProjectItem *)(*it))->isGroup())
             prods.appendChild(doc.importNode(((ProjectItem *)(*it))->toXml(), true));
         ++it;
@@ -883,6 +968,11 @@ void ProjectList::reloadClipThumbnails()
     m_thumbnailQueue.clear();
     QTreeWidgetItemIterator it(m_listView);
     while (*it) {
+        if ((*it)->type() == QTreeWidgetItem::UserType + 1) {
+            // subitem
+            ++it;
+            continue;
+        }
         if (!((ProjectItem *)(*it))->isGroup())
             m_thumbnailQueue << ((ProjectItem *)(*it))->clipId();
         ++it;
@@ -914,13 +1004,26 @@ void ProjectList::slotProcessNextThumbnail()
 
 void ProjectList::slotRefreshClipThumbnail(const QString &clipId, bool update)
 {
-    ProjectItem *item = getItemById(clipId);
+    QTreeWidgetItem *item = getAnyItemById(clipId);
     if (item) slotRefreshClipThumbnail(item, update);
     else slotProcessNextThumbnail();
 }
 
-void ProjectList::slotRefreshClipThumbnail(ProjectItem *item, bool update)
+void ProjectList::slotRefreshClipThumbnail(QTreeWidgetItem *it, bool update)
 {
+    if (it == NULL) return;
+    ProjectItem *item = NULL;
+    bool isSubItem = false;
+    int frame;
+    if (it->type() == QTreeWidgetItem::UserType + 1) {
+        item = static_cast <ProjectItem *>(it->parent());
+        frame = static_cast <SubProjectItem *>(it)->zone().x();
+        isSubItem = true;
+    } else {
+        item = static_cast <ProjectItem *>(it);
+        frame = item->referencedClip()->getClipThumbFrame();
+    }
+
     if (item) {
         DocClipBase *clip = item->referencedClip();
         if (!clip) {
@@ -928,16 +1031,18 @@ void ProjectList::slotRefreshClipThumbnail(ProjectItem *item, bool update)
             return;
         }
         QPixmap pix;
-        int height = 50;
+        int height = it->sizeHint(0).height();
         int width = (int)(height  * m_render->dar());
         if (clip->clipType() == AUDIO) pix = KIcon("audio-x-generic").pixmap(QSize(width, height));
         else if (clip->clipType() == IMAGE) pix = QPixmap::fromImage(KThumb::getFrame(item->referencedClip()->producer(), 0, width, height));
-        else pix = item->referencedClip()->thumbProducer()->extractImage(item->referencedClip()->getClipThumbFrame(), width, height);
+        else pix = item->referencedClip()->thumbProducer()->extractImage(frame, width, height);
+
         if (!pix.isNull()) {
             m_listView->blockSignals(true);
-            item->setIcon(0, pix);
+            it->setIcon(0, pix);
             if (m_listView->isEnabled()) m_listView->blockSignals(false);
-            m_doc->cachePixmap(item->getClipHash(), pix);
+            if (!isSubItem) m_doc->cachePixmap(item->getClipHash(), pix);
+            else m_doc->cachePixmap(item->getClipHash() + '#' + QString::number(frame), pix);
         }
         if (update) emit projectModified();
         QTimer::singleShot(30, this, SLOT(slotProcessNextThumbnail()));
@@ -971,6 +1076,10 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
     int max = m_doc->clipManager()->clipsCount();
     emit displayMessage(i18n("Loading clips"), (int)(100 * (max - m_infoQueue.count()) / max));
     // small delay so that the app can display the progress info
+    if (item && m_infoQueue.isEmpty() && m_thumbnailQueue.isEmpty()) {
+        m_listView->setCurrentItem(item);
+        emit clipSelected(item->referencedClip());
+    }
     QTimer::singleShot(30, this, SLOT(slotProcessNextClipInQueue()));
 }
 
@@ -985,11 +1094,50 @@ void ProjectList::slotReplyGetImage(const QString &clipId, const QPixmap &pix)
     }
 }
 
+QTreeWidgetItem *ProjectList::getAnyItemById(const QString &id)
+{
+    QTreeWidgetItemIterator it(m_listView);
+    QString lookId = id;
+    if (id.contains('#')) {
+        lookId = id.section('#', 0, 0);
+    }
+
+    ProjectItem *result = NULL;
+    while (*it) {
+        if ((*it)->type() == QTreeWidgetItem::UserType + 1) {
+            // subitem
+            ++it;
+            continue;
+        }
+        ProjectItem *item = static_cast<ProjectItem *>(*it);
+        if (item->clipId() == lookId && item->clipType() != FOLDER) {
+            result = item;
+            break;
+        }
+        ++it;
+    }
+    if (!id.contains('#')) return result;
+    else for (int i = 0; i < result->childCount(); i++) {
+            SubProjectItem *sub = static_cast <SubProjectItem *>(result->child(i));
+            if (sub && sub->zone().x() == id.section('#', 1, 1).toInt()) {
+                return sub;
+            }
+        }
+
+    return NULL;
+}
+
+
 ProjectItem *ProjectList::getItemById(const QString &id)
 {
     ProjectItem *item;
     QTreeWidgetItemIterator it(m_listView);
     while (*it) {
+        if ((*it)->type() == QTreeWidgetItem::UserType + 1) {
+            // subitem
+            ++it;
+            continue;
+        }
         item = static_cast<ProjectItem *>(*it);
         if (item->clipId() == id && item->clipType() != FOLDER)
             return item;
@@ -1033,7 +1181,11 @@ void ProjectList::slotSelectClip(const QString &ix)
 
 QString ProjectList::currentClipUrl() const
 {
-    ProjectItem *item = static_cast <ProjectItem*>(m_listView->currentItem());
+    ProjectItem *item;
+    if (m_listView->currentItem()->type() == QTreeWidgetItem::UserType + 1) {
+        // subitem
+        item = static_cast <ProjectItem*>(m_listView->currentItem()->parent());
+    } else item = static_cast <ProjectItem*>(m_listView->currentItem());
     if (item == NULL) return QString();
     return item->clipUrl().path();
 }
@@ -1071,6 +1223,54 @@ QDomDocument ProjectList::generateTemplateXml(QString path, const QString &repla
         texts.item(i).firstChild().setNodeValue(data);
     }
     return doc;
+}
+
+
+void ProjectList::slotAddClipCut(const QString &id, int in, int out)
+{
+    ProjectItem *clip = getItemById(id);
+    if (clip == NULL) return;
+    if (clip->referencedClip()->hasCutZone(QPoint(in, out))) return;
+    AddClipCutCommand *command = new AddClipCutCommand(this, id, in, out, false);
+    m_commandStack->push(command);
+}
+
+void ProjectList::addClipCut(const QString &id, int in, int out)
+{
+    //m_doc->slotAddClipCut(id, in, out, groupName, groupId);
+    ProjectItem *clip = getItemById(id);
+    if (clip) {
+        DocClipBase *base = clip->referencedClip();
+        base->addCutZone(in, out);
+        m_listView->blockSignals(true);
+        SubProjectItem *sub = new SubProjectItem(clip, in, out);
+
+        QPixmap p = clip->referencedClip()->thumbProducer()->extractImage(in, (int)(sub->sizeHint(0).height()  * m_render->dar()), sub->sizeHint(0).height());
+        sub->setIcon(0, p);
+        m_doc->cachePixmap(clip->getClipHash() + '#' + QString::number(in), p);
+        m_listView->blockSignals(false);
+    }
+}
+
+void ProjectList::removeClipCut(const QString &id, int in, int out)
+{
+    //m_doc->slotAddClipCut(id, in, out, groupName, groupId);
+    ProjectItem *clip = getItemById(id);
+    if (clip) {
+        DocClipBase *base = clip->referencedClip();
+        base->removeCutZone(in, out);
+        for (int i = 0; i < clip->childCount(); i++) {
+            QTreeWidgetItem *it = clip->child(i);
+            if (it->type() != QTreeWidgetItem::UserType + 1) continue;
+            SubProjectItem *sub = static_cast <SubProjectItem*>(it);
+            if (sub->zone() == QPoint(in, out)) {
+                m_listView->blockSignals(true);
+                delete it;
+                m_listView->blockSignals(false);
+                break;
+            }
+        }
+    }
 }
 
 #include "projectlist.moc"
