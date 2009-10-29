@@ -644,7 +644,6 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
     // Add cut zones
     QList <QPoint> cuts = clip->cutZones();
     if (!cuts.isEmpty()) {
-        m_listView->blockSignals(true);
         for (int i = 0; i < cuts.count(); i++) {
             SubProjectItem *sub = new SubProjectItem(item, cuts.at(i).x(), cuts.at(i).y());
             if (!clip->getClipHash().isEmpty()) {
@@ -654,7 +653,6 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
                 }
             }
         }
-        m_listView->blockSignals(false);
     }
 
     if (getProperties && m_listView->isEnabled()) m_listView->blockSignals(false);
@@ -1237,7 +1235,6 @@ void ProjectList::slotAddClipCut(const QString &id, int in, int out)
 
 void ProjectList::addClipCut(const QString &id, int in, int out)
 {
-    //m_doc->slotAddClipCut(id, in, out, groupName, groupId);
     ProjectItem *clip = getItemById(id);
     if (clip) {
         DocClipBase *base = clip->referencedClip();
@@ -1254,7 +1251,6 @@ void ProjectList::addClipCut(const QString &id, int in, int out)
 
 void ProjectList::removeClipCut(const QString &id, int in, int out)
 {
-    //m_doc->slotAddClipCut(id, in, out, groupName, groupId);
     ProjectItem *clip = getItemById(id);
     if (clip) {
         DocClipBase *base = clip->referencedClip();

@@ -131,7 +131,7 @@ void ProjectListView::mouseDoubleClickEvent(QMouseEvent * event)
         if ((columnAt(event->pos().x()) == 1)) QTreeWidget::mouseDoubleClickEvent(event);
     } else {
         if ((columnAt(event->pos().x()) == 1) && (item->clipType() == SLIDESHOW || item->clipType() == TEXT || item->clipType() == COLOR)) QTreeWidget::mouseDoubleClickEvent(event);
-        else if ((columnAt(event->pos().x()) == 2)) QTreeWidget::mouseDoubleClickEvent(event);
+        else if ((columnAt(event->pos().x()) == 2) && it->type() != QTreeWidgetItem::UserType + 1) QTreeWidget::mouseDoubleClickEvent(event);
         else emit showProperties(item->referencedClip());
     }
 }
