@@ -165,6 +165,7 @@ public slots:
     void slotSeekToPreviousSnap();
     void adjustRulerSize(int length);
     void setTimePos(const QString &pos);
+    QStringList getZoneInfo() const;
 
 signals:
     void renderPosition(int);

@@ -851,6 +851,16 @@ void Monitor::updateTimecodeFormat()
     }
 }
 
+QStringList Monitor::getZoneInfo() const
+{
+    QStringList result;
+    if (m_currentClip == NULL) return result;
+    result << m_currentClip->getId();
+    QPoint zone = m_ruler->zone();
+    result << QString::number(zone.x()) << QString::number(zone.y());
+    return result;
+}
+
 
 MonitorRefresh::MonitorRefresh(QWidget* parent) : \
         QWidget(parent),

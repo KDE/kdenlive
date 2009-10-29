@@ -249,6 +249,7 @@ private slots:
     void slotDeleteAllClipMarkers();
     void slotEditClipMarker();
     void slotCutTimelineClip();
+    void slotInsertClipOverwrite();
     void slotSelectTimelineClip();
     void slotSelectTimelineTransition();
     void slotDeselectTimelineClip();

@@ -23,7 +23,7 @@
 
 #include <KLocale>
 
-AddTimelineClipCommand::AddTimelineClipCommand(CustomTrackView *view, QDomElement xml, const QString &clipId, ItemInfo info, EffectsList effects, bool doIt, bool doRemove, QUndoCommand * parent) :
+AddTimelineClipCommand::AddTimelineClipCommand(CustomTrackView *view, QDomElement xml, const QString &clipId, ItemInfo info, EffectsList effects, bool overwrite, bool push, bool doIt, bool doRemove, QUndoCommand * parent) :
         QUndoCommand(parent),
         m_view(view),
         m_clipInfo(info),
@@ -31,7 +31,9 @@ AddTimelineClipCommand::AddTimelineClipCommand(CustomTrackView *view, QDomElemen
         m_clipId(clipId),
         m_xml(xml),
         m_doIt(doIt),
-        m_remove(doRemove)
+        m_remove(doRemove),
+        m_overwrite(overwrite),
+        m_push(push)
 {
     if (!m_remove) setText(i18n("Add timeline clip"));
     else setText(i18n("Delete timeline clip"));
@@ -46,13 +48,13 @@ AddTimelineClipCommand::AddTimelineClipCommand(CustomTrackView *view, QDomElemen
 void AddTimelineClipCommand::undo()
 {
     if (!m_remove) m_view->deleteClip(m_clipInfo, m_refresh);
-    else m_view->addClip(m_xml, m_clipId, m_clipInfo, m_effects, m_refresh);
+    else m_view->addClip(m_xml, m_clipId, m_clipInfo, m_effects, m_overwrite, m_push, m_refresh);
 }
 // virtual
 void AddTimelineClipCommand::redo()
 {
     if (m_doIt) {
-        if (!m_remove) m_view->addClip(m_xml, m_clipId, m_clipInfo, m_effects, m_refresh);
+        if (!m_remove) m_view->addClip(m_xml, m_clipId, m_clipInfo, m_effects, m_overwrite, m_push, m_refresh);
         else m_view->deleteClip(m_clipInfo, m_refresh);
     }
     m_doIt = true;

@@ -2020,7 +2020,7 @@ void CustomTrackView::dropEvent(QDropEvent * event)
             }
             adjustTimelineClips(m_scene->editMode(), item, addCommand);
 
-            new AddTimelineClipCommand(this, item->xml(), item->clipProducer(), item->info(), item->effectList(), false, false, addCommand);
+            new AddTimelineClipCommand(this, item->xml(), item->clipProducer(), item->info(), item->effectList(), m_scene->editMode() == OVERWRITEEDIT, m_scene->editMode() == INSERTEDIT, false, false, addCommand);
 
             if (item->baseClip()->isTransparent() && getTransitionItemAtStart(info.startPos, info.track) == NULL) {
                 // add transparency transition
@@ -2077,7 +2077,7 @@ void CustomTrackView::adjustTimelineClips(EDITMODE mode, ClipItem *item, QUndoCo
                         clip->resizeEnd(info.startPos.frames(m_document->fps()));
                     }
                 } else if (clip->endPos() < info.endPos) {
-                    new AddTimelineClipCommand(this, clip->xml(), clip->clipProducer(), clip->info(), clip->effectList(), false, true, command);
+                    new AddTimelineClipCommand(this, clip->xml(), clip->clipProducer(), clip->info(), clip->effectList(), false, false, false, true, command);
                     scene()->removeItem(clip);
                     delete clip;
                     clip = NULL;
@@ -2575,7 +2575,7 @@ void CustomTrackView::deleteClip(const QString &clipId)
                     // Clip is in a group, destroy the group
                     new GroupClipsCommand(this, QList<ItemInfo>() << item->info(), QList<ItemInfo>(), false, deleteCommand);
                 }
-                new AddTimelineClipCommand(this, item->xml(), item->clipProducer(), item->info(), item->effectList(), true, true, deleteCommand);
+                new AddTimelineClipCommand(this, item->xml(), item->clipProducer(), item->info(), item->effectList(), false, false, true, true, deleteCommand);
             }
         }
     }
@@ -3350,7 +3350,7 @@ void CustomTrackView::deleteSelectedClips()
             ClipItem *item = static_cast <ClipItem *>(itemList.at(i));
             if (item->parentItem()) resetGroup = true;
             //kDebug()<<"// DELETE CLP AT: "<<item->info().startPos.frames(25);
-            new AddTimelineClipCommand(this, item->xml(), item->clipProducer(), item->info(), item->effectList(), true, true, deleteSelected);
+            new AddTimelineClipCommand(this, item->xml(), item->clipProducer(), item->info(), item->effectList(), false, false, true, true, deleteSelected);
             emit clipItemSelected(NULL);
         } else if (itemList.at(i)->type() == TRANSITIONWIDGET) {
             transitionCount++;
@@ -3516,7 +3516,7 @@ void CustomTrackView::doGroupClips(QList <ItemInfo> clipInfos, QList <ItemInfo> 
     setDocumentModified();
 }
 
-void CustomTrackView::addClip(QDomElement xml, const QString &clipId, ItemInfo info, EffectsList effects, bool refresh)
+void CustomTrackView::addClip(QDomElement xml, const QString &clipId, ItemInfo info, EffectsList effects, bool overwrite, bool push, bool refresh)
 {
     DocClipBase *baseclip = m_document->clipManager()->getClipById(clipId);
     if (baseclip == NULL) {
@@ -4569,7 +4569,7 @@ void CustomTrackView::pasteClip()
             info.endPos += offset;
             info.track += trackOffset;
             if (canBePastedTo(info, AVWIDGET)) {
-                new AddTimelineClipCommand(this, clip->xml(), clip->clipProducer(), info, clip->effectList(), true, false, pasteClips);
+                new AddTimelineClipCommand(this, clip->xml(), clip->clipProducer(), info, clip->effectList(), m_scene->editMode() == OVERWRITEEDIT, m_scene->editMode() == INSERTEDIT, true, false, pasteClips);
             } else emit displayMessage(i18n("Cannot paste clip to selected place"), ErrorMessage);
         } else if (m_copiedItems.at(i) && m_copiedItems.at(i)->type() == TRANSITIONWIDGET) {
             Transition *tr = static_cast <Transition *>(m_copiedItems.at(i));
@@ -4916,7 +4916,7 @@ void CustomTrackView::deleteTimelineTrack(int ix, TrackInfo trackinfo)
     for (int i = 0; i < selection.count(); i++) {
         if (selection.at(i)->type() == AVWIDGET) {
             ClipItem *item =  static_cast <ClipItem *>(selection.at(i));
-            new AddTimelineClipCommand(this, item->xml(), item->clipProducer(), item->info(), item->effectList(), false, true, deleteTrack);
+            new AddTimelineClipCommand(this, item->xml(), item->clipProducer(), item->info(), item->effectList(), false, false, false, true, deleteTrack);
             m_scene->removeItem(item);
             delete item;
             item = NULL;
@@ -5477,4 +5477,14 @@ void CustomTrackView::checkTrackSequence(int track)
     if (times != timelineList) KMessageBox::sorry(this, i18n("error"), i18n("TRACTOR"));
 }
 
-
+void CustomTrackView::insertZoneOverwrite(QStringList data, int in)
+{
+    DocClipBase *clip = m_document->getBaseClip(data.at(0));
+    ItemInfo info;
+    info.startPos = GenTime(in, m_document->fps());
+    info.cropDuration = GenTime(data.at(1).toInt(), m_document->fps());
+    info.endPos = info.startPos + GenTime(data.at(2).toInt(), m_document->fps());;
+    info.track = m_selectedTrack;
+    AddTimelineClipCommand *add = new AddTimelineClipCommand(this, clip->toXML(), clip->getId(), info, EffectsList(), true, false, true, false);
+    m_commandStack->push(add);
+}

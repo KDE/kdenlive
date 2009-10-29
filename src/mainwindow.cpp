@@ -1101,6 +1101,11 @@ void MainWindow::setupActions()
     ungroupClip->setData("ungroup_clip");
     connect(ungroupClip, SIGNAL(triggered(bool)), this, SLOT(slotUnGroupClips()));
 
+    KAction* insertOvertwrite = new KAction(KIcon(), i18n("Insert Clip Zone in Timeline (Overwrite)"), this);
+    insertOvertwrite->setShortcut(Qt::Key_V);
+    collection->addAction("overwrite_to_in_point", insertOvertwrite);
+    connect(insertOvertwrite, SIGNAL(triggered(bool)), this, SLOT(slotInsertClipOverwrite()));
+
     KAction* selectTimelineClip = new KAction(KIcon("edit-select"), i18n("Select Clip"), this);
     selectTimelineClip->setShortcut(Qt::Key_Plus);
     collection->addAction("select_timeline_clip", selectTimelineClip);
@@ -2330,6 +2335,14 @@ void MainWindow::slotCutTimelineClip()
 {
     if (m_activeTimeline) {
         m_activeTimeline->projectView()->cutSelectedClips();
+    }
+}
+
+void MainWindow::slotInsertClipOverwrite()
+{
+    if (m_activeTimeline) {
+        QStringList data = m_clipMonitor->getZoneInfo();
+        m_activeTimeline->projectView()->insertZoneOverwrite(data, m_activeTimeline->inPoint());
     }
 }
 
