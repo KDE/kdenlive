@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-10-01 23:51+0200\n"
-"PO-Revision-Date: 2009-10-29 20:53+0100\n"
+"PO-Revision-Date: 2009-10-30 11:32+0100\n"
 "Last-Translator: Stanislas Zeller <uncensored.assault@gmail.com>\n"
 "Language-Team: français <kde-francophone@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -598,7 +598,7 @@ msgstr "Bibliothèque art ASCII"
 
 #: rc.cpp:1428 rc.cpp:3346 rc.cpp:4825
 msgid "Aspect ratio:"
-msgstr "Proportion de l'aspect : "
+msgstr "Rapport d'affichage :"
 
 #: rc.cpp:1116 rc.cpp:1722 rc.cpp:1903 rc.cpp:3034 rc.cpp:3640 rc.cpp:3821
 #: rc.cpp:3891 rc.cpp:4513 rc.cpp:5119 rc.cpp:5300 rc.cpp:5370
@@ -1815,11 +1815,11 @@ msgstr "Affichage"
 
 #: rc.cpp:798 rc.cpp:2716 rc.cpp:4195
 msgid "Display aspect ratio"
-msgstr "Format d'affichage"
+msgstr "Afficher le rapport d'affichage"
 
 #: src/wizard.cpp:481 rc.cpp:3870 rc.cpp:5349
 msgid "Display aspect ratio:"
-msgstr "Format d'affichage : "
+msgstr "Afficher le rapport d'affichage :"
 
 #: rc.cpp:1122 rc.cpp:3040 rc.cpp:4519
 msgid "Display clip markers comments"
@@ -1893,7 +1893,7 @@ msgstr "jmpoure@free.fr, jb@kdenlive.org, uncensored.assault@gmail.com"
 
 #: rc.cpp:173 rc.cpp:2091
 msgid "Edges correction"
-msgstr ""
+msgstr "Correction de contour"
 
 #: src/mainwindow.cpp:1151
 msgid "Edit Clip"
@@ -2780,9 +2780,8 @@ msgid "Keep as placeholder"
 msgstr "Conserver en remplacement"
 
 #: rc.cpp:1635 rc.cpp:3553 rc.cpp:5032
-#, fuzzy
 msgid "Keep aspect ratio"
-msgstr "Format de pixel"
+msgstr "Conserver le rapport d'affichage"
 
 #: rc.cpp:207 rc.cpp:2125
 msgid "Kernel size"
@@ -2940,9 +2939,8 @@ msgstr ""
 "problème de configuration."
 
 #: rc.cpp:503 rc.cpp:2421
-#, fuzzy
 msgid "Make clip play faster or slower"
-msgstr "Ralentir la lecture du clip"
+msgstr "Accélérer ou ralentir un clip"
 
 #: rc.cpp:56 rc.cpp:1974
 msgid "Make image greyscale except for chosen color"
@@ -3470,9 +3468,8 @@ msgid "Position"
 msgstr "Position"
 
 #: rc.cpp:1575 rc.cpp:3493 rc.cpp:4972
-#, fuzzy
 msgid "Preserve aspect ratio"
-msgstr "Format de pixel"
+msgstr "Conserver le rapport d'affichage"
 
 #: src/recmonitor.cpp:271
 msgid ""
@@ -3660,7 +3657,7 @@ msgstr "Scinder le clip"
 
 #: src/mainwindow.cpp:699
 msgid "Razor tool"
-msgstr "Outil de découpage"
+msgstr "Découper"
 
 #: src/mainwindow.cpp:2481
 msgid "Reached end of project"
@@ -4126,11 +4123,11 @@ msgstr "Zone de sélection"
 
 #: src/titlewidget.cpp:203
 msgid "Selection Tool"
-msgstr "Outil de sélection"
+msgstr "Sélectionner"
 
 #: src/mainwindow.cpp:693
 msgid "Selection tool"
-msgstr "Outil de sélection"
+msgstr "Sélectionner"
 
 #: rc.cpp:383 rc.cpp:2301
 msgid "Sepia"
@@ -4397,7 +4394,7 @@ msgstr "Espace"
 
 #: src/mainwindow.cpp:705
 msgid "Spacer tool"
-msgstr "Outil de déplacement"
+msgstr "Déplacer"
 
 #: rc.cpp:447 rc.cpp:467 rc.cpp:499 rc.cpp:501 rc.cpp:505 rc.cpp:2365
 #: rc.cpp:2385 rc.cpp:2417 rc.cpp:2419 rc.cpp:2423
@@ -4635,9 +4632,8 @@ msgid "Thumbnails"
 msgstr "Miniatures"
 
 #: rc.cpp:837 rc.cpp:2755 rc.cpp:3906 rc.cpp:4234 rc.cpp:5385
-#, fuzzy
 msgid "Thumbnails cache:"
-msgstr "Miniatures : "
+msgstr "Cache des miniatures :"
 
 #: rc.cpp:3885 rc.cpp:5364
 msgid "Thumbnails:"
@@ -4676,9 +4672,8 @@ msgid "Title Clip"
 msgstr "Clip titre"
 
 #: src/titledocument.cpp:196
-#, fuzzy
 msgid "Title Profile"
-msgstr "Modifier le profil"
+msgstr "Profil titre"
 
 #: src/kdenlivedoc.cpp:1076
 msgid "Title clip"
@@ -4867,7 +4862,7 @@ msgstr "Diffusion verticale"
 
 #: rc.cpp:209 rc.cpp:2127
 msgid "Vertigo"
-msgstr ""
+msgstr "Vertige"
 
 #: rc.cpp:756 rc.cpp:1113 rc.cpp:1707 rc.cpp:1900 rc.cpp:2674 rc.cpp:3031
 #: rc.cpp:3625 rc.cpp:3818 rc.cpp:3888 rc.cpp:4153 rc.cpp:4510 rc.cpp:5104
