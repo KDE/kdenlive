@@ -3540,7 +3540,7 @@ void CustomTrackView::addClip(QDomElement xml, const QString &clipId, ItemInfo i
     if (item->isAudioOnly()) prod = baseclip->audioProducer(info.track);
     else if (item->isVideoOnly()) prod = baseclip->videoProducer();
     else prod = baseclip->producer(info.track);
-    m_document->renderer()->mltInsertClip(info, xml, prod);
+    m_document->renderer()->mltInsertClip(info, xml, prod, overwrite, push);
     for (int i = 0; i < item->effectsCount(); i++) {
         m_document->renderer()->mltAddEffect(info.track, info.startPos, item->getEffectArgs(item->effectAt(i)), false);
     }
@@ -5482,9 +5482,11 @@ void CustomTrackView::insertZoneOverwrite(QStringList data, int in)
     DocClipBase *clip = m_document->getBaseClip(data.at(0));
     ItemInfo info;
     info.startPos = GenTime(in, m_document->fps());
-    info.cropDuration = GenTime(data.at(1).toInt(), m_document->fps());
-    info.endPos = info.startPos + GenTime(data.at(2).toInt(), m_document->fps());;
+    info.cropStart = GenTime(data.at(1).toInt(), m_document->fps());
+    info.endPos = info.startPos + GenTime(data.at(2).toInt(), m_document->fps()) - info.cropStart;
+    info.cropDuration = info.endPos - info.startPos;
     info.track = m_selectedTrack;
+
     AddTimelineClipCommand *add = new AddTimelineClipCommand(this, clip->toXML(), clip->getId(), info, EffectsList(), true, false, true, false);
     m_commandStack->push(add);
 }
