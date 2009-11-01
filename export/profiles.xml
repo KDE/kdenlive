@@ -1,4 +1,4 @@
-a<profiles version="0.1">
+<profiles version="0.1">
 <group name="HDV" renderer="avformat" extension="m2t" type="av">
   <profile name="PAL 1080 50i" standard="PAL" args="f=mpegts acodec=mp2 ab=384k ar=48000 ac=2 vcodec=mpeg2video s=1440x1080 b=25000k g=12 trellis=1 profile=hdv_1080_50i" />
   <profile name="PAL 1080 50i 2 pass" standard="PAL" args="f=mpegts acodec=mp2 ab=384k ar=48000 ac=2 vcodec=mpeg2video s=1440x1080 b=25000k g=12 trellis=1 profile=hdv_1080_50i pass=2" />
