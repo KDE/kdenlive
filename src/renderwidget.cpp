@@ -294,6 +294,10 @@ void RenderWidget::slotUpdateButtons(KUrl url)
     }
     if (url != 0) {
         QListWidgetItem *item = m_view.size_list->currentItem();
+	if (!item) {
+	    m_view.buttonStart->setEnabled(false);
+	    return;
+	}  
         QString extension = item->data(ExtensionRole).toString();
         url = filenameWithExtension(url, extension);
         m_view.out_file->setUrl(url);
