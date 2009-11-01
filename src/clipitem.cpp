@@ -1197,6 +1197,7 @@ QVariant ClipItem::itemChange(GraphicsItemChange change, const QVariant &value)
                         subitems.removeAll(this);
                         for (int j = 0; j < subitems.count(); j++) {
                             if (subitems.at(j)->type() == type()) {
+                                // move was not successful, revert to previous pos
                                 m_info.startPos = GenTime((int) pos().x(), m_fps);
                                 return pos();
                             }
@@ -1205,6 +1206,7 @@ QVariant ClipItem::itemChange(GraphicsItemChange change, const QVariant &value)
 
                     m_info.track = newTrack;
                     m_info.startPos = GenTime((int) newPos.x(), m_fps);
+
                     return newPos;
                 }
             }

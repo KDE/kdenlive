@@ -267,7 +267,7 @@ private:
     /** Selects all items in the scene rect, and sets ok to false if a group going over several tracks is found in it */
     QList<QGraphicsItem *> checkForGroups(const QRectF &rect, bool *ok);
     /** Adjust clips under another one when working in overwrite mode */
-    void adjustTimelineClips(EDITMODE mode, ClipItem *item, QUndoCommand *command);
+    void adjustTimelineClips(EDITMODE mode, ClipItem *item, ItemInfo posinfo, QUndoCommand *command);
     void adjustTimelineTransitions(EDITMODE mode, Transition *item, QUndoCommand *command);
 
 private slots:

@@ -58,7 +58,7 @@ void AbstractClipItem::closeAnimation()
 {
 #if QT_VERSION >= 0x040600
     if (m_closeAnimation) return;
-    m_closeAnimation = new QPropertyAnimation(this, "rect");
+    m_closeAnimation = new QPropertyAnimation(this, "geometry");
     connect(m_closeAnimation, SIGNAL(finished()), this, SLOT(deleteLater()));
     m_closeAnimation->setDuration(200);
     QRectF r = rect();
@@ -142,13 +142,15 @@ void AbstractClipItem::resizeStart(int posx)
     if (type() == AVWIDGET) {
         m_info.cropStart += durationDiff;
     }
+
     m_info.cropDuration = m_info.cropDuration - durationDiff;
     setRect(0, 0, cropDuration().frames(m_fps) - 0.02, rect().height());
     moveBy(durationDiff.frames(m_fps), 0);
-    //setPos(m_startPos.frames(m_fps), pos().y());
-    if ((int) scenePos().x() != posx) {
+
+    if (m_info.startPos != GenTime(posx, m_fps)) {
+        kDebug() << "__ RESIZE START OFFSET: ";
         //kDebug()<<"//////  WARNING, DIFF IN XPOS: "<<pos().x()<<" == "<<m_startPos.frames(m_fps);
-        GenTime diff = GenTime((int) pos().x() - posx, m_fps);
+        GenTime diff = m_info.startPos - GenTime((int) posx, m_fps);
 
         if (type() == AVWIDGET) {
             m_info.cropStart += diff;
@@ -196,10 +198,10 @@ void AbstractClipItem::resizeEnd(int posx)
         for (int i = 0; i < collisionList.size(); ++i) {
             QGraphicsItem *item = collisionList.at(i);
             if (item->type() == type() && item->pos().x() > pos().x()) {
-                /*kDebug() << "/////////  COLLISION DETECTED!!!!!!!!!";
+                kDebug() << "/////////  COLLISION DETECTED!!!!!!!!!";
                 kDebug() << "/////////  CURRENT: " << startPos().frames(25) << "x" << endPos().frames(25) << ", RECT: " << rect() << "-" << pos();
-                kDebug() << "/////////  COLLISION: " << ((AbstractClipItem *)item)->startPos().frames(25) << "x" << ((AbstractClipItem *)item)->endPos().frames(25) << ", RECT: " << ((AbstractClipItem *)item)->rect() << "-" << item->pos();*/
-                GenTime diff = ((AbstractClipItem *)item)->startPos() - GenTime(1, m_fps) - startPos();
+                kDebug() << "/////////  COLLISION: " << ((AbstractClipItem *)item)->startPos().frames(25) << "x" << ((AbstractClipItem *)item)->endPos().frames(25) << ", RECT: " << ((AbstractClipItem *)item)->rect() << "-" << item->pos();
+                GenTime diff = ((AbstractClipItem *)item)->startPos() - startPos();
                 m_info.cropDuration = diff;
                 setRect(0, 0, cropDuration().frames(m_fps) - 0.02, rect().height());
                 break;

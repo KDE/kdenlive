@@ -87,7 +87,9 @@ public:
     /** Returns a list of times for this clip's markers */
     QList <GenTime> snapMarkers() const;
     QList <CommentedTime> commentedSnapMarkers() const;
+    /** Get the position of the fade in effect */
     int fadeIn() const;
+    /** Get the position of the fade out effect */
     int fadeOut() const;
     void setSelectedEffect(const int ix);
     void updateKeyframeEffect();

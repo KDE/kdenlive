@@ -116,16 +116,16 @@ void ProjectListView::contextMenuEvent(QContextMenuEvent * event)
 void ProjectListView::mouseDoubleClickEvent(QMouseEvent * event)
 {
     QTreeWidgetItem *it = itemAt(event->pos());
-    if (!it) return;
+    if (!it) {
+	emit addClip();
+	return;
+    }
     ProjectItem *item;
     if (it->type() == QTreeWidgetItem::UserType + 1) {
         // subitem
         item = static_cast <ProjectItem *>(it->parent());
     } else item = static_cast <ProjectItem *>(it);
-    if (!item) {
-        emit addClip();
-        return;
-    }
+
     if (!(item->flags() & Qt::ItemIsDragEnabled)) return;
     if (item->isGroup()) {
         if ((columnAt(event->pos().x()) == 1)) QTreeWidget::mouseDoubleClickEvent(event);

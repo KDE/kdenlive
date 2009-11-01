@@ -74,6 +74,10 @@
 #include <QInputDialog>
 #include <KMessageBox>
 
+#if QT_VERSION >= 0x040600
+#include <QGraphicsDropShadowEffect>
+#endif
+
 bool sortGuidesList(const Guide *g1 , const Guide *g2)
 {
     return (*g1).position() < (*g2).position();
@@ -752,7 +756,14 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         if (m_dragItem) emit clipItemSelected(NULL);
         m_dragItem = NULL;
     }
-
+#if QT_VERSION >= 0x040600
+    // Add shadow to dragged item, currently disabled because of painting artifacts
+    //TODO: re-enable when fixed
+    /*QGraphicsDropShadowEffect *eff = new QGraphicsDropShadowEffect();
+    eff->setBlurRadius(5);
+    eff->setOffset(3, 3);
+    m_dragItem->setGraphicsEffect(eff);*/
+#endif
     if (m_dragItem && m_dragItem->type() == TRANSITIONWIDGET) {
         // update transition menu action
         m_autoTransition->setChecked(static_cast<Transition *>(m_dragItem)->isAutomatic());
@@ -1721,7 +1732,8 @@ ClipItem *CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut, boo
         newPos.track = info.track;
         newPos.cropDuration = newPos.endPos - newPos.startPos;
 
-
+        bool snap = KdenliveSettings::snaptopoints();
+        KdenliveSettings::setSnaptopoints(false);
         ClipItem *dup = item->clone(newPos);
         // remove unwanted effects (fade in) from 2nd part of cutted clip
         int ix = dup->hasEffect(QString(), "fadein");
@@ -1741,6 +1753,7 @@ ClipItem *CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut, boo
         item->baseClip()->addReference();
         m_document->updateClip(item->baseClip()->getId());
         setDocumentModified();
+        KdenliveSettings::setSnaptopoints(snap);
         return dup;
         //kDebug() << "/////////  CUTTING CLIP RESULT: (" << item->startPos().frames(25) << "-" << item->endPos().frames(25) << "), DUP: (" << dup->startPos().frames(25) << "-" << dup->endPos().frames(25) << ")" << ", CUT: " << cutTime.frames(25);
     } else {
@@ -1748,6 +1761,7 @@ ClipItem *CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut, boo
 
         ClipItem *item = getClipItemAt((int) info.startPos.frames(m_document->fps()), info.track);
         ClipItem *dup = getClipItemAt((int) cutTime.frames(m_document->fps()), info.track);
+
         if (!item || !dup || item == dup) {
             emit displayMessage(i18n("Cannot find clip to uncut"), ErrorMessage);
             m_blockRefresh = false;
@@ -1763,6 +1777,8 @@ ClipItem *CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut, boo
         kDebug() << "// UNCUTTING CLIPS, INFO (" << info.startPos.frames(25) << "x" << info.endPos.frames(25) << ") , CUT: " << cutTime.frames(25);;*/
         //deleteClip(dup->info());
 
+        bool snap = KdenliveSettings::snaptopoints();
+        KdenliveSettings::setSnaptopoints(false);
 
         if (dup->isSelected()) emit clipItemSelected(NULL);
         dup->baseClip()->removeReference();
@@ -1778,6 +1794,7 @@ ClipItem *CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut, boo
             setDocumentModified();
         } else
             emit displayMessage(i18n("Error when resizing clip"), ErrorMessage);
+        KdenliveSettings::setSnaptopoints(snap);
         return item;
 
     }
@@ -2018,7 +2035,7 @@ void CustomTrackView::dropEvent(QDropEvent * event)
             if (m_document->renderer()->mltInsertClip(clipInfo, item->xml(), item->baseClip()->producer(item->track()), m_scene->editMode() == OVERWRITEEDIT, m_scene->editMode() == INSERTEDIT) == -1) {
                 emit displayMessage(i18n("Cannot insert clip in timeline"), ErrorMessage);
             }
-            adjustTimelineClips(m_scene->editMode(), item, addCommand);
+            adjustTimelineClips(m_scene->editMode(), item, ItemInfo(), addCommand);
 
             new AddTimelineClipCommand(this, item->xml(), item->clipProducer(), item->info(), item->effectList(), m_scene->editMode() == OVERWRITEEDIT, m_scene->editMode() == INSERTEDIT, false, false, addCommand);
 
@@ -2031,6 +2048,25 @@ void CustomTrackView::dropEvent(QDropEvent * event)
         }
         m_commandStack->push(addCommand);
         setDocumentModified();
+
+        /*
+        // debug info
+        QRectF rect(0, 1 * m_tracksHeight + m_tracksHeight / 2, sceneRect().width(), 2);
+        QList<QGraphicsItem *> selection = m_scene->items(rect);
+        QStringList timelineList;
+
+        kDebug()<<"// ITEMS on TRACK: "<<selection.count();
+        for (int i = 0; i < selection.count(); i++) {
+               if (selection.at(i)->type() == AVWIDGET) {
+                   ClipItem *clip = static_cast <ClipItem *>(selection.at(i));
+                   int start = clip->startPos().frames(m_document->fps());
+                   int end = clip->endPos().frames(m_document->fps());
+                   timelineList.append(QString::number(start) + "-" + QString::number(end));
+            }
+        }
+        kDebug() << "// COMPARE:\n" << timelineList << "\n-------------------";
+        */
+
         m_pasteEffectsAction->setEnabled(m_copiedItems.count() == 1);
         if (items.count() > 1) groupSelectedItems(true);
         event->setDropAction(Qt::MoveAction);
@@ -2039,16 +2075,18 @@ void CustomTrackView::dropEvent(QDropEvent * event)
     setFocus();
 }
 
-void CustomTrackView::adjustTimelineClips(EDITMODE mode, ClipItem *item, QUndoCommand *command)
+void CustomTrackView::adjustTimelineClips(EDITMODE mode, ClipItem *item, ItemInfo posinfo, QUndoCommand *command)
 {
     if (mode == OVERWRITEEDIT) {
         // if we are in overwrite or push mode, move clips accordingly
         bool snap = KdenliveSettings::snaptopoints();
         KdenliveSettings::setSnaptopoints(false);
-        ItemInfo info = item->info();
+        ItemInfo info;
+        if (item == NULL) info = posinfo;
+        else info = item->info();
         QRectF rect(info.startPos.frames(m_document->fps()), info.track * m_tracksHeight + m_tracksHeight / 2, (info.endPos - info.startPos).frames(m_document->fps()) - 1, 5);
         QList<QGraphicsItem *> selection = m_scene->items(rect);
-        selection.removeAll(item);
+        if (item) selection.removeAll(item);
         for (int i = 0; i < selection.count(); i++) {
             if (selection.at(i)->type() == AVWIDGET) {
                 ClipItem *clip = static_cast<ClipItem *>(selection.at(i));
@@ -2056,7 +2094,7 @@ void CustomTrackView::adjustTimelineClips(EDITMODE mode, ClipItem *item, QUndoCo
                     if (clip->endPos() > info.endPos) {
                         ItemInfo clipInfo = clip->info();
                         ItemInfo dupInfo = clipInfo;
-                        GenTime diff = info.startPos - clip->startPos();
+                        GenTime diff = info.startPos - clipInfo.startPos;
                         dupInfo.startPos = info.startPos;
                         dupInfo.cropStart += diff;
                         dupInfo.cropDuration = clipInfo.endPos - info.startPos;
@@ -2069,6 +2107,11 @@ void CustomTrackView::adjustTimelineClips(EDITMODE mode, ClipItem *item, QUndoCo
                         new ResizeClipCommand(this, dupInfo, newdupInfo, false, false, command);
                         ClipItem *dup = cutClip(clipInfo, info.startPos, true, false);
                         if (dup) dup->resizeStart(info.endPos.frames(m_document->fps()));
+                        kDebug() << "-----------------------------";
+
+                        kDebug() << "///RES+CUT: " << dup->startPos().frames(25) << "x" << dup->endPos().frames(25);
+                        kDebug() << "-----------------------------";
+
 
                     } else {
                         ItemInfo newclipInfo = clip->info();
@@ -2631,6 +2674,9 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
     if (m_moveOpMode == SEEK) m_moveOpMode = NONE;
     QGraphicsView::mouseReleaseEvent(event);
     setViewportUpdateMode(QGraphicsView::MinimalViewportUpdate);
+#if QT_VERSION >= 0x040600
+    if (m_dragItem) m_dragItem->setGraphicsEffect(NULL);
+#endif
     if (m_scrollTimer.isActive()) m_scrollTimer.stop();
     if (event->button() == Qt::MidButton) {
         return;
@@ -2736,7 +2782,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                 if (success) {
                     QUndoCommand *moveCommand = new QUndoCommand();
                     moveCommand->setText(i18n("Move clip"));
-                    adjustTimelineClips(m_scene->editMode(), item, moveCommand);
+                    adjustTimelineClips(m_scene->editMode(), item, ItemInfo(), moveCommand);
 
                     int tracknumber = m_document->tracksCount() - item->track() - 1;
                     bool isLocked = m_document->trackInfoAt(tracknumber).isLocked;
@@ -2928,7 +2974,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                         ClipItem *clip = static_cast <ClipItem*>(item);
                         info.track = m_document->tracksCount() - info.track;
                         Mlt::Producer *prod;
-                        adjustTimelineClips(m_scene->editMode(), clip, moveGroup);
+                        adjustTimelineClips(m_scene->editMode(), clip, ItemInfo(), moveGroup);
                         if (clip->isAudioOnly()) prod = clip->baseClip()->audioProducer(info.track);
                         else if (clip->isVideoOnly()) prod = clip->baseClip()->videoProducer();
                         else prod = clip->baseClip()->producer(info.track);
@@ -3295,7 +3341,13 @@ void CustomTrackView::deleteClip(ItemInfo info, bool refresh)
     if (m_dragItem == item) m_dragItem = NULL;
 #if QT_VERSION >= 0x040600
     // animate item deletion
-    item->closeAnimation();
+    if (refresh) item->closeAnimation();
+    else {
+        // no refresh, means we have several operations chained, we need to delete clip immediatly
+        // so that it does not get in the way of the other
+        delete item;
+        item = NULL;
+    }
 #else
     delete item;
     item = NULL;
@@ -5486,7 +5538,9 @@ void CustomTrackView::insertZoneOverwrite(QStringList data, int in)
     info.endPos = info.startPos + GenTime(data.at(2).toInt(), m_document->fps()) - info.cropStart;
     info.cropDuration = info.endPos - info.startPos;
     info.track = m_selectedTrack;
-
-    AddTimelineClipCommand *add = new AddTimelineClipCommand(this, clip->toXML(), clip->getId(), info, EffectsList(), true, false, true, false);
-    m_commandStack->push(add);
+    QUndoCommand *addCommand = new QUndoCommand();
+    addCommand->setText(i18n("Insert clip"));
+    adjustTimelineClips(OVERWRITEEDIT, NULL, info, addCommand);
+    new AddTimelineClipCommand(this, clip->toXML(), clip->getId(), info, EffectsList(), true, false, true, false, addCommand);
+    m_commandStack->push(addCommand);
 }
