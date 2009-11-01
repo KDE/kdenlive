@@ -166,8 +166,9 @@ private:
     KAction *m_buttonVideoThumbs;
     KAction *m_buttonShowMarkers;
     KAction *m_buttonFitZoom;
-    KAction *m_overwriteModeTool;
-    KAction *m_insertModeTool;
+    KAction *m_normalEditTool;
+    KAction *m_overwriteEditTool;
+    KAction *m_insertEditTool;
     KAction *m_buttonSelectTool;
     KAction *m_buttonRazorTool;
     KAction *m_buttonSpacerTool;
