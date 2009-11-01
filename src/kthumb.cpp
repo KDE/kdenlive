@@ -402,7 +402,7 @@ void KThumb::getAudioThumbs(int channel, double frame, double frameLength, int a
         if (m_audioThumbProducer.isRunning()) return;
         m_audioThumbProducer.init(m_url, m_thumbFile, frame, frameLength, m_frequency, m_channels, arrayWidth);
         m_audioThumbProducer.start(QThread::LowestPriority);
-        kDebug() << "STARTING GENERATE THMB FOR: " << m_url << " ................................";
+        // kDebug() << "STARTING GENERATE THMB FOR: " <<m_id<<", URL: "<< m_url << " ................................";
     }
 }
 

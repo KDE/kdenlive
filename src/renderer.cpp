@@ -2880,8 +2880,8 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
 
             if (overwrite) {
                 destTrackPlaylist.remove_region(moveEnd, clip->get_playtime());
-                int clipIndex = trackPlaylist.get_clip_index_at(moveEnd);
-                trackPlaylist.insert_blank(clipIndex, clip->get_playtime() - 1);
+                int clipIndex = destTrackPlaylist.get_clip_index_at(moveEnd);
+                destTrackPlaylist.insert_blank(clipIndex, clip->get_playtime() - 1);
             }
 
             int newIndex = destTrackPlaylist.insert_at(moveEnd, clip, 1);

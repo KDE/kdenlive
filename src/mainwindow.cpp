@@ -1418,10 +1418,8 @@ void MainWindow::newFile(bool showProjectSettings)
         ProjectSettings *w = new ProjectSettings(NULL, QStringList(), projectTracks.x(), projectTracks.y(), KdenliveSettings::defaultprojectfolder(), false, true, this);
         if (w->exec() != QDialog::Accepted) return;
         if (!KdenliveSettings::activatetabs()) closeCurrentDocument();
-        KdenliveSettings::setVideothumbnails(w->enableVideoThumbs());
-        m_buttonVideoThumbs->setChecked(KdenliveSettings::videothumbnails());
-        KdenliveSettings::setAudiothumbnails(w->enableAudioThumbs());
-        m_buttonAudioThumbs->setChecked(KdenliveSettings::audiothumbnails());
+	if (KdenliveSettings::videothumbnails() != w->enableVideoThumbs()) slotSwitchVideoThumbs();
+        if (KdenliveSettings::audiothumbnails() != w->enableAudioThumbs()) slotSwitchAudioThumbs();
         profileName = w->selectedProfile();
         projectFolder = w->selectedFolder();
         projectTracks = w->tracks();
@@ -1788,6 +1786,8 @@ void MainWindow::slotEditProjectSettings()
         QString profile = w->selectedProfile();
         m_activeDocument->setProjectFolder(w->selectedFolder());
         if (m_renderWidget) m_renderWidget->setDocumentPath(w->selectedFolder().path(KUrl::AddTrailingSlash));
+	if (KdenliveSettings::videothumbnails() != w->enableVideoThumbs()) slotSwitchVideoThumbs();
+        if (KdenliveSettings::audiothumbnails() != w->enableAudioThumbs()) slotSwitchAudioThumbs();
         if (m_activeDocument->profilePath() != profile) {
             // Profile was changed
             double dar = m_activeDocument->dar();
