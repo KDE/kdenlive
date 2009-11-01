@@ -993,6 +993,11 @@ void MainWindow::setupActions()
     markOut->setShortcut(Qt::Key_O);
     connect(markOut, SIGNAL(triggered(bool)), this, SLOT(slotSetOutPoint()));
 
+    KAction *switchMon = collection->addAction("switch_monitor");
+    switchMon->setText(i18n("Switch monitor"));
+    switchMon->setShortcut(Qt::Key_T);
+    connect(switchMon, SIGNAL(triggered(bool)), this, SLOT(slotSwitchMonitors()));
+    
     KAction *resizeStart =  new KAction(KIcon(), i18n("Resize Item Start"), this);
     collection->addAction("resize_timeline_clip_start", resizeStart);
     resizeStart->setShortcut(Qt::Key_1);
@@ -3209,6 +3214,12 @@ QPixmap MainWindow::createSchemePreviewIcon(const KSharedConfigPtr &config)
     return pixmap;
 }
 
+void MainWindow::slotSwitchMonitors()
+{
+    m_monitorManager->slotSwitchMonitors();
+    if (m_projectMonitor->isActive()) m_activeTimeline->projectView()->setFocus();
+    else m_projectList->focusTree();
+}
 
 #include "mainwindow.moc"
 

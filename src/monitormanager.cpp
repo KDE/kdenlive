@@ -65,7 +65,7 @@ void MonitorManager::activateMonitor(QString name)
     m_activeMonitor = name;
 }
 
-void MonitorManager::switchMonitors()
+void MonitorManager::slotSwitchMonitors()
 {
     if (m_blocked || m_clipMonitor == NULL) return;
     if (m_clipMonitor->isActive()) {

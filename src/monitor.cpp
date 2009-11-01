@@ -510,7 +510,7 @@ bool Monitor::isActive() const
 
 void Monitor::activateMonitor()
 {
-    if (!m_isActive) m_monitorManager->switchMonitors(); //m_monitorManager->activateMonitor(m_name);
+    if (!m_isActive) m_monitorManager->slotSwitchMonitors(); //m_monitorManager->activateMonitor(m_name);
 }
 
 void Monitor::setTimePos(const QString &pos)

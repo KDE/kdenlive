@@ -34,7 +34,6 @@ public:
     MonitorManager(QWidget *parent = 0);
     void initMonitors(Monitor *clipMonitor, Monitor *projectMonitor);
     Timecode timecode();
-    void switchMonitors();
     void resetProfiles(Timecode tc);
     void stopActiveMonitor();
 
@@ -53,6 +52,7 @@ public slots:
     void slotEnd();
     void slotResetProfiles();
     void slotBlockMonitors();
+    void slotSwitchMonitors();
 
 private:
     Monitor *m_clipMonitor;

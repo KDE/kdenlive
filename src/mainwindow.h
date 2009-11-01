@@ -336,6 +336,7 @@ private slots:
     void slotUpdateTrackInfo();
     /** \brief Change color scheme */
     void slotChangePalette(QAction *action, const QString &themename = QString());
+    void slotSwitchMonitors();
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

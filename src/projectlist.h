@@ -138,6 +138,7 @@ public:
     QList <DocClipBase*> documentClipList() const;
     void addClipCut(const QString &id, int in, int out);
     void removeClipCut(const QString &id, int in, int out);
+    void focusTree() const;
 
 public slots:
     void setDocument(KdenliveDoc *doc);

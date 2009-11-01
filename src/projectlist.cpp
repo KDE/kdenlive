@@ -130,6 +130,11 @@ ProjectList::~ProjectList()
     delete m_listViewDelegate;
 }
 
+void ProjectList::focusTree() const
+{
+    m_listView->setFocus();
+}
+
 void ProjectList::setupMenu(QMenu *addMenu, QAction *defaultAction)
 {
     QList <QAction *> actions = addMenu->actions();

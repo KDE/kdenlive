@@ -139,6 +139,8 @@
       <Separator />      
       <Action name="mark_in" />
       <Action name="mark_out" />
+      <Separator />      
+      <Action name="switch_monitor" />
     </Menu>
     <Menu name="dockwindows" ><text>View</text>
       <Action name="maximize_current" />
