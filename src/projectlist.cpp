@@ -261,11 +261,11 @@ void ProjectList::trashUnusedClips()
         if (!item->isGroup() && item->numReferences() == 0) {
             ids << item->clipId();
             KUrl url = item->clipUrl();
-            if (!url.isEmpty()) urls << url.path();
+            if (!url.isEmpty() && !urls.contains(url.path())) urls << url.path();
         }
         it++;
     }
-    urls.removeDuplicates();
+
     // Check that we don't use the URL in another clip
     QTreeWidgetItemIterator it2(m_listView);
     while (*it2) {

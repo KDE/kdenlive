@@ -85,10 +85,9 @@ void ProjectSettings::slotDeleteUnused()
         DocClipBase *clip = list.at(i);
         if (clip->numReferences() == 0 && clip->clipType() != SLIDESHOW) {
             KUrl url = clip->fileURL();
-            if (!url.isEmpty()) toDelete << url.path();
+            if (!url.isEmpty() && !toDelete.contains(url.path())) toDelete << url.path();
         }
     }
-    toDelete.removeDuplicates();
 
     // make sure our urls are not used in another clip
     for (int i = 0; i < list.count(); i++) {
@@ -164,7 +163,9 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
             usedSize += clip->fileSize();
         }
     }
+#if QT_VERSION >= 0x040500    
     allFiles.removeDuplicates();
+#endif
     files_count->setText(QString::number(allFiles.count()));
     files_list->addItems(allFiles);
     used_count->setText(QString::number(used));
