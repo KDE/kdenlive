@@ -38,6 +38,7 @@
 #include "definitions.h"
 #include "timecode.h"
 #include "kdenlivesettings.h"
+#include "folderprojectitem.h"
 
 namespace Mlt
 {
@@ -75,7 +76,7 @@ public:
     }
 
     void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const {
-        if (index.column() == 1) {
+        if (index.column() == 1 && !index.data(DurationRole).isNull()) {
             QRect r1 = option.rect;
             painter->save();
             if (option.state & (QStyle::State_Selected)) {
@@ -174,7 +175,7 @@ private:
     void selectItemById(const QString &clipId);
     ProjectItem *getItemById(const QString &id);
     QTreeWidgetItem *getAnyItemById(const QString &id);
-    ProjectItem *getFolderItemById(const QString &id);
+    FolderProjectItem *getFolderItemById(const QString &id);
     QAction *m_editAction;
     QAction *m_deleteAction;
     QAction *m_openAction;

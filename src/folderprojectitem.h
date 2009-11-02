@@ -18,56 +18,28 @@
  ***************************************************************************/
 
 
-#include "subprojectitem.h"
-#include "timecode.h"
-#include "definitions.h"
-#include "kdenlivesettings.h"
-#include "docclipbase.h"
+#ifndef FOLDERPROJECTITEM_H
+#define FOLDERPROJECTITEM_H
 
-#include <KDebug>
-#include <KLocale>
-#include <KIcon>
+#include <QTreeWidgetItem>
+#include <QTreeWidget>
 
-const int DurationRole = Qt::UserRole + 1;
 
-SubProjectItem::SubProjectItem(QTreeWidgetItem * parent, int in, int out) :
-        QTreeWidgetItem(parent, PROJECTSUBCLIPTYPE), m_in(in), m_out(out)
+/** \brief Represents a clip or a folder in the projecttree
+ *
+ * This class represents a clip or folder in the projecttree and in the document(?) */
+class FolderProjectItem : public QTreeWidgetItem
 {
-    setSizeHint(0, QSize(65, 30));
-    setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable);
-    QString name = Timecode::getStringTimecode(in, KdenliveSettings::project_fps());
-    setText(1, name);
-    GenTime duration = GenTime(out - in, KdenliveSettings::project_fps());
-    if (duration != GenTime()) setData(1, DurationRole, Timecode::getEasyTimecode(duration, KdenliveSettings::project_fps()));
-    //setFlags(Qt::NoItemFlags);
-    //kDebug() << "Constructed with clipId: " << m_clipId;
-}
+public:
+    FolderProjectItem(QTreeWidget* parent, const QStringList & strings, const QString &clipId);
+    virtual ~FolderProjectItem();
+    QString clipId() const;
+    const QString groupName() const;
+    void setGroupName(const QString name);
 
+private:
+    QString m_groupName;
+    QString m_clipId;
+};
 
-SubProjectItem::~SubProjectItem()
-{
-}
-
-int SubProjectItem::numReferences() const
-{
-    return 0;
-}
-
-QDomElement SubProjectItem::toXml() const
-{
-    //return m_clip->toXML();
-    return QDomElement();
-}
-
-QPoint SubProjectItem::zone() const
-{
-    QPoint z(m_in, m_out);
-    return z;
-}
-
-DocClipBase *SubProjectItem::referencedClip()
-{
-    return NULL; //m_clip;
-}
-
-
+#endif

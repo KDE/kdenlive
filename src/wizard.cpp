@@ -299,6 +299,18 @@ void Wizard::checkMltComponents()
         } else {
             imageItem->setIcon(0, m_okIcon);
         }
+
+        // Check MLT title module
+        QTreeWidgetItem *titleItem = new QTreeWidgetItem(m_mltCheck.programList, QStringList() << QString() << i18n("Title module"));
+        titleItem->setData(1, Qt::UserRole, i18n("Required to work with titles"));
+        titleItem->setSizeHint(0, itemSize);
+        if (!result.contains("- kdenlivetitle")) {
+            KdenliveSettings::setHastitleproducer(false);
+            titleItem->setIcon(0, m_badIcon);
+        } else {
+            titleItem->setIcon(0, m_okIcon);
+            KdenliveSettings::setHastitleproducer(true);
+        }
     }
 }
 

@@ -18,56 +18,47 @@
  ***************************************************************************/
 
 
-#include "subprojectitem.h"
-#include "timecode.h"
+#include "folderprojectitem.h"
 #include "definitions.h"
-#include "kdenlivesettings.h"
-#include "docclipbase.h"
 
 #include <KDebug>
 #include <KLocale>
 #include <KIcon>
 
-const int DurationRole = Qt::UserRole + 1;
 
-SubProjectItem::SubProjectItem(QTreeWidgetItem * parent, int in, int out) :
-        QTreeWidgetItem(parent, PROJECTSUBCLIPTYPE), m_in(in), m_out(out)
+FolderProjectItem::FolderProjectItem(QTreeWidget * parent, const QStringList & strings, const QString &clipId) :
+        QTreeWidgetItem(parent, strings, PROJECTFOLDERTYPE),
+        m_groupName(strings.at(1)),
+        m_clipId(clipId)
 {
-    setSizeHint(0, QSize(65, 30));
+    setSizeHint(0, QSize(65, QFontInfo(font(1)).pixelSize() * 2));
     setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable);
-    QString name = Timecode::getStringTimecode(in, KdenliveSettings::project_fps());
-    setText(1, name);
-    GenTime duration = GenTime(out - in, KdenliveSettings::project_fps());
-    if (duration != GenTime()) setData(1, DurationRole, Timecode::getEasyTimecode(duration, KdenliveSettings::project_fps()));
+    setIcon(0, KIcon("folder").pixmap(sizeHint(0)));
+    setToolTip(1, "<b>" + i18n("Folder"));
     //setFlags(Qt::NoItemFlags);
     //kDebug() << "Constructed with clipId: " << m_clipId;
 }
 
 
-SubProjectItem::~SubProjectItem()
+FolderProjectItem::~FolderProjectItem()
 {
 }
 
-int SubProjectItem::numReferences() const
+QString FolderProjectItem::clipId() const
 {
-    return 0;
+    return m_clipId;
 }
 
-QDomElement SubProjectItem::toXml() const
+const QString FolderProjectItem::groupName() const
 {
-    //return m_clip->toXML();
-    return QDomElement();
+    return m_groupName;
 }
 
-QPoint SubProjectItem::zone() const
+void FolderProjectItem::setGroupName(const QString name)
 {
-    QPoint z(m_in, m_out);
-    return z;
+    m_groupName = name;
+    setText(1, name);
 }
 
-DocClipBase *SubProjectItem::referencedClip()
-{
-    return NULL; //m_clip;
-}
 
 

@@ -21,6 +21,7 @@
 #include "projectlistview.h"
 #include "projectitem.h"
 #include "subprojectitem.h"
+#include "folderprojectitem.h"
 #include "kdenlivesettings.h"
 
 #include <KDebug>
@@ -117,23 +118,23 @@ void ProjectListView::mouseDoubleClickEvent(QMouseEvent * event)
 {
     QTreeWidgetItem *it = itemAt(event->pos());
     if (!it) {
-	emit addClip();
-	return;
+        emit addClip();
+        return;
     }
     ProjectItem *item;
-    if (it->type() == QTreeWidgetItem::UserType + 1) {
+    if (it->type() == PROJECTFOLDERTYPE) {
+        if ((columnAt(event->pos().x()) == 1)) QTreeWidget::mouseDoubleClickEvent(event);
+        return;
+    }
+    if (it->type() == PROJECTSUBCLIPTYPE) {
         // subitem
         item = static_cast <ProjectItem *>(it->parent());
     } else item = static_cast <ProjectItem *>(it);
 
     if (!(item->flags() & Qt::ItemIsDragEnabled)) return;
-    if (item->isGroup()) {
-        if ((columnAt(event->pos().x()) == 1)) QTreeWidget::mouseDoubleClickEvent(event);
-    } else {
-        if ((columnAt(event->pos().x()) == 1) && (item->clipType() == SLIDESHOW || item->clipType() == TEXT || item->clipType() == COLOR)) QTreeWidget::mouseDoubleClickEvent(event);
-        else if ((columnAt(event->pos().x()) == 2) && it->type() != QTreeWidgetItem::UserType + 1) QTreeWidget::mouseDoubleClickEvent(event);
-        else emit showProperties(item->referencedClip());
-    }
+    if ((columnAt(event->pos().x()) == 1) && (item->clipType() == SLIDESHOW || item->clipType() == TEXT || item->clipType() == COLOR)) QTreeWidget::mouseDoubleClickEvent(event);
+    else if ((columnAt(event->pos().x()) == 2) && it->type() != PROJECTSUBCLIPTYPE) QTreeWidget::mouseDoubleClickEvent(event);
+    else emit showProperties(item->referencedClip());
 }
 
 // virtual
@@ -148,24 +149,18 @@ void ProjectListView::dragEnterEvent(QDragEnterEvent *event)
 // virtual
 void ProjectListView::dropEvent(QDropEvent *event)
 {
-    ProjectItem *item = NULL;
+    FolderProjectItem *item = NULL;
     QTreeWidgetItem *it = itemAt(event->pos());
-    if (it) {
-        if (it->type() == QTreeWidgetItem::UserType + 1) {
-            // subitem
-            item = static_cast <ProjectItem *>(it->parent());
-        } else item = static_cast <ProjectItem *>(it);
+    while (it && it->type() != PROJECTFOLDERTYPE) {
+        it = it->parent();
     }
-
+    if (it) item = static_cast <FolderProjectItem *>(it);
     if (event->mimeData()->hasUrls()) {
         QString groupName;
         QString groupId;
         if (item) {
-            if (item->parent()) item = static_cast <ProjectItem *>(item->parent());
-            if (item->isGroup()) {
-                groupName = item->groupName();
-                groupId = item->clipId();
-            }
+            groupName = item->groupName();
+            groupId = item->clipId();
         }
         emit addClip(event->mimeData()->urls(), groupName, groupId);
         event->setDropAction(Qt::CopyAction);
@@ -173,29 +168,25 @@ void ProjectListView::dropEvent(QDropEvent *event)
         return;
     } else if (event->mimeData()->hasFormat("kdenlive/producerslist")) {
         if (item) {
-            if (item->parent()) item = static_cast <ProjectItem *>(item->parent());
-            if (item->isGroup()) {
-                //emit addClip(event->mimeData->text());
-                const QList <QTreeWidgetItem *> list = selectedItems();
-                ProjectItem *clone;
-                QString parentId = item->clipId();
-                foreach(QTreeWidgetItem *it, list) {
-                    // TODO allow dragging of folders ?
-                    if (!((ProjectItem *) it)->isGroup()/* && ((ProjectItem *) it)->clipId() < 10000*/) {
-                        if (it->parent()) clone = (ProjectItem*) it->parent()->takeChild(it->parent()->indexOfChild(it));
-                        else clone = (ProjectItem*) takeTopLevelItem(indexOfTopLevelItem(it));
-                        if (clone) {
-                            item->addChild(clone);
-                            QMap <QString, QString> props;
-                            props.insert("groupname", item->groupName());
-                            props.insert("groupid", parentId);
-                            clone->setProperties(props);
-                        }
+            //emit addClip(event->mimeData->text());
+            const QList <QTreeWidgetItem *> list = selectedItems();
+            ProjectItem *clone;
+            QString parentId = item->clipId();
+            foreach(QTreeWidgetItem *it, list) {
+                // TODO allow dragging of folders ?
+                if (it->type() == PROJECTCLIPTYPE) {
+                    if (it->parent()) clone = (ProjectItem*) it->parent()->takeChild(it->parent()->indexOfChild(it));
+                    else clone = (ProjectItem*) takeTopLevelItem(indexOfTopLevelItem(it));
+                    if (clone) {
+                        item->addChild(clone);
+                        QMap <QString, QString> props;
+                        props.insert("groupname", item->groupName());
+                        props.insert("groupid", parentId);
+                        clone->setProperties(props);
                     }
-                }
-            } else item = NULL;
-        }
-        if (!item) {
+                } else item = NULL;
+            }
+        } else {
             // item dropped in empty zone, move it to top level
             const QList <QTreeWidgetItem *> list = selectedItems();
             ProjectItem *clone;
@@ -251,7 +242,7 @@ void ProjectListView::mouseMoveEvent(QMouseEvent *event)
 
     QTreeWidgetItem *it = itemAt(m_DragStartPosition);
     if (!it) return;
-    if (it->type() == QTreeWidgetItem::UserType + 1) {
+    if (it->type() == PROJECTSUBCLIPTYPE) {
         // subitem
         SubProjectItem *clickItem = static_cast <SubProjectItem *>(it);
         if (clickItem && (clickItem->flags() & Qt::ItemIsDragEnabled)) {
@@ -273,20 +264,20 @@ void ProjectListView::mouseMoveEvent(QMouseEvent *event)
             drag->exec();
         }
     } else {
-        ProjectItem *clickItem = static_cast <ProjectItem *>(it);
-        if (clickItem && (clickItem->flags() & Qt::ItemIsDragEnabled)) {
+        if (it && (it->flags() & Qt::ItemIsDragEnabled)) {
             QDrag *drag = new QDrag(this);
             QMimeData *mimeData = new QMimeData;
             const QList <QTreeWidgetItem *> list = selectedItems();
             QStringList ids;
             foreach(const QTreeWidgetItem *item, list) {
-                const ProjectItem *clip = static_cast <const ProjectItem *>(item);
-                if (!clip->isGroup()) ids.append(clip->clipId());
-                else {
+                if (item->type() == PROJECTFOLDERTYPE) {
                     const int children = item->childCount();
                     for (int i = 0; i < children; i++) {
                         ids.append(static_cast <ProjectItem *>(item->child(i))->clipId());
                     }
+                } else {
+                    const ProjectItem *clip = static_cast <const ProjectItem *>(item);
+                    ids.append(clip->clipId());
                 }
             }
             if (ids.isEmpty()) return;
@@ -296,7 +287,7 @@ void ProjectListView::mouseMoveEvent(QMouseEvent *event)
             //mimeData->setText(ids.join(";")); //doc.toString());
             //mimeData->setImageData(image);
             drag->setMimeData(mimeData);
-            drag->setPixmap(clickItem->icon(0).pixmap(iconSize()));
+            drag->setPixmap(it->icon(0).pixmap(iconSize()));
             drag->setHotSpot(QPoint(0, 50));
             drag->exec();
         }

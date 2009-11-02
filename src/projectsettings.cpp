@@ -163,7 +163,7 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
             usedSize += clip->fileSize();
         }
     }
-#if QT_VERSION >= 0x040500    
+#if QT_VERSION >= 0x040500
     allFiles.removeDuplicates();
 #endif
     files_count->setText(QString::number(allFiles.count()));

@@ -29,23 +29,8 @@
 
 const int DurationRole = Qt::UserRole + 1;
 
-// folder
-ProjectItem::ProjectItem(QTreeWidget * parent, const QStringList & strings, const QString &clipId) :
-        QTreeWidgetItem(parent, strings),
-        m_groupname(strings.at(1)),
-        m_clipType(FOLDER),
-        m_clipId(clipId),
-        m_clip(NULL)
-{
-    setSizeHint(0, QSize(65, 45));
-    setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable);
-    setIcon(0, KIcon("folder"));
-    setToolTip(1, "<b>" + i18n("Folder"));
-    //kDebug() << "Constructed as folder, with clipId: " << m_clipId << ", and groupname: " << m_groupname;
-}
-
 ProjectItem::ProjectItem(QTreeWidget * parent, DocClipBase *clip) :
-        QTreeWidgetItem(parent)
+        QTreeWidgetItem(parent, PROJECTCLIPTYPE)
 {
     setSizeHint(0, QSize(65, 45));
     setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable);
@@ -65,7 +50,7 @@ ProjectItem::ProjectItem(QTreeWidget * parent, DocClipBase *clip) :
 }
 
 ProjectItem::ProjectItem(QTreeWidgetItem * parent, DocClipBase *clip) :
-        QTreeWidgetItem(parent)
+        QTreeWidgetItem(parent, PROJECTCLIPTYPE)
 {
     setSizeHint(0, QSize(65, 45));
     setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable);
@@ -109,11 +94,6 @@ int ProjectItem::clipMaxDuration() const
     return m_clip->getProperty("duration").toInt();
 }
 
-bool ProjectItem::isGroup() const
-{
-    return m_clipType == FOLDER;
-}
-
 QStringList ProjectItem::names() const
 {
     QStringList result;
@@ -130,7 +110,7 @@ QDomElement ProjectItem::toXml() const
 
 const KUrl ProjectItem::clipUrl() const
 {
-    if (m_clipType != COLOR && m_clipType != VIRTUAL && m_clipType != UNKNOWN && m_clipType != FOLDER)
+    if (m_clipType != COLOR && m_clipType != VIRTUAL && m_clipType != UNKNOWN)
         return KUrl(m_clip->getProperty("resource"));
     else return KUrl();
 }
@@ -162,17 +142,6 @@ void ProjectItem::clearProperty(const QString &key)
 {
     if (m_clip == NULL) return;
     m_clip->clearProperty(key);
-}
-
-const QString ProjectItem::groupName() const
-{
-    return m_groupname;
-}
-
-void ProjectItem::setGroupName(const QString name)
-{
-    m_groupname = name;
-    setText(1, name);
 }
 
 DocClipBase *ProjectItem::referencedClip()

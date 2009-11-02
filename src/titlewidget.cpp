@@ -296,6 +296,8 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     initAnimation();
     connect(anim_start, SIGNAL(toggled(bool)), this, SLOT(slotAnimStart(bool)));
     connect(anim_end, SIGNAL(toggled(bool)), this, SLOT(slotAnimEnd(bool)));
+
+    buttonBox->button(QDialogButtonBox::Ok)->setEnabled(KdenliveSettings::hastitleproducer());
 }
 
 TitleWidget::~TitleWidget()

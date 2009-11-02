@@ -997,7 +997,7 @@ void MainWindow::setupActions()
     switchMon->setText(i18n("Switch monitor"));
     switchMon->setShortcut(Qt::Key_T);
     connect(switchMon, SIGNAL(triggered(bool)), this, SLOT(slotSwitchMonitors()));
-    
+
     KAction *resizeStart =  new KAction(KIcon(), i18n("Resize Item Start"), this);
     collection->addAction("resize_timeline_clip_start", resizeStart);
     resizeStart->setShortcut(Qt::Key_1);
@@ -1423,7 +1423,7 @@ void MainWindow::newFile(bool showProjectSettings)
         ProjectSettings *w = new ProjectSettings(NULL, QStringList(), projectTracks.x(), projectTracks.y(), KdenliveSettings::defaultprojectfolder(), false, true, this);
         if (w->exec() != QDialog::Accepted) return;
         if (!KdenliveSettings::activatetabs()) closeCurrentDocument();
-	if (KdenliveSettings::videothumbnails() != w->enableVideoThumbs()) slotSwitchVideoThumbs();
+        if (KdenliveSettings::videothumbnails() != w->enableVideoThumbs()) slotSwitchVideoThumbs();
         if (KdenliveSettings::audiothumbnails() != w->enableAudioThumbs()) slotSwitchAudioThumbs();
         profileName = w->selectedProfile();
         projectFolder = w->selectedFolder();
@@ -1791,7 +1791,7 @@ void MainWindow::slotEditProjectSettings()
         QString profile = w->selectedProfile();
         m_activeDocument->setProjectFolder(w->selectedFolder());
         if (m_renderWidget) m_renderWidget->setDocumentPath(w->selectedFolder().path(KUrl::AddTrailingSlash));
-	if (KdenliveSettings::videothumbnails() != w->enableVideoThumbs()) slotSwitchVideoThumbs();
+        if (KdenliveSettings::videothumbnails() != w->enableVideoThumbs()) slotSwitchVideoThumbs();
         if (KdenliveSettings::audiothumbnails() != w->enableAudioThumbs()) slotSwitchAudioThumbs();
         if (m_activeDocument->profilePath() != profile) {
             // Profile was changed

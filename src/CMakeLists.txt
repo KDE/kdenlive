@@ -174,6 +174,7 @@ set(kdenlive_SRCS
   positionedit.cpp
   trackdialog.cpp
   subprojectitem.cpp
+  folderprojectitem.cpp
   addclipcutcommand.cpp
 )
 

@@ -38,8 +38,6 @@ class DocClipBase;
 class ProjectItem : public QTreeWidgetItem
 {
 public:
-    /** Create folder item */
-    ProjectItem(QTreeWidget * parent, const QStringList & strings, const QString &clipId);
     ProjectItem(QTreeWidget * parent, DocClipBase *clip);
     ProjectItem(QTreeWidgetItem * parent, DocClipBase *clip);
     virtual ~ProjectItem();
@@ -53,7 +51,6 @@ public:
      * The clipId is used both to identify clips and folders (groups) */
     const QString &clipId() const;
     QStringList names() const;
-    bool isGroup() const;
     const KUrl clipUrl() const;
     int clipMaxDuration() const;
     CLIPTYPE clipType() const;
@@ -62,12 +59,9 @@ public:
     void setProperties(QMap <QString, QString> props);
     void setProperty(const QString &key, const QString &value);
     void clearProperty(const QString &key);
-    const QString groupName() const;
-    void setGroupName(const QString name);
     QString getClipHash() const;
 
 private:
-    QString m_groupname;
     CLIPTYPE m_clipType;
     QString m_clipId;
     void slotSetToolTip();
