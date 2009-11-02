@@ -45,6 +45,14 @@ public:
     DocClipBase *referencedClip();
     QPoint zone() const;
 
+    /** Make sure folders appear on top of the tree widget */
+    virtual bool operator<(const QTreeWidgetItem &other)const {
+       int column = treeWidget()->sortColumn();
+       if (other.type() != PROJECTFOLDERTYPE)
+	  return text(column).toLower() < other.text(column).toLower();
+       else return false;
+    }
+
 private:
     int m_in;
     int m_out;

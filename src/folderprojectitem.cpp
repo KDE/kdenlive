@@ -19,7 +19,6 @@
 
 
 #include "folderprojectitem.h"
-#include "definitions.h"
 
 #include <KDebug>
 #include <KLocale>

@@ -61,6 +61,13 @@ public:
     void clearProperty(const QString &key);
     QString getClipHash() const;
 
+    virtual bool operator<(const QTreeWidgetItem &other)const {
+       int column = treeWidget()->sortColumn();
+       if (other.type() != PROJECTFOLDERTYPE)
+	  return text(column).toLower() < other.text(column).toLower();
+       else return false;
+    }
+
 private:
     CLIPTYPE m_clipType;
     QString m_clipId;

@@ -43,23 +43,24 @@ ProjectListView::ProjectListView(QWidget *parent) :
     setDragEnabled(true);
     setAcceptDrops(true);
 
+
     setColumnCount(4);
     QStringList headers;
     headers << i18n("Thumbnail") << i18n("Filename") << i18n("Description") << i18n("Rating");
     setHeaderLabels(headers);
-    sortByColumn(1, Qt::AscendingOrder);
 
     QHeaderView* headerView = header();
     headerView->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(headerView, SIGNAL(customContextMenuRequested(const QPoint&)),
             this, SLOT(configureColumns(const QPoint&)));
-
-    //connect(this, SIGNAL(currentItemChanged(QTreeWidgetItem *, QTreeWidgetItem *)), this, SLOT(slotFocusOut(QTreeWidgetItem *, QTreeWidgetItem *)));
+    headerView->setClickable(true);
+    headerView->setSortIndicatorShown(true);
+    headerView->setMovable(false);
+    sortByColumn(1, Qt::AscendingOrder);
+    setSortingEnabled(true);
 
     if (!KdenliveSettings::showdescriptioncolumn()) hideColumn(2);
     if (!KdenliveSettings::showratingcolumn()) hideColumn(3);
-
-    setSortingEnabled(true);
 }
 
 ProjectListView::~ProjectListView()

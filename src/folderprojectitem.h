@@ -24,6 +24,9 @@
 #include <QTreeWidgetItem>
 #include <QTreeWidget>
 
+#include <KDebug>
+
+#include "definitions.h"
 
 /** \brief Represents a clip or a folder in the projecttree
  *
@@ -37,9 +40,18 @@ public:
     const QString groupName() const;
     void setGroupName(const QString name);
 
+    /** Make sure folders appear on top of the tree widget */
+    virtual bool operator<(const QTreeWidgetItem &other)const {
+       int column = treeWidget()->sortColumn();
+       if (other.type() == PROJECTFOLDERTYPE)
+	  return text(column).toLower() < other.text(column).toLower();
+       else return true;
+    }
+
 private:
     QString m_groupName;
     QString m_clipId;
+
 };
 
 #endif
