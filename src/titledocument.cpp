@@ -337,8 +337,8 @@ int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsRectItem* startv, QGra
                         gitem->setGraphicsEffect(shadow);
                     }
                 }
-            }
 #endif
+            }
 
             if (items.item(i).nodeName() == "background") {
                 kDebug() << items.item(i).attributes().namedItem("color").nodeValue();
