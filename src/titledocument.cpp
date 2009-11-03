@@ -34,6 +34,11 @@
 #include <QFile>
 #include <QTextCursor>
 
+#if QT_VERSION >= 0x040600
+#include <QGraphicsEffect>
+#include <QGraphicsBlurEffect>
+#include <QGraphicsDropShadowEffect>
+#endif
 
 TitleDocument::TitleDocument()
 {
@@ -107,6 +112,8 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
         default:
             continue;
         }
+
+        // position
         QDomElement pos = doc.createElement("position");
         pos.setAttribute("x", item->pos().x());
         pos.setAttribute("y", item->pos().y());
@@ -120,6 +127,27 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
         e.setAttribute("z-index", item->zValue());
         pos.appendChild(tr);
 
+#if QT_VERSION >= 0x040600
+        // effects
+        QGraphicsEffect *eff = item->graphicsEffect();
+        if (eff) {
+            QGraphicsBlurEffect *blur = static_cast <QGraphicsBlurEffect *>(eff);
+            QDomElement effect = doc.createElement("effect");
+            if (blur) {
+                effect.setAttribute("type", "blur");
+                effect.setAttribute("blurradius", blur->blurRadius());
+            } else {
+                QGraphicsDropShadowEffect *shadow = static_cast <QGraphicsDropShadowEffect *>(eff);
+                if (shadow) {
+                    effect.setAttribute("type", "shadow");
+                    effect.setAttribute("blurradius", shadow->blurRadius());
+                    effect.setAttribute("xoffset", shadow->xOffset());
+                    effect.setAttribute("yoffset", shadow->yOffset());
+                }
+            }
+            e.appendChild(effect);
+        }
+#endif
 
         e.appendChild(pos);
         e.appendChild(content);
@@ -292,7 +320,26 @@ int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsRectItem* startv, QGra
                 if (zValue > maxZValue) maxZValue = zValue;
                 gitem->setZValue(zValue);
                 gitem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+
+#if QT_VERSION >= 0x040600
+                // effects
+                QDomNode eff = items.item(i).namedItem("effect");
+                if (!eff.isNull()) {
+                    QDomElement e = eff.toElement();
+                    if (e.attribute("type") == "blur") {
+                        QGraphicsBlurEffect *blur = new QGraphicsBlurEffect();
+                        blur->setBlurRadius(e.attribute("blurradius").toInt());
+                        gitem->setGraphicsEffect(blur);
+                    } else if (e.attribute("type") == "shadow") {
+                        QGraphicsDropShadowEffect *shadow = new QGraphicsDropShadowEffect();
+                        shadow->setBlurRadius(e.attribute("blurradius").toInt());
+                        shadow->setOffset(e.attribute("xoffset").toInt(), e.attribute("yoffset").toInt());
+                        gitem->setGraphicsEffect(shadow);
+                    }
+                }
             }
+#endif
+
             if (items.item(i).nodeName() == "background") {
                 kDebug() << items.item(i).attributes().namedItem("color").nodeValue();
                 QColor color = QColor(stringToColor(items.item(i).attributes().namedItem("color").nodeValue()));

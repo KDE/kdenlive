@@ -38,6 +38,12 @@
 #include <QTextBlockFormat>
 #include <QTextCursor>
 
+#if QT_VERSION >= 0x040600
+#include <QGraphicsEffect>
+#include <QGraphicsBlurEffect>
+#include <QGraphicsDropShadowEffect>
+#endif
+
 int settingUp = false;
 
 const int IMAGEITEM = 7;
@@ -103,6 +109,13 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     connect(itembottom, SIGNAL(clicked()), this, SLOT(itemBottom()));
     connect(itemleft, SIGNAL(clicked()), this, SLOT(itemLeft()));
     connect(itemright, SIGNAL(clicked()), this, SLOT(itemRight()));
+    connect(effect_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotAddEffect(int)));
+    connect(blur_radius, SIGNAL(valueChanged(int)), this, SLOT(slotEditBlur(int)));
+    connect(shadow_radius, SIGNAL(valueChanged(int)), this, SLOT(slotEditShadow()));
+    connect(shadow_x, SIGNAL(valueChanged(int)), this, SLOT(slotEditShadow()));
+    connect(shadow_y, SIGNAL(valueChanged(int)), this, SLOT(slotEditShadow()));
+    blur_frame->setHidden(true);
+    shadow_frame->setHidden(true);
 
     connect(origin_x_left, SIGNAL(clicked()), this, SLOT(slotOriginXClicked()));
     connect(origin_y_top, SIGNAL(clicked()), this, SLOT(slotOriginYClicked()));
@@ -1780,6 +1793,63 @@ void TitleWidget::slotResize200()
     if (m_endViewport->zValue() == 1100) {
         m_endViewport->setRect(0, 0, m_frameWidth * 2, m_frameHeight * 2);
     } else m_startViewport->setRect(0, 0, m_frameWidth * 2, m_frameHeight * 2);
+}
+
+void TitleWidget::slotAddEffect(int ix)
+{
+#if QT_VERSION < 0x040600
+    return;
+#else
+    QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
+    QGraphicsEffect *eff = NULL;
+    if (ix == 1) {
+        // Blur effect
+        eff = new QGraphicsBlurEffect();
+        shadow_frame->setHidden(true);
+        blur_frame->setHidden(false);
+    } else if (ix == 2) {
+        eff = new QGraphicsDropShadowEffect();
+        blur_frame->setHidden(true);
+        shadow_frame->setHidden(false);
+    } else {
+        blur_frame->setHidden(true);
+        shadow_frame->setHidden(true);
+    }
+    if (l.size() == 1) {
+        l[0]->setGraphicsEffect(eff);
+    } else delete eff;
+#endif
+}
+
+void TitleWidget::slotEditBlur(int ix)
+{
+#if QT_VERSION < 0x040600
+    return;
+#else
+    QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
+    if (l.size() == 1) {
+        QGraphicsEffect *eff = l[0]->graphicsEffect();
+        QGraphicsBlurEffect *blur = static_cast <QGraphicsBlurEffect *>(eff);
+        if (blur) blur->setBlurRadius(ix);
+    }
+#endif
+}
+
+void TitleWidget::slotEditShadow()
+{
+#if QT_VERSION < 0x040600
+    return;
+#else
+    QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
+    if (l.size() == 1) {
+        QGraphicsEffect *eff = l[0]->graphicsEffect();
+        QGraphicsDropShadowEffect *shadow = static_cast <QGraphicsDropShadowEffect *>(eff);
+        if (shadow) {
+            shadow->setBlurRadius(shadow_radius->value());
+            shadow->setOffset(shadow_x->value(), shadow_y->value());
+        }
+    }
+#endif
 }
 
 
