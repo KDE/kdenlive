@@ -2088,6 +2088,7 @@ void CustomTrackView::adjustTimelineClips(EDITMODE mode, ClipItem *item, ItemInf
         QList<QGraphicsItem *> selection = m_scene->items(rect);
         if (item) selection.removeAll(item);
         for (int i = 0; i < selection.count(); i++) {
+	    if (!selection.at(i)->isEnabled()) continue;
             if (selection.at(i)->type() == AVWIDGET) {
                 ClipItem *clip = static_cast<ClipItem *>(selection.at(i));
                 if (clip->startPos() < info.startPos) {
@@ -2142,6 +2143,7 @@ void CustomTrackView::adjustTimelineTransitions(EDITMODE mode, Transition *item,
         QList<QGraphicsItem *> selection = m_scene->items(rect);
         selection.removeAll(item);
         for (int i = 0; i < selection.count(); i++) {
+	    if (!selection.at(i)->isEnabled()) continue;
             if (selection.at(i)->type() == TRANSITIONWIDGET) {
                 Transition *tr = static_cast<Transition *>(selection.at(i));
                 if (tr->startPos() < info.startPos) {
@@ -3335,13 +3337,14 @@ void CustomTrackView::deleteClip(ItemInfo info, bool refresh)
     if (m_dragItem == item) m_dragItem = NULL;
 #if QT_VERSION >= 0x040600
     // animate item deletion
-    if (refresh) item->closeAnimation();
+    item->closeAnimation();
+    /*if (refresh) item->closeAnimation();
     else {
 	// no refresh, means we have several operations chained, we need to delete clip immediatly 
 	// so that it does not get in the way of the other
 	delete item;
 	item = NULL;
-    }
+    }*/
 #else
     delete item;
     item = NULL;
@@ -3622,6 +3625,7 @@ ClipItem *CustomTrackView::getClipItemAtEnd(GenTime pos, int track)
     QList<QGraphicsItem *> list = scene()->items(QPointF(framepos - 1, track * m_tracksHeight + m_tracksHeight / 2));
     ClipItem *clip = NULL;
     for (int i = 0; i < list.size(); i++) {
+	if (!list.at(i)->isEnabled()) continue;
         if (list.at(i)->type() == AVWIDGET) {
             ClipItem *test = static_cast <ClipItem *>(list.at(i));
             if (test->endPos() == pos) clip = test;
@@ -3636,6 +3640,7 @@ ClipItem *CustomTrackView::getClipItemAtStart(GenTime pos, int track)
     QList<QGraphicsItem *> list = scene()->items(QPointF(pos.frames(m_document->fps()), track * m_tracksHeight + m_tracksHeight / 2));
     ClipItem *clip = NULL;
     for (int i = 0; i < list.size(); i++) {
+	if (!list.at(i)->isEnabled()) continue;
         if (list.at(i)->type() == AVWIDGET) {
             ClipItem *test = static_cast <ClipItem *>(list.at(i));
             if (test->startPos() == pos) clip = test;
@@ -3651,6 +3656,7 @@ ClipItem *CustomTrackView::getClipItemAt(int pos, int track)
     QList<QGraphicsItem *> list = scene()->items(p);
     ClipItem *clip = NULL;
     for (int i = 0; i < list.size(); i++) {
+	if (!list.at(i)->isEnabled()) continue;
         if (list.at(i)->type() == AVWIDGET) {
             clip = static_cast <ClipItem *>(list.at(i));
             break;
@@ -3670,6 +3676,7 @@ Transition *CustomTrackView::getTransitionItemAt(int pos, int track)
     QList<QGraphicsItem *> list = scene()->items(p);
     Transition *clip = NULL;
     for (int i = 0; i < list.size(); i++) {
+	if (!list.at(i)->isEnabled()) continue;
         if (list.at(i)->type() == TRANSITIONWIDGET) {
             clip = static_cast <Transition *>(list.at(i));
             break;
@@ -3690,6 +3697,7 @@ Transition *CustomTrackView::getTransitionItemAtEnd(GenTime pos, int track)
     QList<QGraphicsItem *> list = scene()->items(p);
     Transition *clip = NULL;
     for (int i = 0; i < list.size(); i++) {
+	if (!list.at(i)->isEnabled()) continue;
         if (list.at(i)->type() == TRANSITIONWIDGET) {
             Transition *test = static_cast <Transition *>(list.at(i));
             if (test->endPos() == pos) clip = test;
@@ -3705,6 +3713,7 @@ Transition *CustomTrackView::getTransitionItemAtStart(GenTime pos, int track)
     QList<QGraphicsItem *> list = scene()->items(p);
     Transition *clip = NULL;
     for (int i = 0; i < list.size(); ++i) {
+	if (!list.at(i)->isEnabled()) continue;
         if (list.at(i)->type() == TRANSITIONWIDGET) {
             Transition *test = static_cast <Transition *>(list.at(i));
             if (test->startPos() == pos) clip = test;

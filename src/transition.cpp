@@ -231,6 +231,7 @@ QVariant Transition::itemChange(GraphicsItemChange change, const QVariant &value
 
         if (!items.isEmpty()) {
             for (int i = 0; i < items.count(); i++) {
+		if (!items.at(i)->isEnabled()) continue;
                 if (items.at(i)->type() == type()) {
                     // Collision! Don't move.
                     //kDebug()<<"/// COLLISION WITH ITEM: "<<items.at(i)->boundingRect()<<", POS: "<<items.at(i)->pos()<<", ME: "<<newPos;

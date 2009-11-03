@@ -1173,6 +1173,7 @@ QVariant ClipItem::itemChange(GraphicsItemChange change, const QVariant &value)
         int offset = 0;
         if (!items.isEmpty()) {
             for (int i = 0; i < items.count(); i++) {
+		if (!items.at(i)->isEnabled()) continue;
                 if (items.at(i)->type() == type()) {
                     // Collision!
                     QPointF otherPos = items.at(i)->pos();
@@ -1196,6 +1197,7 @@ QVariant ClipItem::itemChange(GraphicsItemChange change, const QVariant &value)
                         QList<QGraphicsItem*> subitems = scene()->items(sceneShape, Qt::IntersectsItemShape);
                         subitems.removeAll(this);
                         for (int j = 0; j < subitems.count(); j++) {
+			    if (!subitems.at(j)->isEnabled()) continue;
                             if (subitems.at(j)->type() == type()) {
                                 // move was not successful, revert to previous pos
                                 m_info.startPos = GenTime((int) pos().x(), m_fps);

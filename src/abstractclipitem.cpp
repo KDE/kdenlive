@@ -58,7 +58,8 @@ void AbstractClipItem::closeAnimation()
 {
 #if QT_VERSION >= 0x040600
     if (m_closeAnimation) return;
-    m_closeAnimation = new QPropertyAnimation(this, "geometry");
+    setEnabled(false);
+    m_closeAnimation = new QPropertyAnimation(this, "rect");
     connect(m_closeAnimation, SIGNAL(finished()), this, SLOT(deleteLater()));
     m_closeAnimation->setDuration(200);
     QRectF r = rect();
@@ -196,6 +197,7 @@ void AbstractClipItem::resizeEnd(int posx)
     if (durationDiff > GenTime()) {
         QList <QGraphicsItem *> collisionList = collidingItems(Qt::IntersectsItemBoundingRect);
         for (int i = 0; i < collisionList.size(); ++i) {
+	    if (!collisionList.at(i)->isEnabled()) continue;
             QGraphicsItem *item = collisionList.at(i);
             if (item->type() == type() && item->pos().x() > pos().x()) {
                 kDebug() << "/////////  COLLISION DETECTED!!!!!!!!!";
