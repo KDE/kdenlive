@@ -40,8 +40,7 @@
 #define DBG_AREA
 
 //#include "config.h"
-extern "C"
-{
+extern "C" {
     KDE_EXPORT ThumbCreator *new_creator() {
         return new MltPreview;
     }

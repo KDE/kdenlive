@@ -197,7 +197,7 @@ void AbstractClipItem::resizeEnd(int posx)
     if (durationDiff > GenTime()) {
         QList <QGraphicsItem *> collisionList = collidingItems(Qt::IntersectsItemBoundingRect);
         for (int i = 0; i < collisionList.size(); ++i) {
-	    if (!collisionList.at(i)->isEnabled()) continue;
+            if (!collisionList.at(i)->isEnabled()) continue;
             QGraphicsItem *item = collisionList.at(i);
             if (item->type() == type() && item->pos().x() > pos().x()) {
                 kDebug() << "/////////  COLLISION DETECTED!!!!!!!!!";

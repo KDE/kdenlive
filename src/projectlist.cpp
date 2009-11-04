@@ -1004,7 +1004,7 @@ void ProjectList::slotProcessNextThumbnail()
     }
     if (m_thumbnailQueue.count() > 1) {
         int max = m_doc->clipManager()->clipsCount();
-        emit displayMessage(i18n("Loading thumbnails"), (int)(100 * (max - m_thumbnailQueue.count()) / max));
+        emit displayMessage(i18n("Loading thumbnails"), (int)(100 *(max - m_thumbnailQueue.count()) / max));
     }
     slotRefreshClipThumbnail(m_thumbnailQueue.takeFirst(), false);
 }
@@ -1082,7 +1082,7 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
         }
     } else kDebug() << "////////  COULD NOT FIND CLIP TO UPDATE PRPS...";
     int max = m_doc->clipManager()->clipsCount();
-    emit displayMessage(i18n("Loading clips"), (int)(100 * (max - m_infoQueue.count()) / max));
+    emit displayMessage(i18n("Loading clips"), (int)(100 *(max - m_infoQueue.count()) / max));
     // small delay so that the app can display the progress info
     if (item && m_infoQueue.isEmpty() && m_thumbnailQueue.isEmpty()) {
         m_listView->setCurrentItem(item);

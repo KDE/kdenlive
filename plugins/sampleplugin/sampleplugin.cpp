@@ -77,7 +77,7 @@ KUrl SamplePlugin::generatedClip(const QString &generator, const KUrl &projectFo
             prod.setAttribute("mlt_service", "noise");
             prod.setAttribute("in", "0");
             prod.setAttribute("out", QString::number((int) fps * view.duration->value()));
-	    prod.setAttribute("resource", "&lt;producer&gt;");
+            prod.setAttribute("resource", "&lt;producer&gt;");
             playlist.appendChild(prod);
         } else {
             for (int i = 0; i < view.duration->value(); i++) {
@@ -87,7 +87,7 @@ KUrl SamplePlugin::generatedClip(const QString &generator, const KUrl &projectFo
                 prod.setAttribute("in", "0");
                 prod.setAttribute("out", QString::number((int) fps));
                 prod.setAttribute("text", QString::number(view.duration->value() - i));
-		prod.setAttribute("resource", "&lt;producer&gt;");
+                prod.setAttribute("resource", "&lt;producer&gt;");
                 //FIXME: the font and pad values are approximate, the pango producer seems unable
                 // to produce a predictable frame size.
                 prod.setAttribute("font", QString::number(view.font->value()) + "px");

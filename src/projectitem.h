@@ -62,10 +62,10 @@ public:
     QString getClipHash() const;
 
     virtual bool operator<(const QTreeWidgetItem &other)const {
-       int column = treeWidget()->sortColumn();
-       if (other.type() != PROJECTFOLDERTYPE)
-	  return text(column).toLower() < other.text(column).toLower();
-       else return false;
+        int column = treeWidget()->sortColumn();
+        if (other.type() != PROJECTFOLDERTYPE)
+            return text(column).toLower() < other.text(column).toLower();
+        else return false;
     }
 
 private:

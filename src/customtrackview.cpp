@@ -1753,7 +1753,7 @@ ClipItem *CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut, boo
         item->baseClip()->addReference();
         m_document->updateClip(item->baseClip()->getId());
         setDocumentModified();
-	KdenliveSettings::setSnaptopoints(snap);
+        KdenliveSettings::setSnaptopoints(snap);
         return dup;
         //kDebug() << "/////////  CUTTING CLIP RESULT: (" << item->startPos().frames(25) << "-" << item->endPos().frames(25) << "), DUP: (" << dup->startPos().frames(25) << "-" << dup->endPos().frames(25) << ")" << ", CUT: " << cutTime.frames(25);
     } else {
@@ -1779,7 +1779,7 @@ ClipItem *CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut, boo
 
         bool snap = KdenliveSettings::snaptopoints();
         KdenliveSettings::setSnaptopoints(false);
-	
+
         if (dup->isSelected()) emit clipItemSelected(NULL);
         dup->baseClip()->removeReference();
         m_document->updateClip(dup->baseClip()->getId());
@@ -1794,7 +1794,7 @@ ClipItem *CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut, boo
             setDocumentModified();
         } else
             emit displayMessage(i18n("Error when resizing clip"), ErrorMessage);
-	KdenliveSettings::setSnaptopoints(snap);
+        KdenliveSettings::setSnaptopoints(snap);
         return item;
 
     }
@@ -2049,24 +2049,24 @@ void CustomTrackView::dropEvent(QDropEvent * event)
         m_commandStack->push(addCommand);
         setDocumentModified();
 
-	/*
-	// debug info
-	QRectF rect(0, 1 * m_tracksHeight + m_tracksHeight / 2, sceneRect().width(), 2);
-	QList<QGraphicsItem *> selection = m_scene->items(rect);
-	QStringList timelineList;
+        /*
+        // debug info
+        QRectF rect(0, 1 * m_tracksHeight + m_tracksHeight / 2, sceneRect().width(), 2);
+        QList<QGraphicsItem *> selection = m_scene->items(rect);
+        QStringList timelineList;
 
-	kDebug()<<"// ITEMS on TRACK: "<<selection.count();
-	for (int i = 0; i < selection.count(); i++) {
-        if (selection.at(i)->type() == AVWIDGET) {
-            ClipItem *clip = static_cast <ClipItem *>(selection.at(i));
-            int start = clip->startPos().frames(m_document->fps());
-            int end = clip->endPos().frames(m_document->fps());
-            timelineList.append(QString::number(start) + "-" + QString::number(end));
-	    }
-	}
-	kDebug() << "// COMPARE:\n" << timelineList << "\n-------------------";
-	*/
-	
+        kDebug()<<"// ITEMS on TRACK: "<<selection.count();
+        for (int i = 0; i < selection.count(); i++) {
+            if (selection.at(i)->type() == AVWIDGET) {
+                ClipItem *clip = static_cast <ClipItem *>(selection.at(i));
+                int start = clip->startPos().frames(m_document->fps());
+                int end = clip->endPos().frames(m_document->fps());
+                timelineList.append(QString::number(start) + "-" + QString::number(end));
+            }
+        }
+        kDebug() << "// COMPARE:\n" << timelineList << "\n-------------------";
+        */
+
         m_pasteEffectsAction->setEnabled(m_copiedItems.count() == 1);
         if (items.count() > 1) groupSelectedItems(true);
         event->setDropAction(Qt::MoveAction);
@@ -2082,13 +2082,13 @@ void CustomTrackView::adjustTimelineClips(EDITMODE mode, ClipItem *item, ItemInf
         bool snap = KdenliveSettings::snaptopoints();
         KdenliveSettings::setSnaptopoints(false);
         ItemInfo info;
-	if (item == NULL) info = posinfo;
-	else info = item->info();
+        if (item == NULL) info = posinfo;
+        else info = item->info();
         QRectF rect(info.startPos.frames(m_document->fps()), info.track * m_tracksHeight + m_tracksHeight / 2, (info.endPos - info.startPos).frames(m_document->fps()) - 1, 5);
         QList<QGraphicsItem *> selection = m_scene->items(rect);
         if (item) selection.removeAll(item);
         for (int i = 0; i < selection.count(); i++) {
-	    if (!selection.at(i)->isEnabled()) continue;
+            if (!selection.at(i)->isEnabled()) continue;
             if (selection.at(i)->type() == AVWIDGET) {
                 ClipItem *clip = static_cast<ClipItem *>(selection.at(i));
                 if (clip->startPos() < info.startPos) {
@@ -2107,7 +2107,7 @@ void CustomTrackView::adjustTimelineClips(EDITMODE mode, ClipItem *item, ItemInf
                         new RazorClipCommand(this, clipInfo, info.startPos, false, command);
                         new ResizeClipCommand(this, dupInfo, newdupInfo, false, false, command);
                         ClipItem *dup = cutClip(clipInfo, info.startPos, true, false);
-                        if (dup) dup->resizeStart(info.endPos.frames(m_document->fps()));			
+                        if (dup) dup->resizeStart(info.endPos.frames(m_document->fps()));
                     } else {
                         ItemInfo newclipInfo = clip->info();
                         newclipInfo.endPos = info.startPos;
@@ -2143,7 +2143,7 @@ void CustomTrackView::adjustTimelineTransitions(EDITMODE mode, Transition *item,
         QList<QGraphicsItem *> selection = m_scene->items(rect);
         selection.removeAll(item);
         for (int i = 0; i < selection.count(); i++) {
-	    if (!selection.at(i)->isEnabled()) continue;
+            if (!selection.at(i)->isEnabled()) continue;
             if (selection.at(i)->type() == TRANSITIONWIDGET) {
                 Transition *tr = static_cast<Transition *>(selection.at(i));
                 if (tr->startPos() < info.startPos) {
@@ -3340,10 +3340,10 @@ void CustomTrackView::deleteClip(ItemInfo info, bool refresh)
     item->closeAnimation();
     /*if (refresh) item->closeAnimation();
     else {
-	// no refresh, means we have several operations chained, we need to delete clip immediatly 
-	// so that it does not get in the way of the other
-	delete item;
-	item = NULL;
+        // no refresh, means we have several operations chained, we need to delete clip immediatly
+        // so that it does not get in the way of the other
+        delete item;
+        item = NULL;
     }*/
 #else
     delete item;
@@ -3417,7 +3417,7 @@ void CustomTrackView::deleteSelectedClips()
     else if (transitionCount > 0 && groupCount == 0 && clipCount == 0)
         deleteSelected->setText(i18np("Delete selected transition", "Delete selected transitions", transitionCount));
     else deleteSelected->setText(i18n("Delete selected items"));
-    m_commandStack->push(deleteSelected);    
+    m_commandStack->push(deleteSelected);
 }
 
 void CustomTrackView::changeClipSpeed()
@@ -3625,7 +3625,7 @@ ClipItem *CustomTrackView::getClipItemAtEnd(GenTime pos, int track)
     QList<QGraphicsItem *> list = scene()->items(QPointF(framepos - 1, track * m_tracksHeight + m_tracksHeight / 2));
     ClipItem *clip = NULL;
     for (int i = 0; i < list.size(); i++) {
-	if (!list.at(i)->isEnabled()) continue;
+        if (!list.at(i)->isEnabled()) continue;
         if (list.at(i)->type() == AVWIDGET) {
             ClipItem *test = static_cast <ClipItem *>(list.at(i));
             if (test->endPos() == pos) clip = test;
@@ -3640,7 +3640,7 @@ ClipItem *CustomTrackView::getClipItemAtStart(GenTime pos, int track)
     QList<QGraphicsItem *> list = scene()->items(QPointF(pos.frames(m_document->fps()), track * m_tracksHeight + m_tracksHeight / 2));
     ClipItem *clip = NULL;
     for (int i = 0; i < list.size(); i++) {
-	if (!list.at(i)->isEnabled()) continue;
+        if (!list.at(i)->isEnabled()) continue;
         if (list.at(i)->type() == AVWIDGET) {
             ClipItem *test = static_cast <ClipItem *>(list.at(i));
             if (test->startPos() == pos) clip = test;
@@ -3656,7 +3656,7 @@ ClipItem *CustomTrackView::getClipItemAt(int pos, int track)
     QList<QGraphicsItem *> list = scene()->items(p);
     ClipItem *clip = NULL;
     for (int i = 0; i < list.size(); i++) {
-	if (!list.at(i)->isEnabled()) continue;
+        if (!list.at(i)->isEnabled()) continue;
         if (list.at(i)->type() == AVWIDGET) {
             clip = static_cast <ClipItem *>(list.at(i));
             break;
@@ -3676,7 +3676,7 @@ Transition *CustomTrackView::getTransitionItemAt(int pos, int track)
     QList<QGraphicsItem *> list = scene()->items(p);
     Transition *clip = NULL;
     for (int i = 0; i < list.size(); i++) {
-	if (!list.at(i)->isEnabled()) continue;
+        if (!list.at(i)->isEnabled()) continue;
         if (list.at(i)->type() == TRANSITIONWIDGET) {
             clip = static_cast <Transition *>(list.at(i));
             break;
@@ -3697,7 +3697,7 @@ Transition *CustomTrackView::getTransitionItemAtEnd(GenTime pos, int track)
     QList<QGraphicsItem *> list = scene()->items(p);
     Transition *clip = NULL;
     for (int i = 0; i < list.size(); i++) {
-	if (!list.at(i)->isEnabled()) continue;
+        if (!list.at(i)->isEnabled()) continue;
         if (list.at(i)->type() == TRANSITIONWIDGET) {
             Transition *test = static_cast <Transition *>(list.at(i));
             if (test->endPos() == pos) clip = test;
@@ -3713,7 +3713,7 @@ Transition *CustomTrackView::getTransitionItemAtStart(GenTime pos, int track)
     QList<QGraphicsItem *> list = scene()->items(p);
     Transition *clip = NULL;
     for (int i = 0; i < list.size(); ++i) {
-	if (!list.at(i)->isEnabled()) continue;
+        if (!list.at(i)->isEnabled()) continue;
         if (list.at(i)->type() == TRANSITIONWIDGET) {
             Transition *test = static_cast <Transition *>(list.at(i));
             if (test->startPos() == pos) clip = test;
