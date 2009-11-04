@@ -253,6 +253,9 @@ private slots:
 
     /** \brief Called when accepted, stores the user selections for next time use */
     void slotAccepted();
+
+    void slotFontText(const QString& s);
+
     void slotAddEffect(int ix);
     void slotEditBlur(int ix);
     void slotEditShadow();

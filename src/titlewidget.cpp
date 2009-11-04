@@ -87,6 +87,8 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     connect(textAlpha, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateText()));
     connect(font_weight_box, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateText()));
 
+    connect(font_family, SIGNAL(editTextChanged(const QString &)), this, SLOT(slotFontText(const QString&)));
+
     connect(rectFAlpha, SIGNAL(valueChanged(int)), this, SLOT(rectChanged()));
     connect(rectBAlpha, SIGNAL(valueChanged(int)), this, SLOT(rectChanged()));
     connect(rectFColor, SIGNAL(clicked()), this, SLOT(rectChanged()));
@@ -1821,6 +1823,19 @@ void TitleWidget::slotAddEffect(int ix)
 #endif
 }
 
+
+void TitleWidget::slotFontText(const QString& s)
+{
+    const QFont f(s);
+    if (f.exactMatch()) {
+        // Font really exists (could also just be a «d» if the user
+        // starts typing «dejavu» for example).
+        font_family->setCurrentFont(f);
+    }
+    // TODO: typing dejavu serif does not recognize the font (takes sans).
+    // upper/lowercase problem?
+}
+
 void TitleWidget::slotEditBlur(int ix)
 {
 #if QT_VERSION < 0x040600
@@ -1851,6 +1866,3 @@ void TitleWidget::slotEditShadow()
     }
 #endif
 }
-
-
-
