@@ -816,6 +816,12 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
             if (event->modifiers() == Qt::ControlModifier) {
                 // Ctrl + click, select all items on track after click position
                 int track = (int)(mapToScene(m_clickEvent).y() / m_tracksHeight);
+		if (m_document->trackInfoAt(m_document->tracksCount() - track - 1).isLocked) {
+                    // Cannot use spacer on locked track
+                    emit displayMessage(i18n("Cannot use spacer in a locked track"), ErrorMessage);
+                    return;		  
+		}  
+  
                 QRectF rect(mapToScene(m_clickEvent).x(), track * m_tracksHeight + m_tracksHeight / 2, sceneRect().width() - mapToScene(m_clickEvent).x(), m_tracksHeight / 2 - 2);
 
                 bool isOk;
@@ -840,11 +846,13 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
             for (int i = 0; i < selection.count(); i++) {
                 if (selection.at(i)->parentItem() == 0 && (selection.at(i)->type() == AVWIDGET || selection.at(i)->type() == TRANSITIONWIDGET)) {
                     AbstractClipItem *item = static_cast<AbstractClipItem *>(selection.at(i));
+		    if (item->isItemLocked()) continue;
                     offsetList.append(item->startPos());
                     offsetList.append(item->endPos());
                     m_selectionGroup->addToGroup(selection.at(i));
                     selection.at(i)->setFlag(QGraphicsItem::ItemIsMovable, false);
                 } else if (selection.at(i)->parentItem() == 0 && selection.at(i)->type() == GROUPWIDGET) {
+		    if (static_cast<AbstractGroupItem *>(selection.at(i))->isItemLocked()) continue;
                     QList<QGraphicsItem *> children = selection.at(i)->childItems();
                     for (int j = 0; j < children.count(); j++) {
                         AbstractClipItem *item = static_cast<AbstractClipItem *>(children.at(j));
@@ -854,6 +862,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
                     m_selectionGroup->addToGroup(selection.at(i));
                     selection.at(i)->setFlag(QGraphicsItem::ItemIsMovable, false);
                 } else if (selection.at(i)->parentItem()) {
+		    if (static_cast<AbstractGroupItem *>(selection.at(i)->parentItem())->isItemLocked()) continue;
                     m_selectionGroup->addToGroup(selection.at(i)->parentItem());
                     selection.at(i)->parentItem()->setFlag(QGraphicsItem::ItemIsMovable, false);
                 }

@@ -41,7 +41,9 @@ public:
     int track() const;
     QPainterPath clipGroupShape(QPointF) const;
     QPainterPath transitionGroupShape(QPointF) const;
-//    ItemInfo info() const;
+    void setItemLocked(bool locked);
+    bool isItemLocked() const;
+    //    ItemInfo info() const;
 
 protected:
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);

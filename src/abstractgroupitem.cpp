@@ -54,6 +54,23 @@ int AbstractGroupItem::track() const
     return (int)(scenePos().y() / KdenliveSettings::trackheight());
 }
 
+void AbstractGroupItem::setItemLocked(bool locked)
+{
+    if (locked) {
+        setSelected(false);
+        setFlag(QGraphicsItem::ItemIsMovable, false);
+        setFlag(QGraphicsItem::ItemIsSelectable, false);
+    } else {
+        setFlag(QGraphicsItem::ItemIsMovable, true);
+        setFlag(QGraphicsItem::ItemIsSelectable, true);
+    }
+}
+
+bool AbstractGroupItem::isItemLocked() const
+{
+    return !(flags() & (QGraphicsItem::ItemIsSelectable));
+}
+
 CustomTrackScene* AbstractGroupItem::projectScene()
 {
     if (scene()) return static_cast <CustomTrackScene*>(scene());
