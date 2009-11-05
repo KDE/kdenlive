@@ -335,7 +335,6 @@ void CustomTrackView::slotCheckPositionScrolling()
 
 
 // virtual
-
 void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
 {
     int pos = event->x();
@@ -416,6 +415,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
             }
             bool collision = false;
             for (int i = 0; i < collidingItems.count(); i++) {
+		if (!collidingItems.at(i)->isEnabled()) continue;
                 if (collidingItems.at(i)->type() == AVWIDGET) {
                     collision = true;
                     break;
@@ -2066,11 +2066,11 @@ void CustomTrackView::dropEvent(QDropEvent * event)
 
         kDebug()<<"// ITEMS on TRACK: "<<selection.count();
         for (int i = 0; i < selection.count(); i++) {
-            if (selection.at(i)->type() == AVWIDGET) {
-                ClipItem *clip = static_cast <ClipItem *>(selection.at(i));
-                int start = clip->startPos().frames(m_document->fps());
-                int end = clip->endPos().frames(m_document->fps());
-                timelineList.append(QString::number(start) + "-" + QString::number(end));
+               if (selection.at(i)->type() == AVWIDGET) {
+                   ClipItem *clip = static_cast <ClipItem *>(selection.at(i));
+                   int start = clip->startPos().frames(m_document->fps());
+                   int end = clip->endPos().frames(m_document->fps());
+                   timelineList.append(QString::number(start) + "-" + QString::number(end));
             }
         }
         kDebug() << "// COMPARE:\n" << timelineList << "\n-------------------";
@@ -2086,10 +2086,10 @@ void CustomTrackView::dropEvent(QDropEvent * event)
 
 void CustomTrackView::adjustTimelineClips(EDITMODE mode, ClipItem *item, ItemInfo posinfo, QUndoCommand *command)
 {
+    bool snap = KdenliveSettings::snaptopoints();
+    KdenliveSettings::setSnaptopoints(false);
     if (mode == OVERWRITEEDIT) {
-        // if we are in overwrite or push mode, move clips accordingly
-        bool snap = KdenliveSettings::snaptopoints();
-        KdenliveSettings::setSnaptopoints(false);
+        // if we are in overwrite mode, move clips accordingly
         ItemInfo info;
         if (item == NULL) info = posinfo;
         else info = item->info();
@@ -2136,8 +2136,35 @@ void CustomTrackView::adjustTimelineClips(EDITMODE mode, ClipItem *item, ItemInf
                 }
             }
         }
-        KdenliveSettings::setSnaptopoints(snap);
+    } else if (mode == INSERTEDIT) {
+        // if we are in push mode, move clips accordingly
+        ItemInfo info;
+        if (item == NULL) info = posinfo;
+        else info = item->info();
+        QRectF rect(info.startPos.frames(m_document->fps()), info.track * m_tracksHeight + m_tracksHeight / 2, (info.endPos - info.startPos).frames(m_document->fps()) - 1, 5);
+        QList<QGraphicsItem *> selection = m_scene->items(rect);
+        if (item) selection.removeAll(item);
+        for (int i = 0; i < selection.count(); i++) {
+            if (selection.at(i)->type() == AVWIDGET) {
+                ClipItem *clip = static_cast<ClipItem *>(selection.at(i));
+                if (clip->startPos() < info.startPos) {
+                    if (clip->endPos() > info.startPos) {
+                        ItemInfo clipInfo = clip->info();
+                        ItemInfo dupInfo = clipInfo;
+                        GenTime diff = info.startPos - clipInfo.startPos;
+                        dupInfo.startPos = info.startPos;
+                        dupInfo.cropStart += diff;
+                        dupInfo.cropDuration = clipInfo.endPos - info.startPos;
+                        new RazorClipCommand(this, clipInfo, info.startPos, false, command);
+                        ClipItem *dup = cutClip(clipInfo, info.startPos, true, false);
+                    }
+                }
+                // TODO: add insertspacecommand
+            }
+        }
     }
+
+    KdenliveSettings::setSnaptopoints(snap);
 }
 
 
