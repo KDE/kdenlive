@@ -148,7 +148,6 @@ void Render::closeMlt()
     //delete m_osdInfo;
 }
 
-
 void Render::buildConsumer(const QString profileName)
 {
     char *tmp;
@@ -3502,7 +3501,13 @@ void Render::mltDeleteTrack(int ix)
             int a_track = mappedProps.value("a_track").toInt();
             int b_track = mappedProps.value("b_track").toInt();
             if (a_track > 0 && a_track >= ix) a_track --;
-            if (b_track > 0 && b_track >= ix) b_track --;
+            if (b_track > 0 && b_track > ix) b_track --;
+	    if (b_track == ix) {
+		// transition was on the deleted track, so remove it
+		tractor.removeChild(transitions.at(i));
+		i--;
+		continue;
+	    }
             for (int j = 0; j < props.count(); j++) {
                 QDomElement f = props.at(j).toElement();
                 if (f.attribute("name") == "a_track") f.firstChild().setNodeValue(QString::number(a_track));
