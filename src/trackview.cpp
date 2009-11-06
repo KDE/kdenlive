@@ -307,6 +307,13 @@ void TrackView::parseDocument(QDomDocument doc)
                 else if (paramName == "force_track" && p.text() == "1") forceTrack = true;
             }
         }
+        if (a_track == b_track) {
+            // invalid transition, remove it
+            m_documentErrors.append(i18n("Removed invalid transition: %1", e.attribute("id")) + '\n');
+            tractor.removeChild(transitions.item(i));
+            i--;
+            continue;
+        }
         if (transitionAdd || mlt_service != "mix") {
             // Transition should be added to the scene
             ItemInfo transitionInfo;
