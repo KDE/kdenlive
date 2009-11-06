@@ -148,19 +148,19 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int in, int out)
         QWidget * toFillin = new QWidget(m_baseWidget);
         QString value = pa.attribute("value").isNull() ?
                         pa.attribute("default") : pa.attribute("value");
+			
+	/** Currently supported parameter types are:
+	    * constant (=double): a slider with an integer value (use the "factor" attribute to divide the value so that you can get a double
+	    * list: a combobox containing a list of values to choose
+	    * bool: a checkbox
+	    * complex: designed for keyframe parameters, but old and not finished, do not use
+	    * geometry: a rectangle that can be moved & resized, with possible keyframes, used in composite transition
+	    * keyframe: a list widget with a list of entries (position and value)
+	    * color: a color chooser button
+	    * position: a slider representing the position of a frame in the current clip
+	    * wipe: a widget designed for the wipe transition, allowing to choose a position (left, right, top,...)
+	*/
 
-        if (type == "geometry") {
-            /*pa.setAttribute("namedesc", "X;Y;Width;Height;Transparency");
-            pa.setAttribute("format", "%d%,%d%:%d%x%d%:%d");
-            pa.setAttribute("min", "-500;-500;0;0;0");
-            pa.setAttribute("max", "500;500;200;200;100");*/
-        } else if (type == "complex") {
-            //pa.setAttribute("namedesc",pa.attribute("name"));
-
-        }
-
-
-        //TODO constant, list, bool, complex , color, geometry, position
         if (type == "double" || type == "constant") {
             int min;
             int max;
