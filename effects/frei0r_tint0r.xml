@@ -1,0 +1,15 @@
+<!DOCTYPE kpartgui>
+<effect tag="frei0r.tint0r" id="frei0r.tint0r">
+	<name>Tint0r</name>
+	<description>Maps source image luminance between two colors specified</description>
+	<author>Maksim Golovkin</author>
+	<parameter type="color" name="Map black to" default="0x000000">
+		<name>Map black to</name>
+	</parameter>
+	<parameter type="color" name="Map white to" default="0x80FF80">
+		<name>Map white to</name>
+	</parameter>
+	<parameter type="constant" name="Tint amount" default="250" min="0" max="1000" factor="1000">
+		<name>Tint amount</name>
+	</parameter>
+</effect>

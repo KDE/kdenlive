@@ -54,6 +54,10 @@ frei0r_brightness.xml
 frei0r_lenscorrection.xml
 frei0r_saturat0r.xml
 frei0r_vertigo.xml
+frei0r_curves.xml
+frei0r_levels.xml
+frei0r_three_point_balance.xml
+frei0r_tint0r.xml
 gain.xml
 fade_from_black.xml
 fade_to_black.xml

@@ -1,0 +1,30 @@
+<!DOCTYPE kpartgui>
+<effect tag="frei0r.levels" id="frei0r.levels">
+	<name>Levels</name>
+	<description>Adjust levels</description>
+	<author>Maksim Golovkin</author>
+	<parameter type="constant" name="Channel" default="0" min="0" max="3">
+		<name>Channel</name>
+	</parameter>
+	<parameter type="constant" name="Input black level" default="0" min="0" max="1000" factor="1000">
+		<name>Input black level</name>
+	</parameter>
+	<parameter type="constant" name="Input white level" default="1000" min="0" max="1000" factor="1000">
+		<name>Input white level</name>
+	</parameter>
+	<parameter type="constant" name="Gamma" default="1000" min="10" max="4000" factor="4000">
+		<name>Gamma</name>
+	</parameter>
+	<parameter type="constant" name="Black output" default="0" min="0" max="1000" factor="1000">
+		<name>Black output</name>
+	</parameter>
+	<parameter type="constant" name="White output" default="1000" min="0" max="1000" factor="1000">
+		<name>White output</name>
+	</parameter>
+	<parameter type="bool" name="Show histogram" default="1">
+		<name>Show histogram</name>
+	</parameter>
+	<parameter type="constant" name="Histogram position" default="3" min="0" max="3">
+		<name>Histogram position</name>
+	</parameter>
+</effect>

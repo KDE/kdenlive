@@ -20,3 +20,7 @@ frei0r.brightness
 frei0r.lenscorrection
 frei0r.saturat0r
 frei0r.vertigo
+frei0r.curves
+frei0r.levels
+frei0r.three_point_balance
+frei0r.tint0r

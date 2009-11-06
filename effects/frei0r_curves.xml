@@ -1,0 +1,48 @@
+<!DOCTYPE kpartgui>
+<effect tag="frei0r.curves" id="frei0r.curves">
+	<name>Curves</name>
+	<description>Color curves adjustment</description>
+	<author>Maksim Golovkin</author>
+	<parameter type="constant" name="Channel" default="0" min="0" max="3">
+		<name>Channel</name>
+	</parameter>
+	<parameter type="bool" name="Show curves" default="1">
+		<name>Show curves</name>
+	</parameter>
+	<parameter type="constant" name="Graph position" default="3" min="0" max="3">
+		<name>Graph position</name>
+	</parameter>
+	<parameter type="constant" name="Curve point number" default="2" min="2" max="5">
+		<name>Curve point number</name>
+	</parameter>
+	<parameter type="constant" name="Point 1 input value" default="0" min="0" max="1000" factor="1000">
+		<name>Point 1 input value</name>
+	</parameter>
+	<parameter type="constant" name="Point 1 output value" default="0" min="0" max="1000" factor="1000">
+		<name>Point 1 output value</name>
+	</parameter>
+	<parameter type="constant" name="Point 2 input value" default="1000" min="0" max="1000" factor="1000">
+		<name>Point 2 input value</name>
+	</parameter>
+	<parameter type="constant" name="Point 2 output value" default="1000" min="0" max="1000" factor="1000">
+		<name>Point 2 output value</name>
+	</parameter>
+	<parameter type="constant" name="Point 3 input value" default="0" min="0" max="1000" factor="1000">
+		<name>Point 3 input value</name>
+	</parameter>
+	<parameter type="constant" name="Point 3 output value" default="0" min="0" max="1000" factor="1000">
+		<name>Point 3 output value</name>
+	</parameter>
+	<parameter type="constant" name="Point 4 input value" default="0" min="0" max="1000" factor="1000">
+		<name>Point 4 input value</name>
+	</parameter>
+	<parameter type="constant" name="Point 4 output value" default="0" min="0" max="1000" factor="1000">
+		<name>Point 4 output value</name>
+	</parameter>
+	<parameter type="constant" name="Point 5 input value" default="0" min="0" max="1000" factor="1000">
+		<name>Point 5 input value</name>
+	</parameter>
+	<parameter type="constant" name="Point 5 output value" default="0" min="0" max="1000" factor="1000">
+		<name>Point 5 output value</name>
+	</parameter>
+</effect>
