@@ -4734,7 +4734,7 @@ AbstractClipItem *CustomTrackView::getMainActiveClip() const
     } else {
         AbstractClipItem *item = NULL;
         for (int i = 0; i < clips.count(); ++i) {
-            if (clips.count() == 1 || clips.at(i)->type() == AVWIDGET) {
+            if (clips.at(i)->type() == AVWIDGET) {
                 item = static_cast < AbstractClipItem *>(clips.at(i));
                 if (clips.count() > 1 && item->startPos().frames(m_document->fps()) <= m_cursorPos && item->endPos().frames(m_document->fps()) >= m_cursorPos) break;
             }
