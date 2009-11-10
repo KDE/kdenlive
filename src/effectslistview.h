@@ -31,7 +31,7 @@
 
 class EffectsList;
 class EffectsListWidget;
-class KListWidget;
+class QTreeWidget;
 
 class EffectsListView : public QWidget, public Ui::EffectList_UI
 {
@@ -39,7 +39,6 @@ class EffectsListView : public QWidget, public Ui::EffectList_UI
 
 public:
     EffectsListView(QWidget *parent = 0);
-    KListWidget *listView();
     void reloadEffectList();
     //void slotAddEffect(GenTime pos, int track, QString name);
 

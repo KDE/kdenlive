@@ -21,12 +21,12 @@
 #ifndef EFFECTSLISTWIDGET_H
 #define EFFECTSLISTWIDGET_H
 
-#include <KListWidget>
+#include <QTreeWidget>
 #include <QDomElement>
 
 class EffectsList;
 
-class EffectsListWidget : public KListWidget
+class EffectsListWidget : public QTreeWidget
 {
     Q_OBJECT
 
@@ -35,7 +35,7 @@ public:
     virtual ~EffectsListWidget();
     const QDomElement currentEffect() const;
     QString currentInfo();
-    const QDomElement itemEffect(QListWidgetItem *item) const;
+    const QDomElement itemEffect(QTreeWidgetItem *item) const;
     void initList();
 
 protected:

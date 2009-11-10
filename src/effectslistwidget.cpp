@@ -32,21 +32,23 @@
 static const int EFFECT_VIDEO = 1;
 static const int EFFECT_AUDIO = 2;
 static const int EFFECT_CUSTOM = 3;
+static const int EFFECT_FOLDER = 4;
 
 const int TypeRole = Qt::UserRole;
 const int IdRole = TypeRole + 1;
 
 EffectsListWidget::EffectsListWidget(QMenu *menu, QWidget *parent) :
-        KListWidget(parent),
+        QTreeWidget(parent),
         m_menu(menu)
 {
     //setSelectionMode(QAbstractItemView::ExtendedSelection);
     //setDragDropMode(QAbstractItemView::DragDrop);
+    setColumnCount(1);
     setDropIndicatorShown(true);
     setAlternatingRowColors(true);
-    setSortingEnabled(true);
     setDragEnabled(true);
     setAcceptDrops(true);
+    setHeaderHidden(true);
     initList();
 }
 
@@ -57,29 +59,84 @@ EffectsListWidget::~EffectsListWidget()
 void EffectsListWidget::initList()
 {
     clear();
-    QListWidgetItem *item;
+    QTreeWidgetItem *item;
+    QTreeWidgetItem *parentItem;
     QString effectName;
     QStringList effectInfo;
     KIcon videoIcon("kdenlive-show-video");
     KIcon audioIcon("kdenlive-show-audio");
     KIcon customIcon("kdenlive-custom-effect");
+    KIcon folderIcon("folder");
+
+    KSharedConfigPtr config = KSharedConfig::openConfig("kdenliveeffectscategoryrc");
+    KConfigGroup transConfig(config, "Category");
+    // read the entries
+    QMap< QString, QString > profiles = transConfig.entryMap();
+    QMapIterator<QString, QString> i(profiles);
+    QList <QTreeWidgetItem *> folders;
+    while (i.hasNext()) {
+        i.next();
+        item = new QTreeWidgetItem((QTreeWidget*)0, QStringList(i18n(i.key().toUtf8().data())));
+        item->setIcon(0, folderIcon);
+        item->setData(0, TypeRole, QString::number((int) EFFECT_FOLDER));
+        item->setData(0, IdRole, i.value());
+        folders.append(item);
+    }
+    QTreeWidgetItem *misc = new QTreeWidgetItem((QTreeWidget*)0, QStringList(i18n("Misc")));
+    misc->setIcon(0, folderIcon);
+    misc->setData(0, TypeRole, QString::number((int) EFFECT_FOLDER));
+
+    QTreeWidgetItem *audio = new QTreeWidgetItem((QTreeWidget*)0, QStringList(i18n("Audio")));
+    audio->setIcon(0, folderIcon);
+    audio->setData(0, TypeRole, QString::number((int) EFFECT_FOLDER));
+
+    QTreeWidgetItem *custom = new QTreeWidgetItem((QTreeWidget*)0, QStringList(i18n("Custom")));
+    custom->setIcon(0, folderIcon);
+    custom->setData(0, TypeRole, QString::number((int) EFFECT_FOLDER));
+
+    insertTopLevelItem(0, custom);
+    insertTopLevelItem(0, misc);
+    insertTopLevelItem(0, audio);
+    insertTopLevelItems(0, folders);
+
+
     int ct = MainWindow::videoEffects.count();
     for (int ix = 0; ix < ct; ix ++) {
         effectInfo = MainWindow::videoEffects.effectIdInfo(ix);
+        parentItem = NULL;
+        for (int i = 0; i < folders.count(); i++) {
+            QStringList l = folders.at(i)->data(0, IdRole).toString().split(',', QString::SkipEmptyParts);
+            if (l.contains(effectInfo.at(2))) {
+                parentItem = folders.at(i);
+                break;
+            }
+        }
+        if (parentItem == NULL) parentItem = misc;
         if (!effectInfo.isEmpty()) {
-            item = new QListWidgetItem(videoIcon, effectInfo.takeFirst(), this);
-            item->setData(TypeRole, QString::number((int) EFFECT_VIDEO));
-            item->setData(IdRole, effectInfo);
+            item = new QTreeWidgetItem(parentItem, QStringList(effectInfo.takeFirst()));
+            item->setIcon(0, videoIcon);
+            item->setData(0, TypeRole, QString::number((int) EFFECT_VIDEO));
+            item->setData(0, IdRole, effectInfo);
         }
     }
 
     ct = MainWindow::audioEffects.count();
     for (int ix = 0; ix < ct; ix ++) {
         effectInfo = MainWindow::audioEffects.effectIdInfo(ix);
+        parentItem = NULL;
+        for (int i = 0; i < folders.count(); i++) {
+            QStringList l = folders.at(i)->data(0, IdRole).toString().split(',', QString::SkipEmptyParts);
+            if (l.contains(effectInfo.at(2))) {
+                parentItem = folders.at(i);
+                break;
+            }
+        }
+        if (parentItem == NULL) parentItem = audio;
         if (!effectInfo.isEmpty()) {
-            item = new QListWidgetItem(audioIcon, effectInfo.takeFirst(), this);
-            item->setData(TypeRole, QString::number((int) EFFECT_AUDIO));
-            item->setData(IdRole, effectInfo);
+            item = new QTreeWidgetItem(parentItem, QStringList(effectInfo.takeFirst()));
+            item->setIcon(0, audioIcon);
+            item->setData(0, TypeRole, QString::number((int) EFFECT_AUDIO));
+            item->setData(0, IdRole, effectInfo);
         }
     }
 
@@ -87,11 +144,14 @@ void EffectsListWidget::initList()
     for (int ix = 0; ix < ct; ix ++) {
         effectInfo = MainWindow::customEffects.effectIdInfo(ix);
         if (!effectInfo.isEmpty()) {
-            item = new QListWidgetItem(customIcon, effectInfo.takeFirst(), this);
-            item->setData(TypeRole, QString::number((int) EFFECT_CUSTOM));
-            item->setData(IdRole, effectInfo);
+            item = new QTreeWidgetItem(custom, QStringList(effectInfo.takeFirst()));
+            item->setIcon(0, customIcon);
+            item->setData(0, TypeRole, QString::number((int) EFFECT_CUSTOM));
+            item->setData(0, IdRole, effectInfo);
         }
     }
+    setSortingEnabled(true);
+    sortByColumn(0, Qt::AscendingOrder);
 }
 
 const QDomElement EffectsListWidget::currentEffect() const
@@ -99,13 +159,13 @@ const QDomElement EffectsListWidget::currentEffect() const
     return itemEffect(currentItem());
 }
 
-const QDomElement EffectsListWidget::itemEffect(QListWidgetItem *item) const
+const QDomElement EffectsListWidget::itemEffect(QTreeWidgetItem *item) const
 {
     QDomElement effect;
-    if (!item) return effect;
-    QStringList effectInfo = item->data(IdRole).toStringList();
+    if (!item || item->data(0, TypeRole).toInt() == (int)EFFECT_FOLDER) return effect;
+    QStringList effectInfo = item->data(0, IdRole).toStringList();
     kDebug() << "// EFFECT SELECTED: " << effectInfo;
-    switch (item->data(TypeRole).toInt()) {
+    switch (item->data(0, TypeRole).toInt()) {
     case 1:
         effect =  MainWindow::videoEffects.getEffectByTag(effectInfo.at(0), effectInfo.at(1)).cloneNode().toElement();
         break;
@@ -122,11 +182,11 @@ const QDomElement EffectsListWidget::itemEffect(QListWidgetItem *item) const
 
 QString EffectsListWidget::currentInfo()
 {
-    QListWidgetItem *item = currentItem();
-    if (!item) return QString();
+    QTreeWidgetItem *item = currentItem();
+    if (!item || item->data(0, TypeRole).toInt() == (int)EFFECT_FOLDER) return QString();
     QString info;
-    QStringList effectInfo = item->data(IdRole).toStringList();
-    switch (item->data(TypeRole).toInt()) {
+    QStringList effectInfo = item->data(0, IdRole).toStringList();
+    switch (item->data(0, TypeRole).toInt()) {
     case 1:
         info = MainWindow::videoEffects.getInfo(effectInfo.at(0), effectInfo.at(1));
         break;
@@ -147,7 +207,7 @@ void EffectsListWidget::mousePressEvent(QMouseEvent *event)
         m_DragStartPosition = event->pos();
         m_dragStarted = true;
     }
-    KListWidget::mousePressEvent(event);
+    QTreeWidget::mousePressEvent(event);
 }
 
 // virtual
@@ -159,13 +219,13 @@ void EffectsListWidget::mouseMoveEvent(QMouseEvent *event)
         return;
 
     {
-        QListWidgetItem *clickItem = itemAt(event->pos());
-        if (clickItem) {
+        QTreeWidgetItem *clickItem = itemAt(event->pos());
+        if (clickItem && clickItem->data(0, TypeRole).toInt() != (int)EFFECT_FOLDER) {
             QDrag *drag = new QDrag(this);
             QMimeData *mimeData = new QMimeData;
-            const QList <QListWidgetItem *>list = selectedItems();
+            const QList <QTreeWidgetItem *>list = selectedItems();
             QDomDocument doc;
-            foreach(QListWidgetItem *item, list) {
+            foreach(QTreeWidgetItem *item, list) {
                 const QDomElement e = itemEffect(item);
                 if (!e.isNull()) doc.appendChild(doc.importNode(e, true));
             }
@@ -194,8 +254,8 @@ void EffectsListWidget::dragMoveEvent(QDragMoveEvent * event)
 //virtual
 void EffectsListWidget::contextMenuEvent(QContextMenuEvent * event)
 {
-    QListWidgetItem *item = itemAt(event->pos());
-    if (item && item->data(TypeRole).toInt() == EFFECT_CUSTOM) m_menu->popup(event->globalPos());
+    QTreeWidgetItem *item = itemAt(event->pos());
+    if (item && item->data(0, TypeRole).toInt() == EFFECT_CUSTOM) m_menu->popup(event->globalPos());
 }
 
 #include "effectslistwidget.moc"

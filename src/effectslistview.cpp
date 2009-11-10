@@ -40,7 +40,7 @@ EffectsListView::EffectsListView(QWidget *parent) :
     QVBoxLayout *lyr = new QVBoxLayout(effectlistframe);
     lyr->addWidget(m_effectsList);
     lyr->setContentsMargins(0, 0, 0, 0);
-    search_effect->setListWidget(m_effectsList);
+    search_effect->setTreeWidget(m_effectsList);
     buttonInfo->setIcon(KIcon("help-about"));
     setFocusPolicy(Qt::StrongFocus);
 
@@ -52,9 +52,9 @@ EffectsListView::EffectsListView(QWidget *parent) :
     connect(type_combo, SIGNAL(currentIndexChanged(int)), this, SLOT(filterList(int)));
     connect(buttonInfo, SIGNAL(clicked()), this, SLOT(showInfoPanel()));
     connect(m_effectsList, SIGNAL(itemSelectionChanged()), this, SLOT(slotUpdateInfo()));
-    connect(m_effectsList, SIGNAL(doubleClicked(QListWidgetItem *, const QPoint &)), this, SLOT(slotEffectSelected()));
+    connect(m_effectsList, SIGNAL(itemDoubleClicked(QTreeWidgetItem *, int)), this, SLOT(slotEffectSelected()));
 
-    m_effectsList->setCurrentRow(0);
+    //m_effectsList->setCurrentRow(0);
 }
 
 
@@ -66,21 +66,25 @@ void EffectsListView::focusInEvent(QFocusEvent * event)
 
 void EffectsListView::filterList(int pos)
 {
-    QListWidgetItem *item;
-    for (int i = 0; i < m_effectsList->count(); i++) {
-        item = m_effectsList->item(i);
-        if (pos == 0) item->setHidden(false);
-        else if (item->data(Qt::UserRole).toInt() == pos) item->setHidden(false);
-        else item->setHidden(true);
+    QTreeWidgetItem *item;
+    QTreeWidgetItem *folder;
+    for (int i = 0; i < m_effectsList->topLevelItemCount(); i++) {
+        folder = m_effectsList->topLevelItem(i);
+        for (int j = 0; j < folder->childCount(); j++) {
+            item = folder->child(j);
+            if (pos == 0) item->setHidden(false);
+            else if (item->data(0, Qt::UserRole).toInt() == pos) item->setHidden(false);
+            else item->setHidden(true);
+        }
     }
     item = m_effectsList->currentItem();
-    if (item) {
+    /*if (item) {
         if (item->isHidden()) {
             int i;
-            for (i = 0; i < m_effectsList->count() && m_effectsList->item(i)->isHidden(); i++) /*do nothing*/;
+            for (i = 0; i < m_effectsList->count() && m_effectsList->item(i)->isHidden(); i++); //do nothing
             m_effectsList->setCurrentRow(i);
         } else m_effectsList->scrollToItem(item);
-    }
+    }*/
 }
 
 void EffectsListView::showInfoPanel()
@@ -107,11 +111,6 @@ void EffectsListView::slotUpdateInfo()
     infopanel->setText(m_effectsList->currentInfo());
 }
 
-KListWidget *EffectsListView::listView()
-{
-    return m_effectsList;
-}
-
 void EffectsListView::reloadEffectList()
 {
     m_effectsList->initList();
@@ -119,8 +118,8 @@ void EffectsListView::reloadEffectList()
 
 void EffectsListView::slotRemoveEffect()
 {
-    QListWidgetItem *item = m_effectsList->currentItem();
-    QString effectId = item->text();
+    QTreeWidgetItem *item = m_effectsList->currentItem();
+    QString effectId = item->text(0);
     QString path = KStandardDirs::locateLocal("appdata", "effects/", true);
 
     QDir directory = QDir(path);
