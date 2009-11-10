@@ -1,0 +1,9 @@
+[Category]
+Colour correction=brightness,gamma,frei0r.balanc0r,frei0r.brightness,frei0r.levels,frei0r.three_point_balance
+Colour=invert,sepia,tcolor,greyscale,frei0r.B,frei0r.G,frei0r.R,frei0r.contrast0r,frei0r.curves,frei0r.saturat0r,frei0r.tint0r,frei0r.primaries,frei0r.rgbparade,chroma_hold
+Audio correction=volume
+Fun=charcoal,oldfilm,dust,lines,grain,vignette,burningtv
+Blur & hide=boxblur,obscure,autotrack_rectangle
+Motion=speed,freeze
+Distort=wave,mirror
+
