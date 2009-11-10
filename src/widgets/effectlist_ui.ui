@@ -35,9 +35,6 @@
      </item>
     </widget>
    </item>
-   <item row="0" column="1">
-    <widget class="KListWidgetSearchLine" name="search_effect"/>
-   </item>
    <item row="0" column="2">
     <widget class="QToolButton" name="buttonInfo">
      <property name="enabled">
@@ -86,9 +83,17 @@
      </widget>
     </widget>
    </item>
+   <item row="0" column="1">
+    <widget class="KTreeWidgetSearchLine" name="search_effect"/>
+   </item>
   </layout>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>KTreeWidgetSearchLine</class>
+   <extends>KLineEdit</extends>
+   <header>ktreewidgetsearchline.h</header>
+  </customwidget>
   <customwidget>
    <class>KLineEdit</class>
    <extends>QLineEdit</extends>
@@ -99,15 +104,9 @@
    <extends>QComboBox</extends>
    <header>kcombobox.h</header>
   </customwidget>
-  <customwidget>
-   <class>KListWidgetSearchLine</class>
-   <extends>KLineEdit</extends>
-   <header>klistwidgetsearchline.h</header>
-  </customwidget>
  </customwidgets>
  <tabstops>
   <tabstop>type_combo</tabstop>
-  <tabstop>search_effect</tabstop>
   <tabstop>buttonInfo</tabstop>
  </tabstops>
  <resources/>
