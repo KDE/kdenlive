@@ -2623,7 +2623,7 @@ bool Render::mltResizeClipEnd(ItemInfo info, GenTime clipDuration)
                 kDebug() << "/// RESIZE ERROR, NXT CLIP IS NOT BLK: " << clipIndex;
             }
         }
-    } else trackPlaylist.insert_blank(clipIndex, 0 - diff - 1);
+    } else if (clipIndex != trackPlaylist.count()) trackPlaylist.insert_blank(clipIndex, 0 - diff - 1);
     trackPlaylist.consolidate_blanks(0);
     mlt_service_unlock(service.get_service());
 
@@ -2856,7 +2856,7 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
                 m_isBlocked--;
                 return false;
             }
-            trackPlaylist.consolidate_blanks(1);
+            trackPlaylist.consolidate_blanks(0);
             destTrackPlaylist.consolidate_blanks(1);
             Mlt::Producer *clip;
             // check if we are moving a slowmotion producer
@@ -3502,12 +3502,12 @@ void Render::mltDeleteTrack(int ix)
             int b_track = mappedProps.value("b_track").toInt();
             if (a_track > 0 && a_track >= ix) a_track --;
             if (b_track > 0 && b_track > ix) b_track --;
-	    if (b_track == ix) {
-		// transition was on the deleted track, so remove it
-		tractor.removeChild(transitions.at(i));
-		i--;
-		continue;
-	    }
+            if (b_track == ix) {
+                // transition was on the deleted track, so remove it
+                tractor.removeChild(transitions.at(i));
+                i--;
+                continue;
+            }
             for (int j = 0; j < props.count(); j++) {
                 QDomElement f = props.at(j).toElement();
                 if (f.attribute("name") == "a_track") f.firstChild().setNodeValue(QString::number(a_track));
