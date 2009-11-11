@@ -36,9 +36,9 @@ SubProjectItem::SubProjectItem(QTreeWidgetItem * parent, int in, int out) :
     setSizeHint(0, QSize(65, 30));
     setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable);
     QString name = Timecode::getStringTimecode(in, KdenliveSettings::project_fps());
-    setText(1, name);
+    setText(0, name);
     GenTime duration = GenTime(out - in, KdenliveSettings::project_fps());
-    if (duration != GenTime()) setData(1, DurationRole, Timecode::getEasyTimecode(duration, KdenliveSettings::project_fps()));
+    if (duration != GenTime()) setData(0, DurationRole, Timecode::getEasyTimecode(duration, KdenliveSettings::project_fps()));
     //setFlags(Qt::NoItemFlags);
     //kDebug() << "Constructed with clipId: " << m_clipId;
 }

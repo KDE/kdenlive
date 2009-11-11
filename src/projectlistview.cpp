@@ -44,9 +44,9 @@ ProjectListView::ProjectListView(QWidget *parent) :
     setAcceptDrops(true);
 
 
-    setColumnCount(4);
+    setColumnCount(3);
     QStringList headers;
-    headers << i18n("Thumbnail") << i18n("Filename") << i18n("Description") << i18n("Rating");
+    headers << i18n("Clip") << i18n("Description") << i18n("Rating");
     setHeaderLabels(headers);
 
     QHeaderView* headerView = header();
@@ -56,17 +56,16 @@ ProjectListView::ProjectListView(QWidget *parent) :
     headerView->setClickable(true);
     headerView->setSortIndicatorShown(true);
     headerView->setMovable(false);
-    sortByColumn(1, Qt::AscendingOrder);
+    sortByColumn(0, Qt::AscendingOrder);
     setSortingEnabled(true);
 
-    if (!KdenliveSettings::showdescriptioncolumn()) hideColumn(2);
-    if (!KdenliveSettings::showratingcolumn()) hideColumn(3);
+    if (!KdenliveSettings::showdescriptioncolumn()) hideColumn(1);
+    if (!KdenliveSettings::showratingcolumn()) hideColumn(2);
 }
 
 ProjectListView::~ProjectListView()
 {
 }
-
 
 void ProjectListView::configureColumns(const QPoint& pos)
 {
@@ -74,7 +73,7 @@ void ProjectListView::configureColumns(const QPoint& pos)
     popup.addTitle(i18nc("@title:menu", "Columns"));
 
     QHeaderView* headerView = header();
-    for (int i = 2; i < headerView->count(); ++i) {
+    for (int i = 1; i < headerView->count(); ++i) {
         const QString text = model()->headerData(i, Qt::Horizontal).toString();
         QAction* action = popup.addAction(text);
         action->setCheckable(true);
@@ -89,10 +88,10 @@ void ProjectListView::configureColumns(const QPoint& pos)
         // remember the changed column visibility in the settings
         const int columnIndex = activatedAction->data().toInt();
         switch (columnIndex) {
-        case 2:
+        case 1:
             KdenliveSettings::setShowdescriptioncolumn(show);
             break;
-        case 3:
+        case 2:
             KdenliveSettings::setShowratingcolumn(show);
             break;
         default:
@@ -124,7 +123,7 @@ void ProjectListView::mouseDoubleClickEvent(QMouseEvent * event)
     }
     ProjectItem *item;
     if (it->type() == PROJECTFOLDERTYPE) {
-        if ((columnAt(event->pos().x()) == 1)) QTreeWidget::mouseDoubleClickEvent(event);
+        if ((columnAt(event->pos().x()) == 0)) QTreeWidget::mouseDoubleClickEvent(event);
         return;
     }
     if (it->type() == PROJECTSUBCLIPTYPE) {
@@ -133,8 +132,8 @@ void ProjectListView::mouseDoubleClickEvent(QMouseEvent * event)
     } else item = static_cast <ProjectItem *>(it);
 
     if (!(item->flags() & Qt::ItemIsDragEnabled)) return;
-    if ((columnAt(event->pos().x()) == 1) && (item->clipType() == SLIDESHOW || item->clipType() == TEXT || item->clipType() == COLOR)) QTreeWidget::mouseDoubleClickEvent(event);
-    else if ((columnAt(event->pos().x()) == 2) && it->type() != PROJECTSUBCLIPTYPE) QTreeWidget::mouseDoubleClickEvent(event);
+    if ((columnAt(event->pos().x()) == 0) && (item->clipType() == SLIDESHOW || item->clipType() == TEXT || item->clipType() == COLOR)) QTreeWidget::mouseDoubleClickEvent(event);
+    else if ((columnAt(event->pos().x()) == 1) && it->type() != PROJECTSUBCLIPTYPE) QTreeWidget::mouseDoubleClickEvent(event);
     else emit showProperties(item->referencedClip());
 }
 

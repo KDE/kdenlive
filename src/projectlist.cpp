@@ -314,7 +314,7 @@ void ProjectList::slotReloadClip(const QString &id)
 void ProjectList::setRenderer(Render *projectRender)
 {
     m_render = projectRender;
-    m_listView->setIconSize(QSize(40 * m_render->dar(), 40));
+    m_listView->setIconSize(QSize(43 * m_render->dar(), 43));
 }
 
 void ProjectList::slotClipSelected()
@@ -377,14 +377,14 @@ void ProjectList::slotUpdateClipProperties(ProjectItem *clip, QMap <QString, QSt
     clip->setProperties(properties);
     if (properties.contains("name")) {
         m_listView->blockSignals(true);
-        clip->setText(1, properties.value("name"));
+        clip->setText(0, properties.value("name"));
         m_listView->blockSignals(false);
         emit clipNameChanged(clip->clipId(), properties.value("name"));
     }
     if (properties.contains("description")) {
         CLIPTYPE type = clip->clipType();
         m_listView->blockSignals(true);
-        clip->setText(2, properties.value("description"));
+        clip->setText(1, properties.value("description"));
         m_listView->blockSignals(false);
         if (KdenliveSettings::activate_nepomuk() && (type == AUDIO || type == VIDEO || type == AV || type == IMAGE || type == PLAYLIST)) {
             // Use Nepomuk system to store clip description
@@ -402,44 +402,44 @@ void ProjectList::slotItemEdited(QTreeWidgetItem *item, int column)
         return;
     }
     if (item->type() == PROJECTFOLDERTYPE) {
-        if (column != 1) return;
+        if (column != 0) return;
         FolderProjectItem *folder = static_cast <FolderProjectItem*>(item);
         editFolder(item->text(1), folder->groupName(), folder->clipId());
-        folder->setGroupName(item->text(1));
+        folder->setGroupName(item->text(0));
         m_doc->clipManager()->addFolder(folder->clipId(), item->text(1));
         const int children = item->childCount();
         for (int i = 0; i < children; i++) {
             ProjectItem *child = static_cast <ProjectItem *>(item->child(i));
-            child->setProperty("groupname", item->text(1));
+            child->setProperty("groupname", item->text(0));
         }
         return;
     }
 
     ProjectItem *clip = static_cast <ProjectItem*>(item);
-    if (column == 2) {
+    if (column == 1) {
         if (clip->referencedClip()) {
             QMap <QString, QString> oldprops;
             QMap <QString, QString> newprops;
             oldprops["description"] = clip->referencedClip()->getProperty("description");
-            newprops["description"] = item->text(2);
+            newprops["description"] = item->text(1);
 
             if (clip->clipType() == TEXT) {
                 // This is a text template clip, update the image
                 /*oldprops.insert("xmldata", clip->referencedClip()->getProperty("xmldata"));
                 newprops.insert("xmldata", generateTemplateXml(clip->referencedClip()->getProperty("xmltemplate"), item->text(2)).toString());*/
                 oldprops.insert("templatetext", clip->referencedClip()->getProperty("templatetext"));
-                newprops.insert("templatetext", item->text(2));
+                newprops.insert("templatetext", item->text(1));
             }
             slotUpdateClipProperties(clip->clipId(), newprops);
             EditClipCommand *command = new EditClipCommand(this, clip->clipId(), oldprops, newprops, false);
             m_commandStack->push(command);
         }
-    } else if (column == 1) {
+    } else if (column == 0) {
         if (clip->referencedClip()) {
             QMap <QString, QString> oldprops;
             QMap <QString, QString> newprops;
             oldprops["name"] = clip->referencedClip()->getProperty("name");
-            newprops["name"] = item->text(1);
+            newprops["name"] = item->text(0);
             slotUpdateClipProperties(clip, newprops);
             emit projectModified();
             EditClipCommand *command = new EditClipCommand(this, clip->clipId(), oldprops, newprops, false);
@@ -585,7 +585,7 @@ void ProjectList::slotAddFolder(const QString foldername, const QString &clipId,
             }
         } else {
             QStringList text;
-            text << QString() << foldername;
+            text << foldername;
             m_listView->blockSignals(true);
             m_listView->setCurrentItem(new FolderProjectItem(m_listView, text, clipId));
             m_doc->clipManager()->addFolder(clipId, foldername);
@@ -630,7 +630,7 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
             QString groupName = clip->getProperty("groupname");
             //kDebug() << "Adding clip to new group: " << groupName;
             if (groupName.isEmpty()) groupName = i18n("Folder");
-            text << QString() << groupName;
+            text << groupName;
             parentitem = new FolderProjectItem(m_listView, text, parent);
         } else {
             //kDebug() << "Adding clip to existing group: " << parentitem->groupName();
@@ -651,8 +651,8 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
         // if file has Nepomuk comment, use it
         Nepomuk::Resource f(url.path());
         QString annotation = f.description();
-        if (!annotation.isEmpty()) item->setText(2, annotation);
-        item->setText(3, QString::number(f.rating()));
+        if (!annotation.isEmpty()) item->setText(1, annotation);
+        item->setText(2, QString::number(f.rating()));
     }
 
     // Add cut zones
@@ -746,7 +746,7 @@ void ProjectList::updateAllClips()
             if (item->icon(0).isNull()) {
                 requestClipThumbnail(clip->getId());
             }
-            if (item->data(1, DurationRole).toString().isEmpty()) {
+            if (item->data(0, DurationRole).toString().isEmpty()) {
                 item->changeDuration(item->referencedClip()->producer()->get_playtime());
             }
         }
@@ -920,7 +920,7 @@ void ProjectList::setDocument(KdenliveDoc *doc)
     QMapIterator<QString, QString> f(flist);
     while (f.hasNext()) {
         f.next();
-        (void) new FolderProjectItem(m_listView, QStringList() << QString() << f.value(), f.key());
+        (void) new FolderProjectItem(m_listView, QStringList() << f.value(), f.key());
     }
 
     QList <DocClipBase*> list = doc->clipManager()->documentClipList();
@@ -1254,7 +1254,7 @@ void ProjectList::addClipCut(const QString &id, int in, int out)
         m_listView->blockSignals(true);
         SubProjectItem *sub = new SubProjectItem(clip, in, out);
 
-        QPixmap p = clip->referencedClip()->thumbProducer()->extractImage(in, (int)(sub->sizeHint(0).height()  * m_render->dar()), sub->sizeHint(0).height());
+        QPixmap p = clip->referencedClip()->thumbProducer()->extractImage(in, (int)(sub->sizeHint(0).height()  * m_render->dar()), sub->sizeHint(0).height() - 2);
         sub->setIcon(0, p);
         m_doc->cachePixmap(clip->getClipHash() + '#' + QString::number(in), p);
         m_listView->blockSignals(false);

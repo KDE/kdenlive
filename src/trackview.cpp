@@ -307,7 +307,7 @@ void TrackView::parseDocument(QDomDocument doc)
                 else if (paramName == "force_track" && p.text() == "1") forceTrack = true;
             }
         }
-        if (a_track == b_track) {
+        if (a_track == b_track || b_track == 0) {
             // invalid transition, remove it
             m_documentErrors.append(i18n("Removed invalid transition: %1", e.attribute("id")) + '\n');
             tractor.removeChild(transitions.item(i));

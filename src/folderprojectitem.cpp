@@ -27,13 +27,13 @@
 
 FolderProjectItem::FolderProjectItem(QTreeWidget * parent, const QStringList & strings, const QString &clipId) :
         QTreeWidgetItem(parent, strings, PROJECTFOLDERTYPE),
-        m_groupName(strings.at(1)),
+        m_groupName(strings.at(0)),
         m_clipId(clipId)
 {
     setSizeHint(0, QSize(65, QFontInfo(font(1)).pixelSize() * 2));
     setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable);
     setIcon(0, KIcon("folder").pixmap(sizeHint(0)));
-    setToolTip(1, "<b>" + i18n("Folder"));
+    setToolTip(0, "<b>" + i18n("Folder"));
     //setFlags(Qt::NoItemFlags);
     //kDebug() << "Constructed with clipId: " << m_clipId;
 }
@@ -56,7 +56,7 @@ const QString FolderProjectItem::groupName() const
 void FolderProjectItem::setGroupName(const QString name)
 {
     m_groupName = name;
-    setText(1, name);
+    setText(0, name);
 }
 
 

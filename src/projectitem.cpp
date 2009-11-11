@@ -40,11 +40,11 @@ ProjectItem::ProjectItem(QTreeWidget * parent, DocClipBase *clip) :
     if (name.isEmpty()) name = KUrl(m_clip->getProperty("resource")).fileName();
     m_clipType = (CLIPTYPE) m_clip->getProperty("type").toInt();
     if (m_clipType != UNKNOWN) slotSetToolTip();
-    setText(1, name);
-    setText(2, m_clip->description());
+    setText(0, name);
+    setText(1, m_clip->description());
     m_clip->askForAudioThumbs();
     GenTime duration = m_clip->duration();
-    if (duration != GenTime()) setData(1, DurationRole, Timecode::getEasyTimecode(duration, KdenliveSettings::project_fps()));
+    if (duration != GenTime()) setData(0, DurationRole, Timecode::getEasyTimecode(duration, KdenliveSettings::project_fps()));
     //setFlags(Qt::NoItemFlags);
     //kDebug() << "Constructed with clipId: " << m_clipId;
 }
@@ -59,11 +59,11 @@ ProjectItem::ProjectItem(QTreeWidgetItem * parent, DocClipBase *clip) :
     QString name = m_clip->getProperty("name");
     if (name.isEmpty()) name = KUrl(m_clip->getProperty("resource")).fileName();
     m_clipType = (CLIPTYPE) m_clip->getProperty("type").toInt();
-    setText(1, name);
-    setText(2, m_clip->description());
+    setText(0, name);
+    setText(1, m_clip->description());
     m_clip->askForAudioThumbs();
     GenTime duration = m_clip->duration();
-    if (duration != GenTime()) setData(1, DurationRole, Timecode::getEasyTimecode(duration, KdenliveSettings::project_fps()));
+    if (duration != GenTime()) setData(0, DurationRole, Timecode::getEasyTimecode(duration, KdenliveSettings::project_fps()));
     //setFlags(Qt::NoItemFlags);
     //kDebug() << "Constructed with clipId: " << m_clipId;
 }
@@ -117,7 +117,7 @@ const KUrl ProjectItem::clipUrl() const
 
 void ProjectItem::changeDuration(int frames)
 {
-    setData(1, DurationRole, Timecode::getEasyTimecode(GenTime(frames, KdenliveSettings::project_fps()), KdenliveSettings::project_fps()));
+    setData(0, DurationRole, Timecode::getEasyTimecode(GenTime(frames, KdenliveSettings::project_fps()), KdenliveSettings::project_fps()));
 }
 
 void ProjectItem::setProperties(QMap <QString, QString> props)
@@ -186,7 +186,7 @@ void ProjectItem::slotSetToolTip()
         break;
     }
 
-    setToolTip(1, tip);
+    setToolTip(0, tip);
 }
 
 
@@ -196,7 +196,7 @@ void ProjectItem::setProperties(const QMap < QString, QString > &attributes, con
     //setFlags(Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled);
     if (attributes.contains("duration")) {
         GenTime duration = GenTime(attributes.value("duration").toInt(), KdenliveSettings::project_fps());
-        setData(1, DurationRole, Timecode::getEasyTimecode(duration, KdenliveSettings::project_fps()));
+        setData(0, DurationRole, Timecode::getEasyTimecode(duration, KdenliveSettings::project_fps()));
         m_clip->setDuration(duration);
     } else  {
         // No duration known, use an arbitrary one until it is.
@@ -223,10 +223,10 @@ void ProjectItem::setProperties(const QMap < QString, QString > &attributes, con
     if (m_clip->description().isEmpty()) {
         if (metadata.contains("description")) {
             m_clip->setProperty("description", metadata.value("description"));
-            setText(2, m_clip->description());
+            setText(1, m_clip->description());
         } else if (metadata.contains("comment")) {
             m_clip->setProperty("description", metadata.value("comment"));
-            setText(2, m_clip->description());
+            setText(1, m_clip->description());
         }
     }
 }

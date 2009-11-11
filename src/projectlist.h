@@ -29,6 +29,7 @@
 #include <QItemDelegate>
 #include <QUndoStack>
 #include <QTimer>
+#include <QApplication>
 
 #include <KTreeWidgetSearchLine>
 #include <KUrl>
@@ -60,36 +61,33 @@ class ItemDelegate: public QItemDelegate
 public:
     ItemDelegate(QAbstractItemView* parent = 0): QItemDelegate(parent) {
     }
-    /*
-    static_cast<ProjectItem *>( index.internalPointer() );
 
-    void expand()
-    {
-      QWidget *w = new QWidget;
-      QVBoxLayout *layout = new QVBoxLayout;
-      layout->addWidget( new KColorButton(w));
-      w->setLayout( layout );
-      extendItem(w,
-    }
-    */
-    void drawFocus(QPainter *, const QStyleOptionViewItem &, const QRect &) const {
-    }
+    /*void drawFocus(QPainter *, const QStyleOptionViewItem &, const QRect &) const {
+    }*/
 
     void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const {
-        if (index.column() == 1 && !index.data(DurationRole).isNull()) {
+        if (index.column() == 0 && !index.data(DurationRole).isNull()) {
             QRect r1 = option.rect;
             painter->save();
             if (option.state & (QStyle::State_Selected)) {
                 painter->setPen(option.palette.color(QPalette::HighlightedText));
                 painter->fillRect(r1, option.palette.highlight());
             }
+            QStyleOptionViewItemV2 opt = setOptions(index, option);
+            QPixmap pixmap = decoration(opt, index.data(Qt::DecorationRole));
+            QRect decorationRect = pixmap.rect(); //QRect(QPoint(0, 0), option.decorationSize).intersected(pixmap.rect());
+            const int textMargin = QApplication::style()->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
+            decorationRect.moveTo(r1.topLeft() + QPoint(0, 1));
+            drawDecoration(painter, opt, decorationRect, pixmap);
+            int decoWidth = pixmap.width() + 2 * textMargin;
+
             QFont font = painter->font();
             font.setBold(true);
             painter->setFont(font);
             int mid = (int)((r1.height() / 2));
-            r1.adjust(2, 0, 0, -mid);
+            r1.adjust(decoWidth, 0, 0, -mid);
             QRect r2 = option.rect;
-            r2.adjust(2, mid, 0, 0);
+            r2.adjust(decoWidth, mid, 0, 0);
             painter->drawText(r1, Qt::AlignLeft | Qt::AlignBottom , index.data().toString());
             //painter->setPen(Qt::green);
             font.setBold(false);
@@ -100,7 +98,7 @@ public:
             if (option.state & (QStyle::State_Selected)) painter->setPen(option.palette.color(QPalette::Mid));
             painter->drawText(r2, Qt::AlignLeft | Qt::AlignVCenter , subText);
             painter->restore();
-        } else if (index.column() == 3 && KdenliveSettings::activate_nepomuk()) {
+        } else if (index.column() == 2 && KdenliveSettings::activate_nepomuk()) {
             if (index.data().toString().isEmpty()) {
                 QItemDelegate::paint(painter, option, index);
                 return;
