@@ -83,6 +83,8 @@ ProjectList::ProjectList(QWidget *parent) :
     KTreeWidgetSearchLine *searchView = new KTreeWidgetSearchLine(this);
     m_toolbar = new QToolBar("projectToolBar", this);
     m_toolbar->addWidget(searchView);
+    int s = style()->pixelMetric(QStyle::PM_SmallIconSize);
+    m_toolbar->setIconSize(QSize(s, s));
     searchView->setTreeWidget(m_listView);
 
     m_addButton = new QToolButton(m_toolbar);
