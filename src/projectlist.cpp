@@ -319,29 +319,39 @@ void ProjectList::setRenderer(Render *projectRender)
 
 void ProjectList::slotClipSelected()
 {
-    if (m_listView->currentItem() && m_listView->currentItem()->type() != PROJECTFOLDERTYPE) {
-        ProjectItem *clip;
-        if (m_listView->currentItem()->type() == PROJECTSUBCLIPTYPE) {
-            // this is a sub item, use base clip
-            clip = static_cast <ProjectItem*>(m_listView->currentItem()->parent());
-            if (clip == NULL) kDebug() << "-----------ERROR";
-            SubProjectItem *sub = static_cast <SubProjectItem*>(m_listView->currentItem());
-            emit clipSelected(clip->referencedClip(), sub->zone());
-            return;
-        }
-        clip = static_cast <ProjectItem*>(m_listView->currentItem());
-        emit clipSelected(clip->referencedClip());
-        m_editAction->setEnabled(true);
-        m_deleteAction->setEnabled(true);
-        m_reloadAction->setEnabled(true);
-        m_transcodeAction->setEnabled(true);
-        if (clip->clipType() == IMAGE && !KdenliveSettings::defaultimageapp().isEmpty()) {
-            m_openAction->setIcon(KIcon(KdenliveSettings::defaultimageapp()));
-            m_openAction->setEnabled(true);
-        } else if (clip->clipType() == AUDIO && !KdenliveSettings::defaultaudioapp().isEmpty()) {
-            m_openAction->setIcon(KIcon(KdenliveSettings::defaultaudioapp()));
-            m_openAction->setEnabled(true);
-        } else m_openAction->setEnabled(false);
+    if (m_listView->currentItem()) {
+	if (m_listView->currentItem()->type() == PROJECTFOLDERTYPE) {
+	    emit clipSelected(NULL);
+	    m_editAction->setEnabled(false);
+	    m_deleteAction->setEnabled(true);
+	    m_openAction->setEnabled(false);
+	    m_reloadAction->setEnabled(false);
+	    m_transcodeAction->setEnabled(false);
+	}
+	else {
+	    ProjectItem *clip;
+	    if (m_listView->currentItem()->type() == PROJECTSUBCLIPTYPE) {
+		// this is a sub item, use base clip
+		clip = static_cast <ProjectItem*>(m_listView->currentItem()->parent());
+		if (clip == NULL) kDebug() << "-----------ERROR";
+		SubProjectItem *sub = static_cast <SubProjectItem*>(m_listView->currentItem());
+		emit clipSelected(clip->referencedClip(), sub->zone());
+		return;
+	    }
+	    clip = static_cast <ProjectItem*>(m_listView->currentItem());
+	    emit clipSelected(clip->referencedClip());
+	    m_editAction->setEnabled(true);
+	    m_deleteAction->setEnabled(true);
+	    m_reloadAction->setEnabled(true);
+	    m_transcodeAction->setEnabled(true);
+	    if (clip->clipType() == IMAGE && !KdenliveSettings::defaultimageapp().isEmpty()) {
+		m_openAction->setIcon(KIcon(KdenliveSettings::defaultimageapp()));
+		m_openAction->setEnabled(true);
+	    } else if (clip->clipType() == AUDIO && !KdenliveSettings::defaultaudioapp().isEmpty()) {
+		m_openAction->setIcon(KIcon(KdenliveSettings::defaultaudioapp()));
+		m_openAction->setEnabled(true);
+	    } else m_openAction->setEnabled(false);
+	}
     } else {
         emit clipSelected(NULL);
         m_editAction->setEnabled(false);
@@ -404,9 +414,9 @@ void ProjectList::slotItemEdited(QTreeWidgetItem *item, int column)
     if (item->type() == PROJECTFOLDERTYPE) {
         if (column != 0) return;
         FolderProjectItem *folder = static_cast <FolderProjectItem*>(item);
-        editFolder(item->text(1), folder->groupName(), folder->clipId());
+        editFolder(item->text(0), folder->groupName(), folder->clipId());
         folder->setGroupName(item->text(0));
-        m_doc->clipManager()->addFolder(folder->clipId(), item->text(1));
+        m_doc->clipManager()->addFolder(folder->clipId(), item->text(0));
         const int children = item->childCount();
         for (int i = 0; i < children; i++) {
             ProjectItem *child = static_cast <ProjectItem *>(item->child(i));
@@ -592,6 +602,7 @@ void ProjectList::slotAddFolder(const QString foldername, const QString &clipId,
             m_listView->blockSignals(false);
         }
     }
+    m_doc->setModified(true);
 }
 
 
@@ -606,7 +617,6 @@ void ProjectList::deleteProjectFolder(QMap <QString, QString> map)
         new AddFolderCommand(this, i.key(), i.value(), false, delCommand);
     }
     m_commandStack->push(delCommand);
-    m_doc->setModified(true);
 }
 
 void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
