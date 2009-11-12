@@ -204,13 +204,12 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
             m_view.luma_file->addItem(KIcon(filePath), fname, filePath);
         }
 
-        slotEnableLuma(m_view.slide_fade->checkState());
-        slotEnableLumaFile(m_view.slide_luma->checkState());
-
         if (!lumaFile.isEmpty()) {
             m_view.slide_luma->setChecked(true);
             m_view.luma_file->setCurrentIndex(m_view.luma_file->findData(lumaFile));
         } else m_view.luma_file->setEnabled(false);
+        slotEnableLuma(m_view.slide_fade->checkState());
+        slotEnableLumaFile(m_view.slide_luma->checkState());
         connect(m_view.slide_fade, SIGNAL(stateChanged(int)), this, SLOT(slotEnableLuma(int)));
         connect(m_view.slide_luma, SIGNAL(stateChanged(int)), this, SLOT(slotEnableLumaFile(int)));
 
