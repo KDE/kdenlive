@@ -100,7 +100,8 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
 
             if (!t->data(100).isNull()) {
                 QStringList effectParams = t->data(100).toStringList();
-                content.setAttribute(effectParams.takeFirst(), effectParams.join(";"));
+                QString effectName = effectParams.takeFirst();
+                content.setAttribute(effectName, effectParams.join(";"));
             }
 
             // Only save when necessary.

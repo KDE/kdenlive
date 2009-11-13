@@ -102,12 +102,12 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     connect(endViewportX, SIGNAL(valueChanged(int)), this, SLOT(setupViewports()));
     connect(endViewportY, SIGNAL(valueChanged(int)), this, SLOT(setupViewports()));
     connect(endViewportSize, SIGNAL(valueChanged(int)), this, SLOT(setupViewports()));*/
-    
+
     // Fill effects
     effect_list->addItem(i18n("None"), NOEFFECT);
     effect_list->addItem(i18n("Typewriter"), TYPEWRITEREFFECT);
     effect_list->addItem(i18n("Blur"), BLUREFFECT);
-    
+
 
     connect(zValue, SIGNAL(valueChanged(int)), this, SLOT(zIndexChanged(int)));
     connect(itemzoom, SIGNAL(valueChanged(int)), this, SLOT(itemScaled(int)));
@@ -668,9 +668,9 @@ void TitleWidget::selectionChanged()
     itemzoom->blockSignals(true);
     itemrotate->blockSignals(true);
     if (l.size() == 0) {
-	effect_stack->setHidden(true);
-	effect_frame->setEnabled(false);
-	effect_list->setCurrentIndex(0);
+        effect_stack->setHidden(true);
+        effect_frame->setEnabled(false);
+        effect_list->setCurrentIndex(0);
         bool blockX = !origin_x_left->signalsBlocked();
         bool blockY = !origin_y_top->signalsBlocked();
         if (blockX) origin_x_left->blockSignals(true);
@@ -684,10 +684,10 @@ void TitleWidget::selectionChanged()
         if (blockY) origin_y_top->blockSignals(false);
         itemzoom->setEnabled(false);
         itemrotate->setEnabled(false);
-	frame_properties->setEnabled(false);
+        frame_properties->setEnabled(false);
     } else if (l.size() == 1) {
-	effect_frame->setEnabled(true);
-	frame_properties->setEnabled(true);
+        effect_frame->setEnabled(true);
+        frame_properties->setEnabled(true);
         if (l.at(0) != m_startViewport && l.at(0) != m_endViewport) {
             itemzoom->setEnabled(true);
             itemrotate->setEnabled(true);
@@ -699,40 +699,42 @@ void TitleWidget::selectionChanged()
         if (l.at(0)->type() == TEXTITEM) {
             showToolbars(TITLE_TEXT);
             QGraphicsTextItem* i = static_cast <QGraphicsTextItem *>(l.at(0));
-	    if (!i->data(100).isNull()) {
-		// Item has an effect
-		QStringList effdata = i->data(100).toStringList();
-		QString effectName = effdata.takeFirst();
-		if (effectName == "typewriter") {
-		    QStringList params = effdata.at(0).split(';');
-		    typewriter_delay->setValue(params.at(0).toInt());
-		    typewriter_start->setValue(params.at(1).toInt());
-		    effect_list->setCurrentIndex(effect_list->findData((int) TYPEWRITEREFFECT));
-		    effect_stack->setHidden(false);
-		}
-	    }
-	    else {
-		if (i->graphicsEffect()) {
-		    QGraphicsBlurEffect *blur = static_cast <QGraphicsBlurEffect *> (i->graphicsEffect());
-		    if (blur) {
-			effect_list->setCurrentIndex(effect_list->findData((int) BLUREFFECT));
-			int rad = (int) blur->blurRadius();
-			blur_radius->setValue(rad);
-			effect_stack->setHidden(false);
-		    }
-		    else {
-			QGraphicsDropShadowEffect *shad = static_cast <QGraphicsDropShadowEffect *> (i->graphicsEffect());
-			if (shad) {
-			    effect_list->setCurrentIndex(effect_list->findData((int) SHADOWEFFECT));
-			    shadow_radius->setValue(shad->blurRadius());
-			    shadow_x->setValue(shad->xOffset());
-			    shadow_y->setValue(shad->yOffset());
-			    effect_stack->setHidden(false);
-			}
-		    }
-		}
-		else effect_stack->setHidden(true);
-	    }
+            if (!i->data(100).isNull()) {
+                // Item has an effect
+                QStringList effdata = i->data(100).toStringList();
+                QString effectName = effdata.takeFirst();
+                if (effectName == "typewriter") {
+                    QStringList params = effdata.at(0).split(';');
+                    typewriter_delay->setValue(params.at(0).toInt());
+                    typewriter_start->setValue(params.at(1).toInt());
+                    effect_list->setCurrentIndex(effect_list->findData((int) TYPEWRITEREFFECT));
+                    effect_stack->setHidden(false);
+                }
+            } else {
+                if (i->graphicsEffect()) {
+                    QGraphicsBlurEffect *blur = static_cast <QGraphicsBlurEffect *>(i->graphicsEffect());
+                    if (blur) {
+                        effect_list->setCurrentIndex(effect_list->findData((int) BLUREFFECT));
+                        int rad = (int) blur->blurRadius();
+                        blur_radius->setValue(rad);
+                        effect_stack->setHidden(false);
+                    } else {
+                        QGraphicsDropShadowEffect *shad = static_cast <QGraphicsDropShadowEffect *>(i->graphicsEffect());
+                        if (shad) {
+                            effect_list->setCurrentIndex(effect_list->findData((int) SHADOWEFFECT));
+                            shadow_radius->setValue(shad->blurRadius());
+                            shadow_x->setValue(shad->xOffset());
+                            shadow_y->setValue(shad->yOffset());
+                            effect_stack->setHidden(false);
+                        }
+                    }
+                } else {
+                    effect_list->blockSignals(true);
+                    effect_list->setCurrentIndex(effect_list->findData((int) NOEFFECT));
+                    effect_list->blockSignals(false);
+                    effect_stack->setHidden(true);
+                }
+            }
             //if (l[0]->hasFocus())
             //toolBox->setCurrentIndex(0);
             //toolBox->setItemEnabled(2, true);
@@ -1794,32 +1796,32 @@ void TitleWidget::slotAddEffect(int ix)
 {
     int effect = effect_list->itemData(ix).toInt();
     if (effect == 0) {
-	effect_stack->setHidden(true);
-	return;
+        effect_stack->setHidden(true);
+        return;
     }
     effect_stack->setCurrentIndex(effect - 1);
     effect_stack->setHidden(false);
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     if (effect == TYPEWRITEREFFECT) {
-	if (l.size() == 1 && l.at(0)->type() == TEXTITEM) {
-	    QStringList effdata = QStringList() << "typewriter" << QString::number(typewriter_delay->value()) + ";" + QString::number(typewriter_start->value());
-	    l[0]->setData(100, effdata);
-	}
+        if (l.size() == 1 && l.at(0)->type() == TEXTITEM) {
+            QStringList effdata = QStringList() << "typewriter" << QString::number(typewriter_delay->value()) + ";" + QString::number(typewriter_start->value());
+            l[0]->setData(100, effdata);
+        }
     }
 #if QT_VERSION < 0x040600
     return;
 #else
     if (effect == BLUREFFECT) {
         // Blur effect
-	if (l.size() == 1) {
-	    QGraphicsEffect *eff = new QGraphicsBlurEffect();
-	    l[0]->setGraphicsEffect(eff);
-	}
+        if (l.size() == 1) {
+            QGraphicsEffect *eff = new QGraphicsBlurEffect();
+            l[0]->setGraphicsEffect(eff);
+        }
     } else if (effect == SHADOWEFFECT) {
-	if (l.size() == 1) {
-	    QGraphicsEffect *eff = new QGraphicsDropShadowEffect();
-	    l[0]->setGraphicsEffect(eff);
-	}
+        if (l.size() == 1) {
+            QGraphicsEffect *eff = new QGraphicsDropShadowEffect();
+            l[0]->setGraphicsEffect(eff);
+        }
     }
 
 #endif
@@ -1842,7 +1844,7 @@ void TitleWidget::slotEditTypewriter(int ix)
 {
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     if (l.size() == 1) {
-      	QStringList effdata = QStringList() << "typewriter" << QString::number(typewriter_delay->value()) + ";" + QString::number(typewriter_start->value());
+        QStringList effdata = QStringList() << "typewriter" << QString::number(typewriter_delay->value()) + ";" + QString::number(typewriter_start->value());
         l[0]->setData(100, effdata);
     }
 }
