@@ -60,6 +60,7 @@ public:
     void setProperty(const QString &key, const QString &value);
     void clearProperty(const QString &key);
     QString getClipHash() const;
+    static int itemDefaultHeight();
 
     virtual bool operator<(const QTreeWidgetItem &other)const {
         int column = treeWidget()->sortColumn();

@@ -28,11 +28,12 @@
 #include <KIcon>
 
 const int DurationRole = Qt::UserRole + 1;
+const int itemHeight = 38;
 
 ProjectItem::ProjectItem(QTreeWidget * parent, DocClipBase *clip) :
         QTreeWidgetItem(parent, PROJECTCLIPTYPE)
 {
-    setSizeHint(0, QSize(65, 45));
+    setSizeHint(0, QSize(60, itemHeight));
     setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable);
     m_clip = clip;
     m_clipId = clip->getId();
@@ -52,7 +53,7 @@ ProjectItem::ProjectItem(QTreeWidget * parent, DocClipBase *clip) :
 ProjectItem::ProjectItem(QTreeWidgetItem * parent, DocClipBase *clip) :
         QTreeWidgetItem(parent, PROJECTCLIPTYPE)
 {
-    setSizeHint(0, QSize(65, 45));
+    setSizeHint(0, QSize(60, itemHeight));
     setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable);
     m_clip = clip;
     m_clipId = clip->getId();
@@ -71,6 +72,12 @@ ProjectItem::ProjectItem(QTreeWidgetItem * parent, DocClipBase *clip) :
 
 ProjectItem::~ProjectItem()
 {
+}
+
+//static
+int ProjectItem::itemDefaultHeight()
+{
+    return itemHeight;
 }
 
 int ProjectItem::numReferences() const

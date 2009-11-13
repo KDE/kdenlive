@@ -316,44 +316,43 @@ void ProjectList::slotReloadClip(const QString &id)
 void ProjectList::setRenderer(Render *projectRender)
 {
     m_render = projectRender;
-    m_listView->setIconSize(QSize(43 * m_render->dar(), 43));
+    m_listView->setIconSize(QSize((ProjectItem::itemDefaultHeight() - 2) * m_render->dar(), ProjectItem::itemDefaultHeight() - 2));
 }
 
 void ProjectList::slotClipSelected()
 {
     if (m_listView->currentItem()) {
-	if (m_listView->currentItem()->type() == PROJECTFOLDERTYPE) {
-	    emit clipSelected(NULL);
-	    m_editAction->setEnabled(false);
-	    m_deleteAction->setEnabled(true);
-	    m_openAction->setEnabled(false);
-	    m_reloadAction->setEnabled(false);
-	    m_transcodeAction->setEnabled(false);
-	}
-	else {
-	    ProjectItem *clip;
-	    if (m_listView->currentItem()->type() == PROJECTSUBCLIPTYPE) {
-		// this is a sub item, use base clip
-		clip = static_cast <ProjectItem*>(m_listView->currentItem()->parent());
-		if (clip == NULL) kDebug() << "-----------ERROR";
-		SubProjectItem *sub = static_cast <SubProjectItem*>(m_listView->currentItem());
-		emit clipSelected(clip->referencedClip(), sub->zone());
-		return;
-	    }
-	    clip = static_cast <ProjectItem*>(m_listView->currentItem());
-	    emit clipSelected(clip->referencedClip());
-	    m_editAction->setEnabled(true);
-	    m_deleteAction->setEnabled(true);
-	    m_reloadAction->setEnabled(true);
-	    m_transcodeAction->setEnabled(true);
-	    if (clip->clipType() == IMAGE && !KdenliveSettings::defaultimageapp().isEmpty()) {
-		m_openAction->setIcon(KIcon(KdenliveSettings::defaultimageapp()));
-		m_openAction->setEnabled(true);
-	    } else if (clip->clipType() == AUDIO && !KdenliveSettings::defaultaudioapp().isEmpty()) {
-		m_openAction->setIcon(KIcon(KdenliveSettings::defaultaudioapp()));
-		m_openAction->setEnabled(true);
-	    } else m_openAction->setEnabled(false);
-	}
+        if (m_listView->currentItem()->type() == PROJECTFOLDERTYPE) {
+            emit clipSelected(NULL);
+            m_editAction->setEnabled(false);
+            m_deleteAction->setEnabled(true);
+            m_openAction->setEnabled(false);
+            m_reloadAction->setEnabled(false);
+            m_transcodeAction->setEnabled(false);
+        } else {
+            ProjectItem *clip;
+            if (m_listView->currentItem()->type() == PROJECTSUBCLIPTYPE) {
+                // this is a sub item, use base clip
+                clip = static_cast <ProjectItem*>(m_listView->currentItem()->parent());
+                if (clip == NULL) kDebug() << "-----------ERROR";
+                SubProjectItem *sub = static_cast <SubProjectItem*>(m_listView->currentItem());
+                emit clipSelected(clip->referencedClip(), sub->zone());
+                return;
+            }
+            clip = static_cast <ProjectItem*>(m_listView->currentItem());
+            emit clipSelected(clip->referencedClip());
+            m_editAction->setEnabled(true);
+            m_deleteAction->setEnabled(true);
+            m_reloadAction->setEnabled(true);
+            m_transcodeAction->setEnabled(true);
+            if (clip->clipType() == IMAGE && !KdenliveSettings::defaultimageapp().isEmpty()) {
+                m_openAction->setIcon(KIcon(KdenliveSettings::defaultimageapp()));
+                m_openAction->setEnabled(true);
+            } else if (clip->clipType() == AUDIO && !KdenliveSettings::defaultaudioapp().isEmpty()) {
+                m_openAction->setIcon(KIcon(KdenliveSettings::defaultaudioapp()));
+                m_openAction->setEnabled(true);
+            } else m_openAction->setEnabled(false);
+        }
     } else {
         emit clipSelected(NULL);
         m_editAction->setEnabled(false);
