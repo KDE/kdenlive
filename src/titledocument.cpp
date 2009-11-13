@@ -97,11 +97,11 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
             content.setAttribute("font-italic", font.italic());
             content.setAttribute("font-underline", font.underline());
             content.setAttribute("font-color", colorToString(t->defaultTextColor()));
-	    
-	    if (!t->data(100).isNull()) {
-		QStringList effectParams = t->data(100).toStringList();
-		content.setAttribute(effectParams.at(0), effectParams.at(1));
-	    }
+
+            if (!t->data(100).isNull()) {
+                QStringList effectParams = t->data(100).toStringList();
+                content.setAttribute(effectParams.at(0), effectParams.at(1));
+            }
 
             // Only save when necessary.
             if (t->data(OriginXLeft).toInt() == AxisInverted) {
@@ -292,12 +292,12 @@ int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsRectItem* startv, QGra
                     if (!txtProperties.namedItem("kdenlive-axis-y-inverted").isNull()) {
                         txt->setData(OriginYTop, txtProperties.namedItem("kdenlive-axis-y-inverted").nodeValue().toInt());
                     }
-		    
-		    // Effects
-		    if (!txtProperties.namedItem("typewriter").isNull()) {
-			QStringList effData = QStringList() << "typewriter" << QString::number(txtProperties.namedItem("typewriter").nodeValue().toInt());
-			txt->setData(100, effData);
-		    }
+
+                    // Effects
+                    if (!txtProperties.namedItem("typewriter").isNull()) {
+                        QStringList effData = QStringList() << "typewriter" << QString::number(txtProperties.namedItem("typewriter").nodeValue().toInt());
+                        txt->setData(100, effData);
+                    }
 
                     gitem = txt;
                 } else if (items.item(i).attributes().namedItem("type").nodeValue() == "QGraphicsRectItem") {

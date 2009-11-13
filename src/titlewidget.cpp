@@ -50,6 +50,11 @@ const int IMAGEITEM = 7;
 const int RECTITEM = 3;
 const int TEXTITEM = 8;
 
+const int NOEFFECT = 0;
+const int BLUREFFECT = 1;
+const int SHADOWEFFECT = 2;
+const int TYPEWRITEREFFECT = 3;
+
 TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render *render, QWidget *parent) :
         QDialog(parent),
         Ui::TitleWidget_UI(),
@@ -64,16 +69,12 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     setupUi(this);
     setFont(KGlobalSettings::toolBarFont());
     frame_properties->setEnabled(false);
-    rect_properties->setFixedHeight(frame_properties->height() + 4);
-    no_properties->setFixedHeight(frame_properties->height() + 4);
-    image_properties->setFixedHeight(frame_properties->height() + 4);
-    text_properties->setFixedHeight(frame_properties->height() + 4);
     frame_properties->setFixedHeight(frame_toolbar->height());
 
     itemzoom->setSuffix(i18n("%"));
     m_frameWidth = render->renderWidth();
     m_frameHeight = render->renderHeight();
-    showToolbars(TITLE_NONE);
+    showToolbars(TITLE_SELECT);
 
     //TODO: get default title duration instead of hardcoded one
     title_duration->setText(m_tc.getTimecode(GenTime(5000 / 1000.0)));
@@ -102,6 +103,10 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     connect(endViewportY, SIGNAL(valueChanged(int)), this, SLOT(setupViewports()));
     connect(endViewportSize, SIGNAL(valueChanged(int)), this, SLOT(setupViewports()));*/
 
+    // Fill effects
+    effect_list->addItem(i18n("None"), NOEFFECT);
+    effect_list->addItem(i18n("Typewriter"), TYPEWRITEREFFECT);
+
     connect(zValue, SIGNAL(valueChanged(int)), this, SLOT(zIndexChanged(int)));
     connect(itemzoom, SIGNAL(valueChanged(int)), this, SLOT(itemScaled(int)));
     connect(itemrotate, SIGNAL(valueChanged(int)), this, SLOT(itemRotate(int)));
@@ -118,7 +123,7 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     connect(shadow_x, SIGNAL(valueChanged(int)), this, SLOT(slotEditShadow()));
     connect(shadow_y, SIGNAL(valueChanged(int)), this, SLOT(slotEditShadow()));
     effect_stack->setHidden(true);
-    effect_list->setEnabled(false);
+    effect_frame->setEnabled(false);
 
     connect(origin_x_left, SIGNAL(clicked()), this, SLOT(slotOriginXClicked()));
     connect(origin_y_top, SIGNAL(clicked()), this, SLOT(slotOriginYClicked()));
@@ -208,8 +213,10 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
 
     QHBoxLayout *layout = new QHBoxLayout;
     frame_toolbar->setLayout(layout);
-    layout->setContentsMargins(2, 2, 2, 2);
+    layout->setContentsMargins(0, 0, 0, 0);
     QToolBar *m_toolbar = new QToolBar("titleToolBar", this);
+    int s = style()->pixelMetric(QStyle::PM_SmallIconSize);
+    m_toolbar->setIconSize(QSize(s, s));
 
     m_buttonCursor = m_toolbar->addAction(KIcon("transform-move"), QString());
     m_buttonCursor->setCheckable(true);
@@ -422,7 +429,7 @@ void TitleWidget::slotSelectTool()
     enableToolbars(t);
     if (t == TITLE_RECTANGLE && (l.at(0) == m_endViewport || l.at(0) == m_startViewport)) {
         //graphicsView->centerOn(l.at(0));
-        t = TITLE_NONE;
+        t = TITLE_SELECT;
     }
     showToolbars(t);
 
@@ -459,77 +466,21 @@ void TitleWidget::slotImageTool()
     }
     m_scene->setTool(TITLE_SELECT);
     showToolbars(TITLE_SELECT);
-    checkButton(TITLE_NONE);
+    checkButton(TITLE_SELECT);
 }
 
 void TitleWidget::showToolbars(TITLETOOL toolType)
 {
-    switch (toolType) {
-    case TITLE_TEXT:
-        rect_properties->setHidden(true);
-        image_properties->setHidden(true);
-        no_properties->setHidden(true);
-        text_properties->setHidden(false);
-        break;
-    case TITLE_RECTANGLE:
-        image_properties->setHidden(true);
-        no_properties->setHidden(true);
-        text_properties->setHidden(true);
-        rect_properties->setHidden(false);
-        break;
-    case TITLE_IMAGE:
-        no_properties->setHidden(true);
-        text_properties->setHidden(true);
-        rect_properties->setHidden(true);
-        image_properties->setHidden(false);
-        break;
-    default:
-        text_properties->setHidden(true);
-        rect_properties->setHidden(true);
-        image_properties->setHidden(true);
-        no_properties->setHidden(false);
-        break;
-    }
+    toolbar_stack->setCurrentIndex((int) toolType);
 }
 
 void TitleWidget::enableToolbars(TITLETOOL toolType)
 {
     // TITLETOOL is defined in graphicsscenerectmove.h
-    bool bFrame = false;
-    bool bText = false;
-    bool bRect = false;
-    bool bImage = false;
-    bool bValue_w = false;
-    bool bValue_h = false;
-
-    switch (toolType) {
-    case TITLE_SELECT:
-        break;
-    case TITLE_TEXT:
-        bFrame = true;
-        bText = true;
-        break;
-    case TITLE_RECTANGLE:
-        bFrame = true;
-        bRect = true;
-        bValue_w = true;
-        bValue_h = true;
-        break;
-    case TITLE_IMAGE:
-        bFrame = true;
-        bValue_w = true;
-        bValue_h = true;
-        bImage = true;
-        break;
-    default:
-        break;
-    }
-    frame_properties->setEnabled(bFrame);
-    text_properties->setEnabled(bText);
-    rect_properties->setEnabled(bRect);
-    image_properties->setEnabled(bImage);
-    value_w->setEnabled(bValue_w);
-    value_h->setEnabled(bValue_h);
+    bool enable = false;
+    if (toolType == TITLE_RECTANGLE || toolType == TITLE_IMAGE) enable = true;
+    value_w->setEnabled(enable);
+    value_h->setEnabled(enable);
 }
 
 void TitleWidget::checkButton(TITLETOOL toolType)
@@ -552,7 +503,7 @@ void TitleWidget::checkButton(TITLETOOL toolType)
     case TITLE_IMAGE:
         bImage = true;
         break;
-    case TITLE_NONE:
+    default:
         break;
     }
 
@@ -714,9 +665,9 @@ void TitleWidget::selectionChanged()
     itemzoom->blockSignals(true);
     itemrotate->blockSignals(true);
     if (l.size() == 0) {
-	effect_stack->setHidden(true);
-	effect_list->setEnabled(false);
-	effect_list->setCurrentIndex(0);
+        effect_stack->setHidden(true);
+        effect_frame->setEnabled(false);
+        effect_list->setCurrentIndex(0);
         bool blockX = !origin_x_left->signalsBlocked();
         bool blockY = !origin_y_top->signalsBlocked();
         if (blockX) origin_x_left->blockSignals(true);
@@ -725,13 +676,15 @@ void TitleWidget::selectionChanged()
         origin_y_top->setChecked(false);
         updateTextOriginX();
         updateTextOriginY();
-        enableToolbars(TITLE_NONE);
+        enableToolbars(TITLE_SELECT);
         if (blockX) origin_x_left->blockSignals(false);
         if (blockY) origin_y_top->blockSignals(false);
         itemzoom->setEnabled(false);
         itemrotate->setEnabled(false);
+        frame_properties->setEnabled(false);
     } else if (l.size() == 1) {
-	effect_list->setEnabled(true);
+        effect_frame->setEnabled(true);
+        frame_properties->setEnabled(true);
         if (l.at(0) != m_startViewport && l.at(0) != m_endViewport) {
             itemzoom->setEnabled(true);
             itemrotate->setEnabled(true);
@@ -743,16 +696,34 @@ void TitleWidget::selectionChanged()
         if (l.at(0)->type() == TEXTITEM) {
             showToolbars(TITLE_TEXT);
             QGraphicsTextItem* i = static_cast <QGraphicsTextItem *>(l.at(0));
-	    if (!i->data(100).isNull()) {
-		// Item has an effect
-		QStringList effdata = i->data(100).toStringList();
-		if (effdata.at(0) == "typewriter") {
-		    typewriter_delay->setValue(effdata.at(1).toInt());
-		    effect_list->setCurrentIndex(3);
-		    effect_stack->setHidden(false);
-		}
-	    }
-	    else effect_stack->setHidden(true);
+            if (!i->data(100).isNull()) {
+                // Item has an effect
+                QStringList effdata = i->data(100).toStringList();
+                if (effdata.at(0) == "typewriter") {
+                    typewriter_delay->setValue(effdata.at(1).toInt());
+                    effect_list->setCurrentIndex(effect_list->findData((int) TYPEWRITEREFFECT));
+                    effect_stack->setHidden(false);
+                }
+            } else {
+                if (i->graphicsEffect()) {
+                    QGraphicsBlurEffect *blur = static_cast <QGraphicsBlurEffect *>(i->graphicsEffect());
+                    if (blur) {
+                        effect_list->setCurrentIndex(effect_list->findData((int) BLUREFFECT));
+                        int rad = (int) blur->blurRadius();
+                        blur_radius->setValue(rad);
+                        effect_stack->setHidden(false);
+                    } else {
+                        QGraphicsDropShadowEffect *shad = static_cast <QGraphicsDropShadowEffect *>(i->graphicsEffect());
+                        if (shad) {
+                            effect_list->setCurrentIndex(effect_list->findData((int) SHADOWEFFECT));
+                            shadow_radius->setValue(shad->blurRadius());
+                            shadow_x->setValue(shad->xOffset());
+                            shadow_y->setValue(shad->yOffset());
+                            effect_stack->setHidden(false);
+                        }
+                    }
+                } else effect_stack->setHidden(true);
+            }
             //if (l[0]->hasFocus())
             //toolBox->setCurrentIndex(0);
             //toolBox->setItemEnabled(2, true);
@@ -811,7 +782,7 @@ void TitleWidget::selectionChanged()
                 /*toolBox->setCurrentIndex(3);
                 toolBox->widget(0)->setEnabled(false);
                 toolBox->widget(1)->setEnabled(false);*/
-                enableToolbars(TITLE_NONE);
+                enableToolbars(TITLE_SELECT);
             } else {
                 /*toolBox->widget(0)->setEnabled(true);
                 toolBox->widget(1)->setEnabled(true);
@@ -845,11 +816,9 @@ void TitleWidget::selectionChanged()
 
         } else {
             //toolBox->setCurrentIndex(0);
-            showToolbars(TITLE_NONE);
-            enableToolbars(TITLE_NONE);
-            /*frame_properties->setEnabled(false);
-            text_properties->setEnabled(false);
-            rect_properties->setEnabled(false);*/
+            showToolbars(TITLE_SELECT);
+            enableToolbars(TITLE_SELECT);
+            frame_properties->setEnabled(false);
         }
         zValue->setValue((int)l.at(0)->zValue());
         itemzoom->setValue((int)(m_transformations.value(l.at(0)).scalex * 100.0 + 0.5));
@@ -1665,7 +1634,7 @@ void TitleWidget::slotAnimStart(bool anim)
     itemzoom->setEnabled(!anim);
     itemrotate->setEnabled(!anim);
     frame_toolbar->setEnabled(!anim);
-    rect_properties->setEnabled(!anim);
+    toolbar_stack->setEnabled(!anim);
     if (anim) {
         keep_aspect->setChecked(!m_startViewport->data(0).isNull());
         m_startViewport->setZValue(1100);
@@ -1705,7 +1674,7 @@ void TitleWidget::slotAnimEnd(bool anim)
     itemzoom->setEnabled(!anim);
     itemrotate->setEnabled(!anim);
     frame_toolbar->setEnabled(!anim);
-    rect_properties->setEnabled(!anim);
+    toolbar_stack->setEnabled(!anim);
     if (anim) {
         keep_aspect->setChecked(!m_endViewport->data(0).isNull());
         m_endViewport->setZValue(1100);
@@ -1814,33 +1783,34 @@ void TitleWidget::slotResize200()
 
 void TitleWidget::slotAddEffect(int ix)
 {
-    if (ix == 0) {
-	effect_stack->setHidden(true);
-	return;
+    int effect = effect_list->itemData(ix).toInt();
+    if (effect == 0) {
+        effect_stack->setHidden(true);
+        return;
     }
-    effect_stack->setCurrentIndex(ix -1);
+    effect_stack->setCurrentIndex(effect - 1);
     effect_stack->setHidden(false);
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
-    if (ix == 3) {
-	if (l.size() == 1) {
-	    QStringList effdata = QStringList() << "typewriter" << QString::number(typewriter_delay->value());
-	    l[0]->setData(100, effdata);
-	}
+    if (effect == TYPEWRITEREFFECT) {
+        if (l.size() == 1 && l.at(0)->type() == TEXTITEM) {
+            QStringList effdata = QStringList() << "typewriter" << QString::number(typewriter_delay->value());
+            l[0]->setData(100, effdata);
+        }
     }
 #if QT_VERSION < 0x040600
     return;
 #else
-    if (ix == 1) {
+    if (effect == BLUREFFECT) {
         // Blur effect
-	if (l.size() == 1) {
-	    QGraphicsEffect *eff = new QGraphicsBlurEffect();
-	    l[0]->setGraphicsEffect(eff);
-	}
-    } else if (ix == 2) {
-	if (l.size() == 1) {
-	    QGraphicsEffect *eff = new QGraphicsDropShadowEffect();
-	    l[0]->setGraphicsEffect(eff);
-	}
+        if (l.size() == 1) {
+            QGraphicsEffect *eff = new QGraphicsBlurEffect();
+            l[0]->setGraphicsEffect(eff);
+        }
+    } else if (effect == SHADOWEFFECT) {
+        if (l.size() == 1) {
+            QGraphicsEffect *eff = new QGraphicsDropShadowEffect();
+            l[0]->setGraphicsEffect(eff);
+        }
     }
 
 #endif
@@ -1863,7 +1833,7 @@ void TitleWidget::slotEditTypewriter(int ix)
 {
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     if (l.size() == 1) {
-      	QStringList effdata = QStringList() << "typewriter" << QString::number(typewriter_delay->value());
+        QStringList effdata = QStringList() << "typewriter" << QString::number(typewriter_delay->value());
         l[0]->setData(100, effdata);
     }
 }

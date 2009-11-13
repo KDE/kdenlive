@@ -24,7 +24,7 @@
 #include <QGraphicsScene>
 
 enum resizeModes {NoResize, TopLeft, BottomLeft, TopRight, BottomRight, Left, Right, Up, Down};
-enum TITLETOOL { TITLE_NONE = -1, TITLE_SELECT = 0, TITLE_RECTANGLE = 1, TITLE_TEXT = 2, TITLE_IMAGE = 3 };
+enum TITLETOOL { TITLE_SELECT = 0, TITLE_RECTANGLE = 1, TITLE_TEXT = 2, TITLE_IMAGE = 3 };
 
 class GraphicsSceneRectMove: public QGraphicsScene
 {
