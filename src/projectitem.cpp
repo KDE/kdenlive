@@ -33,7 +33,7 @@ const int itemHeight = 38;
 ProjectItem::ProjectItem(QTreeWidget * parent, DocClipBase *clip) :
         QTreeWidgetItem(parent, PROJECTCLIPTYPE)
 {
-    setSizeHint(0, QSize(60, itemHeight));
+    setSizeHint(0, QSize(itemHeight * 3, itemHeight));
     setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable);
     m_clip = clip;
     m_clipId = clip->getId();
@@ -53,7 +53,7 @@ ProjectItem::ProjectItem(QTreeWidget * parent, DocClipBase *clip) :
 ProjectItem::ProjectItem(QTreeWidgetItem * parent, DocClipBase *clip) :
         QTreeWidgetItem(parent, PROJECTCLIPTYPE)
 {
-    setSizeHint(0, QSize(60, itemHeight));
+    setSizeHint(0, QSize(itemHeight * 3, itemHeight));
     setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable);
     m_clip = clip;
     m_clipId = clip->getId();
