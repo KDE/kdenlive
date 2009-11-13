@@ -112,12 +112,13 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     connect(itemleft, SIGNAL(clicked()), this, SLOT(itemLeft()));
     connect(itemright, SIGNAL(clicked()), this, SLOT(itemRight()));
     connect(effect_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotAddEffect(int)));
+    connect(typewriter_delay, SIGNAL(valueChanged(int)), this, SLOT(slotEditTypewriter(int)));
     connect(blur_radius, SIGNAL(valueChanged(int)), this, SLOT(slotEditBlur(int)));
     connect(shadow_radius, SIGNAL(valueChanged(int)), this, SLOT(slotEditShadow()));
     connect(shadow_x, SIGNAL(valueChanged(int)), this, SLOT(slotEditShadow()));
     connect(shadow_y, SIGNAL(valueChanged(int)), this, SLOT(slotEditShadow()));
-    blur_frame->setHidden(true);
-    shadow_frame->setHidden(true);
+    effect_stack->setHidden(true);
+    effect_list->setEnabled(false);
 
     connect(origin_x_left, SIGNAL(clicked()), this, SLOT(slotOriginXClicked()));
     connect(origin_y_top, SIGNAL(clicked()), this, SLOT(slotOriginYClicked()));
@@ -713,6 +714,9 @@ void TitleWidget::selectionChanged()
     itemzoom->blockSignals(true);
     itemrotate->blockSignals(true);
     if (l.size() == 0) {
+	effect_stack->setHidden(true);
+	effect_list->setEnabled(false);
+	effect_list->setCurrentIndex(0);
         bool blockX = !origin_x_left->signalsBlocked();
         bool blockY = !origin_y_top->signalsBlocked();
         if (blockX) origin_x_left->blockSignals(true);
@@ -727,6 +731,7 @@ void TitleWidget::selectionChanged()
         itemzoom->setEnabled(false);
         itemrotate->setEnabled(false);
     } else if (l.size() == 1) {
+	effect_list->setEnabled(true);
         if (l.at(0) != m_startViewport && l.at(0) != m_endViewport) {
             itemzoom->setEnabled(true);
             itemrotate->setEnabled(true);
@@ -738,6 +743,16 @@ void TitleWidget::selectionChanged()
         if (l.at(0)->type() == TEXTITEM) {
             showToolbars(TITLE_TEXT);
             QGraphicsTextItem* i = static_cast <QGraphicsTextItem *>(l.at(0));
+	    if (!i->data(100).isNull()) {
+		// Item has an effect
+		QStringList effdata = i->data(100).toStringList();
+		if (effdata.at(0) == "typewriter") {
+		    typewriter_delay->setValue(effdata.at(1).toInt());
+		    effect_list->setCurrentIndex(3);
+		    effect_stack->setHidden(false);
+		}
+	    }
+	    else effect_stack->setHidden(true);
             //if (l[0]->hasFocus())
             //toolBox->setCurrentIndex(0);
             //toolBox->setItemEnabled(2, true);
@@ -1799,27 +1814,35 @@ void TitleWidget::slotResize200()
 
 void TitleWidget::slotAddEffect(int ix)
 {
+    if (ix == 0) {
+	effect_stack->setHidden(true);
+	return;
+    }
+    effect_stack->setCurrentIndex(ix -1);
+    effect_stack->setHidden(false);
+    QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
+    if (ix == 3) {
+	if (l.size() == 1) {
+	    QStringList effdata = QStringList() << "typewriter" << QString::number(typewriter_delay->value());
+	    l[0]->setData(100, effdata);
+	}
+    }
 #if QT_VERSION < 0x040600
     return;
 #else
-    QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
-    QGraphicsEffect *eff = NULL;
     if (ix == 1) {
         // Blur effect
-        eff = new QGraphicsBlurEffect();
-        shadow_frame->setHidden(true);
-        blur_frame->setHidden(false);
+	if (l.size() == 1) {
+	    QGraphicsEffect *eff = new QGraphicsBlurEffect();
+	    l[0]->setGraphicsEffect(eff);
+	}
     } else if (ix == 2) {
-        eff = new QGraphicsDropShadowEffect();
-        blur_frame->setHidden(true);
-        shadow_frame->setHidden(false);
-    } else {
-        blur_frame->setHidden(true);
-        shadow_frame->setHidden(true);
+	if (l.size() == 1) {
+	    QGraphicsEffect *eff = new QGraphicsDropShadowEffect();
+	    l[0]->setGraphicsEffect(eff);
+	}
     }
-    if (l.size() == 1) {
-        l[0]->setGraphicsEffect(eff);
-    } else delete eff;
+
 #endif
 }
 
@@ -1834,6 +1857,15 @@ void TitleWidget::slotFontText(const QString& s)
     }
     // TODO: typing dejavu serif does not recognize the font (takes sans).
     // upper/lowercase problem?
+}
+
+void TitleWidget::slotEditTypewriter(int ix)
+{
+    QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
+    if (l.size() == 1) {
+      	QStringList effdata = QStringList() << "typewriter" << QString::number(typewriter_delay->value());
+        l[0]->setData(100, effdata);
+    }
 }
 
 void TitleWidget::slotEditBlur(int ix)

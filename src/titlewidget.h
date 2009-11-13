@@ -259,6 +259,7 @@ private slots:
     void slotAddEffect(int ix);
     void slotEditBlur(int ix);
     void slotEditShadow();
+    void slotEditTypewriter(int ix);
 };
 
 
