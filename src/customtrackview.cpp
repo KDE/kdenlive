@@ -1309,7 +1309,7 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint pos)
             kDebug() << " WARNING))))))))) CLIP NOT FOUND : " << list.at(0);
             return false;
         }
-        const QPointF framePos = mapToScene(pos);
+        QPointF framePos = mapToScene(pos);
         ItemInfo info;
         info.startPos = GenTime();
         info.cropStart = GenTime(list.at(1).toInt(), m_document->fps());
@@ -1322,6 +1322,8 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint pos)
         pasteInfo.startPos = GenTime((int)(framePos.x() + 0.5), m_document->fps());
         pasteInfo.endPos = pasteInfo.startPos + info.endPos;
         pasteInfo.track = (int)(framePos.y() / m_tracksHeight);
+        framePos.setX((int)(framePos.x() + 0.5));
+        framePos.setY(pasteInfo.track * m_tracksHeight);
         if (!canBePastedTo(pasteInfo, AVWIDGET)) {
             return true;
         }
@@ -1345,9 +1347,11 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint pos)
 
         QList <GenTime> offsetList;
         QList <ItemInfo> infoList;
-        const QPointF framePos = mapToScene(pos);
+        QPointF framePos = mapToScene(pos);
         GenTime start = GenTime((int)(framePos.x() + 0.5), m_document->fps());
         int track = (int)(framePos.y() / m_tracksHeight);
+        framePos.setX((int)(framePos.x() + 0.5));
+        framePos.setY(track * m_tracksHeight);
 
         // Check if clips can be inserted at that position
         for (int i = 0; i < ids.size(); ++i) {
