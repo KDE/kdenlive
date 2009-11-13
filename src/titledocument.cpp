@@ -100,7 +100,7 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
 
             if (!t->data(100).isNull()) {
                 QStringList effectParams = t->data(100).toStringList();
-                content.setAttribute(effectParams.at(0), effectParams.at(1));
+                content.setAttribute(effectParams.takeFirst(), effectParams.join(";"));
             }
 
             // Only save when necessary.
@@ -295,7 +295,7 @@ int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsRectItem* startv, QGra
 
                     // Effects
                     if (!txtProperties.namedItem("typewriter").isNull()) {
-                        QStringList effData = QStringList() << "typewriter" << QString::number(txtProperties.namedItem("typewriter").nodeValue().toInt());
+                        QStringList effData = QStringList() << "typewriter" << txtProperties.namedItem("typewriter").nodeValue();
                         txt->setData(100, effData);
                     }
 
