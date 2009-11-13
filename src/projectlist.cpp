@@ -1172,7 +1172,7 @@ FolderProjectItem *ProjectList::getFolderItemById(const QString &id)
     while (*it) {
         if ((*it)->type() == PROJECTFOLDERTYPE) {
             item = static_cast<FolderProjectItem *>(*it);
-            return item;
+            if (item->clipId() == id) return item;
         }
         ++it;
     }
