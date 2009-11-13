@@ -750,13 +750,13 @@ void MainWindow::setupActions()
     m_normalEditTool->setChecked(true);
 
     m_overwriteEditTool = new KAction(KIcon("kdenlive-overwrite-edit"), i18n("Overwrite mode"), this);
-    m_overwriteEditTool->setShortcut(i18nc("Overwrite mode shortcut", "o"));
+    //m_overwriteEditTool->setShortcut(i18nc("Overwrite mode shortcut", "o"));
     toolbar->addAction(m_overwriteEditTool);
     m_overwriteEditTool->setCheckable(true);
     m_overwriteEditTool->setChecked(false);
 
     m_insertEditTool = new KAction(KIcon("kdenlive-insert-edit"), i18n("Insert mode"), this);
-    m_insertEditTool->setShortcut(i18nc("Insert mode shortcut", "i"));
+    //m_insertEditTool->setShortcut(i18nc("Insert mode shortcut", "i"));
     toolbar->addAction(m_insertEditTool);
     m_insertEditTool->setCheckable(true);
     m_insertEditTool->setChecked(false);

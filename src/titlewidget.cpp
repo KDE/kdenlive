@@ -1794,14 +1794,15 @@ void TitleWidget::slotResize200()
 
 void TitleWidget::slotAddEffect(int ix)
 {
+    QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     int effect = effect_list->itemData(ix).toInt();
-    if (effect == 0) {
+    if (effect == NOEFFECT) {
+	if (l.size() == 1) l[0]->setData(100, QVariant());
         effect_stack->setHidden(true);
         return;
     }
     effect_stack->setCurrentIndex(effect - 1);
     effect_stack->setHidden(false);
-    QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     if (effect == TYPEWRITEREFFECT) {
         if (l.size() == 1 && l.at(0)->type() == TEXTITEM) {
             QStringList effdata = QStringList() << "typewriter" << QString::number(typewriter_delay->value()) + ";" + QString::number(typewriter_start->value());
