@@ -5,7 +5,7 @@ find_package(Nepomuk)
 
 if (Nepomuk_FOUND)
     INCLUDE_DIRECTORIES(NEPOMUK_INCLUDES )
-    set( optional_libs NEPOMUK_LIBRARIES )
+    set( optional_libs ${NEPOMUK_LIBRARIES} )
     add_definitions(-DNEPOMUK)
 endif (Nepomuk_FOUND)
 
