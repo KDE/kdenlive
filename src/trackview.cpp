@@ -689,7 +689,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked)
                             QDomElement currenteffect = clipeffect.cloneNode().toElement();
                             currenteffect.setAttribute("kdenlive_ix", effectindex);
                             QDomNodeList clipeffectparams = currenteffect.childNodes();
-
+			    
                             if (MainWindow::videoEffects.hasKeyFrames(currenteffect)) {
                                 //kDebug() << " * * * * * * * * * * ** CLIP EFF WITH KFR FND  * * * * * * * * * * *";
                                 // effect is key-framable, read all effects to retrieve keyframes
@@ -792,7 +792,16 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked)
                                             if (factor.startsWith('%')) {
                                                 fact = ProfilesDialog::getStringEval(m_doc->mltProfile(), factor);
                                             } else fact = factor.toDouble();
-                                            e.setAttribute("value", paramvalue.toDouble() * fact);
+					    if (e.attribute("type") == "simplekeyframe") {
+						QStringList kfrs = paramvalue.split(";");
+						for (int l = 0; l < kfrs.count(); l++) {
+						    QString fr = kfrs.at(l).section("=", 0, 0);
+						    double val = kfrs.at(l).section("=", 1, 1).toDouble();
+						    kfrs[l] = fr + ":" + QString::number((int) (val * fact));
+						}
+						e.setAttribute("keyframes", kfrs.join(";"));
+					    }
+                                            else e.setAttribute("value", paramvalue.toDouble() * fact);
                                         } else e.setAttribute("value", paramvalue);
                                         break;
                                     }

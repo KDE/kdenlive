@@ -150,6 +150,17 @@ bool EffectsList::hasKeyFrames(QDomElement effect)
     return false;
 }
 
+// static
+bool EffectsList::hasSimpleKeyFrames(QDomElement effect)
+{
+    QDomNodeList params = effect.elementsByTagName("parameter");
+    for (int i = 0; i < params.count(); i++) {
+        QDomElement e = params.item(i).toElement();
+        if (e.attribute("type") == "simplekeyframe") return true;
+    }
+    return false;
+}
+
 void EffectsList::clone(const EffectsList original)
 {
     setContent(original.toString());

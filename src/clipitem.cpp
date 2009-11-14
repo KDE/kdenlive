@@ -183,7 +183,7 @@ void ClipItem::initEffect(QDomElement effect, int diff)
             }
         }
 
-        if (!e.isNull() && e.attribute("type") == "keyframe") {
+        if (!e.isNull() && (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe")) {
             QString def = e.attribute("default");
             // Effect has a keyframe type parameter, we need to set the values
             if (e.attribute("keyframes").isEmpty()) {
@@ -316,7 +316,7 @@ void ClipItem::setKeyframes(const int ix, const QString keyframes)
     QDomNodeList params = effect.elementsByTagName("parameter");
     for (int i = 0; i < params.count(); i++) {
         QDomElement e = params.item(i).toElement();
-        if (!e.isNull() && e.attribute("type") == "keyframe") {
+        if (!e.isNull() && (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe")) {
             e.setAttribute("keyframes", keyframes);
             if (ix == m_selectedEffect) {
                 m_keyframes.clear();
@@ -349,7 +349,7 @@ void ClipItem::setSelectedEffect(const int ix)
         if (effect.attribute("disabled") != "1")
             for (int i = 0; i < params.count(); i++) {
                 QDomElement e = params.item(i).toElement();
-                if (!e.isNull() && e.attribute("type") == "keyframe") {
+                if (!e.isNull() && (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe")) {
                     m_keyframes.clear();
                     double max = e.attribute("max").toDouble();
                     double min = e.attribute("min").toDouble();
@@ -381,7 +381,7 @@ QString ClipItem::keyframes(const int index)
 
     for (int i = 0; i < params.count(); i++) {
         QDomElement e = params.item(i).toElement();
-        if (!e.isNull() && e.attribute("type") == "keyframe") {
+        if (!e.isNull() && (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe")) {
             result = e.attribute("keyframes");
             break;
         }
@@ -398,7 +398,7 @@ void ClipItem::updateKeyframeEffect()
 
     for (int i = 0; i < params.count(); i++) {
         QDomElement e = params.item(i).toElement();
-        if (!e.isNull() && e.attribute("type") == "keyframe") {
+        if (!e.isNull() && (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe")) {
             QString keyframes;
             if (m_keyframes.count() > 1) {
                 QMap<int, int>::const_iterator i = m_keyframes.constBegin();
@@ -1111,7 +1111,7 @@ bool ClipItem::checkEffectsKeyframesPos(const int previous, const int current, b
         QDomNodeList params = effect.elementsByTagName("parameter");
         for (int j = 0; j < params.count(); j++) {
             QDomElement e = params.item(i).toElement();
-            if (e.attribute("type") == "keyframe") {
+            if (!e.isNull() && (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe")) {
                 // parse keyframes and adjust values
                 const QStringList keyframes = e.attribute("keyframes").split(';', QString::SkipEmptyParts);
                 QMap <int, double> kfr;
@@ -1308,7 +1308,22 @@ EffectsParameterList ClipItem::addEffect(const QDomElement effect, bool /*animat
     for (int i = 0; i < params.count(); i++) {
         QDomElement e = params.item(i).toElement();
         if (!e.isNull()) {
-            if (e.attribute("type") == "keyframe") {
+	    if (e.attribute("type") == "simplekeyframe") {
+		QStringList values = e.attribute("keyframes").split(";", QString::SkipEmptyParts);
+		double factor = e.attribute("factor", "1").toDouble();
+		if (factor != 1) {
+		    for (int j = 0; j < values.count(); j++) {
+			QString pos = values.at(j).section(":", 0, 0);
+			double val = values.at(j).section(":", 1, 1).toDouble() / factor;
+			values[j] = pos + "=" + QString::number(val);
+		    }
+		}
+                parameters.addParam(e.attribute("name"), values.join(";"));
+                /*parameters.addParam("max", e.attribute("max"));
+                parameters.addParam("min", e.attribute("min"));
+                parameters.addParam("factor", );*/
+            }
+            else if (e.attribute("type") == "keyframe") {
                 parameters.addParam("keyframes", e.attribute("keyframes"));
                 parameters.addParam("max", e.attribute("max"));
                 parameters.addParam("min", e.attribute("min"));
@@ -1403,7 +1418,24 @@ EffectsParameterList ClipItem::getEffectArgs(const QDomElement effect)
     for (int i = 0; i < params.count(); i++) {
         QDomElement e = params.item(i).toElement();
         //kDebug() << "/ / / /SENDING EFFECT PARAM: " << e.attribute("type") << ", NAME_ " << e.attribute("tag");
-        if (e.attribute("type") == "keyframe") {
+	if (e.attribute("type") == "simplekeyframe") {
+            kDebug() << "/ / / /SENDING KEYFR EFFECT TYPE";
+	    QStringList values = e.attribute("keyframes").split(";", QString::SkipEmptyParts);
+	    double factor = e.attribute("factor", "1").toDouble();
+	    if (factor != 1) {
+		for (int j = 0; j < values.count(); j++) {
+		    QString pos = values.at(j).section(":", 0, 0);
+		    double val = values.at(j).section(":", 1, 1).toDouble() / factor;
+		    values[j] = pos + "=" + QString::number(val);
+		}
+	    }
+            parameters.addParam(e.attribute("name"), values.join(";"));
+            /*parameters.addParam(e.attribute("name"), e.attribute("keyframes").replace(":", "="));
+            parameters.addParam("max", e.attribute("max"));
+            parameters.addParam("min", e.attribute("min"));
+            parameters.addParam("factor", e.attribute("factor", "1"));*/
+        }
+        else if (e.attribute("type") == "keyframe") {
             kDebug() << "/ / / /SENDING KEYFR EFFECT TYPE";
             parameters.addParam("keyframes", e.attribute("keyframes"));
             parameters.addParam("max", e.attribute("max"));
