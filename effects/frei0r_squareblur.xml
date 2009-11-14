@@ -3,7 +3,7 @@
 	<name>Square Blur</name>
 	<description>Variable-size square blur (frei0r.squareblur)</description>
 	<author>Drone</author>
-	<parameter type="constant" name="Kernel size" max="500" min="0" default="50" factor="1000">
+	<parameter type="simplekeyframe" name="Kernel size" max="500" min="0" default="50" factor="1000">
 		<name>Kernel size</name>
 	</parameter>
 </effect>
