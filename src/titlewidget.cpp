@@ -711,6 +711,7 @@ void TitleWidget::selectionChanged()
                     effect_stack->setHidden(false);
                 }
             } else {
+#if QT_VERSION >= 0x040600
                 if (i->graphicsEffect()) {
                     QGraphicsBlurEffect *blur = static_cast <QGraphicsBlurEffect *>(i->graphicsEffect());
                     if (blur) {
@@ -734,6 +735,12 @@ void TitleWidget::selectionChanged()
                     effect_list->blockSignals(false);
                     effect_stack->setHidden(true);
                 }
+#else
+		effect_list->blockSignals(true);
+                effect_list->setCurrentIndex(effect_list->findData((int) NOEFFECT));
+                effect_list->blockSignals(false);
+                effect_stack->setHidden(true);
+#endif
             }
             //if (l[0]->hasFocus())
             //toolBox->setCurrentIndex(0);
