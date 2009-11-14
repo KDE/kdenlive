@@ -33,9 +33,10 @@
 
 #include <KTreeWidgetSearchLine>
 #include <KUrl>
+#ifdef NEPOMUK
 #include <nepomuk/kratingpainter.h>
 #include <nepomuk/resource.h>
-
+#endif
 #include "definitions.h"
 #include "timecode.h"
 #include "kdenlivesettings.h"
@@ -107,7 +108,9 @@ public:
             if (option.state & (QStyle::State_Selected)) {
                 painter->fillRect(r1, option.palette.highlight());
             }
+#ifdef NEPOMUK 
             KRatingPainter::paintRating(painter, r1, Qt::AlignCenter, index.data().toInt());
+#endif
         } else {
             QItemDelegate::paint(painter, option, index);
         }

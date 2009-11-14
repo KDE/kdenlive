@@ -1,7 +1,14 @@
 add_subdirectory( widgets )
 add_subdirectory( mimetypes )
 
-find_package(Nepomuk REQUIRED)
+find_package(Nepomuk)
+
+if (Nepomuk_FOUND)
+    INCLUDE_DIRECTORIES(NEPOMUK_INCLUDES )
+    set( optional_libs NEPOMUK_LIBRARIES )
+    add_definitions(-DNEPOMUK)
+endif (Nepomuk_FOUND)
+
 
 if (APPLE)
   find_package(OpenGL)
@@ -19,14 +26,14 @@ include_directories (
     ${CMAKE_BINARY_DIR}
 
     ${CMAKE_SOURCE_DIR}/src/widgets
-    ${NEPOMUK_INCLUDES}
 )
 
 LINK_LIBRARIES(
 ${LIBMLT_LIBRARY}
 ${LIBMLTPLUS_LIBRARY}
-${NEPOMUK_LIBRARIES}
+${optional_libs}
 )
+
 
 
 kde4_add_ui_files(kdenlive_UI
@@ -201,7 +208,7 @@ target_link_libraries(kdenlive
   ${KDE4_KNEWSTUFF2_LIBS}
   ${LIBMLTPLUS_LIBRARY}
   ${LIBMLT_LIBRARY}
-  ${NEPOMUK_LIBRARIES}
+  ${optional_libs}
   ${KDE4_KNOTIFYCONFIG_LIBRARY}
   ${KDE4_KROSSUI_LIBS}
 )

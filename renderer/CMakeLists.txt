@@ -10,7 +10,7 @@ include_directories (
 LINK_LIBRARIES(
 ${LIBMLT_LIBRARY}
 ${LIBMLTPLUS_LIBRARY}
-${NEPOMUK_LIBRARIES}
+${optional_libs}
 )
 
 set(kdenlive_render_SRCS 

@@ -46,10 +46,11 @@
 #include <KMessageBox>
 #include <KIO/NetAccess>
 #include <KFileItem>
-
+#ifdef NEPOMUK
 #include <nepomuk/global.h>
 #include <nepomuk/resourcemanager.h>
 //#include <nepomuk/tag.h>
+#endif
 
 #include <QMouseEvent>
 #include <QStylePainter>
@@ -113,7 +114,7 @@ ProjectList::ProjectList(QWidget *parent) :
 
     m_listViewDelegate = new ItemDelegate(m_listView);
     m_listView->setItemDelegate(m_listViewDelegate);
-
+#ifdef NEPOMUK
     if (KdenliveSettings::activate_nepomuk()) {
         Nepomuk::ResourceManager::instance()->init();
         if (!Nepomuk::ResourceManager::instance()->initialized()) {
@@ -121,6 +122,7 @@ ProjectList::ProjectList(QWidget *parent) :
             KdenliveSettings::setActivate_nepomuk(false);
         }
     }
+#endif
 }
 
 ProjectList::~ProjectList()
@@ -397,11 +399,13 @@ void ProjectList::slotUpdateClipProperties(ProjectItem *clip, QMap <QString, QSt
         m_listView->blockSignals(true);
         clip->setText(1, properties.value("description"));
         m_listView->blockSignals(false);
+#ifdef NEPOMUK
         if (KdenliveSettings::activate_nepomuk() && (type == AUDIO || type == VIDEO || type == AV || type == IMAGE || type == PLAYLIST)) {
             // Use Nepomuk system to store clip description
             Nepomuk::Resource f(clip->clipUrl().path());
             f.setDescription(properties.value("description"));
         }
+#endif
         emit projectModified();
     }
 }
@@ -657,7 +661,7 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
             item->setIcon(0, QPixmap(cachedPixmap));
         }
     }
-
+#ifdef NEPOMUK
     if (!url.isEmpty() && KdenliveSettings::activate_nepomuk()) {
         // if file has Nepomuk comment, use it
         Nepomuk::Resource f(url.path());
@@ -665,7 +669,7 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
         if (!annotation.isEmpty()) item->setText(1, annotation);
         item->setText(2, QString::number(f.rating()));
     }
-
+#endif
     // Add cut zones
     QList <QPoint> cuts = clip->cutZones();
     if (!cuts.isEmpty()) {
