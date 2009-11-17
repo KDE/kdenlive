@@ -234,7 +234,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int in, int out)
         } else if (type == "keyframe" || type == "simplekeyframe") {
             // keyframe editor widget
             kDebug() << "min: " << m_in << ", MAX: " << m_out;
-            KeyframeEdit *geo = new KeyframeEdit(pa, m_out - m_in - 1, pa.attribute("min").toInt(), pa.attribute("max").toInt(), m_timecode);
+            KeyframeEdit *geo = new KeyframeEdit(pa, m_out - m_in - 1, pa.attribute("min").toInt(), pa.attribute("max").toInt(), m_timecode, paramName);
             //geo->setupParam(100, pa.attribute("min").toInt(), pa.attribute("max").toInt(), pa.attribute("keyframes"));
             //connect(geo, SIGNAL(seekToPos(int)), this, SLOT(slotSeekToPos(int)));
             //geo->setupParam(pa, minFrame, maxFrame);

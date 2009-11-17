@@ -149,7 +149,6 @@ void AbstractClipItem::resizeStart(int posx)
     moveBy(durationDiff.frames(m_fps), 0);
 
     if (m_info.startPos != GenTime(posx, m_fps)) {
-        kDebug() << "__ RESIZE START OFFSET: ";
         //kDebug()<<"//////  WARNING, DIFF IN XPOS: "<<pos().x()<<" == "<<m_startPos.frames(m_fps);
         GenTime diff = m_info.startPos - GenTime((int) posx, m_fps);
 
@@ -241,7 +240,7 @@ GenTime AbstractClipItem::maxDuration() const
 
 void AbstractClipItem::drawKeyFrames(QPainter *painter, QRectF /*exposedRect*/)
 {
-    if (m_keyframes.count() < 2) return;
+    if (m_keyframes.count() < 1) return;
     QRectF br = rect();
     double maxw = br.width() / cropDuration().frames(m_fps);
     double maxh = br.height() / 100.0 * m_keyframeFactor;
@@ -275,9 +274,16 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, QRectF /*exposedRect*/)
         if (i.key() == m_selectedKeyframe) color = QColor(Qt::red);
         else color = QColor(Qt::blue);
         ++i;
-        if (i == m_keyframes.constEnd()) break;
-        x2 = br.x() + maxw * (i.key() - cropStart().frames(m_fps));
-        y2 = br.bottom() - i.value() * maxh;
+        if (i == m_keyframes.constEnd() && m_keyframes.count() != 1) {
+            break;
+        }
+        if (m_keyframes.count() == 1) {
+            x2 = br.right();
+            y2 = y1;
+        } else {
+            x2 = br.x() + maxw * (i.key() - cropStart().frames(m_fps));
+            y2 = br.bottom() - i.value() * maxh;
+        }
         QLineF l(x1, y1, x2, y2);
         l2 = painter->matrix().map(l);
         painter->drawLine(l2);
@@ -299,7 +305,7 @@ int AbstractClipItem::mouseOverKeyFrames(QPointF pos, double maxOffset)
     const QRectF br = sceneBoundingRect();
     double maxw = br.width() / cropDuration().frames(m_fps);
     double maxh = br.height() / 100.0 * m_keyframeFactor;
-    if (m_keyframes.count() > 1) {
+    if (m_keyframes.count() > 0) {
         QMap<int, int>::const_iterator i = m_keyframes.constBegin();
         double x1;
         double y1;
@@ -335,7 +341,7 @@ int AbstractClipItem::selectedKeyFramePos() const
 
 double AbstractClipItem::selectedKeyFrameValue() const
 {
-    return m_keyframes[m_editedKeyframe];
+    return m_keyframes.value(m_editedKeyframe);
 }
 
 void AbstractClipItem::updateKeyFramePos(const GenTime pos, const double value)
@@ -366,6 +372,7 @@ void AbstractClipItem::updateKeyFramePos(const GenTime pos, const double value)
     if (m_selectedKeyframe != newpos) m_keyframes.remove(m_selectedKeyframe);
     m_keyframes[newpos] = (int) newval;
     m_selectedKeyframe = newpos;
+
     update();
 }
 

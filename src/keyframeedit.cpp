@@ -24,7 +24,7 @@
 #include <QHeaderView>
 
 
-KeyframeEdit::KeyframeEdit(QDomElement e, int maxFrame, int minVal, int maxVal, Timecode tc, QWidget* parent) :
+KeyframeEdit::KeyframeEdit(QDomElement e, int maxFrame, int minVal, int maxVal, Timecode tc, const QString paramName, QWidget* parent) :
         QWidget(parent),
         m_param(e),
         m_max(maxFrame),
@@ -35,18 +35,23 @@ KeyframeEdit::KeyframeEdit(QDomElement e, int maxFrame, int minVal, int maxVal, 
 {
     setupUi(this);
     keyframe_list->setFont(KGlobalSettings::generalFont());
-    keyframe_list->setHeaderLabels(QStringList() << i18n("Position") << i18n("Value"));
+    keyframe_list->setHeaderLabels(QStringList() << i18n("Position") << (paramName.isEmpty() ? i18n("Value") : paramName));
     //setResizeMode(1, QHeaderView::Interactive);
-    button_add->setIcon(KIcon("document-new"));
-    button_delete->setIcon(KIcon("edit-delete"));
+    button_add->setIcon(KIcon("list-add"));
+    button_add->setToolTip(i18n("Add keyframe"));
+    button_delete->setIcon(KIcon("list-remove"));
+    button_delete->setToolTip(i18n("Delete keyframe"));
     connect(keyframe_list, SIGNAL(itemSelectionChanged()/*itemClicked(QTreeWidgetItem *, int)*/), this, SLOT(slotAdjustKeyframeInfo()));
+    keyframe_val->setRange(m_minVal, m_maxVal);
     setupParam();
+
     keyframe_list->header()->resizeSections(QHeaderView::ResizeToContents);
     connect(button_delete, SIGNAL(clicked()), this, SLOT(slotDeleteKeyframe()));
     connect(button_add, SIGNAL(clicked()), this, SLOT(slotAddKeyframe()));
     connect(keyframe_list, SIGNAL(itemChanged(QTreeWidgetItem *, int)), this, SLOT(slotGenerateParams(QTreeWidgetItem *, int)));
     connect(keyframe_list, SIGNAL(itemDoubleClicked(QTreeWidgetItem *, int)), this, SLOT(slotSaveCurrentParam(QTreeWidgetItem *, int)));
-    connect(keyframe_pos, SIGNAL(valueChanged(int)), this, SLOT(slotAdjustKeyframeValue(int)));
+    connect(keyframe_pos, SIGNAL(valueChanged(int)), this, SLOT(slotAdjustKeyframePos(int)));
+    connect(keyframe_val, SIGNAL(valueChanged(int)), this, SLOT(slotAdjustKeyframeValue(int)));
     keyframe_pos->setPageStep(1);
     m_delegate = new KeyItemDelegate(minVal, maxVal);
     keyframe_list->setItemDelegate(m_delegate);
@@ -73,18 +78,18 @@ void KeyframeEdit::setupParam(QDomElement e)
     QTreeWidgetItem *first = keyframe_list->topLevelItem(0);
     if (first) keyframe_list->setCurrentItem(first);
     slotAdjustKeyframeInfo();
-    button_delete->setEnabled(keyframe_list->topLevelItemCount() > 2);
+    button_delete->setEnabled(keyframe_list->topLevelItemCount() > 1);
 }
 
 void KeyframeEdit::slotDeleteKeyframe()
 {
-    if (keyframe_list->topLevelItemCount() < 3) return;
+    if (keyframe_list->topLevelItemCount() < 2) return;
     QTreeWidgetItem *item = keyframe_list->currentItem();
     if (item) {
         delete item;
         slotGenerateParams();
     }
-    button_delete->setEnabled(keyframe_list->topLevelItemCount() > 2);
+    button_delete->setEnabled(keyframe_list->topLevelItemCount() > 1);
 }
 
 void KeyframeEdit::slotAddKeyframe()
@@ -112,7 +117,7 @@ void KeyframeEdit::slotAddKeyframe()
     keyframe_list->setCurrentItem(newItem);
     slotAdjustKeyframeInfo();
     keyframe_list->blockSignals(false);
-    button_delete->setEnabled(keyframe_list->topLevelItemCount() > 2);
+    button_delete->setEnabled(keyframe_list->topLevelItemCount() > 1);
     slotGenerateParams();
 }
 
@@ -166,12 +171,21 @@ void KeyframeEdit::slotAdjustKeyframeInfo()
     keyframe_pos->setRange(min, max);
     keyframe_pos->setValue(m_timecode.getFrameCount(item->text(0)));
     keyframe_pos->blockSignals(false);
+    keyframe_val->blockSignals(true);
+    keyframe_val->setValue(item->text(1).toInt());
+    keyframe_val->blockSignals(false);
+}
+
+void KeyframeEdit::slotAdjustKeyframePos(int value)
+{
+    QTreeWidgetItem *item = keyframe_list->currentItem();
+    item->setText(0, m_timecode.getTimecodeFromFrames(value));
 }
 
 void KeyframeEdit::slotAdjustKeyframeValue(int value)
 {
     QTreeWidgetItem *item = keyframe_list->currentItem();
-    item->setText(0, m_timecode.getTimecodeFromFrames(value));
+    item->setText(1, QString::number(value));
 }
 
 void KeyframeEdit::slotSaveCurrentParam(QTreeWidgetItem *item, int column)
