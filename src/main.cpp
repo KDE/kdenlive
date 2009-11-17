@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
     KCmdLineArgs::init(argc, argv, &aboutData);
 
     KCmdLineOptions options;
-    options.add("mlt-path <path>", ki18n("Set the path for MLT environnement"));
+    options.add("mlt-path <path>", ki18n("Set the path for MLT environment"));
     options.add("+[file]", ki18n("Document to open")); //new
     KCmdLineArgs::addCmdLineOptions(options); //new
 

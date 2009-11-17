@@ -2489,7 +2489,7 @@ void CustomTrackView::slotRemoveSpace()
     int length = m_document->renderer()->mltGetSpaceLength(pos, m_document->tracksCount() - track, true);
     //kDebug() << "// GOT LENGT; " << length;
     if (length <= 0) {
-        emit displayMessage(i18n("You must be in an empty space to remove space (time: %1, track:%2)", m_document->timecode().getTimecodeFromFrames(mapToScene(m_menuPosition).x()), track), ErrorMessage);
+        emit displayMessage(i18n("You must be in an empty space to remove space (time: %1, track: %2)", m_document->timecode().getTimecodeFromFrames(mapToScene(m_menuPosition).x()), track), ErrorMessage);
         return;
     }
 

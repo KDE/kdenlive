@@ -281,7 +281,7 @@ void RecMonitor::slotDisconnect()
         m_didCapture = false;
         slotStartCapture(false);
         m_discAction->setIcon(KIcon("network-disconnect"));
-        m_discAction->setText(i18n("Disonnect"));
+        m_discAction->setText(i18n("Disconnect"));
         m_recAction->setEnabled(true);
         m_stopAction->setEnabled(true);
         m_playAction->setEnabled(true);

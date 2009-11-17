@@ -166,7 +166,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
     // The document is too new
     if (version > currentVersion) {
         kDebug() << "Unable to open document with version " << version;
-        KMessageBox::sorry(kapp->activeWindow(), i18n("This project type is unsupported (version %1) and can't be loaded.\nPlease consider upgrading you Kdenlive version.", version), i18n("Unable to open project"));
+        KMessageBox::sorry(kapp->activeWindow(), i18n("This project type is unsupported (version %1) and can't be loaded.\nPlease consider upgrading your Kdenlive version.", version), i18n("Unable to open project"));
         return false;
     }
 
