@@ -147,6 +147,7 @@ void KeyframeEdit::slotGenerateParams(QTreeWidgetItem *item, int column)
             if (item->text(1).toInt() >= m_param.attribute("max").toInt()) item->setText(1, m_param.attribute("max"));
             if (item->text(1).toInt() <= m_param.attribute("min").toInt()) item->setText(1, m_param.attribute("min"));
         }
+	slotAdjustKeyframeInfo();
     }
     QString keyframes;
     for (int i = 0; i < keyframe_list->topLevelItemCount(); i++) {
