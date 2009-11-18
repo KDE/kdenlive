@@ -78,6 +78,7 @@ public:
     explicit KeyframeEdit(QDomElement e, int maxFrame, int minVal, int maxVal, Timecode tc, const QString paramName = QString(), QWidget* parent = 0);
     virtual ~KeyframeEdit();
     void setupParam(QDomElement e = QDomElement());
+    void addParameter(QDomElement e);
 
 private:
     QDomElement m_param;

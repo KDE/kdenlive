@@ -64,6 +64,30 @@ KeyframeEdit::~KeyframeEdit()
     delete m_delegate;
 }
 
+void KeyframeEdit::addParameter(QDomElement e) {
+    QDomNode na = e.firstChildElement("name");
+    kDebug() << "- - - -ADD PARAM:" <<na.toElement().text();
+    QString paramName = i18n(na.toElement().text().toUtf8().data());
+    keyframe_list->setColumnCount(3);
+    keyframe_list->headerItem()->setText(2, paramName);
+    
+    QStringList frames = e.attribute("keyframes").split(";", QString::SkipEmptyParts);
+    for (int i = 0; i < frames.count(); i++) {
+        QString framePos = m_timecode.getTimecodeFromFrames(frames.at(i).section(':', 0, 0).toInt());
+	QList<QTreeWidgetItem *> list = keyframe_list->findItems(framePos, Qt::MatchExactly, 0);
+	QTreeWidgetItem *item;
+	if (!list.isEmpty()) {
+	    item = list.at(0);
+	    item->setText(2, frames.at(i).section(':', 1, 1));
+	}
+        else {
+	    item = new QTreeWidgetItem(QStringList() << framePos << QString() << frames.at(i).section(':', 1, 1));
+	    item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsEnabled);
+	    keyframe_list->addTopLevelItem(item);
+	}
+    }
+}
+
 void KeyframeEdit::setupParam(QDomElement e)
 {
     if (!e.isNull()) m_param = e;

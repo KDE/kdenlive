@@ -20,7 +20,7 @@
 
 #include "definitions.h"
 #include "timecode.h"
-
+#include "keyframeedit.h"
 
 #include <QWidget>
 #include <QDomElement>
@@ -66,6 +66,7 @@ private:
     int m_in;
     int m_out;
     QPoint m_frameSize;
+    KeyframeEdit *m_keyframeEditor;
 
 public slots:
     void transferParamDesc(const QDomElement, int , int);

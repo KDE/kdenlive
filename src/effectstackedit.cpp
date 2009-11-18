@@ -21,10 +21,8 @@
 #include "ui_boolval_ui.h"
 #include "ui_colorval_ui.h"
 #include "ui_wipeval_ui.h"
-#include "ui_keyframeeditor_ui.h"
 #include "complexparameter.h"
 #include "geometryval.h"
-#include "keyframeedit.h"
 #include "positionedit.h"
 #include "effectslist.h"
 #include "kdenlivesettings.h"
@@ -68,7 +66,8 @@ EffectStackEdit::EffectStackEdit(QWidget *parent) :
         QScrollArea(parent),
         m_in(0),
         m_out(0),
-        m_frameSize(QPoint())
+        m_frameSize(QPoint()),
+	m_keyframeEditor(NULL)
 {
     m_baseWidget = new QWidget(this);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -122,6 +121,7 @@ void EffectStackEdit::updateParameter(const QString &name, const QString &value)
 void EffectStackEdit::transferParamDesc(const QDomElement d, int in, int out)
 {
     clearAllItems();
+    m_keyframeEditor = NULL;
     m_params = d;
     m_in = in;
     m_out = out;
@@ -234,13 +234,17 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int in, int out)
         } else if (type == "keyframe" || type == "simplekeyframe") {
             // keyframe editor widget
             kDebug() << "min: " << m_in << ", MAX: " << m_out;
-            KeyframeEdit *geo = new KeyframeEdit(pa, m_out - m_in - 1, pa.attribute("min").toInt(), pa.attribute("max").toInt(), m_timecode, paramName);
-            //geo->setupParam(100, pa.attribute("min").toInt(), pa.attribute("max").toInt(), pa.attribute("keyframes"));
-            //connect(geo, SIGNAL(seekToPos(int)), this, SLOT(slotSeekToPos(int)));
-            //geo->setupParam(pa, minFrame, maxFrame);
-            m_vbox->addWidget(geo);
-            m_valueItems[paramName+"keyframe"] = geo;
-            connect(geo, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
+	    if (m_keyframeEditor == NULL) {
+		KeyframeEdit *geo = new KeyframeEdit(pa, m_out - m_in - 1, pa.attribute("min").toInt(), pa.attribute("max").toInt(), m_timecode, paramName);
+		m_vbox->addWidget(geo);
+		m_valueItems[paramName+"keyframe"] = geo;
+		m_keyframeEditor = geo;
+		connect(geo, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
+	    }
+	    else {
+		// we already have a keyframe editor, so just add another column for the new param
+		m_keyframeEditor->addParameter(pa);
+	    }
         } else if (type == "color") {
             Colorval *cval = new Colorval;
             cval->setupUi(toFillin);
