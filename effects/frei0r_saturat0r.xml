@@ -3,7 +3,7 @@
 	<name>Saturat0r</name>
 	<description>Adjusts the saturation of a source image</description>
 	<author>Jean-Sebastien Senecal</author>
-	<parameter type="constant" name="Saturation" default="125" min="0" max="1000" factor="1000">
+	<parameter type="simplekeyframe" name="Saturation" default="125" min="0" max="1000" factor="1000">
 		<name>Saturation</name>
 	</parameter>
 </effect>
