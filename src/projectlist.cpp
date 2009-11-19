@@ -802,6 +802,16 @@ void ProjectList::slotAddClip(const QList <QUrl> givenList, const QString &group
         for (int i = 0; i < givenList.count(); i++)
             list << givenList.at(i);
     }
+    
+    foreach(const KUrl &file, list) {
+	// Check there is no folder here
+	KMimeType::Ptr type = KMimeType::findByUrl(file);
+	if (type->is("inode/directory")) {
+	    // user dropped a folder
+	    list.removeAll(file);
+	}
+    }
+    
     if (list.isEmpty()) return;
 
     if (givenList.isEmpty()) {
