@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-10-01 23:51+0200\n"
-"PO-Revision-Date: 2009-10-17 21:49+0200\n"
+"PO-Revision-Date: 2009-11-19 19:26+0100\n"
 "Last-Translator: Till Theato <root@ttill.de>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -220,7 +220,7 @@ msgstr ""
 "<p>Schmales geschütztes Leerzeichen. Hat die selbe Breite wie U+2009.</"
 "p><p>Verwendung: Für Einheiten (Leerschläge werden mit U+2423, &#x2423;, "
 "markiert): 230&#x2423;V, &#x2212;21&#x2423;&deg;C, 50&#x2423;lb, <em>aber</"
-"em> 90&deg; (kein Leerschlag). Ausserdem für Abkürzungen (wie i.&#x202f;d."
+"em> 90&deg; (kein Leerschlag). Außerdem für Abkürzungen (wie i.&#x202f;d."
 "&#x202f;R. statt i.&#xa0;d.&#xa0;R. mit U+00a0).</p><p>Siehe <a href="
 "\"http://de.wikipedia.org/wiki/Schmales_Leerzeichen\">Wikipedia:de:"
 "Schmales_Leerzeichen</a></p>"
@@ -868,7 +868,7 @@ msgstr "Kann in einer Gruppe keine Clips schneiden"
 
 #: src/customtrackview.cpp:859
 msgid "Cannot cut a transition"
-msgstr "Ein Szenenübergang kann nicht geschnittten werden"
+msgstr "Ein Szenenübergang kann nicht geschnitten werden"
 
 #: src/customtrackview.cpp:3214
 msgid "Cannot find clip for speed change"
@@ -892,7 +892,7 @@ msgstr "Keinen Clip gefunden, um den Marker entfernen zu können"
 
 #: src/customtrackview.cpp:1725
 msgid "Cannot find clip to uncut"
-msgstr "Keinen Clip gefunden um Schnitt rückgängig zu machen"
+msgstr "Keinen Clip gefunden, um Schnitt rückgängig zu machen"
 
 #: src/customtrackview.cpp:1226
 msgid "Cannot find clip with keyframe"
@@ -1365,7 +1365,7 @@ msgstr "Linken Kanal nach rechts kopieren"
 
 #: src/main.cpp:37
 msgid "Copyright (c) 2009 Development team"
-msgstr "Copyright © 2008–2009 Entwicker-Team"
+msgstr "Copyright (c) 2009 Entwickler-Team"
 
 #: src/renderer.cpp:1113 src/renderer.cpp:1183
 msgid ""
@@ -1895,7 +1895,7 @@ msgstr "E"
 msgid "EMAIL OF TRANSLATORS"
 msgstr ""
 "g.marco@freenet.de, f.hammer@gmx.de, holzi1@gmx.at, simon.eu@gmail.com, "
-"kamikazow@web.de"
+"kamikazow@web.de, root@ttill.de"
 
 #: rc.cpp:173 rc.cpp:2091
 msgid "Edges correction"
@@ -1994,8 +1994,8 @@ msgid ""
 "Ellipsis: If text has been left o&#x2026; See <a href=\"http://en.wikipedia."
 "org/wiki/Ellipsis\">Wikipedia:Ellipsis</a>"
 msgstr ""
-"Ellipse oder Auslassungspunkte, falls Text ausgel&#x2026; Falls ein ganzes "
-"Wort fehlt, wird ein Leerschlag &#x2026; Siehe <a href=\"http://de.wikipedia."
+"Ellipse oder Auslassungspunkte, falls Text ausgelassen wurde &#x2026; Siehe "
+"<a href=\"http://de.wikipedia."
 "org/wiki/Auslassungspunkte\">Wikipedia:Auslassungspunkte</a>"
 
 #: src/unicodedialog.cpp:138
@@ -2177,7 +2177,7 @@ msgstr ""
 
 #: src/kdenlivedoc.cpp:91
 msgid "File %1 is not a Kdenlive project file"
-msgstr "Datei %1 ist keine Kdenlive Projektdatei."
+msgstr "Datei %1 ist keine Kdenlive Projektdatei"
 
 #: src/dvdwizard.cpp:704
 msgid "File %1 is not a Kdenlive project file."
@@ -2513,7 +2513,7 @@ msgstr "Clips gruppieren"
 
 #: src/groupclipscommand.cpp:33
 msgid "Group clips"
-msgstr "Cilps gruppieren"
+msgstr "Clips gruppieren"
 
 #: rc.cpp:1867 rc.cpp:3785 rc.cpp:5264
 msgid "GroupBox"
@@ -2681,7 +2681,7 @@ msgstr "Spur einfügen"
 
 #: rc.cpp:1665 rc.cpp:3583 rc.cpp:5062
 msgid "Install extra video mimetypes"
-msgstr "Weitere Video-MIME-Types installieren"
+msgstr "Weitere Video-MIME-Typen installieren"
 
 #: rc.cpp:653 rc.cpp:2571 rc.cpp:4050
 msgid "Installed modules"
@@ -2954,7 +2954,7 @@ msgstr "Macht den Clip einfarbig"
 
 #: rc.cpp:48 rc.cpp:1966
 msgid "Make selected color transparent"
-msgstr "Macht die ausgewähte Farbe transparent"
+msgstr "Macht die ausgewählte Farbe transparent"
 
 #: rc.cpp:527 rc.cpp:2445
 msgid "Make waves on your clip with keyframes"
@@ -3059,7 +3059,7 @@ msgstr "Overlay-Informationen überwachen"
 
 #: rc.cpp:28 rc.cpp:1946
 msgid "Mono to stereo"
-msgstr "Mono nach Stereo"
+msgstr "Mono zu Stereo"
 
 #: src/moveclipcommand.cpp:33 src/customtrackview.cpp:2607
 msgid "Move clip"
@@ -3117,7 +3117,8 @@ msgstr "N"
 #: src/main.cpp:47
 msgid "NAME OF TRANSLATORS"
 msgstr ""
-"Marco Glitter, Felix Hammer, Thomas Holzmann, Simon Eugster, Markus Slopianka"
+"Marco Gittler, Felix Hammer, Thomas Holzmann, Simon Eugster, Markus "
+"Slopianka, Till Theato"
 
 #: rc.cpp:557 rc.cpp:2475 rc.cpp:3954
 msgid "NTSC"
@@ -3252,7 +3253,7 @@ msgstr "Dokument öffnen"
 
 #: rc.cpp:614 rc.cpp:2532 rc.cpp:4011
 msgid "Open Dvd wizard after rendering"
-msgstr "DVD-Wizard nach dem Rendern öffnen"
+msgstr "DVD-Assistenten nach dem Rendern öffnen"
 
 #: src/unicodedialog.cpp:166
 msgid "Open box; stands for a space."
@@ -3911,7 +3912,7 @@ msgstr "Raumhall"
 
 #: rc.cpp:305 rc.cpp:2223
 msgid "Room size (m)"
-msgstr "Raumhall (m)"
+msgstr "Raumgröße (m)"
 
 #: rc.cpp:361 rc.cpp:2279
 msgid "Rotate X"
@@ -4174,7 +4175,7 @@ msgid ""
 "Shift + click to create a selection rectangle, Ctrl + click to add an item "
 "to selection"
 msgstr ""
-"Umschalt + Klick zum erstellen eines Auswahlrechteckes, Strg + Klick zum "
+"Umschalt + Klick zum Erstellen eines Auswahlrechteckes, Strg + Klick zum "
 "hinzufügen eines Items zur Auswahl"
 
 #: rc.cpp:1485 rc.cpp:3403 rc.cpp:4882
@@ -4256,7 +4257,7 @@ msgstr "Diashow-Clip"
 
 #: src/trackview.cpp:75
 msgid "Smaller tracks"
-msgstr "Schmalere Spuren"
+msgstr "Kleinere Spuren"
 
 #: src/mainwindow.cpp:770
 msgid "Snap"
@@ -4585,19 +4586,19 @@ msgstr ""
 #: src/titledocument.cpp:196
 msgid "This title clip was created with a different frame size."
 msgstr ""
-"Dieser Titel-Clip wurde mit einer unterschiedlichen Frame-Grösse erstellt."
+"Dieser Titel-Clip wurde mit einer unterschiedlichen Frame-Größe erstellt."
 
 #: src/mainwindow.cpp:2878
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
 "sure you want to continue?"
 msgstr ""
-"Dies wird alle Änderungen seit dem letzten Mal Speichern verwerfen. "
-"Fortfahren?"
+"Dies wird alle Änderungen seit dem letzten Speichern verwerfen. "
+"Wollen sie wirklich fortfahren?"
 
 #: src/mainwindow.cpp:1709
 msgid "This will remove all unused clips from your project."
-msgstr "Dies wird alle unbenutzten Clips aus diesem Projekt entfernen"
+msgstr "Dies wird alle unbenutzten Clips aus diesem Projekt entfernen."
 
 #: src/projectsettings.cpp:91
 msgid ""
@@ -4658,7 +4659,7 @@ msgstr "Zeit"
 
 #: rc.cpp:475 rc.cpp:2393
 msgid "Time window (ms)"
-msgstr "Zeitfenster"
+msgstr "Zeitfenster (ms)"
 
 #: rc.cpp:587 rc.cpp:2505 rc.cpp:3984
 msgid "Timecode overlay"
@@ -4726,7 +4727,7 @@ msgstr "Transkodieren fehlgeschlagen!"
 
 #: src/cliptranscode.cpp:141
 msgid "Transcoding finished."
-msgstr "Transkodieren fertiggestellt"
+msgstr "Transkodieren fertiggestellt."
 
 #: src/mainwindow.cpp:172
 msgid "Transition"
@@ -5110,7 +5111,7 @@ msgstr ""
 
 #: src/wizard.cpp:204
 msgid "Your MLT version is unsupported!!!"
-msgstr "Ihre MLT-Version wird nicht unterstützt."
+msgstr "Ihre MLT-Version wird nicht unterstützt!!!"
 
 #: src/trackview.cpp:398
 msgid ""
@@ -5189,14 +5190,15 @@ msgid ""
 "Your emails"
 msgstr ""
 "g.marco@freenet.de, f.hammer@gmx.de, holzi1@gmx.at, simon.eu@gmail.com, "
-"kamikazow@web.de"
+"kamikazow@web.de, root@ttill.de"
 
 #: _translatorinfo.cpp:1
 msgid ""
 "_: NAME OF TRANSLATORS\n"
 "Your names"
 msgstr ""
-"Marco Glitter, Felix Hammer, Thomas Holzmann, Simon Eugster, Markus Slopianka"
+"Marco Gittler, Felix Hammer, Thomas Holzmann, Simon Eugster, Markus "
+"Slopianka, Till Theato"
 
 #: rc.cpp:1062 rc.cpp:2980 rc.cpp:4459
 msgid "after"
