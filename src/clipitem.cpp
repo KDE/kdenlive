@@ -189,7 +189,7 @@ void ClipItem::initEffect(QDomElement effect, int diff)
             if (e.attribute("keyframes").isEmpty()) {
                 e.setAttribute("keyframes", QString::number(cropStart().frames(m_fps)) + ':' + def + ';' + QString::number((cropStart() + cropDuration()).frames(m_fps) - 1) + ':' + def);
                 //kDebug() << "///// EFFECT KEYFRAMES INITED: " << e.attribute("keyframes");
-                break;
+                //break;
             }
         }
     }
