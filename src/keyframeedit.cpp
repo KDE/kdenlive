@@ -24,8 +24,9 @@
 #include <QHeaderView>
 
 
-KeyframeEdit::KeyframeEdit(QDomElement e, int maxFrame, int minVal, int maxVal, Timecode tc, const QString paramName, QWidget* parent) :
+KeyframeEdit::KeyframeEdit(QDomElement e, int minFrame, int maxFrame, int minVal, int maxVal, Timecode tc, const QString paramName, QWidget* parent) :
         QWidget(parent),
+        m_min(minFrame),
         m_max(maxFrame),
         m_minVal(minVal),
         m_maxVal(maxVal),
@@ -144,31 +145,32 @@ void KeyframeEdit::slotDeleteKeyframe()
 void KeyframeEdit::slotAddKeyframe()
 {
     keyframe_list->blockSignals(true);
-    int pos2;
     QTableWidgetItem *item = keyframe_list->currentItem();
     int row = keyframe_list->currentRow();
     int col = keyframe_list->currentColumn();
     int newrow = row;
     int pos1 = m_timecode.getFrameCount(keyframe_list->verticalHeaderItem(row)->text());
+    int result;
     kDebug()<<"// ADD KF: "<<row<<", MAX: "<<keyframe_list->rowCount()<<", POS: "<<pos1;
     if (row < (keyframe_list->rowCount() - 1)) {
-	pos2 = m_timecode.getFrameCount(keyframe_list->verticalHeaderItem(row + 1)->text());
+	int pos2 = m_timecode.getFrameCount(keyframe_list->verticalHeaderItem(row + 1)->text());
+	result = pos1 + (pos2 - pos1) / 2;
 	newrow++;
     }
     else if (row == 0) {
-	if (pos1 == 0) {
-	    pos2 = m_max * 2;
+	if (pos1 == m_min) {
+	    result = m_max - 1;
 	    newrow++;
 	}
         else {
-	    pos2 = 0;
-	    pos1 = 0;
+	    result = m_min;
 	}
     }
-    else pos2 = m_timecode.getFrameCount(keyframe_list->verticalHeaderItem(row - 1)->text());
-
-    int result = (pos1 + pos2) / 2;
-    
+    else {
+	int pos2 = m_timecode.getFrameCount(keyframe_list->verticalHeaderItem(row - 1)->text());
+	result = pos2 + (pos1 - pos2) / 2;
+    }
+        
     keyframe_list->insertRow(newrow);
     keyframe_list->setVerticalHeaderItem(newrow, new QTableWidgetItem(m_timecode.getTimecodeFromFrames(result)));
     keyframe_list->setItem(newrow, keyframe_list->currentColumn(), new QTableWidgetItem(item->text()));
@@ -187,8 +189,8 @@ void KeyframeEdit::slotGenerateParams(int row, int column)
     if (item == NULL) return;
     QString val = keyframe_list->verticalHeaderItem(row)->text();
     int pos = m_timecode.getFrameCount(val);
-    if (pos <= 0) {
-	pos = 0;
+    if (pos <= m_min) {
+	pos = m_min;
         val = m_timecode.getTimecodeFromFrames(pos);
     }
     if (pos > m_max) {
@@ -220,7 +222,7 @@ void KeyframeEdit::slotAdjustKeyframeInfo()
 {
     QTableWidgetItem *item = keyframe_list->currentItem();
     if (!item) return;
-    int min = 0;
+    int min = m_min;
     int max = m_max;
     QTableWidgetItem *above = keyframe_list->item(item->row() - 1, item->column());
     QTableWidgetItem *below = keyframe_list->item(item->row() + 1, item->column());
