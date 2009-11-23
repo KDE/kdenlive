@@ -47,6 +47,11 @@ namespace Mlt
 class Producer;
 };
 
+struct CutZoneInfo {
+    QPoint zone;
+    QString description;
+};
+
 
 class DocClipBase: public QObject
 {
@@ -185,11 +190,11 @@ Q_OBJECT public:
     bool isPlaceHolder() const;
     static QString getHash(const QString &path);
 
-    void addCutZone(int in, int out);
+    void addCutZone(int in, int out, QString desc = QString());
     bool hasCutZone(QPoint p) const;
     void removeCutZone(int in, int out);
-    QList <QPoint> cutZones() const;
-    void updateCutZone(int oldin, int oldout, int in, int out);
+    QList <CutZoneInfo> cutZones() const;
+    void updateCutZone(int oldin, int oldout, int in, int out, QString desc = QString());
 
 private:   // Private attributes
 
@@ -218,7 +223,7 @@ private:   // Private attributes
     /** Wheter the clip is a placeholder (clip missing but user wants to see it) */
     bool m_placeHolder;
 
-    QList <QPoint> m_cutZones;
+    QList <CutZoneInfo> m_cutZones;
 
     void setAudioThumbCreated(bool isDone);
     /** Holds clip infos like fps, size,... */

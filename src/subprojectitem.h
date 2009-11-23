@@ -38,7 +38,7 @@ class DocClipBase;
 class SubProjectItem : public QTreeWidgetItem
 {
 public:
-    SubProjectItem(QTreeWidgetItem * parent, int in, int out);
+    SubProjectItem(QTreeWidgetItem * parent, int in, int out, QString description = QString());
     virtual ~SubProjectItem();
     QDomElement toXml() const;
     int numReferences() const;

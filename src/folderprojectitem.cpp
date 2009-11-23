@@ -32,7 +32,8 @@ FolderProjectItem::FolderProjectItem(QTreeWidget * parent, const QStringList & s
 {
     setSizeHint(0, QSize(65, QFontInfo(font(1)).pixelSize() * 2));
     setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable);
-    setIcon(0, KIcon("folder").pixmap(sizeHint(0)));
+    setData(0, Qt::DecorationRole, KIcon("folder").pixmap(sizeHint(0)));
+    //setIcon(0, KIcon("folder").pixmap(sizeHint(0)));
     setToolTip(0, "<b>" + i18n("Folder"));
     //setFlags(Qt::NoItemFlags);
     //kDebug() << "Constructed with clipId: " << m_clipId;

@@ -30,13 +30,14 @@
 
 const int DurationRole = Qt::UserRole + 1;
 
-SubProjectItem::SubProjectItem(QTreeWidgetItem * parent, int in, int out) :
+SubProjectItem::SubProjectItem(QTreeWidgetItem * parent, int in, int out, QString description) :
         QTreeWidgetItem(parent, PROJECTSUBCLIPTYPE), m_in(in), m_out(out)
 {
     setSizeHint(0, QSize(65, 30));
     setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable);
     QString name = Timecode::getStringTimecode(in, KdenliveSettings::project_fps());
     setText(0, name);
+    setText(1, description);
     GenTime duration = GenTime(out - in, KdenliveSettings::project_fps());
     if (duration != GenTime()) setData(0, DurationRole, Timecode::getEasyTimecode(duration, KdenliveSettings::project_fps()));
     //setFlags(Qt::NoItemFlags);

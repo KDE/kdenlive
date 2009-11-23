@@ -148,6 +148,11 @@ void Render::closeMlt()
     //delete m_osdInfo;
 }
 
+void Render::slotSwitchFullscreen()
+{
+    if (m_mltConsumer) m_mltConsumer->set("full_screen", 1);
+}
+
 void Render::buildConsumer(const QString profileName)
 {
     char *tmp;
@@ -574,7 +579,7 @@ void Render::slotSplitView(bool doit)
     }
 }
 
-void Render::getFileProperties(const QDomElement xml, const QString &clipId, bool replaceProducer)
+void Render::getFileProperties(const QDomElement xml, const QString &clipId, int imageHeight, bool replaceProducer)
 {
     KUrl url = KUrl(xml.attribute("resource", QString()));
     Mlt::Producer *producer = NULL;
@@ -654,8 +659,7 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, boo
         return;
     }
 
-    int height = 50;
-    int width = (int)(height  * m_mltProfile->dar());
+    int width = (int)(imageHeight  * m_mltProfile->dar());
     QMap < QString, QString > filePropertyMap;
     QMap < QString, QString > metadataPropertyMap;
 
@@ -710,8 +714,8 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, boo
 
             mlt_image_format format = mlt_image_rgb24a;
             int frame_width = width;
-            int frame_height = height;
-            QPixmap pix(width, height);
+            int frame_height = imageHeight;
+            QPixmap pix(width, imageHeight);
             uint8_t *data = frame->get_image(format, frame_width, frame_height, 0);
             QImage image((uchar *)data, frame_width, frame_height, QImage::Format_ARGB32);
 
@@ -723,7 +727,7 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, boo
             emit replyGetImage(clipId, pix);
 
         } else if (frame->get_int("test_audio") == 0) {
-            QPixmap pixmap = KIcon("audio-x-generic").pixmap(QSize(width, height));
+            QPixmap pixmap = KIcon("audio-x-generic").pixmap(QSize(width, imageHeight));
             emit replyGetImage(clipId, pixmap);
             filePropertyMap["type"] = "audio";
         }
@@ -1497,7 +1501,7 @@ void Render::mltCheckLength(Mlt::Tractor *tractor)
     while (trackNb > 1) {
         Mlt::Producer trackProducer(tractor->track(trackNb - 1));
         trackDuration = trackProducer.get_playtime() - 1;
-        //kDebug() << " / / /DURATON FOR TRACK " << trackNb - 1 << " = " << trackDuration;
+        // kDebug() << " / / /DURATON FOR TRACK " << trackNb - 1 << " = " << trackDuration;
         if (trackDuration > duration) duration = trackDuration;
         trackNb--;
     }

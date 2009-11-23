@@ -128,6 +128,10 @@ void ProjectListView::mouseDoubleClickEvent(QMouseEvent * event)
     }
     if (it->type() == PROJECTSUBCLIPTYPE) {
         // subitem
+	if ((columnAt(event->pos().x()) == 1)) {
+	    QTreeWidget::mouseDoubleClickEvent(event);
+	    return;
+	}
         item = static_cast <ProjectItem *>(it->parent());
     } else item = static_cast <ProjectItem *>(it);
 
@@ -259,7 +263,7 @@ void ProjectListView::mouseMoveEvent(QMouseEvent *event)
             data.append(list.join(";").toUtf8());
             mimeData->setData("kdenlive/clip", data);
             drag->setMimeData(mimeData);
-            drag->setPixmap(clickItem->icon(0).pixmap(iconSize()));
+            drag->setPixmap(clickItem->data(0, Qt::DecorationRole).value<QPixmap>());
             drag->setHotSpot(QPoint(0, 50));
             drag->exec();
         }
@@ -287,7 +291,7 @@ void ProjectListView::mouseMoveEvent(QMouseEvent *event)
             //mimeData->setText(ids.join(";")); //doc.toString());
             //mimeData->setImageData(image);
             drag->setMimeData(mimeData);
-            drag->setPixmap(it->icon(0).pixmap(iconSize()));
+	    drag->setPixmap(it->data(0, Qt::DecorationRole).value<QPixmap>());
             drag->setHotSpot(QPoint(0, 50));
             drag->exec();
         }

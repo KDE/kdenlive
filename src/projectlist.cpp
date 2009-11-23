@@ -310,7 +310,7 @@ void ProjectList::slotReloadClip(const QString &id)
             }
             //requestClipInfo(item->toXml(), item->clipId(), true);
             // Clear the file_hash value, which will cause a complete reload of the clip
-            emit getFileProperties(item->toXml(), item->clipId(), true);
+            emit getFileProperties(item->toXml(), item->clipId(), m_listView->iconSize().height(), true);
         }
     }
 }
@@ -414,6 +414,11 @@ void ProjectList::slotItemEdited(QTreeWidgetItem *item, int column)
 {
     if (item->type() == PROJECTSUBCLIPTYPE) {
         // this is a sub-item
+	if (column == 1) {
+	    // user edited description
+	    SubProjectItem *sub = static_cast <SubProjectItem*>(item);
+	    //slotUpdateCutClipProperties(sub->clipId(), sub->zone(), sub->text(1), sub->text(1));
+	}
         return;
     }
     if (item->type() == PROJECTFOLDERTYPE) {
@@ -658,7 +663,7 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
     if (getProperties == false && !clip->getClipHash().isEmpty()) {
         QString cachedPixmap = m_doc->projectFolder().path(KUrl::AddTrailingSlash) + "thumbs/" + clip->getClipHash() + ".png";
         if (QFile::exists(cachedPixmap)) {
-            item->setIcon(0, QPixmap(cachedPixmap));
+	    item->setData(0, Qt::DecorationRole, QPixmap(cachedPixmap));
         }
     }
 #ifdef NEPOMUK
@@ -671,14 +676,14 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
     }
 #endif
     // Add cut zones
-    QList <QPoint> cuts = clip->cutZones();
+    QList <CutZoneInfo> cuts = clip->cutZones();
     if (!cuts.isEmpty()) {
         for (int i = 0; i < cuts.count(); i++) {
-            SubProjectItem *sub = new SubProjectItem(item, cuts.at(i).x(), cuts.at(i).y());
+            SubProjectItem *sub = new SubProjectItem(item, cuts.at(i).zone.x(), cuts.at(i).zone.y(), cuts.at(i).description);
             if (!clip->getClipHash().isEmpty()) {
-                QString cachedPixmap = m_doc->projectFolder().path(KUrl::AddTrailingSlash) + "thumbs/" + clip->getClipHash() + '#' + QString::number(cuts.at(i).x()) + ".png";
+                QString cachedPixmap = m_doc->projectFolder().path(KUrl::AddTrailingSlash) + "thumbs/" + clip->getClipHash() + '#' + QString::number(cuts.at(i).zone.x()) + ".png";
                 if (QFile::exists(cachedPixmap)) {
-                    sub->setIcon(0, QPixmap(cachedPixmap));
+		    sub->setData(0, Qt::DecorationRole, QPixmap(cachedPixmap));
                 }
             }
         }
@@ -716,7 +721,7 @@ void ProjectList::slotProcessNextClipInQueue()
         const QDomElement dom = j.value();
         const QString id = j.key();
         m_infoQueue.remove(j.key());
-        emit getFileProperties(dom, id, false);
+        emit getFileProperties(dom, id, m_listView->iconSize().height(), false);
     }
 }
 
@@ -740,7 +745,7 @@ void ProjectList::updateAllClips()
         if ((*it)->type() == PROJECTSUBCLIPTYPE) {
             // subitem
             SubProjectItem *sub = static_cast <SubProjectItem *>(*it);
-            if (sub->icon(0).isNull()) {
+            if (sub->data(0, Qt::DecorationRole).isNull()) {
                 item = static_cast <ProjectItem *>((*it)->parent());
                 requestClipThumbnail(item->clipId() + '#' + QString::number(sub->zone().x()));
             }
@@ -758,7 +763,7 @@ void ProjectList::updateAllClips()
                 requestClipInfo(clip->toXML(), clip->getId());
             } else item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
         } else {
-            if (item->icon(0).isNull()) {
+            if (item->data(0, Qt::DecorationRole).isNull()) {
                 requestClipThumbnail(clip->getId());
             }
             if (item->data(0, DurationRole).toString().isEmpty()) {
@@ -1064,7 +1069,7 @@ void ProjectList::slotRefreshClipThumbnail(QTreeWidgetItem *it, bool update)
             return;
         }
         QPixmap pix;
-        int height = it->sizeHint(0).height();
+        int height = m_listView->iconSize().height();
         int width = (int)(height  * m_render->dar());
         if (clip->clipType() == AUDIO) pix = KIcon("audio-x-generic").pixmap(QSize(width, height));
         else if (clip->clipType() == IMAGE) pix = QPixmap::fromImage(KThumb::getFrame(item->referencedClip()->producer(), 0, width, height));
@@ -1072,7 +1077,7 @@ void ProjectList::slotRefreshClipThumbnail(QTreeWidgetItem *it, bool update)
 
         if (!pix.isNull()) {
             m_listView->blockSignals(true);
-            it->setIcon(0, pix);
+	    it->setData(0, Qt::DecorationRole, pix);
             if (m_listView->isEnabled()) m_listView->blockSignals(false);
             if (!isSubItem) m_doc->cachePixmap(item->getClipHash(), pix);
             else m_doc->cachePixmap(item->getClipHash() + '#' + QString::number(frame), pix);
@@ -1102,9 +1107,9 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
             delete producer;
         }*/
         if (m_listView->isEnabled()) m_listView->blockSignals(false);
-        if (item->icon(0).isNull()) {
+        /*if (item->icon(0).isNull()) {
             requestClipThumbnail(clipId);
-        }
+        }*/
     } else kDebug() << "////////  COULD NOT FIND CLIP TO UPDATE PRPS...";
     int max = m_doc->clipManager()->clipsCount();
     emit displayMessage(i18n("Loading clips"), (int)(100 *(max - m_infoQueue.count()) / max));
@@ -1121,7 +1126,7 @@ void ProjectList::slotReplyGetImage(const QString &clipId, const QPixmap &pix)
     ProjectItem *item = getItemById(clipId);
     if (item && !pix.isNull()) {
         m_listView->blockSignals(true);
-        item->setIcon(0, pix);
+	item->setData(0, Qt::DecorationRole, pix);
         m_doc->cachePixmap(item->getClipHash(), pix);
         if (m_listView->isEnabled()) m_listView->blockSignals(false);
     }
@@ -1280,7 +1285,7 @@ void ProjectList::addClipCut(const QString &id, int in, int out)
         SubProjectItem *sub = new SubProjectItem(clip, in, out);
 
         QPixmap p = clip->referencedClip()->thumbProducer()->extractImage(in, (int)(sub->sizeHint(0).height()  * m_render->dar()), sub->sizeHint(0).height() - 2);
-        sub->setIcon(0, p);
+	sub->setData(0, Qt::DecorationRole, p);
         m_doc->cachePixmap(clip->getClipHash() + '#' + QString::number(in), p);
         m_listView->blockSignals(false);
     }
