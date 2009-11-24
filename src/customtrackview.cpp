@@ -3499,7 +3499,10 @@ void CustomTrackView::doChangeClipSpeed(ItemInfo info, ItemInfo speedIndependant
         return;
     }
     info.track = m_document->tracksCount() - item->track();
-    int endPos = m_document->renderer()->mltChangeClipSpeed(info, speedIndependantInfo, speed, oldspeed, strobe, baseclip->producer());
+    int endPos;
+    if (item->isVideoOnly()) endPos = m_document->renderer()->mltChangeClipSpeed(info, speedIndependantInfo, speed, oldspeed, strobe, baseclip->videoProducer());
+    else if (item->isAudioOnly()) endPos = m_document->renderer()->mltChangeClipSpeed(info, speedIndependantInfo, speed, oldspeed, strobe, baseclip->audioProducer(item->track()));
+    else endPos = m_document->renderer()->mltChangeClipSpeed(info, speedIndependantInfo, speed, oldspeed, strobe, baseclip->producer());
     if (endPos >= 0) {
         item->setSpeed(speed, strobe);
         item->updateRectGeometry();
