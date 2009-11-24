@@ -17,34 +17,36 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include "addclipcutcommand.h"
+#include "editclipcutcommand.h"
 #include "projectlist.h"
 
 #include <KLocale>
 
-AddClipCutCommand::AddClipCutCommand(ProjectList *list, const QString &id, int in, int out, const QString desc, bool remove, QUndoCommand * parent) :
+EditClipCutCommand::EditClipCutCommand(ProjectList *list, const QString &id, const QPoint oldZone, const QPoint newZone, const QString &oldComment, const QString &newComment, bool doIt, QUndoCommand * parent) :
         QUndoCommand(parent),
         m_list(list),
         m_id(id),
-        m_in(in),
-        m_out(out),
-        m_desc(desc),
-        m_remove(remove)
+        m_oldZone(oldZone),
+        m_newZone(newZone),
+        m_oldComment(oldComment),
+        m_newComment(newComment),
+        m_doIt(doIt)
 {
-    setText(i18n("Add clip cut"));
+    setText(i18n("Edit clip cut"));
 }
 
 
 // virtual
-void AddClipCutCommand::undo()
+void EditClipCutCommand::undo()
 {
-    if (m_remove) m_list->addClipCut(m_id, m_in, m_out, m_desc);
-    else m_list->removeClipCut(m_id, m_in, m_out);
+    kDebug() << "----  undoing action";
+    m_list->doUpdateClipCut(m_id, m_newZone, m_oldZone, m_oldComment);
 }
 // virtual
-void AddClipCutCommand::redo()
+void EditClipCutCommand::redo()
 {
-    if (m_remove) m_list->removeClipCut(m_id, m_in, m_out);
-    else m_list->addClipCut(m_id, m_in, m_out, m_desc);
+    kDebug() << "----  redoing action";
+    if (m_doIt) m_list->doUpdateClipCut(m_id, m_oldZone, m_newZone, m_newComment);
+    m_doIt = true;
 }
 

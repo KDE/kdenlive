@@ -183,6 +183,7 @@ set(kdenlive_SRCS
   subprojectitem.cpp
   folderprojectitem.cpp
   addclipcutcommand.cpp
+  editclipcutcommand.cpp
 )
 
 add_definitions( ${KDE4_DEFINITIONS} )

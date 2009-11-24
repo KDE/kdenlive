@@ -44,6 +44,9 @@ public:
     int numReferences() const;
     DocClipBase *referencedClip();
     QPoint zone() const;
+    void setZone(QPoint p);
+    QString description() const;
+    void setDescription(QString desc);
 
     /** Make sure folders appear on top of the tree widget */
     virtual bool operator<(const QTreeWidgetItem &other)const {
@@ -56,6 +59,7 @@ public:
 private:
     int m_in;
     int m_out;
+    QString m_description;
 };
 
 #endif

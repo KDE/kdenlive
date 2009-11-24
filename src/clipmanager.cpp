@@ -274,7 +274,7 @@ void ClipManager::slotAddClipList(const KUrl::List urls, const QString group, co
                 prod.setAttribute("type", (int) IMAGE);
                 prod.setAttribute("in", 0);
                 prod.setAttribute("out", m_doc->getFramePos(KdenliveSettings::image_duration()) - 1);
-            } else if (type->name() == "application/x-kdenlivetitle") {
+            } else if (type->is("application/x-kdenlivetitle")) {
                 // opening a title file
                 QDomDocument txtdoc("titledocument");
                 QFile txtfile(file.path());

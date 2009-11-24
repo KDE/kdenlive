@@ -31,7 +31,7 @@
 const int DurationRole = Qt::UserRole + 1;
 
 SubProjectItem::SubProjectItem(QTreeWidgetItem * parent, int in, int out, QString description) :
-        QTreeWidgetItem(parent, PROJECTSUBCLIPTYPE), m_in(in), m_out(out)
+        QTreeWidgetItem(parent, PROJECTSUBCLIPTYPE), m_in(in), m_out(out), m_description(description)
 {
     setSizeHint(0, QSize(65, 30));
     setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable);
@@ -66,9 +66,28 @@ QPoint SubProjectItem::zone() const
     return z;
 }
 
+void SubProjectItem::setZone(QPoint p)
+{
+    m_in = p.x();
+    m_out = p.y();
+    QString name = Timecode::getStringTimecode(m_in, KdenliveSettings::project_fps());
+    setText(0, name);
+    GenTime duration = GenTime(m_out - m_in, KdenliveSettings::project_fps());
+    if (duration != GenTime()) setData(0, DurationRole, Timecode::getEasyTimecode(duration, KdenliveSettings::project_fps()));
+}
+
 DocClipBase *SubProjectItem::referencedClip()
 {
     return NULL; //m_clip;
 }
 
+QString SubProjectItem::description() const
+{
+    return m_description;
+}
 
+void SubProjectItem::setDescription(QString desc)
+{
+    m_description = desc;
+    setText(1, m_description);
+}

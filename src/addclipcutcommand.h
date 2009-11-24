@@ -29,7 +29,7 @@ class ProjectList;
 class AddClipCutCommand : public QUndoCommand
 {
 public:
-    AddClipCutCommand(ProjectList *list, const QString &id, int in, int out, bool remove, QUndoCommand * parent = 0);
+    AddClipCutCommand(ProjectList *list, const QString &id, int in, int out, const QString desc, bool remove, QUndoCommand * parent = 0);
 
     virtual void undo();
     virtual void redo();
@@ -39,6 +39,7 @@ private:
     QString m_id;
     int m_in;
     int m_out;
+    QString m_desc;
     bool m_remove;
 };
 

@@ -17,34 +17,34 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include "addclipcutcommand.h"
-#include "projectlist.h"
 
-#include <KLocale>
+#ifndef EDITCLIPCUTCOMMAND_H
+#define EDITCLIPCUTCOMMAND_H
 
-AddClipCutCommand::AddClipCutCommand(ProjectList *list, const QString &id, int in, int out, const QString desc, bool remove, QUndoCommand * parent) :
-        QUndoCommand(parent),
-        m_list(list),
-        m_id(id),
-        m_in(in),
-        m_out(out),
-        m_desc(desc),
-        m_remove(remove)
+#include <QUndoCommand>
+#include <QPoint>
+
+#include <KDebug>
+
+class ProjectList;
+
+class EditClipCutCommand : public QUndoCommand
 {
-    setText(i18n("Add clip cut"));
-}
+public:
+    EditClipCutCommand(ProjectList *list, const QString &id, const QPoint oldZone, const QPoint newZone, const QString &oldComment, const QString &newComment, bool doIt, QUndoCommand * parent = 0);
 
+    virtual void undo();
+    virtual void redo();
 
-// virtual
-void AddClipCutCommand::undo()
-{
-    if (m_remove) m_list->addClipCut(m_id, m_in, m_out, m_desc);
-    else m_list->removeClipCut(m_id, m_in, m_out);
-}
-// virtual
-void AddClipCutCommand::redo()
-{
-    if (m_remove) m_list->removeClipCut(m_id, m_in, m_out);
-    else m_list->addClipCut(m_id, m_in, m_out, m_desc);
-}
+private:
+    ProjectList *m_list;
+    QString m_id;
+    QPoint m_oldZone;
+    QPoint m_newZone;
+    QString m_oldComment;
+    QString m_newComment;
+    bool m_doIt;
+};
+
+#endif
 

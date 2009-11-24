@@ -67,7 +67,7 @@ EffectStackEdit::EffectStackEdit(QWidget *parent) :
         m_in(0),
         m_out(0),
         m_frameSize(QPoint()),
-	m_keyframeEditor(NULL)
+        m_keyframeEditor(NULL)
 {
     m_baseWidget = new QWidget(this);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -234,17 +234,16 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int in, int out)
         } else if (type == "keyframe" || type == "simplekeyframe") {
             // keyframe editor widget
             kDebug() << "min: " << m_in << ", MAX: " << m_out;
-	    if (m_keyframeEditor == NULL) {
-		KeyframeEdit *geo = new KeyframeEdit(pa, m_in, m_in + m_out, pa.attribute("min").toInt(), pa.attribute("max").toInt(), m_timecode, paramName);
-		m_vbox->addWidget(geo);
-		m_valueItems[paramName+"keyframe"] = geo;
-		m_keyframeEditor = geo;
-		connect(geo, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
-	    }
-	    else {
-		// we already have a keyframe editor, so just add another column for the new param
-		m_keyframeEditor->addParameter(pa);
-	    }
+            if (m_keyframeEditor == NULL) {
+                KeyframeEdit *geo = new KeyframeEdit(pa, m_in, m_in + m_out, pa.attribute("min").toInt(), pa.attribute("max").toInt(), m_timecode, paramName);
+                m_vbox->addWidget(geo);
+                m_valueItems[paramName+"keyframe"] = geo;
+                m_keyframeEditor = geo;
+                connect(geo, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
+            } else {
+                // we already have a keyframe editor, so just add another column for the new param
+                m_keyframeEditor->addParameter(pa);
+            }
         } else if (type == "color") {
             Colorval *cval = new Colorval;
             cval->setupUi(toFillin);

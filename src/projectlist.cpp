@@ -19,7 +19,6 @@
 
 #include "projectlist.h"
 #include "projectitem.h"
-#include "subprojectitem.h"
 #include "addfoldercommand.h"
 #include "kdenlivesettings.h"
 #include "slideshowclip.h"
@@ -33,6 +32,7 @@
 #include "kthumb.h"
 #include "projectlistview.h"
 #include "editclipcommand.h"
+#include "editclipcutcommand.h"
 #include "editfoldercommand.h"
 #include "addclipcutcommand.h"
 
@@ -414,11 +414,14 @@ void ProjectList::slotItemEdited(QTreeWidgetItem *item, int column)
 {
     if (item->type() == PROJECTSUBCLIPTYPE) {
         // this is a sub-item
-	if (column == 1) {
-	    // user edited description
-	    SubProjectItem *sub = static_cast <SubProjectItem*>(item);
-	    //slotUpdateCutClipProperties(sub->clipId(), sub->zone(), sub->text(1), sub->text(1));
-	}
+        if (column == 1) {
+            // user edited description
+            SubProjectItem *sub = static_cast <SubProjectItem*>(item);
+            ProjectItem *item = static_cast <ProjectItem *>(sub->parent());
+            EditClipCutCommand *command = new EditClipCutCommand(this, item->clipId(), sub->zone(), sub->zone(), sub->description(), sub->text(1), true);
+            m_commandStack->push(command);
+            //slotUpdateCutClipProperties(sub->clipId(), sub->zone(), sub->text(1), sub->text(1));
+        }
         return;
     }
     if (item->type() == PROJECTFOLDERTYPE) {
@@ -509,11 +512,8 @@ void ProjectList::slotRemoveClip()
             // subitem
             SubProjectItem *sub = static_cast <SubProjectItem *>(selected.at(i));
             ProjectItem *item = static_cast <ProjectItem *>(sub->parent());
-            new AddClipCutCommand(this, item->clipId(), sub->zone().x(), sub->zone().y(), true, delCommand);
-            continue;
-        }
-
-        if (selected.at(i)->type() == PROJECTFOLDERTYPE) {
+            new AddClipCutCommand(this, item->clipId(), sub->zone().x(), sub->zone().y(), sub->description(), true, delCommand);
+        } else if (selected.at(i)->type() == PROJECTFOLDERTYPE) {
             // folder
             FolderProjectItem *folder = static_cast <FolderProjectItem *>(selected.at(i));
             folderids[folder->groupName()] = folder->clipId();
@@ -524,15 +524,15 @@ void ProjectList::slotRemoveClip()
                 ProjectItem *child = static_cast <ProjectItem *>(folder->child(i));
                 ids << child->clipId();
             }
-            continue;
-        }
-
-        ProjectItem *item = static_cast <ProjectItem *>(selected.at(i));
-        ids << item->clipId();
-        if (item->numReferences() > 0) {
-            if (KMessageBox::questionYesNo(this, i18np("Delete clip <b>%2</b>?<br>This will also remove the clip in timeline", "Delete clip <b>%2</b>?<br>This will also remove its %1 clips in timeline", item->numReferences(), item->names().at(1)), i18n("Delete Clip")) != KMessageBox::Yes) return;
+        } else {
+            ProjectItem *item = static_cast <ProjectItem *>(selected.at(i));
+            ids << item->clipId();
+            if (item->numReferences() > 0) {
+                if (KMessageBox::questionYesNo(this, i18np("Delete clip <b>%2</b>?<br>This will also remove the clip in timeline", "Delete clip <b>%2</b>?<br>This will also remove its %1 clips in timeline", item->numReferences(), item->names().at(1)), i18n("Delete Clip")) != KMessageBox::Yes) return;
+            }
         }
     }
+
     if (delCommand->childCount() == 0) delete delCommand;
     else m_commandStack->push(delCommand);
     if (!ids.isEmpty()) m_doc->deleteProjectClip(ids);
@@ -663,7 +663,7 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
     if (getProperties == false && !clip->getClipHash().isEmpty()) {
         QString cachedPixmap = m_doc->projectFolder().path(KUrl::AddTrailingSlash) + "thumbs/" + clip->getClipHash() + ".png";
         if (QFile::exists(cachedPixmap)) {
-	    item->setData(0, Qt::DecorationRole, QPixmap(cachedPixmap));
+            item->setData(0, Qt::DecorationRole, QPixmap(cachedPixmap));
         }
     }
 #ifdef NEPOMUK
@@ -683,7 +683,7 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
             if (!clip->getClipHash().isEmpty()) {
                 QString cachedPixmap = m_doc->projectFolder().path(KUrl::AddTrailingSlash) + "thumbs/" + clip->getClipHash() + '#' + QString::number(cuts.at(i).zone.x()) + ".png";
                 if (QFile::exists(cachedPixmap)) {
-		    sub->setData(0, Qt::DecorationRole, QPixmap(cachedPixmap));
+                    sub->setData(0, Qt::DecorationRole, QPixmap(cachedPixmap));
                 }
             }
         }
@@ -807,16 +807,16 @@ void ProjectList::slotAddClip(const QList <QUrl> givenList, const QString &group
         for (int i = 0; i < givenList.count(); i++)
             list << givenList.at(i);
     }
-    
+
     foreach(const KUrl &file, list) {
-	// Check there is no folder here
-	KMimeType::Ptr type = KMimeType::findByUrl(file);
-	if (type->is("inode/directory")) {
-	    // user dropped a folder
-	    list.removeAll(file);
-	}
+        // Check there is no folder here
+        KMimeType::Ptr type = KMimeType::findByUrl(file);
+        if (type->is("inode/directory")) {
+            // user dropped a folder
+            list.removeAll(file);
+        }
     }
-    
+
     if (list.isEmpty()) return;
 
     if (givenList.isEmpty()) {
@@ -1077,7 +1077,7 @@ void ProjectList::slotRefreshClipThumbnail(QTreeWidgetItem *it, bool update)
 
         if (!pix.isNull()) {
             m_listView->blockSignals(true);
-	    it->setData(0, Qt::DecorationRole, pix);
+            it->setData(0, Qt::DecorationRole, pix);
             if (m_listView->isEnabled()) m_listView->blockSignals(false);
             if (!isSubItem) m_doc->cachePixmap(item->getClipHash(), pix);
             else m_doc->cachePixmap(item->getClipHash() + '#' + QString::number(frame), pix);
@@ -1126,7 +1126,7 @@ void ProjectList::slotReplyGetImage(const QString &clipId, const QPixmap &pix)
     ProjectItem *item = getItemById(clipId);
     if (item && !pix.isNull()) {
         m_listView->blockSignals(true);
-	item->setData(0, Qt::DecorationRole, pix);
+        item->setData(0, Qt::DecorationRole, pix);
         m_doc->cachePixmap(item->getClipHash(), pix);
         if (m_listView->isEnabled()) m_listView->blockSignals(false);
     }
@@ -1271,24 +1271,24 @@ void ProjectList::slotAddClipCut(const QString &id, int in, int out)
     ProjectItem *clip = getItemById(id);
     if (clip == NULL) return;
     if (clip->referencedClip()->hasCutZone(QPoint(in, out))) return;
-    AddClipCutCommand *command = new AddClipCutCommand(this, id, in, out, false);
+    AddClipCutCommand *command = new AddClipCutCommand(this, id, in, out, QString(), false);
     m_commandStack->push(command);
 }
 
-void ProjectList::addClipCut(const QString &id, int in, int out)
+void ProjectList::addClipCut(const QString &id, int in, int out, const QString desc)
 {
     ProjectItem *clip = getItemById(id);
     if (clip) {
         DocClipBase *base = clip->referencedClip();
         base->addCutZone(in, out);
         m_listView->blockSignals(true);
-        SubProjectItem *sub = new SubProjectItem(clip, in, out);
-
+        SubProjectItem *sub = new SubProjectItem(clip, in, out, desc);
         QPixmap p = clip->referencedClip()->thumbProducer()->extractImage(in, (int)(sub->sizeHint(0).height()  * m_render->dar()), sub->sizeHint(0).height() - 2);
-	sub->setData(0, Qt::DecorationRole, p);
+        sub->setData(0, Qt::DecorationRole, p);
         m_doc->cachePixmap(clip->getClipHash() + '#' + QString::number(in), p);
         m_listView->blockSignals(false);
     }
+    emit projectModified();
 }
 
 void ProjectList::removeClipCut(const QString &id, int in, int out)
@@ -1297,18 +1297,53 @@ void ProjectList::removeClipCut(const QString &id, int in, int out)
     if (clip) {
         DocClipBase *base = clip->referencedClip();
         base->removeCutZone(in, out);
+        SubProjectItem *sub = getSubItem(clip, QPoint(in, out));
+        if (sub) {
+            m_listView->blockSignals(true);
+            delete sub;
+            m_listView->blockSignals(false);
+        }
+    }
+    emit projectModified();
+}
+
+SubProjectItem *ProjectList::getSubItem(ProjectItem *clip, QPoint zone)
+{
+    SubProjectItem *sub = NULL;
+    if (clip) {
         for (int i = 0; i < clip->childCount(); i++) {
             QTreeWidgetItem *it = clip->child(i);
-            if (it->type() != PROJECTSUBCLIPTYPE) continue;
-            SubProjectItem *sub = static_cast <SubProjectItem*>(it);
-            if (sub->zone() == QPoint(in, out)) {
-                m_listView->blockSignals(true);
-                delete it;
-                m_listView->blockSignals(false);
-                break;
+            if (it->type() == PROJECTSUBCLIPTYPE) {
+                sub = static_cast <SubProjectItem*>(it);
+                if (sub->zone() == zone) break;
+                else sub = NULL;
             }
         }
     }
+    return sub;
+}
+
+void ProjectList::slotUpdateClipCut(QPoint p)
+{
+    if (!m_listView->currentItem() || m_listView->currentItem()->type() != PROJECTSUBCLIPTYPE) return;
+    SubProjectItem *sub = static_cast <SubProjectItem*>(m_listView->currentItem());
+    ProjectItem *item = static_cast <ProjectItem *>(sub->parent());
+    EditClipCutCommand *command = new EditClipCutCommand(this, item->clipId(), sub->zone(), p, sub->text(1), sub->text(1), true);
+    m_commandStack->push(command);
+}
+
+void ProjectList::doUpdateClipCut(const QString &id, const QPoint oldzone, const QPoint zone, const QString &comment)
+{
+    ProjectItem *clip = getItemById(id);
+    SubProjectItem *sub = getSubItem(clip, oldzone);
+    if (sub == NULL || clip == NULL) return;
+    DocClipBase *base = clip->referencedClip();
+    base->updateCutZone(oldzone.x(), oldzone.y(), zone.x(), zone.y(), comment);
+    m_listView->blockSignals(true);
+    sub->setZone(zone);
+    sub->setDescription(comment);
+    m_listView->blockSignals(false);
+    emit projectModified();
 }
 
 #include "projectlist.moc"

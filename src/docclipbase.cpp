@@ -273,7 +273,8 @@ QDomElement DocClipBase::toXML() const
     if (!m_cutZones.isEmpty()) {
         QStringList cuts;
         for (int i = 0; i < m_cutZones.size(); i++) {
-            cuts << QString::number(m_cutZones.at(i).zone.x()) + "-" + QString::number(m_cutZones.at(i).zone.y()) + "-" + m_cutZones.at(i).description;
+            CutZoneInfo info = m_cutZones.at(i);
+            cuts << QString::number(info.zone.x()) + "-" + QString::number(info.zone.y()) + "-" + info.description;
         }
         clip.setAttribute("cutzones", cuts.join(";"));
     }
@@ -861,16 +862,16 @@ void DocClipBase::addCutZone(int in, int out, QString desc)
     info.zone = QPoint(in, out);
     info.description = desc;
     for (int i = 0; i < m_cutZones.count(); i++)
-	if (m_cutZones.at(i).zone == info.zone) {
-	    return;
-	}
+        if (m_cutZones.at(i).zone == info.zone) {
+            return;
+        }
     m_cutZones.append(info);
 }
 
 bool DocClipBase::hasCutZone(QPoint p) const
 {
     for (int i = 0; i < m_cutZones.count(); i++)
-	if (m_cutZones.at(i).zone == p) return true;
+        if (m_cutZones.at(i).zone == p) return true;
     return false;
 }
 
@@ -879,8 +880,10 @@ void DocClipBase::removeCutZone(int in, int out)
 {
     QPoint p(in, out);
     for (int i = 0; i < m_cutZones.count(); i++) {
-	if (m_cutZones.at(i).zone == p) m_cutZones.removeAt(i);
-	i--;
+        if (m_cutZones.at(i).zone == p) {
+            m_cutZones.removeAt(i);
+            i--;
+        }
     }
 }
 
@@ -889,9 +892,9 @@ void DocClipBase::updateCutZone(int oldin, int oldout, int in, int out, QString 
     QPoint old(oldin, oldout);
     for (int i = 0; i < m_cutZones.size(); ++i) {
         if (m_cutZones.at(i).zone == old) {
-	    CutZoneInfo info;
-	    info.zone = QPoint(in, out);
-	    info.description = desc;
+            CutZoneInfo info;
+            info.zone = QPoint(in, out);
+            info.description = desc;
             m_cutZones.replace(i, info);
             break;
         }

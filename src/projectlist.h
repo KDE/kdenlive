@@ -33,14 +33,17 @@
 
 #include <KTreeWidgetSearchLine>
 #include <KUrl>
+
 #ifdef NEPOMUK
 #include <nepomuk/kratingpainter.h>
 #include <nepomuk/resource.h>
 #endif
+
 #include "definitions.h"
 #include "timecode.h"
 #include "kdenlivesettings.h"
 #include "folderprojectitem.h"
+#include "subprojectitem.h"
 
 namespace Mlt
 {
@@ -108,7 +111,7 @@ public:
             if (option.state & (QStyle::State_Selected)) {
                 painter->fillRect(r1, option.palette.highlight());
             }
-#ifdef NEPOMUK 
+#ifdef NEPOMUK
             KRatingPainter::paintRating(painter, r1, Qt::AlignCenter, index.data().toInt());
 #endif
         } else {
@@ -138,9 +141,11 @@ public:
     void cleanup();
     void trashUnusedClips();
     QList <DocClipBase*> documentClipList() const;
-    void addClipCut(const QString &id, int in, int out);
+    void addClipCut(const QString &id, int in, int out, const QString desc);
     void removeClipCut(const QString &id, int in, int out);
     void focusTree() const;
+    SubProjectItem *getSubItem(ProjectItem *clip, QPoint zone);
+    void doUpdateClipCut(const QString &id, const QPoint oldzone, const QPoint zone, const QString &comment);
 
 public slots:
     void setDocument(KdenliveDoc *doc);
@@ -163,6 +168,7 @@ public slots:
     void slotReloadClip(const QString &id = QString());
     void slotAddColorClip();
     void regenerateTemplate(const QString &id);
+    void slotUpdateClipCut(QPoint p);
 
 private:
     ProjectListView *m_listView;
