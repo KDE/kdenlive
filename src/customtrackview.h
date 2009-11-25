@@ -244,6 +244,7 @@ private:
     AbstractGroupItem *m_selectionGroup;
     QList <ClipItem *> m_waitingThumbs;
     int m_selectedTrack;
+    int m_spacerOffset;
 
     /** Get the index of the video track that is just below current track */
     int getPreviousVideoTrack(int track);

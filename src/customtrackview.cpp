@@ -405,6 +405,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
             return;
         } else if (m_operationMode == SPACER && move && m_selectionGroup) {
             // spacer tool
+	    snappedPos = getSnapPointForPos(mappedXPos + m_spacerOffset);
             if (snappedPos < 0) snappedPos = 0;
             // Make sure there is no collision
             QList<QGraphicsItem *> children = m_selectionGroup->childItems();
@@ -868,7 +869,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
                     selection.at(i)->parentItem()->setFlag(QGraphicsItem::ItemIsMovable, false);
                 }
             }
-
+	    m_spacerOffset = m_selectionGroup->sceneBoundingRect().left() - (int)(mapToScene(m_clickEvent).x());
             if (!offsetList.isEmpty()) {
                 qSort(offsetList);
                 QList <GenTime> cleandOffsetList;
