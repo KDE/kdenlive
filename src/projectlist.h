@@ -169,6 +169,7 @@ public slots:
     void slotAddColorClip();
     void regenerateTemplate(const QString &id);
     void slotUpdateClipCut(QPoint p);
+    void slotAddClipCut(const QString &id, int in, int out);
 
 private:
     ProjectListView *m_listView;
@@ -216,7 +217,6 @@ private slots:
     void slotProcessNextThumbnail();
     void slotCheckForEmptyQueue();
     void slotPauseMonitor();
-    void slotAddClipCut(const QString &id, int in, int out);
     //void slotShowMenu(const QPoint &pos);
 
 signals:

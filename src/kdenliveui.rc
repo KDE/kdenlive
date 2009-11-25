@@ -139,8 +139,10 @@
       <Separator />      
       <Action name="mark_in" />
       <Action name="mark_out" />
-      <Separator />      
+      <Separator />
       <Action name="switch_monitor" />
+      <Action name="insert_project_tree" />
+      <Action name="insert_timeline" />
     </Menu>
     <Menu name="dockwindows" ><text>View</text>
       <Action name="maximize_current" />

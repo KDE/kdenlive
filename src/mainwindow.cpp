@@ -998,6 +998,16 @@ void MainWindow::setupActions()
     switchMon->setShortcut(Qt::Key_T);
     connect(switchMon, SIGNAL(triggered(bool)), this, SLOT(slotSwitchMonitors()));
 
+    KAction *insertTree = collection->addAction("insert_project_tree");
+    insertTree->setText(i18n("Insert zone in project tree"));
+    insertTree->setShortcut(Qt::CTRL + Qt::Key_I);
+    connect(insertTree, SIGNAL(triggered(bool)), this, SLOT(slotInsertZoneToTree()));
+
+    KAction *insertTimeline = collection->addAction("insert_timeline");
+    insertTimeline->setText(i18n("Insert zone in timeline"));
+    insertTimeline->setShortcut(Qt::SHIFT + Qt::CTRL + Qt::Key_I);
+    connect(insertTimeline, SIGNAL(triggered(bool)), this, SLOT(slotInsertZoneToTimeline()));
+
     KAction *resizeStart =  new KAction(KIcon(), i18n("Resize Item Start"), this);
     collection->addAction("resize_timeline_clip_start", resizeStart);
     resizeStart->setShortcut(Qt::Key_1);
@@ -3219,6 +3229,19 @@ void MainWindow::slotSwitchMonitors()
     m_monitorManager->slotSwitchMonitors();
     if (m_projectMonitor->isActive()) m_activeTimeline->projectView()->setFocus();
     else m_projectList->focusTree();
+}
+
+void MainWindow::slotInsertZoneToTree()
+{
+    if (!m_clipMonitor->isActive() || m_clipMonitor->activeClip() == NULL) return;
+    QStringList info = m_clipMonitor->getZoneInfo();
+    m_projectList->slotAddClipCut(info.at(0), info.at(1).toInt(), info.at(2).toInt());
+}
+
+void MainWindow::slotInsertZoneToTimeline()
+{
+    if (!m_clipMonitor->isActive() || m_clipMonitor->activeClip() == NULL) return;
+    // TODO
 }
 
 #include "mainwindow.moc"
