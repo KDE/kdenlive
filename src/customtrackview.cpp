@@ -1298,6 +1298,30 @@ void CustomTrackView::activateMonitor()
     emit activateDocumentMonitor();
 }
 
+void CustomTrackView::insertClipCut(DocClipBase *clip, int in, int out)
+{
+    resetSelectionGroup();
+    ItemInfo info;
+    info.startPos = GenTime();
+    info.cropStart = GenTime(in, m_document->fps());
+    info.endPos = GenTime(out - in, m_document->fps());
+    info.cropDuration = info.endPos - info.startPos;
+    info.track = 0;
+
+    // Check if clip can be inserted at that position
+    ItemInfo pasteInfo = info;
+    pasteInfo.startPos = GenTime(m_cursorPos, m_document->fps());
+    pasteInfo.endPos = pasteInfo.startPos + info.endPos;
+    pasteInfo.track = selectedTrack();
+    if (!canBePastedTo(pasteInfo, AVWIDGET)) {
+        emit displayMessage(i18n("Cannot insert clip in timeline"), ErrorMessage);
+        return;
+    }
+
+    AddTimelineClipCommand *command = new AddTimelineClipCommand(this, clip->toXML(), clip->getId(), pasteInfo, EffectsList(), m_scene->editMode() == OVERWRITEEDIT, m_scene->editMode() == INSERTEDIT, true, false);
+    m_commandStack->push(command);
+}
+
 bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint pos)
 {
     if (data->hasFormat("kdenlive/clip")) {

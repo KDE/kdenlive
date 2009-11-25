@@ -3240,8 +3240,9 @@ void MainWindow::slotInsertZoneToTree()
 
 void MainWindow::slotInsertZoneToTimeline()
 {
-    if (!m_clipMonitor->isActive() || m_clipMonitor->activeClip() == NULL) return;
-    // TODO
+    if (m_activeTimeline == NULL || m_clipMonitor->activeClip() == NULL) return;
+    QStringList info = m_clipMonitor->getZoneInfo();
+    m_activeTimeline->projectView()->insertClipCut(m_clipMonitor->activeClip(), info.at(1).toInt(), info.at(2).toInt());
 }
 
 #include "mainwindow.moc"

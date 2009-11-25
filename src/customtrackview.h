@@ -129,7 +129,7 @@ public:
     void selectTransition(bool add, bool group = false);
     QStringList extractTransitionsLumas();
     void setEditMode(EDITMODE mode);
-
+    void insertClipCut(DocClipBase *clip, int in, int out);
 
 public slots:
     void setCursorPos(int pos, bool seek = true);
