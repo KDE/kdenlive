@@ -135,12 +135,11 @@ QPainterPath Guide::shape() const
 {
     QPainterPath path;
     if (!scene()) return path;
-    double scale = m_view->matrix().m11();
-    double width = m_pen.widthF() / scale * 2;
+    double width = m_pen.widthF() * 2;
     path.addRect(line().x1() - width / 2 , line().y1(), width, line().y2() - line().y1());
     if (KdenliveSettings::showmarkers()) {
         const QFontMetrics metric = m_view->fontMetrics();
-        QRectF txtBounding(line().x1() + 1 / scale, line().y1() + 10, m_width / scale, metric.height() / m_view->matrix().m22());
+        QRectF txtBounding(line().x1(), line().y1() + 10, m_width, metric.height());
         path.addRect(txtBounding);
     }
     return path;
