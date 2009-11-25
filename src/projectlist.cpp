@@ -335,6 +335,7 @@ void ProjectList::slotClipSelected()
             ProjectItem *clip;
             if (m_listView->currentItem()->type() == PROJECTSUBCLIPTYPE) {
                 // this is a sub item, use base clip
+		m_deleteAction->setEnabled(true);
                 clip = static_cast <ProjectItem*>(m_listView->currentItem()->parent());
                 if (clip == NULL) kDebug() << "-----------ERROR";
                 SubProjectItem *sub = static_cast <SubProjectItem*>(m_listView->currentItem());
@@ -512,7 +513,7 @@ void ProjectList::slotRemoveClip()
             // subitem
             SubProjectItem *sub = static_cast <SubProjectItem *>(selected.at(i));
             ProjectItem *item = static_cast <ProjectItem *>(sub->parent());
-            new AddClipCutCommand(this, item->clipId(), sub->zone().x(), sub->zone().y(), sub->description(), true, delCommand);
+            new AddClipCutCommand(this, item->clipId(), sub->zone().x(), sub->zone().y(), sub->description(), false, true, delCommand);
         } else if (selected.at(i)->type() == PROJECTFOLDERTYPE) {
             // folder
             FolderProjectItem *folder = static_cast <FolderProjectItem *>(selected.at(i));
@@ -1271,11 +1272,11 @@ void ProjectList::slotAddClipCut(const QString &id, int in, int out)
     ProjectItem *clip = getItemById(id);
     if (clip == NULL) return;
     if (clip->referencedClip()->hasCutZone(QPoint(in, out))) return;
-    AddClipCutCommand *command = new AddClipCutCommand(this, id, in, out, QString(), false);
+    AddClipCutCommand *command = new AddClipCutCommand(this, id, in, out, QString(), true, false);
     m_commandStack->push(command);
 }
 
-void ProjectList::addClipCut(const QString &id, int in, int out, const QString desc)
+void ProjectList::addClipCut(const QString &id, int in, int out, const QString desc, bool newItem)
 {
     ProjectItem *clip = getItemById(id);
     if (clip) {
@@ -1283,6 +1284,10 @@ void ProjectList::addClipCut(const QString &id, int in, int out, const QString d
         base->addCutZone(in, out);
         m_listView->blockSignals(true);
         SubProjectItem *sub = new SubProjectItem(clip, in, out, desc);
+	if (newItem && desc.isEmpty() && !m_listView->isColumnHidden(1)) {
+	    if (!clip->isExpanded()) clip->setExpanded(true);
+	    m_listView->editItem(sub, 1);
+	}
         QPixmap p = clip->referencedClip()->thumbProducer()->extractImage(in, (int)(sub->sizeHint(0).height()  * m_render->dar()), sub->sizeHint(0).height() - 2);
         sub->setData(0, Qt::DecorationRole, p);
         m_doc->cachePixmap(clip->getClipHash() + '#' + QString::number(in), p);

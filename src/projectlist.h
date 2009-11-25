@@ -141,7 +141,7 @@ public:
     void cleanup();
     void trashUnusedClips();
     QList <DocClipBase*> documentClipList() const;
-    void addClipCut(const QString &id, int in, int out, const QString desc);
+    void addClipCut(const QString &id, int in, int out, const QString desc, bool newItem);
     void removeClipCut(const QString &id, int in, int out);
     void focusTree() const;
     SubProjectItem *getSubItem(ProjectItem *clip, QPoint zone);

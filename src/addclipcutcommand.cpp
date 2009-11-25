@@ -22,13 +22,14 @@
 
 #include <KLocale>
 
-AddClipCutCommand::AddClipCutCommand(ProjectList *list, const QString &id, int in, int out, const QString desc, bool remove, QUndoCommand * parent) :
+AddClipCutCommand::AddClipCutCommand(ProjectList *list, const QString &id, int in, int out, const QString desc, bool newItem, bool remove, QUndoCommand * parent) :
         QUndoCommand(parent),
         m_list(list),
         m_id(id),
         m_in(in),
         m_out(out),
         m_desc(desc),
+        m_newItem(newItem),
         m_remove(remove)
 {
     setText(i18n("Add clip cut"));
@@ -38,13 +39,13 @@ AddClipCutCommand::AddClipCutCommand(ProjectList *list, const QString &id, int i
 // virtual
 void AddClipCutCommand::undo()
 {
-    if (m_remove) m_list->addClipCut(m_id, m_in, m_out, m_desc);
+    if (m_remove) m_list->addClipCut(m_id, m_in, m_out, m_desc, m_newItem);
     else m_list->removeClipCut(m_id, m_in, m_out);
 }
 // virtual
 void AddClipCutCommand::redo()
 {
     if (m_remove) m_list->removeClipCut(m_id, m_in, m_out);
-    else m_list->addClipCut(m_id, m_in, m_out, m_desc);
+    else m_list->addClipCut(m_id, m_in, m_out, m_desc, m_newItem);
 }
 
