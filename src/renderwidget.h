@@ -140,6 +140,7 @@ private slots:
     void slotHideLog();
     void slotPrepareExport(bool scriptExport = false);
     void slotPlayRendering(QTreeWidgetItem *item, int);
+    void slotStartCurrentJob();
 
 private:
     Ui::RenderWidget_UI m_view;
@@ -154,6 +155,7 @@ private:
     void updateButtons();
     KUrl filenameWithExtension(KUrl url, QString extension);
     void checkRenderStatus();
+    void startRendering(QTreeWidgetItem *item);
 
 signals:
     void abortProcess(const QString &url);
