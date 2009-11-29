@@ -197,7 +197,7 @@ void CustomRuler::mouseMoveEvent(QMouseEvent * event)
             setToolTip(i18n("Zone duration: %1", m_timecode.getTimecodeFromFrames(m_zoneEnd - m_zoneStart)));
         } else {
             setCursor(Qt::ArrowCursor);
-            setToolTip(i18n("Position: %1", m_timecode.getTimecodeFromFrames(pos)));
+            setToolTip(i18n("Position: %1", m_timecode.getTimecodeFromFrames(pos / m_factor)));
         }
     }
 }
