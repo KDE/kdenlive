@@ -1429,12 +1429,10 @@ EffectsParameterList ClipItem::getEffectArgs(const QDomElement effect)
             kDebug() << "/ / / /SENDING KEYFR EFFECT TYPE";
             QStringList values = e.attribute("keyframes").split(";", QString::SkipEmptyParts);
             double factor = e.attribute("factor", "1").toDouble();
-            if (factor != 1) {
-                for (int j = 0; j < values.count(); j++) {
-                    QString pos = values.at(j).section(":", 0, 0);
-                    double val = values.at(j).section(":", 1, 1).toDouble() / factor;
-                    values[j] = pos + "=" + QString::number(val);
-                }
+            for (int j = 0; j < values.count(); j++) {
+		QString pos = values.at(j).section(":", 0, 0);
+                double val = values.at(j).section(":", 1, 1).toDouble() / factor;
+                values[j] = pos + "=" + QString::number(val);
             }
             parameters.addParam(e.attribute("name"), values.join(";"));
             /*parameters.addParam(e.attribute("name"), e.attribute("keyframes").replace(":", "="));
