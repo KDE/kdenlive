@@ -170,8 +170,10 @@ void KeyframeEdit::slotAddKeyframe()
 
     keyframe_list->insertRow(newrow);
     keyframe_list->setVerticalHeaderItem(newrow, new QTableWidgetItem(m_timecode.getTimecodeFromFrames(result)));
-    keyframe_list->setItem(newrow, keyframe_list->currentColumn(), new QTableWidgetItem(item->text()));
-    keyframe_list->resizeRowToContents(newrow);
+    for (int i = 0; i < keyframe_list->columnCount(); i++) {
+	keyframe_list->setItem(newrow, i, new QTableWidgetItem(keyframe_list->item(item->row(), i)->text()));
+    }
+    //keyframe_list->resizeRowToContents(newrow);
     slotAdjustKeyframeInfo();
     keyframe_list->blockSignals(false);
     slotGenerateParams(newrow, keyframe_list->currentColumn());
@@ -209,7 +211,7 @@ void KeyframeEdit::slotGenerateParams(int row, int column)
 
     QString keyframes;
     for (int i = 0; i < keyframe_list->rowCount(); i++) {
-        keyframes.append(QString::number(m_timecode.getFrameCount(keyframe_list->verticalHeaderItem(i)->text())) + ':' + keyframe_list->item(i, column)->text() + ';');
+        if (keyframe_list->item(i, column)) keyframes.append(QString::number(m_timecode.getFrameCount(keyframe_list->verticalHeaderItem(i)->text())) + ':' + keyframe_list->item(i, column)->text() + ';');
     }
     m_params[column].setAttribute("keyframes", keyframes);
     emit parameterChanged();
