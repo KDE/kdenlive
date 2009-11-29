@@ -25,3 +25,6 @@ frei0r.levels
 frei0r.three_point_balance
 frei0r.tint0r
 frei0r.threshold0r
+
+#effects that have simplekeyframes
+vignette
