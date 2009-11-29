@@ -209,7 +209,7 @@ void KeyframeEdit::slotGenerateParams(int row, int column)
 
     QString keyframes;
     for (int i = 0; i < keyframe_list->rowCount(); i++) {
-        keyframes.append(QString::number(m_timecode.getFrameCount(keyframe_list->verticalHeaderItem(i)->text())) + ':' + keyframe_list->item(i, 0)->text() + ';');
+        keyframes.append(QString::number(m_timecode.getFrameCount(keyframe_list->verticalHeaderItem(i)->text())) + ':' + keyframe_list->item(i, column)->text() + ';');
     }
     m_params[column].setAttribute("keyframes", keyframes);
     emit parameterChanged();

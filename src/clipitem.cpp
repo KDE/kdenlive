@@ -1426,7 +1426,7 @@ EffectsParameterList ClipItem::getEffectArgs(const QDomElement effect)
         QDomElement e = params.item(i).toElement();
         //kDebug() << "/ / / /SENDING EFFECT PARAM: " << e.attribute("type") << ", NAME_ " << e.attribute("tag");
         if (e.attribute("type") == "simplekeyframe") {
-            kDebug() << "/ / / /SENDING KEYFR EFFECT TYPE";
+            
             QStringList values = e.attribute("keyframes").split(";", QString::SkipEmptyParts);
             double factor = e.attribute("factor", "1").toDouble();
             for (int j = 0; j < values.count(); j++) {
@@ -1434,6 +1434,7 @@ EffectsParameterList ClipItem::getEffectArgs(const QDomElement effect)
                 double val = values.at(j).section(":", 1, 1).toDouble() / factor;
                 values[j] = pos + "=" + QString::number(val);
             }
+            //kDebug() << "/ / / /SENDING KEYFR:"<<values;
             parameters.addParam(e.attribute("name"), values.join(";"));
             /*parameters.addParam(e.attribute("name"), e.attribute("keyframes").replace(":", "="));
             parameters.addParam("max", e.attribute("max"));
