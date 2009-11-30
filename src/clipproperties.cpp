@@ -60,6 +60,12 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
         m_view.clip_ar->setValue(props.value("force_aspect_ratio").toDouble());
     }
 
+    if (props.contains("force_progressive")) {
+        m_view.clip_force_progressive->setChecked(true);
+        m_view.clip_progressive->setEnabled(true);
+        m_view.clip_progressive->setValue(props.value("force_progressive").toInt());
+    }
+
     if (props.contains("threads") && props.value("threads").toInt() != 1) {
         m_view.clip_force_threads->setChecked(true);
         m_view.clip_threads->setEnabled(true);
@@ -97,6 +103,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
     }
 
     connect(m_view.clip_force_ar, SIGNAL(toggled(bool)), m_view.clip_ar, SLOT(setEnabled(bool)));
+    connect(m_view.clip_force_progressive, SIGNAL(toggled(bool)), m_view.clip_progressive, SLOT(setEnabled(bool)));
     connect(m_view.clip_force_threads, SIGNAL(toggled(bool)), m_view.clip_threads, SLOT(setEnabled(bool)));
     connect(m_view.clip_force_vindex, SIGNAL(toggled(bool)), m_view.clip_vindex, SLOT(setEnabled(bool)));
     connect(m_view.clip_force_aindex, SIGNAL(toggled(bool)), m_view.clip_aindex, SLOT(setEnabled(bool)));
@@ -353,6 +360,15 @@ QMap <QString, QString> ClipProperties::properties()
     } else if (old_props.contains("force_aspect_ratio")) {
         props["force_aspect_ratio"].clear();
         m_clipNeedsRefresh = true;
+    }
+
+    int progressive = m_view.clip_progressive->value();
+    if (m_view.clip_force_progressive->isChecked()) {
+        if (progressive != old_props.value("force_progressive").toInt()) {
+            props["force_progressive"] = QString::number(progressive);
+        }
+    } else if (old_props.contains("force_progressive")) {
+        props["force_progressive"].clear();
     }
 
     int threads = m_view.clip_threads->value();

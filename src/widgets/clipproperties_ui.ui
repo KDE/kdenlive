@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>286</width>
-    <height>436</height>
+    <width>304</width>
+    <height>451</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -579,7 +579,7 @@
        <string>Advanced</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_3">
-       <item row="4" column="2">
+       <item row="6" column="2">
         <spacer name="verticalSpacer">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -606,7 +606,7 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="2">
+       <item row="3" column="2">
         <widget class="QSpinBox" name="clip_vindex">
          <property name="enabled">
           <bool>false</bool>
@@ -619,7 +619,7 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="2">
+       <item row="4" column="2">
         <widget class="QSpinBox" name="clip_aindex">
          <property name="enabled">
           <bool>false</bool>
@@ -632,34 +632,54 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="1">
+       <item row="2" column="1">
         <widget class="QCheckBox" name="clip_force_threads">
          <property name="text">
           <string>Decoding threads</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="1">
+       <item row="3" column="1">
         <widget class="QCheckBox" name="clip_force_vindex">
          <property name="text">
           <string>Video index</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="1">
+       <item row="4" column="1">
         <widget class="QCheckBox" name="clip_force_aindex">
          <property name="text">
           <string>Audio index</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="2">
+       <item row="2" column="2">
         <widget class="QSpinBox" name="clip_threads">
          <property name="enabled">
           <bool>false</bool>
          </property>
          <property name="maximum">
           <number>4</number>
+         </property>
+         <property name="value">
+          <number>1</number>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QCheckBox" name="clip_force_progressive">
+         <property name="text">
+          <string>Force progressive</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2">
+        <widget class="QSpinBox" name="clip_progressive">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="maximum">
+          <number>1</number>
          </property>
          <property name="value">
           <number>1</number>

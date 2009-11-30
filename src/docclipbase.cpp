@@ -301,7 +301,7 @@ const QPixmap & DocClipBase::thumbnail() const
 
 void DocClipBase::updateAudioThumbnail(QMap<int, QMap<int, QByteArray> > data)
 {
-    //kDebug() << "CLIPBASE RECIEDVED AUDIO DATA*********************************************";
+    //kDebug() << "CLIPBASE RECIEDVED AUDIO DATA*********************************************";
     m_audioFrameCache = data;
     m_audioThumbCreated = true;
     emit gotAudioData();
@@ -510,6 +510,7 @@ Mlt::Producer *DocClipBase::audioProducer(int track)
         Mlt::Producer *base = producer();
         m_audioTrackProducers[track] = new Mlt::Producer(*(base->profile()), base->get("resource"));
         if (m_properties.contains("force_aspect_ratio")) m_audioTrackProducers.at(track)->set("force_aspect_ratio", m_properties.value("force_aspect_ratio").toDouble());
+        if (m_properties.contains("force_progressive")) m_audioTrackProducers.at(track)->set("force_progressive", m_properties.value("force_progressive").toInt());
         if (m_properties.contains("threads")) m_audioTrackProducers.at(track)->set("threads", m_properties.value("threads").toInt());
         m_audioTrackProducers.at(track)->set("video_index", -1);
         if (m_properties.contains("audio_index")) m_audioTrackProducers.at(track)->set("audio_index", m_properties.value("audio_index").toInt());
@@ -529,6 +530,7 @@ Mlt::Producer *DocClipBase::videoProducer()
         if (i >= m_baseTrackProducers.count()) return NULL;
         m_videoOnlyProducer = new Mlt::Producer(*m_baseTrackProducers.at(i)->profile(), m_baseTrackProducers.at(i)->get("resource"));
         if (m_properties.contains("force_aspect_ratio")) m_videoOnlyProducer->set("force_aspect_ratio", m_properties.value("force_aspect_ratio").toDouble());
+        if (m_properties.contains("force_progressive")) m_videoOnlyProducer->set("force_progressive", m_properties.value("force_progressive").toInt());
         if (m_properties.contains("threads")) m_videoOnlyProducer->set("threads", m_properties.value("threads").toInt());
         m_videoOnlyProducer->set("audio_index", -1);
         if (m_properties.contains("video_index")) m_videoOnlyProducer->set("video_index", m_properties.value("video_index").toInt());
@@ -572,6 +574,7 @@ Mlt::Producer *DocClipBase::producer(int track)
         }
 
         if (m_properties.contains("force_aspect_ratio")) m_baseTrackProducers[track]->set("force_aspect_ratio", m_properties.value("force_aspect_ratio").toDouble());
+        if (m_properties.contains("force_progressive")) m_baseTrackProducers[track]->set("force_progressive", m_properties.value("force_progressive").toInt());
         if (m_properties.contains("threads")) m_baseTrackProducers[track]->set("threads", m_properties.value("threads").toInt());
         if (m_properties.contains("video_index")) m_baseTrackProducers[track]->set("video_index", m_properties.value("video_index").toInt());
         if (m_properties.contains("audio_index")) m_baseTrackProducers[track]->set("audio_index", m_properties.value("audio_index").toInt());
@@ -808,9 +811,13 @@ void DocClipBase::setProperty(const QString &key, const QString &value)
     } else if (key == "force_aspect_ratio") {
         if (value.isEmpty()) {
             m_properties.remove("force_aspect_ratio");
-            //TODO: find a was to remove the "force_aspect_ratio" property from producer, currently does not work
-            setProducerProperty("force_aspect_ratio", 0);
+            setProducerProperty("force_aspect_ratio", NULL);
         } else setProducerProperty("force_aspect_ratio", value.toDouble());
+    } else if (key == "force_progressive") {
+        if (value.isEmpty()) {
+            m_properties.remove("force_progressive");
+            setProducerProperty("force_progressive", NULL);
+        } else setProducerProperty("force_progressive", value.toInt());
     } else if (key == "threads") {
         if (value.isEmpty()) {
             m_properties.remove("threads");
