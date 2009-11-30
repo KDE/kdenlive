@@ -1176,7 +1176,7 @@ void RenderWidget::parseFile(QString exportFile, bool editable)
     bool replaceVorbisCodec = false;
     if (!acodecsList.contains("vorbis") && acodecsList.contains("libvorbis")) replaceVorbisCodec = true;
     bool replaceLibfaacCodec = false;
-    if (!acodecsList.contains("libfaac") && acodecsList.contains("aac")) replaceLibfaacCodec = true;
+    if (!acodecsList.contains("aac") && acodecsList.contains("libfaac")) replaceLibfaacCodec = true;
 
 
     if (editable || groups.count() == 0) {
@@ -1230,9 +1230,9 @@ void RenderWidget::parseFile(QString exportFile, bool editable)
                 // replace vorbis with libvorbis
                 params = params.replace("vorbis", "libvorbis");
             }
-            if (replaceLibfaacCodec && params.contains("acodec=libfaac")) {
+            if (replaceLibfaacCodec && params.contains("acodec=aac")) {
                 // replace libfaac with aac
-                params = params.replace("libfaac", "aac");
+                params = params.replace("aac", "libfaac");
             }
 
             QString category = profile.attribute("category", i18n("Custom"));
@@ -1346,9 +1346,9 @@ void RenderWidget::parseFile(QString exportFile, bool editable)
                 // replace vorbis with libvorbis
                 params = params.replace("vorbis", "libvorbis");
             }
-            if (replaceLibfaacCodec && params.contains("acodec=libfaac")) {
+            if (replaceLibfaacCodec && params.contains("acodec=aac")) {
                 // replace libfaac with aac
-                params = params.replace("libfaac", "aac");
+                params = params.replace("aac", "libfaac");
             }
 
             prof_extension = profileElement.attribute("extension");
