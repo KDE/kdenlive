@@ -89,6 +89,7 @@ private:
     Timecode m_timecode;
     int m_previousPos;
     KeyItemDelegate *m_delegate;
+    void generateAllParams();
 
 public slots:
 

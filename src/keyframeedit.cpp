@@ -138,7 +138,7 @@ void KeyframeEdit::slotDeleteKeyframe()
     keyframe_list->removeRow(keyframe_list->currentRow());
     row = qMin(row, keyframe_list->rowCount() - 1);
     keyframe_list->setCurrentCell(row, col);
-    slotGenerateParams(row, col);
+    generateAllParams();
     button_delete->setEnabled(keyframe_list->rowCount() > 1);
 }
 
@@ -176,7 +176,7 @@ void KeyframeEdit::slotAddKeyframe()
     //keyframe_list->resizeRowToContents(newrow);
     slotAdjustKeyframeInfo();
     keyframe_list->blockSignals(false);
-    slotGenerateParams(newrow, keyframe_list->currentColumn());
+    generateAllParams();
     button_delete->setEnabled(keyframe_list->rowCount() > 1);
     keyframe_list->setCurrentCell(newrow, col);
     //slotGenerateParams(newrow, 0);
@@ -214,6 +214,18 @@ void KeyframeEdit::slotGenerateParams(int row, int column)
         if (keyframe_list->item(i, column)) keyframes.append(QString::number(m_timecode.getFrameCount(keyframe_list->verticalHeaderItem(i)->text())) + ':' + keyframe_list->item(i, column)->text() + ';');
     }
     m_params[column].setAttribute("keyframes", keyframes);
+    emit parameterChanged();
+}
+
+void KeyframeEdit::generateAllParams()
+{
+    for (int col = 0; col < keyframe_list->columnCount(); col++) {
+	QString keyframes;
+	for (int i = 0; i < keyframe_list->rowCount(); i++) {
+	    if (keyframe_list->item(i, col)) keyframes.append(QString::number(m_timecode.getFrameCount(keyframe_list->verticalHeaderItem(i)->text())) + ':' + keyframe_list->item(i, col)->text() + ';');
+	}
+    m_params[col].setAttribute("keyframes", keyframes);
+    }
     emit parameterChanged();
 }
 
