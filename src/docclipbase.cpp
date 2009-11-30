@@ -613,6 +613,14 @@ void DocClipBase::setProducerProperty(const char *name, const char *data)
     }
 }
 
+void DocClipBase::resetProducerProperty(const char *name)
+{
+    for (int i = 0; i < m_baseTrackProducers.count(); i++) {
+        if (m_baseTrackProducers.at(i) != NULL)
+            m_baseTrackProducers[i]->set(name, NULL);
+    }
+}
+
 const char *DocClipBase::producerProperty(const char *name) const
 {
     for (int i = 0; i < m_baseTrackProducers.count(); i++) {
@@ -811,12 +819,12 @@ void DocClipBase::setProperty(const QString &key, const QString &value)
     } else if (key == "force_aspect_ratio") {
         if (value.isEmpty()) {
             m_properties.remove("force_aspect_ratio");
-            setProducerProperty("force_aspect_ratio", NULL);
+            resetProducerProperty("force_aspect_ratio");
         } else setProducerProperty("force_aspect_ratio", value.toDouble());
     } else if (key == "force_progressive") {
         if (value.isEmpty()) {
             m_properties.remove("force_progressive");
-            setProducerProperty("force_progressive", NULL);
+            resetProducerProperty("force_progressive");
         } else setProducerProperty("force_progressive", value.toInt());
     } else if (key == "threads") {
         if (value.isEmpty()) {

@@ -178,6 +178,7 @@ Q_OBJECT public:
     void refreshThumbUrl();
     const char *producerProperty(const char *name) const;
     void setProducerProperty(const char *name, const char *data);
+    void resetProducerProperty(const char *name);
     void clearProducers();
     void deleteProducers();
 
