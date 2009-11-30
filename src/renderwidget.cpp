@@ -1470,8 +1470,10 @@ void RenderWidget::slotCheckJob()
     bool activate = false;
     QTreeWidgetItem *current = m_view.running_jobs->currentItem();
     if (current) {
-        if (current->data(1, Qt::UserRole + 2).toInt() == RUNNINGJOB)
+        if (current->data(1, Qt::UserRole + 2).toInt() == RUNNINGJOB) {
             m_view.abort_job->setText(i18n("Abort Job"));
+	    m_view.start_job->setEnabled(false);
+	}
         else {
 	    m_view.abort_job->setText(i18n("Remove Job"));
 	    m_view.start_job->setEnabled(current->data(1, Qt::UserRole + 2).toInt() == WAITINGJOB);
