@@ -63,5 +63,6 @@ gain.xml
 fade_from_black.xml
 fade_to_black.xml
 speed.xml
+vignette.xml
 
 DESTINATION ${DATA_INSTALL_DIR}/kdenlive/effects)
