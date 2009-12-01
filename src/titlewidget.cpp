@@ -187,6 +187,37 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     m_unicodeAction->setToolTip(i18n("Insert Unicode character") + ' ' + m_unicodeAction->shortcut().toString());
     connect(m_unicodeAction, SIGNAL(triggered()), this, SLOT(slotInsertUnicode()));
     buttonInsertUnicode->setDefaultAction(m_unicodeAction);
+    
+    m_zUp = new QAction(KIcon("kdenlive-zindex-up"), QString(), this);
+    m_zUp->setShortcut(Qt::Key_PageUp);
+    m_zUp->setToolTip(i18n("Raise object"));
+    connect(m_zUp, SIGNAL(triggered()), this, SLOT(slotZIndexUp()));
+    zUp->setDefaultAction(m_zUp);
+    
+    m_zDown = new QAction(KIcon("kdenlive-zindex-down"), QString(), this);
+    m_zDown->setShortcut(Qt::Key_PageDown);
+    m_zDown->setToolTip(i18n("Lower object"));
+    connect(m_zDown, SIGNAL(triggered()), this, SLOT(slotZIndexDown()));
+    zDown->setDefaultAction(m_zDown);
+    
+    m_zTop = new QAction(KIcon("kdenlive-zindex-top"), QString(), this);
+    m_zTop->setShortcut(Qt::Key_Home);
+    m_zTop->setToolTip(i18n("Raise object to top"));
+    connect(m_zTop, SIGNAL(triggered()), this, SLOT(slotZIndexTop()));
+    zTop->setDefaultAction(m_zTop);
+    
+    m_zBottom = new QAction(KIcon("kdenlive-zindex-bottom"), QString(), this);
+    m_zBottom->setShortcut(Qt::Key_End);
+    m_zBottom->setToolTip(i18n("Lower object to bottom"));
+    connect(m_zBottom, SIGNAL(triggered()), this, SLOT(slotZIndexBottom()));
+    zBottom->setDefaultAction(m_zBottom);
+    
+    zDown->setIcon(KIcon("kdenlive-zindex-down"));
+    zTop->setIcon(KIcon("kdenlive-zindex-top"));
+    zBottom->setIcon(KIcon("kdenlive-zindex-bottom"));
+    connect(zDown, SIGNAL(clicked()), this, SLOT(slotZIndexDown()));
+    connect(zTop, SIGNAL(clicked()), this, SLOT(slotZIndexTop()));
+    connect(zBottom, SIGNAL(clicked()), this, SLOT(slotZIndexBottom()));
 
     origin_x_left->setToolTip(i18n("Invert x axis and change 0 point"));
     origin_y_top->setToolTip(i18n("Invert y axis and change 0 point"));
@@ -335,6 +366,10 @@ TitleWidget::~TitleWidget()
     delete m_buttonSave;
     delete m_buttonLoad;
     delete m_unicodeAction;
+    delete m_zUp;
+    delete m_zDown;
+    delete m_zTop;
+    delete m_zBottom;
 
     delete m_unicodeDialog;
     delete m_frameBorder;
@@ -929,8 +964,9 @@ void TitleWidget::updateDimension(QGraphicsItem *i)
 {
     value_w->blockSignals(true);
     value_h->blockSignals(true);
+    zValue->blockSignals(true);
 
-
+	zValue->setValue((int) i->zValue());
     if (i->type() == IMAGEITEM) {
         // Get multipliers for rotation/scaling
 
@@ -953,6 +989,7 @@ void TitleWidget::updateDimension(QGraphicsItem *i)
         value_h->setValue((int) t->boundingRect().height());
     }
 
+	zValue->blockSignals(false);
     value_w->blockSignals(false);
     value_h->blockSignals(false);
 }
@@ -1844,8 +1881,8 @@ void TitleWidget::slotFontText(const QString& s)
         // starts typing «dejavu» for example).
         font_family->setCurrentFont(f);
     }
-    // TODO: typing dejavu serif does not recognize the font (takes sans).
-    // upper/lowercase problem?
+    // Note: Typing dejavu serif does not recognize the font (takes sans)
+    // in older Qt versions.
 }
 
 void TitleWidget::slotEditTypewriter(int ix)
@@ -1886,4 +1923,87 @@ void TitleWidget::slotEditShadow()
         }
     }
 #endif
+}
+
+qreal TitleWidget::zIndexBounds(bool maxBound)
+{
+	qreal bound = maxBound? -99 : 99;
+	QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
+	if (l.size() > 0) {
+		QList<QGraphicsItem*> lItems = graphicsView->scene()->items(l[0]->sceneBoundingRect(), Qt::IntersectsItemShape);
+		if (lItems.size() > 0) {
+			int n = lItems.size();
+			qreal z;
+			if (maxBound) {
+				for (int i = 0; i < n; i++) {
+					z = lItems[i]->zValue();
+					if (z > bound && !lItems[i]->isSelected()) {
+						bound = z;
+					}
+				}
+			} else {
+				// Get minimum z index.
+				for (int i = 0; i < n; i++) {
+					z = lItems[i]->zValue();
+					if (z < bound && !lItems[i]->isSelected() && z > -999) {
+						// There are items at the very bottom (background e.g.) with z-index < -1000.
+						bound = z;
+					}
+				}
+			}
+		}
+	}
+	return bound;
+}
+
+void TitleWidget::slotZIndexUp() 
+{
+    QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
+    if (l.size() >= 1) {
+		qreal currentZ = l[0]->zValue();
+	    qreal max = zIndexBounds(true);
+		if (currentZ <= max) {
+			l[0]->setZValue(currentZ+1);
+		    updateDimension(l[0]);
+		}
+    }
+}
+
+void TitleWidget::slotZIndexTop() 
+{
+    QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
+    if (l.size() >= 1) {
+		qreal currentZ = l[0]->zValue();
+	    qreal max = zIndexBounds(true);
+		if (currentZ <= max) {
+			l[0]->setZValue(max+1);
+		    updateDimension(l[0]);
+		}
+    }
+}
+
+void TitleWidget::slotZIndexDown() 
+{
+    QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
+    if (l.size() >= 1) {
+		qreal currentZ = l[0]->zValue();
+	    qreal min = zIndexBounds(false);
+		if (currentZ >= min) {
+			l[0]->setZValue(currentZ-1);
+		    updateDimension(l[0]);
+		}
+    }
+}
+
+void TitleWidget::slotZIndexBottom() 
+{
+    QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
+    if (l.size() >= 1) {
+		qreal currentZ = l[0]->zValue();
+	    qreal min = zIndexBounds(false);
+		if (currentZ >= min) {
+			l[0]->setZValue(min-1);
+		    updateDimension(l[0]);
+		}
+    }
 }

@@ -107,6 +107,10 @@ private:
     QAction *m_buttonLoad;
 
     QAction *m_unicodeAction;
+    QAction *m_zUp;
+    QAction *m_zDown;
+    QAction *m_zTop;
+    QAction *m_zBottom;
 
     /** \brief Dialog for entering unicode in text fields */
     UnicodeDialog *m_unicodeDialog;
@@ -156,6 +160,9 @@ private:
     void updateInfoText();
     /** \brief Remove the "start" and "end" info text from animation viewports */
     void deleteAnimInfoText();
+    
+    qreal maxZIndex();
+    qreal zIndexBounds(bool maxBound);
 
 public slots:
     void slotNewText(QGraphicsTextItem *tt);
@@ -260,6 +267,12 @@ private slots:
     void slotEditBlur(int ix);
     void slotEditShadow();
     void slotEditTypewriter(int ix);
+    
+    /** \brief Changes the z index of objects. */
+    void slotZIndexUp();
+    void slotZIndexDown();
+    void slotZIndexTop();
+    void slotZIndexBottom();
 };
 
 

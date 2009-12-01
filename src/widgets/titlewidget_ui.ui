@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>812</width>
-    <height>570</height>
+    <width>1414</width>
+    <height>720</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -154,6 +154,34 @@
          </widget>
         </item>
        </layout>
+      </item>
+      <item row="0" column="1">
+       <widget class="QToolButton" name="zUp">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QToolButton" name="zDown">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QToolButton" name="zTop">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="4">
+       <widget class="QToolButton" name="zBottom">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
@@ -715,7 +743,7 @@
       <enum>QFrame::Raised</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="page_6">
       <layout class="QGridLayout" name="gridLayout_2">
@@ -1057,16 +1085,6 @@
     </widget>
    </item>
   </layout>
-  <zorder>frame_toolbar</zorder>
-  <zorder>frame_properties</zorder>
-  <zorder>splitter</zorder>
-  <zorder>buttonFitZoom</zorder>
-  <zorder>buttonRealSize</zorder>
-  <zorder>zoom_slider</zorder>
-  <zorder>zoom_label</zorder>
-  <zorder>displayBg</zorder>
-  <zorder>toolbar_stack</zorder>
-  <zorder>buttonBox</zorder>
  </widget>
  <customwidgets>
   <customwidget>
