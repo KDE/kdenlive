@@ -160,7 +160,7 @@ private:
     void updateInfoText();
     /** \brief Remove the "start" and "end" info text from animation viewports */
     void deleteAnimInfoText();
-    
+
     qreal maxZIndex();
     qreal zIndexBounds(bool maxBound);
 
@@ -267,7 +267,7 @@ private slots:
     void slotEditBlur(int ix);
     void slotEditShadow();
     void slotEditTypewriter(int ix);
-    
+
     /** \brief Changes the z index of objects. */
     void slotZIndexUp();
     void slotZIndexDown();

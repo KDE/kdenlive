@@ -840,7 +840,7 @@ void RenderWidget::checkRenderStatus()
         if (item->data(1, Qt::UserRole + 2).toInt() == WAITINGJOB) {
             item->setData(1, Qt::UserRole + 1, QTime::currentTime());
             waitingJob = true;
-	    startRendering(item);
+            startRendering(item);
             break;
         }
         item = m_view.running_jobs->itemBelow(item);
@@ -851,17 +851,17 @@ void RenderWidget::checkRenderStatus()
 void RenderWidget::startRendering(QTreeWidgetItem *item)
 {
     if (item->data(1, Qt::UserRole + 4).isNull()) {
-	// Normal render process
-	if (QProcess::startDetached(m_renderer, item->data(1, Qt::UserRole + 3).toStringList()) == false) {
-	    item->setData(1, Qt::UserRole + 2, FINISHEDJOB);
-	    item->setData(1, Qt::UserRole, i18n("Rendering crashed"));
-	    item->setIcon(0, KIcon("dialog-close"));
-	    item->setData(2, Qt::UserRole, 100);
+        // Normal render process
+        if (QProcess::startDetached(m_renderer, item->data(1, Qt::UserRole + 3).toStringList()) == false) {
+            item->setData(1, Qt::UserRole + 2, FINISHEDJOB);
+            item->setData(1, Qt::UserRole, i18n("Rendering crashed"));
+            item->setIcon(0, KIcon("dialog-close"));
+            item->setData(2, Qt::UserRole, 100);
         } else KNotification::event("RenderStarted", i18n("Rendering <i>%1</i> started", item->text(1)), QPixmap(), this);
     } else {
-	// Script item
+        // Script item
         if (QProcess::startDetached(item->data(1, Qt::UserRole + 3).toString()) == false) {
-	    item->setData(1, Qt::UserRole + 2, FINISHEDJOB);
+            item->setData(1, Qt::UserRole + 2, FINISHEDJOB);
             item->setData(1, Qt::UserRole, i18n("Rendering crashed"));
             item->setIcon(0, KIcon("dialog-close"));
             item->setData(2, Qt::UserRole, 100);
@@ -1461,7 +1461,7 @@ void RenderWidget::slotStartCurrentJob()
 {
     QTreeWidgetItem *current = m_view.running_jobs->currentItem();
     if (current && current->data(1, Qt::UserRole + 2).toInt() == WAITINGJOB)
-	startRendering(current);
+        startRendering(current);
     m_view.start_job->setEnabled(false);
 }
 
@@ -1472,12 +1472,11 @@ void RenderWidget::slotCheckJob()
     if (current) {
         if (current->data(1, Qt::UserRole + 2).toInt() == RUNNINGJOB) {
             m_view.abort_job->setText(i18n("Abort Job"));
-	    m_view.start_job->setEnabled(false);
-	}
-        else {
-	    m_view.abort_job->setText(i18n("Remove Job"));
-	    m_view.start_job->setEnabled(current->data(1, Qt::UserRole + 2).toInt() == WAITINGJOB);
-	}
+            m_view.start_job->setEnabled(false);
+        } else {
+            m_view.abort_job->setText(i18n("Remove Job"));
+            m_view.start_job->setEnabled(current->data(1, Qt::UserRole + 2).toInt() == WAITINGJOB);
+        }
         activate = true;
     }
     m_view.abort_job->setEnabled(activate);
