@@ -15,4 +15,7 @@
 	<parameter type="constant" name="right" max="5000" min="0" default="0">
 		<name>Right</name>
 	</parameter>
+	<parameter type="bool" name="center" default="0">
+		<name>Automatic center-crop</name>
+	</parameter>
 </effect>
