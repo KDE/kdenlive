@@ -617,7 +617,7 @@ void DocClipBase::resetProducerProperty(const char *name)
 {
     for (int i = 0; i < m_baseTrackProducers.count(); i++) {
         if (m_baseTrackProducers.at(i) != NULL)
-            m_baseTrackProducers[i]->set(name, NULL);
+            m_baseTrackProducers[i]->set(name, (const char*) NULL);
     }
 }
 
