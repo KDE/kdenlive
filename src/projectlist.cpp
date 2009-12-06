@@ -737,6 +737,7 @@ void ProjectList::slotUpdateClip(const QString &id)
 void ProjectList::updateAllClips()
 {
     m_listView->setSortingEnabled(false);
+    kDebug() << "// UPDATE ALL CLPY";
 
     QTreeWidgetItemIterator it(m_listView);
     DocClipBase *clip;
@@ -756,28 +757,27 @@ void ProjectList::updateAllClips()
             // folder
             ++it;
             continue;
-        }
-        item = static_cast <ProjectItem *>(*it);
-        clip = item->referencedClip();
-        if (item->referencedClip()->producer() == NULL) {
-            if (clip->isPlaceHolder() == false) {
-                requestClipInfo(clip->toXML(), clip->getId());
-            } else item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
         } else {
-            if (item->data(0, Qt::DecorationRole).isNull()) {
-                requestClipThumbnail(clip->getId());
+            item = static_cast <ProjectItem *>(*it);
+            clip = item->referencedClip();
+            if (item->referencedClip()->producer() == NULL) {
+                if (clip->isPlaceHolder() == false) {
+                    requestClipInfo(clip->toXML(), clip->getId());
+                } else item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+            } else {
+                if (item->data(0, Qt::DecorationRole).isNull()) {
+                    requestClipThumbnail(clip->getId());
+                }
+                if (item->data(0, DurationRole).toString().isEmpty()) {
+                    item->changeDuration(item->referencedClip()->producer()->get_playtime());
+                }
             }
-            if (item->data(0, DurationRole).toString().isEmpty()) {
-                item->changeDuration(item->referencedClip()->producer()->get_playtime());
-            }
+            item->setData(1, UsageRole, QString::number(item->numReferences()));
         }
-        item->setData(1, UsageRole, QString::number(item->numReferences()));
         //qApp->processEvents();
         ++it;
     }
-    qApp->processEvents();
     if (!m_queueTimer.isActive()) m_queueTimer.start();
-
     if (m_listView->isEnabled()) m_listView->blockSignals(false);
     m_listView->setSortingEnabled(true);
     if (m_infoQueue.isEmpty()) slotProcessNextThumbnail();
@@ -1096,6 +1096,9 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
         item->setProperties(properties, metadata);
         //Q_ASSERT_X(item->referencedClip(), "void ProjectList::slotReplyGetFileProperties", QString("Item with groupName %1 does not have a clip associated").arg(item->groupName()).toLatin1());
         item->referencedClip()->setProducer(producer, replace);
+        if (!replace && item->data(0, Qt::DecorationRole).isNull()) {
+            requestClipThumbnail(clipId);
+        }
         //emit receivedClipDuration(clipId);
         if (m_listView->isEnabled() && replace) {
             // update clip in clip monitor
