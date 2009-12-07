@@ -44,10 +44,10 @@ void KeyframeHelper::mousePressEvent(QMouseEvent * event)
 {
     if (m_geom != NULL && (event->y() < height() / 2) && event->button() == Qt::LeftButton) {
         // check if we want to move a keyframe
-        int mousePos = qMax((int)(event->x() / m_scale - 5), 0);
+        int mousePos = qMax((int)(event->x() / m_scale), 0);
         Mlt::GeometryItem item;
         if (m_geom->next_key(&item, mousePos) == 0) {
-            if (item.frame() - mousePos < 10) {
+            if (qAbs(item.frame() * m_scale - (int)(event->x())) < 3) {
                 m_movingItem.x(item.x());
                 m_movingItem.y(item.y());
                 m_movingItem.w(item.w());
