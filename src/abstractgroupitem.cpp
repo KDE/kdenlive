@@ -147,6 +147,10 @@ void AbstractGroupItem::paint(QPainter *p, const QStyleOptionGraphicsItem *optio
 //virtual
 QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant &value)
 {
+    if (change == QGraphicsItem::ItemSelectedChange) {
+        if (value.toBool()) setZValue(10);
+        else setZValue(1);
+    }
     if (change == ItemPositionChange && scene() && parentItem() == 0) {
         // calculate new position.
         const int trackHeight = KdenliveSettings::trackheight();

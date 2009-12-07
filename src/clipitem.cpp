@@ -1158,6 +1158,10 @@ bool ClipItem::checkEffectsKeyframesPos(const int previous, const int current, b
 //virtual
 QVariant ClipItem::itemChange(GraphicsItemChange change, const QVariant &value)
 {
+    if (change == QGraphicsItem::ItemSelectedChange) {
+        if (value.toBool()) setZValue(10);
+        else setZValue(2);
+    }
     if (change == ItemPositionChange && scene()) {
         // calculate new position.
         //if (parentItem()) return pos();
@@ -1434,7 +1438,7 @@ EffectsParameterList ClipItem::getEffectArgs(const QDomElement effect)
                 double val = values.at(j).section(":", 1, 1).toDouble() / factor;
                 values[j] = pos + "=" + QString::number(val);
             }
-            //kDebug() << "/ / / /SENDING KEYFR:"<<values;
+            // kDebug() << "/ / / /SENDING KEYFR:" << values;
             parameters.addParam(e.attribute("name"), values.join(";"));
             /*parameters.addParam(e.attribute("name"), e.attribute("keyframes").replace(":", "="));
             parameters.addParam("max", e.attribute("max"));

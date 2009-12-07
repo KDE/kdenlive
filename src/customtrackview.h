@@ -270,6 +270,8 @@ private:
     /** Adjust clips under another one when working in overwrite mode */
     void adjustTimelineClips(EDITMODE mode, ClipItem *item, ItemInfo posinfo, QUndoCommand *command);
     void adjustTimelineTransitions(EDITMODE mode, Transition *item, QUndoCommand *command);
+    /** Adjust keyframes when pasted to another clip */
+    void adjustKeyfames(GenTime oldstart, GenTime newstart, QDomElement xml);
 
 private slots:
     void slotRefreshGuides();

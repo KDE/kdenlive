@@ -211,6 +211,10 @@ int Transition::type() const
 //virtual
 QVariant Transition::itemChange(GraphicsItemChange change, const QVariant &value)
 {
+    if (change == QGraphicsItem::ItemSelectedChange) {
+        if (value.toBool()) setZValue(10);
+        else setZValue(3);
+    }
     if (change == ItemPositionChange && scene()) {
         // calculate new position.
         QPointF newPos = value.toPointF();

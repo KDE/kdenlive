@@ -987,8 +987,6 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         return;
     } else if (m_operationMode == MOVE) {
         setCursor(Qt::ClosedHandCursor);
-        if (m_dragItem) m_dragItem->setZValue(10);
-        if (m_selectionGroup) m_selectionGroup->setZValue(10);
     } else if (m_operationMode == TRANSITIONSTART && event->modifiers() != Qt::ControlModifier) {
         ItemInfo info;
         info.startPos = m_dragItem->startPos();
@@ -1363,7 +1361,7 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint pos)
         updateSnapPoints(NULL, offsetList);
         m_selectionGroup->setPos(framePos);
         scene()->addItem(m_selectionGroup);
-        m_selectionGroup->setZValue(10);
+        //m_selectionGroup->setZValue(10);
         return true;
     } else if (data->hasFormat("kdenlive/producerslist")) {
         m_clipDrag = true;
@@ -1409,7 +1407,7 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint pos)
             start += info.cropDuration;
             offsetList.append(start);
             ClipItem *item = new ClipItem(clip, info, m_document->fps(), 1.0, 1, false);
-            item->setZValue(10);
+            //item->setZValue(10);
             item->setFlag(QGraphicsItem::ItemIsMovable, false);
             m_selectionGroup->addToGroup(item);
             m_waitingThumbs.append(item);
@@ -1418,7 +1416,7 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint pos)
         updateSnapPoints(NULL, offsetList);
         m_selectionGroup->setPos(framePos);
         scene()->addItem(m_selectionGroup);
-        m_selectionGroup->setZValue(10);
+        //m_selectionGroup->setZValue(10);
         m_thumbsTimer.start();
         return true;
 
@@ -2062,7 +2060,7 @@ void CustomTrackView::dropEvent(QDropEvent * event)
 
             //TODO: take care of edit mode for undo
             item->baseClip()->addReference();
-            item->setZValue(item->defaultZValue());
+            //item->setZValue(item->defaultZValue());
             m_document->updateClip(item->baseClip()->getId());
             ItemInfo info = item->info();
 
@@ -2829,8 +2827,6 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
 
     if (m_operationMode == MOVE) {
         setCursor(Qt::OpenHandCursor);
-        if (m_dragItem) m_dragItem->setZValue(m_dragItem->defaultZValue());
-        if (m_selectionGroup) m_selectionGroup->setZValue(1);
         if (m_dragItem->parentItem() == 0) {
             // we are moving one clip, easy
             if (m_dragItem->type() == AVWIDGET && (m_dragItemInfo.startPos != info.startPos || m_dragItemInfo.track != info.track)) {
@@ -4744,6 +4740,7 @@ void CustomTrackView::pasteClipEffects()
             for (int j = 0; j < clip->effectsCount(); j++) {
                 QDomElement eff = clip->effectAt(j);
                 if (eff.attribute("unique", "0") == "0" || item->hasEffect(eff.attribute("tag"), eff.attribute("id")) == -1) {
+                    adjustKeyfames(clip->cropStart(), item->cropStart(), eff);
                     new AddEffectCommand(this, m_document->tracksCount() - item->track(), item->startPos(), eff, true, paste);
                 }
             }
@@ -4758,6 +4755,29 @@ void CustomTrackView::pasteClipEffects()
     }
 }
 
+
+void CustomTrackView::adjustKeyfames(GenTime oldstart, GenTime newstart, QDomElement xml)
+{
+    // parse parameters to check if we need to adjust to the new crop start
+    int diff = (newstart - oldstart).frames(m_document->fps());
+    QDomNodeList params = xml.elementsByTagName("parameter");
+    for (int i = 0; i < params.count(); i++) {
+        QDomElement e = params.item(i).toElement();
+        if (!e.isNull() && (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe")) {
+            QString def = e.attribute("default");
+            // Effect has a keyframe type parameter, we need to adjust the values
+            QStringList keys = e.attribute("keyframes").split(";", QString::SkipEmptyParts);
+            QStringList newKeyFrames;
+            foreach(const QString &str, keys) {
+                int pos = str.section(':', 0, 0).toInt();
+                double val = str.section(':', 1, 1).toDouble();
+                newKeyFrames.append(QString::number(pos + diff) + ':' + QString::number(val));
+            }
+            //kDebug()<<"ORIGIN: "<<keys<<", FIXED: "<<newKeyFrames;
+            e.setAttribute("keyframes", newKeyFrames.join(";"));
+        }
+    }
+}
 
 ClipItem *CustomTrackView::getClipUnderCursor() const
 {
