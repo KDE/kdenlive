@@ -4740,7 +4740,7 @@ void CustomTrackView::pasteClipEffects()
             for (int j = 0; j < clip->effectsCount(); j++) {
                 QDomElement eff = clip->effectAt(j);
                 if (eff.attribute("unique", "0") == "0" || item->hasEffect(eff.attribute("tag"), eff.attribute("id")) == -1) {
-                    adjustKeyfames(clip->cropStart(), item->cropStart(), eff);
+                    adjustKeyfames(clip->cropStart(), item->cropStart(), item->cropDuration(), eff);
                     new AddEffectCommand(this, m_document->tracksCount() - item->track(), item->startPos(), eff, true, paste);
                 }
             }
@@ -4756,10 +4756,11 @@ void CustomTrackView::pasteClipEffects()
 }
 
 
-void CustomTrackView::adjustKeyfames(GenTime oldstart, GenTime newstart, QDomElement xml)
+void CustomTrackView::adjustKeyfames(GenTime oldstart, GenTime newstart, GenTime duration, QDomElement xml)
 {
     // parse parameters to check if we need to adjust to the new crop start
     int diff = (newstart - oldstart).frames(m_document->fps());
+    int max = (newstart + duration).frames(m_document->fps());
     QDomNodeList params = xml.elementsByTagName("parameter");
     for (int i = 0; i < params.count(); i++) {
         QDomElement e = params.item(i).toElement();
@@ -4771,7 +4772,11 @@ void CustomTrackView::adjustKeyfames(GenTime oldstart, GenTime newstart, QDomEle
             foreach(const QString &str, keys) {
                 int pos = str.section(':', 0, 0).toInt();
                 double val = str.section(':', 1, 1).toDouble();
-                newKeyFrames.append(QString::number(pos + diff) + ':' + QString::number(val));
+                pos += diff;
+                if (pos > max) {
+                    newKeyFrames.append(QString::number(max) + ':' + QString::number(val));
+                    break;
+                } else newKeyFrames.append(QString::number(pos) + ':' + QString::number(val));
             }
             //kDebug()<<"ORIGIN: "<<keys<<", FIXED: "<<newKeyFrames;
             e.setAttribute("keyframes", newKeyFrames.join(";"));

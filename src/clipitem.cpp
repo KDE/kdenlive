@@ -1342,8 +1342,7 @@ EffectsParameterList ClipItem::addEffect(const QDomElement effect, bool /*animat
                 parameters.addParam("starttag", e.attribute("starttag", "start"));
                 parameters.addParam("endtag", e.attribute("endtag", "end"));
             }
-
-            if (e.attribute("factor", "1") == "1") {
+            else if (e.attribute("factor", "1") == "1") {
                 parameters.addParam(e.attribute("name"), e.attribute("value"));
 
                 // check if it is a fade effect

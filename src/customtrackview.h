@@ -271,7 +271,7 @@ private:
     void adjustTimelineClips(EDITMODE mode, ClipItem *item, ItemInfo posinfo, QUndoCommand *command);
     void adjustTimelineTransitions(EDITMODE mode, Transition *item, QUndoCommand *command);
     /** Adjust keyframes when pasted to another clip */
-    void adjustKeyfames(GenTime oldstart, GenTime newstart, QDomElement xml);
+    void adjustKeyfames(GenTime oldstart, GenTime newstart, GenTime duration, QDomElement xml);
 
 private slots:
     void slotRefreshGuides();
