@@ -125,7 +125,7 @@ QRectF Guide::boundingRect() const
     double width = m_pen.widthF() / scale * 2;
     QRectF rect(line().x1() - width / 2 , line().y1(), width, line().y2() - line().y1());
     if (KdenliveSettings::showmarkers()) {
-        rect.setWidth(width + m_width / scale);
+        rect.setWidth(width + m_width);
     }
     return rect;
 }
