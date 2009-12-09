@@ -101,7 +101,7 @@ ProjectList::ProjectList(QWidget *parent) :
     m_queueTimer.setSingleShot(true);
 
 
-
+    connect(m_listView, SIGNAL(projectModified()), this, SIGNAL(projectModified()));
     connect(m_listView, SIGNAL(itemSelectionChanged()), this, SLOT(slotClipSelected()));
     connect(m_listView, SIGNAL(focusMonitor()), this, SLOT(slotClipSelected()));
     connect(m_listView, SIGNAL(pauseMonitor()), this, SLOT(slotPauseMonitor()));

@@ -207,6 +207,7 @@ void ProjectListView::dropEvent(QDropEvent *event)
                 }
             }
         }
+        emit projectModified();
     } else if (event->mimeData()->hasFormat("kdenlive/clip")) {
         QStringList list = QString(event->mimeData()->data("kdenlive/clip")).split(';');
         emit addClipCut(list.at(0), list.at(1).toInt(), list.at(2).toInt());

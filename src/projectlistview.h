@@ -67,6 +67,7 @@ signals:
     void focusMonitor();
     void pauseMonitor();
     void addClipCut(const QString&, int, int);
+    void projectModified();
 };
 
 #endif
