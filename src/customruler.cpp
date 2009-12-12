@@ -105,11 +105,9 @@ void CustomRuler::slotDeleteGuide()
 
 void CustomRuler::setZone(QPoint p)
 {
-    int min = qMin(m_zoneStart, p.x());
-    int max = qMax(m_zoneEnd, p.y());
     m_zoneStart = p.x();
     m_zoneEnd = p.y();
-    update(min * m_factor - 2, 0, (max - min) * m_factor + 4, height());
+    update();
 }
 
 void CustomRuler::mouseReleaseEvent(QMouseEvent * /*event*/)
