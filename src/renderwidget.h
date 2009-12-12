@@ -141,7 +141,8 @@ private slots:
     void slotPrepareExport(bool scriptExport = false);
     void slotPlayRendering(QTreeWidgetItem *item, int);
     void slotStartCurrentJob();
-
+    void slotCopyToFavorites();
+    
 private:
     Ui::RenderWidget_UI m_view;
     MltVideoProfile m_profile;
@@ -156,6 +157,7 @@ private:
     KUrl filenameWithExtension(KUrl url, QString extension);
     void checkRenderStatus();
     void startRendering(QTreeWidgetItem *item);
+    void saveProfile(QDomElement newprofile);
 
 signals:
     void abortProcess(const QString &url);

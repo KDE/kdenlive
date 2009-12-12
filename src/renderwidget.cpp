@@ -81,6 +81,9 @@ RenderWidget::RenderWidget(const QString &projectfolder, QWidget * parent) :
     m_view.buttonInfo->setIcon(KIcon("help-about"));
     m_view.hide_log->setIcon(KIcon("go-down"));
 
+    m_view.buttonFavorite->setIcon(KIcon("favorites"));
+    m_view.buttonFavorite->setToolTip(i18n("Copy profile to favorites"));
+    
     if (KdenliveSettings::showrenderparams()) {
         m_view.buttonInfo->setDown(true);
     } else m_view.advanced_params->hide();
@@ -120,6 +123,8 @@ RenderWidget::RenderWidget(const QString &projectfolder, QWidget * parent) :
     connect(m_view.buttonSave, SIGNAL(clicked()), this, SLOT(slotSaveProfile()));
     connect(m_view.buttonEdit, SIGNAL(clicked()), this, SLOT(slotEditProfile()));
     connect(m_view.buttonDelete, SIGNAL(clicked()), this, SLOT(slotDeleteProfile()));
+    connect(m_view.buttonFavorite, SIGNAL(clicked()), this, SLOT(slotCopyToFavorites()));
+
     connect(m_view.abort_job, SIGNAL(clicked()), this, SLOT(slotAbortCurrentJob()));
     connect(m_view.start_job, SIGNAL(clicked()), this, SLOT(slotStartCurrentJob()));
     connect(m_view.clean_up, SIGNAL(clicked()), this, SLOT(slotCLeanUpJobs()));
@@ -338,7 +343,30 @@ void RenderWidget::slotSaveProfile()
     ui.profile_name->setFocus();
 
     if (d->exec() == QDialog::Accepted && !ui.profile_name->text().simplified().isEmpty()) {
-        QString exportFile = KStandardDirs::locateLocal("appdata", "export/customprofiles.xml");
+        QString newProfileName = ui.profile_name->text().simplified();
+        QString newGroupName = ui.group_name->text().simplified();
+        if (newGroupName.isEmpty()) newGroupName = i18n("Custom");
+        QString newMetaGroupId = ui.destination_list->itemData(ui.destination_list->currentIndex(), Qt::UserRole).toString();
+	
+	QDomDocument doc;
+        QDomElement profileElement = doc.createElement("profile");
+        profileElement.setAttribute("name", newProfileName);
+        profileElement.setAttribute("category", newGroupName);
+        profileElement.setAttribute("destinationid", newMetaGroupId);
+        profileElement.setAttribute("extension", ui.extension->text().simplified());
+        profileElement.setAttribute("args", ui.parameters->toPlainText().simplified());
+	doc.appendChild(profileElement);
+	saveProfile(doc.documentElement());
+        
+        parseProfiles(newMetaGroupId, newGroupName, newProfileName);
+    }
+    delete d;
+}
+
+
+void RenderWidget::saveProfile(QDomElement newprofile)
+{
+  QString exportFile = KStandardDirs::locateLocal("appdata", "export/customprofiles.xml");
         QDomDocument doc;
         QFile file(exportFile);
         doc.setContent(&file, false);
@@ -360,20 +388,17 @@ void RenderWidget::slotSaveProfile()
             doc.appendChild(profiles);
         }
 
-        QString newProfileName = ui.profile_name->text().simplified();
-        QString newGroupName = ui.group_name->text().simplified();
-        if (newGroupName.isEmpty()) newGroupName = i18n("Custom");
-        QString newMetaGroupId = ui.destination_list->itemData(ui.destination_list->currentIndex(), Qt::UserRole).toString();
+
         QDomNodeList profilelist = doc.elementsByTagName("profile");
         int i = 0;
         while (!profilelist.item(i).isNull()) {
             // make sure a profile with same name doesn't exist
             documentElement = profilelist.item(i).toElement();
             QString profileName = documentElement.attribute("name");
-            if (profileName == newProfileName) {
+            if (profileName == newprofile.attribute("name")) {
                 // a profile with that same name already exists
                 bool ok;
-                newProfileName = QInputDialog::getText(this, i18n("Profile already exists"), i18n("This profile name already exists. Change the name if you don't want to overwrite it."), QLineEdit::Normal, newProfileName, &ok);
+                QString newProfileName = QInputDialog::getText(this, i18n("Profile already exists"), i18n("This profile name already exists. Change the name if you don't want to overwrite it."), QLineEdit::Normal, profileName, &ok);
                 if (!ok) return;
                 if (profileName == newProfileName) {
                     profiles.removeChild(profilelist.item(i));
@@ -383,19 +408,12 @@ void RenderWidget::slotSaveProfile()
             i++;
         }
 
-        QDomElement profileElement = doc.createElement("profile");
-        profileElement.setAttribute("name", newProfileName);
-        profileElement.setAttribute("category", newGroupName);
-        profileElement.setAttribute("destinationid", newMetaGroupId);
-        profileElement.setAttribute("extension", ui.extension->text().simplified());
-        profileElement.setAttribute("args", ui.parameters->toPlainText().simplified());
-        profiles.appendChild(profileElement);
+        profiles.appendChild(newprofile);
 
         //QCString save = doc.toString().utf8();
 
         if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
             KMessageBox::sorry(this, i18n("Unable to write to file %1", exportFile));
-            delete d;
             return;
         }
         QTextStream out(&file);
@@ -403,13 +421,30 @@ void RenderWidget::slotSaveProfile()
         if (file.error() != QFile::NoError) {
             KMessageBox::error(this, i18n("Cannot write to file %1", exportFile));
             file.close();
-            delete d;
             return;
         }
         file.close();
-        parseProfiles(newMetaGroupId, newGroupName, newProfileName);
-    }
-    delete d;
+}
+
+void RenderWidget::slotCopyToFavorites()
+{
+    QListWidgetItem *item = m_view.size_list->currentItem();
+    if (!item) return;
+    QString currentGroup = m_view.format_list->currentItem()->text();
+
+    QString params = item->data(ParamsRole).toString();
+    QString extension = item->data(ExtensionRole).toString();
+    QString currentProfile = item->text();
+    QDomDocument doc;
+    QDomElement profileElement = doc.createElement("profile");
+    profileElement.setAttribute("name", currentProfile);
+    profileElement.setAttribute("category", i18n("Custom"));
+    profileElement.setAttribute("destinationid", "favorites");
+    profileElement.setAttribute("extension", extension);
+    profileElement.setAttribute("args", params);
+    doc.appendChild(profileElement);
+    saveProfile(doc.documentElement());
+    parseProfiles(m_view.destination_list->itemData(m_view.destination_list->currentIndex(), Qt::UserRole).toString(), currentGroup, currentProfile);
 }
 
 void RenderWidget::slotEditProfile()
@@ -1114,6 +1149,7 @@ void RenderWidget::parseProfiles(QString meta, QString group, QString profile)
     m_view.format_list->clear();
     m_view.destination_list->clear();
     m_view.destination_list->addItem(KIcon("video-x-generic"), i18n("File rendering"));
+    m_view.destination_list->addItem(KIcon("favorites"), i18n("Favorites"), "favorites");
     m_view.destination_list->addItem(KIcon("media-optical"), i18n("DVD"), "dvd");
     m_view.destination_list->addItem(KIcon("audio-x-generic"), i18n("Audio only"), "audioonly");
     m_view.destination_list->addItem(KIcon("applications-internet"), i18n("Web sites"), "websites");

@@ -34,7 +34,7 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="2" colspan="7">
+       <item row="0" column="2" colspan="9">
         <widget class="KComboBox" name="destination_list"/>
        </item>
        <item row="1" column="0" colspan="2">
@@ -44,7 +44,7 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="2" colspan="7">
+       <item row="1" column="2" colspan="9">
         <widget class="KUrlRequester" name="out_file"/>
        </item>
        <item row="2" column="0">
@@ -61,20 +61,7 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="2" colspan="2">
-        <spacer name="horizontalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>124</width>
-           <height>23</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="2" column="4" colspan="2">
+       <item row="2" column="2" colspan="4">
         <widget class="KComboBox" name="format_selection">
          <item>
           <property name="text">
@@ -88,28 +75,28 @@
          </item>
         </widget>
        </item>
-       <item row="2" column="6">
+       <item row="2" column="8">
         <widget class="QToolButton" name="buttonEdit">
          <property name="text">
           <string>E</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="7">
+       <item row="2" column="9">
         <widget class="QToolButton" name="buttonSave">
          <property name="text">
           <string>S</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="8">
+       <item row="2" column="10">
         <widget class="QToolButton" name="buttonDelete">
          <property name="text">
           <string>D</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="0" colspan="9">
+       <item row="3" column="0" colspan="11">
         <widget class="QSplitter" name="splitter_3">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -171,7 +158,7 @@
          </item>
         </widget>
        </item>
-       <item row="4" column="5" colspan="4">
+       <item row="4" column="5" colspan="6">
         <widget class="QCheckBox" name="export_audio">
          <property name="text">
           <string>Export audio</string>
@@ -198,28 +185,28 @@
          </property>
         </widget>
        </item>
-       <item row="5" column="5" colspan="4">
+       <item row="5" column="5" colspan="6">
         <widget class="QCheckBox" name="tc_overlay">
          <property name="text">
           <string>Timecode overlay</string>
          </property>
         </widget>
        </item>
-       <item row="9" column="0" colspan="9">
+       <item row="9" column="0" colspan="11">
         <widget class="QCheckBox" name="open_browser">
          <property name="text">
           <string>Open browser window after export</string>
          </property>
         </widget>
        </item>
-       <item row="10" column="0" colspan="9">
+       <item row="10" column="0" colspan="11">
         <widget class="QCheckBox" name="play_after">
          <property name="text">
           <string>Play after render</string>
          </property>
         </widget>
        </item>
-       <item row="11" column="0" colspan="9">
+       <item row="11" column="0" colspan="11">
         <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
           <widget class="QRadioButton" name="render_full">
@@ -247,7 +234,7 @@
          </item>
         </layout>
        </item>
-       <item row="12" column="0" colspan="9">
+       <item row="12" column="0" colspan="11">
         <widget class="QGroupBox" name="guides_box">
          <property name="title">
           <string/>
@@ -297,7 +284,7 @@
          </property>
         </widget>
        </item>
-       <item row="13" column="3" colspan="4">
+       <item row="13" column="3" colspan="6">
         <spacer name="horizontalSpacer">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -310,26 +297,46 @@
          </property>
         </spacer>
        </item>
-       <item row="13" column="7" colspan="2">
+       <item row="13" column="9" colspan="2">
         <widget class="KPushButton" name="buttonClose">
          <property name="text">
           <string>Close</string>
          </property>
         </widget>
        </item>
-       <item row="6" column="0" colspan="9">
+       <item row="6" column="0" colspan="11">
         <widget class="QCheckBox" name="open_dvd">
          <property name="text">
           <string>Open Dvd wizard after rendering</string>
          </property>
         </widget>
        </item>
-       <item row="7" column="0" colspan="9">
+       <item row="7" column="0" colspan="11">
         <widget class="QCheckBox" name="create_chapter">
          <property name="text">
           <string>Create chapter file based on guides</string>
          </property>
         </widget>
+       </item>
+       <item row="2" column="7">
+        <widget class="QToolButton" name="buttonFavorite">
+         <property name="text">
+          <string>...</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="6">
+        <spacer name="horizontalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>124</width>
+           <height>23</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </widget>
