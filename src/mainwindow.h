@@ -266,6 +266,7 @@ private slots:
     void slotShuttleButton(int code);
 #endif /* NO_JOGSHUTTLE */
     void slotShowClipProperties(DocClipBase *clip);
+    void slotShowClipProperties(QList <DocClipBase *>cliplist, QMap<QString, QString> commonproperties);
     void slotActivateEffectStackView();
     void slotActivateTransitionView(Transition *);
     void slotChangeTool(QAction * action);

@@ -202,6 +202,7 @@ private:
     void editFolder(const QString folderName, const QString oldfolderName, const QString &clipId);
     QStringList getGroup() const;
     void regenerateTemplate(ProjectItem *clip);
+    void editClipSelection(QList<QTreeWidgetItem *> list);
 
 private slots:
     void slotClipSelected();
@@ -224,6 +225,7 @@ signals:
     void getFileProperties(const QDomElement, const QString &, int pixHeight, bool);
     void receivedClipDuration(const QString &);
     void showClipProperties(DocClipBase *);
+    void showClipProperties(QList <DocClipBase *>, QMap<QString, QString> commonproperties);
     void projectModified();
     void loadingIsOver();
     void displayMessage(const QString, int progress);

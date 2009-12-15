@@ -204,6 +204,11 @@ void ProjectList::setHeaderInfo(const QByteArray &state)
 
 void ProjectList::slotEditClip()
 {
+    QList<QTreeWidgetItem *> list = m_listView->selectedItems();
+    if (list.count() > 1) {
+        editClipSelection(list);
+        return;
+    }
     ProjectItem *item;
     if (!m_listView->currentItem() || m_listView->currentItem()->type() == PROJECTFOLDERTYPE) return;
     if (m_listView->currentItem()->type() == PROJECTSUBCLIPTYPE) {
@@ -214,6 +219,50 @@ void ProjectList::slotEditClip()
         emit clipSelected(item->referencedClip());
         emit showClipProperties(item->referencedClip());
     }
+}
+
+void ProjectList::editClipSelection(QList<QTreeWidgetItem *> list)
+{
+    // Gather all common properties
+    QMap <QString, QString> commonproperties;
+    QList <DocClipBase *> clipList;
+    commonproperties.insert("force_aspect_ratio", "-");
+    commonproperties.insert("force_progressive", "-");
+    commonproperties.insert("threads", "-");
+    commonproperties.insert("video_index", "-");
+    commonproperties.insert("audio_index", "-");
+
+    ProjectItem *item;
+    for (int i = 0; i < list.count(); i++) {
+        item = NULL;
+        if (list.at(i)->type() == PROJECTFOLDERTYPE) continue;
+        if (list.at(i)->type() == PROJECTSUBCLIPTYPE) {
+            item = static_cast <ProjectItem*>(list.at(i)->parent());
+        } else item = static_cast <ProjectItem*>(list.at(i));
+        if (!(item->flags() & Qt::ItemIsDragEnabled)) continue;
+        if (item) {
+            // check properties
+            DocClipBase *clip = item->referencedClip();
+            if (clipList.contains(clip)) continue;
+            clipList.append(clip);
+            QMap <QString, QString> clipprops = clip->properties();
+            QMapIterator<QString, QString> p(commonproperties);
+            while (p.hasNext()) {
+                p.next();
+                if (p.value().isEmpty()) continue;
+                if (clipprops.contains(p.key())) {
+                    if (p.value() == "-") commonproperties.insert(p.key(), clipprops.value(p.key()));
+                    else if (p.value() != clipprops.value(p.key())) commonproperties.insert(p.key(), QString());
+                } else commonproperties.insert(p.key(), QString());
+            }
+        }
+    }
+    QMapIterator<QString, QString> p(commonproperties);
+    while (p.hasNext()) {
+        p.next();
+        kDebug() << "Result: " << p.key() << " = " << p.value();
+    }
+    emit showClipProperties(clipList, commonproperties);
 }
 
 void ProjectList::slotOpenClip()

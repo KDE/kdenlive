@@ -269,6 +269,87 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
     //adjustSize();
 }
 
+
+// Used for multiple clips editing
+ClipProperties::ClipProperties(QList <DocClipBase *>cliplist, QMap <QString, QString> commonproperties, QWidget * parent) :
+        QDialog(parent),
+        m_clip(NULL),
+        m_fps(0),
+        m_count(0),
+        m_clipNeedsRefresh(false),
+        m_clipNeedsReLoad(false)
+{
+    setFont(KGlobalSettings::toolBarFont());
+    m_view.setupUi(this);
+    QMap <QString, QString> props = cliplist.at(0)->properties();
+    m_old_props = commonproperties;
+
+    if (commonproperties.contains("force_aspect_ratio") && !commonproperties.value("force_aspect_ratio").isEmpty() && commonproperties.value("force_aspect_ratio").toDouble() > 0) {
+        m_view.clip_force_ar->setChecked(true);
+        m_view.clip_ar->setEnabled(true);
+        m_view.clip_ar->setValue(commonproperties.value("force_aspect_ratio").toDouble());
+    }
+
+    if (commonproperties.contains("force_progressive") && !commonproperties.value("force_progressive").isEmpty()) {
+        m_view.clip_force_progressive->setChecked(true);
+        m_view.clip_progressive->setEnabled(true);
+        m_view.clip_progressive->setValue(commonproperties.value("force_progressive").toInt());
+    }
+
+    if (commonproperties.contains("threads") && !commonproperties.value("threads").isEmpty() && commonproperties.value("threads").toInt() != 1) {
+        m_view.clip_force_threads->setChecked(true);
+        m_view.clip_threads->setEnabled(true);
+        m_view.clip_threads->setValue(commonproperties.value("threads").toInt());
+    }
+
+    if (commonproperties.contains("video_index") && !commonproperties.value("video_index").isEmpty() && commonproperties.value("video_index").toInt() != 0) {
+        m_view.clip_force_vindex->setChecked(true);
+        m_view.clip_vindex->setEnabled(true);
+        m_view.clip_vindex->setValue(commonproperties.value("video_index").toInt());
+    }
+
+    if (commonproperties.contains("audio_index") && !commonproperties.value("audio_index").isEmpty() && commonproperties.value("audio_index").toInt() != 0) {
+        m_view.clip_force_aindex->setChecked(true);
+        m_view.clip_aindex->setEnabled(true);
+        m_view.clip_aindex->setValue(commonproperties.value("audio_index").toInt());
+    }
+
+    if (props.contains("audio_max")) {
+        m_view.clip_aindex->setMaximum(props.value("audio_max").toInt());
+    }
+
+    if (props.contains("video_max")) {
+        m_view.clip_vindex->setMaximum(props.value("video_max").toInt());
+    }
+
+    connect(m_view.clip_force_ar, SIGNAL(toggled(bool)), m_view.clip_ar, SLOT(setEnabled(bool)));
+    connect(m_view.clip_force_progressive, SIGNAL(toggled(bool)), m_view.clip_progressive, SLOT(setEnabled(bool)));
+    connect(m_view.clip_force_threads, SIGNAL(toggled(bool)), m_view.clip_threads, SLOT(setEnabled(bool)));
+    connect(m_view.clip_force_vindex, SIGNAL(toggled(bool)), m_view.clip_vindex, SLOT(setEnabled(bool)));
+    connect(m_view.clip_force_aindex, SIGNAL(toggled(bool)), m_view.clip_aindex, SLOT(setEnabled(bool)));
+
+    m_view.tabWidget->removeTab(METATAB);
+    m_view.tabWidget->removeTab(MARKERTAB);
+    m_view.tabWidget->removeTab(IMAGETAB);
+    m_view.tabWidget->removeTab(SLIDETAB);
+    m_view.tabWidget->removeTab(COLORTAB);
+    m_view.tabWidget->removeTab(AUDIOTAB);
+    m_view.tabWidget->removeTab(VIDEOTAB);
+
+    m_view.clip_path->setHidden(true);
+    m_view.label_path->setHidden(true);
+    m_view.label_description->setHidden(true);
+    m_view.label_duration->setHidden(true);
+    m_view.label_size->setHidden(true);
+    m_view.clip_filesize->setHidden(true);
+    m_view.clip_filesize->setHidden(true);
+    m_view.clip_duration->setHidden(true);
+    m_view.clip_path->setHidden(true);
+    m_view.clip_description->setHidden(true);
+}
+
+
+
 void ClipProperties::slotEnableLuma(int state)
 {
     bool enable = false;
@@ -345,62 +426,68 @@ const QString &ClipProperties::clipId() const
 QMap <QString, QString> ClipProperties::properties()
 {
     QMap <QString, QString> props;
-    CLIPTYPE t = m_clip->clipType();
-    QMap <QString, QString> old_props = m_clip->properties();
-
-    if (old_props.value("description") != m_view.clip_description->text())
-        props["description"] = m_view.clip_description->text();
+    CLIPTYPE t;
+    if (m_clip != NULL) {
+        t = m_clip->clipType();
+        m_old_props = m_clip->properties();
+    }
 
     double aspect = m_view.clip_ar->value();
     if (m_view.clip_force_ar->isChecked()) {
-        if (aspect != old_props.value("force_aspect_ratio").toDouble()) {
+        if (aspect != m_old_props.value("force_aspect_ratio").toDouble()) {
             props["force_aspect_ratio"] = QString::number(aspect);
             m_clipNeedsRefresh = true;
         }
-    } else if (old_props.contains("force_aspect_ratio")) {
+    } else if (m_old_props.contains("force_aspect_ratio")) {
         props["force_aspect_ratio"].clear();
         m_clipNeedsRefresh = true;
     }
 
     int progressive = m_view.clip_progressive->value();
     if (m_view.clip_force_progressive->isChecked()) {
-        if (progressive != old_props.value("force_progressive").toInt()) {
+        if (progressive != m_old_props.value("force_progressive").toInt()) {
             props["force_progressive"] = QString::number(progressive);
         }
-    } else if (old_props.contains("force_progressive")) {
+    } else if (m_old_props.contains("force_progressive")) {
         props["force_progressive"].clear();
     }
 
     int threads = m_view.clip_threads->value();
     if (m_view.clip_force_threads->isChecked()) {
-        if (threads != old_props.value("threads").toInt()) {
+        if (threads != m_old_props.value("threads").toInt()) {
             props["threads"] = QString::number(threads);
         }
-    } else if (old_props.contains("threads")) {
+    } else if (m_old_props.contains("threads")) {
         props["threads"].clear();
     }
 
     int vindex = m_view.clip_vindex->value();
     if (m_view.clip_force_vindex->isChecked()) {
-        if (vindex != old_props.value("video_index").toInt()) {
+        if (vindex != m_old_props.value("video_index").toInt()) {
             props["video_index"] = QString::number(vindex);
         }
-    } else if (old_props.contains("video_index")) {
+    } else if (m_old_props.contains("video_index")) {
         props["video_index"].clear();
     }
 
     int aindex = m_view.clip_aindex->value();
     if (m_view.clip_force_aindex->isChecked()) {
-        if (aindex != old_props.value("audio_index").toInt()) {
+        if (aindex != m_old_props.value("audio_index").toInt()) {
             props["audio_index"] = QString::number(aindex);
         }
-    } else if (old_props.contains("audio_index")) {
+    } else if (m_old_props.contains("audio_index")) {
         props["audio_index"].clear();
     }
 
+    // If we adjust several clips, return now
+    if (m_clip == NULL) return props;
+
+    if (m_old_props.value("description") != m_view.clip_description->text())
+        props["description"] = m_view.clip_description->text();
+
     if (t == COLOR) {
         QString new_color = m_view.clip_color->color().name();
-        if (new_color != QString('#' + old_props.value("colour").right(8).left(6))) {
+        if (new_color != QString('#' + m_old_props.value("colour").right(8).left(6))) {
             m_clipNeedsRefresh = true;
             props["colour"] = "0x" + new_color.right(6) + "ff";
         }
@@ -409,7 +496,7 @@ QMap <QString, QString> ClipProperties::properties()
             props["out"] = QString::number(duration);
         }
     } else if (t == IMAGE) {
-        if ((int) m_view.image_transparency->isChecked() != old_props.value("transparency").toInt()) {
+        if ((int) m_view.image_transparency->isChecked() != m_old_props.value("transparency").toInt()) {
             props["transparency"] = QString::number((int)m_view.image_transparency->isChecked());
             //m_clipNeedsRefresh = true;
         }
@@ -419,30 +506,30 @@ QMap <QString, QString> ClipProperties::properties()
         }
     } else if (t == SLIDESHOW) {
         QString value = QString::number((int) m_view.slide_loop->isChecked());
-        if (old_props.value("loop") != value) props["loop"] = value;
+        if (m_old_props.value("loop") != value) props["loop"] = value;
         value = QString::number((int) m_view.slide_fade->isChecked());
-        if (old_props.value("fade") != value) props["fade"] = value;
+        if (m_old_props.value("fade") != value) props["fade"] = value;
         value = QString::number((int) m_view.luma_softness->value());
-        if (old_props.value("softness") != value) props["softness"] = value;
+        if (m_old_props.value("softness") != value) props["softness"] = value;
 
         QString extension = "/.all." + m_view.image_type->itemData(m_view.image_type->currentIndex()).toString();
         QString new_path = m_view.clip_path->text() + extension;
-        if (new_path != old_props.value("resource")) {
+        if (new_path != m_old_props.value("resource")) {
             m_clipNeedsReLoad = true;
             props["resource"] = new_path;
-            kDebug() << "////  SLIDE EDIT, NEW:" << new_path << ", OLD; " << old_props.value("resource");
+            kDebug() << "////  SLIDE EDIT, NEW:" << new_path << ", OLD; " << m_old_props.value("resource");
         }
         int duration;
         if (m_view.slide_duration_format->currentIndex() == 1) {
             // we are in frames mode
             duration = m_view.slide_duration_frames->value();
         } else duration = m_tc.getFrameCount(m_view.slide_duration->text());
-        if (duration != old_props.value("ttl").toInt()) {
+        if (duration != m_old_props.value("ttl").toInt()) {
             m_clipNeedsRefresh = true;
             props["ttl"] = QString::number(duration);
             props["out"] = QString::number(duration * m_count);
         }
-        if (duration * m_count != old_props.value("out").toInt()) {
+        if (duration * m_count != m_old_props.value("out").toInt()) {
             m_clipNeedsRefresh = true;
             props["out"] = QString::number(duration * m_count);
         }
@@ -452,19 +539,19 @@ QMap <QString, QString> ClipProperties::properties()
                 // we are in frames mode
                 luma_duration = m_view.luma_duration_frames->value();
             } else luma_duration = m_tc.getFrameCount(m_view.luma_duration->text());
-            if (luma_duration != old_props.value("luma_duration").toInt()) {
+            if (luma_duration != m_old_props.value("luma_duration").toInt()) {
                 m_clipNeedsRefresh = true;
                 props["luma_duration"] = QString::number(luma_duration);
             }
             QString lumaFile;
             if (m_view.slide_luma->isChecked())
                 lumaFile = m_view.luma_file->itemData(m_view.luma_file->currentIndex()).toString();
-            if (lumaFile != old_props.value("luma_file")) {
+            if (lumaFile != m_old_props.value("luma_file")) {
                 m_clipNeedsRefresh = true;
                 props["luma_file"] = lumaFile;
             }
         } else {
-            if (!old_props.value("luma_file").isEmpty()) {
+            if (!m_old_props.value("luma_file").isEmpty()) {
                 props["luma_file"].clear();
             }
         }

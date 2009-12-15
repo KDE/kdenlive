@@ -2305,8 +2305,8 @@ void CustomTrackView::addTrack(TrackInfo type, int ix)
             ItemInfo clipinfo = item->info();
             if (item->type() == AVWIDGET) {
                 ClipItem *clip = static_cast <ClipItem *>(item);
-		// slowmotion clips are not track dependant, so no need to update them
-		if (clip->speed() != 1.0) continue;
+                // slowmotion clips are not track dependant, so no need to update them
+                if (clip->speed() != 1.0) continue;
                 // We add a move clip command so that we get the correct producer for new track number
                 if (clip->clipType() == AV || clip->clipType() == AUDIO) {
                     Mlt::Producer *prod;

@@ -692,6 +692,7 @@ void MainWindow::slotConnectMonitors()
     m_projectList->setRenderer(m_projectMonitor->render);
     //connect(m_projectList, SIGNAL(receivedClipDuration(const QString &)), this, SLOT(slotUpdateClip(const QString &)));
     connect(m_projectList, SIGNAL(showClipProperties(DocClipBase *)), this, SLOT(slotShowClipProperties(DocClipBase *)));
+    connect(m_projectList, SIGNAL(showClipProperties(QList <DocClipBase *>, QMap<QString, QString>)), this, SLOT(slotShowClipProperties(QList <DocClipBase *>, QMap<QString, QString>)));
     connect(m_projectList, SIGNAL(getFileProperties(const QDomElement, const QString &, int, bool)), m_projectMonitor->render, SLOT(getFileProperties(const QDomElement, const QString &, int, bool)));
     connect(m_projectMonitor->render, SIGNAL(replyGetImage(const QString &, const QPixmap &)), m_projectList, SLOT(slotReplyGetImage(const QString &, const QPixmap &)));
     connect(m_projectMonitor->render, SIGNAL(replyGetFileProperties(const QString &, Mlt::Producer*, const QMap < QString, QString > &, const QMap < QString, QString > &, bool)), m_projectList, SLOT(slotReplyGetFileProperties(const QString &, Mlt::Producer*, const QMap < QString, QString > &, const QMap < QString, QString > &, bool)));
@@ -2585,6 +2586,24 @@ void MainWindow::slotShowClipProperties(DocClipBase *clip)
         if (dia.needsTimelineRefresh()) {
             // update clip occurences in timeline
             m_activeTimeline->projectView()->slotUpdateClip(clip->getId(), dia.needsTimelineReload());
+        }
+    }
+}
+
+
+void MainWindow::slotShowClipProperties(QList <DocClipBase *> cliplist, QMap<QString, QString> commonproperties)
+{
+    ClipProperties dia(cliplist, commonproperties, this);
+    if (dia.exec() == QDialog::Accepted) {
+        QUndoCommand *command = new QUndoCommand();
+        command->setText(i18n("Edit clips"));
+        for (int i = 0; i < cliplist.count(); i++) {
+            DocClipBase *clip = cliplist.at(i);
+            new EditClipCommand(m_projectList, clip->getId(), clip->properties(), dia.properties(), true, command);
+        }
+        m_activeDocument->commandStack()->push(command);
+        for (int i = 0; i < cliplist.count(); i++) {
+            m_activeTimeline->projectView()->slotUpdateClip(cliplist.at(i)->getId(), dia.needsTimelineReload());
         }
     }
 }
