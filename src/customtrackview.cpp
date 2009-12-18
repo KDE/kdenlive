@@ -1750,7 +1750,8 @@ ClipItem *CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut, boo
         ClipItem *item = getClipItemAt((int) info.startPos.frames(m_document->fps()), info.track);
         if (!item || cutTime >= item->endPos() || cutTime <= item->startPos()) {
             emit displayMessage(i18n("Cannot find clip to cut"), ErrorMessage);
-            kDebug() << "/////////  ERROR CUTTING CLIP : (" << item->startPos().frames(25) << "-" << item->endPos().frames(25) << "), INFO: (" << info.startPos.frames(25) << "-" << info.endPos.frames(25) << ")" << ", CUT: " << cutTime.frames(25);
+            if (item) kDebug() << "/////////  ERROR CUTTING CLIP : (" << item->startPos().frames(25) << "-" << item->endPos().frames(25) << "), INFO: (" << info.startPos.frames(25) << "-" << info.endPos.frames(25) << ")" << ", CUT: " << cutTime.frames(25);
+            else kDebug() << "/// ERROR NO CLIP at: " << info.startPos.frames(m_document->fps()) << ", track: " << info.track;
             m_blockRefresh = false;
             return NULL;
         }
