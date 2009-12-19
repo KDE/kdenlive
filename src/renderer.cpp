@@ -232,6 +232,7 @@ void Render::buildConsumer(const QString profileName)
 
     m_blackClip = new Mlt::Producer(*m_mltProfile , "colour", "black");
     m_blackClip->set("id", "black");
+    m_blackClip->set("mlt_type", "producer");
 
 }
 
@@ -628,6 +629,12 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
         double aspect = xml.attribute("force_aspect_ratio").toDouble();
         if (aspect > 0) producer->set("force_aspect_ratio", aspect);
     }
+
+    if (xml.hasAttribute("force_fps")) {
+        double fps = xml.attribute("force_fps").toDouble();
+        if (fps > 0) producer->set("force_fps", fps);
+    }
+
     if (xml.hasAttribute("force_progressive")) {
         bool ok;
         int progressive = xml.attribute("force_progressive").toInt(&ok);
@@ -2073,6 +2080,8 @@ int Render::mltChangeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, dou
             // copy producer props
             double ar = original->parent().get_double("force_aspect_ratio");
             if (ar != 0.0) slowprod->set("force_aspect_ratio", ar);
+            double fps = original->parent().get_double("force_fps");
+            if (fps != 0.0) slowprod->set("force_fps", fps);
             int threads = original->parent().get_int("threads");
             if (threads != 0) slowprod->set("threads", threads);
             if (original->parent().get("force_progressive"))
@@ -2148,6 +2157,8 @@ int Render::mltChangeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, dou
             // copy producer props
             double ar = original->parent().get_double("force_aspect_ratio");
             if (ar != 0.0) slowprod->set("force_aspect_ratio", ar);
+            double fps = original->parent().get_double("force_fps");
+            if (fps != 0.0) slowprod->set("force_fps", fps);
             if (original->parent().get("force_progressive"))
                 slowprod->set("force_progressive", original->parent().get_int("force_progressive"));
             int threads = original->parent().get_int("threads");

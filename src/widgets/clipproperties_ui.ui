@@ -102,7 +102,7 @@
    <item row="6" column="0" colspan="4">
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab_video">
       <attribute name="title">
@@ -572,7 +572,7 @@
        <string>Advanced</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_3">
-       <item row="6" column="2">
+       <item row="7" column="2">
         <spacer name="verticalSpacer">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -599,7 +599,7 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="2">
+       <item row="4" column="2">
         <widget class="QSpinBox" name="clip_vindex">
          <property name="enabled">
           <bool>false</bool>
@@ -612,7 +612,7 @@
          </property>
         </widget>
        </item>
-       <item row="4" column="2">
+       <item row="5" column="2">
         <widget class="QSpinBox" name="clip_aindex">
          <property name="enabled">
           <bool>false</bool>
@@ -625,28 +625,28 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="1">
+       <item row="3" column="1">
         <widget class="QCheckBox" name="clip_force_threads">
          <property name="text">
           <string>Decoding threads</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="1">
+       <item row="4" column="1">
         <widget class="QCheckBox" name="clip_force_vindex">
          <property name="text">
           <string>Video index</string>
          </property>
         </widget>
        </item>
-       <item row="4" column="1">
+       <item row="5" column="1">
         <widget class="QCheckBox" name="clip_force_aindex">
          <property name="text">
           <string>Audio index</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="2">
+       <item row="3" column="2">
         <widget class="QSpinBox" name="clip_threads">
          <property name="enabled">
           <bool>false</bool>
@@ -659,14 +659,14 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="1">
+       <item row="2" column="1">
         <widget class="QCheckBox" name="clip_force_progressive">
          <property name="text">
           <string>Force progressive</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="2">
+       <item row="2" column="2">
         <widget class="QSpinBox" name="clip_progressive">
          <property name="enabled">
           <bool>false</bool>
@@ -676,6 +676,20 @@
          </property>
          <property name="value">
           <number>1</number>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QCheckBox" name="clip_force_framerate">
+         <property name="text">
+          <string>Force frame rate</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2">
+        <widget class="KDoubleNumInput" name="clip_framerate">
+         <property name="enabled">
+          <bool>false</bool>
          </property>
         </widget>
        </item>

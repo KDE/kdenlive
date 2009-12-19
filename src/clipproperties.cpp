@@ -60,6 +60,12 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
         m_view.clip_ar->setValue(props.value("force_aspect_ratio").toDouble());
     }
 
+    if (props.contains("force_fps") && props.value("force_fps").toDouble() > 0) {
+        m_view.clip_force_framerate->setChecked(true);
+        m_view.clip_framerate->setEnabled(true);
+        m_view.clip_framerate->setValue(props.value("force_fps").toDouble());
+    }
+
     if (props.contains("force_progressive")) {
         m_view.clip_force_progressive->setChecked(true);
         m_view.clip_progressive->setEnabled(true);
@@ -103,6 +109,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
     }
 
     connect(m_view.clip_force_ar, SIGNAL(toggled(bool)), m_view.clip_ar, SLOT(setEnabled(bool)));
+    connect(m_view.clip_force_framerate, SIGNAL(toggled(bool)), m_view.clip_framerate, SLOT(setEnabled(bool)));
     connect(m_view.clip_force_progressive, SIGNAL(toggled(bool)), m_view.clip_progressive, SLOT(setEnabled(bool)));
     connect(m_view.clip_force_threads, SIGNAL(toggled(bool)), m_view.clip_threads, SLOT(setEnabled(bool)));
     connect(m_view.clip_force_vindex, SIGNAL(toggled(bool)), m_view.clip_vindex, SLOT(setEnabled(bool)));
@@ -229,8 +236,10 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
             m_view.clip_size->setText(props.value("frame_size"));
         if (props.contains("videocodec"))
             m_view.clip_vcodec->setText(props.value("videocodec"));
-        if (props.contains("fps"))
+        if (props.contains("fps")) {
             m_view.clip_fps->setText(props.value("fps"));
+            if (!m_view.clip_framerate->isEnabled()) m_view.clip_framerate->setValue(props.value("fps").toDouble());
+        }
         if (props.contains("aspect_ratio"))
             m_view.clip_ratio->setText(props.value("aspect_ratio"));
         int width = 180.0 * KdenliveSettings::project_display_ratio();
@@ -288,6 +297,12 @@ ClipProperties::ClipProperties(QList <DocClipBase *>cliplist, QMap <QString, QSt
         m_view.clip_force_ar->setChecked(true);
         m_view.clip_ar->setEnabled(true);
         m_view.clip_ar->setValue(commonproperties.value("force_aspect_ratio").toDouble());
+    }
+
+    if (commonproperties.contains("force_fps") && !commonproperties.value("force_fps").isEmpty() && commonproperties.value("force_fps").toDouble() > 0) {
+        m_view.clip_force_framerate->setChecked(true);
+        m_view.clip_framerate->setEnabled(true);
+        m_view.clip_framerate->setValue(commonproperties.value("force_fps").toDouble());
     }
 
     if (commonproperties.contains("force_progressive") && !commonproperties.value("force_progressive").isEmpty()) {
@@ -440,6 +455,17 @@ QMap <QString, QString> ClipProperties::properties()
         }
     } else if (m_old_props.contains("force_aspect_ratio")) {
         props["force_aspect_ratio"].clear();
+        m_clipNeedsRefresh = true;
+    }
+
+    double fps = m_view.clip_framerate->value();
+    if (m_view.clip_force_framerate->isChecked()) {
+        if (fps != m_old_props.value("force_fps").toDouble()) {
+            props["force_fps"] = QString::number(fps);
+            m_clipNeedsRefresh = true;
+        }
+    } else if (m_old_props.contains("force_fps")) {
+        props["force_fps"].clear();
         m_clipNeedsRefresh = true;
     }
 

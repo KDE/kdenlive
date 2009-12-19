@@ -510,6 +510,7 @@ Mlt::Producer *DocClipBase::audioProducer(int track)
         Mlt::Producer *base = producer();
         m_audioTrackProducers[track] = new Mlt::Producer(*(base->profile()), base->get("resource"));
         if (m_properties.contains("force_aspect_ratio")) m_audioTrackProducers.at(track)->set("force_aspect_ratio", m_properties.value("force_aspect_ratio").toDouble());
+        if (m_properties.contains("force_fps")) m_audioTrackProducers.at(track)->set("force_fps", m_properties.value("force_fps").toDouble());
         if (m_properties.contains("force_progressive")) m_audioTrackProducers.at(track)->set("force_progressive", m_properties.value("force_progressive").toInt());
         if (m_properties.contains("threads")) m_audioTrackProducers.at(track)->set("threads", m_properties.value("threads").toInt());
         m_audioTrackProducers.at(track)->set("video_index", -1);
@@ -530,6 +531,7 @@ Mlt::Producer *DocClipBase::videoProducer()
         if (i >= m_baseTrackProducers.count()) return NULL;
         m_videoOnlyProducer = new Mlt::Producer(*m_baseTrackProducers.at(i)->profile(), m_baseTrackProducers.at(i)->get("resource"));
         if (m_properties.contains("force_aspect_ratio")) m_videoOnlyProducer->set("force_aspect_ratio", m_properties.value("force_aspect_ratio").toDouble());
+        if (m_properties.contains("force_fps")) m_videoOnlyProducer->set("force_fps", m_properties.value("force_fps").toDouble());
         if (m_properties.contains("force_progressive")) m_videoOnlyProducer->set("force_progressive", m_properties.value("force_progressive").toInt());
         if (m_properties.contains("threads")) m_videoOnlyProducer->set("threads", m_properties.value("threads").toInt());
         m_videoOnlyProducer->set("audio_index", -1);
@@ -574,6 +576,7 @@ Mlt::Producer *DocClipBase::producer(int track)
         }
 
         if (m_properties.contains("force_aspect_ratio")) m_baseTrackProducers[track]->set("force_aspect_ratio", m_properties.value("force_aspect_ratio").toDouble());
+        if (m_properties.contains("force_fps")) m_baseTrackProducers[track]->set("force_fps", m_properties.value("force_fps").toDouble());
         if (m_properties.contains("force_progressive")) m_baseTrackProducers[track]->set("force_progressive", m_properties.value("force_progressive").toInt());
         if (m_properties.contains("threads")) m_baseTrackProducers[track]->set("threads", m_properties.value("threads").toInt());
         if (m_properties.contains("video_index")) m_baseTrackProducers[track]->set("video_index", m_properties.value("video_index").toInt());
@@ -821,6 +824,11 @@ void DocClipBase::setProperty(const QString &key, const QString &value)
             m_properties.remove("force_aspect_ratio");
             resetProducerProperty("force_aspect_ratio");
         } else setProducerProperty("force_aspect_ratio", value.toDouble());
+    } else if (key == "force_fps") {
+        if (value.isEmpty()) {
+            m_properties.remove("force_fps");
+            resetProducerProperty("force_fps");
+        } else setProducerProperty("force_fps", value.toDouble());
     } else if (key == "force_progressive") {
         if (value.isEmpty()) {
             m_properties.remove("force_progressive");

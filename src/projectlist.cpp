@@ -227,6 +227,7 @@ void ProjectList::editClipSelection(QList<QTreeWidgetItem *> list)
     QMap <QString, QString> commonproperties;
     QList <DocClipBase *> clipList;
     commonproperties.insert("force_aspect_ratio", "-");
+    commonproperties.insert("force_fps", "-");
     commonproperties.insert("force_progressive", "-");
     commonproperties.insert("threads", "-");
     commonproperties.insert("video_index", "-");
@@ -425,7 +426,7 @@ void ProjectList::slotUpdateClipProperties(const QString &id, QMap <QString, QSt
     ProjectItem *item = getItemById(id);
     if (item) {
         slotUpdateClipProperties(item, properties);
-        if (properties.contains("out")) {
+        if (properties.contains("out") || properties.contains("force_fps")) {
             slotReloadClip(id);
         } else if (properties.contains("colour") || properties.contains("resource") || properties.contains("xmldata") || properties.contains("force_aspect_ratio") || properties.contains("templatetext")) {
             slotRefreshClipThumbnail(item);
