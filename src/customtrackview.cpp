@@ -2270,7 +2270,7 @@ int CustomTrackView::duration() const
 void CustomTrackView::addTrack(TrackInfo type, int ix)
 {
     if (ix == -1 || ix == m_document->tracksCount()) {
-        m_document->insertTrack(ix, type);
+        m_document->insertTrack(0, type);
         m_document->renderer()->mltInsertTrack(1, type.type == VIDEOTRACK);
     } else {
         m_document->insertTrack(m_document->tracksCount() - ix, type);
