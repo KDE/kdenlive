@@ -237,6 +237,8 @@ void DvdWizard::generateDvd()
                     vobitem->setIcon(KIcon("dialog-close"));
                     m_status.error_log->append(result);
                     m_status.error_box->setHidden(false);
+		    m_status.button_start->setEnabled(true);
+		    m_status.button_abort->setEnabled(false);
                     return;
                 }
             } else {
@@ -245,6 +247,8 @@ void DvdWizard::generateDvd()
                 m_status.error_log->append("<a name=\"result\" /><br><strong>" + i18n("Rendering job timed out"));
                 m_status.error_log->scrollToAnchor("result");
                 m_status.error_box->setHidden(false);
+		m_status.button_start->setEnabled(true);
+		m_status.button_abort->setEnabled(false);
                 return;
             }
             vobitem->setIcon(KIcon("dialog-ok"));
