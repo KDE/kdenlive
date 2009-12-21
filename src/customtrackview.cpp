@@ -2152,7 +2152,7 @@ void CustomTrackView::adjustTimelineClips(EDITMODE mode, ClipItem *item, ItemInf
                         new ResizeClipCommand(this, clip->info(), newclipInfo, false, false, command);
                         clip->resizeEnd(info.startPos.frames(m_document->fps()));
                     }
-                } else if (clip->endPos() < info.endPos) {
+                } else if (clip->endPos() <= info.endPos) {
                     new AddTimelineClipCommand(this, clip->xml(), clip->clipProducer(), clip->info(), clip->effectList(), false, false, false, true, command);
                     scene()->removeItem(clip);
                     delete clip;
