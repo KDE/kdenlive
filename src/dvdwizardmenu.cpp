@@ -389,7 +389,7 @@ void DvdWizardMenu::createButtonImages(const QString &img1, const QString &img2,
 {
     if (m_view.create_menu->isChecked()) {
         m_scene->clearSelection();
-        QImage img(m_width, m_height, QImage::Format_ARGB32);
+        QImage img(m_width, m_height, QImage::Format_ARGB8555_Premultiplied);
         QPainter p(&img);
         p.setRenderHints(QPainter::Antialiasing, false);
         p.setRenderHints(QPainter::TextAntialiasing, false);
@@ -398,7 +398,11 @@ void DvdWizardMenu::createButtonImages(const QString &img1, const QString &img2,
         if (m_background->scene() != 0) m_scene->removeItem(m_background);
         m_scene->render(&p, QRectF(0, 0, m_width, m_height));
         p.end();
+#if QT_VERSION >= 0x040600
+        img.setColorCount(4);
+#else
         img.setNumColors(4);
+#endif
         img.save(img1);
         /*QImage saved;
         if (m_view.menu_profile->currentIndex() < 2)
@@ -418,7 +422,11 @@ void DvdWizardMenu::createButtonImages(const QString &img1, const QString &img2,
                 else saved = img.scaled(720, 480);
                 saved.setNumColors(4);
                 saved.save(img2);*/
+#if QT_VERSION >= 0x040600
+        img.setColorCount(4);
+#else
         img.setNumColors(4);
+#endif
         img.save(img2);
 
 
@@ -433,7 +441,11 @@ void DvdWizardMenu::createButtonImages(const QString &img1, const QString &img2,
         else saved = img.scaled(720, 480);
         saved.setNumColors(4);
         saved.save(img3);*/
+#if QT_VERSION >= 0x040600
+        img.setColorCount(4);
+#else
         img.setNumColors(4);
+#endif
         img.save(img3);
 
         updateColor();
