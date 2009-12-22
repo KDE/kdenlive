@@ -1530,17 +1530,17 @@ void Render::mltCheckLength(Mlt::Tractor *tractor)
 
         if (blackclip == NULL || blackTrackPlaylist.count() != 1) {
             blackTrackPlaylist.clear();
-            m_blackClip->set("length", duration);
-            m_blackClip->set("out", duration - 1);
-            blackclip = m_blackClip->cut(0, duration - 1);
+            m_blackClip->set("length", duration + 1);
+            m_blackClip->set("out", duration);
+            blackclip = m_blackClip->cut(0, duration);
             blackTrackPlaylist.insert_at(0, blackclip, 1);
         } else {
             if (duration > blackclip->parent().get_length()) {
-                blackclip->parent().set("length", duration);
-                blackclip->parent().set("out", duration - 1);
-                blackclip->set("length", duration);
+                blackclip->parent().set("length", duration + 1);
+                blackclip->parent().set("out", duration);
+                blackclip->set("length", duration + 1);
             }
-            blackTrackPlaylist.resize_clip(0, 0, duration - 1);
+            blackTrackPlaylist.resize_clip(0, 0, duration);
         }
 
         delete blackclip;
