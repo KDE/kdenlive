@@ -106,8 +106,7 @@ TrackView::TrackView(KdenliveDoc *doc, bool *ok, QWidget *parent) :
     connect(m_trackview, SIGNAL(updateTrackHeaders()), this, SLOT(slotRepaintTracks()));
 
     parseDocument(m_doc->toXml());
-    int error = m_doc->setSceneList();
-    if (error == -1) *ok = false;
+    if (m_doc->setSceneList() == -1) *ok = false;
     else *ok = true;
     connect(m_trackview, SIGNAL(cursorMoved(int, int)), m_ruler, SLOT(slotCursorMoved(int, int)));
     connect(m_trackview->horizontalScrollBar(), SIGNAL(valueChanged(int)), m_ruler, SLOT(slotMoveRuler(int)));

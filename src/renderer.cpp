@@ -923,7 +923,7 @@ int Render::setSceneList(QString playlist, int position)
 {
     if (m_winid == -1) return -1;
     m_isBlocked = true;
-    int error;
+    int error = 0;
 
     kDebug() << "//////  RENDER, SET SCENE LIST: " << playlist;
 
@@ -991,6 +991,7 @@ int Render::setSceneList(QString playlist, int position)
     if (!m_mltProducer || !m_mltProducer->is_valid()) {
         kDebug() << " WARNING - - - - -INVALID PLAYLIST: " << tmp;
         m_mltProducer = m_blackClip->cut(0, 50);
+        error = -1;
     }
     delete[] tmp;
 
@@ -1026,7 +1027,8 @@ int Render::setSceneList(QString playlist, int position)
     }
 
     kDebug() << "// NEW SCENE LIST DURATION SET TO: " << m_mltProducer->get_playtime();
-    error = connectPlaylist();
+    if (error == 0) error = connectPlaylist();
+    else connectPlaylist();
     fillSlowMotionProducers();
 
     m_isBlocked = false;

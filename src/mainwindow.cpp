@@ -1419,14 +1419,14 @@ void MainWindow::slotRunWizard()
     delete w;
 }
 
-void MainWindow::newFile(bool showProjectSettings)
+void MainWindow::newFile(bool showProjectSettings, bool force)
 {
-    if (!m_timelineArea->isEnabled()) return;
+    if (!m_timelineArea->isEnabled() && !force) return;
     m_fileRevert->setEnabled(false);
     QString profileName;
     KUrl projectFolder;
     QPoint projectTracks(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks());
-    if (!showProjectSettings && m_timelineArea->count() == 0) {
+    if (!showProjectSettings) {
         if (!KdenliveSettings::activatetabs()) closeCurrentDocument();
         profileName = KdenliveSettings::default_profile();
         projectFolder = KdenliveSettings::defaultprojectfolder();
@@ -1441,6 +1441,8 @@ void MainWindow::newFile(bool showProjectSettings)
         projectTracks = w->tracks();
         delete w;
     }
+    m_timelineArea->setEnabled(true);
+    m_projectList->setEnabled(true);
     KdenliveDoc *doc = new KdenliveDoc(KUrl(), projectFolder, m_commandStack, profileName, projectTracks, m_projectMonitor->render, this);
     doc->m_autosave = new KAutoSaveFile(KUrl(), doc);
     bool ok;
@@ -1656,8 +1658,9 @@ void MainWindow::doOpenFile(const KUrl &url, KAutoSaveFile *stale)
     if (!ok) {
         m_timelineArea->setEnabled(false);
         m_projectList->setEnabled(false);
-        m_monitorManager->slotBlockMonitors();
-        slotPreferences(6);
+        KMessageBox::sorry(this, i18n("Cannot open file %1.\nProject is corrupted.", url.path()));
+        slotGotProgressInfo(QString(), -1);
+        newFile(false, true);
         return;
     }
     m_timelineArea->setTabToolTip(m_timelineArea->currentIndex(), doc->url().path());

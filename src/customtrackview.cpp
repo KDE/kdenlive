@@ -4908,6 +4908,7 @@ void CustomTrackView::setOutPoint()
 
 void CustomTrackView::slotUpdateAllThumbs()
 {
+    if (!isEnabled()) return;
     QList<QGraphicsItem *> itemList = items();
     //if (itemList.isEmpty()) return;
     ClipItem *item;

@@ -213,7 +213,7 @@ public slots:
     Q_SCRIPTABLE void setRenderingFinished(const QString &url, int status, const QString &error);
 
 private slots:
-    void newFile(bool showProjectSettings = true);
+    void newFile(bool showProjectSettings = true, bool force = false);
     void queryQuit();
     void activateDocument();
     void connectDocument(TrackView*, KdenliveDoc*);
