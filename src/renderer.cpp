@@ -821,7 +821,7 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
         if (name.endsWith("markup") && !value.isEmpty())
             metadataPropertyMap[ name.section('.', 0, -2)] = value;
     }
-
+    producer->seek(0);
     emit replyGetFileProperties(clipId, producer, filePropertyMap, metadataPropertyMap, replaceProducer);
     kDebug() << "REquested fuile info for: " << url.path();
     delete frame;
@@ -902,6 +902,7 @@ int Render::setProducer(Mlt::Producer *producer, int position)
 
     m_fps = m_mltProducer->get_fps();
     int error = connectPlaylist();
+    
     if (position != -1) {
         m_mltProducer->seek(position);
         emit rendererPosition(position);
