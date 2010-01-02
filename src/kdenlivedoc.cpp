@@ -42,6 +42,7 @@
 #include <QCryptographicHash>
 #include <QFile>
 #include <QInputDialog>
+#include <QDomImplementation>
 
 #include <mlt++/Mlt.h>
 
@@ -76,6 +77,8 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
         else {
             QFile file(tmpFile);
             QString errorMsg;
+            QDomImplementation impl;
+            impl.setInvalidDataPolicy(QDomImplementation::DropInvalidChars);
             success = m_document.setContent(&file, false, &errorMsg);
             file.close();
             KIO::NetAccess::removeTempFile(tmpFile);
