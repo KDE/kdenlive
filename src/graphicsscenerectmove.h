@@ -39,6 +39,9 @@ public:
     TITLETOOL tool();
     void clearTextSelection();
 
+public slots:
+	void slotUpdateFontSize(int s);
+
 protected:
     virtual void keyPressEvent(QKeyEvent * keyEvent);
     virtual void mousePressEvent(QGraphicsSceneMouseEvent*);
@@ -56,6 +59,7 @@ private:
     QPointF m_sceneClickPoint;
     TITLETOOL m_tool;
     QPoint m_clickPoint;
+    int m_fontSize;
 
 signals:
     void itemMoved();

@@ -42,6 +42,7 @@ GraphicsSceneRectMove::GraphicsSceneRectMove(QObject *parent) :
     //grabMouse();
     m_zoom = 1.0;
     setBackgroundBrush(QBrush(Qt::transparent));
+    m_fontSize = 0;
 }
 
 void GraphicsSceneRectMove::setSelectedItem(QGraphicsItem *item)
@@ -248,7 +249,7 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e)
         emit newText((QGraphicsTextItem *) m_selectedItem);
         m_selectedItem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
         ((QGraphicsTextItem *)m_selectedItem)->setTextInteractionFlags(Qt::TextEditorInteraction);
-        m_selectedItem->setPos(e->scenePos());
+        m_selectedItem->setPos(e->scenePos() - QPointF(0, (int)(m_fontSize/2)));
         QGraphicsScene::mousePressEvent(e);
     }
 
@@ -562,3 +563,10 @@ void GraphicsSceneRectMove::setResizeCursor(qreal angle)
     else if (angle > 112.5 && angle <= 157.5)
         setCursor(Qt::SizeBDiagCursor);
 }
+
+void GraphicsSceneRectMove::slotUpdateFontSize(int s)
+{
+	m_fontSize = s;
+}
+
+#include "graphicsscenerectmove.moc"

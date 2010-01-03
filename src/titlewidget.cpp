@@ -295,6 +295,7 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     graphicsView->setScene(m_scene);
     m_titledocument.setScene(m_scene, m_frameWidth, m_frameHeight);
     connect(m_scene, SIGNAL(changed(QList<QRectF>)), this, SLOT(slotChanged()));
+    connect(font_size, SIGNAL(valueChanged(int)), m_scene, SLOT(slotUpdateFontSize(int)));
 
     // a gradient background
     /*QRadialGradient *gradient = new QRadialGradient(0, 0, 10);
@@ -795,6 +796,7 @@ void TitleWidget::selectionChanged()
             QFont font = i->font();
             font_family->setCurrentFont(font);
             font_size->setValue(font.pixelSize());
+            m_scene->slotUpdateFontSize(font.pixelSize());
             buttonItalic->setChecked(font.italic());
             buttonUnder->setChecked(font.underline());
             setFontBoxWeight(font.weight());
@@ -1643,6 +1645,7 @@ void TitleWidget::readChoices()
     // read the entries
     font_family->setCurrentFont(titleConfig.readEntry("font_family", font_family->currentFont()));
     font_size->setValue(titleConfig.readEntry("font_pixel_size", font_size->value()));
+    m_scene->slotUpdateFontSize(font_size->value());
     fontColorButton->setColor(titleConfig.readEntry("font_color", fontColorButton->color()));
     textAlpha->setValue(titleConfig.readEntry("font_alpha", textAlpha->value()));
     int weight;
