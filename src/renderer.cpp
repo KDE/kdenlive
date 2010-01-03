@@ -60,12 +60,12 @@ static void consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr
 #ifdef Q_WS_MAC
     self->showFrame(frame);
 #endif
-    if (frame.get_double("_speed") == 0.0) {
-        self->emitConsumerStopped();
-    } else {
-        self->emitFrameNumber(mlt_frame_get_position(frame_ptr));
-    }
+
+    self->emitFrameNumber(mlt_frame_get_position(frame_ptr));
+    if (frame.get_double("_speed") == 0.0) self->emitConsumerStopped();
+    else if (frame.get_double("_speed") < 0.0 && mlt_frame_get_position(frame_ptr) <= 0) self->pause();
 }
+
 
 Render::Render(const QString & rendererName, int winid, int /* extid */, QString profile, QWidget *parent) :
         QObject(parent),
