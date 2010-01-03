@@ -38,9 +38,11 @@
 
 #include <QTimer>
 #include <QDir>
+#include <QString>
 #include <QApplication>
 
-#include <stdlib.h>
+#include <cstdlib>
+#include <cstdarg>
 
 
 
@@ -49,6 +51,7 @@ static void kdenlive_callback(void* /*ptr*/, int level, const char* fmt, va_list
     if (level > MLT_LOG_ERROR) return;
     QString error;
     QApplication::postEvent(qApp->activeWindow() , new MltErrorEvent(error.vsprintf(fmt, vl).simplified()));
+    va_end(vl);
 }
 
 
