@@ -390,21 +390,24 @@ void ProjectList::slotClipSelected()
                 if (clip == NULL) kDebug() << "-----------ERROR";
                 SubProjectItem *sub = static_cast <SubProjectItem*>(m_listView->currentItem());
                 emit clipSelected(clip->referencedClip(), sub->zone());
+                m_transcodeAction->setEnabled(false);
                 return;
             }
             clip = static_cast <ProjectItem*>(m_listView->currentItem());
-            emit clipSelected(clip->referencedClip());
+            if (clip) emit clipSelected(clip->referencedClip());
             m_editAction->setEnabled(true);
             m_deleteAction->setEnabled(true);
             m_reloadAction->setEnabled(true);
             m_transcodeAction->setEnabled(true);
-            if (clip->clipType() == IMAGE && !KdenliveSettings::defaultimageapp().isEmpty()) {
+            if (clip && clip->clipType() == IMAGE && !KdenliveSettings::defaultimageapp().isEmpty()) {
                 m_openAction->setIcon(KIcon(KdenliveSettings::defaultimageapp()));
                 m_openAction->setEnabled(true);
-            } else if (clip->clipType() == AUDIO && !KdenliveSettings::defaultaudioapp().isEmpty()) {
+            } else if (clip && clip->clipType() == AUDIO && !KdenliveSettings::defaultaudioapp().isEmpty()) {
                 m_openAction->setIcon(KIcon(KdenliveSettings::defaultaudioapp()));
                 m_openAction->setEnabled(true);
             } else m_openAction->setEnabled(false);
+            // Display relevant transcoding actions only
+            adjustTranscodeActions(clip);
         }
     } else {
         emit clipSelected(NULL);
@@ -414,6 +417,27 @@ void ProjectList::slotClipSelected()
         m_reloadAction->setEnabled(false);
         m_transcodeAction->setEnabled(false);
     }
+}
+
+void ProjectList::adjustTranscodeActions(ProjectItem *clip) const
+{
+    if (clip == NULL || clip->type() != PROJECTCLIPTYPE || clip->clipType() == COLOR || clip->clipType() == TEXT || clip->clipType() == PLAYLIST) {
+        m_transcodeAction->setEnabled(false);
+        return;
+    }
+    m_transcodeAction->setEnabled(true);
+    QList<QAction *> transcodeActions = m_transcodeAction->actions();
+    QStringList data;
+    QString condition;
+    for (int i = 0; i < transcodeActions.count(); i++) {
+        data = transcodeActions.at(i)->data().toStringList();
+        if (data.count() > 2) {
+            condition = data.at(2);
+            if (condition.startsWith("vcodec")) transcodeActions.at(i)->setEnabled(clip->referencedClip()->hasVideoCodec(condition.section("=", 1, 1)));
+            else if (condition.startsWith("acodec")) transcodeActions.at(i)->setEnabled(clip->referencedClip()->hasVideoCodec(condition.section("=", 1, 1)));
+        }
+    }
+
 }
 
 void ProjectList::slotPauseMonitor()
@@ -536,7 +560,12 @@ void ProjectList::slotContextMenu(const QPoint &pos, QTreeWidgetItem *item)
         ProjectItem *clip = NULL;
         if (m_listView->currentItem()->type() == PROJECTSUBCLIPTYPE) {
             clip = static_cast <ProjectItem*>(item->parent());
-        } else if (m_listView->currentItem()->type() == PROJECTCLIPTYPE) clip = static_cast <ProjectItem*>(item);
+            m_transcodeAction->setEnabled(false);
+        } else if (m_listView->currentItem()->type() == PROJECTCLIPTYPE) {
+            clip = static_cast <ProjectItem*>(item);
+            // Display relevant transcoding actions only
+            adjustTranscodeActions(clip);
+        } else m_transcodeAction->setEnabled(false);
         if (clip && clip->clipType() == IMAGE && !KdenliveSettings::defaultimageapp().isEmpty()) {
             m_openAction->setIcon(KIcon(KdenliveSettings::defaultimageapp()));
             m_openAction->setEnabled(true);
@@ -544,6 +573,7 @@ void ProjectList::slotContextMenu(const QPoint &pos, QTreeWidgetItem *item)
             m_openAction->setIcon(KIcon(KdenliveSettings::defaultaudioapp()));
             m_openAction->setEnabled(true);
         } else m_openAction->setEnabled(false);
+
     } else m_openAction->setEnabled(false);
     m_menu->popup(pos);
 }

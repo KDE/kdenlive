@@ -204,6 +204,7 @@ private:
     QStringList getGroup() const;
     void regenerateTemplate(ProjectItem *clip);
     void editClipSelection(QList<QTreeWidgetItem *> list);
+    void adjustTranscodeActions(ProjectItem *clip) const;
 
 private slots:
     void slotClipSelected();
