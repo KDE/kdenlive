@@ -292,7 +292,11 @@
         </widget>
        </item>
        <item row="4" column="0" colspan="4">
-        <widget class="QListWidget" name="files_list"/>
+        <widget class="QListWidget" name="files_list">
+         <property name="alternatingRowColors">
+          <bool>true</bool>
+         </property>
+        </widget>
        </item>
        <item row="3" column="2" colspan="2">
         <widget class="KListWidgetSearchLine" name="list_search">
@@ -304,7 +308,7 @@
        <item row="3" column="1">
         <widget class="QLabel" name="files_count">
          <property name="text">
-          <string>TextLabel</string>
+          <string/>
          </property>
         </widget>
        </item>
