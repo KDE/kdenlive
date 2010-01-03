@@ -34,6 +34,8 @@
 
 #include <QCryptographicHash>
 
+#include <cstdio>
+
 DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QString &id) :
         QObject(),
         m_audioFrameCache(),
@@ -927,5 +929,40 @@ void DocClipBase::updateCutZone(int oldin, int oldout, int in, int out, QString 
 QList <CutZoneInfo> DocClipBase::cutZones() const
 {
     return m_cutZones;
+}
+
+bool DocClipBase::hasVideoCodec(const QString &codec) const
+{
+    Mlt::Producer *prod = NULL;
+    if (m_baseTrackProducers.count() == 0) return false;
+    for (int i = 0; i < m_baseTrackProducers.count(); i++) {
+        if (m_baseTrackProducers.at(i) != NULL) {
+            prod = m_baseTrackProducers.at(i);
+            break;
+        }
+    }
+
+    if (!prod) return false;
+    int default_video = prod->get_int("video_index");
+    char property[200];
+    snprintf(property, sizeof(property), "meta.media.%d.codec.name", default_video);
+    return prod->get(property) == codec;
+}
+
+bool DocClipBase::hasAudioCodec(const QString &codec) const
+{
+    Mlt::Producer *prod = NULL;
+    if (m_baseTrackProducers.count() == 0) return false;
+    for (int i = 0; i < m_baseTrackProducers.count(); i++) {
+        if (m_baseTrackProducers.at(i) != NULL) {
+            prod = m_baseTrackProducers.at(i);
+            break;
+        }
+    }
+    if (!prod) return false;
+    int default_video = prod->get_int("audio_index");
+    char property[200];
+    snprintf(property, sizeof(property), "meta.media.%d.codec.name", default_video);
+    return prod->get(property) == codec;
 }
 

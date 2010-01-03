@@ -26,7 +26,7 @@
 #include <KFileDialog>
 
 
-ClipTranscode::ClipTranscode(KUrl::List urls, const QString &params, QWidget * parent) :
+ClipTranscode::ClipTranscode(KUrl::List urls, const QString &params, const QString &description, QWidget * parent) :
         QDialog(parent), m_urls(urls)
 {
     setFont(KGlobalSettings::toolBarFont());
@@ -57,6 +57,9 @@ ClipTranscode::ClipTranscode(KUrl::List urls, const QString &params, QWidget * p
         label_profile->setHidden(true);
         profile_list->setHidden(true);
         ffmpeg_params->setPlainText(params.simplified());
+        if (!description.isEmpty()) {
+            transcode_info->setText(description);
+        } else transcode_info->setHidden(true);
     } else {
         // load Profiles
         KSharedConfigPtr config = KSharedConfig::openConfig("kdenlivetranscodingrc");
@@ -64,11 +67,14 @@ ClipTranscode::ClipTranscode(KUrl::List urls, const QString &params, QWidget * p
         // read the entries
         QMap< QString, QString > profiles = transConfig.entryMap();
         QMapIterator<QString, QString> i(profiles);
-        connect(profile_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateParams(int)));
         while (i.hasNext()) {
             i.next();
-            profile_list->addItem(i.key(), i.value());
+            QStringList data = i.value().split(";", QString::SkipEmptyParts);
+            profile_list->addItem(i.key(), data.at(0));
+            profile_list->setItemData(profile_list->count() - 1, data.at(1), Qt::UserRole + 1);
         }
+        connect(profile_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateParams(int)));
+        slotUpdateParams(0);
     }
 
     connect(button_start, SIGNAL(clicked()), this, SLOT(slotStartTransCode()));
@@ -166,6 +172,11 @@ void ClipTranscode::slotUpdateParams(int ix)
     if (ix != -1) {
         QString params = profile_list->itemData(ix).toString();
         ffmpeg_params->setPlainText(params.simplified());
+        QString desc = profile_list->itemData(ix, Qt::UserRole + 1).toString();
+        if (!desc.isEmpty()) {
+            transcode_info->setText(desc);
+            transcode_info->setHidden(false);
+        } else transcode_info->setHidden(true);
     }
     if (urls_list->count() == 0) {
         QString newFile = ffmpeg_params->toPlainText().simplified().section(' ', -1).replace("%1", fileName);

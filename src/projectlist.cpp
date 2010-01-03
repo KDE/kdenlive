@@ -1284,6 +1284,29 @@ QString ProjectList::currentClipUrl() const
     return item->clipUrl().path();
 }
 
+KUrl::List ProjectList::getConditionalUrls(const QString &condition) const
+{
+    KUrl::List result;
+    ProjectItem *item;
+    QList<QTreeWidgetItem *> list = m_listView->selectedItems();
+    for (int i = 0; i < list.count(); i++) {
+        if (list.at(i)->type() == PROJECTFOLDERTYPE) continue;
+        if (list.at(i)->type() == PROJECTSUBCLIPTYPE) {
+            // subitem
+            item = static_cast <ProjectItem*>(list.at(i)->parent());
+        } else item = static_cast <ProjectItem*>(list.at(i));
+        if (item == NULL) continue;
+        if (item->type() == COLOR || item->type() == SLIDESHOW || item->type() == TEXT) continue;
+        DocClipBase *clip = item->referencedClip();
+        if (!condition.isEmpty()) {
+            if (condition.startsWith("vcodec") && !clip->hasVideoCodec(condition.section("=", 1, 1))) continue;
+            else if (condition.startsWith("acodec") && !clip->hasAudioCodec(condition.section("=", 1, 1))) continue;
+        }
+        result.append(item->clipUrl());
+    }
+    return result;
+}
+
 void ProjectList::regenerateTemplate(const QString &id)
 {
     ProjectItem *clip = getItemById(id);

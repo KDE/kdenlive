@@ -2552,10 +2552,12 @@ void MainWindow::slotShowClipProperties(DocClipBase *clip)
                 if (description.isEmpty()) description = clip->getProperty("description");
                 else newprops.insert("templatetext", description);
                 //newprops.insert("xmldata", m_projectList->generateTemplateXml(newtemplate, description).toString());
-
-                EditClipCommand *command = new EditClipCommand(m_projectList, clip->getId(), clip->properties(), newprops, true);
-                m_activeDocument->commandStack()->push(command);
+                if (!newprops.isEmpty()) {
+                    EditClipCommand *command = new EditClipCommand(m_projectList, clip->getId(), clip->properties(), newprops, true);
+                    m_activeDocument->commandStack()->push(command);
+                }
             }
+            delete dia;
             return;
         }
         QString path = clip->getProperty("resource");
@@ -2583,7 +2585,9 @@ void MainWindow::slotShowClipProperties(DocClipBase *clip)
     ClipProperties dia(clip, m_activeDocument->timecode(), m_activeDocument->fps(), this);
     connect(&dia, SIGNAL(addMarker(const QString &, GenTime, QString)), m_activeTimeline->projectView(), SLOT(slotAddClipMarker(const QString &, GenTime, QString)));
     if (dia.exec() == QDialog::Accepted) {
-        EditClipCommand *command = new EditClipCommand(m_projectList, clip->getId(), clip->properties(), dia.properties(), true);
+        QMap <QString, QString> newprops = dia.properties();
+        if (newprops.isEmpty()) return;
+        EditClipCommand *command = new EditClipCommand(m_projectList, clip->getId(), clip->properties(), newprops, true);
         m_activeDocument->commandStack()->push(command);
 
         if (dia.needsTimelineRefresh()) {
@@ -3016,8 +3020,12 @@ void MainWindow::loadTranscoders()
     QMapIterator<QString, QString> i(profiles);
     while (i.hasNext()) {
         i.next();
+        QStringList data = i.value().split(";", QString::SkipEmptyParts);
         QAction *a = transMenu->addAction(i.key());
-        a->setData(i.value());
+        a->setData(data);
+        if (data.count() > 1) {
+            a->setToolTip(data.at(1));
+        }
         connect(a, SIGNAL(triggered()), this, SLOT(slotTranscode()));
     }
 }
@@ -3025,13 +3033,22 @@ void MainWindow::loadTranscoders()
 void MainWindow::slotTranscode(KUrl::List urls)
 {
     QString params;
+    QString desc;
+    QString condition;
     if (urls.isEmpty()) {
-        urls.append(m_projectList->currentClipUrl());
         QAction *action = qobject_cast<QAction *>(sender());
-        params = action->data().toString();
+        QStringList data = action->data().toStringList();
+        params = data.at(0);
+        if (data.count() > 1) desc = data.at(1);
+        if (data.count() > 2) condition = data.at(2);
+        urls << m_projectList->getConditionalUrls(condition);
+        urls.removeAll(KUrl());
     }
-    if (urls.isEmpty()) return;
-    ClipTranscode *d = new ClipTranscode(urls, params);
+    if (urls.isEmpty()) {
+        m_messageLabel->setMessage(i18n("No clip to transcode"), ErrorMessage);
+        return;
+    }
+    ClipTranscode *d = new ClipTranscode(urls, params, desc);
     connect(d, SIGNAL(addClip(KUrl)), this, SLOT(slotAddProjectClip(KUrl)));
     d->show();
     //QProcess::startDetached("ffmpeg", parameters);

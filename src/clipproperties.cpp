@@ -255,8 +255,13 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
         m_view.clip_thumb->setHidden(true);
     }
 
-    KFileItem f(KFileItem::Unknown, KFileItem::Unknown, url, true);
-    m_view.clip_filesize->setText(KIO::convertSize(f.size()));
+    if (t != SLIDESHOW && t != COLOR) {
+        KFileItem f(KFileItem::Unknown, KFileItem::Unknown, url, true);
+        m_view.clip_filesize->setText(KIO::convertSize(f.size()));
+    } else {
+        m_view.clip_filesize->setHidden(true);
+        m_view.label_size->setHidden(true);
+    }
     m_view.clip_duration->setText(tc.getTimecode(m_clip->duration()));
     if (t != IMAGE && t != COLOR && t != TEXT) m_view.clip_duration->setReadOnly(true);
     else connect(m_view.clip_duration, SIGNAL(editingFinished()), this, SLOT(slotCheckMaxLength()));
@@ -555,9 +560,9 @@ QMap <QString, QString> ClipProperties::properties()
             props["ttl"] = QString::number(duration);
             props["out"] = QString::number(duration * m_count);
         }
-        if (duration * m_count != m_old_props.value("out").toInt()) {
+        if (duration * m_count - 1 != m_old_props.value("out").toInt()) {
             m_clipNeedsRefresh = true;
-            props["out"] = QString::number(duration * m_count);
+            props["out"] = QString::number(duration * m_count - 1);
         }
         if (m_view.slide_fade->isChecked()) {
             int luma_duration;

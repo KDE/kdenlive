@@ -136,6 +136,7 @@ public:
     void setupMenu(QMenu *addMenu, QAction *defaultAction);
     void setupGeneratorMenu(QMenu *addMenu, QMenu *transcodeMenu);
     QString currentClipUrl() const;
+    KUrl::List getConditionalUrls(const QString &condition) const;
     void reloadClipThumbnails();
     QDomDocument generateTemplateXml(QString data, const QString &replaceString);
     void cleanup();

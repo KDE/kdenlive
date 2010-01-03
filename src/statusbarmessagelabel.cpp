@@ -26,6 +26,7 @@
 #include <kiconloader.h>
 #include <kicon.h>
 #include <klocale.h>
+#include <KNotification>
 
 #include <QFontMetrics>
 #include <QPainter>
@@ -63,6 +64,7 @@ void StatusBarMessageLabel::setMessage(const QString& text,
                                        MessageType type)
 {
     if ((text == m_text) && (type == m_type)) {
+        if (type == ErrorMessage) KNotification::event("ErrorMessage", m_text);
         return;
     }
 
@@ -102,6 +104,7 @@ void StatusBarMessageLabel::setMessage(const QString& text,
         m_timer.start(100);
         m_state = Illuminate;
         m_closeButton->hide();
+        KNotification::event("ErrorMessage", m_text);
         break;
 
     case MltError:

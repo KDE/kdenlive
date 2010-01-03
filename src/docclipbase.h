@@ -197,6 +197,9 @@ Q_OBJECT public:
     QList <CutZoneInfo> cutZones() const;
     void updateCutZone(int oldin, int oldout, int in, int out, QString desc = QString());
 
+    bool hasVideoCodec(const QString &codec) const;
+    bool hasAudioCodec(const QString &codec) const;
+
 private:   // Private attributes
 
     /** The number of times this clip is used in the project - the number of references to this clip

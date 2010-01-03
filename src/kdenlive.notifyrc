@@ -24,3 +24,8 @@ Comment[it]=È iniziata l'esportazione di un filmato
 Comment[uk]=Розпочато обробку проекту
 Action=Popup
 
+[Event/ErrorMessage]
+Name=Error
+Comment=An error occured in Kdenlive
+Action=Sound
+Sound=KDE-Sys-Warning.ogg

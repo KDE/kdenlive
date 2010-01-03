@@ -33,7 +33,7 @@ class ClipTranscode : public QDialog, public Ui::ClipTranscode_UI
     Q_OBJECT
 
 public:
-    ClipTranscode(KUrl::List urls, const QString &params, QWidget * parent = 0);
+    ClipTranscode(KUrl::List urls, const QString &params, const QString &description, QWidget * parent = 0);
     ~ClipTranscode();
 
 
