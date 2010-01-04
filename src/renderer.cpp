@@ -66,7 +66,10 @@ static void consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr
 
     self->emitFrameNumber(mlt_frame_get_position(frame_ptr));
     if (frame.get_double("_speed") == 0.0) self->emitConsumerStopped();
-    else if (frame.get_double("_speed") < 0.0 && mlt_frame_get_position(frame_ptr) <= 0) self->pause();
+    else if (frame.get_double("_speed") < 0.0 && mlt_frame_get_position(frame_ptr) <= 0) {
+	self->pause();
+	self->emitConsumerStopped();
+    }
 }
 
 
