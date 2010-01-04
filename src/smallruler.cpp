@@ -121,16 +121,17 @@ void SmallRuler::mouseMoveEvent(QMouseEvent * event)
     }
 }
 
-void SmallRuler::slotNewValue(int value)
+bool SmallRuler::slotNewValue(int value)
 {
     m_cursorFramePosition = value;
     int oldPos = m_cursorPosition;
     m_cursorPosition = value * m_scale;
-    if (oldPos == m_cursorPosition) return;
+    if (oldPos == m_cursorPosition) return false;
     const int offset = 6;
     const int x = qMin(oldPos, m_cursorPosition);
     const int w = qAbs(oldPos - m_cursorPosition);
     update(x - offset, 4, w + 2 * offset, 6);
+    return true;
 }
 
 //virtual

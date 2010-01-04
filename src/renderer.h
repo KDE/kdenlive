@@ -294,7 +294,6 @@ signals:   // Signals
     void rendererStopped(int);
     void removeInvalidClip(const QString &, bool replaceProducer);
     void refreshDocumentProducers();
-    void blockMonitors();
     /** Used on OS X - emitted when a frame's image is to be shown. */
     void showImageSignal(QImage);
 

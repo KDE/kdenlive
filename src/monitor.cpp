@@ -152,9 +152,7 @@ Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget
 
     connect(m_ruler, SIGNAL(seekRenderer(int)), this, SLOT(slotSeek(int)));
     connect(render, SIGNAL(durationChanged(int)), this, SLOT(adjustRulerSize(int)));
-    connect(render, SIGNAL(rendererPosition(int)), this, SLOT(seekCursor(int)));
     connect(render, SIGNAL(rendererStopped(int)), this, SLOT(rendererStopped(int)));
-    connect(render, SIGNAL(blockMonitors()), this, SIGNAL(blockMonitors()));
 
     //render->createVideoXWindow(m_ui.video_frame->winId(), -1);
 
@@ -510,7 +508,9 @@ bool Monitor::isActive() const
 
 void Monitor::activateMonitor()
 {
-    if (!m_isActive) m_monitorManager->slotSwitchMonitors(); //m_monitorManager->activateMonitor(m_name);
+    if (!m_isActive) {
+        m_monitorManager->slotSwitchMonitors();
+    }
 }
 
 void Monitor::setTimePos(const QString &pos)
@@ -560,7 +560,7 @@ void Monitor::slotStart()
     activateMonitor();
     render->play(0);
     render->seekToFrame(0);
-    emit renderPosition(0);
+    //emit renderPosition(0);
 }
 
 void Monitor::slotEnd()
@@ -568,7 +568,7 @@ void Monitor::slotEnd()
     activateMonitor();
     render->play(0);
     render->seekToFrame(render->getLength());
-    emit renderPosition(render->seekFramePosition());
+    //emit renderPosition(render->seekFramePosition());
 }
 
 void Monitor::slotZoneStart()
@@ -630,10 +630,11 @@ void Monitor::slotForwardOneFrame(int diff)
 void Monitor::seekCursor(int pos)
 {
     activateMonitor();
-    checkOverlay();
-    if (m_frametimecode) m_timePos->setText(QString::number(pos));
-    else m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(pos));
-    m_ruler->slotNewValue(pos);
+    if (m_ruler->slotNewValue(pos)) {
+        checkOverlay();
+        if (m_frametimecode) m_timePos->setText(QString::number(pos));
+        else m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(pos));
+    }
 }
 
 void Monitor::rendererStopped(int pos)
@@ -645,11 +646,14 @@ void Monitor::rendererStopped(int pos)
             return;
         }
     }
-    m_ruler->slotNewValue(pos);
-    checkOverlay();
-    if (m_frametimecode) m_timePos->setText(QString::number(pos));
-    else m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(pos));
+    if (m_ruler->slotNewValue(pos)) {
+        checkOverlay();
+        if (m_frametimecode) m_timePos->setText(QString::number(pos));
+        else m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(pos));
+    }
+    disconnect(m_playAction, SIGNAL(triggered()), this, SLOT(slotPlay()));
     m_playAction->setChecked(false);
+    connect(m_playAction, SIGNAL(triggered()), this, SLOT(slotPlay()));
     m_playAction->setIcon(m_playIcon);
 }
 
@@ -679,15 +683,15 @@ void Monitor::adjustRulerSize(int length)
 void Monitor::stop()
 {
     m_isActive = false;
+    disconnect(render, SIGNAL(rendererPosition(int)), this, SLOT(seekCursor(int)));
     if (render) render->stop();
-    //kDebug()<<"/// MONITOR RENDER STOP";
 }
 
 void Monitor::start()
 {
     m_isActive = true;
     if (render) render->start();
-    //kDebug()<<"/// MONITOR RENDER START";
+    connect(render, SIGNAL(rendererPosition(int)), this, SLOT(seekCursor(int)));
 }
 
 void Monitor::refreshMonitor(bool visible)
@@ -755,7 +759,7 @@ void Monitor::slotSetXml(DocClipBase *clip, QPoint zone, const int position)
         updateMarkers(clip);
         if (render->setProducer(clip->producer(), position) == -1) {
             // MLT CONSUMER is broken
-            emit blockMonitors();
+            kdWarning() << "ERROR, Cannot start monitor";
         }
     } else if (position != -1) render->seek(GenTime(position, m_monitorManager->timecode().fps()));
     if (!zone.isNull()) {

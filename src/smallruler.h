@@ -58,7 +58,7 @@ private:
     void updatePixmap();
 
 public slots:
-    void slotNewValue(int value);
+    bool slotNewValue(int value);
 
 signals:
     void seekRenderer(int);

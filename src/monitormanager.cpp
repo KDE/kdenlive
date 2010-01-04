@@ -44,8 +44,6 @@ void MonitorManager::initMonitors(Monitor *clipMonitor, Monitor *projectMonitor)
 {
     m_clipMonitor = clipMonitor;
     m_projectMonitor = projectMonitor;
-    connect(m_clipMonitor, SIGNAL(blockMonitors()), this, SLOT(slotBlockMonitors()));
-    connect(m_projectMonitor, SIGNAL(blockMonitors()), this, SLOT(slotBlockMonitors()));
 }
 
 void MonitorManager::activateMonitor(QString name)
@@ -174,17 +172,5 @@ void MonitorManager::slotResetProfiles()
     //m_projectMonitor->refreshMonitor(true);
 }
 
-void MonitorManager::slotBlockMonitors()
-{
-    m_blocked = true;
-    if (m_clipMonitor) {
-        m_clipMonitor->blockSignals(true);
-        m_clipMonitor->setEnabled(false);
-    }
-    if (m_projectMonitor) {
-        m_projectMonitor->blockSignals(true);
-        m_projectMonitor->setEnabled(false);
-    }
-}
 
 #include "monitormanager.moc"

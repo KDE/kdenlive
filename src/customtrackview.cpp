@@ -670,7 +670,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
 
     // special cases (middle click button or ctrl / shift click
     if (event->button() == Qt::MidButton) {
-        m_document->renderer()->switchPlay();
+        emit playMonitor();
         m_blockRefresh = false;
         m_operationMode = NONE;
         return;

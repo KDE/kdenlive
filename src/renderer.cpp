@@ -65,10 +65,11 @@ static void consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr
 #endif
 
     self->emitFrameNumber(mlt_frame_get_position(frame_ptr));
-    if (frame.get_double("_speed") == 0.0) self->emitConsumerStopped();
-    else if (frame.get_double("_speed") < 0.0 && mlt_frame_get_position(frame_ptr) <= 0) {
-	self->pause();
-	self->emitConsumerStopped();
+    if (frame.get_double("_speed") == 0.0) {
+        self->emitConsumerStopped();
+    } else if (frame.get_double("_speed") < 0.0 && mlt_frame_get_position(frame_ptr) <= 0) {
+        self->pause();
+        self->emitConsumerStopped();
     }
 }
 
@@ -244,17 +245,21 @@ void Render::buildConsumer(const QString profileName)
 
 int Render::resetProfile(const QString profileName)
 {
-    if (!m_mltConsumer) return 0;
-    if (m_activeProfile == profileName) {
-        kDebug() << "reset to same profile, nothing to do";
-        return 1;
+    if (m_mltConsumer) {
+        QString videoDriver = KdenliveSettings::videodrivername();
+        QString currentDriver = m_mltConsumer->get("video_driver");
+        if (getenv("SDL_VIDEO_YUV_HWACCEL") != NULL && currentDriver == "x11") currentDriver = "x11_noaccel";
+        if (m_activeProfile == profileName && currentDriver == videoDriver) {
+            kDebug() << "reset to same profile, nothing to do";
+            return 1;
+        }
+
+        if (m_isSplitView) slotSplitView(false);
+        if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
+        m_mltConsumer->purge();
+        delete m_mltConsumer;
+        m_mltConsumer = NULL;
     }
-    kDebug() << "// RESETTING PROFILE FROM: " << m_activeProfile << " TO: " << profileName; //KdenliveSettings::current_profile();
-    if (m_isSplitView) slotSplitView(false);
-    if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
-    m_mltConsumer->purge();
-    delete m_mltConsumer;
-    m_mltConsumer = NULL;
     QString scene = sceneList();
     int pos = 0;
     double current_fps = m_mltProfile->fps();
@@ -908,7 +913,7 @@ int Render::setProducer(Mlt::Producer *producer, int position)
 
     m_fps = m_mltProducer->get_fps();
     int error = connectPlaylist();
-    
+
     if (position != -1) {
         m_mltProducer->seek(position);
         emit rendererPosition(position);
@@ -934,16 +939,15 @@ int Render::setSceneList(QString playlist, int position)
 
     kDebug() << "//////  RENDER, SET SCENE LIST: " << playlist;
 
-    if (m_mltConsumer == NULL) {
+    if (m_mltConsumer) {
+        if (!m_mltConsumer->is_stopped()) {
+            m_mltConsumer->stop();
+        }
+        m_mltConsumer->set("refresh", 0);
+    } else {
         kWarning() << "///////  ERROR, TRYING TO USE NULL MLT CONSUMER";
-        m_isBlocked = false;
-        return -1;
+        error = -1;
     }
-
-    if (!m_mltConsumer->is_stopped()) {
-        m_mltConsumer->stop();
-    }
-    m_mltConsumer->set("refresh", 0);
 
     if (m_mltProducer) {
         m_mltProducer->set_speed(0);
@@ -1136,9 +1140,8 @@ int Render::connectPlaylist()
     if (m_mltConsumer->start() == -1) {
         // ARGH CONSUMER BROKEN!!!!
         KMessageBox::error(qApp->activeWindow(), i18n("Could not create the video preview window.\nThere is something wrong with your Kdenlive install or your driver settings, please fix it."));
-        emit blockMonitors();
-        delete m_mltProducer;
-        m_mltProducer = NULL;
+        delete m_mltConsumer;
+        m_mltConsumer = NULL;
         return -1;
     }
     emit durationChanged(m_mltProducer->get_playtime());
@@ -1205,10 +1208,8 @@ void Render::start()
     if (m_mltConsumer && m_mltConsumer->is_stopped()) {
         kDebug() << "-----  MONITOR: " << m_name << " WAS STOPPED";
         if (m_mltConsumer->start() == -1) {
-            KMessageBox::error(qApp->activeWindow(), i18n("Could not create the video preview window.\nThere is something wrong with your Kdenlive install or your driver settings, please fix it."));
-            emit blockMonitors();
-            delete m_mltProducer;
-            m_mltProducer = NULL;
+            //KMessageBox::error(qApp->activeWindow(), i18n("Could not create the video preview window.\nThere is something wrong with your Kdenlive install or your driver settings, please fix it."));
+            kdWarning() << "/ / / / CANNOT START MONITOR";
         } else {
             kDebug() << "-----  MONITOR: " << m_name << " REFRESH";
             m_isBlocked = false;
@@ -1262,8 +1263,10 @@ void Render::pause()
     m_isBlocked = true;
     m_mltConsumer->set("refresh", 0);
     m_mltProducer->set_speed(0.0);
+    /*
+    The 2 lines below create a flicker loop
     emit rendererPosition(m_framePosition);
-    m_mltProducer->seek(m_framePosition);
+    m_mltProducer->seek(m_framePosition);*/
     m_mltConsumer->purge();
 }
 
@@ -1280,7 +1283,7 @@ void Render::switchPlay()
         m_isBlocked = true;
         m_mltConsumer->set("refresh", 0);
         m_mltProducer->set_speed(0.0);
-        emit rendererPosition(m_framePosition);
+        //emit rendererPosition(m_framePosition);
         m_mltProducer->seek(m_framePosition);
         m_mltConsumer->purge();
         //kDebug()<<" *********  RENDER PAUSE: "<<m_mltProducer->get_speed();
@@ -1403,9 +1406,7 @@ void Render::setDropFrames(bool show)
         m_mltConsumer->set("play.real_time", dropFrames);
 #endif
         if (m_mltConsumer->start() == -1) {
-            emit blockMonitors();
-            delete m_mltProducer;
-            m_mltProducer = NULL;
+            kdWarning() << "ERROR, Cannot start monitor";
         }
 
     }

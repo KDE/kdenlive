@@ -297,6 +297,7 @@ signals:
     void doTrackLock(int, bool);
     void updateClipMarkers(DocClipBase *);
     void updateTrackHeaders();
+    void playMonitor();
 };
 
 #endif

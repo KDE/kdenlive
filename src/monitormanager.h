@@ -51,7 +51,6 @@ public slots:
     void slotStart();
     void slotEnd();
     void slotResetProfiles();
-    void slotBlockMonitors();
     void slotSwitchMonitors();
 
 private:
