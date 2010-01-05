@@ -668,6 +668,24 @@ void TitleWidget::slotNewText(QGraphicsTextItem *tt)
     QColor color = fontColorButton->color();
     color.setAlpha(textAlpha->value());
     tt->setDefaultTextColor(color);
+
+    QTextCursor cur(tt->document());
+    cur.select(QTextCursor::Document);
+    QTextBlockFormat format = cur.blockFormat();
+    QTextCharFormat cformat = cur.charFormat();
+    QColor outlineColor = textOutlineColor->color();
+    outlineColor.setAlpha(textOutlineAlpha->value());
+    double outlineWidth = textOutline->value() / 10.0;
+
+    if (outlineWidth > 0.0) {
+        tt->setData(101, outlineWidth);
+        tt->setData(102, outlineColor);
+        cformat.setTextOutline(QPen(outlineColor, outlineWidth));
+    }
+    cformat.setForeground(QBrush(color));
+    cur.setCharFormat(cformat);
+    cur.setBlockFormat(format);
+    tt->setTextCursor(cur);
     tt->setZValue(m_count++);
     setCurrentItem(tt);
 }
@@ -804,10 +822,9 @@ void TitleWidget::selectionChanged()
             buttonUnder->setChecked(font.underline());
             setFontBoxWeight(font.weight());
 
-            QColor color = i->defaultTextColor();
             QTextCursor cursor(i->document());
             cursor.select(QTextCursor::Document);
-            color = cursor.charFormat().foreground().color();
+            QColor color = cursor.charFormat().foreground().color();
             fontColorButton->setColor(color);
             textAlpha->setValue(color.alpha());
 
@@ -1322,7 +1339,8 @@ void TitleWidget::slotUpdateText()
     }
     if (!item) return;
     //if (item->textCursor().selection ().isEmpty())
-    QTextCursor cur = item->textCursor();
+    QTextCursor cur(item->document());
+    cur.select(QTextCursor::Document);
     QTextBlockFormat format = cur.blockFormat();
     if (buttonAlignLeft->isChecked() || buttonAlignCenter->isChecked() || buttonAlignRight->isChecked()) {
         item->setTextWidth(item->boundingRect().width());
@@ -1334,27 +1352,19 @@ void TitleWidget::slotUpdateText()
         item->setTextWidth(-1);
     }
 
-    {
-        item->setFont(font);
-        if (outlineWidth > 0.0) {
-            item->setData(101, outlineWidth);
-            item->setData(102, outlineColor);
-            QTextCursor cursor(item->document());
-            cursor.select(QTextCursor::Document);
-            QTextCharFormat format;
-            format.setTextOutline(QPen(outlineColor, outlineWidth));
-            format.setForeground(QBrush(color));
-            cursor.mergeCharFormat(format);
-        } else {
-            item->setDefaultTextColor(color);
-        }
-        cur.select(QTextCursor::Document);
-        cur.setBlockFormat(format);
-        item->setTextCursor(cur);
-        cur.clearSelection();
-        item->setTextCursor(cur);
-
+    item->setFont(font);
+    QTextCharFormat cformat = cur.charFormat();
+    if (outlineWidth > 0.0) {
+        item->setData(101, outlineWidth);
+        item->setData(102, outlineColor);
+        cformat.setTextOutline(QPen(outlineColor, outlineWidth));
     }
+    cformat.setForeground(QBrush(color));
+    cur.setCharFormat(cformat);
+    cur.setBlockFormat(format);
+    item->setTextCursor(cur);
+    cur.clearSelection();
+    item->setTextCursor(cur);
 }
 
 void TitleWidget::rectChanged()
