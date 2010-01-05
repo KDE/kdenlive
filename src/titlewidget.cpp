@@ -805,25 +805,25 @@ void TitleWidget::selectionChanged()
             setFontBoxWeight(font.weight());
 
             QColor color = i->defaultTextColor();
-	    QTextCursor cursor(i->document());
-	    cursor.select(QTextCursor::Document);
-	    color=cursor.charFormat().foreground().color();
+            QTextCursor cursor(i->document());
+            cursor.select(QTextCursor::Document);
+            color = cursor.charFormat().foreground().color();
             fontColorButton->setColor(color);
             textAlpha->setValue(color.alpha());
 
-	    if (!i->data(101).isNull()){
-			textOutline->blockSignals(true);
-	    	textOutline->setValue(i->data(101).toDouble()*10);
-			textOutline->blockSignals(false);
-	    }
-	    if (!i->data(102).isNull()){
-			textOutlineColor->blockSignals(true);
-			textOutlineAlpha->blockSignals(true);
-	    	textOutlineColor->setColor(i->data(102).toString());
-	    	textOutlineAlpha->setValue(QColor(i->data(102).toString()).alpha());
-			textOutlineColor->blockSignals(false);
-			textOutlineAlpha->blockSignals(false);
-	    }
+            if (!i->data(101).isNull()) {
+                textOutline->blockSignals(true);
+                textOutline->setValue(i->data(101).toDouble()*10);
+                textOutline->blockSignals(false);
+            }
+            if (!i->data(102).isNull()) {
+                textOutlineColor->blockSignals(true);
+                textOutlineAlpha->blockSignals(true);
+                textOutlineColor->setColor(i->data(102).toString());
+                textOutlineAlpha->setValue(QColor(i->data(102).toString()).alpha());
+                textOutlineColor->blockSignals(false);
+                textOutlineAlpha->blockSignals(false);
+            }
             QTextCursor cur = i->textCursor();
             QTextBlockFormat format = cur.blockFormat();
             if (i->textWidth() == -1) buttonAlignNone->setChecked(true);
@@ -1312,9 +1312,9 @@ void TitleWidget::slotUpdateText()
     QColor color = fontColorButton->color();
     color.setAlpha(textAlpha->value());
 
-    QColor outlineColor=textOutlineColor->color();
+    QColor outlineColor = textOutlineColor->color();
     outlineColor.setAlpha(textOutlineAlpha->value());
-    double outlineWidth=textOutline->value()/10.0;
+    double outlineWidth = textOutline->value() / 10.0;
     QGraphicsTextItem* item = NULL;
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     if (l.size() == 1 && l.at(0)->type() == TEXTITEM) {
@@ -1336,18 +1336,18 @@ void TitleWidget::slotUpdateText()
 
     {
         item->setFont(font);
-	if (outlineWidth>0.0){
-					item->setData(101,outlineWidth);
-					item->setData(102,outlineColor);
-					QTextCursor cursor(item->document());
-					cursor.select(QTextCursor::Document);
-					QTextCharFormat format;
-					format.setTextOutline( QPen(outlineColor,outlineWidth ));
-					format.setForeground(QBrush(color));
-					cursor.mergeCharFormat(format);	
-	}else{
-        	item->setDefaultTextColor(color);
-	}
+        if (outlineWidth > 0.0) {
+            item->setData(101, outlineWidth);
+            item->setData(102, outlineColor);
+            QTextCursor cursor(item->document());
+            cursor.select(QTextCursor::Document);
+            QTextCharFormat format;
+            format.setTextOutline(QPen(outlineColor, outlineWidth));
+            format.setForeground(QBrush(color));
+            cursor.mergeCharFormat(format);
+        } else {
+            item->setDefaultTextColor(color);
+        }
         cur.select(QTextCursor::Document);
         cur.setBlockFormat(format);
         item->setTextCursor(cur);

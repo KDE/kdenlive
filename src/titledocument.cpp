@@ -273,22 +273,22 @@ int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsRectItem* startv, QGra
                         font.setPixelSize(txtProperties.namedItem("font-pixel-size").nodeValue().toInt());
                     QColor col(stringToColor(txtProperties.namedItem("font-color").nodeValue()));
                     QGraphicsTextItem *txt = m_scene->addText(items.item(i).namedItem("content").firstChild().nodeValue(), font);
-		if (txtProperties.namedItem("font-outline").nodeValue().toDouble()>0.0){
-		txt->setData(101,txtProperties.namedItem("font-outline").nodeValue().toDouble());
-		txt->setData(102,stringToColor( txtProperties.namedItem( "font-outline-color" ).nodeValue() ));
-					QTextCursor cursor(txt->document());
-					cursor.select(QTextCursor::Document);
-					QTextCharFormat format;
-					format.setTextOutline(
-							QPen(QColor( stringToColor( txtProperties.namedItem( "font-outline-color" ).nodeValue() ) ),
-							txtProperties.namedItem("font-outline").nodeValue().toDouble())
-					);
-					format.setForeground(QBrush(col));
- 
-					cursor.mergeCharFormat(format);
-				} else {
-					txt->setDefaultTextColor( col );
-				}
+                    if (txtProperties.namedItem("font-outline").nodeValue().toDouble() > 0.0) {
+                        txt->setData(101, txtProperties.namedItem("font-outline").nodeValue().toDouble());
+                        txt->setData(102, stringToColor(txtProperties.namedItem("font-outline-color").nodeValue()));
+                        QTextCursor cursor(txt->document());
+                        cursor.select(QTextCursor::Document);
+                        QTextCharFormat format;
+                        format.setTextOutline(
+                            QPen(QColor(stringToColor(txtProperties.namedItem("font-outline-color").nodeValue())),
+                                 txtProperties.namedItem("font-outline").nodeValue().toDouble())
+                        );
+                        format.setForeground(QBrush(col));
+
+                        cursor.mergeCharFormat(format);
+                    } else {
+                        txt->setDefaultTextColor(col);
+                    }
                     txt->setTextInteractionFlags(Qt::NoTextInteraction);
                     if (txtProperties.namedItem("alignment").isNull() == false) {
                         txt->setTextWidth(txt->boundingRect().width());
