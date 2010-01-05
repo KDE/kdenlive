@@ -944,6 +944,29 @@
           </widget>
          </item>
          <item>
+          <widget class="KColorButton" name="textOutlineColor"/>
+         </item>
+         <item>
+          <widget class="QSlider" name="textOutline">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSlider" name="textOutlineAlpha">
+           <property name="maximum">
+            <number>255</number>
+           </property>
+           <property name="value">
+            <number>255</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QComboBox" name="font_weight_box"/>
          </item>
          <item>
