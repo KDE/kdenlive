@@ -677,11 +677,10 @@ void TitleWidget::slotNewText(QGraphicsTextItem *tt)
     outlineColor.setAlpha(textOutlineAlpha->value());
     double outlineWidth = textOutline->value() / 10.0;
 
-    if (outlineWidth > 0.0) {
-        tt->setData(101, outlineWidth);
-        tt->setData(102, outlineColor);
-        cformat.setTextOutline(QPen(outlineColor, outlineWidth));
-    }
+    tt->setData(101, outlineWidth);
+    tt->setData(102, outlineColor);
+    if (outlineWidth > 0.0) cformat.setTextOutline(QPen(outlineColor, outlineWidth));
+
     cformat.setForeground(QBrush(color));
     cur.setCharFormat(cformat);
     cur.setBlockFormat(format);
@@ -1354,11 +1353,11 @@ void TitleWidget::slotUpdateText()
 
     item->setFont(font);
     QTextCharFormat cformat = cur.charFormat();
-    if (outlineWidth > 0.0) {
-        item->setData(101, outlineWidth);
-        item->setData(102, outlineColor);
-        cformat.setTextOutline(QPen(outlineColor, outlineWidth));
-    }
+
+    item->setData(101, outlineWidth);
+    item->setData(102, outlineColor);
+    if (outlineWidth > 0.0) cformat.setTextOutline(QPen(outlineColor, outlineWidth));
+
     cformat.setForeground(QBrush(color));
     cur.setCharFormat(cformat);
     cur.setBlockFormat(format);
