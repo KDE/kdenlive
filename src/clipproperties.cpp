@@ -524,7 +524,7 @@ QMap <QString, QString> ClipProperties::properties()
         }
         int duration = m_tc.getFrameCount(m_view.clip_duration->text());
         if (duration != m_clip->duration().frames(m_fps)) {
-            props["out"] = QString::number(duration);
+            props["out"] = QString::number(duration - 1);
         }
     } else if (t == IMAGE) {
         if ((int) m_view.image_transparency->isChecked() != m_old_props.value("transparency").toInt()) {
@@ -533,7 +533,7 @@ QMap <QString, QString> ClipProperties::properties()
         }
         int duration = m_tc.getFrameCount(m_view.clip_duration->text());
         if (duration != m_clip->duration().frames(m_fps)) {
-            props["out"] = QString::number(duration);
+            props["out"] = QString::number(duration - 1);
         }
     } else if (t == SLIDESHOW) {
         QString value = QString::number((int) m_view.slide_loop->isChecked());
@@ -560,6 +560,7 @@ QMap <QString, QString> ClipProperties::properties()
             props["ttl"] = QString::number(duration);
             props["out"] = QString::number(duration * m_count);
         }
+
         if (duration * m_count - 1 != m_old_props.value("out").toInt()) {
             m_clipNeedsRefresh = true;
             props["out"] = QString::number(duration * m_count - 1);
