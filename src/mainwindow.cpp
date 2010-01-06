@@ -2607,7 +2607,7 @@ void MainWindow::slotShowClipProperties(QList <DocClipBase *> cliplist, QMap<QSt
         command->setText(i18n("Edit clips"));
         for (int i = 0; i < cliplist.count(); i++) {
             DocClipBase *clip = cliplist.at(i);
-            new EditClipCommand(m_projectList, clip->getId(), commonproperties, dia.properties(), true, command);
+            new EditClipCommand(m_projectList, clip->getId(), clip->properties(), dia.properties(), true, command);
         }
         m_activeDocument->commandStack()->push(command);
         for (int i = 0; i < cliplist.count(); i++) {

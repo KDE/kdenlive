@@ -530,7 +530,6 @@ QMap <QString, QString> ClipProperties::properties()
     if (m_clip == NULL) {
         if (m_view.clip_out->isEnabled()) {
             int duration = m_tc.getFrameCount(m_view.clip_out->text());
-            kDebug() << "// DURAT: " << duration << ", OLD: " << m_old_props.value("out").toInt();
             if (duration != m_old_props.value("out").toInt()) {
                 props["out"] = QString::number(duration - 1);
             }
