@@ -2601,13 +2601,13 @@ void MainWindow::slotShowClipProperties(DocClipBase *clip)
 
 void MainWindow::slotShowClipProperties(QList <DocClipBase *> cliplist, QMap<QString, QString> commonproperties)
 {
-    ClipProperties dia(cliplist, commonproperties, this);
+    ClipProperties dia(cliplist, m_activeDocument->timecode(), commonproperties, this);
     if (dia.exec() == QDialog::Accepted) {
         QUndoCommand *command = new QUndoCommand();
         command->setText(i18n("Edit clips"));
         for (int i = 0; i < cliplist.count(); i++) {
             DocClipBase *clip = cliplist.at(i);
-            new EditClipCommand(m_projectList, clip->getId(), clip->properties(), dia.properties(), true, command);
+            new EditClipCommand(m_projectList, clip->getId(), commonproperties, dia.properties(), true, command);
         }
         m_activeDocument->commandStack()->push(command);
         for (int i = 0; i < cliplist.count(); i++) {

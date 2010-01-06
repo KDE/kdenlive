@@ -33,7 +33,7 @@ class ClipProperties : public QDialog
 
 public:
     ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidget * parent = 0);
-    ClipProperties(QList <DocClipBase *>cliplist, QMap <QString, QString> commonproperties, QWidget * parent);
+    ClipProperties(QList <DocClipBase *>cliplist, Timecode tc, QMap <QString, QString> commonproperties, QWidget * parent);
     QMap <QString, QString> properties();
     const QString &clipId() const;
     bool needsTimelineRefresh() const;

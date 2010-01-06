@@ -233,6 +233,8 @@ void ProjectList::editClipSelection(QList<QTreeWidgetItem *> list)
     commonproperties.insert("video_index", "-");
     commonproperties.insert("audio_index", "-");
 
+    bool allowDurationChange = true;
+    int commonDuration = -1;
     ProjectItem *item;
     for (int i = 0; i < list.count(); i++) {
         item = NULL;
@@ -245,6 +247,16 @@ void ProjectList::editClipSelection(QList<QTreeWidgetItem *> list)
             // check properties
             DocClipBase *clip = item->referencedClip();
             if (clipList.contains(clip)) continue;
+            if (clip->clipType() != COLOR && clip->clipType() != IMAGE && clip->clipType() != TEXT) {
+                allowDurationChange = false;
+            }
+            if (allowDurationChange && commonDuration != 0) {
+                if (commonDuration == -1) {
+                    commonDuration = clip->duration().frames(m_fps);
+                } else if (commonDuration != clip->duration().frames(m_fps)) {
+                    commonDuration = 0;
+                }
+            }
             clipList.append(clip);
             QMap <QString, QString> clipprops = clip->properties();
             QMapIterator<QString, QString> p(commonproperties);
@@ -258,6 +270,7 @@ void ProjectList::editClipSelection(QList<QTreeWidgetItem *> list)
             }
         }
     }
+    if (allowDurationChange) commonproperties.insert("out", QString::number(commonDuration));
     QMapIterator<QString, QString> p(commonproperties);
     while (p.hasNext()) {
         p.next();

@@ -54,6 +54,9 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
     m_view.clip_description->setText(m_clip->description());
     QMap <QString, QString> props = m_clip->properties();
 
+    m_view.clip_force_out->setHidden(true);
+    m_view.clip_out->setHidden(true);
+
     if (props.contains("force_aspect_ratio") && props.value("force_aspect_ratio").toDouble() > 0) {
         m_view.clip_force_ar->setChecked(true);
         m_view.clip_ar->setEnabled(true);
@@ -285,9 +288,10 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
 
 
 // Used for multiple clips editing
-ClipProperties::ClipProperties(QList <DocClipBase *>cliplist, QMap <QString, QString> commonproperties, QWidget * parent) :
+ClipProperties::ClipProperties(QList <DocClipBase *>cliplist, Timecode tc, QMap <QString, QString> commonproperties, QWidget * parent) :
         QDialog(parent),
         m_clip(NULL),
+        m_tc(tc),
         m_fps(0),
         m_count(0),
         m_clipNeedsRefresh(false),
@@ -347,6 +351,7 @@ ClipProperties::ClipProperties(QList <DocClipBase *>cliplist, QMap <QString, QSt
     connect(m_view.clip_force_threads, SIGNAL(toggled(bool)), m_view.clip_threads, SLOT(setEnabled(bool)));
     connect(m_view.clip_force_vindex, SIGNAL(toggled(bool)), m_view.clip_vindex, SLOT(setEnabled(bool)));
     connect(m_view.clip_force_aindex, SIGNAL(toggled(bool)), m_view.clip_aindex, SLOT(setEnabled(bool)));
+    connect(m_view.clip_force_out, SIGNAL(toggled(bool)), m_view.clip_out, SLOT(setEnabled(bool)));
 
     m_view.tabWidget->removeTab(METATAB);
     m_view.tabWidget->removeTab(MARKERTAB);
@@ -359,13 +364,24 @@ ClipProperties::ClipProperties(QList <DocClipBase *>cliplist, QMap <QString, QSt
     m_view.clip_path->setHidden(true);
     m_view.label_path->setHidden(true);
     m_view.label_description->setHidden(true);
-    m_view.label_duration->setHidden(true);
     m_view.label_size->setHidden(true);
     m_view.clip_filesize->setHidden(true);
     m_view.clip_filesize->setHidden(true);
-    m_view.clip_duration->setHidden(true);
     m_view.clip_path->setHidden(true);
     m_view.clip_description->setHidden(true);
+    m_view.clip_thumb->setHidden(true);
+    m_view.label_duration->setHidden(true);
+    m_view.clip_duration->setHidden(true);
+
+    if (commonproperties.contains("out")) {
+        if (commonproperties.value("out").toInt() > 0) {
+            m_view.clip_force_out->setChecked(true);
+            m_view.clip_out->setText(m_tc.getTimecodeFromFrames(commonproperties.value("out").toInt()));
+        } else m_view.clip_out->setText(KdenliveSettings::image_duration());
+    } else {
+        m_view.clip_force_out->setHidden(true);
+        m_view.clip_out->setHidden(true);
+    }
 }
 
 
@@ -511,7 +527,16 @@ QMap <QString, QString> ClipProperties::properties()
     }
 
     // If we adjust several clips, return now
-    if (m_clip == NULL) return props;
+    if (m_clip == NULL) {
+        if (m_view.clip_out->isEnabled()) {
+            int duration = m_tc.getFrameCount(m_view.clip_out->text());
+            kDebug() << "// DURAT: " << duration << ", OLD: " << m_old_props.value("out").toInt();
+            if (duration != m_old_props.value("out").toInt()) {
+                props["out"] = QString::number(duration - 1);
+            }
+        }
+        return props;
+    }
 
     if (m_old_props.value("description") != m_view.clip_description->text())
         props["description"] = m_view.clip_description->text();
