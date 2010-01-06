@@ -96,7 +96,16 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
             content.setAttribute("font-pixel-size", font.pixelSize());
             content.setAttribute("font-italic", font.italic());
             content.setAttribute("font-underline", font.underline());
-            content.setAttribute("font-color", colorToString(t->defaultTextColor()));
+
+            {
+
+                QTextCursor cursor(t->document());
+                cursor.select(QTextCursor::Document);
+                QColor fontcolor = cursor.charFormat().foreground().color();
+                content.setAttribute("font-color", colorToString(fontcolor));
+                content.setAttribute("font-outline", t->data(101).toDouble());
+                content.setAttribute("font-outline-color", t->data(102).toString());
+            }
 
             if (!t->data(100).isNull()) {
                 QStringList effectParams = t->data(100).toStringList();
@@ -273,22 +282,20 @@ int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsRectItem* startv, QGra
                         font.setPixelSize(txtProperties.namedItem("font-pixel-size").nodeValue().toInt());
                     QColor col(stringToColor(txtProperties.namedItem("font-color").nodeValue()));
                     QGraphicsTextItem *txt = m_scene->addText(items.item(i).namedItem("content").firstChild().nodeValue(), font);
+                    QTextCursor cursor(txt->document());
+                    cursor.select(QTextCursor::Document);
+                    QTextCharFormat format;
                     if (txtProperties.namedItem("font-outline").nodeValue().toDouble() > 0.0) {
                         txt->setData(101, txtProperties.namedItem("font-outline").nodeValue().toDouble());
                         txt->setData(102, stringToColor(txtProperties.namedItem("font-outline-color").nodeValue()));
-                        QTextCursor cursor(txt->document());
-                        cursor.select(QTextCursor::Document);
-                        QTextCharFormat format;
                         format.setTextOutline(
                             QPen(QColor(stringToColor(txtProperties.namedItem("font-outline-color").nodeValue())),
                                  txtProperties.namedItem("font-outline").nodeValue().toDouble())
                         );
-                        format.setForeground(QBrush(col));
 
-                        cursor.mergeCharFormat(format);
-                    } else {
-                        txt->setDefaultTextColor(col);
                     }
+                    format.setForeground(QBrush(col));
+                    cursor.mergeCharFormat(format);
                     txt->setTextInteractionFlags(Qt::NoTextInteraction);
                     if (txtProperties.namedItem("alignment").isNull() == false) {
                         txt->setTextWidth(txt->boundingRect().width());
