@@ -249,29 +249,29 @@ void KoSliderCombo::mousePressEvent(QMouseEvent *e)
 
 void KoSliderCombo::keyPressEvent(QKeyEvent *e)
 {
-    if (e->key() == Qt::Key_Up) setValue(value() + d->slider->singleStep() * maximum() / 256 + 0.5);
-    else if (e->key() == Qt::Key_Down) setValue(value() - d->slider->singleStep() * maximum() / 256 - 0.5);
+    if (e->key() == Qt::Key_Up) setValue(value() + d->slider->singleStep() * (maximum() - minimum()) / 256 + 0.5);
+    else if (e->key() == Qt::Key_Down) setValue(value() - d->slider->singleStep() * (maximum() - minimum()) / 256 - 0.5);
     else QComboBox::keyPressEvent(e);
 }
 
 void KoSliderCombo::wheelEvent(QWheelEvent *e)
 {
-    if (e->delta() > 0) setValue(value() + d->slider->singleStep() * maximum() / 256 + 0.5);
-    else setValue(value() - d->slider->singleStep() * maximum() / 256 - 0.5);
+    if (e->delta() > 0) setValue(value() + d->slider->singleStep() * (maximum() - minimum()) / 256 + 0.5);
+    else setValue(value() - d->slider->singleStep() * (maximum() - minimum()) / 256 - 0.5);
 }
 
 void KoSliderCombo::KoSliderComboPrivate::lineEditFinished()
 {
     qreal value = thePublic->currentText().toDouble();
     slider->blockSignals(true);
-    slider->setValue(int((value - minimum) * 256 / maximum + 0.5));
+    slider->setValue(int((value - minimum) * 256 / (maximum - minimum) + 0.5));
     slider->blockSignals(false);
     emit thePublic->valueChanged(value, true);
 }
 
 void KoSliderCombo::KoSliderComboPrivate::sliderValueChanged(int slidervalue)
 {
-    thePublic->setEditText(KGlobal::locale()->formatNumber(minimum + maximum*slidervalue/256, decimals));
+    thePublic->setEditText(KGlobal::locale()->formatNumber(minimum + (maximum - minimum)*slidervalue/256, decimals));
 
     qreal value = thePublic->currentText().toDouble();
     emit thePublic->valueChanged(value, false);
@@ -328,7 +328,7 @@ void KoSliderCombo::setValue(qreal value)
         value = d->maximum;
     setEditText(KGlobal::locale()->formatNumber(value, d->decimals));
     d->slider->blockSignals(true);
-    d->slider->setValue(int((value - d->minimum) * 256 / d->maximum + 0.5));
+    d->slider->setValue(int((value - d->minimum) * 256 / (d->maximum - d->minimum) + 0.5));
     d->slider->blockSignals(false);
     emit valueChanged(value, true);
 }

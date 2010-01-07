@@ -90,6 +90,18 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     textOutline->setDecimals(0);
     textOutline->setValue(0);
     textOutline->setToolTip(i18n("Outline width"));
+
+    backgroundAlpha->setMinimum(0);
+    backgroundAlpha->setMaximum(255);
+    backgroundAlpha->setDecimals(0);
+    backgroundAlpha->setValue(0);
+    backgroundAlpha->setToolTip(i18n("Background color opacity"));
+
+    itemrotate->setMinimum(-360);
+    itemrotate->setMaximum(360);
+    itemrotate->setDecimals(0);
+    itemrotate->setValue(0);
+    itemrotate->setToolTip(i18n("Rotation"));
     
     itemzoom->setSuffix(i18n("%"));
     m_frameWidth = render->renderWidth();
@@ -99,8 +111,8 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     //TODO: get default title duration instead of hardcoded one
     title_duration->setText(m_tc.getTimecode(GenTime(5000 / 1000.0)));
 
-    connect(kcolorbutton, SIGNAL(clicked()), this, SLOT(slotChangeBackground())) ;
-    connect(horizontalSlider, SIGNAL(valueChanged(int)), this, SLOT(slotChangeBackground())) ;
+    connect(backgroundColor, SIGNAL(clicked()), this, SLOT(slotChangeBackground())) ;
+    connect(backgroundAlpha, SIGNAL(valueChanged(qreal, bool)), this, SLOT(slotChangeBackground())) ;
 
     connect(fontColorButton, SIGNAL(clicked()), this, SLOT(slotUpdateText())) ;
     connect(textOutlineColor, SIGNAL(clicked()), this, SLOT(slotUpdateText())) ;
@@ -134,7 +146,7 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
 
     connect(zValue, SIGNAL(valueChanged(int)), this, SLOT(zIndexChanged(int)));
     connect(itemzoom, SIGNAL(valueChanged(int)), this, SLOT(itemScaled(int)));
-    connect(itemrotate, SIGNAL(valueChanged(int)), this, SLOT(itemRotate(int)));
+    connect(itemrotate, SIGNAL(valueChanged(qreal, bool)), this, SLOT(itemRotate(qreal)));
     connect(itemhcenter, SIGNAL(clicked()), this, SLOT(itemHCenter()));
     connect(itemvcenter, SIGNAL(clicked()), this, SLOT(itemVCenter()));
     connect(itemtop, SIGNAL(clicked()), this, SLOT(itemTop()));
@@ -251,8 +263,8 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     zoom_slider->setToolTip(i18n("Zoom"));
     buttonRealSize->setToolTip(i18n("Original size (1:1)"));
     buttonFitZoom->setToolTip(i18n("Fit zoom"));
-    kcolorbutton->setToolTip(i18n("Select background color"));
-    horizontalSlider->setToolTip(i18n("Background Transparency"));
+    backgroundColor->setToolTip(i18n("Select background color"));
+    backgroundAlpha->setToolTip(i18n("Background Transparency"));
 
     itemhcenter->setIcon(KIcon("kdenlive-align-hor"));
     itemhcenter->setToolTip(i18n("Align item horizontally"));
@@ -1280,8 +1292,8 @@ void TitleWidget::updateAxisButtons(QGraphicsItem *i)
 
 void TitleWidget::slotChangeBackground()
 {
-    QColor color = kcolorbutton->color();
-    color.setAlpha(horizontalSlider->value());
+    QColor color = backgroundColor->color();
+    color.setAlpha(backgroundAlpha->value());
     m_frameBorder->setBrush(QBrush(color));
 }
 
@@ -1421,12 +1433,12 @@ void TitleWidget::itemScaled(int val)
     }
 }
 
-void TitleWidget::itemRotate(int val)
+void TitleWidget::itemRotate(qreal val)
 {
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     if (l.size() == 1) {
         Transform x = m_transformations[l.at(0)];
-        x.rotate = (double)val;
+        x.rotate = val;
         QTransform qtrans;
         qtrans.scale(x.scalex, x.scaley);
         qtrans.rotate(x.rotate);
@@ -1644,13 +1656,13 @@ void TitleWidget::setXml(QDomDocument doc)
     }
     // mbd: Update the GUI color selectors to match the stuff from the loaded document
     QColor background_color = m_titledocument.getBackgroundColor();
-    horizontalSlider->blockSignals(true);
-    kcolorbutton->blockSignals(true);
-    horizontalSlider->setValue(background_color.alpha());
+    backgroundAlpha->blockSignals(true);
+    backgroundColor->blockSignals(true);
+    backgroundAlpha->setValue(background_color.alpha());
     background_color.setAlpha(255);
-    kcolorbutton->setColor(background_color);
-    horizontalSlider->blockSignals(false);
-    kcolorbutton->blockSignals(false);
+    backgroundColor->setColor(background_color);
+    backgroundAlpha->blockSignals(false);
+    backgroundColor->blockSignals(false);
 
     /*startViewportX->setValue(m_startViewport->data(0).toInt());
     startViewportY->setValue(m_startViewport->data(1).toInt());
@@ -1693,8 +1705,8 @@ void TitleWidget::writeChoices()
     titleConfig.writeEntry("rect_background_alpha", rectBAlpha->value());
     titleConfig.writeEntry("rect_line_width", rectLineWidth->value());
 
-    titleConfig.writeEntry("background_color", kcolorbutton->color());
-    titleConfig.writeEntry("background_alpha", horizontalSlider->value());
+    titleConfig.writeEntry("background_color", backgroundColor->color());
+    titleConfig.writeEntry("background_alpha", backgroundAlpha->value());
 
     //! \todo Not sure if I should sync - it is probably safe to do it
     config->sync();
@@ -1726,8 +1738,8 @@ void TitleWidget::readChoices()
     rectBAlpha->setValue(titleConfig.readEntry("rect_background_alpha", rectBAlpha->value()));
     rectLineWidth->setValue(titleConfig.readEntry("rect_line_width", rectLineWidth->value()));
 
-    kcolorbutton->setColor(titleConfig.readEntry("background_color", kcolorbutton->color()));
-    horizontalSlider->setValue(titleConfig.readEntry("background_alpha", horizontalSlider->value()));
+    backgroundColor->setColor(titleConfig.readEntry("background_color", backgroundColor->color()));
+    backgroundAlpha->setValue(titleConfig.readEntry("background_alpha", backgroundAlpha->value()));
 }
 
 void TitleWidget::adjustFrameSize()

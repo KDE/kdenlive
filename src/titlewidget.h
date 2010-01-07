@@ -173,7 +173,7 @@ public slots:
     void setupViewports();
     void zIndexChanged(int);
     void itemScaled(int);
-    void itemRotate(int);
+    void itemRotate(qreal);
     void saveTitle(KUrl url = KUrl());
     void loadTitle(KUrl url = KUrl());
 
