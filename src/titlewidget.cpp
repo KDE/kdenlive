@@ -844,8 +844,9 @@ void TitleWidget::selectionChanged()
             QTextCursor cursor(i->document());
             cursor.select(QTextCursor::Document);
             QColor color = cursor.charFormat().foreground().color();
-            fontColorButton->setColor(color);
             textAlpha->setValue(color.alpha());
+	    color.setAlpha(255);
+	    fontColorButton->setColor(color);
 
             if (!i->data(101).isNull()) {
                 textOutline->blockSignals(true);
@@ -855,8 +856,10 @@ void TitleWidget::selectionChanged()
             if (!i->data(102).isNull()) {
                 textOutlineColor->blockSignals(true);
                 textOutlineAlpha->blockSignals(true);
-                textOutlineColor->setColor(i->data(102).toString());
-                textOutlineAlpha->setValue(QColor(i->data(102).toString()).alpha());
+		color = QColor(i->data(102).toString());
+                textOutlineAlpha->setValue(color.alpha());
+		color.setAlpha(255);
+		textOutlineColor->setColor(color);
                 textOutlineColor->blockSignals(false);
                 textOutlineAlpha->blockSignals(false);
             }
