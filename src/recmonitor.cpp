@@ -495,6 +495,7 @@ void RecMonitor::slotRecord()
                 }
                 break;
             }
+            if (KdenliveSettings::rmd_hide_mouse()) m_captureArgs << "--no-cursor";
             m_isCapturing = true;
             if (KdenliveSettings::rmd_capture_audio()) {
                 m_captureArgs << "-freq" << KdenliveSettings::rmd_freq();

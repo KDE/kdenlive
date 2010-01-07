@@ -334,6 +334,10 @@
       <default>false</default>
     </entry>
 
+    <entry name="rmd_hide_mouse" type="Bool">
+      <label>Hide mouse cursor.</label>
+      <default>false</default>
+    </entry>
 
     <entry name="dvgrab_path" type="String">
       <label>Path for the dvgrab binary.</label>
