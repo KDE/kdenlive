@@ -43,7 +43,7 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QStrin
         m_baseTrackProducers(),
         m_audioTrackProducers(),
         m_videoOnlyProducer(NULL),
-        m_snapMarkers(),
+        m_snapMarkers(QList < CommentedTime >()),
         m_duration(),
         m_audioTimer(NULL),
         m_thumbProd(NULL),
