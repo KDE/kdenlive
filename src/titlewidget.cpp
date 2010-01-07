@@ -17,6 +17,7 @@
 
 #include "titlewidget.h"
 #include "kdenlivesettings.h"
+#include "KoSliderCombo.h"
 
 #include <cmath>
 
@@ -71,6 +72,25 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     frame_properties->setEnabled(false);
     frame_properties->setFixedHeight(frame_toolbar->height());
 
+    // Set combo sliders values
+    textAlpha->setMinimum(0);
+    textAlpha->setMaximum(255);
+    textAlpha->setDecimals(0);
+    textAlpha->setValue(255);
+    textAlpha->setToolTip(i18n("Font color opacity"));
+
+    textOutlineAlpha->setMinimum(0);
+    textOutlineAlpha->setMaximum(255);
+    textOutlineAlpha->setDecimals(0);
+    textOutlineAlpha->setValue(255);
+    textOutlineAlpha->setToolTip(i18n("Outline color opacity"));
+    
+    textOutline->setMinimum(0);
+    textOutline->setMaximum(200);
+    textOutline->setDecimals(0);
+    textOutline->setValue(0);
+    textOutline->setToolTip(i18n("Outline width"));
+    
     itemzoom->setSuffix(i18n("%"));
     m_frameWidth = render->renderWidth();
     m_frameHeight = render->renderHeight();
@@ -86,9 +106,9 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     connect(textOutlineColor, SIGNAL(clicked()), this, SLOT(slotUpdateText())) ;
     connect(font_family, SIGNAL(currentFontChanged(const QFont &)), this, SLOT(slotUpdateText())) ;
     connect(font_size, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateText())) ;
-    connect(textAlpha, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateText()));
-    connect(textOutline, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateText()));
-    connect(textOutlineAlpha, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateText()));
+    connect(textAlpha, SIGNAL(valueChanged(qreal, bool)), this, SLOT(slotUpdateText()));
+    connect(textOutline, SIGNAL(valueChanged(qreal, bool)), this, SLOT(slotUpdateText()));
+    connect(textOutlineAlpha, SIGNAL(valueChanged(qreal, bool)), this, SLOT(slotUpdateText()));
     connect(font_weight_box, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateText()));
 
     connect(font_family, SIGNAL(editTextChanged(const QString &)), this, SLOT(slotFontText(const QString&)));

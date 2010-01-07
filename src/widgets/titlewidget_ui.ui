@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1414</width>
-    <height>720</height>
+    <width>900</width>
+    <height>579</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -39,7 +39,7 @@
    <item row="0" column="5" colspan="4">
     <widget class="QFrame" name="frame_properties">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+      <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
@@ -890,14 +890,14 @@
        <item row="0" column="0">
         <layout class="QHBoxLayout" name="horizontalLayout_4">
          <item>
-          <widget class="QFontComboBox" name="font_family"/>
-         </item>
-         <item>
-          <widget class="QLabel" name="label_20">
+          <widget class="QLabel" name="label_17">
            <property name="text">
-            <string>Size</string>
+            <string>Font</string>
            </property>
           </widget>
+         </item>
+         <item>
+          <widget class="QFontComboBox" name="font_family"/>
          </item>
          <item>
           <widget class="QSpinBox" name="font_size">
@@ -920,6 +920,9 @@
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
+           <property name="flat">
+            <bool>false</bool>
+           </property>
            <property name="color">
             <color>
              <red>0</red>
@@ -937,52 +940,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QSlider" name="textAlpha">
-           <property name="maximum">
-            <number>255</number>
-           </property>
-           <property name="pageStep">
-            <number>1</number>
-           </property>
-           <property name="value">
-            <number>255</number>
-           </property>
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="KColorButton" name="textOutlineColor"/>
-         </item>
-         <item>
-          <widget class="QSlider" name="textOutline">
-           <property name="maximum">
-            <number>200</number>
-           </property>
-           <property name="pageStep">
-            <number>1</number>
-           </property>
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QSlider" name="textOutlineAlpha">
-           <property name="maximum">
-            <number>255</number>
-           </property>
-           <property name="pageStep">
-            <number>1</number>
-           </property>
-           <property name="value">
-            <number>255</number>
-           </property>
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-          </widget>
+          <widget class="KoSliderCombo" name="textAlpha"/>
          </item>
          <item>
           <widget class="QComboBox" name="font_weight_box"/>
@@ -1004,6 +962,36 @@
            </property>
            <property name="checkable">
             <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="Line" name="line_4">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_18">
+           <property name="text">
+            <string>Outline</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="KoSliderCombo" name="textOutline"/>
+         </item>
+         <item>
+          <widget class="KColorButton" name="textOutlineColor"/>
+         </item>
+         <item>
+          <widget class="KoSliderCombo" name="textOutlineAlpha"/>
+         </item>
+         <item>
+          <widget class="Line" name="line_5">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
            </property>
           </widget>
          </item>
@@ -1147,6 +1135,11 @@
    <class>KRestrictedLine</class>
    <extends>KLineEdit</extends>
    <header>krestrictedline.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KoSliderCombo</class>
+   <extends>QComboBox</extends>
+   <header>KoSliderCombo.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

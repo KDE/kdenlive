@@ -184,6 +184,7 @@ set(kdenlive_SRCS
   folderprojectitem.cpp
   addclipcutcommand.cpp
   editclipcutcommand.cpp
+  KoSliderCombo.cpp
 )
 
 add_definitions( ${KDE4_DEFINITIONS} )
