@@ -84,7 +84,7 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     textOutlineAlpha->setDecimals(0);
     textOutlineAlpha->setValue(255);
     textOutlineAlpha->setToolTip(i18n("Outline color opacity"));
-    
+
     textOutline->setMinimum(0);
     textOutline->setMaximum(200);
     textOutline->setDecimals(0);
@@ -102,7 +102,25 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     itemrotate->setDecimals(0);
     itemrotate->setValue(0);
     itemrotate->setToolTip(i18n("Rotation"));
-    
+
+    rectBAlpha->setMinimum(0);
+    rectBAlpha->setMaximum(255);
+    rectBAlpha->setDecimals(0);
+    rectBAlpha->setValue(255);
+    rectBAlpha->setToolTip(i18n("Color opacity"));
+
+    rectFAlpha->setMinimum(0);
+    rectFAlpha->setMaximum(255);
+    rectFAlpha->setDecimals(0);
+    rectFAlpha->setValue(255);
+    rectFAlpha->setToolTip(i18n("Border opacity"));
+
+    rectLineWidth->setMinimum(0);
+    rectLineWidth->setMaximum(100);
+    rectLineWidth->setDecimals(0);
+    rectLineWidth->setValue(0);
+    rectLineWidth->setToolTip(i18n("Border width"));
+
     itemzoom->setSuffix(i18n("%"));
     m_frameWidth = render->renderWidth();
     m_frameHeight = render->renderHeight();
@@ -125,11 +143,11 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
 
     connect(font_family, SIGNAL(editTextChanged(const QString &)), this, SLOT(slotFontText(const QString&)));
 
-    connect(rectFAlpha, SIGNAL(valueChanged(int)), this, SLOT(rectChanged()));
-    connect(rectBAlpha, SIGNAL(valueChanged(int)), this, SLOT(rectChanged()));
+    connect(rectFAlpha, SIGNAL(valueChanged(qreal, bool)), this, SLOT(rectChanged()));
+    connect(rectBAlpha, SIGNAL(valueChanged(qreal, bool)), this, SLOT(rectChanged()));
     connect(rectFColor, SIGNAL(clicked()), this, SLOT(rectChanged()));
     connect(rectBColor, SIGNAL(clicked()), this, SLOT(rectChanged()));
-    connect(rectLineWidth, SIGNAL(valueChanged(int)), this, SLOT(rectChanged()));
+    connect(rectLineWidth, SIGNAL(valueChanged(qreal, bool)), this, SLOT(rectChanged()));
 
     /*connect(startViewportX, SIGNAL(valueChanged(int)), this, SLOT(setupViewports()));
     connect(startViewportY, SIGNAL(valueChanged(int)), this, SLOT(setupViewports()));
@@ -857,8 +875,8 @@ void TitleWidget::selectionChanged()
             cursor.select(QTextCursor::Document);
             QColor color = cursor.charFormat().foreground().color();
             textAlpha->setValue(color.alpha());
-	    color.setAlpha(255);
-	    fontColorButton->setColor(color);
+            color.setAlpha(255);
+            fontColorButton->setColor(color);
 
             if (!i->data(101).isNull()) {
                 textOutline->blockSignals(true);
@@ -868,10 +886,10 @@ void TitleWidget::selectionChanged()
             if (!i->data(102).isNull()) {
                 textOutlineColor->blockSignals(true);
                 textOutlineAlpha->blockSignals(true);
-		color = QColor(i->data(102).toString());
+                color = QColor(i->data(102).toString());
                 textOutlineAlpha->setValue(color.alpha());
-		color.setAlpha(255);
-		textOutlineColor->setColor(color);
+                color.setAlpha(255);
+                textOutlineColor->setColor(color);
                 textOutlineColor->blockSignals(false);
                 textOutlineAlpha->blockSignals(false);
             }
@@ -1695,6 +1713,9 @@ void TitleWidget::writeChoices()
     titleConfig.writeEntry("font_pixel_size", font_size->value());
     titleConfig.writeEntry("font_color", fontColorButton->color());
     titleConfig.writeEntry("font_alpha", textAlpha->value());
+    titleConfig.writeEntry("font_outline", textOutline->value());
+    titleConfig.writeEntry("font_outline_color", textOutlineColor->color());
+    titleConfig.writeEntry("font_outline_alpha", textOutlineAlpha->value());
     titleConfig.writeEntry("font_weight", font_weight_box->itemData(font_weight_box->currentIndex()).toInt());
     titleConfig.writeEntry("font_italic", buttonItalic->isChecked());
     titleConfig.writeEntry("font_underlined", buttonUnder->isChecked());
@@ -1725,6 +1746,11 @@ void TitleWidget::readChoices()
     m_scene->slotUpdateFontSize(font_size->value());
     fontColorButton->setColor(titleConfig.readEntry("font_color", fontColorButton->color()));
     textAlpha->setValue(titleConfig.readEntry("font_alpha", textAlpha->value()));
+
+    textOutlineColor->setColor(titleConfig.readEntry("font_outline_color", textOutlineColor->color()));
+    textOutlineAlpha->setValue(titleConfig.readEntry("font_outline_alpha", textOutlineAlpha->value()));
+    textOutline->setValue(titleConfig.readEntry("font_outline", textOutline->value()));
+
     int weight;
     if (titleConfig.readEntry("font_bold", false)) weight = QFont::Bold;
     else weight = titleConfig.readEntry("font_weight", font_weight_box->itemData(font_weight_box->currentIndex()).toInt());

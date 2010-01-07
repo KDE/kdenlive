@@ -746,315 +746,294 @@
       </layout>
      </widget>
      <widget class="QWidget" name="page_7">
-      <layout class="QGridLayout" name="gridLayout_14">
+      <layout class="QGridLayout" name="gridLayout_13">
        <item row="0" column="0">
-        <layout class="QGridLayout" name="gridLayout_13">
-         <item row="0" column="0">
-          <widget class="QLabel" name="label_2">
-           <property name="text">
-            <string>Fill color</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="KColorButton" name="rectBColor">
-           <property name="color">
-            <color>
-             <red>0</red>
-             <green>0</green>
-             <blue>0</blue>
-            </color>
-           </property>
-           <property name="defaultColor">
-            <color>
-             <red>0</red>
-             <green>0</green>
-             <blue>0</blue>
-            </color>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="2">
-          <widget class="QSlider" name="rectBAlpha">
-           <property name="maximum">
-            <number>255</number>
-           </property>
-           <property name="value">
-            <number>255</number>
-           </property>
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="3">
-          <widget class="Line" name="line_2">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="4">
-          <widget class="QLabel" name="label_11">
-           <property name="text">
-            <string>Border color</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="5">
-          <widget class="KColorButton" name="rectFColor">
-           <property name="color">
-            <color>
-             <red>0</red>
-             <green>0</green>
-             <blue>0</blue>
-            </color>
-           </property>
-           <property name="defaultColor">
-            <color>
-             <red>0</red>
-             <green>0</green>
-             <blue>0</blue>
-            </color>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="6">
-          <widget class="QSlider" name="rectFAlpha">
-           <property name="maximum">
-            <number>255</number>
-           </property>
-           <property name="value">
-            <number>0</number>
-           </property>
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="7">
-          <widget class="QLabel" name="label_4">
-           <property name="text">
-            <string>Width</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="8">
-          <widget class="QSpinBox" name="rectLineWidth"/>
-         </item>
-         <item row="0" column="9">
-          <spacer name="horizontalSpacer">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>241</width>
-             <height>28</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-        </layout>
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Fill color</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="KColorButton" name="rectBColor">
+         <property name="color">
+          <color>
+           <red>0</red>
+           <green>0</green>
+           <blue>0</blue>
+          </color>
+         </property>
+         <property name="defaultColor">
+          <color>
+           <red>0</red>
+           <green>0</green>
+           <blue>0</blue>
+          </color>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="KoSliderCombo" name="rectBAlpha"/>
+       </item>
+       <item row="0" column="3">
+        <widget class="Line" name="line_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="4">
+        <widget class="QLabel" name="label_11">
+         <property name="text">
+          <string>Border color</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="5">
+        <widget class="KColorButton" name="rectFColor">
+         <property name="color">
+          <color>
+           <red>0</red>
+           <green>0</green>
+           <blue>0</blue>
+          </color>
+         </property>
+         <property name="defaultColor">
+          <color>
+           <red>0</red>
+           <green>0</green>
+           <blue>0</blue>
+          </color>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="6">
+        <widget class="KoSliderCombo" name="rectFAlpha"/>
+       </item>
+       <item row="0" column="7">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>Width</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="8">
+        <widget class="KoSliderCombo" name="rectLineWidth"/>
+       </item>
+       <item row="0" column="9">
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>359</width>
+           <height>28</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </widget>
      <widget class="QWidget" name="page_8">
-      <layout class="QGridLayout" name="gridLayout_16">
+      <layout class="QGridLayout" name="gridLayout_14">
        <item row="0" column="0">
-        <layout class="QHBoxLayout" name="horizontalLayout_4">
-         <item>
-          <widget class="QLabel" name="label_17">
-           <property name="text">
-            <string>Font</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QFontComboBox" name="font_family"/>
-         </item>
-         <item>
-          <widget class="QSpinBox" name="font_size">
-           <property name="minimum">
-            <number>8</number>
-           </property>
-           <property name="maximum">
-            <number>1000</number>
-           </property>
-           <property name="value">
-            <number>20</number>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="KColorButton" name="fontColorButton">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="flat">
-            <bool>false</bool>
-           </property>
-           <property name="color">
-            <color>
-             <red>0</red>
-             <green>0</green>
-             <blue>0</blue>
-            </color>
-           </property>
-           <property name="defaultColor">
-            <color>
-             <red>0</red>
-             <green>0</green>
-             <blue>0</blue>
-            </color>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="KoSliderCombo" name="textAlpha"/>
-         </item>
-         <item>
-          <widget class="QComboBox" name="font_weight_box"/>
-         </item>
-         <item>
-          <widget class="QToolButton" name="buttonItalic">
-           <property name="text">
-            <string>...</string>
-           </property>
-           <property name="checkable">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QToolButton" name="buttonUnder">
-           <property name="text">
-            <string>...</string>
-           </property>
-           <property name="checkable">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="Line" name="line_4">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="label_18">
-           <property name="text">
-            <string>Outline</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="KoSliderCombo" name="textOutline"/>
-         </item>
-         <item>
-          <widget class="KColorButton" name="textOutlineColor"/>
-         </item>
-         <item>
-          <widget class="KoSliderCombo" name="textOutlineAlpha"/>
-         </item>
-         <item>
-          <widget class="Line" name="line_5">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QToolButton" name="buttonAlignNone">
-           <property name="text">
-            <string>...</string>
-           </property>
-           <property name="checkable">
-            <bool>true</bool>
-           </property>
-           <property name="checked">
-            <bool>true</bool>
-           </property>
-           <property name="autoExclusive">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QToolButton" name="buttonAlignLeft">
-           <property name="text">
-            <string>...</string>
-           </property>
-           <property name="checkable">
-            <bool>true</bool>
-           </property>
-           <property name="checked">
-            <bool>false</bool>
-           </property>
-           <property name="autoExclusive">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QToolButton" name="buttonAlignCenter">
-           <property name="text">
-            <string>...</string>
-           </property>
-           <property name="checkable">
-            <bool>true</bool>
-           </property>
-           <property name="autoExclusive">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QToolButton" name="buttonAlignRight">
-           <property name="text">
-            <string>...</string>
-           </property>
-           <property name="checkable">
-            <bool>true</bool>
-           </property>
-           <property name="autoExclusive">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="Line" name="line">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QToolButton" name="buttonInsertUnicode">
-           <property name="text">
-            <string>...</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer name="horizontalSpacer_2">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>52</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-        </layout>
+        <widget class="QLabel" name="label_17">
+         <property name="text">
+          <string>Font</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QFontComboBox" name="font_family"/>
+       </item>
+       <item row="0" column="2">
+        <widget class="QSpinBox" name="font_size">
+         <property name="minimum">
+          <number>8</number>
+         </property>
+         <property name="maximum">
+          <number>1000</number>
+         </property>
+         <property name="value">
+          <number>20</number>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="3">
+        <widget class="KColorButton" name="fontColorButton">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="flat">
+          <bool>false</bool>
+         </property>
+         <property name="color">
+          <color>
+           <red>0</red>
+           <green>0</green>
+           <blue>0</blue>
+          </color>
+         </property>
+         <property name="defaultColor">
+          <color>
+           <red>0</red>
+           <green>0</green>
+           <blue>0</blue>
+          </color>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="4">
+        <widget class="KoSliderCombo" name="textAlpha"/>
+       </item>
+       <item row="0" column="5">
+        <widget class="QComboBox" name="font_weight_box"/>
+       </item>
+       <item row="0" column="6">
+        <widget class="QToolButton" name="buttonItalic">
+         <property name="text">
+          <string>...</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="7">
+        <widget class="QToolButton" name="buttonUnder">
+         <property name="text">
+          <string>...</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="8">
+        <widget class="Line" name="line_4">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="9">
+        <widget class="QLabel" name="label_18">
+         <property name="text">
+          <string>Outline</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="10">
+        <widget class="KoSliderCombo" name="textOutline"/>
+       </item>
+       <item row="0" column="11">
+        <widget class="KColorButton" name="textOutlineColor">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="12">
+        <widget class="KoSliderCombo" name="textOutlineAlpha"/>
+       </item>
+       <item row="0" column="13">
+        <widget class="Line" name="line_5">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="14">
+        <widget class="QToolButton" name="buttonAlignNone">
+         <property name="text">
+          <string>...</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+         <property name="autoExclusive">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="15">
+        <widget class="QToolButton" name="buttonAlignLeft">
+         <property name="text">
+          <string>...</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <property name="checked">
+          <bool>false</bool>
+         </property>
+         <property name="autoExclusive">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="16">
+        <widget class="QToolButton" name="buttonAlignCenter">
+         <property name="text">
+          <string>...</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <property name="autoExclusive">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="17">
+        <widget class="QToolButton" name="buttonAlignRight">
+         <property name="text">
+          <string>...</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <property name="autoExclusive">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="18">
+        <widget class="Line" name="line">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="19">
+        <widget class="QToolButton" name="buttonInsertUnicode">
+         <property name="text">
+          <string>...</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="20">
+        <spacer name="horizontalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </widget>
