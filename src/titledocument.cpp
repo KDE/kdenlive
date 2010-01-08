@@ -287,7 +287,8 @@ int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsRectItem* startv, QGra
                         txt->setData(102, stringToColor(txtProperties.namedItem("font-outline-color").nodeValue()));
                         format.setTextOutline(
                             QPen(QColor(stringToColor(txtProperties.namedItem("font-outline-color").nodeValue())),
-                                 txtProperties.namedItem("font-outline").nodeValue().toDouble())
+                                 txtProperties.namedItem("font-outline").nodeValue().toDouble(),
+				 Qt::SolidLine,Qt::RoundCap,Qt::RoundJoin)
                         );
 
                     }

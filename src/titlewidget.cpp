@@ -1409,7 +1409,7 @@ void TitleWidget::slotUpdateText()
 
     item->setData(101, outlineWidth);
     item->setData(102, outlineColor);
-    if (outlineWidth > 0.0) cformat.setTextOutline(QPen(outlineColor, outlineWidth));
+    if (outlineWidth > 0.0) cformat.setTextOutline(QPen(outlineColor, outlineWidth,Qt::SolidLine,Qt::RoundCap,Qt::RoundJoin));
 
     cformat.setForeground(QBrush(color));
     cur.setCharFormat(cformat);
