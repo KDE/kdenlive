@@ -31,9 +31,9 @@ Timecode::~Timecode()
 {
 }
 
-int Timecode::fps() const
+double Timecode::fps() const
 {
-    return m_displayedFramesPerSecond;
+    return m_realFps; //m_displayedFramesPerSecond;
 }
 
 
