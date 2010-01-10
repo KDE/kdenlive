@@ -102,7 +102,7 @@ const QString Timecode::getTimecodeFromFrames(int frames) const
 QString Timecode::getStringTimecode(int frames, const double &fps)
 {
     // Returns the timecode in an hh:mm:ss format
-    int seconds = frames / (int) floor(fps + 0.5);
+    int seconds = (int) (frames / fps);
     int minutes = seconds / 60;
     seconds = seconds % 60;
     int hours = minutes / 60;
@@ -121,9 +121,9 @@ QString Timecode::getStringTimecode(int frames, const double &fps)
 QString Timecode::getEasyTimecode(const GenTime & time, const double &fps)
 {
     // Returns the timecode in an easily read display, like 3 min. 5 sec.
-    int frames = (int)time.frames(fps);
-    int seconds = frames / (int) floor(fps + 0.5);
-    frames = frames % ((int) fps);
+    int frames = (int) time.frames(fps);
+    int seconds = (int) (frames / fps);
+    frames = frames - ((int) (fps * seconds));
 
     int minutes = seconds / 60;
     seconds = seconds % 60;
