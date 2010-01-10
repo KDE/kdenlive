@@ -176,7 +176,7 @@ void KoSliderCombo::KoSliderComboPrivate::showPopup()
     QRect popupRect(thePublic->mapToGlobal(QPoint(arrowPos - hdlPos - slider->x(), thePublic->size().height())), popSize);
 
     // Make sure the popup is not drawn outside the screen area
-    QRect screenRect = QApplication::desktop()->availableGeometry(container);
+    QRect screenRect = QApplication::desktop()->availableGeometry(thePublic);
     if (popupRect.right() > screenRect.right())
         popupRect.translate(screenRect.right() - popupRect.right(), 0);
     if (popupRect.left() < screenRect.left())
