@@ -36,10 +36,12 @@ public:
     Transform() {
         scalex = 1.0;
         scaley = 1.0;
-        rotate = 0.0;
+        rotatex = 0.0;
+        rotatey = 0.0;
+        rotatez = 0.0;
     }
     double scalex, scaley;
-    double rotate;
+    double rotatex, rotatey, rotatez;
 };
 
 class TitleWidget : public QDialog , public Ui::TitleWidget_UI
@@ -164,6 +166,8 @@ private:
     qreal maxZIndex();
     qreal zIndexBounds(bool maxBound);
 
+    void itemRotate(qreal val, int axis);
+
 public slots:
     void slotNewText(QGraphicsTextItem *tt);
     void slotNewRect(QGraphicsRectItem *rect);
@@ -173,7 +177,9 @@ public slots:
     void setupViewports();
     void zIndexChanged(int);
     void itemScaled(int);
-    void itemRotate(qreal);
+    void itemRotateX(qreal);
+    void itemRotateY(qreal);
+    void itemRotateZ(qreal);
     void saveTitle(KUrl url = KUrl());
     void loadTitle(KUrl url = KUrl());
 

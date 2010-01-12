@@ -24,6 +24,9 @@
 class QGraphicsScene;
 class QGraphicsRectItem;
 
+const int ROTATEFACTOR = 103;
+const int ZOOMFACTOR = 104;
+
 class TitleDocument
 {
 
@@ -51,6 +54,7 @@ private:
     QRectF stringToRect(const QString &);
     QColor stringToColor(const QString &);
     QTransform stringToTransform(const QString &);
+    QList<QVariant> stringToList(const QString &);
 };
 
 #endif

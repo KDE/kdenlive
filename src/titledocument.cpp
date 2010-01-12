@@ -131,6 +131,13 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
         pos.setAttribute("y", item->pos().y());
         QTransform transform = item->transform();
         QDomElement tr = doc.createElement("transform");
+        if (!item->data(ZOOMFACTOR).isNull()) {
+            tr.setAttribute("zoom", QString::number(item->data(ZOOMFACTOR).toInt()));
+        }
+        if (!item->data(ROTATEFACTOR).isNull()) {
+            QList<QVariant> rotlist = item->data(ROTATEFACTOR).toList();
+            tr.setAttribute("rotation", QString("%1,%2,%3").arg(rotlist[0].toDouble()).arg(rotlist[1].toDouble()).arg(rotlist[2].toDouble()));
+        }
         tr.appendChild(doc.createTextNode(
                            QString("%1,%2,%3,%4,%5,%6,%7,%8,%9").arg(
                                transform.m11()).arg(transform.m12()).arg(transform.m13()).arg(transform.m21()).arg(transform.m22()).arg(transform.m23()).arg(transform.m31()).arg(transform.m32()).arg(transform.m33())
@@ -288,7 +295,7 @@ int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsRectItem* startv, QGra
                         format.setTextOutline(
                             QPen(QColor(stringToColor(txtProperties.namedItem("font-outline-color").nodeValue())),
                                  txtProperties.namedItem("font-outline").nodeValue().toDouble(),
-				 Qt::SolidLine,Qt::RoundCap,Qt::RoundJoin)
+                                 Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin)
                         );
 
                     }
@@ -347,7 +354,12 @@ int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsRectItem* startv, QGra
                 QPointF p(items.item(i).namedItem("position").attributes().namedItem("x").nodeValue().toDouble(),
                           items.item(i).namedItem("position").attributes().namedItem("y").nodeValue().toDouble());
                 gitem->setPos(p);
-                gitem->setTransform(stringToTransform(items.item(i).namedItem("position").firstChild().firstChild().nodeValue()));
+                QDomElement trans = items.item(i).namedItem("position").firstChild().toElement();
+                gitem->setTransform(stringToTransform(trans.firstChild().nodeValue()));
+                QString rotate = trans.attribute("rotation");
+                if (!rotate.isEmpty()) gitem->setData(ROTATEFACTOR, stringToList(rotate));
+                QString zoom = trans.attribute("zoom");
+                if (!zoom.isEmpty()) gitem->setData(ZOOMFACTOR, zoom.toInt());
                 int zValue = items.item(i).attributes().namedItem("z-index").nodeValue().toInt();
                 if (zValue > maxZValue) maxZValue = zValue;
                 gitem->setZValue(zValue);
@@ -429,6 +441,7 @@ QColor TitleDocument::stringToColor(const QString & s)
         return QColor();
     return QColor(l.at(0).toInt(), l.at(1).toInt(), l.at(2).toInt(), l.at(3).toInt());;
 }
+
 QTransform TitleDocument::stringToTransform(const QString& s)
 {
     QStringList l = s.split(',');
@@ -439,6 +452,14 @@ QTransform TitleDocument::stringToTransform(const QString& s)
                l.at(3).toDouble(), l.at(4).toDouble(), l.at(5).toDouble(),
                l.at(6).toDouble(), l.at(7).toDouble(), l.at(8).toDouble()
            );
+}
+
+QList<QVariant> TitleDocument::stringToList(const QString & s)
+{
+    QStringList l = s.split(',');
+    if (l.size() < 3)
+        return QList<QVariant>();
+    return QList<QVariant>() << QVariant(l.at(0).toDouble()) << QVariant(l.at(1).toDouble()) << QVariant(l.at(2).toDouble());
 }
 
 int TitleDocument::frameWidth() const

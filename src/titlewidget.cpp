@@ -97,11 +97,23 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     backgroundAlpha->setValue(0);
     backgroundAlpha->setToolTip(i18n("Background color opacity"));
 
-    itemrotate->setMinimum(-360);
-    itemrotate->setMaximum(360);
-    itemrotate->setDecimals(0);
-    itemrotate->setValue(0);
-    itemrotate->setToolTip(i18n("Rotation"));
+    itemrotatex->setMinimum(-360);
+    itemrotatex->setMaximum(360);
+    itemrotatex->setDecimals(0);
+    itemrotatex->setValue(0);
+    itemrotatex->setToolTip(i18n("Rotation around the X axis"));
+
+    itemrotatey->setMinimum(-360);
+    itemrotatey->setMaximum(360);
+    itemrotatey->setDecimals(0);
+    itemrotatey->setValue(0);
+    itemrotatey->setToolTip(i18n("Rotation around the Y axis"));
+
+    itemrotatez->setMinimum(-360);
+    itemrotatez->setMaximum(360);
+    itemrotatez->setDecimals(0);
+    itemrotatez->setValue(0);
+    itemrotatez->setToolTip(i18n("Rotation around the Z axis"));
 
     rectBAlpha->setMinimum(0);
     rectBAlpha->setMaximum(255);
@@ -164,7 +176,9 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
 
     connect(zValue, SIGNAL(valueChanged(int)), this, SLOT(zIndexChanged(int)));
     connect(itemzoom, SIGNAL(valueChanged(int)), this, SLOT(itemScaled(int)));
-    connect(itemrotate, SIGNAL(valueChanged(qreal, bool)), this, SLOT(itemRotate(qreal)));
+    connect(itemrotatex, SIGNAL(valueChanged(qreal, bool)), this, SLOT(itemRotateX(qreal)));
+    connect(itemrotatey, SIGNAL(valueChanged(qreal, bool)), this, SLOT(itemRotateY(qreal)));
+    connect(itemrotatez, SIGNAL(valueChanged(qreal, bool)), this, SLOT(itemRotateZ(qreal)));
     connect(itemhcenter, SIGNAL(clicked()), this, SLOT(itemHCenter()));
     connect(itemvcenter, SIGNAL(clicked()), this, SLOT(itemVCenter()));
     connect(itemtop, SIGNAL(clicked()), this, SLOT(itemTop()));
@@ -699,6 +713,7 @@ void TitleWidget::slotNewRect(QGraphicsRectItem * rect)
     b.setAlpha(rectBAlpha->value());
     rect->setBrush(QBrush(b));
     rect->setZValue(m_count++);
+    rect->setData(ZOOMFACTOR, 100);
     //setCurrentItem(rect);
     //graphicsView->setFocus();
 }
@@ -772,7 +787,9 @@ void TitleWidget::selectionChanged()
     value_w->blockSignals(true);
     value_h->blockSignals(true);
     itemzoom->blockSignals(true);
-    itemrotate->blockSignals(true);
+    itemrotatex->blockSignals(true);
+    itemrotatey->blockSignals(true);
+    itemrotatez->blockSignals(true);
     if (l.size() == 0) {
         effect_stack->setHidden(true);
         effect_frame->setEnabled(false);
@@ -789,17 +806,23 @@ void TitleWidget::selectionChanged()
         if (blockX) origin_x_left->blockSignals(false);
         if (blockY) origin_y_top->blockSignals(false);
         itemzoom->setEnabled(false);
-        itemrotate->setEnabled(false);
+        itemrotatex->setEnabled(false);
+        itemrotatey->setEnabled(false);
+        itemrotatez->setEnabled(false);
         frame_properties->setEnabled(false);
     } else if (l.size() == 1) {
         effect_frame->setEnabled(true);
         frame_properties->setEnabled(true);
         if (l.at(0) != m_startViewport && l.at(0) != m_endViewport) {
             itemzoom->setEnabled(true);
-            itemrotate->setEnabled(true);
+            itemrotatex->setEnabled(true);
+            itemrotatey->setEnabled(true);
+            itemrotatez->setEnabled(true);
         } else {
             itemzoom->setEnabled(false);
-            itemrotate->setEnabled(false);
+            itemrotatex->setEnabled(false);
+            itemrotatey->setEnabled(false);
+            itemrotatez->setEnabled(false);
             updateInfoText();
         }
         if (l.at(0)->type() == TEXTITEM) {
@@ -964,14 +987,19 @@ void TitleWidget::selectionChanged()
             frame_properties->setEnabled(false);
         }
         zValue->setValue((int)l.at(0)->zValue());
-        itemzoom->setValue((int)(m_transformations.value(l.at(0)).scalex * 100.0 + 0.5));
-        itemrotate->setValue((int)(m_transformations.value(l.at(0)).rotate));
+        if (!l.at(0)->data(ZOOMFACTOR).isNull()) itemzoom->setValue(l.at(0)->data(ZOOMFACTOR).toInt());
+        else itemzoom->setValue((int)(m_transformations.value(l.at(0)).scalex * 100.0 + 0.5));
+        itemrotatex->setValue((int)(m_transformations.value(l.at(0)).rotatex));
+        itemrotatey->setValue((int)(m_transformations.value(l.at(0)).rotatey));
+        itemrotatez->setValue((int)(m_transformations.value(l.at(0)).rotatez));
         value_x->blockSignals(false);
         value_y->blockSignals(false);
         value_w->blockSignals(false);
         value_h->blockSignals(false);
         itemzoom->blockSignals(false);
-        itemrotate->blockSignals(false);
+        itemrotatex->blockSignals(false);
+        itemrotatey->blockSignals(false);
+        itemrotatez->blockSignals(false);
     }
 }
 
@@ -995,7 +1023,8 @@ void TitleWidget::slotValueChanged(int type)
 
         // Ratio width:height
         double phi = (double) i->boundingRect().width() / i->boundingRect().height();
-        double alpha = (double) t.rotate / 180.0 * M_PI;
+        // TODO: proper calculation for rotation around 3 axes
+        double alpha = (double) t.rotatez / 180.0 * M_PI;
 
         // New length
         double length = val;
@@ -1019,7 +1048,9 @@ void TitleWidget::slotValueChanged(int type)
         t.scaley = scale;
         QTransform qtrans;
         qtrans.scale(scale, scale);
-        qtrans.rotate(t.rotate);
+        qtrans.rotate(t.rotatex, Qt::XAxis);
+        qtrans.rotate(t.rotatey, Qt::YAxis);
+        qtrans.rotate(t.rotatez, Qt::ZAxis);
         i->setTransform(qtrans);
         m_transformations[i] = t;
 
@@ -1153,14 +1184,23 @@ void TitleWidget::updateCoordinates(QGraphicsItem *i)
 void TitleWidget::updateRotZoom(QGraphicsItem *i)
 {
     itemzoom->blockSignals(true);
-    itemrotate->blockSignals(false);
+    itemrotatex->blockSignals(true);
+    itemrotatey->blockSignals(true);
+    itemrotatez->blockSignals(true);
 
     Transform t = m_transformations.value(i);
-    itemzoom->setValue((int)(t.scalex * 100.0 + 0.5));
-    itemrotate->setValue((int)(t.rotate));
+
+    if (!i->data(ZOOMFACTOR).isNull()) itemzoom->setValue(i->data(ZOOMFACTOR).toInt());
+    else itemzoom->setValue((int)(t.scalex * 100.0 + 0.5));
+
+    itemrotatex->setValue((int)(t.rotatex));
+    itemrotatey->setValue((int)(t.rotatey));
+    itemrotatez->setValue((int)(t.rotatez));
 
     itemzoom->blockSignals(false);
-    itemrotate->blockSignals(false);
+    itemrotatex->blockSignals(false);
+    itemrotatey->blockSignals(false);
+    itemrotatez->blockSignals(false);
 }
 
 /** \brief Updates the position of an item by reading coordinates from the text fields */
@@ -1409,7 +1449,7 @@ void TitleWidget::slotUpdateText()
 
     item->setData(101, outlineWidth);
     item->setData(102, outlineColor);
-    if (outlineWidth > 0.0) cformat.setTextOutline(QPen(outlineColor, outlineWidth,Qt::SolidLine,Qt::RoundCap,Qt::RoundJoin));
+    if (outlineWidth > 0.0) cformat.setTextOutline(QPen(outlineColor, outlineWidth, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
 
     cformat.setForeground(QBrush(color));
     cur.setCharFormat(cformat);
@@ -1444,24 +1484,58 @@ void TitleWidget::itemScaled(int val)
         x.scaley = (double)val / 100.0;
         QTransform qtrans;
         qtrans.scale(x.scalex, x.scaley);
-        qtrans.rotate(x.rotate);
+        qtrans.rotate(x.rotatex, Qt::XAxis);
+        qtrans.rotate(x.rotatey, Qt::YAxis);
+        qtrans.rotate(x.rotatez, Qt::ZAxis);
         l[0]->setTransform(qtrans);
+        l[0]->setData(ZOOMFACTOR, val);
         m_transformations[l.at(0)] = x;
         updateDimension(l.at(0));
     }
 }
 
-void TitleWidget::itemRotate(qreal val)
+void TitleWidget::itemRotateX(qreal val)
+{
+    itemRotate(val, 0);
+}
+
+void TitleWidget::itemRotateY(qreal val)
+{
+    itemRotate(val, 1);
+}
+
+void TitleWidget::itemRotateZ(qreal val)
+{
+    itemRotate(val, 2);
+}
+
+void TitleWidget::itemRotate(qreal val, int axis)
 {
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     if (l.size() == 1) {
         Transform x = m_transformations[l.at(0)];
-        x.rotate = val;
+        switch (axis) {
+        case 0:
+            x.rotatex = val;
+            break;
+        case 1:
+            x.rotatey = val;
+            break;
+        case 2:
+            x.rotatez = val;
+            break;
+        }
+
+        l[0]->setData(ROTATEFACTOR, QList<QVariant>() << QVariant(x.rotatex) << QVariant(x.rotatey) << QVariant(x.rotatez));
+
         QTransform qtrans;
         qtrans.scale(x.scalex, x.scaley);
-        qtrans.rotate(x.rotate);
+        qtrans.rotate(x.rotatex, Qt::XAxis);
+        qtrans.rotate(x.rotatey, Qt::YAxis);
+        qtrans.rotate(x.rotatez, Qt::ZAxis);
         l[0]->setTransform(qtrans);
         m_transformations[l.at(0)] = x;
+        if (l[0]->data(ZOOMFACTOR).isNull()) l[0]->setData(ZOOMFACTOR, 100);
         updateDimension(l.at(0));
     }
 }
@@ -1669,7 +1743,29 @@ void TitleWidget::setXml(QDomDocument doc)
         Transform x;
         x.scalex = t.m11();
         x.scaley = t.m22();
-        x.rotate = 180. / PI * atan2(-t.m21(), t.m11());
+        if (!items.at(i)->data(ROTATEFACTOR).isNull()) {
+            QList<QVariant> rotlist = items.at(i)->data(ROTATEFACTOR).toList();
+            if (rotlist.count() >= 3) {
+                x.rotatex = rotlist[0].toDouble();
+                x.rotatey = rotlist[1].toDouble();
+                x.rotatez = rotlist[2].toDouble();
+
+                // Try to adjust zoom
+                t.rotate(x.rotatex * (-1), Qt::XAxis);
+                t.rotate(x.rotatey * (-1), Qt::YAxis);
+                t.rotate(x.rotatez * (-1), Qt::ZAxis);
+                x.scalex = t.m11();
+                x.scaley = t.m22();
+            } else {
+                x.rotatex = 0;
+                x.rotatey = 0;
+                x.rotatez = 0;
+            }
+        } else {
+            x.rotatex = 0;
+            x.rotatey = 0;
+            x.rotatez = 180. / PI * atan2(-t.m21(), t.m11());
+        }
         m_transformations[items.at(i)] = x;
     }
     // mbd: Update the GUI color selectors to match the stuff from the loaded document
@@ -1691,6 +1787,7 @@ void TitleWidget::setXml(QDomDocument doc)
 
     QTimer::singleShot(200, this, SLOT(slotAdjustZoom()));
     slotSelectTool();
+    selectionChanged();
 }
 
 /** \brief Connected to the accepted signal - calls writeChoices */
@@ -1793,7 +1890,9 @@ void TitleWidget::slotAnimStart(bool anim)
     }
     align_box->setEnabled(anim);
     itemzoom->setEnabled(!anim);
-    itemrotate->setEnabled(!anim);
+    itemrotatex->setEnabled(!anim);
+    itemrotatey->setEnabled(!anim);
+    itemrotatez->setEnabled(!anim);
     frame_toolbar->setEnabled(!anim);
     toolbar_stack->setEnabled(!anim);
     if (anim) {
@@ -1833,7 +1932,9 @@ void TitleWidget::slotAnimEnd(bool anim)
     }
     align_box->setEnabled(anim);
     itemzoom->setEnabled(!anim);
-    itemrotate->setEnabled(!anim);
+    itemrotatex->setEnabled(!anim);
+    itemrotatey->setEnabled(!anim);
+    itemrotatez->setEnabled(!anim);
     frame_toolbar->setEnabled(!anim);
     toolbar_stack->setEnabled(!anim);
     if (anim) {
