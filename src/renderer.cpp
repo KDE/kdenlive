@@ -1209,7 +1209,7 @@ void Render::start()
         kDebug() << "-----  MONITOR: " << m_name << " WAS STOPPED";
         if (m_mltConsumer->start() == -1) {
             //KMessageBox::error(qApp->activeWindow(), i18n("Could not create the video preview window.\nThere is something wrong with your Kdenlive install or your driver settings, please fix it."));
-            kdWarning() << "/ / / / CANNOT START MONITOR";
+            kDebug(QtWarningMsg) << "/ / / / CANNOT START MONITOR";
         } else {
             kDebug() << "-----  MONITOR: " << m_name << " REFRESH";
             m_isBlocked = false;
@@ -1406,7 +1406,7 @@ void Render::setDropFrames(bool show)
         m_mltConsumer->set("play.real_time", dropFrames);
 #endif
         if (m_mltConsumer->start() == -1) {
-            kdWarning() << "ERROR, Cannot start monitor";
+            kDebug(QtWarningMsg) << "ERROR, Cannot start monitor";
         }
 
     }
@@ -2035,7 +2035,7 @@ void Render::mltPasteEffects(Mlt::Producer *source, Mlt::Producer *dest)
     }
 }
 
-int Render::mltChangeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, double speed, double oldspeed, int strobe, Mlt::Producer *prod)
+int Render::mltChangeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, double speed, double /*oldspeed*/, int strobe, Mlt::Producer *prod)
 {
     m_isBlocked = true;
     int newLength = 0;
@@ -2827,7 +2827,7 @@ bool Render::mltUpdateClipProducer(int track, int pos, Mlt::Producer *prod)
     return true;
 }
 
-bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEnd, Mlt::Producer *prod, bool overwrite, bool insert)
+bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEnd, Mlt::Producer *prod, bool overwrite, bool /*insert*/)
 {
     m_isBlocked++;
 
