@@ -40,7 +40,7 @@ public:
     void clearTextSelection();
 
 public slots:
-	void slotUpdateFontSize(int s);
+    void slotUpdateFontSize(int s);
 
 protected:
     virtual void keyPressEvent(QKeyEvent * keyEvent);

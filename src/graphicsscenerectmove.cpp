@@ -196,46 +196,43 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e)
                 t->setTextInteractionFlags(Qt::NoTextInteraction);
                 setCursor(Qt::ClosedHandCursor);
             } else if (item->type() == 3 || item->type() == 13 || item->type() == 7) {
-                QRectF r;
+                QRectF r1;
                 if (m_selectedItem->type() == 3)
-                    r = ((QGraphicsRectItem*)m_selectedItem)->rect();
+                    r1 = ((QGraphicsRectItem*)m_selectedItem)->rect().normalized();
                 else
-                    r = m_selectedItem->boundingRect();
-                /*
-                 * The vertices of the rectangle (check for matrix
-                 * transformation); to be replaced by QTransform::map()?
-                 */
-                QPointF itemOrigin = item->scenePos();
-                QTransform transform = item->transform();
-                QPointF topLeft(transform.m11() * r.toRect().left() + transform.m21() * r.toRect().top() + transform.m31() + itemOrigin.x(), transform.m22() * r.toRect().top() + transform.m12() * r.toRect().left() + transform.m32() + itemOrigin.y());
-                QPointF bottomLeft(transform.m11() * r.toRect().left() + transform.m21() * r.toRect().bottom() + transform.m31() + itemOrigin.x(), transform.m22() * r.toRect().bottom() + transform.m12() * r.toRect().left() + transform.m32() + itemOrigin.y());
-                QPointF topRight(transform.m11() * r.toRect().right() + transform.m21() * r.toRect().top() + transform.m31() + itemOrigin.x(), transform.m22() * r.toRect().top() + transform.m12() * r.toRect().right() + transform.m32() + itemOrigin.y());
-                QPointF bottomRight(transform.m11() * r.toRect().right() + transform.m21() * r.toRect().bottom() + transform.m31() + itemOrigin.x(), transform.m22() * r.toRect().bottom() + transform.m12() * r.toRect().right() + transform.m32() + itemOrigin.y());
-                // The borders (using the transformed coordinates)
-                QGraphicsLineItem borderTop(topLeft.x(), topLeft.y(), topRight.x(), topRight.y());
-                QGraphicsLineItem borderRight(topRight.x(), topRight.y(), bottomRight.x(), bottomRight.y());
-                QGraphicsLineItem borderBottom(bottomRight.x(), bottomRight.y(), bottomLeft.x(), bottomLeft.y());
-                QGraphicsLineItem borderLeft(bottomLeft.x(), bottomLeft.y(), topLeft.x(), topLeft.y());
+                    r1 = m_selectedItem->boundingRect().normalized();
+
+                QList<QGraphicsView*> viewlist = views();
+                QGraphicsView *view = NULL;
+                if (viewlist.size() > 0) view = viewlist[0];
+                if (view == NULL) return;
+                // Item mapped coordinates
+                QPolygon r = m_selectedItem->deviceTransform(view->viewportTransform()).map(r1).toPolygon();
+                QPainterPath top(r.point(0));
+                top.lineTo(r.point(1));
+                QPainterPath bottom(r.point(2));
+                bottom.lineTo(r.point(3));
+                QPainterPath left(r.point(0));
+                left.lineTo(r.point(3));
+                QPainterPath right(r.point(1));
+                right.lineTo(r.point(2));
+
+
                 // The area interested by the mouse pointer
+                QPoint viewPos = view->mapFromScene(e->scenePos());
                 QPainterPath mouseArea;
-                mouseArea.addRect(e->scenePos().toPoint().x() - 4 / m_zoom, e->scenePos().toPoint().y() - 4 / m_zoom, 8 / m_zoom, 8 / m_zoom);
+                mouseArea.addRect(viewPos.x() - 4, viewPos.y() - 4, 8, 8);
+
                 // Check for collisions between the mouse and the borders
-                if (borderLeft.collidesWithPath(mouseArea) && borderTop.collidesWithPath(mouseArea))
-                    m_resizeMode = TopLeft;
-                else if (borderLeft.collidesWithPath(mouseArea) && borderBottom.collidesWithPath(mouseArea))
-                    m_resizeMode = BottomLeft;
-                else if (borderRight.collidesWithPath(mouseArea) && borderTop.collidesWithPath(mouseArea))
-                    m_resizeMode = TopRight;
-                else if (borderRight.collidesWithPath(mouseArea) && borderBottom.collidesWithPath(mouseArea))
-                    m_resizeMode = BottomRight;
-                else if (borderLeft.collidesWithPath(mouseArea))
-                    m_resizeMode = Left;
-                else if (borderRight.collidesWithPath(mouseArea))
-                    m_resizeMode = Right;
-                else if (borderTop.collidesWithPath(mouseArea))
-                    m_resizeMode = Up;
-                else if (borderBottom.collidesWithPath(mouseArea))
-                    m_resizeMode = Down;
+                if (mouseArea.contains(r.point(0))) m_resizeMode = TopLeft;
+                else if (mouseArea.contains(r.point(2))) m_resizeMode = BottomRight;
+                else if (mouseArea.contains(r.point(1))) m_resizeMode = TopRight;
+                else if (mouseArea.contains(r.point(3))) m_resizeMode = BottomLeft;
+                else if (top.intersects(mouseArea)) m_resizeMode = Up;
+                else if (bottom.intersects(mouseArea)) m_resizeMode = Down;
+                else if (right.intersects(mouseArea)) m_resizeMode = Right;
+                else if (left.intersects(mouseArea)) m_resizeMode = Left;
+
                 else
                     setCursor(Qt::ClosedHandCursor);
             }
@@ -249,7 +246,7 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e)
         emit newText((QGraphicsTextItem *) m_selectedItem);
         m_selectedItem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
         ((QGraphicsTextItem *)m_selectedItem)->setTextInteractionFlags(Qt::TextEditorInteraction);
-        m_selectedItem->setPos(e->scenePos() - QPointF(0, (int)(m_fontSize/2)));
+        m_selectedItem->setPos(e->scenePos() - QPointF(0, (int)(m_fontSize / 2)));
         QGraphicsScene::mousePressEvent(e);
     }
 
@@ -273,7 +270,7 @@ void GraphicsSceneRectMove::clearTextSelection()
 
 void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
 {
-    if ((e->screenPos() - m_clickPoint).manhattanLength() < QApplication::startDragDistance()) {
+    if (e->buttons() != Qt::NoButton && (e->screenPos() - m_clickPoint).manhattanLength() < QApplication::startDragDistance()) {
         e->accept();
         return;
     }
@@ -442,45 +439,46 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
         }
         emit itemMoved();
     } else if (m_tool == TITLE_SELECT) {
+        QList<QGraphicsView*> viewlist = views();
+        QGraphicsView *view = NULL;
+        if (viewlist.size() > 0) view = viewlist[0];
+
         QPointF p = e->scenePos();
         p += QPoint(-2, -2);
         m_resizeMode = NoResize;
         bool itemFound = false;
-        foreach(const QGraphicsItem* g, items(QRectF(p , QSizeF(4, 4)).toRect())) {
+        QList<QGraphicsItem *> list = items(QRectF(p , QSizeF(4, 4)).toRect());
+        foreach(const QGraphicsItem* g, list) {
             if ((g->type() == 13 || g->type() == 7) && g->zValue() > -1000) {
                 // image or svg item
                 setCursor(Qt::OpenHandCursor);
                 break;
             } else if (g->type() == 3 && g->zValue() > -1000) {
-                QRectF r = ((const QGraphicsRectItem*)g)->rect();
+                if (view == NULL) continue;
+                QRectF r1 = ((const QGraphicsRectItem*)g)->rect().normalized();
                 itemFound = true;
-                /*
-                 * The vertices of the rectangle (check for matrix
-                 * transformation); to be replaced by QTransform::map()?
-                 */
-                QPointF itemOrigin = g->scenePos();
-                QTransform transform = g->transform();
-                QPointF topLeft(transform.m11() * r.toRect().left() + transform.m21() * r.toRect().top() + transform.m31() + itemOrigin.x(), transform.m22() * r.toRect().top() + transform.m12() * r.toRect().left() + transform.m32() + itemOrigin.y());
-                QPointF bottomLeft(transform.m11() * r.toRect().left() + transform.m21() * r.toRect().bottom() + transform.m31() + itemOrigin.x(), transform.m22() * r.toRect().bottom() + transform.m12() * r.toRect().left() + transform.m32() + itemOrigin.y());
-                QPointF topRight(transform.m11() * r.toRect().right() + transform.m21() * r.toRect().top() + transform.m31() + itemOrigin.x(), transform.m22() * r.toRect().top() + transform.m12() * r.toRect().right() + transform.m32() + itemOrigin.y());
-                QPointF bottomRight(transform.m11() * r.toRect().right() + transform.m21() * r.toRect().bottom() + transform.m31() + itemOrigin.x(), transform.m22() * r.toRect().bottom() + transform.m12() * r.toRect().right() + transform.m32() + itemOrigin.y());
-                // The borders (using the transformed coordinates)
-                QGraphicsLineItem borderTop(topLeft.x(), topLeft.y(), topRight.x(), topRight.y());
-                QGraphicsLineItem borderRight(topRight.x(), topRight.y(), bottomRight.x(), bottomRight.y());
-                QGraphicsLineItem borderBottom(bottomRight.x(), bottomRight.y(), bottomLeft.x(), bottomLeft.y());
-                QGraphicsLineItem borderLeft(bottomLeft.x(), bottomLeft.y(), topLeft.x(), topLeft.y());
+
+                // Item mapped coordinates
+                QPolygon r = g->deviceTransform(view->viewportTransform()).map(r1).toPolygon();
+                QPainterPath top(r.point(0));
+                top.lineTo(r.point(1));
+                QPainterPath bottom(r.point(2));
+                bottom.lineTo(r.point(3));
+                QPainterPath left(r.point(0));
+                left.lineTo(r.point(3));
+                QPainterPath right(r.point(1));
+                right.lineTo(r.point(2));
+
                 // The area interested by the mouse pointer
+                QPoint viewPos = view->mapFromScene(e->scenePos());
                 QPainterPath mouseArea;
-                mouseArea.addRect(e->scenePos().toPoint().x() - 4 / m_zoom, e->scenePos().toPoint().y() - 4 / m_zoom, 8 / m_zoom, 8 / m_zoom);
+                mouseArea.addRect(viewPos.x() - 4, viewPos.y() - 4, 8, 8);
+
                 // Check for collisions between the mouse and the borders
-                if ((borderLeft.collidesWithPath(mouseArea) && borderTop.collidesWithPath(mouseArea)) || (borderRight.collidesWithPath(mouseArea) && borderBottom.collidesWithPath(mouseArea)))
-                    setResizeCursor(borderLeft.line().angle() - 45);
-                else if ((borderLeft.collidesWithPath(mouseArea) && borderBottom.collidesWithPath(mouseArea)) || (borderRight.collidesWithPath(mouseArea) && borderTop.collidesWithPath(mouseArea)))
-                    setResizeCursor(borderLeft.line().angle() + 45);
-                else if (borderLeft.collidesWithPath(mouseArea) || borderRight.collidesWithPath(mouseArea))
-                    setResizeCursor(borderLeft.line().angle());
-                else if (borderTop.collidesWithPath(mouseArea) || borderBottom.collidesWithPath(mouseArea))
-                    setResizeCursor(borderTop.line().angle());
+                if (mouseArea.contains(r.point(0)) || mouseArea.contains(r.point(2))) setCursor(Qt::SizeFDiagCursor);
+                else if (mouseArea.contains(r.point(1)) || mouseArea.contains(r.point(3))) setCursor(Qt::SizeBDiagCursor);
+                else if (top.intersects(mouseArea) || bottom.intersects(mouseArea)) setCursor(Qt::SizeVerCursor);
+                else if (right.intersects(mouseArea) || left.intersects(mouseArea)) setCursor(Qt::SizeHorCursor);
                 else
                     setCursor(Qt::OpenHandCursor);
                 break;
@@ -566,7 +564,7 @@ void GraphicsSceneRectMove::setResizeCursor(qreal angle)
 
 void GraphicsSceneRectMove::slotUpdateFontSize(int s)
 {
-	m_fontSize = s;
+    m_fontSize = s;
 }
 
 #include "graphicsscenerectmove.moc"
