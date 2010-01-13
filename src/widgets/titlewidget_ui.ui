@@ -248,11 +248,25 @@
        <item row="3" column="0">
         <widget class="QLabel" name="label_15">
          <property name="text">
-          <string>Rotate:</string>
+          <string>Rotate X:</string>
          </property>
         </widget>
        </item>
-       <item row="4" column="0" colspan="2">
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_20">
+         <property name="text">
+          <string>Rotate Y:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QLabel" name="label_21">
+         <property name="text">
+          <string>Rotate Z:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0" colspan="2">
         <layout class="QGridLayout" name="gridLayout_3">
          <item row="0" column="0">
           <widget class="QToolButton" name="itemleft">
@@ -311,7 +325,7 @@
          </item>
         </layout>
        </item>
-       <item row="5" column="0" colspan="2">
+       <item row="7" column="0" colspan="2">
         <widget class="QFrame" name="effect_frame">
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
@@ -492,7 +506,7 @@
          </layout>
         </widget>
        </item>
-       <item row="6" column="0" colspan="2">
+       <item row="8" column="0" colspan="2">
         <widget class="QTabWidget" name="tabWidget">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
@@ -646,7 +660,13 @@
         </widget>
        </item>
        <item row="3" column="1">
-        <widget class="KoSliderCombo" name="itemrotate"/>
+        <widget class="KoSliderCombo" name="itemrotatex"/>
+       </item>
+       <item row="4" column="1">
+        <widget class="KoSliderCombo" name="itemrotatey"/>
+       </item>
+       <item row="5" column="1">
+        <widget class="KoSliderCombo" name="itemrotatez"/>
        </item>
       </layout>
      </widget>
