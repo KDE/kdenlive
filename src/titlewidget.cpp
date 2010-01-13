@@ -360,6 +360,7 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     // initialize graphic scene
     m_scene = new GraphicsSceneRectMove(this);
     graphicsView->setScene(m_scene);
+    graphicsView->setMouseTracking(true);
     m_titledocument.setScene(m_scene, m_frameWidth, m_frameHeight);
     connect(m_scene, SIGNAL(changed(QList<QRectF>)), this, SLOT(slotChanged()));
     connect(font_size, SIGNAL(valueChanged(int)), m_scene, SLOT(slotUpdateFontSize(int)));
