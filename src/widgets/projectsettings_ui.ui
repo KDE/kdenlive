@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>447</width>
-    <height>299</height>
+    <width>305</width>
+    <height>323</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -291,10 +291,10 @@
          </property>
         </widget>
        </item>
-       <item row="4" column="0" colspan="4">
-        <widget class="QListWidget" name="files_list">
-         <property name="alternatingRowColors">
-          <bool>true</bool>
+       <item row="3" column="1">
+        <widget class="QLabel" name="files_count">
+         <property name="text">
+          <string/>
          </property>
         </widget>
        </item>
@@ -305,10 +305,30 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="1">
-        <widget class="QLabel" name="files_count">
+       <item row="4" column="0" colspan="4">
+        <widget class="QListWidget" name="files_list">
+         <property name="alternatingRowColors">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QLabel" name="label_14">
          <property name="text">
-          <string/>
+          <string>Fonts</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0" colspan="4">
+        <widget class="QListWidget" name="fonts_list">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="alternatingRowColors">
+          <bool>true</bool>
          </property>
         </widget>
        </item>

@@ -491,6 +491,21 @@ QStringList TitleWidget::extractImageList(QString xml)
     return result;
 }
 
+// static
+QStringList TitleWidget::extractFontList(QString xml)
+{
+    QStringList result;
+    if (xml.isEmpty()) return result;
+    QDomDocument doc;
+    doc.setContent(xml);
+    QDomNodeList images = doc.elementsByTagName("content");
+    for (int i = 0; i < images.count(); i++) {
+        if (images.at(i).toElement().hasAttribute("font"))
+            result.append(images.at(i).toElement().attribute("font"));
+    }
+    return result;
+}
+
 
 //virtual
 void TitleWidget::resizeEvent(QResizeEvent * /*event*/)

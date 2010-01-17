@@ -139,6 +139,7 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
     // TODO: images used in luma transitions, files used for LADSPA effects?
 
     QStringList allFiles;
+    QStringList allFonts;
     allFiles << m_lumas;
     for (int i = 0; i < list.count(); i++) {
         DocClipBase *clip = list.at(i);
@@ -149,7 +150,9 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
         } else if (!clip->fileURL().isEmpty()) allFiles.append(clip->fileURL().path());
         if (clip->clipType() == TEXT) {
             QStringList images = TitleWidget::extractImageList(clip->getProperty("xmldata"));
+            QStringList fonts = TitleWidget::extractFontList(clip->getProperty("xmldata"));
             allFiles << images;
+            allFonts << fonts;
         } else if (clip->clipType() == PLAYLIST) {
             QStringList files = extractPlaylistUrls(clip->fileURL().path());
             allFiles << files;
@@ -165,9 +168,11 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
     }
 #if QT_VERSION >= 0x040500
     allFiles.removeDuplicates();
+    allFonts.removeDuplicates();
 #endif
     files_count->setText(QString::number(allFiles.count()));
     files_list->addItems(allFiles);
+    fonts_list->addItems(allFonts);
     used_count->setText(QString::number(used));
     used_size->setText(KIO::convertSize(usedSize));
     unused_count->setText(QString::number(unused));

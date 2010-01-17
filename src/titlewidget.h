@@ -69,6 +69,11 @@ public:
     */
     static QStringList extractImageList(QString xml);
 
+    /** \brief Return a list af all fonts included in a title
+     * \param xml The xml data for title
+    */
+    static QStringList extractFontList(QString xml);
+
     /** \brief Build a filename from a projectUrl and a titleName
      * \param projectUrl Url to directory of project.
      * \param titleName Name of title, on the form "titleXXX"

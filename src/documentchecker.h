@@ -29,16 +29,17 @@
 #include <QDomElement>
 
 
-class DocumentChecker : public QDialog, public Ui::MissingClips_UI
+class DocumentChecker: public QObject
 {
     Q_OBJECT
 
 public:
-    explicit DocumentChecker(QList <QDomElement> missingClips, QDomDocument doc, QWidget * parent = 0);
+    explicit DocumentChecker(QDomNodeList infoproducers, QDomDocument doc);
     ~DocumentChecker();
+    bool hasMissingClips();
 
 private slots:
-    virtual void accept();
+    void acceptDialog();
     void slotSearchClips();
     void slotEditItem(QTreeWidgetItem *item, int);
     void slotPlaceholders();
@@ -46,11 +47,18 @@ private slots:
     QString getProperty(QDomElement effect, const QString &name);
     void setProperty(QDomElement effect, const QString &name, const QString value);
     QString searchLuma(QString file) const;
+    void checkMissingImages(QList <QDomElement>&missingClips, QStringList images, QStringList fonts, QString id, QString baseClip);
+    void slotCheckButtons();
 
 private:
+    QDomNodeList m_info;
     QDomDocument m_doc;
+    Ui::MissingClips_UI m_ui;
+    QDialog *m_dialog;
     QString searchFileRecursively(const QDir &dir, const QString &matchSize, const QString &matchHash) const;
     void checkStatus();
+    QMap <QString, QString> m_missingTitleImages;
+    QMap <QString, QString> m_missingTitleFonts;
 
 };
 
