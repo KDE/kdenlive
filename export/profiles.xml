@@ -239,24 +239,24 @@
   <profile name="Theora 600k 2 pass" args="acodec=vorbis ab=128k ar=44100 vcodec=libtheora minrate=0 b=600k aspect=%dar pass=2" />
   <profile name="Theora 800k" args="acodec=vorbis ab=128k ar=44100 vcodec=libtheora minrate=0 b=800k aspect=%dar" />
   <profile name="Theora 800k 2 pass" args="acodec=vorbis ab=128k ar=44100 vcodec=libtheora minrate=0 b=800k aspect=%dar pass=2" />
-  <profile name="Theora 1000k" args="acodec=vorbis ab=128k ar=44100 vcodec=libtheora minrate=0 b=1000k aspect=%dar" />
-  <profile name="Theora 1000k 2 pass" args="acodec=vorbis ab=128k ar=44100 vcodec=libtheora minrate=0 b=1000k aspect=%dar pass=2" />
-  <profile name="Theora 2000k" args="acodec=vorbis ab=128k ar=44100 vcodec=libtheora minrate=0 b=2000k aspect=%dar" />
-  <profile name="Theora 2000k 2 pass" args="acodec=vorbis ab=128k ar=44100 vcodec=libtheora minrate=0 b=2000k aspect=%dar pass=2" />
-  <profile name="Theora 4000k" args="acodec=vorbis ab=128k ar=44100 vcodec=libtheora minrate=0 b=4000k aspect=%dar" />
-  <profile name="Theora 4000k 2 pass" args="acodec=vorbis ab=128k ar=44100 vcodec=libtheora minrate=0 b=4000k aspect=%dar pass=2" />
-  <profile name="Theora 6000k" args="acodec=vorbis ab=128k ar=44100 vcodec=libtheora minrate=0 b=6000k aspect=%dar" />
-  <profile name="Theora 6000k 2 pass" args="acodec=vorbis ab=128k ar=44100 vcodec=libtheora minrate=0 b=6000k aspect=%dar pass=2" />
-  <profile name="Theora 8000k" args="acodec=vorbis ab=128k ar=44100 vcodec=libtheora minrate=0 b=8000k aspect=%dar" />
-  <profile name="Theora 8000k 2 pass" args="acodec=vorbis ab=128k ar=44100 vcodec=libtheora minrate=0 b=8000k aspect=%dar pass=2" />
-  <profile name="Theora 10000k" args="acodec=vorbis ab=128k ar=44100 vcodec=libtheora minrate=0 b=10000k aspect=%dar" />
-  <profile name="Theora 10000k 2 pass" args="acodec=vorbis ab=128k ar=44100 vcodec=libtheora minrate=0 b=10000k aspect=%dar pass=2" />
-  <profile name="Theora 12000k" args="acodec=vorbis ab=128k ar=44100 vcodec=libtheora minrate=0 b=12000k aspect=%dar" />
-  <profile name="Theora 12000k 2 pass" args="acodec=vorbis ab=128k ar=44100 vcodec=libtheora minrate=0 b=12000k aspect=%dar pass=2" />
-  <profile name="Theora 720x576" standard="PAL" args="acodec=vorbis ab=128k ar=44100 vcodec=libtheora minrate=0 b=12000k s=720x576 aspect=%dar" />
-  <profile name="Theora 720x576 2 pass" standard="PAL" args="acodec=vorbis ab=128k ar=44100 vcodec=libtheora minrate=0 b=12000k s=720x576 aspect=%dar pass=2" />
-  <profile name="Theora 720x480" standard="NTSC" args="acodec=vorbis ab=128k ar=44100 vcodec=libtheora minrate=0 b=12000k s=720x480 aspect=%dar" />
-  <profile name="Theora 720x480 2 pass" standard="NTSC" args="acodec=vorbis ab=128k ar=44100 vcodec=libtheora minrate=0 b=12000k s=720x480 aspect=%dar pass=2" />
+  <profile name="Theora 1000k" args="acodec=vorbis ab=128k aq=30 ar=44100 vcodec=libtheora minrate=0 b=1000k aspect=%dar" />
+  <profile name="Theora 1000k 2 pass" args="acodec=vorbis ab=128k aq=30 ar=44100 vcodec=libtheora minrate=0 b=1000k aspect=%dar pass=2" />
+  <profile name="Theora 2000k" args="acodec=vorbis ab=128k aq=30 ar=44100 vcodec=libtheora minrate=0 b=2000k aspect=%dar" />
+  <profile name="Theora 2000k 2 pass" args="acodec=vorbis ab=128k aq=30 ar=44100 vcodec=libtheora minrate=0 b=2000k aspect=%dar pass=2" />
+  <profile name="Theora 4000k" args="acodec=vorbis ab=128k aq=30 ar=44100 vcodec=libtheora minrate=0 b=4000k aspect=%dar" />
+  <profile name="Theora 4000k 2 pass" args="acodec=vorbis ab=128k aq=30 ar=44100 vcodec=libtheora minrate=0 b=4000k aspect=%dar pass=2" />
+  <profile name="Theora 6000k" args="acodec=vorbis ab=128k aq=30 ar=44100 vcodec=libtheora minrate=0 b=6000k aspect=%dar" />
+  <profile name="Theora 6000k 2 pass" args="acodec=vorbis ab=128k aq=30 ar=44100 vcodec=libtheora minrate=0 b=6000k aspect=%dar pass=2" />
+  <profile name="Theora 8000k" args="acodec=vorbis ab=128k aq=30 ar=44100 vcodec=libtheora minrate=0 b=8000k aspect=%dar" />
+  <profile name="Theora 8000k 2 pass" args="acodec=vorbis ab=128k aq=30 ar=44100 vcodec=libtheora minrate=0 b=8000k aspect=%dar pass=2" />
+  <profile name="Theora 10000k" args="acodec=vorbis ab=128k aq=30 ar=44100 vcodec=libtheora minrate=0 b=10000k aspect=%dar" />
+  <profile name="Theora 10000k 2 pass" args="acodec=vorbis ab=128k aq=30 ar=44100 vcodec=libtheora minrate=0 b=10000k aspect=%dar pass=2" />
+  <profile name="Theora 12000k" args="acodec=vorbis ab=128k aq=30 ar=44100 vcodec=libtheora minrate=0 b=12000k aspect=%dar" />
+  <profile name="Theora 12000k 2 pass" args="acodec=vorbis ab=128k aq=30 ar=44100 vcodec=libtheora minrate=0 b=12000k aspect=%dar pass=2" />
+  <profile name="Theora 720x576" standard="PAL" args="acodec=vorbis ab=384k aq=30 ar=44100 vcodec=libtheora minrate=0 b=12000k s=720x576 aspect=%dar" />
+  <profile name="Theora 720x576 2 pass" standard="PAL" args="acodec=vorbis ab=384k aq=30 ar=44100 vcodec=libtheora minrate=0 b=12000k s=720x576 aspect=%dar pass=2" />
+  <profile name="Theora 720x480" standard="NTSC" args="acodec=vorbis ab=384k aq=30 ar=44100 vcodec=libtheora minrate=0 b=12000k s=720x480 aspect=%dar" />
+  <profile name="Theora 720x480 2 pass" standard="NTSC" args="acodec=vorbis ab=384k aq=30 ar=44100 vcodec=libtheora minrate=0 b=12000k s=720x480 aspect=%dar pass=2" />
 </group>
 
 <group name="Media players" renderer="avformat" type="av">
