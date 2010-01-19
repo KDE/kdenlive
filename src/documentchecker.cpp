@@ -97,12 +97,6 @@ bool DocumentChecker::hasMissingClips()
             }
         }
     }
-    if (missingClips.isEmpty()) {
-        return false;
-    }
-    m_dialog = new QDialog();
-    m_dialog->setFont(KGlobalSettings::toolBarFont());
-    m_ui.setupUi(m_dialog);
 
     QStringList missingLumas;
     QDomNodeList trans = m_doc.elementsByTagName("transition");
@@ -111,12 +105,22 @@ bool DocumentChecker::hasMissingClips()
         if (!luma.isEmpty() && !QFile::exists(luma)) {
             if (!missingLumas.contains(luma)) {
                 missingLumas.append(luma);
-                QTreeWidgetItem *item = new QTreeWidgetItem(m_ui.treeWidget, QStringList() << i18n("Luma file") << luma);
-                item->setIcon(0, KIcon("dialog-close"));
-                item->setData(0, idRole, luma);
-                item->setData(0, statusRole, LUMAMISSING);
-            }
-        }
+	    }
+	}
+    }
+
+    if (missingClips.isEmpty() && missingLumas.isEmpty()) {
+        return false;
+    }
+    m_dialog = new QDialog();
+    m_dialog->setFont(KGlobalSettings::toolBarFont());
+    m_ui.setupUi(m_dialog);
+
+    foreach (const QString l, missingLumas) {
+	QTreeWidgetItem *item = new QTreeWidgetItem(m_ui.treeWidget, QStringList() << i18n("Luma file") << l);
+        item->setIcon(0, KIcon("dialog-close"));
+        item->setData(0, idRole, l);
+        item->setData(0, statusRole, LUMAMISSING);
     }
 
     m_ui.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
