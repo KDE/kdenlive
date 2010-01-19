@@ -83,17 +83,19 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, i
 
     if (m_clipType == VIDEO || m_clipType == AV || m_clipType == SLIDESHOW || m_clipType == PLAYLIST) {
         m_baseColor = QColor(141, 166, 215);
-        m_hasThumbs = true;
-        m_startThumbTimer.setSingleShot(true);
-        connect(&m_startThumbTimer, SIGNAL(timeout()), this, SLOT(slotGetStartThumb()));
-        m_endThumbTimer.setSingleShot(true);
-        connect(&m_endThumbTimer, SIGNAL(timeout()), this, SLOT(slotGetEndThumb()));
+        if (!m_clip->isPlaceHolder()) {
+            m_hasThumbs = true;
+            m_startThumbTimer.setSingleShot(true);
+            connect(&m_startThumbTimer, SIGNAL(timeout()), this, SLOT(slotGetStartThumb()));
+            m_endThumbTimer.setSingleShot(true);
+            connect(&m_endThumbTimer, SIGNAL(timeout()), this, SLOT(slotGetEndThumb()));
 
-        connect(this, SIGNAL(getThumb(int, int)), m_clip->thumbProducer(), SLOT(extractImage(int, int)));
+            connect(this, SIGNAL(getThumb(int, int)), m_clip->thumbProducer(), SLOT(extractImage(int, int)));
 
-        connect(m_clip->thumbProducer(), SIGNAL(thumbReady(int, QImage)), this, SLOT(slotThumbReady(int, QImage)));
-        connect(m_clip, SIGNAL(gotAudioData()), this, SLOT(slotGotAudioData()));
-        if (generateThumbs) QTimer::singleShot(200, this, SLOT(slotFetchThumbs()));
+            connect(m_clip->thumbProducer(), SIGNAL(thumbReady(int, QImage)), this, SLOT(slotThumbReady(int, QImage)));
+            connect(m_clip, SIGNAL(gotAudioData()), this, SLOT(slotGotAudioData()));
+            if (generateThumbs) QTimer::singleShot(200, this, SLOT(slotFetchThumbs()));
+        }
 
     } else if (m_clipType == COLOR) {
         QString colour = m_clip->getProperty("colour");
@@ -118,8 +120,8 @@ ClipItem::~ClipItem()
     blockSignals(true);
     if (scene()) scene()->removeItem(this);
     if (m_clipType == VIDEO || m_clipType == AV || m_clipType == SLIDESHOW || m_clipType == PLAYLIST) {
-        disconnect(m_clip->thumbProducer(), SIGNAL(thumbReady(int, QImage)), this, SLOT(slotThumbReady(int, QImage)));
-        disconnect(m_clip, SIGNAL(gotAudioData()), this, SLOT(slotGotAudioData()));
+        //disconnect(m_clip->thumbProducer(), SIGNAL(thumbReady(int, QImage)), this, SLOT(slotThumbReady(int, QImage)));
+        //disconnect(m_clip, SIGNAL(gotAudioData()), this, SLOT(slotGotAudioData()));
     }
     delete m_timeLine;
 }
@@ -760,38 +762,38 @@ void ClipItem::paint(QPainter *painter,
 
 
     // draw markers
-    QList < CommentedTime > markers = baseClip()->commentedSnapMarkers();
-    QList < CommentedTime >::Iterator it = markers.begin();
-    GenTime pos;
-    double framepos;
-    QBrush markerBrush(QColor(120, 120, 0, 140));
-    QPen pen = painter->pen();
-    pen.setColor(QColor(255, 255, 255, 200));
-    pen.setStyle(Qt::DotLine);
+    if (isEnabled() && m_clip) {
+        QList < CommentedTime > markers = m_clip->commentedSnapMarkers();
+        QList < CommentedTime >::Iterator it = markers.begin();
+        GenTime pos;
+        double framepos;
+        QBrush markerBrush(QColor(120, 120, 0, 140));
+        QPen pen = painter->pen();
+        pen.setColor(QColor(255, 255, 255, 200));
+        pen.setStyle(Qt::DotLine);
 
-    for (; it != markers.end(); ++it) {
-        pos = GenTime((int)((*it).time().frames(m_fps) / m_speed + 0.5), m_fps) - cropStart();
-        if (pos > GenTime()) {
-            if (pos > cropDuration()) break;
-            QLineF l(rect().x() + pos.frames(m_fps), rect().y(), rect().x() + pos.frames(m_fps), rect().bottom());
-            QLineF l2 = painter->matrix().map(l);
-            //framepos = scale * pos.frames(m_fps);
-            //QLineF l(framepos, 5, framepos, itemHeight - 5);
-            painter->setPen(pen);
-            painter->drawLine(l2);
-            if (KdenliveSettings::showmarkers()) {
-                framepos = rect().x() + pos.frames(m_fps);
-                const QRectF r1(framepos + 0.04, 10, rect().width() - framepos - 2, rect().height() - 10);
-                const QRectF r2 = painter->matrix().mapRect(r1);
-                const QRectF txtBounding3 = painter->boundingRect(r2, Qt::AlignLeft | Qt::AlignTop, ' ' + (*it).comment() + ' ');
-                painter->setBrush(markerBrush);
-                painter->setPen(Qt::NoPen);
-                painter->drawRoundedRect(txtBounding3, 3, 3);
-                painter->setBrush(QBrush(Qt::NoBrush));
-                painter->setPen(Qt::white);
-                painter->drawText(txtBounding3, Qt::AlignCenter, (*it).comment());
+        for (; it != markers.end(); ++it) {
+            pos = GenTime((int)((*it).time().frames(m_fps) / m_speed + 0.5), m_fps) - cropStart();
+            if (pos > GenTime()) {
+                if (pos > cropDuration()) break;
+                QLineF l(rect().x() + pos.frames(m_fps), rect().y(), rect().x() + pos.frames(m_fps), rect().bottom());
+                QLineF l2 = painter->matrix().map(l);
+                painter->setPen(pen);
+                painter->drawLine(l2);
+                if (KdenliveSettings::showmarkers()) {
+                    framepos = rect().x() + pos.frames(m_fps);
+                    const QRectF r1(framepos + 0.04, 10, rect().width() - framepos - 2, rect().height() - 10);
+                    const QRectF r2 = painter->matrix().mapRect(r1);
+                    const QRectF txtBounding3 = painter->boundingRect(r2, Qt::AlignLeft | Qt::AlignTop, ' ' + (*it).comment() + ' ');
+                    painter->setBrush(markerBrush);
+                    painter->setPen(Qt::NoPen);
+                    painter->drawRoundedRect(txtBounding3, 3, 3);
+                    painter->setBrush(QBrush(Qt::NoBrush));
+                    painter->setPen(Qt::white);
+                    painter->drawText(txtBounding3, Qt::AlignCenter, (*it).comment());
+                }
+                //painter->fillRect(QRect(br.x() + framepos, br.y(), 10, br.height()), QBrush(QColor(0, 0, 0, 150)));
             }
-            //painter->fillRect(QRect(br.x() + framepos, br.y(), 10, br.height()), QBrush(QColor(0, 0, 0, 150)));
         }
     }
 

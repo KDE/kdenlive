@@ -34,7 +34,8 @@ ProjectItem::ProjectItem(QTreeWidget * parent, DocClipBase *clip) :
         QTreeWidgetItem(parent, PROJECTCLIPTYPE)
 {
     setSizeHint(0, QSize(itemHeight * 3, itemHeight));
-    setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable);
+    if (clip->isPlaceHolder()) setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+    else setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable);
     m_clip = clip;
     m_clipId = clip->getId();
     QString name = m_clip->getProperty("name");
@@ -54,7 +55,8 @@ ProjectItem::ProjectItem(QTreeWidgetItem * parent, DocClipBase *clip) :
         QTreeWidgetItem(parent, PROJECTCLIPTYPE)
 {
     setSizeHint(0, QSize(itemHeight * 3, itemHeight));
-    setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable);
+    if (clip->isPlaceHolder()) setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+    else setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable);
     m_clip = clip;
     m_clipId = clip->getId();
     QString name = m_clip->getProperty("name");
@@ -159,6 +161,7 @@ DocClipBase *ProjectItem::referencedClip()
 void ProjectItem::slotSetToolTip()
 {
     QString tip = "<b>";
+    if (m_clip->isPlaceHolder()) tip.append(i18n("Missing") + " | ");
     switch (m_clipType) {
     case AUDIO:
         tip.append(i18n("Audio clip") + "</b><br />" + clipUrl().path());

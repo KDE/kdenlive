@@ -325,10 +325,6 @@ QList < CommentedTime > DocClipBase::commentedSnapMarkers() const
     return m_snapMarkers;
 }
 
-void DocClipBase::setSnapMarkers(QList < CommentedTime > markers)
-{
-    m_snapMarkers = markers;
-}
 
 void DocClipBase::addSnapMarker(const GenTime & time, QString comment)
 {
@@ -462,7 +458,7 @@ void DocClipBase::deleteProducers()
 
 void DocClipBase::setProducer(Mlt::Producer *producer, bool reset)
 {
-    if (producer == NULL) return;
+    if (producer == NULL || m_placeHolder) return;
     if (reset) {
         // Clear all previous producers
         kDebug() << "/+++++++++++++++   DELETE ALL PRODS " << producer->get("id");

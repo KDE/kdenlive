@@ -245,7 +245,6 @@ public slots:
     void updateAudioThumbnail(QMap<int, QMap<int, QByteArray> > data);
     bool slotGetAudioThumbs();
     QList < CommentedTime > commentedSnapMarkers() const;
-    void setSnapMarkers(QList < CommentedTime > markers);
     GenTime findNextSnapMarker(const GenTime & currTime);
     GenTime findPreviousSnapMarker(const GenTime & currTime);
     GenTime hasSnapMarkers(const GenTime & time);

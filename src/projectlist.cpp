@@ -856,7 +856,7 @@ void ProjectList::updateAllClips()
             if (item->referencedClip()->producer() == NULL) {
                 if (clip->isPlaceHolder() == false) {
                     requestClipInfo(clip->toXML(), clip->getId());
-                } else item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+                } else if (!clip->isPlaceHolder()) item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
             } else {
                 if (item->data(0, Qt::DecorationRole).isNull()) {
                     requestClipThumbnail(clip->getId());

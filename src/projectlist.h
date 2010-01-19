@@ -33,6 +33,7 @@
 
 #include <KTreeWidgetSearchLine>
 #include <KUrl>
+#include <KIcon>
 
 #ifdef NEPOMUK
 #include <nepomuk/kratingpainter.h>
@@ -79,6 +80,12 @@ public:
             }
             QStyleOptionViewItemV2 opt = setOptions(index, option);
             QPixmap pixmap = decoration(opt, index.data(Qt::DecorationRole));
+            if ((index.flags() & (Qt::ItemIsDragEnabled)) == false) {
+                KIcon icon("dialog-close");
+                QPainter p(&pixmap);
+                p.drawPixmap(1, 1, icon.pixmap(16, 16));
+                p.end();
+            }
             QRect decorationRect = pixmap.rect(); //QRect(QPoint(0, 0), option.decorationSize).intersected(pixmap.rect());
             const int textMargin = QApplication::style()->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
             decorationRect.moveTo(r1.topLeft() + QPoint(0, 1));

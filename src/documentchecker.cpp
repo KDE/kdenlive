@@ -105,8 +105,8 @@ bool DocumentChecker::hasMissingClips()
         if (!luma.isEmpty() && !QFile::exists(luma)) {
             if (!missingLumas.contains(luma)) {
                 missingLumas.append(luma);
-	    }
-	}
+            }
+        }
     }
 
     if (missingClips.isEmpty() && missingLumas.isEmpty()) {
@@ -116,8 +116,8 @@ bool DocumentChecker::hasMissingClips()
     m_dialog->setFont(KGlobalSettings::toolBarFont());
     m_ui.setupUi(m_dialog);
 
-    foreach (const QString l, missingLumas) {
-	QTreeWidgetItem *item = new QTreeWidgetItem(m_ui.treeWidget, QStringList() << i18n("Luma file") << l);
+    foreach(const QString l, missingLumas) {
+        QTreeWidgetItem *item = new QTreeWidgetItem(m_ui.treeWidget, QStringList() << i18n("Luma file") << l);
         item->setIcon(0, KIcon("dialog-close"));
         item->setData(0, idRole, l);
         item->setData(0, statusRole, LUMAMISSING);

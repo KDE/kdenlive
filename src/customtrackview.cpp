@@ -171,6 +171,7 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscen
 CustomTrackView::~CustomTrackView()
 {
     qDeleteAll(m_guides);
+    m_guides.clear();
     m_waitingThumbs.clear();
 }
 
@@ -1410,7 +1411,7 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint pos)
             //item->setZValue(10);
             item->setFlag(QGraphicsItem::ItemIsMovable, false);
             m_selectionGroup->addToGroup(item);
-            m_waitingThumbs.append(item);
+            if (!clip->isPlaceHolder()) m_waitingThumbs.append(item);
         }
 
         updateSnapPoints(NULL, offsetList);
@@ -2049,6 +2050,7 @@ void CustomTrackView::dropEvent(QDropEvent * event)
         bool hasVideoClip = false;
         QUndoCommand *addCommand = new QUndoCommand();
         addCommand->setText(i18n("Add timeline clip"));
+        QList <ClipItem *> brokenClips;
 
         for (int i = 0; i < items.count(); i++) {
             ClipItem *item = static_cast <ClipItem *>(items.at(i));
@@ -2072,6 +2074,8 @@ void CustomTrackView::dropEvent(QDropEvent * event)
             clipInfo.track = m_document->tracksCount() - item->track();
             if (m_document->renderer()->mltInsertClip(clipInfo, item->xml(), item->baseClip()->producer(item->track()), m_scene->editMode() == OVERWRITEEDIT, m_scene->editMode() == INSERTEDIT) == -1) {
                 emit displayMessage(i18n("Cannot insert clip in timeline"), ErrorMessage);
+                brokenClips.append(item);
+                continue;
             }
             adjustTimelineClips(m_scene->editMode(), item, ItemInfo(), addCommand);
 
@@ -2084,7 +2088,10 @@ void CustomTrackView::dropEvent(QDropEvent * event)
             }
             item->setSelected(true);
         }
-        m_commandStack->push(addCommand);
+        qDeleteAll(brokenClips);
+        brokenClips.clear();
+        if (addCommand->childCount() > 0) m_commandStack->push(addCommand);
+        else delete addCommand;
         setDocumentModified();
 
         /*
@@ -3663,7 +3670,7 @@ void CustomTrackView::addClip(QDomElement xml, const QString &clipId, ItemInfo i
     }
     setDocumentModified();
     if (refresh) m_document->renderer()->doRefresh();
-    m_waitingThumbs.append(item);
+    if (!baseclip->isPlaceHolder()) m_waitingThumbs.append(item);
     m_thumbsTimer.start();
 }
 

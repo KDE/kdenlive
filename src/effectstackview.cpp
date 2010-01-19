@@ -140,6 +140,7 @@ void EffectStackView::slotUpdateEffectParams(const QDomElement old, const QDomEl
 
 void EffectStackView::slotClipItemSelected(ClipItem* c, int ix)
 {
+    if (c && !c->isEnabled()) return;
     if (c && c == m_clipref) {
         if (ix == -1) ix = m_ui.effectlist->currentRow();
     } else {
