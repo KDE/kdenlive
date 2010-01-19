@@ -83,7 +83,7 @@ RenderWidget::RenderWidget(const QString &projectfolder, QWidget * parent) :
 
     m_view.buttonFavorite->setIcon(KIcon("favorites"));
     m_view.buttonFavorite->setToolTip(i18n("Copy profile to favorites"));
-    
+
     if (KdenliveSettings::showrenderparams()) {
         m_view.buttonInfo->setDown(true);
     } else m_view.advanced_params->hide();
@@ -134,7 +134,7 @@ RenderWidget::RenderWidget(const QString &projectfolder, QWidget * parent) :
     connect(m_view.buttonClose2, SIGNAL(clicked()), this, SLOT(hide()));
     connect(m_view.buttonClose3, SIGNAL(clicked()), this, SLOT(hide()));
     connect(m_view.rescale, SIGNAL(toggled(bool)), m_view.rescale_size, SLOT(setEnabled(bool)));
-    connect(m_view.destination_list, SIGNAL(activated(int)), this, SLOT(refreshView()));
+    connect(m_view.destination_list, SIGNAL(activated(int)), this, SLOT(refreshCategory()));
     connect(m_view.out_file, SIGNAL(textChanged(const QString &)), this, SLOT(slotUpdateButtons()));
     connect(m_view.out_file, SIGNAL(urlSelected(const KUrl &)), this, SLOT(slotUpdateButtons(const KUrl &)));
     connect(m_view.format_list, SIGNAL(currentRowChanged(int)), this, SLOT(refreshView()));
@@ -347,17 +347,17 @@ void RenderWidget::slotSaveProfile()
         QString newGroupName = ui.group_name->text().simplified();
         if (newGroupName.isEmpty()) newGroupName = i18n("Custom");
         QString newMetaGroupId = ui.destination_list->itemData(ui.destination_list->currentIndex(), Qt::UserRole).toString();
-	
-	QDomDocument doc;
+
+        QDomDocument doc;
         QDomElement profileElement = doc.createElement("profile");
         profileElement.setAttribute("name", newProfileName);
         profileElement.setAttribute("category", newGroupName);
         profileElement.setAttribute("destinationid", newMetaGroupId);
         profileElement.setAttribute("extension", ui.extension->text().simplified());
         profileElement.setAttribute("args", ui.parameters->toPlainText().simplified());
-	doc.appendChild(profileElement);
-	saveProfile(doc.documentElement());
-        
+        doc.appendChild(profileElement);
+        saveProfile(doc.documentElement());
+
         parseProfiles(newMetaGroupId, newGroupName, newProfileName);
     }
     delete d;
@@ -366,64 +366,64 @@ void RenderWidget::slotSaveProfile()
 
 void RenderWidget::saveProfile(QDomElement newprofile)
 {
-  QString exportFile = KStandardDirs::locateLocal("appdata", "export/customprofiles.xml");
-        QDomDocument doc;
-        QFile file(exportFile);
-        doc.setContent(&file, false);
-        file.close();
-        QDomElement documentElement;
-        QDomElement profiles = doc.documentElement();
-        if (profiles.isNull() || profiles.tagName() != "profiles") {
-            doc.clear();
-            profiles = doc.createElement("profiles");
-            profiles.setAttribute("version", 1);
-            doc.appendChild(profiles);
-        }
-        int version = profiles.attribute("version", 0).toInt();
-        if (version < 1) {
-            kDebug() << "// OLD profile version";
-            doc.clear();
-            profiles = doc.createElement("profiles");
-            profiles.setAttribute("version", 1);
-            doc.appendChild(profiles);
-        }
+    QString exportFile = KStandardDirs::locateLocal("appdata", "export/customprofiles.xml");
+    QDomDocument doc;
+    QFile file(exportFile);
+    doc.setContent(&file, false);
+    file.close();
+    QDomElement documentElement;
+    QDomElement profiles = doc.documentElement();
+    if (profiles.isNull() || profiles.tagName() != "profiles") {
+        doc.clear();
+        profiles = doc.createElement("profiles");
+        profiles.setAttribute("version", 1);
+        doc.appendChild(profiles);
+    }
+    int version = profiles.attribute("version", 0).toInt();
+    if (version < 1) {
+        kDebug() << "// OLD profile version";
+        doc.clear();
+        profiles = doc.createElement("profiles");
+        profiles.setAttribute("version", 1);
+        doc.appendChild(profiles);
+    }
 
 
-        QDomNodeList profilelist = doc.elementsByTagName("profile");
-        int i = 0;
-        while (!profilelist.item(i).isNull()) {
-            // make sure a profile with same name doesn't exist
-            documentElement = profilelist.item(i).toElement();
-            QString profileName = documentElement.attribute("name");
-            if (profileName == newprofile.attribute("name")) {
-                // a profile with that same name already exists
-                bool ok;
-                QString newProfileName = QInputDialog::getText(this, i18n("Profile already exists"), i18n("This profile name already exists. Change the name if you don't want to overwrite it."), QLineEdit::Normal, profileName, &ok);
-                if (!ok) return;
-                if (profileName == newProfileName) {
-                    profiles.removeChild(profilelist.item(i));
-                    break;
-                }
+    QDomNodeList profilelist = doc.elementsByTagName("profile");
+    int i = 0;
+    while (!profilelist.item(i).isNull()) {
+        // make sure a profile with same name doesn't exist
+        documentElement = profilelist.item(i).toElement();
+        QString profileName = documentElement.attribute("name");
+        if (profileName == newprofile.attribute("name")) {
+            // a profile with that same name already exists
+            bool ok;
+            QString newProfileName = QInputDialog::getText(this, i18n("Profile already exists"), i18n("This profile name already exists. Change the name if you don't want to overwrite it."), QLineEdit::Normal, profileName, &ok);
+            if (!ok) return;
+            if (profileName == newProfileName) {
+                profiles.removeChild(profilelist.item(i));
+                break;
             }
-            i++;
         }
+        i++;
+    }
 
-        profiles.appendChild(newprofile);
+    profiles.appendChild(newprofile);
 
-        //QCString save = doc.toString().utf8();
+    //QCString save = doc.toString().utf8();
 
-        if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-            KMessageBox::sorry(this, i18n("Unable to write to file %1", exportFile));
-            return;
-        }
-        QTextStream out(&file);
-        out << doc.toString();
-        if (file.error() != QFile::NoError) {
-            KMessageBox::error(this, i18n("Cannot write to file %1", exportFile));
-            file.close();
-            return;
-        }
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        KMessageBox::sorry(this, i18n("Unable to write to file %1", exportFile));
+        return;
+    }
+    QTextStream out(&file);
+    out << doc.toString();
+    if (file.error() != QFile::NoError) {
+        KMessageBox::error(this, i18n("Cannot write to file %1", exportFile));
         file.close();
+        return;
+    }
+    file.close();
 }
 
 void RenderWidget::slotCopyToFavorites()
@@ -637,18 +637,11 @@ void RenderWidget::updateButtons()
 
 void RenderWidget::focusFirstVisibleItem()
 {
-    if (m_view.size_list->currentItem() && !m_view.size_list->currentItem()->isHidden()) {
+    if (m_view.size_list->currentItem()) {
         updateButtons();
         return;
     }
-    for (int ix = 0; ix < m_view.size_list->count(); ix++) {
-        QListWidgetItem *item = m_view.size_list->item(ix);
-        if (item && !item->isHidden()) {
-            m_view.size_list->setCurrentRow(ix);
-            break;
-        }
-    }
-    if (!m_view.size_list->currentItem()) m_view.size_list->setCurrentRow(0);
+    m_view.size_list->setCurrentRow(0);
     updateButtons();
 }
 
@@ -925,13 +918,13 @@ void RenderWidget::setProfile(MltVideoProfile profile)
     refreshView();
 }
 
-void RenderWidget::refreshView()
+void RenderWidget::refreshCategory()
 {
-    m_view.size_list->blockSignals(true);
+    m_view.format_list->blockSignals(true);
+    m_view.format_list->clear();
     QListWidgetItem *sizeItem;
 
     QString destination;
-    KIcon brokenIcon("dialog-close");
     if (m_view.destination_list->currentIndex() > 0)
         destination = m_view.destination_list->itemData(m_view.destination_list->currentIndex()).toString();
 
@@ -949,42 +942,49 @@ void RenderWidget::refreshView()
         m_view.rescale->setEnabled(false);
     else m_view.rescale->setEnabled(true);
     // hide groups that are not in the correct destination
-    for (int i = 0; i < m_view.format_list->count(); i++) {
-        sizeItem = m_view.format_list->item(i);
+    for (int i = 0; i < m_renderCategory.count(); i++) {
+        sizeItem = m_renderCategory.at(i);
         if (sizeItem->data(MetaGroupRole).toString() == destination) {
-            sizeItem->setHidden(false);
+            m_view.format_list->addItem(sizeItem->clone());
             //kDebug() << "// SET GRP:: " << sizeItem->text() << ", METY:" << sizeItem->data(MetaGroupRole).toString();
-        } else sizeItem->setHidden(true);
+        }
     }
 
     // activate first visible item
     QListWidgetItem * item = m_view.format_list->currentItem();
-    if (!item || item->isHidden()) {
-        for (int i = 0; i < m_view.format_list->count(); i++) {
-            if (!m_view.format_list->item(i)->isHidden()) {
-                m_view.format_list->setCurrentRow(i);
-                break;
-            }
-        }
+    if (!item) {
+        m_view.format_list->setCurrentRow(0);
         item = m_view.format_list->currentItem();
     }
-    if (!item || item->isHidden()) {
+    if (!item) {
         m_view.format_list->setEnabled(false);
         m_view.size_list->setEnabled(false);
+        m_view.size_list->blockSignals(false);
+        m_view.format_list->blockSignals(false);
         return;
     } else {
         m_view.format_list->setEnabled(true);
         m_view.size_list->setEnabled(true);
     }
-    int count = 0;
-    for (int i = 0; i < m_view.format_list->count() && count < 2; i++) {
-        if (!m_view.format_list->isRowHidden(i)) count++;
-    }
-    if (count > 1) m_view.format_list->setVisible(true);
+
+    if (m_view.format_list->count() > 1) m_view.format_list->setVisible(true);
     else m_view.format_list->setVisible(false);
+    refreshView();
+}
+
+void RenderWidget::refreshView()
+{
+    if (!m_view.format_list->currentItem()) return;
+    m_view.size_list->blockSignals(true);
+    m_view.size_list->clear();
+    QListWidgetItem *sizeItem;
     QString std;
-    QString group = item->text();
-    bool firstSelected = false;
+    QString group = m_view.format_list->currentItem()->text();
+    QString destination;
+    if (m_view.destination_list->currentIndex() > 0)
+        destination = m_view.destination_list->itemData(m_view.destination_list->currentIndex()).toString();
+    KIcon brokenIcon("dialog-close");
+
     const QStringList formatsList = KdenliveSettings::supportedformats();
     const QStringList vcodecsList = KdenliveSettings::videocodecs();
     const QStringList acodecsList = KdenliveSettings::audiocodecs();
@@ -993,22 +993,23 @@ void RenderWidget::refreshView()
     const QColor disabled = scheme.foreground(KColorScheme::InactiveText).color();
     const QColor disabledbg = scheme.background(KColorScheme::NegativeBackground).color();
 
-    for (int i = 0; i < m_view.size_list->count(); i++) {
-        sizeItem = m_view.size_list->item(i);
+
+    for (int i = 0; i < m_renderItems.count(); i++) {
+        sizeItem = m_renderItems.at(i);
+        QListWidgetItem *dupItem = NULL;
         if ((sizeItem->data(GroupRole).toString() == group || sizeItem->data(GroupRole).toString().isEmpty()) && sizeItem->data(MetaGroupRole).toString() == destination) {
             std = sizeItem->data(StandardRole).toString();
             if (!std.isEmpty()) {
-                if (std.contains("PAL", Qt::CaseInsensitive)) sizeItem->setHidden(m_view.format_selection->currentIndex() != 0);
-                else if (std.contains("NTSC", Qt::CaseInsensitive)) sizeItem->setHidden(m_view.format_selection->currentIndex() != 1);
+                if (std.contains("PAL", Qt::CaseInsensitive) && m_view.format_selection->currentIndex() == 0) dupItem = sizeItem->clone();
+                else if (std.contains("NTSC", Qt::CaseInsensitive) && m_view.format_selection->currentIndex() == 1)  dupItem = sizeItem->clone();
             } else {
-                sizeItem->setHidden(false);
-                if (!firstSelected) m_view.size_list->setCurrentItem(sizeItem);
-                firstSelected = true;
+                dupItem = sizeItem->clone();
             }
 
-            if (!sizeItem->isHidden()) {
+            if (dupItem) {
+                m_view.size_list->addItem(dupItem);
                 // Make sure the selected profile uses an installed avformat codec / format
-                std = sizeItem->data(ParamsRole).toString();
+                std = dupItem->data(ParamsRole).toString();
                 if (!formatsList.isEmpty()) {
                     QString format;
                     if (std.startsWith("f=")) format = std.section("f=", 1, 1);
@@ -1019,13 +1020,13 @@ void RenderWidget::refreshView()
                             kDebug() << "***** UNSUPPORTED F: " << format;
                             //sizeItem->setHidden(true);
                             //sizeItem->setFlags(Qt::ItemIsSelectable);
-                            sizeItem->setToolTip(i18n("Unsupported video format: %1", format));
-                            sizeItem->setIcon(brokenIcon);
-                            sizeItem->setForeground(disabled);
+                            dupItem->setToolTip(i18n("Unsupported video format: %1", format));
+                            dupItem->setIcon(brokenIcon);
+                            dupItem->setForeground(disabled);
                         }
                     }
                 }
-                if (!acodecsList.isEmpty() && !sizeItem->isHidden()) {
+                if (!acodecsList.isEmpty()) {
                     QString format;
                     if (std.startsWith("acodec=")) format = std.section("acodec=", 1, 1);
                     else if (std.contains(" acodec=")) format = std.section(" acodec=", 1, 1);
@@ -1035,14 +1036,14 @@ void RenderWidget::refreshView()
                             kDebug() << "*****  UNSUPPORTED ACODEC: " << format;
                             //sizeItem->setHidden(true);
                             //sizeItem->setFlags(Qt::ItemIsSelectable);
-                            sizeItem->setToolTip(i18n("Unsupported audio codec: %1", format));
-                            sizeItem->setIcon(brokenIcon);
-                            sizeItem->setForeground(disabled);
-                            sizeItem->setBackground(disabledbg);
+                            dupItem->setToolTip(i18n("Unsupported audio codec: %1", format));
+                            dupItem->setIcon(brokenIcon);
+                            dupItem->setForeground(disabled);
+                            dupItem->setBackground(disabledbg);
                         }
                     }
                 }
-                if (!vcodecsList.isEmpty() && !sizeItem->isHidden()) {
+                if (!vcodecsList.isEmpty()) {
                     QString format;
                     if (std.startsWith("vcodec=")) format = std.section("vcodec=", 1, 1);
                     else if (std.contains(" vcodec=")) format = std.section(" vcodec=", 1, 1);
@@ -1052,17 +1053,19 @@ void RenderWidget::refreshView()
                             kDebug() << "*****  UNSUPPORTED VCODEC: " << format;
                             //sizeItem->setHidden(true);
                             //sizeItem->setFlags(Qt::ItemIsSelectable);
-                            sizeItem->setToolTip(i18n("Unsupported video codec: %1", format));
-                            sizeItem->setIcon(brokenIcon);
-                            sizeItem->setForeground(disabled);
+                            dupItem->setToolTip(i18n("Unsupported video codec: %1", format));
+                            dupItem->setIcon(brokenIcon);
+                            dupItem->setForeground(disabled);
                         }
                     }
                 }
             }
-        } else sizeItem->setHidden(true);
+        }
     }
+    // m_view.size_list->sortItems();
     focusFirstVisibleItem();
     m_view.size_list->blockSignals(false);
+    m_view.format_list->blockSignals(false);
     refreshParams();
 }
 
@@ -1145,9 +1148,15 @@ void RenderWidget::reloadProfiles()
 
 void RenderWidget::parseProfiles(QString meta, QString group, QString profile)
 {
+    m_view.size_list->blockSignals(true);
+    m_view.format_list->blockSignals(true);
     m_view.size_list->clear();
     m_view.format_list->clear();
     m_view.destination_list->clear();
+    qDeleteAll(m_renderItems);
+    qDeleteAll(m_renderCategory);
+    m_renderItems.clear();
+    m_renderCategory.clear();
     m_view.destination_list->addItem(KIcon("video-x-generic"), i18n("File rendering"));
     m_view.destination_list->addItem(KIcon("favorites"), i18n("Favorites"), "favorites");
     m_view.destination_list->addItem(KIcon("media-optical"), i18n("DVD"), "dvd");
@@ -1178,7 +1187,7 @@ void RenderWidget::parseProfiles(QString meta, QString group, QString profile)
         m_view.destination_list->setCurrentIndex(m_view.destination_list->findData(meta));
         m_view.destination_list->blockSignals(false);
     }
-    refreshView();
+    refreshCategory();
     QList<QListWidgetItem *> child;
     if (!group.isEmpty()) child = m_view.format_list->findItems(group, Qt::MatchExactly);
     if (!child.isEmpty()) {
@@ -1190,6 +1199,8 @@ void RenderWidget::parseProfiles(QString meta, QString group, QString profile)
         }
     }
     child.clear();
+    m_view.size_list->blockSignals(false);
+    m_view.format_list->blockSignals(false);
     if (!profile.isEmpty()) child = m_view.size_list->findItems(profile, Qt::MatchExactly);
     if (!child.isEmpty()) m_view.size_list->setCurrentItem(child.at(0));
 }
@@ -1205,9 +1216,8 @@ void RenderWidget::parseFile(QString exportFile, bool editable)
     QDomElement documentElement;
     QDomElement profileElement;
     QString extension;
-    QListWidgetItem *item;
     QDomNodeList groups = doc.elementsByTagName("group");
-
+    QListWidgetItem *item = NULL;
     const QStringList acodecsList = KdenliveSettings::audiocodecs();
     bool replaceVorbisCodec = false;
     if (!acodecsList.contains("vorbis") && acodecsList.contains("libvorbis")) replaceVorbisCodec = true;
@@ -1275,34 +1285,33 @@ void RenderWidget::parseFile(QString exportFile, bool editable)
             QString dest = profile.attribute("destinationid");
             QString prof_extension = profile.attribute("extension");
             if (!prof_extension.isEmpty()) extension = prof_extension;
-
-            QList <QListWidgetItem *> list = m_view.format_list->findItems(category, Qt::MatchExactly);
             bool exists = false;
-            for (int j = 0; j < list.count(); j++) {
-                if (list.at(j)->data(MetaGroupRole) == dest) {
+            for (int j = 0; j < m_renderCategory.count(); j++) {
+                if (m_renderCategory.at(j)->text() == category && m_renderCategory.at(j)->data(MetaGroupRole) == dest) {
                     exists = true;
                     break;
                 }
             }
+
             if (!exists) {
-                item = new QListWidgetItem(category, m_view.format_list);
-                item->setData(MetaGroupRole, dest);
+                QListWidgetItem *itemcat = new QListWidgetItem(category);
+                itemcat->setData(MetaGroupRole, dest);
+                m_renderCategory.append(itemcat);
             }
 
             // Check if item with same name already exists and replace it,
             // allowing to override default profiles
 
-            list = m_view.size_list->findItems(profileName, Qt::MatchExactly);
 
-            for (int j = 0; j < list.count(); j++) {
-                if (list.at(j)->data(MetaGroupRole) == dest) {
-                    QListWidgetItem *duplicate = list.takeAt(j);
+            for (int j = 0; j < m_renderItems.count(); j++) {
+                if (m_renderItems.at(j)->text() == profileName && m_renderItems.at(j)->data(MetaGroupRole) == dest) {
+                    QListWidgetItem *duplicate = m_renderItems.takeAt(j);
                     delete duplicate;
                     j--;
                 }
             }
 
-            item = new QListWidgetItem(profileName, m_view.size_list);
+            item = new QListWidgetItem(profileName); // , m_view.size_list
             //kDebug() << "// ADDINg item with name: " << profileName << ", GRP" << category << ", DEST:" << dest ;
             item->setData(GroupRole, category);
             item->setData(MetaGroupRole, dest);
@@ -1316,6 +1325,7 @@ void RenderWidget::parseFile(QString exportFile, bool editable)
                 if (exportFile.endsWith("customprofiles.xml")) item->setIcon(KIcon("emblem-favorite"));
                 else item->setIcon(KIcon("applications-internet"));
             }
+            m_renderItems.append(item);
             node = doc.elementsByTagName("profile").at(count);
             count++;
         }
@@ -1354,17 +1364,17 @@ void RenderWidget::parseFile(QString exportFile, bool editable)
         groupName = documentElement.attribute("name", i18n("Custom"));
         extension = documentElement.attribute("extension", QString());
         renderer = documentElement.attribute("renderer", QString());
-        QList <QListWidgetItem *> list = m_view.format_list->findItems(groupName, Qt::MatchExactly);
         bool exists = false;
-        for (int j = 0; j < list.count(); j++) {
-            if (list.at(j)->data(MetaGroupRole) == metagroupId) {
+        for (int j = 0; j < m_renderCategory.count(); j++) {
+            if (m_renderCategory.at(j)->text() == groupName && m_renderCategory.at(j)->data(MetaGroupRole) == metagroupId) {
                 exists = true;
                 break;
             }
         }
         if (!exists) {
-            item = new QListWidgetItem(groupName, m_view.format_list);
-            item->setData(MetaGroupRole, metagroupId);
+            QListWidgetItem *itemcat = new QListWidgetItem(groupName); //, m_view.format_list);
+            itemcat->setData(MetaGroupRole, metagroupId);
+            m_renderCategory.append(itemcat);
         }
 
         QDomNode n = groups.item(i).firstChild();
@@ -1389,7 +1399,7 @@ void RenderWidget::parseFile(QString exportFile, bool editable)
 
             prof_extension = profileElement.attribute("extension");
             if (!prof_extension.isEmpty()) extension = prof_extension;
-            item = new QListWidgetItem(profileName, m_view.size_list);
+            item = new QListWidgetItem(profileName); //, m_view.size_list);
             item->setData(GroupRole, groupName);
             item->setData(MetaGroupRole, metagroupId);
             item->setData(ExtensionRole, extension);
@@ -1398,6 +1408,7 @@ void RenderWidget::parseFile(QString exportFile, bool editable)
             item->setData(ParamsRole, params);
             if (profileElement.hasAttribute("url")) item->setData(ExtraRole, profileElement.attribute("url"));
             if (editable) item->setData(EditableRole, exportFile);
+            m_renderItems.append(item);
             n = n.nextSibling();
         }
 
@@ -1672,7 +1683,7 @@ void RenderWidget::setRenderProfile(const QString &dest, const QString &name, co
                 m_view.format_list->setCurrentItem(childs.at(0));
             }
         }
-        refreshView();
+        //refreshView();
         m_view.size_list->blockSignals(false);
         m_view.size_list->setCurrentItem(profile);
     } else m_view.size_list->blockSignals(false);

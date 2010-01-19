@@ -120,6 +120,7 @@ private slots:
     void slotUpdateButtons(KUrl url);
     void slotUpdateButtons();
     void refreshView();
+    void refreshCategory();
     void refreshParams();
     void slotSaveProfile();
     void slotEditProfile();
@@ -142,7 +143,7 @@ private slots:
     void slotPlayRendering(QTreeWidgetItem *item, int);
     void slotStartCurrentJob();
     void slotCopyToFavorites();
-    
+
 private:
     Ui::RenderWidget_UI m_view;
     MltVideoProfile m_profile;
@@ -158,6 +159,8 @@ private:
     void checkRenderStatus();
     void startRendering(QTreeWidgetItem *item);
     void saveProfile(QDomElement newprofile);
+    QList <QListWidgetItem *> m_renderItems;
+    QList <QListWidgetItem *> m_renderCategory;
 
 signals:
     void abortProcess(const QString &url);
