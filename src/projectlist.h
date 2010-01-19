@@ -239,6 +239,7 @@ signals:
     void loadingIsOver();
     void displayMessage(const QString, int progress);
     void clipNameChanged(const QString, const QString);
+    void clipNeedsReload(const QString&, bool);
     void refreshClip();
 };
 

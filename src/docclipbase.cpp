@@ -456,6 +456,11 @@ void DocClipBase::deleteProducers()
     m_audioTrackProducers.clear();
 }
 
+void DocClipBase::setValid()
+{
+    m_placeHolder = false;
+}
+
 void DocClipBase::setProducer(Mlt::Producer *producer, bool reset)
 {
     if (producer == NULL || m_placeHolder) return;

@@ -189,6 +189,7 @@ Q_OBJECT public:
 
     /** Returns true is clip is missing but user wants to keep it as placeholder */
     bool isPlaceHolder() const;
+    void setValid();
     static QString getHash(const QString &path);
 
     void addCutZone(int in, int out, QString desc = QString());
