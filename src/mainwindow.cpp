@@ -584,19 +584,24 @@ void MainWindow::readProperties(const KConfigGroup &config)
 
 void MainWindow::slotReloadEffects()
 {
-    kDebug() << "START RELOAD; COUNR: " << m_customEffectsMenu->actions().count();
     m_customEffectsMenu->clear();
-    kDebug() << "START RELOAD; CLR: " << m_customEffectsMenu->actions().count();
     initEffects::parseCustomEffectsFile();
-    const QStringList effects = customEffects.effectNames();
-    kDebug() << "NEW EFFS: " << effects;
     QAction *action;
-    if (effects.isEmpty()) m_customEffectsMenu->setEnabled(false);
-    else m_customEffectsMenu->setEnabled(true);
+    QStringList effectInfo;
+    QMap<QString, QStringList> effectsList;
 
-    foreach(const QString &name, effects) {
-        action = new QAction(name, this);
-        action->setData(name);
+    for (int ix = 0; ix < customEffects.count(); ix++) {
+        effectInfo = customEffects.effectIdInfo(ix);
+        effectsList.insert(effectInfo.at(0).toLower(), effectInfo);
+    }
+    if (effectsList.isEmpty()) {
+        m_customEffectsMenu->setEnabled(false);
+        return;
+    } else m_customEffectsMenu->setEnabled(true);
+
+    foreach(const QStringList &value, effectsList) {
+        action = new QAction(value.at(0), this);
+        action->setData(value);
         m_customEffectsMenu->addAction(action);
     }
     m_effectList->reloadEffectList();
@@ -1960,7 +1965,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
             disconnect(m_activeTimeline, SIGNAL(zoneMoved(int, int)), this, SLOT(slotZoneMoved(int, int)));
             disconnect(m_projectList, SIGNAL(loadingIsOver()), m_activeTimeline->projectView(), SLOT(slotUpdateAllThumbs()));
             disconnect(m_projectList, SIGNAL(displayMessage(const QString&, int)), this, SLOT(slotGotProgressInfo(const QString&, int)));
-	    disconnect(m_projectList, SIGNAL(clipNeedsReload(const QString&, bool)), m_activeTimeline->projectView(), SLOT(slotUpdateClip(const QString &, bool)));
+            disconnect(m_projectList, SIGNAL(clipNeedsReload(const QString&, bool)), m_activeTimeline->projectView(), SLOT(slotUpdateClip(const QString &, bool)));
             m_effectStack->clear();
         }
         //m_activeDocument->setRenderer(NULL);
