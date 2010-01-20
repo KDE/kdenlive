@@ -333,7 +333,7 @@ int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsRectItem* startv, QGra
                     QString br_str = items.item(i).namedItem("content").attributes().namedItem("brushcolor").nodeValue();
                     QString pen_str = items.item(i).namedItem("content").attributes().namedItem("pencolor").nodeValue();
                     double penwidth = items.item(i).namedItem("content").attributes().namedItem("penwidth").nodeValue().toDouble();
-                    QGraphicsRectItem *rec = m_scene->addRect(stringToRect(rect), QPen(QBrush(stringToColor(pen_str)), penwidth), QBrush(stringToColor(br_str)));
+                    QGraphicsRectItem *rec = m_scene->addRect(stringToRect(rect), QPen(QBrush(stringToColor(pen_str)), penwidth, Qt::SolidLine, Qt::SquareCap, Qt::RoundJoin), QBrush(stringToColor(br_str)));
                     gitem = rec;
                 } else if (items.item(i).attributes().namedItem("type").nodeValue() == "QGraphicsPixmapItem") {
                     QString url = items.item(i).namedItem("content").attributes().namedItem("url").nodeValue();

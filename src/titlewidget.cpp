@@ -724,6 +724,7 @@ void TitleWidget::slotNewRect(QGraphicsRectItem * rect)
     f.setAlpha(rectFAlpha->value());
     QPen penf(f);
     penf.setWidth(rectLineWidth->value());
+    penf.setJoinStyle(Qt::RoundJoin);
     rect->setPen(penf);
     QColor b = rectBColor->color();
     b.setAlpha(rectBAlpha->value());
@@ -1484,6 +1485,7 @@ void TitleWidget::rectChanged()
         f.setAlpha(rectFAlpha->value());
         QPen penf(f);
         penf.setWidth(rectLineWidth->value());
+        penf.setJoinStyle(Qt::RoundJoin);
         rec->setPen(penf);
         QColor b = rectBColor->color();
         b.setAlpha(rectBAlpha->value());
