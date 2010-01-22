@@ -18,6 +18,7 @@
  ***************************************************************************/
 
 #include "customruler.h"
+#include "kdenlivesettings.h"
 
 #include <KDebug>
 #include <KIcon>
@@ -152,7 +153,7 @@ void CustomRuler::mouseMoveEvent(QMouseEvent * event)
         if (m_moveCursor == RULER_CURSOR) {
             QPoint diff = event->pos() - m_clickPoint;
             if (m_mouseMove == NO_MOVE) {
-                if (qAbs(diff.x()) >= QApplication::startDragDistance()) {
+                if (!KdenliveSettings::verticalzoom() || qAbs(diff.x()) >= QApplication::startDragDistance()) {
                     m_mouseMove = HORIZONTAL_MOVE;
                 } else if (qAbs(diff.y()) >= QApplication::startDragDistance()) {
                     m_mouseMove = VERTICAL_MOVE;
