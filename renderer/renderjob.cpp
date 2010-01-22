@@ -53,6 +53,18 @@ RenderJob::RenderJob(bool erase, bool usekuiserver, const QString &renderer, con
     m_progress = 0;
     m_erase = erase;
     m_renderProcess = new QProcess;
+
+    // Disable VDPAU so that rendering will work even if there is a Kdenlive instance using VDPAU
+#if QT_VERSION >= 0x040600
+    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+    env.insert("MLT_NO_VDPAU", "1");
+    m_renderProcess->setProcessEnvironment(env);
+#else
+    QStringList env = QProcess::systemEnvironment();
+    env << "MLT_NO_VDPAU=1";
+    m_renderProcess->setEnvironment(env);
+#endif
+
     m_prog = renderer;
     m_args << scenelist;
     if (in != -1) m_args << "in=" + QString::number(in);
@@ -72,7 +84,7 @@ RenderJob::RenderJob(bool erase, bool usekuiserver, const QString &renderer, con
     connect(m_renderProcess, SIGNAL(stateChanged(QProcess::ProcessState)), this, SLOT(slotCheckProcess(QProcess::ProcessState)));
     //connect(m_renderProcess, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(slotIsOver(int, QProcess::ExitStatus)));
     m_renderProcess->setReadChannel(QProcess::StandardError);
-
+    
     m_enablelog = (getenv("KDENLIVE_RENDER_LOG") != NULL);
     if (m_enablelog) {
         // Create a log of every render process.
@@ -146,6 +158,7 @@ void RenderJob::slotAbort()
 void RenderJob::receivedStderr()
 {
     QString result = QString(m_renderProcess->readAllStandardError()).simplified();
+    //fprintf(stderr, "* * * *RENDER LG: %s\n", result.toUtf8().data());
     if (!result.startsWith("Current Frame")) m_errorMessage.append(result + "<br>");
     else {
         if (m_enablelog) m_logstream << "ReceivedStderr from melt: " << result << endl;
