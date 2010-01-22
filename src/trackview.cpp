@@ -634,7 +634,6 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked)
                 if (locked) item->setItemLocked(true);
                 clip->addReference();
                 position += (out - in + 1);
-                kDebug() << "/////////\n\n\n" << "CLIP SPEED: " << speed << ", " << strobe << "\n\n\n/////////////////////";
                 if (speed != 1.0 || strobe > 1) {
                     QDomElement speedeffect = MainWindow::videoEffects.getEffectByTag(QString(), "speed").cloneNode().toElement();
                     EffectsList::setParameter(speedeffect, "speed", QString::number((int)(100 * speed + 0.5)));

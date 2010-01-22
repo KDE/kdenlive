@@ -1637,7 +1637,7 @@ void MainWindow::openFile(const KUrl &url)
     }
     if (!KdenliveSettings::activatetabs()) closeCurrentDocument();
     m_messageLabel->setMessage(i18n("Opening file %1", url.path()), InformationMessage);
-    qApp->processEvents();
+    m_messageLabel->repaint();
     doOpenFile(url, NULL);
 }
 

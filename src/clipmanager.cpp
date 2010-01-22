@@ -48,7 +48,6 @@ ClipManager::ClipManager(KdenliveDoc *doc) :
 
 ClipManager::~ClipManager()
 {
-    kDebug() << "\n\n 2222222222222222222222222  CLOSE CM 22222222222";
     qDeleteAll(m_clipList);
     m_clipList.clear();
 }

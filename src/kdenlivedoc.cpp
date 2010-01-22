@@ -161,7 +161,6 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                                     }
                                 }
                                 addClipInfo(e, orig, prodId);
-                                kDebug() << "// KDENLIVE PRODUCER: " << prodId;
                             }
                         }
                         if (m_abortLoading) {
