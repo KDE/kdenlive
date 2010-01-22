@@ -72,6 +72,7 @@ EffectStackView::EffectStackView(QWidget *parent) :
     connect(m_ui.buttonSave, SIGNAL(clicked()), this, SLOT(slotSaveEffect()));
     connect(m_ui.buttonReset, SIGNAL(clicked()), this, SLOT(slotResetEffect()));
     connect(m_effectedit, SIGNAL(parameterChanged(const QDomElement, const QDomElement)), this , SLOT(slotUpdateEffectParams(const QDomElement, const QDomElement)));
+    connect(m_effectedit, SIGNAL(seekTimeline(int)), this , SLOT(slotSeekTimeline(int)));
     m_effectLists["audio"] = &MainWindow::audioEffects;
     m_effectLists["video"] = &MainWindow::videoEffects;
     m_effectLists["custom"] = &MainWindow::customEffects;
@@ -315,6 +316,13 @@ void EffectStackView::clear()
     m_ui.buttonDown->setEnabled(false);
     m_effectedit->transferParamDesc(QDomElement(), 0, 0);
     m_ui.effectlist->blockSignals(false);
+}
+
+
+void EffectStackView::slotSeekTimeline(int pos)
+{
+    if (!m_clipref) return;
+    emit seekTimeline(m_clipref->startPos().frames(KdenliveSettings::project_fps()) + pos);
 }
 
 #include "effectstackview.moc"

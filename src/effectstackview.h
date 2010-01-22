@@ -57,6 +57,7 @@ private slots:
     void slotResetEffect();
     void slotItemChanged(QListWidgetItem *item);
     void slotSaveEffect();
+    void slotSeekTimeline(int pos);
 
 signals:
     void removeEffect(ClipItem*, QDomElement);
@@ -71,6 +72,8 @@ signals:
     void changeEffectPosition(ClipItem*, int, int);
     /** an effect was saved, reload list */
     void reloadEffects();
+    /** An effect with position parameter was changed, seek */
+    void seekTimeline(int);
 
 };
 

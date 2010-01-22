@@ -75,7 +75,7 @@ class KeyframeEdit : public QWidget, public Ui::KeyframeEditor_UI
 {
     Q_OBJECT
 public:
-    explicit KeyframeEdit(QDomElement e, int minFrame, int maxFrame, int minVal, int maxVal, Timecode tc, const QString paramName = QString(), QWidget* parent = 0);
+    explicit KeyframeEdit(QDomElement e, int minFrame, int maxFrame, int minVal, int maxVal, Timecode tc, QWidget* parent = 0);
     virtual ~KeyframeEdit();
     void setupParam();
     void addParameter(QDomElement e);
@@ -90,6 +90,7 @@ private:
     int m_previousPos;
     KeyItemDelegate *m_delegate;
     void generateAllParams();
+    QGridLayout *m_slidersLayout;
 
 public slots:
 
@@ -98,9 +99,10 @@ private slots:
     void slotDeleteKeyframe();
     void slotAddKeyframe();
     void slotGenerateParams(int row, int column);
-    void slotAdjustKeyframeInfo();
+    void slotAdjustKeyframeInfo(bool seek = true);
     void slotAdjustKeyframePos(int value);
     void slotAdjustKeyframeValue(int value);
+    void slotSetSeeking(int state);
     //void slotSaveCurrentParam(QTreeWidgetItem *item, int column);
 
 signals:

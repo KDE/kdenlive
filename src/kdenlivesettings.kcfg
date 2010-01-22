@@ -440,6 +440,11 @@
       <default>true</default>
     </entry>
 
+    <entry name="keyframeseek" type="Bool">
+      <label>When editing an effect with position, seek to the keyframe pos.</label>
+      <default>false</default>
+    </entry>
+
     <entry name="showeffectinfo" type="Bool">
       <label>Show small effect description in effect list.</label>
       <default>false</default>
