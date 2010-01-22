@@ -127,7 +127,7 @@ void DocClipBase::setZone(QPoint zone)
 QPoint DocClipBase::zone() const
 {
     QPoint zone;
-    zone.setX(m_properties.value("zone_in").toInt());
+    zone.setX(m_properties.value("zone_in", "0").toInt());
     zone.setY(m_properties.value("zone_out", "50").toInt());
     return zone;
 }

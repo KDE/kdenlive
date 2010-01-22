@@ -757,7 +757,9 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
     if (getProperties == false && !clip->getClipHash().isEmpty()) {
         QString cachedPixmap = m_doc->projectFolder().path(KUrl::AddTrailingSlash) + "thumbs/" + clip->getClipHash() + ".png";
         if (QFile::exists(cachedPixmap)) {
-            item->setData(0, Qt::DecorationRole, QPixmap(cachedPixmap));
+            QPixmap pix(cachedPixmap);
+            if (pix.isNull()) KIO::NetAccess::del(KUrl(cachedPixmap), this);
+            item->setData(0, Qt::DecorationRole, pix);
         }
     }
 #ifdef NEPOMUK
@@ -777,7 +779,9 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
             if (!clip->getClipHash().isEmpty()) {
                 QString cachedPixmap = m_doc->projectFolder().path(KUrl::AddTrailingSlash) + "thumbs/" + clip->getClipHash() + '#' + QString::number(cuts.at(i).zone.x()) + ".png";
                 if (QFile::exists(cachedPixmap)) {
-                    sub->setData(0, Qt::DecorationRole, QPixmap(cachedPixmap));
+                    QPixmap pix(cachedPixmap);
+                    if (pix.isNull()) KIO::NetAccess::del(KUrl(cachedPixmap), this);
+                    sub->setData(0, Qt::DecorationRole, pix);
                 }
             }
         }
@@ -925,7 +929,7 @@ void ProjectList::slotRemoveInvalidClip(const QString &id, bool replace)
     QTimer::singleShot(300, this, SLOT(slotProcessNextClipInQueue()));
     if (item) {
         const QString path = item->referencedClip()->fileURL().path();
-	if (item->referencedClip()->isPlaceHolder()) replace = false;
+        if (item->referencedClip()->isPlaceHolder()) replace = false;
         if (!path.isEmpty()) {
             if (replace) KMessageBox::sorry(this, i18n("Clip <b>%1</b><br>is invalid, will be removed from project.", path));
             else {
@@ -1189,11 +1193,11 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
     if (item && producer) {
         m_listView->blockSignals(true);
         item->setProperties(properties, metadata);
-	if (item->referencedClip()->isPlaceHolder() && producer->is_valid()) {
-	    item->referencedClip()->setValid();
-	    item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable);
-	    toReload = clipId;
-	}
+        if (item->referencedClip()->isPlaceHolder() && producer->is_valid()) {
+            item->referencedClip()->setValid();
+            item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable);
+            toReload = clipId;
+        }
         //Q_ASSERT_X(item->referencedClip(), "void ProjectList::slotReplyGetFileProperties", QString("Item with groupName %1 does not have a clip associated").arg(item->groupName()).toLatin1());
         item->referencedClip()->setProducer(producer, replace);
         if (!replace && item->data(0, Qt::DecorationRole).isNull()) {

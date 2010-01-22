@@ -64,6 +64,8 @@
 #include <KIcon>
 #include <KCursor>
 #include <KColorScheme>
+#include <KMessageBox>
+#include <KIO/NetAccess>
 
 #include <QMouseEvent>
 #include <QStylePainter>
@@ -72,7 +74,7 @@
 #include <QScrollBar>
 #include <QApplication>
 #include <QInputDialog>
-#include <KMessageBox>
+
 
 #if QT_VERSION >= 0x040600
 #include <QGraphicsDropShadowEffect>
@@ -4929,6 +4931,7 @@ void CustomTrackView::slotUpdateAllThumbs()
                     QString thumb = thumbBase + item->baseClip()->getClipHash() + "_0.png";
                     if (QFile::exists(thumb)) {
                         QPixmap pix(thumb);
+                        if (pix.isNull()) KIO::NetAccess::del(KUrl(thumb), this);
                         item->slotSetStartThumb(pix);
                     }
                 } else {
@@ -4938,10 +4941,12 @@ void CustomTrackView::slotUpdateAllThumbs()
                     endThumb.append(QString::number((item->speedIndependantCropStart() + item->speedIndependantCropDuration()).frames(m_document->fps()) - 1) + ".png");
                     if (QFile::exists(startThumb)) {
                         QPixmap pix(startThumb);
+                        if (pix.isNull()) KIO::NetAccess::del(KUrl(startThumb), this);
                         item->slotSetStartThumb(pix);
                     }
                     if (QFile::exists(endThumb)) {
                         QPixmap pix(endThumb);
+                        if (pix.isNull()) KIO::NetAccess::del(KUrl(endThumb), this);
                         item->slotSetEndThumb(pix);
                     }
                 }
