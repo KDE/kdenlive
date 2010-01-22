@@ -22,6 +22,7 @@
 #include <QWidget>
 #include <QDomElement>
 #include <QGraphicsPathItem>
+#include <QGraphicsView>
 
 #include <mlt++/Mlt.h>
 
@@ -64,6 +65,7 @@ private:
     Ui::GeometryPosition_UI m_view;
     void updateTransitionPath();
     double m_dar;
+    QGraphicsView *m_sceneview;
 
 public slots:
     void setupParam(const QDomElement, int, int);

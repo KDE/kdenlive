@@ -39,9 +39,9 @@ Geometryval::Geometryval(const MltVideoProfile profile, QPoint frame_size, QWidg
 {
     setupUi(this);
     QVBoxLayout* vbox = new QVBoxLayout(widget);
-    QGraphicsView *view = new QGraphicsView(this);
-    view->setBackgroundBrush(QBrush(Qt::black));
-    vbox->addWidget(view);
+    m_sceneview = new QGraphicsView(this);
+    m_sceneview->setBackgroundBrush(QBrush(Qt::black));
+    vbox->addWidget(m_sceneview);
     vbox->setContentsMargins(0, 0, 0, 0);
 
     QVBoxLayout* vbox2 = new QVBoxLayout(keyframeWidget);
@@ -56,7 +56,7 @@ Geometryval::Geometryval(const MltVideoProfile profile, QPoint frame_size, QWidg
 
     m_scene = new GraphicsSceneRectMove(this);
     m_scene->setTool(TITLE_SELECT);
-    view->setScene(m_scene);
+    m_sceneview->setScene(m_scene);
     m_dar = (m_profile.height * m_profile.display_aspect_num / (double) m_profile.display_aspect_den) / (double) m_profile.width;
 
     m_realWidth = (int)(profile.height * profile.display_aspect_num / (double) profile.display_aspect_den);
@@ -109,10 +109,11 @@ Geometryval::Geometryval(const MltVideoProfile profile, QPoint frame_size, QWidg
     //scene->setSceneRect(0, 0, profile.width * 2, profile.height * 2);
     //view->fitInView(m_frameBorder, Qt::KeepAspectRatio);
     const double sc = 100.0 / profile.height * 0.8;
-    QRectF srect = view->sceneRect();
-    view->setSceneRect(srect.x(), -srect.height() / 3 + 10, srect.width(), srect.height() + srect.height() / 3 * 2 - 10);
+    QRectF srect = m_sceneview->sceneRect();
+    m_sceneview->setSceneRect(srect.x(), -srect.height() / 3 + 10, srect.width(), srect.height() + srect.height() / 3 * 2 - 10);
     m_scene->setZoom(sc);
-    view->centerOn(frameBorder);
+    m_sceneview->centerOn(frameBorder);
+    m_sceneview->setMouseTracking(true);
     connect(buttonNext , SIGNAL(clicked()) , this , SLOT(slotNextFrame()));
     connect(buttonPrevious , SIGNAL(clicked()) , this , SLOT(slotPreviousFrame()));
     connect(buttonDelete , SIGNAL(clicked()) , this , SLOT(slotDeleteFrame()));
@@ -135,6 +136,7 @@ Geometryval::~Geometryval()
     delete m_path;
     delete m_helper;
     delete m_geom;
+    delete m_sceneview;
     delete m_scene;
 }
 
