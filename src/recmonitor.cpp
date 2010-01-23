@@ -513,6 +513,8 @@ void RecMonitor::slotRecord()
             } else m_captureArgs << "--no-sound";
 
             if (KdenliveSettings::rmd_fullshots()) m_captureArgs << "--full-shots";
+            m_captureArgs << "--v_bitrate" << QString::number(KdenliveSettings::rmd_bitrate());
+            m_captureArgs << "--v_quality" << QString::number(KdenliveSettings::rmd_quality());
             m_captureArgs << "-workdir" << KdenliveSettings::currenttmpfolder();
             m_captureArgs << "-fps" << QString::number(KdenliveSettings::rmd_fps()) << "-o" << m_captureFile.path();
             m_captureProcess->start(KdenliveSettings::rmd_path(), m_captureArgs);

@@ -293,6 +293,16 @@
       <label>fps for video rec.</label>
       <default>15.0</default>
     </entry>
+    
+    <entry name="rmd_bitrate" type="Int">
+      <label>bitrate for video capture.</label>
+      <default>2000000</default>
+    </entry>
+    
+    <entry name="rmd_quality" type="Int">
+      <label>quality for video capture.</label>
+      <default>63</default>
+    </entry>
 
     <entry name="rmd_fullshots" type="Bool">
       <label>Capture full shots.</label>
