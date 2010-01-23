@@ -4952,7 +4952,7 @@ void CustomTrackView::slotUpdateAllThumbs()
                 }
             }
             item->refreshClip(false);
-            qApp->processEvents();
+            //qApp->processEvents();
         }
     }
     viewport()->update();
@@ -5550,8 +5550,8 @@ void CustomTrackView::slotTrackDown()
     if (m_selectedTrack > m_document->tracksCount() - 2) m_selectedTrack = 0;
     else m_selectedTrack++;
     emit updateTrackHeaders();
-    QRectF rect(mapToScene(QPoint()).x(), m_selectedTrack * m_tracksHeight, 10, m_tracksHeight);
-    ensureVisible(rect);
+    QRectF rect(mapToScene(QPoint(10, 0)).x(), m_selectedTrack * m_tracksHeight, 10, m_tracksHeight);
+    ensureVisible(rect, 0, 0);
     viewport()->update();
 }
 
@@ -5560,8 +5560,8 @@ void CustomTrackView::slotTrackUp()
     if (m_selectedTrack > 0) m_selectedTrack--;
     else m_selectedTrack = m_document->tracksCount() - 1;
     emit updateTrackHeaders();
-    QRectF rect(mapToScene(QPoint()).x(), m_selectedTrack * m_tracksHeight, 10, m_tracksHeight);
-    ensureVisible(rect);
+    QRectF rect(mapToScene(QPoint(10, 0)).x(), m_selectedTrack * m_tracksHeight, 10, m_tracksHeight);
+    ensureVisible(rect, 0, 0);
     viewport()->update();
 }
 
@@ -5575,8 +5575,8 @@ void CustomTrackView::slotSelectTrack(int ix)
     m_selectedTrack = qMax(0, ix);
     m_selectedTrack = qMin(ix, m_document->tracksCount() - 1);
     emit updateTrackHeaders();
-    QRectF rect(mapToScene(QPoint()).x(), m_selectedTrack * m_tracksHeight, 10, m_tracksHeight);
-    ensureVisible(rect);
+    QRectF rect(mapToScene(QPoint(10, 0)).x(), m_selectedTrack * m_tracksHeight, 10, m_tracksHeight);
+    ensureVisible(rect, 0, 0);
     viewport()->update();
 }
 
