@@ -116,6 +116,7 @@ public:
     bool isAudioOnly() const;
     /** Called when clip start is resized, adjust keyframes values */
     bool checkEffectsKeyframesPos(const int previous, const int current, bool fromStart);
+    void insertKeyframe(QDomElement effect, const int pos, const int val);
 
 protected:
     //virtual void mouseMoveEvent(QGraphicsSceneMouseEvent * event);

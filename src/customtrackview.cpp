@@ -1171,6 +1171,7 @@ void CustomTrackView::mouseDoubleClickEvent(QMouseEvent *event)
     if (m_dragItem && m_dragItem->hasKeyFrames()) {
         if (m_moveOpMode == KEYFRAME) {
             // user double clicked on a keyframe, open edit dialog
+            //TODO: update for effects with several values per keyframe
             QDialog d(parentWidget());
             Ui::KeyFrameDialog_UI view;
             view.setupUi(&d);
@@ -1193,10 +1194,11 @@ void CustomTrackView::mouseDoubleClickEvent(QMouseEvent *event)
         } else  {
             // add keyframe
             GenTime keyFramePos = GenTime((int)(mapToScene(event->pos()).x()), m_document->fps()) - m_dragItem->startPos() + m_dragItem->cropStart();
-            m_dragItem->addKeyFrame(keyFramePos, mapToScene(event->pos()).toPoint().y());
+            int val = m_dragItem->addKeyFrame(keyFramePos, mapToScene(event->pos()).toPoint().y());
             ClipItem * item = static_cast <ClipItem *>(m_dragItem);
             QString previous = item->keyframes(item->selectedEffectIndex());
-            item->updateKeyframeEffect();
+            item->insertKeyframe(item->getEffectAt(item->selectedEffectIndex()), keyFramePos.frames(m_document->fps()), val);
+            //item->updateKeyframeEffect();
             QString next = item->keyframes(item->selectedEffectIndex());
             EditKeyFrameCommand *command = new EditKeyFrameCommand(this, m_dragItem->track(), m_dragItem->startPos(), item->selectedEffectIndex(), previous, next, false);
             m_commandStack->push(command);

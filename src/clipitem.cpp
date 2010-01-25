@@ -190,7 +190,7 @@ void ClipItem::initEffect(QDomElement effect, int diff)
             // Effect has a keyframe type parameter, we need to set the values
             if (e.attribute("keyframes").isEmpty()) {
                 e.setAttribute("keyframes", QString::number(cropStart().frames(m_fps)) + ':' + def + ';' + QString::number((cropStart() + cropDuration()).frames(m_fps) - 1) + ':' + def);
-                //kDebug() << "///// EFFECT KEYFRAMES INITED: " << e.attribute("keyframes");
+                kDebug() << "///// EFFECT KEYFRAMES INITED: " << e.attribute("keyframes");
                 //break;
             }
         }
@@ -1628,5 +1628,32 @@ bool ClipItem::isVideoOnly() const
     return m_videoOnly;
 }
 
+void ClipItem::insertKeyframe(QDomElement effect, const int pos, const int val)
+{
+    if (effect.attribute("disabled") == "1") return;
+    QDomNodeList params = effect.elementsByTagName("parameter");
+    for (int i = 0; i < params.count(); i++) {
+        QDomElement e = params.item(i).toElement();
+        QString kfr = e.attribute("keyframes");
+        const QStringList keyframes = kfr.split(';', QString::SkipEmptyParts);
+        QStringList newkfr;
+        bool added = false;
+        foreach(const QString &str, keyframes) {
+            int kpos = str.section(':', 0, 0).toInt();
+            double newval = str.section(':', 1, 1).toDouble();
+            if (kpos < pos) {
+                newkfr.append(str);
+            } else if (!added) {
+                if (i == 0) newkfr.append(QString::number(pos) + ":" + QString::number(val));
+                else newkfr.append(QString::number(pos) + ":" + QString::number(newval));
+                if (kpos > pos) newkfr.append(str);
+                added = true;
+            } else newkfr.append(str);
+        }
+        if (!added) newkfr.append(QString::number(pos) + ":" + QString::number(val));
+        e.setAttribute("keyframes", newkfr.join(";"));
+        kDebug() << "insert kfr: " << newkfr.join(";");
+    }
+}
 
 #include "clipitem.moc"

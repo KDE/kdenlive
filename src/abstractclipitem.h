@@ -46,7 +46,7 @@ public:
     virtual ~ AbstractClipItem();
     void updateSelectedKeyFrame();
     void updateKeyFramePos(const GenTime pos, const double value);
-    void addKeyFrame(const GenTime pos, const double value);
+    int addKeyFrame(const GenTime pos, const double value);
     bool hasKeyFrames() const;
     int selectedKeyFramePos() const;
     double selectedKeyFrameValue() const;

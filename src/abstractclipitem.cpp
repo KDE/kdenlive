@@ -381,7 +381,7 @@ double AbstractClipItem::keyFrameFactor() const
     return m_keyframeFactor;
 }
 
-void AbstractClipItem::addKeyFrame(const GenTime pos, const double value)
+int AbstractClipItem::addKeyFrame(const GenTime pos, const double value)
 {
     QRectF br = sceneBoundingRect();
     double maxh = 100.0 / br.height() / m_keyframeFactor;
@@ -391,6 +391,7 @@ void AbstractClipItem::addKeyFrame(const GenTime pos, const double value)
     m_keyframes[newpos] = newval;
     m_selectedKeyframe = newpos;
     update();
+    return newval;
 }
 
 bool AbstractClipItem::hasKeyFrames() const
