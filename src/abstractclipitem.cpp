@@ -334,45 +334,41 @@ void AbstractClipItem::updateSelectedKeyFrame()
     update(br.x() + maxw *(m_selectedKeyframe - cropStart().frames(m_fps)) - 3, br.bottom() - m_keyframes[m_selectedKeyframe] * maxh - 3, 12, 12);
 }
 
-int AbstractClipItem::selectedKeyFramePos() const
+int AbstractClipItem::editedKeyFramePos() const
 {
     return m_editedKeyframe;
 }
 
-double AbstractClipItem::selectedKeyFrameValue() const
+double AbstractClipItem::editedKeyFrameValue() const
 {
     return m_keyframes.value(m_editedKeyframe);
 }
 
+int AbstractClipItem::selectedKeyFramePos() const
+{
+    return m_selectedKeyframe;
+}
+
+double AbstractClipItem::selectedKeyFrameValue() const
+{
+    return m_keyframes.value(m_selectedKeyframe);
+}
+
 void AbstractClipItem::updateKeyFramePos(const GenTime pos, const double value)
 {
-    if (!m_keyframes.contains(m_selectedKeyframe)) return;
+    if (!m_keyframes.contains(m_editedKeyframe)) return;
     int newpos = (int) pos.frames(m_fps);
     int start = cropStart().frames(m_fps);
     int end = (cropStart() + cropDuration()).frames(m_fps) - 1;
     newpos = qMax(newpos, start);
     newpos = qMin(newpos, end);
-    if (value < -50 && m_selectedKeyframe != start && m_selectedKeyframe != end) {
-        // remove kexframe if it is dragged outside
-        m_keyframes.remove(m_selectedKeyframe);
-        m_selectedKeyframe = -1;
-        update();
-        return;
-    }
-    if (value > 150 && m_selectedKeyframe != start && m_selectedKeyframe != end) {
-        // remove kexframe if it is dragged outside
-        m_keyframes.remove(m_selectedKeyframe);
-        m_selectedKeyframe = -1;
-        update();
-        return;
-    }
+
     double newval = qMax(value, 0.0);
     newval = qMin(newval, 100.0);
     newval = newval / m_keyframeFactor;
-    if (m_selectedKeyframe != newpos) m_keyframes.remove(m_selectedKeyframe);
+    if (m_editedKeyframe != newpos) m_keyframes.remove(m_editedKeyframe);
     m_keyframes[newpos] = (int) newval;
-    m_selectedKeyframe = newpos;
-
+    m_editedKeyframe = newpos;
     update();
 }
 

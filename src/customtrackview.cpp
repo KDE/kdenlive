@@ -1196,11 +1196,14 @@ void CustomTrackView::mouseDoubleClickEvent(QMouseEvent *event)
             GenTime keyFramePos = GenTime((int)(mapToScene(event->pos()).x()), m_document->fps()) - m_dragItem->startPos() + m_dragItem->cropStart();
             int val = m_dragItem->addKeyFrame(keyFramePos, mapToScene(event->pos()).toPoint().y());
             ClipItem * item = static_cast <ClipItem *>(m_dragItem);
-            QString previous = item->keyframes(item->selectedEffectIndex());
+            //QString previous = item->keyframes(item->selectedEffectIndex());
+            QDomElement oldEffect = item->selectedEffect().cloneNode().toElement();
             item->insertKeyframe(item->getEffectAt(item->selectedEffectIndex()), keyFramePos.frames(m_document->fps()), val);
             //item->updateKeyframeEffect();
-            QString next = item->keyframes(item->selectedEffectIndex());
-            EditKeyFrameCommand *command = new EditKeyFrameCommand(this, m_dragItem->track(), m_dragItem->startPos(), item->selectedEffectIndex(), previous, next, false);
+            //QString next = item->keyframes(item->selectedEffectIndex());
+            QDomElement newEffect = item->selectedEffect().cloneNode().toElement();
+            EditEffectCommand *command = new EditEffectCommand(this, m_document->tracksCount() - item->track(), item->startPos(), oldEffect, newEffect, item->selectedEffectIndex(), false);
+            //EditKeyFrameCommand *command = new EditKeyFrameCommand(this, m_dragItem->track(), m_dragItem->startPos(), item->selectedEffectIndex(), previous, next, false);
             m_commandStack->push(command);
             updateEffect(m_document->tracksCount() - item->track(), item->startPos(), item->selectedEffect(), item->selectedEffectIndex());
             emit clipItemSelected(item, item->selectedEffectIndex());
@@ -3364,10 +3367,26 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
     } else if (m_operationMode == KEYFRAME) {
         // update the MLT effect
         ClipItem * item = static_cast <ClipItem *>(m_dragItem);
-        QString previous = item->keyframes(item->selectedEffectIndex());
-        item->updateKeyframeEffect();
-        QString next = item->keyframes(item->selectedEffectIndex());
-        EditKeyFrameCommand *command = new EditKeyFrameCommand(this, item->track(), item->startPos(), item->selectedEffectIndex(), previous, next, false);
+        QDomElement oldEffect = item->selectedEffect().cloneNode().toElement();
+
+        // check if we want to remove keyframe
+        double val = mapToScene(event->pos()).toPoint().y();
+        QRectF br = item->sceneBoundingRect();
+        double maxh = 100.0 / br.height();
+        val = (br.bottom() - val) * maxh;
+        int start = item->cropStart().frames(m_document->fps());
+        int end = (item->cropStart() + item->cropDuration()).frames(m_document->fps()) - 1;
+        if ((val < -50 || val > 150) && item->editedKeyFramePos() != start && item->editedKeyFramePos() != end) {
+            //delete keyframe
+            kDebug() << "// DELETE KFR: " << item->editedKeyFramePos();
+            item->movedKeyframe(item->getEffectAt(item->selectedEffectIndex()), item->selectedKeyFramePos(), -1, 0);
+        } else item->movedKeyframe(item->getEffectAt(item->selectedEffectIndex()), item->selectedKeyFramePos(), item->editedKeyFramePos(), item->editedKeyFrameValue());
+        QDomElement newEffect = item->selectedEffect().cloneNode().toElement();
+        //item->updateKeyframeEffect();
+        //QString next = item->keyframes(item->selectedEffectIndex());
+        //EditKeyFrameCommand *command = new EditKeyFrameCommand(this, item->track(), item->startPos(), item->selectedEffectIndex(), previous, next, false);
+        EditEffectCommand *command = new EditEffectCommand(this, m_document->tracksCount() - item->track(), item->startPos(), oldEffect, newEffect, item->selectedEffectIndex(), false);
+
         m_commandStack->push(command);
         updateEffect(m_document->tracksCount() - item->track(), item->startPos(), item->selectedEffect(), item->selectedEffectIndex());
         emit clipItemSelected(item, item->selectedEffectIndex());

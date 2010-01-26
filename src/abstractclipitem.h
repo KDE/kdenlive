@@ -48,8 +48,10 @@ public:
     void updateKeyFramePos(const GenTime pos, const double value);
     int addKeyFrame(const GenTime pos, const double value);
     bool hasKeyFrames() const;
+    int editedKeyFramePos() const;
     int selectedKeyFramePos() const;
     double selectedKeyFrameValue() const;
+    double editedKeyFrameValue() const;
     double keyFrameFactor() const;
     ItemInfo info() const;
     CustomTrackScene* projectScene();
@@ -77,7 +79,9 @@ public:
 protected:
     ItemInfo m_info;
 //    int m_track;
+    /** The position of the current keyframe when it has moved */
     int m_editedKeyframe;
+    /** The position of the current keyframe before it was moved */
     int m_selectedKeyframe;
     /*    GenTime m_cropStart;
         GenTime m_cropDuration;

@@ -1628,7 +1628,7 @@ bool ClipItem::isVideoOnly() const
     return m_videoOnly;
 }
 
-void ClipItem::insertKeyframe(QDomElement effect, const int pos, const int val)
+void ClipItem::insertKeyframe(QDomElement effect, int pos, int val)
 {
     if (effect.attribute("disabled") == "1") return;
     QDomNodeList params = effect.elementsByTagName("parameter");
@@ -1652,8 +1652,49 @@ void ClipItem::insertKeyframe(QDomElement effect, const int pos, const int val)
         }
         if (!added) newkfr.append(QString::number(pos) + ":" + QString::number(val));
         e.setAttribute("keyframes", newkfr.join(";"));
-        kDebug() << "insert kfr: " << newkfr.join(";");
     }
 }
 
+void ClipItem::movedKeyframe(QDomElement effect, int oldpos, int newpos, double value)
+{
+    if (effect.attribute("disabled") == "1") return;
+    QDomNodeList params = effect.elementsByTagName("parameter");
+    int start = cropStart().frames(m_fps);
+    int end = (cropStart() + cropDuration()).frames(m_fps) - 1;
+    for (int i = 0; i < params.count(); i++) {
+        QDomElement e = params.item(i).toElement();
+        QString kfr = e.attribute("keyframes");
+        const QStringList keyframes = kfr.split(';', QString::SkipEmptyParts);
+        QStringList newkfr;
+        foreach(const QString &str, keyframes) {
+            if (str.section(':', 0, 0).toInt() != oldpos) {
+                newkfr.append(str);
+            } else if (newpos != -1) {
+                newpos = qMax(newpos, start);
+                newpos = qMin(newpos, end);
+                if (i == 0) newkfr.append(QString::number(newpos) + ":" + QString::number(value));
+                else newkfr.append(QString::number(newpos) + ":" + str.section(':', 1, 1));
+            }
+        }
+        e.setAttribute("keyframes", newkfr.join(";"));
+    }
+
+    updateKeyframes(effect);
+    update();
+}
+
+void ClipItem::updateKeyframes(QDomElement effect)
+{
+    m_keyframes.clear();
+    // parse keyframes
+    QDomNodeList params = effect.elementsByTagName("parameter");
+    QDomElement e = params.item(0).toElement();
+    const QStringList keyframes = e.attribute("keyframes").split(';', QString::SkipEmptyParts);
+    foreach(const QString &str, keyframes) {
+        int pos = str.section(':', 0, 0).toInt();
+        double val = str.section(':', 1, 1).toDouble();
+        m_keyframes[pos] = val;
+    }
+    if (!m_keyframes.contains(m_selectedKeyframe)) m_selectedKeyframe = -1;
+}
 #include "clipitem.moc"
