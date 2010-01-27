@@ -75,7 +75,7 @@ class KeyframeEdit : public QWidget, public Ui::KeyframeEditor_UI
 {
     Q_OBJECT
 public:
-    explicit KeyframeEdit(QDomElement e, int minFrame, int maxFrame, int minVal, int maxVal, Timecode tc, QWidget* parent = 0);
+    explicit KeyframeEdit(QDomElement e, int minFrame, int maxFrame, int minVal, int maxVal, Timecode tc, int active_keyframe, QWidget* parent = 0);
     virtual ~KeyframeEdit();
     void setupParam();
     void addParameter(QDomElement e);
@@ -91,6 +91,7 @@ private:
     KeyItemDelegate *m_delegate;
     void generateAllParams();
     QGridLayout *m_slidersLayout;
+    int m_active_keyframe;
 
 public slots:
 

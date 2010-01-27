@@ -327,7 +327,6 @@ void ClipItem::setKeyframes(const int ix, const QString keyframes)
                 m_keyframeFactor = 100.0 / (max - min);
                 m_keyframeDefault = e.attribute("default").toDouble();
                 m_selectedKeyframe = 0;
-                m_editedKeyframe = -1;
                 // parse keyframes
                 const QStringList keyframes = e.attribute("keyframes").split(';', QString::SkipEmptyParts);
                 foreach(const QString &str, keyframes) {
@@ -335,6 +334,8 @@ void ClipItem::setKeyframes(const int ix, const QString keyframes)
                     double val = str.section(':', 1, 1).toDouble();
                     m_keyframes[pos] = val;
                 }
+                if (m_keyframes.find(m_editedKeyframe) == m_keyframes.end()) m_editedKeyframe = -1;
+                if (m_keyframes.find(m_editedKeyframe) == m_keyframes.end()) m_editedKeyframe = -1;
                 update();
                 return;
             }
@@ -360,7 +361,7 @@ void ClipItem::setSelectedEffect(const int ix)
                     m_keyframeFactor = 100.0 / (max - min);
                     m_keyframeDefault = e.attribute("default").toDouble();
                     m_selectedKeyframe = 0;
-                    m_editedKeyframe = -1;
+
                     // parse keyframes
                     const QStringList keyframes = e.attribute("keyframes").split(';', QString::SkipEmptyParts);
                     foreach(const QString &str, keyframes) {
@@ -368,6 +369,7 @@ void ClipItem::setSelectedEffect(const int ix)
                         double val = str.section(':', 1, 1).toDouble();
                         m_keyframes[pos] = val;
                     }
+                    if (m_keyframes.find(m_editedKeyframe) == m_keyframes.end()) m_editedKeyframe = -1;
                     update();
                     return;
                 }
@@ -852,8 +854,11 @@ OPERATIONTYPE ClipItem::operationMode(QPointF pos)
     const double scale = projectScene()->scale().x();
     double maximumOffset = 6 / scale;
     if (isSelected() || (parentItem() && parentItem()->isSelected())) {
-        m_editedKeyframe = mouseOverKeyFrames(pos, maximumOffset);
-        if (m_editedKeyframe != -1) return KEYFRAME;
+        int kf = mouseOverKeyFrames(pos, maximumOffset);
+        if (kf != -1) {
+            m_editedKeyframe = kf;
+            return KEYFRAME;
+        }
     }
     QRectF rect = sceneBoundingRect();
     int addtransitionOffset = 10;
@@ -1631,6 +1636,8 @@ bool ClipItem::isVideoOnly() const
 void ClipItem::insertKeyframe(QDomElement effect, int pos, int val)
 {
     if (effect.attribute("disabled") == "1") return;
+    effect.setAttribute("active_keyframe", pos);
+    m_editedKeyframe = pos;
     QDomNodeList params = effect.elementsByTagName("parameter");
     for (int i = 0; i < params.count(); i++) {
         QDomElement e = params.item(i).toElement();
@@ -1658,6 +1665,7 @@ void ClipItem::insertKeyframe(QDomElement effect, int pos, int val)
 void ClipItem::movedKeyframe(QDomElement effect, int oldpos, int newpos, double value)
 {
     if (effect.attribute("disabled") == "1") return;
+    effect.setAttribute("active_keyframe", newpos);
     QDomNodeList params = effect.elementsByTagName("parameter");
     int start = cropStart().frames(m_fps);
     int end = (cropStart() + cropDuration()).frames(m_fps) - 1;

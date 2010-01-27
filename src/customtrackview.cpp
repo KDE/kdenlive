@@ -1169,7 +1169,7 @@ void CustomTrackView::groupSelectedItems(bool force, bool createNewGroup)
 void CustomTrackView::mouseDoubleClickEvent(QMouseEvent *event)
 {
     if (m_dragItem && m_dragItem->hasKeyFrames()) {
-        if (m_moveOpMode == KEYFRAME) {
+        /*if (m_moveOpMode == KEYFRAME) {
             // user double clicked on a keyframe, open edit dialog
             //TODO: update for effects with several values per keyframe
             QDialog d(parentWidget());
@@ -1191,7 +1191,7 @@ void CustomTrackView::mouseDoubleClickEvent(QMouseEvent *event)
                 emit clipItemSelected(item, item->selectedEffectIndex());
             }
 
-        } else  {
+        } else*/  {
             // add keyframe
             GenTime keyFramePos = GenTime((int)(mapToScene(event->pos()).x()), m_document->fps()) - m_dragItem->startPos() + m_dragItem->cropStart();
             int val = m_dragItem->addKeyFrame(keyFramePos, mapToScene(event->pos()).toPoint().y());

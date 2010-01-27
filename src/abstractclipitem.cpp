@@ -271,7 +271,7 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, QRectF /*exposedRect*/)
     y1 = br.bottom() - i.value() * maxh;
     QLineF l2;
     while (i != m_keyframes.constEnd()) {
-        if (i.key() == m_selectedKeyframe) color = QColor(Qt::red);
+        if (i.key() == m_editedKeyframe) color = QColor(Qt::red);
         else color = QColor(Qt::blue);
         ++i;
         if (i == m_keyframes.constEnd() && m_keyframes.count() != 1) {

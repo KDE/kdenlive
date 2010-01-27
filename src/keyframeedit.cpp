@@ -24,15 +24,17 @@
 #include <QHeaderView>
 
 
-KeyframeEdit::KeyframeEdit(QDomElement e, int minFrame, int maxFrame, int minVal, int maxVal, Timecode tc, QWidget* parent) :
+KeyframeEdit::KeyframeEdit(QDomElement e, int minFrame, int maxFrame, int minVal, int maxVal, Timecode tc, int active_keyframe, QWidget* parent) :
         QWidget(parent),
         m_min(minFrame),
         m_max(maxFrame),
         m_minVal(minVal),
         m_maxVal(maxVal),
         m_timecode(tc),
-        m_previousPos(0)
+        m_previousPos(0),
+        m_active_keyframe(active_keyframe)
 {
+    kDebug() << " / / / /MODIFIED KFR: " << m_active_keyframe;
     setupUi(this);
     m_params.append(e);
     keyframe_list->setFont(KGlobalSettings::generalFont());
@@ -44,21 +46,22 @@ KeyframeEdit::KeyframeEdit(QDomElement e, int minFrame, int maxFrame, int minVal
     button_delete->setIcon(KIcon("list-remove"));
     button_delete->setToolTip(i18n("Delete keyframe"));
     connect(keyframe_list, SIGNAL(itemSelectionChanged()), this, SLOT(slotAdjustKeyframeInfo()));
-    //keyframe_val->setRange(m_minVal, m_maxVal);
+    connect(keyframe_list, SIGNAL(cellChanged(int, int)), this, SLOT(slotGenerateParams(int, int)));
     setupParam();
-    //keyframe_list->sortItems(0);
+
     keyframe_list->resizeRowsToContents();
     keyframe_list->resizeColumnsToContents();
-    keyframe_list->setSelectionBehavior(QAbstractItemView::SelectRows);
     //keyframe_list->horizontalHeader()->resizeSections(QHeaderView::ResizeToContents);
     connect(button_delete, SIGNAL(clicked()), this, SLOT(slotDeleteKeyframe()));
     connect(button_add, SIGNAL(clicked()), this, SLOT(slotAddKeyframe()));
-    connect(keyframe_list, SIGNAL(cellChanged(int, int)), this, SLOT(slotGenerateParams(int, int)));
     //connect(keyframe_list, SIGNAL(itemDoubleClicked(QTreeWidgetItem *, int)), this, SLOT(slotSaveCurrentParam(QTreeWidgetItem *, int)));
     connect(keyframe_pos, SIGNAL(valueChanged(int)), this, SLOT(slotAdjustKeyframePos(int)));
     //connect(keyframe_val, SIGNAL(valueChanged(int)), this, SLOT(slotAdjustKeyframeValue(int)));
     keyframe_pos->setPageStep(1);
-
+    if (!keyframe_list->currentItem()) {
+        keyframe_list->setCurrentCell(0, 0);
+        keyframe_list->selectRow(0);
+    }
     /*m_delegate = new KeyItemDelegate(minVal, maxVal);
     keyframe_list->setItemDelegate(m_delegate);*/
 }
@@ -114,7 +117,6 @@ void KeyframeEdit::addParameter(QDomElement e)
         }
     }
     keyframe_list->resizeColumnsToContents();
-    keyframe_list->selectRow(0);
     keyframe_list->blockSignals(false);
     slotAdjustKeyframeInfo(false);
 }
@@ -136,18 +138,26 @@ void KeyframeEdit::setupParam()
     connect(sl, SIGNAL(valueChanged(int)), this, SLOT(slotAdjustKeyframeValue(int)));
     m_slidersLayout->addWidget(sl, 0, 1);
     param_sliders->setLayout(m_slidersLayout);
+    keyframe_list->setSelectionBehavior(QAbstractItemView::SelectRows);
+    keyframe_list->setSelectionMode(QAbstractItemView::SingleSelection);
+
     QStringList frames = m_params.at(0).attribute("keyframes").split(";", QString::SkipEmptyParts);
     for (int i = 0; i < frames.count(); i++) {
         keyframe_list->insertRow(i);
-        QString framePos = m_timecode.getTimecodeFromFrames(frames.at(i).section(':', 0, 0).toInt());
+        int currentpos = frames.at(i).section(':', 0, 0).toInt();
+        QString framePos = m_timecode.getTimecodeFromFrames(currentpos);
         keyframe_list->setVerticalHeaderItem(i, new QTableWidgetItem(framePos));
         keyframe_list->setItem(i, col, new QTableWidgetItem(frames.at(i).section(':', 1, 1)));
+        if ((m_active_keyframe > -1) && (m_active_keyframe == currentpos)) {
+            keyframe_list->setCurrentCell(i, 0);
+            keyframe_list->selectRow(i);
+        }
         //item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsEnabled);
     }
     /*QTreeWidgetItem *first = keyframe_list->topLevelItem(0);
     if (first) keyframe_list->setCurrentItem(first);*/
     keyframe_list->blockSignals(false);
-    keyframe_list->setCurrentCell(0, 0);
+    //keyframe_list->setCurrentCell(0, 0);
     //slotAdjustKeyframeInfo();
     button_delete->setEnabled(keyframe_list->rowCount() > 1);
 }
@@ -160,6 +170,7 @@ void KeyframeEdit::slotDeleteKeyframe()
     keyframe_list->removeRow(keyframe_list->currentRow());
     row = qMin(row, keyframe_list->rowCount() - 1);
     keyframe_list->setCurrentCell(row, col);
+    keyframe_list->selectRow(row);
     generateAllParams();
     button_delete->setEnabled(keyframe_list->rowCount() > 1);
 }
@@ -202,6 +213,7 @@ void KeyframeEdit::slotAddKeyframe()
     generateAllParams();
     button_delete->setEnabled(keyframe_list->rowCount() > 1);
     keyframe_list->setCurrentCell(newrow, col);
+    keyframe_list->selectRow(newrow);
     //slotGenerateParams(newrow, 0);
 }
 
