@@ -115,7 +115,7 @@ DvdWizard::DvdWizard(const QString &url, const QString &profile, QWidget *parent
 
 DvdWizard::~DvdWizard()
 {
-    // m_menuFile.remove();
+    m_authorFile.remove();
     blockSignals(true);
     delete m_burnMenu;
     if (m_dvdauthor) {
@@ -182,10 +182,11 @@ void DvdWizard::generateDvd()
     //temp6.setAutoRemove(false);
     temp6.open();
 
-    m_menuFile.setSuffix(".mpg");
-    m_menuFile.setAutoRemove(false);
-    m_menuFile.open();
+    KTemporaryFile menuFile;
+    menuFile.setSuffix(".mpg");
+    menuFile.open();
 
+    m_authorFile.close();
     m_authorFile.setSuffix(".xml");
     m_authorFile.setAutoRemove(false);
     m_authorFile.open();
@@ -237,8 +238,8 @@ void DvdWizard::generateDvd()
                     vobitem->setIcon(KIcon("dialog-close"));
                     m_status.error_log->append(result);
                     m_status.error_box->setHidden(false);
-		    m_status.button_start->setEnabled(true);
-		    m_status.button_abort->setEnabled(false);
+                    m_status.button_start->setEnabled(true);
+                    m_status.button_abort->setEnabled(false);
                     return;
                 }
             } else {
@@ -247,8 +248,8 @@ void DvdWizard::generateDvd()
                 m_status.error_log->append("<a name=\"result\" /><br><strong>" + i18n("Rendering job timed out"));
                 m_status.error_log->scrollToAnchor("result");
                 m_status.error_box->setHidden(false);
-		m_status.button_start->setEnabled(true);
-		m_status.button_abort->setEnabled(false);
+                m_status.button_start->setEnabled(true);
+                m_status.button_abort->setEnabled(false);
                 return;
             }
             vobitem->setIcon(KIcon("dialog-ok"));
@@ -309,13 +310,13 @@ void DvdWizard::generateDvd()
 
         QStringList args;
         args.append(temp6.fileName());
-        kDebug() << "SPM ARGS: " << args << temp5.fileName() << m_menuFile.fileName();
+        kDebug() << "SPM ARGS: " << args << temp5.fileName() << menuFile.fileName();
 
         QProcess spumux;
 
         if (m_pageMenu->menuMovie()) spumux.setStandardInputFile(m_pageMenu->menuMoviePath());
         else spumux.setStandardInputFile(temp5.fileName());
-        spumux.setStandardOutputFile(m_menuFile.fileName());
+        spumux.setStandardOutputFile(menuFile.fileName());
         spumux.start("spumux", args);
         if (spumux.waitForFinished()) {
             m_status.error_log->append(spumux.readAllStandardError());
@@ -337,18 +338,18 @@ void DvdWizard::generateDvd()
         }
 
         spuitem->setIcon(KIcon("dialog-ok"));
-        kDebug() << "/// DONE: " << m_menuFile.fileName();
+        kDebug() << "/// DONE: " << menuFile.fileName();
     }
 
     // create dvdauthor xml
     QListWidgetItem *authitem =  m_status.job_progress->item(3);
     authitem->setIcon(KIcon("system-run"));
     qApp->processEvents();
-    KIO::NetAccess::mkdir(KUrl(m_status.tmp_folder->url().path() + "/DVD"), this);
+    KIO::NetAccess::mkdir(KUrl(m_status.tmp_folder->url().path(KUrl::AddTrailingSlash) + "DVD"), this);
 
     QDomDocument dvddoc;
     QDomElement auth = dvddoc.createElement("dvdauthor");
-    auth.setAttribute("dest", m_status.tmp_folder->url().path() + "/DVD");
+    auth.setAttribute("dest", m_status.tmp_folder->url().path(KUrl::AddTrailingSlash) + "DVD");
     dvddoc.appendChild(auth);
     QDomElement vmgm = dvddoc.createElement("vmgm");
     auth.appendChild(vmgm);
@@ -391,7 +392,7 @@ void DvdWizard::generateDvd()
             pgc.appendChild(button);
         }
         QDomElement menuvob = dvddoc.createElement("vob");
-        menuvob.setAttribute("file", m_menuFile.fileName());
+        menuvob.setAttribute("file", menuFile.fileName());
         menuvob.setAttribute("pause", "inf");
         pgc.appendChild(menuvob);
     }
@@ -515,7 +516,7 @@ void DvdWizard::slotRenderFinished(int exitCode, QProcess::ExitStatus status)
     authitem->setIcon(KIcon("dialog-ok"));
     qApp->processEvents();
     QStringList args;
-    args << "-dvd-video" << "-v" << "-o" << m_status.iso_image->url().path() << m_status.tmp_folder->url().path() + "/DVD";
+    args << "-dvd-video" << "-v" << "-o" << m_status.iso_image->url().path() << m_status.tmp_folder->url().path(KUrl::AddTrailingSlash) + "DVD";
 
     if (m_mkiso) {
         m_mkiso->blockSignals(true);
@@ -600,9 +601,7 @@ void DvdWizard::slotIsoFinished(int exitCode, QProcess::ExitStatus status)
 
 void DvdWizard::cleanup()
 {
-    m_authorFile.remove();
-    m_menuFile.remove();
-    KIO::NetAccess::del(KUrl(m_status.tmp_folder->url().path() + "/DVD"), this);
+    KIO::NetAccess::del(KUrl(m_status.tmp_folder->url().path(KUrl::AddTrailingSlash) + "DVD"), this);
 }
 
 
@@ -632,13 +631,13 @@ void DvdWizard::slotGenerate()
     for (int i = 0; i < m_status.job_progress->count(); i++)
         m_status.job_progress->item(i)->setIcon(KIcon());
     QString warnMessage;
-    if (KIO::NetAccess::exists(KUrl(m_status.tmp_folder->url().path() + "/DVD"), KIO::NetAccess::SourceSide, this))
-        warnMessage.append(i18n("Folder %1 already exists. Overwrite?" + '\n', m_status.tmp_folder->url().path() + "/DVD"));
+    if (KIO::NetAccess::exists(KUrl(m_status.tmp_folder->url().path(KUrl::AddTrailingSlash) + "DVD"), KIO::NetAccess::SourceSide, this))
+        warnMessage.append(i18n("Folder %1 already exists. Overwrite?" + '\n', m_status.tmp_folder->url().path(KUrl::AddTrailingSlash) + "DVD"));
     if (KIO::NetAccess::exists(KUrl(m_status.iso_image->url().path()), KIO::NetAccess::SourceSide, this))
         warnMessage.append(i18n("Image file %1 already exists. Overwrite?", m_status.iso_image->url().path()));
 
     if (warnMessage.isEmpty() || KMessageBox::questionYesNo(this, warnMessage) == KMessageBox::Yes) {
-        KIO::NetAccess::del(KUrl(m_status.tmp_folder->url().path() + "/DVD"), this);
+        KIO::NetAccess::del(KUrl(m_status.tmp_folder->url().path(KUrl::AddTrailingSlash) + "DVD"), this);
         QTimer::singleShot(300, this, SLOT(generateDvd()));
         m_status.button_preview->setEnabled(false);
         m_status.button_burn->setEnabled(false);
