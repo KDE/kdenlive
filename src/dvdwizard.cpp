@@ -116,6 +116,7 @@ DvdWizard::DvdWizard(const QString &url, const QString &profile, QWidget *parent
 DvdWizard::~DvdWizard()
 {
     m_authorFile.remove();
+    m_menuFile.remove();
     blockSignals(true);
     delete m_burnMenu;
     if (m_dvdauthor) {
@@ -182,9 +183,10 @@ void DvdWizard::generateDvd()
     //temp6.setAutoRemove(false);
     temp6.open();
 
-    KTemporaryFile menuFile;
-    menuFile.setSuffix(".mpg");
-    menuFile.open();
+    m_menuFile.close();
+    m_menuFile.setSuffix(".mpg");
+    m_menuFile.setAutoRemove(false);
+    m_menuFile.open();
 
     m_authorFile.close();
     m_authorFile.setSuffix(".xml");
@@ -310,13 +312,13 @@ void DvdWizard::generateDvd()
 
         QStringList args;
         args.append(temp6.fileName());
-        kDebug() << "SPM ARGS: " << args << temp5.fileName() << menuFile.fileName();
+        kDebug() << "SPM ARGS: " << args << temp5.fileName() << m_menuFile.fileName();
 
         QProcess spumux;
 
         if (m_pageMenu->menuMovie()) spumux.setStandardInputFile(m_pageMenu->menuMoviePath());
         else spumux.setStandardInputFile(temp5.fileName());
-        spumux.setStandardOutputFile(menuFile.fileName());
+        spumux.setStandardOutputFile(m_menuFile.fileName());
         spumux.start("spumux", args);
         if (spumux.waitForFinished()) {
             m_status.error_log->append(spumux.readAllStandardError());
@@ -338,7 +340,7 @@ void DvdWizard::generateDvd()
         }
 
         spuitem->setIcon(KIcon("dialog-ok"));
-        kDebug() << "/// DONE: " << menuFile.fileName();
+        kDebug() << "/// DONE: " << m_menuFile.fileName();
     }
 
     // create dvdauthor xml
@@ -392,7 +394,7 @@ void DvdWizard::generateDvd()
             pgc.appendChild(button);
         }
         QDomElement menuvob = dvddoc.createElement("vob");
-        menuvob.setAttribute("file", menuFile.fileName());
+        menuvob.setAttribute("file", m_menuFile.fileName());
         menuvob.setAttribute("pause", "inf");
         pgc.appendChild(menuvob);
     }

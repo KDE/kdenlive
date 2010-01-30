@@ -50,6 +50,7 @@ private:
     Ui::DvdWizardStatus_UI m_status;
     DvdWizardChapters *m_pageChapters;
     KTemporaryFile m_authorFile;
+    KTemporaryFile m_menuFile;
     QProcess *m_dvdauthor;
     QProcess *m_mkiso;
     QString m_creationLog;
