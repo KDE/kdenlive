@@ -194,6 +194,7 @@ void DvdWizard::generateDvd()
     m_authorFile.open();
 
     QListWidgetItem *images =  m_status.job_progress->item(0);
+    m_status.job_progress->setCurrentRow(0);
     images->setIcon(KIcon("system-run"));
     qApp->processEvents();
     QMap <QString, QRect> buttons = m_pageMenu->buttonsInfo();
@@ -213,6 +214,7 @@ void DvdWizard::generateDvd()
         if (!m_pageMenu->menuMovie()) {
             // create menu vob file
             QListWidgetItem *vobitem =  m_status.job_progress->item(1);
+	    m_status.job_progress->setCurrentRow(1);
             vobitem->setIcon(KIcon("system-run"));
             qApp->processEvents();
 
@@ -260,6 +262,7 @@ void DvdWizard::generateDvd()
 
         // create xml spumux file
         QListWidgetItem *spuitem =  m_status.job_progress->item(2);
+	m_status.job_progress->setCurrentRow(2);
         spuitem->setIcon(KIcon("system-run"));
         qApp->processEvents();
         QDomDocument doc;
@@ -345,6 +348,7 @@ void DvdWizard::generateDvd()
 
     // create dvdauthor xml
     QListWidgetItem *authitem =  m_status.job_progress->item(3);
+    m_status.job_progress->setCurrentRow(3);
     authitem->setIcon(KIcon("system-run"));
     qApp->processEvents();
     KIO::NetAccess::mkdir(KUrl(m_status.tmp_folder->url().path(KUrl::AddTrailingSlash) + "DVD"), this);
@@ -531,6 +535,7 @@ void DvdWizard::slotRenderFinished(int exitCode, QProcess::ExitStatus status)
     connect(m_mkiso, SIGNAL(readyReadStandardOutput()), this, SLOT(slotShowIsoInfo()));
     m_mkiso->setProcessChannelMode(QProcess::MergedChannels);
     QListWidgetItem *isoitem =  m_status.job_progress->item(4);
+    m_status.job_progress->setCurrentRow(4);
     isoitem->setIcon(KIcon("system-run"));
     if (!KStandardDirs::findExe("genisoimage").isEmpty()) m_mkiso->start("genisoimage", args);
     else m_mkiso->start("mkisofs", args);
