@@ -20,7 +20,7 @@
 #include "dvdwizardmenu.h"
 
 #include <KDebug>
-
+#include <KColorScheme>
 
 DvdWizardMenu::DvdWizardMenu(const QString &profile, QWidget *parent) :
         QWizardPage(parent),
@@ -31,7 +31,7 @@ DvdWizardMenu::DvdWizardMenu(const QString &profile, QWidget *parent) :
     m_view.play_text->setText(i18n("Play"));
     m_scene = new DvdScene(this);
     m_view.menu_preview->setScene(m_scene);
-
+    m_view.menu_preview->setMouseTracking(true);
     connect(m_view.create_menu, SIGNAL(toggled(bool)), m_view.menu_box, SLOT(setEnabled(bool)));
     connect(m_view.create_menu, SIGNAL(toggled(bool)), this, SIGNAL(completeChanged()));
 
@@ -83,7 +83,6 @@ DvdWizardMenu::DvdWizardMenu(const QString &profile, QWidget *parent) :
     button->setFont(font);
     button->setDefaultTextColor(m_view.text_color->color());
     button->setZValue(4);
-    button->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
     QRectF r = button->sceneBoundingRect();
     m_scene->addItem(button);
     button->setPos((m_width - r.width()) / 2, (m_height - r.height()) / 2);
@@ -111,6 +110,13 @@ DvdWizardMenu::DvdWizardMenu(const QString &profile, QWidget *parent) :
     connect(m_scene, SIGNAL(selectionChanged()), this, SLOT(buttonChanged()));
     connect(m_scene, SIGNAL(changed(const QList<QRectF> &)), this, SIGNAL(completeChanged()));
 
+    // red background for error message
+    KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Window);
+    QPalette p = m_view.error_message->palette();
+    p.setColor(QPalette::Background, scheme.background(KColorScheme::NegativeBackground).color());
+    m_view.error_message->setAutoFillBackground(true);
+    m_view.error_message->setPalette(p);
+
     m_view.menu_box->setEnabled(false);
 
 }
@@ -127,6 +133,7 @@ DvdWizardMenu::~DvdWizardMenu()
 
 bool DvdWizardMenu::isComplete() const
 {
+    m_view.error_message->setHidden(true);
     if (!m_view.create_menu->isChecked()) return true;
     QList <int> targets;
     QList<QGraphicsItem *> list = m_scene->items();
@@ -139,7 +146,11 @@ bool DvdWizardMenu::isComplete() const
             QList<QGraphicsItem *> collisions = button->collidingItems();
             if (!collisions.isEmpty()) {
                 for (int j = 0; j < collisions.count(); j++) {
-                    if (collisions.at(j)->type() == button->type()) return false;
+                    if (collisions.at(j)->type() == button->type()) {
+                        m_view.error_message->setText(i18n("Buttons overlapping"));
+                        m_view.error_message->setHidden(false);
+                        return false;
+                    }
                 }
             }
             targets.append(button->target());
@@ -147,12 +158,18 @@ bool DvdWizardMenu::isComplete() const
     }
     if (buttonCount == 0) {
         // We need at least one button
+        m_view.error_message->setText(i18n("No button in menu"));
+        m_view.error_message->setHidden(false);
         return false;
     }
 
     if (!m_view.background_image->isHidden()) {
         // Make sure user selected a valid image / video file
-        if (!QFile::exists(m_view.background_image->url().path())) return false;
+        if (!QFile::exists(m_view.background_image->url().path())) {
+            m_view.error_message->setText(i18n("Missing background image"));
+            m_view.error_message->setHidden(false);
+            return false;
+        }
     }
 
     // check that we have a "Play all" entry
@@ -160,7 +177,11 @@ bool DvdWizardMenu::isComplete() const
     // ... or that each video file has a button
     for (int i = m_view.target_list->count() - 1; i > 0; i--) {
         // If there is a vob file entry and it has no button assigned, don't allow to go further
-        if (m_view.target_list->itemIcon(i).isNull() == false && !targets.contains(i)) return false;
+        if (m_view.target_list->itemIcon(i).isNull() == false && !targets.contains(i)) {
+            m_view.error_message->setText(i18n("No menu entry for %1", m_view.target_list->itemText(i)));
+            m_view.error_message->setHidden(false);
+            return false;
+        }
     }
     return true;
 }
@@ -232,7 +253,6 @@ void DvdWizardMenu::addButton()
     button->setFont(font);
     button->setDefaultTextColor(m_view.text_color->color());
     button->setZValue(4);
-    button->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
     QRectF r = button->sceneBoundingRect();
     m_scene->addItem(button);
     button->setPos((m_width - r.width()) / 2, (m_height - r.height()) / 2);
@@ -612,7 +632,6 @@ void DvdWizardMenu::loadXml(QDomElement xml)
         button->setBackMenu(e.attribute("backtomenu").toInt());
         button->setDefaultTextColor(m_view.text_color->color());
         button->setZValue(4);
-        button->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
         QRectF r = button->sceneBoundingRect();
         m_scene->addItem(button);
         button->setPos(e.attribute("posx").toDouble(), e.attribute("posy").toDouble());

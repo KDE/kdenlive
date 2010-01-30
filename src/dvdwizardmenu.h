@@ -57,8 +57,12 @@ class DvdButton : public QGraphicsTextItem
 {
 
 public:
-    DvdButton(const QString & text): QGraphicsTextItem(text), m_target(0), m_command(QString("jump title 1")), m_backToMenu(false) {}
-    enum { Type = UserType + 1 };
+    DvdButton(const QString & text): QGraphicsTextItem(text), m_target(0), m_command(QString("jump title 1")), m_backToMenu(false) {
+        setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+#if QT_VERSION >= 0x040600
+        setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
+#endif
+    }
     void setTarget(int t, QString c) {
         m_target = t;
         m_command = c;
@@ -74,7 +78,7 @@ public:
     }
     int type() const {
         // Enable the use of qgraphicsitem_cast with this item.
-        return Type;
+        return UserType + 1;
     }
     void setBackMenu(bool back) {
         m_backToMenu = back;
@@ -89,7 +93,6 @@ protected:
 
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value) {
         if (change == ItemPositionChange && scene()) {
-
             QPointF newPos = value.toPointF();
             QRectF sceneShape = sceneBoundingRect();
             DvdScene *sc = static_cast < DvdScene * >(scene());

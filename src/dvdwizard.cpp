@@ -214,7 +214,7 @@ void DvdWizard::generateDvd()
         if (!m_pageMenu->menuMovie()) {
             // create menu vob file
             QListWidgetItem *vobitem =  m_status.job_progress->item(1);
-	    m_status.job_progress->setCurrentRow(1);
+            m_status.job_progress->setCurrentRow(1);
             vobitem->setIcon(KIcon("system-run"));
             qApp->processEvents();
 
@@ -262,7 +262,7 @@ void DvdWizard::generateDvd()
 
         // create xml spumux file
         QListWidgetItem *spuitem =  m_status.job_progress->item(2);
-	m_status.job_progress->setCurrentRow(2);
+        m_status.job_progress->setCurrentRow(2);
         spuitem->setIcon(KIcon("system-run"));
         qApp->processEvents();
         QDomDocument doc;
@@ -330,6 +330,7 @@ void DvdWizard::generateDvd()
                 spuitem->setIcon(KIcon("dialog-close"));
                 m_status.error_log->append(result);
                 m_status.error_box->setHidden(false);
+                m_status.button_start->setEnabled(true);
                 kDebug() << "/// RENDERING SPUMUX MENU crashed";
                 return;
             }
@@ -339,6 +340,7 @@ void DvdWizard::generateDvd()
             m_status.error_log->append("<a name=\"result\" /><br><strong>" + i18n("Menu job timed out"));
             m_status.error_log->scrollToAnchor("result");
             m_status.error_box->setHidden(false);
+            m_status.button_start->setEnabled(true);
             return;
         }
 
