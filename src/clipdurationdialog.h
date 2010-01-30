@@ -32,12 +32,11 @@ class ClipDurationDialog : public QDialog
     Q_OBJECT
 
 public:
-    ClipDurationDialog(AbstractClipItem *clip, Timecode tc, QWidget * parent = 0);
+    ClipDurationDialog(AbstractClipItem *clip, Timecode tc, GenTime min, GenTime max, QWidget * parent = 0);
     ~ClipDurationDialog();
     GenTime startPos() const;
     GenTime cropStart() const;
     GenTime duration() const;
-    void setMargins(GenTime min, GenTime max);
 
 protected:
     void wheelEvent(QWheelEvent * event);
@@ -60,6 +59,7 @@ private:
     double m_fps;
     GenTime m_min;
     GenTime m_max;
+    int m_crop;
 };
 
 

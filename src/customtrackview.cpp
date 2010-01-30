@@ -1209,7 +1209,6 @@ void CustomTrackView::mouseDoubleClickEvent(QMouseEvent *event)
             emit clipItemSelected(item, item->selectedEffectIndex());
         }
     } else if (m_dragItem && !m_dragItem->isItemLocked()) {
-        ClipDurationDialog d(m_dragItem, m_document->timecode(), this);
         GenTime minimum;
         GenTime maximum;
         if (m_dragItem->type() == TRANSITIONWIDGET) {
@@ -1218,7 +1217,7 @@ void CustomTrackView::mouseDoubleClickEvent(QMouseEvent *event)
             getClipAvailableSpace(m_dragItem, minimum, maximum);
         }
         //kDebug()<<"// GOT MOVE POS: "<<minimum.frames(25)<<" - "<<maximum.frames(25);
-        d.setMargins(minimum, maximum);
+        ClipDurationDialog d(m_dragItem, m_document->timecode(), minimum, maximum, this);
         if (d.exec() == QDialog::Accepted) {
             if (m_dragItem->type() == TRANSITIONWIDGET) {
                 // move & resize transition

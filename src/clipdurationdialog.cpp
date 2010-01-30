@@ -27,10 +27,12 @@
 
 #include <QWheelEvent>
 
-ClipDurationDialog::ClipDurationDialog(AbstractClipItem *clip, Timecode tc, QWidget * parent):
+ClipDurationDialog::ClipDurationDialog(AbstractClipItem *clip, Timecode tc, GenTime min, GenTime max, QWidget * parent):
         QDialog(parent),
         m_clip(clip),
-        m_tc(tc)
+        m_tc(tc),
+        m_min(min),
+        m_max(max)
 {
     setFont(KGlobalSettings::toolBarFont());
     m_fps = m_tc.fps();
@@ -50,6 +52,7 @@ ClipDurationDialog::ClipDurationDialog(AbstractClipItem *clip, Timecode tc, QWid
         m_view.crop_label->hide();
     }
 
+    m_crop = m_clip->cropStart().frames(m_fps);
     m_view.clip_position->setText(tc.getTimecode(m_clip->startPos()));
     m_view.crop_position->setText(tc.getTimecode(m_clip->cropStart()));
     m_view.clip_duration->setText(tc.getTimecode(m_clip->cropDuration()));
@@ -60,19 +63,13 @@ ClipDurationDialog::ClipDurationDialog(AbstractClipItem *clip, Timecode tc, QWid
     connect(m_view.duration_up, SIGNAL(clicked()), this, SLOT(slotDurUp()));
     connect(m_view.duration_down, SIGNAL(clicked()), this, SLOT(slotDurDown()));
     connect(m_view.crop_position, SIGNAL(textChanged(const QString &)), this, SLOT(slotCheckCrop()));
+    connect(m_view.clip_duration, SIGNAL(textChanged(const QString &)), this, SLOT(slotCheckDuration()));
+    connect(m_view.clip_position, SIGNAL(textChanged(const QString &)), this, SLOT(slotCheckStart()));
     adjustSize();
 }
 
 ClipDurationDialog::~ClipDurationDialog()
 {
-}
-
-void ClipDurationDialog::setMargins(GenTime min, GenTime max)
-{
-    m_min = min;
-    m_max = max;
-    connect(m_view.clip_position, SIGNAL(textChanged(const QString &)), this, SLOT(slotCheckStart()));
-    connect(m_view.clip_duration, SIGNAL(textChanged(const QString &)), this, SLOT(slotCheckDuration()));
 }
 
 void ClipDurationDialog::slotCheckStart()
@@ -92,13 +89,17 @@ void ClipDurationDialog::slotCheckDuration()
 {
     int pos = m_tc.getFrameCount(m_view.clip_position->text());
     int dur = m_tc.getFrameCount(m_view.clip_duration->text());
+    int crop = m_tc.getFrameCount(m_view.crop_position->text());
     GenTime start(pos, m_fps);
     GenTime duration(dur, m_fps);
+    GenTime cropStart(crop, m_fps);
     GenTime maxDuration;
     if (m_clip->maxDuration() == GenTime()) maxDuration = m_max;
-    else maxDuration = m_max == GenTime() ? start + m_clip->maxDuration() : qMin(m_max, start + m_clip->maxDuration());
+    else maxDuration = m_max == GenTime() ? start + m_clip->maxDuration() - cropStart : qMin(m_max, start + m_clip->maxDuration() - cropStart);
     if (maxDuration != GenTime() && start + duration > maxDuration) {
+        m_view.clip_duration->blockSignals(true);
         m_view.clip_duration->setText(m_tc.getTimecode(maxDuration - start));
+        m_view.clip_duration->blockSignals(false);
     }
 }
 
@@ -106,11 +107,23 @@ void ClipDurationDialog::slotCheckCrop()
 {
     int dur = m_tc.getFrameCount(m_view.clip_duration->text());
     int crop = m_tc.getFrameCount(m_view.crop_position->text());
+    int diff = crop - m_crop;
+    if ((diff > 0 && diff < dur) || diff < 0) {
+        dur -= diff;
+    } else {
+        m_view.crop_position->setText(m_tc.getTimecode(GenTime(m_crop, m_fps)));
+        return;
+    }
     GenTime duration(dur, m_fps);
     GenTime cropStart(crop, m_fps);
     GenTime maxDuration = m_clip->maxDuration();
     if (maxDuration != GenTime() && cropStart + duration > maxDuration) {
-        m_view.crop_position->setText(m_tc.getTimecode(maxDuration - duration));
+        m_view.crop_position->setText(m_tc.getTimecode(GenTime(m_crop, m_fps)));
+    } else {
+        m_crop = crop;
+        m_view.clip_duration->blockSignals(true);
+        m_view.clip_duration->setText(m_tc.getTimecode(duration));
+        m_view.clip_duration->blockSignals(false);
     }
 }
 
