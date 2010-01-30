@@ -950,6 +950,7 @@ void ProjectList::slotAddColorClip()
     QDialog *dia = new QDialog(this);
     Ui::ColorClip_UI dia_ui;
     dia_ui.setupUi(dia);
+    dia->setWindowTitle(i18n("Color Clip"));
     dia_ui.clip_name->setText(i18n("Color Clip"));
     dia_ui.clip_duration->setText(KdenliveSettings::color_duration());
     if (dia->exec() == QDialog::Accepted) {
