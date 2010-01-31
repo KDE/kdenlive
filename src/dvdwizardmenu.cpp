@@ -21,6 +21,7 @@
 
 #include <KDebug>
 #include <KColorScheme>
+#include "kthumb.h"
 
 DvdWizardMenu::DvdWizardMenu(const QString &profile, QWidget *parent) :
         QWizardPage(parent),
@@ -46,7 +47,6 @@ DvdWizardMenu::DvdWizardMenu(const QString &profile, QWidget *parent) :
     if (profile == "dv_ntsc" || profile == "dv_ntsc_wide") {
         changeProfile(false);
     } else changeProfile(true);
-
 
 
     // Create color background
@@ -322,16 +322,21 @@ void DvdWizardMenu::checkBackgroundType(int ix)
     if (ix == 0) {
         m_view.background_color->setVisible(true);
         m_view.background_image->setVisible(false);
+        m_view.loop_movie->setVisible(false);
         if (m_background->scene() != 0) m_scene->removeItem(m_background);
     } else {
         m_view.background_color->setVisible(false);
         m_view.background_image->setVisible(true);
         if (ix == 1) {
+            m_view.background_image->clear();
             m_view.background_image->setFilter("*");
-            m_scene->addItem(m_background);
+            if (m_background->scene() != 0) m_scene->removeItem(m_background);
+            m_view.loop_movie->setVisible(false);
         } else {
             if (m_background->scene() != 0) m_scene->removeItem(m_background);
+            m_view.background_image->clear();
             m_view.background_image->setFilter("video/mpeg");
+            m_view.loop_movie->setVisible(true);
         }
     }
 }
@@ -349,13 +354,24 @@ void DvdWizardMenu::buildImage()
         return;
     }
     QPixmap pix;
-    if (!pix.load(m_view.background_image->url().path())) {
-        if (m_background->scene() != 0) m_scene->removeItem(m_background);
-        return;
+
+    if (m_view.background_list->currentIndex() == 1) {
+        // image background
+        if (!pix.load(m_view.background_image->url().path())) {
+            if (m_background->scene() != 0) m_scene->removeItem(m_background);
+            return;
+        }
+        pix = pix.scaled(m_width, m_height);
+    } else if (m_view.background_list->currentIndex() == 2) {
+        // video background
+        int w;
+        if (m_isPal) w = 768;
+        else w = 640;
+        pix = KThumb::getImage(m_view.background_image->url(), 0, w, m_height);
+        pix = pix.scaled(m_width, m_height);
     }
-    pix = pix.scaled(m_width, m_height);
     m_background->setPixmap(pix);
-    if (m_view.background_list->currentIndex() == 1) m_scene->addItem(m_background);
+    m_scene->addItem(m_background);
 }
 
 void DvdWizardMenu::checkBackground()
@@ -409,13 +425,14 @@ void DvdWizardMenu::createButtonImages(const QString &img1, const QString &img2,
 {
     if (m_view.create_menu->isChecked()) {
         m_scene->clearSelection();
-        QImage img(m_width, m_height, QImage::Format_ARGB8555_Premultiplied);
-        QPainter p(&img);
-        p.setRenderHints(QPainter::Antialiasing, false);
-        p.setRenderHints(QPainter::TextAntialiasing, false);
+        QImage img(m_width, m_height, QImage::Format_ARGB32_Premultiplied);
+        img.fill(Qt::transparent);
         if (m_safeRect->scene() != 0) m_scene->removeItem(m_safeRect);
         if (m_color->scene() != 0) m_scene->removeItem(m_color);
         if (m_background->scene() != 0) m_scene->removeItem(m_background);
+        QPainter p(&img);
+        p.setRenderHints(QPainter::Antialiasing, false);
+        p.setRenderHints(QPainter::TextAntialiasing, false);
         m_scene->render(&p, QRectF(0, 0, m_width, m_height));
         p.end();
 #if QT_VERSION >= 0x040600
@@ -424,6 +441,7 @@ void DvdWizardMenu::createButtonImages(const QString &img1, const QString &img2,
         img.setNumColors(4);
 #endif
         img.save(img1);
+
         /*QImage saved;
         if (m_view.menu_profile->currentIndex() < 2)
             saved = img.scaled(720, 576);
@@ -432,6 +450,7 @@ void DvdWizardMenu::createButtonImages(const QString &img1, const QString &img2,
         saved.save(img1);*/
 
         updateColor(m_view.selected_color->color());
+        img.fill(Qt::transparent);
         p.begin(&img);
         p.setRenderHints(QPainter::Antialiasing, false);
         p.setRenderHints(QPainter::TextAntialiasing, false);
@@ -451,6 +470,7 @@ void DvdWizardMenu::createButtonImages(const QString &img1, const QString &img2,
 
 
         updateColor(m_view.highlighted_color->color());
+        img.fill(Qt::transparent);
         p.begin(&img);
         p.setRenderHints(QPainter::Antialiasing, false);
         p.setRenderHints(QPainter::TextAntialiasing, false);
@@ -472,7 +492,7 @@ void DvdWizardMenu::createButtonImages(const QString &img1, const QString &img2,
 
         m_scene->addItem(m_safeRect);
         m_scene->addItem(m_color);
-        if (m_view.background_list->currentIndex() == 1) m_scene->addItem(m_background);
+        if (m_view.background_list->currentIndex() > 0) m_scene->addItem(m_background);
     }
 }
 
@@ -503,6 +523,11 @@ void DvdWizardMenu::createBackgroundImage(const QString &img1)
 bool DvdWizardMenu::createMenu() const
 {
     return m_view.create_menu->isChecked();
+}
+
+bool DvdWizardMenu::loopMovie() const
+{
+    return m_view.loop_movie->isChecked();
 }
 
 bool DvdWizardMenu::menuMovie() const

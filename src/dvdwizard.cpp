@@ -221,7 +221,7 @@ void DvdWizard::generateDvd()
             QStringList args;
             args.append("-profile");
             if (m_pageMenu->isPalMenu()) args.append("dv_pal");
-            else  args.append("dv_ntsc");
+            else args.append("dv_ntsc");
             args.append(temp4.fileName());
             args.append("in=0");
             args.append("out=100");
@@ -401,8 +401,15 @@ void DvdWizard::generateDvd()
         }
         QDomElement menuvob = dvddoc.createElement("vob");
         menuvob.setAttribute("file", m_menuFile.fileName());
-        menuvob.setAttribute("pause", "inf");
         pgc.appendChild(menuvob);
+
+        if (m_pageMenu->loopMovie()) {
+            QDomElement menuloop = dvddoc.createElement("post");
+            nametext = dvddoc.createTextNode("jump titleset 1 menu;");
+            menuloop.appendChild(nametext);
+            pgc.appendChild(menuloop);
+        } else menuvob.setAttribute("pause", "inf");
+
     }
 
     QDomElement titles = dvddoc.createElement("titles");

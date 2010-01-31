@@ -154,7 +154,7 @@ void DvdWizardChapters::setVobFiles(bool isPal, bool isWide, const QStringList m
         vbox->addWidget(m_monitor);
         m_view.monitor_frame->setLayout(vbox);
         /*updateGeometry();
-        adjustSize();*/
+        m_view.monitor_frame->adjustSize();*/
     } else m_monitor->resetProfile(profile);
 
     m_view.vob_list->blockSignals(true);

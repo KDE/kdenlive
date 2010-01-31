@@ -130,6 +130,7 @@ public:
     void createButtonImages(const QString &img1, const QString &img2, const QString &img3);
     void setTargets(QStringList list, QStringList targetlist);
     QMap <QString, QRect> buttonsInfo();
+    bool loopMovie() const;
     bool menuMovie() const;
     QString menuMoviePath() const;
     bool isPalMenu() const;
