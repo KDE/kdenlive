@@ -57,7 +57,6 @@ void MonitorManager::activateMonitor(QString name)
     } else {
         m_clipMonitor->stop();
         m_projectMonitor->start();
-        m_projectMonitor->raise();
         emit raiseClipMonitor(false);
     }
     m_activeMonitor = name;
@@ -69,7 +68,6 @@ void MonitorManager::slotSwitchMonitors()
     if (m_clipMonitor->isActive()) {
         m_clipMonitor->stop();
         m_projectMonitor->start();
-        m_projectMonitor->raise();
         m_activeMonitor = m_projectMonitor->name();
         emit raiseClipMonitor(false);
     } else {

@@ -750,7 +750,7 @@ void Monitor::slotSetXml(DocClipBase *clip, QPoint zone, const int position)
     if (render == NULL) return;
     if (clip == NULL && m_currentClip != NULL) {
         m_currentClip = NULL;
-	m_length = -1;
+        m_length = -1;
         render->setProducer(NULL, -1);
         return;
     }

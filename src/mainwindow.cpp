@@ -1675,9 +1675,9 @@ void MainWindow::doOpenFile(const KUrl &url, KAutoSaveFile *stale)
 
     if (m_timelineArea->count() > 1) m_timelineArea->setTabBarHidden(false);
     slotGotProgressInfo(QString(), -1);
-    m_clipMonitor->refreshMonitor(true);
     m_projectMonitor->adjustRulerSize(trackView->duration());
     m_projectMonitor->slotZoneMoved(trackView->inPoint(), trackView->outPoint());
+    m_clipMonitor->refreshMonitor(true);
 }
 
 void MainWindow::recoverFiles(QList<KAutoSaveFile *> staleFiles)
