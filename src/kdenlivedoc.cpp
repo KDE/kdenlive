@@ -342,7 +342,7 @@ QDomDocument KdenliveDoc::createEmptyDocument(QList <TrackInfo> tracks)
 
     QDomElement blank0 = doc.createElement("entry");
     blank0.setAttribute("in", "0");
-    blank0.setAttribute("out", "0");
+    blank0.setAttribute("out", "1");
     blank0.setAttribute("producer", "black");
     playlist.appendChild(blank0);
 

@@ -641,7 +641,7 @@ void Monitor::rendererStopped(int pos)
 {
     if (m_currentClip != NULL && m_playAction->isChecked()) {
         // Clip monitor
-        if (pos >= m_length - 1) {
+        if (m_isActive && pos >= m_length - 1) {
             slotStart();
             return;
         }
@@ -696,7 +696,7 @@ void Monitor::start()
 
 void Monitor::refreshMonitor(bool visible)
 {
-    if (visible && render) {
+    if (visible && render && !m_isActive) {
         activateMonitor();
         render->doRefresh(); //askForRefresh();
     }
@@ -748,12 +748,13 @@ void Monitor::slotLoopZone()
 void Monitor::slotSetXml(DocClipBase *clip, QPoint zone, const int position)
 {
     if (render == NULL) return;
-    activateMonitor();
     if (clip == NULL && m_currentClip != NULL) {
         m_currentClip = NULL;
+	m_length = -1;
         render->setProducer(NULL, -1);
         return;
     }
+    if (m_currentClip != NULL) activateMonitor();
     if (clip != m_currentClip) {
         m_currentClip = clip;
         updateMarkers(clip);
