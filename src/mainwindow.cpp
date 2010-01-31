@@ -1499,6 +1499,7 @@ void MainWindow::closeCurrentDocument(bool saveChanges)
             break;
         }
     }
+    m_clipMonitor->slotSetXml(NULL);
     m_timelineArea->removeTab(m_timelineArea->indexOf(w));
     if (m_timelineArea->count() == 1) {
         m_timelineArea->setTabBarHidden(true);
