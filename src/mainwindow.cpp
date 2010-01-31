@@ -1519,6 +1519,7 @@ void MainWindow::closeCurrentDocument(bool saveChanges)
 bool MainWindow::saveFileAs(const QString &outputFileName)
 {
     QString currentSceneList;
+    m_monitorManager->stopActiveMonitor();
     if (KdenliveSettings::dropbframes()) {
         KdenliveSettings::setDropbframes(false);
         m_activeDocument->clipManager()->updatePreviewSettings();
