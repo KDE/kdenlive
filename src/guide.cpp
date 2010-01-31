@@ -40,6 +40,7 @@ Guide::Guide(CustomTrackView *view, GenTime pos, QString label, double height) :
 #endif
     setToolTip(label);
     setLine(0, 0, 0, height);
+    if (m_position < GenTime()) m_position = GenTime();
     setPos(m_position.frames(m_view->fps()), 0);
     m_pen.setWidthF(0);
     m_pen.setColor(QColor(0, 0, 200, 180));
@@ -113,6 +114,7 @@ QVariant Guide::itemChange(GraphicsItemChange change, const QVariant &value)
         QPointF newPos = value.toPointF();
         newPos.setY(0);
         newPos.setX(m_view->getSnapPointForPos(newPos.x()));
+        if (newPos.x() < 0.0) newPos.setX(0.0);
         return newPos;
     }
     return QGraphicsItem::itemChange(change, value);
