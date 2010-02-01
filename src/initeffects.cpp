@@ -689,7 +689,7 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
                 paramList.append(quickParameterFill(ret, "Geometry", "geometry", "geometry", "0%,0%:100%x100%:100", "-500;-500;-500;-500;0", "500;500;500;500;100"));
                 paramList.append(quickParameterFill(ret, "Alpha Channel Operation", "operator", "list", "over", "", "", "over,and,or,xor", "over,and,or,xor"));
                 paramList.append(quickParameterFill(ret, "Align", "aligned", "bool", "1", "0", "1"));
-                paramList.append(quickParameterFill(ret, "Fill", "fill", "bool", "0", "0", "1"));
+                paramList.append(quickParameterFill(ret, "Fill", "fill", "bool", "1", "0", "1"));
                 paramList.append(quickParameterFill(ret, "Distort", "distort", "bool", "0", "0", "1"));
                 paramList.append(quickParameterFill(ret, "Wipe File", "luma", "list", "", "", "", imagefiles.join(","), imagenamelist.join(",")));
                 paramList.append(quickParameterFill(ret, "Wipe Softness", "softness", "double", "0", "0", "100", "", "", "100"));
