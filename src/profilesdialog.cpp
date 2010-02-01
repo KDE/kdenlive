@@ -461,6 +461,7 @@ void ProfilesDialog::slotUpdateDisplay()
     m_selectedProfileIndex = m_view.profiles_list->currentIndex();
     QString currentProfile = m_view.profiles_list->itemData(m_view.profiles_list->currentIndex()).toString();
     m_isCustomProfile = currentProfile.contains('/');
+    m_view.button_create->setEnabled(true);
     m_view.button_delete->setEnabled(m_isCustomProfile);
     m_view.properties->setEnabled(m_isCustomProfile);
     m_view.button_save->setEnabled(m_isCustomProfile);
