@@ -1333,7 +1333,8 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint pos)
 {
     if (data->hasFormat("kdenlive/clip")) {
         m_clipDrag = true;
-        resetSelectionGroup();
+        m_scene->clearSelection();
+        resetSelectionGroup(false);
         QStringList list = QString(data->data("kdenlive/clip")).split(';');
         DocClipBase *clip = m_document->getBaseClip(list.at(0));
         if (clip == NULL) {
@@ -1368,7 +1369,7 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint pos)
         updateSnapPoints(NULL, offsetList);
         m_selectionGroup->setPos(framePos);
         scene()->addItem(m_selectionGroup);
-        //m_selectionGroup->setZValue(10);
+        m_selectionGroup->setSelected(true);
         return true;
     } else if (data->hasFormat("kdenlive/producerslist")) {
         m_clipDrag = true;
@@ -1414,7 +1415,6 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint pos)
             start += info.cropDuration;
             offsetList.append(start);
             ClipItem *item = new ClipItem(clip, info, m_document->fps(), 1.0, 1, false);
-            //item->setZValue(10);
             item->setFlag(QGraphicsItem::ItemIsMovable, false);
             m_selectionGroup->addToGroup(item);
             if (!clip->isPlaceHolder()) m_waitingThumbs.append(item);
