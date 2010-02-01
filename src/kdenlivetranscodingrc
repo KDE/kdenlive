@@ -1,8 +1,12 @@
 [Transcoding]
-DNxHD 1920x1080 50i/25p 185 Mb/s=-s 1920x1080 -r pal -b 185000k -threads 2 -vcodec dnxhd -acodec copy %1.mov;High quality encoding
-DNxHD 1920x1080 50i/25p 120 Mb/s=-s 1920x1080 -r pal -b 120000k -threads 2 -vcodec dnxhd -acodec copy %1.mov;High quality encoding
-DNxHD 1920x1080 60i/30p 220 Mb/s=-s 1920x1080 -r ntsc -b 220000k -threads 2 -vcodec dnxhd -acodec copy %1.mov;High quality encoding
-DNxHD 1920x1080 60i/30p 145 Mb/s=-s 1920x1080 -r ntsc -b 145000k -threads 2 -vcodec dnxhd -acodec copy %1.mov;High quality encoding
+DNxHD 1920x1080 50i 185 Mb/s=-s 1920x1080 -r pal -flags +ilme+ildct -b 185000k -threads 2 -vcodec dnxhd -acodec copy %1.mov;High quality encoding
+DNxHD 1920x1080 25p 185 Mb/s=-s 1920x1080 -r 25 -b 185000k -threads 2 -vcodec dnxhd -acodec copy %1.mov;High quality encoding
+DNxHD 1920x1080 50i 120 Mb/s=-s 1920x1080 -r pal -flags +ilme+ildct -b 120000k -threads 2 -vcodec dnxhd -acodec copy %1.mov;High quality encoding
+DNxHD 1920x1080 25p 120 Mb/s=-s 1920x1080 -r 25 -b 120000k -threads 2 -vcodec dnxhd -acodec copy %1.mov;High quality encoding
+DNxHD 1920x1080 60i 220 Mb/s=-s 1920x1080 -r ntsc -flags +ilme+ildct -b 220000k -threads 2 -vcodec dnxhd -acodec copy %1.mov;High quality encoding
+DNxHD 1920x1080 30p 220 Mb/s=-s 1920x1080 -r 30 -b 220000k -threads 2 -vcodec dnxhd -acodec copy %1.mov;High quality encoding
+DNxHD 1920x1080 60i 145 Mb/s=-s 1920x1080 -r ntsc -flags +ilme+ildct -b 145000k -threads 2 -vcodec dnxhd -acodec copy %1.mov;High quality encoding
+DNxHD 1920x1080 30p 145 Mb/s=-s 1920x1080 -r 30 -b 145000k -threads 2 -vcodec dnxhd -acodec copy %1.mov;High quality encoding
 Fix MPEG-1=-sameq -acodec copy -vcodec mpeg1video %1.mpg;Fix unplayable MPEG-1 files;vcodec=mpeg1video
 Fix Ogg Theora=-sameq -vcodec libtheora -acodec copy %1.ogv;Fix unplayable OGG Theora files;vcodec=theora
 Remux MPEG-2 PS/VOB=-vcodec copy -acodec copy %1.mpg;Fix audio sync in MPEG-2 vob files;vcodec=mpeg2video
