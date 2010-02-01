@@ -2387,7 +2387,7 @@ bool Render::mltAddEffect(int track, GenTime position, EffectsParameterList para
             params.removeParam("id");
             params.removeParam("kdenlive_ix");
             params.removeParam("tag");
-            params.removeParam("disabled");
+            params.removeParam("disable");
 
             for (int j = 0; j < params.count(); j++) {
                 effectArgs.append(' ' + params.at(j).value());
