@@ -108,7 +108,7 @@ public:
     void setRenderStatus(const QString &dest, int status, const QString &error);
     void setDocumentPath(const QString path);
     void reloadProfiles();
-    void setRenderProfile(const QString &dest, const QString &name, const QString &url);
+    void setRenderProfile(const QString &dest, const QString &group, const QString &name, const QString &url);
     int waitingJobsCount() const;
     QString getFreeScriptName(const QString &prefix = QString());
     bool startWaitingRenderJobs();
@@ -167,7 +167,7 @@ signals:
     void openDvdWizard(const QString &url, const QString &profile);
     /** Send the infos about rendering that will be saved in the document:
     (profile destination, profile name and url of rendered file */
-    void selectedRenderProfile(const QString &, const QString &, const QString &);
+    void selectedRenderProfile(const QString &, const QString &, const QString &, const QString &);
     void prepareRenderingData(bool scriptExport, bool zoneOnly, const QString &chapterFile);
     void shutdown();
 };

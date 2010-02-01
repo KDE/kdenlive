@@ -808,7 +808,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
     m_view.tabWidget->setCurrentIndex(1);
 
     // Save rendering profile to document
-    emit selectedRenderProfile(m_view.size_list->currentItem()->data(MetaGroupRole).toString(), m_view.size_list->currentItem()->text(), dest);
+    emit selectedRenderProfile(m_view.size_list->currentItem()->data(MetaGroupRole).toString(), m_view.size_list->currentItem()->data(GroupRole).toString(), m_view.size_list->currentItem()->text(), dest);
 
     // insert item in running jobs list
     QTreeWidgetItem *renderItem;
@@ -1659,34 +1659,37 @@ void RenderWidget::slotHideLog()
     m_view.error_box->setVisible(false);
 }
 
-void RenderWidget::setRenderProfile(const QString &dest, const QString &name, const QString &url)
+void RenderWidget::setRenderProfile(const QString &dest, const QString &group, const QString &name, const QString &url)
 {
     m_view.destination_list->blockSignals(true);
     m_view.format_list->blockSignals(true);
-    m_view.size_list->blockSignals(true);
 
     if (!url.isEmpty()) m_view.out_file->setUrl(KUrl(url));
 
+    // set destination
     for (int i = 0; i < m_view.destination_list->count(); i++) {
         if (m_view.destination_list->itemData(i, Qt::UserRole) == dest) {
             m_view.destination_list->setCurrentIndex(i);
             break;
         }
     }
+    refreshCategory();
+
+    // set category
+    if (!group.isEmpty()) {
+        QList<QListWidgetItem *> childs = m_view.format_list->findItems(group, Qt::MatchExactly);
+        if (!childs.isEmpty()) {
+            m_view.format_list->setCurrentItem(childs.at(0));
+        }
+        refreshView();
+    }
+
+    // set profile
     QList<QListWidgetItem *> childs = m_view.size_list->findItems(name, Qt::MatchExactly);
     if (!childs.isEmpty()) {
-        QListWidgetItem *profile = childs.at(0);
-        if (profile->isHidden()) {
-            QString group = profile->data(GroupRole).toString();
-            childs = m_view.format_list->findItems(group, Qt::MatchExactly);
-            if (!childs.isEmpty()) {
-                m_view.format_list->setCurrentItem(childs.at(0));
-            }
-        }
-        //refreshView();
-        m_view.size_list->blockSignals(false);
-        m_view.size_list->setCurrentItem(profile);
-    } else m_view.size_list->blockSignals(false);
+        m_view.size_list->setCurrentItem(childs.at(0));
+    }
+    //refreshView();
     m_view.destination_list->blockSignals(false);
     m_view.format_list->blockSignals(false);
 

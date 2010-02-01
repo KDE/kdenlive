@@ -1341,7 +1341,7 @@ void Render::playZone(const GenTime & startTime, const GenTime & stopTime)
         return;
     m_isBlocked = false;
     if (!m_isZoneMode) m_originalOut = m_mltProducer->get_playtime() - 1;
-    m_mltProducer->set("out", (int) (stopTime.frames(m_fps)));
+    m_mltProducer->set("out", (int)(stopTime.frames(m_fps)));
     m_mltProducer->seek((int)(startTime.frames(m_fps)));
     m_mltProducer->set_speed(1.0);
     m_mltConsumer->set("refresh", 1);
