@@ -645,6 +645,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked)
                 // parse clip effects
                 QDomNodeList effects = elem.childNodes();
                 for (int ix = 0; ix < effects.count(); ix++) {
+                    bool disableeffect = false;
                     QDomElement effect = effects.at(ix).toElement();
                     if (effect.tagName() == "filter") {
                         // add effect to clip
@@ -660,6 +661,9 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked)
                                 effecttag = effectparam.text();
                             } else if (effectparam.attribute("name") == "kdenlive_id") {
                                 effectid = effectparam.text();
+                            } else if (effectparam.attribute("name") == "disable" && effectparam.text().toInt() == 1) {
+                                // Fix effects index
+                                disableeffect = true;
                             } else if (effectparam.attribute("name") == "kdenlive_ix") {
                                 // Fix effects index
                                 effectparam.firstChild().setNodeValue(effectindex);
@@ -814,6 +818,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked)
                                 }
                                 currenteffect.setAttribute("src", ladspaEffectFile);
                             }
+                            if (disableeffect) currenteffect.setAttribute("disable", "1");
                             item->addEffect(currenteffect, false);
                         }
                     }

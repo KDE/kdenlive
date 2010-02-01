@@ -1498,11 +1498,6 @@ void CustomTrackView::addEffect(int track, GenTime pos, QDomElement effect)
             return;
         }
         EffectsParameterList params = clip->addEffect(effect);
-        if (effect.attribute("disabled") == "1") {
-            // Effect is disabled, don't add it to MLT playlist
-            if (clip->isSelected()) emit clipItemSelected(clip);
-            return;
-        }
         if (!m_document->renderer()->mltAddEffect(track, pos, params))
             emit displayMessage(i18n("Problem adding effect to clip"), ErrorMessage);
         if (clip->isSelected()) emit clipItemSelected(clip);
@@ -1523,8 +1518,8 @@ void CustomTrackView::deleteEffect(int track, GenTime pos, QDomElement effect)
             return;
         }
     }
-    if (!m_document->renderer()->mltRemoveEffect(track, pos, index, true) && effect.attribute("disabled") != "1") {
-        kDebug() << "// ERROR REMOV EFFECT: " << index << ", DISABLE: " << effect.attribute("disabled");
+    if (!m_document->renderer()->mltRemoveEffect(track, pos, index, true)) {
+        kDebug() << "// ERROR REMOV EFFECT: " << index << ", DISABLE: " << effect.attribute("disable");
         emit displayMessage(i18n("Problem deleting effect"), ErrorMessage);
         return;
     }
@@ -1655,7 +1650,7 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedE
     if (clip) {
         // Special case: speed effect
         if (effect.attribute("id") == "speed") {
-            if (effect.attribute("disabled") == "1") doChangeClipSpeed(clip->info(), clip->speedIndependantInfo(), 1.0, clip->speed(), 1, clip->baseClip()->getId());
+            if (effect.attribute("disable") == "1") doChangeClipSpeed(clip->info(), clip->speedIndependantInfo(), 1.0, clip->speed(), 1, clip->baseClip()->getId());
             else {
                 double speed = EffectsList::parameter(effect, "speed").toDouble() / 100.0;
                 int strobe = EffectsList::parameter(effect, "strobe").toInt();
@@ -1680,11 +1675,7 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedE
             clip->initEffect(effect);
             effectParams = clip->getEffectArgs(effect);
         }
-        if (effectParams.paramValue("disabled") == "1") {
-            if (m_document->renderer()->mltRemoveEffect(track, pos, effectParams.paramValue("kdenlive_ix"), false)) {
-                kDebug() << "//////  DISABLING EFFECT: " << ix << ", CURRENTLA: " << clip->selectedEffectIndex();
-            } else emit displayMessage(i18n("Problem deleting effect"), ErrorMessage);
-        } else if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - clip->track(), clip->startPos(), effectParams))
+        if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - clip->track(), clip->startPos(), effectParams))
             emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
 
         clip->setEffectAt(ix, effect);
@@ -1731,7 +1722,7 @@ void CustomTrackView::slotChangeEffectState(ClipItem *clip, int effectPos, bool 
     QDomElement effect = clip->effectAt(effectPos);
     QDomElement oldEffect = effect.cloneNode().toElement();
 
-    effect.setAttribute("disabled", (int) disable);
+    effect.setAttribute("disable", (int) disable);
     EditEffectCommand *command = new EditEffectCommand(this, m_document->tracksCount() - clip->track(), clip->startPos(), oldEffect, effect, effectPos, true);
     m_commandStack->push(command);
     setDocumentModified();;

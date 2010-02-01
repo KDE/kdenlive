@@ -314,7 +314,7 @@ bool ClipItem::checkKeyFrames()
 void ClipItem::setKeyframes(const int ix, const QString keyframes)
 {
     QDomElement effect = getEffectAt(ix);
-    if (effect.attribute("disabled") == "1") return;
+    if (effect.attribute("disable") == "1") return;
     QDomNodeList params = effect.elementsByTagName("parameter");
     for (int i = 0; i < params.count(); i++) {
         QDomElement e = params.item(i).toElement();
@@ -351,7 +351,7 @@ void ClipItem::setSelectedEffect(const int ix)
     QDomElement effect = effectAt(m_selectedEffect);
     if (effect.isNull() == false) {
         QDomNodeList params = effect.elementsByTagName("parameter");
-        if (effect.attribute("disabled") != "1")
+        if (effect.attribute("disable") != "1")
             for (int i = 0; i < params.count(); i++) {
                 QDomElement e = params.item(i).toElement();
                 if (!e.isNull() && (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe")) {
@@ -401,7 +401,7 @@ void ClipItem::updateKeyframeEffect()
 {
     // regenerate xml parameter from the clip keyframes
     QDomElement effect = getEffectAt(m_selectedEffect);
-    if (effect.attribute("disabled") == "1") return;
+    if (effect.attribute("disable") == "1") return;
     QDomNodeList params = effect.elementsByTagName("parameter");
 
     for (int i = 0; i < params.count(); i++) {
@@ -1315,7 +1315,7 @@ EffectsParameterList ClipItem::addEffect(const QDomElement effect, bool /*animat
     parameters.addParam("tag", effect.attribute("tag"));
     parameters.addParam("kdenlive_ix", effect.attribute("kdenlive_ix"));
     if (effect.hasAttribute("src")) parameters.addParam("src", effect.attribute("src"));
-    if (effect.hasAttribute("disabled")) parameters.addParam("disabled", effect.attribute("disabled"));
+    if (effect.hasAttribute("disable")) parameters.addParam("disable", effect.attribute("disable"));
 
 
     QString effectId = effect.attribute("id");
@@ -1428,7 +1428,7 @@ EffectsParameterList ClipItem::getEffectArgs(const QDomElement effect)
     parameters.addParam("kdenlive_ix", effect.attribute("kdenlive_ix"));
     parameters.addParam("id", effect.attribute("id"));
     if (effect.hasAttribute("src")) parameters.addParam("src", effect.attribute("src"));
-    if (effect.hasAttribute("disabled")) parameters.addParam("disabled", effect.attribute("disabled"));
+    if (effect.hasAttribute("disable")) parameters.addParam("disable", effect.attribute("disable"));
 
     QDomNodeList params = effect.elementsByTagName("parameter");
     for (int i = 0; i < params.count(); i++) {
@@ -1635,7 +1635,7 @@ bool ClipItem::isVideoOnly() const
 
 void ClipItem::insertKeyframe(QDomElement effect, int pos, int val)
 {
-    if (effect.attribute("disabled") == "1") return;
+    if (effect.attribute("disable") == "1") return;
     effect.setAttribute("active_keyframe", pos);
     m_editedKeyframe = pos;
     QDomNodeList params = effect.elementsByTagName("parameter");
@@ -1664,7 +1664,7 @@ void ClipItem::insertKeyframe(QDomElement effect, int pos, int val)
 
 void ClipItem::movedKeyframe(QDomElement effect, int oldpos, int newpos, double value)
 {
-    if (effect.attribute("disabled") == "1") return;
+    if (effect.attribute("disable") == "1") return;
     effect.setAttribute("active_keyframe", newpos);
     QDomNodeList params = effect.elementsByTagName("parameter");
     int start = cropStart().frames(m_fps);

@@ -175,7 +175,7 @@ void EffectStackView::slotItemChanged(QListWidgetItem *item)
     m_ui.buttonReset->setEnabled(!disable);
     int activeRow = m_ui.effectlist->currentRow();
     if (activeRow >= 0) {
-        m_effectedit->updateParameter("disabled", QString::number((int) disable));
+        m_effectedit->updateParameter("disable", QString::number((int) disable));
         emit changeEffectState(m_clipref, activeRow, disable);
     }
 }
@@ -216,7 +216,7 @@ void EffectStackView::setupListView(int ix)
                 item = new QListWidgetItem(videoIcon, i18n(namenode.toElement().text().toUtf8().data()), m_ui.effectlist);
             }
             item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
-            if (d.attribute("disabled") == "1") item->setCheckState(Qt::Unchecked);
+            if (d.attribute("disable") == "1") item->setCheckState(Qt::Unchecked);
             else item->setCheckState(Qt::Checked);
         }
     }
