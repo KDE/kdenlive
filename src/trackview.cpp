@@ -650,7 +650,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked)
                         // add effect to clip
                         QString effecttag;
                         QString effectid;
-                        QString effectindex;
+                        QString effectindex = QString::number(ix + 1);
                         QString ladspaEffectFile;
                         // Get effect tag & index
                         for (QDomNode n3 = effect.firstChild(); !n3.isNull(); n3 = n3.nextSibling()) {
@@ -661,7 +661,8 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked)
                             } else if (effectparam.attribute("name") == "kdenlive_id") {
                                 effectid = effectparam.text();
                             } else if (effectparam.attribute("name") == "kdenlive_ix") {
-                                effectindex = effectparam.text();
+                                // Fix effects index
+                                effectparam.firstChild().setNodeValue(effectindex);
                             } else if (effectparam.attribute("name") == "src") {
                                 ladspaEffectFile = effectparam.text();
                                 if (!QFile::exists(ladspaEffectFile)) {
@@ -814,7 +815,6 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked)
                                 currenteffect.setAttribute("src", ladspaEffectFile);
                             }
                             item->addEffect(currenteffect, false);
-                            item->effectsCounter();
                         }
                     }
                 }

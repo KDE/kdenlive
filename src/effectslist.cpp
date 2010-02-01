@@ -243,27 +243,28 @@ bool EffectsList::isEmpty() const
 const QDomElement EffectsList::at(int ix) const
 {
     QDomNodeList effects = m_baseElement.childNodes();
-    if (ix >= effects.count()) return QDomElement();
+    if (ix < 0 || ix >= effects.count()) return QDomElement();
     return effects.at(ix).toElement();
 }
 
 void EffectsList::removeAt(int ix)
 {
     QDomNodeList effects = m_baseElement.childNodes();
-    if (ix >= effects.count()) return;
+    if (ix < 0 || ix >= effects.count()) return;
     m_baseElement.removeChild(effects.at(ix));
 }
 
 QDomElement EffectsList::item(int ix)
 {
     QDomNodeList effects = m_baseElement.childNodes();
-    if (ix >= effects.count()) return QDomElement();
+    if (ix < 0 || ix >= effects.count()) return QDomElement();
     return effects.at(ix).toElement();
 }
 
 void EffectsList::insert(int ix, QDomElement effect)
 {
     QDomNodeList effects = m_baseElement.childNodes();
+    if (ix < 0) ix = 0;
     if (ix >= effects.count()) m_baseElement.appendChild(importNode(effect, true));
     else m_baseElement.insertBefore(importNode(effect, true), effects.at(ix));
 }
@@ -271,6 +272,7 @@ void EffectsList::insert(int ix, QDomElement effect)
 void EffectsList::replace(int ix, QDomElement effect)
 {
     QDomNodeList effects = m_baseElement.childNodes();
+    if (ix < 0) ix = 0;
     if (ix < effects.count()) m_baseElement.removeChild(effects.at(ix));
     if (ix == effects.count()) m_baseElement.appendChild(importNode(effect, true));
     else m_baseElement.insertBefore(importNode(effect, true), effects.at(ix));
