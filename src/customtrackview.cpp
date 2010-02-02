@@ -4759,6 +4759,20 @@ void CustomTrackView::pasteClipEffects()
     paste->setText("Paste effects");
 
     QList<QGraphicsItem *> clips = scene()->selectedItems();
+
+    // expand groups
+    for (int i = 0; i < clips.count(); ++i) {
+	if (clips.at(i)->type() == GROUPWIDGET) {
+	    QList<QGraphicsItem *> children = clips.at(i)->childItems();
+	    for (int j = 0; j < children.count(); j++) {
+		if (children.at(j)->type() == AVWIDGET && !clips.contains(children.at(j))) {
+		    clips.append(children.at(j));
+		}
+	    }
+	}
+    }
+
+
     for (int i = 0; i < clips.count(); ++i) {
         if (clips.at(i)->type() == AVWIDGET) {
             ClipItem *item = static_cast < ClipItem *>(clips.at(i));
@@ -4771,12 +4785,15 @@ void CustomTrackView::pasteClipEffects()
             }
         }
     }
-    m_commandStack->push(paste);
+    if (paste->childCount() > 0) m_commandStack->push(paste);
+    else delete paste;
 
-    //Â adjust effects (fades, ...)
+    // adjust effects (fades, ...)
     for (int i = 0; i < clips.count(); ++i) {
-        ClipItem *item = static_cast < ClipItem *>(clips.at(i));
-        updatePositionEffects(item, item->info());
+	if (clips.at(i)->type() == AVWIDGET) {
+	    ClipItem *item = static_cast < ClipItem *>(clips.at(i));
+	    updatePositionEffects(item, item->info());
+	}
     }
 }
 
