@@ -265,7 +265,7 @@
          <enum>QFrame::Plain</enum>
         </property>
         <property name="documentTitle">
-         <string notr="true"/>
+         <string notr="true"></string>
         </property>
         <property name="readOnly">
          <bool>true</bool>

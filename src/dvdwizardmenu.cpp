@@ -157,7 +157,7 @@ bool DvdWizardMenu::isComplete() const
         }
     }
     if (buttonCount == 0) {
-        // We need at least one button
+        //We need at least one button
         m_view.error_message->setText(i18n("No button in menu"));
         m_view.error_message->setHidden(false);
         return false;
