@@ -827,7 +827,7 @@ void ProjectList::slotUpdateClip(const QString &id)
 {
     ProjectItem *item = getItemById(id);
     m_listView->blockSignals(true);
-    if (item) item->setData(1, UsageRole, QString::number(item->numReferences()));
+    if (item) item->setData(0, UsageRole, QString::number(item->numReferences()));
     m_listView->blockSignals(false);
 }
 
@@ -869,7 +869,7 @@ void ProjectList::updateAllClips()
                     item->changeDuration(item->referencedClip()->producer()->get_playtime());
                 }
             }
-            item->setData(1, UsageRole, QString::number(item->numReferences()));
+            item->setData(0, UsageRole, QString::number(item->numReferences()));
         }
         //qApp->processEvents();
         ++it;
