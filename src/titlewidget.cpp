@@ -290,13 +290,13 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     origin_y_top->setToolTip(i18n("Invert y axis and change 0 point"));
     rectBColor->setToolTip(i18n("Select fill color"));
     rectFColor->setToolTip(i18n("Select border color"));
-    rectBAlpha->setToolTip(i18n("Fill transparency"));
-    rectFAlpha->setToolTip(i18n("Border transparency"));
+    rectBAlpha->setToolTip(i18n("Fill opacity"));
+    rectFAlpha->setToolTip(i18n("Border opacity"));
     zoom_slider->setToolTip(i18n("Zoom"));
     buttonRealSize->setToolTip(i18n("Original size (1:1)"));
     buttonFitZoom->setToolTip(i18n("Fit zoom"));
     backgroundColor->setToolTip(i18n("Select background color"));
-    backgroundAlpha->setToolTip(i18n("Background Transparency"));
+    backgroundAlpha->setToolTip(i18n("Background opacity"));
 
     itemhcenter->setIcon(KIcon("kdenlive-align-hor"));
     itemhcenter->setToolTip(i18n("Align item horizontally"));

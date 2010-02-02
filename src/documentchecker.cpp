@@ -168,7 +168,7 @@ bool DocumentChecker::hasMissingClips()
             item->setToolTip(1, e.attribute("name"));
             QString ft = e.attribute("resource");
             QString newft = QFontInfo(QFont(ft)).family();
-            item->setText(1, i18n("%1, will be replaced by %2", ft, newft));
+            item->setText(1, i18n("%1 will be replaced by %2", ft, newft));
             item->setData(0, statusRole, CLIPPLACEHOLDER);
         } else {
             item->setIcon(0, KIcon("dialog-close"));
