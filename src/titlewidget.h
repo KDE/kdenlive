@@ -169,7 +169,13 @@ private:
     void deleteAnimInfoText();
 
     qreal maxZIndex();
-    qreal zIndexBounds(bool maxBound);
+    /** 
+     * \brief Get the minimum/maximum z index value of items.
+     * \param maxBound true: Use maximum z index. false: Use minimum
+     * \param intersectingOnly Only considers the items intersecting with
+     * the currently selected item if true.
+     */
+    qreal zIndexBounds(bool maxBound, bool intersectingOnly);
 
     void itemRotate(qreal val, int axis);
 

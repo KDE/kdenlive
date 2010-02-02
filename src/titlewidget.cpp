@@ -2150,12 +2150,18 @@ void TitleWidget::slotEditShadow()
 #endif
 }
 
-qreal TitleWidget::zIndexBounds(bool maxBound)
+qreal TitleWidget::zIndexBounds(bool maxBound, bool intersectingOnly)
 {
     qreal bound = maxBound ? -99 : 99;
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     if (l.size() > 0) {
-        QList<QGraphicsItem*> lItems = graphicsView->scene()->items(l[0]->sceneBoundingRect(), Qt::IntersectsItemShape);
+        QList<QGraphicsItem*> lItems;
+        // Get items (all or intersecting only)
+        if (intersectingOnly) {
+            lItems = graphicsView->scene()->items(l[0]->sceneBoundingRect(), Qt::IntersectsItemShape);
+        } else {
+            lItems = graphicsView->scene()->items();
+        }
         if (lItems.size() > 0) {
             int n = lItems.size();
             qreal z;
@@ -2186,7 +2192,7 @@ void TitleWidget::slotZIndexUp()
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     if (l.size() >= 1) {
         qreal currentZ = l[0]->zValue();
-        qreal max = zIndexBounds(true);
+        qreal max = zIndexBounds(true, true);
         if (currentZ <= max) {
             l[0]->setZValue(currentZ + 1);
             updateDimension(l[0]);
@@ -2199,7 +2205,7 @@ void TitleWidget::slotZIndexTop()
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     if (l.size() >= 1) {
         qreal currentZ = l[0]->zValue();
-        qreal max = zIndexBounds(true);
+        qreal max = zIndexBounds(true, false);
         if (currentZ <= max) {
             l[0]->setZValue(max + 1);
             updateDimension(l[0]);
@@ -2212,7 +2218,7 @@ void TitleWidget::slotZIndexDown()
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     if (l.size() >= 1) {
         qreal currentZ = l[0]->zValue();
-        qreal min = zIndexBounds(false);
+        qreal min = zIndexBounds(false, true);
         if (currentZ >= min) {
             l[0]->setZValue(currentZ - 1);
             updateDimension(l[0]);
@@ -2225,7 +2231,7 @@ void TitleWidget::slotZIndexBottom()
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     if (l.size() >= 1) {
         qreal currentZ = l[0]->zValue();
-        qreal min = zIndexBounds(false);
+        qreal min = zIndexBounds(false, false);
         if (currentZ >= min) {
             l[0]->setZValue(min - 1);
             updateDimension(l[0]);

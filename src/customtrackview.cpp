@@ -2189,7 +2189,9 @@ void CustomTrackView::adjustTimelineClips(EDITMODE mode, ClipItem *item, ItemInf
                         dupInfo.cropStart += diff;
                         dupInfo.cropDuration = clipInfo.endPos - info.startPos;
                         new RazorClipCommand(this, clipInfo, info.startPos, false, command);
-                        ClipItem *dup = cutClip(clipInfo, info.startPos, true, false);
+                        // Commented out; variable dup unused. --granjow
+                        //ClipItem *dup = cutClip(clipInfo, info.startPos, true, false);
+                        cutClip(clipInfo, info.startPos, true, false);
                     }
                 }
                 // TODO: add insertspacecommand
