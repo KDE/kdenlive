@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-01 21:07+0200\n"
-"PO-Revision-Date: 2010-02-01 21:09+0200\n"
+"POT-Creation-Date: 2010-02-02 18:20+0200\n"
+"PO-Revision-Date: 2010-02-02 18:23+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <translation@linux.org.ua>\n"
 "MIME-Version: 1.0\n"
@@ -26,8 +26,9 @@ msgid "%"
 msgstr "%"
 
 #: src/documentchecker.cpp:171
-msgid "%1, will be replaced by %2"
-msgstr "%1, буде замінено на %2"
+#| msgid "%1, will be replaced by %2"
+msgid "%1 will be replaced by %2"
+msgstr "%1 буде замінено на %2"
 
 #: src/titlewidget.cpp:1298 rc.cpp:1067 rc.cpp:2601
 msgid "+X"
@@ -269,7 +270,7 @@ msgstr ""
 msgid "A"
 msgstr "A"
 
-#: src/customtrackview.cpp:4368
+#: src/customtrackview.cpp:4361
 msgid "A guide already exists at position %1"
 msgstr "У позиції %1 вже вказано напрямну"
 
@@ -301,8 +302,8 @@ msgstr "Перервати виконання"
 msgid "Activate crash recovery (auto save)"
 msgstr "Задіяти відновлення після аварій (автозбереження)"
 
-#: src/addeffectcommand.cpp:38 src/customtrackview.cpp:1546
-#: src/customtrackview.cpp:1590
+#: src/addeffectcommand.cpp:38 src/customtrackview.cpp:1541
+#: src/customtrackview.cpp:1585
 msgid "Add %1"
 msgstr "Додати %1"
 
@@ -326,7 +327,7 @@ msgstr "Додати кольоровий кліп"
 msgid "Add Custom Effect"
 msgstr "Додати нетиповий ефект"
 
-#: src/customruler.cpp:77 src/mainwindow.cpp:1227 src/customtrackview.cpp:4383
+#: src/customruler.cpp:77 src/mainwindow.cpp:1227 src/customtrackview.cpp:4376
 msgid "Add Guide"
 msgstr "Додати напрямну"
 
@@ -442,7 +443,7 @@ msgstr "Додати до назви файла захоплених даних 
 msgid "Add space"
 msgstr "Додати пробіл"
 
-#: src/addtimelineclipcommand.cpp:38 src/customtrackview.cpp:2058
+#: src/addtimelineclipcommand.cpp:38 src/customtrackview.cpp:2049
 msgid "Add timeline clip"
 msgstr "Додати кліп лінійки запису"
 
@@ -639,7 +640,7 @@ msgstr "Звукові кодеки"
 msgid "Audio Only"
 msgstr "Лише звук"
 
-#: src/mainwindow.cpp:1195 src/customtrackview.cpp:5400
+#: src/mainwindow.cpp:1195 src/customtrackview.cpp:5410
 msgid "Audio and Video"
 msgstr "Звук та відео"
 
@@ -684,7 +685,7 @@ msgstr "Частота звукових даних"
 msgid "Audio index"
 msgstr "Покажчик звукових даних"
 
-#: src/renderwidget.cpp:1163 src/customtrackview.cpp:5375
+#: src/renderwidget.cpp:1163 src/customtrackview.cpp:5385
 msgid "Audio only"
 msgstr "Лише звук"
 
@@ -754,13 +755,14 @@ msgstr "Повернутися до меню"
 msgid "Background"
 msgstr "Тло"
 
-#: src/titlewidget.cpp:299
-msgid "Background Transparency"
-msgstr "Прозорість тла"
-
 #: src/titlewidget.cpp:98
 msgid "Background color opacity"
 msgstr "Непрозорість кольору тла"
+
+#: src/titlewidget.cpp:299
+#| msgid "Background color opacity"
+msgid "Background opacity"
+msgstr "Непрозорість тла"
 
 #: rc.cpp:265
 msgid "Balances colors along with 3 points"
@@ -820,13 +822,9 @@ msgstr "Жирний"
 msgid "Border color"
 msgstr "Колір рамки"
 
-#: src/titlewidget.cpp:128
+#: src/titlewidget.cpp:128 src/titlewidget.cpp:294
 msgid "Border opacity"
 msgstr "Непрозорість рамки"
-
-#: src/titlewidget.cpp:294
-msgid "Border transparency"
-msgstr "Прозорість рамки"
 
 #: src/titlewidget.cpp:134
 msgid "Border width"
@@ -904,26 +902,26 @@ msgstr "Кнопки перекриваються"
 msgid "C"
 msgstr "C"
 
-#: src/customtrackview.cpp:1611
+#: src/customtrackview.cpp:1606
 msgid "Cannot add a video effect to this clip"
 msgstr "Не вдалося додати відеоефект до цього кліпу"
 
-#: src/customtrackview.cpp:1605
+#: src/customtrackview.cpp:1600
 msgid "Cannot add an audio effect to this clip"
 msgstr "Не вдалося додати звуковий ефект до цього кліпу"
 
 #: src/customtrackview.cpp:1022 src/customtrackview.cpp:1055
-#: src/customtrackview.cpp:1886 src/customtrackview.cpp:1912
-#: src/customtrackview.cpp:1938 src/customtrackview.cpp:1962
+#: src/customtrackview.cpp:1877 src/customtrackview.cpp:1903
+#: src/customtrackview.cpp:1929 src/customtrackview.cpp:1953
 msgid "Cannot add transition"
 msgstr "Не вдалося додати перехід"
 
-#: src/customtrackview.cpp:5356 src/customtrackview.cpp:5381
-#: src/customtrackview.cpp:5406
+#: src/customtrackview.cpp:5366 src/customtrackview.cpp:5391
+#: src/customtrackview.cpp:5416
 msgid "Cannot change grouped clips"
 msgstr "Не вдалося змінити згруповані кліпи"
 
-#: src/customtrackview.cpp:904 src/customtrackview.cpp:3579
+#: src/customtrackview.cpp:904 src/customtrackview.cpp:3572
 msgid "Cannot cut a clip in a group"
 msgstr "Не вдалося вирізати кліп з групи"
 
@@ -931,11 +929,11 @@ msgstr "Не вдалося вирізати кліп з групи"
 msgid "Cannot cut a transition"
 msgstr "Не вдалося вирізати перехід"
 
-#: src/customtrackview.cpp:3552
+#: src/customtrackview.cpp:3545
 msgid "Cannot find clip for speed change"
 msgstr "Не вдалося знайти кліп для зміни швидкості"
 
-#: src/customtrackview.cpp:1509
+#: src/customtrackview.cpp:1504
 msgid "Cannot find clip to add effect"
 msgstr "Не вдалося знайти кліп до додавання ефекту"
 
@@ -943,7 +941,7 @@ msgstr "Не вдалося знайти кліп до додавання ефе
 msgid "Cannot find clip to add marker"
 msgstr "Не вдалося знайти кліп для додавання позначки"
 
-#: src/customtrackview.cpp:1759
+#: src/customtrackview.cpp:1750
 msgid "Cannot find clip to cut"
 msgstr "Не вдалося знайти кліп для вирізання"
 
@@ -951,7 +949,7 @@ msgstr "Не вдалося знайти кліп для вирізання"
 msgid "Cannot find clip to remove marker"
 msgstr "Не вдалося знайти кліп для вилучення позначки"
 
-#: src/customtrackview.cpp:1811
+#: src/customtrackview.cpp:1802
 msgid "Cannot find clip to uncut"
 msgstr "Не вдалося знайти кліп для скасування вирізання"
 
@@ -970,39 +968,39 @@ msgid "Cannot find your Mlt profiles, please give the path"
 msgstr ""
 "Не вдалося знайти сховища профілів Mlt, будь ласка, вкажіть його адресу"
 
-#: src/customtrackview.cpp:1324 src/customtrackview.cpp:2082
+#: src/customtrackview.cpp:1324 src/customtrackview.cpp:2073
 msgid "Cannot insert clip in timeline"
 msgstr "Не вдалося вставити кліп до лінійки запису"
 
-#: src/customtrackview.cpp:2590
+#: src/customtrackview.cpp:2583
 msgid "Cannot insert space in a track with a group"
 msgstr "Не вдалося вставити пробіл у доріжку групи"
 
-#: src/customtrackview.cpp:2644
+#: src/customtrackview.cpp:2637
 msgid "Cannot move clip at position %1, track %2"
 msgstr "Не вдалося пересунути кліп на позиції %1, доріжка %2"
 
-#: src/customtrackview.cpp:3828 src/customtrackview.cpp:4033
+#: src/customtrackview.cpp:3821 src/customtrackview.cpp:4026
 msgid "Cannot move clip at time: %1 on track %2"
 msgstr "Не вдалося пересунути кліп з часовою міткою %1 на доріжці %2"
 
-#: src/customtrackview.cpp:2972 src/customtrackview.cpp:3864
+#: src/customtrackview.cpp:2965 src/customtrackview.cpp:3857
 msgid "Cannot move clip to position %1"
 msgstr "Не вдалося пересунути кліп на позицію %1"
 
-#: src/customtrackview.cpp:1726
+#: src/customtrackview.cpp:1717
 msgid "Cannot move effect"
 msgstr "Не вдалося пересунути ефект"
 
-#: src/customtrackview.cpp:2981
+#: src/customtrackview.cpp:2974
 msgid "Cannot move transition"
 msgstr "Не вдалося пересунути перехід"
 
-#: src/customtrackview.cpp:2659
+#: src/customtrackview.cpp:2652
 msgid "Cannot move transition at position %1, track %2"
 msgstr "Не вдалося пересунути перехід на позиції %1, доріжка %2"
 
-#: src/customtrackview.cpp:3984
+#: src/customtrackview.cpp:3977
 msgid "Cannot move transition at time: %1 on track %2"
 msgstr "Не вдалося пересунути перехід з часовою міткою %1 на доріжці %2"
 
@@ -1014,15 +1012,15 @@ msgstr ""
 "Не вдалося відкрити файл %1.\n"
 "Файл проекту пошкоджено."
 
-#: src/customtrackview.cpp:4737
+#: src/customtrackview.cpp:4730
 msgid "Cannot paste clip to selected place"
 msgstr "Не вдалося вставити кліп у позначене місце"
 
-#: src/customtrackview.cpp:4709 src/customtrackview.cpp:4721
+#: src/customtrackview.cpp:4702 src/customtrackview.cpp:4714
 msgid "Cannot paste selected clips"
 msgstr "Не вдалося вставити позначені кліпи"
 
-#: src/customtrackview.cpp:4751
+#: src/customtrackview.cpp:4744
 msgid "Cannot paste transition to selected place"
 msgstr "Не вдалося вставити перехід у позначене місце"
 
@@ -1045,23 +1043,23 @@ msgstr ""
 "Не вдалося виконати читання з пристрою %1\n"
 "Будь ласка, перевірте наявність драйверів та права доступу."
 
-#: src/customtrackview.cpp:2543
+#: src/customtrackview.cpp:2536
 msgid "Cannot remove space in a track with a group"
 msgstr "Не вдалося вилучити пробіл у доріжці групи"
 
-#: src/customtrackview.cpp:3167 src/customtrackview.cpp:3259
+#: src/customtrackview.cpp:3160 src/customtrackview.cpp:3252
 msgid "Cannot resize transition"
 msgstr "Не вдалося змінити розміри переходу"
 
-#: src/customtrackview.cpp:5258
+#: src/customtrackview.cpp:5268
 msgid "Cannot split audio of grouped clips"
 msgstr "Не вдалося розрізати звук згрупованих кліпів"
 
-#: src/customtrackview.cpp:2332 src/customtrackview.cpp:2404
-#: src/customtrackview.cpp:3710 src/customtrackview.cpp:5301
-#: src/customtrackview.cpp:5304 src/customtrackview.cpp:5330
-#: src/customtrackview.cpp:5428 src/customtrackview.cpp:5435
-#: src/customtrackview.cpp:5442
+#: src/customtrackview.cpp:2325 src/customtrackview.cpp:2397
+#: src/customtrackview.cpp:3703 src/customtrackview.cpp:5311
+#: src/customtrackview.cpp:5314 src/customtrackview.cpp:5340
+#: src/customtrackview.cpp:5438 src/customtrackview.cpp:5445
+#: src/customtrackview.cpp:5452
 msgid "Cannot update clip (time: %1, track: %2)"
 msgstr "Не вдалося оновити кліп (час: %1, доріжка: %2)"
 
@@ -1075,7 +1073,7 @@ msgstr "Використовувати у згрупованих кліпах р
 
 #: src/renderwidget.cpp:422 src/renderwidget.cpp:539 src/renderwidget.cpp:545
 #: src/renderwidget.cpp:605 src/renderwidget.cpp:784 src/renderwidget.cpp:796
-#: src/renderwidget.cpp:1702 src/renderwidget.cpp:1725
+#: src/renderwidget.cpp:1705 src/renderwidget.cpp:1728
 #: src/profilesdialog.cpp:166 src/profilesdialog.cpp:172
 #: src/profilesdialog.cpp:439 src/profilesdialog.cpp:445 src/dvdwizard.cpp:701
 #: src/dvdwizard.cpp:707 src/kdenlivedoc.cpp:570 src/kdenlivedoc.cpp:576
@@ -1143,7 +1141,7 @@ msgstr "Змінити"
 msgid "Change Track"
 msgstr "Змінити доріжку"
 
-#: src/headertrack.cpp:90 src/customtrackview.cpp:5078
+#: src/headertrack.cpp:90 src/customtrackview.cpp:5088
 msgid "Change Track Type"
 msgstr "Змінити тип доріжки"
 
@@ -1159,7 +1157,7 @@ msgstr "Змінити значення кольорів гами"
 msgid "Change image brightness with keyframes"
 msgstr "Змінювати яскравість зображення за ключовими кадрами"
 
-#: src/customtrackview.cpp:5073
+#: src/customtrackview.cpp:5083
 msgid "Change track"
 msgstr "Змінити доріжку"
 
@@ -1292,7 +1290,7 @@ msgstr "Нижній край"
 msgid "Clip duration: %1s"
 msgstr "Тривалість кліпу: %1 с"
 
-#: src/customtrackview.cpp:4304
+#: src/customtrackview.cpp:4297
 msgid "Clip has no markers"
 msgstr "Позначок для кліпу не вказано"
 
@@ -1458,7 +1456,7 @@ msgstr "Створити теку"
 msgid "Create ISO image"
 msgstr "Створити образ ISO"
 
-#: src/mainwindow.cpp:3095
+#: src/mainwindow.cpp:3096
 msgid "Create Render Script"
 msgstr "Створити скрипт обробки"
 
@@ -1711,7 +1709,7 @@ msgstr "Вилучити скрипт"
 msgid "Delete Selected Item"
 msgstr "Вилучити позначений елемент"
 
-#: src/mainwindow.cpp:1219 src/headertrack.cpp:86 src/customtrackview.cpp:5057
+#: src/mainwindow.cpp:1219 src/headertrack.cpp:86 src/customtrackview.cpp:5067
 msgid "Delete Track"
 msgstr "Вилучити доріжку"
 
@@ -1788,25 +1786,25 @@ msgstr "Вилучити позначку"
 msgid "Delete profile"
 msgstr "Вилучити профіль"
 
-#: src/customtrackview.cpp:3510
+#: src/customtrackview.cpp:3503
 msgid "Delete selected clip"
 msgid_plural "Delete selected clips"
 msgstr[0] "Вилучити позначений кліп"
 msgstr[1] "Вилучити позначені кліпи"
 msgstr[2] "Вилучити позначені кліпи"
 
-#: src/customtrackview.cpp:3508
+#: src/customtrackview.cpp:3501
 msgid "Delete selected group"
 msgid_plural "Delete selected groups"
 msgstr[0] "Вилучити позначену групу"
 msgstr[1] "Вилучити позначені групи"
 msgstr[2] "Вилучити позначені групи"
 
-#: src/customtrackview.cpp:3513
+#: src/customtrackview.cpp:3506
 msgid "Delete selected items"
 msgstr "Вилучити позначені елементи"
 
-#: src/customtrackview.cpp:3512
+#: src/customtrackview.cpp:3505
 msgid "Delete selected transition"
 msgid_plural "Delete selected transitions"
 msgstr[0] "Вилучити позначений перехід"
@@ -1817,14 +1815,14 @@ msgstr[2] "Вилучити позначені переходи"
 msgid "Delete them"
 msgstr "Вилучити їх"
 
-#: src/addtimelineclipcommand.cpp:39 src/customtrackview.cpp:2701
+#: src/addtimelineclipcommand.cpp:39 src/customtrackview.cpp:2694
 msgid "Delete timeline clip"
 msgid_plural "Delete timeline clips"
 msgstr[0] "Вилучити кліп лінійки запису"
 msgstr[1] "Вилучити кліпи лінійки запису"
 msgstr[2] "Вилучити кліпи лінійки запису"
 
-#: src/addtrackcommand.cpp:34 src/customtrackview.cpp:5052
+#: src/addtrackcommand.cpp:34 src/customtrackview.cpp:5062
 msgid "Delete track"
 msgstr "Вилучити доріжку"
 
@@ -1990,12 +1988,12 @@ msgstr "Виправлення країв"
 msgid "Edit Clip"
 msgstr "Змінити кліп"
 
-#: src/customtrackview.cpp:3533
+#: src/customtrackview.cpp:3526
 msgid "Edit Clip Speed"
 msgstr "Змінити швидкість кліпу"
 
 #: src/customruler.cpp:79 src/mainwindow.cpp:1235 src/customtrackview.cpp:222
-#: src/customtrackview.cpp:4409 src/customtrackview.cpp:4421
+#: src/customtrackview.cpp:4402 src/customtrackview.cpp:4414
 msgid "Edit Guide"
 msgstr "Змінити напрямну"
 
@@ -2059,7 +2057,7 @@ msgstr "Змінити перехід %1"
 msgid "Effect"
 msgstr "Ефект"
 
-#: src/trackview.cpp:683
+#: src/trackview.cpp:688
 msgid "Effect %1:%2 not found in MLT, it was removed from this project\n"
 msgstr "Ефект %1:%2 не знайдено у MLT, цей ефекти буде вилучено з проекту\n"
 
@@ -2071,7 +2069,7 @@ msgstr "Список ефектів"
 msgid "Effect Stack"
 msgstr "Стос ефектів"
 
-#: src/customtrackview.cpp:1560 src/customtrackview.cpp:1616
+#: src/customtrackview.cpp:1555 src/customtrackview.cpp:1611
 msgid "Effect already present in clip"
 msgstr "Вже додані до кліпу ефекти"
 
@@ -2134,7 +2132,7 @@ msgstr "Введіть значення Unicode"
 msgid "Enter new location for file"
 msgstr "Введіть нову адресу файла"
 
-#: src/trackview.cpp:931
+#: src/trackview.cpp:936
 msgid "Enter new name"
 msgstr "Введіть нову назву"
 
@@ -2156,8 +2154,8 @@ msgstr "Еквалайзер"
 msgid "Error Log"
 msgstr "Журнал помилок"
 
-#: src/customtrackview.cpp:1816 src/customtrackview.cpp:3023
-#: src/customtrackview.cpp:3414
+#: src/customtrackview.cpp:1807 src/customtrackview.cpp:3016
+#: src/customtrackview.cpp:3407
 msgid "Error removing clip at %1 on track %2"
 msgstr "Помилка під час спроби вилучення кліпу на позиції %1 доріжки %2"
 
@@ -2171,9 +2169,9 @@ msgid "Error starting MLT's command line player (melt)."
 msgstr ""
 "Помилка під час спроби запуску програвача MLT для командного рядка (melt)."
 
-#: src/customtrackview.cpp:1841 src/customtrackview.cpp:3157
-#: src/customtrackview.cpp:3252 src/customtrackview.cpp:4052
-#: src/customtrackview.cpp:4060
+#: src/customtrackview.cpp:1832 src/customtrackview.cpp:3150
+#: src/customtrackview.cpp:3245 src/customtrackview.cpp:4045
+#: src/customtrackview.cpp:4053
 msgid "Error when resizing clip"
 msgstr "Помилка під час спроби зміни розмірів кліпу"
 
@@ -2322,8 +2320,9 @@ msgid "Fill color"
 msgstr "Заповнення кольором"
 
 #: src/titlewidget.cpp:293
-msgid "Fill transparency"
-msgstr "Заповнення прозорим кольором"
+#| msgid "opacity"
+msgid "Fill opacity"
+msgstr "Непрозорість заповнення"
 
 #: src/mainwindow.cpp:928
 msgid "Find"
@@ -2648,7 +2647,7 @@ msgstr "Згрупувати кліпи"
 msgid "GroupBox"
 msgstr "GroupBox"
 
-#: src/customtrackview.cpp:4382
+#: src/customtrackview.cpp:4375
 msgid "Guide"
 msgstr "Напрямна"
 
@@ -2804,7 +2803,7 @@ msgstr "Вхідний рівень білого"
 msgid "Insert Clip Zone in Timeline (Overwrite)"
 msgstr "Вставити ділянку кліпу до лінійки запису"
 
-#: src/customtrackview.cpp:5023
+#: src/customtrackview.cpp:5033
 msgid "Insert New Track"
 msgstr "Вставити нову доріжку"
 
@@ -2820,7 +2819,7 @@ msgstr "Вставити доріжку"
 msgid "Insert Unicode character"
 msgstr "Вставити символ Unicode"
 
-#: src/customtrackview.cpp:5687
+#: src/customtrackview.cpp:5697
 msgid "Insert clip"
 msgstr "Вставити кліп"
 
@@ -2832,7 +2831,7 @@ msgstr "Режим вставки"
 msgid "Insert space"
 msgstr "Вставити пробіл"
 
-#: src/customtrackview.cpp:5020 rc.cpp:929 rc.cpp:2463
+#: src/customtrackview.cpp:5030 rc.cpp:929 rc.cpp:2463
 msgid "Insert track"
 msgstr "Вставити доріжку"
 
@@ -2869,12 +2868,12 @@ msgstr "Черезрядкове"
 msgid "Intro movie"
 msgstr "Вступне відео"
 
-#: src/customtrackview.cpp:4889 src/customtrackview.cpp:4895
-#: src/customtrackview.cpp:4921 src/customtrackview.cpp:4927
+#: src/customtrackview.cpp:4899 src/customtrackview.cpp:4905
+#: src/customtrackview.cpp:4931 src/customtrackview.cpp:4937
 msgid "Invalid action"
 msgstr "Некоректна дія"
 
-#: src/customtrackview.cpp:3568 src/projectlist.cpp:936
+#: src/customtrackview.cpp:3561 src/projectlist.cpp:936
 msgid "Invalid clip"
 msgstr "Некоректний кліп"
 
@@ -2886,7 +2885,7 @@ msgstr "Некоректний інструмент створення кліп�
 msgid "Invalid clip removed from track %1 at %2\n"
 msgstr "Некоректний кліп було вилучено з доріжки %1 у позиції %2\n"
 
-#: src/customtrackview.cpp:1946 src/customtrackview.cpp:4749
+#: src/customtrackview.cpp:1937 src/customtrackview.cpp:4742
 msgid "Invalid transition"
 msgstr "Некоректний перехід"
 
@@ -3219,7 +3218,6 @@ msgid "Misc..."
 msgstr "Інше..."
 
 #: src/projectitem.cpp:164
-#| msgid "Missing clips"
 msgid "Missing"
 msgstr "Не вказано"
 
@@ -3228,7 +3226,6 @@ msgid "Missing Profile"
 msgstr "Не вказано профілю профіль"
 
 #: src/dvdwizardmenu.cpp:169
-#| msgid "Missing Profile"
 msgid "Missing background image"
 msgstr "Не вказано зображення тла"
 
@@ -3268,7 +3265,7 @@ msgstr "Накладки з інформацією"
 msgid "Mono to stereo"
 msgstr "Моно у стерео"
 
-#: src/moveclipcommand.cpp:33 src/customtrackview.cpp:2858
+#: src/moveclipcommand.cpp:33 src/customtrackview.cpp:2851
 msgid "Move clip"
 msgstr "Пересунути кліп"
 
@@ -3284,7 +3281,7 @@ msgstr "Пересунути ефект вниз"
 msgid "Move effect up"
 msgstr "Пересунути ефект вгору"
 
-#: src/movegroupcommand.cpp:35 src/customtrackview.cpp:3004
+#: src/movegroupcommand.cpp:35 src/customtrackview.cpp:2997
 msgid "Move group"
 msgstr "Пересунути групу"
 
@@ -3292,7 +3289,7 @@ msgstr "Пересунути групу"
 msgid "Move guide"
 msgstr "Пересунути напрямну"
 
-#: src/movetransitioncommand.cpp:30 src/customtrackview.cpp:2985
+#: src/movetransitioncommand.cpp:30 src/customtrackview.cpp:2978
 msgid "Move transition"
 msgstr "Пересунути перехід"
 
@@ -3353,11 +3350,11 @@ msgstr "Nano X"
 msgid "Neutral Color"
 msgstr "Нейтральний колір"
 
-#: src/trackview.cpp:931
+#: src/trackview.cpp:936
 msgid "New Track Name"
 msgstr "Нова назва доріжки"
 
-#: src/customtrackview.cpp:3533
+#: src/customtrackview.cpp:3526
 msgid "New speed (percents)"
 msgstr "Нова швидкість (у відсотках)"
 
@@ -3377,7 +3374,7 @@ msgstr "Не знайдено програми для запису (K3b, Brasero
 msgid "No button in menu"
 msgstr "У меню немає кнопок"
 
-#: src/customtrackview.cpp:3669 src/customtrackview.cpp:4702
+#: src/customtrackview.cpp:3662 src/customtrackview.cpp:4695
 msgid "No clip copied"
 msgstr "Не вказано кліпів для копіювання"
 
@@ -3385,12 +3382,12 @@ msgstr "Не вказано кліпів для копіювання"
 msgid "No clip to transcode"
 msgstr "Не вказано кліпів для перекодування"
 
-#: src/customtrackview.cpp:5290
+#: src/customtrackview.cpp:5300
 msgid "No empty space to put clip audio"
 msgstr "Немає вільного місця для додавання звуку кліпу"
 
-#: src/customtrackview.cpp:4358 src/customtrackview.cpp:4404
-#: src/customtrackview.cpp:4442
+#: src/customtrackview.cpp:4351 src/customtrackview.cpp:4397
+#: src/customtrackview.cpp:4435
 msgid "No guide at cursor time"
 msgstr "Немає напрямної у часовій позиції курсора"
 
@@ -3783,18 +3780,17 @@ msgid "Previous Unicode character (Arrow Up)"
 msgstr "Попередній символ Unicode (стрілка вгору)"
 
 #: src/customtrackview.cpp:1477 src/customtrackview.cpp:1488
-#: src/customtrackview.cpp:1507
+#: src/customtrackview.cpp:1502
 msgid "Problem adding effect to clip"
 msgstr "Проблема з додаванням ефекту до кліпу"
 
-#: src/customtrackview.cpp:1470 src/customtrackview.cpp:1528
-#: src/customtrackview.cpp:1686
+#: src/customtrackview.cpp:1470 src/customtrackview.cpp:1523
 msgid "Problem deleting effect"
 msgstr "Проблема з вилученням ефекту"
 
-#: src/customtrackview.cpp:1650 src/customtrackview.cpp:1688
-#: src/customtrackview.cpp:4096 src/customtrackview.cpp:4114
-#: src/customtrackview.cpp:4136 src/customtrackview.cpp:4154
+#: src/customtrackview.cpp:1645 src/customtrackview.cpp:1679
+#: src/customtrackview.cpp:4089 src/customtrackview.cpp:4107
+#: src/customtrackview.cpp:4129 src/customtrackview.cpp:4147
 msgid "Problem editing effect"
 msgstr "Проблема зі зміною ефекту"
 
@@ -4009,7 +4005,7 @@ msgstr "Перезавантажити кліп"
 msgid "Remove Job"
 msgstr "Вилучити завдання"
 
-#: src/mainwindow.cpp:1211 src/customtrackview.cpp:2517
+#: src/mainwindow.cpp:1211 src/customtrackview.cpp:2510
 msgid "Remove Space"
 msgstr "Вилучити пробіл"
 
@@ -4161,8 +4157,8 @@ msgstr "Змінити позицію кінця елемента"
 msgid "Resize Item Start"
 msgstr "Змінити позицію початку елемента"
 
-#: src/resizeclipcommand.cpp:34 src/customtrackview.cpp:3095
-#: src/customtrackview.cpp:3194
+#: src/resizeclipcommand.cpp:34 src/customtrackview.cpp:3088
+#: src/customtrackview.cpp:3187
 msgid "Resize clip"
 msgstr "Змінити розміри кліпу"
 
@@ -4182,7 +4178,7 @@ msgstr "Час відлуння"
 msgid "Reverb time"
 msgstr "Час відлуння"
 
-#: src/mainwindow.cpp:3183
+#: src/mainwindow.cpp:3184
 msgid "Revert to last saved version"
 msgstr "Повернутися до останньої збереженої версії"
 
@@ -4358,11 +4354,11 @@ msgstr "Файли скриптів"
 msgid "Script contains wrong command: %1"
 msgstr "У скрипті міститься помилкова команда: %1"
 
-#: src/mainwindow.cpp:3100
+#: src/mainwindow.cpp:3101
 msgid "Script file already exists. Do you want to overwrite it?"
 msgstr "Файл скрипту з цією назвою вже існує. Перезаписати його?"
 
-#: src/mainwindow.cpp:3095
+#: src/mainwindow.cpp:3096
 msgid "Script name (will be saved in: %1)"
 msgstr "Назва скрипту (буде збережено до %1)"
 
@@ -4387,7 +4383,6 @@ msgid "Search recursively"
 msgstr "Рекурсивний пошук"
 
 #: rc.cpp:2057 rc.cpp:3591
-#| msgid "Delete keyframe"
 msgid "Seek to active keyframe"
 msgstr "Позиціювання на активному ключовому кадрі"
 
@@ -4403,11 +4398,11 @@ msgstr "Оберіть файли для вашого DVD"
 msgid "Select Transition"
 msgstr "Позначити перехід"
 
-#: src/customtrackview.cpp:4617
+#: src/customtrackview.cpp:4610
 msgid "Select a clip before copying"
 msgstr "Перш ніж копіювати, позначте кліп"
 
-#: src/customtrackview.cpp:1596
+#: src/customtrackview.cpp:1591
 msgid "Select a clip if you want to apply an effect"
 msgstr "Для застосування ефекту слід позначити відповідний кліп"
 
@@ -4427,11 +4422,11 @@ msgstr "Оберіть колір тла"
 msgid "Select border color"
 msgstr "Оберіть колір рамки"
 
-#: src/customtrackview.cpp:3521
+#: src/customtrackview.cpp:3514
 msgid "Select clip to change speed"
 msgstr "Позначте кліп, швидкість якого слід змінити"
 
-#: src/customtrackview.cpp:1971 src/customtrackview.cpp:3456
+#: src/customtrackview.cpp:1962 src/customtrackview.cpp:3449
 msgid "Select clip to delete"
 msgstr "Позначте кліп, який слід вилучити"
 
@@ -4746,7 +4741,7 @@ msgstr "Швидкість"
 msgid "Split Audio"
 msgstr "Відділити звук"
 
-#: src/splitaudiocommand.cpp:32 src/customtrackview.cpp:5252
+#: src/splitaudiocommand.cpp:32 src/customtrackview.cpp:5262
 msgid "Split audio"
 msgstr "Відділити звук"
 
@@ -4774,7 +4769,7 @@ msgstr ""
 "Стандартний символ пробілу. (Інші символи пробілів: U+00a0, U"
 "+2000&#x2013;200b, U+202f)"
 
-#: src/mainwindow.cpp:3148 src/titlewidget.cpp:1980 rc.cpp:84 rc.cpp:118
+#: src/mainwindow.cpp:3149 src/titlewidget.cpp:1980 rc.cpp:84 rc.cpp:118
 #: rc.cpp:1031 rc.cpp:2138 rc.cpp:2565 rc.cpp:3672
 msgid "Start"
 msgstr "Почати"
@@ -4831,7 +4826,7 @@ msgstr "Перемкнути монітор"
 msgid "Sync timeline cursor"
 msgstr "Синхронізувати курсор лінійки запису"
 
-#: src/customtrackview.cpp:5674
+#: src/customtrackview.cpp:5684
 msgid "TRACTOR"
 msgstr "TRACTOR"
 
@@ -4950,7 +4945,7 @@ msgstr ""
 msgid "This title clip was created with a different frame size."
 msgstr "Цей кліп з титрами було створено для інших розмірів кадру."
 
-#: src/mainwindow.cpp:3183
+#: src/mainwindow.cpp:3184
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
 "sure you want to continue?"
@@ -5084,7 +5079,7 @@ msgstr "Інструмент"
 msgid "Top"
 msgstr "Вгорі"
 
-#: src/customtrackview.cpp:2517 rc.cpp:1517 rc.cpp:3051
+#: src/customtrackview.cpp:2510 rc.cpp:1517 rc.cpp:3051
 msgid "Track"
 msgstr "Доріжка"
 
@@ -5311,7 +5306,7 @@ msgstr "Драйвер відео:"
 msgid "Video index"
 msgstr "Покажчик відео"
 
-#: src/customtrackview.cpp:5350
+#: src/customtrackview.cpp:5360
 msgid "Video only"
 msgstr "Лише відео"
 
@@ -5458,23 +5453,23 @@ msgstr ""
 "Вами було змінено теку проекту. Бажаєте, щоб програма скопіювала дані кешу з "
 "%1 до нової теки %2?"
 
-#: src/customtrackview.cpp:2526 src/customtrackview.cpp:2532
+#: src/customtrackview.cpp:2519 src/customtrackview.cpp:2525
 msgid "You must be in an empty space to remove space (time: %1, track: %2)"
 msgstr ""
 "Для вилучення пробілу курсор має перебувати в межах пробілу (часова позиція: "
 "%1, доріжка: %2)"
 
-#: src/customtrackview.cpp:4760
+#: src/customtrackview.cpp:4753
 msgid "You must copy exactly one clip before pasting effects"
 msgstr "Перш ніж вставляти ефекти, вам слід скопіювати точно один кліп"
 
-#: src/customtrackview.cpp:4880 src/customtrackview.cpp:4911
-#: src/customtrackview.cpp:5248 src/customtrackview.cpp:5346
-#: src/customtrackview.cpp:5371 src/customtrackview.cpp:5396
+#: src/customtrackview.cpp:4890 src/customtrackview.cpp:4921
+#: src/customtrackview.cpp:5258 src/customtrackview.cpp:5356
+#: src/customtrackview.cpp:5381 src/customtrackview.cpp:5406
 msgid "You must select one clip for this action"
 msgstr "Для виконання цієї дії вам слід позначити один кліп"
 
-#: src/customtrackview.cpp:5144
+#: src/customtrackview.cpp:5154
 msgid "You must select one transition for this action"
 msgstr "Для виконання цієї дії вам слід позначити один перехід"
 
@@ -5625,12 +5620,12 @@ msgid "dvgrab version %1 at %2"
 msgstr "Версія dvgrab %1 %2"
 
 #: src/addeffectcommand.cpp:37 src/edittransitioncommand.cpp:35
-#: src/customtrackview.cpp:1545 src/customtrackview.cpp:1589
+#: src/customtrackview.cpp:1540 src/customtrackview.cpp:1584
 #: src/editeffectcommand.cpp:39
 msgid "effect"
 msgstr "ефект"
 
-#: src/customtrackview.cpp:5674
+#: src/customtrackview.cpp:5684
 msgid "error"
 msgstr "помилка"
 
@@ -5709,7 +5704,7 @@ msgctxt "Selection tool shortcut"
 msgid "s"
 msgstr "s"
 
-#: src/renderwidget.cpp:1744
+#: src/renderwidget.cpp:1747
 msgid "script"
 msgstr "скрипт"
 
@@ -5762,8 +5757,3 @@ msgstr "x1"
 msgid "y"
 msgstr "y"
 
-#~ msgid "Rotate:"
-#~ msgstr "Поворот:"
-
-#~ msgid "Reverse playing"
-#~ msgstr "Зворотне відтворення"
