@@ -217,7 +217,6 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     connect(buttonAlignRight, SIGNAL(clicked()), this, SLOT(slotUpdateText()));
     connect(buttonAlignCenter, SIGNAL(clicked()), this, SLOT(slotUpdateText()));
     connect(buttonAlignNone, SIGNAL(clicked()), this, SLOT(slotUpdateText()));
-    //connect(buttonInsertUnicode, SIGNAL(clicked()), this, SLOT(slotInsertUnicode()));
     connect(displayBg, SIGNAL(stateChanged(int)), this, SLOT(displayBackgroundFrame()));
 
     connect(m_unicodeDialog, SIGNAL(charSelected(QString)), this, SLOT(slotInsertUnicodeString(QString)));
@@ -268,13 +267,16 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     zDown->setDefaultAction(m_zDown);
 
     m_zTop = new QAction(KIcon("kdenlive-zindex-top"), QString(), this);
-    m_zTop->setShortcut(Qt::Key_Home);
+    // TODO mbt 1414: Shortcut should change z index only if 
+    // cursor is NOT in a text field ...
+    //m_zTop->setShortcut(Qt::Key_Home);
     m_zTop->setToolTip(i18n("Raise object to top"));
     connect(m_zTop, SIGNAL(triggered()), this, SLOT(slotZIndexTop()));
     zTop->setDefaultAction(m_zTop);
 
     m_zBottom = new QAction(KIcon("kdenlive-zindex-bottom"), QString(), this);
-    m_zBottom->setShortcut(Qt::Key_End);
+    // TODO mbt 1414
+    //m_zBottom->setShortcut(Qt::Key_End);
     m_zBottom->setToolTip(i18n("Lower object to bottom"));
     connect(m_zBottom, SIGNAL(triggered()), this, SLOT(slotZIndexBottom()));
     zBottom->setDefaultAction(m_zBottom);
