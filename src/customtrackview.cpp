@@ -194,11 +194,16 @@ void CustomTrackView::setDocumentModified()
     m_document->setModified(true);
 }
 
-void CustomTrackView::setContextMenu(QMenu *timeline, QMenu *clip, QMenu *transition, QActionGroup *clipTypeGroup)
+void CustomTrackView::setContextMenu(QMenu *timeline, QMenu *clip, QMenu *transition, QActionGroup *clipTypeGroup, QMenu *markermenu)
 {
     m_timelineContextMenu = timeline;
     m_timelineContextClipMenu = clip;
     m_clipTypeGroup = clipTypeGroup;
+
+    m_markerMenu = new QMenu(i18n("Go to marker..."), this);
+    m_markerMenu->setEnabled(false);
+    markermenu->addMenu(m_markerMenu);
+    connect(m_markerMenu, SIGNAL(triggered(QAction *)), this, SLOT(slotGoToMarker(QAction *)));
     QList <QAction *> list = m_timelineContextClipMenu->actions();
     for (int i = 0; i < list.count(); i++) {
         if (list.at(i)->data().toString() == "paste_effects") m_pasteEffectsAction = list.at(i);
@@ -1283,8 +1288,10 @@ void CustomTrackView::displayContextMenu(QPoint pos, AbstractClipItem *clip, Abs
 {
     m_deleteGuide->setEnabled(m_dragGuide != NULL);
     m_editGuide->setEnabled(m_dragGuide != NULL);
-    if (clip == NULL) m_timelineContextMenu->popup(pos);
-    else if (group != NULL) {
+    if (clip == NULL) {
+        m_timelineContextMenu->popup(pos);
+        m_markerMenu->setEnabled(false);
+    } else if (group != NULL) {
         m_pasteEffectsAction->setEnabled(m_copiedItems.count() == 1);
         m_ungroupAction->setEnabled(true);
         updateClipTypeActions(NULL);
@@ -1296,7 +1303,9 @@ void CustomTrackView::displayContextMenu(QPoint pos, AbstractClipItem *clip, Abs
             updateClipTypeActions(item);
             m_pasteEffectsAction->setEnabled(m_copiedItems.count() == 1);
             m_timelineContextClipMenu->popup(pos);
-        } else if (clip->type() == TRANSITIONWIDGET) m_timelineContextTransitionMenu->popup(pos);
+        } else if (clip->type() == TRANSITIONWIDGET) {
+            m_timelineContextTransitionMenu->popup(pos);
+        }
     }
 }
 
@@ -4762,14 +4771,14 @@ void CustomTrackView::pasteClipEffects()
 
     // expand groups
     for (int i = 0; i < clips.count(); ++i) {
-	if (clips.at(i)->type() == GROUPWIDGET) {
-	    QList<QGraphicsItem *> children = clips.at(i)->childItems();
-	    for (int j = 0; j < children.count(); j++) {
-		if (children.at(j)->type() == AVWIDGET && !clips.contains(children.at(j))) {
-		    clips.append(children.at(j));
-		}
-	    }
-	}
+        if (clips.at(i)->type() == GROUPWIDGET) {
+            QList<QGraphicsItem *> children = clips.at(i)->childItems();
+            for (int j = 0; j < children.count(); j++) {
+                if (children.at(j)->type() == AVWIDGET && !clips.contains(children.at(j))) {
+                    clips.append(children.at(j));
+                }
+            }
+        }
     }
 
 
@@ -4790,10 +4799,10 @@ void CustomTrackView::pasteClipEffects()
 
     // adjust effects (fades, ...)
     for (int i = 0; i < clips.count(); ++i) {
-	if (clips.at(i)->type() == AVWIDGET) {
-	    ClipItem *item = static_cast < ClipItem *>(clips.at(i));
-	    updatePositionEffects(item, item->info());
-	}
+        if (clips.at(i)->type() == AVWIDGET) {
+            ClipItem *item = static_cast < ClipItem *>(clips.at(i));
+            updatePositionEffects(item, item->info());
+        }
     }
 }
 
@@ -5474,6 +5483,29 @@ void CustomTrackView::updateClipTypeActions(ClipItem *clip)
             }
         }
     }
+    if (clip == NULL) {
+        m_markerMenu->clear();
+        m_markerMenu->setEnabled(false);
+    } else {
+        m_markerMenu->clear();
+        QList <CommentedTime> markers = clip->baseClip()->commentedSnapMarkers();
+        int offset = clip->startPos().frames(m_document->fps());
+        if (!markers.isEmpty()) {
+            for (int i = 0; i < markers.count(); i++) {
+                int pos = (int) markers.at(i).time().frames(m_document->timecode().fps());
+                QString position = m_document->timecode().getTimecode(markers.at(i).time()) + ' ' + markers.at(i).comment();
+                QAction *go = m_markerMenu->addAction(position);
+                go->setData(pos + offset);
+            }
+        }
+        m_markerMenu->setEnabled(!m_markerMenu->isEmpty());
+    }
+}
+
+void CustomTrackView::slotGoToMarker(QAction *action)
+{
+    int pos = action->data().toInt();
+    setCursorPos(pos, true);
 }
 
 void CustomTrackView::reloadTransitionLumas()

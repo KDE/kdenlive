@@ -80,7 +80,7 @@ public:
     int duration() const;
     void deleteSelectedClips();
     void cutSelectedClips();
-    void setContextMenu(QMenu *timeline, QMenu *clip, QMenu *transition, QActionGroup *clipTypeGroup);
+    void setContextMenu(QMenu *timeline, QMenu *clip, QMenu *transition, QActionGroup *clipTypeGroup, QMenu *markermenu);
     void checkTrackHeight();
     //QList <TrackInfo> tracksList() const;
     void setTool(PROJECTTOOL tool);
@@ -221,6 +221,7 @@ private:
     QMenu *m_timelineContextMenu;
     QMenu *m_timelineContextClipMenu;
     QMenu *m_timelineContextTransitionMenu;
+    QMenu *m_markerMenu;
     QAction *m_autoTransition;
     QAction *m_pasteEffectsAction;
     QAction *m_ungroupAction;
@@ -281,6 +282,7 @@ private slots:
     void slotDeleteTimeLineGuide();
     void slotFetchNextThumbs();
     void checkTrackSequence(int track);
+    void slotGoToMarker(QAction *action);
 
 signals:
     void cursorMoved(int, int);
