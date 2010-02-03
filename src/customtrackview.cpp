@@ -1607,14 +1607,24 @@ void CustomTrackView::slotAddEffect(QDomElement effect, GenTime pos, int track)
     if (!namenode.isNull()) effectName = i18n(namenode.toElement().text().toUtf8().data());
     else effectName = i18n("effect");
     effectCommand->setText(i18n("Add %1", effectName));
-    int count = 0;
+
     if (track == -1) itemList = scene()->selectedItems();
     if (itemList.isEmpty()) {
         ClipItem *clip = getClipItemAt((int) pos.frames(m_document->fps()), track);
         if (clip) itemList.append(clip);
         else emit displayMessage(i18n("Select a clip if you want to apply an effect"), ErrorMessage);
     }
-    kDebug() << "// REQUESTING EFFECT ON CLIP: " << pos.frames(25) << ", TRK: " << track << "SELECTED ITEMS: " << itemList.count();
+
+    //expand groups
+    for (int i = 0; i < itemList.count(); i++) {
+        if (itemList.at(i)->type() == GROUPWIDGET) {
+            QList<QGraphicsItem *> subitems = itemList.at(i)->childItems();
+            for (int j = 0; j < subitems.count(); j++) {
+                if (!itemList.contains(subitems.at(j))) itemList.append(subitems.at(j));
+            }
+        }
+    }
+
     for (int i = 0; i < itemList.count(); i++) {
         if (itemList.at(i)->type() == AVWIDGET) {
             ClipItem *item = static_cast <ClipItem *>(itemList.at(i));
@@ -1647,17 +1657,50 @@ void CustomTrackView::slotAddEffect(QDomElement effect, GenTime pos, int track)
                 effect.setAttribute("src", ladpsaFile);
             }
             new AddEffectCommand(this, m_document->tracksCount() - item->track(), item->startPos(), effect, true, effectCommand);
-            count++;
         }
     }
-    if (count > 0) {
+    if (effectCommand->childCount() > 0) {
         m_commandStack->push(effectCommand);
         setDocumentModified();
     } else delete effectCommand;
 }
 
-void CustomTrackView::slotDeleteEffect(ClipItem *clip, QDomElement effect)
+void CustomTrackView::slotDeleteEffect(ClipItem *clip, QDomElement effect, bool affectGroup)
 {
+    if (affectGroup && clip->parentItem() && clip->parentItem() == m_selectionGroup) {
+        //clip is in a group, also remove the effect in other clips of the group
+        QList<QGraphicsItem *> items = m_selectionGroup->childItems();
+        QUndoCommand *delCommand = new QUndoCommand();
+        QString effectName;
+        QDomNode namenode = effect.elementsByTagName("name").item(0);
+        if (!namenode.isNull()) effectName = i18n(namenode.toElement().text().toUtf8().data());
+        else effectName = i18n("effect");
+        delCommand->setText(i18n("Delete %1", effectName));
+
+        //expand groups
+        for (int i = 0; i < items.count(); i++) {
+            if (items.at(i)->type() == GROUPWIDGET) {
+                QList<QGraphicsItem *> subitems = items.at(i)->childItems();
+                for (int j = 0; j < subitems.count(); j++) {
+                    if (!items.contains(subitems.at(j))) items.append(subitems.at(j));
+                }
+            }
+        }
+
+        for (int i = 0; i < items.count(); i++) {
+            if (items.at(i)->type() == AVWIDGET) {
+                ClipItem *item = static_cast <ClipItem *>(items.at(i));
+                int ix = item->hasEffect(effect.attribute("tag"), effect.attribute("id"));
+                if (ix != -1) {
+                    QDomElement eff = item->effectAt(ix);
+                    new AddEffectCommand(this, m_document->tracksCount() - item->track(), item->startPos(), eff, false, delCommand);
+                }
+            }
+        }
+        if (delCommand->childCount() > 0) m_commandStack->push(delCommand);
+        else delete delCommand;
+        return;
+    }
     AddEffectCommand *command = new AddEffectCommand(this, m_document->tracksCount() - clip->track(), clip->startPos(), effect, false);
     m_commandStack->push(command);
     setDocumentModified();
@@ -3301,7 +3344,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
             int start = item->cropStart().frames(m_document->fps());
             int end = item->fadeIn();
             if (end == 0) {
-                slotDeleteEffect(item, oldeffect);
+                slotDeleteEffect(item, oldeffect, false);
             } else {
                 end += start;
                 QDomElement effect = oldeffect.cloneNode().toElement();
@@ -3324,7 +3367,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
             int start = item->cropStart().frames(m_document->fps());
             int end = item->fadeIn();
             if (end == 0) {
-                slotDeleteEffect(item, oldeffect);
+                slotDeleteEffect(item, oldeffect, false);
             } else {
                 end += start;
                 QDomElement effect = oldeffect.cloneNode().toElement();
@@ -3344,7 +3387,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
             int end = (item->cropDuration() + item->cropStart()).frames(m_document->fps());
             int start = item->fadeOut();
             if (start == 0) {
-                slotDeleteEffect(item, oldeffect);
+                slotDeleteEffect(item, oldeffect, false);
             } else {
                 start = end - start;
                 QDomElement effect = oldeffect.cloneNode().toElement();
@@ -3369,7 +3412,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
             int end = (item->cropDuration() + item->cropStart()).frames(m_document->fps());
             int start = item->fadeOut();
             if (start == 0) {
-                slotDeleteEffect(item, oldeffect);
+                slotDeleteEffect(item, oldeffect, false);
             } else {
                 start = end - start;
                 QDomElement effect = oldeffect.cloneNode().toElement();

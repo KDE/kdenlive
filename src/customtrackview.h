@@ -135,7 +135,7 @@ public slots:
     void setCursorPos(int pos, bool seek = true);
     void moveCursorPos(int delta);
     void updateCursorPos();
-    void slotDeleteEffect(ClipItem *clip, QDomElement effect);
+    void slotDeleteEffect(ClipItem *clip, QDomElement effect, bool affectGroup = true);
     void slotChangeEffectState(ClipItem *clip, int effectPos, bool disable);
     void slotChangeEffectPosition(ClipItem *clip, int currentPos, int newPos);
     void slotUpdateClipEffect(ClipItem *clip, QDomElement oldeffect, QDomElement effect, int ix);
