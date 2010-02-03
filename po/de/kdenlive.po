@@ -8,15 +8,15 @@
 # Simon Eugster <simon.eu@gmail.com>, 2009, 2010.
 # Markus Slopianka <kamikazow@web.de>, 2009.
 # Lukas Lacheta <joshlukas@aryuna.de>, 2009.
-# Till Theato <root@ttill.de>, 2009.
+# Till Theato <root@ttill.de>, 2009, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-02-01 21:07+0200\n"
-"PO-Revision-Date: 2010-02-02 12:02+0100\n"
-"Last-Translator: Simon Eugster\n"
-"Language-Team: American English <kde-i18n-de@kde.org>\n"
+"PO-Revision-Date: 2010-02-02 16:56+0100\n"
+"Last-Translator: Till Theato <root@ttill.de>\n"
+"Language-Team: American English <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -26,7 +26,7 @@ msgstr ""
 #: rc.cpp:1136 rc.cpp:1142 rc.cpp:2670 rc.cpp:2676
 #, fuzzy
 msgid " frames"
-msgstr "Bilder"
+msgstr "Frames"
 
 #: src/titlewidget.cpp:136
 msgid "%"
@@ -114,7 +114,7 @@ msgstr "25/1"
 #: rc.cpp:263
 #, fuzzy
 msgid "3 point balance"
-msgstr "Weißabgleich"
+msgstr "3 Punkte Gewichtung"
 
 #: rc.cpp:1349 rc.cpp:2883
 msgid "32000"
@@ -392,7 +392,7 @@ msgstr "Clip hinzufügen"
 #: src/addclipcutcommand.cpp:35
 #, fuzzy
 msgid "Add clip cut"
-msgstr "Clip hinzufügen"
+msgstr "Clip Schnitt hinzufügen"
 
 #: src/cliptranscode.cpp:36 rc.cpp:1034 rc.cpp:2568
 msgid "Add clip to project"
@@ -479,7 +479,7 @@ msgstr "Clip-Länge einstellen"
 
 #: rc.cpp:213
 msgid "Adjust levels"
-msgstr ""
+msgstr "Anpassen der Pegel"
 
 #: rc.cpp:437
 msgid "Adjust size and position of clip"
@@ -495,7 +495,7 @@ msgstr "Weißabgleich/Farbtemperatur anpassen"
 
 #: rc.cpp:587
 msgid "Adjustable Vignette"
-msgstr ""
+msgstr "Anpassbare Schablone"
 
 #: rc.cpp:142
 msgid "Adjusts the brightness of a source image"
@@ -732,7 +732,7 @@ msgstr "Automatischer Übergang"
 #: rc.cpp:74
 #, fuzzy
 msgid "Automatic center-crop"
-msgstr "Automatischer Übergang"
+msgstr "Automatisches mittiges Zuschneiden"
 
 #: rc.cpp:1277 rc.cpp:2811
 msgid "Automatically start a new file on scene cut"
@@ -767,8 +767,9 @@ msgid "Background color opacity"
 msgstr "Hintergrundfarbe-Transparenz"
 
 #: rc.cpp:265
+#, fuzzy
 msgid "Balances colors along with 3 points"
-msgstr ""
+msgstr "Gewichtet Farben anhand von 3 Punkten"
 
 #: src/renderwidget.cpp:269
 msgid "Beginning"
@@ -797,7 +798,7 @@ msgstr "Schwarze Farbe"
 
 #: rc.cpp:223
 msgid "Black output"
-msgstr ""
+msgstr "Schwarze Ausgabe"
 
 #: rc.cpp:54
 msgid "Blue Screen"
@@ -827,7 +828,7 @@ msgstr "Rahmenfarbe"
 #: src/titlewidget.cpp:128
 #, fuzzy
 msgid "Border opacity"
-msgstr "Rand-Transparenz"
+msgstr "Rand-Deckkraft"
 
 #: src/titlewidget.cpp:294
 msgid "Border transparency"
@@ -835,7 +836,7 @@ msgstr "Rand-Transparenz"
 
 #: src/titlewidget.cpp:134
 msgid "Border width"
-msgstr ""
+msgstr "Rahmenbreite"
 
 #: src/geometryval.cpp:102 rc.cpp:70
 msgid "Bottom"
@@ -903,7 +904,7 @@ msgstr "Knopffarben"
 
 #: src/dvdwizardmenu.cpp:150
 msgid "Buttons overlapping"
-msgstr ""
+msgstr "Knöpfe überschneiden"
 
 #: rc.cpp:685 rc.cpp:2219
 msgid "C"
@@ -1522,7 +1523,7 @@ msgstr ""
 
 #: rc.cpp:167
 msgid "Curve point number"
-msgstr ""
+msgstr "Nummer des Kurvenpunktes"
 
 #: rc.cpp:157
 msgid "Curves"
@@ -1683,9 +1684,8 @@ msgid "Delete Clip"
 msgstr "Clip löschen"
 
 #: src/projectlist.cpp:602
-#, fuzzy
 msgid "Delete Clip Zone"
-msgstr "Clip löschen"
+msgstr "Clip Bereich löschen"
 
 #: src/projectlist.cpp:616 src/projectlist.cpp:718
 msgid "Delete Folder"
@@ -1843,14 +1843,12 @@ msgid "Description:"
 msgstr "Beschreibung:"
 
 #: src/mainwindow.cpp:1135
-#, fuzzy
 msgid "Deselect Clip"
-msgstr "Clip löschen"
+msgstr "Clip deselektieren"
 
 #: src/mainwindow.cpp:1150
-#, fuzzy
 msgid "Deselect Transition"
-msgstr "Ausgewählten Übergang löschen"
+msgstr "Übergang deselektieren"
 
 #: rc.cpp:1421 rc.cpp:2955
 msgid "Desktop search integration"
@@ -2010,7 +2008,7 @@ msgstr "Clip bearbeiten"
 #: src/editclipcutcommand.cpp:35
 #, fuzzy
 msgid "Edit clip cut"
-msgstr "Clip bearbeiten"
+msgstr "Clip Schnitt bearbeiten"
 
 #: src/mainwindow.cpp:2618
 msgid "Edit clips"
@@ -2393,19 +2391,18 @@ msgstr "Progressiv erzwingen"
 #: rc.cpp:902 rc.cpp:2436
 #, fuzzy
 msgid "Force duration"
-msgstr "Frame-Dauer"
+msgstr "Länge erzwingen"
 
 #: rc.cpp:899 rc.cpp:2433
 #, fuzzy
 msgid "Force frame rate"
-msgstr "Bildwiederholfrequenz"
+msgstr "Bildwiederholfrequenz erzwingen"
 
 #: rc.cpp:884 rc.cpp:2418
 msgid "Force pixel aspect ratio"
 msgstr "Pixel-Seitenverhältnis erzwingen"
 
 #: rc.cpp:896 rc.cpp:2430
-#, fuzzy
 msgid "Force progressive"
 msgstr "Progressiv erzwingen"
 
@@ -2588,14 +2585,12 @@ msgid "Go to Project Start"
 msgstr "Gehe zum Anfang des Projekts"
 
 #: src/mainwindow.cpp:1067
-#, fuzzy
 msgid "Go to Zone End"
-msgstr "Gehe zum Ende des Projekts"
+msgstr "Gehe zum Ende des Bereichs"
 
 #: src/mainwindow.cpp:1062
-#, fuzzy
 msgid "Go to Zone Start"
-msgstr "Gehe zum Anfang des Projekts"
+msgstr "Gehe zum Anfang des Bereichs"
 
 #: src/monitor.cpp:103
 msgid "Go to marker..."
@@ -2612,7 +2607,7 @@ msgstr "Gehe zum vorherigen Keyframe"
 #: rc.cpp:165
 #, fuzzy
 msgid "Graph position"
-msgstr "Übergang"
+msgstr "Graphen-Position"
 
 #: rc.cpp:1958 rc.cpp:3492
 msgid "GraphView"
@@ -2700,7 +2695,7 @@ msgstr "Spur verbergen"
 
 #: rc.cpp:229
 msgid "Histogram position"
-msgstr ""
+msgstr "Position des Histograms"
 
 #: src/geometryval.cpp:97
 msgid "Hor. Center"
@@ -2800,7 +2795,7 @@ msgstr ""
 
 #: src/mainwindow.cpp:1125
 msgid "Insert Clip Zone in Timeline (Overwrite)"
-msgstr ""
+msgstr "Clip Bereich zu Zeitleiste hinzufügen (Überschreiben)"
 
 #: src/customtrackview.cpp:5023
 msgid "Insert New Track"
@@ -2835,19 +2830,17 @@ msgid "Insert track"
 msgstr "Spur einfügen"
 
 #: src/mainwindow.cpp:1008
-#, fuzzy
 msgid "Insert zone in project tree"
-msgstr "Kann Projekt nicht öffnen"
+msgstr "Bereich zum Projektinhalt hinzufügen"
 
 #: src/mainwindow.cpp:1013
-#, fuzzy
 msgid "Insert zone in timeline"
-msgstr "Kann den Clip nicht in die Zeitleiste einfügen"
+msgstr "Bereich in die Zeitleiste einfügen"
 
 #: rc.cpp:3714
 #, fuzzy
 msgid "Insertion"
-msgstr "Invertieren"
+msgstr "Einfügen"
 
 #: rc.cpp:2075 rc.cpp:3609
 msgid "Install extra video mimetypes"
@@ -3005,7 +2998,7 @@ msgstr "Linsenkorrektur"
 
 #: rc.cpp:211
 msgid "Levels"
-msgstr ""
+msgstr "Pegel"
 
 #: src/titlewidget.cpp:229
 msgctxt "Font style"
@@ -3155,6 +3148,7 @@ msgid "Map white to"
 msgstr ""
 
 #: rc.cpp:285
+#, fuzzy
 msgid "Maps source image luminance between two colors specified"
 msgstr ""
 
@@ -3372,7 +3366,7 @@ msgstr "Kein Brenn-Programm gefunden (K3b, Brasero)"
 
 #: src/dvdwizardmenu.cpp:161
 msgid "No button in menu"
-msgstr ""
+msgstr "Kein Knopf im Menü"
 
 #: src/customtrackview.cpp:3669 src/customtrackview.cpp:4702
 msgid "No clip copied"
@@ -3381,7 +3375,7 @@ msgstr "Kein Clip kopiert"
 #: src/mainwindow.cpp:3060
 #, fuzzy
 msgid "No clip to transcode"
-msgstr "Kein Clip zum Löschen"
+msgstr "Kein Clip zum Transkodieren"
 
 #: src/customtrackview.cpp:5290
 msgid "No empty space to put clip audio"
@@ -3512,15 +3506,15 @@ msgstr "Ausgangspunkt"
 #: rc.cpp:1208 rc.cpp:2742
 #, fuzzy
 msgid "Outline"
-msgstr "Ausgangspunkt"
+msgstr "Außenlinie"
 
 #: src/titlewidget.cpp:86
 msgid "Outline color opacity"
-msgstr ""
+msgstr "Deckkraft der Außenlinie Farbe"
 
 #: src/titlewidget.cpp:92
 msgid "Outline width"
-msgstr ""
+msgstr "Breite der Außenlinie"
 
 #: rc.cpp:1616 rc.cpp:3150
 msgid "Output file"
@@ -3688,43 +3682,43 @@ msgstr ""
 
 #: rc.cpp:169
 msgid "Point 1 input value"
-msgstr ""
+msgstr "Punkt 1 Eingabe Wert"
 
 #: rc.cpp:171
 msgid "Point 1 output value"
-msgstr ""
+msgstr "Punkt 1 Ausgabe wert"
 
 #: rc.cpp:173
 msgid "Point 2 input value"
-msgstr ""
+msgstr "Punkt 2 Eingabe Wert"
 
 #: rc.cpp:175
 msgid "Point 2 output value"
-msgstr ""
+msgstr "Punkt 2 Ausgabe Wert"
 
 #: rc.cpp:177
 msgid "Point 3 input value"
-msgstr ""
+msgstr "Punkt 3 Eingabe Wert"
 
 #: rc.cpp:179
 msgid "Point 3 output value"
-msgstr ""
+msgstr "Punkt 3 Ausgabe Wert"
 
 #: rc.cpp:181
 msgid "Point 4 input value"
-msgstr ""
+msgstr "Punkt 4 Eingabe Wert"
 
 #: rc.cpp:183
 msgid "Point 4 output value"
-msgstr ""
+msgstr "Punkt 4 Ausgabe Wert"
 
 #: rc.cpp:185
 msgid "Point 5 input value"
-msgstr ""
+msgstr "Punkt 5 Eingabe Wert"
 
 #: rc.cpp:187
 msgid "Point 5 output value"
-msgstr ""
+msgstr "Punkt 5 Ausgabe Wert"
 
 #: rc.cpp:1367 rc.cpp:2901
 msgid "Ports:"
@@ -4157,11 +4151,11 @@ msgstr "Größenanpassung (50 %)"
 
 #: src/mainwindow.cpp:1022
 msgid "Resize Item End"
-msgstr ""
+msgstr "Die End-Größe des Elements anpassen"
 
 #: src/mainwindow.cpp:1017
 msgid "Resize Item Start"
-msgstr ""
+msgstr "Die Anfangs-Größe des Elements anpassen"
 
 #: src/resizeclipcommand.cpp:34 src/customtrackview.cpp:3095
 #: src/customtrackview.cpp:3194
@@ -4223,7 +4217,7 @@ msgstr "Rotieren X"
 #: rc.cpp:1091 rc.cpp:2625
 #, fuzzy
 msgid "Rotate X:"
-msgstr "Rotieren X"
+msgstr "Rotieren X:"
 
 #: rc.cpp:447
 msgid "Rotate Y"
@@ -4232,7 +4226,7 @@ msgstr "Rotieren Y"
 #: rc.cpp:1094 rc.cpp:2628
 #, fuzzy
 msgid "Rotate Y:"
-msgstr "Rotieren Y"
+msgstr "Rotieren Y:"
 
 #: rc.cpp:449
 msgid "Rotate Z"
@@ -4241,7 +4235,7 @@ msgstr "Rotieren Z"
 #: rc.cpp:1097 rc.cpp:2631
 #, fuzzy
 msgid "Rotate Z:"
-msgstr "Rotieren Z"
+msgstr "Rotieren Z:"
 
 #: rc.cpp:441
 msgid "Rotate and Shear"
@@ -4394,7 +4388,7 @@ msgstr "Suche rekursiv"
 #: rc.cpp:2057 rc.cpp:3591
 #, fuzzy
 msgid "Seek to active keyframe"
-msgstr "Keyframe löschen"
+msgstr "Aktuelle Keyframe aufsuchen"
 
 #: src/mainwindow.cpp:1130
 msgid "Select Clip"
@@ -4477,14 +4471,12 @@ msgid "Sepia"
 msgstr "Sepia"
 
 #: src/mainwindow.cpp:993
-#, fuzzy
 msgid "Set Zone In"
-msgstr "Bereichs-Endpunkt setzen"
+msgstr "Bereichs-Anfangspunkt setzen"
 
 #: src/mainwindow.cpp:998
-#, fuzzy
 msgid "Set Zone Out"
-msgstr "Bereichs-Anfangspunkt setzen"
+msgstr "Bereichs-Endpunkt setzen"
 
 #: src/monitor.cpp:211
 msgid "Set current image as thumbnail"
@@ -4654,7 +4646,7 @@ msgstr "Quellfarbe"
 
 #: rc.cpp:275
 msgid "Source image on left side"
-msgstr ""
+msgstr "Ursprungsbild auf der linken Seite"
 
 #: rc.cpp:475
 msgid "Sox Band"
@@ -4791,9 +4783,8 @@ msgid "Start Gain"
 msgstr "Anfangsverstärkung"
 
 #: rc.cpp:1715 rc.cpp:3249
-#, fuzzy
 msgid "Start Job"
-msgstr "Start"
+msgstr "Aufgabe starten"
 
 #: src/renderwidget.cpp:95
 msgid "Start Rendering"
@@ -4804,9 +4795,8 @@ msgid "Start Script"
 msgstr "Skript starten"
 
 #: rc.cpp:1139 rc.cpp:2673
-#, fuzzy
 msgid "Start at"
-msgstr "Anfangsverstärkung"
+msgstr "Starten bei"
 
 #: src/mainwindow.cpp:468
 msgid "Start them now"
@@ -4841,6 +4831,7 @@ msgid "Sync timeline cursor"
 msgstr "Synchronisiere Zeitleisten-Cursor"
 
 #: src/customtrackview.cpp:5674
+#, fuzzy
 msgid "TRACTOR"
 msgstr ""
 
@@ -4891,7 +4882,7 @@ msgstr "Das benutzerdefinierte Profil wurde geändert. Wollen Sie es speichern?"
 #: rc.cpp:3741
 #, fuzzy
 msgid "Themes"
-msgstr "Zeit"
+msgstr "Themes"
 
 #: src/renderwidget.cpp:819 src/renderwidget.cpp:1623
 msgid ""
@@ -5005,12 +4996,12 @@ msgstr "Schwellwert"
 #: rc.cpp:277
 #, fuzzy
 msgid "Threshold0r"
-msgstr "Schwellwert"
+msgstr "Threshold0r"
 
 #: rc.cpp:279
 #, fuzzy
 msgid "Thresholds a source image"
-msgstr "Schwellwert"
+msgstr "Ändert den Schwellwert des Ursprungsbilds"
 
 #: rc.cpp:1982 rc.cpp:3516
 msgid "Thumbnails"
@@ -5051,7 +5042,7 @@ msgstr "Zeitleiste"
 #: rc.cpp:291
 #, fuzzy
 msgid "Tint amount"
-msgstr "Ausgangsverstärkung"
+msgstr "Sättigung des Farbtons"
 
 #: rc.cpp:283
 msgid "Tint0r"
@@ -5351,7 +5342,7 @@ msgstr "Ansicht"
 #: rc.cpp:585
 #, fuzzy
 msgid "Vignette Effect"
-msgstr "Videoeffekt hinzufügen"
+msgstr "Schablonen-Effekt"
 
 #: rc.cpp:395
 msgid "Vinyl"
@@ -5408,7 +5399,7 @@ msgstr "Weisse Farbe"
 
 #: rc.cpp:225
 msgid "White output"
-msgstr ""
+msgstr "Weiße Ausgabe"
 
 #: rc.cpp:481 rc.cpp:1196 rc.cpp:2027 rc.cpp:2730 rc.cpp:3561
 msgid "Width"
@@ -5586,7 +5577,7 @@ msgstr "Zoomstufe"
 
 #: rc.cpp:2003 rc.cpp:3537
 msgid "Zoom using vertical drag in ruler"
-msgstr ""
+msgstr "Zoom durch vertikales Ziehen auf dem Lineal"
 
 #: rc.cpp:1088 rc.cpp:2622
 msgid "Zoom:"
