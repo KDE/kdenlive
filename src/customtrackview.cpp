@@ -1288,9 +1288,10 @@ void CustomTrackView::displayContextMenu(QPoint pos, AbstractClipItem *clip, Abs
 {
     m_deleteGuide->setEnabled(m_dragGuide != NULL);
     m_editGuide->setEnabled(m_dragGuide != NULL);
+    m_markerMenu->clear();
+    m_markerMenu->setEnabled(false);
     if (clip == NULL) {
         m_timelineContextMenu->popup(pos);
-        m_markerMenu->setEnabled(false);
     } else if (group != NULL) {
         m_pasteEffectsAction->setEnabled(m_copiedItems.count() == 1);
         m_ungroupAction->setEnabled(true);
@@ -1300,6 +1301,20 @@ void CustomTrackView::displayContextMenu(QPoint pos, AbstractClipItem *clip, Abs
         m_ungroupAction->setEnabled(false);
         if (clip->type() == AVWIDGET) {
             ClipItem *item = static_cast <ClipItem*>(clip);
+            //build go to marker menu
+            if (item->baseClip()) {
+                QList <CommentedTime> markers = item->baseClip()->commentedSnapMarkers();
+                int offset = item->startPos().frames(m_document->fps());
+                if (!markers.isEmpty()) {
+                    for (int i = 0; i < markers.count(); i++) {
+                        int pos = (int) markers.at(i).time().frames(m_document->timecode().fps());
+                        QString position = m_document->timecode().getTimecode(markers.at(i).time()) + ' ' + markers.at(i).comment();
+                        QAction *go = m_markerMenu->addAction(position);
+                        go->setData(pos + offset);
+                    }
+                }
+                m_markerMenu->setEnabled(!m_markerMenu->isEmpty());
+            }
             updateClipTypeActions(item);
             m_pasteEffectsAction->setEnabled(m_copiedItems.count() == 1);
             m_timelineContextClipMenu->popup(pos);
@@ -5482,23 +5497,6 @@ void CustomTrackView::updateClipTypeActions(ClipItem *clip)
                 break;
             }
         }
-    }
-    if (clip == NULL) {
-        m_markerMenu->clear();
-        m_markerMenu->setEnabled(false);
-    } else {
-        m_markerMenu->clear();
-        QList <CommentedTime> markers = clip->baseClip()->commentedSnapMarkers();
-        int offset = clip->startPos().frames(m_document->fps());
-        if (!markers.isEmpty()) {
-            for (int i = 0; i < markers.count(); i++) {
-                int pos = (int) markers.at(i).time().frames(m_document->timecode().fps());
-                QString position = m_document->timecode().getTimecode(markers.at(i).time()) + ' ' + markers.at(i).comment();
-                QAction *go = m_markerMenu->addAction(position);
-                go->setData(pos + offset);
-            }
-        }
-        m_markerMenu->setEnabled(!m_markerMenu->isEmpty());
     }
 }
 
