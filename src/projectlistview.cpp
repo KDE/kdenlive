@@ -136,9 +136,22 @@ void ProjectListView::mouseDoubleClickEvent(QMouseEvent * event)
     } else item = static_cast <ProjectItem *>(it);
 
     if (!(item->flags() & Qt::ItemIsDragEnabled)) return;
-    if ((columnAt(event->pos().x()) == 0) && (item->clipType() == SLIDESHOW || item->clipType() == TEXT || item->clipType() == COLOR)) QTreeWidget::mouseDoubleClickEvent(event);
-    else if ((columnAt(event->pos().x()) == 1) && it->type() != PROJECTSUBCLIPTYPE) QTreeWidget::mouseDoubleClickEvent(event);
-    else emit showProperties(item->referencedClip());
+
+    int column = columnAt(event->pos().x());
+    if (column == 0 && (item->clipType() == SLIDESHOW || item->clipType() == TEXT || item->clipType() == COLOR)) {
+        QPixmap pix = qVariantValue<QPixmap>(it->data(0, Qt::DecorationRole));
+        int offset = pix.width() + indentation();
+        if (item->parent()) offset += indentation();
+        if ((pix.isNull() || offset < event->pos().x())) {
+            QTreeWidget::mouseDoubleClickEvent(event);
+            return;
+        }
+    }
+    if ((column == 1) && it->type() != PROJECTSUBCLIPTYPE) {
+        QTreeWidget::mouseDoubleClickEvent(event);
+        return;
+    }
+    emit showProperties(item->referencedClip());
 }
 
 // virtual
