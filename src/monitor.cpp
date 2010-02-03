@@ -639,13 +639,6 @@ void Monitor::seekCursor(int pos)
 
 void Monitor::rendererStopped(int pos)
 {
-    if (m_currentClip != NULL && m_playAction->isChecked()) {
-        // Clip monitor
-        if (m_isActive && pos >= m_length - 1) {
-            slotStart();
-            return;
-        }
-    }
     if (m_ruler->slotNewValue(pos)) {
         checkOverlay();
         if (m_frametimecode) m_timePos->setText(QString::number(pos));

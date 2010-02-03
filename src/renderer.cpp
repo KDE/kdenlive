@@ -1277,6 +1277,7 @@ void Render::switchPlay()
     if (m_isZoneMode) resetZoneMode();
     if (m_mltProducer->get_speed() == 0.0) {
         m_isBlocked = false;
+        if (m_name == "clip" && m_framePosition == (int) m_mltProducer->get_out()) m_mltProducer->seek(0);
         m_mltProducer->set_speed(1.0);
         m_mltConsumer->set("refresh", 1);
     } else {
