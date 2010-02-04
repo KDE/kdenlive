@@ -203,11 +203,16 @@ kde4_add_kcfg_files(kdenlive_SRCS kdenlivesettings.kcfgc )
 QT4_ADD_DBUS_ADAPTOR(kdenlive_SRCS org.kdenlive.MainWindow.xml mainwindow.h MainWindow)
 kde4_add_executable(kdenlive ${kdenlive_SRCS} ${kdenlive_UI})
 
+if (${KDE_VERSION} VERSION_EQUAL 4.3.80 OR ${KDE_VERSION} VERSION_GREATER 4.3.80)
+  set(KNEWSTUFF_LIBS ${KDE4_KNEWSTUFF3_LIBS})
+else (${KDE_VERSION} VERSION_EQUAL 4.3.80 OR ${KDE_VERSION} VERSION_GREATER 4.3.80)
+  set(KNEWSTUFF_LIBS ${KDE4_KNEWSTUFF2_LIBS})
+endif (${KDE_VERSION} VERSION_EQUAL 4.3.80 OR ${KDE_VERSION} VERSION_GREATER 4.3.80)
 
 target_link_libraries(kdenlive
   ${KDE4_KDEUI_LIBS}
   ${KDE4_KIO_LIBS}
-  ${KDE4_KNEWSTUFF2_LIBS}
+  ${KNEWSTUFF_LIBS}
   ${LIBMLTPLUS_LIBRARY}
   ${LIBMLT_LIBRARY}
   ${optional_libs}
@@ -227,7 +232,7 @@ install( FILES kdenliveui.rc kdenlive.notifyrc DESTINATION  ${DATA_INSTALL_DIR}/
 install (FILES kdenlivesettings.kcfg DESTINATION ${KCFG_INSTALL_DIR})
 install (FILES kdenlive.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
 kde4_install_icons(${ICON_INSTALL_DIR})
-install( FILES kdenlive.knsrc kdenlive_render.knsrc kdenlive_mltprofiles.knsrc kdenlivetranscodingrc DESTINATION  ${CONFIG_INSTALL_DIR} )
+install( FILES kdenlive_wipes.knsrc kdenlive_renderprofiles.knsrc kdenlive_projectprofiles.knsrc kdenlivetranscodingrc DESTINATION  ${CONFIG_INSTALL_DIR} )
 kde4_install_icons( ${ICON_INSTALL_DIR} )
 
 

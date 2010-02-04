@@ -2,3 +2,8 @@
 ProvidersUrl=http://kdenlive.org/data/mltprofilesources.xml
 TargetDir=kdenlive/profiles
 Uncompress=archive
+
+[KNewStuff3]
+ProvidersUrl=http://kdenlive.org/data/mltprofilesources.xml
+TargetDir=kdenlive/profiles
+Uncompress=archive

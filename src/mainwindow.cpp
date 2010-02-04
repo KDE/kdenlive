@@ -79,8 +79,14 @@
 #include <KFileItem>
 #include <KNotification>
 #include <KNotifyConfigWidget>
+#if KDE_IS_VERSION(4,3,80)
+#include <knewstuff3/downloaddialog.h>
+#include <knewstuff3/knewstuffaction.h>
+#else
 #include <knewstuff2/engine.h>
 #include <knewstuff2/ui/knewstuffaction.h>
+#define KNS3 KNS
+#endif /* KDE_IS_VERSION(4,3,80) */
 #include <KToolBar>
 #include <KColorScheme>
 
@@ -940,11 +946,11 @@ void MainWindow::setupActions()
     collection->addAction("manage_profiles", profilesAction);
     connect(profilesAction, SIGNAL(triggered(bool)), this, SLOT(slotEditProfiles()));
 
-    KNS::standardAction(i18n("Download New Wipes..."), this, SLOT(slotGetNewLumaStuff()), actionCollection(), "get_new_lumas");
+    KNS3::standardAction(i18n("Download New Wipes..."), this, SLOT(slotGetNewLumaStuff()), actionCollection(), "get_new_lumas");
 
-    KNS::standardAction(i18n("Download New Render Profiles..."), this, SLOT(slotGetNewRenderStuff()), actionCollection(), "get_new_profiles");
+    KNS3::standardAction(i18n("Download New Render Profiles..."), this, SLOT(slotGetNewRenderStuff()), actionCollection(), "get_new_profiles");
 
-    KNS::standardAction(i18n("Download New Project Profiles..."), this, SLOT(slotGetNewMltProfileStuff()), actionCollection(), "get_new_mlt_profiles");
+    KNS3::standardAction(i18n("Download New Project Profiles..."), this, SLOT(slotGetNewMltProfileStuff()), actionCollection(), "get_new_mlt_profiles");
 
     KAction* wizAction = new KAction(KIcon("configure"), i18n("Run Config Wizard"), this);
     collection->addAction("run_wizard", wizAction);
@@ -2896,69 +2902,52 @@ void MainWindow::slotResizeItemEnd()
     if (m_activeTimeline) m_activeTimeline->projectView()->setOutPoint();
 }
 
+int MainWindow::getNewStuff(const QString &configFile)
+{
+    KNS3::Entry::List entries;
+#if KDE_IS_VERSION(4,3,80)
+    KNS3::DownloadDialog dialog(configFile);
+    dialog.exec();
+    entries = dialog.changedEntries();
+    foreach(const KNS3::Entry &entry, entries) {
+        if (entry.status() == KNS3::Entry::Installed)
+            kDebug() << "// Installed files: " << entry.installedFiles();
+    }
+#else
+    KNS::Engine engine(0);
+    if (engine.init(configFile))
+        entries = engine.downloadDialogModal(this);
+    foreach(KNS::Entry *entry, entries) {
+        if (entry->status() == KNS::Entry::Installed)
+            kDebug() << "// Installed files: " << entry->installedFiles();
+    }
+#endif /* KDE_IS_VERSION(4,3,80) */
+    return entries.size();
+}
+
 void MainWindow::slotGetNewLumaStuff()
 {
-    //KNS::Entry::List download();
-    KNS::Entry::List entries = KNS::Engine::download();
-    // list of changed entries
-    kDebug() << "// PARSING KNS";
-    foreach(KNS::Entry* entry, entries) {
-        // care only about installed ones
-        if (entry->status() == KNS::Entry::Installed) {
-            foreach(const QString &file, entry->installedFiles()) {
-                kDebug() << "// CURRENTLY INSTALLED: " << file;
-            }
-        }
+    if (getNewStuff("kdenlive_wipes.knsrc") > 0) {
+        initEffects::refreshLumas();
+        m_activeTimeline->projectView()->reloadTransitionLumas();
     }
-    qDeleteAll(entries);
-    initEffects::refreshLumas();
-    m_activeTimeline->projectView()->reloadTransitionLumas();
 }
 
 void MainWindow::slotGetNewRenderStuff()
 {
-    //KNS::Entry::List download();
-
-    KNS::Engine engine(0);
-    if (engine.init("kdenlive_render.knsrc")) {
-        KNS::Entry::List entries = engine.downloadDialogModal(this);
-
-        if (entries.size() > 0) {
-            foreach(KNS::Entry* entry, entries) {
-                // care only about installed ones
-                if (entry->status() == KNS::Entry::Installed) {
-                    foreach(const QString &file, entry->installedFiles()) {
-                        kDebug() << "// CURRENTLY INSTALLED: " << file;
-                    }
-                }
-            }
-        }
-        if (m_renderWidget) m_renderWidget->reloadProfiles();
+    if (getNewStuff("kdenlive_renderprofiles.knsrc") > 0) {
+        if (m_renderWidget)
+            m_renderWidget->reloadProfiles();
     }
 }
 
 void MainWindow::slotGetNewMltProfileStuff()
 {
-    //KNS::Entry::List download();
-
-    KNS::Engine engine(0);
-    if (engine.init("kdenlive_mltprofiles.knsrc")) {
-        KNS::Entry::List entries = engine.downloadDialogModal(this);
-
-        if (entries.size() > 0) {
-            foreach(KNS::Entry* entry, entries) {
-                // care only about installed ones
-                if (entry->status() == KNS::Entry::Installed) {
-                    foreach(const QString &file, entry->installedFiles()) {
-                        kDebug() << "// CURRENTLY INSTALLED: " << file;
-                    }
-                }
-            }
-
-            // update the list of profiles in settings dialog
-            KdenliveSettingsDialog* d = static_cast <KdenliveSettingsDialog*>(KConfigDialog::exists("settings"));
-            if (d) d->checkProfile();
-        }
+    if (getNewStuff("kdenlive_projectprofiles.knsrc") > 0) {
+        // update the list of profiles in settings dialog
+        KdenliveSettingsDialog* d = static_cast <KdenliveSettingsDialog*>(KConfigDialog::exists("settings"));
+        if (d)
+            d->checkProfile();
     }
 }
 

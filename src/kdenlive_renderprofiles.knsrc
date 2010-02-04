@@ -2,3 +2,8 @@
 ProvidersUrl=http://kdenlive.org/data/rendersources.xml
 TargetDir=kdenlive/export
 Uncompress=archive
+
+[KNewStuff3]
+ProvidersUrl=http://kdenlive.org/data/rendersources.xml
+TargetDir=kdenlive/export
+Uncompress=archive

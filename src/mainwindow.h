@@ -201,6 +201,7 @@ private:
                    QMenu *menu, const char *member,
                    QActionGroup *actionGroup);
     void aboutPlugins();
+    int getNewStuff(const QString &configFile = QString());
     QStringList m_pluginFileNames;
     QByteArray m_timelineState;
     void loadTranscoders();
