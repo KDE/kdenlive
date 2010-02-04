@@ -84,7 +84,7 @@ RenderJob::RenderJob(bool erase, bool usekuiserver, const QString &renderer, con
     connect(m_renderProcess, SIGNAL(stateChanged(QProcess::ProcessState)), this, SLOT(slotCheckProcess(QProcess::ProcessState)));
     //connect(m_renderProcess, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(slotIsOver(int, QProcess::ExitStatus)));
     m_renderProcess->setReadChannel(QProcess::StandardError);
-    
+
     m_enablelog = (getenv("KDENLIVE_RENDER_LOG") != NULL);
     if (m_enablelog) {
         // Create a log of every render process.

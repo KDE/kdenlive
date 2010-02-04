@@ -267,7 +267,7 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     zDown->setDefaultAction(m_zDown);
 
     m_zTop = new QAction(KIcon("kdenlive-zindex-top"), QString(), this);
-    // TODO mbt 1414: Shortcut should change z index only if 
+    // TODO mbt 1414: Shortcut should change z index only if
     // cursor is NOT in a text field ...
     //m_zTop->setShortcut(Qt::Key_Home);
     m_zTop->setToolTip(i18n("Raise object to top"));
@@ -1771,9 +1771,9 @@ void TitleWidget::setXml(QDomDocument doc)
                 x.rotatez = rotlist[2].toDouble();
 
                 // Try to adjust zoom
-                t.rotate(x.rotatex * (-1), Qt::XAxis);
-                t.rotate(x.rotatey * (-1), Qt::YAxis);
-                t.rotate(x.rotatez * (-1), Qt::ZAxis);
+                t.rotate(x.rotatex *(-1), Qt::XAxis);
+                t.rotate(x.rotatey *(-1), Qt::YAxis);
+                t.rotate(x.rotatez *(-1), Qt::ZAxis);
                 x.scalex = t.m11();
                 x.scaley = t.m22();
             } else {

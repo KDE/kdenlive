@@ -28,13 +28,13 @@
  *
  * KoSliderCombo combines a numerical input and a dropdown slider in a way that takes up as
  * little screen space as possible.
- * 
+ *
  * It allows the user to either enter a floating point value or quickly set the value using a slider
- * 
+ *
  * One signal is emitted when the value changes. The signal is even emitted when the slider
  * is moving. The second argument of the signal however tells you if the value is final or not. A
  * final value is produced by entering a value numerically or by releasing the slider.
- * 
+ *
  * The input of the numerical line edit is constrained to numbers and decimal signs.
  */
 class KoSliderCombo : public QComboBox
@@ -49,7 +49,7 @@ public:
      *
      * @param parent parent QWidget
      */
-    KoSliderCombo(QWidget *parent=0);
+    KoSliderCombo(QWidget *parent = 0);
 
     /**
      * Destructor
@@ -93,9 +93,9 @@ public:
      */
     void setMaximum(qreal max);
 
-     /**
-     * The value shown.
-     */
+    /**
+    * The value shown.
+    */
     qreal value() const;
 
     virtual QSize minimumSizeHint() const; ///< reimplemented from QComboBox
@@ -103,11 +103,11 @@ public:
 
 public slots:
 
-     /**
-     * Sets the value.
-     * The value actually set is forced to be within the legal range: minimum <= value <= maximum
-     * @param value the new value
-     */
+    /**
+    * Sets the value.
+    * The value actually set is forced to be within the legal range: minimum <= value <= maximum
+    * @param value the new value
+    */
     void setValue(qreal value);
 
 signals:

@@ -169,7 +169,7 @@ private:
     void deleteAnimInfoText();
 
     qreal maxZIndex();
-    /** 
+    /**
      * \brief Get the minimum/maximum z index value of items.
      * \param maxBound true: Use maximum z index. false: Use minimum
      * \param intersectingOnly Only considers the items intersecting with
