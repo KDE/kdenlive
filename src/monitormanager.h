@@ -51,7 +51,7 @@ public slots:
     void slotStart();
     void slotEnd();
     void slotResetProfiles();
-    void slotSwitchMonitors();
+    void slotSwitchMonitors(bool activateClip);
 
 private:
     Monitor *m_clipMonitor;

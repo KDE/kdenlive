@@ -509,7 +509,7 @@ bool Monitor::isActive() const
 void Monitor::activateMonitor()
 {
     if (!m_isActive) {
-        m_monitorManager->slotSwitchMonitors();
+        m_monitorManager->slotSwitchMonitors(m_name == "clip");
     }
 }
 

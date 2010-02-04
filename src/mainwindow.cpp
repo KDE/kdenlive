@@ -1470,6 +1470,7 @@ void MainWindow::newFile(bool showProjectSettings, bool force)
         connectDocumentInfo(doc);
         connectDocument(trackView, doc);
     } else m_timelineArea->setTabBarHidden(false);
+    m_monitorManager->activateMonitor("clip");
     m_closeAction->setEnabled(m_timelineArea->count() > 1);
 }
 
@@ -3267,7 +3268,7 @@ QPixmap MainWindow::createSchemePreviewIcon(const KSharedConfigPtr &config)
 
 void MainWindow::slotSwitchMonitors()
 {
-    m_monitorManager->slotSwitchMonitors();
+    m_monitorManager->slotSwitchMonitors(m_clipMonitor->isActive());
     if (m_projectMonitor->isActive()) m_activeTimeline->projectView()->setFocus();
     else m_projectList->focusTree();
 }
