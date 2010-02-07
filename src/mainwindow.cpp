@@ -426,6 +426,9 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
 
     m_monitorManager->initMonitors(m_clipMonitor, m_projectMonitor);
     slotConnectMonitors();
+    
+    // Disable drop B frames, see Kdenlive issue #1330, see also kdenlivesettingsdialog.cpp
+    KdenliveSettings::setDropbframes(false);
 
     // Open or create a file.  Command line argument passed in Url has
     // precedence, then "openlastproject", then just a plain empty file.

@@ -96,6 +96,10 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent) :
 
     QWidget *p6 = new QWidget;
     m_configSdl.setupUi(p6);
+    
+    // Disable drop B frames, see Kdenlive issue #1330
+    m_configSdl.groupBox->setHidden(true);
+
     m_page6 = addPage(p6, i18n("Playback"), "media-playback-start");
 
     QWidget *p7 = new QWidget;
