@@ -79,6 +79,7 @@ public:
     virtual ~KeyframeEdit();
     void setupParam();
     void addParameter(QDomElement e);
+    const QString getValue(const QString &name);
 
 private:
     QList <QDomElement> m_params;
@@ -88,7 +89,7 @@ private:
     int m_maxVal;
     Timecode m_timecode;
     int m_previousPos;
-    KeyItemDelegate *m_delegate;
+    //KeyItemDelegate *m_delegate;
     void generateAllParams();
     QGridLayout *m_slidersLayout;
     int m_active_keyframe;

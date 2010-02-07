@@ -122,6 +122,7 @@ void EffectStackEdit::updateParameter(const QString &name, const QString &value)
 void EffectStackEdit::transferParamDesc(const QDomElement d, int in, int out)
 {
     clearAllItems();
+    if (m_keyframeEditor) delete m_keyframeEditor;
     m_keyframeEditor = NULL;
     m_params = d;
     m_in = in;
@@ -425,8 +426,8 @@ void EffectStackEdit::collectAllParameters()
         else if (type == "position") paramName.append("position");
         else if (type == "geometry") paramName.append("geometry");
         else if (type == "keyframe") paramName.append("keyframe");
-        if (!m_valueItems.contains(paramName)) {
-            // kDebug() << "// Param: " << paramName << " NOT FOUND";
+        if (type != "simplekeyframe" && !m_valueItems.contains(paramName)) {
+            kDebug() << "// Param: " << paramName << " NOT FOUND";
             continue;
         }
 
@@ -490,8 +491,12 @@ void EffectStackEdit::collectAllParameters()
             else info.end = RIGHT;
             info.endTransparency = wp->end_transp->value();
             setValue = getWipeString(info);
+        } else if ((type == "simplekeyframe" || type == "keyframe") && m_keyframeEditor) {
+            QString realName = i18n(na.toElement().text().toUtf8().data());
+            QString val = m_keyframeEditor->getValue(realName);
+            kDebug() << "SET VALUE: " << val;
+            namenode.item(i).toElement().setAttribute("keyframes", val);
         }
-
         if (!setValue.isNull()) {
             pa.attributes().namedItem("value").setNodeValue(setValue);
         }
@@ -540,5 +545,6 @@ void EffectStackEdit::clearAllItems()
         delete child;
         if (wid) delete wid;
     }
+    m_keyframeEditor = NULL;
     blockSignals(false);
 }

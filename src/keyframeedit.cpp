@@ -36,7 +36,7 @@ KeyframeEdit::KeyframeEdit(QDomElement e, int minFrame, int maxFrame, int minVal
 {
     kDebug() << " / / / /MODIFIED KFR: " << m_active_keyframe;
     setupUi(this);
-    m_params.append(e);
+    m_params.append(e.cloneNode().toElement());
     keyframe_list->setFont(KGlobalSettings::generalFont());
     keyframe_seek->setChecked(KdenliveSettings::keyframeseek());
     connect(keyframe_seek, SIGNAL(stateChanged(int)), this, SLOT(slotSetSeeking(int)));
@@ -82,7 +82,7 @@ KeyframeEdit::~KeyframeEdit()
 void KeyframeEdit::addParameter(QDomElement e)
 {
     keyframe_list->blockSignals(true);
-    m_params.append(e);
+    m_params.append(e.cloneNode().toElement());
     QDomNode na = e.firstChildElement("name");
     QString paramName = i18n(na.toElement().text().toUtf8().data());
     int columnId = keyframe_list->columnCount();
@@ -158,7 +158,7 @@ void KeyframeEdit::setupParam()
     if (first) keyframe_list->setCurrentItem(first);*/
     keyframe_list->blockSignals(false);
     //keyframe_list->setCurrentCell(0, 0);
-    //slotAdjustKeyframeInfo();
+    slotAdjustKeyframeInfo(false);
     button_delete->setEnabled(keyframe_list->rowCount() > 1);
 }
 
@@ -294,6 +294,17 @@ void KeyframeEdit::generateAllParams()
         m_params[col].setAttribute("keyframes", keyframes);
     }
     emit parameterChanged();
+}
+
+const QString KeyframeEdit::getValue(const QString &name)
+{
+    for (int col = 0; col < keyframe_list->columnCount(); col++) {
+        QDomNode na = m_params.at(col).firstChildElement("name");
+        QString paramName = i18n(na.toElement().text().toUtf8().data());
+        kDebug() << paramName << " == " << name;
+        if (paramName == name) return m_params.at(col).attribute("keyframes");
+    }
+    return QString();
 }
 
 void KeyframeEdit::slotAdjustKeyframeInfo(bool seek)
