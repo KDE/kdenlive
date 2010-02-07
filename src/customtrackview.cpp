@@ -4855,7 +4855,7 @@ void CustomTrackView::pasteClipEffects()
     if (paste->childCount() > 0) m_commandStack->push(paste);
     else delete paste;
 
-    // adjust effects (fades, ...)
+    //adjust effects (fades, ...)
     for (int i = 0; i < clips.count(); ++i) {
         if (clips.at(i)->type() == AVWIDGET) {
             ClipItem *item = static_cast < ClipItem *>(clips.at(i));
