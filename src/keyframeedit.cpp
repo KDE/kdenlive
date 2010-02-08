@@ -100,7 +100,9 @@ void KeyframeEdit::addParameter(QDomElement e)
         bool found = false;
         int j;
         for (j = 0; j < keyframe_list->rowCount(); j++) {
-            int currentPos = m_timecode.getFrameCount(keyframe_list->verticalHeaderItem(j)->text());
+            int currentPos;
+            if (KdenliveSettings::frametimecode()) currentPos = keyframe_list->verticalHeaderItem(j)->text().toInt();
+            else currentPos = m_timecode.getFrameCount(keyframe_list->verticalHeaderItem(j)->text());
             if (frame == currentPos) {
                 keyframe_list->setItem(j, columnId, new QTableWidgetItem(frames.at(i).section(':', 1, 1)));
                 found = true;
@@ -111,7 +113,10 @@ void KeyframeEdit::addParameter(QDomElement e)
         }
         if (!found) {
             keyframe_list->insertRow(j);
-            keyframe_list->setVerticalHeaderItem(j, new QTableWidgetItem(m_timecode.getTimecodeFromFrames(frame)));
+            QString currentPos;
+            if (KdenliveSettings::frametimecode()) currentPos = QString::number(frame);
+            else currentPos = m_timecode.getTimecodeFromFrames(frame);
+            keyframe_list->setVerticalHeaderItem(j, new QTableWidgetItem(currentPos));
             keyframe_list->setItem(j, columnId, new QTableWidgetItem(frames.at(i).section(':', 1, 1)));
             keyframe_list->resizeRowToContents(j);
         }
@@ -145,7 +150,9 @@ void KeyframeEdit::setupParam()
     for (int i = 0; i < frames.count(); i++) {
         keyframe_list->insertRow(i);
         int currentpos = frames.at(i).section(':', 0, 0).toInt();
-        QString framePos = m_timecode.getTimecodeFromFrames(currentpos);
+        QString framePos;
+        if (KdenliveSettings::frametimecode()) framePos  = QString::number(currentpos);
+        else framePos = m_timecode.getTimecodeFromFrames(currentpos);
         keyframe_list->setVerticalHeaderItem(i, new QTableWidgetItem(framePos));
         keyframe_list->setItem(i, col, new QTableWidgetItem(frames.at(i).section(':', 1, 1)));
         if ((m_active_keyframe > -1) && (m_active_keyframe == currentpos)) {
@@ -182,11 +189,16 @@ void KeyframeEdit::slotAddKeyframe()
     int row = keyframe_list->currentRow();
     int col = keyframe_list->currentColumn();
     int newrow = row;
-    int pos1 = m_timecode.getFrameCount(keyframe_list->verticalHeaderItem(row)->text());
+    int pos1;
+    if (KdenliveSettings::frametimecode()) pos1 = keyframe_list->verticalHeaderItem(row)->text().toInt();
+    else pos1 = m_timecode.getFrameCount(keyframe_list->verticalHeaderItem(row)->text());
+
     int result;
     kDebug() << "// ADD KF: " << row << ", MAX: " << keyframe_list->rowCount() << ", POS: " << pos1;
     if (row < (keyframe_list->rowCount() - 1)) {
-        int pos2 = m_timecode.getFrameCount(keyframe_list->verticalHeaderItem(row + 1)->text());
+        int pos2;
+        if (KdenliveSettings::frametimecode()) pos2 = keyframe_list->verticalHeaderItem(row + 1)->text().toInt();
+        else pos2 = m_timecode.getFrameCount(keyframe_list->verticalHeaderItem(row + 1)->text());
         result = pos1 + (pos2 - pos1) / 2;
         newrow++;
     } else if (row == 0) {
@@ -197,12 +209,17 @@ void KeyframeEdit::slotAddKeyframe()
             result = m_min;
         }
     } else {
-        int pos2 = m_timecode.getFrameCount(keyframe_list->verticalHeaderItem(row - 1)->text());
+        int pos2;
+        if (KdenliveSettings::frametimecode()) pos2 = keyframe_list->verticalHeaderItem(row - 1)->text().toInt();
+        else pos2 = m_timecode.getFrameCount(keyframe_list->verticalHeaderItem(row - 1)->text());
         result = pos2 + (pos1 - pos2) / 2;
     }
 
     keyframe_list->insertRow(newrow);
-    keyframe_list->setVerticalHeaderItem(newrow, new QTableWidgetItem(m_timecode.getTimecodeFromFrames(result)));
+    QString currentPos;
+    if (KdenliveSettings::frametimecode()) currentPos = QString::number(result);
+    else currentPos = m_timecode.getTimecodeFromFrames(result);
+    keyframe_list->setVerticalHeaderItem(newrow, new QTableWidgetItem(currentPos));
     for (int i = 0; i < keyframe_list->columnCount(); i++) {
         keyframe_list->setItem(newrow, i, new QTableWidgetItem(keyframe_list->item(item->row(), i)->text()));
     }
@@ -224,14 +241,19 @@ void KeyframeEdit::slotGenerateParams(int row, int column)
         QTableWidgetItem *item = keyframe_list->item(row, 0);
         if (item == NULL) return;
         QString val = keyframe_list->verticalHeaderItem(row)->text();
-        int pos = m_timecode.getFrameCount(val);
+        int pos;
+        if (KdenliveSettings::frametimecode()) pos = val.toInt();
+        else pos = m_timecode.getFrameCount(val);
+
         if (pos <= m_min) {
             pos = m_min;
-            val = m_timecode.getTimecodeFromFrames(pos);
+            if (KdenliveSettings::frametimecode()) val = QString::number(pos);
+            else val = m_timecode.getTimecodeFromFrames(pos);
         }
         if (pos > m_max) {
             pos = m_max;
-            val = m_timecode.getTimecodeFromFrames(pos);
+            if (KdenliveSettings::frametimecode()) val = QString::number(pos);
+            else val = m_timecode.getTimecodeFromFrames(pos);
         }
         if (val != keyframe_list->verticalHeaderItem(row)->text()) keyframe_list->verticalHeaderItem(row)->setText(val);
 
@@ -242,7 +264,12 @@ void KeyframeEdit::slotGenerateParams(int row, int column)
             if (v <= m_params.at(col).attribute("min").toInt()) item->setText(m_params.at(col).attribute("min"));
             QString keyframes;
             for (int i = 0; i < keyframe_list->rowCount(); i++) {
-                if (keyframe_list->item(i, col)) keyframes.append(QString::number(m_timecode.getFrameCount(keyframe_list->verticalHeaderItem(i)->text())) + ':' + keyframe_list->item(i, col)->text() + ';');
+                if (keyframe_list->item(i, col)) {
+                    int pos3;
+                    if (KdenliveSettings::frametimecode()) pos3 = keyframe_list->verticalHeaderItem(i)->text().toInt();
+                    else pos3 = m_timecode.getFrameCount(keyframe_list->verticalHeaderItem(i)->text());
+                    keyframes.append(QString::number(pos3) + ':' + keyframe_list->item(i, col)->text() + ';');
+                }
             }
             m_params[col].setAttribute("keyframes", keyframes);
         }
@@ -254,14 +281,20 @@ void KeyframeEdit::slotGenerateParams(int row, int column)
     QTableWidgetItem *item = keyframe_list->item(row, column);
     if (item == NULL) return;
     QString val = keyframe_list->verticalHeaderItem(row)->text();
-    int pos = m_timecode.getFrameCount(val);
+    ;
+    int pos;
+    if (KdenliveSettings::frametimecode()) pos = val.toInt();
+    else pos = m_timecode.getFrameCount(val);
+
     if (pos <= m_min) {
         pos = m_min;
-        val = m_timecode.getTimecodeFromFrames(pos);
+        if (KdenliveSettings::frametimecode()) val = QString::number(pos);
+        else val = m_timecode.getTimecodeFromFrames(pos);
     }
     if (pos > m_max) {
         pos = m_max;
-        val = m_timecode.getTimecodeFromFrames(pos);
+        if (KdenliveSettings::frametimecode()) val = QString::number(pos);
+        else val = m_timecode.getTimecodeFromFrames(pos);
     }
     /*QList<QTreeWidgetItem *> duplicates = keyframe_list->findItems(val, Qt::MatchExactly, 0);
     duplicates.removeAll(item);
@@ -278,7 +311,12 @@ void KeyframeEdit::slotGenerateParams(int row, int column)
 
     QString keyframes;
     for (int i = 0; i < keyframe_list->rowCount(); i++) {
-        if (keyframe_list->item(i, column)) keyframes.append(QString::number(m_timecode.getFrameCount(keyframe_list->verticalHeaderItem(i)->text())) + ':' + keyframe_list->item(i, column)->text() + ';');
+        if (keyframe_list->item(i, column)) {
+            int pos3;
+            if (KdenliveSettings::frametimecode()) pos3 = keyframe_list->verticalHeaderItem(i)->text().toInt();
+            else pos3 = m_timecode.getFrameCount(keyframe_list->verticalHeaderItem(i)->text());
+            keyframes.append(QString::number(pos3) + ':' + keyframe_list->item(i, column)->text() + ';');
+        }
     }
     m_params[column].setAttribute("keyframes", keyframes);
     emit parameterChanged();
@@ -289,7 +327,12 @@ void KeyframeEdit::generateAllParams()
     for (int col = 0; col < keyframe_list->columnCount(); col++) {
         QString keyframes;
         for (int i = 0; i < keyframe_list->rowCount(); i++) {
-            if (keyframe_list->item(i, col)) keyframes.append(QString::number(m_timecode.getFrameCount(keyframe_list->verticalHeaderItem(i)->text())) + ':' + keyframe_list->item(i, col)->text() + ';');
+            if (keyframe_list->item(i, col)) {
+                int pos3;
+                if (KdenliveSettings::frametimecode()) pos3 = keyframe_list->verticalHeaderItem(i)->text().toInt();
+                else pos3 = m_timecode.getFrameCount(keyframe_list->verticalHeaderItem(i)->text());
+                keyframes.append(QString::number(pos3) + ':' + keyframe_list->item(i, col)->text() + ';');
+            }
         }
         m_params[col].setAttribute("keyframes", keyframes);
     }
@@ -315,11 +358,23 @@ void KeyframeEdit::slotAdjustKeyframeInfo(bool seek)
     int max = m_max;
     QTableWidgetItem *above = keyframe_list->item(item->row() - 1, item->column());
     QTableWidgetItem *below = keyframe_list->item(item->row() + 1, item->column());
-    if (above) min = m_timecode.getFrameCount(keyframe_list->verticalHeaderItem(above->row())->text()) + 1;
-    if (below) max = m_timecode.getFrameCount(keyframe_list->verticalHeaderItem(below->row())->text()) - 1;
+    if (above) {
+        if (KdenliveSettings::frametimecode()) min = keyframe_list->verticalHeaderItem(above->row())->text().toInt();
+        else min = m_timecode.getFrameCount(keyframe_list->verticalHeaderItem(above->row())->text());
+        min++;
+    }
+    if (below) {
+        if (KdenliveSettings::frametimecode()) max = keyframe_list->verticalHeaderItem(below->row())->text().toInt();
+        else max = m_timecode.getFrameCount(keyframe_list->verticalHeaderItem(below->row())->text());
+        max--;
+    }
     keyframe_pos->blockSignals(true);
     keyframe_pos->setRange(min, max);
-    keyframe_pos->setValue(m_timecode.getFrameCount(keyframe_list->verticalHeaderItem(item->row())->text()));
+    int pos;
+    if (KdenliveSettings::frametimecode()) pos = keyframe_list->verticalHeaderItem(item->row())->text().toInt();
+    else pos = m_timecode.getFrameCount(keyframe_list->verticalHeaderItem(item->row())->text());
+
+    keyframe_pos->setValue(pos);
     keyframe_pos->blockSignals(false);
     for (int col = 0; col < keyframe_list->columnCount(); col++) {
         QSlider *sl = static_cast <QSlider*>(m_slidersLayout->itemAtPosition(col, 1)->widget());
@@ -334,7 +389,10 @@ void KeyframeEdit::slotAdjustKeyframeInfo(bool seek)
 void KeyframeEdit::slotAdjustKeyframePos(int value)
 {
     QTableWidgetItem *item = keyframe_list->currentItem();
-    keyframe_list->verticalHeaderItem(item->row())->setText(m_timecode.getTimecodeFromFrames(value));
+    QString val;
+    if (KdenliveSettings::frametimecode()) val = QString::number(value);
+    else val = m_timecode.getTimecodeFromFrames(value);
+    keyframe_list->verticalHeaderItem(item->row())->setText(val);
     slotGenerateParams(item->row(), -1);
     if (KdenliveSettings::keyframeseek()) emit seekToPos(value);
 }

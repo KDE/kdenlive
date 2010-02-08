@@ -187,16 +187,20 @@ void CustomRuler::mouseMoveEvent(QMouseEvent * event)
         if (event->y() <= 10) setCursor(Qt::ArrowCursor);
         else if (qAbs(pos - m_zoneStart * m_factor) < 4) {
             setCursor(KCursor("left_side", Qt::SizeHorCursor));
-            setToolTip(i18n("Zone start: %1", m_timecode.getTimecodeFromFrames(m_zoneStart)));
+            if (KdenliveSettings::frametimecode()) setToolTip(i18n("Zone start: %1", m_zoneStart));
+            else setToolTip(i18n("Zone start: %1", m_timecode.getTimecodeFromFrames(m_zoneStart)));
         } else if (qAbs(pos - m_zoneEnd * m_factor) < 4) {
             setCursor(KCursor("right_side", Qt::SizeHorCursor));
-            setToolTip(i18n("Zone end: %1", m_timecode.getTimecodeFromFrames(m_zoneEnd)));
+            if (KdenliveSettings::frametimecode()) setToolTip(i18n("Zone end: %1", m_zoneEnd));
+            else setToolTip(i18n("Zone end: %1", m_timecode.getTimecodeFromFrames(m_zoneEnd)));
         } else if (qAbs(pos - (m_zoneStart + (m_zoneEnd - m_zoneStart) / 2) * m_factor) < 4) {
             setCursor(Qt::SizeHorCursor);
-            setToolTip(i18n("Zone duration: %1", m_timecode.getTimecodeFromFrames(m_zoneEnd - m_zoneStart)));
+            if (KdenliveSettings::frametimecode()) setToolTip(i18n("Zone duration: %1", m_zoneEnd - m_zoneStart));
+            else setToolTip(i18n("Zone duration: %1", m_timecode.getTimecodeFromFrames(m_zoneEnd - m_zoneStart)));
         } else {
             setCursor(Qt::ArrowCursor);
-            setToolTip(i18n("Position: %1", m_timecode.getTimecodeFromFrames(pos / m_factor)));
+            if (KdenliveSettings::frametimecode()) setToolTip(i18n("Position: %1", (int)(pos / m_factor)));
+            else setToolTip(i18n("Position: %1", m_timecode.getTimecodeFromFrames(pos / m_factor)));
         }
     }
 }

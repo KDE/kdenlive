@@ -82,7 +82,10 @@ MarkerDialog::MarkerDialog(DocClipBase *clip, CommentedTime t, Timecode tc, cons
         connect(marker_position, SIGNAL(textChanged(const QString &)), this, SIGNAL(updateThumb()));
     } else clip_thumb->setHidden(true);
 
-    marker_position->setText(tc.getTimecode(t.time()));
+    if (KdenliveSettings::frametimecode()) {
+        marker_position->setInputMask("000000000000");
+        marker_position->setText(QString::number((int) t.time().frames(m_fps)));
+    } else marker_position->setText(tc.getTimecode(t.time()));
 
     marker_comment->setText(t.comment());
     marker_comment->selectAll();
@@ -104,7 +107,9 @@ MarkerDialog::~MarkerDialog()
 void MarkerDialog::slotUpdateThumb()
 {
     m_previewTimer->stop();
-    int pos = m_tc.getFrameCount(marker_position->text());
+    int pos;
+    if (KdenliveSettings::frametimecode()) pos = marker_position->text().toInt();
+    else pos = m_tc.getFrameCount(marker_position->text());
     int width = 100.0 * m_dar;
     if (width % 2 == 1) width++;
     QPixmap p = QPixmap::fromImage(KThumb::getFrame(m_producer, pos, width, 100));
@@ -114,22 +119,29 @@ void MarkerDialog::slotUpdateThumb()
 
 void MarkerDialog::slotTimeUp()
 {
-    int duration = m_tc.getFrameCount(marker_position->text());
+    int duration;
+    if (KdenliveSettings::frametimecode()) duration = marker_position->text().toInt();
+    else duration = m_tc.getFrameCount(marker_position->text());
     if (m_clip && duration >= m_clip->duration().frames(m_fps)) return;
     duration ++;
-    marker_position->setText(m_tc.getTimecode(GenTime(duration, m_fps)));
+    if (KdenliveSettings::frametimecode()) marker_position->setText(QString::number(duration));
+    else marker_position->setText(m_tc.getTimecode(GenTime(duration, m_fps)));
 }
 
 void MarkerDialog::slotTimeDown()
 {
-    int duration = m_tc.getFrameCount(marker_position->text());
+    int duration;
+    if (KdenliveSettings::frametimecode()) duration = marker_position->text().toInt();
+    else duration = m_tc.getFrameCount(marker_position->text());
     if (duration <= 0) return;
     duration --;
-    marker_position->setText(m_tc.getTimecode(GenTime(duration, m_fps)));
+    if (KdenliveSettings::frametimecode()) marker_position->setText(QString::number(duration));
+    else marker_position->setText(m_tc.getTimecode(GenTime(duration, m_fps)));
 }
 
 CommentedTime MarkerDialog::newMarker()
 {
+    if (KdenliveSettings::frametimecode()) return CommentedTime(GenTime(marker_position->text().toInt(), m_fps), marker_comment->text());
     return CommentedTime(GenTime(m_tc.getFrameCount(marker_position->text()), m_fps), marker_comment->text());
 }
 

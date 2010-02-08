@@ -30,7 +30,10 @@ PositionEdit::PositionEdit(const QString name, int pos, int min, int max, const 
     connect(m_ui.horizontalSlider, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateTimecode()));
     connect(m_ui.krestrictedline, SIGNAL(editingFinished()), this, SLOT(slotUpdatePosition()));
     m_ui.horizontalSlider->setValue(pos);
-    m_ui.krestrictedline->setText(m_tc.getTimecodeFromFrames(pos));
+    if (KdenliveSettings::frametimecode()) {
+        m_ui.krestrictedline->setInputMask("000000000000");
+        m_ui.krestrictedline->setText(QString::number(pos));
+    } else m_ui.krestrictedline->setText(m_tc.getTimecodeFromFrames(pos));
 }
 
 int PositionEdit::getPosition() const
@@ -41,23 +44,28 @@ int PositionEdit::getPosition() const
 void PositionEdit::setPosition(int pos)
 {
     m_ui.horizontalSlider->setValue(pos);
-    m_ui.krestrictedline->setText(m_tc.getTimecodeFromFrames(pos));
+    if (KdenliveSettings::frametimecode()) m_ui.krestrictedline->setText(QString::number(pos));
+    else m_ui.krestrictedline->setText(m_tc.getTimecodeFromFrames(pos));
 }
 
 void PositionEdit::slotUpdateTimecode()
 {
-    m_ui.krestrictedline->setText(m_tc.getTimecodeFromFrames(m_ui.horizontalSlider->value()));
+    if (KdenliveSettings::frametimecode()) m_ui.krestrictedline->setText(QString::number(m_ui.horizontalSlider->value()));
+    else m_ui.krestrictedline->setText(m_tc.getTimecodeFromFrames(m_ui.horizontalSlider->value()));
     emit parameterChanged();
 }
 
 void PositionEdit::slotUpdatePosition()
 {
     m_ui.horizontalSlider->blockSignals(true);
-    int pos = m_tc.getFrameCount(m_ui.krestrictedline->text());
+    int pos;
+    if (KdenliveSettings::frametimecode()) pos = m_ui.krestrictedline->text().toInt();
+    else pos = m_tc.getFrameCount(m_ui.krestrictedline->text());
     m_ui.horizontalSlider->setValue(pos);
     if (pos != m_ui.horizontalSlider->value()) {
         // Value out of range
-        m_ui.krestrictedline->setText(m_tc.getTimecodeFromFrames(m_ui.horizontalSlider->value()));
+        if (KdenliveSettings::frametimecode()) m_ui.krestrictedline->setText(QString::number(m_ui.horizontalSlider->value()));
+        else m_ui.krestrictedline->setText(m_tc.getTimecodeFromFrames(m_ui.horizontalSlider->value()));
     }
     m_ui.horizontalSlider->blockSignals(false);
     emit parameterChanged();

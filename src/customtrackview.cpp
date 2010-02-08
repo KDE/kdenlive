@@ -5772,3 +5772,12 @@ void CustomTrackView::insertZoneOverwrite(QStringList data, int in)
     new AddTimelineClipCommand(this, clip->toXML(), clip->getId(), info, EffectsList(), true, false, true, false, addCommand);
     m_commandStack->push(addCommand);
 }
+
+void CustomTrackView::clearSelection()
+{
+    resetSelectionGroup();
+    scene()->clearSelection();
+    m_dragItem = NULL;
+    emit clipItemSelected(NULL);
+}
+

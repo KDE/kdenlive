@@ -482,9 +482,9 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene)
     sceneList.setContent(scene, true);
     QDomElement mlt = sceneList.firstChildElement("mlt");
     if (mlt.isNull() || !mlt.hasChildNodes()) {
-	//Make sure we don't save if scenelist is corrupted
-	KMessageBox::error(kapp->activeWindow(), i18n("Cannot write to file %1", path));
-	return false;
+        //Make sure we don't save if scenelist is corrupted
+        KMessageBox::error(kapp->activeWindow(), i18n("Cannot write to file %1", path));
+        return false;
     }
     QDomElement addedXml = sceneList.createElement("kdenlivedoc");
     mlt.appendChild(addedXml);

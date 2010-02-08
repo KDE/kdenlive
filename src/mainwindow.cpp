@@ -426,7 +426,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
 
     m_monitorManager->initMonitors(m_clipMonitor, m_projectMonitor);
     slotConnectMonitors();
-    
+
     // Disable drop B frames, see Kdenlive issue #1330, see also kdenlivesettingsdialog.cpp
     KdenliveSettings::setDropbframes(false);
 
@@ -3164,6 +3164,7 @@ void MainWindow::slotUpdateTimecodeFormat(int ix)
     KdenliveSettings::setFrametimecode(ix == 1);
     m_clipMonitor->updateTimecodeFormat();
     m_projectMonitor->updateTimecodeFormat();
+    m_activeTimeline->projectView()->clearSelection();
 }
 
 void MainWindow::slotRemoveFocus()
