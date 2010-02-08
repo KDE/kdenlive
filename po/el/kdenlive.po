@@ -1385,7 +1385,7 @@ msgstr "Έλεγχος για μη διαθέσιμα κλιπ"
 #: rc.cpp:1730
 #: rc.cpp:3264
 msgid "CheckBox"
-msgstr "ΠλαίσιοΕπιλογής"
+msgstr "Πλαίσιο επιλογής"
 
 #: src/wizard.cpp:67
 msgid "Checking MLT engine"
@@ -3808,7 +3808,7 @@ msgstr "Όνομα αποθηκευμένου εφέ:"
 
 #: src/kdenlivesettingsdialog.cpp:238
 msgid "Nano X"
-msgstr "Nano"
+msgstr "Nano X"
 
 #: rc.cpp:136
 msgid "Neutral Color"
@@ -4720,7 +4720,7 @@ msgstr "Χρόνος αντήχησης"
 
 #: src/mainwindow.cpp:3184
 msgid "Revert to last saved version"
-msgstr "νέου"
+msgstr "Επαναφορά στην τελευταία σωσμένη έκδοση"
 
 #: src/recmonitor.cpp:72
 #: src/mainwindow.cpp:1027
@@ -5700,7 +5700,7 @@ msgstr "Διαφανές φόντο"
 
 #: rc.cpp:64
 msgid "Trim the edges of a clip"
-msgstr "Κόψιμο των "
+msgstr "Κόψιμο των  άκρων ενός κλιπ"
 
 #: rc.cpp:469
 msgid "Turn clip colors to sepia"
