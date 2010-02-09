@@ -659,7 +659,6 @@ void ClipItem::paint(QPainter *painter,
     if (KdenliveSettings::videothumbnails() && !isAudioOnly()) {
         QPen pen = painter->pen();
         pen.setColor(QColor(255, 255, 255, 150));
-        const QRectF source(0.0, 0.0, (double) m_startPix.width(), (double) m_startPix.height());
         painter->setPen(pen);
         if ((m_clipType == IMAGE || m_clipType == TEXT) && !m_startPix.isNull()) {
             const QPointF top = mapped.topRight() - QPointF(m_startPix.width() - 1, 0);
