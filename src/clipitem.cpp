@@ -698,7 +698,8 @@ void ClipItem::paint(QPainter *painter,
         } else mappedRect = mapped;
 
         double scale = painter->matrix().m11();
-        int channels = baseClip()->getProperty("channels").toInt();
+        int channels = 0;
+        if (isEnabled() && m_clip) channels = m_clip->getProperty("channels").toInt();
         if (scale != m_framePixelWidth)
             m_audioThumbCachePic.clear();
         double cropLeft = m_info.cropStart.frames(m_fps);
