@@ -2112,7 +2112,7 @@ void TitleWidget::slotFontText(const QString& s)
     // in older Qt versions.
 }
 
-void TitleWidget::slotEditTypewriter(int ix)
+void TitleWidget::slotEditTypewriter(int /*ix*/)
 {
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     if (l.size() == 1) {

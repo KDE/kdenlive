@@ -462,7 +462,7 @@ const QString &ClipProperties::clipId() const
 QMap <QString, QString> ClipProperties::properties()
 {
     QMap <QString, QString> props;
-    CLIPTYPE t;
+    CLIPTYPE t = UNKNOWN;
     if (m_clip != NULL) {
         t = m_clip->clipType();
         m_old_props = m_clip->properties();

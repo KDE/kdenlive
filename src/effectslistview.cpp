@@ -58,9 +58,8 @@ EffectsListView::EffectsListView(QWidget *parent) :
 }
 
 
-void EffectsListView::focusInEvent(QFocusEvent * event)
+void EffectsListView::focusInEvent(QFocusEvent * /*event*/)
 {
-    kDebug() << "// got foc";
     search_effect->setFocus();
 }
 
