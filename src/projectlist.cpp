@@ -350,7 +350,7 @@ void ProjectList::trashUnusedClips()
         it2++;
     }
 
-    m_doc->deleteProjectClip(ids);
+    emit deleteProjectClips(ids, QMap <QString, QString>());
     for (int i = 0; i < urls.count(); i++) {
         KIO::NetAccess::del(KUrl(urls.at(i)), this);
     }
@@ -629,15 +629,30 @@ void ProjectList::slotRemoveClip()
 
     if (delCommand->childCount() == 0) delete delCommand;
     else m_commandStack->push(delCommand);
-    if (!ids.isEmpty()) m_doc->deleteProjectClip(ids);
-    if (!folderids.isEmpty()) deleteProjectFolder(folderids);
+    emit deleteProjectClips(ids, folderids);
+}
+
+void ProjectList::updateButtons() const
+{
     if (m_listView->topLevelItemCount() == 0) {
-        m_editAction->setEnabled(false);
         m_deleteAction->setEnabled(false);
-        m_openAction->setEnabled(false);
-        m_reloadAction->setEnabled(false);
-        m_transcodeAction->setEnabled(false);
+    } else {
+        m_deleteAction->setEnabled(true);
+        if (!m_listView->currentItem()) m_listView->setCurrentItem(m_listView->topLevelItem(0));
+        QTreeWidgetItem *item = m_listView->currentItem();
+        if (item && item->type() == PROJECTCLIPTYPE) {
+            m_editAction->setEnabled(true);
+            m_openAction->setEnabled(true);
+            m_reloadAction->setEnabled(true);
+            m_transcodeAction->setEnabled(true);
+            return;
+        }
     }
+
+    m_editAction->setEnabled(false);
+    m_openAction->setEnabled(false);
+    m_reloadAction->setEnabled(false);
+    m_transcodeAction->setEnabled(false);
 }
 
 void ProjectList::selectItemById(const QString &clipId)
@@ -655,10 +670,13 @@ void ProjectList::slotDeleteClip(const QString &clipId)
         return;
     }
     m_listView->blockSignals(true);
+    QTreeWidgetItem *newSelectedItem = m_listView->itemAbove(item);
+    if (!newSelectedItem) newSelectedItem = m_listView->itemBelow(item);
     delete item;
     m_doc->clipManager()->deleteClip(clipId);
     m_listView->blockSignals(false);
-    slotClipSelected();
+    if (newSelectedItem) m_listView->setCurrentItem(newSelectedItem);
+    else updateButtons();
 }
 
 
@@ -681,7 +699,11 @@ void ProjectList::slotAddFolder(const QString foldername, const QString &clipId,
         FolderProjectItem *item = getFolderItemById(clipId);
         if (item) {
             m_doc->clipManager()->deleteFolder(clipId);
+            QTreeWidgetItem *newSelectedItem = m_listView->itemAbove(item);
+            if (!newSelectedItem) newSelectedItem = m_listView->itemBelow(item);
             delete item;
+            if (newSelectedItem) m_listView->setCurrentItem(newSelectedItem);
+            else updateButtons();
         }
     } else {
         if (edit) {
@@ -705,6 +727,7 @@ void ProjectList::slotAddFolder(const QString foldername, const QString &clipId,
             m_doc->clipManager()->addFolder(clipId, foldername);
             m_listView->blockSignals(false);
         }
+        updateButtons();
     }
     m_doc->setModified(true);
 }
@@ -786,8 +809,10 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
             }
         }
     }
-
-    if (getProperties && m_listView->isEnabled()) m_listView->blockSignals(false);
+    if (m_listView->isEnabled()) {
+        updateButtons();
+        if (getProperties) m_listView->blockSignals(false);
+    }
     if (getProperties && !m_queueTimer.isActive()) m_queueTimer.start();
 }
 
@@ -938,7 +963,7 @@ void ProjectList::slotRemoveInvalidClip(const QString &id, bool replace)
         }
         QStringList ids;
         ids << id;
-        if (replace) m_doc->deleteProjectClip(ids);
+        if (replace) emit deleteProjectClips(ids, QMap <QString, QString>());
     }
 }
 
@@ -1097,6 +1122,7 @@ void ProjectList::slotCheckForEmptyQueue()
         emit displayMessage(QString(), -1);
         m_listView->blockSignals(false);
         m_listView->setEnabled(true);
+        updateButtons();
     } else if (!m_refreshed) QTimer::singleShot(300, this, SLOT(slotCheckForEmptyQueue()));
 }
 

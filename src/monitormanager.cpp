@@ -70,7 +70,7 @@ void MonitorManager::slotSwitchMonitors(bool activateClip)
         m_projectMonitor->start();
         m_activeMonitor = m_projectMonitor->name();
         emit raiseClipMonitor(false);
-    } else if (activateClip && m_projectMonitor->isActive()){
+    } else if (activateClip && m_projectMonitor->isActive()) {
         m_projectMonitor->stop();
         m_clipMonitor->start();
         m_activeMonitor = m_clipMonitor->name();

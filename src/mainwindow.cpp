@@ -705,6 +705,7 @@ void MainWindow::slotConnectMonitors()
 
     m_projectList->setRenderer(m_projectMonitor->render);
     //connect(m_projectList, SIGNAL(receivedClipDuration(const QString &)), this, SLOT(slotUpdateClip(const QString &)));
+    connect(m_projectList, SIGNAL(deleteProjectClips(QStringList, QMap<QString, QString>)), this, SLOT(slotDeleteProjectClips(QStringList, QMap<QString, QString>)));
     connect(m_projectList, SIGNAL(showClipProperties(DocClipBase *)), this, SLOT(slotShowClipProperties(DocClipBase *)));
     connect(m_projectList, SIGNAL(showClipProperties(QList <DocClipBase *>, QMap<QString, QString>)), this, SLOT(slotShowClipProperties(QList <DocClipBase *>, QMap<QString, QString>)));
     connect(m_projectList, SIGNAL(getFileProperties(const QDomElement, const QString &, int, bool)), m_projectMonitor->render, SLOT(getFileProperties(const QDomElement, const QString &, int, bool)));
@@ -3289,6 +3290,17 @@ void MainWindow::slotInsertZoneToTimeline()
     if (m_activeTimeline == NULL || m_clipMonitor->activeClip() == NULL) return;
     QStringList info = m_clipMonitor->getZoneInfo();
     m_activeTimeline->projectView()->insertClipCut(m_clipMonitor->activeClip(), info.at(1).toInt(), info.at(2).toInt());
+}
+
+
+void MainWindow::slotDeleteProjectClips(QStringList ids, QMap<QString, QString> folderids)
+{
+    for (int i = 0; i < ids.size(); ++i) {
+        m_activeTimeline->slotDeleteClip(ids.at(i));
+    }
+    m_activeDocument->clipManager()->slotDeleteClips(ids);
+    if (!folderids.isEmpty()) m_projectList->deleteProjectFolder(folderids);
+
 }
 
 #include "mainwindow.moc"

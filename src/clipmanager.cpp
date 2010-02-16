@@ -170,7 +170,9 @@ void ClipManager::deleteClip(const QString &clipId)
                 // listen for file change
                 m_fileWatcher.removeFile(m_clipList.at(i)->fileURL().path());
             }
-            delete m_clipList.takeAt(i);
+            DocClipBase *clip = m_clipList.takeAt(i);
+            delete clip;
+            clip = NULL;
             break;
         }
     }

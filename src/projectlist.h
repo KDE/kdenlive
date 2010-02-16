@@ -154,6 +154,7 @@ public:
     void focusTree() const;
     SubProjectItem *getSubItem(ProjectItem *clip, QPoint zone);
     void doUpdateClipCut(const QString &id, const QPoint oldzone, const QPoint zone, const QString &comment);
+    void deleteProjectFolder(QMap <QString, QString> map);
 
 public slots:
     void setDocument(KdenliveDoc *doc);
@@ -206,12 +207,12 @@ private:
     void requestClipInfo(const QDomElement xml, const QString id);
     QList <QString> m_thumbnailQueue;
     void requestClipThumbnail(const QString id);
-    void deleteProjectFolder(QMap <QString, QString> map);
     void editFolder(const QString folderName, const QString oldfolderName, const QString &clipId);
     QStringList getGroup() const;
     void regenerateTemplate(ProjectItem *clip);
     void editClipSelection(QList<QTreeWidgetItem *> list);
     void adjustTranscodeActions(ProjectItem *clip) const;
+    void updateButtons() const;
 
 private slots:
     void slotClipSelected();
@@ -241,6 +242,7 @@ signals:
     void clipNameChanged(const QString, const QString);
     void clipNeedsReload(const QString&, bool);
     void refreshClip();
+    void deleteProjectClips(QStringList ids, QMap <QString, QString> folderids);
 };
 
 #endif
