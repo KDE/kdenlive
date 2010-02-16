@@ -86,6 +86,15 @@ QPainterPath AbstractGroupItem::clipGroupShape(QPointF offset) const
             QRectF r(children.at(i)->sceneBoundingRect());
             r.translate(offset);
             path.addRect(r);
+        } else if (children.at(i)->type() == GROUPWIDGET) {
+            QList<QGraphicsItem *> subchildren = children.at(i)->childItems();
+            for (int j = 0; j < subchildren.count(); j++) {
+                if (subchildren.at(j)->type() == AVWIDGET) {
+                    QRectF r(subchildren.at(j)->sceneBoundingRect());
+                    r.translate(offset);
+                    path.addRect(r);
+                }
+            }
         }
     }
     return path;
@@ -100,6 +109,15 @@ QPainterPath AbstractGroupItem::transitionGroupShape(QPointF offset) const
             QRectF r(children.at(i)->sceneBoundingRect());
             r.translate(offset);
             path.addRect(r);
+        } else if (children.at(i)->type() == GROUPWIDGET) {
+            QList<QGraphicsItem *> subchildren = children.at(i)->childItems();
+            for (int j = 0; j < subchildren.count(); j++) {
+                if (subchildren.at(j)->type() == TRANSITIONWIDGET) {
+                    QRectF r(subchildren.at(j)->sceneBoundingRect());
+                    r.translate(offset);
+                    path.addRect(r);
+                }
+            }
         }
     }
     return path;
@@ -156,7 +174,6 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
         const int trackHeight = KdenliveSettings::trackheight();
         QPointF start = sceneBoundingRect().topLeft();
         QPointF newPos = value.toPointF();
-        //kDebug()<<"REAL:"<<start.x()<<", PROPOSED:"<<(int)(start.x() - pos().x() + newPos.x());
         int xpos = projectScene()->getSnapPointForPos((int)(start.x() + newPos.x() - pos().x()), KdenliveSettings::snaptopoints());
 
         xpos = qMax(xpos, 0);
@@ -219,20 +236,27 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
             return QPointF(pos().x() - start.x(), pos().y());
         }*/
 
-        QList<QGraphicsItem*> collindingItems;
+        QList<QGraphicsItem*> collidingItems;
         QPainterPath shape;
         if (projectScene()->editMode() == NORMALEDIT) {
             shape = clipGroupShape(newPos - pos());
-            collindingItems = scene()->items(shape, Qt::IntersectsItemShape);
+            collidingItems = scene()->items(shape, Qt::IntersectsItemShape);
+            collidingItems.removeAll(this);
             for (int i = 0; i < children.count(); i++) {
-                collindingItems.removeAll(children.at(i));
+                if (children.at(i)->type() == GROUPWIDGET) {
+                    QList<QGraphicsItem *> subchildren = children.at(i)->childItems();
+                    for (int j = 0; j < subchildren.count(); j++) {
+                        collidingItems.removeAll(subchildren.at(j));
+                    }
+                }
+                collidingItems.removeAll(children.at(i));
             }
         }
-        if (!collindingItems.isEmpty()) {
+        if (!collidingItems.isEmpty()) {
             bool forwardMove = xpos > start.x();
             int offset = 0;
-            for (int i = 0; i < collindingItems.count(); i++) {
-                QGraphicsItem *collision = collindingItems.at(i);
+            for (int i = 0; i < collidingItems.count(); i++) {
+                QGraphicsItem *collision = collidingItems.at(i);
                 if (collision->type() == AVWIDGET) {
                     // Collision
                     if (newPos.y() != pos().y()) {
@@ -262,28 +286,42 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
                     newPos.setX(newPos.x() + offset);
                 }
                 // If there is still a collision after our position adjust, restore original pos
-                collindingItems = scene()->items(clipGroupShape(newPos - pos()), Qt::IntersectsItemShape);
+                collidingItems = scene()->items(clipGroupShape(newPos - pos()), Qt::IntersectsItemShape);
+                collidingItems.removeAll(this);
                 for (int i = 0; i < children.count(); i++) {
-                    collindingItems.removeAll(children.at(i));
+                    if (children.at(i)->type() == GROUPWIDGET) {
+                        QList<QGraphicsItem *> subchildren = children.at(i)->childItems();
+                        for (int j = 0; j < subchildren.count(); j++) {
+                            collidingItems.removeAll(subchildren.at(j));
+                        }
+                    }
+                    collidingItems.removeAll(children.at(i));
                 }
-                for (int i = 0; i < collindingItems.count(); i++)
-                    if (collindingItems.at(i)->type() == AVWIDGET) return pos();
+                for (int i = 0; i < collidingItems.count(); i++)
+                    if (collidingItems.at(i)->type() == AVWIDGET) return pos();
             }
         }
 
         if (projectScene()->editMode() == NORMALEDIT) {
             shape = transitionGroupShape(newPos - pos());
-            collindingItems = scene()->items(shape, Qt::IntersectsItemShape);
+            collidingItems = scene()->items(shape, Qt::IntersectsItemShape);
+            collidingItems.removeAll(this);
             for (int i = 0; i < children.count(); i++) {
-                collindingItems.removeAll(children.at(i));
+                if (children.at(i)->type() == GROUPWIDGET) {
+                    QList<QGraphicsItem *> subchildren = children.at(i)->childItems();
+                    for (int j = 0; j < subchildren.count(); j++) {
+                        collidingItems.removeAll(subchildren.at(j));
+                    }
+                }
+                collidingItems.removeAll(children.at(i));
             }
         }
-        if (collindingItems.isEmpty()) return newPos;
+        if (collidingItems.isEmpty()) return newPos;
         else {
             bool forwardMove = xpos > start.x();
             int offset = 0;
-            for (int i = 0; i < collindingItems.count(); i++) {
-                QGraphicsItem *collision = collindingItems.at(i);
+            for (int i = 0; i < collidingItems.count(); i++) {
+                QGraphicsItem *collision = collidingItems.at(i);
                 if (collision->type() == TRANSITIONWIDGET) {
                     // Collision
                     if (newPos.y() != pos().y()) {
@@ -313,12 +351,12 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
                     newPos.setX(newPos.x() + offset);
                 }
                 // If there is still a collision after our position adjust, restore original pos
-                collindingItems = scene()->items(transitionGroupShape(newPos - pos()), Qt::IntersectsItemShape);
+                collidingItems = scene()->items(transitionGroupShape(newPos - pos()), Qt::IntersectsItemShape);
                 for (int i = 0; i < children.count(); i++) {
-                    collindingItems.removeAll(children.at(i));
+                    collidingItems.removeAll(children.at(i));
                 }
-                for (int i = 0; i < collindingItems.count(); i++)
-                    if (collindingItems.at(i)->type() == TRANSITIONWIDGET) return pos();
+                for (int i = 0; i < collidingItems.count(); i++)
+                    if (collidingItems.at(i)->type() == TRANSITIONWIDGET) return pos();
             }
         }
         return newPos;
