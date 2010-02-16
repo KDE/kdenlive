@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-10-01 23:51+0200\n"
-"PO-Revision-Date: 2009-10-22 08:19+0100\n"
+"POT-Creation-Date: 2010-02-02 18:20+0200\n"
+"PO-Revision-Date: 2010-02-16 18:26+0100\n"
 "Last-Translator: KAMI <kami911@gmail.com>\n"
 "Language-Team:  <hu@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -12,332 +12,271 @@ msgstr ""
 "X-Generator: KBabel 1.11.4\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/titlewidget.cpp:69
-#: rc.cpp:1828
-#: rc.cpp:3746
-#: rc.cpp:5225
-#, no-c-format
+#: rc.cpp:1136
+#: rc.cpp:1142
+#: rc.cpp:2670
+#: rc.cpp:2676
+msgid " frames"
+msgstr " képkocka"
+
+#: src/titlewidget.cpp:136
 msgid "%"
 msgstr "%"
 
-#: src/titlewidget.cpp:1077
-#: rc.cpp:1524
-#: rc.cpp:3442
-#: rc.cpp:4921
+#: src/documentchecker.cpp:171
+msgid "%1 will be replaced by %2"
+msgstr "%1 le lesz cserélve %2 által."
+
+#: src/titlewidget.cpp:1298
+#: rc.cpp:1067
+#: rc.cpp:2601
 msgid "+X"
 msgstr "+X"
 
-#: src/titlewidget.cpp:1102
-#: rc.cpp:1527
-#: rc.cpp:3445
-#: rc.cpp:4924
+#: src/titlewidget.cpp:1323
+#: rc.cpp:1070
+#: rc.cpp:2604
 msgid "+Y"
 msgstr "+Y"
 
-#: rc.cpp:632
-#: rc.cpp:720
-#: rc.cpp:723
-#: rc.cpp:978
-#: rc.cpp:984
-#: rc.cpp:990
-#: rc.cpp:996
-#: rc.cpp:1005
-#: rc.cpp:1080
-#: rc.cpp:1083
-#: rc.cpp:1092
-#: rc.cpp:1095
-#: rc.cpp:1104
-#: rc.cpp:1107
-#: rc.cpp:1458
-#: rc.cpp:1461
-#: rc.cpp:1494
-#: rc.cpp:1497
-#: rc.cpp:1554
-#: rc.cpp:1557
-#: rc.cpp:1560
-#: rc.cpp:1563
-#: rc.cpp:1566
-#: rc.cpp:1569
-#: rc.cpp:1572
-#: rc.cpp:1590
-#: rc.cpp:1593
-#: rc.cpp:1596
-#: rc.cpp:1599
-#: rc.cpp:1602
-#: rc.cpp:1605
-#: rc.cpp:1882
-#: rc.cpp:1885
-#: rc.cpp:1915
-#: rc.cpp:2550
-#: rc.cpp:2638
-#: rc.cpp:2641
-#: rc.cpp:2896
-#: rc.cpp:2902
-#: rc.cpp:2908
-#: rc.cpp:2914
-#: rc.cpp:2923
-#: rc.cpp:2998
-#: rc.cpp:3001
-#: rc.cpp:3010
-#: rc.cpp:3013
-#: rc.cpp:3022
-#: rc.cpp:3025
-#: rc.cpp:3376
-#: rc.cpp:3379
-#: rc.cpp:3412
-#: rc.cpp:3415
-#: rc.cpp:3472
-#: rc.cpp:3475
-#: rc.cpp:3478
-#: rc.cpp:3481
-#: rc.cpp:3484
-#: rc.cpp:3487
-#: rc.cpp:3490
-#: rc.cpp:3508
-#: rc.cpp:3511
-#: rc.cpp:3514
-#: rc.cpp:3517
-#: rc.cpp:3520
-#: rc.cpp:3523
-#: rc.cpp:3800
-#: rc.cpp:3803
-#: rc.cpp:4029
-#: rc.cpp:4117
-#: rc.cpp:4120
-#: rc.cpp:4375
-#: rc.cpp:4381
-#: rc.cpp:4387
-#: rc.cpp:4393
-#: rc.cpp:4402
-#: rc.cpp:4477
-#: rc.cpp:4480
-#: rc.cpp:4489
-#: rc.cpp:4492
-#: rc.cpp:4501
-#: rc.cpp:4504
-#: rc.cpp:4855
-#: rc.cpp:4858
-#: rc.cpp:4891
-#: rc.cpp:4894
-#: rc.cpp:4951
-#: rc.cpp:4954
-#: rc.cpp:4957
-#: rc.cpp:4960
-#: rc.cpp:4963
-#: rc.cpp:4966
-#: rc.cpp:4969
-#: rc.cpp:4987
-#: rc.cpp:4990
-#: rc.cpp:4993
-#: rc.cpp:4996
-#: rc.cpp:4999
-#: rc.cpp:5002
-#: rc.cpp:5279
-#: rc.cpp:5282
+#: rc.cpp:628
+#: rc.cpp:631
+#: rc.cpp:703
+#: rc.cpp:706
+#: rc.cpp:715
+#: rc.cpp:718
+#: rc.cpp:727
+#: rc.cpp:730
+#: rc.cpp:989
+#: rc.cpp:992
+#: rc.cpp:1001
+#: rc.cpp:1004
+#: rc.cpp:1100
+#: rc.cpp:1103
+#: rc.cpp:1106
+#: rc.cpp:1109
+#: rc.cpp:1112
+#: rc.cpp:1115
+#: rc.cpp:1202
+#: rc.cpp:1205
+#: rc.cpp:1211
+#: rc.cpp:1214
+#: rc.cpp:1217
+#: rc.cpp:1220
+#: rc.cpp:1223
+#: rc.cpp:1493
+#: rc.cpp:1511
+#: rc.cpp:1514
+#: rc.cpp:1691
+#: rc.cpp:1706
+#: rc.cpp:1937
+#: rc.cpp:1943
+#: rc.cpp:1949
+#: rc.cpp:1955
+#: rc.cpp:1964
+#: rc.cpp:2162
+#: rc.cpp:2165
+#: rc.cpp:2237
+#: rc.cpp:2240
+#: rc.cpp:2249
+#: rc.cpp:2252
+#: rc.cpp:2261
+#: rc.cpp:2264
+#: rc.cpp:2523
+#: rc.cpp:2526
+#: rc.cpp:2535
+#: rc.cpp:2538
+#: rc.cpp:2634
+#: rc.cpp:2637
+#: rc.cpp:2640
+#: rc.cpp:2643
+#: rc.cpp:2646
+#: rc.cpp:2649
+#: rc.cpp:2736
+#: rc.cpp:2739
+#: rc.cpp:2745
+#: rc.cpp:2748
+#: rc.cpp:2751
+#: rc.cpp:2754
+#: rc.cpp:2757
+#: rc.cpp:3027
+#: rc.cpp:3045
+#: rc.cpp:3048
+#: rc.cpp:3225
+#: rc.cpp:3240
+#: rc.cpp:3471
+#: rc.cpp:3477
+#: rc.cpp:3483
+#: rc.cpp:3489
+#: rc.cpp:3498
 msgid "..."
 msgstr "..."
 
-#: rc.cpp:789
-#: rc.cpp:795
-#: rc.cpp:801
-#: rc.cpp:2707
-#: rc.cpp:2713
-#: rc.cpp:2719
-#: rc.cpp:4186
-#: rc.cpp:4192
-#: rc.cpp:4198
+#: rc.cpp:664
+#: rc.cpp:670
+#: rc.cpp:676
+#: rc.cpp:2198
+#: rc.cpp:2204
+#: rc.cpp:2210
 msgid "/"
 msgstr "/"
 
-#: rc.cpp:1248
-#: rc.cpp:3166
-#: rc.cpp:4645
+#: rc.cpp:1298
+#: rc.cpp:2832
 msgid "/dev/dsp"
 msgstr "/dev/dsp"
 
-#: rc.cpp:1269
-#: rc.cpp:3187
-#: rc.cpp:4666
+#: rc.cpp:1319
+#: rc.cpp:2853
 msgid "/dev/video0"
 msgstr "/dev/video0"
 
-#: rc.cpp:1650
-#: rc.cpp:3568
-#: rc.cpp:5047
+#: rc.cpp:1967
+#: rc.cpp:3501
 msgid "0"
 msgstr "0"
 
-#: rc.cpp:656
-#: rc.cpp:1800
-#: rc.cpp:2574
-#: rc.cpp:3718
-#: rc.cpp:4053
-#: rc.cpp:5197
+#: rc.cpp:742
+#: rc.cpp:875
+#: rc.cpp:2276
+#: rc.cpp:2409
 msgid "1"
 msgstr "1"
 
-#: src/clipproperties.cpp:508
-#: src/slideshowclip.cpp:130
+#: src/slideshowclip.cpp:131
+#: src/clipproperties.cpp:647
 msgid "1 image found"
 msgid_plural "%1 images found"
 msgstr[0] "1 kép található"
 msgstr[1] "%1 kép található"
 
 #: src/geometryval.cpp:89
-#: rc.cpp:1628
-#: rc.cpp:3546
-#: rc.cpp:5025
+#: rc.cpp:1165
+#: rc.cpp:2699
 #, no-c-format
 msgid "100%"
 msgstr "100%"
 
-#: rc.cpp:1305
-#: rc.cpp:3223
-#: rc.cpp:4702
+#: rc.cpp:1355
+#: rc.cpp:2889
 msgid "11250"
 msgstr "11250"
 
-#: rc.cpp:1803
-#: rc.cpp:3721
-#: rc.cpp:5200
+#: rc.cpp:878
+#: rc.cpp:2412
 msgid "2"
 msgstr "2"
 
 #: src/geometryval.cpp:90
-#: rc.cpp:1632
-#: rc.cpp:3550
-#: rc.cpp:5029
+#: rc.cpp:1169
+#: rc.cpp:2703
 #, no-c-format
 msgid "200%"
 msgstr "200%"
 
-#: rc.cpp:1302
-#: rc.cpp:3220
-#: rc.cpp:4699
+#: rc.cpp:1352
+#: rc.cpp:2886
 msgid "22500"
 msgstr "22500"
 
-#: rc.cpp:1425
-#: rc.cpp:3343
-#: rc.cpp:3861
-#: rc.cpp:4822
-#: rc.cpp:5340
+#: rc.cpp:1547
+#: rc.cpp:1832
+#: rc.cpp:3081
+#: rc.cpp:3366
 msgid "25/1"
 msgstr "25/1"
 
-#: rc.cpp:1299
-#: rc.cpp:3217
-#: rc.cpp:4696
+#: rc.cpp:263
+msgid "3 point balance"
+msgstr "3 pontos egyensúly"
+
+#: rc.cpp:1349
+#: rc.cpp:2883
 msgid "32000"
 msgstr "32000"
 
-#: rc.cpp:1275
-#: rc.cpp:3193
-#: rc.cpp:4672
+#: rc.cpp:1325
+#: rc.cpp:2859
 msgid "320x240"
 msgstr "320x240"
 
-#: rc.cpp:1437
-#: rc.cpp:3355
-#: rc.cpp:3873
-#: rc.cpp:4834
-#: rc.cpp:5352
+#: rc.cpp:1559
+#: rc.cpp:1844
+#: rc.cpp:3093
+#: rc.cpp:3378
 msgid "4/3"
 msgstr "4/3"
 
-#: rc.cpp:1296
-#: rc.cpp:3214
-#: rc.cpp:4693
+#: rc.cpp:1346
+#: rc.cpp:2880
 msgid "41000"
 msgstr "41000"
 
-#: rc.cpp:1293
-#: rc.cpp:3211
-#: rc.cpp:4690
+#: rc.cpp:1343
+#: rc.cpp:2877
 msgid "48000"
 msgstr "48000"
 
 #: src/geometryval.cpp:88
-#: rc.cpp:1624
-#: rc.cpp:3542
-#: rc.cpp:5021
+#: rc.cpp:1161
+#: rc.cpp:2695
 #, no-c-format
 msgid "50%"
 msgstr "50%"
 
-#: rc.cpp:1431
-#: rc.cpp:3349
-#: rc.cpp:3867
-#: rc.cpp:4828
-#: rc.cpp:5346
+#: rc.cpp:1553
+#: rc.cpp:1838
+#: rc.cpp:3087
+#: rc.cpp:3372
 msgid "59/54"
 msgstr "59/54"
 
-#: rc.cpp:1419
-#: rc.cpp:3337
-#: rc.cpp:3855
-#: rc.cpp:4816
-#: rc.cpp:5334
+#: rc.cpp:1541
+#: rc.cpp:1826
+#: rc.cpp:3075
+#: rc.cpp:3360
 msgid "720x576"
 msgstr "720x576"
 
-#: rc.cpp:891
-#: rc.cpp:1077
-#: rc.cpp:1089
-#: rc.cpp:1101
-#: rc.cpp:1359
-#: rc.cpp:1371
-#: rc.cpp:1398
-#: rc.cpp:1407
-#: rc.cpp:1455
-#: rc.cpp:1491
-#: rc.cpp:1581
-#: rc.cpp:1680
-#: rc.cpp:1695
-#: rc.cpp:1749
-#: rc.cpp:1758
-#: rc.cpp:1834
-#: rc.cpp:1861
-#: rc.cpp:2809
-#: rc.cpp:2995
-#: rc.cpp:3007
-#: rc.cpp:3019
-#: rc.cpp:3277
-#: rc.cpp:3289
-#: rc.cpp:3316
-#: rc.cpp:3325
-#: rc.cpp:3373
-#: rc.cpp:3409
-#: rc.cpp:3499
-#: rc.cpp:3598
-#: rc.cpp:3613
-#: rc.cpp:3667
-#: rc.cpp:3676
-#: rc.cpp:3752
-#: rc.cpp:3779
-#: rc.cpp:4288
-#: rc.cpp:4474
-#: rc.cpp:4486
-#: rc.cpp:4498
-#: rc.cpp:4756
-#: rc.cpp:4768
-#: rc.cpp:4795
-#: rc.cpp:4804
-#: rc.cpp:4852
-#: rc.cpp:4888
-#: rc.cpp:4978
-#: rc.cpp:5077
-#: rc.cpp:5092
-#: rc.cpp:5146
-#: rc.cpp:5155
-#: rc.cpp:5231
-#: rc.cpp:5258
+#: rc.cpp:700
+#: rc.cpp:712
+#: rc.cpp:724
+#: rc.cpp:770
+#: rc.cpp:824
+#: rc.cpp:833
+#: rc.cpp:905
+#: rc.cpp:998
+#: rc.cpp:1085
+#: rc.cpp:1244
+#: rc.cpp:1508
+#: rc.cpp:1805
+#: rc.cpp:1814
+#: rc.cpp:1895
+#: rc.cpp:1907
+#: rc.cpp:1976
+#: rc.cpp:2135
+#: rc.cpp:2234
+#: rc.cpp:2246
+#: rc.cpp:2258
+#: rc.cpp:2304
+#: rc.cpp:2358
+#: rc.cpp:2367
+#: rc.cpp:2439
+#: rc.cpp:2532
+#: rc.cpp:2619
+#: rc.cpp:2778
+#: rc.cpp:3042
+#: rc.cpp:3339
+#: rc.cpp:3348
+#: rc.cpp:3429
+#: rc.cpp:3441
+#: rc.cpp:3510
+#: rc.cpp:3669
 msgid "99:99:99:99; "
 msgstr "99:99:99:99; "
 
-#: rc.cpp:1401
-#: rc.cpp:3319
-#: rc.cpp:4798
+#: rc.cpp:1808
+#: rc.cpp:3342
 msgid ":::"
 msgstr ":::"
 
@@ -381,24 +320,22 @@ msgstr "<strong>A(z) %1 program szükséges a DVD Tündér használatához.</str
 msgid "<strong>Program %1 or %2 is required for the DVD wizard.</strong>"
 msgstr "<strong>A(z) %1 vagy a(z) %2 program szükséges a DVD Tündér futtatásához.</strong>"
 
-#: src/renderwidget.cpp:1422
+#: src/renderwidget.cpp:1479
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>%1 leképzése hibát okozott</strong><br />"
 
-#: rc.cpp:699
-#: rc.cpp:714
-#: rc.cpp:2617
-#: rc.cpp:2632
-#: rc.cpp:3828
-#: rc.cpp:3918
-#: rc.cpp:4096
-#: rc.cpp:4111
-#: rc.cpp:5307
-#: rc.cpp:5397
+#: rc.cpp:983
+#: rc.cpp:1475
+#: rc.cpp:2051
+#: rc.cpp:2111
+#: rc.cpp:2517
+#: rc.cpp:3009
+#: rc.cpp:3585
+#: rc.cpp:3645
 msgid "A"
 msgstr "A"
 
-#: src/customtrackview.cpp:4020
+#: src/customtrackview.cpp:4361
 msgid "A guide already exists at position %1"
 msgstr "A segédpont már létezik a(z) %1 pozícióban"
 
@@ -407,9 +344,8 @@ msgid "A profile with same name already exists in MLT's default profiles, please
 msgstr "A profil neve megegyezik az MLT program alapértelmezett profilneveinek egyikével. Adjon megy egy másik nevet az Ön egyedi profiljának."
 
 #: src/kdenlivesettingsdialog.cpp:217
-#: rc.cpp:1308
-#: rc.cpp:3226
-#: rc.cpp:4705
+#: rc.cpp:1358
+#: rc.cpp:2892
 msgid "ALSA"
 msgstr "ALSA"
 
@@ -417,107 +353,110 @@ msgstr "ALSA"
 msgid "ARTS daemon"
 msgstr "ARTS démon"
 
-#: src/cliptranscode.cpp:119
-#: rc.cpp:966
-#: rc.cpp:2884
-#: rc.cpp:4363
+#: src/cliptranscode.cpp:125
+#: rc.cpp:1760
+#: rc.cpp:3294
 msgid "Abort"
 msgstr "Megszakítás"
 
-#: src/renderwidget.cpp:1456
-#: rc.cpp:623
-#: rc.cpp:2541
-#: rc.cpp:4020
+#: src/renderwidget.cpp:1521
+#: rc.cpp:1697
+#: rc.cpp:3231
 msgid "Abort Job"
 msgstr "Feladat megszakítása"
 
-#: rc.cpp:1662
-#: rc.cpp:3580
-#: rc.cpp:5059
+#: rc.cpp:2072
+#: rc.cpp:3606
 msgid "Activate crash recovery (auto save)"
 msgstr "Automatikus helyreállítás engedélyezése (automatikus mentés)"
 
-#: src/customtrackview.cpp:1466
-#: src/customtrackview.cpp:1510
 #: src/addeffectcommand.cpp:38
+#: src/customtrackview.cpp:1541
+#: src/customtrackview.cpp:1585
 msgid "Add %1"
 msgstr "%1 hozzáadása"
 
-#: rc.cpp:5448
+#: rc.cpp:3726
 msgid "Add Audio Effect"
 msgstr "Hang effektus hozzáadása"
 
-#: src/mainwindow.cpp:1121
+#: src/mainwindow.cpp:1297
 msgid "Add Clip"
 msgstr "Klip hozzáadása"
 
-#: src/mainwindow.cpp:1125
+#: src/mainwindow.cpp:1140
+msgid "Add Clip To Selection"
+msgstr "Klip hozzáadás kiválasztáshoz"
+
+#: src/mainwindow.cpp:1301
 msgid "Add Color Clip"
 msgstr "Szín klip hozzáadása"
 
-#: rc.cpp:5451
+#: rc.cpp:3729
 msgid "Add Custom Effect"
 msgstr "Videó effektus hozzáadása"
 
-#: src/customruler.cpp:76
-#: src/mainwindow.cpp:1051
-#: src/customtrackview.cpp:4035
+#: src/customruler.cpp:77
+#: src/mainwindow.cpp:1227
+#: src/customtrackview.cpp:4376
 msgid "Add Guide"
 msgstr "Segédpont hozzáadása"
 
-#: src/titlewidget.cpp:221
+#: src/titlewidget.cpp:343
 msgid "Add Image"
 msgstr "Kép hozzáadása"
 
-#: src/clipproperties.cpp:297
-#: src/mainwindow.cpp:989
-#: src/mainwindow.cpp:2030
+#: src/mainwindow.cpp:1165
+#: src/mainwindow.cpp:2215
+#: src/clipproperties.cpp:427
 msgid "Add Marker"
 msgstr "Jelölő hozzáadása"
 
-#: rc.cpp:1846
-#: rc.cpp:3764
-#: rc.cpp:5243
+#: rc.cpp:2012
+#: rc.cpp:3546
 msgid "Add Profile"
 msgstr "Profil hozzáadása"
 
-#: src/titlewidget.cpp:215
+#: src/titlewidget.cpp:337
 msgid "Add Rectangle"
 msgstr "Téglalap hozzáadása"
 
-#: src/mainwindow.cpp:1129
 #: src/slideshowclip.cpp:35
+#: src/mainwindow.cpp:1305
 msgid "Add Slideshow Clip"
 msgstr "Diavetítés klip hozzáadása"
 
-#: src/mainwindow.cpp:1137
+#: src/mainwindow.cpp:1313
 msgid "Add Template Title"
 msgstr "Sabloncím hozzáadása"
 
-#: src/titlewidget.cpp:209
+#: src/titlewidget.cpp:331
 msgid "Add Text"
 msgstr "Szöveg hozzáadása"
 
-#: src/mainwindow.cpp:1133
+#: src/mainwindow.cpp:1309
 msgid "Add Title Clip"
 msgstr "Cím klip hozzáadása"
 
-#: src/mainwindow.cpp:321
+#: src/mainwindow.cpp:374
 msgid "Add Transition"
 msgstr "Átmenet hozzáadása"
 
-#: rc.cpp:5445
+#: src/mainwindow.cpp:1155
+msgid "Add Transition To Selection"
+msgstr "Átmenet hozzáadás kiválasztáshoz"
+
+#: rc.cpp:3723
 msgid "Add Video Effect"
 msgstr "Videó effektus hozzáadása"
 
-#: src/clipitem.cpp:871
+#: src/clipitem.cpp:869
 #: src/clipitem.cpp:878
 msgid "Add audio fade"
 msgstr "Hang áttűnés hozzáadása"
 
-#: rc.cpp:762
-#: rc.cpp:2680
-#: rc.cpp:4159
+#: rc.cpp:2117
+#: rc.cpp:3651
 msgid "Add chapter"
 msgstr "Fejezet hozzáadása"
 
@@ -525,10 +464,13 @@ msgstr "Fejezet hozzáadása"
 msgid "Add clip"
 msgstr "Klip hozzáadása"
 
+#: src/addclipcutcommand.cpp:35
+msgid "Add clip cut"
+msgstr "Klipvágás hozzáadása"
+
 #: src/cliptranscode.cpp:36
-#: rc.cpp:861
-#: rc.cpp:2779
-#: rc.cpp:4258
+#: rc.cpp:1034
+#: rc.cpp:2568
 msgid "Add clip to project"
 msgid_plural "Add clips to project"
 msgstr[0] "Új klip hozzáadása a projekthez"
@@ -547,23 +489,23 @@ msgid "Add guide"
 msgstr "Segédpont hozzáadása"
 
 #: src/complexparameter.cpp:44
-#: src/geometryval.cpp:74
 #: src/editkeyframecommand.cpp:38
+#: src/keyframeedit.cpp:45
+#: src/geometryval.cpp:74
 msgid "Add keyframe"
 msgstr "Kulcskép hozzáadása"
 
-#: src/clipproperties.cpp:244
+#: src/clipproperties.cpp:274
 #: src/addmarkercommand.cpp:33
 msgid "Add marker"
 msgstr "Jelölő hozzáadása"
 
-#: rc.cpp:1891
-#: rc.cpp:3809
-#: rc.cpp:5288
+#: rc.cpp:637
+#: rc.cpp:2171
 msgid "Add movie file"
-msgstr "Videófájl hozzáadása"
+msgstr "Videofájl hozzáadása"
 
-#: src/dvdwizardmenu.cpp:43
+#: src/dvdwizardmenu.cpp:44
 msgid "Add new button"
 msgstr "Új gomb hozzáadása"
 
@@ -573,22 +515,20 @@ msgstr "Videó effektus hozzáadása"
 
 #: src/dvdwizardvob.cpp:92
 msgid "Add new video file"
-msgstr "Új videófájl hozzáadása"
+msgstr "Új videofájl hozzáadása"
 
-#: rc.cpp:1230
-#: rc.cpp:3148
-#: rc.cpp:4627
+#: rc.cpp:1280
+#: rc.cpp:2814
 msgid "Add recording time to captured file name"
 msgstr "A fájl neve tartalmazza a felvétel időpontját"
 
-#: rc.cpp:1488
-#: rc.cpp:3406
-#: rc.cpp:4885
+#: rc.cpp:1505
+#: rc.cpp:3039
 msgid "Add space"
 msgstr "Kitöltő hozzáadása"
 
-#: src/addtimelineclipcommand.cpp:36
-#: src/customtrackview.cpp:1962
+#: src/addtimelineclipcommand.cpp:38
+#: src/customtrackview.cpp:2049
 msgid "Add timeline clip"
 msgstr "Idővonal klip hozzáadása"
 
@@ -596,8 +536,8 @@ msgstr "Idővonal klip hozzáadása"
 msgid "Add track"
 msgstr "Sáv hozzáadása"
 
-#: src/clipitem.cpp:885
-#: src/clipitem.cpp:888
+#: src/clipitem.cpp:887
+#: src/clipitem.cpp:890
 msgid "Add transition"
 msgstr "Átmenet hozzáadása"
 
@@ -605,7 +545,8 @@ msgstr "Átmenet hozzáadása"
 msgid "Add transition to clip"
 msgstr "Átmenet hozzáadása a kliphez"
 
-#: rc.cpp:1918
+#: rc.cpp:1496
+#: rc.cpp:3030
 msgid "Additional Information"
 msgstr "További információ"
 
@@ -613,84 +554,84 @@ msgstr "További információ"
 msgid "Additional Settings"
 msgstr "További beállítások"
 
-#: rc.cpp:521
-#: rc.cpp:2439
+#: rc.cpp:601
 msgid "Adjust audio volume with keyframes"
 msgstr "Hangerőszabályzás a kulcskockáknál"
 
-#: src/changespeedcommand.cpp:36
+#: src/changespeedcommand.cpp:37
 msgid "Adjust clip length"
 msgstr "Klip hosszának megváltoztatása"
 
-#: rc.cpp:353
-#: rc.cpp:2271
+#: rc.cpp:213
+msgid "Adjust levels"
+msgstr "Szintek beállítása"
+
+#: rc.cpp:437
 msgid "Adjust size and position of clip"
 msgstr "Klip méretének és pozíciójának megváltoztatása"
 
-#: rc.cpp:221
-#: rc.cpp:2139
+#: rc.cpp:305
 msgid "Adjust the audio volume without keyframes"
 msgstr "Hangerőszabályzás kulcskockák nélkül"
 
-#: rc.cpp:132
-#: rc.cpp:2050
+#: rc.cpp:134
 msgid "Adjust the white balance / color temperature"
 msgstr "Fehéregyensúly és színhőmérséklet beállítása"
 
-#: rc.cpp:140
-#: rc.cpp:2058
+#: rc.cpp:587
+msgid "Adjustable Vignette"
+msgstr "Szabályozható vignettálás"
+
+#: rc.cpp:142
 msgid "Adjusts the brightness of a source image"
 msgstr "Fényerő megváltoztatása a forrásképnél"
 
-#: rc.cpp:151
-#: rc.cpp:2069
+#: rc.cpp:153
 msgid "Adjusts the contrast of a source image"
 msgstr "Kontraszt megváltoztatása a forrásképnél"
 
-#: rc.cpp:179
-#: rc.cpp:2097
+#: rc.cpp:233
 msgid "Adjusts the saturation of a source image"
 msgstr "Telítettség megváltoztatása a forrásképnél"
 
-#: rc.cpp:1806
-#: rc.cpp:3724
-#: rc.cpp:5203
+#: rc.cpp:881
+#: rc.cpp:2415
 msgid "Advanced"
 msgstr "Haladó"
 
-#: src/titlewidget.cpp:161
+#: src/titlewidget.cpp:250
 msgid "Align center"
 msgstr "Igazítás középre"
 
-#: src/titlewidget.cpp:182
+#: src/titlewidget.cpp:302
 msgid "Align item horizontally"
 msgstr "Elemek rendezése vízszintesen"
 
-#: src/titlewidget.cpp:188
+#: src/titlewidget.cpp:308
 msgid "Align item to bottom"
 msgstr "Elem igazítása alulra"
 
-#: src/titlewidget.cpp:192
+#: src/titlewidget.cpp:312
 msgid "Align item to left"
 msgstr "Elem igazítása balra"
 
-#: src/titlewidget.cpp:190
+#: src/titlewidget.cpp:310
 msgid "Align item to right"
 msgstr "Elem igazítása jobbra"
 
-#: src/titlewidget.cpp:186
+#: src/titlewidget.cpp:306
 msgid "Align item to top"
 msgstr "Elem igazítása felülre"
 
-#: src/titlewidget.cpp:184
+#: src/titlewidget.cpp:304
 msgid "Align item vertically"
 msgstr "Elemek rendezése függőlegesen"
 
-#: src/titlewidget.cpp:160
+#: src/titlewidget.cpp:249
 msgid "Align left"
 msgstr "Igazítás balra"
 
-#: src/titlewidget.cpp:159
+#: src/titlewidget.cpp:248
 msgid "Align right"
 msgstr "Igazítás jobbra"
 
@@ -698,17 +639,16 @@ msgstr "Igazítás jobbra"
 msgid "Align..."
 msgstr "Igazítás…"
 
-#: rc.cpp:1897
-#: rc.cpp:3815
-#: rc.cpp:5294
+#: rc.cpp:1229
+#: rc.cpp:2763
 msgid "All"
 msgstr "Összes"
 
-#: src/projectlist.cpp:679
+#: src/projectlist.cpp:901
 msgid "All Files"
 msgstr "Minden fájl"
 
-#: src/projectlist.cpp:679
+#: src/projectlist.cpp:901
 msgid "All Supported Files"
 msgstr "Összes támogatott fájltípus"
 
@@ -724,25 +664,21 @@ msgstr "Vízszintes mozgások engedélyezése"
 msgid "Allow vertical moves"
 msgstr "Függőleges mozgások engedélyezése"
 
-#: rc.cpp:165
-#: rc.cpp:2083
+#: rc.cpp:199
 msgid "Allows compensation of lens distortion"
 msgstr "Lencsetorzítás kompenzálása"
 
-#: rc.cpp:211
-#: rc.cpp:2129
+#: rc.cpp:295
 msgid "Alpha blending with zoomed and rotated images"
 msgstr "Áttetszőség nagyított és elforgatott képekkel"
 
-#: src/renderwidget.cpp:786
-#: src/renderwidget.cpp:1554
+#: src/renderwidget.cpp:819
+#: src/renderwidget.cpp:1623
 msgid "Already running"
 msgstr "A program már fut."
 
-#: rc.cpp:159
-#: rc.cpp:529
-#: rc.cpp:2077
-#: rc.cpp:2447
+#: rc.cpp:193
+#: rc.cpp:609
 msgid "Amplitude"
 msgstr "Amplitúdó"
 
@@ -750,34 +686,28 @@ msgstr "Amplitúdó"
 msgid "An open source video editor."
 msgstr "Klip megnyitása külső szerkesztőben"
 
-#: rc.cpp:367
-#: rc.cpp:2285
+#: rc.cpp:451
 msgid "Animate Rotate X"
 msgstr "Animálás és forgatás X"
 
-#: rc.cpp:369
-#: rc.cpp:2287
+#: rc.cpp:453
 msgid "Animate Rotate Y"
 msgstr "Animálás és forgatás Y"
 
-#: rc.cpp:371
-#: rc.cpp:2289
+#: rc.cpp:455
 msgid "Animate Rotate Z"
 msgstr "Animálás és forgatás Z"
 
-#: rc.cpp:377
-#: rc.cpp:2295
+#: rc.cpp:461
 msgid "Animate Shear X"
 msgstr "Animálás és nyírás X"
 
-#: rc.cpp:379
-#: rc.cpp:2297
+#: rc.cpp:463
 msgid "Animate Shear Y"
 msgstr "Animálás és nyírás Y"
 
-#: rc.cpp:1611
-#: rc.cpp:3529
-#: rc.cpp:5008
+#: rc.cpp:1148
+#: rc.cpp:2682
 msgid "Animation"
 msgstr "Animáció"
 
@@ -785,116 +715,102 @@ msgstr "Animáció"
 msgid "Ascii art library"
 msgstr "ASCII art könyvtár"
 
-#: rc.cpp:1428
-#: rc.cpp:3346
-#: rc.cpp:4825
+#: rc.cpp:1835
+#: rc.cpp:3369
 msgid "Aspect ratio:"
 msgstr "Képarány:"
 
-#: rc.cpp:1116
-#: rc.cpp:1722
-#: rc.cpp:1903
-#: rc.cpp:3034
-#: rc.cpp:3640
-#: rc.cpp:3821
-#: rc.cpp:3891
-#: rc.cpp:4513
-#: rc.cpp:5119
-#: rc.cpp:5300
-#: rc.cpp:5370
+#: src/effectslistwidget.cpp:89
+#: rc.cpp:797
+#: rc.cpp:1235
+#: rc.cpp:1577
+#: rc.cpp:1988
+#: rc.cpp:2331
+#: rc.cpp:2769
+#: rc.cpp:3111
+#: rc.cpp:3522
 msgid "Audio"
 msgstr "Hang"
 
-#: rc.cpp:669
-#: rc.cpp:2587
-#: rc.cpp:4066
+#: rc.cpp:755
+#: rc.cpp:2289
 msgid "Audio Codecs"
 msgstr "Hang  kodekek"
 
-#: src/mainwindow.cpp:1009
+#: src/mainwindow.cpp:1185
 msgid "Audio Only"
 msgstr "Csak hang"
 
-#: src/mainwindow.cpp:1019
-#: src/customtrackview.cpp:4985
+#: src/mainwindow.cpp:1195
+#: src/customtrackview.cpp:5410
 msgid "Audio and Video"
 msgstr "Hang és video"
 
-#: rc.cpp:1287
-#: rc.cpp:3205
-#: rc.cpp:4684
+#: rc.cpp:1337
+#: rc.cpp:2871
 msgid "Audio channels"
 msgstr "Hang sávok"
 
-#: src/projectitem.cpp:188
-#: src/documentchecker.cpp:89
+#: src/documentchecker.cpp:139
+#: src/projectitem.cpp:167
 msgid "Audio clip"
 msgstr "Hang klip"
 
-#: rc.cpp:1725
-#: rc.cpp:3643
-#: rc.cpp:5122
+#: rc.cpp:800
+#: rc.cpp:2334
 msgid "Audio codec"
 msgstr "Hang  kodek"
 
-#: rc.cpp:1254
-#: rc.cpp:3172
-#: rc.cpp:4651
+#: rc.cpp:1304
+#: rc.cpp:2838
 msgid "Audio device"
 msgstr "Hang eszköz"
 
-#: rc.cpp:1158
-#: rc.cpp:3076
-#: rc.cpp:4555
+#: rc.cpp:1052
+#: rc.cpp:2586
 msgid "Audio device:"
 msgstr "Hang eszköz:"
 
-#: rc.cpp:1155
-#: rc.cpp:3073
-#: rc.cpp:4552
+#: rc.cpp:1049
+#: rc.cpp:2583
 msgid "Audio driver:"
 msgstr "Hang meghajtó:"
 
-#: rc.cpp:1041
-#: rc.cpp:2959
-#: rc.cpp:4438
+#: rc.cpp:1454
+#: rc.cpp:2988
 msgid "Audio editing"
 msgstr "Hang szerkesztés"
 
-#: src/clipitem.cpp:872
-#: src/clipitem.cpp:879
-#, c-format
+#: src/clipitem.cpp:871
+#: src/clipitem.cpp:880
+#, no-c-format
 msgid "Audio fade duration: %1s"
 msgstr "Hang áttűnés hossza: %1s"
 
-#: rc.cpp:1290
-#: rc.cpp:3208
-#: rc.cpp:4687
+#: rc.cpp:1340
+#: rc.cpp:2874
 msgid "Audio frequency"
 msgstr "Hang frekvencia"
 
-#: rc.cpp:1818
-#: rc.cpp:3736
-#: rc.cpp:5215
+#: rc.cpp:893
+#: rc.cpp:2427
 msgid "Audio index"
 msgstr "Hang index"
 
-#: src/renderwidget.cpp:1108
-#: src/customtrackview.cpp:4960
+#: src/renderwidget.cpp:1163
+#: src/customtrackview.cpp:5385
 msgid "Audio only"
 msgstr "Csak hang"
 
-#: rc.cpp:1068
-#: rc.cpp:2986
-#: rc.cpp:4465
+#: rc.cpp:941
+#: rc.cpp:2475
 msgid "Audio track"
 msgstr "Hang sáv"
 
-#: rc.cpp:1446
-#: rc.cpp:3364
-#: rc.cpp:3882
-#: rc.cpp:4843
-#: rc.cpp:5361
+#: rc.cpp:1568
+#: rc.cpp:1853
+#: rc.cpp:3102
+#: rc.cpp:3387
 msgid "Audio tracks"
 msgstr "Hang sáv"
 
@@ -903,25 +819,22 @@ msgstr "Hang sáv"
 msgid "Author:"
 msgstr "Szerző:"
 
-#: src/transitionsettings.cpp:74
-#: rc.cpp:572
-#: rc.cpp:2490
-#: rc.cpp:3969
+#: src/transitionsettings.cpp:76
+#: rc.cpp:1643
+#: rc.cpp:3177
 msgid "Auto"
 msgstr "Automatikus"
 
 #: rc.cpp:2
-#: rc.cpp:1920
 msgid "Auto Mask"
 msgstr "Automatikus maszkolás"
 
-#: rc.cpp:678
-#: rc.cpp:2596
-#: rc.cpp:4075
+#: rc.cpp:1409
+#: rc.cpp:2943
 msgid "Auto add"
 msgstr "Automatikus hozzáadás"
 
-#: src/mainwindow.cpp:1450
+#: src/mainwindow.cpp:1627
 msgid "Auto-saved files exist. Do you want to recover them now?"
 msgstr "Automatikus mentett fájlok találhatóak. Vissza kívánja álltani a fájlokat?"
 
@@ -930,25 +843,26 @@ msgstr "Automatikus mentett fájlok találhatóak. Vissza kívánja álltani a f
 msgid "Automatic"
 msgstr "Automatikus"
 
-#: src/mainwindow.cpp:970
+#: src/mainwindow.cpp:1111
 msgid "Automatic Transition"
 msgstr "Automatikus átmenet"
 
-#: rc.cpp:1227
-#: rc.cpp:3145
-#: rc.cpp:4624
+#: rc.cpp:74
+msgid "Automatic center-crop"
+msgstr "Automatikusan középre és vágva"
+
+#: rc.cpp:1277
+#: rc.cpp:2811
 msgid "Automatically start a new file on scene cut"
 msgstr "Új fájl kezdése helyszín váltásakor"
 
-#: rc.cpp:1125
-#: rc.cpp:3043
-#: rc.cpp:4522
+#: rc.cpp:1997
+#: rc.cpp:3531
 msgid "Autoscroll while playing"
 msgstr "Automatikus görgetés lejátszás alatt"
 
-#: rc.cpp:660
-#: rc.cpp:2578
-#: rc.cpp:4057
+#: rc.cpp:746
+#: rc.cpp:2280
 msgid "Available Codecs (avformat)"
 msgstr "Elérhető kodekek (avformat)"
 
@@ -956,29 +870,33 @@ msgstr "Elérhető kodekek (avformat)"
 msgid "Avformat module (FFmpeg)"
 msgstr "Avformat modul (FFmpeg)"
 
-#: rc.cpp:741
-#: rc.cpp:2659
-#: rc.cpp:4138
+#: rc.cpp:962
+#: rc.cpp:2496
 msgid "Back to menu"
 msgstr "Vissza a menühöz"
 
-#: rc.cpp:744
-#: rc.cpp:747
-#: rc.cpp:1608
-#: rc.cpp:2662
-#: rc.cpp:2665
-#: rc.cpp:3526
-#: rc.cpp:4141
-#: rc.cpp:4144
-#: rc.cpp:5005
+#: rc.cpp:965
+#: rc.cpp:968
+#: rc.cpp:1145
+#: rc.cpp:2499
+#: rc.cpp:2502
+#: rc.cpp:2679
 msgid "Background"
 msgstr "Háttér"
 
-#: src/titlewidget.cpp:179
-msgid "Background Transparency"
-msgstr "Háttér átlátszósága"
+#: src/titlewidget.cpp:98
+msgid "Background color opacity"
+msgstr "Háttérszín színátlátszatlansága"
 
-#: src/renderwidget.cpp:263
+#: src/titlewidget.cpp:299
+msgid "Background opacity"
+msgstr "Háttérszín átlátszatlansága"
+
+#: rc.cpp:265
+msgid "Balances colors along with 3 points"
+msgstr "Színegyensúly elérése 3 pont mentén"
+
+#: src/renderwidget.cpp:269
 msgid "Beginning"
 msgstr "Kezdet"
 
@@ -986,80 +904,90 @@ msgstr "Kezdet"
 msgid "Bigger tracks"
 msgstr "Nagyobb sáv"
 
-#: src/titlewidget.cpp:144
+#: rc.cpp:1397
+#: rc.cpp:2931
+msgid "Bit rate"
+msgstr "Bitsebesség"
+
+#: src/transitionsettings.cpp:83
+msgid "Black"
+msgstr "Fekete"
+
+#: src/titlewidget.cpp:233
 msgctxt "Font style"
 msgid "Black"
 msgstr "Fekete"
 
-#: src/transitionsettings.cpp:78
-msgid "Black"
-msgstr "Fekete"
+#: rc.cpp:267
+msgid "Black color"
+msgstr "Fekete szín"
 
-#: rc.cpp:46
-#: rc.cpp:1964
+#: rc.cpp:223
+msgid "Black output"
+msgstr "Fekete kimenet"
+
+#: rc.cpp:54
 msgid "Blue Screen"
 msgstr "Kék háttér"
 
+#: src/titlewidget.cpp:174
+msgid "Blur"
+msgstr "Elmosás"
+
 #: rc.cpp:16
-#: rc.cpp:1934
 msgid "Blur factor"
 msgstr "Elmosás mértéke"
 
 #: rc.cpp:14
-#: rc.cpp:1932
 msgid "Blur image with keyframes"
 msgstr "Kép elmosása kulcskockáknál"
 
-#: src/titlewidget.cpp:143
+#: src/titlewidget.cpp:232
 msgctxt "Font style"
 msgid "Bold"
 msgstr "Félkövér"
 
-#: rc.cpp:1545
-#: rc.cpp:3463
-#: rc.cpp:4942
+#: rc.cpp:1193
+#: rc.cpp:2727
 msgid "Border color"
 msgstr "Keret szín"
 
-#: src/titlewidget.cpp:174
-msgid "Border transparency"
-msgstr "Keret átlátszósága"
+#: src/titlewidget.cpp:128
+#: src/titlewidget.cpp:294
+msgid "Border opacity"
+msgstr "Szegély átlátszatlansága"
+
+#: src/titlewidget.cpp:134
+msgid "Border width"
+msgstr "Szegély szélessége"
 
 #: src/geometryval.cpp:102
 #: rc.cpp:70
-#: rc.cpp:1988
 msgid "Bottom"
 msgstr "Lent"
 
 #: rc.cpp:12
-#: rc.cpp:1930
 msgid "Box Blur"
 msgstr "Szögletes elmosás"
 
-#: rc.cpp:138
-#: rc.cpp:142
-#: rc.cpp:175
-#: rc.cpp:2056
-#: rc.cpp:2060
-#: rc.cpp:2093
+#: rc.cpp:140
+#: rc.cpp:144
+#: rc.cpp:209
 msgid "Brightness"
 msgstr "Fényesség"
 
 #: rc.cpp:22
-#: rc.cpp:1940
 msgid "Brightness (keyframable)"
 msgstr "Fényerő (kulcskockázható)"
 
-#: src/trackview.cpp:559
+#: src/trackview.cpp:612
 msgid "Broken clip producer %1"
 msgstr "Hibás klipkészítő: %1"
 
-#: rc.cpp:1311
-#: rc.cpp:1320
-#: rc.cpp:3229
-#: rc.cpp:3238
-#: rc.cpp:4708
-#: rc.cpp:4717
+#: rc.cpp:1361
+#: rc.cpp:1370
+#: rc.cpp:2895
+#: rc.cpp:2904
 msgid "Buffer"
 msgstr "Puffer"
 
@@ -1069,9 +997,8 @@ msgstr "Puffer"
 msgid "Bug fixing, etc."
 msgstr "Hibajavítások, stb."
 
-#: rc.cpp:960
-#: rc.cpp:2878
-#: rc.cpp:4357
+#: rc.cpp:1754
+#: rc.cpp:3288
 msgid "Burn"
 msgstr "Írás"
 
@@ -1080,177 +1007,182 @@ msgstr "Írás"
 msgid "Burn with %1"
 msgstr "Írás a következő programmal: %1"
 
-#: rc.cpp:726
-#: rc.cpp:2644
-#: rc.cpp:4123
+#: rc.cpp:947
+#: rc.cpp:2481
 msgid "Button"
 msgstr "Gomb"
 
-#: rc.cpp:1182
-#: rc.cpp:3100
-#: rc.cpp:4579
+#: rc.cpp:2090
+#: rc.cpp:3624
 msgid "Button 1"
 msgstr "Gomb 1"
 
-#: rc.cpp:1185
-#: rc.cpp:3103
-#: rc.cpp:4582
+#: rc.cpp:2093
+#: rc.cpp:3627
 msgid "Button 2"
 msgstr "Gomb 2"
 
-#: rc.cpp:1188
-#: rc.cpp:3106
-#: rc.cpp:4585
+#: rc.cpp:2096
+#: rc.cpp:3630
 msgid "Button 3"
 msgstr "Gomb 3"
 
-#: rc.cpp:1191
-#: rc.cpp:3109
-#: rc.cpp:4588
+#: rc.cpp:2099
+#: rc.cpp:3633
 msgid "Button 4"
 msgstr "Gomb 4"
 
-#: rc.cpp:1194
-#: rc.cpp:3112
-#: rc.cpp:4591
+#: rc.cpp:2102
+#: rc.cpp:3636
 msgid "Button 5"
 msgstr "Gomb 5"
 
-#: rc.cpp:738
-#: rc.cpp:2656
-#: rc.cpp:4135
+#: rc.cpp:959
+#: rc.cpp:2493
 msgid "Button colors"
 msgstr "Gomb színek"
 
-#: rc.cpp:810
-#: rc.cpp:2728
-#: rc.cpp:4207
+#: src/dvdwizardmenu.cpp:150
+msgid "Buttons overlapping"
+msgstr "Átfedő gombok"
+
+#: rc.cpp:685
+#: rc.cpp:2219
 msgid "C"
 msgstr "C"
 
-#: src/customtrackview.cpp:1531
+#: src/customtrackview.cpp:1606
 msgid "Cannot add a video effect to this clip"
 msgstr "Videóeffektus nem adható hozzá ehhez a kliphez"
 
-#: src/customtrackview.cpp:1525
+#: src/customtrackview.cpp:1600
 msgid "Cannot add an audio effect to this clip"
 msgstr "Hangeffektus nem adható hozzá ehhez a kliphez"
 
-#: src/customtrackview.cpp:978
-#: src/customtrackview.cpp:1007
-#: src/customtrackview.cpp:1796
-#: src/customtrackview.cpp:1822
-#: src/customtrackview.cpp:1848
-#: src/customtrackview.cpp:1872
+#: src/customtrackview.cpp:1022
+#: src/customtrackview.cpp:1055
+#: src/customtrackview.cpp:1877
+#: src/customtrackview.cpp:1903
+#: src/customtrackview.cpp:1929
+#: src/customtrackview.cpp:1953
 msgid "Cannot add transition"
 msgstr "Nem adható hozzá átmenet"
 
-#: src/customtrackview.cpp:4941
-#: src/customtrackview.cpp:4966
-#: src/customtrackview.cpp:4991
+#: src/customtrackview.cpp:5366
+#: src/customtrackview.cpp:5391
+#: src/customtrackview.cpp:5416
 msgid "Cannot change grouped clips"
 msgstr "Csoportban lévő klipek nem változtathatóak meg"
 
-#: src/customtrackview.cpp:864
-#: src/customtrackview.cpp:3237
+#: src/customtrackview.cpp:904
+#: src/customtrackview.cpp:3572
 msgid "Cannot cut a clip in a group"
 msgstr "Csoportban lévő klip nem vágható meg"
 
-#: src/customtrackview.cpp:859
+#: src/customtrackview.cpp:899
 msgid "Cannot cut a transition"
 msgstr "Átmenet nem vágható meg"
 
-#: src/customtrackview.cpp:3214
+#: src/customtrackview.cpp:3545
 msgid "Cannot find clip for speed change"
 msgstr "Nem találom a klipet, amihez a sebességét kellene megváltoztatni"
 
-#: src/customtrackview.cpp:1428
+#: src/customtrackview.cpp:1504
 msgid "Cannot find clip to add effect"
 msgstr "Nem találom a klipet, amihez az effektust kellene adni"
 
-#: src/mainwindow.cpp:2025
+#: src/mainwindow.cpp:2210
 msgid "Cannot find clip to add marker"
 msgstr "Nem találom a klipet, amihez a jelölőt kellene adni"
 
-#: src/customtrackview.cpp:1676
+#: src/customtrackview.cpp:1750
 msgid "Cannot find clip to cut"
 msgstr "Nem találom a klipet, amit meg kellene vágni"
 
-#: src/mainwindow.cpp:2053
-#: src/mainwindow.cpp:2080
-#: src/mainwindow.cpp:2103
+#: src/mainwindow.cpp:2238
+#: src/mainwindow.cpp:2265
+#: src/mainwindow.cpp:2288
 msgid "Cannot find clip to remove marker"
 msgstr "Nem találom a klipet, amitől a jelölőt el kellene távolítani"
 
-#: src/customtrackview.cpp:1725
+#: src/customtrackview.cpp:1802
 msgid "Cannot find clip to uncut"
 msgstr "Nem találom a klipet, amiből a vágást el kellene távolítani"
 
-#: src/customtrackview.cpp:1226
+#: src/customtrackview.cpp:1278
 msgid "Cannot find clip with keyframe"
 msgstr "Nem találom a sávot a kulcsképpel"
 
-#: src/mainwindow.cpp:1572
-#: src/renderwidget.cpp:618
+#: src/renderwidget.cpp:651
+#: src/mainwindow.cpp:1750
 msgid "Cannot find the melt program required for rendering (part of Mlt)"
 msgstr "A leképzéshez szüksége melt program nem található. Az melt program az MLT csomag része."
 
-#: src/mainwindow.cpp:1557
+#: src/mainwindow.cpp:1735
 msgid "Cannot find your Mlt profiles, please give the path"
 msgstr "Az MLT keretrendszer nem található. Adja meg a keretrendszer telepítési útvonalát."
 
-#: src/customtrackview.cpp:1984
+#: src/customtrackview.cpp:1324
+#: src/customtrackview.cpp:2073
 msgid "Cannot insert clip in timeline"
 msgstr "A klip nem illeszthető bele az idővonalba"
 
-#: src/customtrackview.cpp:2338
+#: src/customtrackview.cpp:2583
 msgid "Cannot insert space in a track with a group"
 msgstr "Üres hely nem illeszthető bele csoportban lévő sávokba"
 
-#: src/customtrackview.cpp:2392
+#: src/customtrackview.cpp:2637
 msgid "Cannot move clip at position %1, track %2"
 msgstr "Nem lehet áthelyezni a klipet a(z) %1 pozícióban a(z) %2 sávon"
 
-#: src/customtrackview.cpp:3480
-#: src/customtrackview.cpp:3686
+#: src/customtrackview.cpp:3821
+#: src/customtrackview.cpp:4026
 msgid "Cannot move clip at time: %1 on track %2"
 msgstr "Nem lehet áthelyezni a klipet a(z) %1 időben a(z) %2 sávon"
 
-#: src/customtrackview.cpp:2683
-#: src/customtrackview.cpp:3516
+#: src/customtrackview.cpp:2965
+#: src/customtrackview.cpp:3857
 msgid "Cannot move clip to position %1"
 msgstr "Nem lehet áthelyezni a klipet a(z) %1 pozícióba"
 
-#: src/customtrackview.cpp:1643
+#: src/customtrackview.cpp:1717
 msgid "Cannot move effect"
 msgstr "Effektus nem mozgatható"
 
-#: src/customtrackview.cpp:2691
+#: src/customtrackview.cpp:2974
 msgid "Cannot move transition"
 msgstr "Az átmenet nem helyezhető át"
 
-#: src/customtrackview.cpp:2407
+#: src/customtrackview.cpp:2652
 msgid "Cannot move transition at position %1, track %2"
 msgstr "Nem lehet áthelyezni az átmenetet a(z) %1 pozícióban a(z) %2 sávon"
 
-#: src/customtrackview.cpp:3638
+#: src/customtrackview.cpp:3977
 msgid "Cannot move transition at time: %1 on track %2"
 msgstr "Nem lehet áthelyezni az átmenetet a(z) %1 időben a(z) %2 sávon"
 
-#: src/customtrackview.cpp:4370
+#: src/mainwindow.cpp:1667
+msgid ""
+"Cannot open file %1.\n"
+"Project is corrupted."
+msgstr ""
+"%1 fájl nem nyitható meg.\n"
+"A projekt hibás."
+
+#: src/customtrackview.cpp:4730
 msgid "Cannot paste clip to selected place"
 msgstr "Nem lehet a klipet beilleszteni a megadott helyre"
 
-#: src/customtrackview.cpp:4342
-#: src/customtrackview.cpp:4354
+#: src/customtrackview.cpp:4702
+#: src/customtrackview.cpp:4714
 msgid "Cannot paste selected clips"
 msgstr "A kiválasztott klipek nem illeszthetőek be"
 
-#: src/customtrackview.cpp:4381
+#: src/customtrackview.cpp:4744
 msgid "Cannot paste transition to selected place"
 msgstr "Nem lehet az átmenetet beilleszteni a megadott helyre"
 
-#: src/renderwidget.cpp:622
+#: src/renderwidget.cpp:655
 msgid ""
 "Cannot play video after rendering because the default video player application is not set.\n"
 "Please define it in Kdenlive settings dialog."
@@ -1258,7 +1190,7 @@ msgstr ""
 "Leképzés után a videó nem játszható le, mert az alapértelmezett videólejátszó alkalmazás nincs beállítva.\n"
 "Adja meg az alapértelmezett videólejátszó alkalmazást a Kdenlive „Beállítások” ablakában."
 
-#: src/recmonitor.cpp:268
+#: src/recmonitor.cpp:270
 msgid ""
 "Cannot read from device %1\n"
 "Please check drivers and access rights."
@@ -1266,52 +1198,56 @@ msgstr ""
 "A(z) %1 eszközről nem lehet olvasni.\n"
 "Kérem ellenőrizze az eszközöket és hozzáférési jogosultságokat."
 
-#: src/customtrackview.cpp:2291
+#: src/customtrackview.cpp:2536
 msgid "Cannot remove space in a track with a group"
 msgstr "Üres hely nem távolítható el csoportban lévő sávokból"
 
-#: src/customtrackview.cpp:2865
-#: src/customtrackview.cpp:2957
+#: src/customtrackview.cpp:3160
+#: src/customtrackview.cpp:3252
 msgid "Cannot resize transition"
 msgstr "Az átmenet nem méretezhető át"
 
-#: src/customtrackview.cpp:4843
+#: src/customtrackview.cpp:5268
 msgid "Cannot split audio of grouped clips"
 msgstr "Csoportban lévő hang nem osztható fel"
 
-#: src/customtrackview.cpp:2083
-#: src/customtrackview.cpp:2155
-#: src/customtrackview.cpp:3368
-#: src/customtrackview.cpp:4886
-#: src/customtrackview.cpp:4889
-#: src/customtrackview.cpp:4915
-#: src/customtrackview.cpp:5013
-#: src/customtrackview.cpp:5020
-#: src/customtrackview.cpp:5027
+#: src/customtrackview.cpp:2325
+#: src/customtrackview.cpp:2397
+#: src/customtrackview.cpp:3703
+#: src/customtrackview.cpp:5311
+#: src/customtrackview.cpp:5314
+#: src/customtrackview.cpp:5340
+#: src/customtrackview.cpp:5438
+#: src/customtrackview.cpp:5445
+#: src/customtrackview.cpp:5452
 msgid "Cannot update clip (time: %1, track: %2)"
 msgstr "A klip nem frissíthető (idő: %1, sáv: %2)"
 
-#: src/customtrackview.cpp:799
+#: src/customtrackview.cpp:826
+msgid "Cannot use spacer in a locked track"
+msgstr "Üres hely eszköz nem használható zárolt sávokon"
+
+#: src/customtrackview.cpp:836
 msgid "Cannot use spacer in a track with a group"
 msgstr "Üres hely eszköz nem használható csoportban lévő sávokon"
 
-#: src/kdenlivedoc.cpp:568
-#: src/kdenlivedoc.cpp:574
-#: src/titlewidget.cpp:1464
+#: src/renderwidget.cpp:422
+#: src/renderwidget.cpp:539
+#: src/renderwidget.cpp:545
+#: src/renderwidget.cpp:605
+#: src/renderwidget.cpp:784
+#: src/renderwidget.cpp:796
+#: src/renderwidget.cpp:1705
+#: src/renderwidget.cpp:1728
 #: src/profilesdialog.cpp:166
 #: src/profilesdialog.cpp:172
 #: src/profilesdialog.cpp:439
 #: src/profilesdialog.cpp:445
-#: src/renderwidget.cpp:399
-#: src/renderwidget.cpp:499
-#: src/renderwidget.cpp:505
-#: src/renderwidget.cpp:565
-#: src/renderwidget.cpp:751
-#: src/renderwidget.cpp:763
-#: src/renderwidget.cpp:1633
-#: src/renderwidget.cpp:1656
-#: src/dvdwizard.cpp:682
-#: src/dvdwizard.cpp:688
+#: src/dvdwizard.cpp:701
+#: src/dvdwizard.cpp:707
+#: src/kdenlivedoc.cpp:570
+#: src/kdenlivedoc.cpp:576
+#: src/titlewidget.cpp:1727
 msgid "Cannot write to file %1"
 msgstr "A(z) %1 fájlba nem lehet írni."
 
@@ -1319,31 +1255,27 @@ msgstr "A(z) %1 fájlba nem lehet írni."
 msgid "Capture"
 msgstr "Felvétel"
 
-#: rc.cpp:1284
-#: rc.cpp:3202
-#: rc.cpp:4681
+#: rc.cpp:1334
+#: rc.cpp:2868
 msgid "Capture audio"
 msgstr "Hang rögzítése"
 
-#: src/recmonitor.cpp:586
+#: src/recmonitor.cpp:591
 msgid "Capture crashed, please check your parameters"
 msgstr "A felvétel hibát okozott. Legyen szíves ellenőrizze a beállításokat."
 
-#: rc.cpp:1233
-#: rc.cpp:3151
-#: rc.cpp:4630
+#: rc.cpp:1283
+#: rc.cpp:2817
 msgid "Capture file name"
 msgstr "Felvétel fájlneve"
 
-#: rc.cpp:1029
-#: rc.cpp:2947
-#: rc.cpp:4426
+#: rc.cpp:1442
+#: rc.cpp:2976
 msgid "Capture folder"
 msgstr "Rögzítési mappa"
 
-#: rc.cpp:1212
-#: rc.cpp:3130
-#: rc.cpp:4609
+#: rc.cpp:1262
+#: rc.cpp:2796
 msgid "Capture format"
 msgstr "Rögzítési formátum"
 
@@ -1351,20 +1283,18 @@ msgstr "Rögzítési formátum"
 msgid "Capture is not yet available on OS X."
 msgstr "A felvétel üzemmód még nem érhető el OS X operációs rendszereken."
 
-#: rc.cpp:1257
-#: rc.cpp:3175
-#: rc.cpp:4654
+#: rc.cpp:1307
+#: rc.cpp:2841
 msgid "Capture params"
 msgstr "Rögzítési beállítások"
 
-#: rc.cpp:1506
-#: rc.cpp:3424
-#: rc.cpp:4903
+#: rc.cpp:2036
+#: rc.cpp:3570
 msgid "Captured files"
 msgstr "Rögzített fájlok"
 
-#: src/recmonitor.cpp:167
 #: src/recmonitor.cpp:168
+#: src/recmonitor.cpp:169
 msgid "Capturing"
 msgstr "Felvétel "
 
@@ -1372,34 +1302,29 @@ msgstr "Felvétel "
 msgid "Center"
 msgstr "Középre"
 
-#: rc.cpp:411
-#: rc.cpp:2329
+#: rc.cpp:479
 msgid "Center Frequency"
 msgstr "Középső frekvencia"
 
-#: rc.cpp:171
-#: rc.cpp:2089
+#: rc.cpp:205
 msgid "Center correction"
 msgstr "Középpont-korrekció"
 
-#: rc.cpp:1038
-#: rc.cpp:1044
-#: rc.cpp:1050
-#: rc.cpp:2956
-#: rc.cpp:2962
-#: rc.cpp:2968
-#: rc.cpp:4435
-#: rc.cpp:4441
-#: rc.cpp:4447
+#: rc.cpp:1451
+#: rc.cpp:1457
+#: rc.cpp:1463
+#: rc.cpp:2985
+#: rc.cpp:2991
+#: rc.cpp:2997
 msgid "Change"
 msgstr "Változtatás"
 
-#: src/mainwindow.cpp:1047
+#: src/mainwindow.cpp:1223
 msgid "Change Track"
 msgstr "Sáv változtatása"
 
-#: src/customtrackview.cpp:4664
-#: src/headertrack.cpp:84
+#: src/headertrack.cpp:90
+#: src/customtrackview.cpp:5088
 msgid "Change Track Type"
 msgstr "Sávtípus változtatása"
 
@@ -1407,17 +1332,15 @@ msgstr "Sávtípus változtatása"
 msgid "Change clip type"
 msgstr "Klip típusának megváltoztatása"
 
-#: rc.cpp:227
-#: rc.cpp:2145
+#: rc.cpp:311
 msgid "Change gamma color value"
 msgstr "Gamma színérték változtatása"
 
 #: rc.cpp:24
-#: rc.cpp:1942
 msgid "Change image brightness with keyframes"
 msgstr "Fényerő megváltoztatása kulcskockáknál"
 
-#: src/customtrackview.cpp:4659
+#: src/customtrackview.cpp:5083
 msgid "Change track"
 msgstr "Sáv változtatása"
 
@@ -1425,7 +1348,7 @@ msgstr "Sáv változtatása"
 msgid "Change track type"
 msgstr "Sávtípus változtatása"
 
-#: src/projectsettings.cpp:144
+#: src/projectsettings.cpp:186
 msgid ""
 "Changing the profile of your project cannot be undone.\n"
 "It is recommended to save your project before attempting this operation that might cause some corruption in transitions.\n"
@@ -1435,59 +1358,30 @@ msgstr ""
 "Lehetőleg mentse el az aktuális projektet, mielőtt olyan műveletet hajt végre, amely az áttérés során hibákat okozhat a projektben.\n"
 "Biztosan végre kívánja hajtani a műveletet?"
 
-#: rc.cpp:395
-#: rc.cpp:2313
-msgid "Channel 1"
-msgstr "Csatorna 1"
+#: rc.cpp:161
+#: rc.cpp:215
+msgid "Channel"
+msgstr "Csatorna"
 
-#: rc.cpp:397
-#: rc.cpp:2315
-msgid "Channel 2"
-msgstr "Csatorna 2"
-
-#: rc.cpp:399
-#: rc.cpp:2317
-msgid "Channel 3"
-msgstr "Csatorna 3"
-
-#: rc.cpp:401
-#: rc.cpp:2319
-msgid "Channel 4"
-msgstr "Csatorna 4"
-
-#: rc.cpp:403
-#: rc.cpp:2321
-msgid "Channel 5"
-msgstr "Csatorna 5"
-
-#: rc.cpp:405
-#: rc.cpp:2323
-msgid "Channel 6"
-msgstr "Csatorna 6"
-
-#: rc.cpp:1728
-#: rc.cpp:3646
-#: rc.cpp:5125
+#: rc.cpp:803
+#: rc.cpp:2337
 msgid "Channels"
 msgstr "Csatornák"
 
 #: rc.cpp:32
-#: rc.cpp:1950
 msgid "Charcoal"
 msgstr "Szénrajz (Charcoal)"
 
 #: rc.cpp:34
-#: rc.cpp:1952
 msgid "Charcoal drawing effect"
 msgstr "Szénrajz effektus"
 
-#: src/kdenlivedoc.cpp:134
+#: src/kdenlivedoc.cpp:137
 msgid "Check missing clips"
 msgstr "Hiányzó klipek ellenőrzése"
 
-#: rc.cpp:672
-#: rc.cpp:2590
-#: rc.cpp:4069
+#: rc.cpp:1730
+#: rc.cpp:3264
 msgid "CheckBox"
 msgstr "Jelölőnégyzet"
 
@@ -1499,228 +1393,199 @@ msgstr "MLT motor ellenőrzése"
 msgid "Checking system"
 msgstr "Rendszer ellenőrzése"
 
-#: rc.cpp:54
-#: rc.cpp:1972
+#: rc.cpp:46
 msgid "Chroma Hold"
 msgstr "Szénrajz (Charcoal)"
 
-#: rc.cpp:387
-#: rc.cpp:2305
+#: rc.cpp:471
 msgid "Chrominance U"
 msgstr "Chrominance U"
 
-#: rc.cpp:389
-#: rc.cpp:2307
+#: rc.cpp:473
 msgid "Chrominance V"
 msgstr "Chrominance V"
 
-#: src/mainwindow.cpp:214
+#: src/mainwindow.cpp:218
 msgid "Clean"
 msgstr "Törlés"
 
-#: src/mainwindow.cpp:856
+#: src/mainwindow.cpp:962
 msgid "Clean Project"
 msgstr "Projekt tisztítása"
 
-#: rc.cpp:635
-#: rc.cpp:2553
-#: rc.cpp:4032
+#: rc.cpp:1709
+#: rc.cpp:3243
 msgid "Clean Up"
 msgstr "Tisztítás"
 
-#: src/mainwindow.cpp:1709
+#: src/mainwindow.cpp:1885
+#: src/projectsettings.cpp:103
 msgid "Clean up project"
 msgstr "A teljes projekt tisztítása"
 
-#: rc.cpp:840
-#: rc.cpp:2758
-#: rc.cpp:3909
-#: rc.cpp:4237
-#: rc.cpp:5388
+#: rc.cpp:1595
+#: rc.cpp:3129
 msgid "Clear cache"
 msgstr "Gyorsítótár ürítése"
 
-#: src/mainwindow.cpp:2435
+#: src/mainwindow.cpp:2715
 msgid "Click on a clip to cut it"
 msgstr "Kattintson a vágandó klipre"
 
-#: rc.cpp:5430
+#: src/projectlistview.cpp:49
+#: rc.cpp:3702
 msgid "Clip"
 msgstr "Klip"
 
-#: src/kdenlivedoc.cpp:877
-#: src/kdenlivedoc.cpp:885
+#: src/kdenlivedoc.cpp:879
+#: src/kdenlivedoc.cpp:887
 msgid "Clip <b>%1</b><br>is invalid or missing, what do you want to do?"
 msgstr "A(z) „<b>%1</b>” klip<br>hibás vagy nem található. Mit kíván tenni?"
 
-#: src/kdenlivedoc.cpp:874
+#: src/kdenlivedoc.cpp:876
 msgid "Clip <b>%1</b><br>is invalid, what do you want to do?"
 msgstr "A(z) „<b>%1</b>” klip<br>hibás. Mit kíván tenni?"
 
-#: src/projectlist.cpp:701
+#: src/projectlist.cpp:934
 msgid "Clip <b>%1</b><br>is invalid, will be removed from project."
 msgstr "A(z) „<b>%1</b>” klip<br>hibás ezért el lesz távolítva a projektből."
 
-#: src/projectlist.cpp:703
+#: src/projectlist.cpp:936
 msgid "Clip <b>%1</b><br>is missing or invalid. Remove it from project?"
 msgstr "A(z) „<b>%1</b>” klip<br>hibás vagy nem található. El kívánja távolítani a klipet a projektből?"
 
-#: rc.cpp:1674
-#: rc.cpp:3592
-#: rc.cpp:5071
+#: rc.cpp:2129
+#: rc.cpp:3663
 msgid "Clip Color"
 msgstr "Szín klip"
 
-#: src/mainwindow.cpp:186
+#: src/mainwindow.cpp:190
 msgid "Clip Monitor"
 msgstr "Klip Monitor"
 
-#: src/mainwindow.cpp:1145
-#: rc.cpp:1683
-#: rc.cpp:3601
-#: rc.cpp:5080
+#: src/mainwindow.cpp:1321
+#: rc.cpp:758
+#: rc.cpp:2292
 msgid "Clip Properties"
 msgstr "Kép tulajdonságok"
 
-#: rc.cpp:193
-#: rc.cpp:2111
+#: rc.cpp:247
 msgid "Clip bottom"
 msgstr "Levágás alul"
 
-#: rc.cpp:1831
-#: rc.cpp:3749
-#: rc.cpp:5228
-msgid "Clip duration"
-msgstr "Klip időtartama"
-
-#: src/clipitem.cpp:882
-#, c-format
+#: src/clipitem.cpp:884
+#, no-c-format
 msgid "Clip duration: %1s"
 msgstr "Klip időtartama: %1s"
 
-#: src/customtrackview.cpp:3956
+#: src/customtrackview.cpp:4297
 msgid "Clip has no markers"
 msgstr "A klipnek nincsenek jelölői"
 
-#: rc.cpp:187
-#: rc.cpp:2105
+#: rc.cpp:241
 msgid "Clip left"
 msgstr "Levágás balra"
 
-#: rc.cpp:189
-#: rc.cpp:2107
+#: rc.cpp:243
 msgid "Clip right"
 msgstr "Levágás jobbra"
 
-#: rc.cpp:1824
-#: rc.cpp:3742
-#: rc.cpp:5221
-msgid "Clip speed"
-msgstr "Klip sebessége"
-
-#: rc.cpp:191
-#: rc.cpp:2109
+#: rc.cpp:245
 msgid "Clip top"
 msgstr "Levágás felül"
 
-#: src/documentchecker.cpp:145
+#: src/documentchecker.cpp:227
 msgid "Clips folder"
 msgstr "Klip mappa"
 
-#: rc.cpp:828
-#: rc.cpp:2746
-#: rc.cpp:3897
-#: rc.cpp:4225
-#: rc.cpp:5376
+#: rc.cpp:1583
+#: rc.cpp:3117
 msgid "Clips used in project:"
 msgstr "A projektben felhasznált klipek:"
 
-#: src/titlewidget.cpp:335
+#: src/titlewidget.cpp:465
 msgid "Clone"
 msgstr "Klónozás"
 
-#: src/cliptranscode.cpp:137
-#: rc.cpp:611
-#: rc.cpp:626
-#: rc.cpp:650
-#: rc.cpp:2529
-#: rc.cpp:2544
-#: rc.cpp:2568
-#: rc.cpp:4008
-#: rc.cpp:4023
-#: rc.cpp:4047
+#: src/cliptranscode.cpp:143
+#: rc.cpp:1682
+#: rc.cpp:1700
+#: rc.cpp:1727
+#: rc.cpp:3216
+#: rc.cpp:3234
+#: rc.cpp:3261
 msgid "Close"
 msgstr "Bezár"
 
-#: src/statusbarmessagelabel.cpp:53
+#: src/statusbarmessagelabel.cpp:54
 msgctxt "@action:button"
 msgid "Close"
 msgstr "Bezár"
 
-#: rc.cpp:864
-#: rc.cpp:2782
-#: rc.cpp:4261
+#: rc.cpp:1037
+#: rc.cpp:2571
 msgid "Close after transcode"
 msgstr "Bezárás átkódolás után"
 
-#: src/mainwindow.cpp:136
+#: src/mainwindow.cpp:140
 msgid "Close the current tab"
 msgstr "Aktuális lap bezárása"
 
-#: rc.cpp:285
-#: rc.cpp:2203
+#: rc.cpp:363
 msgid "Co-efficient"
 msgstr "Tényező"
 
-#: rc.cpp:750
-#: rc.cpp:1734
-#: rc.cpp:1737
-#: rc.cpp:2668
-#: rc.cpp:3652
-#: rc.cpp:3655
-#: rc.cpp:4147
-#: rc.cpp:5131
-#: rc.cpp:5134
+#: rc.cpp:809
+#: rc.cpp:812
+#: rc.cpp:971
+#: rc.cpp:1127
+#: rc.cpp:2343
+#: rc.cpp:2346
+#: rc.cpp:2505
+#: rc.cpp:2661
 msgid "Color"
 msgstr "Szín"
 
-#: src/projectlist.cpp:720
+#: src/projectlist.cpp:953
+#: src/projectlist.cpp:954
 msgid "Color Clip"
 msgstr "Szín klip"
 
-#: rc.cpp:144
-#: rc.cpp:2062
+#: rc.cpp:146
 msgid "Color Distance"
 msgstr "Színtávolság"
 
-#: src/projectitem.cpp:197
+#: src/projectitem.cpp:176
 msgid "Color clip"
 msgstr "Szín klip"
 
-#: rc.cpp:1395
-#: rc.cpp:3313
-#: rc.cpp:4792
+#: rc.cpp:1802
+#: rc.cpp:3336
 msgid "Color clips"
 msgstr "Szín klipek"
 
+#: rc.cpp:159
+msgid "Color curves adjustment"
+msgstr "Színgörbék beállítása"
+
 #: rc.cpp:50
 #: rc.cpp:58
-#: rc.cpp:1968
-#: rc.cpp:1976
 msgid "Color key"
 msgstr "Szín kulcs"
 
-#: src/projectlistview.cpp:71
+#: src/titlewidget.cpp:122
+msgid "Color opacity"
+msgstr "Szín átlátszatlansága"
+
+#: src/projectlistview.cpp:73
 msgctxt "@title:menu"
 msgid "Columns"
 msgstr "Hasábok"
 
-#: rc.cpp:1464
-#: rc.cpp:1785
-#: rc.cpp:3382
-#: rc.cpp:3703
-#: rc.cpp:4861
-#: rc.cpp:5182
+#: rc.cpp:860
+#: rc.cpp:1007
+#: rc.cpp:2394
+#: rc.cpp:2541
 msgid "Comment"
 msgstr "Megjegyzés"
 
@@ -1728,26 +1593,24 @@ msgstr "Megjegyzés"
 msgid "Config Wizard"
 msgstr "Beállítás Tündér"
 
-#: src/recmonitor.cpp:89
+#: src/recmonitor.cpp:90
 msgid "Configure"
 msgstr "Beállítás"
 
-#: src/projectsettings.cpp:144
+#: src/projectsettings.cpp:186
 msgid "Confirm profile change"
 msgstr "Profilváltoztatás jóváhagyása"
 
-#: src/recmonitor.cpp:68
-#: src/recmonitor.cpp:574
+#: src/recmonitor.cpp:69
+#: src/recmonitor.cpp:579
 msgid "Connect"
 msgstr "Kapcsolódás"
 
-#: rc.cpp:153
-#: rc.cpp:2071
+#: rc.cpp:155
 msgid "Contrast"
 msgstr "Kontraszt"
 
-#: rc.cpp:149
-#: rc.cpp:2067
+#: rc.cpp:151
 msgid "Contrast0r"
 msgstr "Kontraszt"
 
@@ -1755,8 +1618,11 @@ msgstr "Kontraszt"
 msgid "Control character. Cannot be inserted/printed. See <a href=\"http://en.wikipedia.org/wiki/Control_character\">Wikipedia:Control_character</a>"
 msgstr "Vezérlőkarakter. Nem szórható be és nem nyomtatható. Lásd: <a href=\"http://hu.wikipedia.org/wiki/Vez%C3%A9rl%C5%91karakterek\">Wikipedia: Vezérlőkarakterek</a>"
 
+#: src/renderwidget.cpp:85
+msgid "Copy profile to favorites"
+msgstr "Profil másolása a kedvencek közé"
+
 #: rc.cpp:30
-#: rc.cpp:1948
 msgid "Copy the left channel to the right"
 msgstr "Bal csatorna átmásolása a jobb csatornára"
 
@@ -1764,8 +1630,7 @@ msgstr "Bal csatorna átmásolása a jobb csatornára"
 msgid "Copyright (c) 2009 Development team"
 msgstr "Copyright (c) 2009 Fejlesztőcsapat"
 
-#: src/renderer.cpp:1113
-#: src/renderer.cpp:1183
+#: src/renderer.cpp:1142
 msgid ""
 "Could not create the video preview window.\n"
 "There is something wrong with your Kdenlive install or your driver settings, please fix it."
@@ -1773,14 +1638,12 @@ msgstr ""
 "Nem tudom létrehozni a videó előnézeti ablakot.\n"
 "Valami hibás a Kdenlive telepítéssel, vagy a meghajtó beállításokkal. Kérem, javítsa ki."
 
-#: rc.cpp:321
-#: rc.cpp:2239
+#: rc.cpp:405
 msgid "Crackle"
 msgstr "Ropogás (Crackle)"
 
-#: rc.cpp:1386
-#: rc.cpp:3304
-#: rc.cpp:4783
+#: rc.cpp:1793
+#: rc.cpp:3327
 msgid "Crash recovery (automatic backup)"
 msgstr "Helyreállítás (automatikus mentés)"
 
@@ -1788,34 +1651,31 @@ msgstr "Helyreállítás (automatikus mentés)"
 msgid "Create DVD Menu"
 msgstr "DVD menü létrehozása"
 
-#: src/mainwindow.cpp:1141
+#: src/mainwindow.cpp:1317
 msgid "Create Folder"
 msgstr "Mappa létrehozása"
 
-#: rc.cpp:963
-#: rc.cpp:2881
-#: rc.cpp:4360
+#: rc.cpp:1757
+#: rc.cpp:3291
 msgid "Create ISO image"
 msgstr "ISO lemezkép létrehozása"
 
-#: src/mainwindow.cpp:2790
+#: src/mainwindow.cpp:3096
 msgid "Create Render Script"
 msgstr "Új leképző szkript létrehozása "
 
-#: rc.cpp:711
-#: rc.cpp:2629
-#: rc.cpp:4108
+#: rc.cpp:944
+#: rc.cpp:2478
 msgid "Create basic menu"
 msgstr "Alap menü létrehozása"
 
-#: rc.cpp:617
-#: rc.cpp:2535
-#: rc.cpp:4014
+#: rc.cpp:1688
+#: rc.cpp:3222
 msgid "Create chapter file based on guides"
 msgstr "Fejezetfájlok létrehozása a segédpontok alapján"
 
-#: src/profilesdialog.cpp:46
 #: src/renderwidget.cpp:79
+#: src/profilesdialog.cpp:46
 msgid "Create new profile"
 msgstr "Új profil létrehozása "
 
@@ -1823,72 +1683,74 @@ msgstr "Új profil létrehozása "
 msgid "Creating DVD Image"
 msgstr "DVD lemezkép létrehozása"
 
-#: rc.cpp:948
-#: rc.cpp:2866
-#: rc.cpp:4345
+#: rc.cpp:1742
+#: rc.cpp:3276
 msgid "Creating dvd structure"
 msgstr "DVD struktúra létrehozása"
 
-#: rc.cpp:951
-#: rc.cpp:2869
-#: rc.cpp:4348
+#: rc.cpp:1745
+#: rc.cpp:3279
 msgid "Creating iso file"
 msgstr "ISO-fájl létrehozása"
 
-#: rc.cpp:942
-#: rc.cpp:2860
-#: rc.cpp:4339
+#: rc.cpp:1736
+#: rc.cpp:3270
 msgid "Creating menu background"
 msgstr "Menüháttér létrehozása"
 
-#: rc.cpp:939
-#: rc.cpp:2857
-#: rc.cpp:4336
+#: rc.cpp:1733
+#: rc.cpp:3267
 msgid "Creating menu images"
 msgstr "Menüképek létrehozása"
 
-#: rc.cpp:945
-#: rc.cpp:2863
-#: rc.cpp:4342
+#: rc.cpp:1739
+#: rc.cpp:3273
 msgid "Creating menu movie"
 msgstr "Menüfilm létrehozása"
 
-#: src/kthumb.cpp:404
-#: src/kthumb.cpp:409
+#: src/kthumb.cpp:411
+#: src/kthumb.cpp:416
 msgid "Creating thumbnail for %1"
 msgstr "Előnézeti kép létrehozása a következőhöz: %1"
 
 #: rc.cpp:62
-#: rc.cpp:1980
 msgid "Crop"
 msgstr "Kivágás"
 
 #: src/clipitem.cpp:875
-#, c-format
+#, no-c-format
 msgid "Crop from start: %1s"
 msgstr "Levágás innentől: %1s"
 
-#: rc.cpp:1086
-#: rc.cpp:3004
-#: rc.cpp:4483
+#: rc.cpp:709
+#: rc.cpp:2243
 msgid "Crop start"
 msgstr "Levágás"
 
-#: src/mainwindow.cpp:2432
+#: src/mainwindow.cpp:2712
 msgid "Ctrl + click to use spacer on current track only"
 msgstr "Ctrl + kattintás: üres hely eszköz alkalmazása csak az aktuális sávon"
 
+#: rc.cpp:167
+msgid "Curve point number"
+msgstr "Görbe pontjainak száma"
+
+#: rc.cpp:157
+msgid "Curves"
+msgstr "Görbék"
+
+#: src/renderwidget.cpp:338
+#: src/renderwidget.cpp:348
+#: src/renderwidget.cpp:441
+#: src/renderwidget.cpp:471
+#: src/renderwidget.cpp:507
+#: src/renderwidget.cpp:1239
+#: src/renderwidget.cpp:1284
+#: src/renderwidget.cpp:1364
+#: src/effectslistwidget.cpp:93
 #: src/geometryval.cpp:92
-#: src/renderwidget.cpp:328
-#: src/renderwidget.cpp:360
-#: src/renderwidget.cpp:431
-#: src/renderwidget.cpp:467
-#: src/renderwidget.cpp:1183
-#: src/renderwidget.cpp:1228
-#: src/renderwidget.cpp:1308
-#: rc.cpp:1906
-#: rc.cpp:3824
-#: rc.cpp:5303
+#: rc.cpp:1238
+#: rc.cpp:2772
 msgid "Custom"
 msgstr "Egyéni"
 
@@ -1896,54 +1758,44 @@ msgstr "Egyéni"
 msgid "Cut"
 msgstr "Vágás"
 
-#: src/mainwindow.cpp:984
+#: src/mainwindow.cpp:1160
 msgid "Cut Clip"
 msgstr "Klip vágása"
 
-#: rc.cpp:566
-#: rc.cpp:702
-#: rc.cpp:717
-#: rc.cpp:816
-#: rc.cpp:930
-#: rc.cpp:1794
-#: rc.cpp:2484
-#: rc.cpp:2620
-#: rc.cpp:2635
-#: rc.cpp:2734
-#: rc.cpp:2848
-#: rc.cpp:3712
-#: rc.cpp:3831
-#: rc.cpp:3963
-#: rc.cpp:4099
-#: rc.cpp:4114
-#: rc.cpp:4213
-#: rc.cpp:4327
-#: rc.cpp:5191
-#: rc.cpp:5310
+#: rc.cpp:691
+#: rc.cpp:869
+#: rc.cpp:923
+#: rc.cpp:986
+#: rc.cpp:1478
+#: rc.cpp:1637
+#: rc.cpp:2054
+#: rc.cpp:2225
+#: rc.cpp:2403
+#: rc.cpp:2457
+#: rc.cpp:2520
+#: rc.cpp:3012
+#: rc.cpp:3171
+#: rc.cpp:3588
 msgid "D"
 msgstr "D"
 
-#: rc.cpp:1479
-#: rc.cpp:3397
-#: rc.cpp:4876
+#: rc.cpp:1925
+#: rc.cpp:3459
 msgid "DV"
 msgstr "DV"
 
-#: rc.cpp:1218
-#: rc.cpp:3136
-#: rc.cpp:4615
+#: rc.cpp:1268
+#: rc.cpp:2802
 msgid "DV AVI type 1"
 msgstr "DV AVI 1 típus"
 
-#: rc.cpp:1221
-#: rc.cpp:3139
-#: rc.cpp:4618
+#: rc.cpp:1271
+#: rc.cpp:2805
 msgid "DV AVI type 2"
 msgstr "DV AVI 2 típus"
 
-#: rc.cpp:1215
-#: rc.cpp:3133
-#: rc.cpp:4612
+#: rc.cpp:1265
+#: rc.cpp:2799
 msgid "DV Raw"
 msgstr "Nyers DV"
 
@@ -1951,7 +1803,7 @@ msgstr "Nyers DV"
 msgid "DV module (libdv)"
 msgstr "DV modul (libdv)"
 
-#: src/renderwidget.cpp:1107
+#: src/renderwidget.cpp:1162
 msgid "DVD"
 msgstr "DVD"
 
@@ -1959,43 +1811,39 @@ msgstr "DVD"
 msgid "DVD Chapters"
 msgstr "DVD fejezetek"
 
-#: rc.cpp:972
-#: rc.cpp:2890
-#: rc.cpp:4369
+#: rc.cpp:1766
+#: rc.cpp:3300
 msgid "DVD ISO image"
 msgstr "DVD ISO lemezkép"
 
-#: src/dvdwizard.cpp:587
+#: src/dvdwizard.cpp:608
 msgid "DVD ISO image %1 successfully created."
 msgstr "A(z) „%1” DVD ISO lemezkép sikeresen létrejött."
 
-#: src/dvdwizard.cpp:574
+#: src/dvdwizard.cpp:595
 msgid "DVD ISO is broken"
 msgstr "A DVD ISO képfájl hibás"
 
-#: src/mainwindow.cpp:878
 #: src/dvdwizard.cpp:47
+#: src/mainwindow.cpp:984
 msgid "DVD Wizard"
 msgstr "DVD Tündér"
 
-#: rc.cpp:1888
-#: rc.cpp:3806
-#: rc.cpp:5285
+#: rc.cpp:634
+#: rc.cpp:2168
 msgid "DVD format"
 msgstr "DVD formátum"
 
-#: src/dvdwizard.cpp:500
+#: src/dvdwizard.cpp:520
 msgid "DVD structure broken"
 msgstr "Hibás DVD struktúra"
 
-#: src/dvdwizard.cpp:478
+#: src/dvdwizard.cpp:498
 msgid "DVDAuthor process crashed."
 msgstr "A DVDAuthor folyamat váratlanul kilépett."
 
-#: rc.cpp:299
-#: rc.cpp:309
-#: rc.cpp:2217
-#: rc.cpp:2227
+#: rc.cpp:383
+#: rc.cpp:393
 msgid "Damping"
 msgstr "Csillapítás (Damping)"
 
@@ -2004,84 +1852,70 @@ msgid "Dan Dennedy"
 msgstr "Dan Dennedy"
 
 #: rc.cpp:8
-#: rc.cpp:1926
 msgid "Debug"
 msgstr "Hibakeresés"
 
-#: rc.cpp:433
-#: rc.cpp:445
-#: rc.cpp:465
-#: rc.cpp:2351
-#: rc.cpp:2363
-#: rc.cpp:2383
+#: rc.cpp:501
+#: rc.cpp:513
+#: rc.cpp:533
 msgid "Decay"
 msgstr "Szétbont"
 
-#: rc.cpp:239
-#: rc.cpp:2157
+#: rc.cpp:323
 msgid "Declipper"
 msgstr "Declipper"
 
-#: rc.cpp:1812
-#: rc.cpp:3730
-#: rc.cpp:5209
+#: rc.cpp:887
+#: rc.cpp:2421
 msgid "Decoding threads"
 msgstr "Visszaalakító szálak"
 
+#: src/mainwindow.cpp:261
 #: src/kdenlivesettingsdialog.cpp:247
 #: src/kdenlivesettingsdialog.cpp:248
 msgid "Default"
 msgstr "Alapértelmezett"
 
-#: rc.cpp:1392
-#: rc.cpp:3310
-#: rc.cpp:4789
+#: rc.cpp:1799
+#: rc.cpp:3333
 msgid "Default Durations"
 msgstr "Alapértelmezett időtartamok"
 
-#: rc.cpp:1410
-#: rc.cpp:3328
-#: rc.cpp:4807
+#: rc.cpp:1817
+#: rc.cpp:3351
 msgid "Default Profile"
 msgstr "Alapértelmezett profil"
 
-#: rc.cpp:1032
-#: rc.cpp:2950
-#: rc.cpp:4429
+#: rc.cpp:1445
+#: rc.cpp:2979
 msgid "Default apps"
 msgstr "Alapértelmezett programok"
 
-#: rc.cpp:1197
-#: rc.cpp:3115
-#: rc.cpp:4594
+#: rc.cpp:1247
+#: rc.cpp:2781
 msgid "Default capture device"
 msgstr "Alapértelmezett rögzítőeszköz"
 
-#: rc.cpp:1653
-#: rc.cpp:3571
-#: rc.cpp:5050
+#: rc.cpp:2063
+#: rc.cpp:3597
 msgid "Default folder for project files"
 msgstr "Alapértelmezett projekt mappa"
 
-#: rc.cpp:1020
-#: rc.cpp:2938
-#: rc.cpp:4417
+#: rc.cpp:1433
+#: rc.cpp:2967
 msgid "Default folders"
 msgstr "Alapértelmezett mappák"
 
-#: rc.cpp:431
-#: rc.cpp:443
-#: rc.cpp:463
-#: rc.cpp:485
-#: rc.cpp:2349
-#: rc.cpp:2361
-#: rc.cpp:2381
-#: rc.cpp:2403
+#: rc.cpp:499
+#: rc.cpp:511
+#: rc.cpp:531
+#: rc.cpp:553
+#: rc.cpp:1133
+#: rc.cpp:2667
 msgid "Delay"
 msgstr "Szünet"
 
-#: rc.cpp:307
-#: rc.cpp:2225
+#: rc.cpp:391
 msgid "Delay (s/10)"
 msgstr "Szünet (s/10)"
 
@@ -2089,54 +1923,56 @@ msgstr "Szünet (s/10)"
 msgid "Delete %1"
 msgstr "%1 törlése"
 
-#: src/customruler.cpp:82
-#: src/mainwindow.cpp:1063
+#: src/customruler.cpp:83
+#: src/mainwindow.cpp:1239
 msgid "Delete All Guides"
 msgstr "Összes segédpont törlése"
 
-#: src/mainwindow.cpp:997
+#: src/mainwindow.cpp:1173
 msgid "Delete All Markers"
 msgstr "Összes jelölő törlése"
 
-#: src/projectlist.cpp:430
-#: src/mainwindow.cpp:1157
+#: src/mainwindow.cpp:1333
+#: src/projectlist.cpp:625
 msgid "Delete Clip"
 msgstr "Klip törlése"
 
-#: src/projectlist.cpp:433
-#: src/projectlist.cpp:525
+#: src/projectlist.cpp:602
+msgid "Delete Clip Zone"
+msgstr "Klipzóna törlése"
+
+#: src/projectlist.cpp:616
+#: src/projectlist.cpp:718
 msgid "Delete Folder"
 msgstr "Mappa törlése"
 
-#: src/customruler.cpp:80
-#: src/mainwindow.cpp:1055
-#: src/customtrackview.cpp:199
+#: src/customruler.cpp:81
+#: src/mainwindow.cpp:1231
+#: src/customtrackview.cpp:218
 msgid "Delete Guide"
 msgstr "Segédpont törlése"
 
-#: src/mainwindow.cpp:993
+#: src/mainwindow.cpp:1169
 msgid "Delete Marker"
 msgstr "Jelölő"
 
-#: rc.cpp:1849
-#: rc.cpp:3767
-#: rc.cpp:5246
+#: rc.cpp:2015
+#: rc.cpp:3549
 msgid "Delete Profile"
 msgstr "Profil törlése"
 
-#: rc.cpp:647
-#: rc.cpp:2565
-#: rc.cpp:4044
+#: rc.cpp:1724
+#: rc.cpp:3258
 msgid "Delete Script"
 msgstr "Szkript törlése "
 
-#: src/mainwindow.cpp:956
+#: src/mainwindow.cpp:1097
 msgid "Delete Selected Item"
 msgstr "Kiválasztott elemek törlése"
 
-#: src/mainwindow.cpp:1043
-#: src/customtrackview.cpp:4643
-#: src/headertrack.cpp:80
+#: src/mainwindow.cpp:1219
+#: src/headertrack.cpp:86
+#: src/customtrackview.cpp:5067
 msgid "Delete Track"
 msgstr "Sáv törlése"
 
@@ -2147,32 +1983,28 @@ msgid_plural "Delete clips"
 msgstr[0] "Klip törlése "
 msgstr[1] "Klipek törlése "
 
-#: src/projectlist.cpp:430
+#: src/projectlist.cpp:625
 msgid "Delete clip <b>%2</b>?<br>This will also remove the clip in timeline"
 msgid_plural "Delete clip <b>%2</b>?<br>This will also remove its %1 clips in timeline"
 msgstr[0] "Törölni kívánja a(z) „<b>%2</b>” mappát?<br>Ez a művelet eltávolítja a klipet is az idővonalból."
 msgstr[1] "Törölni kívánja a(z) „<b>%2</b>” mappát?<br>Ez a művelet eltávolít %1 klipet is az idővonalból."
 
-#: src/dvdwizardmenu.cpp:44
+#: src/dvdwizardmenu.cpp:45
 msgid "Delete current button"
 msgstr "Aktuális gomb törlése"
 
-#: rc.cpp:1515
-#: rc.cpp:3433
-#: rc.cpp:4912
+#: rc.cpp:2045
+#: rc.cpp:3579
 msgid "Delete current file"
 msgstr "Aktuális fájl törlése"
 
-#: src/effectslistview.cpp:49
 #: src/effectstackview.cpp:58
+#: src/effectslistview.cpp:50
 msgid "Delete effect"
 msgstr "Effektus törlése"
 
-#: rc.cpp:834
-#: rc.cpp:2752
-#: rc.cpp:3903
-#: rc.cpp:4231
-#: rc.cpp:5382
+#: rc.cpp:1589
+#: rc.cpp:3123
 msgid "Delete files"
 msgstr "Fájlok törlése"
 
@@ -2180,7 +2012,7 @@ msgstr "Fájlok törlése"
 msgid "Delete folder"
 msgstr "Mappa törlése"
 
-#: src/projectlist.cpp:433
+#: src/projectlist.cpp:616
 msgid "Delete folder <b>%2</b>?<br>This will also remove the clip in that folder"
 msgid_plural "Delete folder <b>%2</b>?<br>This will also remove the %1 clips in that folder"
 msgstr[0] "Törölni kívánja a(z) „<b>%2</b>” mappát?<br>Ez a művelet törli a klipet is abból a mappából."
@@ -2190,56 +2022,57 @@ msgstr[1] "Törölni kívánja a(z) „<b>%2</b>” mappát?<br>Ez a művelet t�
 msgid "Delete guide"
 msgstr "Segédpont törlése"
 
-#: src/geometryval.cpp:76
 #: src/editkeyframecommand.cpp:37
+#: src/keyframeedit.cpp:47
+#: src/geometryval.cpp:76
 msgid "Delete keyframe"
 msgstr "Kulcskép törlése"
 
-#: src/clipproperties.cpp:248
+#: src/clipproperties.cpp:278
 #: src/addmarkercommand.cpp:32
 msgid "Delete marker"
 msgstr "Jelölő törlés"
 
-#: src/profilesdialog.cpp:42
 #: src/renderwidget.cpp:71
+#: src/profilesdialog.cpp:42
 msgid "Delete profile"
 msgstr "Profil törlése"
 
-#: src/customtrackview.cpp:3172
+#: src/customtrackview.cpp:3503
 msgid "Delete selected clip"
 msgid_plural "Delete selected clips"
 msgstr[0] "Kiválasztott klip törlése"
 msgstr[1] "Kiválasztott klipek törlése"
 
-#: src/customtrackview.cpp:3170
+#: src/customtrackview.cpp:3501
 msgid "Delete selected group"
 msgid_plural "Delete selected groups"
 msgstr[0] "Kiválasztott csoport törlése"
 msgstr[1] "Kiválasztott csoportok törlése"
 
-#: src/customtrackview.cpp:3175
+#: src/customtrackview.cpp:3506
 msgid "Delete selected items"
 msgstr "Kiválasztott elemek törlése"
 
-#: src/customtrackview.cpp:3174
+#: src/customtrackview.cpp:3505
 msgid "Delete selected transition"
 msgid_plural "Delete selected transitions"
 msgstr[0] "Kiválasztott átmenet törlése"
 msgstr[1] "Kiválasztott átmenetek törlése"
 
-#: src/mainwindow.cpp:415
+#: src/mainwindow.cpp:468
 msgid "Delete them"
 msgstr "Törlés"
 
-#: src/addtimelineclipcommand.cpp:37
-#: src/customtrackview.cpp:2449
+#: src/addtimelineclipcommand.cpp:39
+#: src/customtrackview.cpp:2694
 msgid "Delete timeline clip"
 msgid_plural "Delete timeline clips"
 msgstr[0] "Idővonal klip törlése"
 msgstr[1] "Idővonal klip törlése"
 
-#: src/customtrackview.cpp:4638
 #: src/addtrackcommand.cpp:34
+#: src/customtrackview.cpp:5062
 msgid "Delete track"
 msgstr "Sáv törlése"
 
@@ -2247,49 +2080,50 @@ msgstr "Sáv törlése"
 msgid "Delete transition from clip"
 msgstr "Átmenetek törlése a klipben"
 
-#: src/projectsettings.cpp:91
+#: src/projectsettings.cpp:108
 msgid "Delete unused clips"
 msgstr "Nem használt klipek törlése"
 
-#: src/titlewidget.cpp:142
+#: src/titlewidget.cpp:231
 msgctxt "Font style"
 msgid "Demi-Bold"
 msgstr "Félkövér Dőlt"
 
-#: rc.cpp:269
-#: rc.cpp:2187
+#: rc.cpp:353
 msgid "Depth"
 msgstr "Mélység"
 
-#: src/projectlistview.cpp:46
-#: rc.cpp:777
-#: rc.cpp:1689
-#: rc.cpp:2695
-#: rc.cpp:3607
-#: rc.cpp:4174
-#: rc.cpp:5086
+#: src/projectlistview.cpp:49
+#: rc.cpp:652
+#: rc.cpp:764
+#: rc.cpp:2186
+#: rc.cpp:2298
 msgid "Description"
 msgstr "Leírás"
 
-#: src/mainwindow.cpp:2583
+#: src/mainwindow.cpp:2863
 msgid "Description:"
 msgstr "Leírás:"
 
-#: rc.cpp:1008
-#: rc.cpp:2926
-#: rc.cpp:4405
+#: src/mainwindow.cpp:1135
+msgid "Deselect Clip"
+msgstr "Klipkiválasztás megszüntetése"
+
+#: src/mainwindow.cpp:1150
+msgid "Deselect Transition"
+msgstr "Átmenet kiválasztásának megszüntetése"
+
+#: rc.cpp:1421
+#: rc.cpp:2955
 msgid "Desktop search integration"
 msgstr "Asztali keresőintegráció"
 
-#: rc.cpp:542
-#: rc.cpp:849
-#: rc.cpp:1134
-#: rc.cpp:2460
-#: rc.cpp:2767
-#: rc.cpp:3052
-#: rc.cpp:3939
-#: rc.cpp:4246
-#: rc.cpp:4531
+#: rc.cpp:1022
+#: rc.cpp:1613
+#: rc.cpp:1772
+#: rc.cpp:2556
+#: rc.cpp:3147
+#: rc.cpp:3306
 msgid "Destination"
 msgstr "Cél"
 
@@ -2297,39 +2131,26 @@ msgstr "Cél"
 msgid "Destination folder"
 msgstr "Célmappa"
 
-#: rc.cpp:1179
-#: rc.cpp:3097
-#: rc.cpp:4576
+#: rc.cpp:2087
+#: rc.cpp:3621
 msgid "Device"
 msgstr "Eszköz"
 
-#: rc.cpp:1176
-#: rc.cpp:3094
-#: rc.cpp:4573
+#: rc.cpp:2084
+#: rc.cpp:3618
 msgid "Device configuration"
 msgstr "Eszközbeállítás"
 
-#: rc.cpp:536
-#: rc.cpp:825
-#: rc.cpp:843
-#: rc.cpp:870
-#: rc.cpp:1053
-#: rc.cpp:1668
-#: rc.cpp:1821
-#: rc.cpp:2454
-#: rc.cpp:2743
-#: rc.cpp:2761
-#: rc.cpp:2788
-#: rc.cpp:2971
-#: rc.cpp:3586
-#: rc.cpp:3739
-#: rc.cpp:3933
-#: rc.cpp:4222
-#: rc.cpp:4240
-#: rc.cpp:4267
-#: rc.cpp:4450
-#: rc.cpp:5065
-#: rc.cpp:5218
+#: rc.cpp:926
+#: rc.cpp:1016
+#: rc.cpp:1607
+#: rc.cpp:2018
+#: rc.cpp:2123
+#: rc.cpp:2460
+#: rc.cpp:2550
+#: rc.cpp:3141
+#: rc.cpp:3552
+#: rc.cpp:3657
 msgid "Dialog"
 msgstr "Párbeszédablak"
 
@@ -2337,58 +2158,51 @@ msgstr "Párbeszédablak"
 msgid "Direct FB"
 msgstr "DirectFB"
 
-#: rc.cpp:233
-#: rc.cpp:2151
+#: rc.cpp:317
 msgid "Discard color information"
 msgstr "Színinformációk figyelmen kívül hagyása"
+
+#: src/recmonitor.cpp:284
+msgid "Disconnect"
+msgstr "Bontás"
 
 #: src/wizard.cpp:57
 msgid "Discover the features of this Kdenlive release"
 msgstr "Fedezze fel a Kdenlive ezen verziójának képességeit"
 
-#: src/recmonitor.cpp:282
-msgid "Disonnect"
-msgstr "Leválasztás"
-
 #: src/kdenlivesettingsdialog.cpp:59
 msgid "Display"
 msgstr "Megjelenítés"
 
-#: rc.cpp:798
-#: rc.cpp:2716
-#: rc.cpp:4195
+#: rc.cpp:673
+#: rc.cpp:2207
 msgid "Display aspect ratio"
 msgstr "Megjelenítés képaránya"
 
-#: src/wizard.cpp:481
-#: rc.cpp:3870
-#: rc.cpp:5349
+#: src/wizard.cpp:493
+#: rc.cpp:1556
+#: rc.cpp:3090
 msgid "Display aspect ratio:"
 msgstr "Megjelenítés képaránya:"
 
-#: rc.cpp:1122
-#: rc.cpp:3040
-#: rc.cpp:4519
+#: rc.cpp:1994
+#: rc.cpp:3528
 msgid "Display clip markers comments"
 msgstr "Klipjelölők megjegyzéseinek megjelenítése"
 
-#: rc.cpp:1434
-#: rc.cpp:3352
-#: rc.cpp:4831
+#: rc.cpp:1841
+#: rc.cpp:3375
 msgid "Display ratio:"
 msgstr "Képarány:"
 
-#: rc.cpp:1368
-#: rc.cpp:1755
-#: rc.cpp:3286
-#: rc.cpp:3673
-#: rc.cpp:4765
-#: rc.cpp:5152
+#: rc.cpp:830
+#: rc.cpp:1904
+#: rc.cpp:2364
+#: rc.cpp:3438
 msgid "Dissolve"
 msgstr "Áttűnés"
 
-#: rc.cpp:155
-#: rc.cpp:2073
+#: rc.cpp:189
 msgid "Distort0r"
 msgstr "Torzítás"
 
@@ -2396,7 +2210,7 @@ msgstr "Torzítás"
 msgid "Do nothing"
 msgstr "Figyelmen kívül hagy"
 
-#: src/kdenlivedoc.cpp:210
+#: src/kdenlivedoc.cpp:212
 msgid "Document project folder is invalid, setting it to the default one: %1"
 msgstr "A dokumentum projekt mappa érvénytelen. A következő alapértelmezett mappa lesz használatba véve: %1"
 
@@ -2404,75 +2218,59 @@ msgstr "A dokumentum projekt mappa érvénytelen. A következő alapértelmezett
 msgid "Document to open"
 msgstr "Megnyitandó dokumentum"
 
-#: src/mainwindow.cpp:1452
+#: src/mainwindow.cpp:1629
 msgid "Don't recover"
 msgstr "Ne állítsa helyre"
 
-#: src/mainwindow.cpp:841
+#: src/mainwindow.cpp:947
 msgid "Download New Project Profiles..."
 msgstr "Új projekt profilok letöltése…"
 
-#: src/mainwindow.cpp:839
+#: src/mainwindow.cpp:945
 msgid "Download New Render Profiles..."
 msgstr "Új leképző profilok letöltése…"
 
-#: src/mainwindow.cpp:837
+#: src/mainwindow.cpp:943
 msgid "Download New Wipes..."
 msgstr "Új átmenetek letöltése…"
 
-#: rc.cpp:1167
-#: rc.cpp:3085
-#: rc.cpp:4564
+#: rc.cpp:1061
+#: rc.cpp:2595
 msgid "Drop B frames on H.264 clips"
 msgstr "B képkockák eldobása H.264 kódolású klipeknél"
 
-#: rc.cpp:78
-#: rc.cpp:90
+#: rc.cpp:80
+#: rc.cpp:93
 #: rc.cpp:103
-#: rc.cpp:113
-#: rc.cpp:1071
-#: rc.cpp:1098
-#: rc.cpp:1503
-#: rc.cpp:1578
-#: rc.cpp:1677
-#: rc.cpp:1692
-#: rc.cpp:1876
-#: rc.cpp:1996
-#: rc.cpp:2008
-#: rc.cpp:2021
-#: rc.cpp:2031
-#: rc.cpp:2989
-#: rc.cpp:3016
-#: rc.cpp:3421
-#: rc.cpp:3496
-#: rc.cpp:3595
-#: rc.cpp:3610
-#: rc.cpp:3794
-#: rc.cpp:4468
-#: rc.cpp:4495
-#: rc.cpp:4900
-#: rc.cpp:4975
-#: rc.cpp:5074
-#: rc.cpp:5089
-#: rc.cpp:5273
+#: rc.cpp:114
+#: rc.cpp:622
+#: rc.cpp:694
+#: rc.cpp:721
+#: rc.cpp:767
+#: rc.cpp:1082
+#: rc.cpp:1520
+#: rc.cpp:2132
+#: rc.cpp:2156
+#: rc.cpp:2228
+#: rc.cpp:2255
+#: rc.cpp:2301
+#: rc.cpp:2616
+#: rc.cpp:3054
+#: rc.cpp:3666
 msgid "Duration"
 msgstr "Időtartam"
 
-#: rc.cpp:921
-#: rc.cpp:2839
-#: rc.cpp:4318
+#: rc.cpp:914
+#: rc.cpp:2448
 msgid "Dw"
 msgstr "Dw"
 
-#: rc.cpp:560
-#: rc.cpp:927
-#: rc.cpp:1791
-#: rc.cpp:2478
-#: rc.cpp:2845
-#: rc.cpp:3709
-#: rc.cpp:3957
-#: rc.cpp:4324
-#: rc.cpp:5188
+#: rc.cpp:866
+#: rc.cpp:920
+#: rc.cpp:1631
+#: rc.cpp:2400
+#: rc.cpp:2454
+#: rc.cpp:3165
 msgid "E"
 msgstr "E"
 
@@ -2482,55 +2280,60 @@ msgstr ""
 "_: EMAIL OF TRANSLATORS\\n"
 "kami911@gmail.com"
 
-#: rc.cpp:173
-#: rc.cpp:2091
+#: rc.cpp:207
 msgid "Edges correction"
 msgstr "Keret-korrekció"
 
-#: src/mainwindow.cpp:1151
+#: src/mainwindow.cpp:1327
 msgid "Edit Clip"
 msgstr "Klip szerkesztés"
 
-#: src/customtrackview.cpp:3195
+#: src/customtrackview.cpp:3526
 msgid "Edit Clip Speed"
 msgstr "Klipsebesség szerkesztés"
 
-#: src/customruler.cpp:78
-#: src/mainwindow.cpp:1059
-#: src/customtrackview.cpp:203
-#: src/customtrackview.cpp:4061
-#: src/customtrackview.cpp:4073
+#: src/customruler.cpp:79
+#: src/mainwindow.cpp:1235
+#: src/customtrackview.cpp:222
+#: src/customtrackview.cpp:4402
+#: src/customtrackview.cpp:4414
 msgid "Edit Guide"
 msgstr "Segédpont szerkesztése"
 
-#: rc.cpp:1855
-#: rc.cpp:3773
-#: rc.cpp:5252
+#: rc.cpp:1970
+#: rc.cpp:3504
 msgid "Edit Keyframe"
 msgstr "Kulcskép szerkesztés"
 
-#: src/clipproperties.cpp:309
-#: src/mainwindow.cpp:1001
-#: src/mainwindow.cpp:2115
+#: src/mainwindow.cpp:1177
+#: src/mainwindow.cpp:2300
+#: src/clipproperties.cpp:439
 msgid "Edit Marker"
 msgstr "Jelölő szerkesztése"
 
-#: src/renderwidget.cpp:438
+#: src/renderwidget.cpp:478
 msgid "Edit Profile"
 msgstr "Profil szerkesztés"
 
+#: src/customtrackview.cpp:1237
 #: src/editclipcommand.cpp:33
-#: src/customtrackview.cpp:1185
 msgid "Edit clip"
 msgstr "Klip szerkesztés"
+
+#: src/editclipcutcommand.cpp:35
+msgid "Edit clip cut"
+msgstr "Klipvágás szerkesztése"
+
+#: src/mainwindow.cpp:2618
+msgid "Edit clips"
+msgstr "Klip szerkesztése"
 
 #: src/editeffectcommand.cpp:40
 msgid "Edit effect %1"
 msgstr "Effektus szerkesztés: %1"
 
-#: rc.cpp:1617
-#: rc.cpp:3535
-#: rc.cpp:5014
+#: rc.cpp:1154
+#: rc.cpp:2688
 msgid "Edit end"
 msgstr "Kezdet szerkesztése"
 
@@ -2538,12 +2341,12 @@ msgstr "Kezdet szerkesztése"
 msgid "Edit guide"
 msgstr "Segédpont szerkesztés"
 
-#: src/geometryval.cpp:84
 #: src/editkeyframecommand.cpp:36
+#: src/geometryval.cpp:84
 msgid "Edit keyframe"
 msgstr "Kulcskép szerkesztés"
 
-#: src/clipproperties.cpp:246
+#: src/clipproperties.cpp:276
 #: src/addmarkercommand.cpp:34
 msgid "Edit marker"
 msgstr "Jelölő szerkesztése"
@@ -2552,9 +2355,8 @@ msgstr "Jelölő szerkesztése"
 msgid "Edit profile"
 msgstr "Profil szerkesztés"
 
-#: rc.cpp:1614
-#: rc.cpp:3532
-#: rc.cpp:5011
+#: rc.cpp:1151
+#: rc.cpp:2685
 msgid "Edit start"
 msgstr "Vég szerkesztése"
 
@@ -2562,20 +2364,25 @@ msgstr "Vég szerkesztése"
 msgid "Edit transition %1"
 msgstr "Átmenet szerkesztés: %1"
 
-#: src/trackview.cpp:632
+#: rc.cpp:1118
+#: rc.cpp:2652
+msgid "Effect"
+msgstr "Effektus"
+
+#: src/trackview.cpp:688
 msgid "Effect %1:%2 not found in MLT, it was removed from this project\n"
 msgstr "%1:%2 effektus nem található az MLT keretrendszerben, ezért el lett távolítva ebből a projektből.\n"
 
-#: src/mainwindow.cpp:158
+#: src/mainwindow.cpp:162
 msgid "Effect List"
 msgstr "Effektus lista"
 
-#: src/mainwindow.cpp:166
+#: src/mainwindow.cpp:170
 msgid "Effect Stack"
 msgstr "Effektus verem"
 
-#: src/customtrackview.cpp:1480
-#: src/customtrackview.cpp:1536
+#: src/customtrackview.cpp:1555
+#: src/customtrackview.cpp:1611
 msgid "Effect already present in clip"
 msgstr "AZ effektus már szerepel a klipben"
 
@@ -2595,52 +2402,48 @@ msgstr "Em méretű hely (az „m” szélessége)"
 msgid "En Space (width of an n)"
 msgstr "En méretű hely (az „n” szélessége)"
 
-#: rc.cpp:1170
-#: rc.cpp:3088
-#: rc.cpp:4567
+#: rc.cpp:2078
+#: rc.cpp:3612
 msgid "Enable Jog Shuttle device"
-msgstr "JogShuttle szköz engedélyezése"
+msgstr "JogShuttle eszköz engedélyezése"
 
-#: src/recmonitor.cpp:438
+#: src/recmonitor.cpp:440
 msgid "Encoding captured video..."
 msgstr "Rögzített videó átalakítása…"
 
-#: rc.cpp:1260
-#: rc.cpp:3178
-#: rc.cpp:4657
+#: rc.cpp:1310
+#: rc.cpp:2844
 msgid "Encoding params"
 msgstr "Átalakítás beállításai"
 
-#: src/renderwidget.cpp:281
-#: rc.cpp:84
-#: rc.cpp:96
-#: rc.cpp:2002
-#: rc.cpp:2014
-#: rc.cpp:3927
-#: rc.cpp:5406
+#: src/renderwidget.cpp:287
+#: src/titlewidget.cpp:1981
+#: rc.cpp:86
+#: rc.cpp:120
+#: rc.cpp:2144
+#: rc.cpp:3678
 msgid "End"
 msgstr "Leállítás"
 
-#: rc.cpp:107
-#: rc.cpp:118
-#: rc.cpp:2025
-#: rc.cpp:2036
+#: rc.cpp:97
+#: rc.cpp:108
 msgid "End Gain"
 msgstr "Mélyhang-kiemelés (Lo gain)"
 
-#: src/kdenlivedoc.cpp:1087
+#: src/kdenlivedoc.cpp:1088
 msgid "Enter Template Path"
 msgstr "Adja meg a sablon elérési útját"
 
-#: rc.cpp:1909
+#: rc.cpp:1487
+#: rc.cpp:3021
 msgid "Enter Unicode value"
 msgstr "Adja meg az Unicode értéket"
 
-#: src/documentchecker.cpp:227
+#: src/documentchecker.cpp:313
 msgid "Enter new location for file"
 msgstr "Kérem adja meg a fájl új helyét"
 
-#: src/trackview.cpp:872
+#: src/trackview.cpp:936
 msgid "Enter new name"
 msgstr "Adjon meg új nevet"
 
@@ -2652,20 +2455,18 @@ msgstr "Adja meg az Unicode karakter számát. Megengedett karakterek: [0-9] és
 msgid "Environment"
 msgstr "Környezet"
 
-#: rc.cpp:243
-#: rc.cpp:2161
+#: rc.cpp:327
 msgid "Equalizer"
 msgstr "Equalizer"
 
-#: rc.cpp:629
-#: rc.cpp:2547
-#: rc.cpp:4026
+#: rc.cpp:1703
+#: rc.cpp:3237
 msgid "Error Log"
 msgstr "Hibanapló"
 
-#: src/customtrackview.cpp:1730
-#: src/customtrackview.cpp:2729
-#: src/customtrackview.cpp:3088
+#: src/customtrackview.cpp:1807
+#: src/customtrackview.cpp:3016
+#: src/customtrackview.cpp:3407
 msgid "Error removing clip at %1 on track %2"
 msgstr "Nem lehet eltávolítani a(z) %1 klipet a(z) %2 sávból"
 
@@ -2673,15 +2474,15 @@ msgstr "Nem lehet eltávolítani a(z) %1 klipet a(z) %2 sávból"
 msgid "Error starting MLT's command line player (melt)"
 msgstr "Az MLT parancssori lejátszója, a melt nem indítható el."
 
-#: src/wizard.cpp:541
+#: src/wizard.cpp:553
 msgid "Error starting MLT's command line player (melt)."
 msgstr "Az MLT parancssori lejátszója, a melt nem indítható el."
 
-#: src/customtrackview.cpp:1753
-#: src/customtrackview.cpp:2858
-#: src/customtrackview.cpp:2950
-#: src/customtrackview.cpp:3705
-#: src/customtrackview.cpp:3713
+#: src/customtrackview.cpp:1832
+#: src/customtrackview.cpp:3150
+#: src/customtrackview.cpp:3245
+#: src/customtrackview.cpp:4045
+#: src/customtrackview.cpp:4053
 msgid "Error when resizing clip"
 msgstr "Hiba lépett fel a klip átméretezése közben"
 
@@ -2689,95 +2490,85 @@ msgstr "Hiba lépett fel a klip átméretezése közben"
 msgid "Esound daemon"
 msgstr "Esound démon"
 
-#: src/renderwidget.cpp:1386
+#: src/renderwidget.cpp:1443
 msgid "Estimated time %1"
 msgstr "Becsült idő: %1"
 
-#: src/kdenlivedoc.cpp:674
+#: src/kdenlivedoc.cpp:676
 msgid "Existing Profile"
 msgstr "Létező profil"
 
-#: rc.cpp:581
-#: rc.cpp:2499
-#: rc.cpp:3978
+#: rc.cpp:1652
+#: rc.cpp:3186
 msgid "Export audio"
 msgstr "Hang exportálása"
 
-#: rc.cpp:1143
-#: rc.cpp:3061
-#: rc.cpp:4540
+#: rc.cpp:1781
+#: rc.cpp:3315
 msgid "Extension"
 msgstr "Kiterjesztés"
 
-#: rc.cpp:5412
+#: rc.cpp:3684
 msgid "Extra Toolbar"
 msgstr "Extra eszköztár "
 
-#: src/monitor.cpp:203
+#: src/monitor.cpp:201
 msgid "Extract frame"
 msgstr "Képkocka kibontása"
 
-#: src/wizard.cpp:311
+#: src/wizard.cpp:323
 msgid "FFmpeg & ffplay"
 msgstr "FFmpeg és ffplay"
 
-#: rc.cpp:852
-#: rc.cpp:1843
-#: rc.cpp:2770
-#: rc.cpp:3761
-#: rc.cpp:4249
-#: rc.cpp:5240
+#: rc.cpp:1025
+#: rc.cpp:2009
+#: rc.cpp:2559
+#: rc.cpp:3543
 msgid "FFmpeg parameters"
 msgstr "FFmpeg paraméterek"
 
-#: rc.cpp:491
-#: rc.cpp:2409
+#: rc.cpp:559
 msgid "Factor"
 msgstr "Faktor"
 
-#: rc.cpp:74
-#: rc.cpp:1992
+#: rc.cpp:76
 msgid "Fade from Black"
 msgstr "Előtűnés feketéből"
 
-#: rc.cpp:98
-#: rc.cpp:2016
+#: rc.cpp:88
 msgid "Fade in"
 msgstr "Fokozatos megjelenítés"
 
-#: rc.cpp:100
-#: rc.cpp:111
-#: rc.cpp:2018
-#: rc.cpp:2029
+#: rc.cpp:90
+#: rc.cpp:101
 msgid "Fade in audio track"
 msgstr "Hangsáv bevezetése"
 
-#: rc.cpp:109
-#: rc.cpp:2027
+#: rc.cpp:99
 msgid "Fade out"
 msgstr "Fokozatos elrejtés"
 
-#: rc.cpp:86
-#: rc.cpp:2004
+#: rc.cpp:110
 msgid "Fade to Black"
 msgstr "Eltűnés feketébe"
 
-#: rc.cpp:76
-#: rc.cpp:1994
+#: rc.cpp:78
 msgid "Fade video from black"
 msgstr "Video előtűnése feketéből"
 
-#: rc.cpp:88
-#: rc.cpp:2006
+#: rc.cpp:112
 msgid "Fade video to black"
 msgstr "Videó eltüntetése feketébe"
 
-#: src/wizard.cpp:549
+#: src/wizard.cpp:561
 msgid "Fatal Error"
 msgstr "Végzetes hiba"
 
-#: rc.cpp:271
-#: rc.cpp:2189
+#: src/renderwidget.cpp:1161
+msgid "Favorites"
+msgstr "Kedvencek"
+
+#: rc.cpp:355
 msgid "Feedback"
 msgstr "Visszajelzés"
 
@@ -2785,14 +2576,13 @@ msgstr "Visszajelzés"
 msgid "Figure space (non-breaking). Width of a digit if digits have fixed width in this font."
 msgstr "Számjegyszóköz (nem törő). Az azonos szélességű számjegyeket használó betűtípusokban egy ezzel megegyező szélességű szóköz."
 
-#: src/renderwidget.cpp:161
-#: rc.cpp:1873
-#: rc.cpp:3791
-#: rc.cpp:5270
+#: src/renderwidget.cpp:167
+#: rc.cpp:619
+#: rc.cpp:2153
 msgid "File"
 msgstr "Fájl"
 
-#: src/cliptranscode.cpp:114
+#: src/cliptranscode.cpp:120
 msgid ""
 "File %1 already exists.\n"
 "Do you want to overwrite it?"
@@ -2800,20 +2590,20 @@ msgstr ""
 "Az) „%1” fájl már létezik.\n"
 "Felül kívánja írni a létező fájlt?"
 
-#: src/kdenlivedoc.cpp:91
+#: src/kdenlivedoc.cpp:94
 msgid "File %1 is not a Kdenlive project file"
 msgstr "A(z) %1 fájl nem egy Kdenlive projektfájl…"
 
-#: src/dvdwizard.cpp:704
+#: src/dvdwizard.cpp:723
 msgid "File %1 is not a Kdenlive project file."
 msgstr "A(z) %1 fájl nem egy Kdenlive projektfájl…"
 
-#: src/mainwindow.cpp:1451
+#: src/mainwindow.cpp:1628
 msgid "File Recovery"
 msgstr "Fájl helyreállítás"
 
-#: src/mainwindow.cpp:1383
-#: src/effectstackview.cpp:105
+#: src/effectstackview.cpp:106
+#: src/mainwindow.cpp:1560
 msgid ""
 "File already exists.\n"
 "Do you want to overwrite it?"
@@ -2821,71 +2611,61 @@ msgstr ""
 "A fájl már létezik.\n"
 "Felül kívánja írni a létező fájlt?"
 
-#: src/renderwidget.cpp:645
+#: src/renderwidget.cpp:678
 msgid "File has no extension. Add extension (%1)?"
 msgstr "A fájlnak nincs kiterjesztése. Hozzá kívánja adni a fájl nevéhez a(z) „%1” kiterjesztést?"
 
-#: rc.cpp:1509
-#: rc.cpp:3427
-#: rc.cpp:4906
+#: rc.cpp:2039
+#: rc.cpp:3573
 msgid "File name"
 msgstr "Fájlnév"
 
-#: src/kdenlivedoc.cpp:874
-#: src/kdenlivedoc.cpp:877
-#: src/kdenlivedoc.cpp:885
+#: src/kdenlivedoc.cpp:876
+#: src/kdenlivedoc.cpp:879
+#: src/kdenlivedoc.cpp:887
 msgid "File not found"
 msgstr "A fájl nem található"
 
-#: src/renderwidget.cpp:1106
+#: src/renderwidget.cpp:1160
 msgid "File rendering"
 msgstr "Fájl leképzés"
 
-#: rc.cpp:1701
-#: rc.cpp:3619
-#: rc.cpp:5098
+#: rc.cpp:776
+#: rc.cpp:2310
 msgid "File size"
 msgstr "Fájl méret"
 
-#: src/projectlistview.cpp:46
-msgid "Filename"
-msgstr "Fájlnév"
-
-#: rc.cpp:1542
-#: rc.cpp:3460
-#: rc.cpp:4939
+#: rc.cpp:1190
+#: rc.cpp:2724
 msgid "Fill color"
 msgstr "Kitöltés színe"
 
-#: src/titlewidget.cpp:173
-msgid "Fill transparency"
-msgstr "Kitöltés átlátszóra"
+#: src/titlewidget.cpp:293
+msgid "Fill opacity"
+msgstr "Kitöltés átlátszatlansága"
 
-#: src/mainwindow.cpp:822
+#: src/mainwindow.cpp:928
 msgid "Find"
 msgstr "Keresés"
 
-#: src/mainwindow.cpp:827
+#: src/mainwindow.cpp:933
 msgid "Find Next"
 msgstr "Következő keresése"
 
-#: src/mainwindow.cpp:2502
+#: src/mainwindow.cpp:2782
 msgid "Find stopped"
 msgstr "Keresés leállítva"
 
-#: rc.cpp:681
-#: rc.cpp:1200
-#: rc.cpp:1209
-#: rc.cpp:2599
-#: rc.cpp:3118
-#: rc.cpp:3127
-#: rc.cpp:4078
-#: rc.cpp:4597
-#: rc.cpp:4606
+#: rc.cpp:1250
+#: rc.cpp:1259
+#: rc.cpp:1412
+#: rc.cpp:2784
+#: rc.cpp:2793
+#: rc.cpp:2946
 msgid "Firewire"
 msgstr "Firewire"
 
-#: src/renderer.cpp:1437
+#: src/renderer.cpp:1463
 msgid ""
 "Firewire is not enabled on your system.\n"
 " Please install Libiec61883 and recompile Kdenlive"
@@ -2893,97 +2673,112 @@ msgstr ""
 "Firewire nincs engedélyezve a rendszerén.\n"
 " Kérem, telepítse a Libiec618883 csomagot és fordítsa újra a Kdenlive programot!"
 
-#: src/titlewidget.cpp:177
+#: src/titlewidget.cpp:297
 msgid "Fit zoom"
 msgstr "Kitöltő nagyítás"
 
-#: src/mainwindow.cpp:735
+#: src/mainwindow.cpp:838
 msgid "Fit zoom to project"
 msgstr "Nagyítás illesztése a projektre"
 
-#: rc.cpp:327
-#: rc.cpp:2245
+#: rc.cpp:411
 msgid "Flip your image in any direction"
 msgstr "Kép tükrözése bármely irányban"
 
-#: src/projectlist.cpp:482
-#: src/projectlist.cpp:554
-#: src/projectitem.cpp:43
-#: rc.cpp:1353
-#: rc.cpp:3271
-#: rc.cpp:4750
+#: src/folderprojectitem.cpp:37
+#: src/projectlist.cpp:674
+#: src/projectlist.cpp:746
+#: rc.cpp:1889
+#: rc.cpp:3423
 msgid "Folder"
 msgstr "Mappa"
 
-#: src/dvdwizard.cpp:632
+#: src/dvdwizard.cpp:651
 msgid "Folder %1 already exists. Overwrite?"
 msgstr ""
 "A(z) „%1” mappa már létezik.\n"
 "Felül kívánja írni a létező mappát?"
 
-#: rc.cpp:1329
-#: rc.cpp:3247
-#: rc.cpp:4726
+#: rc.cpp:1379
+#: rc.cpp:2913
 msgid "Follow mouse"
 msgstr "Egér követése"
 
-#: rc.cpp:735
-#: rc.cpp:2653
-#: rc.cpp:4132
+#: rc.cpp:956
+#: rc.cpp:1199
+#: rc.cpp:2490
+#: rc.cpp:2733
 msgid "Font"
 msgstr "Betű"
 
-#: src/titlewidget.cpp:145
+#: src/titlewidget.cpp:80
+msgid "Font color opacity"
+msgstr "Betűszín átlátszatlansága"
+
+#: src/titlewidget.cpp:234
 msgid "Font weight"
 msgstr "Betűvastagság"
 
-#: rc.cpp:578
-#: rc.cpp:2496
-#: rc.cpp:3975
+#: rc.cpp:1604
+#: rc.cpp:3138
+msgid "Fonts"
+msgstr "Betűkészletek"
+
+#: rc.cpp:1649
+#: rc.cpp:3183
 msgid "Force Interlaced"
 msgstr "Váltottsorosság erőltetése"
 
-#: rc.cpp:575
-#: rc.cpp:2493
-#: rc.cpp:3972
+#: rc.cpp:1646
+#: rc.cpp:3180
 msgid "Force Progressive"
 msgstr "Progresszív erőltetése"
 
-#: rc.cpp:1809
-#: rc.cpp:3727
-#: rc.cpp:5206
+#: rc.cpp:902
+#: rc.cpp:2436
+msgid "Force duration"
+msgstr "Időtartam erőltetése"
+
+#: rc.cpp:899
+#: rc.cpp:2433
+msgid "Force frame rate"
+msgstr "Képkockasebesség erőltetése"
+
+#: rc.cpp:884
+#: rc.cpp:2418
 msgid "Force pixel aspect ratio"
 msgstr "Képpont méretarány fenntartása"
 
-#: rc.cpp:551
-#: rc.cpp:1242
-#: rc.cpp:1251
-#: rc.cpp:2469
-#: rc.cpp:3160
-#: rc.cpp:3169
-#: rc.cpp:3948
-#: rc.cpp:4639
-#: rc.cpp:4648
+#: rc.cpp:896
+#: rc.cpp:2430
+msgid "Force progressive"
+msgstr "Progresszív erőltetése"
+
+#: rc.cpp:1292
+#: rc.cpp:1301
+#: rc.cpp:1622
+#: rc.cpp:2826
+#: rc.cpp:2835
+#: rc.cpp:3156
 msgid "Format"
 msgstr "Formátum"
 
-#: rc.cpp:663
-#: rc.cpp:2581
-#: rc.cpp:4060
+#: rc.cpp:749
+#: rc.cpp:2283
 msgid "Formats"
 msgstr "Formátumok"
 
+#: src/recmonitor.cpp:81
+#: src/mainwindow.cpp:1047
 #: src/monitor.cpp:90
-#: src/mainwindow.cpp:916
-#: src/recmonitor.cpp:80
 msgid "Forward"
 msgstr "Előre"
 
-#: src/mainwindow.cpp:941
+#: src/mainwindow.cpp:1082
 msgid "Forward 1 Frame"
 msgstr "Egy képkockát előre"
 
-#: src/mainwindow.cpp:946
+#: src/mainwindow.cpp:1087
 msgid "Forward 1 Second"
 msgstr "Egy másodpercet előre"
 
@@ -2991,8 +2786,8 @@ msgstr "Egy másodpercet előre"
 msgid "Forward 1 frame"
 msgstr "Előre 1 képkockát"
 
-#: src/mainwindow.cpp:2479
-#: src/mainwindow.cpp:2490
+#: src/mainwindow.cpp:2759
+#: src/mainwindow.cpp:2770
 msgid "Found: %1"
 msgstr "Találat: %1"
 
@@ -3000,53 +2795,45 @@ msgstr "Találat: %1"
 msgid "Four-Per-Em Space. Width: 1/4 of one <em>em</em>"
 msgstr "Negyed Em szóköz vagy közepes szóköz. Szélessége negyede egy <em>em</em> karakter szélességének"
 
-#: rc.cpp:1356
-#: rc.cpp:3274
-#: rc.cpp:4753
+#: rc.cpp:1892
+#: rc.cpp:3426
 msgid "Frame Duration"
 msgstr "Időtartam (%1 kép)"
 
-#: src/geometryval.cpp:540
+#: src/geometryval.cpp:544
 msgid "Frame Geometry"
 msgstr "Képkocka-geometria"
 
-#: rc.cpp:1746
-#: rc.cpp:3664
-#: rc.cpp:5143
+#: rc.cpp:821
+#: rc.cpp:2355
 msgid "Frame duration"
 msgstr "Kép időtartam"
 
-#: rc.cpp:786
-#: rc.cpp:1278
-#: rc.cpp:1341
-#: rc.cpp:1716
-#: rc.cpp:2704
-#: rc.cpp:3196
-#: rc.cpp:3259
-#: rc.cpp:3634
-#: rc.cpp:4183
-#: rc.cpp:4675
-#: rc.cpp:4738
-#: rc.cpp:5113
+#: rc.cpp:661
+#: rc.cpp:791
+#: rc.cpp:1328
+#: rc.cpp:1394
+#: rc.cpp:2195
+#: rc.cpp:2325
+#: rc.cpp:2862
+#: rc.cpp:2928
 msgid "Frame rate"
 msgstr "Képsebesség"
 
-#: src/wizard.cpp:481
-#: rc.cpp:1422
-#: rc.cpp:3340
-#: rc.cpp:3858
-#: rc.cpp:4819
-#: rc.cpp:5337
+#: src/wizard.cpp:493
+#: rc.cpp:1544
+#: rc.cpp:1829
+#: rc.cpp:3078
+#: rc.cpp:3363
 msgid "Frame rate:"
 msgstr "Képsebesség"
 
-#: rc.cpp:1713
-#: rc.cpp:3631
-#: rc.cpp:5110
+#: rc.cpp:788
+#: rc.cpp:2322
 msgid "Frame size"
 msgstr "Képméret"
 
-#: src/wizard.cpp:481
+#: src/wizard.cpp:493
 msgid "Frame size:"
 msgstr "Képkocka mérete:"
 
@@ -3054,119 +2841,92 @@ msgstr "Képkocka mérete:"
 msgid "Framebuffer console"
 msgstr "Framebuffer konzol"
 
-#: src/clipproperties.cpp:166
-#: src/mainwindow.cpp:677
-#: src/slideshowclip.cpp:59
+#: src/slideshowclip.cpp:60
+#: src/mainwindow.cpp:736
+#: src/clipproperties.cpp:190
 msgid "Frames"
 msgstr "Képkockák"
 
-#: src/recmonitor.cpp:663
+#: src/recmonitor.cpp:668
 msgid "Free space: %1"
 msgstr "Szabad hely: %1"
 
-#: rc.cpp:120
-#: rc.cpp:2038
+#: rc.cpp:122
 msgid "Freeze"
 msgstr "Merevítés"
 
-#: rc.cpp:128
-#: rc.cpp:2046
+#: rc.cpp:130
 msgid "Freeze After"
 msgstr "Merevítés utána"
 
-#: rc.cpp:126
-#: rc.cpp:2044
+#: rc.cpp:128
 msgid "Freeze Before"
 msgstr "Merevítés előtte"
 
-#: rc.cpp:124
-#: rc.cpp:2042
+#: rc.cpp:126
 msgid "Freeze at"
 msgstr "Merevítés"
 
-#: rc.cpp:122
-#: rc.cpp:2040
+#: rc.cpp:124
 msgid "Freeze video on a chosen frame"
 msgstr "Klip megállítása a kiválasztott képkockánál"
 
-#: rc.cpp:161
-#: rc.cpp:421
-#: rc.cpp:1731
-#: rc.cpp:2079
-#: rc.cpp:2339
-#: rc.cpp:3649
-#: rc.cpp:5128
+#: rc.cpp:195
+#: rc.cpp:489
+#: rc.cpp:806
+#: rc.cpp:2340
 msgid "Frequency"
 msgstr "Frekvencia"
 
-#: rc.cpp:605
-#: rc.cpp:2523
-#: rc.cpp:4002
+#: rc.cpp:1676
+#: rc.cpp:3210
 msgid "From"
 msgstr "Tól "
 
-#: rc.cpp:596
-#: rc.cpp:2514
-#: rc.cpp:3993
+#: rc.cpp:1667
+#: rc.cpp:3201
 msgid "Full project"
 msgstr "Teljes projekt"
 
-#: rc.cpp:1323
-#: rc.cpp:3241
-#: rc.cpp:4720
+#: rc.cpp:1373
+#: rc.cpp:2907
 msgid "Full screen capture"
 msgstr "Teljes képernyő elmentése"
 
-#: rc.cpp:1344
-#: rc.cpp:3262
-#: rc.cpp:4741
+#: rc.cpp:1403
+#: rc.cpp:2937
 msgid "Full shots"
 msgstr "Teljes mentés"
 
-#: rc.cpp:219
-#: rc.cpp:223
-#: rc.cpp:337
-#: rc.cpp:343
-#: rc.cpp:419
-#: rc.cpp:453
-#: rc.cpp:523
-#: rc.cpp:2137
-#: rc.cpp:2141
-#: rc.cpp:2255
-#: rc.cpp:2261
-#: rc.cpp:2337
-#: rc.cpp:2371
-#: rc.cpp:2441
+#: rc.cpp:303
+#: rc.cpp:307
+#: rc.cpp:421
+#: rc.cpp:427
+#: rc.cpp:487
+#: rc.cpp:521
+#: rc.cpp:603
 msgid "Gain"
 msgstr "Erősítés"
 
-#: rc.cpp:427
-#: rc.cpp:439
-#: rc.cpp:459
-#: rc.cpp:2345
-#: rc.cpp:2357
-#: rc.cpp:2377
+#: rc.cpp:495
+#: rc.cpp:507
+#: rc.cpp:527
 msgid "Gain In"
 msgstr "Erősítés"
 
-#: rc.cpp:429
-#: rc.cpp:441
-#: rc.cpp:461
-#: rc.cpp:2347
-#: rc.cpp:2359
-#: rc.cpp:2379
+#: rc.cpp:497
+#: rc.cpp:509
+#: rc.cpp:529
 msgid "Gain Out"
 msgstr "Gyengítés"
 
-#: rc.cpp:481
-#: rc.cpp:2399
+#: rc.cpp:549
 msgid "Gain out"
 msgstr "Gyengítés"
 
-#: rc.cpp:225
-#: rc.cpp:229
-#: rc.cpp:2143
-#: rc.cpp:2147
+#: rc.cpp:221
+#: rc.cpp:309
+#: rc.cpp:313
 msgid "Gamma"
 msgstr "Fényesítés"
 
@@ -3174,46 +2934,53 @@ msgstr "Fényesítés"
 msgid "General graphics interface"
 msgstr "Általános grafikus interfész"
 
-#: src/renderwidget.cpp:95
+#: src/renderwidget.cpp:98
 msgid "Generate Script"
 msgstr "Szkript létrehozása"
 
-#: rc.cpp:5421
+#: rc.cpp:3693
 msgid "Generators"
 msgstr "Létrehozás"
 
 #: rc.cpp:6
-#: rc.cpp:1924
 msgid "Geometry"
 msgstr "Geometria"
 
-#: rc.cpp:5457
+#: rc.cpp:3735
 msgid "Go To"
 msgstr "Ugrás"
 
-#: src/mainwindow.cpp:926
+#: src/mainwindow.cpp:1057
 msgid "Go to Clip End"
 msgstr "Ugrás a klip végére"
 
-#: src/mainwindow.cpp:921
+#: src/mainwindow.cpp:1052
 msgid "Go to Clip Start"
 msgstr "Ugrás a klip elejére"
 
-#: src/mainwindow.cpp:951
+#: src/mainwindow.cpp:1092
 msgid "Go to Next Snap Point"
 msgstr "Ugrás a következő jelölőig"
 
-#: src/mainwindow.cpp:911
+#: src/mainwindow.cpp:1042
 msgid "Go to Previous Snap Point"
 msgstr "Ugrás az előző jelölőig"
 
-#: src/mainwindow.cpp:936
+#: src/mainwindow.cpp:1077
 msgid "Go to Project End"
 msgstr "Ugrás a projekt végére"
 
-#: src/mainwindow.cpp:931
+#: src/mainwindow.cpp:1072
 msgid "Go to Project Start"
 msgstr "Ugrás a projekt elejére"
+
+#: src/mainwindow.cpp:1067
+msgid "Go to Zone End"
+msgstr "Ugrás a zóna végére"
+
+#: src/mainwindow.cpp:1062
+msgid "Go to Zone Start"
+msgstr "Ugrás a zóna elejére"
 
 #: src/monitor.cpp:103
 msgid "Go to marker..."
@@ -3227,29 +2994,33 @@ msgstr "Ugrás a következő kulcsképre"
 msgid "Go to previous keyframe"
 msgstr "Ugrás az előző kulcsképre"
 
-#: rc.cpp:999
-#: rc.cpp:2917
-#: rc.cpp:4396
+#: rc.cpp:165
+msgid "Graph position"
+msgstr "Ábra elhelyezkedése"
+
+#: rc.cpp:1958
+#: rc.cpp:3492
 msgid "GraphView"
 msgstr "Grafikus nézet"
 
-#: rc.cpp:136
-#: rc.cpp:2054
+#: rc.cpp:269
+msgid "Gray color"
+msgstr "Szürke szín"
+
+#: rc.cpp:138
 msgid "Green Tint"
 msgstr "Zöld tinta"
 
-#: rc.cpp:231
-#: rc.cpp:2149
+#: rc.cpp:315
 msgid "Greyscale"
 msgstr "Szürkeárnyalat"
 
-#: rc.cpp:1137
-#: rc.cpp:3055
-#: rc.cpp:4534
+#: rc.cpp:1775
+#: rc.cpp:3309
 msgid "Group"
 msgstr "Csoport"
 
-#: src/mainwindow.cpp:973
+#: src/mainwindow.cpp:1114
 msgid "Group Clips"
 msgstr "Klipek csoportosítása"
 
@@ -3257,38 +3028,33 @@ msgstr "Klipek csoportosítása"
 msgid "Group clips"
 msgstr "Klipek csoportosítása"
 
-#: rc.cpp:1867
-#: rc.cpp:3785
-#: rc.cpp:5264
+#: rc.cpp:1787
+#: rc.cpp:3321
 msgid "GroupBox"
 msgstr "Csoport gyűjtő"
 
-#: src/customtrackview.cpp:4034
+#: src/customtrackview.cpp:4375
 msgid "Guide"
 msgstr "Segédpont"
 
-#: rc.cpp:602
-#: rc.cpp:2520
-#: rc.cpp:3999
+#: rc.cpp:1673
+#: rc.cpp:3207
 msgid "Guide zone"
 msgstr "Segédpont zóna"
 
-#: rc.cpp:5439
+#: rc.cpp:3717
 msgid "Guides"
 msgstr "Segédpont"
 
-#: rc.cpp:1533
-#: rc.cpp:3451
-#: rc.cpp:4930
+#: rc.cpp:1076
+#: rc.cpp:2610
 msgid "H"
 msgstr "H"
 
-#: rc.cpp:1224
-#: rc.cpp:1482
-#: rc.cpp:3142
-#: rc.cpp:3400
-#: rc.cpp:4621
-#: rc.cpp:4879
+#: rc.cpp:1274
+#: rc.cpp:1928
+#: rc.cpp:2808
+#: rc.cpp:3462
 msgid "HDV"
 msgstr "HDV"
 
@@ -3296,133 +3062,121 @@ msgstr "HDV"
 msgid "Hair Space. Thinner than U+2009."
 msgstr "Hajszálszóköz. Keskenyebb, mint az U+2009 kódú karakter."
 
-#: rc.cpp:882
-#: rc.cpp:2800
-#: rc.cpp:4279
+#: rc.cpp:2030
+#: rc.cpp:3564
 msgid "Height"
 msgstr "Magasság"
 
-#: rc.cpp:251
-#: rc.cpp:2169
+#: rc.cpp:335
 msgid "Hi gain"
 msgstr "Magashang-kiemelés (Hi gain)"
 
-#: rc.cpp:347
-#: rc.cpp:2265
+#: rc.cpp:431
 msgid "Hide a region of the clip"
 msgstr "Klip egy zónájának elrejtése"
 
 #: rc.cpp:4
-#: rc.cpp:1922
 msgid "Hide a selected zone and follow its movements"
 msgstr "Kiválasztott zóna elrejtése és mozgásának követése"
 
-#: rc.cpp:1332
-#: rc.cpp:3250
-#: rc.cpp:4729
+#: rc.cpp:1385
+#: rc.cpp:2919
+msgid "Hide cursor"
+msgstr "Kurzor elrejtése"
+
+#: rc.cpp:1382
+#: rc.cpp:2916
 msgid "Hide frame"
 msgstr "Képkocka elrejtése"
 
-#: src/headertrack.cpp:43
+#: src/headertrack.cpp:44
 msgid "Hide track"
 msgstr "Sáv elrejtése"
+
+#: rc.cpp:229
+msgid "Histogram position"
+msgstr "Hisztogram elhelyezkedése"
 
 #: src/geometryval.cpp:97
 msgid "Hor. Center"
 msgstr "Vízszintesen középre"
 
-#: rc.cpp:167
-#: rc.cpp:2085
+#: rc.cpp:201
 msgid "Horizontal center"
 msgstr "Vízszintesen középre"
 
-#: rc.cpp:531
-#: rc.cpp:2449
+#: rc.cpp:611
 msgid "Horizontal factor"
 msgstr "Vízszintes faktor"
 
 #: rc.cpp:18
-#: rc.cpp:1936
 msgid "Horizontal multiplicator"
 msgstr "Vízszintes szorzó"
 
 #: rc.cpp:36
-#: rc.cpp:1954
 msgid "Horizontal scatter"
 msgstr "Vízszintes szórás"
 
-#: rc.cpp:548
-#: rc.cpp:2466
-#: rc.cpp:3945
+#: rc.cpp:1619
+#: rc.cpp:3153
 msgid "I"
 msgstr "I"
 
-#: src/dvdwizard.cpp:547
+#: src/dvdwizard.cpp:568
 msgid "ISO creation process crashed."
 msgstr "Az ISO képfájlt létrehozó folyamat váratlanul kilépett."
 
-#: rc.cpp:753
-#: rc.cpp:1770
-#: rc.cpp:2671
-#: rc.cpp:3688
-#: rc.cpp:4150
-#: rc.cpp:5167
+#: rc.cpp:845
+#: rc.cpp:974
+#: rc.cpp:2379
+#: rc.cpp:2508
 msgid "Image"
 msgstr "Kép"
 
-#: rc.cpp:1362
-#: rc.cpp:3280
-#: rc.cpp:4759
+#: rc.cpp:1898
+#: rc.cpp:3432
 msgid "Image Type"
 msgstr "Kép típus"
 
-#: src/projectitem.cpp:200
-#: src/documentchecker.cpp:95
+#: src/documentchecker.cpp:145
+#: src/projectitem.cpp:179
 msgid "Image clip"
 msgstr "Kép klip"
 
-#: rc.cpp:1404
-#: rc.cpp:3322
-#: rc.cpp:4801
+#: rc.cpp:1811
+#: rc.cpp:3345
 msgid "Image clips"
 msgstr "Kép klipek"
 
-#: rc.cpp:1035
-#: rc.cpp:2953
-#: rc.cpp:4432
+#: rc.cpp:1448
+#: rc.cpp:2982
 msgid "Image editing"
 msgstr "Képszerkesztés"
 
-#: src/dvdwizard.cpp:634
+#: src/dvdwizard.cpp:653
 msgid "Image file %1 already exists. Overwrite?"
 msgstr "A(z) „%1” lemezkép már létezik. Felül kívánja írni a létező fájlt?"
 
-#: rc.cpp:1467
-#: rc.cpp:1704
-#: rc.cpp:3385
-#: rc.cpp:3622
-#: rc.cpp:4864
-#: rc.cpp:5101
+#: rc.cpp:779
+#: rc.cpp:1010
+#: rc.cpp:2313
+#: rc.cpp:2544
 msgid "Image preview"
 msgstr "Kép-előnézet"
 
-#: rc.cpp:1272
-#: rc.cpp:1773
-#: rc.cpp:3190
-#: rc.cpp:3691
-#: rc.cpp:4669
-#: rc.cpp:5170
+#: rc.cpp:848
+#: rc.cpp:1322
+#: rc.cpp:2382
+#: rc.cpp:2856
 msgid "Image size"
 msgstr "Képméret"
 
-#: rc.cpp:1743
-#: rc.cpp:3661
-#: rc.cpp:5140
+#: rc.cpp:818
+#: rc.cpp:2352
 msgid "Image type"
 msgstr "Kép típus"
 
-#: rc.cpp:80
-#: rc.cpp:1998
+#: rc.cpp:82
 msgid "In"
 msgstr "Bemenet"
 
@@ -3436,133 +3190,152 @@ msgstr ""
 "Információk az Unicode karakterekről: <a href=\"http://decodeunicode.org\">http://decodeunicode.org</a></string>\n"
 "        </property>"
 
-#: src/recmonitor.cpp:409
-#: src/recmonitor.cpp:527
+#: src/recmonitor.cpp:411
+#: src/recmonitor.cpp:532
 msgid "Initialising..."
 msgstr "Előkészítés…"
 
-#: rc.cpp:257
-#: rc.cpp:2175
+#: rc.cpp:217
+msgid "Input black level"
+msgstr "Bemeneti fekete szint"
+
+#: rc.cpp:341
 msgid "Input gain (dB)"
 msgstr "Bemenő erősítés (dB)"
 
-#: src/customtrackview.cpp:4609
+#: rc.cpp:219
+msgid "Input white level"
+msgstr "Bemeneti fehér szint"
+
+#: src/mainwindow.cpp:1125
+msgid "Insert Clip Zone in Timeline (Overwrite)"
+msgstr "Klipzóna beszórása az idővonalba (felülírás)"
+
+#: src/customtrackview.cpp:5033
 msgid "Insert New Track"
 msgstr "Új sáv beszúrása"
 
-#: src/mainwindow.cpp:1031
+#: src/mainwindow.cpp:1207
 msgid "Insert Space"
 msgstr "Üres hely beszúrása"
 
-#: src/mainwindow.cpp:1039
-#: src/headertrack.cpp:76
+#: src/mainwindow.cpp:1215
+#: src/headertrack.cpp:82
 msgid "Insert Track"
 msgstr "Sáv beszúrása"
 
-#: src/titlewidget.cpp:165
+#: src/titlewidget.cpp:254
 msgid "Insert Unicode character"
 msgstr "Unicode karakter beszúrása"
+
+#: src/customtrackview.cpp:5697
+msgid "Insert clip"
+msgstr "Klip beszúrása"
+
+#: src/mainwindow.cpp:764
+msgid "Insert mode"
+msgstr "Beszúrás üzemmód"
 
 #: src/insertspacecommand.cpp:35
 msgid "Insert space"
 msgstr "Üres hely beszúrása"
 
-#: src/customtrackview.cpp:4606
-#: rc.cpp:1056
-#: rc.cpp:2974
-#: rc.cpp:4453
+#: src/customtrackview.cpp:5030
+#: rc.cpp:929
+#: rc.cpp:2463
 msgid "Insert track"
 msgstr "Sáv beszúrása"
 
-#: rc.cpp:1665
-#: rc.cpp:3583
-#: rc.cpp:5062
+#: src/mainwindow.cpp:1008
+msgid "Insert zone in project tree"
+msgstr "Zóna beszúrása a projektfába"
+
+#: src/mainwindow.cpp:1013
+msgid "Insert zone in timeline"
+msgstr "Zóna beszúrása az idővonalba"
+
+#: rc.cpp:3714
+msgid "Insertion"
+msgstr "Beszúrási pont"
+
+#: rc.cpp:2075
+#: rc.cpp:3609
 msgid "Install extra video mimetypes"
 msgstr "További video MIME-típusok telepítése"
 
-#: rc.cpp:653
-#: rc.cpp:2571
-#: rc.cpp:4050
+#: rc.cpp:739
+#: rc.cpp:2273
 msgid "Installed modules"
 msgstr "Telepített modulok"
 
 #: rc.cpp:26
-#: rc.cpp:1944
 msgid "Intensity"
 msgstr "Intenzitás"
 
 #: src/kdenlivesettingsdialog.cpp:503
-#: src/projectsettings.cpp:156
-#: rc.cpp:1440
-#: rc.cpp:3358
-#: rc.cpp:3876
-#: rc.cpp:4837
-#: rc.cpp:5355
+#: src/projectsettings.cpp:198
+#: rc.cpp:1562
+#: rc.cpp:1847
+#: rc.cpp:3096
+#: rc.cpp:3381
 msgid "Interlaced"
 msgstr "Váltottsoros"
 
-#: rc.cpp:1870
-#: rc.cpp:3788
-#: rc.cpp:5267
+#: rc.cpp:616
+#: rc.cpp:2150
 msgid "Intro movie"
 msgstr "Bevezető mozi"
 
-#: src/customtrackview.cpp:4481
-#: src/customtrackview.cpp:4487
-#: src/customtrackview.cpp:4512
-#: src/customtrackview.cpp:4517
+#: src/customtrackview.cpp:4899
+#: src/customtrackview.cpp:4905
+#: src/customtrackview.cpp:4931
+#: src/customtrackview.cpp:4937
 msgid "Invalid action"
 msgstr "Érvénytelen művelet"
 
-#: src/projectlist.cpp:703
-#: src/customtrackview.cpp:3226
+#: src/customtrackview.cpp:3561
+#: src/projectlist.cpp:936
 msgid "Invalid clip"
 msgstr "Érvénytelen klip"
 
-#: src/trackview.cpp:207
+#: src/trackview.cpp:220
 msgid "Invalid clip producer %1\n"
 msgstr "Érvénytelen klipkészítő: %1\n"
 
-#: src/trackview.cpp:521
+#: src/trackview.cpp:574
 msgid "Invalid clip removed from track %1 at %2\n"
 msgstr "A hibás „%1” klip eltávolításra került innen: %2\n"
 
-#: src/customtrackview.cpp:1856
-#: src/customtrackview.cpp:4379
+#: src/customtrackview.cpp:1937
+#: src/customtrackview.cpp:4742
 msgid "Invalid transition"
 msgstr "Érvénytelen átmenet"
 
 #: rc.cpp:44
-#: rc.cpp:235
-#: rc.cpp:331
-#: rc.cpp:1962
-#: rc.cpp:2153
-#: rc.cpp:2249
+#: rc.cpp:319
+#: rc.cpp:415
 msgid "Invert"
 msgstr "Invertálás"
 
-#: rc.cpp:237
-#: rc.cpp:2155
+#: rc.cpp:321
 msgid "Invert colors"
 msgstr "Színek megfordítása"
 
-#: src/titlewidget.cpp:169
+#: src/titlewidget.cpp:289
 msgid "Invert x axis and change 0 point"
 msgstr "X tengely tükrözése és a 0 pont eltolása"
 
-#: src/titlewidget.cpp:170
+#: src/titlewidget.cpp:290
 msgid "Invert y axis and change 0 point"
 msgstr "Y tengely tükrözése és a 0 pont eltolása"
 
-#: rc.cpp:1539
-#: rc.cpp:3457
-#: rc.cpp:4936
+#: rc.cpp:1187
+#: rc.cpp:2721
 msgid "Item Properties"
 msgstr "Elem tulajdonságai"
 
-#: rc.cpp:1314
-#: rc.cpp:3232
-#: rc.cpp:4711
+#: rc.cpp:1364
+#: rc.cpp:2898
 msgid "Jack"
 msgstr "Jack"
 
@@ -3578,21 +3351,18 @@ msgstr "Jean-Baptiste Mardelle"
 msgid "Jean-Michel Poure"
 msgstr "Jean-Michel Poure"
 
-#: rc.cpp:620
-#: rc.cpp:2538
-#: rc.cpp:4017
+#: rc.cpp:1694
+#: rc.cpp:3228
 msgid "Job Queue"
 msgstr "Feladatsor"
 
-#: rc.cpp:855
-#: rc.cpp:2773
-#: rc.cpp:4252
+#: rc.cpp:1028
+#: rc.cpp:2562
 msgid "Job status"
 msgstr "Feladat állapota"
 
-#: rc.cpp:1173
-#: rc.cpp:3091
-#: rc.cpp:4570
+#: rc.cpp:2081
+#: rc.cpp:3615
 msgid "Jog Shuttle device disabled."
 msgstr "A JogShuttle eszköz le van tiltva."
 
@@ -3604,91 +3374,80 @@ msgstr "JogShuttle"
 msgid "Kdenlive"
 msgstr "Kdenlive"
 
-#: src/kdenlivedoc.cpp:874
-#: src/kdenlivedoc.cpp:877
-#: src/kdenlivedoc.cpp:885
+#: src/kdenlivedoc.cpp:876
+#: src/kdenlivedoc.cpp:879
+#: src/kdenlivedoc.cpp:887
 msgid "Keep as placeholder"
 msgstr "Megtartás helykitöltőként"
 
-#: rc.cpp:1635
-#: rc.cpp:3553
-#: rc.cpp:5032
+#: rc.cpp:1172
+#: rc.cpp:2706
 msgid "Keep aspect ratio"
 msgstr "Képarány megtartása"
 
-#: rc.cpp:207
-#: rc.cpp:2125
+#: rc.cpp:261
 msgid "Kernel size"
 msgstr "Kernel-méret"
 
-#: rc.cpp:277
-#: rc.cpp:2195
+#: rc.cpp:367
 msgid "LADSPA change pitch audio effect"
 msgstr "LADSPA hangszínváltó hangeffektus"
 
-#: rc.cpp:241
-#: rc.cpp:2159
+#: rc.cpp:325
 msgid "LADSPA declipper audio effect"
 msgstr "LADSPA túlmoduláció javítása hangeffektus"
 
-#: rc.cpp:245
-#: rc.cpp:2163
+#: rc.cpp:329
 msgid "LADSPA equalizer audio effect"
 msgstr "LADSPA hangszínszabályzó hangeffektus"
 
-#: rc.cpp:255
-#: rc.cpp:2173
+#: rc.cpp:339
 msgid "LADSPA limiter audio effect"
 msgstr "LADSPA limitáló hangeffektus"
 
-#: rc.cpp:265
-#: rc.cpp:2183
+#: rc.cpp:349
 msgid "LADSPA phaser audio effect"
 msgstr "LADSPA phaser audio hangeffektus"
 
-#: rc.cpp:283
-#: rc.cpp:2201
+#: rc.cpp:361
 msgid "LADSPA pitch scale audio effect"
 msgstr "LADSPA pitch scale hangeffektus"
 
-#: rc.cpp:289
-#: rc.cpp:2207
+#: rc.cpp:373
 msgid "LADSPA rate scale audio effect"
 msgstr "LADSPA rate scale hangeffektus"
 
-#: rc.cpp:295
-#: rc.cpp:2213
+#: rc.cpp:379
 msgid "LADSPA reverb audio effect"
 msgstr "LADSPA visszhang hangeffektus"
 
-#: rc.cpp:303
-#: rc.cpp:2221
+#: rc.cpp:387
 msgid "LADSPA room reverb audio effect"
 msgstr "LADSPA szobai visszhang hangeffektus"
 
 #: src/geometryval.cpp:100
 #: rc.cpp:68
-#: rc.cpp:1986
 msgid "Left"
 msgstr "Balra"
 
-#: rc.cpp:163
-#: rc.cpp:2081
+#: rc.cpp:197
 msgid "Lens Correction"
 msgstr "Lencse korrekció"
 
-#: src/titlewidget.cpp:140
+#: rc.cpp:211
+msgid "Levels"
+msgstr "Szintek"
+
+#: src/titlewidget.cpp:229
 msgctxt "Font style"
 msgid "Light"
 msgstr "Fény"
 
-#: rc.cpp:259
-#: rc.cpp:2177
+#: rc.cpp:343
 msgid "Limit (dB)"
 msgstr "Határ (dB)"
 
-#: rc.cpp:253
-#: rc.cpp:2171
+#: rc.cpp:337
 msgid "Limiter"
 msgstr "Limitáló"
 
@@ -3700,8 +3459,7 @@ msgstr ""
 "Lapdobás karakter (új sor karakter, \\\\n"
 ")"
 
-#: rc.cpp:247
-#: rc.cpp:2165
+#: rc.cpp:331
 msgid "Lo gain"
 msgstr "Mélyhang-kiemelés (Lo gain)"
 
@@ -3709,60 +3467,67 @@ msgstr "Mélyhang-kiemelés (Lo gain)"
 msgid "Load"
 msgstr "Megnyitás"
 
-#: src/titlewidget.cpp:407
+#: src/titlewidget.cpp:571
 msgid "Load Image"
 msgstr "Kép betöltése"
 
-#: src/titlewidget.cpp:1408
+#: src/titlewidget.cpp:1671
 msgid "Load Title"
 msgstr "Cím betöltése"
 
-#: src/kdenlivedoc.cpp:100
+#: src/kdenlivedoc.cpp:103
 msgid "Loading"
 msgstr "Betöltés"
 
-#: src/projectlist.cpp:952
+#: src/projectlist.cpp:1224
 msgid "Loading clips"
 msgstr "Projekt klipek betöltése"
 
-#: src/projectlist.cpp:890
+#: src/projectlist.cpp:1137
 msgid "Loading thumbnails"
 msgstr "Bélyegképek betöltése"
 
+#: src/headertrack.cpp:48
 #: src/locktrackcommand.cpp:31
-#: src/headertrack.cpp:47
 msgid "Lock track"
 msgstr "Sáv zárolása"
 
-#: src/kdenlivedoc.cpp:879
-#: src/kdenlivedoc.cpp:887
+#: src/kdenlivedoc.cpp:881
+#: src/kdenlivedoc.cpp:889
 msgid "Looking for %1"
 msgstr "%1 keresése"
 
-#: rc.cpp:1365
-#: rc.cpp:1752
-#: rc.cpp:3283
-#: rc.cpp:3670
-#: rc.cpp:4762
-#: rc.cpp:5149
+#: rc.cpp:827
+#: rc.cpp:980
+#: rc.cpp:1901
+#: rc.cpp:2361
+#: rc.cpp:2514
+#: rc.cpp:3435
 msgid "Loop"
 msgstr "Ismétlődő lejátszás"
 
-#: src/mainwindow.cpp:873
+#: src/mainwindow.cpp:979
 msgid "Loop Zone"
 msgstr "Kiválasztott zóna ismétlése"
 
-#: src/renderwidget.cpp:1111
+#: src/renderwidget.cpp:1166
 msgid "Lossless / HQ"
 msgstr "Veszteségmentes / magas minőségű (HQ)"
 
-#: src/documentchecker.cpp:69
+#: src/titlewidget.cpp:266
+msgid "Lower object"
+msgstr "Objektum hátrébb küldés"
+
+#: src/titlewidget.cpp:278
+msgid "Lower object to bottom"
+msgstr "Objektum hátraküldés"
+
+#: src/documentchecker.cpp:120
 msgid "Luma file"
 msgstr "Luma fájl használata"
 
-#: rc.cpp:690
-#: rc.cpp:2608
-#: rc.cpp:4087
+#: rc.cpp:1466
+#: rc.cpp:3000
 msgid "M"
 msgstr "M"
 
@@ -3770,9 +3535,8 @@ msgstr "M"
 msgid "MLT Connection, Transition, Effect, Timeline Developer"
 msgstr "Mlt kapcsolódás, áttűnésék, Effektusok, Idővonal fejlesztések"
 
-#: rc.cpp:1011
-#: rc.cpp:2929
-#: rc.cpp:4408
+#: rc.cpp:1424
+#: rc.cpp:2958
 msgid "MLT environment"
 msgstr "MLT keretrendszer"
 
@@ -3780,9 +3544,8 @@ msgstr "MLT keretrendszer"
 msgid "MLT porting, KDE 4 porting, Main developer"
 msgstr "MLT portolás, KDE4 portolás, Vezető fejlesztő"
 
-#: rc.cpp:1014
-#: rc.cpp:2932
-#: rc.cpp:4411
+#: rc.cpp:1427
+#: rc.cpp:2961
 msgid "MLT profiles folder"
 msgstr "MLT profil mappa"
 
@@ -3794,61 +3557,66 @@ msgstr "Az MLT verziója megfelelő"
 msgid "MLT version: %1"
 msgstr "MLT verzió: %1"
 
-#: src/wizard.cpp:546
+#: src/wizard.cpp:558
 msgid "MLT's SDL module not found. Please check your MLT install. Kdenlive will not work until this issue is fixed."
 msgstr "Az MLT program SDL összetevője nem található. Kérem ellenőrizze a rendszerre telepített MLT programot. A Kdenlive nem lesz működőképes a hiba elhárításáig."
 
-#: rc.cpp:503
-#: rc.cpp:2421
+#: rc.cpp:571
 msgid "Make clip play faster or slower"
 msgstr "Klip lejátszásának gyorsítása vagy lassítása"
 
-#: rc.cpp:56
-#: rc.cpp:1974
+#: rc.cpp:48
 msgid "Make image greyscale except for chosen color"
 msgstr "Kép szürkeárnyalatossá alakítása a kiválasztott szín kivételével"
 
-#: rc.cpp:513
-#: rc.cpp:2431
+#: rc.cpp:579
 msgid "Make monochrome clip"
 msgstr "Fekete-fehér klip készítése"
 
-#: rc.cpp:48
-#: rc.cpp:1966
+#: rc.cpp:56
 msgid "Make selected color transparent"
 msgstr "Kiválasztott szín átlátszóvá tétele"
 
-#: rc.cpp:527
-#: rc.cpp:2445
+#: rc.cpp:607
 msgid "Make waves on your clip with keyframes"
 msgstr "Klip hullámoztatása a kulcskockáknál"
 
-#: src/mainwindow.cpp:833
+#: src/mainwindow.cpp:939
 msgid "Manage Project Profiles"
 msgstr "Profilok kezelése"
+
+#: rc.cpp:287
+msgid "Map black to"
+msgstr "Fekete szín hozzárendelése:"
+
+#: rc.cpp:289
+msgid "Map white to"
+msgstr "Fehér szín hozzárendelése:"
+
+#: rc.cpp:285
+msgid "Maps source image luminance between two colors specified"
+msgstr "A forráskép fényességének beállítása a két megadott szín közé"
 
 #: src/main.cpp:39
 msgid "Marco Gittler"
 msgstr "Marco Gittler"
 
-#: src/definitions.h:151
-#: src/clipproperties.cpp:296
-#: src/mainwindow.cpp:2029
-#: src/docclipbase.cpp:349
-#: rc.cpp:1452
-#: rc.cpp:3370
-#: rc.cpp:4849
+#: src/mainwindow.cpp:2214
+#: src/definitions.h:153
+#: src/clipproperties.cpp:426
+#: src/docclipbase.cpp:361
+#: rc.cpp:995
+#: rc.cpp:2529
 msgid "Marker"
 msgstr "Jelölő"
 
-#: rc.cpp:1779
-#: rc.cpp:3697
-#: rc.cpp:5176
-#: rc.cpp:5433
+#: rc.cpp:854
+#: rc.cpp:2388
+#: rc.cpp:3705
 msgid "Markers"
 msgstr "Jelölők"
 
-#: src/renderwidget.cpp:1110
+#: src/renderwidget.cpp:1165
 msgid "Media players"
 msgstr "Médialejátszók"
 
@@ -3856,24 +3624,21 @@ msgstr "Médialejátszók"
 msgid "Melt"
 msgstr "Melt"
 
-#: rc.cpp:1017
-#: rc.cpp:2935
-#: rc.cpp:4414
+#: rc.cpp:1430
+#: rc.cpp:2964
 msgid "Melt path"
 msgstr "Melt elérési út"
 
-#: src/dvdwizard.cpp:329
+#: src/dvdwizard.cpp:340
 msgid "Menu job timed out"
 msgstr "A menü időtúllépést okozott"
 
-#: rc.cpp:1797
-#: rc.cpp:3715
-#: rc.cpp:5194
+#: rc.cpp:872
+#: rc.cpp:2406
 msgid "Metadata"
 msgstr "Metaadat"
 
-#: rc.cpp:249
-#: rc.cpp:2167
+#: rc.cpp:333
 msgid "Mid gain"
 msgstr "Középhang-kiemelés (Mid gain)"
 
@@ -3881,16 +3646,15 @@ msgstr "Középhang-kiemelés (Mid gain)"
 msgid "Minus sign. For numbers: &#x2212;42"
 msgstr "Mínuszjel. Számokhoz: &#x2212;42"
 
-#: rc.cpp:325
-#: rc.cpp:2243
+#: rc.cpp:409
 msgid "Mirror"
 msgstr "Tükrözés"
 
-#: rc.cpp:329
-#: rc.cpp:2247
+#: rc.cpp:413
 msgid "Mirroring direction"
 msgstr "Tükrözés iránya"
 
+#: src/effectslistwidget.cpp:85
 #: src/kdenlivesettingsdialog.cpp:52
 msgid "Misc"
 msgstr "Egyéb"
@@ -3900,59 +3664,61 @@ msgstr "Egyéb"
 msgid "Misc..."
 msgstr "Egyéb…"
 
-#: src/kdenlivedoc.cpp:653
-#: src/kdenlivedoc.cpp:669
-#: src/kdenlivedoc.cpp:684
+#: src/projectitem.cpp:164
+msgid "Missing"
+msgstr "Hiányzó"
+
+#: src/kdenlivedoc.cpp:655
+#: src/kdenlivedoc.cpp:671
+#: src/kdenlivedoc.cpp:686
 msgid "Missing Profile"
 msgstr "Hiányzó profil"
 
-#: rc.cpp:897
-#: rc.cpp:2815
-#: rc.cpp:4294
+#: src/dvdwizardmenu.cpp:169
+msgid "Missing background image"
+msgstr "Hiányzó háttérkép"
+
+#: rc.cpp:1865
+#: rc.cpp:3399
 msgid "Missing clips"
 msgstr "Hiányzó klipek"
 
 #: rc.cpp:42
-#: rc.cpp:1960
 msgid "Mix"
 msgstr "Keverés"
 
-#: src/renderwidget.cpp:1112
+#: src/renderwidget.cpp:1167
 msgid "Mobile devices"
 msgstr "Mobil eszközök"
 
-#: rc.cpp:213
-#: rc.cpp:2131
+#: rc.cpp:297
 msgid "Mode"
 msgstr "Mód"
 
-#: rc.cpp:5454
+#: rc.cpp:3732
 msgid "Monitor"
 msgstr "Monitor"
 
-#: rc.cpp:1164
-#: rc.cpp:3082
-#: rc.cpp:4561
+#: rc.cpp:1058
+#: rc.cpp:2592
 msgid "Monitor Preview Speedup Settings"
 msgstr "Monitor gyorsított előnézet beállítások"
 
-#: rc.cpp:1161
-#: rc.cpp:3079
-#: rc.cpp:4558
+#: rc.cpp:1055
+#: rc.cpp:2589
 msgid "Monitor background color (requires restart)"
 msgstr "Háttérszín figyelése (újraindítást igényel)"
 
-#: src/monitor.cpp:217
+#: src/monitor.cpp:215
 msgid "Monitor overlay infos"
 msgstr "Rátét információk figyelése"
 
 #: rc.cpp:28
-#: rc.cpp:1946
 msgid "Mono to stereo"
 msgstr "Monóról sztereóra"
 
 #: src/moveclipcommand.cpp:33
-#: src/customtrackview.cpp:2607
+#: src/customtrackview.cpp:2851
 msgid "Move clip"
 msgstr "Klip mozgatása"
 
@@ -3969,6 +3735,7 @@ msgid "Move effect up"
 msgstr "Effektus felfele mozgatása"
 
 #: src/movegroupcommand.cpp:35
+#: src/customtrackview.cpp:2997
 msgid "Move group"
 msgstr "Csoport mozgatása"
 
@@ -3977,55 +3744,47 @@ msgid "Move guide"
 msgstr "Segédzóna"
 
 #: src/movetransitioncommand.cpp:30
+#: src/customtrackview.cpp:2978
 msgid "Move transition"
 msgstr "Átmenet áthelyezése"
 
-#: rc.cpp:759
-#: rc.cpp:2677
-#: rc.cpp:4156
+#: rc.cpp:2114
+#: rc.cpp:3648
 msgid "Movie file"
 msgstr "Videofájl"
 
-#: rc.cpp:333
-#: rc.cpp:2251
+#: rc.cpp:417
 msgid "Mute"
 msgstr "Némítás"
 
-#: rc.cpp:335
-#: rc.cpp:2253
+#: rc.cpp:419
 msgid "Mute clip"
 msgstr "Videó klip elnémítása"
 
-#: src/headertrack.cpp:45
+#: src/headertrack.cpp:46
 msgid "Mute track"
 msgstr "Sáv némítása"
 
-#: src/projectitem.cpp:191
-#: src/documentchecker.cpp:86
+#: src/documentchecker.cpp:136
+#: src/projectitem.cpp:170
 msgid "Mute video clip"
 msgstr "Videó klip elnémítása"
 
-#: rc.cpp:696
-#: rc.cpp:915
-#: rc.cpp:1788
-#: rc.cpp:2614
-#: rc.cpp:2833
-#: rc.cpp:3706
-#: rc.cpp:4093
-#: rc.cpp:4312
-#: rc.cpp:5185
+#: rc.cpp:863
+#: rc.cpp:908
+#: rc.cpp:1472
+#: rc.cpp:2397
+#: rc.cpp:2442
+#: rc.cpp:3006
 msgid "N"
 msgstr "N"
 
 #: src/main.cpp:47
 msgid "NAME OF TRANSLATORS"
-msgstr ""
-"_: NAME OF TRANSLATORS\\n"
-"KAMI"
+msgstr "KAMI"
 
-#: rc.cpp:557
-#: rc.cpp:2475
-#: rc.cpp:3954
+#: rc.cpp:1628
+#: rc.cpp:3162
 msgid "NTSC"
 msgstr "NTSC "
 
@@ -4038,19 +3797,16 @@ msgid "NTSC 4:3"
 msgstr "NTSC 4:3"
 
 #: src/kdenlivesettingsdialog.cpp:548
-#: rc.cpp:1350
-#: rc.cpp:1671
-#: rc.cpp:1840
-#: rc.cpp:3268
-#: rc.cpp:3589
-#: rc.cpp:3758
-#: rc.cpp:4747
-#: rc.cpp:5068
-#: rc.cpp:5237
+#: rc.cpp:1886
+#: rc.cpp:2006
+#: rc.cpp:2126
+#: rc.cpp:3420
+#: rc.cpp:3540
+#: rc.cpp:3660
 msgid "Name"
 msgstr "Név"
 
-#: src/effectstackview.cpp:101
+#: src/effectstackview.cpp:102
 msgid "Name for saved effect: "
 msgstr "Elmentett effektus neve:"
 
@@ -4058,16 +3814,15 @@ msgstr "Elmentett effektus neve:"
 msgid "Nano X"
 msgstr "Nano X"
 
-#: rc.cpp:134
-#: rc.cpp:2052
+#: rc.cpp:136
 msgid "Neutral Color"
 msgstr "Semleges szín"
 
-#: src/trackview.cpp:872
+#: src/trackview.cpp:936
 msgid "New Track Name"
 msgstr "Új sáv neve"
 
-#: src/customtrackview.cpp:3195
+#: src/customtrackview.cpp:3526
 msgid "New speed (percents)"
 msgstr "Új projekt létrehozása "
 
@@ -4075,7 +3830,7 @@ msgstr "Új projekt létrehozása "
 msgid "Next Unicode character (Arrow Down)"
 msgstr "Következő Unicode karakter (Lefelé nyíl)"
 
-#: src/titlewidget.cpp:158
+#: src/titlewidget.cpp:247
 msgid "No alignment"
 msgstr "Nincs igazítás"
 
@@ -4083,77 +3838,85 @@ msgstr "Nincs igazítás"
 msgid "No burning program found (K3b, Brasero)"
 msgstr "Nem található lemezíró alkalmazás, mint a milyen a K3b vagy Brasero"
 
-#: src/customtrackview.cpp:3327
-#: src/customtrackview.cpp:4335
+#: src/dvdwizardmenu.cpp:161
+msgid "No button in menu"
+msgstr "Nincs nyomógomb a menüben"
+
+#: src/customtrackview.cpp:3662
+#: src/customtrackview.cpp:4695
 msgid "No clip copied"
 msgstr "Nem lett klip másolva"
 
-#: src/projectsettings.cpp:88
-msgid "No clip to delete"
-msgstr "Nincsen törlendő klip"
+#: src/mainwindow.cpp:3060
+msgid "No clip to transcode"
+msgstr "Nincs átkódolandó klip"
 
-#: src/customtrackview.cpp:4875
+#: src/customtrackview.cpp:5300
 msgid "No empty space to put clip audio"
 msgstr "Nincs hangsávban beszúráshoz üres hely "
 
-#: src/customtrackview.cpp:4010
-#: src/customtrackview.cpp:4056
-#: src/customtrackview.cpp:4094
+#: src/customtrackview.cpp:4351
+#: src/customtrackview.cpp:4397
+#: src/customtrackview.cpp:4435
 msgid "No guide at cursor time"
 msgstr "Segédpont hozzáadása a kurzor pozícióhoz"
 
-#: rc.cpp:1380
-#: rc.cpp:1767
-#: rc.cpp:3298
-#: rc.cpp:3685
-#: rc.cpp:4777
-#: rc.cpp:5164
+#: src/clipproperties.cpp:642
+#: rc.cpp:842
+#: rc.cpp:1916
+#: rc.cpp:2376
+#: rc.cpp:3450
 msgid "No image found"
 msgstr "Nem található kép"
 
-#: src/mainwindow.cpp:2060
-#: src/mainwindow.cpp:2110
+#: src/mainwindow.cpp:2245
+#: src/mainwindow.cpp:2295
 msgid "No marker found at cursor time"
 msgstr "Nem található jelölő kurzornál"
+
+#: src/dvdwizardmenu.cpp:181
+msgid "No menu entry for %1"
+msgstr "Nincs menübejegyzés a(z) %1 részére"
 
 #: src/unicodedialog.cpp:132
 msgid "No-break space. &amp;nbsp; in HTML. See U+2009 and U+0020."
 msgstr "Nem törő szóköz. &amp;nbsp; HTML-ben. Lásd: U+2009 és U+0020."
 
+#: src/titlewidget.cpp:172
 #: src/initeffects.cpp:69
 #: src/initeffects.cpp:648
 msgid "None"
 msgstr "Nincs"
 
-#: src/titlewidget.cpp:141
+#: src/titlewidget.cpp:230
 msgctxt "Font style"
 msgid "Normal"
 msgstr "Normál"
 
-#: rc.cpp:339
-#: rc.cpp:2257
+#: src/mainwindow.cpp:752
+msgid "Normal mode"
+msgstr "Normál mód"
+
+#: rc.cpp:423
 msgid "Normalise"
 msgstr "Normalizálás"
 
-#: rc.cpp:1119
-#: rc.cpp:3037
-#: rc.cpp:4516
+#: rc.cpp:1991
+#: rc.cpp:3525
 msgid "Normalise audio for thumbnails"
 msgstr "Hangerő normalizálása az előnézethez"
 
-#: rc.cpp:341
-#: rc.cpp:2259
+#: rc.cpp:425
 msgid "Normalise audio volume"
 msgstr "Hangerő normalizálása"
 
-#: src/recmonitor.cpp:588
-#: rc.cpp:675
-#: rc.cpp:2593
-#: rc.cpp:4072
+#: src/recmonitor.cpp:593
+#: rc.cpp:1406
+#: rc.cpp:2940
 msgid "Not connected"
 msgstr "Nincs kapcsolat"
 
-#: src/mainwindow.cpp:2493
+#: src/mainwindow.cpp:2773
 msgid "Not found: %1"
 msgstr "„%1” nem található"
 
@@ -4166,31 +3929,28 @@ msgid "OSS with DMA access"
 msgstr "OSS DMA eléréssel"
 
 #: rc.cpp:10
-#: rc.cpp:345
-#: rc.cpp:1928
-#: rc.cpp:2263
+#: rc.cpp:429
 msgid "Obscure"
 msgstr "Tompítás (Obscure)"
 
-#: rc.cpp:1335
-#: rc.cpp:3253
-#: rc.cpp:4732
+#: rc.cpp:1130
+#: rc.cpp:1388
+#: rc.cpp:2664
+#: rc.cpp:2922
 msgid "Offset"
 msgstr "Eltolás"
 
-#: rc.cpp:708
-#: rc.cpp:2626
-#: rc.cpp:4105
+#: rc.cpp:1484
+#: rc.cpp:3018
 msgid "Opacity"
 msgstr "Áttetszőség"
 
-#: src/titlewidget.cpp:226
+#: src/titlewidget.cpp:348
 msgid "Open Document"
 msgstr "Dokumentum megnyitása"
 
-#: rc.cpp:614
-#: rc.cpp:2532
-#: rc.cpp:4011
+#: rc.cpp:1685
+#: rc.cpp:3219
 msgid "Open Dvd wizard after rendering"
 msgstr "Leképzés után a DVD Tündér megnyitása"
 
@@ -4198,25 +3958,22 @@ msgstr "Leképzés után a DVD Tündér megnyitása"
 msgid "Open box; stands for a space."
 msgstr "Helykitöltő"
 
-#: rc.cpp:590
-#: rc.cpp:2508
-#: rc.cpp:3987
+#: rc.cpp:1661
+#: rc.cpp:3195
 msgid "Open browser window after export"
 msgstr "Tallózóablak megnyitása exportálás után"
 
-#: rc.cpp:1383
-#: rc.cpp:3301
-#: rc.cpp:4780
+#: rc.cpp:1790
+#: rc.cpp:3324
 msgid "Open last project on startup"
 msgstr "Az utolsó projekt betöltése indításkor"
 
-#: rc.cpp:1389
-#: rc.cpp:3307
-#: rc.cpp:4786
+#: rc.cpp:1796
+#: rc.cpp:3330
 msgid "Open projects in new tabs"
 msgstr "Projekt megnyitása új lapon"
 
-#: src/mainwindow.cpp:1464
+#: src/mainwindow.cpp:1641
 msgid "Opening file %1"
 msgstr "A(z) %1 fájl megnyitása"
 
@@ -4228,12 +3985,11 @@ msgstr "Az eredeti KDE3 verzió szerzője (nem dolgozik már velünk)"
 msgid "Original size"
 msgstr "Eredeti méret"
 
-#: src/titlewidget.cpp:176
+#: src/titlewidget.cpp:296
 msgid "Original size (1:1)"
 msgstr "Eredeti méret (1:1)"
 
-#: rc.cpp:92
-#: rc.cpp:2010
+#: rc.cpp:116
 msgid "Out"
 msgstr "Kimenet"
 
@@ -4241,25 +3997,39 @@ msgstr "Kimenet"
 msgid "Out Point"
 msgstr "Külső pont"
 
-#: rc.cpp:545
-#: rc.cpp:2463
-#: rc.cpp:3942
+#: rc.cpp:1208
+#: rc.cpp:2742
+msgid "Outline"
+msgstr "Körvonal"
+
+#: src/titlewidget.cpp:86
+msgid "Outline color opacity"
+msgstr "Körvonal színátlátszatlansága"
+
+#: src/titlewidget.cpp:92
+msgid "Outline width"
+msgstr "Körvonal szélesség"
+
+#: rc.cpp:1616
+#: rc.cpp:3150
 msgid "Output file"
 msgstr "Kimeneti fájl"
 
-#: src/renderwidget.cpp:652
+#: src/renderwidget.cpp:685
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "A fájl már létezik. Felül kívánja írni a fájlt?"
 
-#: rc.cpp:693
-#: rc.cpp:2611
-#: rc.cpp:4090
+#: src/mainwindow.cpp:758
+msgid "Overwrite mode"
+msgstr "Felülírás mód"
+
+#: rc.cpp:1469
+#: rc.cpp:3003
 msgid "P"
 msgstr "P"
 
-#: rc.cpp:554
-#: rc.cpp:2472
-#: rc.cpp:3951
+#: rc.cpp:1625
+#: rc.cpp:3159
 msgid "PAL"
 msgstr "PAL"
 
@@ -4271,16 +4041,13 @@ msgstr "PAL 16:9"
 msgid "PAL 4:3"
 msgstr "PAL 4:3"
 
-#: rc.cpp:351
-#: rc.cpp:381
-#: rc.cpp:2269
-#: rc.cpp:2299
+#: rc.cpp:435
+#: rc.cpp:465
 msgid "Pan and Zoom"
 msgstr "Görgetés és nagyítás"
 
-#: rc.cpp:894
-#: rc.cpp:2812
-#: rc.cpp:4291
+#: rc.cpp:1502
+#: rc.cpp:3036
 msgid "Param"
 msgstr "Paraméterek"
 
@@ -4289,42 +4056,35 @@ msgid "Parameter info"
 msgstr "Paraméter információk"
 
 #: src/kdenlivesettingsdialog.cpp:548
-#: rc.cpp:1146
-#: rc.cpp:3064
-#: rc.cpp:4543
+#: rc.cpp:1784
+#: rc.cpp:3318
 msgid "Parameters"
 msgstr "Paraméterek"
 
-#: src/mainwindow.cpp:1067
+#: src/mainwindow.cpp:1243
 msgid "Paste Effects"
 msgstr "Effektus beillesztése"
 
-#: rc.cpp:903
-#: rc.cpp:1686
-#: rc.cpp:2821
-#: rc.cpp:3604
-#: rc.cpp:4300
-#: rc.cpp:5083
+#: rc.cpp:761
+#: rc.cpp:1871
+#: rc.cpp:2295
+#: rc.cpp:3405
 msgid "Path"
 msgstr "Elérési út"
 
-#: rc.cpp:215
-#: rc.cpp:2133
+#: rc.cpp:299
 msgid "Phase Increment"
 msgstr "Fázis növelés"
 
-#: rc.cpp:263
-#: rc.cpp:2181
+#: rc.cpp:347
 msgid "Phaser"
 msgstr "Fáziseltoló"
 
-#: rc.cpp:281
-#: rc.cpp:2199
+#: rc.cpp:359
 msgid "Pitch Scaler"
 msgstr "Hangmagasság skálázó"
 
-#: rc.cpp:275
-#: rc.cpp:2193
+#: rc.cpp:365
 msgid "Pitch Shift"
 msgstr "Hangmagasság eltolás (Pitch Shift)"
 
@@ -4332,30 +4092,27 @@ msgstr "Hangmagasság eltolás (Pitch Shift)"
 msgid "Pixbuf module"
 msgstr "Pixbuf modul"
 
-#: rc.cpp:792
-#: rc.cpp:1719
-#: rc.cpp:2710
-#: rc.cpp:3637
-#: rc.cpp:4189
-#: rc.cpp:5116
+#: rc.cpp:667
+#: rc.cpp:794
+#: rc.cpp:2201
+#: rc.cpp:2328
 msgid "Pixel aspect ratio"
 msgstr "Képarány"
 
-#: src/wizard.cpp:481
-#: rc.cpp:3864
-#: rc.cpp:5343
+#: src/wizard.cpp:493
+#: rc.cpp:1550
+#: rc.cpp:3084
 msgid "Pixel aspect ratio:"
 msgstr "Képarány:"
 
-#: rc.cpp:157
-#: rc.cpp:2075
+#: rc.cpp:191
 msgid "Plasma"
 msgstr "Plazma"
 
-#: src/dvdwizardmenu.cpp:31
+#: src/recmonitor.cpp:75
+#: src/mainwindow.cpp:966
 #: src/monitor.cpp:81
-#: src/mainwindow.cpp:860
-#: src/recmonitor.cpp:74
+#: src/dvdwizardmenu.cpp:32
 msgid "Play"
 msgstr "Lejátszás"
 
@@ -4363,17 +4120,16 @@ msgstr "Lejátszás"
 msgid "Play / Pause"
 msgstr "Lejátszás / Szünet "
 
-#: src/dvdwizardmenu.cpp:287
+#: src/dvdwizardmenu.cpp:307
 msgid "Play All"
 msgstr "Mindent lejátszik"
 
-#: src/mainwindow.cpp:868
+#: src/mainwindow.cpp:974
 msgid "Play Zone"
 msgstr "Lejátszási zóna"
 
-#: rc.cpp:593
-#: rc.cpp:2511
-#: rc.cpp:3990
+#: rc.cpp:1664
+#: rc.cpp:3198
 msgid "Play after render"
 msgstr "Videó lejátszása leképzés után"
 
@@ -4385,8 +4141,8 @@ msgstr "Lejátszás…"
 msgid "Playback"
 msgstr "Lejátszás"
 
-#: src/projectitem.cpp:213
-#: src/documentchecker.cpp:92
+#: src/documentchecker.cpp:142
+#: src/projectitem.cpp:192
 msgid "Playlist clip"
 msgstr "Lejátszólista klip"
 
@@ -4398,17 +4154,16 @@ msgstr "A hibákat kérem jelentse a következő weboldalon: <a href=\"http://kd
 msgid "Please report bugs to http://kdenlive.org/mantis"
 msgstr "A hibákat kérem jelentse a következő weboldalon: http://kdenlive.org/mantis"
 
-#: src/projectlist.cpp:211
+#: src/projectlist.cpp:295
 msgid "Please set a default application to open audio files in the Settings dialog"
 msgstr "Állítsa be a „Beállítások” ablakban azt az alapértelmezett alkalmazást, amellyel a hangfájlokat kívánja megnyitni"
 
-#: src/projectlist.cpp:207
+#: src/projectlist.cpp:291
 msgid "Please set a default application to open images in the Settings dialog"
 msgstr "Állítsa be a „Beállítások” ablakban azt az alapértelmezett alkalmazást, amellyel a képeket kívánja megnyitni"
 
-#: rc.cpp:1473
-#: rc.cpp:3391
-#: rc.cpp:4870
+#: rc.cpp:1919
+#: rc.cpp:3453
 msgid "Please set your default video profile"
 msgstr "Állítsa be az alapértelmezett video profilt"
 
@@ -4416,7 +4171,7 @@ msgstr "Állítsa be az alapértelmezett video profilt"
 msgid "Please upgrade to the latest MLT version"
 msgstr "Kérem frissítsen a legújabb MLT programverzióra"
 
-#: src/recmonitor.cpp:239
+#: src/recmonitor.cpp:240
 msgid ""
 "Plug your camcorder and\n"
 "press connect button\n"
@@ -4430,43 +4185,80 @@ msgstr ""
 "A fájlok a következő helyre lesznek elmentve:\n"
 "%1"
 
-#: rc.cpp:1317
-#: rc.cpp:3235
-#: rc.cpp:4714
+#: rc.cpp:169
+msgid "Point 1 input value"
+msgstr "Pont 1 - bemeneti érték"
+
+#: rc.cpp:171
+msgid "Point 1 output value"
+msgstr "Pont 1 - kimeneti érték"
+
+#: rc.cpp:173
+msgid "Point 2 input value"
+msgstr "Pont 2 - bemeneti érték"
+
+#: rc.cpp:175
+msgid "Point 2 output value"
+msgstr "Pont 2 - kimeneti érték"
+
+#: rc.cpp:177
+msgid "Point 3 input value"
+msgstr "Pont 3 - bemeneti érték"
+
+#: rc.cpp:179
+msgid "Point 3 output value"
+msgstr "Pont 3 - kimeneti érték"
+
+#: rc.cpp:181
+msgid "Point 4 input value"
+msgstr "Pont 4 - bemeneti érték"
+
+#: rc.cpp:183
+msgid "Point 4 output value"
+msgstr "Pont 4 - kimeneti érték"
+
+#: rc.cpp:185
+msgid "Point 5 input value"
+msgstr "Pont 5 - bemeneti érték"
+
+#: rc.cpp:187
+msgid "Point 5 output value"
+msgstr "Pont 5 - kimeneti érték"
+
+#: rc.cpp:1367
+#: rc.cpp:2901
 msgid "Ports:"
 msgstr "Port:"
 
-#: rc.cpp:705
-#: rc.cpp:2623
-#: rc.cpp:3834
-#: rc.cpp:4102
-#: rc.cpp:5313
+#: rc.cpp:1481
+#: rc.cpp:3015
 msgid "Pos"
 msgstr "Pozíció"
 
-#: src/keyframeedit.cpp:38
-#: rc.cpp:888
-#: rc.cpp:1074
-#: rc.cpp:1470
-#: rc.cpp:1858
-#: rc.cpp:2806
-#: rc.cpp:2992
-#: rc.cpp:3388
-#: rc.cpp:3776
-#: rc.cpp:4285
-#: rc.cpp:4471
-#: rc.cpp:4867
-#: rc.cpp:5255
+#: rc.cpp:697
+#: rc.cpp:1013
+#: rc.cpp:1241
+#: rc.cpp:1973
+#: rc.cpp:2060
+#: rc.cpp:2231
+#: rc.cpp:2547
+#: rc.cpp:2775
+#: rc.cpp:3507
+#: rc.cpp:3594
 msgid "Position"
 msgstr "Pozíció"
 
-#: rc.cpp:1575
-#: rc.cpp:3493
-#: rc.cpp:4972
+#: src/customruler.cpp:199
+#: src/smallruler.cpp:120
+msgid "Position: %1"
+msgstr "Pozíció: %1"
+
+#: rc.cpp:1226
+#: rc.cpp:2760
 msgid "Preserve aspect ratio"
 msgstr "Méretarány megőrzése"
 
-#: src/recmonitor.cpp:271
+#: src/recmonitor.cpp:273
 msgid ""
 "Press play or record button\n"
 "to start video capture\n"
@@ -4479,8 +4271,8 @@ msgstr ""
 "A fájlok a következő helyre lesznek elmentve:\n"
 "%1"
 
-#: src/recmonitor.cpp:193
-#: src/recmonitor.cpp:589
+#: src/recmonitor.cpp:194
+#: src/recmonitor.cpp:594
 msgid ""
 "Press record button\n"
 "to start screen capture\n"
@@ -4492,9 +4284,8 @@ msgstr ""
 "A fájlok a következő helyre lesznek elmentve:\n"
 "%1"
 
-#: rc.cpp:957
-#: rc.cpp:2875
-#: rc.cpp:4354
+#: rc.cpp:1751
+#: rc.cpp:3285
 msgid "Preview"
 msgstr "Előnézet"
 
@@ -4502,115 +4293,112 @@ msgstr "Előnézet"
 msgid "Previous Unicode character (Arrow Up)"
 msgstr "Előző Unicode karakter (Felfelé nyíl)"
 
-#: src/customtrackview.cpp:1395
-#: src/customtrackview.cpp:1406
-#: src/customtrackview.cpp:1426
+#: src/customtrackview.cpp:1477
+#: src/customtrackview.cpp:1488
+#: src/customtrackview.cpp:1502
 msgid "Problem adding effect to clip"
 msgstr "A klip effektus hozzáadása közben hiba lépett fel"
 
-#: src/customtrackview.cpp:1388
-#: src/customtrackview.cpp:1448
-#: src/customtrackview.cpp:1603
+#: src/customtrackview.cpp:1470
+#: src/customtrackview.cpp:1523
 msgid "Problem deleting effect"
 msgstr "Hiba lépett fel az effektus törlése során"
 
-#: src/customtrackview.cpp:1605
-#: src/customtrackview.cpp:3748
-#: src/customtrackview.cpp:3766
-#: src/customtrackview.cpp:3788
-#: src/customtrackview.cpp:3806
+#: src/customtrackview.cpp:1645
+#: src/customtrackview.cpp:1679
+#: src/customtrackview.cpp:4089
+#: src/customtrackview.cpp:4107
+#: src/customtrackview.cpp:4129
+#: src/customtrackview.cpp:4147
 msgid "Problem editing effect"
 msgstr "Hiba lépett fel az effektus szerkesztése során"
 
-#: rc.cpp:771
-#: rc.cpp:867
-#: rc.cpp:1413
-#: rc.cpp:2689
-#: rc.cpp:2785
-#: rc.cpp:3331
-#: rc.cpp:3849
-#: rc.cpp:4168
-#: rc.cpp:4264
-#: rc.cpp:4810
-#: rc.cpp:5328
+#: rc.cpp:646
+#: rc.cpp:1040
+#: rc.cpp:1535
+#: rc.cpp:1820
+#: rc.cpp:2180
+#: rc.cpp:2574
+#: rc.cpp:3069
+#: rc.cpp:3354
 msgid "Profile"
 msgstr "Profil"
 
-#: src/renderwidget.cpp:371
-#: src/renderwidget.cpp:478
+#: src/renderwidget.cpp:401
+#: src/renderwidget.cpp:518
 msgid "Profile already exists"
 msgstr "A profil már létezik"
 
-#: rc.cpp:1140
-#: rc.cpp:3058
-#: rc.cpp:4537
+#: rc.cpp:1778
+#: rc.cpp:3312
 msgid "Profile name"
 msgstr "Profil név"
 
-#: rc.cpp:768
-#: rc.cpp:2686
-#: rc.cpp:4165
+#: rc.cpp:643
+#: rc.cpp:2177
 msgid "Profiles"
 msgstr "Profilok"
 
-#: src/renderwidget.cpp:161
+#: src/renderwidget.cpp:167
 msgid "Progress"
 msgstr "Állapot"
 
 #: src/kdenlivesettingsdialog.cpp:504
-#: src/projectsettings.cpp:157
-#: rc.cpp:804
-#: rc.cpp:2722
-#: rc.cpp:4201
+#: src/projectsettings.cpp:199
+#: rc.cpp:679
+#: rc.cpp:2213
 msgid "Progressive"
 msgstr "Progresszív"
 
-#: rc.cpp:5415
+#: rc.cpp:3687
 msgid "Project"
 msgstr "Projekt "
 
-#: rc.cpp:3894
-#: rc.cpp:5373
+#: rc.cpp:1580
+#: rc.cpp:3114
 msgid "Project Files"
 msgstr "Projektfájlok"
 
-#: src/mainwindow.cpp:193
+#: src/mainwindow.cpp:197
 msgid "Project Monitor"
 msgstr "Projekt Monitor"
 
-#: src/mainwindow.cpp:847
-#: rc.cpp:3837
-#: rc.cpp:5316
+#: src/mainwindow.cpp:953
+#: rc.cpp:1523
+#: rc.cpp:3057
 msgid "Project Settings"
 msgstr "Projekt beállítások"
 
-#: src/mainwindow.cpp:149
+#: src/mainwindow.cpp:153
 msgid "Project Tree"
 msgstr "Projekt Fastruktúra"
 
-#: rc.cpp:1023
-#: rc.cpp:2941
-#: rc.cpp:3843
-#: rc.cpp:4420
-#: rc.cpp:5322
+#: rc.cpp:1598
+#: rc.cpp:3132
+msgid "Project files"
+msgstr "Projektfájlok"
+
+#: rc.cpp:1436
+#: rc.cpp:1529
+#: rc.cpp:2970
+#: rc.cpp:3063
 msgid "Project folder"
 msgstr "Projekt mappa"
 
-#: src/kdenlivedoc.cpp:669
+#: src/kdenlivedoc.cpp:671
 msgid "Project profile not found, replacing with existing one: %1"
 msgstr "Projekt profil nem található. A(z) %1 – már létező – profil lesz használva."
 
-#: src/kdenlivedoc.cpp:684
+#: src/kdenlivedoc.cpp:686
 msgid "Project profile was not found, it will be added to your system now."
 msgstr "Projekt profil még nem található, de hozzá lett adva a rendszerben elérhető profilokhoz."
 
-#: src/kdenlivedoc.cpp:653
+#: src/kdenlivedoc.cpp:655
 msgid "Project profile was not found, using default profile."
 msgstr "Projekt profil nem található. Az alapértelmezett profil lesz használva."
 
-#: rc.cpp:774
-#: rc.cpp:2692
-#: rc.cpp:4171
+#: rc.cpp:649
+#: rc.cpp:2183
 msgid "Properties"
 msgstr "Tulajdonságok"
 
@@ -4630,37 +4418,52 @@ msgstr "Írásjel szóköz. Írásjelek és a következő karakter közé kell t
 msgid "QImage module"
 msgstr "QImage modul"
 
+#: rc.cpp:1400
+#: rc.cpp:2934
+msgid "Quality"
+msgstr "Minőség"
+
 #: src/unicodedialog.cpp:168
 msgid "Quarter note (Am.) or crochet (Brit.). See <a href=\"http://en.wikipedia.org/wiki/Quarter_note\">Wikipedia:Quarter_note</a>"
 msgstr "Negyed hangjegy, Quarter note (amerikai) vagy crochet (brit). Lásd <a href=\"http://hu.wikipedia.org/wiki/Kotta\">Wikipedia: Kotta</a>"
 
-#: rc.cpp:924
-#: rc.cpp:2842
-#: rc.cpp:4321
+#: rc.cpp:917
+#: rc.cpp:2451
 msgid "R"
 msgstr "R"
 
-#: rc.cpp:317
-#: rc.cpp:2235
+#: rc.cpp:401
 msgid "RPM"
 msgstr "RPM"
 
-#: rc.cpp:291
-#: rc.cpp:2209
+#: rc.cpp:1121
+#: rc.cpp:1124
+#: rc.cpp:2655
+#: rc.cpp:2658
+msgid "Radius"
+msgstr "Sugár"
+
+#: src/titlewidget.cpp:260
+msgid "Raise object"
+msgstr "Objektum előrébb hozás"
+
+#: src/titlewidget.cpp:272
+msgid "Raise object to top"
+msgstr "Objektum előrehozás"
+
+#: rc.cpp:375
 msgid "Rate"
 msgstr "Ráta"
 
-#: rc.cpp:267
-#: rc.cpp:2185
+#: rc.cpp:351
 msgid "Rate (Hz)"
 msgstr "Ráta (Hz)"
 
-#: rc.cpp:287
-#: rc.cpp:2205
+#: rc.cpp:371
 msgid "Rate Scaler"
 msgstr "Ráta méretező"
 
-#: src/projectlistview.cpp:46
+#: src/projectlistview.cpp:49
 msgid "Rating"
 msgstr "Csillapítás (Damping)"
 
@@ -4668,27 +4471,27 @@ msgstr "Csillapítás (Damping)"
 msgid "Ray Lehtiniemi"
 msgstr "Ray Lehtiniemi"
 
-#: src/razorclipcommand.cpp:32
+#: src/razorclipcommand.cpp:33
 msgid "Razor clip"
 msgstr "Klip vágása"
 
-#: src/mainwindow.cpp:699
+#: src/mainwindow.cpp:789
 msgid "Razor tool"
 msgstr "Vágó eszköz"
 
-#: src/mainwindow.cpp:2481
+#: src/mainwindow.cpp:2761
 msgid "Reached end of project"
 msgstr "A projekt végére ért"
 
-#: src/monitor.cpp:222
+#: src/monitor.cpp:220
 msgid "Real time (drop frames)"
 msgstr "Valósidejű (képkockák eldobással)"
 
-#: src/recmonitor.cpp:83
+#: src/recmonitor.cpp:84
 msgid "Record"
 msgstr "Felvétel"
 
-#: src/mainwindow.cpp:200
+#: src/mainwindow.cpp:204
 msgid "Record Monitor"
 msgstr "Felvétel Monitor"
 
@@ -4696,7 +4499,7 @@ msgstr "Felvétel Monitor"
 msgid "Recordmydesktop found at: %1"
 msgstr "A „Recordmydesktop” a következő helyen található: „%1”"
 
-#: src/recmonitor.cpp:190
+#: src/recmonitor.cpp:191
 msgid ""
 "Recordmydesktop utility not found,\n"
 " please install it for screen grabs"
@@ -4704,63 +4507,56 @@ msgstr ""
 "A „Recordmydesktop” segédprogram nem található.\n"
 "Legyen szíves telepíteni a programot a képernyő rögzítéséhez."
 
-#: src/mainwindow.cpp:1452
+#: src/mainwindow.cpp:1629
 msgid "Recover"
 msgstr "Helyreállítás"
 
-#: rc.cpp:355
-#: rc.cpp:2273
+#: rc.cpp:439
 msgid "Rectangle"
 msgstr "Téglalap"
 
-#: rc.cpp:349
-#: rc.cpp:2267
+#: rc.cpp:433
 msgid "Region"
 msgstr "Terület"
 
-#: rc.cpp:1326
-#: rc.cpp:3244
-#: rc.cpp:4723
+#: rc.cpp:1376
+#: rc.cpp:2910
 msgid "Region capture"
 msgstr "Terület rögzítés"
 
-#: rc.cpp:261
-#: rc.cpp:2179
+#: rc.cpp:345
 msgid "Release time (s)"
 msgstr "Elengedési idő (s)"
 
-#: src/mainwindow.cpp:1163
+#: src/mainwindow.cpp:1339
 msgid "Reload Clip"
 msgstr "Klip újratöltése"
 
-#: src/renderwidget.cpp:1457
+#: src/renderwidget.cpp:1524
 msgid "Remove Job"
 msgstr "Feladat eltávolítása"
 
-#: src/mainwindow.cpp:1035
-#: src/customtrackview.cpp:2265
+#: src/mainwindow.cpp:1211
+#: src/customtrackview.cpp:2510
 msgid "Remove Space"
 msgstr "Üres hely eltávolítása"
 
-#: rc.cpp:765
-#: rc.cpp:2683
-#: rc.cpp:4162
+#: rc.cpp:2120
+#: rc.cpp:3654
 msgid "Remove chapter"
 msgstr "Fejezet eltávolítása"
 
-#: src/documentchecker.cpp:350
+#: src/documentchecker.cpp:473
 msgid "Remove clips"
 msgstr "Klip eltávolítása"
 
-#: rc.cpp:1894
-#: rc.cpp:3812
-#: rc.cpp:5291
+#: rc.cpp:640
+#: rc.cpp:2174
 msgid "Remove file"
 msgstr "Fájl eltávolítása"
 
-#: rc.cpp:912
-#: rc.cpp:2830
-#: rc.cpp:4309
+#: rc.cpp:1880
+#: rc.cpp:3414
 msgid "Remove selected clips"
 msgstr "Kiválasztott klipek eltávolítása"
 
@@ -4768,11 +4564,12 @@ msgstr "Kiválasztott klipek eltávolítása"
 msgid "Remove space"
 msgstr "Üres hely eltávolítása"
 
-#: src/trackview.cpp:351
+#: src/trackview.cpp:311
+#: src/trackview.cpp:385
 msgid "Removed invalid transition: %1"
 msgstr "A hibás „%1” átmenet el lett távolítva"
 
-#: src/headertrack.cpp:88
+#: src/headertrack.cpp:94
 msgid "Rename Track"
 msgstr "Sáv átnevezése"
 
@@ -4780,17 +4577,16 @@ msgstr "Sáv átnevezése"
 msgid "Rename folder"
 msgstr "Mappa átnevezése"
 
-#: src/mainwindow.cpp:851
+#: src/mainwindow.cpp:957
 msgid "Render"
 msgstr "Leképzés"
 
-#: rc.cpp:539
-#: rc.cpp:2457
-#: rc.cpp:3936
+#: rc.cpp:1610
+#: rc.cpp:3144
 msgid "Render Project"
 msgstr "Projekt leképzése"
 
-#: src/renderwidget.cpp:93
+#: src/renderwidget.cpp:96
 msgid "Render to File"
 msgstr "Leképzés fájlba"
 
@@ -4798,25 +4594,25 @@ msgstr "Leképzés fájlba"
 msgid "Rendering"
 msgstr "Leképzés"
 
-#: src/renderwidget.cpp:845
+#: src/renderwidget.cpp:888
 msgid "Rendering <i>%1</i> started"
 msgstr "<i>%1</i> leképzése elkezdődött"
 
-#: src/renderwidget.cpp:1428
+#: src/renderwidget.cpp:1485
 msgid "Rendering aborted"
 msgstr "Leképzés megszakítva"
 
-#: src/renderwidget.cpp:842
-#: src/renderwidget.cpp:850
-#: src/renderwidget.cpp:1419
+#: src/renderwidget.cpp:885
+#: src/renderwidget.cpp:893
+#: src/renderwidget.cpp:1476
 msgid "Rendering crashed"
 msgstr "Leképzés hibát okozott"
 
-#: src/renderwidget.cpp:1408
+#: src/renderwidget.cpp:1465
 msgid "Rendering finished in %1"
 msgstr "Leképzés befejeződött %1 idő alatt"
 
-#: src/dvdwizard.cpp:245
+#: src/dvdwizard.cpp:252
 msgid "Rendering job timed out"
 msgstr "A leképzés időtúllépés miatt megszakítva"
 
@@ -4824,19 +4620,19 @@ msgstr "A leképzés időtúllépés miatt megszakítva"
 msgid "Rendering profiles customization"
 msgstr "Leképzési profilok testreszabása"
 
-#: src/trackview.cpp:562
+#: src/trackview.cpp:615
 msgid "Replaced wrong clip producer %1 with %2"
 msgstr "A hibás klipkészítő kicserélése erről: %1, erre:%2"
 
-#: src/wizard.cpp:334
+#: src/wizard.cpp:346
 msgid "Required for creation of DVD"
 msgstr "DVD létrehozásához szükséges"
 
-#: src/wizard.cpp:341
+#: src/wizard.cpp:353
 msgid "Required for creation of DVD ISO images"
 msgstr "Szükséges a DVD ISO lemezkép létrehozásához"
 
-#: src/wizard.cpp:327
+#: src/wizard.cpp:339
 msgid "Required for firewire capture"
 msgstr "Szükséges a firewire rögzítéshez"
 
@@ -4844,11 +4640,11 @@ msgstr "Szükséges a firewire rögzítéshez"
 msgid "Required for rendering (part of MLT package)"
 msgstr "Szükséges a leképzéshez (az MLT csomag része)"
 
-#: src/wizard.cpp:321
+#: src/wizard.cpp:333
 msgid "Required for screen capture"
 msgstr "Szükséges a képernyő mentéshez"
 
-#: src/wizard.cpp:312
+#: src/wizard.cpp:324
 msgid "Required for webcam capture"
 msgstr "Szükséges a webkamerával történő felvételhez"
 
@@ -4861,19 +4657,21 @@ msgstr "DV fájlok használatához szükséges, ha az avformat modul nincs telep
 msgid "Required to work with images"
 msgstr "A képekkel történő műveletek elvégzéséhez szükséges"
 
+#: src/wizard.cpp:305
+msgid "Required to work with titles"
+msgstr "A címekkel történő műveletek elvégzéséhez szükséges"
+
 #: src/wizard.cpp:165
 msgid "Required to work with various video formats (hdv, mpeg, flash, ...)"
 msgstr "A különféle videoformátumokkal történő műveletek elvégzéséhez szükséges (hdv, mpeg, flash, …)"
 
-#: rc.cpp:584
-#: rc.cpp:2502
-#: rc.cpp:3981
+#: rc.cpp:1655
+#: rc.cpp:3189
 msgid "Rescale"
 msgstr "Átméretezés"
 
-#: rc.cpp:885
-#: rc.cpp:2803
-#: rc.cpp:4282
+#: rc.cpp:2033
+#: rc.cpp:3567
 msgid "Reset"
 msgstr "Visszaállítás"
 
@@ -4881,9 +4679,8 @@ msgstr "Visszaállítás"
 msgid "Reset effect"
 msgstr "Effektus eltávolítás"
 
-#: rc.cpp:1620
-#: rc.cpp:3538
-#: rc.cpp:5017
+#: rc.cpp:1157
+#: rc.cpp:2691
 msgid "Resize"
 msgstr "Átméretezés"
 
@@ -4895,52 +4692,52 @@ msgstr "Klip átméretezése (100%)"
 msgid "Resize (50%)"
 msgstr "Klip átméretezése (50%)"
 
+#: src/mainwindow.cpp:1022
+msgid "Resize Item End"
+msgstr "Elem átméretezése befejeződik"
+
+#: src/mainwindow.cpp:1017
+msgid "Resize Item Start"
+msgstr "Elem átméretezése kezdődik"
+
 #: src/resizeclipcommand.cpp:34
-#: src/customtrackview.cpp:2799
-#: src/customtrackview.cpp:2892
+#: src/customtrackview.cpp:3088
+#: src/customtrackview.cpp:3187
 msgid "Resize clip"
 msgstr "Klip átméretezése"
 
 #: src/geometryval.cpp:86
-#: src/geometryval.cpp:297
+#: src/geometryval.cpp:299
 msgid "Resize..."
 msgstr "Klip átméretezése…"
 
-#: rc.cpp:293
-#: rc.cpp:2211
+#: rc.cpp:377
 msgid "Reverb"
 msgstr "Visszhangosítás (Reverb)"
 
-#: rc.cpp:483
-#: rc.cpp:2401
+#: rc.cpp:551
 msgid "Reverb Time"
 msgstr "Visszhang idő"
 
-#: rc.cpp:297
-#: rc.cpp:2215
+#: rc.cpp:381
 msgid "Reverb time"
 msgstr "Visszhang idő"
 
-#: rc.cpp:509
-#: rc.cpp:2427
-msgid "Reverse playing"
-msgstr "Lejátszás visszafele"
-
-#: src/mainwindow.cpp:2878
+#: src/mainwindow.cpp:3184
 msgid "Revert to last saved version"
 msgstr "Visszatérés a dokumentum legutóbb mentett változatához"
 
+#: src/recmonitor.cpp:72
+#: src/mainwindow.cpp:1027
 #: src/monitor.cpp:76
-#: src/mainwindow.cpp:896
-#: src/recmonitor.cpp:71
 msgid "Rewind"
 msgstr "Klip visszatekerése"
 
-#: src/mainwindow.cpp:901
+#: src/mainwindow.cpp:1032
 msgid "Rewind 1 Frame"
 msgstr "Ugrás az előző képkockára"
 
-#: src/mainwindow.cpp:906
+#: src/mainwindow.cpp:1037
 msgid "Rewind 1 Second"
 msgstr "Ugrás 1 másodperccel vissza"
 
@@ -4950,61 +4747,72 @@ msgstr "Visszatekerés 1 képkockával"
 
 #: src/geometryval.cpp:99
 #: rc.cpp:72
-#: rc.cpp:1990
 msgid "Right"
 msgstr "Jobbra"
 
-#: rc.cpp:301
-#: rc.cpp:2219
+#: rc.cpp:385
 msgid "Room Reverb"
 msgstr "Terem visszhangosítás (Room reverb)"
 
-#: rc.cpp:305
-#: rc.cpp:2223
+#: rc.cpp:389
 msgid "Room size (m)"
 msgstr "Terem méret(m)"
 
-#: rc.cpp:361
-#: rc.cpp:2279
+#: rc.cpp:445
 msgid "Rotate X"
 msgstr "Forgatás X"
 
-#: rc.cpp:363
-#: rc.cpp:2281
+#: rc.cpp:1091
+#: rc.cpp:2625
+msgid "Rotate X:"
+msgstr "Forgatás, X:"
+
+#: rc.cpp:447
 msgid "Rotate Y"
 msgstr "Forgatás Y"
 
-#: rc.cpp:365
-#: rc.cpp:2283
+#: rc.cpp:1094
+#: rc.cpp:2628
+msgid "Rotate Y:"
+msgstr "Forgatás, Y:"
+
+#: rc.cpp:449
 msgid "Rotate Z"
 msgstr "Forgatás Z"
 
-#: rc.cpp:357
-#: rc.cpp:2275
+#: rc.cpp:1097
+#: rc.cpp:2631
+msgid "Rotate Z:"
+msgstr "Forgatás, Z:"
+
+#: rc.cpp:441
 msgid "Rotate and Shear"
 msgstr "Forgatás és nyírás"
 
-#: rc.cpp:359
-#: rc.cpp:2277
+#: rc.cpp:443
 msgid "Rotate clip in any 3 directions"
 msgstr "Klip forgatása bármely irányban"
 
-#: rc.cpp:1587
-#: rc.cpp:3505
-#: rc.cpp:4984
-msgid "Rotate:"
-msgstr "Forgatás"
+#: src/titlewidget.cpp:104
+msgid "Rotation around the X axis"
+msgstr "Forgatás az X tengely körül"
 
-#: src/mainwindow.cpp:843
+#: src/titlewidget.cpp:110
+msgid "Rotation around the Y axis"
+msgstr "Forgatás az Y tengely körül"
+
+#: src/titlewidget.cpp:116
+msgid "Rotation around the Z axis"
+msgstr "Forgatás az Z tengely körül"
+
+#: src/mainwindow.cpp:949
 msgid "Run Config Wizard"
 msgstr "Beállítás Tündér futtatása"
 
-#: rc.cpp:563
-#: rc.cpp:813
-#: rc.cpp:2481
-#: rc.cpp:2731
-#: rc.cpp:3960
-#: rc.cpp:4210
+#: rc.cpp:688
+#: rc.cpp:1634
+#: rc.cpp:2222
+#: rc.cpp:3168
 msgid "S"
 msgstr "S"
 
@@ -5012,13 +4820,11 @@ msgstr "S"
 msgid "SVGAlib"
 msgstr "SVGAlib"
 
-#: rc.cpp:177
-#: rc.cpp:2095
+#: rc.cpp:231
 msgid "Saturat0r"
 msgstr "Telítettség"
 
-#: rc.cpp:181
-#: rc.cpp:2099
+#: rc.cpp:235
 msgid "Saturation"
 msgstr "Telítettség"
 
@@ -5026,30 +4832,29 @@ msgstr "Telítettség"
 msgid "Save"
 msgstr "Mentés"
 
-#: src/titlewidget.cpp:231
+#: src/titlewidget.cpp:353
 msgid "Save As"
 msgstr "Mentés másként…"
 
-#: src/dvdwizard.cpp:655
+#: src/dvdwizard.cpp:674
 msgid "Save DVD Project"
 msgstr "DVD projekt mentése"
 
-#: src/effectstackview.cpp:101
+#: src/effectstackview.cpp:102
 msgid "Save Effect"
 msgstr "Effektus mentése"
 
-#: rc.cpp:1131
-#: rc.cpp:3049
-#: rc.cpp:4528
+#: rc.cpp:1769
+#: rc.cpp:3303
 msgid "Save Profile"
 msgstr "Profil mentése"
 
-#: src/mainwindow.cpp:431
-#: src/mainwindow.cpp:1315
+#: src/mainwindow.cpp:484
+#: src/mainwindow.cpp:1490
 msgid "Save changes to document?"
 msgstr "Menti a dokumentum változásait?"
 
-#: src/mainwindow.cpp:2577
+#: src/mainwindow.cpp:2857
 msgid "Save clip zone as:"
 msgstr "Klip zóna mentése másként:"
 
@@ -5061,104 +4866,111 @@ msgstr "Effektus mentése"
 msgid "Save profile"
 msgstr "Profil mentése"
 
-#: src/monitor.cpp:201
+#: src/monitor.cpp:199
 msgid "Save zone"
 msgstr "Zóna mentése"
 
-#: src/geometryval.cpp:297
+#: src/geometryval.cpp:299
 #: rc.cpp:40
-#: rc.cpp:1958
 msgid "Scale"
 msgstr "Átméretezés"
 
-#: rc.cpp:195
-#: rc.cpp:2113
+#: rc.cpp:249
 msgid "Scale X"
 msgstr "X-lépték"
 
-#: rc.cpp:197
-#: rc.cpp:2115
+#: rc.cpp:251
 msgid "Scale Y"
 msgstr "Y-lépték"
 
-#: rc.cpp:183
-#: rc.cpp:2101
+#: rc.cpp:237
 msgid "Scale0tilt"
 msgstr "Átméretezés és döntés"
 
-#: rc.cpp:185
-#: rc.cpp:2103
+#: rc.cpp:239
 msgid "Scales, Tilts and Crops an Image"
 msgstr "Átméretezi, dönti és levágja a képet"
 
-#: rc.cpp:569
-#: rc.cpp:2487
-#: rc.cpp:3966
+#: rc.cpp:1640
+#: rc.cpp:3174
 msgid "Scanning"
 msgstr "Keresés"
 
-#: rc.cpp:1206
-#: rc.cpp:1281
-#: rc.cpp:3124
-#: rc.cpp:3199
-#: rc.cpp:4603
-#: rc.cpp:4678
+#: rc.cpp:1256
+#: rc.cpp:1331
+#: rc.cpp:2790
+#: rc.cpp:2865
 msgid "Screen Grab"
 msgstr "Képernyő rögzítése"
 
-#: rc.cpp:687
-#: rc.cpp:2605
-#: rc.cpp:4084
+#: rc.cpp:1418
+#: rc.cpp:2952
 msgid "Screen grab"
 msgstr "Képernyő rögzítése"
 
-#: src/renderwidget.cpp:176
+#: src/renderwidget.cpp:182
 msgid "Script Files"
 msgstr "Szkriptfájlok"
 
-#: src/renderwidget.cpp:1511
-#: src/renderwidget.cpp:1515
+#: src/renderwidget.cpp:1580
+#: src/renderwidget.cpp:1584
 msgid "Script contains wrong command: %1"
 msgstr "A szkript rossz „%1” parancsot tartalmaz"
 
-#: src/mainwindow.cpp:2795
+#: src/mainwindow.cpp:3101
 msgid "Script file already exists. Do you want to overwrite it?"
 msgstr "A szkript már létezik. Felül kívánja írni a szkriptet?"
 
-#: src/mainwindow.cpp:2790
+#: src/mainwindow.cpp:3096
 msgid "Script name (will be saved in: %1)"
 msgstr "Szkriptnév (ide kerül mentésre: „%1”)"
 
-#: rc.cpp:641
-#: rc.cpp:2559
-#: rc.cpp:4038
+#: rc.cpp:1718
+#: rc.cpp:3252
 msgid "Scripts"
-msgstr "Szkiptek"
+msgstr "Szkriptek"
 
-#: src/kdenlivedoc.cpp:874
+#: rc.cpp:1601
+#: rc.cpp:3135
+msgid "Search"
+msgstr "Keresés"
+
+#: src/kdenlivedoc.cpp:876
 msgid "Search automatically"
 msgstr "Automatikus keresés"
 
-#: src/kdenlivedoc.cpp:877
-#: src/kdenlivedoc.cpp:885
+#: src/kdenlivedoc.cpp:879
+#: src/kdenlivedoc.cpp:887
 msgid "Search manually"
 msgstr "Kézi beállítás"
 
-#: rc.cpp:906
-#: rc.cpp:2824
-#: rc.cpp:4303
+#: rc.cpp:1874
+#: rc.cpp:3408
 msgid "Search recursively"
 msgstr "Keresés almappákban"
+
+#: rc.cpp:2057
+#: rc.cpp:3591
+msgid "Seek to active keyframe"
+msgstr "Ugrás a következő aktív kulcsképre"
+
+#: src/mainwindow.cpp:1130
+msgid "Select Clip"
+msgstr "Klip kijelölése"
 
 #: src/dvdwizard.cpp:50
 msgid "Select Files For Your DVD"
 msgstr "Fájlok kiválasztása DVD létrehozáshoz"
 
-#: src/customtrackview.cpp:4254
+#: src/mainwindow.cpp:1145
+msgid "Select Transition"
+msgstr "Átmenet kiválasztása"
+
+#: src/customtrackview.cpp:4610
 msgid "Select a clip before copying"
 msgstr "Klip kijelölése másolás előtt"
 
-#: src/customtrackview.cpp:1516
+#: src/customtrackview.cpp:1591
 msgid "Select a clip if you want to apply an effect"
 msgstr "Klip kijelölése effektus alkalmazásakor"
 
@@ -5166,20 +4978,20 @@ msgstr "Klip kijelölése effektus alkalmazásakor"
 msgid "Select a region using the mouse. To take the snapshot, press the Enter key. Press Esc to quit."
 msgstr "Válassza ki a zónát az egér segítségével. Képernyőkép készítéséhez nyomja meg az Enter gombot. Kilépéshez nyomja meg az ESC gomot."
 
-#: src/titlewidget.cpp:178
+#: src/titlewidget.cpp:298
 msgid "Select background color"
 msgstr "Válassza ki a háttér színét"
 
-#: src/titlewidget.cpp:172
+#: src/titlewidget.cpp:292
 msgid "Select border color"
 msgstr "Válassza ki a keret színét"
 
-#: src/customtrackview.cpp:3183
+#: src/customtrackview.cpp:3514
 msgid "Select clip to change speed"
 msgstr "Sebesség megváltoztatásához válasszon egy klipet"
 
-#: src/customtrackview.cpp:1881
-#: src/customtrackview.cpp:3118
+#: src/customtrackview.cpp:1962
+#: src/customtrackview.cpp:3449
 msgid "Select clip to delete"
 msgstr "Klip kijelölése törléshez"
 
@@ -5195,43 +5007,45 @@ msgstr "Külső képszerkesztő alkalmazás kiválasztása"
 msgid "Select default video player"
 msgstr "Külső videolejátszó alkalmazás kiválasztása"
 
-#: src/titlewidget.cpp:171
+#: src/titlewidget.cpp:291
 msgid "Select fill color"
 msgstr "Válassza ki a kitöltés színét"
 
-#: rc.cpp:599
-#: rc.cpp:2517
-#: rc.cpp:3996
+#: rc.cpp:1670
+#: rc.cpp:3204
 msgid "Selected zone"
 msgstr "Kijelölt zóna"
 
-#: src/titlewidget.cpp:203
+#: rc.cpp:3711
+msgid "Selection"
+msgstr "Kijelölés"
+
+#: src/titlewidget.cpp:325
 msgid "Selection Tool"
 msgstr "Kiválasztó eszköz"
 
-#: src/mainwindow.cpp:693
+#: src/mainwindow.cpp:783
 msgid "Selection tool"
 msgstr "Kiválasztó eszköz"
 
-#: rc.cpp:383
-#: rc.cpp:2301
+#: rc.cpp:467
 msgid "Sepia"
 msgstr "Szépia"
 
-#: src/mainwindow.cpp:887
-msgid "Set In Point"
-msgstr "Belső pont megadása"
+#: src/mainwindow.cpp:993
+msgid "Set Zone In"
+msgstr "Zónakezdet beállítása"
 
-#: src/mainwindow.cpp:892
-msgid "Set Out Point"
-msgstr "Külső pont megadása"
+#: src/mainwindow.cpp:998
+msgid "Set Zone Out"
+msgstr "Zónavég beállítása"
 
-#: src/monitor.cpp:213
+#: src/monitor.cpp:211
 msgid "Set current image as thumbnail"
 msgstr "Aktuális képkocka mentése előnézetként"
 
 #: src/main.cpp:53
-msgid "Set the path for MLT environnement"
+msgid "Set the path for MLT environment"
 msgstr "Adja meg az MLT program elérési útját"
 
 #: src/monitor.cpp:73
@@ -5242,73 +5056,72 @@ msgstr "Zóna végének megadása"
 msgid "Set zone start"
 msgstr "Zóna kezdetének megadása"
 
-#: rc.cpp:3840
-#: rc.cpp:5319
+#: rc.cpp:1526
+#: rc.cpp:3060
 msgid "Settings"
 msgstr "Beállítások"
 
-#: rc.cpp:373
-#: rc.cpp:2291
+#: rc.cpp:457
 msgid "Shear X"
 msgstr "Nyírás X"
 
-#: rc.cpp:375
-#: rc.cpp:2293
+#: rc.cpp:459
 msgid "Shear Y"
 msgstr "Nyírás Y"
 
-#: rc.cpp:279
-#: rc.cpp:473
-#: rc.cpp:2197
-#: rc.cpp:2391
+#: rc.cpp:369
+#: rc.cpp:541
 msgid "Shift"
 msgstr "Eltolás (Shift)"
 
-#: src/mainwindow.cpp:2438
+#: src/mainwindow.cpp:2718
 msgid "Shift + click to create a selection rectangle, Ctrl + click to add an item to selection"
 msgstr "Shift + kattintás: négyzet-alakú kiválasztás, Ctrl + kattintás: elem hozzáadása a kiválasztáshoz"
 
-#: rc.cpp:1485
-#: rc.cpp:3403
-#: rc.cpp:4882
+#: rc.cpp:1931
+#: rc.cpp:3465
 msgid "Show All"
 msgstr "Összes megjelenítése"
 
-#: src/mainwindow.cpp:1072
+#: src/mainwindow.cpp:1248
 msgid "Show Timeline"
 msgstr "Idővonal megjelenítése"
 
-#: src/mainwindow.cpp:758
-#: rc.cpp:1659
-#: rc.cpp:3577
-#: rc.cpp:5056
+#: src/mainwindow.cpp:861
+#: rc.cpp:2069
+#: rc.cpp:3603
 msgid "Show audio thumbnails"
 msgstr "Hang gyorsnézet megjelenítése"
 
-#: rc.cpp:1647
-#: rc.cpp:3565
-#: rc.cpp:5044
+#: rc.cpp:1184
+#: rc.cpp:2718
 msgid "Show background"
 msgstr "Háttér megjelenítése"
+
+#: rc.cpp:163
+msgid "Show curves"
+msgstr "Görbék megjelenítése"
+
+#: rc.cpp:227
+msgid "Show histogram"
+msgstr "Hisztogram megjelenítése"
 
 #: src/complexparameter.cpp:40
 msgid "Show keyframes in timeline"
 msgstr "Jelölő beállítása az idővonalon"
 
-#: src/mainwindow.cpp:764
+#: src/mainwindow.cpp:867
 msgid "Show markers comments"
 msgstr "Jelölők megjegyzéseinek megjelenítése"
 
-#: src/mainwindow.cpp:752
-#: rc.cpp:1656
-#: rc.cpp:3574
-#: rc.cpp:5053
+#: src/mainwindow.cpp:855
+#: rc.cpp:2066
+#: rc.cpp:3600
 msgid "Show video thumbnails"
 msgstr "Videó minta előállítása"
 
-#: rc.cpp:638
-#: rc.cpp:2556
-#: rc.cpp:4035
+#: rc.cpp:1712
+#: rc.cpp:3246
 msgid "Shutdown computer after renderings"
 msgstr "A számítógép leállítása a leképzés befejezése után"
 
@@ -5316,8 +5129,7 @@ msgstr "A számítógép leállítása a leképzés befejezése után"
 msgid "Simon A. Eugster"
 msgstr "Simon A. Eugster"
 
-#: rc.cpp:313
-#: rc.cpp:2231
+#: rc.cpp:397
 msgid "Simulates a vinyl audio player - LADSPA audio effect"
 msgstr "LADSPA lemezlejátszó hangeffektus"
 
@@ -5329,50 +5141,39 @@ msgstr "Hatod Em szóköz. Szélessége hatoda egy <em>em</em> karakter széless
 msgid "Sixteenth note (Am.) or semiquaver (Brit.). Half as long as an eighth note (U+266a). See <a href=\"http://en.wikipedia.org/wiki/Sixteenth_note\">Wikipedia:Sixteenth_note</a>"
 msgstr "Tizenhatod hangjegy, sixteenth note (amerikai) vagy semiquaver (brit). A nyolcad hangjegyhez képest fele hosszúságú (U+266b) hangjegy. Lásd <a href=\"http://hu.wikipedia.org/wiki/Kotta\">Wikipedia: Kotta</a>"
 
-#: rc.cpp:780
-#: rc.cpp:1338
-#: rc.cpp:1512
-#: rc.cpp:1551
-#: rc.cpp:1879
-#: rc.cpp:2698
-#: rc.cpp:3256
-#: rc.cpp:3430
-#: rc.cpp:3469
-#: rc.cpp:3797
-#: rc.cpp:4177
-#: rc.cpp:4735
-#: rc.cpp:4909
-#: rc.cpp:4948
-#: rc.cpp:5276
+#: rc.cpp:625
+#: rc.cpp:655
+#: rc.cpp:1391
+#: rc.cpp:2042
+#: rc.cpp:2159
+#: rc.cpp:2189
+#: rc.cpp:2925
+#: rc.cpp:3576
 msgid "Size"
 msgstr "Méret"
 
-#: rc.cpp:1416
-#: rc.cpp:1698
-#: rc.cpp:3334
-#: rc.cpp:3616
-#: rc.cpp:3852
-#: rc.cpp:4813
-#: rc.cpp:5095
-#: rc.cpp:5331
+#: rc.cpp:773
+#: rc.cpp:1538
+#: rc.cpp:1823
+#: rc.cpp:2307
+#: rc.cpp:3072
+#: rc.cpp:3357
 msgid "Size:"
 msgstr "Méret:"
 
-#: rc.cpp:1740
-#: rc.cpp:3658
-#: rc.cpp:5137
+#: rc.cpp:815
+#: rc.cpp:2349
 msgid "Slideshow"
 msgstr "Diavetítés "
 
 #: src/slideshowclip.cpp:37
-#: rc.cpp:1347
-#: rc.cpp:3265
-#: rc.cpp:4744
+#: rc.cpp:1883
+#: rc.cpp:3417
 msgid "Slideshow Clip"
 msgstr "Diavetítés klip"
 
-#: src/projectitem.cpp:207
-#: src/documentchecker.cpp:98
+#: src/documentchecker.cpp:148
+#: src/projectitem.cpp:186
 msgid "Slideshow clip"
 msgstr "Diavetítés klip"
 
@@ -5380,189 +5181,156 @@ msgstr "Diavetítés klip"
 msgid "Smaller tracks"
 msgstr "Kisebb sávok"
 
-#: src/mainwindow.cpp:770
+#: src/mainwindow.cpp:873
 msgid "Snap"
 msgstr "Igazítás"
 
-#: rc.cpp:1377
-#: rc.cpp:1764
-#: rc.cpp:3295
-#: rc.cpp:3682
-#: rc.cpp:4774
-#: rc.cpp:5161
+#: rc.cpp:839
+#: rc.cpp:1913
+#: rc.cpp:2373
+#: rc.cpp:3447
 msgid "Softness"
 msgstr "Finomság"
 
-#: src/documentvalidator.cpp:692
+#: src/documentvalidator.cpp:724
 msgid "Some of your text clips were saved with size in points, which means different sizes on different displays. Do you want to convert them to pixel size, making them portable? It is recommended you do this on the computer they were first created on, or you could have to adjust their size."
 msgstr "Néhány szövegklip pontban megadott mérettel lett elmentve, amely különböző megjelenítőkön különböző méretet eredményez. Át kívánja konvertálni a klip méretét képpontra, és így hordozhatóvá tenni? Ajánlott ezt az átalakítást elvégezni azon a számítógépen amelyen ezek a klipek lettek létrehozva, vagy az átalakítás után esetleg át kell majd méretezni a klipeket."
 
-#: src/titledocument.cpp:234
+#: src/titledocument.cpp:281
 msgid "Some of your text clips were saved with size in points, which means different sizes on different displays. They will be converted to pixel size, making them portable, but you could have to adjust their size."
 msgstr "Néhány szövegklip pontban megadott mérettel lett elmentve, amely különböző megjelenítőkön különböző méretet eredményez. A méretek át lesznek konvertálva képpontra, és így hordozható lesz, de az átalakítás után esetleg át kell majd méretezni a klipeket."
 
-#: rc.cpp:846
-#: rc.cpp:2764
-#: rc.cpp:4243
+#: rc.cpp:1019
+#: rc.cpp:2553
 msgid "Source"
 msgstr "Forrás"
 
-#: rc.cpp:147
-#: rc.cpp:2065
+#: rc.cpp:149
 msgid "Source Color"
 msgstr "Forrásszín"
 
-#: rc.cpp:391
-#: rc.cpp:2309
-msgid "Sox Balance"
-msgstr "Sox egyensúly"
+#: rc.cpp:275
+msgid "Source image on left side"
+msgstr "Forráskép a bal oldalon"
 
-#: rc.cpp:407
-#: rc.cpp:2325
+#: rc.cpp:475
 msgid "Sox Band"
 msgstr "Sox sáv"
 
-#: rc.cpp:415
-#: rc.cpp:2333
+#: rc.cpp:483
 msgid "Sox Bass"
 msgstr "Sox mélyhang-kiemelés"
 
-#: rc.cpp:423
-#: rc.cpp:2341
+#: rc.cpp:491
 msgid "Sox Echo"
 msgstr "Sox visszhang hangeffektus"
 
-#: rc.cpp:435
-#: rc.cpp:2353
+#: rc.cpp:503
 msgid "Sox Flanger"
 msgstr "Sox Flanger hangeffektus"
 
-#: rc.cpp:449
-#: rc.cpp:2367
+#: rc.cpp:517
 msgid "Sox Gain"
 msgstr "Sox erősítés"
 
-#: rc.cpp:455
-#: rc.cpp:2373
+#: rc.cpp:523
 msgid "Sox Phaser"
 msgstr "Sox fáziseltoló"
 
-#: rc.cpp:469
-#: rc.cpp:2387
+#: rc.cpp:537
 msgid "Sox Pitch Shift"
 msgstr "Hangmagasság eltolás (Pitch Shift)"
 
-#: rc.cpp:477
-#: rc.cpp:2395
+#: rc.cpp:545
 msgid "Sox Reverb"
 msgstr "Terem visszhangosítás (Room reverb)"
 
-#: rc.cpp:487
-#: rc.cpp:2405
+#: rc.cpp:555
 msgid "Sox Stretch"
 msgstr "Sox nyújtás"
 
-#: rc.cpp:495
-#: rc.cpp:2413
+#: rc.cpp:563
 msgid "Sox Vibro"
 msgstr "Sox Vibro hangeffektus"
 
-#: rc.cpp:409
-#: rc.cpp:2327
+#: rc.cpp:477
 msgid "Sox band audio effect"
 msgstr "Sox sáv hangeffektus"
 
-#: rc.cpp:417
-#: rc.cpp:2335
+#: rc.cpp:485
 msgid "Sox bass audio effect"
 msgstr "Sox mélyhang-kiemelés hangeffektus"
 
-#: rc.cpp:393
-#: rc.cpp:2311
-msgid "Sox change audio balance"
-msgstr "A Sox megváltoztatja a hangegyensúlyt"
-
-#: rc.cpp:471
-#: rc.cpp:2389
+#: rc.cpp:539
 msgid "Sox change pitch audio effect"
 msgstr "Sox hangszínváltó hangeffektus"
 
-#: rc.cpp:425
-#: rc.cpp:2343
+#: rc.cpp:493
 msgid "Sox echo audio effect"
 msgstr "Sox visszhang hangeffektus"
 
-#: rc.cpp:437
-#: rc.cpp:2355
+#: rc.cpp:505
 msgid "Sox flanger audio effect"
 msgstr "Sox flanger hangeffektus"
 
-#: rc.cpp:451
-#: rc.cpp:2369
+#: rc.cpp:519
 msgid "Sox gain audio effect"
-msgstr "Sox felrősítés hangeffektus"
+msgstr "Sox felerősítés hangeffektus"
 
-#: rc.cpp:457
-#: rc.cpp:2375
+#: rc.cpp:525
 msgid "Sox phaser audio effect"
 msgstr "Sox fáziseltoló hangeffektus"
 
-#: rc.cpp:479
-#: rc.cpp:2397
+#: rc.cpp:547
 msgid "Sox reverb audio effect"
 msgstr "Sox zengető hangeffektus"
 
-#: rc.cpp:489
-#: rc.cpp:2407
+#: rc.cpp:557
 msgid "Sox stretch audio effect"
 msgstr "Sox nyújtás hangeffektus"
 
-#: rc.cpp:497
-#: rc.cpp:2415
+#: rc.cpp:565
 msgid "Sox vibro audio effect"
 msgstr "Sox vibro hangeffektus"
 
-#: rc.cpp:5442
+#: rc.cpp:3720
 msgid "Space"
 msgstr "Üres hely"
 
-#: src/mainwindow.cpp:705
+#: src/mainwindow.cpp:795
 msgid "Spacer tool"
 msgstr "Üres hely eszköz"
 
-#: rc.cpp:447
-#: rc.cpp:467
-#: rc.cpp:499
-#: rc.cpp:501
-#: rc.cpp:505
-#: rc.cpp:2365
-#: rc.cpp:2385
-#: rc.cpp:2417
-#: rc.cpp:2419
-#: rc.cpp:2423
+#: rc.cpp:515
+#: rc.cpp:535
+#: rc.cpp:567
+#: rc.cpp:569
+#: rc.cpp:573
 msgid "Speed"
 msgstr "Sebesség"
 
-#: src/mainwindow.cpp:1005
+#: src/mainwindow.cpp:1181
 msgid "Split Audio"
 msgstr "Hang felosztása"
 
 #: src/splitaudiocommand.cpp:32
-#: src/customtrackview.cpp:4837
+#: src/customtrackview.cpp:5262
 msgid "Split audio"
 msgstr "Hang felosztása"
 
-#: src/monitor.cpp:208
+#: rc.cpp:273
+msgid "Split screen preview"
+msgstr "Osztottképernyős előnézet"
+
+#: src/monitor.cpp:206
 msgid "Split view"
 msgstr "Megosztott nézet"
 
-#: rc.cpp:273
-#: rc.cpp:2191
+#: rc.cpp:357
 msgid "Spread"
 msgstr "Terjedés"
 
-#: rc.cpp:203
-#: rc.cpp:2121
+#: rc.cpp:257
 msgid "Square Blur"
 msgstr "Szögletes elmosás"
 
@@ -5570,126 +5338,123 @@ msgstr "Szögletes elmosás"
 msgid "Standard space character. (Other space characters: U+00a0, U+2000&#x2013;200b, U+202f)"
 msgstr "Általános szóköz karakter. (Egyéb szóköz karakterek: U+00a0, U+2000&#x2013;200b, U+202f)"
 
-#: src/mainwindow.cpp:2843
-#: rc.cpp:82
-#: rc.cpp:94
-#: rc.cpp:858
-#: rc.cpp:2000
-#: rc.cpp:2012
-#: rc.cpp:2776
-#: rc.cpp:3921
-#: rc.cpp:4255
-#: rc.cpp:5400
+#: src/mainwindow.cpp:3149
+#: src/titlewidget.cpp:1980
+#: rc.cpp:84
+#: rc.cpp:118
+#: rc.cpp:1031
+#: rc.cpp:2138
+#: rc.cpp:2565
+#: rc.cpp:3672
 msgid "Start"
 msgstr "Indítás"
 
-#: rc.cpp:105
-#: rc.cpp:116
-#: rc.cpp:2023
-#: rc.cpp:2034
+#: rc.cpp:95
+#: rc.cpp:106
 msgid "Start Gain"
 msgstr "Mélyhang-kiemelés (Lo gain)"
 
-#: src/renderwidget.cpp:92
+#: rc.cpp:1715
+#: rc.cpp:3249
+msgid "Start Job"
+msgstr "Feladat elindítása"
+
+#: src/renderwidget.cpp:95
 msgid "Start Rendering"
 msgstr "Leképzés indítása"
 
-#: rc.cpp:644
-#: rc.cpp:2562
-#: rc.cpp:4041
+#: rc.cpp:1721
+#: rc.cpp:3255
 msgid "Start Script"
 msgstr "Szkript indítása"
 
-#: src/mainwindow.cpp:415
+#: rc.cpp:1139
+#: rc.cpp:2673
+msgid "Start at"
+msgstr "Indítás ekkor"
+
+#: src/mainwindow.cpp:468
 msgid "Start them now"
 msgstr "Indítás"
 
-#: src/mainwindow.cpp:2471
+#: src/mainwindow.cpp:2751
 msgid "Starting -- find text as you type"
 msgstr "Gépelés közbeni keresés indítása"
 
-#: rc.cpp:954
-#: rc.cpp:2872
-#: rc.cpp:4351
+#: rc.cpp:1748
+#: rc.cpp:3282
 msgid "Status"
 msgstr "Állapot"
 
-#: src/recmonitor.cpp:77
+#: src/recmonitor.cpp:78
 msgid "Stop"
 msgstr "Lejátszás leállítása"
 
-#: rc.cpp:507
-#: rc.cpp:2425
+#: rc.cpp:575
 msgid "Stroboscope"
 msgstr "Stroboszkóp"
 
-#: rc.cpp:1837
-#: rc.cpp:3755
-#: rc.cpp:5234
-msgid "Stroboscope effect"
-msgstr "Stroboszkóp effektus"
-
-#: rc.cpp:319
-#: rc.cpp:2237
+#: rc.cpp:403
 msgid "Surface warping"
 msgstr "Felület alakítás"
+
+#: src/mainwindow.cpp:1003
+msgid "Switch monitor"
+msgstr "Monitor váltása"
 
 #: src/geometryval.cpp:105
 msgid "Sync timeline cursor"
 msgstr "Idővonal kurzor szinkronizálása"
 
-#: rc.cpp:732
-#: rc.cpp:2650
-#: rc.cpp:4129
+#: src/customtrackview.cpp:5684
+msgid "TRACTOR"
+msgstr "TRACTOR"
+
+#: rc.cpp:953
+#: rc.cpp:2487
 msgid "Target"
 msgstr "Cél"
 
-#: rc.cpp:819
-#: rc.cpp:2737
-#: rc.cpp:4216
+#: rc.cpp:1859
+#: rc.cpp:3393
 msgid "Template"
 msgstr "Sablon"
 
-#: src/projectitem.cpp:203
+#: src/projectitem.cpp:182
 msgid "Template text clip"
 msgstr "Szövegklip sablon"
 
-#: src/kdenlivedoc.cpp:1093
+#: src/kdenlivedoc.cpp:1094
 msgid "Template title clip"
 msgstr "Cím klip sablon"
 
-#: rc.cpp:969
-#: rc.cpp:2887
-#: rc.cpp:4366
+#: rc.cpp:1763
+#: rc.cpp:3297
 msgid "Temporary data folder"
 msgstr "Ideiglenes fájlok mappája"
 
-#: rc.cpp:1026
-#: rc.cpp:2944
-#: rc.cpp:4423
+#: rc.cpp:1439
+#: rc.cpp:2973
 msgid "Temporary files"
 msgstr "Ideiglenes fájlok mappája"
 
-#: rc.cpp:729
-#: rc.cpp:822
-#: rc.cpp:2647
-#: rc.cpp:2740
-#: rc.cpp:4126
-#: rc.cpp:4219
+#: rc.cpp:950
+#: rc.cpp:1862
+#: rc.cpp:2484
+#: rc.cpp:3396
 msgid "Text"
 msgstr "Szöveg"
 
-#: src/titledocument.cpp:234
+#: src/titledocument.cpp:281
 msgid "Text Clips Updated"
 msgstr "Szövegklip frissítve"
 
-#: src/projectitem.cpp:204
+#: src/projectitem.cpp:183
 msgid "Text clip"
 msgstr "Szöveg klip"
 
-#: rc.cpp:1852
-#: rc.cpp:3770
-#: rc.cpp:5249
+#: rc.cpp:1499
+#: rc.cpp:3033
 msgid "TextLabel"
 msgstr "Szövegcímke"
 
@@ -5697,12 +5462,16 @@ msgstr "Szövegcímke"
 msgid "The custom profile was modified, do you want to save it?"
 msgstr "Az egyedi profil tartalma megváltozott. El kívánja menteni a megváltozott profilt? "
 
-#: src/renderwidget.cpp:786
-#: src/renderwidget.cpp:1554
+#: rc.cpp:3741
+msgid "Themes"
+msgstr "Témák"
+
+#: src/renderwidget.cpp:819
+#: src/renderwidget.cpp:1623
 msgid "There is already a job writing file:<br><b>%1</b><br>Abort the job if you want to overwrite it..."
 msgstr "Már van feladat a következő fájl írásához:<br>„<b>%1</b>”<br>Szakítsa meg a feladatot, ha felülírni kívánja írni a fájlt…"
 
-#: src/renderer.cpp:1444
+#: src/renderer.cpp:1470
 msgid "There is no clip, cannot extract frame."
 msgstr "Nincs klip, ezért nem tudok képkockát kiszedni.."
 
@@ -5718,36 +5487,37 @@ msgstr "Harmincketted hangjegy, thirty-second note (amerikai) vagy demisemiquave
 msgid "This is the first time you run Kdenlive. This wizard will let you adjust some basic settings, you will be ready to edit your first movie in a few seconds..."
 msgstr "Ez az első alkalom, hogy a Kdenlive programot futtatja. Kérem szánjon rá néhány percet, hogy igényeinek megfelelően beállítja a programot. Ezeket a beállításokat a későbbiekben bármikor megváltoztathatja a „Beállítások” ablakban. Ezek után már neki is állhat első fimének elkészítéséhez."
 
-#: src/renderwidget.cpp:371
-#: src/renderwidget.cpp:478
+#: src/renderwidget.cpp:401
+#: src/renderwidget.cpp:518
 msgid "This profile name already exists. Change the name if you don't want to overwrite it."
 msgstr "Ez a profil már létezik. Változtassa meg a profil nevét, ha nem kívánja felülírni a már létező profilt."
 
-#: src/documentvalidator.cpp:144
+#: src/documentvalidator.cpp:176
 msgid "This project type is unsupported (version %1) and can't be loaded."
 msgstr "A projekt típusa nem támogatott (verzió: %1) és ezért nem tölthető be."
 
-#: src/documentvalidator.cpp:137
+#: src/documentvalidator.cpp:169
 msgid ""
 "This project type is unsupported (version %1) and can't be loaded.\n"
-"Please consider upgrading you Kdenlive version."
+"Please consider upgrading your Kdenlive version."
 msgstr ""
 "A projekt típusa nem támogatott (verzió: %1) és ezért nem tölthető be.\n"
 "Szerezzen be újabb verziót a Kdenlive programból."
 
-#: src/titledocument.cpp:196
+#: src/titledocument.cpp:243
 msgid "This title clip was created with a different frame size."
 msgstr "A cím klip eltérő képkockamérethez készült."
 
-#: src/mainwindow.cpp:2878
+#: src/mainwindow.cpp:3184
 msgid "This will delete all changes made since you last saved your project. Are you sure you want to continue?"
 msgstr "Ez a művelet eltávolítja az összes módosítást, amelyet a projekt legutóbbi mentése óta végzett. Biztosan végre kívánja hajtani a műveletet?"
 
-#: src/mainwindow.cpp:1709
+#: src/mainwindow.cpp:1885
+#: src/projectsettings.cpp:103
 msgid "This will remove all unused clips from your project."
 msgstr "Ez a művelet eltávolítja az összes nem használt klipet a projektből."
 
-#: src/projectsettings.cpp:91
+#: src/projectsettings.cpp:108
 msgid ""
 "This will remove the following files from your hard drive.\n"
 "This action cannot be undone, only use if you know what you are doing.\n"
@@ -5757,7 +5527,7 @@ msgstr ""
 "Ez a művelet nem vonható vissza, ezért csak akkor hajtsa végre, ha valóban tudja, hogy ez mivel jár.\n"
 "Biztosan végre kívánja hajtani a műveletet?"
 
-#: src/documentchecker.cpp:350
+#: src/documentchecker.cpp:473
 msgid "This will remove the selected clip from this project"
 msgid_plural "This will remove the selected clips from this project"
 msgstr[0] "A művelet folytatásával eltávolítja a kiválasztott klipet ebből a projektből"
@@ -5767,123 +5537,132 @@ msgstr[1] "A művelet folytatásával eltávolítja a kiválasztott klipeket ebb
 msgid "Three-Per-Em Space. Width: 1/3 of one <em>em</em>"
 msgstr "Harmad Em szóköz vagy vastag szóköz. Szélessége harmada egy <em>em</em> karakter szélességének"
 
-#: rc.cpp:511
-#: rc.cpp:2429
+#: rc.cpp:281
+#: rc.cpp:577
 msgid "Threshold"
 msgstr "Tűréshatár"
 
-#: rc.cpp:515
-#: rc.cpp:2433
+#: rc.cpp:581
 msgid "Threshold value"
 msgstr "Tűréshatár értéke"
 
-#: src/projectlistview.cpp:46
-msgid "Thumbnail"
-msgstr "Gyorsnézeti kép"
+#: rc.cpp:277
+msgid "Threshold0r"
+msgstr "Tűréshatár"
 
-#: rc.cpp:1110
-#: rc.cpp:3028
-#: rc.cpp:4507
+#: rc.cpp:279
+msgid "Thresholds a source image"
+msgstr "Forráskép tűréshatár"
+
+#: rc.cpp:1982
+#: rc.cpp:3516
 msgid "Thumbnails"
 msgstr "Gyorsnézeti képek "
 
-#: rc.cpp:837
-#: rc.cpp:2755
-#: rc.cpp:3906
-#: rc.cpp:4234
-#: rc.cpp:5385
+#: rc.cpp:1592
+#: rc.cpp:3126
 msgid "Thumbnails cache:"
 msgstr "Bélyegkép-gyorsítótár:"
 
-#: rc.cpp:3885
-#: rc.cpp:5364
+#: rc.cpp:1571
+#: rc.cpp:3105
 msgid "Thumbnails:"
 msgstr "Gyorsnézeti képek "
 
-#: rc.cpp:199
-#: rc.cpp:2117
+#: rc.cpp:253
 msgid "Tilt X"
 msgstr "X döntés"
 
-#: rc.cpp:201
-#: rc.cpp:2119
+#: rc.cpp:255
 msgid "Tilt Y"
 msgstr "Y döntés"
 
-#: rc.cpp:1782
-#: rc.cpp:3700
-#: rc.cpp:5179
+#: rc.cpp:857
+#: rc.cpp:2391
 msgid "Time"
 msgstr "Idő"
 
-#: rc.cpp:475
-#: rc.cpp:2393
+#: rc.cpp:543
 msgid "Time window (ms)"
 msgstr "Időablak (ezredmásodperc)"
 
-#: rc.cpp:587
-#: rc.cpp:2505
-#: rc.cpp:3984
+#: rc.cpp:1658
+#: rc.cpp:3192
 msgid "Timecode overlay"
 msgstr "Időkód megjelenítése"
 
-#: rc.cpp:5436
+#: rc.cpp:3708
 msgid "Timeline"
 msgstr "Idővonal"
 
-#: src/titlewidget.cpp:335
+#: rc.cpp:291
+msgid "Tint amount"
+msgstr "Tinta mennyisége"
+
+#: rc.cpp:283
+msgid "Tint0r"
+msgstr "Tint0r"
+
+#: src/titlewidget.cpp:465
 msgid "Title"
 msgstr "Cím"
 
-#: rc.cpp:1521
-#: rc.cpp:3439
-#: rc.cpp:4918
+#: rc.cpp:1064
+#: rc.cpp:2598
 msgid "Title Clip"
 msgstr "Videó klip"
 
-#: src/titledocument.cpp:196
+#: src/documentchecker.cpp:154
+msgid "Title Font"
+msgstr "Cím betűtípus"
+
+#: src/documentchecker.cpp:151
+msgid "Title Image"
+msgstr "Cím kép"
+
+#: src/titledocument.cpp:243
 msgid "Title Profile"
 msgstr "Cím profil"
 
-#: src/kdenlivedoc.cpp:1076
+#: src/kdenlivedoc.cpp:1077
 msgid "Title clip"
 msgstr "Cím klip"
 
-#: rc.cpp:1518
-#: rc.cpp:3436
-#: rc.cpp:4915
+#: src/wizard.cpp:304
+msgid "Title module"
+msgstr "Cím modul"
+
+#: rc.cpp:2048
+#: rc.cpp:3582
 msgid "Toggle selection"
 msgstr "Kijelölés váltása"
 
-#: rc.cpp:5427
+#: rc.cpp:3699
 msgid "Tool"
 msgstr "Eszköz"
 
 #: src/geometryval.cpp:101
 #: rc.cpp:66
-#: rc.cpp:1984
 msgid "Top"
 msgstr "Felülre"
 
-#: src/customtrackview.cpp:2265
-#: rc.cpp:1500
-#: rc.cpp:3418
-#: rc.cpp:4897
+#: src/customtrackview.cpp:2510
+#: rc.cpp:1517
+#: rc.cpp:3051
 msgid "Track"
 msgstr "Sáv"
 
-#: rc.cpp:1128
-#: rc.cpp:3046
-#: rc.cpp:4525
+#: rc.cpp:2000
+#: rc.cpp:3534
 msgid "Track height"
 msgstr "Sáv magasság"
 
-#: rc.cpp:5424
+#: rc.cpp:3696
 msgid "Tracks"
 msgstr "Sávok"
 
 #: src/kdenlivesettingsdialog.cpp:103
-#: rc.cpp:5418
+#: rc.cpp:3690
 msgid "Transcode"
 msgstr "Átkódolás"
 
@@ -5891,70 +5670,74 @@ msgstr "Átkódolás"
 msgid "Transcode Clip"
 msgstr "Klip átkódolása"
 
-#: src/mainwindow.cpp:882
+#: src/mainwindow.cpp:988
 msgid "Transcode Clips"
 msgstr "Klipek átkódolása"
 
-#: src/cliptranscode.cpp:157
+#: src/cliptranscode.cpp:163
 msgid "Transcoding FAILED!"
 msgstr "A klip átkódolása nem sikerült."
 
-#: src/cliptranscode.cpp:141
+#: src/cliptranscode.cpp:147
 msgid "Transcoding finished."
 msgstr "Átkódolás befejeződött."
 
-#: src/mainwindow.cpp:172
+#: src/mainwindow.cpp:176
 msgid "Transition"
 msgstr "Átmenet"
 
-#: rc.cpp:3924
-#: rc.cpp:3930
-#: rc.cpp:5403
-#: rc.cpp:5409
+#: src/trackview.cpp:291
+#: src/trackview.cpp:299
+msgid "Transition %1 had an invalid track: %2 > %3"
+msgstr "%1 átmenet érvénytelen sávot tartalmaz: %2 > %3"
+
+#: rc.cpp:2141
+#: rc.cpp:2147
+#: rc.cpp:3675
+#: rc.cpp:3681
 msgid "Transparency"
 msgstr "Átlátszóság"
 
-#: rc.cpp:1776
-#: rc.cpp:3694
-#: rc.cpp:5173
+#: rc.cpp:851
+#: rc.cpp:2385
 msgid "Transparent background"
 msgstr "Áttetsző háttér"
 
 #: rc.cpp:64
-#: rc.cpp:1982
 msgid "Trim the edges of a clip"
 msgstr "Klip széleinek levágása"
 
-#: rc.cpp:385
-#: rc.cpp:2303
+#: rc.cpp:469
 msgid "Turn clip colors to sepia"
 msgstr "Klip színek átalakítása szépiába"
 
-#: rc.cpp:900
-#: rc.cpp:933
-#: rc.cpp:2818
-#: rc.cpp:2851
-#: rc.cpp:4297
-#: rc.cpp:4330
+#: rc.cpp:733
+#: rc.cpp:1868
+#: rc.cpp:2267
+#: rc.cpp:3402
 msgid "Type"
 msgstr "Típus"
 
-#: src/documentvalidator.cpp:137
-#: src/documentvalidator.cpp:144
+#: src/titlewidget.cpp:173
+msgid "Typewriter"
+msgstr "Írógép"
+
+#: src/documentvalidator.cpp:169
+#: src/documentvalidator.cpp:176
 msgid "Unable to open project"
 msgstr "A projekt nem nyitható meg"
 
-#: src/renderwidget.cpp:392
-#: src/renderwidget.cpp:559
-#: src/renderwidget.cpp:1197
+#: src/renderwidget.cpp:416
+#: src/renderwidget.cpp:599
+#: src/renderwidget.cpp:1253
 msgid "Unable to write to file %1"
 msgstr "A(z) %1 fájl nem írható"
 
-#: src/mainwindow.cpp:210
+#: src/mainwindow.cpp:214
 msgid "Undo History"
 msgstr "Visszavonható előzmények"
 
-#: src/mainwindow.cpp:978
+#: src/mainwindow.cpp:1119
 msgid "Ungroup Clips"
 msgstr "Klipek csoportjának felbontása"
 
@@ -5962,7 +5745,7 @@ msgstr "Klipek csoportjának felbontása"
 msgid "Ungroup clips"
 msgstr "Klipek csoportjának felbontása"
 
-#: src/projectitem.cpp:216
+#: src/projectitem.cpp:195
 msgid "Unknown clip"
 msgstr "Ismeretlen videó klip"
 
@@ -5970,96 +5753,81 @@ msgstr "Ismeretlen videó klip"
 msgid "Unlock track"
 msgstr "Sáv feloldása"
 
-#: src/renderwidget.cpp:993
+#: src/renderwidget.cpp:1039
 msgid "Unsupported audio codec: %1"
 msgstr "Nem támogatott hangtömörítés: %1"
 
-#: src/renderwidget.cpp:1010
+#: src/renderwidget.cpp:1056
 msgid "Unsupported video codec: %1"
 msgstr "Nem támogatott videótömörítés: %1"
 
-#: src/renderwidget.cpp:977
+#: src/renderwidget.cpp:1023
 msgid "Unsupported video format: %1"
 msgstr "Nem támogatott videó formátum: %1"
 
-#: src/kdenlivedoc.cpp:847
+#: src/kdenlivedoc.cpp:849
 msgid "Untitled"
 msgstr "Névtelen"
 
-#: rc.cpp:831
-#: rc.cpp:2749
-#: rc.cpp:3900
-#: rc.cpp:4228
-#: rc.cpp:5379
+#: rc.cpp:1586
+#: rc.cpp:3120
 msgid "Unused clips:"
 msgstr "Fel nem használt klipek:"
 
-#: rc.cpp:918
-#: rc.cpp:2836
-#: rc.cpp:4315
+#: rc.cpp:911
+#: rc.cpp:2445
 msgid "Up"
 msgstr "Fel"
 
-#: src/documentvalidator.cpp:692
+#: src/documentvalidator.cpp:724
 msgid "Update Text Clips"
 msgstr "Szövegklip frissítése"
 
-#: rc.cpp:1449
-#: rc.cpp:3367
-#: rc.cpp:4846
+#: rc.cpp:1856
+#: rc.cpp:3390
 msgid "Use KDE job tracking for render jobs"
 msgstr "A KDE munkakövető rendszerének használata a leképzési feladatokhoz"
 
-#: rc.cpp:807
-#: rc.cpp:2725
-#: rc.cpp:4204
+#: rc.cpp:682
+#: rc.cpp:2216
 msgid "Use as default"
 msgstr "Alapértelmezett"
 
-#: rc.cpp:909
-#: rc.cpp:2827
-#: rc.cpp:4306
+#: rc.cpp:1877
+#: rc.cpp:3411
 msgid "Use placeholders for missing clips"
 msgstr "Helykitöltők használata a hiányzó klipekhez"
 
-#: rc.cpp:517
-#: rc.cpp:2435
+#: rc.cpp:583
 msgid "Use transparency"
 msgstr "Átlátszóság használata"
 
-#: rc.cpp:1638
-#: rc.cpp:1641
-#: rc.cpp:3556
-#: rc.cpp:3559
-#: rc.cpp:3912
-#: rc.cpp:3915
-#: rc.cpp:5035
-#: rc.cpp:5038
-#: rc.cpp:5391
-#: rc.cpp:5394
+#: rc.cpp:1175
+#: rc.cpp:1178
+#: rc.cpp:2105
+#: rc.cpp:2108
+#: rc.cpp:2709
+#: rc.cpp:2712
+#: rc.cpp:3639
+#: rc.cpp:3642
 msgid "V"
 msgstr "V"
 
-#: src/kdenlivedoc.cpp:86
+#: src/kdenlivedoc.cpp:89
 msgid "Validating"
 msgstr "Ellenőrzés"
 
-#: src/keyframeedit.cpp:38
-#: rc.cpp:1864
-#: rc.cpp:3782
-#: rc.cpp:5261
+#: rc.cpp:1979
+#: rc.cpp:3513
 msgid "Value"
 msgstr "Érték"
 
-#: rc.cpp:205
-#: rc.cpp:2123
+#: rc.cpp:259
 msgid "Variable-size square blur (frei0r.squareblur)"
 msgstr "Változtatható méretű szögletes elmosás (frei0r.squareblur)"
 
 #: rc.cpp:52
 #: rc.cpp:60
-#: rc.cpp:1970
-#: rc.cpp:1978
 msgid "Variance"
 msgstr "Variancia"
 
@@ -6067,66 +5835,55 @@ msgstr "Variancia"
 msgid "Vert. Center"
 msgstr "Függőlegesen középre"
 
-#: rc.cpp:169
-#: rc.cpp:2087
+#: rc.cpp:203
 msgid "Vertical center"
 msgstr "Függőlegesen középre"
 
-#: rc.cpp:533
-#: rc.cpp:2451
+#: rc.cpp:613
 msgid "Vertical factor"
 msgstr "Függőleges faktor"
 
 #: rc.cpp:20
-#: rc.cpp:1938
 msgid "Vertical multiplicator"
 msgstr "Függőleges szorzó"
 
 #: rc.cpp:38
-#: rc.cpp:1956
 msgid "Vertical scatter"
 msgstr "Függőleges szórás"
 
-#: rc.cpp:209
-#: rc.cpp:2127
+#: rc.cpp:293
 msgid "Vertigo"
 msgstr "Szédülés"
 
-#: rc.cpp:756
-#: rc.cpp:1113
-#: rc.cpp:1707
-#: rc.cpp:1900
-#: rc.cpp:2674
-#: rc.cpp:3031
-#: rc.cpp:3625
-#: rc.cpp:3818
-#: rc.cpp:3888
-#: rc.cpp:4153
-#: rc.cpp:4510
-#: rc.cpp:5104
-#: rc.cpp:5297
-#: rc.cpp:5367
+#: rc.cpp:782
+#: rc.cpp:977
+#: rc.cpp:1232
+#: rc.cpp:1574
+#: rc.cpp:1985
+#: rc.cpp:2316
+#: rc.cpp:2511
+#: rc.cpp:2766
+#: rc.cpp:3108
+#: rc.cpp:3519
 msgid "Video"
 msgstr "Videó"
 
-#: rc.cpp:666
-#: rc.cpp:2584
-#: rc.cpp:4063
+#: rc.cpp:752
+#: rc.cpp:2286
 msgid "Video Codecs"
 msgstr "Videó kodekek"
 
-#: src/mainwindow.cpp:1014
+#: src/mainwindow.cpp:1190
 msgid "Video Only"
 msgstr "Csak videó"
 
-#: rc.cpp:3846
-#: rc.cpp:5325
+#: rc.cpp:1532
+#: rc.cpp:3066
 msgid "Video Profile"
 msgstr "Video Profile"
 
-#: rc.cpp:1476
-#: rc.cpp:3394
-#: rc.cpp:4873
+#: rc.cpp:1922
+#: rc.cpp:3456
 msgid "Video Resolution"
 msgstr "Videó felbontás"
 
@@ -6134,119 +5891,107 @@ msgstr "Videó felbontás"
 msgid "Video Standard"
 msgstr "Videó szabvány"
 
-#: src/projectitem.cpp:194
-#: src/documentchecker.cpp:83
-#: src/documentchecker.cpp:101
+#: src/documentchecker.cpp:133
+#: src/documentchecker.cpp:157
+#: src/projectitem.cpp:173
 msgid "Video clip"
 msgstr "Videó klip"
 
-#: rc.cpp:1710
-#: rc.cpp:3628
-#: rc.cpp:5107
+#: rc.cpp:785
+#: rc.cpp:2319
 msgid "Video codec"
 msgstr "Videó kodek"
 
-#: rc.cpp:1245
-#: rc.cpp:3163
-#: rc.cpp:4642
+#: rc.cpp:1295
+#: rc.cpp:2829
 msgid "Video device"
 msgstr "Hang eszköz"
 
-#: rc.cpp:1152
-#: rc.cpp:3070
-#: rc.cpp:4549
+#: rc.cpp:1046
+#: rc.cpp:2580
 msgid "Video driver:"
 msgstr "Videó eszköz:"
 
-#: rc.cpp:1815
-#: rc.cpp:3733
-#: rc.cpp:5212
+#: rc.cpp:890
+#: rc.cpp:2424
 msgid "Video index"
 msgstr "Videó index"
 
-#: src/customtrackview.cpp:4935
+#: src/customtrackview.cpp:5360
 msgid "Video only"
 msgstr "Csak videó"
 
-#: rc.cpp:1047
-#: rc.cpp:2965
-#: rc.cpp:4444
+#: rc.cpp:1460
+#: rc.cpp:2994
 msgid "Video player"
 msgstr "Videó lejátszó"
 
-#: rc.cpp:1065
-#: rc.cpp:2983
-#: rc.cpp:4462
+#: rc.cpp:938
+#: rc.cpp:2472
 msgid "Video track"
 msgstr "Videó sáv"
 
-#: rc.cpp:1443
-#: rc.cpp:3361
-#: rc.cpp:3879
-#: rc.cpp:4840
-#: rc.cpp:5358
+#: rc.cpp:1565
+#: rc.cpp:1850
+#: rc.cpp:3099
+#: rc.cpp:3384
 msgid "Video tracks"
 msgstr "Videó sáv"
 
-#: rc.cpp:684
-#: rc.cpp:1203
-#: rc.cpp:1239
-#: rc.cpp:2602
-#: rc.cpp:3121
-#: rc.cpp:3157
-#: rc.cpp:4081
-#: rc.cpp:4600
-#: rc.cpp:4636
+#: rc.cpp:1253
+#: rc.cpp:1289
+#: rc.cpp:1415
+#: rc.cpp:2787
+#: rc.cpp:2823
+#: rc.cpp:2949
 msgid "Video4Linux"
 msgstr "Video4Linux"
 
-#: rc.cpp:5460
+#: rc.cpp:3738
 msgid "View"
 msgstr "Nézet"
 
-#: rc.cpp:311
-#: rc.cpp:2229
+#: rc.cpp:585
+msgid "Vignette Effect"
+msgstr "Vignetta effektus"
+
+#: rc.cpp:395
 msgid "Vinyl"
 msgstr "Hanglemez"
 
-#: src/projectitem.cpp:210
+#: src/projectitem.cpp:189
 msgid "Virtual clip"
 msgstr "Virtuális klip"
 
-#: rc.cpp:519
-#: rc.cpp:2437
+#: rc.cpp:599
 msgid "Volume (keyframable)"
 msgstr "Hangerő (kulcskockánként)"
 
-#: rc.cpp:1530
-#: rc.cpp:3448
-#: rc.cpp:4927
+#: rc.cpp:1073
+#: rc.cpp:2607
 msgid "W"
 msgstr "W"
 
-#: src/renderwidget.cpp:795
-#: src/renderwidget.cpp:1373
-#: src/renderwidget.cpp:1562
+#: src/renderwidget.cpp:828
+#: src/renderwidget.cpp:1430
+#: src/renderwidget.cpp:1631
 msgid "Waiting..."
 msgstr "Várakozás…"
 
-#: rc.cpp:1149
-#: rc.cpp:3067
-#: rc.cpp:4546
+#: rc.cpp:1043
+#: rc.cpp:2577
 msgid "Warning: changes to the drivers and devices can make Kdenlive unstable. Change only if you know what you do."
 msgstr "Figyelmeztetés: a meghajtóprogramokban vagy az eszközbeállításokban végzet minden módosítás instabillá teheti a Kdenlive programot. Csak akkor változtassa meg a beállításokat, ha tisztában van a paraméterek hatásaival."
 
-#: rc.cpp:525
-#: rc.cpp:2443
+#: rc.cpp:605
 msgid "Wave"
 msgstr "Hullám"
 
-#: rc.cpp:323
-#: rc.cpp:2241
+#: rc.cpp:407
 msgid "Wear"
 msgstr "Kopás (Wear)"
 
-#: src/renderwidget.cpp:1109
+#: src/renderwidget.cpp:1164
 msgid "Web sites"
 msgstr "Weboldalak"
 
@@ -6254,39 +5999,39 @@ msgstr "Weboldalak"
 msgid "Welcome"
 msgstr "Üdvözöljük"
 
-#: rc.cpp:130
-#: rc.cpp:2048
+#: rc.cpp:132
 msgid "White Balance"
 msgstr "Fehéregyensúly"
 
-#: rc.cpp:413
-#: rc.cpp:879
-#: rc.cpp:1548
-#: rc.cpp:2331
-#: rc.cpp:2797
-#: rc.cpp:3466
-#: rc.cpp:4276
-#: rc.cpp:4945
+#: rc.cpp:271
+msgid "White color"
+msgstr "Fehér szín"
+
+#: rc.cpp:225
+msgid "White output"
+msgstr "Fehér kimenet"
+
+#: rc.cpp:481
+#: rc.cpp:1196
+#: rc.cpp:2027
+#: rc.cpp:2730
+#: rc.cpp:3561
 msgid "Width"
 msgstr "Szélesség"
 
-#: rc.cpp:493
-#: rc.cpp:2411
+#: rc.cpp:561
 msgid "Window"
 msgstr "Ablak"
 
-#: rc.cpp:1374
-#: rc.cpp:1761
-#: rc.cpp:3292
-#: rc.cpp:3679
-#: rc.cpp:4771
-#: rc.cpp:5158
+#: rc.cpp:836
+#: rc.cpp:1910
+#: rc.cpp:2370
+#: rc.cpp:3444
 msgid "Wipe"
 msgstr "Törlés"
 
-#: rc.cpp:873
-#: rc.cpp:2791
-#: rc.cpp:4270
+#: rc.cpp:2021
+#: rc.cpp:3555
 msgid "X"
 msgstr "X"
 
@@ -6302,18 +6047,16 @@ msgstr "XFREE86 DGA 2.0"
 msgid "XVideo"
 msgstr "XVideo"
 
-#: rc.cpp:876
-#: rc.cpp:2794
-#: rc.cpp:4273
+#: rc.cpp:2024
+#: rc.cpp:3558
 msgid "Y"
 msgstr "Y"
 
-#: rc.cpp:315
-#: rc.cpp:2233
+#: rc.cpp:399
 msgid "Year"
 msgstr "Év"
 
-#: src/mainwindow.cpp:415
+#: src/mainwindow.cpp:468
 msgid ""
 "You have 1 rendering job waiting in the queue.\n"
 "What do you want to do with this job?"
@@ -6327,44 +6070,41 @@ msgstr[1] ""
 "%1 leképzési feladat van a feladatsorban.\n"
 "Mit kíván tenni ezekkel a feladatokkal?"
 
-#: src/kdenlivedoc.cpp:600
+#: src/kdenlivedoc.cpp:602
 msgid "You have changed the project folder. Do you want to copy the cached data from %1 to the new folder %2?"
 msgstr "Megváltoztatta a projekt mappáját. Át kívánja másolni az gyorsítótár adatokat a(z) %1 mappából az újonnan létrehozott %2 mappába?"
 
-#: src/customtrackview.cpp:2274
+#: src/customtrackview.cpp:2519
+#: src/customtrackview.cpp:2525
 msgid "You must be in an empty space to remove space (time: %1, track: %2)"
 msgstr "Egy üres helyen kell lennie ahhoz, hogy eltávolítsa az üres helyet (idő: %1, sáv: %2)"
 
-#: src/customtrackview.cpp:2280
-msgid "You must be in an empty space to remove space (time: %1, track:%2)"
-msgstr "Egy üres helyen kell lennie ahhoz, hogy eltávolítsa az üres helyet (idő: %1, sáv: %2)"
-
-#: src/customtrackview.cpp:4390
+#: src/customtrackview.cpp:4753
 msgid "You must copy exactly one clip before pasting effects"
 msgstr "Csak egyetlen klipet kell másolnia mielőtt effektusokat illesztene be"
 
-#: src/customtrackview.cpp:4472
-#: src/customtrackview.cpp:4503
-#: src/customtrackview.cpp:4833
-#: src/customtrackview.cpp:4931
-#: src/customtrackview.cpp:4956
-#: src/customtrackview.cpp:4981
+#: src/customtrackview.cpp:4890
+#: src/customtrackview.cpp:4921
+#: src/customtrackview.cpp:5258
+#: src/customtrackview.cpp:5356
+#: src/customtrackview.cpp:5381
+#: src/customtrackview.cpp:5406
 msgid "You must select one clip for this action"
 msgstr "Ehhez a művelethez válasszon ki egy klipet."
 
-#: src/customtrackview.cpp:4730
+#: src/customtrackview.cpp:5154
 msgid "You must select one transition for this action"
 msgstr "Ehhez a művelethez meg kell adnia egy áttűnési effektust"
 
-#: src/dvdwizard.cpp:609
+#: src/dvdwizard.cpp:628
 msgid "You need program <b>%1</b> to perform this action"
 msgstr "A művelet végrehajtásához a következő programot kell telepítenie: <b>%1</b>"
 
-#: src/recmonitor.cpp:167
+#: src/recmonitor.cpp:168
 msgid "You need to disconnect and reconnect in the capture monitor to apply your changes"
 msgstr "A beállítások alkalmazásához távolítsa el majd csatlakoztassa újra a felvétel monitort"
 
-#: src/recmonitor.cpp:168
+#: src/recmonitor.cpp:169
 msgid "You need to stop capture before your changes can be applied"
 msgstr "A beállítások alkalmazásához le kell állítania a felvételt."
 
@@ -6372,7 +6112,7 @@ msgstr "A beállítások alkalmazásához le kell állítania a felvételt."
 msgid "Your Kdenlive version was upgraded to version %1. Please take some time to review the basic settings"
 msgstr "A Kdenlive program sikeresen frissítve lett a(z) %1 verzióra. Kérem szánjon egy kis időt az alapbeállítások elvégzésére."
 
-#: src/wizard.cpp:526
+#: src/wizard.cpp:538
 msgid "Your MLT installation cannot be found. Install MLT and restart Kdenlive.\n"
 msgstr "Az MLT keretrendszer nem található. Telepítse az MLT keretrendszert és indítsa újra a a Kdenlive programot.\n"
 
@@ -6380,19 +6120,19 @@ msgstr "Az MLT keretrendszer nem található. Telepítse az MLT keretrendszert �
 msgid "Your MLT version is unsupported!!!"
 msgstr " Az alapértelmezett művelet a jelenlegi változat megtartása."
 
-#: src/trackview.cpp:398
+#: src/trackview.cpp:432
 msgid "Your project file was upgraded to the latest Kdenlive document version, it was not possible to create a backup copy."
 msgstr "A projektfájl a legújabb Kdenlive dokumentum verziónak megfelelő formátumba került. Biztonsági másolat létrehozása nem volt lehetséges."
 
-#: src/trackview.cpp:397
+#: src/trackview.cpp:431
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version.\n"
-" To make sure you don't loose data, a backup copy called: %1 was created."
+" To make sure you don't lose data, a backup copy called %1 was created."
 msgstr ""
 "A projektfájl a legújabb Kdenlive dokumentum verziónak megfelelő formátumba került.\n"
 "Az esetleges adatvesztések elkerülése érdekében egy biztonsági másolat került létrehozásra: %1 néven."
 
-#: src/kdenlivedoc.cpp:674
+#: src/kdenlivedoc.cpp:676
 msgid ""
 "Your project uses an unknown profile.\n"
 "It uses an existing profile name: %1.\n"
@@ -6402,105 +6142,90 @@ msgstr ""
 "A profil neve: „%1” megegyezik egy már létező profil nevével.\n"
 "Adjon meg egy új nevet a profilnak, majd mentse el."
 
-#: rc.cpp:1536
-#: rc.cpp:3454
-#: rc.cpp:4933
+#: rc.cpp:1079
+#: rc.cpp:2613
 msgid "Z-Index:"
 msgstr "Z-Index:"
 
-#: src/customruler.cpp:197
+#: src/customruler.cpp:196
+#: src/smallruler.cpp:119
 msgid "Zone duration: %1"
 msgstr "Zóna időtartama: %1"
 
-#: src/customruler.cpp:194
+#: src/customruler.cpp:193
+#: src/smallruler.cpp:117
 msgid "Zone end: %1"
 msgstr "Zóna vége: %1"
 
-#: src/customruler.cpp:191
+#: src/customruler.cpp:190
+#: src/smallruler.cpp:115
 msgid "Zone start: %1"
 msgstr "Zóna kezdete: %1"
 
-#: src/titlewidget.cpp:175
+#: src/titlewidget.cpp:295
 msgid "Zoom"
 msgstr "Nagyítás"
 
-#: src/mainwindow.cpp:812
+#: src/mainwindow.cpp:918
 msgid "Zoom In"
 msgstr "Nagyítás"
 
-#: src/mainwindow.cpp:817
+#: src/mainwindow.cpp:923
 msgid "Zoom Out"
 msgstr "Kicsinyítés"
 
-#: rc.cpp:217
-#: rc.cpp:2135
+#: rc.cpp:301
 msgid "Zoom Rate"
 msgstr "Nagyítás mértéke"
 
-#: rc.cpp:1584
-#: rc.cpp:3502
-#: rc.cpp:4981
+#: rc.cpp:2003
+#: rc.cpp:3537
+msgid "Zoom using vertical drag in ruler"
+msgstr "Nagyítás a vonalzó vízszintes húzásakor"
+
+#: rc.cpp:1088
+#: rc.cpp:2622
 msgid "Zoom:"
 msgstr "Nagyítás:"
 
-#: src/titlewidget.cpp:1075
+#: src/titlewidget.cpp:1296
 msgid "\\u2212X"
 msgstr "\\u2212X"
 
-#: src/titlewidget.cpp:1100
+#: src/titlewidget.cpp:1321
 msgid "\\u2212Y"
 msgstr "\\u2212Y"
 
-#: _translatorinfo.cpp:3
-msgid ""
-"_: EMAIL OF TRANSLATORS\n"
-"Your emails"
-msgstr ""
-"_: EMAIL OF TRANSLATORS\n"
-"kami911@gmail.com"
-
-#: _translatorinfo.cpp:1
-msgid ""
-"_: NAME OF TRANSLATORS\n"
-"Your names"
-msgstr ""
-"_: NAME OF TRANSLATORS\n"
-"Kálmán „KAMI” Szalai"
-
-#: rc.cpp:1062
-#: rc.cpp:2980
-#: rc.cpp:4459
+#: rc.cpp:935
+#: rc.cpp:2469
 msgid "after"
 msgstr "utána"
 
-#: rc.cpp:1059
-#: rc.cpp:2977
-#: rc.cpp:4456
+#: rc.cpp:932
+#: rc.cpp:2466
 msgid "before"
 msgstr "előtte"
 
-#: rc.cpp:993
-#: rc.cpp:2911
-#: rc.cpp:4390
+#: rc.cpp:1952
+#: rc.cpp:3486
 msgid "create new points"
 msgstr "Új pontok létrehozása "
 
 #: src/dvdwizardvob.cpp:55
-#: src/wizard.cpp:333
+#: src/wizard.cpp:345
 msgid "dvdauthor"
 msgstr "dvdauthor"
 
-#: src/wizard.cpp:326
+#: src/wizard.cpp:338
 msgid "dvgrab"
 msgstr "dvgrab"
 
-#: rc.cpp:1236
-#: rc.cpp:3154
-#: rc.cpp:4633
+#: rc.cpp:1286
+#: rc.cpp:2820
 msgid "dvgrab additional parameters"
 msgstr "dvgrab további paraméterei"
 
-#: src/recmonitor.cpp:216
+#: src/recmonitor.cpp:217
 msgid ""
 "dvgrab utility not found,\n"
 " please install it for firewire capture"
@@ -6512,13 +6237,17 @@ msgstr ""
 msgid "dvgrab version %1 at %2"
 msgstr "dvgrab Verzió %1 – %2"
 
-#: src/editeffectcommand.cpp:39
-#: src/edittransitioncommand.cpp:35
-#: src/customtrackview.cpp:1465
-#: src/customtrackview.cpp:1509
 #: src/addeffectcommand.cpp:37
+#: src/edittransitioncommand.cpp:35
+#: src/customtrackview.cpp:1540
+#: src/customtrackview.cpp:1584
+#: src/editeffectcommand.cpp:39
 msgid "effect"
 msgstr "Effektus"
+
+#: src/customtrackview.cpp:5684
+msgid "error"
+msgstr "hiba"
 
 #: src/timecode.cpp:159
 msgid "frames"
@@ -6528,13 +6257,13 @@ msgstr "képkockák"
 msgid "genisoimage"
 msgstr "genisoimage"
 
-#: src/wizard.cpp:340
+#: src/wizard.cpp:352
 msgid "genisoimage or mkisofs"
 msgstr "genisoimage vagy mkisofs"
 
-#: src/clipproperties.cpp:165
-#: src/mainwindow.cpp:676
-#: src/slideshowclip.cpp:58
+#: src/slideshowclip.cpp:59
+#: src/mainwindow.cpp:735
+#: src/clipproperties.cpp:189
 msgid "hh:mm:ss::ff"
 msgstr "hh:mm:ss::ff"
 
@@ -6546,7 +6275,7 @@ msgstr "óra"
 msgid "import"
 msgstr "Importálás"
 
-#: src/mainwindow.cpp:706
+#: src/mainwindow.cpp:796
 msgctxt "Spacer tool shortcut"
 msgid "m"
 msgstr "m"
@@ -6559,40 +6288,49 @@ msgstr "perc"
 msgid "mkisofs"
 msgstr "mkisofs"
 
-#: rc.cpp:975
-#: rc.cpp:2893
-#: rc.cpp:4372
+#: rc.cpp:1934
+#: rc.cpp:3468
 msgid "move on X axis"
 msgstr "Mozgatás az X tengelyen"
 
-#: rc.cpp:981
-#: rc.cpp:2899
-#: rc.cpp:4378
+#: rc.cpp:1940
+#: rc.cpp:3474
 msgid "move on Y axis"
 msgstr "Mozgatás az Y tengelyen"
 
-#: rc.cpp:1263
-#: rc.cpp:3181
-#: rc.cpp:4660
+#: src/mainwindow.cpp:753
+msgctxt "Normal editing"
+msgid "n"
+msgstr "n"
+
+#: rc.cpp:597
+msgid "opacity"
+msgstr "átlátszatlanság"
+
+#: rc.cpp:1313
+#: rc.cpp:2847
 msgid "oss"
 msgstr "OSS"
 
-#: rc.cpp:1002
-#: rc.cpp:2920
-#: rc.cpp:4399
+#: rc.cpp:1961
+#: rc.cpp:3495
 msgid "parameter description"
 msgstr "Leírás"
 
-#: src/wizard.cpp:320
+#: rc.cpp:591
+msgid "radius"
+msgstr "sugár"
+
+#: src/wizard.cpp:332
 msgid "recordmydesktop"
 msgstr "recordmydesktop"
 
-#: src/mainwindow.cpp:694
+#: src/mainwindow.cpp:784
 msgctxt "Selection tool shortcut"
 msgid "s"
 msgstr "v"
 
-#: src/renderwidget.cpp:1675
+#: src/renderwidget.cpp:1747
 msgid "script"
 msgstr "szkript"
 
@@ -6600,55 +6338,110 @@ msgstr "szkript"
 msgid "sec."
 msgstr "mp."
 
-#: src/abstractclipitem.cpp:273
+#: src/abstractclipitem.cpp:316
 msgid "seconds"
 msgstr "másodperc"
 
-#: rc.cpp:608
-#: rc.cpp:2526
-#: rc.cpp:4005
+#: rc.cpp:589
+msgid "smooth"
+msgstr "finomított"
+
+#: rc.cpp:1679
+#: rc.cpp:3213
 msgid "to"
 msgstr "ig "
 
-#: src/renderwidget.cpp:1034
+#: src/renderwidget.cpp:1082
 msgid "untitled"
 msgstr "névtelen"
 
-#: rc.cpp:987
-#: rc.cpp:2905
-#: rc.cpp:4384
+#: rc.cpp:1946
+#: rc.cpp:3480
 msgid "update values in timeline"
 msgstr "Értékek frissítése az idővonalon"
 
-#: rc.cpp:1266
-#: rc.cpp:3184
-#: rc.cpp:4663
+#: rc.cpp:1316
+#: rc.cpp:2850
 msgid "video4linux2"
 msgstr "video4linux2"
 
-#: rc.cpp:936
-#: rc.cpp:2854
-#: rc.cpp:4333
+#: rc.cpp:736
+#: rc.cpp:2270
 msgid "with track"
 msgstr "sávval"
 
-#: src/mainwindow.cpp:700
+#: src/mainwindow.cpp:790
 msgctxt "Razor tool shortcut"
 msgid "x"
 msgstr "r"
 
-#: rc.cpp:783
-#: rc.cpp:2701
-#: rc.cpp:4180
+#: rc.cpp:593
+#: rc.cpp:658
+#: rc.cpp:2192
 msgid "x"
 msgstr "x"
 
-#: rc.cpp:1644
-#: rc.cpp:3562
-#: rc.cpp:5041
+#: rc.cpp:1181
+#: rc.cpp:2715
 msgid "x1"
 msgstr "x1"
 
+#: rc.cpp:595
+msgid "y"
+msgstr "i"
+
+#~ msgid "Channel 1"
+#~ msgstr "Csatorna 1"
+#~ msgid "Channel 2"
+#~ msgstr "Csatorna 2"
+#~ msgid "Channel 3"
+#~ msgstr "Csatorna 3"
+#~ msgid "Channel 4"
+#~ msgstr "Csatorna 4"
+#~ msgid "Channel 5"
+#~ msgstr "Csatorna 5"
+#~ msgid "Channel 6"
+#~ msgstr "Csatorna 6"
+#~ msgid "Clip duration"
+#~ msgstr "Klip időtartama"
+#~ msgid "Clip speed"
+#~ msgstr "Klip sebessége"
+#~ msgid "Filename"
+#~ msgstr "Fájlnév"
+#~ msgid "Fill transparency"
+#~ msgstr "Kitöltés átlátszóra"
+#~ msgid "Reverse playing"
+#~ msgstr "Lejátszás visszafele"
+#~ msgid "Rotate:"
+#~ msgstr "Forgatás"
+#~ msgid "Set In Point"
+#~ msgstr "Belső pont megadása"
+#~ msgid "Set Out Point"
+#~ msgstr "Külső pont megadása"
+#~ msgid "Sox Balance"
+#~ msgstr "Sox egyensúly"
+#~ msgid "Sox change audio balance"
+#~ msgstr "A Sox megváltoztatja a hangegyensúlyt"
+#~ msgid "Stroboscope effect"
+#~ msgstr "Stroboszkóp effektus"
+#~ msgid "Thumbnail"
+#~ msgstr "Gyorsnézeti kép"
+#~ msgid "You must be in an empty space to remove space (time: %1, track:%2)"
+#~ msgstr ""
+#~ "Egy üres helyen kell lennie ahhoz, hogy eltávolítsa az üres helyet (idő: %"
+#~ "1, sáv: %2)"
+#~ msgid ""
+#~ "_: EMAIL OF TRANSLATORS\n"
+#~ "Your emails"
+#~ msgstr ""
+#~ "_: EMAIL OF TRANSLATORS\n"
+#~ "kami911@gmail.com"
+#~ msgid ""
+#~ "_: NAME OF TRANSLATORS\n"
+#~ "Your names"
+#~ msgstr ""
+#~ "_: NAME OF TRANSLATORS\n"
+#~ "Kálmán „KAMI” Szalai"
 #~ msgid "BasicOperations"
 #~ msgstr "Alapműveletek"
 #~ msgid "Change Clip Speed"
@@ -6699,8 +6492,6 @@ msgstr "x1"
 #~ msgstr "Átolvadás (Crossfade)"
 #~ msgid "Luma File"
 #~ msgstr "Luma fájl használata"
-#~ msgid "Save project"
-#~ msgstr "Projekt mentése"
 #~ msgid "save"
 #~ msgstr "mentés"
 #~ msgid "<qt>Clip <b>%1</b><br>is invalid or missing, what do you want to do?"
@@ -6761,8 +6552,6 @@ msgstr "x1"
 #~ "Az MLT program avformat (FFMPEG) összetevője nem található. Kérem "
 #~ "ellenőrizze a rendszerre telepített FFMPEG és MLT programokat. A Kdenlive "
 #~ "nem lesz működőképes a hiba elhárításáig."
-#~ msgid "Show crash log"
-#~ msgstr "Hibanapló megjelenítése"
 #~ msgid "Show experimental formats"
 #~ msgstr "Kísérleti formátumok megjelenítése"
 #~ msgid "DVD Marker"
@@ -6878,8 +6667,6 @@ msgstr "x1"
 #~ msgstr "%1 (monó)"
 #~ msgid "%1 bit"
 #~ msgstr "%1 bit"
-#~ msgid "Automatic scene detection"
-#~ msgstr "Automatikus jelenet érzékelés"
 #~ msgid "Raw DV"
 #~ msgstr "Nyers DV"
 #~ msgid "Use secondary monitor for video output"
@@ -6997,8 +6784,6 @@ msgstr "x1"
 #~ msgstr "Renderelés most"
 #~ msgid "Pause between chapters (seconds)"
 #~ msgstr "Fejezetek közötti szünet (másodperc) "
-#~ msgid "Plain color"
-#~ msgstr "Egyszerű szín"
 #~ msgid "image/gif image/x-bmp image/png image/jpeg"
 #~ msgstr "image/gif image/x-bmp image/png image/jpeg"
 #~ msgid "Generate entries for chapters"
@@ -7152,8 +6937,6 @@ msgstr "x1"
 #~ msgstr "Képernyő információk (OSD) megjelenítése"
 #~ msgid "Multi Track View"
 #~ msgstr "Többsávos nézet"
-#~ msgid "Low Quality"
-#~ msgstr "Alacsony minőség"
 #~ msgid "Best Quality"
 #~ msgstr "Legjobb minőség"
 #~ msgid "Show all markers"
@@ -7244,8 +7027,6 @@ msgstr "x1"
 #~ msgstr "Összes klip vágása"
 #~ msgid "Rename Folder"
 #~ msgstr "Mappa átnevezése"
-#~ msgid "Delete Transition"
-#~ msgstr "Átmenet törlése"
 #~ msgid "Open Clip In External Editor"
 #~ msgstr "Klip megnyitása külső szerkesztőben"
 #~ msgid "Open clip in an external editor"
@@ -7312,8 +7093,6 @@ msgstr "x1"
 #~ msgstr "Előző sáv kiválasztása"
 #~ msgid "Select Clip Under Cursor"
 #~ msgstr "Kurzor alatti klip kijelölése"
-#~ msgid "Clip Auto Selection"
-#~ msgstr "Klip automatikus kijelölése"
 #~ msgid "Edit Clip Properties"
 #~ msgstr "Klip tulajdonságok szerkesztése"
 #~ msgid "Edit clip properties"
@@ -7387,8 +7166,6 @@ msgstr "x1"
 #~ msgstr "Effektusok megjelenítése"
 #~ msgid "Show Thumbnails"
 #~ msgstr "Gyorsnézeti képek megjelenítése"
-#~ msgid "Move/Resize mode"
-#~ msgstr "Mozgatás/átméretezés mód"
 #~ msgid "TimeLine"
 #~ msgstr "Idővonal"
 #~ msgid ""
@@ -7430,8 +7207,6 @@ msgstr "x1"
 #~ "A Kdenlive nem fog megfelelően működni, amíg ki nem választ egy mappát az "
 #~ "ideiglenes fájlok számára, amelyhez írási joga van. Ezt a Kdenlive "
 #~ "„Beállítások” ablakban teheti meg. "
-#~ msgid "Merge project"
-#~ msgstr "Projekt összefésülése…"
 #~ msgid "Ignore"
 #~ msgstr "Figyelmen kívül hagy"
 #~ msgid "Insert at current cursor position"
@@ -7546,8 +7321,6 @@ msgstr "x1"
 #~ msgstr "Kezdőpont beállítása"
 #~ msgid "Setting outpoint"
 #~ msgstr "Végpont beállítása"
-#~ msgid "Select Clip"
-#~ msgstr "Klip kijelölése"
 #~ msgid "Toggling snap marker"
 #~ msgstr "Jelölő beállítása"
 #~ msgid "Clear all snap markers"
@@ -7705,8 +7478,6 @@ msgstr "x1"
 #~ msgstr "&Idővonal"
 #~ msgid "Layout"
 #~ msgstr "Elrendezés"
-#~ msgid "Delete Effect"
-#~ msgstr "Effektus törlése"
 #~ msgid "Timeline Toolbar"
 #~ msgstr "Idővonal Eszköztár "
 #~ msgid "Select Objects"
@@ -7723,10 +7494,6 @@ msgstr "x1"
 #~ msgstr "Háttér sáv (fekete) "
 #~ msgid "PIP"
 #~ msgstr "PIP"
-#~ msgid "Vert. position"
-#~ msgstr "Függőleges pozíció"
-#~ msgid "Horiz. position"
-#~ msgstr "Vízszintes pozíció"
 #~ msgid "St&art"
 #~ msgstr "&Indítás"
 #~ msgid "E&nd"
