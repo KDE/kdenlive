@@ -50,6 +50,8 @@ ClipManager::~ClipManager()
 {
     qDeleteAll(m_clipList);
     m_clipList.clear();
+    m_audioThumbsQueue.clear();
+    m_generatingAudioId.clear();
 }
 
 void ClipManager::clear()

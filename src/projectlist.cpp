@@ -756,6 +756,7 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
         QDomElement e = clip->toXML().cloneNode().toElement();
         e.removeAttribute("file_hash");
         m_infoQueue.insert(clip->getId(), e);
+        clip->askForAudioThumbs();
         //m_render->getFileProperties(clip->toXML(), clip->getId(), true);
     }
     const QString parent = clip->getProperty("groupid");
@@ -1227,6 +1228,7 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
         }
         //Q_ASSERT_X(item->referencedClip(), "void ProjectList::slotReplyGetFileProperties", QString("Item with groupName %1 does not have a clip associated").arg(item->groupName()).toLatin1());
         item->referencedClip()->setProducer(producer, replace);
+        item->referencedClip()->askForAudioThumbs();
         if (!replace && item->data(0, Qt::DecorationRole).isNull()) {
             requestClipThumbnail(clipId);
         }

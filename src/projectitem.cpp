@@ -44,7 +44,6 @@ ProjectItem::ProjectItem(QTreeWidget * parent, DocClipBase *clip) :
     if (m_clipType != UNKNOWN) slotSetToolTip();
     setText(0, name);
     setText(1, m_clip->description());
-    m_clip->askForAudioThumbs();
     GenTime duration = m_clip->duration();
     if (duration != GenTime()) setData(0, DurationRole, Timecode::getEasyTimecode(duration, KdenliveSettings::project_fps()));
     //setFlags(Qt::NoItemFlags);
@@ -64,7 +63,6 @@ ProjectItem::ProjectItem(QTreeWidgetItem * parent, DocClipBase *clip) :
     m_clipType = (CLIPTYPE) m_clip->getProperty("type").toInt();
     setText(0, name);
     setText(1, m_clip->description());
-    m_clip->askForAudioThumbs();
     GenTime duration = m_clip->duration();
     if (duration != GenTime()) setData(0, DurationRole, Timecode::getEasyTimecode(duration, KdenliveSettings::project_fps()));
     //setFlags(Qt::NoItemFlags);
@@ -228,7 +226,6 @@ void ProjectItem::setProperties(const QMap < QString, QString > &attributes, con
     }
     m_clip->setProperties(attributes);
     m_clip->setMetadata(metadata);
-    m_clip->askForAudioThumbs();
 
     if (m_clip->description().isEmpty()) {
         if (metadata.contains("description")) {

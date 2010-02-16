@@ -140,7 +140,7 @@ void DocClipBase::slotCreateAudioTimer()
 
 void DocClipBase::askForAudioThumbs()
 {
-    if (m_thumbProd && m_audioTimer) slotGetAudioThumbs();
+    if (m_thumbProd && m_audioTimer) m_thumbProd->askForAudioThumbs(getId());
 }
 
 void DocClipBase::slotClearAudioCache()
