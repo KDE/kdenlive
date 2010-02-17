@@ -339,7 +339,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int in, int out)
 
 void EffectStackEdit::slotSeekToPos(int pos)
 {
-    emit seekTimeline(m_in + pos);
+    emit seekTimeline(pos - m_in);
 }
 
 wipeInfo EffectStackEdit::getWipeInfo(QString value)
