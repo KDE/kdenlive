@@ -943,7 +943,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
                     selection.at(i)->setFlag(QGraphicsItem::ItemIsMovable, false);
                 } else if (selection.at(i)->parentItem() && !selection.contains(selection.at(i)->parentItem())) {
                     if (static_cast<AbstractGroupItem *>(selection.at(i)->parentItem())->isItemLocked()) continue;
-                    AbstractGroupItem *grp = static_cast<AbstractGroupItem *>(selection.at(i)->parentItem());
+                    //AbstractGroupItem *grp = static_cast<AbstractGroupItem *>(selection.at(i)->parentItem());
                     m_selectionGroup->addToGroup(selection.at(i)->parentItem());
                     selection.at(i)->parentItem()->setFlag(QGraphicsItem::ItemIsMovable, false);
                 }

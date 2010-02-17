@@ -3191,6 +3191,9 @@ void MainWindow::slotShutdown()
     if (interface && interface->isServiceRegistered("org.kde.ksmserver")) {
         QDBusInterface smserver("org.kde.ksmserver", "/KSMServer", "org.kde.KSMServerInterface");
         smserver.call("logout", 1, 2, 2);
+    } else if (interface && interface->isServiceRegistered("org.gnome.SessionManager")) {
+        QDBusInterface smserver("org.gnome.SessionManager", "/org/gnome/SessionManager", "org.gnome.SessionManager");
+        smserver.call("Shutdown");
     }
 }
 

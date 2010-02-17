@@ -195,7 +195,7 @@ RenderWidget::RenderWidget(const QString &projectfolder, QWidget * parent) :
     }
 
     QDBusConnectionInterface* interface = QDBusConnection::sessionBus().interface();
-    if (!interface || !interface->isServiceRegistered("org.kde.ksmserver")) {
+    if (!interface || (!interface->isServiceRegistered("org.kde.ksmserver") && !interface->isServiceRegistered("org.gnome.SessionManager"))) {
         m_view.shutdown->setEnabled(false);
     }
 
