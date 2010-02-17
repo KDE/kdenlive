@@ -35,7 +35,7 @@
 #include <QXmlStreamWriter>
 #include <QTimer>
 
-const double recommendedMltVersion = 46;
+const double recommendedMltVersion = 50;
 static const char version[] = VERSION;
 
 Wizard::Wizard(bool upgrade, QWidget *parent) :
