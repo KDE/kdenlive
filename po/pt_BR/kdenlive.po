@@ -1,20 +1,22 @@
 # Copyright (C) 2008 THE kdenlive's COPYRIGHT HOLDER
 # This file is distributed under the same license as the kdenlive package.
+#
+#
 # , 2008. <soares.souza@gmail.com>, 2008.
-#
-#
+# Marcelo Soares Souza <marcelo@juntadados.org>, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-02-02 18:20+0200\n"
-"PO-Revision-Date: 2010-02-07 19:57-0300\n"
-"Last-Translator: Wille Marcel <wille@riseup.net>\n"
-"Language-Team: Portuguese/Brazil <kdenlive-devel@lists.sourceforge.net>\n"
+"PO-Revision-Date: 2010-02-18 10:39-0400\n"
+"Last-Translator: Marcelo Soares Souza <marcelo@juntadados.org>\n"
+"Language-Team: Brazilian Portuguese <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 1.0\n"
 
 #: rc.cpp:1136
 #: rc.cpp:1142
@@ -938,7 +940,7 @@ msgstr "Tela azul"
 
 #: src/titlewidget.cpp:174
 msgid "Blur"
-msgstr ""
+msgstr "Blur"
 
 #: rc.cpp:16
 msgid "Blur factor"
@@ -995,7 +997,7 @@ msgstr "Gerador de clip quebrado %1"
 #: rc.cpp:2895
 #: rc.cpp:2904
 msgid "Buffer"
-msgstr ""
+msgstr "Buffer"
 
 #: src/main.cpp:41
 #: src/main.cpp:42
@@ -1640,7 +1642,7 @@ msgstr "Copiar o canal esquerdo para o direito"
 
 #: src/main.cpp:37
 msgid "Copyright (c) 2009 Development team"
-msgstr "Copyright (c) 2008 Equipe de desenvolvimento"
+msgstr "Copyright (c) 2009 Equipe de desenvolvimento"
 
 #: src/renderer.cpp:1142
 msgid ""
@@ -2099,7 +2101,7 @@ msgstr "Apagar clipes não utilizados"
 #: src/titlewidget.cpp:231
 msgctxt "Font style"
 msgid "Demi-Bold"
-msgstr ""
+msgstr "Demi-Bold"
 
 #: rc.cpp:353
 msgid "Depth"
@@ -2288,7 +2290,7 @@ msgstr "E"
 
 #: src/main.cpp:47
 msgid "EMAIL OF TRANSLATORS"
-msgstr "soares.souza@gmail.com, wille@riseup.net"
+msgstr "soares.souza@gmail.com, wille@riseup.net, filhosdaweb@gmail.com"
 
 #: rc.cpp:207
 msgid "Edges correction"
@@ -2443,7 +2445,7 @@ msgstr "Ganho de fim"
 
 #: src/kdenlivedoc.cpp:1088
 msgid "Enter Template Path"
-msgstr "Insira o Caminho do Template"
+msgstr "Insira o Caminho do Modelo"
 
 #: rc.cpp:1487
 #: rc.cpp:3021
@@ -2909,7 +2911,7 @@ msgstr "Captura de tela cheia"
 #: rc.cpp:1403
 #: rc.cpp:2937
 msgid "Full shots"
-msgstr ""
+msgstr "Tomadas inteiras"
 
 #: rc.cpp:303
 #: rc.cpp:307
@@ -3791,7 +3793,7 @@ msgstr "N"
 
 #: src/main.cpp:47
 msgid "NAME OF TRANSLATORS"
-msgstr "Marcelo Soares Souza, Wille Marcel"
+msgstr "Marcelo Soares Souza, Wille Marcel, Thiago Lima de Sousa"
 
 #: rc.cpp:1628
 #: rc.cpp:3162
@@ -5074,11 +5076,11 @@ msgstr "Configurações"
 
 #: rc.cpp:457
 msgid "Shear X"
-msgstr ""
+msgstr "Cortar X"
 
 #: rc.cpp:459
 msgid "Shear Y"
-msgstr ""
+msgstr "Cortar Y"
 
 #: rc.cpp:369
 #: rc.cpp:541
@@ -5087,7 +5089,7 @@ msgstr "Shift"
 
 #: src/mainwindow.cpp:2718
 msgid "Shift + click to create a selection rectangle, Ctrl + click to add an item to selection"
-msgstr ""
+msgstr "Shift + clique para criar uma seleção retangular, Ctrl + clique para adicionar o item selecionado"
 
 #: rc.cpp:1931
 #: rc.cpp:3465
@@ -5434,11 +5436,11 @@ msgstr "Modelo"
 
 #: src/projectitem.cpp:182
 msgid "Template text clip"
-msgstr ""
+msgstr "Modelo de clipe de texto"
 
 #: src/kdenlivedoc.cpp:1094
 msgid "Template title clip"
-msgstr ""
+msgstr "Modelo de clipe de titulo"
 
 #: rc.cpp:1763
 #: rc.cpp:3297
@@ -5583,11 +5585,11 @@ msgstr "Miniaturas:"
 
 #: rc.cpp:253
 msgid "Tilt X"
-msgstr ""
+msgstr "Inclinar X"
 
 #: rc.cpp:255
 msgid "Tilt Y"
-msgstr ""
+msgstr "Inclinar Y"
 
 #: rc.cpp:857
 #: rc.cpp:2391
