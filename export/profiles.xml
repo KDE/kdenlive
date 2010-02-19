@@ -230,7 +230,7 @@
   <profile name="RealVideo 720x480 2 pass" standard="NTSC" args="vcodec=rv20 acodec=ac3 minrate=0 b=12000k ab=384k ar=48000 s=720x480 g=8 pass=2" />
 </group>
 
-<group name="Theora" renderer="avformat" extension="ogg" type="av">
+<group name="Theora" renderer="avformat" extension="ogv" type="av">
   <profile name="Theora 200k" args="acodec=vorbis ab=128k ar=44100 vcodec=libtheora minrate=0 b=200k aspect=%dar" />
   <profile name="Theora 200k 2 pass" args="acodec=vorbis ab=128k ar=44100 vcodec=libtheora minrate=0 b=200k aspect=%dar pass=2" />
   <profile name="Theora 400k" args="acodec=vorbis ab=128k ar=44100 vcodec=libtheora minrate=0 b=400k aspect=%dar" />
