@@ -31,7 +31,9 @@ PositionEdit::PositionEdit(const QString name, int pos, int min, int max, const 
     connect(m_ui.krestrictedline, SIGNAL(editingFinished()), this, SLOT(slotUpdatePosition()));
     m_ui.horizontalSlider->setValue(pos);
     if (KdenliveSettings::frametimecode()) {
-        m_ui.krestrictedline->setInputMask("000000000000");
+        QValidator *valid = new QIntValidator();
+        m_ui.krestrictedline->setInputMask("");
+        m_ui.krestrictedline->setValidator(valid);
         m_ui.krestrictedline->setText(QString::number(pos));
     } else m_ui.krestrictedline->setText(m_tc.getTimecodeFromFrames(pos));
 }

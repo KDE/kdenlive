@@ -83,7 +83,9 @@ MarkerDialog::MarkerDialog(DocClipBase *clip, CommentedTime t, Timecode tc, cons
     } else clip_thumb->setHidden(true);
 
     if (KdenliveSettings::frametimecode()) {
-        marker_position->setInputMask("000000000000");
+        QValidator *valid = new QIntValidator();
+        marker_position->setInputMask("");
+        marker_position->setValidator(valid);
         marker_position->setText(QString::number((int) t.time().frames(m_fps)));
     } else marker_position->setText(tc.getTimecode(t.time()));
 

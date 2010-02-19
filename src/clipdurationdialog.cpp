@@ -50,21 +50,46 @@ ClipDurationDialog::ClipDurationDialog(AbstractClipItem *clip, Timecode tc, GenT
         m_view.crop_down->hide();
         m_view.crop_position->hide();
         m_view.crop_label->hide();
+        m_view.end_up->hide();
+        m_view.end_down->hide();
+        m_view.end_position->hide();
+        m_view.end_label->hide();
     }
 
     m_crop = m_clip->cropStart().frames(m_fps);
-    m_view.clip_position->setText(tc.getTimecode(m_clip->startPos()));
-    m_view.crop_position->setText(tc.getTimecode(m_clip->cropStart()));
-    m_view.clip_duration->setText(tc.getTimecode(m_clip->cropDuration()));
+
+    if (KdenliveSettings::frametimecode()) {
+        QValidator *valid = new QIntValidator();
+        m_view.clip_position->setInputMask("");
+        m_view.clip_position->setValidator(valid);
+        m_view.clip_position->setText(QString::number(m_clip->startPos().frames(m_fps)));
+        m_view.crop_position->setInputMask("");
+        m_view.clip_position->setValidator(valid);
+        m_view.crop_position->setText(QString::number(m_clip->cropStart().frames(m_fps)));
+        m_view.clip_duration->setInputMask("");
+        m_view.clip_position->setValidator(valid);
+        m_view.clip_duration->setText(QString::number(m_clip->cropDuration().frames(m_fps)));
+        m_view.end_position->setInputMask("");
+        m_view.clip_position->setValidator(valid);
+        m_view.end_position->setText(QString::number((m_clip->maxDuration() - m_clip->cropDuration() - m_clip->cropStart()).frames(m_fps)));
+    } else {
+        m_view.clip_position->setText(tc.getTimecode(m_clip->startPos()));
+        m_view.crop_position->setText(tc.getTimecode(m_clip->cropStart()));
+        m_view.clip_duration->setText(tc.getTimecode(m_clip->cropDuration()));
+        m_view.end_position->setText(tc.getTimecode(m_clip->maxDuration() - m_clip->cropDuration() - m_clip->cropStart()));
+    }
     connect(m_view.position_up, SIGNAL(clicked()), this, SLOT(slotPosUp()));
     connect(m_view.position_down, SIGNAL(clicked()), this, SLOT(slotPosDown()));
     connect(m_view.crop_up, SIGNAL(clicked()), this, SLOT(slotCropUp()));
     connect(m_view.crop_down, SIGNAL(clicked()), this, SLOT(slotCropDown()));
     connect(m_view.duration_up, SIGNAL(clicked()), this, SLOT(slotDurUp()));
     connect(m_view.duration_down, SIGNAL(clicked()), this, SLOT(slotDurDown()));
+    connect(m_view.end_up, SIGNAL(clicked()), this, SLOT(slotEndUp()));
+    connect(m_view.end_down, SIGNAL(clicked()), this, SLOT(slotEndDown()));
     connect(m_view.crop_position, SIGNAL(textChanged(const QString &)), this, SLOT(slotCheckCrop()));
     connect(m_view.clip_duration, SIGNAL(textChanged(const QString &)), this, SLOT(slotCheckDuration()));
     connect(m_view.clip_position, SIGNAL(textChanged(const QString &)), this, SLOT(slotCheckStart()));
+    connect(m_view.end_position, SIGNAL(textChanged(const QString &)), this, SLOT(slotCheckEnd()));
     adjustSize();
 }
 
@@ -74,22 +99,42 @@ ClipDurationDialog::~ClipDurationDialog()
 
 void ClipDurationDialog::slotCheckStart()
 {
-    int pos = m_tc.getFrameCount(m_view.clip_position->text());
-    int dur = m_tc.getFrameCount(m_view.clip_duration->text());
+    int pos;
+    int dur;
+    if (KdenliveSettings::frametimecode()) {
+        pos = m_view.clip_position->text().toInt();
+        dur = m_view.clip_duration->text().toInt();
+    } else {
+        pos = m_tc.getFrameCount(m_view.clip_position->text());
+        dur = m_tc.getFrameCount(m_view.clip_duration->text());
+    }
+
     GenTime start(pos, m_fps);
     GenTime duration(dur, m_fps);
     if (m_min != GenTime() && start < m_min) {
-        m_view.clip_position->setText(m_tc.getTimecode(m_min));
+        if (KdenliveSettings::frametimecode()) m_view.clip_position->setText(QString::number(m_min.frames(m_fps)));
+        else m_view.clip_position->setText(m_tc.getTimecode(m_min));
     } else if (m_max != GenTime() && start + duration > m_max) {
-        m_view.clip_position->setText(m_tc.getTimecode(m_max - duration));
+        if (KdenliveSettings::frametimecode()) m_view.clip_position->setText(QString::number((m_max - duration).frames(m_fps)));
+        else m_view.clip_position->setText(m_tc.getTimecode(m_max - duration));
     }
 }
 
 void ClipDurationDialog::slotCheckDuration()
 {
-    int pos = m_tc.getFrameCount(m_view.clip_position->text());
-    int dur = m_tc.getFrameCount(m_view.clip_duration->text());
-    int crop = m_tc.getFrameCount(m_view.crop_position->text());
+    int pos;
+    int dur;
+    int crop;
+    if (KdenliveSettings::frametimecode()) {
+        pos = m_view.clip_position->text().toInt();
+        dur = m_view.clip_duration->text().toInt();
+        crop = m_view.crop_position->text().toInt();
+    } else {
+        pos = m_tc.getFrameCount(m_view.clip_position->text());
+        dur = m_tc.getFrameCount(m_view.clip_duration->text());
+        crop = m_tc.getFrameCount(m_view.crop_position->text());
+    }
+
     GenTime start(pos, m_fps);
     GenTime duration(dur, m_fps);
     GenTime cropStart(crop, m_fps);
@@ -98,100 +143,210 @@ void ClipDurationDialog::slotCheckDuration()
     else maxDuration = m_max == GenTime() ? start + m_clip->maxDuration() - cropStart : qMin(m_max, start + m_clip->maxDuration() - cropStart);
     if (maxDuration != GenTime() && start + duration > maxDuration) {
         m_view.clip_duration->blockSignals(true);
-        m_view.clip_duration->setText(m_tc.getTimecode(maxDuration - start));
+        if (KdenliveSettings::frametimecode()) m_view.clip_duration->setText(QString::number((maxDuration - start).frames(m_fps)));
+        else m_view.clip_duration->setText(m_tc.getTimecode(maxDuration - start));
         m_view.clip_duration->blockSignals(false);
     }
+
+    if (KdenliveSettings::frametimecode()) dur = m_view.clip_duration->text().toInt();
+    else dur = m_tc.getFrameCount(m_view.clip_duration->text());
+    GenTime durationUp(dur, m_fps);
+    m_view.end_position->blockSignals(true);
+    if (KdenliveSettings::frametimecode()) m_view.end_position->setText(QString::number((m_clip->maxDuration() - durationUp - cropStart).frames(m_fps)));
+    else m_view.end_position->setText(m_tc.getTimecode(m_clip->maxDuration() - durationUp - cropStart));
+    m_view.end_position->blockSignals(false);
 }
 
 void ClipDurationDialog::slotCheckCrop()
 {
-    int dur = m_tc.getFrameCount(m_view.clip_duration->text());
-    int crop = m_tc.getFrameCount(m_view.crop_position->text());
+    int dur;
+    int crop;
+    if (KdenliveSettings::frametimecode()) {
+        dur = m_view.clip_duration->text().toInt();
+        crop = m_view.crop_position->text().toInt();
+    } else {
+        dur = m_tc.getFrameCount(m_view.clip_duration->text());
+        crop = m_tc.getFrameCount(m_view.crop_position->text());
+    }
     int diff = crop - m_crop;
     if ((diff > 0 && diff < dur) || diff < 0) {
         dur -= diff;
     } else {
-        m_view.crop_position->setText(m_tc.getTimecode(GenTime(m_crop, m_fps)));
+        if (KdenliveSettings::frametimecode()) m_view.crop_position->setText(QString::number(m_crop));
+        else m_view.crop_position->setText(m_tc.getTimecode(GenTime(m_crop, m_fps)));
         return;
     }
     GenTime duration(dur, m_fps);
     GenTime cropStart(crop, m_fps);
     GenTime maxDuration = m_clip->maxDuration();
     if (maxDuration != GenTime() && cropStart + duration > maxDuration) {
-        m_view.crop_position->setText(m_tc.getTimecode(GenTime(m_crop, m_fps)));
+        if (KdenliveSettings::frametimecode()) m_view.crop_position->setText(QString::number(m_crop));
+        else m_view.crop_position->setText(m_tc.getTimecode(GenTime(m_crop, m_fps)));
     } else {
         m_crop = crop;
         m_view.clip_duration->blockSignals(true);
-        m_view.clip_duration->setText(m_tc.getTimecode(duration));
+        if (KdenliveSettings::frametimecode()) m_view.clip_duration->setText(QString::number(duration.frames(m_fps)));
+        else m_view.clip_duration->setText(m_tc.getTimecode(duration));
         m_view.clip_duration->blockSignals(false);
+    }
+}
+
+void ClipDurationDialog::slotCheckEnd()
+{
+    int crop;
+    int end;
+    int dur;
+    if (KdenliveSettings::frametimecode()) {
+        crop = m_view.crop_position->text().toInt();
+        end = m_view.end_position->text().toInt();
+        dur = m_clip->maxDuration().frames(m_fps) - crop - end;
+    } else {
+        crop = m_tc.getFrameCount(m_view.crop_position->text());
+        end = m_tc.getFrameCount(m_view.end_position->text());
+        dur = m_tc.getFrameCount(m_tc.getTimecode(m_clip->maxDuration())) - crop - end;
+    }
+    if (dur >= 0) {
+        if (KdenliveSettings::frametimecode()) m_view.clip_duration->setText(QString::number(dur));
+        else m_view.clip_duration->setText(m_tc.getTimecode(GenTime(dur, m_fps)));
+    } else {
+        dur = m_tc.getFrameCount(m_view.clip_duration->text());
+        m_view.end_position->blockSignals(true);
+        if (KdenliveSettings::frametimecode()) m_view.end_position->setText(QString::number(m_clip->maxDuration().frames(m_fps) - (crop + dur)));
+        else m_view.end_position->setText(m_tc.getTimecode(m_clip->maxDuration() - GenTime(crop + dur, m_fps)));
+        m_view.end_position->blockSignals(false);
     }
 }
 
 void ClipDurationDialog::slotPosUp()
 {
-    int position = m_tc.getFrameCount(m_view.clip_position->text());
+    int position;
+    if (KdenliveSettings::frametimecode()) position = m_view.clip_position->text().toInt();
+    else position = m_tc.getFrameCount(m_view.clip_position->text());
     //if (duration >= m_clip->duration().frames(m_fps)) return;
     position ++;
-    m_view.clip_position->setText(m_tc.getTimecode(GenTime(position, m_fps)));
+    if (KdenliveSettings::frametimecode()) m_view.clip_position->setText(QString::number(position));
+    else m_view.clip_position->setText(m_tc.getTimecode(GenTime(position, m_fps)));
 }
 
 void ClipDurationDialog::slotPosDown()
 {
-    int position = m_tc.getFrameCount(m_view.clip_position->text());
+    int position;
+    if (KdenliveSettings::frametimecode()) position = m_view.clip_position->text().toInt();
+    else position = m_tc.getFrameCount(m_view.clip_position->text());
     //if (duration >= m_clip->duration().frames(m_fps)) return;
     position --;
-    m_view.clip_position->setText(m_tc.getTimecode(GenTime(position, m_fps)));
+    if (KdenliveSettings::frametimecode()) m_view.clip_position->setText(QString::number(position));
+    else m_view.clip_position->setText(m_tc.getTimecode(GenTime(position, m_fps)));
 }
 
 void ClipDurationDialog::slotDurUp()
 {
-    int duration = m_tc.getFrameCount(m_view.clip_duration->text());
-    int crop = m_tc.getFrameCount(m_view.crop_position->text());
+    int duration;
+    int crop;
+    if (KdenliveSettings::frametimecode()) {
+        duration = m_view.clip_duration->text().toInt();
+        crop = m_view.crop_position->text().toInt();
+    } else {
+        duration = m_tc.getFrameCount(m_view.clip_duration->text());
+        crop = m_tc.getFrameCount(m_view.crop_position->text());
+    }
     if (m_clip->maxDuration() != GenTime() && duration + crop > m_clip->maxDuration().frames(m_fps)) return;
     duration ++;
-    m_view.clip_duration->setText(m_tc.getTimecode(GenTime(duration, m_fps)));
+    if (KdenliveSettings::frametimecode()) m_view.clip_duration->setText(QString::number(duration));
+    else m_view.clip_duration->setText(m_tc.getTimecode(GenTime(duration, m_fps)));
 }
 
 void ClipDurationDialog::slotDurDown()
 {
-    int duration = m_tc.getFrameCount(m_view.clip_duration->text());
+    int duration;
+    if (KdenliveSettings::frametimecode()) {
+        duration = m_view.clip_duration->text().toInt();
+    } else {
+        duration = m_tc.getFrameCount(m_view.clip_duration->text());
+    }
     if (duration <= 0) return;
     duration --;
-    m_view.clip_duration->setText(m_tc.getTimecode(GenTime(duration, m_fps)));
+    if (KdenliveSettings::frametimecode()) m_view.clip_duration->setText(QString::number(duration));
+    else m_view.clip_duration->setText(m_tc.getTimecode(GenTime(duration, m_fps)));
 }
 
 void ClipDurationDialog::slotCropUp()
 {
-    int crop = m_tc.getFrameCount(m_view.crop_position->text());
-    int duration = m_tc.getFrameCount(m_view.clip_duration->text());
+    int duration;
+    int crop;
+    if (KdenliveSettings::frametimecode()) {
+        duration = m_view.clip_duration->text().toInt();
+        crop = m_view.crop_position->text().toInt();
+    } else {
+        duration = m_tc.getFrameCount(m_view.clip_duration->text());
+        crop = m_tc.getFrameCount(m_view.crop_position->text());
+    }
+
     if (m_clip->maxDuration() != GenTime() && duration + crop > m_clip->maxDuration().frames(m_fps)) return;
     crop ++;
-    m_view.crop_position->setText(m_tc.getTimecode(GenTime(crop, m_fps)));
+    if (KdenliveSettings::frametimecode()) m_view.crop_position->setText(QString::number(crop));
+    else m_view.crop_position->setText(m_tc.getTimecode(GenTime(crop, m_fps)));
 }
 
 void ClipDurationDialog::slotCropDown()
 {
-    int crop = m_tc.getFrameCount(m_view.crop_position->text());
+    int crop;
+    if (KdenliveSettings::frametimecode()) {
+        crop = m_view.crop_position->text().toInt();
+    } else {
+        crop = m_tc.getFrameCount(m_view.crop_position->text());
+    }
+
     if (crop <= 0) return;
     crop --;
-    m_view.crop_position->setText(m_tc.getTimecode(GenTime(crop, m_fps)));
+    if (KdenliveSettings::frametimecode()) m_view.crop_position->setText(QString::number(crop));
+    else m_view.crop_position->setText(m_tc.getTimecode(GenTime(crop, m_fps)));
+}
+
+void ClipDurationDialog::slotEndUp()
+{
+    int end;
+    if (KdenliveSettings::frametimecode()) end = m_view.end_position->text().toInt();
+    else end = m_tc.getFrameCount(m_view.end_position->text());
+    kDebug() << "/ / / / FIRST END: " << end;
+    end ++;
+    if (KdenliveSettings::frametimecode()) m_view.end_position->setText(QString::number(end));
+    else m_view.end_position->setText(m_tc.getTimecode(GenTime(end, m_fps)));
+    kDebug() << "/ / / / SEC END: " << end;
+}
+
+void ClipDurationDialog::slotEndDown()
+{
+    int end;
+    if (KdenliveSettings::frametimecode()) end = m_view.end_position->text().toInt();
+    else end = m_tc.getFrameCount(m_view.end_position->text());
+    if (end <= 0) return;
+    end --;
+    if (KdenliveSettings::frametimecode()) m_view.end_position->setText(QString::number(end));
+    else m_view.end_position->setText(m_tc.getTimecode(GenTime(end, m_fps)));
 }
 
 GenTime ClipDurationDialog::startPos() const
 {
-    int pos = m_tc.getFrameCount(m_view.clip_position->text());
+    int pos;
+    if (KdenliveSettings::frametimecode()) pos = m_view.clip_position->text().toInt();
+    else pos = m_tc.getFrameCount(m_view.clip_position->text());
     return GenTime(pos, m_fps);
 }
 
 GenTime ClipDurationDialog::cropStart() const
 {
-    int pos = m_tc.getFrameCount(m_view.crop_position->text());
+    int pos;
+    if (KdenliveSettings::frametimecode()) pos = m_view.crop_position->text().toInt();
+    else pos = m_tc.getFrameCount(m_view.crop_position->text());
     return GenTime(pos, m_fps);
 }
 
 GenTime ClipDurationDialog::duration() const
 {
-    int pos = m_tc.getFrameCount(m_view.clip_duration->text());
+    int pos;
+    if (KdenliveSettings::frametimecode()) pos = m_view.clip_duration->text().toInt();
+    else pos = m_tc.getFrameCount(m_view.clip_duration->text());
     return GenTime(pos, m_fps);
 }
 
@@ -212,6 +367,11 @@ void ClipDurationDialog::wheelEvent(QWheelEvent * event)
             slotCropUp();
         else
             slotCropDown();
+    } else if (m_view.end_position->underMouse()) {
+        if (event->delta() > 0)
+            slotEndUp();
+        else
+            slotEndDown();
     }
 }
 
