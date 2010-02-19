@@ -1,8 +1,8 @@
 project(kdenlive)
 
-SET(BASE_VERSION 0.7.7)
+SET(BASE_VERSION 0.7.8)
 
-OPTION(RELEASE_BUILD "Remove compilation date to version, use for stable releases (default off)" ON)
+OPTION(RELEASE_BUILD "Remove compilation date to version, use for stable releases (default off)" OFF)
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules )
 
 # search packages used by KDE
