@@ -37,6 +37,12 @@ double Timecode::fps() const
 }
 
 
+int Timecode::getDisplayFrameCount(const QString duration, bool frameDisplay) const
+{
+    if (frameDisplay) return duration.toInt();
+    return getFrameCount(duration);
+}
+
 int Timecode::getFrameCount(const QString duration) const
 {
     if (m_dropFrame) {
@@ -69,6 +75,12 @@ int Timecode::getFrameCount(const QString duration) const
     return (int)((duration.section(':', 0, 0).toInt()*3600.0 + duration.section(':', 1, 1).toInt()*60.0 + duration.section(':', 2, 2).toInt()) * m_realFps + duration.section(':', 3, 3).toInt());
 }
 
+QString Timecode::getDisplayTimecode(const GenTime & time, bool frameDisplay) const
+{
+    if (frameDisplay) return QString::number((int) time.frames(m_realFps));
+    return getTimecode(time);
+}
+
 QString Timecode::getTimecode(const GenTime & time) const
 {
     switch (m_format) {
@@ -90,6 +102,12 @@ QString Timecode::getTimecode(const GenTime & time) const
         << endl;
         return getTimecodeHH_MM_SS_FF(time);
     }
+}
+
+const QString Timecode::getDisplayTimecodeFromFrames(int frames, bool frameDisplay) const
+{
+    if (frameDisplay) return QString::number(frames);
+    return getTimecodeHH_MM_SS_FF(frames);
 }
 
 const QString Timecode::getTimecodeFromFrames(int frames) const

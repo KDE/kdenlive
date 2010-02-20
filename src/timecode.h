@@ -49,10 +49,13 @@ public:
     ~Timecode();
 
     /** Returns the timecode for a given time */
+    QString getDisplayTimecode(const GenTime & time, bool frameDisplay) const;
     QString getTimecode(const GenTime & time) const;
+    int getDisplayFrameCount(const QString duration, bool frameDisplay) const;
     int getFrameCount(const QString duration) const;
     static QString getEasyTimecode(const GenTime & time, const double &fps);
     static QString getStringTimecode(int frames, const double &fps);
+    const QString getDisplayTimecodeFromFrames(int frames, bool frameDisplay) const;
     const QString getTimecodeFromFrames(int frames) const;
     double fps() const;
 

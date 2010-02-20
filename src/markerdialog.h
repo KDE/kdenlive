@@ -57,6 +57,7 @@ private:
     double m_fps;
     double m_dar;
     QTimer *m_previewTimer;
+    bool m_frameDisplay;
 
 signals:
     void updateThumb();

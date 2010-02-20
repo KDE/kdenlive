@@ -36,6 +36,7 @@ public:
 private:
     Ui::Positionval_UI m_ui;
     Timecode m_tc;
+    bool m_frameDisplay;
 
 private slots:
     void slotUpdateTimecode();

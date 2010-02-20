@@ -63,6 +63,7 @@ private:
     GenTime m_min;
     GenTime m_max;
     int m_crop;
+    bool m_framesDisplay;
 };
 
 
