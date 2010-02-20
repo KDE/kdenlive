@@ -41,7 +41,7 @@ class Geometryval : public QWidget, public Ui::Geometryval
 {
     Q_OBJECT
 public:
-    explicit Geometryval(const MltVideoProfile profile, QPoint frame_size, QWidget* parent = 0);
+    explicit Geometryval(const MltVideoProfile profile, QPoint frame_size, int startPoint = 0, QWidget* parent = 0);
     virtual ~Geometryval();
     QDomElement getParamDesc();
     QString getValue() const;
@@ -65,6 +65,7 @@ private:
     Ui::GeometryPosition_UI m_view;
     void updateTransitionPath();
     double m_dar;
+    int m_startPoint;
     QGraphicsView *m_sceneview;
 
 public slots:

@@ -28,14 +28,15 @@
 #include <QInputDialog>
 
 
-Geometryval::Geometryval(const MltVideoProfile profile, QPoint frame_size, QWidget* parent) :
+Geometryval::Geometryval(const MltVideoProfile profile, QPoint frame_size, int startPoint, QWidget* parent) :
         QWidget(parent),
         m_profile(profile),
         m_paramRect(NULL),
         m_geom(NULL),
         m_path(NULL),
         m_fixedMode(false),
-        m_frameSize(frame_size)
+        m_frameSize(frame_size),
+        m_startPoint(startPoint)
 {
     setupUi(this);
     QVBoxLayout* vbox = new QVBoxLayout(widget);
@@ -324,7 +325,7 @@ void Geometryval::slotSyncCursor()
 
 void Geometryval::slotPositionChanged(int pos, bool seek)
 {
-    if (seek && KdenliveSettings::transitionfollowcursor()) emit seekToPos(pos);
+    if (seek && KdenliveSettings::transitionfollowcursor()) emit seekToPos(pos + m_startPoint);
     spinPos->setValue(pos);
     m_helper->setValue(pos);
     Mlt::GeometryItem item;
