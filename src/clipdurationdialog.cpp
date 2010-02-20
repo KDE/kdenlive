@@ -60,7 +60,7 @@ ClipDurationDialog::ClipDurationDialog(AbstractClipItem *clip, Timecode tc, GenT
     m_crop = m_clip->cropStart().frames(m_fps);
 
     if (m_framesDisplay) {
-        QValidator *valid = new QIntValidator();
+        QValidator *valid = new QIntValidator(this);
         m_view.clip_position->setInputMask("");
         m_view.clip_position->setValidator(valid);
         m_view.crop_position->setInputMask("");

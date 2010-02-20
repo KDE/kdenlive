@@ -32,7 +32,7 @@ PositionEdit::PositionEdit(const QString name, int pos, int min, int max, const 
     connect(m_ui.krestrictedline, SIGNAL(editingFinished()), this, SLOT(slotUpdatePosition()));
     m_ui.horizontalSlider->setValue(pos);
     if (m_frameDisplay) {
-        QValidator *valid = new QIntValidator();
+        QValidator *valid = new QIntValidator(this);
         m_ui.krestrictedline->setInputMask("");
         m_ui.krestrictedline->setValidator(valid);
     }

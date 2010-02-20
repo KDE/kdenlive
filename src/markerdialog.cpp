@@ -84,7 +84,7 @@ MarkerDialog::MarkerDialog(DocClipBase *clip, CommentedTime t, Timecode tc, cons
     } else clip_thumb->setHidden(true);
 
     if (m_frameDisplay) {
-        QValidator *valid = new QIntValidator();
+        QValidator *valid = new QIntValidator(this);
         marker_position->setInputMask("");
         marker_position->setValidator(valid);
     }
