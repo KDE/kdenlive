@@ -54,8 +54,8 @@ public:
     bool hasClip(const ClipItem * clip) const;
     bool belongsToClip(const ClipItem * clip) const;
     bool invertedTransition() const;
-    QString transitionName() const;
     QString transitionTag() const;
+    QStringList transitionInfo() const;
     OPERATIONTYPE operationMode(QPointF pos);
     //const QMap < QString, QString > transitionParameters() const;
     void setTransitionParameters(const QDomElement params);

@@ -344,32 +344,32 @@ void TrackView::parseDocument(QDomDocument doc)
             QDomElement base = MainWindow::transitions.getEffectByTag(mlt_service, transitionId).cloneNode().toElement();
 
             for (int k = 0; k < transitionparams.count(); k++) {
-                p = transitionparams.item(k).toElement();
-                if (!p.isNull()) {
-                    QString paramName = p.attribute("name");
-                    QString paramValue = p.text();
+                    p = transitionparams.item(k).toElement();
+                    if (!p.isNull()) {
+                        QString paramName = p.attribute("name");
+                        QString paramValue = p.text();
 
-                    QDomNodeList params = base.elementsByTagName("parameter");
-                    if (paramName != "a_track" && paramName != "b_track") for (int i = 0; i < params.count(); i++) {
-                            QDomElement e = params.item(i).toElement();
-                            if (!e.isNull() && e.attribute("tag") == paramName) {
-                                if (e.attribute("type") == "double") {
-                                    QString factor = e.attribute("factor", "1");
-                                    if (factor != "1") {
-                                        double fact;
-                                        if (factor.startsWith('%')) {
-                                            fact = ProfilesDialog::getStringEval(m_doc->mltProfile(), factor);
-                                        } else fact = factor.toDouble();
-                                        double val = paramValue.toDouble() * fact;
-                                        paramValue = QString::number(val);
+                        QDomNodeList params = base.elementsByTagName("parameter");
+                        if (paramName != "a_track" && paramName != "b_track") for (int i = 0; i < params.count(); i++) {
+                                QDomElement e = params.item(i).toElement();
+                                if (!e.isNull() && e.attribute("tag") == paramName) {
+                                    if (e.attribute("type") == "double") {
+                                        QString factor = e.attribute("factor", "1");
+                                        if (factor != "1") {
+                                            double fact;
+                                            if (factor.startsWith('%')) {
+                                                fact = ProfilesDialog::getStringEval(m_doc->mltProfile(), factor);
+                                            } else fact = factor.toDouble();
+                                            double val = paramValue.toDouble() * fact;
+                                            paramValue = QString::number(val);
+                                        }
                                     }
+                                    e.setAttribute("value", paramValue);
+                                    break;
                                 }
-                                e.setAttribute("value", paramValue);
-                                break;
                             }
-                        }
+                    }
                 }
-            }
 
             /*QDomDocument doc;
             doc.appendChild(doc.importNode(base, true));
