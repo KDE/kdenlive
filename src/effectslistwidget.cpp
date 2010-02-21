@@ -23,6 +23,7 @@
 #include "mainwindow.h"
 
 #include "KDebug"
+#include "KStandardDirs"
 
 #include "QApplication"
 #include "QMouseEvent"
@@ -68,20 +69,21 @@ void EffectsListWidget::initList()
     KIcon customIcon("kdenlive-custom-effect");
     KIcon folderIcon("folder");
 
-    KSharedConfigPtr config = KSharedConfig::openConfig("kdenliveeffectscategoryrc");
-    KConfigGroup transConfig(config, "Category");
-    // read the entries
-    QMap< QString, QString > profiles = transConfig.entryMap();
-    QMapIterator<QString, QString> i(profiles);
+    QString effectCategory = KStandardDirs::locate("config", "kdenliveeffectscategory.rc");
+    QDomDocument doc;
+    QFile file(effectCategory);
+    doc.setContent(&file, false);
+    file.close();
     QList <QTreeWidgetItem *> folders;
-    while (i.hasNext()) {
-        i.next();
-        item = new QTreeWidgetItem((QTreeWidget*)0, QStringList(i18n(i.key().toUtf8().data())));
+    QDomNodeList groups = doc.documentElement().elementsByTagName("group");
+    for (int i = 0; i < groups.count(); i++) {
+        item = new QTreeWidgetItem((QTreeWidget*)0, QStringList(groups.at(i).firstChild().firstChild().nodeValue()));
         item->setIcon(0, folderIcon);
         item->setData(0, TypeRole, QString::number((int) EFFECT_FOLDER));
-        item->setData(0, IdRole, i.value());
+        item->setData(0, IdRole, groups.at(i).toElement().attribute("list"));
         folders.append(item);
     }
+
     QTreeWidgetItem *misc = new QTreeWidgetItem((QTreeWidget*)0, QStringList(i18n("Misc")));
     misc->setIcon(0, folderIcon);
     misc->setData(0, TypeRole, QString::number((int) EFFECT_FOLDER));

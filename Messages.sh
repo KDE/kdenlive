@@ -14,7 +14,8 @@ else
    kde_inc=""
 fi
 
-$EXTRACTRC --tag=name --tag=description --tag=label effects/*.xml >> rc.cpp || exit 11
+$EXTRACTRC --tag=name --tag=description --tag=label effects/*.xml data/*.rc >> rc.cpp || exit 11
+
 $EXTRACTRC `find $kdenlive_subdirs -name \*.ui` >> rc.cpp || exit 11
 $EXTRACTRC `find $kdenlive_subdirs -name \*.rc` >> rc.cpp || exit 11
 
