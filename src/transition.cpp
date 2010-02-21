@@ -92,14 +92,16 @@ Transition *Transition::clone()
     return tr;
 }
 
-QString Transition::transitionName() const
-{
-    return m_name;
-}
-
 QString Transition::transitionTag() const
 {
     return m_parameters.attribute("tag");
+}
+
+QStringList Transition::transitionInfo() const
+{
+    QStringList info;
+    info << m_name << m_parameters.attribute("tag") << m_parameters.attribute("id");
+    return info;
 }
 
 bool Transition::isAutomatic() const

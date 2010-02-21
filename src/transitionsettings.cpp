@@ -42,7 +42,7 @@ TransitionSettings::TransitionSettings(QWidget* parent) :
     connect(m_effectEdit, SIGNAL(seekTimeline(int)), this, SIGNAL(seekTimeline(int)));
     setEnabled(false);
 
-    QMap<QString, QStringList> transitionsList;
+    QList<QStringList> transitionsList;
     int max = MainWindow::transitions.effectNames().count();
     QStringList transitionInfo;
     int ix = 0;
@@ -50,11 +50,13 @@ TransitionSettings::TransitionSettings(QWidget* parent) :
     for (; ix < max; ix++) {
         transitionInfo = MainWindow::transitions.effectIdInfo(ix);
         transitionInfo << QString::number(ix);
-        transitionsList.insert(transitionInfo.at(0).toLower(), transitionInfo);
+        transitionsList.append(transitionInfo);
     }
     ix = 0;
     foreach(const QStringList &value, transitionsList) {
-        transitionList->addItem(value.at(0));
+        QStringList data = value;
+        if (!data.isEmpty()) data.removeLast();
+        transitionList->addItem(value.at(0), data);
         transitionList->setItemData(ix, MainWindow::transitions.getInfoFromIndex(value.last().toInt()), Qt::ToolTipRole);
         ix++;
     }
@@ -150,7 +152,7 @@ void TransitionSettings::slotTransitionItemSelected(Transition* t, int nextTrack
         if (!t->forcedTrack()) transitionTrack->setCurrentIndex(0);
         else transitionTrack->setCurrentIndex(m_tracksCount + 1 - t->transitionEndTrack());
         transitionTrack->blockSignals(false);
-        int ix = transitionList->findText(t->transitionName(), Qt::MatchExactly);
+        int ix = transitionList->findData(t->transitionInfo(), Qt::UserRole, Qt::MatchExactly);
         m_usedTransition = t;
         if (ix != -1) {
             transitionList->blockSignals(true);
