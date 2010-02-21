@@ -341,9 +341,10 @@ void TrackView::parseDocument(QDomDocument doc)
                     if (isWipeTransition) transitionId = "slide";
                 }
             }
+
             QDomElement base = MainWindow::transitions.getEffectByTag(mlt_service, transitionId).cloneNode().toElement();
 
-            for (int k = 0; k < transitionparams.count(); k++) {
+            if (!base.isNull()) for (int k = 0; k < transitionparams.count(); k++) {
                 p = transitionparams.item(k).toElement();
                 if (!p.isNull()) {
                     QString paramName = p.attribute("name");
@@ -380,9 +381,9 @@ void TrackView::parseDocument(QDomDocument doc)
             transitionInfo.track = m_projectTracks - 1 - b_track;
 
             //kDebug() << "///////////////   +++++++++++  ADDING TRANSITION ON TRACK: " << b_track << ", TOTAL TRKA: " << m_projectTracks;
-            if (transitionInfo.startPos >= transitionInfo.endPos) {
+            if (transitionInfo.startPos >= transitionInfo.endPos || base.isNull()) {
                 // invalid transition, remove it.
-                m_documentErrors.append(i18n("Removed invalid transition: %1", e.attribute("id")) + '\n');
+                m_documentErrors.append(i18n("Removed invalid transition: (%1, %2, %3)", e.attribute("id"), mlt_service, transitionId) + '\n');
                 kDebug() << "///// REMOVED INVALID TRANSITION: " << e.attribute("id");
                 tractor.removeChild(transitions.item(i));
                 i--;
