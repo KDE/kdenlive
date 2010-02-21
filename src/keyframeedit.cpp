@@ -383,7 +383,7 @@ void KeyframeEdit::slotAdjustKeyframeInfo(bool seek)
         sl->setValue(keyframe_list->item(item->row(), col)->text().toInt());
         sl->blockSignals(false);
     }
-    if (KdenliveSettings::keyframeseek() && seek) emit seekToPos(keyframe_pos->value());
+    if (KdenliveSettings::keyframeseek() && seek) emit seekToPos(keyframe_pos->value() - m_min);
 }
 
 void KeyframeEdit::slotAdjustKeyframePos(int value)
@@ -394,7 +394,7 @@ void KeyframeEdit::slotAdjustKeyframePos(int value)
     else val = m_timecode.getTimecodeFromFrames(value);
     keyframe_list->verticalHeaderItem(item->row())->setText(val);
     slotGenerateParams(item->row(), -1);
-    if (KdenliveSettings::keyframeseek()) emit seekToPos(value);
+    if (KdenliveSettings::keyframeseek()) emit seekToPos(value - m_min);
 }
 
 void KeyframeEdit::slotAdjustKeyframeValue(int /*value*/)

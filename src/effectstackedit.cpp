@@ -227,7 +227,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int in, int out)
             m_valueItems[paramName+"complex"] = pl;
             connect(pl, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
         } else if (type == "geometry") {
-            Geometryval *geo = new Geometryval(m_profile, m_frameSize);
+            Geometryval *geo = new Geometryval(m_profile, m_frameSize, m_in);
             geo->setupParam(pa, minFrame, maxFrame);
             m_vbox->addWidget(geo);
             m_valueItems[paramName+"geometry"] = geo;
@@ -339,7 +339,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int in, int out)
 
 void EffectStackEdit::slotSeekToPos(int pos)
 {
-    emit seekTimeline(pos - m_in);
+    emit seekTimeline(pos);
 }
 
 wipeInfo EffectStackEdit::getWipeInfo(QString value)
