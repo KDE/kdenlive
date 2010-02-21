@@ -70,7 +70,7 @@ Transition::Transition(const ItemInfo info, int transitiontrack, double fps, QDo
     if (m_automaticTransition) m_parameters.setAttribute("automatic", 1);
     else if (m_parameters.attribute("automatic") == "1") m_automaticTransition = true;
     if (m_parameters.attribute("force_track") == "1") m_forceTransitionTrack = true;
-    m_name = m_parameters.elementsByTagName("name").item(0).toElement().text();
+    m_name = i18n(m_parameters.elementsByTagName("name").item(0).toElement().text().toUtf8().data());
     m_secondClip = 0;
 
     //m_referenceClip->addTransition(this);
@@ -125,7 +125,7 @@ void Transition::setTransitionParameters(const QDomElement params)
     m_parameters = params;
     if (m_parameters.attribute("force_track") == "1") setForcedTrack(true, m_parameters.attribute("transition_btrack").toInt());
     else if (m_parameters.attribute("force_track") == "0") setForcedTrack(false, m_parameters.attribute("transition_btrack").toInt());
-    m_name = m_parameters.elementsByTagName("name").item(0).toElement().text();
+    m_name = i18n(m_parameters.elementsByTagName("name").item(0).toElement().text().toUtf8().data());
     update();
 }
 
