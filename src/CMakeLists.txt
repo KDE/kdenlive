@@ -203,11 +203,11 @@ kde4_add_kcfg_files(kdenlive_SRCS kdenlivesettings.kcfgc )
 QT4_ADD_DBUS_ADAPTOR(kdenlive_SRCS org.kdenlive.MainWindow.xml mainwindow.h MainWindow)
 kde4_add_executable(kdenlive ${kdenlive_SRCS} ${kdenlive_UI})
 
-if (${KDE_VERSION} VERSION_EQUAL 4.3.80 OR ${KDE_VERSION} VERSION_GREATER 4.3.80)
-  set(KNEWSTUFF_LIBS ${KDE4_KNEWSTUFF3_LIBS})
-else (${KDE_VERSION} VERSION_EQUAL 4.3.80 OR ${KDE_VERSION} VERSION_GREATER 4.3.80)
+if (${KDE_VERSION} VERSION_LESS 4.3.80)
   set(KNEWSTUFF_LIBS ${KDE4_KNEWSTUFF2_LIBS})
-endif (${KDE_VERSION} VERSION_EQUAL 4.3.80 OR ${KDE_VERSION} VERSION_GREATER 4.3.80)
+else (${KDE_VERSION} VERSION_LESS 4.3.80)
+  set(KNEWSTUFF_LIBS ${KDE4_KNEWSTUFF3_LIBS})
+endif (${KDE_VERSION} VERSION_LESS 4.3.80)
 
 target_link_libraries(kdenlive
   ${KDE4_KDEUI_LIBS}
