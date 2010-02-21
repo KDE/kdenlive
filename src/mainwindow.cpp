@@ -956,6 +956,8 @@ void MainWindow::setupActions()
 
     KNS3::standardAction(i18n("Download New Project Profiles..."), this, SLOT(slotGetNewMltProfileStuff()), actionCollection(), "get_new_mlt_profiles");
 
+    KNS3::standardAction(i18n("Download New Title Templates..."), this, SLOT(slotGetNewTitleStuff()), actionCollection(), "get_new_titles");
+
     KAction* wizAction = new KAction(KIcon("configure"), i18n("Run Config Wizard"), this);
     collection->addAction("run_wizard", wizAction);
     connect(wizAction, SIGNAL(triggered(bool)), this, SLOT(slotRunWizard()));
@@ -2928,6 +2930,13 @@ int MainWindow::getNewStuff(const QString &configFile)
     }
 #endif /* KDE_IS_VERSION(4,3,80) */
     return entries.size();
+}
+
+void MainWindow::slotGetNewTitleStuff()
+{
+    if (getNewStuff("kdenlive_titles.knsrc") > 0) {
+        TitleWidget::refreshTitleTemplates();
+    }
 }
 
 void MainWindow::slotGetNewLumaStuff()

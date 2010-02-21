@@ -1,0 +1,23 @@
+<kdenlivetitle width="1920" height="1080" out="125">
+ <item z-index="3" type="QGraphicsTextItem">
+  <position x="106" y="869">
+   <transform>1,0,0,0,1,0,0,0,1</transform>
+  </position>
+  <content font-color="255,255,255,255" font-outline-color="0,0,0,255" font-pixel-size="46" font-italic="0" font-underline="0" font-weight="50" font="Arial Black" font-outline="1.2">2010/01/01</content>
+ </item>
+ <item z-index="2" type="QGraphicsTextItem">
+  <position x="1148" y="907">
+   <transform>1,0,0,0,1,0,0,0,1</transform>
+  </position>
+  <content font-color="254,255,240,255" font-outline-color="0,0,0,255" font-pixel-size="79" font-italic="0" font-underline="0" font-weight="50" font="Arial Black" font-outline="2.7">Text here </content>
+ </item>
+ <item z-index="1" type="QGraphicsRectItem">
+  <position x="-6" y="850">
+   <transform zoom="100">1,0,0,0,1,0,0,0,1</transform>
+  </position>
+  <content pencolor="0,0,0,0" rect="0,0,1936,234" penwidth="0" brushcolor="175,175,175,136"/>
+ </item>
+ <startviewport rect="0,0,1920,1080"/>
+ <endviewport rect="0,0,1920,1080"/>
+ <background color="0,0,0,0"/>
+</kdenlivetitle>

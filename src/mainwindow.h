@@ -309,6 +309,7 @@ private slots:
     void slotDeleteTrack(int ix = 0);
     void slotChangeTrack(int ix = 0);
     void slotGetNewLumaStuff();
+    void slotGetNewTitleStuff();
     void slotGetNewRenderStuff();
     void slotGetNewMltProfileStuff();
     void slotAutoTransition();

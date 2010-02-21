@@ -18,7 +18,7 @@
 #include "titlewidget.h"
 #include "kdenlivesettings.h"
 #include "KoSliderCombo.h"
-
+#include "kthumb.h"
 #include <cmath>
 
 #include <KDebug>
@@ -38,12 +38,16 @@
 #include <QSignalMapper>
 #include <QTextBlockFormat>
 #include <QTextCursor>
+#include <QComboBox>
+#include <QCryptographicHash>
 
 #if QT_VERSION >= 0x040600
 #include <QGraphicsEffect>
 #include <QGraphicsBlurEffect>
 #include <QGraphicsDropShadowEffect>
 #endif
+
+static QList<TitleTemplate> titletemplates;
 
 int settingUp = false;
 
@@ -424,8 +428,18 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     initAnimation();
     connect(anim_start, SIGNAL(toggled(bool)), this, SLOT(slotAnimStart(bool)));
     connect(anim_end, SIGNAL(toggled(bool)), this, SLOT(slotAnimEnd(bool)));
+	connect(templateBox,SIGNAL(currentIndexChanged(int)),this,SLOT(templateIndexChanged(int)));
 
     buttonBox->button(QDialogButtonBox::Ok)->setEnabled(KdenliveSettings::hastitleproducer());
+	refreshTitleTemplates();
+	templateBox->setIconSize(QSize(60,60));
+	templateBox->clear();
+	templateBox->addItem("");
+	foreach (TitleTemplate t, titletemplates)
+	{
+		templateBox->addItem(t.icon,t.name,t.file);
+	}
+	lastDocumentHash=QCryptographicHash::hash(xml().toString().toAscii(), QCryptographicHash::Md5).toHex();
 }
 
 TitleWidget::~TitleWidget()
@@ -507,8 +521,42 @@ QStringList TitleWidget::extractFontList(QString xml)
     }
     return result;
 }
-
-
+//static
+void TitleWidget::refreshTitleTemplates()
+{
+	QStringList titlenamelist = QStringList() << i18n("None");
+    QStringList titlefiles = QStringList() << QString();
+    QStringList filters;
+    filters << "*.kdenlivetitle" ;
+	titletemplates.clear();
+    QStringList titleTemplates = KGlobal::dirs()->findDirs("appdata", "titles");
+    foreach(const QString &folder, titleTemplates) {
+        QStringList filesnames = QDir(folder).entryList(filters, QDir::Files);
+        foreach(const QString &fname, filesnames) {
+			//titlenamelist.append(fname);
+            //titlefiles.append(KUrl(folder).path(KUrl::AddTrailingSlash) + fname);
+			TitleTemplate t;
+			t.name=fname;
+			t.file=KUrl(folder).path(KUrl::AddTrailingSlash) + fname;
+			t.icon=QIcon(KThumb::getImage(t.file,0,60,60));
+			titletemplates.append(t);		
+        }
+    }
+	kDebug()  << titlenamelist << titlefiles;
+}
+void TitleWidget::templateIndexChanged(int index )
+{
+	QString item=templateBox->itemData(index).toString();
+	if (item!="")
+	{
+		if (lastDocumentHash!=QCryptographicHash::hash(xml().toString().toAscii(), QCryptographicHash::Md5).toHex())
+		{
+			 if (KMessageBox::questionYesNo(this, i18n("Title was changed !\nDo you realy want to load a new Template?\nAll changes in this Document are lost !!")) == KMessageBox::No) return;
+		}
+		loadTitle(item);
+		lastDocumentHash=QCryptographicHash::hash(xml().toString().toAscii(), QCryptographicHash::Md5).toHex();
+	}
+}
 //virtual
 void TitleWidget::resizeEvent(QResizeEvent * /*event*/)
 {

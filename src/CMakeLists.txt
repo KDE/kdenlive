@@ -232,7 +232,7 @@ install( FILES kdenliveui.rc kdenlive.notifyrc DESTINATION  ${DATA_INSTALL_DIR}/
 install (FILES kdenlivesettings.kcfg DESTINATION ${KCFG_INSTALL_DIR})
 install (FILES kdenlive.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
 kde4_install_icons(${ICON_INSTALL_DIR})
-install( FILES kdenlive_wipes.knsrc kdenlive_renderprofiles.knsrc kdenlive_projectprofiles.knsrc kdenlivetranscodingrc DESTINATION  ${CONFIG_INSTALL_DIR} )
+install( FILES kdenlive_titles.knsrc kdenlive_wipes.knsrc kdenlive_renderprofiles.knsrc kdenlive_projectprofiles.knsrc kdenlivetranscodingrc DESTINATION  ${CONFIG_INSTALL_DIR} )
 kde4_install_icons( ${ICON_INSTALL_DIR} )
 
 

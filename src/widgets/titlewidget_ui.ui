@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>977</width>
-    <height>633</height>
+    <width>1383</width>
+    <height>835</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -36,7 +36,7 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="5" colspan="4">
+   <item row="0" column="5" colspan="6">
     <widget class="QFrame" name="frame_properties">
      <property name="sizePolicy">
       <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
@@ -195,7 +195,7 @@
      </layout>
     </widget>
    </item>
-   <item row="2" column="0" colspan="8">
+   <item row="2" column="0" colspan="10">
     <widget class="QSplitter" name="splitter">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
@@ -552,14 +552,14 @@
            </item>
            <item row="0" column="0">
             <widget class="KColorButton" name="backgroundColor">
-             <property name="color">
+             <property name="color" stdset="0">
               <color>
                <red>0</red>
                <green>0</green>
                <blue>0</blue>
               </color>
              </property>
-             <property name="defaultColor">
+             <property name="defaultColor" stdset="0">
               <color>
                <red>0</red>
                <green>0</green>
@@ -737,7 +737,7 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="0" colspan="9">
+   <item row="1" column="0" colspan="11">
     <widget class="QStackedWidget" name="toolbar_stack">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
@@ -785,14 +785,14 @@
        </item>
        <item row="0" column="1">
         <widget class="KColorButton" name="rectBColor">
-         <property name="color">
+         <property name="color" stdset="0">
           <color>
            <red>0</red>
            <green>0</green>
            <blue>0</blue>
           </color>
          </property>
-         <property name="defaultColor">
+         <property name="defaultColor" stdset="0">
           <color>
            <red>0</red>
            <green>0</green>
@@ -820,14 +820,14 @@
        </item>
        <item row="0" column="5">
         <widget class="KColorButton" name="rectFColor">
-         <property name="color">
+         <property name="color" stdset="0">
           <color>
            <red>0</red>
            <green>0</green>
            <blue>0</blue>
           </color>
          </property>
-         <property name="defaultColor">
+         <property name="defaultColor" stdset="0">
           <color>
            <red>0</red>
            <green>0</green>
@@ -900,14 +900,14 @@
          <property name="flat">
           <bool>false</bool>
          </property>
-         <property name="color">
+         <property name="color" stdset="0">
           <color>
            <red>0</red>
            <green>0</green>
            <blue>0</blue>
           </color>
          </property>
-         <property name="defaultColor">
+         <property name="defaultColor" stdset="0">
           <color>
            <red>0</red>
            <green>0</green>
@@ -1085,13 +1085,23 @@
      </widget>
     </widget>
    </item>
-   <item row="3" column="6">
+   <item row="3" column="8">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
      <property name="standardButtons">
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="7">
+    <widget class="QComboBox" name="templateBox"/>
+   </item>
+   <item row="3" column="6">
+    <widget class="QLabel" name="label_22">
+     <property name="text">
+      <string>Template:</string>
      </property>
     </widget>
    </item>
