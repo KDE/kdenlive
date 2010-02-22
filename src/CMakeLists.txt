@@ -1,7 +1,7 @@
 add_subdirectory( widgets )
 add_subdirectory( mimetypes )
 
-find_package(Nepomuk)
+macro_optional_find_package(Nepomuk)
 
 if (Nepomuk_FOUND)
     INCLUDE_DIRECTORIES(NEPOMUK_INCLUDES )
