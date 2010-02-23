@@ -432,7 +432,7 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
 
     buttonBox->button(QDialogButtonBox::Ok)->setEnabled(KdenliveSettings::hastitleproducer());
 	refreshTitleTemplates();
-	templateBox->setIconSize(QSize(60,60));
+	//templateBox->setIconSize(QSize(60,60));
 	templateBox->clear();
 	templateBox->addItem("");
 	foreach (TitleTemplate t, titletemplates)
@@ -551,7 +551,7 @@ void TitleWidget::templateIndexChanged(int index )
 	{
 		if (lastDocumentHash!=QCryptographicHash::hash(xml().toString().toAscii(), QCryptographicHash::Md5).toHex())
 		{
-			 if (KMessageBox::questionYesNo(this, i18n("Title was changed !\nDo you realy want to load a new Template?\nAll changes in this Document are lost !!")) == KMessageBox::No) return;
+			 if (KMessageBox::questionYesNo(this, i18n("Title was changed !\nDo you really want to load a new template?\nAll changes in this document are lost !!")) == KMessageBox::No) return;
 		}
 		loadTitle(item);
 		lastDocumentHash=QCryptographicHash::hash(xml().toString().toAscii(), QCryptographicHash::Md5).toHex();
