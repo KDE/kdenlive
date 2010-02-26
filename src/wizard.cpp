@@ -36,7 +36,7 @@
 #include <QTimer>
 
 const double recommendedMltVersion = 50;
-static const char version[] = VERSION;
+static const char kdenlive_version[] = VERSION;
 
 Wizard::Wizard(bool upgrade, QWidget *parent) :
         QWizard(parent)
@@ -48,7 +48,7 @@ Wizard::Wizard(bool upgrade, QWidget *parent) :
     page1->setTitle(i18n("Welcome"));
     QLabel *label;
     if (upgrade)
-        label = new QLabel(i18n("Your Kdenlive version was upgraded to version %1. Please take some time to review the basic settings", QString(version).section(' ', 0, 0)));
+        label = new QLabel(i18n("Your Kdenlive version was upgraded to version %1. Please take some time to review the basic settings", QString(kdenlive_version).section(' ', 0, 0)));
     else
         label = new QLabel(i18n("This is the first time you run Kdenlive. This wizard will let you adjust some basic settings, you will be ready to edit your first movie in a few seconds..."));
     label->setWordWrap(true);
@@ -581,7 +581,7 @@ bool Wizard::isOk() const
 
 void Wizard::slotShowWebInfos()
 {
-    KRun::runUrl(KUrl("http://kdenlive.org/discover/" + QString(version).section(' ', 0, 0)), "text/html", this);
+    KRun::runUrl(KUrl("http://kdenlive.org/discover/" + QString(kdenlive_version).section(' ', 0, 0)), "text/html", this);
 }
 
 #include "wizard.moc"
