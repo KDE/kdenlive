@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-02-01 21:07+0200\n"
-"PO-Revision-Date: 2010-02-27 22:54+0100\n"
+"PO-Revision-Date: 2010-02-27 23:02+0100\n"
 "Last-Translator: Markus Slopianka <kamikazow@web.de>\n"
 "Language-Team: American English <kde-i18n-de@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -1885,7 +1885,7 @@ msgstr "Verbindung trennen"
 
 #: src/wizard.cpp:57
 msgid "Discover the features of this Kdenlive release"
-msgstr "Entdecke die neuen Features dieses kdenlive-Releases"
+msgstr "Entdecken Sie die neuen Möglichkeiten dieser Kdenlive-Version"
 
 #: src/kdenlivesettingsdialog.cpp:59
 msgid "Display"
@@ -3354,7 +3354,7 @@ msgstr "Nicht ausrichten"
 
 #: src/dvdwizard.cpp:97
 msgid "No burning program found (K3b, Brasero)"
-msgstr "Kein Brenn-Programm gefunden (K3b, Brasero)"
+msgstr "Kein Brennprogramm gefunden (K3b oder Brasero)"
 
 #: src/dvdwizardmenu.cpp:161
 msgid "No button in menu"
