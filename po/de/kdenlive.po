@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-02-01 21:07+0200\n"
-"PO-Revision-Date: 2010-02-27 23:02+0100\n"
+"PO-Revision-Date: 2010-02-27 23:05+0100\n"
 "Last-Translator: Markus Slopianka <kamikazow@web.de>\n"
 "Language-Team: American English <kde-i18n-de@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -1423,7 +1423,7 @@ msgstr "Linken Kanal nach rechts kopieren"
 
 #: src/main.cpp:37
 msgid "Copyright (c) 2009 Development team"
-msgstr "Copyright (c) 2009 Entwickler-Team"
+msgstr "Copyright © 2009–2010 Entwickler-Team"
 
 #: src/renderer.cpp:1142
 msgid ""
@@ -3085,7 +3085,7 @@ msgstr "MLT-Umgebung"
 
 #: src/main.cpp:38
 msgid "MLT porting, KDE 4 porting, Main developer"
-msgstr "MLT-Portierung, KDE-4-Portierung, Hauptentwickler"
+msgstr "MLT-Portierung, KDE-SC-4-Portierung, Hauptentwickler"
 
 #: rc.cpp:1427 rc.cpp:2961
 msgid "MLT profiles folder"
