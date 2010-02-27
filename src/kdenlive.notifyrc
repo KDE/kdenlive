@@ -26,6 +26,8 @@ Action=Popup
 
 [Event/ErrorMessage]
 Name=Error
+Name[de]=Fehler
 Comment=An error occured in Kdenlive
+Comment[de]=Ein Fehler ist in Kdenlive aufgetreten
 Action=Sound
 Sound=KDE-Sys-Warning.ogg
