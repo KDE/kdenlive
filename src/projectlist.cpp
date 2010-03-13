@@ -613,7 +613,7 @@ void ProjectList::slotRemoveClip()
             folderids[folder->groupName()] = folder->clipId();
             int children = folder->childCount();
 
-            if (children > 0 && KMessageBox::questionYesNo(this, i18np("Delete folder <b>%2</b>?<br>This will also remove the clip in that folder", "Delete folder <b>%2</b>?<br>This will also remove the %1 clips in that folder",  children, folder->text(1)), i18n("Delete Folder")) != KMessageBox::Yes) return;
+            if (children > 0 && KMessageBox::questionYesNo(this, i18np("Delete folder <b>%2</b>?<br />This will also remove the clip in that folder", "Delete folder <b>%2</b>?<br />This will also remove the %1 clips in that folder",  children, folder->text(1)), i18n("Delete Folder")) != KMessageBox::Yes) return;
             for (int i = 0; i < children; ++i) {
                 ProjectItem *child = static_cast <ProjectItem *>(folder->child(i));
                 ids << child->clipId();
@@ -622,7 +622,7 @@ void ProjectList::slotRemoveClip()
             ProjectItem *item = static_cast <ProjectItem *>(selected.at(i));
             ids << item->clipId();
             if (item->numReferences() > 0) {
-                if (KMessageBox::questionYesNo(this, i18np("Delete clip <b>%2</b>?<br>This will also remove the clip in timeline", "Delete clip <b>%2</b>?<br>This will also remove its %1 clips in timeline", item->numReferences(), item->names().at(1)), i18n("Delete Clip")) != KMessageBox::Yes) return;
+                if (KMessageBox::questionYesNo(this, i18np("Delete clip <b>%2</b>?<br />This will also remove the clip in timeline", "Delete clip <b>%2</b>?<br />This will also remove its %1 clips in timeline", item->numReferences(), item->names().at(1)), i18n("Delete Clip")) != KMessageBox::Yes) return;
             }
         }
     }
@@ -957,9 +957,9 @@ void ProjectList::slotRemoveInvalidClip(const QString &id, bool replace)
         const QString path = item->referencedClip()->fileURL().path();
         if (item->referencedClip()->isPlaceHolder()) replace = false;
         if (!path.isEmpty()) {
-            if (replace) KMessageBox::sorry(this, i18n("Clip <b>%1</b><br>is invalid, will be removed from project.", path));
+            if (replace) KMessageBox::sorry(this, i18n("Clip <b>%1</b><br />is invalid, will be removed from project.", path));
             else {
-                if (KMessageBox::questionYesNo(this, i18n("Clip <b>%1</b><br>is missing or invalid. Remove it from project?", path), i18n("Invalid clip")) == KMessageBox::Yes) replace = true;
+                if (KMessageBox::questionYesNo(this, i18n("Clip <b>%1</b><br />is missing or invalid. Remove it from project?", path), i18n("Invalid clip")) == KMessageBox::Yes) replace = true;
             }
         }
         QStringList ids;

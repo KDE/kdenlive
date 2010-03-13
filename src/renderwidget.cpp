@@ -816,7 +816,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
     if (!existing.isEmpty()) {
         renderItem = existing.at(0);
         if (renderItem->data(1, Qt::UserRole + 2).toInt() == RUNNINGJOB) {
-            KMessageBox::information(this, i18n("There is already a job writing file:<br><b>%1</b><br>Abort the job if you want to overwrite it...", dest), i18n("Already running"));
+            KMessageBox::information(this, i18n("There is already a job writing file:<br /><b>%1</b><br />Abort the job if you want to overwrite it...", dest), i18n("Already running"));
             return;
         }
         renderItem->setData(1, Qt::UserRole + 4, QString());
@@ -1620,7 +1620,7 @@ void RenderWidget::slotStartScript()
         if (!existing.isEmpty()) {
             renderItem = existing.at(0);
             if (renderItem->data(1, Qt::UserRole + 2).toInt() == RUNNINGJOB) {
-                KMessageBox::information(this, i18n("There is already a job writing file:<br><b>%1</b><br>Abort the job if you want to overwrite it...", destination), i18n("Already running"));
+                KMessageBox::information(this, i18n("There is already a job writing file:<br /><b>%1</b><br />Abort the job if you want to overwrite it...", destination), i18n("Already running"));
                 return;
             }
         } else renderItem = new QTreeWidgetItem(m_view.running_jobs, QStringList() << QString() << destination << QString());

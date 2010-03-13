@@ -558,7 +558,7 @@ void Wizard::slotCheckMlt()
     if (!result.contains("sdl") || !result.contains("sdl_preview")) errorMessage.append(i18n("MLT's SDL module not found. Please check your MLT install. Kdenlive will not work until this issue is fixed.") + '\n');
 
     if (!errorMessage.isEmpty()) {
-        errorMessage.prepend(QString("<b>%1</b><br>").arg(i18n("Fatal Error")));
+        errorMessage.prepend(QString("<b>%1</b><br />").arg(i18n("Fatal Error")));
         QLabel *pix = new QLabel();
         pix->setPixmap(KIcon("dialog-error").pixmap(30));
         QLabel *label = new QLabel(errorMessage);

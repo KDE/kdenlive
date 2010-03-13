@@ -878,10 +878,10 @@ void KdenliveDoc::addClip(QDomElement elem, QString clipId, bool createClipItem)
             int action = KMessageBox::No;
             if (!size.isEmpty() && !hash.isEmpty()) {
                 if (!m_searchFolder.isEmpty()) newpath = searchFileRecursively(m_searchFolder, size, hash);
-                else action = (KMessageBox::ButtonCode) KMessageBox::questionYesNoCancel(kapp->activeWindow(), i18n("Clip <b>%1</b><br>is invalid, what do you want to do?", path), i18n("File not found"), KGuiItem(i18n("Search automatically")), KGuiItem(i18n("Keep as placeholder")));
+                else action = (KMessageBox::ButtonCode) KMessageBox::questionYesNoCancel(kapp->activeWindow(), i18n("Clip <b>%1</b><br />is invalid, what do you want to do?", path), i18n("File not found"), KGuiItem(i18n("Search automatically")), KGuiItem(i18n("Keep as placeholder")));
             } else {
                 if (elem.attribute("type").toInt() == SLIDESHOW) {
-                    int res = KMessageBox::questionYesNoCancel(kapp->activeWindow(), i18n("Clip <b>%1</b><br>is invalid or missing, what do you want to do?", path), i18n("File not found"), KGuiItem(i18n("Search manually")), KGuiItem(i18n("Keep as placeholder")));
+                    int res = KMessageBox::questionYesNoCancel(kapp->activeWindow(), i18n("Clip <b>%1</b><br />is invalid or missing, what do you want to do?", path), i18n("File not found"), KGuiItem(i18n("Search manually")), KGuiItem(i18n("Keep as placeholder")));
                     if (res == KMessageBox::Yes)
                         newpath = KFileDialog::getExistingDirectory(KUrl("kfiledialog:///clipfolder"), kapp->activeWindow(), i18n("Looking for %1", path));
                     else {
@@ -889,7 +889,7 @@ void KdenliveDoc::addClip(QDomElement elem, QString clipId, bool createClipItem)
                         action = res;
                     }
                 } else {
-                    int res = KMessageBox::questionYesNoCancel(kapp->activeWindow(), i18n("Clip <b>%1</b><br>is invalid or missing, what do you want to do?", path), i18n("File not found"), KGuiItem(i18n("Search manually")), KGuiItem(i18n("Keep as placeholder")));
+                    int res = KMessageBox::questionYesNoCancel(kapp->activeWindow(), i18n("Clip <b>%1</b><br />is invalid or missing, what do you want to do?", path), i18n("File not found"), KGuiItem(i18n("Search manually")), KGuiItem(i18n("Keep as placeholder")));
                     if (res == KMessageBox::Yes)
                         newpath = KFileDialog::getOpenFileName(KUrl("kfiledialog:///clipfolder"), QString(), kapp->activeWindow(), i18n("Looking for %1", path));
                     else {
