@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-23 21:31+0200\n"
-"PO-Revision-Date: 2010-02-23 21:40+0200\n"
+"POT-Creation-Date: 2010-03-22 18:49+0200\n"
+"PO-Revision-Date: 2010-03-22 18:52+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <translation@linux.org.ua>\n"
 "MIME-Version: 1.0\n"
@@ -657,7 +657,6 @@ msgid "Audio codec"
 msgstr "Звуковий кодек"
 
 #: rc.cpp:621
-#| msgid "Edges correction"
 msgid "Audio correction"
 msgstr "Виправлення звуку"
 
@@ -1258,23 +1257,27 @@ msgid "Clip"
 msgstr "Кліп"
 
 #: src/kdenlivedoc.cpp:884 src/kdenlivedoc.cpp:892
-msgid "Clip <b>%1</b><br>is invalid or missing, what do you want to do?"
+#| msgid "Clip <b>%1</b><br>is invalid or missing, what do you want to do?"
+msgid "Clip <b>%1</b><br />is invalid or missing, what do you want to do?"
 msgstr ""
-"Дані кліпу <b>%1</b><br>пошкоджено або програмі не вдалося їх виявити, що "
+"Дані кліпу <b>%1</b><br />пошкоджено або програмі не вдалося їх виявити, що "
 "робити?"
 
 #: src/kdenlivedoc.cpp:881
-msgid "Clip <b>%1</b><br>is invalid, what do you want to do?"
-msgstr "Дані кліпу <b>%1</b><br>пошкоджено, що робити?"
+#| msgid "Clip <b>%1</b><br>is invalid, what do you want to do?"
+msgid "Clip <b>%1</b><br />is invalid, what do you want to do?"
+msgstr "Дані кліпу <b>%1</b><br />пошкоджено, що робити?"
 
 #: src/projectlist.cpp:960
-msgid "Clip <b>%1</b><br>is invalid, will be removed from project."
-msgstr "Дані кліпу <b>%1</b><br>пошкоджено, його буде вилучено з проекту."
+#| msgid "Clip <b>%1</b><br>is invalid, will be removed from project."
+msgid "Clip <b>%1</b><br />is invalid, will be removed from project."
+msgstr "Дані кліпу <b>%1</b><br />пошкоджено, його буде вилучено з проекту."
 
 #: src/projectlist.cpp:962
-msgid "Clip <b>%1</b><br>is missing or invalid. Remove it from project?"
+#| msgid "Clip <b>%1</b><br>is missing or invalid. Remove it from project?"
+msgid "Clip <b>%1</b><br />is missing or invalid. Remove it from project?"
 msgstr ""
-"Дані кліпу <b>%1</b><br>пошкоджено або програмі не вдалося їх виявити. "
+"Дані кліпу <b>%1</b><br />пошкоджено або програмі не вдалося їх виявити. "
 "Вилучити цей кліп з проекту?"
 
 #: rc.cpp:2162 rc.cpp:3711
@@ -1382,12 +1385,10 @@ msgid "Color opacity"
 msgstr "Непрозорість кольору"
 
 #: rc.cpp:617
-#| msgid "Color"
 msgid "Colour"
 msgstr "Зміна кольорів"
 
 #: rc.cpp:615
-#| msgid "Center correction"
 msgid "Colour correction"
 msgstr "Виправлення кольорів"
 
@@ -1441,8 +1442,8 @@ msgid "Copy the left channel to the right"
 msgstr "Копіювати лівий канал праворуч"
 
 #: src/main.cpp:37
-msgid "Copyright (c) 2009 Development team"
-msgstr "Авторські права належать ©2009 команді з розробки"
+msgid "Copyright © 2007–2010 Kdenlive authors"
+msgstr "© Автори Kdenlive, 2007–2010"
 
 #: src/renderer.cpp:1142
 msgid ""
@@ -1523,12 +1524,10 @@ msgid "Crop"
 msgstr "Обрізати"
 
 #: rc.cpp:619
-#| msgid "Crop start"
 msgid "Crop & scale"
 msgstr "Обрізання і масштабування"
 
 #: rc.cpp:751 rc.cpp:2300
-#| msgid "Crop"
 msgid "Crop end"
 msgstr "Обрізати кінець"
 
@@ -1749,17 +1748,23 @@ msgstr[1] "Вилучити кліпи"
 msgstr[2] "Вилучити кліпи"
 
 #: src/projectlist.cpp:625
-msgid "Delete clip <b>%2</b>?<br>This will also remove the clip in timeline"
+#| msgid "Delete clip <b>%2</b>?<br>This will also remove the clip in timeline"
+#| msgid_plural ""
+#| "Delete clip <b>%2</b>?<br>This will also remove its %1 clips in timeline"
+msgid "Delete clip <b>%2</b>?<br />This will also remove the clip in timeline"
 msgid_plural ""
-"Delete clip <b>%2</b>?<br>This will also remove its %1 clips in timeline"
+"Delete clip <b>%2</b>?<br />This will also remove its %1 clips in timeline"
 msgstr[0] ""
-"Вилучити кліп <b>%2</b>?<br>Вилучення запису призведе до вилучення %1 кліпу "
+"Вилучити кліп <b>%2</b>?<br />Вилучення запису призведе до вилучення %1 "
+"кліпу "
 "з лінійки запису"
 msgstr[1] ""
-"Вилучити кліп <b>%2</b>?<br>Вилучення запису призведе до вилучення %1 кліпів "
+"Вилучити кліп <b>%2</b>?<br />Вилучення запису призведе до вилучення %1 "
+"кліпів "
 "з лінійки запису"
 msgstr[2] ""
-"Вилучити кліп <b>%2</b>?<br>Вилучення запису призведе до вилучення %1 кліпів "
+"Вилучити кліп <b>%2</b>?<br />Вилучення запису призведе до вилучення %1 "
+"кліпів "
 "з лінійки запису"
 
 #: src/dvdwizardmenu.cpp:45
@@ -1783,18 +1788,26 @@ msgid "Delete folder"
 msgstr "Вилучити теку"
 
 #: src/projectlist.cpp:616
+#| msgid ""
+#| "Delete folder <b>%2</b>?<br>This will also remove the clip in that folder"
+#| msgid_plural ""
+#| "Delete folder <b>%2</b>?<br>This will also remove the %1 clips in that "
+#| "folder"
 msgid ""
-"Delete folder <b>%2</b>?<br>This will also remove the clip in that folder"
+"Delete folder <b>%2</b>?<br />This will also remove the clip in that folder"
 msgid_plural ""
-"Delete folder <b>%2</b>?<br>This will also remove the %1 clips in that folder"
+"Delete folder <b>%2</b>?<br />This will also remove the %1 clips in that "
+"folder"
 msgstr[0] ""
-"Вилучити теку <b>%2</b>?<br>Вилучення теки призведе до вилучення %1 кліпу, "
+"Вилучити теку <b>%2</b>?<br />Вилучення теки призведе до вилучення %1 кліпу, "
 "що у ній зберігається"
 msgstr[1] ""
-"Вилучити теку <b>%2</b>?<br>Вилучення теки призведе до вилучення %1 кліпів, "
+"Вилучити теку <b>%2</b>?<br />Вилучення теки призведе до вилучення %1 "
+"кліпів, "
 "що у ній зберігається"
 msgstr[2] ""
-"Вилучити теку <b>%2</b>?<br>Вилучення теки призведе до вилучення %1 кліпів, "
+"Вилучити теку <b>%2</b>?<br />Вилучення теки призведе до вилучення %1 "
+"кліпів, "
 "що у ній зберігається"
 
 #: src/editguidecommand.cpp:35
@@ -1953,7 +1966,6 @@ msgid "Dissolve"
 msgstr "Розчиняти"
 
 #: rc.cpp:631
-#| msgid "Distort0r"
 msgid "Distort"
 msgstr "Викривлення"
 
@@ -1988,7 +2000,6 @@ msgid "Download New Render Profiles..."
 msgstr "Звантажити нові профілі обробки..."
 
 #: src/mainwindow.cpp:959
-#| msgid "Download New Wipes..."
 msgid "Download New Title Templates..."
 msgstr "Звантажити нові шаблони титрів..."
 
@@ -2254,7 +2265,6 @@ msgid "Factor"
 msgstr "Множник"
 
 #: rc.cpp:623
-#| msgid "Fade in"
 msgid "Fade"
 msgstr "Знебарвлювання"
 
@@ -3142,8 +3152,9 @@ msgid "MLT environment"
 msgstr "Середовище MLT"
 
 #: src/main.cpp:38
-msgid "MLT porting, KDE 4 porting, Main developer"
-msgstr "Портування на MLT, портування на KDE 4, основний розробник"
+#| msgid "MLT porting, KDE 4 porting, Main developer"
+msgid "MLT porting, KDE SC 4 porting, Main developer"
+msgstr "Портування на MLT, портування на KDE SC 4, основний розробник"
 
 #: rc.cpp:1460 rc.cpp:3009
 msgid "MLT profiles folder"
@@ -3312,7 +3323,6 @@ msgid "Mono to stereo"
 msgstr "Моно у стерео"
 
 #: rc.cpp:629
-#| msgid "Position"
 msgid "Motion"
 msgstr "Рух"
 
@@ -4086,7 +4096,6 @@ msgid "Removed invalid transition: %1"
 msgstr "Вилучено некоректний перехід: %1"
 
 #: src/trackview.cpp:386
-#| msgid "Removed invalid transition: %1"
 msgid "Removed invalid transition: (%1, %2, %3)"
 msgstr "Вилучено некоректний перехід: (%1, %2, %3)"
 
@@ -4904,7 +4913,6 @@ msgid "Template title clip"
 msgstr "Шаблон кліпу з титрами"
 
 #: rc.cpp:1259 rc.cpp:2808
-#| msgid "Template"
 msgid "Template:"
 msgstr "Шаблон:"
 
@@ -4941,11 +4949,14 @@ msgid "Themes"
 msgstr "Теми"
 
 #: src/renderwidget.cpp:819 src/renderwidget.cpp:1623
+#| msgid ""
+#| "There is already a job writing file:<br><b>%1</b><br>Abort the job if you "
+#| "want to overwrite it..."
 msgid ""
-"There is already a job writing file:<br><b>%1</b><br>Abort the job if you "
-"want to overwrite it..."
+"There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
+"you want to overwrite it..."
 msgstr ""
-"Файл запису завдань вже створено:<br><b>%1</b><br>Перервіть виконання "
+"Файл запису завдань вже створено:<br /><b>%1</b><br />Перервіть виконання "
 "завдання, якщо бажаєте перезаписати цей файл..."
 
 #: src/renderer.cpp:1471
@@ -5829,3 +5840,5 @@ msgstr "x1"
 msgid "y"
 msgstr "y"
 
+#~ msgid "Copyright (c) 2009 Development team"
+#~ msgstr "Авторські права належать ©2009 команді з розробки"

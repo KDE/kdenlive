@@ -8,12 +8,12 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-23 21:31+0200\n"
+"POT-Creation-Date: 2010-03-22 18:54+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
@@ -1199,19 +1199,19 @@ msgid "Clip"
 msgstr ""
 
 #: src/kdenlivedoc.cpp:884 src/kdenlivedoc.cpp:892
-msgid "Clip <b>%1</b><br>is invalid or missing, what do you want to do?"
+msgid "Clip <b>%1</b><br />is invalid or missing, what do you want to do?"
 msgstr ""
 
 #: src/kdenlivedoc.cpp:881
-msgid "Clip <b>%1</b><br>is invalid, what do you want to do?"
+msgid "Clip <b>%1</b><br />is invalid, what do you want to do?"
 msgstr ""
 
 #: src/projectlist.cpp:960
-msgid "Clip <b>%1</b><br>is invalid, will be removed from project."
+msgid "Clip <b>%1</b><br />is invalid, will be removed from project."
 msgstr ""
 
 #: src/projectlist.cpp:962
-msgid "Clip <b>%1</b><br>is missing or invalid. Remove it from project?"
+msgid "Clip <b>%1</b><br />is missing or invalid. Remove it from project?"
 msgstr ""
 
 #: rc.cpp:2162 rc.cpp:3711
@@ -1374,7 +1374,7 @@ msgid "Copy the left channel to the right"
 msgstr ""
 
 #: src/main.cpp:37
-msgid "Copyright (c) 2009 Development team"
+msgid "Copyright © 2007–2010 Kdenlive authors"
 msgstr ""
 
 #: src/renderer.cpp:1142
@@ -1674,9 +1674,9 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: src/projectlist.cpp:625
-msgid "Delete clip <b>%2</b>?<br>This will also remove the clip in timeline"
+msgid "Delete clip <b>%2</b>?<br />This will also remove the clip in timeline"
 msgid_plural ""
-"Delete clip <b>%2</b>?<br>This will also remove its %1 clips in timeline"
+"Delete clip <b>%2</b>?<br />This will also remove its %1 clips in timeline"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -1702,9 +1702,10 @@ msgstr ""
 
 #: src/projectlist.cpp:616
 msgid ""
-"Delete folder <b>%2</b>?<br>This will also remove the clip in that folder"
+"Delete folder <b>%2</b>?<br />This will also remove the clip in that folder"
 msgid_plural ""
-"Delete folder <b>%2</b>?<br>This will also remove the %1 clips in that folder"
+"Delete folder <b>%2</b>?<br />This will also remove the %1 clips in that "
+"folder"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -3024,7 +3025,7 @@ msgid "MLT environment"
 msgstr ""
 
 #: src/main.cpp:38
-msgid "MLT porting, KDE 4 porting, Main developer"
+msgid "MLT porting, KDE SC 4 porting, Main developer"
 msgstr ""
 
 #: rc.cpp:1460 rc.cpp:3009
@@ -4766,8 +4767,8 @@ msgstr ""
 
 #: src/renderwidget.cpp:819 src/renderwidget.cpp:1623
 msgid ""
-"There is already a job writing file:<br><b>%1</b><br>Abort the job if you "
-"want to overwrite it..."
+"There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
+"you want to overwrite it..."
 msgstr ""
 
 #: src/renderer.cpp:1471
