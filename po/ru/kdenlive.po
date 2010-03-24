@@ -2130,7 +2130,7 @@ msgstr "Размер кадра"
 
 #: src/kdenlivesettingsdialog.cpp:231
 msgid "Framebuffer console"
-msgstr "Framebuffer console"
+msgstr "Консоль буфера кадров"
 
 #: src/clipproperties.cpp:162 src/mainwindow.cpp:655 src/slideshowclip.cpp:59
 msgid "Frames"
@@ -2138,7 +2138,7 @@ msgstr "Кадры"
 
 #: rc.cpp:120 rc.cpp:1892
 msgid "Freeze"
-msgstr "Freeze"
+msgstr "Заморозить"
 
 #: rc.cpp:128 rc.cpp:1900
 msgid "Freeze After"
@@ -2180,23 +2180,23 @@ msgstr "Full shots"
 #: rc.cpp:177 rc.cpp:295 rc.cpp:301 rc.cpp:361 rc.cpp:395 rc.cpp:465
 #: rc.cpp:1949 rc.cpp:2067 rc.cpp:2073 rc.cpp:2133 rc.cpp:2167 rc.cpp:2237
 msgid "Gain"
-msgstr "Gain"
+msgstr "Усиление"
 
 #: rc.cpp:369 rc.cpp:381 rc.cpp:401 rc.cpp:2141 rc.cpp:2153 rc.cpp:2173
 msgid "Gain In"
-msgstr "Gain In"
+msgstr "Начало усиления"
 
 #: rc.cpp:371 rc.cpp:383 rc.cpp:403 rc.cpp:2143 rc.cpp:2155 rc.cpp:2175
 msgid "Gain Out"
-msgstr "Gain Out"
+msgstr "Конец усиления"
 
 #: rc.cpp:181 rc.cpp:1953
 msgid "Gain as Percentage"
-msgstr ""
+msgstr "Усиление в процентах"
 
 #: rc.cpp:423 rc.cpp:2195
 msgid "Gain out"
-msgstr "Gain out"
+msgstr "Конец усиления"
 
 #: rc.cpp:183 rc.cpp:187 rc.cpp:1955 rc.cpp:1959
 msgid "Gamma"
@@ -2241,27 +2241,27 @@ msgstr "к предыдущей точке привязки"
 
 #: src/mainwindow.cpp:925
 msgid "Go to Project End"
-msgstr "в конец проекта"
+msgstr "В конец проекта"
 
 #: src/mainwindow.cpp:920
 msgid "Go to Project Start"
-msgstr "в начало проекта"
+msgstr "В начало проекта"
 
 #: src/geometryval.cpp:64
 msgid "Go to next keyframe"
-msgstr "к следующему ключевому кадру"
+msgstr "К следующему ключевому кадру"
 
 #: src/geometryval.cpp:66
 msgid "Go to previous keyframe"
-msgstr "к предыдущему ключевому кадру"
+msgstr "К предыдущему ключевому кадру"
 
 #: rc.cpp:923 rc.cpp:2695 rc.cpp:4077
 msgid "GraphView"
-msgstr "GraphView"
+msgstr "Графич вид"
 
 #: rc.cpp:136 rc.cpp:1908
 msgid "Green Tint"
-msgstr ""
+msgstr "Зеленый тонированный"
 
 #: rc.cpp:189 rc.cpp:1961
 msgid "Greyscale"
@@ -2313,7 +2313,7 @@ msgstr "Высота"
 
 #: rc.cpp:209 rc.cpp:1981
 msgid "Hi gain"
-msgstr "Hi gain"
+msgstr "Выс усиление"
 
 #: rc.cpp:305 rc.cpp:2077
 msgid "Hide a region of the clip"
@@ -2333,7 +2333,7 @@ msgstr "Скрыть дорожку"
 
 #: src/geometryval.cpp:91
 msgid "Hor. Center"
-msgstr "Hor. Center"
+msgstr "Гор. Центр"
 
 #: rc.cpp:473 rc.cpp:2245
 msgid "Horizontal factor"
@@ -2365,11 +2365,11 @@ msgstr "Тип изображения"
 
 #: src/projectitem.cpp:200 src/documentchecker.cpp:77
 msgid "Image clip"
-msgstr "Image clip"
+msgstr "Клип изображения"
 
 #: rc.cpp:1304 rc.cpp:3076 rc.cpp:4458
 msgid "Image clips"
-msgstr "Image clips"
+msgstr "Клипы изображений"
 
 #: rc.cpp:959 rc.cpp:2731 rc.cpp:4113
 msgid "Image editing"
@@ -2395,7 +2395,7 @@ msgstr "Тип изображения"
 #: rc.cpp:80 rc.cpp:1852
 #, fuzzy
 msgid "In"
-msgstr "I"
+msgstr "В"
 
 #: src/monitor.cpp:475
 msgid "In Point"
@@ -2416,7 +2416,7 @@ msgstr "Инициализация..."
 #: rc.cpp:215 rc.cpp:1987
 #, fuzzy
 msgid "Input gain (dB)"
-msgstr "Input gain (db)"
+msgstr "Входное усиление (Дб)"
 
 #: src/mainwindow.cpp:1020
 msgid "Insert Space"
@@ -2471,7 +2471,7 @@ msgstr "Некорректный клип"
 #: src/trackview.cpp:204
 #, kde-format
 msgid "Invalid clip producer %1\n"
-msgstr ""
+msgstr "Некорректный способ получения клипа %1\n"
 
 #: src/trackview.cpp:490
 #, kde-format
@@ -2508,7 +2508,7 @@ msgstr "Jack"
 
 #: src/main.cpp:47
 msgid "Jason Wood"
-msgstr ""
+msgstr "Jason Wood"
 
 #: src/main.cpp:42
 msgid "Jean-Baptiste Mardelle"
@@ -2516,7 +2516,7 @@ msgstr "Jean-Baptiste Mardelle"
 
 #: src/main.cpp:44
 msgid "Jean-Michel Poure"
-msgstr ""
+msgstr "Jean-Michel Poure"
 
 #: rc.cpp:562 rc.cpp:2334 rc.cpp:3716
 msgid "Job Queue"
@@ -2548,43 +2548,43 @@ msgstr "Размер ядра"
 
 #: rc.cpp:235 rc.cpp:2007
 msgid "LADSPA change pitch audio effect"
-msgstr "LADSPA change pitch audio effect"
+msgstr "LADSPA смена канала аудио эффект"
 
 #: rc.cpp:199 rc.cpp:1971
 msgid "LADSPA declipper audio effect"
-msgstr "LADSPA declipper audio effect"
+msgstr "LADSPA склейка аудио эффект"
 
 #: rc.cpp:203 rc.cpp:1975
 msgid "LADSPA equalizer audio effect"
-msgstr "LADSPA equalizer audio effect"
+msgstr "LADSPA эквалайзер аудио эффект"
 
 #: rc.cpp:213 rc.cpp:1985
 msgid "LADSPA limiter audio effect"
-msgstr "LADSPA limiter audio effect"
+msgstr "LADSPA ограничитель аудио эффект"
 
 #: rc.cpp:223 rc.cpp:1995
 msgid "LADSPA phaser audio effect"
-msgstr "LADSPA phaser audio effect"
+msgstr "LADSPA фазирование аудио эффект"
 
 #: rc.cpp:241 rc.cpp:2013
 msgid "LADSPA pitch scale audio effect"
-msgstr "LADSPA pitch scale audio effect"
+msgstr "LADSPA шкала канала аудио эффект"
 
 #: rc.cpp:247 rc.cpp:2019
 msgid "LADSPA rate scale audio effect"
-msgstr "LADSPA rate scale audio effect"
+msgstr "LADSPA шкала уровня аудио эффект"
 
 #: rc.cpp:253 rc.cpp:2025
 msgid "LADSPA reverb audio effect"
-msgstr "LADSPA reverb audio effect"
+msgstr "LADSPA ревербер. аудио эффект"
 
 #: rc.cpp:261 rc.cpp:2033
 msgid "LADSPA room reverb audio effect"
-msgstr "LADSPA room reverb audio effect"
+msgstr "LADSPA комнат. ревербер. аудио эффект"
 
 #: src/geometryval.cpp:94 rc.cpp:68 rc.cpp:1840
 msgid "Left"
-msgstr "Left"
+msgstr "Левый"
 
 #: rc.cpp:217 rc.cpp:1989
 #, fuzzy
@@ -2601,7 +2601,7 @@ msgstr "Перевод строки (\\\\n)"
 
 #: rc.cpp:205 rc.cpp:1977
 msgid "Lo gain"
-msgstr "Lo gain"
+msgstr "Низк усиление"
 
 #: src/dvdwizard.cpp:106
 msgid "Load"
@@ -2630,7 +2630,7 @@ msgstr "Ищется %1"
 
 #: rc.cpp:1265 rc.cpp:1634 rc.cpp:3037 rc.cpp:3406 rc.cpp:4419 rc.cpp:4788
 msgid "Loop"
-msgstr "Loop"
+msgstr "Цикл"
 
 #: src/mainwindow.cpp:862
 msgid "Loop Zone"
@@ -2638,7 +2638,7 @@ msgstr "Зациклить участок"
 
 #: src/renderwidget.cpp:1071
 msgid "Lossless / HQ"
-msgstr ""
+msgstr "Без потерь / HQ"
 
 #: rc.cpp:629 rc.cpp:2401 rc.cpp:3783
 msgid "M"
@@ -2647,7 +2647,7 @@ msgstr "M"
 #: src/main.cpp:43
 #, fuzzy
 msgid "MLT Connection, Transition, Effect, Timeline Developer"
-msgstr "Mlt Connection, Transition, Effect, Timeline Developer"
+msgstr "Mlt соединение, Преобразование, Эффекты, Разработчик плана"
 
 #: rc.cpp:935 rc.cpp:2707 rc.cpp:4089
 msgid "MLT environment"
@@ -2656,7 +2656,7 @@ msgstr "Окружение MLT"
 #: src/main.cpp:42
 #, fuzzy
 msgid "MLT porting, KDE 4 porting, Main developer"
-msgstr "Mlt porting, KDE4 porting, Main developer"
+msgstr "Mlt объединение, KDE4 объединение, Основной разработчик"
 
 #: rc.cpp:938 rc.cpp:2710 rc.cpp:4092
 msgid "MLT profiles folder"
@@ -2730,7 +2730,7 @@ msgstr "Путь к melt"
 
 #: src/dvdwizard.cpp:329
 msgid "Menu job timed out"
-msgstr ""
+msgstr "Меню просроченной работы"
 
 #: rc.cpp:1679 rc.cpp:3451 rc.cpp:4833
 msgid "Metadata"
@@ -2738,11 +2738,11 @@ msgstr "Метаданные"
 
 #: rc.cpp:207 rc.cpp:1979
 msgid "Mid gain"
-msgstr "Mid gain"
+msgstr "Сред усиление"
 
 #: src/unicodedialog.cpp:162
 msgid "Minus sign. For numbers: &#x2212;42"
-msgstr "Знак &laquo;минус&raquo;"
+msgstr "Знак минус. Для номеров: &#x2212;42"
 
 #: rc.cpp:283 rc.cpp:2055
 msgid "Mirror"
@@ -2767,7 +2767,7 @@ msgstr "Управление профилями"
 
 #: rc.cpp:821 rc.cpp:2593 rc.cpp:3975
 msgid "Missing clips"
-msgstr ""
+msgstr "Утерянные клипы"
 
 #: rc.cpp:42 rc.cpp:1814
 msgid "Mix"
@@ -2775,7 +2775,7 @@ msgstr "Mix"
 
 #: src/wizard.cpp:337
 msgid "Mkisofs"
-msgstr ""
+msgstr "Mkisofs"
 
 #: src/renderwidget.cpp:1072
 msgid "Mobile devices"
@@ -2787,15 +2787,15 @@ msgstr "Монитор"
 
 #: rc.cpp:1070 rc.cpp:2842 rc.cpp:4224
 msgid "Monitor Preview Speedup Settings"
-msgstr ""
+msgstr "Установки быстрого просмотра"
 
 #: rc.cpp:1067 rc.cpp:2839 rc.cpp:4221
 msgid "Monitor background color (requires restart)"
-msgstr ""
+msgstr "Цвет подложки монитора (нужна перезагрузка)"
 
 #: src/monitor.cpp:185
 msgid "Monitor overlay infos"
-msgstr ""
+msgstr "Добавочная информация о мониторе"
 
 #: rc.cpp:28 rc.cpp:1800
 msgid "Mono to stereo"
@@ -2865,12 +2865,12 @@ msgstr "NTSC"
 #: src/dvdwizardvob.cpp:60
 #, fuzzy
 msgid "NTSC 16:9"
-msgstr "NTSC"
+msgstr "NTSC 16:9"
 
 #: src/dvdwizardvob.cpp:60
 #, fuzzy
 msgid "NTSC 4:3"
-msgstr "NTSC"
+msgstr "NTSC 4:3"
 
 #: src/kdenlivesettingsdialog.cpp:520 rc.cpp:1250 rc.cpp:1553 rc.cpp:1703
 #: rc.cpp:3022 rc.cpp:3325 rc.cpp:3475 rc.cpp:4404 rc.cpp:4707 rc.cpp:4857
@@ -2929,11 +2929,11 @@ msgstr "Не найдено маркеров в этом положении ку
 
 #: src/unicodedialog.cpp:130
 msgid "No-break space. &amp;nbsp; in HTML. See U+2009 and U+0020."
-msgstr "Неразрывный пробел. &amp;nbsp; in HTML. Смотрите U+2009 и U+0020"
+msgstr "Неразрывный пробел. &amp;nbsp; в HTML. Смотрите U+2009 и U+0020"
 
 #: src/initeffects.cpp:69 src/initeffects.cpp:645
 msgid "None"
-msgstr ""
+msgstr "Нет"
 
 #: rc.cpp:761 rc.cpp:2533 rc.cpp:3915
 #, fuzzy
@@ -2967,11 +2967,11 @@ msgstr "OSS"
 
 #: src/kdenlivesettingsdialog.cpp:213
 msgid "OSS with DMA access"
-msgstr "OSS with DMA access"
+msgstr "OSS с доступом DMA"
 
 #: rc.cpp:10 rc.cpp:303 rc.cpp:1782 rc.cpp:2075
 msgid "Obscure"
-msgstr ""
+msgstr "Эффект Обскура"
 
 #: rc.cpp:1235 rc.cpp:3007 rc.cpp:4389
 msgid "Offset"
@@ -2991,11 +2991,11 @@ msgstr "Запустить мастер DVD после сборки"
 
 #: src/unicodedialog.cpp:164
 msgid "Open box; stands for a space."
-msgstr ""
+msgstr "Открыть окно; остановка на пробеле"
 
 #: rc.cpp:532 rc.cpp:2304 rc.cpp:3686
 msgid "Open browser window after export"
-msgstr ""
+msgstr "Открыть окно браузера после экспорта"
 
 #: rc.cpp:1283 rc.cpp:3055 rc.cpp:4437
 msgid "Open last project on startup"
@@ -3007,7 +3007,7 @@ msgstr "Открывать проекты в новой вкладке"
 
 #: src/main.cpp:47
 msgid "Original KDE 3 version author (not active anymore)"
-msgstr ""
+msgstr "Автор оригинальной версии KDE3 (более не активен)"
 
 #: src/geometryval.cpp:85
 #, fuzzy
@@ -3045,20 +3045,20 @@ msgstr "PAL"
 
 #: src/dvdwizardvob.cpp:60
 msgid "PAL 16:9"
-msgstr ""
+msgstr "PAL 16:9"
 
 #: src/dvdwizardvob.cpp:60
 #, fuzzy
 msgid "PAL 4:3"
-msgstr "PAL"
+msgstr "PAL 4:3"
 
 #: rc.cpp:309 rc.cpp:339 rc.cpp:2081 rc.cpp:2111
 msgid "Pan and Zoom"
-msgstr ""
+msgstr "Кадр и приближение"
 
 #: rc.cpp:818 rc.cpp:2590 rc.cpp:3972
 msgid "Param"
-msgstr "Param"
+msgstr "Парам"
 
 #: src/complexparameter.cpp:42
 msgid "Parameter info"
@@ -3078,19 +3078,19 @@ msgstr "Путь"
 
 #: rc.cpp:221 rc.cpp:1993
 msgid "Phaser"
-msgstr "Phaser"
+msgstr "Фазирование"
 
 #: rc.cpp:239 rc.cpp:2011
 msgid "Pitch Scaler"
-msgstr "Pitch Scaler"
+msgstr "Масштабирование канала"
 
 #: rc.cpp:233 rc.cpp:2005
 msgid "Pitch Shift"
-msgstr "Pitch Shift"
+msgstr "Смена канала"
 
 #: src/wizard.cpp:294
 msgid "Pixbuf module"
-msgstr ""
+msgstr "Модуль Pixbuf"
 
 #: rc.cpp:731 rc.cpp:1601 rc.cpp:2503 rc.cpp:3373 rc.cpp:3885 rc.cpp:4755
 msgid "Pixel aspect ratio"
@@ -3116,7 +3116,7 @@ msgstr "Воспроизвести / приостановить"
 #: src/dvdwizardmenu.cpp:287
 #, fuzzy
 msgid "Play All"
-msgstr "Воспроизвести"
+msgstr "Воспроизвести все"
 
 #: src/mainwindow.cpp:857
 msgid "Play Zone"
@@ -3154,10 +3154,11 @@ msgstr "Пожалуйста отошлите сообщение об ошибк
 msgid ""
 "Please set a default application to open audio files in the Settings dialog"
 msgstr ""
+"Установите текущее приложение для работы со звуком в меню Установки"
 
 #: src/projectlist.cpp:200
 msgid "Please set a default application to open images in the Settings dialog"
-msgstr ""
+msgstr "Установите текущее приложение для работы с изображениями в меню Установки"
 
 #: rc.cpp:1367 rc.cpp:3139 rc.cpp:4521
 msgid "Please set your default video profile"
@@ -3184,7 +3185,7 @@ msgstr ""
 
 #: rc.cpp:1217 rc.cpp:2989 rc.cpp:4371
 msgid "Ports:"
-msgstr "Свойства"
+msgstr "Порты:"
 
 #: rc.cpp:644 rc.cpp:2416 rc.cpp:3554 rc.cpp:3798 rc.cpp:4936
 msgid "Pos"
@@ -3218,7 +3219,7 @@ msgid ""
 "%1"
 msgstr ""
 "Нажмите кнопку запись\n"
-"чтобы начать захват.\n"
+"для захвата с экрана.\n"
 "Файлы будут сохранены в:\n"
 "%1"
 
@@ -3228,7 +3229,7 @@ msgstr "Предпросмотр"
 
 #: src/unicodedialog.cpp:44
 msgid "Previous Unicode character (Arrow Up)"
-msgstr ""
+msgstr "Предыдущий символ Юникод (Стрелка вверх)"
 
 #: src/customtrackview.cpp:1243 src/customtrackview.cpp:1252
 msgid "Problem adding effect to clip"
@@ -3252,7 +3253,7 @@ msgstr "Профиль"
 
 #: src/renderwidget.cpp:343 src/renderwidget.cpp:450
 msgid "Profile already exists"
-msgstr ""
+msgstr "Профиль уже существует"
 
 #: rc.cpp:1046 rc.cpp:2818 rc.cpp:4200
 msgid "Profile name"
@@ -3298,7 +3299,7 @@ msgstr "Профиль проекта не найден, используетс�
 
 #: src/kdenlivedoc.cpp:618
 msgid "Project profile was not found, it will be added to your system now."
-msgstr ""
+msgstr "Профиль проекта не найден, он сейчас будет создан в системе."
 
 #: src/kdenlivedoc.cpp:587
 msgid "Project profile was not found, using default profile."
@@ -3310,7 +3311,7 @@ msgstr "Свойства"
 
 #: src/kdenlivesettingsdialog.cpp:212
 msgid "PulseAudio"
-msgstr ""
+msgstr "PulseAudio"
 
 #: src/unicodedialog.cpp:152
 msgid ""
@@ -3325,17 +3326,21 @@ msgid ""
 "Punctuation Space. Width the same as between a punctuation character and the "
 "next character."
 msgstr ""
+"Пунктуация пробел. Длина такая же, как между символом пунктиуации и  "
+"следующим символом."
 
 #: src/wizard.cpp:289
 #, fuzzy
 msgid "QImage module"
-msgstr "Тип изображения"
+msgstr "Модуль QImage"
 
 #: src/unicodedialog.cpp:166
 msgid ""
 "Quarter note (Am.) or crochet (Brit.). See <a href=\"http://en.wikipedia.org/"
 "wiki/Quarter_note\">Wikipedia:Quarter_note</a>"
 msgstr ""
+"Четверть ноты. См. <a href=\"http://en.wikipedia.org/"
+"wiki/Quarter_note\">Википедия:Четверть_ноты</a>"
 
 #: rc.cpp:848 rc.cpp:2620 rc.cpp:4002
 msgid "R"
@@ -3355,7 +3360,7 @@ msgstr "Частота (Гц)"
 
 #: rc.cpp:245 rc.cpp:2017
 msgid "Rate Scaler"
-msgstr "Rate Scaler"
+msgstr "Масштабирование частоты"
 
 #: src/projectlistview.cpp:46
 msgid "Rating"
@@ -3363,7 +3368,7 @@ msgstr "Рейтинг"
 
 #: src/main.cpp:45
 msgid "Ray Lehtiniemi"
-msgstr ""
+msgstr "Луч Lehtiniemi"
 
 #: src/razorclipcommand.cpp:32
 msgid "Razor clip"
@@ -3380,7 +3385,7 @@ msgstr "Перейти в конец проекта"
 #: src/monitor.cpp:190
 #, fuzzy
 msgid "Real time (drop frames)"
-msgstr "Release time (s)"
+msgstr "Актуальное время (в кадрах)"
 
 #: src/recmonitor.cpp:78
 msgid "Record"
@@ -3451,7 +3456,7 @@ msgstr "Удалить пробел"
 #: src/documentchecker.cpp:261
 #, fuzzy
 msgid "Remove clips"
-msgstr "Двигать клип"
+msgstr "Удалить клип"
 
 #: rc.cpp:1757 rc.cpp:3529 rc.cpp:4911
 msgid "Remove file"
@@ -3460,7 +3465,7 @@ msgstr "Удалить файл"
 #: rc.cpp:836 rc.cpp:2608 rc.cpp:3990
 #, fuzzy
 msgid "Remove selected clips"
-msgstr "Невозможно вставить выбранные клипы"
+msgstr "Удалить выбранные клипы"
 
 #: src/insertspacecommand.cpp:36
 msgid "Remove space"
@@ -3536,7 +3541,7 @@ msgstr "Настройка профилей сборки"
 #: src/trackview.cpp:528
 #, kde-format
 msgid "Replaced wrong clip producer %1 with %2"
-msgstr ""
+msgstr "Замененный метод получения клипа %1 на %2"
 
 #: src/wizard.cpp:332
 msgid "Required for creation of DVD"
@@ -3572,12 +3577,11 @@ msgstr "Требуется для работы с изображениями"
 
 #: src/wizard.cpp:165
 msgid "Required to work with various video formats (hdv, mpeg, flash, ...)"
-msgstr ""
-"Требуется для работы с видео различных форматов (hdv, mpeg, flash, ...)"
+msgstr "Требуется для работы с видео различных форматов (hdv, mpeg, flash, ...)"
 
 #: rc.cpp:526 rc.cpp:2298 rc.cpp:3680
 msgid "Rescale"
-msgstr "Изменить размер"
+msgstr "Изменить масштаб"
 
 #: rc.cpp:809 rc.cpp:2581 rc.cpp:3963
 msgid "Reset"
@@ -3606,15 +3610,15 @@ msgstr "Изменение размера..."
 
 #: rc.cpp:251 rc.cpp:2023
 msgid "Reverb"
-msgstr "Reverb"
+msgstr "Реверберация"
 
 #: rc.cpp:425 rc.cpp:2197
 msgid "Reverb Time"
-msgstr "Reverb Time"
+msgstr "Время Реверберац."
 
 #: rc.cpp:255 rc.cpp:2027
 msgid "Reverb time"
-msgstr "Reverb time"
+msgstr "Время реверберац."
 
 #: rc.cpp:451 rc.cpp:2223
 msgid "Reverse playing"
@@ -3638,30 +3642,30 @@ msgstr "Назад на 1 кадр"
 
 #: src/geometryval.cpp:93 rc.cpp:72 rc.cpp:1844
 msgid "Right"
-msgstr "Right"
+msgstr "Правый"
 
 #: rc.cpp:259 rc.cpp:2031
 msgid "Room Reverb"
-msgstr "Room Reverb"
+msgstr "Эхо комнаты"
 
 #: rc.cpp:263 rc.cpp:2035
 msgid "Room size (m)"
-msgstr "Room size (m)"
+msgstr "Размер комнаты (м)"
 
 #: rc.cpp:319 rc.cpp:2091
 #, fuzzy
 msgid "Rotate X"
-msgstr "Развернуть"
+msgstr "Вращать X"
 
 #: rc.cpp:321 rc.cpp:2093
 #, fuzzy
 msgid "Rotate Y"
-msgstr "Развернуть"
+msgstr "Вращать Y"
 
 #: rc.cpp:323 rc.cpp:2095
 #, fuzzy
 msgid "Rotate Z"
-msgstr "Развернуть"
+msgstr "Вращать Z"
 
 #: rc.cpp:315 rc.cpp:2087
 msgid "Rotate and Shear"
@@ -3738,21 +3742,21 @@ msgstr "Масштаб"
 #: rc.cpp:163 rc.cpp:1935
 #, fuzzy
 msgid "Scale X"
-msgstr "Масштаб"
+msgstr "Масштаб X"
 
 #: rc.cpp:165 rc.cpp:1937
 #, fuzzy
 msgid "Scale Y"
-msgstr "Масштаб"
+msgstr "Масштаб Y"
 
 #: rc.cpp:151 rc.cpp:1923
 #, fuzzy
 msgid "Scale0tilt"
-msgstr "Масштаб"
+msgstr "Масштаб0наклон"
 
 #: rc.cpp:153 rc.cpp:1925
 msgid "Scales, Tilts and Crops an Image"
-msgstr ""
+msgstr "Масштаб, Наклон и Кадрирование изображения"
 
 #: rc.cpp:511 rc.cpp:2283 rc.cpp:3665
 msgid "Scanning"
@@ -3894,11 +3898,11 @@ msgstr "Установить начало участка"
 
 #: rc.cpp:331 rc.cpp:2103
 msgid "Shear X"
-msgstr ""
+msgstr "Сдвиг X"
 
 #: rc.cpp:333 rc.cpp:2105
 msgid "Shear Y"
-msgstr ""
+msgstr "Сдвиг Y"
 
 #: rc.cpp:237 rc.cpp:415 rc.cpp:2009 rc.cpp:2187
 msgid "Shift"
@@ -3934,7 +3938,7 @@ msgstr "Показать миниатюры видео"
 
 #: rc.cpp:271 rc.cpp:2043
 msgid "Simulates a vinyl audio player - LADSPA audio effect"
-msgstr "Симуляция винилового роигрывателя - LADSPA audio effect"
+msgstr "Симуляция винилового роигрывателя - LADSPA аудио эффект"
 
 #: src/unicodedialog.cpp:142
 msgid "Six-Per-Em Space. Width: 1/6 of one <em>em</em>"
@@ -3946,6 +3950,9 @@ msgid ""
 "+266a). See <a href=\"http://en.wikipedia.org/wiki/Sixteenth_note"
 "\">Wikipedia:Sixteenth_note</a>"
 msgstr ""
+"Шестнадцатая нота. Половина такая же длинная, как и восьмая нота (U"
+"+266a). См <a href=\"http://en.wikipedia.org/wiki/Sixteenth_note"
+"\">Википедия:Шестнадцая_нота</a>"
 
 #: rc.cpp:719 rc.cpp:1238 rc.cpp:1400 rc.cpp:1424 rc.cpp:1742 rc.cpp:2491
 #: rc.cpp:3010 rc.cpp:3172 rc.cpp:3196 rc.cpp:3514 rc.cpp:3873 rc.cpp:4392
@@ -3974,7 +3981,7 @@ msgstr "Клип-слайдшоу"
 #: src/trackview.cpp:73
 #, fuzzy
 msgid "Smaller tracks"
-msgstr "Все дорожки"
+msgstr "Меньшие дорожки"
 
 #: src/mainwindow.cpp:760
 msgid "Snap"
@@ -3982,7 +3989,7 @@ msgstr "Привязка"
 
 #: rc.cpp:1277 rc.cpp:1646 rc.cpp:3049 rc.cpp:3418 rc.cpp:4431 rc.cpp:4800
 msgid "Softness"
-msgstr "Softness"
+msgstr "Мягкость"
 
 #: src/documentvalidator.cpp:692
 msgid ""
@@ -3991,6 +3998,10 @@ msgid ""
 "size, making them portable? It is recommended you do this on the computer "
 "they were first created on, or you could have to adjust their size."
 msgstr ""
+"Некоторые ваши текстовые клипы были записаны с размером в точках, что значит "
+"разные размеры на разных дисплеях. Вы хотите перевести их в размер по пикселям "
+"чтобы сделать их универсальными? Реклмендуется это делать на компьютере, где "
+"они впервые были созданы, или вы бы могли поменять их размер."
 
 #: src/titledocument.cpp:228
 msgid ""
@@ -3998,11 +4009,14 @@ msgid ""
 "different sizes on different displays. They will be converted to pixel size, "
 "making them portable, but you could have to adjust their size."
 msgstr ""
+"Некоторые ваши текстовые клипы были записаны с размером в точках, что значит "
+"разные размеры на разных дисплеях. Они будут переведены в размер по пикселям, "
+"чтобы сделать их универсальными, но вы бы могли поменять их размер."
 
 #: rc.cpp:770 rc.cpp:2542 rc.cpp:3924
 #, fuzzy
 msgid "Source"
-msgstr "час"
+msgstr "Источник"
 
 #: rc.cpp:141 rc.cpp:1913
 #, fuzzy
@@ -4011,91 +4025,91 @@ msgstr "Цвет границы"
 
 #: rc.cpp:349 rc.cpp:2121
 msgid "Sox Band"
-msgstr "Sox Band"
+msgstr "Хор"
 
 #: rc.cpp:357 rc.cpp:2129
 msgid "Sox Bass"
-msgstr "Sox Bass"
+msgstr "Бас"
 
 #: rc.cpp:365 rc.cpp:2137
 msgid "Sox Echo"
-msgstr "Sox Echo"
+msgstr "Эхо"
 
 #: rc.cpp:377 rc.cpp:2149
 msgid "Sox Flanger"
-msgstr "Sox Flanger"
+msgstr "Состыковка"
 
 #: rc.cpp:391 rc.cpp:2163
 msgid "Sox Gain"
-msgstr "Sox Gain"
+msgstr "Усиление"
 
 #: rc.cpp:397 rc.cpp:2169
 msgid "Sox Phaser"
-msgstr "Sox Phaser"
+msgstr "Фазирование"
 
 #: rc.cpp:411 rc.cpp:2183
 msgid "Sox Pitch Shift"
-msgstr "Sox Pitch Shift"
+msgstr "Смена канала"
 
 #: rc.cpp:419 rc.cpp:2191
 msgid "Sox Reverb"
-msgstr "Sox Reverb"
+msgstr "Реверберация"
 
 #: rc.cpp:429 rc.cpp:2201
 msgid "Sox Stretch"
-msgstr "Sox Stretch"
+msgstr "Растягивание"
 
 #: rc.cpp:437 rc.cpp:2209
 msgid "Sox Vibro"
-msgstr "Sox Vibro"
+msgstr "Вибрирование"
 
 #: rc.cpp:351 rc.cpp:2123
 msgid "Sox band audio effect"
-msgstr "Sox band audio effect"
+msgstr "Хор аудио эффект"
 
 #: rc.cpp:359 rc.cpp:2131
 msgid "Sox bass audio effect"
-msgstr "Sox bass audio effect"
+msgstr "Бас аудио эффект"
 
 #: rc.cpp:413 rc.cpp:2185
 msgid "Sox change pitch audio effect"
-msgstr "Sox change pitch audio effect"
+msgstr "Смена канала аудио эффект"
 
 #: rc.cpp:367 rc.cpp:2139
 msgid "Sox echo audio effect"
-msgstr "Sox echo audio effect"
+msgstr "Эхо аудио эффект"
 
 #: rc.cpp:379 rc.cpp:2151
 msgid "Sox flanger audio effect"
-msgstr "Sox flanger audio effect"
+msgstr "Состыковка аудио эффект"
 
 #: rc.cpp:393 rc.cpp:2165
 msgid "Sox gain audio effect"
-msgstr "Sox gain audio effect"
+msgstr "Усиление аудио эффект"
 
 #: rc.cpp:399 rc.cpp:2171
 msgid "Sox phaser audio effect"
-msgstr "Sox phaser audio effect"
+msgstr "Фазирование аудио эффект"
 
 #: rc.cpp:421 rc.cpp:2193
 msgid "Sox reverb audio effect"
-msgstr "Sox reverb audio effect"
+msgstr "Реверберация аудио эффект"
 
 #: rc.cpp:431 rc.cpp:2203
 msgid "Sox stretch audio effect"
-msgstr "Sox stretch audio effect"
+msgstr "Растягивание аудио эффект"
 
 #: rc.cpp:439 rc.cpp:2211
 msgid "Sox vibro audio effect"
-msgstr "Sox vibro audio effect"
+msgstr "Вибрирование аудио эффект"
 
 #: rc.cpp:5044
 msgid "Space"
-msgstr "Space"
+msgstr "Пробел"
 
 #: src/mainwindow.cpp:685
 msgid "Spacer tool"
-msgstr "Spacer tool"
+msgstr "Инструмент вставка"
 
 #: rc.cpp:389 rc.cpp:409 rc.cpp:441 rc.cpp:443 rc.cpp:447 rc.cpp:2161
 #: rc.cpp:2181 rc.cpp:2213 rc.cpp:2215 rc.cpp:2219
@@ -4116,7 +4130,7 @@ msgstr "Разделить вид"
 
 #: rc.cpp:231 rc.cpp:2003
 msgid "Spread"
-msgstr "Spread"
+msgstr "Развернуть"
 
 #: rc.cpp:171 rc.cpp:1943
 msgid "Square Blur"
@@ -4127,6 +4141,8 @@ msgid ""
 "Standard space character. (Other space characters: U+00a0, U"
 "+2000&#x2013;200b, U+202f)"
 msgstr ""
+"Стандартный пробел (кодировка). (Другие пробелы: U+00a0, U"
+"+2000&#x2013;200b, U+202f)"
 
 #: src/mainwindow.cpp:2752 rc.cpp:82 rc.cpp:94 rc.cpp:782 rc.cpp:1854
 #: rc.cpp:1866 rc.cpp:2554 rc.cpp:3620 rc.cpp:3936 rc.cpp:5002
@@ -4135,7 +4151,7 @@ msgstr "Запустить"
 
 #: rc.cpp:105 rc.cpp:116 rc.cpp:1877 rc.cpp:1888
 msgid "Start Gain"
-msgstr "Start Gain"
+msgstr "Запустить усиление"
 
 #: src/renderwidget.cpp:89
 msgid "Start Rendering"
@@ -4147,15 +4163,15 @@ msgstr "Выполнить сценарий"
 
 #: src/mainwindow.cpp:397
 msgid "Start them now"
-msgstr ""
+msgstr "Запустить сейчас"
 
 #: rc.cpp:1469 rc.cpp:3241 rc.cpp:4623
 msgid "Start-/EndViewport"
-msgstr "Start-/EndViewport"
+msgstr "Начало-/Конец проекции"
 
 #: rc.cpp:1472 rc.cpp:3244 rc.cpp:4626
 msgid "StartViewport"
-msgstr "StartViewport"
+msgstr "Начало проекции"
 
 #: src/mainwindow.cpp:2385
 msgid "Starting -- find text as you type"
@@ -4164,7 +4180,7 @@ msgstr "Starting -- поиск текста в процессе печати"
 #: rc.cpp:878 rc.cpp:2650 rc.cpp:4032
 #, fuzzy
 msgid "Status"
-msgstr "Запустить"
+msgstr "Состояние"
 
 #: src/recmonitor.cpp:72
 msgid "Stop"
@@ -4184,11 +4200,11 @@ msgstr "Синхронизировать курсор timeline'а"
 
 #: rc.cpp:671 rc.cpp:2443 rc.cpp:3825
 msgid "Target"
-msgstr ""
+msgstr "Цель"
 
 #: rc.cpp:758 rc.cpp:2530 rc.cpp:3912
 msgid "Template"
-msgstr ""
+msgstr "Шаблон"
 
 #: rc.cpp:893 rc.cpp:2665 rc.cpp:4047
 #, fuzzy
@@ -4211,11 +4227,11 @@ msgstr "Редактировать скорость клипа"
 
 #: src/projectitem.cpp:203
 msgid "Text clip"
-msgstr "Text clip"
+msgstr "Клип текста"
 
 #: rc.cpp:1715 rc.cpp:3487 rc.cpp:4869
 msgid "TextLabel"
-msgstr "TextLabel"
+msgstr "Ярлык текста"
 
 #: src/profilesdialog.cpp:114
 #, fuzzy
@@ -4228,6 +4244,8 @@ msgid ""
 "There is already a job writing file:<br><b>%1</b><br>Abort the job if you "
 "want to overwrite it..."
 msgstr ""
+"Работа по сборке файла в процессе:<br><b>%1</b><br>Отмените работу если вы "
+"хотите перезаписать файл..."
 
 #: src/renderer.cpp:1311
 msgid "There is no clip, cannot extract frame."
@@ -4238,6 +4256,8 @@ msgid ""
 "Thin space, in HTML also &amp;thinsp;. See U+202f and <a href=\"http://en."
 "wikipedia.org/wiki/Space_(punctuation)\">Wikipedia:Space_(punctuation)</a>"
 msgstr ""
+"Тонкий пробел, в HTML также &amp;thinsp;. См U+202f и <a href=\"http://en."
+"wikipedia.org/wiki/Space_(punctuation)\">Википедия:Пробел_(пунктуация)</a>"
 
 #: src/unicodedialog.cpp:172
 msgid ""
@@ -4245,6 +4265,9 @@ msgid ""
 "sixteenth note (U+266b). See <a href=\"http://en.wikipedia.org/wiki/"
 "Quarter_note\">Wikipedia:Thirty-second_note</a>"
 msgstr ""
+"Дтидцать вторая нота. Половина такая-же длинная как "
+"шестнадцатая нота (U+266b). См <a href=\"http://en.wikipedia.org/wiki/"
+"Quarter_note\">Википедия:Тридцать вторая нота</a>"
 
 #: src/wizard.cpp:53
 msgid ""
@@ -4266,18 +4289,20 @@ msgstr ""
 #: src/documentvalidator.cpp:145
 #, fuzzy, kde-format
 msgid "This project type is unsupported (version %1) and can't be loaded."
-msgstr "Этот тип проекта не поддерживается и не может быть загружен."
+msgstr "Этот тип проекта не поддерживается (версия %1) и не может быть загружен."
 
 #: src/documentvalidator.cpp:138
 #, fuzzy, kde-format
 msgid ""
 "This project type is unsupported (version %1) and can't be loaded.\n"
 "Please consider upgrading you Kdenlive version."
-msgstr "Этот тип проекта не поддерживается и не может быть загружен."
+msgstr ""
+"Этот тип проекта не поддерживается (версия %1) и не может быть загружен.\n"
+"Пожалуйста, запланируйте обновление версии Kdenlive."
 
 #: src/documentchecker.cpp:261
 msgid "This will remove the selected clips from this project"
-msgstr ""
+msgstr "Это удалит выбранные клипы из проекта"
 
 #: src/unicodedialog.cpp:138
 msgid "Three-Per-Em Space. Width: 1/3 of one <em>em</em>"
@@ -4305,11 +4330,11 @@ msgstr "Эскизы:"
 
 #: rc.cpp:167 rc.cpp:1939
 msgid "Tilt X"
-msgstr ""
+msgstr "Наклон X"
 
 #: rc.cpp:169 rc.cpp:1941
 msgid "Tilt Y"
-msgstr ""
+msgstr "Наклон Y"
 
 #: rc.cpp:1664 rc.cpp:3436 rc.cpp:4818
 msgid "Time"
@@ -4317,11 +4342,11 @@ msgstr "Время"
 
 #: rc.cpp:417 rc.cpp:2189
 msgid "Time window (ms)"
-msgstr "Time window (ms)"
+msgstr "Окно времени (ms)"
 
 #: rc.cpp:529 rc.cpp:2301 rc.cpp:3683
 msgid "Timecode overlay"
-msgstr "Timecode overlay"
+msgstr "Временное перекрытие"
 
 #: rc.cpp:5038
 msgid "Timeline"
@@ -4391,7 +4416,7 @@ msgstr "Прозрачный фон"
 
 #: rc.cpp:64 rc.cpp:1836
 msgid "Trim the edges of a clip"
-msgstr ""
+msgstr "Обрезать края клипа"
 
 #: rc.cpp:343 rc.cpp:2115
 msgid "Turn clip colors to sepia"
@@ -4434,17 +4459,17 @@ msgstr "Все дорожки"
 #: src/renderwidget.cpp:961
 #, kde-format
 msgid "Unsupported audio codec: %1"
-msgstr ""
+msgstr "Неподдерживаемый аудио-кодек: %1"
 
 #: src/renderwidget.cpp:978
 #, kde-format
 msgid "Unsupported video codec: %1"
-msgstr ""
+msgstr "Неподдерживаемый видео-кодек: %1"
 
 #: src/renderwidget.cpp:945
 #, kde-format
 msgid "Unsupported video format: %1"
-msgstr ""
+msgstr "Неподдерживаемый формат видео: %1"
 
 #: src/kdenlivedoc.cpp:823
 msgid "Untitled"
@@ -4452,12 +4477,12 @@ msgstr "Безымянный"
 
 #: rc.cpp:842 rc.cpp:2614 rc.cpp:3996
 msgid "Up"
-msgstr "Up"
+msgstr "Верх"
 
 #: src/documentvalidator.cpp:692
 #, fuzzy
 msgid "Update Text Clips"
-msgstr "Text clip"
+msgstr "Обновить текстовые клипы"
 
 #: rc.cpp:1349 rc.cpp:3121 rc.cpp:4503
 msgid "Use KDE job tracking for render jobs"
@@ -4469,7 +4494,7 @@ msgstr "Использовать по умолчанию"
 
 #: rc.cpp:833 rc.cpp:2605 rc.cpp:3987
 msgid "Use placeholders for missing clips"
-msgstr ""
+msgstr "Использовать заполнители для утеряных клипов"
 
 #: rc.cpp:459 rc.cpp:2231
 msgid "Use transparency"
@@ -4491,11 +4516,11 @@ msgstr "Square blur переменного размера (frei0r.squareblur)"
 
 #: rc.cpp:52 rc.cpp:60 rc.cpp:1824 rc.cpp:1832
 msgid "Variance"
-msgstr "Variance"
+msgstr "Отклонение"
 
 #: src/geometryval.cpp:92
 msgid "Vert. Center"
-msgstr "Vert. Center"
+msgstr "Верт. Центр"
 
 #: rc.cpp:475 rc.cpp:2247
 msgid "Vertical factor"
@@ -4554,7 +4579,7 @@ msgstr "Драйвер видео:"
 
 #: rc.cpp:1697 rc.cpp:3469 rc.cpp:4851
 msgid "Video index"
-msgstr "Video index"
+msgstr "Видео индекс"
 
 #: src/customtrackview.cpp:4501
 msgid "Video only"
@@ -4592,7 +4617,7 @@ msgstr "Виртуальный клип"
 #: rc.cpp:461 rc.cpp:2233
 #, fuzzy
 msgid "Volume (keyframable)"
-msgstr "Удалить keyframe"
+msgstr "Уровень keyframe"
 
 #: rc.cpp:1514 rc.cpp:3286 rc.cpp:4668
 msgid "W"
@@ -4642,7 +4667,7 @@ msgstr "Окно"
 
 #: rc.cpp:1274 rc.cpp:1643 rc.cpp:3046 rc.cpp:3415 rc.cpp:4428 rc.cpp:4797
 msgid "Wipe"
-msgstr ""
+msgstr "Смена кадра"
 
 #: rc.cpp:797 rc.cpp:2569 rc.cpp:3951
 msgid "X"
@@ -4684,7 +4709,7 @@ msgid ""
 "What do you want to do with these jobs?"
 msgstr ""
 "%1 заданий сборки поставлено в очередь.\n"
-"Вы хотите выполнить эти задания?"
+"Что вы хотите сделать с этими заданиями?"
 
 #: src/kdenlivedoc.cpp:535
 #, fuzzy, kde-format
@@ -4692,20 +4717,18 @@ msgid ""
 "You have changed the project folder. Do you want to copy the cached data "
 "from %1 to the new folder %2?"
 msgstr ""
-"Вы хотите изменить каталог проекта. Скопировать кешированые данные из %1 в "
+"Вы изменили каталог проекта. Скопировать кешированые данные из %1 в "
 "новый каталог %2 ?"
 
 #: src/customtrackview.cpp:2014
 #, fuzzy, kde-format
 msgid "You must be in an empty space to remove space (time: %1, track: %2)"
-msgstr ""
-"Вы должны находиться в пустом месте чтобы удалить пробел (time=%1, track:%2)"
+msgstr "Вы должны находиться в пустом месте чтобы удалить пробел (time=%1, track:%2)"
 
 #: src/customtrackview.cpp:2020
 #, kde-format
 msgid "You must be in an empty space to remove space (time=%1, track:%2)"
-msgstr ""
-"Вы должны находиться в пустом месте чтобы удалить пробел (time=%1, track:%2)"
+msgstr "Вы должны находиться в пустом месте чтобы удалить пробел (time=%1, track:%2)"
 
 #: src/customtrackview.cpp:3974
 msgid "You must copy exactly one clip before pasting effects"
@@ -4737,7 +4760,8 @@ msgstr ""
 #: src/wizard.cpp:518
 msgid ""
 "Your MLT installation cannot be found. Install MLT and restart Kdenlive.\n"
-msgstr "MLT Framework не найден. Установите MLT и перезапустите Kdenlive.\n"
+msgstr ""
+"MLT Framework не найден. Установите MLT и перезапустите Kdenlive.\n"
 
 #: src/wizard.cpp:204
 msgid "Your MLT version is unsupported!!!"
@@ -4750,6 +4774,9 @@ msgid ""
 "It uses an existing profile name: %1.\n"
 "Please choose a new name to save it"
 msgstr ""
+"Проект использует неизвестный профиль.\n"
+"Используется имя известного профиля: %1.\n"
+"Пожалуйста, выберите новое имя для него"
 
 #: rc.cpp:1520 rc.cpp:3292 rc.cpp:4674
 msgid "Z-Index:"
@@ -4774,11 +4801,11 @@ msgstr "Масштаб:"
 
 #: src/titlewidget.cpp:962
 msgid "\\u2212X"
-msgstr ""
+msgstr "\\u2212X"
 
 #: src/titlewidget.cpp:987
 msgid "\\u2212Y"
-msgstr ""
+msgstr "\\u2212Y"
 
 #: rc.cpp:986 rc.cpp:2758 rc.cpp:4140
 msgid "after"
@@ -4794,7 +4821,7 @@ msgstr "создать новую точку"
 
 #: src/dvdwizardvob.cpp:55
 msgid "dvdauthor"
-msgstr ""
+msgstr "dvdauthor"
 
 #: src/recmonitor.cpp:181
 msgid ""
@@ -4837,7 +4864,7 @@ msgstr "мин."
 
 #: src/dvdwizardvob.cpp:56
 msgid "mkisofs"
-msgstr ""
+msgstr "mkisofs"
 
 #: rc.cpp:899 rc.cpp:2671 rc.cpp:4053
 msgid "move on X axis"
@@ -4869,7 +4896,7 @@ msgstr "секунд"
 
 #: rc.cpp:550 rc.cpp:2322 rc.cpp:3704
 msgid "to"
-msgstr "to"
+msgstr "к"
 
 #: rc.cpp:911 rc.cpp:2683 rc.cpp:4065
 msgid "update values in timeline"
@@ -4895,8 +4922,8 @@ msgstr "x1"
 #~ "<b>Frame size: </b>%1x%2<br><b>Frame rate: </b>%3/%4<br><b>Pixel aspect "
 #~ "ratio: </b>%5/%6<br><b>Display aspect ratio: </b>%7/%8"
 #~ msgstr ""
-#~ "<b>Frame size: </b>%1x%2<br><b>Frame rate: </b>%3/%4<br><b>Pixel aspect "
-#~ "ratio: </b>%5/%6<br><b>Display aspect ratio: </b>%7/%8"
+#~ "<b>Размер кадра: </b>%1x%2<br><b>Поток кадров: </b>%3/%4<br><b>Вид пикселя "
+#~ "коэфф: </b>%5/%6<br><b>Коэфф. вида дисплея: </b>%7/%8"
 
 #~ msgid "<br><b>Author:</b> "
 #~ msgstr "<br><b>Автор:</b> "
@@ -4930,10 +4957,10 @@ msgstr "x1"
 #~ "экспериметальный"
 
 #~ msgid "Crossfade"
-#~ msgstr "Crossfade"
+#~ msgstr "Перекрестное затухание"
 
 #~ msgid "Gain in"
-#~ msgstr "Gain in"
+#~ msgstr "Вход с усилением"
 
 #~ msgid "Inigo"
 #~ msgstr "Inigo"
@@ -4942,10 +4969,10 @@ msgstr "x1"
 #~ msgstr "Каталог с inigo"
 
 #~ msgid "Luma File"
-#~ msgstr "Luma File"
+#~ msgstr "Файл Luma"
 
 #~ msgid "Luma file"
-#~ msgstr "Luma file"
+#~ msgstr "Файл Luma"
 
 #~ msgid ""
 #~ "MLT's avformat (FFMPEG) module not found. Please check your FFMPEG and "
@@ -4984,7 +5011,7 @@ msgstr "x1"
 
 #, fuzzy
 #~ msgid "File extension"
-#~ msgstr "Файл"
+#~ msgstr "Расширение Файла"
 
 #~ msgid "Loading playlist..."
 #~ msgstr "Загрузить плейлист"
