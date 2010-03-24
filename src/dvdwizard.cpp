@@ -648,7 +648,7 @@ void DvdWizard::slotGenerate()
         m_status.job_progress->item(i)->setIcon(KIcon());
     QString warnMessage;
     if (KIO::NetAccess::exists(KUrl(m_status.tmp_folder->url().path(KUrl::AddTrailingSlash) + "DVD"), KIO::NetAccess::SourceSide, this))
-        warnMessage.append(i18n("Folder %1 already exists. Overwrite?" + '\n', m_status.tmp_folder->url().path(KUrl::AddTrailingSlash) + "DVD"));
+        warnMessage.append(i18n("Folder %1 already exists. Overwrite?\n", m_status.tmp_folder->url().path(KUrl::AddTrailingSlash) + "DVD"));
     if (KIO::NetAccess::exists(KUrl(m_status.iso_image->url().path()), KIO::NetAccess::SourceSide, this))
         warnMessage.append(i18n("Image file %1 already exists. Overwrite?", m_status.iso_image->url().path()));
 
