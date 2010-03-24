@@ -265,6 +265,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
         m_view.clip_filesize->setHidden(true);
         m_view.label_size->setHidden(true);
     }
+    m_view.clip_duration->setInputMask(tc.inputMask());
     m_view.clip_duration->setText(tc.getTimecode(m_clip->duration()));
     if (t != IMAGE && t != COLOR && t != TEXT) m_view.clip_duration->setReadOnly(true);
     else connect(m_view.clip_duration, SIGNAL(editingFinished()), this, SLOT(slotCheckMaxLength()));

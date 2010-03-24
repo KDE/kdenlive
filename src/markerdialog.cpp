@@ -87,7 +87,7 @@ MarkerDialog::MarkerDialog(DocClipBase *clip, CommentedTime t, Timecode tc, cons
         QValidator *valid = new QIntValidator(this);
         marker_position->setInputMask("");
         marker_position->setValidator(valid);
-    }
+    } else marker_position->setInputMask(tc.inputMask());
     marker_position->setText(tc.getDisplayTimecode(t.time(), m_frameDisplay));
 
     marker_comment->setText(t.comment());

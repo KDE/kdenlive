@@ -131,7 +131,7 @@ void DvdWizardChapters::slotRemoveChapter()
 
 void DvdWizardChapters::slotGoToChapter()
 {
-    m_monitor->setTimePos(m_view.chapters_list->currentItem()->text() + ":00");
+    m_monitor->setTimePos(m_tc.reformatSeparators(m_view.chapters_list->currentItem()->text() + ":00"));
 }
 
 void DvdWizardChapters::setVobFiles(bool isPal, bool isWide, const QStringList movies, const QStringList durations, const QStringList chapters)

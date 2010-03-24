@@ -1844,6 +1844,7 @@ void MainWindow::slotEditProjectSettings()
 
             m_transitionConfig->updateProjectFormat(m_activeDocument->mltProfile(), m_activeDocument->timecode(), m_activeDocument->tracksList());
             m_effectStack->updateProjectFormat(m_activeDocument->mltProfile(), m_activeDocument->timecode());
+            m_projectList->updateProjectFormat(m_activeDocument->timecode());
             if (m_renderWidget) m_renderWidget->setProfile(m_activeDocument->mltProfile());
             m_timelineArea->setTabText(m_timelineArea->currentIndex(), m_activeDocument->description());
             //m_activeDocument->clipManager()->resetProducersList(m_projectMonitor->render->producersList());
@@ -1851,6 +1852,8 @@ void MainWindow::slotEditProjectSettings()
             if (updateFps) m_activeTimeline->updateProjectFps();
             m_activeDocument->setModified(true);
             m_commandStack->activeStack()->clear();
+            //Update the mouse position display so it will display in DF/NDF format by default based on the project setting.
+            slotUpdateMousePosition(0);
             // We need to desactivate & reactivate monitors to get a refresh
             //m_monitorManager->switchMonitors();
         }
@@ -2082,7 +2085,8 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     m_activeTimeline->updateProjectFps();
     m_activeDocument->checkProjectClips();
     if (KdenliveSettings::dropbframes()) slotUpdatePreviewSettings();
-
+    //Update the mouse position display so it will display in DF/NDF format by default based on the project setting.
+    slotUpdateMousePosition(0);
     // set tool to select tool
     m_buttonSelectTool->setChecked(true);
 }

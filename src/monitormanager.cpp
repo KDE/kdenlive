@@ -165,8 +165,10 @@ void MonitorManager::slotResetProfiles()
     if (m_projectMonitor == NULL || m_clipMonitor == NULL) return;
     activateMonitor("clip");
     m_clipMonitor->resetProfile(KdenliveSettings::current_profile());
+    m_clipMonitor->updateTimecodeFormat();
     activateMonitor("project");
     m_projectMonitor->resetProfile(KdenliveSettings::current_profile());
+    m_projectMonitor->updateTimecodeFormat();
     //m_projectMonitor->refreshMonitor(true);
 }
 

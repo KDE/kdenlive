@@ -140,6 +140,7 @@ public:
     void slotUpdateClipProperties(const QString &id, QMap <QString, QString> properties);
     QByteArray headerInfo() const;
     void setHeaderInfo(const QByteArray &state);
+    void updateProjectFormat(Timecode t);
     void setupMenu(QMenu *addMenu, QAction *defaultAction);
     void setupGeneratorMenu(QMenu *addMenu, QMenu *transcodeMenu);
     QString currentClipUrl() const;

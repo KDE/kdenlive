@@ -118,7 +118,8 @@ Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget
     if (m_frametimecode) {
         m_timePos->setInputMask(QString());
         m_timePos->setValidator(new QIntValidator(this));
-    } else m_timePos->setInputMask("99:99:99:99");
+    } else m_timePos->setInputMask(m_monitorManager->timecode().inputMask());
+    
     toolbar->addWidget(m_timePos);
 
     connect(m_timePos, SIGNAL(editingFinished()), this, SLOT(slotSeek()));
@@ -844,7 +845,7 @@ void Monitor::updateTimecodeFormat()
     } else {
         int pos = m_timePos->text().toInt();
         m_timePos->setValidator(0);
-        m_timePos->setInputMask("99:99:99:99");
+        m_timePos->setInputMask(m_monitorManager->timecode().inputMask());
         m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(pos));
     }
 }

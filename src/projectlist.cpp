@@ -202,6 +202,11 @@ void ProjectList::setHeaderInfo(const QByteArray &state)
     m_listView->header()->restoreState(state);
 }
 
+void ProjectList::updateProjectFormat(Timecode t)
+{
+    m_timecode = t;
+}
+
 void ProjectList::slotEditClip()
 {
     QList<QTreeWidgetItem *> list = m_listView->selectedItems();
@@ -978,7 +983,8 @@ void ProjectList::slotAddColorClip()
     dia_ui.setupUi(dia);
     dia->setWindowTitle(i18n("Color Clip"));
     dia_ui.clip_name->setText(i18n("Color Clip"));
-    dia_ui.clip_duration->setText(KdenliveSettings::color_duration());
+    dia_ui.clip_duration->setInputMask(m_timecode.inputMask());
+    dia_ui.clip_duration->setText(m_timecode.reformatSeparators(KdenliveSettings::color_duration()));
     if (dia->exec() == QDialog::Accepted) {
         QString color = dia_ui.clip_color->color().name();
         color = color.replace(0, 1, "0x") + "ff";

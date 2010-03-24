@@ -58,6 +58,9 @@ public:
     const QString getDisplayTimecodeFromFrames(int frames, bool frameDisplay) const;
     const QString getTimecodeFromFrames(int frames) const;
     double fps() const;
+    bool df() const;
+    QString inputMask() const;
+    QString reformatSeparators(QString duration) const;
 
 private:
     Formats m_format;
