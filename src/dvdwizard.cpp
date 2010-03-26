@@ -66,6 +66,7 @@ DvdWizard::DvdWizard(const QString &url, const QString &profile, QWidget *parent
     page4->setTitle(i18n("Creating DVD Image"));
     m_status.setupUi(page4);
     m_status.error_box->setHidden(true);
+    m_status.error_box->setTabBarHidden(true);
     m_status.tmp_folder->setUrl(KUrl(KdenliveSettings::currenttmpfolder()));
     m_status.tmp_folder->setMode(KFile::Directory | KFile::ExistingOnly);
     m_status.iso_image->setUrl(KUrl(QDir::homePath() + "/untitled.iso"));
@@ -153,6 +154,10 @@ void DvdWizard::slotPageChanged(int page)
 void DvdWizard::generateDvd()
 {
     m_status.error_box->setHidden(true);
+    m_status.error_box->setCurrentIndex(0);
+    m_status.error_box->setTabBarHidden(true);
+    m_status.menu_file->clear();
+    m_status.dvd_file->clear();
     KTemporaryFile temp1;
     temp1.setSuffix(".png");
     //temp1.setAutoRemove(false);
@@ -330,6 +335,9 @@ void DvdWizard::generateDvd()
                 spuitem->setIcon(KIcon("dialog-close"));
                 m_status.error_log->append(result);
                 m_status.error_box->setHidden(false);
+                m_status.error_box->setTabBarHidden(false);
+                m_status.menu_file->setPlainText(m_menuFile.readAll());
+                m_status.dvd_file->setPlainText(m_authorFile.readAll());
                 m_status.button_start->setEnabled(true);
                 kDebug() << "/// RENDERING SPUMUX MENU crashed";
                 return;
@@ -340,6 +348,9 @@ void DvdWizard::generateDvd()
             m_status.error_log->append("<a name=\"result\" /><br /><strong>" + i18n("Menu job timed out"));
             m_status.error_log->scrollToAnchor("result");
             m_status.error_box->setHidden(false);
+            m_status.error_box->setTabBarHidden(false);
+            m_status.menu_file->setPlainText(m_menuFile.readAll());
+            m_status.dvd_file->setPlainText(m_authorFile.readAll());
             m_status.button_start->setEnabled(true);
             return;
         }
@@ -495,10 +506,13 @@ void DvdWizard::slotRenderFinished(int exitCode, QProcess::ExitStatus status)
     if (status == QProcess::CrashExit || exitCode != 0) {
         QString result(m_dvdauthor->readAllStandardError());
         result.append("<a name=\"result\" /><br /><strong>");
-        result.append(i18n("DVDAuthor process crashed."));
+        result.append(i18n("DVDAuthor process crashed.</strong><br />"));
         m_status.error_log->append(result);
         m_status.error_log->scrollToAnchor("result");
         m_status.error_box->setHidden(false);
+        m_status.error_box->setTabBarHidden(false);
+        m_status.menu_file->setPlainText(m_menuFile.readAll());
+        m_status.dvd_file->setPlainText(m_authorFile.readAll());
         kDebug() << "DVDAuthor process crashed";
         authitem->setIcon(KIcon("dialog-close"));
         m_dvdauthor->close();
@@ -520,6 +534,9 @@ void DvdWizard::slotRenderFinished(int exitCode, QProcess::ExitStatus status)
         m_status.error_log->append(m_creationLog + "<a name=\"result\" /><br /><strong>" + i18n("DVD structure broken"));
         m_status.error_log->scrollToAnchor("result");
         m_status.error_box->setHidden(false);
+        m_status.error_box->setTabBarHidden(false);
+        m_status.menu_file->setPlainText(m_menuFile.readAll());
+        m_status.dvd_file->setPlainText(m_authorFile.readAll());
         kDebug() << "DVDAuthor process crashed";
         authitem->setIcon(KIcon("dialog-close"));
         m_status.button_start->setEnabled(true);
@@ -569,6 +586,9 @@ void DvdWizard::slotIsoFinished(int exitCode, QProcess::ExitStatus status)
         m_status.error_log->append(result);
         m_status.error_log->scrollToAnchor("result");
         m_status.error_box->setHidden(false);
+        m_status.error_box->setTabBarHidden(false);
+        m_status.menu_file->setPlainText(m_menuFile.readAll());
+        m_status.dvd_file->setPlainText(m_authorFile.readAll());
         m_mkiso->close();
         delete m_mkiso;
         m_mkiso = NULL;
@@ -595,6 +615,9 @@ void DvdWizard::slotIsoFinished(int exitCode, QProcess::ExitStatus status)
         m_status.error_log->append(m_creationLog + "<br /><a name=\"result\" /><strong>" + i18n("DVD ISO is broken") + "</strong>");
         m_status.error_log->scrollToAnchor("result");
         m_status.error_box->setHidden(false);
+        m_status.error_box->setTabBarHidden(false);
+        m_status.menu_file->setPlainText(m_menuFile.readAll());
+        m_status.dvd_file->setPlainText(m_authorFile.readAll());
         isoitem->setIcon(KIcon("dialog-close"));
         cleanup();
         return;
