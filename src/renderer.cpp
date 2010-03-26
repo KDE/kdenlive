@@ -357,7 +357,7 @@ char *Render::decodedString(QString str)
 */
 int Render::renderWidth() const
 {
-    return (int)(m_mltProfile->height() * m_mltProfile->dar());
+    return (int)(m_mltProfile->height() * m_mltProfile->dar() + 0.5);
 }
 
 int Render::renderHeight() const
@@ -608,7 +608,7 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
         char *tmp = decodedString("kdenlivetitle:" + xml.attribute("resource"));
         producer = new Mlt::Producer(*m_mltProfile, 0, tmp);
         delete[] tmp;
-        if (xml.hasAttribute("xmldata")) {
+        if (producer && xml.hasAttribute("xmldata")) {
             char *tmp = decodedString(xml.attribute("xmldata"));
             producer->set("xmldata", tmp);
             delete[] tmp;
@@ -682,7 +682,7 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
         return;
     }
 
-    int width = (int)(imageHeight  * m_mltProfile->dar());
+    int width = (int)(imageHeight * m_mltProfile->dar() + 0.5);
     QMap < QString, QString > filePropertyMap;
     QMap < QString, QString > metadataPropertyMap;
 
@@ -738,9 +738,9 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
             mlt_image_format format = mlt_image_rgb24a;
             int frame_width = width;
             int frame_height = imageHeight;
-            QPixmap pix(width, imageHeight);
             uint8_t *data = frame->get_image(format, frame_width, frame_height, 0);
             QImage image((uchar *)data, frame_width, frame_height, QImage::Format_ARGB32);
+            QPixmap pix(frame_width, frame_height);
 
             if (!image.isNull()) {
                 pix = QPixmap::fromImage(image.rgbSwapped());
@@ -755,7 +755,7 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
             filePropertyMap["type"] = "audio";
         }
     }
-
+    delete frame;
     // Retrieve audio / video codec name
 
     // If there is a
@@ -835,7 +835,6 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
     producer->seek(0);
     emit replyGetFileProperties(clipId, producer, filePropertyMap, metadataPropertyMap, replaceProducer);
     kDebug() << "REquested fuile info for: " << url.path();
-    delete frame;
     // FIXME: should delete this to avoid a leak...
     //delete producer;
 }

@@ -82,7 +82,7 @@ public:
                 painter->setPen(option.palette.highlightedText().color());
             }
             const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
-            QPixmap pixmap = index.data(Qt::DecorationRole).value<QPixmap>();
+            QPixmap pixmap = qVariantValue<QPixmap>(index.data(Qt::DecorationRole));
             if ((index.flags() & (Qt::ItemIsDragEnabled)) == false) {
                 KIcon icon("dialog-close");
                 QPainter p(&pixmap);
@@ -90,8 +90,7 @@ public:
                 p.end();
             }
 
-            QPoint point(r1.left() + textMargin, r1.top() + (r1.height() - pixmap.height()) / 2);
-            painter->drawPixmap(point, pixmap);
+            painter->drawPixmap(r1.left() + textMargin, r1.top() + (r1.height() - pixmap.height()) / 2, pixmap);
             int decoWidth = pixmap.width() + 2 * textMargin;
 
             QFont font = painter->font();
