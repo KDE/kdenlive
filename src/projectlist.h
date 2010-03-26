@@ -26,7 +26,7 @@
 #include <QToolButton>
 #include <QTreeWidget>
 #include <QPainter>
-#include <QItemDelegate>
+#include <QStyledItemDelegate>
 #include <QUndoStack>
 #include <QTimer>
 #include <QApplication>
@@ -61,10 +61,10 @@ const int NameRole = Qt::UserRole;
 const int DurationRole = NameRole + 1;
 const int UsageRole = NameRole + 2;
 
-class ItemDelegate: public QItemDelegate
+class ItemDelegate: public QStyledItemDelegate
 {
 public:
-    ItemDelegate(QAbstractItemView* parent = 0): QItemDelegate(parent) {
+    ItemDelegate(QAbstractItemView* parent = 0): QStyledItemDelegate(parent) {
     }
 
     /*void drawFocus(QPainter *, const QStyleOptionViewItem &, const QRect &) const {
@@ -74,22 +74,24 @@ public:
         if (index.column() == 0 && !index.data(DurationRole).isNull()) {
             QRect r1 = option.rect;
             painter->save();
-            if (option.state & (QStyle::State_Selected)) {
-                painter->setPen(option.palette.color(QPalette::HighlightedText));
-                painter->fillRect(r1, option.palette.highlight());
+            QStyleOptionViewItemV4 opt(option);
+            QStyle *style = opt.widget ? opt.widget->style() : QApplication::style();
+            style->drawPrimitive(QStyle::PE_PanelItemViewItem, &opt, painter, opt.widget);
+
+            if (option.state & QStyle::State_Selected) {
+                painter->setPen(option.palette.highlightedText().color());
             }
-            QStyleOptionViewItemV2 opt = setOptions(index, option);
-            QPixmap pixmap = decoration(opt, index.data(Qt::DecorationRole));
+            const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
+            QPixmap pixmap = index.data(Qt::DecorationRole).value<QPixmap>();
             if ((index.flags() & (Qt::ItemIsDragEnabled)) == false) {
                 KIcon icon("dialog-close");
                 QPainter p(&pixmap);
                 p.drawPixmap(1, 1, icon.pixmap(16, 16));
                 p.end();
             }
-            QRect decorationRect = pixmap.rect(); //QRect(QPoint(0, 0), option.decorationSize).intersected(pixmap.rect());
-            const int textMargin = QApplication::style()->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
-            decorationRect.moveTo(r1.topLeft() + QPoint(0, 1));
-            drawDecoration(painter, opt, decorationRect, pixmap);
+
+            QPoint point(r1.left() + textMargin, r1.top() + (r1.height() - pixmap.height()) / 2);
+            painter->drawPixmap(point, pixmap);
             int decoWidth = pixmap.width() + 2 * textMargin;
 
             QFont font = painter->font();
@@ -100,7 +102,6 @@ public:
             QRect r2 = option.rect;
             r2.adjust(decoWidth, mid, 0, 0);
             painter->drawText(r1, Qt::AlignLeft | Qt::AlignBottom , index.data().toString());
-            //painter->setPen(Qt::green);
             font.setBold(false);
             painter->setFont(font);
             QString subText = index.data(DurationRole).toString();
@@ -111,7 +112,7 @@ public:
             painter->restore();
         } else if (index.column() == 2 && KdenliveSettings::activate_nepomuk()) {
             if (index.data().toString().isEmpty()) {
-                QItemDelegate::paint(painter, option, index);
+                QStyledItemDelegate::paint(painter, option, index);
                 return;
             }
             QRect r1 = option.rect;
@@ -122,7 +123,7 @@ public:
             KRatingPainter::paintRating(painter, r1, Qt::AlignCenter, index.data().toInt());
 #endif
         } else {
-            QItemDelegate::paint(painter, option, index);
+            QStyledItemDelegate::paint(painter, option, index);
         }
     }
 };
