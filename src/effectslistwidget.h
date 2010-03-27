@@ -48,6 +48,8 @@ private:
     bool m_dragStarted;
     QPoint m_DragStartPosition;
     QMenu *m_menu;
+private slots:
+    void slotExpandItem(const QModelIndex & index);
 };
 
 #endif

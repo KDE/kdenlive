@@ -22,11 +22,11 @@
 #include "effectslist.h"
 #include "mainwindow.h"
 
-#include "KDebug"
-#include "KStandardDirs"
+#include <KDebug>
+#include <KStandardDirs>
 
-#include "QApplication"
-#include "QMouseEvent"
+#include <QApplication>
+#include <QMouseEvent>
 #include <QMenu>
 
 
@@ -38,6 +38,7 @@ static const int EFFECT_FOLDER = 4;
 const int TypeRole = Qt::UserRole;
 const int IdRole = TypeRole + 1;
 
+
 EffectsListWidget::EffectsListWidget(QMenu *menu, QWidget *parent) :
         QTreeWidget(parent),
         m_menu(menu)
@@ -46,15 +47,27 @@ EffectsListWidget::EffectsListWidget(QMenu *menu, QWidget *parent) :
     //setDragDropMode(QAbstractItemView::DragDrop);
     setColumnCount(1);
     setDropIndicatorShown(true);
-    setAlternatingRowColors(true);
+    //setAlternatingRowColors(true);
     setDragEnabled(true);
     setAcceptDrops(true);
     setHeaderHidden(true);
+    setFrameShape(QFrame::NoFrame);
+    setAutoFillBackground(false);
+    setRootIsDecorated(false);
+    QPalette p = palette();
+    p.setBrush(QPalette::Base, Qt::NoBrush);
+    setPalette(p);
     initList();
+    connect(this, SIGNAL(activated(const QModelIndex &)), this, SLOT(slotExpandItem(const QModelIndex &)));
 }
 
 EffectsListWidget::~EffectsListWidget()
 {
+}
+
+void EffectsListWidget::slotExpandItem(const QModelIndex & index)
+{
+    setExpanded(index, !isExpanded(index));
 }
 
 void EffectsListWidget::initList()
