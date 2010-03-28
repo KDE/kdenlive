@@ -3,10 +3,10 @@
 	<name>Speed</name>
 	<description>Make clip play faster or slower</description>
 	<author>Jean-Baptiste Mardelle</author>
-	<parameter type="constant" name="speed" max="1000" min="1" default="100" factor="100" suffix="%">
+	<parameter type="constant" name="speed" max="10000" min="1" default="100" factor="100" suffix="%">
 		<name>Speed</name>
 	</parameter>
 	<parameter type="constant" name="strobe" max="100" min="1" default="1">
 		<name>Stroboscope</name>
-	</parameter>	
+	</parameter>
 </effect>
