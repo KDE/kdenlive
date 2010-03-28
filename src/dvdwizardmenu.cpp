@@ -304,7 +304,7 @@ void DvdWizardMenu::updatePreview()
 void DvdWizardMenu::setTargets(QStringList list, QStringList targetlist)
 {
     m_view.target_list->clear();
-    m_view.target_list->addItem(i18n("Play All"), "title 1");
+    m_view.target_list->addItem(i18n("Play All"), "jump title 1");
     int movieCount = 0;
     for (int i = 0; i < list.count(); i++) {
         if (targetlist.at(i).contains("chapter"))
