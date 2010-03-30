@@ -65,19 +65,25 @@ void EffectsListView::focusInEvent(QFocusEvent * /*event*/)
 
 void EffectsListView::filterList(int pos)
 {
-    QTreeWidgetItem *item;
-    QTreeWidgetItem *folder;
     for (int i = 0; i < m_effectsList->topLevelItemCount(); i++) {
-        folder = m_effectsList->topLevelItem(i);
+        QTreeWidgetItem *folder = m_effectsList->topLevelItem(i);
+        bool hideFolder = true;
         for (int j = 0; j < folder->childCount(); j++) {
-            item = folder->child(j);
-            if (pos == 0) item->setHidden(false);
-            else if (item->data(0, Qt::UserRole).toInt() == pos) item->setHidden(false);
-            else item->setHidden(true);
+            QTreeWidgetItem *item = folder->child(j);
+            if (pos == 0 || pos == item->data(0, Qt::UserRole).toInt()) {
+                item->setHidden(false);
+                hideFolder = false;
+            } else {
+                item->setHidden(true);
+            }
         }
+        // do not hide the folder if it's empty but "All" is selected
+        if (pos == 0)
+            hideFolder = false;
+        folder->setHidden(hideFolder);
     }
-    item = m_effectsList->currentItem();
-    /*if (item) {
+    /*item = m_effectsList->currentItem();
+    if (item) {
         if (item->isHidden()) {
             int i;
             for (i = 0; i < m_effectsList->count() && m_effectsList->item(i)->isHidden(); i++); //do nothing
