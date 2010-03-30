@@ -92,16 +92,9 @@ RenderWidget::RenderWidget(const QString &projectfolder, QWidget * parent) :
     m_view.rescale_size->setText("320x240");
 
 
-    QMenu *renderMenu = new QMenu(i18n("Start Rendering"), this);
-    QAction *renderAction = renderMenu->addAction(KIcon("video-x-generic"), i18n("Render to File"));
-    connect(renderAction, SIGNAL(triggered()), this, SLOT(slotPrepareExport()));
-    QAction *scriptAction = renderMenu->addAction(KIcon("application-x-shellscript"), i18n("Generate Script"));
-    connect(scriptAction, SIGNAL(triggered()), this, SLOT(slotGenerateScript()));
+    connect(m_view.buttonRender, SIGNAL(clicked()), this, SLOT(slotPrepareExport()));
+    connect(m_view.buttonGenerateScript, SIGNAL(clicked()), this, SLOT(slotGenerateScript()));
 
-    m_view.buttonStart->setMenu(renderMenu);
-    m_view.buttonStart->setPopupMode(QToolButton::MenuButtonPopup);
-    m_view.buttonStart->setDefaultAction(renderAction);
-    m_view.buttonStart->setToolButtonStyle(Qt::ToolButtonTextOnly);
     m_view.abort_job->setEnabled(false);
     m_view.start_script->setEnabled(false);
     m_view.delete_script->setEnabled(false);
@@ -151,7 +144,8 @@ RenderWidget::RenderWidget(const QString &projectfolder, QWidget * parent) :
 
     connect(m_view.format_selection, SIGNAL(activated(int)), this, SLOT(refreshView()));
 
-    m_view.buttonStart->setEnabled(false);
+    m_view.buttonRender->setEnabled(false);
+    m_view.buttonGenerateScript->setEnabled(false);
     m_view.rescale_size->setEnabled(false);
     m_view.guides_box->setVisible(false);
     m_view.open_dvd->setVisible(false);
@@ -293,15 +287,17 @@ void RenderWidget::setGuides(QDomElement guidesxml, double duration)
  */
 void RenderWidget::slotUpdateButtons(KUrl url)
 {
-    if (m_view.out_file->url().isEmpty()) m_view.buttonStart->setEnabled(false);
-    else {
+    if (m_view.out_file->url().isEmpty()) {
+        m_view.buttonGenerateScript->setEnabled(false);
+        m_view.buttonRender->setEnabled(false);
+    } else {
         updateButtons(); // This also checks whether the selected format is available
-        //m_view.buttonStart->setEnabled(true);
     }
     if (url != 0) {
         QListWidgetItem *item = m_view.size_list->currentItem();
         if (!item) {
-            m_view.buttonStart->setEnabled(false);
+            m_view.buttonRender->setEnabled(false);
+            m_view.buttonGenerateScript->setEnabled(false);
             return;
         }
         QString extension = item->data(ExtensionRole).toString();
@@ -316,9 +312,12 @@ void RenderWidget::slotUpdateButtons(KUrl url)
  */
 void RenderWidget::slotUpdateButtons()
 {
-    if (m_view.out_file->url().isEmpty()) m_view.buttonStart->setEnabled(false);
-    else updateButtons(); // This also checks whether the selected format is available
-    //else m_view.buttonStart->setEnabled(true);
+    if (m_view.out_file->url().isEmpty()) {
+        m_view.buttonRender->setEnabled(false);
+        m_view.buttonGenerateScript->setEnabled(false);
+    } else {
+        updateButtons(); // This also checks whether the selected format is available
+    }
 }
 
 void RenderWidget::slotSaveProfile()
@@ -619,10 +618,12 @@ void RenderWidget::updateButtons()
         m_view.buttonSave->setEnabled(false);
         m_view.buttonDelete->setEnabled(false);
         m_view.buttonEdit->setEnabled(false);
-        m_view.buttonStart->setEnabled(false);
+        m_view.buttonRender->setEnabled(false);
+        m_view.buttonGenerateScript->setEnabled(false);
     } else {
         m_view.buttonSave->setEnabled(true);
-        m_view.buttonStart->setEnabled(m_view.size_list->currentItem()->toolTip().isEmpty());
+        m_view.buttonRender->setEnabled(m_view.size_list->currentItem()->toolTip().isEmpty());
+        m_view.buttonGenerateScript->setEnabled(m_view.size_list->currentItem()->toolTip().isEmpty());
         QString edit = m_view.size_list->currentItem()->data(EditableRole).toString();
         if (edit.isEmpty() || !edit.endsWith("customprofiles.xml")) {
             m_view.buttonDelete->setEnabled(false);
@@ -1102,7 +1103,8 @@ void RenderWidget::refreshParams()
     QListWidgetItem *item = m_view.size_list->currentItem();
     if (!item || item->isHidden()) {
         m_view.advanced_params->clear();
-        m_view.buttonStart->setEnabled(false);
+        m_view.buttonRender->setEnabled(false);
+        m_view.buttonGenerateScript->setEnabled(false);
         return;
     }
     QString params = item->data(ParamsRole).toString();
@@ -1138,7 +1140,8 @@ void RenderWidget::refreshParams()
         m_view.buttonEdit->setEnabled(true);
     }
 
-    m_view.buttonStart->setEnabled(m_view.size_list->currentItem()->toolTip().isEmpty());
+    m_view.buttonRender->setEnabled(m_view.size_list->currentItem()->toolTip().isEmpty());
+    m_view.buttonGenerateScript->setEnabled(m_view.size_list->currentItem()->toolTip().isEmpty());
 }
 
 void RenderWidget::reloadProfiles()
