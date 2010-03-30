@@ -32,9 +32,9 @@
 class TitleTemplate
 {
 public:
-	QString file;
-	QString name;
-	QIcon icon;
+    QString file;
+    QString name;
+    QIcon icon;
 };
 
 class Transform
@@ -93,8 +93,8 @@ public:
 
     /** \brief Get clip duration. */
     int duration() const;
-	/** load Title Templates*/
-	static void refreshTitleTemplates();
+    /** load Title Templates*/
+    static void refreshTitleTemplates();
 
 protected:
     virtual void resizeEvent(QResizeEvent * event);
@@ -134,7 +134,7 @@ private:
     /** project path for storing title clips */
     QString m_projectTitlePath;
     Timecode m_tc;
-	QString lastDocumentHash;
+    QString lastDocumentHash;
 
     /** See http://doc.trolltech.com/4.5/signalsandslots.html#advanced-signals-and-slots-usage */
     QSignalMapper *m_signalMapper;
@@ -301,7 +301,7 @@ private slots:
     void slotZIndexDown();
     void slotZIndexTop();
     void slotZIndexBottom();
-	void templateIndexChanged(int);
+    void templateIndexChanged(int);
 };
 
 

@@ -119,7 +119,7 @@ Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget
         m_timePos->setInputMask(QString());
         m_timePos->setValidator(new QIntValidator(this));
     } else m_timePos->setInputMask(m_monitorManager->timecode().inputMask());
-    
+
     toolbar->addWidget(m_timePos);
 
     connect(m_timePos, SIGNAL(editingFinished()), this, SLOT(slotSeek()));

@@ -66,7 +66,7 @@ int Timecode::getFrameCount(const QString duration) const
     if (m_dropFrame) {
         //Get Hours, Minutes, Seconds, Frames from timecode
         int hours, minutes, seconds, frames;
-        
+
         hours = duration.section(':', 0, 0).toInt();
         if (duration.contains('.')) {
             minutes = duration.section('.', 0, 0).section(':', 1, 1).toInt();
@@ -78,9 +78,9 @@ int Timecode::getFrameCount(const QString duration) const
             seconds = duration.section(':', 2, 2).toInt();
             frames = duration.section(':', 3, 3).toInt();
         }
-        
+
         //Calculate the frame count
-        int dropRate = (int) ((ceil(m_displayedFramesPerSecond) / 30) * 2);
+        int dropRate = (int)((ceil(m_displayedFramesPerSecond) / 30) * 2);
         frames += ((hours * 60 + minutes) * 60 + seconds) * m_displayedFramesPerSecond;
         frames -= dropRate * ((hours * 60 + minutes) - (floor((hours * 60 + minutes) / 10)));
         return frames;
@@ -243,12 +243,12 @@ QString Timecode::getTimecodeHH_MM_SS_HH(const GenTime & time) const
     text.append(':');
     text.append(QString::number(minutes).rightJustified(2, '0', false));
     if (m_dropFrame) {
-	    text.append('.');
+        text.append('.');
     } else {
         text.append(':');
     }
     text.append(QString::number(seconds).rightJustified(2, '0', false));
-   	text.append(':');
+    text.append(':');
     text.append(QString::number(hundredths).rightJustified(2, '0', false));
 
     return text;
@@ -277,7 +277,7 @@ QString Timecode::getTimecodeDropFrame(int frames) const
     // calculate how many frames need to be dropped every minute.
     int dropRate = 0;
     if (m_dropFrame) {
-        dropRate = (int) ((ceil(m_displayedFramesPerSecond) / 30) * 2);
+        dropRate = (int)((ceil(m_displayedFramesPerSecond) / 30) * 2);
     }
 
     // calculate how many frames are in a normal minute, and how many are in a tenth minute.
@@ -321,12 +321,12 @@ QString Timecode::getTimecodeDropFrame(int frames) const
     text.append(QString::number(tenMinuteIntervals));
     text.append(QString::number(numMinutes));
     if (m_dropFrame) {
-	    text.append('.');
+        text.append('.');
     } else {
         text.append(':');
     }
     text.append(QString::number(seconds).rightJustified(2, '0', false));
-   	text.append(':');
+    text.append(':');
     text.append(QString::number(frames).rightJustified(2, '0', false));
 
     return text;

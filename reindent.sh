@@ -1,6 +1,7 @@
 #! /bin/sh
 
-SRCDIRS="src plugins renderer thumbnailer"
+WRKDIR=$(dirname $0)
+SRCDIRS="$WRKDIR/src $WRKDIR/plugins $WRKDIR/renderer $WRKDIR/thumbnailer"
 
 if [ $# -gt 0 ]
 then

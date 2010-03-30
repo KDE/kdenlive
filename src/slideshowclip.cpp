@@ -52,7 +52,7 @@ SlideshowClip::SlideshowClip(Timecode tc, QWidget * parent) :
     m_view.image_type->addItem("TGA (*.tga)", "tga");
     m_view.image_type->addItem("TIFF (*.tiff)", "tiff");
     m_view.image_type->addItem("Open EXR (*.exr)", "exr");
-    
+
     m_view.clip_duration->setInputMask(m_timecode.inputMask());
     m_view.clip_duration->setText(m_timecode.reformatSeparators(KdenliveSettings::image_duration()));
     m_view.luma_duration->setInputMask(m_timecode.inputMask());
