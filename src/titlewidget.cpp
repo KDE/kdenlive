@@ -144,9 +144,7 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
 
     //If project is drop frame, set the input mask as such.
     title_duration->setInputMask(m_tc.inputMask());
-
-    //TODO: get default title duration instead of hardcoded one
-    title_duration->setText(m_tc.getTimecode(GenTime(5000 / 1000.0)));
+    title_duration->setText(m_tc.reformatSeparators(KdenliveSettings::title_duration()));
 
     connect(backgroundColor, SIGNAL(clicked()), this, SLOT(slotChangeBackground())) ;
     connect(backgroundAlpha, SIGNAL(valueChanged(qreal, bool)), this, SLOT(slotChangeBackground())) ;

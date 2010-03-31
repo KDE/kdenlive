@@ -32,6 +32,11 @@
       <label>Default image clip duration.</label>
       <default>00:00:05:00</default>
     </entry>
+    
+    <entry name="title_duration" type="String">
+      <label>Default title clip duration.</label>
+      <default>00:00:05:00</default>
+    </entry>
 
     <entry name="videotracks" type="Int">
       <label>Default number of video tracks.</label>

@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>ConfigMisc_UI</class>
- <widget class="QWidget" name="ConfigMisc_UI" >
-  <property name="geometry" >
+ <widget class="QWidget" name="ConfigMisc_UI">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,61 +10,72 @@
     <height>359</height>
    </rect>
   </property>
-  <layout class="QGridLayout" name="gridLayout_4" >
-   <item row="0" column="0" colspan="6" >
-    <widget class="QCheckBox" name="kcfg_openlastproject" >
-     <property name="text" >
+  <layout class="QGridLayout" name="gridLayout_4">
+   <item row="0" column="0" colspan="6">
+    <widget class="QCheckBox" name="kcfg_openlastproject">
+     <property name="text">
       <string>Open last project on startup</string>
      </property>
     </widget>
    </item>
-   <item row="1" column="0" colspan="6" >
-    <widget class="QCheckBox" name="kcfg_crashrecovery" >
-     <property name="text" >
+   <item row="1" column="0" colspan="6">
+    <widget class="QCheckBox" name="kcfg_crashrecovery">
+     <property name="text">
       <string>Crash recovery (automatic backup)</string>
      </property>
     </widget>
    </item>
-   <item row="2" column="0" colspan="6" >
-    <widget class="QCheckBox" name="kcfg_activatetabs" >
-     <property name="text" >
+   <item row="2" column="0" colspan="6">
+    <widget class="QCheckBox" name="kcfg_activatetabs">
+     <property name="text">
       <string>Open projects in new tabs</string>
      </property>
     </widget>
    </item>
-   <item row="4" column="0" colspan="6" >
-    <widget class="QGroupBox" name="groupBox" >
-     <property name="title" >
+   <item row="4" column="0" colspan="6">
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
       <string>Default Durations</string>
      </property>
-     <layout class="QGridLayout" name="gridLayout_3" >
-      <item row="0" column="0" >
-       <widget class="QLabel" name="label" >
-        <property name="text" >
+     <layout class="QGridLayout" name="gridLayout_3">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label">
+        <property name="text">
          <string>Color clips</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="1" >
-       <widget class="KRestrictedLine" name="kcfg_color_duration" >
-        <property name="inputMask" >
+      <item row="0" column="1">
+       <widget class="KRestrictedLine" name="kcfg_color_duration">
+        <property name="inputMask">
          <string>99:99:99:99; </string>
-        </property>
-        <property name="text" >
-         <string>:::</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="2" >
-       <widget class="QLabel" name="label_2" >
-        <property name="text" >
+      <item row="0" column="2">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
          <string>Image clips</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="3" >
-       <widget class="KRestrictedLine" name="kcfg_image_duration" >
-        <property name="inputMask" >
+      <item row="0" column="3">
+       <widget class="KRestrictedLine" name="kcfg_image_duration">
+        <property name="inputMask">
+         <string>99:99:99:99; </string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_8">
+        <property name="text">
+         <string>Title clips</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="KRestrictedLine" name="kcfg_title_duration">
+        <property name="inputMask">
          <string>99:99:99:99; </string>
         </property>
        </widget>
@@ -71,85 +83,85 @@
      </layout>
     </widget>
    </item>
-   <item row="5" column="0" colspan="6" >
-    <widget class="QGroupBox" name="properties" >
-     <property name="title" >
+   <item row="5" column="0" colspan="6">
+    <widget class="QGroupBox" name="properties">
+     <property name="title">
       <string>Default Profile</string>
      </property>
-     <layout class="QGridLayout" name="gridLayout_2" >
-      <item row="0" column="0" >
-       <widget class="QLabel" name="label_3" >
-        <property name="text" >
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_3">
+        <property name="text">
          <string>Profile</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="1" >
-       <widget class="KComboBox" name="kcfg_profiles_list" />
+      <item row="0" column="1">
+       <widget class="KComboBox" name="kcfg_profiles_list"/>
       </item>
-      <item row="1" column="0" colspan="2" >
-       <layout class="QGridLayout" name="gridLayout" >
-        <item row="0" column="0" >
-         <widget class="QLabel" name="label_5" >
-          <property name="text" >
+      <item row="1" column="0" colspan="2">
+       <layout class="QGridLayout" name="gridLayout">
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_5">
+          <property name="text">
            <string>Size:</string>
           </property>
          </widget>
         </item>
-        <item row="0" column="1" >
-         <widget class="QLabel" name="p_size" >
-          <property name="text" >
+        <item row="0" column="1">
+         <widget class="QLabel" name="p_size">
+          <property name="text">
            <string>720x576</string>
           </property>
          </widget>
         </item>
-        <item row="0" column="2" >
-         <widget class="QLabel" name="label_4" >
-          <property name="text" >
+        <item row="0" column="2">
+         <widget class="QLabel" name="label_4">
+          <property name="text">
            <string>Frame rate:</string>
           </property>
          </widget>
         </item>
-        <item row="0" column="3" >
-         <widget class="QLabel" name="p_fps" >
-          <property name="text" >
+        <item row="0" column="3">
+         <widget class="QLabel" name="p_fps">
+          <property name="text">
            <string>25/1</string>
           </property>
          </widget>
         </item>
-        <item row="1" column="0" >
-         <widget class="QLabel" name="label_9" >
-          <property name="text" >
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_9">
+          <property name="text">
            <string>Aspect ratio:</string>
           </property>
          </widget>
         </item>
-        <item row="1" column="1" >
-         <widget class="QLabel" name="p_aspect" >
-          <property name="text" >
+        <item row="1" column="1">
+         <widget class="QLabel" name="p_aspect">
+          <property name="text">
            <string>59/54</string>
           </property>
          </widget>
         </item>
-        <item row="1" column="2" >
-         <widget class="QLabel" name="label_10" >
-          <property name="text" >
+        <item row="1" column="2">
+         <widget class="QLabel" name="label_10">
+          <property name="text">
            <string>Display ratio:</string>
           </property>
          </widget>
         </item>
-        <item row="1" column="3" >
-         <widget class="QLabel" name="p_display" >
-          <property name="text" >
+        <item row="1" column="3">
+         <widget class="QLabel" name="p_display">
+          <property name="text">
            <string>4/3</string>
           </property>
          </widget>
         </item>
        </layout>
       </item>
-      <item row="2" column="0" colspan="2" >
-       <widget class="QLabel" name="p_progressive" >
-        <property name="text" >
+      <item row="2" column="0" colspan="2">
+       <widget class="QLabel" name="p_progressive">
+        <property name="text">
          <string>Interlaced</string>
         </property>
        </widget>
@@ -157,19 +169,19 @@
      </layout>
     </widget>
    </item>
-   <item row="6" column="0" >
-    <widget class="QLabel" name="label_6" >
-     <property name="text" >
+   <item row="6" column="0">
+    <widget class="QLabel" name="label_6">
+     <property name="text">
       <string>Video tracks</string>
      </property>
     </widget>
    </item>
-   <item row="6" column="2" >
-    <spacer name="horizontalSpacer" >
-     <property name="orientation" >
+   <item row="6" column="2">
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
-     <property name="sizeHint" stdset="0" >
+     <property name="sizeHint" stdset="0">
       <size>
        <width>13</width>
        <height>25</height>
@@ -177,19 +189,19 @@
      </property>
     </spacer>
    </item>
-   <item row="6" column="3" >
-    <widget class="QLabel" name="label_7" >
-     <property name="text" >
+   <item row="6" column="3">
+    <widget class="QLabel" name="label_7">
+     <property name="text">
       <string>Audio tracks</string>
      </property>
     </widget>
    </item>
-   <item row="7" column="0" colspan="6" >
+   <item row="7" column="0" colspan="6">
     <spacer>
-     <property name="orientation" >
+     <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
-     <property name="sizeHint" stdset="0" >
+     <property name="sizeHint" stdset="0">
       <size>
        <width>20</width>
        <height>40</height>
@@ -197,15 +209,15 @@
      </property>
     </spacer>
    </item>
-   <item row="6" column="1" >
-    <widget class="KIntSpinBox" name="kcfg_videotracks" />
+   <item row="6" column="1">
+    <widget class="KIntSpinBox" name="kcfg_videotracks"/>
    </item>
-   <item row="6" column="4" >
-    <widget class="KIntSpinBox" name="kcfg_audiotracks" />
+   <item row="6" column="4">
+    <widget class="KIntSpinBox" name="kcfg_audiotracks"/>
    </item>
-   <item row="3" column="0" colspan="5" >
-    <widget class="QCheckBox" name="kcfg_usekuiserver" >
-     <property name="text" >
+   <item row="3" column="0" colspan="5">
+    <widget class="QCheckBox" name="kcfg_usekuiserver">
+     <property name="text">
       <string>Use KDE job tracking for render jobs</string>
      </property>
     </widget>
@@ -214,14 +226,19 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KComboBox</class>
-   <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
-  </customwidget>
-  <customwidget>
    <class>KIntSpinBox</class>
    <extends>QSpinBox</extends>
    <header>knuminput.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>klineedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
    <class>KRestrictedLine</class>
