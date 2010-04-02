@@ -2457,7 +2457,7 @@ msgstr "Jean-Michel Poure"
 
 #: rc.cpp:562 rc.cpp:1943
 msgid "Job Queue"
-msgstr "Jøb ko"
+msgstr "Jøb kø"
 
 #: rc.cpp:778 rc.cpp:2159
 msgid "Job status"
