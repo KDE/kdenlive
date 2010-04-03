@@ -2603,7 +2603,7 @@ void MainWindow::slotShowClipProperties(DocClipBase *clip)
             }
             EditClipCommand *command = new EditClipCommand(m_projectList, clip->getId(), clip->properties(), newprops, true);
             m_activeDocument->commandStack()->push(command);
-            m_activeTimeline->projectView()->slotUpdateClip(clip->getId());
+            //m_activeTimeline->projectView()->slotUpdateClip(clip->getId());
             m_activeDocument->setModified(true);
         }
         delete dia_ui;

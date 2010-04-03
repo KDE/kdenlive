@@ -1243,6 +1243,8 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
             // update clip in clip monitor
             emit clipSelected(NULL);
             emit clipSelected(item->referencedClip());
+            //TODO: Make sure the line below has no side effect
+            toReload = clipId;
         }
         /*else {
             // Check if duration changed.
@@ -1255,13 +1257,12 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
         }*/
     } else kDebug() << "////////  COULD NOT FIND CLIP TO UPDATE PRPS...";
     int max = m_doc->clipManager()->clipsCount();
-    emit displayMessage(i18n("Loading clips"), (int)(100 *(max - m_infoQueue.count()) / max));
-    // small delay so that the app can display the progress info
     if (item && m_infoQueue.isEmpty() && m_thumbnailQueue.isEmpty()) {
         m_listView->setCurrentItem(item);
         emit clipSelected(item->referencedClip());
-    }
+    } else emit displayMessage(i18n("Loading clips"), (int)(100 *(max - m_infoQueue.count()) / max));
     if (!toReload.isEmpty()) emit clipNeedsReload(toReload, true);
+    // small delay so that the app can display the progress info
     QTimer::singleShot(30, this, SLOT(slotProcessNextClipInQueue()));
 }
 

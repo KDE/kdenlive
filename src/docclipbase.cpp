@@ -429,10 +429,10 @@ void DocClipBase::clearProducers()
     m_baseTrackProducers.clear();
 }
 
-void DocClipBase::deleteProducers()
+void DocClipBase::deleteProducers(bool clearThumbCreator)
 {
     kDebug() << "// CLIP KILL PRODS ct: " << m_baseTrackProducers.count();
-    if (m_thumbProd) m_thumbProd->clearProducer();
+    if (clearThumbCreator && m_thumbProd) m_thumbProd->clearProducer();
     /*kDebug()<<"// CLIP KILL PRODS ct: "<<m_baseTrackProducers.count();
     int max = m_baseTrackProducers.count();
     for (int i = 0; i < max; i++) {
@@ -462,10 +462,11 @@ void DocClipBase::setValid()
 void DocClipBase::setProducer(Mlt::Producer *producer, bool reset)
 {
     if (producer == NULL || m_placeHolder) return;
+    if (m_thumbProd && (reset || !m_thumbProd->hasProducer())) m_thumbProd->setProducer(producer);
     if (reset) {
         // Clear all previous producers
         kDebug() << "/+++++++++++++++   DELETE ALL PRODS " << producer->get("id");
-        deleteProducers();
+        deleteProducers(false);
     }
     QString id = producer->get("id");
     if (id.contains('_')) {
@@ -497,7 +498,6 @@ void DocClipBase::setProducer(Mlt::Producer *producer, bool reset)
     }
     //m_clipProducer = producer;
     //m_clipProducer->set("transparency", m_properties.value("transparency").toInt());
-    if (m_thumbProd && (reset || !m_thumbProd->hasProducer())) m_thumbProd->setProducer(producer);
 }
 
 Mlt::Producer *DocClipBase::audioProducer(int track)
