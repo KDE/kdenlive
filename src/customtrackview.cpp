@@ -1285,56 +1285,7 @@ void CustomTrackView::mouseDoubleClickEvent(QMouseEvent *event)
             emit clipItemSelected(item, item->selectedEffectIndex());
         }
     } else if (m_dragItem && !m_dragItem->isItemLocked()) {
-        GenTime minimum;
-        GenTime maximum;
-        if (m_dragItem->type() == TRANSITIONWIDGET) {
-            getTransitionAvailableSpace(m_dragItem, minimum, maximum);
-        } else {
-            getClipAvailableSpace(m_dragItem, minimum, maximum);
-        }
-        //kDebug()<<"// GOT MOVE POS: "<<minimum.frames(25)<<" - "<<maximum.frames(25);
-        ClipDurationDialog d(m_dragItem, m_document->timecode(), minimum, maximum, this);
-        if (d.exec() == QDialog::Accepted) {
-            if (m_dragItem->type() == TRANSITIONWIDGET) {
-                // move & resize transition
-                ItemInfo startInfo;
-                startInfo.startPos = m_dragItem->startPos();
-                startInfo.endPos = m_dragItem->endPos();
-                startInfo.track = m_dragItem->track();
-                ItemInfo endInfo;
-                endInfo.startPos = d.startPos();
-                endInfo.endPos = endInfo.startPos + d.duration();
-                endInfo.track = m_dragItem->track();
-                MoveTransitionCommand *command = new MoveTransitionCommand(this, startInfo, endInfo, true);
-                m_commandStack->push(command);
-            } else {
-                // move and resize clip
-                QUndoCommand *moveCommand = new QUndoCommand();
-                moveCommand->setText(i18n("Edit clip"));
-                ItemInfo clipInfo = m_dragItem->info();
-                if (d.duration() < m_dragItem->cropDuration() || d.cropStart() != clipInfo.cropStart) {
-                    // duration was reduced, so process it first
-                    ItemInfo startInfo = clipInfo;
-                    clipInfo.endPos = clipInfo.startPos + d.duration();
-                    clipInfo.cropStart = d.cropStart();
-                    new ResizeClipCommand(this, startInfo, clipInfo, true, false, moveCommand);
-                }
-                if (d.startPos() != clipInfo.startPos) {
-                    ItemInfo startInfo = clipInfo;
-                    clipInfo.startPos = d.startPos();
-                    clipInfo.endPos = m_dragItem->endPos() + (clipInfo.startPos - startInfo.startPos);
-                    new MoveClipCommand(this, startInfo, clipInfo, true, moveCommand);
-                }
-                if (d.duration() > m_dragItem->cropDuration()) {
-                    // duration was increased, so process it after move
-                    ItemInfo startInfo = clipInfo;
-                    clipInfo.endPos = clipInfo.startPos + d.duration();
-                    clipInfo.cropStart = d.cropStart();
-                    new ResizeClipCommand(this, startInfo, clipInfo, true, false, moveCommand);
-                }
-                m_commandStack->push(moveCommand);
-            }
-        }
+        editClipDuration();
     } else {
         QList<QGraphicsItem *> collisionList = items(event->pos());
         if (collisionList.count() == 1 && collisionList.at(0)->type() == GUIDEITEM) {
@@ -1344,6 +1295,71 @@ void CustomTrackView::mouseDoubleClickEvent(QMouseEvent *event)
     }
 }
 
+void CustomTrackView::editClipDuration()
+{
+    AbstractClipItem *item;
+    if (m_dragItem) {
+	item = m_dragItem;
+    }
+    else {
+        GenTime pos = GenTime((int)(mapToScene(m_menuPosition).x()), m_document->fps());
+        int track = (int)(mapToScene(m_menuPosition).y() / m_tracksHeight);
+        item = getClipItemAt(pos, track);
+    }
+
+    if (item && !item->isItemLocked()) {
+        GenTime minimum;
+        GenTime maximum;
+        if (item->type() == TRANSITIONWIDGET) {
+            getTransitionAvailableSpace(item, minimum, maximum);
+        } else {
+            getClipAvailableSpace(item, minimum, maximum);
+        }
+        //kDebug()<<"// GOT MOVE POS: "<<minimum.frames(25)<<" - "<<maximum.frames(25);
+        ClipDurationDialog d(item, m_document->timecode(), minimum, maximum, this);
+        if (d.exec() == QDialog::Accepted) {
+            if (item->type() == TRANSITIONWIDGET) {
+                // move & resize transition
+                ItemInfo startInfo;
+                startInfo.startPos = item->startPos();
+                startInfo.endPos = item->endPos();
+                startInfo.track = item->track();
+                ItemInfo endInfo;
+                endInfo.startPos = d.startPos();
+                endInfo.endPos = endInfo.startPos + d.duration();
+                endInfo.track = item->track();
+                MoveTransitionCommand *command = new MoveTransitionCommand(this, startInfo, endInfo, true);
+                m_commandStack->push(command);
+            } else {
+                // move and resize clip
+                QUndoCommand *moveCommand = new QUndoCommand();
+                moveCommand->setText(i18n("Edit clip"));
+                ItemInfo clipInfo = item->info();
+                if (d.duration() < item->cropDuration() || d.cropStart() != clipInfo.cropStart) {
+                    // duration was reduced, so process it first
+                    ItemInfo startInfo = clipInfo;
+                    clipInfo.endPos = clipInfo.startPos + d.duration();
+                    clipInfo.cropStart = d.cropStart();
+                    new ResizeClipCommand(this, startInfo, clipInfo, true, false, moveCommand);
+                }
+                if (d.startPos() != clipInfo.startPos) {
+                    ItemInfo startInfo = clipInfo;
+                    clipInfo.startPos = d.startPos();
+                    clipInfo.endPos = item->endPos() + (clipInfo.startPos - startInfo.startPos);
+                    new MoveClipCommand(this, startInfo, clipInfo, true, moveCommand);
+                }
+                if (d.duration() > item->cropDuration()) {
+                    // duration was increased, so process it after move
+                    ItemInfo startInfo = clipInfo;
+                    clipInfo.endPos = clipInfo.startPos + d.duration();
+                    clipInfo.cropStart = d.cropStart();
+                    new ResizeClipCommand(this, startInfo, clipInfo, true, false, moveCommand);
+                }
+                m_commandStack->push(moveCommand);
+            }
+        }
+    }
+}
 
 void CustomTrackView::editKeyFrame(const GenTime pos, const int track, const int index, const QString keyframes)
 {

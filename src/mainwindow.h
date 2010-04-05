@@ -320,6 +320,7 @@ private slots:
     void slotDvdWizard(const QString &url = QString(), const QString &profile = "dv_pal");
     void slotGroupClips();
     void slotUnGroupClips();
+    void slotEditClipDuration();
     void slotSplitAudio();
     void slotUpdateClipType(QAction *action);
     void slotShowTimeline(bool show);
