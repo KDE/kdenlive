@@ -27,8 +27,7 @@
 #include "timecode.h"
 #include "ui_slideshowclip_ui.h"
 
-#include <QFuture>
-#include <QFutureWatcher>
+#include <KIO/PreviewJob>
 
 class SlideshowClip : public QDialog
 {
@@ -36,6 +35,7 @@ class SlideshowClip : public QDialog
 
 public:
     SlideshowClip(Timecode tc, QWidget * parent = 0);
+    virtual ~ SlideshowClip();
     /** return selected path for slideshow in MLT format */
     QString selectedPath() const;
     QString clipName() const;
@@ -52,17 +52,15 @@ private slots:
     void slotEnableLuma(int state);
     void slotEnableThumbs(int state);
     void slotEnableLumaFile(int state);
-    void doGetThumbs();
     void slotUpdateDurationFormat(int ix);
     void slotGenerateThumbs();
-    void slotCheckGenerateThumbs();
+    void slotSetPixmap(const KFileItem &fileItem, const QPixmap &pix);
 
 private:
     Ui::SlideshowClip_UI m_view;
     int m_count;
     Timecode m_timecode;
-    QFuture<void> m_future;
-    QFutureWatcher<void> m_watcher;
+    KIO::PreviewJob *m_thumbJob;
 };
 
 

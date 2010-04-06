@@ -25,14 +25,13 @@
 #include <KFileItem>
 
 #include <QDir>
-#include <QtConcurrentRun>
-#include <QFutureWatcher>
 
 
 SlideshowClip::SlideshowClip(Timecode tc, QWidget * parent) :
         QDialog(parent),
         m_count(0),
-        m_timecode(tc)
+        m_timecode(tc),
+        m_thumbJob(NULL)
 {
     setFont(KGlobalSettings::toolBarFont());
     setWindowTitle(i18n("Add Slideshow Clip"));
@@ -98,6 +97,13 @@ SlideshowClip::SlideshowClip(Timecode tc, QWidget * parent) :
     //adjustSize();
 }
 
+SlideshowClip::~SlideshowClip()
+{
+    if (m_thumbJob) {
+        delete m_thumbJob;
+    }
+}
+
 void SlideshowClip::slotEnableLuma(int state)
 {
     bool enable = false;
@@ -119,6 +125,11 @@ void SlideshowClip::slotEnableThumbs(int state)
         slotGenerateThumbs();
     } else {
         KdenliveSettings::setShowslideshowthumbs(false);
+        if (m_thumbJob) {
+            disconnect(m_thumbJob, SIGNAL(gotPreview(const KFileItem &, const QPixmap &)), this, SLOT(slotSetPixmap(const KFileItem &, const QPixmap &)));
+            m_thumbJob->kill();
+            m_thumbJob = NULL;
+        }
     }
 
 }
@@ -136,7 +147,6 @@ void SlideshowClip::parseFolder()
 {
     m_view.icon_list->clear();
     QDir dir(m_view.folder_url->url().path());
-
     QStringList filters;
     QString filter = m_view.image_type->itemData(m_view.image_type->currentIndex()).toString();
     filters << "*." + filter;
@@ -164,35 +174,40 @@ void SlideshowClip::parseFolder()
 
 void SlideshowClip::slotGenerateThumbs()
 {
-    if (!m_future.isRunning()) {
-        connect(&m_watcher, SIGNAL(finished()), this, SLOT(slotCheckGenerateThumbs()));
-        m_future = QtConcurrent::run(this, &SlideshowClip::doGetThumbs);
-        m_watcher.setFuture(m_future);
+    if (m_thumbJob) {
+        delete m_thumbJob;
+    };
+    KFileItemList fileList;
+    for (int i = 0; i < m_view.icon_list->count(); i++) {
+        QListWidgetItem* item = m_view.icon_list->item(i);
+        if (item) {
+            QString path = item->data(Qt::UserRole).toString();
+            if (!path.isEmpty()) {
+                fileList.append(KFileItem(KFileItem::Unknown, KFileItem::Unknown, KUrl(path)));
+            }
+        }
     }
+    m_thumbJob = new KIO::PreviewJob(fileList, 50, 0, 0, 0, true, true, 0);
+    m_thumbJob->setAutoDelete(false);
+    connect(m_thumbJob, SIGNAL(gotPreview(const KFileItem &, const QPixmap &)), this, SLOT(slotSetPixmap(const KFileItem &, const QPixmap &)));
+    m_thumbJob->start();
 }
 
-void SlideshowClip::slotCheckGenerateThumbs()
-{
-    QListWidgetItem* item = m_view.icon_list->item(m_view.icon_list->count() - 1);
-    if (!item || item->data(Qt::UserRole).toString().isEmpty() || m_view.show_thumbs->isChecked() == false) return;
-    QTimer::singleShot(300, this, SLOT(slotGenerateThumbs()));
-}
-
-void SlideshowClip::doGetThumbs()
+void SlideshowClip::slotSetPixmap(const KFileItem &fileItem, const QPixmap &pix)
 {
     for (int i = 0; i < m_view.icon_list->count(); i++) {
         QListWidgetItem* item = m_view.icon_list->item(i);
-        if (item && m_view.show_thumbs->isChecked()) {
+        if (item) {
             QString path = item->data(Qt::UserRole).toString();
-            if (path.isEmpty()) continue;
-            else {
-                item->setIcon(KIcon(path));
+            if (path == fileItem.url().path()) {
+                item->setIcon(KIcon(pix));
                 item->setData(Qt::UserRole, QString());
                 break;
             }
         }
     }
 }
+
 
 QString SlideshowClip::selectedPath() const
 {
