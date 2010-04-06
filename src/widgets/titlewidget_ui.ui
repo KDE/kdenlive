@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1383</width>
-    <height>835</height>
+    <width>986</width>
+    <height>621</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -552,14 +552,14 @@
            </item>
            <item row="0" column="0">
             <widget class="KColorButton" name="backgroundColor">
-             <property name="color" stdset="0">
+             <property name="color">
               <color>
                <red>0</red>
                <green>0</green>
                <blue>0</blue>
               </color>
              </property>
-             <property name="defaultColor" stdset="0">
+             <property name="defaultColor">
               <color>
                <red>0</red>
                <green>0</green>
@@ -785,14 +785,14 @@
        </item>
        <item row="0" column="1">
         <widget class="KColorButton" name="rectBColor">
-         <property name="color" stdset="0">
+         <property name="color">
           <color>
            <red>0</red>
            <green>0</green>
            <blue>0</blue>
           </color>
          </property>
-         <property name="defaultColor" stdset="0">
+         <property name="defaultColor">
           <color>
            <red>0</red>
            <green>0</green>
@@ -820,14 +820,14 @@
        </item>
        <item row="0" column="5">
         <widget class="KColorButton" name="rectFColor">
-         <property name="color" stdset="0">
+         <property name="color">
           <color>
            <red>0</red>
            <green>0</green>
            <blue>0</blue>
           </color>
          </property>
-         <property name="defaultColor" stdset="0">
+         <property name="defaultColor">
           <color>
            <red>0</red>
            <green>0</green>
@@ -900,14 +900,14 @@
          <property name="flat">
           <bool>false</bool>
          </property>
-         <property name="color" stdset="0">
+         <property name="color">
           <color>
            <red>0</red>
            <green>0</green>
            <blue>0</blue>
           </color>
          </property>
-         <property name="defaultColor" stdset="0">
+         <property name="defaultColor">
           <color>
            <red>0</red>
            <green>0</green>

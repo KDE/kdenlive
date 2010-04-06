@@ -27,6 +27,9 @@
 #include "timecode.h"
 #include "ui_slideshowclip_ui.h"
 
+#include <QFuture>
+#include <QFutureWatcher>
+
 class SlideshowClip : public QDialog
 {
     Q_OBJECT
@@ -47,14 +50,19 @@ public:
 private slots:
     void parseFolder();
     void slotEnableLuma(int state);
+    void slotEnableThumbs(int state);
     void slotEnableLumaFile(int state);
-    void slotSetItemIcon(int row);
+    void doGetThumbs();
     void slotUpdateDurationFormat(int ix);
+    void slotGenerateThumbs();
+    void slotCheckGenerateThumbs();
 
 private:
     Ui::SlideshowClip_UI m_view;
     int m_count;
     Timecode m_timecode;
+    QFuture<void> m_future;
+    QFutureWatcher<void> m_watcher;
 };
 
 

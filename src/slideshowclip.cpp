@@ -25,6 +25,9 @@
 #include <KFileItem>
 
 #include <QDir>
+#include <QtConcurrentRun>
+#include <QFutureWatcher>
+
 
 SlideshowClip::SlideshowClip(Timecode tc, QWidget * parent) :
         QDialog(parent),
@@ -37,9 +40,12 @@ SlideshowClip::SlideshowClip(Timecode tc, QWidget * parent) :
     m_view.clip_name->setText(i18n("Slideshow Clip"));
     m_view.folder_url->setMode(KFile::Directory);
     m_view.icon_list->setIconSize(QSize(50, 50));
+    m_view.show_thumbs->setChecked(KdenliveSettings::showslideshowthumbs());
+
     connect(m_view.folder_url, SIGNAL(textChanged(const QString &)), this, SLOT(parseFolder()));
     connect(m_view.image_type, SIGNAL(currentIndexChanged(int)), this, SLOT(parseFolder()));
 
+    connect(m_view.show_thumbs, SIGNAL(stateChanged(int)), this, SLOT(slotEnableThumbs(int)));
     connect(m_view.slide_fade, SIGNAL(stateChanged(int)), this, SLOT(slotEnableLuma(int)));
     connect(m_view.luma_fade, SIGNAL(stateChanged(int)), this, SLOT(slotEnableLumaFile(int)));
 
@@ -106,6 +112,17 @@ void SlideshowClip::slotEnableLuma(int state)
     m_view.luma_softness->setEnabled(m_view.label_softness->isEnabled());
 }
 
+void SlideshowClip::slotEnableThumbs(int state)
+{
+    if (state == Qt::Checked) {
+        KdenliveSettings::setShowslideshowthumbs(true);
+        slotGenerateThumbs();
+    } else {
+        KdenliveSettings::setShowslideshowthumbs(false);
+    }
+
+}
+
 void SlideshowClip::slotEnableLumaFile(int state)
 {
     bool enable = false;
@@ -137,28 +154,42 @@ void SlideshowClip::parseFolder()
     KIcon unknownicon("unknown");
     foreach(const QString &path, result) {
         i++;
-        if (i < 80) {
-            QIcon icon(dir.filePath(path));
-            item = new QListWidgetItem(icon, KUrl(path).fileName());
-        } else {
-            item = new QListWidgetItem(unknownicon, KUrl(path).fileName());
-            item->setData(Qt::UserRole, dir.filePath(path));
-        }
+        item = new QListWidgetItem(unknownicon, KUrl(path).fileName());
+        item->setData(Qt::UserRole, dir.filePath(path));
         m_view.icon_list->addItem(item);
     }
-    if (m_count >= 80) connect(m_view.icon_list, SIGNAL(currentRowChanged(int)), this, SLOT(slotSetItemIcon(int)));
+    if (m_view.show_thumbs->isChecked()) slotGenerateThumbs();
     m_view.icon_list->setCurrentRow(0);
 }
 
-void SlideshowClip::slotSetItemIcon(int row)
+void SlideshowClip::slotGenerateThumbs()
 {
-    QListWidgetItem * item = m_view.icon_list->item(row);
-    if (item) {
-        QString path = item->data(Qt::UserRole).toString();
-        if (!path.isEmpty()) {
-            KIcon icon(path);
-            item->setIcon(icon);
-            item->setData(Qt::UserRole, QString());
+    if (!m_future.isRunning()) {
+        connect(&m_watcher, SIGNAL(finished()), this, SLOT(slotCheckGenerateThumbs()));
+        m_future = QtConcurrent::run(this, &SlideshowClip::doGetThumbs);
+        m_watcher.setFuture(m_future);
+    }
+}
+
+void SlideshowClip::slotCheckGenerateThumbs()
+{
+    QListWidgetItem* item = m_view.icon_list->item(m_view.icon_list->count() - 1);
+    if (!item || item->data(Qt::UserRole).toString().isEmpty() || m_view.show_thumbs->isChecked() == false) return;
+    QTimer::singleShot(300, this, SLOT(slotGenerateThumbs()));
+}
+
+void SlideshowClip::doGetThumbs()
+{
+    for (int i = 0; i < m_view.icon_list->count(); i++) {
+        QListWidgetItem* item = m_view.icon_list->item(i);
+        if (item && m_view.show_thumbs->isChecked()) {
+            QString path = item->data(Qt::UserRole).toString();
+            if (path.isEmpty()) continue;
+            else {
+                item->setIcon(KIcon(path));
+                item->setData(Qt::UserRole, QString());
+                break;
+            }
         }
     }
 }

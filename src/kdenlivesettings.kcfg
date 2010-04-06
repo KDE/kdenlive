@@ -509,5 +509,10 @@
       <label>Name of the chosen color theme.</label>
       <default></default>
     </entry>
+    
+    <entry name="showslideshowthumbs" type="Bool">
+      <label>Show thumbnails in slideshow dialog.</label>
+      <default>false</default>
+    </entry>
   </group>
 </kcfg>
