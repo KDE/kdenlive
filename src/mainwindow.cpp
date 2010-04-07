@@ -3348,14 +3348,14 @@ void MainWindow::slotShowTitleBars(bool show)
         m_projectListDock->setTitleBarWidget(0);
         m_undoViewDock->setTitleBarWidget(0);
     } else {
-        m_effectStackDock->setTitleBarWidget(new QWidget(this));
-        m_clipMonitorDock->setTitleBarWidget(new QWidget(this));
-        m_projectMonitorDock->setTitleBarWidget(new QWidget(this));
-        m_recMonitorDock->setTitleBarWidget(new QWidget(this));
-        m_effectListDock->setTitleBarWidget(new QWidget(this));
-        m_transitionConfigDock->setTitleBarWidget(new QWidget(this));
-        m_projectListDock->setTitleBarWidget(new QWidget(this));
-        m_undoViewDock->setTitleBarWidget(new QWidget(this));
+        if (!m_effectStackDock->isFloating()) m_effectStackDock->setTitleBarWidget(new QWidget(this));
+        if (!m_clipMonitorDock->isFloating()) m_clipMonitorDock->setTitleBarWidget(new QWidget(this));
+        if (!m_projectMonitorDock->isFloating()) m_projectMonitorDock->setTitleBarWidget(new QWidget(this));
+        if (!m_recMonitorDock->isFloating()) m_recMonitorDock->setTitleBarWidget(new QWidget(this));
+        if (!m_effectListDock->isFloating()) m_effectListDock->setTitleBarWidget(new QWidget(this));
+        if (!m_transitionConfigDock->isFloating()) m_transitionConfigDock->setTitleBarWidget(new QWidget(this));
+        if (!m_projectListDock->isFloating()) m_projectListDock->setTitleBarWidget(new QWidget(this));
+        if (!m_undoViewDock->isFloating()) m_undoViewDock->setTitleBarWidget(new QWidget(this));
     }
     KdenliveSettings::setShowtitlebars(show);
 }
