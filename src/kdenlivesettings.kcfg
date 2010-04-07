@@ -514,5 +514,9 @@
       <label>Show thumbnails in slideshow dialog.</label>
       <default>false</default>
     </entry>
+    <entry name="showtitlebars" type="Bool">
+      <label>Show dock widget titlebars to allow un/docking.</label>
+      <default>true</default>
+    </entry>    
   </group>
 </kcfg>

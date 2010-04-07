@@ -344,6 +344,7 @@ private slots:
     void slotInsertZoneToTree();
     void slotInsertZoneToTimeline();
     void slotDeleteProjectClips(QStringList ids, QMap<QString, QString> folderids);
+    void slotShowTitleBars(bool show);
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

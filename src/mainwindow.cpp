@@ -244,8 +244,6 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
     tabifyDockWidget(m_clipMonitorDock, m_recMonitorDock);
 #endif
     setCentralWidget(m_timelineArea);
-
-
     setupGUI();
 
     /*ScriptingPart* sp = new ScriptingPart(this, QStringList());
@@ -1268,6 +1266,12 @@ void MainWindow::setupActions()
     showTimeline->setCheckable(true);
     showTimeline->setChecked(true);
     connect(showTimeline, SIGNAL(triggered(bool)), this, SLOT(slotShowTimeline(bool)));
+
+    QAction *showTitleBar = new KAction(i18n("Show Title Bars"), this);
+    collection->addAction("show_titlebars", showTitleBar);
+    showTitleBar->setCheckable(true);
+    connect(showTitleBar, SIGNAL(triggered(bool)), this, SLOT(slotShowTitleBars(bool)));
+    showTitleBar->setChecked(KdenliveSettings::showtitlebars());
 
     /*QAction *maxCurrent = new KAction(i18n("Maximize Current Widget"), this);
     collection->addAction("maximize_current", maxCurrent);
@@ -3330,6 +3334,30 @@ void MainWindow::slotDeleteProjectClips(QStringList ids, QMap<QString, QString> 
     m_activeDocument->clipManager()->slotDeleteClips(ids);
     if (!folderids.isEmpty()) m_projectList->deleteProjectFolder(folderids);
 
+}
+
+void MainWindow::slotShowTitleBars(bool show)
+{
+    if (show) {
+        m_effectStackDock->setTitleBarWidget(0);
+        m_clipMonitorDock->setTitleBarWidget(0);
+        m_projectMonitorDock->setTitleBarWidget(0);
+        m_recMonitorDock->setTitleBarWidget(0);
+        m_effectListDock->setTitleBarWidget(0);
+        m_transitionConfigDock->setTitleBarWidget(0);
+        m_projectListDock->setTitleBarWidget(0);
+        m_undoViewDock->setTitleBarWidget(0);
+    } else {
+        m_effectStackDock->setTitleBarWidget(new QWidget(this));
+        m_clipMonitorDock->setTitleBarWidget(new QWidget(this));
+        m_projectMonitorDock->setTitleBarWidget(new QWidget(this));
+        m_recMonitorDock->setTitleBarWidget(new QWidget(this));
+        m_effectListDock->setTitleBarWidget(new QWidget(this));
+        m_transitionConfigDock->setTitleBarWidget(new QWidget(this));
+        m_projectListDock->setTitleBarWidget(new QWidget(this));
+        m_undoViewDock->setTitleBarWidget(new QWidget(this));
+    }
+    KdenliveSettings::setShowtitlebars(show);
 }
 
 #include "mainwindow.moc"

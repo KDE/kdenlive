@@ -145,6 +145,7 @@
       <Action name="insert_timeline" />
     </Menu>
     <Menu name="dockwindows" ><text>View</text>
+      <Action name="show_titlebars" />
       <Action name="maximize_current" />
       <Action name="show_timeline" />
     </Menu>
