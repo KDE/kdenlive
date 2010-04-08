@@ -1279,6 +1279,7 @@ void MainWindow::setupActions()
     showTitleBar->setCheckable(true);
     connect(showTitleBar, SIGNAL(triggered(bool)), this, SLOT(slotShowTitleBars(bool)));
     showTitleBar->setChecked(KdenliveSettings::showtitlebars());
+    slotShowTitleBars(KdenliveSettings::showtitlebars());
 
     /*QAction *maxCurrent = new KAction(i18n("Maximize Current Widget"), this);
     collection->addAction("maximize_current", maxCurrent);
