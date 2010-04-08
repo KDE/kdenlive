@@ -246,6 +246,13 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
     setCentralWidget(m_timelineArea);
     setupGUI();
 
+    // Find QDockWidget tab bars and show / hide widget title bars on right click
+    QList <QTabBar *> tabs = findChildren<QTabBar *>();
+    for (int i = 0; i < tabs.count(); i++) {
+        tabs.at(i)->setContextMenuPolicy(Qt::CustomContextMenu);
+        connect(tabs.at(i), SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(slotSwitchTitles()));
+    }
+
     /*ScriptingPart* sp = new ScriptingPart(this, QStringList());
     guiFactory()->addClient(sp);*/
 
@@ -3358,6 +3365,11 @@ void MainWindow::slotShowTitleBars(bool show)
         if (!m_undoViewDock->isFloating()) m_undoViewDock->setTitleBarWidget(new QWidget(this));
     }
     KdenliveSettings::setShowtitlebars(show);
+}
+
+void MainWindow::slotSwitchTitles()
+{
+    slotShowTitleBars(!KdenliveSettings::showtitlebars());
 }
 
 #include "mainwindow.moc"
