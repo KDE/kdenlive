@@ -5240,8 +5240,9 @@ void CustomTrackView::slotChangeTrack(int ix)
     d.track_nb->setValue(ix);
     d.slotUpdateName(ix);
     d.setWindowTitle(i18n("Change Track Type"));
-
-    if (m_document->trackInfoAt(m_document->tracksCount() - ix - 1).type == VIDEOTRACK)
+    
+    TrackInfo oldInfo = m_document->trackInfoAt(m_document->tracksCount() - ix - 1);
+    if (oldInfo.type == VIDEOTRACK)
         d.video_track->setChecked(true);
     else
         d.audio_track->setChecked(true);
@@ -5250,6 +5251,7 @@ void CustomTrackView::slotChangeTrack(int ix)
         TrackInfo info;
         info.isLocked = false;
         info.isMute = false;
+        info.trackName = oldInfo.trackName;
         ix = d.track_nb->value();
 
         if (d.video_track->isChecked()) {
