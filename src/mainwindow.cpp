@@ -3350,7 +3350,9 @@ void MainWindow::slotShowTitleBars(bool show)
         m_effectStackDock->setTitleBarWidget(0);
         m_clipMonitorDock->setTitleBarWidget(0);
         m_projectMonitorDock->setTitleBarWidget(0);
+#ifndef Q_WS_MAC
         m_recMonitorDock->setTitleBarWidget(0);
+#endif
         m_effectListDock->setTitleBarWidget(0);
         m_transitionConfigDock->setTitleBarWidget(0);
         m_projectListDock->setTitleBarWidget(0);
@@ -3359,7 +3361,9 @@ void MainWindow::slotShowTitleBars(bool show)
         if (!m_effectStackDock->isFloating()) m_effectStackDock->setTitleBarWidget(new QWidget(this));
         if (!m_clipMonitorDock->isFloating()) m_clipMonitorDock->setTitleBarWidget(new QWidget(this));
         if (!m_projectMonitorDock->isFloating()) m_projectMonitorDock->setTitleBarWidget(new QWidget(this));
+#ifndef Q_WS_MAC
         if (!m_recMonitorDock->isFloating()) m_recMonitorDock->setTitleBarWidget(new QWidget(this));
+#endif
         if (!m_effectListDock->isFloating()) m_effectListDock->setTitleBarWidget(new QWidget(this));
         if (!m_transitionConfigDock->isFloating()) m_transitionConfigDock->setTitleBarWidget(new QWidget(this));
         if (!m_projectListDock->isFloating()) m_projectListDock->setTitleBarWidget(new QWidget(this));
