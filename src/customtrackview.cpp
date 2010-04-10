@@ -4155,7 +4155,7 @@ void CustomTrackView::moveTransition(const ItemInfo start, const ItemInfo end, b
     //item->moveTransition(GenTime((int) (endPos.x() - startPos.x()), m_document->fps()));
     KdenliveSettings::setSnaptopoints(snap);
     item->updateTransitionEndTrack(getPreviousVideoTrack(end.track));
-    m_document->renderer()->mltMoveTransition(item->transitionTag(), m_document->tracksCount() - start.track, m_document->tracksCount() - end.track, item->transitionEndTrack(), start.startPos, start.endPos, end.startPos, end.endPos);
+    m_document->renderer()->mltMoveTransition(item->transitionTag(), m_document->tracksCount() - start.track, m_document->tracksCount() - item->track(), item->transitionEndTrack(), start.startPos, start.endPos, item->startPos(), item->endPos());
     if (m_dragItem && m_dragItem == item) {
         QPoint p;
         ClipItem *transitionClip = getClipItemAt(item->startPos(), item->track());
