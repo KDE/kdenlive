@@ -501,7 +501,11 @@ void RecMonitor::slotRecord()
                 m_captureArgs << "-freq" << KdenliveSettings::rmd_freq();
                 m_captureArgs << "-channels" << QString::number(KdenliveSettings::rmd_audio_channels());
                 if (KdenliveSettings::rmd_use_jack()) {
-                    m_captureArgs << "-use-jack" << KdenliveSettings::rmd_jackports();
+                    m_captureArgs << "-use-jack";
+                    QStringList ports = KdenliveSettings::rmd_jackports().split(" ", QString::SkipEmptyParts);
+                    for(int i = 0; i < ports.count(); ++i) {
+                        m_captureArgs << ports.at(i);
+                    }
                     if (KdenliveSettings::rmd_jack_buffer() > 0.0)
                         m_captureArgs << "-ring-buffer-size" << QString::number(KdenliveSettings::rmd_jack_buffer());
                 } else {
