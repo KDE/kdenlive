@@ -200,6 +200,8 @@ Q_OBJECT public:
 
     bool hasVideoCodec(const QString &codec) const;
     bool hasAudioCodec(const QString &codec) const;
+    bool checkHash() const;
+    void setPlaceHolder(bool place);
 
 private:   // Private attributes
 

@@ -61,6 +61,7 @@ public:
     void clearProperty(const QString &key);
     QString getClipHash() const;
     static int itemDefaultHeight();
+    void slotSetToolTip();
 
     virtual bool operator<(const QTreeWidgetItem &other)const {
         int column = treeWidget()->sortColumn();
@@ -72,7 +73,6 @@ public:
 private:
     CLIPTYPE m_clipType;
     QString m_clipId;
-    void slotSetToolTip();
     DocClipBase *m_clip;
 };
 

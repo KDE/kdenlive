@@ -206,6 +206,7 @@ Q_OBJECT public:
     void mltInsertTrack(int ix, bool videoTrack);
     void mltDeleteTrack(int ix);
     bool mltUpdateClipProducer(int track, int pos, Mlt::Producer *prod);
+    Mlt::Producer *invalidProducer(const QString &id);
 
     /** Change speed of a clip in playlist. To do this, we create a new "framebuffer" producer.
     This new producer must have its "resource" param set to: video.mpg?0.6 where video.mpg is the path

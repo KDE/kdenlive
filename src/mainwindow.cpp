@@ -1897,11 +1897,18 @@ void MainWindow::slotRenderProject()
             m_renderWidget->setRenderProfile(m_activeDocument->getDocumentProperty("renderdestination"), m_activeDocument->getDocumentProperty("rendercategory"), m_activeDocument->getDocumentProperty("renderprofile"), m_activeDocument->getDocumentProperty("renderurl"));
         }
     }
+    slotCheckRenderStatus();
     /*TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
     if (currentTab) m_renderWidget->setTimeline(currentTab);
     m_renderWidget->setDocument(m_activeDocument);*/
     m_renderWidget->show();
     m_renderWidget->showNormal();
+}
+
+void MainWindow::slotCheckRenderStatus()
+{
+    // Make sure there are no missing clips
+    if (m_renderWidget) m_renderWidget->missingClips(m_projectList->hasMissingClips());
 }
 
 void MainWindow::setRenderingProgress(const QString &url, int progress)
@@ -2001,6 +2008,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
             disconnect(m_activeTimeline, SIGNAL(zoneMoved(int, int)), this, SLOT(slotZoneMoved(int, int)));
             disconnect(m_projectList, SIGNAL(loadingIsOver()), m_activeTimeline->projectView(), SLOT(slotUpdateAllThumbs()));
             disconnect(m_projectList, SIGNAL(displayMessage(const QString&, int)), this, SLOT(slotGotProgressInfo(const QString&, int)));
+            disconnect(m_projectList, SIGNAL(updateRenderStatus()), this, SLOT(slotCheckRenderStatus()));
             disconnect(m_projectList, SIGNAL(clipNeedsReload(const QString&, bool)), m_activeTimeline->projectView(), SLOT(slotUpdateClip(const QString &, bool)));
             m_effectStack->clear();
         }
@@ -2077,11 +2085,13 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     connect(trackView, SIGNAL(zoneMoved(int, int)), this, SLOT(slotZoneMoved(int, int)));
     connect(m_projectList, SIGNAL(loadingIsOver()), trackView->projectView(), SLOT(slotUpdateAllThumbs()));
     connect(m_projectList, SIGNAL(displayMessage(const QString&, int)), this, SLOT(slotGotProgressInfo(const QString&, int)));
+    connect(m_projectList, SIGNAL(updateRenderStatus()), this, SLOT(slotCheckRenderStatus()));
 
 
     trackView->projectView()->setContextMenu(m_timelineContextMenu, m_timelineContextClipMenu, m_timelineContextTransitionMenu, m_clipTypeGroup, (QMenu*)(factory()->container("marker_menu", this)));
     m_activeTimeline = trackView;
     if (m_renderWidget) {
+        slotCheckRenderStatus();
         m_renderWidget->setProfile(doc->mltProfile());
         m_renderWidget->setGuides(doc->guidesXml(), doc->projectDuration());
         m_renderWidget->setDocumentPath(doc->projectFolder().path(KUrl::AddTrailingSlash));
@@ -2549,6 +2559,9 @@ void MainWindow::slotGotProgressInfo(const QString &message, int progress)
     if (progress >= 0) {
         if (!message.isEmpty()) m_messageLabel->setMessage(message, InformationMessage);//statusLabel->setText(message);
         m_statusProgressBar->setVisible(true);
+    } else if (progress == -2) {
+        if (!message.isEmpty()) m_messageLabel->setMessage(message, ErrorMessage);
+        m_statusProgressBar->setVisible(false);
     } else {
         m_messageLabel->setMessage(QString(), DefaultMessage);
         m_statusProgressBar->setVisible(false);

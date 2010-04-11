@@ -341,6 +341,7 @@ private slots:
     /** \brief Change color scheme */
     void slotChangePalette(QAction *action, const QString &themename = QString());
     void slotSwitchMonitors();
+    void slotCheckRenderStatus();
     void slotInsertZoneToTree();
     void slotInsertZoneToTimeline();
     void slotDeleteProjectClips(QStringList ids, QMap<QString, QString> folderids);

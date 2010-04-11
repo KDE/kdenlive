@@ -155,6 +155,7 @@ public:
     void focusTree() const;
     SubProjectItem *getSubItem(ProjectItem *clip, QPoint zone);
     void doUpdateClipCut(const QString &id, const QPoint oldzone, const QPoint zone, const QString &comment);
+    bool hasMissingClips();
     void deleteProjectFolder(QMap <QString, QString> map);
 
 public slots:
@@ -229,6 +230,8 @@ private slots:
     void slotProcessNextThumbnail();
     void slotCheckForEmptyQueue();
     void slotPauseMonitor();
+    void slotMissingClip(const QString &id);
+    void slotAvailableClip(const QString &id);
     //void slotShowMenu(const QPoint &pos);
 
 signals:
@@ -243,6 +246,7 @@ signals:
     void clipNameChanged(const QString, const QString);
     void clipNeedsReload(const QString&, bool);
     void refreshClip();
+    void updateRenderStatus();
     void deleteProjectClips(QStringList ids, QMap <QString, QString> folderids);
 };
 

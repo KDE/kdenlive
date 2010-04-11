@@ -80,6 +80,8 @@ ProjectList::ProjectList(QWidget *parent) :
     QVBoxLayout *layout = new QVBoxLayout;
     layout->setContentsMargins(0, 0, 0, 0);
 
+
+
     // setup toolbar
     KTreeWidgetSearchLine *searchView = new KTreeWidgetSearchLine(this);
     m_toolbar = new QToolBar("projectToolBar", this);
@@ -371,16 +373,68 @@ void ProjectList::slotReloadClip(const QString &id)
         if (selected.at(i)->type() != PROJECTCLIPTYPE) continue;
         item = static_cast <ProjectItem *>(selected.at(i));
         if (item) {
-            if (item->clipType() == IMAGE) {
-                item->referencedClip()->producer()->set("force_reload", 1);
-            } else if (item->clipType() == TEXT) {
+            if (item->clipType() == TEXT) {
                 if (!item->referencedClip()->getProperty("xmltemplate").isEmpty()) regenerateTemplate(item);
+            } else if (item->clipType() != COLOR && item->clipType() != SLIDESHOW && item->referencedClip() &&  item->referencedClip()->checkHash() == false) {
+                item->referencedClip()->setPlaceHolder(true);
+                item->setProperty("file_hash", QString());
+            } else if (item->clipType() == IMAGE) {
+                item->referencedClip()->producer()->set("force_reload", 1);
             }
             //requestClipInfo(item->toXml(), item->clipId(), true);
             // Clear the file_hash value, which will cause a complete reload of the clip
             emit getFileProperties(item->toXml(), item->clipId(), m_listView->iconSize().height(), true);
         }
     }
+}
+
+void ProjectList::slotMissingClip(const QString &id)
+{
+    ProjectItem *item = getItemById(id);
+    if (item) {
+        item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+        if (item->referencedClip()) {
+            item->referencedClip()->setPlaceHolder(true);
+            if (m_render == NULL) kDebug() << "*********  ERROR, NULL RENDR";
+            item->referencedClip()->setProducer(m_render->invalidProducer(id), true);
+            item->slotSetToolTip();
+            emit clipNeedsReload(id, true);
+        }
+    }
+    update();
+    emit displayMessage(i18n("Check missing clips"), -2);
+    emit updateRenderStatus();
+}
+
+void ProjectList::slotAvailableClip(const QString &id)
+{
+    ProjectItem *item = getItemById(id);
+    if (item == NULL) return;
+    item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable);
+    if (item->referencedClip()) { // && item->referencedClip()->checkHash() == false) {
+        item->setProperty("file_hash", QString());
+        slotReloadClip(id);
+    }
+    /*else {
+    item->referencedClip()->setValid();
+    item->slotSetToolTip();
+    }
+    update();*/
+    emit updateRenderStatus();
+}
+
+bool ProjectList::hasMissingClips()
+{
+    bool missing = false;
+    QTreeWidgetItemIterator it(m_listView);
+    while (*it) {
+        if ((*it)->type() == PROJECTCLIPTYPE && !((*it)->flags() & Qt::ItemIsDragEnabled)) {
+            missing = true;
+            break;
+        }
+        it++;
+    }
+    return missing;
 }
 
 void ProjectList::setRenderer(Render *projectRender)
@@ -1094,6 +1148,8 @@ void ProjectList::setDocument(KdenliveDoc *doc)
     m_listView->blockSignals(false);
     m_toolbar->setEnabled(true);
     connect(m_doc->clipManager(), SIGNAL(reloadClip(const QString &)), this, SLOT(slotReloadClip(const QString &)));
+    connect(m_doc->clipManager(), SIGNAL(missingClip(const QString &)), this, SLOT(slotMissingClip(const QString &)));
+    connect(m_doc->clipManager(), SIGNAL(availableClip(const QString &)), this, SLOT(slotAvailableClip(const QString &)));
     connect(m_doc->clipManager(), SIGNAL(checkAllClips()), this, SLOT(updateAllClips()));
 }
 
@@ -1238,6 +1294,10 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
         item->referencedClip()->askForAudioThumbs();
         if (!replace && item->data(0, Qt::DecorationRole).isNull()) {
             requestClipThumbnail(clipId);
+        }
+        if (!toReload.isEmpty()) {
+            item->slotSetToolTip();
+
         }
         //emit receivedClipDuration(clipId);
         if (m_listView->isEnabled() && replace) {

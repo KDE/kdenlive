@@ -112,6 +112,7 @@ public:
     int waitingJobsCount() const;
     QString getFreeScriptName(const QString &prefix = QString());
     bool startWaitingRenderJobs();
+    void missingClips(bool hasMissing);
 
 public slots:
     void slotExport(bool scriptExport, int zoneIn, int zoneOut, const QString &playlistPath, const QString &scriptPath);

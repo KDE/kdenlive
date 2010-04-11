@@ -102,6 +102,13 @@ RenderWidget::RenderWidget(const QString &projectfolder, QWidget * parent) :
     m_view.format_list->setAlternatingRowColors(true);
     m_view.size_list->setAlternatingRowColors(true);
 
+    KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Window);
+    QPalette p = m_view.errorLabel->palette();
+    p.setColor(QPalette::Background, scheme.background(KColorScheme::NegativeBackground).color());
+    m_view.errorLabel->setAutoFillBackground(true);
+    m_view.errorLabel->setPalette(p);
+    m_view.errorLabel->setHidden(true);
+
     parseProfiles();
     parseScriptFiles();
 
@@ -1760,5 +1767,11 @@ void RenderWidget::slotPlayRendering(QTreeWidgetItem *item, int)
     KRun::runCommand(command, KdenliveSettings::defaultplayerapp(), KdenliveSettings::defaultplayerapp(), this, startId);
 }
 
-
+void RenderWidget::missingClips(bool hasMissing)
+{
+    if (hasMissing) {
+        m_view.errorLabel->setText(i18n("Check missing clips"));
+        m_view.errorLabel->setHidden(false);
+    } else m_view.errorLabel->setHidden(true);
+}
 

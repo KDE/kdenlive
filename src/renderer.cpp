@@ -243,6 +243,16 @@ void Render::buildConsumer(const QString profileName)
 
 }
 
+Mlt::Producer *Render::invalidProducer(const QString &id)
+{
+    Mlt::Producer *clip = new Mlt::Producer(*m_mltProfile , "colour", "red");
+    char *tmp = decodedString(id);
+    clip->set("id", tmp);
+    delete[] tmp;
+    clip->set("mlt_type", "producer");
+    return clip;
+}
+
 int Render::resetProfile(const QString profileName)
 {
     if (m_mltConsumer) {

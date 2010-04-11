@@ -461,7 +461,7 @@ void DocClipBase::setValid()
 
 void DocClipBase::setProducer(Mlt::Producer *producer, bool reset)
 {
-    if (producer == NULL || m_placeHolder) return;
+    if (producer == NULL || (m_placeHolder && !reset)) return;
     if (m_thumbProd && (reset || !m_thumbProd->hasProducer())) m_thumbProd->setProducer(producer);
     if (reset) {
         // Clear all previous producers
@@ -760,6 +760,13 @@ void DocClipBase::getFileHash(const QString url)
     }
 }
 
+bool DocClipBase::checkHash() const
+{
+    KUrl url = fileURL();
+    if (!url.isEmpty() && getClipHash() != getHash(url.path())) return false;
+    return true;
+}
+
 QString DocClipBase::getClipHash() const
 {
     QString hash;
@@ -768,6 +775,11 @@ QString DocClipBase::getClipHash() const
     else if (m_clipType == TEXT) hash = QCryptographicHash::hash(QString("title" + getId() + m_properties.value("xmldata")).toUtf8().data(), QCryptographicHash::Md5).toHex();
     else hash = m_properties.value("file_hash");
     return hash;
+}
+
+void DocClipBase::setPlaceHolder(bool place)
+{
+    m_placeHolder = place;
 }
 
 // static

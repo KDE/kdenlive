@@ -739,7 +739,6 @@ void KdenliveDoc::setRenderer(Render *render) {
 
 void KdenliveDoc::checkProjectClips()
 {
-    kDebug() << "+++++++++++++ + + + + CHK PCLIPS";
     if (m_render == NULL) return;
     m_clipManager->resetProducersList(m_render->producersList());
 }

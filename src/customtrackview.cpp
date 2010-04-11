@@ -1299,9 +1299,8 @@ void CustomTrackView::editClipDuration()
 {
     AbstractClipItem *item;
     if (m_dragItem) {
-	item = m_dragItem;
-    }
-    else {
+        item = m_dragItem;
+    } else {
         GenTime pos = GenTime((int)(mapToScene(m_menuPosition).x()), m_document->fps());
         int track = (int)(mapToScene(m_menuPosition).y() / m_tracksHeight);
         item = getClipItemAt(pos, track);
@@ -5240,7 +5239,7 @@ void CustomTrackView::slotChangeTrack(int ix)
     d.track_nb->setValue(ix);
     d.slotUpdateName(ix);
     d.setWindowTitle(i18n("Change Track Type"));
-    
+
     TrackInfo oldInfo = m_document->trackInfoAt(m_document->tracksCount() - ix - 1);
     if (oldInfo.type == VIDEOTRACK)
         d.video_track->setChecked(true);

@@ -277,21 +277,21 @@
          </layout>
         </widget>
        </item>
-       <item row="13" column="0" colspan="2">
+       <item row="14" column="0" colspan="2">
         <widget class="QPushButton" name="buttonRender">
          <property name="text">
           <string>Render to File</string>
          </property>
         </widget>
        </item>
-       <item row="13" column="2" colspan="1">
+       <item row="14" column="2">
         <widget class="QPushButton" name="buttonGenerateScript">
          <property name="text">
           <string>Generate Script</string>
          </property>
         </widget>
        </item>
-       <item row="13" column="3" colspan="6">
+       <item row="14" column="3" colspan="6">
         <spacer name="horizontalSpacer">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -304,7 +304,7 @@
          </property>
         </spacer>
        </item>
-       <item row="13" column="9" colspan="2">
+       <item row="14" column="9" colspan="2">
         <widget class="KPushButton" name="buttonClose">
          <property name="text">
           <string>Close</string>
@@ -344,6 +344,13 @@
           </size>
          </property>
         </spacer>
+       </item>
+       <item row="13" column="0" colspan="11">
+        <widget class="QLabel" name="errorLabel">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
