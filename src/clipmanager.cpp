@@ -44,6 +44,8 @@ ClipManager::ClipManager(KdenliveDoc *doc) :
     m_clipIdCounter = 1;
     m_folderIdCounter = 1;
     connect(&m_fileWatcher, SIGNAL(dirty(const QString &)), this, SLOT(slotClipModified(const QString &)));
+    connect(&m_fileWatcher, SIGNAL(deleted(const QString &)), this, SLOT(slotClipMissing(const QString &)));
+    connect(&m_fileWatcher, SIGNAL(created(const QString &)), this, SLOT(slotClipAvailable(const QString &)));
 }
 
 ClipManager::~ClipManager()
@@ -140,8 +142,9 @@ QMap <QString, QString> ClipManager::documentFolderList() const
 void ClipManager::addClip(DocClipBase *clip)
 {
     m_clipList.append(clip);
-    if (clip->clipType() == IMAGE || clip->clipType() == AUDIO || (clip->clipType() == TEXT && !clip->fileURL().isEmpty())) {
+    if (clip->clipType() != COLOR && clip->clipType() != SLIDESHOW  && !clip->fileURL().isEmpty()) {
         // listen for file change
+        //kDebug() << "// LISTEN FOR: " << clip->fileURL().path();
         m_fileWatcher.addFile(clip->fileURL().path());
     }
     const QString id = clip->getId();
@@ -168,7 +171,8 @@ void ClipManager::deleteClip(const QString &clipId)
 {
     for (int i = 0; i < m_clipList.count(); i++) {
         if (m_clipList.at(i)->getId() == clipId) {
-            if (m_clipList.at(i)->clipType() == IMAGE || m_clipList.at(i)->clipType() == AUDIO || (m_clipList.at(i)->clipType() == TEXT && !m_clipList.at(i)->fileURL().isEmpty())) {
+            if (m_clipList.at(i)->clipType() != COLOR && m_clipList.at(i)->clipType() != SLIDESHOW  && !m_clipList.at(i)->fileURL().isEmpty()) {
+                //if (m_clipList.at(i)->clipType() == IMAGE || m_clipList.at(i)->clipType() == AUDIO || (m_clipList.at(i)->clipType() == TEXT && !m_clipList.at(i)->fileURL().isEmpty())) {
                 // listen for file change
                 m_fileWatcher.removeFile(m_clipList.at(i)->fileURL().path());
             }
@@ -518,11 +522,31 @@ QDomElement ClipManager::groupsXml() const
 
 void ClipManager::slotClipModified(const QString &path)
 {
-    //kDebug()<<"// CLIP: "<<path<<" WAS MODIFIED";
+    // kDebug() << "// CLIP: " << path << " WAS MODIFIED";
     const QList <DocClipBase *> list = getClipByResource(path);
     for (int i = 0; i < list.count(); i++) {
         DocClipBase *clip = list.at(i);
         if (clip != NULL) emit reloadClip(clip->getId());
+    }
+}
+
+void ClipManager::slotClipMissing(const QString &path)
+{
+    // kDebug() << "// CLIP: " << path << " WAS MISSING";
+    const QList <DocClipBase *> list = getClipByResource(path);
+    for (int i = 0; i < list.count(); i++) {
+        DocClipBase *clip = list.at(i);
+        if (clip != NULL) emit missingClip(clip->getId());
+    }
+}
+
+void ClipManager::slotClipAvailable(const QString &path)
+{
+    // kDebug() << "// CLIP: " << path << " WAS ADDED";
+    const QList <DocClipBase *> list = getClipByResource(path);
+    for (int i = 0; i < list.count(); i++) {
+        DocClipBase *clip = list.at(i);
+        if (clip != NULL) emit availableClip(clip->getId());
     }
 }
 

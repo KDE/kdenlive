@@ -90,6 +90,8 @@ public slots:
 
 private slots:
     void slotClipModified(const QString &path);
+    void slotClipMissing(const QString &path);
+    void slotClipAvailable(const QString &path);
 
 private:   // Private attributes
     /** the list of clips in the document */
@@ -108,6 +110,8 @@ private:   // Private attributes
 
 signals:
     void reloadClip(const QString &);
+    void missingClip(const QString &);
+    void availableClip(const QString &);
     void checkAllClips();
 };
 
