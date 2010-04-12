@@ -401,7 +401,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
     m_timelineContextMenu->addAction(actionCollection()->action("delete_space"));
     m_timelineContextMenu->addAction(actionCollection()->action(KStandardAction::name(KStandardAction::Paste)));
 
-    m_timelineContextClipMenu->addAction(actionCollection()->action("edit_clip_duration"));
+    m_timelineContextClipMenu->addAction(actionCollection()->action("edit_item_duration"));
     m_timelineContextClipMenu->addAction(actionCollection()->action("delete_timeline_clip"));
     m_timelineContextClipMenu->addAction(actionCollection()->action("group_clip"));
     m_timelineContextClipMenu->addAction(actionCollection()->action("ungroup_clip"));
@@ -418,7 +418,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
     //TODO: re-enable custom effects menu when it is implemented
     m_timelineContextClipMenu->addMenu(m_customEffectsMenu);
 
-    m_timelineContextTransitionMenu->addAction(actionCollection()->action("edit_clip_duration"));
+    m_timelineContextTransitionMenu->addAction(actionCollection()->action("edit_item_duration"));
     m_timelineContextTransitionMenu->addAction(actionCollection()->action("delete_timeline_clip"));
     m_timelineContextTransitionMenu->addAction(actionCollection()->action(KStandardAction::name(KStandardAction::Copy)));
 
@@ -1141,9 +1141,9 @@ void MainWindow::setupActions()
     ungroupClip->setData("ungroup_clip");
     connect(ungroupClip, SIGNAL(triggered(bool)), this, SLOT(slotUnGroupClips()));
 
-    KAction* editClipDuration = new KAction(KIcon("measure"), i18n("Edit Duration"), this);
-    collection->addAction("edit_clip_duration", editClipDuration);
-    connect(editClipDuration, SIGNAL(triggered(bool)), this, SLOT(slotEditClipDuration()));
+    KAction* editItemDuration = new KAction(KIcon("measure"), i18n("Edit Duration"), this);
+    collection->addAction("edit_item_duration", editItemDuration);
+    connect(editItemDuration, SIGNAL(triggered(bool)), this, SLOT(slotEditItemDuration()));
 
     KAction* insertOvertwrite = new KAction(KIcon(), i18n("Insert Clip Zone in Timeline (Overwrite)"), this);
     insertOvertwrite->setShortcut(Qt::Key_V);
@@ -2480,10 +2480,10 @@ void MainWindow::slotUnGroupClips()
     }
 }
 
-void MainWindow::slotEditClipDuration()
+void MainWindow::slotEditItemDuration()
 {
     if (m_activeTimeline) {
-        m_activeTimeline->projectView()->editClipDuration();
+        m_activeTimeline->projectView()->editItemDuration();
     }
 }
 

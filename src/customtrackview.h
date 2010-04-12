@@ -131,7 +131,7 @@ public:
     void setEditMode(EDITMODE mode);
     void insertClipCut(DocClipBase *clip, int in, int out);
     void clearSelection();
-    void editClipDuration();
+    void editItemDuration();
 
 public slots:
     void setCursorPos(int pos, bool seek = true);

@@ -1285,7 +1285,7 @@ void CustomTrackView::mouseDoubleClickEvent(QMouseEvent *event)
             emit clipItemSelected(item, item->selectedEffectIndex());
         }
     } else if (m_dragItem && !m_dragItem->isItemLocked()) {
-        editClipDuration();
+        editItemDuration();
     } else {
         QList<QGraphicsItem *> collisionList = items(event->pos());
         if (collisionList.count() == 1 && collisionList.at(0)->type() == GUIDEITEM) {
@@ -1295,18 +1295,21 @@ void CustomTrackView::mouseDoubleClickEvent(QMouseEvent *event)
     }
 }
 
-void CustomTrackView::editClipDuration()
+void CustomTrackView::editItemDuration()
 {
     AbstractClipItem *item;
     if (m_dragItem) {
         item = m_dragItem;
     } else {
-        GenTime pos = GenTime((int)(mapToScene(m_menuPosition).x()), m_document->fps());
-        int track = (int)(mapToScene(m_menuPosition).y() / m_tracksHeight);
-        item = getClipItemAt(pos, track);
+        if (m_scene->selectedItems().count() == 1) {
+            item = static_cast <AbstractClipItem *> (m_scene->selectedItems().at(0));
+        } else {
+            emit displayMessage(i18n("Cannot edit the duration of multiple items"), ErrorMessage);
+            return;
+        }
     }
 
-    if (item && !item->isItemLocked()) {
+    if (!item->isItemLocked()) {
         GenTime minimum;
         GenTime maximum;
         if (item->type() == TRANSITIONWIDGET) {
@@ -1357,7 +1360,7 @@ void CustomTrackView::editClipDuration()
                 m_commandStack->push(moveCommand);
             }
         }
-    }
+    } else emit displayMessage(i18n("Item is locked"), ErrorMessage);
 }
 
 void CustomTrackView::editKeyFrame(const GenTime pos, const int track, const int index, const QString keyframes)
