@@ -1771,7 +1771,7 @@ void TitleWidget::saveTitle(KUrl url)
         delete fs;
     }
     if (!url.isEmpty()) {
-        if (m_titledocument.saveDocument(url, m_startViewport, m_endViewport, m_tc.getFrameCount(title_duration->text())) == false)
+        if (m_titledocument.saveDocument(url, m_startViewport, m_endViewport, m_tc.getFrameCount(title_duration->text()) - 1) == false)
             KMessageBox::error(this, i18n("Cannot write to file %1", url.path()));
     }
 }
@@ -1779,13 +1779,13 @@ void TitleWidget::saveTitle(KUrl url)
 QDomDocument TitleWidget::xml()
 {
     QDomDocument doc = m_titledocument.xml(m_startViewport, m_endViewport);
-    doc.documentElement().setAttribute("out", m_tc.getFrameCount(title_duration->text()));
+    doc.documentElement().setAttribute("out", m_tc.getFrameCount(title_duration->text()) - 1);
     return doc;
 }
 
-int TitleWidget::duration() const
+int TitleWidget::outPoint() const
 {
-    return m_tc.getFrameCount(title_duration->text());
+    return m_tc.getFrameCount(title_duration->text()) - 1;
 }
 
 void TitleWidget::setXml(QDomDocument doc)
@@ -1793,7 +1793,7 @@ void TitleWidget::setXml(QDomDocument doc)
     int out;
     m_count = m_titledocument.loadFromXml(doc, m_startViewport, m_endViewport, &out);
     adjustFrameSize();
-    title_duration->setText(m_tc.getTimecode(GenTime(out, m_render->fps())));
+    title_duration->setText(m_tc.getTimecode(GenTime(out + 1, m_render->fps())));
     /*if (doc.documentElement().hasAttribute("out")) {
     GenTime duration = GenTime(doc.documentElement().attribute("out").toDouble() / 1000.0);
     title_duration->setText(m_tc.getTimecode(duration));

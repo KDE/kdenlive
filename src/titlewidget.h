@@ -91,8 +91,8 @@ public:
      * returned. */
     static QString getTitleResourceFromName(const KUrl &projectUrl, const QString &titleName);
 
-    /** \brief Get clip duration. */
-    int duration() const;
+    /** \brief Get clip out position. */
+    int outPoint() const;
     /** load Title Templates*/
     static void refreshTitleTemplates();
 

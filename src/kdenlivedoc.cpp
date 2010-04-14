@@ -1070,7 +1070,7 @@ void KdenliveDoc::slotCreateTextClip(QString group, const QString &groupId, cons
     KStandardDirs::makeDir(titlesFolder);
     TitleWidget *dia_ui = new TitleWidget(templatePath, m_timecode, titlesFolder, m_render, kapp->activeWindow());
     if (dia_ui->exec() == QDialog::Accepted) {
-        m_clipManager->slotAddTextClipFile(i18n("Title clip"), dia_ui->duration(), dia_ui->xml().toString(), group, groupId);
+        m_clipManager->slotAddTextClipFile(i18n("Title clip"), dia_ui->outPoint(), dia_ui->xml().toString(), group, groupId);
         setModified(true);
         emit selectLastAddedClip(QString::number(m_clipManager->lastClipId()));
     }
