@@ -79,8 +79,7 @@ ProjectList::ProjectList(QWidget *parent) :
     m_listView = new ProjectListView(this);;
     QVBoxLayout *layout = new QVBoxLayout;
     layout->setContentsMargins(0, 0, 0, 0);
-
-
+    layout->setSpacing(0);
 
     // setup toolbar
     KTreeWidgetSearchLine *searchView = new KTreeWidgetSearchLine(this);

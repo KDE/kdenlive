@@ -42,7 +42,8 @@ ProjectListView::ProjectListView(QWidget *parent) :
     setAlternatingRowColors(true);
     setDragEnabled(true);
     setAcceptDrops(true);
-
+    setFrameShape(QFrame::NoFrame);
+    setRootIsDecorated(false);
 
     setColumnCount(3);
     QStringList headers;
@@ -114,6 +115,15 @@ void ProjectListView::contextMenuEvent(QContextMenuEvent * event)
 }
 
 // virtual
+void ProjectListView::keyPressEvent(QKeyEvent * event)
+{
+    if (event->key() == Qt::Key_Return) {
+        QTreeWidgetItem *it = currentItem();
+        if (it) it->setExpanded(!it->isExpanded());
+    } else QTreeWidget::keyPressEvent(event);
+}
+
+// virtual
 void ProjectListView::mouseDoubleClickEvent(QMouseEvent * event)
 {
     QTreeWidgetItem *it = itemAt(event->pos());
@@ -123,7 +133,14 @@ void ProjectListView::mouseDoubleClickEvent(QMouseEvent * event)
     }
     ProjectItem *item;
     if (it->type() == PROJECTFOLDERTYPE) {
-        if ((columnAt(event->pos().x()) == 0)) QTreeWidget::mouseDoubleClickEvent(event);
+        if ((columnAt(event->pos().x()) == 0)) {
+            QPixmap pix = qVariantValue<QPixmap>(it->data(0, Qt::DecorationRole));
+            int offset = pix.width() + indentation();
+            if (event->pos().x() < offset) {
+                it->setExpanded(!it->isExpanded());
+                event->accept();
+            } else QTreeWidget::mouseDoubleClickEvent(event);
+        }
         return;
     }
     if (it->type() == PROJECTSUBCLIPTYPE) {
