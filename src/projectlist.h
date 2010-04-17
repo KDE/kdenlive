@@ -142,7 +142,7 @@ public:
     void setHeaderInfo(const QByteArray &state);
     void updateProjectFormat(Timecode t);
     void setupMenu(QMenu *addMenu, QAction *defaultAction);
-    void setupGeneratorMenu(QMenu *addMenu, QMenu *transcodeMenu);
+    void setupGeneratorMenu(QMenu *addMenu, QMenu *transcodeMenu, QMenu *inTimelineMenu);
     QString currentClipUrl() const;
     KUrl::List getConditionalUrls(const QString &condition) const;
     void reloadClipThumbnails();
@@ -248,6 +248,7 @@ signals:
     void refreshClip();
     void updateRenderStatus();
     void deleteProjectClips(QStringList ids, QMap <QString, QString> folderids);
+    void findInTimeline(const QString &clipId);
 };
 
 #endif

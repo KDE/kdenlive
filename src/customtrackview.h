@@ -90,9 +90,11 @@ public:
     double getSnapPointForPos(double pos);
     void editKeyFrame(const GenTime pos, const int track, const int index, const QString keyframes);
     bool findString(const QString &text);
+    void selectFound(QString track, QString pos);
     bool findNextString(const QString &text);
     void initSearchStrings();
     void clearSearchStrings();
+    QList<ItemInfo> findId(const QString &clipId);
     void clipStart();
     void clipEnd();
     void changeClipSpeed();

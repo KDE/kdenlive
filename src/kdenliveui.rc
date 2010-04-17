@@ -36,7 +36,9 @@
       </Menu>
       <Separator />
       <Action name="reload_clip" />
-      <Action name="clip_properties" />       
+      <Menu name="clip_in_timeline"><text>Clip in Timeline</text>
+      </Menu>
+      <Action name="clip_properties" />
       <Action name="edit_clip" />
       <Action name="delete_clip" />
       <Separator />
@@ -86,6 +88,7 @@
       <Action name="resize_timeline_clip_end" />
       <Action name="cut_timeline_clip" />
       <Action name="delete_timeline_clip" />
+      <Action name="edit_item_duration" />
       <Menu name="guide_menu" ><text>Guides</text>
 		<Action name="add_guide" />
 		<Action name="edit_guide" />

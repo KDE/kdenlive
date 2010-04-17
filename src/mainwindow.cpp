@@ -262,7 +262,9 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
 
     m_projectMonitor->setupMenu(static_cast<QMenu*>(factory()->container("monitor_go", this)), m_playZone, m_loopZone);
     m_clipMonitor->setupMenu(static_cast<QMenu*>(factory()->container("monitor_go", this)), m_playZone, m_loopZone, static_cast<QMenu*>(factory()->container("marker_menu", this)));
-    m_projectList->setupGeneratorMenu(static_cast<QMenu*>(factory()->container("generators", this)), static_cast<QMenu*>(factory()->container("transcoders", this)));
+    m_projectList->setupGeneratorMenu(static_cast<QMenu*>(factory()->container("generators", this)),
+                                      static_cast<QMenu*>(factory()->container("transcoders", this)),
+                                      static_cast<QMenu*>(factory()->container("clip_in_timeline", this)));
 
     QAction *action;
     // build themes menus
@@ -2029,6 +2031,8 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
 
     connect(m_projectList, SIGNAL(projectModified()), doc, SLOT(setModified()));
     connect(m_projectList, SIGNAL(clipNameChanged(const QString, const QString)), trackView->projectView(), SLOT(clipNameChanged(const QString, const QString)));
+    
+    connect(m_projectList, SIGNAL(findInTimeline(const QString&)), this, SLOT(slotClipInTimeline(const QString&)));
 
 
     connect(trackView, SIGNAL(cursorMoved()), m_projectMonitor, SLOT(activateMonitor()));
@@ -2838,6 +2842,38 @@ void MainWindow::findTimeout()
     if (m_activeTimeline) m_activeTimeline->projectView()->clearSearchStrings();
     m_projectSearch->setEnabled(true);
     removeEventFilter(this);
+}
+
+void MainWindow::slotClipInTimeline(const QString &clipId)
+{
+    if (m_activeTimeline && m_activeDocument) {
+        QList<ItemInfo> matching = m_activeTimeline->projectView()->findId(clipId);
+        
+        QMenu *inTimelineMenu = static_cast<QMenu*>(factory()->container("clip_in_timeline", this));
+        inTimelineMenu->clear();
+        
+        for(int i = 0; i < matching.size(); ++i) {
+            QString track = QString::number(matching.at(i).track);
+            QString start = m_activeDocument->timecode().getTimecode(matching.at(i).startPos);
+            QAction *a = inTimelineMenu->addAction(track + ": " + start);
+            a->setData(QStringList() << track << start);
+            connect(a, SIGNAL(triggered()), this, SLOT(slotSelectClipInTimeline()));
+        }
+        
+        if (matching.empty())
+            inTimelineMenu->setEnabled(false);
+        else
+            inTimelineMenu->setEnabled(true);
+    }
+}
+
+void MainWindow::slotSelectClipInTimeline()
+{
+    if (m_activeTimeline) {
+        QAction *action = qobject_cast<QAction *>(sender());
+        QStringList data = action->data().toStringList();
+        m_activeTimeline->projectView()->selectFound(data.at(0), data.at(1));
+    }
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *ke)

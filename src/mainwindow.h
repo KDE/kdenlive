@@ -282,6 +282,8 @@ private slots:
     void slotFind();
     void findTimeout();
     void slotFindNext();
+    void slotSelectClipInTimeline();
+    void slotClipInTimeline(const QString &clipId);
 
     void slotInsertSpace();
     void slotRemoveSpace();

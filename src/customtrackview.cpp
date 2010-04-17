@@ -1304,7 +1304,11 @@ void CustomTrackView::editItemDuration()
         if (m_scene->selectedItems().count() == 1) {
             item = static_cast <AbstractClipItem *> (m_scene->selectedItems().at(0));
         } else {
-            emit displayMessage(i18n("Cannot edit the duration of multiple items"), ErrorMessage);
+            if (m_scene->selectedItems().empty()) {
+                emit displayMessage(i18n("Cannot find clip to edit"), ErrorMessage);
+            } else {
+                emit displayMessage(i18n("Cannot edit the duration of multiple items"), ErrorMessage);
+            }
             return;
         }
     }
@@ -4708,6 +4712,16 @@ bool CustomTrackView::findString(const QString &text)
     return false;
 }
 
+void CustomTrackView::selectFound(QString track, QString pos)
+{
+    setCursorPos(m_document->timecode().getFrameCount(pos), true);
+    slotSelectTrack(track.toInt());
+    selectClip(true);
+    int vert = verticalScrollBar()->value();
+    int hor = cursorPos();
+    ensureVisible(hor, vert + 10, 2, 2, 50, 0);
+}
+
 bool CustomTrackView::findNextString(const QString &text)
 {
     QString marker;
@@ -4755,6 +4769,21 @@ void CustomTrackView::clearSearchStrings()
 {
     m_searchPoints.clear();
     m_findIndex = 0;
+}
+
+QList<ItemInfo> CustomTrackView::findId(const QString &clipId)
+{
+    QList<ItemInfo> matchingInfo;
+    QList<QGraphicsItem *> itemList = items();
+    for (int i = 0; i < itemList.count(); i++) {
+        if (itemList.at(i)->type() == AVWIDGET) {
+            ClipItem *item = (ClipItem *)itemList.at(i);
+            if (item->clipProducer() == clipId) {
+                matchingInfo << item->info();
+            }
+        }
+    }
+    return matchingInfo;
 }
 
 void CustomTrackView::copyClip()

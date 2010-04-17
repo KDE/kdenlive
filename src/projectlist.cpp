@@ -173,7 +173,7 @@ void ProjectList::setupMenu(QMenu *addMenu, QAction *defaultAction)
     m_menu->addActions(addMenu->actions());
 }
 
-void ProjectList::setupGeneratorMenu(QMenu *addMenu, QMenu *transcodeMenu)
+void ProjectList::setupGeneratorMenu(QMenu *addMenu, QMenu *transcodeMenu, QMenu *inTimelineMenu)
 {
     if (!addMenu) return;
     QMenu *menu = m_addButton->menu();
@@ -186,6 +186,8 @@ void ProjectList::setupGeneratorMenu(QMenu *addMenu, QMenu *transcodeMenu)
     if (transcodeMenu->isEmpty()) transcodeMenu->setEnabled(false);
     m_transcodeAction = transcodeMenu;
     m_menu->addAction(m_reloadAction);
+    m_menu->addMenu(inTimelineMenu);
+    inTimelineMenu->setEnabled(false);
     m_menu->addAction(m_editAction);
     m_menu->addAction(m_openAction);
     m_menu->addAction(m_deleteAction);
@@ -480,6 +482,8 @@ void ProjectList::slotClipSelected()
             } else m_openAction->setEnabled(false);
             // Display relevant transcoding actions only
             adjustTranscodeActions(clip);
+            // Display uses in timeline
+            emit findInTimeline(clip->clipId());
         }
     } else {
         emit clipSelected(NULL);
@@ -637,6 +641,8 @@ void ProjectList::slotContextMenu(const QPoint &pos, QTreeWidgetItem *item)
             clip = static_cast <ProjectItem*>(item);
             // Display relevant transcoding actions only
             adjustTranscodeActions(clip);
+            // Display uses in timeline
+            emit findInTimeline(clip->clipId());
         } else m_transcodeAction->setEnabled(false);
         if (clip && clip->clipType() == IMAGE && !KdenliveSettings::defaultimageapp().isEmpty()) {
             m_openAction->setIcon(KIcon(KdenliveSettings::defaultimageapp()));
