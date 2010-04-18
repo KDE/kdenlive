@@ -29,7 +29,6 @@
 TransitionSettings::TransitionSettings(QWidget* parent) :
         QWidget(parent),
         m_usedTransition(NULL),
-        m_tracksCount(0),
         m_autoTrackTransition(0)
 {
     setupUi(this);
@@ -70,19 +69,26 @@ TransitionSettings::TransitionSettings(QWidget* parent) :
 
 void TransitionSettings::updateProjectFormat(MltVideoProfile profile, Timecode t, const QList <TrackInfo> info)
 {
-    m_tracksCount = info.count();
     m_effectEdit->updateProjectFormat(profile, t);
-    QStringList tracksList;
+    m_tracks = info;
+    updateTrackList();
+}
+
+void TransitionSettings::updateTrackList()
+{
     transitionTrack->blockSignals(true);
     transitionTrack->clear();
     transitionTrack->addItem(i18n("Auto"), -1);
-    for (int i = 0; i < m_tracksCount; i++) {
-        int ix = m_tracksCount - i - 1;
-        if (!info.at(ix).trackName.isEmpty())
-            transitionTrack->addItem(info.at(ix).trackName + '(' + QString::number(i) + ')');
-        else transitionTrack->addItem(QString::number(i));
+    int limit = 1;
+    if (m_usedTransition) limit = m_usedTransition->track() + 1;
+    kDebug() << "/ / TRANS TRK: " << limit;
+    for (int i = limit; i < m_tracks.count(); i++) {
+        int ix = m_tracks.count() - i - 1;
+        if (!m_tracks.at(ix).trackName.isEmpty())
+            transitionTrack->addItem(m_tracks.at(ix).trackName + '(' + QString::number(i) + ')', m_tracks.count() - i);
+        else transitionTrack->addItem(QString::number(i), m_tracks.count() - i);
     }
-    transitionTrack->addItem(i18n("Black"), m_tracksCount);
+    transitionTrack->addItem(i18n("Black"), 0);
     transitionTrack->blockSignals(false);
 }
 
@@ -112,7 +118,7 @@ void TransitionSettings::slotTransitionTrackChanged()
     int ix = 0;
     QDomElement oldxml = m_usedTransition->toXML().cloneNode().toElement();
     if (transitionTrack->currentIndex() > 0) {
-        ix = transitionTrack->count() - transitionTrack->currentIndex() - 1;
+        ix = transitionTrack->itemData(transitionTrack->currentIndex()).toInt();
         m_usedTransition->setForcedTrack(true, ix);
         m_effectEdit->updateParameter("force_track", "1");
         emit transitionUpdated(m_usedTransition, oldxml);
@@ -134,7 +140,8 @@ void TransitionSettings::slotTransitionItemSelected(Transition* t, int nextTrack
         if (t == NULL) return;
         if (update) {
             transitionTrack->blockSignals(true);
-            if (t->forcedTrack()) transitionTrack->setCurrentIndex(m_tracksCount + 1 - t->transitionEndTrack());
+            updateTrackList();
+            if (t->forcedTrack()) transitionTrack->setCurrentIndex(transitionTrack->findData(t->transitionEndTrack()));
             else transitionTrack->setCurrentIndex(0);
             transitionTrack->blockSignals(false);
         }
@@ -149,11 +156,12 @@ void TransitionSettings::slotTransitionItemSelected(Transition* t, int nextTrack
         m_transitionDuration = t->cropDuration();
         m_transitionStart = t->startPos();
         transitionTrack->blockSignals(true);
+        m_usedTransition = t;
+        updateTrackList();
         if (!t->forcedTrack()) transitionTrack->setCurrentIndex(0);
-        else transitionTrack->setCurrentIndex(m_tracksCount + 1 - t->transitionEndTrack());
+        else transitionTrack->setCurrentIndex(transitionTrack->findData(t->transitionEndTrack()));
         transitionTrack->blockSignals(false);
         int ix = transitionList->findData(t->transitionInfo(), Qt::UserRole, Qt::MatchExactly);
-        m_usedTransition = t;
         if (ix != -1) {
             transitionList->blockSignals(true);
             transitionList->setCurrentIndex(ix);

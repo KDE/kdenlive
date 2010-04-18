@@ -54,6 +54,7 @@ class Playlist;
 class Tractor;
 class Transition;
 class Frame;
+class Field;
 class Producer;
 class Filter;
 class Profile;
@@ -197,7 +198,7 @@ Q_OBJECT public:
     bool mltMoveTransition(QString type, int startTrack,  int newTrack, int newTransitionTrack, GenTime oldIn, GenTime oldOut, GenTime newIn, GenTime newOut);
     bool mltAddTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml, bool refresh = true);
     void mltDeleteTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml, bool refresh = true);
-    void mltUpdateTransition(QString oldTag, QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml);
+    void mltUpdateTransition(QString oldTag, QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml, bool force = false);
     void mltUpdateTransitionParams(QString type, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml);
     void mltAddClipTransparency(ItemInfo info, int transitiontrack, int id);
     void mltMoveTransparency(int startTime, int endTime, int startTrack, int endTrack, int id);
@@ -206,6 +207,7 @@ Q_OBJECT public:
     void mltInsertTrack(int ix, bool videoTrack);
     void mltDeleteTrack(int ix);
     bool mltUpdateClipProducer(int track, int pos, Mlt::Producer *prod);
+    void mltPlantTransition(Mlt::Field *field, Mlt::Transition &tr, int a_track, int b_track);
     Mlt::Producer *invalidProducer(const QString &id);
 
     /** Change speed of a clip in playlist. To do this, we create a new "framebuffer" producer.

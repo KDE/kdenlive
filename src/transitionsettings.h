@@ -41,8 +41,9 @@ private:
     Transition* m_usedTransition;
     GenTime m_transitionDuration;
     GenTime m_transitionStart;
-    int m_tracksCount;
     int m_autoTrackTransition;
+    QList <TrackInfo> m_tracks;
+    void updateTrackList();
 
 public slots:
     void slotTransitionItemSelected(Transition* t, int nextTrack, QPoint p, bool update);
