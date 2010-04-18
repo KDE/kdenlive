@@ -2138,7 +2138,12 @@ void CustomTrackView::deleteTransition(ItemInfo transitionInfo, int endTrack, QD
 void CustomTrackView::slotTransitionUpdated(Transition *tr, QDomElement old)
 {
     //kDebug() << "TRANS UPDATE, TRACKS: " << old.attribute("transition_btrack") << ", NEW: " << tr->toXML().attribute("transition_btrack");
-    EditTransitionCommand *command = new EditTransitionCommand(this, tr->track(), tr->startPos(), old, tr->toXML(), false);
+    QDomElement xml = tr->toXML();
+    if (old.isNull() || xml.isNull()) {
+        emit displayMessage(i18n("Cannot update transition"), ErrorMessage);
+        return;
+    }
+    EditTransitionCommand *command = new EditTransitionCommand(this, tr->track(), tr->startPos(), old, xml, false);
     m_commandStack->push(command);
     setDocumentModified();
 }

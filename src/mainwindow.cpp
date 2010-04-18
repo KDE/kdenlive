@@ -2379,6 +2379,8 @@ void MainWindow::slotInsertTrack(int ix)
     m_projectMonitor->activateMonitor();
     if (m_activeTimeline)
         m_activeTimeline->projectView()->slotInsertTrack(ix);
+    if (m_activeDocument)
+        m_transitionConfig->updateProjectFormat(m_activeDocument->mltProfile(), m_activeDocument->timecode(), m_activeDocument->tracksList());
 }
 
 void MainWindow::slotDeleteTrack(int ix)
@@ -2386,6 +2388,8 @@ void MainWindow::slotDeleteTrack(int ix)
     m_projectMonitor->activateMonitor();
     if (m_activeTimeline)
         m_activeTimeline->projectView()->slotDeleteTrack(ix);
+    if (m_activeDocument)
+        m_transitionConfig->updateProjectFormat(m_activeDocument->mltProfile(), m_activeDocument->timecode(), m_activeDocument->tracksList());
 }
 
 void MainWindow::slotChangeTrack(int ix)

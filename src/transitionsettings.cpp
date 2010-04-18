@@ -77,6 +77,7 @@ void TransitionSettings::updateProjectFormat(MltVideoProfile profile, Timecode t
 void TransitionSettings::updateTrackList()
 {
     transitionTrack->blockSignals(true);
+    int current = transitionTrack->itemData(transitionTrack->currentIndex()).toInt();
     transitionTrack->clear();
     transitionTrack->addItem(i18n("Auto"), -1);
     int limit = 1;
@@ -89,6 +90,7 @@ void TransitionSettings::updateTrackList()
         else transitionTrack->addItem(QString::number(i), m_tracks.count() - i);
     }
     transitionTrack->addItem(i18n("Black"), 0);
+    transitionTrack->setCurrentIndex(transitionTrack->findData(current));
     transitionTrack->blockSignals(false);
 }
 
