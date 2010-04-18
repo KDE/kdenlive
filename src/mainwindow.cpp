@@ -2031,7 +2031,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
 
     connect(m_projectList, SIGNAL(projectModified()), doc, SLOT(setModified()));
     connect(m_projectList, SIGNAL(clipNameChanged(const QString, const QString)), trackView->projectView(), SLOT(clipNameChanged(const QString, const QString)));
-    
+
     connect(m_projectList, SIGNAL(findInTimeline(const QString&)), this, SLOT(slotClipInTimeline(const QString&)));
 
 
@@ -2848,18 +2848,28 @@ void MainWindow::slotClipInTimeline(const QString &clipId)
 {
     if (m_activeTimeline && m_activeDocument) {
         QList<ItemInfo> matching = m_activeTimeline->projectView()->findId(clipId);
-        
+
         QMenu *inTimelineMenu = static_cast<QMenu*>(factory()->container("clip_in_timeline", this));
         inTimelineMenu->clear();
-        
-        for(int i = 0; i < matching.size(); ++i) {
+
+        QList <QAction *> actionList;
+
+        for (int i = 0; i < matching.size(); ++i) {
             QString track = QString::number(matching.at(i).track);
             QString start = m_activeDocument->timecode().getTimecode(matching.at(i).startPos);
-            QAction *a = inTimelineMenu->addAction(track + ": " + start);
+            int j = 0;
+            QAction *a = new QAction(track + ": " + start, this);
             a->setData(QStringList() << track << start);
             connect(a, SIGNAL(triggered()), this, SLOT(slotSelectClipInTimeline()));
+            while (j < actionList.count()) {
+                if (actionList.at(j)->text() > a->text()) break;
+                j++;
+            }
+            actionList.insert(j, a);
+
         }
-        
+        inTimelineMenu->addActions(actionList);
+
         if (matching.empty())
             inTimelineMenu->setEnabled(false);
         else
