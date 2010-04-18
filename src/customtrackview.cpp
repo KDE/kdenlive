@@ -1302,7 +1302,7 @@ void CustomTrackView::editItemDuration()
         item = m_dragItem;
     } else {
         if (m_scene->selectedItems().count() == 1) {
-            item = static_cast <AbstractClipItem *> (m_scene->selectedItems().at(0));
+            item = static_cast <AbstractClipItem *>(m_scene->selectedItems().at(0));
         } else {
             if (m_scene->selectedItems().empty()) {
                 emit displayMessage(i18n("Cannot find clip to edit"), ErrorMessage);
@@ -4874,6 +4874,7 @@ bool CustomTrackView::canBeMoved(QList<AbstractClipItem *> items, GenTime offset
     return true;
 }
 
+
 void CustomTrackView::pasteClip()
 {
     if (m_copiedItems.count() == 0) {
@@ -4888,13 +4889,24 @@ void CustomTrackView::pasteClip()
             return;
         }
     } else position = m_menuPosition;
+
     GenTime pos = GenTime((int)(mapToScene(position).x()), m_document->fps());
-    int track = (int)(position.y() / m_tracksHeight);
-    ItemInfo first = m_copiedItems.at(0)->info();
+    int track = (int)(mapToScene(position).y() / m_tracksHeight);
 
-    GenTime offset = pos - first.startPos;
-    int trackOffset = track - first.track;
+    GenTime leftPos = m_copiedItems.at(0)->startPos();
+    int lowerTrack = m_copiedItems.at(0)->track();
+    int upperTrack = m_copiedItems.at(0)->track();
+    for (int i = 1; i < m_copiedItems.count(); i++) {
+        if (m_copiedItems.at(i)->startPos() < leftPos) leftPos = m_copiedItems.at(i)->startPos();
+        if (m_copiedItems.at(i)->track() < lowerTrack) lowerTrack = m_copiedItems.at(i)->track();
+        if (m_copiedItems.at(i)->track() > upperTrack) upperTrack = m_copiedItems.at(i)->track();
+    }
 
+    GenTime offset = pos - leftPos;
+    int trackOffset = track - lowerTrack;
+
+    if (lowerTrack + trackOffset < 0) trackOffset = 0 - lowerTrack;
+    if (upperTrack + trackOffset > m_document->tracksCount() - 1) trackOffset = m_document->tracksCount() - upperTrack - 1;
     if (!canBePasted(m_copiedItems, offset, trackOffset)) {
         emit displayMessage(i18n("Cannot paste selected clips"), ErrorMessage);
         return;
