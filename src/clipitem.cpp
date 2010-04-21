@@ -890,7 +890,12 @@ OPERATIONTYPE ClipItem::operationMode(QPointF pos)
         setToolTip(i18n("Add transition"));
         return TRANSITIONEND;
     }
-    setToolTip(QString());
+    QString tooltip = "<b>" + m_clipName + "</b>";
+    if (!baseClip()->fileURL().isEmpty())
+        tooltip.append("<br />" + baseClip()->fileURL().path());
+    if (!baseClip()->description().isEmpty())
+        tooltip.append("<br />" + baseClip()->description());
+    setToolTip(tooltip);
     return MOVE;
 }
 
