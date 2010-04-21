@@ -29,7 +29,9 @@
 #include <mlt++/Mlt.h>
 
 #include <KDebug>
+#include <KMessageBox>
 #include <KFileDialog>
+#include <KApplication>
 #include <kio/netaccess.h>
 
 #include <QGraphicsItemGroup>
@@ -275,6 +277,10 @@ void ClipManager::slotAddClipList(const KUrl::List urls, const QString group, co
                 prod.setAttribute("groupid", groupId);
             }
             prod.setAttribute("resource", file.path());
+            if (!getClipByResource(prod.attribute("resource")).empty()) {
+                if (KMessageBox::warningContinueCancel(kapp->activeWindow(), i18n("Clip <b>%1</b><br />already exists in project, what do you want to do?", prod.attribute("resource")), i18n("Clip already exists")) == KMessageBox::Cancel)
+                    continue;
+            }
             uint id = m_clipIdCounter++;
             prod.setAttribute("id", QString::number(id));
             KMimeType::Ptr type = KMimeType::findByUrl(file);
@@ -311,6 +317,10 @@ void ClipManager::slotAddClipFile(const KUrl url, const QString group, const QSt
     QDomElement prod = doc.createElement("producer");
     doc.appendChild(prod);
     prod.setAttribute("resource", url.path());
+    if (!getClipByResource(prod.attribute("resource")).empty()) {
+        if (KMessageBox::warningContinueCancel(kapp->activeWindow(), i18n("Clip <b>%1</b><br />already exists in project, what do you want to do?", prod.attribute("resource")), i18n("Clip already exists")) == KMessageBox::Cancel)
+            return;
+    }
     uint id = m_clipIdCounter++;
     prod.setAttribute("id", QString::number(id));
     if (!group.isEmpty()) {
