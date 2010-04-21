@@ -371,7 +371,13 @@ void ProjectList::slotReloadClip(const QString &id)
     else selected.append(getItemById(id));
     ProjectItem *item;
     for (int i = 0; i < selected.count(); i++) {
-        if (selected.at(i)->type() != PROJECTCLIPTYPE) continue;
+        if (selected.at(i)->type() != PROJECTCLIPTYPE) {
+            if (selected.at(i)->type() == PROJECTFOLDERTYPE) {
+                    for (int j = 0; j < selected.at(i)->childCount(); j++)
+                        selected.append(selected.at(i)->child(j));
+            }
+            continue;
+        }
         item = static_cast <ProjectItem *>(selected.at(i));
         if (item) {
             if (item->clipType() == TEXT) {
