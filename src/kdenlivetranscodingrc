@@ -11,3 +11,4 @@ Fix MPEG-1=-sameq -acodec copy -vcodec mpeg1video %1.mpg;Fix unplayable MPEG-1 f
 Fix Ogg Theora=-sameq -vcodec libtheora -acodec copy %1.ogv;Fix unplayable OGG Theora files;vcodec=theora
 Remux MPEG-2 PS/VOB=-vcodec copy -acodec copy %1.mpg;Fix audio sync in MPEG-2 vob files;vcodec=mpeg2video
 Lossless Matroska=-sn -vcodec huffyuv -acodec flac %1.mkv;High quality lossless encoding
+Wav 48000Hz=-vn -ar 48000 %1.wav;Extract audio as WAV file
