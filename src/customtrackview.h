@@ -127,6 +127,7 @@ public:
     void updateProjectFps();
     double fps() const;
     int selectedTrack() const;
+    QStringList selectedClips() const;
     void selectClip(bool add, bool group = false);
     void selectTransition(bool add, bool group = false);
     QStringList extractTransitionsLumas();

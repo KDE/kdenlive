@@ -157,6 +157,7 @@ public:
     void doUpdateClipCut(const QString &id, const QPoint oldzone, const QPoint zone, const QString &comment);
     bool hasMissingClips();
     void deleteProjectFolder(QMap <QString, QString> map);
+    void selectItemById(const QString &clipId);
 
 public slots:
     void setDocument(KdenliveDoc *doc);
@@ -191,7 +192,6 @@ private:
     QTimer m_queueTimer;
     QMenu *m_menu;
     QUndoStack *m_commandStack;
-    void selectItemById(const QString &clipId);
     ProjectItem *getItemById(const QString &id);
     QTreeWidgetItem *getAnyItemById(const QString &id);
     FolderProjectItem *getFolderItemById(const QString &id);

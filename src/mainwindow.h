@@ -323,6 +323,7 @@ private slots:
     void slotGroupClips();
     void slotUnGroupClips();
     void slotEditItemDuration();
+    void slotClipInProjectTree();
     void slotSplitAudio();
     void slotUpdateClipType(QAction *action);
     void slotShowTimeline(bool show);

@@ -5812,6 +5812,19 @@ int CustomTrackView::selectedTrack() const
     return m_selectedTrack;
 }
 
+QStringList CustomTrackView::selectedClips() const
+{
+    QStringList clipIds;
+    QList<QGraphicsItem *> selection = m_scene->selectedItems();
+    for (int i = 0; i < selection.count(); i++) {
+        if (selection.at(i)->type() == AVWIDGET) {
+            ClipItem *item = (ClipItem *)selection.at(i);
+            clipIds << item->clipProducer();
+        }
+    }
+    return clipIds;
+}
+
 void CustomTrackView::slotSelectTrack(int ix)
 {
     m_selectedTrack = qMax(0, ix);

@@ -403,6 +403,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
     m_timelineContextMenu->addAction(actionCollection()->action("delete_space"));
     m_timelineContextMenu->addAction(actionCollection()->action(KStandardAction::name(KStandardAction::Paste)));
 
+    m_timelineContextClipMenu->addAction(actionCollection()->action("clip_in_project_tree"));
     m_timelineContextClipMenu->addAction(actionCollection()->action("edit_item_duration"));
     m_timelineContextClipMenu->addAction(actionCollection()->action("delete_timeline_clip"));
     m_timelineContextClipMenu->addAction(actionCollection()->action("group_clip"));
@@ -1146,6 +1147,10 @@ void MainWindow::setupActions()
     KAction* editItemDuration = new KAction(KIcon("measure"), i18n("Edit Duration"), this);
     collection->addAction("edit_item_duration", editItemDuration);
     connect(editItemDuration, SIGNAL(triggered(bool)), this, SLOT(slotEditItemDuration()));
+    
+    KAction* clipInProjectTree = new KAction(KIcon("go-jump-definition"), i18n("Clip in Project Tree"), this);
+    collection->addAction("clip_in_project_tree", clipInProjectTree);
+    connect(clipInProjectTree, SIGNAL(triggered(bool)), this, SLOT(slotClipInProjectTree()));
 
     KAction* insertOvertwrite = new KAction(KIcon(), i18n("Insert Clip Zone in Timeline (Overwrite)"), this);
     insertOvertwrite->setShortcut(Qt::Key_V);
@@ -2858,7 +2863,7 @@ void MainWindow::slotClipInTimeline(const QString &clipId)
 
         QList <QAction *> actionList;
 
-        for (int i = 0; i < matching.size(); ++i) {
+        for (int i = 0; i < matching.count(); ++i) {
             QString track = QString::number(matching.at(i).track);
             QString start = m_activeDocument->timecode().getTimecode(matching.at(i).startPos);
             int j = 0;
@@ -2878,6 +2883,20 @@ void MainWindow::slotClipInTimeline(const QString &clipId)
             inTimelineMenu->setEnabled(false);
         else
             inTimelineMenu->setEnabled(true);
+    }
+}
+
+void MainWindow::slotClipInProjectTree()
+{
+    if (m_activeTimeline) {
+        const QStringList &clipIds = m_activeTimeline->projectView()->selectedClips();
+        if (clipIds.isEmpty()) return;
+        m_projectListDock->raise();
+        for (int i = 0; i < clipIds.count(); i++) {
+            m_projectList->selectItemById(clipIds.at(i));
+        }
+        if (m_projectMonitor->isActive())
+            slotSwitchMonitors();
     }
 }
 
@@ -3377,7 +3396,7 @@ QPixmap MainWindow::createSchemePreviewIcon(const KSharedConfigPtr &config)
 
 void MainWindow::slotSwitchMonitors()
 {
-    m_monitorManager->slotSwitchMonitors(m_clipMonitor->isActive());
+    m_monitorManager->slotSwitchMonitors(!m_clipMonitor->isActive());
     if (m_projectMonitor->isActive()) m_activeTimeline->projectView()->setFocus();
     else m_projectList->focusTree();
 }
