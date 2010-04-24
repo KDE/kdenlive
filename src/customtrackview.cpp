@@ -5911,6 +5911,7 @@ void CustomTrackView::checkTrackSequence(int track)
 
 void CustomTrackView::insertZoneOverwrite(QStringList data, int in)
 {
+    if (data.isEmpty()) return;
     DocClipBase *clip = m_document->getBaseClip(data.at(0));
     ItemInfo info;
     info.startPos = GenTime(in, m_document->fps());
