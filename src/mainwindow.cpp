@@ -262,9 +262,12 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
 
     m_projectMonitor->setupMenu(static_cast<QMenu*>(factory()->container("monitor_go", this)), m_playZone, m_loopZone);
     m_clipMonitor->setupMenu(static_cast<QMenu*>(factory()->container("monitor_go", this)), m_playZone, m_loopZone, static_cast<QMenu*>(factory()->container("marker_menu", this)));
+    
+    QMenu *clipInTimeline = static_cast<QMenu*>(factory()->container("clip_in_timeline", this));
+    clipInTimeline->setIcon(KIcon("go-jump"));
     m_projectList->setupGeneratorMenu(static_cast<QMenu*>(factory()->container("generators", this)),
                                       static_cast<QMenu*>(factory()->container("transcoders", this)),
-                                      static_cast<QMenu*>(factory()->container("clip_in_timeline", this)));
+                                      clipInTimeline);
 
     QAction *action;
     // build themes menus
