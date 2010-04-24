@@ -1690,6 +1690,7 @@ void RenderWidget::setRenderProfile(const QString &dest, const QString &group, c
         QList<QListWidgetItem *> childs = m_view.format_list->findItems(group, Qt::MatchExactly);
         if (!childs.isEmpty()) {
             m_view.format_list->setCurrentItem(childs.at(0));
+            m_view.format_list->scrollToItem(childs.at(0));
         }
         refreshView();
     }
@@ -1698,6 +1699,7 @@ void RenderWidget::setRenderProfile(const QString &dest, const QString &group, c
     QList<QListWidgetItem *> childs = m_view.size_list->findItems(name, Qt::MatchExactly);
     if (!childs.isEmpty()) {
         m_view.size_list->setCurrentItem(childs.at(0));
+        m_view.size_list->scrollToItem(childs.at(0));
     }
     //refreshView();
     m_view.destination_list->blockSignals(false);
