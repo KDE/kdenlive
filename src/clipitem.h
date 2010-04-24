@@ -60,6 +60,7 @@ public:
     const EffectsList effectList() const;
     void setFadeOut(int pos);
     void setFadeIn(int pos);
+    void setFades(int in, int out);
     /** Give a string list of the clip's effect names */
     QStringList effectNames();
     /** Add an effect to the clip and return the parameters that will be passed to Mlt */

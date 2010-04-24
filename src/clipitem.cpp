@@ -138,6 +138,7 @@ ClipItem *ClipItem::clone(ItemInfo info) const
     duplicate->setEffectList(m_effectList);
     duplicate->setVideoOnly(m_videoOnly);
     duplicate->setAudioOnly(m_audioOnly);
+    duplicate->setFades(fadeIn(), fadeOut());
     //duplicate->setSpeed(m_speed);
     return duplicate;
 }
@@ -146,7 +147,59 @@ void ClipItem::setEffectList(const EffectsList effectList)
 {
     m_effectList.clone(effectList);
     m_effectNames = m_effectList.effectNames().join(" / ");
-    if (!m_effectList.isEmpty()) setSelectedEffect(0);
+    if (!m_effectList.isEmpty()) {
+        for (int i = 0; i < m_effectList.count(); i++) {
+            QString effectId = m_effectList.item(i).attribute("id");
+            // check if it is a fade effect
+            QDomNodeList params = m_effectList.item(i).elementsByTagName("parameter");
+            int fade = 0;
+            for (int j = 0; j < params.count(); j++) {
+                QDomElement e = params.item(j).toElement();
+                if (!e.isNull()) {
+                    if (effectId == "fadein") {
+                        if (m_effectList.hasEffect(QString(), "fade_from_black") == -1) {
+                            if (e.attribute("name") == "out") fade += e.attribute("value").toInt();
+                            else if (e.attribute("name") == "in") fade -= e.attribute("value").toInt();
+                        } else {
+                            QDomElement fadein = m_effectList.getEffectByTag(QString(), "fade_from_black");
+                            if (fadein.attribute("name") == "out") fade += fadein.attribute("value").toInt();
+                            else if (fadein.attribute("name") == "in") fade -= fadein.attribute("value").toInt();
+                        }
+                    } else if (effectId == "fade_from_black") {
+                        if (m_effectList.hasEffect(QString(), "fadein") == -1) {
+                            if (e.attribute("name") == "out") fade += e.attribute("value").toInt();
+                            else if (e.attribute("name") == "in") fade -= e.attribute("value").toInt();
+                        } else {
+                            QDomElement fadein = m_effectList.getEffectByTag(QString(), "fadein");
+                            if (fadein.attribute("name") == "out") fade += fadein.attribute("value").toInt();
+                            else if (fadein.attribute("name") == "in") fade -= fadein.attribute("value").toInt();
+                        }
+                    } else if (effectId == "fadeout") {
+                        if (m_effectList.hasEffect(QString(), "fade_to_black") == -1) {
+                            if (e.attribute("name") == "out") fade -= e.attribute("value").toInt();
+                            else if (e.attribute("name") == "in") fade += e.attribute("value").toInt();
+                        } else {
+                            QDomElement fadeout = m_effectList.getEffectByTag(QString(), "fade_to_black");
+                            if (fadeout.attribute("name") == "out") fade -= fadeout.attribute("value").toInt();
+                            else if (fadeout.attribute("name") == "in") fade += fadeout.attribute("value").toInt();
+                        }
+                    } else if (effectId == "fade_to_black") {
+                        if (m_effectList.hasEffect(QString(), "fadeout") == -1) {
+                            if (e.attribute("name") == "out") fade -= e.attribute("value").toInt();
+                            else if (e.attribute("name") == "in") fade += e.attribute("value").toInt();
+                        } else {
+                            QDomElement fadeout = m_effectList.getEffectByTag(QString(), "fadeout");
+                            if (fadeout.attribute("name") == "out") fade -= fadeout.attribute("value").toInt();
+                            else if (fadeout.attribute("name") == "in") fade += fadeout.attribute("value").toInt();
+                        }
+                    }
+                }
+            }
+            if (fade > 0) m_startFade = fade;
+            else if (fade < 0) m_endFade = -fade;
+        }
+        setSelectedEffect(0);
+    }
 }
 
 const EffectsList ClipItem::effectList() const
@@ -1049,6 +1102,12 @@ void ClipItem::setFadeOut(int pos)
     QRectF rect = boundingRect();
     update(rect.x() + rect.width() - qMax(oldOut, pos), rect.y(), qMax(oldOut, pos), rect.height());
 
+}
+
+void ClipItem::setFades(int in, int out)
+{
+    m_startFade = in;
+    m_endFade = out;
 }
 
 /*
