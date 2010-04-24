@@ -155,11 +155,17 @@ void ProjectListView::mouseDoubleClickEvent(QMouseEvent * event)
     if (!(item->flags() & Qt::ItemIsDragEnabled)) return;
 
     int column = columnAt(event->pos().x());
-    if (column == 0 && (item->clipType() == SLIDESHOW || item->clipType() == TEXT || item->clipType() == COLOR)) {
+    if (column == 0 && (item->clipType() == SLIDESHOW || item->clipType() == TEXT || item->clipType() == COLOR || it->childCount() > 0)) {
         QPixmap pix = qVariantValue<QPixmap>(it->data(0, Qt::DecorationRole));
         int offset = pix.width() + indentation();
         if (item->parent()) offset += indentation();
-        if ((pix.isNull() || offset < event->pos().x())) {
+        if (it->childCount() > 0) {
+            if (offset > event->pos().x()) {
+                it->setExpanded(!it->isExpanded());
+                event->accept();
+                return;
+            }
+        } else if (pix.isNull() || offset < event->pos().x()) {
             QTreeWidget::mouseDoubleClickEvent(event);
             return;
         }
