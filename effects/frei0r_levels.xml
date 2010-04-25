@@ -3,7 +3,7 @@
 	<name>Levels</name>
 	<description>Adjust levels</description>
 	<author>Maksim Golovkin</author>
-	<parameter type="constant" name="Channel" default="0" min="0" max="3">
+	<parameter type="list" name="Channel" default="0" paramlist="0,1,2,3" paramlistdisplay="red,green,blue,black">
 		<name>Channel</name>
 	</parameter>
 	<parameter type="constant" name="Input black level" default="0" min="0" max="1000" factor="1000">
@@ -24,7 +24,7 @@
 	<parameter type="bool" name="Show histogram" default="1">
 		<name>Show histogram</name>
 	</parameter>
-	<parameter type="constant" name="Histogram position" default="3" min="0" max="3">
+	<parameter type="list" name="Histogram position" default="3" paramlist="0,1,2,3" paramlistdisplay="upper left,upper right,lower left,lower right">
 		<name>Histogram position</name>
 	</parameter>
 </effect>
