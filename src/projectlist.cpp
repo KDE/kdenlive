@@ -746,8 +746,12 @@ void ProjectList::slotDeleteClip(const QString &clipId)
     delete item;
     m_doc->clipManager()->deleteClip(clipId);
     m_listView->blockSignals(false);
-    if (newSelectedItem) m_listView->setCurrentItem(newSelectedItem);
-    else updateButtons();
+    if (newSelectedItem) {
+        m_listView->setCurrentItem(newSelectedItem);
+    } else {
+        updateButtons();
+        emit clipSelected(NULL);
+    }
 }
 
 
