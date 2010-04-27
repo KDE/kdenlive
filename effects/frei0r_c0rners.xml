@@ -1,0 +1,66 @@
+<!DOCTYPE kpartgui>
+<effect tag="frei0r.c0rners" id="frei0r.c0rners">
+	<name>C0rners</name>
+	<description>Four corners geometry engine</description>
+	<author>Marko Cebokli</author>
+	
+	<parameter type="constant" name="Corner 1 X" default="1000" min="0" max="3000" factor="3000">
+		<name>Corner 1 X</name>
+	</parameter>
+	
+	<parameter type="constant" name="Corner 1 Y" default="1000" min="0" max="3000" factor="3000">
+		<name>Corner 1 Y</name>
+	</parameter>
+	
+	<parameter type="constant" name="Corner 2 X" default="2000" min="0" max="3000" factor="3000">
+		<name>Corner 2 X</name>
+	</parameter>
+	
+	<parameter type="constant" name="Corner 2 Y" default="1000" min="0" max="3000" factor="3000">
+		<name>Corner 2 Y</name>
+	</parameter>
+	
+	<parameter type="constant" name="Corner 3 X" default="2000" min="0" max="3000" factor="3000">
+		<name>Corner 3 X</name>
+	</parameter>
+	
+	<parameter type="constant" name="Corner 3 Y" default="2000" min="0" max="3000" factor="3000">
+		<name>Corner 3 Y</name>
+	</parameter>
+	
+	<parameter type="constant" name="Corner 4 X" default="1000" min="0" max="3000" factor="3000">
+		<name>Corner 4 X</name>
+	</parameter>
+	
+	<parameter type="constant" name="Corner 4 Y" default="2000" min="0" max="3000" factor="3000">
+		<name>Corner 4 Y</name>
+	</parameter>
+	
+	
+	<parameter type="bool" name="Enable Stretch" default="0">
+		<name>Enable Stretch</name>
+	</parameter>
+
+	
+	<parameter type="constant" name="Stretch X" default="500" min="0" max="1000" factor="1000">
+		<name>Stretch X</name>
+	</parameter>
+	
+	<parameter type="constant" name="Stretch Y" default="500" min="0" max="1000" factor="1000">
+		<name>Stretch Y</name>
+	</parameter>
+	
+	<parameter type="list" name="Interpolator" default="0.166" paramlist="0,0.166,0.333,0.5,0.666,0.833,1.0"
+	           paramlistdisplay="nearest neighbor,bilinear,bicubic smooth,bicibic sharp,spline 4x4,spline 6x6,lanczos">
+		<name>Interpolator</name>
+	</parameter>
+
+	<parameter type="bool" name="Transparent Background" default="0">
+		<name>Transparent Background</name>
+	</parameter>
+
+	<parameter type="constant" name="Feather Alpha" default="5" min="0" max="100" factor="100">
+		<name>Feather Alpha</name>
+	</parameter>
+
+</effect>

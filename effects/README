@@ -26,8 +26,7 @@ Here is a sample effect file:
 
 
 Line 1 is required to have the effect and parameter names added to the translation files
-In line 2, the "tag" is the name of the mlt filter that has to be found in the file 
-/usr/share/mlt/modules/filters.dat for the effect to appear in Kdenlive
+In line 2, the "tag" is the name of the mlt filter
 Line 3 is the name of the effect that will appear to the user
 Line 4 holds several effect parameters:
 	id is an internal kdenlive id, can be anything, but must be unique for each effect
