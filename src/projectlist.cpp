@@ -1529,6 +1529,7 @@ void ProjectList::addClipCut(const QString &id, int in, int out, const QString d
         SubProjectItem *sub = new SubProjectItem(clip, in, out, desc);
         if (newItem && desc.isEmpty() && !m_listView->isColumnHidden(1)) {
             if (!clip->isExpanded()) clip->setExpanded(true);
+	    m_listView->scrollToItem(sub);
             m_listView->editItem(sub, 1);
         }
         QPixmap p = clip->referencedClip()->thumbProducer()->extractImage(in, (int)(sub->sizeHint(0).height()  * m_render->dar()), sub->sizeHint(0).height() - 2);
