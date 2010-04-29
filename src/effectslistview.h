@@ -54,6 +54,7 @@ private slots:
     void showInfoPanel();
     void slotEffectSelected();
     void slotRemoveEffect();
+    void slotUpdateSearch(QTreeWidgetItem *item, bool hidden);
 
 public slots:
 

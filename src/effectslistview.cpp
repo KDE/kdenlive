@@ -53,7 +53,7 @@ EffectsListView::EffectsListView(QWidget *parent) :
     connect(buttonInfo, SIGNAL(clicked()), this, SLOT(showInfoPanel()));
     connect(m_effectsList, SIGNAL(itemSelectionChanged()), this, SLOT(slotUpdateInfo()));
     connect(m_effectsList, SIGNAL(itemDoubleClicked(QTreeWidgetItem *, int)), this, SLOT(slotEffectSelected()));
-
+    connect(search_effect, SIGNAL(hiddenChanged(QTreeWidgetItem *, bool)), this, SLOT(slotUpdateSearch(QTreeWidgetItem *, bool)));
     //m_effectsList->setCurrentRow(0);
 }
 
@@ -82,6 +82,9 @@ void EffectsListView::filterList(int pos)
             hideFolder = false;
         folder->setHidden(hideFolder);
     }
+    // make sure we don't show anything not matching the search expression
+    search_effect->updateSearch();
+    
     /*item = m_effectsList->currentItem();
     if (item) {
         if (item->isHidden()) {
@@ -150,6 +153,18 @@ void EffectsListView::slotRemoveEffect()
         }
     }
     emit reloadEffects();
+}
+
+void EffectsListView::slotUpdateSearch(QTreeWidgetItem *item, bool hidden)
+{
+    if (!hidden) {
+        if (item->data(0, Qt::UserRole).toInt() == type_combo->currentIndex()) {
+            item->parent()->setHidden(false);
+        } else {
+            if (type_combo->currentIndex() != 0)
+                item->setHidden(true);
+        }
+    }
 }
 
 #include "effectslistview.moc"
