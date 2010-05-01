@@ -723,7 +723,7 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
                 paramList.append(quickParameterFill(ret, "Fix Shear Z", "fix_shear_z", "double", "0", "0", "360"));
                 paramList.append(quickParameterFill(ret, "Mirror", "mirror_off", "bool", "0", "0", "1"));
                 paramList.append(quickParameterFill(ret, "Repeat", "repeat_off", "bool", "0", "0", "1"));
-                paramList.append(quickParameterFill(ret, "Geometry", "geometry", "geometry",  "0;0;100;100;100", "0;0;100;100;100", "0;0;100;100;100"));
+                paramList.append(quickParameterFill(ret, "Geometry", "geometry", "geometry",  "0,0,100%,100%,100%", "0,0,100%,100%,100%", "0,0,100%,100%,100%"));
                 tname.appendChild(ret.createTextNode("Composite"));
             } else if (name == "region") {
                 tname.appendChild(ret.createTextNode("Region"));
