@@ -1104,6 +1104,8 @@ void ProjectList::slotAddTitleTemplateClip()
     for (int i = 0; i < templateFiles.size(); ++i) {
         dia_ui.template_list->comboBox()->addItem(templateFiles.at(i), path + templateFiles.at(i));
     }
+    if (!templateFiles.isEmpty())
+        dia_ui.buttonBox->button(QDialogButtonBox::Ok)->setFocus();
     dia_ui.template_list->fileDialog()->setFilter("*.kdenlivetitle");
     //warning: setting base directory doesn't work??
     KUrl startDir(path);
