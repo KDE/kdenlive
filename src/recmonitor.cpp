@@ -486,7 +486,7 @@ void RecMonitor::slotRecord()
                 break;
             default:
                 // Region capture
-                m_captureArgs << "-width" << QString::number(KdenliveSettings::rmd_width()) << "-height" << QString::number(KdenliveSettings::rmd_height());
+                m_captureArgs << "--width" << QString::number(KdenliveSettings::rmd_width()) << "--height" << QString::number(KdenliveSettings::rmd_height());
                 if (!KdenliveSettings::rmd_follow_mouse()) {
                     m_captureArgs << "-x" << QString::number(KdenliveSettings::rmd_offsetx()) << "-y" << QString::number(KdenliveSettings::rmd_offsety());
                 } else {
@@ -498,29 +498,29 @@ void RecMonitor::slotRecord()
             if (KdenliveSettings::rmd_hide_mouse()) m_captureArgs << "--no-cursor";
             m_isCapturing = true;
             if (KdenliveSettings::rmd_capture_audio()) {
-                m_captureArgs << "-freq" << KdenliveSettings::rmd_freq();
-                m_captureArgs << "-channels" << QString::number(KdenliveSettings::rmd_audio_channels());
+                m_captureArgs << "--freq" << KdenliveSettings::rmd_freq();
+                m_captureArgs << "--channels" << QString::number(KdenliveSettings::rmd_audio_channels());
                 if (KdenliveSettings::rmd_use_jack()) {
-                    m_captureArgs << "-use-jack";
+                    m_captureArgs << "--use-jack";
                     QStringList ports = KdenliveSettings::rmd_jackports().split(" ", QString::SkipEmptyParts);
                     for(int i = 0; i < ports.count(); ++i) {
                         m_captureArgs << ports.at(i);
                     }
                     if (KdenliveSettings::rmd_jack_buffer() > 0.0)
-                        m_captureArgs << "-ring-buffer-size" << QString::number(KdenliveSettings::rmd_jack_buffer());
+                        m_captureArgs << "--ring-buffer-size" << QString::number(KdenliveSettings::rmd_jack_buffer());
                 } else {
                     if (!KdenliveSettings::rmd_alsadevicename().isEmpty())
-                        m_captureArgs << "-device" << KdenliveSettings::rmd_alsadevicename();
+                        m_captureArgs << "--device" << KdenliveSettings::rmd_alsadevicename();
                     if (KdenliveSettings::rmd_alsa_buffer() > 0)
-                        m_captureArgs << "-buffer-size" << QString::number(KdenliveSettings::rmd_alsa_buffer());
+                        m_captureArgs << "--buffer-size" << QString::number(KdenliveSettings::rmd_alsa_buffer());
                 }
             } else m_captureArgs << "--no-sound";
 
             if (KdenliveSettings::rmd_fullshots()) m_captureArgs << "--full-shots";
             m_captureArgs << "--v_bitrate" << QString::number(KdenliveSettings::rmd_bitrate());
             m_captureArgs << "--v_quality" << QString::number(KdenliveSettings::rmd_quality());
-            m_captureArgs << "-workdir" << KdenliveSettings::currenttmpfolder();
-            m_captureArgs << "-fps" << QString::number(KdenliveSettings::rmd_fps()) << "-o" << m_captureFile.path();
+            m_captureArgs << "--workdir" << KdenliveSettings::currenttmpfolder();
+            m_captureArgs << "--fps" << QString::number(KdenliveSettings::rmd_fps()) << "-o" << m_captureFile.path();
             m_captureProcess->start(KdenliveSettings::rmd_path(), m_captureArgs);
             kDebug() << "// RecordMyDesktop params: " << m_captureArgs;
             break;
