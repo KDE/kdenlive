@@ -124,14 +124,15 @@ void AbstractClipItem::updateRectGeometry()
     setRect(0, 0, cropDuration().frames(m_fps) - 0.02, rect().height());
 }
 
-void AbstractClipItem::resizeStart(int posx)
+void AbstractClipItem::resizeStart(int posx, bool hasSizeLimit)
 {
     GenTime durationDiff = GenTime(posx, m_fps) - m_info.startPos;
     if (durationDiff == GenTime()) return;
     //kDebug() << "-- RESCALE DIFF=" << durationDiff.frames(25) << ", CLIP: " << startPos().frames(25) << "-" << endPos().frames(25);
 
-    if (type() == AVWIDGET && cropStart() + durationDiff < GenTime()) {
-        durationDiff = GenTime() - cropStart();
+    if (type() == AVWIDGET) {
+	if (hasSizeLimit && cropStart() + durationDiff < GenTime())
+	    durationDiff = GenTime() - cropStart();
     } else if (durationDiff >= cropDuration()) {
         return;
         if (cropDuration() > GenTime(3, m_fps)) durationDiff = GenTime(3, m_fps);

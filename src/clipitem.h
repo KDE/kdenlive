@@ -47,7 +47,7 @@ public:
                        const QStyleOptionGraphicsItem *option,
                        QWidget *);
     virtual int type() const;
-    void resizeStart(int posx);
+    void resizeStart(int posx, bool size = true);
     void resizeEnd(int posx);
     OPERATIONTYPE operationMode(QPointF pos);
     const QString clipProducer() const;
@@ -56,6 +56,7 @@ public:
     QString clipName() const;
     void setClipName(const QString &name);
     QDomElement xml() const;
+    QDomElement itemXml() const;
     ClipItem *clone(ItemInfo info) const;
     const EffectsList effectList() const;
     void setFadeOut(int pos);
@@ -145,6 +146,7 @@ private:
 
     QPixmap m_startPix;
     QPixmap m_endPix;
+    
     bool m_hasThumbs;
     QTimer m_startThumbTimer;
     QTimer m_endThumbTimer;

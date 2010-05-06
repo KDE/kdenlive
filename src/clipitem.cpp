@@ -653,6 +653,16 @@ QDomElement ClipItem::xml() const
     return xml;
 }
 
+QDomElement ClipItem::itemXml() const
+{
+    QDomElement xml = m_clip->toXML();
+    if (m_speed != 1.0) xml.setAttribute("speed", m_speed);
+    if (m_strobe > 1) xml.setAttribute("strobe", m_strobe);
+    if (m_audioOnly) xml.setAttribute("audio_only", 1);
+    else if (m_videoOnly) xml.setAttribute("video_only", 1);
+    return xml;
+}
+
 int ClipItem::clipType() const
 {
     return m_clipType;
@@ -1140,23 +1150,18 @@ void ClipItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *)
 }
 */
 
-void ClipItem::resizeStart(int posx)
+void ClipItem::resizeStart(int posx, bool)
 {
-    const int min = (startPos() - cropStart()).frames(m_fps);
-    if (posx < min) {
-        if (clipType() == IMAGE || clipType() == COLOR || clipType() == TEXT) {
-            GenTime oldPos = startPos();
-            moveBy(-1 * (oldPos - GenTime(posx, m_fps)).frames(m_fps), 0);
-            const int newPos = (endPos() + (oldPos - startPos())).frames(m_fps);
-            AbstractClipItem::resizeEnd(newPos);
-        }
-        posx = min;
+    bool sizeLimit = false;
+    if (clipType() != IMAGE && clipType() != COLOR && clipType() != TEXT) {
+	const int min = (startPos() - cropStart()).frames(m_fps);
+	if (posx < min) posx = min;
+	sizeLimit = true;
     }
-    
-    
+
     if (posx == startPos().frames(m_fps)) return;
     const int previous = cropStart().frames(m_fps);
-    AbstractClipItem::resizeStart(posx);
+    AbstractClipItem::resizeStart(posx, sizeLimit);
 
     // set speed independant info
     m_speedIndependantInfo = m_info;
