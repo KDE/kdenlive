@@ -1143,7 +1143,17 @@ void ClipItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *)
 void ClipItem::resizeStart(int posx)
 {
     const int min = (startPos() - cropStart()).frames(m_fps);
-    if (posx < min) posx = min;
+    if (posx < min) {
+        if (clipType() == IMAGE || clipType() == COLOR || clipType() == TEXT) {
+            GenTime oldPos = startPos();
+            moveBy(-1 * (oldPos - GenTime(posx, m_fps)).frames(m_fps), 0);
+            const int newPos = (endPos() + (oldPos - startPos())).frames(m_fps);
+            AbstractClipItem::resizeEnd(newPos);
+        }
+        posx = min;
+    }
+    
+    
     if (posx == startPos().frames(m_fps)) return;
     const int previous = cropStart().frames(m_fps);
     AbstractClipItem::resizeStart(posx);
