@@ -1630,6 +1630,7 @@ int Render::mltInsertClip(ItemInfo info, QDomElement element, Mlt::Producer *pro
         }
     }
     int cutPos = (int) info.cropStart.frames(m_fps);
+    if (cutPos < 0) cutPos = 0;
     int insertPos = (int) info.startPos.frames(m_fps);
     int cutDuration = (int)(info.endPos - info.startPos).frames(m_fps) - 1;
     Mlt::Producer *clip = prod->cut(cutPos, cutDuration + cutPos);
