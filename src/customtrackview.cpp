@@ -199,6 +199,7 @@ void CustomTrackView::setContextMenu(QMenu *timeline, QMenu *clip, QMenu *transi
     m_timelineContextMenu = timeline;
     m_timelineContextClipMenu = clip;
     m_clipTypeGroup = clipTypeGroup;
+    connect(m_timelineContextMenu, SIGNAL(aboutToHide()), this, SLOT(slotResetMenuPosition()));
 
     m_markerMenu = new QMenu(i18n("Go to marker..."), this);
     m_markerMenu->setEnabled(false);
@@ -227,6 +228,17 @@ void CustomTrackView::setContextMenu(QMenu *timeline, QMenu *clip, QMenu *transi
     m_editGuide = new KAction(KIcon("document-properties"), i18n("Edit Guide"), this);
     connect(m_editGuide, SIGNAL(triggered()), this, SLOT(slotEditTimeLineGuide()));
     m_timelineContextMenu->addAction(m_editGuide);
+}
+
+void CustomTrackView::slotDoResetMenuPosition()
+{
+    m_menuPosition = QPoint();
+}
+
+void CustomTrackView::slotResetMenuPosition()
+{
+    // after a short time (so that the action is triggered / or menu is closed, we reset the menu pos
+    QTimer::singleShot(300, this, SLOT(slotDoResetMenuPosition()));
 }
 
 void CustomTrackView::checkAutoScroll()
@@ -4903,7 +4915,7 @@ void CustomTrackView::pasteClip()
     QPoint position;
     if (m_menuPosition.isNull()) {
         position = mapFromGlobal(QCursor::pos());
-        if (!underMouse() || position.y() > m_tracksHeight * m_document->tracksCount()) {
+        if (!contentsRect().contains(position) || mapToScene(position).y() / m_tracksHeight > m_document->tracksCount()) {
             emit displayMessage(i18n("Cannot paste selected clips"), ErrorMessage);
             return;
         }

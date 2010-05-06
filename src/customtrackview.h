@@ -290,6 +290,8 @@ private slots:
     void slotFetchNextThumbs();
     void checkTrackSequence(int track);
     void slotGoToMarker(QAction *action);
+    void slotResetMenuPosition();
+    void slotDoResetMenuPosition();
 
 signals:
     void cursorMoved(int, int);
