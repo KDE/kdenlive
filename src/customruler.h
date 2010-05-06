@@ -73,6 +73,7 @@ private:
     int m_rate;
     int m_startRate;
     MOUSE_MOVE m_mouseMove;
+    QMenu *m_goMenu;
 
 
 public slots:
@@ -82,6 +83,7 @@ public slots:
 private slots:
     void slotEditGuide();
     void slotDeleteGuide();
+    void slotGoToGuide(QAction *act);
 
 signals:
     void zoneMoved(int, int);

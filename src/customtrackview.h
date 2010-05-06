@@ -128,6 +128,7 @@ public:
     double fps() const;
     int selectedTrack() const;
     QStringList selectedClips() const;
+    QList<ClipItem *> selectedClipItems() const;
     void selectClip(bool add, bool group = false);
     void selectTransition(bool add, bool group = false);
     QStringList extractTransitionsLumas();
@@ -135,6 +136,7 @@ public:
     void insertClipCut(DocClipBase *clip, int in, int out);
     void clearSelection();
     void editItemDuration();
+    void buildGuidesMenu(QMenu *goMenu) const;
 
 public slots:
     void setCursorPos(int pos, bool seek = true);

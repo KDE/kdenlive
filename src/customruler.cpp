@@ -82,6 +82,8 @@ CustomRuler::CustomRuler(Timecode tc, CustomTrackView *parent) :
     connect(m_deleteGuide , SIGNAL(triggered()), this, SLOT(slotDeleteGuide()));
     QAction *delAllGuides = m_contextMenu->addAction(KIcon("edit-delete"), i18n("Delete All Guides"));
     connect(delAllGuides, SIGNAL(triggered()), m_view, SLOT(slotDeleteAllGuides()));
+    m_goMenu = m_contextMenu->addMenu(i18n("Go To"));
+    connect(m_goMenu, SIGNAL(triggered( QAction *)), this, SLOT(slotGoToGuide(QAction *)));
     setMouseTracking(true);
     setMinimumHeight(20);
 }
@@ -104,6 +106,11 @@ void CustomRuler::slotDeleteGuide()
     m_view->slotDeleteGuide(m_clickedGuide);
 }
 
+void CustomRuler::slotGoToGuide(QAction *act)
+{
+    m_view->initCursorPos(act->data().toInt());
+}
+
 void CustomRuler::setZone(QPoint p)
 {
     m_zoneStart = p.x();
@@ -124,6 +131,7 @@ void CustomRuler::mousePressEvent(QMouseEvent * event)
         m_clickedGuide = m_view->hasGuide((int)(pos / m_factor), (int)(5 / m_factor + 1));
         m_editGuide->setEnabled(m_clickedGuide > 0);
         m_deleteGuide->setEnabled(m_clickedGuide > 0);
+	m_view->buildGuidesMenu(m_goMenu);
         m_contextMenu->exec(event->globalPos());
         return;
     }

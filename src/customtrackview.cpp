@@ -4493,6 +4493,18 @@ int CustomTrackView::hasGuide(int pos, int offset)
     return -1;
 }
 
+void CustomTrackView::buildGuidesMenu(QMenu *goMenu) const
+{
+    QAction *act;
+    goMenu->clear();
+    double fps = m_document->fps();
+    for (int i = 0; i < m_guides.count(); i++) {
+	act = goMenu->addAction(m_guides.at(i)->label() + "/" + Timecode::getStringTimecode(m_guides.at(i)->position().frames(fps), fps));
+	act->setData(m_guides.at(i)->position().frames(m_document->fps()));
+    }
+    goMenu->setEnabled(!m_guides.isEmpty());
+}
+
 void CustomTrackView::editGuide(const GenTime oldPos, const GenTime pos, const QString &comment)
 {
     if (oldPos > GenTime() && pos > GenTime()) {
@@ -5823,6 +5835,18 @@ QStringList CustomTrackView::selectedClips() const
         }
     }
     return clipIds;
+}
+
+QList<ClipItem *> CustomTrackView::selectedClipItems() const
+{
+    QList<ClipItem *> clips;
+    QList<QGraphicsItem *> selection = m_scene->selectedItems();
+    for (int i = 0; i < selection.count(); i++) {
+        if (selection.at(i)->type() == AVWIDGET) {
+            clips.append((ClipItem *)selection.at(i));
+        }
+    }
+    return clips;
 }
 
 void CustomTrackView::slotSelectTrack(int ix)
