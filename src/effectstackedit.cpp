@@ -27,6 +27,8 @@
 #include "effectslist.h"
 #include "kdenlivesettings.h"
 #include "profilesdialog.h"
+#include "kis_curve_widget.h"
+#include "kis_cubic_curve.h"
 
 #include <KDebug>
 #include <KLocale>
@@ -270,6 +272,24 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int in, int out)
             m_vbox->addWidget(posedit);
             m_valueItems[paramName+"position"] = posedit;
             connect(posedit, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
+        } else if (type == "curve") {
+            KisCurveWidget *curve = new KisCurveWidget(this);
+            QList<QPointF> points;
+            int number = EffectsList::parameter(e, pa.attribute("number")).toInt();
+            QString inName = pa.attribute("inpoints");
+            QString outName = pa.attribute("outpoints");
+            int start = pa.attribute("min").toInt();
+            for (int j = start; j <= number; j++) {
+                QString in = inName;
+                in.replace("%i", QString::number(j));
+                QString out = outName;
+                out.replace("%i", QString::number(j));
+                points << QPointF(EffectsList::parameter(e, in).toDouble(), EffectsList::parameter(e, out).toDouble());
+            }
+            if (!points.isEmpty()) curve->setCurve(KisCubicCurve(points));
+            m_vbox->addWidget(curve);
+            connect(curve, SIGNAL(modified()), this, SLOT(collectAllParameters()));
+            m_valueItems[paramName] = curve;
         } else if (type == "wipe") {
             Wipeval *wpval = new Wipeval;
             wpval->setupUi(toFillin);
@@ -472,6 +492,23 @@ void EffectStackEdit::collectAllParameters()
                 EffectsList::setParameter(newparam, "in", QString::number(m_out + m_in - pos));
                 EffectsList::setParameter(newparam, "out", QString::number(m_out + m_in));
                 setValue.clear();
+            }
+        } else if (type == "curve") {
+            KisCurveWidget *curve = ((KisCurveWidget*)m_valueItems.value(paramName));
+            QList<QPointF> points = curve->curve().points();
+            QString number = pa.attributes().namedItem("number").nodeValue();
+            QString inName = pa.attributes().namedItem("inpoints").nodeValue();
+            QString outName = pa.attributes().namedItem("outpoints").nodeValue();
+            int off = pa.attributes().namedItem("min").nodeValue().toInt();
+            int end = pa.attributes().namedItem("max").nodeValue().toInt();
+            EffectsList::setParameter(newparam, number, QString::number(points.count()));
+            for (int j = 0; (j < points.count() && j + off <= end); j++) {
+                QString in = inName;
+                in.replace("%i", QString::number(j+off));
+                QString out = outName;
+                out.replace("%i", QString::number(j+off));
+                EffectsList::setParameter(newparam, in, QString::number(points.at(j).x()));
+                EffectsList::setParameter(newparam, out, QString::number(points.at(j).y()));
             }
         } else if (type == "wipe") {
             Wipeval *wp = (Wipeval*)m_valueItems.value(paramName);
