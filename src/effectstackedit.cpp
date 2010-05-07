@@ -162,6 +162,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int in, int out)
             * keyframe: a list widget with a list of entries (position and value)
             * color: a color chooser button
             * position: a slider representing the position of a frame in the current clip
+            * curve: a single curve representing multiple points
             * wipe: a widget designed for the wipe transition, allowing to choose a position (left, right, top,...)
         */
 
@@ -274,6 +275,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int in, int out)
             connect(posedit, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
         } else if (type == "curve") {
             KisCurveWidget *curve = new KisCurveWidget(this);
+            curve->setMaxPoints(pa.attribute("max").toInt());
             QList<QPointF> points;
             int number = EffectsList::parameter(e, pa.attribute("number")).toInt();
             QString inName = pa.attribute("inpoints");
@@ -287,7 +289,14 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int in, int out)
                 points << QPointF(EffectsList::parameter(e, in).toDouble(), EffectsList::parameter(e, out).toDouble());
             }
             if (!points.isEmpty()) curve->setCurve(KisCubicCurve(points));
+            QSpinBox *spinin = new QSpinBox();
+            spinin->setRange(0, 1000);
+            QSpinBox *spinout = new QSpinBox();
+            spinout->setRange(0, 1000);
+            curve->setupInOutControls(spinin, spinout, 0, 1000);
             m_vbox->addWidget(curve);
+            m_vbox->addWidget(spinin);
+            m_vbox->addWidget(spinout);
             connect(curve, SIGNAL(modified()), this, SLOT(collectAllParameters()));
             m_valueItems[paramName] = curve;
         } else if (type == "wipe") {

@@ -77,7 +77,7 @@ public:
     inline void setState(enumState st);
     inline enumState state() const;
 
-
+    int m_maxPoints;
 
     /*** Internal routins ***/
 

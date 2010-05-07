@@ -74,6 +74,8 @@ KisCurveWidget::KisCurveWidget(QWidget *parent, Qt::WFlags f)
 
     d->m_intIn = NULL;
     d->m_intOut = NULL;
+    
+    d->m_maxPoints = -1;
 
     setMouseTracking(true);
     setAutoFillBackground(false);
@@ -320,7 +322,7 @@ void KisCurveWidget::mousePressEvent(QMouseEvent * e)
 
     if (e->button() != Qt::LeftButton)
         return;
-
+    
     double x = e->pos().x() / (double)(width() - 1);
     double y = 1.0 - e->pos().y() / (double)(height() - 1);
 
@@ -328,6 +330,8 @@ void KisCurveWidget::mousePressEvent(QMouseEvent * e)
 
     int closest_point_index = d->nearestPointInRange(QPointF(x, y), width(), height());
     if (closest_point_index < 0) {
+        if (d->m_maxPoints > 0 && d->m_curve.points().count() >= d->m_maxPoints)
+            return;
         QPointF newPoint(x, y);
         if (!d->jumpOverExistingPoints(newPoint, -1))
             return;
@@ -452,6 +456,11 @@ void KisCurveWidget::setCurve(KisCubicCurve inlist)
 
 void KisCurveWidget::leaveEvent(QEvent *)
 {
+}
+
+void KisCurveWidget::setMaxPoints(int max)
+{
+    d->m_maxPoints = max;
 }
 
 #include "kis_curve_widget.moc"

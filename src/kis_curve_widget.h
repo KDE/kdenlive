@@ -131,6 +131,8 @@ public:
      * so the user can move this point anywhere in a moment
      */
     void addPointInTheMiddle();
+    
+    void setMaxPoints(int max);
 
 private:
 
