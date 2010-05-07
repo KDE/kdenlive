@@ -185,6 +185,8 @@ set(kdenlive_SRCS
   addclipcutcommand.cpp
   editclipcutcommand.cpp
   KoSliderCombo.cpp
+  kis_cubic_curve.cpp
+  kis_curve_widget.cpp
 )
 
 add_definitions( ${KDE4_DEFINITIONS} )
