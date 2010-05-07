@@ -319,9 +319,6 @@ void KisCurveWidget::paintEvent(QPaintEvent *)
 void KisCurveWidget::mousePressEvent(QMouseEvent * e)
 {
     if (d->m_readOnlyMode) return;
-
-    if (e->button() != Qt::LeftButton)
-        return;
     
     double x = e->pos().x() / (double)(width() - 1);
     double y = 1.0 - e->pos().y() / (double)(height() - 1);
@@ -329,6 +326,15 @@ void KisCurveWidget::mousePressEvent(QMouseEvent * e)
 
 
     int closest_point_index = d->nearestPointInRange(QPointF(x, y), width(), height());
+    
+    if (e->button() == Qt::RightButton && closest_point_index >= 0 && d->m_curve.points().count() > 2) {
+        d->m_curve.removePoint(closest_point_index);
+        setCursor(Qt::ArrowCursor);
+        d->setState(ST_NORMAL);
+        d->setCurveModified();
+        return;
+    } else if (e->button() != Qt::LeftButton) return;
+    
     if (closest_point_index < 0) {
         if (d->m_maxPoints > 0 && d->m_curve.points().count() >= d->m_maxPoints)
             return;
