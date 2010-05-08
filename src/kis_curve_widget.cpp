@@ -81,7 +81,7 @@ KisCurveWidget::KisCurveWidget(QWidget *parent, Qt::WFlags f)
     setAutoFillBackground(false);
     setAttribute(Qt::WA_OpaquePaintEvent);
     setMinimumSize(150, 150);
-    setMaximumSize(250, 250);
+    setMaximumSize(350, 350);
 
     d->setCurveModified();
 
@@ -327,10 +327,12 @@ void KisCurveWidget::mousePressEvent(QMouseEvent * e)
 
     int closest_point_index = d->nearestPointInRange(QPointF(x, y), width(), height());
     
-    if (e->button() == Qt::RightButton && closest_point_index >= 0 && d->m_curve.points().count() > 2) {
+    if (e->button() == Qt::RightButton && closest_point_index > 0 && closest_point_index < d->m_curve.points().count() - 1) {
         d->m_curve.removePoint(closest_point_index);
         setCursor(Qt::ArrowCursor);
         d->setState(ST_NORMAL);
+        if (closest_point_index < d->m_grab_point_index)
+            --d->m_grab_point_index;
         d->setCurveModified();
         return;
     } else if (e->button() != Qt::LeftButton) return;
