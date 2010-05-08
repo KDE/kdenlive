@@ -269,6 +269,10 @@ void KisCurveWidget::paintEvent(QPaintEvent *)
     /*KisConfig cfg;
     if (cfg.antialiasCurves())
         p.setRenderHint(QPainter::Antialiasing);*/
+    
+    // Draw default line
+    p.setPen(QPen(Qt::gray, 1, Qt::SolidLine));
+    p.drawLine(QLineF(0, wHeight, wWidth, 0)); 
 
     // Draw curve.
     double prevY = wHeight - d->m_curve.value(0.) * wHeight;
