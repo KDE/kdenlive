@@ -186,7 +186,7 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e)
         if (item != NULL && item->flags() & QGraphicsItem::ItemIsMovable) {
             m_sceneClickPoint = e->scenePos();
             m_selectedItem = item;
-            kDebug() << "/////////  ITEM TYPE: " << item->type();
+            kDebug() << "/////////  ITEM TYPE: " << item->type();
             if (item->type() == 8) {
                 QGraphicsTextItem *t = static_cast<QGraphicsTextItem *>(item);
                 if (t->textInteractionFlags() == Qt::TextEditorInteraction) {
@@ -250,7 +250,7 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e)
         QGraphicsScene::mousePressEvent(e);
     }
 
-    kDebug() << "//////  MOUSE CLICK, RESIZE MODE: " << m_resizeMode;
+    kDebug() << "//////  MOUSE CLICK, RESIZE MODE: " << m_resizeMode;
 
 }
 
