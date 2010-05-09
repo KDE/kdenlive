@@ -56,10 +56,9 @@ private:
     KeyframeHelper *m_helper;
     QGraphicsPathItem *m_path;
     QMenu *m_configMenu;
-    QMenu *m_scaleMenu;
-    QMenu *m_alignMenu;
     QAction *m_syncAction;
-    QAction *m_editGeom;
+    QAction *m_editOptions;
+    QAction *m_reset;
     bool m_fixedMode;
     QPoint m_frameSize;
     Ui::GeometryPosition_UI m_view;
@@ -67,6 +66,7 @@ private:
     double m_dar;
     int m_startPoint;
     QGraphicsView *m_sceneview;
+    bool keyframeSelected();
 
 public slots:
     void setupParam(const QDomElement, int, int);
@@ -79,22 +79,23 @@ private slots:
     void slotAddFrame(int pos = -1);
     void slotUpdateTransitionProperties();
     void slotTransparencyChanged(int transp);
-    void slotResize50();
-    void slotResize100();
-    void slotResize200();
-    void slotResizeCustom();
+    void slotResizeCustom(int value);
     void slotResizeOriginal();
     void slotAlignRight();
     void slotAlignLeft();
     void slotAlignTop();
     void slotAlignBottom();
-    void slotAlignCenter();
     void slotAlignHCenter();
     void slotAlignVCenter();
     void slotSyncCursor();
-    void slotGeometry();
     void slotResetPosition();
     void slotKeyframeMoved(int);
+    void slotSwitchOptions();
+    void slotUpdateGeometry();
+    void slotGeometryX(int value);
+    void slotGeometryY(int value);
+    void slotGeometryWidth(int value);
+    void slotGeometryHeight(int value);
 
 signals:
     void parameterChanged();
