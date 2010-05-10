@@ -252,19 +252,21 @@ void Geometryval::slotPositionChanged(int pos, bool seek)
         widget->setEnabled(false);
         spinTransp->setEnabled(false);
         frameOptions->setEnabled(false);
+        m_reset->setEnabled(false);
     } else {
         buttonAdd->setEnabled(false);
         buttonDelete->setEnabled(true);
         widget->setEnabled(true);
         spinTransp->setEnabled(true);
         frameOptions->setEnabled(true);
-        slotUpdateGeometry();
+        m_reset->setEnabled(true);
     }
 
     m_paramRect->setPos(item.x() * m_dar, item.y());
     m_paramRect->setRect(0, 0, item.w() * m_dar, item.h());
     spinTransp->setValue(item.mix());
     m_paramRect->setBrush(QColor(255, 0, 0, item.mix()));
+    slotUpdateGeometry();
 }
 
 void Geometryval::slotDeleteFrame(int pos)
@@ -284,6 +286,7 @@ void Geometryval::slotDeleteFrame(int pos)
     widget->setEnabled(false);
     spinTransp->setEnabled(false);
     frameOptions->setEnabled(false);
+    m_reset->setEnabled(false);
     m_helper->update();
     slotPositionChanged(pos, false);
     updateTransitionPath();
@@ -308,6 +311,7 @@ void Geometryval::slotAddFrame(int pos)
     widget->setEnabled(true);
     spinTransp->setEnabled(true);
     frameOptions->setEnabled(true);
+    m_reset->setEnabled(true);
     m_helper->update();
     emit parameterChanged();
 }
@@ -355,7 +359,6 @@ void Geometryval::setupParam(const QDomElement par, int minFrame, int maxFrame)
         label_pos->setHidden(true);
         m_helper->setHidden(true);
         spinPos->setHidden(true);
-
     }
     char *tmp = (char *) qstrdup(val.toUtf8().data());
     if (m_geom) m_geom->parse(tmp, maxFrame - minFrame, m_profile.width, m_profile.height);
@@ -510,8 +513,6 @@ void Geometryval::slotGeometryHeight(int value)
 
 void Geometryval::slotUpdateGeometry()
 {
-    if (!keyframeSelected())
-        return;
     QRectF r = m_paramRect->rect().normalized();
     
     spinX->blockSignals(true);
