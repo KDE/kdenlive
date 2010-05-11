@@ -3,7 +3,7 @@
 	<name>Pan and Zoom</name>
 	<description>Adjust size and position of clip</description>
 	<author>Charles Yates</author>
-	<parameter type="geometry" name="transition.geometry" default="0%,0%:100%x100%" fixed="1">
+	<parameter type="geometry" name="transition.geometry" default="0%,0%:100%x100%" fixed="1" opacity="false">
 		<name>Rectangle</name>
 	</parameter>
 </effect>

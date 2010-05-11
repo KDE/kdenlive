@@ -360,6 +360,10 @@ void Geometryval::setupParam(const QDomElement par, int minFrame, int maxFrame)
         m_helper->setHidden(true);
         spinPos->setHidden(true);
     }
+    if (par.attribute("opacity") == "false") {
+        label_opacity->setHidden(true);
+        spinTransp->setHidden(true);
+    }
     char *tmp = (char *) qstrdup(val.toUtf8().data());
     if (m_geom) m_geom->parse(tmp, maxFrame - minFrame, m_profile.width, m_profile.height);
     else m_geom = new Mlt::Geometry(tmp, maxFrame - minFrame, m_profile.width, m_profile.height);

@@ -723,7 +723,7 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
                 paramList.append(quickParameterFill(ret, "Fix Shear Z", "fix_shear_z", "double", "0", "0", "360"));
                 paramList.append(quickParameterFill(ret, "Mirror", "mirror_off", "bool", "0", "0", "1"));
                 paramList.append(quickParameterFill(ret, "Repeat", "repeat_off", "bool", "0", "0", "1"));
-                paramList.append(quickParameterFill(ret, "Geometry", "geometry", "geometry",  "0,0,100%,100%,100%", "0,0,100%,100%,100%", "0,0,100%,100%,100%"));
+                paramList.append(quickParameterFill(ret, "Geometry", "geometry", "geometry",  "0,0,100%,100%,100%", "0,0,100%,100%,100%", "0,0,100%,100%,100%", "", "", "", "", "", "false"));
                 tname.appendChild(ret.createTextNode("Composite"));
             } else if (name == "region") {
                 tname.appendChild(ret.createTextNode("Region"));
@@ -765,7 +765,7 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
     transitions->append(ret2.documentElement());*/
 }
 
-QDomElement initEffects::quickParameterFill(QDomDocument & doc, QString name, QString tag, QString type, QString def, QString min, QString max, QString list, QString listdisplaynames, QString factor, QString namedesc, QString format)
+QDomElement initEffects::quickParameterFill(QDomDocument & doc, QString name, QString tag, QString type, QString def, QString min, QString max, QString list, QString listdisplaynames, QString factor, QString namedesc, QString format, QString opacity)
 {
     QDomElement parameter = doc.createElement("parameter");
     parameter.setAttribute("tag", tag);
@@ -784,6 +784,8 @@ QDomElement initEffects::quickParameterFill(QDomDocument & doc, QString name, QS
         parameter.setAttribute("namedesc", namedesc);
     if (!format.isEmpty())
         parameter.setAttribute("format", format);
+    if (!opacity.isEmpty())
+        parameter.setAttribute("opacity", opacity);
     QDomElement pname = doc.createElement("name");
     pname.appendChild(doc.createTextNode(name));
     parameter.appendChild(pname);
