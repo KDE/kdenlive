@@ -17,9 +17,12 @@
 #ifndef TIMECODE_H
 #define TIMECODE_H
 
-#include <qstring.h>
+#include <QString>
 
 #include "gentime.h"
+
+class QValidator;
+class QRegExpValidator;
 
 /**
 Handles the conversion of a GenTime into a nicely formatted string, taking into account things such as drop frame if necessary. Handles multiple formats, such as HH:MM:SS:FF, HH:MM:SS:F, All Frames, All Seconds, etc.
@@ -31,16 +34,14 @@ class Timecode
 public:
     enum Formats { HH_MM_SS_FF, HH_MM_SS_HH, Frames, Seconds };
 
-    explicit Timecode(Formats format = HH_MM_SS_FF, double framesPerSecond =
-                          25, bool dropFrame = false);
+    explicit Timecode(Formats format = HH_MM_SS_FF, double framesPerSecond = 25,
+                      bool dropFrame = false);
 
-    /** Set the current timecode format; this is the output format for this timecode. */
-    void setFormat(double framesPerSecond, bool dropFrame = false, Formats format = HH_MM_SS_FF) {
-        m_displayedFramesPerSecond = (int)(framesPerSecond + 0.5);
-        m_dropFrame = dropFrame;
-        m_format = format;
-        m_realFps = framesPerSecond;
-    }
+    /**
+     * Set the current timecode format; this is the output format for this timecode.
+     */
+    void setFormat(double framesPerSecond, bool dropFrame = false,
+                   Formats format = HH_MM_SS_FF);
 
     Formats format() const {
         return m_format;
@@ -59,7 +60,7 @@ public:
     const QString getTimecodeFromFrames(int frames) const;
     double fps() const;
     bool df() const;
-    QString inputMask() const;
+    const QValidator *validator() const;
     QString reformatSeparators(QString duration) const;
 
 private:
@@ -67,6 +68,7 @@ private:
     bool m_dropFrame;
     int m_displayedFramesPerSecond;
     double m_realFps;
+    QRegExpValidator *m_validator;
 
     const QString getTimecodeHH_MM_SS_FF(const GenTime & time) const;
     const QString getTimecodeHH_MM_SS_FF(int frames) const;

@@ -373,8 +373,8 @@ void ProjectList::slotReloadClip(const QString &id)
     for (int i = 0; i < selected.count(); i++) {
         if (selected.at(i)->type() != PROJECTCLIPTYPE) {
             if (selected.at(i)->type() == PROJECTFOLDERTYPE) {
-                    for (int j = 0; j < selected.at(i)->childCount(); j++)
-                        selected.append(selected.at(i)->child(j));
+                for (int j = 0; j < selected.at(i)->childCount(); j++)
+                    selected.append(selected.at(i)->child(j));
             }
             continue;
         }
@@ -1053,7 +1053,8 @@ void ProjectList::slotAddColorClip()
     dia_ui.setupUi(dia);
     dia->setWindowTitle(i18n("Color Clip"));
     dia_ui.clip_name->setText(i18n("Color Clip"));
-    dia_ui.clip_duration->setInputMask(m_timecode.inputMask());
+    dia_ui.clip_duration->setInputMask("");
+    dia_ui.clip_duration->setValidator(m_timecode.validator());
     dia_ui.clip_duration->setText(m_timecode.reformatSeparators(KdenliveSettings::color_duration()));
     if (dia->exec() == QDialog::Accepted) {
         QString color = dia_ui.clip_color->color().name();
@@ -1531,7 +1532,7 @@ void ProjectList::addClipCut(const QString &id, int in, int out, const QString d
         SubProjectItem *sub = new SubProjectItem(clip, in, out, desc);
         if (newItem && desc.isEmpty() && !m_listView->isColumnHidden(1)) {
             if (!clip->isExpanded()) clip->setExpanded(true);
-	    m_listView->scrollToItem(sub);
+            m_listView->scrollToItem(sub);
             m_listView->editItem(sub, 1);
         }
         QPixmap p = clip->referencedClip()->thumbProducer()->extractImage(in, (int)(sub->sizeHint(0).height()  * m_render->dar()), sub->sizeHint(0).height() - 2);

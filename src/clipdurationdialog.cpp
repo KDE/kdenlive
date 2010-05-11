@@ -59,21 +59,22 @@ ClipDurationDialog::ClipDurationDialog(AbstractClipItem *clip, Timecode tc, GenT
 
     m_crop = m_clip->cropStart().frames(m_fps);
 
+    m_view.clip_position->setInputMask("");
+    m_view.crop_position->setInputMask("");
+    m_view.clip_duration->setInputMask("");
+    m_view.end_position->setInputMask("");
     if (m_framesDisplay) {
-        QValidator *valid = new QIntValidator(this);
-        m_view.clip_position->setInputMask("");
+        QIntValidator *valid = new QIntValidator(this);
+        valid->setBottom(0);
         m_view.clip_position->setValidator(valid);
-        m_view.crop_position->setInputMask("");
-        m_view.clip_position->setValidator(valid);
-        m_view.clip_duration->setInputMask("");
-        m_view.clip_position->setValidator(valid);
-        m_view.end_position->setInputMask("");
-        m_view.clip_position->setValidator(valid);
+        m_view.crop_position->setValidator(valid);
+        m_view.clip_duration->setValidator(valid);
+        m_view.end_position->setValidator(valid);
     } else {
-        m_view.clip_position->setInputMask(m_tc.inputMask());
-        m_view.crop_position->setInputMask(m_tc.inputMask());
-        m_view.clip_duration->setInputMask(m_tc.inputMask());
-        m_view.end_position->setInputMask(m_tc.inputMask());
+        m_view.clip_position->setValidator(m_tc.validator());
+        m_view.crop_position->setValidator(m_tc.validator());
+        m_view.clip_duration->setValidator(m_tc.validator());
+        m_view.end_position->setValidator(m_tc.validator());
     }
     m_view.clip_position->setText(tc.getDisplayTimecode(m_clip->startPos(), m_framesDisplay));
     m_view.crop_position->setText(tc.getDisplayTimecode(m_clip->cropStart(), m_framesDisplay));

@@ -4511,8 +4511,8 @@ void CustomTrackView::buildGuidesMenu(QMenu *goMenu) const
     goMenu->clear();
     double fps = m_document->fps();
     for (int i = 0; i < m_guides.count(); i++) {
-	act = goMenu->addAction(m_guides.at(i)->label() + "/" + Timecode::getStringTimecode(m_guides.at(i)->position().frames(fps), fps));
-	act->setData(m_guides.at(i)->position().frames(m_document->fps()));
+        act = goMenu->addAction(m_guides.at(i)->label() + "/" + Timecode::getStringTimecode(m_guides.at(i)->position().frames(fps), fps));
+        act->setData(m_guides.at(i)->position().frames(m_document->fps()));
     }
     goMenu->setEnabled(!m_guides.isEmpty());
 }

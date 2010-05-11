@@ -75,11 +75,11 @@ Geometryval::Geometryval(const MltVideoProfile profile, QPoint frame_size, int s
     buttonAdd->setToolTip(i18n("Add keyframe"));
     buttonDelete->setIcon(KIcon("edit-delete"));
     buttonDelete->setToolTip(i18n("Delete keyframe"));
-    
+
     m_configMenu = new QMenu(i18n("Misc..."), this);
     buttonMenu->setMenu(m_configMenu);
     buttonMenu->setPopupMode(QToolButton::MenuButtonPopup);
-    
+
     m_editOptions = m_configMenu->addAction(KIcon("system-run"), i18n("Show/Hide options"));
     m_editOptions->setCheckable(true);
     buttonMenu->setDefaultAction(m_editOptions);
@@ -87,7 +87,7 @@ Geometryval::Geometryval(const MltVideoProfile profile, QPoint frame_size, int s
     slotSwitchOptions();
 
     m_reset = m_configMenu->addAction(KIcon("view-refresh"), i18n("Reset"), this, SLOT(slotResetPosition()));
-    
+
     m_syncAction = m_configMenu->addAction(i18n("Sync timeline cursor"), this, SLOT(slotSyncCursor()));
     m_syncAction->setCheckable(true);
     m_syncAction->setChecked(KdenliveSettings::transitionfollowcursor());
@@ -106,7 +106,7 @@ Geometryval::Geometryval(const MltVideoProfile profile, QPoint frame_size, int s
     connect(buttonAdd , SIGNAL(clicked()) , this , SLOT(slotAddFrame()));
     connect(m_scene, SIGNAL(actionFinished()), this, SLOT(slotUpdateTransitionProperties()));
     connect(m_scene, SIGNAL(doubleClickEvent()), this, SLOT(slotGeometry()));
-    
+
     buttonhcenter->setIcon(KIcon("kdenlive-align-hor"));
     buttonhcenter->setToolTip(i18n("Align item horizontally"));
     buttonvcenter->setIcon(KIcon("kdenlive-align-vert"));
@@ -119,7 +119,7 @@ Geometryval::Geometryval(const MltVideoProfile profile, QPoint frame_size, int s
     buttonright->setToolTip(i18n("Align item to right"));
     buttonleft->setIcon(KIcon("kdenlive-align-left"));
     buttonleft->setToolTip(i18n("Align item to left"));
-    
+
     connect(buttonhcenter, SIGNAL(clicked()), this, SLOT(slotAlignHCenter()));
     connect(buttonvcenter, SIGNAL(clicked()), this, SLOT(slotAlignVCenter()));
     connect(buttontop, SIGNAL(clicked()), this, SLOT(slotAlignTop()));
@@ -129,10 +129,10 @@ Geometryval::Geometryval(const MltVideoProfile profile, QPoint frame_size, int s
     connect(spinX, SIGNAL(valueChanged(int)), this, SLOT(slotGeometryX(int)));
     connect(spinY, SIGNAL(valueChanged(int)), this, SLOT(slotGeometryY(int)));
     connect(spinWidth, SIGNAL(valueChanged(int)), this, SLOT(slotGeometryWidth(int)));
-    connect(spinHeight, SIGNAL(valueChanged(int)), this, SLOT(slotGeometryHeight(int)));    
+    connect(spinHeight, SIGNAL(valueChanged(int)), this, SLOT(slotGeometryHeight(int)));
     connect(spinResize, SIGNAL(valueChanged(int)), this, SLOT(slotResizeCustom(int)));
     connect(buttonResize, SIGNAL(clicked()), this, SLOT(slotResizeOriginal()));
-    
+
     connect(this, SIGNAL(parameterChanged()), this, SLOT(slotUpdateGeometry()));
 }
 
@@ -514,19 +514,19 @@ void Geometryval::slotGeometryHeight(int value)
 void Geometryval::slotUpdateGeometry()
 {
     QRectF r = m_paramRect->rect().normalized();
-    
+
     spinX->blockSignals(true);
     spinY->blockSignals(true);
     spinWidth->blockSignals(true);
     spinHeight->blockSignals(true);
     spinResize->blockSignals(true);
-    
+
     spinX->setValue(m_paramRect->pos().x());
     spinY->setValue(m_paramRect->pos().y());
     spinWidth->setValue(r.width());
     spinHeight->setValue(r.height());
     spinResize->setValue(m_paramRect->rect().width() * 100 / m_realWidth);
-    
+
     spinX->blockSignals(false);
     spinY->blockSignals(false);
     spinWidth->blockSignals(false);

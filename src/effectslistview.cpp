@@ -84,7 +84,7 @@ void EffectsListView::filterList(int pos)
     }
     // make sure we don't show anything not matching the search expression
     search_effect->updateSearch();
-    
+
     /*item = m_effectsList->currentItem();
     if (item) {
         if (item->isHidden()) {

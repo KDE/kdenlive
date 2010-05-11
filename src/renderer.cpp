@@ -2759,7 +2759,7 @@ bool Render::mltResizeClipStart(ItemInfo info, GenTime diff)
     int previousStart = trackPlaylist.clip_start(clipIndex);
     int previousDuration = trackPlaylist.clip_length(clipIndex) - 1;
     m_isBlocked = true;
-    kDebug() << "RESIZE, old start: " << previousStart + moveFrame<<", "<<previousStart + previousDuration;
+    kDebug() << "RESIZE, old start: " << previousStart + moveFrame << ", " << previousStart + previousDuration;
     trackPlaylist.resize_clip(clipIndex, previousStart + moveFrame, previousStart + previousDuration);
     if (moveFrame > 0) trackPlaylist.insert_blank(clipIndex, moveFrame - 1);
     else {

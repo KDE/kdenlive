@@ -503,7 +503,7 @@ void RecMonitor::slotRecord()
                 if (KdenliveSettings::rmd_use_jack()) {
                     m_captureArgs << "--use-jack";
                     QStringList ports = KdenliveSettings::rmd_jackports().split(" ", QString::SkipEmptyParts);
-                    for(int i = 0; i < ports.count(); ++i) {
+                    for (int i = 0; i < ports.count(); ++i) {
                         m_captureArgs << ports.at(i);
                     }
                     if (KdenliveSettings::rmd_jack_buffer() > 0.0)

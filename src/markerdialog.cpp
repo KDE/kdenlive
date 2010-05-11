@@ -83,11 +83,13 @@ MarkerDialog::MarkerDialog(DocClipBase *clip, CommentedTime t, Timecode tc, cons
         connect(marker_position, SIGNAL(textChanged(const QString &)), this, SIGNAL(updateThumb()));
     } else clip_thumb->setHidden(true);
 
+    marker_position->setInputMask("");
     if (m_frameDisplay) {
-        QValidator *valid = new QIntValidator(this);
-        marker_position->setInputMask("");
+        QIntValidator *valid = new QIntValidator(this);
+        valid->setBottom(0);
         marker_position->setValidator(valid);
-    } else marker_position->setInputMask(tc.inputMask());
+    } else
+        marker_position->setValidator(tc.validator());
     marker_position->setText(tc.getDisplayTimecode(t.time(), m_frameDisplay));
 
     marker_comment->setText(t.comment());

@@ -306,7 +306,7 @@ void KisCubicCurve::Data::updateTransfer(QVector<_T_>* transfer, bool& valid, _T
         qreal end = 1.0 / (size - 1);
         for (int i = 0; i < size; ++i) {
             /* Direct uncached version */
-            _T2_ val = value(i * end ) * max;
+            _T2_ val = value(i * end) * max;
             val = qBound(min, val, max);
             (*transfer)[i] = val;
         }
@@ -322,9 +322,11 @@ KisCubicCurve::KisCubicCurve() : d(new Private)
 {
     d->data = new Data;
     QPointF p;
-    p.rx() = 0.0; p.ry() = 0.0;
+    p.rx() = 0.0;
+    p.ry() = 0.0;
     d->data->points.append(p);
-    p.rx() = 1.0; p.ry() = 1.0;
+    p.rx() = 1.0;
+    p.ry() = 1.0;
     d->data->points.append(p);
 }
 

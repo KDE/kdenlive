@@ -146,7 +146,7 @@ private:
 
     QPixmap m_startPix;
     QPixmap m_endPix;
-    
+
     bool m_hasThumbs;
     QTimer m_startThumbTimer;
     QTimer m_endThumbTimer;

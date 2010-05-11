@@ -262,7 +262,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
 
     m_projectMonitor->setupMenu(static_cast<QMenu*>(factory()->container("monitor_go", this)), m_playZone, m_loopZone);
     m_clipMonitor->setupMenu(static_cast<QMenu*>(factory()->container("monitor_go", this)), m_playZone, m_loopZone, static_cast<QMenu*>(factory()->container("marker_menu", this)));
-    
+
     QMenu *clipInTimeline = static_cast<QMenu*>(factory()->container("clip_in_timeline", this));
     clipInTimeline->setIcon(KIcon("go-jump"));
     m_projectList->setupGeneratorMenu(static_cast<QMenu*>(factory()->container("generators", this)),
@@ -1150,7 +1150,7 @@ void MainWindow::setupActions()
     KAction* editItemDuration = new KAction(KIcon("measure"), i18n("Edit Duration"), this);
     collection->addAction("edit_item_duration", editItemDuration);
     connect(editItemDuration, SIGNAL(triggered(bool)), this, SLOT(slotEditItemDuration()));
-    
+
     KAction* clipInProjectTree = new KAction(KIcon("go-jump-definition"), i18n("Clip in Project Tree"), this);
     collection->addAction("clip_in_project_tree", clipInProjectTree);
     connect(clipInProjectTree, SIGNAL(triggered(bool)), this, SLOT(slotClipInProjectTree()));

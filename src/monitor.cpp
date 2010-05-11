@@ -115,10 +115,13 @@ Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget
     m_timePos = new KRestrictedLine(this);
     m_timePos->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::MinimumExpanding);
     m_frametimecode = KdenliveSettings::frametimecode();
+    m_timePos->setInputMask("");
     if (m_frametimecode) {
-        m_timePos->setInputMask(QString());
-        m_timePos->setValidator(new QIntValidator(this));
-    } else m_timePos->setInputMask(m_monitorManager->timecode().inputMask());
+        QIntValidator *valid = new QIntValidator(this);
+        valid->setBottom(0);
+        m_timePos->setValidator(valid);
+    } else
+        m_timePos->setValidator(m_monitorManager->timecode().validator());
 
     toolbar->addWidget(m_timePos);
 
@@ -837,15 +840,16 @@ void Monitor::slotSwitchMonitorInfo(bool show)
 void Monitor::updateTimecodeFormat()
 {
     m_frametimecode = KdenliveSettings::frametimecode();
+    m_timePos->setInputMask("");
     if (m_frametimecode) {
         int frames = m_monitorManager->timecode().getFrameCount(m_timePos->text());
-        m_timePos->setValidator(new QIntValidator(this));
-        m_timePos->setInputMask(QString());
+        QIntValidator *valid = new QIntValidator(this);
+        valid->setBottom(0);
+        m_timePos->setValidator(valid);
         m_timePos->setText(QString::number(frames));
     } else {
         int pos = m_timePos->text().toInt();
-        m_timePos->setValidator(0);
-        m_timePos->setInputMask(m_monitorManager->timecode().inputMask());
+        m_timePos->setValidator(m_monitorManager->timecode().validator());
         m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(pos));
     }
 }

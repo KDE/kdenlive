@@ -513,9 +513,9 @@ void EffectStackEdit::collectAllParameters()
             EffectsList::setParameter(newparam, number, QString::number(points.count()));
             for (int j = 0; (j < points.count() && j + off <= end); j++) {
                 QString in = inName;
-                in.replace("%i", QString::number(j+off));
+                in.replace("%i", QString::number(j + off));
                 QString out = outName;
-                out.replace("%i", QString::number(j+off));
+                out.replace("%i", QString::number(j + off));
                 EffectsList::setParameter(newparam, in, QString::number(points.at(j).x()));
                 EffectsList::setParameter(newparam, out, QString::number(points.at(j).y()));
             }

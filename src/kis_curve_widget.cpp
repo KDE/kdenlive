@@ -74,7 +74,7 @@ KisCurveWidget::KisCurveWidget(QWidget *parent, Qt::WFlags f)
 
     d->m_intIn = NULL;
     d->m_intOut = NULL;
-    
+
     d->m_maxPoints = -1;
 
     setMouseTracking(true);
@@ -202,7 +202,7 @@ void KisCurveWidget::keyPressEvent(QKeyEvent *e)
         }
         d->setCurveModified();
     } else if (e->key() == Qt::Key_Escape && d->state() != ST_NORMAL) {
-        d->m_curve.setPoint(d->m_grab_point_index, QPointF(d->m_grabOriginalX, d->m_grabOriginalY) );
+        d->m_curve.setPoint(d->m_grab_point_index, QPointF(d->m_grabOriginalX, d->m_grabOriginalY));
         setCursor(Qt::ArrowCursor);
         d->setState(ST_NORMAL);
 
@@ -269,10 +269,10 @@ void KisCurveWidget::paintEvent(QPaintEvent *)
     /*KisConfig cfg;
     if (cfg.antialiasCurves())
         p.setRenderHint(QPainter::Antialiasing);*/
-    
+
     // Draw default line
     p.setPen(QPen(Qt::gray, 1, Qt::SolidLine));
-    p.drawLine(QLineF(0, wHeight, wWidth, 0)); 
+    p.drawLine(QLineF(0, wHeight, wWidth, 0));
 
     // Draw curve.
     double prevY = wHeight - d->m_curve.value(0.) * wHeight;
@@ -323,14 +323,14 @@ void KisCurveWidget::paintEvent(QPaintEvent *)
 void KisCurveWidget::mousePressEvent(QMouseEvent * e)
 {
     if (d->m_readOnlyMode) return;
-    
+
     double x = e->pos().x() / (double)(width() - 1);
     double y = 1.0 - e->pos().y() / (double)(height() - 1);
 
 
 
     int closest_point_index = d->nearestPointInRange(QPointF(x, y), width(), height());
-    
+
     if (e->button() == Qt::RightButton && closest_point_index > 0 && closest_point_index < d->m_curve.points().count() - 1) {
         d->m_curve.removePoint(closest_point_index);
         setCursor(Qt::ArrowCursor);
@@ -340,7 +340,7 @@ void KisCurveWidget::mousePressEvent(QMouseEvent * e)
         d->setCurveModified();
         return;
     } else if (e->button() != Qt::LeftButton) return;
-    
+
     if (closest_point_index < 0) {
         if (d->m_maxPoints > 0 && d->m_curve.points().count() >= d->m_maxPoints)
             return;

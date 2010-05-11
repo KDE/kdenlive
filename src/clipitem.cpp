@@ -1154,9 +1154,9 @@ void ClipItem::resizeStart(int posx, bool)
 {
     bool sizeLimit = false;
     if (clipType() != IMAGE && clipType() != COLOR && clipType() != TEXT) {
-	const int min = (startPos() - cropStart()).frames(m_fps);
-	if (posx < min) posx = min;
-	sizeLimit = true;
+        const int min = (startPos() - cropStart()).frames(m_fps);
+        if (posx < min) posx = min;
+        sizeLimit = true;
     }
 
     if (posx == startPos().frames(m_fps)) return;

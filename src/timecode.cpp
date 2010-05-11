@@ -14,21 +14,35 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+#include <QValidator>
+
+#include <KDebug>
+#include <KLocale>
+
 #include "timecode.h"
 
-#include <kdebug.h>
-#include <klocale.h>
-
-Timecode::Timecode(Formats format, double framesPerSecond, bool dropFrame) :
-        m_format(format),
-        m_dropFrame(dropFrame),
-        m_displayedFramesPerSecond(framesPerSecond + 0.5),
-        m_realFps(framesPerSecond)
+Timecode::Timecode(Formats format, double framesPerSecond, bool dropFrame)
 {
+    m_validator = new QRegExpValidator(0);
+    setFormat(framesPerSecond, dropFrame, format);
 }
 
 Timecode::~Timecode()
 {
+}
+
+void Timecode::setFormat(double framesPerSecond, bool dropFrame, Formats format)
+{
+    m_displayedFramesPerSecond = (int)(framesPerSecond + 0.5);
+    m_dropFrame = dropFrame;
+    m_format = format;
+    m_realFps = framesPerSecond;
+    QRegExp regExp;
+    if (m_dropFrame)
+        regExp.setPattern("^\\d{2}:\\d{2}:\\d{2};\\d{2}$");
+    else
+        regExp.setPattern("^\\d{2}:\\d{2}:\\d{2}:\\d{2}$");
+    m_validator->setRegExp(regExp);
 }
 
 double Timecode::fps() const
@@ -41,18 +55,18 @@ bool Timecode::df() const
     return m_dropFrame;
 }
 
-QString Timecode::inputMask() const
+const QValidator *Timecode::validator() const
 {
-    if (m_dropFrame) return "99:99.99:99";
-    return "99:99:99:99";
+    return m_validator;
 }
+
+
 
 QString Timecode::reformatSeparators(QString duration) const
 {
-    if (m_dropFrame) {
-        return duration.replace(5, 1, '.');
-    }
-    return duration.replace(5, 1, ':');
+    if (m_dropFrame)
+        return duration.replace(8, 1, ';');
+    return duration.replace(8, 1, ':');
 }
 
 int Timecode::getDisplayFrameCount(const QString duration, bool frameDisplay) const
@@ -68,13 +82,12 @@ int Timecode::getFrameCount(const QString duration) const
         int hours, minutes, seconds, frames;
 
         hours = duration.section(':', 0, 0).toInt();
-        if (duration.contains('.')) {
-            minutes = duration.section('.', 0, 0).section(':', 1, 1).toInt();
-            seconds = duration.section('.', 1, 1).section(':', 0, 0).toInt();
-            frames = duration.section('.', 1, 1).section(':', 1, 1).toInt();
+        minutes = duration.section(':', 1, 1).toInt();
+        if (duration.contains(';')) {
+            seconds = duration.section(';', 0, 0).section(':', 2, 2).toInt();
+            frames = duration.section(';', 1, 1).toInt();
         } else {
-            //Handle Drop Frame timecode frame calculations, even if the timecode supplied uses incorrect "99:99:99:99" format instead of "99:99.99:99"
-            minutes = duration.section(':', 1, 1).toInt();
+            //Handle Drop Frame timecode frame calculations, even if the timecode supplied uses incorrect "99:99:99:99" format instead of "99:99:99;99"
             seconds = duration.section(':', 2, 2).toInt();
             frames = duration.section(':', 3, 3).toInt();
         }
@@ -242,13 +255,12 @@ QString Timecode::getTimecodeHH_MM_SS_HH(const GenTime & time) const
     text.append(QString::number(hours).rightJustified(2, '0', false));
     text.append(':');
     text.append(QString::number(minutes).rightJustified(2, '0', false));
-    if (m_dropFrame) {
-        text.append('.');
-    } else {
-        text.append(':');
-    }
-    text.append(QString::number(seconds).rightJustified(2, '0', false));
     text.append(':');
+    text.append(QString::number(seconds).rightJustified(2, '0', false));
+    if (m_dropFrame)
+        text.append(';');
+    else
+        text.append(':');
     text.append(QString::number(hundredths).rightJustified(2, '0', false));
 
     return text;
@@ -320,13 +332,12 @@ QString Timecode::getTimecodeDropFrame(int frames) const
     text.append(':');
     text.append(QString::number(tenMinuteIntervals));
     text.append(QString::number(numMinutes));
-    if (m_dropFrame) {
-        text.append('.');
-    } else {
-        text.append(':');
-    }
-    text.append(QString::number(seconds).rightJustified(2, '0', false));
     text.append(':');
+    text.append(QString::number(seconds).rightJustified(2, '0', false));
+    if (m_dropFrame)
+        text.append(';');
+    else
+        text.append(':');
     text.append(QString::number(frames).rightJustified(2, '0', false));
 
     return text;
