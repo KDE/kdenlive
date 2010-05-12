@@ -265,24 +265,24 @@ void ClipManager::resetProducersList(const QList <Mlt::Producer *> prods)
 void ClipManager::slotAddClipList(const KUrl::List urls, const QString group, const QString &groupId)
 {
     QUndoCommand *addClips = new QUndoCommand();
-    addClips->setText(i18n("Add clips"));
 
     foreach(const KUrl &file, urls) {
         if (KIO::NetAccess::exists(file, KIO::NetAccess::SourceSide, NULL)) {
+            if (!getClipByResource(file.path()).empty()) {
+                if (KMessageBox::warningContinueCancel(kapp->activeWindow(), i18n("Clip <b>%1</b><br />already exists in project, what do you want to do?", file.path()), i18n("Clip already exists")) == KMessageBox::Cancel)
+                    continue;
+            }
+            kDebug() << "Adding clip: " << file.path();
             QDomDocument doc;
             QDomElement prod = doc.createElement("producer");
             doc.appendChild(prod);
+            prod.setAttribute("resource", file.path());
+            uint id = m_clipIdCounter++;
+            prod.setAttribute("id", QString::number(id));
             if (!group.isEmpty()) {
                 prod.setAttribute("groupname", group);
                 prod.setAttribute("groupid", groupId);
             }
-            prod.setAttribute("resource", file.path());
-            if (!getClipByResource(prod.attribute("resource")).empty()) {
-                if (KMessageBox::warningContinueCancel(kapp->activeWindow(), i18n("Clip <b>%1</b><br />already exists in project, what do you want to do?", prod.attribute("resource")), i18n("Clip already exists")) == KMessageBox::Cancel)
-                    continue;
-            }
-            uint id = m_clipIdCounter++;
-            prod.setAttribute("id", QString::number(id));
             KMimeType::Ptr type = KMimeType::findByUrl(file);
             if (type->name().startsWith("image/")) {
                 prod.setAttribute("type", (int) IMAGE);
@@ -295,62 +295,29 @@ void ClipManager::slotAddClipList(const KUrl::List urls, const QString group, co
                 if (txtfile.open(QIODevice::ReadOnly) && txtdoc.setContent(&txtfile)) {
                     txtfile.close();
                     prod.setAttribute("type", (int) TEXT);
-                    prod.setAttribute("resource", file.path());
                     prod.setAttribute("xmldata", txtdoc.toString());
                     prod.setAttribute("transparency", 1);
                     prod.setAttribute("in", 0);
                     int out = txtdoc.documentElement().attribute("out").toInt();
-                    if (out > 0) prod.setAttribute("out", out);
-                    else prod.setAttribute("out", m_doc->getFramePos(KdenliveSettings::image_duration()) - 1);
-                } else txtfile.close();
+                    if (out > 0)
+                        prod.setAttribute("out", out);
+                    else
+                        prod.setAttribute("out", m_doc->getFramePos(KdenliveSettings::image_duration()) - 1);
+                } else
+                    txtfile.close();
             }
             new AddClipCommand(m_doc, doc.documentElement(), QString::number(id), true, addClips);
         }
     }
-    m_doc->commandStack()->push(addClips);
+    if (addClips->childCount() > 0) {
+        addClips->setText(i18np("Add clip", "Add clips", addClips->childCount()));
+        m_doc->commandStack()->push(addClips);
+    }
 }
 
 void ClipManager::slotAddClipFile(const KUrl url, const QString group, const QString &groupId)
 {
-    kDebug() << "/////  CLIP MANAGER, ADDING CLIP: " << url;
-    QDomDocument doc;
-    QDomElement prod = doc.createElement("producer");
-    doc.appendChild(prod);
-    prod.setAttribute("resource", url.path());
-    if (!getClipByResource(prod.attribute("resource")).empty()) {
-        if (KMessageBox::warningContinueCancel(kapp->activeWindow(), i18n("Clip <b>%1</b><br />already exists in project, what do you want to do?", prod.attribute("resource")), i18n("Clip already exists")) == KMessageBox::Cancel)
-            return;
-    }
-    uint id = m_clipIdCounter++;
-    prod.setAttribute("id", QString::number(id));
-    if (!group.isEmpty()) {
-        prod.setAttribute("groupname", group);
-        prod.setAttribute("groupid", groupId);
-    }
-    KMimeType::Ptr type = KMimeType::findByUrl(url);
-    if (type->name().startsWith("image/")) {
-        prod.setAttribute("type", (int) IMAGE);
-        prod.setAttribute("in", "0");
-        prod.setAttribute("out", m_doc->getFramePos(KdenliveSettings::image_duration()) - 1);
-    } else if (type->name() == "application/x-kdenlivetitle") {
-        // opening a title file
-        QDomDocument txtdoc("titledocument");
-        QFile txtfile(url.path());
-        if (txtfile.open(QIODevice::ReadOnly) && txtdoc.setContent(&txtfile)) {
-            txtfile.close();
-            prod.setAttribute("type", (int) TEXT);
-            prod.setAttribute("resource", QString());
-            prod.setAttribute("xmldata", txtdoc.toString());
-            GenTime outPos(txtdoc.documentElement().attribute("out").toDouble() / 1000.0);
-            prod.setAttribute("transparency", 1);
-            prod.setAttribute("in", 0);
-            int out = (int) outPos.frames(m_doc->fps());
-            if (out > 0) prod.setAttribute("out", out);
-            else prod.setAttribute("out", m_doc->getFramePos(KdenliveSettings::image_duration()) - 1);
-        } else txtfile.close();
-    }
-    AddClipCommand *command = new AddClipCommand(m_doc, doc.documentElement(), QString::number(id), true);
-    m_doc->commandStack()->push(command);
+    slotAddClipList(KUrl::List(url), group, groupId);
 }
 
 

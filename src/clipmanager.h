@@ -17,12 +17,14 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
+/**
+ * @class ClipManager
+ * @brief Manages the list of clips in a document.
+ * @author Jean-Baptiste Mardelle
+ */
+
 #ifndef CLIPMANAGER_H
 #define CLIPMANAGER_H
-
-/**ClipManager manages the list of clips in a document
-  *@author Jean-Baptiste Mardelle
-  */
 
 #include <qdom.h>
 #include <QPixmap>
@@ -55,7 +57,19 @@ Q_OBJECT public:
     void addClip(DocClipBase *clip);
     DocClipBase *getClipAt(int pos);
     void deleteClip(const QString &clipId);
+
+    /** @brief Add a file to the project.
+     * @ref slotAddClipList
+     * @param url file to add
+     * @param group name of the group to insert the file in (can be empty)
+     * @param groupId id of the group (if any) */
     void slotAddClipFile(const KUrl url, const QString group, const QString &groupId);
+
+    /** @brief Adds a list of files to the project.
+     * @param urls files to add
+     * @param group name of the group to insert the files in (can be empty)
+     * @param groupId id of the group (if any)
+     * It checks for duplicated items and asks to the user for instructions. */
     void slotAddClipList(const KUrl::List urls, const QString group, const QString &groupId);
     void slotAddTextClipFile(const QString titleName, int out, const QString xml, const QString group, const QString &groupId);
     void slotAddTextTemplateClip(QString titleName, const KUrl path, const QString group, const QString &groupId);
