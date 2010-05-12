@@ -315,10 +315,6 @@ void RecMonitor::slotStopCapture()
         m_isPlaying = false;
         break;
     case VIDEO4LINUX:
-        m_captureProcess->write("q\n", 3);
-        QTimer::singleShot(1000, m_captureProcess, SLOT(kill()));
-
-        break;
     case SCREENGRAB:
         m_captureProcess->write("q\n", 3);
         QTimer::singleShot(1000, m_captureProcess, SLOT(kill()));
@@ -594,8 +590,15 @@ void RecMonitor::slotProcessStatus(QProcess::ProcessState status)
         if (m_captureProcess && m_captureProcess->exitStatus() == QProcess::CrashExit) {
             video_frame->setText(i18n("Capture crashed, please check your parameters"));
         } else {
-            if (device_selector->currentIndex() != SCREENGRAB) video_frame->setText(i18n("Not connected"));
-            else video_frame->setPixmap(mergeSideBySide(KIcon("video-display").pixmap(QSize(50, 50)), i18n("Press record button\nto start screen capture\nFiles will be saved in:\n%1", KdenliveSettings::capturefolder())));
+            if (device_selector->currentIndex() != SCREENGRAB) {
+                video_frame->setText(i18n("Not connected"));
+            } else {
+                if (m_captureProcess->exitCode() != 0) {
+                    video_frame->setText(i18n("Capture crashed, please check your parameters\nRecordMyDesktop exit code: %1", QString::number(m_captureProcess->exitCode())));
+                } else {
+                    video_frame->setPixmap(mergeSideBySide(KIcon("video-display").pixmap(QSize(50, 50)), i18n("Press record button\nto start screen capture\nFiles will be saved in:\n%1", KdenliveSettings::capturefolder())));
+                }
+            }
         }
         m_isCapturing = false;
 

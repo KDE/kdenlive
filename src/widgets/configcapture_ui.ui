@@ -633,7 +633,11 @@
         </widget>
        </item>
        <item row="5" column="1">
-        <widget class="KDoubleNumInput" name="kcfg_rmd_fps"/>
+        <widget class="KDoubleNumInput" name="kcfg_rmd_fps">
+         <property name="minimum">
+          <double>1.000000000000000</double>
+         </property>
+        </widget>
        </item>
        <item row="5" column="2" rowspan="3">
         <spacer name="horizontalSpacer_2">
@@ -702,7 +706,6 @@
          </property>
         </spacer>
        </item>
-
       </layout>
      </widget>
     </widget>

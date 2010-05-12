@@ -17,6 +17,11 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
+/**
+* @class RecMonitor
+* @brief Record video with dvgrab, video4linux and recordmydesktop 
+* @author Jean-Baptiste Mardelle
+*/
 
 #ifndef RECMONITOR_H
 #define RECMONITOR_H
