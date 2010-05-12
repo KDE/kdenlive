@@ -1738,11 +1738,8 @@ void MainWindow::recoverFiles(QList<KAutoSaveFile *> staleFiles)
     }
 }
 
-
 void MainWindow::parseProfiles(const QString &mltPath)
 {
-    // kDebug()<<" + + YOUR MLT INSTALL WAS FOUND IN: "<< MLT_PREFIX <<endl;
-
     //KdenliveSettings::setDefaulttmpfolder();
     if (!mltPath.isEmpty()) {
         KdenliveSettings::setMltpath(mltPath + "/share/mlt/profiles/");
@@ -1752,43 +1749,17 @@ void MainWindow::parseProfiles(const QString &mltPath)
     if (KdenliveSettings::mltpath().isEmpty()) {
         KdenliveSettings::setMltpath(QString(MLT_PREFIX) + QString("/share/mlt/profiles/"));
     }
+
     if (KdenliveSettings::rendererpath().isEmpty() || KdenliveSettings::rendererpath().endsWith("inigo")) {
         QString meltPath = QString(MLT_PREFIX) + QString("/bin/melt");
         if (!QFile::exists(meltPath))
             meltPath = KStandardDirs::findExe("melt");
         KdenliveSettings::setRendererpath(meltPath);
     }
-    QStringList profilesFilter;
-    profilesFilter << "*";
-    QStringList profilesList = QDir(KdenliveSettings::mltpath()).entryList(profilesFilter, QDir::Files);
-
-    if (profilesList.isEmpty()) {
-        // Cannot find MLT path, try finding melt
-        QString profilePath = KdenliveSettings::rendererpath();
-        if (!profilePath.isEmpty()) {
-            profilePath = profilePath.section('/', 0, -3);
-            KdenliveSettings::setMltpath(profilePath + "/share/mlt/profiles/");
-            QStringList profilesList = QDir(KdenliveSettings::mltpath()).entryList(profilesFilter, QDir::Files);
-        }
-
-        if (profilesList.isEmpty()) {
-            // Cannot find the MLT profiles, ask for location
-            KUrlRequesterDialog *getUrl = new KUrlRequesterDialog(KdenliveSettings::mltpath(), i18n("Cannot find your Mlt profiles, please give the path"), this);
-            getUrl->fileDialog()->setMode(KFile::Directory);
-            if (getUrl->exec() == QDialog::Rejected) {
-                ::exit(0);
-            }
-            KUrl mltPath = getUrl->selectedUrl();
-            delete getUrl;
-            if (mltPath.isEmpty()) ::exit(0);
-            KdenliveSettings::setMltpath(mltPath.path(KUrl::AddTrailingSlash));
-            QStringList profilesList = QDir(KdenliveSettings::mltpath()).entryList(profilesFilter, QDir::Files);
-        }
-    }
 
     if (KdenliveSettings::rendererpath().isEmpty()) {
         // Cannot find the MLT melt renderer, ask for location
-        KUrlRequesterDialog *getUrl = new KUrlRequesterDialog(QString(), i18n("Cannot find the melt program required for rendering (part of Mlt)"), this);
+        KUrlRequesterDialog *getUrl = new KUrlRequesterDialog(QString(), i18n("Cannot find the melt program required for rendering (part of MLT)"), this);
         if (getUrl->exec() == QDialog::Rejected) {
             ::exit(0);
         }
@@ -1798,9 +1769,35 @@ void MainWindow::parseProfiles(const QString &mltPath)
         KdenliveSettings::setRendererpath(rendererPath.path());
     }
 
+    QStringList profilesFilter;
+    profilesFilter << "*";
+    QStringList profilesList = QDir(KdenliveSettings::mltpath()).entryList(profilesFilter, QDir::Files);
+    if (profilesList.isEmpty()) {
+        // Cannot find MLT path, try finding melt
+        QString profilePath = KdenliveSettings::rendererpath();
+        if (!profilePath.isEmpty()) {
+            profilePath = profilePath.section('/', 0, -3);
+            KdenliveSettings::setMltpath(profilePath + "/share/mlt/profiles/");
+            profilesList = QDir(KdenliveSettings::mltpath()).entryList(profilesFilter, QDir::Files);
+        }
+        if (profilesList.isEmpty()) {
+            // Cannot find the MLT profiles, ask for location
+            KUrlRequesterDialog *getUrl = new KUrlRequesterDialog(KdenliveSettings::mltpath(), i18n("Cannot find your MLT profiles, please give the path"), this);
+            getUrl->fileDialog()->setMode(KFile::Directory);
+            if (getUrl->exec() == QDialog::Rejected) {
+                ::exit(0);
+            }
+            KUrl mltPath = getUrl->selectedUrl();
+            delete getUrl;
+            if (mltPath.isEmpty()) ::exit(0);
+            KdenliveSettings::setMltpath(mltPath.path(KUrl::AddTrailingSlash));
+            profilesList = QDir(KdenliveSettings::mltpath()).entryList(profilesFilter, QDir::Files);
+        }
+    }
+
     kDebug() << "RESULTING MLT PATH: " << KdenliveSettings::mltpath();
 
-    // Parse MLT profiles to build a list of available video formats
+    // Parse again MLT profiles to build a list of available video formats
     if (profilesList.isEmpty()) parseProfiles();
 }
 
@@ -2947,12 +2944,9 @@ void MainWindow::keyPressEvent(QKeyEvent *ke)
 /** Gets called when the window gets hidden */
 void MainWindow::hideEvent(QHideEvent */*event*/)
 {
-    // kDebug() << "I was hidden";
-    // issue http://www.kdenlive.org/mantis/view.php?id=231
-    if (isMinimized()) {
-        // kDebug() << "I am minimized";
-        if (m_monitorManager) m_monitorManager->stopActiveMonitor();
-    }
+    if (isMinimized())
+        if (m_monitorManager)
+            m_monitorManager->stopActiveMonitor();
 }
 
 bool MainWindow::eventFilter(QObject *obj, QEvent *event)

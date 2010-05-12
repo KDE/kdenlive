@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
     aboutData.addAuthor(ki18n("Ray Lehtiniemi"), ki18n("Bug fixing, etc."), "rayl@mail.com");
     aboutData.addAuthor(ki18n("Dan Dennedy"), ki18n("Bug fixing, etc."), "dan@dennedy.org");
     aboutData.addAuthor(ki18n("Simon A. Eugster"), ki18n("Bug fixing, etc."), "simon.eu@gmail.com");
-	aboutData.addAuthor(ki18n("Alberto Villa"), ki18n("Bug fixing, logo, etc."), "avilla@FreeBSD.org");
+    aboutData.addAuthor(ki18n("Alberto Villa"), ki18n("Bug fixing, logo, etc."), "avilla@FreeBSD.org");
     aboutData.addAuthor(ki18n("Jason Wood"), ki18n("Original KDE 3 version author (not active anymore)"), "jasonwood@blueyonder.co.uk");
     aboutData.setHomepage("http://kdenlive.org");
     aboutData.setCustomAuthorText(ki18n("Please report bugs to http://kdenlive.org/mantis"), ki18n("Please report bugs to <a href=\"http://kdenlive.org/mantis\">http://kdenlive.org/mantis</a>"));

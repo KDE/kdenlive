@@ -68,15 +68,23 @@ class MainWindow : public KXmlGuiWindow
     Q_CLASSINFO("D-Bus Interface", "org.kdenlive.MainWindow")
 
 public:
-    /** Constructor
-     * \param MltPath path to MLT environment
-     * \param Url Url to open
-     * \param parent Std. widget parent
+
+    /** @brief Initialises the main window.
+     * @param MltPath (optional) path to MLT environment
+     * @param Url (optional) file to open
      *
-     * The constructor inits the main window. If Url is present, it will be opened.
-     * If Url is not present, and openLastproject is set, last project will be set
-     * If no file is open after trying this, a default "newfile" will be created. */
-    explicit MainWindow(const QString &MltPath = QString(), const KUrl & Url = KUrl(), QWidget *parent = 0);
+     * If Url is present, it will be opened, otherwhise, if openlastproject is
+     * set, latest project will be opened. If no file is open after trying this,
+     * a default new file will be created. */
+    explicit MainWindow(const QString &MltPath = QString(),
+                        const KUrl &Url = KUrl(), QWidget *parent = 0);
+
+    /** @brief Locates the MLT environment.
+     * @param mltPath (optional) path to MLT environment
+     *
+     * It tries to set the paths of the MLT profiles and renderer, using
+     * mltPath, MLT_PREFIX, searching for the binary `melt`, or asking to the
+     * user. It doesn't fill any list of profiles, while its name suggests so. */
     void parseProfiles(const QString &mltPath = QString());
 
     static EffectsList videoEffects;
@@ -84,23 +92,29 @@ public:
     static EffectsList customEffects;
     static EffectsList transitions;
 protected:
+
+    /** @brief Closes the window.
+     * @return false if the user presses "Cancel" on a confirmation dialog or
+     *     the operation requested (starting waiting jobs or saving file) fails,
+     *     true otherwise */
     virtual bool queryClose();
-    virtual void customEvent(QEvent * e);
+
+    /** @brief Reports a message in the status bar when an error occurs. */
+    virtual void customEvent(QEvent *e);
+
+    /** @brief Enables live search in the timeline. */
     virtual void keyPressEvent(QKeyEvent *ke);
-    /** Override hideEvent to get events when the mainwindow gets hidden */
+
+    /** @brief Stops the active monitor when the window gets hidden. */
     virtual void hideEvent(QHideEvent *e);
+
+    /** @brief Filters key events to the live search. */
     bool eventFilter(QObject *obj, QEvent *ev);
-    /**
-     * This function is called when it is time for the app to save its
-     * properties for session management purposes.
-     */
+
+    /** @brief Saves the file and the window properties when saving the session. */
     virtual void saveProperties(KConfigGroup &config);
 
-    /**
-     * This function is called when this app is restored.  The KConfig
-     * object points to the session management config file that was saved
-     * with @ref saveProperties
-     */
+    /** @brief Restores the window and the file when a session is loaded. */
     virtual void readProperties(const KConfigGroup &config);
 
 private:
@@ -145,10 +159,10 @@ private:
     QMenu *m_timelineContextTransitionMenu;
     KUrl m_startUrl;
 
-    /**
-     * Shortcut to remove the focus of any element. Allows to get out
-     * of e.g. text input fields and to press another shortcut.
-     */
+    /** @brief Shortcut to remove the focus from any element.
+     *
+     * It allows to get out of e.g. text input fields and to press another
+     * shortcut. */
     QShortcut* m_shortcutRemoveFocus;
 
     RenderWidget *m_renderWidget;
@@ -341,7 +355,7 @@ private slots:
     void slotRevert();
     void slotShutdown();
     void slotUpdateTrackInfo();
-    /** \brief Change color scheme */
+    /** @brief Changes the color scheme. */
     void slotChangePalette(QAction *action, const QString &themename = QString());
     void slotSwitchMonitors();
     void slotCheckRenderStatus();

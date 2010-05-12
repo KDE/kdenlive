@@ -363,7 +363,7 @@ void Geometryval::setupParam(const QDomElement par, int minFrame, int maxFrame)
     if (par.attribute("opacity") == "false") {
         label_opacity->setHidden(true);
         spinTransp->setHidden(true);
-    } else if(par.attribute("opacity") == "nonzero") {
+    } else if (par.attribute("opacity") == "nonzero") {
         spinTransp->setMinimum(1);
     }
     char *tmp = (char *) qstrdup(val.toUtf8().data());
