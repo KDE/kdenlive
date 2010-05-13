@@ -110,6 +110,7 @@ TrackView::TrackView(KdenliveDoc *doc, bool *ok, QWidget *parent) :
     else *ok = true;
     connect(m_trackview, SIGNAL(cursorMoved(int, int)), m_ruler, SLOT(slotCursorMoved(int, int)));
     connect(m_trackview->horizontalScrollBar(), SIGNAL(valueChanged(int)), m_ruler, SLOT(slotMoveRuler(int)));
+    connect(m_trackview->horizontalScrollBar(), SIGNAL(rangeChanged(int, int)), this, SLOT(slotUpdateVerticalScroll(int, int)));
     connect(m_trackview, SIGNAL(mousePosition(int)), this, SIGNAL(mousePosition(int)));
     connect(m_trackview, SIGNAL(doTrackLock(int, bool)), this, SLOT(slotChangeTrackLock(int, bool)));
 
@@ -943,5 +944,10 @@ void TrackView::slotRenameTrack(int ix)
     }
 }
 
+void TrackView::slotUpdateVerticalScroll(int /*min*/, int max) {
+    int height = 0;
+    if (max > 0) height = m_trackview->horizontalScrollBar()->height() - 1;
+    headers_container->layout()->setContentsMargins(0, m_trackview->frameWidth(), 0, height);
+}
 
 #include "trackview.moc"

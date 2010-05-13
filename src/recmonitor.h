@@ -19,7 +19,7 @@
 
 /**
 * @class RecMonitor
-* @brief Record video with dvgrab, video4linux and recordmydesktop 
+* @brief Records video via dvgrab, video4linux and recordmydesktop 
 * @author Jean-Baptiste Mardelle
 */
 

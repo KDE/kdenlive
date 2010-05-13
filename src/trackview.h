@@ -17,17 +17,22 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
+/**
+* @class TrackView
+* @brief Manages the timline
+* @author Jean-Baptiste Mardelle
+*/
 
 #ifndef TRACKVIEW_H
 #define TRACKVIEW_H
 
 #include <QScrollArea>
-#include <KRuler>
 #include <QGroupBox>
 #include <QGraphicsScene>
 #include <QGraphicsLineItem>
 #include <QDomElement>
 
+#include <KRuler>
 
 #include "customtrackscene.h"
 #include "ui_timeline_ui.h"
@@ -88,15 +93,21 @@ private:
 private slots:
     void setCursorPos(int pos);
     void moveCursorPos(int pos);
-    /** \brief Rebuild the track headers */
+    /** @brief Rebuild the track headers */
     void slotRebuildTrackHeaders();
-    /** \brief The tracks count or a track name changed, rebuild and notify */
+    /** @brief The tracks count or a track name changed, rebuild and notify */
     void slotReloadTracks();
     void slotChangeTrackLock(int ix, bool lock);
     void slotVerticalZoomDown();
     void slotVerticalZoomUp();
     void slotRenameTrack(int ix);
     void slotRepaintTracks();
+    /** @brief Adjust margins of header area
+     *
+     * Avoid a shift between header area and trackview if
+     * the horizontal scrollbar is visible and the position
+     * of the vertical scrollbar is maximal */
+    void slotUpdateVerticalScroll(int min, int max);
 
 signals:
     void mousePosition(int);
