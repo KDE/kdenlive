@@ -944,7 +944,8 @@ void TrackView::slotRenameTrack(int ix)
     }
 }
 
-void TrackView::slotUpdateVerticalScroll(int /*min*/, int max) {
+void TrackView::slotUpdateVerticalScroll(int /*min*/, int max)
+{
     int height = 0;
     if (max > 0) height = m_trackview->horizontalScrollBar()->height() - 1;
     headers_container->layout()->setContentsMargins(0, m_trackview->frameWidth(), 0, height);

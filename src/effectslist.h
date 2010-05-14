@@ -15,29 +15,46 @@
  *                                                                         *
  ***************************************************************************/
 
+/**
+ * @class EffectsList
+ * @brief List for effects objects.
+ * @author Jason Wood
+ *
+ * This is a list of DocClipBase objects, to be used instead of
+ * QList<DocClipBase> to enable sorting lists correctly. It also contains the
+ * ability to set a "master clip", which can be used by a number of operations
+ * where there is the need of one clip to act as a reference for what happens to
+ * all clips.
+ */
+
 #ifndef EFFECTSLIST_H
 #define EFFECTSLIST_H
 
 #include <QDomDocument>
-
-/**A List for DocClipBase objects. Use this instead of QList<DocClipBase> so as to sort lists correctly.
- * Also contains the ability to set a "master clip", which can be used by a number of operations where
- * the need for one clip to act as a reference for what happens to all clips is needed.
-  * @author Jason Wood
-  */
-
 
 class EffectsList: public QDomDocument
 {
 public:
     EffectsList();
     ~EffectsList();
-    /** Returns an XML version of this Effect.*/
+
+    /** @brief Returns the XML element of an effect.
+     * @param name name of the effect to be returned */
     QDomElement getEffectByName(const QString & name) const;
     QDomElement getEffectByTag(const QString & tag, const QString & id) const;
-    /** if the list contains effect defined by tag + id, returns effect index, otherwise -1 */
+
+    /** @brief Checks the existance of an effect.
+     * @param tag effect tag
+     * @param id effect id
+     * @return effect index if the effect exists, -1 otherwise */
     int hasEffect(const QString & tag, const QString & id) const;
+
+    /** @brief Lists the core properties of an effect.
+     * @param ix effect index
+     * @return list of name, tag and id of an effect */
     QStringList effectIdInfo(const int ix) const;
+
+    /** @brief Lists effects names. */
     QStringList effectNames();
     QString getInfo(const QString & tag, const QString & id) const;
     QString getInfoFromIndex(const int ix) const;
