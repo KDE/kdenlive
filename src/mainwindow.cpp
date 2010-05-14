@@ -718,6 +718,7 @@ void MainWindow::setupActions()
     toolbar->setMovable(false);
     statusBar()->setStyleSheet(QString("QStatusBar QLabel {font-size:%1pt;} QStatusBar::item { border: 0px; font-size:%1pt;padding:0px; }").arg(statusBar()->font().pointSize()));
     QString style1 = "QToolBar { border: 0px } QToolButton { border-style: inset; border:1px solid #999999;border-radius: 3px;margin: 0px 3px;padding: 0px;} QToolButton:checked { background-color: rgba(224, 224, 0, 100); border-style: inset; border:1px solid #cc6666;border-radius: 3px;}";
+    QString styleBorderless = "QToolButton { border-width: 0px;margin: 1px 3px 0px;padding: 0px;}";
 
     //create edit mode buttons
     m_normalEditTool = new KAction(KIcon("kdenlive-normal-edit"), i18n("Normal mode"), this);
@@ -811,9 +812,10 @@ void MainWindow::setupActions()
     m_buttonFitZoom->setCheckable(false);
     connect(m_buttonFitZoom, SIGNAL(triggered()), this, SLOT(slotFitZoom()));
 
-    actionWidget = toolbar->widgetForAction(m_buttonFitZoom);
-    actionWidget->setMaximumWidth(max);
-    actionWidget->setMaximumHeight(max - 4);
+    m_zoomIn = new KAction(KIcon("zoom-in"), i18n("Zoom In"), this);
+    toolbar->addAction(m_zoomIn);
+    connect(m_zoomIn, SIGNAL(triggered(bool)), this, SLOT(slotZoomIn()));
+    m_zoomIn->setShortcut(Qt::CTRL + Qt::Key_Plus);
 
     m_zoomSlider = new QSlider(Qt::Horizontal, this);
     m_zoomSlider->setMaximum(13);
@@ -822,6 +824,28 @@ void MainWindow::setupActions()
     m_zoomSlider->setMaximumWidth(150);
     m_zoomSlider->setMinimumWidth(100);
     toolbar->addWidget(m_zoomSlider);
+
+    m_zoomOut = new KAction(KIcon("zoom-out"), i18n("Zoom Out"), this);
+    toolbar->addAction(m_zoomOut);
+    connect(m_zoomOut, SIGNAL(triggered(bool)), this, SLOT(slotZoomOut()));
+    m_zoomOut->setShortcut(Qt::CTRL + Qt::Key_Minus);
+
+    actionWidget = toolbar->widgetForAction(m_buttonFitZoom);
+    actionWidget->setMaximumWidth(max);
+    actionWidget->setMaximumHeight(max - 4);
+    actionWidget->setStyleSheet(styleBorderless);
+
+    actionWidget = toolbar->widgetForAction(m_zoomIn);
+    actionWidget->setMaximumWidth(max);
+    actionWidget->setMaximumHeight(max - 4);
+    actionWidget->setStyleSheet(styleBorderless);
+
+    actionWidget = toolbar->widgetForAction(m_zoomOut);
+    actionWidget->setMaximumWidth(max);
+    actionWidget->setMaximumHeight(max - 4);
+    actionWidget->setStyleSheet(styleBorderless);
+
+    toolbar->addSeparator();
 
     m_buttonVideoThumbs = new KAction(KIcon("kdenlive-show-videothumb"), i18n("Show video thumbnails"), this);
     toolbar->addAction(m_buttonVideoThumbs);
@@ -885,16 +909,8 @@ void MainWindow::setupActions()
     collection->addAction("show_markers", m_buttonShowMarkers);
     collection->addAction("snap", m_buttonSnap);
     collection->addAction("zoom_fit", m_buttonFitZoom);
-
-    KAction* zoomIn = new KAction(KIcon("zoom-in"), i18n("Zoom In"), this);
-    collection->addAction("zoom_in", zoomIn);
-    connect(zoomIn, SIGNAL(triggered(bool)), this, SLOT(slotZoomIn()));
-    zoomIn->setShortcut(Qt::CTRL + Qt::Key_Plus);
-
-    KAction* zoomOut = new KAction(KIcon("zoom-out"), i18n("Zoom Out"), this);
-    collection->addAction("zoom_out", zoomOut);
-    connect(zoomOut, SIGNAL(triggered(bool)), this, SLOT(slotZoomOut()));
-    zoomOut->setShortcut(Qt::CTRL + Qt::Key_Minus);
+    collection->addAction("zoom_in", m_zoomIn);
+    collection->addAction("zoom_out", m_zoomOut);
 
     m_projectSearch = new KAction(KIcon("edit-find"), i18n("Find"), this);
     collection->addAction("project_find", m_projectSearch);

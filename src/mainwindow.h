@@ -199,6 +199,8 @@ private:
     KAction *m_saveAction;
     KAction *m_closeAction;
     QSlider *m_zoomSlider;
+    KAction *m_zoomIn;
+    KAction *m_zoomOut;
     KAction *m_loopZone;
     KAction *m_playZone;
     StatusBarMessageLabel *m_messageLabel;
