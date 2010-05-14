@@ -795,12 +795,11 @@ void ProjectList::slotAddFolder(const QString foldername, const QString &clipId,
                 }
             }
         } else {
-            QStringList text;
-            text << foldername;
             m_listView->blockSignals(true);
-            m_listView->setCurrentItem(new FolderProjectItem(m_listView, text, clipId));
+            m_listView->setCurrentItem(new FolderProjectItem(m_listView, QStringList() << foldername, clipId));
             m_doc->clipManager()->addFolder(clipId, foldername);
             m_listView->blockSignals(false);
+            m_listView->editItem(m_listView->currentItem(), 0);
         }
         updateButtons();
     }

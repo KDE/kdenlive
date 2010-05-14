@@ -173,6 +173,9 @@ public slots:
     void slotSelectClip(const QString &ix);
     void slotRemoveClip();
     void slotAddClip(const QList <QUrl> givenList = QList <QUrl> (), const QString &groupName = QString(), const QString &groupId = QString());
+    /** @brief Adds, edits or deletes a folder item.
+    *
+    * This is triggered by AddFolderCommand and EditFolderCommand. */
     void slotAddFolder(const QString foldername, const QString &clipId, bool remove, bool edit = false);
     void slotResetProjectList();
     void slotOpenClip();
@@ -209,11 +212,13 @@ private:
     void requestClipInfo(const QDomElement xml, const QString id);
     QList <QString> m_thumbnailQueue;
     void requestClipThumbnail(const QString id);
+    /** @brief Creates an EditFolderCommand to change the name of an folder item. */
     void editFolder(const QString folderName, const QString oldfolderName, const QString &clipId);
     QStringList getGroup() const;
     void regenerateTemplate(ProjectItem *clip);
     void editClipSelection(QList<QTreeWidgetItem *> list);
     void adjustTranscodeActions(ProjectItem *clip) const;
+    /** @brief Sets the buttons enabled/disabled according to selected item. */
     void updateButtons() const;
 
 private slots:
@@ -222,8 +227,9 @@ private slots:
     void slotAddTitleClip();
     void slotAddTitleTemplateClip();
     void slotContextMenu(const QPoint &pos, QTreeWidgetItem *);
+    /** @brief Creates an AddFolderCommand. */
     void slotAddFolder();
-    /** This is triggered when a clip description has been modified */
+    /** @brief This is triggered when a clip description has been modified. */
     void slotItemEdited(QTreeWidgetItem *item, int column);
     void slotUpdateClipProperties(ProjectItem *item, QMap <QString, QString> properties);
     void slotProcessNextClipInQueue();
