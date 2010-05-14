@@ -234,8 +234,15 @@ private slots:
     void connectDocument(TrackView*, KdenliveDoc*);
     void openFile();
     void openLastFile();
+    /** @brief Checks whether a URL is available to save to.
+    * @return Whether the file was saved. */
     bool saveFile();
+    /** @brief Shows a save file dialog for saving the project.
+    * @return Whether the file was saved. */
     bool saveFileAs();
+    /** @brief Set properties to match outputFileName and save the document.
+    * @param outputFileName The URL to save to / The document's URL.
+    * @return Whether we had success. */
     bool saveFileAs(const QString &outputFileName);
     void slotPreferences(int page = -1, int option = -1);
     void updateConfiguration();

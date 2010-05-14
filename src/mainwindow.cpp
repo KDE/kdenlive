@@ -1598,7 +1598,9 @@ bool MainWindow::saveFileAs()
     QString outputFile = KFileDialog::getSaveFileName(KUrl(), mimetype);
     if (outputFile.isEmpty()) return false;
     if (QFile::exists(outputFile)) {
-        if (KMessageBox::questionYesNo(this, i18n("File already exists.\nDo you want to overwrite it?")) == KMessageBox::No) return false;
+        // Show the file dialog again if the user does not want to overwrite the file
+        if (KMessageBox::questionYesNo(this, i18n("File already exists.\nDo you want to overwrite it?")) == KMessageBox::No)
+            return saveFileAs();
     }
     return saveFileAs(outputFile);
 }
