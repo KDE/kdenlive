@@ -120,6 +120,8 @@ protected:
 private:
     KTabWidget* m_timelineArea;
     QProgressBar *m_statusProgressBar;
+
+    /** @brief Sets up all the actions and attaches them to the collection. */
     void setupActions();
     KdenliveDoc *m_activeDocument;
     TrackView *m_activeTimeline;
@@ -153,7 +155,10 @@ private:
 
     KComboBox *m_timecodeFormat;
 
+    QMenu *m_videoEffectsMenu;
+    QMenu *m_audioEffectsMenu;
     QMenu *m_customEffectsMenu;
+    QMenu *m_transitionsMenu;
     QMenu *m_timelineContextMenu;
     QMenu *m_timelineContextClipMenu;
     QMenu *m_timelineContextTransitionMenu;
@@ -176,6 +181,10 @@ private:
     KAction *m_projectSearch;
     KAction *m_projectSearchNext;
 
+    KAction **m_videoEffects;
+    KAction **m_audioEffects;
+    KAction **m_customEffects;
+    KAction **m_transitions;
     KAction *m_buttonAudioThumbs;
     KAction *m_buttonVideoThumbs;
     KAction *m_buttonShowMarkers;
@@ -215,6 +224,10 @@ private:
                    QMenu *menu, const char *member,
                    QActionGroup *actionGroup);
     void aboutPlugins();
+
+    /** @brief Instantiates a "Get Hot New Stuff" dialog.
+     * @param configFile configuration file for KNewStuff
+     * @return number of installed items */
     int getNewStuff(const QString &configFile = QString());
     QStringList m_pluginFileNames;
     QByteArray m_timelineState;
@@ -363,6 +376,7 @@ private slots:
     void slotRevert();
     void slotShutdown();
     void slotUpdateTrackInfo();
+
     /** @brief Changes the color scheme. */
     void slotChangePalette(QAction *action, const QString &themename = QString());
     void slotSwitchMonitors();

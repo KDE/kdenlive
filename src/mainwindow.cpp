@@ -269,16 +269,15 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
                                       static_cast<QMenu*>(factory()->container("transcoders", this)),
                                       clipInTimeline);
 
-    QAction *action;
+    KAction *action;
     // build themes menus
     QMenu *themesMenu = static_cast<QMenu*>(factory()->container("themes_menu", this));
     QActionGroup *themegroup = new QActionGroup(this);
     themegroup->setExclusive(true);
-    action = new QAction(i18n("Default"), this);
+    action = new KAction(i18n("Default"), this);
     action->setCheckable(true);
     themegroup->addAction(action);
     if (KdenliveSettings::colortheme().isEmpty()) action->setChecked(true);
-
 
     const QStringList schemeFiles = KGlobal::dirs()->findAllResources("data", "color-schemes/*.colors", KStandardDirs::NoDuplicates);
 
@@ -292,18 +291,13 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
         QIcon icon = createSchemePreviewIcon(config);
         KConfigGroup group(config, "General");
         const QString name = group.readEntry("Name", info.baseName());
-        action = new QAction(name, this);
+        action = new KAction(name, this);
         action->setData(filename);
         action->setIcon(icon);
         action->setCheckable(true);
         themegroup->addAction(action);
         if (KdenliveSettings::colortheme() == filename) action->setChecked(true);
     }
-
-
-
-
-
 
     /*KGlobal::dirs()->addResourceDir("themes", KStandardDirs::installPath("data") + QString("kdenlive/themes"));
     QStringList themes = KGlobal::dirs()->findAllResources("themes", QString(), KStandardDirs::Recursive | KStandardDirs::NoDuplicates);
@@ -319,88 +313,42 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
     themesMenu->addActions(themegroup->actions());
     connect(themesMenu, SIGNAL(triggered(QAction *)), this, SLOT(slotChangePalette(QAction*)));
 
-    // build effects menus
-    QMenu *videoEffectsMenu = static_cast<QMenu*>(factory()->container("video_effects_menu", this));
-
-    QStringList effectInfo;
-    QMap<QString, QStringList> effectsList;
-    for (int ix = 0; ix < videoEffects.count(); ix++) {
-        effectInfo = videoEffects.effectIdInfo(ix);
-        effectsList.insert(effectInfo.at(0).toLower(), effectInfo);
-    }
-
-    foreach(const QStringList &value, effectsList) {
-        action = new QAction(value.at(0), this);
-        action->setData(value);
-        videoEffectsMenu->addAction(action);
-    }
-
-    QMenu *audioEffectsMenu = static_cast<QMenu*>(factory()->container("audio_effects_menu", this));
-
-
-    effectsList.clear();
-    for (int ix = 0; ix < audioEffects.count(); ix++) {
-        effectInfo = audioEffects.effectIdInfo(ix);
-        effectsList.insert(effectInfo.at(0).toLower(), effectInfo);
-    }
-
-    foreach(const QStringList &value, effectsList) {
-        action = new QAction(value.at(0), this);
-        action->setData(value);
-        audioEffectsMenu->addAction(action);
-    }
-
+    // Setup and fill effects and transitions menus.
+    m_videoEffectsMenu = static_cast<QMenu*>(factory()->container("video_effects_menu", this));
+    for (int i = 0; i < videoEffects.count(); ++i)
+        m_videoEffectsMenu->addAction(m_videoEffects[i]);
+    m_audioEffectsMenu = static_cast<QMenu*>(factory()->container("audio_effects_menu", this));
+    for (int i = 0; i < audioEffects.count(); ++i)
+        m_audioEffectsMenu->addAction(m_audioEffects[i]);
     m_customEffectsMenu = static_cast<QMenu*>(factory()->container("custom_effects_menu", this));
+    if (customEffects.isEmpty())
+        m_customEffectsMenu->setEnabled(false);
+    else
+        m_customEffectsMenu->setEnabled(true);
+    for (int i = 0; i < customEffects.count(); ++i)
+        m_customEffectsMenu->addAction(m_customEffects[i]);
+    m_transitionsMenu = new QMenu(i18n("Add Transition"), this);
+    for (int i = 0; i < transitions.count(); ++i)
+        m_transitionsMenu->addAction(m_transitions[i]);
 
-    if (customEffects.isEmpty()) m_customEffectsMenu->setEnabled(false);
-    else m_customEffectsMenu->setEnabled(true);
-
-    effectsList.clear();
-    for (int ix = 0; ix < customEffects.count(); ix++) {
-        effectInfo = customEffects.effectIdInfo(ix);
-        effectsList.insert(effectInfo.at(0).toLower(), effectInfo);
-    }
-
-    foreach(const QStringList &value, effectsList) {
-        action = new QAction(value.at(0), this);
-        action->setData(value);
-        m_customEffectsMenu->addAction(action);
-    }
+    connect(m_videoEffectsMenu, SIGNAL(triggered(QAction *)), this, SLOT(slotAddVideoEffect(QAction *)));
+    connect(m_audioEffectsMenu, SIGNAL(triggered(QAction *)), this, SLOT(slotAddAudioEffect(QAction *)));
+    connect(m_customEffectsMenu, SIGNAL(triggered(QAction *)), this, SLOT(slotAddCustomEffect(QAction *)));
+    connect(m_transitionsMenu, SIGNAL(triggered(QAction *)), this, SLOT(slotAddTransition(QAction *)));
 
     QMenu *newEffect = new QMenu(this);
-    newEffect->addMenu(videoEffectsMenu);
-    newEffect->addMenu(audioEffectsMenu);
+    newEffect->addMenu(m_videoEffectsMenu);
+    newEffect->addMenu(m_audioEffectsMenu);
     newEffect->addMenu(m_customEffectsMenu);
     m_effectStack->setMenu(newEffect);
-
 
     QMenu *viewMenu = static_cast<QMenu*>(factory()->container("dockwindows", this));
     const QList<QAction *> viewActions = createPopupMenu()->actions();
     viewMenu->insertActions(NULL, viewActions);
 
-    connect(videoEffectsMenu, SIGNAL(triggered(QAction *)), this, SLOT(slotAddVideoEffect(QAction *)));
-    connect(audioEffectsMenu, SIGNAL(triggered(QAction *)), this, SLOT(slotAddAudioEffect(QAction *)));
-    connect(m_customEffectsMenu, SIGNAL(triggered(QAction *)), this, SLOT(slotAddCustomEffect(QAction *)));
-
     m_timelineContextMenu = new QMenu(this);
     m_timelineContextClipMenu = new QMenu(this);
     m_timelineContextTransitionMenu = new QMenu(this);
-
-
-    QMenu *transitionsMenu = new QMenu(i18n("Add Transition"), this);
-    QStringList effects = transitions.effectNames();
-
-    effectsList.clear();
-    for (int ix = 0; ix < transitions.count(); ix++) {
-        effectInfo = transitions.effectIdInfo(ix);
-        effectsList.insert(effectInfo.at(0).toLower(), effectInfo);
-    }
-    foreach(const QStringList &value, effectsList) {
-        action = new QAction(value.at(0), this);
-        action->setData(value);
-        transitionsMenu->addAction(action);
-    }
-    connect(transitionsMenu, SIGNAL(triggered(QAction *)), this, SLOT(slotAddTransition(QAction *)));
 
     m_timelineContextMenu->addAction(actionCollection()->action("insert_space"));
     m_timelineContextMenu->addAction(actionCollection()->action("delete_space"));
@@ -418,9 +366,9 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
 
     QMenu *markersMenu = (QMenu*)(factory()->container("marker_menu", this));
     m_timelineContextClipMenu->addMenu(markersMenu);
-    m_timelineContextClipMenu->addMenu(transitionsMenu);
-    m_timelineContextClipMenu->addMenu(videoEffectsMenu);
-    m_timelineContextClipMenu->addMenu(audioEffectsMenu);
+    m_timelineContextClipMenu->addMenu(m_transitionsMenu);
+    m_timelineContextClipMenu->addMenu(m_videoEffectsMenu);
+    m_timelineContextClipMenu->addMenu(m_audioEffectsMenu);
     //TODO: re-enable custom effects menu when it is implemented
     m_timelineContextClipMenu->addMenu(m_customEffectsMenu);
 
@@ -1396,6 +1344,40 @@ void MainWindow::setupActions()
     addClips->addAction(deleteClip);
     m_projectList->setupMenu(addClips, addClip);
 
+    // Setup effects and transitions actions.
+    m_videoEffects = new KAction*[videoEffects.count()];
+    for (int i = 0; i < videoEffects.count(); ++i) {
+        QStringList effectInfo = videoEffects.effectIdInfo(i);
+        m_videoEffects[i] = new KAction(KIcon("kdenlive-show-video"), effectInfo.at(0), this);
+        m_videoEffects[i]->setData(effectInfo);
+        m_videoEffects[i]->setIconVisibleInMenu(false);
+        collection->addAction("video_effect_" + effectInfo.at(0), m_videoEffects[i]);
+    }
+    m_audioEffects = new KAction*[audioEffects.count()];
+    for (int i = 0; i < audioEffects.count(); ++i) {
+        QStringList effectInfo = audioEffects.effectIdInfo(i);
+        m_audioEffects[i] = new KAction(KIcon("kdenlive-show-audio"), effectInfo.at(0), this);
+        m_audioEffects[i]->setData(effectInfo);
+        m_audioEffects[i]->setIconVisibleInMenu(false);
+        collection->addAction("audio_effect_" + effectInfo.at(0), m_audioEffects[i]);
+    }
+    m_customEffects = new KAction*[customEffects.count()];
+    for (int i = 0; i < customEffects.count(); ++i) {
+        QStringList effectInfo = customEffects.effectIdInfo(i);
+        m_customEffects[i] = new KAction(KIcon("kdenlive-custom-effect"), effectInfo.at(0), this);
+        m_customEffects[i]->setData(effectInfo);
+        m_customEffects[i]->setIconVisibleInMenu(false);
+        collection->addAction("custom_effect_" + effectInfo.at(0), m_customEffects[i]);
+    }
+    m_transitions = new KAction*[transitions.count()];
+    for (int i = 0; i < transitions.count(); i++) {
+        QStringList effectInfo = transitions.effectIdInfo(i);
+        m_transitions[i] = new KAction(effectInfo.at(0), this);
+        m_transitions[i]->setData(effectInfo);
+        m_transitions[i]->setIconVisibleInMenu(false);
+        collection->addAction("transition_" + effectInfo.at(0), m_transitions[i]);
+    }
+
     //connect(collection, SIGNAL( clearStatusText() ),
     //statusBar(), SLOT( clear() ) );
 }
@@ -2235,20 +2217,20 @@ void MainWindow::slotSwitchSnap()
 void MainWindow::slotDeleteItem()
 {
     if (QApplication::focusWidget()
-        && QApplication::focusWidget()->parentWidget()
-        && QApplication::focusWidget()->parentWidget()->parentWidget()
-        && QApplication::focusWidget()->parentWidget()->parentWidget() == m_projectListDock) {
+            && QApplication::focusWidget()->parentWidget()
+            && QApplication::focusWidget()->parentWidget()->parentWidget()
+            && QApplication::focusWidget()->parentWidget()->parentWidget() == m_projectListDock) {
         m_projectList->slotRemoveClip();
 
     } else if (QApplication::focusWidget()
-        && QApplication::focusWidget()->parentWidget()
-        && QApplication::focusWidget()->parentWidget()->parentWidget()
-        && QApplication::focusWidget()->parentWidget()->parentWidget()->parentWidget()
-        && QApplication::focusWidget()->parentWidget()->parentWidget()->parentWidget()->parentWidget()
-        && QApplication::focusWidget()->parentWidget()->parentWidget()->parentWidget()->parentWidget() == m_effectStackDock) {
+               && QApplication::focusWidget()->parentWidget()
+               && QApplication::focusWidget()->parentWidget()->parentWidget()
+               && QApplication::focusWidget()->parentWidget()->parentWidget()->parentWidget()
+               && QApplication::focusWidget()->parentWidget()->parentWidget()->parentWidget()->parentWidget()
+               && QApplication::focusWidget()->parentWidget()->parentWidget()->parentWidget()->parentWidget() == m_effectStackDock) {
         // TODO: also delete effect when an effect widget (slider, geomtryval, ...) has focus
         m_effectStack->slotItemDel();
-    
+
     } else if (m_activeTimeline) {
         m_activeTimeline->projectView()->deleteSelectedClips();
     }
@@ -3058,9 +3040,8 @@ int MainWindow::getNewStuff(const QString &configFile)
 
 void MainWindow::slotGetNewTitleStuff()
 {
-    if (getNewStuff("kdenlive_titles.knsrc") > 0) {
+    if (getNewStuff("kdenlive_titles.knsrc") > 0)
         TitleWidget::refreshTitleTemplates();
-    }
 }
 
 void MainWindow::slotGetNewLumaStuff()
@@ -3073,10 +3054,9 @@ void MainWindow::slotGetNewLumaStuff()
 
 void MainWindow::slotGetNewRenderStuff()
 {
-    if (getNewStuff("kdenlive_renderprofiles.knsrc") > 0) {
+    if (getNewStuff("kdenlive_renderprofiles.knsrc") > 0)
         if (m_renderWidget)
             m_renderWidget->reloadProfiles();
-    }
 }
 
 void MainWindow::slotGetNewMltProfileStuff()
