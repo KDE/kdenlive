@@ -45,12 +45,63 @@ private :
 class initEffects
 {
 public:
+
+    /** @brief Fills the effects and transitions lists.
+     * @ref fillTransitionsList
+     * @ref parseEffectFile
+     * @return pointer to the MLT repository
+     *
+     * It checks for all available effects and transitions, removes blacklisted
+     * ones, calls fillTransitionsList() and parseEffectFile() to fill the lists
+     * (with sorted, unique items) and then fills the global lists. */
     static Mlt::Repository *parseEffectFiles();
     static void refreshLumas();
     static QDomDocument createDescriptionFromMlt(Mlt::Repository* repository, const QString& type, const QString& name);
-    static void fillTransitionsList(Mlt::Repository *, EffectsList* transitions, QStringList names);
-    static QDomElement quickParameterFill(QDomDocument & doc, QString name, QString tag, QString type, QString def = QString(), QString min = QString(), QString max = QString(), QString list = QString(), QString listdisplaynames = QString(), QString factor = QString(), QString namedesc = QString(), QString format = QString(), QString opacity = QString());
-    static void parseEffectFile(EffectsList *customEffectList, EffectsList *audioEffectList, EffectsList *videoEffectList, QString name, QStringList filtersList, QStringList producersList);
+
+    /** @brief Fills the transitions list.
+     * @param repository MLT repository
+     * @param transitions list to save the transitions data in
+     * @param names list of transitions names
+     *
+     * It creates an element for each transition, asking to MLT for information
+     * when possible, using default parameters otherwise. It also adds some
+     * "virtual" transition, and removes those not implemented. */
+    static void fillTransitionsList(Mlt::Repository *repository,
+                                    EffectsList *transitions,
+                                    QStringList names);
+
+    /** @brief Creates an element describing a transition parameter.
+     * @param doc document containing the transition element
+     * @param name parameter name
+     * @param tag parameter tag
+     * @param type parameter type (string, double, bool, etc.)
+     * @return element with the parameter information */
+    static QDomElement quickParameterFill(QDomDocument & doc, QString name,
+                                          QString tag, QString type,
+                                          QString def = QString(),
+                                          QString min = QString(),
+                                          QString max = QString(),
+                                          QString list = QString(),
+                                          QString listdisplaynames = QString(),
+                                          QString factor = QString(),
+                                          QString namedesc = QString(),
+                                          QString format = QString(),
+                                          QString opacity = QString());
+
+    /** @brief Parses a file to record information about one or more effects.
+     * @param customEffectList list of custom effect
+     * @param audioEffectList list of audio effects
+     * @param videoEffectList list of video effects
+     * @param name file name
+     * @param filtersList list of filters in the MLT repository
+     * @param producersList list of producers in the MLT repository */
+    static void parseEffectFile(EffectsList *customEffectList,
+                                EffectsList *audioEffectList,
+                                EffectsList *videoEffectList,
+                                QString name, QStringList filtersList,
+                                QStringList producersList);
+
+    /** @brief Reloads information about custom effects. */
     static void parseCustomEffectsFile();
     static const char* ladspaEffectString(int ladspaId, QStringList params);
     static void ladspaEffectFile(const QString & fname, int ladspaId, QStringList params);

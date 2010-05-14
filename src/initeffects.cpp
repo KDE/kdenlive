@@ -35,7 +35,6 @@
 initEffectsThumbnailer::initEffectsThumbnailer() :
         QThread()
 {
-
 }
 
 void initEffectsThumbnailer::prepareThumbnailsCall(const QStringList& list)
@@ -113,8 +112,6 @@ void initEffects::refreshLumas()
             break;
         }
     }
-
-
 }
 
 //static
@@ -125,73 +122,51 @@ Mlt::Repository *initEffects::parseEffectFiles()
     QStringList fileList;
     QString itemName;
 
-
-    // Build effects. Retrieve the list of MLT's available effects first.
     Mlt::Repository *repository = Mlt::Factory::init();
     if (!repository) {
-        kDebug() << "Repository did not finish init " ;
+        kDebug() << "Repository didn't finish initialisation" ;
         return NULL;
     }
+
+    // Retrieve the list of MLT's available effects.
     Mlt::Properties *filters = repository->filters();
     QStringList filtersList;
+    for (int i = 0; i < filters->count(); ++i)
+        filtersList << filters->get_name(i);
+    delete filters;
 
-    // Check for blacklisted effects
-    QString blacklist = KStandardDirs::locate("appdata", "blacklisted_effects.txt");
+    // Retrieve the list of available producers.
+    Mlt::Properties *producers = repository->producers();
+    QStringList producersList;
+    for (int i = 0; i < producers->count(); ++i)
+        producersList << producers->get_name(i);
+    KdenliveSettings::setProducerslist(producersList);
+    delete producers;
 
-    QFile file(blacklist);
-    QStringList blackListed;
+    // Retrieve the list of available transitions.
+    Mlt::Properties *transitions = repository->transitions();
+    QStringList transitionsItemList;
+    for (int i = 0; i < transitions->count(); ++i)
+        transitionsItemList << transitions->get_name(i);
+    delete transitions;
 
+    // Remove blacklisted transitions from the list.
+    QFile file(KStandardDirs::locate("appdata", "blacklisted_transitions.txt"));
     if (file.open(QIODevice::ReadOnly)) {
         QTextStream in(&file);
         while (!in.atEnd()) {
             QString black = in.readLine().simplified();
-            if (!black.isEmpty() && !black.startsWith('#')) blackListed.append(black);
+            if (!black.isEmpty() && !black.startsWith('#') &&
+                    transitionsItemList.contains(black))
+                transitionsItemList.removeAll(black);
         }
         file.close();
     }
 
-    // Check for blacklisted transitions
-    blacklist = KStandardDirs::locate("appdata", "blacklisted_transitions.txt");
-
-    QFile file2(blacklist);
-    QStringList blackListedtransitions;
-
-    if (file2.open(QIODevice::ReadOnly)) {
-        QTextStream in(&file2);
-        while (!in.atEnd()) {
-            QString black = in.readLine().simplified();
-            if (!black.isEmpty() && !black.startsWith('#')) blackListedtransitions.append(black);
-        }
-        file2.close();
-    }
-
-    for (int i = 0 ; i < filters->count() ; i++) {
-        filtersList << filters->get_name(i);
-    }
-
-    // Build effects. check producers first.
-
-    Mlt::Properties *producers = repository->producers();
-    QStringList producersList;
-    for (int i = 0 ; i < producers->count() ; i++) {
-        producersList << producers->get_name(i);
-    }
-    KdenliveSettings::setProducerslist(producersList);
-    delete filters;
-    delete producers;
-
-    Mlt::Properties *transitions = repository->transitions();
-    QStringList transitionsItemList;
-    for (int i = 0 ; i < transitions->count() ; i++) {
-        transitionsItemList << transitions->get_name(i);
-    }
-    delete transitions;
-
-    foreach(const QString &trans, blackListedtransitions) {
-        if (transitionsItemList.contains(trans)) transitionsItemList.removeAll(trans);
-    }
+    // Fill transitions list.
     fillTransitionsList(repository, &MainWindow::transitions, transitionsItemList);
 
+    // Set the directories to look into for ladspa plugins.
     KGlobal::dirs()->addResourceType("ladspa_plugin", 0, "lib/ladspa");
     KGlobal::dirs()->addResourceDir("ladspa_plugin", "/usr/lib/ladspa");
     KGlobal::dirs()->addResourceDir("ladspa_plugin", "/usr/local/lib/ladspa");
@@ -200,32 +175,86 @@ Mlt::Repository *initEffects::parseEffectFiles()
     KGlobal::dirs()->addResourceDir("ladspa_plugin", "/usr/lib64/ladspa");
     KGlobal::dirs()->addResourceDir("ladspa_plugin", "/usr/local/lib64/ladspa");
 
-    kDebug() << "//  INIT EFFECT SEARCH" << endl;
-
+    // Set the directories to look into for effects.
     QStringList direc = KGlobal::dirs()->findDirs("appdata", "effects");
 
-    QDir directory;
-    for (more = direc.begin() ; more != direc.end() ; ++more) {
-        directory = QDir(*more);
+    // Iterate through effects directories to parse all XML files.
+    for (more = direc.begin(); more != direc.end(); ++more) {
+        QDir directory(*more);
         QStringList filter;
         filter << "*.xml";
         fileList = directory.entryList(filter, QDir::Files);
-        for (it = fileList.begin() ; it != fileList.end() ; ++it) {
+        for (it = fileList.begin(); it != fileList.end(); ++it) {
             itemName = KUrl(*more + *it).path();
-            parseEffectFile(&MainWindow::customEffects, &MainWindow::audioEffects, &MainWindow::videoEffects, itemName, filtersList, producersList);
-            // kDebug()<<"//  FOUND EFFECT FILE: "<<itemName<<endl;
+            parseEffectFile(&MainWindow::customEffects,
+                            &MainWindow::audioEffects,
+                            &MainWindow::videoEffects,
+                            itemName, filtersList, producersList);
         }
     }
 
-    foreach(const QString &effect, blackListed) {
-        if (filtersList.contains(effect)) filtersList.removeAll(effect);
+    // Remove blacklisted effects from the filters list.
+    QFile file2(KStandardDirs::locate("appdata", "blacklisted_effects.txt"));
+    if (file2.open(QIODevice::ReadOnly)) {
+        QTextStream in(&file2);
+        while (!in.atEnd()) {
+            QString black = in.readLine().simplified();
+            if (!black.isEmpty() && !black.startsWith('#') &&
+                    filtersList.contains(black))
+                filtersList.removeAll(black);
+        }
+        file2.close();
     }
 
+    /*
+     * Cleanup the global lists. We use QMap because of its automatic sorting
+     * (by key) and key uniqueness (using insert() instead of insertMulti()).
+     * This introduces some more cycles (while removing them from other parts of
+     * the code and centralising them), but due to the way this methods, QMap
+     * and EffectsList are implemented, there's no easy way to make it
+     * differently without reinplementing something (which should really be
+     * done).
+     */
+    QDomElement effectInfo;
+    QMap<QString, QDomElement> effectsMap;
+    for (int i = 0; i < MainWindow::transitions.count(); ++i) {
+        effectInfo = MainWindow::transitions.at(i);
+        effectsMap.insert(effectInfo.elementsByTagName("name").item(0).toElement().text().toLower().toUtf8().data(), effectInfo);
+    }
+    MainWindow::transitions.clearList();
+    foreach(const QDomElement &effect, effectsMap)
+    MainWindow::transitions.append(effect);
+    effectsMap.clear();
+    for (int i = 0; i < MainWindow::customEffects.count(); ++i) {
+        effectInfo = MainWindow::customEffects.at(i);
+        effectsMap.insert(effectInfo.elementsByTagName("name").item(0).toElement().text().toLower().toUtf8().data(), effectInfo);
+    }
+    MainWindow::customEffects.clearList();
+    foreach(const QDomElement &effect, effectsMap)
+    MainWindow::customEffects.append(effect);
+    effectsMap.clear();
+    for (int i = 0; i < MainWindow::audioEffects.count(); ++i) {
+        effectInfo = MainWindow::audioEffects.at(i);
+        effectsMap.insert(effectInfo.elementsByTagName("name").item(0).toElement().text().toLower().toUtf8().data(), effectInfo);
+    }
+    MainWindow::audioEffects.clearList();
+    foreach(const QDomElement &effect, effectsMap)
+    MainWindow::audioEffects.append(effect);
+    effectsMap.clear();
+    for (int i = 0; i < MainWindow::videoEffects.count(); ++i) {
+        effectInfo = MainWindow::videoEffects.at(i);
+        effectsMap.insert(effectInfo.elementsByTagName("name").item(0).toElement().text().toLower().toUtf8().data(), effectInfo);
+    }
+    // Add remaining filters to the list of video effects.
     foreach(const QString &filtername, filtersList) {
         QDomDocument doc = createDescriptionFromMlt(repository, "filters", filtername);
         if (!doc.isNull())
-            MainWindow::videoEffects.append(doc.documentElement());
+            effectsMap.insert(doc.documentElement().elementsByTagName("name").item(0).toElement().text().toLower().toUtf8().data(), doc.documentElement());
     }
+    MainWindow::videoEffects.clearList();
+    foreach(const QDomElement &effect, effectsMap)
+    MainWindow::videoEffects.append(effect);
+
     return repository;
 }
 
@@ -233,26 +262,39 @@ Mlt::Repository *initEffects::parseEffectFiles()
 void initEffects::parseCustomEffectsFile()
 {
     MainWindow::customEffects.clearList();
+    /*
+     * Why a QMap? See parseEffectFiles(). It's probably useless here, but we
+     * cannot be sure about it.
+     */
+    QMap<QString, QDomElement> effectsMap;
     QString path = KStandardDirs::locateLocal("appdata", "effects/", true);
     QDir directory = QDir(path);
     QStringList filter;
     filter << "*.xml";
     const QStringList fileList = directory.entryList(filter, QDir::Files);
-    QString itemName;
+    /*
+     * We need to declare these variables outside the foreach, or the QMap will
+     * refer to non existing variables (QMap::insert() takes references as
+     * parameters).
+     */
+    QDomDocument doc;
+    QDomNodeList effects;
+    QDomElement e;
     foreach(const QString &filename, fileList) {
-        itemName = KUrl(path + filename).path();
-        QDomDocument doc;
+        QString itemName = KUrl(path + filename).path();
         QFile file(itemName);
         doc.setContent(&file, false);
         file.close();
-        QDomNodeList effects = doc.elementsByTagName("effect");
+        effects = doc.elementsByTagName("effect");
         if (effects.count() != 1) {
-            kDebug() << "More than one effect in file " << itemName << ", NOT SUPPORTED YET";
+            kDebug() << "More than one effect in file " << itemName << ", not supported yet";
         } else {
-            QDomElement e = effects.item(0).toElement();
-            MainWindow::customEffects.append(e);
+            e = effects.item(0).toElement();
+            effectsMap.insert(e.elementsByTagName("name").item(0).toElement().text().toLower().toUtf8().data(), e);
         }
     }
+    foreach(const QDomElement &effect, effectsMap)
+    MainWindow::customEffects.append(effect);
 }
 
 // static
@@ -266,17 +308,15 @@ void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *au
     QDomNodeList effects = doc.elementsByTagName("effect");
 
     if (effects.count() == 0) {
-        kDebug() << "// EFFECT FILET: " << name << " IS BROKEN" << endl;
+        kDebug() << "Effect broken: " << name;
         return;
     }
-    QString groupName;
-    if (doc.elementsByTagName("effectgroup").item(0).toElement().tagName() == "effectgroup") {
-        groupName = documentElement.attribute("name", QString());
-    }
 
-    int i = 0;
+    /*QString groupName;
+    if (doc.elementsByTagName("effectgroup").item(0).toElement().tagName() == "effectgroup")
+        groupName = documentElement.attribute("name", QString());*/
 
-    while (!effects.item(i).isNull()) {
+    for (int i = 0; !effects.item(i).isNull(); ++i) {
         documentElement = effects.item(i).toElement();
         QString tag = documentElement.attribute("tag", QString());
         bool ladspaOk = true;
@@ -285,12 +325,15 @@ void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *au
             if (KStandardDirs::locate("ladspa_plugin", library).isEmpty()) ladspaOk = false;
         }
 
-        // Parse effect file
+        // Parse effect information.
         if ((filtersList.contains(tag) || producersList.contains(tag)) && ladspaOk) {
             QString type = documentElement.attribute("type", QString());
-            if (type == "audio") audioEffectList->append(documentElement);
-            else if (type == "custom") customEffectList->append(documentElement);
-            else videoEffectList->append(documentElement);
+            if (type == "audio")
+                audioEffectList->append(documentElement);
+            else if (type == "custom")
+                customEffectList->append(documentElement);
+            else
+                videoEffectList->append(documentElement);
         }
 
         /*
@@ -362,7 +405,6 @@ void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *au
          }
                 effectList->append(effect);
          }*/
-        i++;
     }
 }
 
@@ -572,40 +614,46 @@ QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, 
     return ret;
 }
 
-void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList* transitions, QStringList names)
+void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *transitions, QStringList names)
 {
-    // remove transitions that are not implemented
+    // Remove transitions that are not implemented.
     int pos = names.indexOf("mix");
-    if (pos != -1) names.takeAt(pos);
+    if (pos != -1)
+        names.takeAt(pos);
     pos = names.indexOf("region");
-    if (pos != -1) names.takeAt(pos);
+    if (pos != -1)
+        names.takeAt(pos);
+
     foreach(const QString &name, names) {
         QDomDocument ret;
         QDomElement ktrans = ret.createElement("ktransition");
         ret.appendChild(ktrans);
-
         ktrans.setAttribute("tag", name);
+
         QDomElement tname = ret.createElement("name");
-
         QDomElement desc = ret.createElement("description");
+        ktrans.appendChild(tname);
+        ktrans.appendChild(desc);
 
-        QList<QDomElement> paramList;
-        Mlt::Properties *metadata = repository->metadata(transition_type, name.toAscii().data());
-        //kDebug() << filtername;
+        Mlt::Properties *metadata = repository->metadata(transition_type, name.toUtf8().data());
         if (metadata && metadata->is_valid()) {
-
+            // If possible, set name and description.
+            if (metadata->get("title") && metadata->get("identifier"))
+                tname.appendChild(ret.createTextNode(metadata->get("title")));
             desc.appendChild(ret.createTextNode(metadata->get("description")));
 
             Mlt::Properties param_props((mlt_properties) metadata->get_data("parameters"));
-            for (int j = 0; param_props.is_valid() && j < param_props.count(); j++) {
+            for (int i = 0; param_props.is_valid() && i < param_props.count(); ++i) {
                 QDomElement params = ret.createElement("parameter");
 
-                Mlt::Properties paramdesc((mlt_properties) param_props.get_data(param_props.get_name(j)));
+                Mlt::Properties paramdesc((mlt_properties) param_props.get_data(param_props.get_name(i)));
 
                 params.setAttribute("name", paramdesc.get("identifier"));
 
-                if (paramdesc.get("maximum")) params.setAttribute("max", paramdesc.get("maximum"));
-                if (paramdesc.get("minimum")) params.setAttribute("min", paramdesc.get("minimum"));
+                if (paramdesc.get("maximum"))
+                    params.setAttribute("max", paramdesc.get("maximum"));
+                if (paramdesc.get("minimum"))
+                    params.setAttribute("min", paramdesc.get("minimum"));
                 if (QString(paramdesc.get("type")) == "integer") {
                     params.setAttribute("type", "constant");
                     params.setAttribute("factor", "100");
@@ -615,44 +663,34 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
                 if (!QString(paramdesc.get("format")).isEmpty()) {
                     params.setAttribute("type", "complex");
                     params.setAttribute("format", paramdesc.get("format"));
-
                 }
-                if (paramdesc.get("default")) params.setAttribute("default", paramdesc.get("default"));
-                if (paramdesc.get("value")) {
+                if (paramdesc.get("default"))
+                    params.setAttribute("default", paramdesc.get("default"));
+                if (paramdesc.get("value"))
                     params.setAttribute("value", paramdesc.get("value"));
-                } else {
+                else
                     params.setAttribute("value", paramdesc.get("default"));
-                }
-
 
                 QDomElement pname = ret.createElement("name");
                 pname.appendChild(ret.createTextNode(paramdesc.get("title")));
                 params.appendChild(pname);
-
                 ktrans.appendChild(params);
             }
-
-            ret.appendChild(ktrans);
-            if (metadata->get("title") && metadata->get("identifier")) {
-                ktrans.setAttribute("tag", name);
-                QDomElement tname = ret.createElement("name");
-                tname.appendChild(ret.createTextNode(metadata->get("title")));
-                ktrans.appendChild(tname);
-            }
-
             delete metadata;
             metadata = 0;
-            //kDebug() << ret.toString();
         } else {
-            // Check for Kdenlive installed luma files, add empty string at start for no luma
+            /*
+             * Check for Kdenlive installed luma files, add empty string at
+             * start for no luma file.
+             */
             QStringList imagenamelist = QStringList() << i18n("None");
             QStringList imagefiles = QStringList() << QString();
             QStringList filters;
             filters << "*.pgm" << "*.png";
-
             QStringList customLumas = KGlobal::dirs()->findDirs("appdata", "lumas");
             foreach(QString folder, customLumas) {
-                if (!folder.endsWith('/')) folder.append('/');
+                if (!folder.endsWith('/'))
+                    folder.append('/');
                 QStringList filesnames = QDir(folder).entryList(filters, QDir::Files);
                 foreach(const QString &fname, filesnames) {
                     imagenamelist.append(fname);
@@ -660,7 +698,7 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
                 }
             }
 
-            // Check for MLT lumas
+            // Check for MLT luma files.
             KUrl folder(mlt_environment("MLT_DATA"));
             folder.addPath("lumas");
             folder.addPath(mlt_environment("MLT_NORMALISATION"));
@@ -673,96 +711,76 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
                 imagefiles.append(path.toLocalFile());
             }
 
+            // Implement default transitions.
+            QList<QDomElement> paramList;
             if (name == "luma") {
                 ktrans.setAttribute("id", name);
-                tname.appendChild(ret.createTextNode("Wipe"));
-                desc.appendChild(ret.createTextNode("Applies a stationary transition between the current and next frames"));
+                tname.appendChild(ret.createTextNode(i18n("Wipe")));
+                desc.appendChild(ret.createTextNode(i18n("Applies a stationary transition between the current and next frames.")));
 
-                paramList.append(quickParameterFill(ret, "Softness", "softness", "double", "0", "0", "100", "", "", "100"));
-                paramList.append(quickParameterFill(ret, "Invert", "invert", "bool", "0", "0", "1"));
-                paramList.append(quickParameterFill(ret, "Image File", "resource", "list", "", "", "", imagefiles.join(","), imagenamelist.join(",")));
-                paramList.append(quickParameterFill(ret, "Reverse Transition", "reverse", "bool", "0", "0", "1"));
+                paramList.append(quickParameterFill(ret, i18n("Softness"), "softness", "double", "0", "0", "100", "", "", "100"));
+                paramList.append(quickParameterFill(ret, i18n("Invert"), "invert", "bool", "0", "0", "1"));
+                paramList.append(quickParameterFill(ret, i18n("Image File"), "resource", "list", "", "", "", imagefiles.join(","), imagenamelist.join(",")));
+                paramList.append(quickParameterFill(ret, i18n("Reverse Transition"), "reverse", "bool", "0", "0", "1"));
                 //thumbnailer.prepareThumbnailsCall(imagelist);
-
             } else if (name == "composite") {
-                desc.appendChild(ret.createTextNode("A key-framable alpha-channel compositor for two frames."));
-                paramList.append(quickParameterFill(ret, "Geometry", "geometry", "geometry", "0%,0%:100%x100%:100", "-500;-500;-500;-500;0", "500;500;500;500;100"));
-                paramList.append(quickParameterFill(ret, "Alpha Channel Operation", "operator", "list", "over", "", "", "over,and,or,xor", "over,and,or,xor"));
-                paramList.append(quickParameterFill(ret, "Align", "aligned", "bool", "1", "0", "1"));
-                paramList.append(quickParameterFill(ret, "Fill", "fill", "bool", "1", "0", "1"));
-                paramList.append(quickParameterFill(ret, "Distort", "distort", "bool", "0", "0", "1"));
-                paramList.append(quickParameterFill(ret, "Wipe File", "luma", "list", "", "", "", imagefiles.join(","), imagenamelist.join(",")));
-                paramList.append(quickParameterFill(ret, "Wipe Softness", "softness", "double", "0", "0", "100", "", "", "100"));
-                paramList.append(quickParameterFill(ret, "Wipe Invert", "luma_invert", "bool", "0", "0", "1"));
-                paramList.append(quickParameterFill(ret, "Force Progressive Rendering", "progressive", "bool", "1", "0", "1"));
-                paramList.append(quickParameterFill(ret, "Force Deinterlace Overlay", "deinterlace", "bool", "0", "0", "1"));
-                tname.appendChild(ret.createTextNode("Composite"));
-                ktrans.setAttribute("id", "composite");
-                /*QDomDocument ret1;
-                QDomElement ktrans1 = ret1.createElement("ktransition");
-                ret1.appendChild(ktrans1);
-                ktrans1.setAttribute("tag", name);
-                QDomElement tname1 = ret.createElement("name");
-                tname1.appendChild(ret1.createTextNode("PIP"));*/
-
-            } else if (name == "mix") {
-                tname.appendChild(ret.createTextNode("Mix"));
+                ktrans.setAttribute("id", name);
+                tname.appendChild(ret.createTextNode(i18n("Composite")));
+                desc.appendChild(ret.createTextNode(i18n("A key-framable alpha-channel compositor for two frames.")));
+                paramList.append(quickParameterFill(ret, i18n("Geometry"), "geometry", "geometry", "0%,0%:100%x100%:100", "-500;-500;-500;-500;0", "500;500;500;500;100"));
+                paramList.append(quickParameterFill(ret, i18n("Alpha Channel Operation"), "operator", "list", "over", "", "", "over,and,or,xor", "over,and,or,xor"));
+                paramList.append(quickParameterFill(ret, i18n("Align"), "aligned", "bool", "1", "0", "1"));
+                paramList.append(quickParameterFill(ret, i18n("Fill"), "fill", "bool", "1", "0", "1"));
+                paramList.append(quickParameterFill(ret, i18n("Distort"), "distort", "bool", "0", "0", "1"));
+                paramList.append(quickParameterFill(ret, i18n("Wipe File"), "luma", "list", "", "", "", imagefiles.join(","), imagenamelist.join(",")));
+                paramList.append(quickParameterFill(ret, i18n("Wipe Softness"), "softness", "double", "0", "0", "100", "", "", "100"));
+                paramList.append(quickParameterFill(ret, i18n("Wipe Invert"), "luma_invert", "bool", "0", "0", "1"));
+                paramList.append(quickParameterFill(ret, i18n("Force Progressive Rendering"), "progressive", "bool", "1", "0", "1"));
+                paramList.append(quickParameterFill(ret, i18n("Force Deinterlace Overlay"), "deinterlace", "bool", "0", "0", "1"));
             } else if (name == "affine") {
-                tname.appendChild(ret.createTextNode("Affine"));
-                paramList.append(quickParameterFill(ret, "Rotate Y", "rotate_y", "double", "0", "0", "360"));
-                paramList.append(quickParameterFill(ret, "Rotate X", "rotate_x", "double", "0", "0", "360"));
-                paramList.append(quickParameterFill(ret, "Rotate Z", "rotate_z", "double", "0", "0", "360"));
-                paramList.append(quickParameterFill(ret, "Fix Rotate Y", "fix_rotate_y", "double", "0", "0", "360"));
-                paramList.append(quickParameterFill(ret, "Fix Rotate X", "fix_rotate_x", "double", "0", "0", "360"));
-                paramList.append(quickParameterFill(ret, "Fix Rotate Z", "fix_rotate_z", "double", "0", "0", "360"));
-                paramList.append(quickParameterFill(ret, "Shear Y", "shear_y", "double", "0", "0", "360"));
-                paramList.append(quickParameterFill(ret, "Shear X", "shear_x", "double", "0", "0", "360"));
-                paramList.append(quickParameterFill(ret, "Shear Z", "shear_z", "double", "0", "0", "360"));
-                paramList.append(quickParameterFill(ret, "Fix Shear Y", "fix_shear_y", "double", "0", "0", "360"));
-                paramList.append(quickParameterFill(ret, "Fix Shear X", "fix_shear_x", "double", "0", "0", "360"));
-                paramList.append(quickParameterFill(ret, "Fix Shear Z", "fix_shear_z", "double", "0", "0", "360"));
-                paramList.append(quickParameterFill(ret, "Mirror", "mirror_off", "bool", "0", "0", "1"));
-                paramList.append(quickParameterFill(ret, "Repeat", "repeat_off", "bool", "0", "0", "1"));
-                paramList.append(quickParameterFill(ret, "Geometry", "geometry", "geometry",  "0,0,100%,100%,100%", "0,0,100%,100%,100%", "0,0,100%,100%,100%", "", "", "", "", "", "false"));
-                tname.appendChild(ret.createTextNode("Composite"));
+                tname.appendChild(ret.createTextNode(i18n("Affine")));
+                paramList.append(quickParameterFill(ret, i18n("Rotate Y"), "rotate_y", "double", "0", "0", "360"));
+                paramList.append(quickParameterFill(ret, i18n("Rotate X"), "rotate_x", "double", "0", "0", "360"));
+                paramList.append(quickParameterFill(ret, i18n("Rotate Z"), "rotate_z", "double", "0", "0", "360"));
+                paramList.append(quickParameterFill(ret, i18n("Fix Rotate Y"), "fix_rotate_y", "double", "0", "0", "360"));
+                paramList.append(quickParameterFill(ret, i18n("Fix Rotate X"), "fix_rotate_x", "double", "0", "0", "360"));
+                paramList.append(quickParameterFill(ret, i18n("Fix Rotate Z"), "fix_rotate_z", "double", "0", "0", "360"));
+                paramList.append(quickParameterFill(ret, i18n("Shear Y"), "shear_y", "double", "0", "0", "360"));
+                paramList.append(quickParameterFill(ret, i18n("Shear X"), "shear_x", "double", "0", "0", "360"));
+                paramList.append(quickParameterFill(ret, i18n("Shear Z"), "shear_z", "double", "0", "0", "360"));
+                paramList.append(quickParameterFill(ret, i18n("Fix Shear Y"), "fix_shear_y", "double", "0", "0", "360"));
+                paramList.append(quickParameterFill(ret, i18n("Fix Shear X"), "fix_shear_x", "double", "0", "0", "360"));
+                paramList.append(quickParameterFill(ret, i18n("Fix Shear Z"), "fix_shear_z", "double", "0", "0", "360"));
+                paramList.append(quickParameterFill(ret, i18n("Mirror"), "mirror_off", "bool", "0", "0", "1"));
+                paramList.append(quickParameterFill(ret, i18n("Repeat"), "repeat_off", "bool", "0", "0", "1"));
+                paramList.append(quickParameterFill(ret, i18n("Geometry"), "geometry", "geometry",  "0,0,100%,100%,100%", "0,0,100%,100%,100%", "0,0,100%,100%,100%", "", "", "", "", "", "false"));
+            } else if (name == "mix") {
+                tname.appendChild(ret.createTextNode(i18n("Mix")));
             } else if (name == "region") {
-                tname.appendChild(ret.createTextNode("Region"));
+                tname.appendChild(ret.createTextNode(i18n("Region")));
             }
-
-
-        }
-
-        ktrans.appendChild(tname);
-        ktrans.appendChild(desc);
-
-        foreach(const QDomElement &e, paramList) {
+            foreach(const QDomElement &e, paramList)
             ktrans.appendChild(e);
         }
 
-
+        // Add the transition to the global list.
         transitions->append(ret.documentElement());
-        //kDebug() << "//// ////  TRANSITON XML";
         //kDebug() << ret.toString();
-        /*
-
-         <transition fill="1" in="11" a_track="1" out="73" mlt_service="luma" b_track="2" softness="0" resource="/home/marco/Projekte/kdenlive/install_cmake/share/apps/kdenlive/pgm/PAL/square2.pgm" />
-        */
     }
 
-    QString slidetrans = "<ktransition tag=\"composite\" id=\"slide\"><name>Slide</name><description>Slide image from one side to another</description><parameter tag=\"geometry\" type=\"wipe\" default=\"-100%,0%:100%x100%;-1=0%,0%:100%x100%\" name=\"geometry\"><name>Direction</name>                                               </parameter><parameter tag=\"aligned\" default=\"0\" type=\"bool\" name=\"aligned\" ><name>Align</name></parameter><parameter tag=\"progressive\" default=\"1\" type=\"bool\" name=\"progressive\" ><name>Force Progressive Rendering</name></parameter><parameter tag=\"deinterlace\" default=\"0\" type=\"bool\" name=\"deinterlace\" ><name>Force Deinterlace Overlay</name></parameter><parameter tag=\"invert\" default=\"0\" type=\"bool\" name=\"invert\" ><name>Invert</name></parameter></ktransition>";
+    // Add some virtual transitions.
+    QString slidetrans = "<ktransition tag=\"composite\" id=\"slide\"><name>" + i18n("Slide") + "</name><description>" + i18n("Slide image from one side to another.") + "</description><parameter tag=\"geometry\" type=\"wipe\" default=\"-100%,0%:100%x100%;-1=0%,0%:100%x100%\" name=\"geometry\"><name>" + i18n("Direction") + "</name>                                               </parameter><parameter tag=\"aligned\" default=\"0\" type=\"bool\" name=\"aligned\" ><name>" + i18n("Align") + "</name></parameter><parameter tag=\"progressive\" default=\"1\" type=\"bool\" name=\"progressive\" ><name>" + i18n("Force Progressive Rendering") + "</name></parameter><parameter tag=\"deinterlace\" default=\"0\" type=\"bool\" name=\"deinterlace\" ><name>" + i18n("Force Deinterlace Overlay") + "</name></parameter><parameter tag=\"invert\" default=\"0\" type=\"bool\" name=\"invert\" ><name>" + i18n("Invert") + "</name></parameter></ktransition>";
     QDomDocument ret;
     ret.setContent(slidetrans);
     transitions->append(ret.documentElement());
 
-    QString dissolve = "<ktransition tag=\"luma\" id=\"dissolve\"><name>Dissolve</name><description>Fade out one video while fading in the other video</description><parameter tag=\"reverse\" default=\"0\" type=\"bool\" name=\"reverse\" ><name>Reverse</name></parameter></ktransition>";
-    QDomDocument dissolveDoc;
-    dissolveDoc.setContent(dissolve);
-    transitions->append(dissolveDoc.documentElement());
+    QString dissolve = "<ktransition tag=\"luma\" id=\"dissolve\"><name>" + i18n("Dissolve") + "</name><description>" + i18n("Fade out one video while fading in the other video.") + "</description><parameter tag=\"reverse\" default=\"0\" type=\"bool\" name=\"reverse\" ><name>" + i18n("Reverse") + "</name></parameter></ktransition>";
+    ret.setContent(dissolve);
+    transitions->append(ret.documentElement());
 
-    /*QString alphatrans = "<ktransition tag=\"composite\" id=\"alphatransparency\" ><name>Alpha transparency</name><description>Make alpha channel transparent</description><parameter tag=\"geometry\" type=\"fixed\" default=\"0%,0%:100%x100%\" name=\"geometry\"><name>Direction</name></parameter><parameter tag=\"fill\" default=\"0\" type=\"bool\" name=\"fill\" ><name>Rescale</name></parameter><parameter tag=\"aligned\" default=\"0\" type=\"bool\" name=\"aligned\" ><name>Align</name></parameter></ktransition>";
-    QDomDocument ret2;
-    ret2.setContent(alphatrans);
-    transitions->append(ret2.documentElement());*/
+    /*QString alphatrans = "<ktransition tag=\"composite\" id=\"alphatransparency\" ><name>" + i18n("Alpha Transparency") + "</name><description>" + i18n("Make alpha channel transparent.") + "</description><parameter tag=\"geometry\" type=\"fixed\" default=\"0%,0%:100%x100%\" name=\"geometry\"><name>" + i18n("Direction") + "</name></parameter><parameter tag=\"fill\" default=\"0\" type=\"bool\" name=\"fill\" ><name>" + i18n("Rescale") + "</name></parameter><parameter tag=\"aligned\" default=\"0\" type=\"bool\" name=\"aligned\" ><name>" + i18n("Align") + "</name></parameter></ktransition>";
+    ret.setContent(alphatrans);
+    transitions->append(ret.documentElement());*/
 }
 
 QDomElement initEffects::quickParameterFill(QDomDocument & doc, QString name, QString tag, QString type, QString def, QString min, QString max, QString list, QString listdisplaynames, QString factor, QString namedesc, QString format, QString opacity)
