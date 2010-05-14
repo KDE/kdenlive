@@ -15,6 +15,12 @@
  *                                                                         *
  ***************************************************************************/
 
+/**
+* @class EffectStackView
+* @brief View part of the EffectStack
+* @author Marco Gittler
+*/
+
 #ifndef EFFECTSTACKVIEW_H
 #define EFFECTSTACKVIEW_H
 
@@ -48,12 +54,13 @@ private:
 public slots:
     void slotClipItemSelected(ClipItem*, int ix);
     void slotUpdateEffectParams(const QDomElement, const QDomElement);
+    /** @brief Remove selected effect. */
+    void slotItemDel();
 
 private slots:
     void slotItemSelectionChanged(bool update = true);
     void slotItemUp();
     void slotItemDown();
-    void slotItemDel();
     void slotResetEffect();
     void slotItemChanged(QListWidgetItem *item);
     void slotSaveEffect();

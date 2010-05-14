@@ -408,7 +408,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
 
     m_timelineContextClipMenu->addAction(actionCollection()->action("clip_in_project_tree"));
     m_timelineContextClipMenu->addAction(actionCollection()->action("edit_item_duration"));
-    m_timelineContextClipMenu->addAction(actionCollection()->action("delete_timeline_clip"));
+    m_timelineContextClipMenu->addAction(actionCollection()->action("delete_item"));
     m_timelineContextClipMenu->addAction(actionCollection()->action("group_clip"));
     m_timelineContextClipMenu->addAction(actionCollection()->action("ungroup_clip"));
     m_timelineContextClipMenu->addAction(actionCollection()->action("cut_timeline_clip"));
@@ -425,7 +425,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
     m_timelineContextClipMenu->addMenu(m_customEffectsMenu);
 
     m_timelineContextTransitionMenu->addAction(actionCollection()->action("edit_item_duration"));
-    m_timelineContextTransitionMenu->addAction(actionCollection()->action("delete_timeline_clip"));
+    m_timelineContextTransitionMenu->addAction(actionCollection()->action("delete_item"));
     m_timelineContextTransitionMenu->addAction(actionCollection()->action(KStandardAction::name(KStandardAction::Copy)));
 
     m_timelineContextTransitionMenu->addAction(actionCollection()->action("auto_transition"));
@@ -1119,10 +1119,10 @@ void MainWindow::setupActions()
     collection->addAction("monitor_seek_snap_forward", monitorSeekSnapForward);
     connect(monitorSeekSnapForward, SIGNAL(triggered(bool)), this, SLOT(slotSnapForward()));
 
-    KAction* deleteTimelineClip = new KAction(KIcon("edit-delete"), i18n("Delete Selected Item"), this);
-    deleteTimelineClip->setShortcut(Qt::Key_Delete);
-    collection->addAction("delete_timeline_clip", deleteTimelineClip);
-    connect(deleteTimelineClip, SIGNAL(triggered(bool)), this, SLOT(slotDeleteTimelineClip()));
+    KAction* deleteItem = new KAction(KIcon("edit-delete"), i18n("Delete Selected Item"), this);
+    deleteItem->setShortcut(Qt::Key_Delete);
+    collection->addAction("delete_timeline_clip", deleteItem);
+    connect(deleteItem, SIGNAL(triggered(bool)), this, SLOT(slotDeleteItem()));
 
     /*KAction* editTimelineClipSpeed = new KAction(i18n("Change Clip Speed"), this);
     collection->addAction("change_clip_speed", editTimelineClipSpeed);
@@ -2230,10 +2230,24 @@ void MainWindow::slotSwitchSnap()
 }
 
 
-void MainWindow::slotDeleteTimelineClip()
+void MainWindow::slotDeleteItem()
 {
-    if (QApplication::focusWidget() && QApplication::focusWidget()->parentWidget() && QApplication::focusWidget()->parentWidget()->parentWidget() && QApplication::focusWidget()->parentWidget()->parentWidget() == m_projectListDock) m_projectList->slotRemoveClip();
-    else if (m_activeTimeline) {
+    if (QApplication::focusWidget()
+        && QApplication::focusWidget()->parentWidget()
+        && QApplication::focusWidget()->parentWidget()->parentWidget()
+        && QApplication::focusWidget()->parentWidget()->parentWidget() == m_projectListDock) {
+        m_projectList->slotRemoveClip();
+
+    } else if (QApplication::focusWidget()
+        && QApplication::focusWidget()->parentWidget()
+        && QApplication::focusWidget()->parentWidget()->parentWidget()
+        && QApplication::focusWidget()->parentWidget()->parentWidget()->parentWidget()
+        && QApplication::focusWidget()->parentWidget()->parentWidget()->parentWidget()->parentWidget()
+        && QApplication::focusWidget()->parentWidget()->parentWidget()->parentWidget()->parentWidget() == m_effectStackDock) {
+        // TODO: also delete effect when an effect widget (slider, geomtryval, ...) has focus
+        m_effectStack->slotItemDel();
+    
+    } else if (m_activeTimeline) {
         m_activeTimeline->projectView()->deleteSelectedClips();
     }
 }

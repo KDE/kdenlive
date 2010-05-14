@@ -259,7 +259,8 @@ private slots:
     void slotZoomOut();
     void slotFitZoom();
     void closeCurrentDocument(bool saveChanges = true);
-    void slotDeleteTimelineClip();
+    /** @brief Delete item in timeline, project tree or effect stack depending on focus. */
+    void slotDeleteItem();
     void slotAddClipMarker();
     void slotDeleteClipMarker();
     void slotDeleteAllClipMarkers();
