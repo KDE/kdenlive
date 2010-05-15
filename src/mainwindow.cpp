@@ -810,25 +810,23 @@ void MainWindow::setupActions()
     m_buttonFitZoom = new KAction(KIcon("zoom-fit-best"), i18n("Fit zoom to project"), this);
     toolbar->addAction(m_buttonFitZoom);
     m_buttonFitZoom->setCheckable(false);
-    connect(m_buttonFitZoom, SIGNAL(triggered()), this, SLOT(slotFitZoom()));
 
-    m_zoomIn = new KAction(KIcon("zoom-in"), i18n("Zoom In"), this);
-    toolbar->addAction(m_zoomIn);
-    connect(m_zoomIn, SIGNAL(triggered(bool)), this, SLOT(slotZoomIn()));
-    m_zoomIn->setShortcut(Qt::CTRL + Qt::Key_Plus);
+    m_zoomOut = new KAction(KIcon("zoom-out"), i18n("Zoom Out"), this);
+    toolbar->addAction(m_zoomOut);
+    m_zoomOut->setShortcut(Qt::CTRL + Qt::Key_Minus);
 
     m_zoomSlider = new QSlider(Qt::Horizontal, this);
     m_zoomSlider->setMaximum(13);
     m_zoomSlider->setPageStep(1);
+    m_zoomSlider->setInvertedAppearance(true);
 
     m_zoomSlider->setMaximumWidth(150);
     m_zoomSlider->setMinimumWidth(100);
     toolbar->addWidget(m_zoomSlider);
 
-    m_zoomOut = new KAction(KIcon("zoom-out"), i18n("Zoom Out"), this);
-    toolbar->addAction(m_zoomOut);
-    connect(m_zoomOut, SIGNAL(triggered(bool)), this, SLOT(slotZoomOut()));
-    m_zoomOut->setShortcut(Qt::CTRL + Qt::Key_Minus);
+    m_zoomIn = new KAction(KIcon("zoom-in"), i18n("Zoom In"), this);
+    toolbar->addAction(m_zoomIn);
+    m_zoomIn->setShortcut(Qt::CTRL + Qt::Key_Plus);
 
     actionWidget = toolbar->widgetForAction(m_buttonFitZoom);
     actionWidget->setMaximumWidth(max);
@@ -844,6 +842,12 @@ void MainWindow::setupActions()
     actionWidget->setMaximumWidth(max);
     actionWidget->setMaximumHeight(max - 4);
     actionWidget->setStyleSheet(styleBorderless);
+
+    connect(m_zoomSlider, SIGNAL(valueChanged(int)), this, SLOT(slotSetZoom(int)));
+    connect(m_zoomSlider, SIGNAL(sliderMoved(int)), this, SLOT(slotShowZoomSliderToolTip(int))); 
+    connect(m_buttonFitZoom, SIGNAL(triggered()), this, SLOT(slotFitZoom()));
+    connect(m_zoomIn, SIGNAL(triggered(bool)), this, SLOT(slotZoomIn()));
+    connect(m_zoomOut, SIGNAL(triggered(bool)), this, SLOT(slotZoomOut()));
 
     toolbar->addSeparator();
 
@@ -1588,12 +1592,7 @@ bool MainWindow::saveFileAs(const QString &outputFileName)
 
 bool MainWindow::saveFileAs()
 {
-    // Check that the Kdenlive mime type is correctly installed
-    QString mimetype = "application/x-kdenlive";
-    KMimeType::Ptr mime = KMimeType::mimeType(mimetype);
-    if (!mime) mimetype = "*.kdenlive";
-
-    QString outputFile = KFileDialog::getSaveFileName(KUrl(), mimetype);
+    QString outputFile = KFileDialog::getSaveFileName(KUrl(), getMimeType());
     if (outputFile.isEmpty()) return false;
     if (QFile::exists(outputFile)) {
         // Show the file dialog again if the user does not want to overwrite the file
@@ -1622,12 +1621,7 @@ void MainWindow::openFile()
         m_startUrl = KUrl();
         return;
     }
-    // Check that the Kdenlive mime type is correctly installed
-    QString mimetype = "application/x-kdenlive";
-    KMimeType::Ptr mime = KMimeType::mimeType(mimetype);
-    if (!mime) mimetype = "*.kdenlive";
-
-    KUrl url = KFileDialog::getOpenUrl(KUrl("kfiledialog:///projectfolder"), mimetype);
+    KUrl url = KFileDialog::getOpenUrl(KUrl("kfiledialog:///projectfolder"), getMimeType());
     if (url.isEmpty()) return;
     m_fileOpenRecent->addUrl(url);
     openFile(url);
@@ -1995,7 +1989,6 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
             disconnect(m_activeTimeline->projectView(), SIGNAL(transitionItemSelected(Transition*, int, QPoint, bool)), m_transitionConfig, SLOT(slotTransitionItemSelected(Transition*, int, QPoint, bool)));
             disconnect(m_activeTimeline->projectView(), SIGNAL(transitionItemSelected(Transition*, int, QPoint, bool)), this, SLOT(slotActivateTransitionView(Transition *)));
             disconnect(m_activeTimeline->projectView(), SIGNAL(playMonitor()), m_projectMonitor, SLOT(slotPlay()));
-            disconnect(m_zoomSlider, SIGNAL(valueChanged(int)), m_activeTimeline, SLOT(slotChangeZoom(int)));
             disconnect(m_activeTimeline->projectView(), SIGNAL(displayMessage(const QString&, MessageType)), m_messageLabel, SLOT(setMessage(const QString&, MessageType)));
             disconnect(m_activeTimeline->projectView(), SIGNAL(showClipFrame(DocClipBase *, QPoint, const int)), m_clipMonitor, SLOT(slotSetXml(DocClipBase *, QPoint, const int)));
             disconnect(m_activeTimeline, SIGNAL(cursorMoved()), m_projectMonitor, SLOT(activateMonitor()));
@@ -2070,7 +2063,6 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     connect(trackView->projectView(), SIGNAL(transitionItemSelected(Transition*, int, QPoint, bool)), m_transitionConfig, SLOT(slotTransitionItemSelected(Transition*, int, QPoint, bool)));
     connect(trackView->projectView(), SIGNAL(transitionItemSelected(Transition*, int, QPoint, bool)), this, SLOT(slotActivateTransitionView(Transition *)));
     m_zoomSlider->setValue(doc->zoom().x());
-    connect(m_zoomSlider, SIGNAL(valueChanged(int)), trackView, SLOT(slotChangeZoom(int)));
     connect(trackView->projectView(), SIGNAL(zoomIn()), this, SLOT(slotZoomIn()));
     connect(trackView->projectView(), SIGNAL(zoomOut()), this, SLOT(slotZoomOut()));
     connect(trackView, SIGNAL(setZoom(int)), this, SLOT(slotSetZoom(int)));
@@ -2561,11 +2553,13 @@ void MainWindow::slotAddCustomEffect(QAction *result)
 void MainWindow::slotZoomIn()
 {
     m_zoomSlider->setValue(m_zoomSlider->value() - 1);
+    slotShowZoomSliderToolTip();
 }
 
 void MainWindow::slotZoomOut()
 {
     m_zoomSlider->setValue(m_zoomSlider->value() + 1);
+    slotShowZoomSliderToolTip();
 }
 
 void MainWindow::slotFitZoom()
@@ -2577,7 +2571,32 @@ void MainWindow::slotFitZoom()
 
 void MainWindow::slotSetZoom(int value)
 {
+    if (m_activeTimeline)
+        m_activeTimeline->slotChangeZoom(value);
+
+    m_zoomOut->setEnabled(value < m_zoomSlider->maximum());
+    m_zoomIn->setEnabled(value > m_zoomSlider->minimum());
+    slotUpdateZoomSliderToolTip(value); 
+
+    m_zoomSlider->blockSignals(true);
     m_zoomSlider->setValue(value);
+    m_zoomSlider->blockSignals(false);
+}
+
+void MainWindow::slotShowZoomSliderToolTip(int zoomlevel)
+{
+    if (zoomlevel != -1)
+        slotUpdateZoomSliderToolTip(zoomlevel);
+
+    QPoint global = m_zoomSlider->rect().topLeft();
+    global.ry() += m_zoomSlider->height() / 2;
+    QHelpEvent toolTipEvent(QEvent::ToolTip, QPoint(0, 0), m_zoomSlider->mapToGlobal(global));
+    QApplication::sendEvent(m_zoomSlider, &toolTipEvent); 
+}
+
+void MainWindow::slotUpdateZoomSliderToolTip(int zoomlevel)
+{
+    m_zoomSlider->setToolTip(i18n("Zoom Level: %1/13", zoomlevel));
 }
 
 void MainWindow::slotGotProgressInfo(const QString &message, int progress)
@@ -3466,6 +3485,14 @@ void MainWindow::slotShowTitleBars(bool show)
 void MainWindow::slotSwitchTitles()
 {
     slotShowTitleBars(!KdenliveSettings::showtitlebars());
+}
+
+QString MainWindow::getMimeType()
+{
+    QString mimetype = "application/x-kdenlive";
+    KMimeType::Ptr mime = KMimeType::mimeType(mimetype);
+    if (!mime) mimetype = "*.kdenlive";
+    return mimetype;
 }
 
 #include "mainwindow.moc"

@@ -235,6 +235,9 @@ private:
     QByteArray m_timelineState;
     void loadTranscoders();
     QPixmap createSchemePreviewIcon(const KSharedConfigPtr &config);
+    /** @brief Checks that the Kdenlive mime type is correctly installed.
+    * @return The mimetype */
+    QString getMimeType();
 
 public slots:
     void openFile(const KUrl &url);
@@ -277,11 +280,27 @@ private slots:
     void slotRenderProject();
     void slotFullScreen();
     void slotUpdateDocumentState(bool modified);
+
+    /** @brief Sets the timeline zoom slider to @param value.
+    *
+    * Also disables zoomIn and zoomOut actions if they cannot be used at the moment. */
+    void slotSetZoom(int value);
+    /** @brief Decreases the timeline zoom level by 1. */
     void slotZoomIn();
+    /** @brief Increases the timeline zoom level by 1. */
     void slotZoomOut();
+    /** @brief Makes the timeline zoom level fit the timeline content. */
     void slotFitZoom();
+    /** @brief Updates the zoom slider tooltip to fit @param zoomlevel. */
+    void slotUpdateZoomSliderToolTip(int zoomlevel);
+    /** @brief Displays the zoom slider tooltip.
+    * @param zoomlevel (optional) The zoom level to show in the tooltip. 
+    *
+    * Adopted from Dolphin (src/statusbar/dolphinstatusbar.cpp) */
+    void slotShowZoomSliderToolTip(int zoomlevel = -1);
+
     void closeCurrentDocument(bool saveChanges = true);
-    /** @brief Delete item in timeline, project tree or effect stack depending on focus. */
+    /** @brief Deletes item in timeline, project tree or effect stack depending on focus. */
     void slotDeleteItem();
     void slotAddClipMarker();
     void slotDeleteClipMarker();
@@ -370,10 +389,9 @@ private slots:
     void slotSetDocumentRenderProfile(const QString &dest, const QString &group, const QString &name, const QString &file);
     void slotPrepareRendering(bool scriptExport, bool zoneOnly, const QString &chapterFile);
     void slotUpdateTimecodeFormat(int ix);
-    /** Removes the focus of anything */
+    /** @brief Removes the focus of anything. */
     void slotRemoveFocus();
     void slotCleanProject();
-    void slotSetZoom(int value);
     void slotUpdateClipMarkers(DocClipBase *clip);
     void slotRevert();
     void slotShutdown();
