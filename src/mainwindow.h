@@ -403,6 +403,9 @@ private slots:
     void slotCheckRenderStatus();
     void slotInsertZoneToTree();
     void slotInsertZoneToTimeline();
+    /** @brief Deletes items from timeline and document.
+    * @param ids The ids of the clips to delete.
+    * @param folderids The names and ids of the folders to delete. */
     void slotDeleteProjectClips(QStringList ids, QMap<QString, QString> folderids);
     void slotShowTitleBars(bool show);
     void slotSwitchTitles();

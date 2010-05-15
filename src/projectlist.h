@@ -171,6 +171,7 @@ public slots:
     void slotRefreshClipThumbnail(QTreeWidgetItem *item, bool update = true);
     void slotRemoveInvalidClip(const QString &id, bool replace);
     void slotSelectClip(const QString &ix);
+    /** @brief Prepares removing the selected items. */
     void slotRemoveClip();
     void slotAddClip(const QList <QUrl> givenList = QList <QUrl> (), const QString &groupName = QString(), const QString &groupId = QString());
     /** @brief Adds, edits or deletes a folder item.
