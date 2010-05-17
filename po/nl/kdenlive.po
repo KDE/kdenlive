@@ -2,27 +2,27 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Michiel Zandbelt <mzandbelt@xs4all.nl>, 2008, 2009.
+# Valenstijn <Valenstyn@gmail.com>, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-05-20 13:34+0200\n"
-"PO-Revision-Date: 2009-05-24 21:38+0200\n"
-"Last-Translator: Michiel Zandbelt <mzandbelt@xs4all.nl>\n"
-"Language-Team: Dutch <kde-i18n-doc@lists.kde.org>\n"
+"PO-Revision-Date: 2010-05-11 20:13+0200\n"
+"Last-Translator: Valenstijn <Valenstyn@gmail.com>\n"
+"Language-Team: Nederlands <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 0.2\n"
+"X-Generator: Lokalize 1.0\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/clipproperties.cpp:480 src/slideshowclip.cpp:121
-#, fuzzy, kde-format
+#, kde-format
 msgid "%1 images found"
 msgstr "%1 afbeeldingen gevonden"
 
 #: rc.cpp:560 rc.cpp:563 rc.cpp:566 rc.cpp:569 rc.cpp:572 rc.cpp:575
-#, fuzzy
 #: rc.cpp:578 rc.cpp:584 rc.cpp:587 rc.cpp:911 rc.cpp:917 rc.cpp:923
 #: rc.cpp:929 rc.cpp:938 rc.cpp:1442 rc.cpp:1754 rc.cpp:1757 rc.cpp:1892
 #: rc.cpp:1895 rc.cpp:1898 rc.cpp:1901 rc.cpp:1904 rc.cpp:1907 rc.cpp:1910
@@ -32,102 +32,82 @@ msgid "..."
 msgstr "..."
 
 #: rc.cpp:746 rc.cpp:752 rc.cpp:758 rc.cpp:2078 rc.cpp:2084 rc.cpp:2090
-#, fuzzy
 msgid "/"
 msgstr "/"
 
 #: rc.cpp:1559 rc.cpp:2891
-#, fuzzy
 msgid "/dev/dsp"
 msgstr "/dev/dsp"
 
 #: rc.cpp:1580 rc.cpp:2912
-#, fuzzy
 msgid "/dev/video0"
 msgstr "/dev/video0"
 
 #: rc.cpp:716 rc.cpp:2048
-#, fuzzy
 msgid "0"
 msgstr "0"
 
 #: rc.cpp:656 rc.cpp:1121 rc.cpp:1988 rc.cpp:2453
-#, fuzzy
 msgid "1"
-msgstr "x1"
+msgstr "1"
 
 #: src/geometryval.cpp:80
-#, fuzzy
 msgid "100%"
 msgstr "100%"
 
 #: rc.cpp:1616 rc.cpp:2948
-#, fuzzy
 msgid "11250"
 msgstr "11250"
 
 #: rc.cpp:1124 rc.cpp:2456
-#, fuzzy
 msgid "2"
 msgstr "2"
 
 #: src/geometryval.cpp:81
-#, fuzzy
 msgid "200%"
 msgstr "200%"
 
 #: rc.cpp:1613 rc.cpp:2945
-#, fuzzy
 msgid "22500"
-msgstr "200%"
+msgstr "22500"
 
 #: rc.cpp:1280 rc.cpp:1481 rc.cpp:2612 rc.cpp:2813
-#, fuzzy
 msgid "25/1"
 msgstr "25/1"
 
 #: rc.cpp:1610 rc.cpp:2942
-#, fuzzy
 msgid "32000"
-msgstr "200%"
+msgstr "32000"
 
 #: rc.cpp:1586 rc.cpp:2918
-#, fuzzy
 msgid "320x240"
 msgstr "320x240"
 
 #: rc.cpp:1292 rc.cpp:1493 rc.cpp:2624 rc.cpp:2825
-#, fuzzy
 msgid "4/3"
 msgstr "4/3"
 
 #: rc.cpp:1607 rc.cpp:2939
-#, fuzzy
 msgid "41000"
-msgstr "100%"
+msgstr "41000"
 
 #: rc.cpp:1604 rc.cpp:2936
-#, fuzzy
 msgid "48000"
 msgstr "48000"
 
 #: src/geometryval.cpp:79
-#, fuzzy
 msgid "50%"
 msgstr "50%"
 
 #: rc.cpp:1286 rc.cpp:1487 rc.cpp:2618 rc.cpp:2819
-#, fuzzy
 msgid "59/54"
 msgstr "59/54"
 
 #: rc.cpp:1274 rc.cpp:1475 rc.cpp:2606 rc.cpp:2807
-#, fuzzy
 msgid "720x576"
 msgstr "720x576"
 
 #: rc.cpp:518 rc.cpp:524 rc.cpp:530 rc.cpp:536 rc.cpp:842 rc.cpp:1019
-#, fuzzy
 #: rc.cpp:1070 rc.cpp:1079 rc.cpp:1205 rc.cpp:1235 rc.cpp:1253 rc.cpp:1262
 #: rc.cpp:1319 rc.cpp:1331 rc.cpp:1706 rc.cpp:1850 rc.cpp:1856 rc.cpp:1862
 #: rc.cpp:1868 rc.cpp:2174 rc.cpp:2351 rc.cpp:2402 rc.cpp:2411 rc.cpp:2537
@@ -136,387 +116,317 @@ msgid "99:99:99:99; "
 msgstr "99:99:99:99; "
 
 #: rc.cpp:1256 rc.cpp:2588
-#, fuzzy
 msgid ":::"
 msgstr ":::"
 
 #: src/kdenlivesettingsdialog.cpp:171
-#, fuzzy
 msgid ""
 "<strong><em>Recordmydesktop</em> utility not found, please install it for "
 "screen grabs</strong>"
 msgstr ""
-"<strong>Toepassing <em>Recordmydesktop</em> niet gevonden, installeer deze "
-"om een schermopname te kunnen maken</strong>"
+"<strong><em>Recordmydesktop</em> niet gevonden, installeer deze om een "
+"schermopname te kunnen maken</strong>"
 
 #: src/kdenlivesettingsdialog.cpp:165
-#, fuzzy
 msgid ""
 "<strong><em>dvgrab</em> utility not found, please install it for firewire "
 "capture</strong>"
 msgstr ""
-"<strong>Toepassing <em>dvgrab</em> niet gevonden, installeer deze om via "
-"Firewire te kunnen capturen</strong>"
+"<strong><em>dvgrab</em> niet gevonden, installeer deze om via "
+"Firewire te kunnen capteren</strong>"
 
 #: src/dvdwizardvob.cpp:54 src/dvdwizardvob.cpp:55
-#, fuzzy, kde-format
+#, kde-format
 msgid "<strong>Program %1 is required for the DVD wizard."
 msgstr "<strong>Het programma %1 is vereist voor de DVD wizard."
 
 #: src/renderwidget.cpp:1233
-#, fuzzy, kde-format
+#, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>Het omzetten (renderen) van %1 is vastgelopen</strong><br />"
 
 #: rc.cpp:719 rc.cpp:866 rc.cpp:950 rc.cpp:965 rc.cpp:2051 rc.cpp:2198
-#, fuzzy
 #: rc.cpp:2282 rc.cpp:2297
 msgid "A"
 msgstr "A"
 
 #: src/customtrackview.cpp:3550
-#, fuzzy, kde-format
+#, kde-format
 msgid "A guide already exists at position %1"
-msgstr "Op deze positie bestaat reeds een aanwijzing."
+msgstr "Op deze positie bestaat reeds een aanwijzing %1"
 
 #: src/profilesdialog.cpp:141
-#, fuzzy
 msgid ""
 "A profile with same name already exists in MLT's default profiles, please "
 "choose another description for your custom profile."
 msgstr ""
 "Er bestaat reeds een profiel met deze naam in de MLT standaard profielen, "
-"kies a.u.b. een andere beschrijving voor uw aangepaste profiel."
+"kies een andere beschrijving voor uw aangepaste profiel."
 
 #: src/kdenlivesettingsdialog.cpp:208 rc.cpp:1619 rc.cpp:2951
-#, fuzzy
 msgid "ALSA"
 msgstr "ALSA"
 
 #: src/kdenlivesettingsdialog.cpp:212
-#, fuzzy
 msgid "ARTS daemon"
 msgstr "ARTS daemon"
 
 #: src/cliptranscode.cpp:90 rc.cpp:899 rc.cpp:2231
-#, fuzzy
 msgid "Abort"
 msgstr "Afbreken"
 
 #: src/renderwidget.cpp:1266 rc.cpp:1433 rc.cpp:2765
-#, fuzzy
 msgid "Abort Job"
 msgstr "Taak afbreken"
 
 #: rc.cpp:1175 rc.cpp:2507
-#, fuzzy
 msgid "Activate crash recovery (auto save)"
-msgstr "Activeer crash-herstel (auto save)"
+msgstr "Activeer crash-herstel (auto bewaren)"
 
 #: src/addeffectcommand.cpp:38 src/customtrackview.cpp:1246
 #: src/customtrackview.cpp:1282
-#, fuzzy, kde-format
+#, kde-format
 msgid "Add %1"
 msgstr "Voeg %1 toe"
 
 #: rc.cpp:3158
-#, fuzzy
 msgid "Add Audio Effect"
-msgstr "Voeg geluidseffect toe"
+msgstr "Voeg een geluidseffect toe"
 
 #: src/mainwindow.cpp:1082
-#, fuzzy
 msgid "Add Clip"
-msgstr "Voeg clip toe"
+msgstr "Voeg een clip toe"
 
 #: src/mainwindow.cpp:1086
-#, fuzzy
 msgid "Add Color Clip"
 msgstr "Voeg kleur clip toe"
 
 #: rc.cpp:3161
-#, fuzzy
 msgid "Add Custom Effect"
-msgstr "Voeg zelfgedefinieerd effect toe"
+msgstr "Voeg een zelf gedefinieerd effect toe"
 
 #: src/customtrackview.cpp:3565 src/mainwindow.cpp:1012 src/customruler.cpp:72
-#, fuzzy
 msgid "Add Guide"
 msgstr "Voeg aanwijzing toe"
 
 #: src/titlewidget.cpp:144
-#, fuzzy
 msgid "Add Image"
-msgstr "Voeg afbeelding toe"
+msgstr "Voeg een afbeelding toe"
 
 #: src/clipproperties.cpp:282 src/mainwindow.cpp:950 src/mainwindow.cpp:2026
-#, fuzzy
 msgid "Add Marker"
-msgstr "Voeg markeerpunt toe"
+msgstr "Voeg een markeerpunt toe"
 
 #: rc.cpp:1148 rc.cpp:2480
-#, fuzzy
 msgid "Add Profile"
-msgstr "Profiel"
+msgstr "Voeg een profiel toe"
 
 #: src/titlewidget.cpp:136
-#, fuzzy
 msgid "Add Rectangle"
 msgstr "Voeg rechthoek toe"
 
 #: src/mainwindow.cpp:1090 src/slideshowclip.cpp:34
-#, fuzzy
 msgid "Add Slideshow Clip"
-msgstr "Voeg dia-show clip toe"
+msgstr "Voeg een dia-show clip toe"
 
 #: src/titlewidget.cpp:140
-#, fuzzy
 msgid "Add Text"
-msgstr "Voeg tekst toe"
+msgstr "Voeg een tekst toe"
 
 #: src/mainwindow.cpp:1094
-#, fuzzy
 msgid "Add Title Clip"
-msgstr "Voeg titelcip toe"
+msgstr "Voeg een titel-clip toe"
 
 #: src/mainwindow.cpp:306
-#, fuzzy
 msgid "Add Transition"
-msgstr "Voeg overgang toe"
+msgstr "Voeg een overgang toe"
 
 #: rc.cpp:3155
-#, fuzzy
 msgid "Add Video Effect"
-msgstr "Voeg video-effect toe"
+msgstr "Voeg een video-effect toe"
 
 #: src/clipitem.cpp:870 src/clipitem.cpp:877
-#, fuzzy
 msgid "Add audio fade"
-msgstr "Voeg geluid uitdoven (fade) toe"
+msgstr "Voeg een uitdoven geluid toe"
 
 #: rc.cpp:1214 rc.cpp:2546
-#, fuzzy
 msgid "Add chapter"
-msgstr "Voeg markeerpunt toe"
+msgstr "Voeg een hoofdstuk toe"
 
 #: src/addclipcommand.cpp:33
-#, fuzzy
 msgid "Add clip"
-msgstr "Voeg clip toe"
+msgstr "Voeg een clip toe"
 
 #: rc.cpp:794 rc.cpp:2126
-#, fuzzy
 msgid "Add clip to project"
-msgstr "Pas zoomniveau aan object aan"
+msgstr "Voeg een clip aan het project toe"
 
 #: src/clipmanager.cpp:234
-#, fuzzy
 msgid "Add clips"
 msgstr "Voeg clips toe"
 
 #: src/addfoldercommand.cpp:33
-#, fuzzy
 msgid "Add folder"
-msgstr "Voeg map toe"
+msgstr "Voeg een map toe"
 
 #: src/editguidecommand.cpp:33
-#, fuzzy
 msgid "Add guide"
-msgstr "Voeg aanwijzing toe"
+msgstr "Voeg een aanwijzing toe"
 
 #: src/geometryval.cpp:67 src/editkeyframecommand.cpp:38
-#, fuzzy
 #: src/complexparameter.cpp:44
 msgid "Add keyframe"
-msgstr "Voeg keyframe toe"
+msgstr "Voeg een keyframe toe"
 
 #: src/addmarkercommand.cpp:33 src/clipproperties.cpp:230
-#, fuzzy
 msgid "Add marker"
-msgstr "Voeg markeerpunt toe"
+msgstr "Voeg een markeerpunt toe"
 
 #: rc.cpp:1763 rc.cpp:3095
-#, fuzzy
 msgid "Add movie file"
-msgstr "Voeg video-effect toe"
+msgstr "Voeg een video-effect toe"
 
 #: src/dvdwizardmenu.cpp:41
-#, fuzzy
 msgid "Add new button"
-msgstr "Voeg niuew effect toe"
+msgstr "Voeg een nieuw effect toe"
 
 #: src/effectstackview.cpp:46
-#, fuzzy
 msgid "Add new effect"
-msgstr "Voeg niuew effect toe"
+msgstr "Voeg een nieuw effect toe"
 
 #: src/dvdwizardvob.cpp:91
-#, fuzzy
 msgid "Add new video file"
-msgstr "Voeg niuew effect toe"
+msgstr "Voeg een nieuw effect toe"
 
 #: rc.cpp:1547 rc.cpp:2879
-#, fuzzy
 msgid "Add recording time to captured file name"
-msgstr "Voeg tijdstip van opname toe aan bestandsnaam van opname"
+msgstr "Voeg een tijdstip van opname toe aan bestandsnaam van opname"
 
 #: rc.cpp:533 rc.cpp:1865
-#, fuzzy
 msgid "Add space"
-msgstr "Voeg afbeelding toe"
+msgstr "Voeg ruimte toe"
 
 #: src/addtimelineclipcommand.cpp:36
-#, fuzzy
 msgid "Add timeline clip"
 msgstr "Voeg tijdsbalk clip toe"
 
 #: src/addtrackcommand.cpp:33
-#, fuzzy
 msgid "Add track"
-msgstr "Geluid sporen"
+msgstr "Voeg geluid toe"
 
 #: src/clipitem.cpp:884 src/clipitem.cpp:887
-#, fuzzy
 msgid "Add transition"
-msgstr "Voeg overgang toe"
+msgstr "Voeg een overgang toe"
 
 #: src/addtransitioncommand.cpp:34
-#, fuzzy
 msgid "Add transition to clip"
-msgstr "Voeg overgang toe aan clip"
+msgstr "Voeg een overgang toe aan clip"
 
 #: src/wizard.cpp:92
-#, fuzzy
 msgid "Additional Settings"
 msgstr "Uitgebreide instellingen"
 
 #: rc.cpp:443
-#, fuzzy
 msgid "Adjust audio volume with keyframes"
 msgstr "Pas geluidsvolume aan met keyframes"
 
 #: src/changespeedcommand.cpp:34
-#, fuzzy
 msgid "Adjust clip length"
 msgstr "Pas clip lengte aan"
 
 #: rc.cpp:291
-#, fuzzy
 msgid "Adjust size and position of clip"
-msgstr "Voeg overgang toe aan clip"
+msgstr "Pas de grootte en de positie van de clip aan "
 
 #: rc.cpp:159
-#, fuzzy
 msgid "Adjust the audio volume without keyframes"
 msgstr "Pas geluidsvolume aan met keyframes"
 
 #: rc.cpp:132
-#, fuzzy
 msgid "Adjust the white balance / color temperature"
 msgstr "Pas de witbalans / kleur temperatuur aan"
 
 #: rc.cpp:1127 rc.cpp:2459
-#, fuzzy
 msgid "Advanced"
 msgstr "Geavanceerd"
 
 #: src/titlewidget.cpp:124
-#, fuzzy
 msgid "Align center"
 msgstr "Centreren"
 
 #: src/titlewidget.cpp:127
-#, fuzzy
 msgid "Align item horizontally"
 msgstr "Item horizontaal uitlijnen"
 
 #: src/titlewidget.cpp:129
-#, fuzzy
 msgid "Align item vertically"
 msgstr "Item verticaal uitlijnen"
 
 #: src/titlewidget.cpp:123
-#, fuzzy
 msgid "Align left"
 msgstr "Links uitlijnen"
 
 #: src/titlewidget.cpp:122
-#, fuzzy
 msgid "Align right"
 msgstr "Rechts uitlijnen"
 
 #: src/geometryval.cpp:85
-#, fuzzy
 msgid "Align..."
 msgstr "Uitlijnen..."
 
 #: rc.cpp:1154 rc.cpp:2486
-#, fuzzy
 msgid "All"
 msgstr "Alle"
 
 #: src/projectlist.cpp:598
-#, fuzzy
 msgid "All Files"
 msgstr "Alle bestanden"
 
 #: src/projectlist.cpp:597
-#, fuzzy
 msgid "All Supported Files"
 msgstr "Alle ondersteunde bestanden"
 
 #: src/spacerdialog.cpp:38
-#, fuzzy
 msgid "All tracks"
-msgstr "Geluid sporen"
+msgstr "Alle geluid sporen"
 
 #: src/complexparameter.cpp:36
-#, fuzzy
 msgid "Allow horizontal moves"
 msgstr "Horizontale bewegingen toestaan"
 
 #: src/complexparameter.cpp:38
-#, fuzzy
 msgid "Allow vertical moves"
 msgstr "Verticale bewegingen toestaan"
 
 #: src/renderwidget.cpp:662 src/renderwidget.cpp:1347
-#, fuzzy
 msgid "Already running"
 msgstr "Loopt reeds"
 
 #: rc.cpp:147 rc.cpp:451
-#, fuzzy
 msgid "Amplitude"
 msgstr "Amplitude"
 
 #: src/main.cpp:39
-#, fuzzy
 msgid "An open source video editor."
-msgstr "Een open source video bewerkingsprogramma"
+msgstr "Een open broncode video bewerkingsprogramma"
 
 #: rc.cpp:305
-#, fuzzy
 msgid "Animate Rotate X"
 msgstr "Bewegen via X rotatie"
 
 #: rc.cpp:307
-#, fuzzy
 msgid "Animate Rotate Y"
 msgstr "Bewegen via Y rotatie"
 
 #: rc.cpp:309
-#, fuzzy
 msgid "Animate Rotate Z"
 msgstr "Bewegen via Z rotatie"
 
 #: rc.cpp:315
-#, fuzzy
 msgid "Animate Shear X"
 msgstr "Bewegen via X schuiven"
 
 #: rc.cpp:317
-#, fuzzy
 msgid "Animate Shear Y"
 msgstr "Bewegen via Y schuiven"
 
@@ -526,269 +436,219 @@ msgid "Ascii art library"
 msgstr "Ascii art library"
 
 #: rc.cpp:1283 rc.cpp:2615
-#, fuzzy
 msgid "Aspect ratio:"
 msgstr "Beeld verhouding:"
 
 #: rc.cpp:1043 rc.cpp:1160 rc.cpp:1505 rc.cpp:1775 rc.cpp:2375 rc.cpp:2492
-#, fuzzy
 #: rc.cpp:2837 rc.cpp:3107
 msgid "Audio"
 msgstr "Audio"
 
 #: rc.cpp:662 rc.cpp:1994
-#, fuzzy
 msgid "Audio Codecs"
-msgstr "Audio codec"
+msgstr "Audio codec's"
 
 #: src/mainwindow.cpp:970
-#, fuzzy
 msgid "Audio Only"
-msgstr "Audio clip"
+msgstr "Alleen audio"
 
 #: src/customtrackview.cpp:4477 src/mainwindow.cpp:980
-#, fuzzy
 msgid "Audio and Video"
-msgstr "Audio index"
+msgstr "Audio en video"
 
 #: rc.cpp:1598 rc.cpp:2930
-#, fuzzy
 msgid "Audio channels"
-msgstr "Audio clip"
+msgstr "Audio kanalen"
 
 #: src/documentchecker.cpp:71 src/projectitem.cpp:192
-#, fuzzy
 msgid "Audio clip"
 msgstr "Audio clip"
 
 #: rc.cpp:1046 rc.cpp:2378
-#, fuzzy
 msgid "Audio codec"
 msgstr "Audio codec"
 
 #: rc.cpp:1565 rc.cpp:2897
-#, fuzzy
 msgid "Audio device"
-msgstr "Audio-apparaat"
+msgstr "Audio apparaat"
 
 #: rc.cpp:500 rc.cpp:1832
-#, fuzzy
 msgid "Audio device:"
-msgstr "Audio-apparaat"
+msgstr "Audio apparaat:"
 
 #: rc.cpp:497 rc.cpp:1829
-#, fuzzy
 msgid "Audio driver:"
 msgstr "Audio stuurprogramma:"
 
 #: rc.cpp:704 rc.cpp:2036
-#, fuzzy
 msgid "Audio editing"
 msgstr "Audio bewerken"
 
 #: src/clipitem.cpp:871 src/clipitem.cpp:878
-#, fuzzy, c-format, kde-format
+#, c-format, kde-format
 msgid "Audio fade duration: %1s"
 msgstr "Audio uitdoof (fade) duur: %1s"
 
 #: rc.cpp:1601 rc.cpp:2933
-#, fuzzy
 msgid "Audio frequency"
-msgstr "Frequentie"
+msgstr "Audio frequentie"
 
 #: rc.cpp:1139 rc.cpp:2471
-#, fuzzy
 msgid "Audio index"
 msgstr "Audio index"
 
 #: src/customtrackview.cpp:4452 src/renderwidget.cpp:947
-#, fuzzy
 msgid "Audio only"
-msgstr "Audio clip"
+msgstr "Alleen audio"
 
 #: rc.cpp:473 rc.cpp:1805
-#, fuzzy
 msgid "Audio track"
-msgstr "Geluid sporen"
+msgstr "Geluid spoor"
 
 #: rc.cpp:1301 rc.cpp:1508 rc.cpp:2633 rc.cpp:2840
-#, fuzzy
 msgid "Audio tracks"
 msgstr "Geluid sporen"
 
 #: src/effectslist.cpp:126 src/effectslist.cpp:137
-#, fuzzy
 msgid "Author:"
 msgstr "Auteur:"
 
 #: src/transitionsettings.cpp:56 rc.cpp:1382 rc.cpp:2714
-#, fuzzy
 msgid "Auto"
-msgstr "Audio"
+msgstr "Automatisch"
 
 #: rc.cpp:2
-#, fuzzy
 msgid "Auto Mask"
 msgstr "Automatisch maskeren"
 
 #: rc.cpp:479 rc.cpp:1811
-#, fuzzy
 msgid "Auto add"
 msgstr "Automatisch toevoegen"
 
 #: src/mainwindow.cpp:1382
-#, fuzzy
 msgid "Auto-saved files exist. Do you want to recover them now?"
 msgstr ""
 "Er bestaan automatisch opgeslagen bestanden. Wilt u deze overschrijven?"
 
 #: src/kdenlivesettingsdialog.cpp:206 src/kdenlivesettingsdialog.cpp:223
-#, fuzzy
 msgid "Automatic"
 msgstr "Automatisch"
 
 #: src/mainwindow.cpp:933
-#, fuzzy
 msgid "Automatic Transition"
-msgstr "Voeg overgang toe"
+msgstr "Automatische overgang"
 
 #: rc.cpp:1544 rc.cpp:2876
-#, fuzzy
 msgid "Automatically start a new file on scene cut"
-msgstr "Automatisch nieuw bestand starten bij knippen van scene"
+msgstr "Start automatisch nieuw bestand bij knippen van scene"
 
 #: rc.cpp:1784 rc.cpp:3116
-#, fuzzy
 msgid "Autoscroll while playing"
 msgstr "Automatisch scrollen tijdens afspelen"
 
 #: rc.cpp:659 rc.cpp:1991
-#, fuzzy
 msgid "Available Codecs (avformat)"
 msgstr "Beschikbare codecs (avformat)"
 
 #: src/wizard.cpp:146
-#, fuzzy
 msgid "Avformat module (FFmpeg)"
-msgstr "Avformat module (FFmpeg)"
+msgstr "Avformaat module (FFmpeg)"
 
 #: rc.cpp:986 rc.cpp:2318
-#, fuzzy
 msgid "Back to menu"
 msgstr "Terug naar het menu"
 
 #: rc.cpp:596 rc.cpp:989 rc.cpp:992 rc.cpp:1928 rc.cpp:2321 rc.cpp:2324
-#, fuzzy
 msgid "Background"
 msgstr "Achtergrond"
 
 #: rc.cpp:581 rc.cpp:1913
-#, fuzzy
 msgid "BasicOperations"
 msgstr "Basis bewerkingen"
 
 #: src/transitionsettings.cpp:60
-#, fuzzy
 msgid "Black"
-msgstr "Afspelen"
+msgstr "Zwart"
 
 #: rc.cpp:54
-#, fuzzy
 msgid "Blue Screen"
 msgstr "Blauw scherm"
 
 #: rc.cpp:16
-#, fuzzy
 msgid "Blur factor"
 msgstr "Wazig maken factor"
 
 #: rc.cpp:14
-#, fuzzy
 msgid "Blur image with keyframes"
-msgstr "Blur afbeelding met keyframes"
+msgstr "Wazige afbeelding met keyframes"
 
 #: rc.cpp:551 rc.cpp:1883
-#, fuzzy
 msgid "Border color"
 msgstr "Kleur van omlijning"
 
 #: src/geometryval.cpp:93 rc.cpp:70
-#, fuzzy
 msgid "Bottom"
 msgstr "Onderaan"
 
 #: rc.cpp:12
-#, fuzzy
 msgid "Box Blur"
 msgstr "Vierkantig wazig maken"
 
 #: rc.cpp:22
-#, fuzzy
 msgid "Brightness (keyframable)"
 msgstr "Helderheid (keyframable)"
 
 #: src/trackview.cpp:475
-#, fuzzy, kde-format
+#, kde-format
 msgid "Broken clip producer %1"
 msgstr "Gebroken clip producer %1"
 
 #: rc.cpp:1622 rc.cpp:1631 rc.cpp:2954 rc.cpp:2963
-#, fuzzy
 msgid "Buffer"
 msgstr "Buffer"
 
 #: src/main.cpp:45
-#, fuzzy
 msgid "Bug fixing etc."
 msgstr "Bug oplossen etc."
 
 #: rc.cpp:890 rc.cpp:2222
-#, fuzzy
 msgid "Burn"
 msgstr "Branden"
 
 #: src/dvdwizard.cpp:88 src/dvdwizard.cpp:95
-#, fuzzy, kde-format
+#, kde-format
 msgid "Burn with %1"
 msgstr "Branden met %1"
 
 #: rc.cpp:971 rc.cpp:2303
-#, fuzzy
 msgid "Button"
-msgstr "Knop 1"
+msgstr "Knop"
 
 #: rc.cpp:815 rc.cpp:2147
-#, fuzzy
 msgid "Button 1"
 msgstr "Knop 1"
 
 #: rc.cpp:818 rc.cpp:2150
-#, fuzzy
 msgid "Button 2"
 msgstr "Knop 2"
 
 #: rc.cpp:821 rc.cpp:2153
-#, fuzzy
 msgid "Button 3"
 msgstr "Knop 3"
 
 #: rc.cpp:824 rc.cpp:2156
-#, fuzzy
 msgid "Button 4"
 msgstr "Knop 4"
 
 #: rc.cpp:827 rc.cpp:2159
-#, fuzzy
 msgid "Button 5"
 msgstr "Knop 5"
 
 #: rc.cpp:983 rc.cpp:2315
-#, fuzzy
 msgid "Button colors"
-msgstr "Knop 1"
+msgstr "Knop kleur"
 
 #: rc.cpp:767 rc.cpp:2099
-#, fuzzy
 msgid "C"
 msgstr "C"
 
@@ -796,118 +656,102 @@ msgstr "C"
 #: src/customtrackview.cpp:1527 src/customtrackview.cpp:1552
 #: src/customtrackview.cpp:1578 src/customtrackview.cpp:1602
 #: src/customtrackview.cpp:1699 src/customtrackview.cpp:2916
-#, fuzzy
 msgid "Cannot add transition"
-msgstr "Kan overgang niet knippen"
+msgstr "Kan overgang niet toevoegen"
 
 #: src/customtrackview.cpp:4433 src/customtrackview.cpp:4458
 #: src/customtrackview.cpp:4483
-#, fuzzy
 msgid "Cannot change grouped clips"
-msgstr "Kan geselecteerde clips niet plakken"
+msgstr "Kan geselecteerde clips niet veranderen"
 
 #: src/customtrackview.cpp:740 src/customtrackview.cpp:2807
-#, fuzzy
 msgid "Cannot cut a clip in a group"
-msgstr "Kan overgang niet knippen"
+msgstr "Kan een clip in een groep niet knippen"
 
 #: src/customtrackview.cpp:735
-#, fuzzy
 msgid "Cannot cut a transition"
 msgstr "Kan overgang niet knippen"
 
 #: src/customtrackview.cpp:2785
-#, fuzzy
 msgid "Cannot find clip for speed change"
-msgstr "Kan geen clip vinden om te knippen"
+msgstr "Kan geen clip vinden voor een snelheid verandering "
 
 #: src/customtrackview.cpp:1220
-#, fuzzy
 msgid "Cannot find clip to add effect"
 msgstr "Kan clip waaraan effect moet worden toegevoegd niet vinden"
 
 #: src/mainwindow.cpp:2021
-#, fuzzy
 msgid "Cannot find clip to add marker"
-msgstr "Kan clip waaraan effect moet worden toegevoegd niet vinden"
+msgstr "Kan clip, waaraan markeerpunt moet worden toegevoegd, niet vinden"
 
 #: src/customtrackview.cpp:1409
-#, fuzzy
 msgid "Cannot find clip to cut"
 msgstr "Kan geen clip vinden om te knippen"
 
 #: src/mainwindow.cpp:2050 src/mainwindow.cpp:2079 src/mainwindow.cpp:2103
-#, fuzzy
 msgid "Cannot find clip to remove marker"
-msgstr "Kan geen clip vinden om te knippen"
+msgstr "Kan geen clip vinden waarvan het markeerpunt dient verwijderd "
 
 #: src/customtrackview.cpp:1456
-#, fuzzy
 msgid "Cannot find clip to uncut"
 msgstr "Kan geen clip vinden om knippen ongedaan te maken"
 
 #: src/customtrackview.cpp:1073
-#, fuzzy
 msgid "Cannot find clip with keyframe"
 msgstr "Kan geen clip vinden met keyframe"
 
 #: src/mainwindow.cpp:1492 src/mainwindow.cpp:1617
-#, fuzzy
 msgid "Cannot find the melt program required for rendering (part of Mlt)"
-msgstr "Kan het inigo programma benodigd voor renderen (onderdeel van MLT)"
+msgstr ""
+"Kan het melt programma; benodigd voor renderen (onderdeel van MLT), niet "
+"vinden"
 
 #: src/mainwindow.cpp:1477
-#, fuzzy
 msgid "Cannot find your Mlt profiles, please give the path"
-msgstr "Kan uw MLT profielen niet vinden, geef het pad op a.u.b."
+msgstr "Kan uw MLT profielen niet vinden, geef het pad op"
 
 #: src/customtrackview.cpp:2058
-#, fuzzy, kde-format
+#, kde-format
 msgid "Cannot move clip at position %1, track %2"
 msgstr "Kan clip op tijdstip: %1s op track %2 niet verplaatsen"
 
 #: src/customtrackview.cpp:3054 src/customtrackview.cpp:3228
-#, fuzzy, kde-format
+#, kde-format
 msgid "Cannot move clip at time: %1 on track %2"
 msgstr "Kan clip op tijdstip: %1s op track %2 niet verplaatsen"
 
 #: src/customtrackview.cpp:2337 src/customtrackview.cpp:3090
-#, fuzzy, kde-format
+#, kde-format
 msgid "Cannot move clip to position %1"
-msgstr "Kan clip niet verplaatsen naar positie %1seconds"
+msgstr "Kan clip niet verplaatsen naar positie %1"
 
 #: src/customtrackview.cpp:2345
-#, fuzzy
 msgid "Cannot move transition"
-msgstr "Kan overgang niet knippen"
+msgstr "Kan overgang niet verplaatsen"
 
 #: src/customtrackview.cpp:2068
-#, fuzzy, kde-format
+#, kde-format
 msgid "Cannot move transition at position %1, track %2"
-msgstr "Kan overgang op tijdstip : %1s op track %2 niet verplaatsen"
+msgstr "Kan overgang op positie  %1 op track %2 niet verplaatsen"
 
 #: src/customtrackview.cpp:3190
-#, fuzzy, kde-format
+#, kde-format
 msgid "Cannot move transition at time: %1 on track %2"
-msgstr "Kan overgang op tijdstip : %1s op track %2 niet verplaatsen"
+msgstr "Kan overgang op tijdstip: %1 op track %2 niet verplaatsen"
 
 #: src/customtrackview.cpp:3880
-#, fuzzy
 msgid "Cannot paste clip to selected place"
 msgstr "Clip kan niet op geselecteerde positie geplakt worden"
 
 #: src/customtrackview.cpp:3851 src/customtrackview.cpp:3863
-#, fuzzy
 msgid "Cannot paste selected clips"
 msgstr "Kan geselecteerde clips niet plakken"
 
 #: src/customtrackview.cpp:3891
-#, fuzzy
 msgid "Cannot paste transition to selected place"
 msgstr "Overgang kan niet op geselecteerde positie geplakt worden"
 
 #: src/mainwindow.cpp:1614
-#, fuzzy
 msgid ""
 "Cannot play video after rendering because the default video player "
 "application is not set.\n"
@@ -915,119 +759,100 @@ msgid ""
 msgstr ""
 "Kan de video na renderen niet afspelen omdat het standaard afspeelprogramma "
 "niet is ingesteld.\n"
-"Definieer deze a.u.b. in de Kdenlive instellingen."
+"Definieer deze in de Kdenlive instellingen."
 
 #: src/recmonitor.cpp:213
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Cannot read from device %1\n"
 "Please check drivers and access rights."
 msgstr ""
 "Kan niet lezen vanaf apparaat %1\n"
-"Controlerr a.u.b. drivers en toegangsrechten"
+"Controleer drivers en rechten"
 
 #: src/customtrackview.cpp:2487 src/customtrackview.cpp:2549
-#, fuzzy
 msgid "Cannot resize transition"
-msgstr "Kan overgang niet knippen"
+msgstr "Kan overgang niet vervormen"
 
 #: src/customtrackview.cpp:4338
-#, fuzzy
 msgid "Cannot split audio of grouped clips"
-msgstr "Kan geluid van gegroepeerde clips niet splitsen"
+msgstr "Kan het geluid van gegroepeerde clips niet splitsen"
 
 #: src/titlewidget.cpp:765 src/profilesdialog.cpp:166
 #: src/profilesdialog.cpp:172 src/mainwindow.cpp:1650 src/mainwindow.cpp:1660
 #: src/kdenlivedoc.cpp:494 src/kdenlivedoc.cpp:500 src/renderwidget.cpp:350
 #: src/renderwidget.cpp:450 src/renderwidget.cpp:456 src/renderwidget.cpp:516
-#, fuzzy, kde-format
+#, kde-format
 msgid "Cannot write to file %1"
-msgstr "Kan niet schrijven naar bestand %1"
+msgstr "Onmogelijk te schrijven naar bestand %1"
 
 #: src/kdenlivesettingsdialog.cpp:74
-#, fuzzy
 msgid "Capture"
 msgstr "Opnemen"
 
 #: rc.cpp:1595 rc.cpp:2927
-#, fuzzy
 msgid "Capture audio"
 msgstr "Geluid opnemen"
 
 #: src/recmonitor.cpp:564
-#, fuzzy
 msgid "Capture crashed, please check your parameters"
-msgstr "Opname is vastgelopen/gecrasht, controleer a.u.b. uw opname parameters"
+msgstr "Opname is vastgelopen/gecrasht, controleer uw parameters"
 
 #: rc.cpp:692 rc.cpp:2024
-#, fuzzy
 msgid "Capture folder"
-msgstr "Bestandmap voor opnamen"
+msgstr "Map voor opnamen"
 
 #: rc.cpp:1529 rc.cpp:2861
-#, fuzzy
 msgid "Capture format"
 msgstr "Opname formaat"
 
 #: rc.cpp:1568 rc.cpp:2900
-#, fuzzy
 msgid "Capture params"
 msgstr "Opname parameters"
 
 #: rc.cpp:845 rc.cpp:2177
-#, fuzzy
 msgid "Captured files"
 msgstr "Opgenomen bestanden"
 
 #: src/geometryval.cpp:87
-#, fuzzy
 msgid "Center"
 msgstr "Centreren"
 
 #: rc.cpp:333
-#, fuzzy
 msgid "Center Frequency"
-msgstr "Frequentie"
+msgstr "Centreer frequentie"
 
 #: rc.cpp:701 rc.cpp:707 rc.cpp:713 rc.cpp:2033 rc.cpp:2039 rc.cpp:2045
-#, fuzzy
 msgid "Change"
 msgstr "Wijzig"
 
 #: src/mainwindow.cpp:924
-#, fuzzy
 msgid "Change Clip Speed"
 msgstr "Wijzig clip snelheid"
 
 #: src/mainwindow.cpp:1008
-#, fuzzy
 msgid "Change Track"
-msgstr "Wijzig"
+msgstr "Wijzig spoor"
 
 #: src/customtrackview.cpp:4159 src/headertrack.cpp:76
-#, fuzzy
 msgid "Change Track Type"
 msgstr "Verander spoor type"
 
 #: src/changecliptypecommand.cpp:36
-#, fuzzy
 msgid "Change clip type"
-msgstr "Wijzig clip snelheid"
+msgstr "Wijzig clip type"
 
 #: rc.cpp:165
-#, fuzzy
 msgid "Change gamma color value"
 msgstr "Wijzig gamma kleurwaarde"
 
 #: rc.cpp:24
-#, fuzzy
 msgid "Change image brightness with keyframes"
 msgstr "Wijzig helderheid van afbeelding met keyframes"
 
 #: src/customtrackview.cpp:4155
-#, fuzzy
 msgid "Change track"
-msgstr "Wijzig"
+msgstr "Wijzig spoor"
 
 #: src/changetrackcommand.cpp:33
 #, fuzzy
@@ -1035,201 +860,166 @@ msgid "Change track type"
 msgstr "Verander spoor type"
 
 #: rc.cpp:1049 rc.cpp:2381
-#, fuzzy
 msgid "Channels"
 msgstr "Kanalen"
 
 #: src/dvdwizardchapters.cpp:235
-#, fuzzy, kde-format
+#, kde-format
 msgid "Chapter %1"
 msgstr "Hoofdstuk %1"
 
 #: rc.cpp:32
-#, fuzzy
 msgid "Charcoal"
 msgstr "Houtskool"
 
 #: rc.cpp:34
-#, fuzzy
 msgid "Charcoal drawing effect"
 msgstr "Houtskool schrijf effect"
 
 #: rc.cpp:1679 rc.cpp:3011
-#, fuzzy
 msgid "CheckBox"
 msgstr "Aanvink hokje"
 
 #: src/wizard.cpp:55
-#, fuzzy
 msgid "Checking MLT engine"
 msgstr "Controleert MLT engine"
 
 #: src/wizard.cpp:106
-#, fuzzy
 msgid "Checking system"
 msgstr "Controleert systeem"
 
 #: rc.cpp:46
-#, fuzzy
 msgid "Chroma Hold"
 msgstr "Chroma behoud"
 
 #: rc.cpp:325
-#, fuzzy
 msgid "Chrominance U"
 msgstr "Chrominantie U"
 
 #: rc.cpp:327
-#, fuzzy
 msgid "Chrominance V"
 msgstr "Chrominantie V"
 
 #: src/mainwindow.cpp:202
-#, fuzzy
 msgid "Clean"
 msgstr "Wissen"
 
 #: rc.cpp:1445 rc.cpp:2777
-#, fuzzy
 msgid "Clean Up"
-msgstr "Wissen"
+msgstr "Verwijder"
 
 #: rc.cpp:3140
-#, fuzzy
 msgid "Clip"
-msgstr "Voeg clip toe"
+msgstr "Clip"
 
 #: src/kdenlivedoc.cpp:823 src/kdenlivedoc.cpp:831
-#, fuzzy, kde-format
+#, kde-format
 msgid "Clip <b>%1</b><br>is invalid or missing, what do you want to do?"
 msgstr "Clip <b>%1</b><br>is ongeldig of ontbreekt, wat wilt u doen?"
 
 #: src/kdenlivedoc.cpp:820
-#, fuzzy, kde-format
+#, kde-format
 msgid "Clip <b>%1</b><br>is invalid, what do you want to do?"
-msgstr ""
-"<qt>Clip <b>%1</b><br>is ongeldig, Deze zal uit het project verwijderd worden"
+msgstr "Clip <b>%1</b><br>is ongeldig, wat wilt u doen?"
 
 #: src/projectlist.cpp:630
-#, fuzzy, kde-format
+#, kde-format
 msgid "Clip <b>%1</b><br>is invalid, will be removed from project."
 msgstr ""
-"<qt>Clip <b>%1</b><br>is ongeldig, Deze zal uit het project verwijderd worden"
+"Clip <b>%1</b><br>is ongeldig, Deze zal uit het project verwijderd worden"
 
 #: src/projectlist.cpp:632
-#, fuzzy, kde-format
+#, kde-format
 msgid "Clip <b>%1</b><br>is missing or invalid. Remove it from project?"
-msgstr ""
-"<qt>Clip <b>%1</b><br>is ongeldig, Deze zal uit het project verwijderd worden"
+msgstr "Clip <b>%1</b><br>is ongeldig. Uit het project verwijderen?"
 
 #: rc.cpp:1229 rc.cpp:2561
-#, fuzzy
 msgid "Clip Color"
 msgstr "Clip kleur"
 
 #: src/mainwindow.cpp:176
-#, fuzzy
 msgid "Clip Monitor"
 msgstr "Clip monitor"
 
 #: src/mainwindow.cpp:1102 rc.cpp:1004 rc.cpp:2336
-#, fuzzy
 msgid "Clip Properties"
 msgstr "Clip eigenschappen"
 
 #: src/clipitem.cpp:881
-#, fuzzy, c-format, kde-format
+#, c-format, kde-format
 msgid "Clip duration: %1s"
 msgstr "Clip lengte: %1s"
 
 #: src/customtrackview.cpp:3482
-#, fuzzy
 msgid "Clip has no markers"
 msgstr "Clip bevat geen markers"
 
 #: src/documentchecker.cpp:103
-#, fuzzy
 msgid "Clips folder"
 msgstr "Clip kleur"
 
 #: src/cliptranscode.cpp:111 rc.cpp:1421 rc.cpp:1436 rc.cpp:1457 rc.cpp:2753
 #: rc.cpp:2768 rc.cpp:2789
-#, fuzzy
 msgid "Close"
-msgstr "Wissen"
+msgstr "Sluiten"
 
 #: rc.cpp:797 rc.cpp:2129
-#, fuzzy
 msgid "Close after transcode"
 msgstr "Afspelen na renderen"
 
 #: src/mainwindow.cpp:132
-#, fuzzy
 msgid "Close the current tab"
-msgstr "uSluit het huidig tabblad"
+msgstr "Sluit het huidig tabblad"
 
 #: rc.cpp:217
-#, fuzzy
 msgid "Co-efficient"
-msgstr "Co-efficient"
+msgstr "Coëfficiënt"
 
 #: rc.cpp:995 rc.cpp:1055 rc.cpp:1058 rc.cpp:2327 rc.cpp:2387 rc.cpp:2390
-#, fuzzy
 msgid "Color"
 msgstr "Kleur"
 
 #: src/projectlist.cpp:649
-#, fuzzy
 msgid "Color Clip"
 msgstr "Kleur clip"
 
 #: rc.cpp:138
-#, fuzzy
 msgid "Color Distance"
-msgstr "Kleuren clips"
+msgstr "Kleur afstand"
 
 #: src/projectitem.cpp:201
-#, fuzzy
 msgid "Color clip"
 msgstr "Kleur clip"
 
 #: rc.cpp:1250 rc.cpp:2582
-#, fuzzy
 msgid "Color clips"
-msgstr "Kleuren clips"
+msgstr "Kleur clips"
 
 #: rc.cpp:50 rc.cpp:58
-#, fuzzy
 msgid "Color key"
-msgstr "Kleur sleutel"
+msgstr "Kleur toets"
 
 #: rc.cpp:1106 rc.cpp:1709 rc.cpp:2438 rc.cpp:3041
-#, fuzzy
 msgid "Comment"
 msgstr "Commentaar"
 
 #: src/recmonitor.cpp:84
-#, fuzzy
 msgid "Configure"
 msgstr "Configureren"
 
 #: src/recmonitor.cpp:63 src/recmonitor.cpp:552
-#, fuzzy
 msgid "Connect"
 msgstr "Verbind"
 
 #: rc.cpp:30
-#, fuzzy
 msgid "Copy the left channel to the right"
 msgstr "Kopieer het linker kanaal naar rechts"
 
 #: src/main.cpp:41
-#, fuzzy
 msgid "Copyright (c) 2009 Development team"
-msgstr "Copyright (c) 2008 Development team"
+msgstr "Copyright (c) 2009 Development team"
 
 #: src/renderer.cpp:1039
-#, fuzzy
 msgid ""
 "Could not create the video preview window.\n"
 "There is something wrong with your Kdenlive install or your driver settings, "
@@ -1237,212 +1027,175 @@ msgid ""
 msgstr ""
 "Kan video-preview scherm niet opbouwen.\n"
 "Er is iets mis met uw kdenlive installatie of met de driver-"
-"instellingenherstel dit eerst a.u.b."
+"instellingen, herstel dit eerst."
 
 #: rc.cpp:259
-#, fuzzy
 msgid "Crackle"
 msgstr "Crackle"
 
 #: rc.cpp:1241 rc.cpp:2573
-#, fuzzy
 msgid "Crash recovery (automatic backup)"
 msgstr "Crash herstel (automatische back-up)"
 
 #: src/dvdwizard.cpp:62
-#, fuzzy
 msgid "Create DVD Menu"
 msgstr "Maak DVD menu"
 
 #: src/mainwindow.cpp:1098
-#, fuzzy
 msgid "Create Folder"
 msgstr "Map aanmaken"
 
 #: rc.cpp:893 rc.cpp:2225
-#, fuzzy
 msgid "Create ISO image"
 msgstr "Maak ISO image-bestand"
 
 #: src/renderwidget.cpp:590
-#, fuzzy
 msgid "Create Render Script"
-msgstr "Nieuw profiel aanmaken"
+msgstr "Maak een render script"
 
 #: rc.cpp:962 rc.cpp:2294
-#, fuzzy
 msgid "Create basic menu"
-msgstr "Maak absis menu"
+msgstr "Maak basis menu"
 
 #: rc.cpp:1427 rc.cpp:2759
 msgid "Create chapter file based on guides"
 msgstr "Maak hoofdstukken bestand op basis van aanwijzingen (guides)"
 
 #: src/profilesdialog.cpp:46 src/renderwidget.cpp:72
-#, fuzzy
 msgid "Create new profile"
 msgstr "Nieuw profiel aanmaken"
 
 #: src/dvdwizard.cpp:66
-#, fuzzy
 msgid "Creating DVD Image"
 msgstr "DVD image-bestand aan het maken"
 
 #: rc.cpp:878 rc.cpp:2210
-#, fuzzy
 msgid "Creating dvd structure"
 msgstr "DVD structuur aan het maken"
 
 #: rc.cpp:881 rc.cpp:2213
-#, fuzzy
 msgid "Creating iso file"
-msgstr "Nieuw profiel aanmaken"
+msgstr "ISO bestand aanmaken"
 
 #: rc.cpp:872 rc.cpp:2204
-#, fuzzy
 msgid "Creating menu background"
-msgstr "Transparante Achtergrond"
+msgstr "Menu achtergrond aanmaken"
 
 #: rc.cpp:869 rc.cpp:2201
-#, fuzzy
 msgid "Creating menu images"
-msgstr "Menu bestanden aan het maken"
+msgstr "Menu beelden aanmaken"
 
 #: rc.cpp:875 rc.cpp:2207
-#, fuzzy
 msgid "Creating menu movie"
-msgstr "Menu film/animatie aan het maken"
+msgstr "Menu film/animatie aanmaken"
 
 #: src/kthumb.cpp:493 src/kthumb.cpp:498
-#, fuzzy, kde-format
+#, kde-format
 msgid "Creating thumbnail for %1"
 msgstr "Miniatuur aanmaken voor %1"
 
 #: rc.cpp:62
-#, fuzzy
 msgid "Crop"
-msgstr "Groep"
+msgstr "Inkorten"
 
 #: src/clipitem.cpp:874
-#, fuzzy, c-format, kde-format
+#, c-format, kde-format
 msgid "Crop from start: %1s"
 msgstr "Inkorten vanaf begin: %1s"
 
 #: rc.cpp:521 rc.cpp:1853
-#, fuzzy
 msgid "Crop start"
 msgstr "Inkorten start"
 
 #: rc.cpp:1076 rc.cpp:1328 rc.cpp:2408 rc.cpp:2660
-#, fuzzy
 msgid "Crossfade"
 msgstr "Crossfade"
 
 #: src/geometryval.cpp:82 src/renderwidget.cpp:280 src/renderwidget.cpp:311
-#, fuzzy
 #: src/renderwidget.cpp:382 src/renderwidget.cpp:418 src/renderwidget.cpp:1015
 #: src/renderwidget.cpp:1050 src/renderwidget.cpp:1129 rc.cpp:1163 rc.cpp:2495
 msgid "Custom"
 msgstr "Zelf gedefinieerd"
 
 #: src/kdenlivesettingsdialog.cpp:103
-#, fuzzy
 msgid "Cut"
 msgstr "Knippen"
 
 #: src/mainwindow.cpp:945
-#, fuzzy
 msgid "Cut Clip"
 msgstr "Clip knippen"
 
 #: rc.cpp:773 rc.cpp:953 rc.cpp:968 rc.cpp:1115 rc.cpp:1196 rc.cpp:1376
-#, fuzzy
 #: rc.cpp:2105 rc.cpp:2285 rc.cpp:2300 rc.cpp:2447 rc.cpp:2528 rc.cpp:2708
 msgid "D"
-msgstr " D"
+msgstr "D"
 
 #: rc.cpp:1688 rc.cpp:3020
-#, fuzzy
 msgid "DV"
-msgstr " DV"
+msgstr "DV"
 
 #: rc.cpp:1535 rc.cpp:2867
-#, fuzzy
 msgid "DV AVI type 1"
-msgstr " DV AVI type 1"
+msgstr "DV AVI type 1"
 
 #: rc.cpp:1538 rc.cpp:2870
-#, fuzzy
 msgid "DV AVI type 2"
 msgstr "DV AVI type 2"
 
 #: rc.cpp:1532 rc.cpp:2864
-#, fuzzy
 msgid "DV Raw"
-msgstr " DV Raw"
+msgstr "DV Raw"
 
 #: src/wizard.cpp:262
-#, fuzzy
 msgid "DV module (libdv)"
 msgstr "DV module (libdv)"
 
 #: src/renderwidget.cpp:946
-#, fuzzy
 msgid "DVD"
-msgstr " DV"
+msgstr "DVD"
 
 #: src/dvdwizard.cpp:56
-#, fuzzy
 msgid "DVD Chapters"
 msgstr "DVD hoofdstukken"
 
 #: rc.cpp:905 rc.cpp:2237
-#, fuzzy
 msgid "DVD ISO image"
-msgstr "DVD ISO bestand (image)"
+msgstr "DVD ISO bestand"
 
 #: src/dvdwizard.cpp:537
-#, fuzzy, kde-format
+#, kde-format
 msgid "DVD ISO image %1 successfully created."
-msgstr "DVD ISO bestand (image) %1 succesvol gemaakt"
+msgstr "DVD ISO bestand  %1 succesvol gemaakt"
 
 #: src/dvdwizard.cpp:525
-#, fuzzy
 msgid "DVD ISO is broken"
 msgstr "DVD ISO is beschadigd"
 
 #: src/mainwindow.cpp:841
-#, fuzzy
 msgid "DVD Wizard"
 msgstr "DVD Wizard"
 
 #: rc.cpp:1760 rc.cpp:3092
-#, fuzzy
 msgid "DVD format"
-msgstr "Fornat"
+msgstr "DVD formaat"
 
 #: src/dvdwizard.cpp:466
-#, fuzzy
 msgid "DVD structure broken"
 msgstr "DVD structuur is beschadigd"
 
 #: rc.cpp:237 rc.cpp:247
-#, fuzzy
 msgid "Damping"
 msgstr "Dempen"
 
 #: rc.cpp:8
-#, fuzzy
 msgid "Debug"
 msgstr "Debug"
 
 #: rc.cpp:355 rc.cpp:367 rc.cpp:387
-#, fuzzy
 msgid "Decay"
 msgstr "Verval"
 
 #: rc.cpp:177
-#, fuzzy
 msgid "Declipper"
 msgstr "Verwijder clip"
 
@@ -1452,580 +1205,474 @@ msgid "Decoding threads"
 msgstr "Decoderen threads"
 
 #: src/kdenlivesettingsdialog.cpp:235 src/kdenlivesettingsdialog.cpp:236
-#, fuzzy
 msgid "Default"
 msgstr "Standaard"
 
 #: rc.cpp:1247 rc.cpp:2579
-#, fuzzy
 msgid "Default Durations"
 msgstr "Standaard duur"
 
 #: rc.cpp:1265 rc.cpp:2597
-#, fuzzy
 msgid "Default Profile"
 msgstr "Standaard profiel"
 
 #: rc.cpp:695 rc.cpp:2027
-#, fuzzy
 msgid "Default apps"
 msgstr "Standaard apps"
 
 #: rc.cpp:1514 rc.cpp:2846
-#, fuzzy
 msgid "Default capture device"
 msgstr "Standaard opname apparaat"
 
 #: rc.cpp:1166 rc.cpp:2498
-#, fuzzy
 msgid "Default folder for project files"
-msgstr "Standaard mappen"
+msgstr "Standaard map voor het project"
 
 #: rc.cpp:683 rc.cpp:2015
-#, fuzzy
 msgid "Default folders"
 msgstr "Standaard mappen"
 
 #: rc.cpp:353 rc.cpp:365 rc.cpp:385 rc.cpp:407
-#, fuzzy
 msgid "Delay"
 msgstr "Vertraag"
 
 #: rc.cpp:245
-#, fuzzy
 msgid "Delay (s/10)"
 msgstr "Vertraag (s/10)"
 
 #: src/addeffectcommand.cpp:39
-#, fuzzy, kde-format
+#, kde-format
 msgid "Delete %1"
 msgstr "Verwijder %1"
 
 #: src/mainwindow.cpp:1024 src/customruler.cpp:78
-#, fuzzy
 msgid "Delete All Guides"
 msgstr "Verwijder alle aanwijzingen"
 
 #: src/mainwindow.cpp:958
-#, fuzzy
 msgid "Delete All Markers"
 msgstr "Verwijder alle markeerpunten"
 
 #: src/mainwindow.cpp:1114 src/projectlist.cpp:361
-#, fuzzy
 msgid "Delete Clip"
 msgstr "Verwijder clip"
 
 #: src/projectlist.cpp:364 src/projectlist.cpp:452
-#, fuzzy
 msgid "Delete Folder"
 msgstr "Verwijder map"
 
 #: src/customtrackview.cpp:177 src/mainwindow.cpp:1016 src/customruler.cpp:76
-#, fuzzy
 msgid "Delete Guide"
 msgstr "Verwijder aanwijzing"
 
 #: src/mainwindow.cpp:954
-#, fuzzy
 msgid "Delete Marker"
-msgstr "Verwijder markeerputn"
+msgstr "Verwijder markeerpunt"
 
 #: rc.cpp:1151 rc.cpp:2483
-#, fuzzy
 msgid "Delete Profile"
 msgstr "Verwijder profiel"
 
 #: rc.cpp:1454 rc.cpp:2786
-#, fuzzy
 msgid "Delete Script"
-msgstr "Verwijder clip"
+msgstr "Verwijder script"
 
 #: src/mainwindow.cpp:919
-#, fuzzy
 msgid "Delete Selected Item"
 msgstr "Verwijder geselecteerd item"
 
 #: src/headertrack.cpp:72 src/mainwindow.cpp:1004
-#, fuzzy
 msgid "Delete Track"
-msgstr "Verwijder markeerputn"
+msgstr "Verwijder markeerpunt"
 
 #: src/addclipcommand.cpp:34
-#, fuzzy
 msgid "Delete clip"
-msgstr "uVerwijder clip"
+msgstr "Verwijder clip"
 
 #: src/dvdwizardmenu.cpp:42
-#, fuzzy
 msgid "Delete current button"
-msgstr "Verwijder huidig bestand"
+msgstr "Verwijder huidig knop"
 
 #: rc.cpp:854 rc.cpp:2186
-#, fuzzy
 msgid "Delete current file"
 msgstr "Verwijder huidig bestand"
 
 #: src/effectslistview.cpp:49 src/effectstackview.cpp:52
-#, fuzzy
 msgid "Delete effect"
 msgstr "Verwijder effect"
 
 #: src/addfoldercommand.cpp:34
-#, fuzzy
 msgid "Delete folder"
 msgstr "Verwijder map"
 
 #: src/projectlist.cpp:364
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Delete folder <b>%2</b>?<br>This will also remove the %1 clips in that folder"
 msgstr ""
-"Verwijderen map <b>%2</b> ?Hiermee worden ook de  %1 clips in deze map "
+"Verwijderen map <b>%2</b> ?Hierdoor worden ook de  %1 clips in deze map "
 "verwijderd"
 
 #: src/editguidecommand.cpp:35
-#, fuzzy
 msgid "Delete guide"
-msgstr "Verwijder Guide"
+msgstr "Verwijder aanwijzing"
 
 #: src/geometryval.cpp:69 src/editkeyframecommand.cpp:37
-#, fuzzy
 msgid "Delete keyframe"
 msgstr "Verwijder keyframe"
 
 #: src/addmarkercommand.cpp:32 src/clipproperties.cpp:234
-#, fuzzy
 msgid "Delete marker"
-msgstr "Verwijder marker"
+msgstr "Verwijder markeerpunt"
 
 #: src/profilesdialog.cpp:42 src/renderwidget.cpp:64
-#, fuzzy
 msgid "Delete profile"
 msgstr "Verwijder profiel"
 
 #: src/customtrackview.cpp:2702
-#, fuzzy
 msgid "Delete selected items"
 msgstr "Verwijder geselecteerde items"
 
 #: src/addtimelineclipcommand.cpp:37
-#, fuzzy
 msgid "Delete timeline clip"
 msgstr "Verwijder tijdsbalk clip"
 
 #: src/customtrackview.cpp:2094
-#, fuzzy
 msgid "Delete timeline clips"
 msgstr "Verwijder tijdsbalk clip"
 
 #: src/addtrackcommand.cpp:34
-#, fuzzy
 msgid "Delete track"
-msgstr "Verwijder markeerputn"
+msgstr "Verwijder markeerpunt"
 
 #: src/addtransitioncommand.cpp:33
-#, fuzzy
 msgid "Delete transition from clip"
 msgstr "Verwijder overgang van clip"
 
 #: rc.cpp:207
-#, fuzzy
 msgid "Depth"
 msgstr "Diepte"
 
 #: src/projectlistview.cpp:46 rc.cpp:734 rc.cpp:1013 rc.cpp:2066 rc.cpp:2345
-#, fuzzy
 msgid "Description"
 msgstr "Beschrijving"
 
 #: src/mainwindow.cpp:2517
-#, fuzzy
 msgid "Description:"
 msgstr "Beschrijving:"
 
 #: rc.cpp:671 rc.cpp:2003
-#, fuzzy
 msgid "Desktop search integration"
 msgstr "Bureaublad zoekfunctie integratie"
 
 #: rc.cpp:782 rc.cpp:1352 rc.cpp:1664 rc.cpp:2114 rc.cpp:2684 rc.cpp:2996
-#, fuzzy
 msgid "Destination"
-msgstr "Beschrijving"
+msgstr "Bestemming"
 
 #: rc.cpp:812 rc.cpp:2144
-#, fuzzy
 msgid "Device"
 msgstr "Apparaat"
 
 #: rc.cpp:809 rc.cpp:2141
-#, fuzzy
 msgid "Device configuration"
 msgstr "Apparaat configuratie"
 
 #: rc.cpp:458 rc.cpp:776 rc.cpp:1223 rc.cpp:1346 rc.cpp:1790 rc.cpp:2108
-#, fuzzy
 #: rc.cpp:2555 rc.cpp:2678
 msgid "Dialog"
 msgstr "Dialoog"
 
 #: src/kdenlivesettingsdialog.cpp:229
-#, fuzzy
 msgid "Direct FB"
 msgstr "Direct FB"
 
 #: rc.cpp:171
-#, fuzzy
 msgid "Discard color information"
 msgstr "Ontdoe van kleur informatie"
 
 #: src/recmonitor.cpp:227
-#, fuzzy
 msgid "Disonnect"
 msgstr "Verbinding verbreken"
 
 #: src/kdenlivesettingsdialog.cpp:57
-#, fuzzy
 msgid "Display"
 msgstr "Weergave"
 
 #: rc.cpp:755 rc.cpp:2087
-#, fuzzy
 msgid "Display aspect ratio"
 msgstr "Geef beeldverhouding weer"
 
 #: src/wizard.cpp:427 rc.cpp:1490 rc.cpp:2822
-#, fuzzy
 msgid "Display aspect ratio:"
 msgstr "Geef beeldverhouding weer:"
 
 #: rc.cpp:1781 rc.cpp:3113
-#, fuzzy
 msgid "Display clip markers comments"
-msgstr "Geef clip marker opmerkingen weer"
+msgstr "Geef clip markeerpunt opmerkingen weer"
 
 #: rc.cpp:1289 rc.cpp:2621
-#, fuzzy
 msgid "Display ratio:"
-msgstr "Geef verhouding weer"
+msgstr "Geef verhouding weer:"
 
 #: rc.cpp:143
-#, fuzzy
 msgid "Distort0r"
 msgstr "Distort0r"
 
 #: src/kdenlivesettingsdialog.cpp:101
-#, fuzzy
 msgid "Do nothing"
 msgstr "Doe niets"
 
 #: src/kdenlivedoc.cpp:112
-#, fuzzy, kde-format
+#, kde-format
 msgid "Document project folder is invalid, setting it to the default one: %1"
-msgstr ""
-"Document project map is ongeldig, wordt ingesteld naar standaard map: %1"
+msgstr "Project map is ongeldig, hersteld naar standaard map: %1"
 
 #: src/main.cpp:55
-#, fuzzy
 msgid "Document to open"
 msgstr "Te openen document"
 
 #: src/mainwindow.cpp:1384
-#, fuzzy
 msgid "Don't recover"
 msgstr "Niet herstellen"
 
 #: src/mainwindow.cpp:804
-#, fuzzy
 msgid "Download New Lumas..."
 msgstr "Download nieuwe luma 's..."
 
 #: src/mainwindow.cpp:808
-#, fuzzy
 msgid "Download New Project Profiles..."
 msgstr "Download nieuwe project profielen..."
 
 #: src/mainwindow.cpp:806
-#, fuzzy
 msgid "Download New Render Profiles..."
-msgstr "Download nieuwe omzettings (render) profielen..."
+msgstr "Download nieuwe omzetting profielen..."
 
 #: rc.cpp:509 rc.cpp:1841
-#, fuzzy
 msgid "Drop B frames on H.264 clips"
 msgstr "Verwijder B frames op H.264 clips"
 
 #: rc.cpp:78 rc.cpp:91 rc.cpp:101 rc.cpp:112 rc.cpp:512 rc.cpp:527 rc.cpp:542
-#, fuzzy
 #: rc.cpp:1016 rc.cpp:1232 rc.cpp:1748 rc.cpp:1844 rc.cpp:1859 rc.cpp:1874
 #: rc.cpp:2348 rc.cpp:2564 rc.cpp:3080
 msgid "Duration"
 msgstr "Duur"
 
 #: src/wizard.cpp:317
-#, fuzzy
 msgid "Dvdauthor"
 msgstr "Dvdauthor"
 
 #: src/wizard.cpp:311
-#, fuzzy
 msgid "Dvgrab"
 msgstr "Dvgrab"
 
 #: rc.cpp:1187 rc.cpp:2519
-#, fuzzy
 msgid "Dw"
 msgstr "Dw"
 
 #: rc.cpp:1112 rc.cpp:1193 rc.cpp:1370 rc.cpp:2444 rc.cpp:2525 rc.cpp:2702
-#, fuzzy
 msgid "E"
 msgstr "E"
 
 #: src/main.cpp:49
-#, fuzzy
 msgid "EMAIL OF TRANSLATORS"
-msgstr "mzandbelt@xs4all.nl"
+msgstr "EMAIL VAN DE VERTALERS"
 
 #: src/mainwindow.cpp:1108
-#, fuzzy
 msgid "Edit Clip"
 msgstr "Clip bewerken"
 
 #: src/customtrackview.cpp:2766
-#, fuzzy
 msgid "Edit Clip Speed"
 msgstr "Clip snelheid bewerken"
 
 #: src/customtrackview.cpp:181 src/customtrackview.cpp:3591
-#, fuzzy
 #: src/customtrackview.cpp:3603 src/mainwindow.cpp:1020 src/customruler.cpp:74
 msgid "Edit Guide"
-msgstr "Guide bewerken"
+msgstr "Aanwijzing bewerken"
 
 #: rc.cpp:1199 rc.cpp:2531
-#, fuzzy
 msgid "Edit Keyframe"
 msgstr "Keyframe bewerken"
 
 #: src/clipproperties.cpp:294 src/mainwindow.cpp:962 src/mainwindow.cpp:2115
-#, fuzzy
 msgid "Edit Marker"
-msgstr "Marker bewerken"
+msgstr "Markeerpunt bewerken"
 
 #: src/renderwidget.cpp:389
-#, fuzzy
 msgid "Edit Profile"
 msgstr "Profiel bewerken"
 
 #: src/customtrackview.cpp:1040 src/editclipcommand.cpp:33
-#, fuzzy
 msgid "Edit clip"
 msgstr "Clip bewerken"
 
 #: src/editeffectcommand.cpp:40
-#, fuzzy, kde-format
+#, kde-format
 msgid "Edit effect %1"
 msgstr "Bewerk effect %1"
 
 #: src/editguidecommand.cpp:34
-#, fuzzy
 msgid "Edit guide"
-msgstr "Guide bewerken"
+msgstr "Aanwijzing bewerken"
 
 #: src/editkeyframecommand.cpp:36
-#, fuzzy
 msgid "Edit keyframe"
 msgstr "Keyframe bewerken"
 
 #: src/addmarkercommand.cpp:34 src/clipproperties.cpp:232
-#, fuzzy
 msgid "Edit marker"
-msgstr "Marker bewerken"
+msgstr "Markeerpunt bewerken"
 
 #: src/renderwidget.cpp:68
-#, fuzzy
 msgid "Edit profile"
 msgstr "Profiel bewerken"
 
 #: src/edittransitioncommand.cpp:36
-#, fuzzy, kde-format
+#, kde-format
 msgid "Edit transition %1"
 msgstr "Overgang %1 bewerken"
 
 #: src/trackview.cpp:537
-#, fuzzy, kde-format
+#, kde-format
 msgid "Effect %1:%2 not found in MLT, it was removed from this project\n"
 msgstr "Effect %1:%2 niet gevonden in MLT, is verwijderd uit dit project\n"
 
 #: src/mainwindow.cpp:151
-#, fuzzy
 msgid "Effect List"
 msgstr "Effecten lijst"
 
 #: src/mainwindow.cpp:159
-#, fuzzy
 msgid "Effect Stack"
 msgstr "Gestapelde effecten"
 
 #: src/customtrackview.cpp:1252 src/customtrackview.cpp:1295
-#, fuzzy
 msgid "Effect already present in clip"
 msgstr "Effect al aanwezig in clip"
 
 #: rc.cpp:803 rc.cpp:2135
-#, fuzzy
 msgid "Enable Jog Shuttle device"
 msgstr "Activeer Jog Shuttle apparaat"
 
 #: src/recmonitor.cpp:413
-#, fuzzy
 msgid "Encoding captured video..."
-msgstr "Gecapturede video aan het encoderen..."
+msgstr "Opgenomen video aan het coderen..."
 
 #: rc.cpp:1571 rc.cpp:2903
-#, fuzzy
 msgid "Encoding params"
-msgstr "Encodeer-instellingen"
+msgstr "Codeer-instellingen"
 
 #: src/renderwidget.cpp:241 rc.cpp:84 rc.cpp:118 rc.cpp:1718 rc.cpp:3050
-#, fuzzy
 msgid "End"
 msgstr "Einde"
 
 #: rc.cpp:95 rc.cpp:106
-#, fuzzy
 msgid "End Gain"
-msgstr "Encoderen"
+msgstr "Coderen"
 
 #: rc.cpp:614 rc.cpp:1946
-#, fuzzy
 msgid "EndViewport"
 msgstr "EndViewport"
 
 #: src/documentchecker.cpp:161
-#, fuzzy
 msgid "Enter new location for file"
-msgstr "Geef nieuwe lokatie voor bestand op"
+msgstr "Geef nieuwe locatie voor bestand op"
 
 #: src/kdenlivesettingsdialog.cpp:70
-#, fuzzy
 msgid "Environment"
 msgstr "Omgeving"
 
 #: rc.cpp:181
-#, fuzzy
 msgid "Equalizer"
 msgstr "Equalizer"
 
 #: rc.cpp:1439 rc.cpp:2771
-#, fuzzy
 msgid "Error Log"
 msgstr "Fouten log"
 
 #: src/customtrackview.cpp:1461 src/customtrackview.cpp:2383
 #: src/customtrackview.cpp:2669
-#, fuzzy, kde-format
+#, kde-format
 msgid "Error removing clip at %1 on track %2"
-msgstr "Kan clip op tijdstip: %1s op track %2 niet verplaatsen"
+msgstr "Kan clip op tijdstip: %1 op track %2 niet verplaatsen"
 
 #: src/wizard.cpp:139
-#, fuzzy
 msgid "Error starting MLT's command line player (melt)"
-msgstr "Fout bij starten van MLT command-line speler (inigo)."
+msgstr "Fout bij starten van MLT command-line speler (melt)."
 
 #: src/wizard.cpp:486
-#, fuzzy
 msgid "Error starting MLT's command line player (melt)."
-msgstr "Fout bij starten van MLT command-line speler (inigo)."
+msgstr "Fout bij starten van MLT command-line speler (melt)."
 
 #: src/customtrackview.cpp:1484 src/customtrackview.cpp:2480
-#, fuzzy
 #: src/customtrackview.cpp:2542 src/customtrackview.cpp:3246
 #: src/customtrackview.cpp:3254
 msgid "Error when resizing clip"
-msgstr "Fout bij herschalen clip"
+msgstr "Fout bij verschalen clip"
 
 #: src/kdenlivesettingsdialog.cpp:211
-#, fuzzy
 msgid "Esound daemon"
 msgstr "Esound daemon"
 
 #: src/renderwidget.cpp:1197
-#, fuzzy, kde-format
+#, kde-format
 msgid "Estimated time %1"
 msgstr "Geschatte tijd %1"
 
 #: rc.cpp:1391 rc.cpp:2723
-#, fuzzy
 msgid "Export audio"
-msgstr "Geluid opnemen"
+msgstr "Geluid exporteren"
 
 #: rc.cpp:1673 rc.cpp:3005
-#, fuzzy
 msgid "Extension"
 msgstr "Extensie"
 
 #: rc.cpp:3122
-#, fuzzy
 msgid "Extra Toolbar"
 msgstr "Extra werkbalk"
 
 #: src/monitor.cpp:172
-#, fuzzy
 msgid "Extract frame"
 msgstr "Frame onttrekken"
 
 #: src/wizard.cpp:297
-#, fuzzy
 msgid "FFmpeg & ffplay"
 msgstr "FFmpeg & ffplay"
 
 #: rc.cpp:785 rc.cpp:1145 rc.cpp:2117 rc.cpp:2477
-#, fuzzy
 msgid "FFmpeg parameters"
-msgstr "Encodeer-instellingen"
+msgstr "FFmpeg parameters"
 
 #: rc.cpp:413
-#, fuzzy
 msgid "Factor"
 msgstr "Factor"
 
 #: rc.cpp:74
-#, fuzzy
 msgid "Fade from Black"
-msgstr "Fade vanuit zwart"
+msgstr "Opkomen vanuit zwart"
 
 #: rc.cpp:86
-#, fuzzy
 msgid "Fade in"
-msgstr "Fade in"
+msgstr "Vervloeien in"
 
 #: rc.cpp:88 rc.cpp:99
-#, fuzzy
 msgid "Fade in audio track"
-msgstr "Geluid sporen"
+msgstr "Opkomend geluidsvolume"
 
 #: rc.cpp:97
-#, fuzzy
 msgid "Fade out"
-msgstr "Fade out"
+msgstr "Uitdoven"
 
 #: rc.cpp:108
-#, fuzzy
 msgid "Fade to Black"
-msgstr "Geluid sporen"
+msgstr "Uitdoven naar zwart"
 
 #: rc.cpp:76
-#, fuzzy
 msgid "Fade video from black"
-msgstr "Geluid sporen"
+msgstr "Beeld opkomen vanuit zwart"
 
 #: rc.cpp:110
-#, fuzzy
 msgid "Fade video to black"
-msgstr "Geluid sporen"
+msgstr "Beeld naar zwart vervagen"
 
 #: src/wizard.cpp:494
 #, fuzzy
@@ -2033,36 +1680,32 @@ msgid "Fatal Error"
 msgstr "Fatale fout"
 
 #: rc.cpp:209
-#, fuzzy
 msgid "Feedback"
-msgstr "Feedback"
+msgstr "Terugkoppeling"
 
 #: src/renderwidget.cpp:153 rc.cpp:1745 rc.cpp:3077
-#, fuzzy
 msgid "File"
-msgstr "Bestandsnaam"
+msgstr "Bestand"
 
 #: src/cliptranscode.cpp:87
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "File %1 already exists.\n"
 "Do you want to overwrite it?"
 msgstr ""
-"Bestand bestaat reeds.\n"
+"Bestand %1 bestaat reeds.\n"
 "Wilt u het overschrijven?"
 
 #: src/kdenlivedoc.cpp:211 src/kdenlivedoc.cpp:219
-#, fuzzy, kde-format
+#, kde-format
 msgid "File %1 is not a Kdenlive project file."
 msgstr "Bestand %1 is geen Kdenlive project bestand."
 
 #: src/mainwindow.cpp:1383
-#, fuzzy
 msgid "File Recovery"
-msgstr "Bestandsherstel"
+msgstr "Bestand herstel"
 
 #: src/mainwindow.cpp:1320 src/effectstackview.cpp:94 src/monitor.cpp:427
-#, fuzzy
 msgid ""
 "File already exists.\n"
 "Do you want to overwrite it?"
@@ -2071,237 +1714,194 @@ msgstr ""
 "Wilt u het overschrijven?"
 
 #: rc.cpp:848 rc.cpp:2180
-#, fuzzy
 msgid "File name"
 msgstr "Bestandsnaam"
 
 #: src/kdenlivedoc.cpp:820 src/kdenlivedoc.cpp:823 src/kdenlivedoc.cpp:831
-#, fuzzy
 msgid "File not found"
 msgstr "Bestand niet gevonden"
 
 #: src/renderwidget.cpp:945
-#, fuzzy
 msgid "File rendering"
-msgstr "Renderen"
+msgstr "Bestand renderen"
 
 #: rc.cpp:1025 rc.cpp:2357
-#, fuzzy
 msgid "File size"
-msgstr "Bestands grootte"
+msgstr "Bestand grootte"
 
 #: src/projectlistview.cpp:46
-#, fuzzy
 msgid "Filename"
 msgstr "Bestandsnaam"
 
 #: rc.cpp:548 rc.cpp:1880
-#, fuzzy
 msgid "Fill color"
 msgstr "Vulkleur"
 
 #: src/mainwindow.cpp:789
-#, fuzzy
 msgid "Find"
 msgstr "Zoek"
 
 #: src/mainwindow.cpp:794
-#, fuzzy
 msgid "Find Next"
 msgstr "Zoek volgende"
 
 #: src/mainwindow.cpp:2437
-#, fuzzy
 msgid "Find stopped"
 msgstr "Zoeken gestopt"
 
 #: rc.cpp:482 rc.cpp:1517 rc.cpp:1526 rc.cpp:1814 rc.cpp:2849 rc.cpp:2858
-#, fuzzy
 msgid "Firewire"
 msgstr "Firewire"
 
 #: src/renderer.cpp:1280
-#, fuzzy
 msgid ""
 "Firewire is not enabled on your system.\n"
 " Please install Libiec61883 and recompile Kdenlive"
 msgstr ""
 "Firewire is niet ingeschakeld op uw systeem.\n"
-"  Installeer a.u.b. Libiec61883 en compileer kdenlive opnieuw"
+"Installeer Libiec61883 en compileer kdenlive opnieuw"
 
 #: src/mainwindow.cpp:687
-#, fuzzy
 msgid "Fit zoom to project"
-msgstr "Pas zoomniveau aan object aan"
+msgstr "Pas zoom niveau aan object aan"
 
 #: rc.cpp:265
-#, fuzzy
 msgid "Flip your image in any direction"
 msgstr "Kantel uw afbeelding in elke richting"
 
 #: src/projectitem.cpp:47 src/projectlist.cpp:408 src/projectlist.cpp:474
-#, fuzzy
 #: rc.cpp:1313 rc.cpp:2645
 msgid "Folder"
 msgstr "Map"
 
 #: src/dvdwizard.cpp:581
-#, fuzzy, kde-format
+#, kde-format
 msgid "Folder %1 already exists. Overwrite?"
 msgstr ""
-"Bestand bestaat reeds.\n"
+"Bestand %1 bestaat reeds.\n"
 "Wilt u het overschrijven?"
 
 #: rc.cpp:1640 rc.cpp:2972
-#, fuzzy
 msgid "Follow mouse"
 msgstr "Volg muis"
 
 #: rc.cpp:980 rc.cpp:2312
-#, fuzzy
 msgid "Font"
-msgstr "Fornat"
+msgstr "Lettertype"
 
 #: rc.cpp:1388 rc.cpp:2720
-#, fuzzy
 msgid "Force Interlaced"
-msgstr "Interlaced"
+msgstr "Dwing interlaced af"
 
 #: rc.cpp:1385 rc.cpp:2717
-#, fuzzy
 msgid "Force Progressive"
-msgstr "Progressief"
+msgstr "Dwing progressief af"
 
 #: rc.cpp:1130 rc.cpp:2462
-#, fuzzy
 msgid "Force pixel aspect ratio"
 msgstr "Dwing pixel beeldverhouding af"
 
 #: rc.cpp:1361 rc.cpp:1553 rc.cpp:1562 rc.cpp:2693 rc.cpp:2885 rc.cpp:2894
-#, fuzzy
 msgid "Format"
-msgstr "Fornat"
+msgstr "Formaat"
 
 #: rc.cpp:668 rc.cpp:2000
-#, fuzzy
 msgid "Formats"
-msgstr "Fornat"
+msgstr "Formaten"
 
 #: src/mainwindow.cpp:879 src/recmonitor.cpp:75 src/monitor.cpp:88
-#, fuzzy
 msgid "Forward"
 msgstr "Vooruit"
 
 #: src/mainwindow.cpp:904
-#, fuzzy
 msgid "Forward 1 Frame"
 msgstr "1 frame vooruit"
 
 #: src/mainwindow.cpp:909
-#, fuzzy
 msgid "Forward 1 Second"
-msgstr "1 frame vooruit"
+msgstr "1 seconde vooruit"
 
 #: src/monitor.cpp:87
-#, fuzzy
 msgid "Forward 1 frame"
 msgstr "1 frame vooruit"
 
 #: src/mainwindow.cpp:2414 src/mainwindow.cpp:2425
-#, fuzzy, kde-format
+#, kde-format
 msgid "Found: %1"
 msgstr "Gevonden: %1"
 
 #: rc.cpp:1316 rc.cpp:2648
-#, fuzzy
 msgid "Frame Duration"
 msgstr "Frame lengte"
 
 #: rc.cpp:1067 rc.cpp:2399
-#, fuzzy
 msgid "Frame duration"
 msgstr "Frame lengte"
 
 #: rc.cpp:743 rc.cpp:1037 rc.cpp:1589 rc.cpp:1652 rc.cpp:2075 rc.cpp:2369
-#, fuzzy
 #: rc.cpp:2921 rc.cpp:2984
 msgid "Frame rate"
-msgstr "Frame rate/frequentie"
+msgstr "Frame snelheid"
 
 #: src/wizard.cpp:427 rc.cpp:1277 rc.cpp:1478 rc.cpp:2609 rc.cpp:2810
-#, fuzzy
 msgid "Frame rate:"
-msgstr "Frame rate/frequentie:"
+msgstr "Frame snelheid:"
 
 #: rc.cpp:1034 rc.cpp:2366
-#, fuzzy
 msgid "Frame size"
 msgstr "Frame afmetingen"
 
 #: src/wizard.cpp:427
-#, fuzzy
 msgid "Frame size:"
-msgstr "Frame afmetingen"
+msgstr "Frame afmetingen:"
 
 #: src/kdenlivesettingsdialog.cpp:228
-#, fuzzy
 msgid "Framebuffer console"
 msgstr "Framebuffer console"
 
 #: src/mainwindow.cpp:629
-#, fuzzy
 msgid "Frames"
-msgstr "Framebuffer console"
+msgstr "Frames"
 
 #: rc.cpp:120
-#, fuzzy
 msgid "Freeze"
-msgstr "Freeze"
+msgstr "Bevries"
 
 #: rc.cpp:128
-#, fuzzy
 msgid "Freeze After"
-msgstr "Freeze na"
+msgstr "Bevries na"
 
 #: rc.cpp:126
-#, fuzzy
 msgid "Freeze Before"
-msgstr "Freeze voor"
+msgstr "Bevries voor"
 
 #: rc.cpp:124
-#, fuzzy
 msgid "Freeze at"
-msgstr "Freeze op"
+msgstr "Bevries op"
 
 #: rc.cpp:122
-#, fuzzy
 msgid "Freeze video on a chosen frame"
-msgstr "Freeze video op een geselecteerd frame"
+msgstr "Bevries video op een geselecteerd frame"
 
 #: rc.cpp:149 rc.cpp:343 rc.cpp:1052 rc.cpp:2384
-#, fuzzy
 msgid "Frequency"
 msgstr "Frequentie"
 
 #: rc.cpp:1415 rc.cpp:2747
-#, fuzzy
 msgid "From"
 msgstr "Van"
 
 #: rc.cpp:1406 rc.cpp:2738
-#, fuzzy
 msgid "Full project"
 msgstr "Volledig project"
 
 #: rc.cpp:1634 rc.cpp:2966
-#, fuzzy
 msgid "Full screen capture"
 msgstr "Maak opname van volledig beeldscherm"
 
 #: rc.cpp:1655 rc.cpp:2987
-#, fuzzy
 msgid "Full shots"
-msgstr "Volledig project"
+msgstr "Volledige shots"
 
 #: rc.cpp:157 rc.cpp:275 rc.cpp:281 rc.cpp:341 rc.cpp:375 rc.cpp:445
 #, fuzzy
@@ -2329,132 +1929,106 @@ msgid "Gain out"
 msgstr "Gain out"
 
 #: rc.cpp:163 rc.cpp:167
-#, fuzzy
 msgid "Gamma"
 msgstr "Gamma"
 
 #: src/kdenlivesettingsdialog.cpp:231
-#, fuzzy
 msgid "General graphics interface"
 msgstr "Algemene grafische interface"
 
 #: src/renderwidget.cpp:88
-#, fuzzy
 msgid "Generate Script"
-msgstr "Verwijder clip"
+msgstr "Genereer script"
 
 #: rc.cpp:3131
-#, fuzzy
 msgid "Generators"
-msgstr "Rand/omlijning kleur"
+msgstr "Genereren"
 
 #: rc.cpp:6
-#, fuzzy
 msgid "Geometry"
 msgstr "Geometrie"
 
 #: rc.cpp:3167
-#, fuzzy
 msgid "Go To"
 msgstr "Ga naar"
 
 #: src/mainwindow.cpp:889
-#, fuzzy
 msgid "Go to Clip End"
 msgstr "Ga naar clip einde"
 
 #: src/mainwindow.cpp:884
-#, fuzzy
 msgid "Go to Clip Start"
 msgstr "Ga naar clip begin"
 
 #: src/mainwindow.cpp:914
-#, fuzzy
 msgid "Go to Next Snap Point"
 msgstr "Ga naar volgend snapshot"
 
 #: src/mainwindow.cpp:874
-#, fuzzy
 msgid "Go to Previous Snap Point"
 msgstr "Ga naar vorig snapshot"
 
 #: src/mainwindow.cpp:899
-#, fuzzy
 msgid "Go to Project End"
 msgstr "Ga naar project einde"
 
 #: src/mainwindow.cpp:894
-#, fuzzy
 msgid "Go to Project Start"
 msgstr "Ga naar project begin"
 
 #: src/geometryval.cpp:63
-#, fuzzy
 msgid "Go to next keyframe"
 msgstr "Ga naar volgend keyframe"
 
 #: src/geometryval.cpp:65
-#, fuzzy
 msgid "Go to previous keyframe"
 msgstr "Ga naar vorig keyframe"
 
 #: rc.cpp:932 rc.cpp:2264
-#, fuzzy
 msgid "GraphView"
 msgstr "GraphView"
 
 #: rc.cpp:136
-#, fuzzy
 msgid "Green Tint"
 msgstr "Groene tint"
 
 #: rc.cpp:169
-#, fuzzy
 msgid "Greyscale"
 msgstr "Grijswaarden"
 
 #: rc.cpp:1667 rc.cpp:2999
-#, fuzzy
 msgid "Group"
 msgstr "Groep"
 
 #: src/mainwindow.cpp:936
-#, fuzzy
 msgid "Group Clips"
-msgstr "Clip knippen"
+msgstr "Clips groeperen"
 
 #: src/groupclipscommand.cpp:33
-#, fuzzy
 msgid "Group clips"
-msgstr "Kleuren clips"
+msgstr "Clips groeperen"
 
 #: rc.cpp:830 rc.cpp:2162
-#, fuzzy
 msgid "GroupBox"
 msgstr "GroepBox"
 
 #: src/customtrackview.cpp:3564
-#, fuzzy
 msgid "Guide"
 msgstr "Aanwijzing"
 
 #: rc.cpp:1412 rc.cpp:2744
-#, fuzzy
 msgid "Guide zone"
 msgstr "Aanwijzing zone"
 
 #: rc.cpp:3149
-#, fuzzy
 msgid "Guides"
 msgstr "Aanwijzingen"
 
 #: rc.cpp:647 rc.cpp:1979
-#, fuzzy
 msgid "H"
 msgstr "H"
 
 #: rc.cpp:1541 rc.cpp:1691 rc.cpp:2873 rc.cpp:3023
-#, fuzzy
 msgid "HDV"
 msgstr "HDV"
 
@@ -2464,109 +2038,89 @@ msgid "Hi gain"
 msgstr "Hoogte gain"
 
 #: rc.cpp:285
-#, fuzzy
 msgid "Hide a region of the clip"
 msgstr "Verberg een gedeelte van de clip"
 
 #: rc.cpp:4
-#, fuzzy
 msgid "Hide a selected zone and follow its movements"
-msgstr "Verberg een geselecteerd gebied en volg de bwegingen er van"
+msgstr "Verberg een geselecteerd gebied en volg de bewegingen ervan"
 
 #: rc.cpp:1643 rc.cpp:2975
-#, fuzzy
 msgid "Hide frame"
-msgstr "Keyframe"
+msgstr "Verberg frame"
 
 #: src/headertrack.cpp:42
-#, fuzzy
 msgid "Hide track"
-msgstr "Video sporen/tracks"
+msgstr "Verberg spoor"
 
 #: src/geometryval.cpp:88
-#, fuzzy
 msgid "Hor. Center"
 msgstr "Hor. centreren"
 
 #: rc.cpp:453
-#, fuzzy
 msgid "Horizontal factor"
 msgstr "Horizontale factor"
 
 #: rc.cpp:18
-#, fuzzy
 msgid "Horizontal multiplicator"
 msgstr "Horizontale vermenigvuldiger"
 
 #: rc.cpp:36
-#, fuzzy
 msgid "Horizontal scatter"
 msgstr "Horizontale scatter"
 
 #: rc.cpp:1358 rc.cpp:2690
-#, fuzzy
 msgid "I"
 msgstr "I"
 
 #: rc.cpp:998 rc.cpp:1091 rc.cpp:2330 rc.cpp:2423
-#, fuzzy
 msgid "Image"
 msgstr "Afbeelding"
 
 #: rc.cpp:1322 rc.cpp:2654
-#, fuzzy
 msgid "Image Type"
 msgstr "Afbeeldingstype"
 
 #: src/documentchecker.cpp:77 src/projectitem.cpp:204
-#, fuzzy
 msgid "Image clip"
 msgstr "Afbeeldingsclip"
 
 #: rc.cpp:1259 rc.cpp:2591
-#, fuzzy
 msgid "Image clips"
 msgstr "Afbeeldingsclips"
 
 #: rc.cpp:698 rc.cpp:2030
-#, fuzzy
 msgid "Image editing"
 msgstr "Afbeelding bewerken"
 
 #: src/dvdwizard.cpp:583
-#, fuzzy, kde-format
+#, kde-format
 msgid "Image file %1 already exists. Overwrite?"
 msgstr ""
-"Bestand bestaat reeds.\n"
+"Beeldbestand %1 bestaat reeds.\n"
 "Wilt u het overschrijven?"
 
 #: rc.cpp:1007 rc.cpp:1700 rc.cpp:2339 rc.cpp:3032
-#, fuzzy
 msgid "Image preview"
 msgstr "Afbeelding voorbeeld"
 
 #: rc.cpp:1094 rc.cpp:1583 rc.cpp:2426 rc.cpp:2915
-#, fuzzy
 msgid "Image size"
-msgstr "Afbeeldings afmetingen"
+msgstr "Grootte afbeelding"
 
 #: rc.cpp:1064 rc.cpp:2396
-#, fuzzy
 msgid "Image type"
 msgstr "Afbeeldingstype"
 
 #: rc.cpp:80
-#, fuzzy
 msgid "In"
 msgstr "In"
 
 #: src/monitor.cpp:469
-#, fuzzy
 msgid "In Point"
-msgstr "Set In Punt"
+msgstr "Begin punt"
 
 #: src/recmonitor.cpp:384 src/recmonitor.cpp:505
-#, fuzzy
 msgid "Initialising..."
 msgstr "Initialiseren..."
 
@@ -2576,179 +2130,146 @@ msgid "Input gain (dB)"
 msgstr "Input gain (dB)"
 
 #: src/mainwindow.cpp:992
-#, fuzzy
 msgid "Insert Space"
-msgstr "Interlaced"
+msgstr "Ruimte invoegen"
 
 #: src/customtrackview.cpp:4112 src/headertrack.cpp:68 src/mainwindow.cpp:1000
-#, fuzzy
 msgid "Insert Track"
 msgstr "Spoor invoegen"
 
 #: src/insertspacecommand.cpp:35
-#, fuzzy
 msgid "Insert space"
-msgstr "Interlaced"
+msgstr "Ruimte invoegen"
 
 #: rc.cpp:461 rc.cpp:1793
-#, fuzzy
 msgid "Insert track"
 msgstr "Spoor invoegen"
 
 #: rc.cpp:1178 rc.cpp:2510
-#, fuzzy
 msgid "Install extra video mimetypes"
 msgstr "Installeer extra video mimetypes"
 
 #: rc.cpp:653 rc.cpp:1985
-#, fuzzy
 msgid "Installed modules"
-msgstr "Geinstalleerde modules"
+msgstr "Geïnstalleerde modules"
 
 #: rc.cpp:26
-#, fuzzy
 msgid "Intensity"
 msgstr "Intensiteit"
 
 #: src/projectsettings.cpp:75 src/kdenlivesettingsdialog.cpp:464 rc.cpp:1295
-#, fuzzy
 #: rc.cpp:1496 rc.cpp:2627 rc.cpp:2828
 msgid "Interlaced"
 msgstr "Interlaced"
 
 #: rc.cpp:1742 rc.cpp:3074
-#, fuzzy
 msgid "Intro movie"
 msgstr "Intro filmpje"
 
 #: src/customtrackview.cpp:3987 src/customtrackview.cpp:3992
-#, fuzzy
 #: src/customtrackview.cpp:4012 src/customtrackview.cpp:4017
 msgid "Invalid action"
 msgstr "Ongeldige actie"
 
 #: src/customtrackview.cpp:2796 src/projectlist.cpp:632
-#, fuzzy
 msgid "Invalid clip"
-msgstr "Afspeellijst clip"
+msgstr "Ongeldige clip"
 
 #: src/trackview.cpp:182
-#, fuzzy, kde-format
+#, kde-format
 msgid "Invalid clip producer %1\n"
 msgstr "Ongeldige clip producer %1\n"
 
 #: src/trackview.cpp:440
-#, fuzzy, kde-format
+#, kde-format
 msgid "Invalid clip removed from track %1 at %2\n"
 msgstr "Ongeldige clip verwijderd van spoor %1 op  %2\n"
 
 #: src/customtrackview.cpp:1586 src/customtrackview.cpp:3889
-#, fuzzy
 msgid "Invalid transition"
-msgstr "Voeg overgang toe"
+msgstr "Ongeldige overgang"
 
 #: rc.cpp:44 rc.cpp:173 rc.cpp:269
-#, fuzzy
 msgid "Invert"
 msgstr "Inverteer"
 
 #: rc.cpp:175
-#, fuzzy
 msgid "Invert colors"
-msgstr "Rand/omlijning kleur"
+msgstr "Inverteer kleuren"
 
 #: rc.cpp:1625 rc.cpp:2957
-#, fuzzy
 msgid "Jack"
 msgstr "Jack"
 
 #: src/main.cpp:46
-#, fuzzy
 msgid "Jason Wood"
 msgstr "Jason Wood"
 
 #: src/main.cpp:42
-#, fuzzy
 msgid "Jean-Baptiste Mardelle"
 msgstr "Jean-Baptiste Mardelle"
 
 #: src/main.cpp:44
-#, fuzzy
 msgid "Jean-Michel Poure"
 msgstr "Jean-Michel Poure"
 
 #: rc.cpp:1430 rc.cpp:2762
-#, fuzzy
 msgid "Job Queue"
 msgstr "Job Queue"
 
 #: rc.cpp:788 rc.cpp:2120
-#, fuzzy
 msgid "Job status"
-msgstr "Inkorten start"
+msgstr "Job status"
 
 #: rc.cpp:806 rc.cpp:2138
-#, fuzzy
 msgid "Jog Shuttle device disabled."
 msgstr "Jog Shuttle apparaat uitgeschakeld."
 
 #: src/kdenlivesettingsdialog.cpp:88
-#, fuzzy
 msgid "JogShuttle"
 msgstr "JogShuttle"
 
 #: src/main.cpp:38
-#, fuzzy
 msgid "Kdenlive"
 msgstr "Kdenlive"
 
 #: src/kdenlivedoc.cpp:820 src/kdenlivedoc.cpp:823 src/kdenlivedoc.cpp:831
-#, fuzzy
 msgid "Keep as placeholder"
-msgstr "Bewaar als invoegplaats / placeholder"
+msgstr "Bewaar als invoegstrook"
 
 #: rc.cpp:155
-#, fuzzy
 msgid "Kernel size"
-msgstr "Frame grootte"
+msgstr "Kernel grootte"
 
 #: rc.cpp:221
-#, fuzzy
 msgid "LADSPA change pitch audio effect"
 msgstr "LADSPA wijzig pitch audio effect"
 
 #: rc.cpp:179
-#, fuzzy
 msgid "LADSPA declipper audio effect"
 msgstr "LADSPA declipper audio effect"
 
 #: rc.cpp:183
-#, fuzzy
 msgid "LADSPA equalizer audio effect"
 msgstr "LADSPA equalizer audio effect"
 
 #: rc.cpp:193
-#, fuzzy
 msgid "LADSPA limiter audio effect"
 msgstr "LADSPA begrens audio effect"
 
 #: rc.cpp:203
-#, fuzzy
 msgid "LADSPA phaser audio effect"
 msgstr "LADSPA phaser audio effect"
 
 #: rc.cpp:215
-#, fuzzy
 msgid "LADSPA pitch scale audio effect"
 msgstr "LADSPA pitch scale audio effect"
 
 #: rc.cpp:227
-#, fuzzy
 msgid "LADSPA rate scale audio effect"
 msgstr "LADSPA rate scale audio effect"
 
 #: rc.cpp:233
-#, fuzzy
 msgid "LADSPA reverb audio effect"
 msgstr "LADSPA reverb audio effect"
 
@@ -2758,17 +2279,14 @@ msgid "LADSPA room reverb audio effect"
 msgstr "LADSPA room reverb audio effect"
 
 #: src/geometryval.cpp:91 rc.cpp:68
-#, fuzzy
 msgid "Left"
 msgstr "Links"
 
 #: rc.cpp:197
-#, fuzzy
 msgid "Limit (dB)"
 msgstr "Limiet (dB)"
 
 #: rc.cpp:191
-#, fuzzy
 msgid "Limiter"
 msgstr "Begrenzer"
 
@@ -2778,167 +2296,137 @@ msgid "Lo gain"
 msgstr "Lo gain"
 
 #: src/titlewidget.cpp:297
-#, fuzzy
 msgid "Load Image"
-msgstr "Open afbeelding"
+msgstr "Haal afbeelding op"
 
 #: src/titlewidget.cpp:749
-#, fuzzy
 msgid "Load Title"
-msgstr "Open titel"
+msgstr "Haal titel op"
 
 #: src/kdenlivedoc.cpp:155
-#, fuzzy
 msgid "Loading project clips"
-msgstr "Project clips openen"
+msgstr "Haal clips van project op"
 
 #: src/headertrack.cpp:46 src/locktrackcommand.cpp:31
-#, fuzzy
 msgid "Lock track"
-msgstr "Geluid sporen"
+msgstr "Sluit sporen af"
 
 #: src/kdenlivedoc.cpp:825 src/kdenlivedoc.cpp:833
-#, fuzzy, kde-format
+#, kde-format
 msgid "Looking for %1"
 msgstr "Zoeken naar %1"
 
 #: rc.cpp:1073 rc.cpp:1325 rc.cpp:2405 rc.cpp:2657
-#, fuzzy
 msgid "Loop"
 msgstr "Loop"
 
 #: src/mainwindow.cpp:836
-#, fuzzy
 msgid "Loop Zone"
 msgstr "Loop sectie"
 
 #: src/renderwidget.cpp:950
-#, fuzzy
 msgid "Lossless / HQ"
 msgstr "Lossless / HQ"
 
 #: rc.cpp:1334 rc.cpp:2666
-#, fuzzy
 msgid "Luma File"
 msgstr "Luma bestand"
 
 #: rc.cpp:1082 rc.cpp:2414
-#, fuzzy
 msgid "Luma file"
 msgstr "Luma bestand"
 
 #: rc.cpp:941 rc.cpp:2273
-#, fuzzy
 msgid "M"
 msgstr "M"
 
 #: src/main.cpp:43
-#, fuzzy
 msgid "MLT Connection, Transition, Effect, Timeline Developer"
-msgstr "Mlt verbiding, Overgang, Effect, Tijdsbalk Ontwikkelaar"
+msgstr "Mlt verbinding, Overgang, Effect, Tijdsbalk Ontwikkelaar"
 
 #: rc.cpp:674 rc.cpp:2006
-#, fuzzy
 msgid "MLT environment"
 msgstr "Mlt omgeving"
 
 #: src/main.cpp:42
-#, fuzzy
 msgid "MLT porting, KDE 4 porting, Main developer"
 msgstr "Mlt porting, KDE4 porting, Hoofd-ontwikkelaar"
 
 #: rc.cpp:677 rc.cpp:2009
-#, fuzzy
 msgid "MLT profiles folder"
 msgstr "Mlt profielen"
 
 #: src/wizard.cpp:192
-#, fuzzy
 msgid "MLT version is correct"
-msgstr "MLT versie correct"
+msgstr "MLT versie is correct"
 
 #: src/wizard.cpp:186
-#, fuzzy, kde-format
+#, kde-format
 msgid "MLT version: %1"
 msgstr "MLT versie: %1"
 
 #: src/wizard.cpp:491
-#, fuzzy
 msgid ""
 "MLT's SDL module not found. Please check your MLT install. Kdenlive will not "
 "work until this issue is fixed."
 msgstr ""
-"MLT's SDL module niet gevonden. Controleer a.u.b. uw MLT installatie. "
+"MLT's SDL module niet gevonden. Controleer uw MLT instellingen. "
 "Kdenlive zal niet werken totdat dit probleem verholpen is."
 
 #: rc.cpp:425
-#, fuzzy
 msgid "Make clip play faster slowly"
 msgstr "Laat clip sneller/langzamer afspelen"
 
 #: rc.cpp:48
-#, fuzzy
 msgid "Make image greyscale except for chosen color"
 msgstr "Maak van afbeelding grijswaarden behalve voor gekozen kleur"
 
 #: rc.cpp:435
-#, fuzzy
 msgid "Make monochrome clip"
 msgstr "Maak monochroom clip"
 
 #: rc.cpp:56
-#, fuzzy
 msgid "Make selected color transparent"
 msgstr "Maak gekozen kleur transparant"
 
 #: rc.cpp:449
-#, fuzzy
 msgid "Make waves on your clip with keyframes"
 msgstr "Maak golven op uw clip met keyframes"
 
 #: src/mainwindow.cpp:800
-#, fuzzy
 msgid "Manage Project Profiles"
-msgstr "Beheer profielen"
+msgstr "Beheer project profielen"
 
 #: src/main.cpp:43
-#, fuzzy
 msgid "Marco Gittler"
 msgstr "Marco Gittler"
 
 #: src/docclipbase.cpp:341 src/clipproperties.cpp:281 src/mainwindow.cpp:2025
-#, fuzzy
 #: src/definitions.h:142 rc.cpp:1697 rc.cpp:3029
 msgid "Marker"
 msgstr "Markeerpunt"
 
 #: rc.cpp:1100 rc.cpp:2432 rc.cpp:3143
-#, fuzzy
 msgid "Markers"
 msgstr "Markeerpunten"
 
 #: src/renderwidget.cpp:949
-#, fuzzy
 msgid "Media players"
 msgstr "Video afspeel programma"
 
 #: src/wizard.cpp:129
-#, fuzzy
 msgid "Melt"
-msgstr "Smelt"
+msgstr "Melt"
 
 #: rc.cpp:680 rc.cpp:2012
-#, fuzzy
 msgid "Melt path"
-msgstr "Smelt pad"
+msgstr "Melt pad"
 
 #: src/dvdwizard.cpp:309
-#, fuzzy
 msgid "Menu job timed out"
-msgstr "Menu taak time-out"
+msgstr "Menu taak over tijdslimiet"
 
 #: rc.cpp:1118 rc.cpp:2450
-#, fuzzy
 msgid "Metadata"
 msgstr "Metadata"
 
@@ -2948,59 +2436,48 @@ msgid "Mid gain"
 msgstr "Mid gain"
 
 #: rc.cpp:263
-#, fuzzy
 msgid "Mirror"
-msgstr "Spiege"
+msgstr "Spiegel"
 
 #: rc.cpp:267
-#, fuzzy
 msgid "Mirroring direction"
-msgstr "Richting spiegelen"
+msgstr "Spiegel richting"
 
 #: src/kdenlivesettingsdialog.cpp:50
-#, fuzzy
 msgid "Misc"
 msgstr "Diversen"
 
 #: src/geometryval.cpp:71 src/monitor.cpp:94
-#, fuzzy
 msgid "Misc..."
 msgstr "Diversen..."
 
 #: rc.cpp:1724 rc.cpp:3056
-#, fuzzy
 msgid "Missing clips"
 msgstr "Ontbrekende clips"
 
 #: rc.cpp:42
-#, fuzzy
 msgid "Mix"
 msgstr "Mix"
 
 #: src/wizard.cpp:323
-#, fuzzy
 msgid "Mkisofs"
 msgstr "Mkisofs"
 
 #: src/renderwidget.cpp:951
-#, fuzzy
 msgid "Mobile devices"
 msgstr "Mobiele apparaten"
 
 #: rc.cpp:3164
-#, fuzzy
 msgid "Monitor"
 msgstr "Monitor"
 
 #: rc.cpp:506 rc.cpp:1838
-#, fuzzy
 msgid "Monitor Preview Speedup Settings"
-msgstr "Preview monitor versnellings instellingen"
+msgstr "Preview monitor versnelling instellingen"
 
 #: rc.cpp:503 rc.cpp:1835
-#, fuzzy
 msgid "Monitor background color (requires restart)"
-msgstr "Monitor achtergrondskleur (vereist herstarten)"
+msgstr "Monitor achtergrondkleur (vereist herstarten)"
 
 #: src/monitor.cpp:184
 #, fuzzy
@@ -3008,174 +2485,140 @@ msgid "Monitor overlay infos"
 msgstr "Monitor overlay infos"
 
 #: rc.cpp:28
-#, fuzzy
 msgid "Mono to stereo"
 msgstr "Mono naar stereo"
 
 #: src/customtrackview.cpp:2263 src/moveclipcommand.cpp:33
-#, fuzzy
 msgid "Move clip"
 msgstr "Verplaats clip"
 
 #: src/moveeffectcommand.cpp:39
-#, fuzzy
 msgid "Move effect"
 msgstr "Verplaats effect"
 
 #: src/effectstackview.cpp:50
-#, fuzzy
 msgid "Move effect down"
 msgstr "Verplaats effect naar beneden"
 
 #: src/effectstackview.cpp:48
-#, fuzzy
 msgid "Move effect up"
 msgstr "Verplaats effect naar boven"
 
 #: src/movegroupcommand.cpp:35
-#, fuzzy
 msgid "Move group"
-msgstr "Verplaats aanwijzing "
+msgstr "Verplaats groep"
 
 #: src/editguidecommand.cpp:36
-#, fuzzy
 msgid "Move guide"
 msgstr "Verplaats aanwijzing "
 
 #: src/movetransitioncommand.cpp:30
-#, fuzzy
 msgid "Move transition"
 msgstr "Verplaats overgang"
 
 #: rc.cpp:1211 rc.cpp:2543
-#, fuzzy
 msgid "Movie file"
-msgstr "Verplaats aanwijzing "
+msgstr "Verplaats bestand"
 
 #: rc.cpp:271
-#, fuzzy
 msgid "Mute"
 msgstr "Mute"
 
 #: rc.cpp:273
-#, fuzzy
 msgid "Mute clip"
-msgstr "Verplaats clip"
+msgstr "Mute clip"
 
 #: src/headertrack.cpp:44
-#, fuzzy
 msgid "Mute track"
-msgstr "Geluid sporen"
+msgstr "Mute spoor"
 
 #: src/documentchecker.cpp:68 src/projectitem.cpp:195
-#, fuzzy
 msgid "Mute video clip"
 msgstr "Mute video clip (geen geluid)"
 
 #: rc.cpp:947 rc.cpp:1109 rc.cpp:1181 rc.cpp:2279 rc.cpp:2441 rc.cpp:2513
-#, fuzzy
 msgid "N"
 msgstr "N"
 
 #: src/main.cpp:49
-#, fuzzy
 msgid "NAME OF TRANSLATORS"
-msgstr "Michiel Zandbelt"
+msgstr "NAAM VAN DE VERTALERS"
 
 #: rc.cpp:1367 rc.cpp:2699
-#, fuzzy
 msgid "NTSC"
 msgstr "NTSC"
 
 #: src/dvdwizardvob.cpp:59
-#, fuzzy
 msgid "NTSC 16:9"
-msgstr "NTSC"
+msgstr "NTSC 16:9"
 
 #: src/dvdwizardvob.cpp:59
-#, fuzzy
 msgid "NTSC 4:3"
-msgstr "NTSC"
+msgstr "NTSC 4:3"
 
 #: src/kdenlivesettingsdialog.cpp:511 rc.cpp:1142 rc.cpp:1226 rc.cpp:1310
-#, fuzzy
 #: rc.cpp:2474 rc.cpp:2558 rc.cpp:2642
 msgid "Name"
 msgstr "Naam"
 
 #: src/effectstackview.cpp:90
-#, fuzzy
 msgid "Name for saved effect: "
-msgstr "Naam voor opgeslagen effect"
+msgstr "Naam voor het opgeslagen effect"
 
 #: src/kdenlivesettingsdialog.cpp:227
-#, fuzzy
 msgid "Nano X"
 msgstr "Nano X"
 
 #: rc.cpp:134
-#, fuzzy
 msgid "Neutral Color"
-msgstr "Clip kleur"
+msgstr "Neutrale kleur"
 
 #: src/customtrackview.cpp:2766
-#, fuzzy
 msgid "New speed (percents)"
 msgstr "Nieuwe snelheid (percentage)"
 
 #: src/titlewidget.cpp:121
-#, fuzzy
 msgid "No alignment"
 msgstr "Geen uitlijning"
 
 #: src/dvdwizard.cpp:98
-#, fuzzy
 msgid "No burning program found (K3b, Brasero)"
 msgstr "Geen CD/DVD brand programma (K3b, Brasero) gevonden"
 
 #: src/customtrackview.cpp:2897 src/customtrackview.cpp:3844
-#, fuzzy
 msgid "No clip copied"
 msgstr "Geen clip gekopieerd"
 
 #: src/customtrackview.cpp:4370
-#, fuzzy
 msgid "No empty space to put clip audio"
-msgstr "Geen vrije ruimte om clip audio te plaatsen"
+msgstr "Geen vrije ruimte om audio clip te plaatsen"
 
 #: src/customtrackview.cpp:3540 src/customtrackview.cpp:3586
-#, fuzzy
 #: src/customtrackview.cpp:3624
 msgid "No guide at cursor time"
 msgstr "Geen aanwijzing op cursor tijdstip"
 
 #: rc.cpp:1085 rc.cpp:1340 rc.cpp:2417 rc.cpp:2672
-#, fuzzy
 msgid "No image found"
 msgstr "Geen afbeelding gevonden"
 
 #: src/mainwindow.cpp:2057 src/mainwindow.cpp:2110
-#, fuzzy
 msgid "No marker found at cursor time"
-msgstr "Geen markeerpunt gevonden"
+msgstr "Geen markeerpunt gevonden  op cursor tijdstip"
 
 #: src/initeffects.cpp:70 src/initeffects.cpp:633
-#, fuzzy
 msgid "None"
 msgstr "Geen"
 
 #: rc.cpp:277
-#, fuzzy
 msgid "Normalise"
 msgstr "Normaliseer"
 
 #: rc.cpp:1778 rc.cpp:3110
-#, fuzzy
 msgid "Normalise audio for thumbnails"
 msgstr "Normaliseer geluid voor miniaturen"
 
 #: rc.cpp:279
-#, fuzzy
 msgid "Normalise audio volume"
 msgstr "Normaliseer geluidsvolume"
 
@@ -3185,252 +2628,206 @@ msgid "Not connected"
 msgstr "Niet verbonden"
 
 #: src/mainwindow.cpp:2428
-#, fuzzy, kde-format
+#, kde-format
 msgid "Not found: %1"
 msgstr "Niet gevonden: %1"
 
 #: src/kdenlivesettingsdialog.cpp:207
-#, fuzzy
 msgid "OSS"
 msgstr "OSS"
 
 #: src/kdenlivesettingsdialog.cpp:210
-#, fuzzy
 msgid "OSS with DMA access"
 msgstr "OSS met DMA toegang"
 
 #: rc.cpp:10 rc.cpp:283
-#, fuzzy
 msgid "Obscure"
 msgstr "Verduister"
 
 #: rc.cpp:1646 rc.cpp:2978
-#, fuzzy
 msgid "Offset"
-msgstr "effect"
+msgstr "Offset"
 
 #: rc.cpp:959 rc.cpp:2291
-#, fuzzy
 msgid "Opacity"
 msgstr "Opaciteit"
 
 #: src/titlewidget.cpp:152
-#, fuzzy
 msgid "Open Document"
-msgstr "Open Document"
+msgstr "Open document"
 
 #: rc.cpp:1424 rc.cpp:2756
-#, fuzzy
 msgid "Open Dvd wizard after rendering"
 msgstr "Open Dvd wizard na omzetten (renderen)"
 
 #: rc.cpp:1400 rc.cpp:2732
-#, fuzzy
 msgid "Open browser window after export"
-msgstr "Open browser window na export"
+msgstr "Open browser venster na export"
 
 #: rc.cpp:1238 rc.cpp:2570
-#, fuzzy
 msgid "Open last project on startup"
 msgstr "Open meest recente project bij opstarten"
 
 #: rc.cpp:1244 rc.cpp:2576
-#, fuzzy
 msgid "Open projects in new tabs"
 msgstr "Open projecten in nieuwe tabs"
 
 #: src/main.cpp:46
-#, fuzzy
 msgid "Original KDE 3 version author (not active anymore)"
 msgstr "Originele KDE 3 versie auteur (niet meer actief)"
 
 #: rc.cpp:114
-#, fuzzy
 msgid "Out"
-msgstr "Knippen"
+msgstr "Einde"
 
 #: src/monitor.cpp:470
-#, fuzzy
 msgid "Out Point"
-msgstr "Set Out Punt"
+msgstr "Einde punt"
 
 #: rc.cpp:1355 rc.cpp:2687
-#, fuzzy
 msgid "Output file"
-msgstr "Output betand"
+msgstr "Output bestand"
 
 #: src/renderwidget.cpp:575
-#, fuzzy
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "Bestand bestaat reeds, overschrijven?"
 
 #: rc.cpp:944 rc.cpp:2276
-#, fuzzy
 msgid "P"
 msgstr "P"
 
 #: rc.cpp:1364 rc.cpp:2696
-#, fuzzy
 msgid "PAL"
 msgstr "PAL"
 
 #: src/dvdwizardvob.cpp:59
-#, fuzzy
 msgid "PAL 16:9"
 msgstr "PAL 16:9"
 
 #: src/dvdwizardvob.cpp:59
-#, fuzzy
 msgid "PAL 4:3"
-msgstr "PAL"
+msgstr "PAL 4:3"
 
 #: rc.cpp:289 rc.cpp:319
-#, fuzzy
 msgid "Pan and Zoom"
 msgstr "Pan en Zoom"
 
 #: rc.cpp:1343 rc.cpp:2675
-#, fuzzy
 msgid "Param"
-msgstr "Param"
+msgstr "Parameters"
 
 #: src/complexparameter.cpp:42
-#, fuzzy
 msgid "Parameter info"
 msgstr "Parameter info"
 
 #: src/kdenlivesettingsdialog.cpp:511 rc.cpp:1676 rc.cpp:3008
-#, fuzzy
 msgid "Parameters"
 msgstr "Parameters"
 
 #: src/mainwindow.cpp:1028
-#, fuzzy
 msgid "Paste Effects"
 msgstr "Plak effecten"
 
 #: rc.cpp:1010 rc.cpp:1730 rc.cpp:2342 rc.cpp:3062
-#, fuzzy
 msgid "Path"
 msgstr "Pad"
 
 #: rc.cpp:201
-#, fuzzy
 msgid "Phaser"
 msgstr "Phaser"
 
 #: rc.cpp:213
-#, fuzzy
 msgid "Pitch Scaler"
-msgstr "Pitch Schaler"
+msgstr "Pitch schaler"
 
 #: rc.cpp:219
-#, fuzzy
 msgid "Pitch Shift"
 msgstr "Pitch schuif"
 
 #: src/wizard.cpp:277
-#, fuzzy
 msgid "Pixbuf module"
 msgstr "Pixbuf module"
 
 #: rc.cpp:749 rc.cpp:1040 rc.cpp:2081 rc.cpp:2372
-#, fuzzy
 msgid "Pixel aspect ratio"
 msgstr "Pixel beeldverhouding"
 
 #: src/wizard.cpp:427 rc.cpp:1484 rc.cpp:2816
-#, fuzzy
 msgid "Pixel aspect ratio:"
 msgstr "Pixel beeldverhouding:"
 
 #: rc.cpp:145
-#, fuzzy
 msgid "Plasma"
-msgstr "Afspelen"
+msgstr "Plasma"
 
 #: src/dvdwizardmenu.cpp:31 src/mainwindow.cpp:823 src/recmonitor.cpp:69
-#, fuzzy
 #: src/monitor.cpp:79
 msgid "Play"
 msgstr "Afspelen"
 
 #: src/kdenlivesettingsdialog.cpp:102
-#, fuzzy
 msgid "Play / Pause"
 msgstr "Afspelen/Pauzeer"
 
 #: src/dvdwizardmenu.cpp:283
-#, fuzzy
 msgid "Play All"
-msgstr "Afspelen"
+msgstr "Alles afspelen"
 
 #: src/mainwindow.cpp:831
-#, fuzzy
 msgid "Play Zone"
 msgstr "Afspelen sectie"
 
 #: rc.cpp:1403 rc.cpp:2735
-#, fuzzy
 msgid "Play after render"
 msgstr "Afspelen na renderen"
 
 #: src/monitor.cpp:78
-#, fuzzy
 msgid "Play..."
 msgstr "Afspelen..."
 
 #: src/kdenlivesettingsdialog.cpp:92
-#, fuzzy
 msgid "Playback"
-msgstr "Afspelen"
+msgstr "Playback"
 
 #: src/documentchecker.cpp:74 src/projectitem.cpp:216
-#, fuzzy
 msgid "Playlist clip"
 msgstr "Afspeellijst clip"
 
 #: src/main.cpp:48
-#, fuzzy
 msgid ""
 "Please report bugs to <a href=\"http://kdenlive.org/mantis\">http://kdenlive."
 "org/mantis</a>"
 msgstr ""
-"Zend a.u.b. fouten/bugs naar <a href=\"http://kdenlive.org/mantis\">http://"
-"kdenlive. org/mantis</a>"
+"Zend fouten/bugs naar <a href=\"http://kdenlive.org/mantis\">http://"
+"kdenlive. org/mantis</a>"
 
 #: src/main.cpp:48
-#, fuzzy
 msgid "Please report bugs to http://kdenlive.org/mantis"
-msgstr "Zend a.u.b. fouten/bugs naar http://kdenlive.org/mantis"
+msgstr "Zend fouten/bugs naar http://kdenlive.org/mantis"
 
 #: src/projectlist.cpp:200
-#, fuzzy
 msgid ""
 "Please set a default application to open audio files in the Settings dialog"
 msgstr ""
-"Stel a.u.b. een standaard toepassing om geluidsbestanden mee af te spelen in "
-"bij de Instellingen dialoog"
+"Stel een standaard toepassing in om geluidsbestanden mee af te spelen bij de "
+"instellingen dialoog"
 
 #: src/projectlist.cpp:196
-#, fuzzy
 msgid "Please set a default application to open images in the Settings dialog"
 msgstr ""
-"Stel a.u.b. een standaard toepassing om afbeeldingen te openen in bij de "
-"Instellingen dialoog"
+"Stel een standaard toepassing in om afbeeldingen te openen bij de "
+"instellingen dialoog"
 
 #: rc.cpp:1682 rc.cpp:3014
-#, fuzzy
 msgid "Please set your default video profile"
-msgstr "Stel a.u.b. uw standaard video-formaat in"
+msgstr "Stel uw standaard video-formaat in"
 
 #: src/wizard.cpp:189
-#, fuzzy
 msgid "Please upgrade to the latest MLT version"
-msgstr "Upgrade naar de laatste MLT versie a.u.b."
+msgstr "Upgrade naar de laatste MLT versie"
 
 #: src/recmonitor.cpp:185
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Plug your camcorder and\n"
 "press connect button\n"
@@ -3438,181 +2835,146 @@ msgid ""
 "Files will be saved in:\n"
 "%1"
 msgstr ""
-"Sluit uw camcorder aan en\n"
-" druk op de verbinden knop\n"
-" om de verbinding te starten\n"
-" Bestanden worden opgeslagen in:\n"
-" %1"
+"Sluit uw camcorder aan en\n druk op de verbinden knop\n om de verbinding te "
+"starten\n Bestanden worden opgeslagen in:\n %1"
 
 #: rc.cpp:1628 rc.cpp:2960
-#, fuzzy
 msgid "Ports:"
-msgstr "Pos"
+msgstr "Poorten:"
 
 #: rc.cpp:956 rc.cpp:2288
-#, fuzzy
 msgid "Pos"
 msgstr "Pos"
 
 #: rc.cpp:515 rc.cpp:839 rc.cpp:1202 rc.cpp:1703 rc.cpp:1847 rc.cpp:2171
-#, fuzzy
 #: rc.cpp:2534 rc.cpp:3035
 msgid "Position"
 msgstr "Positie"
 
 #: src/recmonitor.cpp:216
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Press play or record button\n"
 "to start video capture\n"
 "Files will be saved in:\n"
 "%1"
 msgstr ""
-"Druk op de afspelen of opname knop\n"
-" om het opnemen van video te beginnen\n"
-" Bestanden worden opgeslagen in:\n"
-" %1"
+"Druk op de afspelen of opname knop\n om het opnemen van video te "
+"beginnen\n Bestanden worden opgeslagen in:\n %1"
 
 #: src/recmonitor.cpp:159 src/recmonitor.cpp:567
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Press record button\n"
 "to start screen capture\n"
 "Files will be saved in:\n"
 "%1"
 msgstr ""
-"Druk op opname knop\n"
-" om scherm-opname te starten\n"
-" Bestanden worden opgeslagen in:\n"
-" %1"
+"Druk op opname knop\n om scherm-opname te starten\n Bestanden worden "
+"opgeslagen in:\n %1"
 
 #: rc.cpp:887 rc.cpp:2219
-#, fuzzy
 msgid "Preview"
-msgstr "Apparaat"
+msgstr "Voorbeeld"
 
 #: src/customtrackview.cpp:1209 src/customtrackview.cpp:1218
-#, fuzzy
 msgid "Problem adding effect to clip"
 msgstr "Probleem bij toevoegen effect aan clip"
 
 #: src/customtrackview.cpp:1202 src/customtrackview.cpp:1228
-#, fuzzy
 #: src/customtrackview.cpp:1342
 msgid "Problem deleting effect"
 msgstr "Probleem bij verwijderen effect"
 
 #: src/customtrackview.cpp:1344 src/customtrackview.cpp:3289
-#, fuzzy
 #: src/customtrackview.cpp:3306 src/customtrackview.cpp:3328
 #: src/customtrackview.cpp:3345
 msgid "Problem editing effect"
 msgstr "Probleem bij bewerken effect"
 
 #: rc.cpp:728 rc.cpp:800 rc.cpp:1268 rc.cpp:1469 rc.cpp:2060 rc.cpp:2132
-#, fuzzy
 #: rc.cpp:2600 rc.cpp:2801
 msgid "Profile"
 msgstr "Profiel"
 
 #: src/renderwidget.cpp:322 src/renderwidget.cpp:429
-#, fuzzy
 msgid "Profile already exists"
 msgstr "Profiel bestaat reeds"
 
 #: rc.cpp:1670 rc.cpp:3002
-#, fuzzy
 msgid "Profile name"
-msgstr "Profielnaam"
+msgstr "Profiel naam"
 
 #: rc.cpp:725 rc.cpp:2057
-#, fuzzy
 msgid "Profiles"
 msgstr "Profielen"
 
 #: src/renderwidget.cpp:153
-#, fuzzy
 msgid "Progress"
-msgstr "Progressief"
+msgstr "Vooruitgang"
 
 #: src/projectsettings.cpp:76 src/kdenlivesettingsdialog.cpp:465 rc.cpp:761
-#, fuzzy
 #: rc.cpp:2093
 msgid "Progressive"
 msgstr "Progressief"
 
 #: rc.cpp:3125
-#, fuzzy
 msgid "Project"
 msgstr "Project"
 
 #: src/mainwindow.cpp:183
-#, fuzzy
 msgid "Project Monitor"
 msgstr "Project Monitor"
 
 #: src/mainwindow.cpp:814 rc.cpp:1460 rc.cpp:2792
-#, fuzzy
 msgid "Project Settings"
 msgstr "Project instellingen"
 
 #: src/mainwindow.cpp:145
-#, fuzzy
 msgid "Project Tree"
 msgstr "Project boom"
 
 #: rc.cpp:686 rc.cpp:1463 rc.cpp:2018 rc.cpp:2795
-#, fuzzy
 msgid "Project folder"
 msgstr "Project map"
 
 #: rc.cpp:731 rc.cpp:2063
-#, fuzzy
 msgid "Properties"
 msgstr "Eigenschappen"
 
 #: src/kdenlivesettingsdialog.cpp:209
-#, fuzzy
 msgid "PulseAudio"
-msgstr "Audio"
+msgstr "PulseAudio"
 
 #: src/wizard.cpp:272
-#, fuzzy
 msgid "QImage module"
-msgstr "Afbeeldingstype"
+msgstr "Q Afbeeldingstype"
 
 #: rc.cpp:1190 rc.cpp:2522
-#, fuzzy
 msgid "R"
 msgstr "R"
 
 #: rc.cpp:255
-#, fuzzy
 msgid "RPM"
 msgstr "RPM"
 
 #: rc.cpp:229
-#, fuzzy
 msgid "Rate"
-msgstr "Roteren:"
+msgstr "Rate"
 
 #: rc.cpp:205
-#, fuzzy
 msgid "Rate (Hz)"
 msgstr "Rate/frequentie (hz)"
 
 #: rc.cpp:225
-#, fuzzy
 msgid "Rate Scaler"
-msgstr "Schaal"
+msgstr "Rate schaler"
 
 #: src/projectlistview.cpp:46
-#, fuzzy
 msgid "Rating"
 msgstr "Rating"
 
 #: src/main.cpp:45
-#, fuzzy
 msgid "Ray Lehtiniemi"
 msgstr "Ray Lehtiniemi"
 
@@ -3627,267 +2989,223 @@ msgid "Razor tool"
 msgstr "Knip gereedschap"
 
 #: src/mainwindow.cpp:2416
-#, fuzzy
 msgid "Reached end of project"
 msgstr "Einde van project bereikt"
 
 #: src/recmonitor.cpp:78
-#, fuzzy
 msgid "Record"
 msgstr "Opnemen"
 
 #: src/mainwindow.cpp:189
-#, fuzzy
 msgid "Record Monitor"
 msgstr "Opname monitor"
 
 #: src/wizard.cpp:305
-#, fuzzy
 msgid "Recordmydesktop"
 msgstr "Recordmydesktop"
 
 #: src/kdenlivesettingsdialog.cpp:172
-#, fuzzy, kde-format
+#, kde-format
 msgid "Recordmydesktop found at: %1"
-msgstr "Niet gevonden: %1"
+msgstr "Recordmydesktop niet gevonden op: %1"
 
 #: src/recmonitor.cpp:156
-#, fuzzy
 msgid ""
 "Recordmydesktop utility not found,\n"
 " please install it for screen grabs"
 msgstr ""
-"Recordmydesktop toepassing niet gevonden,\n  installeer deze a.u.b. voor "
-"schermopname (screen grab)"
+"Recordmydesktop toepassing niet gevonden,\n  installeer deze voor opname "
+"vanaf het scherm"
 
 #: src/mainwindow.cpp:1384
-#, fuzzy
 msgid "Recover"
 msgstr "Herstel"
 
 #: rc.cpp:293
-#, fuzzy
 msgid "Rectangle"
-msgstr "Voeg rechthoek toe"
+msgstr "Rechthoek"
 
 #: rc.cpp:287
-#, fuzzy
 msgid "Region"
-msgstr "Gebied"
+msgstr "Regio"
 
 #: rc.cpp:1637 rc.cpp:2969
-#, fuzzy
 msgid "Region capture"
-msgstr "Maak opname van volledig beeldscherm"
+msgstr "Regio opname"
 
 #: rc.cpp:199
-#, fuzzy
 msgid "Release time (s)"
-msgstr "Release tijdstip(pen)"
+msgstr "Tijdstip(pen) van vrijgeven"
 
 #: src/mainwindow.cpp:1120
-#, fuzzy
 msgid "Reload Clip"
-msgstr "Kleur clip"
+msgstr "Herlaad clip"
 
 #: src/renderwidget.cpp:1267
-#, fuzzy
 msgid "Remove Job"
-msgstr "Herstel"
+msgstr "Verwijder job"
 
 #: src/customtrackview.cpp:1942 src/mainwindow.cpp:996
-#, fuzzy
 msgid "Remove Space"
 msgstr "Verwijder ruimte"
 
 #: src/customtrackview.cpp:4140
-#, fuzzy
 msgid "Remove Track"
-msgstr "Herstel"
+msgstr "Verwijder spoor"
 
 #: rc.cpp:1217 rc.cpp:2549
-#, fuzzy
 msgid "Remove chapter"
 msgstr "Verwijder hoofdstuk"
 
 #: src/documentchecker.cpp:258
-#, fuzzy
 msgid "Remove clips"
-msgstr "Verplaats clip"
+msgstr "Verwijder clips"
 
 #: rc.cpp:1766 rc.cpp:3098
-#, fuzzy
 msgid "Remove file"
-msgstr "Hernoem map"
+msgstr "Verwijder bestand"
 
 #: rc.cpp:1739 rc.cpp:3071
-#, fuzzy
 msgid "Remove selected clips"
-msgstr "Kan geselecteerde clips niet plakken"
+msgstr "Verwijder geselecteerde clips"
 
 #: src/insertspacecommand.cpp:36
-#, fuzzy
 msgid "Remove space"
 msgstr "Verwijder ruimte"
 
 #: src/trackview.cpp:324
-#, fuzzy, kde-format
+#, kde-format
 msgid "Removed invalid transition: %1"
-msgstr "Overgang %1 bewerken"
+msgstr "Ongeldige overgang %1 verwijderd"
 
 #: src/editfoldercommand.cpp:34
-#, fuzzy
 msgid "Rename folder"
 msgstr "Hernoem map"
 
 #: src/mainwindow.cpp:818 src/renderwidget.cpp:226
-#, fuzzy
 msgid "Render"
 msgstr "Renderen (omzetten)"
 
 #: rc.cpp:1349 rc.cpp:2681
-#, fuzzy
 msgid "Render Project"
-msgstr "Project"
+msgstr "Render project"
 
 #: src/renderwidget.cpp:86
-#, fuzzy
 msgid "Render to File"
-msgstr "Renderen"
+msgstr "Render naar bestand"
 
 #: src/renderwidget.cpp:62
-#, fuzzy
 msgid "Rendering"
 msgstr "Renderen"
 
 #: renderer/renderjob.cpp:196
-#, fuzzy, kde-format
+#, kde-format
 msgid "Rendering %1"
-msgstr "Renderen/omzetten %1"
+msgstr "Renderen %1"
 
 #: src/mainwindow.cpp:1645
-#, fuzzy, kde-format
+#, kde-format
 msgid "Rendering <i>%1</i> started"
 msgstr "Renderen van <i>%1</i> begonnen"
 
 #: src/renderwidget.cpp:1239
-#, fuzzy
 msgid "Rendering aborted"
-msgstr "Renderen"
+msgstr "Renderen beëindigd"
 
 #: src/renderwidget.cpp:1230
-#, fuzzy
 msgid "Rendering crashed"
-msgstr "Renderen"
+msgstr "Renderen gecrasht"
 
 #: src/renderwidget.cpp:1219
-#, fuzzy, kde-format
+#, kde-format
 msgid "Rendering finished in %1"
-msgstr "Renderen/omzetten %1"
+msgstr "Renderen %1 afgehandeld"
 
 #: src/dvdwizard.cpp:225
-#, fuzzy
 msgid "Rendering job timed out"
-msgstr "Renderen/omzetten van %1 is klaar"
+msgstr "Renderen over tijdslimiet"
 
 #: renderer/renderjob.cpp:258
-#, fuzzy, kde-format
+#, kde-format
 msgid "Rendering of %1 aborted, resulting video will probably be corrupted."
 msgstr ""
-"Renderen/omzetten van %1 afgebroken, resulterend videobestand zal "
-"waarschijnlijk beschadigd zijn."
+"Renderen van %1 afgebroken, video bestand zal waarschijnlijk beschadigd zijn."
 
 #: renderer/renderjob.cpp:280
-#, fuzzy, kde-format
+#, kde-format
 msgid "Rendering of %1 finished in %2"
-msgstr "Renderen/omzetten van %1 is klaar"
+msgstr "Renderen van %1 is klaar"
 
 #: src/main.cpp:44
-#, fuzzy
 msgid "Rendering profiles customisation"
 msgstr "Omzetten volgens aangepast profiel"
 
 #: src/trackview.cpp:478
-#, fuzzy, kde-format
+#, kde-format
 msgid "Replaced wrong clip producer %1 with %2"
 msgstr "Verkeerde clip producer %1 vervangen door %2"
 
 #: src/wizard.cpp:318
-#, fuzzy
 msgid "Required for creation of DVD"
 msgstr "Vereist om DVD te maken"
 
 #: src/wizard.cpp:324
-#, fuzzy
 msgid "Required for creation of DVD ISO images"
 msgstr "Vereist om DVD ISO bestanden te maken"
 
 #: src/wizard.cpp:312
-#, fuzzy
 msgid "Required for firewire capture"
-msgstr "Vereist voor Firewire capture"
+msgstr "Vereist voor Firewire opname"
 
 #: src/wizard.cpp:130
-#, fuzzy
 msgid "Required for rendering (part of MLT package)"
-msgstr "Kan het inigo programma benodigd voor renderen (onderdeel van MLT)"
+msgstr "Benodigd voor renderen (onderdeel van MLT)"
 
 #: src/wizard.cpp:306
-#, fuzzy
 msgid "Required for screen capture"
-msgstr "Maak opname van volledig beeldscherm"
+msgstr "Verreist voor opname van het scherm"
 
 #: src/wizard.cpp:298
-#, fuzzy
 msgid "Required for webcam capture"
-msgstr "Vereist voor webcam capture"
+msgstr "Vereist voor webcam opname"
 
 #: src/wizard.cpp:263
-#, fuzzy
 msgid "Required to work with dv files if avformat module is not installed"
 msgstr ""
 "Vereist om met dv bestanden te werken als avformat module niet geinstalleerd "
 "is"
 
 #: src/wizard.cpp:273 src/wizard.cpp:278
-#, fuzzy
 msgid "Required to work with images"
 msgstr "Vereist om met afbeeldingen te werken"
 
 #: src/wizard.cpp:147
-#, fuzzy
 msgid "Required to work with various video formats (hdv, mpeg, flash, ...)"
 msgstr ""
 "Vereist om met diverse video formaten (hdv, mpeg, flash, ...) te werken"
 
 #: rc.cpp:1394 rc.cpp:2726
-#, fuzzy
 msgid "Rescale"
-msgstr "Grijswaarden"
+msgstr "Herschaal"
 
 #: src/effectstackview.cpp:56
-#, fuzzy
 msgid "Reset effect"
 msgstr "Stel effect opnieuw in"
 
 #: src/monitor.cpp:99
-#, fuzzy
 msgid "Resize (100%)"
 msgstr "Herschaal (100%)"
 
 #: src/monitor.cpp:100
-#, fuzzy
 msgid "Resize (50%)"
-msgstr "Resize (50%)"
+msgstr "Herschaal (50%)"
 
 #: src/customtrackview.cpp:2453 src/customtrackview.cpp:2514
-#, fuzzy
 #: src/resizeclipcommand.cpp:33
 msgid "Resize clip"
 msgstr "Herschaal clip"
 
 #: src/geometryval.cpp:77 src/geometryval.cpp:255
-#, fuzzy
 msgid "Resize..."
 msgstr "Herschalen..."
 
@@ -3907,32 +3225,26 @@ msgid "Reverb time"
 msgstr "Reverb Tijd"
 
 #: rc.cpp:431
-#, fuzzy
 msgid "Reverse playing"
 msgstr "Omgekeerd afspelen"
 
 #: src/mainwindow.cpp:859 src/recmonitor.cpp:66 src/monitor.cpp:74
-#, fuzzy
 msgid "Rewind"
 msgstr "Terugspoelen"
 
 #: src/mainwindow.cpp:864
-#, fuzzy
 msgid "Rewind 1 Frame"
 msgstr "1 frame terug"
 
 #: src/mainwindow.cpp:869
-#, fuzzy
 msgid "Rewind 1 Second"
-msgstr "1 frame terug"
+msgstr "1 seconde terug"
 
 #: src/monitor.cpp:75
-#, fuzzy
 msgid "Rewind 1 frame"
-msgstr "1 frame terug"
+msgstr "Spoel 1 frame terug"
 
 #: src/geometryval.cpp:90 rc.cpp:72
-#, fuzzy
 msgid "Right"
 msgstr "Rechts"
 
@@ -3947,177 +3259,143 @@ msgid "Room size (m)"
 msgstr "Resize (50%)"
 
 #: rc.cpp:299
-#, fuzzy
 msgid "Rotate X"
-msgstr "Roteren"
+msgstr "Roteer X"
 
 #: rc.cpp:301
-#, fuzzy
 msgid "Rotate Y"
-msgstr "Roteren"
+msgstr "Roteer Y"
 
 #: rc.cpp:303
-#, fuzzy
 msgid "Rotate Z"
-msgstr "Roteren"
+msgstr "Roteer Z"
 
 #: rc.cpp:295
-#, fuzzy
 msgid "Rotate and Shear"
 msgstr "Draaien en schuiven"
 
 #: rc.cpp:297
-#, fuzzy
 msgid "Rotate clip in any 3 directions"
 msgstr "Roteer clip in één van de drie richtingen"
 
 #: rc.cpp:593 rc.cpp:1925
-#, fuzzy
 msgid "Rotate:"
-msgstr "Roteren:"
+msgstr "Roteer:"
 
 #: src/mainwindow.cpp:810
-#, fuzzy
 msgid "Run Config Wizard"
 msgstr "Start configuratie wizard"
 
 #: rc.cpp:770 rc.cpp:1373 rc.cpp:2102 rc.cpp:2705
-#, fuzzy
 msgid "S"
 msgstr "S"
 
 #: src/kdenlivesettingsdialog.cpp:230
-#, fuzzy
 msgid "SVGAlib"
 msgstr "SVGAlib"
 
 #: src/titlewidget.cpp:156
-#, fuzzy
 msgid "Save As"
 msgstr "Opslaan als"
 
 #: src/dvdwizard.cpp:606
-#, fuzzy
 msgid "Save DVD Project"
-msgstr "Profiel opslaan"
+msgstr "Sla DVD project op"
 
 #: src/effectstackview.cpp:90
-#, fuzzy
 msgid "Save Effect"
 msgstr "Effect opslaan"
 
 #: rc.cpp:1661 rc.cpp:2993
-#, fuzzy
 msgid "Save Profile"
 msgstr "Profiel opslaan"
 
 #: src/titlewidget.cpp:762
-#, fuzzy
 msgid "Save Title"
 msgstr "Titel opslaan"
 
 #: src/mainwindow.cpp:389 src/mainwindow.cpp:1257
-#, fuzzy
 msgid "Save changes to document?"
 msgstr "Wijzigingen opslaan in document?"
 
 #: src/mainwindow.cpp:2511
-#, fuzzy
 msgid "Save clip zone as:"
 msgstr "Clip-gedeelte opslaan als:"
 
 #: src/effectstackview.cpp:54
-#, fuzzy
 msgid "Save effect"
 msgstr "Effect opslaan"
 
 #: src/profilesdialog.cpp:44
-#, fuzzy
 msgid "Save profile"
 msgstr "Profiel opslaan"
 
 #: rc.cpp:896 rc.cpp:2228
-#, fuzzy
 msgid "Save project"
-msgstr "Profiel opslaan"
+msgstr "Project opslaan"
 
 #: src/monitor.cpp:170
-#, fuzzy
 msgid "Save zone"
 msgstr "Gedeelte opslaan"
 
 #: src/geometryval.cpp:255 rc.cpp:40
-#, fuzzy
 msgid "Scale"
 msgstr "Schaal"
 
 #: rc.cpp:1379 rc.cpp:2711
-#, fuzzy
 msgid "Scanning"
 msgstr "Scannen"
 
 #: rc.cpp:1523 rc.cpp:1592 rc.cpp:2855 rc.cpp:2924
-#, fuzzy
 msgid "Screen Grab"
 msgstr "Opname van beeldscherm"
 
 #: rc.cpp:488 rc.cpp:1820
-#, fuzzy
 msgid "Screen grab"
 msgstr "Opname van beeldscherm"
 
 #: src/renderwidget.cpp:168
-#, fuzzy
 msgid "Script Files"
 msgstr "Script bestanden"
 
 #: src/renderwidget.cpp:595
-#, fuzzy
 msgid "Script file already exists. Do you want to overwrite it?"
 msgstr "Bestand bestaat reeds, overschrijven?"
 
 #: src/renderwidget.cpp:590
-#, fuzzy, kde-format
+#, kde-format
 msgid "Script name (will be saved in: %1)"
 msgstr "Script naam (zal worden opgeslagen in %1)"
 
 #: rc.cpp:1448 rc.cpp:2780
-#, fuzzy
 msgid "Scripts"
 msgstr "Scripten"
 
 #: src/kdenlivedoc.cpp:820
-#, fuzzy
 msgid "Search automatically"
 msgstr "Automatisch zoeken"
 
 #: src/kdenlivedoc.cpp:823 src/kdenlivedoc.cpp:831
-#, fuzzy
 msgid "Search manually"
 msgstr "Handmatig zoeken"
 
 #: rc.cpp:1733 rc.cpp:3065
-#, fuzzy
 msgid "Search recursively"
 msgstr "Zoeken met terugloop"
 
 #: src/dvdwizard.cpp:50
-#, fuzzy
 msgid "Select Files For Your DVD"
 msgstr "Bestanden selecteren voor uw DVD"
 
 #: src/customtrackview.cpp:3778
-#, fuzzy
 msgid "Select a clip before copying"
-msgstr "Selecteer een clip alvorens te kopieren"
+msgstr "Selecteer een clip alvorens te kopiëren"
 
 #: src/customtrackview.cpp:1288
-#, fuzzy
 msgid "Select a clip if you want to apply an effect"
 msgstr "Selecteer een clip als u een effect wilt toepassen"
 
 #: src/regiongrabber.cpp:114
-#, fuzzy
 msgid ""
 "Select a region using the mouse. To take the snapshot, press the Enter key. "
 "Press Esc to quit."
@@ -4126,199 +3404,160 @@ msgstr ""
 "op de Enter toets. Druk Esc om te verlaten."
 
 #: src/customtrackview.cpp:2754
-#, fuzzy
 msgid "Select clip to change speed"
 msgstr "Selecteer clip om snelheid te wijzigen"
 
 #: src/customtrackview.cpp:1611 src/customtrackview.cpp:2697
-#, fuzzy
 msgid "Select clip to delete"
 msgstr "Selecteer te verwijderen clip"
 
 #: src/kdenlivesettingsdialog.cpp:332
-#, fuzzy
 msgid "Select default audio editor"
-msgstr "Selecteer standaard geluids bewerkingsprogramma"
+msgstr "Selecteer standaard geluid bewerkingsprogramma"
 
 #: src/kdenlivesettingsdialog.cpp:343
-#, fuzzy
 msgid "Select default image editor"
-msgstr "Selecteer standaard afbeeldings bewerkingsprogramma"
+msgstr "Selecteer standaard afbeelding bewerkingsprogramma"
 
 #: src/kdenlivesettingsdialog.cpp:321
-#, fuzzy
 msgid "Select default video player"
-msgstr "Selecteer standaard videoafspeel programma"
+msgstr "Selecteer standaard videospeler"
 
 #: rc.cpp:1409 rc.cpp:2741
-#, fuzzy
 msgid "Selected zone"
-msgstr "Selecteer gebied..."
+msgstr "Selecteer zone"
 
 #: src/titlewidget.cpp:148
-#, fuzzy
 msgid "Selection Tool"
 msgstr "Selecteer gereedschap"
 
 #: src/mainwindow.cpp:649
-#, fuzzy
 msgid "Selection tool"
 msgstr "Selecteer gereedschap"
 
 #: rc.cpp:321
-#, fuzzy
 msgid "Sepia"
 msgstr "Sepia"
 
 #: src/mainwindow.cpp:850
-#, fuzzy
 msgid "Set In Point"
-msgstr "Set In Punt"
+msgstr "Stel In Punt in"
 
 #: src/mainwindow.cpp:855
-#, fuzzy
 msgid "Set Out Point"
-msgstr "Set Out Punt"
+msgstr "Stel Uit Punt in"
 
 #: src/monitor.cpp:180
-#, fuzzy
 msgid "Set current image as thumbnail"
 msgstr "Maak van huidige afbeelding miniatuur"
 
 #: src/main.cpp:54
-#, fuzzy
 msgid "Set the path for MLT environnement"
 msgstr "Stel pad naar MLT omgeving in"
 
 #: src/monitor.cpp:71
-#, fuzzy
 msgid "Set zone end"
-msgstr "Stel gebieds-einde in"
+msgstr "Stel zone-einde in"
 
 #: src/monitor.cpp:70
-#, fuzzy
 msgid "Set zone start"
-msgstr "Stel gebieds-begin in"
+msgstr "Stel zone-begin in"
 
 #: rc.cpp:311
-#, fuzzy
 msgid "Shear X"
-msgstr "Schuiven X"
+msgstr "Schuif X"
 
 #: rc.cpp:313
-#, fuzzy
 msgid "Shear Y"
-msgstr "Schuiven Y"
+msgstr "Schuif Y"
 
 #: rc.cpp:223 rc.cpp:395
-#, fuzzy
 msgid "Shift"
-msgstr "Verschuif"
+msgstr "Shift"
 
 #: rc.cpp:1694 rc.cpp:3026
-#, fuzzy
 msgid "Show All"
 msgstr "Laat alles zien"
 
 #: src/mainwindow.cpp:1033
-#, fuzzy
 msgid "Show Timeline"
-msgstr "Tijdbalk"
+msgstr "Toon tijdbalk"
 
 #: src/mainwindow.cpp:722 rc.cpp:1172 rc.cpp:2504
-#, fuzzy
 msgid "Show audio thumbnails"
 msgstr "Laat geluid miniaturen zien"
 
 #: rc.cpp:635 rc.cpp:1967
-#, fuzzy
 msgid "Show background"
 msgstr "Laat achtergrond zien"
 
 #: src/complexparameter.cpp:40
-#, fuzzy
 msgid "Show keyframes in timeline"
 msgstr "Laat keyframes zien in tijdsbalk"
 
 #: src/mainwindow.cpp:728
-#, fuzzy
 msgid "Show markers comments"
 msgstr "Laat markeringspunt opmerkingen zien"
 
 #: src/mainwindow.cpp:716 rc.cpp:1169 rc.cpp:2501
-#, fuzzy
 msgid "Show video thumbnails"
 msgstr "Laat video miniaturen zien"
 
 #: rc.cpp:251
-#, fuzzy
 msgid "Simulates a vinyl audio player - LADSPA audio effect"
-msgstr "Simuleert een vinyl (LP) afspeler - LADSPA audio effect"
+msgstr "Simuleert een vinyl (LP) speler - LADSPA audio effect"
 
 #: rc.cpp:557 rc.cpp:737 rc.cpp:851 rc.cpp:1649 rc.cpp:1751 rc.cpp:1889
-#, fuzzy
 #: rc.cpp:2069 rc.cpp:2183 rc.cpp:2981 rc.cpp:3083
 msgid "Size"
 msgstr "Grootte"
 
 #: rc.cpp:611 rc.cpp:623 rc.cpp:1022 rc.cpp:1271 rc.cpp:1472 rc.cpp:1943
-#, fuzzy
 #: rc.cpp:1955 rc.cpp:2354 rc.cpp:2603 rc.cpp:2804
 msgid "Size:"
 msgstr "Grootte:"
 
 #: rc.cpp:1061 rc.cpp:2393
-#, fuzzy
 msgid "Slideshow"
 msgstr "Diashow"
 
 #: src/slideshowclip.cpp:36 rc.cpp:1307 rc.cpp:2639
-#, fuzzy
 msgid "Slideshow Clip"
 msgstr "Diashow clip"
 
 #: src/documentchecker.cpp:80 src/projectitem.cpp:210
-#, fuzzy
 msgid "Slideshow clip"
 msgstr "Diashow clip"
 
 #: src/mainwindow.cpp:734
-#, fuzzy
 msgid "Snap"
 msgstr "Snap"
 
 #: rc.cpp:1088 rc.cpp:1337 rc.cpp:2420 rc.cpp:2669
-#, fuzzy
 msgid "Softness"
 msgstr "Zachtheid"
 
 #: rc.cpp:779 rc.cpp:2111
-#, fuzzy
 msgid "Source"
-msgstr "uur"
+msgstr "Bron"
 
 #: rc.cpp:141
-#, fuzzy
 msgid "Source Color"
-msgstr "Kleur van omlijning"
+msgstr "Bron kleur"
 
 #: rc.cpp:329
-#, fuzzy
 msgid "Sox Band"
 msgstr "Sox Band"
 
 #: rc.cpp:337
-#, fuzzy
 msgid "Sox Bass"
 msgstr "Sox Bas"
 
 #: rc.cpp:345
-#, fuzzy
 msgid "Sox Echo"
 msgstr "Sox Echo"
 
 #: rc.cpp:357
-#, fuzzy
 msgid "Sox Flanger"
 msgstr "Sox Flanger"
 
@@ -4328,12 +3567,10 @@ msgid "Sox Gain"
 msgstr "Rating"
 
 #: rc.cpp:377
-#, fuzzy
 msgid "Sox Phaser"
 msgstr "Sox Phaser"
 
 #: rc.cpp:391
-#, fuzzy
 msgid "Sox Pitch Shift"
 msgstr "Sox toonhoogte regelaar"
 
@@ -4343,12 +3580,10 @@ msgid "Sox Reverb"
 msgstr "Sox Reverb"
 
 #: rc.cpp:409
-#, fuzzy
 msgid "Sox Stretch"
 msgstr "Sox Stretch"
 
 #: rc.cpp:417
-#, fuzzy
 msgid "Sox Vibro"
 msgstr "Sox Vibro"
 
@@ -4358,24 +3593,20 @@ msgid "Sox band audio effect"
 msgstr "Voeg geluidseffect toe"
 
 #: rc.cpp:339
-#, fuzzy
 msgid "Sox bass audio effect"
 msgstr "Sox bas audio effect"
 
 #: rc.cpp:393
-#, fuzzy
 msgid "Sox change pitch audio effect"
-msgstr "Sox wijzig pitch geluids effect"
+msgstr "Sox wijzig pitch geluid effect"
 
 #: rc.cpp:347
-#, fuzzy
 msgid "Sox echo audio effect"
-msgstr "Sox echo geluids effect"
+msgstr "Sox echo geluid effect"
 
 #: rc.cpp:359
-#, fuzzy
 msgid "Sox flanger audio effect"
-msgstr "Sox flanger geluids effect"
+msgstr "Sox flanger geluid effect"
 
 #: rc.cpp:373
 #, fuzzy
@@ -4383,66 +3614,55 @@ msgid "Sox gain audio effect"
 msgstr "Sox gain audio effect"
 
 #: rc.cpp:379
-#, fuzzy
 msgid "Sox phaser audio effect"
-msgstr "Sox phaser audio effec"
+msgstr "Sox phaser audio effect"
 
 #: rc.cpp:401
+#, fuzzy
 msgid "Sox reverb audio effect"
-msgstr "Sox reverb geluids effect"
+msgstr "Sox reverb geluid effect"
 
 #: rc.cpp:411
-#, fuzzy
 msgid "Sox stretch audio effect"
 msgstr "Sox stretch audio effect"
 
 #: rc.cpp:419
-#, fuzzy
 msgid "Sox vibro audio effect"
-msgstr "Sox vibro geluids effect"
+msgstr "Sox vibro geluid effect"
 
 #: rc.cpp:3152
-#, fuzzy
 msgid "Space"
-msgstr "Schaal"
+msgstr "Ruimte"
 
 #: src/mainwindow.cpp:659
-#, fuzzy
 msgid "Spacer tool"
-msgstr "Knip gereedschap"
+msgstr "Gereedschap om ruimte te maken"
 
 #: rc.cpp:369 rc.cpp:389 rc.cpp:421 rc.cpp:423 rc.cpp:427
-#, fuzzy
 msgid "Speed"
 msgstr "Snelheid"
 
 #: src/mainwindow.cpp:966
-#, fuzzy
 msgid "Split Audio"
-msgstr "Split view"
+msgstr "Split geluid"
 
 #: src/customtrackview.cpp:4332 src/splitaudiocommand.cpp:32
-#, fuzzy
 msgid "Split audio"
-msgstr "Geluid opnemen"
+msgstr "Split geluid"
 
 #: src/monitor.cpp:176
-#, fuzzy
 msgid "Split view"
 msgstr "Split view"
 
 #: rc.cpp:211
-#, fuzzy
 msgid "Spread"
 msgstr "Spreid"
 
 #: rc.cpp:151
-#, fuzzy
 msgid "Square Blur"
 msgstr "Vierkant Blur"
 
 #: src/mainwindow.cpp:1697 rc.cpp:82 rc.cpp:116 rc.cpp:791 rc.cpp:1712
-#, fuzzy
 #: rc.cpp:2123 rc.cpp:3044
 msgid "Start"
 msgstr "Start"
@@ -4453,177 +3673,151 @@ msgid "Start Gain"
 msgstr "Start"
 
 #: src/renderwidget.cpp:85
-#, fuzzy
 msgid "Start Rendering"
 msgstr "Start Renderen/omzetten"
 
 #: rc.cpp:1451 rc.cpp:2783
-#, fuzzy
 msgid "Start Script"
-msgstr "StartViewport"
+msgstr "Start script"
 
 #: rc.cpp:599 rc.cpp:1931
-#, fuzzy
 msgid "Start-/EndViewport"
 msgstr "Start-/EndViewport"
 
 #: rc.cpp:602 rc.cpp:1934
-#, fuzzy
 msgid "StartViewport"
 msgstr "StartViewport"
 
 #: src/mainwindow.cpp:2406
-#, fuzzy
 msgid "Starting -- find text as you type"
 msgstr "Starten -- zoek tekst terwijl u intypt"
 
 #: rc.cpp:884 rc.cpp:2216
-#, fuzzy
 msgid "Status"
-msgstr "Start"
+msgstr "Status"
 
 #: src/recmonitor.cpp:72
-#, fuzzy
 msgid "Stop"
 msgstr "Stop"
 
 #: rc.cpp:429
-#, fuzzy
 msgid "Stroboscope"
 msgstr "Stroboscoop"
 
 #: rc.cpp:257
-#, fuzzy
 msgid "Surface warping"
 msgstr "Oppervlakte vervorming"
 
 #: src/geometryval.cpp:96
-#, fuzzy
 msgid "Sync timeline cursor"
 msgstr "Sync tijdsbalk cursor"
 
 #: rc.cpp:977 rc.cpp:2309
-#, fuzzy
 msgid "Target"
 msgstr "Doel"
 
 #: rc.cpp:902 rc.cpp:2234
-#, fuzzy
 msgid "Temporary data folder"
-msgstr "Tijdelijke bestanden"
+msgstr "Tijdelijke data bestanden"
 
 #: rc.cpp:689 rc.cpp:2021
-#, fuzzy
 msgid "Temporary files"
 msgstr "Tijdelijke bestanden"
 
 #: rc.cpp:974 rc.cpp:2306
-#, fuzzy
 msgid "Text"
-msgstr "Voeg tekst toe"
+msgstr "Tekst"
 
 #: src/projectitem.cpp:207
-#, fuzzy
 msgid "Text clip"
 msgstr "Tekst clip"
 
 #: rc.cpp:1658 rc.cpp:2990
-#, fuzzy
 msgid "TextLabel"
 msgstr "TekstLabel"
 
 #: src/profilesdialog.cpp:114
-#, fuzzy
 msgid "The custom profile was modified, do you want to save it?"
 msgstr "Het aangepaste profiel is gewijzigd, wilt u het opslaan?"
 
 #: src/renderwidget.cpp:662 src/renderwidget.cpp:1347
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "There is already a job writing file:<br><b>%1</b><br>Abort the job if you "
 "want to overwrite it..."
 msgstr ""
-"Er is reeds een taak schrijfbestand:<br><b>%1</b><br>Breek de taak af als u "
-"deze wilt overschrijven..."
+"Bezig met bestand weg te schrijven:<br><b>%1</b><br>Breek de taak af als u "
+"dit wilt overschrijven..."
 
 #: src/renderer.cpp:1287
-#, fuzzy
 msgid "There is no clip, cannot extract frame."
 msgstr "Er is geen clip, kan geen frame extraheren"
 
 #: src/wizard.cpp:47
-#, fuzzy
 msgid ""
 "This is the first time you run Kdenlive. This wizard will let you adjust "
 "some basic settings, you will be ready to edit your first movie in a few "
 "seconds..."
 msgstr ""
-"Dit is de eerste keer dat u kdenlive gebruikt. Deze wizard laat u enkele "
-"basisinstellingen aanpassen, hierna kunt u binnen enkele ogenblikken uw "
+"Dit is de eerste keer dat u Kdenlive gebruikt. Deze wizard laat u enkele "
+"basis instellingen aanpassen, hierna kunt u binnen enkele ogenblikken uw "
 "eerste film gaan bewerken..."
 
 #: src/renderwidget.cpp:322 src/renderwidget.cpp:429
-#, fuzzy
 msgid ""
 "This profile name already exists. Change the name if you don't want to "
 "overwrite it."
-msgstr "Bestand bestaat reeds, overschrijven?"
+msgstr ""
+"Profiel naam bestaat reeds. Om het bestaande niet te overschrijven: kies een "
+"andere naam"
 
 #: src/documentconvert.cpp:51
-#, fuzzy, kde-format
+#, kde-format
 msgid "This project type is unsupported (version %1) and can't be loaded."
 msgstr ""
 "Dit project type wordt niet ondersteund (versie %1) en kan niet geopend "
 "worden."
 
 #: src/documentconvert.cpp:45
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "This project type is unsupported (version %1) and can't be loaded.\n"
 "Please consider upgrading you Kdenlive version."
 msgstr ""
 "Dit project type wordt niet ondersteund (versie: %1) en kan derhalve niet "
-"geopend worden.\n Overweeg upgraden van uw kdenlive versie."
+"geopend worden.\n Overweeg het upgraden van uw kdenlive versie."
 
 #: src/documentchecker.cpp:258
-#, fuzzy
 msgid "This will remove the selected clips from this project"
 msgstr "Dit zal de geselecteerde clips verwijderen uit het project"
 
 #: rc.cpp:433
-#, fuzzy
 msgid "Threshold"
 msgstr "Drempel"
 
 #: rc.cpp:437
-#, fuzzy
 msgid "Threshold value"
 msgstr "Drempelwaarde"
 
 #: src/projectlistview.cpp:46
-#, fuzzy
 msgid "Thumbnail"
 msgstr "Miniatuur"
 
 #: rc.cpp:1769 rc.cpp:3101
-#, fuzzy
 msgid "Thumbnails"
 msgstr "Miniaturen"
 
 #: rc.cpp:1499 rc.cpp:2831
-#, fuzzy
 msgid "Thumbnails:"
 msgstr "Miniaturen:"
 
 #: rc.cpp:1103 rc.cpp:2435
-#, fuzzy
 msgid "Time"
 msgstr "Tijd"
 
 #: rc.cpp:397
-#, fuzzy
 msgid "Time window (ms)"
-msgstr "Time window (ms)"
+msgstr "Tijd venster (ms)"
 
 #: rc.cpp:1397 rc.cpp:2729
 #, fuzzy
@@ -4631,332 +3825,271 @@ msgid "Timecode overlay"
 msgstr "Timecode overlay"
 
 #: rc.cpp:3146
-#, fuzzy
 msgid "Timeline"
 msgstr "Tijdbalk"
 
 #: rc.cpp:545 rc.cpp:1877
-#, fuzzy
 msgid "Title Clip"
 msgstr "Titel clip"
 
 #: rc.cpp:857 rc.cpp:2189
-#, fuzzy
 msgid "Toggle selection"
 msgstr "Draai selectie om"
 
 #: rc.cpp:3137
-#, fuzzy
 msgid "Tool"
 msgstr "Gereedschap"
 
 #: src/geometryval.cpp:92 rc.cpp:66
-#, fuzzy
 msgid "Top"
 msgstr "Bovenaan"
 
 #: src/customtrackview.cpp:1942 src/customtrackview.cpp:4140 rc.cpp:539
-#, fuzzy
 #: rc.cpp:1871
 msgid "Track"
 msgstr "Spoor"
 
 #: rc.cpp:1787 rc.cpp:3119
-#, fuzzy
 msgid "Track height"
 msgstr "Spoor/Track hoogte"
 
 #: rc.cpp:3134
-#, fuzzy
 msgid "Tracks"
 msgstr "Sporen"
 
 #: src/kdenlivesettingsdialog.cpp:96 rc.cpp:3128
-#, fuzzy
 msgid "Transcode"
 msgstr "Overgang"
 
 #: src/cliptranscode.cpp:34 src/mainwindow.cpp:845
-#, fuzzy
 msgid "Transcode Clip"
 msgstr "Zet codering clip om (Transcode)"
 
 #: src/cliptranscode.cpp:119
-#, fuzzy
 msgid "Transcoding FAILED!"
-msgstr "Codering omzetten (trnascoderen) MISLUKT!"
+msgstr "Codering omzetten MISLUKT!"
 
 #: src/cliptranscode.cpp:115
-#, fuzzy
 msgid "Transcoding finished."
 msgstr "Codering omzetten (transcoderen) geslaagd"
 
 #: src/mainwindow.cpp:165
-#, fuzzy
 msgid "Transition"
 msgstr "Overgang"
 
 #: rc.cpp:1715 rc.cpp:1721 rc.cpp:3047 rc.cpp:3053
-#, fuzzy
 msgid "Transparency"
 msgstr "Transparantie"
 
 #: rc.cpp:1097 rc.cpp:2429
-#, fuzzy
 msgid "Transparent background"
-msgstr "Transparante Achtergrond"
+msgstr "Transparante achtergrond"
 
 #: rc.cpp:64
-#, fuzzy
 msgid "Trim the edges of a clip"
-msgstr "Knip de randen van de clip"
+msgstr "Knip de hoeken van de clip"
 
 #: rc.cpp:323
-#, fuzzy
 msgid "Turn clip colors to sepia"
 msgstr "Verander clip kleuren naar sepia"
 
 #: rc.cpp:833 rc.cpp:1727 rc.cpp:2165 rc.cpp:3059
-#, fuzzy
 msgid "Type"
 msgstr "Type"
 
 #: src/documentconvert.cpp:45 src/documentconvert.cpp:51
-#, fuzzy
 msgid "Unable to open project"
 msgstr "Kan project niet openen"
 
 #: src/renderwidget.cpp:343 src/renderwidget.cpp:510 src/renderwidget.cpp:1029
-#, fuzzy, kde-format
+#, kde-format
 msgid "Unable to write to file %1"
 msgstr "Kan niet wegschrijven naar bestand %1"
 
 #: src/mainwindow.cpp:198
-#, fuzzy
 msgid "Undo History"
-msgstr "Undo geschiedenis"
+msgstr "Verwijder geschiedenis"
 
 #: src/mainwindow.cpp:940
-#, fuzzy
 msgid "Ungroup Clips"
 msgstr "Hef groeperen clips op"
 
 #: src/groupclipscommand.cpp:34
-#, fuzzy
 msgid "Ungroup clips"
-msgstr "Onbekende clip"
+msgstr "Hef het groeperen van clips op"
 
 #: src/projectitem.cpp:219
-#, fuzzy
 msgid "Unknown clip"
 msgstr "Onbekende clip"
 
 #: src/locktrackcommand.cpp:32
-#, fuzzy
 msgid "Unlock track"
 msgstr "Ontsluit spoor"
 
 #: src/renderwidget.cpp:847
-#, fuzzy, kde-format
+#, kde-format
 msgid "Unsupported audio codec: %1"
 msgstr "Niet ondersteunde audio codec: %1"
 
 #: src/renderwidget.cpp:862
-#, fuzzy, kde-format
+#, kde-format
 msgid "Unsupported video codec: %1"
 msgstr "Niet ondersteunde video codec: %1"
 
 #: src/renderwidget.cpp:832
-#, fuzzy, kde-format
+#, kde-format
 msgid "Unsupported video format: %1"
-msgstr "Niet ondersteund videoformaat: %1"
+msgstr "Niet ondersteund video formaat: %1"
 
 #: src/kdenlivedoc.cpp:770
-#, fuzzy
 msgid "Untitled"
 msgstr "Zonder titel"
 
 #: rc.cpp:1184 rc.cpp:2516
-#, fuzzy
 msgid "Up"
 msgstr "Omhoog"
 
 #: rc.cpp:1304 rc.cpp:2636
-#, fuzzy
 msgid "Use KDE job tracking for render jobs"
 msgstr "Gebruik KDE taak tracking voor render taken"
 
 #: rc.cpp:764 rc.cpp:2096
-#, fuzzy
 msgid "Use as default"
 msgstr "Als standaard gebruiken"
 
 #: rc.cpp:1736 rc.cpp:3068
-#, fuzzy
 msgid "Use placeholders for missing clips"
-msgstr "Gebruik invoegplaatsen (placeholders) voor ontbrekende clips"
+msgstr "Gebruik invoegplaatsen voor ontbrekende clips"
 
 #: rc.cpp:439
-#, fuzzy
 msgid "Use transparency"
-msgstr "Transparantie"
+msgstr "Gebruik transparantie"
 
 #: rc.cpp:626 rc.cpp:629 rc.cpp:722 rc.cpp:860 rc.cpp:863 rc.cpp:1958
-#, fuzzy
 #: rc.cpp:1961 rc.cpp:2054 rc.cpp:2192 rc.cpp:2195
 msgid "V"
 msgstr "V"
 
 #: rc.cpp:1208 rc.cpp:2540
-#, fuzzy
 msgid "Value"
 msgstr "Waarde"
 
 #: rc.cpp:153
-#, fuzzy
 msgid "Variable-size square blur (frei0r.squareblur)"
 msgstr "Variabele-grootte vierkant blur (frei0r.squareblur)"
 
 #: rc.cpp:52 rc.cpp:60
-#, fuzzy
 msgid "Variance"
 msgstr "Variatie"
 
 #: src/geometryval.cpp:89
-#, fuzzy
 msgid "Vert. Center"
 msgstr "Vert. centreren"
 
 #: rc.cpp:455
-#, fuzzy
 msgid "Vertical factor"
 msgstr "Verticale factor"
 
 #: rc.cpp:20
-#, fuzzy
 msgid "Vertical multiplicator"
-msgstr "Verticaal vermeningvuldigen"
+msgstr "Verticaal vermenigvuldigen"
 
 #: rc.cpp:38
-#, fuzzy
 msgid "Vertical scatter"
 msgstr "Verticaal scatter"
 
 #: rc.cpp:1001 rc.cpp:1028 rc.cpp:1157 rc.cpp:1502 rc.cpp:1772 rc.cpp:2333
-#, fuzzy
 #: rc.cpp:2360 rc.cpp:2489 rc.cpp:2834 rc.cpp:3104
 msgid "Video"
 msgstr "Video"
 
 #: rc.cpp:665 rc.cpp:1997
-#, fuzzy
 msgid "Video Codecs"
 msgstr "Video codec"
 
 #: src/mainwindow.cpp:975
-#, fuzzy
 msgid "Video Only"
-msgstr "Video afspeel programma"
+msgstr "Alleen video"
 
 #: rc.cpp:1466 rc.cpp:2798
-#, fuzzy
 msgid "Video Profile"
 msgstr "Video profiel"
 
 #: rc.cpp:1685 rc.cpp:3017
-#, fuzzy
 msgid "Video Resolution"
 msgstr "Video resolutie"
 
 #: src/wizard.cpp:63
-#, fuzzy
 msgid "Video Standard"
 msgstr "Video standaard"
 
 #: src/documentchecker.cpp:65 src/documentchecker.cpp:83
-#, fuzzy
 #: src/projectitem.cpp:198
 msgid "Video clip"
 msgstr "Video clip"
 
 #: rc.cpp:1031 rc.cpp:2363
-#, fuzzy
 msgid "Video codec"
 msgstr "Video codec"
 
 #: rc.cpp:1556 rc.cpp:2888
-#, fuzzy
 msgid "Video device"
-msgstr "Video codec"
+msgstr "Video apparaat"
 
 #: rc.cpp:494 rc.cpp:1826
-#, fuzzy
 msgid "Video driver:"
 msgstr "Video driver:"
 
 #: rc.cpp:1136 rc.cpp:2468
-#, fuzzy
 msgid "Video index"
 msgstr "Video index"
 
 #: src/customtrackview.cpp:4427
-#, fuzzy
 msgid "Video only"
-msgstr "Video afspeel programma"
+msgstr "Alleen video"
 
 #: rc.cpp:710 rc.cpp:2042
-#, fuzzy
 msgid "Video player"
-msgstr "Video afspeel programma"
+msgstr "Video speler"
 
 #: rc.cpp:470 rc.cpp:1802
-#, fuzzy
 msgid "Video track"
 msgstr "Video sporen/tracks"
 
 #: rc.cpp:1298 rc.cpp:1511 rc.cpp:2630 rc.cpp:2843
-#, fuzzy
 msgid "Video tracks"
 msgstr "Video sporen/tracks"
 
 #: rc.cpp:485 rc.cpp:1520 rc.cpp:1550 rc.cpp:1817 rc.cpp:2852 rc.cpp:2882
-#, fuzzy
 msgid "Video4Linux"
 msgstr "Video4Linux"
 
 #: rc.cpp:3170
-#, fuzzy
 msgid "View"
 msgstr "Bekijk"
 
 #: rc.cpp:249
-#, fuzzy
 msgid "Vinyl"
 msgstr "Vinyl"
 
 #: src/projectitem.cpp:213
-#, fuzzy
 msgid "Virtual clip"
 msgstr "Virtuele clip"
 
 #: rc.cpp:441
-#, fuzzy
 msgid "Volume (keyframable)"
-msgstr "Verwijder keyframe"
+msgstr "Volume (keyframable)"
 
 #: rc.cpp:644 rc.cpp:1976
-#, fuzzy
 msgid "W"
 msgstr "W"
 
 #: src/renderwidget.cpp:669 src/renderwidget.cpp:1184
 #: src/renderwidget.cpp:1353
-#, fuzzy
 msgid "Waiting..."
-msgstr "Aan het opnemen..."
+msgstr "Wachtend"
 
 #: rc.cpp:491 rc.cpp:1823
-#, fuzzy
 msgid ""
 "Warning: changes to the drivers and devices can make Kdenlive unstable. "
 "Change only if you know what you do."
@@ -4965,298 +4098,246 @@ msgstr ""
 "maken. Verander dit alleen als u weet wat u doet."
 
 #: rc.cpp:447
-#, fuzzy
 msgid "Wave"
 msgstr "Golf"
 
 #: rc.cpp:261
-#, fuzzy
 msgid "Wear"
 msgstr "Draag"
 
 #: src/renderwidget.cpp:948
-#, fuzzy
 msgid "Web sites"
 msgstr "Web sites"
 
 #: src/wizard.cpp:42
-#, fuzzy
 msgid "Welcome"
 msgstr "Welkom"
 
 #: rc.cpp:130
-#, fuzzy
 msgid "White Balance"
 msgstr "Wit balans"
 
 #: rc.cpp:335 rc.cpp:554 rc.cpp:1886
-#, fuzzy
 msgid "Width"
 msgstr "Breedte"
 
 #: rc.cpp:415
-#, fuzzy
 msgid "Window"
-msgstr "Zoek"
+msgstr "Venster"
 
 #: rc.cpp:638 rc.cpp:1970
-#, fuzzy
 msgid "X"
 msgstr "X"
 
 #: src/kdenlivesettingsdialog.cpp:225
-#, fuzzy
 msgid "X11"
 msgstr "X11"
 
 #: rc.cpp:605 rc.cpp:617 rc.cpp:1937 rc.cpp:1949
-#, fuzzy
 msgid "X:"
 msgstr "X:"
 
 #: src/kdenlivesettingsdialog.cpp:226
-#, fuzzy
 msgid "XFree86 DGA 2.0"
 msgstr "XFREE86 DGA 2.0"
 
 #: src/kdenlivesettingsdialog.cpp:224
-#, fuzzy
 msgid "XVideo"
 msgstr "XVideo"
 
 #: rc.cpp:641 rc.cpp:1973
-#, fuzzy
 msgid "Y"
 msgstr "Y"
 
 #: rc.cpp:608 rc.cpp:620 rc.cpp:1940 rc.cpp:1952
-#, fuzzy
 msgid "Y:"
 msgstr "Y:"
 
 #: rc.cpp:253
-#, fuzzy
 msgid "Year"
 msgstr "Jaar"
 
 #: src/kdenlivedoc.cpp:526
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "You have changed the project folder. Do you want to copy the cached data "
 "from %1 to the new folder %2?"
 msgstr ""
-"U heeft de projectmap gewijzigd. Wilt U de data in de cache kopieren van %1 "
+"U heeft de project map gewijzigd. Wilt U de data in de cache kopiëren van %1 "
 "naar de nieuwe folder %2?"
 
 #: src/customtrackview.cpp:1950
-#, fuzzy, kde-format
+#, kde-format
 msgid "You must be in an empty space to remove space (time: %1, track: %2)"
 msgstr ""
 "Om ruimte te verwijderen moet u zich in lege ruimte bevinden (tijd=%1, "
 "spoor:%2)"
 
 #: src/customtrackview.cpp:1956
-#, fuzzy, kde-format
+#, kde-format
 msgid "You must be in an empty space to remove space (time=%1, track:%2)"
 msgstr ""
 "Om ruimte te verwijderen moet u zich in lege ruimte bevinden (tijd=%1, "
 "spoor:%2)"
 
 #: src/customtrackview.cpp:3900
-#, fuzzy
 msgid "You must copy exactly one clip before pasting effects"
-msgstr "U moet exact een (1) clip kopieren voor u effecten plakt"
+msgstr "U moet exact één clip kopiëren voor u effecten plakt"
 
 #: src/customtrackview.cpp:3979 src/customtrackview.cpp:4004
-#, fuzzy
 #: src/customtrackview.cpp:4328 src/customtrackview.cpp:4423
 #: src/customtrackview.cpp:4448 src/customtrackview.cpp:4473
 msgid "You must select one clip for this action"
-msgstr "U moet een (1) clip selecteren voor deze actie"
+msgstr "U moet één clip selecteren voor deze actie"
 
 #: src/customtrackview.cpp:4225
-#, fuzzy
 msgid "You must select one transition for this action"
-msgstr "U moet een (1) clip selecteren voor deze actie"
+msgstr "U moet één clip selecteren voor deze actie"
 
 #: src/dvdwizard.cpp:558
-#, fuzzy, kde-format
+#, kde-format
 msgid "You need program <b>%1</b> to perform this action"
 msgstr ""
 "U heeft het programma <b>%1</b> nodig om deze actie uit te kunnen voeren"
 
 #: src/wizard.cpp:45
-#, fuzzy
 msgid ""
 "Your Kdenlive version was upgraded. Please take some time to review the "
 "basic settings"
 msgstr ""
-"Uw Kdenlive versie werd bijgewerkt (upgraded). Kijk a.u.b. even opnieuw naar "
-"uw standaard instellingen"
+"Uw Kdenlive versie werd bijgewerkt. Controleer even uw standaard instellingen"
 
 #: rc.cpp:650 rc.cpp:1982
-#, fuzzy
 msgid "Z-Index:"
 msgstr "Z-Index:"
 
 #: src/mainwindow.cpp:779
-#, fuzzy
 msgid "Zoom In"
-msgstr "Zoom:"
+msgstr "Zoom in"
 
 #: src/mainwindow.cpp:784
-#, fuzzy
 msgid "Zoom Out"
-msgstr "Zoom:"
+msgstr "Zoom uit"
 
 #: rc.cpp:590 rc.cpp:1922
-#, fuzzy
 msgid "Zoom:"
 msgstr "Zoom:"
 
 #: rc.cpp:467 rc.cpp:1799
-#, fuzzy
 msgid "after"
-msgstr "Roteren:"
+msgstr "na"
 
 #: rc.cpp:464 rc.cpp:1796
-#, fuzzy
 msgid "before"
 msgstr "voor"
 
 #: rc.cpp:926 rc.cpp:2258
-#, fuzzy
 msgid "create new points"
 msgstr "nieuwe punten instellen"
 
 #: src/dvdwizardvob.cpp:54
-#, fuzzy
 msgid "dvdauthor"
 msgstr "dvdauthor"
 
 #: src/recmonitor.cpp:181
-#, fuzzy
 msgid ""
 "dvgrab utility not found,\n"
 " please install it for firewire capture"
 msgstr ""
-"dvgrab toepassing niet gevonden,\n  installeer deze a.u.b. voor firewire "
-"capture"
+"dvgrab toepassing niet gevonden,\n  installeer deze voor firewire opname"
 
 #: src/kdenlivesettingsdialog.cpp:164
-#, fuzzy, kde-format
+#, kde-format
 msgid "dvgrab version %1 at %2"
 msgstr "dvgrab versie %1 op %2"
 
 #: src/addeffectcommand.cpp:37 src/editeffectcommand.cpp:39
-#, fuzzy
 #: src/customtrackview.cpp:1245 src/customtrackview.cpp:1281
 #: src/edittransitioncommand.cpp:35
 msgid "effect"
 msgstr "effect"
 
 #: src/timecode.cpp:158
-#, fuzzy
 msgid "frames"
 msgstr "frames"
 
 #: src/mainwindow.cpp:628
-#, fuzzy
 msgid "hh:mm:ss::ff"
 msgstr "uu:mm:ss::ff"
 
 #: src/timecode.cpp:137
-#, fuzzy
 msgid "hour"
 msgstr "uur"
 
 #: src/managecapturesdialog.cpp:43
-#, fuzzy
 msgid "import"
-msgstr "importeren"
+msgstr "importeer"
 
 #: src/timecode.cpp:145
-#, fuzzy
 msgid "min."
 msgstr "min."
 
 #: src/dvdwizardvob.cpp:55
-#, fuzzy
 msgid "mkisofs"
 msgstr "mkisofs"
 
 #: rc.cpp:908 rc.cpp:2240
-#, fuzzy
 msgid "move on X axis"
 msgstr "op X as verschuiven"
 
 #: rc.cpp:914 rc.cpp:2246
-#, fuzzy
 msgid "move on Y axis"
 msgstr "op Y as verschuiven"
 
 #: rc.cpp:1574 rc.cpp:2906
-#, fuzzy
 msgid "oss"
 msgstr "oss"
 
 #: rc.cpp:935 rc.cpp:2267
-#, fuzzy
 msgid "parameter description"
 msgstr "Parameter beschrijving"
 
 #: rc.cpp:1220 rc.cpp:2552
-#, fuzzy
 msgid "save"
 msgstr "Opslaan"
 
 #: src/renderwidget.cpp:585 src/renderwidget.cpp:588
-#, fuzzy
 msgid "script"
-msgstr "Beschrijving"
+msgstr "script"
 
 #: src/timecode.cpp:153
-#, fuzzy
 msgid "sec."
 msgstr "sec."
 
 #: src/abstractclipitem.cpp:318
-#, fuzzy
 msgid "seconds"
-msgstr "Seconden"
+msgstr "seconden"
 
 #: rc.cpp:1418 rc.cpp:2750
-#, fuzzy
 msgid "to"
 msgstr "naar"
 
 #: rc.cpp:920 rc.cpp:2252
-#, fuzzy
 msgid "update values in timeline"
 msgstr "Waarden in tijdbalk actualiseren"
 
 #: rc.cpp:1577 rc.cpp:2909
-#, fuzzy
 msgid "video4linux2"
 msgstr "video4linux2"
 
 #: rc.cpp:836 rc.cpp:2168
-#, fuzzy
 msgid "with track"
-msgstr "Geluid sporen"
+msgstr "met spoor"
 
 #: rc.cpp:740 rc.cpp:2072
-#, fuzzy
 msgid "x"
 msgstr "x"
 
 #: rc.cpp:632 rc.cpp:1964
-#, fuzzy
 msgid "x1"
 msgstr "x1"
 
 #: src/wizard.cpp:471
-#, fuzzy
 msgid ""
 "your MLT installation cannot be found. Install MLT and restart Kdenlive.\n"
 msgstr ""
