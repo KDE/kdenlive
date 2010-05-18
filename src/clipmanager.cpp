@@ -40,7 +40,6 @@ ClipManager::ClipManager(KdenliveDoc *doc) :
         QObject(),
         m_audioThumbsQueue(),
         m_doc(doc),
-        m_audioThumbsEnabled(false),
         m_generatingAudioId()
 {
     m_clipIdCounter = 1;
@@ -70,18 +69,20 @@ void ClipManager::clear()
 
 void ClipManager::checkAudioThumbs()
 {
-    if (m_audioThumbsEnabled == KdenliveSettings::audiothumbnails()) return;
-    m_audioThumbsEnabled = KdenliveSettings::audiothumbnails();
-    for (int i = 0; i < m_clipList.count(); i++) {
-        if (m_audioThumbsEnabled) m_audioThumbsQueue.append(m_clipList.at(i)->getId());
-        else m_clipList.at(i)->slotClearAudioCache();
-    }
-    if (m_audioThumbsEnabled) {
-        if (m_generatingAudioId.isEmpty()) startAudioThumbsGeneration();
-    } else {
+    if (!KdenliveSettings::audiothumbnails()) {
+      if (!m_generatingAudioId.isEmpty()) {
+	    DocClipBase *clip = getClipById(m_generatingAudioId);
+	    if (clip) clip->slotClearAudioCache();
+	}
         m_audioThumbsQueue.clear();
         m_generatingAudioId.clear();
+	return;
     }
+    
+    for (int i = 0; i < m_clipList.count(); i++) {
+        m_audioThumbsQueue.append(m_clipList.at(i)->getId());
+    }
+    if (m_generatingAudioId.isEmpty()) startAudioThumbsGeneration();
 }
 
 void ClipManager::askForAudioThumb(const QString &id)

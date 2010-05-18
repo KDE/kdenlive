@@ -830,9 +830,9 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
         QDomElement e = clip->toXML().cloneNode().toElement();
         e.removeAttribute("file_hash");
         m_infoQueue.insert(clip->getId(), e);
-        clip->askForAudioThumbs();
         //m_render->getFileProperties(clip->toXML(), clip->getId(), true);
     }
+    clip->askForAudioThumbs();
     const QString parent = clip->getProperty("groupid");
     ProjectItem *item = NULL;
     if (!parent.isEmpty()) {

@@ -133,7 +133,6 @@ QPoint DocClipBase::zone() const
 void DocClipBase::slotCreateAudioTimer()
 {
     connect(m_thumbProd, SIGNAL(audioThumbReady(QMap <int, QMap <int, QByteArray> >)), this , SLOT(updateAudioThumbnail(QMap <int, QMap <int, QByteArray> >)));
-    connect(this, SIGNAL(getAudioThumbs()), this , SLOT(slotGetAudioThumbs()));
     m_audioTimer = new QTimer(this);
     connect(m_audioTimer, SIGNAL(timeout()), this, SLOT(slotGetAudioThumbs()));
 }

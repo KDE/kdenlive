@@ -118,7 +118,6 @@ private:   // Private attributes
     KdenliveDoc *m_doc;
     int m_clipIdCounter;
     int m_folderIdCounter;
-    bool m_audioThumbsEnabled;
     QString m_generatingAudioId;
     KDirWatch m_fileWatcher;
 

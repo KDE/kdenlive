@@ -265,7 +265,6 @@ public slots:
 
 
 signals:
-    void getAudioThumbs();
     void gotAudioData();
 };
 
