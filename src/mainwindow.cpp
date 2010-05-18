@@ -844,7 +844,7 @@ void MainWindow::setupActions()
     actionWidget->setStyleSheet(styleBorderless);
 
     connect(m_zoomSlider, SIGNAL(valueChanged(int)), this, SLOT(slotSetZoom(int)));
-    connect(m_zoomSlider, SIGNAL(sliderMoved(int)), this, SLOT(slotShowZoomSliderToolTip(int))); 
+    connect(m_zoomSlider, SIGNAL(sliderMoved(int)), this, SLOT(slotShowZoomSliderToolTip(int)));
     connect(m_buttonFitZoom, SIGNAL(triggered()), this, SLOT(slotFitZoom()));
     connect(m_zoomIn, SIGNAL(triggered(bool)), this, SLOT(slotZoomIn()));
     connect(m_zoomOut, SIGNAL(triggered(bool)), this, SLOT(slotZoomOut()));
@@ -2576,7 +2576,7 @@ void MainWindow::slotSetZoom(int value)
 
     m_zoomOut->setEnabled(value < m_zoomSlider->maximum());
     m_zoomIn->setEnabled(value > m_zoomSlider->minimum());
-    slotUpdateZoomSliderToolTip(value); 
+    slotUpdateZoomSliderToolTip(value);
 
     m_zoomSlider->blockSignals(true);
     m_zoomSlider->setValue(value);
@@ -2591,7 +2591,7 @@ void MainWindow::slotShowZoomSliderToolTip(int zoomlevel)
     QPoint global = m_zoomSlider->rect().topLeft();
     global.ry() += m_zoomSlider->height() / 2;
     QHelpEvent toolTipEvent(QEvent::ToolTip, QPoint(0, 0), m_zoomSlider->mapToGlobal(global));
-    QApplication::sendEvent(m_zoomSlider, &toolTipEvent); 
+    QApplication::sendEvent(m_zoomSlider, &toolTipEvent);
 }
 
 void MainWindow::slotUpdateZoomSliderToolTip(int zoomlevel)

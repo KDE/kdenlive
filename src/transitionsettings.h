@@ -51,6 +51,8 @@ public slots:
     void slotUpdateEffectParams(const QDomElement&, const QDomElement&);
 
 private slots:
+
+    /** @brief Sets the new B track for the transition (automatic or forced). */
     void slotTransitionTrackChanged();
 
 signals:

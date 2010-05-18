@@ -15,6 +15,12 @@
  *                                                                         *
  ***************************************************************************/
 
+/**
+ * @class Transition
+ * @author Jean-Baptiste Mardelle
+ * @brief Describes a transition with a name, parameters, keyframes, etc.
+ */
+
 #ifndef TRANSITION_H
 #define TRANSITION_H
 
@@ -27,11 +33,6 @@
 #include "gentime.h"
 #include "definitions.h"
 #include "abstractclipitem.h"
-
-
-/**Describes a Transition, with a name, parameters keyframes, etc.
-  *@author Jean-Baptiste Mardelle
-  */
 
 class ClipItem;
 
@@ -46,10 +47,11 @@ public:
                        const QStyleOptionGraphicsItem *option,
                        QWidget *widget);
     virtual int type() const;
-    /** Returns an XML representation of this transition. */
+
+    /** @brief Returns an XML representation of this transition. */
     QDomElement toXML();
 
-    /** Return the track number of transition in the playlist*/
+    /** @brief Returns the track number of the transition in the playlist. */
     int transitionEndTrack() const;
     bool hasClip(const ClipItem * clip) const;
     bool belongsToClip(const ClipItem * clip) const;
@@ -63,7 +65,10 @@ public:
     void setTransitionTrack(int track);
     //Transition *reparent(ClipItem * clip);
     bool isValid() const;
-    /** Transition should be linked to another track */
+
+    /** @brief Links the transition to another track.
+     *
+     * This happens only if the current track is not forced. */
     void updateTransitionEndTrack(int newtrack);
     void setForcedTrack(bool force, int track);
     bool forcedTrack() const;
@@ -81,21 +86,23 @@ private:
     QString m_name;
     bool m_forceTransitionTrack;
 
-    /** true if the transition was added automatically and should be moved with its clip */
+    /** @brief True if the transition is attached to its clip. */
     bool m_automaticTransition;
-    /** contains the transition parameters */
+
+    /** @brief Contains the transition parameters. */
     QDomElement m_parameters;
-    /** The clip to which the transition is attached */
+
+    /** @brief The clip to which the transition is attached. */
     ClipItem *m_referenceClip;
 
-    /** The 2nd clip to which the transition is attached */
+    /** @brief The second clip to which the transition is attached. */
     ClipItem *m_secondClip;
     int m_transitionTrack;
 
-    /** Return the display name for a transition type */
+    /** @brief Returns the display name for a transition type. */
     QString getTransitionName(const TRANSITIONTYPE & type);
 
-    /** Return the transition type for a given name */
+    /** @brief Returns the transition type for a given name. */
     TRANSITIONTYPE getTransitionForName(const QString & type);
 
 #if QT_VERSION >= 0x040600

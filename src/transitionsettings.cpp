@@ -123,13 +123,12 @@ void TransitionSettings::slotTransitionTrackChanged()
         ix = transitionTrack->itemData(transitionTrack->currentIndex()).toInt();
         m_usedTransition->setForcedTrack(true, ix);
         m_effectEdit->updateParameter("force_track", "1");
-        emit transitionUpdated(m_usedTransition, oldxml);
     } else {
         ix = m_autoTrackTransition;
         m_usedTransition->setForcedTrack(false, ix);
         m_effectEdit->updateParameter("force_track", "0");
-        emit transitionUpdated(m_usedTransition, oldxml);
     }
+    emit transitionUpdated(m_usedTransition, oldxml);
     m_effectEdit->updateParameter("transition_btrack", QString::number(ix));
 }
 
