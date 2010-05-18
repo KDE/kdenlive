@@ -104,9 +104,9 @@ bool DocumentChecker::hasMissingClips()
     QDomNodeList trans = m_doc.elementsByTagName("transition");
     for (int i = 0; i < trans.count(); i++) {
         QString luma = getProperty(trans.at(i).toElement(), "luma");
-        if (!luma.startsWith('/')) luma.prepend(root);
-        if (!luma.isEmpty() && !QFile::exists(luma)) {
-            if (!missingLumas.contains(luma)) {
+        if (!luma.isEmpty()) {
+	    if (!luma.startsWith('/')) luma.prepend(root);
+	    if (!QFile::exists(luma) && !missingLumas.contains(luma)) {
                 missingLumas.append(luma);
             }
         }
