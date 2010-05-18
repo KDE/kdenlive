@@ -32,43 +32,33 @@ int main(int argc, char **argv)
     QStringList preargs;
     int in = -1;
     int out = -1;
-    if (!args.isEmpty()) args.takeFirst();
-    if (args.count() >= 4) {
+    if (args.count() >= 7) {
+        // Remove program name
+        args.removeFirst();
+        
         bool erase = false;
         if (args.at(0) == "-erase") {
             erase = true;
-            args.takeFirst();
+            args.removeFirst();
         }
         bool usekuiserver = false;
         if (args.at(0) == "-kuiserver") {
             usekuiserver = true;
-            args.takeFirst();
+            args.removeFirst();
         }
-        if (args.at(0).startsWith("in=")) {
-            in = args.at(0).section('=', -1).toInt();
-            args.takeFirst();
-        }
-        if (args.at(0).startsWith("out=")) {
-            out = args.at(0).section('=', -1).toInt();
-            args.takeFirst();
-        }
-        if (args.at(0).startsWith("preargs=")) {
-            QString a = args.at(0).section('=', 1);
-            preargs = a.split(' ', QString::SkipEmptyParts);
-            args.takeFirst();
-        }
-        QString render = args.at(0);
-        args.takeFirst();
-        QString profile = args.at(0);
-        args.takeFirst();
-        QString rendermodule = args.at(0);
-        args.takeFirst();
-        QString player = args.at(0);
-        args.takeFirst();
-        QString src = args.at(0);
-        args.takeFirst();
-        QString dest = args.at(0);
-        args.takeFirst();
+        if (args.at(0).startsWith("in="))
+            in = args.takeFirst().section('=', -1).toInt();
+        if (args.at(0).startsWith("out="))
+            out = args.takeFirst().section('=', -1).toInt();
+        if (args.at(0).startsWith("preargs="))
+            preargs = args.takeFirst().section('=', 1).split(' ', QString::SkipEmptyParts);
+
+        QString render = args.takeFirst();
+        QString profile = args.takeFirst();
+        QString rendermodule = args.takeFirst();
+        QString player = args.takeFirst();
+        QString src = args.takeFirst();
+        QString dest = args.takeFirst();
         bool dualpass = false;
         bool doerase;
         if (args.contains("pass=2")) {

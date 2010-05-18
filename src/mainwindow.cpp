@@ -663,7 +663,6 @@ void MainWindow::slotUpdateClip(const QString &id)
 
 void MainWindow::slotConnectMonitors()
 {
-
     m_projectList->setRenderer(m_projectMonitor->render);
     //connect(m_projectList, SIGNAL(receivedClipDuration(const QString &)), this, SLOT(slotUpdateClip(const QString &)));
     connect(m_projectList, SIGNAL(deleteProjectClips(QStringList, QMap<QString, QString>)), this, SLOT(slotDeleteProjectClips(QStringList, QMap<QString, QString>)));
@@ -2596,7 +2595,7 @@ void MainWindow::slotShowZoomSliderToolTip(int zoomlevel)
 
 void MainWindow::slotUpdateZoomSliderToolTip(int zoomlevel)
 {
-    m_zoomSlider->setToolTip(i18n("Zoom Level: %1/13", zoomlevel));
+    m_zoomSlider->setToolTip(i18n("Zoom Level: %1/13", (13 - zoomlevel)));
 }
 
 void MainWindow::slotGotProgressInfo(const QString &message, int progress)
