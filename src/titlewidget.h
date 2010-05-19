@@ -18,7 +18,6 @@
 #ifndef TITLEWIDGET_H
 #define TITLEWIDGET_H
 
-
 #include "ui_titlewidget_ui.h"
 #include "titledocument.h"
 #include "renderer.h"
@@ -57,56 +56,68 @@ class TitleWidget : public QDialog , public Ui::TitleWidget_UI
     Q_OBJECT
 
 public:
-    /** \brief Constructor
-     * \param projectPath Path to use when user requests loading or saving of titles as .kdenlivetitle documents */
+
+    /** @brief Draws the dialog and loads a title document (if any).
+     * @param url title document to load
+     * @param tc timecode of the project
+     * @param projectPath default path to save to or load from title documents
+     * @param render project renderer
+     * @param parent (optional) parent widget */
     TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render *render, QWidget *parent = 0);
     virtual ~TitleWidget();
     QDomDocument xml();
     void setXml(QDomDocument doc);
 
-    /** \brief Find first available filename of the form titleXXX.png in projectUrl + "/titles/" directory
-    * \param projectUrl Url to directory of project.
-     * \returns A list, with the name in the form of "/path/to/titles/titleXXX" as the first element, the extension
-     * ".png" as the second element.
+    /** @brief Finds the first available file name for a title document.
+     * @deprecated With the titler module there's no need to save titles as images.
+     * @param projectUrl project directory
+     * @param isClone (optional) if true, the file name will be cloneXXX.png
+     * @return list with title name (Title XXX or Clone XXX) and file name
      *
-     * The path "/titles/" is appended to projectUrl to locate the actual directory that contains the title pngs. */
+     * The path "/titles/" is appended to projectUrl, and the format of the file name is (title|clone)XXX.png. */
     static QStringList getFreeTitleInfo(const KUrl &projectUrl, bool isClone = false);
 
-    /** \brief Return a list af all images included in a title
-     * \param xml The xml data for title
-    */
+    /** @brief Checks for the images referenced by a title clip.
+     * @param xml XML data representing the title
+     * @return list of the image files */
     static QStringList extractImageList(QString xml);
 
-    /** \brief Return a list af all fonts included in a title
-     * \param xml The xml data for title
-    */
+    /** @brief Checks for the fonts referenced by a title clip.
+     * @param xml XML data representing the title
+     * @return list of the fonts */
     static QStringList extractFontList(QString xml);
 
-    /** \brief Build a filename from a projectUrl and a titleName
-     * \param projectUrl Url to directory of project.
-     * \param titleName Name of title, on the form "titleXXX"
+    /** @brief Builds a file name for a title document.
+     * @deprecated With the titler module there's no need to save titles as images.
+     * @param projectUrl project directory
+     * @param titleName name of title, in the form titleXXX
+     * @return file name composed with the given arguments
      *
-     * The path "/titles/" is appended to projectUrl to build the directoryname, then .pgn is appended to
-     * get the filename. It is not checked that the title png actually exists, only the name is build and
-     * returned. */
+     * The path "/titles/" is appended to projectUrl, and .png is appended to
+     * get the file name. There is no check for the existence of the file. */
     static QString getTitleResourceFromName(const KUrl &projectUrl, const QString &titleName);
 
-    /** \brief Get clip out position. */
+    /** @brief Returns clip out position. */
     int outPoint() const;
-    /** load Title Templates*/
+
+    /** @brief Loads title templates. */
     static void refreshTitleTemplates();
 
 protected:
     virtual void resizeEvent(QResizeEvent * event);
 
 private:
-    /** \brief Rectangle describing animation start viewport */
+
+    /** @brief Rectangle describing the animation start viewport. */
     QGraphicsRectItem *m_startViewport;
-    /** \brief Rectangle describing animation end viewport */
+
+    /** @brief Rectangle describing the animation end viewport. */
     QGraphicsRectItem *m_endViewport;
-    /** \brief Scene for the titler */
+
+    /** @brief Scene for the titler. */
     GraphicsSceneRectMove *m_scene;
-    /** \brief Initialize the animation properties (viewport size,...) */
+
+    /** @brief Initialises the animation properties (viewport size, etc.). */
     void initAnimation();
     QMap<QGraphicsItem*, Transform > m_transformations;
     TitleDocument m_titledocument;
@@ -129,33 +140,38 @@ private:
     QAction *m_zTop;
     QAction *m_zBottom;
 
-    /** \brief Dialog for entering unicode in text fields */
+    /** @brief Dialog for entering Unicode characters in text fields. */
     UnicodeDialog *m_unicodeDialog;
-    /** project path for storing title clips */
+
+    /** @brief Project path for storing title documents. */
     QString m_projectTitlePath;
     Timecode m_tc;
     QString lastDocumentHash;
 
-    /** See http://doc.trolltech.com/4.5/signalsandslots.html#advanced-signals-and-slots-usage */
+    // See http://doc.trolltech.com/4.5/signalsandslots.html#advanced-signals-and-slots-usage.
     QSignalMapper *m_signalMapper;
 
     enum ValueType { ValueWidth = 0, ValueHeight = 1 };
 
-    /** \brief Sets the font weight value in the combo box. (#909) */
+    /** @brief Sets the font weight value in the combo box. (#909) */
     void setFontBoxWeight(int weight);
 
-    /** \brief Store the current choices of font, background and rect values */
+    /** @brief Stores the choices of font, background and rectangle values. */
     void writeChoices();
-    /** \brief Read the last stored choices into the dialog */
+
+    /** @brief Reads the last stored choices into the dialog. */
     void readChoices();
-    /** \brief Update the displayed X/Y coordinate values */
+
+    /** @brief Updates the displayed X/Y coordinates. */
     void updateCoordinates(QGraphicsItem *i);
-    /** \brief Update displayed width/height values */
+
+    /** @brief Updates the displayed width/height values. */
     void updateDimension(QGraphicsItem *i);
-    /** \brief Update displayed rotation/zoom values */
+
+    /** @brief Updates the displayed rotation/zoom values. */
     void updateRotZoom(QGraphicsItem *i);
 
-    /** \brief Update the item's position */
+    /** @brief Updates the item position. */
     void updatePosition(QGraphicsItem *i);
 
     void textChanged(QGraphicsTextItem *i);
@@ -164,27 +180,32 @@ private:
     void updateTextOriginX();
     void updateTextOriginY();
 
-    /** \brief Enables the toolbars suiting to toolType */
+    /** @brief Enables the toolbars suiting to toolType. */
     void enableToolbars(TITLETOOL toolType);
-    /** \brief Shows the toolbars suiting to toolType */
+
+    /** @brief Shows the toolbars suiting to toolType. */
     void showToolbars(TITLETOOL toolType);
-    /** \brief Check a tool button. */
+
+    /** @brief Checks a tool button. */
     void checkButton(TITLETOOL toolType);
 
     void adjustFrameSize();
-    /** \brief Add a "start" and "end" info text to the animation viewports */
+
+    /** @brief Adds a "start" and "end" info text to the animation viewports. */
     void addAnimInfoText();
-    /** \brief Update font for the "start" and "end" info text */
+
+    /** @brief Updates the font for the "start" and "end" info text. */
     void updateInfoText();
-    /** \brief Remove the "start" and "end" info text from animation viewports */
+
+    /** @brief Removes the "start" and "end" info text from animation viewports. */
     void deleteAnimInfoText();
 
     qreal maxZIndex();
-    /**
-     * \brief Get the minimum/maximum z index value of items.
-     * \param maxBound true: Use maximum z index. false: Use minimum
-     * \param intersectingOnly Only considers the items intersecting with
-     * the currently selected item if true.
+
+    /** @brief Gets the minimum/maximum Z index of items.
+     * @param maxBound true: use maximum Z index; false: use minimum
+     * @param intersectingOnly if true, consider only the items intersecting
+     *     with the currently selected item
      */
     qreal zIndexBounds(bool maxBound, bool intersectingOnly);
 
@@ -194,6 +215,8 @@ public slots:
     void slotNewText(QGraphicsTextItem *tt);
     void slotNewRect(QGraphicsRectItem *rect);
     void slotChangeBackground();
+
+    /** @brief Sets up the tools according to the selected item. */
     void selectionChanged();
     void rectChanged();
     void setupViewports();
@@ -206,25 +229,23 @@ public slots:
     void loadTitle(KUrl url = KUrl());
 
 private slots:
+
+    /** @brief Updates position/size of the selected item when a value changes. */
     void slotAdjustSelectedItem();
 
-    /**
-     * \brief Switches the origin of the x axis between left and right
-     * border of the frame (offset from left/right frame border)
-     * \param originLeft Take left border?
+    /** @brief Switches the origin of the X axis between left and right border.
      *
-     * Called when the origin of the x coorinate has been changed. The
-     * x origin will either be at the left or at the right side of the frame.
+     * It's called when the origin of the X coordinate has been changed. The X
+     * origin will either be at the left or at the right side of the frame.
      *
-     * When the origin of the x axis is at the left side, the user can
-     * enter the distance between an element's left border and the left
-     * side of the frame.
+     * When the origin of the X axis is at the left side, the user can enter the
+     * distance between an element's left border and the left side of the frame.
      *
-     * When on the right, the distance from the right border of the
-     * frame to the right border of the element can be entered. This
-     * would result in negative values as long as the element's right
-     * border is at the left of the frame's right border. As that is
-     * usually the case, I additionally invert the x axis.
+     * When on the right, the distance from the right border of the frame to the
+     * right border of the element can be entered. This would result in negative
+     * values as long as the element's right border is at the left of the
+     * frame's right border. As that is usually the case, I additionally invert
+     * the X axis.
      *
      * Default value is left.
      *
@@ -241,17 +262,19 @@ private slots:
      * To calculate between the two coorindate systems:
      * l = m_frameWidth - w - r
      * r = m_frameWidth - w - l
-     *
      */
     void slotOriginXClicked();
-    /** \brief Same as slotOriginYChanged, but for the Y axis; default is top.
-     *  \param originTop Take top border? */
+
+    /** @brief Same as slotOriginXClicked(), but for the Y axis; default is top.
+     * @ref slotOriginXClicked */
     void slotOriginYClicked();
 
-    /** \brief Update coorinates of text fields if necessary and text has changed */
+    /** @brief Updates coordinates of text fields if necessary.
+     *
+     * It's called when something changes in the QGraphicsScene. */
     void slotChanged();
 
-    /** \param valueType Of type ValueType */
+    /** @param valueType of type ValueType */
     void slotValueChanged(int valueType);
 
     void slotZoom(bool up);
@@ -286,23 +309,30 @@ private slots:
     void slotResize100();
     void slotResize200();
 
-    /** \brief Called when accepted, stores the user selections for next time use */
+    /** @brief Called when accepted, stores user selections for next time use.
+     * @ref writeChoices */
     void slotAccepted();
 
     void slotFontText(const QString& s);
 
+    /** @brief Adds an effect to an element.
+     * @param ix index of the effect in the effects menu
+     *
+     * The current implementation allows for one QGraphicsEffect to be added
+     * along with the typewriter effect. This is not clear to the user: the
+     * stack would help, and would permit us to make more QGraphicsEffects
+     * coexist (with different layers of QGraphicsItems). */
     void slotAddEffect(int ix);
     void slotEditBlur(int ix);
     void slotEditShadow();
     void slotEditTypewriter(int ix);
 
-    /** \brief Changes the z index of objects. */
+    /** @brief Changes the Z index of objects. */
     void slotZIndexUp();
     void slotZIndexDown();
     void slotZIndexTop();
     void slotZIndexBottom();
     void templateIndexChanged(int);
 };
-
 
 #endif

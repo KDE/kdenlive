@@ -848,6 +848,7 @@ void TitleWidget::selectionChanged()
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     //toolBox->setItemEnabled(2, false);
     //toolBox->setItemEnabled(3, false);
+    effect_list->blockSignals(true);
     value_x->blockSignals(true);
     value_y->blockSignals(true);
     value_w->blockSignals(true);
@@ -925,15 +926,11 @@ void TitleWidget::selectionChanged()
                         }
                     }
                 } else {
-                    effect_list->blockSignals(true);
                     effect_list->setCurrentIndex(effect_list->findData((int) NOEFFECT));
-                    effect_list->blockSignals(false);
                     effect_stack->setHidden(true);
                 }
 #else
-                effect_list->blockSignals(true);
                 effect_list->setCurrentIndex(effect_list->findData((int) NOEFFECT));
-                effect_list->blockSignals(false);
                 effect_stack->setHidden(true);
 #endif
             }
@@ -1067,6 +1064,9 @@ void TitleWidget::selectionChanged()
         itemrotatey->blockSignals(false);
         itemrotatez->blockSignals(false);
     }
+    // Tools working on more than one element.
+    if (l.size() > 0)
+        effect_list->blockSignals(false);
 }
 
 void TitleWidget::slotValueChanged(int type)
@@ -1125,8 +1125,6 @@ void TitleWidget::slotValueChanged(int type)
     }
 }
 
-/** \brief Updates position/size of the selected item when a value
- * of an item (coordinates, size) has changed */
 void TitleWidget::slotAdjustSelectedItem()
 {
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
@@ -1146,7 +1144,6 @@ void TitleWidget::slotAdjustSelectedItem()
     }
 }
 
-/** \brief Updates width/height int the text fields, regarding transformation matrix */
 void TitleWidget::updateDimension(QGraphicsItem *i)
 {
     value_w->blockSignals(true);
@@ -1181,7 +1178,6 @@ void TitleWidget::updateDimension(QGraphicsItem *i)
     value_h->blockSignals(false);
 }
 
-/** \brief Updates the coordinates in the text fields from the item */
 void TitleWidget::updateCoordinates(QGraphicsItem *i)
 {
     // Block signals emitted by this method
@@ -1269,7 +1265,6 @@ void TitleWidget::updateRotZoom(QGraphicsItem *i)
     itemrotatez->blockSignals(false);
 }
 
-/** \brief Updates the position of an item by reading coordinates from the text fields */
 void TitleWidget::updatePosition(QGraphicsItem *i)
 {
     if (i->type() == TEXTITEM) {
@@ -1277,10 +1272,10 @@ void TitleWidget::updatePosition(QGraphicsItem *i)
 
         int posX;
         if (origin_x_left->isChecked()) {
-            /* Origin of the x axis is at m_frameWidth,
-             * and distance from right border of the item to the right
-             * border of the frame is taken.
-             * See comment to slotOriginXClicked().
+            /*
+             * Origin of the X axis is at m_frameWidth, and distance from right
+             * border of the item to the right border of the frame is taken. See
+             * comment to slotOriginXClicked().
              */
             posX = m_frameWidth - value_x->value() - rec->boundingRect().width();
         } else {
@@ -1421,9 +1416,6 @@ void TitleWidget::slotChangeBackground()
     m_frameBorder->setBrush(QBrush(color));
 }
 
-/**
- * Something (yeah) has changed in our QGraphicsScene.
- */
 void TitleWidget::slotChanged()
 {
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
@@ -1432,30 +1424,28 @@ void TitleWidget::slotChanged()
     }
 }
 
-/**
- * If the user has set origin_x_left (everything also for y),
- * we need to look whether a text element has been selected. If yes,
- * we need to ensure that the right border of the text field
- * remains fixed also when some text has been entered.
- *
- * This is also known as right-justified, with the difference that
- * it is not valid for text but for its boundingRect. Text may still
- * be left-justified.
- */
 void TitleWidget::textChanged(QGraphicsTextItem *i)
 {
-
+    /*
+     * If the user has set origin_x_left (the same for y), we need to look
+     * whether a text element has been selected. If yes, we need to ensure that
+     * the right border of the text field remains fixed also when some text has
+     * been entered.
+     *
+     * This is also known as right-justified, with the difference that it is not
+     * valid for text but for its boundingRect. Text may still be
+     * left-justified.
+     */
     updateDimension(i);
 
     if (origin_x_left->isChecked() || origin_y_top->isChecked()) {
-
-        if (!i->toPlainText().isEmpty()) {
+        if (!i->toPlainText().isEmpty())
             updatePosition(i);
-        } else {
+        else {
             /*
-             * Don't do anything if the string is empty. If the position
-             * would be updated here, a newly created text field would
-             * be set to the position of the last selected text field.
+             * Don't do anything if the string is empty. If the position were
+             * updated here, a newly created text field would be set to the
+             * position of the last selected text field.
              */
         }
     }
@@ -1857,7 +1847,6 @@ void TitleWidget::setXml(QDomDocument doc)
     selectionChanged();
 }
 
-/** \brief Connected to the accepted signal - calls writeChoices */
 void TitleWidget::slotAccepted()
 {
     if (anim_start->isChecked()) slotAnimStart(false);
@@ -1865,7 +1854,6 @@ void TitleWidget::slotAccepted()
     writeChoices();
 }
 
-/** \brief Store the current choices of font, background and rect values */
 void TitleWidget::writeChoices()
 {
     // Get a pointer to a shared configuration instance, then get the TitleWidget group.
@@ -1898,7 +1886,6 @@ void TitleWidget::writeChoices()
 
 }
 
-/** \brief Read the last stored choices into the dialog */
 void TitleWidget::readChoices()
 {
     // Get a pointer to a shared configuration instance, then get the TitleWidget group.
@@ -2077,7 +2064,6 @@ void TitleWidget::deleteAnimInfoText()
     }
 }
 
-
 void TitleWidget::slotKeepAspect(bool keep)
 {
     if (m_endViewport->zValue() == 1100) {
@@ -2112,40 +2098,47 @@ void TitleWidget::slotResize200()
 
 void TitleWidget::slotAddEffect(int ix)
 {
-    QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
+    QList<QGraphicsItem *> list = graphicsView->scene()->selectedItems();
     int effect = effect_list->itemData(ix).toInt();
-    if (effect == NOEFFECT) {
-        if (l.size() == 1) l[0]->setData(100, QVariant());
+
+    if (list.size() == 1) {
+        if (effect == NOEFFECT)
+            effect_stack->setHidden(true);
+        else {
+            effect_stack->setCurrentIndex(effect - 1);
+            effect_stack->setHidden(false);
+        }
+    } else // Hide the effects stack when more than one element is selected.
         effect_stack->setHidden(true);
-        return;
-    }
-    effect_stack->setCurrentIndex(effect - 1);
-    effect_stack->setHidden(false);
-    if (effect == TYPEWRITEREFFECT) {
-        if (l.size() == 1 && l.at(0)->type() == TEXTITEM) {
-            QStringList effdata = QStringList() << "typewriter" << QString::number(typewriter_delay->value()) + ";" + QString::number(typewriter_start->value());
-            l[0]->setData(100, effdata);
-        }
-    }
-#if QT_VERSION < 0x040600
-    return;
-#else
-    if (effect == BLUREFFECT) {
-        // Blur effect
-        if (l.size() == 1) {
-            QGraphicsEffect *eff = new QGraphicsBlurEffect();
-            l[0]->setGraphicsEffect(eff);
-        }
-    } else if (effect == SHADOWEFFECT) {
-        if (l.size() == 1) {
-            QGraphicsEffect *eff = new QGraphicsDropShadowEffect();
-            l[0]->setGraphicsEffect(eff);
-        }
-    }
 
+    foreach(QGraphicsItem *item, list) {
+        switch (effect) {
+        case NOEFFECT:
+            item->setData(100, QVariant());
+            item->setGraphicsEffect(0);
+            break;
+        case TYPEWRITEREFFECT:
+            /*
+             * Allow the user to set the typewriter effect to more than one
+             * element, but do not add it to non-text elements.
+             */
+            if (item->type() == TEXTITEM) {
+                QStringList effdata = QStringList() << "typewriter" << QString::number(typewriter_delay->value()) + ";" + QString::number(typewriter_start->value());
+                item->setData(100, effdata);
+            }
+            break;
+#if QT_VERSION >= 0x040600
+            // Do not remove the non-QGraphicsEffects.
+        case BLUREFFECT:
+            item->setGraphicsEffect(new QGraphicsBlurEffect());
+            break;
+        case SHADOWEFFECT:
+            item->setGraphicsEffect(new QGraphicsDropShadowEffect());
+            break;
 #endif
+        }
+    }
 }
-
 
 void TitleWidget::slotFontText(const QString& s)
 {
