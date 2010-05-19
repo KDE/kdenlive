@@ -237,6 +237,8 @@ private slots:
     void slotProcessNextThumbnail();
     void slotCheckForEmptyQueue();
     void slotPauseMonitor();
+    /** A clip was modified externally, change icon so that user knows it */
+    void slotModifiedClip(const QString &id);
     void slotMissingClip(const QString &id);
     void slotAvailableClip(const QString &id);
     //void slotShowMenu(const QPoint &pos);

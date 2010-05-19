@@ -29,6 +29,7 @@
 #include <qdom.h>
 #include <QPixmap>
 #include <QObject>
+#include <QTimer>
 
 #include <KUrl>
 #include <KUndoStack>
@@ -103,9 +104,12 @@ public slots:
     void updatePreviewSettings();
 
 private slots:
+    /** A clip was externally modified, monitor for more changes and prepare for reload */
     void slotClipModified(const QString &path);
     void slotClipMissing(const QString &path);
     void slotClipAvailable(const QString &path);
+    /** Check the list of externally modified clips, and process them if they were not modified in the last 1500 milliseconds */
+    void slotProcessModifiedClips();
 
 private:   // Private attributes
     /** the list of clips in the document */
@@ -120,9 +124,14 @@ private:   // Private attributes
     int m_folderIdCounter;
     QString m_generatingAudioId;
     KDirWatch m_fileWatcher;
+    /** Timer used to reload clips when they have been externally modified */
+    QTimer m_modifiedTimer;
+    /** List of the clip IDs that need to be reloaded after being externally modified */
+    QMap <QString, QTime> m_modifiedClips;
 
 signals:
     void reloadClip(const QString &);
+    void modifiedClip(const QString &);
     void missingClip(const QString &);
     void availableClip(const QString &);
     void checkAllClips();

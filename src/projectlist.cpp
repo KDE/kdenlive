@@ -395,6 +395,14 @@ void ProjectList::slotReloadClip(const QString &id)
     }
 }
 
+void ProjectList::slotModifiedClip(const QString &id)
+{
+    ProjectItem *item = getItemById(id);
+    if (item) {
+        item->setData(0, Qt::DecorationRole,  KIcon("view-refresh").pixmap(m_listView->iconSize()));
+    }
+}
+
 void ProjectList::slotMissingClip(const QString &id)
 {
     ProjectItem *item = getItemById(id);
@@ -1165,6 +1173,7 @@ void ProjectList::setDocument(KdenliveDoc *doc)
     m_listView->blockSignals(false);
     m_toolbar->setEnabled(true);
     connect(m_doc->clipManager(), SIGNAL(reloadClip(const QString &)), this, SLOT(slotReloadClip(const QString &)));
+    connect(m_doc->clipManager(), SIGNAL(modifiedClip(const QString &)), this, SLOT(slotModifiedClip(const QString &)));
     connect(m_doc->clipManager(), SIGNAL(missingClip(const QString &)), this, SLOT(slotMissingClip(const QString &)));
     connect(m_doc->clipManager(), SIGNAL(availableClip(const QString &)), this, SLOT(slotAvailableClip(const QString &)));
     connect(m_doc->clipManager(), SIGNAL(checkAllClips()), this, SLOT(updateAllClips()));

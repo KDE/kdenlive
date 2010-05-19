@@ -105,8 +105,8 @@ bool DocumentChecker::hasMissingClips()
     for (int i = 0; i < trans.count(); i++) {
         QString luma = getProperty(trans.at(i).toElement(), "luma");
         if (!luma.isEmpty()) {
-	    if (!luma.startsWith('/')) luma.prepend(root);
-	    if (!QFile::exists(luma) && !missingLumas.contains(luma)) {
+            if (!luma.startsWith('/')) luma.prepend(root);
+            if (!QFile::exists(luma) && !missingLumas.contains(luma)) {
                 missingLumas.append(luma);
             }
         }

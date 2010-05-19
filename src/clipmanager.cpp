@@ -44,9 +44,11 @@ ClipManager::ClipManager(KdenliveDoc *doc) :
 {
     m_clipIdCounter = 1;
     m_folderIdCounter = 1;
+    m_modifiedTimer.setInterval(1500);
     connect(&m_fileWatcher, SIGNAL(dirty(const QString &)), this, SLOT(slotClipModified(const QString &)));
     connect(&m_fileWatcher, SIGNAL(deleted(const QString &)), this, SLOT(slotClipMissing(const QString &)));
     connect(&m_fileWatcher, SIGNAL(created(const QString &)), this, SLOT(slotClipAvailable(const QString &)));
+    connect(&m_modifiedTimer, SIGNAL(timeout()), this, SLOT(slotProcessModifiedClips()));
 }
 
 ClipManager::~ClipManager()
@@ -65,20 +67,21 @@ void ClipManager::clear()
     m_folderIdCounter = 1;
     m_folderList.clear();
     m_audioThumbsQueue.clear();
+    m_modifiedClips.clear();
 }
 
 void ClipManager::checkAudioThumbs()
 {
     if (!KdenliveSettings::audiothumbnails()) {
-      if (!m_generatingAudioId.isEmpty()) {
-	    DocClipBase *clip = getClipById(m_generatingAudioId);
-	    if (clip) clip->slotClearAudioCache();
-	}
+        if (!m_generatingAudioId.isEmpty()) {
+            DocClipBase *clip = getClipById(m_generatingAudioId);
+            if (clip) clip->slotClearAudioCache();
+        }
         m_audioThumbsQueue.clear();
         m_generatingAudioId.clear();
-	return;
+        return;
     }
-    
+
     for (int i = 0; i < m_clipList.count(); i++) {
         m_audioThumbsQueue.append(m_clipList.at(i)->getId());
     }
@@ -500,12 +503,34 @@ QDomElement ClipManager::groupsXml() const
 
 void ClipManager::slotClipModified(const QString &path)
 {
-    // kDebug() << "// CLIP: " << path << " WAS MODIFIED";
+    //kDebug() << "// CLIP: " << path << " WAS MODIFIED";
     const QList <DocClipBase *> list = getClipByResource(path);
     for (int i = 0; i < list.count(); i++) {
         DocClipBase *clip = list.at(i);
-        if (clip != NULL) emit reloadClip(clip->getId());
+        if (clip != NULL) {
+            QString id = clip->getId();
+            if (!m_modifiedClips.contains(id))
+                emit modifiedClip(id);
+            m_modifiedClips[id] = QTime::currentTime();
+        }
     }
+    if (!m_modifiedTimer.isActive()) m_modifiedTimer.start();
+}
+
+void ClipManager::slotProcessModifiedClips()
+{
+    if (!m_modifiedClips.isEmpty()) {
+        QMapIterator<QString, QTime> i(m_modifiedClips);
+        while (i.hasNext()) {
+            i.next();
+            if (QTime::currentTime().msecsTo(i.value()) <= -1500) {
+                emit reloadClip(i.key());
+                m_modifiedClips.remove(i.key());
+                break;
+            }
+        }
+    }
+    if (m_modifiedClips.isEmpty()) m_modifiedTimer.stop();
 }
 
 void ClipManager::slotClipMissing(const QString &path)
