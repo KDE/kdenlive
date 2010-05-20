@@ -430,8 +430,8 @@ void TrackView::parseDocument(QDomDocument doc)
             ct++;
             backupFile = baseFile + "_backup" + QString::number(ct) + ".kdenlive";
         }
-        if (KIO::NetAccess::file_copy(m_doc->url(), KUrl(backupFile), this)) KMessageBox::information(this, i18n("Your project file was upgraded to the latest Kdenlive document version.\n To make sure you don't lose data, a backup copy called %1 was created.", backupFile));
-        else KMessageBox::information(this, i18n("Your project file was upgraded to the latest Kdenlive document version, it was not possible to create a backup copy.", backupFile));
+        if (KIO::NetAccess::file_copy(m_doc->url(), KUrl(backupFile), this)) KMessageBox::information(this, i18n("Your project file was upgraded to the latest Kdenlive document version.\nTo make sure you don't lose data, a backup copy called %1 was created.", backupFile));
+        else KMessageBox::information(this, i18n("Your project file was upgraded to the latest Kdenlive document version, but it was not possible to create a backup copy.", backupFile));
     }
     //m_trackview->setCursorPos(cursorPos);
     //m_scrollBox->setGeometry(0, 0, 300 * zoomFactor(), m_scrollArea->height());
