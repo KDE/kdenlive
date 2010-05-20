@@ -327,7 +327,6 @@ int Render::resetProfile(const QString profileName)
     return 1;
 }
 
-/** Wraps the VEML command of the same name; Seeks the renderer clip to the given time. */
 void Render::seek(GenTime time)
 {
     if (!m_mltProducer)
@@ -850,8 +849,8 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
 }
 
 
-/** Create the producer from the MLT XML QDomDocument */
 #if 0
+/** Create the producer from the MLT XML QDomDocument */
 void Render::initSceneList()
 {
     kDebug() << "--------  INIT SCENE LIST ------_";
@@ -888,9 +887,6 @@ void Render::initSceneList()
 }
 #endif
 
-
-
-/** Create the producer from the MLT XML QDomDocument */
 int Render::setProducer(Mlt::Producer *producer, int position)
 {
     if (m_winid == -1) return -1;
@@ -931,15 +927,11 @@ int Render::setProducer(Mlt::Producer *producer, int position)
     return error;
 }
 
-
-
-/** Create the producer from the MLT XML QDomDocument */
 int Render::setSceneList(QDomDocument list, int position)
 {
     return setSceneList(list.toString(), position);
 }
 
-/** Create the producer from the MLT XML QDomDocument */
 int Render::setSceneList(QString playlist, int position)
 {
     if (m_winid == -1) return -1;
@@ -1059,7 +1051,6 @@ int Render::setSceneList(QString playlist, int position)
     //if (position != 0) emit rendererPosition(position);
 }
 
-/** Create the producer from the MLT XML QDomDocument */
 const QString Render::sceneList()
 {
     QString playlist;
@@ -1099,7 +1090,6 @@ bool Render::saveSceneList(QString path, QDomElement kdenliveData)
     file.close();
     return true;
 }
-
 
 void Render::saveZone(KUrl url, QString desc, QPoint zone)
 {
@@ -1445,7 +1435,6 @@ const QString & Render::rendererName() const
     return m_name;
 }
 
-
 void Render::emitFrameNumber(double position)
 {
     m_framePosition = position;
@@ -1466,13 +1455,10 @@ void Render::emitConsumerStopped()
     }
 }
 
-
-
 void Render::exportFileToFirewire(QString /*srcFileName*/, int /*port*/, GenTime /*startTime*/, GenTime /*endTime*/)
 {
     KMessageBox::sorry(0, i18n("Firewire is not enabled on your system.\n Please install Libiec61883 and recompile Kdenlive"));
 }
-
 
 void Render::exportCurrentFrame(KUrl url, bool /*notify*/)
 {
@@ -1513,8 +1499,9 @@ void Render::showFrame(Mlt::Frame& frame)
 }
 #endif
 
-/** MLT PLAYLIST DIRECT MANIPULATON  **/
-
+/*
+ * MLT playlist direct manipulation.
+ */
 
 void Render::mltCheckLength(Mlt::Tractor *tractor)
 {

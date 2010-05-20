@@ -38,6 +38,9 @@ public:
     void stopActiveMonitor();
 
 public slots:
+
+    /** @brief Activates a monitor.
+     * @param name name of the monitor to activate */
     void activateMonitor(QString name = QString());
     void slotPlay();
     void slotPlayZone();
@@ -51,6 +54,10 @@ public slots:
     void slotStart();
     void slotEnd();
     void slotResetProfiles();
+
+    /** @brief Switches between project and clip monitor.
+     * @ref activateMonitor
+     * @param activateClip whether to activate the clip monitor */
     void slotSwitchMonitors(bool activateClip);
 
 private:

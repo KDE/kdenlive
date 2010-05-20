@@ -15,6 +15,17 @@
  *                                                                         *
  ***************************************************************************/
 
+/**
+ * @class Render
+ * @author Jason Wood
+ * @brief Client side of the interface to a renderer.
+ *
+ * From Kdenlive's point of view, you treat the Render object as the renderer,
+ * and simply use it as if it was local. Calls are asynchronous - you send a
+ * call out, and then receive the return value through the relevant signal that
+ * get's emitted once the call completes.
+ */
+
 #ifndef RENDERER_H
 #define RENDERER_H
 
@@ -32,15 +43,6 @@
 #ifdef Q_WS_MAC
 #include "videoglwidget.h"
 #endif
-
-
-/**Render encapsulates the client side of the interface to a renderer.
-From Kdenlive's point of view, you treat the Render object as the
-renderer, and simply use it as if it was local. Calls are asyncrhonous -
-you send a call out, and then receive the return value through the
-relevant signal that get's emitted once the call completes.
-  *@author Jason Wood
-  */
 
 class Render;
 
@@ -61,7 +63,6 @@ class Profile;
 class Service;
 };
 
-
 class MltErrorEvent : public QEvent
 {
 public:
@@ -74,7 +75,6 @@ private:
     QString m_message;
 };
 
-
 class Render: public QObject
 {
 Q_OBJECT public:
@@ -86,7 +86,7 @@ Q_OBJECT public:
     Render(const QString & rendererName, int winid, int extid, QString profile = QString(), QWidget *parent = 0);
     ~Render();
 
-    /** Seeks the renderer clip to the given time. */
+    /** @brief Seeks the renderer clip to the given time. */
     void seek(GenTime time);
     void seekToFrame(int pos);
     void seekToFrameDiff(int diff);
@@ -95,82 +95,96 @@ Q_OBJECT public:
     //static QPixmap getVideoThumbnail(char *profile, QString file, int frame, int width, int height);
     QPixmap getImageThumbnail(KUrl url, int width, int height);
 
-    /** Return thumbnail for color clip */
-    //void getImage(int id, QString color, QPoint size);
+    /* Return thumbnail for color clip
+    void getImage(int id, QString color, QPoint size);*/
 
     // static QPixmap frameThumbnail(Mlt::Frame *frame, int width, int height, bool border = false);
 
-    /** Return thumbnail for image clip */
-    //void getImage(KUrl url, QPoint size);
+    /* Return thumbnail for image clip
+    void getImage(KUrl url, QPoint size);*/
 
-    /** Requests a particular frame from the given file.
+    /* Requests a particular frame from the given file.
      *
      * The pixmap will be returned by emitting the replyGetImage() signal.
-     * */
-    //void getImage(KUrl url, int frame, QPoint size);
+    void getImage(KUrl url, int frame, QPoint size);*/
 
-
-    /** Wraps the VEML command of the same name. Sets the current scene list to
-    be list. */
     int setSceneList(QDomDocument list, int position = 0);
+
+    /** @brief Sets the current scene list.
+     * @param list new scene list
+     * @param position (optional) time to seek to
+     * @return 0 when it has success, different from 0 otherwise
+     *
+     * Creates the producer from the MLT XML QDomDocument. Wraps the VEML
+     * command of the same name. */
     int setSceneList(QString playlist, int position = 0);
     int setProducer(Mlt::Producer *producer, int position);
     const QString sceneList();
     bool saveSceneList(QString path, QDomElement kdenliveData = QDomElement());
 
-    /** Wraps the VEML command of the same name. Tells the renderer to
-    play the current scene at the speed specified, relative to normal
-    playback. e.g. 1.0 is normal speed, 0.0 is paused, -1.0 means play
-    backwards. Does not specify start/stop times for playback.*/
+    /** @brief Tells the renderer to play the scene at the specified speed,
+     * @param speed speed to play the scene to
+     *
+     * The speed is relative to normal playback, e.g. 1.0 is normal speed, 0.0
+     * is paused, -1.0 means play backwards. It does not specify start/stop
+     * times for playback. Wraps the VEML command of the same name. */
     void play(double speed);
     void switchPlay();
     void pause();
-    /** stop playing */
+
+    /** @brief Stops playing.
+     * @param startTime time to seek to */
     void stop(const GenTime & startTime);
     void setVolume(double volume);
 
     QImage extractFrame(int frame_position, int width = -1, int height = -1);
-    /** Wraps the VEML command of the same name. Tells the renderer to
-    play the current scene at the speed specified, relative to normal
-    playback. e.g. 1.0 is normal speed, 0.0 is paused, -1.0 means play
-    backwards. Specifes the start/stop times for playback.*/
+
+    /** @brief Plays the scene starting from a specific time.
+     * @param startTime time to start playing the scene from
+     *
+     * Wraps the VEML command of the same name. */
     void play(const GenTime & startTime);
     void playZone(const GenTime & startTime, const GenTime & stopTime);
     void loopZone(const GenTime & startTime, const GenTime & stopTime);
 
     void saveZone(KUrl url, QString desc, QPoint zone);
 
-    /** Returns the name of the renderer. */
+    /** @brief Returns the name of the renderer. */
     const QString & rendererName() const;
 
-    /** Returns the speed at which the renderer is currently playing, 0.0 if the renderer is
-    not playing anything. */
+    /** @brief Returns the speed at which the renderer is currently playing.
+     *
+     * It returns 0.0 when the renderer is not playing anything. */
     double playSpeed();
-    /** Returns the current seek position of the renderer. */
+
+    /** @brief Returns the current seek position of the renderer. */
     GenTime seekPosition() const;
     int seekFramePosition() const;
 
     void emitFrameNumber(double position);
     void emitConsumerStopped();
 
-    /** Gives the aspect ratio of the consumer */
+    /** @brief Returns the aspect ratio of the consumer. */
     double consumerRatio() const;
 
     void doRefresh();
 
-    /** Save current producer frame as image */
+    /** @brief Saves current producer frame as an image. */
     void exportCurrentFrame(KUrl url, bool notify);
 
-    /** Turn on or off on screen display */
+    /** @brief Turns on or off on screen display. */
     void refreshDisplay();
     int resetProfile(const QString profileName);
     double fps() const;
     int renderWidth() const;
     int renderHeight() const;
-    /** get display aspect ratio */
+
+    /** @brief Returns display aspect ratio. */
     double dar() const;
 
-    /** Playlist manipulation */
+    /*
+     * Playlist manipulation.
+     */
     Mlt::Producer *checkSlowMotionProducer(Mlt::Producer *prod, QDomElement element);
     int mltInsertClip(ItemInfo info, QDomElement element, Mlt::Producer *prod, bool overwrite = false, bool push = false);
     bool mltUpdateClip(ItemInfo info, QDomElement element, Mlt::Producer *prod);
@@ -184,17 +198,26 @@ Q_OBJECT public:
     bool mltMoveClip(int startTrack, int endTrack, GenTime pos, GenTime moveStart, Mlt::Producer *prod, bool overwrite = false, bool insert = false);
     bool mltMoveClip(int startTrack, int endTrack, int pos, int moveStart, Mlt::Producer *prod, bool overwrite = false, bool insert = false);
     bool mltRemoveClip(int track, GenTime position);
-    /** Delete an effect to a clip in MLT's playlist */
+
+    /** @brief Deletes an effect from a clip in MLT's playlist. */
     bool mltRemoveEffect(int track, GenTime position, QString index, bool updateIndex, bool doRefresh = true);
-    /** Add an effect to a clip in MLT's playlist */
+
+    /** @brief Adds an effect to a clip in MLT's playlist. */
     bool mltAddEffect(int track, GenTime position, EffectsParameterList params, bool doRefresh = true);
-    /** Edit an effect parameters in MLT */
+
+    /** @brief Edits an effect parameters in MLT's playlist. */
     bool mltEditEffect(int track, GenTime position, EffectsParameterList params);
-    /** This only updates the "kdenlive_ix" (index) value of an effect */
+
+    /** @brief Updates the "kdenlive_ix" (index) value of an effect. */
     void mltUpdateEffectPosition(int track, GenTime position, int oldPos, int newPos);
-    /** This changes the order of effects in MLT, inverting effects from oldPos and newPos, also updating the kdenlive_ix value */
+
+    /** @brief Changes the order of effects in MLT's playlist.
+     *
+     * It switches effects from oldPos and newPos, updating the "kdenlive_ix"
+     * (index) value. */
     void mltMoveEffect(int track, GenTime position, int oldPos, int newPos);
-    /** This changes the state of a track, enabling / disabling audio and video */
+
+    /** @brief Enables/disables audio/video in a track. */
     void mltChangeTrackState(int track, bool mute, bool blind);
     bool mltMoveTransition(QString type, int startTrack,  int newTrack, int newTransitionTrack, GenTime oldIn, GenTime oldOut, GenTime newIn, GenTime newOut);
     bool mltAddTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml, bool refresh = true);
@@ -211,11 +234,14 @@ Q_OBJECT public:
     void mltPlantTransition(Mlt::Field *field, Mlt::Transition &tr, int a_track, int b_track);
     Mlt::Producer *invalidProducer(const QString &id);
 
-    /** Change speed of a clip in playlist. To do this, we create a new "framebuffer" producer.
-    This new producer must have its "resource" param set to: video.mpg?0.6 where video.mpg is the path
-    to the clip and 0.6 is the speed in percents. The newly created producer will have it's
-    "id" parameter set to: "slowmotion:parentid:speed", where parentid is the id of the original clip
-    in the ClipManager list and speed is the current speed */
+    /** @brief Changes the speed of a clip in MLT's playlist.
+     *
+     * It creates a new "framebuffer" producer, which must have its "resource"
+     * property set to "video.mpg?0.6", where "video.mpg" is the path to the
+     * clip and "0.6" is the speed in percentile. The newly created producer
+     * will have its "id" property set to "slowmotion:parentid:speed", where
+     * "parentid" is the id of the original clip in the ClipManager list and
+     * "speed" is the current speed. */
     int mltChangeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, double speed, double oldspeed, int strobe, Mlt::Producer *prod);
 
     const QList <Mlt::Producer *> producersList();
@@ -227,8 +253,12 @@ Q_OBJECT public:
 #endif
     QList <int> checkTrackSequence(int);
 
-private:   // Private attributes & methods
-    /** The name of this renderer - useful to identify the renderes by what they do - e.g. background rendering, workspace monitor, etc... */
+private:
+
+    /** @brief The name of this renderer.
+     *
+     * Useful to identify the renderers by what they do - e.g. background
+     * rendering, workspace monitor, etc. */
     QString m_name;
     Mlt::Consumer * m_mltConsumer;
     Mlt::Producer * m_mltProducer;
@@ -236,13 +266,16 @@ private:   // Private attributes & methods
     double m_framePosition;
     double m_fps;
 
-    /** true if we are playing a zone (ie the in and out properties have been temporarily changed) */
+    /** @brief True if we are playing a zone.
+     *
+     * It's determined by the "in" and "out" properties being temporarily
+     * changed. */
     bool m_isZoneMode;
     bool m_isLoopMode;
     GenTime m_loopStart;
     int m_originalOut;
 
-    /** true when monitor is in split view (several tracks at the same time) */
+    /** @brief True when the monitor is in split view. */
     bool m_isSplitView;
 
     Mlt::Producer *m_blackClip;
@@ -250,14 +283,12 @@ private:   // Private attributes & methods
 
     QTimer *m_osdTimer;
 
-    /** A human-readable description of this renderer. */
+    /** @brief A human-readable description of this renderer. */
     int m_winid;
 
 #ifdef Q_WS_MAC
     VideoGLWidget *m_glWidget;
 #endif
-
-    /** Sets the description of this renderer to desc. */
     void closeMlt();
     void mltCheckLength(Mlt::Tractor *tractor);
     void mltPasteEffects(Mlt::Producer *source, Mlt::Producer *dest);
@@ -267,52 +298,66 @@ private:   // Private attributes & methods
     void resetZoneMode();
     void fillSlowMotionProducers();
 
-private slots:  // Private slots
-    /** refresh monitor display */
+private slots:
+
+    /** @brief Refreshes the monitor display. */
     void refresh();
     void slotOsdTimeout();
     int connectPlaylist();
     //void initSceneList();
 
-signals:   // Signals
-    /** emitted when the renderer recieves a reply to a getFileProperties request. */
+signals:
+
+    /** @brief The renderer received a reply to a getFileProperties request. */
     void replyGetFileProperties(const QString &clipId, Mlt::Producer*, const QMap < QString, QString > &, const QMap < QString, QString > &, bool);
 
-    /** emitted when the renderer recieves a reply to a getImage request. */
+    /** @brief The renderer received a reply to a getImage request. */
     void replyGetImage(const QString &, const QPixmap &);
 
-    /** Emitted when the renderer stops, either playing or rendering. */
+    /** @brief The renderer stopped, either playing or rendering. */
     void stopped();
-    /** Emitted when the renderer starts playing. */
+
+    /** @brief The renderer started playing. */
     void playing(double);
-    /** Emitted when the renderer is rendering. */
+
+    /** @brief The renderer started rendering. */
     void rendering(const GenTime &);
-    /** Emitted when rendering has finished */
+
+    /** @brief The rendering has finished. */
     void renderFinished();
-    /** Emitted when the current seek position has been changed by the renderer. */
-//    void positionChanged(const GenTime &);
-    /** Emitted when an error occurs within this renderer. */
+
+    /* @brief The current seek position has been changed by the renderer.
+    void positionChanged(const GenTime &);*/
+
+    /** @brief An error occurred within this renderer. */
     void error(const QString &, const QString &);
     void durationChanged(int);
     void rendererPosition(int);
     void rendererStopped(int);
     void removeInvalidClip(const QString &, bool replaceProducer);
     void refreshDocumentProducers();
-    /** Used on OS X - emitted when a frame's image is to be shown. */
+
+    /** @brief A frame's image has to be shown.
+     *
+     * Used in Mac OS X. */
     void showImageSignal(QImage);
 
-public slots:  // Public slots
-    /** Start Consumer */
+public slots:
+
+    /** @brief Starts the consumer. */
     void start();
-    /** Stop Consumer */
+
+    /** @brief Stops the consumer. */
     void stop();
     int getLength();
-    /** If the file is readable by mlt, return true, otherwise false */
+
+    /** @brief Checks if the file is readable by MLT. */
     bool isValid(KUrl url);
 
-    /** Wraps the VEML command of the same name. Requests the file properties
-    for the specified url from the renderer. Upon return, the result will be emitted
-    via replyGetFileProperties(). */
+    /** @brief Requests the file properties for the specified URL.
+     *
+     * Upon return, the result will be emitted via replyGetFileProperties().
+     * Wraps the VEML command of the same name. */
     void getFileProperties(const QDomElement xml, const QString &clipId, int imageHeight, bool replaceProducer = true);
 
     void exportFileToFirewire(QString srcFileName, int port, GenTime startTime, GenTime endTime);

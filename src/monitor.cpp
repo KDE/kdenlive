@@ -349,8 +349,6 @@ GenTime Monitor::getSnapForPos(bool previous)
     return GenTime();
 }
 
-
-
 void Monitor::slotZoneMoved(int start, int end)
 {
     m_ruler->setZone(start, end);
@@ -396,7 +394,6 @@ void Monitor::mouseReleaseEvent(QMouseEvent * event)
         m_dragStarted = false;
     }
 }
-
 
 // virtual
 void Monitor::mouseMoveEvent(QMouseEvent *event)
@@ -456,16 +453,7 @@ QStringList Monitor::mimeTypes() const
     return qstrList;
 }
 
-
 // virtual
-/** Move to other position on mousewheel
- *
- * Moves towards end of clip/timeline on mousewheel down/back,
- * opposite for mousewheel up/forward.
- *
- * Ctrl+wheel moves single frame, without Ctrl moves a second.
- *
- * See also http://www.kdenlive.org/mantis/view.php?id=265 */
 void Monitor::wheelEvent(QWheelEvent * event)
 {
     if (event->modifiers() == Qt::ControlModifier) {
@@ -788,7 +776,6 @@ void Monitor::slotSaveZone()
     //render->setSceneList(doc, 0);
 }
 
-
 void Monitor::resetProfile(const QString profile)
 {
     if (render == NULL) return;
@@ -806,7 +793,6 @@ const QString Monitor::sceneList()
     if (render == NULL) return QString();
     return render->sceneList();
 }
-
 
 void Monitor::setClipZone(QPoint pos)
 {
@@ -864,7 +850,6 @@ QStringList Monitor::getZoneInfo() const
     return result;
 }
 
-
 MonitorRefresh::MonitorRefresh(QWidget* parent) : \
         QWidget(parent),
         m_renderer(NULL)
@@ -883,7 +868,6 @@ void MonitorRefresh::paintEvent(QPaintEvent * /*event*/)
 {
     if (m_renderer) m_renderer->doRefresh();
 }
-
 
 Overlay::Overlay(QWidget* parent) :
         QLabel(parent)
@@ -904,8 +888,6 @@ void Overlay::paintEvent(QPaintEvent * /*event*/)
     painter.fillRect(rect(), col);
     painter.drawText(rect(), Qt::AlignCenter, text());
 }
-
-
 
 void Overlay::setOverlayText(const QString &text, bool isZone)
 {

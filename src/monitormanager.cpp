@@ -48,8 +48,10 @@ void MonitorManager::initMonitors(Monitor *clipMonitor, Monitor *projectMonitor)
 
 void MonitorManager::activateMonitor(QString name)
 {
-    if (m_blocked || m_clipMonitor == NULL) return;
-    if (m_activeMonitor == name) return;
+    if (m_blocked || m_clipMonitor == NULL || m_projectMonitor == NULL)
+        return;
+    if (m_activeMonitor == name)
+        return;
     if (name == "clip") {
         m_projectMonitor->stop();
         m_clipMonitor->start();
@@ -64,18 +66,10 @@ void MonitorManager::activateMonitor(QString name)
 
 void MonitorManager::slotSwitchMonitors(bool activateClip)
 {
-    if (m_blocked || m_clipMonitor == NULL) return;
-    if (!activateClip && m_clipMonitor->isActive()) {
-        m_clipMonitor->stop();
-        m_projectMonitor->start();
-        m_activeMonitor = m_projectMonitor->name();
-        emit raiseClipMonitor(false);
-    } else if (activateClip && m_projectMonitor->isActive()) {
-        m_projectMonitor->stop();
-        m_clipMonitor->start();
-        m_activeMonitor = m_clipMonitor->name();
-        emit raiseClipMonitor(true);
-    }
+    if (activateClip)
+        activateMonitor("clip");
+    else
+        activateMonitor("project");
 }
 
 void MonitorManager::stopActiveMonitor()

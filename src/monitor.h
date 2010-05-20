@@ -87,14 +87,22 @@ public:
 protected:
     virtual void mousePressEvent(QMouseEvent * event);
     virtual void mouseReleaseEvent(QMouseEvent * event);
+
+    /** @brief Move to another position on mouse wheel event.
+     *
+     * Moves towards the end of the clip/timeline on mouse wheel down/back, the
+     * opposite on mouse wheel up/forward.
+     * Ctrl + wheel moves by a single frame, without Ctrl it moves by a second.
+     *
+     * See also http://www.kdenlive.org/mantis/view.php?id=265. */
     virtual void wheelEvent(QWheelEvent * event);
     virtual void mouseMoveEvent(QMouseEvent *event);
     virtual QStringList mimeTypes() const;
-    /*    virtual void dragMoveEvent(QDragMoveEvent * event);
-        virtual Qt::DropActions supportedDropActions() const;*/
+    /*virtual void dragMoveEvent(QDragMoveEvent * event);
+    virtual Qt::DropActions supportedDropActions() const;*/
 
-//    virtual void resizeEvent(QResizeEvent * event);
-//    virtual void paintEvent(QPaintEvent * event);
+    //virtual void resizeEvent(QResizeEvent * event);
+    //virtual void paintEvent(QPaintEvent * event);
 
 private:
     Ui::Monitor_UI m_ui;
