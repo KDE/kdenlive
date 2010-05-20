@@ -619,7 +619,7 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
         producer = new Mlt::Producer(*m_mltProfile, 0, tmp);
         delete[] tmp;
         if (producer && xml.hasAttribute("xmldata")) {
-            char *tmp = decodedString(xml.attribute("xmldata"));
+            tmp = decodedString(xml.attribute("xmldata"));
             producer->set("xmldata", tmp);
             delete[] tmp;
         }
@@ -843,8 +843,8 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
             metadataPropertyMap[ name.section('.', 0, -2)] = value;
     }
     producer->seek(0);
-    emit replyGetFileProperties(clipId, producer, filePropertyMap, metadataPropertyMap, replaceProducer);
     kDebug() << "REquested fuile info for: " << url.path();
+    emit replyGetFileProperties(clipId, producer, filePropertyMap, metadataPropertyMap, replaceProducer);
     // FIXME: should delete this to avoid a leak...
     //delete producer;
 }
@@ -1569,6 +1569,34 @@ void Render::mltCheckLength(Mlt::Tractor *tractor)
     }
 }
 
+Mlt::Producer *Render::checkSlowMotionProducer(Mlt::Producer *prod, QDomElement element)
+{
+    if (element.attribute("speed", "1.0").toDouble() == 1.0 && element.attribute("strobe", "1").toInt() == 1) return prod;
+
+    // We want a slowmotion producer
+    double speed = element.attribute("speed", "1.0").toDouble();
+    int strobe = element.attribute("strobe", "1").toInt();
+    QString url = QString::fromUtf8(prod->get("resource"));
+    url.append('?' + QString::number(speed));
+    if (strobe > 1) url.append("&strobe=" + QString::number(strobe));
+    Mlt::Producer *slowprod = m_slowmotionProducers.value(url);
+    if (!slowprod || slowprod->get_producer() == NULL) {
+        char *tmp = decodedString(url);
+        slowprod = new Mlt::Producer(*m_mltProfile, "framebuffer", tmp);
+        if (strobe > 1) slowprod->set("strobe", strobe);
+        delete[] tmp;
+        QString id = prod->get("id");
+        if (id.contains('_')) id = id.section('_', 0, 0);
+        QString producerid = "slowmotion:" + id + ':' + QString::number(speed);
+        if (strobe > 1) producerid.append(':' + QString::number(strobe));
+        tmp = decodedString(producerid);
+        slowprod->set("id", tmp);
+        delete[] tmp;
+        m_slowmotionProducers.insert(url, slowprod);
+    }
+    return slowprod;
+}
+
 int Render::mltInsertClip(ItemInfo info, QDomElement element, Mlt::Producer *prod, bool overwrite, bool push)
 {
     if (m_mltProducer == NULL) {
@@ -1600,35 +1628,12 @@ int Render::mltInsertClip(ItemInfo info, QDomElement element, Mlt::Producer *pro
     int trackDuration = trackProducer.get_playtime() - 1;
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
     //kDebug()<<"/// INSERT cLIP: "<<info.cropStart.frames(m_fps)<<", "<<info.startPos.frames(m_fps)<<"-"<<info.endPos.frames(m_fps);
-
-    if (element.attribute("speed", "1.0").toDouble() != 1.0 || element.attribute("strobe", "1").toInt() > 1) {
-        // We want a slowmotion producer
-        double speed = element.attribute("speed", "1.0").toDouble();
-        int strobe = element.attribute("strobe", "1").toInt();
-        QString url = QString::fromUtf8(prod->get("resource"));
-        url.append('?' + QString::number(speed));
-        if (strobe > 1) url.append("&strobe=" + QString::number(strobe));
-        Mlt::Producer *slowprod = m_slowmotionProducers.value(url);
-        if (!slowprod || slowprod->get_producer() == NULL) {
-            char *tmp = decodedString(url);
-            slowprod = new Mlt::Producer(*m_mltProfile, "framebuffer", tmp);
-            if (strobe > 1) slowprod->set("strobe", strobe);
-            delete[] tmp;
-            QString id = prod->get("id");
-            if (id.contains('_')) id = id.section('_', 0, 0);
-            QString producerid = "slowmotion:" + id + ':' + QString::number(speed);
-            if (strobe > 1) producerid.append(':' + QString::number(strobe));
-            tmp = decodedString(producerid);
-            slowprod->set("id", tmp);
-            delete[] tmp;
-            m_slowmotionProducers.insert(url, slowprod);
-        }
-        prod = slowprod;
-        if (prod == NULL || !prod->is_valid()) {
-            mlt_service_unlock(service.get_service());
-            return -1;
-        }
+    prod = checkSlowMotionProducer(prod, element);
+    if (prod == NULL || !prod->is_valid()) {
+        mlt_service_unlock(service.get_service());
+        return -1;
     }
+
     int cutPos = (int) info.cropStart.frames(m_fps);
     if (cutPos < 0) cutPos = 0;
     int insertPos = (int) info.startPos.frames(m_fps);
@@ -1758,8 +1763,12 @@ bool Render::mltUpdateClip(ItemInfo info, QDomElement element, Mlt::Producer *pr
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
     int startPos = info.startPos.frames(m_fps);
     int clipIndex = trackPlaylist.get_clip_index_at(startPos);
+    if (trackPlaylist.is_blank(clipIndex)) {
+        kDebug() << "// WARNING, TRYING TO REMOVE A BLANK: " << startPos;
+        return false;
+    }
+    mlt_service_lock(service.get_service());
     Mlt::Producer *clip = trackPlaylist.get_clip(clipIndex);
-
     // keep effects
     QList <Mlt::Filter *> filtersList;
     Mlt::Service sourceService(clip->get_service());
@@ -1772,8 +1781,21 @@ bool Render::mltUpdateClip(ItemInfo info, QDomElement element, Mlt::Producer *pr
         ct++;
         filter = sourceService.filter(ct);
     }
-    if (!mltRemoveClip(info.track, info.startPos)) return false;
-    if (mltInsertClip(info, element, prod) == -1) return false;
+
+    trackPlaylist.replace_with_blank(clipIndex);
+    delete clip;
+    //if (!mltRemoveClip(info.track, info.startPos)) return false;
+    prod = checkSlowMotionProducer(prod, element);
+    if (prod == NULL || !prod->is_valid()) {
+        mlt_service_unlock(service.get_service());
+        return false;
+    }
+    Mlt::Producer *clip2 = prod->cut(info.cropStart.frames(m_fps), (info.cropDuration + info.cropStart).frames(m_fps));
+    trackPlaylist.insert_at(info.startPos.frames(m_fps), clip2, 1);
+    delete clip2;
+
+
+    //if (mltInsertClip(info, element, prod) == -1) return false;
     if (!filtersList.isEmpty()) {
         clipIndex = trackPlaylist.get_clip_index_at(startPos);
         Mlt::Producer *destclip = trackPlaylist.get_clip(clipIndex);
@@ -1782,6 +1804,7 @@ bool Render::mltUpdateClip(ItemInfo info, QDomElement element, Mlt::Producer *pr
         for (int i = 0; i < filtersList.count(); i++)
             destService.attach(*(filtersList.at(i)));
     }
+    mlt_service_unlock(service.get_service());
     return true;
 }
 
@@ -2810,8 +2833,7 @@ bool Render::mltUpdateClipProducer(int track, int pos, Mlt::Producer *prod)
         kWarning() << "// TRACTOR PROBLEM";
         return false;
     }
-    mlt_service_lock(m_mltConsumer->get_service());
-
+    mlt_service_lock(service.get_service());
     Mlt::Tractor tractor(service);
     Mlt::Producer trackProducer(tractor.track(track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
@@ -2820,18 +2842,24 @@ bool Render::mltUpdateClipProducer(int track, int pos, Mlt::Producer *prod)
     if (clipProducer == NULL || clipProducer->is_blank()) {
         kDebug() << "// ERROR UPDATING CLIP PROD";
         delete clipProducer;
-        mlt_service_unlock(m_mltConsumer->get_service());
+        mlt_service_unlock(service.get_service());
         m_isBlocked--;
         return false;
     }
     Mlt::Producer *clip = prod->cut(clipProducer->get_in(), clipProducer->get_out());
-    if (!clip) return false;
+    if (!clip || !clip->is_valid()) {
+        if (clip) delete clip;
+        delete clipProducer;
+        mlt_service_unlock(service.get_service());
+        m_isBlocked--;
+        return false;
+    }
     // move all effects to the correct producer
     mltPasteEffects(clipProducer, clip);
     trackPlaylist.insert_at(pos, clip, 1);
     delete clip;
     delete clipProducer;
-    mlt_service_unlock(m_mltConsumer->get_service());
+    mlt_service_unlock(service.get_service());
     m_isBlocked--;
     return true;
 }
@@ -2855,10 +2883,12 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
     bool checkLength = false;
     if (endTrack == startTrack) {
         Mlt::Producer *clipProducer = trackPlaylist.replace_with_blank(clipIndex);
-        if (!overwrite && (!trackPlaylist.is_blank_at(moveEnd) || !clipProducer || clipProducer->is_blank())) {
+        if ((!overwrite && !trackPlaylist.is_blank_at(moveEnd)) || !clipProducer || !clipProducer->is_valid() || clipProducer->is_blank()) {
             // error, destination is not empty
-            if (!trackPlaylist.is_blank_at(moveEnd)) trackPlaylist.insert_at(moveStart, clipProducer, 1);
-            if (clipProducer) delete clipProducer;
+            if (clipProducer) {
+                if (!trackPlaylist.is_blank_at(moveEnd) && clipProducer->is_valid()) trackPlaylist.insert_at(moveStart, clipProducer, 1);
+                delete clipProducer;
+            }
             //int ix = trackPlaylist.get_clip_index_at(moveEnd);
             kDebug() << "// ERROR MOVING CLIP TO : " << moveEnd;
             mlt_service_unlock(service.get_service());

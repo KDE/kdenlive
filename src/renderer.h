@@ -171,6 +171,7 @@ Q_OBJECT public:
     double dar() const;
 
     /** Playlist manipulation */
+    Mlt::Producer *checkSlowMotionProducer(Mlt::Producer *prod, QDomElement element);
     int mltInsertClip(ItemInfo info, QDomElement element, Mlt::Producer *prod, bool overwrite = false, bool push = false);
     bool mltUpdateClip(ItemInfo info, QDomElement element, Mlt::Producer *prod);
     void mltCutClip(int track, GenTime position);
