@@ -399,7 +399,14 @@ void ProjectList::slotModifiedClip(const QString &id)
 {
     ProjectItem *item = getItemById(id);
     if (item) {
-        item->setData(0, Qt::DecorationRole,  KIcon("view-refresh").pixmap(m_listView->iconSize()));
+        QPixmap pixmap = qVariantValue<QPixmap>(item->data(0, Qt::DecorationRole));
+        if (!pixmap.isNull()) {
+            QPainter p(&pixmap);
+            p.fillRect(0, 0, pixmap.width(), pixmap.height(), QColor(255, 255, 255, 200));
+            p.drawPixmap(0, 0, KIcon("view-refresh").pixmap(m_listView->iconSize()));
+            p.end();
+        } else pixmap = KIcon("view-refresh").pixmap(m_listView->iconSize());
+        item->setData(0, Qt::DecorationRole, pixmap);
     }
 }
 
