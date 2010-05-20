@@ -132,9 +132,9 @@ RecMonitor::RecMonitor(QString name, QWidget *parent) :
 
     if (KdenliveSettings::video4capture().isEmpty()) {
         QString captureCommand;
-        if (!KdenliveSettings::video4adevice().isEmpty()) captureCommand = "-f " + KdenliveSettings::video4aformat() + " -i " + KdenliveSettings::video4adevice();
+        if (!KdenliveSettings::video4adevice().isEmpty()) captureCommand = "-f " + KdenliveSettings::video4aformat() + " -i " + KdenliveSettings::video4adevice() + " -acodec " + KdenliveSettings::video4acodec();
 
-        captureCommand +=  " -f " + KdenliveSettings::video4vformat() + " -s " + KdenliveSettings::video4size() + " -r " + QString::number(KdenliveSettings::video4rate()) + " -i " + KdenliveSettings::video4vdevice();
+        captureCommand +=  " -f " + KdenliveSettings::video4vformat() + " -s " + KdenliveSettings::video4size() + " -r " + QString::number(KdenliveSettings::video4rate()) + " -i " + KdenliveSettings::video4vdevice() + " -vcodec " + KdenliveSettings::video4vcodec();;
         KdenliveSettings::setVideo4capture(captureCommand);
     }
 
@@ -368,7 +368,7 @@ void RecMonitor::slotStartCapture(bool play)
         case 3:
             // HDV CAPTURE
             m_captureArgs << "--format" << "hdv";
-            m_displayArgs << "-f" << "mpegts";
+            m_displayArgs << "-f" << KdenliveSettings::video4container();
             break;
         }
         if (KdenliveSettings::firewireautosplit()) m_captureArgs << "--autosplit";
@@ -391,8 +391,8 @@ void RecMonitor::slotStartCapture(bool play)
         m_discAction->setEnabled(true);
         break;
     case VIDEO4LINUX:
-        m_captureArgs << KdenliveSettings::video4capture().simplified().split(' ') << KdenliveSettings::video4encoding().simplified().split(' ') << "-f" << "mpegts" << "-vcodec" << "mpeg4" << "-acodec" << "mp2" << "-";
-        m_displayArgs << "-f" << "mpegts" << "-x" << QString::number(video_frame->width()) << "-y" << QString::number(video_frame->height()) << "-";
+        m_captureArgs << KdenliveSettings::video4capture().simplified().split(' ') << KdenliveSettings::video4encoding().simplified().split(' ') << "-f" << KdenliveSettings::video4container() << "-";
+        m_displayArgs << "-f" << KdenliveSettings::video4container() << "-x" << QString::number(video_frame->width()) << "-y" << QString::number(video_frame->height()) << "-";
         m_captureProcess->setStandardOutputProcess(m_displayProcess);
         kDebug() << "Capture: Running ffmpeg " << m_captureArgs.join(" ");
         m_captureProcess->start("ffmpeg", m_captureArgs);
@@ -452,6 +452,7 @@ void RecMonitor::slotRecord()
         m_recAction->setChecked(true);
         QString extension = "mp4";
         if (device_selector->currentIndex() == SCREENGRAB) extension = "ogv"; //KdenliveSettings::screengrabextension();
+        else if (device_selector->currentIndex() == VIDEO4LINUX) extension = KdenliveSettings::video4extension();
         QString path = KdenliveSettings::capturefolder() + "/capture0000." + extension;
         int i = 1;
         while (QFile::exists(path)) {
@@ -469,8 +470,8 @@ void RecMonitor::slotRecord()
 
         switch (device_selector->currentIndex()) {
         case VIDEO4LINUX:
-            m_captureArgs << KdenliveSettings::video4capture().simplified().split(' ') << KdenliveSettings::video4encoding().simplified().split(' ') << "-vcodec" << "mpeg4" << "-acodec" << "mp2" << "-y" << m_captureFile.path() << "-f" << "mpegts" << "-vcodec" << "mpeg4" << "-acodec" << "mp2" << "-";
-            m_displayArgs << "-f" << "mpegts" << "-x" << QString::number(video_frame->width()) << "-y" << QString::number(video_frame->height()) << "-";
+            m_captureArgs << KdenliveSettings::video4capture().simplified().split(' ') << KdenliveSettings::video4encoding().simplified().split(' ') << "-y" << m_captureFile.path() << "-f" << KdenliveSettings::video4container() << "-acodec" << KdenliveSettings::video4acodec() << "-vcodec" << KdenliveSettings::video4vcodec() << "-";
+            m_displayArgs << "-f" << KdenliveSettings::video4container() << "-x" << QString::number(video_frame->width()) << "-y" << QString::number(video_frame->height()) << "-";
             m_captureProcess->setStandardOutputProcess(m_displayProcess);
             kDebug() << "Capture: Running ffmpeg " << m_captureArgs.join(" ");
             m_captureProcess->start("ffmpeg", m_captureArgs);

@@ -213,6 +213,26 @@
       <default>/dev/video0</default>
     </entry>
 
+    <entry name="video4vcodec" type="String">
+      <label>Default video4linux video codec.</label>
+      <default>mpeg4</default>
+    </entry>
+
+    <entry name="video4acodec" type="String">
+      <label>Default video4linux audio codec.</label>
+      <default>mp2</default>
+    </entry>
+
+    <entry name="video4container" type="String">
+      <label>Default video4linux format.</label>
+      <default>mpegts</default>
+    </entry>
+
+    <entry name="video4extension" type="String">
+      <label>Default video4linux file extension.</label>
+      <default>mp4</default>
+    </entry>
+
     <entry name="video4aformat" type="String">
       <label>Default video4linux capture format.</label>
       <default>oss</default>
