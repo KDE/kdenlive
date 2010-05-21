@@ -3446,10 +3446,12 @@ void MainWindow::slotInsertZoneToTimeline()
 void MainWindow::slotDeleteProjectClips(QStringList ids, QMap<QString, QString> folderids)
 {
     if (m_activeDocument && m_activeTimeline) {
-        for (int i = 0; i < ids.size(); ++i) {
-            m_activeTimeline->slotDeleteClip(ids.at(i));
+        if (!ids.isEmpty()) {
+            for (int i = 0; i < ids.size(); ++i) {
+                m_activeTimeline->slotDeleteClip(ids.at(i));
+            }
+            m_activeDocument->clipManager()->slotDeleteClips(ids);
         }
-        m_activeDocument->clipManager()->slotDeleteClips(ids);
         if (!folderids.isEmpty()) m_projectList->deleteProjectFolder(folderids);
         m_activeDocument->setModified(true);
     }
