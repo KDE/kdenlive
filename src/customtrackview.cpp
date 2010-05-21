@@ -2179,6 +2179,7 @@ void CustomTrackView::updateTransition(int track, GenTime pos, QDomElement oldTr
         if (transitionClip && transitionClip->baseClip()) {
             QString size = transitionClip->baseClip()->getProperty("frame_size");
             double factor = transitionClip->baseClip()->getProperty("aspect_ratio").toDouble();
+            if (factor == 0) factor = 1.0;
             p.setX((int)(size.section('x', 0, 0).toInt() * factor + 0.5));
             p.setY(size.section('x', 1, 1).toInt());
         }
@@ -3569,6 +3570,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
         if (transitionClip && transitionClip->baseClip()) {
             QString size = transitionClip->baseClip()->getProperty("frame_size");
             double factor = transitionClip->baseClip()->getProperty("aspect_ratio").toDouble();
+            if (factor == 0) factor = 1.0;
             p.setX((int)(size.section('x', 0, 0).toInt() * factor + 0.5));
             p.setY(size.section('x', 1, 1).toInt());
         }
@@ -4187,6 +4189,7 @@ void CustomTrackView::moveTransition(const ItemInfo start, const ItemInfo end, b
         if (transitionClip && transitionClip->baseClip()) {
             QString size = transitionClip->baseClip()->getProperty("frame_size");
             double factor = transitionClip->baseClip()->getProperty("aspect_ratio").toDouble();
+            if (factor == 0) factor = 1.0;
             p.setX((int)(size.section('x', 0, 0).toInt() * factor + 0.5));
             p.setY(size.section('x', 1, 1).toInt());
         }
