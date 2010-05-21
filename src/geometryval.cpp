@@ -130,7 +130,7 @@ Geometryval::Geometryval(const MltVideoProfile profile, QPoint frame_size, int s
     connect(spinY, SIGNAL(valueChanged(int)), this, SLOT(slotGeometryY(int)));
     connect(spinWidth, SIGNAL(valueChanged(int)), this, SLOT(slotGeometryWidth(int)));
     connect(spinHeight, SIGNAL(valueChanged(int)), this, SLOT(slotGeometryHeight(int)));
-    connect(spinResize, SIGNAL(valueChanged(int)), this, SLOT(slotResizeCustom(int)));
+    connect(spinResize, SIGNAL(editingFinished()), this, SLOT(slotResizeCustom()));
     connect(buttonResize, SIGNAL(clicked()), this, SLOT(slotResizeOriginal()));
 
     connect(this, SIGNAL(parameterChanged()), this, SLOT(slotUpdateGeometry()));
@@ -210,10 +210,11 @@ void Geometryval::slotResizeOriginal()
     slotUpdateTransitionProperties();
 }
 
-void Geometryval::slotResizeCustom(int value)
+void Geometryval::slotResizeCustom()
 {
     if (!keyframeSelected())
         return;
+    int value = spinResize->value();
     m_paramRect->setRect(0, 0, m_realWidth * value / 100, m_profile.height * value / 100);
     slotUpdateTransitionProperties();
 }

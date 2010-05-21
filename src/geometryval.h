@@ -79,7 +79,7 @@ private slots:
     void slotAddFrame(int pos = -1);
     void slotUpdateTransitionProperties();
     void slotTransparencyChanged(int transp);
-    void slotResizeCustom(int value);
+    void slotResizeCustom();
     void slotResizeOriginal();
     void slotAlignRight();
     void slotAlignLeft();
