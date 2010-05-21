@@ -137,12 +137,10 @@ void Render::closeMlt()
                 resource = mlt_properties_get(properties, "mlt_service");
             }
 
-            int trackNb = tractor.count();
-            while (trackNb > 0) {
-                Mlt::Producer trackProducer(tractor.track(trackNb - 1));
+            for (int trackNb = tractor.count() - 1; trackNb >= 0; --trackNb) {
+                Mlt::Producer trackProducer(tractor.track(trackNb));
                 Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
                 if (trackPlaylist.type() == playlist_type) trackPlaylist.clear();
-                trackNb--;
             }
         }
         mlt_service_unlock(service.get_service());
@@ -282,12 +280,10 @@ int Render::resetProfile(const QString profileName)
         Mlt::Service service(m_mltProducer->get_service());
         if (service.type() == tractor_type) {
             Mlt::Tractor tractor(service);
-            int trackNb = tractor.count();
-            while (trackNb > 0) {
-                Mlt::Producer trackProducer(tractor.track(trackNb - 1));
+            for (int trackNb = tractor.count() -1; trackNb >= 0; --trackNb) {
+                Mlt::Producer trackProducer(tractor.track(trackNb));
                 Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
                 trackPlaylist.clear();
-                trackNb--;
             }
         }
 
@@ -977,12 +973,10 @@ int Render::setSceneList(QString playlist, int position)
                 resource = mlt_properties_get(properties, "mlt_service");
             }
 
-            int trackNb = tractor.count();
-            while (trackNb > 0) {
-                Mlt::Producer trackProducer(tractor.track(trackNb - 1));
+            for (int trackNb = tractor.count() - 1; trackNb >= 0; --trackNb) {
+                Mlt::Producer trackProducer(tractor.track(trackNb));
                 Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
                 if (trackPlaylist.type() == playlist_type) trackPlaylist.clear();
-                trackNb--;
             }
             delete field;
         }
@@ -1965,14 +1959,12 @@ void Render::mltInsertSpace(QMap <int, int> trackClipStartList, QMap <int, int> 
             resource = mlt_properties_get(properties, "mlt_service");
         }
     } else {
-        int trackNb = tractor.count();
-        while (trackNb > 1) {
-            Mlt::Producer trackProducer(tractor.track(trackNb - 1));
+        for(int trackNb = tractor.count() - 1; trackNb >= 1; --trackNb) {
+            Mlt::Producer trackProducer(tractor.track(trackNb));
             Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
 
-
             //int clipNb = trackPlaylist.count();
-            insertPos = trackClipStartList.value(trackNb - 1);
+            insertPos = trackClipStartList.value(trackNb);
             if (insertPos != -1) {
                 insertPos += offset;
 
@@ -2004,7 +1996,6 @@ void Render::mltInsertSpace(QMap <int, int> trackClipStartList, QMap <int, int> 
                 }
                 trackPlaylist.consolidate_blanks(0);
             }
-            trackNb--;
         }
         // now move transitions
         mlt_service serv = m_mltProducer->parent().get_service();

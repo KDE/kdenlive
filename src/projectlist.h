@@ -218,6 +218,7 @@ private:
     QStringList getGroup() const;
     void regenerateTemplate(ProjectItem *clip);
     void editClipSelection(QList<QTreeWidgetItem *> list);
+    /** @brief Enables and disables transcode actions based on the selected clip's type. */
     void adjustTranscodeActions(ProjectItem *clip) const;
     /** @brief Sets the buttons enabled/disabled according to selected item. */
     void updateButtons() const;
@@ -227,7 +228,10 @@ private slots:
     void slotAddSlideshowClip();
     void slotAddTitleClip();
     void slotAddTitleTemplateClip();
-    void slotContextMenu(const QPoint &pos, QTreeWidgetItem *);
+    /** @brief Shows the context menu after enabling and disabling actions based on the item's type.
+    * @param pos The position where the menu should pop up
+    * @param item The item for which the checks should be done */
+    void slotContextMenu(const QPoint &pos, QTreeWidgetItem *item);
     /** @brief Creates an AddFolderCommand. */
     void slotAddFolder();
     /** @brief This is triggered when a clip description has been modified. */

@@ -518,7 +518,7 @@ void ProjectList::slotClipSelected()
 
 void ProjectList::adjustTranscodeActions(ProjectItem *clip) const
 {
-    if (clip == NULL || clip->type() != PROJECTCLIPTYPE || clip->clipType() == COLOR || clip->clipType() == TEXT || clip->clipType() == PLAYLIST || clip->clipType() == SLIDESHOW || clip->clipType() == IMAGE) {
+    if (clip == NULL || clip->type() != PROJECTCLIPTYPE || clip->clipType() == COLOR || clip->clipType() == TEXT || clip->clipType() == PLAYLIST || clip->clipType() == SLIDESHOW) {
         m_transcodeAction->setEnabled(false);
         return;
     }
