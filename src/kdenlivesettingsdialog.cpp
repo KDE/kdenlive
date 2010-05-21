@@ -121,7 +121,8 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent) :
 
     connect(m_configCapture.kcfg_video4vdevice, SIGNAL(editingFinished()), this, SLOT(rebuildVideo4Commands()));
     connect(m_configCapture.kcfg_video4adevice, SIGNAL(editingFinished()), this, SLOT(rebuildVideo4Commands()));
-    connect(m_configCapture.kcfg_video4vcodec, SIGNAL(editingFinished()), this, SLOT(rebuildVideo4Commands()));    connect(m_configCapture.kcfg_video4acodec, SIGNAL(editingFinished()), this, SLOT(rebuildVideo4Commands()));
+    connect(m_configCapture.kcfg_video4vcodec, SIGNAL(editingFinished()), this, SLOT(rebuildVideo4Commands()));
+    connect(m_configCapture.kcfg_video4acodec, SIGNAL(editingFinished()), this, SLOT(rebuildVideo4Commands()));
     connect(m_configCapture.kcfg_video4vformat, SIGNAL(editingFinished()), this, SLOT(rebuildVideo4Commands()));
     connect(m_configCapture.kcfg_video4aformat, SIGNAL(editingFinished()), this, SLOT(rebuildVideo4Commands()));
     connect(m_configCapture.kcfg_video4size, SIGNAL(editingFinished()), this, SLOT(rebuildVideo4Commands()));
