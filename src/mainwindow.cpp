@@ -2229,17 +2229,19 @@ void MainWindow::slotDeleteItem()
             && QApplication::focusWidget()->parentWidget()->parentWidget() == m_projectListDock) {
         m_projectList->slotRemoveClip();
 
-    } else if (QApplication::focusWidget()
-               && QApplication::focusWidget()->parentWidget()
-               && QApplication::focusWidget()->parentWidget()->parentWidget()
-               && QApplication::focusWidget()->parentWidget()->parentWidget()->parentWidget()
-               && QApplication::focusWidget()->parentWidget()->parentWidget()->parentWidget()->parentWidget()
-               && QApplication::focusWidget()->parentWidget()->parentWidget()->parentWidget()->parentWidget() == m_effectStackDock) {
-        // TODO: also delete effect when an effect widget (slider, geomtryval, ...) has focus
-        m_effectStack->slotItemDel();
+    } else {
+        QWidget *widget = QApplication::focusWidget();
+        while (widget) {
+            if (widget == m_effectStackDock) {
+                m_effectStack->slotItemDel();
+                return;
+            }
+            widget = widget->parentWidget();
+        }
 
-    } else if (m_activeTimeline) {
-        m_activeTimeline->projectView()->deleteSelectedClips();
+        // effect stack has no focus
+        if (m_activeTimeline)
+            m_activeTimeline->projectView()->deleteSelectedClips();
     }
 }
 
