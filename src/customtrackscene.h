@@ -17,6 +17,11 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
+/**
+ * @class CustomTrackScene
+ * @author Jean-Baptiste Mardelle
+ * @brief Holds all scene properties that need to be used by clip items.
+ */
 
 #ifndef CUSTOMTRACKSCENE_H
 #define CUSTOMTRACKSCENE_H
@@ -29,8 +34,6 @@
 
 class KdenliveDoc;
 class MltVideoProfile;
-
-/** This class holds all scene properties that need to be used by clip items */
 
 enum EDITMODE { NORMALEDIT = 0 , OVERWRITEEDIT = 1 , INSERTEDIT = 2 };
 

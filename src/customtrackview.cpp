@@ -832,9 +832,12 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
     while (!m_dragGuide && ct < collisionList.count()) {
         if (collisionList.at(ct)->type() == AVWIDGET || collisionList.at(ct)->type() == TRANSITIONWIDGET) {
             collisionClip = static_cast <AbstractClipItem *>(collisionList.at(ct));
-            if (collisionClip == m_dragItem) {
+            if (collisionClip->isItemLocked())
+                break;
+            if (collisionClip == m_dragItem)
                 collisionClip = NULL;
-            } else m_dragItem = collisionClip;
+            else
+                m_dragItem = collisionClip;
             found = true;
             m_dragItemInfo = m_dragItem->info();
             if (m_dragItem->parentItem() && m_dragItem->parentItem()->type() == GROUPWIDGET && m_dragItem->parentItem() != m_selectionGroup) {
@@ -2640,6 +2643,7 @@ void CustomTrackView::lockTrack(int ix, bool lock)
     int tracknumber = m_document->tracksCount() - ix - 1;
     m_document->switchTrackLock(tracknumber, lock);
     emit doTrackLock(ix, lock);
+    AbstractClipItem *clip = NULL;
     QList<QGraphicsItem *> selection = m_scene->items(0, ix * m_tracksHeight + m_tracksHeight / 2, sceneRect().width(), m_tracksHeight / 2 - 2);
 
     for (int i = 0; i < selection.count(); i++) {
@@ -2648,7 +2652,10 @@ void CustomTrackView::lockTrack(int ix, bool lock)
             if (selection.at(i)->type() == AVWIDGET) emit clipItemSelected(NULL);
             else emit transitionItemSelected(NULL);
         }
-        static_cast <AbstractClipItem *>(selection.at(i))->setItemLocked(lock);
+        clip = static_cast <AbstractClipItem *>(selection.at(i));
+        clip->setItemLocked(lock);
+        if (clip == m_dragItem)
+            m_dragItem = NULL;
     }
     kDebug() << "NEXT TRK STATE: " << m_document->trackInfoAt(tracknumber).isLocked;
     viewport()->update();

@@ -665,7 +665,10 @@ void RenderWidget::slotPrepareExport(bool scriptExport)
     if (m_view.create_chapter->isChecked()) chapterFile = m_view.out_file->url().path() + ".dvdchapter";
 
     // mantisbt 1051
-    KStandardDirs::makeDir(m_view.out_file->url().directory());
+    if (!KStandardDirs::makeDir(m_view.out_file->url().directory())) {
+        KMessageBox::sorry(this, i18n("The directory %1, could not be created.\nPlease make sure you have the required permissions.", m_view.out_file->url().directory()));
+        return;
+    }
 
     emit prepareRenderingData(scriptExport, m_view.render_zone->isChecked(), chapterFile);
 }
