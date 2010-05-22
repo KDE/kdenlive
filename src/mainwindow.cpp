@@ -3314,6 +3314,7 @@ void MainWindow::slotUpdateTimecodeFormat(int ix)
     KdenliveSettings::setFrametimecode(ix == 1);
     m_clipMonitor->updateTimecodeFormat();
     m_projectMonitor->updateTimecodeFormat();
+    m_transitionConfig->updateTimecodeFormat();
     m_activeTimeline->projectView()->clearSelection();
     m_activeTimeline->updateRuler();
 }

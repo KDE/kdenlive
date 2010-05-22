@@ -74,6 +74,11 @@ void TransitionSettings::updateProjectFormat(MltVideoProfile profile, Timecode t
     updateTrackList();
 }
 
+void TransitionSettings::updateTimecodeFormat()
+{
+    m_effectEdit->updateTimecodeFormat();
+}
+
 void TransitionSettings::updateTrackList()
 {
     transitionTrack->blockSignals(true);

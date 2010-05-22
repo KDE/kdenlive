@@ -50,6 +50,7 @@ public:
     static QMap<QString, QImage> iconCache;
     void updateParameter(const QString &name, const QString &value);
     void setFrameSize(QPoint p);
+    void updateTimecodeFormat();
 
 private:
     void clearAllItems();

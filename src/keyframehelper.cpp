@@ -75,14 +75,14 @@ void KeyframeHelper::mouseMoveEvent(QMouseEvent * event)
             m_geom->remove(m_movingItem.frame());
         }
         int pos = qMax(0, (int)(event->x() / m_scale));
-        pos = qMin(m_length, pos);
+        pos = qMin(frameLength, pos);
         m_movingItem.frame(pos);
         update();
         return;
     }
     m_position = event->x() / m_scale;
     m_position = qMax(0, m_position);
-    m_position = qMin(m_length, m_position);
+    m_position = qMin(frameLength, m_position);
     emit positionChanged(m_position);
     update();
 }
@@ -121,7 +121,7 @@ void KeyframeHelper::wheelEvent(QWheelEvent * e)
     if (e->delta() < 0) m_position = m_position - 1;
     else m_position = m_position + 1;
     m_position = qMax(0, m_position);
-    m_position = qMin(m_length, m_position);
+    m_position = qMin(frameLength, m_position);
     emit positionChanged(m_position);
     update();
     /*    int delta = 1;
@@ -137,7 +137,7 @@ void KeyframeHelper::paintEvent(QPaintEvent *e)
     QStylePainter p(this);
     const QRectF clipRect = e->rect();
     p.setClipRect(clipRect);
-    m_scale = (double) width() / m_length;
+    m_scale = (double) width() / frameLength;
     if (m_geom != NULL) {
         int pos = 0;
         p.setPen(QColor(255, 20, 20));
@@ -194,7 +194,7 @@ void KeyframeHelper::setValue(const int pos)
 void KeyframeHelper::setKeyGeometry(Mlt::Geometry *geom, const int length)
 {
     m_geom = geom;
-    m_length = length;
+    frameLength = length;
     update();
 }
 

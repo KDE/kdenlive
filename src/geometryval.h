@@ -41,14 +41,17 @@ class Geometryval : public QWidget, public Ui::Geometryval
 {
     Q_OBJECT
 public:
-    explicit Geometryval(const MltVideoProfile profile, QPoint frame_size, int startPoint = 0, QWidget* parent = 0);
+    explicit Geometryval(const MltVideoProfile profile, Timecode t, QPoint frame_size, int startPoint = 0, QWidget* parent = 0);
     virtual ~Geometryval();
     QDomElement getParamDesc();
     QString getValue() const;
     void setFrameSize(QPoint p);
+    /* update the timecode display depending on what the user wants (frame number or hh:mm:ss:ff) */
+    void updateTimecodeFormat();
 
 private:
     MltVideoProfile m_profile;
+    Timecode m_timecode;
     int m_realWidth;
     GraphicsSceneRectMove *m_scene;
     QGraphicsRectItem *m_paramRect;
@@ -74,7 +77,7 @@ public slots:
 private slots:
     void slotNextFrame();
     void slotPreviousFrame();
-    void slotPositionChanged(int pos, bool seek = true);
+    void slotPositionChanged(int pos = -1, bool seek = true);
     void slotDeleteFrame(int pos = -1);
     void slotAddFrame(int pos = -1);
     void slotUpdateTransitionProperties();
@@ -96,6 +99,8 @@ private slots:
     void slotGeometryY(int value);
     void slotGeometryWidth(int value);
     void slotGeometryHeight(int value);
+    void slotPosUp();
+    void slotPosDown();
 
 signals:
     void parameterChanged();

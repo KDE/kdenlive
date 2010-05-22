@@ -33,6 +33,7 @@ class KeyframeHelper : public QWidget
 public:
     KeyframeHelper(QWidget *parent = 0);
     int value() const;
+    int frameLength;
 
 protected:
     virtual void paintEvent(QPaintEvent * /*e*/);
@@ -44,7 +45,6 @@ protected:
 
 private:
     Mlt::Geometry *m_geom;
-    int m_length;
     int m_position;
     double m_scale;
     bool m_movingKeyframe;

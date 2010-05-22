@@ -35,6 +35,7 @@ public:
     TransitionSettings(QWidget* parent = 0);
     void raiseWindow(QWidget*);
     void updateProjectFormat(MltVideoProfile profile, Timecode t, const QList <TrackInfo> info);
+    void updateTimecodeFormat();
 
 private:
     EffectStackEdit *m_effectEdit;

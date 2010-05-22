@@ -107,7 +107,23 @@ void EffectStackEdit::setFrameSize(QPoint p)
             break;
         }
     }
+}
 
+void EffectStackEdit::updateTimecodeFormat()
+{
+    QDomNodeList namenode = m_params.elementsByTagName("parameter");
+    for (int i = 0; i < namenode.count() ; i++) {
+        QDomNode pa = namenode.item(i);
+        QDomNode na = pa.firstChildElement("name");
+        QString type = pa.attributes().namedItem("type").nodeValue();
+        QString paramName = i18n(na.toElement().text().toUtf8().data());
+
+        if (type == "geometry") {
+            Geometryval *geom = ((Geometryval*)m_valueItems[paramName+"geometry"]);
+            geom->updateTimecodeFormat();
+            break;
+        }
+    }
 }
 
 void EffectStackEdit::updateProjectFormat(MltVideoProfile profile, Timecode t)
@@ -230,7 +246,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int in, int out)
             m_valueItems[paramName+"complex"] = pl;
             connect(pl, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
         } else if (type == "geometry") {
-            Geometryval *geo = new Geometryval(m_profile, m_frameSize, m_in);
+            Geometryval *geo = new Geometryval(m_profile, m_timecode, m_frameSize, m_in);
             geo->setupParam(pa, minFrame, maxFrame);
             m_vbox->addWidget(geo);
             m_valueItems[paramName+"geometry"] = geo;
