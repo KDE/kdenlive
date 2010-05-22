@@ -21,6 +21,8 @@
 #ifndef CUSTOMTRACKVIEW_H
 #define CUSTOMTRACKVIEW_H
 
+#include <KPixmapCache>
+
 #include <QGraphicsView>
 #include <QGraphicsItemAnimation>
 #include <QTimeLine>
@@ -137,6 +139,7 @@ public:
     void clearSelection();
     void editItemDuration();
     void buildGuidesMenu(QMenu *goMenu) const;
+    KPixmapCache* pixmapCache;
 
 public slots:
     void setCursorPos(int pos, bool seek = true);

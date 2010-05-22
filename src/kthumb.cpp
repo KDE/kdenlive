@@ -197,7 +197,7 @@ void KThumb::extractImage(int frame, int frame2)
 void KThumb::doGetThumbs()
 {
     const int theight = KdenliveSettings::trackheight();
-    const int twidth = (int)(theight * m_dar + 0.5);
+    const int twidth = FRAME_SIZE;//(int)(theight * m_dar + 0.5);
 
     while (!m_requestedThumbs.isEmpty()) {
         int frame = m_requestedThumbs.takeFirst();

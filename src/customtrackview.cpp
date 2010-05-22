@@ -130,7 +130,9 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscen
     setLineWidth(0);
     //setCacheMode(QGraphicsView::CacheBackground);
     //setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
+    setViewportUpdateMode(QGraphicsView::SmartViewportUpdate);
 
+    pixmapCache = new KPixmapCache("kdenlive-thumbs");
     KdenliveSettings::setTrackheight(m_tracksHeight);
     m_animationTimer = new QTimeLine(800);
     m_animationTimer->setFrameRange(0, 5);

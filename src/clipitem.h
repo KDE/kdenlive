@@ -26,6 +26,7 @@
 #include <QDomElement>
 #include <QGraphicsSceneMouseEvent>
 #include <QTimer>
+#include <QFuture>
 
 #include "definitions.h"
 #include "gentime.h"
@@ -167,6 +168,7 @@ private:
 
     QPixmap m_videoPix;
     QPixmap m_audioPix;
+    void doGetIntraThumbs(QPainter *painter, const QPointF startPos, int offset, int start, int end);
 
 private slots:
     void slotGetStartThumb();

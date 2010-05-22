@@ -61,9 +61,10 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, i
     setPos(info.startPos.frames(fps), (double)(info.track * KdenliveSettings::trackheight()) + 1);
 
     // set speed independant info
+    if (m_speed <= 0 && m_speed > -1) m_speed = 1.0;
     m_speedIndependantInfo = m_info;
-    m_speedIndependantInfo.cropStart = GenTime((int)(m_info.cropStart.frames(m_fps) * m_speed), m_fps);
-    m_speedIndependantInfo.cropDuration = GenTime((int)(m_info.cropDuration.frames(m_fps) * m_speed), m_fps);
+    m_speedIndependantInfo.cropStart = GenTime((int)(m_info.cropStart.frames(m_fps) * qAbs(m_speed)), m_fps);
+    m_speedIndependantInfo.cropDuration = GenTime((int)(m_info.cropDuration.frames(m_fps) * qAbs(m_speed)), m_fps);
 
     m_videoPix = KIcon("kdenlive-show-video").pixmap(QSize(16, 16));
     m_audioPix = KIcon("kdenlive-show-audio").pixmap(QSize(16, 16));
@@ -739,6 +740,10 @@ void ClipItem::paint(QPainter *painter,
             QLineF l2(mapped.left() + m_startPix.width(), mapped.top(), mapped.left() + m_startPix.width(), mapped.bottom());
             painter->drawLine(l2);
         }
+        if (painter->matrix().m11() == FRAME_SIZE) {
+            int offset = (m_info.startPos + m_info.cropStart).frames(m_fps);
+            doGetIntraThumbs(painter, mapped.topLeft(), m_info.cropStart.frames(m_fps), (int) mapToScene(exposed.left(), 0).x() - offset, (int) mapToScene(exposed.right(), 0).x() - offset);
+        }
         painter->setPen(Qt::black);
     }
 
@@ -770,6 +775,7 @@ void ClipItem::paint(QPainter *painter,
         const int mappedStartPixel =  painter->matrix().map(QPointF(startpixel + cropLeft, 0)).x() - clipStart;
         const int mappedEndPixel =  painter->matrix().map(QPointF(endpixel + cropLeft, 0)).x() - clipStart;
         cropLeft = cropLeft * scale;
+
 
         if (channels >= 1) {
             emit prepareAudioThumb(scale, mappedStartPixel, mappedEndPixel, channels);
@@ -838,7 +844,7 @@ void ClipItem::paint(QPainter *painter,
         pen.setStyle(Qt::DotLine);
 
         for (; it != markers.end(); ++it) {
-            pos = GenTime((int)((*it).time().frames(m_fps) / m_speed + 0.5), m_fps) - cropStart();
+            pos = GenTime((int)((*it).time().frames(m_fps) / qAbs(m_speed) + 0.5), m_fps) - cropStart();
             if (pos > GenTime()) {
                 if (pos > cropDuration()) break;
                 QLineF l(rect().x() + pos.frames(m_fps), rect().y(), rect().x() + pos.frames(m_fps), rect().bottom());
@@ -970,7 +976,7 @@ QList <GenTime> ClipItem::snapMarkers() const
 
     for (int i = 0; i < markers.size(); i++) {
 
-        pos = GenTime((int)(markers.at(i).frames(m_fps) / m_speed + 0.5), m_fps) - cropStart();
+        pos = GenTime((int)(markers.at(i).frames(m_fps) / qAbs(m_speed) + 0.5), m_fps) - cropStart();
         if (pos > GenTime()) {
             if (pos > cropDuration()) break;
             else snaps.append(pos + startPos());
@@ -986,7 +992,7 @@ QList <CommentedTime> ClipItem::commentedSnapMarkers() const
     GenTime pos;
 
     for (int i = 0; i < markers.size(); i++) {
-        pos = GenTime((int)(markers.at(i).time().frames(m_fps) / m_speed + 0.5), m_fps) - cropStart();
+        pos = GenTime((int)(markers.at(i).time().frames(m_fps) / qAbs(m_speed) + 0.5), m_fps) - cropStart();
         if (pos > GenTime()) {
             if (pos > cropDuration()) break;
             else snaps.append(CommentedTime(pos + startPos(), markers.at(i).comment()));
@@ -1165,8 +1171,8 @@ void ClipItem::resizeStart(int posx, bool)
 
     // set speed independant info
     m_speedIndependantInfo = m_info;
-    m_speedIndependantInfo.cropStart = GenTime((int)(m_info.cropStart.frames(m_fps) * m_speed), m_fps);
-    m_speedIndependantInfo.cropDuration = GenTime((int)(m_info.cropDuration.frames(m_fps) * m_speed), m_fps);
+    m_speedIndependantInfo.cropStart = GenTime((int)(m_info.cropStart.frames(m_fps) * qAbs(m_speed)), m_fps);
+    m_speedIndependantInfo.cropDuration = GenTime((int)(m_info.cropDuration.frames(m_fps) * qAbs(m_speed)), m_fps);
 
     if ((int) cropStart().frames(m_fps) != previous) {
         if (m_hasThumbs && KdenliveSettings::videothumbnails()) {
@@ -1186,8 +1192,8 @@ void ClipItem::resizeEnd(int posx)
 
     // set speed independant info
     m_speedIndependantInfo = m_info;
-    m_speedIndependantInfo.cropStart = GenTime((int)(m_info.cropStart.frames(m_fps) * m_speed), m_fps);
-    m_speedIndependantInfo.cropDuration = GenTime((int)(m_info.cropDuration.frames(m_fps) * m_speed), m_fps);
+    m_speedIndependantInfo.cropStart = GenTime((int)(m_info.cropStart.frames(m_fps) * qAbs(m_speed)), m_fps);
+    m_speedIndependantInfo.cropDuration = GenTime((int)(m_info.cropDuration.frames(m_fps) * qAbs(m_speed)), m_fps);
 
     if ((int) cropDuration().frames(m_fps) != previous) {
         if (m_hasThumbs && KdenliveSettings::videothumbnails()) {
@@ -1618,17 +1624,19 @@ int ClipItem::strobe() const
 void ClipItem::setSpeed(const double speed, const int strobe)
 {
     m_speed = speed;
+    if (m_speed <= 0 && m_speed > -1) 
+	m_speed = 1.0;
     m_strobe = strobe;
     if (m_speed == 1.0) m_clipName = baseClip()->name();
     else m_clipName = baseClip()->name() + " - " + QString::number(speed * 100, 'f', 0) + '%';
-    m_info.cropStart = GenTime((int)(m_speedIndependantInfo.cropStart.frames(m_fps) / m_speed + 0.5), m_fps);
-    m_info.cropDuration = GenTime((int)(m_speedIndependantInfo.cropDuration.frames(m_fps) / m_speed + 0.5), m_fps);
+    m_info.cropStart = GenTime((int)(m_speedIndependantInfo.cropStart.frames(m_fps) / qAbs(m_speed) + 0.5), m_fps);
+    m_info.cropDuration = GenTime((int)(m_speedIndependantInfo.cropDuration.frames(m_fps) / qAbs(m_speed) + 0.5), m_fps);
     //update();
 }
 
 GenTime ClipItem::maxDuration() const
 {
-    return GenTime((int)(m_maxDuration.frames(m_fps) / m_speed + 0.5), m_fps);
+    return GenTime((int)(m_maxDuration.frames(m_fps) / qAbs(m_speed) + 0.5), m_fps);
 }
 
 GenTime ClipItem::speedIndependantCropStart() const
@@ -1784,4 +1792,29 @@ void ClipItem::updateKeyframes(QDomElement effect)
     }
     if (!m_keyframes.contains(m_selectedKeyframe)) m_selectedKeyframe = -1;
 }
+
+void ClipItem::doGetIntraThumbs(QPainter *painter, const QPointF startPos, int offset, int start, int end)
+{
+    if (!m_clip->thumbProducer() || clipType() == COLOR) return;
+    if (scene() && scene()->views().isEmpty()) return;
+    CustomTrackView *view = (CustomTrackView *) scene()->views()[0];
+    if (view == NULL) return;
+    const int theight = KdenliveSettings::trackheight();
+    const int twidth = FRAME_SIZE;
+
+    if (clipType() == IMAGE || clipType() == TEXT) {
+        for (int i = start; i <= end; i++)
+            painter->drawPixmap(startPos + QPointF(twidth *(i - offset), 0), m_startPix);
+    }
+    QPixmap p;
+    for (int i = start; i <= end; i++) {
+        if (!view->pixmapCache->find(m_clip->fileURL().path() + "%" + QString::number(i), p)) {
+            p = m_clip->thumbProducer()->extractImage(i, twidth, theight);
+            view->pixmapCache->insert(m_clip->fileURL().path() + "%" + QString::number(i), p);
+        }
+        painter->drawPixmap(startPos + QPointF(twidth *(i - offset), 0), p);
+    }
+}
+
+
 #include "clipitem.moc"
