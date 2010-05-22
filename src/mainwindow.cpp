@@ -3315,6 +3315,7 @@ void MainWindow::slotUpdateTimecodeFormat(int ix)
     m_clipMonitor->updateTimecodeFormat();
     m_projectMonitor->updateTimecodeFormat();
     m_activeTimeline->projectView()->clearSelection();
+    m_activeTimeline->updateRuler();
 }
 
 void MainWindow::slotRemoveFocus()

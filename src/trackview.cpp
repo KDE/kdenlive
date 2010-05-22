@@ -951,4 +951,9 @@ void TrackView::slotUpdateVerticalScroll(int /*min*/, int max)
     headers_container->layout()->setContentsMargins(0, m_trackview->frameWidth(), 0, height);
 }
 
+void TrackView::updateRuler()
+{
+    m_ruler->update();
+}
+
 #include "trackview.moc"

@@ -388,6 +388,8 @@ private slots:
     void slotTranscodeClip();
     void slotSetDocumentRenderProfile(const QString &dest, const QString &group, const QString &name, const QString &file);
     void slotPrepareRendering(bool scriptExport, bool zoneOnly, const QString &chapterFile);
+    /** @brief Switches between displaying frames or timecode.
+    * @param ix 0 = display timecode, 1 = display frames. */
     void slotUpdateTimecodeFormat(int ix);
     /** @brief Removes the focus of anything. */
     void slotRemoveFocus();

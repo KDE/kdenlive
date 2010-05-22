@@ -335,7 +335,8 @@ void CustomRuler::paintEvent(QPaintEvent *e)
     const int value  = m_view->cursorPos() * m_factor - m_offset;
     int minval = (e->rect().left() + m_offset) / FRAME_SIZE - 1;
     const int maxval = (e->rect().right() + m_offset) / FRAME_SIZE + 1;
-    if (minval < 0) minval = 0;
+    if (minval < 0)
+        minval = 0;
 
     double f, fend;
     const int offsetmax = maxval * FRAME_SIZE;
@@ -346,7 +347,11 @@ void CustomRuler::paintEvent(QPaintEvent *e)
     int offsetmin = (e->rect().left() + m_offset) / m_textSpacing;
     offsetmin = offsetmin * m_textSpacing;
     for (f = offsetmin; f < offsetmax; f += m_textSpacing) {
-        QString lab = m_timecode.getTimecodeFromFrames((int)(f / m_factor + 0.5));
+        QString lab;
+        if (KdenliveSettings::frametimecode())
+            lab = QString::number((int)(f / m_factor + 0.5));
+        else
+            lab = m_timecode.getTimecodeFromFrames((int)(f / m_factor + 0.5));
         p.drawText(f - m_offset + 2, LABEL_SIZE, lab);
     }
 
@@ -354,22 +359,28 @@ void CustomRuler::paintEvent(QPaintEvent *e)
     offsetmin = offsetmin * littleMarkDistance;
     // draw the little marks
     fend = m_scale * littleMarkDistance;
-    if (fend > 5) for (f = offsetmin - m_offset; f < offsetmax - m_offset; f += fend)
+    if (fend > 5) {
+        for (f = offsetmin - m_offset; f < offsetmax - m_offset; f += fend)
             p.drawLine((int)f, LITTLE_MARK_X1, (int)f, LITTLE_MARK_X2);
+    }
 
     offsetmin = (e->rect().left() + m_offset) / mediumMarkDistance;
     offsetmin = offsetmin * mediumMarkDistance;
     // draw medium marks
     fend = m_scale * mediumMarkDistance;
-    if (fend > 5) for (f = offsetmin - m_offset - fend; f < offsetmax - m_offset + fend; f += fend)
+    if (fend > 5) {
+        for (f = offsetmin - m_offset - fend; f < offsetmax - m_offset + fend; f += fend)
             p.drawLine((int)f, MIDDLE_MARK_X1, (int)f, MIDDLE_MARK_X2);
+    }
 
     offsetmin = (e->rect().left() + m_offset) / bigMarkDistance;
     offsetmin = offsetmin * bigMarkDistance;
     // draw big marks
     fend = m_scale * bigMarkDistance;
-    if (fend > 5) for (f = offsetmin - m_offset; f < offsetmax - m_offset; f += fend)
+    if (fend > 5) {
+        for (f = offsetmin - m_offset; f < offsetmax - m_offset; f += fend)
             p.drawLine((int)f, BIG_MARK_X1, (int)f, BIG_MARK_X2);
+    }
 
     // draw zone cursors
     int off = offset();

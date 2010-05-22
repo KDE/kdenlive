@@ -17,6 +17,12 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
+/**
+ * @class CustomRuler
+ * @author Jean-Baptiste Mardelle
+ * @brief Manages the timeline ruler.
+ */
+
 #ifndef CUSTOMRULER_H
 #define CUSTOMRULER_H
 
