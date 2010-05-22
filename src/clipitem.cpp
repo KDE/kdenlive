@@ -741,8 +741,10 @@ void ClipItem::paint(QPainter *painter,
             painter->drawLine(l2);
         }
         if (painter->matrix().m11() == FRAME_SIZE) {
-            int offset = (m_info.startPos + m_info.cropStart).frames(m_fps);
-            doGetIntraThumbs(painter, mapped.topLeft(), m_info.cropStart.frames(m_fps), (int) mapToScene(exposed.left(), 0).x() - offset, (int) mapToScene(exposed.right(), 0).x() - offset);
+            int offset = (m_info.startPos - m_info.cropStart).frames(m_fps);
+            int left = qMax((int) m_info.startPos.frames(m_fps) + 1, (int) mapToScene(exposed.left(), 0).x());
+            int right = qMin((int)(m_info.startPos + m_info.cropDuration).frames(m_fps) - 1, (int) mapToScene(exposed.right(), 0).x());
+            doGetIntraThumbs(painter, mapped.topLeft(), m_info.cropStart.frames(m_fps), left - offset, right - offset);
         }
         painter->setPen(Qt::black);
     }
@@ -1624,8 +1626,8 @@ int ClipItem::strobe() const
 void ClipItem::setSpeed(const double speed, const int strobe)
 {
     m_speed = speed;
-    if (m_speed <= 0 && m_speed > -1) 
-	m_speed = 1.0;
+    if (m_speed <= 0 && m_speed > -1)
+        m_speed = 1.0;
     m_strobe = strobe;
     if (m_speed == 1.0) m_clipName = baseClip()->name();
     else m_clipName = baseClip()->name() + " - " + QString::number(speed * 100, 'f', 0) + '%';
