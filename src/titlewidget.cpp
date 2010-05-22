@@ -2115,7 +2115,9 @@ void TitleWidget::slotAddEffect(int ix)
         switch (effect) {
         case NOEFFECT:
             item->setData(100, QVariant());
+#if QT_VERSION >= 0x040600
             item->setGraphicsEffect(0);
+#endif
             break;
         case TYPEWRITEREFFECT:
             /*
