@@ -56,7 +56,6 @@ class Overlay : public QLabel
     Q_OBJECT
 public:
     Overlay(QWidget* parent);
-    virtual void paintEvent(QPaintEvent * event);
     void setOverlayText(const QString &, bool isZone = true);
 
 private:

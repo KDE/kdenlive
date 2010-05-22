@@ -873,26 +873,21 @@ Overlay::Overlay(QWidget* parent) :
         QLabel(parent)
 {
     setAttribute(Qt::WA_TransparentForMouseEvents);
-    setAttribute(Qt::WA_OpaquePaintEvent);
+    //setAttribute(Qt::WA_OpaquePaintEvent);
     //setAttribute(Qt::WA_NoSystemBackground);
-    setAutoFillBackground(false);
-}
-
-void Overlay::paintEvent(QPaintEvent * /*event*/)
-{
-    QPainter painter(this);
-    QColor col;
-    painter.setPen(Qt::white);
-    if (m_isZone) col = QColor(200, 0, 0);
-    else col = QColor(0, 0, 200);
-    painter.fillRect(rect(), col);
-    painter.drawText(rect(), Qt::AlignCenter, text());
+    setAutoFillBackground(true);
+    setBackgroundRole(QPalette::Base);
 }
 
 void Overlay::setOverlayText(const QString &text, bool isZone)
 {
     setHidden(true);
     m_isZone = isZone;
+    QPalette p;
+    p.setColor(QPalette::Text, Qt::white);
+    if (m_isZone) p.setColor(QPalette::Base, QColor(200, 0, 0));
+    else p.setColor(QPalette::Base, QColor(0, 0, 200));
+    setPalette(p);
     setText(' ' + text + ' ');
     setHidden(false);
     update();
