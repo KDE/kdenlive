@@ -112,19 +112,9 @@ Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget
     QWidget *spacer = new QWidget(this);
     spacer->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     toolbar->addWidget(spacer);
-    m_timePos = new KRestrictedLine(this);
+    m_timePos = new TimecodeDisplay(m_monitorManager->timecode(), this);
     m_timePos->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::MinimumExpanding);
-    m_frametimecode = KdenliveSettings::frametimecode();
-    m_timePos->setInputMask("");
-    if (m_frametimecode) {
-        QIntValidator *valid = new QIntValidator(this);
-        valid->setBottom(0);
-        m_timePos->setValidator(valid);
-    } else
-        m_timePos->setValidator(m_monitorManager->timecode().validator());
-
     toolbar->addWidget(m_timePos);
-
     connect(m_timePos, SIGNAL(editingFinished()), this, SLOT(slotSeek()));
 
     layout2->addWidget(toolbar);
@@ -507,20 +497,13 @@ void Monitor::activateMonitor()
 
 void Monitor::setTimePos(const QString &pos)
 {
-    if (m_frametimecode) {
-        int frames = m_monitorManager->timecode().getFrameCount(pos);
-        m_timePos->setText(QString::number(frames));
-    } else m_timePos->setText(pos);
+    m_timePos->setValue(pos);
     slotSeek();
 }
 
 void Monitor::slotSeek()
 {
-    int frames;
-    if (m_frametimecode) frames = m_timePos->text().toInt();
-    else frames = m_monitorManager->timecode().getFrameCount(m_timePos->text());
-    //kDebug() << "// / / SEEK TO: " << frames;
-    slotSeek(frames);
+    slotSeek(m_timePos->value());
 }
 
 void Monitor::slotSeek(int pos)
@@ -624,8 +607,7 @@ void Monitor::seekCursor(int pos)
     activateMonitor();
     if (m_ruler->slotNewValue(pos)) {
         checkOverlay();
-        if (m_frametimecode) m_timePos->setText(QString::number(pos));
-        else m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(pos));
+        m_timePos->setValue(pos);
     }
 }
 
@@ -633,8 +615,7 @@ void Monitor::rendererStopped(int pos)
 {
     if (m_ruler->slotNewValue(pos)) {
         checkOverlay();
-        if (m_frametimecode) m_timePos->setText(QString::number(pos));
-        else m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(pos));
+        m_timePos->setValue(pos);
     }
     disconnect(m_playAction, SIGNAL(triggered()), this, SLOT(slotPlay()));
     m_playAction->setChecked(false);
@@ -825,19 +806,7 @@ void Monitor::slotSwitchMonitorInfo(bool show)
 
 void Monitor::updateTimecodeFormat()
 {
-    m_frametimecode = KdenliveSettings::frametimecode();
-    m_timePos->setInputMask("");
-    if (m_frametimecode) {
-        int frames = m_monitorManager->timecode().getFrameCount(m_timePos->text());
-        QIntValidator *valid = new QIntValidator(this);
-        valid->setBottom(0);
-        m_timePos->setValidator(valid);
-        m_timePos->setText(QString::number(frames));
-    } else {
-        int pos = m_timePos->text().toInt();
-        m_timePos->setValidator(m_monitorManager->timecode().validator());
-        m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(pos));
-    }
+    m_timePos->slotPrepareTimeCodeFormat(m_monitorManager->timecode());
 }
 
 QStringList Monitor::getZoneInfo() const

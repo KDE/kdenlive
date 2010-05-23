@@ -37,9 +37,14 @@ Geometryval::Geometryval(const MltVideoProfile profile, Timecode t, QPoint frame
         m_path(NULL),
         m_fixedMode(false),
         m_frameSize(frame_size),
-        m_startPoint(startPoint)
+        m_startPoint(startPoint),
+        m_timePos(t)
 {
     setupUi(this);
+    m_timePos.setSizePolicy(QSizePolicy::Maximum, QSizePolicy::MinimumExpanding);
+    toolbarlayout->addWidget(&m_timePos);
+    toolbarlayout->insertStretch(-1);
+
     QVBoxLayout* vbox = new QVBoxLayout(widget);
     m_sceneview = new QGraphicsView(this);
     m_sceneview->setBackgroundBrush(QBrush(Qt::black));
@@ -107,8 +112,6 @@ Geometryval::Geometryval(const MltVideoProfile profile, Timecode t, QPoint frame
     connect(buttonAdd , SIGNAL(clicked()) , this , SLOT(slotAddFrame()));
     connect(m_scene, SIGNAL(actionFinished()), this, SLOT(slotUpdateTransitionProperties()));
     connect(m_scene, SIGNAL(doubleClickEvent()), this, SLOT(slotGeometry()));
-    connect(pos_up, SIGNAL(clicked()), this, SLOT(slotPosUp()));
-    connect(pos_down, SIGNAL(clicked()), this, SLOT(slotPosDown()));
 
     buttonhcenter->setIcon(KIcon("kdenlive-align-hor"));
     buttonhcenter->setToolTip(i18n("Align item horizontally"));
@@ -224,9 +227,7 @@ void Geometryval::slotResizeCustom()
 
 void Geometryval::slotTransparencyChanged(int transp)
 {
-    int pos;
-    if (KdenliveSettings::frametimecode()) pos = timePos->text().toInt();
-    else pos = m_timecode.getFrameCount(timePos->text());
+    int pos = m_timePos.value();
     Mlt::GeometryItem item;
     int error = m_geom->fetch(&item, pos);
     if (error || item.key() == false) {
@@ -246,57 +247,16 @@ void Geometryval::slotSyncCursor()
 
 void Geometryval::updateTimecodeFormat()
 {
-    timePos->setInputMask("");
-    if (KdenliveSettings::frametimecode()) {
-        int frames = m_timecode.getFrameCount(timePos->text());
-        QIntValidator *valid = new QIntValidator(this);
-        valid->setBottom(0);
-        timePos->setValidator(valid);
-        timePos->setText(QString::number(frames));
-    } else {
-        int pos = timePos->text().toInt();
-        timePos->setValidator(m_timecode.validator());
-        timePos->setText(m_timecode.getTimecodeFromFrames(pos));
-    }
-}
-
-void Geometryval::slotPosUp()
-{
-    int pos;
-    if (KdenliveSettings::frametimecode()) pos = timePos->text().toInt();
-    else pos = m_timecode.getFrameCount(timePos->text());
-    pos ++;
-    if (pos > m_helper->frameLength) pos = m_helper->frameLength;
-    if (KdenliveSettings::frametimecode()) {
-        timePos->setText(QString::number(pos));
-    } else timePos->setText(m_timecode.getTimecodeFromFrames(pos));
-    slotPositionChanged();
-}
-
-void Geometryval::slotPosDown()
-{
-    int pos;
-    if (KdenliveSettings::frametimecode()) pos = timePos->text().toInt();
-    else pos = m_timecode.getFrameCount(timePos->text());
-    pos --;
-    if (pos < 0) pos = 0;
-    if (KdenliveSettings::frametimecode()) {
-        timePos->setText(QString::number(pos));
-    } else timePos->setText(m_timecode.getTimecodeFromFrames(pos));
-    slotPositionChanged();
+    m_timePos.slotPrepareTimeCodeFormat(m_timecode);
 }
 
 void Geometryval::slotPositionChanged(int pos, bool seek)
 {
     if (pos == -1) {
-        if (KdenliveSettings::frametimecode()) pos = timePos->text().toInt();
-        else pos = m_timecode.getFrameCount(timePos->text());
+        pos = m_timePos.value();
     }
     if (seek && KdenliveSettings::transitionfollowcursor()) emit seekToPos(pos + m_startPoint);
-    if (KdenliveSettings::frametimecode()) {
-        timePos->setText(QString::number(pos));
-    } else timePos->setText(m_timecode.getTimecodeFromFrames(pos));
-
+    m_timePos.setValue(pos);
     //spinPos->setValue(pos);
     m_helper->setValue(pos);
     Mlt::GeometryItem item;
@@ -329,9 +289,7 @@ void Geometryval::slotDeleteFrame(int pos)
 {
     // check there is more than one keyframe
     Mlt::GeometryItem item;
-    int frame;
-    if (KdenliveSettings::frametimecode()) frame = timePos->text().toInt();
-    else frame = m_timecode.getFrameCount(timePos->text());
+    int frame = m_timePos.value();
 
     if (pos == -1) pos = frame;
     int error = m_geom->next_key(&item, pos + 1);
@@ -355,9 +313,7 @@ void Geometryval::slotDeleteFrame(int pos)
 
 void Geometryval::slotAddFrame(int pos)
 {
-    int frame;
-    if (KdenliveSettings::frametimecode()) frame = timePos->text().toInt();
-    else frame = m_timecode.getFrameCount(timePos->text());
+    int frame = m_timePos.value();
     if (pos == -1) pos = frame;
     Mlt::GeometryItem item;
     item.frame(pos);
@@ -389,10 +345,7 @@ void Geometryval::slotNextFrame()
         // Go to end
         pos = m_helper->frameLength;
     } else pos = item.frame();
-
-    if (KdenliveSettings::frametimecode()) {
-        timePos->setText(QString::number(pos));
-    } else timePos->setText(m_timecode.getTimecodeFromFrames(pos));
+    m_timePos.setValue(pos);
     slotPositionChanged();
 }
 
@@ -403,9 +356,7 @@ void Geometryval::slotPreviousFrame()
     kDebug() << "// SEEK TO NEXT KFR: " << error;
     if (error) return;
     int pos = item.frame();
-    if (KdenliveSettings::frametimecode()) {
-        timePos->setText(QString::number(pos));
-    } else timePos->setText(m_timecode.getTimecodeFromFrames(pos));
+    m_timePos.setValue(pos);
     slotPositionChanged();
 }
 
@@ -427,7 +378,7 @@ void Geometryval::setupParam(const QDomElement par, int minFrame, int maxFrame)
         spinTransp->setMaximum(500);
         label_pos->setHidden(true);
         m_helper->setHidden(true);
-        timePos->setHidden(true);
+        m_timePos.setHidden(true);
     }
     if (par.attribute("opacity") == "false") {
         label_opacity->setHidden(true);
@@ -469,7 +420,8 @@ void Geometryval::setupParam(const QDomElement par, int minFrame, int maxFrame)
     slotPositionChanged(0, false);
     slotUpdateGeometry();
     if (!m_fixedMode) {
-        connect(timePos, SIGNAL(editingFinished()), this , SLOT(slotPositionChanged()));
+        m_timePos.setMaximum(maxFrame - minFrame - 1);
+        connect(&m_timePos, SIGNAL(editingFinished()), this , SLOT(slotPositionChanged()));
     }
     connect(spinTransp, SIGNAL(valueChanged(int)), this , SLOT(slotTransparencyChanged(int)));
 }
@@ -497,9 +449,7 @@ void Geometryval::updateTransitionPath()
 
 void Geometryval::slotUpdateTransitionProperties()
 {
-    int pos;
-    if (KdenliveSettings::frametimecode()) pos = timePos->text().toInt();
-    else pos = m_timecode.getFrameCount(timePos->text());
+    int pos = m_timePos.value();
     Mlt::GeometryItem item;
     int error = m_geom->next_key(&item, pos);
     if (error || item.frame() != pos) {
@@ -613,9 +563,7 @@ void Geometryval::slotUpdateGeometry()
 bool Geometryval::keyframeSelected()
 {
     Mlt::GeometryItem item;
-    int pos;
-    if (KdenliveSettings::frametimecode()) pos = timePos->text().toInt();
-    else pos = m_timecode.getFrameCount(timePos->text());
+    int pos = m_timePos.value();
     if (m_geom->fetch(&item, pos) || item.key() == false) return false;
     return true;
 }

@@ -53,7 +53,7 @@
     </widget>
    </item>
    <item row="2" column="0">
-    <layout class="QHBoxLayout" name="horizontalLayout_3">
+    <layout class="QHBoxLayout" name="toolbarlayout">
      <property name="spacing">
       <number>-1</number>
      </property>
@@ -127,78 +127,6 @@
         <string>Pos</string>
        </property>
       </widget>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_4">
-       <property name="spacing">
-        <number>0</number>
-       </property>
-       <item>
-        <widget class="KRestrictedLine" name="timePos">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <layout class="QVBoxLayout" name="verticalLayout_2">
-         <item>
-          <widget class="QToolButton" name="pos_up">
-           <property name="text">
-            <string>...</string>
-           </property>
-           <property name="iconSize">
-            <size>
-             <width>3</width>
-             <height>2</height>
-            </size>
-           </property>
-           <property name="autoRaise">
-            <bool>true</bool>
-           </property>
-           <property name="arrowType">
-            <enum>Qt::UpArrow</enum>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QToolButton" name="pos_down">
-           <property name="text">
-            <string>...</string>
-           </property>
-           <property name="iconSize">
-            <size>
-             <width>3</width>
-             <height>2</height>
-            </size>
-           </property>
-           <property name="autoRaise">
-            <bool>true</bool>
-           </property>
-           <property name="arrowType">
-            <enum>Qt::DownArrow</enum>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer_2">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
      </item>
     </layout>
    </item>
@@ -382,16 +310,6 @@
    <class>KIntSpinBox</class>
    <extends>QSpinBox</extends>
    <header>knuminput.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KRestrictedLine</class>
-   <extends>KLineEdit</extends>
-   <header>krestrictedline.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

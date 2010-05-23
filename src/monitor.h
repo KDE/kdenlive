@@ -30,6 +30,7 @@
 
 #include "gentime.h"
 #include "ui_monitor_ui.h"
+#include "timecodedisplay.h"
 #ifdef Q_WS_MAC
 #include "videoglwidget.h"
 #endif
@@ -117,7 +118,7 @@ private:
     MonitorRefresh *m_monitorRefresh;
     KIcon m_playIcon;
     KIcon m_pauseIcon;
-    KRestrictedLine *m_timePos;
+    TimecodeDisplay *m_timePos;
     QAction *m_playAction;
     QMenu *m_contextMenu;
     QMenu *m_configMenu;
@@ -128,7 +129,6 @@ private:
     VideoGLWidget *m_glWidget;
 #endif
     GenTime getSnapForPos(bool previous);
-    bool m_frametimecode;
 
 private slots:
     void seekCursor(int pos);

@@ -88,6 +88,7 @@ kde4_add_ui_files(kdenlive_UI
   widgets/geometryposition_ui.ui
   widgets/templateclip_ui.ui
   widgets/keyframeeditor_ui.ui
+  widgets/timecodedisplay_ui.ui
 )
 
 set(kdenlive_SRCS
@@ -187,6 +188,7 @@ set(kdenlive_SRCS
   KoSliderCombo.cpp
   kis_cubic_curve.cpp
   kis_curve_widget.cpp
+  timecodedisplay.cpp
 )
 
 add_definitions( ${KDE4_DEFINITIONS} )

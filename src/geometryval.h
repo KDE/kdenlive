@@ -29,6 +29,7 @@
 #include "ui_geometryval_ui.h"
 #include "definitions.h"
 #include "keyframehelper.h"
+#include "timecodedisplay.h"
 #include "ui_geometryposition_ui.h"
 
 //class QGraphicsScene;
@@ -69,6 +70,7 @@ private:
     double m_dar;
     int m_startPoint;
     QGraphicsView *m_sceneview;
+    TimecodeDisplay m_timePos;
     bool keyframeSelected();
 
 public slots:
@@ -99,8 +101,6 @@ private slots:
     void slotGeometryY(int value);
     void slotGeometryWidth(int value);
     void slotGeometryHeight(int value);
-    void slotPosUp();
-    void slotPosDown();
 
 signals:
     void parameterChanged();
