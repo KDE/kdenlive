@@ -645,7 +645,7 @@ DocClipBase *ClipItem::baseClip() const
 
 QDomElement ClipItem::xml() const
 {
-    itemXml();
+    return itemXml();
 }
 
 QDomElement ClipItem::itemXml() const
