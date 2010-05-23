@@ -372,6 +372,7 @@ private slots:
     void slotGetNewMltProfileStuff();
     void slotAutoTransition();
     void slotRunWizard();
+    /** @brief Lets the sampleplugin create a generator.  */
     void generateClip();
     void slotZoneMoved(int start, int end);
     void slotUpdatePreviewSettings();
