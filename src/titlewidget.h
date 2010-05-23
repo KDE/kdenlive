@@ -100,7 +100,7 @@ public:
     /** @brief Returns clip out position. */
     int outPoint() const;
 
-    /** @brief Loads title templates. */
+    /** @brief Retrieves a list of all available title templates. */
     static void refreshTitleTemplates();
 
 protected:
@@ -216,7 +216,7 @@ public slots:
     void slotNewRect(QGraphicsRectItem *rect);
     void slotChangeBackground();
 
-    /** @brief Sets up the tools according to the selected item. */
+    /** @brief Sets up the tools (toolbars etc.) according to the selected item. */
     void selectionChanged();
     void rectChanged();
     void setupViewports();
@@ -282,6 +282,7 @@ private slots:
     void slotAdjustZoom();
     void slotZoomOneToOne();
 
+    /** Called whenever text properties change (font e.g.) */
     void slotUpdateText();
     void slotInsertUnicode();
     void slotInsertUnicodeString(QString);
@@ -332,6 +333,7 @@ private slots:
     void slotZIndexDown();
     void slotZIndexTop();
     void slotZIndexBottom();
+    /** Called when the user wants to apply a different template to the title */
     void templateIndexChanged(int);
 };
 

@@ -139,6 +139,7 @@ private:
     QString searchFileRecursively(const QDir &dir, const QString &matchSize, const QString &matchHash) const;
     void moveProjectData(KUrl url);
     bool checkDocumentClips(QDomNodeList infoproducers);
+    /** Creates a new project */
     QDomDocument createEmptyDocument(int videotracks, int audiotracks);
     QDomDocument createEmptyDocument(QList <TrackInfo> tracks);
 
