@@ -63,36 +63,61 @@ public:
     void setFadeOut(int pos);
     void setFadeIn(int pos);
     void setFades(int in, int out);
-    /** Give a string list of the clip's effect names */
+
+    /** @brief Gets the clip's effect names.
+    * @return The names of the effects in a string list */
     QStringList effectNames();
-    /** Add an effect to the clip and return the parameters that will be passed to Mlt */
+
+    /** @brief Adds an effect to the clip.
+    * @return The parameters that will be passed to Mlt */
     EffectsParameterList addEffect(const QDomElement effect, bool animate = true);
-    /** Get the effect parameters that will be passed to Mlt */
+
+    /** @brief Gets the effect parameters that will be passed to Mlt. */
     EffectsParameterList getEffectArgs(QDomElement effect);
-    /** Delete effect with id index */
+
+    /** @brief Deletes the effect with id @param index. */
     void deleteEffect(QString index);
-    /** return the number of effects in that clip */
+
+    /** @brief Gets the number of effects in this clip. */
     int effectsCount();
-    /** return a unique effect id */
+
+    /** @brief Gets a unique (?) effect id. */
     int effectsCounter();
-    /** return a copy of the xml of effect at index ix in stack */
+
+    /** @brief Gets a copy of the xml of an effect.
+    * @param ix The effect's index in effectlist
+    * @return A copy of the effect's xml */
     QDomElement effectAt(int ix) const;
-    /** return the xml of effect at index ix in stack */
+
+    /** @brief Gets the xml of an effect.
+    * @param ix The effect's index in effectlist
+    * @return The effect's xml */
     QDomElement getEffectAt(int ix) const;
-    /** Replace effect at pos ix with given value */
+
+    /** @brief Replaces an effect.
+    * @param ix The effect's index in effectlist
+    * @param effect The new effect */
     void setEffectAt(int ix, QDomElement effect);
     void flashClip();
     void addTransition(Transition*);
-    /** regenerate audio and video thumbnails */
+
+    /** @brief Regenerates audio and video thumbnails.
+    * @param clearExistingThumbs true = regenerate all thumbs, false = only create missing thumbs. */
     void resetThumbs(bool clearExistingThumbs);
-    /** update clip properties from base clip */
+
+    /** @brief Updates clip properties from base clip.
+    * @param checkDuration whether or not to check for a valid duration. */
     void refreshClip(bool checkDuration);
-    /** Returns a list of times for this clip's markers */
+
+    /** @brief Gets clip's marker times.
+    * @return A list of the times. */
     QList <GenTime> snapMarkers() const;
     QList <CommentedTime> commentedSnapMarkers() const;
-    /** Get the position of the fade in effect */
+
+    /** @brief Gets the position of the fade in effect. */
     int fadeIn() const;
-    /** Get the position of the fade out effect */
+
+    /** @brief Gets the position of the fade out effect. */
     int fadeOut() const;
     void setSelectedEffect(const int ix);
     void updateKeyframeEffect();
@@ -117,7 +142,12 @@ public:
     void setAudioOnly(bool force);
     bool isVideoOnly() const;
     bool isAudioOnly() const;
-    /** Called when clip start is resized, adjust keyframes values */
+
+    /** @brief Adjusts the keyframe values to fit a clip resizement.
+    * @param previous Old crop value
+    * @param current New crop value
+    * @param fromStart true = crop from start, false = crop from end
+    * @return true if anything was modified */
     bool checkEffectsKeyframesPos(const int previous, const int current, bool fromStart);
     void insertKeyframe(QDomElement effect, int pos, int val);
     void movedKeyframe(QDomElement effect, int oldpos, int newpos, double value);

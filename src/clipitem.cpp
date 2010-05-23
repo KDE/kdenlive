@@ -504,11 +504,10 @@ void ClipItem::refreshClip(bool checkDuration)
                 if (m_info.cropStart > m_maxDuration) {
                     m_info.cropStart = GenTime();
                     m_info.cropDuration = qMin(m_info.cropDuration, m_maxDuration);
-                    updateRectGeometry();
                 } else {
                     m_info.cropDuration = m_maxDuration;
-                    updateRectGeometry();
                 }
+                updateRectGeometry();
             }
         }
     }
@@ -646,12 +645,7 @@ DocClipBase *ClipItem::baseClip() const
 
 QDomElement ClipItem::xml() const
 {
-    QDomElement xml = m_clip->toXML();
-    if (m_speed != 1.0) xml.setAttribute("speed", m_speed);
-    if (m_strobe > 1) xml.setAttribute("strobe", m_strobe);
-    if (m_audioOnly) xml.setAttribute("audio_only", 1);
-    else if (m_videoOnly) xml.setAttribute("video_only", 1);
-    return xml;
+    itemXml();
 }
 
 QDomElement ClipItem::itemXml() const
@@ -977,7 +971,6 @@ QList <GenTime> ClipItem::snapMarkers() const
     GenTime pos;
 
     for (int i = 0; i < markers.size(); i++) {
-
         pos = GenTime((int)(markers.at(i).frames(m_fps) / qAbs(m_speed) + 0.5), m_fps) - cropStart();
         if (pos > GenTime()) {
             if (pos > cropDuration()) break;
@@ -1223,10 +1216,12 @@ bool ClipItem::checkEffectsKeyframesPos(const int previous, const int current, b
                     pos = str.section(':', 0, 0).toInt();
                     val = str.section(':', 1, 1).toDouble();
                     if (pos == previous) {
+                        // first or last keyframe
                         kfr[current] = val;
                         modified = true;
                     } else {
                         if ((fromStart && pos >= current) || (!fromStart && pos <= current)) {
+                            // only keyframes in range
                             kfr[pos] = val;
                             modified = true;
                         }
