@@ -553,6 +553,19 @@ void TitleWidget::templateIndexChanged(int index)
             if(KMessageBox::questionYesNo(this, i18n("Do you really want to load a new template? Changes in this title will be lost!")) == KMessageBox::No) return;
         }
         loadTitle(item);
+
+        // mbt 1607: Add property to distinguish between unchanged template titles and user titles.
+        // Text of unchanged template titles should be selected when clicked.
+        QList<QGraphicsItem *> list = graphicsView->scene()->items();
+        foreach(QGraphicsItem * qgItem, list) {
+            if(qgItem->type() == TEXTITEM) {
+                QGraphicsTextItem *i;
+                i = static_cast<QGraphicsTextItem *>(qgItem);
+                i->setProperty("isTemplate", "true");
+                i->setProperty("templateText", i->toHtml());
+            }
+
+        }
         lastDocumentHash = QCryptographicHash::hash(xml().toString().toAscii(), QCryptographicHash::Md5).toHex();
     }
 }
@@ -845,7 +858,22 @@ void TitleWidget::zIndexChanged(int v)
 void TitleWidget::selectionChanged()
 {
     if(m_scene->tool() != TITLE_SELECT) return;
-    QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
+
+    QList<QGraphicsItem *> l;
+
+    // mbt 1607: One text item might have grabbed the keyboard.
+    // Ungrab it for all items that are not selected, otherwise
+    // text input would only work for the text item that grabbed
+    // the keyboard last.
+    l = graphicsView->scene()->items();
+    foreach(QGraphicsItem * item, l) {
+        if(item->type() == TEXTITEM && !item->isSelected()) {
+            QGraphicsTextItem *i = static_cast<QGraphicsTextItem *>(item);
+            i->ungrabKeyboard();
+        }
+    }
+
+    l = graphicsView->scene()->selectedItems();
     //toolBox->setItemEnabled(2, false);
     //toolBox->setItemEnabled(3, false);
     effect_list->blockSignals(true);
@@ -998,9 +1026,15 @@ void TitleWidget::selectionChanged()
             buttonAlignNone->blockSignals(false);
             buttonAlignCenter->blockSignals(false);
 
-            // Later
-//      cur.select(QTextCursor::Document);
-//      i->setTextCursor(cur);
+            // mbt 1607: Select text if the text item is an unchanged template item.
+            if(i->property("isTemplate").isValid()) {
+                cur.setPosition(0, QTextCursor::MoveAnchor);
+                cur.select(QTextCursor::Document);
+                i->setTextCursor(cur);
+                // Make text editable now.
+                i->grabKeyboard();
+                i->setTextInteractionFlags(Qt::TextEditorInteraction);
+            }
 
             updateAxisButtons(i);
             updateCoordinates(i);
@@ -1071,6 +1105,7 @@ void TitleWidget::selectionChanged()
     // Tools working on more than one element.
     if(l.size() > 0)
         effect_list->blockSignals(false);
+
 }
 
 void TitleWidget::slotValueChanged(int type)
@@ -1451,6 +1486,18 @@ void TitleWidget::textChanged(QGraphicsTextItem *i)
              * updated here, a newly created text field would be set to the
              * position of the last selected text field.
              */
+        }
+    }
+
+    // mbt 1607: Template text has changed; don't auto-select content anymore.
+    if(i->property("isTemplate").isValid()) {
+        if(i->property("templateText").isValid()) {
+            if(i->property("templateText") == i->toHtml()) {
+                // Unchanged, do nothing.
+            } else {
+                i->setProperty("isTemplate", QVariant::Invalid);
+                i->setProperty("templateText", QVariant::Invalid);
+            }
         }
     }
 }

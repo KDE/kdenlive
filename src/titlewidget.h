@@ -225,7 +225,9 @@ public slots:
     void itemRotateX(qreal);
     void itemRotateY(qreal);
     void itemRotateZ(qreal);
+    /** Save a title to a title file */
     void saveTitle(KUrl url = KUrl());
+    /** Load a title from a title file */
     void loadTitle(KUrl url = KUrl());
 
 private slots:
