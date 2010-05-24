@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1100</width>
+    <width>1102</width>
     <height>679</height>
    </rect>
   </property>
@@ -686,12 +686,18 @@
      <property name="text">
       <string>V</string>
      </property>
+     <property name="autoRaise">
+      <bool>true</bool>
+     </property>
     </widget>
    </item>
    <item row="3" column="1">
     <widget class="QToolButton" name="buttonRealSize">
      <property name="text">
       <string>V</string>
+     </property>
+     <property name="autoRaise">
+      <bool>true</bool>
      </property>
     </widget>
    </item>

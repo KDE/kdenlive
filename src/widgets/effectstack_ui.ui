@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>EffectStack_UI</class>
- <widget class="QWidget" name="EffectStack_UI" >
-  <property name="geometry" >
+ <widget class="QWidget" name="EffectStack_UI">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,91 +10,103 @@
     <height>344</height>
    </rect>
   </property>
-  <property name="sizePolicy" >
-   <sizepolicy vsizetype="Expanding" hsizetype="Preferred" >
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
-  <layout class="QGridLayout" name="gridLayout_2" >
-   <item row="0" column="0" >
-    <widget class="QSplitter" name="splitter" >
-     <property name="orientation" >
+  <layout class="QGridLayout" name="gridLayout_2">
+   <item row="0" column="0">
+    <widget class="QSplitter" name="splitter">
+     <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
-     <widget class="QWidget" name="" >
-      <layout class="QGridLayout" name="gridLayout" >
-       <property name="horizontalSpacing" >
+     <widget class="QWidget" name="layoutWidget">
+      <layout class="QGridLayout" name="gridLayout">
+       <property name="horizontalSpacing">
         <number>2</number>
        </property>
-       <item row="0" column="0" colspan="7" >
-        <widget class="KListWidget" name="effectlist" >
-         <property name="sizePolicy" >
-          <sizepolicy vsizetype="Expanding" hsizetype="Preferred" >
+       <item row="0" column="0" colspan="7">
+        <widget class="KListWidget" name="effectlist">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <property name="dragDropMode" >
+         <property name="dragDropMode">
           <enum>QAbstractItemView::InternalMove</enum>
          </property>
-         <property name="alternatingRowColors" >
+         <property name="alternatingRowColors">
           <bool>true</bool>
          </property>
-         <property name="movement" >
+         <property name="movement">
           <enum>QListView::Free</enum>
          </property>
         </widget>
        </item>
-       <item row="1" column="0" >
-        <widget class="QToolButton" name="buttonNew" >
-         <property name="text" >
+       <item row="1" column="0">
+        <widget class="QToolButton" name="buttonNew">
+         <property name="text">
           <string>N</string>
          </property>
-         <property name="popupMode" >
+         <property name="popupMode">
           <enum>QToolButton::InstantPopup</enum>
          </property>
+         <property name="autoRaise">
+          <bool>true</bool>
+         </property>
         </widget>
        </item>
-       <item row="1" column="1" >
-        <widget class="QToolButton" name="buttonUp" >
-         <property name="enabled" >
+       <item row="1" column="1">
+        <widget class="QToolButton" name="buttonUp">
+         <property name="enabled">
           <bool>false</bool>
          </property>
-         <property name="text" >
+         <property name="text">
           <string>Up</string>
          </property>
+         <property name="autoRaise">
+          <bool>true</bool>
+         </property>
         </widget>
        </item>
-       <item row="1" column="2" >
-        <widget class="QToolButton" name="buttonDown" >
-         <property name="enabled" >
+       <item row="1" column="2">
+        <widget class="QToolButton" name="buttonDown">
+         <property name="enabled">
           <bool>false</bool>
          </property>
-         <property name="text" >
+         <property name="text">
           <string>Dw</string>
          </property>
+         <property name="autoRaise">
+          <bool>true</bool>
+         </property>
         </widget>
        </item>
-       <item row="1" column="3" >
-        <widget class="QToolButton" name="buttonReset" >
-         <property name="enabled" >
+       <item row="1" column="3">
+        <widget class="QToolButton" name="buttonReset">
+         <property name="enabled">
           <bool>false</bool>
          </property>
-         <property name="text" >
+         <property name="text">
           <string>R</string>
+         </property>
+         <property name="autoRaise">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
-       <item row="1" column="4" >
+       <item row="1" column="4">
         <spacer>
-         <property name="orientation" >
+         <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
-         <property name="sizeType" >
+         <property name="sizeType">
           <enum>QSizePolicy::Expanding</enum>
          </property>
-         <property name="sizeHint" stdset="0" >
+         <property name="sizeHint" stdset="0">
           <size>
            <width>40</width>
            <height>20</height>
@@ -101,31 +114,37 @@
          </property>
         </spacer>
        </item>
-       <item row="1" column="5" >
-        <widget class="QToolButton" name="buttonSave" >
-         <property name="enabled" >
+       <item row="1" column="5">
+        <widget class="QToolButton" name="buttonSave">
+         <property name="enabled">
           <bool>false</bool>
          </property>
-         <property name="text" >
+         <property name="text">
           <string>E</string>
+         </property>
+         <property name="autoRaise">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
-       <item row="1" column="6" >
-        <widget class="QToolButton" name="buttonDel" >
-         <property name="enabled" >
+       <item row="1" column="6">
+        <widget class="QToolButton" name="buttonDel">
+         <property name="enabled">
           <bool>false</bool>
          </property>
-         <property name="text" >
+         <property name="text">
           <string>D</string>
+         </property>
+         <property name="autoRaise">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
       </layout>
      </widget>
-     <widget class="QFrame" name="frame" >
-      <property name="sizePolicy" >
-       <sizepolicy vsizetype="Preferred" hsizetype="MinimumExpanding" >
+     <widget class="QFrame" name="frame">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>

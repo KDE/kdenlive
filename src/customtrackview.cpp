@@ -2703,6 +2703,11 @@ void CustomTrackView::slotRemoveSpace()
         track = (int)(mapToScene(m_menuPosition).y() / m_tracksHeight);
     }
 
+    if (m_document->isTrackLocked(m_document->tracksCount() - track - 1)) {
+        emit displayMessage(i18n("Cannot remove space in a locked track"), ErrorMessage);
+        return;
+    }
+
     ClipItem *item = getClipItemAt(pos, track);
     if (item) {
         emit displayMessage(i18n("You must be in an empty space to remove space (time: %1, track: %2)", m_document->timecode().getTimecodeFromFrames(mapToScene(m_menuPosition).x()), track), ErrorMessage);
@@ -2759,6 +2764,11 @@ void CustomTrackView::slotInsertSpace()
     if (d.exec() != QDialog::Accepted) return;
     GenTime spaceDuration = d.selectedDuration();
     track = d.selectedTrack();
+
+    if (m_document->isTrackLocked(m_document->tracksCount() - track - 1)) {
+        emit displayMessage(i18n("Cannot insert space in a locked track"), ErrorMessage);
+        return;
+    }
 
     ClipItem *item = getClipItemAt(pos, track);
     if (item) pos = item->startPos();

@@ -104,7 +104,11 @@ public:
     void setDocumentModified();
     void setInPoint();
     void setOutPoint();
+    /** @brief Prepares inserting space.
+    *
+    * Shows a dialog to configure length and track. */
     void slotInsertSpace();
+    /** @brief Prepares removing space. */
     void slotRemoveSpace();
     void insertSpace(QList<ItemInfo> clipsToMove, QList<ItemInfo> transToMove, int track, const GenTime duration, const GenTime offset);
     ClipItem *getActiveClipUnderCursor(bool allowOutsideCursor = false) const;
