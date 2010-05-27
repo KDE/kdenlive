@@ -87,6 +87,11 @@ EffectStackView::~EffectStackView()
     delete m_effectedit;
 }
 
+void EffectStackView::updateTimecodeFormat()
+{
+    m_effectedit->updateTimecodeFormat();
+}
+
 void EffectStackView::setMenu(QMenu *menu)
 {
     m_ui.buttonNew->setMenu(menu);
@@ -144,6 +149,7 @@ void EffectStackView::slotClipItemSelected(ClipItem* c, int ix)
     if (c && !c->isEnabled()) return;
     if (c && c == m_clipref) {
         if (ix == -1) ix = m_ui.effectlist->currentRow();
+        //if (ix == -1 || ix == m_ui.effectlist->currentRow()) return;
     } else {
         m_clipref = c;
         if (c) {

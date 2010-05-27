@@ -123,6 +123,11 @@ void EffectStackEdit::updateTimecodeFormat()
             geom->updateTimecodeFormat();
             break;
         }
+        if (type == "position") {
+            PositionEdit *posi = ((PositionEdit*)m_valueItems[paramName+"position"]);
+            posi->updateTimecodeFormat();
+            break;
+        }
     }
 }
 

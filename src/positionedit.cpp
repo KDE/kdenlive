@@ -1,5 +1,5 @@
 /***************************************************************************
-                          geomeytrval.cpp  -  description
+                          positionedit.cpp  -  description
                              -------------------
     begin                : 03 Aug 2008
     copyright            : (C) 2008 by Marco Gittler
@@ -20,52 +20,63 @@
 
 #include <KDebug>
 
+#include <QLabel>
+#include <QSlider>
+
 PositionEdit::PositionEdit(const QString name, int pos, int min, int max, const Timecode tc, QWidget* parent) :
-        QWidget(parent),
-        m_tc(tc),
-        m_frameDisplay(KdenliveSettings::frametimecode())
+        QWidget(parent)
 {
-    m_ui.setupUi(this);
-    m_ui.label->setText(name);
-    m_ui.horizontalSlider->setRange(min, max);
-    connect(m_ui.horizontalSlider, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateTimecode()));
-    connect(m_ui.krestrictedline, SIGNAL(editingFinished()), this, SLOT(slotUpdatePosition()));
-    m_ui.horizontalSlider->setValue(pos);
-    if (m_frameDisplay) {
-        QValidator *valid = new QIntValidator(this);
-        m_ui.krestrictedline->setInputMask("");
-        m_ui.krestrictedline->setValidator(valid);
-    }
-    m_ui.krestrictedline->setText(m_tc.getDisplayTimecodeFromFrames(pos, m_frameDisplay));
+    QVBoxLayout *l = new QVBoxLayout;
+    QLabel *lab = new QLabel(name);
+    l->addWidget(lab);
+
+    QHBoxLayout *l2 = new QHBoxLayout;
+    m_display = new TimecodeDisplay(tc);
+    m_slider = new QSlider(Qt::Horizontal);
+    m_slider->setSizePolicy(QSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred));
+    m_display->setSizePolicy(QSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred));
+    l2->addWidget(m_display);
+    l2->addWidget(m_slider);
+    m_display->setRange(min, max);
+    m_slider->setRange(min, max);
+    connect(m_slider, SIGNAL(valueChanged(int)), m_display, SLOT(setValue(int)));
+    connect(m_slider, SIGNAL(valueChanged(int)), this, SIGNAL(parameterChanged()));
+    connect(m_display, SIGNAL(editingFinished()), this, SLOT(slotUpdatePosition()));
+    m_slider->setValue(pos);
+    l->addLayout(l2);
+    setLayout(l);
+}
+
+PositionEdit::~PositionEdit()
+{
+    m_display->blockSignals(true);
+    m_slider->blockSignals(true);
+    delete m_slider;
+    delete m_display;
+}
+
+void PositionEdit::updateTimecodeFormat()
+{
+    m_display->slotPrepareTimeCodeFormat(m_display->timecode());
 }
 
 int PositionEdit::getPosition() const
 {
-    return m_ui.horizontalSlider->value();
+    return m_slider->value();
 }
 
 void PositionEdit::setPosition(int pos)
 {
-    m_ui.horizontalSlider->setValue(pos);
-    m_ui.krestrictedline->setText(m_tc.getDisplayTimecodeFromFrames(pos, m_frameDisplay));
+    m_slider->setValue(pos);
+    m_display->setValue(pos);
 }
 
-void PositionEdit::slotUpdateTimecode()
-{
-    m_ui.krestrictedline->setText(m_tc.getDisplayTimecodeFromFrames(m_ui.horizontalSlider->value(), m_frameDisplay));
-    emit parameterChanged();
-}
 
 void PositionEdit::slotUpdatePosition()
 {
-    m_ui.horizontalSlider->blockSignals(true);
-    int pos = m_tc.getDisplayFrameCount(m_ui.krestrictedline->text(), m_frameDisplay);
-    m_ui.horizontalSlider->setValue(pos);
-    if (pos != m_ui.horizontalSlider->value()) {
-        // Value out of range
-        m_ui.krestrictedline->setText(m_tc.getDisplayTimecodeFromFrames(m_ui.horizontalSlider->value(), m_frameDisplay));
-    }
-    m_ui.horizontalSlider->blockSignals(false);
+    m_slider->blockSignals(true);
+    m_slider->setValue(m_display->value());
+    m_slider->blockSignals(false);
     emit parameterChanged();
 }
 

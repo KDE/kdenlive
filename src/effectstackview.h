@@ -42,6 +42,7 @@ public:
     void clear();
     void setMenu(QMenu *menu);
     void updateProjectFormat(MltVideoProfile profile, Timecode t);
+    void updateTimecodeFormat();
 
 private:
     Ui::EffectStack_UI m_ui;

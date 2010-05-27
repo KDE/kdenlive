@@ -126,13 +126,14 @@ int TimecodeDisplay::value() const
     return frames;
 }
 
-void TimecodeDisplay::setMinimum(int min)
+Timecode TimecodeDisplay::timecode() const
 {
-    m_minimum = min;
+    return m_timecode;
 }
 
-void TimecodeDisplay::setMaximum(int max)
+void TimecodeDisplay::setRange(int min, int max)
 {
+    m_minimum = min;
     m_maximum = max;
 }
 

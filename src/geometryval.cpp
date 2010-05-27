@@ -420,7 +420,7 @@ void Geometryval::setupParam(const QDomElement par, int minFrame, int maxFrame)
     slotPositionChanged(0, false);
     slotUpdateGeometry();
     if (!m_fixedMode) {
-        m_timePos.setMaximum(maxFrame - minFrame - 1);
+        m_timePos.setRange(0, maxFrame - minFrame - 1);
         connect(&m_timePos, SIGNAL(editingFinished()), this , SLOT(slotPositionChanged()));
     }
     connect(spinTransp, SIGNAL(valueChanged(int)), this , SLOT(slotTransparencyChanged(int)));

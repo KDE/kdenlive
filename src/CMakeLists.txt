@@ -58,7 +58,6 @@ kde4_add_ui_files(kdenlive_UI
   widgets/wipeval_ui.ui
   widgets/boolval_ui.ui
   widgets/colorval_ui.ui
-  widgets/positionval_ui.ui
   widgets/titlewidget_ui.ui
   widgets/unicodedialog_ui.ui
   widgets/timelinebuttons_ui.ui

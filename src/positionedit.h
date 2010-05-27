@@ -21,25 +21,24 @@
 
 #include <QWidget>
 
-#include "ui_positionval_ui.h"
 #include "timecode.h"
-
+#include "timecodedisplay.h"
 
 class PositionEdit : public QWidget
 {
     Q_OBJECT
 public:
     explicit PositionEdit(const QString name, int pos, int min, int max, const Timecode tc, QWidget* parent = 0);
+    virtual ~PositionEdit();
     int getPosition() const;
     void setPosition(int pos);
+    void updateTimecodeFormat();
 
 private:
-    Ui::Positionval_UI m_ui;
-    Timecode m_tc;
-    bool m_frameDisplay;
+    TimecodeDisplay *m_display;
+    QSlider *m_slider;
 
 private slots:
-    void slotUpdateTimecode();
     void slotUpdatePosition();
 
 signals:

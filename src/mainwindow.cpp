@@ -531,7 +531,7 @@ void MainWindow::generateClip()
     ClipGenerator *iGenerator = qobject_cast<ClipGenerator *>(action->parent());
 
     KUrl clipUrl = iGenerator->generatedClip(action->data().toString(), m_activeDocument->projectFolder(),
-                                             QStringList(), QStringList(), m_activeDocument->fps(), m_activeDocument->width(), m_activeDocument->height());
+                   QStringList(), QStringList(), m_activeDocument->fps(), m_activeDocument->width(), m_activeDocument->height());
     if (!clipUrl.isEmpty()) {
         m_projectList->slotAddClip(QList <QUrl> () << clipUrl);
     }
@@ -3316,7 +3316,8 @@ void MainWindow::slotUpdateTimecodeFormat(int ix)
     m_clipMonitor->updateTimecodeFormat();
     m_projectMonitor->updateTimecodeFormat();
     m_transitionConfig->updateTimecodeFormat();
-    m_activeTimeline->projectView()->clearSelection();
+    m_effectStack->updateTimecodeFormat();
+    //m_activeTimeline->projectView()->clearSelection();
     m_activeTimeline->updateRuler();
 }
 

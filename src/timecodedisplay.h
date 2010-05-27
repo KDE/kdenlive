@@ -72,21 +72,18 @@ public:
     int maximum() const;
 
     /**
-     * Sets the minimum value that can be entered.
+     * Sets the minimum maximum value that can be entered.
      * @param min the minimum value
-     */
-    void setMinimum(int min);
-
-    /**
-     * Sets the maximum value that can be entered.
      * @param max the maximum value
      */
-    void setMaximum(int max);
+    void setRange(int min, int max);
 
     /**
     * The value shown.
     */
     int value() const;
+
+    Timecode timecode() const;
 
     //virtual QSize minimumSizeHint() const; ///< reimplemented from QComboBox
     //virtual QSize sizeHint() const; ///< reimplemented from QComboBox
