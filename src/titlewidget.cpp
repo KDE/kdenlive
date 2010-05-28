@@ -47,6 +47,8 @@
 #include <QGraphicsDropShadowEffect>
 #endif
 
+#include <iostream>
+
 static QList<TitleTemplate> titletemplates;
 
 int settingUp = false;
@@ -859,6 +861,8 @@ void TitleWidget::selectionChanged()
 {
     if(m_scene->tool() != TITLE_SELECT) return;
 
+    std::cout << "Number of selected items: " << graphicsView->scene()->selectedItems().length() << "\n";
+
     QList<QGraphicsItem *> l;
 
     // mbt 1607: One text item might have grabbed the keyboard.
@@ -1101,6 +1105,9 @@ void TitleWidget::selectionChanged()
         itemrotatex->blockSignals(false);
         itemrotatey->blockSignals(false);
         itemrotatez->blockSignals(false);
+    } else {
+	// More than one item selected
+	//TODO
     }
     // Tools working on more than one element.
     if(l.size() > 0)
@@ -1531,39 +1538,48 @@ void TitleWidget::slotUpdateText()
     QColor outlineColor = textOutlineColor->color();
     outlineColor.setAlpha(textOutlineAlpha->value());
     double outlineWidth = textOutline->value() / 10.0;
-    QGraphicsTextItem* item = NULL;
-    QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
-    if(l.size() == 1 && l.at(0)->type() == TEXTITEM) {
-        item = static_cast <QGraphicsTextItem *>(l.at(0));
+    
+    int i;
+    for (i = 0; i < graphicsView->scene()->selectedItems().length(); i++) {
+	QGraphicsTextItem* item = NULL;
+	QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
+	if(l.at(i)->type() == TEXTITEM) {
+	    item = static_cast <QGraphicsTextItem *>(l.at(i));
+	}
+	if(!item) {
+	    // No text item, try next one.
+	    continue;
+	}
+	
+	// Set alignment of all text in the text item
+	QTextCursor cur(item->document());
+	cur.select(QTextCursor::Document);
+	QTextBlockFormat format = cur.blockFormat();
+	if(buttonAlignLeft->isChecked() || buttonAlignCenter->isChecked() || buttonAlignRight->isChecked()) {
+	    item->setTextWidth(item->boundingRect().width());
+	    if(buttonAlignCenter->isChecked()) format.setAlignment(Qt::AlignHCenter);
+	    else if(buttonAlignRight->isChecked()) format.setAlignment(Qt::AlignRight);
+	    else if(buttonAlignLeft->isChecked()) format.setAlignment(Qt::AlignLeft);
+	} else {
+	    format.setAlignment(Qt::AlignLeft);
+	    item->setTextWidth(-1);
+	}
+	
+	// Set font properties
+	item->setFont(font);
+	QTextCharFormat cformat = cur.charFormat();
+
+	item->setData(101, outlineWidth);
+	item->setData(102, outlineColor);
+	if(outlineWidth > 0.0) cformat.setTextOutline(QPen(outlineColor, outlineWidth, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+
+	cformat.setForeground(QBrush(color));
+	cur.setCharFormat(cformat);
+	cur.setBlockFormat(format);
+// 	item->setTextCursor(cur);
+	cur.clearSelection();
+	item->setTextCursor(cur);
     }
-    if(!item) return;
-    //if (item->textCursor().selection ().isEmpty())
-    QTextCursor cur(item->document());
-    cur.select(QTextCursor::Document);
-    QTextBlockFormat format = cur.blockFormat();
-    if(buttonAlignLeft->isChecked() || buttonAlignCenter->isChecked() || buttonAlignRight->isChecked()) {
-        item->setTextWidth(item->boundingRect().width());
-        if(buttonAlignCenter->isChecked()) format.setAlignment(Qt::AlignHCenter);
-        else if(buttonAlignRight->isChecked()) format.setAlignment(Qt::AlignRight);
-        else if(buttonAlignLeft->isChecked()) format.setAlignment(Qt::AlignLeft);
-    } else {
-        format.setAlignment(Qt::AlignLeft);
-        item->setTextWidth(-1);
-    }
-
-    item->setFont(font);
-    QTextCharFormat cformat = cur.charFormat();
-
-    item->setData(101, outlineWidth);
-    item->setData(102, outlineColor);
-    if(outlineWidth > 0.0) cformat.setTextOutline(QPen(outlineColor, outlineWidth, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-
-    cformat.setForeground(QBrush(color));
-    cur.setCharFormat(cformat);
-    cur.setBlockFormat(format);
-    item->setTextCursor(cur);
-    cur.clearSelection();
-    item->setTextCursor(cur);
 }
 
 void TitleWidget::rectChanged()
