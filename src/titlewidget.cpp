@@ -51,6 +51,7 @@
 
 static QList<TitleTemplate> titletemplates;
 
+// What exactly is this variable good for?
 int settingUp = false;
 
 const int IMAGEITEM = 7;
@@ -1106,8 +1107,8 @@ void TitleWidget::selectionChanged()
         itemrotatey->blockSignals(false);
         itemrotatez->blockSignals(false);
     } else {
-	// More than one item selected
-	//TODO
+        // More than one item selected
+        //TODO
     }
     // Tools working on more than one element.
     if(l.size() > 0)
@@ -1538,64 +1539,67 @@ void TitleWidget::slotUpdateText()
     QColor outlineColor = textOutlineColor->color();
     outlineColor.setAlpha(textOutlineAlpha->value());
     double outlineWidth = textOutline->value() / 10.0;
-    
+
     int i;
-    for (i = 0; i < graphicsView->scene()->selectedItems().length(); i++) {
-	QGraphicsTextItem* item = NULL;
-	QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
-	if(l.at(i)->type() == TEXTITEM) {
-	    item = static_cast <QGraphicsTextItem *>(l.at(i));
-	}
-	if(!item) {
-	    // No text item, try next one.
-	    continue;
-	}
-	
-	// Set alignment of all text in the text item
-	QTextCursor cur(item->document());
-	cur.select(QTextCursor::Document);
-	QTextBlockFormat format = cur.blockFormat();
-	if(buttonAlignLeft->isChecked() || buttonAlignCenter->isChecked() || buttonAlignRight->isChecked()) {
-	    item->setTextWidth(item->boundingRect().width());
-	    if(buttonAlignCenter->isChecked()) format.setAlignment(Qt::AlignHCenter);
-	    else if(buttonAlignRight->isChecked()) format.setAlignment(Qt::AlignRight);
-	    else if(buttonAlignLeft->isChecked()) format.setAlignment(Qt::AlignLeft);
-	} else {
-	    format.setAlignment(Qt::AlignLeft);
-	    item->setTextWidth(-1);
-	}
-	
-	// Set font properties
-	item->setFont(font);
-	QTextCharFormat cformat = cur.charFormat();
+    for(i = 0; i < graphicsView->scene()->selectedItems().length(); i++) {
+        QGraphicsTextItem* item = NULL;
+        QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
+        if(l.at(i)->type() == TEXTITEM) {
+            item = static_cast <QGraphicsTextItem *>(l.at(i));
+        }
+        if(!item) {
+            // No text item, try next one.
+            continue;
+        }
 
-	item->setData(101, outlineWidth);
-	item->setData(102, outlineColor);
-	if(outlineWidth > 0.0) cformat.setTextOutline(QPen(outlineColor, outlineWidth, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+        // Set alignment of all text in the text item
+        QTextCursor cur(item->document());
+        cur.select(QTextCursor::Document);
+        QTextBlockFormat format = cur.blockFormat();
+        if(buttonAlignLeft->isChecked() || buttonAlignCenter->isChecked() || buttonAlignRight->isChecked()) {
+            item->setTextWidth(item->boundingRect().width());
+            if(buttonAlignCenter->isChecked()) format.setAlignment(Qt::AlignHCenter);
+            else if(buttonAlignRight->isChecked()) format.setAlignment(Qt::AlignRight);
+            else if(buttonAlignLeft->isChecked()) format.setAlignment(Qt::AlignLeft);
+        } else {
+            format.setAlignment(Qt::AlignLeft);
+            item->setTextWidth(-1);
+        }
 
-	cformat.setForeground(QBrush(color));
-	cur.setCharFormat(cformat);
-	cur.setBlockFormat(format);
-// 	item->setTextCursor(cur);
-	cur.clearSelection();
-	item->setTextCursor(cur);
+        // Set font properties
+        item->setFont(font);
+        QTextCharFormat cformat = cur.charFormat();
+
+        item->setData(101, outlineWidth);
+        item->setData(102, outlineColor);
+        if(outlineWidth > 0.0) cformat.setTextOutline(QPen(outlineColor, outlineWidth, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+
+        cformat.setForeground(QBrush(color));
+        cur.setCharFormat(cformat);
+        cur.setBlockFormat(format);
+//  item->setTextCursor(cur);
+        cur.clearSelection();
+        item->setTextCursor(cur);
     }
 }
 
 void TitleWidget::rectChanged()
 {
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
-    if(l.size() == 1 && l.at(0)->type() == RECTITEM && !settingUp) {
-        QGraphicsRectItem *rec = static_cast<QGraphicsRectItem *>(l.at(0));
-        QColor f = rectFColor->color();
-        f.setAlpha(rectFAlpha->value());
-        QPen penf(f);
-        penf.setWidth(rectLineWidth->value());
-        penf.setJoinStyle(Qt::RoundJoin);
-        rec->setPen(penf);
-        QColor b = rectBColor->color();
-        b.setAlpha(rectBAlpha->value());
-        rec->setBrush(QBrush(b));
+    int i;
+    for(i = 0; i < l.length(); i++) {
+        if(l.at(i)->type() == RECTITEM && !settingUp) {
+            QGraphicsRectItem *rec = static_cast<QGraphicsRectItem *>(l.at(i));
+            QColor f = rectFColor->color();
+            f.setAlpha(rectFAlpha->value());
+            QPen penf(f);
+            penf.setWidth(rectLineWidth->value());
+            penf.setJoinStyle(Qt::RoundJoin);
+            rec->setPen(penf);
+            QColor b = rectBColor->color();
+            b.setAlpha(rectBAlpha->value());
+            rec->setBrush(QBrush(b));
+        }
     }
 }
 
