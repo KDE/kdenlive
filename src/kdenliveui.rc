@@ -32,7 +32,7 @@
       <Menu name="track_menu" ><text>Tracks</text>
 	<Action name="insert_track" />
 	<Action name="delete_track" />
-	<Action name="change_track" />
+	<Action name="config_tracks" />
       </Menu>
       <Separator />
       <Action name="reload_clip" />

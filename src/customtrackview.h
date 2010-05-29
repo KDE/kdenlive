@@ -53,7 +53,6 @@ public:
     virtual void mouseDoubleClickEvent(QMouseEvent *event);
     void addTrack(TrackInfo type, int ix = -1);
     void removeTrack(int ix);
-    void changeTrack(int ix, TrackInfo type);
     /** @brief Makes the document use new track infos (name, type, ...). */
     void configTracks(QList <TrackInfo> trackInfos);
     int cursorPos();
@@ -116,7 +115,6 @@ public:
     void insertSpace(QList<ItemInfo> clipsToMove, QList<ItemInfo> transToMove, int track, const GenTime duration, const GenTime offset);
     ClipItem *getActiveClipUnderCursor(bool allowOutsideCursor = false) const;
     void deleteTimelineTrack(int ix, TrackInfo trackinfo);
-    void changeTimelineTrack(int ix, TrackInfo trackinfo);
     void saveThumbnails();
     void autoTransition();
     QStringList getLadspaParams(QDomElement effect) const;
@@ -185,7 +183,6 @@ public slots:
     void slotCheckPositionScrolling();
     void slotInsertTrack(int ix);
     void slotDeleteTrack(int ix);
-    void slotChangeTrack(int ix);
     /** @brief Shows the configure tracks dialog. */
     void slotConfigTracks(int ix);
     void clipNameChanged(const QString id, const QString name);

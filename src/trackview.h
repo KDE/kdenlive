@@ -119,7 +119,6 @@ signals:
     void zoneMoved(int, int);
     void insertTrack(int);
     void deleteTrack(int);
-    void changeTrack(int);
     void configTrack(int);
     void updateTracksInfo();
     void setZoom(int);

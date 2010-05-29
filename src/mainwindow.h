@@ -369,7 +369,6 @@ private slots:
     void configureNotifications();
     void slotInsertTrack(int ix = 0);
     void slotDeleteTrack(int ix = 0);
-    void slotChangeTrack(int ix = 0);
     /** @brief Shows the configure tracks dialog and updates transitions afterwards. */
     void slotConfigTrack(int ix = -1);
     void slotGetNewLumaStuff();

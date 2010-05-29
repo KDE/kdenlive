@@ -51,8 +51,8 @@ private slots:
     void slotDeleteTrack();
     void deleteTrack();
     void slotAddTrack();
-    void slotChangeTrack();
     void slotRenameTrack();
+    void slotConfigTrack();
     void switchLock(bool emitSignal = true);
 
 signals:
@@ -61,7 +61,6 @@ signals:
     void switchTrackLock(int);
     void insertTrack(int);
     void deleteTrack(int);
-    void changeTrack(int);
     void renameTrack(int);
     void selectTrack(int);
     void configTrack(int);

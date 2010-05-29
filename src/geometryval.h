@@ -30,7 +30,6 @@
 #include "definitions.h"
 #include "keyframehelper.h"
 #include "timecodedisplay.h"
-#include "ui_geometryposition_ui.h"
 
 //class QGraphicsScene;
 class GraphicsSceneRectMove;
@@ -65,7 +64,6 @@ private:
     QAction *m_reset;
     bool m_fixedMode;
     QPoint m_frameSize;
-    Ui::GeometryPosition_UI m_view;
     void updateTransitionPath();
     double m_dar;
     int m_startPoint;

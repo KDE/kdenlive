@@ -48,7 +48,6 @@
 #include "insertspacecommand.h"
 #include "spacerdialog.h"
 #include "addtrackcommand.h"
-#include "changetrackcommand.h"
 #include "movegroupcommand.h"
 #include "ui_addtrack_ui.h"
 #include "initeffects.h"
@@ -2609,15 +2608,6 @@ void CustomTrackView::removeTrack(int ix)
     viewport()->update();
     emit tracksChanged();
     //QTimer::singleShot(500, this, SIGNAL(trackHeightChanged()));
-}
-
-void CustomTrackView::changeTrack(int ix, TrackInfo type)
-{
-    int tracknumber = m_document->tracksCount() - ix;
-    m_document->setTrackType(tracknumber - 1, type);
-    m_document->renderer()->mltChangeTrackState(tracknumber, m_document->trackInfoAt(tracknumber - 1).isMute, m_document->trackInfoAt(tracknumber - 1).isBlind);
-    QTimer::singleShot(300, this, SIGNAL(trackHeightChanged()));
-    viewport()->update();
 }
 
 void CustomTrackView::configTracks(QList < TrackInfo > trackInfos)
@@ -5343,41 +5333,6 @@ void CustomTrackView::slotDeleteTrack(int ix)
     }
 }
 
-void CustomTrackView::slotChangeTrack(int ix)
-{
-    TrackDialog d(m_document, parentWidget());
-    d.label->setText(i18n("Change track"));
-    d.before_select->setHidden(true);
-    d.track_nb->setMaximum(m_document->tracksCount() - 1);
-    d.track_nb->setValue(ix);
-    d.slotUpdateName(ix);
-    d.setWindowTitle(i18n("Change Track Type"));
-
-    TrackInfo oldInfo = m_document->trackInfoAt(m_document->tracksCount() - ix - 1);
-    if (oldInfo.type == VIDEOTRACK)
-        d.video_track->setChecked(true);
-    else
-        d.audio_track->setChecked(true);
-
-    if (d.exec() == QDialog::Accepted) {
-        TrackInfo info;
-        info.isLocked = false;
-        info.isMute = false;
-        info.trackName = oldInfo.trackName;
-        ix = d.track_nb->value();
-
-        if (d.video_track->isChecked()) {
-            info.type = VIDEOTRACK;
-            info.isBlind = false;
-        } else {
-            info.type = AUDIOTRACK;
-            info.isBlind = true;
-        }
-        changeTimelineTrack(ix, info);
-        setDocumentModified();
-    }
-}
-
 void CustomTrackView::slotConfigTracks(int ix)
 {
     TracksConfigDialog d(m_document, ix, parentWidget());
@@ -5415,13 +5370,6 @@ void CustomTrackView::deleteTimelineTrack(int ix, TrackInfo trackinfo)
 
     new AddTrackCommand(this, ix, trackinfo, false, deleteTrack);
     m_commandStack->push(deleteTrack);
-}
-
-void CustomTrackView::changeTimelineTrack(int ix, TrackInfo trackinfo)
-{
-    TrackInfo oldinfo = m_document->trackInfoAt(m_document->tracksCount() - ix - 1);
-    ChangeTrackCommand *changeTrack = new ChangeTrackCommand(this, ix, oldinfo, trackinfo);
-    m_commandStack->push(changeTrack);
 }
 
 void CustomTrackView::autoTransition()

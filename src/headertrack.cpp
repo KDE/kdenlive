@@ -87,14 +87,9 @@ HeaderTrack::HeaderTrack(int index, TrackInfo info, int height, QWidget *parent)
     addAction(removeAction);
     connect(removeAction, SIGNAL(triggered()), this, SLOT(slotDeleteTrack()));
 
-    QAction *changeAction = new QAction(i18n("Change Track Type"), this);
-    addAction(changeAction);
-    connect(changeAction, SIGNAL(triggered()), this, SLOT(slotChangeTrack()));
-
-    QAction *renameAction = new QAction(i18n("Rename Track"), this);
-    addAction(renameAction);
-    connect(renameAction, SIGNAL(triggered()), this, SLOT(slotRenameTrack()));
-
+    QAction *configAction = new QAction(KIcon("configure"), i18n("Configure Track"), this);
+    addAction(configAction);
+    connect(configAction, SIGNAL(triggered()), this, SLOT(slotConfigTrack()));
 }
 
 /*HeaderTrack::~HeaderTrack()
@@ -110,7 +105,7 @@ void HeaderTrack::mousePressEvent(QMouseEvent * event)
 
 void HeaderTrack::mouseDoubleClickEvent(QMouseEvent* event)
 {
-    emit configTrack(m_index);
+    slotConfigTrack();
     QWidget::mouseDoubleClickEvent(event);
 }
 
@@ -164,7 +159,6 @@ void HeaderTrack::switchLock(bool emitSignal)
     if (emitSignal) emit switchTrackLock(m_index);
 }
 
-
 void HeaderTrack::setLock(bool lock)
 {
     buttonLock->setChecked(lock);
@@ -186,14 +180,14 @@ void HeaderTrack::slotAddTrack()
     emit insertTrack(m_index);
 }
 
-void HeaderTrack::slotChangeTrack()
-{
-    emit changeTrack(m_index);
-}
-
 void HeaderTrack::slotRenameTrack()
 {
     emit renameTrack(m_index);
+}
+
+void HeaderTrack::slotConfigTrack()
+{
+    emit configTrack(m_index);
 }
 
 

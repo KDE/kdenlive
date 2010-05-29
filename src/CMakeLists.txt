@@ -84,7 +84,6 @@ kde4_add_ui_files(kdenlive_UI
   widgets/dvdwizardchapters_ui.ui
   widgets/missingclips_ui.ui
   widgets/cliptranscode_ui.ui
-  widgets/geometryposition_ui.ui
   widgets/templateclip_ui.ui
   widgets/keyframeeditor_ui.ui
   widgets/timecodedisplay_ui.ui
@@ -165,7 +164,6 @@ set(kdenlive_SRCS
   insertspacecommand.cpp
   spacerdialog.cpp
   addtrackcommand.cpp
-  changetrackcommand.cpp
   movegroupcommand.cpp
   dvdwizardvob.cpp
   dvdwizardmenu.cpp
