@@ -88,6 +88,7 @@ kde4_add_ui_files(kdenlive_UI
   widgets/templateclip_ui.ui
   widgets/keyframeeditor_ui.ui
   widgets/timecodedisplay_ui.ui
+  widgets/tracksconfigdialog_ui.ui
 )
 
 set(kdenlive_SRCS
@@ -188,6 +189,8 @@ set(kdenlive_SRCS
   kis_cubic_curve.cpp
   kis_curve_widget.cpp
   timecodedisplay.cpp
+  tracksconfigdialog.cpp
+  configtrackscommand.cpp
 )
 
 add_definitions( ${KDE4_DEFINITIONS} )

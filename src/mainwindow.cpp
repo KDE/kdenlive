@@ -1995,6 +1995,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
             disconnect(m_activeTimeline, SIGNAL(insertTrack(int)), this, SLOT(slotInsertTrack(int)));
             disconnect(m_activeTimeline, SIGNAL(deleteTrack(int)), this, SLOT(slotDeleteTrack(int)));
             disconnect(m_activeTimeline, SIGNAL(changeTrack(int)), this, SLOT(slotChangeTrack(int)));
+            disconnect(m_activeTimeline, SIGNAL(configTrack(int)), this, SLOT(slotConfigTrack(int)));
             disconnect(m_activeDocument, SIGNAL(docModified(bool)), this, SLOT(slotUpdateDocumentState(bool)));
             disconnect(m_effectStack, SIGNAL(updateClipEffect(ClipItem*, QDomElement, QDomElement, int)), m_activeTimeline->projectView(), SLOT(slotUpdateClipEffect(ClipItem*, QDomElement, QDomElement, int)));
             disconnect(m_effectStack, SIGNAL(removeEffect(ClipItem*, QDomElement)), m_activeTimeline->projectView(), SLOT(slotDeleteEffect(ClipItem*, QDomElement)));
@@ -2037,6 +2038,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     connect(trackView, SIGNAL(insertTrack(int)), this, SLOT(slotInsertTrack(int)));
     connect(trackView, SIGNAL(deleteTrack(int)), this, SLOT(slotDeleteTrack(int)));
     connect(trackView, SIGNAL(changeTrack(int)), this, SLOT(slotChangeTrack(int)));
+    connect(trackView, SIGNAL(configTrack(int)), this, SLOT(slotConfigTrack(int)));
     connect(trackView, SIGNAL(updateTracksInfo()), this, SLOT(slotUpdateTrackInfo()));
     connect(trackView, SIGNAL(mousePosition(int)), this, SLOT(slotUpdateMousePosition(int)));
     connect(m_projectMonitor, SIGNAL(renderPosition(int)), trackView, SLOT(moveCursorPos(int)));
@@ -2410,6 +2412,15 @@ void MainWindow::slotChangeTrack(int ix)
     m_projectMonitor->activateMonitor();
     if (m_activeTimeline)
         m_activeTimeline->projectView()->slotChangeTrack(ix);
+}
+
+void MainWindow::slotConfigTrack(int ix)
+{
+    m_projectMonitor->activateMonitor();
+    if (m_activeTimeline)
+        m_activeTimeline->projectView()->slotConfigTracks(ix);
+    if (m_activeDocument)
+        m_transitionConfig->updateProjectFormat(m_activeDocument->mltProfile(), m_activeDocument->timecode(), m_activeDocument->tracksList());
 }
 
 void MainWindow::slotEditGuide()

@@ -112,9 +112,9 @@ bool DocumentChecker::hasMissingClips()
         }
     }
 
-    if (missingClips.isEmpty() && missingLumas.isEmpty()) {
+    if (missingClips.isEmpty() && missingLumas.isEmpty())
         return false;
-    }
+
     m_dialog = new QDialog();
     m_dialog->setFont(KGlobalSettings::toolBarFont());
     m_ui.setupUi(m_dialog);

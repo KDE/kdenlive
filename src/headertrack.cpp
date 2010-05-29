@@ -108,6 +108,12 @@ void HeaderTrack::mousePressEvent(QMouseEvent * event)
     QWidget::mousePressEvent(event);
 }
 
+void HeaderTrack::mouseDoubleClickEvent(QMouseEvent* event)
+{
+    emit configTrack(m_index);
+    QWidget::mouseDoubleClickEvent(event);
+}
+
 void HeaderTrack::setSelectedIndex(int ix)
 {
     if (m_index == ix) {

@@ -240,6 +240,9 @@ private:
     QString getMimeType();
 
 public slots:
+    /** @brief Prepares opening @param url.
+    *
+    * Checks if already open and whether backup exists */
     void openFile(const KUrl &url);
     void slotGotProgressInfo(const QString &message, int progress);
     Q_SCRIPTABLE void setRenderingProgress(const QString &url, int progress);
@@ -250,6 +253,7 @@ private slots:
     void queryQuit();
     void activateDocument();
     void connectDocument(TrackView*, KdenliveDoc*);
+    /** @brief Shows file open dialog. */
     void openFile();
     void openLastFile();
     /** @brief Checks whether a URL is available to save to.
@@ -366,6 +370,8 @@ private slots:
     void slotInsertTrack(int ix = 0);
     void slotDeleteTrack(int ix = 0);
     void slotChangeTrack(int ix = 0);
+    /** @brief Shows the configure tracks dialog and updates transitions afterwards. */
+    void slotConfigTrack(int ix = -1);
     void slotGetNewLumaStuff();
     void slotGetNewTitleStuff();
     void slotGetNewRenderStuff();

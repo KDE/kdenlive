@@ -54,6 +54,8 @@ public:
     void addTrack(TrackInfo type, int ix = -1);
     void removeTrack(int ix);
     void changeTrack(int ix, TrackInfo type);
+    /** @brief Makes the document use new track infos (name, type, ...). */
+    void configTracks(QList <TrackInfo> trackInfos);
     int cursorPos();
     void checkAutoScroll();
     void moveClip(const ItemInfo start, const ItemInfo end, bool refresh);
@@ -101,6 +103,7 @@ public:
     void clipEnd();
     void changeClipSpeed();
     void doChangeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, const double speed, const double oldspeed, int strobe, const QString &id);
+    /** @brief Sets the document as modified. */
     void setDocumentModified();
     void setInPoint();
     void setOutPoint();
@@ -183,6 +186,8 @@ public slots:
     void slotInsertTrack(int ix);
     void slotDeleteTrack(int ix);
     void slotChangeTrack(int ix);
+    /** @brief Shows the configure tracks dialog. */
+    void slotConfigTracks(int ix);
     void clipNameChanged(const QString id, const QString name);
     void slotTrackUp();
     void slotTrackDown();

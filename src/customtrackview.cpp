@@ -57,6 +57,8 @@
 #include "splitaudiocommand.h"
 #include "changecliptypecommand.h"
 #include "trackdialog.h"
+#include "tracksconfigdialog.h"
+#include "configtrackscommand.h"
 
 #include <KDebug>
 #include <KLocale>
@@ -2618,6 +2620,16 @@ void CustomTrackView::changeTrack(int ix, TrackInfo type)
     viewport()->update();
 }
 
+void CustomTrackView::configTracks(QList < TrackInfo > trackInfos)
+{
+    for (int i = 0; i < trackInfos.count(); ++i) {
+        m_document->setTrackType(i, trackInfos.at(i));
+        m_document->renderer()->mltChangeTrackState(i + 1, m_document->trackInfoAt(i).isMute, m_document->trackInfoAt(i).isBlind);
+    }
+
+    QTimer::singleShot(300, this, SIGNAL(trackHeightChanged()));
+    viewport()->update();
+}
 
 void CustomTrackView::slotSwitchTrackAudio(int ix)
 {
@@ -2764,6 +2776,10 @@ void CustomTrackView::slotInsertSpace()
     if (d.exec() != QDialog::Accepted) return;
     GenTime spaceDuration = d.selectedDuration();
     track = d.selectedTrack();
+
+    // TODO: Make "All Tracks" work
+    if (track == -1)
+        return;
 
     if (m_document->isTrackLocked(m_document->tracksCount() - track - 1)) {
         emit displayMessage(i18n("Cannot insert space in a locked track"), ErrorMessage);
@@ -5362,6 +5378,15 @@ void CustomTrackView::slotChangeTrack(int ix)
     }
 }
 
+void CustomTrackView::slotConfigTracks(int ix)
+{
+    TracksConfigDialog d(m_document, ix, parentWidget());
+    if (d.exec() == QDialog::Accepted) {
+        ConfigTracksCommand *configTracks = new ConfigTracksCommand(this, m_document->tracksList(), d.tracksList());
+        m_commandStack->push(configTracks);
+        setDocumentModified();
+    }
+}
 
 void CustomTrackView::deleteTimelineTrack(int ix, TrackInfo trackinfo)
 {

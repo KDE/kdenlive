@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2008 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *   Copyright (C) 2010 by Till Theato (root@ttill.de)                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,54 +17,29 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#ifndef HEADERTRACK_H
-#define HEADERTRACK_H
 
-#include <QContextMenuEvent>
-#include <QMenu>
+#include "configtrackscommand.h"
+#include "customtrackview.h"
 
-#include "definitions.h"
-#include "ui_trackheader_ui.h"
+#include <KLocale>
 
-class HeaderTrack : public QWidget, public Ui::TrackHeader_UI
+ConfigTracksCommand::ConfigTracksCommand(CustomTrackView* view, QList< TrackInfo > oldInfos, QList< TrackInfo > newInfos, QUndoCommand* parent) :
+        QUndoCommand(parent),
+        m_view(view),
+        m_oldInfos(oldInfos),
+        m_newInfos(newInfos)
 {
-    Q_OBJECT
+    setText(i18n("Configure Tracks"));
+}
 
-public:
-    HeaderTrack(int index, TrackInfo info, int height, QWidget *parent = 0);
-    //virtual ~HeaderTrack();
-    void setLock(bool lock);
-    void adjustSize(int height);
-    void setSelectedIndex(int ix);
+// virtual
+void ConfigTracksCommand::undo()
+{
+    m_view->configTracks(m_oldInfos);
+}
 
-protected:
-    virtual void mousePressEvent(QMouseEvent * event);
-    virtual void mouseDoubleClickEvent(QMouseEvent * event);
-
-private:
-    int m_index;
-    TRACKTYPE m_type;
-
-private slots:
-    void switchAudio();
-    void switchVideo();
-    void slotDeleteTrack();
-    void deleteTrack();
-    void slotAddTrack();
-    void slotChangeTrack();
-    void slotRenameTrack();
-    void switchLock(bool emitSignal = true);
-
-signals:
-    void switchTrackAudio(int);
-    void switchTrackVideo(int);
-    void switchTrackLock(int);
-    void insertTrack(int);
-    void deleteTrack(int);
-    void changeTrack(int);
-    void renameTrack(int);
-    void selectTrack(int);
-    void configTrack(int);
-};
-
-#endif
+// virtual
+void ConfigTracksCommand::redo()
+{
+    m_view->configTracks(m_newInfos);
+}

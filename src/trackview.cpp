@@ -537,6 +537,7 @@ void TrackView::slotRebuildTrackHeaders()
         connect(header, SIGNAL(insertTrack(int)), this, SIGNAL(insertTrack(int)));
         connect(header, SIGNAL(changeTrack(int)), this, SIGNAL(changeTrack(int)));
         connect(header, SIGNAL(renameTrack(int)), this, SLOT(slotRenameTrack(int)));
+        connect(header, SIGNAL(configTrack(int)), this, SIGNAL(configTrack(int)));
         headers_container->layout()->addWidget(header);
     }
     frame = new QFrame(this);

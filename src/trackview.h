@@ -97,7 +97,7 @@ private:
 private slots:
     void setCursorPos(int pos);
     void moveCursorPos(int pos);
-    /** @brief Rebuild the track headers */
+    /** @brief Rebuilds the track headers */
     void slotRebuildTrackHeaders();
     /** @brief The tracks count or a track name changed, rebuild and notify */
     void slotReloadTracks();
@@ -120,6 +120,7 @@ signals:
     void insertTrack(int);
     void deleteTrack(int);
     void changeTrack(int);
+    void configTrack(int);
     void updateTracksInfo();
     void setZoom(int);
 };
