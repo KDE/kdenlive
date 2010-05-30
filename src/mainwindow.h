@@ -268,6 +268,7 @@ private slots:
     * @return Whether we had success. */
     bool saveFileAs(const QString &outputFileName);
     void slotPreferences(int page = -1, int option = -1);
+    /** @brief Reflects setting changes to the GUI. */
     void updateConfiguration();
     void slotConnectMonitors();
     void slotRaiseMonitor(bool clipMonitor);

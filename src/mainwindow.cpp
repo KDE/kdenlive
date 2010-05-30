@@ -450,7 +450,10 @@ bool MainWindow::queryClose()
     }
     saveOptions();
     if (m_monitorManager) m_monitorManager->stopActiveMonitor();
-    if (m_activeDocument && m_activeDocument->isModified()) {
+    // warn the user to save if document is modified and we have clips in our project list
+    if (m_activeDocument && m_activeDocument->isModified() 
+        && (m_projectList->documentClipList().isEmpty() && !m_activeDocument->url().isEmpty()
+        || !m_projectList->documentClipList().isEmpty())) {
         switch (KMessageBox::warningYesNoCancel(this, i18n("Save changes to document?"))) {
         case KMessageBox::Yes :
             // save document here. If saving fails, return false;
@@ -2188,6 +2191,7 @@ void MainWindow::updateConfiguration()
     }
     m_buttonAudioThumbs->setChecked(KdenliveSettings::audiothumbnails());
     m_buttonVideoThumbs->setChecked(KdenliveSettings::videothumbnails());
+    m_buttonAutomaticSplitAudio->setChecked(KdenliveSettings::splitaudio());
 
     // Update list of transcoding profiles
     loadTranscoders();
