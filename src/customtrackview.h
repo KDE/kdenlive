@@ -106,6 +106,7 @@ public:
     void setDocumentModified();
     void setInPoint();
     void setOutPoint();
+
     /** @brief Prepares inserting space.
     *
     * Shows a dialog to configure length and track. */
@@ -119,6 +120,7 @@ public:
     void autoTransition();
     QStringList getLadspaParams(QDomElement effect) const;
     void initCursorPos(int pos);
+
     /** @brief Locks or unlocks a track.
     * @param ix number of track
     * @param lock whether to lock or unlock
@@ -141,6 +143,7 @@ public:
     int selectedTrack() const;
     QStringList selectedClips() const;
     QList<ClipItem *> selectedClipItems() const;
+
     /** @brief Selects a clip.
     * @param add Whether to select or deselect
     * @param group (optional) Whether to add the clip to a group
@@ -150,6 +153,13 @@ public:
     void selectTransition(bool add, bool group = false);
     QStringList extractTransitionsLumas();
     void setEditMode(EDITMODE mode);
+
+    /** @brief Inserts @param clip.
+    * @param clip The clip to insert
+    * @param in The inpoint of the clip (crop from start)
+    * @param out The outpoint of the clip (crop from end)
+    *
+    * Inserts at the position of timeline cursor and selected track. */
     void insertClipCut(DocClipBase *clip, int in, int out);
     void clearSelection();
     void editItemDuration();

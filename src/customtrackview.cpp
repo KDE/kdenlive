@@ -1462,6 +1462,11 @@ void CustomTrackView::insertClipCut(DocClipBase *clip, int in, int out)
 
     AddTimelineClipCommand *command = new AddTimelineClipCommand(this, clip->toXML(), clip->getId(), pasteInfo, EffectsList(), m_scene->editMode() == OVERWRITEEDIT, m_scene->editMode() == INSERTEDIT, true, false);
     m_commandStack->push(command);
+
+    selectClip(true, false);
+    // Automatic audio split
+    if (KdenliveSettings::splitaudio())
+        splitAudio();
 }
 
 bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint pos)
@@ -3671,7 +3676,6 @@ void CustomTrackView::deleteSelectedClips()
         if (itemList.at(i)->type() == GROUPWIDGET) {
             groupCount++;
             QList<QGraphicsItem *> children = itemList.at(i)->childItems();
-            itemList += children;
             QList <ItemInfo> clipInfos;
             QList <ItemInfo> transitionInfos;
             GenTime currentPos = GenTime(m_cursorPos, m_document->fps());
@@ -3683,10 +3687,17 @@ void CustomTrackView::deleteSelectedClips()
                     AbstractClipItem *clip = static_cast <AbstractClipItem *>(children.at(j));
                     if (!clip->isItemLocked()) transitionInfos.append(clip->info());
                 }
+                if (itemList.contains(children.at(j))) {
+                    children.removeAt(j);
+                    j--;
+                }
             }
+            itemList += children;
             if (clipInfos.count() > 0)
                 new GroupClipsCommand(this, clipInfos, transitionInfos, false, deleteSelected);
-        }
+
+        } else if (itemList.at(i)->parentItem() && itemList.at(i)->parentItem()->type() == GROUPWIDGET)
+            itemList.insert(i + 1, itemList.at(i)->parentItem());
     }
 
     for (int i = 0; i < itemList.count(); i++) {
