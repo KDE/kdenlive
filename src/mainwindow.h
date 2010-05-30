@@ -189,6 +189,7 @@ private:
     KAction *m_buttonVideoThumbs;
     KAction *m_buttonShowMarkers;
     KAction *m_buttonFitZoom;
+    KAction *m_buttonAutomaticSplitAudio;
     KAction *m_normalEditTool;
     KAction *m_overwriteEditTool;
     KAction *m_insertEditTool;
@@ -277,6 +278,8 @@ private slots:
     void slotDetectAudioDriver();
     void slotEditProjectSettings();
     void slotDisplayActionMessage(QAction *a);
+    /** @brief Turns automatic splitting of audio and video on/off. */
+    void slotSwitchSplitAudio();
     void slotSwitchVideoThumbs();
     void slotSwitchAudioThumbs();
     void slotSwitchMarkersComments();

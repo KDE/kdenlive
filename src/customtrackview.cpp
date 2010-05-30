@@ -2275,6 +2275,10 @@ void CustomTrackView::dropEvent(QDropEvent * event)
         brokenClips.clear();
         if (addCommand->childCount() > 0) m_commandStack->push(addCommand);
         else delete addCommand;
+
+        // Automatic audio split
+        if (KdenliveSettings::splitaudio())
+            splitAudio();
         setDocumentModified();
 
         /*
@@ -3680,9 +3684,8 @@ void CustomTrackView::deleteSelectedClips()
                     if (!clip->isItemLocked()) transitionInfos.append(clip->info());
                 }
             }
-            if (clipInfos.count() > 0) {
+            if (clipInfos.count() > 0)
                 new GroupClipsCommand(this, clipInfos, transitionInfos, false, deleteSelected);
-            }
         }
     }
 
@@ -5452,7 +5455,6 @@ void CustomTrackView::getTransitionAvailableSpace(AbstractClipItem *item, GenTim
     }
 }
 
-
 void CustomTrackView::loadGroups(const QDomNodeList groups)
 {
     for (int i = 0; i < groups.count(); i++) {
@@ -5480,7 +5482,7 @@ void CustomTrackView::splitAudio()
     resetSelectionGroup();
     QList<QGraphicsItem *> selection = scene()->selectedItems();
     if (selection.isEmpty()) {
-        emit displayMessage(i18n("You must select one clip for this action"), ErrorMessage);
+        emit displayMessage(i18n("You must select at least one clip for this action"), ErrorMessage);
         return;
     }
     QUndoCommand *splitCommand = new QUndoCommand();
@@ -5866,9 +5868,13 @@ void CustomTrackView::slotSelectTrack(int ix)
     viewport()->update();
 }
 
-void CustomTrackView::selectClip(bool add, bool group)
+void CustomTrackView::selectClip(bool add, bool group, int track, int pos)
 {
-    QRectF rect(m_cursorPos, m_selectedTrack * m_tracksHeight + m_tracksHeight / 2, 1, 1);
+    QRectF rect;
+    if (track != -1 && pos != -1)
+        rect = QRectF(pos, track * m_tracksHeight + m_tracksHeight / 2, 1, 1);
+    else
+        rect = QRectF(m_cursorPos, m_selectedTrack * m_tracksHeight + m_tracksHeight / 2, 1, 1);
     QList<QGraphicsItem *> selection = m_scene->items(rect);
     resetSelectionGroup(group);
     if (!group) m_scene->clearSelection();
@@ -5955,6 +5961,11 @@ void CustomTrackView::insertZoneOverwrite(QStringList data, int in)
     adjustTimelineClips(OVERWRITEEDIT, NULL, info, addCommand);
     new AddTimelineClipCommand(this, clip->toXML(), clip->getId(), info, EffectsList(), true, false, true, false, addCommand);
     m_commandStack->push(addCommand);
+
+    selectClip(true, false, m_selectedTrack, in);
+    // Automatic audio split
+    if (KdenliveSettings::splitaudio())
+        splitAudio();
 }
 
 void CustomTrackView::clearSelection()

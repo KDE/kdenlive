@@ -52,6 +52,11 @@
       <label>active project format.</label>
       <default></default>
     </entry>
+    
+    <entry name="splitaudio" type="Bool">
+      <label>Automatically split audio and video.</label>
+      <default>false</default>
+    </entry>
   </group>
 
   <group name="display">

@@ -851,6 +851,13 @@ void MainWindow::setupActions()
 
     toolbar->addSeparator();
 
+    //create automatic audio split button  
+    m_buttonAutomaticSplitAudio = new KAction(KIcon("kdenlive-split-audio"), i18n("Split audio and video automatically"), this);
+    toolbar->addAction(m_buttonAutomaticSplitAudio);
+    m_buttonAutomaticSplitAudio->setCheckable(true);
+    m_buttonAutomaticSplitAudio->setChecked(KdenliveSettings::splitaudio());
+    connect(m_buttonAutomaticSplitAudio, SIGNAL(triggered()), this, SLOT(slotSwitchSplitAudio()));
+
     m_buttonVideoThumbs = new KAction(KIcon("kdenlive-show-videothumb"), i18n("Show video thumbnails"), this);
     toolbar->addAction(m_buttonVideoThumbs);
     m_buttonVideoThumbs->setCheckable(true);
@@ -874,6 +881,10 @@ void MainWindow::setupActions()
     m_buttonSnap->setCheckable(true);
     m_buttonSnap->setChecked(KdenliveSettings::snaptopoints());
     connect(m_buttonSnap, SIGNAL(triggered()), this, SLOT(slotSwitchSnap()));
+
+    actionWidget = toolbar->widgetForAction(m_buttonAutomaticSplitAudio);
+    actionWidget->setMaximumWidth(max);
+    actionWidget->setMaximumHeight(max - 4);
 
     actionWidget = toolbar->widgetForAction(m_buttonVideoThumbs);
     actionWidget->setMaximumWidth(max);
@@ -908,6 +919,7 @@ void MainWindow::setupActions()
     collection->addAction("razor_tool", m_buttonRazorTool);
     collection->addAction("spacer_tool", m_buttonSpacerTool);
 
+    collection->addAction("automatic_split_audio", m_buttonAutomaticSplitAudio);
     collection->addAction("show_video_thumbs", m_buttonVideoThumbs);
     collection->addAction("show_audio_thumbs", m_buttonAudioThumbs);
     collection->addAction("show_markers", m_buttonShowMarkers);
@@ -2185,6 +2197,11 @@ void MainWindow::updateConfiguration()
 
 }
 
+void MainWindow::slotSwitchSplitAudio()
+{
+    KdenliveSettings::setSplitaudio(!KdenliveSettings::splitaudio());
+    m_buttonAutomaticSplitAudio->setChecked(KdenliveSettings::splitaudio());
+}
 
 void MainWindow::slotSwitchVideoThumbs()
 {

@@ -141,7 +141,12 @@ public:
     int selectedTrack() const;
     QStringList selectedClips() const;
     QList<ClipItem *> selectedClipItems() const;
-    void selectClip(bool add, bool group = false);
+    /** @brief Selects a clip.
+    * @param add Whether to select or deselect
+    * @param group (optional) Whether to add the clip to a group
+    * @param track (optional) The track of the clip (has to be combined with @param pos)
+    * @param pos (optional) The position of the clip (has to be combined with @param track) */
+    void selectClip(bool add, bool group = false, int track = -1, int pos = -1);
     void selectTransition(bool add, bool group = false);
     QStringList extractTransitionsLumas();
     void setEditMode(EDITMODE mode);
