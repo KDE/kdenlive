@@ -5510,7 +5510,8 @@ void CustomTrackView::splitAudio()
             }
         }
     }
-    m_commandStack->push(splitCommand);
+    if (splitCommand->childCount() > 0)
+        m_commandStack->push(splitCommand);
 }
 
 void CustomTrackView::doSplitAudio(const GenTime &pos, int track, bool split)

@@ -130,7 +130,14 @@ public:
     void groupClips(bool group = true);
     void doGroupClips(QList <ItemInfo> clipInfos, QList <ItemInfo> transitionInfos, bool group);
     void loadGroups(const QDomNodeList groups);
+
+    /** @brief Creates SplitAudioCommands for selected clips. */
     void splitAudio();
+
+    /** @brief Seperates the audio of a clip to a audio track.
+    * @param pos Position of the clip to split 
+    * @param track Track of the clip
+    * @param split Split or unsplit */
     void doSplitAudio(const GenTime &pos, int track, bool split);
     void setVideoOnly();
     void setAudioOnly();
