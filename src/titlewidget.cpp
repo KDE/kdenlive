@@ -289,6 +289,31 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     m_zBottom->setToolTip(i18n("Lower object to bottom"));
     connect(m_zBottom, SIGNAL(triggered()), this, SLOT(slotZIndexBottom()));
     zBottom->setDefaultAction(m_zBottom);
+    
+    m_selectAll = new QAction(KIcon("kdenlive-zindex-bottom"), QString(), this);
+    m_selectAll->setShortcut(Qt::CTRL + Qt::Key_A);
+    connect(m_selectAll, SIGNAL(triggered()), this, SLOT(slotSelectAll()));
+    buttonSelectAll->setDefaultAction(m_selectAll);
+    
+    m_selectText = new QAction(KIcon("kdenlive-zindex-bottom"), QString(), this);
+    m_selectText->setShortcut(Qt::CTRL + Qt::Key_T);
+    connect(m_selectText, SIGNAL(triggered()), this, SLOT(slotSelectText()));
+    buttonSelectText->setDefaultAction(m_selectText);
+    
+    m_selectRects = new QAction(KIcon("kdenlive-zindex-bottom"), QString(), this);
+    m_selectRects->setShortcut(Qt::CTRL + Qt::Key_R);
+    connect(m_selectRects, SIGNAL(triggered()), this, SLOT(slotSelectRects()));
+    buttonSelectRects->setDefaultAction(m_selectRects);
+    
+    m_selectImages = new QAction(KIcon("kdenlive-zindex-bottom"), QString(), this);
+    m_selectImages->setShortcut(Qt::CTRL + Qt::Key_I);
+    connect(m_selectImages, SIGNAL(triggered()), this, SLOT(slotSelectImages()));
+    buttonSelectImages->setDefaultAction(m_selectImages);
+    
+    m_unselectAll = new QAction(KIcon("kdenlive-zindex-bottom"), QString(), this);
+    m_unselectAll->setShortcut(Qt::SHIFT + Qt::CTRL + Qt::Key_A);
+    connect(m_unselectAll, SIGNAL(triggered()), this, SLOT(slotSelectNone()));
+    buttonUnselectAll->setDefaultAction(m_unselectAll);
 
     zDown->setIcon(KIcon("kdenlive-zindex-down"));
     zTop->setIcon(KIcon("kdenlive-zindex-top"));
@@ -308,6 +333,11 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     buttonFitZoom->setToolTip(i18n("Fit zoom"));
     backgroundColor->setToolTip(i18n("Select background color"));
     backgroundAlpha->setToolTip(i18n("Background opacity"));
+    buttonSelectAll->setToolTip(i18n("Select all"));
+    buttonSelectText->setToolTip(i18n("Select text items in current selection"));
+    buttonSelectRects->setToolTip(i18n("Select rect items in current selection"));
+    buttonSelectImages->setToolTip(i18n("Select image items in current selection"));
+    buttonUnselectAll->setToolTip(i18n("Unselect all"));
 
     itemhcenter->setIcon(KIcon("kdenlive-align-hor"));
     itemhcenter->setToolTip(i18n("Align item horizontally"));
@@ -459,6 +489,11 @@ TitleWidget::~TitleWidget()
     delete m_zDown;
     delete m_zTop;
     delete m_zBottom;
+    delete m_selectAll;
+    delete m_selectText;
+    delete m_selectRects;
+    delete m_selectImages;
+    delete m_unselectAll;
 
     delete m_unicodeDialog;
     delete m_frameBorder;
@@ -879,6 +914,23 @@ void TitleWidget::selectionChanged()
     }
 
     l = graphicsView->scene()->selectedItems();
+    
+    if (l.size() > 0) {
+        buttonUnselectAll->setEnabled(true);
+    } else {
+        buttonUnselectAll->setEnabled(false);
+    }
+    if (l.size() >= 2) {
+        buttonSelectText->setEnabled(true);
+        buttonSelectRects->setEnabled(true);
+        buttonSelectImages->setEnabled(true);
+    } else {
+        buttonSelectText->setEnabled(false);
+        buttonSelectRects->setEnabled(false);
+        buttonSelectImages->setEnabled(false);
+    }
+    
+    
     //toolBox->setItemEnabled(2, false);
     //toolBox->setItemEnabled(3, false);
     effect_list->blockSignals(true);
@@ -2352,4 +2404,65 @@ void TitleWidget::slotZIndexBottom()
             updateDimension(l[0]);
         }
     }
+}
+
+void TitleWidget::slotSelectAll()
+{
+    graphicsView->blockSignals(true);
+    QList<QGraphicsItem*> l = graphicsView->scene()->items();
+    for (int i = 0; i < l.size(); i++) {
+        l.at(i)->setSelected(true);
+    }
+    graphicsView->blockSignals(false);
+    // Notify the GUI of the selection change
+    selectionChanged();
+}
+
+void TitleWidget::selectItems(int itemType)
+{
+    graphicsView->blockSignals(true);
+    QList<QGraphicsItem*> l;
+    if (graphicsView->scene()->selectedItems().size() > 0) {
+        l = graphicsView->scene()->selectedItems();
+        for (int i = 0; i < l.size(); i++) {
+            if (l.at(i)->type() != itemType) {
+                l.at(i)->setSelected(false);
+            }
+        }
+    } else {
+        l = graphicsView->scene()->items();
+        for (int i = 0; i < l.size(); i++) {
+            if (l.at(i)->type() == itemType) {
+                l.at(i)->setSelected(true);
+            }
+        }
+    }
+    graphicsView->blockSignals(false);
+    selectionChanged();
+}
+
+void TitleWidget::slotSelectText()
+{
+    selectItems(TEXTITEM);
+}
+
+void TitleWidget::slotSelectRects()
+{
+    selectItems(RECTITEM);
+}
+
+void TitleWidget::slotSelectImages()
+{
+    selectItems(IMAGEITEM);
+}
+
+void TitleWidget::slotSelectNone()
+{
+    graphicsView->blockSignals(true);
+    QList<QGraphicsItem*> l = graphicsView->scene()->items();
+    for (int i = 0; i < l.size(); i++) {
+        l.at(i)->setSelected(false);
+    }
+    graphicsView->blockSignals(false);
+    selectionChanged();
 }

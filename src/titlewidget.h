@@ -125,7 +125,7 @@ private:
     QGraphicsPixmapItem *m_frameImage;
     int m_frameWidth;
     int m_frameHeight;
-    Render *m_render;
+    Render *m_render;   // TODO Is NOT destroyed in the destructor. Deliberately?
     int m_count;
     QAction *m_buttonRect;
     QAction *m_buttonText;
@@ -139,6 +139,11 @@ private:
     QAction *m_zDown;
     QAction *m_zTop;
     QAction *m_zBottom;
+    QAction *m_selectAll;
+    QAction *m_selectText;
+    QAction *m_selectRects;
+    QAction *m_selectImages;
+    QAction *m_unselectAll;
 
     /** @brief Dialog for entering Unicode characters in text fields. */
     UnicodeDialog *m_unicodeDialog;
@@ -210,6 +215,8 @@ private:
     qreal zIndexBounds(bool maxBound, bool intersectingOnly);
 
     void itemRotate(qreal val, int axis);
+    
+    void selectItems(int itemType);
 
 public slots:
     void slotNewText(QGraphicsTextItem *tt);
@@ -283,6 +290,13 @@ private slots:
     void slotUpdateZoom(int pos);
     void slotAdjustZoom();
     void slotZoomOneToOne();
+    
+    void slotSelectAll();
+    void slotSelectText();
+    void slotSelectRects();
+    void slotSelectImages();
+    void slotSelectNone();
+    
 
     /** Called whenever text properties change (font e.g.) */
     void slotUpdateText();
