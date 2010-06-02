@@ -215,8 +215,11 @@ private:
     qreal zIndexBounds(bool maxBound, bool intersectingOnly);
 
     void itemRotate(qreal val, int axis);
-    
+
     void selectItems(int itemType);
+
+    /** @brief Appends the shortcut of a QAction to a tooltip text */
+    QString getTooltipWithShortcut(const QString text, QAction *button);
 
 public slots:
     void slotNewText(QGraphicsTextItem *tt);
@@ -290,13 +293,13 @@ private slots:
     void slotUpdateZoom(int pos);
     void slotAdjustZoom();
     void slotZoomOneToOne();
-    
+
     void slotSelectAll();
     void slotSelectText();
     void slotSelectRects();
     void slotSelectImages();
     void slotSelectNone();
-    
+
 
     /** Called whenever text properties change (font e.g.) */
     void slotUpdateText();

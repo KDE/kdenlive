@@ -11,3 +11,13 @@ cp ox16-action-kdenlive-object-width.png hi16-action-kdenlive-object-width.png
 cp oxsc-action-kdenlive-object-width.svgz hisc-action-kdenlive-object-width.svgz
 cp ox16-action-kdenlive-object-height.png hi16-action-kdenlive-object-height.png
 cp oxsc-action-kdenlive-object-height.svgz hisc-action-kdenlive-object-height.svgz
+cp oxsc-action-kdenlive-insert-rect.svgz hisc-action-kdenlive-insert-rect.svgz
+cp oxsc-action-kdenlive-select-rects.svgz hisc-action-kdenlive-select-rects.svgz
+cp ox16-action-kdenlive-select-rects.png hi16-action-kdenlive-select-rects.png
+cp oxsc-action-kdenlive-select-texts.svgz hisc-action-kdenlive-select-texts.svgz
+cp oxsc-action-kdenlive-unselect-all.svgz hisc-action-kdenlive-unselect-all.svgz
+cp oxsc-action-kdenlive-select-all.svgz hisc-action-kdenlive-select-all.svgz
+cp ox16-action-kdenlive-unselect-all.png hi16-action-kdenlive-unselect-all.png
+cp ox16-action-kdenlive-select-texts.png hi16-action-kdenlive-select-texts.png
+cp ox16-action-kdenlive-select-images.png hi16-action-kdenlive-select-images.png
+cp ox16-action-kdenlive-select-all.png hi16-action-kdenlive-select-all.png

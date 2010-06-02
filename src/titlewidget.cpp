@@ -259,7 +259,7 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
 
     m_unicodeAction = new QAction(KIcon("kdenlive-insert-unicode"), QString(), this);
     m_unicodeAction->setShortcut(Qt::SHIFT + Qt::CTRL + Qt::Key_U);
-    m_unicodeAction->setToolTip(i18n("Insert Unicode character") + ' ' + m_unicodeAction->shortcut().toString());
+    m_unicodeAction->setToolTip(getTooltipWithShortcut(i18n("Insert Unicode character"), m_unicodeAction));
     connect(m_unicodeAction, SIGNAL(triggered()), this, SLOT(slotInsertUnicode()));
     buttonInsertUnicode->setDefaultAction(m_unicodeAction);
 
@@ -289,31 +289,35 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     m_zBottom->setToolTip(i18n("Lower object to bottom"));
     connect(m_zBottom, SIGNAL(triggered()), this, SLOT(slotZIndexBottom()));
     zBottom->setDefaultAction(m_zBottom);
-    
-    m_selectAll = new QAction(KIcon("kdenlive-zindex-bottom"), QString(), this);
+
+    m_selectAll = new QAction(KIcon("kdenlive-select-all"), QString(), this);
     m_selectAll->setShortcut(Qt::CTRL + Qt::Key_A);
     connect(m_selectAll, SIGNAL(triggered()), this, SLOT(slotSelectAll()));
     buttonSelectAll->setDefaultAction(m_selectAll);
-    
-    m_selectText = new QAction(KIcon("kdenlive-zindex-bottom"), QString(), this);
+
+    m_selectText = new QAction(KIcon("kdenlive-select-texts"), QString(), this);
     m_selectText->setShortcut(Qt::CTRL + Qt::Key_T);
     connect(m_selectText, SIGNAL(triggered()), this, SLOT(slotSelectText()));
     buttonSelectText->setDefaultAction(m_selectText);
-    
-    m_selectRects = new QAction(KIcon("kdenlive-zindex-bottom"), QString(), this);
+    buttonSelectText->setEnabled(false);
+
+    m_selectRects = new QAction(KIcon("kdenlive-select-rects"), QString(), this);
     m_selectRects->setShortcut(Qt::CTRL + Qt::Key_R);
     connect(m_selectRects, SIGNAL(triggered()), this, SLOT(slotSelectRects()));
     buttonSelectRects->setDefaultAction(m_selectRects);
-    
-    m_selectImages = new QAction(KIcon("kdenlive-zindex-bottom"), QString(), this);
+    buttonSelectRects->setEnabled(false);
+
+    m_selectImages = new QAction(KIcon("kdenlive-select-images"), QString(), this);
     m_selectImages->setShortcut(Qt::CTRL + Qt::Key_I);
     connect(m_selectImages, SIGNAL(triggered()), this, SLOT(slotSelectImages()));
     buttonSelectImages->setDefaultAction(m_selectImages);
-    
-    m_unselectAll = new QAction(KIcon("kdenlive-zindex-bottom"), QString(), this);
+    buttonSelectImages->setEnabled(false);
+
+    m_unselectAll = new QAction(KIcon("kdenlive-unselect-all"), QString(), this);
     m_unselectAll->setShortcut(Qt::SHIFT + Qt::CTRL + Qt::Key_A);
     connect(m_unselectAll, SIGNAL(triggered()), this, SLOT(slotSelectNone()));
     buttonUnselectAll->setDefaultAction(m_unselectAll);
+    buttonUnselectAll->setEnabled(false);
 
     zDown->setIcon(KIcon("kdenlive-zindex-down"));
     zTop->setIcon(KIcon("kdenlive-zindex-top"));
@@ -333,11 +337,11 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     buttonFitZoom->setToolTip(i18n("Fit zoom"));
     backgroundColor->setToolTip(i18n("Select background color"));
     backgroundAlpha->setToolTip(i18n("Background opacity"));
-    buttonSelectAll->setToolTip(i18n("Select all"));
-    buttonSelectText->setToolTip(i18n("Select text items in current selection"));
-    buttonSelectRects->setToolTip(i18n("Select rect items in current selection"));
-    buttonSelectImages->setToolTip(i18n("Select image items in current selection"));
-    buttonUnselectAll->setToolTip(i18n("Unselect all"));
+    buttonSelectAll->setToolTip(getTooltipWithShortcut(i18n("Select all"), m_selectAll));
+    buttonSelectText->setToolTip(getTooltipWithShortcut(i18n("Select text items in current selection"), m_selectText));
+    buttonSelectRects->setToolTip(getTooltipWithShortcut(i18n("Select rect items in current selection"), m_selectRects));
+    buttonSelectImages->setToolTip(getTooltipWithShortcut(i18n("Select image items in current selection"), m_selectImages));
+    buttonUnselectAll->setToolTip(getTooltipWithShortcut(i18n("Unselect all"), m_unselectAll));
 
     itemhcenter->setIcon(KIcon("kdenlive-align-hor"));
     itemhcenter->setToolTip(i18n("Align item horizontally"));
@@ -914,13 +918,13 @@ void TitleWidget::selectionChanged()
     }
 
     l = graphicsView->scene()->selectedItems();
-    
-    if (l.size() > 0) {
+
+    if(l.size() > 0) {
         buttonUnselectAll->setEnabled(true);
     } else {
         buttonUnselectAll->setEnabled(false);
     }
-    if (l.size() >= 2) {
+    if(l.size() >= 2) {
         buttonSelectText->setEnabled(true);
         buttonSelectRects->setEnabled(true);
         buttonSelectImages->setEnabled(true);
@@ -929,8 +933,8 @@ void TitleWidget::selectionChanged()
         buttonSelectRects->setEnabled(false);
         buttonSelectImages->setEnabled(false);
     }
-    
-    
+
+
     //toolBox->setItemEnabled(2, false);
     //toolBox->setItemEnabled(3, false);
     effect_list->blockSignals(true);
@@ -2410,7 +2414,7 @@ void TitleWidget::slotSelectAll()
 {
     graphicsView->blockSignals(true);
     QList<QGraphicsItem*> l = graphicsView->scene()->items();
-    for (int i = 0; i < l.size(); i++) {
+    for(int i = 0; i < l.size(); i++) {
         l.at(i)->setSelected(true);
     }
     graphicsView->blockSignals(false);
@@ -2422,17 +2426,17 @@ void TitleWidget::selectItems(int itemType)
 {
     graphicsView->blockSignals(true);
     QList<QGraphicsItem*> l;
-    if (graphicsView->scene()->selectedItems().size() > 0) {
+    if(graphicsView->scene()->selectedItems().size() > 0) {
         l = graphicsView->scene()->selectedItems();
-        for (int i = 0; i < l.size(); i++) {
-            if (l.at(i)->type() != itemType) {
+        for(int i = 0; i < l.size(); i++) {
+            if(l.at(i)->type() != itemType) {
                 l.at(i)->setSelected(false);
             }
         }
     } else {
         l = graphicsView->scene()->items();
-        for (int i = 0; i < l.size(); i++) {
-            if (l.at(i)->type() == itemType) {
+        for(int i = 0; i < l.size(); i++) {
+            if(l.at(i)->type() == itemType) {
                 l.at(i)->setSelected(true);
             }
         }
@@ -2460,9 +2464,14 @@ void TitleWidget::slotSelectNone()
 {
     graphicsView->blockSignals(true);
     QList<QGraphicsItem*> l = graphicsView->scene()->items();
-    for (int i = 0; i < l.size(); i++) {
+    for(int i = 0; i < l.size(); i++) {
         l.at(i)->setSelected(false);
     }
     graphicsView->blockSignals(false);
     selectionChanged();
+}
+
+QString TitleWidget::getTooltipWithShortcut(const QString text, QAction *button)
+{
+    return text + "  <b>" + button->shortcut().toString() + "</b>";
 }
