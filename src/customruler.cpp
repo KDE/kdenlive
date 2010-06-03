@@ -108,6 +108,7 @@ void CustomRuler::slotDeleteGuide()
 
 void CustomRuler::slotGoToGuide(QAction *act)
 {
+    m_view->setCursorPos(act->data().toInt(), true);
     m_view->initCursorPos(act->data().toInt());
 }
 
@@ -341,7 +342,7 @@ void CustomRuler::paintEvent(QPaintEvent *e)
     double f, fend;
     const int offsetmax = maxval * FRAME_SIZE;
 
-    p.setPen(palette().dark().color());
+    p.setPen(palette().text().color());
 
     // draw time labels
     int offsetmin = (e->rect().left() + m_offset) / m_textSpacing;
