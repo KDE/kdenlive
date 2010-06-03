@@ -47,6 +47,7 @@ protected:
     virtual void mousePressEvent(QGraphicsSceneMouseEvent*);
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent*);
     virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* e);
+    /** @brief Resizes and moves items */
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent*);
     virtual void wheelEvent(QGraphicsSceneWheelEvent * wheelEvent);
 

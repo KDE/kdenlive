@@ -156,7 +156,7 @@ private:
     // See http://doc.trolltech.com/4.5/signalsandslots.html#advanced-signals-and-slots-usage.
     QSignalMapper *m_signalMapper;
 
-    enum ValueType { ValueWidth = 0, ValueHeight = 1 };
+    enum ValueType { ValueWidth = 1, ValueHeight = 2, ValueX = 4, ValueY = 8 };
 
     /** @brief Sets the font weight value in the combo box. (#909) */
     void setFontBoxWeight(int weight);
@@ -173,11 +173,13 @@ private:
     /** @brief Updates the displayed width/height values. */
     void updateDimension(QGraphicsItem *i);
 
-    /** @brief Updates the displayed rotation/zoom values. */
+    /** @brief Updates the displayed rotation/zoom values. Changes values of rotation/zoom GUI elements. */
     void updateRotZoom(QGraphicsItem *i);
 
-    /** @brief Updates the item position. */
+    /** @brief Updates the item position (position read directly from the GUI). Does not change GUI elements. */
     void updatePosition(QGraphicsItem *i);
+    /** @brief Updates the item position. Does not change GUI elements. */
+    void updatePosition(QGraphicsItem *i, int x, int y);
 
     void textChanged(QGraphicsTextItem *i);
     void updateAxisButtons(QGraphicsItem *i);
@@ -190,6 +192,9 @@ private:
 
     /** @brief Shows the toolbars suiting to toolType. */
     void showToolbars(TITLETOOL toolType);
+    
+    /** @brief Set up the tools suiting referenceItem */
+    void prepareTools(QGraphicsItem *referenceItem);
 
     /** @brief Checks a tool button. */
     void checkButton(TITLETOOL toolType);
@@ -242,9 +247,6 @@ public slots:
 
 private slots:
 
-    /** @brief Updates position/size of the selected item when a value changes. */
-    void slotAdjustSelectedItem();
-
     /** @brief Switches the origin of the X axis between left and right border.
      *
      * It's called when the origin of the X coordinate has been changed. The X
@@ -286,7 +288,11 @@ private slots:
      * It's called when something changes in the QGraphicsScene. */
     void slotChanged();
 
-    /** @param valueType of type ValueType */
+    /** 
+     * Reacts to changes of widht/height/x/y QSpinBox values.
+     * @brief Updates width, height, and position of the selected items.
+     * @param valueType of type ValueType
+     */
     void slotValueChanged(int valueType);
 
     void slotZoom(bool up);

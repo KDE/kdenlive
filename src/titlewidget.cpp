@@ -207,17 +207,18 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     connect(origin_x_left, SIGNAL(clicked()), this, SLOT(slotOriginXClicked()));
     connect(origin_y_top, SIGNAL(clicked()), this, SLOT(slotOriginYClicked()));
 
+    // Position and size
     m_signalMapper = new QSignalMapper(this);
     m_signalMapper->setMapping(value_w, ValueWidth);
     m_signalMapper->setMapping(value_h, ValueHeight);
+    m_signalMapper->setMapping(value_x, ValueX);
+    m_signalMapper->setMapping(value_y, ValueY);
     connect(value_w, SIGNAL(valueChanged(int)), m_signalMapper, SLOT(map()));
     connect(value_h, SIGNAL(valueChanged(int)), m_signalMapper, SLOT(map()));
+    connect(value_x, SIGNAL(valueChanged(int)), m_signalMapper, SLOT(map()));
+    connect(value_y, SIGNAL(valueChanged(int)), m_signalMapper, SLOT(map()));
     connect(m_signalMapper, SIGNAL(mapped(int)), this, SLOT(slotValueChanged(int)));
 
-    connect(value_x, SIGNAL(valueChanged(int)), this, SLOT(slotAdjustSelectedItem()));
-    connect(value_y, SIGNAL(valueChanged(int)), this, SLOT(slotAdjustSelectedItem()));
-    connect(value_w, SIGNAL(valueChanged(int)), this, SLOT(slotAdjustSelectedItem()));
-    connect(value_h, SIGNAL(valueChanged(int)), this, SLOT(slotAdjustSelectedItem()));
     connect(buttonFitZoom, SIGNAL(clicked()), this, SLOT(slotAdjustZoom()));
     connect(buttonRealSize, SIGNAL(clicked()), this, SLOT(slotZoomOneToOne()));
     connect(buttonItalic, SIGNAL(clicked()), this, SLOT(slotUpdateText()));
@@ -697,7 +698,21 @@ void TitleWidget::slotImageTool()
 
 void TitleWidget::showToolbars(TITLETOOL toolType)
 {
-    toolbar_stack->setCurrentIndex((int) toolType);
+    switch (toolType) {
+        case TITLE_SELECT:
+            toolbar_stack->setCurrentIndex(0);
+            break;
+        case TITLE_IMAGE:
+            toolbar_stack->setCurrentIndex(3);
+            break;
+        case TITLE_RECTANGLE:
+            toolbar_stack->setCurrentIndex(1);
+            break;
+        case TITLE_TEXT:
+            toolbar_stack->setCurrentIndex(2);
+            break;
+    }
+//     toolbar_stack->setCurrentIndex((int) toolType);
 }
 
 void TitleWidget::enableToolbars(TITLETOOL toolType)
@@ -933,322 +948,161 @@ void TitleWidget::selectionChanged()
         buttonSelectRects->setEnabled(false);
         buttonSelectImages->setEnabled(false);
     }
-
-
-    //toolBox->setItemEnabled(2, false);
-    //toolBox->setItemEnabled(3, false);
-    effect_list->blockSignals(true);
-    value_x->blockSignals(true);
-    value_y->blockSignals(true);
-    value_w->blockSignals(true);
-    value_h->blockSignals(true);
-    itemzoom->blockSignals(true);
-    itemrotatex->blockSignals(true);
-    itemrotatey->blockSignals(true);
-    itemrotatez->blockSignals(true);
-    if(l.size() == 0) {
-        effect_stack->setHidden(true);
-        effect_frame->setEnabled(false);
-        effect_list->setCurrentIndex(0);
-        bool blockX = !origin_x_left->signalsBlocked();
-        bool blockY = !origin_y_top->signalsBlocked();
-        if(blockX) origin_x_left->blockSignals(true);
-        if(blockY) origin_y_top->blockSignals(true);
-        origin_x_left->setChecked(false);
-        origin_y_top->setChecked(false);
-        updateTextOriginX();
-        updateTextOriginY();
-        enableToolbars(TITLE_SELECT);
-        if(blockX) origin_x_left->blockSignals(false);
-        if(blockY) origin_y_top->blockSignals(false);
-        itemzoom->setEnabled(false);
-        itemrotatex->setEnabled(false);
-        itemrotatey->setEnabled(false);
-        itemrotatez->setEnabled(false);
-        frame_properties->setEnabled(false);
-    } else if(l.size() == 1) {
-        effect_frame->setEnabled(true);
-        frame_properties->setEnabled(true);
-        if(l.at(0) != m_startViewport && l.at(0) != m_endViewport) {
-            itemzoom->setEnabled(true);
-            itemrotatex->setEnabled(true);
-            itemrotatey->setEnabled(true);
-            itemrotatez->setEnabled(true);
-        } else {
-            itemzoom->setEnabled(false);
-            itemrotatex->setEnabled(false);
-            itemrotatey->setEnabled(false);
-            itemrotatez->setEnabled(false);
-            updateInfoText();
-        }
-        if(l.at(0)->type() == TEXTITEM) {
-            showToolbars(TITLE_TEXT);
-            QGraphicsTextItem* i = static_cast <QGraphicsTextItem *>(l.at(0));
-            if(!i->data(100).isNull()) {
-                // Item has an effect
-                QStringList effdata = i->data(100).toStringList();
-                QString effectName = effdata.takeFirst();
-                if(effectName == "typewriter") {
-                    QStringList params = effdata.at(0).split(';');
-                    typewriter_delay->setValue(params.at(0).toInt());
-                    typewriter_start->setValue(params.at(1).toInt());
-                    effect_list->setCurrentIndex(effect_list->findData((int) TYPEWRITEREFFECT));
-                    effect_stack->setHidden(false);
-                }
-            } else {
-#if QT_VERSION >= 0x040600
-                if(i->graphicsEffect()) {
-                    QGraphicsBlurEffect *blur = static_cast <QGraphicsBlurEffect *>(i->graphicsEffect());
-                    if(blur) {
-                        effect_list->setCurrentIndex(effect_list->findData((int) BLUREFFECT));
-                        int rad = (int) blur->blurRadius();
-                        blur_radius->setValue(rad);
-                        effect_stack->setHidden(false);
-                    } else {
-                        QGraphicsDropShadowEffect *shad = static_cast <QGraphicsDropShadowEffect *>(i->graphicsEffect());
-                        if(shad) {
-                            effect_list->setCurrentIndex(effect_list->findData((int) SHADOWEFFECT));
-                            shadow_radius->setValue(shad->blurRadius());
-                            shadow_x->setValue(shad->xOffset());
-                            shadow_y->setValue(shad->yOffset());
-                            effect_stack->setHidden(false);
-                        }
-                    }
-                } else {
-                    effect_list->setCurrentIndex(effect_list->findData((int) NOEFFECT));
-                    effect_stack->setHidden(true);
-                }
-#else
-                effect_list->setCurrentIndex(effect_list->findData((int) NOEFFECT));
-                effect_stack->setHidden(true);
-#endif
-            }
-            //if (l[0]->hasFocus())
-            //toolBox->setCurrentIndex(0);
-            //toolBox->setItemEnabled(2, true);
-            font_size->blockSignals(true);
-            font_family->blockSignals(true);
-            font_weight_box->blockSignals(true);
-            buttonItalic->blockSignals(true);
-            buttonUnder->blockSignals(true);
-            fontColorButton->blockSignals(true);
-            textAlpha->blockSignals(true);
-            buttonAlignLeft->blockSignals(true);
-            buttonAlignRight->blockSignals(true);
-            buttonAlignNone->blockSignals(true);
-            buttonAlignCenter->blockSignals(true);
-
-            QFont font = i->font();
-            font_family->setCurrentFont(font);
-            font_size->setValue(font.pixelSize());
-            m_scene->slotUpdateFontSize(font.pixelSize());
-            buttonItalic->setChecked(font.italic());
-            buttonUnder->setChecked(font.underline());
-            setFontBoxWeight(font.weight());
-
-            QTextCursor cursor(i->document());
-            cursor.select(QTextCursor::Document);
-            QColor color = cursor.charFormat().foreground().color();
-            textAlpha->setValue(color.alpha());
-            color.setAlpha(255);
-            fontColorButton->setColor(color);
-
-            if(!i->data(101).isNull()) {
-                textOutline->blockSignals(true);
-                textOutline->setValue(i->data(101).toDouble() * 10);
-                textOutline->blockSignals(false);
-            }
-            if(!i->data(102).isNull()) {
-                textOutlineColor->blockSignals(true);
-                textOutlineAlpha->blockSignals(true);
-                color = QColor(i->data(102).toString());
-                textOutlineAlpha->setValue(color.alpha());
-                color.setAlpha(255);
-                textOutlineColor->setColor(color);
-                textOutlineColor->blockSignals(false);
-                textOutlineAlpha->blockSignals(false);
-            }
-            QTextCursor cur = i->textCursor();
-            QTextBlockFormat format = cur.blockFormat();
-            if(i->textWidth() == -1) buttonAlignNone->setChecked(true);
-            else if(format.alignment() == Qt::AlignHCenter) buttonAlignCenter->setChecked(true);
-            else if(format.alignment() == Qt::AlignRight) buttonAlignRight->setChecked(true);
-            else if(format.alignment() == Qt::AlignLeft) buttonAlignLeft->setChecked(true);
-
-            font_size->blockSignals(false);
-            font_family->blockSignals(false);
-            font_weight_box->blockSignals(false);
-            buttonItalic->blockSignals(false);
-            buttonUnder->blockSignals(false);
-            fontColorButton->blockSignals(false);
-            textAlpha->blockSignals(false);
-            buttonAlignLeft->blockSignals(false);
-            buttonAlignRight->blockSignals(false);
-            buttonAlignNone->blockSignals(false);
-            buttonAlignCenter->blockSignals(false);
-
-            // mbt 1607: Select text if the text item is an unchanged template item.
-            if(i->property("isTemplate").isValid()) {
-                cur.setPosition(0, QTextCursor::MoveAnchor);
-                cur.select(QTextCursor::Document);
-                i->setTextCursor(cur);
-                // Make text editable now.
-                i->grabKeyboard();
-                i->setTextInteractionFlags(Qt::TextEditorInteraction);
-            }
-
-            updateAxisButtons(i);
-            updateCoordinates(i);
-            updateDimension(i);
-            enableToolbars(TITLE_TEXT);
-
-        } else if((l.at(0))->type() == RECTITEM) {
-            showToolbars(TITLE_RECTANGLE);
-            settingUp = true;
-            QGraphicsRectItem *rec = static_cast <QGraphicsRectItem *>(l.at(0));
-            if(rec == m_startViewport || rec == m_endViewport) {
-                /*toolBox->setCurrentIndex(3);
-                toolBox->widget(0)->setEnabled(false);
-                toolBox->widget(1)->setEnabled(false);*/
-                enableToolbars(TITLE_SELECT);
-            } else {
-                /*toolBox->widget(0)->setEnabled(true);
-                toolBox->widget(1)->setEnabled(true);
-                toolBox->setCurrentIndex(0);*/
-                //toolBox->setItemEnabled(3, true);
-                rectFAlpha->setValue(rec->pen().color().alpha());
-                rectBAlpha->setValue(rec->brush().color().alpha());
-                //kDebug() << rec->brush().color().alpha();
-                QColor fcol = rec->pen().color();
-                QColor bcol = rec->brush().color();
-                //fcol.setAlpha(255);
-                //bcol.setAlpha(255);
-                rectFColor->setColor(fcol);
-                rectBColor->setColor(bcol);
-                settingUp = false;
-                rectLineWidth->setValue(rec->pen().width());
-                enableToolbars(TITLE_RECTANGLE);
-            }
-
-            updateAxisButtons(l.at(0));
-            updateCoordinates(rec);
-            updateDimension(rec);
-
-        } else if(l.at(0)->type() == IMAGEITEM) {
-            showToolbars(TITLE_IMAGE);
-
-            updateCoordinates(l.at(0));
-            updateDimension(l.at(0));
-
-            enableToolbars(TITLE_IMAGE);
-
-        } else {
-            //toolBox->setCurrentIndex(0);
-            showToolbars(TITLE_SELECT);
-            enableToolbars(TITLE_SELECT);
-            frame_properties->setEnabled(false);
-        }
-        zValue->setValue((int)l.at(0)->zValue());
-        if(!l.at(0)->data(ZOOMFACTOR).isNull()) itemzoom->setValue(l.at(0)->data(ZOOMFACTOR).toInt());
-        else itemzoom->setValue((int)(m_transformations.value(l.at(0)).scalex * 100.0 + 0.5));
-        itemrotatex->setValue((int)(m_transformations.value(l.at(0)).rotatex));
-        itemrotatey->setValue((int)(m_transformations.value(l.at(0)).rotatey));
-        itemrotatez->setValue((int)(m_transformations.value(l.at(0)).rotatez));
-        value_x->blockSignals(false);
-        value_y->blockSignals(false);
-        value_w->blockSignals(false);
-        value_h->blockSignals(false);
-        itemzoom->blockSignals(false);
-        itemrotatex->blockSignals(false);
-        itemrotatey->blockSignals(false);
-        itemrotatez->blockSignals(false);
+    
+    if (l.size() == 0) {
+        prepareTools(NULL);
+    } else if (l.size() == 1) {
+        prepareTools(l.at(0));
     } else {
-        // More than one item selected
-        //TODO
+        int firstType = l.at(0)->type();
+        bool allEqual = true;
+        for (int i = 0; i < l.size(); i++) {
+            if (l.at(i)->type() != firstType) {
+                allEqual = false;
+                break;
+            }
+        }
+        std::cout << "All equal? " << allEqual << ".\n";
+        if (allEqual) {
+            prepareTools(l.at(0));
+        } else {
+            prepareTools(NULL);
+        }
     }
-    // Tools working on more than one element.
-    if(l.size() > 0)
-        effect_list->blockSignals(false);
-
+    
 }
 
 void TitleWidget::slotValueChanged(int type)
 {
+    /*
+    type tells us which QSpinBox value has changed.
+    */
+    
     QList<QGraphicsItem *> l = graphicsView->scene()->selectedItems();
-    if(l.size() > 0 && l.at(0)->type() == IMAGEITEM) {
-
-        int val = 0;
-        switch(type) {
+    std::cout << l.size() << " items to be resized\n";
+    
+    // Get the updated value here already to do less coding afterwards
+    int val = 0;
+    switch(type) {
         case ValueWidth:
             val = value_w->value();
             break;
         case ValueHeight:
             val = value_h->value();
             break;
-        }
-
-        QGraphicsItem *i = l.at(0);
-        Transform t = m_transformations.value(i);
-
-        // Ratio width:height
-        double phi = (double) i->boundingRect().width() / i->boundingRect().height();
-        // TODO: proper calculation for rotation around 3 axes
-        double alpha = (double) t.rotatez / 180.0 * M_PI;
-
-        // New length
-        double length = val;
-
-        // Scaling factor
-        double scale = 1;
-
-        switch(type) {
-        case ValueWidth:
-            // Add 0.5 because otherwise incrementing by 1 might have no effect
-            length = val / (cos(alpha) + 1 / phi * sin(alpha)) + 0.5;
-            scale = length / i->boundingRect().width();
+        case ValueX:
+            val = value_x->value();
             break;
-        case ValueHeight:
-            length = val / (phi * sin(alpha) + cos(alpha)) + 0.5;
-            scale = length / i->boundingRect().height();
+        case ValueY:
+            val = value_y->value();
             break;
-        }
-
-        t.scalex = scale;
-        t.scaley = scale;
-        QTransform qtrans;
-        qtrans.scale(scale, scale);
-        qtrans.rotate(t.rotatex, Qt::XAxis);
-        qtrans.rotate(t.rotatey, Qt::YAxis);
-        qtrans.rotate(t.rotatez, Qt::ZAxis);
-        i->setTransform(qtrans);
-        m_transformations[i] = t;
-
-        updateDimension(i);
-        updateRotZoom(i);
     }
-}
+    
+    for (int k = 0; k < l.size(); k++) {
+        std::cout << "Type of item " << k << ": " << l.at(k)->type() << "\n";
+        
+        if(l.at(k)->type() == TEXTITEM) {
+            // Just update the position. We don't allow setting width/height for text items yet.
+            switch (type) {
+                case ValueX:
+                    updatePosition(l.at(k), val, l.at(k)->pos().y());
+                    break;
+                case ValueY:
+                    updatePosition(l.at(k), l.at(k)->pos().x(), val);
+                    break;
+            }
 
-void TitleWidget::slotAdjustSelectedItem()
-{
-    QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
-    if(l.size() >= 1) {
-        if(l.at(0)->type() == RECTITEM) {
-            //rect item
-            QGraphicsRectItem *rec = static_cast <QGraphicsRectItem *>(l.at(0));
-            updatePosition(rec);
-            rec->setRect(QRect(0, 0, value_w->value(), value_h->value()));
-        } else if(l.at(0)->type() == TEXTITEM) {
-            //text item
-            updatePosition(l.at(0));
-        } else if(l.at(0)->type() == IMAGEITEM) {
-            //image item
-            updatePosition(l.at(0));
+        } else if (l.at(k)->type() == RECTITEM) {
+            QGraphicsRectItem *rec = static_cast <QGraphicsRectItem *>(l.at(k));
+             switch (type) {
+                case ValueX:
+                    updatePosition(l.at(k), val, l.at(k)->pos().y());
+                    break;
+                case ValueY:
+                    updatePosition(l.at(k), l.at(k)->pos().x(), val);
+                    break;
+                case ValueWidth:
+                    rec->setRect(QRect(0, 0, val, rec->rect().height()));
+                    break;
+                case ValueHeight:
+                    rec->setRect(QRect(0, 0, rec->rect().width(), val));
+                    break;
+            }
+            
+        } else if(l.at(k)->type() == IMAGEITEM) {
+
+            
+            if (type == ValueX) {
+                updatePosition(l.at(k), val, l.at(k)->pos().y());
+                
+            } else if (type == ValueY) {
+                updatePosition(l.at(k), l.at(k)->pos().x(), val);
+                
+            } else {
+                // Width/height has changed. This is more complex.
+                
+                QGraphicsItem *i = l.at(k);
+                Transform t = m_transformations.value(i);
+
+                // Ratio width:height
+                double phi = (double) i->boundingRect().width() / i->boundingRect().height();
+                // TODO: proper calculation for rotation around 3 axes
+                double alpha = (double) t.rotatez / 180.0 * M_PI;
+
+                // New length
+                double length = val;
+
+                // Scaling factor
+                double scale = 1;
+
+                // We want to keep the aspect ratio of the image as the user does not yet have the possibility
+                // to restore the original ratio. You rarely want to change it anyway.
+                switch(type) {
+                case ValueWidth:
+                    // Add 0.5 because otherwise incrementing by 1 might have no effect
+                    length = val / (cos(alpha) + 1 / phi * sin(alpha)) + 0.5;
+                    scale = length / i->boundingRect().width();
+                    break;
+                case ValueHeight:
+                    length = val / (phi * sin(alpha) + cos(alpha)) + 0.5;
+                    scale = length / i->boundingRect().height();
+                    break;
+                }
+
+                t.scalex = scale;
+                t.scaley = scale;
+                QTransform qtrans;
+                qtrans.scale(scale, scale);
+                qtrans.rotate(t.rotatex, Qt::XAxis);
+                qtrans.rotate(t.rotatey, Qt::YAxis);
+                qtrans.rotate(t.rotatez, Qt::ZAxis);
+                i->setTransform(qtrans);
+                std::cout << "scale is: " << scale << "\n";
+                std::cout << i->boundingRect().width() << ": new width\n";
+                m_transformations[i] = t;
+
+                if (l.size() == 1) {
+                    // Only update the w/h values if the selection contains just one item.
+                    // Otherwise, what should we do? ;)
+                    // (Use the values of the first item? Of the second? Of the x-th?)
+                    updateDimension(i);
+                    // Update rotation/zoom values.
+                    // These values are not yet able to handle multiple items!
+                    updateRotZoom(i);
+                }
+            }
+            
         }
     }
+    
+    
 }
 
 void TitleWidget::updateDimension(QGraphicsItem *i)
 {
+    bool wBlocked = value_w->signalsBlocked();
+    bool hBlocked = value_h->signalsBlocked();
+    bool zBlocked = zValue->signalsBlocked();
     value_w->blockSignals(true);
     value_h->blockSignals(true);
     zValue->blockSignals(true);
@@ -1268,6 +1122,7 @@ void TitleWidget::updateDimension(QGraphicsItem *i)
         value_h->setValue(i->sceneBoundingRect().height());
     } else if(i->type() == RECTITEM) {
         QGraphicsRectItem *r = static_cast <QGraphicsRectItem *>(i);
+        std::cout << "Rect width is: " << r->rect().width() << ", was: " << value_w->value() << "\n";
         value_w->setValue((int) r->rect().width());
         value_h->setValue((int) r->rect().height());
     } else if(i->type() == TEXTITEM) {
@@ -1276,9 +1131,9 @@ void TitleWidget::updateDimension(QGraphicsItem *i)
         value_h->setValue((int) t->boundingRect().height());
     }
 
-    zValue->blockSignals(false);
-    value_w->blockSignals(false);
-    value_h->blockSignals(false);
+    zValue->blockSignals(zBlocked);
+    value_w->blockSignals(wBlocked);
+    value_h->blockSignals(hBlocked);
 }
 
 void TitleWidget::updateCoordinates(QGraphicsItem *i)
@@ -1368,7 +1223,11 @@ void TitleWidget::updateRotZoom(QGraphicsItem *i)
     itemrotatez->blockSignals(false);
 }
 
-void TitleWidget::updatePosition(QGraphicsItem *i)
+void TitleWidget::updatePosition(QGraphicsItem *i) {
+    updatePosition(i, value_x->value(), value_y->value());
+}
+
+void TitleWidget::updatePosition(QGraphicsItem *i, int x, int y)
 {
     if(i->type() == TEXTITEM) {
         QGraphicsTextItem *rec = static_cast <QGraphicsTextItem *>(i);
@@ -1380,17 +1239,17 @@ void TitleWidget::updatePosition(QGraphicsItem *i)
              * border of the item to the right border of the frame is taken. See
              * comment to slotOriginXClicked().
              */
-            posX = m_frameWidth - value_x->value() - rec->boundingRect().width();
+            posX = m_frameWidth - x - rec->boundingRect().width();
         } else {
-            posX = value_x->value();
+            posX = x;
         }
 
         int posY;
         if(origin_y_top->isChecked()) {
             /* Same for y axis */
-            posY = m_frameHeight - value_y->value() - rec->boundingRect().height();
+            posY = m_frameHeight - y - rec->boundingRect().height();
         } else {
-            posY = value_y->value();
+            posY = y;
         }
 
         rec->setPos(posX, posY);
@@ -1401,16 +1260,16 @@ void TitleWidget::updatePosition(QGraphicsItem *i)
 
         int posX;
         if(origin_x_left->isChecked()) {
-            posX = m_frameWidth - value_x->value() - rec->rect().width();
+            posX = m_frameWidth - x - rec->rect().width();
         } else {
-            posX = value_x->value();
+            posX = x;
         }
 
         int posY;
         if(origin_y_top->isChecked()) {
-            posY = m_frameHeight - value_y->value() - rec->rect().height();
+            posY = m_frameHeight - y - rec->rect().height();
         } else {
-            posY = value_y->value();
+            posY = y;
         }
 
         rec->setPos(posX, posY);
@@ -1419,16 +1278,16 @@ void TitleWidget::updatePosition(QGraphicsItem *i)
         int posX;
         if(origin_x_left->isChecked()) {
             // Use the sceneBoundingRect because this also regards transformations like zoom
-            posX = m_frameWidth - value_x->value() - i->sceneBoundingRect().width();
+            posX = m_frameWidth - x - i->sceneBoundingRect().width();
         } else {
-            posX = value_x->value();
+            posX = x;
         }
 
         int posY;
         if(origin_y_top->isChecked()) {
-            posY = m_frameHeight - value_y->value() - i->sceneBoundingRect().height();
+            posY = m_frameHeight - y - i->sceneBoundingRect().height();
         } else {
-            posY = value_y->value();
+            posY = y;
         }
 
         i->setPos(posX, posY);
@@ -2412,19 +2271,14 @@ void TitleWidget::slotZIndexBottom()
 
 void TitleWidget::slotSelectAll()
 {
-    graphicsView->blockSignals(true);
     QList<QGraphicsItem*> l = graphicsView->scene()->items();
     for(int i = 0; i < l.size(); i++) {
         l.at(i)->setSelected(true);
     }
-    graphicsView->blockSignals(false);
-    // Notify the GUI of the selection change
-    selectionChanged();
 }
 
 void TitleWidget::selectItems(int itemType)
 {
-    graphicsView->blockSignals(true);
     QList<QGraphicsItem*> l;
     if(graphicsView->scene()->selectedItems().size() > 0) {
         l = graphicsView->scene()->selectedItems();
@@ -2441,8 +2295,6 @@ void TitleWidget::selectItems(int itemType)
             }
         }
     }
-    graphicsView->blockSignals(false);
-    selectionChanged();
 }
 
 void TitleWidget::slotSelectText()
@@ -2474,4 +2326,250 @@ void TitleWidget::slotSelectNone()
 QString TitleWidget::getTooltipWithShortcut(const QString text, QAction *button)
 {
     return text + "  <b>" + button->shortcut().toString() + "</b>";
+}
+
+void TitleWidget::prepareTools(QGraphicsItem *referenceItem) 
+{
+    // Let some GUI elements block signals. We may want to change their values without any sideeffects.
+    // Additionally, store the previous blocking state to avoid side effects when this function is called from within another one.
+    // Note: Disabling an element also blocks signals. So disabled elements don't need to be set to blocking too.
+    bool blockOX = origin_x_left->signalsBlocked();
+    bool blockOY = origin_y_top->signalsBlocked();
+    bool blockEff = effect_list->signalsBlocked();
+    bool blockRX = itemrotatex->signalsBlocked();
+    bool blockRY = itemrotatey->signalsBlocked();
+    bool blockRZ = itemrotatez->signalsBlocked();
+    bool blockZoom = itemzoom->signalsBlocked();
+    bool blockX = value_x->signalsBlocked();
+    bool blockY = value_y->signalsBlocked();
+    bool blockW = value_w->signalsBlocked();
+    bool blockH = value_h->signalsBlocked();
+    origin_x_left->blockSignals(true);
+    origin_y_top->blockSignals(true);
+    effect_list->blockSignals(true);
+    itemrotatex->blockSignals(true);
+    itemrotatey->blockSignals(true);
+    itemrotatez->blockSignals(true);
+    itemzoom->blockSignals(true);
+    value_x->blockSignals(true);
+    value_y->blockSignals(true);
+    value_w->blockSignals(true);
+    value_h->blockSignals(true);
+    
+    if(referenceItem == NULL) {
+        std::cout << "NULL item.\n";
+        effect_stack->setHidden(true);
+        effect_frame->setEnabled(false);
+        effect_list->setCurrentIndex(0);
+        origin_x_left->setChecked(false);
+        origin_y_top->setChecked(false);
+        updateTextOriginX();
+        updateTextOriginY();
+        enableToolbars(TITLE_SELECT);
+        showToolbars(TITLE_SELECT);
+        
+        itemzoom->setEnabled(false);
+        itemrotatex->setEnabled(false);
+        itemrotatey->setEnabled(false);
+        itemrotatez->setEnabled(false);
+        frame_properties->setEnabled(false);
+    } else {
+        effect_frame->setEnabled(true);
+        frame_properties->setEnabled(true);
+        if(referenceItem != m_startViewport && referenceItem != m_endViewport) {
+            itemzoom->setEnabled(true);
+            itemrotatex->setEnabled(true);
+            itemrotatey->setEnabled(true);
+            itemrotatez->setEnabled(true);
+        } else {
+            itemzoom->setEnabled(false);
+            itemrotatex->setEnabled(false);
+            itemrotatey->setEnabled(false);
+            itemrotatez->setEnabled(false);
+            updateInfoText();
+        }
+        if(referenceItem->type() == TEXTITEM) {
+            showToolbars(TITLE_TEXT);
+            QGraphicsTextItem* i = static_cast <QGraphicsTextItem *>(referenceItem);
+            if(!i->data(100).isNull()) {
+                // Item has an effect
+                QStringList effdata = i->data(100).toStringList();
+                QString effectName = effdata.takeFirst();
+                if(effectName == "typewriter") {
+                    QStringList params = effdata.at(0).split(';');
+                    typewriter_delay->setValue(params.at(0).toInt());
+                    typewriter_start->setValue(params.at(1).toInt());
+                    effect_list->setCurrentIndex(effect_list->findData((int) TYPEWRITEREFFECT));
+                    effect_stack->setHidden(false);
+                }
+            } else {
+#if QT_VERSION >= 0x040600
+                if(i->graphicsEffect()) {
+                    QGraphicsBlurEffect *blur = static_cast <QGraphicsBlurEffect *>(i->graphicsEffect());
+                    if(blur) {
+                        effect_list->setCurrentIndex(effect_list->findData((int) BLUREFFECT));
+                        int rad = (int) blur->blurRadius();
+                        blur_radius->setValue(rad);
+                        effect_stack->setHidden(false);
+                    } else {
+                        QGraphicsDropShadowEffect *shad = static_cast <QGraphicsDropShadowEffect *>(i->graphicsEffect());
+                        if(shad) {
+                            effect_list->setCurrentIndex(effect_list->findData((int) SHADOWEFFECT));
+                            shadow_radius->setValue(shad->blurRadius());
+                            shadow_x->setValue(shad->xOffset());
+                            shadow_y->setValue(shad->yOffset());
+                            effect_stack->setHidden(false);
+                        }
+                    }
+                } else {
+                    effect_list->setCurrentIndex(effect_list->findData((int) NOEFFECT));
+                    effect_stack->setHidden(true);
+                }
+#else
+                effect_list->setCurrentIndex(effect_list->findData((int) NOEFFECT));
+                effect_stack->setHidden(true);
+#endif
+            }
+            font_size->blockSignals(true);
+            font_family->blockSignals(true);
+            font_weight_box->blockSignals(true);
+            buttonItalic->blockSignals(true);
+            buttonUnder->blockSignals(true);
+            fontColorButton->blockSignals(true);
+            textAlpha->blockSignals(true);
+            buttonAlignLeft->blockSignals(true);
+            buttonAlignRight->blockSignals(true);
+            buttonAlignNone->blockSignals(true);
+            buttonAlignCenter->blockSignals(true);
+
+            QFont font = i->font();
+            font_family->setCurrentFont(font);
+            font_size->setValue(font.pixelSize());
+            m_scene->slotUpdateFontSize(font.pixelSize());
+            buttonItalic->setChecked(font.italic());
+            buttonUnder->setChecked(font.underline());
+            setFontBoxWeight(font.weight());
+
+            QTextCursor cursor(i->document());
+            cursor.select(QTextCursor::Document);
+            QColor color = cursor.charFormat().foreground().color();
+            textAlpha->setValue(color.alpha());
+            color.setAlpha(255);
+            fontColorButton->setColor(color);
+
+            if(!i->data(101).isNull()) {
+                textOutline->blockSignals(true);
+                textOutline->setValue(i->data(101).toDouble() * 10);
+                textOutline->blockSignals(false);
+            }
+            if(!i->data(102).isNull()) {
+                textOutlineColor->blockSignals(true);
+                textOutlineAlpha->blockSignals(true);
+                color = QColor(i->data(102).toString());
+                textOutlineAlpha->setValue(color.alpha());
+                color.setAlpha(255);
+                textOutlineColor->setColor(color);
+                textOutlineColor->blockSignals(false);
+                textOutlineAlpha->blockSignals(false);
+            }
+            QTextCursor cur = i->textCursor();
+            QTextBlockFormat format = cur.blockFormat();
+            if(i->textWidth() == -1) buttonAlignNone->setChecked(true);
+            else if(format.alignment() == Qt::AlignHCenter) buttonAlignCenter->setChecked(true);
+            else if(format.alignment() == Qt::AlignRight) buttonAlignRight->setChecked(true);
+            else if(format.alignment() == Qt::AlignLeft) buttonAlignLeft->setChecked(true);
+
+            font_size->blockSignals(false);
+            font_family->blockSignals(false);
+            font_weight_box->blockSignals(false);
+            buttonItalic->blockSignals(false);
+            buttonUnder->blockSignals(false);
+            fontColorButton->blockSignals(false);
+            textAlpha->blockSignals(false);
+            buttonAlignLeft->blockSignals(false);
+            buttonAlignRight->blockSignals(false);
+            buttonAlignNone->blockSignals(false);
+            buttonAlignCenter->blockSignals(false);
+
+            // mbt 1607: Select text if the text item is an unchanged template item.
+            if(i->property("isTemplate").isValid()) {
+                cur.setPosition(0, QTextCursor::MoveAnchor);
+                cur.select(QTextCursor::Document);
+                i->setTextCursor(cur);
+                // Make text editable now.
+                i->grabKeyboard();
+                i->setTextInteractionFlags(Qt::TextEditorInteraction);
+            }
+
+            updateAxisButtons(i);
+            updateCoordinates(i);
+            updateDimension(i);
+            enableToolbars(TITLE_TEXT);
+
+        } else if((referenceItem)->type() == RECTITEM) {
+            showToolbars(TITLE_RECTANGLE);
+            settingUp = true;
+            QGraphicsRectItem *rec = static_cast <QGraphicsRectItem *>(referenceItem);
+            if(rec == m_startViewport || rec == m_endViewport) {
+                /*toolBox->setCurrentIndex(3);
+                toolBox->widget(0)->setEnabled(false);
+                toolBox->widget(1)->setEnabled(false);*/
+                enableToolbars(TITLE_SELECT);
+            } else {
+                /*toolBox->widget(0)->setEnabled(true);
+                toolBox->widget(1)->setEnabled(true);
+                toolBox->setCurrentIndex(0);*/
+                //toolBox->setItemEnabled(3, true);
+                rectFAlpha->setValue(rec->pen().color().alpha());
+                rectBAlpha->setValue(rec->brush().color().alpha());
+                //kDebug() << rec->brush().color().alpha();
+                QColor fcol = rec->pen().color();
+                QColor bcol = rec->brush().color();
+                //fcol.setAlpha(255);
+                //bcol.setAlpha(255);
+                rectFColor->setColor(fcol);
+                rectBColor->setColor(bcol);
+                settingUp = false;
+                rectLineWidth->setValue(rec->pen().width());
+                enableToolbars(TITLE_RECTANGLE);
+            }
+
+            updateAxisButtons(referenceItem);
+            updateCoordinates(rec);
+            updateDimension(rec);
+
+        } else if(referenceItem->type() == IMAGEITEM) {
+            showToolbars(TITLE_IMAGE);
+
+            updateCoordinates(referenceItem);
+            updateDimension(referenceItem);
+
+            enableToolbars(TITLE_IMAGE);
+
+        } else {
+            //toolBox->setCurrentIndex(0);
+            showToolbars(TITLE_SELECT);
+            enableToolbars(TITLE_SELECT);
+            frame_properties->setEnabled(false);
+        }
+        zValue->setValue((int)referenceItem->zValue());
+        if(!referenceItem->data(ZOOMFACTOR).isNull()) itemzoom->setValue(referenceItem->data(ZOOMFACTOR).toInt());
+        else itemzoom->setValue((int)(m_transformations.value(referenceItem).scalex * 100.0 + 0.5));
+        itemrotatex->setValue((int)(m_transformations.value(referenceItem).rotatex));
+        itemrotatey->setValue((int)(m_transformations.value(referenceItem).rotatey));
+        itemrotatez->setValue((int)(m_transformations.value(referenceItem).rotatez));
+    }
+
+    
+    effect_list->blockSignals(blockEff);
+    itemrotatex->blockSignals(blockRX);
+    itemrotatey->blockSignals(blockRY);
+    itemrotatez->blockSignals(blockRZ);
+    itemzoom->blockSignals(blockZoom);
+    origin_x_left->blockSignals(blockOX);
+    origin_y_top->blockSignals(blockOY);
+    value_x->blockSignals(blockX);
+    value_y->blockSignals(blockY);
+    value_w->blockSignals(blockW);
+    value_h->blockSignals(blockH);
 }

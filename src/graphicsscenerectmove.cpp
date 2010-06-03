@@ -301,6 +301,7 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
              * inverted)
              */
             int determinantH, determinantV;
+            // Check whether to resize or to just move the item(s)
             switch (m_resizeMode) {
             case TopLeft:
                 determinantV = (bottomRight.x() - newpoint.x()) * (topRight.y() - newpoint.y()) - (bottomRight.y() - newpoint.y()) * (topRight.x() - newpoint.x());
