@@ -172,6 +172,8 @@ public:
     void editItemDuration();
     void buildGuidesMenu(QMenu *goMenu) const;
     KPixmapCache* pixmapCache;
+    /** update the timeline objects when palette changes */
+    void updatePalette();
 
 public slots:
     void setCursorPos(int pos, bool seek = true);

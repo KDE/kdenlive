@@ -355,6 +355,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
     m_timelineContextMenu->addAction(actionCollection()->action(KStandardAction::name(KStandardAction::Paste)));
 
     m_timelineContextClipMenu->addAction(actionCollection()->action("clip_in_project_tree"));
+    //m_timelineContextClipMenu->addAction(actionCollection()->action("clip_to_project_tree"));
     m_timelineContextClipMenu->addAction(actionCollection()->action("edit_item_duration"));
     m_timelineContextClipMenu->addAction(actionCollection()->action("delete_item"));
     m_timelineContextClipMenu->addAction(actionCollection()->action("group_clip"));
@@ -452,7 +453,7 @@ bool MainWindow::queryClose()
     if (m_monitorManager) m_monitorManager->stopActiveMonitor();
     // warn the user to save if document is modified and we have clips in our project list
     if (m_activeDocument && m_activeDocument->isModified() 
-        && (m_projectList->documentClipList().isEmpty() && !m_activeDocument->url().isEmpty()
+        && ((m_projectList->documentClipList().isEmpty() && !m_activeDocument->url().isEmpty())
         || !m_projectList->documentClipList().isEmpty())) {
         switch (KMessageBox::warningYesNoCancel(this, i18n("Save changes to document?"))) {
         case KMessageBox::Yes :
@@ -1138,6 +1139,10 @@ void MainWindow::setupActions()
     collection->addAction("clip_in_project_tree", clipInProjectTree);
     connect(clipInProjectTree, SIGNAL(triggered(bool)), this, SLOT(slotClipInProjectTree()));
 
+    /*KAction* clipToProjectTree = new KAction(KIcon("go-jump-definition"), i18n("Add Clip to Project Tree"), this);
+    collection->addAction("clip_to_project_tree", clipToProjectTree);
+    connect(clipToProjectTree, SIGNAL(triggered(bool)), this, SLOT(slotClipToProjectTree()));*/
+    
     KAction* insertOvertwrite = new KAction(KIcon(), i18n("Insert Clip Zone in Timeline (Overwrite)"), this);
     insertOvertwrite->setShortcut(Qt::Key_V);
     collection->addAction("overwrite_to_in_point", insertOvertwrite);
@@ -2958,6 +2963,18 @@ void MainWindow::slotClipInProjectTree()
     }
 }
 
+/*void MainWindow::slotClipToProjectTree()
+{
+    if (m_activeTimeline) {
+	const QList<ClipItem *> clips =  m_activeTimeline->projectView()->selectedClipItems();
+        if (clips.isEmpty()) return;
+        for (int i = 0; i < clips.count(); i++) {
+	    m_projectList->slotAddXmlClip(clips.at(i)->itemXml());
+        }
+        //m_projectList->selectItemById(clipIds.at(i));
+    }
+}*/
+
 void MainWindow::slotSelectClipInTimeline()
 {
     if (m_activeTimeline) {
@@ -3407,6 +3424,7 @@ void MainWindow::slotChangePalette(QAction *action, const QString &themename)
                 ((QWidget*)subchild)->setPalette(plt);
         }
     }
+    m_activeTimeline->projectView()->updatePalette();
 }
 
 

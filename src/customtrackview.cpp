@@ -5988,3 +5988,10 @@ void CustomTrackView::clearSelection()
     emit clipItemSelected(NULL);
 }
 
+void CustomTrackView::updatePalette()
+{
+    QPen pen1 = QPen();
+    pen1.setWidth(1);
+    pen1.setColor(palette().text().color());
+    m_cursorLine->setPen(pen1);
+}
