@@ -5326,25 +5326,27 @@ void CustomTrackView::slotInsertTrack(int ix)
     }
 }
 
-void CustomTrackView::slotDeleteTrack(int ix)
+void CustomTrackView::slotDeleteTrack(int ix, bool dialog)
 {
-    TrackDialog d(m_document, parentWidget());
-    d.label->setText(i18n("Delete track"));
-    d.before_select->setHidden(true);
-    d.track_nb->setMaximum(m_document->tracksCount() - 1);
-    d.track_nb->setValue(ix);
-    d.slotUpdateName(ix);
-    d.setWindowTitle(i18n("Delete Track"));
-    d.video_track->setHidden(true);
-    d.audio_track->setHidden(true);
-    if (d.exec() == QDialog::Accepted) {
-        ix = d.track_nb->value();
-        TrackInfo info = m_document->trackInfoAt(m_document->tracksCount() - ix - 1);
-        deleteTimelineTrack(ix, info);
-        setDocumentModified();
-        /*AddTrackCommand* command = new AddTrackCommand(this, ix, info, false);
-        m_commandStack->push(command);*/
+    if (m_document->tracksCount() < 2) return;
+    if (dialog) {
+        TrackDialog d(m_document, parentWidget());
+        d.label->setText(i18n("Delete track"));
+        d.before_select->setHidden(true);
+        d.track_nb->setMaximum(m_document->tracksCount() - 1);
+        d.track_nb->setValue(ix);
+        d.slotUpdateName(ix);
+        d.setWindowTitle(i18n("Delete Track"));
+        d.video_track->setHidden(true);
+        d.audio_track->setHidden(true);
+        if (d.exec() == QDialog::Accepted)
+            ix = d.track_nb->value();
+        else
+            return;
     }
+    TrackInfo info = m_document->trackInfoAt(m_document->tracksCount() - ix - 1);
+    deleteTimelineTrack(ix, info);
+    setDocumentModified();
 }
 
 void CustomTrackView::slotConfigTracks(int ix)
