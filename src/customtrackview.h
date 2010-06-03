@@ -208,9 +208,8 @@ public slots:
     void slotInsertTrack(int ix);
 
     /** @brief Shows a dialog for selecting a track to delete.
-    * @param ix Number of the track, which should be pre-selected in the dialog
-    * @param dialog Show dialog or directly delete track @param ix? */
-    void slotDeleteTrack(int ix, bool dialog = true);
+    * @param ix Number of the track, which should be pre-selected in the dialog */
+    void slotDeleteTrack(int ix);
     /** @brief Shows the configure tracks dialog. */
     void slotConfigTracks(int ix);
     void clipNameChanged(const QString id, const QString name);

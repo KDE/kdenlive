@@ -23,6 +23,7 @@
 #include <QTableWidget>
 #include <QComboBox>
 #include <KDebug>
+#include <KIcon>
 
 TracksDelegate::TracksDelegate(QObject *parent) :
         QItemDelegate(parent)
@@ -77,6 +78,26 @@ TracksConfigDialog::TracksConfigDialog(KdenliveDoc * doc, int selected, QWidget*
 
     table->setItemDelegateForColumn(1, new TracksDelegate(this));
 
+    buttonReset->setIcon(KIcon("document-revert"));
+    buttonReset->setToolTip(i18n("Reset"));
+    connect(buttonReset, SIGNAL(clicked()), this, SLOT(setupOriginal()));
+
+    buttonAdd->setIcon(KIcon("list-add"));
+    buttonAdd->setToolTip(i18n("Add Track"));
+    buttonAdd->setEnabled(false);
+
+    buttonDelete->setIcon(KIcon("list-remove"));
+    buttonDelete->setToolTip(i18n("Delete Track"));
+    connect(buttonDelete, SIGNAL(clicked()), this, SLOT(slotDelete()));
+
+    buttonUp->setIcon(KIcon("arrow-up"));
+    buttonUp->setToolTip(i18n("Move Track upwards"));
+    buttonUp->setEnabled(false);
+
+    buttonDown->setIcon(KIcon("arrow-down"));
+    buttonDown->setToolTip(i18n("Move Track downwards"));
+    buttonDown->setEnabled(false);
+
     setupOriginal(selected);
     connect(table, SIGNAL(itemChanged(QTableWidgetItem *)), this, SLOT(slotUpdateRow(QTableWidgetItem *)));
 }
@@ -100,6 +121,11 @@ const QList <TrackInfo> TracksConfigDialog::tracksList()
         tracks << info;
     }
     return tracks;
+}
+
+QList <int> TracksConfigDialog::deletedTracks()
+{
+    return m_deletedRows;
 }
 
 void TracksConfigDialog::setupOriginal(int selected)
@@ -141,6 +167,8 @@ void TracksConfigDialog::setupOriginal(int selected)
     table->resizeColumnsToContents();
     if (selected != -1)
         table->selectRow(selected);
+
+    m_deletedRows = QList<int>();
 }
 
 void TracksConfigDialog::slotUpdateRow(QTableWidgetItem* item)
@@ -154,6 +182,22 @@ void TracksConfigDialog::slotUpdateRow(QTableWidgetItem* item)
             item2->setFlags(item2->flags() | Qt::ItemIsEnabled);
             item2->setCheckState(Qt::Unchecked);
         }
+    }
+}
+
+void TracksConfigDialog::slotDelete()
+{
+    int row = table->currentRow();
+    int i = 0;
+    while (i < m_deletedRows.count()) {
+        if (m_deletedRows.at(i) > row) break;
+        i++;
+    }
+    m_deletedRows.insert(i, row);
+    for (i = 0; i < table->columnCount(); ++i) {
+        QTableWidgetItem *item = table->item(row, i);
+        item->setFlags(Qt::NoItemFlags);
+        item->setBackground(palette().dark());
     }
 }
 

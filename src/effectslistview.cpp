@@ -159,7 +159,8 @@ void EffectsListView::slotUpdateSearch(QTreeWidgetItem *item, bool hidden)
 {
     if (!hidden) {
         if (item->data(0, Qt::UserRole).toInt() == type_combo->currentIndex()) {
-            item->parent()->setHidden(false);
+            if (item->parent())
+                item->parent()->setHidden(false);
         } else {
             if (type_combo->currentIndex() != 0)
                 item->setHidden(true);

@@ -5326,27 +5326,26 @@ void CustomTrackView::slotInsertTrack(int ix)
     }
 }
 
-void CustomTrackView::slotDeleteTrack(int ix, bool dialog)
+void CustomTrackView::slotDeleteTrack(int ix)
 {
     if (m_document->tracksCount() < 2) return;
-    if (dialog) {
-        TrackDialog d(m_document, parentWidget());
-        d.label->setText(i18n("Delete track"));
-        d.before_select->setHidden(true);
-        d.track_nb->setMaximum(m_document->tracksCount() - 1);
-        d.track_nb->setValue(ix);
-        d.slotUpdateName(ix);
-        d.setWindowTitle(i18n("Delete Track"));
-        d.video_track->setHidden(true);
-        d.audio_track->setHidden(true);
-        if (d.exec() == QDialog::Accepted)
-            ix = d.track_nb->value();
-        else
-            return;
+    TrackDialog d(m_document, parentWidget());
+    d.label->setText(i18n("Delete track"));
+    d.before_select->setHidden(true);
+    d.track_nb->setMaximum(m_document->tracksCount() - 1);
+    d.track_nb->setValue(ix);
+    d.slotUpdateName(ix);
+    d.setWindowTitle(i18n("Delete Track"));
+    d.video_track->setHidden(true);
+    d.audio_track->setHidden(true);
+    if (d.exec() == QDialog::Accepted) {
+        ix = d.track_nb->value();
+        TrackInfo info = m_document->trackInfoAt(m_document->tracksCount() - ix - 1);
+        deleteTimelineTrack(ix, info);
+        setDocumentModified();
+        /*AddTrackCommand* command = new AddTrackCommand(this, ix, info, false);
+        m_commandStack->push(command);*/
     }
-    TrackInfo info = m_document->trackInfoAt(m_document->tracksCount() - ix - 1);
-    deleteTimelineTrack(ix, info);
-    setDocumentModified();
 }
 
 void CustomTrackView::slotConfigTracks(int ix)
@@ -5355,12 +5354,18 @@ void CustomTrackView::slotConfigTracks(int ix)
     if (d.exec() == QDialog::Accepted) {
         ConfigTracksCommand *configTracks = new ConfigTracksCommand(this, m_document->tracksList(), d.tracksList());
         m_commandStack->push(configTracks);
+        QList <int> toDelete = d.deletedTracks();
+        for (int i = 0; i < toDelete.count(); ++i) {
+            TrackInfo info = m_document->trackInfoAt(m_document->tracksCount() - toDelete.at(i) + i - 1);
+            deleteTimelineTrack(toDelete.at(i) - i, info);
+        }
         setDocumentModified();
     }
 }
 
 void CustomTrackView::deleteTimelineTrack(int ix, TrackInfo trackinfo)
 {
+    if (m_document->tracksCount() < 2) return;
     double startY = ix * m_tracksHeight + 1 + m_tracksHeight / 2;
     QRectF r(0, startY, sceneRect().width(), m_tracksHeight / 2 - 1);
     QList<QGraphicsItem *> selection = m_scene->items(r);

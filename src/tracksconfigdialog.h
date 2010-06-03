@@ -60,14 +60,23 @@ public:
     /** @brief Returns the new list of tracks created from the table. */
     const QList <TrackInfo> tracksList();
 
+    /** @brief A list of tracks, which sould be deleted. */
+    QList <int> deletedTracks();
+
 private slots:
     /** @brief Updates the "hidden" checkbox if type was changed. */
     void slotUpdateRow(QTableWidgetItem *item);
 
-private:
+private slots:
     /** @brief Recreates the table from the list of tracks in m_doc. */
     void setupOriginal(int selected = -1);
+
+    /** @brief Marks a track to be deleted. */
+    void slotDelete();
+
+private:
     KdenliveDoc *m_doc;
+    QList <int> m_deletedRows;
 };
 
 #endif
