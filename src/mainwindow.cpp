@@ -452,9 +452,9 @@ bool MainWindow::queryClose()
     saveOptions();
     if (m_monitorManager) m_monitorManager->stopActiveMonitor();
     // warn the user to save if document is modified and we have clips in our project list
-    if (m_activeDocument && m_activeDocument->isModified() 
-        && ((m_projectList->documentClipList().isEmpty() && !m_activeDocument->url().isEmpty())
-        || !m_projectList->documentClipList().isEmpty())) {
+    if (m_activeDocument && m_activeDocument->isModified()
+            && ((m_projectList->documentClipList().isEmpty() && !m_activeDocument->url().isEmpty())
+                || !m_projectList->documentClipList().isEmpty())) {
         switch (KMessageBox::warningYesNoCancel(this, i18n("Save changes to document?"))) {
         case KMessageBox::Yes :
             // save document here. If saving fails, return false;
@@ -855,7 +855,7 @@ void MainWindow::setupActions()
 
     toolbar->addSeparator();
 
-    //create automatic audio split button  
+    //create automatic audio split button
     m_buttonAutomaticSplitAudio = new KAction(KIcon("kdenlive-split-audio"), i18n("Split audio and video automatically"), this);
     toolbar->addAction(m_buttonAutomaticSplitAudio);
     m_buttonAutomaticSplitAudio->setCheckable(true);
@@ -1142,7 +1142,7 @@ void MainWindow::setupActions()
     /*KAction* clipToProjectTree = new KAction(KIcon("go-jump-definition"), i18n("Add Clip to Project Tree"), this);
     collection->addAction("clip_to_project_tree", clipToProjectTree);
     connect(clipToProjectTree, SIGNAL(triggered(bool)), this, SLOT(slotClipToProjectTree()));*/
-    
+
     KAction* insertOvertwrite = new KAction(KIcon(), i18n("Insert Clip Zone in Timeline (Overwrite)"), this);
     insertOvertwrite->setShortcut(Qt::Key_V);
     collection->addAction("overwrite_to_in_point", insertOvertwrite);
@@ -2966,10 +2966,10 @@ void MainWindow::slotClipInProjectTree()
 /*void MainWindow::slotClipToProjectTree()
 {
     if (m_activeTimeline) {
-	const QList<ClipItem *> clips =  m_activeTimeline->projectView()->selectedClipItems();
+    const QList<ClipItem *> clips =  m_activeTimeline->projectView()->selectedClipItems();
         if (clips.isEmpty()) return;
         for (int i = 0; i < clips.count(); i++) {
-	    m_projectList->slotAddXmlClip(clips.at(i)->itemXml());
+        m_projectList->slotAddXmlClip(clips.at(i)->itemXml());
         }
         //m_projectList->selectItemById(clipIds.at(i));
     }
@@ -3424,7 +3424,7 @@ void MainWindow::slotChangePalette(QAction *action, const QString &themename)
                 ((QWidget*)subchild)->setPalette(plt);
         }
     }
-    m_activeTimeline->projectView()->updatePalette();
+    if (m_activeTimeline) m_activeTimeline->projectView()->updatePalette();
 }
 
 
