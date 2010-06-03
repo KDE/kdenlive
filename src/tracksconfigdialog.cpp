@@ -190,7 +190,10 @@ void TracksConfigDialog::slotDelete()
     int row = table->currentRow();
     int i = 0;
     while (i < m_deletedRows.count()) {
-        if (m_deletedRows.at(i) > row) break;
+        if (m_deletedRows.at(i) == row)
+            return;
+        if (m_deletedRows.at(i) > row)
+            break;
         i++;
     }
     m_deletedRows.insert(i, row);
