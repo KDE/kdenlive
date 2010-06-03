@@ -39,8 +39,8 @@ public:
     CustomTrackScene* projectScene();
     void addItem(QGraphicsItem * item);
     int track() const;
-    QPainterPath clipGroupShape(QPointF) const;
-    QPainterPath transitionGroupShape(QPointF) const;
+    QPainterPath clipGroupShape(QPointF offset) const;
+    QPainterPath transitionGroupShape(QPointF offset) const;
     void setItemLocked(bool locked);
     bool isItemLocked() const;
     //    ItemInfo info() const;
@@ -55,6 +55,7 @@ protected:
 
 private:
     void fixItemRect();
+    QPainterPath groupShape(GRAPHICSRECTITEM type, QPointF offset) const;
 };
 
 #endif

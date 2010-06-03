@@ -79,40 +79,27 @@ CustomTrackScene* AbstractGroupItem::projectScene()
 
 QPainterPath AbstractGroupItem::clipGroupShape(QPointF offset) const
 {
-    QPainterPath path;
-    QList<QGraphicsItem *> children = childItems();
-    for (int i = 0; i < children.count(); i++) {
-        if (children.at(i)->type() == AVWIDGET) {
-            QRectF r(children.at(i)->sceneBoundingRect());
-            r.translate(offset);
-            path.addRect(r);
-        } else if (children.at(i)->type() == GROUPWIDGET) {
-            QList<QGraphicsItem *> subchildren = children.at(i)->childItems();
-            for (int j = 0; j < subchildren.count(); j++) {
-                if (subchildren.at(j)->type() == AVWIDGET) {
-                    QRectF r(subchildren.at(j)->sceneBoundingRect());
-                    r.translate(offset);
-                    path.addRect(r);
-                }
-            }
-        }
-    }
-    return path;
+    return groupShape(AVWIDGET, offset);
 }
 
 QPainterPath AbstractGroupItem::transitionGroupShape(QPointF offset) const
 {
+    return groupShape(TRANSITIONWIDGET, offset);
+}
+
+QPainterPath AbstractGroupItem::groupShape(GRAPHICSRECTITEM type, QPointF offset) const
+{
     QPainterPath path;
     QList<QGraphicsItem *> children = childItems();
     for (int i = 0; i < children.count(); i++) {
-        if (children.at(i)->type() == TRANSITIONWIDGET) {
+        if (children.at(i)->type() == (int)type) {
             QRectF r(children.at(i)->sceneBoundingRect());
             r.translate(offset);
             path.addRect(r);
         } else if (children.at(i)->type() == GROUPWIDGET) {
             QList<QGraphicsItem *> subchildren = children.at(i)->childItems();
             for (int j = 0; j < subchildren.count(); j++) {
-                if (subchildren.at(j)->type() == TRANSITIONWIDGET) {
+                if (subchildren.at(j)->type() == (int)type) {
                     QRectF r(subchildren.at(j)->sceneBoundingRect());
                     r.translate(offset);
                     path.addRect(r);

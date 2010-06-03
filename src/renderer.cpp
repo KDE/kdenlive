@@ -538,8 +538,7 @@ void Render::slotSplitView(bool doit)
     if (service.type() != tractor_type || tractor.count() < 2) return;
     Mlt::Field *field = tractor.field();
     if (doit) {
-        int screen = 0;
-        for (int i = 1; i < tractor.count() && screen < 4; i++) {
+        for (int i = 1, screen = 0; i < tractor.count() && screen < 4; i++) {
             Mlt::Producer trackProducer(tractor.track(i));
             kDebug() << "// TRACK: " << i << ", HIDE: " << trackProducer.get("hide");
             if (QString(trackProducer.get("hide")).toInt() != 1) {

@@ -92,9 +92,7 @@ protected:
      *
      * Moves towards the end of the clip/timeline on mouse wheel down/back, the
      * opposite on mouse wheel up/forward.
-     * Ctrl + wheel moves by a single frame, without Ctrl it moves by a second.
-     *
-     * See also http://www.kdenlive.org/mantis/view.php?id=265. */
+     * Ctrl + wheel moves by a second, without Ctrl it moves by a single frame. */
     virtual void wheelEvent(QWheelEvent * event);
     virtual void mouseMoveEvent(QMouseEvent *event);
     virtual QStringList mimeTypes() const;

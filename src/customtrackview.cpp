@@ -5526,7 +5526,7 @@ void CustomTrackView::doSplitAudio(const GenTime &pos, int track, bool split)
         int freetrack = m_document->tracksCount() - track - 1;
         for (; freetrack > 0; freetrack--) {
             kDebug() << "// CHK DOC TRK:" << freetrack << ", DUR:" << m_document->renderer()->mltTrackDuration(freetrack);
-            if (m_document->trackInfoAt(freetrack - 1).type == AUDIOTRACK) {
+            if (m_document->trackInfoAt(freetrack - 1).type == AUDIOTRACK && !m_document->trackInfoAt(freetrack - 1).isLocked) {
                 kDebug() << "// CHK DOC TRK:" << freetrack << ", DUR:" << m_document->renderer()->mltTrackDuration(freetrack);
                 if (m_document->renderer()->mltTrackDuration(freetrack) < start || m_document->renderer()->mltGetSpaceLength(pos, freetrack, false) >= clip->cropDuration().frames(m_document->fps())) {
                     kDebug() << "FOUND SPACE ON TRK: " << freetrack;

@@ -70,7 +70,7 @@
 	  <Action name="clip_audio_only" />
 	  <Action name="clip_video_only" />
 	  <Action name="clip_audio_and_video" />
-</Menu>
+    </Menu>
 
     <Menu name="timeline" ><text>Timeline</text>
       <Menu name="keyboard_selection" ><text>Selection</text>
@@ -160,7 +160,7 @@
       <Action name="get_new_titles" />
       <Action name="run_wizard" />
       <Menu name="themes_menu" ><text>Themes</text>
-      </Menu>
+    </Menu>
 </Menu>
   </MenuBar>
 </gui>

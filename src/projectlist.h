@@ -174,6 +174,7 @@ public slots:
     /** @brief Prepares removing the selected items. */
     void slotRemoveClip();
     void slotAddClip(const QList <QUrl> givenList = QList <QUrl> (), const QString &groupName = QString(), const QString &groupId = QString());
+
     /** @brief Adds, edits or deletes a folder item.
     *
     * This is triggered by AddFolderCommand and EditFolderCommand. */
@@ -228,6 +229,7 @@ private slots:
     void slotAddSlideshowClip();
     void slotAddTitleClip();
     void slotAddTitleTemplateClip();
+
     /** @brief Shows the context menu after enabling and disabling actions based on the item's type.
     * @param pos The position where the menu should pop up
     * @param item The item for which the checks should be done */
