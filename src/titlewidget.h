@@ -170,7 +170,7 @@ private:
     /** @brief Updates the displayed X/Y coordinates. */
     void updateCoordinates(QGraphicsItem *i);
 
-    /** @brief Updates the displayed width/height values. */
+    /** @brief Updates the displayed width/height/zindex values. */
     void updateDimension(QGraphicsItem *i);
 
     /** @brief Updates the displayed rotation/zoom values. Changes values of rotation/zoom GUI elements. */

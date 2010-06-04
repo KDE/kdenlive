@@ -712,7 +712,6 @@ void TitleWidget::showToolbars(TITLETOOL toolType)
             toolbar_stack->setCurrentIndex(2);
             break;
     }
-//     toolbar_stack->setCurrentIndex((int) toolType);
 }
 
 void TitleWidget::enableToolbars(TITLETOOL toolType)
@@ -907,8 +906,8 @@ void TitleWidget::setCurrentItem(QGraphicsItem *item)
 void TitleWidget::zIndexChanged(int v)
 {
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
-    if(l.size() >= 1) {
-        l[0]->setZValue(v);
+    for (int i = 0; i < l.size(); i++) {
+        l[i]->setZValue(v);
     }
 }
 
@@ -936,6 +935,12 @@ void TitleWidget::selectionChanged()
 
     if(l.size() > 0) {
         buttonUnselectAll->setEnabled(true);
+        // Enable all z index buttons if items selected.
+        // We can selectively disable them later.
+        zUp->setEnabled(true);
+        zDown->setEnabled(true);
+        zTop->setEnabled(true);
+        zBottom->setEnabled(true);
     } else {
         buttonUnselectAll->setEnabled(false);
     }
@@ -954,6 +959,9 @@ void TitleWidget::selectionChanged()
     } else if (l.size() == 1) {
         prepareTools(l.at(0));
     } else {
+        /*
+        For multiple selected objects we need to decide which tools to show.
+        */
         int firstType = l.at(0)->type();
         bool allEqual = true;
         for (int i = 0; i < l.size(); i++) {
@@ -966,8 +974,41 @@ void TitleWidget::selectionChanged()
         if (allEqual) {
             prepareTools(l.at(0));
         } else {
+            // Get the default toolset, but enable the property frame (x,y,w,h)
             prepareTools(NULL);
+            frame_properties->setEnabled(true);
+            
+            // Enable x/y/w/h if it makes sense.
+            value_x->setEnabled(true);
+            value_y->setEnabled(true);
+            bool containsTextitem = false;
+            for (int i = 0; i < l.size(); i++) {
+                if (l.at(i)->type() == TEXTITEM) {
+                    containsTextitem = true;
+                    break;
+                }
+            }
+            if (!containsTextitem) {
+                value_w->setEnabled(true);
+                value_h->setEnabled(true);
+            }
         }
+            
+        // Disable z index buttons if they don't make sense for the current selection
+        int firstZindex = l.at(0)->zValue();
+        allEqual = true;
+        for (int i = 0; i < l.size(); i++) {
+            if (l[i]->zValue() != firstZindex) {
+                allEqual = false;
+                break;
+            }
+        }
+        if (!allEqual) {
+            zUp->setEnabled(false);
+            zDown->setEnabled(false);
+        }
+        
+        
     }
     
 }
@@ -2200,6 +2241,11 @@ qreal TitleWidget::zIndexBounds(bool maxBound, bool intersectingOnly)
                     z = lItems[i]->zValue();
                     if(z > bound && !lItems[i]->isSelected()) {
                         bound = z;
+                    } else if (z-1 > bound) {
+                        // To get the maximum index even if it is of an item of the current selection.
+                        // Used when updating multiple items, to get all to the same level.
+                        // Otherwise, the maximum would stay at -99 if the highest item is in the selection.
+                        bound = z-1;
                     }
                 }
             } else {
@@ -2209,6 +2255,8 @@ qreal TitleWidget::zIndexBounds(bool maxBound, bool intersectingOnly)
                     if(z < bound && !lItems[i]->isSelected() && z > -999) {
                         // There are items at the very bottom (background e.g.) with z-index < -1000.
                         bound = z;
+                    } else if (z+1 < bound && z > -999) {
+                        bound = z+1;
                     }
                 }
             }
@@ -2233,13 +2281,21 @@ void TitleWidget::slotZIndexUp()
 void TitleWidget::slotZIndexTop()
 {
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
-    if(l.size() >= 1) {
-        qreal currentZ = l[0]->zValue();
-        qreal max = zIndexBounds(true, false);
+    qreal max = zIndexBounds(true, false);
+    std::cout << "Max z-index is " << max << ".\n";
+    for (int i = 0; i < l.size(); i++) {
+        qreal currentZ = l[i]->zValue();
         if(currentZ <= max) {
-            l[0]->setZValue(max + 1);
-            updateDimension(l[0]);
+            std::cout << "Updating item " << i << ", is " << currentZ << ".\n";
+            l[i]->setZValue(max + 1);
         }
+        else {
+            std::cout << "Not updating " << i << ", is " << currentZ << ".\n";
+        }
+    }
+    // Update the z index value in the GUI
+    if (l.size() > 0) {
+        updateDimension(l[0]);
     }
 }
 
@@ -2259,13 +2315,16 @@ void TitleWidget::slotZIndexDown()
 void TitleWidget::slotZIndexBottom()
 {
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
-    if(l.size() >= 1) {
-        qreal currentZ = l[0]->zValue();
-        qreal min = zIndexBounds(false, false);
+    qreal min = zIndexBounds(false, false);
+    for (int i = 0; i < l.size(); i++) {
+        qreal currentZ = l[i]->zValue();
         if(currentZ >= min) {
-            l[0]->setZValue(min - 1);
-            updateDimension(l[0]);
+            l[i]->setZValue(min - 1);
         }
+    }
+    // Update the z index value in the GUI
+    if (l.size() > 0) {
+        updateDimension(l[0]);
     }
 }
 
