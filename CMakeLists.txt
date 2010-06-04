@@ -1,47 +1,51 @@
 project(kdenlive)
 
-SET(BASE_VERSION 0.7.8)
+set(BASE_VERSION 0.7.8)
+set(LIBMLT_REQUIRED_VERSION 0.4.0)
 
-OPTION(RELEASE_BUILD "Remove compilation date to version, use for stable releases (default off)" OFF)
-set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules )
+option(RELEASE_BUILD "Remove compilation date from program version (use for stable releases)" OFF)
+set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)
 
-# search packages used by KDE
+# Search packages used by KDE.
 find_package(KDE4 REQUIRED)
-include (KDE4Defaults)
-include (MacroLibrary)
-INCLUDE(FindGettext)
+include(KDE4Defaults)
+include(MacroLibrary)
+include(FindGettext)
 include(MacroOptionalAddSubdirectory)
 set(catalogname kdenlive)
+add_definitions(${QT_DEFINITIONS})
 
-add_definitions (${QT_DEFINITIONS})
+# Search MLT package.
+find_package(LIBMLT REQUIRED)
+if(LIBMLT_VERSION VERSION_LESS ${LIBMLT_REQUIRED_VERSION})
+  message(FATAL_ERROR "MLT must be at least version ${LIBMLT_REQUIRED_VERSION}")
+endif(LIBMLT_VERSION VERSION_LESS ${LIBMLT_REQUIRED_VERSION})
 
-FIND_PACKAGE(LIBMLT REQUIRED)
 find_package(MSGFMT REQUIRED)
-
 find_program(EXTRACTRC_EXECUTABLE extractrc)
 find_program(MSGFMT_EXECUTABLE msgfmt)
 find_program(MSGMERGE_EXECUTABLE msgmerge)
 find_program(XGETTEXT_EXECUTABLE xgettext)
 
-# current version
-IF (RELEASE_BUILD)
-    SET(VERSION "\"${BASE_VERSION}\"")
-ELSE(RELEASE_BUILD)
-   IF (EXISTS ${PROJECT_SOURCE_DIR}/.svn)
-      # Probably a SVN workspace, determine revision level
-      FIND_PACKAGE(Subversion)
-      IF(Subversion_FOUND)
-        Subversion_WC_INFO(${PROJECT_SOURCE_DIR} KDENLIVE)
-        MESSAGE("Current revision is ${KDENLIVE_WC_REVISION}")
-	SET(VERSION "\"${BASE_VERSION} (rev. ${KDENLIVE_WC_REVISION})\"")
-      ELSE(Subversion_FOUND)
-	MESSAGE("Could not determine SVN revision")
-	SET(VERSION "\"${BASE_VERSION}\"")
-      ENDIF(Subversion_FOUND)
-    ELSE(EXISTS ${PROJECT_SOURCE_DIR}/.svn)
-    SET(VERSION "\"${BASE_VERSION}\"")
-    ENDIF(EXISTS ${PROJECT_SOURCE_DIR}/.svn)
-ENDIF(RELEASE_BUILD)
+# Get current version.
+if(RELEASE_BUILD)
+  set(VERSION "\"${BASE_VERSION}\"")
+else(RELEASE_BUILD)
+  if(EXISTS ${PROJECT_SOURCE_DIR}/.svn)
+    # Probably a SVN workspace: determine the revision.
+    find_package(Subversion)
+    if(Subversion_FOUND)
+      Subversion_WC_INFO(${PROJECT_SOURCE_DIR} KDENLIVE)
+      message("Current revision is ${KDENLIVE_WC_REVISION}")
+      set(VERSION "\"${BASE_VERSION} (rev. ${KDENLIVE_WC_REVISION})\"")
+    else(Subversion_FOUND)
+      message("Could not determine the SVN revision")
+      set(VERSION "\"${BASE_VERSION}\"")
+    endif(Subversion_FOUND)
+  else(EXISTS ${PROJECT_SOURCE_DIR}/.svn)
+    set(VERSION "\"${BASE_VERSION}\"")
+  endif(EXISTS ${PROJECT_SOURCE_DIR}/.svn)
+endif(RELEASE_BUILD)
 
 add_subdirectory(src src/cmake_bindir)
 add_subdirectory(renderer renderer/cmake_bindir)
@@ -56,5 +60,4 @@ add_subdirectory(titles)
 add_subdirectory(po)
 add_subdirectory(man)
 
-CONFIGURE_FILE(${CMAKE_SOURCE_DIR}/kdenlive-config.h.cmake kdenlive-config.h @ONLY)
-
+configure_file(${CMAKE_SOURCE_DIR}/kdenlive-config.h.cmake kdenlive-config.h @ONLY)
