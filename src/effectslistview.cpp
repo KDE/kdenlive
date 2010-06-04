@@ -43,6 +43,7 @@ EffectsListView::EffectsListView(QWidget *parent) :
     search_effect->setTreeWidget(m_effectsList);
     buttonInfo->setIcon(KIcon("help-about"));
     setFocusPolicy(Qt::StrongFocus);
+    setFocusProxy(search_effect);
 
     if (KdenliveSettings::showeffectinfo()) {
         buttonInfo->setDown(true);
@@ -54,13 +55,8 @@ EffectsListView::EffectsListView(QWidget *parent) :
     connect(m_effectsList, SIGNAL(itemSelectionChanged()), this, SLOT(slotUpdateInfo()));
     connect(m_effectsList, SIGNAL(itemDoubleClicked(QTreeWidgetItem *, int)), this, SLOT(slotEffectSelected()));
     connect(search_effect, SIGNAL(hiddenChanged(QTreeWidgetItem *, bool)), this, SLOT(slotUpdateSearch(QTreeWidgetItem *, bool)));
+    connect(search_effect, SIGNAL(textChanged(QString)), this, SLOT(slotAutoExpand(QString)));
     //m_effectsList->setCurrentRow(0);
-}
-
-
-void EffectsListView::focusInEvent(QFocusEvent * /*event*/)
-{
-    search_effect->setFocus();
 }
 
 void EffectsListView::filterList(int pos)
@@ -85,6 +81,7 @@ void EffectsListView::filterList(int pos)
     // make sure we don't show anything not matching the search expression
     search_effect->updateSearch();
 
+
     /*item = m_effectsList->currentItem();
     if (item) {
         if (item->isHidden()) {
@@ -97,15 +94,10 @@ void EffectsListView::filterList(int pos)
 
 void EffectsListView::showInfoPanel()
 {
-    if (infopanel->isVisible()) {
-        infopanel->setVisible(false);
-        buttonInfo->setDown(false);
-        KdenliveSettings::setShoweffectinfo(false);
-    } else {
-        infopanel->setVisible(true);
-        buttonInfo->setDown(true);
-        KdenliveSettings::setShoweffectinfo(true);
-    }
+    bool show = !infopanel->isVisible();
+    infopanel->setVisible(show);
+    buttonInfo->setDown(show);
+    KdenliveSettings::setShoweffectinfo(show);
 }
 
 void EffectsListView::slotEffectSelected()
@@ -165,6 +157,24 @@ void EffectsListView::slotUpdateSearch(QTreeWidgetItem *item, bool hidden)
             if (type_combo->currentIndex() != 0)
                 item->setHidden(true);
         }
+    }
+}
+
+void EffectsListView::slotAutoExpand(QString text)
+{
+    for (int i = 0; i < m_effectsList->topLevelItemCount(); ++i) {
+        QTreeWidgetItem *folder = m_effectsList->topLevelItem(i);
+        bool expandFolder = false;
+        /*if (folder->isHidden())
+            continue;*/
+        if (!text.isEmpty()) {
+            for (int j = 0; j < folder->childCount(); j++) {
+                QTreeWidgetItem *item = folder->child(j);
+                if (!item->isHidden())
+                    expandFolder = true;
+            }
+        }
+        folder->setExpanded(expandFolder);
     }
 }
 
