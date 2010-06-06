@@ -407,6 +407,8 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     m_scene = new GraphicsSceneRectMove(this);
     graphicsView->setScene(m_scene);
     graphicsView->setMouseTracking(true);
+    graphicsView->setDragMode(QGraphicsView::RubberBandDrag);
+    graphicsView->setRubberBandSelectionMode(Qt::ContainsItemBoundingRect);
     m_titledocument.setScene(m_scene, m_frameWidth, m_frameHeight);
     connect(m_scene, SIGNAL(changed(QList<QRectF>)), this, SLOT(slotChanged()));
     connect(font_size, SIGNAL(valueChanged(int)), m_scene, SLOT(slotUpdateFontSize(int)));
@@ -630,11 +632,17 @@ void TitleWidget::slotRectTool()
     m_scene->setTool(TITLE_RECTANGLE);
     showToolbars(TITLE_RECTANGLE);
     checkButton(TITLE_RECTANGLE);
+    
+    // Disable dragging mode, would make dragging a rect impossible otherwise ;)
+    graphicsView->setDragMode(QGraphicsView::NoDrag);
 }
 
 void TitleWidget::slotSelectTool()
 {
     m_scene->setTool(TITLE_SELECT);
+    
+    // Enable rubberband selecting mode.
+    graphicsView->setDragMode(QGraphicsView::RubberBandDrag);
 
     // Find out which toolbars need to be shown, depending on selected item
     TITLETOOL t = TITLE_SELECT;
