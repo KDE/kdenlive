@@ -60,9 +60,10 @@ EffectStackView::EffectStackView(QWidget *parent) :
     m_ui.buttonSave->setToolTip(i18n("Save effect"));
     m_ui.buttonReset->setIcon(KIcon("view-refresh"));
     m_ui.buttonReset->setToolTip(i18n("Reset effect"));
+    m_ui.checkAll->setToolTip(i18n("Enable/Disable all effects"));
 
 
-    m_ui.effectlist->setDragDropMode(QAbstractItemView::NoDragDrop);//use internal if drop is recognised right
+    m_ui.effectlist->setDragDropMode(QAbstractItemView::NoDragDrop); //use internal if drop is recognised right
 
     connect(m_ui.effectlist, SIGNAL(itemSelectionChanged()), this , SLOT(slotItemSelectionChanged()));
     connect(m_ui.effectlist, SIGNAL(itemChanged(QListWidgetItem *)), this , SLOT(slotItemChanged(QListWidgetItem *)));
@@ -71,6 +72,7 @@ EffectStackView::EffectStackView(QWidget *parent) :
     connect(m_ui.buttonDel, SIGNAL(clicked()), this, SLOT(slotItemDel()));
     connect(m_ui.buttonSave, SIGNAL(clicked()), this, SLOT(slotSaveEffect()));
     connect(m_ui.buttonReset, SIGNAL(clicked()), this, SLOT(slotResetEffect()));
+    connect(m_ui.checkAll, SIGNAL(stateChanged(int)), this, SLOT(slotCheckAll(int)));
     connect(m_effectedit, SIGNAL(parameterChanged(const QDomElement, const QDomElement)), this , SLOT(slotUpdateEffectParams(const QDomElement, const QDomElement)));
     connect(m_effectedit, SIGNAL(seekTimeline(int)), this , SLOT(slotSeekTimeline(int)));
     m_effectLists["audio"] = &MainWindow::audioEffects;
@@ -128,7 +130,6 @@ void EffectStackView::slotSaveEffect()
     effectprops.setAttribute("id", name);
     effectprops.setAttribute("type", "custom");
 
-
     QFile file(path);
     if (file.open(QFile::WriteOnly | QFile::Truncate)) {
         QTextStream out(&file);
@@ -184,6 +185,7 @@ void EffectStackView::slotItemChanged(QListWidgetItem *item)
         m_effectedit->updateParameter("disable", QString::number((int) disable));
         emit changeEffectState(m_clipref, activeRow, disable);
     }
+    slotUpdateCheckAllButton();
 }
 
 
@@ -232,14 +234,17 @@ void EffectStackView::setupListView(int ix)
         m_ui.buttonReset->setEnabled(false);
         m_ui.buttonUp->setEnabled(false);
         m_ui.buttonDown->setEnabled(false);
+        m_ui.checkAll->setEnabled(false);
     } else {
         if (ix < 0) ix = 0;
         if (ix > m_ui.effectlist->count() - 1) ix = m_ui.effectlist->count() - 1;
         m_ui.effectlist->setCurrentRow(ix);
+        m_ui.checkAll->setEnabled(true);
     }
     m_ui.effectlist->blockSignals(false);
     if (m_ui.effectlist->count() == 0) m_effectedit->transferParamDesc(QDomElement(), 0, 0);
     else slotItemSelectionChanged(false);
+    slotUpdateCheckAllButton();
 }
 
 void EffectStackView::slotItemSelectionChanged(bool update)
@@ -249,7 +254,9 @@ void EffectStackView::slotItemSelectionChanged(bool update)
     bool isChecked = false;
     if (hasItem && m_ui.effectlist->currentItem()->checkState() == Qt::Checked) isChecked = true;
     if (hasItem && m_ui.effectlist->currentItem()->isSelected()) {
-        m_effectedit->transferParamDesc(m_clipref->effectAt(activeRow), m_clipref->cropStart().frames(KdenliveSettings::project_fps()), m_clipref->cropDuration().frames(KdenliveSettings::project_fps()));//minx max frame
+        m_effectedit->transferParamDesc(m_clipref->effectAt(activeRow),
+                                        m_clipref->cropStart().frames(KdenliveSettings::project_fps()),
+                                        m_clipref->cropDuration().frames(KdenliveSettings::project_fps())); //minx max frame
     }
     if (m_clipref && update) m_clipref->setSelectedEffect(activeRow);
     m_ui.buttonDel->setEnabled(hasItem);
@@ -279,6 +286,7 @@ void EffectStackView::slotItemDel()
     int activeRow = m_ui.effectlist->currentRow();
     if (activeRow >= 0) {
         emit removeEffect(m_clipref, m_clipref->effectAt(activeRow));
+        slotUpdateCheckAllButton();
     }
 }
 
@@ -320,6 +328,7 @@ void EffectStackView::clear()
     m_ui.buttonReset->setEnabled(false);
     m_ui.buttonUp->setEnabled(false);
     m_ui.buttonDown->setEnabled(false);
+    m_ui.checkAll->setEnabled(false);
     m_effectedit->transferParamDesc(QDomElement(), 0, 0);
     m_ui.effectlist->blockSignals(false);
 }
@@ -327,8 +336,42 @@ void EffectStackView::clear()
 
 void EffectStackView::slotSeekTimeline(int pos)
 {
-    if (!m_clipref) return;
-    emit seekTimeline(m_clipref->startPos().frames(KdenliveSettings::project_fps()) + pos);
+    if (m_clipref)
+        emit seekTimeline(m_clipref->startPos().frames(KdenliveSettings::project_fps()) + pos);
+}
+
+void EffectStackView::slotUpdateCheckAllButton()
+{
+    bool hasEnabled = false;
+    bool hasDisabled = false;
+    for (int i = 0; i < m_ui.effectlist->count(); ++i) {
+        if (m_ui.effectlist->item(i)->checkState() == Qt::Checked)
+            hasEnabled = true;
+        else
+            hasDisabled = true;
+    }
+
+    m_ui.checkAll->blockSignals(true);
+    if (hasEnabled && hasDisabled)
+        m_ui.checkAll->setCheckState(Qt::PartiallyChecked);
+    else if (hasEnabled)
+        m_ui.checkAll->setCheckState(Qt::Checked);
+    else
+        m_ui.checkAll->setCheckState(Qt::Unchecked);
+    m_ui.checkAll->blockSignals(false);
+}
+
+void EffectStackView::slotCheckAll(int state)
+{
+    if (state == 1) {
+        state = 2;
+        m_ui.checkAll->blockSignals(true);
+        m_ui.checkAll->setCheckState(Qt::Checked);
+        m_ui.checkAll->blockSignals(false);
+    }
+
+    for (int i = 0; i < m_ui.effectlist->count(); ++i)
+        m_ui.effectlist->item(i)->setCheckState((Qt::CheckState)state);
 }
 
 #include "effectstackview.moc"
