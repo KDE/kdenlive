@@ -69,7 +69,14 @@ public:
     virtual int track() const ;
     virtual GenTime cropStart() const ;
     virtual GenTime cropDuration() const ;
+
+    /** @brief Resizes the clip from the start.
+    * @param posx Absolute position of new in point
+    * @param hasSizeLimit (optional) Whether the clip has a maximum size */
     virtual void resizeStart(int posx, bool hasSizeLimit = true);
+
+    /** @brief Resizes the clip from the end.
+    * @param posx Absolute position of new out point */
     virtual void resizeEnd(int posx);
     virtual double fps() const;
     virtual void updateFps(double fps);

@@ -131,8 +131,7 @@ void AbstractClipItem::resizeStart(int posx, bool hasSizeLimit)
     if (durationDiff == GenTime()) return;
     //kDebug() << "-- RESCALE DIFF=" << durationDiff.frames(25) << ", CLIP: " << startPos().frames(25) << "-" << endPos().frames(25);
 
-    if (type() == AVWIDGET) {
-        if (hasSizeLimit && cropStart() + durationDiff < GenTime())
+    if (type() == AVWIDGET && hasSizeLimit && cropStart() + durationDiff < GenTime()) {
             durationDiff = GenTime() - cropStart();
     } else if (durationDiff >= cropDuration()) {
         return;
@@ -142,22 +141,21 @@ void AbstractClipItem::resizeStart(int posx, bool hasSizeLimit)
     //kDebug()<<"// DURATION DIFF: "<<durationDiff.frames(25)<<", POS: "<<pos().x();
     m_info.startPos += durationDiff;
 
-    if (type() == AVWIDGET) {
+    if (type() == AVWIDGET)
         m_info.cropStart += durationDiff;
-    }
 
-    m_info.cropDuration = m_info.cropDuration - durationDiff;
+    m_info.cropDuration -= durationDiff;
     setRect(0, 0, cropDuration().frames(m_fps) - 0.02, rect().height());
     moveBy(durationDiff.frames(m_fps), 0);
 
     if (m_info.startPos != GenTime(posx, m_fps)) {
         //kDebug()<<"//////  WARNING, DIFF IN XPOS: "<<pos().x()<<" == "<<m_startPos.frames(m_fps);
-        GenTime diff = m_info.startPos - GenTime((int) posx, m_fps);
+        GenTime diff = m_info.startPos - GenTime(posx, m_fps);
 
-        if (type() == AVWIDGET) {
+        if (type() == AVWIDGET)
             m_info.cropStart += diff;
-        }
-        m_info.cropDuration = m_info.cropDuration - diff;
+
+        m_info.cropDuration -= diff;
         setRect(0, 0, cropDuration().frames(m_fps) - 0.02, rect().height());
         //kDebug()<<"// NEW START: "<<m_startPos.frames(25)<<", NW DUR: "<<m_cropDuration.frames(25);
     }

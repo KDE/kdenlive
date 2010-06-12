@@ -1151,7 +1151,7 @@ void ClipItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *)
 }
 */
 
-void ClipItem::resizeStart(int posx, bool)
+void ClipItem::resizeStart(int posx, bool /*size*/)
 {
     bool sizeLimit = false;
     if (clipType() != IMAGE && clipType() != COLOR && clipType() != TEXT) {

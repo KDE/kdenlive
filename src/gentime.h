@@ -20,81 +20,98 @@
 
 #include <cmath>
 
-/**Encapsulates a time, which can be set in various forms and outputted in various forms.
-  *@author Jason Wood
-  */
+/**
+ * @class GenTime
+ * @brief Encapsulates a time, which can be set in various forms and outputted in various forms.
+ * @author Jason Wood
+ */
 
 class GenTime
 {
 public:
-    /** Creates a time object, with a time of 0 seconds. */
+    /** @brief Creates a GenTime object, with a time of 0 seconds. */
     GenTime();
 
-    /** Creates a time object, with time given in seconds. */
+    /** @brief Creates a GenTime object, with time given in seconds. */
     explicit GenTime(double seconds);
 
-    /** Creates a time object, by passing number of frames and how many frames per second */
+    /** @brief Creates a GenTime object, by passing number of frames and how many frames per second. */
     GenTime(int frames, double framesPerSecond);
 
-    /** returns the time, in seconds */
-    double seconds() const {
-        return m_time;
-    }
-    /** Returns the time, in milliseconds */ double ms() const;
+    /** @brief Gets the time, in seconds. */
+    double seconds() const;
 
-    /** Returns the time in frames, after being given the number of frames per second */
+    /** @brief Gets the time, in milliseconds */
+    double ms() const;
+
+    /** @brief Gets the time in frames.
+    * @param framesPerSecond Number of frames per second */
     double frames(double framesPerSecond) const;
 
+    /** @brief Rounds the GenTime's value to the nearest frame.
+    * @param framesPerSecond Number of frames per second */
+    GenTime & roundNearestFrame(double framesPerSecond);
+
+
+    /*
+     * Operators.
+     */
+    
     GenTime & operator+=(GenTime op) {
         m_time += op.m_time;
         return *this;
     }
-    /** Adds two GenTimes */ GenTime operator+(GenTime op) const {
-        return GenTime(m_time + op.m_time);
-    }
-    /** Subtracts one genTime from another */ GenTime operator-(GenTime op) const {
-        return GenTime(m_time - op.m_time);
-    }
-    /** Multiplies one GenTime by a double value, returning a GenTime */
-    GenTime operator*(double op) const {
-        return GenTime(m_time * op);
-    }
-    /** Divides one GenTime by a double value, returning a GenTime */
-    GenTime operator/(double op) const {
-        return GenTime(m_time / op);
-    }
-    /* Implementation of < operator; Works identically as with basic types. */
-    bool operator<(GenTime op) const {
-        return m_time + s_delta < op.m_time;
-    }
-    /* Implementation of > operator; Works identically as with basic types. */
-    bool operator>(GenTime op) const {
-        return m_time > op.m_time + s_delta;
-    }
-    /* Implementation of >= operator; Works identically as with basic types. */
-    bool operator>=(GenTime op) const {
-        return m_time + s_delta >= op.m_time;
-    }
-    /* Implementation of <= operator; Works identically as with basic types. */
-    bool operator<=(GenTime op) const {
-        return m_time <= op.m_time + s_delta;
-    }
-    /* Implementation of == operator; Works identically as with basic types. */
-    bool operator==(GenTime op) const {
-        return fabs(m_time - op.m_time) < s_delta;
-    }
-    /* Implementation of != operator; Works identically as with basic types. */
-    bool operator!=(GenTime op) const {
-        return fabs(m_time - op.m_time) >= s_delta;
-    }
-    /* Rounds the GenTIme's value to the nearest frame */
-    GenTime & roundNearestFrame(double framesPerSecond) {
-        m_time = floor((m_time * framesPerSecond) + 0.5) / framesPerSecond;
+
+    GenTime & operator-=(GenTime op) {
+        m_time -= op.m_time;
         return *this;
     }
 
-    ~GenTime();
-private:   // Private attributes
+    /** @brief Adds two GenTimes. */
+    GenTime operator+(GenTime op) const {
+        return GenTime(m_time + op.m_time);
+    }
+
+    /** @brief Subtracts one genTime from another. */
+    GenTime operator-(GenTime op) const {
+        return GenTime(m_time - op.m_time);
+    }
+
+    /** @brief Multiplies one GenTime by a double value, returning a GenTime. */
+    GenTime operator*(double op) const {
+        return GenTime(m_time * op);
+    }
+
+    /** @brief Divides one GenTime by a double value, returning a GenTime. */
+    GenTime operator/(double op) const {
+        return GenTime(m_time / op);
+    }
+
+    bool operator<(GenTime op) const {
+        return m_time + s_delta < op.m_time;
+    }
+
+    bool operator>(GenTime op) const {
+        return m_time > op.m_time + s_delta;
+    }
+
+    bool operator>=(GenTime op) const {
+        return m_time + s_delta >= op.m_time;
+    }
+
+    bool operator<=(GenTime op) const {
+        return m_time <= op.m_time + s_delta;
+    }
+
+    bool operator==(GenTime op) const {
+        return fabs(m_time - op.m_time) < s_delta;
+    }
+
+    bool operator!=(GenTime op) const {
+        return fabs(m_time - op.m_time) >= s_delta;
+    }
+
+private:
     /** Holds the time for this object. */
     double m_time;
 
