@@ -71,7 +71,7 @@ private:
     bool keyframeSelected();
 
 public slots:
-    void setupParam(const QDomElement, int, int);
+    void setupParam(const QDomElement, int minframe, int maxframe);
 
 private slots:
     void slotNextFrame();

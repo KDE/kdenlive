@@ -1290,6 +1290,7 @@ void MainWindow::setupActions()
     m_saveAction = KStandardAction::save(this,    SLOT(saveFile()),               collection);
     KStandardAction::saveAs(this,                 SLOT(saveFileAs()),             collection);
     KStandardAction::openNew(this,                SLOT(newFile()),                collection);
+    // TODO: make the following connection to slotEditKeys work
     KStandardAction::keyBindings(this,            SLOT(slotEditKeys()),           collection);
     KStandardAction::preferences(this,            SLOT(slotPreferences()),        collection);
     KStandardAction::configureNotifications(this, SLOT(configureNotifications()), collection);

@@ -2776,26 +2776,28 @@ void CustomTrackView::slotInsertSpace()
     GenTime spaceDuration = d.selectedDuration();
     track = d.selectedTrack();
 
-    // TODO: Make "All Tracks" work
-    if (track == -1)
-        return;
+    QList<QGraphicsItem *> items;
+    if (track > 0) {
+        if (m_document->isTrackLocked(m_document->tracksCount() - track - 1)) {
+            emit displayMessage(i18n("Cannot insert space in a locked track"), ErrorMessage);
+            return;
+        }
 
-    if (m_document->isTrackLocked(m_document->tracksCount() - track - 1)) {
-        emit displayMessage(i18n("Cannot insert space in a locked track"), ErrorMessage);
-        return;
-    }
+        ClipItem *item = getClipItemAt(pos, track);
+        if (item) pos = item->startPos();
 
-    ClipItem *item = getClipItemAt(pos, track);
-    if (item) pos = item->startPos();
-
-    // Make sure there is no group in the way
-    QRectF rect(pos.frames(m_document->fps()), track * m_tracksHeight + m_tracksHeight / 2, sceneRect().width() - pos.frames(m_document->fps()), m_tracksHeight / 2 - 2);
-    bool isOk;
-    QList<QGraphicsItem *> items = checkForGroups(rect, &isOk);
-    if (!isOk) {
-        // groups found on track, do not allow the move
-        emit displayMessage(i18n("Cannot insert space in a track with a group"), ErrorMessage);
-        return;
+        // Make sure there is no group in the way
+        QRectF rect(pos.frames(m_document->fps()), track * m_tracksHeight + m_tracksHeight / 2, sceneRect().width() - pos.frames(m_document->fps()), m_tracksHeight / 2 - 2);
+        bool isOk;
+        items = checkForGroups(rect, &isOk);
+        if (!isOk) {
+            // groups found on track, do not allow the move
+            emit displayMessage(i18n("Cannot insert space in a track with a group"), ErrorMessage);
+            return;
+        }
+    } else {
+        QRectF rect(pos.frames(m_document->fps()), 0, sceneRect().width() - pos.frames(m_document->fps()), m_document->tracksCount() * m_tracksHeight);
+        items = scene()->items(rect);
     }
 
     QList<ItemInfo> clipsToMove;
@@ -2805,16 +2807,17 @@ void CustomTrackView::slotInsertSpace()
         if (items.at(i)->type() == AVWIDGET || items.at(i)->type() == TRANSITIONWIDGET) {
             AbstractClipItem *item = static_cast <AbstractClipItem *>(items.at(i));
             ItemInfo info = item->info();
-            if (item->type() == AVWIDGET) {
+            if (item->type() == AVWIDGET)
                 clipsToMove.append(info);
-            } else if (item->type() == TRANSITIONWIDGET) {
+            else if (item->type() == TRANSITIONWIDGET)
                 transitionsToMove.append(info);
-            }
         }
     }
 
-    InsertSpaceCommand *command = new InsertSpaceCommand(this, clipsToMove, transitionsToMove, track, spaceDuration, true);
-    m_commandStack->push(command);
+    if (!clipsToMove.isEmpty() || !transitionsToMove.isEmpty()) {
+        InsertSpaceCommand *command = new InsertSpaceCommand(this, clipsToMove, transitionsToMove, track, spaceDuration, true);
+        m_commandStack->push(command);
+    }
 }
 
 void CustomTrackView::insertSpace(QList<ItemInfo> clipsToMove, QList<ItemInfo> transToMove, int track, const GenTime duration, const GenTime offset)
@@ -2882,7 +2885,8 @@ void CustomTrackView::insertSpace(QList<ItemInfo> clipsToMove, QList<ItemInfo> t
         }
     }
     resetSelectionGroup(false);
-    if (track != -1) track = m_document->tracksCount() - track;
+    if (track != -1)
+        track = m_document->tracksCount() - track;
     m_document->renderer()->mltInsertSpace(trackClipStartList, trackTransitionStartList, track, duration, offset);
 }
 
