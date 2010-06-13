@@ -22,31 +22,23 @@
 #define SPACERDIALOG_H
 
 
-#include "timecode.h"
 #include "ui_spacerdialog_ui.h"
+#include "timecode.h"
+#include "timecodedisplay.h"
+#include "definitions.h"
 
 class SpacerDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    SpacerDialog(const GenTime duration, Timecode tc, int track, int trackNumber, QWidget * parent = 0);
-    ~SpacerDialog();
+    SpacerDialog(const GenTime duration, Timecode tc, int track, QList <TrackInfo> tracks, QWidget * parent = 0);
     GenTime selectedDuration();
     int selectedTrack();
 
-private slots:
-    void slotTimeUp();
-    void slotTimeDown();
-
-protected:
-    void wheelEvent(QWheelEvent * event);
-
 private:
     Ui::SpacerDialog_UI m_view;
-    Timecode m_tc;
-    double m_fps;
-
+    TimecodeDisplay m_in;
 };
 
 

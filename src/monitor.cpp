@@ -113,7 +113,6 @@ Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget
     spacer->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     toolbar->addWidget(spacer);
     m_timePos = new TimecodeDisplay(m_monitorManager->timecode(), this);
-    m_timePos->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::MinimumExpanding);
     toolbar->addWidget(m_timePos);
     connect(m_timePos, SIGNAL(editingFinished()), this, SLOT(slotSeek()));
 
@@ -806,7 +805,7 @@ void Monitor::slotSwitchMonitorInfo(bool show)
 
 void Monitor::updateTimecodeFormat()
 {
-    m_timePos->slotPrepareTimeCodeFormat(m_monitorManager->timecode());
+    m_timePos->slotUpdateTimeCodeFormat();
 }
 
 QStringList Monitor::getZoneInfo() const

@@ -26,60 +26,32 @@
 #include <KDebug>
 
 
-SpacerDialog::SpacerDialog(const GenTime duration, Timecode tc, int track, int trackNumber, QWidget * parent) :
+SpacerDialog::SpacerDialog(const GenTime duration, Timecode tc, int track, QList <TrackInfo> tracks, QWidget * parent) :
         QDialog(parent),
-        m_tc(tc)
+        m_in(tc)
 {
     setFont(KGlobalSettings::toolBarFont());
-    m_fps = m_tc.fps();
     m_view.setupUi(this);
-    m_view.space_duration->setText(tc.getTimecode(duration));
-    QStringList tracks;
-    tracks << i18n("All tracks");
-    for (int i = 0; i < trackNumber - 1; i++) {
-        tracks << QString::number(i);
-    }
-    m_view.track_number->addItems(tracks);
-    m_view.track_number->setCurrentIndex(track);
+    m_view.inputLayout->addWidget(&m_in);
+    m_in.setValue(duration);
 
-    connect(m_view.position_up, SIGNAL(clicked()), this, SLOT(slotTimeUp()));
-    connect(m_view.position_down, SIGNAL(clicked()), this, SLOT(slotTimeDown()));
+    QStringList trackItems;
+    trackItems << i18n("All tracks");
+    for (int i = tracks.count() - 1; i >= 0; --i) {
+        if (!tracks.at(i).trackName.isEmpty())
+            trackItems << tracks.at(i).trackName + " (" + QString::number(i) + ")";
+        else
+            trackItems << QString::number(i);
+    }
+    m_view.track_number->addItems(trackItems);
+    m_view.track_number->setCurrentIndex(track);
 
     adjustSize();
 }
 
-SpacerDialog::~SpacerDialog()
-{
-}
-
-void SpacerDialog::slotTimeUp()
-{
-    int duration = m_tc.getFrameCount(m_view.space_duration->text());
-    duration ++;
-    m_view.space_duration->setText(m_tc.getTimecode(GenTime(duration, m_fps)));
-}
-
-void SpacerDialog::slotTimeDown()
-{
-    int duration = m_tc.getFrameCount(m_view.space_duration->text());
-    if (duration <= 0) return;
-    duration --;
-    m_view.space_duration->setText(m_tc.getTimecode(GenTime(duration, m_fps)));
-}
-
 GenTime SpacerDialog::selectedDuration()
 {
-    return GenTime(m_tc.getFrameCount(m_view.space_duration->text()), m_fps);
-}
-
-void SpacerDialog::wheelEvent(QWheelEvent * event)
-{
-    if (m_view.space_duration->underMouse()) {
-        if (event->delta() > 0)
-            slotTimeUp();
-        else
-            slotTimeDown();
-    }
+    return m_in.gentime();
 }
 
 int SpacerDialog::selectedTrack()

@@ -22,71 +22,52 @@
 
 #include "ui_timecodedisplay_ui.h"
 #include "timecode.h"
-
-#include <KRestrictedLine>
+#include "gentime.h"
 
 
 /**
- * @short A widget for qreal values with a popup slider
+ * @class TimecodeDisplay
+ * @brief A widget for inserting a timecode value.
+ * @author Jean-Baptiste Mardelle
  *
- * TimecodeDisplay combines a numerical input and a dropdown slider in a way that takes up as
- * little screen space as possible.
- *
- * It allows the user to either enter a floating point value or quickly set the value using a slider
- *
- * One signal is emitted when the value changes. The signal is even emitted when the slider
- * is moving. The second argument of the signal however tells you if the value is final or not. A
- * final value is produced by entering a value numerically or by releasing the slider.
- *
- * The input of the numerical line edit is constrained to numbers and decimal signs.
+ * TimecodeDisplay can be used to insert eigther frames
+ * or a timecode in the format HH:MM:SS:FF
  */
 class TimecodeDisplay : public QWidget, public Ui::TimecodeDisplay_UI
 {
-
     Q_OBJECT
 
 public:
-
-    /**
-     * Constructor for the widget, where value is set to 0
-     *
-     * @param parent parent QWidget
-     */
+    /** @brief Constructor for the widget, sets value to 0.
+    * @param t Timecode object used to setup correct input (frames or HH:MM:SS:FF)
+    * @param parent parent Widget */
     TimecodeDisplay(Timecode t, QWidget *parent = 0);
 
-    /**
-     * Destructor
-     */
-    virtual ~TimecodeDisplay();
-
-    /**
-     * The minimum value that can be entered.
-     * default is 0
-     */
+    /** @brief Returns the minimum value, which can be entered.
+    * default is 0 */
     int minimum() const;
 
-    /**
-     * The maximum value that can be entered.
-     * default is 100
-     */
+    /** @brief Returns the maximum value, which can be entered.
+    * default is no maximum (-1) */
     int maximum() const;
 
-    /**
-     * Sets the minimum maximum value that can be entered.
-     * @param min the minimum value
-     * @param max the maximum value
-     */
+    /** @brief Sets the minimum maximum value that can be entered.
+    * @param min the minimum value
+    * @param max the maximum value */
     void setRange(int min, int max);
 
-    /**
-    * The value shown.
-    */
+    /** @brief Returns the current input in frames. */
     int value() const;
 
-    Timecode timecode() const;
+    /** @brief Returns the current input as a GenTime object. */
+    GenTime gentime() const;
 
-    //virtual QSize minimumSizeHint() const; ///< reimplemented from QComboBox
-    //virtual QSize sizeHint() const; ///< reimplemented from QComboBox
+    /** @brief Returs the widget's timecode object. */
+    Timecode timecode() const;
+    
+    /** @brief Sets value's format to frames or HH:MM:SS:FF according to @param frametimecode.
+    * @param frametimecode true = frames, false = HH:MM:SS:FF */
+    void setTimeCodeFormat(bool frametimecode);
 
 private:
     /** timecode for widget */
@@ -97,22 +78,22 @@ private:
     int m_maximum;
 
 public slots:
-
-    /**
-    * Sets the value.
-    * The value actually set is forced to be within the legal range: minimum <= value <= maximum
+    /** @brief Sets the value.
     * @param value the new value
-    */
+    * The value actually set is forced to be within the legal range: minimum <= value <= maximum */
     void setValue(int value);
     void setValue(const QString &value);
-    void slotPrepareTimeCodeFormat(Timecode t);
+    void setValue(GenTime value);
+
+    /** @brief Sets value's format accorrding to Kdenlive's settings.
+    * @param t (optional, if already existing) Timecode object to use */
+    void slotUpdateTimeCodeFormat();
 
 private slots:
     void slotValueUp();
     void slotValueDown();
 
 signals:
-
     /**
      * Emitted every time the value changes (by calling setValue() or
      * by user interaction).

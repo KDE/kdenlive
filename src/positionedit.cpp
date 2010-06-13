@@ -57,7 +57,7 @@ PositionEdit::~PositionEdit()
 
 void PositionEdit::updateTimecodeFormat()
 {
-    m_display->slotPrepareTimeCodeFormat(m_display->timecode());
+    m_display->slotUpdateTimeCodeFormat();
 }
 
 int PositionEdit::getPosition() const

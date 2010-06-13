@@ -31,7 +31,6 @@
 Geometryval::Geometryval(const MltVideoProfile profile, Timecode t, QPoint frame_size, int startPoint, QWidget* parent) :
         QWidget(parent),
         m_profile(profile),
-        m_timecode(t),
         m_paramRect(NULL),
         m_geom(NULL),
         m_path(NULL),
@@ -41,7 +40,6 @@ Geometryval::Geometryval(const MltVideoProfile profile, Timecode t, QPoint frame
         m_timePos(t)
 {
     setupUi(this);
-    m_timePos.setSizePolicy(QSizePolicy::Maximum, QSizePolicy::MinimumExpanding);
     toolbarlayout->addWidget(&m_timePos);
     toolbarlayout->insertStretch(-1);
 
@@ -247,7 +245,7 @@ void Geometryval::slotSyncCursor()
 
 void Geometryval::updateTimecodeFormat()
 {
-    m_timePos.slotPrepareTimeCodeFormat(m_timecode);
+    m_timePos.slotUpdateTimeCodeFormat();
 }
 
 void Geometryval::slotPositionChanged(int pos, bool seek)

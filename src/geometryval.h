@@ -51,7 +51,6 @@ public:
 
 private:
     MltVideoProfile m_profile;
-    Timecode m_timecode;
     int m_realWidth;
     GraphicsSceneRectMove *m_scene;
     QGraphicsRectItem *m_paramRect;

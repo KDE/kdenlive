@@ -20,16 +20,9 @@
 #include "timecodedisplay.h"
 #include "kdenlivesettings.h"
 
-#include <QSize>
-#include <QStyle>
-#include <QStylePainter>
-#include <QStyleOptionSlider>
 #include <QLineEdit>
 #include <QValidator>
-#include <QHBoxLayout>
-#include <QFrame>
 #include <QMouseEvent>
-#include <QToolButton>
 
 #include <kglobal.h>
 #include <klocale.h>
@@ -38,6 +31,7 @@
 
 TimecodeDisplay::TimecodeDisplay(Timecode t, QWidget *parent)
         : QWidget(parent),
+        m_timecode(t),
         m_minimum(0),
         m_maximum(-1)
 {
@@ -45,21 +39,19 @@ TimecodeDisplay::TimecodeDisplay(Timecode t, QWidget *parent)
     lineedit->setFont(KGlobalSettings::toolBarFont());
     QFontMetrics fm = lineedit->fontMetrics();
     lineedit->setMaximumWidth(fm.width("88:88:88:888"));
-    slotPrepareTimeCodeFormat(t);
+    setSizePolicy(QSizePolicy::Maximum, QSizePolicy::MinimumExpanding);
+
+    slotUpdateTimeCodeFormat();
+
     connect(uparrow, SIGNAL(clicked()), this, SLOT(slotValueUp()));
     connect(downarrow, SIGNAL(clicked()), this, SLOT(slotValueDown()));
     connect(lineedit, SIGNAL(editingFinished()), this, SIGNAL(editingFinished()));
-}
-
-TimecodeDisplay::~TimecodeDisplay()
-{
 }
 
 void TimecodeDisplay::slotValueUp()
 {
     int val = value();
     val++;
-    if (m_maximum > -1 && val > m_maximum) val = m_maximum;
     setValue(val);
     lineedit->clearFocus();
     emit editingFinished();
@@ -69,42 +61,47 @@ void TimecodeDisplay::slotValueDown()
 {
     int val = value();
     val--;
-    if (val < m_minimum) val = m_minimum;
     setValue(val);
     lineedit->clearFocus();
     emit editingFinished();
 }
 
-void TimecodeDisplay::slotPrepareTimeCodeFormat(Timecode t)
+void TimecodeDisplay::setTimeCodeFormat(bool frametimecode)
 {
-    m_timecode = t;
-    m_frametimecode = KdenliveSettings::frametimecode();
-    QString val = lineedit->text();
+    int val = value();
+    m_frametimecode = frametimecode;
     lineedit->setInputMask("");
     if (m_frametimecode) {
-        int frames = m_timecode.getFrameCount(lineedit->text());
         QIntValidator *valid = new QIntValidator(lineedit);
         valid->setBottom(0);
         lineedit->setValidator(valid);
-        lineedit->setText(QString::number(frames));
     } else {
-        int pos = lineedit->text().toInt();
         lineedit->setValidator(m_timecode.validator());
-        lineedit->setText(m_timecode.getTimecodeFromFrames(pos));
     }
+    setValue(val);
+}
+
+void TimecodeDisplay::slotUpdateTimeCodeFormat()
+{
+    setTimeCodeFormat(KdenliveSettings::frametimecode());
 }
 
 void TimecodeDisplay::keyPressEvent(QKeyEvent *e)
 {
-    if (e->key() == Qt::Key_Up) slotValueUp();
-    else if (e->key() == Qt::Key_Down) slotValueDown();
-    else QWidget::keyPressEvent(e);
+    if (e->key() == Qt::Key_Up)
+        slotValueUp();
+    else if (e->key() == Qt::Key_Down)
+        slotValueDown();
+    else
+        QWidget::keyPressEvent(e);
 }
 
 void TimecodeDisplay::wheelEvent(QWheelEvent *e)
 {
-    if (e->delta() > 0) slotValueUp();
-    else slotValueDown();
+    if (e->delta() > 0)
+        slotValueUp();
+    else
+        slotValueDown();
 }
 
 
@@ -126,6 +123,11 @@ int TimecodeDisplay::value() const
     return frames;
 }
 
+GenTime TimecodeDisplay::gentime() const
+{
+    return GenTime(value(), m_timecode.fps());
+}
+
 Timecode TimecodeDisplay::timecode() const
 {
     return m_timecode;
@@ -139,25 +141,30 @@ void TimecodeDisplay::setRange(int min, int max)
 
 void TimecodeDisplay::setValue(const QString &value)
 {
-    if (m_frametimecode) {
-        lineedit->setText(QString::number(m_timecode.getFrameCount(value)));
-    } else lineedit->setText(value);
+    setValue(m_timecode.getFrameCount(value));
 }
 
 void TimecodeDisplay::setValue(int value)
 {
-    /*    if (value < m_minimum)
-            value = m_minimum;
-        if (value > m_maximum)
-            value = m_maximum;*/
-    if (m_frametimecode) lineedit->setText(QString::number(value));
-    else lineedit->setText(m_timecode.getTimecodeFromFrames(value));
+    if (value < m_minimum)
+        value = m_minimum;
+    if (m_maximum > m_minimum && value > m_maximum)
+        value = m_maximum;
 
-    /*    setEditText(KGlobal::locale()->formatNumber(value, d->decimals));
-        d->slider->blockSignals(true);
-        d->slider->setValue(int((value - d->minimum) * 256 / (d->maximum - d->minimum) + 0.5));
-        d->slider->blockSignals(false);*/
+    downarrow->setEnabled(value > m_minimum);
+    uparrow->setEnabled(m_maximum < m_minimum || value < m_maximum);
+
+    if (m_frametimecode)
+        lineedit->setText(QString::number(value));
+    else
+        lineedit->setText(m_timecode.getTimecodeFromFrames(value));
+
     //emit valueChanged(value, true);
+}
+
+void TimecodeDisplay::setValue(GenTime value)
+{
+    setValue(m_timecode.getTimecode(value));
 }
 
 #include <timecodedisplay.moc>
