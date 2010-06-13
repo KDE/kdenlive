@@ -61,6 +61,7 @@ class JogShuttle;
 class DocClipBase;
 class Render;
 class Transition;
+class KActionCollection;
 
 class MainWindow : public KXmlGuiWindow
 {
@@ -206,6 +207,7 @@ private:
     KAction *m_playZone;
     StatusBarMessageLabel *m_messageLabel;
     QActionGroup *m_clipTypeGroup;
+    KActionCollection *m_effectsActionCollection;
 
     bool m_findActivated;
     QString m_findString;
@@ -236,6 +238,7 @@ private:
     QByteArray m_timelineState;
     void loadTranscoders();
     QPixmap createSchemePreviewIcon(const KSharedConfigPtr &config);
+
     /** @brief Checks that the Kdenlive mime type is correctly installed.
     * @return The mimetype */
     QString getMimeType();
@@ -254,20 +257,28 @@ private slots:
     void queryQuit();
     void activateDocument();
     void connectDocument(TrackView*, KdenliveDoc*);
+    
     /** @brief Shows file open dialog. */
     void openFile();
     void openLastFile();
+
     /** @brief Checks whether a URL is available to save to.
     * @return Whether the file was saved. */
     bool saveFile();
+
     /** @brief Shows a save file dialog for saving the project.
     * @return Whether the file was saved. */
     bool saveFileAs();
+
     /** @brief Set properties to match outputFileName and save the document.
     * @param outputFileName The URL to save to / The document's URL.
     * @return Whether we had success. */
     bool saveFileAs(const QString &outputFileName);
+
+    /** @brief Shows the shortcut dialog. */
+    void slotEditKeys();
     void slotPreferences(int page = -1, int option = -1);
+
     /** @brief Reflects setting changes to the GUI. */
     void updateConfiguration();
     void slotConnectMonitors();
@@ -279,6 +290,7 @@ private slots:
     void slotDetectAudioDriver();
     void slotEditProjectSettings();
     void slotDisplayActionMessage(QAction *a);
+
     /** @brief Turns automatic splitting of audio and video on/off. */
     void slotSwitchSplitAudio();
     void slotSwitchVideoThumbs();
@@ -301,6 +313,7 @@ private slots:
     void slotFitZoom();
     /** @brief Updates the zoom slider tooltip to fit @param zoomlevel. */
     void slotUpdateZoomSliderToolTip(int zoomlevel);
+
     /** @brief Displays the zoom slider tooltip.
     * @param zoomlevel (optional) The zoom level to show in the tooltip. 
     *
@@ -398,9 +411,11 @@ private slots:
     void slotTranscodeClip();
     void slotSetDocumentRenderProfile(const QString &dest, const QString &group, const QString &name, const QString &file);
     void slotPrepareRendering(bool scriptExport, bool zoneOnly, const QString &chapterFile);
+
     /** @brief Switches between displaying frames or timecode.
     * @param ix 0 = display timecode, 1 = display frames. */
     void slotUpdateTimecodeFormat(int ix);
+
     /** @brief Removes the focus of anything. */
     void slotRemoveFocus();
     void slotCleanProject();
@@ -415,6 +430,7 @@ private slots:
     void slotCheckRenderStatus();
     void slotInsertZoneToTree();
     void slotInsertZoneToTimeline();
+
     /** @brief Deletes items from timeline and document.
     * @param ids The ids of the clips to delete.
     * @param folderids The names and ids of the folders to delete. */

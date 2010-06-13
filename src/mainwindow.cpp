@@ -58,7 +58,9 @@
 #include <KLocale>
 #include <KGlobal>
 #include <KActionCollection>
+#include <KActionCategory>
 #include <KStandardAction>
+#include <KShortcutsDialog>
 #include <KFileDialog>
 #include <KMessageBox>
 #include <KDebug>
@@ -947,13 +949,10 @@ void MainWindow::setupActions()
     collection->addAction("manage_profiles", profilesAction);
     connect(profilesAction, SIGNAL(triggered(bool)), this, SLOT(slotEditProfiles()));
 
-    KNS3::standardAction(i18n("Download New Wipes..."), this, SLOT(slotGetNewLumaStuff()), actionCollection(), "get_new_lumas");
-
-    KNS3::standardAction(i18n("Download New Render Profiles..."), this, SLOT(slotGetNewRenderStuff()), actionCollection(), "get_new_profiles");
-
+    KNS3::standardAction(i18n("Download New Wipes..."),            this, SLOT(slotGetNewLumaStuff()),       actionCollection(), "get_new_lumas");
+    KNS3::standardAction(i18n("Download New Render Profiles..."),  this, SLOT(slotGetNewRenderStuff()),     actionCollection(), "get_new_profiles");
     KNS3::standardAction(i18n("Download New Project Profiles..."), this, SLOT(slotGetNewMltProfileStuff()), actionCollection(), "get_new_mlt_profiles");
-
-    KNS3::standardAction(i18n("Download New Title Templates..."), this, SLOT(slotGetNewTitleStuff()), actionCollection(), "get_new_titles");
+    KNS3::standardAction(i18n("Download New Title Templates..."),  this, SLOT(slotGetNewTitleStuff()),      actionCollection(), "get_new_titles");
 
     KAction* wizAction = new KAction(KIcon("configure"), i18n("Run Config Wizard"), this);
     collection->addAction("run_wizard", wizAction);
@@ -1285,26 +1284,18 @@ void MainWindow::setupActions()
     maxCurrent->setChecked(false);
     connect(maxCurrent, SIGNAL(triggered(bool)), this, SLOT(slotMaximizeCurrent(bool)));*/
 
-
-    m_closeAction = KStandardAction::close(this, SLOT(closeCurrentDocument()), collection);
-
-    KStandardAction::quit(this, SLOT(queryQuit()), collection);
-
-    KStandardAction::open(this, SLOT(openFile()), collection);
-
-    m_saveAction = KStandardAction::save(this, SLOT(saveFile()), collection);
-
-    KStandardAction::saveAs(this, SLOT(saveFileAs()), collection);
-
-    KStandardAction::openNew(this, SLOT(newFile()), collection);
-
-    KStandardAction::preferences(this, SLOT(slotPreferences()), collection);
-
-    KStandardAction::configureNotifications(this , SLOT(configureNotifications()), collection);
-
-    KStandardAction::copy(this, SLOT(slotCopy()), collection);
-
-    KStandardAction::paste(this, SLOT(slotPaste()), collection);
+    m_closeAction = KStandardAction::close(this,  SLOT(closeCurrentDocument()),   collection);
+    KStandardAction::quit(this,                   SLOT(queryQuit()),              collection);
+    KStandardAction::open(this,                   SLOT(openFile()),               collection);
+    m_saveAction = KStandardAction::save(this,    SLOT(saveFile()),               collection);
+    KStandardAction::saveAs(this,                 SLOT(saveFileAs()),             collection);
+    KStandardAction::openNew(this,                SLOT(newFile()),                collection);
+    KStandardAction::keyBindings(this,            SLOT(slotEditKeys()),           collection);
+    KStandardAction::preferences(this,            SLOT(slotPreferences()),        collection);
+    KStandardAction::configureNotifications(this, SLOT(configureNotifications()), collection);
+    KStandardAction::copy(this,                   SLOT(slotCopy()),               collection);
+    KStandardAction::paste(this,                  SLOT(slotPaste()),              collection);
+    KStandardAction::fullScreen(this,             SLOT(slotFullScreen()), this,   collection);
 
     KAction *undo = KStandardAction::undo(m_commandStack, SLOT(undo()), collection);
     undo->setEnabled(false);
@@ -1313,8 +1304,6 @@ void MainWindow::setupActions()
     KAction *redo = KStandardAction::redo(m_commandStack, SLOT(redo()), collection);
     redo->setEnabled(false);
     connect(m_commandStack, SIGNAL(canRedoChanged(bool)), redo, SLOT(setEnabled(bool)));
-
-    KStandardAction::fullScreen(this, SLOT(slotFullScreen()), this, collection);
 
     /*
     //TODO: Add status tooltip to actions ?
@@ -1385,38 +1374,48 @@ void MainWindow::setupActions()
     m_projectList->setupMenu(addClips, addClip);
 
     // Setup effects and transitions actions.
+    m_effectsActionCollection = new KActionCollection(this, KGlobal::mainComponent());
+    //KActionCategory *videoEffectActions = new KActionCategory(i18n("Video Effects"), m_effectsActionCollection);
+    KActionCategory *videoEffectActions = new KActionCategory(i18n("Video Effects"), collection);
     m_videoEffects = new KAction*[videoEffects.count()];
     for (int i = 0; i < videoEffects.count(); ++i) {
         QStringList effectInfo = videoEffects.effectIdInfo(i);
         m_videoEffects[i] = new KAction(KIcon("kdenlive-show-video"), effectInfo.at(0), this);
         m_videoEffects[i]->setData(effectInfo);
         m_videoEffects[i]->setIconVisibleInMenu(false);
-        collection->addAction("video_effect_" + effectInfo.at(0), m_videoEffects[i]);
+        videoEffectActions->addAction("video_effect_" + effectInfo.at(0), m_videoEffects[i]);
     }
+    //KActionCategory *audioEffectActions = new KActionCategory(i18n("Audio Effects"), m_effectsActionCollection);
+    KActionCategory *audioEffectActions = new KActionCategory(i18n("Audio Effects"), collection);
     m_audioEffects = new KAction*[audioEffects.count()];
     for (int i = 0; i < audioEffects.count(); ++i) {
         QStringList effectInfo = audioEffects.effectIdInfo(i);
         m_audioEffects[i] = new KAction(KIcon("kdenlive-show-audio"), effectInfo.at(0), this);
         m_audioEffects[i]->setData(effectInfo);
         m_audioEffects[i]->setIconVisibleInMenu(false);
-        collection->addAction("audio_effect_" + effectInfo.at(0), m_audioEffects[i]);
+        audioEffectActions->addAction("audio_effect_" + effectInfo.at(0), m_audioEffects[i]);
     }
+    //KActionCategory *customEffectActions = new KActionCategory(i18n("Custom Effects"), m_effectsActionCollection);
+    KActionCategory *customEffectActions = new KActionCategory(i18n("Custom Effects"), collection);
     m_customEffects = new KAction*[customEffects.count()];
     for (int i = 0; i < customEffects.count(); ++i) {
         QStringList effectInfo = customEffects.effectIdInfo(i);
         m_customEffects[i] = new KAction(KIcon("kdenlive-custom-effect"), effectInfo.at(0), this);
         m_customEffects[i]->setData(effectInfo);
         m_customEffects[i]->setIconVisibleInMenu(false);
-        collection->addAction("custom_effect_" + effectInfo.at(0), m_customEffects[i]);
+        customEffectActions->addAction("custom_effect_" + effectInfo.at(0), m_customEffects[i]);
     }
+    //KActionCategory *transitionActions = new KActionCategory(i18n("Transitions"), m_effectsActionCollection);
+    KActionCategory *transitionActions = new KActionCategory(i18n("Transitions"), collection);
     m_transitions = new KAction*[transitions.count()];
     for (int i = 0; i < transitions.count(); i++) {
         QStringList effectInfo = transitions.effectIdInfo(i);
         m_transitions[i] = new KAction(effectInfo.at(0), this);
         m_transitions[i]->setData(effectInfo);
         m_transitions[i]->setIconVisibleInMenu(false);
-        collection->addAction("transition_" + effectInfo.at(0), m_transitions[i]);
+        transitionActions->addAction("transition_" + effectInfo.at(0), m_transitions[i]);
     }
+    m_effectsActionCollection->readSettings();
 
     //connect(collection, SIGNAL( clearStatusText() ),
     //statusBar(), SLOT( clear() ) );
@@ -2149,6 +2148,14 @@ void MainWindow::slotZoneMoved(int start, int end)
 void MainWindow::slotGuidesUpdated()
 {
     if (m_renderWidget) m_renderWidget->setGuides(m_activeDocument->guidesXml(), m_activeDocument->projectDuration());
+}
+
+void MainWindow::slotEditKeys()
+{
+    KShortcutsDialog dialog(KShortcutsEditor::AllActions, KShortcutsEditor::LetterShortcutsAllowed, this);
+    dialog.addCollection(actionCollection(), i18nc("general keyboard shortcuts", "General"));
+    dialog.addCollection(m_effectsActionCollection, i18nc("effects and transitions keyboard shortcuts", "Effects & Transitions"));
+    dialog.configure(); 
 }
 
 void MainWindow::slotPreferences(int page, int option)
@@ -2938,7 +2945,6 @@ void MainWindow::slotClipInTimeline(const QString &clipId)
                 j++;
             }
             actionList.insert(j, a);
-
         }
         inTimelineMenu->addActions(actionList);
 
