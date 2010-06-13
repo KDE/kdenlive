@@ -252,7 +252,8 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int in, int out)
             connect(pl, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
         } else if (type == "geometry") {
             Geometryval *geo = new Geometryval(m_profile, m_timecode, m_frameSize, m_in);
-            geo->setupParam(pa, minFrame, maxFrame);
+            if (minFrame == maxFrame) geo->setupParam(pa, m_in, m_out);
+            else geo->setupParam(pa, minFrame, maxFrame);
             m_vbox->addWidget(geo);
             m_valueItems[paramName+"geometry"] = geo;
             connect(geo, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
