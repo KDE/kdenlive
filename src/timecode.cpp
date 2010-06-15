@@ -60,8 +60,6 @@ const QValidator *Timecode::validator() const
     return m_validator;
 }
 
-
-
 QString Timecode::reformatSeparators(QString duration) const
 {
     if (m_dropFrame)

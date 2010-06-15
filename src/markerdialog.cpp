@@ -30,17 +30,20 @@ MarkerDialog::MarkerDialog(DocClipBase *clip, CommentedTime t, Timecode tc, cons
         QDialog(parent),
         m_producer(NULL),
         m_profile(NULL),
-        m_clip(clip),
-        m_tc(tc),
-        m_frameDisplay(KdenliveSettings::frametimecode())
+        m_clip(clip)
 {
     setFont(KGlobalSettings::toolBarFont());
-    m_fps = m_tc.fps();
     setupUi(this);
     setWindowTitle(caption);
+
+    m_in = new TimecodeDisplay(tc, this);
+    inputLayout->addWidget(m_in);
+    m_in->setValue(t.time());
+
     m_previewTimer = new QTimer(this);
 
     if (m_clip != NULL) {
+        m_in->setRange(0, m_clip->duration().frames(tc.fps()));
         m_previewTimer->setInterval(500);
         connect(m_previewTimer, SIGNAL(timeout()), this, SLOT(slotUpdateThumb()));
         m_profile = new Mlt::Profile((char*) KdenliveSettings::current_profile().data());
@@ -58,6 +61,7 @@ MarkerDialog::MarkerDialog(DocClipBase *clip, CommentedTime t, Timecode tc, cons
         if (width % 2 == 1) width++;
         QPixmap p(width, 100);
         QString colour = clip->getProperty("colour");
+
         switch (m_clip->clipType()) {
         case VIDEO:
         case AV:
@@ -66,7 +70,7 @@ MarkerDialog::MarkerDialog(DocClipBase *clip, CommentedTime t, Timecode tc, cons
             connect(this, SIGNAL(updateThumb()), m_previewTimer, SLOT(start()));
         case IMAGE:
         case TEXT:
-            p = QPixmap::fromImage(KThumb::getFrame(m_producer, t.time().frames(m_fps), width, 100));
+            p = QPixmap::fromImage(KThumb::getFrame(m_producer, m_in->value(), width, 100));
             break;
         case COLOR:
             colour = colour.replace(0, 2, "#");
@@ -75,29 +79,20 @@ MarkerDialog::MarkerDialog(DocClipBase *clip, CommentedTime t, Timecode tc, cons
         default:
             p.fill(Qt::black);
         }
+
         if (!p.isNull()) {
             clip_thumb->setFixedWidth(p.width());
             clip_thumb->setFixedHeight(p.height());
             clip_thumb->setPixmap(p);
         }
-        connect(marker_position, SIGNAL(textChanged(const QString &)), this, SIGNAL(updateThumb()));
-    } else clip_thumb->setHidden(true);
-
-    marker_position->setInputMask("");
-    if (m_frameDisplay) {
-        QIntValidator *valid = new QIntValidator(this);
-        valid->setBottom(0);
-        marker_position->setValidator(valid);
-    } else
-        marker_position->setValidator(tc.validator());
-    marker_position->setText(tc.getDisplayTimecode(t.time(), m_frameDisplay));
+        connect(m_in, SIGNAL(editingFinished()), this, SIGNAL(updateThumb()));
+    } else {
+        clip_thumb->setHidden(true);
+    }
 
     marker_comment->setText(t.comment());
     marker_comment->selectAll();
     marker_comment->setFocus();
-
-    connect(position_up, SIGNAL(clicked()), this, SLOT(slotTimeUp()));
-    connect(position_down, SIGNAL(clicked()), this, SLOT(slotTimeDown()));
 
     adjustSize();
 }
@@ -112,43 +107,19 @@ MarkerDialog::~MarkerDialog()
 void MarkerDialog::slotUpdateThumb()
 {
     m_previewTimer->stop();
-    int pos = m_tc.getDisplayFrameCount(marker_position->text(), m_frameDisplay);
+    int pos = m_in->value();
     int width = 100.0 * m_dar;
     if (width % 2 == 1) width++;
     QPixmap p = QPixmap::fromImage(KThumb::getFrame(m_producer, pos, width, 100));
-    if (!p.isNull()) clip_thumb->setPixmap(p);
-    else kDebug() << "!!!!!!!!!!!  ERROR CREATING THUMB";
-}
-
-void MarkerDialog::slotTimeUp()
-{
-    int duration = m_tc.getDisplayFrameCount(marker_position->text(), m_frameDisplay);
-    if (m_clip && duration >= m_clip->duration().frames(m_fps)) return;
-    duration ++;
-    marker_position->setText(m_tc.getDisplayTimecode(GenTime(duration, m_fps), m_frameDisplay));
-}
-
-void MarkerDialog::slotTimeDown()
-{
-    int duration = m_tc.getDisplayFrameCount(marker_position->text(), m_frameDisplay);
-    if (duration <= 0) return;
-    duration --;
-    marker_position->setText(m_tc.getDisplayTimecode(GenTime(duration, m_fps), m_frameDisplay));
+    if (!p.isNull())
+        clip_thumb->setPixmap(p);
+    else
+        kDebug() << "!!!!!!!!!!!  ERROR CREATING THUMB";
 }
 
 CommentedTime MarkerDialog::newMarker()
 {
-    return CommentedTime(GenTime(m_tc.getDisplayFrameCount(marker_position->text(), m_frameDisplay), m_fps), marker_comment->text());
-}
-
-void MarkerDialog::wheelEvent(QWheelEvent * event)
-{
-    if (marker_position->underMouse() || clip_thumb->underMouse()) {
-        if (event->delta() > 0)
-            slotTimeUp();
-        else
-            slotTimeDown();
-    }
+    return CommentedTime(m_in->gentime(), marker_comment->text());
 }
 
 #include "markerdialog.moc"

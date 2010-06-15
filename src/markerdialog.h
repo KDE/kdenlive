@@ -22,15 +22,22 @@
 #define MARKERDIALOG_H
 
 
+#include "ui_markerdialog_ui.h"
 #include "docclipbase.h"
 #include "timecode.h"
-#include "ui_markerdialog_ui.h"
+#include "timecodedisplay.h"
 
 namespace Mlt
 {
 class Producer;
 class Profile;
 };
+
+/**
+ * @class MarkerDialog
+ * @brief A dialog for editing markers and guides.
+ * @author Jean-Baptiste Mardelle
+ */
 
 class MarkerDialog : public QDialog, public Ui::MarkerDialog_UI
 {
@@ -42,22 +49,15 @@ public:
     CommentedTime newMarker();
 
 private slots:
-    void slotTimeUp();
-    void slotTimeDown();
     void slotUpdateThumb();
-
-protected:
-    void wheelEvent(QWheelEvent * event);
 
 private:
     Mlt::Producer *m_producer;
     Mlt::Profile *m_profile;
     DocClipBase *m_clip;
-    Timecode m_tc;
-    double m_fps;
+    TimecodeDisplay *m_in;
     double m_dar;
     QTimer *m_previewTimer;
-    bool m_frameDisplay;
 
 signals:
     void updateThumb();
