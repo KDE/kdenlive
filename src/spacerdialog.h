@@ -27,7 +27,13 @@
 #include "timecodedisplay.h"
 #include "definitions.h"
 
-class SpacerDialog : public QDialog
+/**
+ * @class SpacerDialog
+ * @brief A dialog to specify length and track of inserted space.
+ * @author Jean-Baptiste Mardelle
+ */
+
+class SpacerDialog : public QDialog, public Ui::SpacerDialog_UI
 {
     Q_OBJECT
 
@@ -37,7 +43,6 @@ public:
     int selectedTrack();
 
 private:
-    Ui::SpacerDialog_UI m_view;
     TimecodeDisplay m_in;
 };
 

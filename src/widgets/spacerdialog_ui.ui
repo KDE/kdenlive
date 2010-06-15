@@ -6,15 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>331</width>
-    <height>111</height>
+    <width>180</width>
+    <height>85</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Add space</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="3" column="0" colspan="4">
+   <item row="3" column="0" colspan="2">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -24,38 +24,38 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="1">
-    <widget class="QLabel" name="clip_filesize_3">
-     <property name="text">
-      <string>Track</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="1" colspan="3">
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>218</width>
-       <height>2</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="0" column="1">
+   <item row="0" column="0">
     <widget class="QLabel" name="clip_filesize_2">
      <property name="text">
       <string>Duration</string>
      </property>
     </widget>
    </item>
-   <item row="1" column="2" colspan="2">
+   <item row="1" column="0">
+    <widget class="QLabel" name="clip_filesize_3">
+     <property name="text">
+      <string>Track</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
     <widget class="KComboBox" name="track_number"/>
    </item>
-   <item row="0" column="2" colspan="2">
+   <item row="0" column="1">
     <layout class="QHBoxLayout" name="inputLayout"/>
+   </item>
+   <item row="2" column="0" colspan="2">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
    </item>
   </layout>
  </widget>

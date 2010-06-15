@@ -31,8 +31,8 @@ SpacerDialog::SpacerDialog(const GenTime duration, Timecode tc, int track, QList
         m_in(tc)
 {
     setFont(KGlobalSettings::toolBarFont());
-    m_view.setupUi(this);
-    m_view.inputLayout->addWidget(&m_in);
+    setupUi(this);
+    inputLayout->addWidget(&m_in);
     m_in.setValue(duration);
 
     QStringList trackItems;
@@ -43,8 +43,8 @@ SpacerDialog::SpacerDialog(const GenTime duration, Timecode tc, int track, QList
         else
             trackItems << QString::number(i);
     }
-    m_view.track_number->addItems(trackItems);
-    m_view.track_number->setCurrentIndex(track);
+    track_number->addItems(trackItems);
+    track_number->setCurrentIndex(track);
 
     adjustSize();
 }
@@ -56,7 +56,7 @@ GenTime SpacerDialog::selectedDuration()
 
 int SpacerDialog::selectedTrack()
 {
-    return m_view.track_number->currentIndex() - 1;
+    return track_number->currentIndex() - 1;
 }
 
 #include "spacerdialog.moc"
