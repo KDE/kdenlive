@@ -44,6 +44,7 @@ EffectsListView::EffectsListView(QWidget *parent) :
     buttonInfo->setIcon(KIcon("help-about"));
     setFocusPolicy(Qt::StrongFocus);
     setFocusProxy(search_effect);
+    m_effectsList->setFocusProxy(search_effect);
 
     if (KdenliveSettings::showeffectinfo()) {
         buttonInfo->setDown(true);
@@ -162,6 +163,8 @@ void EffectsListView::slotUpdateSearch(QTreeWidgetItem *item, bool hidden)
 
 void EffectsListView::slotAutoExpand(QString text)
 {
+    search_effect->updateSearch();
+
     for (int i = 0; i < m_effectsList->topLevelItemCount(); ++i) {
         QTreeWidgetItem *folder = m_effectsList->topLevelItem(i);
         bool expandFolder = false;
