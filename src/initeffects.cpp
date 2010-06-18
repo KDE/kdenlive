@@ -751,8 +751,6 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
                 paramList.append(quickParameterFill(ret, i18n("Fix Shear Y"), "fix_shear_y", "double", "0", "0", "360"));
                 paramList.append(quickParameterFill(ret, i18n("Fix Shear X"), "fix_shear_x", "double", "0", "0", "360"));
                 paramList.append(quickParameterFill(ret, i18n("Fix Shear Z"), "fix_shear_z", "double", "0", "0", "360"));
-                paramList.append(quickParameterFill(ret, i18n("Mirror"), "mirror_off", "bool", "0", "0", "1"));
-                paramList.append(quickParameterFill(ret, i18n("Repeat"), "repeat_off", "bool", "0", "0", "1"));
                 paramList.append(quickParameterFill(ret, i18n("Geometry"), "geometry", "geometry",  "0,0,100%,100%,100%", "0,0,100%,100%,100%", "0,0,100%,100%,100%", "", "", "", "", "", "false"));
             } else if (name == "mix") {
                 tname.appendChild(ret.createTextNode(i18n("Mix")));
