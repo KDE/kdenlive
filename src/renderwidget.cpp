@@ -1233,7 +1233,7 @@ void RenderWidget::parseFile(QString exportFile, bool editable)
     QListWidgetItem *item = NULL;
     const QStringList acodecsList = KdenliveSettings::audiocodecs();
     bool replaceVorbisCodec = false;
-    if (!acodecsList.contains("vorbis") && acodecsList.contains("libvorbis")) replaceVorbisCodec = true;
+    if (acodecsList.contains("libvorbis")) replaceVorbisCodec = true;
     bool replaceLibfaacCodec = false;
     if (!acodecsList.contains("aac") && acodecsList.contains("libfaac")) replaceLibfaacCodec = true;
 
