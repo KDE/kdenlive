@@ -259,6 +259,20 @@
   <profile name="Theora 720x480 2 pass" standard="NTSC" args="acodec=vorbis ab=384k aq=30 ar=44100 vcodec=libtheora minrate=0 b=12000k s=720x480 aspect=%dar pass=2" />
 </group>
 
+<group name="WebM" renderer="avformat" extension="webm" type="av">
+  <profile name="WebM 200k" args="acodec=vorbis ab=128k ar=44100 vcodec=libvpx minrate=0 b=200k aspect=%dar maxrate=600k g=120 qmax=42 qmin=10 threads=2" />
+  <profile name="WebM 400k" args="acodec=vorbis ab=128k ar=44100 vcodec=libvpx minrate=0 b=400k aspect=%dar maxrate=1200k g=120 qmax=42 qmin=10 threads=2" />
+  <profile name="WebM 600k" args="acodec=vorbis ab=128k ar=44100 vcodec=libvpx minrate=0 b=600k aspect=%dar maxrate=1800k g=120 qmax=42 qmin=10 threads=2" />
+  <profile name="WebM 800k" args="acodec=vorbis ab=128k ar=44100 vcodec=libvpx minrate=0 b=800k aspect=%dar maxrate=2400k g=120 qmax=42 qmin=10 threads=2" />
+  <profile name="WebM 1000k" args="acodec=vorbis ab=128k ar=44100 vcodec=libvpx minrate=0 b=1000k aspect=%dar maxrate=3000k g=120 qmax=42 qmin=10 threads=2" />
+  <profile name="WebM 2000k" args="acodec=vorbis ab=128k ar=44100 vcodec=libvpx minrate=0 b=2000k aspect=%dar maxrate=4000k g=120 qmax=42 qmin=10 threads=2" />
+  <profile name="WebM 4000k" args="acodec=vorbis ab=128k ar=44100 vcodec=libvpx minrate=0 b=4000k aspect=%dar maxrate=8000k g=120 qmax=42 qmin=10 threads=2" />
+  <profile name="WebM 6000k" args="acodec=vorbis ab=128k ar=44100 vcodec=libvpx minrate=0 b=6000k aspect=%dar maxrate=12000k g=120 qmax=42 qmin=10 threads=2" />
+  <profile name="WebM 8000k" args="acodec=vorbis ab=128k ar=44100 vcodec=libvpx minrate=0 b=8000k aspect=%dar maxrate=16000k g=120 qmax=42 qmin=10 threads=2" />
+  <profile name="WebM 10000k" args="acodec=vorbis ab=128k ar=44100 vcodec=libvpx minrate=0 b=10000k aspect=%dar maxrate=20000k g=120 qmax=42 qmin=10 threads=2" />
+  <profile name="WebM 12000k" args="acodec=vorbis ab=128k ar=44100 vcodec=libvpx minrate=0 b=12000k aspect=%dar maxrate=24000k g=120 qmax=42 qmin=10 threads=2" />
+</group>
+
 <group name="Media players" renderer="avformat" type="av">
   <groupname id="mediaplayers">Media players</groupname>
   <profile name="Windows Media Player WMV V7 400k" extension="avi" args="acodec=libmp3lame ab=128k ar=48000 ac=2 vcodec=wmv1 minrate=0 b=400k aspect=%dar" />
@@ -313,4 +327,11 @@
  <profile name="H.264 lossless slow (video) + AAC (sound)" extension="mp4" args="f=mp4 acodec=aac ab=384k ar=48000 ac=2 pix_fmt=yuv420p vcodec=libx264 cqp=0 me_method=esa subq=8 qmin=10 qcomp=0.6 qdiff=4 qmax=51 coder=ac partitions=+parti4x4+parti8x8+partp4x4+partp8x8+partb8x8 refs=16 flags2=+dct8x8+mixed_refs trellis=1 aspect=%dar" />
  <profile name="H.264 lossless fast (video) + AAC (sound)" extension="mp4" args="f=mp4 acodec=aac ab=384k ar=48000 ac=2 pix_fmt=yuv420p vcodec=libx264 cqp=0 me_method=dia subq=1 qmin=10 qcomp=0.6 qdiff=4 qmax=51 partitions=-parti4x4-parti8x8-partp4x4-partp8x8-partb8x8 trellis=1 aspect=%dar" />
 </group>
+
+<group name="Apple" renderer="avformat" type="av">
+  <groupname id="mobile">Mobile devices</groupname>
+  <profile name="iPhone/iPod" extension="m4v" args="s=480x320 aspect=%dar progressive=1 acodec=aac ar=44100 ab=128k vcodec=libx264 b=700k flags=+loop cmp=+chroma partitions=+parti8x8+parti4x4+partp8x8+partb8x8 me_method=hex subq=7 me_range=16 g=250 keyint_min=25 sc_threshold=40 i_qfactor=0.71 b_strategy=1 qcomp=0.6 qmin=10 qmax=51 qdiff=4 directpred=1 trellis=1 coder=0 bf=0 refs=1 flags2=-wpred-dct8x8 level=30 maxrate=10000k bufsize=10000k wpredp=0" />
+  <profile name="iPhone/iPod 2 pass" extension="m4v" args="s=480x320 aspect=%dar progressive=1 acodec=aac ar=44100 ab=128k vcodec=libx264 b=700k flags=+loop cmp=+chroma partitions=+parti8x8+parti4x4+partp8x8+partb8x8 me_method=hex subq=7 me_range=16 g=250 keyint_min=25 sc_threshold=40 i_qfactor=0.71 b_strategy=1 qcomp=0.6 qmin=10 qmax=51 qdiff=4 directpred=1 trellis=1 coder=0 bf=0 refs=1 flags2=-wpred-dct8x8 level=30 maxrate=10000k bufsize=10000k wpredp=0 pass=2" />
+</group>
+
 </profiles>
