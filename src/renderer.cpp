@@ -280,7 +280,7 @@ int Render::resetProfile(const QString profileName)
         Mlt::Service service(m_mltProducer->get_service());
         if (service.type() == tractor_type) {
             Mlt::Tractor tractor(service);
-            for (int trackNb = tractor.count() -1; trackNb >= 0; --trackNb) {
+            for (int trackNb = tractor.count() - 1; trackNb >= 0; --trackNb) {
                 Mlt::Producer trackProducer(tractor.track(trackNb));
                 Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
                 trackPlaylist.clear();
@@ -1958,7 +1958,7 @@ void Render::mltInsertSpace(QMap <int, int> trackClipStartList, QMap <int, int> 
             resource = mlt_properties_get(properties, "mlt_service");
         }
     } else {
-        for(int trackNb = tractor.count() - 1; trackNb >= 1; --trackNb) {
+        for (int trackNb = tractor.count() - 1; trackNb >= 1; --trackNb) {
             Mlt::Producer trackProducer(tractor.track(trackNb));
             Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
 
@@ -2081,6 +2081,7 @@ int Render::mltChangeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, dou
 
     QString serv = clipparent.get("mlt_service");
     QString id = clipparent.get("id");
+    if (speed <= 0 && speed > -1) speed = 1.0;
     //kDebug() << "CLIP SERVICE: " << serv;
     if (serv == "avformat" && (speed != 1.0 || strobe > 1)) {
         mlt_service_lock(service.get_service());
@@ -2277,6 +2278,7 @@ bool Render::mltAddEffect(int track, GenTime position, EffectsParameterList para
     delete clip;
 
     const int filter_ix = params.paramValue("kdenlive_ix").toInt();
+    const QString region =  params.paramValue("region");
     int ct = 0;
     Mlt::Filter *filter = clipService.filter(ct);
     while (filter) {
@@ -2320,7 +2322,7 @@ bool Render::mltAddEffect(int track, GenTime position, EffectsParameterList para
 
     // create filter
     QString tag =  params.paramValue("tag");
-    kDebug() << " / / INSERTING EFFECT: " << tag;
+    kDebug() << " / / INSERTING EFFECT: " << tag << ", REGI: " << region;
     if (tag.startsWith("ladspa")) tag = "ladspa";
     char *filterTag = decodedString(tag);
     char *filterId = decodedString(params.paramValue("id"));
@@ -2373,19 +2375,29 @@ bool Render::mltAddEffect(int track, GenTime position, EffectsParameterList para
         delete[] starttag;
         delete[] endtag;
     } else {
-        Mlt::Filter *filter = new Mlt::Filter(*m_mltProfile, filterTag);
-        if (filter && filter->is_valid())
+        Mlt::Filter *filter;
+        QString prefix;
+        if (!region.isEmpty()) {
+            filter = new Mlt::Filter(*m_mltProfile, "region");
+        } else filter = new Mlt::Filter(*m_mltProfile, filterTag);
+        if (filter && filter->is_valid()) {
             filter->set("kdenlive_id", filterId);
-        else {
+            if (!region.isEmpty()) {
+                char *filterResource = decodedString(region);
+                filter->set("resource", filterResource);
+                filter->set("filter0", filterTag);
+                prefix = "filter0.";
+                delete[] filterResource;
+            }
+        } else {
             kDebug() << "filter is NULL";
             m_isBlocked = false;
             return false;
         }
-
         params.removeParam("kdenlive_id");
 
         for (int j = 0; j < params.count(); j++) {
-            char *name = decodedString(params.at(j).name());
+            char *name = decodedString(prefix + params.at(j).name());
             char *value = decodedString(params.at(j).value());
             filter->set(name, value);
             delete[] name;
@@ -2399,6 +2411,7 @@ bool Render::mltAddEffect(int track, GenTime position, EffectsParameterList para
             params.removeParam("kdenlive_ix");
             params.removeParam("tag");
             params.removeParam("disable");
+            params.removeParam("region");
 
             for (int j = 0; j < params.count(); j++) {
                 effectArgs.append(' ' + params.at(j).value());
@@ -2432,8 +2445,9 @@ bool Render::mltEditEffect(int track, GenTime position, EffectsParameterList par
 {
     QString index = params.paramValue("kdenlive_ix");
     QString tag =  params.paramValue("tag");
+    QString region =  params.paramValue("region");
 
-    if (!params.paramValue("keyframes").isEmpty() || /*it.key().startsWith("#") || */tag.startsWith("ladspa") || tag == "sox" || tag == "autotrack_rectangle") {
+    if (!params.paramValue("keyframes").isEmpty() || /*it.key().startsWith("#") || */tag.startsWith("ladspa") || tag == "sox" || tag == "autotrack_rectangle" || !region.isEmpty()) {
         // This is a keyframe effect, to edit it, we remove it and re-add it.
         mltRemoveEffect(track, position, index, false);
         bool success = mltAddEffect(track, position, params);
@@ -2456,10 +2470,7 @@ bool Render::mltEditEffect(int track, GenTime position, EffectsParameterList par
     delete clip;
     m_isBlocked = true;
     int ct = 0;
-    Mlt::Filter *filter = clipService.filter(ct);
-
-    /*
-    kDebug() << "EDITING FILTER: "<<index <<", "<<tag;
+    /* kDebug() << "EDITING FILTER: "<<index <<", "<<tag;
     kDebug() << "EFFect stack: ++++++++++++++++++++++++++";
     while (filter) {
         kDebug() << "Filter: "<< filter->get("kdenlive_id") <<", IX: "<<filter->get("kdenlive_ix");
@@ -2467,9 +2478,10 @@ bool Render::mltEditEffect(int track, GenTime position, EffectsParameterList par
         filter = clipService.filter(ct);
     }
     kDebug() << "++++++++++++++++++++++++++";
-    */
     ct = 0;
-    filter = clipService.filter(ct);
+    filter = clipService.filter(ct); */
+
+    Mlt::Filter *filter = clipService.filter(ct);
     while (filter) {
         if (filter->get("kdenlive_ix") == index) {
             break;
@@ -2727,10 +2739,10 @@ bool Render::mltResizeClipCrop(ItemInfo info, GenTime diff)
         return false;
     }
     int previousStart = clip->get_in();
+    int previousOut = clip->get_out();
     delete clip;
-    int previousDuration = trackPlaylist.clip_length(clipIndex) - 1;
     m_isBlocked = true;
-    trackPlaylist.resize_clip(clipIndex, previousStart + frameOffset, previousStart + previousDuration + frameOffset);
+    trackPlaylist.resize_clip(clipIndex, previousStart + frameOffset, previousOut + frameOffset);
     m_isBlocked = false;
     mlt_service_unlock(service.get_service());
     m_mltConsumer->set("refresh", 1);
@@ -2739,7 +2751,7 @@ bool Render::mltResizeClipCrop(ItemInfo info, GenTime diff)
 
 bool Render::mltResizeClipStart(ItemInfo info, GenTime diff)
 {
-    //kDebug() << "////////  RSIZING CLIP from: "<<info.startPos.frames(25)<<" to "<<diff.frames(25);
+    // kDebug() << "////////  RSIZING CLIP from: "<<info.startPos.frames(25)<<" to "<<diff.frames(25);
     Mlt::Service service(m_mltProducer->parent().get_service());
     int moveFrame = (int) diff.frames(m_fps);
     Mlt::Tractor tractor(service);
@@ -2751,16 +2763,18 @@ bool Render::mltResizeClipStart(ItemInfo info, GenTime diff)
     }
     mlt_service_lock(service.get_service());
     int clipIndex = trackPlaylist.get_clip_index_at(info.startPos.frames(m_fps));
-    if (trackPlaylist.is_blank(clipIndex)) {
+    Mlt::Producer *clip = trackPlaylist.get_clip(clipIndex);
+    if (clip == NULL || clip->is_blank()) {
         kDebug() << "////////  ERROR RSIZING NULL CLIP!!!!!!!!!!!";
         mlt_service_unlock(service.get_service());
         return false;
     }
-    int previousStart = trackPlaylist.clip_start(clipIndex);
-    int previousDuration = trackPlaylist.clip_length(clipIndex) - 1;
+    int previousStart = clip->get_in();
+    int previousOut = clip->get_out();
+    delete clip;
     m_isBlocked = true;
-    kDebug() << "RESIZE, old start: " << previousStart + moveFrame << ", " << previousStart + previousDuration;
-    trackPlaylist.resize_clip(clipIndex, previousStart + moveFrame, previousStart + previousDuration);
+    //kDebug() << "RESIZE, old start: " << previousStart + moveFrame << ", " << previousStart + previousOut;
+    trackPlaylist.resize_clip(clipIndex, previousStart + moveFrame, previousStart + previousOut);
     if (moveFrame > 0) trackPlaylist.insert_blank(clipIndex, moveFrame - 1);
     else {
         //int midpos = info.startPos.frames(m_fps) + moveFrame - 1;
