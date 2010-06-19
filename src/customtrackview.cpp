@@ -1385,7 +1385,7 @@ void CustomTrackView::editItemDuration()
     } else emit displayMessage(i18n("Item is locked"), ErrorMessage);
 }
 
-void CustomTrackView::editKeyFrame(const GenTime pos, const int track, const int index, const QString keyframes)
+void CustomTrackView::editKeyFrame(const GenTime /*pos*/, const int /*track*/, const int /*index*/, const QString /*keyframes*/)
 {
     /*ClipItem *clip = getClipItemAt((int)pos.frames(m_document->fps()), track);
     if (clip) {

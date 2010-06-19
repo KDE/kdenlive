@@ -1210,12 +1210,13 @@ void ClipItem::resizeEnd(int posx)
 
 bool ClipItem::checkEffectsKeyframesPos(const int previous, const int current, bool fromStart)
 {
-    bool modified = false;
+    bool effModified = false;
     for (int i = 0; i < m_effectList.count(); i++) {
         QDomElement effect = m_effectList.at(i);
         QDomNodeList params = effect.elementsByTagName("parameter");
         for (int j = 0; j < params.count(); j++) {
-            QDomElement e = params.item(i).toElement();
+            bool modified = false;
+            QDomElement e = params.item(j).toElement();
             if (!e.isNull() && (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe")) {
                 // parse keyframes and adjust values
                 const QStringList keyframes = e.attribute("keyframes").split(';', QString::SkipEmptyParts);
@@ -1238,6 +1239,7 @@ bool ClipItem::checkEffectsKeyframesPos(const int previous, const int current, b
                     }
                 }
                 if (modified) {
+                    effModified = true;
                     QString newkfr;
                     QMap<int, double>::const_iterator k = kfr.constBegin();
                     while (k != kfr.constEnd()) {
@@ -1245,13 +1247,12 @@ bool ClipItem::checkEffectsKeyframesPos(const int previous, const int current, b
                         ++k;
                     }
                     e.setAttribute("keyframes", newkfr);
-                    break;
                 }
             }
         }
     }
-    if (modified && m_selectedEffect >= 0) setSelectedEffect(m_selectedEffect);
-    return modified;
+    if (effModified && m_selectedEffect >= 0) setSelectedEffect(m_selectedEffect);
+    return effModified;
 }
 
 //virtual
