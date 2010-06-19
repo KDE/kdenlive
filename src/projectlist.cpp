@@ -31,6 +31,7 @@
 #include "renderer.h"
 #include "kthumb.h"
 #include "projectlistview.h"
+#include "timecodedisplay.h"
 #include "editclipcommand.h"
 #include "editclipcutcommand.h"
 #include "editfoldercommand.h"
@@ -1059,23 +1060,29 @@ void ProjectList::slotRemoveInvalidClip(const QString &id, bool replace)
 
 void ProjectList::slotAddColorClip()
 {
-    if (!m_commandStack) {
+    if (!m_commandStack)
         kDebug() << "!!!!!!!!!!!!!!!! NO CMD STK";
-    }
+
     QDialog *dia = new QDialog(this);
     Ui::ColorClip_UI dia_ui;
     dia_ui.setupUi(dia);
     dia->setWindowTitle(i18n("Color Clip"));
     dia_ui.clip_name->setText(i18n("Color Clip"));
-    dia_ui.clip_duration->setInputMask("");
-    dia_ui.clip_duration->setValidator(m_timecode.validator());
-    dia_ui.clip_duration->setText(m_timecode.reformatSeparators(KdenliveSettings::color_duration()));
+
+    TimecodeDisplay *t = new TimecodeDisplay(m_timecode);
+    t->setValue(KdenliveSettings::color_duration());
+    t->setTimeCodeFormat(false);
+    dia_ui.clip_durationBox->addWidget(t);
+    dia_ui.clip_color->setColor(KdenliveSettings::colorclipcolor());
+
     if (dia->exec() == QDialog::Accepted) {
         QString color = dia_ui.clip_color->color().name();
+        KdenliveSettings::setColorclipcolor(color);
         color = color.replace(0, 1, "0x") + "ff";
         QStringList groupInfo = getGroup();
-        m_doc->slotCreateColorClip(dia_ui.clip_name->text(), color, dia_ui.clip_duration->text(), groupInfo.at(0), groupInfo.at(1));
+        m_doc->slotCreateColorClip(dia_ui.clip_name->text(), color, m_timecode.getTimecode(t->gentime()), groupInfo.at(0), groupInfo.at(1));
     }
+    delete t;
     delete dia;
 }
 

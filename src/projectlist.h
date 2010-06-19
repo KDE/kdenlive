@@ -183,6 +183,8 @@ public slots:
     void slotOpenClip();
     void slotEditClip();
     void slotReloadClip(const QString &id = QString());
+
+    /** @brief Shows dialog for setting up a color clip. */
     void slotAddColorClip();
     void regenerateTemplate(const QString &id);
     void slotUpdateClipCut(QPoint p);

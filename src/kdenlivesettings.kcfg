@@ -539,9 +539,15 @@
       <label>Show thumbnails in slideshow dialog.</label>
       <default>false</default>
     </entry>
+
     <entry name="showtitlebars" type="Bool">
       <label>Show dock widget titlebars to allow un/docking.</label>
       <default>true</default>
     </entry>    
+
+    <entry name="colorclipcolor" type="Color">
+      <label>Color to preselect in the color clip dialog.</label>
+      <default>#000000</default>
+    </entry>
   </group>
 </kcfg>
