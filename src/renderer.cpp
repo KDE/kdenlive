@@ -1430,9 +1430,9 @@ const QString & Render::rendererName() const
 
 void Render::emitFrameNumber(double position)
 {
+    if (position == m_framePosition) return;
     m_framePosition = position;
     emit rendererPosition((int) position);
-    //if (qApp->activeWindow()) QApplication::postEvent(qApp->activeWindow(), new PositionChangeEvent( GenTime((int) position, m_fps), m_monitorId));
 }
 
 void Render::emitConsumerStopped()
@@ -2383,11 +2383,16 @@ bool Render::mltAddEffect(int track, GenTime position, EffectsParameterList para
         if (filter && filter->is_valid()) {
             filter->set("kdenlive_id", filterId);
             if (!region.isEmpty()) {
-                char *filterResource = decodedString(region);
-                filter->set("resource", filterResource);
+                char *tmp = decodedString(region);
+                filter->set("resource", tmp);
+		tmp = decodedString(params.paramValue("kdenlive_ix"));
+		filter->set("kdenlive_ix", tmp);
                 filter->set("filter0", filterTag);
                 prefix = "filter0.";
-                delete[] filterResource;
+                delete[] tmp;
+		params.removeParam("id");
+		params.removeParam("region");
+		params.removeParam("kdenlive_ix");
             }
         } else {
             kDebug() << "filter is NULL";
@@ -2445,9 +2450,8 @@ bool Render::mltEditEffect(int track, GenTime position, EffectsParameterList par
 {
     QString index = params.paramValue("kdenlive_ix");
     QString tag =  params.paramValue("tag");
-    QString region =  params.paramValue("region");
 
-    if (!params.paramValue("keyframes").isEmpty() || /*it.key().startsWith("#") || */tag.startsWith("ladspa") || tag == "sox" || tag == "autotrack_rectangle" || !region.isEmpty()) {
+    if (!params.paramValue("keyframes").isEmpty() || /*it.key().startsWith("#") || */tag.startsWith("ladspa") || tag == "sox" || tag == "autotrack_rectangle" || params.hasParam("region")) {
         // This is a keyframe effect, to edit it, we remove it and re-add it.
         mltRemoveEffect(track, position, index, false);
         bool success = mltAddEffect(track, position, params);
@@ -2498,9 +2502,12 @@ bool Render::mltEditEffect(int track, GenTime position, EffectsParameterList par
         m_isBlocked = false;
         return success;
     }
+    QString prefix;
+    QString ser = filter->get("mlt_service");
+    if (ser == "region") prefix = "filter0.";
     mlt_service_lock(service.get_service());
     for (int j = 0; j < params.count(); j++) {
-        char *name = decodedString(params.at(j).name());
+        char *name = decodedString(prefix + params.at(j).name());
         char *value = decodedString(params.at(j).value());
         filter->set(name, value);
         delete[] name;

@@ -21,12 +21,15 @@
 #include "clipitem.h"
 #include "mainwindow.h"
 #include "docclipbase.h"
+#include "projectlist.h"
+#include "kthumb.h"
 #include "kdenlivesettings.h"
 
 #include <KDebug>
 #include <KLocale>
 #include <KMessageBox>
 #include <KStandardDirs>
+#include <KFileDialog>
 
 #include <QMenu>
 #include <QTextStream>
@@ -44,6 +47,7 @@ EffectStackView::EffectStackView(QWidget *parent) :
     vbox1->setSpacing(0);
     vbox1->addWidget(m_effectedit);
     m_ui.frame->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
+    m_ui.region_url->fileDialog()->setFilter(ProjectList::getExtensions());
     //m_ui.effectlist->horizontalHeader()->setVisible(false);
     //m_ui.effectlist->verticalHeader()->setVisible(false);
     m_clipref = NULL;
@@ -65,6 +69,8 @@ EffectStackView::EffectStackView(QWidget *parent) :
 
     m_ui.effectlist->setDragDropMode(QAbstractItemView::NoDragDrop); //use internal if drop is recognised right
 
+    connect(m_ui.region_url, SIGNAL(urlSelected(const KUrl &)), this , SLOT(slotRegionChanged()));
+    connect(m_ui.region_url, SIGNAL(returnPressed()), this , SLOT(slotRegionChanged()));
     connect(m_ui.effectlist, SIGNAL(itemSelectionChanged()), this , SLOT(slotItemSelectionChanged()));
     connect(m_ui.effectlist, SIGNAL(itemChanged(QListWidgetItem *)), this , SLOT(slotItemChanged(QListWidgetItem *)));
     connect(m_ui.buttonUp, SIGNAL(clicked()), this, SLOT(slotItemUp()));
@@ -165,7 +171,8 @@ void EffectStackView::slotClipItemSelected(ClipItem* c, int ix)
     if (m_clipref == NULL) {
         m_ui.effectlist->blockSignals(true);
         m_ui.effectlist->clear();
-        m_effectedit->transferParamDesc(QDomElement(), 0, 0);
+        m_effectedit->transferParamDesc(QDomElement(), 0, 0, 0);
+	m_ui.region_url->clear();
         m_ui.effectlist->blockSignals(false);
         setEnabled(false);
         return;
@@ -178,7 +185,7 @@ void EffectStackView::slotItemChanged(QListWidgetItem *item)
 {
     bool disable = true;
     if (item->checkState() == Qt::Checked) disable = false;
-    m_ui.frame->setEnabled(!disable);
+    m_ui.frame_layout->setEnabled(!disable);
     m_ui.buttonReset->setEnabled(!disable);
     int activeRow = m_ui.effectlist->currentRow();
     if (activeRow >= 0) {
@@ -242,7 +249,10 @@ void EffectStackView::setupListView(int ix)
         m_ui.checkAll->setEnabled(true);
     }
     m_ui.effectlist->blockSignals(false);
-    if (m_ui.effectlist->count() == 0) m_effectedit->transferParamDesc(QDomElement(), 0, 0);
+    if (m_ui.effectlist->count() == 0) {
+	m_effectedit->transferParamDesc(QDomElement(), 0, 0, 0);
+	m_ui.region_url->clear();
+    }
     else slotItemSelectionChanged(false);
     slotUpdateCheckAllButton();
 }
@@ -254,9 +264,12 @@ void EffectStackView::slotItemSelectionChanged(bool update)
     bool isChecked = false;
     if (hasItem && m_ui.effectlist->currentItem()->checkState() == Qt::Checked) isChecked = true;
     if (hasItem && m_ui.effectlist->currentItem()->isSelected()) {
-        m_effectedit->transferParamDesc(m_clipref->effectAt(activeRow),
+	QDomElement eff = m_clipref->effectAt(activeRow);
+        m_effectedit->transferParamDesc(eff,
+                                        0,
                                         m_clipref->cropStart().frames(KdenliveSettings::project_fps()),
-                                        m_clipref->cropDuration().frames(KdenliveSettings::project_fps())); //minx max frame
+                                        (m_clipref->cropStart() + m_clipref->cropDuration()).frames(KdenliveSettings::project_fps())); //minx max frame
+	m_ui.region_url->setText(eff.attribute("region"));
     }
     if (m_clipref && update) m_clipref->setSelectedEffect(activeRow);
     m_ui.buttonDel->setEnabled(hasItem);
@@ -264,7 +277,7 @@ void EffectStackView::slotItemSelectionChanged(bool update)
     m_ui.buttonReset->setEnabled(hasItem && isChecked);
     m_ui.buttonUp->setEnabled(activeRow > 0);
     m_ui.buttonDown->setEnabled((activeRow < m_ui.effectlist->count() - 1) && hasItem);
-    m_ui.frame->setEnabled(isChecked);
+    m_ui.frame_layout->setEnabled(isChecked);
 }
 
 void EffectStackView::slotItemUp()
@@ -307,7 +320,8 @@ void EffectStackView::slotResetEffect()
     if (!dom.isNull()) {
         dom.setAttribute("kdenlive_ix", old.attribute("kdenlive_ix"));
         m_clipref->initEffect(dom);
-        m_effectedit->transferParamDesc(dom, m_clipref->cropStart().frames(KdenliveSettings::project_fps()), m_clipref->cropDuration().frames(KdenliveSettings::project_fps()));//minx max frame
+        m_effectedit->transferParamDesc(dom, 0, m_clipref->cropStart().frames(KdenliveSettings::project_fps()), (m_clipref->cropStart() + m_clipref->cropDuration()).frames(KdenliveSettings::project_fps()));//minx max frame
+	m_ui.region_url->setText(dom.attribute("region"));
         emit updateClipEffect(m_clipref, old, dom, activeRow);
     }
 }
@@ -329,7 +343,8 @@ void EffectStackView::clear()
     m_ui.buttonUp->setEnabled(false);
     m_ui.buttonDown->setEnabled(false);
     m_ui.checkAll->setEnabled(false);
-    m_effectedit->transferParamDesc(QDomElement(), 0, 0);
+    m_effectedit->transferParamDesc(QDomElement(), 0, 0, 0);
+    m_ui.region_url->clear();
     m_ui.effectlist->blockSignals(false);
 }
 
@@ -372,6 +387,11 @@ void EffectStackView::slotCheckAll(int state)
 
     for (int i = 0; i < m_ui.effectlist->count(); ++i)
         m_ui.effectlist->item(i)->setCheckState((Qt::CheckState)state);
+}
+
+void EffectStackView::slotRegionChanged()
+{
+    emit updateClipRegion(m_clipref, m_ui.effectlist->currentRow(), m_ui.region_url->text());
 }
 
 #include "effectstackview.moc"

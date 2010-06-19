@@ -257,7 +257,7 @@ private slots:
     void queryQuit();
     void activateDocument();
     void connectDocument(TrackView*, KdenliveDoc*);
-    
+
     /** @brief Shows file open dialog. */
     void openFile();
     void openLastFile();
@@ -315,7 +315,7 @@ private slots:
     void slotUpdateZoomSliderToolTip(int zoomlevel);
 
     /** @brief Displays the zoom slider tooltip.
-    * @param zoomlevel (optional) The zoom level to show in the tooltip. 
+    * @param zoomlevel (optional) The zoom level to show in the tooltip.
     *
     * Adopted from Dolphin (src/statusbar/dolphinstatusbar.cpp) */
     void slotShowZoomSliderToolTip(int zoomlevel = -1);

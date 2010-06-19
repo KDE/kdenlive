@@ -1924,6 +1924,15 @@ void CustomTrackView::slotUpdateClipEffect(ClipItem *clip, QDomElement oldeffect
     m_commandStack->push(command);
 }
 
+void CustomTrackView::slotUpdateClipRegion(ClipItem *clip, int ix, QString region)
+{
+    QDomElement effect = clip->getEffectAt(ix);
+    QDomElement oldeffect = effect.cloneNode().toElement();
+    effect.setAttribute("region", region);
+    EditEffectCommand *command = new EditEffectCommand(this, m_document->tracksCount() - clip->track(), clip->startPos(), oldeffect, effect, ix, true);
+    m_commandStack->push(command);
+}
+
 ClipItem *CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut, bool execute)
 {
     if (cut) {
@@ -2916,6 +2925,7 @@ void CustomTrackView::deleteClip(const QString &clipId)
 
 void CustomTrackView::setCursorPos(int pos, bool seek)
 {
+    kDebug() << "SEEk TO: " << pos << ", SEEK: " << seek;
     if (pos == m_cursorPos) return;
     emit cursorMoved((int)(m_cursorPos), (int)(pos));
     m_cursorPos = pos;
@@ -4387,6 +4397,19 @@ void CustomTrackView::updatePositionEffects(ClipItem * item, ItemInfo info)
                 emit clipItemSelected(item, item->selectedEffectIndex());
             }
         }
+    }
+
+    effectPos = item->hasEffect("affine", "pan_zoom");
+    if (effectPos != -1) {
+        QDomElement oldeffect = item->effectAt(effectPos);
+        int start = item->cropStart().frames(m_document->fps());
+        int max = start + item->cropDuration().frames(m_document->fps());
+        oldeffect.setAttribute("in", start);
+        oldeffect.setAttribute("out", max);
+        if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - item->track(), item->startPos(), item->getEffectArgs(oldeffect)))
+            emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
+        // if effect is displayed, update the effect edit widget with new clip duration
+        if (item->isSelected() && effectPos == item->selectedEffectIndex()) emit clipItemSelected(item, effectPos);
     }
 }
 

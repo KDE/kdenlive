@@ -70,15 +70,13 @@ private:
     KeyframeEdit *m_keyframeEditor;
 
 public slots:
-    void transferParamDesc(const QDomElement, int , int);
+    /** \brief Called when an effect is selected, builds the UI for this effect */
+    void transferParamDesc(const QDomElement, int, int , int);
     void slotSliderMoved(int);
     /** \brief Called whenever(?) some parameter is changed in the gui.
      *
      * Transfers all Dynamic gui parameter settings into m_params(??) */
     void collectAllParameters();
-
-private slots:
-    void slotSeekToPos(int);
 
 signals:
     void parameterChanged(const QDomElement, const QDomElement);

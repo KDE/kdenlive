@@ -1399,10 +1399,15 @@ EffectsParameterList ClipItem::addEffect(const QDomElement effect, bool /*animat
     if (effect.hasAttribute("src")) parameters.addParam("src", effect.attribute("src"));
     if (effect.hasAttribute("disable")) parameters.addParam("disable", effect.attribute("disable"));
 
-
     QString effectId = effect.attribute("id");
     if (effectId.isEmpty()) effectId = effect.attribute("tag");
     parameters.addParam("id", effectId);
+
+    // special case: the affine effect need in / out points
+    if (effectId == "pan_zoom") {
+        parameters.addParam("in", QString::number(cropStart().frames(m_fps)));
+        parameters.addParam("out", QString::number((cropStart() + cropDuration()).frames(m_fps)));
+    }
 
     QDomNodeList params = effect.elementsByTagName("parameter");
     int fade = 0;
@@ -1507,10 +1512,13 @@ EffectsParameterList ClipItem::getEffectArgs(const QDomElement effect)
 {
     EffectsParameterList parameters;
     parameters.addParam("tag", effect.attribute("tag"));
+    if (effect.hasAttribute("region")) parameters.addParam("region", effect.attribute("region"));
     parameters.addParam("kdenlive_ix", effect.attribute("kdenlive_ix"));
     parameters.addParam("id", effect.attribute("id"));
     if (effect.hasAttribute("src")) parameters.addParam("src", effect.attribute("src"));
     if (effect.hasAttribute("disable")) parameters.addParam("disable", effect.attribute("disable"));
+    if (effect.hasAttribute("in")) parameters.addParam("in", effect.attribute("in"));
+    if (effect.hasAttribute("out")) parameters.addParam("out", effect.attribute("out"));
 
     QDomNodeList params = effect.elementsByTagName("parameter");
     for (int i = 0; i < params.count(); i++) {

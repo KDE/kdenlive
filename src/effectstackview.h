@@ -69,7 +69,7 @@ public slots:
     * @param c Clip whose effect list should be managed
     * @param ix Effect to preselect */
     void slotClipItemSelected(ClipItem* c, int ix);
-    
+
     /** @brief Emits updateClipEffect.
     * @param old Old effect information
     * @param e New effect information
@@ -111,6 +111,9 @@ private slots:
     /** @brief Sets the check state of all effects according to @param state. */
     void slotCheckAll(int state);
 
+    /** @brief Define the region filter for current effect. */
+    void slotRegionChanged();
+
 signals:
     void removeEffect(ClipItem*, QDomElement);
     /**  Parameters for an effect changed, update the filter in playlist */
@@ -126,6 +129,8 @@ signals:
     void reloadEffects();
     /** An effect with position parameter was changed, seek */
     void seekTimeline(int);
+    /** The region effect for current effect was changed */
+    void updateClipRegion(ClipItem*, int, QString);
 };
 
 #endif

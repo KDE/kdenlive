@@ -135,7 +135,7 @@ public:
     void splitAudio();
 
     /** @brief Seperates the audio of a clip to a audio track.
-    * @param pos Position of the clip to split 
+    * @param pos Position of the clip to split
     * @param track Track of the clip
     * @param split Split or unsplit */
     void doSplitAudio(const GenTime &pos, int track, bool split);
@@ -183,6 +183,7 @@ public slots:
     void slotChangeEffectState(ClipItem *clip, int effectPos, bool disable);
     void slotChangeEffectPosition(ClipItem *clip, int currentPos, int newPos);
     void slotUpdateClipEffect(ClipItem *clip, QDomElement oldeffect, QDomElement effect, int ix);
+    void slotUpdateClipRegion(ClipItem *clip, int ix, QString region);
     void slotRefreshEffects(ClipItem *clip);
     void setDuration(int duration);
     void slotAddTransition(ClipItem* clip, ItemInfo transitionInfo, int endTrack, QDomElement transition = QDomElement());

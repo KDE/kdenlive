@@ -62,8 +62,6 @@ TransitionSettings::TransitionSettings(QWidget* parent) :
 
     connect(transitionList, SIGNAL(activated(int)), this, SLOT(slotTransitionChanged()));
     connect(transitionTrack, SIGNAL(activated(int)), this, SLOT(slotTransitionTrackChanged()));
-
-    connect(this, SIGNAL(transferParamDesc(const QDomElement&, int , int)), m_effectEdit , SLOT(transferParamDesc(const QDomElement&, int , int)));
     connect(m_effectEdit, SIGNAL(parameterChanged(const QDomElement&, const QDomElement&)), this , SLOT(slotUpdateEffectParams(const QDomElement&, const QDomElement&)));
 }
 
@@ -103,19 +101,21 @@ void TransitionSettings::updateTrackList()
 void TransitionSettings::slotTransitionChanged(bool reinit, bool updateCurrent)
 {
     QDomElement e = m_usedTransition->toXML().cloneNode().toElement();
+    int start = m_usedTransition->startPos().frames(KdenliveSettings::project_fps());
+    int end = m_usedTransition->endPos().frames(KdenliveSettings::project_fps());
     if (reinit) {
         // Reset the transition parameters to the default one
         QDomElement newTransition = MainWindow::transitions.getEffectByName(transitionList->currentText()).cloneNode().toElement();
         slotUpdateEffectParams(e, newTransition);
-        emit transferParamDesc(newTransition, m_usedTransition->startPos().frames(KdenliveSettings::project_fps()), m_usedTransition->endPos().frames(KdenliveSettings::project_fps()));
+        m_effectEdit->transferParamDesc(newTransition, start, start, end);
     } else if (!updateCurrent) {
         // Transition changed, update parameters dialog
         //slotUpdateEffectParams(e, e);
-        m_effectEdit->transferParamDesc(e, m_usedTransition->startPos().frames(KdenliveSettings::project_fps()), m_usedTransition->endPos().frames(KdenliveSettings::project_fps()));
+        m_effectEdit->transferParamDesc(e, start, start, end);
     } else {
         // Same transition, we just want to update the parameters value
         slotUpdateEffectParams(e, e);
-        if (m_usedTransition->hasGeometry()) emit transferParamDesc(m_usedTransition->toXML(), m_usedTransition->startPos().frames(KdenliveSettings::project_fps()), m_usedTransition->endPos().frames(KdenliveSettings::project_fps()));
+        if (m_usedTransition->hasGeometry()) m_effectEdit->transferParamDesc(m_usedTransition->toXML(), start, start, end);
     }
 }
 
@@ -177,7 +177,7 @@ void TransitionSettings::slotTransitionItemSelected(Transition* t, int nextTrack
     } else {
         // null transition selected
         m_usedTransition = NULL;
-        m_effectEdit->transferParamDesc(QDomElement(), 0, 0);
+        m_effectEdit->transferParamDesc(QDomElement(), 0, 0, 0);
     }
 
 }

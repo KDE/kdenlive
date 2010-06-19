@@ -142,7 +142,7 @@ void EffectStackEdit::updateParameter(const QString &name, const QString &value)
     m_params.setAttribute(name, value);
 }
 
-void EffectStackEdit::transferParamDesc(const QDomElement d, int in, int out)
+void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, int out)
 {
     clearAllItems();
     if (m_keyframeEditor) delete m_keyframeEditor;
@@ -251,13 +251,13 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int in, int out)
             m_valueItems[paramName+"complex"] = pl;
             connect(pl, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
         } else if (type == "geometry") {
-            Geometryval *geo = new Geometryval(m_profile, m_timecode, m_frameSize, m_in);
+            Geometryval *geo = new Geometryval(m_profile, m_timecode, m_frameSize, pos);
             if (minFrame == maxFrame) geo->setupParam(pa, m_in, m_out);
             else geo->setupParam(pa, minFrame, maxFrame);
             m_vbox->addWidget(geo);
             m_valueItems[paramName+"geometry"] = geo;
             connect(geo, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
-            connect(geo, SIGNAL(seekToPos(int)), this, SLOT(slotSeekToPos(int)));
+            connect(geo, SIGNAL(seekToPos(int)), this, SIGNAL(seekTimeline(int)));
         } else if (type == "keyframe" || type == "simplekeyframe") {
             // keyframe editor widget
             kDebug() << "min: " << m_in << ", MAX: " << m_out;
@@ -267,7 +267,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int in, int out)
                 m_valueItems[paramName+"keyframe"] = geo;
                 m_keyframeEditor = geo;
                 connect(geo, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
-                connect(geo, SIGNAL(seekToPos(int)), this, SLOT(slotSeekToPos(int)));
+                connect(geo, SIGNAL(seekToPos(int)), this, SIGNAL(seekTimeline(int)));
             } else {
                 // we already have a keyframe editor, so just add another column for the new param
                 m_keyframeEditor->addParameter(pa);
@@ -386,11 +386,6 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int in, int out)
         }
     }
     m_vbox->addStretch();
-}
-
-void EffectStackEdit::slotSeekToPos(int pos)
-{
-    emit seekTimeline(pos);
 }
 
 wipeInfo EffectStackEdit::getWipeInfo(QString value)
