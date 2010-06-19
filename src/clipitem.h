@@ -124,8 +124,16 @@ public:
     QDomElement selectedEffect();
     int selectedEffectIndex() const;
     void initEffect(QDomElement effect, int diff = 0);
-    QString keyframes(const int index);
-    void setKeyframes(const int ix, const QString keyframes);
+
+    /** @brief Gets all keyframes.
+    * @param index Number of the effect
+    * @return a list of strings of keyframes (one string per param) */
+    QStringList keyframes(const int index);
+
+    /** @brief Sets params with keyframes and updates the visible keyframes.
+    * @param ix Number of the effect
+    * @param keyframes a list of strings of keyframes (one string per param), which should be used */
+    void setKeyframes(const int ix, const QStringList keyframes);
     void setEffectList(const EffectsList effectList);
     void setSpeed(const double speed, int strobe);
     double speed() const;
@@ -135,6 +143,9 @@ public:
     GenTime speedIndependantCropDuration() const;
     const ItemInfo speedIndependantInfo() const;
     int hasEffect(const QString &tag, const QString &id) const;
+
+    /** @brief Makes sure all keyframes are in the clip's cropped duration.
+    * @return Whether or not changes were made */
     bool checkKeyFrames();
     QPixmap startThumb() const;
     QPixmap endThumb() const;

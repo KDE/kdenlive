@@ -3432,7 +3432,8 @@ void MainWindow::slotChangePalette(QAction *action, const QString &themename)
                 ((QWidget*)subchild)->setPalette(plt);
         }
     }
-    if (m_activeTimeline) m_activeTimeline->projectView()->updatePalette();
+    if (m_activeTimeline)
+        m_activeTimeline->projectView()->updatePalette();
 }
 
 

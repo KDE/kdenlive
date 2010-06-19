@@ -309,9 +309,14 @@ void ClipItem::initEffect(QDomElement effect, int diff)
 bool ClipItem::checkKeyFrames()
 {
     bool clipEffectsModified = false;
-    for (int ix = 0; ix < m_effectList.count(); ix ++) {
-        QString kfr = keyframes(ix);
-        if (!kfr.isEmpty()) {
+    // go through all effects this clip has
+    for (int ix = 0; ix < m_effectList.count(); ++ix) {
+        QStringList keyframeParams = keyframes(ix);
+        QStringList newKeyFrameParams;
+        bool effModified = false;
+
+        // go through all params which have keyframes
+        foreach (const QString &kfr, keyframeParams) {
             const QStringList keyframes = kfr.split(';', QString::SkipEmptyParts);
             QStringList newKeyFrames;
             bool cutKeyFrame = false;
@@ -320,6 +325,8 @@ bool ClipItem::checkKeyFrames()
             double lastValue = -1;
             int start = cropStart().frames(m_fps);
             int end = (cropStart() + cropDuration()).frames(m_fps);
+
+            // go through all keyframes for one param
             foreach(const QString &str, keyframes) {
                 int pos = str.section(':', 0, 0).toInt();
                 double val = str.section(':', 1, 1).toDouble();
@@ -355,26 +362,32 @@ bool ClipItem::checkKeyFrames()
                 lastPos = pos;
                 lastValue = val;
             }
-            if (modified) {
-                // update KeyFrames
-                setKeyframes(ix, newKeyFrames.join(";"));
-                clipEffectsModified = true;
-            }
+
+            newKeyFrameParams.append(newKeyFrames.join(";"));
+            if (modified)
+                effModified = true;
+        }
+
+        if (effModified) {
+            // update KeyFrames
+            setKeyframes(ix, newKeyFrameParams);
+            clipEffectsModified = true;
         }
     }
     return clipEffectsModified;
 }
 
-void ClipItem::setKeyframes(const int ix, const QString keyframes)
+void ClipItem::setKeyframes(const int ix, const QStringList keyframes)
 {
     QDomElement effect = getEffectAt(ix);
     if (effect.attribute("disable") == "1") return;
     QDomNodeList params = effect.elementsByTagName("parameter");
+    int keyframeParams = 0;
     for (int i = 0; i < params.count(); i++) {
         QDomElement e = params.item(i).toElement();
         if (!e.isNull() && (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe")) {
-            e.setAttribute("keyframes", keyframes);
-            if (ix == m_selectedEffect) {
+            e.setAttribute("keyframes", keyframes.at(keyframeParams));
+            if (ix == m_selectedEffect && keyframeParams == 0) {
                 m_keyframes.clear();
                 double max = e.attribute("max").toDouble();
                 double min = e.attribute("min").toDouble();
@@ -391,9 +404,8 @@ void ClipItem::setKeyframes(const int ix, const QString keyframes)
                 if (m_keyframes.find(m_editedKeyframe) == m_keyframes.end()) m_editedKeyframe = -1;
                 if (m_keyframes.find(m_editedKeyframe) == m_keyframes.end()) m_editedKeyframe = -1;
                 update();
-                return;
             }
-            break;
+            ++keyframeParams;
         }
     }
 }
@@ -435,18 +447,16 @@ void ClipItem::setSelectedEffect(const int ix)
     }
 }
 
-QString ClipItem::keyframes(const int index)
+QStringList ClipItem::keyframes(const int index)
 {
-    QString result;
+    QStringList result;
     QDomElement effect = effectAt(index);
     QDomNodeList params = effect.elementsByTagName("parameter");
 
     for (int i = 0; i < params.count(); i++) {
         QDomElement e = params.item(i).toElement();
-        if (!e.isNull() && (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe")) {
-            result = e.attribute("keyframes");
-            break;
-        }
+        if (!e.isNull() && (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe"))
+            result.append(e.attribute("keyframes"));
     }
     return result;
 }

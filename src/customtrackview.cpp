@@ -1387,11 +1387,11 @@ void CustomTrackView::editItemDuration()
 
 void CustomTrackView::editKeyFrame(const GenTime pos, const int track, const int index, const QString keyframes)
 {
-    ClipItem *clip = getClipItemAt((int)pos.frames(m_document->fps()), track);
+    /*ClipItem *clip = getClipItemAt((int)pos.frames(m_document->fps()), track);
     if (clip) {
         clip->setKeyframes(index, keyframes);
         updateEffect(m_document->tracksCount() - clip->track(), clip->startPos(), clip->effectAt(index), index, false);
-    } else emit displayMessage(i18n("Cannot find clip with keyframe"), ErrorMessage);
+    } else emit displayMessage(i18n("Cannot find clip with keyframe"), ErrorMessage);*/
 }
 
 
