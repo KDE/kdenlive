@@ -158,6 +158,8 @@ public:
     bool hasMissingClips();
     void deleteProjectFolder(QMap <QString, QString> map);
     void selectItemById(const QString &clipId);
+    /** @brief Returns a string list of all supported mime extensions. */
+    static QString getExtensions();
 
 public slots:
     void setDocument(KdenliveDoc *doc);

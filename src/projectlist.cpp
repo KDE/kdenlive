@@ -996,6 +996,23 @@ void ProjectList::updateAllClips()
     if (m_infoQueue.isEmpty()) slotProcessNextThumbnail();
 }
 
+// static
+QString ProjectList::getExtensions()
+{
+    // Build list of mime types
+    QStringList mimeTypes = QStringList() << "application/x-kdenlive" << "application/x-kdenlivetitle" << "video/x-flv" << "application/vnd.rn-realmedia" << "video/x-dv" << "video/dv" << "video/x-msvideo" << "video/x-matroska" << "video/mlt-playlist" << "video/mpeg" << "video/ogg" << "video/x-ms-wmv" << "audio/x-flac" << "audio/x-matroska" << "audio/mp4" << "audio/mpeg" << "audio/x-mp3" << "audio/ogg" << "audio/x-wav" << "application/ogg" << "video/mp4" << "video/quicktime" << "image/gif" << "image/jpeg" << "image/png" << "image/x-tga" << "image/x-bmp" << "image/svg+xml" << "image/tiff" << "image/x-xcf" << "image/x-xcf-gimp" << "image/x-vnd.adobe.photoshop" << "image/x-pcx" << "image/x-exr";
+
+    QString allExtensions;
+    foreach(const QString& mimeType, mimeTypes) {
+        KMimeType::Ptr mime(KMimeType::mimeType(mimeType));
+        if (mime) {
+            allExtensions.append(mime->patterns().join(" "));
+            allExtensions.append(' ');
+        }
+    }
+    return allExtensions.simplified();
+}
+
 void ProjectList::slotAddClip(const QList <QUrl> givenList, const QString &groupName, const QString &groupId)
 {
     if (!m_commandStack) {
@@ -1003,18 +1020,8 @@ void ProjectList::slotAddClip(const QList <QUrl> givenList, const QString &group
     }
     KUrl::List list;
     if (givenList.isEmpty()) {
-        // Build list of mime types
-        QStringList mimeTypes = QStringList() << "application/x-kdenlive" << "application/x-kdenlivetitle" << "video/x-flv" << "application/vnd.rn-realmedia" << "video/x-dv" << "video/dv" << "video/x-msvideo" << "video/x-matroska" << "video/mlt-playlist" << "video/mpeg" << "video/ogg" << "video/x-ms-wmv" << "audio/x-flac" << "audio/x-matroska" << "audio/mp4" << "audio/mpeg" << "audio/x-mp3" << "audio/ogg" << "audio/x-wav" << "application/ogg" << "video/mp4" << "video/quicktime" << "image/gif" << "image/jpeg" << "image/png" << "image/x-tga" << "image/x-bmp" << "image/svg+xml" << "image/tiff" << "image/x-xcf" << "image/x-xcf-gimp" << "image/x-vnd.adobe.photoshop" << "image/x-pcx" << "image/x-exr";
-
-        QString allExtensions;
-        foreach(const QString& mimeType, mimeTypes) {
-            KMimeType::Ptr mime(KMimeType::mimeType(mimeType));
-            if (mime) {
-                allExtensions.append(mime->patterns().join(" "));
-                allExtensions.append(' ');
-            }
-        }
-        const QString dialogFilter = allExtensions.simplified() + ' ' + QLatin1Char('|') + i18n("All Supported Files") + "\n* " + QLatin1Char('|') + i18n("All Files");
+        QString allExtensions = getExtensions();
+        const QString dialogFilter = allExtensions + ' ' + QLatin1Char('|') + i18n("All Supported Files") + "\n* " + QLatin1Char('|') + i18n("All Files");
         list = KFileDialog::getOpenUrls(KUrl("kfiledialog:///clipfolder"), dialogFilter, this);
 
     } else {

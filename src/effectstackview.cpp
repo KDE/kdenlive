@@ -47,7 +47,7 @@ EffectStackView::EffectStackView(QWidget *parent) :
     vbox1->setSpacing(0);
     vbox1->addWidget(m_effectedit);
     m_ui.frame->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
-    //m_ui.region_url->fileDialog()->setFilter(ProjectList::getExtensions());
+    m_ui.region_url->fileDialog()->setFilter(ProjectList::getExtensions());
     //m_ui.effectlist->horizontalHeader()->setVisible(false);
     //m_ui.effectlist->verticalHeader()->setVisible(false);
     m_clipref = NULL;
