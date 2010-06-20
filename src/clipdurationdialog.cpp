@@ -144,13 +144,14 @@ void ClipDurationDialog::slotCheckEnd()
 {
     GenTime cropStart = m_cropStart->gentime();
     GenTime cropEnd = m_cropEnd->gentime();
-    GenTime duration = m_clip->maxDuration() - cropStart - cropEnd;
+    GenTime duration = m_clip->maxDuration() - cropEnd - cropStart;
 
     if (duration >= GenTime()) {
         m_dur->setValue(duration);
+        slotCheckDuration();
     } else {
         m_cropEnd->blockSignals(true);
-        m_cropEnd->setValue(m_clip->maxDuration() - cropStart - m_dur->gentime());
+        m_cropEnd->setValue(m_clip->maxDuration() - m_dur->gentime() - cropStart);
         m_cropEnd->blockSignals(false);
     }
 }
