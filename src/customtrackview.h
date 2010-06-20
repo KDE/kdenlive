@@ -306,6 +306,8 @@ private:
     bool canBeMoved(QList<AbstractClipItem *> items, GenTime offset, int trackOffset) const;
     ClipItem *getClipUnderCursor() const;
     AbstractClipItem *getMainActiveClip() const;
+    /** @brief Rebuilds @param group to fit changes to it's childen. */
+    void rebuildGroup(AbstractGroupItem *group);
     void resetSelectionGroup(bool selectItems = true);
     void groupSelectedItems(bool force = false, bool createNewGroup = false);
     /** Get available space for clip move (min and max free positions) */
@@ -322,6 +324,14 @@ private:
     void adjustTimelineTransitions(EDITMODE mode, Transition *item, QUndoCommand *command);
     /** Adjust keyframes when pasted to another clip */
     void adjustKeyfames(GenTime oldstart, GenTime newstart, GenTime duration, QDomElement xml);
+    
+    /** @brief Removes the tip and stops the animation timer. */
+    void removeTipAnimation();
+    /** @brief Creates a new tip animation.
+    * @param clip clip to display the tip on
+    * @param mode operation mode for which the tip should be displayed
+    * @param size size of the tip */
+    void setTipAnimation(AbstractClipItem *clip, OPERATIONTYPE mode, const double size);
 
 private slots:
     void slotRefreshGuides();
