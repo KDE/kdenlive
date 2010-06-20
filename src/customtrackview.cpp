@@ -1185,14 +1185,23 @@ void CustomTrackView::editItemDuration()
         }
     }
 
+    if (!item) {
+        emit displayMessage(i18n("Cannot find clip to edit"), ErrorMessage);
+        return;
+    }
+
+    if (item->type() == GROUPWIDGET || (item->parentItem() && item->parentItem()->type() == GROUPWIDGET)) {
+        emit displayMessage(i18n("Cannot edit an item in a group"), ErrorMessage);
+        return;
+    }
+
     if (!item->isItemLocked()) {
         GenTime minimum;
         GenTime maximum;
-        if (item->type() == TRANSITIONWIDGET) {
+        if (item->type() == TRANSITIONWIDGET)
             getTransitionAvailableSpace(item, minimum, maximum);
-        } else {
+        else
             getClipAvailableSpace(item, minimum, maximum);
-        }
         //kDebug()<<"// GOT MOVE POS: "<<minimum.frames(25)<<" - "<<maximum.frames(25);
         ClipDurationDialog d(item, m_document->timecode(), minimum, maximum, this);
         if (d.exec() == QDialog::Accepted) {
@@ -1236,7 +1245,9 @@ void CustomTrackView::editItemDuration()
                 m_commandStack->push(moveCommand);
             }
         }
-    } else emit displayMessage(i18n("Item is locked"), ErrorMessage);
+    } else {
+        emit displayMessage(i18n("Item is locked"), ErrorMessage);
+    }
 }
 
 void CustomTrackView::editKeyFrame(const GenTime /*pos*/, const int /*track*/, const int /*index*/, const QString /*keyframes*/)
