@@ -3161,176 +3161,10 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
         m_document->renderer()->doRefresh();
     } else if (m_operationMode == RESIZESTART && m_dragItem->startPos() != m_dragItemInfo.startPos) {
         // resize start
-        if (m_dragItem->type() == AVWIDGET) {
-            ItemInfo resizeinfo = m_dragItemInfo;
-            resizeinfo.track = m_document->tracksCount() - resizeinfo.track;
-            bool success = m_document->renderer()->mltResizeClipStart(resizeinfo, m_dragItem->startPos() - m_dragItemInfo.startPos);
-            if (success) {
-                QUndoCommand *resizeCommand = new QUndoCommand();
-                resizeCommand->setText(i18n("Resize clip"));
-
-                // Check if there is an automatic transition on that clip (lower track)
-                Transition *transition = getTransitionItemAtStart(m_dragItemInfo.startPos, m_dragItemInfo.track);
-                if (transition && transition->isAutomatic()) {
-                    ItemInfo trInfo = transition->info();
-                    ItemInfo newTrInfo = trInfo;
-                    newTrInfo.startPos = m_dragItem->startPos();
-                    if (newTrInfo.startPos < newTrInfo.endPos)
-                        new MoveTransitionCommand(this, trInfo, newTrInfo, true, resizeCommand);
-                }
-                // Check if there is an automatic transition on that clip (upper track)
-                transition = getTransitionItemAtStart(m_dragItemInfo.startPos, m_dragItemInfo.track - 1);
-                if (transition && transition->isAutomatic() && (m_document->tracksCount() - transition->transitionEndTrack()) == m_dragItemInfo.track) {
-                    ItemInfo trInfo = transition->info();
-                    ItemInfo newTrInfo = trInfo;
-                    newTrInfo.startPos = m_dragItem->startPos();
-                    ClipItem * upperClip = getClipItemAt(m_dragItemInfo.startPos, m_dragItemInfo.track - 1);
-                    if ((!upperClip || !upperClip->baseClip()->isTransparent()) && newTrInfo.startPos < newTrInfo.endPos) {
-                        new MoveTransitionCommand(this, trInfo, newTrInfo, true, resizeCommand);
-                    }
-                }
-
-                ClipItem *clip = static_cast < ClipItem * >(m_dragItem);
-                updatePositionEffects(clip, m_dragItemInfo);
-
-                // check keyframes
-                QDomDocument doc;
-                QDomElement root = doc.createElement("list");
-                doc.appendChild(root);
-                QList <int> indexes;
-                for (int i = 0; i < clip->effectsCount(); i++) {
-                    QDomElement effect = clip->effectAt(i);
-                    if (EffectsList::hasKeyFrames(effect)) {
-                        doc.appendChild(doc.importNode(effect, true));
-                        indexes.append(i);
-                    }
-                }
-
-                if (clip->checkEffectsKeyframesPos(m_dragItemInfo.cropStart.frames(m_document->fps()), clip->cropStart().frames(m_document->fps()), true)) {
-                    // Keyframes were modified, updateClip
-                    QDomNodeList effs = doc.elementsByTagName("effect");
-                    // Hack:
-                    // Since we must always resize clip before updating the keyframes, we
-                    // put a resize command before & after checking keyframes so that
-                    // we are sure the resize is performed before whenever we do or undo the action
-
-                    new ResizeClipCommand(this, m_dragItemInfo, info, false, true, resizeCommand);
-                    for (int i = 0; i < indexes.count(); i++) {
-                        new EditEffectCommand(this, m_document->tracksCount() - clip->track(), clip->startPos(), effs.at(i).cloneNode().toElement(), clip->effectAt(indexes.at(i)), indexes.at(i), false, resizeCommand);
-                        updateEffect(m_document->tracksCount() - clip->track(), clip->startPos(), clip->effectAt(indexes.at(i)), indexes.at(i));
-                    }
-                    new ResizeClipCommand(this, m_dragItemInfo, info, false, true, resizeCommand);
-                    emit clipItemSelected(clip);
-                } else new ResizeClipCommand(this, m_dragItemInfo, info, false, false, resizeCommand);
-
-                m_commandStack->push(resizeCommand);
-            } else {
-                bool snap = KdenliveSettings::snaptopoints();
-                KdenliveSettings::setSnaptopoints(false);
-                m_dragItem->resizeStart((int) m_dragItemInfo.startPos.frames(m_document->fps()));
-                KdenliveSettings::setSnaptopoints(snap);
-                emit displayMessage(i18n("Error when resizing clip"), ErrorMessage);
-            }
-        } else if (m_dragItem->type() == TRANSITIONWIDGET) {
-            Transition *transition = static_cast <Transition *>(m_dragItem);
-            if (!m_document->renderer()->mltMoveTransition(transition->transitionTag(), (int)(m_document->tracksCount() - m_dragItemInfo.track), (int)(m_document->tracksCount() - m_dragItemInfo.track), transition->transitionEndTrack(), m_dragItemInfo.startPos, m_dragItemInfo.endPos, info.startPos, info.endPos)) {
-                // Cannot resize transition
-                bool snap = KdenliveSettings::snaptopoints();
-                KdenliveSettings::setSnaptopoints(false);
-                transition->resizeStart((int) m_dragItemInfo.startPos.frames(m_document->fps()));
-                KdenliveSettings::setSnaptopoints(snap);
-                emit displayMessage(i18n("Cannot resize transition"), ErrorMessage);
-            } else {
-                MoveTransitionCommand *command = new MoveTransitionCommand(this, m_dragItemInfo, info, false);
-                m_commandStack->push(command);
-            }
-
-        }
-        if (m_dragItem->parentItem() && m_dragItem->parentItem() != m_selectionGroup)
-            rebuildGroup(static_cast <AbstractGroupItem *>(m_dragItem->parentItem()));
-        //m_document->renderer()->doRefresh();
+        prepareResizeClipStart(m_dragItem, m_dragItemInfo, m_dragItem->startPos().frames(m_document->fps()));
     } else if (m_operationMode == RESIZEEND && m_dragItem->endPos() != m_dragItemInfo.endPos) {
         // resize end
-        if (m_dragItem->type() == AVWIDGET) {
-            ItemInfo resizeinfo = info;
-            resizeinfo.track = m_document->tracksCount() - resizeinfo.track;
-            bool success = m_document->renderer()->mltResizeClipEnd(resizeinfo, resizeinfo.endPos - resizeinfo.startPos);
-            if (success) {
-                QUndoCommand *resizeCommand = new QUndoCommand();
-                resizeCommand->setText(i18n("Resize clip"));
-
-                // Check if there is an automatic transition on that clip (lower track)
-                Transition *tr = getTransitionItemAtEnd(m_dragItemInfo.endPos, m_dragItemInfo.track);
-                if (tr && tr->isAutomatic()) {
-                    ItemInfo trInfo = tr->info();
-                    ItemInfo newTrInfo = trInfo;
-                    newTrInfo.endPos = m_dragItem->endPos();
-                    if (newTrInfo.endPos > newTrInfo.startPos) new MoveTransitionCommand(this, trInfo, newTrInfo, true, resizeCommand);
-                }
-
-                // Check if there is an automatic transition on that clip (upper track)
-                tr = getTransitionItemAtEnd(m_dragItemInfo.endPos, m_dragItemInfo.track - 1);
-                if (tr && tr->isAutomatic() && (m_document->tracksCount() - tr->transitionEndTrack()) == m_dragItemInfo.track) {
-                    ItemInfo trInfo = tr->info();
-                    ItemInfo newTrInfo = trInfo;
-                    newTrInfo.endPos = m_dragItem->endPos();
-                    ClipItem * upperClip = getClipItemAtEnd(m_dragItemInfo.endPos, m_dragItemInfo.track - 1);
-                    if ((!upperClip || !upperClip->baseClip()->isTransparent()) && newTrInfo.endPos > newTrInfo.startPos) {
-                        new MoveTransitionCommand(this, trInfo, newTrInfo, true, resizeCommand);
-                    }
-                }
-
-                // check keyframes
-                ClipItem *clip = static_cast < ClipItem * >(m_dragItem);
-                QDomDocument doc;
-                QDomElement root = doc.createElement("list");
-                doc.appendChild(root);
-                QList <int> indexes;
-                for (int i = 0; i < clip->effectsCount(); i++) {
-                    QDomElement effect = clip->effectAt(i);
-                    if (EffectsList::hasKeyFrames(effect)) {
-                        doc.appendChild(doc.importNode(effect, true));
-                        indexes.append(i);
-                    }
-                }
-
-                if (clip->checkEffectsKeyframesPos((m_dragItemInfo.cropStart + m_dragItemInfo.endPos - m_dragItemInfo.startPos).frames(m_document->fps()) - 1, (clip->cropStart() + clip->cropDuration()).frames(m_document->fps()) - 1, false)) {
-                    // Keyframes were modified, updateClip
-                    QDomNodeList effs = doc.elementsByTagName("effect");
-                    // Hack:
-                    // Since we must always resize clip before updating the keyframes, we
-                    // put a resize command before & after checking keyframes so that
-                    // we are sure the resize is performed before whenever we do or undo the action
-
-                    new ResizeClipCommand(this, m_dragItemInfo, info, false, true, resizeCommand);
-                    for (int i = 0; i < indexes.count(); i++) {
-                        new EditEffectCommand(this, m_document->tracksCount() - clip->track(), clip->startPos(), effs.at(i).cloneNode().toElement(), clip->effectAt(indexes.at(i)), indexes.at(i), false, resizeCommand);
-                        updateEffect(m_document->tracksCount() - clip->track(), clip->startPos(), clip->effectAt(indexes.at(i)), indexes.at(i));
-                    }
-                    new ResizeClipCommand(this, m_dragItemInfo, info, false, true, resizeCommand);
-                    emit clipItemSelected(clip);
-                } else new ResizeClipCommand(this, m_dragItemInfo, info, false, false, resizeCommand);
-
-                m_commandStack->push(resizeCommand);
-                updatePositionEffects(clip, m_dragItemInfo);
-            } else {
-                m_dragItem->resizeEnd((int) m_dragItemInfo.endPos.frames(m_document->fps()));
-                emit displayMessage(i18n("Error when resizing clip"), ErrorMessage);
-            }
-        } else if (m_dragItem->type() == TRANSITIONWIDGET) {
-            Transition *transition = static_cast <Transition *>(m_dragItem);
-            if (!m_document->renderer()->mltMoveTransition(transition->transitionTag(), (int)(m_document->tracksCount() - m_dragItemInfo.track), (int)(m_document->tracksCount() - m_dragItemInfo.track), transition->transitionEndTrack(), m_dragItemInfo.startPos, m_dragItemInfo.endPos, info.startPos, info.endPos)) {
-                // Cannot resize transition
-                transition->resizeEnd((int) m_dragItemInfo.endPos.frames(m_document->fps()));
-                emit displayMessage(i18n("Cannot resize transition"), ErrorMessage);
-            } else {
-                MoveTransitionCommand *command = new MoveTransitionCommand(this, m_dragItemInfo, info, false);
-                m_commandStack->push(command);
-            }
-        }
-        if (m_dragItem->parentItem() && m_dragItem->parentItem() != m_selectionGroup)
-            rebuildGroup(static_cast <AbstractGroupItem *>(m_dragItem->parentItem()));
-        //m_document->renderer()->doRefresh();
+        prepareResizeClipEnd(m_dragItem, m_dragItemInfo, m_dragItem->endPos().frames(m_document->fps()));
     } else if (m_operationMode == FADEIN) {
         // resize fade in effect
         ClipItem * item = static_cast <ClipItem *>(m_dragItem);
@@ -4136,6 +3970,216 @@ void CustomTrackView::resizeClip(const ItemInfo start, const ItemInfo end, bool 
     m_document->renderer()->doRefresh();
     KdenliveSettings::setSnaptopoints(snap);
     setDocumentModified();
+}
+
+void CustomTrackView::prepareResizeClipStart(AbstractClipItem* item, ItemInfo oldInfo, int pos, bool check)
+{
+    if (pos == oldInfo.startPos.frames(m_document->fps()))
+        return;
+    bool snap = KdenliveSettings::snaptopoints();
+    if (check) {
+        KdenliveSettings::setSnaptopoints(false);
+        item->resizeStart(pos);
+        if (item->startPos().frames(m_document->fps()) != pos) {
+            item->resizeStart(oldInfo.startPos.frames(m_document->fps()));
+            emit displayMessage(i18n("Not possible to resize"), ErrorMessage);
+            KdenliveSettings::setSnaptopoints(snap);
+            return;
+        }
+        KdenliveSettings::setSnaptopoints(snap);
+    }
+    ItemInfo info = item->info();
+    if (item->type() == AVWIDGET) {
+        ItemInfo resizeinfo = oldInfo;
+        resizeinfo.track = m_document->tracksCount() - resizeinfo.track;
+        bool success = m_document->renderer()->mltResizeClipStart(resizeinfo, item->startPos() - oldInfo.startPos);
+        if (success) {
+            QUndoCommand *resizeCommand = new QUndoCommand();
+            resizeCommand->setText(i18n("Resize clip"));
+            
+            // Check if there is an automatic transition on that clip (lower track)
+            Transition *transition = getTransitionItemAtStart(oldInfo.startPos, oldInfo.track);
+            if (transition && transition->isAutomatic()) {
+                ItemInfo trInfo = transition->info();
+                ItemInfo newTrInfo = trInfo;
+                newTrInfo.startPos = item->startPos();
+                if (newTrInfo.startPos < newTrInfo.endPos)
+                    new MoveTransitionCommand(this, trInfo, newTrInfo, true, resizeCommand);
+            }
+            // Check if there is an automatic transition on that clip (upper track)
+            transition = getTransitionItemAtStart(oldInfo.startPos, oldInfo.track - 1);
+            if (transition && transition->isAutomatic() && (m_document->tracksCount() - transition->transitionEndTrack()) == oldInfo.track) {
+                ItemInfo trInfo = transition->info();
+                ItemInfo newTrInfo = trInfo;
+                newTrInfo.startPos = item->startPos();
+                ClipItem * upperClip = getClipItemAt(oldInfo.startPos, oldInfo.track - 1);
+                if ((!upperClip || !upperClip->baseClip()->isTransparent()) && newTrInfo.startPos < newTrInfo.endPos)
+                    new MoveTransitionCommand(this, trInfo, newTrInfo, true, resizeCommand);
+            }
+            
+            ClipItem *clip = static_cast < ClipItem * >(item);
+            updatePositionEffects(clip, oldInfo);
+            
+            // check keyframes
+            QDomDocument doc;
+            QDomElement root = doc.createElement("list");
+            doc.appendChild(root);
+            QList <int> indexes;
+            for (int i = 0; i < clip->effectsCount(); i++) {
+                QDomElement effect = clip->effectAt(i);
+                if (EffectsList::hasKeyFrames(effect)) {
+                    doc.appendChild(doc.importNode(effect, true));
+                    indexes.append(i);
+                }
+            }
+            
+            if (clip->checkEffectsKeyframesPos(oldInfo.cropStart.frames(m_document->fps()), clip->cropStart().frames(m_document->fps()), true)) {
+                // Keyframes were modified, updateClip
+                QDomNodeList effs = doc.elementsByTagName("effect");
+                // Hack:
+                // Since we must always resize clip before updating the keyframes, we
+                // put a resize command before & after checking keyframes so that
+                // we are sure the resize is performed before whenever we do or undo the action
+                
+                new ResizeClipCommand(this, oldInfo, info, false, true, resizeCommand);
+                for (int i = 0; i < indexes.count(); i++) {
+                    new EditEffectCommand(this, m_document->tracksCount() - clip->track(), clip->startPos(), effs.at(i).cloneNode().toElement(), clip->effectAt(indexes.at(i)), indexes.at(i), false, resizeCommand);
+                    updateEffect(m_document->tracksCount() - clip->track(), clip->startPos(), clip->effectAt(indexes.at(i)), indexes.at(i));
+                }
+                new ResizeClipCommand(this, oldInfo, info, false, true, resizeCommand);
+                emit clipItemSelected(clip);
+            } else {
+                new ResizeClipCommand(this, oldInfo, info, false, false, resizeCommand);
+            }
+            
+            m_commandStack->push(resizeCommand);
+        } else {
+            KdenliveSettings::setSnaptopoints(false);
+            item->resizeStart((int) oldInfo.startPos.frames(m_document->fps()));
+            KdenliveSettings::setSnaptopoints(snap);
+            emit displayMessage(i18n("Error when resizing clip"), ErrorMessage);
+        }
+    } else if (item->type() == TRANSITIONWIDGET) {
+        Transition *transition = static_cast <Transition *>(item);
+        if (!m_document->renderer()->mltMoveTransition(transition->transitionTag(), (int)(m_document->tracksCount() - oldInfo.track), (int)(m_document->tracksCount() - oldInfo.track), transition->transitionEndTrack(), oldInfo.startPos, oldInfo.endPos, info.startPos, info.endPos)) {
+            // Cannot resize transition
+            KdenliveSettings::setSnaptopoints(false);
+            transition->resizeStart((int) oldInfo.startPos.frames(m_document->fps()));
+            KdenliveSettings::setSnaptopoints(snap);
+            emit displayMessage(i18n("Cannot resize transition"), ErrorMessage);
+        } else {
+            MoveTransitionCommand *command = new MoveTransitionCommand(this, oldInfo, info, false);
+            m_commandStack->push(command);
+        }
+        
+    }
+    if (item->parentItem() && item->parentItem() != m_selectionGroup)
+        rebuildGroup(static_cast <AbstractGroupItem *>(item->parentItem()));
+}
+
+void CustomTrackView::prepareResizeClipEnd(AbstractClipItem* item, ItemInfo oldInfo, int pos, bool check)
+{
+    if (pos == oldInfo.endPos.frames(m_document->fps()))
+        return;
+    bool snap = KdenliveSettings::snaptopoints();
+    if (check) {
+        KdenliveSettings::setSnaptopoints(false);
+        item->resizeEnd(pos);
+        if (item->endPos().frames(m_document->fps()) != pos) {
+            item->resizeEnd(oldInfo.endPos.frames(m_document->fps()));
+            emit displayMessage(i18n("Not possible to resize"), ErrorMessage);
+            KdenliveSettings::setSnaptopoints(snap);
+            return;
+        }
+        KdenliveSettings::setSnaptopoints(snap);
+    }
+    ItemInfo info = item->info();
+    if (item->type() == AVWIDGET) {
+        ItemInfo resizeinfo = info;
+        resizeinfo.track = m_document->tracksCount() - resizeinfo.track;
+        bool success = m_document->renderer()->mltResizeClipEnd(resizeinfo, resizeinfo.endPos - resizeinfo.startPos);
+        if (success) {
+            QUndoCommand *resizeCommand = new QUndoCommand();
+            resizeCommand->setText(i18n("Resize clip"));
+            
+            // Check if there is an automatic transition on that clip (lower track)
+            Transition *tr = getTransitionItemAtEnd(oldInfo.endPos, oldInfo.track);
+            if (tr && tr->isAutomatic()) {
+                ItemInfo trInfo = tr->info();
+                ItemInfo newTrInfo = trInfo;
+                newTrInfo.endPos = item->endPos();
+                if (newTrInfo.endPos > newTrInfo.startPos)
+                    new MoveTransitionCommand(this, trInfo, newTrInfo, true, resizeCommand);
+            }
+            
+            // Check if there is an automatic transition on that clip (upper track)
+            tr = getTransitionItemAtEnd(oldInfo.endPos, oldInfo.track - 1);
+            if (tr && tr->isAutomatic() && (m_document->tracksCount() - tr->transitionEndTrack()) == oldInfo.track) {
+                ItemInfo trInfo = tr->info();
+                ItemInfo newTrInfo = trInfo;
+                newTrInfo.endPos = item->endPos();
+                ClipItem * upperClip = getClipItemAtEnd(oldInfo.endPos, oldInfo.track - 1);
+                if ((!upperClip || !upperClip->baseClip()->isTransparent()) && newTrInfo.endPos > newTrInfo.startPos)
+                    new MoveTransitionCommand(this, trInfo, newTrInfo, true, resizeCommand);
+
+            }
+            
+            // check keyframes
+            ClipItem *clip = static_cast < ClipItem * >(item);
+            QDomDocument doc;
+            QDomElement root = doc.createElement("list");
+            doc.appendChild(root);
+            QList <int> indexes;
+            for (int i = 0; i < clip->effectsCount(); i++) {
+                QDomElement effect = clip->effectAt(i);
+                if (EffectsList::hasKeyFrames(effect)) {
+                    doc.appendChild(doc.importNode(effect, true));
+                    indexes.append(i);
+                }
+            }
+            
+            if (clip->checkEffectsKeyframesPos((oldInfo.cropStart + oldInfo.endPos - oldInfo.startPos).frames(m_document->fps()) - 1, (clip->cropStart() + clip->cropDuration()).frames(m_document->fps()) - 1, false)) {
+                // Keyframes were modified, updateClip
+                QDomNodeList effs = doc.elementsByTagName("effect");
+                // Hack:
+                // Since we must always resize clip before updating the keyframes, we
+                // put a resize command before & after checking keyframes so that
+                // we are sure the resize is performed before whenever we do or undo the action
+                
+                new ResizeClipCommand(this, oldInfo, info, false, true, resizeCommand);
+                for (int i = 0; i < indexes.count(); i++) {
+                    new EditEffectCommand(this, m_document->tracksCount() - clip->track(), clip->startPos(), effs.at(i).cloneNode().toElement(), clip->effectAt(indexes.at(i)), indexes.at(i), false, resizeCommand);
+                    updateEffect(m_document->tracksCount() - clip->track(), clip->startPos(), clip->effectAt(indexes.at(i)), indexes.at(i));
+                }
+                new ResizeClipCommand(this, oldInfo, info, false, true, resizeCommand);
+                emit clipItemSelected(clip);
+            } else {
+                new ResizeClipCommand(this, oldInfo, info, false, false, resizeCommand);
+            }
+            
+            m_commandStack->push(resizeCommand);
+            updatePositionEffects(clip, oldInfo);
+        } else {
+            KdenliveSettings::setSnaptopoints(false);
+            item->resizeEnd((int) oldInfo.endPos.frames(m_document->fps()));
+            KdenliveSettings::setSnaptopoints(true);
+            emit displayMessage(i18n("Error when resizing clip"), ErrorMessage);
+        }
+    } else if (item->type() == TRANSITIONWIDGET) {
+        Transition *transition = static_cast <Transition *>(item);
+        if (!m_document->renderer()->mltMoveTransition(transition->transitionTag(), (int)(m_document->tracksCount() - oldInfo.track), (int)(m_document->tracksCount() - oldInfo.track), transition->transitionEndTrack(), oldInfo.startPos, oldInfo.endPos, info.startPos, info.endPos)) {
+            // Cannot resize transition
+            KdenliveSettings::setSnaptopoints(false);
+            transition->resizeEnd((int) oldInfo.endPos.frames(m_document->fps()));
+            KdenliveSettings::setSnaptopoints(true);
+            emit displayMessage(i18n("Cannot resize transition"), ErrorMessage);
+        } else {
+            MoveTransitionCommand *command = new MoveTransitionCommand(this, oldInfo, info, false);
+            m_commandStack->push(command);
+        }
+    }
+    if (item->parentItem() && item->parentItem() != m_selectionGroup)
+        rebuildGroup(static_cast <AbstractGroupItem *>(item->parentItem()));
 }
 
 void CustomTrackView::updatePositionEffects(ClipItem * item, ItemInfo info)
@@ -5017,24 +5061,7 @@ void CustomTrackView::setInPoint()
             return;
         }
     }
-    ItemInfo startInfo = clip->info();
-    ItemInfo endInfo = startInfo;
-    endInfo.startPos = GenTime(m_cursorPos, m_document->fps());
-    if (endInfo.startPos >= startInfo.endPos || endInfo.startPos < startInfo.startPos - startInfo.cropStart) {
-        // Check for invalid resize
-        emit displayMessage(i18n("Invalid action"), ErrorMessage);
-        return;
-    } else if (endInfo.startPos < startInfo.startPos) {
-        int length = m_document->renderer()->mltGetSpaceLength(endInfo.startPos, m_document->tracksCount() - startInfo.track, false);
-        if ((clip->type() == TRANSITIONWIDGET && itemCollision(clip, endInfo) == true) || (
-                    (clip->type() == AVWIDGET) && length < (startInfo.startPos - endInfo.startPos).frames(m_document->fps()))) {
-            emit displayMessage(i18n("Invalid action"), ErrorMessage);
-            return;
-        }
-    }
-    if (clip->type() == TRANSITIONWIDGET) {
-        m_commandStack->push(new MoveTransitionCommand(this, startInfo, endInfo, true));
-    } else m_commandStack->push(new ResizeClipCommand(this, startInfo, endInfo, true, false));
+    prepareResizeClipStart(clip, clip->info(), m_cursorPos, true);
 }
 
 void CustomTrackView::setOutPoint()
@@ -5048,27 +5075,7 @@ void CustomTrackView::setOutPoint()
             return;
         }
     }
-    ItemInfo startInfo = clip->info();
-    ItemInfo endInfo = clip->info();
-    endInfo.endPos = GenTime(m_cursorPos, m_document->fps());
-    CLIPTYPE type = (CLIPTYPE) static_cast <ClipItem *>(clip)->clipType();
-    if (endInfo.endPos <= startInfo.startPos || (type != IMAGE && type != COLOR && type != TEXT && endInfo.endPos > startInfo.startPos + clip->maxDuration() - startInfo.cropStart)) {
-        // Check for invalid resize
-        emit displayMessage(i18n("Invalid action"), ErrorMessage);
-        return;
-    } else if (endInfo.endPos > startInfo.endPos) {
-        int length = m_document->renderer()->mltGetSpaceLength(startInfo.endPos, m_document->tracksCount() - startInfo.track, false);
-        if ((clip->type() == TRANSITIONWIDGET && itemCollision(clip, endInfo) == true) || (clip->type() == AVWIDGET && length != -1 && length < (endInfo.endPos - startInfo.endPos).frames(m_document->fps()))) {
-            kDebug() << " RESIZE ERROR, BLNK: " << length << ", RESIZE: " << (endInfo.endPos - startInfo.endPos).frames(m_document->fps());
-            emit displayMessage(i18n("Invalid action"), ErrorMessage);
-            return;
-        }
-    }
-
-
-    if (clip->type() == TRANSITIONWIDGET) {
-        m_commandStack->push(new MoveTransitionCommand(this, startInfo, endInfo, true));
-    } else m_commandStack->push(new ResizeClipCommand(this, startInfo, endInfo, true, false));
+    prepareResizeClipEnd(clip, clip->info(), m_cursorPos, true);
 }
 
 void CustomTrackView::slotUpdateAllThumbs()

@@ -333,6 +333,20 @@ private:
     * @param size size of the tip */
     void setTipAnimation(AbstractClipItem *clip, OPERATIONTYPE mode, const double size);
 
+    /** @brief Takes care of updating effects and attached transitions during a resize from start.
+    * @param item Item to resize
+    * @param oldInfo The item's info before resizement (set to item->info() is @param check true)
+    * @param pos New startPos
+    * @param check (optional, default = false) Whether to check for collisions */
+    void prepareResizeClipStart(AbstractClipItem *item, ItemInfo oldInfo, int pos, bool check = false);
+
+    /** @brief Takes care of updating effects and attached transitions during a resize from end.
+    * @param item Item to resize
+    * @param oldInfo The item's info before resizement (set to item->info() is @param check true)
+    * @param pos New endPos
+    * @param check (optional, default = false) Whether to check for collisions */
+    void prepareResizeClipEnd(AbstractClipItem *item, ItemInfo oldInfo, int pos, bool check = false);
+
 private slots:
     void slotRefreshGuides();
     void slotEnableRefresh();
