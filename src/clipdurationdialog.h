@@ -23,11 +23,11 @@
 
 
 #include "abstractclipitem.h"
-#include "timecode.h"
+#include "timecodedisplay.h"
 #include "ui_clipdurationdialog_ui.h"
 
 
-class ClipDurationDialog : public QDialog
+class ClipDurationDialog : public QDialog, public Ui::ClipDurationDialog_UI
 {
     Q_OBJECT
 
@@ -38,32 +38,21 @@ public:
     GenTime cropStart() const;
     GenTime duration() const;
 
-protected:
-    void wheelEvent(QWheelEvent * event);
-
 private slots:
-    void slotPosUp();
-    void slotPosDown();
-    void slotDurUp();
-    void slotDurDown();
-    void slotCropUp();
-    void slotCropDown();
-    void slotEndUp();
-    void slotEndDown();
     void slotCheckDuration();
     void slotCheckStart();
     void slotCheckCrop();
     void slotCheckEnd();
 
 private:
-    Ui::ClipDurationDialog_UI m_view;
     AbstractClipItem *m_clip;
-    Timecode m_tc;
-    double m_fps;
+    TimecodeDisplay *m_pos;
+    TimecodeDisplay *m_dur;
+    TimecodeDisplay *m_cropStart;
+    TimecodeDisplay *m_cropEnd;
     GenTime m_min;
     GenTime m_max;
-    int m_crop;
-    bool m_framesDisplay;
+    GenTime m_crop;
 };
 
 
