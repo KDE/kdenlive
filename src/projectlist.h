@@ -158,6 +158,7 @@ public:
     bool hasMissingClips();
     void deleteProjectFolder(QMap <QString, QString> map);
     void selectItemById(const QString &clipId);
+
     /** @brief Returns a string list of all supported mime extensions. */
     static QString getExtensions();
 
@@ -173,6 +174,7 @@ public slots:
     void slotRefreshClipThumbnail(QTreeWidgetItem *item, bool update = true);
     void slotRemoveInvalidClip(const QString &id, bool replace);
     void slotSelectClip(const QString &ix);
+
     /** @brief Prepares removing the selected items. */
     void slotRemoveClip();
     void slotAddClip(const QList <QUrl> givenList = QList <QUrl> (), const QString &groupName = QString(), const QString &groupId = QString());
@@ -218,13 +220,18 @@ private:
     void requestClipInfo(const QDomElement xml, const QString id);
     QList <QString> m_thumbnailQueue;
     void requestClipThumbnail(const QString id);
+
     /** @brief Creates an EditFolderCommand to change the name of an folder item. */
     void editFolder(const QString folderName, const QString oldfolderName, const QString &clipId);
+
+    /** @brief Gets the selected folder (or the folder of the selected item). */
     QStringList getGroup() const;
     void regenerateTemplate(ProjectItem *clip);
     void editClipSelection(QList<QTreeWidgetItem *> list);
+
     /** @brief Enables and disables transcode actions based on the selected clip's type. */
     void adjustTranscodeActions(ProjectItem *clip) const;
+
     /** @brief Sets the buttons enabled/disabled according to selected item. */
     void updateButtons() const;
 
@@ -238,8 +245,10 @@ private slots:
     * @param pos The position where the menu should pop up
     * @param item The item for which the checks should be done */
     void slotContextMenu(const QPoint &pos, QTreeWidgetItem *item);
+
     /** @brief Creates an AddFolderCommand. */
     void slotAddFolder();
+
     /** @brief This is triggered when a clip description has been modified. */
     void slotItemEdited(QTreeWidgetItem *item, int column);
     void slotUpdateClipProperties(ProjectItem *item, QMap <QString, QString> properties);
