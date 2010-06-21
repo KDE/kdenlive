@@ -88,6 +88,7 @@ kde4_add_ui_files(kdenlive_UI
   widgets/keyframeeditor_ui.ui
   widgets/timecodedisplay_ui.ui
   widgets/tracksconfigdialog_ui.ui
+  widgets/urlval_ui.ui
 )
 
 set(kdenlive_SRCS

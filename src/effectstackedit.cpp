@@ -21,9 +21,11 @@
 #include "ui_boolval_ui.h"
 #include "ui_colorval_ui.h"
 #include "ui_wipeval_ui.h"
+#include "ui_urlval_ui.h"
 #include "complexparameter.h"
 #include "geometryval.h"
 #include "positionedit.h"
+#include "projectlist.h"
 #include "effectslist.h"
 #include "kdenlivesettings.h"
 #include "profilesdialog.h"
@@ -32,6 +34,7 @@
 
 #include <KDebug>
 #include <KLocale>
+#include <KFileDialog>
 
 #include <QVBoxLayout>
 #include <QSlider>
@@ -61,6 +64,9 @@ class Wipeval: public QWidget, public Ui::Wipeval_UI
 {
 };
 
+class Urlval: public QWidget, public Ui::Urlval_UI
+{
+};
 
 QMap<QString, QImage> EffectStackEdit::iconCache;
 
@@ -376,6 +382,16 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
             connect(wpval->end_transp, SIGNAL(valueChanged(int)), this, SLOT(collectAllParameters()));
             //wpval->title->setTitle(na.toElement().text());
             m_uiItems.append(wpval);
+        } else if (type == "url") {
+            Urlval *cval = new Urlval;
+            cval->setupUi(toFillin);
+            cval->label->setText(paramName);
+            cval->urlwidget->fileDialog()->setFilter(ProjectList::getExtensions());
+            m_valueItems[paramName] = cval;
+            cval->urlwidget->setText(value);
+            connect(cval->urlwidget, SIGNAL(returnPressed()) , this, SLOT(collectAllParameters()));
+            connect(cval->urlwidget, SIGNAL(urlSelected(const KUrl&)) , this, SLOT(collectAllParameters()));
+            m_uiItems.append(cval);
         } else {
             delete toFillin;
             toFillin = NULL;
@@ -559,6 +575,9 @@ void EffectStackEdit::collectAllParameters()
             QString val = m_keyframeEditor->getValue(realName);
             kDebug() << "SET VALUE: " << val;
             namenode.item(i).toElement().setAttribute("keyframes", val);
+        } else if (type == "url") {
+            KUrlRequester *req = ((Urlval*)m_valueItems.value(paramName))->urlwidget;
+            setValue = req->url().path();
         }
         if (!setValue.isNull()) {
             pa.attributes().namedItem("value").setNodeValue(setValue);

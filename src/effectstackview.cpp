@@ -172,7 +172,7 @@ void EffectStackView::slotClipItemSelected(ClipItem* c, int ix)
         m_ui.effectlist->blockSignals(true);
         m_ui.effectlist->clear();
         m_effectedit->transferParamDesc(QDomElement(), 0, 0, 0);
-	m_ui.region_url->clear();
+        m_ui.region_url->clear();
         m_ui.effectlist->blockSignals(false);
         setEnabled(false);
         return;
@@ -250,10 +250,9 @@ void EffectStackView::setupListView(int ix)
     }
     m_ui.effectlist->blockSignals(false);
     if (m_ui.effectlist->count() == 0) {
-	m_effectedit->transferParamDesc(QDomElement(), 0, 0, 0);
-	m_ui.region_url->clear();
-    }
-    else slotItemSelectionChanged(false);
+        m_effectedit->transferParamDesc(QDomElement(), 0, 0, 0);
+        m_ui.region_url->clear();
+    } else slotItemSelectionChanged(false);
     slotUpdateCheckAllButton();
 }
 
@@ -264,12 +263,12 @@ void EffectStackView::slotItemSelectionChanged(bool update)
     bool isChecked = false;
     if (hasItem && m_ui.effectlist->currentItem()->checkState() == Qt::Checked) isChecked = true;
     if (hasItem && m_ui.effectlist->currentItem()->isSelected()) {
-	QDomElement eff = m_clipref->effectAt(activeRow);
+        QDomElement eff = m_clipref->effectAt(activeRow);
         m_effectedit->transferParamDesc(eff,
                                         0,
                                         m_clipref->cropStart().frames(KdenliveSettings::project_fps()),
                                         (m_clipref->cropStart() + m_clipref->cropDuration()).frames(KdenliveSettings::project_fps())); //minx max frame
-	m_ui.region_url->setText(eff.attribute("region"));
+        m_ui.region_url->setText(eff.attribute("region"));
     }
     if (m_clipref && update) m_clipref->setSelectedEffect(activeRow);
     m_ui.buttonDel->setEnabled(hasItem);
@@ -321,7 +320,7 @@ void EffectStackView::slotResetEffect()
         dom.setAttribute("kdenlive_ix", old.attribute("kdenlive_ix"));
         m_clipref->initEffect(dom);
         m_effectedit->transferParamDesc(dom, 0, m_clipref->cropStart().frames(KdenliveSettings::project_fps()), (m_clipref->cropStart() + m_clipref->cropDuration()).frames(KdenliveSettings::project_fps()));//minx max frame
-	m_ui.region_url->setText(dom.attribute("region"));
+        m_ui.region_url->setText(dom.attribute("region"));
         emit updateClipEffect(m_clipref, old, dom, activeRow);
     }
 }

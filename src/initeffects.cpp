@@ -620,9 +620,34 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
     int pos = names.indexOf("mix");
     if (pos != -1)
         names.takeAt(pos);
-    pos = names.indexOf("region");
-    if (pos != -1)
-        names.takeAt(pos);
+
+    QStringList imagenamelist = QStringList() << i18n("None");
+    QStringList imagefiles = QStringList() << QString();
+    QStringList filters;
+    filters << "*.pgm" << "*.png";
+    QStringList customLumas = KGlobal::dirs()->findDirs("appdata", "lumas");
+    foreach(QString folder, customLumas) {
+        if (!folder.endsWith('/'))
+            folder.append('/');
+        QStringList filesnames = QDir(folder).entryList(filters, QDir::Files);
+        foreach(const QString &fname, filesnames) {
+            imagenamelist.append(fname);
+            imagefiles.append(folder + fname);
+        }
+    }
+
+    // Check for MLT luma files.
+    KUrl folder(mlt_environment("MLT_DATA"));
+    folder.addPath("lumas");
+    folder.addPath(mlt_environment("MLT_NORMALISATION"));
+    QDir lumafolder(folder.path());
+    QStringList filesnames = lumafolder.entryList(filters, QDir::Files);
+    foreach(const QString &fname, filesnames) {
+        imagenamelist.append(fname);
+        KUrl path(folder);
+        path.addPath(fname);
+        imagefiles.append(path.toLocalFile());
+    }
 
     foreach(const QString &name, names) {
         QDomDocument ret;
@@ -634,7 +659,6 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
         QDomElement desc = ret.createElement("description");
         ktrans.appendChild(tname);
         ktrans.appendChild(desc);
-
         Mlt::Properties *metadata = repository->metadata(transition_type, name.toUtf8().data());
         if (metadata && metadata->is_valid()) {
             // If possible, set name and description.
@@ -683,33 +707,6 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
              * Check for Kdenlive installed luma files, add empty string at
              * start for no luma file.
              */
-            QStringList imagenamelist = QStringList() << i18n("None");
-            QStringList imagefiles = QStringList() << QString();
-            QStringList filters;
-            filters << "*.pgm" << "*.png";
-            QStringList customLumas = KGlobal::dirs()->findDirs("appdata", "lumas");
-            foreach(QString folder, customLumas) {
-                if (!folder.endsWith('/'))
-                    folder.append('/');
-                QStringList filesnames = QDir(folder).entryList(filters, QDir::Files);
-                foreach(const QString &fname, filesnames) {
-                    imagenamelist.append(fname);
-                    imagefiles.append(folder + fname);
-                }
-            }
-
-            // Check for MLT luma files.
-            KUrl folder(mlt_environment("MLT_DATA"));
-            folder.addPath("lumas");
-            folder.addPath(mlt_environment("MLT_NORMALISATION"));
-            QDir lumafolder(folder.path());
-            QStringList filesnames = lumafolder.entryList(filters, QDir::Files);
-            foreach(const QString &fname, filesnames) {
-                imagenamelist.append(fname);
-                KUrl path(folder);
-                path.addPath(fname);
-                imagefiles.append(path.toLocalFile());
-            }
 
             // Implement default transitions.
             QList<QDomElement> paramList;
@@ -755,7 +752,20 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
             } else if (name == "mix") {
                 tname.appendChild(ret.createTextNode(i18n("Mix")));
             } else if (name == "region") {
+                ktrans.setAttribute("id", name);
                 tname.appendChild(ret.createTextNode(i18n("Region")));
+                desc.appendChild(ret.createTextNode(i18n("Use alpha channel of another clip to create a transition.")));
+                paramList.append(quickParameterFill(ret, i18n("Transparency clip"), "resource", "url", "", "", "", "", "", ""));
+                paramList.append(quickParameterFill(ret, i18n("Geometry"), "composite.geometry", "geometry", "0%,0%:100%x100%:100", "-500;-500;-500;-500;0", "500;500;500;500;100"));
+                paramList.append(quickParameterFill(ret, i18n("Alpha Channel Operation"), "composite.operator", "list", "over", "", "", "over,and,or,xor", "over,and,or,xor"));
+                paramList.append(quickParameterFill(ret, i18n("Align"), "composite.aligned", "bool", "1", "0", "1"));
+                paramList.append(quickParameterFill(ret, i18n("Fill"), "composite.fill", "bool", "1", "0", "1"));
+                paramList.append(quickParameterFill(ret, i18n("Distort"), "composite.distort", "bool", "0", "0", "1"));
+                paramList.append(quickParameterFill(ret, i18n("Wipe File"), "composite.luma", "list", "", "", "", imagefiles.join(","), imagenamelist.join(",")));
+                paramList.append(quickParameterFill(ret, i18n("Wipe Softness"), "composite.softness", "double", "0", "0", "100", "", "", "100"));
+                paramList.append(quickParameterFill(ret, i18n("Wipe Invert"), "composite.luma_invert", "bool", "0", "0", "1"));
+                paramList.append(quickParameterFill(ret, i18n("Force Progressive Rendering"), "composite.progressive", "bool", "1", "0", "1"));
+                paramList.append(quickParameterFill(ret, i18n("Force Deinterlace Overlay"), "composite.deinterlace", "bool", "0", "0", "1"));
             }
             foreach(const QDomElement &e, paramList)
             ktrans.appendChild(e);
