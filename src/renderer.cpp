@@ -2385,14 +2385,14 @@ bool Render::mltAddEffect(int track, GenTime position, EffectsParameterList para
             if (!region.isEmpty()) {
                 char *tmp = decodedString(region);
                 filter->set("resource", tmp);
-		tmp = decodedString(params.paramValue("kdenlive_ix"));
-		filter->set("kdenlive_ix", tmp);
+                tmp = decodedString(params.paramValue("kdenlive_ix"));
+                filter->set("kdenlive_ix", tmp);
                 filter->set("filter0", filterTag);
                 prefix = "filter0.";
                 delete[] tmp;
-		params.removeParam("id");
-		params.removeParam("region");
-		params.removeParam("kdenlive_ix");
+                params.removeParam("id");
+                params.removeParam("region");
+                params.removeParam("kdenlive_ix");
             }
         } else {
             kDebug() << "filter is NULL";
@@ -2758,7 +2758,7 @@ bool Render::mltResizeClipCrop(ItemInfo info, GenTime diff)
 
 bool Render::mltResizeClipStart(ItemInfo info, GenTime diff)
 {
-    // kDebug() << "////////  RSIZING CLIP from: "<<info.startPos.frames(25)<<" to "<<diff.frames(25);
+    //kDebug() << "////////  RSIZING CLIP from: "<<info.startPos.frames(25)<<" to "<<diff.frames(25);
     Mlt::Service service(m_mltProducer->parent().get_service());
     int moveFrame = (int) diff.frames(m_fps);
     Mlt::Tractor tractor(service);
@@ -2780,14 +2780,20 @@ bool Render::mltResizeClipStart(ItemInfo info, GenTime diff)
     int previousOut = clip->get_out();
     delete clip;
     m_isBlocked = true;
-    //kDebug() << "RESIZE, old start: " << previousStart + moveFrame << ", " << previousStart + previousOut;
-    trackPlaylist.resize_clip(clipIndex, previousStart + moveFrame, previousStart + previousOut);
+    previousStart += moveFrame;
+    if (previousStart < 0) {
+        // special case, in point becoming negative (resizing images)
+        previousOut -= previousStart;
+        previousStart = 0;
+    }
+    // kDebug() << "RESIZE, new start: " << previousStart << ", " << previousOut;
+    trackPlaylist.resize_clip(clipIndex, previousStart, previousOut);
     if (moveFrame > 0) trackPlaylist.insert_blank(clipIndex, moveFrame - 1);
     else {
         //int midpos = info.startPos.frames(m_fps) + moveFrame - 1;
         int blankIndex = clipIndex - 1;
         int blankLength = trackPlaylist.clip_length(blankIndex);
-        kDebug() << " + resizing blank length " <<  blankLength << ", SIZE DIFF: " << moveFrame;
+        // kDebug() << " + resizing blank length " <<  blankLength << ", SIZE DIFF: " << moveFrame;
         if (! trackPlaylist.is_blank(blankIndex)) {
             kDebug() << "WARNING, CLIP TO RESIZE IS NOT BLANK";
         }
