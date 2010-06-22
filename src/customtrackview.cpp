@@ -2790,7 +2790,6 @@ void CustomTrackView::deleteClip(const QString &clipId)
 
 void CustomTrackView::setCursorPos(int pos, bool seek)
 {
-    kDebug() << "SEEk TO: " << pos << ", SEEK: " << seek;
     if (pos == m_cursorPos) return;
     emit cursorMoved((int)(m_cursorPos), (int)(pos));
     m_cursorPos = pos;
@@ -4007,7 +4006,7 @@ void CustomTrackView::prepareResizeClipStart(AbstractClipItem* item, ItemInfo ol
         if (success) {
             QUndoCommand *resizeCommand = new QUndoCommand();
             resizeCommand->setText(i18n("Resize clip"));
-            
+
             // Check if there is an automatic transition on that clip (lower track)
             Transition *transition = getTransitionItemAtStart(oldInfo.startPos, oldInfo.track);
             if (transition && transition->isAutomatic()) {
@@ -4027,10 +4026,10 @@ void CustomTrackView::prepareResizeClipStart(AbstractClipItem* item, ItemInfo ol
                 if ((!upperClip || !upperClip->baseClip()->isTransparent()) && newTrInfo.startPos < newTrInfo.endPos)
                     new MoveTransitionCommand(this, trInfo, newTrInfo, true, resizeCommand);
             }
-            
+
             ClipItem *clip = static_cast < ClipItem * >(item);
             updatePositionEffects(clip, oldInfo);
-            
+
             // check keyframes
             QDomDocument doc;
             QDomElement root = doc.createElement("list");
@@ -4043,7 +4042,7 @@ void CustomTrackView::prepareResizeClipStart(AbstractClipItem* item, ItemInfo ol
                     indexes.append(i);
                 }
             }
-            
+
             if (clip->checkEffectsKeyframesPos(oldInfo.cropStart.frames(m_document->fps()), clip->cropStart().frames(m_document->fps()), true)) {
                 // Keyframes were modified, updateClip
                 QDomNodeList effs = doc.elementsByTagName("effect");
@@ -4051,7 +4050,7 @@ void CustomTrackView::prepareResizeClipStart(AbstractClipItem* item, ItemInfo ol
                 // Since we must always resize clip before updating the keyframes, we
                 // put a resize command before & after checking keyframes so that
                 // we are sure the resize is performed before whenever we do or undo the action
-                
+
                 new ResizeClipCommand(this, oldInfo, info, false, true, resizeCommand);
                 for (int i = 0; i < indexes.count(); i++) {
                     new EditEffectCommand(this, m_document->tracksCount() - clip->track(), clip->startPos(), effs.at(i).cloneNode().toElement(), clip->effectAt(indexes.at(i)), indexes.at(i), false, resizeCommand);
@@ -4062,7 +4061,7 @@ void CustomTrackView::prepareResizeClipStart(AbstractClipItem* item, ItemInfo ol
             } else {
                 new ResizeClipCommand(this, oldInfo, info, false, false, resizeCommand);
             }
-            
+
             m_commandStack->push(resizeCommand);
         } else {
             KdenliveSettings::setSnaptopoints(false);
@@ -4082,7 +4081,7 @@ void CustomTrackView::prepareResizeClipStart(AbstractClipItem* item, ItemInfo ol
             MoveTransitionCommand *command = new MoveTransitionCommand(this, oldInfo, info, false);
             m_commandStack->push(command);
         }
-        
+
     }
     if (item->parentItem() && item->parentItem() != m_selectionGroup)
         rebuildGroup(static_cast <AbstractGroupItem *>(item->parentItem()));
@@ -4112,7 +4111,7 @@ void CustomTrackView::prepareResizeClipEnd(AbstractClipItem* item, ItemInfo oldI
         if (success) {
             QUndoCommand *resizeCommand = new QUndoCommand();
             resizeCommand->setText(i18n("Resize clip"));
-            
+
             // Check if there is an automatic transition on that clip (lower track)
             Transition *tr = getTransitionItemAtEnd(oldInfo.endPos, oldInfo.track);
             if (tr && tr->isAutomatic()) {
@@ -4122,7 +4121,7 @@ void CustomTrackView::prepareResizeClipEnd(AbstractClipItem* item, ItemInfo oldI
                 if (newTrInfo.endPos > newTrInfo.startPos)
                     new MoveTransitionCommand(this, trInfo, newTrInfo, true, resizeCommand);
             }
-            
+
             // Check if there is an automatic transition on that clip (upper track)
             tr = getTransitionItemAtEnd(oldInfo.endPos, oldInfo.track - 1);
             if (tr && tr->isAutomatic() && (m_document->tracksCount() - tr->transitionEndTrack()) == oldInfo.track) {
@@ -4134,7 +4133,7 @@ void CustomTrackView::prepareResizeClipEnd(AbstractClipItem* item, ItemInfo oldI
                     new MoveTransitionCommand(this, trInfo, newTrInfo, true, resizeCommand);
 
             }
-            
+
             // check keyframes
             ClipItem *clip = static_cast < ClipItem * >(item);
             QDomDocument doc;
@@ -4148,7 +4147,7 @@ void CustomTrackView::prepareResizeClipEnd(AbstractClipItem* item, ItemInfo oldI
                     indexes.append(i);
                 }
             }
-            
+
             if (clip->checkEffectsKeyframesPos((oldInfo.cropStart + oldInfo.endPos - oldInfo.startPos).frames(m_document->fps()) - 1, (clip->cropStart() + clip->cropDuration()).frames(m_document->fps()) - 1, false)) {
                 // Keyframes were modified, updateClip
                 QDomNodeList effs = doc.elementsByTagName("effect");
@@ -4156,7 +4155,7 @@ void CustomTrackView::prepareResizeClipEnd(AbstractClipItem* item, ItemInfo oldI
                 // Since we must always resize clip before updating the keyframes, we
                 // put a resize command before & after checking keyframes so that
                 // we are sure the resize is performed before whenever we do or undo the action
-                
+
                 new ResizeClipCommand(this, oldInfo, info, false, true, resizeCommand);
                 for (int i = 0; i < indexes.count(); i++) {
                     new EditEffectCommand(this, m_document->tracksCount() - clip->track(), clip->startPos(), effs.at(i).cloneNode().toElement(), clip->effectAt(indexes.at(i)), indexes.at(i), false, resizeCommand);
@@ -4167,7 +4166,7 @@ void CustomTrackView::prepareResizeClipEnd(AbstractClipItem* item, ItemInfo oldI
             } else {
                 new ResizeClipCommand(this, oldInfo, info, false, false, resizeCommand);
             }
-            
+
             m_commandStack->push(resizeCommand);
             updatePositionEffects(clip, oldInfo);
         } else {
