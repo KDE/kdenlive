@@ -316,7 +316,7 @@ bool ClipItem::checkKeyFrames()
         bool effModified = false;
 
         // go through all params which have keyframes
-        foreach (const QString &kfr, keyframeParams) {
+        foreach(const QString &kfr, keyframeParams) {
             const QStringList keyframes = kfr.split(';', QString::SkipEmptyParts);
             QStringList newKeyFrames;
             bool cutKeyFrame = false;
@@ -1416,8 +1416,14 @@ EffectsParameterList ClipItem::addEffect(const QDomElement effect, bool /*animat
 
     // special case: the affine effect need in / out points
     if (effectId == "pan_zoom") {
-        parameters.addParam("in", QString::number(cropStart().frames(m_fps)));
-        parameters.addParam("out", QString::number((cropStart() + cropDuration()).frames(m_fps)));
+        int start = cropStart().frames(m_fps);
+        int end = (cropStart() + cropDuration()).frames(m_fps);
+        if (start < 0) {
+            end -= start;
+            start = 0;
+        }
+        parameters.addParam("in", QString::number(start));
+        parameters.addParam("out", QString::number(end));
     }
 
     QDomNodeList params = effect.elementsByTagName("parameter");

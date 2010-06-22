@@ -4294,6 +4294,10 @@ void CustomTrackView::updatePositionEffects(ClipItem * item, ItemInfo info)
         QDomElement oldeffect = item->effectAt(effectPos);
         int start = item->cropStart().frames(m_document->fps());
         int max = start + item->cropDuration().frames(m_document->fps());
+	if (start < 0) {
+	    max -= start;
+	    start = 0;
+	}
         oldeffect.setAttribute("in", start);
         oldeffect.setAttribute("out", max);
         if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - item->track(), item->startPos(), item->getEffectArgs(oldeffect)))
