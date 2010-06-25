@@ -144,6 +144,9 @@ private slots:
     void slotPlayRendering(QTreeWidgetItem *item, int);
     void slotStartCurrentJob();
     void slotCopyToFavorites();
+    void slotUpdateRescaleHeight(int);
+    void slotUpdateRescaleWidth(int);
+    void slotSwitchAspectRatio();
 
 private:
     Ui::RenderWidget_UI m_view;

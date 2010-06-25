@@ -88,9 +88,12 @@ RenderWidget::RenderWidget(const QString &projectfolder, QWidget * parent) :
         m_view.buttonInfo->setDown(true);
     } else m_view.advanced_params->hide();
 
-    m_view.rescale_size->setInputMask("0099\\x0099");
-    m_view.rescale_size->setText("320x240");
-
+    m_view.rescale_keep->setChecked(KdenliveSettings::rescalekeepratio());
+    connect(m_view.rescale_width, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateRescaleWidth(int)));
+    connect(m_view.rescale_height, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateRescaleHeight(int)));
+    m_view.rescale_keep->setIcon(KIcon("insert-link"));
+    m_view.rescale_keep->setToolTip(i18n("Preserve aspect ratio"));
+    connect(m_view.rescale_keep, SIGNAL(clicked()), this, SLOT(slotSwitchAspectRatio()));
 
     connect(m_view.buttonRender, SIGNAL(clicked()), this, SLOT(slotPrepareExport()));
     connect(m_view.buttonGenerateScript, SIGNAL(clicked()), this, SLOT(slotGenerateScript()));
@@ -133,7 +136,7 @@ RenderWidget::RenderWidget(const QString &projectfolder, QWidget * parent) :
     connect(m_view.buttonClose, SIGNAL(clicked()), this, SLOT(hide()));
     connect(m_view.buttonClose2, SIGNAL(clicked()), this, SLOT(hide()));
     connect(m_view.buttonClose3, SIGNAL(clicked()), this, SLOT(hide()));
-    connect(m_view.rescale, SIGNAL(toggled(bool)), m_view.rescale_size, SLOT(setEnabled(bool)));
+    connect(m_view.rescale, SIGNAL(toggled(bool)), m_view.rescale_box, SLOT(setEnabled(bool)));
     connect(m_view.destination_list, SIGNAL(activated(int)), this, SLOT(refreshCategory()));
     connect(m_view.out_file, SIGNAL(textChanged(const QString &)), this, SLOT(slotUpdateButtons()));
     connect(m_view.out_file, SIGNAL(urlSelected(const KUrl &)), this, SLOT(slotUpdateButtons(const KUrl &)));
@@ -153,7 +156,7 @@ RenderWidget::RenderWidget(const QString &projectfolder, QWidget * parent) :
 
     m_view.buttonRender->setEnabled(false);
     m_view.buttonGenerateScript->setEnabled(false);
-    m_view.rescale_size->setEnabled(false);
+    m_view.rescale_box->setEnabled(false);
     m_view.guides_box->setVisible(false);
     m_view.open_dvd->setVisible(false);
     m_view.create_chapter->setVisible(false);
@@ -733,8 +736,8 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
     int width;
     int height;
     if (m_view.rescale->isChecked() && m_view.rescale->isEnabled()) {
-        width = m_view.rescale_size->text().section('x', 0, 0).toInt();
-        height = m_view.rescale_size->text().section('x', 1, 1).toInt();
+        width = m_view.rescale_width->value();
+        height = m_view.rescale_height->value();
     } else {
         width = m_profile.width;
         height = m_profile.height;
@@ -926,6 +929,12 @@ void RenderWidget::setProfile(MltVideoProfile profile)
     if (m_profile.description.contains("pal", Qt::CaseInsensitive) || m_profile.description.contains("25", Qt::CaseInsensitive) || m_profile.description.contains("50", Qt::CaseInsensitive)) m_view.format_selection->setCurrentIndex(0);
     else m_view.format_selection->setCurrentIndex(1);
     m_view.scanning_list->setCurrentIndex(0);
+    m_view.rescale_width->setValue(KdenliveSettings::defaultrescalewidth());
+    if (!m_view.rescale_keep->isChecked()) {
+        m_view.rescale_height->blockSignals(true);
+        m_view.rescale_height->setValue(KdenliveSettings::defaultrescaleheight());
+        m_view.rescale_height->blockSignals(false);
+    }
     refreshView();
 }
 
@@ -1124,10 +1133,10 @@ void RenderWidget::refreshParams()
     if (params.contains(" s=") || destination == "audioonly") {
         // profile has a fixed size, do not allow resize
         m_view.rescale->setEnabled(false);
-        m_view.rescale_size->setEnabled(false);
+        m_view.rescale_box->setEnabled(false);
     } else {
         m_view.rescale->setEnabled(true);
-        m_view.rescale_size->setEnabled(true);
+        m_view.rescale_box->setEnabled(true);
     }
     KUrl url = filenameWithExtension(m_view.out_file->url(), extension);
     m_view.out_file->setUrl(url);
@@ -1778,5 +1787,31 @@ void RenderWidget::missingClips(bool hasMissing)
         m_view.errorLabel->setText(i18n("Check missing clips"));
         m_view.errorLabel->setHidden(false);
     } else m_view.errorLabel->setHidden(true);
+}
+
+void RenderWidget::slotUpdateRescaleWidth(int val)
+{
+    KdenliveSettings::setDefaultrescalewidth(val);
+    if (!m_view.rescale_keep->isChecked()) return;
+    m_view.rescale_height->blockSignals(true);
+    m_view.rescale_height->setValue(val * m_profile.height / m_profile.width  + 0.5);
+    KdenliveSettings::setDefaultrescaleheight(m_view.rescale_height->value());
+    m_view.rescale_height->blockSignals(false);
+}
+
+void RenderWidget::slotUpdateRescaleHeight(int val)
+{
+    KdenliveSettings::setDefaultrescaleheight(val);
+    if (!m_view.rescale_keep->isChecked()) return;
+    m_view.rescale_width->blockSignals(true);
+    m_view.rescale_width->setValue(val * m_profile.width / m_profile.height + 0.5);
+    KdenliveSettings::setDefaultrescaleheight(m_view.rescale_width->value());
+    m_view.rescale_width->blockSignals(false);
+}
+
+void RenderWidget::slotSwitchAspectRatio()
+{
+    KdenliveSettings::setRescalekeepratio(m_view.rescale_keep->isChecked());
+    if (m_view.rescale_keep->isChecked()) slotUpdateRescaleWidth(m_view.rescale_width->value());
 }
 
