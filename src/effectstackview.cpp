@@ -268,7 +268,7 @@ void EffectStackView::slotItemSelectionChanged(bool update)
                                         0,
                                         m_clipref->cropStart().frames(KdenliveSettings::project_fps()),
                                         (m_clipref->cropStart() + m_clipref->cropDuration()).frames(KdenliveSettings::project_fps())); //minx max frame
-        m_ui.region_url->setText(eff.attribute("region"));
+        m_ui.region_url->setUrl(KUrl(eff.attribute("region")));
     }
     if (m_clipref && update) m_clipref->setSelectedEffect(activeRow);
     m_ui.buttonDel->setEnabled(hasItem);
@@ -320,7 +320,7 @@ void EffectStackView::slotResetEffect()
         dom.setAttribute("kdenlive_ix", old.attribute("kdenlive_ix"));
         m_clipref->initEffect(dom);
         m_effectedit->transferParamDesc(dom, 0, m_clipref->cropStart().frames(KdenliveSettings::project_fps()), (m_clipref->cropStart() + m_clipref->cropDuration()).frames(KdenliveSettings::project_fps()));//minx max frame
-        m_ui.region_url->setText(dom.attribute("region"));
+        m_ui.region_url->setUrl(KUrl(dom.attribute("region")));
         emit updateClipEffect(m_clipref, old, dom, activeRow);
     }
 }

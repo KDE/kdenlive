@@ -388,7 +388,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
             cval->label->setText(paramName);
             cval->urlwidget->fileDialog()->setFilter(ProjectList::getExtensions());
             m_valueItems[paramName] = cval;
-            cval->urlwidget->setText(value);
+            cval->urlwidget->setUrl(KUrl(value));
             connect(cval->urlwidget, SIGNAL(returnPressed()) , this, SLOT(collectAllParameters()));
             connect(cval->urlwidget, SIGNAL(urlSelected(const KUrl&)) , this, SLOT(collectAllParameters()));
             m_uiItems.append(cval);
