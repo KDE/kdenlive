@@ -61,7 +61,7 @@ signals:
     void switchTrackLock(int);
     void insertTrack(int);
     void deleteTrack(int);
-    void renameTrack(int);
+    void renameTrack(int, QString);
     void selectTrack(int);
     void configTrack(int);
 };

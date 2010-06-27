@@ -535,7 +535,7 @@ void TrackView::slotRebuildTrackHeaders()
         connect(header, SIGNAL(selectTrack(int)), m_trackview, SLOT(slotSelectTrack(int)));
         connect(header, SIGNAL(deleteTrack(int)), this, SIGNAL(deleteTrack(int)));
         connect(header, SIGNAL(insertTrack(int)), this, SIGNAL(insertTrack(int)));
-        //connect(header, SIGNAL(renameTrack(int)), this, SLOT(slotRenameTrack(int)));
+        connect(header, SIGNAL(renameTrack(int, QString)), this, SLOT(slotRenameTrack(int, QString)));
         connect(header, SIGNAL(configTrack(int)), this, SIGNAL(configTrack(int)));
         headers_container->layout()->addWidget(header);
     }
@@ -930,18 +930,14 @@ void TrackView::updateProjectFps()
     m_trackview->updateProjectFps();
 }
 
-void TrackView::slotRenameTrack(int ix)
+void TrackView::slotRenameTrack(int ix, QString name)
 {
     int tracknumber = m_doc->tracksCount() - ix;
     TrackInfo info = m_doc->trackInfoAt(tracknumber - 1);
-    bool ok;
-    QString newName = QInputDialog::getText(this, i18n("New Track Name"), i18n("Enter new name"), QLineEdit::Normal, info.trackName, &ok);
-    if (ok) {
-        info.trackName = newName;
-        m_doc->setTrackType(tracknumber - 1, info);
-        QTimer::singleShot(300, this, SLOT(slotReloadTracks()));
-        m_doc->setModified(true);
-    }
+    info.trackName = name;
+    m_doc->setTrackType(tracknumber - 1, info);
+    QTimer::singleShot(300, this, SLOT(slotReloadTracks()));
+    m_doc->setModified(true);
 }
 
 void TrackView::slotUpdateVerticalScroll(int /*min*/, int max)

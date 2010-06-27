@@ -1176,11 +1176,10 @@ void CustomTrackView::editItemDuration()
         if (m_scene->selectedItems().count() == 1) {
             item = static_cast <AbstractClipItem *>(m_scene->selectedItems().at(0));
         } else {
-            if (m_scene->selectedItems().empty()) {
+            if (m_scene->selectedItems().empty())
                 emit displayMessage(i18n("Cannot find clip to edit"), ErrorMessage);
-            } else {
+            else
                 emit displayMessage(i18n("Cannot edit the duration of multiple items"), ErrorMessage);
-            }
             return;
         }
     }
@@ -1205,39 +1204,34 @@ void CustomTrackView::editItemDuration()
         //kDebug()<<"// GOT MOVE POS: "<<minimum.frames(25)<<" - "<<maximum.frames(25);
         ClipDurationDialog d(item, m_document->timecode(), minimum, maximum, this);
         if (d.exec() == QDialog::Accepted) {
+            ItemInfo clipInfo = item->info();
+            ItemInfo startInfo = clipInfo;
             if (item->type() == TRANSITIONWIDGET) {
                 // move & resize transition
-                ItemInfo startInfo;
-                startInfo.startPos = item->startPos();
-                startInfo.endPos = item->endPos();
-                startInfo.track = item->track();
-                ItemInfo endInfo;
-                endInfo.startPos = d.startPos();
-                endInfo.endPos = endInfo.startPos + d.duration();
-                endInfo.track = item->track();
-                MoveTransitionCommand *command = new MoveTransitionCommand(this, startInfo, endInfo, true);
+                clipInfo.startPos = d.startPos();
+                clipInfo.endPos = clipInfo.startPos + d.duration();
+                clipInfo.track = item->track();
+                MoveTransitionCommand *command = new MoveTransitionCommand(this, startInfo, clipInfo, true);
                 m_commandStack->push(command);
             } else {
                 // move and resize clip
                 QUndoCommand *moveCommand = new QUndoCommand();
                 moveCommand->setText(i18n("Edit clip"));
-                ItemInfo clipInfo = item->info();
                 if (d.duration() < item->cropDuration() || d.cropStart() != clipInfo.cropStart) {
                     // duration was reduced, so process it first
-                    ItemInfo startInfo = clipInfo;
                     clipInfo.endPos = clipInfo.startPos + d.duration();
                     clipInfo.cropStart = d.cropStart();
                     new ResizeClipCommand(this, startInfo, clipInfo, true, false, moveCommand);
                 }
                 if (d.startPos() != clipInfo.startPos) {
-                    ItemInfo startInfo = clipInfo;
+                    startInfo = clipInfo;
                     clipInfo.startPos = d.startPos();
                     clipInfo.endPos = item->endPos() + (clipInfo.startPos - startInfo.startPos);
                     new MoveClipCommand(this, startInfo, clipInfo, true, moveCommand);
                 }
                 if (d.duration() > item->cropDuration()) {
                     // duration was increased, so process it after move
-                    ItemInfo startInfo = clipInfo;
+                    startInfo = clipInfo;
                     clipInfo.endPos = clipInfo.startPos + d.duration();
                     clipInfo.cropStart = d.cropStart();
                     new ResizeClipCommand(this, startInfo, clipInfo, true, false, moveCommand);
@@ -4670,8 +4664,10 @@ void CustomTrackView::drawBackground(QPainter * painter, const QRectF &rect)
         TrackInfo info = m_document->trackInfoAt(maxTrack - i - 1);
         if (info.isLocked || info.type == AUDIOTRACK || i == m_selectedTrack) {
             const QRectF track(min, m_tracksHeight * i + 1, max - min, m_tracksHeight - 1);
-            if (i == m_selectedTrack) painter->fillRect(track, scheme.background(KColorScheme::ActiveBackground).color());
-            else painter->fillRect(track, info.isLocked ? lockedColor : audioColor);
+            if (i == m_selectedTrack)
+                painter->fillRect(track, scheme.background(KColorScheme::ActiveBackground).color());
+            else
+                painter->fillRect(track, info.isLocked ? lockedColor : audioColor);
         }
         painter->drawLine(QPointF(min, m_tracksHeight *(i + 1)), QPointF(max, m_tracksHeight *(i + 1)));
     }

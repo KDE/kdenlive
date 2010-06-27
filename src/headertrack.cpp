@@ -38,7 +38,12 @@ HeaderTrack::HeaderTrack(int index, TrackInfo info, int height, QWidget *parent)
 {
     setFixedHeight(height);
     setupUi(this);
-    track_number->setText(info.trackName.isEmpty() ? QString::number(m_index) : info.trackName);
+
+    QString name = info.trackName.isEmpty() ? QString::number(m_index) : info.trackName;
+    track_number->setText(name);
+    inputName->setText(name);
+    inputName->setHidden(true);
+    connect(inputName, SIGNAL(editingFinished()), this, SLOT(slotRenameTrack()));
 
     buttonVideo->setChecked(info.isBlind);
     buttonVideo->setToolTip(i18n("Hide track"));
@@ -55,16 +60,22 @@ HeaderTrack::HeaderTrack(int index, TrackInfo info, int height, QWidget *parent)
     if (m_type == VIDEOTRACK) {
         setBackgroundRole(QPalette::AlternateBase);
         setAutoFillBackground(true);
-        if (!info.isBlind) buttonVideo->setIcon(KIcon("kdenlive-show-video"));
-        else buttonVideo->setIcon(KIcon("kdenlive-hide-video"));
+        if (!info.isBlind)
+            buttonVideo->setIcon(KIcon("kdenlive-show-video"));
+        else
+            buttonVideo->setIcon(KIcon("kdenlive-hide-video"));
     } else {
         buttonVideo->setHidden(true);
     }
-    if (!info.isMute) buttonAudio->setIcon(KIcon("kdenlive-show-audio"));
-    else buttonAudio->setIcon(KIcon("kdenlive-hide-audio"));
+    if (!info.isMute)
+        buttonAudio->setIcon(KIcon("kdenlive-show-audio"));
+    else
+        buttonAudio->setIcon(KIcon("kdenlive-hide-audio"));
 
-    if (!info.isLocked) buttonLock->setIcon(KIcon("kdenlive-unlock"));
-    else buttonLock->setIcon(KIcon("kdenlive-lock"));
+    if (!info.isLocked)
+        buttonLock->setIcon(KIcon("kdenlive-unlock"));
+    else
+        buttonLock->setIcon(KIcon("kdenlive-lock"));
 
     connect(buttonVideo, SIGNAL(clicked()), this, SLOT(switchVideo()));
     connect(buttonAudio, SIGNAL(clicked()), this, SLOT(switchAudio()));
@@ -111,11 +122,18 @@ void HeaderTrack::mouseDoubleClickEvent(QMouseEvent* event)
 
 void HeaderTrack::setSelectedIndex(int ix)
 {
+    track_number->setHidden(false);
+    inputName->setHidden(true);
     if (m_index == ix) {
         setBackgroundRole(QPalette::Button);
         setAutoFillBackground(true);
-    } else if (m_type != VIDEOTRACK) setAutoFillBackground(false);
-    else setBackgroundRole(QPalette::AlternateBase);
+        track_number->setHidden(true);
+        inputName->setHidden(false);
+    } else if (m_type != VIDEOTRACK) {
+        setAutoFillBackground(false);
+    } else {
+        setBackgroundRole(QPalette::AlternateBase);
+    }
     update();
 }
 
@@ -123,7 +141,8 @@ void HeaderTrack::adjustSize(int height)
 {
     // Don't show track buttons if size is too small
     bool smallTracks = height < 40;
-    if (m_type == VIDEOTRACK) buttonVideo->setHidden(smallTracks);
+    if (m_type == VIDEOTRACK)
+        buttonVideo->setHidden(smallTracks);
     buttonAudio->setHidden(smallTracks);
     buttonLock->setHidden(smallTracks);
     setFixedHeight(height);
@@ -131,32 +150,30 @@ void HeaderTrack::adjustSize(int height)
 
 void HeaderTrack::switchVideo()
 {
-    if (buttonVideo->isChecked()) {
+    if (buttonVideo->isChecked())
         buttonVideo->setIcon(KIcon("kdenlive-hide-video"));
-    } else {
+    else
         buttonVideo->setIcon(KIcon("kdenlive-show-video"));
-    }
     emit switchTrackVideo(m_index);
 }
 
 void HeaderTrack::switchAudio()
 {
-    if (buttonAudio->isChecked()) {
+    if (buttonAudio->isChecked())
         buttonAudio->setIcon(KIcon("kdenlive-hide-audio"));
-    } else {
+    else
         buttonAudio->setIcon(KIcon("kdenlive-show-audio"));
-    }
     emit switchTrackAudio(m_index);
 }
 
 void HeaderTrack::switchLock(bool emitSignal)
 {
-    if (buttonLock->isChecked()) {
+    if (buttonLock->isChecked())
         buttonLock->setIcon(KIcon("kdenlive-lock"));
-    } else {
+    else
         buttonLock->setIcon(KIcon("kdenlive-unlock"));
-    }
-    if (emitSignal) emit switchTrackLock(m_index);
+    if (emitSignal)
+        emit switchTrackLock(m_index);
 }
 
 void HeaderTrack::setLock(bool lock)
@@ -182,7 +199,7 @@ void HeaderTrack::slotAddTrack()
 
 void HeaderTrack::slotRenameTrack()
 {
-    emit renameTrack(m_index);
+    emit renameTrack(m_index, inputName->text());
 }
 
 void HeaderTrack::slotConfigTrack()

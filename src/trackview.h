@@ -63,6 +63,7 @@ public:
     int outPoint() const;
     int inPoint() const;
     int fitZoom() const;
+    
     /** @brief Updates (redraws) the ruler.
     *
     * Used to change from displaying frames to timecode or vice versa. */
@@ -104,9 +105,14 @@ private slots:
     void slotChangeTrackLock(int ix, bool lock);
     void slotVerticalZoomDown();
     void slotVerticalZoomUp();
-    void slotRenameTrack(int ix);
+
+    /** @brief Changes the name of a track.
+    * @param ix Number of the track
+    * @param name New name */
+    void slotRenameTrack(int ix, QString name);
     void slotRepaintTracks();
-    /** @brief Adjust margins of header area
+
+    /** @brief Adjusts the margins of the header area.
      *
      * Avoid a shift between header area and trackview if
      * the horizontal scrollbar is visible and the position
