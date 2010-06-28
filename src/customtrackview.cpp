@@ -3270,11 +3270,12 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
         val = (br.bottom() - val) * maxh;
         int start = item->cropStart().frames(m_document->fps());
         int end = (item->cropStart() + item->cropDuration()).frames(m_document->fps()) - 1;
+
         if ((val < -50 || val > 150) && item->editedKeyFramePos() != start && item->editedKeyFramePos() != end) {
             //delete keyframe
-            kDebug() << "// DELETE KFR: " << item->editedKeyFramePos();
             item->movedKeyframe(item->getEffectAt(item->selectedEffectIndex()), item->selectedKeyFramePos(), -1, 0);
         } else item->movedKeyframe(item->getEffectAt(item->selectedEffectIndex()), item->selectedKeyFramePos(), item->editedKeyFramePos(), item->editedKeyFrameValue());
+
         QDomElement newEffect = item->selectedEffect().cloneNode().toElement();
         //item->updateKeyframeEffect();
         //QString next = item->keyframes(item->selectedEffectIndex());
@@ -4288,10 +4289,10 @@ void CustomTrackView::updatePositionEffects(ClipItem * item, ItemInfo info)
         QDomElement oldeffect = item->effectAt(effectPos);
         int start = item->cropStart().frames(m_document->fps());
         int max = start + item->cropDuration().frames(m_document->fps());
-	if (start < 0) {
-	    max -= start;
-	    start = 0;
-	}
+        if (start < 0) {
+            max -= start;
+            start = 0;
+        }
         oldeffect.setAttribute("in", start);
         oldeffect.setAttribute("out", max);
         if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - item->track(), item->startPos(), item->getEffectArgs(oldeffect)))
