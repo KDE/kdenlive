@@ -175,9 +175,6 @@
          <property name="clickMessage">
           <string>Set filter region</string>
          </property>
-         <property name="text">
-          <string notr="true"/>
-         </property>
         </widget>
        </item>
       </layout>
