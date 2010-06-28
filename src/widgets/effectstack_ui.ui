@@ -49,7 +49,7 @@
        <item row="2" column="0">
         <widget class="QToolButton" name="buttonNew">
          <property name="text">
-          <string>N</string>
+          <string notr="true">N</string>
          </property>
          <property name="popupMode">
           <enum>QToolButton::InstantPopup</enum>
@@ -65,7 +65,7 @@
           <bool>false</bool>
          </property>
          <property name="text">
-          <string>Up</string>
+          <string notr="true">Up</string>
          </property>
          <property name="autoRaise">
           <bool>true</bool>
@@ -78,7 +78,7 @@
           <bool>false</bool>
          </property>
          <property name="text">
-          <string>Dw</string>
+          <string notr="true">Dw</string>
          </property>
          <property name="autoRaise">
           <bool>true</bool>
@@ -91,7 +91,7 @@
           <bool>false</bool>
          </property>
          <property name="text">
-          <string>R</string>
+          <string notr="true">R</string>
          </property>
          <property name="autoRaise">
           <bool>true</bool>
@@ -120,7 +120,7 @@
           <bool>false</bool>
          </property>
          <property name="text">
-          <string>E</string>
+          <string notr="true">E</string>
          </property>
          <property name="autoRaise">
           <bool>true</bool>
@@ -133,7 +133,7 @@
           <bool>false</bool>
          </property>
          <property name="text">
-          <string>D</string>
+          <string notr="true">D</string>
          </property>
          <property name="autoRaise">
           <bool>true</bool>
@@ -146,7 +146,7 @@
           <bool>false</bool>
          </property>
          <property name="text">
-          <string/>
+          <string notr="true"/>
          </property>
          <property name="checkable">
           <bool>true</bool>
@@ -158,7 +158,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <layout class="QVBoxLayout" name="frame_layout">
        <item>
         <widget class="QFrame" name="frame">
@@ -176,7 +176,7 @@
           <string>Set filter region</string>
          </property>
          <property name="text">
-          <string/>
+          <string notr="true"/>
          </property>
         </widget>
        </item>
