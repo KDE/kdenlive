@@ -566,14 +566,12 @@ void MainWindow::slotReloadEffects()
     QAction *action;
     QStringList effectInfo;
     QMap<QString, QStringList> effectsList;
-
     for (int ix = 0; ix < customEffects.count(); ix++) {
         effectInfo = customEffects.effectIdInfo(ix);
         effectsList.insert(effectInfo.at(0).toLower(), effectInfo);
     }
     if (effectsList.isEmpty()) {
         m_customEffectsMenu->setEnabled(false);
-        return;
     } else m_customEffectsMenu->setEnabled(true);
 
     foreach(const QStringList &value, effectsList) {
