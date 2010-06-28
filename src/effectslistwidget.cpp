@@ -72,9 +72,18 @@ void EffectsListWidget::slotExpandItem(const QModelIndex & index)
 
 void EffectsListWidget::initList()
 {
-    clear();
+    QString current;
+    QString currentFolder;
     QTreeWidgetItem *item;
     QTreeWidgetItem *parentItem;
+    bool found = false;
+
+    if (currentItem()) {
+        current = currentItem()->text(0);
+        if (currentItem()->parent()) currentFolder = currentItem()->parent()->text(0);
+    }
+    clear();
+
     QString effectName;
     QStringList effectInfo;
     KIcon videoIcon("kdenlive-show-video");
@@ -132,6 +141,10 @@ void EffectsListWidget::initList()
             item->setIcon(0, videoIcon);
             item->setData(0, TypeRole, QString::number((int) EFFECT_VIDEO));
             item->setData(0, IdRole, effectInfo);
+            if (item->text(0) == current) {
+                setCurrentItem(item);
+                found = true;
+            }
         }
     }
 
@@ -152,10 +165,15 @@ void EffectsListWidget::initList()
             item->setIcon(0, audioIcon);
             item->setData(0, TypeRole, QString::number((int) EFFECT_AUDIO));
             item->setData(0, IdRole, effectInfo);
+            if (item->text(0) == current) {
+                setCurrentItem(item);
+                found = true;
+            }
         }
     }
 
     ct = MainWindow::customEffects.count();
+    kDebug() << "--- REBUILDING;: " << ct;
     for (int ix = 0; ix < ct; ix ++) {
         effectInfo = MainWindow::customEffects.effectIdInfo(ix);
         if (!effectInfo.isEmpty()) {
@@ -163,7 +181,22 @@ void EffectsListWidget::initList()
             item->setIcon(0, customIcon);
             item->setData(0, TypeRole, QString::number((int) EFFECT_CUSTOM));
             item->setData(0, IdRole, effectInfo);
+            if (item->text(0) == current) {
+                setCurrentItem(item);
+                found = true;
+            }
         }
+    }
+    if (!found && !currentFolder.isEmpty()) {
+        // previously selected effect was removed, focus on its parent folder
+        for (int i = 0; i < topLevelItemCount(); i++) {
+            if (topLevelItem(i)->text(0) == currentFolder) {
+                setCurrentItem(topLevelItem(i));
+                topLevelItem(i)->setExpanded(true);
+                break;
+            }
+        }
+
     }
     setSortingEnabled(true);
     sortByColumn(0, Qt::AscendingOrder);
