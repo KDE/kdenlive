@@ -122,6 +122,8 @@ private slots:
     void slotUpdateButtons();
     void refreshView();
     void refreshCategory();
+
+    /** @brief Updates available options when a new format has been selected. */
     void refreshParams();
     void slotSaveProfile();
     void slotEditProfile();

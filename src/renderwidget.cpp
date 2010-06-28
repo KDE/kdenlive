@@ -199,9 +199,8 @@ RenderWidget::RenderWidget(const QString &projectfolder, QWidget * parent) :
     }
 
     QDBusConnectionInterface* interface = QDBusConnection::sessionBus().interface();
-    if (!interface || (!interface->isServiceRegistered("org.kde.ksmserver") && !interface->isServiceRegistered("org.gnome.SessionManager"))) {
+    if (!interface || (!interface->isServiceRegistered("org.kde.ksmserver") && !interface->isServiceRegistered("org.gnome.SessionManager")))
         m_view.shutdown->setEnabled(false);
-    }
 
     focusFirstVisibleItem();
 }
@@ -956,11 +955,12 @@ void RenderWidget::refreshCategory()
         m_view.open_dvd->setVisible(false);
         m_view.create_chapter->setVisible(false);
     }
-    if (destination == "websites") m_view.open_browser->setVisible(true);
-    else m_view.open_browser->setVisible(false);
-    if (!destination.isEmpty() && QString("dvd websites audioonly").contains(destination))
-        m_view.rescale->setEnabled(false);
-    else m_view.rescale->setEnabled(true);
+
+    if (destination == "websites")
+        m_view.open_browser->setVisible(true);
+    else
+        m_view.open_browser->setVisible(false);
+
     // hide groups that are not in the correct destination
     for (int i = 0; i < m_renderCategory.count(); i++) {
         sizeItem = m_renderCategory.at(i);
@@ -987,8 +987,10 @@ void RenderWidget::refreshCategory()
         m_view.size_list->setEnabled(true);
     }
 
-    if (m_view.format_list->count() > 1) m_view.format_list->setVisible(true);
-    else m_view.format_list->setVisible(false);
+    if (m_view.format_list->count() > 1)
+        m_view.format_list->setVisible(true);
+    else
+        m_view.format_list->setVisible(false);
     refreshView();
 }
 
@@ -1112,10 +1114,6 @@ KUrl RenderWidget::filenameWithExtension(KUrl url, QString extension)
     return KUrl(directory + filename);
 }
 
-
-/**
- * Called when a new format or size has been selected.
- */
 void RenderWidget::refreshParams()
 {
     // Format not available (e.g. codec not installed); Disable start button
@@ -1130,13 +1128,13 @@ void RenderWidget::refreshParams()
     QString extension = item->data(ExtensionRole).toString();
     m_view.advanced_params->setPlainText(params);
     QString destination = m_view.destination_list->itemData(m_view.destination_list->currentIndex()).toString();
-    if (params.contains(" s=") || destination == "audioonly") {
+    if (params.contains(" s=") || params.startsWith("s=") || destination == "audioonly") {
         // profile has a fixed size, do not allow resize
         m_view.rescale->setEnabled(false);
         m_view.rescale_box->setEnabled(false);
     } else {
         m_view.rescale->setEnabled(true);
-        m_view.rescale_box->setEnabled(true);
+        m_view.rescale_box->setEnabled(m_view.rescale->isChecked());
     }
     KUrl url = filenameWithExtension(m_view.out_file->url(), extension);
     m_view.out_file->setUrl(url);
