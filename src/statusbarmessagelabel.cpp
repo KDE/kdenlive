@@ -48,8 +48,10 @@ StatusBarMessageLabel::StatusBarMessageLabel(QWidget* parent) :
     QPalette palette;
     palette.setColor(QPalette::Background, Qt::transparent);
     setPalette(palette);
-
+    m_hidetimer.setSingleShot(true);
+    m_hidetimer.setInterval(5000);
     connect(&m_timer, SIGNAL(timeout()), this, SLOT(timerDone()));
+    connect(&m_hidetimer, SIGNAL(timeout()), this, SLOT(closeErrorMessage()));
 
     m_closeButton = new QPushButton(i18nc("@action:button", "Close"), this);
     m_closeButton->hide();
@@ -92,11 +94,13 @@ void StatusBarMessageLabel::setMessage(const QString& text,
         iconName = "dialog-ok";
         // "ok" icon should probably be "dialog-success", but we don't have that icon in KDE 4.0
         m_closeButton->hide();
+        m_hidetimer.stop();
         break;
 
     case InformationMessage:
         iconName = "dialog-information";
         m_closeButton->hide();
+        m_hidetimer.start();
         break;
 
     case ErrorMessage:
@@ -105,6 +109,7 @@ void StatusBarMessageLabel::setMessage(const QString& text,
         m_state = Illuminate;
         m_closeButton->hide();
         KNotification::event("ErrorMessage", m_text);
+        m_hidetimer.stop();
         break;
 
     case MltError:
@@ -113,11 +118,13 @@ void StatusBarMessageLabel::setMessage(const QString& text,
         m_state = Illuminate;
         updateCloseButtonPosition();
         m_closeButton->show();
+        m_hidetimer.stop();
         break;
 
     case DefaultMessage:
     default:
         m_closeButton->hide();
+        m_hidetimer.stop();
         break;
     }
 

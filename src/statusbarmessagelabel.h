@@ -125,6 +125,7 @@ private:
     int m_illumination;
     int m_minTextHeight;
     QTimer m_timer;
+    QTimer m_hidetimer;
     QString m_text;
     QList<QString> m_pendingMessages;
     QPixmap m_pixmap;
