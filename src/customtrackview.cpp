@@ -572,8 +572,16 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
             setCursor(KCursor("left_side", Qt::SizeHorCursor));
         else if (opMode == RESIZEEND)
             setCursor(KCursor("right_side", Qt::SizeHorCursor));
-        else if (opMode == FADEIN || opMode == FADEOUT || opMode == TRANSITIONSTART || opMode == TRANSITIONEND || opMode == KEYFRAME)
+        else if (opMode == FADEIN || opMode == FADEOUT) {
             setCursor(Qt::PointingHandCursor);
+            emit displayMessage(i18n("Drag to add or resize a fade effect."), InformationMessage);
+        } else if (opMode == TRANSITIONSTART || opMode == TRANSITIONEND) {
+            setCursor(Qt::PointingHandCursor);
+            emit displayMessage(i18n("Click to add a transition."), InformationMessage);
+        } else if (opMode == KEYFRAME) {
+            setCursor(Qt::PointingHandCursor);
+            emit displayMessage(i18n("Move keyframe above or below clip to remove it, double click to add a new one."), InformationMessage);
+        }
     } // no clip under mouse
     else if (m_tool == RAZORTOOL) {
         event->accept();
