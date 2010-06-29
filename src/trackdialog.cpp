@@ -23,16 +23,20 @@
 #include "kdenlivesettings.h"
 
 #include <KDebug>
+#include <KIcon>
 
 
 TrackDialog::TrackDialog(KdenliveDoc *doc, QWidget * parent) :
         QDialog(parent)
 {
     //setFont(KGlobalSettings::toolBarFont());
+    KIcon videoIcon("kdenlive-show-video");
+    KIcon audioIcon("kdenlive-show-audio");
     setupUi(this);
     for (int i = 0; i < doc->tracksCount(); ++i) {
         TrackInfo info = doc->trackInfoAt(doc->tracksCount() - i - 1);
-        comboTracks->addItem(info.trackName.isEmpty() ? QString::number(i) : QString::number(i) + ": " + info.trackName);
+        comboTracks->addItem(info.type == VIDEOTRACK ? videoIcon : audioIcon,
+                             info.trackName.isEmpty() ? QString::number(i) : QString::number(i) + ": " + info.trackName);
     }
 }
 
