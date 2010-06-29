@@ -84,13 +84,16 @@ void TransitionSettings::updateTrackList()
     transitionTrack->clear();
     transitionTrack->addItem(i18n("Auto"), -1);
     int limit = 1;
-    if (m_usedTransition) limit = m_usedTransition->track() + 1;
+    if (m_usedTransition)
+        limit = m_usedTransition->track() + 1;
     kDebug() << "/ / TRANS TRK: " << limit;
+    KIcon videoIcon("kdenlive-show-video");
+    KIcon audioIcon("kdenlive-show-audio");
     for (int i = limit; i < m_tracks.count(); i++) {
         int ix = m_tracks.count() - i - 1;
-        if (!m_tracks.at(ix).trackName.isEmpty())
-            transitionTrack->addItem(m_tracks.at(ix).trackName + '(' + QString::number(i) + ')', m_tracks.count() - i);
-        else transitionTrack->addItem(QString::number(i), m_tracks.count() - i);
+        transitionTrack->addItem(m_tracks.at(ix).type == VIDEOTRACK ? videoIcon : audioIcon,
+                                 m_tracks.at(ix).trackName.isEmpty() ? QString::number(i) : m_tracks.at(ix).trackName + " (" + QString::number(i) + ")",
+                                 m_tracks.count() - i);
     }
     transitionTrack->addItem(i18n("Black"), 0);
     transitionTrack->setCurrentIndex(transitionTrack->findData(current));
@@ -164,8 +167,10 @@ void TransitionSettings::slotTransitionItemSelected(Transition* t, int nextTrack
         transitionTrack->blockSignals(true);
         m_usedTransition = t;
         updateTrackList();
-        if (!t->forcedTrack()) transitionTrack->setCurrentIndex(0);
-        else transitionTrack->setCurrentIndex(transitionTrack->findData(t->transitionEndTrack()));
+        if (!t->forcedTrack())
+            transitionTrack->setCurrentIndex(0);
+        else
+            transitionTrack->setCurrentIndex(transitionTrack->findData(t->transitionEndTrack()));
         transitionTrack->blockSignals(false);
         int ix = transitionList->findData(t->transitionInfo(), Qt::UserRole, Qt::MatchExactly);
         if (ix != -1) {
@@ -189,9 +194,8 @@ void TransitionSettings::slotUpdateEffectParams(const QDomElement &oldparam, con
         m_usedTransition->update();
     }
     //oldparam must be also first given to Transition and then return the toXML()
-    if (oldparam != param) {
+    if (oldparam != param)
         emit transitionUpdated(m_usedTransition, oldparam);
-    }
 }
 
 void TransitionSettings::raiseWindow(QWidget* dock)
