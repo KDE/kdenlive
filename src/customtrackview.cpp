@@ -5179,28 +5179,23 @@ void CustomTrackView::saveThumbnails()
 void CustomTrackView::slotInsertTrack(int ix)
 {
     TrackDialog d(m_document, parentWidget());
+    d.comboTracks->setCurrentIndex(ix);
     d.label->setText(i18n("Insert track"));
-    d.track_nb->setMaximum(m_document->tracksCount() - 1);
-    d.track_nb->setValue(ix);
     d.setWindowTitle(i18n("Insert New Track"));
-    d.slotUpdateName(ix);
 
     if (d.exec() == QDialog::Accepted) {
-        ix = d.track_nb->value();
-        if (d.before_select->currentIndex() == 1) {
+        ix = d.comboTracks->currentIndex();
+        if (d.before_select->currentIndex() == 1)
             ix++;
-        }
         TrackInfo info;
+        info.isMute = false;
+        info.isLocked = false;
         if (d.video_track->isChecked()) {
             info.type = VIDEOTRACK;
-            info.isMute = false;
             info.isBlind = false;
-            info.isLocked = false;
         } else {
             info.type = AUDIOTRACK;
-            info.isMute = false;
             info.isBlind = true;
-            info.isLocked = false;
         }
         AddTrackCommand *addTrack = new AddTrackCommand(this, ix, info, true);
         m_commandStack->push(addTrack);
@@ -5212,16 +5207,14 @@ void CustomTrackView::slotDeleteTrack(int ix)
 {
     if (m_document->tracksCount() < 2) return;
     TrackDialog d(m_document, parentWidget());
+    d.comboTracks->setCurrentIndex(ix);
     d.label->setText(i18n("Delete track"));
     d.before_select->setHidden(true);
-    d.track_nb->setMaximum(m_document->tracksCount() - 1);
-    d.track_nb->setValue(ix);
-    d.slotUpdateName(ix);
     d.setWindowTitle(i18n("Delete Track"));
     d.video_track->setHidden(true);
     d.audio_track->setHidden(true);
     if (d.exec() == QDialog::Accepted) {
-        ix = d.track_nb->value();
+        ix = d.comboTracks->currentIndex();
         TrackInfo info = m_document->trackInfoAt(m_document->tracksCount() - ix - 1);
         deleteTimelineTrack(ix, info);
         setDocumentModified();

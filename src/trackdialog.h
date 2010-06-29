@@ -32,14 +32,6 @@ class TrackDialog : public QDialog, public Ui::AddTrack_UI
 
 public:
     TrackDialog(KdenliveDoc *doc, QWidget * parent = 0);
-    ~TrackDialog();
-
-public slots:
-
-    void slotUpdateName(int);
-
-private:
-    KdenliveDoc *m_doc;
 };
 
 

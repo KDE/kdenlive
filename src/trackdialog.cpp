@@ -26,24 +26,15 @@
 
 
 TrackDialog::TrackDialog(KdenliveDoc *doc, QWidget * parent) :
-        QDialog(parent),
-        m_doc(doc)
+        QDialog(parent)
 {
     //setFont(KGlobalSettings::toolBarFont());
     setupUi(this);
-    connect(track_nb, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateName(int)));
+    for (int i = 0; i < doc->tracksCount(); ++i) {
+        TrackInfo info = doc->trackInfoAt(doc->tracksCount() - i - 1);
+        comboTracks->addItem(info.trackName.isEmpty() ? QString::number(i) : QString::number(i) + ": " + info.trackName);
+    }
 }
-
-TrackDialog::~TrackDialog()
-{
-}
-
-void TrackDialog::slotUpdateName(int ix)
-{
-    ix = m_doc->tracksCount() - ix;
-    track_name->setText(m_doc->trackInfoAt(ix - 1).trackName);
-}
-
 
 #include "trackdialog.moc"
 
