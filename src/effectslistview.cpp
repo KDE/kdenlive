@@ -41,14 +41,18 @@ EffectsListView::EffectsListView(QWidget *parent) :
     lyr->addWidget(m_effectsList);
     lyr->setContentsMargins(0, 0, 0, 0);
     search_effect->setTreeWidget(m_effectsList);
+    search_effect->setToolTip(i18n("Search in the effect list"));
     buttonInfo->setIcon(KIcon("help-about"));
+    buttonInfo->setToolTip(i18n("Show/Hide the effect description"));
     setFocusPolicy(Qt::StrongFocus);
     setFocusProxy(search_effect);
     m_effectsList->setFocusProxy(search_effect);
 
-    if (KdenliveSettings::showeffectinfo()) {
+    if (KdenliveSettings::showeffectinfo())
         buttonInfo->setDown(true);
-    } else infopanel->hide();
+    else
+        infopanel->hide();
+
     menu->addAction(KIcon("edit-delete"), i18n("Delete effect"), this, SLOT(slotRemoveEffect()));
 
     connect(type_combo, SIGNAL(currentIndexChanged(int)), this, SLOT(filterList(int)));
@@ -104,7 +108,8 @@ void EffectsListView::showInfoPanel()
 void EffectsListView::slotEffectSelected()
 {
     QDomElement effect = m_effectsList->currentEffect();
-    if (!effect.isNull()) emit addEffect(effect);
+    if (!effect.isNull())
+        emit addEffect(effect);
 }
 
 void EffectsListView::slotUpdateInfo()

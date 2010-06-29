@@ -46,7 +46,7 @@ class EffectsListView : public QWidget, public Ui::EffectList_UI
 public:
     EffectsListView(QWidget *parent = 0);
 
-    /** @brief Re-initializes the list of effets. */
+    /** @brief Re-initializes the list of effects. */
     void reloadEffectList();
     //void slotAddEffect(GenTime pos, int track, QString name);
 
