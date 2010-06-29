@@ -570,9 +570,10 @@ void MainWindow::slotReloadEffects()
         effectInfo = customEffects.effectIdInfo(ix);
         effectsList.insert(effectInfo.at(0).toLower(), effectInfo);
     }
-    if (effectsList.isEmpty()) {
+    if (effectsList.isEmpty())
         m_customEffectsMenu->setEnabled(false);
-    } else m_customEffectsMenu->setEnabled(true);
+    else
+        m_customEffectsMenu->setEnabled(true);
 
     foreach(const QStringList &value, effectsList) {
         action = new QAction(value.at(0), this);

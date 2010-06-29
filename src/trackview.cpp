@@ -31,6 +31,7 @@
 #include "customtrackview.h"
 #include "initeffects.h"
 #include "profilesdialog.h"
+#include "configtrackscommand.h"
 
 #include <KDebug>
 #include <KMessageBox>
@@ -430,8 +431,10 @@ void TrackView::parseDocument(QDomDocument doc)
             ct++;
             backupFile = baseFile + "_backup" + QString::number(ct) + ".kdenlive";
         }
-        if (KIO::NetAccess::file_copy(m_doc->url(), KUrl(backupFile), this)) KMessageBox::information(this, i18n("Your project file was upgraded to the latest Kdenlive document version.\nTo make sure you don't lose data, a backup copy called %1 was created.", backupFile));
-        else KMessageBox::information(this, i18n("Your project file was upgraded to the latest Kdenlive document version, but it was not possible to create a backup copy.", backupFile));
+        if (KIO::NetAccess::file_copy(m_doc->url(), KUrl(backupFile), this))
+            KMessageBox::information(this, i18n("Your project file was upgraded to the latest Kdenlive document version.\nTo make sure you don't lose data, a backup copy called %1 was created.", backupFile));
+        else
+            KMessageBox::information(this, i18n("Your project file was upgraded to the latest Kdenlive document version, but it was not possible to create a backup copy.", backupFile));
     }
     //m_trackview->setCursorPos(cursorPos);
     //m_scrollBox->setGeometry(0, 0, 300 * zoomFactor(), m_scrollArea->height());
@@ -463,8 +466,10 @@ void TrackView::slotChangeZoom(int horizontal, int vertical)
         m_trackview->setScale(m_scale, m_scene->scale().y());
     } else {
         m_verticalZoom = vertical;
-        if (m_verticalZoom == 0) m_trackview->setScale(m_scale, 0.5);
-        else m_trackview->setScale(m_scale, m_verticalZoom);
+        if (m_verticalZoom == 0)
+            m_trackview->setScale(m_scale, 0.5);
+        else
+            m_trackview->setScale(m_scale, m_verticalZoom);
         adjustTrackHeaders();
     }
 }
@@ -907,8 +912,10 @@ void TrackView::slotVerticalZoomDown()
     if (m_verticalZoom == 0) return;
     m_verticalZoom--;
     m_doc->setZoom(m_doc->zoom().x(), m_verticalZoom);
-    if (m_verticalZoom == 0) m_trackview->setScale(m_scene->scale().x(), 0.5);
-    else m_trackview->setScale(m_scene->scale().x(), 1);
+    if (m_verticalZoom == 0)
+        m_trackview->setScale(m_scene->scale().x(), 0.5);
+    else
+        m_trackview->setScale(m_scene->scale().x(), 1);
     adjustTrackHeaders();
     m_trackview->verticalScrollBar()->setValue(headers_area->verticalScrollBar()->value());
 }
@@ -918,8 +925,10 @@ void TrackView::slotVerticalZoomUp()
     if (m_verticalZoom == 2) return;
     m_verticalZoom++;
     m_doc->setZoom(m_doc->zoom().x(), m_verticalZoom);
-    if (m_verticalZoom == 2) m_trackview->setScale(m_scene->scale().x(), 2);
-    else m_trackview->setScale(m_scene->scale().x(), 1);
+    if (m_verticalZoom == 2)
+        m_trackview->setScale(m_scene->scale().x(), 2);
+    else
+        m_trackview->setScale(m_scene->scale().x(), 1);
     adjustTrackHeaders();
     m_trackview->verticalScrollBar()->setValue(headers_area->verticalScrollBar()->value());
 }
@@ -933,10 +942,10 @@ void TrackView::updateProjectFps()
 void TrackView::slotRenameTrack(int ix, QString name)
 {
     int tracknumber = m_doc->tracksCount() - ix;
-    TrackInfo info = m_doc->trackInfoAt(tracknumber - 1);
-    info.trackName = name;
-    m_doc->setTrackType(tracknumber - 1, info);
-    QTimer::singleShot(300, this, SLOT(slotReloadTracks()));
+    QList <TrackInfo> tracks = m_doc->tracksList();
+    tracks[tracknumber - 1].trackName = name;
+    ConfigTracksCommand *configTracks = new ConfigTracksCommand(m_trackview, m_doc->tracksList(), tracks);
+    m_doc->commandStack()->push(configTracks);
     m_doc->setModified(true);
 }
 
