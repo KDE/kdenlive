@@ -30,20 +30,22 @@
 #include <QPainter>
 #include <QAction>
 #include <QTimer>
+#include <QColor>
 
 HeaderTrack::HeaderTrack(int index, TrackInfo info, int height, QWidget *parent) :
         QWidget(parent),
         m_index(index),
-        m_type(info.type)
+        m_type(info.type),
+        m_isSelected(false)
 {
     setFixedHeight(height);
     setupUi(this);
+    QColor col = track_number->palette().color(QPalette::Base);
+    track_number->setStyleSheet(QString("QLineEdit { background-color: transparent;} QLineEdit:hover{ background-color: rgb(%1, %2, %3);} QLineEdit:focus { background-color: rgb(%1, %2, %3);}").arg(col.red()).arg(col.green()).arg(col.blue()));
 
-    QString name = info.trackName.isEmpty() ? QString::number(m_index) : info.trackName;
-    track_number->setText(name);
-    inputName->setText(name);
-    inputName->setHidden(true);
-    connect(inputName, SIGNAL(editingFinished()), this, SLOT(slotRenameTrack()));
+    m_name = info.trackName.isEmpty() ? QString::number(m_index) : info.trackName;
+    track_number->setText(m_name);
+    connect(track_number, SIGNAL(editingFinished()), this, SLOT(slotRenameTrack()));
 
     buttonVideo->setChecked(info.isBlind);
     buttonVideo->setToolTip(i18n("Hide track"));
@@ -89,17 +91,17 @@ HeaderTrack::HeaderTrack(int index, TrackInfo info, int height, QWidget *parent)
         //horizontalSpacer;
     }
 
-    setContextMenuPolicy(Qt::ActionsContextMenu);
+    setContextMenuPolicy(Qt::DefaultContextMenu); //Qt::ActionsContextMenu);
     QAction *insertAction = new QAction(i18n("Insert Track"), this);
-    addAction(insertAction);
+    m_menu.addAction(insertAction);
     connect(insertAction, SIGNAL(triggered()), this, SLOT(slotAddTrack()));
 
     QAction *removeAction = new QAction(KIcon("edit-delete"), i18n("Delete Track"), this);
-    addAction(removeAction);
+    m_menu.addAction(removeAction);
     connect(removeAction, SIGNAL(triggered()), this, SLOT(slotDeleteTrack()));
 
     QAction *configAction = new QAction(KIcon("configure"), i18n("Configure Track"), this);
-    addAction(configAction);
+    m_menu.addAction(configAction);
     connect(configAction, SIGNAL(triggered()), this, SLOT(slotConfigTrack()));
 }
 
@@ -110,28 +112,45 @@ HeaderTrack::HeaderTrack(int index, TrackInfo info, int height, QWidget *parent)
 // virtual
 void HeaderTrack::mousePressEvent(QMouseEvent * event)
 {
-    emit selectTrack(m_index);
+    if (track_number->hasFocus()) {
+        track_number->clearFocus();
+        return;
+    }
+    if (!m_isSelected) emit selectTrack(m_index);
     QWidget::mousePressEvent(event);
+}
+
+// virtual
+void HeaderTrack::contextMenuEvent(QContextMenuEvent * event)
+{
+    if (track_number->hasFocus()) {
+        track_number->clearFocus();
+        return;
+    }
+    m_menu.popup(event->globalPos());
 }
 
 void HeaderTrack::mouseDoubleClickEvent(QMouseEvent* event)
 {
+    if (track_number->hasFocus()) {
+        track_number->clearFocus();
+        return;
+    }
     slotConfigTrack();
     QWidget::mouseDoubleClickEvent(event);
 }
 
 void HeaderTrack::setSelectedIndex(int ix)
 {
-    track_number->setHidden(false);
-    inputName->setHidden(true);
     if (m_index == ix) {
+        m_isSelected = true;
         setBackgroundRole(QPalette::Button);
         setAutoFillBackground(true);
-        track_number->setHidden(true);
-        inputName->setHidden(false);
     } else if (m_type != VIDEOTRACK) {
+        m_isSelected = false;
         setAutoFillBackground(false);
     } else {
+        m_isSelected = false;
         setBackgroundRole(QPalette::AlternateBase);
     }
     update();
@@ -199,7 +218,7 @@ void HeaderTrack::slotAddTrack()
 
 void HeaderTrack::slotRenameTrack()
 {
-    emit renameTrack(m_index, inputName->text());
+    if (m_name != track_number->text()) emit renameTrack(m_index, track_number->text());
 }
 
 void HeaderTrack::slotConfigTrack()

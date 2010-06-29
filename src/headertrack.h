@@ -40,10 +40,14 @@ public:
 protected:
     virtual void mousePressEvent(QMouseEvent * event);
     virtual void mouseDoubleClickEvent(QMouseEvent * event);
+    virtual void contextMenuEvent(QContextMenuEvent * event);
 
 private:
     int m_index;
     TRACKTYPE m_type;
+    bool m_isSelected;
+    QMenu m_menu;
+    QString m_name;
 
 private slots:
     void switchAudio();
