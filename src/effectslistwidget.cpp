@@ -82,7 +82,6 @@ void EffectsListWidget::initList()
         current = currentItem()->text(0);
         if (currentItem()->parent()) currentFolder = currentItem()->parent()->text(0);
     }
-    clear();
 
     QString effectName;
     QStringList effectInfo;
@@ -97,9 +96,23 @@ void EffectsListWidget::initList()
     doc.setContent(&file, false);
     file.close();
     QList <QTreeWidgetItem *> folders;
+    QStringList folderNames;
     QDomNodeList groups = doc.documentElement().elementsByTagName("group");
     for (int i = 0; i < groups.count(); i++) {
-        item = new QTreeWidgetItem((QTreeWidget*)0, QStringList(groups.at(i).firstChild().firstChild().nodeValue()));
+        folderNames << groups.at(i).firstChild().firstChild().nodeValue();
+    }
+    for (int i = 0; i < topLevelItemCount(); i++) {
+        topLevelItem(i)->takeChildren();
+        if (!folderNames.contains(topLevelItem(i)->text(0))) {
+            takeTopLevelItem(i);
+            i--;
+        }
+    }
+
+    for (int i = 0; i < groups.count(); i++) {
+        QList<QTreeWidgetItem *> result = findItems(folderNames.at(i), Qt::MatchExactly);
+        if (!result.isEmpty()) item = result.at(0);
+        else item = new QTreeWidgetItem((QTreeWidget*)0, QStringList(folderNames.at(i)));
         item->setIcon(0, folderIcon);
         item->setData(0, TypeRole, QString::number((int) EFFECT_FOLDER));
         item->setData(0, IdRole, groups.at(i).toElement().attribute("list"));
