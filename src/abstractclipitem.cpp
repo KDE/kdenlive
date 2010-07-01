@@ -359,15 +359,18 @@ void AbstractClipItem::updateKeyFramePos(const GenTime pos, const double value)
     int newpos = (int) pos.frames(m_fps);
     int start = cropStart().frames(m_fps);
     int end = (cropStart() + cropDuration()).frames(m_fps) - 1;
-    if (editedKeyFramePos() > start && newpos <= start) newpos = start + 1;
-    if (editedKeyFramePos() < end && newpos >= end) newpos = end - 1;
+    if (editedKeyFramePos() > start && newpos <= start)
+        newpos = start + 1;
+    if (editedKeyFramePos() < end && newpos >= end)
+        newpos = end - 1;
     newpos = qMax(newpos, start);
     newpos = qMin(newpos, end);
 
     double newval = qMax(value, 0.0);
     newval = qMin(newval, 100.0);
     newval = newval / m_keyframeFactor;
-    if (m_editedKeyframe != newpos) m_keyframes.remove(m_editedKeyframe);
+    if (m_editedKeyframe != newpos)
+        m_keyframes.remove(m_editedKeyframe);
     m_keyframes[newpos] = (int) newval;
     m_editedKeyframe = newpos;
     update();

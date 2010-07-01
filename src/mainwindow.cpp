@@ -1759,9 +1759,8 @@ void MainWindow::parseProfiles(const QString &mltPath)
         KdenliveSettings::setRendererpath(mltPath + "/bin/melt");
     }
 
-    if (KdenliveSettings::mltpath().isEmpty()) {
+    if (KdenliveSettings::mltpath().isEmpty())
         KdenliveSettings::setMltpath(QString(MLT_PREFIX) + QString("/share/mlt/profiles/"));
-    }
 
     if (KdenliveSettings::rendererpath().isEmpty() || KdenliveSettings::rendererpath().endsWith("inigo")) {
         QString meltPath = QString(MLT_PREFIX) + QString("/bin/melt");
@@ -1928,17 +1927,20 @@ void MainWindow::slotRenderProject()
 void MainWindow::slotCheckRenderStatus()
 {
     // Make sure there are no missing clips
-    if (m_renderWidget) m_renderWidget->missingClips(m_projectList->hasMissingClips());
+    if (m_renderWidget)
+        m_renderWidget->missingClips(m_projectList->hasMissingClips());
 }
 
 void MainWindow::setRenderingProgress(const QString &url, int progress)
 {
-    if (m_renderWidget) m_renderWidget->setRenderJob(url, progress);
+    if (m_renderWidget)
+        m_renderWidget->setRenderJob(url, progress);
 }
 
 void MainWindow::setRenderingFinished(const QString &url, int status, const QString &error)
 {
-    if (m_renderWidget) m_renderWidget->setRenderStatus(url, status, error);
+    if (m_renderWidget)
+        m_renderWidget->setRenderStatus(url, status, error);
 }
 
 void MainWindow::slotCleanProject()
@@ -2148,7 +2150,8 @@ void MainWindow::slotZoneMoved(int start, int end)
 
 void MainWindow::slotGuidesUpdated()
 {
-    if (m_renderWidget) m_renderWidget->setGuides(m_activeDocument->guidesXml(), m_activeDocument->projectDuration());
+    if (m_renderWidget)
+        m_renderWidget->setGuides(m_activeDocument->guidesXml(), m_activeDocument->projectDuration());
 }
 
 void MainWindow::slotEditKeys()
@@ -2200,7 +2203,8 @@ void MainWindow::updateConfiguration()
         m_activeTimeline->refresh();
         m_activeTimeline->projectView()->checkAutoScroll();
         m_activeTimeline->projectView()->checkTrackHeight();
-        if (m_activeDocument) m_activeDocument->clipManager()->checkAudioThumbs();
+        if (m_activeDocument)
+            m_activeDocument->clipManager()->checkAudioThumbs();
     }
     m_buttonAudioThumbs->setChecked(KdenliveSettings::audiothumbnails());
     m_buttonVideoThumbs->setChecked(KdenliveSettings::videothumbnails());
@@ -2223,9 +2227,8 @@ void MainWindow::slotSwitchSplitAudio()
 void MainWindow::slotSwitchVideoThumbs()
 {
     KdenliveSettings::setVideothumbnails(!KdenliveSettings::videothumbnails());
-    if (m_activeTimeline) {
+    if (m_activeTimeline)
         m_activeTimeline->projectView()->slotUpdateAllThumbs();
-    }
     m_buttonVideoThumbs->setChecked(KdenliveSettings::videothumbnails());
 }
 
@@ -2235,7 +2238,8 @@ void MainWindow::slotSwitchAudioThumbs()
     if (m_activeTimeline) {
         m_activeTimeline->refresh();
         m_activeTimeline->projectView()->checkAutoScroll();
-        if (m_activeDocument) m_activeDocument->clipManager()->checkAudioThumbs();
+        if (m_activeDocument)
+            m_activeDocument->clipManager()->checkAudioThumbs();
     }
     m_buttonAudioThumbs->setChecked(KdenliveSettings::audiothumbnails());
 }
@@ -2243,9 +2247,8 @@ void MainWindow::slotSwitchAudioThumbs()
 void MainWindow::slotSwitchMarkersComments()
 {
     KdenliveSettings::setShowmarkers(!KdenliveSettings::showmarkers());
-    if (m_activeTimeline) {
+    if (m_activeTimeline)
         m_activeTimeline->refresh();
-    }
     m_buttonShowMarkers->setChecked(KdenliveSettings::showmarkers());
 }
 
@@ -2282,7 +2285,8 @@ void MainWindow::slotDeleteItem()
 
 void MainWindow::slotUpdateClipMarkers(DocClipBase *clip)
 {
-    if (m_clipMonitor->isActive()) m_clipMonitor->checkOverlay();
+    if (m_clipMonitor->isActive())
+        m_clipMonitor->checkOverlay();
     m_clipMonitor->updateMarkers(clip);
 }
 
@@ -2309,9 +2313,8 @@ void MainWindow::slotAddClipMarker()
     QString id = clip->getId();
     CommentedTime marker(pos, i18n("Marker"));
     MarkerDialog d(clip, marker, m_activeDocument->timecode(), i18n("Add Marker"), this);
-    if (d.exec() == QDialog::Accepted) {
+    if (d.exec() == QDialog::Accepted)
         m_activeTimeline->projectView()->slotAddClipMarker(id, d.newMarker().time(), d.newMarker().comment());
-    }
 }
 
 void MainWindow::slotDeleteClipMarker()
@@ -2468,9 +2471,8 @@ void MainWindow::slotDeleteAllGuides()
 
 void MainWindow::slotCutTimelineClip()
 {
-    if (m_activeTimeline) {
+    if (m_activeTimeline)
         m_activeTimeline->projectView()->cutSelectedClips();
-    }
 }
 
 void MainWindow::slotInsertClipOverwrite()
@@ -2483,65 +2485,56 @@ void MainWindow::slotInsertClipOverwrite()
 
 void MainWindow::slotSelectTimelineClip()
 {
-    if (m_activeTimeline) {
+    if (m_activeTimeline)
         m_activeTimeline->projectView()->selectClip(true);
-    }
 }
 
 void MainWindow::slotSelectTimelineTransition()
 {
-    if (m_activeTimeline) {
+    if (m_activeTimeline)
         m_activeTimeline->projectView()->selectTransition(true);
-    }
 }
 
 void MainWindow::slotDeselectTimelineClip()
 {
-    if (m_activeTimeline) {
+    if (m_activeTimeline)
         m_activeTimeline->projectView()->selectClip(false, true);
-    }
 }
 
 void MainWindow::slotDeselectTimelineTransition()
 {
-    if (m_activeTimeline) {
+    if (m_activeTimeline)
         m_activeTimeline->projectView()->selectTransition(false, true);
-    }
 }
 
 void MainWindow::slotSelectAddTimelineClip()
 {
-    if (m_activeTimeline) {
+    if (m_activeTimeline)
         m_activeTimeline->projectView()->selectClip(true, true);
-    }
 }
 
 void MainWindow::slotSelectAddTimelineTransition()
 {
-    if (m_activeTimeline) {
+    if (m_activeTimeline)
         m_activeTimeline->projectView()->selectTransition(true, true);
-    }
 }
 
 void MainWindow::slotGroupClips()
 {
-    if (m_activeTimeline) {
+    if (m_activeTimeline)
         m_activeTimeline->projectView()->groupClips();
-    }
 }
 
 void MainWindow::slotUnGroupClips()
 {
-    if (m_activeTimeline) {
+    if (m_activeTimeline)
         m_activeTimeline->projectView()->groupClips(false);
-    }
 }
 
 void MainWindow::slotEditItemDuration()
 {
-    if (m_activeTimeline) {
+    if (m_activeTimeline)
         m_activeTimeline->projectView()->editItemDuration();
-    }
 }
 
 void MainWindow::slotAddProjectClip(KUrl url)
@@ -2602,9 +2595,8 @@ void MainWindow::slotZoomOut()
 
 void MainWindow::slotFitZoom()
 {
-    if (m_activeTimeline) {
+    if (m_activeTimeline)
         m_zoomSlider->setValue(m_activeTimeline->fitZoom());
-    }
 }
 
 void MainWindow::slotSetZoom(int value)
@@ -2641,10 +2633,12 @@ void MainWindow::slotGotProgressInfo(const QString &message, int progress)
 {
     m_statusProgressBar->setValue(progress);
     if (progress >= 0) {
-        if (!message.isEmpty()) m_messageLabel->setMessage(message, InformationMessage);//statusLabel->setText(message);
+        if (!message.isEmpty())
+            m_messageLabel->setMessage(message, InformationMessage);//statusLabel->setText(message);
         m_statusProgressBar->setVisible(true);
     } else if (progress == -2) {
-        if (!message.isEmpty()) m_messageLabel->setMessage(message, ErrorMessage);
+        if (!message.isEmpty())
+            m_messageLabel->setMessage(message, ErrorMessage);
         m_statusProgressBar->setVisible(false);
     } else {
         m_messageLabel->setMessage(QString(), DefaultMessage);
@@ -2760,17 +2754,15 @@ void MainWindow::slotShowClipProperties(QList <DocClipBase *> cliplist, QMap<QSt
             new EditClipCommand(m_projectList, clip->getId(), clip->properties(), dia.properties(), true, command);
         }
         m_activeDocument->commandStack()->push(command);
-        for (int i = 0; i < cliplist.count(); i++) {
+        for (int i = 0; i < cliplist.count(); i++)
             m_activeTimeline->projectView()->slotUpdateClip(cliplist.at(i)->getId(), dia.needsTimelineReload());
-        }
     }
 }
 
 void MainWindow::customEvent(QEvent* e)
 {
-    if (e->type() == QEvent::User) {
+    if (e->type() == QEvent::User)
         m_messageLabel->setMessage(static_cast <MltErrorEvent *>(e)->message(), MltError);
-    }
 }
 void MainWindow::slotActivateEffectStackView()
 {
@@ -2779,7 +2771,8 @@ void MainWindow::slotActivateEffectStackView()
 
 void MainWindow::slotActivateTransitionView(Transition *t)
 {
-    if (t) m_transitionConfig->raiseWindow(m_transitionConfigDock);
+    if (t)
+        m_transitionConfig->raiseWindow(m_transitionConfigDock);
 }
 
 void MainWindow::slotSnapRewind()
@@ -2787,7 +2780,9 @@ void MainWindow::slotSnapRewind()
     if (m_projectMonitor->isActive()) {
         if (m_activeTimeline)
             m_activeTimeline->projectView()->slotSeekToPreviousSnap();
-    } else m_clipMonitor->slotSeekToPreviousSnap();
+    } else  {
+        m_clipMonitor->slotSeekToPreviousSnap();
+    }
 }
 
 void MainWindow::slotSnapForward()
@@ -2795,7 +2790,9 @@ void MainWindow::slotSnapForward()
     if (m_projectMonitor->isActive()) {
         if (m_activeTimeline)
             m_activeTimeline->projectView()->slotSeekToNextSnap();
-    } else m_clipMonitor->slotSeekToNextSnap();
+    } else {
+        m_clipMonitor->slotSeekToNextSnap();
+    }
 }
 
 void MainWindow::slotClipStart()
@@ -2816,29 +2813,41 @@ void MainWindow::slotClipEnd()
 
 void MainWindow::slotZoneStart()
 {
-    if (m_projectMonitor->isActive()) m_projectMonitor->slotZoneStart();
-    else m_clipMonitor->slotZoneStart();
+    if (m_projectMonitor->isActive())
+        m_projectMonitor->slotZoneStart();
+    else
+        m_clipMonitor->slotZoneStart();
 }
 
 void MainWindow::slotZoneEnd()
 {
-    if (m_projectMonitor->isActive()) m_projectMonitor->slotZoneEnd();
-    else m_clipMonitor->slotZoneEnd();
+    if (m_projectMonitor->isActive())
+        m_projectMonitor->slotZoneEnd();
+    else
+        m_clipMonitor->slotZoneEnd();
 }
 
 void MainWindow::slotChangeTool(QAction * action)
 {
-    if (action == m_buttonSelectTool) slotSetTool(SELECTTOOL);
-    else if (action == m_buttonRazorTool) slotSetTool(RAZORTOOL);
-    else if (action == m_buttonSpacerTool) slotSetTool(SPACERTOOL);
+    if (action == m_buttonSelectTool)
+        slotSetTool(SELECTTOOL);
+    else if (action == m_buttonRazorTool)
+        slotSetTool(RAZORTOOL);
+    else if (action == m_buttonSpacerTool)
+        slotSetTool(SPACERTOOL);
 }
 
 void MainWindow::slotChangeEdit(QAction * action)
 {
-    if (!m_activeTimeline) return;
-    if (action == m_overwriteEditTool) m_activeTimeline->projectView()->setEditMode(OVERWRITEEDIT);
-    else if (action == m_insertEditTool) m_activeTimeline->projectView()->setEditMode(INSERTEDIT);
-    else m_activeTimeline->projectView()->setEditMode(NORMALEDIT);
+    if (!m_activeTimeline)
+        return;
+
+    if (action == m_overwriteEditTool)
+        m_activeTimeline->projectView()->setEditMode(OVERWRITEEDIT);
+    else if (action == m_insertEditTool)
+        m_activeTimeline->projectView()->setEditMode(INSERTEDIT);
+    else
+        m_activeTimeline->projectView()->setEditMode(NORMALEDIT);
 }
 
 void MainWindow::slotSetTool(PROJECTTOOL tool)
@@ -2864,20 +2873,20 @@ void MainWindow::slotSetTool(PROJECTTOOL tool)
 
 void MainWindow::slotCopy()
 {
-    if (!m_activeDocument || !m_activeTimeline) return;
-    m_activeTimeline->projectView()->copyClip();
+    if (m_activeDocument && m_activeTimeline)
+        m_activeTimeline->projectView()->copyClip();
 }
 
 void MainWindow::slotPaste()
 {
-    if (!m_activeDocument || !m_activeTimeline) return;
-    m_activeTimeline->projectView()->pasteClip();
+    if (m_activeDocument && m_activeTimeline)
+        m_activeTimeline->projectView()->pasteClip();
 }
 
 void MainWindow::slotPasteEffects()
 {
-    if (!m_activeDocument || !m_activeTimeline) return;
-    m_activeTimeline->projectView()->pasteClipEffects();
+    if (m_activeDocument && m_activeTimeline)
+        m_activeTimeline->projectView()->pasteClipEffects();
 }
 
 void MainWindow::slotFind()
@@ -2894,11 +2903,10 @@ void MainWindow::slotFind()
 
 void MainWindow::slotFindNext()
 {
-    if (m_activeTimeline && m_activeTimeline->projectView()->findNextString(m_findString)) {
+    if (m_activeTimeline && m_activeTimeline->projectView()->findNextString(m_findString))
         statusBar()->showMessage(i18n("Found: %1", m_findString));
-    } else {
+    else
         statusBar()->showMessage(i18n("Reached end of project"));
-    }
     m_findTimer.start(4000);
 }
 
@@ -2960,11 +2968,11 @@ void MainWindow::slotClipInProjectTree()
 {
     if (m_activeTimeline) {
         const QStringList &clipIds = m_activeTimeline->projectView()->selectedClips();
-        if (clipIds.isEmpty()) return;
+        if (clipIds.isEmpty())
+            return;
         m_projectListDock->raise();
-        for (int i = 0; i < clipIds.count(); i++) {
+        for (int i = 0; i < clipIds.count(); i++)
             m_projectList->selectItemById(clipIds.at(i));
-        }
         if (m_projectMonitor->isActive())
             slotSwitchMonitors();
     }
@@ -2997,11 +3005,10 @@ void MainWindow::keyPressEvent(QKeyEvent *ke)
         if (ke->key() == Qt::Key_Backspace) {
             m_findString = m_findString.left(m_findString.length() - 1);
 
-            if (!m_findString.isEmpty()) {
+            if (!m_findString.isEmpty())
                 findAhead();
-            } else {
+            else
                 findTimeout();
-            }
 
             m_findTimer.start(4000);
             ke->accept();
@@ -3019,7 +3026,9 @@ void MainWindow::keyPressEvent(QKeyEvent *ke)
             ke->accept();
             return;
         }
-    } else KXmlGuiWindow::keyPressEvent(ke);
+    } else {
+        KXmlGuiWindow::keyPressEvent(ke);
+    }
 }
 
 
@@ -3039,7 +3048,9 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
             if (ke->text().trimmed().isEmpty()) return false;
             ke->accept();
             return true;
-        } else return false;
+        } else {
+            return false;
+        }
     } else {
         // pass the event on to the parent class
         return QMainWindow::eventFilter(obj, event);
@@ -3069,34 +3080,39 @@ void MainWindow::slotSaveZone(Render *render, QPoint zone)
     vbox->addWidget(url);
     vbox->addWidget(label2);
     vbox->addWidget(edit);
-    if (dialog->exec() == QDialog::Accepted) render->saveZone(url->url(), edit->text(), zone);
+    if (dialog->exec() == QDialog::Accepted)
+        render->saveZone(url->url(), edit->text(), zone);
 
 }
 
 void MainWindow::slotSetInPoint()
 {
-    if (m_clipMonitor->isActive()) {
+    if (m_clipMonitor->isActive())
         m_clipMonitor->slotSetZoneStart();
-    } else m_projectMonitor->slotSetZoneStart();
+    else
+        m_projectMonitor->slotSetZoneStart();
     //else m_activeTimeline->projectView()->setInPoint();
 }
 
 void MainWindow::slotSetOutPoint()
 {
-    if (m_clipMonitor->isActive()) {
+    if (m_clipMonitor->isActive())
         m_clipMonitor->slotSetZoneEnd();
-    } else m_projectMonitor->slotSetZoneEnd();
+    else
+        m_projectMonitor->slotSetZoneEnd();
     // else m_activeTimeline->projectView()->setOutPoint();
 }
 
 void MainWindow::slotResizeItemStart()
 {
-    if (m_activeTimeline) m_activeTimeline->projectView()->setInPoint();
+    if (m_activeTimeline)
+        m_activeTimeline->projectView()->setInPoint();
 }
 
 void MainWindow::slotResizeItemEnd()
 {
-    if (m_activeTimeline) m_activeTimeline->projectView()->setOutPoint();
+    if (m_activeTimeline)
+        m_activeTimeline->projectView()->setOutPoint();
 }
 
 int MainWindow::getNewStuff(const QString &configFile)
@@ -3155,12 +3171,14 @@ void MainWindow::slotGetNewMltProfileStuff()
 
 void MainWindow::slotAutoTransition()
 {
-    if (m_activeTimeline) m_activeTimeline->projectView()->autoTransition();
+    if (m_activeTimeline)
+        m_activeTimeline->projectView()->autoTransition();
 }
 
 void MainWindow::slotSplitAudio()
 {
-    if (m_activeTimeline) m_activeTimeline->projectView()->splitAudio();
+    if (m_activeTimeline)
+        m_activeTimeline->projectView()->splitAudio();
 }
 
 void MainWindow::slotUpdateClipType(QAction *action)
@@ -3200,9 +3218,8 @@ void MainWindow::slotMaximizeCurrent(bool /*show*/)
     {
         m_timelineState = saveState();
         QWidget *par = focusWidget()->parentWidget();
-        while (par->parentWidget() && par->parentWidget() != this) {
+        while (par->parentWidget() && par->parentWidget() != this)
             par = par->parentWidget();
-        }
         kDebug() << "CURRENT WIDGET: " << par->objectName();
     }
     /*else {
@@ -3226,9 +3243,8 @@ void MainWindow::loadTranscoders()
         QStringList data = i.value().split(";", QString::SkipEmptyParts);
         QAction *a = transMenu->addAction(i.key());
         a->setData(data);
-        if (data.count() > 1) {
+        if (data.count() > 1)
             a->setToolTip(data.at(1));
-        }
         connect(a, SIGNAL(triggered()), this, SLOT(slotTranscode()));
     }
 }

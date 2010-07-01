@@ -425,9 +425,8 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
             for (int i = 0; i < children.count(); i++) {
                 if (children.at(i)->type() == GROUPWIDGET) {
                     QList<QGraphicsItem *> subchildren = children.at(i)->childItems();
-                    for (int j = 0; j < subchildren.count(); j++) {
+                    for (int j = 0; j < subchildren.count(); j++)
                         collidingItems.removeAll(subchildren.at(j));
-                    }
                 }
                 collidingItems.removeAll(children.at(i));
             }
@@ -452,9 +451,8 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
             for (int i = 0; i < children.count(); i++) {
                 if (children.at(i)->type() == GROUPWIDGET) {
                     QList<QGraphicsItem *> subchildren = children.at(i)->childItems();
-                    for (int j = 0; j < subchildren.count(); j++) {
+                    for (int j = 0; j < subchildren.count(); j++)
                         collidingItems.removeAll(subchildren.at(j));
-                    }
                 }
                 collidingItems.removeAll(children.at(i));
             }
@@ -476,9 +474,8 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
                 for (int i = 0; i < children.count(); i++) {
                     if (children.at(i)->type() == GROUPWIDGET) {
                         QList<QGraphicsItem *> subchildren = children.at(i)->childItems();
-                        for (int j = 0; j < subchildren.count(); j++) {
+                        for (int j = 0; j < subchildren.count(); j++)
                             collidingItems.removeAll(subchildren.at(j));
-                        }
                     }
                     collidingItems.removeAll(children.at(i));
                 }
@@ -503,9 +500,8 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
                 for (int i = 0; i < children.count(); i++) {
                     if (children.at(i)->type() == GROUPWIDGET) {
                         QList<QGraphicsItem *> subchildren = children.at(i)->childItems();
-                        for (int j = 0; j < subchildren.count(); j++) {
+                        for (int j = 0; j < subchildren.count(); j++)
                             collidingItems.removeAll(subchildren.at(j));
-                        }
                     }
                     collidingItems.removeAll(children.at(i));
                 }
@@ -3282,7 +3278,9 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
         if ((val < -50 || val > 150) && item->editedKeyFramePos() != start && item->editedKeyFramePos() != end) {
             //delete keyframe
             item->movedKeyframe(item->getEffectAt(item->selectedEffectIndex()), item->selectedKeyFramePos(), -1, 0);
-        } else item->movedKeyframe(item->getEffectAt(item->selectedEffectIndex()), item->selectedKeyFramePos(), item->editedKeyFramePos(), item->editedKeyFrameValue());
+        } else {
+            item->movedKeyframe(item->getEffectAt(item->selectedEffectIndex()), item->selectedKeyFramePos(), item->editedKeyFramePos(), item->editedKeyFrameValue());
+        }
 
         QDomElement newEffect = item->selectedEffect().cloneNode().toElement();
         //item->updateKeyframeEffect();
@@ -4639,8 +4637,10 @@ void CustomTrackView::setScale(double scaleFactor, double verticalScale)
 
     int diff = sceneRect().width() - m_projectDuration;
     if (diff * newmatrix.m11() < 50) {
-        if (newmatrix.m11() < 0.4) setSceneRect(0, 0, (m_projectDuration + 100 / newmatrix.m11()), sceneRect().height());
-        else setSceneRect(0, 0, (m_projectDuration + 300), sceneRect().height());
+        if (newmatrix.m11() < 0.4)
+            setSceneRect(0, 0, (m_projectDuration + 100 / newmatrix.m11()), sceneRect().height());
+        else
+            setSceneRect(0, 0, (m_projectDuration + 300), sceneRect().height());
     }
     centerOn(QPointF(cursorPos(), verticalPos));
 }
@@ -4648,9 +4648,8 @@ void CustomTrackView::setScale(double scaleFactor, double verticalScale)
 void CustomTrackView::slotRefreshGuides()
 {
     if (KdenliveSettings::showmarkers()) {
-        for (int i = 0; i < m_guides.count(); i++) {
+        for (int i = 0; i < m_guides.count(); i++)
             m_guides.at(i)->update();
-        }
     }
 }
 
@@ -4750,9 +4749,8 @@ void CustomTrackView::initSearchStrings()
     }
 
     // add guides
-    for (int i = 0; i < m_guides.count(); i++) {
+    for (int i = 0; i < m_guides.count(); i++)
         m_searchPoints.append(m_guides.at(i)->info());
-    }
 
     qSort(m_searchPoints);
 }
@@ -4770,9 +4768,8 @@ QList<ItemInfo> CustomTrackView::findId(const QString &clipId)
     for (int i = 0; i < itemList.count(); i++) {
         if (itemList.at(i)->type() == AVWIDGET) {
             ClipItem *item = (ClipItem *)itemList.at(i);
-            if (item->clipProducer() == clipId) {
+            if (item->clipProducer() == clipId)
                 matchingInfo << item->info();
-            }
         }
     }
     return matchingInfo;
