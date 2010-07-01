@@ -45,6 +45,10 @@ public:
     AbstractClipItem(const ItemInfo info, const QRectF& rect, double fps);
     virtual ~ AbstractClipItem();
     void updateSelectedKeyFrame();
+
+    /** @brief Move the selected keyframe (does not influence the effect, only the display in timeline).
+    * @param pos new Position
+    * @param value new Value */
     void updateKeyFramePos(const GenTime pos, const double value);
     int addKeyFrame(const GenTime pos, const double value);
     bool hasKeyFrames() const;

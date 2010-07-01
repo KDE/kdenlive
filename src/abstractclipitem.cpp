@@ -239,7 +239,8 @@ GenTime AbstractClipItem::maxDuration() const
 
 void AbstractClipItem::drawKeyFrames(QPainter *painter, QRectF /*exposedRect*/)
 {
-    if (m_keyframes.count() < 1) return;
+    if (m_keyframes.count() < 1)
+        return;
     QRectF br = rect();
     double maxw = br.width() / cropDuration().frames(m_fps);
     double maxh = br.height() / 100.0 * m_keyframeFactor;
@@ -270,12 +271,14 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, QRectF /*exposedRect*/)
     y1 = br.bottom() - i.value() * maxh;
     QLineF l2;
     while (i != m_keyframes.constEnd()) {
-        if (i.key() == m_editedKeyframe) color = QColor(Qt::red);
-        else color = QColor(Qt::blue);
+        if (i.key() == m_editedKeyframe)
+            color = QColor(Qt::red);
+        else
+            color = QColor(Qt::blue);
         ++i;
-        if (i == m_keyframes.constEnd() && m_keyframes.count() != 1) {
+        if (i == m_keyframes.constEnd() && m_keyframes.count() != 1)
             break;
-        }
+
         if (m_keyframes.count() == 1) {
             x2 = br.right();
             y2 = y1;
@@ -314,7 +317,9 @@ int AbstractClipItem::mouseOverKeyFrames(QPointF pos, double maxOffset)
             if (qAbs(pos.x() - x1) < maxOffset && qAbs(pos.y() - y1) < 10) {
                 setToolTip('[' + QString::number((GenTime(i.key(), m_fps) - cropStart()).seconds(), 'f', 2) + i18n("seconds") + ", " + QString::number(i.value(), 'f', 1) + "%]");
                 return i.key();
-            } else if (x1 > pos.x()) break;
+            } else if (x1 > pos.x()) {
+                break;
+            }
             ++i;
         }
     }
@@ -324,7 +329,8 @@ int AbstractClipItem::mouseOverKeyFrames(QPointF pos, double maxOffset)
 
 void AbstractClipItem::updateSelectedKeyFrame()
 {
-    if (m_editedKeyframe == -1) return;
+    if (m_editedKeyframe == -1)
+        return;
     QRectF br = sceneBoundingRect();
     double maxw = br.width() / cropDuration().frames(m_fps);
     double maxh = br.height() / 100.0 * m_keyframeFactor;
@@ -355,16 +361,25 @@ double AbstractClipItem::selectedKeyFrameValue() const
 
 void AbstractClipItem::updateKeyFramePos(const GenTime pos, const double value)
 {
-    if (!m_keyframes.contains(m_editedKeyframe)) return;
+    if (!m_keyframes.contains(m_editedKeyframe))
+        return;
     int newpos = (int) pos.frames(m_fps);
-    int start = cropStart().frames(m_fps);
-    int end = (cropStart() + cropDuration()).frames(m_fps) - 1;
-    if (editedKeyFramePos() > start && newpos <= start)
-        newpos = start + 1;
-    if (editedKeyFramePos() < end && newpos >= end)
-        newpos = end - 1;
-    newpos = qMax(newpos, start);
-    newpos = qMin(newpos, end);
+    int min = (int) cropStart().frames(m_fps) - 1;
+    int max = (int)(cropStart() + cropDuration()).frames(m_fps);
+    QMap<int, int>::const_iterator i = m_keyframes.constBegin();
+    while (i.key() < m_editedKeyframe) {
+        min = qMax(i.key(), min);
+        ++i;
+    }
+    i = m_keyframes.constEnd() - 1;
+    while (i.key() > m_editedKeyframe) {
+        max = qMin(i.key(), max);
+        --i;
+    }
+    if (newpos <= min)
+        newpos = min + 1;
+    if (newpos >= max)
+        newpos = max - 1;
 
     double newval = qMax(value, 0.0);
     newval = qMin(newval, 100.0);
@@ -412,20 +427,18 @@ bool AbstractClipItem::hasKeyFrames() const
 
 CustomTrackScene* AbstractClipItem::projectScene()
 {
-    if (scene()) return static_cast <CustomTrackScene*>(scene());
+    if (scene())
+        return static_cast <CustomTrackScene*>(scene());
     return NULL;
 }
 
 void AbstractClipItem::setItemLocked(bool locked)
 {
-    if (locked) {
+    if (locked)
         setSelected(false);
-        setFlag(QGraphicsItem::ItemIsMovable, false);
-        setFlag(QGraphicsItem::ItemIsSelectable, false);
-    } else {
-        setFlag(QGraphicsItem::ItemIsMovable, true);
-        setFlag(QGraphicsItem::ItemIsSelectable, true);
-    }
+
+    setFlag(QGraphicsItem::ItemIsMovable, !locked);
+    setFlag(QGraphicsItem::ItemIsSelectable, !locked);
 }
 
 bool AbstractClipItem::isItemLocked() const
@@ -439,6 +452,8 @@ void AbstractClipItem::mousePressEvent(QGraphicsSceneMouseEvent * event)
     if (event->modifiers() & Qt::ShiftModifier) {
         // User want to do a rectangle selection, so ignore the event to pass it to the view
         event->ignore();
-    } else QGraphicsItem::mousePressEvent(event);
+    } else {
+        QGraphicsItem::mousePressEvent(event);
+    }
 }
 
