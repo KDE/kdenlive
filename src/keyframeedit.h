@@ -43,7 +43,9 @@ public:
             connect(spin, SIGNAL(valueChanged(int)), this, SLOT(commitEditorData()));
             connect(spin, SIGNAL(editingFinished()), this, SLOT(commitAndCloseEditor()));
             return spin;
-        } else return QItemDelegate::createEditor(parent, option, index);
+        } else {
+            return QItemDelegate::createEditor(parent, option, index);
+        }
     }
 
 
@@ -52,7 +54,9 @@ public:
             QSpinBox *spin = qobject_cast< QSpinBox* >(editor);
             spin->setRange(m_min, m_max);
             spin->setValue(index.model()->data(index).toInt());
-        } else QItemDelegate::setEditorData(editor, index);
+        } else {
+            QItemDelegate::setEditorData(editor, index);
+        }
     }
 
 private slots:
@@ -94,6 +98,13 @@ private:
     QGridLayout *m_slidersLayout;
     int m_active_keyframe;
 
+    /** @brief Gets the position of a keyframe from the table.
+    * @param row Row of the keyframe in the table */
+    int getPos(int row);
+    /** @brief Converts a frame value to timecode considering the frames vs. HH:MM:SS:FF setting.
+    * @return timecode */
+    QString getPosString(int pos);
+
 public slots:
 
 
@@ -104,6 +115,8 @@ private slots:
     void slotAdjustKeyframeInfo(bool seek = true);
     void slotAdjustKeyframePos(int value);
     void slotAdjustKeyframeValue(int value);
+    /** @brief Turns the seek to keyframe position setting on/off.
+    * @param state State of the associated checkbox */
     void slotSetSeeking(int state);
     //void slotSaveCurrentParam(QTreeWidgetItem *item, int column);
 
