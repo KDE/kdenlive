@@ -117,6 +117,8 @@ void EffectStackEdit::setFrameSize(QPoint p)
 
 void EffectStackEdit::updateTimecodeFormat()
 {
+    if (m_keyframeEditor)
+        m_keyframeEditor->updateTimecodeFormat();
     QDomNodeList namenode = m_params.elementsByTagName("parameter");
     for (int i = 0; i < namenode.count() ; i++) {
         QDomNode pa = namenode.item(i);
@@ -196,12 +198,14 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
         if (type == "double" || type == "constant") {
             int min;
             int max;
-            if (pa.attribute("min").startsWith('%')) {
+            if (pa.attribute("min").startsWith('%'))
                 min = (int) ProfilesDialog::getStringEval(m_profile, pa.attribute("min"));
-            } else min = pa.attribute("min").toInt();
-            if (pa.attribute("max").startsWith('%')) {
+            else
+                min = pa.attribute("min").toInt();
+            if (pa.attribute("max").startsWith('%'))
                 max = (int) ProfilesDialog::getStringEval(m_profile, pa.attribute("max"));
-            } else max = pa.attribute("max").toInt();
+            else
+                max = pa.attribute("max").toInt();
             createSliderItem(paramName, (int)(value.toDouble() + 0.5) , min, max, pa.attribute("suffix", QString()));
             delete toFillin;
             toFillin = NULL;
@@ -258,8 +262,10 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
             connect(pl, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
         } else if (type == "geometry") {
             Geometryval *geo = new Geometryval(m_profile, m_timecode, m_frameSize, pos);
-            if (minFrame == maxFrame) geo->setupParam(pa, m_in, m_out);
-            else geo->setupParam(pa, minFrame, maxFrame);
+            if (minFrame == maxFrame)
+                geo->setupParam(pa, m_in, m_out);
+            else
+                geo->setupParam(pa, minFrame, maxFrame);
             m_vbox->addWidget(geo);
             m_valueItems[paramName+"geometry"] = geo;
             connect(geo, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
@@ -316,7 +322,8 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
                 out.replace("%i", QString::number(j));
                 points << QPointF(EffectsList::parameter(e, in).toDouble(), EffectsList::parameter(e, out).toDouble());
             }
-            if (!points.isEmpty()) curve->setCurve(KisCubicCurve(points));
+            if (!points.isEmpty())
+                curve->setCurve(KisCubicCurve(points));
             QSpinBox *spinin = new QSpinBox();
             spinin->setRange(0, 1000);
             QSpinBox *spinout = new QSpinBox();
@@ -397,9 +404,8 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
             toFillin = NULL;
         }
 
-        if (toFillin) {
+        if (toFillin)
             m_vbox->addWidget(toFillin);
-        }
     }
     m_vbox->addStretch();
 }
@@ -409,21 +415,39 @@ wipeInfo EffectStackEdit::getWipeInfo(QString value)
     wipeInfo info;
     QString start = value.section(';', 0, 0);
     QString end = value.section(';', 1, 1).section('=', 1, 1);
-    if (start.startsWith("-100%,0")) info.start = LEFT;
-    else if (start.startsWith("100%,0")) info.start = RIGHT;
-    else if (start.startsWith("0%,100%")) info.start = DOWN;
-    else if (start.startsWith("0%,-100%")) info.start = UP;
-    else info.start = CENTER;
-    if (start.count(':') == 2) info.startTransparency = start.section(':', -1).toInt();
-    else info.startTransparency = 100;
 
-    if (end.startsWith("-100%,0")) info.end = LEFT;
-    else if (end.startsWith("100%,0")) info.end = RIGHT;
-    else if (end.startsWith("0%,100%")) info.end = DOWN;
-    else if (end.startsWith("0%,-100%")) info.end = UP;
-    else info.end = CENTER;
-    if (end.count(':') == 2) info.endTransparency = end.section(':', -1).toInt();
-    else info.endTransparency = 100;
+    if (start.startsWith("-100%,0"))
+        info.start = LEFT;
+    else if (start.startsWith("100%,0"))
+        info.start = RIGHT;
+    else if (start.startsWith("0%,100%"))
+        info.start = DOWN;
+    else if (start.startsWith("0%,-100%"))
+        info.start = UP;
+    else
+        info.start = CENTER;
+
+    if (start.count(':') == 2)
+        info.startTransparency = start.section(':', -1).toInt();
+    else
+        info.startTransparency = 100;
+
+    if (end.startsWith("-100%,0"))
+        info.end = LEFT;
+    else if (end.startsWith("100%,0"))
+        info.end = RIGHT;
+    else if (end.startsWith("0%,100%"))
+        info.end = DOWN;
+    else if (end.startsWith("0%,-100%"))
+        info.end = UP;
+    else
+        info.end = CENTER;
+
+    if (end.count(':') == 2)
+        info.endTransparency = end.section(':', -1).toInt();
+    else
+        info.endTransparency = 100;
+
     return info;
 }
 
@@ -484,10 +508,14 @@ void EffectStackEdit::collectAllParameters()
         QDomNode na = pa.firstChildElement("name");
         QString type = pa.attributes().namedItem("type").nodeValue();
         QString paramName = i18n(na.toElement().text().toUtf8().data());
-        if (type == "complex") paramName.append("complex");
-        else if (type == "position") paramName.append("position");
-        else if (type == "geometry") paramName.append("geometry");
-        else if (type == "keyframe") paramName.append("keyframe");
+        if (type == "complex")
+            paramName.append("complex");
+        else if (type == "position")
+            paramName.append("position");
+        else if (type == "geometry")
+            paramName.append("geometry");
+        else if (type == "keyframe")
+            paramName.append("keyframe");
         if (type != "simplekeyframe" && !m_valueItems.contains(paramName)) {
             kDebug() << "// Param: " << paramName << " NOT FOUND";
             continue;
@@ -555,20 +583,34 @@ void EffectStackEdit::collectAllParameters()
         } else if (type == "wipe") {
             Wipeval *wp = (Wipeval*)m_valueItems.value(paramName);
             wipeInfo info;
-            if (wp->start_left->isChecked()) info.start = LEFT;
-            else if (wp->start_right->isChecked()) info.start = RIGHT;
-            else if (wp->start_up->isChecked()) info.start = UP;
-            else if (wp->start_down->isChecked()) info.start = DOWN;
-            else if (wp->start_center->isChecked()) info.start = CENTER;
-            else info.start = LEFT;
+            if (wp->start_left->isChecked())
+                info.start = LEFT;
+            else if (wp->start_right->isChecked())
+                info.start = RIGHT;
+            else if (wp->start_up->isChecked())
+                info.start = UP;
+            else if (wp->start_down->isChecked())
+                info.start = DOWN;
+            else if (wp->start_center->isChecked())
+                info.start = CENTER;
+            else
+                info.start = LEFT;
             info.startTransparency = wp->start_transp->value();
-            if (wp->end_left->isChecked()) info.end = LEFT;
-            else if (wp->end_right->isChecked()) info.end = RIGHT;
-            else if (wp->end_up->isChecked()) info.end = UP;
-            else if (wp->end_down->isChecked()) info.end = DOWN;
-            else if (wp->end_center->isChecked()) info.end = CENTER;
-            else info.end = RIGHT;
+
+            if (wp->end_left->isChecked())
+                info.end = LEFT;
+            else if (wp->end_right->isChecked())
+                info.end = RIGHT;
+            else if (wp->end_up->isChecked())
+                info.end = UP;
+            else if (wp->end_down->isChecked())
+                info.end = DOWN;
+            else if (wp->end_center->isChecked())
+                info.end = CENTER;
+            else
+                info.end = RIGHT;
             info.endTransparency = wp->end_transp->value();
+
             setValue = getWipeString(info);
         } else if ((type == "simplekeyframe" || type == "keyframe") && m_keyframeEditor) {
             QString realName = i18n(na.toElement().text().toUtf8().data());
@@ -579,9 +621,10 @@ void EffectStackEdit::collectAllParameters()
             KUrlRequester *req = ((Urlval*)m_valueItems.value(paramName))->urlwidget;
             setValue = req->url().path();
         }
-        if (!setValue.isNull()) {
+
+        if (!setValue.isNull())
             pa.attributes().namedItem("value").setNodeValue(setValue);
-        }
+
     }
     emit parameterChanged(oldparam, newparam);
 }

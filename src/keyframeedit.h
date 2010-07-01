@@ -84,6 +84,8 @@ public:
     void setupParam();
     void addParameter(QDomElement e);
     const QString getValue(const QString &name);
+    /** @brief Update the timecode display according to settings (frame number or hh:mm:ss:ff) */
+    void updateTimecodeFormat();
 
 private:
     QList <QDomElement> m_params;
@@ -104,9 +106,6 @@ private:
     /** @brief Converts a frame value to timecode considering the frames vs. HH:MM:SS:FF setting.
     * @return timecode */
     QString getPosString(int pos);
-
-public slots:
-
 
 private slots:
     void slotDeleteKeyframe();

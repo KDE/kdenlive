@@ -390,6 +390,16 @@ void KeyframeEdit::slotSetSeeking(int state)
     KdenliveSettings::setKeyframeseek(state == Qt::Checked);
 }
 
+void KeyframeEdit::updateTimecodeFormat()
+{
+    for (int row = 0; row < keyframe_list->rowCount(); ++row) {
+        QString pos = keyframe_list->verticalHeaderItem(row)->text();
+        if (KdenliveSettings::frametimecode())
+            keyframe_list->verticalHeaderItem(row)->setText(QString::number(m_timecode.getFrameCount(pos)));
+        else
+            keyframe_list->verticalHeaderItem(row)->setText(m_timecode.getTimecodeFromFrames(pos.toInt()));
+    }
+}
 
 /*void KeyframeEdit::slotSaveCurrentParam(QTreeWidgetItem *item, int column)
 {
