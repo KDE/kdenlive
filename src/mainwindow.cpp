@@ -454,9 +454,9 @@ bool MainWindow::queryClose()
     saveOptions();
     if (m_monitorManager) m_monitorManager->stopActiveMonitor();
     // warn the user to save if document is modified and we have clips in our project list
-    if (m_activeDocument && m_activeDocument->isModified()
-            && ((m_projectList->documentClipList().isEmpty() && !m_activeDocument->url().isEmpty())
-                || !m_projectList->documentClipList().isEmpty())) {
+    if (m_activeDocument && m_activeDocument->isModified() &&
+        ((m_projectList->documentClipList().isEmpty() && !m_activeDocument->url().isEmpty()) ||
+            !m_projectList->documentClipList().isEmpty())) {
         switch (KMessageBox::warningYesNoCancel(this, i18n("Save changes to document?"))) {
         case KMessageBox::Yes :
             // save document here. If saving fails, return false;
@@ -472,29 +472,36 @@ bool MainWindow::queryClose()
     return true;
 }
 
-
 void MainWindow::loadPlugins()
 {
-    foreach(QObject *plugin, QPluginLoader::staticInstances())
-    populateMenus(plugin);
+    foreach(QObject *plugin, QPluginLoader::staticInstances()) {
+        populateMenus(plugin);
+    }
 
     QStringList directories = KGlobal::dirs()->findDirs("module", QString());
     QStringList filters;
     filters << "libkdenlive*";
     foreach(const QString &folder, directories) {
-        kDebug() << "// PARSING FIOLER: " << folder;
+        kDebug() << "Parsing plugin folder: " << folder;
         QDir pluginsDir(folder);
-        foreach(const QString &fileName, pluginsDir.entryList(filters, QDir::Files)) {
-            kDebug() << "// FOUND PLUGIN: " << fileName << "= " << pluginsDir.absoluteFilePath(fileName);
-            QPluginLoader loader(pluginsDir.absoluteFilePath(fileName));
-            QObject *plugin = loader.instance();
-            if (plugin) {
-                populateMenus(plugin);
-                m_pluginFileNames += fileName;
-            } else kDebug() << "// ERROR LOADING PLUGIN: " << fileName << ", " << loader.errorString();
+        foreach(const QString &fileName,
+                pluginsDir.entryList(filters, QDir::Files)) {
+            /*
+             * Avoid loading the same plugin twice when there is more than one
+             * installation.
+             */
+            if (!m_pluginFileNames.contains(fileName)) {
+                kDebug() << "Found plugin: " << fileName;
+                QPluginLoader loader(pluginsDir.absoluteFilePath(fileName));
+                QObject *plugin = loader.instance();
+                if (plugin) {
+                    populateMenus(plugin);
+                    m_pluginFileNames += fileName;
+                } else
+                    kDebug() << "Error loading plugin: " << fileName << ", " << loader.errorString();
+            }
         }
     }
-    //exit(1);
 }
 
 void MainWindow::populateMenus(QObject *plugin)
@@ -2261,10 +2268,10 @@ void MainWindow::slotSwitchSnap()
 
 void MainWindow::slotDeleteItem()
 {
-    if (QApplication::focusWidget()
-            && QApplication::focusWidget()->parentWidget()
-            && QApplication::focusWidget()->parentWidget()->parentWidget()
-            && QApplication::focusWidget()->parentWidget()->parentWidget() == m_projectListDock) {
+    if (QApplication::focusWidget() &&
+        QApplication::focusWidget()->parentWidget() &&
+        QApplication::focusWidget()->parentWidget()->parentWidget() &&
+        QApplication::focusWidget()->parentWidget()->parentWidget() == m_projectListDock) {
         m_projectList->slotRemoveClip();
 
     } else {

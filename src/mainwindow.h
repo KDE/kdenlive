@@ -223,6 +223,12 @@ private:
     void findAhead();
     void doOpenFile(const KUrl &url, KAutoSaveFile *stale);
     void recoverFiles(QList<KAutoSaveFile *> staleFiles);
+
+    /** @brief Loads static and dynamic plugins.
+     *
+     * It scans static plugins as well as the filesystem: it doesn't load more
+     * than one plugin per file name, to avoid duplication due to conflicting
+     * installations. */
     void loadPlugins();
     void populateMenus(QObject *plugin);
     void addToMenu(QObject *plugin, const QStringList &texts,
