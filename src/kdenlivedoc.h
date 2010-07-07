@@ -66,6 +66,7 @@ Q_OBJECT public:
     QDomDocument m_guidesXml;
     QDomElement guidesXml() const;
     ClipManager *clipManager();
+    /** @brief Add a clip to the project tree */
     void addClip(QDomElement elem, QString clipId, bool createClipItem = true);
     void addClipInfo(QDomElement elem, QDomElement orig, QString clipId);
     void slotAddClipFile(const KUrl url, const QString group, const QString &groupId = QString());

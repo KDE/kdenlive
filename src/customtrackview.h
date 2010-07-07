@@ -225,6 +225,7 @@ protected:
     virtual void dragEnterEvent(QDragEnterEvent * event);
     virtual void dragMoveEvent(QDragMoveEvent * event);
     virtual void dragLeaveEvent(QDragLeaveEvent * event);
+    /** @brief Something has been dropped onto the timeline */
     virtual void dropEvent(QDropEvent * event);
     virtual void wheelEvent(QWheelEvent * e);
     virtual void keyPressEvent(QKeyEvent * event);
