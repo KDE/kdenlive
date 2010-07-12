@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-29 08:37+0300\n"
-"PO-Revision-Date: 2010-06-29 08:41+0300\n"
+"POT-Creation-Date: 2010-07-12 21:25+0300\n"
+"PO-Revision-Date: 2010-07-12 21:27+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <translation@linux.org.ua>\n"
 "MIME-Version: 1.0\n"
@@ -17,11 +17,11 @@ msgstr ""
 "=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Lokalize 1.1\n"
 
-#: rc.cpp:1264 rc.cpp:1270 rc.cpp:2848 rc.cpp:2854
+#: rc.cpp:1264 rc.cpp:1270 rc.cpp:2845 rc.cpp:2851
 msgid " frames"
 msgstr " кадрів"
 
-#: src/titlewidget.cpp:143 rc.cpp:1595 rc.cpp:3179
+#: src/titlewidget.cpp:143 rc.cpp:1595 rc.cpp:3176
 #, no-c-format
 msgid "%"
 msgstr "%"
@@ -30,11 +30,11 @@ msgstr "%"
 msgid "%1 will be replaced by %2"
 msgstr "%1 буде замінено на %2"
 
-#: src/titlewidget.cpp:1353 rc.cpp:1120 rc.cpp:2704
+#: src/titlewidget.cpp:1354 rc.cpp:1120 rc.cpp:2701
 msgid "+X"
 msgstr "+X"
 
-#: src/titlewidget.cpp:1378 rc.cpp:1123 rc.cpp:2707
+#: src/titlewidget.cpp:1379 rc.cpp:1123 rc.cpp:2704
 msgid "+Y"
 msgstr "+Y"
 
@@ -44,26 +44,22 @@ msgstr "+Y"
 #: rc.cpp:1321 rc.cpp:1324 rc.cpp:1327 rc.cpp:1330 rc.cpp:1601 rc.cpp:1604
 #: rc.cpp:1607 rc.cpp:1610 rc.cpp:1613 rc.cpp:1616 rc.cpp:1623 rc.cpp:1626
 #: rc.cpp:1641 rc.cpp:1644 rc.cpp:1764 rc.cpp:1797 rc.cpp:1851 rc.cpp:2100
-#: rc.cpp:2106 rc.cpp:2112 rc.cpp:2118 rc.cpp:2127 rc.cpp:2304 rc.cpp:2307
-#: rc.cpp:2635 rc.cpp:2638 rc.cpp:2746 rc.cpp:2749 rc.cpp:2755 rc.cpp:2758
-#: rc.cpp:2761 rc.cpp:2764 rc.cpp:2767 rc.cpp:2812 rc.cpp:2815 rc.cpp:2818
-#: rc.cpp:2821 rc.cpp:2824 rc.cpp:2827 rc.cpp:2902 rc.cpp:2905 rc.cpp:2908
-#: rc.cpp:2911 rc.cpp:2914 rc.cpp:3185 rc.cpp:3188 rc.cpp:3191 rc.cpp:3194
-#: rc.cpp:3197 rc.cpp:3200 rc.cpp:3207 rc.cpp:3210 rc.cpp:3225 rc.cpp:3228
-#: rc.cpp:3348 rc.cpp:3381 rc.cpp:3435 rc.cpp:3684 rc.cpp:3690 rc.cpp:3696
-#: rc.cpp:3702 rc.cpp:3711
+#: rc.cpp:2106 rc.cpp:2112 rc.cpp:2118 rc.cpp:2127 rc.cpp:2301 rc.cpp:2304
+#: rc.cpp:2632 rc.cpp:2635 rc.cpp:2743 rc.cpp:2746 rc.cpp:2752 rc.cpp:2755
+#: rc.cpp:2758 rc.cpp:2761 rc.cpp:2764 rc.cpp:2809 rc.cpp:2812 rc.cpp:2815
+#: rc.cpp:2818 rc.cpp:2821 rc.cpp:2824 rc.cpp:2899 rc.cpp:2902 rc.cpp:2905
+#: rc.cpp:2908 rc.cpp:2911 rc.cpp:3182 rc.cpp:3185 rc.cpp:3188 rc.cpp:3191
+#: rc.cpp:3194 rc.cpp:3197 rc.cpp:3204 rc.cpp:3207 rc.cpp:3222 rc.cpp:3225
+#: rc.cpp:3345 rc.cpp:3378 rc.cpp:3432 rc.cpp:3681 rc.cpp:3687 rc.cpp:3693
+#: rc.cpp:3699 rc.cpp:3708
 msgid "..."
 msgstr "..."
 
-#: rc.cpp:756 rc.cpp:762 rc.cpp:768 rc.cpp:2340 rc.cpp:2346 rc.cpp:2352
+#: rc.cpp:756 rc.cpp:762 rc.cpp:768 rc.cpp:2337 rc.cpp:2343 rc.cpp:2349
 msgid "/"
 msgstr "/"
 
-#: rc.cpp:2130 rc.cpp:3714
-msgid "0"
-msgstr "0"
-
-#: rc.cpp:810 rc.cpp:943 rc.cpp:2394 rc.cpp:2527
+#: rc.cpp:810 rc.cpp:943 rc.cpp:2391 rc.cpp:2524
 msgid "1"
 msgstr "1"
 
@@ -75,29 +71,29 @@ msgstr[1] "Знайдено %1 зображення"
 msgstr[2] "Знайдено %1 зображень"
 msgstr[3] "Знайдено одне зображення"
 
-#: rc.cpp:1293 rc.cpp:2877
+#: rc.cpp:1293 rc.cpp:2874
 #, no-c-format
 msgid "100%"
 msgstr "100%"
 
-#: rc.cpp:1447 rc.cpp:3031
+#: rc.cpp:1447 rc.cpp:3028
 msgid "11250"
 msgstr "11250"
 
-#: rc.cpp:946 rc.cpp:2530
+#: rc.cpp:946 rc.cpp:2527
 msgid "2"
 msgstr "2"
 
-#: rc.cpp:1297 rc.cpp:2881
+#: rc.cpp:1297 rc.cpp:2878
 #, no-c-format
 msgid "200%"
 msgstr "200%"
 
-#: rc.cpp:1444 rc.cpp:3028
+#: rc.cpp:1444 rc.cpp:3025
 msgid "22500"
 msgstr "22500"
 
-#: rc.cpp:1680 rc.cpp:1989 rc.cpp:3264 rc.cpp:3573
+#: rc.cpp:1680 rc.cpp:1989 rc.cpp:3261 rc.cpp:3570
 msgid "25/1"
 msgstr "25/1"
 
@@ -105,39 +101,39 @@ msgstr "25/1"
 msgid "3 point balance"
 msgstr "Баланс за 3 точками"
 
-#: rc.cpp:1441 rc.cpp:3025
+#: rc.cpp:1441 rc.cpp:3022
 msgid "32000"
 msgstr "32000"
 
-#: rc.cpp:1692 rc.cpp:2001 rc.cpp:3276 rc.cpp:3585
+#: rc.cpp:1692 rc.cpp:2001 rc.cpp:3273 rc.cpp:3582
 msgid "4/3"
 msgstr "4/3"
 
-#: rc.cpp:1438 rc.cpp:3022
+#: rc.cpp:1438 rc.cpp:3019
 msgid "41000"
 msgstr "41000"
 
-#: rc.cpp:1435 rc.cpp:3019
+#: rc.cpp:1435 rc.cpp:3016
 msgid "48000"
 msgstr "48000"
 
-#: rc.cpp:1289 rc.cpp:2873
+#: rc.cpp:1289 rc.cpp:2870
 #, no-c-format
 msgid "50%"
 msgstr "50%"
 
-#: rc.cpp:1686 rc.cpp:1995 rc.cpp:3270 rc.cpp:3579
+#: rc.cpp:1686 rc.cpp:1995 rc.cpp:3267 rc.cpp:3576
 msgid "59/54"
 msgstr "59/54"
 
-#: rc.cpp:1674 rc.cpp:1983 rc.cpp:3258 rc.cpp:3567
+#: rc.cpp:1674 rc.cpp:1983 rc.cpp:3255 rc.cpp:3564
 msgid "720x576"
 msgstr "720x576"
 
 #: rc.cpp:838 rc.cpp:892 rc.cpp:901 rc.cpp:973 rc.cpp:1213 rc.cpp:1959
-#: rc.cpp:1965 rc.cpp:1971 rc.cpp:2055 rc.cpp:2067 rc.cpp:2139 rc.cpp:2422
-#: rc.cpp:2476 rc.cpp:2485 rc.cpp:2557 rc.cpp:2797 rc.cpp:3543 rc.cpp:3549
-#: rc.cpp:3555 rc.cpp:3639 rc.cpp:3651 rc.cpp:3723
+#: rc.cpp:1965 rc.cpp:1971 rc.cpp:2055 rc.cpp:2067 rc.cpp:2136 rc.cpp:2419
+#: rc.cpp:2473 rc.cpp:2482 rc.cpp:2554 rc.cpp:2794 rc.cpp:3540 rc.cpp:3546
+#: rc.cpp:3552 rc.cpp:3636 rc.cpp:3648 rc.cpp:3717
 msgid "99:99:99:99; "
 msgstr "99:99:99:99; "
 
@@ -250,12 +246,12 @@ msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr ""
 "<strong>Спроба обробки %1 завершилася у аварійному режимі</strong><br />"
 
-#: rc.cpp:1045 rc.cpp:1195 rc.cpp:1567 rc.cpp:2196 rc.cpp:2256 rc.cpp:2629
-#: rc.cpp:2779 rc.cpp:3151 rc.cpp:3780 rc.cpp:3840
+#: rc.cpp:1045 rc.cpp:1195 rc.cpp:1567 rc.cpp:2193 rc.cpp:2253 rc.cpp:2626
+#: rc.cpp:2776 rc.cpp:3148 rc.cpp:3774 rc.cpp:3834
 msgid "A"
 msgstr "A"
 
-#: src/customtrackview.cpp:4518
+#: src/customtrackview.cpp:4516
 msgid "A guide already exists at position %1"
 msgstr "У позиції %1 вже вказано напрямну"
 
@@ -271,7 +267,7 @@ msgstr ""
 "Серед типових профілів MLT вже існує профіль з такою назвою, будь ласка, "
 "оберіть інший опис для вашого нетипового профілю."
 
-#: src/kdenlivesettingsdialog.cpp:223 rc.cpp:1450 rc.cpp:3034
+#: src/kdenlivesettingsdialog.cpp:223 rc.cpp:1450 rc.cpp:3031
 msgid "ALSA"
 msgstr "ALSA"
 
@@ -279,44 +275,44 @@ msgstr "ALSA"
 msgid "ARTS daemon"
 msgstr "Фонова служба ARTS"
 
-#: src/cliptranscode.cpp:125 rc.cpp:1902 rc.cpp:3486
+#: src/cliptranscode.cpp:125 rc.cpp:1902 rc.cpp:3483
 msgid "Abort"
 msgstr "Перервати"
 
-#: src/renderwidget.cpp:1541 rc.cpp:1842 rc.cpp:3426
+#: src/renderwidget.cpp:1541 rc.cpp:1842 rc.cpp:3423
 msgid "Abort Job"
 msgstr "Перервати виконання"
 
-#: rc.cpp:2217 rc.cpp:3801
+#: rc.cpp:2214 rc.cpp:3795
 msgid "Activate crash recovery (auto save)"
 msgstr "Задіяти відновлення після аварій (автозбереження)"
 
-#: src/addeffectcommand.cpp:38 src/customtrackview.cpp:1548
-#: src/customtrackview.cpp:1592
+#: src/addeffectcommand.cpp:38 src/customtrackview.cpp:1544
+#: src/customtrackview.cpp:1588
 msgid "Add %1"
 msgstr "Додати %1"
 
-#: rc.cpp:3921
+#: rc.cpp:3915
 msgid "Add Audio Effect"
 msgstr "Додати звуковий ефект"
 
-#: src/mainwindow.cpp:1313
+#: src/mainwindow.cpp:1321
 msgid "Add Clip"
 msgstr "Додати кліп"
 
-#: src/mainwindow.cpp:1158
+#: src/mainwindow.cpp:1166
 msgid "Add Clip To Selection"
 msgstr "Додати до позначеного кліп"
 
-#: src/mainwindow.cpp:1317
+#: src/mainwindow.cpp:1325
 msgid "Add Color Clip"
 msgstr "Додати кольоровий кліп"
 
-#: rc.cpp:3924
+#: rc.cpp:3918
 msgid "Add Custom Effect"
 msgstr "Додати нетиповий ефект"
 
-#: src/customruler.cpp:77 src/mainwindow.cpp:1245 src/customtrackview.cpp:4533
+#: src/customruler.cpp:77 src/mainwindow.cpp:1253 src/customtrackview.cpp:4531
 msgid "Add Guide"
 msgstr "Додати напрямну"
 
@@ -324,11 +320,11 @@ msgstr "Додати напрямну"
 msgid "Add Image"
 msgstr "Додати зображення"
 
-#: src/mainwindow.cpp:1183 src/mainwindow.cpp:2310 src/clipproperties.cpp:429
+#: src/mainwindow.cpp:1191 src/mainwindow.cpp:2322 src/clipproperties.cpp:429
 msgid "Add Marker"
 msgstr "Додати позначку"
 
-#: rc.cpp:2175 rc.cpp:3759
+#: rc.cpp:2172 rc.cpp:3753
 msgid "Add Profile"
 msgstr "Додати профіль"
 
@@ -336,11 +332,11 @@ msgstr "Додати профіль"
 msgid "Add Rectangle"
 msgstr "Додати прямокутник"
 
-#: src/slideshowclip.cpp:37 src/mainwindow.cpp:1321
+#: src/slideshowclip.cpp:37 src/mainwindow.cpp:1329
 msgid "Add Slideshow Clip"
 msgstr "Додати показ слайдів"
 
-#: src/mainwindow.cpp:1329
+#: src/mainwindow.cpp:1337
 msgid "Add Template Title"
 msgstr "Додати шаблон кліпу з титрами"
 
@@ -348,7 +344,7 @@ msgstr "Додати шаблон кліпу з титрами"
 msgid "Add Text"
 msgstr "Додати текст"
 
-#: src/mainwindow.cpp:1325
+#: src/mainwindow.cpp:1333
 msgid "Add Title Clip"
 msgstr "Додати кліп з титрами"
 
@@ -360,11 +356,11 @@ msgstr "Додати доріжку"
 msgid "Add Transition"
 msgstr "Додати перехід"
 
-#: src/mainwindow.cpp:1173
+#: src/mainwindow.cpp:1181
 msgid "Add Transition To Selection"
 msgstr "Додати до позначеного перехід"
 
-#: rc.cpp:3918
+#: rc.cpp:3912
 msgid "Add Video Effect"
 msgstr "Додати відеоефект"
 
@@ -372,7 +368,7 @@ msgstr "Додати відеоефект"
 msgid "Add audio fade"
 msgstr "Додати зміну гучності"
 
-#: rc.cpp:2262 rc.cpp:3846
+#: rc.cpp:2259 rc.cpp:3840
 msgid "Add chapter"
 msgstr "Додати розділ"
 
@@ -388,7 +384,7 @@ msgstr[3] "Додати кліп"
 msgid "Add clip cut"
 msgstr "Додати обрізку кліпу"
 
-#: src/cliptranscode.cpp:36 rc.cpp:1087 rc.cpp:2671
+#: src/cliptranscode.cpp:36 rc.cpp:1087 rc.cpp:2668
 msgid "Add clip to project"
 msgid_plural "Add clips to project"
 msgstr[0] "Додати до проекту кліпи"
@@ -413,7 +409,7 @@ msgstr "Додати ключовий кадр"
 msgid "Add marker"
 msgstr "Додати позначку"
 
-#: rc.cpp:729 rc.cpp:2313
+#: rc.cpp:729 rc.cpp:2310
 msgid "Add movie file"
 msgstr "Додати відеофайл"
 
@@ -429,15 +425,15 @@ msgstr "Додати новий ефект"
 msgid "Add new video file"
 msgstr "Додати новий відеофайл"
 
-#: rc.cpp:1366 rc.cpp:2950
+#: rc.cpp:1366 rc.cpp:2947
 msgid "Add recording time to captured file name"
 msgstr "Додати до назви файла захоплених даних час запису"
 
-#: rc.cpp:1647 rc.cpp:3231
+#: rc.cpp:1647 rc.cpp:3228
 msgid "Add space"
 msgstr "Додати пробіл"
 
-#: src/addtimelineclipcommand.cpp:38 src/customtrackview.cpp:2116
+#: src/addtimelineclipcommand.cpp:38 src/customtrackview.cpp:2112
 msgid "Add timeline clip"
 msgstr "Додати кліп лінійки запису"
 
@@ -453,7 +449,7 @@ msgstr "Додати перехід"
 msgid "Add transition to clip"
 msgstr "Додати перехід до кліпу"
 
-#: rc.cpp:1629 rc.cpp:3213
+#: rc.cpp:1629 rc.cpp:3210
 msgid "Additional Information"
 msgstr "Додаткова інформація"
 
@@ -501,7 +497,7 @@ msgstr "Скоригувати контрастність початкового
 msgid "Adjusts the saturation of a source image"
 msgstr "Скоригувати насиченість початкового зображення"
 
-#: rc.cpp:949 rc.cpp:2533
+#: rc.cpp:949 rc.cpp:2530
 msgid "Advanced"
 msgstr "Додатково"
 
@@ -553,7 +549,7 @@ msgstr "Вирівняти ліворуч"
 msgid "Align right"
 msgstr "Вирівняти праворуч"
 
-#: rc.cpp:1303 rc.cpp:2887
+#: rc.cpp:1303 rc.cpp:2884
 msgid "All"
 msgstr "Всі"
 
@@ -625,7 +621,7 @@ msgstr "Анімація перекошування за X"
 msgid "Animate Shear Y"
 msgstr "Анімація перекошування за Y"
 
-#: rc.cpp:1276 rc.cpp:2860
+#: rc.cpp:1276 rc.cpp:2857
 msgid "Animation"
 msgstr "Анімація"
 
@@ -637,7 +633,7 @@ msgstr "Створює стаціонарний перехід між поточ
 msgid "Ascii art library"
 msgstr "Бібліотека малювання ASCII"
 
-#: rc.cpp:1992 rc.cpp:3576
+#: rc.cpp:1992 rc.cpp:3573
 msgid "Aspect ratio:"
 msgstr "Співвідношення розмірів:"
 
@@ -645,31 +641,31 @@ msgstr "Співвідношення розмірів:"
 msgid "Aspect type"
 msgstr "Співвідношення розмірів"
 
-#: src/effectslistwidget.cpp:113 src/tracksconfigdialog.cpp:37
+#: src/effectslistwidget.cpp:126 src/tracksconfigdialog.cpp:37
 #: src/tracksconfigdialog.cpp:112 src/tracksconfigdialog.cpp:144
 #: src/tracksconfigdialog.cpp:178 rc.cpp:865 rc.cpp:1309 rc.cpp:1396
-#: rc.cpp:1710 rc.cpp:2151 rc.cpp:2449 rc.cpp:2893 rc.cpp:2980 rc.cpp:3294
-#: rc.cpp:3735
+#: rc.cpp:1710 rc.cpp:2148 rc.cpp:2446 rc.cpp:2890 rc.cpp:2977 rc.cpp:3291
+#: rc.cpp:3729
 msgid "Audio"
 msgstr "Звук"
 
-#: rc.cpp:823 rc.cpp:2407
+#: rc.cpp:823 rc.cpp:2404
 msgid "Audio Codecs"
 msgstr "Звукові кодеки"
 
-#: src/mainwindow.cpp:1388
+#: src/mainwindow.cpp:1396
 msgid "Audio Effects"
 msgstr "Звукові ефекти"
 
-#: src/mainwindow.cpp:1203
+#: src/mainwindow.cpp:1211
 msgid "Audio Only"
 msgstr "Лише звук"
 
-#: src/mainwindow.cpp:1213 src/customtrackview.cpp:5538
+#: src/mainwindow.cpp:1221 src/customtrackview.cpp:5528
 msgid "Audio and Video"
 msgstr "Звук та відео"
 
-#: rc.cpp:1429 rc.cpp:3013
+#: rc.cpp:1429 rc.cpp:3010
 msgid "Audio channels"
 msgstr "Звукові канали"
 
@@ -677,7 +673,7 @@ msgstr "Звукові канали"
 msgid "Audio clip"
 msgstr "Звуковий кліп"
 
-#: rc.cpp:868 rc.cpp:1405 rc.cpp:2452 rc.cpp:2989
+#: rc.cpp:868 rc.cpp:1405 rc.cpp:2449 rc.cpp:2986
 msgid "Audio codec"
 msgstr "Звуковий кодек"
 
@@ -685,19 +681,19 @@ msgstr "Звуковий кодек"
 msgid "Audio correction"
 msgstr "Виправлення звуку"
 
-#: rc.cpp:1399 rc.cpp:2983
+#: rc.cpp:1399 rc.cpp:2980
 msgid "Audio device"
 msgstr "Звуковий пристрій"
 
-#: rc.cpp:1105 rc.cpp:2689
+#: rc.cpp:1105 rc.cpp:2686
 msgid "Audio device:"
 msgstr "Звуковий пристрій:"
 
-#: rc.cpp:1102 rc.cpp:2686
+#: rc.cpp:1102 rc.cpp:2683
 msgid "Audio driver:"
 msgstr "Звуковий драйвер:"
 
-#: rc.cpp:1546 rc.cpp:3130
+#: rc.cpp:1546 rc.cpp:3127
 msgid "Audio editing"
 msgstr "Редагування звукових даних"
 
@@ -706,23 +702,23 @@ msgstr "Редагування звукових даних"
 msgid "Audio fade duration: %1s"
 msgstr "Тривалість зміни гучності: %1 c"
 
-#: rc.cpp:1432 rc.cpp:3016
+#: rc.cpp:1432 rc.cpp:3013
 msgid "Audio frequency"
 msgstr "Частота звукових даних"
 
-#: rc.cpp:961 rc.cpp:2545
+#: rc.cpp:961 rc.cpp:2542
 msgid "Audio index"
 msgstr "Покажчик звукових даних"
 
-#: src/renderwidget.cpp:1183 src/customtrackview.cpp:5513
+#: src/renderwidget.cpp:1183 src/customtrackview.cpp:5503
 msgid "Audio only"
 msgstr "Лише звук"
 
-#: rc.cpp:1003 rc.cpp:2587
+#: rc.cpp:1003 rc.cpp:2584
 msgid "Audio track"
 msgstr "Звукова доріжка"
 
-#: rc.cpp:1701 rc.cpp:2010 rc.cpp:3285 rc.cpp:3594
+#: rc.cpp:1701 rc.cpp:2010 rc.cpp:3282 rc.cpp:3591
 msgid "Audio tracks"
 msgstr "Звукові доріжки"
 
@@ -730,7 +726,7 @@ msgstr "Звукові доріжки"
 msgid "Author:"
 msgstr "Автор:"
 
-#: src/transitionsettings.cpp:85 rc.cpp:1779 rc.cpp:3363
+#: src/transitionsettings.cpp:85 rc.cpp:1779 rc.cpp:3360
 msgid "Auto"
 msgstr "Авто"
 
@@ -738,11 +734,11 @@ msgstr "Авто"
 msgid "Auto Mask"
 msgstr "Автомаскування"
 
-#: rc.cpp:1501 rc.cpp:3085
+#: rc.cpp:1501 rc.cpp:3082
 msgid "Auto add"
 msgstr "Автододавання"
 
-#: src/mainwindow.cpp:1680
+#: src/mainwindow.cpp:1688
 msgid "Auto-saved files exist. Do you want to recover them now?"
 msgstr ""
 "Виявлено файли автоматичного збереження. Бажаєте відновити дані за цими "
@@ -752,7 +748,7 @@ msgstr ""
 msgid "Automatic"
 msgstr "Автоматично"
 
-#: src/mainwindow.cpp:1117
+#: src/mainwindow.cpp:1125
 msgid "Automatic Transition"
 msgstr "Автоматичний перехід"
 
@@ -760,19 +756,19 @@ msgstr "Автоматичний перехід"
 msgid "Automatic center-crop"
 msgstr "Автоматичне обрізання за центром"
 
-#: rc.cpp:2016 rc.cpp:3600
+#: rc.cpp:2016 rc.cpp:3597
 msgid "Automatically split audio from video"
 msgstr "Автоматично відокремлювати звук від відео"
 
-#: rc.cpp:1363 rc.cpp:2947
+#: rc.cpp:1363 rc.cpp:2944
 msgid "Automatically start a new file on scene cut"
 msgstr "Автоматично створювати новий файл при вирізанні сцени"
 
-#: rc.cpp:2160 rc.cpp:3744
+#: rc.cpp:2157 rc.cpp:3738
 msgid "Autoscroll while playing"
 msgstr "Автоматичне гортання під час відтворення"
 
-#: rc.cpp:814 rc.cpp:2398
+#: rc.cpp:814 rc.cpp:2395
 msgid "Available Codecs (avformat)"
 msgstr "Доступні кодеки (avformat)"
 
@@ -780,11 +776,11 @@ msgstr "Доступні кодеки (avformat)"
 msgid "Avformat module (FFmpeg)"
 msgstr "Модуль avformat (FFmpeg)"
 
-#: rc.cpp:1024 rc.cpp:2608
+#: rc.cpp:1024 rc.cpp:2605
 msgid "Back to menu"
 msgstr "Повернутися до меню"
 
-#: rc.cpp:1027 rc.cpp:1030 rc.cpp:1273 rc.cpp:2611 rc.cpp:2614 rc.cpp:2857
+#: rc.cpp:1027 rc.cpp:1030 rc.cpp:1273 rc.cpp:2608 rc.cpp:2611 rc.cpp:2854
 msgid "Background"
 msgstr "Тло"
 
@@ -804,15 +800,15 @@ msgstr "Збалансування кольорів за допомогою тр
 msgid "Beginning"
 msgstr "Початок"
 
-#: src/trackview.cpp:82
+#: src/trackview.cpp:83
 msgid "Bigger tracks"
 msgstr "Більші доріжки"
 
-#: rc.cpp:1489 rc.cpp:3073
+#: rc.cpp:1489 rc.cpp:3070
 msgid "Bit rate"
 msgstr "Бітова швидкість"
 
-#: src/transitionsettings.cpp:95
+#: src/transitionsettings.cpp:98
 msgid "Black"
 msgstr "Чорний"
 
@@ -862,7 +858,7 @@ msgctxt "Font style"
 msgid "Bold"
 msgstr "Жирний"
 
-#: rc.cpp:1153 rc.cpp:2737
+#: rc.cpp:1153 rc.cpp:2734
 msgid "Border color"
 msgstr "Колір рамки"
 
@@ -890,11 +886,11 @@ msgstr "Яскравість"
 msgid "Brightness (keyframable)"
 msgstr "Яскравість (за ключовими кадрами)"
 
-#: src/trackview.cpp:614
+#: src/trackview.cpp:619
 msgid "Broken clip producer %1"
 msgstr "Помилковий інструмент створення кліпу %1"
 
-#: rc.cpp:1453 rc.cpp:1462 rc.cpp:3037 rc.cpp:3046
+#: rc.cpp:1453 rc.cpp:1462 rc.cpp:3034 rc.cpp:3043
 msgid "Buffer"
 msgstr "Буфер"
 
@@ -906,7 +902,7 @@ msgstr "Виправлення вад тощо."
 msgid "Bug fixing, logo, etc."
 msgstr "Виправлення вад, логотип тощо."
 
-#: rc.cpp:1914 rc.cpp:3498
+#: rc.cpp:1914 rc.cpp:3495
 msgid "Burn"
 msgstr "Записати"
 
@@ -914,31 +910,31 @@ msgstr "Записати"
 msgid "Burn with %1"
 msgstr "Записати за допомогою %1"
 
-#: rc.cpp:1009 rc.cpp:2593
+#: rc.cpp:1009 rc.cpp:2590
 msgid "Button"
 msgstr "Кнопка"
 
-#: rc.cpp:2235 rc.cpp:3819
+#: rc.cpp:2232 rc.cpp:3813
 msgid "Button 1"
 msgstr "Кнопка 1"
 
-#: rc.cpp:2238 rc.cpp:3822
+#: rc.cpp:2235 rc.cpp:3816
 msgid "Button 2"
 msgstr "Кнопка 2"
 
-#: rc.cpp:2241 rc.cpp:3825
+#: rc.cpp:2238 rc.cpp:3819
 msgid "Button 3"
 msgstr "Кнопка 3"
 
-#: rc.cpp:2244 rc.cpp:3828
+#: rc.cpp:2241 rc.cpp:3822
 msgid "Button 4"
 msgstr "Кнопка 4"
 
-#: rc.cpp:2247 rc.cpp:3831
+#: rc.cpp:2244 rc.cpp:3825
 msgid "Button 5"
 msgstr "Кнопка 5"
 
-#: rc.cpp:1021 rc.cpp:2605
+#: rc.cpp:1021 rc.cpp:2602
 msgid "Button colors"
 msgstr "Кольори кнопок"
 
@@ -946,7 +942,7 @@ msgstr "Кольори кнопок"
 msgid "Buttons overlapping"
 msgstr "Кнопки перекриваються"
 
-#: rc.cpp:777 rc.cpp:2361
+#: rc.cpp:777 rc.cpp:2358
 msgid "C"
 msgstr "C"
 
@@ -954,71 +950,70 @@ msgstr "C"
 msgid "C0rners"
 msgstr "Кути"
 
-#: src/customtrackview.cpp:1623
+#: src/customtrackview.cpp:1619
 msgid "Cannot add a video effect to this clip"
 msgstr "Не вдалося додати відеоефект до цього кліпу"
 
-#: src/customtrackview.cpp:1617
+#: src/customtrackview.cpp:1613
 msgid "Cannot add an audio effect to this clip"
 msgstr "Не вдалося додати звуковий ефект до цього кліпу"
 
-#: src/customtrackview.cpp:965 src/customtrackview.cpp:998
-#: src/customtrackview.cpp:1936 src/customtrackview.cpp:1962
-#: src/customtrackview.cpp:1988 src/customtrackview.cpp:2012
+#: src/customtrackview.cpp:961 src/customtrackview.cpp:994
+#: src/customtrackview.cpp:1932 src/customtrackview.cpp:1958
+#: src/customtrackview.cpp:1984 src/customtrackview.cpp:2008
 msgid "Cannot add transition"
 msgstr "Не вдалося додати перехід"
 
-#: src/customtrackview.cpp:5494 src/customtrackview.cpp:5519
-#: src/customtrackview.cpp:5544
+#: src/customtrackview.cpp:5484 src/customtrackview.cpp:5509
+#: src/customtrackview.cpp:5534
 msgid "Cannot change grouped clips"
 msgstr "Не вдалося змінити згруповані кліпи"
 
-#: src/customtrackview.cpp:847 src/customtrackview.cpp:3489
+#: src/customtrackview.cpp:843 src/customtrackview.cpp:3487
 msgid "Cannot cut a clip in a group"
 msgstr "Не вдалося вирізати кліп з групи"
 
-#: src/customtrackview.cpp:842
+#: src/customtrackview.cpp:838
 msgid "Cannot cut a transition"
 msgstr "Не вдалося вирізати перехід"
 
-#: src/customtrackview.cpp:1201
-#| msgid "Cannot cut a clip in a group"
+#: src/customtrackview.cpp:1197
 msgid "Cannot edit an item in a group"
 msgstr "Не можна змінювати елемент у групі"
 
-#: src/customtrackview.cpp:1190
+#: src/customtrackview.cpp:1186
 msgid "Cannot edit the duration of multiple items"
 msgstr "Не можна змінювати тривалість декількох об’єктів"
 
-#: src/customtrackview.cpp:3462
+#: src/customtrackview.cpp:3460
 msgid "Cannot find clip for speed change"
 msgstr "Не вдалося знайти кліп для зміни швидкості"
 
-#: src/customtrackview.cpp:1511
+#: src/customtrackview.cpp:1507
 msgid "Cannot find clip to add effect"
 msgstr "Не вдалося знайти кліп до додавання ефекту"
 
-#: src/mainwindow.cpp:2305
+#: src/mainwindow.cpp:2317
 msgid "Cannot find clip to add marker"
 msgstr "Не вдалося знайти кліп для додавання позначки"
 
-#: src/customtrackview.cpp:1809
+#: src/customtrackview.cpp:1805
 msgid "Cannot find clip to cut"
 msgstr "Не вдалося знайти кліп для вирізання"
 
-#: src/customtrackview.cpp:1188 src/customtrackview.cpp:1196
+#: src/customtrackview.cpp:1184 src/customtrackview.cpp:1192
 msgid "Cannot find clip to edit"
 msgstr "Не вдалося знайти кліп для редагування"
 
-#: src/mainwindow.cpp:2333 src/mainwindow.cpp:2360 src/mainwindow.cpp:2383
+#: src/mainwindow.cpp:2344 src/mainwindow.cpp:2371 src/mainwindow.cpp:2394
 msgid "Cannot find clip to remove marker"
 msgstr "Не вдалося знайти кліп для вилучення позначки"
 
-#: src/customtrackview.cpp:1861
+#: src/customtrackview.cpp:1857
 msgid "Cannot find clip to uncut"
 msgstr "Не вдалося знайти кліп для скасування вирізання"
 
-#: src/mainwindow.cpp:1774
+#: src/mainwindow.cpp:1781
 msgid "Cannot find the melt program required for rendering (part of MLT)"
 msgstr ""
 "Не вдалося знайти програми melt, потрібної для обробки (програма є частиною "
@@ -1030,52 +1025,52 @@ msgstr ""
 "Не вдалося знайти програми melt, потрібної для обробки (програма є частиною "
 "Mlt)"
 
-#: src/mainwindow.cpp:1797
+#: src/mainwindow.cpp:1804
 msgid "Cannot find your MLT profiles, please give the path"
 msgstr ""
 "Не вдалося знайти сховища профілів MLT, будь ласка, вкажіть його адресу"
 
-#: src/customtrackview.cpp:1326 src/customtrackview.cpp:2140
+#: src/customtrackview.cpp:1322 src/customtrackview.cpp:2136
 msgid "Cannot insert clip in timeline"
 msgstr "Не вдалося вставити кліп до лінійки запису"
 
-#: src/customtrackview.cpp:2658
+#: src/customtrackview.cpp:2654
 msgid "Cannot insert space in a locked track"
 msgstr "Вставляти розпірку у заблокований кліп не можна"
 
-#: src/customtrackview.cpp:2671
+#: src/customtrackview.cpp:2667
 msgid "Cannot insert space in a track with a group"
 msgstr "Не вдалося вставити пробіл у доріжку групи"
 
-#: src/customtrackview.cpp:2730
+#: src/customtrackview.cpp:2726
 msgid "Cannot move clip at position %1, track %2"
 msgstr "Не вдалося пересунути кліп на позиції %1, доріжка %2"
 
-#: src/customtrackview.cpp:3738 src/customtrackview.cpp:3944
+#: src/customtrackview.cpp:3736 src/customtrackview.cpp:3942
 msgid "Cannot move clip at time: %1 on track %2"
 msgstr "Не вдалося пересунути кліп з часовою міткою %1 на доріжці %2"
 
-#: src/customtrackview.cpp:3059 src/customtrackview.cpp:3774
+#: src/customtrackview.cpp:3055 src/customtrackview.cpp:3772
 msgid "Cannot move clip to position %1"
 msgstr "Не вдалося пересунути кліп на позицію %1"
 
-#: src/customtrackview.cpp:1767
+#: src/customtrackview.cpp:1763
 msgid "Cannot move effect"
 msgstr "Не вдалося пересунути ефект"
 
-#: src/customtrackview.cpp:3068
+#: src/customtrackview.cpp:3064
 msgid "Cannot move transition"
 msgstr "Не вдалося пересунути перехід"
 
-#: src/customtrackview.cpp:2745
+#: src/customtrackview.cpp:2741
 msgid "Cannot move transition at position %1, track %2"
 msgstr "Не вдалося пересунути перехід на позиції %1, доріжка %2"
 
-#: src/customtrackview.cpp:3894
+#: src/customtrackview.cpp:3892
 msgid "Cannot move transition at time: %1 on track %2"
 msgstr "Не вдалося пересунути перехід з часовою міткою %1 на доріжці %2"
 
-#: src/mainwindow.cpp:1720
+#: src/mainwindow.cpp:1728
 msgid ""
 "Cannot open file %1.\n"
 "Project is corrupted."
@@ -1083,15 +1078,15 @@ msgstr ""
 "Не вдалося відкрити файл %1.\n"
 "Файл проекту пошкоджено."
 
-#: src/customtrackview.cpp:4919
+#: src/customtrackview.cpp:4916
 msgid "Cannot paste clip to selected place"
 msgstr "Не вдалося вставити кліп у позначене місце"
 
-#: src/customtrackview.cpp:4880 src/customtrackview.cpp:4903
+#: src/customtrackview.cpp:4877 src/customtrackview.cpp:4900
 msgid "Cannot paste selected clips"
 msgstr "Не вдалося вставити позначені кліпи"
 
-#: src/customtrackview.cpp:4933
+#: src/customtrackview.cpp:4930
 msgid "Cannot paste transition to selected place"
 msgstr "Не вдалося вставити перехід у позначене місце"
 
@@ -1114,39 +1109,39 @@ msgstr ""
 "Не вдалося виконати читання з пристрою %1\n"
 "Будь ласка, перевірте наявність драйверів та права доступу."
 
-#: src/customtrackview.cpp:2594
+#: src/customtrackview.cpp:2590
 msgid "Cannot remove space in a locked track"
 msgstr "Вилучати розпірку з заблокованому кліпі не можна"
 
-#: src/customtrackview.cpp:2617
+#: src/customtrackview.cpp:2613
 msgid "Cannot remove space in a track with a group"
 msgstr "Не вдалося вилучити пробіл у доріжці групи"
 
-#: src/customtrackview.cpp:4082 src/customtrackview.cpp:4188
+#: src/customtrackview.cpp:4080 src/customtrackview.cpp:4186
 msgid "Cannot resize transition"
 msgstr "Не вдалося змінити розміри переходу"
 
-#: src/customtrackview.cpp:5395
+#: src/customtrackview.cpp:5385
 msgid "Cannot split audio of grouped clips"
 msgstr "Не вдалося розрізати звук згрупованих кліпів"
 
-#: src/customtrackview.cpp:2396 src/customtrackview.cpp:2468
-#: src/customtrackview.cpp:3620 src/customtrackview.cpp:5439
-#: src/customtrackview.cpp:5442 src/customtrackview.cpp:5468
-#: src/customtrackview.cpp:5566 src/customtrackview.cpp:5573
-#: src/customtrackview.cpp:5580
+#: src/customtrackview.cpp:2392 src/customtrackview.cpp:2464
+#: src/customtrackview.cpp:3618 src/customtrackview.cpp:5429
+#: src/customtrackview.cpp:5432 src/customtrackview.cpp:5458
+#: src/customtrackview.cpp:5556 src/customtrackview.cpp:5563
+#: src/customtrackview.cpp:5570
 msgid "Cannot update clip (time: %1, track: %2)"
 msgstr "Не вдалося оновити кліп (час: %1, доріжка: %2)"
 
-#: src/customtrackview.cpp:2042
+#: src/customtrackview.cpp:2038
 msgid "Cannot update transition"
 msgstr "Не вдалося оновити перехід"
 
-#: src/customtrackview.cpp:767
+#: src/customtrackview.cpp:763
 msgid "Cannot use spacer in a locked track"
 msgstr "Використовувати розпірку у заблокованому кліпі не можна"
 
-#: src/customtrackview.cpp:777
+#: src/customtrackview.cpp:773
 msgid "Cannot use spacer in a track with a group"
 msgstr "Використовувати у згрупованих кліпах розпірки не можна"
 
@@ -1156,7 +1151,7 @@ msgstr "Використовувати у згрупованих кліпах р
 #: src/profilesdialog.cpp:166 src/profilesdialog.cpp:172
 #: src/profilesdialog.cpp:439 src/profilesdialog.cpp:445 src/dvdwizard.cpp:724
 #: src/dvdwizard.cpp:730 src/kdenlivedoc.cpp:492 src/kdenlivedoc.cpp:581
-#: src/kdenlivedoc.cpp:587 src/titlewidget.cpp:1801
+#: src/kdenlivedoc.cpp:587 src/titlewidget.cpp:1802
 msgid "Cannot write to file %1"
 msgstr "Не вдалося виконати запис до файла %1"
 
@@ -1164,7 +1159,7 @@ msgstr "Не вдалося виконати запис до файла %1"
 msgid "Capture"
 msgstr "Захоплення"
 
-#: rc.cpp:1426 rc.cpp:3010
+#: rc.cpp:1426 rc.cpp:3007
 msgid "Capture audio"
 msgstr "Захоплення звуку"
 
@@ -1180,15 +1175,15 @@ msgstr ""
 "Спроба захоплення завершилася аварійно, перевірте вказані параметри.\n"
 "Код завершення RecordMyDesktop: %1"
 
-#: rc.cpp:1369 rc.cpp:2953
+#: rc.cpp:1369 rc.cpp:2950
 msgid "Capture file name"
 msgstr "Назва файла захоплених даних"
 
-#: rc.cpp:1534 rc.cpp:3118
+#: rc.cpp:1534 rc.cpp:3115
 msgid "Capture folder"
 msgstr "Тека захоплення"
 
-#: rc.cpp:1348 rc.cpp:2932
+#: rc.cpp:1348 rc.cpp:2929
 msgid "Capture format"
 msgstr "Формат захоплення"
 
@@ -1196,11 +1191,11 @@ msgstr "Формат захоплення"
 msgid "Capture is not yet available on OS X."
 msgstr "У OS X режим захоплення ще не реалізовано."
 
-#: rc.cpp:1417 rc.cpp:3001
+#: rc.cpp:1417 rc.cpp:2998
 msgid "Capture params"
 msgstr "Параметри захоплення"
 
-#: rc.cpp:2181 rc.cpp:3765
+#: rc.cpp:2178 rc.cpp:3759
 msgid "Captured files"
 msgstr "Захоплені файли"
 
@@ -1216,7 +1211,7 @@ msgstr "Центральна частота"
 msgid "Center correction"
 msgstr "Виправлення у центрі"
 
-#: rc.cpp:1543 rc.cpp:1549 rc.cpp:1555 rc.cpp:3127 rc.cpp:3133 rc.cpp:3139
+#: rc.cpp:1543 rc.cpp:1549 rc.cpp:1555 rc.cpp:3124 rc.cpp:3130 rc.cpp:3136
 msgid "Change"
 msgstr "Змінити"
 
@@ -1248,7 +1243,7 @@ msgstr ""
 msgid "Channel"
 msgstr "Канал"
 
-#: rc.cpp:871 rc.cpp:2455
+#: rc.cpp:871 rc.cpp:2452
 msgid "Channels"
 msgstr "Канали"
 
@@ -1264,7 +1259,7 @@ msgstr "Ефект малювання вугільним олівцем"
 msgid "Check missing clips"
 msgstr "Перевірити наявність кліпів"
 
-#: rc.cpp:1875 rc.cpp:3459
+#: rc.cpp:1875 rc.cpp:3456
 msgid "CheckBox"
 msgstr "Кнопка з незалежною фіксацією"
 
@@ -1292,32 +1287,31 @@ msgstr "Колірність V"
 msgid "Clean"
 msgstr "Спорожнення"
 
-#: src/mainwindow.cpp:968
+#: src/mainwindow.cpp:976
 msgid "Clean Project"
 msgstr "Спорожнити проект"
 
-#: rc.cpp:1854 rc.cpp:3438
+#: rc.cpp:1854 rc.cpp:3435
 msgid "Clean Up"
 msgstr "Спорожнити"
 
-#: src/mainwindow.cpp:1945 src/projectsettings.cpp:103
+#: src/mainwindow.cpp:1955 src/projectsettings.cpp:103
 msgid "Clean up project"
 msgstr "Спорожнити проект"
 
-#: rc.cpp:1728 rc.cpp:3312
+#: rc.cpp:1728 rc.cpp:3309
 msgid "Clear cache"
 msgstr "Спорожнити кеш"
 
-#: src/mainwindow.cpp:2853
+#: src/mainwindow.cpp:2870
 msgid "Click on a clip to cut it"
 msgstr "Натисніть кліп, щоб вирізати його"
 
-#: src/customtrackview.cpp:580
-#| msgid "Cannot add transition"
+#: src/customtrackview.cpp:576
 msgid "Click to add a transition."
 msgstr "Клацніть, щоб додати перехід."
 
-#: src/projectlistview.cpp:50 rc.cpp:3897
+#: src/projectlistview.cpp:50 rc.cpp:3891
 msgid "Clip"
 msgstr "Кліп"
 
@@ -1345,7 +1339,7 @@ msgstr ""
 "Дані кліпу <b>%1</b><br />пошкоджено або програмі не вдалося їх виявити. "
 "Вилучити цей кліп з проекту?"
 
-#: rc.cpp:2274 rc.cpp:3858
+#: rc.cpp:2271 rc.cpp:3852
 msgid "Clip Color"
 msgstr "Колір кліпу"
 
@@ -1353,7 +1347,7 @@ msgstr "Колір кліпу"
 msgid "Clip Monitor"
 msgstr "Монітор кліпу"
 
-#: src/mainwindow.cpp:1337 rc.cpp:826 rc.cpp:2410
+#: src/mainwindow.cpp:1345 rc.cpp:826 rc.cpp:2407
 msgid "Clip Properties"
 msgstr "Властивості кліпу"
 
@@ -1370,15 +1364,15 @@ msgstr "Нижній край"
 msgid "Clip duration: %1s"
 msgstr "Тривалість кліпу: %1 с"
 
-#: src/customtrackview.cpp:4442
+#: src/customtrackview.cpp:4440
 msgid "Clip has no markers"
 msgstr "Позначок для кліпу не вказано"
 
-#: src/mainwindow.cpp:1135
+#: src/mainwindow.cpp:1143
 msgid "Clip in Project Tree"
 msgstr "Кліп у дереві проекту"
 
-#: rc.cpp:3891
+#: rc.cpp:3885
 msgid "Clip in Timeline"
 msgstr "Кліп на лінійці запису"
 
@@ -1398,7 +1392,7 @@ msgstr "Верхній край"
 msgid "Clips folder"
 msgstr "Тека кліпів"
 
-#: rc.cpp:1716 rc.cpp:3300
+#: rc.cpp:1716 rc.cpp:3297
 msgid "Clips used in project:"
 msgstr "Використані у проекті кліпи:"
 
@@ -1406,8 +1400,8 @@ msgstr "Використані у проекті кліпи:"
 msgid "Clone"
 msgstr "Клонувати"
 
-#: src/cliptranscode.cpp:143 rc.cpp:1836 rc.cpp:1845 rc.cpp:1872 rc.cpp:3420
-#: rc.cpp:3429 rc.cpp:3456
+#: src/cliptranscode.cpp:143 rc.cpp:1836 rc.cpp:1845 rc.cpp:1872 rc.cpp:3417
+#: rc.cpp:3426 rc.cpp:3453
 msgid "Close"
 msgstr "Закрити"
 
@@ -1416,7 +1410,7 @@ msgctxt "@action:button"
 msgid "Close"
 msgstr "Закрити"
 
-#: rc.cpp:1090 rc.cpp:2674
+#: rc.cpp:1090 rc.cpp:2671
 msgid "Close after transcode"
 msgstr "Закрити після перекодування"
 
@@ -1428,12 +1422,12 @@ msgstr "Закрити поточну вкладку"
 msgid "Co-efficient"
 msgstr "Коефіцієнт"
 
-#: rc.cpp:1393 rc.cpp:2977
+#: rc.cpp:1393 rc.cpp:2974
 msgid "Codec"
 msgstr "Кодек"
 
-#: rc.cpp:877 rc.cpp:880 rc.cpp:1033 rc.cpp:1255 rc.cpp:2461 rc.cpp:2464
-#: rc.cpp:2617 rc.cpp:2839
+#: rc.cpp:877 rc.cpp:880 rc.cpp:1033 rc.cpp:1255 rc.cpp:2458 rc.cpp:2461
+#: rc.cpp:2614 rc.cpp:2836
 msgid "Color"
 msgstr "Колір"
 
@@ -1449,7 +1443,7 @@ msgstr "Відстань між кольорами"
 msgid "Color clip"
 msgstr "Кольоровий кліп"
 
-#: rc.cpp:1956 rc.cpp:3540
+#: rc.cpp:1956 rc.cpp:3537
 msgid "Color clips"
 msgstr "Кольорові кліпи"
 
@@ -1478,7 +1472,7 @@ msgctxt "@title:menu"
 msgid "Columns"
 msgstr "Стовпчики"
 
-#: rc.cpp:928 rc.cpp:1060 rc.cpp:2512 rc.cpp:2644
+#: rc.cpp:928 rc.cpp:1060 rc.cpp:2509 rc.cpp:2641
 msgid "Comment"
 msgstr "Коментар"
 
@@ -1494,12 +1488,12 @@ msgstr "Майстер налаштування"
 msgid "Configure"
 msgstr "Налаштувати"
 
-#: src/headertrack.cpp:101
+#: src/headertrack.cpp:103
 msgid "Configure Track"
 msgstr "Налаштувати доріжку"
 
-#: src/mainwindow.cpp:1241 src/configtrackscommand.cpp:32 rc.cpp:1315
-#: rc.cpp:2899
+#: src/mainwindow.cpp:1249 src/configtrackscommand.cpp:32 rc.cpp:1315
+#: rc.cpp:2896
 msgid "Configure Tracks"
 msgstr "Налаштувати доріжки"
 
@@ -1511,7 +1505,7 @@ msgstr "Підтвердження зміни профілю"
 msgid "Connect"
 msgstr "З'єднати"
 
-#: rc.cpp:1408 rc.cpp:2992
+#: rc.cpp:1408 rc.cpp:2989
 msgid "Container"
 msgstr "Контейнер"
 
@@ -1589,7 +1583,7 @@ msgstr ""
 msgid "Crackle"
 msgstr "Потріскування"
 
-#: rc.cpp:1947 rc.cpp:3531
+#: rc.cpp:1947 rc.cpp:3528
 msgid "Crash recovery (automatic backup)"
 msgstr "Відновлення після аварії (автоматичне резервування)"
 
@@ -1597,23 +1591,23 @@ msgstr "Відновлення після аварії (автоматичне �
 msgid "Create DVD Menu"
 msgstr "Створити меню DVD"
 
-#: src/mainwindow.cpp:1333
+#: src/mainwindow.cpp:1341
 msgid "Create Folder"
 msgstr "Створити теку"
 
-#: rc.cpp:1899 rc.cpp:3483
+#: rc.cpp:1899 rc.cpp:3480
 msgid "Create ISO image"
 msgstr "Створити образ ISO"
 
-#: src/mainwindow.cpp:3286
+#: src/mainwindow.cpp:3310
 msgid "Create Render Script"
 msgstr "Створити скрипт обробки"
 
-#: rc.cpp:1006 rc.cpp:2590
+#: rc.cpp:1006 rc.cpp:2587
 msgid "Create basic menu"
 msgstr "Створити базове меню"
 
-#: rc.cpp:1803 rc.cpp:3387
+#: rc.cpp:1803 rc.cpp:3384
 msgid "Create chapter file based on guides"
 msgstr "Створити файл розділу на основі напрямних"
 
@@ -1629,23 +1623,23 @@ msgstr "Створює чарівне сяйво"
 msgid "Creating DVD Image"
 msgstr "Створення образу DVD"
 
-#: rc.cpp:1893 rc.cpp:3477
+#: rc.cpp:1893 rc.cpp:3474
 msgid "Creating dvd structure"
 msgstr "Створення структури DVD"
 
-#: rc.cpp:1896 rc.cpp:3480
+#: rc.cpp:1896 rc.cpp:3477
 msgid "Creating iso file"
 msgstr "Створення файла iso"
 
-#: rc.cpp:1887 rc.cpp:3471
+#: rc.cpp:1887 rc.cpp:3468
 msgid "Creating menu background"
 msgstr "Створення тла меню"
 
-#: rc.cpp:1884 rc.cpp:3468
+#: rc.cpp:1884 rc.cpp:3465
 msgid "Creating menu images"
 msgstr "Створення зображень меню"
 
-#: rc.cpp:1890 rc.cpp:3474
+#: rc.cpp:1890 rc.cpp:3471
 msgid "Creating menu movie"
 msgstr "Створення відео меню"
 
@@ -1661,7 +1655,7 @@ msgstr "Обрізати"
 msgid "Crop & scale"
 msgstr "Обрізання і масштабування"
 
-#: rc.cpp:798 rc.cpp:2382
+#: rc.cpp:798 rc.cpp:2379
 msgid "Crop end"
 msgstr "Обрізати кінець"
 
@@ -1670,11 +1664,11 @@ msgstr "Обрізати кінець"
 msgid "Crop from start: %1s"
 msgstr "Обрізати від початку: %1 с"
 
-#: rc.cpp:792 rc.cpp:2376
+#: rc.cpp:792 rc.cpp:2373
 msgid "Crop start"
 msgstr "Обрізати початок"
 
-#: src/mainwindow.cpp:2850
+#: src/mainwindow.cpp:2867
 msgid "Ctrl + click to use spacer on current track only"
 msgstr ""
 "Натисніть Ctrl і клацніть лівою кнопкою миші, щоб додати розпірку лише до "
@@ -1691,11 +1685,11 @@ msgstr "Криві"
 #: src/renderwidget.cpp:346 src/renderwidget.cpp:356 src/renderwidget.cpp:449
 #: src/renderwidget.cpp:479 src/renderwidget.cpp:515 src/renderwidget.cpp:1259
 #: src/renderwidget.cpp:1304 src/renderwidget.cpp:1384
-#: src/effectslistwidget.cpp:117 rc.cpp:1312 rc.cpp:2896
+#: src/effectslistwidget.cpp:130 rc.cpp:1312 rc.cpp:2893
 msgid "Custom"
 msgstr "Нетиповий"
 
-#: src/mainwindow.cpp:1398
+#: src/mainwindow.cpp:1406
 msgid "Custom Effects"
 msgstr "Нетипові ефекти"
 
@@ -1703,28 +1697,28 @@ msgstr "Нетипові ефекти"
 msgid "Cut"
 msgstr "Вирізати"
 
-#: src/mainwindow.cpp:1178
+#: src/mainwindow.cpp:1186
 msgid "Cut Clip"
 msgstr "Вирізати кліп"
 
-#: rc.cpp:783 rc.cpp:937 rc.cpp:1048 rc.cpp:1570 rc.cpp:1773 rc.cpp:2199
-#: rc.cpp:2367 rc.cpp:2521 rc.cpp:2632 rc.cpp:3154 rc.cpp:3357 rc.cpp:3783
+#: rc.cpp:783 rc.cpp:937 rc.cpp:1048 rc.cpp:1570 rc.cpp:1773 rc.cpp:2196
+#: rc.cpp:2364 rc.cpp:2518 rc.cpp:2629 rc.cpp:3151 rc.cpp:3354 rc.cpp:3777
 msgid "D"
 msgstr "D"
 
-#: rc.cpp:2088 rc.cpp:3672
+#: rc.cpp:2088 rc.cpp:3669
 msgid "DV"
 msgstr "DV"
 
-#: rc.cpp:1354 rc.cpp:2938
+#: rc.cpp:1354 rc.cpp:2935
 msgid "DV AVI type 1"
 msgstr "DV AVI тип 1"
 
-#: rc.cpp:1357 rc.cpp:2941
+#: rc.cpp:1357 rc.cpp:2938
 msgid "DV AVI type 2"
 msgstr "DV AVI тип 2"
 
-#: rc.cpp:1351 rc.cpp:2935
+#: rc.cpp:1351 rc.cpp:2932
 msgid "DV Raw"
 msgstr "DV без обробки"
 
@@ -1740,7 +1734,7 @@ msgstr "DVD"
 msgid "DVD Chapters"
 msgstr "Розділи DVD"
 
-#: rc.cpp:1881 rc.cpp:3465
+#: rc.cpp:1881 rc.cpp:3462
 msgid "DVD ISO image"
 msgstr "Образ ISO DVD"
 
@@ -1752,11 +1746,11 @@ msgstr "Образ ISO DVD %1 успішно створено."
 msgid "DVD ISO is broken"
 msgstr "Образ ISO DVD пошкоджено"
 
-#: src/dvdwizard.cpp:47 src/mainwindow.cpp:990
+#: src/dvdwizard.cpp:47 src/mainwindow.cpp:998
 msgid "DVD Wizard"
 msgstr "Майстер DVD"
 
-#: rc.cpp:726 rc.cpp:2310
+#: rc.cpp:726 rc.cpp:2307
 msgid "DVD format"
 msgstr "Формат DVD"
 
@@ -1792,7 +1786,7 @@ msgstr "Розпад"
 msgid "Declipper"
 msgstr "Усування обрізання"
 
-#: rc.cpp:955 rc.cpp:2539
+#: rc.cpp:955 rc.cpp:2536
 msgid "Decoding threads"
 msgstr "Потоки декодування"
 
@@ -1801,27 +1795,27 @@ msgstr "Потоки декодування"
 msgid "Default"
 msgstr "Типовий"
 
-#: rc.cpp:1953 rc.cpp:3537
+#: rc.cpp:1953 rc.cpp:3534
 msgid "Default Durations"
 msgstr "Типові тривалості"
 
-#: rc.cpp:1974 rc.cpp:3558
+#: rc.cpp:1974 rc.cpp:3555
 msgid "Default Profile"
 msgstr "Типовий профіль"
 
-#: rc.cpp:1537 rc.cpp:3121
+#: rc.cpp:1537 rc.cpp:3118
 msgid "Default apps"
 msgstr "Типові програми"
 
-#: rc.cpp:1333 rc.cpp:2917
+#: rc.cpp:1333 rc.cpp:2914
 msgid "Default capture device"
 msgstr "Типовий пристрій захоплення"
 
-#: rc.cpp:2208 rc.cpp:3792
+#: rc.cpp:2205 rc.cpp:3786
 msgid "Default folder for project files"
 msgstr "Типова тека для файлів проекту"
 
-#: rc.cpp:1525 rc.cpp:3109
+#: rc.cpp:1525 rc.cpp:3106
 msgid "Default folders"
 msgstr "Типові теки"
 
@@ -1829,7 +1823,7 @@ msgstr "Типові теки"
 msgid "Defish0r"
 msgstr "Defish0r"
 
-#: rc.cpp:573 rc.cpp:585 rc.cpp:605 rc.cpp:627 rc.cpp:1261 rc.cpp:2845
+#: rc.cpp:573 rc.cpp:585 rc.cpp:605 rc.cpp:627 rc.cpp:1261 rc.cpp:2842
 msgid "Delay"
 msgstr "Затримка"
 
@@ -1837,19 +1831,19 @@ msgstr "Затримка"
 msgid "Delay (s/10)"
 msgstr "Затримка (у с/10)"
 
-#: src/addeffectcommand.cpp:39 src/customtrackview.cpp:1661
+#: src/addeffectcommand.cpp:39 src/customtrackview.cpp:1657
 msgid "Delete %1"
 msgstr "Вилучити %1"
 
-#: src/customruler.cpp:83 src/mainwindow.cpp:1257
+#: src/customruler.cpp:83 src/mainwindow.cpp:1265
 msgid "Delete All Guides"
 msgstr "Вилучити всі напрямні"
 
-#: src/mainwindow.cpp:1191
+#: src/mainwindow.cpp:1199
 msgid "Delete All Markers"
 msgstr "Вилучити всі позначки"
 
-#: src/mainwindow.cpp:1349 src/projectlist.cpp:747
+#: src/mainwindow.cpp:1357 src/projectlist.cpp:747
 msgid "Delete Clip"
 msgstr "Вилучити кліп"
 
@@ -1861,28 +1855,28 @@ msgstr "Вилучити ділянку кліпу"
 msgid "Delete Folder"
 msgstr "Вилучити теку"
 
-#: src/customruler.cpp:81 src/mainwindow.cpp:1249 src/customtrackview.cpp:227
+#: src/customruler.cpp:81 src/mainwindow.cpp:1257 src/customtrackview.cpp:227
 msgid "Delete Guide"
 msgstr "Вилучити напрямну"
 
-#: src/mainwindow.cpp:1187
+#: src/mainwindow.cpp:1195
 msgid "Delete Marker"
 msgstr "Вилучити позначку"
 
-#: rc.cpp:2178 rc.cpp:3762
+#: rc.cpp:2175 rc.cpp:3756
 msgid "Delete Profile"
 msgstr "Вилучити профіль"
 
-#: rc.cpp:1869 rc.cpp:3453
+#: rc.cpp:1869 rc.cpp:3450
 msgid "Delete Script"
 msgstr "Вилучити скрипт"
 
-#: src/mainwindow.cpp:1103
+#: src/mainwindow.cpp:1111
 msgid "Delete Selected Item"
 msgstr "Вилучити позначений елемент"
 
-#: src/mainwindow.cpp:1237 src/tracksconfigdialog.cpp:90
-#: src/headertrack.cpp:97 src/customtrackview.cpp:5220
+#: src/mainwindow.cpp:1245 src/tracksconfigdialog.cpp:90
+#: src/headertrack.cpp:99 src/customtrackview.cpp:5210
 msgid "Delete Track"
 msgstr "Вилучити доріжку"
 
@@ -1915,15 +1909,15 @@ msgstr[3] ""
 msgid "Delete current button"
 msgstr "Вилучити поточну кнопку"
 
-#: rc.cpp:2190 rc.cpp:3774
+#: rc.cpp:2187 rc.cpp:3768
 msgid "Delete current file"
 msgstr "Вилучити поточний файл"
 
-#: src/effectstackview.cpp:62 src/effectslistview.cpp:52
+#: src/effectstackview.cpp:62 src/effectslistview.cpp:56
 msgid "Delete effect"
 msgstr "Вилучити ефект"
 
-#: rc.cpp:1722 rc.cpp:3306
+#: rc.cpp:1722 rc.cpp:3303
 msgid "Delete files"
 msgstr "Вилучити файли"
 
@@ -1967,7 +1961,7 @@ msgstr "Вилучити позначку"
 msgid "Delete profile"
 msgstr "Вилучити профіль"
 
-#: src/customtrackview.cpp:3420
+#: src/customtrackview.cpp:3418
 msgid "Delete selected clip"
 msgid_plural "Delete selected clips"
 msgstr[0] "Вилучити позначені кліпи"
@@ -1975,7 +1969,7 @@ msgstr[1] "Вилучити позначені кліпи"
 msgstr[2] "Вилучити позначені кліпи"
 msgstr[3] "Вилучити позначений кліп"
 
-#: src/customtrackview.cpp:3418
+#: src/customtrackview.cpp:3416
 msgid "Delete selected group"
 msgid_plural "Delete selected groups"
 msgstr[0] "Вилучити позначені групи"
@@ -1983,11 +1977,11 @@ msgstr[1] "Вилучити позначені групи"
 msgstr[2] "Вилучити позначені групи"
 msgstr[3] "Вилучити позначену групу"
 
-#: src/customtrackview.cpp:3423
+#: src/customtrackview.cpp:3421
 msgid "Delete selected items"
 msgstr "Вилучити позначені елементи"
 
-#: src/customtrackview.cpp:3422
+#: src/customtrackview.cpp:3420
 msgid "Delete selected transition"
 msgid_plural "Delete selected transitions"
 msgstr[0] "Вилучити позначені переходи"
@@ -1999,7 +1993,7 @@ msgstr[3] "Вилучити позначений перехід"
 msgid "Delete them"
 msgstr "Вилучити їх"
 
-#: src/addtimelineclipcommand.cpp:39 src/customtrackview.cpp:2788
+#: src/addtimelineclipcommand.cpp:39 src/customtrackview.cpp:2784
 msgid "Delete timeline clip"
 msgid_plural "Delete timeline clips"
 msgstr[0] "Вилучити кліпи лінійки запису"
@@ -2007,7 +2001,7 @@ msgstr[1] "Вилучити кліпи лінійки запису"
 msgstr[2] "Вилучити кліпи лінійки запису"
 msgstr[3] "Вилучити кліп лінійки запису"
 
-#: src/addtrackcommand.cpp:34 src/customtrackview.cpp:5215
+#: src/addtrackcommand.cpp:34 src/customtrackview.cpp:5208
 msgid "Delete track"
 msgstr "Вилучити доріжку"
 
@@ -2028,27 +2022,27 @@ msgstr "Напівжирний"
 msgid "Depth"
 msgstr "Глибина"
 
-#: src/projectlistview.cpp:50 rc.cpp:744 rc.cpp:832 rc.cpp:2328 rc.cpp:2416
+#: src/projectlistview.cpp:50 rc.cpp:744 rc.cpp:832 rc.cpp:2325 rc.cpp:2413
 msgid "Description"
 msgstr "Опис"
 
-#: src/mainwindow.cpp:3065
+#: src/mainwindow.cpp:3084
 msgid "Description:"
 msgstr "Опис:"
 
-#: src/mainwindow.cpp:1153
+#: src/mainwindow.cpp:1161
 msgid "Deselect Clip"
 msgstr "Зняти позначення з кліпу"
 
-#: src/mainwindow.cpp:1168
+#: src/mainwindow.cpp:1176
 msgid "Deselect Transition"
 msgstr "Зняти позначення з переходу"
 
-#: rc.cpp:1513 rc.cpp:3097
+#: rc.cpp:1513 rc.cpp:3094
 msgid "Desktop search integration"
 msgstr "Інтеграція до стільничного пошуку"
 
-#: rc.cpp:1075 rc.cpp:1746 rc.cpp:1926 rc.cpp:2659 rc.cpp:3330 rc.cpp:3510
+#: rc.cpp:1075 rc.cpp:1746 rc.cpp:1926 rc.cpp:2656 rc.cpp:3327 rc.cpp:3507
 msgid "Destination"
 msgstr "Призначення"
 
@@ -2056,16 +2050,16 @@ msgstr "Призначення"
 msgid "Destination folder"
 msgstr "Тека призначення"
 
-#: rc.cpp:1381 rc.cpp:2232 rc.cpp:2965 rc.cpp:3816
+#: rc.cpp:1381 rc.cpp:2229 rc.cpp:2962 rc.cpp:3810
 msgid "Device"
 msgstr "Пристрій"
 
-#: rc.cpp:2229 rc.cpp:3813
+#: rc.cpp:2226 rc.cpp:3807
 msgid "Device configuration"
 msgstr "Налаштування пристрою"
 
-#: rc.cpp:988 rc.cpp:1069 rc.cpp:1740 rc.cpp:2268 rc.cpp:2572 rc.cpp:2653
-#: rc.cpp:3324 rc.cpp:3852
+#: rc.cpp:988 rc.cpp:1069 rc.cpp:1740 rc.cpp:2265 rc.cpp:2569 rc.cpp:2650
+#: rc.cpp:3321 rc.cpp:3846
 msgid "Dialog"
 msgstr "Діалогове вікно"
 
@@ -2093,23 +2087,23 @@ msgstr "Ознайомтеся з можливостями цього випус
 msgid "Display"
 msgstr "Показ"
 
-#: rc.cpp:765 rc.cpp:2349
+#: rc.cpp:765 rc.cpp:2346
 msgid "Display aspect ratio"
 msgstr "Співвідношення розмірів"
 
-#: src/wizard.cpp:493 rc.cpp:1689 rc.cpp:3273
+#: src/wizard.cpp:493 rc.cpp:1689 rc.cpp:3270
 msgid "Display aspect ratio:"
 msgstr "Співвідношення розмірів:"
 
-#: rc.cpp:2157 rc.cpp:3741
+#: rc.cpp:2154 rc.cpp:3735
 msgid "Display clip markers comments"
 msgstr "Показувати коментарі позначок у кліпах"
 
-#: rc.cpp:1998 rc.cpp:3582
+#: rc.cpp:1998 rc.cpp:3579
 msgid "Display ratio:"
 msgstr "Співвідношення розмірів показу:"
 
-#: src/initeffects.cpp:785 rc.cpp:898 rc.cpp:2064 rc.cpp:2482 rc.cpp:3648
+#: src/initeffects.cpp:785 rc.cpp:898 rc.cpp:2064 rc.cpp:2479 rc.cpp:3645
 msgid "Dissolve"
 msgstr "Розчиняти"
 
@@ -2143,45 +2137,45 @@ msgstr ""
 msgid "Document to open"
 msgstr "Документ, який слід відкрити"
 
-#: src/mainwindow.cpp:1682
+#: src/mainwindow.cpp:1690
 msgid "Don't recover"
 msgstr "Не відновлювати"
 
-#: src/mainwindow.cpp:952
+#: src/mainwindow.cpp:960
 msgid "Download New Project Profiles..."
 msgstr "Звантажити нові профілі проектів..."
 
-#: src/mainwindow.cpp:951
+#: src/mainwindow.cpp:959
 msgid "Download New Render Profiles..."
 msgstr "Звантажити нові профілі обробки..."
 
-#: src/mainwindow.cpp:953
+#: src/mainwindow.cpp:961
 msgid "Download New Title Templates..."
 msgstr "Звантажити нові шаблони титрів..."
 
-#: src/mainwindow.cpp:950
+#: src/mainwindow.cpp:958
 msgid "Download New Wipes..."
 msgstr "Звантажити нові ефекти витирання..."
 
-#: src/customtrackview.cpp:577
+#: src/customtrackview.cpp:573
 msgid "Drag to add or resize a fade effect."
 msgstr "Перетягніть, щоб додати або змінити тривалість ефекту згасання."
 
-#: rc.cpp:1114 rc.cpp:2698
+#: rc.cpp:1114 rc.cpp:2695
 msgid "Drop B frames on H.264 clips"
 msgstr "Викидати B-кадри з кліпів H.264"
 
 #: rc.cpp:80 rc.cpp:93 rc.cpp:103 rc.cpp:114 rc.cpp:714 rc.cpp:786 rc.cpp:795
-#: rc.cpp:835 rc.cpp:1210 rc.cpp:1650 rc.cpp:2277 rc.cpp:2298 rc.cpp:2370
-#: rc.cpp:2379 rc.cpp:2419 rc.cpp:2794 rc.cpp:3234 rc.cpp:3861
+#: rc.cpp:835 rc.cpp:1210 rc.cpp:1650 rc.cpp:2274 rc.cpp:2295 rc.cpp:2367
+#: rc.cpp:2376 rc.cpp:2416 rc.cpp:2791 rc.cpp:3231 rc.cpp:3855
 msgid "Duration"
 msgstr "Тривалість"
 
-#: rc.cpp:1920 rc.cpp:3504
+#: rc.cpp:1920 rc.cpp:3501
 msgid "Dvdauthor File"
 msgstr "Файл dvdauthor"
 
-#: rc.cpp:934 rc.cpp:1767 rc.cpp:2518 rc.cpp:3351
+#: rc.cpp:934 rc.cpp:1767 rc.cpp:2515 rc.cpp:3348
 msgid "E"
 msgstr "E"
 
@@ -2193,28 +2187,28 @@ msgstr "yurchor@ukr.net"
 msgid "Edges correction"
 msgstr "Виправлення країв"
 
-#: src/mainwindow.cpp:1343
+#: src/mainwindow.cpp:1351
 msgid "Edit Clip"
 msgstr "Змінити кліп"
 
-#: src/customtrackview.cpp:3443
+#: src/customtrackview.cpp:3441
 msgid "Edit Clip Speed"
 msgstr "Змінити швидкість кліпу"
 
-#: src/mainwindow.cpp:1131
+#: src/mainwindow.cpp:1139
 msgid "Edit Duration"
 msgstr "Змінити тривалість"
 
-#: src/customruler.cpp:79 src/mainwindow.cpp:1253 src/customtrackview.cpp:231
-#: src/customtrackview.cpp:4559 src/customtrackview.cpp:4571
+#: src/customruler.cpp:79 src/mainwindow.cpp:1261 src/customtrackview.cpp:231
+#: src/customtrackview.cpp:4557 src/customtrackview.cpp:4569
 msgid "Edit Guide"
 msgstr "Змінити напрямну"
 
-#: rc.cpp:2133 rc.cpp:3717
+#: rc.cpp:2130 rc.cpp:3711
 msgid "Edit Keyframe"
 msgstr "Змінити ключовий кадр"
 
-#: src/mainwindow.cpp:1195 src/mainwindow.cpp:2395 src/clipproperties.cpp:441
+#: src/mainwindow.cpp:1203 src/mainwindow.cpp:2406 src/clipproperties.cpp:441
 msgid "Edit Marker"
 msgstr "Змінити позначку"
 
@@ -2222,7 +2216,7 @@ msgstr "Змінити позначку"
 msgid "Edit Profile"
 msgstr "Змінити профіль"
 
-#: src/customtrackview.cpp:1227 src/editclipcommand.cpp:33
+#: src/customtrackview.cpp:1223 src/editclipcommand.cpp:33
 msgid "Edit clip"
 msgstr "Змінити кліп"
 
@@ -2230,7 +2224,7 @@ msgstr "Змінити кліп"
 msgid "Edit clip cut"
 msgstr "Зміна обрізання кліпу"
 
-#: src/mainwindow.cpp:2756
+#: src/mainwindow.cpp:2758
 msgid "Edit clips"
 msgstr "Змінити кліпи"
 
@@ -2238,7 +2232,7 @@ msgstr "Змінити кліпи"
 msgid "Edit effect %1"
 msgstr "Змінити ефект %1"
 
-#: rc.cpp:1282 rc.cpp:2866
+#: rc.cpp:1282 rc.cpp:2863
 msgid "Edit end"
 msgstr "Змінити кінець"
 
@@ -2258,7 +2252,7 @@ msgstr "Змінити позначку"
 msgid "Edit profile"
 msgstr "Змінити профіль"
 
-#: rc.cpp:1279 rc.cpp:2863
+#: rc.cpp:1279 rc.cpp:2860
 msgid "Edit start"
 msgstr "Змінити початок"
 
@@ -2266,11 +2260,11 @@ msgstr "Змінити початок"
 msgid "Edit transition %1"
 msgstr "Змінити перехід %1"
 
-#: rc.cpp:1246 rc.cpp:2830
+#: rc.cpp:1246 rc.cpp:2827
 msgid "Effect"
 msgstr "Ефект"
 
-#: src/trackview.cpp:690
+#: src/trackview.cpp:695
 msgid "Effect %1:%2 not found in MLT, it was removed from this project\n"
 msgstr "Ефект %1:%2 не знайдено у MLT, цей ефекти буде вилучено з проекту\n"
 
@@ -2282,11 +2276,11 @@ msgstr "Список ефектів"
 msgid "Effect Stack"
 msgstr "Стос ефектів"
 
-#: src/customtrackview.cpp:1562 src/customtrackview.cpp:1628
+#: src/customtrackview.cpp:1558 src/customtrackview.cpp:1624
 msgid "Effect already present in clip"
 msgstr "Вже додані до кліпу ефекти"
 
-#: src/mainwindow.cpp:2157
+#: src/mainwindow.cpp:2168
 msgctxt "effects and transitions keyboard shortcuts"
 msgid "Effects & Transitions"
 msgstr "Ефекти і переходи"
@@ -2317,7 +2311,7 @@ msgstr "Широкий пробіл (пробіл шириною у «m»)"
 msgid "En Space (width of an n)"
 msgstr "Звичайний пробіл (пробіл шириною у «n»)"
 
-#: rc.cpp:2223 rc.cpp:3807
+#: rc.cpp:2220 rc.cpp:3801
 msgid "Enable Jog Shuttle device"
 msgstr "Увімкнути пристрій «Ручка керування»"
 
@@ -2333,12 +2327,12 @@ msgstr "Увімкнути/Вимкнути всі ефекти"
 msgid "Encoding captured video..."
 msgstr "Кодування захопленого відео..."
 
-#: rc.cpp:1420 rc.cpp:3004
+#: rc.cpp:1420 rc.cpp:3001
 msgid "Encoding params"
 msgstr "Параметри кодування"
 
-#: src/renderwidget.cpp:290 src/titlewidget.cpp:2052 rc.cpp:86 rc.cpp:120
-#: rc.cpp:2286 rc.cpp:3870
+#: src/renderwidget.cpp:290 src/titlewidget.cpp:2053 rc.cpp:86 rc.cpp:120
+#: rc.cpp:2283 rc.cpp:3864
 msgid "End"
 msgstr "Кінець"
 
@@ -2350,7 +2344,7 @@ msgstr "Кінцеве підсилення"
 msgid "Enter Template Path"
 msgstr "Введіть шлях до шаблонів"
 
-#: rc.cpp:1619 rc.cpp:3203
+#: rc.cpp:1619 rc.cpp:3200
 msgid "Enter Unicode value"
 msgstr "Введіть значення Unicode"
 
@@ -2372,12 +2366,12 @@ msgstr "Середовище"
 msgid "Equalizer"
 msgstr "Еквалайзер"
 
-#: rc.cpp:1848 rc.cpp:3432
+#: rc.cpp:1848 rc.cpp:3429
 msgid "Error Log"
 msgstr "Журнал помилок"
 
-#: src/customtrackview.cpp:1866 src/customtrackview.cpp:3110
-#: src/customtrackview.cpp:3319
+#: src/customtrackview.cpp:1862 src/customtrackview.cpp:3106
+#: src/customtrackview.cpp:3317
 msgid "Error removing clip at %1 on track %2"
 msgstr "Помилка під час спроби вилучення кліпу на позиції %1 доріжки %2"
 
@@ -2391,9 +2385,9 @@ msgid "Error starting MLT's command line player (melt)."
 msgstr ""
 "Помилка під час спроби запуску програвача MLT для командного рядка (melt)."
 
-#: src/customtrackview.cpp:1891 src/customtrackview.cpp:3963
-#: src/customtrackview.cpp:3971 src/customtrackview.cpp:4073
-#: src/customtrackview.cpp:4179
+#: src/customtrackview.cpp:1887 src/customtrackview.cpp:3961
+#: src/customtrackview.cpp:3969 src/customtrackview.cpp:4071
+#: src/customtrackview.cpp:4177
 msgid "Error when resizing clip"
 msgstr "Помилка під час спроби зміни розмірів кліпу"
 
@@ -2409,15 +2403,15 @@ msgstr "Оцінка часу: %1"
 msgid "Existing Profile"
 msgstr "Існуючий профіль"
 
-#: rc.cpp:1788 rc.cpp:3372
+#: rc.cpp:1788 rc.cpp:3369
 msgid "Export audio"
 msgstr "Експортувати звук"
 
-#: rc.cpp:1414 rc.cpp:1935 rc.cpp:2998 rc.cpp:3519
+#: rc.cpp:1414 rc.cpp:1935 rc.cpp:2995 rc.cpp:3516
 msgid "Extension"
 msgstr "Суфікс назви"
 
-#: rc.cpp:3876
+#: rc.cpp:3870
 msgid "Extra Toolbar"
 msgstr "Додаткова панель"
 
@@ -2429,7 +2423,7 @@ msgstr "Видобути кадр"
 msgid "FFmpeg & ffplay"
 msgstr "FFmpeg & ffplay"
 
-#: rc.cpp:1078 rc.cpp:2172 rc.cpp:2662 rc.cpp:3756
+#: rc.cpp:1078 rc.cpp:2169 rc.cpp:2659 rc.cpp:3750
 msgid "FFmpeg parameters"
 msgstr "Параметри FFmpeg"
 
@@ -2497,7 +2491,7 @@ msgstr ""
 "Пробіл у рисунках (нерозривний). Пробіл з шириною, рівною ширині цифри, якщо "
 "б всі цифри поточного шрифту мали однакову ширину."
 
-#: src/renderwidget.cpp:171 rc.cpp:711 rc.cpp:2295
+#: src/renderwidget.cpp:171 rc.cpp:711 rc.cpp:2292
 msgid "File"
 msgstr "Файл"
 
@@ -2517,11 +2511,11 @@ msgstr "Файл %1 не є файлом проекту Kdenlive"
 msgid "File %1 is not a Kdenlive project file."
 msgstr "Файл %1 не є файлом проекту Kdenlive."
 
-#: src/mainwindow.cpp:1681
+#: src/mainwindow.cpp:1689
 msgid "File Recovery"
 msgstr "Відновлення файлів"
 
-#: src/effectstackview.cpp:119 src/mainwindow.cpp:1617
+#: src/effectstackview.cpp:119 src/mainwindow.cpp:1625
 msgid ""
 "File already exists.\n"
 "Do you want to overwrite it?"
@@ -2533,7 +2527,7 @@ msgstr ""
 msgid "File has no extension. Add extension (%1)?"
 msgstr "У назві файла не вказано суфікса. Додати суфікс (%1)?"
 
-#: rc.cpp:2184 rc.cpp:3768
+#: rc.cpp:2181 rc.cpp:3762
 msgid "File name"
 msgstr "Назва файла"
 
@@ -2545,7 +2539,7 @@ msgstr "Файл не знайдено"
 msgid "File rendering"
 msgstr "Обробка файла"
 
-#: rc.cpp:844 rc.cpp:2428
+#: rc.cpp:844 rc.cpp:2425
 msgid "File size"
 msgstr "Розмір файла"
 
@@ -2553,7 +2547,7 @@ msgstr "Розмір файла"
 msgid "Fill"
 msgstr "Заповнити"
 
-#: rc.cpp:1150 rc.cpp:2734
+#: rc.cpp:1150 rc.cpp:2731
 msgid "Fill color"
 msgstr "Заповнення кольором"
 
@@ -2561,19 +2555,19 @@ msgstr "Заповнення кольором"
 msgid "Fill opacity"
 msgstr "Непрозорість заповнення"
 
-#: src/mainwindow.cpp:935
+#: src/mainwindow.cpp:943
 msgid "Find"
 msgstr "Знайти"
 
-#: src/mainwindow.cpp:940
+#: src/mainwindow.cpp:948
 msgid "Find Next"
 msgstr "Знайти далі"
 
-#: src/mainwindow.cpp:2920
+#: src/mainwindow.cpp:2936
 msgid "Find stopped"
 msgstr "Пошук зупинено"
 
-#: rc.cpp:1336 rc.cpp:1345 rc.cpp:1504 rc.cpp:2920 rc.cpp:2929 rc.cpp:3088
+#: rc.cpp:1336 rc.cpp:1345 rc.cpp:1504 rc.cpp:2917 rc.cpp:2926 rc.cpp:3085
 msgid "Firewire"
 msgstr "Firewire"
 
@@ -2589,7 +2583,7 @@ msgstr ""
 msgid "Fit zoom"
 msgstr "Підбір масштабу"
 
-#: src/mainwindow.cpp:814
+#: src/mainwindow.cpp:822
 msgid "Fit zoom to project"
 msgstr "Масштабування за проектом"
 
@@ -2622,7 +2616,7 @@ msgid "Flip your image in any direction"
 msgstr "Віддзеркалення ваших зображень у будь-якому напрямку"
 
 #: src/folderprojectitem.cpp:37 src/projectlist.cpp:823
-#: src/projectlist.cpp:903 rc.cpp:2049 rc.cpp:3633
+#: src/projectlist.cpp:903 rc.cpp:2049 rc.cpp:3630
 msgid "Folder"
 msgstr "Тека"
 
@@ -2630,11 +2624,11 @@ msgstr "Тека"
 msgid "Folder %1 already exists. Overwrite?\n"
 msgstr "Тека з назвою %1 вже існує. Перезаписати?\n"
 
-#: rc.cpp:1471 rc.cpp:3055
+#: rc.cpp:1471 rc.cpp:3052
 msgid "Follow mouse"
 msgstr "Слідування за мишею"
 
-#: rc.cpp:1018 rc.cpp:1159 rc.cpp:2602 rc.cpp:2743
+#: rc.cpp:1018 rc.cpp:1159 rc.cpp:2599 rc.cpp:2740
 msgid "Font"
 msgstr "Шрифт"
 
@@ -2646,7 +2640,7 @@ msgstr "Непрозорість кольору шрифту"
 msgid "Font weight"
 msgstr "Жирність шрифту"
 
-#: rc.cpp:1737 rc.cpp:3321
+#: rc.cpp:1737 rc.cpp:3318
 msgid "Fonts"
 msgstr "Шрифти"
 
@@ -2654,11 +2648,11 @@ msgstr "Шрифти"
 msgid "Force Deinterlace Overlay"
 msgstr "Примусове накладання черезрядковості"
 
-#: rc.cpp:1785 rc.cpp:3369
+#: rc.cpp:1785 rc.cpp:3366
 msgid "Force Interlaced"
 msgstr "Примусова черезрядковість"
 
-#: rc.cpp:1782 rc.cpp:3366
+#: rc.cpp:1782 rc.cpp:3363
 msgid "Force Progressive"
 msgstr "Примусова прогресивність"
 
@@ -2666,44 +2660,44 @@ msgstr "Примусова прогресивність"
 msgid "Force Progressive Rendering"
 msgstr "Примусова обробка з прогресивністю"
 
-#: rc.cpp:970 rc.cpp:2554
+#: rc.cpp:970 rc.cpp:2551
 msgid "Force duration"
 msgstr "Примусова тривалість"
 
-#: rc.cpp:967 rc.cpp:2551
+#: rc.cpp:967 rc.cpp:2548
 msgid "Force frame rate"
 msgstr "Примусова кадрів"
 
-#: rc.cpp:952 rc.cpp:2536
+#: rc.cpp:952 rc.cpp:2533
 msgid "Force pixel aspect ratio"
 msgstr "Примусове співвідношення розмірів пікселя"
 
-#: rc.cpp:964 rc.cpp:2548
+#: rc.cpp:964 rc.cpp:2545
 msgid "Force progressive"
 msgstr "Примусова прогресивність"
 
-#: rc.cpp:1638 rc.cpp:3222
+#: rc.cpp:1638 rc.cpp:3219
 msgid "Form"
 msgstr "Форма"
 
-#: rc.cpp:1384 rc.cpp:1402 rc.cpp:1411 rc.cpp:1755 rc.cpp:2968 rc.cpp:2986
-#: rc.cpp:2995 rc.cpp:3339
+#: rc.cpp:1384 rc.cpp:1402 rc.cpp:1411 rc.cpp:1755 rc.cpp:2965 rc.cpp:2983
+#: rc.cpp:2992 rc.cpp:3336
 msgid "Format"
 msgstr "Формат"
 
-#: rc.cpp:817 rc.cpp:2401
+#: rc.cpp:817 rc.cpp:2398
 msgid "Formats"
 msgstr "Формати"
 
-#: src/recmonitor.cpp:81 src/mainwindow.cpp:1053 src/monitor.cpp:90
+#: src/recmonitor.cpp:81 src/mainwindow.cpp:1061 src/monitor.cpp:90
 msgid "Forward"
 msgstr "Вперед"
 
-#: src/mainwindow.cpp:1088
+#: src/mainwindow.cpp:1096
 msgid "Forward 1 Frame"
 msgstr "Вперед на 1 кадр"
 
-#: src/mainwindow.cpp:1093
+#: src/mainwindow.cpp:1101
 msgid "Forward 1 Second"
 msgstr "Вперед на 1 секунду"
 
@@ -2711,7 +2705,7 @@ msgstr "Вперед на 1 секунду"
 msgid "Forward 1 frame"
 msgstr "Вперед на 1 кадр"
 
-#: src/mainwindow.cpp:2897 src/mainwindow.cpp:2908
+#: src/mainwindow.cpp:2914 src/mainwindow.cpp:2924
 msgid "Found: %1"
 msgstr "Знайдено: %1"
 
@@ -2723,24 +2717,24 @@ msgstr "Чотириточковий рушій зміни геометрії"
 msgid "Four-Per-Em Space. Width: 1/4 of one <em>em</em>"
 msgstr "Чвертина широкого пробілу. Ширина: 1/4 ширини <em>em</em>"
 
-#: rc.cpp:2052 rc.cpp:3636
+#: rc.cpp:2052 rc.cpp:3633
 msgid "Frame Duration"
 msgstr "Тривалість кадру"
 
-#: rc.cpp:889 rc.cpp:2473
+#: rc.cpp:889 rc.cpp:2470
 msgid "Frame duration"
 msgstr "Тривалість кадру"
 
-#: rc.cpp:753 rc.cpp:859 rc.cpp:1390 rc.cpp:1486 rc.cpp:2337 rc.cpp:2443
-#: rc.cpp:2974 rc.cpp:3070
+#: rc.cpp:753 rc.cpp:859 rc.cpp:1390 rc.cpp:1486 rc.cpp:2334 rc.cpp:2440
+#: rc.cpp:2971 rc.cpp:3067
 msgid "Frame rate"
 msgstr "Частота кадрів"
 
-#: src/wizard.cpp:493 rc.cpp:1677 rc.cpp:1986 rc.cpp:3261 rc.cpp:3570
+#: src/wizard.cpp:493 rc.cpp:1677 rc.cpp:1986 rc.cpp:3258 rc.cpp:3567
 msgid "Frame rate:"
 msgstr "Частота кадрів:"
 
-#: rc.cpp:856 rc.cpp:2440
+#: rc.cpp:856 rc.cpp:2437
 msgid "Frame size"
 msgstr "Розміри кадру"
 
@@ -2752,7 +2746,7 @@ msgstr "Розмір кадру:"
 msgid "Framebuffer console"
 msgstr "Консоль буфера кадрів"
 
-#: src/slideshowclip.cpp:70 src/mainwindow.cpp:711 src/clipproperties.cpp:190
+#: src/slideshowclip.cpp:70 src/mainwindow.cpp:719 src/clipproperties.cpp:190
 msgid "Frames"
 msgstr "Кадри"
 
@@ -2780,23 +2774,23 @@ msgstr "Зупинити у"
 msgid "Freeze video on a chosen frame"
 msgstr "Зупинити відео на обраному кадрі"
 
-#: rc.cpp:249 rc.cpp:563 rc.cpp:874 rc.cpp:2458
+#: rc.cpp:249 rc.cpp:563 rc.cpp:874 rc.cpp:2455
 msgid "Frequency"
 msgstr "Частота"
 
-#: rc.cpp:1824 rc.cpp:3408
+#: rc.cpp:1824 rc.cpp:3405
 msgid "From"
 msgstr "Від"
 
-#: rc.cpp:1815 rc.cpp:3399
+#: rc.cpp:1815 rc.cpp:3396
 msgid "Full project"
 msgstr "Цілий проект"
 
-#: rc.cpp:1465 rc.cpp:3049
+#: rc.cpp:1465 rc.cpp:3046
 msgid "Full screen capture"
 msgstr "Захоплення всього екрана"
 
-#: rc.cpp:1495 rc.cpp:3079
+#: rc.cpp:1495 rc.cpp:3076
 msgid "Full shots"
 msgstr "Ціла картинка"
 
@@ -2825,7 +2819,7 @@ msgstr "Вихідне підсилення"
 msgid "Gamma"
 msgstr "Коефіцієнт контрастності"
 
-#: src/mainwindow.cpp:2156
+#: src/mainwindow.cpp:2167
 msgctxt "general keyboard shortcuts"
 msgid "General"
 msgstr "Загальні"
@@ -2834,11 +2828,11 @@ msgstr "Загальні"
 msgid "General graphics interface"
 msgstr "Загальний графічний інтерфейс"
 
-#: rc.cpp:1833 rc.cpp:3417
+#: rc.cpp:1833 rc.cpp:3414
 msgid "Generate Script"
 msgstr "Створити скрипт"
 
-#: rc.cpp:3885
+#: rc.cpp:3879
 msgid "Generators"
 msgstr "Засоби створення"
 
@@ -2851,39 +2845,39 @@ msgstr "Позиція і розміри"
 msgid "Glow"
 msgstr "Сяйво"
 
-#: src/customruler.cpp:85 rc.cpp:3930
+#: src/customruler.cpp:85 rc.cpp:3924
 msgid "Go To"
 msgstr "Перейти"
 
-#: src/mainwindow.cpp:1063
+#: src/mainwindow.cpp:1071
 msgid "Go to Clip End"
 msgstr "Перейти до кінця кліпу"
 
-#: src/mainwindow.cpp:1058
+#: src/mainwindow.cpp:1066
 msgid "Go to Clip Start"
 msgstr "Перейти до початку кліпу"
 
-#: src/mainwindow.cpp:1098
+#: src/mainwindow.cpp:1106
 msgid "Go to Next Snap Point"
 msgstr "Перейти до наступної точки прив’язки"
 
-#: src/mainwindow.cpp:1048
+#: src/mainwindow.cpp:1056
 msgid "Go to Previous Snap Point"
 msgstr "Перейти до попередньої точки прив’язки"
 
-#: src/mainwindow.cpp:1083
+#: src/mainwindow.cpp:1091
 msgid "Go to Project End"
 msgstr "Перейти до кінця проекту"
 
-#: src/mainwindow.cpp:1078
+#: src/mainwindow.cpp:1086
 msgid "Go to Project Start"
 msgstr "Перейти до початку проекту"
 
-#: src/mainwindow.cpp:1073
+#: src/mainwindow.cpp:1081
 msgid "Go to Zone End"
 msgstr "Перейти до кінця ділянки"
 
-#: src/mainwindow.cpp:1068
+#: src/mainwindow.cpp:1076
 msgid "Go to Zone Start"
 msgstr "Перейти до початку ділянки"
 
@@ -2903,7 +2897,7 @@ msgstr "Перейти до попереднього ключового кадр
 msgid "Graph position"
 msgstr "Позиція на графіку"
 
-#: rc.cpp:2121 rc.cpp:3705
+#: rc.cpp:2121 rc.cpp:3702
 msgid "GraphView"
 msgstr "GraphView"
 
@@ -2919,11 +2913,11 @@ msgstr "Відтінок зеленого"
 msgid "Greyscale"
 msgstr "Градації сірого"
 
-#: rc.cpp:1929 rc.cpp:3513
+#: rc.cpp:1929 rc.cpp:3510
 msgid "Group"
 msgstr "Згрупувати"
 
-#: src/mainwindow.cpp:1120
+#: src/mainwindow.cpp:1128
 msgid "Group Clips"
 msgstr "Згрупувати кліпи"
 
@@ -2931,27 +2925,27 @@ msgstr "Згрупувати кліпи"
 msgid "Group clips"
 msgstr "Згрупувати кліпи"
 
-#: rc.cpp:1941 rc.cpp:3525
+#: rc.cpp:1941 rc.cpp:3522
 msgid "GroupBox"
 msgstr "GroupBox"
 
-#: src/customtrackview.cpp:4532
+#: src/customtrackview.cpp:4530
 msgid "Guide"
 msgstr "Напрямна"
 
-#: rc.cpp:1821 rc.cpp:3405
+#: rc.cpp:1821 rc.cpp:3402
 msgid "Guide zone"
 msgstr "Ділянка напрямної"
 
-#: rc.cpp:3912
+#: rc.cpp:3906
 msgid "Guides"
 msgstr "Напрямні"
 
-#: rc.cpp:1129 rc.cpp:2713
+#: rc.cpp:1129 rc.cpp:2710
 msgid "H"
 msgstr "H"
 
-#: rc.cpp:1360 rc.cpp:2091 rc.cpp:2944 rc.cpp:3675
+#: rc.cpp:1360 rc.cpp:2091 rc.cpp:2941 rc.cpp:3672
 msgid "HDV"
 msgstr "HDV"
 
@@ -2959,7 +2953,7 @@ msgstr "HDV"
 msgid "Hair Space. Thinner than U+2009."
 msgstr "Пробіл у волосину. Тонший за U+2009."
 
-#: rc.cpp:1588 rc.cpp:3172
+#: rc.cpp:1588 rc.cpp:3169
 msgid "Height"
 msgstr "Висота"
 
@@ -2979,15 +2973,15 @@ msgstr "Приховати область кліпу"
 msgid "Hide a selected zone and follow its movements"
 msgstr "Приховати позначену ділянку зі збереженням слідкування за пересуванням"
 
-#: rc.cpp:1477 rc.cpp:3061
+#: rc.cpp:1477 rc.cpp:3058
 msgid "Hide cursor"
 msgstr "Приховати курсор"
 
-#: rc.cpp:1474 rc.cpp:3058
+#: rc.cpp:1474 rc.cpp:3055
 msgid "Hide frame"
 msgstr "Приховати кадр"
 
-#: src/headertrack.cpp:49
+#: src/headertrack.cpp:51
 msgid "Hide track"
 msgstr "Приховати доріжку"
 
@@ -3019,7 +3013,7 @@ msgstr "Відтінок"
 msgid "Hueshift0r"
 msgstr "Hueshift0r"
 
-#: rc.cpp:1201 rc.cpp:1752 rc.cpp:2785 rc.cpp:3336
+#: rc.cpp:1201 rc.cpp:1752 rc.cpp:2782 rc.cpp:3333
 msgid "I"
 msgstr "I"
 
@@ -3027,7 +3021,7 @@ msgstr "I"
 msgid "ISO creation process crashed."
 msgstr "Процес створення ISO завершився аварійно."
 
-#: rc.cpp:913 rc.cpp:1036 rc.cpp:2497 rc.cpp:2620
+#: rc.cpp:913 rc.cpp:1036 rc.cpp:2494 rc.cpp:2617
 msgid "Image"
 msgstr "Зображення"
 
@@ -3035,7 +3029,7 @@ msgstr "Зображення"
 msgid "Image File"
 msgstr "Файл зображення"
 
-#: rc.cpp:2058 rc.cpp:3642
+#: rc.cpp:2058 rc.cpp:3639
 msgid "Image Type"
 msgstr "Тип зображення"
 
@@ -3043,11 +3037,11 @@ msgstr "Тип зображення"
 msgid "Image clip"
 msgstr "Кліп-зображення"
 
-#: rc.cpp:1962 rc.cpp:3546
+#: rc.cpp:1962 rc.cpp:3543
 msgid "Image clips"
 msgstr "Кліпи-зображення"
 
-#: rc.cpp:1540 rc.cpp:3124
+#: rc.cpp:1540 rc.cpp:3121
 msgid "Image editing"
 msgstr "Редагування зображення"
 
@@ -3055,15 +3049,15 @@ msgstr "Редагування зображення"
 msgid "Image file %1 already exists. Overwrite?"
 msgstr "Файл зображення з назвою %1 вже існує. Перезаписати?"
 
-#: rc.cpp:847 rc.cpp:1063 rc.cpp:2431 rc.cpp:2647
+#: rc.cpp:847 rc.cpp:1063 rc.cpp:2428 rc.cpp:2644
 msgid "Image preview"
 msgstr "Перегляд зображення"
 
-#: rc.cpp:916 rc.cpp:1387 rc.cpp:2500 rc.cpp:2971
+#: rc.cpp:916 rc.cpp:1387 rc.cpp:2497 rc.cpp:2968
 msgid "Image size"
 msgstr "Розмір зображення"
 
-#: rc.cpp:886 rc.cpp:2470
+#: rc.cpp:886 rc.cpp:2467
 msgid "Image type"
 msgstr "Тип зображення"
 
@@ -3099,19 +3093,19 @@ msgstr "Вхідне підсилення (у дБ)"
 msgid "Input white level"
 msgstr "Вхідний рівень білого"
 
-#: src/mainwindow.cpp:1143
+#: src/mainwindow.cpp:1151
 msgid "Insert Clip Zone in Timeline (Overwrite)"
 msgstr "Вставити ділянку кліпу до лінійки запису"
 
-#: src/customtrackview.cpp:5185
+#: src/customtrackview.cpp:5181
 msgid "Insert New Track"
 msgstr "Вставити нову доріжку"
 
-#: src/mainwindow.cpp:1225
+#: src/mainwindow.cpp:1233
 msgid "Insert Space"
 msgstr "Вставити пробіл"
 
-#: src/mainwindow.cpp:1233 src/headertrack.cpp:93
+#: src/mainwindow.cpp:1241 src/headertrack.cpp:95
 msgid "Insert Track"
 msgstr "Вставити доріжку"
 
@@ -3119,11 +3113,11 @@ msgstr "Вставити доріжку"
 msgid "Insert Unicode character"
 msgstr "Вставити символ Unicode"
 
-#: src/customtrackview.cpp:5861
+#: src/customtrackview.cpp:5851
 msgid "Insert clip"
 msgstr "Вставити кліп"
 
-#: src/mainwindow.cpp:740
+#: src/mainwindow.cpp:748
 msgid "Insert mode"
 msgstr "Режим вставки"
 
@@ -3131,27 +3125,27 @@ msgstr "Режим вставки"
 msgid "Insert space"
 msgstr "Вставити пробіл"
 
-#: src/customtrackview.cpp:5182 rc.cpp:991 rc.cpp:2575
+#: src/customtrackview.cpp:5180 rc.cpp:991 rc.cpp:2572
 msgid "Insert track"
 msgstr "Вставити доріжку"
 
-#: src/mainwindow.cpp:1014
+#: src/mainwindow.cpp:1022
 msgid "Insert zone in project tree"
 msgstr "Вставити ділянку до дерева проекту"
 
-#: src/mainwindow.cpp:1019
+#: src/mainwindow.cpp:1027
 msgid "Insert zone in timeline"
 msgstr "Вставити ділянку до лінійки запису"
 
-#: rc.cpp:3909
+#: rc.cpp:3903
 msgid "Insertion"
 msgstr "Вставка"
 
-#: rc.cpp:2220 rc.cpp:3804
+#: rc.cpp:2217 rc.cpp:3798
 msgid "Install extra video mimetypes"
 msgstr "Встановити додаткові типи MIME відео"
 
-#: rc.cpp:807 rc.cpp:2391
+#: rc.cpp:807 rc.cpp:2388
 msgid "Installed modules"
 msgstr "Встановлені модулі"
 
@@ -3160,7 +3154,7 @@ msgid "Intensity"
 msgstr "Інтенсивність"
 
 #: src/kdenlivesettingsdialog.cpp:509 src/projectsettings.cpp:198 rc.cpp:1695
-#: rc.cpp:2004 rc.cpp:3279 rc.cpp:3588
+#: rc.cpp:2004 rc.cpp:3276 rc.cpp:3585
 msgid "Interlaced"
 msgstr "Черезрядкове"
 
@@ -3168,23 +3162,23 @@ msgstr "Черезрядкове"
 msgid "Interpolator"
 msgstr "Інтерполятор"
 
-#: rc.cpp:708 rc.cpp:2292
+#: rc.cpp:708 rc.cpp:2289
 msgid "Intro movie"
 msgstr "Вступне відео"
 
-#: src/customtrackview.cpp:3478 src/projectlist.cpp:1115
+#: src/customtrackview.cpp:3476 src/projectlist.cpp:1115
 msgid "Invalid clip"
 msgstr "Некоректний кліп"
 
-#: src/trackview.cpp:221
+#: src/trackview.cpp:222
 msgid "Invalid clip producer %1\n"
 msgstr "Некоректний інструмент створення кліпу %1\n"
 
-#: src/trackview.cpp:576
+#: src/trackview.cpp:581
 msgid "Invalid clip removed from track %1 at %2\n"
 msgstr "Некоректний кліп було вилучено з доріжки %1 у позиції %2\n"
 
-#: src/customtrackview.cpp:1996 src/customtrackview.cpp:4931
+#: src/customtrackview.cpp:1992 src/customtrackview.cpp:4928
 msgid "Invalid transition"
 msgstr "Некоректний перехід"
 
@@ -3205,15 +3199,15 @@ msgstr "Змінити напрямок і точку відліку вісі x"
 msgid "Invert y axis and change 0 point"
 msgstr "Змінити напрямок і точку відліку вісі y"
 
-#: rc.cpp:1147 rc.cpp:2731
+#: rc.cpp:1147 rc.cpp:2728
 msgid "Item Properties"
 msgstr "Властивості елемента"
 
-#: src/customtrackview.cpp:1251
+#: src/customtrackview.cpp:1247
 msgid "Item is locked"
 msgstr "Об’єкт заблоковано"
 
-#: rc.cpp:1456 rc.cpp:3040
+#: rc.cpp:1456 rc.cpp:3037
 msgid "Jack"
 msgstr "Jack"
 
@@ -3229,15 +3223,15 @@ msgstr "Jean-Baptiste Mardelle"
 msgid "Jean-Michel Poure"
 msgstr "Jean-Michel Poure"
 
-#: rc.cpp:1839 rc.cpp:3423
+#: rc.cpp:1839 rc.cpp:3420
 msgid "Job Queue"
 msgstr "Черга завдань"
 
-#: rc.cpp:1081 rc.cpp:2665
+#: rc.cpp:1081 rc.cpp:2662
 msgid "Job status"
 msgstr "Стан завдання"
 
-#: rc.cpp:2226 rc.cpp:3810
+#: rc.cpp:2223 rc.cpp:3804
 msgid "Jog Shuttle device disabled."
 msgstr "Пристрій «Ручка керування» вимкнено."
 
@@ -3253,7 +3247,7 @@ msgstr "Kdenlive"
 msgid "Keep as placeholder"
 msgstr "Зберегти як заповнювач"
 
-#: rc.cpp:1300 rc.cpp:2884
+#: rc.cpp:1300 rc.cpp:2881
 msgid "Keep aspect ratio"
 msgstr "Зберігати співвідношення"
 
@@ -3338,7 +3332,7 @@ msgstr "Завантажити"
 msgid "Load Image"
 msgstr "Завантажити зображення"
 
-#: src/titlewidget.cpp:1745
+#: src/titlewidget.cpp:1746
 msgid "Load Title"
 msgstr "Завантажити титри"
 
@@ -3354,7 +3348,7 @@ msgstr "Завантаження кліпів"
 msgid "Loading thumbnails"
 msgstr "Завантаження мініатюр"
 
-#: src/headertrack.cpp:53 src/locktrackcommand.cpp:31
+#: src/headertrack.cpp:55 src/locktrackcommand.cpp:31
 msgid "Lock track"
 msgstr "Заблокувати доріжку"
 
@@ -3362,7 +3356,7 @@ msgstr "Заблокувати доріжку"
 msgid "Locked"
 msgstr "Заблоковано"
 
-#: rc.cpp:1905 rc.cpp:3489
+#: rc.cpp:1905 rc.cpp:3486
 msgid "Log"
 msgstr "Журнал"
 
@@ -3370,11 +3364,11 @@ msgstr "Журнал"
 msgid "Looking for %1"
 msgstr "Пошук %1"
 
-#: rc.cpp:895 rc.cpp:1042 rc.cpp:2061 rc.cpp:2479 rc.cpp:2626 rc.cpp:3645
+#: rc.cpp:895 rc.cpp:1042 rc.cpp:2061 rc.cpp:2476 rc.cpp:2623 rc.cpp:3642
 msgid "Loop"
 msgstr "Зациклити"
 
-#: src/mainwindow.cpp:985
+#: src/mainwindow.cpp:993
 msgid "Loop Zone"
 msgstr "Циклічне відтворення ділянки"
 
@@ -3394,7 +3388,7 @@ msgstr "Опустити об’єкт на задній план"
 msgid "Luma file"
 msgstr "Файл сигналу яскравості"
 
-#: rc.cpp:1558 rc.cpp:3142
+#: rc.cpp:1558 rc.cpp:3139
 msgid "M"
 msgstr "M"
 
@@ -3403,11 +3397,11 @@ msgid "MLT and KDE SC 4 porting, main developer and maintainer"
 msgstr ""
 "Портування на MLT, портування на KDE SC 4, основний розробник і супровідник"
 
-#: rc.cpp:1516 rc.cpp:3100
+#: rc.cpp:1516 rc.cpp:3097
 msgid "MLT environment"
 msgstr "Середовище MLT"
 
-#: rc.cpp:1519 rc.cpp:3103
+#: rc.cpp:1519 rc.cpp:3100
 msgid "MLT profiles folder"
 msgstr "Тека профілів MLT"
 
@@ -3454,7 +3448,7 @@ msgstr "Зробити позначений колір прозорим"
 msgid "Make waves on your clip with keyframes"
 msgstr "Створення хвиль на зображенні на основі ключових кадрів"
 
-#: src/mainwindow.cpp:946
+#: src/mainwindow.cpp:954
 msgid "Manage Project Profiles"
 msgstr "Керування профілями проектів"
 
@@ -3484,12 +3478,12 @@ msgstr ""
 msgid "Marco Gittler"
 msgstr "Marco Gittler"
 
-#: src/mainwindow.cpp:2309 src/definitions.h:153 src/clipproperties.cpp:428
-#: src/docclipbase.cpp:360 rc.cpp:1057 rc.cpp:2641
+#: src/mainwindow.cpp:2321 src/definitions.h:153 src/clipproperties.cpp:428
+#: src/docclipbase.cpp:360 rc.cpp:1057 rc.cpp:2638
 msgid "Marker"
 msgstr "Позначка"
 
-#: rc.cpp:922 rc.cpp:2506 rc.cpp:3900
+#: rc.cpp:922 rc.cpp:2503 rc.cpp:3894
 msgid "Markers"
 msgstr "Позначки"
 
@@ -3501,11 +3495,11 @@ msgstr "Програвачі мультимедійних даних"
 msgid "Melt"
 msgstr "Melt"
 
-#: rc.cpp:1522 rc.cpp:3106
+#: rc.cpp:1522 rc.cpp:3103
 msgid "Melt path"
 msgstr "Шлях до Melt"
 
-#: rc.cpp:1917 rc.cpp:3501
+#: rc.cpp:1917 rc.cpp:3498
 msgid "Menu File"
 msgstr "Файл меню"
 
@@ -3513,7 +3507,7 @@ msgstr "Файл меню"
 msgid "Menu job timed out"
 msgstr "Перевищено час очікування завершення завдання з меню"
 
-#: rc.cpp:940 rc.cpp:2524
+#: rc.cpp:940 rc.cpp:2521
 msgid "Metadata"
 msgstr "Метадані"
 
@@ -3533,7 +3527,7 @@ msgstr "Віддзеркалити"
 msgid "Mirroring direction"
 msgstr "Напрям віддзеркалення"
 
-#: src/effectslistwidget.cpp:109 src/kdenlivesettingsdialog.cpp:52
+#: src/effectslistwidget.cpp:122 src/kdenlivesettingsdialog.cpp:52
 msgid "Misc"
 msgstr "Інше"
 
@@ -3553,7 +3547,7 @@ msgstr "Не вказано профілю профіль"
 msgid "Missing background image"
 msgstr "Не вказано зображення тла"
 
-#: rc.cpp:2025 rc.cpp:3609
+#: rc.cpp:2025 rc.cpp:3606
 msgid "Missing clips"
 msgstr "Не вказано кліпів"
 
@@ -3569,15 +3563,15 @@ msgstr "Мобільні пристрої"
 msgid "Mode"
 msgstr "Режим"
 
-#: rc.cpp:3927
+#: rc.cpp:3921
 msgid "Monitor"
 msgstr "Монітор"
 
-#: rc.cpp:1111 rc.cpp:2695
+#: rc.cpp:1111 rc.cpp:2692
 msgid "Monitor Preview Speedup Settings"
 msgstr "Параметри пришвидшення монітора попереднього перегляду"
 
-#: rc.cpp:1108 rc.cpp:2692
+#: rc.cpp:1108 rc.cpp:2689
 msgid "Monitor background color (requires restart)"
 msgstr "Колір тла монітора (потрібен перезапуск)"
 
@@ -3601,7 +3595,7 @@ msgstr "Пересунути доріжку вниз"
 msgid "Move Track upwards"
 msgstr "Пересунути доріжку вище"
 
-#: src/moveclipcommand.cpp:33 src/customtrackview.cpp:2945
+#: src/moveclipcommand.cpp:33 src/customtrackview.cpp:2941
 msgid "Move clip"
 msgstr "Пересунути кліп"
 
@@ -3617,7 +3611,7 @@ msgstr "Пересунути ефект вниз"
 msgid "Move effect up"
 msgstr "Пересунути ефект вгору"
 
-#: src/movegroupcommand.cpp:35 src/customtrackview.cpp:3091
+#: src/movegroupcommand.cpp:35 src/customtrackview.cpp:3087
 msgid "Move group"
 msgstr "Пересунути групу"
 
@@ -3625,7 +3619,7 @@ msgstr "Пересунути групу"
 msgid "Move guide"
 msgstr "Пересунути напрямну"
 
-#: src/customtrackview.cpp:583
+#: src/customtrackview.cpp:579
 msgid ""
 "Move keyframe above or below clip to remove it, double click to add a new "
 "one."
@@ -3633,11 +3627,11 @@ msgstr ""
 "Пересуньте ключовий кадр у область над або під кліпом, щоб вилучити його. "
 "Двічі клацніть лівою кнопкою миші, щоб додати ключовий кадр."
 
-#: src/movetransitioncommand.cpp:30 src/customtrackview.cpp:3072
+#: src/movetransitioncommand.cpp:30 src/customtrackview.cpp:3068
 msgid "Move transition"
 msgstr "Пересунути перехід"
 
-#: rc.cpp:2259 rc.cpp:3843
+#: rc.cpp:2256 rc.cpp:3837
 msgid "Movie file"
 msgstr "Відеофайл"
 
@@ -3649,7 +3643,7 @@ msgstr "Вимкнути звук"
 msgid "Mute clip"
 msgstr "Вимкнути звук у кліпі"
 
-#: src/headertrack.cpp:51
+#: src/headertrack.cpp:53
 msgid "Mute track"
 msgstr "Вимкнути звук доріжки"
 
@@ -3661,7 +3655,7 @@ msgstr "Вимкнути звук відеокліпу"
 msgid "Muted"
 msgstr "Вимкнено звук"
 
-#: rc.cpp:931 rc.cpp:1207 rc.cpp:1564 rc.cpp:2515 rc.cpp:2791 rc.cpp:3148
+#: rc.cpp:931 rc.cpp:1207 rc.cpp:1564 rc.cpp:2512 rc.cpp:2788 rc.cpp:3145
 msgid "N"
 msgstr "N"
 
@@ -3669,7 +3663,7 @@ msgstr "N"
 msgid "NAME OF TRANSLATORS"
 msgstr "Юрій Чорноіван"
 
-#: rc.cpp:1761 rc.cpp:3345
+#: rc.cpp:1761 rc.cpp:3342
 msgid "NTSC"
 msgstr "NTSC"
 
@@ -3682,7 +3676,7 @@ msgid "NTSC 4:3"
 msgstr "NTSC 4:3"
 
 #: src/kdenlivesettingsdialog.cpp:554 src/tracksconfigdialog.cpp:72
-#: rc.cpp:2046 rc.cpp:2169 rc.cpp:2271 rc.cpp:3630 rc.cpp:3753 rc.cpp:3855
+#: rc.cpp:2046 rc.cpp:2166 rc.cpp:2268 rc.cpp:3627 rc.cpp:3747 rc.cpp:3849
 msgid "Name"
 msgstr "Назва"
 
@@ -3698,7 +3692,7 @@ msgstr "Nano X"
 msgid "Neutral Color"
 msgstr "Нейтральний колір"
 
-#: src/customtrackview.cpp:3443
+#: src/customtrackview.cpp:3441
 msgid "New speed (percents)"
 msgstr "Нова швидкість (у відсотках)"
 
@@ -3718,28 +3712,28 @@ msgstr "Не знайдено програми для запису (K3b, Brasero
 msgid "No button in menu"
 msgstr "У меню немає кнопок"
 
-#: src/customtrackview.cpp:3579 src/customtrackview.cpp:4873
+#: src/customtrackview.cpp:3577 src/customtrackview.cpp:4870
 msgid "No clip copied"
 msgstr "Не вказано кліпів для копіювання"
 
-#: src/mainwindow.cpp:3250
+#: src/mainwindow.cpp:3274
 msgid "No clip to transcode"
 msgstr "Не вказано кліпів для перекодування"
 
-#: src/customtrackview.cpp:5428
+#: src/customtrackview.cpp:5418
 msgid "No empty space to put clip audio"
 msgstr "Немає вільного місця для додавання звуку кліпу"
 
-#: src/customtrackview.cpp:4508 src/customtrackview.cpp:4554
-#: src/customtrackview.cpp:4592
+#: src/customtrackview.cpp:4506 src/customtrackview.cpp:4552
+#: src/customtrackview.cpp:4590
 msgid "No guide at cursor time"
 msgstr "Немає напрямної у часовій позиції курсора"
 
-#: src/clipproperties.cpp:644 rc.cpp:910 rc.cpp:2079 rc.cpp:2494 rc.cpp:3663
+#: src/clipproperties.cpp:644 rc.cpp:910 rc.cpp:2079 rc.cpp:2491 rc.cpp:3660
 msgid "No image found"
 msgstr "Не знайдено жодного зображення"
 
-#: src/mainwindow.cpp:2340 src/mainwindow.cpp:2390
+#: src/mainwindow.cpp:2351 src/mainwindow.cpp:2401
 msgid "No marker found at cursor time"
 msgstr "Позначки у часовій позиції курсора не знайдено"
 
@@ -3765,7 +3759,7 @@ msgctxt "Font style"
 msgid "Normal"
 msgstr "Звичайний"
 
-#: src/mainwindow.cpp:728
+#: src/mainwindow.cpp:736
 msgid "Normal mode"
 msgstr "Звичайний режим"
 
@@ -3773,7 +3767,7 @@ msgstr "Звичайний режим"
 msgid "Normalise"
 msgstr "Нормалізувати"
 
-#: rc.cpp:2154 rc.cpp:3738
+#: rc.cpp:2151 rc.cpp:3732
 msgid "Normalise audio for thumbnails"
 msgstr "Нормалізувати звук для мініатюр"
 
@@ -3781,15 +3775,15 @@ msgstr "Нормалізувати звук для мініатюр"
 msgid "Normalise audio volume"
 msgstr "Нормалізувати гучність"
 
-#: src/recmonitor.cpp:595 rc.cpp:1498 rc.cpp:3082
+#: src/recmonitor.cpp:595 rc.cpp:1498 rc.cpp:3079
 msgid "Not connected"
 msgstr "Не з’єднано"
 
-#: src/mainwindow.cpp:2911
+#: src/mainwindow.cpp:2927
 msgid "Not found: %1"
 msgstr "Не знайдено: %1"
 
-#: src/customtrackview.cpp:3998 src/customtrackview.cpp:4103
+#: src/customtrackview.cpp:3996 src/customtrackview.cpp:4101
 msgid "Not possible to resize"
 msgstr "Зміна тривалості неможлива"
 
@@ -3810,11 +3804,11 @@ msgstr "OSS з доступом DMA"
 msgid "Obscure"
 msgstr "Тьмяність"
 
-#: rc.cpp:1258 rc.cpp:1480 rc.cpp:2842 rc.cpp:3064
+#: rc.cpp:1258 rc.cpp:1480 rc.cpp:2839 rc.cpp:3061
 msgid "Offset"
 msgstr "Зміщення"
 
-#: rc.cpp:1573 rc.cpp:3157
+#: rc.cpp:1573 rc.cpp:3154
 msgid "Opacity"
 msgstr "Непрозорість"
 
@@ -3822,7 +3816,7 @@ msgstr "Непрозорість"
 msgid "Open Document"
 msgstr "Відкрити документ"
 
-#: rc.cpp:1800 rc.cpp:3384
+#: rc.cpp:1800 rc.cpp:3381
 msgid "Open Dvd wizard after rendering"
 msgstr "Відкрити після обробки майстер DVD"
 
@@ -3830,23 +3824,23 @@ msgstr "Відкрити після обробки майстер DVD"
 msgid "Open box; stands for a space."
 msgstr "Порожній прямокутник, замінює пробіл."
 
-#: rc.cpp:1806 rc.cpp:3390
+#: rc.cpp:1806 rc.cpp:3387
 msgid "Open browser window after export"
 msgstr "Після експортування відкрити вікно переглядача"
 
-#: rc.cpp:1944 rc.cpp:3528
+#: rc.cpp:1944 rc.cpp:3525
 msgid "Open last project on startup"
 msgstr "Відкривати після запуску попередній проект"
 
-#: rc.cpp:1950 rc.cpp:3534
+#: rc.cpp:1950 rc.cpp:3531
 msgid "Open projects in new tabs"
 msgstr "Відкривати проекти у нових вкладках"
 
-#: src/mainwindow.cpp:1694
+#: src/mainwindow.cpp:1702
 msgid "Opening file %1"
 msgstr "Відкривається файл %1"
 
-#: rc.cpp:1598 rc.cpp:3182
+#: rc.cpp:1598 rc.cpp:3179
 msgid "Original"
 msgstr "Початкове"
 
@@ -3866,7 +3860,7 @@ msgstr "Вихід"
 msgid "Out Point"
 msgstr "Вихідна точка"
 
-#: rc.cpp:1168 rc.cpp:2752
+#: rc.cpp:1168 rc.cpp:2749
 msgid "Outline"
 msgstr "Контур"
 
@@ -3878,7 +3872,7 @@ msgstr "Непрозорість кольору контуру"
 msgid "Outline width"
 msgstr "Ширина контуру"
 
-#: rc.cpp:1749 rc.cpp:3333
+#: rc.cpp:1749 rc.cpp:3330
 msgid "Output file"
 msgstr "Вихідний файл"
 
@@ -3886,15 +3880,15 @@ msgstr "Вихідний файл"
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "Файл виводу даних вже існує. Перезаписати його?"
 
-#: src/mainwindow.cpp:734
+#: src/mainwindow.cpp:742
 msgid "Overwrite mode"
 msgstr "Режим перезапису"
 
-#: rc.cpp:1561 rc.cpp:3145
+#: rc.cpp:1561 rc.cpp:3142
 msgid "P"
 msgstr "P"
 
-#: rc.cpp:1758 rc.cpp:3342
+#: rc.cpp:1758 rc.cpp:3339
 msgid "PAL"
 msgstr "PAL"
 
@@ -3910,7 +3904,7 @@ msgstr "PAL 4:3"
 msgid "Pan and Zoom"
 msgstr "Панорамування і зміна масштабу"
 
-#: rc.cpp:976 rc.cpp:1635 rc.cpp:2560 rc.cpp:3219
+#: rc.cpp:976 rc.cpp:1635 rc.cpp:2557 rc.cpp:3216
 msgid "Param"
 msgstr "Парам."
 
@@ -3918,15 +3912,15 @@ msgstr "Парам."
 msgid "Parameter info"
 msgstr "Відомості про параметр"
 
-#: src/kdenlivesettingsdialog.cpp:554 rc.cpp:1938 rc.cpp:3522
+#: src/kdenlivesettingsdialog.cpp:554 rc.cpp:1938 rc.cpp:3519
 msgid "Parameters"
 msgstr "Параметри"
 
-#: src/mainwindow.cpp:1261
+#: src/mainwindow.cpp:1269
 msgid "Paste Effects"
 msgstr "Вставити ефекти"
 
-#: rc.cpp:829 rc.cpp:2031 rc.cpp:2413 rc.cpp:3615
+#: rc.cpp:829 rc.cpp:2031 rc.cpp:2410 rc.cpp:3612
 msgid "Path"
 msgstr "Шлях"
 
@@ -3950,11 +3944,11 @@ msgstr "Зсув тону"
 msgid "Pixbuf module"
 msgstr "Модуль Pixbuf"
 
-#: rc.cpp:759 rc.cpp:862 rc.cpp:2343 rc.cpp:2446
+#: rc.cpp:759 rc.cpp:862 rc.cpp:2340 rc.cpp:2443
 msgid "Pixel aspect ratio"
 msgstr "Співвідношення розмірів пікселя"
 
-#: src/wizard.cpp:493 rc.cpp:1683 rc.cpp:3267
+#: src/wizard.cpp:493 rc.cpp:1683 rc.cpp:3264
 msgid "Pixel aspect ratio:"
 msgstr "Співвідношення розмірів пікселя:"
 
@@ -3966,7 +3960,7 @@ msgstr "Пікселювання вхідного зображення."
 msgid "Plasma"
 msgstr "Плазма"
 
-#: src/recmonitor.cpp:75 src/mainwindow.cpp:972 src/monitor.cpp:81
+#: src/recmonitor.cpp:75 src/mainwindow.cpp:980 src/monitor.cpp:81
 #: src/dvdwizardmenu.cpp:32
 msgid "Play"
 msgstr "Відтворити"
@@ -3979,11 +3973,11 @@ msgstr "Старт / Пауза"
 msgid "Play All"
 msgstr "Відтворити все"
 
-#: src/mainwindow.cpp:980
+#: src/mainwindow.cpp:988
 msgid "Play Zone"
 msgstr "Відтворити ділянку"
 
-#: rc.cpp:1809 rc.cpp:3393
+#: rc.cpp:1809 rc.cpp:3390
 msgid "Play after render"
 msgstr "Відтворити після обробки"
 
@@ -4025,7 +4019,7 @@ msgstr ""
 "Будь ласка, вкажіть типову програму для відкриття файлів зображень за "
 "допомогою діалогового вікна «Параметри»."
 
-#: rc.cpp:2082 rc.cpp:3666
+#: rc.cpp:2082 rc.cpp:3663
 msgid "Please set your default video profile"
 msgstr "Будь ласка, вкажіть типовий профіль відео"
 
@@ -4087,16 +4081,16 @@ msgstr "Вхідне значення точки 5"
 msgid "Point 5 output value"
 msgstr "Вихідне значення точки 5"
 
-#: rc.cpp:1459 rc.cpp:3043
+#: rc.cpp:1459 rc.cpp:3040
 msgid "Ports:"
 msgstr "Порти:"
 
-#: rc.cpp:1576 rc.cpp:3160
+#: rc.cpp:1576 rc.cpp:3157
 msgid "Pos"
 msgstr "Поз"
 
-#: rc.cpp:789 rc.cpp:1066 rc.cpp:2136 rc.cpp:2205 rc.cpp:2373 rc.cpp:2650
-#: rc.cpp:3720 rc.cpp:3789
+#: rc.cpp:789 rc.cpp:1066 rc.cpp:2133 rc.cpp:2202 rc.cpp:2370 rc.cpp:2647
+#: rc.cpp:3714 rc.cpp:3783
 msgid "Position"
 msgstr "Позиція"
 
@@ -4104,7 +4098,7 @@ msgstr "Позиція"
 msgid "Position: %1"
 msgstr "Позиція: %1"
 
-#: src/renderwidget.cpp:95 rc.cpp:1186 rc.cpp:2770
+#: src/renderwidget.cpp:95 rc.cpp:1186 rc.cpp:2767
 msgid "Preserve aspect ratio"
 msgstr "Зберігати співвідношення розмірів"
 
@@ -4132,7 +4126,7 @@ msgstr ""
 "Файли буде збережено до:\n"
 "%1"
 
-#: rc.cpp:1911 rc.cpp:3495
+#: rc.cpp:1911 rc.cpp:3492
 msgid "Preview"
 msgstr "Перегляд"
 
@@ -4140,24 +4134,24 @@ msgstr "Перегляд"
 msgid "Previous Unicode character (Arrow Up)"
 msgstr "Попередній символ Unicode (стрілка вгору)"
 
-#: src/customtrackview.cpp:1484 src/customtrackview.cpp:1495
-#: src/customtrackview.cpp:1509
+#: src/customtrackview.cpp:1480 src/customtrackview.cpp:1491
+#: src/customtrackview.cpp:1505
 msgid "Problem adding effect to clip"
 msgstr "Проблема з додаванням ефекту до кліпу"
 
-#: src/customtrackview.cpp:1477 src/customtrackview.cpp:1530
+#: src/customtrackview.cpp:1473 src/customtrackview.cpp:1526
 msgid "Problem deleting effect"
 msgstr "Проблема з вилученням ефекту"
 
-#: src/customtrackview.cpp:1695 src/customtrackview.cpp:1729
-#: src/customtrackview.cpp:4217 src/customtrackview.cpp:4235
-#: src/customtrackview.cpp:4257 src/customtrackview.cpp:4275
-#: src/customtrackview.cpp:4307
+#: src/customtrackview.cpp:1691 src/customtrackview.cpp:1725
+#: src/customtrackview.cpp:4215 src/customtrackview.cpp:4233
+#: src/customtrackview.cpp:4255 src/customtrackview.cpp:4273
+#: src/customtrackview.cpp:4305
 msgid "Problem editing effect"
 msgstr "Проблема зі зміною ефекту"
 
-#: rc.cpp:738 rc.cpp:1093 rc.cpp:1668 rc.cpp:1977 rc.cpp:2322 rc.cpp:2677
-#: rc.cpp:3252 rc.cpp:3561
+#: rc.cpp:738 rc.cpp:1093 rc.cpp:1668 rc.cpp:1977 rc.cpp:2319 rc.cpp:2674
+#: rc.cpp:3249 rc.cpp:3558
 msgid "Profile"
 msgstr "Профіль"
 
@@ -4165,11 +4159,11 @@ msgstr "Профіль"
 msgid "Profile already exists"
 msgstr "Профіль з такою назвою вже існує"
 
-#: rc.cpp:1932 rc.cpp:3516
+#: rc.cpp:1932 rc.cpp:3513
 msgid "Profile name"
 msgstr "Назва профілю"
 
-#: rc.cpp:735 rc.cpp:2319
+#: rc.cpp:735 rc.cpp:2316
 msgid "Profiles"
 msgstr "Профілі"
 
@@ -4178,15 +4172,15 @@ msgid "Progress"
 msgstr "Поступ"
 
 #: src/kdenlivesettingsdialog.cpp:510 src/projectsettings.cpp:199 rc.cpp:771
-#: rc.cpp:2355
+#: rc.cpp:2352
 msgid "Progressive"
 msgstr "Прогресивне"
 
-#: rc.cpp:3879
+#: rc.cpp:3873
 msgid "Project"
 msgstr "Проект"
 
-#: rc.cpp:1713 rc.cpp:3297
+#: rc.cpp:1713 rc.cpp:3294
 msgid "Project Files"
 msgstr "Файли проекту"
 
@@ -4194,7 +4188,7 @@ msgstr "Файли проекту"
 msgid "Project Monitor"
 msgstr "Монітор проекту"
 
-#: src/mainwindow.cpp:959 rc.cpp:1656 rc.cpp:3240
+#: src/mainwindow.cpp:967 rc.cpp:1656 rc.cpp:3237
 msgid "Project Settings"
 msgstr "Параметри проекту"
 
@@ -4202,11 +4196,11 @@ msgstr "Параметри проекту"
 msgid "Project Tree"
 msgstr "Дерево проекту"
 
-#: rc.cpp:1731 rc.cpp:3315
+#: rc.cpp:1731 rc.cpp:3312
 msgid "Project files"
 msgstr "Файли проекту"
 
-#: rc.cpp:1528 rc.cpp:1662 rc.cpp:3112 rc.cpp:3246
+#: rc.cpp:1528 rc.cpp:1662 rc.cpp:3109 rc.cpp:3243
 msgid "Project folder"
 msgstr "Тека проекту"
 
@@ -4222,7 +4216,7 @@ msgstr "Не знайдено профілю проекту, профіль бу
 msgid "Project profile was not found, using default profile."
 msgstr "Не знайдено профілю проекту, буде використано типовий профіль."
 
-#: rc.cpp:741 rc.cpp:2325
+#: rc.cpp:741 rc.cpp:2322
 msgid "Properties"
 msgstr "Властивості"
 
@@ -4250,7 +4244,7 @@ msgstr ""
 msgid "QImage module"
 msgstr "Модуль QImage"
 
-#: rc.cpp:1492 rc.cpp:3076
+#: rc.cpp:1492 rc.cpp:3073
 msgid "Quality"
 msgstr "Якість"
 
@@ -4262,7 +4256,7 @@ msgstr ""
 "Четвертна нота. Див. <a href=\"http://en.wikipedia.org/wiki/Quarter_note"
 "\">Wikipedia:Quarter_note</a>"
 
-#: rc.cpp:1204 rc.cpp:2788
+#: rc.cpp:1204 rc.cpp:2785
 msgid "R"
 msgstr "R"
 
@@ -4270,7 +4264,7 @@ msgstr "R"
 msgid "RPM"
 msgstr "RPM"
 
-#: rc.cpp:1249 rc.cpp:1252 rc.cpp:2833 rc.cpp:2836
+#: rc.cpp:1249 rc.cpp:1252 rc.cpp:2830 rc.cpp:2833
 msgid "Radius"
 msgstr "Радіус"
 
@@ -4306,11 +4300,11 @@ msgstr "Ray Lehtiniemi"
 msgid "Razor clip"
 msgstr "Підрізати кліп"
 
-#: src/mainwindow.cpp:765
+#: src/mainwindow.cpp:773
 msgid "Razor tool"
 msgstr "Інструмент підрізання"
 
-#: src/mainwindow.cpp:2899
+#: src/mainwindow.cpp:2916
 msgid "Reached end of project"
 msgstr "Досягнуто кінця проекту"
 
@@ -4339,7 +4333,7 @@ msgstr ""
 " будь ласка, встановіть її, щоб програма Kdenlive, могла захоплювати "
 "зображення з екрана."
 
-#: src/mainwindow.cpp:1682
+#: src/mainwindow.cpp:1690
 msgid "Recover"
 msgstr "Відновити"
 
@@ -4351,7 +4345,7 @@ msgstr "Прямокутник"
 msgid "Region"
 msgstr "Область"
 
-#: rc.cpp:1468 rc.cpp:3052
+#: rc.cpp:1468 rc.cpp:3049
 msgid "Region capture"
 msgstr "Захоплення області"
 
@@ -4359,7 +4353,7 @@ msgstr "Захоплення області"
 msgid "Release time (s)"
 msgstr "Час стихання (у с)"
 
-#: src/mainwindow.cpp:1355
+#: src/mainwindow.cpp:1363
 msgid "Reload Clip"
 msgstr "Перезавантажити кліп"
 
@@ -4367,11 +4361,11 @@ msgstr "Перезавантажити кліп"
 msgid "Remove Job"
 msgstr "Вилучити завдання"
 
-#: src/mainwindow.cpp:1229 src/customtrackview.cpp:2586
+#: src/mainwindow.cpp:1237 src/customtrackview.cpp:2582
 msgid "Remove Space"
 msgstr "Вилучити пробіл"
 
-#: rc.cpp:2265 rc.cpp:3849
+#: rc.cpp:2262 rc.cpp:3843
 msgid "Remove chapter"
 msgstr "Вилучити розділ"
 
@@ -4379,11 +4373,11 @@ msgstr "Вилучити розділ"
 msgid "Remove clips"
 msgstr "Вилучити кліпи"
 
-#: rc.cpp:732 rc.cpp:2316
+#: rc.cpp:732 rc.cpp:2313
 msgid "Remove file"
 msgstr "Вилучити файл"
 
-#: rc.cpp:2040 rc.cpp:3624
+#: rc.cpp:2040 rc.cpp:3621
 msgid "Remove selected clips"
 msgstr "Вилучити позначені кліпи"
 
@@ -4391,11 +4385,11 @@ msgstr "Вилучити позначені кліпи"
 msgid "Remove space"
 msgstr "Вилучити пробіл"
 
-#: src/trackview.cpp:312
+#: src/trackview.cpp:313
 msgid "Removed invalid transition: %1"
 msgstr "Вилучено некоректний перехід: %1"
 
-#: src/trackview.cpp:387
+#: src/trackview.cpp:388
 msgid "Removed invalid transition: (%1, %2, %3)"
 msgstr "Вилучено некоректний перехід: (%1, %2, %3)"
 
@@ -4403,15 +4397,15 @@ msgstr "Вилучено некоректний перехід: (%1, %2, %3)"
 msgid "Rename folder"
 msgstr "Перейменувати теку"
 
-#: src/mainwindow.cpp:963
+#: src/mainwindow.cpp:971
 msgid "Render"
 msgstr "Обробити"
 
-#: rc.cpp:1743 rc.cpp:3327
+#: rc.cpp:1743 rc.cpp:3324
 msgid "Render Project"
 msgstr "Обробити проект"
 
-#: rc.cpp:1830 rc.cpp:3414
+#: rc.cpp:1830 rc.cpp:3411
 msgid "Render to File"
 msgstr "Обробка до файла"
 
@@ -4443,7 +4437,7 @@ msgstr "Перевищення часу очікування на заверше
 msgid "Rendering profiles customization"
 msgstr "Налаштування профілів обробки"
 
-#: src/trackview.cpp:617
+#: src/trackview.cpp:622
 msgid "Replaced wrong clip producer %1 with %2"
 msgstr "Помилковий запис інструменту створення кліпу %1 замінено на %2"
 
@@ -4487,7 +4481,7 @@ msgstr "Потрібний для роботи з титрами"
 msgid "Required to work with various video formats (hdv, mpeg, flash, ...)"
 msgstr "Потрібний для роботи з відео у різних форматах (hdv, mpeg, flash, ...)"
 
-#: rc.cpp:1791 rc.cpp:3375
+#: rc.cpp:1791 rc.cpp:3372
 msgid "Rescale"
 msgstr "Змінити масштаб"
 
@@ -4499,7 +4493,7 @@ msgstr "Відновити"
 msgid "Reset effect"
 msgstr "Відновити параметри ефекту"
 
-#: rc.cpp:1285 rc.cpp:2869
+#: rc.cpp:1285 rc.cpp:2866
 msgid "Resize"
 msgstr "Змінити розмір"
 
@@ -4511,20 +4505,20 @@ msgstr "Змінити розмір (100%)"
 msgid "Resize (50%)"
 msgstr "Змінити розмір (50%)"
 
-#: src/mainwindow.cpp:1028
+#: src/mainwindow.cpp:1036
 msgid "Resize Item End"
 msgstr "Змінити позицію кінця елемента"
 
-#: src/mainwindow.cpp:1023
+#: src/mainwindow.cpp:1031
 msgid "Resize Item Start"
 msgstr "Змінити позицію початку елемента"
 
-#: src/resizeclipcommand.cpp:34 src/customtrackview.cpp:4011
-#: src/customtrackview.cpp:4116
+#: src/resizeclipcommand.cpp:34 src/customtrackview.cpp:4009
+#: src/customtrackview.cpp:4114
 msgid "Resize clip"
 msgstr "Змінити розміри кліпу"
 
-#: rc.cpp:1591 rc.cpp:3175
+#: rc.cpp:1591 rc.cpp:3172
 msgid "Resize:"
 msgstr "Змінити розміри:"
 
@@ -4548,19 +4542,19 @@ msgstr "Зворотний"
 msgid "Reverse Transition"
 msgstr "Зворотний перехід"
 
-#: src/mainwindow.cpp:3378
+#: src/mainwindow.cpp:3402
 msgid "Revert to last saved version"
 msgstr "Повернутися до останньої збереженої версії"
 
-#: src/recmonitor.cpp:72 src/mainwindow.cpp:1033 src/monitor.cpp:76
+#: src/recmonitor.cpp:72 src/mainwindow.cpp:1041 src/monitor.cpp:76
 msgid "Rewind"
 msgstr "Повний назад"
 
-#: src/mainwindow.cpp:1038
+#: src/mainwindow.cpp:1046
 msgid "Rewind 1 Frame"
 msgstr "Назад на 1 кадр"
 
-#: src/mainwindow.cpp:1043
+#: src/mainwindow.cpp:1051
 msgid "Rewind 1 Second"
 msgstr "Назад на 1 секунду"
 
@@ -4584,7 +4578,7 @@ msgstr "Розмір кімнати (у м)"
 msgid "Rotate X"
 msgstr "Обертання навколо X"
 
-#: rc.cpp:1219 rc.cpp:2803
+#: rc.cpp:1219 rc.cpp:2800
 msgid "Rotate X:"
 msgstr "Обертання навколо X:"
 
@@ -4592,7 +4586,7 @@ msgstr "Обертання навколо X:"
 msgid "Rotate Y"
 msgstr "Обертання навколо Y"
 
-#: rc.cpp:1222 rc.cpp:2806
+#: rc.cpp:1222 rc.cpp:2803
 msgid "Rotate Y:"
 msgstr "Обертання навколо Y:"
 
@@ -4600,7 +4594,7 @@ msgstr "Обертання навколо Y:"
 msgid "Rotate Z"
 msgstr "Обертання навколо Z"
 
-#: rc.cpp:1225 rc.cpp:2809
+#: rc.cpp:1225 rc.cpp:2806
 msgid "Rotate Z:"
 msgstr "Обертання навколо Z:"
 
@@ -4624,11 +4618,11 @@ msgstr "Обертання навколо вісі Y"
 msgid "Rotation around the Z axis"
 msgstr "Обертання навколо вісі Z"
 
-#: src/mainwindow.cpp:955
+#: src/mainwindow.cpp:963
 msgid "Run Config Wizard"
 msgstr "Запустити майстер налаштування"
 
-#: rc.cpp:780 rc.cpp:1770 rc.cpp:2364 rc.cpp:3354
+#: rc.cpp:780 rc.cpp:1770 rc.cpp:2361 rc.cpp:3351
 msgid "S"
 msgstr "S"
 
@@ -4660,15 +4654,15 @@ msgstr "Зберегти проект DVD"
 msgid "Save Effect"
 msgstr "Зберегти ефект"
 
-#: rc.cpp:1923 rc.cpp:3507
+#: rc.cpp:1923 rc.cpp:3504
 msgid "Save Profile"
 msgstr "Зберегти профіль"
 
-#: src/mainwindow.cpp:460 src/mainwindow.cpp:1551
+#: src/mainwindow.cpp:460 src/mainwindow.cpp:1559
 msgid "Save changes to document?"
 msgstr "Зберегти зміни у документі?"
 
-#: src/mainwindow.cpp:3059
+#: src/mainwindow.cpp:3078
 msgid "Save clip zone as:"
 msgstr "Зберегти ділянку кліпу як:"
 
@@ -4708,15 +4702,15 @@ msgstr "Масштабування, нахил та обрізання зобр�
 msgid "Scaling"
 msgstr "Масштабування"
 
-#: rc.cpp:1776 rc.cpp:3360
+#: rc.cpp:1776 rc.cpp:3357
 msgid "Scanning"
 msgstr "Сканування"
 
-#: rc.cpp:1342 rc.cpp:1423 rc.cpp:2926 rc.cpp:3007
+#: rc.cpp:1342 rc.cpp:1423 rc.cpp:2923 rc.cpp:3004
 msgid "Screen Grab"
 msgstr "Захоплення екрана"
 
-#: rc.cpp:1510 rc.cpp:3094
+#: rc.cpp:1510 rc.cpp:3091
 msgid "Screen grab"
 msgstr "Захоплення екрана"
 
@@ -4728,19 +4722,19 @@ msgstr "Файли скриптів"
 msgid "Script contains wrong command: %1"
 msgstr "У скрипті міститься помилкова команда: %1"
 
-#: src/mainwindow.cpp:3291
+#: src/mainwindow.cpp:3315
 msgid "Script file already exists. Do you want to overwrite it?"
 msgstr "Файл скрипту з цією назвою вже існує. Перезаписати його?"
 
-#: src/mainwindow.cpp:3286
+#: src/mainwindow.cpp:3310
 msgid "Script name (will be saved in: %1)"
 msgstr "Назва скрипту (буде збережено до %1)"
 
-#: rc.cpp:1863 rc.cpp:3447
+#: rc.cpp:1863 rc.cpp:3444
 msgid "Scripts"
 msgstr "Скрипти"
 
-#: rc.cpp:1734 rc.cpp:3318
+#: rc.cpp:1734 rc.cpp:3315
 msgid "Search"
 msgstr "Пошук"
 
@@ -4748,19 +4742,23 @@ msgstr "Пошук"
 msgid "Search automatically"
 msgstr "Автоматичний пошук"
 
+#: src/effectslistview.cpp:44
+msgid "Search in the effect list"
+msgstr "Пошук у списку ефектів"
+
 #: src/kdenlivedoc.cpp:889 src/kdenlivedoc.cpp:897
 msgid "Search manually"
 msgstr "Пошук вручну"
 
-#: rc.cpp:2034 rc.cpp:3618
+#: rc.cpp:2034 rc.cpp:3615
 msgid "Search recursively"
 msgstr "Рекурсивний пошук"
 
-#: rc.cpp:2202 rc.cpp:3786
+#: rc.cpp:2199 rc.cpp:3780
 msgid "Seek to active keyframe"
 msgstr "Позиціювання на активному ключовому кадрі"
 
-#: src/mainwindow.cpp:1148
+#: src/mainwindow.cpp:1156
 msgid "Select Clip"
 msgstr "Позначити кліп"
 
@@ -4768,15 +4766,15 @@ msgstr "Позначити кліп"
 msgid "Select Files For Your DVD"
 msgstr "Оберіть файли для вашого DVD"
 
-#: src/mainwindow.cpp:1163
+#: src/mainwindow.cpp:1171
 msgid "Select Transition"
 msgstr "Позначити перехід"
 
-#: src/customtrackview.cpp:4787
+#: src/customtrackview.cpp:4784
 msgid "Select a clip before copying"
 msgstr "Перш ніж копіювати, позначте кліп"
 
-#: src/customtrackview.cpp:1598
+#: src/customtrackview.cpp:1594
 msgid "Select a clip if you want to apply an effect"
 msgstr "Для застосування ефекту слід позначити відповідний кліп"
 
@@ -4800,11 +4798,11 @@ msgstr "Оберіть колір тла"
 msgid "Select border color"
 msgstr "Оберіть колір рамки"
 
-#: src/customtrackview.cpp:3431
+#: src/customtrackview.cpp:3429
 msgid "Select clip to change speed"
 msgstr "Позначте кліп, швидкість якого слід змінити"
 
-#: src/customtrackview.cpp:2021 src/customtrackview.cpp:3361
+#: src/customtrackview.cpp:2017 src/customtrackview.cpp:3359
 msgid "Select clip to delete"
 msgstr "Позначте кліп, який слід вилучити"
 
@@ -4836,11 +4834,11 @@ msgstr "Вибрати всі об’єкти рамок у позначеній
 msgid "Select text items in current selection"
 msgstr "Вибрати всі текстові об’єкти у позначеній області"
 
-#: rc.cpp:1818 rc.cpp:3402
+#: rc.cpp:1818 rc.cpp:3399
 msgid "Selected zone"
 msgstr "Позначена ділянка"
 
-#: rc.cpp:3906
+#: rc.cpp:3900
 msgid "Selection"
 msgstr "Вибір"
 
@@ -4848,11 +4846,11 @@ msgstr "Вибір"
 msgid "Selection Tool"
 msgstr "Інструмент вибору"
 
-#: src/mainwindow.cpp:759
+#: src/mainwindow.cpp:767
 msgid "Selection tool"
 msgstr "Інструмент вибору"
 
-#: rc.cpp:1192 rc.cpp:2776
+#: rc.cpp:1192 rc.cpp:2773
 msgid "Selects all items on the canvas."
 msgstr "Вибрати всі об’єкти на полотні."
 
@@ -4860,11 +4858,11 @@ msgstr "Вибрати всі об’єкти на полотні."
 msgid "Sepia"
 msgstr "Сепія"
 
-#: src/mainwindow.cpp:999
+#: src/mainwindow.cpp:1007
 msgid "Set Zone In"
 msgstr "Встановити позначку входу ділянки"
 
-#: src/mainwindow.cpp:1004
+#: src/mainwindow.cpp:1012
 msgid "Set Zone Out"
 msgstr "Встановити позначку виходу ділянки"
 
@@ -4872,7 +4870,7 @@ msgstr "Встановити позначку виходу ділянки"
 msgid "Set current image as thumbnail"
 msgstr "Зробити поточне зображення зображенням мініатюри"
 
-#: rc.cpp:985 rc.cpp:2569
+#: rc.cpp:985 rc.cpp:2566
 msgid "Set filter region"
 msgstr "Встановити діапазон фільтрування"
 
@@ -4888,7 +4886,7 @@ msgstr "Встановити позначку кінця ділянки"
 msgid "Set zone start"
 msgstr "Встановити позначку початку ділянки"
 
-#: rc.cpp:1659 rc.cpp:3243
+#: rc.cpp:1659 rc.cpp:3240
 msgid "Settings"
 msgstr "Параметри"
 
@@ -4908,7 +4906,7 @@ msgstr "Зсув за Z"
 msgid "Shift"
 msgstr "Зсув"
 
-#: src/mainwindow.cpp:2856
+#: src/mainwindow.cpp:2873
 msgid ""
 "Shift + click to create a selection rectangle, Ctrl + click to add an item "
 "to selection"
@@ -4920,23 +4918,23 @@ msgstr ""
 msgid "Shifts the hue of a source image"
 msgstr "Зсуває відтінок початкового зображення"
 
-#: rc.cpp:2094 rc.cpp:3678
+#: rc.cpp:2094 rc.cpp:3675
 msgid "Show All"
 msgstr "Показувати всі"
 
-#: src/mainwindow.cpp:1266
+#: src/mainwindow.cpp:1274
 msgid "Show Timeline"
 msgstr "Показувати лінійку запису"
 
-#: src/mainwindow.cpp:1272
+#: src/mainwindow.cpp:1280
 msgid "Show Title Bars"
 msgstr "Показувати смужки заголовків"
 
-#: src/mainwindow.cpp:871 rc.cpp:2214 rc.cpp:3798
+#: src/mainwindow.cpp:879 rc.cpp:2211 rc.cpp:3792
 msgid "Show audio thumbnails"
 msgstr "Показувати мініатюри звуку"
 
-#: rc.cpp:1144 rc.cpp:2728
+#: rc.cpp:1144 rc.cpp:2725
 msgid "Show background"
 msgstr "Показувати тло"
 
@@ -4952,15 +4950,15 @@ msgstr "Показувати гістограму"
 msgid "Show keyframes in timeline"
 msgstr "Показувати ключові кадри на лінійці запису"
 
-#: src/mainwindow.cpp:877
+#: src/mainwindow.cpp:885
 msgid "Show markers comments"
 msgstr "Показувати коментарі до позначок"
 
-#: rc.cpp:2076 rc.cpp:3660
+#: rc.cpp:2076 rc.cpp:3657
 msgid "Show thumbnails"
 msgstr "Показувати мініатюри"
 
-#: src/mainwindow.cpp:865 rc.cpp:2211 rc.cpp:3795
+#: src/mainwindow.cpp:873 rc.cpp:2208 rc.cpp:3789
 msgid "Show video thumbnails"
 msgstr "Показувати мініатюри відео"
 
@@ -4968,7 +4966,12 @@ msgstr "Показувати мініатюри відео"
 msgid "Show/Hide options"
 msgstr "Показати/Сховати параметри"
 
-#: rc.cpp:1857 rc.cpp:3441
+#: src/effectslistview.cpp:46
+#| msgid "Show/Hide options"
+msgid "Show/Hide the effect description"
+msgstr "Показати/Сховати опис ефекту"
+
+#: rc.cpp:1857 rc.cpp:3438
 msgid "Shutdown computer after renderings"
 msgstr "Після завершення обробки вимкнути комп’ютер"
 
@@ -4994,12 +4997,12 @@ msgstr ""
 "звучання восьмої ноти (U+266a). Див. <a href=\"http://en.wikipedia.org/wiki/"
 "Sixteenth_note\">Wikipedia:Sixteenth_note</a>"
 
-#: rc.cpp:717 rc.cpp:747 rc.cpp:1483 rc.cpp:2187 rc.cpp:2301 rc.cpp:2331
-#: rc.cpp:3067 rc.cpp:3771
+#: rc.cpp:717 rc.cpp:747 rc.cpp:1483 rc.cpp:2184 rc.cpp:2298 rc.cpp:2328
+#: rc.cpp:3064 rc.cpp:3765
 msgid "Size"
 msgstr "Розміри"
 
-#: rc.cpp:841 rc.cpp:1671 rc.cpp:1980 rc.cpp:2425 rc.cpp:3255 rc.cpp:3564
+#: rc.cpp:841 rc.cpp:1671 rc.cpp:1980 rc.cpp:2422 rc.cpp:3252 rc.cpp:3561
 msgid "Size:"
 msgstr "Розмір:"
 
@@ -5011,11 +5014,11 @@ msgstr "Ковзання"
 msgid "Slide image from one side to another."
 msgstr "Ковзання зображення з одного краю у інший."
 
-#: rc.cpp:883 rc.cpp:2467
+#: rc.cpp:883 rc.cpp:2464
 msgid "Slideshow"
 msgstr "Показ слайдів"
 
-#: src/slideshowclip.cpp:39 rc.cpp:2043 rc.cpp:3627
+#: src/slideshowclip.cpp:39 rc.cpp:2043 rc.cpp:3624
 msgid "Slideshow Clip"
 msgstr "Кліп показу слайдів"
 
@@ -5023,15 +5026,15 @@ msgstr "Кліп показу слайдів"
 msgid "Slideshow clip"
 msgstr "Кліп показу слайдів"
 
-#: src/trackview.cpp:75
+#: src/trackview.cpp:76
 msgid "Smaller tracks"
 msgstr "Менші доріжки"
 
-#: src/mainwindow.cpp:883
+#: src/mainwindow.cpp:891
 msgid "Snap"
 msgstr "Прив’язати"
 
-#: src/initeffects.cpp:718 rc.cpp:907 rc.cpp:2073 rc.cpp:2491 rc.cpp:3657
+#: src/initeffects.cpp:718 rc.cpp:907 rc.cpp:2073 rc.cpp:2488 rc.cpp:3654
 msgid "Softness"
 msgstr "М’якість"
 
@@ -5059,7 +5062,7 @@ msgstr ""
 "зображення. Ці розміри буде перевизначено у пікселях для покращення "
 "можливостей з перенесення даних, але вам слід скоригувати розміри тексту."
 
-#: rc.cpp:1072 rc.cpp:2656
+#: rc.cpp:1072 rc.cpp:2653
 msgid "Source"
 msgstr "Джерело"
 
@@ -5151,11 +5154,11 @@ msgstr "Звуковий ефект розтягування Sox"
 msgid "Sox vibro audio effect"
 msgstr "Звуковий ефект вібрації Sox"
 
-#: rc.cpp:3915
+#: rc.cpp:3909
 msgid "Space"
 msgstr "Пробіл"
 
-#: src/mainwindow.cpp:771
+#: src/mainwindow.cpp:779
 msgid "Spacer tool"
 msgstr "Інструмент-розпірка"
 
@@ -5163,15 +5166,15 @@ msgstr "Інструмент-розпірка"
 msgid "Speed"
 msgstr "Швидкість"
 
-#: src/mainwindow.cpp:1199
+#: src/mainwindow.cpp:1207
 msgid "Split Audio"
 msgstr "Відділити звук"
 
-#: src/splitaudiocommand.cpp:32 src/customtrackview.cpp:5389
+#: src/splitaudiocommand.cpp:32 src/customtrackview.cpp:5379
 msgid "Split audio"
 msgstr "Відділити звук"
 
-#: src/mainwindow.cpp:859
+#: src/mainwindow.cpp:867
 msgid "Split audio and video automatically"
 msgstr "Автоматично відокремити звук від відео"
 
@@ -5199,8 +5202,8 @@ msgstr ""
 "Стандартний символ пробілу. (Інші символи пробілів: U+00a0, U"
 "+2000&#x2013;200b, U+202f)"
 
-#: src/mainwindow.cpp:3339 src/titlewidget.cpp:2051 rc.cpp:84 rc.cpp:118
-#: rc.cpp:1084 rc.cpp:2280 rc.cpp:2668 rc.cpp:3864
+#: src/mainwindow.cpp:3363 src/titlewidget.cpp:2052 rc.cpp:84 rc.cpp:118
+#: rc.cpp:1084 rc.cpp:2277 rc.cpp:2665 rc.cpp:3858
 msgid "Start"
 msgstr "Почати"
 
@@ -5208,15 +5211,15 @@ msgstr "Почати"
 msgid "Start Gain"
 msgstr "Початкове підсилення"
 
-#: rc.cpp:1860 rc.cpp:3444
+#: rc.cpp:1860 rc.cpp:3441
 msgid "Start Job"
 msgstr "Почати виконання завдання"
 
-#: rc.cpp:1866 rc.cpp:3450
+#: rc.cpp:1866 rc.cpp:3447
 msgid "Start Script"
 msgstr "Виконати скрипт"
 
-#: rc.cpp:1267 rc.cpp:2851
+#: rc.cpp:1267 rc.cpp:2848
 msgid "Start at"
 msgstr "Почати у"
 
@@ -5224,11 +5227,11 @@ msgstr "Почати у"
 msgid "Start them now"
 msgstr "Розпочати зараз"
 
-#: src/mainwindow.cpp:2889
+#: src/mainwindow.cpp:2906
 msgid "Starting -- find text as you type"
 msgstr "Початок — інтерактивний пошук тексту"
 
-#: rc.cpp:1908 rc.cpp:3492
+#: rc.cpp:1908 rc.cpp:3489
 msgid "Status"
 msgstr "Стан"
 
@@ -5252,7 +5255,7 @@ msgstr "Стробоскоп"
 msgid "Surface warping"
 msgstr "Викривлення поверхні"
 
-#: src/mainwindow.cpp:1009
+#: src/mainwindow.cpp:1017
 msgid "Switch monitor"
 msgstr "Перемкнути монітор"
 
@@ -5260,19 +5263,19 @@ msgstr "Перемкнути монітор"
 msgid "Sync timeline cursor"
 msgstr "Синхронізувати курсор лінійки запису"
 
-#: rc.cpp:1198 rc.cpp:2782
+#: rc.cpp:1198 rc.cpp:2779
 msgid "T"
 msgstr "T"
 
-#: src/customtrackview.cpp:5847
+#: src/customtrackview.cpp:5837
 msgid "TRACTOR"
 msgstr "TRACTOR"
 
-#: rc.cpp:1015 rc.cpp:2599
+#: rc.cpp:1015 rc.cpp:2596
 msgid "Target"
 msgstr "Ціль"
 
-#: rc.cpp:2019 rc.cpp:3603
+#: rc.cpp:2019 rc.cpp:3600
 msgid "Template"
 msgstr "Шаблон"
 
@@ -5284,19 +5287,19 @@ msgstr "Текстовий кліп з шаблона"
 msgid "Template title clip"
 msgstr "Шаблон кліпу з титрами"
 
-#: rc.cpp:1189 rc.cpp:2773
+#: rc.cpp:1189 rc.cpp:2770
 msgid "Template:"
 msgstr "Шаблон:"
 
-#: rc.cpp:1878 rc.cpp:3462
+#: rc.cpp:1878 rc.cpp:3459
 msgid "Temporary data folder"
 msgstr "Тека тимчасових даних"
 
-#: rc.cpp:1531 rc.cpp:3115
+#: rc.cpp:1531 rc.cpp:3112
 msgid "Temporary files"
 msgstr "Тимчасові файли"
 
-#: rc.cpp:1012 rc.cpp:2022 rc.cpp:2596 rc.cpp:3606
+#: rc.cpp:1012 rc.cpp:2022 rc.cpp:2593 rc.cpp:3603
 msgid "Text"
 msgstr "Текст"
 
@@ -5308,7 +5311,7 @@ msgstr "Текстові кліпи оновлено"
 msgid "Text clip"
 msgstr "Текстовий кліп"
 
-#: rc.cpp:1632 rc.cpp:3216
+#: rc.cpp:1632 rc.cpp:3213
 msgid "TextLabel"
 msgstr "Текст"
 
@@ -5324,7 +5327,7 @@ msgstr ""
 "Не вдалося створити каталог %1.\n"
 "Переконайтеся, що маєте потрібні права доступу."
 
-#: rc.cpp:3936
+#: rc.cpp:3930
 msgid "Themes"
 msgstr "Теми"
 
@@ -5395,7 +5398,7 @@ msgstr ""
 msgid "This title clip was created with a different frame size."
 msgstr "Цей кліп з титрами було створено для інших розмірів кадру."
 
-#: src/mainwindow.cpp:3378
+#: src/mainwindow.cpp:3402
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
 "sure you want to continue?"
@@ -5403,7 +5406,7 @@ msgstr ""
 "Буде вилучено всі зміни, внесені з часу останнього зберігання вашого "
 "проекту. Ви справді бажаєте виконати цю дію?"
 
-#: src/mainwindow.cpp:1945 src/projectsettings.cpp:103
+#: src/mainwindow.cpp:1955 src/projectsettings.cpp:103
 msgid "This will remove all unused clips from your project."
 msgstr "Буде вилучено всі невикористані у вашому проекті кліпи."
 
@@ -5446,15 +5449,15 @@ msgstr "Threshold0r"
 msgid "Thresholds a source image"
 msgstr "Встановлює порогові значення для вихідного зображення"
 
-#: rc.cpp:2145 rc.cpp:3729
+#: rc.cpp:2142 rc.cpp:3723
 msgid "Thumbnails"
 msgstr "Мініатюри"
 
-#: rc.cpp:1725 rc.cpp:3309
+#: rc.cpp:1725 rc.cpp:3306
 msgid "Thumbnails cache:"
 msgstr "Кеш мініатюр:"
 
-#: rc.cpp:1704 rc.cpp:3288
+#: rc.cpp:1704 rc.cpp:3285
 msgid "Thumbnails:"
 msgstr "Мініатюри:"
 
@@ -5466,7 +5469,7 @@ msgstr "Нахил за X"
 msgid "Tilt Y"
 msgstr "Нахил за Y"
 
-#: rc.cpp:925 rc.cpp:2509
+#: rc.cpp:925 rc.cpp:2506
 msgid "Time"
 msgstr "Час"
 
@@ -5474,11 +5477,11 @@ msgstr "Час"
 msgid "Time window (ms)"
 msgstr "Часове вікно (у мс)"
 
-#: rc.cpp:1812 rc.cpp:3396
+#: rc.cpp:1812 rc.cpp:3393
 msgid "Timecode overlay"
 msgstr "Накладка часового відліку"
 
-#: rc.cpp:3903
+#: rc.cpp:3897
 msgid "Timeline"
 msgstr "Лінійка запису"
 
@@ -5494,7 +5497,7 @@ msgstr "Tint0r"
 msgid "Title"
 msgstr "Титри"
 
-#: rc.cpp:1117 rc.cpp:2701
+#: rc.cpp:1117 rc.cpp:2698
 msgid "Title Clip"
 msgstr "Кліп з титрами"
 
@@ -5514,7 +5517,7 @@ msgstr "Профіль титрів"
 msgid "Title clip"
 msgstr "Кліп з титрами"
 
-#: rc.cpp:1968 rc.cpp:3552
+#: rc.cpp:1968 rc.cpp:3549
 msgid "Title clips"
 msgstr "Кліпи з титрами"
 
@@ -5522,11 +5525,11 @@ msgstr "Кліпи з титрами"
 msgid "Title module"
 msgstr "Модуль титрів"
 
-#: rc.cpp:2193 rc.cpp:3777
+#: rc.cpp:2190 rc.cpp:3771
 msgid "Toggle selection"
 msgstr "Перемкнути стан позначення"
 
-#: rc.cpp:3894
+#: rc.cpp:3888
 msgid "Tool"
 msgstr "Інструмент"
 
@@ -5534,19 +5537,19 @@ msgstr "Інструмент"
 msgid "Top"
 msgstr "Вгорі"
 
-#: src/customtrackview.cpp:2586 rc.cpp:1653 rc.cpp:3237
+#: src/customtrackview.cpp:2582 rc.cpp:1653 rc.cpp:3234
 msgid "Track"
 msgstr "Доріжка"
 
-#: rc.cpp:2163 rc.cpp:3747
+#: rc.cpp:2160 rc.cpp:3741
 msgid "Track height"
 msgstr "Висота доріжки"
 
-#: rc.cpp:3888
+#: rc.cpp:3882
 msgid "Tracks"
 msgstr "Доріжки"
 
-#: src/kdenlivesettingsdialog.cpp:107 rc.cpp:3882
+#: src/kdenlivesettingsdialog.cpp:107 rc.cpp:3876
 msgid "Transcode"
 msgstr "Перекодувати"
 
@@ -5554,7 +5557,7 @@ msgstr "Перекодувати"
 msgid "Transcode Clip"
 msgstr "Перекодувати кліп"
 
-#: src/mainwindow.cpp:994
+#: src/mainwindow.cpp:1002
 msgid "Transcode Clips"
 msgstr "Перекодувати кліпи"
 
@@ -5570,20 +5573,19 @@ msgstr "Перекодування завершено."
 msgid "Transition"
 msgstr "Перехід"
 
-#: src/trackview.cpp:292 src/trackview.cpp:300
+#: src/trackview.cpp:293 src/trackview.cpp:301
 msgid "Transition %1 had an invalid track: %2 > %3"
 msgstr "У переході %1 вказано некоректну доріжку: %2 > %3"
 
-#: src/mainwindow.cpp:1408
+#: src/mainwindow.cpp:1416
 msgid "Transitions"
 msgstr "Переходи"
 
-#: rc.cpp:2283 rc.cpp:2289 rc.cpp:3867 rc.cpp:3873
+#: rc.cpp:2280 rc.cpp:2286 rc.cpp:3861 rc.cpp:3867
 msgid "Transparency"
 msgstr "Прозорість"
 
 #: src/initeffects.cpp:758
-#| msgid "Transparency"
 msgid "Transparency clip"
 msgstr "Кліп прозорості"
 
@@ -5591,7 +5593,7 @@ msgstr "Кліп прозорості"
 msgid "Transparent Background"
 msgstr "Прозоре тло"
 
-#: rc.cpp:919 rc.cpp:2503
+#: rc.cpp:919 rc.cpp:2500
 msgid "Transparent background"
 msgstr "Прозоре тло"
 
@@ -5603,8 +5605,8 @@ msgstr "Обрізати краї зображення кліпу"
 msgid "Turn clip colors to sepia"
 msgstr "Перетворення кольорів кліпу на тони сепії"
 
-#: src/tracksconfigdialog.cpp:72 rc.cpp:231 rc.cpp:801 rc.cpp:2028 rc.cpp:2385
-#: rc.cpp:3612
+#: src/tracksconfigdialog.cpp:72 rc.cpp:231 rc.cpp:801 rc.cpp:2028 rc.cpp:2382
+#: rc.cpp:3609
 msgid "Type"
 msgstr "Тип"
 
@@ -5624,7 +5626,7 @@ msgstr "Не вдалося виконати запис до файла %1"
 msgid "Undo History"
 msgstr "Журнал скасування"
 
-#: src/mainwindow.cpp:1125
+#: src/mainwindow.cpp:1133
 msgid "Ungroup Clips"
 msgstr "Розгрупувати кліпи"
 
@@ -5660,7 +5662,7 @@ msgstr "Непідтримуваний формат відео: %1"
 msgid "Untitled"
 msgstr "Без назви"
 
-#: rc.cpp:1719 rc.cpp:3303
+#: rc.cpp:1719 rc.cpp:3300
 msgid "Unused clips:"
 msgstr "Невикористані кліпи:"
 
@@ -5668,7 +5670,7 @@ msgstr "Невикористані кліпи:"
 msgid "Update Text Clips"
 msgstr "Оновити текстові кліпи"
 
-#: rc.cpp:2013 rc.cpp:3597
+#: rc.cpp:2013 rc.cpp:3594
 msgid "Use KDE job tracking for render jobs"
 msgstr "Використовувати для завдань з відтворення чергу завдань KDE"
 
@@ -5676,11 +5678,11 @@ msgstr "Використовувати для завдань з відтворе
 msgid "Use alpha channel of another clip to create a transition."
 msgstr "Використати канал прозорості іншого кліпу для створення переходу."
 
-#: rc.cpp:774 rc.cpp:2358
+#: rc.cpp:774 rc.cpp:2355
 msgid "Use as default"
 msgstr "Зробити типовим"
 
-#: rc.cpp:2037 rc.cpp:3621
+#: rc.cpp:2037 rc.cpp:3618
 msgid "Use placeholders for missing clips"
 msgstr "Заповнювачі на місці кліпів, які не знайдено"
 
@@ -5688,8 +5690,8 @@ msgstr "Заповнювачі на місці кліпів, які не зна�
 msgid "Use transparency"
 msgstr "Використовувати прозорість"
 
-#: rc.cpp:1135 rc.cpp:1138 rc.cpp:2250 rc.cpp:2253 rc.cpp:2719 rc.cpp:2722
-#: rc.cpp:3834 rc.cpp:3837
+#: rc.cpp:1135 rc.cpp:1138 rc.cpp:2247 rc.cpp:2250 rc.cpp:2716 rc.cpp:2719
+#: rc.cpp:3828 rc.cpp:3831
 msgid "V"
 msgstr "V"
 
@@ -5697,7 +5699,7 @@ msgstr "V"
 msgid "Validating"
 msgstr "Перевірка"
 
-#: rc.cpp:2142 rc.cpp:3726
+#: rc.cpp:2139 rc.cpp:3720
 msgid "Value"
 msgstr "Значення"
 
@@ -5730,28 +5732,28 @@ msgid "Vertigo"
 msgstr "Запаморочення"
 
 #: src/tracksconfigdialog.cpp:36 src/tracksconfigdialog.cpp:142 rc.cpp:850
-#: rc.cpp:1039 rc.cpp:1306 rc.cpp:1378 rc.cpp:1707 rc.cpp:2148 rc.cpp:2434
-#: rc.cpp:2623 rc.cpp:2890 rc.cpp:2962 rc.cpp:3291 rc.cpp:3732
+#: rc.cpp:1039 rc.cpp:1306 rc.cpp:1378 rc.cpp:1707 rc.cpp:2145 rc.cpp:2431
+#: rc.cpp:2620 rc.cpp:2887 rc.cpp:2959 rc.cpp:3288 rc.cpp:3726
 msgid "Video"
 msgstr "Відео"
 
-#: rc.cpp:820 rc.cpp:2404
+#: rc.cpp:820 rc.cpp:2401
 msgid "Video Codecs"
 msgstr "Відеокодеки"
 
-#: src/mainwindow.cpp:1378
+#: src/mainwindow.cpp:1386
 msgid "Video Effects"
 msgstr "Відеоефекти"
 
-#: src/mainwindow.cpp:1208
+#: src/mainwindow.cpp:1216
 msgid "Video Only"
 msgstr "Лише відео"
 
-#: rc.cpp:1665 rc.cpp:3249
+#: rc.cpp:1665 rc.cpp:3246
 msgid "Video Profile"
 msgstr "Профіль відео"
 
-#: rc.cpp:2085 rc.cpp:3669
+#: rc.cpp:2085 rc.cpp:3666
 msgid "Video Resolution"
 msgstr "Роздільна здатність відео"
 
@@ -5764,39 +5766,39 @@ msgstr "Стандарт відео"
 msgid "Video clip"
 msgstr "Відеокліп"
 
-#: rc.cpp:853 rc.cpp:2437
+#: rc.cpp:853 rc.cpp:2434
 msgid "Video codec"
 msgstr "Відеокодек"
 
-#: rc.cpp:1099 rc.cpp:2683
+#: rc.cpp:1099 rc.cpp:2680
 msgid "Video driver:"
 msgstr "Драйвер відео:"
 
-#: rc.cpp:958 rc.cpp:2542
+#: rc.cpp:958 rc.cpp:2539
 msgid "Video index"
 msgstr "Покажчик відео"
 
-#: src/customtrackview.cpp:5488
+#: src/customtrackview.cpp:5478
 msgid "Video only"
 msgstr "Лише відео"
 
-#: rc.cpp:1552 rc.cpp:3136
+#: rc.cpp:1552 rc.cpp:3133
 msgid "Video player"
 msgstr "Програвач відеофайлів"
 
-#: rc.cpp:1000 rc.cpp:2584
+#: rc.cpp:1000 rc.cpp:2581
 msgid "Video track"
 msgstr "Відеодоріжка"
 
-#: rc.cpp:1698 rc.cpp:2007 rc.cpp:3282 rc.cpp:3591
+#: rc.cpp:1698 rc.cpp:2007 rc.cpp:3279 rc.cpp:3588
 msgid "Video tracks"
 msgstr "Відеодоріжки"
 
-#: rc.cpp:1339 rc.cpp:1375 rc.cpp:1507 rc.cpp:2923 rc.cpp:2959 rc.cpp:3091
+#: rc.cpp:1339 rc.cpp:1375 rc.cpp:1507 rc.cpp:2920 rc.cpp:2956 rc.cpp:3088
 msgid "Video4Linux"
 msgstr "Video4Linux"
 
-#: rc.cpp:3933
+#: rc.cpp:3927
 msgid "View"
 msgstr "Перегляд"
 
@@ -5816,7 +5818,7 @@ msgstr "Віртуальний кліп"
 msgid "Volume (keyframable)"
 msgstr "Гучність (за ключовими кадрами)"
 
-#: rc.cpp:1126 rc.cpp:2710
+#: rc.cpp:1126 rc.cpp:2707
 msgid "W"
 msgstr "W"
 
@@ -5825,7 +5827,7 @@ msgstr "W"
 msgid "Waiting..."
 msgstr "Очікування..."
 
-#: rc.cpp:1096 rc.cpp:2680
+#: rc.cpp:1096 rc.cpp:2677
 msgid ""
 "Warning: changes to the drivers and devices can make Kdenlive unstable. "
 "Change only if you know what you do."
@@ -5862,7 +5864,7 @@ msgstr "Білий колір"
 msgid "White output"
 msgstr "Вихідний білий"
 
-#: rc.cpp:555 rc.cpp:1156 rc.cpp:1585 rc.cpp:2740 rc.cpp:3169
+#: rc.cpp:555 rc.cpp:1156 rc.cpp:1585 rc.cpp:2737 rc.cpp:3166
 msgid "Width"
 msgstr "Ширина"
 
@@ -5870,7 +5872,7 @@ msgstr "Ширина"
 msgid "Window"
 msgstr "Вікно"
 
-#: src/initeffects.cpp:715 rc.cpp:904 rc.cpp:2070 rc.cpp:2488 rc.cpp:3654
+#: src/initeffects.cpp:715 rc.cpp:904 rc.cpp:2070 rc.cpp:2485 rc.cpp:3651
 msgid "Wipe"
 msgstr "Витирання"
 
@@ -5886,7 +5888,7 @@ msgstr "Інверсія"
 msgid "Wipe Softness"
 msgstr "Розмивання"
 
-#: rc.cpp:1579 rc.cpp:3163
+#: rc.cpp:1579 rc.cpp:3160
 msgid "X"
 msgstr "X"
 
@@ -5902,7 +5904,7 @@ msgstr "XFree86 DGA 2.0"
 msgid "XVideo"
 msgstr "XVideo"
 
-#: rc.cpp:1582 rc.cpp:3166
+#: rc.cpp:1582 rc.cpp:3163
 msgid "Y"
 msgstr "Y"
 
@@ -5938,27 +5940,27 @@ msgstr ""
 "Вами було змінено теку проекту. Бажаєте, щоб програма скопіювала дані кешу з "
 "%1 до нової теки %2?"
 
-#: src/customtrackview.cpp:2600 src/customtrackview.cpp:2606
+#: src/customtrackview.cpp:2596 src/customtrackview.cpp:2602
 msgid "You must be in an empty space to remove space (time: %1, track: %2)"
 msgstr ""
 "Для вилучення пробілу курсор має перебувати в межах пробілу (часова позиція: "
 "%1, доріжка: %2)"
 
-#: src/customtrackview.cpp:4942
+#: src/customtrackview.cpp:4939
 msgid "You must copy exactly one clip before pasting effects"
 msgstr "Перш ніж вставляти ефекти, вам слід скопіювати точно один кліп"
 
-#: src/customtrackview.cpp:5385
+#: src/customtrackview.cpp:5375
 msgid "You must select at least one clip for this action"
 msgstr "Для виконання цієї дії вам слід позначити хоча б один кліп"
 
-#: src/customtrackview.cpp:5079 src/customtrackview.cpp:5093
-#: src/customtrackview.cpp:5484 src/customtrackview.cpp:5509
-#: src/customtrackview.cpp:5534
+#: src/customtrackview.cpp:5076 src/customtrackview.cpp:5090
+#: src/customtrackview.cpp:5474 src/customtrackview.cpp:5499
+#: src/customtrackview.cpp:5524
 msgid "You must select one clip for this action"
 msgstr "Для виконання цієї дії вам слід позначити один кліп"
 
-#: src/customtrackview.cpp:5282
+#: src/customtrackview.cpp:5272
 msgid "You must select one transition for this action"
 msgstr "Для виконання цієї дії вам слід позначити один перехід"
 
@@ -5997,7 +5999,7 @@ msgstr ""
 msgid "Your MLT version is unsupported!!!"
 msgstr "Встановлена вами версія MLT не підтримується."
 
-#: src/trackview.cpp:434
+#: src/trackview.cpp:437
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version, but "
 "it was not possible to create a backup copy."
@@ -6005,7 +6007,7 @@ msgstr ""
 "Файл вашого проекту було оновлено до поточної версії формату документів "
 "Kdenlive, але створення резервної копії було неможливим."
 
-#: src/trackview.cpp:433
+#: src/trackview.cpp:435
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version.\n"
 "To make sure you don't lose data, a backup copy called %1 was created."
@@ -6024,7 +6026,7 @@ msgstr ""
 "Назва цього профілю збігається з існуючою: %1.\n"
 "Будь ласка, вкажіть іншу назву для профілю."
 
-#: rc.cpp:1132 rc.cpp:2716
+#: rc.cpp:1132 rc.cpp:2713
 msgid "Z-Index:"
 msgstr "Z-індекс:"
 
@@ -6044,7 +6046,7 @@ msgstr "Початок ділянки: %1"
 msgid "Zoom"
 msgstr "Масштабування"
 
-#: src/mainwindow.cpp:831
+#: src/mainwindow.cpp:839
 msgid "Zoom In"
 msgstr "Збільшити"
 
@@ -6052,7 +6054,7 @@ msgstr "Збільшити"
 msgid "Zoom Level: %1/13"
 msgstr "Масштаб: %1/13"
 
-#: src/mainwindow.cpp:818
+#: src/mainwindow.cpp:826
 msgid "Zoom Out"
 msgstr "Зменшити"
 
@@ -6060,31 +6062,31 @@ msgstr "Зменшити"
 msgid "Zoom Rate"
 msgstr "Масштабний коефіцієнт"
 
-#: rc.cpp:2166 rc.cpp:3750
+#: rc.cpp:2163 rc.cpp:3744
 msgid "Zoom using vertical drag in ruler"
 msgstr "Зміна масштабу вертикальним перетягуванням позначки на лінійці"
 
-#: rc.cpp:1216 rc.cpp:2800
+#: rc.cpp:1216 rc.cpp:2797
 msgid "Zoom:"
 msgstr "Масштаб:"
 
-#: src/titlewidget.cpp:1351
+#: src/titlewidget.cpp:1352
 msgid "\\u2212X"
 msgstr "\\u2212X"
 
-#: src/titlewidget.cpp:1376
+#: src/titlewidget.cpp:1377
 msgid "\\u2212Y"
 msgstr "\\u2212Y"
 
-#: rc.cpp:997 rc.cpp:2581
+#: rc.cpp:997 rc.cpp:2578
 msgid "after"
 msgstr "після"
 
-#: rc.cpp:994 rc.cpp:2578
+#: rc.cpp:994 rc.cpp:2575
 msgid "before"
 msgstr "до"
 
-#: rc.cpp:2115 rc.cpp:3699
+#: rc.cpp:2115 rc.cpp:3696
 msgid "create new points"
 msgstr "створити нові точки"
 
@@ -6096,7 +6098,7 @@ msgstr "dvdauthor"
 msgid "dvgrab"
 msgstr "dvgrab"
 
-#: rc.cpp:1372 rc.cpp:2956
+#: rc.cpp:1372 rc.cpp:2953
 msgid "dvgrab additional parameters"
 msgstr "Додаткові параметри dvgrab"
 
@@ -6113,12 +6115,12 @@ msgid "dvgrab version %1 at %2"
 msgstr "Версія dvgrab %1 %2"
 
 #: src/addeffectcommand.cpp:37 src/edittransitioncommand.cpp:35
-#: src/customtrackview.cpp:1547 src/customtrackview.cpp:1591
-#: src/customtrackview.cpp:1660 src/editeffectcommand.cpp:39
+#: src/customtrackview.cpp:1543 src/customtrackview.cpp:1587
+#: src/customtrackview.cpp:1656 src/editeffectcommand.cpp:39
 msgid "effect"
 msgstr "ефект"
 
-#: src/customtrackview.cpp:5847
+#: src/customtrackview.cpp:5837
 msgid "error"
 msgstr "помилка"
 
@@ -6134,7 +6136,7 @@ msgstr "genisoimage"
 msgid "genisoimage or mkisofs"
 msgstr "genisoimage або mkisofs"
 
-#: src/slideshowclip.cpp:69 src/mainwindow.cpp:710 src/clipproperties.cpp:189
+#: src/slideshowclip.cpp:69 src/mainwindow.cpp:718 src/clipproperties.cpp:189
 msgid "hh:mm:ss::ff"
 msgstr "гг:хх:сс::дд"
 
@@ -6146,7 +6148,7 @@ msgstr "годин"
 msgid "import"
 msgstr "імпортувати"
 
-#: src/mainwindow.cpp:772
+#: src/mainwindow.cpp:780
 msgctxt "Spacer tool shortcut"
 msgid "m"
 msgstr "m"
@@ -6159,15 +6161,15 @@ msgstr "хв."
 msgid "mkisofs"
 msgstr "mkisofs"
 
-#: rc.cpp:2097 rc.cpp:3681
+#: rc.cpp:2097 rc.cpp:3678
 msgid "move on X axis"
 msgstr "зсунути вісь X"
 
-#: rc.cpp:2103 rc.cpp:3687
+#: rc.cpp:2103 rc.cpp:3684
 msgid "move on Y axis"
 msgstr "зсунути вісь Y"
 
-#: src/mainwindow.cpp:729
+#: src/mainwindow.cpp:737
 msgctxt "Normal editing"
 msgid "n"
 msgstr "n"
@@ -6176,7 +6178,7 @@ msgstr "n"
 msgid "opacity"
 msgstr "непрозорість"
 
-#: rc.cpp:2124 rc.cpp:3708
+#: rc.cpp:2124 rc.cpp:3705
 msgid "parameter description"
 msgstr "Опис параметра"
 
@@ -6192,7 +6194,7 @@ msgstr "радіус"
 msgid "recordmydesktop"
 msgstr "recordmydesktop"
 
-#: src/mainwindow.cpp:760
+#: src/mainwindow.cpp:768
 msgctxt "Selection tool shortcut"
 msgid "s"
 msgstr "s"
@@ -6205,7 +6207,7 @@ msgstr "скрипт"
 msgid "sec."
 msgstr "с"
 
-#: src/abstractclipitem.cpp:315
+#: src/abstractclipitem.cpp:318
 msgid "seconds"
 msgstr "секунд"
 
@@ -6213,7 +6215,7 @@ msgstr "секунд"
 msgid "smooth"
 msgstr "згладжування"
 
-#: rc.cpp:1827 rc.cpp:3411
+#: rc.cpp:1827 rc.cpp:3408
 msgid "to"
 msgstr "до"
 
@@ -6221,30 +6223,33 @@ msgstr "до"
 msgid "untitled"
 msgstr "без назви"
 
-#: rc.cpp:2109 rc.cpp:3693
+#: rc.cpp:2109 rc.cpp:3690
 msgid "update values in timeline"
 msgstr "оновити значення на лінійці часу"
 
-#: rc.cpp:804 rc.cpp:2388
+#: rc.cpp:804 rc.cpp:2385
 msgid "with track"
 msgstr "для доріжки"
 
-#: src/mainwindow.cpp:766
+#: src/mainwindow.cpp:774
 msgctxt "Razor tool shortcut"
 msgid "x"
 msgstr "x"
 
-#: rc.cpp:667 rc.cpp:750 rc.cpp:1794 rc.cpp:2334 rc.cpp:3378
+#: rc.cpp:667 rc.cpp:750 rc.cpp:1794 rc.cpp:2331 rc.cpp:3375
 msgid "x"
 msgstr "x"
 
-#: rc.cpp:1141 rc.cpp:2725
+#: rc.cpp:1141 rc.cpp:2722
 msgid "x1"
 msgstr "x1"
 
 #: rc.cpp:669
 msgid "y"
 msgstr "y"
+
+#~ msgid "0"
+#~ msgstr "0"
 
 #~ msgid "Cannot find clip with keyframe"
 #~ msgstr "Не вдалося знайти кліп з ключовим кадром"
