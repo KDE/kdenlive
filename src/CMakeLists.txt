@@ -89,6 +89,7 @@ kde4_add_ui_files(kdenlive_UI
   widgets/timecodedisplay_ui.ui
   widgets/tracksconfigdialog_ui.ui
   widgets/urlval_ui.ui
+  widgets/vectorscope_ui.ui
 )
 
 set(kdenlive_SRCS
@@ -190,6 +191,7 @@ set(kdenlive_SRCS
   timecodedisplay.cpp
   tracksconfigdialog.cpp
   configtrackscommand.cpp
+  vectorscope.cpp
 )
 
 add_definitions( ${KDE4_DEFINITIONS} )

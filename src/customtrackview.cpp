@@ -700,7 +700,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
     }
 #if QT_VERSION >= 0x040600
     // Add shadow to dragged item, currently disabled because of painting artifacts
-    //TODO: re-enable when fixed
+    //TODO: re-enable when fixed
     /*QGraphicsDropShadowEffect *eff = new QGraphicsDropShadowEffect();
     eff->setBlurRadius(5);
     eff->setOffset(3, 3);
@@ -1123,7 +1123,7 @@ void CustomTrackView::mouseDoubleClickEvent(QMouseEvent *event)
     if (m_dragItem && m_dragItem->hasKeyFrames()) {
         /*if (m_moveOpMode == KEYFRAME) {
             // user double clicked on a keyframe, open edit dialog
-            //TODO: update for effects with several values per keyframe
+            //TODO: update for effects with several values per keyframe
             QDialog d(parentWidget());
             Ui::KeyFrameDialog_UI view;
             view.setupUi(&d);
@@ -2132,7 +2132,9 @@ void CustomTrackView::dropEvent(QDropEvent * event)
             if (isLocked) item->setItemLocked(true);
             ItemInfo clipInfo = info;
             clipInfo.track = m_document->tracksCount() - item->track();
-            if (m_document->renderer()->mltInsertClip(clipInfo, item->xml(), item->baseClip()->producer(item->track()), m_scene->editMode() == OVERWRITEEDIT, m_scene->editMode() == INSERTEDIT) == -1) {
+
+            int worked = m_document->renderer()->mltInsertClip(clipInfo, item->xml(), item->baseClip()->producer(item->track()), m_scene->editMode() == OVERWRITEEDIT, m_scene->editMode() == INSERTEDIT);
+            if (worked == -1) {
                 emit displayMessage(i18n("Cannot insert clip in timeline"), ErrorMessage);
                 brokenClips.append(item);
                 continue;
@@ -2159,7 +2161,7 @@ void CustomTrackView::dropEvent(QDropEvent * event)
         setDocumentModified();
 
         /*
-        // debug info
+        // debug info
         QRectF rect(0, 1 * m_tracksHeight + m_tracksHeight / 2, sceneRect().width(), 2);
         QList<QGraphicsItem *> selection = m_scene->items(rect);
         QStringList timelineList;

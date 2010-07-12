@@ -1,5 +1,5 @@
 /***************************************************************************
-                          effecstackedit.h  -  description
+                          transitionsettings.h  -  Transitions widget
                              -------------------
     begin                : Mar 15 2008
     copyright            : (C) 2008 by Marco Gittler

@@ -113,6 +113,7 @@ public:
     QString getFreeScriptName(const QString &prefix = QString());
     bool startWaitingRenderJobs();
     void missingClips(bool hasMissing);
+    void enableAudio(bool enable);
 
 public slots:
     void slotExport(bool scriptExport, int zoneIn, int zoneOut, const QString &playlistPath, const QString &scriptPath);

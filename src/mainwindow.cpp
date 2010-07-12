@@ -52,6 +52,7 @@
 #include "kdenlive-config.h"
 #include "cliptranscode.h"
 #include "ui_templateclip_ui.h"
+#include "vectorscope.h"
 
 #include <KApplication>
 #include <KAction>
@@ -140,6 +141,8 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
     m_timelineArea = new KTabWidget(this);
     m_timelineArea->setTabReorderingEnabled(true);
     m_timelineArea->setTabBarHidden(true);
+    m_timelineArea->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
+    m_timelineArea->setMinimumHeight(200);
 
     QToolButton *closeTabButton = new QToolButton;
     connect(closeTabButton, SIGNAL(clicked()), this, SLOT(closeCurrentDocument()));
@@ -158,22 +161,17 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
 
     m_monitorManager = new MonitorManager();
 
+    m_shortcutRemoveFocus = new QShortcut(QKeySequence("Esc"), this);
+    connect(m_shortcutRemoveFocus, SIGNAL(activated()), this, SLOT(slotRemoveFocus()));
+
+
+    /// Add Widgets ///
+
     m_projectListDock = new QDockWidget(i18n("Project Tree"), this);
     m_projectListDock->setObjectName("project_tree");
     m_projectList = new ProjectList(this);
     m_projectListDock->setWidget(m_projectList);
     addDockWidget(Qt::TopDockWidgetArea, m_projectListDock);
-
-    m_shortcutRemoveFocus = new QShortcut(QKeySequence("Esc"), this);
-    connect(m_shortcutRemoveFocus, SIGNAL(activated()), this, SLOT(slotRemoveFocus()));
-
-    m_effectListDock = new QDockWidget(i18n("Effect List"), this);
-    m_effectListDock->setObjectName("effect_list");
-    m_effectList = new EffectsListView();
-
-    //m_effectList = new KListWidget(this);
-    m_effectListDock->setWidget(m_effectList);
-    addDockWidget(Qt::TopDockWidgetArea, m_effectListDock);
 
     m_effectStackDock = new QDockWidget(i18n("Effect Stack"), this);
     m_effectStackDock->setObjectName("effect_stack");
@@ -187,20 +185,11 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
     m_transitionConfigDock->setWidget(m_transitionConfig);
     addDockWidget(Qt::TopDockWidgetArea, m_transitionConfigDock);
 
-    KdenliveSettings::setCurrent_profile(KdenliveSettings::default_profile());
-    m_fileOpenRecent = KStandardAction::openRecent(this, SLOT(openFile(const KUrl &)), actionCollection());
-    readOptions();
-    m_fileRevert = KStandardAction::revert(this, SLOT(slotRevert()), actionCollection());
-    m_fileRevert->setEnabled(false);
-
-    //slotDetectAudioDriver();
-
     m_clipMonitorDock = new QDockWidget(i18n("Clip Monitor"), this);
     m_clipMonitorDock->setObjectName("clip_monitor");
     m_clipMonitor = new Monitor("clip", m_monitorManager, QString(), this);
     m_clipMonitorDock->setWidget(m_clipMonitor);
     addDockWidget(Qt::TopDockWidgetArea, m_clipMonitorDock);
-    //m_clipMonitor->stop();
 
     m_projectMonitorDock = new QDockWidget(i18n("Project Monitor"), this);
     m_projectMonitorDock->setObjectName("project_monitor");
@@ -219,6 +208,19 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
     connect(m_recMonitor, SIGNAL(showConfigDialog(int, int)), this, SLOT(slotPreferences(int, int)));
 #endif
 
+    m_effectListDock = new QDockWidget(i18n("Effect List"), this);
+    m_effectListDock->setObjectName("effect_list");
+    m_effectList = new EffectsListView();
+    m_effectListDock->setWidget(m_effectList);
+    addDockWidget(Qt::TopDockWidgetArea, m_effectListDock);
+
+    m_vectorscope = new Vectorscope(m_projectMonitor->render, this);
+    m_vectorscopeDock = new QDockWidget(i18n("Vectorscope"), this);
+    m_vectorscopeDock->setObjectName("vectorscope");
+    m_vectorscopeDock->setWidget(m_vectorscope);
+    addDockWidget(Qt::TopDockWidgetArea, m_vectorscopeDock);
+
+
     m_undoViewDock = new QDockWidget(i18n("Undo History"), this);
     m_undoViewDock->setObjectName("undo_history");
     m_undoView = new QUndoView(this);
@@ -234,19 +236,35 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
     //overviewDock->setWidget(m_overView);
     //addDockWidget(Qt::TopDockWidgetArea, overviewDock);
 
+
     setupActions();
-    //tabifyDockWidget(projectListDock, effectListDock);
+
+    /// Tabify Widgets ///
     tabifyDockWidget(m_projectListDock, m_effectStackDock);
     tabifyDockWidget(m_projectListDock, m_transitionConfigDock);
-    //tabifyDockWidget(projectListDock, undoViewDock);
 
 
     tabifyDockWidget(m_clipMonitorDock, m_projectMonitorDock);
 #ifndef Q_WS_MAC
     tabifyDockWidget(m_clipMonitorDock, m_recMonitorDock);
 #endif
+
+    tabifyDockWidget(m_vectorscopeDock, m_undoViewDock);
+    tabifyDockWidget(m_vectorscopeDock, m_effectListDock);
+
+
     setCentralWidget(m_timelineArea);
+
+
+    KdenliveSettings::setCurrent_profile(KdenliveSettings::default_profile());
+    m_fileOpenRecent = KStandardAction::openRecent(this, SLOT(openFile(const KUrl &)), actionCollection());
+    readOptions();
+    m_fileRevert = KStandardAction::revert(this, SLOT(slotRevert()), actionCollection());
+    m_fileRevert->setEnabled(false);
+
+
     setupGUI();
+
 
     // Find QDockWidget tab bars and show / hide widget title bars on right click
     QList <QTabBar *> tabs = findChildren<QTabBar *>();
@@ -1929,6 +1947,10 @@ void MainWindow::slotRenderProject()
     m_renderWidget->setDocument(m_activeDocument);*/
     m_renderWidget->show();
     m_renderWidget->showNormal();
+
+    m_activeTimeline->tracksNumber();
+    m_renderWidget->enableAudio(false);
+    //m_renderWidget->export_audio;
 }
 
 void MainWindow::slotCheckRenderStatus()
@@ -3548,17 +3570,19 @@ void MainWindow::slotShowTitleBars(bool show)
         m_transitionConfigDock->setTitleBarWidget(0);
         m_projectListDock->setTitleBarWidget(0);
         m_undoViewDock->setTitleBarWidget(0);
+        m_vectorscopeDock->setTitleBarWidget(0);
     } else {
-        if (!m_effectStackDock->isFloating()) m_effectStackDock->setTitleBarWidget(new QWidget(this));
-        if (!m_clipMonitorDock->isFloating()) m_clipMonitorDock->setTitleBarWidget(new QWidget(this));
-        if (!m_projectMonitorDock->isFloating()) m_projectMonitorDock->setTitleBarWidget(new QWidget(this));
+        if (!m_effectStackDock->isFloating()) { m_effectStackDock->setTitleBarWidget(new QWidget(this)); }
+        if (!m_clipMonitorDock->isFloating()) { m_clipMonitorDock->setTitleBarWidget(new QWidget(this)); }
+        if (!m_projectMonitorDock->isFloating()) { m_projectMonitorDock->setTitleBarWidget(new QWidget(this)); }
 #ifndef Q_WS_MAC
-        if (!m_recMonitorDock->isFloating()) m_recMonitorDock->setTitleBarWidget(new QWidget(this));
+        if (!m_recMonitorDock->isFloating()) { m_recMonitorDock->setTitleBarWidget(new QWidget(this)); }
 #endif
-        if (!m_effectListDock->isFloating()) m_effectListDock->setTitleBarWidget(new QWidget(this));
-        if (!m_transitionConfigDock->isFloating()) m_transitionConfigDock->setTitleBarWidget(new QWidget(this));
-        if (!m_projectListDock->isFloating()) m_projectListDock->setTitleBarWidget(new QWidget(this));
-        if (!m_undoViewDock->isFloating()) m_undoViewDock->setTitleBarWidget(new QWidget(this));
+        if (!m_effectListDock->isFloating()) { m_effectListDock->setTitleBarWidget(new QWidget(this)); }
+        if (!m_transitionConfigDock->isFloating()) { m_transitionConfigDock->setTitleBarWidget(new QWidget(this)); }
+        if (!m_projectListDock->isFloating()) { m_projectListDock->setTitleBarWidget(new QWidget(this)); }
+        if (!m_undoViewDock->isFloating()) { m_undoViewDock->setTitleBarWidget(new QWidget(this)); }
+        if (!m_vectorscopeDock->isFloating()) { m_vectorscopeDock->setTitleBarWidget(new QWidget(this)); }
     }
     KdenliveSettings::setShowtitlebars(show);
 }

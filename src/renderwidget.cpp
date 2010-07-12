@@ -32,7 +32,6 @@
 #include <KColorScheme>
 #include <KNotification>
 #include <KStartupInfo>
-// #include <knewstuff2/engine.h>
 
 #include <QDomDocument>
 #include <QItemDelegate>
@@ -661,8 +660,9 @@ void RenderWidget::slotPrepareExport(bool scriptExport)
         KMessageBox::sorry(this, i18n("Cannot find the melt program required for rendering (part of Mlt)"));
         return;
     }
-    if (m_view.play_after->isChecked() && KdenliveSettings::defaultplayerapp().isEmpty())
+    if (m_view.play_after->isChecked() && KdenliveSettings::defaultplayerapp().isEmpty()) {
         KMessageBox::sorry(this, i18n("Cannot play video after rendering because the default video player application is not set.\nPlease define it in Kdenlive settings dialog."));
+    }
     QString chapterFile;
     if (m_view.create_chapter->isChecked()) chapterFile = m_view.out_file->url().path() + ".dvdchapter";
 
@@ -1785,6 +1785,11 @@ void RenderWidget::missingClips(bool hasMissing)
         m_view.errorLabel->setText(i18n("Check missing clips"));
         m_view.errorLabel->setHidden(false);
     } else m_view.errorLabel->setHidden(true);
+}
+
+void RenderWidget::enableAudio(bool enable)
+{
+    m_view.export_audio->setChecked(enable);
 }
 
 void RenderWidget::slotUpdateRescaleWidth(int val)

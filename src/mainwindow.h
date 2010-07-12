@@ -61,6 +61,7 @@ class JogShuttle;
 class DocClipBase;
 class Render;
 class Transition;
+class Vectorscope;
 class KActionCollection;
 
 class MainWindow : public KXmlGuiWindow
@@ -149,6 +150,9 @@ private:
 
     QDockWidget *m_recMonitorDock;
     RecMonitor *m_recMonitor;
+
+    QDockWidget *m_vectorscopeDock;
+    Vectorscope *m_vectorscope;
 
     QDockWidget *m_undoViewDock;
     QUndoView *m_undoView;
