@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-02-02 18:20+0200\n"
-"PO-Revision-Date: 2010-02-18 10:39-0400\n"
-"Last-Translator: Marcelo Soares Souza <marcelo@juntadados.org>\n"
+"PO-Revision-Date: 2010-07-13 11:26-0400\n"
+"Last-Translator: \n"
 "Language-Team: Brazilian Portuguese <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -289,18 +289,19 @@ msgstr ":::"
 #: src/unicodedialog.cpp:134
 msgid "<p><strong>&laquo;</strong> (u+00ab, <code>&amp;lfquo;</code> in HTML) and <strong>&raquo;</strong> (u+00bb, <code>&amp;rfquo;</code> in HTML) are called Guillemets or angle quotes. Usage in different countries: France (with non-breaking Space 0x00a0), Switzerland, Germany, Finland and Sweden.</p><p><strong>&lsaquo;</strong> and <strong>&rsaquo;</strong> (U+2039/203a, <code>&amp;lsaquo;/&amp;rsaquo;</code>) are their single quote equivalents.</p><p>See <a href=\"http://en.wikipedia.org/wiki/Guillemets\">Wikipedia:Guillemets</a></p>"
 msgstr ""
+"<p><strong>&laquo;</strong> (u+00ab, <code>&amp;lfquo;</code> in HTML) and <strong>&raquo;</strong> (u+00bb, <code>&amp;rfquo;</code> in HTML) are called Guillemets or angle quotes. Usage in different countries: France (with non-breaking Space 0x00a0), Switzerland, Germany, Finland and Sweden.</p><p><strong>&lsaquo;</strong> and <strong>&rsaquo;</strong> (U+2039/203a, <code>&amp;lsaquo;/&amp;rsaquo;</code>) are their single quote equivalents.</p><p>See <a href=\"http://en.wikipedia.org/wiki/Guillemets\">Wikipedia:Guillemets</a></p>"
 
 #: src/unicodedialog.cpp:158
 msgid "<p>An em Dash (dash of the width of an m).</p><p>Usage examples: In English language to mark&#x2014;like here&#x2014;thoughts. Traditionally without spaces. </p><p>See <a href=\"http://en.wikipedia.org/wiki/Dash\">Wikipedia:Dash</a></p>"
-msgstr ""
+msgstr "<p>An em Dash (dash of the width of an m).</p><p>Usage examples: In English language to mark&#x2014;like here&#x2014;thoughts. Traditionally without spaces. </p><p>See <a href=\"http://en.wikipedia.org/wiki/Dash\">Wikipedia:Dash</a></p>"
 
 #: src/unicodedialog.cpp:156
 msgid "<p>An en Dash (dash of the width of an n).</p><p>Usage examples: In English language for value ranges (1878&#x2013;1903), for relationships/connections (Zurich&#x2013;Dublin). In the German language it is also used (with spaces!) for showing thoughts: &ldquo;Es war &#x2013; wie immer in den Ferien &#x2013; ein regnerischer Tag.</p> <p>See <a href=\"http://en.wikipedia.org/wiki/Dash\">Wikipedia:Dash</a></p>"
-msgstr ""
+msgstr "<p>An en Dash (dash of the width of an n).</p><p>Usage examples: In English language for value ranges (1878&#x2013;1903), for relationships/connections (Zurich&#x2013;Dublin). In the German language it is also used (with spaces!) for showing thoughts: &ldquo;Es war &#x2013; wie immer in den Ferien &#x2013; ein regnerischer Tag.</p> <p>See <a href=\"http://en.wikipedia.org/wiki/Dash\">Wikipedia:Dash</a></p>"
 
 #: src/unicodedialog.cpp:160
 msgid "<p>Narrow no-break space. Has the same width as U+2009.</p><p>Usage: For units (spaces are marked with U+2423, &#x2423;): 230&#x2423;V, &#x2212;21&#x2423;&deg;C, 50&#x2423;lb, <em>but</em> 90&deg; (no space). In German for abbreviations (like: i.&#x202f;d.&#x202f;R. instead of i.&#xa0;d.&#xa0;R. with U+00a0).</p><p>See <a href=\"http://de.wikipedia.org/wiki/Schmales_Leerzeichen\">Wikipedia:de:Schmales_Leerzeichen</a></p>"
-msgstr ""
+msgstr "<p>Estreito espaço. Tem a mesma largura U+2009.</p><p>Uso: Para as unidades (os espaços são marcados com U+2423, &#x2423;): 230&#x2423;V, &#x2212;21&#x2423;&deg;C, 50&#x2423;lb, <em>mas</em> 90&deg; (Sem espaço). Em alemão para abreviaturas (como: i.&#x202f;d.&#x202f;R. instead of i.&#xa0;d.&#xa0;R. with U+00a0).</p><p>Veja <a href=\"http://de.wikipedia.org/wiki/Schmales_Leerzeichen\">Wikipedia:de:Schmales_Leerzeichen</a></p>"
 
 #: src/unicodedialog.cpp:120
 msgid "<small>(no character selected)</small>"
@@ -705,12 +706,10 @@ msgid "Animate Rotate Z"
 msgstr "Animar Rotação Z"
 
 #: rc.cpp:461
-#, fuzzy
 msgid "Animate Shear X"
 msgstr "Animar Corte X"
 
 #: rc.cpp:463
-#, fuzzy
 msgid "Animate Shear Y"
 msgstr "Animar Corte Y"
 
@@ -1311,7 +1310,6 @@ msgid "Center"
 msgstr "Centralizar"
 
 #: rc.cpp:479
-#, fuzzy
 msgid "Center Frequency"
 msgstr "Frequência Central"
 
@@ -1479,7 +1477,6 @@ msgid "Clip Properties"
 msgstr "Propriedades do Clipe"
 
 #: rc.cpp:247
-#, fuzzy
 msgid "Clip bottom"
 msgstr "Clipe inferior"
 
@@ -1493,17 +1490,14 @@ msgid "Clip has no markers"
 msgstr "O clipe não tem marcador"
 
 #: rc.cpp:241
-#, fuzzy
 msgid "Clip left"
 msgstr "Clipe à esquerda"
 
 #: rc.cpp:243
-#, fuzzy
 msgid "Clip right"
 msgstr "Clipe à direita"
 
 #: rc.cpp:245
-#, fuzzy
 msgid "Clip top"
 msgstr "Clipe ao topo"
 
@@ -1565,7 +1559,6 @@ msgid "Color Clip"
 msgstr "Clipe de Cor"
 
 #: rc.cpp:146
-#, fuzzy
 msgid "Color Distance"
 msgstr "Distância de cor"
 
@@ -2400,19 +2393,19 @@ msgstr "Efeito já presente no clipe"
 
 #: src/unicodedialog.cpp:170
 msgid "Eighth note (Am.) or quaver (Brit.). Half as long as a quarter note (U+2669). See <a href=\"http://en.wikipedia.org/wiki/Eighth_note\">Wikipedia:Eighth_note</a>"
-msgstr ""
+msgstr "Eighth note (Am.) or quaver (Brit.). Metade do tempo como uma semínima (U+2669). Veja <a href=\"http://en.wikipedia.org/wiki/Eighth_note\">Wikipedia:Eighth_note</a>"
 
 #: src/unicodedialog.cpp:162
 msgid "Ellipsis: If text has been left o&#x2026; See <a href=\"http://en.wikipedia.org/wiki/Ellipsis\">Wikipedia:Ellipsis</a>"
-msgstr ""
+msgstr "Ellipsis: Se o texto foi deixada o&#x2026; Veja <a href=\"http://en.wikipedia.org/wiki/Ellipsis\">Wikipedia:Ellipsis</a>"
 
 #: src/unicodedialog.cpp:138
 msgid "Em Space (width of an m)"
-msgstr ""
+msgstr "Em Space (largura de an m)"
 
 #: src/unicodedialog.cpp:136
 msgid "En Space (width of an n)"
-msgstr ""
+msgstr "En Space (largura de an n)"
 
 #: rc.cpp:2078
 #: rc.cpp:3612
@@ -2439,7 +2432,6 @@ msgstr "Fim"
 
 #: rc.cpp:97
 #: rc.cpp:108
-#, fuzzy
 msgid "End Gain"
 msgstr "Ganho de fim"
 
@@ -2586,7 +2578,6 @@ msgid "Feedback"
 msgstr "Feedback"
 
 #: src/unicodedialog.cpp:146
-#, fuzzy
 msgid "Figure space (non-breaking). Width of a digit if digits have fixed width in this font."
 msgstr "Simular espaço (sem quebra). Largura de um dígito se os caracteres tiverem largura fixa nesta fonte."
 
@@ -2806,7 +2797,6 @@ msgid "Found: %1"
 msgstr "Encontrado: %1"
 
 #: src/unicodedialog.cpp:142
-#, fuzzy
 msgid "Four-Per-Em Space. Width: 1/4 of one <em>em</em>"
 msgstr "Espaço quatro por um. Largura: 1/4 de um <em>em</em>"
 
@@ -3075,7 +3065,7 @@ msgstr "HDV"
 
 #: src/unicodedialog.cpp:152
 msgid "Hair Space. Thinner than U+2009."
-msgstr ""
+msgstr "Hair Space. Mais fino do que U+2009."
 
 #: rc.cpp:2030
 #: rc.cpp:3564
@@ -3469,6 +3459,8 @@ msgid ""
 "Line Feed (newline character, \\\\n"
 ")"
 msgstr ""
+"Adicionar Linha (caracter de nova linha, \\\\n"
+")"
 
 #: rc.cpp:331
 msgid "Lo gain"
@@ -3721,7 +3713,6 @@ msgid "Monitor background color (requires restart)"
 msgstr "Ajustes de velocidade do monitor de visualização"
 
 #: src/monitor.cpp:215
-#, fuzzy
 msgid "Monitor overlay infos"
 msgstr "Monitora informações de sobreposição"
 
@@ -4085,7 +4076,6 @@ msgid "Path"
 msgstr "Caminho"
 
 #: rc.cpp:299
-#, fuzzy
 msgid "Phase Increment"
 msgstr "Incremento de Fase"
 
@@ -4798,7 +4788,6 @@ msgid "Rotate Z:"
 msgstr "Rotacionar Z:"
 
 #: rc.cpp:441
-#, fuzzy
 msgid "Rotate and Shear"
 msgstr "Rotacionar e Cortar"
 
@@ -4902,7 +4891,7 @@ msgstr "Scale0tilt"
 
 #: rc.cpp:239
 msgid "Scales, Tilts and Crops an Image"
-msgstr ""
+msgstr "Escalar, Tilts e Cultivar uma imagem"
 
 #: rc.cpp:1640
 #: rc.cpp:3174
@@ -5223,9 +5212,8 @@ msgid "Source Color"
 msgstr "Cor de origem"
 
 #: rc.cpp:275
-#, fuzzy
 msgid "Source image on left side"
-msgstr "Imagem de fonte no lado esquerdo"
+msgstr "Imagem original no lado esquerdo "
 
 #: rc.cpp:475
 msgid "Sox Band"
@@ -5422,7 +5410,7 @@ msgstr "Sincronizar cursor de linha de tempo"
 
 #: src/customtrackview.cpp:5684
 msgid "TRACTOR"
-msgstr ""
+msgstr "TRATOR"
 
 #: rc.cpp:953
 #: rc.cpp:2487
@@ -5491,7 +5479,7 @@ msgstr "Não existe um clipe, não é possível extrair quadro."
 
 #: src/unicodedialog.cpp:150
 msgid "Thin space, in HTML also &amp;thinsp;. See U+202f and <a href=\"http://en.wikipedia.org/wiki/Space_(punctuation)\">Wikipedia:Space_(punctuation)</a>"
-msgstr ""
+msgstr "Espaço Fino, também em HTML &amp;thinsp;. Veja U+202f e <a href=\"http://en.wikipedia.org/wiki/Space_(punctuation)\">Wikipedia:Space_(punctuation)</a>"
 
 #: src/unicodedialog.cpp:174
 msgid "Thirty-second note (Am.) or demisemiquaver (Brit.). Half as long as a sixteenth note (U+266b). See <a href=\"http://en.wikipedia.org/wiki/Quarter_note\">Wikipedia:Thirty-second_note</a>"
@@ -6042,7 +6030,7 @@ msgstr "Janela"
 #: rc.cpp:2370
 #: rc.cpp:3444
 msgid "Wipe"
-msgstr ""
+msgstr "Limpar"
 
 #: rc.cpp:2021
 #: rc.cpp:3555
