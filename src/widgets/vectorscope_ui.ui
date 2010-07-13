@@ -203,7 +203,7 @@
      <x>0</x>
      <y>0</y>
      <width>401</width>
-     <height>301</height>
+     <height>68</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout">
@@ -216,11 +216,22 @@
        <widget class="QComboBox" name="paintMode"/>
       </item>
       <item>
-       <widget class="QCheckBox" name="cbMagnify">
-        <property name="text">
-         <string>Magnify</string>
-        </property>
-       </widget>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QCheckBox" name="cbMagnify">
+          <property name="text">
+           <string>Magnify</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="cbAutoRefresh">
+          <property name="text">
+           <string>Auto-Refresh</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
      </layout>
     </item>

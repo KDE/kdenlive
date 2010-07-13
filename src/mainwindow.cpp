@@ -203,7 +203,6 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
     m_recMonitor = new RecMonitor("record", this);
     m_recMonitorDock->setWidget(m_recMonitor);
     addDockWidget(Qt::TopDockWidgetArea, m_recMonitorDock);
-
     connect(m_recMonitor, SIGNAL(addProjectClip(KUrl)), this, SLOT(slotAddProjectClip(KUrl)));
     connect(m_recMonitor, SIGNAL(showConfigDialog(int, int)), this, SLOT(slotPreferences(int, int)));
 #endif
@@ -214,7 +213,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
     m_effectListDock->setWidget(m_effectList);
     addDockWidget(Qt::TopDockWidgetArea, m_effectListDock);
 
-    m_vectorscope = new Vectorscope(m_projectMonitor->render, this);
+    m_vectorscope = new Vectorscope(m_projectMonitor->render, m_clipMonitor->render, this);
     m_vectorscopeDock = new QDockWidget(i18n("Vectorscope"), this);
     m_vectorscopeDock->setObjectName("vectorscope");
     m_vectorscopeDock->setWidget(m_vectorscope);
@@ -403,6 +402,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
     connect(m_clipMonitorDock, SIGNAL(visibilityChanged(bool)), m_clipMonitor, SLOT(refreshMonitor(bool)));
     //connect(m_monitorManager, SIGNAL(connectMonitors()), this, SLOT(slotConnectMonitors()));
     connect(m_monitorManager, SIGNAL(raiseClipMonitor(bool)), this, SLOT(slotRaiseMonitor(bool)));
+    connect(m_monitorManager, SIGNAL(raiseClipMonitor(bool)), m_vectorscope, SLOT(slotActiveMonitorChanged(bool)));
     connect(m_effectList, SIGNAL(addEffect(const QDomElement)), this, SLOT(slotAddEffect(const QDomElement)));
     connect(m_effectList, SIGNAL(reloadEffects()), this, SLOT(slotReloadEffects()));
 

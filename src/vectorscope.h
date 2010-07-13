@@ -22,22 +22,30 @@ class Vectorscope : public QWidget, public Ui::Vectorscope_UI {
     Q_OBJECT
 
 public:
-    Vectorscope(Render *render, QWidget *parent = 0);
+    Vectorscope(Render *projRender, Render *clipRender, QWidget *parent = 0);
     ~Vectorscope();
 
 protected:
     void paintEvent(QPaintEvent *);
     void mousePressEvent(QMouseEvent *);
+    void mouseMoveEvent(QMouseEvent *event);
 
 private:
-    Render *m_render;
+    Render *m_projRender;
+    Render *m_clipRender;
+    Render *m_activeRender;
+    QImage m_scope;
     int iPaintMode;
     float scaling;
     QPoint mapToCanvas(QRect inside, QPointF point);
 
+    bool circleOnly;
+    QPoint mousePos;
+
 private slots:
     void slotPaintModeChanged(int index);
     void slotMagnifyChanged();
+    void slotActiveMonitorChanged(bool isClipMonitor);
 
 };
 
