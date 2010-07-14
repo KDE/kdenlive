@@ -1,5 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2010 by Simon Andreas Eugster (simon.eu@gmail.com)      *
+ *   This file is part of kdenlive. See www.kdenlive.org.                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -38,6 +39,9 @@ mRgb2Yuv =                       r =
 #include <QPainter>
 #include <QDebug>
 
+#include <qtconcurrentrun.h>
+#include <QThread>
+
 #include "vectorscope.h"
 
 const float SCALING = 1/.7; // See class docs
@@ -54,26 +58,31 @@ const QPen penThin(QBrush(QColor(250,250,250)), 1, Qt::SolidLine);
 const QPen penLight(QBrush(QColor(144,255,100,50)), 1, Qt::SolidLine);
 
 
-Vectorscope::Vectorscope(Render *projRender, Render *clipRender, QWidget *parent) :
+Vectorscope::Vectorscope(Monitor *projMonitor, Monitor *clipMonitor, QWidget *parent) :
     QWidget(parent),
-    m_projRender(projRender),
-    m_clipRender(clipRender),
-    m_activeRender(clipRender),
+    m_projMonitor(projMonitor),
+    m_clipMonitor(clipMonitor),
+    m_activeRender(clipMonitor->render),
     iPaintMode(GREEN),
     scaling(1),
-    circleOnly(false)
+    circleEnabled(false),
+    initialDimensionUpdateDone(false)
 {
     setupUi(this);
 
     paintMode->insertItem(GREEN, i18n("Green"));
     paintMode->insertItem(CHROMA, i18n("Chroma"));
     paintMode->insertItem(ORIG, i18n("Original Color"));
-    cbAutoRefresh->setEnabled(false);
 
     connect(paintMode, SIGNAL(currentIndexChanged(int)), this, SLOT(slotPaintModeChanged(int)));
     connect(cbMagnify, SIGNAL(stateChanged(int)), this, SLOT(slotMagnifyChanged()));
+    connect(this, SIGNAL(signalScopeCalculationFinished()), this, SLOT(slotScopeCalculationFinished()));
+    connect(cbMagnify, SIGNAL(stateChanged(int)), this, SLOT(slotRenderZoneUpdated()));
+
+    newFrames.fetchAndStoreRelaxed(0);
 
     this->setMouseTracking(true);
+    updateDimensions();
 }
 
 Vectorscope::~Vectorscope()
@@ -109,7 +118,93 @@ QPoint Vectorscope::mapToCanvas(QRect inside, QPointF point)
                  -point.y()/2*inside.height() + inside.height()/2 + inside.y());
 }
 
-void Vectorscope::paintEvent(QPaintEvent *)
+bool Vectorscope::prodCalcThread()
+{
+    if (m_scopeCalcThread.isRunning()) {
+        qDebug() << "Calc thread still running.";
+        return false;
+    } else {
+        // See http://doc.qt.nokia.com/latest/qtconcurrentrun.html#run about
+        // running member functions in a thread
+        qDebug() << "Calc thread not running anymore, finished: " << m_scopeCalcThread.isFinished() << ", Starting new thread";
+        m_scopeCalcThread = QtConcurrent::run(this, &Vectorscope::calculateScope);
+        return true;
+    }
+}
+
+void Vectorscope::calculateScope()
+{
+    // Prepare the vectorscope data
+    QImage scope(cw, cw, QImage::Format_ARGB32);
+    scope.fill(qRgba(0,0,0,0));
+
+    QImage img(m_activeRender->extractFrame(m_activeRender->seekFramePosition()));
+    newFrames.fetchAndStoreRelease(0); // Reset number of new frames, as we just got the newest
+    uchar *bits = img.bits();
+
+    int r,g,b;
+    double dy, dr, dg, db, dmax;
+    double y,u,v;
+    QPoint pt;
+    QRgb px;
+
+    for (int i = 0; i < img.byteCount(); i+= 4) {
+        QRgb *col = (QRgb *) bits;
+
+        r = qRed(*col);
+        g = qGreen(*col);
+        b = qBlue(*col);
+
+        y = (double) 0.001173 * r + 0.002302 * g + 0.0004471 * b;
+        u = (double) -0.0005781*r -0.001135*g +0.001713*b;
+        v = (double) 0.002411*r -0.002019*g -0.0003921*b;
+
+        pt = mapToCanvas(QRect(QPoint(0,0), scope.size()), QPointF(SCALING*scaling*u, SCALING*scaling*v));
+
+        if (!(pt.x() <= scopeRect.width() && pt.x() >= 0
+            && pt.y() <= scopeRect.height() && pt.y() >= 0)) {
+            // Point lies outside (because of scaling), don't plot it
+            continue;
+        }
+
+        // Draw the pixel using the chosen draw mode
+        switch (iPaintMode) {
+        case CHROMA:
+            dy = 200;
+            dr = dy + 290.8*v;
+            dg = dy - 100.6*u - 148*v;
+            db = dy + 517.2*u;
+
+            dmax = dr;
+            if (dg > dmax) dmax = dg;
+            if (db > dmax) dmax = db;
+            dmax = 255/dmax;
+
+            dr *= dmax;
+            dg *= dmax;
+            db *= dmax;
+
+            scope.setPixel(pt, qRgba(dr, dg, db, 255));
+            break;
+        case ORIG:
+            scope.setPixel(pt, *col);
+            break;
+        case GREEN:
+            px = scope.pixel(pt);
+            scope.setPixel(pt, qRgba(qRed(px)+(255-qRed(px))/40, 255, qBlue(px)+(255-qBlue(px))/40, qAlpha(px)+(255-qAlpha(px))/20));
+            break;
+        }
+
+        bits += 4;
+    }
+
+    m_scope = scope;
+
+    qDebug() << "Scope rendered";
+    emit signalScopeCalculationFinished();
+}
+
+void Vectorscope::updateDimensions()
 {
     // Widget width/height
     int ww = this->size().width();
@@ -123,18 +218,30 @@ void Vectorscope::paintEvent(QPaintEvent *)
     QPoint topleft(offset, controlsArea->geometry().height()+offset);
 
     // Circle Width: min of width and height
-    int cw = wh - topleft.y();
+    cw = wh - topleft.y();
     if (ww < cw) { cw = ww; }
     cw -= 2*offset;
-    QRect scopeRect(topleft, QPoint(cw, cw) + topleft);
+    scopeRect = QRect(topleft, QPoint(cw, cw) + topleft);
+}
 
+void Vectorscope::paintEvent(QPaintEvent *)
+{
+
+    if (!initialDimensionUpdateDone) {
+        // This is a workaround.
+        // When updating the dimensions in the constructor, the size
+        // of the control items at the top are simply ignored! So do
+        // it here instead.
+        updateDimensions();
+        initialDimensionUpdateDone = true;
+    }
 
     // Draw the vectorscope circle
     QPainter davinci(this);
     QPoint vinciPoint;
     QPoint centerPoint = mapToCanvas(scopeRect, QPointF(0,0));
     davinci.setRenderHint(QPainter::Antialiasing, true);
-    davinci.fillRect(0, 0, ww, wh, QColor(25,25,23));
+    davinci.fillRect(0, 0, this->size().width(), this->size().height(), QColor(25,25,23));
 
     davinci.setPen(penThick);
     davinci.drawEllipse(scopeRect);
@@ -175,82 +282,17 @@ void Vectorscope::paintEvent(QPaintEvent *)
     davinci.drawEllipse(mapToCanvas(scopeRect, P75*SCALING*YUV_Yl), 3,3);
 
 
-    // If no renderer available, there is nothing more to paint now.
-    if (m_activeRender == 0) return;
 
 
-    // Prepare the vectorscope data
-    QImage scope(cw, cw, QImage::Format_ARGB32);
-    scope.fill(qRgba(0,0,0,0));
-
-    QImage img(m_activeRender->extractFrame(m_activeRender->seekFramePosition()));
-    uchar *bits = img.bits();
-
-    //davinci.setCompositionMode(QPainter::CompositionMode_Plus);
     davinci.setPen(penLight);
-    
-    if (!circleOnly) {
-        int r,g,b;
-        double dy, dr, dg, db, dmax;
-        double y,u,v;
-        QPoint pt;
-        QRgb px;
 
-        for (int i = 0; i < img.byteCount(); i+= 4) {
-            QRgb *col = (QRgb *) bits;
 
-            r = qRed(*col);
-            g = qGreen(*col);
-            b = qBlue(*col);
+    // Draw the scope data (previously calculated in a separate thread)
+    davinci.drawImage(scopeRect.topLeft(), m_scope);
 
-            y = (double) 0.001173 * r + 0.002302 * g + 0.0004471 * b;
-            u = (double) -0.0005781*r -0.001135*g +0.001713*b;
-            v = (double) 0.002411*r -0.002019*g -0.0003921*b;
 
-            pt = mapToCanvas(QRect(QPoint(0,0), scope.size()), QPointF(SCALING*scaling*u, SCALING*scaling*v));
-
-            if (!(pt.x() <= scopeRect.width() && pt.x() >= 0
-                && pt.y() <= scopeRect.height() && pt.y() >= 0)) {
-                // Point lies outside (because of scaling), don't plot it
-                continue;
-            }
-
-            // Draw the pixel using the chosen draw mode
-            switch (iPaintMode) {
-            case CHROMA:
-                dy = 200;
-                dr = dy + 290.8*v;
-                dg = dy - 100.6*u - 148*v;
-                db = dy + 517.2*u;
-
-                dmax = dr;
-                if (dg > dmax) dmax = dg;
-                if (db > dmax) dmax = db;
-                dmax = 255/dmax;
-
-                dr *= dmax;
-                dg *= dmax;
-                db *= dmax;
-
-                scope.setPixel(pt, qRgba(dr, dg, db, 255));
-                break;
-            case ORIG:
-                scope.setPixel(pt, *col);
-                break;
-            case GREEN:
-                px = scope.pixel(pt);
-                scope.setPixel(pt, qRgba(qRed(px)+(255-qRed(px))/40, 255, qBlue(px)+(255-qBlue(px))/40, qAlpha(px)+(255-qAlpha(px))/20));
-                break;
-            }
-
-            bits += 4;
-        }
-
-        davinci.drawImage(scopeRect.topLeft(), scope);
-        m_scope = scope;
-    } else {
-        // Mouse moved: Draw a circle over the (already calculated) scope
-        davinci.drawImage(scopeRect.topLeft(), m_scope);
+    if (circleEnabled) {
+        // Mouse moved: Draw a circle over the scope
 
         int dx = centerPoint.x()-mousePos.x();
         int dy = centerPoint.y()-mousePos.y();
@@ -258,16 +300,14 @@ void Vectorscope::paintEvent(QPaintEvent *)
         QPoint reference = mapToCanvas(scopeRect, QPointF(1,0));
 
         int r = sqrt(dx*dx + dy*dy);
-        float percent = (float) 100*r/SCALING/(reference.x() - centerPoint.x());
+        float percent = (float) 100*r/SCALING/scaling/(reference.x() - centerPoint.x());
 
-        qDebug() << "dx: " << dx << " dy: " << dy << " r: " << r;
         davinci.drawEllipse(centerPoint, r,r);
         davinci.setPen(penThin);
         davinci.drawText(scopeRect.bottomRight()-QPoint(40,0), QVariant((int)percent).toString().append(" %"));
 
-        circleOnly = false;
+        circleEnabled = false;
     }
-
 }
 
 void Vectorscope::slotPaintModeChanged(int index)
@@ -288,18 +328,31 @@ void Vectorscope::slotMagnifyChanged()
 
 void Vectorscope::slotActiveMonitorChanged(bool isClipMonitor)
 {
-    qDebug() << "Active monitor changed. Is clip? " << isClipMonitor;
     if (isClipMonitor) {
-        m_activeRender = m_clipRender;
+        m_activeRender = m_clipMonitor->render;
+        disconnect(this, SLOT(slotRenderZoneUpdated()));
+        connect(m_activeRender, SIGNAL(rendererPosition(int)), this, SLOT(slotRenderZoneUpdated()));
     } else {
-        m_activeRender = m_projRender;
+        m_activeRender = m_projMonitor->render;
+        disconnect(this, SLOT(slotRenderZoneUpdated()));
+        connect(m_activeRender, SIGNAL(rendererPosition(int)), this, SLOT(slotRenderZoneUpdated()));
+    }
+}
+
+void Vectorscope::slotRenderZoneUpdated()
+{
+    qDebug() << "Monitor incoming. New frames total: " << newFrames;
+    // Monitor has shown a new frame
+    newFrames.fetchAndAddRelaxed(1);
+    if (cbAutoRefresh->isChecked()) {
+        prodCalcThread();
     }
 }
 
 void Vectorscope::mousePressEvent(QMouseEvent *)
 {
     // Update the scope on mouse press
-    this->update();
+    prodCalcThread();
 }
 
 void Vectorscope::mouseMoveEvent(QMouseEvent *event)
@@ -307,8 +360,27 @@ void Vectorscope::mouseMoveEvent(QMouseEvent *event)
     // Draw a circle around the center,
     // showing percentage number of the radius length
 
-    circleOnly = true;
+    circleEnabled = true;
     mousePos = event->pos();
-    qDebug() << "event: " << mousePos.x() << "/" << mousePos.y();
     this->update();
+}
+
+void Vectorscope::resizeEvent(QResizeEvent *event)
+{
+    qDebug() << "Resized.";
+    updateDimensions();
+    QWidget::resizeEvent(event);
+}
+
+void Vectorscope::slotScopeCalculationFinished()
+{
+    this->update();
+    qDebug() << "Scope updated.";
+
+    // If auto-refresh is enabled and new frames are available,
+    // just start the next calculation.
+    if (newFrames > 0 && cbAutoRefresh->isChecked()) {
+        qDebug() << "More frames in the queue: " << newFrames;
+        prodCalcThread();
+    }
 }

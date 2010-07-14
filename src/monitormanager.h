@@ -68,6 +68,7 @@ private:
     bool m_blocked;
 
 signals:
+    /** @brief Emitted when the active monitor changes */
     void raiseClipMonitor(bool);
 
 };

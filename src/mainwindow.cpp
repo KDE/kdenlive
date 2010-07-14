@@ -213,7 +213,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
     m_effectListDock->setWidget(m_effectList);
     addDockWidget(Qt::TopDockWidgetArea, m_effectListDock);
 
-    m_vectorscope = new Vectorscope(m_projectMonitor->render, m_clipMonitor->render, this);
+    m_vectorscope = new Vectorscope(m_projectMonitor, m_clipMonitor, this);
     m_vectorscopeDock = new QDockWidget(i18n("Vectorscope"), this);
     m_vectorscopeDock->setObjectName("vectorscope");
     m_vectorscopeDock->setWidget(m_vectorscope);

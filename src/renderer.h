@@ -323,7 +323,9 @@ signals:
     /** @brief The renderer started rendering. */
     void rendering(const GenTime &);
 
-    /** @brief The rendering has finished. */
+    /** @brief The rendering has finished.
+        @see consumer_frame_show
+        This signal seems to be useless; use renderPosition(int) instead --Granjow */
     void renderFinished();
 
     /* @brief The current seek position has been changed by the renderer.
