@@ -475,7 +475,12 @@ bool MainWindow::queryClose()
     if (m_activeDocument && m_activeDocument->isModified() &&
         ((m_projectList->documentClipList().isEmpty() && !m_activeDocument->url().isEmpty()) ||
             !m_projectList->documentClipList().isEmpty())) {
-        switch (KMessageBox::warningYesNoCancel(this, i18n("Save changes to document?"))) {
+        QString message;
+        if (m_activeDocument->url().fileName().isEmpty())
+            message = i18n("Save changes to document?");
+        else
+            message = i18n("The project <b>\"%1\"</b> has been changed.\nDo you want to save your changes?").arg(m_activeDocument->url().fileName());
+        switch (KMessageBox::warningYesNoCancel(this, message)) {
         case KMessageBox::Yes :
             // save document here. If saving fails, return false;
             return saveFile();
@@ -1574,7 +1579,12 @@ void MainWindow::closeCurrentDocument(bool saveChanges)
     TrackView *tabToClose = (TrackView *) w;
     KdenliveDoc *docToClose = tabToClose->document();
     if (docToClose && docToClose->isModified() && saveChanges) {
-        switch (KMessageBox::warningYesNoCancel(this, i18n("Save changes to document?"))) {
+        QString message;
+        if (m_activeDocument->url().fileName().isEmpty())
+            message = i18n("Save changes to document?");
+        else
+            message = i18n("The project <b>\"%1\"</b> has been changed.\nDo you want to save your changes?").arg(m_activeDocument->url().fileName());
+        switch (KMessageBox::warningYesNoCancel(this, message)) {
         case KMessageBox::Yes :
             // save document here. If saving fails, return false;
             if (saveFile() == false) return;
@@ -1597,11 +1607,15 @@ void MainWindow::closeCurrentDocument(bool saveChanges)
         m_activeDocument = NULL;
         m_effectStack->clear();
         m_transitionConfig->slotTransitionItemSelected(NULL, 0, QPoint(), false);
-    } else delete docToClose;
+    } else {
+        delete docToClose;
+    }
     if (w == m_activeTimeline) {
         delete m_activeTimeline;
         m_activeTimeline = NULL;
-    } else delete w;
+    } else {
+        delete w;
+    }
 }
 
 bool MainWindow::saveFileAs(const QString &outputFileName)
