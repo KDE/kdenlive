@@ -40,22 +40,30 @@ private:
     Monitor *m_clipMonitor;
     Render *m_activeRender;
 
-    QImage m_scope;
+    /** How to represent the pixels on the scope (green, original color, ...) */
     int iPaintMode;
+
     float scaling;
+
+
     QPoint mapToCanvas(QRect inside, QPointF point);
 
     bool circleEnabled;
     QPoint mousePos;
 
+    /** Updates the dimension. Only necessary when the widget has been resized. */
     void updateDimensions();
     bool initialDimensionUpdateDone;
-    QRect scopeRect;
+    QRect m_scopeRect;
     int cw;
 
 
-    QFuture<void> m_scopeCalcThread;
+    /** The vectorscope color distribution.
+        Class variable as calculated by a thread. */
+    QImage m_scope;
+
     void calculateScope();
+    QFuture<void> m_scopeCalcThread;
 
     /** Prods the Scope calculation thread. If it is running, do nothing. If it is not,
       run a new thread.
@@ -66,16 +74,21 @@ private:
       The frame number will be reset when the vectorscope starts calculating the
       current frame. */
     QAtomicInt newFrames;
+    /** Counts the number of other changes that should cause the vectorscope to be
+      recalculated. This is for example a resizeEvent. In this case, no new frames
+      are generated, but the scope has to be updated in any case (also if auto-update
+      is not enabled). */
+    QAtomicInt newChanges;
 
 signals:
     void signalScopeCalculationFinished();
 
 private slots:
-    void slotPaintModeChanged(int index);
     void slotMagnifyChanged();
     void slotActiveMonitorChanged(bool isClipMonitor);
     void slotRenderZoneUpdated();
     void slotScopeCalculationFinished();
+    void slotUpdateScope();
 
 };
 
