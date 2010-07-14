@@ -377,15 +377,19 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
     //m_timelineContextClipMenu->addAction(actionCollection()->action("clip_to_project_tree"));
     m_timelineContextClipMenu->addAction(actionCollection()->action("edit_item_duration"));
     m_timelineContextClipMenu->addAction(actionCollection()->action("delete_item"));
+    m_timelineContextClipMenu->addSeparator();
     m_timelineContextClipMenu->addAction(actionCollection()->action("group_clip"));
     m_timelineContextClipMenu->addAction(actionCollection()->action("ungroup_clip"));
+    m_timelineContextClipMenu->addAction(actionCollection()->action("split_audio"));
+    m_timelineContextClipMenu->addSeparator();
     m_timelineContextClipMenu->addAction(actionCollection()->action("cut_timeline_clip"));
     m_timelineContextClipMenu->addAction(actionCollection()->action(KStandardAction::name(KStandardAction::Copy)));
     m_timelineContextClipMenu->addAction(actionCollection()->action("paste_effects"));
-    m_timelineContextClipMenu->addAction(actionCollection()->action("split_audio"));
+    m_timelineContextClipMenu->addSeparator();
 
     QMenu *markersMenu = (QMenu*)(factory()->container("marker_menu", this));
     m_timelineContextClipMenu->addMenu(markersMenu);
+    m_timelineContextClipMenu->addSeparator();
     m_timelineContextClipMenu->addMenu(m_transitionsMenu);
     m_timelineContextClipMenu->addMenu(m_videoEffectsMenu);
     m_timelineContextClipMenu->addMenu(m_audioEffectsMenu);
