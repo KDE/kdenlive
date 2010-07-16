@@ -42,6 +42,7 @@ AbstractGroupItem::AbstractGroupItem(double /* fps */) :
     setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
 #endif
     setAcceptDrops(true);
+    m_resizeInfos = QList <ItemInfo>();
 }
 
 int AbstractGroupItem::type() const
@@ -380,4 +381,42 @@ void AbstractGroupItem::mousePressEvent(QGraphicsSceneMouseEvent * event)
         // User want to do a rectangle selection, so ignore the event to pass it to the view
         event->ignore();
     } else QGraphicsItem::mousePressEvent(event);
+}
+
+void AbstractGroupItem::resizeEnd(int diff)
+{
+    bool info = false;
+    if (m_resizeInfos.isEmpty())
+        info = true;
+    int maximum = diff;
+    QList <QGraphicsItem *> children = childItems();
+    QList <AbstractClipItem *> items;
+    int itemcount = 0;
+    for (int i = 0; i < children.count(); ++i) {
+        AbstractClipItem *item = static_cast <AbstractClipItem *>(children.at(i));
+        if (item && item->type() == AVWIDGET) {
+            items << item;
+            if (info)
+                m_resizeInfos << item->info();
+            item->resizeEnd((int)(m_resizeInfos.at(itemcount).endPos.frames(item->fps())) + diff);
+            int itemdiff = (int)(item->endPos() - m_resizeInfos.at(itemcount).endPos).frames(item->fps());
+            if (qAbs(itemdiff) < qAbs(maximum))
+                maximum = itemdiff;
+            ++itemcount;
+        }
+    }
+
+    for (int i = 0; i < items.count(); ++i)
+        items.at(i)->resizeEnd((int)(m_resizeInfos.at(i).endPos.frames(items.at(i)->fps())) + maximum);
+}
+
+QList< ItemInfo > AbstractGroupItem::resizeInfos()
+{
+    return m_resizeInfos;
+}
+
+void AbstractGroupItem::clearResizeInfos()
+{
+    // m_resizeInfos.clear() will crash in some cases for unknown reasons - ttill
+    m_resizeInfos = QList <ItemInfo>();
 }

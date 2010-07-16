@@ -44,6 +44,14 @@ public:
     void setItemLocked(bool locked);
     bool isItemLocked() const;
     //    ItemInfo info() const;
+    /** @brief Resizes all clips in this group from the end.
+    * @param diff Difference to endPos stored in m_resizeInfos */
+    void resizeEnd(int diff);
+    void resizeStart(int diff);
+    /** @brief Gets m_resizeInfos */
+    QList <ItemInfo> resizeInfos();
+    /** @brief Clears m_resizeInfos */
+    void clearResizeInfos();
 
 protected:
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
@@ -56,6 +64,8 @@ protected:
 private:
     void fixItemRect();
     QPainterPath groupShape(GRAPHICSRECTITEM type, QPointF offset) const;
+    /** Stores the original info of the items beeing resized. */
+    QList <ItemInfo> m_resizeInfos;
 };
 
 #endif

@@ -393,7 +393,13 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
                 m_dragItem->resizeStart((int)(snappedPos));
             } else if (m_operationMode == RESIZEEND && move) {
                 m_document->renderer()->pause();
-                m_dragItem->resizeEnd((int)(snappedPos));
+                if (m_dragItem->type() == AVWIDGET && m_dragItem->parentItem() && m_dragItem->parentItem() != m_selectionGroup) {
+                    AbstractGroupItem *parent = static_cast <AbstractGroupItem *>(m_dragItem->parentItem());
+                    if (parent)
+                        parent->resizeEnd((int)(snappedPos) - m_dragItemInfo.endPos.frames(m_document->fps()));
+                } else {
+                    m_dragItem->resizeEnd((int)(snappedPos));
+                }
             } else if (m_operationMode == FADEIN && move) {
                 ((ClipItem*) m_dragItem)->setFadeIn((int)(mappedXPos - m_dragItem->startPos().frames(m_document->fps())));
             } else if (m_operationMode == FADEOUT && move) {
@@ -1205,7 +1211,7 @@ void CustomTrackView::editItemDuration()
             getTransitionAvailableSpace(item, minimum, maximum);
         else
             getClipAvailableSpace(item, minimum, maximum);
-        //kDebug()<<"// GOT MOVE POS: "<<minimum.frames(25)<<" - "<<maximum.frames(25);
+
         ClipDurationDialog d(item, m_document->timecode(), minimum, maximum, this);
         if (d.exec() == QDialog::Accepted) {
             ItemInfo clipInfo = item->info();
@@ -3174,7 +3180,28 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
         prepareResizeClipStart(m_dragItem, m_dragItemInfo, m_dragItem->startPos().frames(m_document->fps()));
     } else if (m_operationMode == RESIZEEND && m_dragItem->endPos() != m_dragItemInfo.endPos) {
         // resize end
-        prepareResizeClipEnd(m_dragItem, m_dragItemInfo, m_dragItem->endPos().frames(m_document->fps()));
+        if (m_dragItem->type() == AVWIDGET && m_dragItem->parentItem() && m_dragItem->parentItem() != m_selectionGroup) {
+            AbstractGroupItem *parent = static_cast <AbstractGroupItem *>(m_dragItem->parentItem());
+            if (parent) {
+                QUndoCommand *resizeCommand = new QUndoCommand();
+                resizeCommand->setText(i18n("Resize group"));
+                QList <QGraphicsItem *> items = parent->childItems();
+                QList <ItemInfo> infos = parent->resizeInfos();
+                parent->clearResizeInfos();
+                int itemcount = 0;
+                for (int i = 0; i < items.count(); ++i) {
+                    AbstractClipItem *item = static_cast<AbstractClipItem *>(items.at(i));
+                    if (item && item->type() == AVWIDGET) {
+                        ItemInfo info = infos.at(itemcount);
+                        prepareResizeClipEnd(item, info, item->endPos().frames(m_document->fps()), false, resizeCommand);
+                        ++itemcount;
+                    }
+                }
+                m_commandStack->push(resizeCommand);
+            }
+        } else {
+            prepareResizeClipEnd(m_dragItem, m_dragItemInfo, m_dragItem->endPos().frames(m_document->fps()));
+        }
     } else if (m_operationMode == FADEIN) {
         // resize fade in effect
         ClipItem * item = static_cast <ClipItem *>(m_dragItem);
@@ -3985,7 +4012,7 @@ void CustomTrackView::resizeClip(const ItemInfo start, const ItemInfo end, bool 
     setDocumentModified();
 }
 
-void CustomTrackView::prepareResizeClipStart(AbstractClipItem* item, ItemInfo oldInfo, int pos, bool check)
+void CustomTrackView::prepareResizeClipStart(AbstractClipItem* item, ItemInfo oldInfo, int pos, bool check, QUndoCommand *command)
 {
     if (pos == oldInfo.startPos.frames(m_document->fps()))
         return;
@@ -4007,8 +4034,13 @@ void CustomTrackView::prepareResizeClipStart(AbstractClipItem* item, ItemInfo ol
         resizeinfo.track = m_document->tracksCount() - resizeinfo.track;
         bool success = m_document->renderer()->mltResizeClipStart(resizeinfo, item->startPos() - oldInfo.startPos);
         if (success) {
-            QUndoCommand *resizeCommand = new QUndoCommand();
-            resizeCommand->setText(i18n("Resize clip"));
+            bool hasParentCommand = false;
+            if (command) {
+                hasParentCommand = true;
+            } else {
+                command = new QUndoCommand();
+                command->setText(i18n("Resize clip start"));
+            }
 
             // Check if there is an automatic transition on that clip (lower track)
             Transition *transition = getTransitionItemAtStart(oldInfo.startPos, oldInfo.track);
@@ -4017,7 +4049,7 @@ void CustomTrackView::prepareResizeClipStart(AbstractClipItem* item, ItemInfo ol
                 ItemInfo newTrInfo = trInfo;
                 newTrInfo.startPos = item->startPos();
                 if (newTrInfo.startPos < newTrInfo.endPos)
-                    new MoveTransitionCommand(this, trInfo, newTrInfo, true, resizeCommand);
+                    new MoveTransitionCommand(this, trInfo, newTrInfo, true, command);
             }
             // Check if there is an automatic transition on that clip (upper track)
             transition = getTransitionItemAtStart(oldInfo.startPos, oldInfo.track - 1);
@@ -4027,7 +4059,7 @@ void CustomTrackView::prepareResizeClipStart(AbstractClipItem* item, ItemInfo ol
                 newTrInfo.startPos = item->startPos();
                 ClipItem * upperClip = getClipItemAt(oldInfo.startPos, oldInfo.track - 1);
                 if ((!upperClip || !upperClip->baseClip()->isTransparent()) && newTrInfo.startPos < newTrInfo.endPos)
-                    new MoveTransitionCommand(this, trInfo, newTrInfo, true, resizeCommand);
+                    new MoveTransitionCommand(this, trInfo, newTrInfo, true, command);
             }
 
             ClipItem *clip = static_cast < ClipItem * >(item);
@@ -4054,18 +4086,19 @@ void CustomTrackView::prepareResizeClipStart(AbstractClipItem* item, ItemInfo ol
                 // put a resize command before & after checking keyframes so that
                 // we are sure the resize is performed before whenever we do or undo the action
 
-                new ResizeClipCommand(this, oldInfo, info, false, true, resizeCommand);
+                new ResizeClipCommand(this, oldInfo, info, false, true, command);
                 for (int i = 0; i < indexes.count(); i++) {
-                    new EditEffectCommand(this, m_document->tracksCount() - clip->track(), clip->startPos(), effs.at(i).cloneNode().toElement(), clip->effectAt(indexes.at(i)), indexes.at(i), false, resizeCommand);
+                    new EditEffectCommand(this, m_document->tracksCount() - clip->track(), clip->startPos(), effs.at(i).cloneNode().toElement(), clip->effectAt(indexes.at(i)), indexes.at(i), false, command);
                     updateEffect(m_document->tracksCount() - clip->track(), clip->startPos(), clip->effectAt(indexes.at(i)), indexes.at(i));
                 }
-                new ResizeClipCommand(this, oldInfo, info, false, true, resizeCommand);
+                new ResizeClipCommand(this, oldInfo, info, false, true, command);
                 emit clipItemSelected(clip);
             } else {
-                new ResizeClipCommand(this, oldInfo, info, false, false, resizeCommand);
+                new ResizeClipCommand(this, oldInfo, info, false, false, command);
             }
 
-            m_commandStack->push(resizeCommand);
+            if (!hasParentCommand)
+                m_commandStack->push(command);
         } else {
             KdenliveSettings::setSnaptopoints(false);
             item->resizeStart((int) oldInfo.startPos.frames(m_document->fps()));
@@ -4081,8 +4114,9 @@ void CustomTrackView::prepareResizeClipStart(AbstractClipItem* item, ItemInfo ol
             KdenliveSettings::setSnaptopoints(snap);
             emit displayMessage(i18n("Cannot resize transition"), ErrorMessage);
         } else {
-            MoveTransitionCommand *command = new MoveTransitionCommand(this, oldInfo, info, false);
-            m_commandStack->push(command);
+            MoveTransitionCommand *moveCommand = new MoveTransitionCommand(this, oldInfo, info, false, command);
+            if (command == NULL)
+                m_commandStack->push(moveCommand);
         }
 
     }
@@ -4090,7 +4124,7 @@ void CustomTrackView::prepareResizeClipStart(AbstractClipItem* item, ItemInfo ol
         rebuildGroup(static_cast <AbstractGroupItem *>(item->parentItem()));
 }
 
-void CustomTrackView::prepareResizeClipEnd(AbstractClipItem* item, ItemInfo oldInfo, int pos, bool check)
+void CustomTrackView::prepareResizeClipEnd(AbstractClipItem* item, ItemInfo oldInfo, int pos, bool check, QUndoCommand *command)
 {
     if (pos == oldInfo.endPos.frames(m_document->fps()))
         return;
@@ -4112,8 +4146,13 @@ void CustomTrackView::prepareResizeClipEnd(AbstractClipItem* item, ItemInfo oldI
         resizeinfo.track = m_document->tracksCount() - resizeinfo.track;
         bool success = m_document->renderer()->mltResizeClipEnd(resizeinfo, resizeinfo.endPos - resizeinfo.startPos);
         if (success) {
-            QUndoCommand *resizeCommand = new QUndoCommand();
-            resizeCommand->setText(i18n("Resize clip"));
+            bool hasParentCommand = false;
+            if (command) {
+                hasParentCommand = true;
+            } else {
+                command = new QUndoCommand();
+                command->setText(i18n("Resize clip end"));
+            }
 
             // Check if there is an automatic transition on that clip (lower track)
             Transition *tr = getTransitionItemAtEnd(oldInfo.endPos, oldInfo.track);
@@ -4122,7 +4161,7 @@ void CustomTrackView::prepareResizeClipEnd(AbstractClipItem* item, ItemInfo oldI
                 ItemInfo newTrInfo = trInfo;
                 newTrInfo.endPos = item->endPos();
                 if (newTrInfo.endPos > newTrInfo.startPos)
-                    new MoveTransitionCommand(this, trInfo, newTrInfo, true, resizeCommand);
+                    new MoveTransitionCommand(this, trInfo, newTrInfo, true, command);
             }
 
             // Check if there is an automatic transition on that clip (upper track)
@@ -4133,7 +4172,7 @@ void CustomTrackView::prepareResizeClipEnd(AbstractClipItem* item, ItemInfo oldI
                 newTrInfo.endPos = item->endPos();
                 ClipItem * upperClip = getClipItemAtEnd(oldInfo.endPos, oldInfo.track - 1);
                 if ((!upperClip || !upperClip->baseClip()->isTransparent()) && newTrInfo.endPos > newTrInfo.startPos)
-                    new MoveTransitionCommand(this, trInfo, newTrInfo, true, resizeCommand);
+                    new MoveTransitionCommand(this, trInfo, newTrInfo, true, command);
 
             }
 
@@ -4159,18 +4198,19 @@ void CustomTrackView::prepareResizeClipEnd(AbstractClipItem* item, ItemInfo oldI
                 // put a resize command before & after checking keyframes so that
                 // we are sure the resize is performed before whenever we do or undo the action
 
-                new ResizeClipCommand(this, oldInfo, info, false, true, resizeCommand);
+                new ResizeClipCommand(this, oldInfo, info, false, true, command);
                 for (int i = 0; i < indexes.count(); i++) {
-                    new EditEffectCommand(this, m_document->tracksCount() - clip->track(), clip->startPos(), effs.at(i).cloneNode().toElement(), clip->effectAt(indexes.at(i)), indexes.at(i), false, resizeCommand);
+                    new EditEffectCommand(this, m_document->tracksCount() - clip->track(), clip->startPos(), effs.at(i).cloneNode().toElement(), clip->effectAt(indexes.at(i)), indexes.at(i), false, command);
                     updateEffect(m_document->tracksCount() - clip->track(), clip->startPos(), clip->effectAt(indexes.at(i)), indexes.at(i));
                 }
-                new ResizeClipCommand(this, oldInfo, info, false, true, resizeCommand);
+                new ResizeClipCommand(this, oldInfo, info, false, true, command);
                 emit clipItemSelected(clip);
             } else {
-                new ResizeClipCommand(this, oldInfo, info, false, false, resizeCommand);
+                new ResizeClipCommand(this, oldInfo, info, false, false, command);
             }
 
-            m_commandStack->push(resizeCommand);
+            if (!hasParentCommand)
+                m_commandStack->push(command);
             updatePositionEffects(clip, oldInfo);
         } else {
             KdenliveSettings::setSnaptopoints(false);
@@ -4187,8 +4227,9 @@ void CustomTrackView::prepareResizeClipEnd(AbstractClipItem* item, ItemInfo oldI
             KdenliveSettings::setSnaptopoints(true);
             emit displayMessage(i18n("Cannot resize transition"), ErrorMessage);
         } else {
-            MoveTransitionCommand *command = new MoveTransitionCommand(this, oldInfo, info, false);
-            m_commandStack->push(command);
+            MoveTransitionCommand *moveCommand = new MoveTransitionCommand(this, oldInfo, info, false, command);
+            if (command == NULL)
+                m_commandStack->push(moveCommand);
         }
     }
     if (item->parentItem() && item->parentItem() != m_selectionGroup)

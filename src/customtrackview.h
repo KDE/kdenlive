@@ -338,15 +338,17 @@ private:
     * @param item Item to resize
     * @param oldInfo The item's info before resizement (set to item->info() is @param check true)
     * @param pos New startPos
-    * @param check (optional, default = false) Whether to check for collisions */
-    void prepareResizeClipStart(AbstractClipItem *item, ItemInfo oldInfo, int pos, bool check = false);
+    * @param check (optional, default = false) Whether to check for collisions
+    * @param command (optional) Will be used as parent command (for undo history) */
+    void prepareResizeClipStart(AbstractClipItem *item, ItemInfo oldInfo, int pos, bool check = false, QUndoCommand *command = NULL);
 
     /** @brief Takes care of updating effects and attached transitions during a resize from end.
     * @param item Item to resize
     * @param oldInfo The item's info before resizement (set to item->info() is @param check true)
     * @param pos New endPos
-    * @param check (optional, default = false) Whether to check for collisions */
-    void prepareResizeClipEnd(AbstractClipItem *item, ItemInfo oldInfo, int pos, bool check = false);
+    * @param check (optional, default = false) Whether to check for collisions
+    * @param command (optional) Will be used as parent command (for undo history) */
+    void prepareResizeClipEnd(AbstractClipItem *item, ItemInfo oldInfo, int pos, bool check = false, QUndoCommand *command = NULL);
 
 private slots:
     void slotRefreshGuides();
