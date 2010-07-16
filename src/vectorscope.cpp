@@ -54,6 +54,7 @@ mRgb2Yuv =                       r =
 const float SCALING = 1/.7; // See class docs
 const float P75 = .75;
 const unsigned char DEFAULT_Y = 255;
+const unsigned int REALTIME_FPS = 15; // in fps.
 
 const QPointF YUV_R(-.147,  .615);
 const QPointF YUV_G(-.289, -.515);
@@ -74,8 +75,10 @@ Vectorscope::Vectorscope(Monitor *projMonitor, Monitor *clipMonitor, QWidget *pa
     m_clipMonitor(clipMonitor),
     m_activeRender(clipMonitor->render),
     m_scaling(1),
+    m_skipPixels(1),
     circleEnabled(false),
-    initialDimensionUpdateDone(false)
+    initialDimensionUpdateDone(false),
+    semaphore(1)
 {
     setupUi(this);
 
@@ -95,10 +98,9 @@ Vectorscope::Vectorscope(Monitor *projMonitor, Monitor *clipMonitor, QWidget *pa
 
     cbAutoRefresh->setChecked(true);
 
-    connect(paintMode, SIGNAL(currentIndexChanged(int)), this, SLOT(slotPaintModeChanged(int)));
     connect(backgroundMode, SIGNAL(currentIndexChanged(int)), this, SLOT(slotBackgroundChanged()));
     connect(cbMagnify, SIGNAL(stateChanged(int)), this, SLOT(slotMagnifyChanged()));
-    connect(this, SIGNAL(signalScopeCalculationFinished()), this, SLOT(slotScopeCalculationFinished()));
+    connect(this, SIGNAL(signalScopeCalculationFinished(uint,uint)), this, SLOT(slotScopeCalculationFinished(uint,uint)));
     connect(m_colorTools, SIGNAL(signalWheelCalculationFinished()), this, SLOT(slotWheelCalculationFinished()));
     connect(paintMode, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateScope()));
     connect(cbAutoRefresh, SIGNAL(stateChanged(int)), this, SLOT(slotUpdateScope()));
@@ -126,6 +128,11 @@ Vectorscope::Vectorscope(Monitor *projMonitor, Monitor *clipMonitor, QWidget *pa
     m_aAxisEnabled->setChecked(false);
     addAction(m_aAxisEnabled);
     connect(m_aAxisEnabled, SIGNAL(changed()), this, SLOT(update()));
+
+    m_aRealtime = new QAction(i18n("Realtime (with precision loss)"), this);
+    m_aRealtime->setCheckable(true);
+    m_aRealtime->setChecked(false);
+    addAction(m_aRealtime);
 
 
     this->setMouseTracking(true);
@@ -169,18 +176,29 @@ QPoint Vectorscope::mapToCanvas(QRect inside, QPointF point)
 
 bool Vectorscope::prodCalcThread()
 {
+    bool ok = false;
     if (m_scopeCalcThread.isRunning()) {
         qDebug() << "Calc thread still running.";
-        return false;
+        ok = false;
     } else {
-        // See http://doc.qt.nokia.com/latest/qtconcurrentrun.html#run about
-        // running member functions in a thread
-        qDebug() << "Calc thread not running anymore, finished: " << m_scopeCalcThread.isFinished() << ", Starting new thread";
-        m_scopeCalcThread = QtConcurrent::run(this, &Vectorscope::calculateScope);
-        newFrames.fetchAndStoreRelease(0); // Reset number of new frames, as we just got the newest
-        newChanges.fetchAndStoreRelease(0); // Do the same with the external changes counter
-        return true;
+
+        // Acquire the semaphore. Don't release it anymore until the QFuture m_scopeCalcThread
+        // tells us that the thread has finished.
+        ok = semaphore.tryAcquire(1);
+        if (ok) {
+            qDebug() << "Calc thread not running anymore, finished: " << m_scopeCalcThread.isFinished() << ", Starting new thread";
+
+            // See http://doc.qt.nokia.com/latest/qtconcurrentrun.html#run about
+            // running member functions in a thread
+            m_scopeCalcThread = QtConcurrent::run(this, &Vectorscope::calculateScope);
+
+            newFrames.fetchAndStoreRelease(0); // Reset number of new frames, as we just got the newest
+            newChanges.fetchAndStoreRelease(0); // Do the same with the external changes counter
+        } else {
+            qDebug() << "Could not acquire semaphore. Deadlock avoided? Not starting new thread.";
+        }
     }
+    return ok;
 }
 
 bool Vectorscope::prodWheelThread()
@@ -212,6 +230,14 @@ bool Vectorscope::prodWheelThread()
 
 void Vectorscope::calculateScope()
 {
+    qDebug() << "..Scope rendering starts now.";
+    QTime start = QTime::currentTime();
+    unsigned int skipPixels = 1;
+    if (m_aRealtime->isChecked()) {
+        skipPixels = m_skipPixels;
+    }
+    const int stepsize = 4*skipPixels;
+
     // Prepare the vectorscope data
     QImage scope(cw, cw, QImage::Format_ARGB32);
     scope.fill(qRgba(0,0,0,0));
@@ -227,7 +253,7 @@ void Vectorscope::calculateScope()
 
     const QRect scopeRect(QPoint(0,0), scope.size());
 
-    for (int i = 0; i < img.byteCount(); i+= 4) {
+    for (int i = 0; i < img.byteCount(); i+= stepsize) {
         QRgb *col = (QRgb *) bits;
 
         r = qRed(*col);
@@ -296,7 +322,8 @@ void Vectorscope::calculateScope()
                 break;
             case PAINT_GREEN2:
                 px = scope.pixel(pt);
-                scope.setPixel(pt, qRgba(qRed(px)+(255-qRed(px))/40+5, 255, qBlue(px)+(255-qBlue(px))/30+10, qAlpha(px)+(255-qAlpha(px))/20));
+                scope.setPixel(pt, qRgba(qRed(px)+ceil((255-(float)qRed(px))/30), 255,
+                                         qBlue(px)+ceil((255-(float)qBlue(px))/25), qAlpha(px)+ceil((255-(float)qAlpha(px))/20)));
                 break;
             case PAINT_BLACK:
                 px = scope.pixel(pt);
@@ -305,13 +332,15 @@ void Vectorscope::calculateScope()
             }
         }
 
-        bits += 4;
+        bits += stepsize;
     }
 
     m_scope = scope;
 
-    qDebug() << "Scope rendered";
-    emit signalScopeCalculationFinished();
+    unsigned int mseconds = start.msecsTo(QTime::currentTime());
+    qDebug() << "Scope rendered in " << mseconds << " ms. Sending finished signal.";
+    emit signalScopeCalculationFinished(mseconds, skipPixels);
+    qDebug() << "xxScope: Signal finished sent.";
 }
 
 void Vectorscope::updateDimensions()
@@ -509,24 +538,35 @@ void Vectorscope::slotRenderZoneUpdated()
     }
 }
 
-void Vectorscope::slotScopeCalculationFinished()
+void Vectorscope::slotScopeCalculationFinished(unsigned int mseconds, unsigned int skipPixels)
 {
+    qDebug() << "Received finished signal.";
     if (!m_scopeCalcThread.isFinished()) {
         // Wait for the thread to finish. Otherwise the scope might not get updated
         // as prodCalcThread may see it still running.
         QTime start = QTime::currentTime();
-        qDebug() << "Scope renderer has not finished yet, waiting ...";
+        qDebug() << "Scope renderer has not finished yet although finished signal received, waiting ...";
         m_scopeCalcThread.waitForFinished();
-        qDebug() << "Done. Waited for " << start.msecsTo(QTime::currentTime()) << " ms";
+        qDebug() << "Waiting for finish is over. Waited for " << start.msecsTo(QTime::currentTime()) << " ms";
     }
+    semaphore.release();
 
     this->update();
     qDebug() << "Scope updated.";
 
+    if (m_aRealtime->isChecked()) {
+        m_skipPixels = ceil((float)REALTIME_FPS*mseconds*skipPixels/1000);
+        Q_ASSERT(m_skipPixels >= 1);
+        qDebug() << "Realtime checked. Switching from " << skipPixels << " to " << m_skipPixels;
+
+    } else {
+        qDebug() << "No realtime.";
+    }
+
     // If auto-refresh is enabled and new frames are available,
     // just start the next calculation.
     if (newFrames > 0 && cbAutoRefresh->isChecked()) {
-        qDebug() << "More frames in the queue: " << newFrames;
+        qDebug() << "Found more frames in the queue (prodding now): " << newFrames;
         prodCalcThread();
     } else if (newChanges > 0) {
         qDebug() << newChanges << " changes (e.g. resize) in the meantime.";
@@ -586,7 +626,7 @@ void Vectorscope::slotBackgroundChanged()
         break;
 
     case BG_NONE:
-        if (paintMode->itemData(paintMode->currentIndex()) == PAINT_BLACK) {
+        if (paintMode->itemData(paintMode->currentIndex()).toInt() == PAINT_BLACK) {
             index = paintMode->findData(QVariant(PAINT_GREEN));
             paintMode->setCurrentIndex(index);
         }
@@ -622,5 +662,6 @@ void Vectorscope::resizeEvent(QResizeEvent *event)
     updateDimensions();
     newChanges.fetchAndAddAcquire(1);
     prodCalcThread();
+    prodWheelThread();
     QWidget::resizeEvent(event);
 }

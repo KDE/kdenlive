@@ -49,12 +49,16 @@ private:
     QAction *m_aExportBackground;
     QAction *m_aAxisEnabled;
     QAction *m_a75PBox;
+    QAction *m_aRealtime;
 
     /** How to represent the pixels on the scope (green, original color, ...) */
     int iPaintMode;
 
+    /** Custom scaling of the vectorscope */
     float m_scaling;
 
+    /** Number of pixels to skip for getting realtime updates */
+    int m_skipPixels;
 
     QPoint mapToCanvas(QRect inside, QPointF point);
     QPoint centerPoint, pR75, pG75, pB75, pCy75, pMg75, pYl75;
@@ -78,6 +82,11 @@ private:
     QFuture<void> m_scopeCalcThread;
     QFuture<QImage> m_wheelCalcThread;
 
+    /** This semaphore that guards QFuture m_scopeCalcThread is necessary for avoiding
+        deadlocks. If not present, then an incoming new frame might trigger a new thread
+        at the wrong point in time, causing a deadlock. Nasty ;) */
+    QSemaphore semaphore;
+
     /** Prods the Scope calculation thread. If it is running, do nothing. If it is not,
       run a new thread.
       Returns true if a new thread has been started. */
@@ -97,14 +106,14 @@ private:
     QAtomicInt newWheelChanges;
 
 signals:
-    void signalScopeCalculationFinished();
+    void signalScopeCalculationFinished(const unsigned int &mseconds, const unsigned int &skipPixels);
 
 private slots:
     void slotMagnifyChanged();
     void slotBackgroundChanged();
     void slotActiveMonitorChanged(bool isClipMonitor);
     void slotRenderZoneUpdated();
-    void slotScopeCalculationFinished();
+    void slotScopeCalculationFinished(unsigned int mseconds, unsigned int skipPixels);
     void slotWheelCalculationFinished();
     void slotUpdateScope();
     void slotUpdateWheel();
