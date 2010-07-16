@@ -43,7 +43,6 @@ mRgb2Yuv =                       r =
 #include <QMouseEvent>
 #include <QPainter>
 #include <QDebug>
-//#include <QMenu>
 #include <QAction>
 
 #include <qtconcurrentrun.h>
@@ -80,16 +79,19 @@ Vectorscope::Vectorscope(Monitor *projMonitor, Monitor *clipMonitor, QWidget *pa
 {
     setupUi(this);
 
-    // Use item index 20 to always append it to the list. (Update if more than 20 items here.)
-    paintMode->insertItem(20, i18n("Green"), QVariant(PAINT_GREEN));
-    paintMode->insertItem(20, i18n("Black"), QVariant(PAINT_BLACK));
-    paintMode->insertItem(20, i18n("Chroma"), QVariant(PAINT_CHROMA));
-    paintMode->insertItem(20, i18n("YUV"), QVariant(PAINT_YUV));
-    paintMode->insertItem(20, i18n("Original Color"), QVariant(PAINT_ORIG));
+    m_colorTools = new ColorTools();
+    m_colorPlaneExport = new ColorPlaneExport(this);
 
-    backgroundMode->insertItem(20, i18n("None"), QVariant(BG_NONE));
-    backgroundMode->insertItem(20, i18n("YUV"), QVariant(BG_YUV));
-    backgroundMode->insertItem(20, i18n("Chroma"), QVariant(BG_CHROMA));
+    paintMode->addItem(i18n("Green"), QVariant(PAINT_GREEN));
+    paintMode->addItem(i18n("Green 2"), QVariant(PAINT_GREEN2));
+    paintMode->addItem(i18n("Black"), QVariant(PAINT_BLACK));
+    paintMode->addItem(i18n("Modified YUV (Chroma)"), QVariant(PAINT_CHROMA));
+    paintMode->addItem(i18n("YUV"), QVariant(PAINT_YUV));
+    paintMode->addItem(i18n("Original Color"), QVariant(PAINT_ORIG));
+
+    backgroundMode->addItem(i18n("None"), QVariant(BG_NONE));
+    backgroundMode->addItem(i18n("YUV"), QVariant(BG_YUV));
+    backgroundMode->addItem(i18n("Modified YUV (Chroma)"), QVariant(BG_CHROMA));
 
     cbAutoRefresh->setChecked(true);
 
@@ -97,7 +99,7 @@ Vectorscope::Vectorscope(Monitor *projMonitor, Monitor *clipMonitor, QWidget *pa
     connect(backgroundMode, SIGNAL(currentIndexChanged(int)), this, SLOT(slotBackgroundChanged()));
     connect(cbMagnify, SIGNAL(stateChanged(int)), this, SLOT(slotMagnifyChanged()));
     connect(this, SIGNAL(signalScopeCalculationFinished()), this, SLOT(slotScopeCalculationFinished()));
-    connect(this, SIGNAL(signalWheelCalculationFinished()), this, SLOT(slotWheelCalculationFinished()));
+    connect(m_colorTools, SIGNAL(signalWheelCalculationFinished()), this, SLOT(slotWheelCalculationFinished()));
     connect(paintMode, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateScope()));
     connect(cbAutoRefresh, SIGNAL(stateChanged(int)), this, SLOT(slotUpdateScope()));
 
@@ -105,13 +107,25 @@ Vectorscope::Vectorscope(Monitor *projMonitor, Monitor *clipMonitor, QWidget *pa
     newChanges.fetchAndStoreRelaxed(0);
     newWheelChanges.fetchAndStoreRelaxed(0);
 
+
+    ///// Build context menu /////
     setContextMenuPolicy(Qt::ActionsContextMenu);
+
     m_aExportBackground = new QAction(i18n("Export background"), this);
-    m_aExportBackground->setEnabled(false);
     addAction(m_aExportBackground);
     connect(m_aExportBackground, SIGNAL(triggered()), this, SLOT(slotExportBackground()));
 
-//    m_contextMenu = QMenu(this, "Vectorscope menu");
+    m_a75PBox = new QAction(i18n("75% box"), this);
+    m_a75PBox->setCheckable(true);
+    m_a75PBox->setChecked(false);
+    addAction(m_a75PBox);
+    connect(m_a75PBox, SIGNAL(changed()), this, SLOT(update()));
+
+    m_aAxisEnabled = new QAction(i18n("Draw axis"), this);
+    m_aAxisEnabled->setCheckable(true);
+    m_aAxisEnabled->setChecked(false);
+    addAction(m_aAxisEnabled);
+    connect(m_aAxisEnabled, SIGNAL(changed()), this, SLOT(update()));
 
 
     this->setMouseTracking(true);
@@ -121,79 +135,7 @@ Vectorscope::Vectorscope(Monitor *projMonitor, Monitor *clipMonitor, QWidget *pa
 
 Vectorscope::~Vectorscope()
 {
-}
-
-QImage Vectorscope::yuvColorWheel(const QSize &size, unsigned char Y, float scaling, bool modifiedVersion, bool circleOnly)
-{
-    QImage wheel(size, QImage::Format_ARGB32);
-    if (size.width() == 0 || size.height() == 0) {
-        qCritical("ERROR: Size of the color wheel must not be 0!");
-        return wheel;
-    }
-    wheel.fill(qRgba(0,0,0,0));
-
-    double dr, dg, db, du, dv, dmax;
-    double ru, rv, rr;
-    const int w = size.width();
-    const int h = size.height();
-    const float w2 = (float)w/2;
-    const float h2 = (float)h/2;
-
-    for (int u = 0; u < w; u++) {
-        // Transform u from {0,...,w} to [-1,1]
-        du = (double) 2*u/(w-1) - 1;
-        du = scaling*du;
-
-        for (int v = 0; v < h; v++) {
-            dv = (double) 2*v/(h-1) - 1;
-            dv = scaling*dv;
-
-            if (circleOnly) {
-                // Ellipsis equation: x²/a² + y²/b² = 1
-                // Here: x=ru, y=rv, a=w/2, b=h/2, 1=rr
-                // For rr > 1, the point lies outside. Don't draw it.
-                ru = u - w2;
-                rv = v - h2;
-                rr = ru*ru/(w2*w2) + rv*rv/(h2*h2);
-                if (rr > 1) {
-                    continue;
-                }
-            }
-
-            // Calculate the RGB values from YUV
-            dr = Y + 290.8*dv;
-            dg = Y - 100.6*du - 148*dv;
-            db = Y + 517.2*du;
-
-            if (modifiedVersion) {
-                // Scale the RGB values down, or up, to max 255
-                dmax = fabs(dr);
-                if (fabs(dg) > dmax) dmax = fabs(dg);
-                if (fabs(db) > dmax) dmax = fabs(db);
-                dmax = 255/dmax;
-
-                dr *= dmax;
-                dg *= dmax;
-                db *= dmax;
-            }
-
-            // Avoid overflows (which would generate intersting patterns).
-            // Note that not all possible (y,u,v) values with u,v \in [-1,1]
-            // have a correct RGB representation, therefore some RGB values
-            // may exceed {0,...,255}.
-            if (dr < 0) dr = 0;
-            if (dg < 0) dg = 0;
-            if (db < 0) db = 0;
-            if (dr > 255) dr = 255;
-            if (dg > 255) dg = 255;
-            if (db > 255) db = 255;
-
-            wheel.setPixel(u, (h-v-1), qRgba(dr, dg, db, 255));
-        }
-    }
-
-    emit signalWheelCalculationFinished();
-    return wheel;
+    delete m_colorPlaneExport;
 }
 
 /**
@@ -255,10 +197,10 @@ bool Vectorscope::prodWheelThread()
             break;
         case BG_YUV:
             qDebug() << "YUV background.";
-            m_wheelCalcThread = QtConcurrent::run(this, &Vectorscope::yuvColorWheel, m_scopeRect.size(), (unsigned char) 128, 1/SCALING, false, true);
+            m_wheelCalcThread = QtConcurrent::run(m_colorTools, &ColorTools::yuvColorWheel, m_scopeRect.size(), (unsigned char) 128, 1/SCALING, false, true);
             break;
         case BG_CHROMA:
-            m_wheelCalcThread = QtConcurrent::run(this, &Vectorscope::yuvColorWheel, m_scopeRect.size(), (unsigned char) 255, 1/SCALING, true, true);
+            m_wheelCalcThread = QtConcurrent::run(m_colorTools, &ColorTools::yuvColorWheel, m_scopeRect.size(), (unsigned char) 255, 1/SCALING, true, true);
             break;
         }
         newWheelChanges.fetchAndStoreRelaxed(0);
@@ -350,7 +292,11 @@ void Vectorscope::calculateScope()
                 break;
             case PAINT_GREEN:
                 px = scope.pixel(pt);
-                scope.setPixel(pt, qRgba(qRed(px)+(255-qRed(px))/40, 255, qBlue(px)+(255-qBlue(px))/40, qAlpha(px)+(255-qAlpha(px))/20));
+                scope.setPixel(pt, qRgba(qRed(px)+(255-qRed(px))/30, 255, qBlue(px)+(255-qBlue(px))/25, qAlpha(px)+(255-qAlpha(px))/20));
+                break;
+            case PAINT_GREEN2:
+                px = scope.pixel(pt);
+                scope.setPixel(pt, qRgba(qRed(px)+(255-qRed(px))/40+5, 255, qBlue(px)+(255-qBlue(px))/30+10, qAlpha(px)+(255-qAlpha(px))/20));
                 break;
             case PAINT_BLACK:
                 px = scope.pixel(pt);
@@ -386,6 +332,14 @@ void Vectorscope::updateDimensions()
     if (ww < cw) { cw = ww; }
     cw -= 2*offset;
     m_scopeRect = QRect(topleft, QPoint(cw, cw) + topleft);
+
+    centerPoint = mapToCanvas(m_scopeRect, QPointF(0,0));
+    pR75 = mapToCanvas(m_scopeRect, P75*SCALING*YUV_R);
+    pG75 = mapToCanvas(m_scopeRect, P75*SCALING*YUV_G);
+    pB75 = mapToCanvas(m_scopeRect, P75*SCALING*YUV_B);
+    pCy75 = mapToCanvas(m_scopeRect, P75*SCALING*YUV_Cy);
+    pMg75 = mapToCanvas(m_scopeRect, P75*SCALING*YUV_Mg);
+    pYl75 = mapToCanvas(m_scopeRect, P75*SCALING*YUV_Yl);
 }
 
 void Vectorscope::paintEvent(QPaintEvent *)
@@ -403,7 +357,8 @@ void Vectorscope::paintEvent(QPaintEvent *)
     // Draw the vectorscope circle
     QPainter davinci(this);
     QPoint vinciPoint;
-    QPoint centerPoint = mapToCanvas(m_scopeRect, QPointF(0,0));
+
+
     davinci.setRenderHint(QPainter::Antialiasing, true);
     davinci.fillRect(0, 0, this->size().width(), this->size().height(), QColor(25,25,23));
 
@@ -446,10 +401,13 @@ void Vectorscope::paintEvent(QPaintEvent *)
         break;
     }
 
-    davinci.drawLine(mapToCanvas(m_scopeRect, QPointF(0,-.9)), mapToCanvas(m_scopeRect, QPointF(0,.9)));
-    davinci.drawLine(mapToCanvas(m_scopeRect, QPointF(-.9,0)), mapToCanvas(m_scopeRect, QPointF(.9,0)));
+    // Draw axis
+    if (m_aAxisEnabled->isChecked()) {
+        davinci.drawLine(mapToCanvas(m_scopeRect, QPointF(0,-.9)), mapToCanvas(m_scopeRect, QPointF(0,.9)));
+        davinci.drawLine(mapToCanvas(m_scopeRect, QPointF(-.9,0)), mapToCanvas(m_scopeRect, QPointF(.9,0)));
+    }
 
-    // Draw RGB/CMY points with 75% chroma (for NTSC)
+    // Draw center point
     switch (backgroundMode->itemData(backgroundMode->currentIndex()).toInt()) {
     case BG_CHROMA:
         davinci.setPen(penDark);
@@ -459,13 +417,26 @@ void Vectorscope::paintEvent(QPaintEvent *)
         break;
     }
     davinci.drawEllipse(centerPoint, 5,5);
+
+
+    // Draw 75% box
+    if (m_a75PBox->isChecked()) {
+        davinci.drawLine(pR75, pYl75);
+        davinci.drawLine(pYl75, pG75);
+        davinci.drawLine(pG75, pCy75);
+        davinci.drawLine(pCy75, pB75);
+        davinci.drawLine(pB75, pMg75);
+        davinci.drawLine(pMg75, pR75);
+    }
+
+    // Draw RGB/CMY points with 75% chroma (for NTSC)
     davinci.setPen(penThin);
-    davinci.drawEllipse(mapToCanvas(m_scopeRect, P75*SCALING*YUV_R), 3,3);
-    davinci.drawEllipse(mapToCanvas(m_scopeRect, P75*SCALING*YUV_G), 3,3);
-    davinci.drawEllipse(mapToCanvas(m_scopeRect, P75*SCALING*YUV_B), 3,3);
-    davinci.drawEllipse(mapToCanvas(m_scopeRect, P75*SCALING*YUV_Cy), 3,3);
-    davinci.drawEllipse(mapToCanvas(m_scopeRect, P75*SCALING*YUV_Mg), 3,3);
-    davinci.drawEllipse(mapToCanvas(m_scopeRect, P75*SCALING*YUV_Yl), 3,3);
+    davinci.drawEllipse(pR75, 3,3);
+    davinci.drawEllipse(pG75, 3,3);
+    davinci.drawEllipse(pB75, 3,3);
+    davinci.drawEllipse(pCy75, 3,3);
+    davinci.drawEllipse(pMg75, 3,3);
+    davinci.drawEllipse(pYl75, 3,3);
 
 
 
@@ -598,6 +569,8 @@ void Vectorscope::slotUpdateWheel()
 void Vectorscope::slotExportBackground()
 {
     qDebug() << "Exporting background";
+    m_colorPlaneExport->show();
+
 }
 
 void Vectorscope::slotBackgroundChanged()

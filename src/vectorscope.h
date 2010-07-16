@@ -14,13 +14,15 @@
 #include <QtCore>
 #include "renderer.h"
 #include "monitor.h"
+#include "colorplaneexport.h"
+#include "colortools.h"
 #include "ui_vectorscope_ui.h"
 
 class Render;
 class Monitor;
 class Vectorscope_UI;
 
-enum PAINT_MODE { PAINT_GREEN = 0, PAINT_ORIG = 1, PAINT_CHROMA = 2, PAINT_YUV = 3, PAINT_BLACK = 4 };
+enum PAINT_MODE { PAINT_GREEN = 0, PAINT_ORIG = 1, PAINT_CHROMA = 2, PAINT_YUV = 3, PAINT_BLACK = 4, PAINT_GREEN2 = 5 };
 enum BACKGROUND_MODE { BG_NONE = 0, BG_YUV = 1, BG_CHROMA = 2 };
 
 class Vectorscope : public QWidget, public Ui::Vectorscope_UI {
@@ -29,7 +31,6 @@ class Vectorscope : public QWidget, public Ui::Vectorscope_UI {
 public:
     Vectorscope(Monitor *projMonitor, Monitor *clipMonitor, QWidget *parent = 0);
     ~Vectorscope();
-    QImage yuvColorWheel(const QSize& size, const unsigned char Y, const float scaling, const bool modifiedVersion, const bool circleOnly);
 
 protected:
     void paintEvent(QPaintEvent *);
@@ -42,8 +43,12 @@ private:
     Monitor *m_clipMonitor;
     Render *m_activeRender;
 
-//    QMenu m_contextMenu;
+    ColorTools *m_colorTools;
+    ColorPlaneExport *m_colorPlaneExport;
+
     QAction *m_aExportBackground;
+    QAction *m_aAxisEnabled;
+    QAction *m_a75PBox;
 
     /** How to represent the pixels on the scope (green, original color, ...) */
     int iPaintMode;
@@ -52,6 +57,7 @@ private:
 
 
     QPoint mapToCanvas(QRect inside, QPointF point);
+    QPoint centerPoint, pR75, pG75, pB75, pCy75, pMg75, pYl75;
 
     bool circleEnabled;
     QPoint mousePos;
@@ -92,7 +98,6 @@ private:
 
 signals:
     void signalScopeCalculationFinished();
-    void signalWheelCalculationFinished();
 
 private slots:
     void slotMagnifyChanged();
