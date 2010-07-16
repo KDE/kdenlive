@@ -84,7 +84,7 @@ public:
     void setupParam();
     void addParameter(QDomElement e);
     const QString getValue(const QString &name);
-    /** @brief Update the timecode display according to settings (frame number or hh:mm:ss:ff) */
+    /** @brief Updates the timecode display according to settings (frame number or hh:mm:ss:ff) */
     void updateTimecodeFormat();
 
 private:

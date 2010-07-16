@@ -2042,6 +2042,8 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
             disconnect(m_projectMonitor, SIGNAL(renderPosition(int)), m_activeTimeline, SLOT(moveCursorPos(int)));
             disconnect(m_projectMonitor, SIGNAL(zoneUpdated(QPoint)), m_activeTimeline, SLOT(slotSetZone(QPoint)));
             disconnect(m_projectMonitor, SIGNAL(durationChanged(int)), m_activeTimeline, SLOT(setDuration(int)));
+            disconnect(m_projectMonitor, SIGNAL(zoneUpdated(QPoint)), m_activeDocument, SLOT(setModified()));
+            disconnect(m_clipMonitor, SIGNAL(zoneUpdated(QPoint)), m_activeDocument, SLOT(setModified()));
             disconnect(m_projectList, SIGNAL(projectModified()), m_activeDocument, SLOT(setModified()));
             disconnect(m_projectMonitor->render, SIGNAL(refreshDocumentProducers()), m_activeDocument, SLOT(checkProjectClips()));
 
@@ -2110,6 +2112,8 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     connect(m_projectMonitor, SIGNAL(renderPosition(int)), trackView, SLOT(moveCursorPos(int)));
     connect(m_projectMonitor, SIGNAL(zoneUpdated(QPoint)), trackView, SLOT(slotSetZone(QPoint)));
     connect(m_clipMonitor, SIGNAL(zoneUpdated(QPoint)), m_projectList, SLOT(slotUpdateClipCut(QPoint)));
+    connect(m_projectMonitor, SIGNAL(zoneUpdated(QPoint)), doc, SLOT(setModified()));
+    connect(m_clipMonitor, SIGNAL(zoneUpdated(QPoint)), doc, SLOT(setModified()));
     connect(m_projectMonitor, SIGNAL(durationChanged(int)), trackView, SLOT(setDuration(int)));
     connect(m_projectMonitor->render, SIGNAL(refreshDocumentProducers()), doc, SLOT(checkProjectClips()));
 

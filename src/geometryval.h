@@ -46,7 +46,7 @@ public:
     QDomElement getParamDesc();
     QString getValue() const;
     void setFrameSize(QPoint p);
-    /** @brief Update the timecode display according to settings (frame number or hh:mm:ss:ff) */
+    /** @brief Updates the timecode display according to settings (frame number or hh:mm:ss:ff) */
     void updateTimecodeFormat();
 
 private:
