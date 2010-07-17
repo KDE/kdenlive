@@ -238,110 +238,115 @@ void Vectorscope::calculateScope()
     }
     const int stepsize = 4*skipPixels;
 
-    // Prepare the vectorscope data
-    QImage scope(cw, cw, QImage::Format_ARGB32);
-    scope.fill(qRgba(0,0,0,0));
+    if (cw <= 0) {
+        qDebug() << "Scope size not known yet. Aborting.";
+    } else {
 
-    QImage img(m_activeRender->extractFrame(m_activeRender->seekFramePosition()));
-    const uchar *bits = img.bits();
+        // Prepare the vectorscope data
+        QImage scope(cw, cw, QImage::Format_ARGB32);
+        scope.fill(qRgba(0,0,0,0));
 
-    int r,g,b;
-    double dy, dr, dg, db, dmax;
-    double y,u,v;
-    QPoint pt;
-    QRgb px;
+        QImage img(m_activeRender->extractFrame(m_activeRender->seekFramePosition()));
+        const uchar *bits = img.bits();
 
-    // Just an average for the number of image pixels per scope pixel.
-    // NOTE: byteCount() has to be replaced by (img.bytesPerLine()*img.height()) for Qt 4.5 to compile, see: http://doc.trolltech.org/4.6/qimage.html#bytesPerLine
-    double avgPxPerPx = (double) 4*(img.bytesPerLine()*img.height())/scope.size().width()/scope.size().height()/skipPixels;
-    qDebug() << "Expecting " << avgPxPerPx << " pixels per pixel.";
+        int r,g,b;
+        double dy, dr, dg, db, dmax;
+        double y,u,v;
+        QPoint pt;
+        QRgb px;
 
-    const QRect scopeRect(QPoint(0,0), scope.size());
+        // Just an average for the number of image pixels per scope pixel.
+        // NOTE: byteCount() has to be replaced by (img.bytesPerLine()*img.height()) for Qt 4.5 to compile, see: http://doc.trolltech.org/4.6/qimage.html#bytesPerLine
+        double avgPxPerPx = (double) 4*(img.bytesPerLine()*img.height())/scope.size().width()/scope.size().height()/skipPixels;
+        qDebug() << "Expecting " << avgPxPerPx << " pixels per pixel.";
 
-    for (int i = 0; i < (img.bytesPerLine()*img.height()); i+= stepsize) {
-        QRgb *col = (QRgb *) bits;
+        const QRect scopeRect(QPoint(0,0), scope.size());
 
-        r = qRed(*col);
-        g = qGreen(*col);
-        b = qBlue(*col);
+        for (int i = 0; i < (img.bytesPerLine()*img.height()); i+= stepsize) {
+            QRgb *col = (QRgb *) bits;
 
-        y = (double)  0.001173 * r +0.002302 * g +0.0004471* b;
-        u = (double) -0.0005781* r -0.001135 * g +0.001713 * b;
-        v = (double)  0.002411 * r -0.002019 * g -0.0003921* b;
+            r = qRed(*col);
+            g = qGreen(*col);
+            b = qBlue(*col);
 
-        pt = mapToCanvas(scopeRect, QPointF(SCALING*m_scaling*u, SCALING*m_scaling*v));
+            y = (double)  0.001173 * r +0.002302 * g +0.0004471* b;
+            u = (double) -0.0005781* r -0.001135 * g +0.001713 * b;
+            v = (double)  0.002411 * r -0.002019 * g -0.0003921* b;
 
-        if (!(pt.x() <= scopeRect.width() && pt.x() >= 0
-            && pt.y() <= scopeRect.height() && pt.y() >= 0)) {
-            // Point lies outside (because of scaling), don't plot it
+            pt = mapToCanvas(scopeRect, QPointF(SCALING*m_scaling*u, SCALING*m_scaling*v));
 
-        } else {
+            if (!(pt.x() <= scopeRect.width() && pt.x() >= 0
+                && pt.y() <= scopeRect.height() && pt.y() >= 0)) {
+                // Point lies outside (because of scaling), don't plot it
 
-            // Draw the pixel using the chosen draw mode.
-            switch (paintMode->itemData(paintMode->currentIndex()).toInt()) {
-            case PAINT_YUV:
-                // see yuvColorWheel
-                dy = 128; // Default Y value. Lower = darker.
+            } else {
 
-                // Calculate the RGB values from YUV
-                dr = dy + 290.8*v;
-                dg = dy - 100.6*u - 148*v;
-                db = dy + 517.2*u;
+                // Draw the pixel using the chosen draw mode.
+                switch (paintMode->itemData(paintMode->currentIndex()).toInt()) {
+                case PAINT_YUV:
+                    // see yuvColorWheel
+                    dy = 128; // Default Y value. Lower = darker.
 
-                if (dr < 0) dr = 0;
-                if (dg < 0) dg = 0;
-                if (db < 0) db = 0;
-                if (dr > 255) dr = 255;
-                if (dg > 255) dg = 255;
-                if (db > 255) db = 255;
+                    // Calculate the RGB values from YUV
+                    dr = dy + 290.8*v;
+                    dg = dy - 100.6*u - 148*v;
+                    db = dy + 517.2*u;
 
-                scope.setPixel(pt, qRgba(dr, dg, db, 255));
-                break;
+                    if (dr < 0) dr = 0;
+                    if (dg < 0) dg = 0;
+                    if (db < 0) db = 0;
+                    if (dr > 255) dr = 255;
+                    if (dg > 255) dg = 255;
+                    if (db > 255) db = 255;
 
-            case PAINT_CHROMA:
-                dy = 200; // Default Y value. Lower = darker.
+                    scope.setPixel(pt, qRgba(dr, dg, db, 255));
+                    break;
 
-                // Calculate the RGB values from YUV
-                dr = dy + 290.8*v;
-                dg = dy - 100.6*u - 148*v;
-                db = dy + 517.2*u;
+                case PAINT_CHROMA:
+                    dy = 200; // Default Y value. Lower = darker.
 
-                // Scale the RGB values back to max 255
-                dmax = dr;
-                if (dg > dmax) dmax = dg;
-                if (db > dmax) dmax = db;
-                dmax = 255/dmax;
+                    // Calculate the RGB values from YUV
+                    dr = dy + 290.8*v;
+                    dg = dy - 100.6*u - 148*v;
+                    db = dy + 517.2*u;
 
-                dr *= dmax;
-                dg *= dmax;
-                db *= dmax;
+                    // Scale the RGB values back to max 255
+                    dmax = dr;
+                    if (dg > dmax) dmax = dg;
+                    if (db > dmax) dmax = db;
+                    dmax = 255/dmax;
 
-                scope.setPixel(pt, qRgba(dr, dg, db, 255));
-                break;
-            case PAINT_ORIG:
-                scope.setPixel(pt, *col);
-                break;
-            case PAINT_GREEN:
-                px = scope.pixel(pt);
-                scope.setPixel(pt, qRgba(qRed(px)+(255-qRed(px))/(3*avgPxPerPx), qGreen(px)+20*(255-qGreen(px))/(avgPxPerPx),
-                                         qBlue(px)+(255-qBlue(px))/(avgPxPerPx), qAlpha(px)+(255-qAlpha(px))/(avgPxPerPx)));
-                break;
-            case PAINT_GREEN2:
-                px = scope.pixel(pt);
-                scope.setPixel(pt, qRgba(qRed(px)+ceil((255-(float)qRed(px))/(4*avgPxPerPx)), 255,
-                                         qBlue(px)+ceil((255-(float)qBlue(px))/(avgPxPerPx)), qAlpha(px)+ceil((255-(float)qAlpha(px))/(avgPxPerPx))));
-                break;
-            case PAINT_BLACK:
-                px = scope.pixel(pt);
-                scope.setPixel(pt, qRgba(0,0,0, qAlpha(px)+(255-qAlpha(px))/20));
-                break;
+                    dr *= dmax;
+                    dg *= dmax;
+                    db *= dmax;
+
+                    scope.setPixel(pt, qRgba(dr, dg, db, 255));
+                    break;
+                case PAINT_ORIG:
+                    scope.setPixel(pt, *col);
+                    break;
+                case PAINT_GREEN:
+                    px = scope.pixel(pt);
+                    scope.setPixel(pt, qRgba(qRed(px)+(255-qRed(px))/(3*avgPxPerPx), qGreen(px)+20*(255-qGreen(px))/(avgPxPerPx),
+                                             qBlue(px)+(255-qBlue(px))/(avgPxPerPx), qAlpha(px)+(255-qAlpha(px))/(avgPxPerPx)));
+                    break;
+                case PAINT_GREEN2:
+                    px = scope.pixel(pt);
+                    scope.setPixel(pt, qRgba(qRed(px)+ceil((255-(float)qRed(px))/(4*avgPxPerPx)), 255,
+                                             qBlue(px)+ceil((255-(float)qBlue(px))/(avgPxPerPx)), qAlpha(px)+ceil((255-(float)qAlpha(px))/(avgPxPerPx))));
+                    break;
+                case PAINT_BLACK:
+                    px = scope.pixel(pt);
+                    scope.setPixel(pt, qRgba(0,0,0, qAlpha(px)+(255-qAlpha(px))/20));
+                    break;
+                }
             }
+
+            bits += stepsize;
         }
 
-        bits += stepsize;
+        m_scope = scope;
     }
-
-    m_scope = scope;
 
     unsigned int mseconds = start.msecsTo(QTime::currentTime());
     qDebug() << "Scope rendered in " << mseconds << " ms. Sending finished signal.";
