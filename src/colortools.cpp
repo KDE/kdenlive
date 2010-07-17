@@ -17,7 +17,7 @@ ColorTools::ColorTools()
 
 
 
-QImage ColorTools::yuvColorWheel(const QSize &size, unsigned char Y, float scaling, bool modifiedVersion, bool circleOnly)
+QImage ColorTools::yuvColorWheel(const QSize &size, const unsigned char &Y, const float &scaling, const bool &modifiedVersion, const bool &circleOnly)
 {
     QImage wheel(size, QImage::Format_ARGB32);
     if (size.width() == 0 || size.height() == 0) {
@@ -89,3 +89,85 @@ QImage ColorTools::yuvColorWheel(const QSize &size, unsigned char Y, float scali
     emit signalWheelCalculationFinished();
     return wheel;
 }
+
+QImage ColorTools::yuvVerticalPlane(const QSize &size, const float &angle, const float &scaling)
+{
+    QImage plane(size, QImage::Format_ARGB32);
+    if (size.width() == 0 || size.height() == 0) {
+        qCritical("ERROR: Size of the color plane must not be 0!");
+        return plane;
+    }
+
+    double dr, dg, db, du, dv, Y;
+    const int w = size.width();
+    const int h = size.height();
+    const double uscaling = scaling*cos(M_PI*angle/180);
+    const double vscaling = scaling*sin(M_PI*angle/180);
+
+    for (int uv = 0; uv < w; uv++) {
+        du = uscaling*((double)2*uv/w - 1);//(double)?
+        dv = vscaling*((double)2*uv/w - 1);
+
+        for (int y = 0; y < h; y++) {
+            Y = (double)255*y/h;
+
+            // See yuv2rgb, yuvColorWheel
+            dr = Y + 290.8*dv;
+            dg = Y - 100.6*du - 148*dv;
+            db = Y + 517.2*du;
+            if (dr < 0) dr = 0;
+            if (dg < 0) dg = 0;
+            if (db < 0) db = 0;
+            if (dr > 255) dr = 255;
+            if (dg > 255) dg = 255;
+            if (db > 255) db = 255;
+
+            plane.setPixel(uv, (h-y-1), qRgba(dr, dg, db, 255));
+
+        }
+    }
+
+
+    return plane;
+
+}
+
+QImage ColorTools::rgbCurvePlane(const QSize &size, const ColorsRGB &color)
+{
+    QImage plane(size, QImage::Format_ARGB32);
+    if (size.width() == 0 || size.height() == 0) {
+        qCritical("ERROR: Size of the color plane must not be 0!");
+        return plane;
+    }
+
+    const int w = size.width();
+    const int h = size.height();
+
+    double dcol, dval;
+
+    for (int x = 0; x < w; x++) {
+        dval = (double)255*x/w;
+
+        for (int y = 0; y < h; y++) {
+            dcol = (double)255*y/h;
+
+            if (color == ColorTools::COL_R) {
+                plane.setPixel(x, (h-y-1), qRgb(dcol, dval, dval));
+            } else if (color == ColorTools::COL_G) {
+                plane.setPixel(x, (h-y-1), qRgb(dval, dcol, dval));
+            } else {
+                plane.setPixel(x, (h-y-1), qRgb(dval, dval, dcol));
+            }
+
+        }
+    }
+    return plane;
+}
+
+
+
+
+
+
+
+

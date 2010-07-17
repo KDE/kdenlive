@@ -251,6 +251,10 @@ void Vectorscope::calculateScope()
     QPoint pt;
     QRgb px;
 
+    // Just an average for the number of image pixels per scope pixel.
+    double avgPxPerPx = (double) 4*img.byteCount()/scope.size().width()/scope.size().height()/skipPixels;
+    qDebug() << "Expecting " << avgPxPerPx << " pixels per pixel.";
+
     const QRect scopeRect(QPoint(0,0), scope.size());
 
     for (int i = 0; i < img.byteCount(); i+= stepsize) {
@@ -318,12 +322,13 @@ void Vectorscope::calculateScope()
                 break;
             case PAINT_GREEN:
                 px = scope.pixel(pt);
-                scope.setPixel(pt, qRgba(qRed(px)+(255-qRed(px))/30, 255, qBlue(px)+(255-qBlue(px))/25, qAlpha(px)+(255-qAlpha(px))/20));
+                scope.setPixel(pt, qRgba(qRed(px)+(255-qRed(px))/(3*avgPxPerPx), qGreen(px)+20*(255-qGreen(px))/(avgPxPerPx),
+                                         qBlue(px)+(255-qBlue(px))/(avgPxPerPx), qAlpha(px)+(255-qAlpha(px))/(avgPxPerPx)));
                 break;
             case PAINT_GREEN2:
                 px = scope.pixel(pt);
-                scope.setPixel(pt, qRgba(qRed(px)+ceil((255-(float)qRed(px))/30), 255,
-                                         qBlue(px)+ceil((255-(float)qBlue(px))/25), qAlpha(px)+ceil((255-(float)qAlpha(px))/20)));
+                scope.setPixel(pt, qRgba(qRed(px)+ceil((255-(float)qRed(px))/(4*avgPxPerPx)), 255,
+                                         qBlue(px)+ceil((255-(float)qBlue(px))/(avgPxPerPx)), qAlpha(px)+ceil((255-(float)qAlpha(px))/(avgPxPerPx))));
                 break;
             case PAINT_BLACK:
                 px = scope.pixel(pt);
@@ -498,6 +503,13 @@ void Vectorscope::paintEvent(QPaintEvent *)
 
         circleEnabled = false;
     }
+
+    // Draw realtime factor (number of skipped pixels)
+    if (m_aRealtime->isChecked()) {
+        davinci.setPen(penThin);
+        davinci.drawText(m_scopeRect.bottomRight()-QPoint(40,15), QVariant(m_skipPixels).toString().append("x"));
+    }
+
 }
 
 

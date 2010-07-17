@@ -22,7 +22,7 @@
 
 class ColorPlaneExport_UI;
 
-enum COLOR_EXPORT_MODE { CPE_YUV, CPE_YUV_MOD };
+enum COLOR_EXPORT_MODE { CPE_YUV, CPE_YUV_Y, CPE_YUV_MOD, CPE_RGB_CURVE };
 
 class ColorPlaneExport : public QDialog, public Ui::ColorPlaneExport_UI {
     Q_OBJECT
@@ -36,6 +36,9 @@ private:
     ColorTools *m_colorTools;
     float m_scaling;
     float m_Y;
+    void enableSliderScaling(const bool &enable);
+    void enableSliderColor(const bool &enable);
+    void enableCbVariant(const bool &enable);
 
 
 private slots:
