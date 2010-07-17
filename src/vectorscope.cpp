@@ -101,7 +101,7 @@ Vectorscope::Vectorscope(Monitor *projMonitor, Monitor *clipMonitor, QWidget *pa
     connect(backgroundMode, SIGNAL(currentIndexChanged(int)), this, SLOT(slotBackgroundChanged()));
     connect(cbMagnify, SIGNAL(stateChanged(int)), this, SLOT(slotMagnifyChanged()));
     connect(this, SIGNAL(signalScopeCalculationFinished(uint,uint)), this, SLOT(slotScopeCalculationFinished(uint,uint)));
-    connect(m_colorTools, SIGNAL(signalWheelCalculationFinished()), this, SLOT(slotWheelCalculationFinished()));
+    connect(m_colorTools, SIGNAL(signalYuvWheelCalculationFinished()), this, SLOT(slotWheelCalculationFinished()));
     connect(paintMode, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateScope()));
     connect(cbAutoRefresh, SIGNAL(stateChanged(int)), this, SLOT(slotUpdateScope()));
 

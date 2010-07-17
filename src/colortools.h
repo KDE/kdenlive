@@ -52,9 +52,16 @@ public:
       in equal terms (linear as well) on the x axis.
      */
     QImage rgbCurvePlane(const QSize &size, const ColorTools::ColorsRGB &color);
+    /**
+      @brief Draws a YPbPr plane with Pb on the x axis and Pr on the y axis.
+      Y is the Y value to use.
+      scaling defines how far to zoom in (or out). Lower value = zoom in.
+      See also: http://de.wikipedia.org/wiki/YPbPr-Farbmodell and http://www.poynton.com/ColorFAQ.html
+     */
+    QImage yPbPrColorWheel(const QSize &size, const unsigned char &Y, const float &scaling, const bool &circleOnly);
 
 signals:
-    void signalWheelCalculationFinished();
+    void signalYuvWheelCalculationFinished();
 };
 
 #endif // COLORTOOLS_H

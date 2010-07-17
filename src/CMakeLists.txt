@@ -91,6 +91,7 @@ kde4_add_ui_files(kdenlive_UI
   widgets/urlval_ui.ui
   widgets/vectorscope_ui.ui
   widgets/colorplaneexport_ui.ui
+  widgets/waveform_ui.ui
 )
 
 set(kdenlive_SRCS
@@ -196,6 +197,7 @@ set(kdenlive_SRCS
   colorplaneexport.cpp
   colortools.cpp
   rebuildgroupcommand.cpp
+  waveform.cpp
 )
 
 add_definitions( ${KDE4_DEFINITIONS} )

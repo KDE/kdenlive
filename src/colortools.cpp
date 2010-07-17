@@ -24,7 +24,9 @@ QImage ColorTools::yuvColorWheel(const QSize &size, const unsigned char &Y, cons
         qCritical("ERROR: Size of the color wheel must not be 0!");
         return wheel;
     }
-    wheel.fill(qRgba(0,0,0,0));
+    if (circleOnly) {
+        wheel.fill(qRgba(0,0,0,0));
+    }
 
     double dr, dg, db, du, dv, dmax;
     double ru, rv, rr;
@@ -86,7 +88,7 @@ QImage ColorTools::yuvColorWheel(const QSize &size, const unsigned char &Y, cons
         }
     }
 
-    emit signalWheelCalculationFinished();
+    emit signalYuvWheelCalculationFinished();
     return wheel;
 }
 
@@ -146,10 +148,10 @@ QImage ColorTools::rgbCurvePlane(const QSize &size, const ColorsRGB &color)
     double dcol, dval;
 
     for (int x = 0; x < w; x++) {
-        dval = (double)255*x/w;
+        dval = (double)255*x/(w-1);
 
         for (int y = 0; y < h; y++) {
-            dcol = (double)255*y/h;
+            dcol = (double)255*y/(h-1);
 
             if (color == ColorTools::COL_R) {
                 plane.setPixel(x, (h-y-1), qRgb(dcol, dval, dval));
@@ -162,6 +164,67 @@ QImage ColorTools::rgbCurvePlane(const QSize &size, const ColorsRGB &color)
         }
     }
     return plane;
+}
+
+QImage ColorTools::yPbPrColorWheel(const QSize &size, const unsigned char &Y, const float &scaling, const bool &circleOnly)
+{
+
+    QImage wheel(size, QImage::Format_ARGB32);
+    if (size.width() == 0 || size.height() == 0) {
+        qCritical("ERROR: Size of the color wheel must not be 0!");
+        return wheel;
+    }
+    if (circleOnly) {
+        wheel.fill(qRgba(0,0,0,0));
+    }
+
+    double dr, dg, db, dpB, dpR;
+    double rB, rR, rr;
+    const int w = size.width();
+    const int h = size.height();
+    const float w2 = (float)w/2;
+    const float h2 = (float)h/2;
+
+    for (int b = 0; b < w; b++) {
+        // Transform pB from {0,...,w} to [-0.5,0.5]
+        dpB = (double) b/(w-1) - .5;
+        dpB = scaling*dpB;
+
+        for (int r = 0; r < h; r++) {
+            dpR = (double) r/(h-1) - .5;
+            dpR = scaling*dpR;
+
+            if (circleOnly) {
+                // see yuvColorWheel
+                rB = b - w2;
+                rR = r - h2;
+                rr = rB*rB/(w2*w2) + rR*rR/(h2*h2);
+                if (rr > 1) {
+                    continue;
+                }
+            }
+
+            // Calculate the RGB values from YPbPr
+            dr = Y + 357.5*dpR;
+            dg = Y - 87.75*dpB - 182.1*dpR;
+            db = Y + 451.86*dpB;
+
+            // Avoid overflows (which would generate intersting patterns).
+            // Note that not all possible (y,u,v) values with u,v \in [-1,1]
+            // have a correct RGB representation, therefore some RGB values
+            // may exceed {0,...,255}.
+            if (dr < 0) dr = 0;
+            if (dg < 0) dg = 0;
+            if (db < 0) db = 0;
+            if (dr > 255) dr = 255;
+            if (dg > 255) dg = 255;
+            if (db > 255) db = 255;
+
+            wheel.setPixel(b, (h-r-1), qRgba(dr, dg, db, 255));
+        }
+    }
+
+    return wheel;
 }
 
 

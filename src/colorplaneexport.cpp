@@ -25,10 +25,11 @@ ColorPlaneExport::ColorPlaneExport(QWidget *parent) :
     tResX->setText("800");
     tResY->setText("800");
 
-    cbColorspace->addItem(i18n("YUV UV plane"), QVariant(CPE_YUV));
-    cbColorspace->addItem(i18n("YUV Y plane"), QVariant(CPE_YUV_Y));
-    cbColorspace->addItem(i18n("Modified YUV (Chroma)"), QVariant(CPE_YUV_MOD));
-    cbColorspace->addItem(i18n("RGB plane, one component varying"), QVariant(CPE_RGB_CURVE));
+    cbColorspace->addItem(i18n("YUV UV plane"), QVariant(ColorPlaneExport::CPE_YUV));
+    cbColorspace->addItem(i18n("YUV Y plane"), QVariant(ColorPlaneExport::CPE_YUV_Y));
+    cbColorspace->addItem(i18n("Modified YUV (Chroma)"), QVariant(ColorPlaneExport::CPE_YUV_MOD));
+    cbColorspace->addItem(i18n("YCbCr CbCr plane"), QVariant(ColorPlaneExport::CPE_YPbPr));
+    cbColorspace->addItem(i18n("RGB plane, one component varying"), QVariant(ColorPlaneExport::CPE_RGB_CURVE));
 
     sliderColor->setSliderPosition(128);
 
@@ -159,6 +160,9 @@ void ColorPlaneExport::slotExportPlane()
     case CPE_RGB_CURVE:
         img = m_colorTools->rgbCurvePlane(size, (ColorTools::ColorsRGB) (cbVariant->itemData(cbVariant->currentIndex()).toInt()));
         break;
+    case CPE_YPbPr:
+        img = m_colorTools->yPbPrColorWheel(size, sliderColor->value(), m_scaling, false);
+        break;
     }
     img.save(kurlrequester->text());
 }
@@ -169,6 +173,7 @@ void ColorPlaneExport::slotColormodeChanged()
     switch (cbColorspace->itemData(cbColorspace->currentIndex()).toInt()) {
     case CPE_YUV:
     case CPE_YUV_MOD:
+    case CPE_YPbPr:
         enableSliderScaling(true);
         enableSliderColor(true);
         enableCbVariant(false);
