@@ -569,13 +569,18 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
         }
         m_moveOpMode = opMode;
         setTipAnimation(clip, opMode, size);
-        if (opMode == MOVE)
+        if (opMode == MOVE) {
             setCursor(Qt::OpenHandCursor);
-        else if (opMode == RESIZESTART)
+            ClipItem *ci = static_cast <ClipItem *>(item);
+            QString message = ci->clipName() + i18n(":");
+            message.append(i18n(" Position:") + m_document->timecode().getDisplayTimecode(ci->info().startPos, KdenliveSettings::frametimecode()));
+            message.append(i18n(" Duration:") + m_document->timecode().getDisplayTimecode(ci->cropDuration(),  KdenliveSettings::frametimecode()));
+            emit displayMessage(message, InformationMessage);
+        } else if (opMode == RESIZESTART) {
             setCursor(KCursor("left_side", Qt::SizeHorCursor));
-        else if (opMode == RESIZEEND)
+        } else if (opMode == RESIZEEND) {
             setCursor(KCursor("right_side", Qt::SizeHorCursor));
-        else if (opMode == FADEIN || opMode == FADEOUT) {
+        } else if (opMode == FADEIN || opMode == FADEOUT) {
             setCursor(Qt::PointingHandCursor);
             emit displayMessage(i18n("Drag to add or resize a fade effect."), InformationMessage);
         } else if (opMode == TRANSITIONSTART || opMode == TRANSITIONEND) {
