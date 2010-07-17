@@ -481,12 +481,12 @@ void Vectorscope::paintEvent(QPaintEvent *)
     if (circleEnabled) {
         // Mouse moved: Draw a circle over the scope
 
-        int dx = centerPoint.x()-mousePos.x();
-        int dy = centerPoint.y()-mousePos.y();
+        int dx = -centerPoint.x()+mousePos.x();
+        int dy =  centerPoint.y()-mousePos.y();
 
         QPoint reference = mapToCanvas(m_scopeRect, QPointF(1,0));
 
-        int r = sqrt(dx*dx + dy*dy);
+        float r = sqrt(dx*dx + dy*dy);
         float percent = (float) 100*r/SCALING/m_scaling/(reference.x() - centerPoint.x());
 
         switch (backgroundMode->itemData(backgroundMode->currentIndex()).toInt()) {
@@ -497,9 +497,12 @@ void Vectorscope::paintEvent(QPaintEvent *)
             davinci.setPen(penDark);
             break;
         }
-        davinci.drawEllipse(centerPoint, r,r);
+        davinci.drawEllipse(centerPoint, (int)r, (int)r);
         davinci.setPen(penThin);
-        davinci.drawText(m_scopeRect.bottomRight()-QPoint(40,0), QVariant((int)percent).toString().append(" %"));
+        davinci.drawText(m_scopeRect.bottomRight()-QPoint(40,0), i18n("%1 \%", QString::number(percent, 'f', 0)));
+        
+        float angle = copysign(acos(dx/r)*180/M_PI, dy);
+        davinci.drawText(m_scopeRect.bottomLeft()+QPoint(10,0), i18n("%1°", QString::number(angle, 'f', 1)));
 
         circleEnabled = false;
     }

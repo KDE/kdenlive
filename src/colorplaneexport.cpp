@@ -99,7 +99,7 @@ void ColorPlaneExport::slotUpdateDisplays()
 
     switch (cbColorspace->itemData(cbColorspace->currentIndex()).toInt()) {
     case CPE_YUV_Y:
-        lblColNr->setText(i18n("%1 °", QString::number(sliderColor->value())));
+        lblColNr->setText(i18n("%1°", QString::number(sliderColor->value())));
         break;
     default:
         lblColNr->setText(QString::number(sliderColor->value()));
