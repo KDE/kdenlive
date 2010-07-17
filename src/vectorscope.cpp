@@ -252,12 +252,13 @@ void Vectorscope::calculateScope()
     QRgb px;
 
     // Just an average for the number of image pixels per scope pixel.
-    double avgPxPerPx = (double) 4*img.byteCount()/scope.size().width()/scope.size().height()/skipPixels;
+    // NOTE: byteCount() has to be replaced by (img.bytesPerLine()*img.height()) for Qt 4.5 to compile, see: http://doc.trolltech.org/4.6/qimage.html#bytesPerLine
+    double avgPxPerPx = (double) 4*(img.bytesPerLine()*img.height())/scope.size().width()/scope.size().height()/skipPixels;
     qDebug() << "Expecting " << avgPxPerPx << " pixels per pixel.";
 
     const QRect scopeRect(QPoint(0,0), scope.size());
 
-    for (int i = 0; i < img.byteCount(); i+= stepsize) {
+    for (int i = 0; i < (img.bytesPerLine()*img.height()); i+= stepsize) {
         QRgb *col = (QRgb *) bits;
 
         r = qRed(*col);
