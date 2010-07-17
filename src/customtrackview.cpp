@@ -58,6 +58,7 @@
 #include "trackdialog.h"
 #include "tracksconfigdialog.h"
 #include "configtrackscommand.h"
+#include "rebuildgroupcommand.h"
 
 #include <KDebug>
 #include <KLocale>
@@ -1009,8 +1010,18 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
     QGraphicsView::mousePressEvent(event);
 }
 
-void CustomTrackView::rebuildGroup(AbstractGroupItem* group)
+void CustomTrackView::rebuildGroup(int childTrack, GenTime childPos)
 {
+    const QPointF p((int)childPos.frames(m_document->fps()), childTrack * m_tracksHeight + m_tracksHeight / 2);
+    QList<QGraphicsItem *> list = scene()->items(p);
+    AbstractGroupItem *group = NULL;
+    for (int i = 0; i < list.size(); i++) {
+        if (!list.at(i)->isEnabled()) continue;
+        if (list.at(i)->type() == GROUPWIDGET) {
+            group = static_cast <AbstractGroupItem *>(list.at(i));
+            break;
+        }
+    }
     if (group) {
         QList <QGraphicsItem *> children = group->childItems();
         m_document->clipManager()->removeGroup(group);
@@ -4121,7 +4132,7 @@ void CustomTrackView::prepareResizeClipStart(AbstractClipItem* item, ItemInfo ol
 
     }
     if (item->parentItem() && item->parentItem() != m_selectionGroup)
-        rebuildGroup(static_cast <AbstractGroupItem *>(item->parentItem()));
+        new RebuildGroupCommand(this, item->info().track, item->info().startPos, command);
 }
 
 void CustomTrackView::prepareResizeClipEnd(AbstractClipItem* item, ItemInfo oldInfo, int pos, bool check, QUndoCommand *command)
@@ -4233,7 +4244,7 @@ void CustomTrackView::prepareResizeClipEnd(AbstractClipItem* item, ItemInfo oldI
         }
     }
     if (item->parentItem() && item->parentItem() != m_selectionGroup)
-        rebuildGroup(static_cast <AbstractGroupItem *>(item->parentItem()));
+        new RebuildGroupCommand(this, item->info().track, item->info().startPos, command);
 }
 
 void CustomTrackView::updatePositionEffects(ClipItem * item, ItemInfo info)

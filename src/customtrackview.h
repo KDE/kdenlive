@@ -219,6 +219,11 @@ public slots:
     void slotSelectTrack(int ix);
     void insertZoneOverwrite(QStringList data, int in);
 
+    /** @brief Rebuilds a group to fit changes to it's childen.
+    * @param childTrack the track of one of the groups children
+    * @param childPos The position of the same child */
+    void rebuildGroup(int childTrack, GenTime childPos);
+
 protected:
     virtual void drawBackground(QPainter * painter, const QRectF & rect);
     //virtual void drawForeground ( QPainter * painter, const QRectF & rect );
@@ -307,8 +312,6 @@ private:
     bool canBeMoved(QList<AbstractClipItem *> items, GenTime offset, int trackOffset) const;
     ClipItem *getClipUnderCursor() const;
     AbstractClipItem *getMainActiveClip() const;
-    /** @brief Rebuilds @param group to fit changes to it's childen. */
-    void rebuildGroup(AbstractGroupItem *group);
     void resetSelectionGroup(bool selectItems = true);
     void groupSelectedItems(bool force = false, bool createNewGroup = false);
     /** Get available space for clip move (min and max free positions) */

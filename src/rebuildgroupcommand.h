@@ -17,28 +17,26 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#ifndef CONFIGTRACKSCOMMAND_H
-#define CONFIGTRACKSCOMMAND_H
+#ifndef REBUILDGROUPCOMMAND_H
+#define REBUILDGROUPCOMMAND_H
 
 #include <QUndoCommand>
-#include <QGraphicsView>
-#include <QPointF>
 
-#include "definitions.h"
+#include "abstractgroupitem.h"
 
 class CustomTrackView;
 
-class ConfigTracksCommand : public QUndoCommand
+class RebuildGroupCommand : public QUndoCommand
 {
 public:
-    ConfigTracksCommand(CustomTrackView *view, QList <TrackInfo> oldInfos, QList <TrackInfo> newInfos, QUndoCommand * parent = 0);
+    RebuildGroupCommand(CustomTrackView *view, int childTrack, GenTime childPos, QUndoCommand* parent = 0);
     virtual void undo();
     virtual void redo();
 
 private:
     CustomTrackView *m_view;
-    QList <TrackInfo> m_oldInfos;
-    QList <TrackInfo> m_newInfos;
+    int m_childTrack;
+    GenTime m_childPos;
 };
 
 #endif

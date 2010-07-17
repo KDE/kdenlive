@@ -195,6 +195,7 @@ set(kdenlive_SRCS
   vectorscope.cpp
   colorplaneexport.cpp
   colortools.cpp
+  rebuildgroupcommand.cpp
 )
 
 add_definitions( ${KDE4_DEFINITIONS} )

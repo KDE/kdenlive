@@ -21,7 +21,6 @@
 #include "configtrackscommand.h"
 #include "customtrackview.h"
 
-#include <KLocale>
 
 ConfigTracksCommand::ConfigTracksCommand(CustomTrackView* view, QList< TrackInfo > oldInfos, QList< TrackInfo > newInfos, QUndoCommand* parent) :
         QUndoCommand(parent),
