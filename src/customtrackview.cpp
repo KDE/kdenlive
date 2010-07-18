@@ -4058,6 +4058,11 @@ void CustomTrackView::prepareResizeClipStart(AbstractClipItem* item, ItemInfo ol
         }
         KdenliveSettings::setSnaptopoints(snap);
     }
+
+    // do this here, too, because otherwise undo won't update the group
+    if (item->parentItem() && item->parentItem() != m_selectionGroup)
+        new RebuildGroupCommand(this, item->info().track, item->info().startPos, command);
+
     ItemInfo info = item->info();
     if (item->type() == AVWIDGET) {
         ItemInfo resizeinfo = oldInfo;
@@ -4170,6 +4175,11 @@ void CustomTrackView::prepareResizeClipEnd(AbstractClipItem* item, ItemInfo oldI
         }
         KdenliveSettings::setSnaptopoints(snap);
     }
+
+    // do this here, too, because otherwise undo won't update the group
+    if (item->parentItem() && item->parentItem() != m_selectionGroup)
+        new RebuildGroupCommand(this, item->info().track, item->info().startPos, command);
+
     ItemInfo info = item->info();
     if (item->type() == AVWIDGET) {
         ItemInfo resizeinfo = info;
