@@ -219,10 +219,13 @@ public slots:
     void slotSelectTrack(int ix);
     void insertZoneOverwrite(QStringList data, int in);
 
-    /** @brief Rebuilds a group to fit changes to it's childen.
+    /** @brief Rebuilds a group to fit again after children changed.
     * @param childTrack the track of one of the groups children
     * @param childPos The position of the same child */
     void rebuildGroup(int childTrack, GenTime childPos);
+    /** @brief Rebuilds a group to fit again after children changed.
+    * @param group The group to rebuild */
+    void rebuildGroup(AbstractGroupItem *group);
 
 protected:
     virtual void drawBackground(QPainter * painter, const QRectF & rect);

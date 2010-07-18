@@ -1041,6 +1041,11 @@ void CustomTrackView::rebuildGroup(int childTrack, GenTime childPos)
             break;
         }
     }
+    rebuildGroup(group);
+}
+
+void CustomTrackView::rebuildGroup(AbstractGroupItem *group)
+{
     if (group) {
         QList <QGraphicsItem *> children = group->childItems();
         m_document->clipManager()->removeGroup(group);
@@ -3170,9 +3175,12 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                         info.track = m_document->tracksCount() - info.track;
                         Mlt::Producer *prod;
                         adjustTimelineClips(m_scene->editMode(), clip, ItemInfo(), moveGroup);
-                        if (clip->isAudioOnly()) prod = clip->baseClip()->audioProducer(info.track);
-                        else if (clip->isVideoOnly()) prod = clip->baseClip()->videoProducer();
-                        else prod = clip->baseClip()->producer(info.track);
+                        if (clip->isAudioOnly())
+                            prod = clip->baseClip()->audioProducer(info.track);
+                        else if (clip->isVideoOnly())
+                            prod = clip->baseClip()->videoProducer();
+                        else
+                            prod = clip->baseClip()->producer(info.track);
                         m_document->renderer()->mltInsertClip(info, clip->xml(), prod, m_scene->editMode() == OVERWRITEEDIT, m_scene->editMode() == INSERTEDIT);
                         for (int i = 0; i < clip->effectsCount(); i++) {
                             m_document->renderer()->mltAddEffect(info.track, info.startPos, clip->getEffectArgs(clip->effectAt(i)), false);
@@ -3188,7 +3196,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                         m_document->renderer()->mltAddTransition(tr->transitionTag(), newTrack, m_document->tracksCount() - info.track, info.startPos, info.endPos, tr->toXML());
                     }
                 }
-
+                rebuildGroup((AbstractGroupItem *)group);
                 new MoveGroupCommand(this, clipsToMove, transitionsToMove, timeOffset, trackOffset, false, moveGroup);
                 m_commandStack->push(moveGroup);
 
@@ -3915,22 +3923,28 @@ void CustomTrackView::moveGroup(QList <ItemInfo> startClip, QList <ItemInfo> sta
             ItemInfo info = item->info();
             int tracknumber = m_document->tracksCount() - info.track - 1;
             bool isLocked = m_document->trackInfoAt(tracknumber).isLocked;
-            if (isLocked) item->setItemLocked(true);
-            else if (item->isItemLocked()) item->setItemLocked(false);
+            if (isLocked)
+                item->setItemLocked(true);
+            else if (item->isItemLocked())
+                item->setItemLocked(false);
 
             if (item->type() == AVWIDGET) {
                 ClipItem *clip = static_cast <ClipItem*>(item);
                 info.track = m_document->tracksCount() - info.track;
                 Mlt::Producer *prod;
-                if (clip->isAudioOnly()) prod = clip->baseClip()->audioProducer(info.track);
-                else if (clip->isVideoOnly()) prod = clip->baseClip()->videoProducer();
-                else prod = clip->baseClip()->producer(info.track);
+                if (clip->isAudioOnly())
+                    prod = clip->baseClip()->audioProducer(info.track);
+                else if (clip->isVideoOnly())
+                    prod = clip->baseClip()->videoProducer();
+                else
+                    prod = clip->baseClip()->producer(info.track);
                 m_document->renderer()->mltInsertClip(info, clip->xml(), prod);
             } else if (item->type() == TRANSITIONWIDGET) {
                 Transition *tr = static_cast <Transition*>(item);
                 int newTrack;
-                if (!tr->forcedTrack()) newTrack = getPreviousVideoTrack(info.track);
-                else {
+                if (!tr->forcedTrack()) {
+                    newTrack = getPreviousVideoTrack(info.track);
+                } else {
                     newTrack = tr->transitionEndTrack() + trackOffset;
                     if (newTrack < 0 || newTrack > m_document->tracksCount()) newTrack = getPreviousVideoTrack(info.track);
                 }
