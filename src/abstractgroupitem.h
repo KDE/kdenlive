@@ -52,6 +52,8 @@ public:
     QList <ItemInfo> resizeInfos();
     /** @brief Clears m_resizeInfos */
     void clearResizeInfos();
+    /** @brief Gets the duration (length) of the group. */
+    GenTime duration();
 
 protected:
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);

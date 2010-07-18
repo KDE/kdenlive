@@ -575,6 +575,18 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
             QString message = ci->clipName() + i18n(":");
             message.append(i18n(" Position:") + m_document->timecode().getDisplayTimecode(ci->info().startPos, KdenliveSettings::frametimecode()));
             message.append(i18n(" Duration:") + m_document->timecode().getDisplayTimecode(ci->cropDuration(),  KdenliveSettings::frametimecode()));
+            if (clip->parentItem() && clip->parentItem()->type() == GROUPWIDGET) {
+                AbstractGroupItem *parent = static_cast <AbstractGroupItem *>(clip->parentItem());
+                if (clip->parentItem() == m_selectionGroup)
+                    message.append(i18n(" Selection duration:"));
+                else
+                    message.append(i18n(" Group duration:"));
+                message.append(m_document->timecode().getDisplayTimecode(parent->duration(), KdenliveSettings::frametimecode()));
+                if (parent->parentItem() && parent->parentItem()->type() == GROUPWIDGET) {
+                    AbstractGroupItem *parent2 = static_cast <AbstractGroupItem *>(parent->parentItem());
+                    message.append(i18n(" Selection duration:") + m_document->timecode().getDisplayTimecode(parent2->duration(), KdenliveSettings::frametimecode()));
+                }
+            }
             emit displayMessage(message, InformationMessage);
         } else if (opMode == RESIZESTART) {
             setCursor(KCursor("left_side", Qt::SizeHorCursor));

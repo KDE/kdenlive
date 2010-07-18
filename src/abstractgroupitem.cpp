@@ -420,3 +420,24 @@ void AbstractGroupItem::clearResizeInfos()
     // m_resizeInfos.clear() will crash in some cases for unknown reasons - ttill
     m_resizeInfos = QList <ItemInfo>();
 }
+
+GenTime AbstractGroupItem::duration()
+{
+    QList <QGraphicsItem *> children = childItems();
+    GenTime start = GenTime(-1.0);
+    GenTime end = GenTime();
+    for (int i = 0; i < children.count(); ++i) {
+        if (children.at(i)->type() != GROUPWIDGET) {
+            AbstractClipItem *item = static_cast <AbstractClipItem *>(children.at(i));
+            if (item) {
+                if (start < GenTime() || item->startPos() < start)
+                    start = item->startPos();
+                if (item->endPos() > end)
+                    end = item->endPos();
+            }
+        } else {
+            children << children.at(i)->childItems();
+        }
+    }
+    return end - start;
+}
