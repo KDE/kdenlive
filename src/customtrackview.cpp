@@ -387,11 +387,18 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
                 } else if (viewport()->width() - pos < 10) {
                     m_scrollOffset = 30;
                     m_scrollTimer.start();
-                } else if (m_scrollTimer.isActive()) m_scrollTimer.stop();
-
+                } else if (m_scrollTimer.isActive()) {
+                    m_scrollTimer.stop();
+                }
             } else if (m_operationMode == RESIZESTART && move) {
                 m_document->renderer()->pause();
-                m_dragItem->resizeStart((int)(snappedPos));
+                if (m_dragItem->type() == AVWIDGET && m_dragItem->parentItem() && m_dragItem->parentItem() != m_selectionGroup) {
+                    AbstractGroupItem *parent = static_cast <AbstractGroupItem *>(m_dragItem->parentItem());
+                    if (parent)
+                        parent->resizeStart((int)(snappedPos) - m_dragItemInfo.startPos.frames(m_document->fps()));
+                } else {
+                    m_dragItem->resizeStart((int)(snappedPos));
+                }
             } else if (m_operationMode == RESIZEEND && move) {
                 m_document->renderer()->pause();
                 if (m_dragItem->type() == AVWIDGET && m_dragItem->parentItem() && m_dragItem->parentItem() != m_selectionGroup) {
@@ -3215,7 +3222,28 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
         m_document->renderer()->doRefresh();
     } else if (m_operationMode == RESIZESTART && m_dragItem->startPos() != m_dragItemInfo.startPos) {
         // resize start
-        prepareResizeClipStart(m_dragItem, m_dragItemInfo, m_dragItem->startPos().frames(m_document->fps()));
+        if (m_dragItem->type() == AVWIDGET && m_dragItem->parentItem() && m_dragItem->parentItem() != m_selectionGroup) {
+            AbstractGroupItem *parent = static_cast <AbstractGroupItem *>(m_dragItem->parentItem());
+            if (parent) {
+                QUndoCommand *resizeCommand = new QUndoCommand();
+                resizeCommand->setText(i18n("Resize group"));
+                QList <QGraphicsItem *> items = parent->childItems();
+                QList <ItemInfo> infos = parent->resizeInfos();
+                parent->clearResizeInfos();
+                int itemcount = 0;
+                for (int i = 0; i < items.count(); ++i) {
+                    AbstractClipItem *item = static_cast<AbstractClipItem *>(items.at(i));
+                    if (item && item->type() == AVWIDGET) {
+                        ItemInfo info = infos.at(itemcount);
+                        prepareResizeClipStart(item, info, item->startPos().frames(m_document->fps()), false, resizeCommand);
+                        ++itemcount;
+                    }
+                }
+                m_commandStack->push(resizeCommand);
+            }
+        } else {
+            prepareResizeClipStart(m_dragItem, m_dragItemInfo, m_dragItem->startPos().frames(m_document->fps()));
+        }
     } else if (m_operationMode == RESIZEEND && m_dragItem->endPos() != m_dragItemInfo.endPos) {
         // resize end
         if (m_dragItem->type() == AVWIDGET && m_dragItem->parentItem() && m_dragItem->parentItem() != m_selectionGroup) {
@@ -4075,7 +4103,7 @@ void CustomTrackView::prepareResizeClipStart(AbstractClipItem* item, ItemInfo ol
 
     // do this here, too, because otherwise undo won't update the group
     if (item->parentItem() && item->parentItem() != m_selectionGroup)
-        new RebuildGroupCommand(this, item->info().track, item->info().startPos, command);
+        new RebuildGroupCommand(this, item->info().track, item->endPos() - GenTime(1, m_document->fps()), command);
 
     ItemInfo info = item->info();
     if (item->type() == AVWIDGET) {
@@ -4170,7 +4198,7 @@ void CustomTrackView::prepareResizeClipStart(AbstractClipItem* item, ItemInfo ol
 
     }
     if (item->parentItem() && item->parentItem() != m_selectionGroup)
-        new RebuildGroupCommand(this, item->info().track, item->info().startPos, command);
+        new RebuildGroupCommand(this, item->info().track, item->endPos() - GenTime(1, m_document->fps()), command);
 }
 
 void CustomTrackView::prepareResizeClipEnd(AbstractClipItem* item, ItemInfo oldInfo, int pos, bool check, QUndoCommand *command)
@@ -4192,7 +4220,7 @@ void CustomTrackView::prepareResizeClipEnd(AbstractClipItem* item, ItemInfo oldI
 
     // do this here, too, because otherwise undo won't update the group
     if (item->parentItem() && item->parentItem() != m_selectionGroup)
-        new RebuildGroupCommand(this, item->info().track, item->info().startPos, command);
+        new RebuildGroupCommand(this, item->info().track, item->startPos(), command);
 
     ItemInfo info = item->info();
     if (item->type() == AVWIDGET) {
@@ -4287,7 +4315,7 @@ void CustomTrackView::prepareResizeClipEnd(AbstractClipItem* item, ItemInfo oldI
         }
     }
     if (item->parentItem() && item->parentItem() != m_selectionGroup)
-        new RebuildGroupCommand(this, item->info().track, item->info().startPos, command);
+        new RebuildGroupCommand(this, item->info().track, item->startPos(), command);
 }
 
 void CustomTrackView::updatePositionEffects(ClipItem * item, ItemInfo info)

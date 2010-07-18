@@ -44,14 +44,18 @@ public:
     void setItemLocked(bool locked);
     bool isItemLocked() const;
     //    ItemInfo info() const;
-    /** @brief Resizes all clips in this group from the end.
+
+    /** @brief Resizes all clips in this group from start.
+    *@param diff Difference to startPos stored in m_resizeInfos */
+    void resizeStart(int diff);
+    /** @brief Resizes all clips in this group from end.
     * @param diff Difference to endPos stored in m_resizeInfos */
     void resizeEnd(int diff);
-    void resizeStart(int diff);
     /** @brief Gets m_resizeInfos */
     QList <ItemInfo> resizeInfos();
     /** @brief Clears m_resizeInfos */
     void clearResizeInfos();
+
     /** @brief Gets the duration (length) of the group. */
     GenTime duration();
 
