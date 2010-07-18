@@ -177,7 +177,10 @@ QPoint Vectorscope::mapToCanvas(QRect inside, QPointF point)
 bool Vectorscope::prodCalcThread()
 {
     bool ok = false;
-    if (m_scopeCalcThread.isRunning()) {
+    if (this->visibleRegion().isEmpty()) {
+        qDebug() << "Nothing to see here. Other widget lying on top of Vectorscope. No need to render.";
+        ok = false;
+    } else if (m_scopeCalcThread.isRunning()) {
         qDebug() << "Calc thread still running.";
         ok = false;
     } else {
@@ -551,7 +554,9 @@ void Vectorscope::slotActiveMonitorChanged(bool isClipMonitor)
 
 void Vectorscope::slotRenderZoneUpdated()
 {
-    qDebug() << "Monitor incoming. New frames total: " << newFrames;
+    qDebug() << "Monitor incoming. New frames total: " << newFrames << ", visible: " << this->isVisible();
+    QRegion region = this->visibleRegion();
+    qDebug() << "Visible region: empty? " << region.isEmpty() << ", size: " << region.boundingRect().width() << "x" << region.boundingRect().height();
     // Monitor has shown a new frame
     newFrames.fetchAndAddRelaxed(1);
     if (cbAutoRefresh->isChecked()) {
@@ -685,4 +690,11 @@ void Vectorscope::resizeEvent(QResizeEvent *event)
     prodCalcThread();
     prodWheelThread();
     QWidget::resizeEvent(event);
+}
+
+void Vectorscope::raise()
+{
+    qDebug() << "Raised. Prodding calc thread.";
+    prodCalcThread();
+    QWidget::raise();
 }

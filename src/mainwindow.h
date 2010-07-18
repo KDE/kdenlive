@@ -62,6 +62,7 @@ class DocClipBase;
 class Render;
 class Transition;
 class Vectorscope;
+class Waveform;
 class KActionCollection;
 
 class MainWindow : public KXmlGuiWindow
@@ -153,6 +154,9 @@ private:
 
     QDockWidget *m_vectorscopeDock;
     Vectorscope *m_vectorscope;
+
+    QDockWidget *m_waveformDock;
+    Waveform *m_waveform;
 
     QDockWidget *m_undoViewDock;
     QUndoView *m_undoView;

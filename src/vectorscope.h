@@ -37,6 +37,7 @@ protected:
     void resizeEvent(QResizeEvent *event);
     void mousePressEvent(QMouseEvent *);
     void mouseMoveEvent(QMouseEvent *event);
+    void raise();
 
 private:
     Monitor *m_projMonitor;

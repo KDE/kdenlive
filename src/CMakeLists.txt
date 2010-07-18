@@ -26,6 +26,7 @@ include_directories (
     ${CMAKE_BINARY_DIR}
 
     ${CMAKE_SOURCE_DIR}/src/widgets
+    ${CMAKE_SOURCE_DIR}/src/colorcorrection
 )
 
 LINK_LIBRARIES(
@@ -198,7 +199,11 @@ set(kdenlive_SRCS
   colortools.cpp
   rebuildgroupcommand.cpp
   waveform.cpp
+  colorcorrection/waveformgenerator.cpp
 )
+
+
+add_subdirectory( ${CMAKE_SOURCE_DIR}/src/colorcorrection )
 
 add_definitions( ${KDE4_DEFINITIONS} )
 

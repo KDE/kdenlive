@@ -53,6 +53,7 @@
 #include "cliptranscode.h"
 #include "ui_templateclip_ui.h"
 #include "vectorscope.h"
+#include "waveform.h"
 
 #include <KApplication>
 #include <KAction>
@@ -219,6 +220,12 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
     m_vectorscopeDock->setWidget(m_vectorscope);
     addDockWidget(Qt::TopDockWidgetArea, m_vectorscopeDock);
 
+    m_waveform = new Waveform(m_projectMonitor, m_clipMonitor, this);
+    m_waveformDock = new QDockWidget(i18n("Waveform"), this);
+    m_waveformDock->setObjectName("waveform");
+    m_waveformDock->setWidget(m_waveform);
+    addDockWidget(Qt::TopDockWidgetArea, m_waveformDock);
+
 
     m_undoViewDock = new QDockWidget(i18n("Undo History"), this);
     m_undoViewDock->setObjectName("undo_history");
@@ -248,6 +255,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
     tabifyDockWidget(m_clipMonitorDock, m_recMonitorDock);
 #endif
 
+    tabifyDockWidget(m_vectorscopeDock, m_waveformDock);
     tabifyDockWidget(m_vectorscopeDock, m_undoViewDock);
     tabifyDockWidget(m_vectorscopeDock, m_effectListDock);
 
@@ -407,6 +415,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
     //connect(m_monitorManager, SIGNAL(connectMonitors()), this, SLOT(slotConnectMonitors()));
     connect(m_monitorManager, SIGNAL(raiseClipMonitor(bool)), this, SLOT(slotRaiseMonitor(bool)));
     connect(m_monitorManager, SIGNAL(raiseClipMonitor(bool)), m_vectorscope, SLOT(slotActiveMonitorChanged(bool)));
+    connect(m_monitorManager, SIGNAL(raiseClipMonitor(bool)), m_waveform, SLOT(slotActiveMonitorChanged(bool)));
     connect(m_effectList, SIGNAL(addEffect(const QDomElement)), this, SLOT(slotAddEffect(const QDomElement)));
     connect(m_effectList, SIGNAL(reloadEffects()), this, SLOT(slotReloadEffects()));
 
@@ -3593,6 +3602,7 @@ void MainWindow::slotShowTitleBars(bool show)
         m_projectListDock->setTitleBarWidget(0);
         m_undoViewDock->setTitleBarWidget(0);
         m_vectorscopeDock->setTitleBarWidget(0);
+        m_waveformDock->setTitleBarWidget(0);
     } else {
         if (!m_effectStackDock->isFloating()) { m_effectStackDock->setTitleBarWidget(new QWidget(this)); }
         if (!m_clipMonitorDock->isFloating()) { m_clipMonitorDock->setTitleBarWidget(new QWidget(this)); }
@@ -3605,6 +3615,7 @@ void MainWindow::slotShowTitleBars(bool show)
         if (!m_projectListDock->isFloating()) { m_projectListDock->setTitleBarWidget(new QWidget(this)); }
         if (!m_undoViewDock->isFloating()) { m_undoViewDock->setTitleBarWidget(new QWidget(this)); }
         if (!m_vectorscopeDock->isFloating()) { m_vectorscopeDock->setTitleBarWidget(new QWidget(this)); }
+        if (!m_waveformDock->isFloating()) { m_waveformDock->setTitleBarWidget(new QWidget(this)); }
     }
     KdenliveSettings::setShowtitlebars(show);
 }
