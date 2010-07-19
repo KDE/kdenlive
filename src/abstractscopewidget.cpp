@@ -31,7 +31,8 @@ AbstractScopeWidget::AbstractScopeWidget(Monitor *projMonitor, Monitor *clipMoni
     offset(5),
     m_semaphoreHUD(1),
     m_semaphoreScope(1),
-    m_semaphoreBackground(1)
+    m_semaphoreBackground(1),
+    initialDimensionUpdateDone(false)
 
 {
     m_scopePalette = QPalette();
@@ -62,9 +63,12 @@ AbstractScopeWidget::AbstractScopeWidget(Monitor *projMonitor, Monitor *clipMoni
         m_activeRender = m_clipMonitor->render;
     }
 
-    connect(m_activeRender, SIGNAL(rendererPosition(int)), this, SLOT(slotRenderZoneUpdated()));
     connect(this, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(customContextMenuRequested(QPoint)));
-    connect(this, SIGNAL(signalScopeRenderingFinished()), this, SLOT(slotScopeRenderingFinished()));
+
+    connect(m_activeRender, SIGNAL(rendererPosition(int)), this, SLOT(slotRenderZoneUpdated()));
+    connect(this, SIGNAL(signalHUDRenderingFinished(uint)), this, SLOT(slotHUDRenderingFinished(uint)));
+    connect(this, SIGNAL(signalScopeRenderingFinished(uint)), this, SLOT(slotScopeRenderingFinished(uint)));
+    connect(this, SIGNAL(signalBackgroundRenderingFinished(uint)), this, SLOT(slotBackgroundRenderingFinished(uint)));
 
 
 }
@@ -75,11 +79,15 @@ AbstractScopeWidget::~AbstractScopeWidget()
     delete m_aAutoRefresh;
 }
 
+void AbstractScopeWidget::prodHUDThread() {}
+
 void AbstractScopeWidget::prodScopeThread()
 {
     if (m_semaphoreScope.tryAcquire(1)) {
         Q_ASSERT(!m_threadScope.isRunning());
 
+        m_newScopeFrames.fetchAndStoreRelaxed(0);
+        m_newScopeUpdates.fetchAndStoreRelaxed(0);
         m_threadScope = QtConcurrent::run(this, &AbstractScopeWidget::renderScope);
         qDebug() << "Scope thread started in " << widgetName();
 
@@ -88,13 +96,16 @@ void AbstractScopeWidget::prodScopeThread()
     }
 }
 
+void AbstractScopeWidget::prodBackgroundThread() {}
+
 
 ///// Events /////
 
 void AbstractScopeWidget::mouseReleaseEvent(QMouseEvent *event)
 {
-    // TODO Render again
+    prodHUDThread();
     prodScopeThread();
+    prodBackgroundThread();
     QWidget::mouseReleaseEvent(event);
 }
 
@@ -107,12 +118,25 @@ void AbstractScopeWidget::resizeEvent(QResizeEvent *event)
     m_newScopeUpdates.fetchAndAddRelaxed(1);
     m_newBackgroundUpdates.fetchAndAddRelaxed(1);
 
+    prodHUDThread();
+    prodScopeThread();
+    prodBackgroundThread();
+
     QWidget::resizeEvent(event);
-    // TODO Calculation
 }
 
 void AbstractScopeWidget::paintEvent(QPaintEvent *)
 {
+//    qDebug() << "Painting now on scope " << widgetName();
+    if (!initialDimensionUpdateDone) {
+        // This is a workaround.
+        // When updating the dimensions in the constructor, the size
+        // of the control items at the top are simply ignored! So do
+        // it here instead.
+        m_scopeRect = scopeRect();
+        initialDimensionUpdateDone = true;
+    }
+
     QPainter davinci(this);
     davinci.drawImage(scopeRect().topLeft(), m_imgBackground);
     davinci.drawImage(scopeRect().topLeft(), m_imgScope);
@@ -128,36 +152,48 @@ void AbstractScopeWidget::customContextMenuRequested(const QPoint &pos)
 
 ///// Slots /////
 
-void AbstractScopeWidget::slotHUDRenderingFinished()
+void AbstractScopeWidget::slotHUDRenderingFinished(uint)
 {
 
 }
 
-void AbstractScopeWidget::slotScopeRenderingFinished()
+void AbstractScopeWidget::slotScopeRenderingFinished(uint)
 {
     qDebug() << "Scope rendering has finished, waiting for termination in " << widgetName();
     m_threadScope.waitForFinished();
     m_imgScope = m_threadScope.result();
     m_semaphoreScope.release(1);
     this->update();
+
+    if ( (m_newScopeFrames > 0 && m_aAutoRefresh->isChecked()) || m_newScopeUpdates > 0) {
+        qDebug() << "Trying to start a new thread for " << widgetName()
+                << ". New frames/updates: " << m_newScopeFrames << "/" << m_newScopeUpdates;
+    }
 }
 
-void AbstractScopeWidget::slotBackgroundRenderingFinished()
+void AbstractScopeWidget::slotBackgroundRenderingFinished(uint)
 {
 
 }
 
 void AbstractScopeWidget::slotActiveMonitorChanged(bool isClipMonitor)
 {
+    qDebug() << "Active monitor has changed in " << widgetName() << ". Is the clip monitor active now? " << isClipMonitor;
     if (isClipMonitor) {
         m_activeRender = m_clipMonitor->render;
         disconnect(this, SLOT(slotRenderZoneUpdated()));
         connect(m_activeRender, SIGNAL(rendererPosition(int)), this, SLOT(slotRenderZoneUpdated()));
+        qDebug() << "Connected to clip monitor.";
     } else {
         m_activeRender = m_projMonitor->render;
         disconnect(this, SLOT(slotRenderZoneUpdated()));
         connect(m_activeRender, SIGNAL(rendererPosition(int)), this, SLOT(slotRenderZoneUpdated()));
+        qDebug() << "Connected to project monitor.";
     }
+    // Update the scope for the new monitor.
+    prodHUDThread();
+    prodScopeThread();
+    prodBackgroundThread();
 }
 
 void AbstractScopeWidget::slotRenderZoneUpdated()
@@ -173,7 +209,9 @@ void AbstractScopeWidget::slotRenderZoneUpdated()
         qDebug() << "Scope of widget " << widgetName() << " is not at the top, not rendering.";
     } else {
         if (m_aAutoRefresh->isChecked()) {
-            // TODO run the updater functions here.
+            prodHUDThread();
+            prodScopeThread();
+            prodBackgroundThread();
         }
     }
 }

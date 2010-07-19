@@ -30,6 +30,9 @@ public:
     QImage renderHUD();
     QImage renderScope();
     QImage renderBackground();
+    bool isHUDDependingOnInput() const;
+    bool isScopeDependingOnInput() const;
+    bool isBackgroundDependingOnInput() const;
 
 protected:
     QRect scopeRect();

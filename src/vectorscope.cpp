@@ -96,7 +96,7 @@ Vectorscope::Vectorscope(Monitor *projMonitor, Monitor *clipMonitor, QWidget *pa
     backgroundMode->addItem(i18n("YUV"), QVariant(BG_YUV));
     backgroundMode->addItem(i18n("Modified YUV (Chroma)"), QVariant(BG_CHROMA));
 
-    cbAutoRefresh->setChecked(true);
+//    cbAutoRefresh->setChecked(true);
 
     connect(backgroundMode, SIGNAL(currentIndexChanged(int)), this, SLOT(slotBackgroundChanged()));
     connect(cbMagnify, SIGNAL(stateChanged(int)), this, SLOT(slotMagnifyChanged()));

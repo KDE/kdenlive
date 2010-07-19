@@ -25,8 +25,6 @@ Waveform::Waveform(Monitor *projMonitor, Monitor *clipMonitor, QWidget *parent) 
     ui->setupUi(this);
 
     m_waveformGenerator = new WaveformGenerator();
-
-    connect(m_waveformGenerator, SIGNAL(signalCalculationFinished(QImage,uint)), this, SLOT(slotWaveformCalculated(QImage,uint)));
 }
 
 Waveform::~Waveform()
@@ -46,86 +44,34 @@ QRect Waveform::scopeRect()
     return QRect(topleft, this->size() - QSize(offset+topleft.x(), offset+topleft.y()));
 }
 
-QString Waveform::widgetName() const
-{
-    return QString("Waveform");
-}
-
 
 ///// Implemented methods /////
+
+QString Waveform::widgetName() const { return QString("Waveform"); }
+bool Waveform::isHUDDependingOnInput() const { return false; }
+bool Waveform::isScopeDependingOnInput() const { return true; }
+bool Waveform::isBackgroundDependingOnInput() const { return false; }
+
 QImage Waveform::renderHUD()
 {
-    emit signalHUDRenderingFinished();
+    emit signalHUDRenderingFinished(0);
     return QImage();
 }
 
 QImage Waveform::renderScope()
 {
+    QTime start = QTime::currentTime();
+    start.start();
+
     QImage wave = m_waveformGenerator->calculateWaveform(scopeRect().size(),
                                                          m_activeRender->extractFrame(m_activeRender->seekFramePosition()), true);
-    emit signalScopeRenderingFinished();
+
+    emit signalScopeRenderingFinished(start.elapsed());
     return wave;
 }
 
 QImage Waveform::renderBackground()
 {
-    emit signalBackgroundRenderingFinished();
+    emit signalBackgroundRenderingFinished(0);
     return QImage();
-}
-
-
-///// Events /////
-
-void Waveform::paintEvent(QPaintEvent *)
-{
-    if (!initialDimensionUpdateDone) {
-        // This is a workaround.
-        // When updating the dimensions in the constructor, the size
-        // of the control items at the top are simply ignored! So do
-        // it here instead.
-        scopeRect();
-        initialDimensionUpdateDone = true;
-    }
-
-    QPainter davinci(this);
-    QPoint vinciPoint;
-
-    davinci.setRenderHint(QPainter::Antialiasing, true);
-    davinci.fillRect(0, 0, this->size().width(), this->size().height(), QColor(25,25,23));
-
-    davinci.drawImage(m_scopeRect.topLeft(), m_waveform);
-
-}
-
-//void Waveform::resizeEvent(QResizeEvent *event)
-//{
-//    updateDimensions();
-//    m_waveformGenerator->calculateWaveform(m_scopeRect.size(), m_activeRender->extractFrame(m_activeRender->seekFramePosition()), true);
-//    QWidget::resizeEvent(event);
-//}
-
-//void Waveform::mouseReleaseEvent(QMouseEvent *)
-//{
-//    qDebug() << "Calculating scope now. Size: " << m_scopeRect.size().width() << "x" << m_scopeRect.size().height();
-//    m_waveformGenerator->calculateWaveform(m_scopeRect.size(), m_activeRender->extractFrame(m_activeRender->seekFramePosition()), true);
-//}
-
-
-///// Slots /////
-
-void Waveform::slotWaveformCalculated(QImage waveform, const uint &msec)
-{
-    qDebug() << "Waveform received. Time taken for rendering: " << msec << " ms. Painting it.";
-    m_waveform = waveform;
-    this->update();
-}
-
-void Waveform::slotRenderZoneUpdated()
-{
-    qDebug() << "Monitor incoming.";//New frames total: " << newFrames;
-    // Monitor has shown a new frame
-//    newFrames.fetchAndAddRelaxed(1);
-//    if (cbAutoRefresh->isChecked()) {
-//        prodCalcThread();
-//    }
 }

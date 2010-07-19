@@ -27,11 +27,6 @@ public:
 
     virtual QString widgetName() const;
 
-protected:
-    void paintEvent(QPaintEvent *);
-//    void resizeEvent(QResizeEvent *);
-//    void mouseReleaseEvent(QMouseEvent *);
-
 private:
     Ui::Waveform_UI *ui;
 
@@ -46,10 +41,9 @@ private:
     QImage renderHUD();
     QImage renderScope();
     QImage renderBackground();
-
-private slots:
-    void slotRenderZoneUpdated();
-    void slotWaveformCalculated(QImage waveform, const uint &msec);
+    bool isHUDDependingOnInput() const;
+    bool isScopeDependingOnInput() const;
+    bool isBackgroundDependingOnInput() const;
 
 };
 

@@ -34,29 +34,29 @@ TestWidget::~TestWidget()
 
 QImage TestWidget::renderHUD()
 {
-    emit signalHUDRenderingFinished();
+    emit signalHUDRenderingFinished(0);
     return QImage();
 }
 
 QImage TestWidget::renderScope()
 {
-    emit signalScopeRenderingFinished();
+    emit signalScopeRenderingFinished(0);
     return QImage();
 }
 
 QImage TestWidget::renderBackground()
 {
-    emit signalBackgroundRenderingFinished();
+    emit signalBackgroundRenderingFinished(0);
     return QImage();
 }
 
+QString TestWidget::widgetName() const { return "Testwidget"; }
+bool TestWidget::isHUDDependingOnInput() const { return false; }
+bool TestWidget::isScopeDependingOnInput() const { return false; }
+bool TestWidget::isBackgroundDependingOnInput() const { return false; }
 
 QRect TestWidget::scopeRect()
 {
     return QRect(QPoint(offset, ui->line->y() + 2*offset), this->rect().bottomRight() - QPoint(offset, offset));
 }
 
-QString TestWidget::widgetName() const
-{
-    return "Testwidget";
-}
