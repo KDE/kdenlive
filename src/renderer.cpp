@@ -917,7 +917,7 @@ int Render::setProducer(Mlt::Producer *producer, int position)
     if (position != -1) {
         m_mltProducer->seek(position);
         emit rendererPosition(position);
-    }
+    } else emit rendererPosition((int) m_mltProducer->position());
     m_isBlocked = false;
     return error;
 }
