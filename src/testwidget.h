@@ -8,49 +8,37 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-#ifndef WAVEFORM_H
-#define WAVEFORM_H
+#ifndef TESTWIDGET_H
+#define TESTWIDGET_H
 
+#include <QWidget>
 #include "abstractscopewidget.h"
+#include "ui_testwidget_ui.h"
 
-#include "ui_waveform_ui.h"
+class AbstractScopeWidget;
+class TestWidget_UI;
 
-class Waveform_UI;
-class WaveformGenerator;
-
-class Waveform : public AbstractScopeWidget {
+class TestWidget : public AbstractScopeWidget {
     Q_OBJECT
-
 public:
-    Waveform(Monitor *projMonitor, Monitor *clipMonitor, QWidget *parent = 0);
-    ~Waveform();
+    TestWidget(Monitor *projMonitor, Monitor *clipMonitor, QWidget *parent = 0);
+    virtual ~TestWidget();
 
-    virtual QString widgetName() const;
-
-protected:
-    void paintEvent(QPaintEvent *);
-//    void resizeEvent(QResizeEvent *);
-//    void mouseReleaseEvent(QMouseEvent *);
-
-private:
-    Ui::Waveform_UI *ui;
-
-    WaveformGenerator *m_waveformGenerator;
-
-    bool initialDimensionUpdateDone;
-
-    QImage m_waveform;
+    QString widgetName() const;
 
     /// Implemented methods ///
-    QRect scopeRect();
     QImage renderHUD();
     QImage renderScope();
     QImage renderBackground();
 
-private slots:
-    void slotRenderZoneUpdated();
-    void slotWaveformCalculated(QImage waveform, const uint &msec);
+protected:
+    QRect scopeRect();
+
+private:
+    Ui::TestWidget_UI *ui;
+
+    QAction *m_aTest;
 
 };
 
-#endif // WAVEFORM_H
+#endif // TESTWIDGET_H

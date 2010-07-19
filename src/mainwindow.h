@@ -63,6 +63,7 @@ class Render;
 class Transition;
 class Vectorscope;
 class Waveform;
+class TestWidget;
 class KActionCollection;
 
 class MainWindow : public KXmlGuiWindow
@@ -157,6 +158,9 @@ private:
 
     QDockWidget *m_waveformDock;
     Waveform *m_waveform;
+
+    QDockWidget *m_testDock;
+    TestWidget *m_test;
 
     QDockWidget *m_undoViewDock;
     QUndoView *m_undoView;

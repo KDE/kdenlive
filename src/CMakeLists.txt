@@ -93,6 +93,7 @@ kde4_add_ui_files(kdenlive_UI
   widgets/vectorscope_ui.ui
   widgets/colorplaneexport_ui.ui
   widgets/waveform_ui.ui
+  widgets/testwidget_ui.ui
 )
 
 set(kdenlive_SRCS
@@ -194,12 +195,14 @@ set(kdenlive_SRCS
   timecodedisplay.cpp
   tracksconfigdialog.cpp
   configtrackscommand.cpp
+  abstractscopewidget.cpp
   vectorscope.cpp
   colorplaneexport.cpp
   colortools.cpp
   rebuildgroupcommand.cpp
   waveform.cpp
   colorcorrection/waveformgenerator.cpp
+  testwidget.cpp
 )
 
 

@@ -54,6 +54,7 @@
 #include "ui_templateclip_ui.h"
 #include "vectorscope.h"
 #include "waveform.h"
+#include "testwidget.h"
 
 #include <KApplication>
 #include <KAction>
@@ -225,6 +226,12 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
     m_waveformDock->setObjectName("waveform");
     m_waveformDock->setWidget(m_waveform);
     addDockWidget(Qt::TopDockWidgetArea, m_waveformDock);
+
+    m_test = new TestWidget(m_projectMonitor, m_clipMonitor, this);
+    m_testDock = new QDockWidget("Test", this);
+    m_testDock->setObjectName("test");
+    m_testDock->setWidget(m_test);
+    addDockWidget(Qt::TopDockWidgetArea, m_testDock);
 
 
     m_undoViewDock = new QDockWidget(i18n("Undo History"), this);
