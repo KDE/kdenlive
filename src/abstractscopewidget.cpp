@@ -49,6 +49,7 @@ AbstractScopeWidget::AbstractScopeWidget(Monitor *projMonitor, Monitor *clipMoni
     m_aAutoRefresh->setCheckable(true);
     m_aRealtime = new QAction(i18n("Realtime (with precision loss)"), this);
     m_aRealtime->setCheckable(true);
+    m_aRealtime->setEnabled(false);
 
     m_menu = new QMenu(this);
     m_menu->setPalette(m_scopePalette);
@@ -179,17 +180,15 @@ void AbstractScopeWidget::slotBackgroundRenderingFinished(uint)
 void AbstractScopeWidget::slotActiveMonitorChanged(bool isClipMonitor)
 {
     qDebug() << "Active monitor has changed in " << widgetName() << ". Is the clip monitor active now? " << isClipMonitor;
-    if (isClipMonitor) {
-        m_activeRender = m_clipMonitor->render;
-        disconnect(this, SLOT(slotRenderZoneUpdated()));
-        connect(m_activeRender, SIGNAL(rendererPosition(int)), this, SLOT(slotRenderZoneUpdated()));
-        qDebug() << "Connected to clip monitor.";
-    } else {
-        m_activeRender = m_projMonitor->render;
-        disconnect(this, SLOT(slotRenderZoneUpdated()));
-        connect(m_activeRender, SIGNAL(rendererPosition(int)), this, SLOT(slotRenderZoneUpdated()));
-        qDebug() << "Connected to project monitor.";
-    }
+
+    bool disconnected = m_activeRender->disconnect(this);
+    Q_ASSERT(disconnected);
+
+    m_activeRender = (isClipMonitor) ? m_clipMonitor->render : m_projMonitor->render;
+
+    connect(m_activeRender, SIGNAL(rendererPosition(int)), this, SLOT(slotRenderZoneUpdated()));
+    connect(m_activeRender, SIGNAL(rendererPositionBefore0()), this, SLOT(slotRenderZoneUpdated()));
+
     // Update the scope for the new monitor.
     prodHUDThread();
     prodScopeThread();

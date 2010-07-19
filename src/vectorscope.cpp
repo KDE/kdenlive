@@ -82,6 +82,8 @@ Vectorscope::Vectorscope(Monitor *projMonitor, Monitor *clipMonitor, QWidget *pa
 {
     setupUi(this);
 
+    //TODO don't draw circle when mouseLeaved
+
     m_colorTools = new ColorTools();
     m_colorPlaneExport = new ColorPlaneExport(this);
 

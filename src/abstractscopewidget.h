@@ -40,6 +40,9 @@
   The custom context menu already contains entries, like for enabling auto-
   refresh. It can certainly be extended in the implementation of the widget.
 
+  Note: Widgets deriving from this class should connect slotActiveMonitorChanged
+  to the appropriate signal.
+
   If you intend to write an own widget inheriting from this one, please read
   the comments on the unimplemented methods carefully. They are not only here
   for optical amusement, but also contain important information.
