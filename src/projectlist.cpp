@@ -60,6 +60,7 @@
 #include <QMenu>
 #include <QProcess>
 #include <QHeaderView>
+#include <QInputDialog>
 
 ProjectList::ProjectList(QWidget *parent) :
         QWidget(parent),
@@ -437,7 +438,7 @@ void ProjectList::slotMissingClip(const QString &id)
 {
     ProjectItem *item = getItemById(id);
     if (item) {
-        item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+        item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsDropEnabled);
         if (item->referencedClip()) {
             item->referencedClip()->setPlaceHolder(true);
             if (m_render == NULL) kDebug() << "*********  ERROR, NULL RENDR";
@@ -456,7 +457,7 @@ void ProjectList::slotAvailableClip(const QString &id)
     ProjectItem *item = getItemById(id);
     if (item == NULL)
         return;
-    item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable);
+    item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsDropEnabled);
     if (item->referencedClip()) { // && item->referencedClip()->checkHash() == false) {
         item->setProperty("file_hash", QString());
         slotReloadClip(id);
@@ -744,7 +745,7 @@ void ProjectList::slotRemoveClip()
         } else {
             ProjectItem *item = static_cast <ProjectItem *>(selected.at(i));
             ids << item->clipId();
-            if (item->numReferences() > 0 &&KMessageBox::questionYesNo(this, i18np("Delete clip <b>%2</b>?<br />This will also remove the clip in timeline", "Delete clip <b>%2</b>?<br />This will also remove its %1 clips in timeline", item->numReferences(), item->names().at(1)), i18n("Delete Clip")) != KMessageBox::Yes)
+            if (item->numReferences() > 0 && KMessageBox::questionYesNo(this, i18np("Delete clip <b>%2</b>?<br />This will also remove the clip in timeline", "Delete clip <b>%2</b>?<br />This will also remove its %1 clips in timeline", item->numReferences(), item->names().at(1)), i18n("Delete Clip")) != KMessageBox::Yes)
                 return;
         }
     }
@@ -1025,7 +1026,7 @@ void ProjectList::updateAllClips()
                 if (clip->isPlaceHolder() == false)
                     requestClipInfo(clip->toXML(), clip->getId());
                 else if (!clip->isPlaceHolder())
-                    item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+                    item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsDropEnabled);
             } else {
                 if (item->data(0, Qt::DecorationRole).isNull())
                     requestClipThumbnail(clip->getId());
@@ -1051,9 +1052,9 @@ QString ProjectList::getExtensions()
 {
     // Build list of mime types
     QStringList mimeTypes = QStringList() << "application/x-kdenlive" << "application/x-kdenlivetitle" << "video/mlt-playlist" << "text/plain"
-                                          << "video/x-flv" << "application/vnd.rn-realmedia" << "video/x-dv" << "video/dv" << "video/x-msvideo" << "video/x-matroska" << "video/mpeg" << "video/ogg" << "video/x-ms-wmv" << "video/mp4" << "video/quicktime"
-                                          << "audio/x-flac" << "audio/x-matroska" << "audio/mp4" << "audio/mpeg" << "audio/x-mp3" << "audio/ogg" << "audio/x-wav" << "application/ogg"
-                                          << "image/gif" << "image/jpeg" << "image/png" << "image/x-tga" << "image/x-bmp" << "image/svg+xml" << "image/tiff" << "image/x-xcf" << "image/x-xcf-gimp" << "image/x-vnd.adobe.photoshop" << "image/x-pcx" << "image/x-exr";
+                            << "video/x-flv" << "application/vnd.rn-realmedia" << "video/x-dv" << "video/dv" << "video/x-msvideo" << "video/x-matroska" << "video/mpeg" << "video/ogg" << "video/x-ms-wmv" << "video/mp4" << "video/quicktime"
+                            << "audio/x-flac" << "audio/x-matroska" << "audio/mp4" << "audio/mpeg" << "audio/x-mp3" << "audio/ogg" << "audio/x-wav" << "application/ogg"
+                            << "image/gif" << "image/jpeg" << "image/png" << "image/x-tga" << "image/x-bmp" << "image/svg+xml" << "image/tiff" << "image/x-xcf" << "image/x-xcf-gimp" << "image/x-vnd.adobe.photoshop" << "image/x-pcx" << "image/x-exr";
 
     QString allExtensions;
     foreach(const QString& mimeType, mimeTypes) {
@@ -1401,7 +1402,7 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
         item->setProperties(properties, metadata);
         if (item->referencedClip()->isPlaceHolder() && producer->is_valid()) {
             item->referencedClip()->setValid();
-            item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable);
+            item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsDropEnabled);
             toReload = clipId;
         }
         //Q_ASSERT_X(item->referencedClip(), "void ProjectList::slotReplyGetFileProperties", QString("Item with groupName %1 does not have a clip associated").arg(item->groupName()).toLatin1());
@@ -1434,6 +1435,10 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
     int max = m_doc->clipManager()->clipsCount();
     if (item && m_infoQueue.isEmpty() && m_thumbnailQueue.isEmpty()) {
         m_listView->setCurrentItem(item);
+        if (item->parent()) {
+            if (item->parent()->type() == PROJECTFOLDERTYPE)
+                static_cast <FolderProjectItem *>(item->parent())->switchIcon();
+        }
         emit clipSelected(item->referencedClip());
     } else {
         emit displayMessage(i18n("Loading clips"), (int)(100 *(max - m_infoQueue.count()) / max));

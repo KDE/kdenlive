@@ -119,7 +119,12 @@ void ProjectListView::keyPressEvent(QKeyEvent * event)
 {
     if (event->key() == Qt::Key_Return) {
         QTreeWidgetItem *it = currentItem();
-        if (it) it->setExpanded(!it->isExpanded());
+        if (it) {
+            it->setExpanded(!it->isExpanded());
+            if (it->type() == PROJECTFOLDERTYPE) {
+                static_cast <FolderProjectItem *>(it)->switchIcon();
+            }
+        }
     } else QTreeWidget::keyPressEvent(event);
 }
 
@@ -138,6 +143,7 @@ void ProjectListView::mouseDoubleClickEvent(QMouseEvent * event)
             int offset = pix.width() + indentation();
             if (event->pos().x() < offset) {
                 it->setExpanded(!it->isExpanded());
+                static_cast <FolderProjectItem *>(it)->switchIcon();
                 event->accept();
             } else QTreeWidget::mouseDoubleClickEvent(event);
         }
@@ -337,12 +343,8 @@ void ProjectListView::mouseMoveEvent(QMouseEvent *event)
 }
 
 // virtual
-void ProjectListView::dragMoveEvent(QDragMoveEvent * event)
+void ProjectListView::dragLeaveEvent(QDragLeaveEvent *)
 {
-    //event->setDropAction(Qt::MoveAction);
-    if (event->mimeData()->hasText()) {
-        event->acceptProposedAction();
-    }
     // stop playing because we get a crash otherwise when fetching the thumbnails
     emit pauseMonitor();
 }
@@ -363,7 +365,7 @@ QStringList ProjectListView::mimeTypes() const
 Qt::DropActions ProjectListView::supportedDropActions() const
 {
     // returns what actions are supported when dropping
-    return Qt::MoveAction;
+    return Qt::MoveAction | Qt::CopyAction;
 }
 
 #include "projectlistview.moc"

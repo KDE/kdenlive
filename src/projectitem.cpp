@@ -34,8 +34,8 @@ ProjectItem::ProjectItem(QTreeWidget * parent, DocClipBase *clip) :
         QTreeWidgetItem(parent, PROJECTCLIPTYPE)
 {
     setSizeHint(0, QSize(itemHeight * 3, itemHeight));
-    if (clip->isPlaceHolder()) setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-    else setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable);
+    if (clip->isPlaceHolder()) setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsDropEnabled);
+    else setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsDropEnabled);
     m_clip = clip;
     m_clipId = clip->getId();
     QString name = m_clip->getProperty("name");
@@ -54,8 +54,8 @@ ProjectItem::ProjectItem(QTreeWidgetItem * parent, DocClipBase *clip) :
         QTreeWidgetItem(parent, PROJECTCLIPTYPE)
 {
     setSizeHint(0, QSize(itemHeight * 3, itemHeight));
-    if (clip->isPlaceHolder()) setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-    else setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable);
+    if (clip->isPlaceHolder()) setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsDropEnabled);
+    else setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsDropEnabled);
     m_clip = clip;
     m_clipId = clip->getId();
     QString name = m_clip->getProperty("name");

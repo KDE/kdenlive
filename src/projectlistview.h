@@ -47,7 +47,7 @@ protected:
     virtual void dropEvent(QDropEvent *event);
     virtual QStringList mimeTypes() const;
     virtual Qt::DropActions supportedDropActions() const;
-    virtual void dragMoveEvent(QDragMoveEvent * event);
+    virtual void dragLeaveEvent(QDragLeaveEvent *);
     virtual void keyPressEvent(QKeyEvent * event);
 
 public slots:

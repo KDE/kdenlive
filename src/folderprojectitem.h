@@ -39,6 +39,7 @@ public:
     QString clipId() const;
     const QString groupName() const;
     void setGroupName(const QString name);
+    void switchIcon();
 
     /** Make sure folders appear on top of the tree widget */
     virtual bool operator<(const QTreeWidgetItem &other)const {

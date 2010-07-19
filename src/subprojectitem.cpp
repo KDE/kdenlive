@@ -34,7 +34,7 @@ SubProjectItem::SubProjectItem(QTreeWidgetItem * parent, int in, int out, QStrin
         QTreeWidgetItem(parent, PROJECTSUBCLIPTYPE), m_in(in), m_out(out), m_description(description)
 {
     setSizeHint(0, QSize(65, 30));
-    setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable);
+    setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsDropEnabled);
     QString name = Timecode::getStringTimecode(in, KdenliveSettings::project_fps());
     setText(0, name);
     setText(1, description);
