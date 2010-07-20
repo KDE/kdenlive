@@ -202,6 +202,7 @@ set(kdenlive_SRCS
   rebuildgroupcommand.cpp
   waveform.cpp
   colorcorrection/waveformgenerator.cpp
+  colorcorrection/vectorscopegenerator.cpp
   testwidget.cpp
   razorgroupcommand.cpp
 )

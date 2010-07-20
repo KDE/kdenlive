@@ -8,26 +8,33 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-#ifndef WAVEFORMGENERATOR_H
-#define WAVEFORMGENERATOR_H
+#ifndef VECTORSCOPEGENERATOR_H
+#define VECTORSCOPEGENERATOR_H
 
 #include <QObject>
+
 class QImage;
+class QPoint;
+class QPointF;
 class QSize;
 
-class WaveformGenerator : public QObject
+class VectorscopeGenerator : public QObject
 {
-    Q_OBJECT
+Q_OBJECT
 
 public:
-    WaveformGenerator();
-    ~WaveformGenerator();
+    enum PaintMode { PaintMode_Green, PaintMode_Green2, PaintMode_Original, PaintMode_Chroma, PaintMode_YUV, PaintMode_Black };
 
-    QImage calculateWaveform(const QSize &waveformSize, const QImage &image, const bool &drawAxis, const uint &accelFactor = 1);
+    QImage calculateVectorscope(const QSize &vectorscopeSize, const QImage &image, const float &gain,
+                                const VectorscopeGenerator::PaintMode &paintMode,
+                                const bool&, const uint &accelFactor = 1) const;
+
+    QPoint mapToCircle(const QSize &targetSize, const QPointF &point) const;
+    static const float scaling;
 
 signals:
     void signalCalculationFinished(QImage image, const uint &ms);
 
 };
 
-#endif // WAVEFORMGENERATOR_H
+#endif // VECTORSCOPEGENERATOR_H

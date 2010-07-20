@@ -68,6 +68,8 @@ public:
     virtual ~AbstractScopeWidget(); // Must be virtual because of inheritance, to avoid memory leaks
     QPalette m_scopePalette;
 
+    ///// Unimplemented /////
+
     virtual QString widgetName() const = 0;
 
 protected:
@@ -103,10 +105,17 @@ protected:
     QImage m_imgScope;
     QImage m_imgBackground;
 
+    /** The acceleration factors can be accessed also by other renderer tasks,
+        e.g. to display the scope's acceleration factor in the HUD renderer. */
+    int m_accelFactorHUD;
+    int m_accelFactorScope;
+    int m_accelFactorBackground;
+
 
     ///// Unimplemented Methods /////
 
-    /** Where on the widget we can paint in */
+    /** Where on the widget we can paint in.
+        May also update other variables that depend on the widget's size.  */
     virtual QRect scopeRect() = 0;
 
     /** @brief HUD renderer. Must emit signalHUDRenderingFinished(). @see renderScope */
@@ -127,11 +136,27 @@ protected:
     /** @see isHUDDependingOnInput() */
     virtual bool isBackgroundDependingOnInput() const = 0;
 
-    ///// Methods /////
+    ///// Can be reimplemented /////
+    /** Calculates the acceleration factor to be used by the render thread.
+        This method can be refined in the subclass if required. */
+    virtual uint calculateAccelFactorHUD(uint oldMseconds, uint oldFactor);
+    virtual uint calculateAccelFactorScope(uint oldMseconds, uint oldFactor);
+    virtual uint calculateAccelFactorBackground(uint oldMseconds, uint oldFactor);
+
+    ///// Reimplemented /////
 
     void mouseReleaseEvent(QMouseEvent *);
     void paintEvent(QPaintEvent *);
+    void raise();
     void resizeEvent(QResizeEvent *);
+
+protected slots:
+    /** Forces an update of all layers. */
+    void forceUpdate();
+    void forceUpdateHUD();
+    void forceUpdateScope();
+    void forceUpdateBackground();
+    void slotAutoRefreshToggled(bool);
 
 signals:
     /** mseconds represent the time taken for the calculation,
@@ -164,10 +189,6 @@ private:
     QFuture<QImage> m_threadHUD;
     QFuture<QImage> m_threadScope;
     QFuture<QImage> m_threadBackground;
-
-    int m_accelFactorHUD;
-    int m_accelFactorScope;
-    int m_accelFactorBackground;
 
     bool initialDimensionUpdateDone;
     void prodHUDThread();

@@ -12,37 +12,42 @@
 #define VECTORSCOPE_H
 
 #include <QtCore>
-#include "renderer.h"
-#include "monitor.h"
-#include "colorplaneexport.h"
-#include "colortools.h"
 #include "ui_vectorscope_ui.h"
+#include "abstractscopewidget.h"
 
+class ColorPlaneExport;
+class ColorTools;
 class Render;
 class Monitor;
 class Vectorscope_UI;
+class VectorscopeGenerator;
 
-enum PAINT_MODE { PAINT_GREEN = 0, PAINT_ORIG = 1, PAINT_CHROMA = 2, PAINT_YUV = 3, PAINT_BLACK = 4, PAINT_GREEN2 = 5 };
 enum BACKGROUND_MODE { BG_NONE = 0, BG_YUV = 1, BG_CHROMA = 2 };
 
-class Vectorscope : public QWidget, public Ui::Vectorscope_UI {
+class Vectorscope : public AbstractScopeWidget {
     Q_OBJECT
 
 public:
     Vectorscope(Monitor *projMonitor, Monitor *clipMonitor, QWidget *parent = 0);
     ~Vectorscope();
 
+    QString widgetName() const;
+
 protected:
-    void paintEvent(QPaintEvent *);
-    void resizeEvent(QResizeEvent *event);
-    void mousePressEvent(QMouseEvent *);
-    void mouseMoveEvent(QMouseEvent *event);
-    void raise();
+    void mouseMoveEvent(QMouseEvent *);
+
+
+    ///// Implemented methods /////
+    QRect scopeRect();
+    QImage renderHUD(uint accelerationFactor);
+    QImage renderScope(uint accelerationFactor);
+    QImage renderBackground(uint accelerationFactor);
+    bool isHUDDependingOnInput() const;
+    bool isScopeDependingOnInput() const;
+    bool isBackgroundDependingOnInput() const;
 
 private:
-    Monitor *m_projMonitor;
-    Monitor *m_clipMonitor;
-    Render *m_activeRender;
+    Ui::Vectorscope_UI *ui;
 
     ColorTools *m_colorTools;
     ColorPlaneExport *m_colorPlaneExport;
@@ -50,74 +55,40 @@ private:
     QAction *m_aExportBackground;
     QAction *m_aAxisEnabled;
     QAction *m_a75PBox;
-    QAction *m_aRealtime;
+
+    VectorscopeGenerator *m_vectorscopeGenerator;
 
     /** How to represent the pixels on the scope (green, original color, ...) */
     int iPaintMode;
 
     /** Custom scaling of the vectorscope */
-    float m_scaling;
+    float m_gain;
 
-    /** Number of pixels to skip for getting realtime updates */
-    int m_skipPixels;
+    QPoint m_centerPoint, pR75, pG75, pB75, pCy75, pMg75, pYl75;
 
-    QPoint mapToCanvas(QRect inside, QPointF point);
-    QPoint centerPoint, pR75, pG75, pB75, pCy75, pMg75, pYl75;
-
-    bool circleEnabled;
-    QPoint mousePos;
+    bool m_circleEnabled;
+    QPoint m_mousePos;
 
     /** Updates the dimension. Only necessary when the widget has been resized. */
     void updateDimensions();
-    bool initialDimensionUpdateDone;
-    QRect m_scopeRect;
     int cw;
-
-
-    /** The vectorscope color distribution.
-        Class variable as calculated by a thread. */
-    QImage m_scope;
-    QImage m_wheel;
-
-    void calculateScope();
-    QFuture<void> m_scopeCalcThread;
-    QFuture<QImage> m_wheelCalcThread;
-
-    /** This semaphore that guards QFuture m_scopeCalcThread is necessary for avoiding
-        deadlocks. If not present, then an incoming new frame might trigger a new thread
-        at the wrong point in time, causing a deadlock. Nasty ;) */
-    QSemaphore semaphore;
-
-    /** Prods the Scope calculation thread. If it is running, do nothing. If it is not,
-      run a new thread.
-      Returns true if a new thread has been started. */
-    bool prodCalcThread();
-    bool prodWheelThread();
 
     /** Counts the number of frames that have been rendered in one of the monitors.
       The frame number will be reset when the vectorscope starts calculating the
       current frame. */
-    QAtomicInt newFrames;
+//    QAtomicInt newFrames;
     /** Counts the number of other changes that should cause the vectorscope to be
       recalculated. This is for example a resizeEvent. In this case, no new frames
       are generated, but the scope has to be updated in any case (also if auto-update
       is not enabled). */
-    QAtomicInt newChanges;
+//    QAtomicInt newChanges;
     /** Counts the number of changes concerning the background wheel */
-    QAtomicInt newWheelChanges;
+//    QAtomicInt newWheelChanges;
 
-signals:
-    void signalScopeCalculationFinished(const unsigned int &mseconds, const unsigned int &skipPixels);
 
 private slots:
-    void slotMagnifyChanged();
+    void slotGainChanged(int);
     void slotBackgroundChanged();
-    void slotActiveMonitorChanged(bool isClipMonitor);
-    void slotRenderZoneUpdated();
-    void slotScopeCalculationFinished(unsigned int mseconds, unsigned int skipPixels);
-    void slotWheelCalculationFinished();
-    void slotUpdateScope();
-    void slotUpdateWheel();
     void slotExportBackground();
 };
 

@@ -8,10 +8,12 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-#include <QDebug>
-#include <QTime>
 #include <QColor>
+#include <QDebug>
+#include <QImage>
 #include <QPainter>
+#include <QSize>
+#include <QTime>
 
 #include "waveformgenerator.h"
 
