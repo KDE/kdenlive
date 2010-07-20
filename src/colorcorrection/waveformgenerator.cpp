@@ -25,8 +25,10 @@ WaveformGenerator::~WaveformGenerator()
 {
 }
 
-QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, const QImage &image, const bool &drawAxis)
+QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, const QImage &image, const bool &drawAxis, const uint &accelFactor)
 {
+    Q_ASSERT(accelFactor >= 1);
+
     QTime time;
     time.start();
 
@@ -60,7 +62,7 @@ QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, const QIm
         const float wPrediv = (float)(ww-1)/(iw-1);
 
         const uchar *bits = image.bits();
-        const uint stepsize = 4;
+        const uint stepsize = 4*accelFactor;
 
         for (uint i = 0, x = 0; i < byteCount; i += stepsize) {
 
@@ -80,7 +82,7 @@ QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, const QIm
 
             bits += stepsize;
             x += stepsize;
-            x %= iw;
+            x %= iw; // Modulo image width, to represent the current x position in the image
         }
 
         if (drawAxis) {
@@ -102,7 +104,7 @@ QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, const QIm
     }
 
     uint diff = time.elapsed();
-    qDebug() << "Waveform calculation ended. Time taken: " << diff << " ms. Sending signal now.";
+//    qDebug() << "Waveform calculation ended. Time taken: " << diff << " ms. Sending signal now.";
     emit signalCalculationFinished(wave, diff);
 
     return wave;

@@ -20,6 +20,8 @@
 #include <QMenu>
 #include <QPainter>
 
+const int REALTIME_FPS = 30;
+
 const QColor light(250, 238, 226, 255);
 const QColor dark ( 40,  40,  39, 255);
 const QColor dark2( 25,  25,  23, 255);
@@ -32,6 +34,9 @@ AbstractScopeWidget::AbstractScopeWidget(Monitor *projMonitor, Monitor *clipMoni
     m_semaphoreHUD(1),
     m_semaphoreScope(1),
     m_semaphoreBackground(1),
+    m_accelFactorHUD(1),
+    m_accelFactorScope(1),
+    m_accelFactorBackground(1),
     initialDimensionUpdateDone(false)
 
 {
@@ -49,7 +54,6 @@ AbstractScopeWidget::AbstractScopeWidget(Monitor *projMonitor, Monitor *clipMoni
     m_aAutoRefresh->setCheckable(true);
     m_aRealtime = new QAction(i18n("Realtime (with precision loss)"), this);
     m_aRealtime->setCheckable(true);
-    m_aRealtime->setEnabled(false);
 
     m_menu = new QMenu(this);
     m_menu->setPalette(m_scopePalette);
@@ -64,14 +68,17 @@ AbstractScopeWidget::AbstractScopeWidget(Monitor *projMonitor, Monitor *clipMoni
         m_activeRender = m_clipMonitor->render;
     }
 
-    connect(this, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(customContextMenuRequested(QPoint)));
+    bool b = true;
 
-    connect(m_activeRender, SIGNAL(rendererPosition(int)), this, SLOT(slotRenderZoneUpdated()));
-    connect(this, SIGNAL(signalHUDRenderingFinished(uint)), this, SLOT(slotHUDRenderingFinished(uint)));
-    connect(this, SIGNAL(signalScopeRenderingFinished(uint)), this, SLOT(slotScopeRenderingFinished(uint)));
-    connect(this, SIGNAL(signalBackgroundRenderingFinished(uint)), this, SLOT(slotBackgroundRenderingFinished(uint)));
+    b &= connect(this, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(customContextMenuRequested(QPoint)));
 
+    b &= connect(m_activeRender, SIGNAL(rendererPosition(int)), this, SLOT(slotRenderZoneUpdated()));
+    b &= connect(this, SIGNAL(signalHUDRenderingFinished(uint,uint)), this, SLOT(slotHUDRenderingFinished(uint,uint)));
+    b &= connect(this, SIGNAL(signalScopeRenderingFinished(uint,uint)), this, SLOT(slotScopeRenderingFinished(uint,uint)));
+    b &= connect(this, SIGNAL(signalBackgroundRenderingFinished(uint,uint)), this, SLOT(slotBackgroundRenderingFinished(uint,uint)));
+    b &= connect(m_aRealtime, SIGNAL(toggled(bool)), this, SLOT(slotResetRealtimeFactor(bool)));
 
+    Q_ASSERT(b);
 }
 
 AbstractScopeWidget::~AbstractScopeWidget()
@@ -84,12 +91,15 @@ void AbstractScopeWidget::prodHUDThread() {}
 
 void AbstractScopeWidget::prodScopeThread()
 {
+    // Try to acquire the semaphore. This must only succeed if m_threadScope is not running
+    // anymore. Therefore the semaphore must NOT be released before m_threadScope ends.
+    // If acquiring the semaphore fails, the thread is still running.
     if (m_semaphoreScope.tryAcquire(1)) {
         Q_ASSERT(!m_threadScope.isRunning());
 
         m_newScopeFrames.fetchAndStoreRelaxed(0);
         m_newScopeUpdates.fetchAndStoreRelaxed(0);
-        m_threadScope = QtConcurrent::run(this, &AbstractScopeWidget::renderScope);
+        m_threadScope = QtConcurrent::run(this, &AbstractScopeWidget::renderScope, m_accelFactorScope);
         qDebug() << "Scope thread started in " << widgetName();
 
     } else {
@@ -153,29 +163,43 @@ void AbstractScopeWidget::customContextMenuRequested(const QPoint &pos)
 
 ///// Slots /////
 
-void AbstractScopeWidget::slotHUDRenderingFinished(uint)
-{
+void AbstractScopeWidget::slotHUDRenderingFinished(uint, uint) {}
 
-}
-
-void AbstractScopeWidget::slotScopeRenderingFinished(uint)
+void AbstractScopeWidget::slotScopeRenderingFinished(uint mseconds, uint)
 {
+    // The signal can be received before the thread has really finished. So we
+    // need to wait until it has really finished before starting a new thread.
     qDebug() << "Scope rendering has finished, waiting for termination in " << widgetName();
     m_threadScope.waitForFinished();
     m_imgScope = m_threadScope.result();
+
+    // The scope thread has finished. Now we can release the semaphore, allowing a new thread.
+    // See prodScopeThread where the semaphore is acquired again.
     m_semaphoreScope.release(1);
     this->update();
+
+    // Calculate the acceleration factor hint to get «realtime» updates.
+    int accel;
+    if (m_aRealtime->isChecked()) {
+        accel = ceil((float)mseconds*REALTIME_FPS/1000 );
+        if (m_accelFactorScope < 1) {
+            // If mseconds is 0.
+            accel = 1;
+        }
+        // Don't directly calculate with m_accelFactorScope as we are dealing with concurrency.
+        // If m_accelFactorScope is set to 0 at the wrong moment, who knows what might happen
+        // then :) Therefore use a local variable.
+        m_accelFactorScope = accel;
+    }
 
     if ( (m_newScopeFrames > 0 && m_aAutoRefresh->isChecked()) || m_newScopeUpdates > 0) {
         qDebug() << "Trying to start a new thread for " << widgetName()
                 << ". New frames/updates: " << m_newScopeFrames << "/" << m_newScopeUpdates;
+        prodScopeThread();
     }
 }
 
-void AbstractScopeWidget::slotBackgroundRenderingFinished(uint)
-{
-
-}
+void AbstractScopeWidget::slotBackgroundRenderingFinished(uint, uint) {}
 
 void AbstractScopeWidget::slotActiveMonitorChanged(bool isClipMonitor)
 {
@@ -212,5 +236,14 @@ void AbstractScopeWidget::slotRenderZoneUpdated()
             prodScopeThread();
             prodBackgroundThread();
         }
+    }
+}
+
+void AbstractScopeWidget::slotResetRealtimeFactor(bool realtimeChecked)
+{
+    if (!realtimeChecked) {
+        m_accelFactorHUD = 1;
+        m_accelFactorScope = 1;
+        m_accelFactorBackground = 1;
     }
 }

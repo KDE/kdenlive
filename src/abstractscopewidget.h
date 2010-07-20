@@ -77,15 +77,28 @@ protected:
     Monitor *m_clipMonitor;
     Render *m_activeRender;
 
+
     /** The context menu. Feel free to add new entries in your implementation. */
     QMenu *m_menu;
+
+    /** Enables auto refreshing of the scope.
+        This is when a new frame is shown on the active monitor.
+        Resize events always force a recalculation. */
     QAction *m_aAutoRefresh;
+
+    /** Realtime rendering. Should be disabled if it is not supported.
+        Use the accelerationFactor variable passed to the render functions as a hint of
+        how many times faster the scope should be calculated. */
     QAction *m_aRealtime;
+
 
     /** Offset from the widget's borders */
     const uchar offset;
 
+    /** The rect on the widget we're painting in. */
     QRect m_scopeRect;
+
+    /** Images storing the calculated layers. Will be used on repaint events. */
     QImage m_imgHUD;
     QImage m_imgScope;
     QImage m_imgBackground;
@@ -96,18 +109,18 @@ protected:
     /** Where on the widget we can paint in */
     virtual QRect scopeRect() = 0;
 
-    /** @brief HUD renderer.
-      Must emit signalHUDRenderingFinished().
-      Should */
-    virtual QImage renderHUD() = 0;
-    /** @brief Scope renderer. Must emit signalScopeRenderingFinished(). */
-    virtual QImage renderScope() = 0;
-    /** @brief Background renderer. Must emit signalBackgroundRenderingFinished(). */
-    virtual QImage renderBackground() = 0;
+    /** @brief HUD renderer. Must emit signalHUDRenderingFinished(). @see renderScope */
+    virtual QImage renderHUD(uint accelerationFactor) = 0;
+    /** @brief Scope renderer. Must emit signalScopeRenderingFinished()
+        when calculation has finished, to allow multi-threading.
+        accelerationFactor hints how much faster than usual the calculation should be accomplished, if possible. */
+    virtual QImage renderScope(uint accelerationFactor) = 0;
+    /** @brief Background renderer. Must emit signalBackgroundRenderingFinished(). @see renderScope */
+    virtual QImage renderBackground(uint accelerationFactor) = 0;
 
     /** Must return true if the HUD layer depends on the input monitor.
-      If it does not, then it does not need to be re-calculated when
-      a new frame from the monitor is incoming. */
+        If it does not, then it does not need to be re-calculated when
+        a new frame from the monitor is incoming. */
     virtual bool isHUDDependingOnInput() const = 0;
     /** @see isHUDDependingOnInput() */
     virtual bool isScopeDependingOnInput() const = 0;
@@ -121,9 +134,11 @@ protected:
     void resizeEvent(QResizeEvent *);
 
 signals:
-    void signalHUDRenderingFinished(uint mseconds);
-    void signalScopeRenderingFinished(uint mseconds);
-    void signalBackgroundRenderingFinished(uint mseconds);
+    /** mseconds represent the time taken for the calculation,
+        accelerationFactor the acceleration factor that has been used. */
+    void signalHUDRenderingFinished(uint mseconds, uint accelerationFactor);
+    void signalScopeRenderingFinished(uint mseconds, uint accelerationFactor);
+    void signalBackgroundRenderingFinished(uint mseconds, uint accelerationFactor);
 
 private:
 
@@ -139,6 +154,9 @@ private:
     QAtomicInt m_newScopeUpdates;
     QAtomicInt m_newBackgroundUpdates;
 
+    /** The semaphores ensure that the QFutures for the HUD/Scope/Background threads cannot
+      be assigned a new thread while it is still running. (Could cause deadlocks and other
+      nasty things known from parallelism. */
     QSemaphore m_semaphoreHUD;
     QSemaphore m_semaphoreScope;
     QSemaphore m_semaphoreBackground;
@@ -147,10 +165,15 @@ private:
     QFuture<QImage> m_threadScope;
     QFuture<QImage> m_threadBackground;
 
+    int m_accelFactorHUD;
+    int m_accelFactorScope;
+    int m_accelFactorBackground;
+
     bool initialDimensionUpdateDone;
     void prodHUDThread();
     void prodScopeThread();
     void prodBackgroundThread();
+
 
 private slots:
     /** @brief Must be called when the active monitor has shown a new frame.
@@ -159,9 +182,12 @@ private slots:
     void slotActiveMonitorChanged(bool isClipMonitor);
     void customContextMenuRequested(const QPoint &pos);
     void slotRenderZoneUpdated();
-    void slotHUDRenderingFinished(uint mseconds);
-    void slotScopeRenderingFinished(uint mseconds);
-    void slotBackgroundRenderingFinished(uint mseconds);
+    void slotHUDRenderingFinished(uint mseconds, uint accelerationFactor);
+    void slotScopeRenderingFinished(uint mseconds, uint accelerationFactor);
+    void slotBackgroundRenderingFinished(uint mseconds, uint accelerationFactor);
+
+    /** Resets the acceleration factors to 1 when realtime rendering is disabled. */
+    void slotResetRealtimeFactor(bool realtimeChecked);
 
 };
 

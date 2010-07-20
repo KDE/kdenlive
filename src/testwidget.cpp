@@ -32,21 +32,21 @@ TestWidget::~TestWidget()
 
 ///// Implemented Methods /////
 
-QImage TestWidget::renderHUD()
+QImage TestWidget::renderHUD(uint)
 {
-    emit signalHUDRenderingFinished(0);
+    emit signalHUDRenderingFinished(0, 1);
     return QImage();
 }
 
-QImage TestWidget::renderScope()
+QImage TestWidget::renderScope(uint)
 {
-    emit signalScopeRenderingFinished(0);
+    emit signalScopeRenderingFinished(0, 1);
     return QImage();
 }
 
-QImage TestWidget::renderBackground()
+QImage TestWidget::renderBackground(uint)
 {
-    emit signalBackgroundRenderingFinished(0);
+    emit signalBackgroundRenderingFinished(0, 1);
     return QImage();
 }
 

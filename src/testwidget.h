@@ -27,9 +27,9 @@ public:
     QString widgetName() const;
 
     /// Implemented methods ///
-    QImage renderHUD();
-    QImage renderScope();
-    QImage renderBackground();
+    QImage renderHUD(uint accelerationFactor);
+    QImage renderScope(uint accelerationFactor);
+    QImage renderBackground(uint accelerationFactor);
     bool isHUDDependingOnInput() const;
     bool isScopeDependingOnInput() const;
     bool isBackgroundDependingOnInput() const;

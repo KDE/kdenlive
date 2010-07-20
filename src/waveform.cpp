@@ -52,26 +52,26 @@ bool Waveform::isHUDDependingOnInput() const { return false; }
 bool Waveform::isScopeDependingOnInput() const { return true; }
 bool Waveform::isBackgroundDependingOnInput() const { return false; }
 
-QImage Waveform::renderHUD()
+QImage Waveform::renderHUD(uint)
 {
-    emit signalHUDRenderingFinished(0);
+    emit signalHUDRenderingFinished(0, 1);
     return QImage();
 }
 
-QImage Waveform::renderScope()
+QImage Waveform::renderScope(uint accelFactor)
 {
     QTime start = QTime::currentTime();
     start.start();
 
     QImage wave = m_waveformGenerator->calculateWaveform(scopeRect().size(),
-                                                         m_activeRender->extractFrame(m_activeRender->seekFramePosition()), true);
+                                                         m_activeRender->extractFrame(m_activeRender->seekFramePosition()), true, accelFactor);
 
-    emit signalScopeRenderingFinished(start.elapsed());
+    emit signalScopeRenderingFinished(start.elapsed(), 1);
     return wave;
 }
 
-QImage Waveform::renderBackground()
+QImage Waveform::renderBackground(uint)
 {
-    emit signalBackgroundRenderingFinished(0);
+    emit signalBackgroundRenderingFinished(0, 1);
     return QImage();
 }

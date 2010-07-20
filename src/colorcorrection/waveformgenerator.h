@@ -23,7 +23,7 @@ public:
     WaveformGenerator();
     ~WaveformGenerator();
 
-    QImage calculateWaveform(const QSize &waveformSize, const QImage &image, const bool &drawAxis);
+    QImage calculateWaveform(const QSize &waveformSize, const QImage &image, const bool &drawAxis, const uint &accelFactor = 1);
 
 signals:
     void signalCalculationFinished(QImage image, const uint &ms);
