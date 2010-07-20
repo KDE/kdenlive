@@ -59,6 +59,7 @@
 #include "tracksconfigdialog.h"
 #include "configtrackscommand.h"
 #include "rebuildgroupcommand.h"
+#include "razorgroupcommand.h"
 
 #include <KDebug>
 #include <KLocale>
@@ -1851,8 +1852,10 @@ ClipItem *CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut, boo
         ClipItem *item = getClipItemAt((int) info.startPos.frames(m_document->fps()), info.track);
         if (!item || cutTime >= item->endPos() || cutTime <= item->startPos()) {
             emit displayMessage(i18n("Cannot find clip to cut"), ErrorMessage);
-            if (item) kDebug() << "/////////  ERROR CUTTING CLIP : (" << item->startPos().frames(25) << "-" << item->endPos().frames(25) << "), INFO: (" << info.startPos.frames(25) << "-" << info.endPos.frames(25) << ")" << ", CUT: " << cutTime.frames(25);
-            else kDebug() << "/// ERROR NO CLIP at: " << info.startPos.frames(m_document->fps()) << ", track: " << info.track;
+            if (item)
+                kDebug() << "/////////  ERROR CUTTING CLIP : (" << item->startPos().frames(25) << "-" << item->endPos().frames(25) << "), INFO: (" << info.startPos.frames(25) << "-" << info.endPos.frames(25) << ")" << ", CUT: " << cutTime.frames(25);
+            else
+                kDebug() << "/// ERROR NO CLIP at: " << info.startPos.frames(m_document->fps()) << ", track: " << info.track;
             m_blockRefresh = false;
             return NULL;
         }
@@ -1887,8 +1890,10 @@ ClipItem *CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut, boo
         }
         item->resizeEnd(cutPos);
         scene()->addItem(dup);
-        if (item->checkKeyFrames()) slotRefreshEffects(item);
-        if (dup->checkKeyFrames()) slotRefreshEffects(dup);
+        if (item->checkKeyFrames())
+            slotRefreshEffects(item);
+        if (dup->checkKeyFrames())
+            slotRefreshEffects(dup);
         item->baseClip()->addReference();
         m_document->updateClip(item->baseClip()->getId());
         setDocumentModified();
@@ -1931,11 +1936,11 @@ ClipItem *CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut, boo
         if (success) {
             item->resizeEnd((int) info.endPos.frames(m_document->fps()));
             setDocumentModified();
-        } else
+        } else {
             emit displayMessage(i18n("Error when resizing clip"), ErrorMessage);
+        }
         KdenliveSettings::setSnaptopoints(snap);
         return item;
-
     }
     //QTimer::singleShot(3000, this, SLOT(slotEnableRefresh()));
 }
@@ -3579,12 +3584,87 @@ void CustomTrackView::cutSelectedClips()
         if (itemList.at(i)->type() == AVWIDGET) {
             ClipItem *item = static_cast <ClipItem *>(itemList.at(i));
             if (item->parentItem() && item->parentItem() != m_selectionGroup) {
-                emit displayMessage(i18n("Cannot cut a clip in a group"), ErrorMessage);
-            } else if (currentPos > item->startPos() && currentPos <  item->endPos()) {
+                razorGroup((AbstractGroupItem *)item->parentItem(), currentPos);
+                return;
+            } else if (currentPos > item->startPos() && currentPos < item->endPos()) {
                 RazorClipCommand *command = new RazorClipCommand(this, item->info(), currentPos);
                 m_commandStack->push(command);
             }
+        } else if (itemList.at(i)->type() == GROUPWIDGET && itemList.at(i) != m_selectionGroup) {
+            razorGroup((AbstractGroupItem *)itemList.at(i), currentPos);
         }
+    }
+}
+
+void CustomTrackView::razorGroup(AbstractGroupItem* group, GenTime cutPos)
+{
+    if (group) {
+        QList <QGraphicsItem *> children = group->childItems();
+        QList <ItemInfo> clips1;
+        QList <ItemInfo> transitions1;
+        QList <ItemInfo> clipsCut;
+        QList <ItemInfo> transitionsCut;
+        QList <ItemInfo> clips2;
+        QList <ItemInfo> transitions2;
+        for (int i = 0; i < children.count(); ++i) {
+            children.at(i)->setSelected(false);
+            AbstractClipItem *child = static_cast <AbstractClipItem *>(children.at(i));
+            if (child->type() == AVWIDGET) {
+                if (cutPos > child->endPos())
+                    clips1 << child->info();
+                else if (cutPos < child->startPos())
+                    clips2 << child->info();
+                else
+                    clipsCut << child->info();
+            } else {
+                if (cutPos > child->endPos())
+                    transitions1 << child->info();
+                else if (cutPos < child->startPos())
+                    transitions2 << child->info();
+                else
+                    transitionsCut << child->info();
+            }
+        }
+        RazorGroupCommand *command = new RazorGroupCommand(this, clips1, transitions1, clipsCut, transitionsCut, clips2, transitions2, cutPos);
+        m_commandStack->push(command);
+    }
+}
+
+void CustomTrackView::slotRazorGroup(QList <ItemInfo> clips1, QList <ItemInfo> transitions1, QList <ItemInfo> clipsCut, QList <ItemInfo> transitionsCut, QList <ItemInfo> clips2, QList <ItemInfo> transitions2, GenTime cutPos, bool cut)
+{
+    if (cut) {
+        for (int i = 0; i < clipsCut.count(); ++i) {
+            ClipItem *clip = getClipItemAt(clipsCut.at(i).startPos.frames(m_document->fps()), clipsCut.at(i).track);
+            if (clip) {
+                ClipItem *clipBehind = cutClip(clipsCut.at(i), cutPos, true);
+                clips1 << clip->info();
+                clips2 << clipBehind->info();
+            }
+        }
+        // TODO: cut transitionsCut
+        doGroupClips(clips1, transitions1, true);
+        doGroupClips(clips2, transitions2, true);
+    } else {
+        for (int i = 0; i < clipsCut.count(); ++i) {
+            ClipItem *clip = getClipItemAt(cutPos.frames(m_document->fps()), clipsCut.at(i).track);
+            if (clip && clip->parentItem() && clip->parentItem()->type() == GROUPWIDGET) {
+                AbstractGroupItem *group = static_cast <AbstractGroupItem *>(clip->parentItem());
+                QList <QGraphicsItem *> children = group->childItems();
+                QList <ItemInfo> groupClips;
+                QList <ItemInfo> groupTrans;
+                for (int j = 0; j < children.count(); ++j) {
+                    if (children.at(j)->type() == AVWIDGET)
+                        groupClips << ((AbstractClipItem *)children.at(j))->info();
+                    else if (children.at(j)->type() == TRANSITIONWIDGET)
+                        groupTrans << ((AbstractClipItem *)children.at(j))->info();
+                }
+                doGroupClips(groupClips, groupTrans, false);
+            }
+        }
+        for(int i = 0; i < clipsCut.count(); ++i)
+            cutClip(clipsCut.at(i), cutPos, false);
+        // TODO: uncut transitonsCut
+        doGroupClips(QList <ItemInfo>() << clips1 << clipsCut << clips2, QList <ItemInfo>() << transitions1 << transitionsCut << transitions2, true);
     }
 }
 
@@ -3980,6 +4060,8 @@ void CustomTrackView::moveGroup(QList <ItemInfo> startClip, QList <ItemInfo> sta
                 m_document->renderer()->mltAddTransition(tr->transitionTag(), newTrack, m_document->tracksCount() - info.track, info.startPos, info.endPos, tr->toXML());
             }
         }
+        if (!reverseMove)
+            rebuildGroup(m_selectionGroup);
         resetSelectionGroup(false);
         KdenliveSettings::setSnaptopoints(snap);
         m_document->renderer()->doRefresh();

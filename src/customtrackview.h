@@ -227,6 +227,17 @@ public slots:
     * @param group The group to rebuild */
     void rebuildGroup(AbstractGroupItem *group);
 
+    /** @brief Cuts a group into two parts.
+    * @param clips1 Clips before the cut
+    * @param transitions1 Transitions before the cut
+    * @param clipsCut Clips that need to be cut
+    * @param transitionsCut Transitions that need to be cut
+    * @param clips2 Clips behind the cut
+    * @param transitions2 Transitions behind the cut
+    * @param cutPos Absolute position of the cut
+    * @param cut true = cut, false = "uncut" */
+    void slotRazorGroup(QList <ItemInfo> clips1, QList <ItemInfo> transitions1, QList <ItemInfo> clipsCut, QList <ItemInfo> transitionsCut, QList <ItemInfo> clips2, QList <ItemInfo> transitions2, GenTime cutPos, bool cut);
+
 protected:
     virtual void drawBackground(QPainter * painter, const QRectF & rect);
     //virtual void drawForeground ( QPainter * painter, const QRectF & rect );
@@ -355,6 +366,11 @@ private:
     * @param check (optional, default = false) Whether to check for collisions
     * @param command (optional) Will be used as parent command (for undo history) */
     void prepareResizeClipEnd(AbstractClipItem *item, ItemInfo oldInfo, int pos, bool check = false, QUndoCommand *command = NULL);
+
+    /** @brief Collects information about the group's children to pass it on to RazorGroupCommand.
+    * @param group The group to cut
+    * @param cutPos The absolute position of the cut */
+    void razorGroup(AbstractGroupItem *group, GenTime cutPos);
 
 private slots:
     void slotRefreshGuides();

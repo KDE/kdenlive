@@ -203,6 +203,7 @@ set(kdenlive_SRCS
   waveform.cpp
   colorcorrection/waveformgenerator.cpp
   testwidget.cpp
+  razorgroupcommand.cpp
 )
 
 

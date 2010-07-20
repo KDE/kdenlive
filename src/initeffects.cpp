@@ -294,7 +294,7 @@ void initEffects::parseCustomEffectsFile()
         }
     }
     foreach(const QDomElement &effect, effectsMap)
-    MainWindow::customEffects.append(effect);
+        MainWindow::customEffects.append(effect);
 }
 
 // static
