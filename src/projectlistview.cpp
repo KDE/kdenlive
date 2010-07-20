@@ -183,14 +183,6 @@ void ProjectListView::mouseDoubleClickEvent(QMouseEvent * event)
     emit showProperties(item->referencedClip());
 }
 
-// virtual
-void ProjectListView::dragEnterEvent(QDragEnterEvent *event)
-{
-    if (event->mimeData()->hasUrls() || event->mimeData()->hasText()) {
-        kDebug() << "////////////////  DRAG ENTR OK";
-    }
-    event->acceptProposedAction();
-}
 
 // virtual
 void ProjectListView::dropEvent(QDropEvent *event)
@@ -211,6 +203,7 @@ void ProjectListView::dropEvent(QDropEvent *event)
         emit addClip(event->mimeData()->urls(), groupName, groupId);
         event->setDropAction(Qt::CopyAction);
         event->accept();
+        QTreeWidget::dropEvent(event);
         return;
     } else if (event->mimeData()->hasFormat("kdenlive/producerslist")) {
         if (item) {
@@ -255,6 +248,7 @@ void ProjectListView::dropEvent(QDropEvent *event)
         emit addClipCut(list.at(0), list.at(1).toInt(), list.at(2).toInt());
     }
     event->acceptProposedAction();
+    QTreeWidget::dropEvent(event);
 }
 
 // virtual
@@ -343,10 +337,11 @@ void ProjectListView::mouseMoveEvent(QMouseEvent *event)
 }
 
 // virtual
-void ProjectListView::dragLeaveEvent(QDragLeaveEvent *)
+void ProjectListView::dragLeaveEvent(QDragLeaveEvent *event)
 {
     // stop playing because we get a crash otherwise when fetching the thumbnails
     emit pauseMonitor();
+    QTreeWidget::dragLeaveEvent(event);
 }
 
 QStringList ProjectListView::mimeTypes() const
