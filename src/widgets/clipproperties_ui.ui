@@ -541,6 +541,9 @@
       <layout class="QGridLayout" name="gridLayout_9">
        <item row="0" column="0">
         <widget class="QTreeWidget" name="metadata_list">
+         <property name="alternatingRowColors">
+          <bool>true</bool>
+         </property>
          <property name="rootIsDecorated">
           <bool>false</bool>
          </property>

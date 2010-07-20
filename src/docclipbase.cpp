@@ -57,7 +57,9 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QStrin
     if (m_placeHolder) xml.removeAttribute("placeholder");
     QDomNamedNodeMap attributes = xml.attributes();
     for (int i = 0; i < attributes.count(); i++) {
-        m_properties.insert(attributes.item(i).nodeName(), attributes.item(i).nodeValue());
+        QString name = attributes.item(i).nodeName();
+        if (name.startsWith("meta.attr.")) m_metadata.insert(name.section('.', 2, 3), attributes.item(i).nodeValue());
+        else m_properties.insert(name, attributes.item(i).nodeValue());
     }
 
     if (xml.hasAttribute("cutzones")) {
@@ -721,7 +723,11 @@ void DocClipBase::setProperties(QMap <QString, QString> properties)
 
 void DocClipBase::setMetadata(QMap <QString, QString> properties)
 {
-    m_metadata = properties;
+    QMapIterator<QString, QString> i(properties);
+    while (i.hasNext()) {
+        i.next();
+        m_metadata.insert(i.key(), i.value());
+    }
 }
 
 QMap <QString, QString> DocClipBase::metadata() const

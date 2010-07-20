@@ -36,6 +36,8 @@
 
 #include <QGraphicsItemGroup>
 
+#include <KFileMetaInfo>
+
 ClipManager::ClipManager(KdenliveDoc *doc) :
         QObject(),
         m_audioThumbsQueue(),
@@ -292,6 +294,15 @@ void ClipManager::slotAddClipList(const KUrl::List urls, const QString group, co
                 prod.setAttribute("type", (int) IMAGE);
                 prod.setAttribute("in", 0);
                 prod.setAttribute("out", m_doc->getFramePos(KdenliveSettings::image_duration()) - 1);
+                // Read EXIF metadata for JPEG
+                if (type->is("image/jpeg")) {
+                    KFileMetaInfo metaInfo(file.path(), QString("image/jpeg"), KFileMetaInfo::TechnicalInfo);
+                    const QHash<QString, KFileMetaInfoItem> metaInfoItems = metaInfo.items();
+                    foreach(const KFileMetaInfoItem& metaInfoItem, metaInfoItems) {
+                        prod.setAttribute("meta.attr." + metaInfoItem.name().section("#", 1), metaInfoItem.value().toString());
+                    }
+
+                }
             } else if (type->is("application/x-kdenlivetitle")) {
                 // opening a title file
                 QDomDocument txtdoc("titledocument");
@@ -324,6 +335,22 @@ void ClipManager::slotAddClipFile(const KUrl url, const QString group, const QSt
     slotAddClipList(KUrl::List(url), group, groupId);
 }
 
+void ClipManager::slotAddXmlClipFile(const QString name, const QDomElement xml, const QString group, const QString &groupId)
+{
+    QDomDocument doc;
+    doc.appendChild(doc.importNode(xml, true));
+    QDomElement prod = doc.documentElement();
+    prod.setAttribute("type", (int) PLAYLIST);
+    uint id = m_clipIdCounter++;
+    prod.setAttribute("id", QString::number(id));
+    prod.setAttribute("name", name);
+    if (!group.isEmpty()) {
+        prod.setAttribute("groupname", group);
+        prod.setAttribute("groupid", groupId);
+    }
+    AddClipCommand *command = new AddClipCommand(m_doc, doc.documentElement(), QString::number(id), true);
+    m_doc->commandStack()->push(command);
+}
 
 void ClipManager::slotAddColorClipFile(const QString name, const QString color, QString duration, const QString group, const QString &groupId)
 {
