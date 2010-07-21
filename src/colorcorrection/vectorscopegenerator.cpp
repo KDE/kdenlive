@@ -87,7 +87,7 @@ QPoint VectorscopeGenerator::mapToCircle(const QSize &targetSize, const QPointF 
 }
 
 QImage VectorscopeGenerator::calculateVectorscope(const QSize &vectorscopeSize, const QImage &image, const float &gain,
-                                                  const VectorscopeGenerator::PaintMode &paintMode, const bool &drawAxis,
+                                                  const VectorscopeGenerator::PaintMode &paintMode, const bool&,
                                                   const uint &accelFactor) const
 {
     // Prepare the vectorscope data

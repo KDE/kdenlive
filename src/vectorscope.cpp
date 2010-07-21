@@ -388,3 +388,12 @@ void Vectorscope::mouseMoveEvent(QMouseEvent *event)
     m_mousePos = event->pos();
     forceUpdateHUD();
 }
+
+void Vectorscope::leaveEvent(QEvent *event)
+{
+    // Repaint the HUD without the circle
+
+    m_circleEnabled = false;
+    QWidget::leaveEvent(event);
+    forceUpdateHUD();
+}

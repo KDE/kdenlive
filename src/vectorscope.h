@@ -35,6 +35,7 @@ public:
 
 protected:
     void mouseMoveEvent(QMouseEvent *);
+    void leaveEvent(QEvent *);
 
 
     ///// Implemented methods /////
