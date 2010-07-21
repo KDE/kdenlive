@@ -3604,12 +3604,9 @@ void CustomTrackView::razorGroup(AbstractGroupItem* group, GenTime cutPos)
 {
     if (group) {
         QList <QGraphicsItem *> children = group->childItems();
-        QList <ItemInfo> clips1;
-        QList <ItemInfo> transitions1;
-        QList <ItemInfo> clipsCut;
-        QList <ItemInfo> transitionsCut;
-        QList <ItemInfo> clips2;
-        QList <ItemInfo> transitions2;
+        QList <ItemInfo> clips1, transitions1;
+        QList <ItemInfo> clipsCut, transitionsCut;
+        QList <ItemInfo> clips2, transitions2;
         for (int i = 0; i < children.count(); ++i) {
             children.at(i)->setSelected(false);
             AbstractClipItem *child = static_cast <AbstractClipItem *>(children.at(i));
@@ -3629,6 +3626,8 @@ void CustomTrackView::razorGroup(AbstractGroupItem* group, GenTime cutPos)
                     transitionsCut << child->info();
             }
         }
+        if (clipsCut.isEmpty() && transitionsCut.isEmpty() && ((clips1.isEmpty() && transitions1.isEmpty()) || (clips2.isEmpty() && transitions2.isEmpty())))
+            return;
         RazorGroupCommand *command = new RazorGroupCommand(this, clips1, transitions1, clipsCut, transitionsCut, clips2, transitions2, cutPos);
         m_commandStack->push(command);
     }
@@ -3646,12 +3645,14 @@ void CustomTrackView::slotRazorGroup(QList <ItemInfo> clips1, QList <ItemInfo> t
                     clips2 << clipBehind->info();
             }
         }
-        // TODO: cut transitionsCut
+        /* TODO: cut transitionsCut
+         * For now just append them to group1 */
+        transitions1 << transitionsCut;
         doGroupClips(clips1, transitions1, true);
         doGroupClips(clips2, transitions2, true);
     } else {
         /* we might also just use clipsCut.at(0)->parentItem().
-           Do this loop just in case something went wrong during cut */
+         * Do this loop just in case something went wrong during cut */
         for (int i = 0; i < clipsCut.count(); ++i) {
             ClipItem *clip = getClipItemAt(cutPos.frames(m_document->fps()), clipsCut.at(i).track);
             if (clip && clip->parentItem() && clip->parentItem()->type() == GROUPWIDGET) {
