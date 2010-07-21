@@ -8,40 +8,39 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-#ifndef TESTWIDGET_H
-#define TESTWIDGET_H
+#ifndef RGBPARADE_H
+#define RGBPARADE_H
 
-#include <QWidget>
+#include <QObject>
 #include "abstractscopewidget.h"
-#include "ui_testwidget_ui.h"
+#include "ui_rgbparade_ui.h"
 
-class AbstractScopeWidget;
-class TestWidget_UI;
+class Monitor;
+class QImage;
+class RGBParade_UI;
+class RGBParadeGenerator;
 
-class TestWidget : public AbstractScopeWidget {
-    Q_OBJECT
+class RGBParade : public AbstractScopeWidget
+{
 public:
-    TestWidget(Monitor *projMonitor, Monitor *clipMonitor, QWidget *parent = 0);
-    virtual ~TestWidget();
-
+    RGBParade(Monitor *projMonitor, Monitor *clipMonitor, QWidget *parent = 0);
+    ~RGBParade();
     QString widgetName() const;
-
-    /// Implemented methods ///
-    QImage renderHUD(uint accelerationFactor);
-    QImage renderScope(uint accelerationFactor);
-    QImage renderBackground(uint accelerationFactor);
-    bool isHUDDependingOnInput() const;
-    bool isScopeDependingOnInput() const;
-    bool isBackgroundDependingOnInput() const;
 
 protected:
     QRect scopeRect();
 
 private:
-    Ui::TestWidget_UI *ui;
+    Ui::RGBParade_UI *ui;
+    RGBParadeGenerator *m_rgbParadeGenerator;
 
-    QAction *m_aTest;
+    bool isHUDDependingOnInput() const;
+    bool isScopeDependingOnInput() const;
+    bool isBackgroundDependingOnInput() const;
 
+    QImage renderHUD(uint accelerationFactor);
+    QImage renderScope(uint accelerationFactor);
+    QImage renderBackground(uint accelerationFactor);
 };
 
-#endif // TESTWIDGET_H
+#endif // RGBPARADE_H

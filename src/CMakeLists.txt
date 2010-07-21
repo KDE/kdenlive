@@ -93,7 +93,7 @@ kde4_add_ui_files(kdenlive_UI
   widgets/vectorscope_ui.ui
   widgets/colorplaneexport_ui.ui
   widgets/waveform_ui.ui
-  widgets/testwidget_ui.ui
+  widgets/rgbparade_ui.ui
 )
 
 set(kdenlive_SRCS
@@ -201,9 +201,10 @@ set(kdenlive_SRCS
   colortools.cpp
   rebuildgroupcommand.cpp
   waveform.cpp
+  rgbparade.cpp
   colorcorrection/waveformgenerator.cpp
   colorcorrection/vectorscopegenerator.cpp
-  testwidget.cpp
+  colorcorrection/rgbparadegenerator.cpp
   razorgroupcommand.cpp
 )
 

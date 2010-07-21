@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>TestWidget_UI</class>
- <widget class="QWidget" name="TestWidget_UI">
+ <class>RGBParade_UI</class>
+ <widget class="QWidget" name="RGBParade_UI">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,13 +11,30 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>RGB Parade</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0">
-    <widget class="QComboBox" name="comboBox"/>
+   <property name="horizontalSpacing">
+    <number>5</number>
+   </property>
+   <item row="0" column="1">
+    <widget class="QComboBox" name="cbPaintmode">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+    </widget>
    </item>
-   <item row="2" column="0">
+   <item row="0" column="0">
+    <widget class="QLabel" name="lblPaintmode">
+     <property name="text">
+      <string>Paint mode</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -30,7 +47,7 @@
      </property>
     </spacer>
    </item>
-   <item row="1" column="0">
+   <item row="1" column="0" colspan="2">
     <widget class="Line" name="line">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>

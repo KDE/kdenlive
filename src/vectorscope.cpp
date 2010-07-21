@@ -26,7 +26,6 @@
 
 const float P75 = .75;
 const unsigned char DEFAULT_Y = 255;
-//const unsigned int REALTIME_FPS = 15; // in fps.
 
 const QPointF YUV_R(-.147,  .615);
 const QPointF YUV_G(-.289, -.515);
@@ -114,9 +113,7 @@ Vectorscope::~Vectorscope()
     delete m_a75PBox;
 }
 
-QString Vectorscope::widgetName() const {
-    return QString("Vectorscope");
-}
+QString Vectorscope::widgetName() const { return QString("Vectorscope"); }
 
 QRect Vectorscope::scopeRect()
 {
