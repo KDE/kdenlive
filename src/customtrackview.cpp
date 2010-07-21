@@ -868,31 +868,32 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
 
     // Razor tool
     if (m_tool == RAZORTOOL && m_dragItem) {
+        GenTime cutPos = GenTime((int)(mapToScene(event->pos()).x()), m_document->fps());
         if (m_dragItem->type() == TRANSITIONWIDGET) {
             emit displayMessage(i18n("Cannot cut a transition"), ErrorMessage);
-            event->accept();
-            m_dragItem = NULL;
-            return;
-        } else if (m_dragItem->parentItem() && m_dragItem->parentItem() != m_selectionGroup) {
-            emit displayMessage(i18n("Cannot cut a clip in a group"), ErrorMessage);
-            event->accept();
-            m_dragItem = NULL;
-            return;
+        } else {
+            m_document->renderer()->pause();
+            if (m_dragItem->parentItem() && m_dragItem->parentItem() != m_selectionGroup) {
+                razorGroup((AbstractGroupItem *)m_dragItem->parentItem(), cutPos);
+            } else {
+                AbstractClipItem *clip = static_cast <AbstractClipItem *>(m_dragItem);
+                RazorClipCommand* command = new RazorClipCommand(this, clip->info(), cutPos);
+                m_commandStack->push(command);
+            }
+            setDocumentModified();
         }
-        AbstractClipItem *clip = static_cast <AbstractClipItem *>(m_dragItem);
-        RazorClipCommand* command = new RazorClipCommand(this, clip->info(), GenTime((int)(mapToScene(event->pos()).x()), m_document->fps()));
-        m_document->renderer()->pause();
-        m_commandStack->push(command);
-        setDocumentModified();
         m_dragItem = NULL;
         event->accept();
         return;
     }
 
     bool itemSelected = false;
-    if (m_dragItem->isSelected()) itemSelected = true;
-    else if (m_dragItem->parentItem() && m_dragItem->parentItem()->isSelected()) itemSelected = true;
-    else if (dragGroup && dragGroup->isSelected()) itemSelected = true;
+    if (m_dragItem->isSelected())
+        itemSelected = true;
+    else if (m_dragItem->parentItem() && m_dragItem->parentItem()->isSelected())
+        itemSelected = true;
+    else if (dragGroup && dragGroup->isSelected())
+        itemSelected = true;
 
     if (event->modifiers() == Qt::ControlModifier || itemSelected == false) {
         if (event->modifiers() != Qt::ControlModifier) {
@@ -907,8 +908,10 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
             dragGroup = static_cast <AbstractGroupItem *>(m_dragItem->parentItem());
         }
         bool selected = !m_dragItem->isSelected();
-        if (dragGroup) dragGroup->setSelected(selected);
-        else m_dragItem->setSelected(selected);
+        if (dragGroup)
+            dragGroup->setSelected(selected);
+        else 
+            m_dragItem->setSelected(selected);
 
         groupSelectedItems();
         ClipItem *clip = static_cast <ClipItem *>(m_dragItem);
@@ -920,7 +923,9 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         if (m_dragItem && m_dragItem->type() == AVWIDGET && !m_dragItem->isItemLocked()) {
             ClipItem *selected = static_cast <ClipItem*>(m_dragItem);
             emit clipItemSelected(selected);
-        } else emit clipItemSelected(NULL);
+        } else {
+            emit clipItemSelected(NULL);
+        }
     }
 
     // If clicked item is selected, allow move
@@ -931,8 +936,10 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
 
     // Update snap points
     if (m_selectionGroup == NULL) {
-        if (m_operationMode == RESIZEEND || m_operationMode == RESIZESTART) updateSnapPoints(NULL);
-        else updateSnapPoints(m_dragItem);
+        if (m_operationMode == RESIZEEND || m_operationMode == RESIZESTART)
+            updateSnapPoints(NULL);
+        else
+            updateSnapPoints(m_dragItem);
     } else {
         QList <GenTime> offsetList;
         QList<QGraphicsItem *> children = m_selectionGroup->childItems();
@@ -974,8 +981,10 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
             info.endPos = transitionClip->endPos();
         } else {
             GenTime transitionDuration(65, m_document->fps());
-            if (m_dragItem->cropDuration() < transitionDuration) info.endPos = m_dragItem->endPos();
-            else info.endPos = info.startPos + transitionDuration;
+            if (m_dragItem->cropDuration() < transitionDuration)
+                info.endPos = m_dragItem->endPos();
+            else
+                info.endPos = info.startPos + transitionDuration;
         }
         if (info.endPos == info.startPos) info.endPos = info.startPos + GenTime(65, m_document->fps());
         // Check there is no other transition at that place
