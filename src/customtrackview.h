@@ -82,6 +82,7 @@ public:
     void activateMonitor();
     int duration() const;
     void deleteSelectedClips();
+    /** @brief Cuts all clips that are selected at the timeline cursor position. */
     void cutSelectedClips();
     void setContextMenu(QMenu *timeline, QMenu *clip, QMenu *transition, QActionGroup *clipTypeGroup, QMenu *markermenu);
     void checkTrackHeight();

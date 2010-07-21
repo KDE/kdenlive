@@ -1645,7 +1645,6 @@ int Render::mltInsertClip(ItemInfo info, QDomElement element, Mlt::Producer *pro
 
 void Render::mltCutClip(int track, GenTime position)
 {
-
     m_isBlocked = true;
 
     Mlt::Service service(m_mltProducer->parent().get_service());
