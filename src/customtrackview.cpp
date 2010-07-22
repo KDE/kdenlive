@@ -369,7 +369,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
     emit mousePosition(mappedXPos);
 
     if (event->buttons() & Qt::MidButton) return;
-    if (dragMode() == QGraphicsView::RubberBandDrag || (event->modifiers() == Qt::ControlModifier && m_tool != SPACERTOOL)) {
+    if (dragMode() == QGraphicsView::RubberBandDrag || (event->modifiers() == Qt::ControlModifier && m_tool != SPACERTOOL && m_operationMode != RESIZESTART && m_operationMode != RESIZEEND)) {
         event->setAccepted(true);
         m_moveOpMode = NONE;
         QGraphicsView::mouseMoveEvent(event);
@@ -393,7 +393,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
                 }
             } else if (m_operationMode == RESIZESTART && move) {
                 m_document->renderer()->pause();
-                if (m_dragItem->type() == AVWIDGET && m_dragItem->parentItem() && m_dragItem->parentItem() != m_selectionGroup) {
+                if (event->modifiers() != Qt::ControlModifier && m_dragItem->type() == AVWIDGET && m_dragItem->parentItem() && m_dragItem->parentItem() != m_selectionGroup) {
                     AbstractGroupItem *parent = static_cast <AbstractGroupItem *>(m_dragItem->parentItem());
                     if (parent)
                         parent->resizeStart((int)(snappedPos) - m_dragItemInfo.startPos.frames(m_document->fps()));
@@ -402,7 +402,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
                 }
             } else if (m_operationMode == RESIZEEND && move) {
                 m_document->renderer()->pause();
-                if (m_dragItem->type() == AVWIDGET && m_dragItem->parentItem() && m_dragItem->parentItem() != m_selectionGroup) {
+                if (event->modifiers() != Qt::ControlModifier && m_dragItem->type() == AVWIDGET && m_dragItem->parentItem() && m_dragItem->parentItem() != m_selectionGroup) {
                     AbstractGroupItem *parent = static_cast <AbstractGroupItem *>(m_dragItem->parentItem());
                     if (parent)
                         parent->resizeEnd((int)(snappedPos) - m_dragItemInfo.endPos.frames(m_document->fps()));
@@ -3236,7 +3236,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
         m_document->renderer()->doRefresh();
     } else if (m_operationMode == RESIZESTART && m_dragItem->startPos() != m_dragItemInfo.startPos) {
         // resize start
-        if (m_dragItem->type() == AVWIDGET && m_dragItem->parentItem() && m_dragItem->parentItem() != m_selectionGroup) {
+        if (event->modifiers() != Qt::ControlModifier && m_dragItem->type() == AVWIDGET && m_dragItem->parentItem() && m_dragItem->parentItem() != m_selectionGroup) {
             AbstractGroupItem *parent = static_cast <AbstractGroupItem *>(m_dragItem->parentItem());
             if (parent) {
                 QUndoCommand *resizeCommand = new QUndoCommand();
@@ -3260,7 +3260,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
         }
     } else if (m_operationMode == RESIZEEND && m_dragItem->endPos() != m_dragItemInfo.endPos) {
         // resize end
-        if (m_dragItem->type() == AVWIDGET && m_dragItem->parentItem() && m_dragItem->parentItem() != m_selectionGroup) {
+        if (event->modifiers() != Qt::ControlModifier && m_dragItem->type() == AVWIDGET && m_dragItem->parentItem() && m_dragItem->parentItem() != m_selectionGroup) {
             AbstractGroupItem *parent = static_cast <AbstractGroupItem *>(m_dragItem->parentItem());
             if (parent) {
                 QUndoCommand *resizeCommand = new QUndoCommand();
@@ -4201,6 +4201,14 @@ void CustomTrackView::prepareResizeClipStart(AbstractClipItem* item, ItemInfo ol
         KdenliveSettings::setSnaptopoints(snap);
     }
 
+    bool hasParentCommand = false;
+    if (command) {
+        hasParentCommand = true;
+    } else {
+        command = new QUndoCommand();
+        command->setText(i18n("Resize clip start"));
+    }
+
     // do this here, too, because otherwise undo won't update the group
     if (item->parentItem() && item->parentItem() != m_selectionGroup)
         new RebuildGroupCommand(this, item->info().track, item->endPos() - GenTime(1, m_document->fps()), command);
@@ -4211,14 +4219,6 @@ void CustomTrackView::prepareResizeClipStart(AbstractClipItem* item, ItemInfo ol
         resizeinfo.track = m_document->tracksCount() - resizeinfo.track;
         bool success = m_document->renderer()->mltResizeClipStart(resizeinfo, item->startPos() - oldInfo.startPos);
         if (success) {
-            bool hasParentCommand = false;
-            if (command) {
-                hasParentCommand = true;
-            } else {
-                command = new QUndoCommand();
-                command->setText(i18n("Resize clip start"));
-            }
-
             // Check if there is an automatic transition on that clip (lower track)
             Transition *transition = getTransitionItemAtStart(oldInfo.startPos, oldInfo.track);
             if (transition && transition->isAutomatic()) {
@@ -4273,9 +4273,6 @@ void CustomTrackView::prepareResizeClipStart(AbstractClipItem* item, ItemInfo ol
             } else {
                 new ResizeClipCommand(this, oldInfo, info, false, false, command);
             }
-
-            if (!hasParentCommand)
-                m_commandStack->push(command);
         } else {
             KdenliveSettings::setSnaptopoints(false);
             item->resizeStart((int) oldInfo.startPos.frames(m_document->fps()));
@@ -4299,6 +4296,9 @@ void CustomTrackView::prepareResizeClipStart(AbstractClipItem* item, ItemInfo ol
     }
     if (item->parentItem() && item->parentItem() != m_selectionGroup)
         new RebuildGroupCommand(this, item->info().track, item->endPos() - GenTime(1, m_document->fps()), command);
+
+    if (!hasParentCommand)
+        m_commandStack->push(command);
 }
 
 void CustomTrackView::prepareResizeClipEnd(AbstractClipItem* item, ItemInfo oldInfo, int pos, bool check, QUndoCommand *command)
@@ -4318,6 +4318,14 @@ void CustomTrackView::prepareResizeClipEnd(AbstractClipItem* item, ItemInfo oldI
         KdenliveSettings::setSnaptopoints(snap);
     }
 
+    bool hasParentCommand = false;
+    if (command) {
+        hasParentCommand = true;
+    } else {
+        command = new QUndoCommand();
+        command->setText(i18n("Resize clip end"));
+    }
+
     // do this here, too, because otherwise undo won't update the group
     if (item->parentItem() && item->parentItem() != m_selectionGroup)
         new RebuildGroupCommand(this, item->info().track, item->startPos(), command);
@@ -4328,14 +4336,6 @@ void CustomTrackView::prepareResizeClipEnd(AbstractClipItem* item, ItemInfo oldI
         resizeinfo.track = m_document->tracksCount() - resizeinfo.track;
         bool success = m_document->renderer()->mltResizeClipEnd(resizeinfo, resizeinfo.endPos - resizeinfo.startPos);
         if (success) {
-            bool hasParentCommand = false;
-            if (command) {
-                hasParentCommand = true;
-            } else {
-                command = new QUndoCommand();
-                command->setText(i18n("Resize clip end"));
-            }
-
             // Check if there is an automatic transition on that clip (lower track)
             Transition *tr = getTransitionItemAtEnd(oldInfo.endPos, oldInfo.track);
             if (tr && tr->isAutomatic()) {
@@ -4391,8 +4391,6 @@ void CustomTrackView::prepareResizeClipEnd(AbstractClipItem* item, ItemInfo oldI
                 new ResizeClipCommand(this, oldInfo, info, false, false, command);
             }
 
-            if (!hasParentCommand)
-                m_commandStack->push(command);
             updatePositionEffects(clip, oldInfo);
         } else {
             KdenliveSettings::setSnaptopoints(false);
@@ -4416,6 +4414,9 @@ void CustomTrackView::prepareResizeClipEnd(AbstractClipItem* item, ItemInfo oldI
     }
     if (item->parentItem() && item->parentItem() != m_selectionGroup)
         new RebuildGroupCommand(this, item->info().track, item->startPos(), command);
+
+    if (!hasParentCommand)
+        m_commandStack->push(command);
 }
 
 void CustomTrackView::updatePositionEffects(ClipItem * item, ItemInfo info)
