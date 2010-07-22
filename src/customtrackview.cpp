@@ -2969,12 +2969,14 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                         trackTransitionStartList[m_document->tracksCount() - info.track] = info.startPos.frames(m_document->fps());
                 }
             }
-
-            InsertSpaceCommand *command = new InsertSpaceCommand(this, clipsToMove, transitionsToMove, track, timeOffset, false);
-            m_commandStack->push(command);
-            if (track != -1) track = m_document->tracksCount() - track;
-            kDebug() << "SPACER TRACK:" << track;
-            m_document->renderer()->mltInsertSpace(trackClipStartList, trackTransitionStartList, track, timeOffset, GenTime());
+            if (!clipsToMove.isEmpty() || !transitionsToMove.isEmpty()) {
+                InsertSpaceCommand *command = new InsertSpaceCommand(this, clipsToMove, transitionsToMove, track, timeOffset, false);
+                m_commandStack->push(command);
+                if (track != -1) track = m_document->tracksCount() - track;
+                kDebug() << "SPACER TRACK:" << track;
+                m_document->renderer()->mltInsertSpace(trackClipStartList, trackTransitionStartList, track, timeOffset, GenTime());
+                setDocumentModified();
+            }
         }
         resetSelectionGroup(false);
         m_operationMode = NONE;
@@ -3137,6 +3139,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                     adjustTimelineTransitions(m_scene->editMode(), transition, moveCommand);
                     new MoveTransitionCommand(this, m_dragItemInfo, info, false, moveCommand);
                     m_commandStack->push(moveCommand);
+                    setDocumentModified();
                 }
             }
         } else {
