@@ -343,6 +343,8 @@ signals:
      *
      * Used in Mac OS X. */
     void showImageSignal(QImage);
+    /** @brief The renderer refreshed the current frame, but no seeking was done. */
+    void frameUpdated(int);
 
 public slots:
 

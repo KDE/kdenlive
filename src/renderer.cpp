@@ -1430,7 +1430,10 @@ const QString & Render::rendererName() const
 
 void Render::emitFrameNumber(double position)
 {
-    if (position == m_framePosition) return;
+    if (position == m_framePosition) {
+        emit frameUpdated((int) position);
+        return;
+    }
     m_framePosition = position;
     emit rendererPosition((int) position);
 }
