@@ -600,8 +600,12 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
             }
         } else if (opMode == RESIZESTART) {
             setCursor(KCursor("left_side", Qt::SizeHorCursor));
+            if (item->type() == AVWIDGET && item->parentItem() && item->parentItem() != m_selectionGroup)
+                emit displayMessage(i18n("Use Ctrl to resize only current item, otherwise all items in this group will be resized at once."), InformationMessage);
         } else if (opMode == RESIZEEND) {
             setCursor(KCursor("right_side", Qt::SizeHorCursor));
+            if (item->type() == AVWIDGET && item->parentItem() && item->parentItem() != m_selectionGroup)
+                emit displayMessage(i18n("Use Ctrl to resize only current item, otherwise all items in this group will be resized at once."), InformationMessage);
         } else if (opMode == FADEIN || opMode == FADEOUT) {
             setCursor(Qt::PointingHandCursor);
             emit displayMessage(i18n("Drag to add or resize a fade effect."), InformationMessage);
