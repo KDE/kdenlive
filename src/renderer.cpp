@@ -2231,14 +2231,23 @@ bool Render::mltRemoveEffect(int track, GenTime position, QString index, bool up
     Mlt::Tractor tractor(service);
     Mlt::Producer trackProducer(tractor.track(track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
-    //int clipIndex = trackPlaylist.get_clip_index_at(position.frames(m_fps));
-    Mlt::Producer *clip = trackPlaylist.get_clip_at((int) position.frames(m_fps));
+
+    int clipIndex = trackPlaylist.get_clip_index_at((int) position.frames(m_fps));
+    Mlt::Producer *clip = trackPlaylist.get_clip(clipIndex);
     if (!clip) {
         kDebug() << " / / / CANNOT FIND CLIP TO REMOVE EFFECT";
-        return success;
+        return false;
     }
+
     Mlt::Service clipService(clip->get_service());
+    int duration = clip->get_playtime();
+    if (doRefresh) {
+        // Check if clip is visible in monitor
+        int diff = trackPlaylist.clip_start(clipIndex) + duration - m_mltProducer->position();
+        if (diff < 0 || diff > duration) doRefresh = false;
+    }
     delete clip;
+
 //    if (tag.startsWith("ladspa")) tag = "ladspa";
     m_isBlocked = true;
     int ct = 0;
@@ -2269,14 +2278,21 @@ bool Render::mltAddEffect(int track, GenTime position, EffectsParameterList para
     Mlt::Producer trackProducer(tractor.track(track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
 
-    Mlt::Producer *clip = trackPlaylist.get_clip_at((int) position.frames(m_fps));
+    int clipIndex = trackPlaylist.get_clip_index_at((int) position.frames(m_fps));
+    Mlt::Producer *clip = trackPlaylist.get_clip(clipIndex);
     if (!clip) {
         return false;
     }
+
     Mlt::Service clipService(clip->get_service());
     m_isBlocked = true;
     int duration = clip->get_playtime();
     bool updateIndex = false;
+    if (doRefresh) {
+        // Check if clip is visible in monitor
+        int diff = trackPlaylist.clip_start(clipIndex) + duration - m_mltProducer->position();
+        if (diff < 0 || diff > duration) doRefresh = false;
+    }
     delete clip;
 
     const int filter_ix = params.paramValue("kdenlive_ix").toInt();
@@ -2462,17 +2478,23 @@ bool Render::mltEditEffect(int track, GenTime position, EffectsParameterList par
 
     // find filter
     Mlt::Service service(m_mltProducer->parent().get_service());
-
     Mlt::Tractor tractor(service);
     Mlt::Producer trackProducer(tractor.track(track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
-    //int clipIndex = trackPlaylist.get_clip_index_at(position.frames(m_fps));
-    Mlt::Producer *clip = trackPlaylist.get_clip_at((int) position.frames(m_fps));
+
+    int clipIndex = trackPlaylist.get_clip_index_at((int) position.frames(m_fps));
+    Mlt::Producer *clip = trackPlaylist.get_clip(clipIndex);
     if (!clip) {
         kDebug() << "WARINIG, CANNOT FIND CLIP ON track: " << track << ", AT POS: " << position.frames(m_fps);
         return false;
     }
+
     Mlt::Service clipService(clip->get_service());
+    int duration = clip->get_playtime();
+    bool doRefresh = true;
+    // Check if clip is visible in monitor
+    int diff = trackPlaylist.clip_start(clipIndex) + duration - m_mltProducer->position();
+    if (diff < 0 || diff > duration) doRefresh = false;
     delete clip;
     m_isBlocked = true;
     int ct = 0;
@@ -2518,7 +2540,7 @@ bool Render::mltEditEffect(int track, GenTime position, EffectsParameterList par
     mlt_service_unlock(service.get_service());
 
     m_isBlocked = false;
-    refresh();
+    if (doRefresh) refresh();
     return true;
 }
 
