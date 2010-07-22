@@ -62,23 +62,19 @@ AbstractScopeWidget::AbstractScopeWidget(Monitor *projMonitor, Monitor *clipMoni
 
     this->setContextMenuPolicy(Qt::CustomContextMenu);
 
-    if (m_projMonitor->isActive()) {
-        m_activeRender = m_projMonitor->render;
-    } else {
-        m_activeRender = m_clipMonitor->render;
-    }
+    m_activeRender = (m_clipMonitor->isActive()) ? m_clipMonitor->render : m_projMonitor->render;
 
     bool b = true;
-
     b &= connect(this, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(customContextMenuRequested(QPoint)));
 
     b &= connect(m_activeRender, SIGNAL(rendererPosition(int)), this, SLOT(slotRenderZoneUpdated()));
+    b &= connect(m_activeRender, SIGNAL(frameUpdated(int)), this, SLOT(slotRenderZoneUpdated()));
+
     b &= connect(this, SIGNAL(signalHUDRenderingFinished(uint,uint)), this, SLOT(slotHUDRenderingFinished(uint,uint)));
     b &= connect(this, SIGNAL(signalScopeRenderingFinished(uint,uint)), this, SLOT(slotScopeRenderingFinished(uint,uint)));
     b &= connect(this, SIGNAL(signalBackgroundRenderingFinished(uint,uint)), this, SLOT(slotBackgroundRenderingFinished(uint,uint)));
     b &= connect(m_aRealtime, SIGNAL(toggled(bool)), this, SLOT(slotResetRealtimeFactor(bool)));
     b &= connect(m_aAutoRefresh, SIGNAL(toggled(bool)), this, SLOT(slotAutoRefreshToggled(bool)));
-
     Q_ASSERT(b);
 }
 
@@ -331,8 +327,10 @@ void AbstractScopeWidget::slotActiveMonitorChanged(bool isClipMonitor)
 
     m_activeRender = (isClipMonitor) ? m_clipMonitor->render : m_projMonitor->render;
 
-    connect(m_activeRender, SIGNAL(rendererPosition(int)), this, SLOT(slotRenderZoneUpdated()));
-    connect(m_activeRender, SIGNAL(rendererPositionBefore0()), this, SLOT(slotRenderZoneUpdated()));
+    bool b = true;
+    b &= connect(m_activeRender, SIGNAL(rendererPosition(int)), this, SLOT(slotRenderZoneUpdated()));
+    b &= connect(m_activeRender, SIGNAL(frameUpdated(int)), this, SLOT(slotRenderZoneUpdated()));
+    Q_ASSERT(b);
 
     // Update the scope for the new monitor.
     prodHUDThread();
