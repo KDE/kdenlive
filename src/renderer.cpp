@@ -2553,14 +2553,22 @@ void Render::mltUpdateEffectPosition(int track, GenTime position, int oldPos, in
     Mlt::Tractor tractor(service);
     Mlt::Producer trackProducer(tractor.track(track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
-    //int clipIndex = trackPlaylist.get_clip_index_at(position.frames(m_fps));
-    Mlt::Producer *clip = trackPlaylist.get_clip_at((int) position.frames(m_fps));
+
+    int clipIndex = trackPlaylist.get_clip_index_at((int) position.frames(m_fps));
+    Mlt::Producer *clip = trackPlaylist.get_clip(clipIndex);
     if (!clip) {
         kDebug() << "WARINIG, CANNOT FIND CLIP ON track: " << track << ", AT POS: " << position.frames(m_fps);
         return;
     }
+
     Mlt::Service clipService(clip->get_service());
+    int duration = clip->get_playtime();
+    bool doRefresh = true;
+    // Check if clip is visible in monitor
+    int diff = trackPlaylist.clip_start(clipIndex) + duration - m_mltProducer->position();
+    if (diff < 0 || diff > duration) doRefresh = false;
     delete clip;
+
     m_isBlocked = true;
     int ct = 0;
     Mlt::Filter *filter = clipService.filter(ct);
@@ -2573,7 +2581,7 @@ void Render::mltUpdateEffectPosition(int track, GenTime position, int oldPos, in
     }
 
     m_isBlocked = false;
-    refresh();
+    if (doRefresh) refresh();
 }
 
 void Render::mltMoveEffect(int track, GenTime position, int oldPos, int newPos)
@@ -2585,14 +2593,22 @@ void Render::mltMoveEffect(int track, GenTime position, int oldPos, int newPos)
     Mlt::Tractor tractor(service);
     Mlt::Producer trackProducer(tractor.track(track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
-    //int clipIndex = trackPlaylist.get_clip_index_at(position.frames(m_fps));
-    Mlt::Producer *clip = trackPlaylist.get_clip_at((int) position.frames(m_fps));
+
+    int clipIndex = trackPlaylist.get_clip_index_at((int) position.frames(m_fps));
+    Mlt::Producer *clip = trackPlaylist.get_clip(clipIndex);
     if (!clip) {
         kDebug() << "WARINIG, CANNOT FIND CLIP ON track: " << track << ", AT POS: " << position.frames(m_fps);
         return;
     }
+
     Mlt::Service clipService(clip->get_service());
+    int duration = clip->get_playtime();
+    bool doRefresh = true;
+    // Check if clip is visible in monitor
+    int diff = trackPlaylist.clip_start(clipIndex) + duration - m_mltProducer->position();
+    if (diff < 0 || diff > duration) doRefresh = false;
     delete clip;
+
     m_isBlocked = true;
     int ct = 0;
     QList <Mlt::Filter *> filtersList;
@@ -2646,7 +2662,7 @@ void Render::mltMoveEffect(int track, GenTime position, int oldPos, int newPos)
     }
 
     m_isBlocked = false;
-    refresh();
+    if (doRefresh) refresh();
 }
 
 bool Render::mltResizeClipEnd(ItemInfo info, GenTime clipDuration)
@@ -3041,10 +3057,21 @@ bool Render::mltMoveTransition(QString type, int startTrack, int newTrack, int n
     int new_in = (int)newIn.frames(m_fps);
     int new_out = (int)newOut.frames(m_fps) - 1;
     if (new_in >= new_out) return false;
+    int old_in = (int)oldIn.frames(m_fps);
+    int old_out = (int)oldOut.frames(m_fps) - 1;
 
     Mlt::Service service(m_mltProducer->parent().get_service());
     Mlt::Tractor tractor(service);
     Mlt::Field *field = tractor.field();
+
+    bool doRefresh = true;
+    // Check if clip is visible in monitor
+    int diff = old_out - m_mltProducer->position();
+    if (diff < 0 || diff > old_out - old_in) doRefresh = false;
+    if (doRefresh) {
+        diff = new_out - m_mltProducer->position();
+        if (diff < 0 || diff > new_out - new_in) doRefresh = false;
+    }
 
     m_isBlocked++;
     mlt_service_lock(service.get_service());
@@ -3053,7 +3080,7 @@ bool Render::mltMoveTransition(QString type, int startTrack, int newTrack, int n
     mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
     QString mlt_type = mlt_properties_get(properties, "mlt_type");
     QString resource = mlt_properties_get(properties, "mlt_service");
-    int old_pos = (int)(oldIn.frames(m_fps) + oldOut.frames(m_fps)) / 2;
+    int old_pos = (int)(old_in + old_out) / 2;
     bool found = false;
 
     while (mlt_type == "transition") {
@@ -3086,7 +3113,7 @@ bool Render::mltMoveTransition(QString type, int startTrack, int newTrack, int n
     }
     mlt_service_unlock(service.get_service());
     m_isBlocked--;
-    refresh();
+    if (doRefresh) refresh();
     //if (m_isBlocked == 0) m_mltConsumer->set("refresh", 1);
     return found;
 }
@@ -3139,8 +3166,8 @@ void Render::mltUpdateTransition(QString oldTag, QString tag, int a_track, int b
         mltDeleteTransition(oldTag, a_track, b_track, in, out, xml, false);
         mltAddTransition(tag, a_track, b_track, in, out, xml, false);
     }
-    refresh();
-    //mltSavePlaylist();
+
+    if (m_mltProducer->position() > in.frames(m_fps) && m_mltProducer->position() < out.frames(m_fps)) refresh();
 }
 
 void Render::mltUpdateTransitionParams(QString type, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml)
@@ -3435,6 +3462,8 @@ bool Render::mltAddTransition(QString tag, int a_track, int b_track, GenTime in,
     Mlt::Transition *transition = new Mlt::Transition(*m_mltProfile, transId);
     if (out != GenTime())
         transition->set_in_and_out((int) in.frames(m_fps), (int) out.frames(m_fps) - 1);
+
+    if (do_refresh && (m_mltProducer->position() < in.frames(m_fps) || m_mltProducer->position() > out.frames(m_fps))) do_refresh = false;
     QMap<QString, QString>::Iterator it;
     QString key;
     if (xml.attribute("automatic") == "1") transition->set("automatic", 1);
