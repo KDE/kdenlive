@@ -132,6 +132,11 @@
       <default>#999999</default>
     </entry>
 
+    <entry name="volume" type="Int">
+      <label>Volume used for SDL output.</label>
+      <default>100</default>
+    </entry>
+
     <entry name="dropbframes" type="Bool">
       <label>Drop B Frames on H.264 clips for faster playback (For monitor preview only).</label>
       <default>false</default>

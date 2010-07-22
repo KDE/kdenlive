@@ -1,86 +1,80 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>ConfigSdl_UI</class>
- <widget class="QWidget" name="ConfigSdl_UI" >
-  <property name="geometry" >
+ <widget class="QWidget" name="ConfigSdl_UI">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>358</width>
-    <height>217</height>
+    <width>352</width>
+    <height>239</height>
    </rect>
   </property>
-  <layout class="QGridLayout" name="gridLayout_2" >
-   <item row="0" column="0" colspan="3" >
-    <widget class="QLabel" name="label_2" >
-     <property name="text" >
+  <layout class="QGridLayout" name="gridLayout_2">
+   <item row="0" column="0" colspan="3">
+    <widget class="QLabel" name="label_2">
+     <property name="text">
       <string>Warning: changes to the drivers and devices can make Kdenlive unstable. Change only if you know what you do.</string>
      </property>
-     <property name="wordWrap" >
+     <property name="wordWrap">
       <bool>true</bool>
      </property>
     </widget>
    </item>
-   <item row="1" column="0" >
-    <widget class="QLabel" name="textLabel1_2_2" >
-     <property name="sizePolicy" >
-      <sizepolicy vsizetype="Preferred" hsizetype="Maximum" >
+   <item row="1" column="0">
+    <widget class="QLabel" name="textLabel1_2_2">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <property name="text" >
+     <property name="text">
       <string>Video driver:</string>
      </property>
-     <property name="wordWrap" >
+     <property name="wordWrap">
       <bool>false</bool>
      </property>
     </widget>
    </item>
-   <item row="1" column="1" colspan="2" >
-    <widget class="KComboBox" name="kcfg_video_driver" />
+   <item row="1" column="1" colspan="2">
+    <widget class="KComboBox" name="kcfg_video_driver"/>
    </item>
-   <item row="2" column="0" >
-    <widget class="QLabel" name="textLabel1_2" >
-     <property name="sizePolicy" >
-      <sizepolicy vsizetype="Preferred" hsizetype="Maximum" >
+   <item row="2" column="0">
+    <widget class="QLabel" name="textLabel1_2">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <property name="text" >
+     <property name="text">
       <string>Audio driver:</string>
      </property>
-     <property name="wordWrap" >
+     <property name="wordWrap">
       <bool>false</bool>
      </property>
     </widget>
    </item>
-   <item row="2" column="1" colspan="2" >
-    <widget class="KComboBox" name="kcfg_audio_driver" />
+   <item row="2" column="1" colspan="2">
+    <widget class="KComboBox" name="kcfg_audio_driver"/>
    </item>
-   <item row="3" column="0" >
-    <widget class="QLabel" name="textLabel1" >
-     <property name="text" >
+   <item row="3" column="0">
+    <widget class="QLabel" name="textLabel1">
+     <property name="text">
       <string>Audio device:</string>
      </property>
-     <property name="wordWrap" >
+     <property name="wordWrap">
       <bool>false</bool>
      </property>
     </widget>
    </item>
-   <item row="3" column="1" colspan="2" >
-    <widget class="KComboBox" name="kcfg_audio_device" />
+   <item row="3" column="1" colspan="2">
+    <widget class="KComboBox" name="kcfg_audio_device"/>
    </item>
-   <item row="4" column="0" colspan="2" >
-    <widget class="QLabel" name="label" >
-     <property name="text" >
-      <string>Monitor background color (requires restart)</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="2" >
-    <widget class="KColorButton" name="kcfg_window_background" >
-     <property name="defaultColor" >
+   <item row="5" column="2">
+    <widget class="KColorButton" name="kcfg_window_background">
+     <property name="defaultColor">
       <color>
        <red>180</red>
        <green>180</green>
@@ -89,28 +83,12 @@
      </property>
     </widget>
    </item>
-   <item row="5" column="0" colspan="3" >
-    <widget class="QGroupBox" name="groupBox" >
-     <property name="title" >
-      <string>Monitor Preview Speedup Settings</string>
-     </property>
-     <layout class="QGridLayout" name="gridLayout" >
-      <item row="0" column="0" >
-       <widget class="QCheckBox" name="kcfg_dropbframes" >
-        <property name="text" >
-         <string>Drop B frames on H.264 clips</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="6" column="1" colspan="2" >
-    <spacer name="verticalSpacer" >
-     <property name="orientation" >
+   <item row="8" column="1" colspan="2">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
-     <property name="sizeHint" stdset="0" >
+     <property name="sizeHint" stdset="0">
       <size>
        <width>20</width>
        <height>0</height>
@@ -118,18 +96,61 @@
      </property>
     </spacer>
    </item>
+   <item row="7" column="0" colspan="3">
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>Monitor Preview Speedup Settings</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0">
+       <widget class="QCheckBox" name="kcfg_dropbframes">
+        <property name="text">
+         <string>Drop B frames on H.264 clips</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="5" column="0" colspan="2">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>Monitor background color:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0" colspan="2">
+    <widget class="QLabel" name="label_3">
+     <property name="text">
+      <string>Preview volume:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="2">
+    <widget class="QSpinBox" name="kcfg_volume">
+     <property name="suffix">
+      <string>%</string>
+     </property>
+     <property name="maximum">
+      <number>200</number>
+     </property>
+     <property name="value">
+      <number>100</number>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KColorButton</class>
-   <extends>QPushButton</extends>
-   <header>kcolorbutton.h</header>
-  </customwidget>
-  <customwidget>
    <class>KComboBox</class>
    <extends>QComboBox</extends>
    <header>kcombobox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KColorButton</class>
+   <extends>QPushButton</extends>
+   <header>kcolorbutton.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

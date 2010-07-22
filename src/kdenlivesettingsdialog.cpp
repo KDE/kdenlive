@@ -477,6 +477,16 @@ void KdenliveSettingsDialog::updateSettings()
         resetProfile = true;
     }
 
+    if (m_configSdl.kcfg_window_background->color() != KdenliveSettings::window_background()) {
+        KdenliveSettings::setWindow_background(m_configSdl.kcfg_window_background->color());
+        resetProfile = true;
+    }
+
+    if (m_configSdl.kcfg_volume->value() != KdenliveSettings::volume()) {
+        KdenliveSettings::setVolume(m_configSdl.kcfg_volume->value());
+        resetProfile = true;
+    }
+
     bool updatePreview = false;
     if (m_configSdl.kcfg_dropbframes->isChecked() != KdenliveSettings::dropbframes()) {
         KdenliveSettings::setDropbframes(m_configSdl.kcfg_dropbframes->isChecked());

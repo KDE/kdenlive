@@ -230,6 +230,8 @@ void Render::buildConsumer(const QString profileName)
         delete[] tmp;
     }
 
+    int volume = KdenliveSettings::volume();
+    m_mltConsumer->set("volume", (float)volume / 100);
 
     m_mltConsumer->set("progressive", 1);
     m_mltConsumer->set("audio_buffer", 1024);
@@ -257,7 +259,11 @@ int Render::resetProfile(const QString profileName)
         QString videoDriver = KdenliveSettings::videodrivername();
         QString currentDriver = m_mltConsumer->get("video_driver");
         if (getenv("SDL_VIDEO_YUV_HWACCEL") != NULL && currentDriver == "x11") currentDriver = "x11_noaccel";
-        if (m_activeProfile == profileName && currentDriver == videoDriver) {
+        QString background = KdenliveSettings::window_background().name();
+        QString currentBackground = m_mltConsumer->get("window_background");
+        int volume = KdenliveSettings::volume();
+        int currentVolume = (int)(QString(m_mltConsumer->get("volume")).toDouble() * 100.0);
+        if (m_activeProfile == profileName && currentDriver == videoDriver && volume == currentVolume && background == currentBackground) {
             kDebug() << "reset to same profile, nothing to do";
             return 1;
         }
