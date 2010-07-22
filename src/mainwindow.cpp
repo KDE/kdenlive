@@ -433,6 +433,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
     connect(m_monitorManager, SIGNAL(raiseClipMonitor(bool)), m_vectorscope, SLOT(slotActiveMonitorChanged(bool)));
     connect(m_monitorManager, SIGNAL(raiseClipMonitor(bool)), m_waveform, SLOT(slotActiveMonitorChanged(bool)));
     connect(m_monitorManager, SIGNAL(raiseClipMonitor(bool)), m_RGBParade, SLOT(slotActiveMonitorChanged(bool)));
+    connect(m_monitorManager, SIGNAL(raiseClipMonitor(bool)), m_levels, SLOT(slotActiveMonitorChanged(bool)));
     connect(m_effectList, SIGNAL(addEffect(const QDomElement)), this, SLOT(slotAddEffect(const QDomElement)));
     connect(m_effectList, SIGNAL(reloadEffects()), this, SLOT(slotReloadEffects()));
 
@@ -3621,6 +3622,7 @@ void MainWindow::slotShowTitleBars(bool show)
         m_vectorscopeDock->setTitleBarWidget(0);
         m_waveformDock->setTitleBarWidget(0);
         m_RGBParadeDock->setTitleBarWidget(0);
+        m_levelsDock->setTitleBarWidget(0);
     } else {
         if (!m_effectStackDock->isFloating()) { m_effectStackDock->setTitleBarWidget(new QWidget(this)); }
         if (!m_clipMonitorDock->isFloating()) { m_clipMonitorDock->setTitleBarWidget(new QWidget(this)); }
@@ -3635,6 +3637,7 @@ void MainWindow::slotShowTitleBars(bool show)
         if (!m_vectorscopeDock->isFloating()) { m_vectorscopeDock->setTitleBarWidget(new QWidget(this)); }
         if (!m_waveformDock->isFloating()) { m_waveformDock->setTitleBarWidget(new QWidget(this)); }
         if (!m_RGBParadeDock->isFloating()) { m_RGBParadeDock->setTitleBarWidget(new QWidget(this)); }
+        if (!m_levelsDock->isFloating()) { m_levelsDock->setTitleBarWidget(new QWidget(this)); }
     }
     KdenliveSettings::setShowtitlebars(show);
 }

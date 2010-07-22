@@ -520,13 +520,17 @@ void Monitor::checkOverlay()
     if (m_overlay == NULL) return;
     int pos = render->seekFramePosition();
     QPoint zone = m_ruler->zone();
-    if (pos == zone.x()) m_overlay->setOverlayText(i18n("In Point"));
-    else if (pos == zone.y()) m_overlay->setOverlayText(i18n("Out Point"));
+    if (pos == zone.x())
+        m_overlay->setOverlayText(i18n("In Point"));
+    else if (pos == zone.y())
+        m_overlay->setOverlayText(i18n("Out Point"));
     else {
         if (m_currentClip) {
             QString markerComment = m_currentClip->markerComment(GenTime(pos, m_monitorManager->timecode().fps()));
-            if (markerComment.isEmpty()) m_overlay->setHidden(true);
-            else m_overlay->setOverlayText(markerComment, false);
+            if (markerComment.isEmpty())
+                m_overlay->setHidden(true);
+            else
+                m_overlay->setOverlayText(markerComment, false);
         } else m_overlay->setHidden(true);
     }
 }
