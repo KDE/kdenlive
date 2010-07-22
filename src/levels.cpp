@@ -8,6 +8,7 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
+#include <QMenu>
 #include <QTime>
 #include "levelsgenerator.h"
 #include "levels.h"
@@ -24,17 +25,26 @@ Levels::Levels(Monitor *projMonitor, Monitor *clipMonitor, QWidget *parent) :
     ui->cbG->setChecked(true);
     ui->cbB->setChecked(true);
 
+
+    m_aUnscaled = new QAction(i18n("Unscaled"), this);
+    m_aUnscaled->setCheckable(true);
+    m_menu->addSeparator();
+    m_menu->addAction(m_aUnscaled);
+
     bool b = true;
     b &= connect(ui->cbY, SIGNAL(toggled(bool)), this, SLOT(forceUpdateScope()));
     b &= connect(ui->cbR, SIGNAL(toggled(bool)), this, SLOT(forceUpdateScope()));
     b &= connect(ui->cbG, SIGNAL(toggled(bool)), this, SLOT(forceUpdateScope()));
     b &= connect(ui->cbB, SIGNAL(toggled(bool)), this, SLOT(forceUpdateScope()));
+    b &= connect(m_aUnscaled, SIGNAL(toggled(bool)), this, SLOT(forceUpdateScope()));
     Q_ASSERT(b);
+
 }
 
 Levels::~Levels()
 {
     delete ui;
+    delete m_aUnscaled;
 }
 
 QString Levels::widgetName() const { return QString("Levels"); }
@@ -66,9 +76,9 @@ QImage Levels::renderScope(uint accelFactor)
                                | (ui->cbB->isChecked() ? 1 : 0) * LevelsGenerator::ComponentB;
 
     QImage levels = m_levelsGenerator->calculateLevels(m_scopeRect.size(), m_activeRender->extractFrame(m_activeRender->seekFramePosition()),
-                                                       componentFlags, false, accelFactor);
+                                                       componentFlags, m_aUnscaled->isChecked(), accelFactor);
 
-    emit signalScopeRenderingFinished(0, 1);
+    emit signalScopeRenderingFinished(start.elapsed(), accelFactor);
     return levels;
 }
 QImage Levels::renderBackground(uint)

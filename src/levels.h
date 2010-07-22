@@ -27,6 +27,7 @@ public:
 
 private:
     LevelsGenerator *m_levelsGenerator;
+    QAction *m_aUnscaled;
 
     QRect scopeRect();
     bool isHUDDependingOnInput() const;
