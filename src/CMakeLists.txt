@@ -94,6 +94,7 @@ kde4_add_ui_files(kdenlive_UI
   widgets/colorplaneexport_ui.ui
   widgets/waveform_ui.ui
   widgets/rgbparade_ui.ui
+  widgets/levels_ui.ui
 )
 
 set(kdenlive_SRCS
@@ -196,15 +197,17 @@ set(kdenlive_SRCS
   tracksconfigdialog.cpp
   configtrackscommand.cpp
   abstractscopewidget.cpp
+  rebuildgroupcommand.cpp
+  levels.cpp
+  rgbparade.cpp
   vectorscope.cpp
+  waveform.cpp
   colorplaneexport.cpp
   colortools.cpp
-  rebuildgroupcommand.cpp
-  waveform.cpp
-  rgbparade.cpp
-  colorcorrection/waveformgenerator.cpp
-  colorcorrection/vectorscopegenerator.cpp
+  colorcorrection/levelsgenerator.cpp
   colorcorrection/rgbparadegenerator.cpp
+  colorcorrection/vectorscopegenerator.cpp
+  colorcorrection/waveformgenerator.cpp
   razorgroupcommand.cpp
 )
 

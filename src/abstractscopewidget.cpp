@@ -216,10 +216,12 @@ void AbstractScopeWidget::paintEvent(QPaintEvent *)
         initialDimensionUpdateDone = true;
     }
 
+    qDebug() << "Drawing top/left at " << m_scopeRect.topLeft().x() << "/" << m_scopeRect.topLeft().y();
+
     QPainter davinci(this);
-    davinci.drawImage(scopeRect().topLeft(), m_imgBackground);
-    davinci.drawImage(scopeRect().topLeft(), m_imgScope);
-    davinci.drawImage(scopeRect().topLeft(), m_imgHUD);
+    davinci.drawImage(m_scopeRect.topLeft(), m_imgBackground);
+    davinci.drawImage(m_scopeRect.topLeft(), m_imgScope);
+    davinci.drawImage(m_scopeRect.topLeft(), m_imgHUD);
 }
 
 void AbstractScopeWidget::customContextMenuRequested(const QPoint &pos)

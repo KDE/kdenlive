@@ -97,7 +97,9 @@ protected:
     /** Offset from the widget's borders */
     const uchar offset;
 
-    /** The rect on the widget we're painting in. */
+    /** The rect on the widget we're painting in.
+        Can be used by the implementing widget, e.g. in the render methods.
+        Is updated when necessary (size changes). */
     QRect m_scopeRect;
 
     /** Images storing the calculated layers. Will be used on repaint events. */

@@ -55,6 +55,7 @@
 #include "vectorscope.h"
 #include "waveform.h"
 #include "rgbparade.h"
+#include "levels.h"
 
 #include <KApplication>
 #include <KAction>
@@ -233,6 +234,12 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
     m_RGBParadeDock->setWidget(m_RGBParade);
     addDockWidget(Qt::TopDockWidgetArea, m_RGBParadeDock);
 
+    m_levels = new Levels(m_projectMonitor, m_clipMonitor, this);
+    m_levelsDock = new QDockWidget("Levels", this);
+    m_levelsDock->setObjectName(m_levels->widgetName());
+    m_levelsDock->setWidget(m_levels);
+    addDockWidget(Qt::TopDockWidgetArea, m_levelsDock);
+
 
     m_undoViewDock = new QDockWidget(i18n("Undo History"), this);
     m_undoViewDock->setObjectName("undo_history");
@@ -264,6 +271,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
 
     tabifyDockWidget(m_vectorscopeDock, m_waveformDock);
     tabifyDockWidget(m_vectorscopeDock, m_RGBParadeDock);
+    tabifyDockWidget(m_vectorscopeDock, m_levelsDock);
     tabifyDockWidget(m_vectorscopeDock, m_undoViewDock);
     tabifyDockWidget(m_vectorscopeDock, m_effectListDock);
 
