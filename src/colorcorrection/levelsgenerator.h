@@ -13,15 +13,31 @@
 
 #include <QObject>
 
+class QColor;
 class QImage;
+class QPainter;
+class QRect;
 class QSize;
 
 class LevelsGenerator : public QObject
 {
 public:
     LevelsGenerator();
-    QImage calculateLevels(const QSize &paradeSize, const QImage &image, const int &components, const uint &accelFactor = 1) const;
+
+    /**
+        Calculates a levels display from the input image.
+        components are OR-ed LevelsGenerator::Components flags and decide with components (Y, R, G, B) to paint.
+        unscaled = true leaves the width at 256 if the widget is wider (to avoid scaling). */
+    QImage calculateLevels(const QSize &paradeSize, const QImage &image, const int &components, const bool &unscaled,
+                           const uint &accelFactor = 1) const;
+
+    QImage drawComponent(const int *y, const QSize &size, const float &scaling, const QColor &color, const bool &unscaled) const;
+
+    void drawComponentFull(QPainter *davinci, const int *y, const float &scaling, const QRect &rect,
+                           const QColor &color, const int &textSpace, const bool &unscaled) const;
+
     enum Components { ComponentY = 1<<0, ComponentR = 1<<1, ComponentG = 1<<2, ComponentB = 1<<3 };
+
 };
 
 #endif // LEVELSGENERATOR_H

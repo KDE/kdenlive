@@ -19,7 +19,8 @@ LevelsGenerator::LevelsGenerator()
 {
 }
 
-QImage LevelsGenerator::calculateLevels(const QSize &paradeSize, const QImage &image, const int &components, const uint &accelFactor) const
+QImage LevelsGenerator::calculateLevels(const QSize &paradeSize, const QImage &image, const int &components,
+                                        const bool &unscaled, const uint &accelFactor) const
 {
     qDebug() << "Levels rect size is: " << paradeSize.width() << "/" << paradeSize.height();
     if (paradeSize.height() <= 0 || paradeSize.width() <= 0) {
@@ -69,104 +70,102 @@ QImage LevelsGenerator::calculateLevels(const QSize &paradeSize, const QImage &i
     }
 
     const int d = 20; // Distance for text
-    const int partH = (wh-4*d)/nParts;
+    const int partH = (wh-nParts*d)/nParts;
     const float scaling = (float)partH/(byteCount >> 7);
+    const int dist = 40;
 
     int wy = 0; // Drawing position
-    int partY; // Vertical position for the dots
 
     QImage levels(paradeSize, QImage::Format_ARGB32);
-    QImage component(256, partH, QImage::Format_ARGB32);
     QPainter davinci(&levels);
+    davinci.setPen(QColor(220, 220, 220, 255));
     levels.fill(qRgba(0, 0, 0, 0));
 
     if (drawY) {
         qDebug() << "Drawing Y at " << wy << " with height " << partH;
-        component.fill(qRgba(0, 0, 0, 0));
-
-        for (int x = 0; x < 256; x++) {
-            // Calculate the height of the curve at position x
-            partY = scaling*y[x];
-
-            // Invert the y axis
-            if (partY > partH-1) { partY = partH-1; }
-            partY = partH-1 - partY;
-
-            for (int k = partH-1; k >= partY; k--) {
-                component.setPixel(x, k, qRgba(220, 220, 210, 255));
-            }
-        }
-
-        davinci.drawImage(0, wy, component.scaled(ww, component.height(), Qt::IgnoreAspectRatio, Qt::FastTransformation));
+        drawComponentFull(&davinci, y, scaling, QRect(0, wy, ww, partH + dist), QColor(220, 220, 210, 255), dist, unscaled);
 
         wy += partH + d;
     }
 
     if (drawR) {
         qDebug() << "Drawing R at " << wy << " with height " << partH;
-        component.fill(qRgba(0, 0, 0, 0));
-
-        for (int x = 0; x < 256; x++) {
-            // Calculate the height of the curve at position x
-            partY = scaling*r[x];
-
-            // Invert the y axis
-            if (partY > partH-1) { partY = partH-1; }
-            partY = partH-1 - partY;
-
-            for (int k = partH-1; k >= partY; k--) {
-                component.setPixel(x, k, qRgba(255, 128, 0, 255));
-            }
-        }
-
-        davinci.drawImage(0, wy, component.scaled(ww, component.height(), Qt::IgnoreAspectRatio, Qt::FastTransformation));
+        drawComponentFull(&davinci, r, scaling, QRect(0, wy, ww, partH + dist), QColor(255, 128, 0, 255), dist, unscaled);
 
         wy += partH + d;
     }
 
     if (drawG) {
         qDebug() << "Drawing G at " << wy << " with height " << partH;
-        component.fill(qRgba(0, 0, 0, 0));
-
-        for (int x = 0; x < 256; x++) {
-            // Calculate the height of the curve at position x
-            partY = scaling*g[x];
-
-            // Invert the y axis
-            if (partY > partH-1) { partY = partH-1; }
-            partY = partH-1 - partY;
-
-            for (int k = partH-1; k >= partY; k--) {
-                component.setPixel(x, k, qRgba(128, 255, 0, 255));
-            }
-        }
-
-        davinci.drawImage(0, wy, component.scaled(ww, component.height(), Qt::IgnoreAspectRatio, Qt::FastTransformation));
-
+        drawComponentFull(&davinci, r, scaling, QRect(0, wy, ww, partH + dist), QColor(128, 255, 0, 255), dist, unscaled);
         wy += partH + d;
     }
 
     if (drawB) {
         qDebug() << "Drawing B at " << wy << " with height " << partH;
-        component.fill(qRgba(0, 0, 0, 0));
-
-        for (int x = 0; x < 256; x++) {
-            // Calculate the height of the curve at position x
-            partY = scaling*b[x];
-
-            // Invert the y axis
-            if (partY > partH-1) { partY = partH-1; }
-            partY = partH-1 - partY;
-
-            for (int k = partH-1; k >= partY; k--) {
-                component.setPixel(x, k, qRgba(0, 128, 255, 255));
-            }
-        }
-
-        davinci.drawImage(0, wy, component.scaled(ww, component.height(), Qt::IgnoreAspectRatio, Qt::FastTransformation));
+        drawComponentFull(&davinci, r, scaling, QRect(0, wy, ww, partH + dist), QColor(0, 128, 255, 255), dist, unscaled);
 
         wy += partH + d;
     }
 
     return levels;
+}
+
+QImage LevelsGenerator::drawComponent(const int *y, const QSize &size, const float &scaling, const QColor &color, const bool &unscaled) const
+{
+    QImage component(255, size.height(), QImage::Format_ARGB32);
+    component.fill(qRgba(0, 0, 0, 0));
+
+    const int partH = size.height();
+    int partY;
+
+    for (int x = 0; x < 256; x++) {
+        // Calculate the height of the curve at position x
+        partY = scaling*y[x];
+
+        // Invert the y axis
+        if (partY > partH-1) { partY = partH-1; }
+        partY = partH-1 - partY;
+
+        for (int k = partH-1; k >= partY; k--) {
+            component.setPixel(x, k, color.rgba());
+        }
+    }
+    if (unscaled && size.width() >= component.width()) {
+        return component;
+    } else {
+        return component.scaled(size, Qt::IgnoreAspectRatio, Qt::FastTransformation);
+    }
+}
+
+void LevelsGenerator::drawComponentFull(QPainter *davinci, const int *y, const float &scaling, const QRect &rect,
+                                        const QColor &color, const int &textSpace, const bool &unscaled) const
+{
+    QImage component = drawComponent(y, rect.size() - QSize(0, textSpace), scaling, color, unscaled);
+    davinci->drawImage(rect.topLeft(), component);
+
+    int min = 0;
+    for (int x = 0; x < 256; x++) {
+        min = x;
+        if (y[x] > 0) {
+            break;
+        }
+    }
+    int max = 255;
+    for (int x = 255; x >= 0; x--) {
+        max = x;
+        if (y[x] > 0) {
+            break;
+        }
+    }
+
+    const int textY = rect.bottom()-textSpace+15;
+    const int dist = 40;
+    const int cw = component.width();
+
+    davinci->drawText(0,            textY, "min");
+    davinci->drawText(dist,         textY, QString::number(min, 'f', 0));
+
+    davinci->drawText(cw-dist-30,   textY, "max");
+    davinci->drawText(cw-30,        textY, QString::number(max, 'f', 0));
 }

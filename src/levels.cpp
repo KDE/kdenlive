@@ -66,7 +66,7 @@ QImage Levels::renderScope(uint accelFactor)
                                | (ui->cbB->isChecked() ? 1 : 0) * LevelsGenerator::ComponentB;
 
     QImage levels = m_levelsGenerator->calculateLevels(m_scopeRect.size(), m_activeRender->extractFrame(m_activeRender->seekFramePosition()),
-                                                       componentFlags, accelFactor);
+                                                       componentFlags, false, accelFactor);
 
     emit signalScopeRenderingFinished(0, 1);
     return levels;
