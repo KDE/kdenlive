@@ -157,6 +157,7 @@ void MonitorManager::slotResetProfiles()
 {
     if (m_blocked) return;
     if (m_projectMonitor == NULL || m_clipMonitor == NULL) return;
+    QString active = m_activeMonitor;
     activateMonitor("clip");
     m_clipMonitor->resetProfile(KdenliveSettings::current_profile());
     m_clipMonitor->updateTimecodeFormat();
@@ -164,6 +165,7 @@ void MonitorManager::slotResetProfiles()
     m_projectMonitor->resetProfile(KdenliveSettings::current_profile());
     m_projectMonitor->updateTimecodeFormat();
     //m_projectMonitor->refreshMonitor(true);
+    activateMonitor(active);
 }
 
 
