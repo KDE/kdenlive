@@ -97,13 +97,13 @@ QImage LevelsGenerator::calculateLevels(const QSize &paradeSize, const QImage &i
 
     if (drawG) {
         qDebug() << "Drawing G at " << wy << " with height " << partH;
-        drawComponentFull(&davinci, r, scaling, QRect(0, wy, ww, partH + dist), QColor(128, 255, 0, 255), dist, unscaled);
+        drawComponentFull(&davinci, g, scaling, QRect(0, wy, ww, partH + dist), QColor(128, 255, 0, 255), dist, unscaled);
         wy += partH + d;
     }
 
     if (drawB) {
         qDebug() << "Drawing B at " << wy << " with height " << partH;
-        drawComponentFull(&davinci, r, scaling, QRect(0, wy, ww, partH + dist), QColor(0, 128, 255, 255), dist, unscaled);
+        drawComponentFull(&davinci, b, scaling, QRect(0, wy, ww, partH + dist), QColor(0, 128, 255, 255), dist, unscaled);
 
         wy += partH + d;
     }
