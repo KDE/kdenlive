@@ -113,7 +113,7 @@ QImage LevelsGenerator::calculateLevels(const QSize &paradeSize, const QImage &i
 
 QImage LevelsGenerator::drawComponent(const int *y, const QSize &size, const float &scaling, const QColor &color, const bool &unscaled) const
 {
-    QImage component(255, size.height(), QImage::Format_ARGB32);
+    QImage component(256, size.height(), QImage::Format_ARGB32);
     component.fill(qRgba(0, 0, 0, 0));
 
     const int partH = size.height();
