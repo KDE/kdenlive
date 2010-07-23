@@ -90,6 +90,11 @@ QImage VectorscopeGenerator::calculateVectorscope(const QSize &vectorscopeSize, 
                                                   const VectorscopeGenerator::PaintMode &paintMode, const bool&,
                                                   const uint &accelFactor) const
 {
+    if (vectorscopeSize.width() <= 0 || vectorscopeSize.height() <= 0) {
+        // Invalid size
+        return QImage();
+    }
+
     // Prepare the vectorscope data
     const int cw = (vectorscopeSize.width() < vectorscopeSize.height()) ? vectorscopeSize.width() : vectorscopeSize.height();
     QImage scope = QImage(cw, cw, QImage::Format_ARGB32);
