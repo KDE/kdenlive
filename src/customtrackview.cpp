@@ -3224,7 +3224,6 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                         m_document->renderer()->mltAddTransition(tr->transitionTag(), newTrack, m_document->tracksCount() - info.track, info.startPos, info.endPos, tr->toXML());
                     }
                 }
-                rebuildGroup((AbstractGroupItem *)group);
                 new MoveGroupCommand(this, clipsToMove, transitionsToMove, timeOffset, trackOffset, false, moveGroup);
                 m_commandStack->push(moveGroup);
 
@@ -3236,6 +3235,8 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                 if (m_selectionGroup) {
                     m_selectionGroupInfo.startPos = GenTime(m_selectionGroup->scenePos().x(), m_document->fps());
                     m_selectionGroupInfo.track = m_selectionGroup->track();
+                } else {
+                    rebuildGroup((AbstractGroupItem *)group);
                 }
                 setDocumentModified();
             }
