@@ -123,8 +123,8 @@ QImage VectorscopeGenerator::calculateVectorscope(const QSize &vectorscopeSize, 
 
         pt = mapToCircle(vectorscopeSize, QPointF(SCALING*gain*u, SCALING*gain*v));
 
-        if (!(pt.x() <= vectorscopeSize.width() && pt.x() >= 0
-            && pt.y() <= vectorscopeSize.height() && pt.y() >= 0)) {
+        if (pt.x() >= scope.width() || pt.x() < 0
+            || pt.y() >= scope.height() || pt.y() < 0) {
             // Point lies outside (because of scaling), don't plot it
 
         } else {
