@@ -61,7 +61,7 @@ class JogShuttle;
 class DocClipBase;
 class Render;
 class Transition;
-class Levels;
+class Histogram;
 class Vectorscope;
 class Waveform;
 class RGBParade;
@@ -163,8 +163,8 @@ private:
     QDockWidget *m_RGBParadeDock;
     RGBParade *m_RGBParade;
 
-    QDockWidget *m_levelsDock;
-    Levels *m_levels;
+    QDockWidget *m_histogramDock;
+    Histogram *m_histogram;
 
     QDockWidget *m_undoViewDock;
     QUndoView *m_undoView;

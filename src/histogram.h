@@ -8,25 +8,25 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-#ifndef LEVELS_H
-#define LEVELS_H
+#ifndef HISTOGRAM_H
+#define HISTOGRAM_H
 
 #include "abstractscopewidget.h"
-#include "ui_levels_ui.h"
+#include "ui_histogram_ui.h"
 
-class LevelsGenerator;
+class HistogramGenerator;
 
-class Levels : public AbstractScopeWidget {
+class Histogram : public AbstractScopeWidget {
     Q_OBJECT
 
 public:
-    Levels(Monitor *projMonitor, Monitor *clipMonitor, QWidget *parent = 0);
-    ~Levels();
+    Histogram(Monitor *projMonitor, Monitor *clipMonitor, QWidget *parent = 0);
+    ~Histogram();
     QString widgetName() const;
 
 
 private:
-    LevelsGenerator *m_levelsGenerator;
+    HistogramGenerator *m_histogramGenerator;
     QAction *m_aUnscaled;
 
     QRect scopeRect();
@@ -36,8 +36,8 @@ private:
     QImage renderHUD(uint accelerationFactor);
     QImage renderScope(uint accelerationFactor);
     QImage renderBackground(uint accelerationFactor);
-    Ui::Levels_UI *ui;
+    Ui::Histogram_UI *ui;
 
 };
 
-#endif // LEVELS_H
+#endif // HISTOGRAM_H

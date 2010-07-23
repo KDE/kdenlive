@@ -10,14 +10,14 @@
 
 #include <QMenu>
 #include <QTime>
-#include "levelsgenerator.h"
-#include "levels.h"
+#include "histogramgenerator.h"
+#include "histogram.h"
 #include "renderer.h"
 
-Levels::Levels(Monitor *projMonitor, Monitor *clipMonitor, QWidget *parent) :
+Histogram::Histogram(Monitor *projMonitor, Monitor *clipMonitor, QWidget *parent) :
     AbstractScopeWidget(projMonitor, clipMonitor, parent)
 {
-    ui = new Ui::Levels_UI();
+    ui = new Ui::Histogram_UI();
     ui->setupUi(this);
 
     ui->cbY->setChecked(true);
@@ -41,47 +41,47 @@ Levels::Levels(Monitor *projMonitor, Monitor *clipMonitor, QWidget *parent) :
 
 }
 
-Levels::~Levels()
+Histogram::~Histogram()
 {
     delete ui;
     delete m_aUnscaled;
 }
 
-QString Levels::widgetName() const { return QString("Levels"); }
+QString Histogram::widgetName() const { return QString("Histogram"); }
 
-bool Levels::isHUDDependingOnInput() const { return false; }
-bool Levels::isScopeDependingOnInput() const { return true; }
-bool Levels::isBackgroundDependingOnInput() const { return false; }
+bool Histogram::isHUDDependingOnInput() const { return false; }
+bool Histogram::isScopeDependingOnInput() const { return true; }
+bool Histogram::isBackgroundDependingOnInput() const { return false; }
 
-QRect Levels::scopeRect()
+QRect Histogram::scopeRect()
 {
     qDebug() << "According to the spacer, the top left point is " << ui->verticalSpacer->geometry().x() << "/" << ui->verticalSpacer->geometry().y();
     QPoint topleft(offset, offset+ ui->verticalSpacer->geometry().y());
     return QRect(topleft, this->rect().size() - QSize(topleft.x() + offset, topleft.y() + offset));
 }
 
-QImage Levels::renderHUD(uint)
+QImage Histogram::renderHUD(uint)
 {
     emit signalHUDRenderingFinished(0, 1);
     return QImage();
 }
-QImage Levels::renderScope(uint accelFactor)
+QImage Histogram::renderScope(uint accelFactor)
 {
     QTime start = QTime::currentTime();
     start.start();
 
-    const int componentFlags =   (ui->cbY->isChecked() ? 1 : 0) * LevelsGenerator::ComponentY
-                               | (ui->cbR->isChecked() ? 1 : 0) * LevelsGenerator::ComponentR
-                               | (ui->cbG->isChecked() ? 1 : 0) * LevelsGenerator::ComponentG
-                               | (ui->cbB->isChecked() ? 1 : 0) * LevelsGenerator::ComponentB;
+    const int componentFlags =   (ui->cbY->isChecked() ? 1 : 0) * HistogramGenerator::ComponentY
+                               | (ui->cbR->isChecked() ? 1 : 0) * HistogramGenerator::ComponentR
+                               | (ui->cbG->isChecked() ? 1 : 0) * HistogramGenerator::ComponentG
+                               | (ui->cbB->isChecked() ? 1 : 0) * HistogramGenerator::ComponentB;
 
-    QImage levels = m_levelsGenerator->calculateLevels(m_scopeRect.size(), m_activeRender->extractFrame(m_activeRender->seekFramePosition()),
+    QImage histogram = m_histogramGenerator->calculateHistogram(m_scopeRect.size(), m_activeRender->extractFrame(m_activeRender->seekFramePosition()),
                                                        componentFlags, m_aUnscaled->isChecked(), accelFactor);
 
     emit signalScopeRenderingFinished(start.elapsed(), accelFactor);
-    return levels;
+    return histogram;
 }
-QImage Levels::renderBackground(uint)
+QImage Histogram::renderBackground(uint)
 {
     emit signalBackgroundRenderingFinished(0, 1);
     return QImage();

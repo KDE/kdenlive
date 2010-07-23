@@ -13,24 +13,24 @@
 #include <QDebug>
 #include <QImage>
 #include <QPainter>
-#include "levelsgenerator.h"
+#include "histogramgenerator.h"
 
-LevelsGenerator::LevelsGenerator()
+HistogramGenerator::HistogramGenerator()
 {
 }
 
-QImage LevelsGenerator::calculateLevels(const QSize &paradeSize, const QImage &image, const int &components,
+QImage HistogramGenerator::calculateHistogram(const QSize &paradeSize, const QImage &image, const int &components,
                                         const bool &unscaled, const uint &accelFactor) const
 {
-    qDebug() << "Levels rect size is: " << paradeSize.width() << "/" << paradeSize.height();
+    qDebug() << "Histogram rect size is: " << paradeSize.width() << "/" << paradeSize.height();
     if (paradeSize.height() <= 0 || paradeSize.width() <= 0) {
         return QImage();
     }
 
-    bool drawY = (components & LevelsGenerator::ComponentY) != 0;
-    bool drawR = (components & LevelsGenerator::ComponentR) != 0;
-    bool drawG = (components & LevelsGenerator::ComponentG) != 0;
-    bool drawB = (components & LevelsGenerator::ComponentB) != 0;
+    bool drawY = (components & HistogramGenerator::ComponentY) != 0;
+    bool drawR = (components & HistogramGenerator::ComponentR) != 0;
+    bool drawG = (components & HistogramGenerator::ComponentG) != 0;
+    bool drawB = (components & HistogramGenerator::ComponentB) != 0;
 
     int r[256], g[256], b[256], y[256];
     // Initialize the values to zero
@@ -76,10 +76,10 @@ QImage LevelsGenerator::calculateLevels(const QSize &paradeSize, const QImage &i
 
     int wy = 0; // Drawing position
 
-    QImage levels(paradeSize, QImage::Format_ARGB32);
-    QPainter davinci(&levels);
+    QImage histogram(paradeSize, QImage::Format_ARGB32);
+    QPainter davinci(&histogram);
     davinci.setPen(QColor(220, 220, 220, 255));
-    levels.fill(qRgba(0, 0, 0, 0));
+    histogram.fill(qRgba(0, 0, 0, 0));
 
     if (drawY) {
         qDebug() << "Drawing Y at " << wy << " with height " << partH;
@@ -108,10 +108,10 @@ QImage LevelsGenerator::calculateLevels(const QSize &paradeSize, const QImage &i
         wy += partH + d;
     }
 
-    return levels;
+    return histogram;
 }
 
-QImage LevelsGenerator::drawComponent(const int *y, const QSize &size, const float &scaling, const QColor &color, const bool &unscaled) const
+QImage HistogramGenerator::drawComponent(const int *y, const QSize &size, const float &scaling, const QColor &color, const bool &unscaled) const
 {
     QImage component(256, size.height(), QImage::Format_ARGB32);
     component.fill(qRgba(0, 0, 0, 0));
@@ -138,7 +138,7 @@ QImage LevelsGenerator::drawComponent(const int *y, const QSize &size, const flo
     }
 }
 
-void LevelsGenerator::drawComponentFull(QPainter *davinci, const int *y, const float &scaling, const QRect &rect,
+void HistogramGenerator::drawComponentFull(QPainter *davinci, const int *y, const float &scaling, const QRect &rect,
                                         const QColor &color, const int &textSpace, const bool &unscaled) const
 {
     QImage component = drawComponent(y, rect.size() - QSize(0, textSpace), scaling, color, unscaled);

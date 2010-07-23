@@ -55,7 +55,7 @@
 #include "vectorscope.h"
 #include "waveform.h"
 #include "rgbparade.h"
-#include "levels.h"
+#include "histogram.h"
 
 #include <KApplication>
 #include <KAction>
@@ -229,16 +229,16 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
     addDockWidget(Qt::TopDockWidgetArea, m_waveformDock);
 
     m_RGBParade = new RGBParade(m_projectMonitor, m_clipMonitor, this);
-    m_RGBParadeDock = new QDockWidget("RGB Parade", this);
+    m_RGBParadeDock = new QDockWidget(i18n("RGB Parade"), this);
     m_RGBParadeDock->setObjectName(m_RGBParade->widgetName());
     m_RGBParadeDock->setWidget(m_RGBParade);
     addDockWidget(Qt::TopDockWidgetArea, m_RGBParadeDock);
 
-    m_levels = new Levels(m_projectMonitor, m_clipMonitor, this);
-    m_levelsDock = new QDockWidget("Levels", this);
-    m_levelsDock->setObjectName(m_levels->widgetName());
-    m_levelsDock->setWidget(m_levels);
-    addDockWidget(Qt::TopDockWidgetArea, m_levelsDock);
+    m_histogram = new Histogram(m_projectMonitor, m_clipMonitor, this);
+    m_histogramDock = new QDockWidget(i18n("Histogram"), this);
+    m_histogramDock->setObjectName(m_histogram->widgetName());
+    m_histogramDock->setWidget(m_histogram);
+    addDockWidget(Qt::TopDockWidgetArea, m_histogramDock);
 
 
     m_undoViewDock = new QDockWidget(i18n("Undo History"), this);
@@ -271,7 +271,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
 
     tabifyDockWidget(m_vectorscopeDock, m_waveformDock);
     tabifyDockWidget(m_vectorscopeDock, m_RGBParadeDock);
-    tabifyDockWidget(m_vectorscopeDock, m_levelsDock);
+    tabifyDockWidget(m_vectorscopeDock, m_histogramDock);
     tabifyDockWidget(m_vectorscopeDock, m_undoViewDock);
     tabifyDockWidget(m_vectorscopeDock, m_effectListDock);
 
@@ -433,7 +433,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
     connect(m_monitorManager, SIGNAL(raiseClipMonitor(bool)), m_vectorscope, SLOT(slotActiveMonitorChanged(bool)));
     connect(m_monitorManager, SIGNAL(raiseClipMonitor(bool)), m_waveform, SLOT(slotActiveMonitorChanged(bool)));
     connect(m_monitorManager, SIGNAL(raiseClipMonitor(bool)), m_RGBParade, SLOT(slotActiveMonitorChanged(bool)));
-    connect(m_monitorManager, SIGNAL(raiseClipMonitor(bool)), m_levels, SLOT(slotActiveMonitorChanged(bool)));
+    connect(m_monitorManager, SIGNAL(raiseClipMonitor(bool)), m_histogram, SLOT(slotActiveMonitorChanged(bool)));
     connect(m_effectList, SIGNAL(addEffect(const QDomElement)), this, SLOT(slotAddEffect(const QDomElement)));
     connect(m_effectList, SIGNAL(reloadEffects()), this, SLOT(slotReloadEffects()));
 
@@ -3622,7 +3622,7 @@ void MainWindow::slotShowTitleBars(bool show)
         m_vectorscopeDock->setTitleBarWidget(0);
         m_waveformDock->setTitleBarWidget(0);
         m_RGBParadeDock->setTitleBarWidget(0);
-        m_levelsDock->setTitleBarWidget(0);
+        m_histogramDock->setTitleBarWidget(0);
     } else {
         if (!m_effectStackDock->isFloating()) { m_effectStackDock->setTitleBarWidget(new QWidget(this)); }
         if (!m_clipMonitorDock->isFloating()) { m_clipMonitorDock->setTitleBarWidget(new QWidget(this)); }
@@ -3637,7 +3637,7 @@ void MainWindow::slotShowTitleBars(bool show)
         if (!m_vectorscopeDock->isFloating()) { m_vectorscopeDock->setTitleBarWidget(new QWidget(this)); }
         if (!m_waveformDock->isFloating()) { m_waveformDock->setTitleBarWidget(new QWidget(this)); }
         if (!m_RGBParadeDock->isFloating()) { m_RGBParadeDock->setTitleBarWidget(new QWidget(this)); }
-        if (!m_levelsDock->isFloating()) { m_levelsDock->setTitleBarWidget(new QWidget(this)); }
+        if (!m_histogramDock->isFloating()) { m_histogramDock->setTitleBarWidget(new QWidget(this)); }
     }
     KdenliveSettings::setShowtitlebars(show);
 }

@@ -8,8 +8,8 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-#ifndef LEVELSGENERATOR_H
-#define LEVELSGENERATOR_H
+#ifndef HISTOGRAMGENERATOR_H
+#define HISTOGRAMGENERATOR_H
 
 #include <QObject>
 
@@ -19,16 +19,16 @@ class QPainter;
 class QRect;
 class QSize;
 
-class LevelsGenerator : public QObject
+class HistogramGenerator : public QObject
 {
 public:
-    LevelsGenerator();
+    HistogramGenerator();
 
     /**
-        Calculates a levels display from the input image.
-        components are OR-ed LevelsGenerator::Components flags and decide with components (Y, R, G, B) to paint.
+        Calculates a histogram display from the input image.
+        components are OR-ed HistogramGenerator::Components flags and decide with components (Y, R, G, B) to paint.
         unscaled = true leaves the width at 256 if the widget is wider (to avoid scaling). */
-    QImage calculateLevels(const QSize &paradeSize, const QImage &image, const int &components, const bool &unscaled,
+    QImage calculateHistogram(const QSize &paradeSize, const QImage &image, const int &components, const bool &unscaled,
                            const uint &accelFactor = 1) const;
 
     QImage drawComponent(const int *y, const QSize &size, const float &scaling, const QColor &color, const bool &unscaled) const;
@@ -40,4 +40,4 @@ public:
 
 };
 
-#endif // LEVELSGENERATOR_H
+#endif // HISTOGRAMGENERATOR_H

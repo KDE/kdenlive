@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Levels_UI</class>
- <widget class="QWidget" name="Levels_UI">
+ <class>Histogram_UI</class>
+ <widget class="QWidget" name="Histogram_UI">
   <property name="geometry">
    <rect>
     <x>0</x>
