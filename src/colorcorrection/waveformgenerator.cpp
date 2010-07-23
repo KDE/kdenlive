@@ -37,7 +37,7 @@ QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, const QIm
     QImage wave(waveformSize, QImage::Format_ARGB32);
 
     if (waveformSize.width() <= 0 || waveformSize.height() <= 0) {
-        qCritical("Waveform size should not be 0.");
+        return QImage();
 
     } else {
 

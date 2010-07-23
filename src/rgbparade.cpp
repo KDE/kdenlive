@@ -32,8 +32,8 @@ QString RGBParade::widgetName() const { return "RGB Parade"; }
 
 QRect RGBParade::scopeRect()
 {
-    QPoint topleft(offset, ui->line->y() + 2*offset);
-    return QRect(topleft, QPoint(this->size().width() - offset, this->size().height() - offset) - topleft);
+    QPoint topleft(offset, ui->verticalSpacer->geometry().y() + 2*offset);
+    return QRect(topleft, QPoint(this->size().width() - offset, this->size().height() - offset));
 }
 
 QImage RGBParade::renderHUD(uint) { return QImage(); }

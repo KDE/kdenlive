@@ -30,16 +30,11 @@ QImage RGBParadeGenerator::calculateRGBParade(const QSize &paradeSize, const QIm
 {
     Q_ASSERT(accelFactor >= 1);
 
-    QImage parade(paradeSize, QImage::Format_ARGB32);
-
     if (paradeSize.width() <= 0 || paradeSize.height() <= 0) {
-        qCritical("Wave size should not be 0.");
+        return QImage();
 
     } else {
-
-        qDebug() << "Wave calculation started.";
-
-        // Fill with transparent color
+        QImage parade(paradeSize, QImage::Format_ARGB32);
         parade.fill(qRgba(0,0,0,0));
 
         QRgb *col;
@@ -168,10 +163,8 @@ QImage RGBParadeGenerator::calculateRGBParade(const QSize &paradeSize, const QIm
 
 
 
-
+        return parade;
     }
-
-    return parade;
 }
 
 #undef CHOP255

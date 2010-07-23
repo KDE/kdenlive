@@ -39,7 +39,7 @@ QRect Waveform::scopeRect()
     // Distance from top/left/right
     int offset = 6;
 
-    QPoint topleft(offset, ui->line->y()+offset);
+    QPoint topleft(offset, ui->verticalSpacer->geometry().y()+offset);
 
     return QRect(topleft, this->size() - QSize(offset+topleft.x(), offset+topleft.y()));
 }

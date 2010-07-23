@@ -117,22 +117,20 @@ QString Vectorscope::widgetName() const { return QString("Vectorscope"); }
 
 QRect Vectorscope::scopeRect()
 {
-    // Widget width/height
-    int ww = this->size().width();
-    int wh = this->size().height();
-
     // Distance from top/left/right
     int offset = 6;
 
     // We want to paint below the controls area. The line is the lowest element.
-    QPoint topleft(offset, ui->line->y()+offset);
+    QPoint topleft(offset, ui->verticalSpacer->geometry().y()+offset);
+    QPoint bottomright(ui->horizontalSpacer->geometry().right()-offset, this->size().height()-offset);
+
+    QRect scopeRect(topleft, bottomright);
 
     // Circle Width: min of width and height
-    cw = wh - topleft.y();
-    if (ww < cw) { cw = ww; }
-    cw -= 2*offset;
+    cw = (scopeRect.height() < scopeRect.width()) ? scopeRect.height() : scopeRect.width();
+    scopeRect.setWidth(cw);
+    scopeRect.setHeight(cw);
 
-    QRect scopeRect(topleft, QPoint(cw, cw) + topleft);
 
     m_centerPoint = m_vectorscopeGenerator->mapToCircle(scopeRect.size(), QPointF(0,0));
     pR75 = m_vectorscopeGenerator->mapToCircle(scopeRect.size(), P75*VectorscopeGenerator::scaling*YUV_R);

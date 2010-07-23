@@ -216,7 +216,7 @@ void AbstractScopeWidget::paintEvent(QPaintEvent *)
         initialDimensionUpdateDone = true;
     }
 
-    qDebug() << "Drawing top/left at " << m_scopeRect.topLeft().x() << "/" << m_scopeRect.topLeft().y();
+    qDebug() << "Drawing top/left at " << m_scopeRect.topLeft().y() << "/" << m_scopeRect.topLeft().x();
 
     QPainter davinci(this);
     davinci.drawImage(m_scopeRect.topLeft(), m_imgBackground);
