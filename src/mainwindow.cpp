@@ -1993,8 +1993,9 @@ void MainWindow::slotRenderProject()
     m_renderWidget->show();
     m_renderWidget->showNormal();
 
-    m_activeTimeline->tracksNumber();
-    m_renderWidget->enableAudio(false);
+    // What are the following lines supposed to do?
+    //m_activeTimeline->tracksNumber();
+    //m_renderWidget->enableAudio(false);
     //m_renderWidget->export_audio;
 }
 
