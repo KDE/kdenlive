@@ -203,9 +203,20 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
         m_document = createEmptyDocument(tracks.x(), tracks.y());
     }
 
+    // Set the video profile (empty == default)
     KdenliveSettings::setCurrent_profile(profilePath());
 
-    // Set the video profile (empty == default)
+    // Ask to create the project directory if it does not exist
+    if (!QFile::exists(m_projectFolder.path())) {
+        int create = KMessageBox::questionYesNo(parent, i18n("Project directory %1 does not exist. Create it?", m_projectFolder.path()));
+        if (create == KMessageBox::Yes) {
+            QDir projectDir(m_projectFolder.path());
+            bool ok = projectDir.mkpath(m_projectFolder.path());
+            if (!ok) {
+                KMessageBox::sorry(parent, i18n("The directory %1, could not be created.\nPlease make sure you have the required permissions.", m_projectFolder.path()));
+            }
+        }
+    }
 
     // Make sure the project folder is usable
     if (m_projectFolder.isEmpty() || !KIO::NetAccess::exists(m_projectFolder.path(), KIO::NetAccess::DestinationSide, parent)) {
@@ -489,7 +500,7 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene)
     QDomElement mlt = sceneList.firstChildElement("mlt");
     if (mlt.isNull() || !mlt.hasChildNodes()) {
         //Make sure we don't save if scenelist is corrupted
-        KMessageBox::error(kapp->activeWindow(), i18n("Cannot write to file %1", path));
+        KMessageBox::error(kapp->activeWindow(), i18n("Cannot write to file %1, scene list is corrupted.", path));
         return false;
     }
     QDomElement addedXml = sceneList.createElement("kdenlivedoc");
