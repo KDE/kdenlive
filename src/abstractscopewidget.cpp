@@ -89,17 +89,18 @@ void AbstractScopeWidget::prodHUDThread()
 {
     if (this->visibleRegion().isEmpty()) {
         qDebug() << "Scope " << widgetName() << " is not visible. Not calculating HUD.";
-    }
-    if (m_semaphoreHUD.tryAcquire(1)) {
-        Q_ASSERT(!m_threadHUD.isRunning());
-
-        m_newHUDFrames.fetchAndStoreRelaxed(0);
-        m_newHUDUpdates.fetchAndStoreRelaxed(0);
-        m_threadHUD = QtConcurrent::run(this, &AbstractScopeWidget::renderHUD, m_accelFactorHUD);
-        qDebug() << "HUD thread started in " << widgetName();
-
     } else {
-        qDebug() << "HUD semaphore locked, not prodding in " << widgetName() << ". Thread running: " << m_threadHUD.isRunning();
+        if (m_semaphoreHUD.tryAcquire(1)) {
+            Q_ASSERT(!m_threadHUD.isRunning());
+
+            m_newHUDFrames.fetchAndStoreRelaxed(0);
+            m_newHUDUpdates.fetchAndStoreRelaxed(0);
+            m_threadHUD = QtConcurrent::run(this, &AbstractScopeWidget::renderHUD, m_accelFactorHUD);
+            qDebug() << "HUD thread started in " << widgetName();
+
+        } else {
+            qDebug() << "HUD semaphore locked, not prodding in " << widgetName() << ". Thread running: " << m_threadHUD.isRunning();
+        }
     }
 }
 
@@ -109,41 +110,43 @@ void AbstractScopeWidget::prodScopeThread()
     // and not hidden by another widget on the stack.
     if (this->visibleRegion().isEmpty()) {
         qDebug() << "Scope " << widgetName() << " is not visible. Not calculating scope.";
-    }
-    // Try to acquire the semaphore. This must only succeed if m_threadScope is not running
-    // anymore. Therefore the semaphore must NOT be released before m_threadScope ends.
-    // If acquiring the semaphore fails, the thread is still running.
-    if (m_semaphoreScope.tryAcquire(1)) {
-        Q_ASSERT(!m_threadScope.isRunning());
-
-        m_newScopeFrames.fetchAndStoreRelaxed(0);
-        m_newScopeUpdates.fetchAndStoreRelaxed(0);
-
-        // See http://doc.qt.nokia.com/latest/qtconcurrentrun.html#run about
-        // running member functions in a thread
-        m_threadScope = QtConcurrent::run(this, &AbstractScopeWidget::renderScope, m_accelFactorScope);
-
-        qDebug() << "Scope thread started in " << widgetName();
-
     } else {
-        qDebug() << "Scope semaphore locked, not prodding in " << widgetName() << ". Thread running: " << m_threadScope.isRunning();
+        // Try to acquire the semaphore. This must only succeed if m_threadScope is not running
+        // anymore. Therefore the semaphore must NOT be released before m_threadScope ends.
+        // If acquiring the semaphore fails, the thread is still running.
+        if (m_semaphoreScope.tryAcquire(1)) {
+            Q_ASSERT(!m_threadScope.isRunning());
+
+            m_newScopeFrames.fetchAndStoreRelaxed(0);
+            m_newScopeUpdates.fetchAndStoreRelaxed(0);
+
+            // See http://doc.qt.nokia.com/latest/qtconcurrentrun.html#run about
+            // running member functions in a thread
+            m_threadScope = QtConcurrent::run(this, &AbstractScopeWidget::renderScope, m_accelFactorScope);
+
+            qDebug() << "Scope thread started in " << widgetName();
+
+        } else {
+            qDebug() << "Scope semaphore locked, not prodding in " << widgetName() << ". Thread running: " << m_threadScope.isRunning();
+        }
     }
 }
 void AbstractScopeWidget::prodBackgroundThread()
 {
     if (this->visibleRegion().isEmpty()) {
         qDebug() << "Scope " << widgetName() << " is not visible. Not calculating background.";
-    }
-    if (m_semaphoreBackground.tryAcquire(1)) {
-        Q_ASSERT(!m_threadBackground.isRunning());
-
-        m_newBackgroundFrames.fetchAndStoreRelaxed(0);
-        m_newBackgroundUpdates.fetchAndStoreRelaxed(0);
-        m_threadBackground = QtConcurrent::run(this, &AbstractScopeWidget::renderBackground, m_accelFactorBackground);
-        qDebug() << "Background thread started in " << widgetName();
-
     } else {
-        qDebug() << "Background semaphore locked, not prodding in " << widgetName() << ". Thread running: " << m_threadBackground.isRunning();
+        if (m_semaphoreBackground.tryAcquire(1)) {
+            Q_ASSERT(!m_threadBackground.isRunning());
+
+            m_newBackgroundFrames.fetchAndStoreRelaxed(0);
+            m_newBackgroundUpdates.fetchAndStoreRelaxed(0);
+            m_threadBackground = QtConcurrent::run(this, &AbstractScopeWidget::renderBackground, m_accelFactorBackground);
+            qDebug() << "Background thread started in " << widgetName();
+
+        } else {
+            qDebug() << "Background semaphore locked, not prodding in " << widgetName() << ". Thread running: " << m_threadBackground.isRunning();
+        }
     }
 }
 
@@ -204,20 +207,15 @@ void AbstractScopeWidget::raise()
     forceUpdate();
 }
 
+void AbstractScopeWidget::showEvent(QShowEvent *event)
+{
+    m_scopeRect = scopeRect();
+    QWidget::showEvent(event);
+    m_scopeRect = scopeRect();
+}
+
 void AbstractScopeWidget::paintEvent(QPaintEvent *)
 {
-//    qDebug() << "Painting now on scope " << widgetName();
-    if (!initialDimensionUpdateDone) {
-        // This is a workaround.
-        // When updating the dimensions in the constructor, the size
-        // of the control items at the top are simply ignored! So do
-        // it here instead.
-        m_scopeRect = scopeRect();
-        initialDimensionUpdateDone = true;
-    }
-
-    qDebug() << "Drawing top/left at " << m_scopeRect.topLeft().y() << "/" << m_scopeRect.topLeft().x();
-
     QPainter davinci(this);
     davinci.drawImage(m_scopeRect.topLeft(), m_imgBackground);
     davinci.drawImage(m_scopeRect.topLeft(), m_imgScope);
@@ -324,12 +322,11 @@ void AbstractScopeWidget::slotActiveMonitorChanged(bool isClipMonitor)
 {
     qDebug() << "Active monitor has changed in " << widgetName() << ". Is the clip monitor active now? " << isClipMonitor;
 
-    bool disconnected = m_activeRender->disconnect(this);
-    Q_ASSERT(disconnected);
+    bool b = m_activeRender->disconnect(this);
+    Q_ASSERT(b);
 
     m_activeRender = (isClipMonitor) ? m_clipMonitor->render : m_projMonitor->render;
 
-    bool b = true;
     b &= connect(m_activeRender, SIGNAL(rendererPosition(int)), this, SLOT(slotRenderZoneUpdated()));
     b &= connect(m_activeRender, SIGNAL(frameUpdated(int)), this, SLOT(slotRenderZoneUpdated()));
     Q_ASSERT(b);

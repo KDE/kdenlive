@@ -151,6 +151,7 @@ protected:
     void paintEvent(QPaintEvent *);
     void raise();
     void resizeEvent(QResizeEvent *);
+    void showEvent(QShowEvent *);
 
 protected slots:
     /** Forces an update of all layers. */
