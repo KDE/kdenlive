@@ -33,6 +33,7 @@
 #include "ui_configjogshuttle_ui.h"
 #include "ui_configsdl_ui.h"
 #include "ui_configtranscode_ui.h"
+#include "ui_configproject_ui.h"
 
 class KdenliveSettingsDialog : public KConfigDialog
 {
@@ -73,6 +74,7 @@ private:
     KPageWidgetItem *m_page5;
     KPageWidgetItem *m_page6;
     KPageWidgetItem *m_page7;
+    KPageWidgetItem *m_page8;
     Ui::ConfigEnv_UI m_configEnv;
     Ui::ConfigMisc_UI m_configMisc;
     Ui::ConfigDisplay_UI m_configDisplay;
@@ -80,6 +82,7 @@ private:
     Ui::ConfigJogShuttle_UI m_configShuttle;
     Ui::ConfigSdl_UI m_configSdl;
     Ui::ConfigTranscode_UI m_configTranscode;
+    Ui::ConfigProject_UI m_configProject;
     QString m_defaultProfile;
     QString m_defaultPath;
     KProcess m_readProcess;

@@ -173,6 +173,10 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscen
     connect(&m_thumbsTimer, SIGNAL(timeout()), this, SLOT(slotFetchNextThumbs()));
     m_thumbsTimer.setInterval(500);
     m_thumbsTimer.setSingleShot(true);
+
+    connect(&m_audioMonitorTimer, SIGNAL(timeout()), this, SIGNAL(documentModified()));
+    m_audioMonitorTimer.setInterval(2000);
+    m_audioMonitorTimer.setSingleShot(true);
 }
 
 CustomTrackView::~CustomTrackView()
@@ -197,6 +201,7 @@ void CustomTrackView::keyPressEvent(QKeyEvent * event)
 void CustomTrackView::setDocumentModified()
 {
     m_document->setModified(true);
+    m_audioMonitorTimer.start();
 }
 
 void CustomTrackView::setContextMenu(QMenu *timeline, QMenu *clip, QMenu *transition, QActionGroup *clipTypeGroup, QMenu *markermenu)
@@ -914,7 +919,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         bool selected = !m_dragItem->isSelected();
         if (dragGroup)
             dragGroup->setSelected(selected);
-        else 
+        else
             m_dragItem->setSelected(selected);
 
         groupSelectedItems();
@@ -3687,7 +3692,7 @@ void CustomTrackView::slotRazorGroup(QList <ItemInfo> clips1, QList <ItemInfo> t
                 break;
             }
         }
-        for(int i = 0; i < clipsCut.count(); ++i)
+        for (int i = 0; i < clipsCut.count(); ++i)
             cutClip(clipsCut.at(i), cutPos, false);
         // TODO: uncut transitonsCut
         doGroupClips(QList <ItemInfo>() << clips1 << clipsCut << clips2, QList <ItemInfo>() << transitions1 << transitionsCut << transitions2, true);
@@ -6195,4 +6200,20 @@ void CustomTrackView::setTipAnimation(AbstractClipItem *clip, OPERATIONTYPE mode
         m_animation->setItem(m_visualTip);
         m_animationTimer->start();
     }
+}
+
+bool CustomTrackView::hasAudio(int track) const
+{
+    QRectF rect(0, (double)(track * m_tracksHeight + 1), (double) sceneRect().width(), (double)(m_tracksHeight - 1));
+    QList<QGraphicsItem *> collisions = scene()->items(rect, Qt::IntersectsItemBoundingRect);
+    QGraphicsItem *item;
+    for (int i = 0; i < collisions.count(); i++) {
+        item = collisions.at(i);
+        if (!item->isEnabled()) continue;
+        if (item->type() == AVWIDGET) {
+            ClipItem *clip = static_cast <ClipItem *>(item);
+            if (!clip->isVideoOnly() && (clip->clipType() == AUDIO || clip->clipType() == AV || clip->clipType() == PLAYLIST)) return true;
+        }
+    }
+    return false;
 }

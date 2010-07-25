@@ -113,10 +113,11 @@ public:
     QString getFreeScriptName(const QString &prefix = QString());
     bool startWaitingRenderJobs();
     void missingClips(bool hasMissing);
-    void enableAudio(bool enable);
 
 public slots:
     void slotExport(bool scriptExport, int zoneIn, int zoneOut, const QString &playlistPath, const QString &scriptPath);
+    /** @brief Enable / disable audio export if audio export checkbox is in auto mode. */
+    void slotEnableAudio(bool enable);
 
 private slots:
     void slotUpdateButtons(KUrl url);
@@ -150,6 +151,8 @@ private slots:
     void slotUpdateRescaleHeight(int);
     void slotUpdateRescaleWidth(int);
     void slotSwitchAspectRatio();
+    /** @brief Update export audio label depending on current settings. */
+    void slotUpdateAudioLabel(int ix);
 
 private:
     Ui::RenderWidget_UI m_view;
@@ -168,6 +171,8 @@ private:
     void saveProfile(QDomElement newprofile);
     QList <QListWidgetItem *> m_renderItems;
     QList <QListWidgetItem *> m_renderCategory;
+    /** @brief True if current project has audio, false otherwise. */
+    bool m_autoAudio;
 
 signals:
     void abortProcess(const QString &url);

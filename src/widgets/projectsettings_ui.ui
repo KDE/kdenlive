@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>305</width>
-    <height>323</height>
+    <width>349</width>
+    <height>320</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -24,17 +24,17 @@
        <string>Settings</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_3">
-       <item row="0" column="0" colspan="2">
+       <item row="0" column="0">
         <widget class="QLabel" name="label_4">
          <property name="text">
           <string>Project folder</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="2" colspan="5">
+       <item row="0" column="1" colspan="4">
         <widget class="KUrlRequester" name="project_folder"/>
        </item>
-       <item row="1" column="0" colspan="7">
+       <item row="1" column="0" colspan="6">
         <widget class="QGroupBox" name="properties">
          <property name="title">
           <string>Video Profile</string>
@@ -127,20 +127,20 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="2">
+       <item row="2" column="1">
         <widget class="QSpinBox" name="video_tracks"/>
        </item>
-       <item row="2" column="3" colspan="2">
+       <item row="2" column="2" colspan="2">
         <widget class="QLabel" name="label_8">
          <property name="text">
           <string>Audio tracks</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="5">
+       <item row="2" column="4">
         <widget class="QSpinBox" name="audio_tracks"/>
        </item>
-       <item row="2" column="6">
+       <item row="2" column="5">
         <spacer name="horizontalSpacer_2">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -160,21 +160,21 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="1" colspan="2">
+       <item row="3" column="1">
         <widget class="QCheckBox" name="video_thumbs">
          <property name="text">
           <string>Video</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="3">
+       <item row="3" column="2">
         <widget class="QCheckBox" name="audio_thumbs">
          <property name="text">
           <string>Audio</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="4" colspan="3">
+       <item row="3" column="3" colspan="3">
         <spacer name="horizontalSpacer">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -187,7 +187,7 @@
          </property>
         </spacer>
        </item>
-       <item row="4" column="2" colspan="3">
+       <item row="4" column="0" colspan="3">
         <spacer name="verticalSpacer">
          <property name="orientation">
           <enum>Qt::Vertical</enum>

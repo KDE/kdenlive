@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>365</width>
-    <height>553</height>
+    <width>359</width>
+    <height>522</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -188,6 +188,9 @@
           <string>Export audio</string>
          </property>
          <property name="checked">
+          <bool>true</bool>
+         </property>
+         <property name="tristate">
           <bool>true</bool>
          </property>
         </widget>

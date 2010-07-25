@@ -62,7 +62,8 @@ const int FINISHEDJOB = 2;
 RenderWidget::RenderWidget(const QString &projectfolder, QWidget * parent) :
         QDialog(parent),
         m_projectFolder(projectfolder),
-        m_blockProcessing(false)
+        m_blockProcessing(false),
+        m_autoAudio(false)
 {
     m_view.setupUi(this);
     setWindowTitle(i18n("Rendering"));
@@ -110,6 +111,9 @@ RenderWidget::RenderWidget(const QString &projectfolder, QWidget * parent) :
     m_view.errorLabel->setAutoFillBackground(true);
     m_view.errorLabel->setPalette(p);
     m_view.errorLabel->setHidden(true);
+
+    connect(m_view.export_audio, SIGNAL(stateChanged(int)), this, SLOT(slotUpdateAudioLabel(int)));
+    m_view.export_audio->setCheckState(Qt::PartiallyChecked);
 
     parseProfiles();
     parseScriptFiles();
@@ -748,7 +752,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
     else if (m_view.scanning_list->currentIndex() == 2) renderArgs.append(" progressive=0");
 
     // disable audio if requested
-    if (!m_view.export_audio->isChecked())
+    if (m_view.export_audio->checkState() == Qt::Unchecked || (m_view.export_audio->checkState() == Qt::PartiallyChecked && !m_autoAudio))
         renderArgs.append(" an=1 ");
 
     // Check if the rendering profile is different from project profile,
@@ -1787,9 +1791,10 @@ void RenderWidget::missingClips(bool hasMissing)
     } else m_view.errorLabel->setHidden(true);
 }
 
-void RenderWidget::enableAudio(bool enable)
+void RenderWidget::slotEnableAudio(bool enable)
 {
-    m_view.export_audio->setChecked(enable);
+    m_autoAudio = enable;
+    if (m_view.export_audio->checkState() == Qt::PartiallyChecked) m_view.export_audio->setText(m_autoAudio ? i18n("Export audio (on)") : i18n("Export audio (off)"));
 }
 
 void RenderWidget::slotUpdateRescaleWidth(int val)
@@ -1818,3 +1823,10 @@ void RenderWidget::slotSwitchAspectRatio()
     if (m_view.rescale_keep->isChecked()) slotUpdateRescaleWidth(m_view.rescale_width->value());
 }
 
+void RenderWidget::slotUpdateAudioLabel(int ix)
+{
+    if (ix == Qt::PartiallyChecked)
+        m_view.export_audio->setText(m_autoAudio ? i18n("Export audio (on)") : i18n("Export audio (off)"));
+    else
+        m_view.export_audio->setText(i18n("Audio export"));
+}

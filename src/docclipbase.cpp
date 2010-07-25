@@ -58,8 +58,9 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QStrin
     QDomNamedNodeMap attributes = xml.attributes();
     for (int i = 0; i < attributes.count(); i++) {
         QString name = attributes.item(i).nodeName();
-        if (name.startsWith("meta.attr.")) m_metadata.insert(name.section('.', 2, 3), attributes.item(i).nodeValue());
-        else m_properties.insert(name, attributes.item(i).nodeValue());
+        if (name.startsWith("meta.attr.")) {
+            m_metadata.insert(name.section('.', 2, 3), attributes.item(i).nodeValue());
+        } else m_properties.insert(name, attributes.item(i).nodeValue());
     }
 
     if (xml.hasAttribute("cutzones")) {
@@ -576,7 +577,6 @@ Mlt::Producer *DocClipBase::producer(int track)
             m_baseTrackProducers[track] = NULL;
             return NULL;
         }
-
         if (m_properties.contains("force_aspect_ratio")) m_baseTrackProducers[track]->set("force_aspect_ratio", m_properties.value("force_aspect_ratio").toDouble());
         if (m_properties.contains("force_fps")) m_baseTrackProducers[track]->set("force_fps", m_properties.value("force_fps").toDouble());
         if (m_properties.contains("force_progressive")) m_baseTrackProducers[track]->set("force_progressive", m_properties.value("force_progressive").toInt());
@@ -726,7 +726,11 @@ void DocClipBase::setMetadata(QMap <QString, QString> properties)
     QMapIterator<QString, QString> i(properties);
     while (i.hasNext()) {
         i.next();
-        m_metadata.insert(i.key(), i.value());
+        if (i.value().isEmpty() && m_metadata.contains(i.key())) {
+            m_metadata.remove(i.key());
+        } else {
+            m_metadata.insert(i.key(), i.value());
+        }
     }
 }
 

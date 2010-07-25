@@ -301,7 +301,6 @@ void ClipManager::slotAddClipList(const KUrl::List urls, const QString group, co
                     foreach(const KFileMetaInfoItem& metaInfoItem, metaInfoItems) {
                         prod.setAttribute("meta.attr." + metaInfoItem.name().section("#", 1), metaInfoItem.value().toString());
                     }
-
                 }
             } else if (type->is("application/x-kdenlivetitle")) {
                 // opening a title file

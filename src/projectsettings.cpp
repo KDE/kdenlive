@@ -63,6 +63,7 @@ ProjectSettings::ProjectSettings(ProjectList *projectlist, QStringList lumas, in
     video_thumbs->setChecked(KdenliveSettings::videothumbnails());
     audio_tracks->setValue(audiotracks);
     video_tracks->setValue(videotracks);
+
     if (readOnlyTracks) {
         video_tracks->setEnabled(false);
         audio_tracks->setEnabled(false);
@@ -235,6 +236,7 @@ bool ProjectSettings::enableAudioThumbs() const
 {
     return audio_thumbs->isChecked();
 }
+
 
 //static
 QStringList ProjectSettings::extractPlaylistUrls(QString path)

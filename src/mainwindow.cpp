@@ -504,8 +504,8 @@ bool MainWindow::queryClose()
     if (m_monitorManager) m_monitorManager->stopActiveMonitor();
     // warn the user to save if document is modified and we have clips in our project list
     if (m_activeDocument && m_activeDocument->isModified() &&
-        ((m_projectList->documentClipList().isEmpty() && !m_activeDocument->url().isEmpty()) ||
-            !m_projectList->documentClipList().isEmpty())) {
+            ((m_projectList->documentClipList().isEmpty() && !m_activeDocument->url().isEmpty()) ||
+             !m_projectList->documentClipList().isEmpty())) {
         QString message;
         if (m_activeDocument->url().fileName().isEmpty())
             message = i18n("Save changes to document?");
@@ -1682,7 +1682,9 @@ bool MainWindow::saveFileAs(const QString &outputFileName)
 bool MainWindow::saveFileAs()
 {
     QString outputFile = KFileDialog::getSaveFileName(m_activeDocument->projectFolder(), getMimeType());
-    if (outputFile.isEmpty()) { return false; }
+    if (outputFile.isEmpty()) {
+        return false;
+    }
     if (QFile::exists(outputFile)) {
         // Show the file dialog again if the user does not want to overwrite the file
         if (KMessageBox::questionYesNo(this, i18n("File already exists.\nDo you want to overwrite it?")) == KMessageBox::No)
@@ -1985,11 +1987,9 @@ void MainWindow::slotRenderProject()
             m_renderWidget->setDocumentPath(m_activeDocument->projectFolder().path(KUrl::AddTrailingSlash));
             m_renderWidget->setRenderProfile(m_activeDocument->getDocumentProperty("renderdestination"), m_activeDocument->getDocumentProperty("rendercategory"), m_activeDocument->getDocumentProperty("renderprofile"), m_activeDocument->getDocumentProperty("renderurl"));
         }
+        if (m_activeTimeline) connect(m_activeTimeline, SIGNAL(projectHasAudio(bool)), m_renderWidget, SLOT(slotEnableAudio(bool)));
     }
     slotCheckRenderStatus();
-    /*TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
-    if (currentTab) m_renderWidget->setTimeline(currentTab);
-    m_renderWidget->setDocument(m_activeDocument);*/
     m_renderWidget->show();
     m_renderWidget->showNormal();
 
@@ -2191,6 +2191,9 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
 
 
     trackView->projectView()->setContextMenu(m_timelineContextMenu, m_timelineContextClipMenu, m_timelineContextTransitionMenu, m_clipTypeGroup, (QMenu*)(factory()->container("marker_menu", this)));
+    if (m_renderWidget) {
+        if (m_activeTimeline) disconnect(m_activeTimeline, SIGNAL(projectHasAudio(bool)), m_renderWidget, SLOT(slotEnableAudio(bool)));
+    }
     m_activeTimeline = trackView;
     if (m_renderWidget) {
         slotCheckRenderStatus();
@@ -2198,6 +2201,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
         m_renderWidget->setGuides(doc->guidesXml(), doc->projectDuration());
         m_renderWidget->setDocumentPath(doc->projectFolder().path(KUrl::AddTrailingSlash));
         m_renderWidget->setRenderProfile(doc->getDocumentProperty("renderdestination"), doc->getDocumentProperty("rendercategory"), doc->getDocumentProperty("renderprofile"), doc->getDocumentProperty("renderurl"));
+        connect(m_activeTimeline, SIGNAL(projectHasAudio(bool)), m_renderWidget, SLOT(slotEnableAudio(bool)));
     }
     //doc->setRenderer(m_projectMonitor->render);
     m_commandStack->setActiveStack(doc->commandStack());
@@ -2341,9 +2345,9 @@ void MainWindow::slotSwitchSnap()
 void MainWindow::slotDeleteItem()
 {
     if (QApplication::focusWidget() &&
-        QApplication::focusWidget()->parentWidget() &&
-        QApplication::focusWidget()->parentWidget()->parentWidget() &&
-        QApplication::focusWidget()->parentWidget()->parentWidget() == m_projectListDock) {
+            QApplication::focusWidget()->parentWidget() &&
+            QApplication::focusWidget()->parentWidget()->parentWidget() &&
+            QApplication::focusWidget()->parentWidget()->parentWidget() == m_projectListDock) {
         m_projectList->slotRemoveClip();
 
     } else {
@@ -3625,20 +3629,44 @@ void MainWindow::slotShowTitleBars(bool show)
         m_RGBParadeDock->setTitleBarWidget(0);
         m_histogramDock->setTitleBarWidget(0);
     } else {
-        if (!m_effectStackDock->isFloating()) { m_effectStackDock->setTitleBarWidget(new QWidget(this)); }
-        if (!m_clipMonitorDock->isFloating()) { m_clipMonitorDock->setTitleBarWidget(new QWidget(this)); }
-        if (!m_projectMonitorDock->isFloating()) { m_projectMonitorDock->setTitleBarWidget(new QWidget(this)); }
+        if (!m_effectStackDock->isFloating()) {
+            m_effectStackDock->setTitleBarWidget(new QWidget);
+        }
+        if (!m_clipMonitorDock->isFloating()) {
+            m_clipMonitorDock->setTitleBarWidget(new QWidget);
+        }
+        if (!m_projectMonitorDock->isFloating()) {
+            m_projectMonitorDock->setTitleBarWidget(new QWidget);
+        }
 #ifndef Q_WS_MAC
-        if (!m_recMonitorDock->isFloating()) { m_recMonitorDock->setTitleBarWidget(new QWidget(this)); }
+        if (!m_recMonitorDock->isFloating()) {
+            m_recMonitorDock->setTitleBarWidget(new QWidget);
+        }
 #endif
-        if (!m_effectListDock->isFloating()) { m_effectListDock->setTitleBarWidget(new QWidget(this)); }
-        if (!m_transitionConfigDock->isFloating()) { m_transitionConfigDock->setTitleBarWidget(new QWidget(this)); }
-        if (!m_projectListDock->isFloating()) { m_projectListDock->setTitleBarWidget(new QWidget(this)); }
-        if (!m_undoViewDock->isFloating()) { m_undoViewDock->setTitleBarWidget(new QWidget(this)); }
-        if (!m_vectorscopeDock->isFloating()) { m_vectorscopeDock->setTitleBarWidget(new QWidget(this)); }
-        if (!m_waveformDock->isFloating()) { m_waveformDock->setTitleBarWidget(new QWidget(this)); }
-        if (!m_RGBParadeDock->isFloating()) { m_RGBParadeDock->setTitleBarWidget(new QWidget(this)); }
-        if (!m_histogramDock->isFloating()) { m_histogramDock->setTitleBarWidget(new QWidget(this)); }
+        if (!m_effectListDock->isFloating()) {
+            m_effectListDock->setTitleBarWidget(new QWidget);
+        }
+        if (!m_transitionConfigDock->isFloating()) {
+            m_transitionConfigDock->setTitleBarWidget(new QWidget);
+        }
+        if (!m_projectListDock->isFloating()) {
+            m_projectListDock->setTitleBarWidget(new QWidget);
+        }
+        if (!m_undoViewDock->isFloating()) {
+            m_undoViewDock->setTitleBarWidget(new QWidget);
+        }
+        if (!m_vectorscopeDock->isFloating()) {
+            m_vectorscopeDock->setTitleBarWidget(new QWidget);
+        }
+        if (!m_waveformDock->isFloating()) {
+            m_waveformDock->setTitleBarWidget(new QWidget);
+        }
+        if (!m_RGBParadeDock->isFloating()) {
+            m_RGBParadeDock->setTitleBarWidget(new QWidget(this));
+        }
+        if (!m_histogramDock->isFloating()) {
+            m_histogramDock->setTitleBarWidget(new QWidget(this));
+        }
     }
     KdenliveSettings::setShowtitlebars(show);
 }

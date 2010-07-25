@@ -54,6 +54,10 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent) :
     // Hide multi tab option until Kdenlive really supports it
     m_configMisc.kcfg_activatetabs->setVisible(false);
 
+    QWidget *p8 = new QWidget;
+    m_configProject.setupUi(p8);
+    m_page8 = addPage(p8, i18n("Project Defaults"), "file-new");
+
     QWidget *p3 = new QWidget;
     m_configDisplay.setupUi(p3);
     m_page3 = addPage(p3, i18n("Display"), "video-display");
@@ -142,7 +146,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent) :
 
     connect(m_configSdl.kcfg_audio_driver, SIGNAL(currentIndexChanged(int)), this, SLOT(slotCheckAlsaDriver()));
     initDevices();
-    connect(m_configMisc.kcfg_profiles_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateDisplay()));
+    connect(m_configProject.kcfg_profiles_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateDisplay()));
     connect(m_configCapture.kcfg_rmd_capture_type, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateRmdRegionStatus()));
 
     slotUpdateRmdRegionStatus();
@@ -195,18 +199,18 @@ void KdenliveSettingsDialog::slotUpdateRmdRegionStatus()
 
 void KdenliveSettingsDialog::checkProfile()
 {
-    m_configMisc.kcfg_profiles_list->clear();
+    m_configProject.kcfg_profiles_list->clear();
     QMap <QString, QString> profilesInfo = ProfilesDialog::getProfilesInfo();
     QMapIterator<QString, QString> i(profilesInfo);
     while (i.hasNext()) {
         i.next();
-        m_configMisc.kcfg_profiles_list->addItem(i.key(), i.value());
+        m_configProject.kcfg_profiles_list->addItem(i.key(), i.value());
     }
 
     if (!KdenliveSettings::default_profile().isEmpty()) {
-        for (int i = 0; i < m_configMisc.kcfg_profiles_list->count(); i++) {
-            if (m_configMisc.kcfg_profiles_list->itemData(i).toString() == KdenliveSettings::default_profile()) {
-                m_configMisc.kcfg_profiles_list->setCurrentIndex(i);
+        for (int i = 0; i < m_configProject.kcfg_profiles_list->count(); i++) {
+            if (m_configProject.kcfg_profiles_list->itemData(i).toString() == KdenliveSettings::default_profile()) {
+                m_configProject.kcfg_profiles_list->setCurrentIndex(i);
                 KdenliveSettings::setProfiles_list(i);
                 break;
             }
@@ -418,7 +422,7 @@ void KdenliveSettingsDialog::updateSettings()
 {
     //kDebug() << "// // // KCONFIG UPDATE called";
 
-    m_defaultProfile = m_configMisc.kcfg_profiles_list->currentText();
+    m_defaultProfile = m_configProject.kcfg_profiles_list->currentText();
     KdenliveSettings::setDefault_profile(m_defaultPath);
 
     bool resetProfile = false;
@@ -510,15 +514,15 @@ void KdenliveSettingsDialog::updateSettings()
 
 void KdenliveSettingsDialog::slotUpdateDisplay()
 {
-    QString currentProfile = m_configMisc.kcfg_profiles_list->itemData(m_configMisc.kcfg_profiles_list->currentIndex()).toString();
+    QString currentProfile = m_configProject.kcfg_profiles_list->itemData(m_configProject.kcfg_profiles_list->currentIndex()).toString();
     QMap< QString, QString > values = ProfilesDialog::getSettingsFromFile(currentProfile);
-    m_configMisc.p_size->setText(values.value("width") + 'x' + values.value("height"));
-    m_configMisc.p_fps->setText(values.value("frame_rate_num") + '/' + values.value("frame_rate_den"));
-    m_configMisc.p_aspect->setText(values.value("sample_aspect_num") + '/' + values.value("sample_aspect_den"));
-    m_configMisc.p_display->setText(values.value("display_aspect_num") + '/' + values.value("display_aspect_den"));
-    if (values.value("progressive").toInt() == 0) m_configMisc.p_progressive->setText(i18n("Interlaced"));
-    else m_configMisc.p_progressive->setText(i18n("Progressive"));
-    m_defaultProfile = m_configMisc.kcfg_profiles_list->itemText(m_configMisc.kcfg_profiles_list->currentIndex());
+    m_configProject.p_size->setText(values.value("width") + 'x' + values.value("height"));
+    m_configProject.p_fps->setText(values.value("frame_rate_num") + '/' + values.value("frame_rate_den"));
+    m_configProject.p_aspect->setText(values.value("sample_aspect_num") + '/' + values.value("sample_aspect_den"));
+    m_configProject.p_display->setText(values.value("display_aspect_num") + '/' + values.value("display_aspect_den"));
+    if (values.value("progressive").toInt() == 0) m_configProject.p_progressive->setText(i18n("Interlaced"));
+    else m_configProject.p_progressive->setText(i18n("Progressive"));
+    m_defaultProfile = m_configProject.kcfg_profiles_list->itemText(m_configProject.kcfg_profiles_list->currentIndex());
     m_defaultPath = currentProfile;
 }
 

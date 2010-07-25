@@ -175,6 +175,11 @@ public:
     KPixmapCache* pixmapCache;
     /** update the timeline objects when palette changes */
     void updatePalette();
+    /** @brief Returns true if a track has audio data on it.
+    * @param track The track number
+    *
+    * Check whether given track has a clip with audio in it. */
+    bool hasAudio(int track) const;
 
 public slots:
     void setCursorPos(int pos, bool seek = true);
@@ -300,6 +305,8 @@ private:
     QActionGroup *m_clipTypeGroup;
     QTimer m_scrollTimer;
     QTimer m_thumbsTimer;
+    /** @brief Monitor for changes in timeline (do we have audio data) */
+    QTimer m_audioMonitorTimer;
     int m_scrollOffset;
     bool m_clipDrag;
 
@@ -343,7 +350,7 @@ private:
     void adjustTimelineTransitions(EDITMODE mode, Transition *item, QUndoCommand *command);
     /** Adjust keyframes when pasted to another clip */
     void adjustKeyfames(GenTime oldstart, GenTime newstart, GenTime duration, QDomElement xml);
-    
+
     /** @brief Removes the tip and stops the animation timer. */
     void removeTipAnimation();
     /** @brief Creates a new tip animation.
@@ -401,6 +408,8 @@ signals:
     void updateClipMarkers(DocClipBase *);
     void updateTrackHeaders();
     void playMonitor();
+    /** @brief Monitor document changes (for example the presence of audio data in timeline for export widget.*/
+    void documentModified();
 };
 
 #endif
