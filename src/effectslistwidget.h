@@ -48,6 +48,8 @@ private:
     bool m_dragStarted;
     QPoint m_DragStartPosition;
     QMenu *m_menu;
+    /** @brief Returns the folder item with name equal to passed parameter. */
+    QTreeWidgetItem *findFolder(const QString name);
 private slots:
     void slotExpandItem(const QModelIndex & index);
 };
