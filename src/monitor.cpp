@@ -764,6 +764,7 @@ void Monitor::slotSaveZone()
 
 void Monitor::resetProfile(const QString profile)
 {
+    m_timePos->updateTimeCode(m_monitorManager->timecode());
     if (render == NULL) return;
     render->resetProfile(profile);
 }

@@ -86,6 +86,12 @@ void TimecodeDisplay::slotUpdateTimeCodeFormat()
     setTimeCodeFormat(KdenliveSettings::frametimecode());
 }
 
+void TimecodeDisplay::updateTimeCode(Timecode t)
+{
+    m_timecode = t;
+    setTimeCodeFormat(KdenliveSettings::frametimecode());
+}
+
 void TimecodeDisplay::keyPressEvent(QKeyEvent *e)
 {
     if (e->key() == Qt::Key_Up)

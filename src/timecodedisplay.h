@@ -64,10 +64,14 @@ public:
 
     /** @brief Returs the widget's timecode object. */
     Timecode timecode() const;
-    
+
     /** @brief Sets value's format to frames or HH:MM:SS:FF according to @param frametimecode.
     * @param frametimecode true = frames, false = HH:MM:SS:FF */
     void setTimeCodeFormat(bool frametimecode);
+
+    /** @brief Sets timecode for current project.
+     * @param t the new timecode */
+    void updateTimeCode(Timecode t);
 
 private:
     /** timecode for widget */
