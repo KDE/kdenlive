@@ -750,10 +750,14 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
             int frame_height = imageHeight;
             uint8_t *data = frame->get_image(format, frame_width, frame_height, 0);
             QImage image((uchar *)data, frame_width, frame_height, QImage::Format_ARGB32);
-            QPixmap pix(frame_width, frame_height);
+            QPixmap pix;
 
             if (!image.isNull()) {
-                pix = QPixmap::fromImage(image.rgbSwapped());
+                if (frame_width > (2 * width)) {
+                    // there was a scaling problem, do it manually
+                    QImage scaled = image.scaled(width, imageHeight);
+                    pix = QPixmap::fromImage(scaled.rgbSwapped());
+                } else pix = QPixmap::fromImage(image.rgbSwapped());
             } else
                 pix.fill(Qt::black);
 

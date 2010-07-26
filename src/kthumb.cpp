@@ -259,14 +259,19 @@ QImage KThumb::getFrame(Mlt::Producer *producer, int framepos, int width, int he
     /*Mlt::Producer parentProd(producer->parent());
     Mlt::Service service(parentProd.get_service());
     mlt_service_lock(service.get_service());*/
-
+    int ow = width;
+    int oh = height;
     mlt_image_format format = mlt_image_rgb24a;
-    uint8_t *data = frame->get_image(format, width, height, 0);
-    QImage image((uchar *)data, width, height, QImage::Format_ARGB32);
+    uint8_t *data = frame->get_image(format, ow, oh, 0);
+    QImage image((uchar *)data, ow, oh, QImage::Format_ARGB32);
     //mlt_service_unlock(service.get_service());
 
     if (!image.isNull()) {
-        p = image.rgbSwapped();
+        if (ow > (2 * width)) {
+            // there was a scaling problem, do it manually
+            QImage scaled = image.scaled(width, height);
+            p = scaled.rgbSwapped();
+        } else p = image.rgbSwapped();
     } else
         p.fill(Qt::red);
 
