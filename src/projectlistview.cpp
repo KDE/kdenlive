@@ -54,12 +54,14 @@ ProjectListView::ProjectListView(QWidget *parent) :
     headerView->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(headerView, SIGNAL(customContextMenuRequested(const QPoint&)),
             this, SLOT(configureColumns(const QPoint&)));
+    connect(this, SIGNAL(itemCollapsed(QTreeWidgetItem *)), this, SLOT(slotCollapsed(QTreeWidgetItem *)));
+    connect(this, SIGNAL(itemExpanded(QTreeWidgetItem *)), this, SLOT(slotExpanded(QTreeWidgetItem *)));
     headerView->setClickable(true);
     headerView->setSortIndicatorShown(true);
     headerView->setMovable(false);
     sortByColumn(0, Qt::AscendingOrder);
     setSortingEnabled(true);
-
+    installEventFilter(this);
     if (!KdenliveSettings::showdescriptioncolumn()) hideColumn(1);
     if (!KdenliveSettings::showratingcolumn()) hideColumn(2);
 }
@@ -114,18 +116,43 @@ void ProjectListView::contextMenuEvent(QContextMenuEvent * event)
     emit requestMenu(event->globalPos(), itemAt(event->pos()));
 }
 
-// virtual
-void ProjectListView::keyPressEvent(QKeyEvent * event)
+void ProjectListView::slotCollapsed(QTreeWidgetItem *item)
 {
-    if (event->key() == Qt::Key_Return) {
-        QTreeWidgetItem *it = currentItem();
-        if (it) {
-            it->setExpanded(!it->isExpanded());
-            if (it->type() == PROJECTFOLDERTYPE) {
-                static_cast <FolderProjectItem *>(it)->switchIcon();
-            }
+    if (item->type() == PROJECTFOLDERTYPE) {
+        blockSignals(true);
+        static_cast <FolderProjectItem *>(item)->switchIcon();
+        blockSignals(false);
+    }
+}
+
+void ProjectListView::slotExpanded(QTreeWidgetItem *item)
+{
+    if (item->type() == PROJECTFOLDERTYPE) {
+        blockSignals(true);
+        static_cast <FolderProjectItem *>(item)->switchIcon();
+        blockSignals(false);
+    }
+}
+
+bool ProjectListView::eventFilter(QObject *obj, QEvent *event)
+{
+    if (event->type() == QEvent::KeyPress || event->type() == QEvent::ShortcutOverride) {
+        QKeyEvent* ke = (QKeyEvent*) event;
+        if (ke->key() == Qt::Key_Plus) {
+            if (currentItem()) currentItem()->setExpanded(true);
+            event->accept();
+            return true;
+        } else if (ke->key() == Qt::Key_Minus) {
+            if (currentItem()) currentItem()->setExpanded(false);
+            event->accept();
+            return true;
+        } else {
+            return false;
         }
-    } else QTreeWidget::keyPressEvent(event);
+    } else {
+        // pass the event on to the parent class
+        return QTreeWidget::eventFilter(obj, event);
+    }
 }
 
 // virtual
@@ -143,7 +170,6 @@ void ProjectListView::mouseDoubleClickEvent(QMouseEvent * event)
             int offset = pix.width() + indentation();
             if (event->pos().x() < offset) {
                 it->setExpanded(!it->isExpanded());
-                static_cast <FolderProjectItem *>(it)->switchIcon();
                 event->accept();
             } else QTreeWidget::mouseDoubleClickEvent(event);
         }

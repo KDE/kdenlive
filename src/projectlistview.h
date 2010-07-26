@@ -47,7 +47,9 @@ protected:
     virtual QStringList mimeTypes() const;
     virtual Qt::DropActions supportedDropActions() const;
     virtual void dragLeaveEvent(QDragLeaveEvent *);
-    virtual void keyPressEvent(QKeyEvent * event);
+
+    /** @brief Filters key events to make sure user can expand items with + / -. */
+    virtual bool eventFilter(QObject *obj, QEvent *ev);
 
 public slots:
 
@@ -58,6 +60,8 @@ private:
 
 private slots:
     void configureColumns(const QPoint& pos);
+    void slotCollapsed(QTreeWidgetItem *item);
+    void slotExpanded(QTreeWidgetItem *item);
 
 signals:
     void requestMenu(const QPoint &, QTreeWidgetItem *);
