@@ -1245,5 +1245,16 @@ const QString KdenliveDoc::getDocumentProperty(const QString &name) const
     return m_documentProperties.value(name);
 }
 
+QMap <QString, QString> KdenliveDoc::getRenderProperties() const
+{
+    QMap <QString, QString> renderProperties;
+    QMapIterator<QString, QString> i(m_documentProperties);
+    while (i.hasNext()) {
+        i.next();
+        if (i.key().startsWith("render")) renderProperties.insert(i.key(), i.value());
+    }
+    return renderProperties;
+}
+
 #include "kdenlivedoc.moc"
 

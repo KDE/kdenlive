@@ -823,7 +823,29 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
     renderParameters << scriptName;
 
     // Save rendering profile to document
-    emit selectedRenderProfile(m_view.size_list->currentItem()->data(MetaGroupRole).toString(), m_view.size_list->currentItem()->data(GroupRole).toString(), m_view.size_list->currentItem()->text(), dest, m_view.render_zone->isChecked(), m_view.render_guide->isChecked(), m_view.guide_start->currentIndex(), m_view.guide_end->currentIndex());
+    QMap <QString, QString> renderProps;
+    renderProps.insert("renderdestination", m_view.size_list->currentItem()->data(MetaGroupRole).toString());
+    renderProps.insert("rendercategory", m_view.size_list->currentItem()->data(GroupRole).toString());
+    renderProps.insert("renderprofile", m_view.size_list->currentItem()->text());
+    renderProps.insert("renderurl", dest);
+    renderProps.insert("renderzone", QString::number(m_view.render_zone->isChecked()));
+    renderProps.insert("renderguide", QString::number(m_view.render_guide->isChecked()));
+    renderProps.insert("renderstartguide", QString::number(m_view.guide_start->currentIndex()));
+    renderProps.insert("renderendguide", QString::number(m_view.guide_end->currentIndex()));
+    renderProps.insert("renderendguide", QString::number(m_view.guide_end->currentIndex()));
+    renderProps.insert("renderscanning", QString::number(m_view.scanning_list->currentIndex()));
+    int export_audio = 0;
+    if (m_view.export_audio->checkState() == Qt::Checked) export_audio = 2;
+    else if (m_view.export_audio->checkState() == Qt::Unchecked) export_audio = 1;
+    renderProps.insert("renderexportaudio", QString::number(export_audio));
+    renderProps.insert("renderrescale", QString::number(m_view.rescale->isChecked()));
+    renderProps.insert("renderrescalewidth", QString::number(m_view.rescale_width->value()));
+    renderProps.insert("renderrescaleheight", QString::number(m_view.rescale_height->value()));
+    renderProps.insert("rendertcoverlay", QString::number(m_view.tc_overlay->isChecked()));
+    renderProps.insert("renderratio", QString::number(m_view.rescale_keep->isChecked()));
+    renderProps.insert("renderplay", QString::number(m_view.play_after->isChecked()));
+
+    emit selectedRenderProfile(renderProps);
 
     // insert item in running jobs list
     QTreeWidgetItem *renderItem;
@@ -1697,23 +1719,43 @@ void RenderWidget::slotHideLog()
     m_view.error_box->setVisible(false);
 }
 
-void RenderWidget::setRenderProfile(const QString &dest, const QString &group, const QString &name, const QString &url, bool renderZone, bool renderGuide, int guideStart, int guideEnd)
+void RenderWidget::setRenderProfile(QMap <QString, QString> props)
 {
     m_view.destination_list->blockSignals(true);
     m_view.format_list->blockSignals(true);
-    if (renderZone) m_view.render_zone->setChecked(true);
-    else if (renderGuide) {
+    m_view.scanning_list->setCurrentIndex(props.value("renderscanning").toInt());
+    int exportAudio = props.value("renderexportaudio").toInt();
+    switch (exportAudio) {
+    case 1:
+        m_view.export_audio->setCheckState(Qt::Unchecked);
+        break;
+    case 2:
+        m_view.export_audio->setCheckState(Qt::Checked);
+        break;
+    default:
+        m_view.export_audio->setCheckState(Qt::PartiallyChecked);
+    }
+    if (props.contains("renderrescale")) m_view.rescale->setChecked(props.value("renderrescale").toInt());
+    if (props.contains("renderrescalewidth")) m_view.rescale_width->setValue(props.value("renderrescalewidth").toInt());
+    if (props.contains("renderrescaleheight")) m_view.rescale_height->setValue(props.value("renderrescaleheight").toInt());
+    if (props.contains("rendertcoverlay")) m_view.tc_overlay->setChecked(props.value("rendertcoverlay").toInt());
+    if (props.contains("renderratio")) m_view.rescale_keep->setChecked(props.value("renderratio").toInt());
+    if (props.contains("renderplay")) m_view.play_after->setChecked(props.value("renderplay").toInt());
+
+    if (props.value("renderzone") == "1") m_view.render_zone->setChecked(true);
+    else if (props.value("renderguide") == "1") {
         m_view.render_guide->setChecked(true);
-        m_view.guide_start->setCurrentIndex(guideStart);
-        m_view.guide_end->setCurrentIndex(guideEnd);
+        m_view.guide_start->setCurrentIndex(props.value("renderstartguide").toInt());
+        m_view.guide_end->setCurrentIndex(props.value("renderendguide").toInt());
     } else m_view.render_full->setChecked(true);
     slotUpdateGuideBox();
 
+    QString url = props.value("renderurl");
     if (!url.isEmpty()) m_view.out_file->setUrl(KUrl(url));
 
     // set destination
     for (int i = 0; i < m_view.destination_list->count(); i++) {
-        if (m_view.destination_list->itemData(i, Qt::UserRole) == dest) {
+        if (m_view.destination_list->itemData(i, Qt::UserRole) == props.value("renderdestination")) {
             m_view.destination_list->setCurrentIndex(i);
             break;
         }
@@ -1721,6 +1763,7 @@ void RenderWidget::setRenderProfile(const QString &dest, const QString &group, c
     refreshCategory();
 
     // set category
+    QString group = props.value("rendercategory");
     if (!group.isEmpty()) {
         QList<QListWidgetItem *> childs = m_view.format_list->findItems(group, Qt::MatchExactly);
         if (!childs.isEmpty()) {
@@ -1731,7 +1774,7 @@ void RenderWidget::setRenderProfile(const QString &dest, const QString &group, c
     }
 
     // set profile
-    QList<QListWidgetItem *> childs = m_view.size_list->findItems(name, Qt::MatchExactly);
+    QList<QListWidgetItem *> childs = m_view.size_list->findItems(props.value("renderprofile"), Qt::MatchExactly);
     if (!childs.isEmpty()) {
         m_view.size_list->setCurrentItem(childs.at(0));
         m_view.size_list->scrollToItem(childs.at(0));

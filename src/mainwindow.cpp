@@ -1977,7 +1977,7 @@ void MainWindow::slotRenderProject()
         QString projectfolder = m_activeDocument ? m_activeDocument->projectFolder().path(KUrl::AddTrailingSlash) : KdenliveSettings::defaultprojectfolder();
         m_renderWidget = new RenderWidget(projectfolder, this);
         connect(m_renderWidget, SIGNAL(shutdown()), this, SLOT(slotShutdown()));
-        connect(m_renderWidget, SIGNAL(selectedRenderProfile(const QString &, const QString &, const QString &, const QString&, bool, bool, int, int)), this, SLOT(slotSetDocumentRenderProfile(const QString &, const QString &, const QString &, const QString&, bool, bool, int, int)));
+        connect(m_renderWidget, SIGNAL(selectedRenderProfile(QMap <QString, QString>)), this, SLOT(slotSetDocumentRenderProfile(QMap <QString, QString>)));
         connect(m_renderWidget, SIGNAL(prepareRenderingData(bool, bool, const QString&)), this, SLOT(slotPrepareRendering(bool, bool, const QString&)));
         connect(m_renderWidget, SIGNAL(abortProcess(const QString &)), this, SIGNAL(abortRenderJob(const QString &)));
         connect(m_renderWidget, SIGNAL(openDvdWizard(const QString &, const QString &)), this, SLOT(slotDvdWizard(const QString &, const QString &)));
@@ -1985,7 +1985,7 @@ void MainWindow::slotRenderProject()
             m_renderWidget->setProfile(m_activeDocument->mltProfile());
             m_renderWidget->setGuides(m_activeDocument->guidesXml(), m_activeDocument->projectDuration());
             m_renderWidget->setDocumentPath(m_activeDocument->projectFolder().path(KUrl::AddTrailingSlash));
-            m_renderWidget->setRenderProfile(m_activeDocument->getDocumentProperty("renderdestination"), m_activeDocument->getDocumentProperty("rendercategory"), m_activeDocument->getDocumentProperty("renderprofile"), m_activeDocument->getDocumentProperty("renderurl"), m_activeDocument->getDocumentProperty("renderzone") == "1", m_activeDocument->getDocumentProperty("renderguide") == "1", m_activeDocument->getDocumentProperty("startguide").toInt(), m_activeDocument->getDocumentProperty("endguide").toInt());
+            m_renderWidget->setRenderProfile(m_activeDocument->getRenderProperties());
         }
     }
     slotCheckRenderStatus();
@@ -2196,7 +2196,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
         m_renderWidget->setProfile(doc->mltProfile());
         m_renderWidget->setGuides(doc->guidesXml(), doc->projectDuration());
         m_renderWidget->setDocumentPath(doc->projectFolder().path(KUrl::AddTrailingSlash));
-        m_renderWidget->setRenderProfile(doc->getDocumentProperty("renderdestination"), doc->getDocumentProperty("rendercategory"), doc->getDocumentProperty("renderprofile"), doc->getDocumentProperty("renderurl"), doc->getDocumentProperty("renderzone") == "1", doc->getDocumentProperty("renderguide") == "1", doc->getDocumentProperty("startguide").toInt(), doc->getDocumentProperty("endguide").toInt());
+        m_renderWidget->setRenderProfile(doc->getRenderProperties());
     }
     //doc->setRenderer(m_projectMonitor->render);
     m_commandStack->setActiveStack(doc->commandStack());
@@ -3358,17 +3358,14 @@ void MainWindow::slotTranscodeClip()
     slotTranscode(urls);
 }
 
-void MainWindow::slotSetDocumentRenderProfile(const QString &dest, const QString &group, const QString &name, const QString &file, bool renderZone, bool renderGuide, int startGuide, int endGuide)
+void MainWindow::slotSetDocumentRenderProfile(QMap <QString, QString> props)
 {
     if (m_activeDocument == NULL) return;
-    m_activeDocument->setDocumentProperty("renderdestination", dest);
-    m_activeDocument->setDocumentProperty("rendercategory", group);
-    m_activeDocument->setDocumentProperty("renderprofile", name);
-    m_activeDocument->setDocumentProperty("renderurl", file);
-    m_activeDocument->setDocumentProperty("renderzone", QString::number(renderZone));
-    m_activeDocument->setDocumentProperty("renderguide", QString::number(renderGuide));
-    m_activeDocument->setDocumentProperty("startguide", QString::number(startGuide));
-    m_activeDocument->setDocumentProperty("endguide", QString::number(endGuide));
+    QMapIterator<QString, QString> i(props);
+    while (i.hasNext()) {
+        i.next();
+        m_activeDocument->setDocumentProperty(i.key(), i.value());
+    }
     m_activeDocument->setModified(true);
 }
 

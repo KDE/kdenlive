@@ -114,6 +114,8 @@ Q_OBJECT public:
     bool isTrackLocked(int ix) const;
     void setDocumentProperty(const QString &name, const QString &value);
     const QString getDocumentProperty(const QString &name) const;
+    /** @brief get the list of renderer properties that were saved in the document */
+    QMap <QString, QString> getRenderProperties() const;
 
 private:
     KUrl m_url;
