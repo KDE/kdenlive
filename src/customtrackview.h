@@ -305,8 +305,6 @@ private:
     QActionGroup *m_clipTypeGroup;
     QTimer m_scrollTimer;
     QTimer m_thumbsTimer;
-    /** @brief Monitor for changes in timeline (do we have audio data) */
-    QTimer m_audioMonitorTimer;
     int m_scrollOffset;
     bool m_clipDrag;
 

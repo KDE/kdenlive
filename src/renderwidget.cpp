@@ -62,8 +62,7 @@ const int FINISHEDJOB = 2;
 RenderWidget::RenderWidget(const QString &projectfolder, QWidget * parent) :
         QDialog(parent),
         m_projectFolder(projectfolder),
-        m_blockProcessing(false),
-        m_autoAudio(false)
+        m_blockProcessing(false)
 {
     m_view.setupUi(this);
     setWindowTitle(i18n("Rendering"));
@@ -117,7 +116,8 @@ RenderWidget::RenderWidget(const QString &projectfolder, QWidget * parent) :
 
     parseProfiles();
     parseScriptFiles();
-
+    m_view.running_jobs->setUniformRowHeights(false);
+    m_view.scripts_list->setUniformRowHeights(false);
     connect(m_view.start_script, SIGNAL(clicked()), this, SLOT(slotStartScript()));
     connect(m_view.delete_script, SIGNAL(clicked()), this, SLOT(slotDeleteScript()));
     connect(m_view.scripts_list, SIGNAL(itemSelectionChanged()), this, SLOT(slotCheckScript()));
@@ -680,7 +680,7 @@ void RenderWidget::slotPrepareExport(bool scriptExport)
 }
 
 
-void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const QString &playlistPath, const QString &scriptPath)
+void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const QString &playlistPath, const QString &scriptPath, bool exportAudio)
 {
     QListWidgetItem *item = m_view.size_list->currentItem();
     if (!item) return;
@@ -752,8 +752,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
     else if (m_view.scanning_list->currentIndex() == 2) renderArgs.append(" progressive=0");
 
     // disable audio if requested
-    if (m_view.export_audio->checkState() == Qt::Unchecked || (m_view.export_audio->checkState() == Qt::PartiallyChecked && !m_autoAudio))
-        renderArgs.append(" an=1 ");
+    if (!exportAudio) renderArgs.append(" an=1 ");
 
     // Check if the rendering profile is different from project profile,
     // in which case we need to use the producer_comsumer from MLT
@@ -822,7 +821,6 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
         return;
     }
     renderParameters << scriptName;
-    m_view.tabWidget->setCurrentIndex(1);
 
     // Save rendering profile to document
     emit selectedRenderProfile(m_view.size_list->currentItem()->data(MetaGroupRole).toString(), m_view.size_list->currentItem()->data(GroupRole).toString(), m_view.size_list->currentItem()->text(), dest);
@@ -867,6 +865,10 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
         }
     }
     renderItem->setData(1, Qt::UserRole + 3, render_process_args);
+    if (exportAudio == false) renderItem->setData(1, Qt::UserRole + 5, i18n("Video without audio track"));
+    else  renderItem->setData(1, Qt::UserRole + 5, QString());
+    m_view.running_jobs->setCurrentItem(renderItem);
+    m_view.tabWidget->setCurrentIndex(1);
     checkRenderStatus();
 }
 
@@ -1551,6 +1553,12 @@ void RenderWidget::slotCheckJob()
         activate = true;
     }
     m_view.abort_job->setEnabled(activate);
+    for (int i = 0; i < m_view.running_jobs->topLevelItemCount(); i++) {
+        current = m_view.running_jobs->topLevelItem(i);
+        if (current == m_view.running_jobs->currentItem()) {
+            current->setSizeHint(1, QSize(m_view.running_jobs->columnWidth(1), fontMetrics().height() * 3));
+        } else current->setSizeHint(1, QSize(m_view.running_jobs->columnWidth(1), fontMetrics().height() * 2));
+    }
 }
 
 void RenderWidget::slotCLeanUpJobs()
@@ -1625,10 +1633,16 @@ void RenderWidget::parseScriptFiles()
 
 void RenderWidget::slotCheckScript()
 {
-    QTreeWidgetItem *item = m_view.scripts_list->currentItem();
-    if (item == NULL) return;
-    m_view.start_script->setEnabled(item->data(0, Qt::UserRole).toString().isEmpty());
+    QTreeWidgetItem *current = m_view.scripts_list->currentItem();
+    if (current == NULL) return;
+    m_view.start_script->setEnabled(current->data(0, Qt::UserRole).toString().isEmpty());
     m_view.delete_script->setEnabled(true);
+    for (int i = 0; i < m_view.scripts_list->topLevelItemCount(); i++) {
+        current = m_view.scripts_list->topLevelItem(i);
+        if (current == m_view.scripts_list->currentItem()) {
+            current->setSizeHint(1, QSize(m_view.scripts_list->columnWidth(1), fontMetrics().height() * 3));
+        } else current->setSizeHint(1, QSize(m_view.scripts_list->columnWidth(1), fontMetrics().height() * 2));
+    }
 }
 
 void RenderWidget::slotStartScript()
@@ -1791,12 +1805,6 @@ void RenderWidget::missingClips(bool hasMissing)
     } else m_view.errorLabel->setHidden(true);
 }
 
-void RenderWidget::slotEnableAudio(bool enable)
-{
-    m_autoAudio = enable;
-    if (m_view.export_audio->checkState() == Qt::PartiallyChecked) m_view.export_audio->setText(m_autoAudio ? i18n("Export audio (on)") : i18n("Export audio (off)"));
-}
-
 void RenderWidget::slotUpdateRescaleWidth(int val)
 {
     KdenliveSettings::setDefaultrescalewidth(val);
@@ -1826,7 +1834,18 @@ void RenderWidget::slotSwitchAspectRatio()
 void RenderWidget::slotUpdateAudioLabel(int ix)
 {
     if (ix == Qt::PartiallyChecked)
-        m_view.export_audio->setText(m_autoAudio ? i18n("Export audio (on)") : i18n("Export audio (off)"));
+        m_view.export_audio->setText(i18n("Export audio (automatic)"));
     else
-        m_view.export_audio->setText(i18n("Audio export"));
+        m_view.export_audio->setText(i18n("Export audio"));
 }
+
+bool RenderWidget::automaticAudioExport() const
+{
+    return (m_view.export_audio->checkState() == Qt::PartiallyChecked);
+}
+
+bool RenderWidget::selectedAudioExport() const
+{
+    return (m_view.export_audio->checkState() != Qt::Unchecked);
+}
+

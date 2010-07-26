@@ -117,7 +117,6 @@ TrackView::TrackView(KdenliveDoc *doc, bool *ok, QWidget *parent) :
 
     slotChangeZoom(m_doc->zoom().x(), m_doc->zoom().y());
     slotSetZone(m_doc->zone());
-    connect(m_trackview, SIGNAL(documentModified()), this, SLOT(slotCheckProjectAudio()));
 }
 
 TrackView::~TrackView()
@@ -148,7 +147,7 @@ int TrackView::tracksNumber() const
     return m_projectTracks - 1;
 }
 
-void TrackView::slotCheckProjectAudio()
+bool TrackView::checkProjectAudio() const
 {
     bool hasAudio = false;
     const QList <TrackInfo> list = m_doc->tracksList();
@@ -160,7 +159,7 @@ void TrackView::slotCheckProjectAudio()
             break;
         }
     }
-    emit projectHasAudio(hasAudio);
+    return hasAudio;
 }
 
 int TrackView::inPoint() const
@@ -452,7 +451,6 @@ void TrackView::parseDocument(QDomDocument doc)
         else
             KMessageBox::information(this, i18n("Your project file was upgraded to the latest Kdenlive document version, but it was not possible to create a backup copy.", backupFile));
     }
-    slotCheckProjectAudio();
     //m_trackview->setCursorPos(cursorPos);
     //m_scrollBox->setGeometry(0, 0, 300 * zoomFactor(), m_scrollArea->height());
 }

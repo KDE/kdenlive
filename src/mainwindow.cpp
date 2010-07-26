@@ -1987,7 +1987,6 @@ void MainWindow::slotRenderProject()
             m_renderWidget->setDocumentPath(m_activeDocument->projectFolder().path(KUrl::AddTrailingSlash));
             m_renderWidget->setRenderProfile(m_activeDocument->getDocumentProperty("renderdestination"), m_activeDocument->getDocumentProperty("rendercategory"), m_activeDocument->getDocumentProperty("renderprofile"), m_activeDocument->getDocumentProperty("renderurl"));
         }
-        if (m_activeTimeline) connect(m_activeTimeline, SIGNAL(projectHasAudio(bool)), m_renderWidget, SLOT(slotEnableAudio(bool)));
     }
     slotCheckRenderStatus();
     m_renderWidget->show();
@@ -2191,9 +2190,6 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
 
 
     trackView->projectView()->setContextMenu(m_timelineContextMenu, m_timelineContextClipMenu, m_timelineContextTransitionMenu, m_clipTypeGroup, (QMenu*)(factory()->container("marker_menu", this)));
-    if (m_renderWidget) {
-        if (m_activeTimeline) disconnect(m_activeTimeline, SIGNAL(projectHasAudio(bool)), m_renderWidget, SLOT(slotEnableAudio(bool)));
-    }
     m_activeTimeline = trackView;
     if (m_renderWidget) {
         slotCheckRenderStatus();
@@ -2201,7 +2197,6 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
         m_renderWidget->setGuides(doc->guidesXml(), doc->projectDuration());
         m_renderWidget->setDocumentPath(doc->projectFolder().path(KUrl::AddTrailingSlash));
         m_renderWidget->setRenderProfile(doc->getDocumentProperty("renderdestination"), doc->getDocumentProperty("rendercategory"), doc->getDocumentProperty("renderprofile"), doc->getDocumentProperty("renderurl"));
-        connect(m_activeTimeline, SIGNAL(projectHasAudio(bool)), m_renderWidget, SLOT(slotEnableAudio(bool)));
     }
     //doc->setRenderer(m_projectMonitor->render);
     m_commandStack->setActiveStack(doc->commandStack());
@@ -3452,8 +3447,11 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
             }
         }
     }
-
-    m_renderWidget->slotExport(scriptExport, m_activeTimeline->inPoint(), m_activeTimeline->outPoint(), playlistPath, scriptPath);
+    bool exportAudio;
+    if (m_renderWidget->automaticAudioExport()) {
+        exportAudio = m_activeTimeline->checkProjectAudio();
+    } else exportAudio = m_renderWidget->selectedAudioExport();
+    m_renderWidget->slotExport(scriptExport, m_activeTimeline->inPoint(), m_activeTimeline->outPoint(), playlistPath, scriptPath, exportAudio);
 }
 
 void MainWindow::slotUpdateTimecodeFormat(int ix)

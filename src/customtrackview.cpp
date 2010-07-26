@@ -173,10 +173,6 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscen
     connect(&m_thumbsTimer, SIGNAL(timeout()), this, SLOT(slotFetchNextThumbs()));
     m_thumbsTimer.setInterval(500);
     m_thumbsTimer.setSingleShot(true);
-
-    connect(&m_audioMonitorTimer, SIGNAL(timeout()), this, SIGNAL(documentModified()));
-    m_audioMonitorTimer.setInterval(2000);
-    m_audioMonitorTimer.setSingleShot(true);
 }
 
 CustomTrackView::~CustomTrackView()
@@ -201,7 +197,6 @@ void CustomTrackView::keyPressEvent(QKeyEvent * event)
 void CustomTrackView::setDocumentModified()
 {
     m_document->setModified(true);
-    m_audioMonitorTimer.start();
 }
 
 void CustomTrackView::setContextMenu(QMenu *timeline, QMenu *clip, QMenu *transition, QActionGroup *clipTypeGroup, QMenu *markermenu)

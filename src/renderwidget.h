@@ -23,7 +23,7 @@
 
 #include <QPushButton>
 #include <QPainter>
-#include <QItemDelegate>
+#include <QStyledItemDelegate>
 
 #include "definitions.h"
 #include "ui_renderwidget_ui.h"
@@ -32,46 +32,56 @@ class QDomElement;
 
 
 // RenderViewDelegate is used to draw the progress bars.
-class RenderViewDelegate : public QItemDelegate
+class RenderViewDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
 public:
-    RenderViewDelegate(QWidget *parent) : QItemDelegate(parent) {}
+    RenderViewDelegate(QWidget *parent) : QStyledItemDelegate(parent) {}
 
     void paint(QPainter *painter, const QStyleOptionViewItem &option,
                const QModelIndex &index) const {
         if (index.column() == 1) {
-            QRect r1 = option.rect;
             painter->save();
-            if (option.state & (QStyle::State_Selected)) {
-                painter->setPen(option.palette.color(QPalette::HighlightedText));
-                painter->fillRect(r1, option.palette.highlight());
-            } else painter->setPen(option.palette.color(QPalette::Text));
+            int factor = 2;
+            QStyleOptionViewItemV4 opt(option);
+            QStyle *style = opt.widget ? opt.widget->style() : QApplication::style();
+            const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
+            style->drawPrimitive(QStyle::PE_PanelItemViewItem, &opt, painter, opt.widget);
+
+            if (option.state & QStyle::State_Selected) {
+                painter->setPen(option.palette.highlightedText().color());
+                factor = 3;
+            }// else painter->setPen(option.palette.color(QPalette::Text));
             QFont font = painter->font();
             font.setBold(true);
             painter->setFont(font);
-            int mid = (int)((r1.height() / 2));
+            QRect r1 = option.rect;
+            r1.adjust(0, textMargin, 0, - textMargin);
+            int mid = (int)((r1.height() / factor));
             r1.setBottom(r1.y() + mid);
-            QRect r2 = option.rect;
-            r2.setTop(r2.y() + mid);
             painter->drawText(r1, Qt::AlignLeft | Qt::AlignBottom , index.data().toString());
+            r1.setBottom(r1.bottom() + mid);
+            r1.setTop(r1.bottom() - mid);
             font.setBold(false);
             painter->setFont(font);
-            painter->setPen(option.palette.color(QPalette::Mid));
-            painter->drawText(r2, Qt::AlignLeft | Qt::AlignVCenter , index.data(Qt::UserRole).toString());
+            painter->drawText(r1, Qt::AlignLeft | Qt::AlignVCenter , index.data(Qt::UserRole).toString());
+            if (factor > 2) {
+                r1.setBottom(r1.bottom() + mid);
+                r1.setTop(r1.bottom() - mid);
+                painter->drawText(r1, Qt::AlignLeft | Qt::AlignVCenter , index.data(Qt::UserRole + 5).toString());
+            }
             painter->restore();
         } else if (index.column() == 2) {
             // Set up a QStyleOptionProgressBar to precisely mimic the
             // environment of a progress bar.
+            QStyleOptionViewItemV4 opt(option);
+            QStyle *style = opt.widget ? opt.widget->style() : QApplication::style();
+            style->drawPrimitive(QStyle::PE_PanelItemViewItem, &opt, painter, opt.widget);
+
             QStyleOptionProgressBar progressBarOption;
             progressBarOption.state = option.state;
             progressBarOption.direction = QApplication::layoutDirection();
             QRect rect = option.rect;
-            if (option.state & (QStyle::State_Selected)) {
-                painter->setPen(option.palette.color(QPalette::HighlightedText));
-                painter->fillRect(rect, option.palette.highlight());
-            }
-
             int mid = rect.height() / 2;
             rect.setTop(rect.top() + mid / 2);
             rect.setHeight(mid);
@@ -89,7 +99,7 @@ public:
 
             // Draw the progress bar onto the view.
             QApplication::style()->drawControl(QStyle::CE_ProgressBar, &progressBarOption, painter);
-        } else QItemDelegate::paint(painter, option, index);
+        } else QStyledItemDelegate::paint(painter, option, index);
     }
 };
 
@@ -113,11 +123,13 @@ public:
     QString getFreeScriptName(const QString &prefix = QString());
     bool startWaitingRenderJobs();
     void missingClips(bool hasMissing);
+    /** @brief Returns true if the export audio checkbox is set to automatic. */
+    bool automaticAudioExport() const;
+    /** @brief Returns true if user wants audio export. */
+    bool selectedAudioExport() const;
 
 public slots:
-    void slotExport(bool scriptExport, int zoneIn, int zoneOut, const QString &playlistPath, const QString &scriptPath);
-    /** @brief Enable / disable audio export if audio export checkbox is in auto mode. */
-    void slotEnableAudio(bool enable);
+    void slotExport(bool scriptExport, int zoneIn, int zoneOut, const QString &playlistPath, const QString &scriptPath, bool exportAudio);
 
 private slots:
     void slotUpdateButtons(KUrl url);
@@ -171,8 +183,6 @@ private:
     void saveProfile(QDomElement newprofile);
     QList <QListWidgetItem *> m_renderItems;
     QList <QListWidgetItem *> m_renderCategory;
-    /** @brief True if current project has audio, false otherwise. */
-    bool m_autoAudio;
 
 signals:
     void abortProcess(const QString &url);

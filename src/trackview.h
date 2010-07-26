@@ -69,6 +69,10 @@ public:
     * Used to change from displaying frames to timecode or vice versa. */
     void updateRuler();
 
+    /** @brief Parse tracks to see if project has audio in it.
+    *
+    * Parses all tracks to check if there is audio data. */
+    bool checkProjectAudio() const;
 
 protected:
     virtual void keyPressEvent(QKeyEvent * event);
@@ -120,11 +124,6 @@ private slots:
      * of the vertical scrollbar is maximal */
     void slotUpdateVerticalScroll(int min, int max);
 
-    /** @brief Parse tracks to see if project has audio in it.
-    *
-    * Parses all tracks to check if there is audio data. */
-    void slotCheckProjectAudio();
-
 signals:
     void mousePosition(int);
     void cursorMoved();
@@ -134,8 +133,6 @@ signals:
     void configTrack(int);
     void updateTracksInfo();
     void setZoom(int);
-    /** @brief Inform render widget if our project has audio */
-    void projectHasAudio(bool);
 };
 
 #endif
