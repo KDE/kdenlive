@@ -432,7 +432,7 @@ private slots:
     void slotMaximizeCurrent(bool show);
     void slotTranscode(KUrl::List urls = KUrl::List());
     void slotTranscodeClip();
-    void slotSetDocumentRenderProfile(const QString &dest, const QString &group, const QString &name, const QString &file);
+    void slotSetDocumentRenderProfile(const QString &dest, const QString &group, const QString &name, const QString &file, bool renderZone, bool renderGuide, int startGuide, int endGuide);
     void slotPrepareRendering(bool scriptExport, bool zoneOnly, const QString &chapterFile);
 
     /** @brief Switches between displaying frames or timecode.

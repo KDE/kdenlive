@@ -823,7 +823,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
     renderParameters << scriptName;
 
     // Save rendering profile to document
-    emit selectedRenderProfile(m_view.size_list->currentItem()->data(MetaGroupRole).toString(), m_view.size_list->currentItem()->data(GroupRole).toString(), m_view.size_list->currentItem()->text(), dest);
+    emit selectedRenderProfile(m_view.size_list->currentItem()->data(MetaGroupRole).toString(), m_view.size_list->currentItem()->data(GroupRole).toString(), m_view.size_list->currentItem()->text(), dest, m_view.render_zone->isChecked(), m_view.render_guide->isChecked(), m_view.guide_start->currentIndex(), m_view.guide_end->currentIndex());
 
     // insert item in running jobs list
     QTreeWidgetItem *renderItem;
@@ -1697,10 +1697,17 @@ void RenderWidget::slotHideLog()
     m_view.error_box->setVisible(false);
 }
 
-void RenderWidget::setRenderProfile(const QString &dest, const QString &group, const QString &name, const QString &url)
+void RenderWidget::setRenderProfile(const QString &dest, const QString &group, const QString &name, const QString &url, bool renderZone, bool renderGuide, int guideStart, int guideEnd)
 {
     m_view.destination_list->blockSignals(true);
     m_view.format_list->blockSignals(true);
+    if (renderZone) m_view.render_zone->setChecked(true);
+    else if (renderGuide) {
+        m_view.render_guide->setChecked(true);
+        m_view.guide_start->setCurrentIndex(guideStart);
+        m_view.guide_end->setCurrentIndex(guideEnd);
+    } else m_view.render_full->setChecked(true);
+    slotUpdateGuideBox();
 
     if (!url.isEmpty()) m_view.out_file->setUrl(KUrl(url));
 
