@@ -5359,7 +5359,7 @@ void CustomTrackView::slotUpdateAllThumbs()
     for (int i = 0; i < itemList.count(); i++) {
         if (itemList.at(i)->type() == AVWIDGET) {
             item = static_cast <ClipItem *>(itemList.at(i));
-            if (item->clipType() != COLOR && item->clipType() != AUDIO) {
+            if (item && item->isEnabled() && item->clipType() != COLOR && item->clipType() != AUDIO) {
                 // Check if we have a cached thumbnail
                 if (item->clipType() == IMAGE || item->clipType() == TEXT) {
                     QString thumb = thumbBase + item->baseClip()->getClipHash() + "_0.png";
@@ -5384,9 +5384,8 @@ void CustomTrackView::slotUpdateAllThumbs()
                         item->slotSetEndThumb(pix);
                     }
                 }
+		item->refreshClip(false);
             }
-            item->refreshClip(false);
-            //qApp->processEvents();
         }
     }
     viewport()->update();
