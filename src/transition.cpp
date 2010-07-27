@@ -45,7 +45,7 @@ Transition::Transition(const ItemInfo info, int transitiontrack, double fps, QDo
 #if QT_VERSION >= 0x040600
     m_startAnimation = new QPropertyAnimation(this, "rect");
     m_startAnimation->setDuration(200);
-    QRectF r(0, 0, m_info.cropDuration.frames(fps) - 0.02, 1);
+    QRectF r(0, 0, m_info.cropDuration.frames(fps) - 0.02, (qreal)(KdenliveSettings::trackheight() / 3 + 5));
     QRectF r2(0, 0, m_info.cropDuration.frames(fps) - 0.02, (qreal)(KdenliveSettings::trackheight() / 3 * 2 - 1));
     m_startAnimation->setStartValue(r);
     m_startAnimation->setEndValue(r2);
