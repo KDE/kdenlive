@@ -28,6 +28,8 @@
 #include <QTimeLine>
 #include <QMenu>
 #include <QUndoStack>
+#include <QMutex>
+#include <QWaitCondition>
 
 #include "kdenlivedoc.h"
 #include "docclipbase.h"
@@ -322,6 +324,9 @@ private:
     int m_selectedTrack;
     int m_spacerOffset;
 
+    QMutex m_mutex;
+    QWaitCondition m_producerNotReady;
+
     /** Get the index of the video track that is just below current track */
     int getPreviousVideoTrack(int track);
     void updatePositionEffects(ClipItem * item, ItemInfo info);
@@ -408,6 +413,7 @@ signals:
     void playMonitor();
     /** @brief Monitor document changes (for example the presence of audio data in timeline for export widget.*/
     void documentModified();
+    void forceClipProcessing(const QString &);
 };
 
 #endif

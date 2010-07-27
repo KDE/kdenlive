@@ -3778,6 +3778,27 @@ void CustomTrackView::addClip(QDomElement xml, const QString &clipId, ItemInfo i
         emit displayMessage(i18n("No clip copied"), ErrorMessage);
         return;
     }
+
+    if (baseclip->producer() == NULL) {
+        // If the clip has no producer, we must wait until it is created...
+        m_mutex.lock();
+        emit displayMessage(i18n("Waiting for clip..."), InformationMessage);
+        emit forceClipProcessing(clipId);
+        qApp->processEvents();
+        for (int i = 0; i < 3; i++) {
+            if (baseclip->producer() == NULL) {
+                m_producerNotReady.wait(&m_mutex, 500 + 500 * i);
+            } else break;
+        }
+        if (baseclip->producer() == NULL) {
+            emit displayMessage(i18n("Cannot insert clip..."), ErrorMessage);
+            m_mutex.unlock();
+            return;
+        }
+        emit displayMessage(QString(), InformationMessage);
+        m_mutex.unlock();
+    }
+
     ClipItem *item = new ClipItem(baseclip, info, m_document->fps(), xml.attribute("speed", "1").toDouble(), xml.attribute("strobe", "1").toInt());
     item->setEffectList(effects);
     if (xml.hasAttribute("audio_only")) item->setAudioOnly(true);

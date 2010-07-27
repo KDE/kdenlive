@@ -953,7 +953,7 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
             m_listView->blockSignals(false);
     }
     if (getProperties && !m_queueTimer.isActive())
-        m_queueTimer.start();
+        slotProcessNextClipInQueue();
 }
 
 void ProjectList::slotResetProjectList()
@@ -986,6 +986,7 @@ void ProjectList::slotProcessNextClipInQueue()
         m_infoQueue.remove(j.key());
         emit getFileProperties(dom, id, m_listView->iconSize().height(), false);
     }
+    if (!m_infoQueue.isEmpty()) m_queueTimer.start();
 }
 
 void ProjectList::slotUpdateClip(const QString &id)
@@ -1719,6 +1720,13 @@ void ProjectList::doUpdateClipCut(const QString &id, const QPoint oldzone, const
     sub->setDescription(comment);
     m_listView->blockSignals(false);
     emit projectModified();
+}
+
+void ProjectList::slotForceProcessing(const QString &id)
+{
+    while (m_infoQueue.contains(id)) {
+        slotProcessNextClipInQueue();
+    }
 }
 
 #include "projectlist.moc"

@@ -193,6 +193,7 @@ public slots:
     void regenerateTemplate(const QString &id);
     void slotUpdateClipCut(QPoint p);
     void slotAddClipCut(const QString &id, int in, int out);
+    void slotForceProcessing(const QString &id);
 
 private:
     ProjectListView *m_listView;
