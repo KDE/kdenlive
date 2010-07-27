@@ -13,6 +13,7 @@ Type=Application
 Exec=kdenlive %i -caption "%c" %u
 Icon=kdenlive
 X-DocPath=http://kdenlive.org/user-manual
+X-DocPath[cs]=http://cs.wikibooks.org/wiki/Kdenlive
 Terminal=false
 MimeType=application/x-kdenlive;
 Categories=Qt;KDE;AudioVideo;AudioVideoEditing;
