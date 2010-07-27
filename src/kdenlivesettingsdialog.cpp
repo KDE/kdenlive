@@ -56,7 +56,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent) :
 
     QWidget *p8 = new QWidget;
     m_configProject.setupUi(p8);
-    m_page8 = addPage(p8, i18n("Project Defaults"), "file-new");
+    m_page8 = addPage(p8, i18n("Project Defaults"), "document-new");
 
     QWidget *p3 = new QWidget;
     m_configDisplay.setupUi(p3);
