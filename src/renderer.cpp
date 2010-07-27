@@ -3207,14 +3207,32 @@ void Render::mltUpdateTransitionParams(QString type, int a_track, int b_track, G
             QMap<QString, QString>::Iterator it;
             QString key;
             mlt_properties transproperties = MLT_TRANSITION_PROPERTIES(tr);
+
+            QString currentId = mlt_properties_get(transproperties, "kdenlive_id");
+            if (currentId != xml.attribute("id")) {
+                // The transition ID is not the same, so reset all properties
+                char *tmp = decodedString(xml.attribute("id"));
+                mlt_properties_set(transproperties, "kdenlive_id", tmp);
+                delete[] tmp;
+                // Cleanup previous properties
+                QStringList permanentProps;
+                permanentProps << "factory" << "kdenlive_id" << "mlt_service" << "mlt_type" << "in";
+                permanentProps << "out" << "a_track" << "b_track";
+                for (int i = 0; i < mlt_properties_count(transproperties); i++) {
+                    QString propName = mlt_properties_get_name(transproperties, i);
+                    if (!propName.startsWith('_') && ! permanentProps.contains(propName)) {
+                        tmp = decodedString(propName);
+                        mlt_properties_set(transproperties, tmp, "");
+                        delete[] tmp;
+                    }
+                }
+            }
+
             mlt_properties_set_int(transproperties, "force_track", xml.attribute("force_track").toInt());
             mlt_properties_set_int(transproperties, "automatic", xml.attribute("automatic", "0").toInt());
-            // update the transition id in case it uses the same MLT service but different Kdenlive id
-            char *tmp = decodedString(xml.attribute("id"));
-            mlt_properties_set(transproperties, "kdenlive_id", tmp);
-            delete[] tmp;
+
             if (currentBTrack != a_track) {
-                mlt_properties_set_int(properties, "a_track", a_track);
+                mlt_properties_set_int(transproperties, "a_track", a_track);
             }
             for (it = map.begin(); it != map.end(); ++it) {
                 key = it.key();
