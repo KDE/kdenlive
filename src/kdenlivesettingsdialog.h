@@ -28,7 +28,7 @@
 
 #include "ui_configmisc_ui.h"
 #include "ui_configenv_ui.h"
-#include "ui_configdisplay_ui.h"
+#include "ui_configtimeline_ui.h"
 #include "ui_configcapture_ui.h"
 #include "ui_configjogshuttle_ui.h"
 #include "ui_configsdl_ui.h"
@@ -77,7 +77,7 @@ private:
     KPageWidgetItem *m_page8;
     Ui::ConfigEnv_UI m_configEnv;
     Ui::ConfigMisc_UI m_configMisc;
-    Ui::ConfigDisplay_UI m_configDisplay;
+    Ui::ConfigTimeline_UI m_configTimeline;
     Ui::ConfigCapture_UI m_configCapture;
     Ui::ConfigJogShuttle_UI m_configShuttle;
     Ui::ConfigSdl_UI m_configSdl;

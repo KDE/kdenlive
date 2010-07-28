@@ -45,7 +45,7 @@ kde4_add_ui_files(kdenlive_UI
   widgets/slideshowclip_ui.ui
   widgets/configmisc_ui.ui
   widgets/configenv_ui.ui
-  widgets/configdisplay_ui.ui
+  widgets/configtimeline_ui.ui
   widgets/configsdl_ui.ui
   widgets/configcapture_ui.ui
   widgets/configtranscode_ui.ui

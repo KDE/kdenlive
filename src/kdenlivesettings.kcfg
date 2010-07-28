@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE kcfg SYSTEM "http://www.kde.org/standards/kcfg/1.0/kcfg.xsd">
 <kcfg>
+
   <kcfgfile/>
+
   <group name="misc">
     <entry name="openlastproject" type="Bool">
       <label>Open last project on startup.</label>
@@ -37,7 +39,9 @@
       <label>Default title clip duration.</label>
       <default>00:00:05:00</default>
     </entry>
+  </group>
 
+  <group name="project">
     <entry name="videotracks" type="Int">
       <label>Default number of video tracks.</label>
       <default>3</default>
@@ -52,14 +56,9 @@
       <label>active project format.</label>
       <default></default>
     </entry>
-    
-    <entry name="splitaudio" type="Bool">
-      <label>Automatically split audio and video.</label>
-      <default>false</default>
-    </entry>
   </group>
 
-  <group name="display">
+  <group name="timeline">
     <entry name="videothumbnails" type="Bool">
       <label>Display video thumbnails in timeline.</label>
       <default>true</default>
@@ -95,15 +94,20 @@
       <default>50</default>
     </entry>
 
-    <entry name="audio_driver" type="UInt">
-      <label>Audio driver used for sound output.</label>
-      <default>0</default>
+    <entry name="splitaudio" type="Bool">
+      <label>Automatically split audio and video.</label>
+      <default>false</default>
     </entry>
     </group>
 
     <group name="sdl">
     <entry name="video_driver" type="UInt">
       <label>Video driver used for output.</label>
+      <default>0</default>
+    </entry>
+
+    <entry name="audio_driver" type="UInt">
+      <label>Audio driver used for sound output.</label>
       <default>0</default>
     </entry>
 
@@ -268,7 +272,6 @@
       <default></default>
     </entry>
 
-
     <entry name="video4encoding" type="String">
       <label>ffmpeg encoding arguments.</label>
       <default>-qscale 1 -ab 224k</default>
@@ -398,6 +401,7 @@
       <label>Default name for dvgrab capture.</label>
       <default>capture</default>
     </entry>
+
     <entry name="dvgrabextra" type="String">
       <label>Additionnal dvgrab parameters.</label>
       <default></default>
@@ -559,14 +563,16 @@
       <label>Keep aspect ratio in render dialog rescale widget.</label>
       <default>false</default>
     </entry>
+
     <entry name="defaultrescalewidth" type="Int">
       <label>default width for rendering rescale.</label>
       <default>320</default>
     </entry>
+
     <entry name="defaultrescaleheight" type="Int">
       <label>default width for rendering rescale.</label>
       <default>240</default>
     </entry>
-
   </group>
+
 </kcfg>

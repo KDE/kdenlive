@@ -59,8 +59,8 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent) :
     m_page8 = addPage(p8, i18n("Project Defaults"), "document-new");
 
     QWidget *p3 = new QWidget;
-    m_configDisplay.setupUi(p3);
-    m_page3 = addPage(p3, i18n("Display"), "video-display");
+    m_configTimeline.setupUi(p3);
+    m_page3 = addPage(p3, i18n("Timeline"), "video-display");
 
     QWidget *p2 = new QWidget;
     m_configEnv.setupUi(p2);
@@ -186,8 +186,10 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent) :
         QString rmdpath = KStandardDirs::findExe("recordmydesktop");
         KdenliveSettings::setRmd_path(rmdpath);
     }
-    if (KdenliveSettings::rmd_path().isEmpty()) m_configCapture.rmd_info->setText(i18n("<strong><em>Recordmydesktop</em> utility not found, please install it for screen grabs</strong>"));
-    else m_configCapture.rmd_info->setText(i18n("Recordmydesktop found at: %1", KdenliveSettings::rmd_path()));
+    if (KdenliveSettings::rmd_path().isEmpty())
+        m_configCapture.rmd_info->setText(i18n("<strong><em>Recordmydesktop</em> utility not found, please install it for screen grabs</strong>"));
+    else
+        m_configCapture.rmd_info->setText(i18n("Recordmydesktop found at: %1", KdenliveSettings::rmd_path()));
 }
 
 KdenliveSettingsDialog::~KdenliveSettingsDialog() {}
@@ -520,8 +522,10 @@ void KdenliveSettingsDialog::slotUpdateDisplay()
     m_configProject.p_fps->setText(values.value("frame_rate_num") + '/' + values.value("frame_rate_den"));
     m_configProject.p_aspect->setText(values.value("sample_aspect_num") + '/' + values.value("sample_aspect_den"));
     m_configProject.p_display->setText(values.value("display_aspect_num") + '/' + values.value("display_aspect_den"));
-    if (values.value("progressive").toInt() == 0) m_configProject.p_progressive->setText(i18n("Interlaced"));
-    else m_configProject.p_progressive->setText(i18n("Progressive"));
+    if (values.value("progressive").toInt() == 0)
+        m_configProject.p_progressive->setText(i18n("Interlaced"));
+    else
+        m_configProject.p_progressive->setText(i18n("Progressive"));
     m_defaultProfile = m_configProject.kcfg_profiles_list->itemText(m_configProject.kcfg_profiles_list->currentIndex());
     m_defaultPath = currentProfile;
 }
