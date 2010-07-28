@@ -2287,6 +2287,7 @@ void MainWindow::updateConfiguration()
     }
     m_buttonAudioThumbs->setChecked(KdenliveSettings::audiothumbnails());
     m_buttonVideoThumbs->setChecked(KdenliveSettings::videothumbnails());
+    m_buttonShowMarkers->setChecked(KdenliveSettings::showmarkers());
     m_buttonAutomaticSplitAudio->setChecked(KdenliveSettings::splitaudio());
 
     // Update list of transcoding profiles
