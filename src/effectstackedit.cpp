@@ -19,7 +19,6 @@
 #include "ui_constval_ui.h"
 #include "ui_listval_ui.h"
 #include "ui_boolval_ui.h"
-#include "ui_colorval_ui.h"
 #include "ui_wipeval_ui.h"
 #include "ui_urlval_ui.h"
 #include "complexparameter.h"
@@ -46,10 +45,6 @@
 
 
 class Boolval: public QWidget, public Ui::Boolval_UI
-{
-};
-
-class Colorval: public QWidget, public Ui::Colorval_UI
 {
 };
 

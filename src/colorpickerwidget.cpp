@@ -22,18 +22,15 @@
 
 #include <QMouseEvent>
 #include <QPushButton>
-#include <QDesktopWidget>
 
 #include <KApplication>
 #include <KColorDialog>
 #include <KIcon>
 #include <KLocalizedString>
+#include <KDebug>
 
 #ifdef Q_WS_X11
 #include <X11/Xlib.h>
-#include <X11/Xutil.h>
-#include <QX11Info>
-#include <fixx11h.h>
 
 class KCDPickerFilter: public QWidget
 {
@@ -75,21 +72,34 @@ ColorPickerWidget::~ColorPickerWidget()
 #endif
 }
 
-void ColorPickerWidget::mouseReleaseEvent(QMouseEvent* event)
+void ColorPickerWidget::mousePressEvent(QMouseEvent* event)
+{
+    if (event->button() != Qt::LeftButton) {
+        closeEventFilter();
+        event->accept();
+        return;
+    }
+    QWidget::mousePressEvent(event);
+}
+
+void ColorPickerWidget::mouseReleaseEvent(QMouseEvent *event)
 {
     if (m_filterActive) {
         closeEventFilter();
+        // does not work this way
+        //if (event->button() == Qt::LeftButton)
         emit colorPicked(KColorDialog::grabColor(event->globalPos()));
         return;
     }
     QWidget::mouseReleaseEvent(event);
 }
 
-void ColorPickerWidget::keyPressEvent(QKeyEvent* event)
+void ColorPickerWidget::keyPressEvent(QKeyEvent *event)
 {
     if (m_filterActive) {
-        if (event->key() == Qt::Key_Escape)
-            closeEventFilter();
+        // "special keys" (non letter, numeral) do not work, so close for every key
+        //if (event->key() == Qt::Key_Escape)
+        closeEventFilter();
         event->accept();
         return;
     }
