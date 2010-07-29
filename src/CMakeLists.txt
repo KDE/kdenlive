@@ -210,6 +210,8 @@ set(kdenlive_SRCS
   colorcorrection/vectorscopegenerator.cpp
   colorcorrection/waveformgenerator.cpp
   razorgroupcommand.cpp
+  colorpickerwidget.cpp
+  choosecolorwidget.cpp
 )
 
 

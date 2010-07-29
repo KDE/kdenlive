@@ -31,6 +31,7 @@
 #include "profilesdialog.h"
 #include "kis_curve_widget.h"
 #include "kis_cubic_curve.h"
+#include "choosecolorwidget.h"
 
 #include <KDebug>
 #include <KLocale>
@@ -285,16 +286,13 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
                 m_keyframeEditor->addParameter(pa);
             }
         } else if (type == "color") {
-            Colorval *cval = new Colorval;
-            cval->setupUi(toFillin);
+            if (value.startsWith('#'))
+                value = value.replace('#', "0x");
             bool ok;
-            if (value.startsWith('#')) value = value.replace('#', "0x");
-            cval->kcolorbutton->setColor(value.toUInt(&ok, 16));
-            //kDebug() << "color: " << value << ", " << value.toUInt(&ok, 16);
-            cval->label->setText(paramName);
-            m_valueItems[paramName] = cval;
-            connect(cval->kcolorbutton, SIGNAL(clicked()) , this, SLOT(collectAllParameters()));
-            m_uiItems.append(cval);
+            ChooseColorWidget *choosecolor = new ChooseColorWidget(paramName, QColor(value.toUInt(&ok, 16)), this);
+            m_vbox->addWidget(choosecolor);
+            m_valueItems[paramName] = choosecolor;
+            connect(choosecolor, SIGNAL(modified()) , this, SLOT(collectAllParameters()));
         } else if (type == "position") {
             int pos = value.toInt();
             if (d.attribute("id") == "fadein" || d.attribute("id") == "fade_from_black") {
@@ -532,8 +530,8 @@ void EffectStackEdit::collectAllParameters()
             QCheckBox *box = ((Boolval*)m_valueItems.value(paramName))->checkBox;
             setValue = box->checkState() == Qt::Checked ? "1" : "0" ;
         } else if (type == "color") {
-            KColorButton *color = ((Colorval*)m_valueItems.value(paramName))->kcolorbutton;
-            setValue = color->color().name();
+            ChooseColorWidget *choosecolor = ((ChooseColorWidget*)m_valueItems.value(paramName));
+            setValue = choosecolor->getColor().name();
         } else if (type == "complex") {
             ComplexParameter *complex = ((ComplexParameter*)m_valueItems.value(paramName));
             namenode.item(i) = complex->getParamDesc();
