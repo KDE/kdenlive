@@ -573,6 +573,11 @@
       <label>default width for rendering rescale.</label>
       <default>240</default>
     </entry>
+
+    <entry name="slideshowbymime" type="Bool">
+      <label>True if slideshow default method is mimetype.</label>
+      <default>true</default>
+    </entry>
   </group>
 
 </kcfg>

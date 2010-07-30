@@ -156,7 +156,18 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
         m_view.clip_thumb->setHidden(true);
         m_view.clip_color->setColor(QColor('#' + props.value("colour").right(8).left(6)));
     } else if (t == SLIDESHOW) {
-        m_view.clip_path->setText(url.directory());
+        bool isMime = true;
+        if (url.fileName().startsWith(".all.")) {
+            // the image sequence is defined by mimetype
+            m_view.clip_path->setText(url.directory());
+        } else {
+            // the image sequence is defined by pattern
+            m_view.slide_type_label->setHidden(true);
+            m_view.image_type->setHidden(true);
+            m_view.clip_path->setText(url.path());
+            isMime = false;
+        }
+
         m_view.tabWidget->removeTab(METATAB);
         m_view.tabWidget->removeTab(IMAGETAB);
         m_view.tabWidget->removeTab(COLORTAB);
@@ -628,16 +639,40 @@ bool ClipProperties::needsTimelineReload() const
     return m_clipNeedsReLoad;
 }
 
+
 void ClipProperties::parseFolder()
 {
+    QString path = m_view.clip_path->text();
+    bool isMime = !(path.contains("%d"));
+    if (!isMime) path = KUrl(path).directory();
+    QDir dir(path);
 
-    QDir dir(m_view.clip_path->text());
     QStringList filters;
-    filters << "*." + m_view.image_type->itemData(m_view.image_type->currentIndex()).toString();
-    QString extension = "/.all." + m_view.image_type->itemData(m_view.image_type->currentIndex()).toString();
+    QString extension;
 
-    dir.setNameFilters(filters);
+    if (isMime) {
+        // TODO: improve jpeg image detection with extension like jpeg, requires change in MLT image producers
+        filters << "*." + m_view.image_type->itemData(m_view.image_type->currentIndex()).toString();
+        extension = "/.all." + m_view.image_type->itemData(m_view.image_type->currentIndex()).toString();
+        dir.setNameFilters(filters);
+    }
+
     QStringList result = dir.entryList(QDir::Files);
+
+    if (!isMime) {
+        // find pattern
+        QString filter = KUrl(m_view.clip_path->text()).fileName();
+        QString ext = filter.section('.', -1);
+        filter = filter.section("%d", 0, -2);
+        QString regexp = "^" + filter + "\\d+\." + ext + "$";
+        QRegExp rx(regexp);
+        QStringList entries;
+        foreach(const QString &path, result) {
+            if (rx.exactMatch(path)) entries << path;
+        }
+        result = entries;
+    }
+
     m_count = result.count();
     if (m_count == 0) {
         // no images, do not accept that
@@ -651,7 +686,9 @@ void ClipProperties::parseFolder()
     xml.setAttribute("resource", m_view.clip_path->text() + extension);
     int width = 180.0 * KdenliveSettings::project_display_ratio();
     if (width % 2 == 1) width++;
-    QPixmap pix = m_clip->thumbProducer()->getImage(KUrl(m_view.clip_path->text() + extension), 1, width, 180);
+    QString filePath = m_view.clip_path->text();
+    if (isMime) filePath.append(extension);
+    QPixmap pix = m_clip->thumbProducer()->getImage(KUrl(filePath), 1, width, 180);
     QMap <QString, QString> props = m_clip->properties();
     m_view.clip_duration->setText(m_tc.getTimecodeFromFrames(props.value("ttl").toInt() * m_count));
     m_view.clip_thumb->setPixmap(pix);

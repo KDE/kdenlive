@@ -43,6 +43,7 @@ SlideshowClip::SlideshowClip(Timecode tc, QWidget * parent) :
 
     connect(m_view.folder_url, SIGNAL(textChanged(const QString &)), this, SLOT(parseFolder()));
     connect(m_view.image_type, SIGNAL(currentIndexChanged(int)), this, SLOT(parseFolder()));
+    connect(m_view.pattern_url, SIGNAL(textChanged(const QString &)), this, SLOT(parseFolder()));
 
     connect(m_view.show_thumbs, SIGNAL(stateChanged(int)), this, SLOT(slotEnableThumbs(int)));
     connect(m_view.slide_fade, SIGNAL(stateChanged(int)), this, SLOT(slotEnableLuma(int)));
@@ -71,6 +72,9 @@ SlideshowClip::SlideshowClip(Timecode tc, QWidget * parent) :
     connect(m_view.clip_duration_format, SIGNAL(activated(int)), this, SLOT(slotUpdateDurationFormat(int)));
     m_view.clip_duration_frames->setHidden(true);
     m_view.luma_duration_frames->setHidden(true);
+    m_view.method_mime->setChecked(KdenliveSettings::slideshowbymime());
+    connect(m_view.method_mime, SIGNAL(toggled(bool)), this, SLOT(slotMethodChanged(bool)));
+    slotMethodChanged(m_view.method_mime->isChecked());
 
     // Check for Kdenlive installed luma files
     QStringList filters;
@@ -148,15 +152,40 @@ void SlideshowClip::slotEnableLumaFile(int state)
 void SlideshowClip::parseFolder()
 {
     m_view.icon_list->clear();
-    QDir dir(m_view.folder_url->url().path());
-    QStringList filters;
-    QString filter = m_view.image_type->itemData(m_view.image_type->currentIndex()).toString();
-    filters << "*." + filter;
-    // TODO: improve jpeg image detection with extension like jpeg, requires change in MLT image producers
-    // << "*.jpeg";
+    bool isMime = m_view.method_mime->isChecked();
+    QString path = isMime ? m_view.folder_url->url().path() : m_view.pattern_url->url().directory();
+    QDir dir(path);
+    if (path.isEmpty() || !dir.exists()) return;
 
-    dir.setNameFilters(filters);
-    const QStringList result = dir.entryList(QDir::Files);
+    QStringList filters;
+    QString filter;
+    if (isMime) {
+        // TODO: improve jpeg image detection with extension like jpeg, requires change in MLT image producers
+        filter = m_view.image_type->itemData(m_view.image_type->currentIndex()).toString();
+        filters << "*." + filter;
+        dir.setNameFilters(filters);
+    }
+
+    QStringList result = dir.entryList(QDir::Files);
+
+    if (!isMime) {
+        // find pattern
+        filter = m_view.pattern_url->url().fileName();
+        QString ext = filter.section('.', -1);
+        filter = filter.section('.', 0, -2);
+
+        while (filter.at(filter.size() - 1).isDigit()) {
+            filter.remove(filter.size() - 1, 1);
+        }
+        QString regexp = "^" + filter + "\\d+\." + ext + "$";
+        QRegExp rx(regexp);
+        QStringList entries;
+        foreach(const QString &path, result) {
+            if (rx.exactMatch(path)) entries << path;
+        }
+        result = entries;
+    }
+
     m_count = result.count();
     if (m_count == 0) m_view.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
     else m_view.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
@@ -213,8 +242,26 @@ void SlideshowClip::slotSetPixmap(const KFileItem &fileItem, const QPixmap &pix)
 
 QString SlideshowClip::selectedPath() const
 {
-    QString extension = "/.all." + m_view.image_type->itemData(m_view.image_type->currentIndex()).toString();
-    return m_view.folder_url->url().path() + extension;
+    QString extension;
+    QString folder;
+
+    bool isMime = m_view.method_mime->isChecked();
+
+    if (isMime) {
+        folder = m_view.folder_url->url().path(KUrl::AddTrailingSlash);
+        extension = ".all." + m_view.image_type->itemData(m_view.image_type->currentIndex()).toString();
+    } else {
+        folder = m_view.pattern_url->url().directory(KUrl::AppendTrailingSlash);
+        QString filter = m_view.pattern_url->url().fileName();
+        QString ext = filter.section('.', -1);
+        filter = filter.section('.', 0, -2);
+
+        while (filter.at(filter.size() - 1).isDigit()) {
+            filter.remove(filter.size() - 1, 1);
+        }
+        extension = filter + "%d." + ext;
+    }
+    return  folder + extension;
 }
 
 
@@ -288,6 +335,22 @@ void SlideshowClip::slotUpdateDurationFormat(int ix)
     m_view.luma_duration_frames->setHidden(!framesFormat);
     m_view.luma_duration->setHidden(framesFormat);
 }
+
+void SlideshowClip::slotMethodChanged(bool active)
+{
+    if (active) {
+        // User wants mimetype image sequence
+        m_view.stackedWidget->setCurrentIndex(0);
+        KdenliveSettings::setSlideshowbymime(true);
+    } else {
+        // User wants pattern image sequence
+        m_view.stackedWidget->setCurrentIndex(1);
+        KdenliveSettings::setSlideshowbymime(false);
+    }
+    parseFolder();
+}
+
+
 
 #include "slideshowclip.moc"
 

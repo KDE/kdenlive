@@ -55,6 +55,8 @@ private slots:
     void slotUpdateDurationFormat(int ix);
     void slotGenerateThumbs();
     void slotSetPixmap(const KFileItem &fileItem, const QPixmap &pix);
+    /** @brief Display correct widget depenging on user choice (mimetype or pattern method. */
+    void slotMethodChanged(bool active);
 
 private:
     Ui::SlideshowClip_UI m_view;
