@@ -37,6 +37,7 @@ void Timecode::setFormat(double framesPerSecond, bool dropFrame, Formats format)
     m_dropFrame = dropFrame;
     m_format = format;
     m_realFps = framesPerSecond;
+    m_dropFrames = round(m_realFps * .066666); //Number of frames to drop on the minute marks is the nearest integer to 6% of the framerate
     QRegExp regExp;
     if (m_dropFrame)
         regExp.setPattern("^\\d{2}:\\d{2}:\\d{2};\\d{2}$");
@@ -76,6 +77,11 @@ int Timecode::getDisplayFrameCount(const QString duration, bool frameDisplay) co
 int Timecode::getFrameCount(const QString duration) const
 {
     if (m_dropFrame) {
+
+        //CONVERT DROP FRAME TIMECODE TO A FRAME NUMBER
+        //Code by David Heidelberger, adapted from Andrew Duncan
+        //Given ints called hours, minutes, seconds, frames, and a double called framerate
+
         //Get Hours, Minutes, Seconds, Frames from timecode
         int hours, minutes, seconds, frames;
 
@@ -89,6 +95,11 @@ int Timecode::getFrameCount(const QString duration) const
             seconds = duration.section(':', 2, 2).toInt();
             frames = duration.section(':', 3, 3).toInt();
         }
+
+        int totalMinutes = (60 * hours) + minutes; //Total number of minutes
+        int frameNumber = ((m_displayedFramesPerSecond * 60 * 60 * hours) + (m_displayedFramesPerSecond * 60 * minutes) + (m_displayedFramesPerSecond * seconds) + frames) - (m_dropFrames * (totalMinutes - floor(totalMinutes / 10)));
+        return frameNumber;
+
 
         //Calculate the frame count
         int dropRate = (int)((ceil(m_displayedFramesPerSecond) / 30) * 2);
@@ -279,63 +290,54 @@ QString Timecode::getTimecodeDropFrame(const GenTime & time) const
     return getTimecodeDropFrame((int)time.frames(m_realFps));
 }
 
-QString Timecode::getTimecodeDropFrame(int frames) const
+QString Timecode::getTimecodeDropFrame(int framenumber) const
 {
-    // Calculate the timecode using dropframes to remove the difference in fps. Note that this algorithm should work
-    // for NTSC times, but is untested for any others - it is in no way an "official" algorithm, unless it's by fluke.
+    //CONVERT A FRAME NUMBER TO DROP FRAME TIMECODE
+    //Based on code by David Heidelberger, adapted from Andrew Duncan
+    //Given an int called framenumber and a double called framerate
+    //Framerate should be 29.97, 59.94, or 23.976, otherwise the calculations will be off.
 
-    // calculate how many frames need to be dropped every minute.
-    int dropRate = 0;
-    if (m_dropFrame) {
-        dropRate = (int)((ceil(m_displayedFramesPerSecond) / 30) * 2);
+    int d;
+    int m;
+
+    //int framesPerHour = round(m_realFps * 60 * 60); //Number of frames in an hour
+    //int framesPer24Hours = framesPerHour * 24; //Number of frames in a day - timecode rolls over after 24 hours
+    int framesPer10Minutes = round(m_realFps * 60 * 10); //Number of frames per ten minutes
+    //int framesPerMinute = round(framerate)*60)-  dropFrames; //Number of frames per minute is the round of the framerate * 60 minus the number of dropped frames
+
+    /*
+     * The 2 check below should not be necessary in Kdenlive
+    if (framenumber<0) //Negative time. Add 24 hours.
+    {
+    framenumber=framesPer24Hours+framenumber;
     }
 
-    // calculate how many frames are in a normal minute, and how many are in a tenth minute.
-    int normalMinuteFrames = (m_displayedFramesPerSecond * 60) - dropRate;
-    int tenthMinuteFrames = (m_displayedFramesPerSecond * 60);
+    //If framenumber is greater than 24 hrs, next operation will rollover clock
+    framenumber = framenumber % framesPer24Hours; //% is the modulus operator, which returns a remainder. a % b = the remainder of a/b
+    */
 
-    // Number of actual frames in a 10 minute interval :
-    int tenMinutes = (normalMinuteFrames * 9) + tenthMinuteFrames;
+    d = floor(framenumber / framesPer10Minutes); // \ means integer division, which is a/b without a remainder. Some languages you could use floor(a/b)
+    m = framenumber % framesPer10Minutes;
 
-    int tenMinuteIntervals = frames / tenMinutes;
-    frames = frames % tenMinutes;
-
-    int hours = tenMinuteIntervals / 6;
-    tenMinuteIntervals = tenMinuteIntervals % 6;
-
-    // At the point, we have figured out HH:M?:??:??
-
-    int numMinutes;
-
-    if (frames < tenthMinuteFrames) {
-        // tenth minute logic applies.
-        numMinutes = 0;
+    if (m > 1) {
+        framenumber = framenumber + (m_dropFrames * 9 * d) + m_dropFrames * (floor((m - m_dropFrames) / (round(m_realFps * 60) - m_dropFrames)));
     } else {
-        // normal minute logic applies.
-        numMinutes = 1 + (frames - tenthMinuteFrames) / normalMinuteFrames;
-        frames = (frames - tenthMinuteFrames) % normalMinuteFrames;
-        frames +=  dropRate;
+        framenumber = framenumber + m_dropFrames * 9 * d;
     }
-    // We now have HH:MM:??:??
 
-    int seconds = frames / m_displayedFramesPerSecond;
-    frames = frames % m_displayedFramesPerSecond;
+    int frames = framenumber % m_displayedFramesPerSecond;
+    int seconds = (int) floor(framenumber / m_displayedFramesPerSecond) % 60;
+    int minutes = (int) floor(floor(framenumber / m_displayedFramesPerSecond) / 60) % 60;
+    int hours = floor(floor(floor(framenumber / m_displayedFramesPerSecond) / 60) / 60);
 
-    // We now have HH:MM:SS:FF
-
-    // THANK FUCK FOR THAT.
 
     QString text;
     text.append(QString::number(hours).rightJustified(2, '0', false));
     text.append(':');
-    text.append(QString::number(tenMinuteIntervals));
-    text.append(QString::number(numMinutes));
+    text.append(QString::number(minutes).rightJustified(2, '0', false));
     text.append(':');
     text.append(QString::number(seconds).rightJustified(2, '0', false));
-    if (m_dropFrame)
-        text.append(';');
-    else
-        text.append(':');
+    text.append(';');
     text.append(QString::number(frames).rightJustified(2, '0', false));
 
     return text;

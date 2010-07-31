@@ -68,6 +68,7 @@ private:
     bool m_dropFrame;
     int m_displayedFramesPerSecond;
     double m_realFps;
+    double m_dropFrames;
     QRegExpValidator *m_validator;
 
     const QString getTimecodeHH_MM_SS_FF(const GenTime & time) const;
@@ -77,7 +78,7 @@ private:
     QString getTimecodeFrames(const GenTime & time) const;
     QString getTimecodeSeconds(const GenTime & time) const;
     QString getTimecodeDropFrame(const GenTime & time) const;
-    QString getTimecodeDropFrame(int frames) const;
+    QString getTimecodeDropFrame(int framenumber) const;
 };
 
 #endif

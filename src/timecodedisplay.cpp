@@ -40,8 +40,8 @@ TimecodeDisplay::TimecodeDisplay(Timecode t, QWidget *parent)
     QFontMetrics fm = lineedit->fontMetrics();
     lineedit->setMaximumWidth(fm.width("88:88:88:888"));
     setSizePolicy(QSizePolicy::Maximum, QSizePolicy::MinimumExpanding);
-
-    slotUpdateTimeCodeFormat();
+    
+    setTimeCodeFormat(KdenliveSettings::frametimecode(), true);
 
     connect(uparrow, SIGNAL(clicked()), this, SLOT(slotValueUp()));
     connect(downarrow, SIGNAL(clicked()), this, SLOT(slotValueDown()));
@@ -66,11 +66,11 @@ void TimecodeDisplay::slotValueDown()
     emit editingFinished();
 }
 
-void TimecodeDisplay::setTimeCodeFormat(bool frametimecode)
+void TimecodeDisplay::setTimeCodeFormat(bool frametimecode, bool init)
 {
+    if (!init && m_frametimecode == frametimecode) return;
     int val = value();
     m_frametimecode = frametimecode;
-    lineedit->setInputMask("");
     if (m_frametimecode) {
         QIntValidator *valid = new QIntValidator(lineedit);
         valid->setBottom(0);

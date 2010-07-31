@@ -66,8 +66,9 @@ public:
     Timecode timecode() const;
 
     /** @brief Sets value's format to frames or HH:MM:SS:FF according to @param frametimecode.
-    * @param frametimecode true = frames, false = HH:MM:SS:FF */
-    void setTimeCodeFormat(bool frametimecode);
+    * @param frametimecode true = frames, false = HH:MM:SS:FF
+    * @param init true = force the change, false = update only if the frametimecode param changed */
+    void setTimeCodeFormat(bool frametimecode, bool init = false);
 
     /** @brief Sets timecode for current project.
      * @param t the new timecode */
