@@ -26,6 +26,7 @@
 
 class QSpinBox;
 #ifdef Q_WS_X11
+#include <X11/Xlib.h>
 class KCDPickerFilter;
 #endif
 
@@ -34,7 +35,7 @@ class KCDPickerFilter;
  * @brief A widget to pick a color anywhere on the screen.
  * @author Till Theato
  *
- * The code is based on the color picker in KColorDialog. 
+ * The code is partially based on the color picker in KColorDialog. 
  */
 
 class ColorPickerWidget : public QWidget
@@ -55,11 +56,21 @@ protected:
 private:
     /** @brief Closes the event filter and makes mouse and keyboard work again on other widgets/windows. */
     void closeEventFilter();
+
     /** @brief Calculates the average color for a rect around @param pos with m_size->value() as width. */
+
     QColor averagePickedColor(const QPoint pos);
+
+    /** @brief Color of the screen at point @param p.
+    * @param p Position of color requested
+    * @param destroyImage (optional) Whether or not to keep the XImage in m_image
+                          (needed for fast processing of rects) */
+    QColor grabColor(const QPoint &p, bool destroyImage = true);
+
     bool m_filterActive;
     QSpinBox *m_size;
 #ifdef Q_WS_X11
+    XImage *m_image;
     KCDPickerFilter *m_filter;
 #endif 
 

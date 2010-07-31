@@ -28,13 +28,12 @@
 #include <QDesktopWidget>
 
 #include <KApplication>
-#include <KColorDialog>
 #include <KIcon>
 #include <KLocalizedString>
-#include <KDebug>
 
 #ifdef Q_WS_X11
-#include <X11/Xlib.h>
+#include <X11/Xutil.h>
+#include <fixx11h.h>
 
 class KCDPickerFilter: public QWidget
 {
@@ -60,6 +59,7 @@ ColorPickerWidget::ColorPickerWidget(QWidget *parent) :
 {
 #ifdef Q_WS_X11
     m_filter = 0;
+    m_image = 0;
 #endif
 
     QHBoxLayout *layout = new QHBoxLayout(this);
@@ -71,8 +71,8 @@ ColorPickerWidget::ColorPickerWidget(QWidget *parent) :
 
     m_size = new QSpinBox(this);
     m_size->setMinimum(1);
-    //m_size->setMaximum(qMin(qApp->desktop()->geometry().width(), qApp->desktop()->geometry().height()));
-    m_size->setMaximum(100);
+    // Use qMax here, to make it possible to get the average for the whole screen
+    m_size->setMaximum(qMax(qApp->desktop()->geometry().width(), qApp->desktop()->geometry().height()));
     m_size->setValue(1);
 
     layout->addWidget(button);
@@ -101,14 +101,33 @@ QColor ColorPickerWidget::averagePickedColor(const QPoint pos)
     int sumG = 0;
     int sumB = 0;
 
+    /*
+     Only getting the XImage once for the whole rect,
+     results in a vast speed improvement.
+    */
+#ifdef Q_WS_X11
+    Window root = RootWindow(QX11Info::display(), QX11Info::appScreen());
+    m_image = XGetImage(QX11Info::display(), root, x0, y0, x1 - x0, y1 - y0, -1, ZPixmap);
+#endif
+
     for (int i = x0; i < x1; ++i) {
         for (int j = y0; j < y1; ++j) {
-            QColor color = KColorDialog::grabColor(QPoint(i, j));
+            QColor color;
+#ifdef Q_WS_X11
+            color = grabColor(QPoint(i - x0, j - y0), false);
+#else
+            color = grabColor(QPoint(i, j));
+#endif
             sumR += color.red();
             sumG += color.green();
             sumB += color.blue();
         }
     }
+
+#ifdef Q_WS_X11
+    XDestroyImage(m_image);
+    m_image = 0;
+#endif
 
     int numPixel = (x1 - x0) * (y1 - y0);
     return QColor(sumR / numPixel, sumG / numPixel, sumB / numPixel);
@@ -130,7 +149,7 @@ void ColorPickerWidget::mouseReleaseEvent(QMouseEvent *event)
         closeEventFilter();
 
         if (m_size->value() == 1)
-            emit colorPicked(KColorDialog::grabColor(event->globalPos()));
+            emit colorPicked(grabColor(event->globalPos()));
         else
             emit colorPicked(averagePickedColor(event->globalPos()));
 
@@ -175,6 +194,43 @@ void ColorPickerWidget::closeEventFilter()
 #endif
     releaseMouse();
     releaseKeyboard();
+}
+
+QColor ColorPickerWidget::grabColor(const QPoint &p, bool destroyImage)
+{
+#ifdef Q_WS_X11
+    /*
+     we use the X11 API directly in this case as we are not getting back a valid
+     return from QPixmap::grabWindow in the case where the application is using
+     an argb visual
+    */
+    if( !qApp->desktop()->geometry().contains( p ))
+        return QColor();
+    unsigned long xpixel;
+    if (m_image == 0) {
+        Window root = RootWindow(QX11Info::display(), QX11Info::appScreen());
+        m_image = XGetImage(QX11Info::display(), root, p.x(), p.y(), 1, 1, -1, ZPixmap);
+        xpixel = XGetPixel(m_image, 0, 0);
+    } else {
+        xpixel = XGetPixel(m_image, p.x(), p.y());
+    }
+    if (destroyImage) {
+        XDestroyImage(m_image);
+        m_image = 0;
+    }
+    XColor xcol;
+    xcol.pixel = xpixel;
+    xcol.flags = DoRed | DoGreen | DoBlue;
+    XQueryColor(QX11Info::display(),
+                DefaultColormap(QX11Info::display(), QX11Info::appScreen()),
+                &xcol);
+    return QColor::fromRgbF(xcol.red / 65535.0, xcol.green / 65535.0, xcol.blue / 65535.0);
+#else
+    QWidget *desktop = QApplication::desktop();
+    QPixmap pm = QPixmap::grabWindow(desktop->winId(), p.x(), p.y(), 1, 1);
+    QImage i = pm.toImage();
+    return i.pixel(0, 0);
+#endif
 }
 
 #include "colorpickerwidget.moc"
