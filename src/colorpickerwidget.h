@@ -24,6 +24,7 @@
 #include <QtCore>
 #include <QWidget>
 
+class QSpinBox;
 #ifdef Q_WS_X11
 class KCDPickerFilter;
 #endif
@@ -54,7 +55,10 @@ protected:
 private:
     /** @brief Closes the event filter and makes mouse and keyboard work again on other widgets/windows. */
     void closeEventFilter();
+    /** @brief Calculates the average color for a rect around @param pos with m_size->value() as width. */
+    QColor averagePickedColor(const QPoint pos);
     bool m_filterActive;
+    QSpinBox *m_size;
 #ifdef Q_WS_X11
     KCDPickerFilter *m_filter;
 #endif 

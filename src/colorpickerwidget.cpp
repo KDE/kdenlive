@@ -21,7 +21,11 @@
 #include "colorpickerwidget.h"
 
 #include <QMouseEvent>
+#include <QHBoxLayout>
 #include <QPushButton>
+#include <QLabel>
+#include <QSpinBox>
+#include <QDesktopWidget>
 
 #include <KApplication>
 #include <KColorDialog>
@@ -58,10 +62,23 @@ ColorPickerWidget::ColorPickerWidget(QWidget *parent) :
     m_filter = 0;
 #endif
 
+    QHBoxLayout *layout = new QHBoxLayout(this);
+
     QPushButton *button = new QPushButton(this);
     button->setIcon(KIcon("color-picker"));
     button->setToolTip(i18n("Pick a color on the screen"));
     connect(button, SIGNAL(clicked()), this, SLOT(slotSetupEventFilter()));
+
+    m_size = new QSpinBox(this);
+    m_size->setMinimum(1);
+    //m_size->setMaximum(qMin(qApp->desktop()->geometry().width(), qApp->desktop()->geometry().height()));
+    m_size->setMaximum(100);
+    m_size->setValue(1);
+
+    layout->addWidget(button);
+    layout->addStretch(1);
+    layout->addWidget(new QLabel(i18n("Width of rect to pick color from:")));
+    layout->addWidget(m_size);
 }
 
 ColorPickerWidget::~ColorPickerWidget()
@@ -70,6 +87,31 @@ ColorPickerWidget::~ColorPickerWidget()
     if (m_filterActive && kapp)
         kapp->removeX11EventFilter(m_filter);
 #endif
+}
+
+QColor ColorPickerWidget::averagePickedColor(const QPoint pos)
+{
+    int size = m_size->value();
+    int x0 = qMax(0, pos.x() - size / 2); 
+    int y0 = qMax(0, pos.y() - size / 2);
+    int x1 = qMin(qApp->desktop()->geometry().width(), pos.x() + size / 2);
+    int y1 = qMin(qApp->desktop()->geometry().height(), pos.y() + size / 2);
+
+    int sumR = 0;
+    int sumG = 0;
+    int sumB = 0;
+
+    for (int i = x0; i < x1; ++i) {
+        for (int j = y0; j < y1; ++j) {
+            QColor color = KColorDialog::grabColor(QPoint(i, j));
+            sumR += color.red();
+            sumG += color.green();
+            sumB += color.blue();
+        }
+    }
+
+    int numPixel = (x1 - x0) * (y1 - y0);
+    return QColor(sumR / numPixel, sumG / numPixel, sumB / numPixel);
 }
 
 void ColorPickerWidget::mousePressEvent(QMouseEvent* event)
@@ -86,9 +128,12 @@ void ColorPickerWidget::mouseReleaseEvent(QMouseEvent *event)
 {
     if (m_filterActive) {
         closeEventFilter();
-        // does not work this way
-        //if (event->button() == Qt::LeftButton)
-        emit colorPicked(KColorDialog::grabColor(event->globalPos() - QPoint(11, -10)));
+
+        if (m_size->value() == 1)
+            emit colorPicked(KColorDialog::grabColor(event->globalPos()));
+        else
+            emit colorPicked(averagePickedColor(event->globalPos()));
+
         return;
     }
     QWidget::mouseReleaseEvent(event);
@@ -113,7 +158,10 @@ void ColorPickerWidget::slotSetupEventFilter()
     m_filter = new KCDPickerFilter(this);
     kapp->installX11EventFilter(m_filter);
 #endif
-    grabMouse(QCursor(KIcon("color-picker").pixmap(22, 22)));
+    if (m_size->value() == 1)
+        grabMouse(QCursor(KIcon("color-picker").pixmap(22, 22), 0, 21));
+    else
+        grabMouse(Qt::CrossCursor);
     grabKeyboard();
 }
 

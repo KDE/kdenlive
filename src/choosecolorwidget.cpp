@@ -22,7 +22,8 @@
 #include "colorpickerwidget.h"
 
 #include <QLabel>
-#include <QHBoxLayout>
+#include <QVBoxLayout>
+#include <QGroupBox>
 
 #include <KColorButton>
 #include <KLocalizedString>
@@ -31,11 +32,13 @@
 ChooseColorWidget::ChooseColorWidget(QString text, QColor color, QWidget *parent) :
         QWidget(parent)
 {
-    QHBoxLayout *layout = new QHBoxLayout(this);
-    layout->addWidget(new QLabel(text));
+    //QGroupBox *box = new QGroupBox(text, this);
+    QVBoxLayout *layout = new QVBoxLayout(this);
+
     m_button = new KColorButton(color, this);
-    layout->addWidget(m_button);
     ColorPickerWidget *picker = new ColorPickerWidget(this);
+
+    layout->addWidget(m_button);
     layout->addWidget(picker);
 
     connect(picker, SIGNAL(colorPicked(QColor)), this, SLOT(setColor(QColor)));
