@@ -72,6 +72,8 @@ private:
 #ifdef Q_WS_X11
     XImage *m_image;
     KCDPickerFilter *m_filter;
+#else
+    QImage m_image;
 #endif 
 
 private slots:

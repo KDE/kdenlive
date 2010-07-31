@@ -59,8 +59,8 @@ ColorPickerWidget::ColorPickerWidget(QWidget *parent) :
 {
 #ifdef Q_WS_X11
     m_filter = 0;
-    m_image = 0;
 #endif
+    m_image = 0;
 
     QHBoxLayout *layout = new QHBoxLayout(this);
 
@@ -102,22 +102,21 @@ QColor ColorPickerWidget::averagePickedColor(const QPoint pos)
     int sumB = 0;
 
     /*
-     Only getting the XImage once for the whole rect,
+     Only getting the image once for the whole rect
      results in a vast speed improvement.
     */
 #ifdef Q_WS_X11
     Window root = RootWindow(QX11Info::display(), QX11Info::appScreen());
     m_image = XGetImage(QX11Info::display(), root, x0, y0, x1 - x0, y1 - y0, -1, ZPixmap);
+#else
+    QWidget *desktop = QApplication::desktop();
+    m_image = QPixmap::grabWindow(desktop->winId(), x0, y0, x1 - x0, y1 - y0).toImage();
 #endif
 
     for (int i = x0; i < x1; ++i) {
         for (int j = y0; j < y1; ++j) {
             QColor color;
-#ifdef Q_WS_X11
             color = grabColor(QPoint(i - x0, j - y0), false);
-#else
-            color = grabColor(QPoint(i, j));
-#endif
             sumR += color.red();
             sumG += color.green();
             sumB += color.blue();
@@ -126,8 +125,8 @@ QColor ColorPickerWidget::averagePickedColor(const QPoint pos)
 
 #ifdef Q_WS_X11
     XDestroyImage(m_image);
-    m_image = 0;
 #endif
+    m_image = 0;
 
     int numPixel = (x1 - x0) * (y1 - y0);
     return QColor(sumR / numPixel, sumG / numPixel, sumB / numPixel);
@@ -226,10 +225,14 @@ QColor ColorPickerWidget::grabColor(const QPoint &p, bool destroyImage)
                 &xcol);
     return QColor::fromRgbF(xcol.red / 65535.0, xcol.green / 65535.0, xcol.blue / 65535.0);
 #else
-    QWidget *desktop = QApplication::desktop();
-    QPixmap pm = QPixmap::grabWindow(desktop->winId(), p.x(), p.y(), 1, 1);
-    QImage i = pm.toImage();
-    return i.pixel(0, 0);
+    if (m_image == 0) {
+        QWidget *desktop = QApplication::desktop();
+        QPixmap pm = QPixmap::grabWindow(desktop->winId(), p.x(), p.y(), 1, 1);
+        QImage i = pm.toImage();
+        return i.pixel(0, 0);
+    } else {
+        return m_image.pixel(p.x(), p.y());
+    }
 #endif
 }
 
