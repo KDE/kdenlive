@@ -229,10 +229,6 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
     KStandardDirs::makeDir(m_projectFolder.path(KUrl::AddTrailingSlash) + "thumbs/");
     KStandardDirs::makeDir(m_projectFolder.path(KUrl::AddTrailingSlash) + "ladspa/");
 
-    kDebug() << "Kdenlive document, init timecode: " << m_fps;
-    if (m_fps == 30000.0 / 1001.0) m_timecode.setFormat(m_fps, true);
-    else m_timecode.setFormat(m_fps);
-
     //kDebug() << "// SETTING SCENE LIST:\n\n" << m_document.toString();
     connect(m_autoSaveTimer, SIGNAL(timeout()), this, SLOT(slotAutoSave()));
 }
@@ -720,8 +716,8 @@ bool KdenliveDoc::setProfilePath(QString path)
     m_width = m_profile.width;
     m_height = m_profile.height;
     kDebug() << "Kdenlive document, init timecode from path: " << path << ",  " << m_fps;
-    if (m_fps == 30000.0 / 1001.0) m_timecode.setFormat(m_fps, true);
-    else m_timecode.setFormat(m_fps);
+    if (m_fps / 1.00 == (int)m_fps) m_timecode.setFormat(m_fps);
+    else m_timecode.setFormat(m_fps, true);
     return (current_fps != m_fps);
 }
 

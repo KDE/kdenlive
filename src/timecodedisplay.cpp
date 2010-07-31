@@ -123,10 +123,8 @@ int TimecodeDisplay::minimum() const
 
 int TimecodeDisplay::value() const
 {
-    int frames;
-    if (m_frametimecode) frames = lineedit->text().toInt();
-    else frames = m_timecode.getFrameCount(lineedit->text());
-    return frames;
+    if (m_frametimecode) return lineedit->text().toInt();
+    else return m_timecode.getFrameCount(lineedit->text());
 }
 
 GenTime TimecodeDisplay::gentime() const
@@ -164,8 +162,6 @@ void TimecodeDisplay::setValue(int value)
         lineedit->setText(QString::number(value));
     else
         lineedit->setText(m_timecode.getTimecodeFromFrames(value));
-
-    //emit valueChanged(value, true);
 }
 
 void TimecodeDisplay::setValue(GenTime value)

@@ -512,7 +512,6 @@ void Monitor::slotSeek(int pos)
     activateMonitor();
     if (render == NULL) return;
     render->seekToFrame(pos);
-    emit renderPosition(render->seekFramePosition());
 }
 
 void Monitor::checkOverlay()
@@ -540,7 +539,6 @@ void Monitor::slotStart()
     activateMonitor();
     render->play(0);
     render->seekToFrame(0);
-    //emit renderPosition(0);
 }
 
 void Monitor::slotEnd()
@@ -548,7 +546,6 @@ void Monitor::slotEnd()
     activateMonitor();
     render->play(0);
     render->seekToFrame(render->getLength());
-    //emit renderPosition(render->seekFramePosition());
 }
 
 void Monitor::slotZoneStart()
@@ -556,7 +553,6 @@ void Monitor::slotZoneStart()
     activateMonitor();
     render->play(0);
     render->seekToFrame(m_ruler->zone().x());
-    emit renderPosition(render->seekFramePosition());
 }
 
 void Monitor::slotZoneEnd()
@@ -564,7 +560,6 @@ void Monitor::slotZoneEnd()
     activateMonitor();
     render->play(0);
     render->seekToFrame(m_ruler->zone().y());
-    emit renderPosition(render->seekFramePosition());
 }
 
 void Monitor::slotRewind(double speed)
@@ -596,7 +591,6 @@ void Monitor::slotRewindOneFrame(int diff)
     activateMonitor();
     render->play(0);
     render->seekToFrameDiff(-diff);
-    emit renderPosition(render->seekFramePosition());
 }
 
 void Monitor::slotForwardOneFrame(int diff)
@@ -604,7 +598,6 @@ void Monitor::slotForwardOneFrame(int diff)
     activateMonitor();
     render->play(0);
     render->seekToFrameDiff(diff);
-    emit renderPosition(render->seekFramePosition());
 }
 
 void Monitor::seekCursor(int pos)
