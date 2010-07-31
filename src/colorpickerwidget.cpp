@@ -88,7 +88,7 @@ void ColorPickerWidget::mouseReleaseEvent(QMouseEvent *event)
         closeEventFilter();
         // does not work this way
         //if (event->button() == Qt::LeftButton)
-        emit colorPicked(KColorDialog::grabColor(event->globalPos()));
+        emit colorPicked(KColorDialog::grabColor(event->globalPos() - QPoint(11, -10)));
         return;
     }
     QWidget::mouseReleaseEvent(event);
@@ -113,7 +113,7 @@ void ColorPickerWidget::slotSetupEventFilter()
     m_filter = new KCDPickerFilter(this);
     kapp->installX11EventFilter(m_filter);
 #endif
-    grabMouse(Qt::CrossCursor);
+    grabMouse(QCursor(KIcon("color-picker").pixmap(22, 22)));
     grabKeyboard();
 }
 
