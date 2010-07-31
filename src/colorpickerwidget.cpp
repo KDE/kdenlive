@@ -77,7 +77,7 @@ ColorPickerWidget::ColorPickerWidget(QWidget *parent) :
 
     layout->addWidget(button);
     layout->addStretch(1);
-    layout->addWidget(new QLabel(i18n("Width of rect to pick color from:")));
+    layout->addWidget(new QLabel(i18n("Width of square to pick color from:")));
     layout->addWidget(m_size);
 }
 

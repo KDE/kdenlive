@@ -32,8 +32,10 @@
 ChooseColorWidget::ChooseColorWidget(QString text, QColor color, QWidget *parent) :
         QWidget(parent)
 {
-    //QGroupBox *box = new QGroupBox(text, this);
-    QVBoxLayout *layout = new QVBoxLayout(this);
+    QVBoxLayout *l = new QVBoxLayout(this);
+    QGroupBox *box = new QGroupBox(text, this);
+    l->addWidget(box);
+    QVBoxLayout *layout = new QVBoxLayout(box);
 
     m_button = new KColorButton(color, this);
     ColorPickerWidget *picker = new ColorPickerWidget(this);
