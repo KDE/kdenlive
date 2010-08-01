@@ -71,8 +71,8 @@ ColorPickerWidget::ColorPickerWidget(QWidget *parent) :
 
     m_size = new QSpinBox(this);
     m_size->setMinimum(1);
-    // Use qMax here, to make it possible to get the average for the whole screen
-    m_size->setMaximum(qMax(qApp->desktop()->geometry().width(), qApp->desktop()->geometry().height()));
+    // Use qMin here, as we might run into troubles with the cursor otherwise.
+    m_size->setMaximum(qMin(qApp->desktop()->geometry().width(), qApp->desktop()->geometry().height()));
     m_size->setValue(1);
 
     layout->addWidget(button);
@@ -176,10 +176,10 @@ void ColorPickerWidget::slotSetupEventFilter()
     m_filter = new KCDPickerFilter(this);
     kapp->installX11EventFilter(m_filter);
 #endif
-    if (m_size->value() == 1)
+    if (m_size->value() < 10)
         grabMouse(QCursor(KIcon("color-picker").pixmap(22, 22), 0, 21));
     else
-        grabMouse(Qt::CrossCursor);
+        grabMouse(QCursor(KIcon("kdenlive-select-all").pixmap(m_size->value(), m_size->value())));
     grabKeyboard();
 }
 
