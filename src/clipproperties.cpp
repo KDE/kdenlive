@@ -664,7 +664,7 @@ void ClipProperties::parseFolder()
         QString filter = KUrl(m_view.clip_path->text()).fileName();
         QString ext = filter.section('.', -1);
         filter = filter.section("%d", 0, -2);
-        QString regexp = "^" + filter + "\\d+\." + ext + "$";
+        QString regexp = "^" + filter + "\\d+\\." + ext + "$";
         QRegExp rx(regexp);
         QStringList entries;
         foreach(const QString &path, result) {

@@ -177,7 +177,7 @@ void SlideshowClip::parseFolder()
         while (filter.at(filter.size() - 1).isDigit()) {
             filter.remove(filter.size() - 1, 1);
         }
-        QString regexp = "^" + filter + "\\d+\." + ext + "$";
+        QString regexp = "^" + filter + "\\d+\\." + ext + "$";
         QRegExp rx(regexp);
         QStringList entries;
         foreach(const QString &path, result) {
