@@ -4,6 +4,7 @@
     begin                : Wed Dec 17 2003
     copyright            : (C) 2003 by Jason Wood
     email                : jasonwood@blueyonder.co.uk
+ *   Copyright (C) 2010 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
  ***************************************************************************/
 
 /***************************************************************************
@@ -14,6 +15,71 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+
+/*
+
+ Timecode calculation code for reference
+ If we ever use Quicktime timecode with 50.94 Drop frame, keep in mind that there is a bug inthe Quicktime code
+
+//CONVERT A FRAME NUMBER TO DROP FRAME TIMECODE
+//Code by David Heidelberger, adapted from Andrew Duncan
+//Given an int called framenumber and a double called framerate
+//Framerate should be 29.97, 59.94, or 23.976, otherwise the calculations will be off.
+
+int d;
+int m;
+
+int dropFrames = round(framerate * .066666); //Number of frames to drop on the minute marks is the nearest integer to 6% of the framerate
+int framesPerHour = round(framerate*60*60); //Number of frames in an hour
+int framesPer24Hours = framesPerHour*24; //Number of frames in a day - timecode rolls over after 24 hours
+int framesPer10Minutes = round(framerate * 60 * 10); //Number of frames per ten minutes
+int framesPerMinute = round(framerate)*60)-  dropFrames; //Number of frames per minute is the round of the framerate * 60 minus the number of dropped frames
+
+if (framenumber<0) //Negative time. Add 24 hours.
+{
+    framenumber=framesPer24Hours+framenumber;
+}
+
+//If framenumber is greater than 24 hrs, next operation will rollover clock
+framenumber = framenumber % framesPer24Hours; //% is the modulus operator, which returns a remainder. a % b = the remainder of a/b
+
+d = framenumber\framesPer10Minutes; // \ means integer division, which is a/b without a remainder. Some languages you could use floor(a/b)
+m = framenumber % framesPer10Minutes;
+
+if (m>1)
+{
+    framenumber=framenumber + (dropFrames*9*d) + dropFrames*((m-dropFrames)\framesPerMinute);
+}
+else
+{
+    framenumber = framenumber + dropFrames*9*d;
+}
+
+int frRound = round(framerate);
+int frames = framenumber % frRound;
+int seconds = (framenumber \ frRound) % 60;
+int minutes = ((framenumber \ frRound) \ 60) % 60;
+int hours = (((framenumber \ frRound) \ 60) \ 60);
+
+
+------------------------------------------------------------------------------------
+
+//CONVERT DROP FRAME TIMECODE TO A FRAME NUMBER
+//Code by David Heidelberger, adapted from Andrew Duncan
+//Given ints called hours, minutes, seconds, frames, and a double called framerate
+
+int dropFrames = round(framerate*.066666); //Number of drop frames is 6% of framerate rounded to nearest integer
+int timeBase = round(framerate); //We don’t need the exact framerate anymore, we just need it rounded to nearest integer
+
+int hourFrames = timeBase*60*60; //Number of frames per hour (non-drop)
+int minuteFrames = timeBase*60; //Number of frames per minute (non-drop)
+int totalMinutes = (60*hours) + minutes; //Total number of minuts
+int frameNumber = ((hourFrames * hours) + (minuteFrames * minutes) + (timeBase * seconds) + frames) - (dropFrames * (totalMinutes - (totalMinutes \ 10)));
+return frameNumber;
+
+*/
+
+
 #include <QValidator>
 
 #include <KDebug>
@@ -34,12 +100,15 @@ Timecode::~Timecode()
 void Timecode::setFormat(double framesPerSecond, bool dropFrame, Formats format)
 {
     m_displayedFramesPerSecond = (int)(framesPerSecond + 0.5);
-    m_dropFrame = dropFrame;
+    m_dropFrameTimecode = dropFrame;
     m_format = format;
     m_realFps = framesPerSecond;
-    m_dropFrames = round(m_realFps * .066666); //Number of frames to drop on the minute marks is the nearest integer to 6% of the framerate
+    if (dropFrame) {
+        m_dropFrames = round(m_realFps * .066666); //Number of frames to drop on the minute marks is the nearest integer to 6% of the framerate
+        m_framesPer10Minutes = round(m_realFps * 600); //Number of frames per ten minutes
+    }
     QRegExp regExp;
-    if (m_dropFrame)
+    if (m_dropFrameTimecode)
         regExp.setPattern("^\\d{2}:\\d{2}:\\d{2};\\d{2}$");
     else
         regExp.setPattern("^\\d{2}:\\d{2}:\\d{2}:\\d{2}$");
@@ -48,12 +117,12 @@ void Timecode::setFormat(double framesPerSecond, bool dropFrame, Formats format)
 
 double Timecode::fps() const
 {
-    return m_realFps; //m_displayedFramesPerSecond;
+    return m_realFps;
 }
 
 bool Timecode::df() const
 {
-    return m_dropFrame;
+    return m_dropFrameTimecode;
 }
 
 const QValidator *Timecode::validator() const
@@ -63,7 +132,7 @@ const QValidator *Timecode::validator() const
 
 QString Timecode::reformatSeparators(QString duration) const
 {
-    if (m_dropFrame)
+    if (m_dropFrameTimecode)
         return duration.replace(8, 1, ';');
     return duration.replace(8, 1, ':');
 }
@@ -76,7 +145,7 @@ int Timecode::getDisplayFrameCount(const QString duration, bool frameDisplay) co
 
 int Timecode::getFrameCount(const QString duration) const
 {
-    if (m_dropFrame) {
+    if (m_dropFrameTimecode) {
 
         //CONVERT DROP FRAME TIMECODE TO A FRAME NUMBER
         //Code by David Heidelberger, adapted from Andrew Duncan
@@ -97,15 +166,8 @@ int Timecode::getFrameCount(const QString duration) const
         }
 
         int totalMinutes = (60 * hours) + minutes; //Total number of minutes
-        int frameNumber = ((m_displayedFramesPerSecond * 60 * 60 * hours) + (m_displayedFramesPerSecond * 60 * minutes) + (m_displayedFramesPerSecond * seconds) + frames) - (m_dropFrames * (totalMinutes - floor(totalMinutes / 10)));
+        int frameNumber = ((m_displayedFramesPerSecond * 3600 * hours) + (m_displayedFramesPerSecond * 60 * minutes) + (m_displayedFramesPerSecond * seconds) + frames) - (m_dropFrames * (totalMinutes - floor(totalMinutes / 10)));
         return frameNumber;
-
-
-        //Calculate the frame count
-        int dropRate = (int)((ceil(m_displayedFramesPerSecond) / 30) * 2);
-        frames += ((hours * 60 + minutes) * 60 + seconds) * m_displayedFramesPerSecond;
-        frames -= dropRate * ((hours * 60 + minutes) - (floor((hours * 60 + minutes) / 10)));
-        return frames;
     }
     return (int)((duration.section(':', 0, 0).toInt()*3600.0 + duration.section(':', 1, 1).toInt()*60.0 + duration.section(':', 2, 2).toInt()) * m_realFps + duration.section(':', 3, 3).toInt());
 }
@@ -218,7 +280,7 @@ QString Timecode::getEasyTimecode(const GenTime & time, const double &fps)
 
 const QString Timecode::getTimecodeHH_MM_SS_FF(const GenTime & time) const
 {
-    if (m_dropFrame)
+    if (m_dropFrameTimecode)
         return getTimecodeDropFrame(time);
 
     return getTimecodeHH_MM_SS_FF((int) time.frames(m_realFps));
@@ -226,7 +288,7 @@ const QString Timecode::getTimecodeHH_MM_SS_FF(const GenTime & time) const
 
 const QString Timecode::getTimecodeHH_MM_SS_FF(int frames) const
 {
-    if (m_dropFrame) {
+    if (m_dropFrameTimecode) {
         return getTimecodeDropFrame(frames);
     }
     int seconds = frames / m_displayedFramesPerSecond;
@@ -266,7 +328,7 @@ QString Timecode::getTimecodeHH_MM_SS_HH(const GenTime & time) const
     text.append(QString::number(minutes).rightJustified(2, '0', false));
     text.append(':');
     text.append(QString::number(seconds).rightJustified(2, '0', false));
-    if (m_dropFrame)
+    if (m_dropFrameTimecode)
         text.append(';');
     else
         text.append(':');
@@ -297,27 +359,8 @@ QString Timecode::getTimecodeDropFrame(int framenumber) const
     //Given an int called framenumber and a double called framerate
     //Framerate should be 29.97, 59.94, or 23.976, otherwise the calculations will be off.
 
-    int d;
-    int m;
-
-    //int framesPerHour = round(m_realFps * 60 * 60); //Number of frames in an hour
-    //int framesPer24Hours = framesPerHour * 24; //Number of frames in a day - timecode rolls over after 24 hours
-    int framesPer10Minutes = round(m_realFps * 60 * 10); //Number of frames per ten minutes
-    //int framesPerMinute = round(framerate)*60)-  dropFrames; //Number of frames per minute is the round of the framerate * 60 minus the number of dropped frames
-
-    /*
-     * The 2 check below should not be necessary in Kdenlive
-    if (framenumber<0) //Negative time. Add 24 hours.
-    {
-    framenumber=framesPer24Hours+framenumber;
-    }
-
-    //If framenumber is greater than 24 hrs, next operation will rollover clock
-    framenumber = framenumber % framesPer24Hours; //% is the modulus operator, which returns a remainder. a % b = the remainder of a/b
-    */
-
-    d = floor(framenumber / framesPer10Minutes); // \ means integer division, which is a/b without a remainder. Some languages you could use floor(a/b)
-    m = framenumber % framesPer10Minutes;
+    int d = floor(framenumber / m_framesPer10Minutes);
+    int m = framenumber % m_framesPer10Minutes;
 
     if (m > 1) {
         framenumber = framenumber + (m_dropFrames * 9 * d) + m_dropFrames * (floor((m - m_dropFrames) / (round(m_realFps * 60) - m_dropFrames)));
@@ -329,7 +372,6 @@ QString Timecode::getTimecodeDropFrame(int framenumber) const
     int seconds = (int) floor(framenumber / m_displayedFramesPerSecond) % 60;
     int minutes = (int) floor(floor(framenumber / m_displayedFramesPerSecond) / 60) % 60;
     int hours = floor(floor(floor(framenumber / m_displayedFramesPerSecond) / 60) / 60);
-
 
     QString text;
     text.append(QString::number(hours).rightJustified(2, '0', false));

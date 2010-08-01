@@ -65,10 +65,11 @@ public:
 
 private:
     Formats m_format;
-    bool m_dropFrame;
+    bool m_dropFrameTimecode;
     int m_displayedFramesPerSecond;
     double m_realFps;
     double m_dropFrames;
+    int m_framesPer10Minutes;
     QRegExpValidator *m_validator;
 
     const QString getTimecodeHH_MM_SS_FF(const GenTime & time) const;
