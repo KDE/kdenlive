@@ -131,6 +131,7 @@ signals:
     void seekTimeline(int);
     /** The region effect for current effect was changed */
     void updateClipRegion(ClipItem*, int, QString);
+    void displayMessage(const QString&, int);
 };
 
 #endif

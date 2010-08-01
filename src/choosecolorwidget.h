@@ -54,6 +54,7 @@ private slots:
 signals:
     /** @brief Emitted whenever a different color was choosen. */
     void modified();
+    void displayMessage(const QString&, int);
 };
 
 #endif

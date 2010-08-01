@@ -287,6 +287,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
             ChooseColorWidget *choosecolor = new ChooseColorWidget(paramName, QColor(value.toUInt(&ok, 16)), this);
             m_vbox->addWidget(choosecolor);
             m_valueItems[paramName] = choosecolor;
+            connect(choosecolor, SIGNAL(displayMessage(const QString&, int)), this, SIGNAL(displayMessage(const QString&, int)));
             connect(choosecolor, SIGNAL(modified()) , this, SLOT(collectAllParameters()));
         } else if (type == "position") {
             int pos = value.toInt();

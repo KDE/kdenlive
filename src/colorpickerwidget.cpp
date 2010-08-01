@@ -96,10 +96,15 @@ QColor ColorPickerWidget::averagePickedColor(const QPoint pos)
     int y0 = qMax(0, pos.y() - size / 2);
     int x1 = qMin(qApp->desktop()->geometry().width(), pos.x() + size / 2);
     int y1 = qMin(qApp->desktop()->geometry().height(), pos.y() + size / 2);
+    int numPixel = (x1 - x0) * (y1 - y0);
 
     int sumR = 0;
     int sumG = 0;
     int sumB = 0;
+
+    // only show message for size > 200 because for smaller values it slows down to much
+    if (size > 200)
+        emit displayMessage(i18n("Requesting color information..."), 0);
 
     /*
      Only getting the image once for the whole rect
@@ -113,14 +118,18 @@ QColor ColorPickerWidget::averagePickedColor(const QPoint pos)
     m_image = QPixmap::grabWindow(desktop->winId(), x0, y0, x1 - x0, y1 - y0).toImage();
 #endif
 
-    for (int i = x0; i < x1; ++i) {
-        for (int j = y0; j < y1; ++j) {
+    for (int i = x0; i <= x1; ++i) {
+        for (int j = y0; j <= y1; ++j) {
             QColor color;
             color = grabColor(QPoint(i - x0, j - y0), false);
             sumR += color.red();
             sumG += color.green();
             sumB += color.blue();
         }
+
+        // Warning: slows things down, so don't do it for every pixel (the inner for loop)
+        if (size > 200)
+            emit displayMessage(i18n("Requesting color information..."), (int)(((i - x0) * (y1 - y0)) / (qreal)numPixel * 100));
     }
 
 #ifdef Q_WS_X11
@@ -128,7 +137,9 @@ QColor ColorPickerWidget::averagePickedColor(const QPoint pos)
 #endif
     m_image = 0;
 
-    int numPixel = (x1 - x0) * (y1 - y0);
+    if (size > 200)
+        emit displayMessage(i18n("Calculated average color for rectangle."), -1);
+
     return QColor(sumR / numPixel, sumG / numPixel, sumB / numPixel);
 }
 

@@ -81,6 +81,7 @@ EffectStackView::EffectStackView(QWidget *parent) :
     connect(m_ui.checkAll, SIGNAL(stateChanged(int)), this, SLOT(slotCheckAll(int)));
     connect(m_effectedit, SIGNAL(parameterChanged(const QDomElement, const QDomElement)), this , SLOT(slotUpdateEffectParams(const QDomElement, const QDomElement)));
     connect(m_effectedit, SIGNAL(seekTimeline(int)), this , SLOT(slotSeekTimeline(int)));
+    connect(m_effectedit, SIGNAL(displayMessage(const QString&, int)), this, SIGNAL(displayMessage(const QString&, int)));
     m_effectLists["audio"] = &MainWindow::audioEffects;
     m_effectLists["video"] = &MainWindow::videoEffects;
     m_effectLists["custom"] = &MainWindow::customEffects;

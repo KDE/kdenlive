@@ -81,6 +81,7 @@ public slots:
 signals:
     void parameterChanged(const QDomElement, const QDomElement);
     void seekTimeline(int);
+    void displayMessage(const QString&, int);
 };
 
 #endif

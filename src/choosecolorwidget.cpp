@@ -44,6 +44,7 @@ ChooseColorWidget::ChooseColorWidget(QString text, QColor color, QWidget *parent
     layout->addWidget(picker);
 
     connect(picker, SIGNAL(colorPicked(QColor)), this, SLOT(setColor(QColor)));
+    connect(picker, SIGNAL(displayMessage(const QString&, int)), this, SIGNAL(displayMessage(const QString&, int)));
     connect(m_button, SIGNAL(clicked(bool)), this, SIGNAL(modified()));
 }
 

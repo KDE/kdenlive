@@ -82,6 +82,7 @@ private slots:
 
 signals:
     void colorPicked(QColor);
+    void displayMessage(const QString&, int);
 };
 
 #endif
