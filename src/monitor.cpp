@@ -76,7 +76,7 @@ Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget
     }
 
     toolbar->addAction(KIcon("media-seek-backward"), i18n("Rewind"), this, SLOT(slotRewind()));
-    toolbar->addAction(KIcon("media-skip-backward"), i18n("Rewind 1 frame"), this, SLOT(slotRewindOneFrame()));
+    //toolbar->addAction(KIcon("media-skip-backward"), i18n("Rewind 1 frame"), this, SLOT(slotRewindOneFrame()));
 
     QToolButton *playButton = new QToolButton(toolbar);
     m_playMenu = new QMenu(i18n("Play..."), this);
@@ -88,7 +88,7 @@ Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget
     playButton->setPopupMode(QToolButton::MenuButtonPopup);
     toolbar->addWidget(playButton);
 
-    toolbar->addAction(KIcon("media-skip-forward"), i18n("Forward 1 frame"), this, SLOT(slotForwardOneFrame()));
+    //toolbar->addAction(KIcon("media-skip-forward"), i18n("Forward 1 frame"), this, SLOT(slotForwardOneFrame()));
     toolbar->addAction(KIcon("media-seek-forward"), i18n("Forward"), this, SLOT(slotForward()));
 
     playButton->setDefaultAction(m_playAction);
