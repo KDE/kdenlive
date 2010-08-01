@@ -92,10 +92,17 @@ ColorPickerWidget::~ColorPickerWidget()
 QColor ColorPickerWidget::averagePickedColor(const QPoint pos)
 {
     int size = m_size->value();
-    int x0 = qMax(0, pos.x() - size / 2); 
+    int x0 = qMax(0, pos.x() - size / 2);
     int y0 = qMax(0, pos.y() - size / 2);
     int x1 = qMin(qApp->desktop()->geometry().width(), pos.x() + size / 2);
     int y1 = qMin(qApp->desktop()->geometry().height(), pos.y() + size / 2);
+
+    // take care of loss when dividing odd sizes
+    if (size % 2 != 0) {
+        ++x1;
+        ++y1;
+    }
+
     int numPixel = (x1 - x0) * (y1 - y0);
 
     int sumR = 0;
@@ -118,8 +125,8 @@ QColor ColorPickerWidget::averagePickedColor(const QPoint pos)
     m_image = QPixmap::grabWindow(desktop->winId(), x0, y0, x1 - x0, y1 - y0).toImage();
 #endif
 
-    for (int i = x0; i <= x1; ++i) {
-        for (int j = y0; j <= y1; ++j) {
+    for (int i = x0; i < x1; ++i) {
+        for (int j = y0; j < y1; ++j) {
             QColor color;
             color = grabColor(QPoint(i - x0, j - y0), false);
             sumR += color.red();
