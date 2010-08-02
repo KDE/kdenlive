@@ -9,6 +9,9 @@ if (Nepomuk_FOUND)
     add_definitions(-DNEPOMUK)
 endif (Nepomuk_FOUND)
 
+if (Q_WS_X11)
+    include_directories (${X11_Xlib_INCLUDE_PATH} ) 
+endif (Q_WS_X11)
 
 if (APPLE)
   find_package(OpenGL)
@@ -248,6 +251,10 @@ target_link_libraries(kdenlive
   ${KDE4_KNOTIFYCONFIG_LIBRARY}
   ${KDE4_KROSSUI_LIBS}
 )
+
+if (Q_WS_X11)
+  target_link_libraries(kdenlive ${X11_LIBRARIES})
+endif (Q_WS_X11)
 
 if (APPLE)
   find_package(SDL REQUIRED)
