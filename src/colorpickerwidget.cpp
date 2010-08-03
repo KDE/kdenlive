@@ -99,8 +99,8 @@ QColor ColorPickerWidget::averagePickedColor(const QPoint pos)
 
     // take care of loss when dividing odd sizes
     if (size % 2 != 0) {
-        ++x1;
-        ++y1;
+        if (x1 < qApp->desktop()->geometry().width()) ++x1;
+        if (y1 < qApp->desktop()->geometry().height()) ++y1;
     }
 
     int numPixel = (x1 - x0) * (y1 - y0);

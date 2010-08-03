@@ -64,6 +64,7 @@ frei0r_defish0r.xml
 frei0r_glow.xml
 frei0r_pixeliz0r.xml
 frei0r_hueshift0r.xml
+frei0r_coloradj_rgb.xml
 gain.xml
 fade_from_black.xml
 fade_to_black.xml
