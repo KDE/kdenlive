@@ -51,5 +51,6 @@ The parameter entry has the following attributes:
 
 The "name" tag gives the parameter name as it will appear to the user
 
-Kdenlive parses the effect folder at each startup, so that if you have an xml file describing a new effect, just copy it in your ~/.kde/share/apps/kdenlive/effects/ folder and restart Kdenlive to enable the new effect
+Kdenlive parses the effect folder at each startup, so that if you have an xml file describing a new effect, just copy it in your ~/.kde/share/apps/kdenlive/effects/ folder and restart Kdenlive to enable the new effect.
 
+Effects need to be blacklisted in the file kdenlive/data/blacklisted_effects.txt if they use a custom (i.e. non-default) XML GUI from this directory.
