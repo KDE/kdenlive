@@ -39,13 +39,16 @@ class MonitorManager;
 class Render;
 class SmallRuler;
 class DocClipBase;
+class MonitorScene;
+class QGraphicsView;
+class QGraphicsPixmapItem;
 
 class MonitorRefresh : public QWidget
 {
     Q_OBJECT
 public:
-    MonitorRefresh(QWidget* parent);
-    virtual void paintEvent(QPaintEvent * event);
+    MonitorRefresh(QWidget *parent = 0);
+    virtual void paintEvent(QPaintEvent *event);
     void setRenderer(Render* render);
 
 private:
@@ -83,6 +86,7 @@ public:
     void checkOverlay();
     void updateTimecodeFormat();
     void updateMarkers(DocClipBase *source);
+    MonitorScene *getEffectScene();
 
 protected:
     virtual void mousePressEvent(QMouseEvent * event);
@@ -123,6 +127,8 @@ private:
     QMenu *m_playMenu;
     QMenu *m_markerMenu;
     QPoint m_DragStartPosition;
+    MonitorScene *m_effectScene;
+    QGraphicsView *m_effectView;
 #ifdef Q_WS_MAC
     VideoGLWidget *m_glWidget;
 #endif
@@ -171,6 +177,7 @@ public slots:
     void adjustRulerSize(int length);
     void setTimePos(const QString &pos);
     QStringList getZoneInfo() const;
+    void slotEffectScene(bool show = true);
 
 signals:
     void renderPosition(int);

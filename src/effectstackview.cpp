@@ -37,12 +37,12 @@
 #include <QInputDialog>
 
 
-EffectStackView::EffectStackView(QWidget *parent) :
+EffectStackView::EffectStackView(Monitor *monitor, QWidget *parent) :
         QWidget(parent)
 {
     m_ui.setupUi(this);
     QVBoxLayout *vbox1 = new QVBoxLayout(m_ui.frame);
-    m_effectedit = new EffectStackEdit(m_ui.frame);
+    m_effectedit = new EffectStackEdit(monitor, m_ui.frame);
     vbox1->setContentsMargins(0, 0, 0, 0);
     vbox1->setSpacing(0);
     vbox1->addWidget(m_effectedit);

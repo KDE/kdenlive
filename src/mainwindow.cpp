@@ -176,18 +176,6 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
     m_projectListDock->setWidget(m_projectList);
     addDockWidget(Qt::TopDockWidgetArea, m_projectListDock);
 
-    m_effectStackDock = new QDockWidget(i18n("Effect Stack"), this);
-    m_effectStackDock->setObjectName("effect_stack");
-    m_effectStack = new EffectStackView(this);
-    m_effectStackDock->setWidget(m_effectStack);
-    addDockWidget(Qt::TopDockWidgetArea, m_effectStackDock);
-
-    m_transitionConfigDock = new QDockWidget(i18n("Transition"), this);
-    m_transitionConfigDock->setObjectName("transition");
-    m_transitionConfig = new TransitionSettings(this);
-    m_transitionConfigDock->setWidget(m_transitionConfig);
-    addDockWidget(Qt::TopDockWidgetArea, m_transitionConfigDock);
-
     m_clipMonitorDock = new QDockWidget(i18n("Clip Monitor"), this);
     m_clipMonitorDock->setObjectName("clip_monitor");
     m_clipMonitor = new Monitor("clip", m_monitorManager, QString(), this);
@@ -209,6 +197,18 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
     connect(m_recMonitor, SIGNAL(addProjectClip(KUrl)), this, SLOT(slotAddProjectClip(KUrl)));
     connect(m_recMonitor, SIGNAL(showConfigDialog(int, int)), this, SLOT(slotPreferences(int, int)));
 #endif
+
+    m_effectStackDock = new QDockWidget(i18n("Effect Stack"), this);
+    m_effectStackDock->setObjectName("effect_stack");
+    m_effectStack = new EffectStackView(m_projectMonitor, this);
+    m_effectStackDock->setWidget(m_effectStack);
+    addDockWidget(Qt::TopDockWidgetArea, m_effectStackDock);
+
+    m_transitionConfigDock = new QDockWidget(i18n("Transition"), this);
+    m_transitionConfigDock->setObjectName("transition");
+    m_transitionConfig = new TransitionSettings(m_projectMonitor, this);
+    m_transitionConfigDock->setWidget(m_transitionConfig);
+    addDockWidget(Qt::TopDockWidgetArea, m_transitionConfigDock);
 
     m_effectListDock = new QDockWidget(i18n("Effect List"), this);
     m_effectListDock->setObjectName("effect_list");

@@ -39,12 +39,13 @@ struct wipeInfo {
 };
 
 class QFrame;
+class Monitor;
 
 class EffectStackEdit : public QScrollArea
 {
     Q_OBJECT
 public:
-    EffectStackEdit(QWidget *parent);
+    EffectStackEdit(Monitor *monitor, QWidget *parent = 0);
     ~EffectStackEdit();
     void updateProjectFormat(MltVideoProfile profile, Timecode t);
     static QMap<QString, QImage> iconCache;
@@ -68,6 +69,7 @@ private:
     int m_out;
     QPoint m_frameSize;
     KeyframeEdit *m_keyframeEditor;
+    Monitor *m_monitor;
 
 public slots:
     /** \brief Called when an effect is selected, builds the UI for this effect */

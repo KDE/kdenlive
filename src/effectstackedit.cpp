@@ -31,6 +31,7 @@
 #include "kis_curve_widget.h"
 #include "kis_cubic_curve.h"
 #include "choosecolorwidget.h"
+#include "geometrywidget.h"
 
 #include <KDebug>
 #include <KLocale>
@@ -66,12 +67,13 @@ class Urlval: public QWidget, public Ui::Urlval_UI
 
 QMap<QString, QImage> EffectStackEdit::iconCache;
 
-EffectStackEdit::EffectStackEdit(QWidget *parent) :
+EffectStackEdit::EffectStackEdit(Monitor *monitor, QWidget *parent) :
         QScrollArea(parent),
         m_in(0),
         m_out(0),
         m_frameSize(QPoint()),
-        m_keyframeEditor(NULL)
+        m_keyframeEditor(NULL),
+        m_monitor(monitor)
 {
     m_baseWidget = new QWidget(this);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -122,7 +124,7 @@ void EffectStackEdit::updateTimecodeFormat()
         QString type = pa.attributes().namedItem("type").nodeValue();
         QString paramName = i18n(na.toElement().text().toUtf8().data());
 
-        if (type == "geometry") {
+        if (type == "geometry" && !KdenliveSettings::on_monitor_effects()) {
             Geometryval *geom = ((Geometryval*)m_valueItems[paramName+"geometry"]);
             geom->updateTimecodeFormat();
             break;
@@ -257,15 +259,26 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
             m_valueItems[paramName+"complex"] = pl;
             connect(pl, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
         } else if (type == "geometry") {
-            Geometryval *geo = new Geometryval(m_profile, m_timecode, m_frameSize, pos);
-            if (minFrame == maxFrame)
-                geo->setupParam(pa, m_in, m_out);
-            else
-                geo->setupParam(pa, minFrame, maxFrame);
-            m_vbox->addWidget(geo);
-            m_valueItems[paramName+"geometry"] = geo;
-            connect(geo, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
-            connect(geo, SIGNAL(seekToPos(int)), this, SIGNAL(seekTimeline(int)));
+            if (KdenliveSettings::on_monitor_effects()) {
+                GeometryWidget *geometry = new GeometryWidget(m_monitor, pos, this);
+                if (minFrame == maxFrame)
+                    geometry->setupParam(pa, m_in, m_out);
+                else
+                    geometry->setupParam(pa, minFrame, maxFrame);
+                m_vbox->addWidget(geometry);
+                m_valueItems[paramName+"geometry"] = geometry;
+                connect(geometry, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
+            } else {
+                Geometryval *geo = new Geometryval(m_profile, m_timecode, m_frameSize, pos);
+                if (minFrame == maxFrame)
+                    geo->setupParam(pa, m_in, m_out);
+                else
+                    geo->setupParam(pa, minFrame, maxFrame);
+                m_vbox->addWidget(geo);
+                m_valueItems[paramName+"geometry"] = geo;
+                connect(geo, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
+                connect(geo, SIGNAL(seekToPos(int)), this, SIGNAL(seekTimeline(int)));
+            }
         } else if (type == "keyframe" || type == "simplekeyframe") {
             // keyframe editor widget
             kDebug() << "min: " << m_in << ", MAX: " << m_out;
@@ -532,8 +545,13 @@ void EffectStackEdit::collectAllParameters()
             ComplexParameter *complex = ((ComplexParameter*)m_valueItems.value(paramName));
             namenode.item(i) = complex->getParamDesc();
         } else if (type == "geometry") {
-            Geometryval *geom = ((Geometryval*)m_valueItems.value(paramName));
-            namenode.item(i).toElement().setAttribute("value", geom->getValue());
+            if (KdenliveSettings::on_monitor_effects()) {
+                GeometryWidget *geometry = ((GeometryWidget*)m_valueItems.value(paramName));
+                namenode.item(i).toElement().setAttribute("value", geometry->getValue());
+            } else {
+                Geometryval *geom = ((Geometryval*)m_valueItems.value(paramName));
+                namenode.item(i).toElement().setAttribute("value", geom->getValue());
+            }
         } else if (type == "position") {
             PositionEdit *pedit = ((PositionEdit*)m_valueItems.value(paramName));
             int pos = pedit->getPosition();

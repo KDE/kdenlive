@@ -30,13 +30,14 @@
 class EffectsList;
 class ClipItem;
 class MltVideoProfile;
+class Monitor;
 
 class EffectStackView : public QWidget
 {
     Q_OBJECT
 
 public:
-    EffectStackView(QWidget *parent = 0);
+    EffectStackView(Monitor *monitor, QWidget *parent = 0);
     virtual ~EffectStackView();
 
     /** @brief Raises @param dock if a clip is loaded. */

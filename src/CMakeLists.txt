@@ -98,6 +98,7 @@ kde4_add_ui_files(kdenlive_UI
   widgets/waveform_ui.ui
   widgets/rgbparade_ui.ui
   widgets/histogram_ui.ui
+  widgets/geometrywidget_ui.ui
 )
 
 set(kdenlive_SRCS
@@ -214,6 +215,8 @@ set(kdenlive_SRCS
   razorgroupcommand.cpp
   colorpickerwidget.cpp
   choosecolorwidget.cpp
+  monitorscene.cpp
+  geometrywidget.cpp
 )
 
 

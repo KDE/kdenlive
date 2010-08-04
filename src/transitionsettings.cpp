@@ -26,14 +26,14 @@
 
 #include <KDebug>
 
-TransitionSettings::TransitionSettings(QWidget* parent) :
+TransitionSettings::TransitionSettings(Monitor *monitor, QWidget* parent) :
         QWidget(parent),
         m_usedTransition(NULL),
         m_autoTrackTransition(0)
 {
     setupUi(this);
     QVBoxLayout *vbox1 = new QVBoxLayout(frame);
-    m_effectEdit = new EffectStackEdit(frame);
+    m_effectEdit = new EffectStackEdit(monitor, frame);
     vbox1->setContentsMargins(0, 0, 0, 0);
     vbox1->setSpacing(0);
     vbox1->addWidget(m_effectEdit);

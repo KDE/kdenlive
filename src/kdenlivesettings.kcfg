@@ -39,6 +39,11 @@
       <label>Default title clip duration.</label>
       <default>00:00:05:00</default>
     </entry>
+    
+    <entry name="on_monitor_effects" type="Bool">
+      <label>Use on-monitor effects (Warning: experimental).</label>
+      <default>false</default>
+    </entry>
   </group>
 
   <group name="project">

@@ -32,7 +32,7 @@
      </property>
     </widget>
    </item>
-   <item row="4" column="0" colspan="3">
+   <item row="5" column="0" colspan="3">
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
       <string>Default Durations</string>
@@ -83,7 +83,7 @@
      </layout>
     </widget>
    </item>
-   <item row="5" column="0" colspan="3">
+   <item row="6" column="0" colspan="3">
     <spacer>
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -100,6 +100,13 @@
     <widget class="QCheckBox" name="kcfg_usekuiserver">
      <property name="text">
       <string>Use KDE job tracking for render jobs</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0">
+    <widget class="QCheckBox" name="kcfg_on_monitor_effects">
+     <property name="text">
+      <string>Use on-monitor effects (Warning: experimental)</string>
      </property>
     </widget>
    </item>

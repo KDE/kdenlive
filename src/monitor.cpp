@@ -23,6 +23,7 @@
 #include "monitormanager.h"
 #include "smallruler.h"
 #include "docclipbase.h"
+#include "monitorscene.h"
 #include "kdenlivesettings.h"
 
 #include <KDebug>
@@ -39,6 +40,9 @@
 #include <QDesktopWidget>
 #include <QLabel>
 #include <QIntValidator>
+#include <QVBoxLayout>
+#include <QGraphicsView>
+#include <QGraphicsPixmapItem>
 
 
 Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget *parent) :
@@ -161,6 +165,15 @@ Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget
 #ifndef Q_WS_MAC
     m_monitorRefresh->show();
 #endif
+
+    if (name == "project") {
+        m_effectScene = new MonitorScene(render);
+        m_effectView = new QGraphicsView(m_effectScene, m_ui.video_frame);
+        rendererBox->addWidget(m_effectView);
+        m_effectScene->setUp();
+        m_effectView->hide();
+    }
+
     kDebug() << "/////// BUILDING MONITOR, ID: " << m_ui.video_frame->winId();
 }
 
@@ -170,6 +183,8 @@ Monitor::~Monitor()
     delete m_timePos;
     delete m_overlay;
     delete m_monitorRefresh;
+    delete m_effectView;
+    delete m_effectScene;
     delete render;
 }
 
@@ -367,7 +382,7 @@ void Monitor::slotSetZoneEnd()
 void Monitor::mousePressEvent(QMouseEvent * event)
 {
     if (event->button() != Qt::RightButton) {
-        if (m_ui.video_frame->underMouse()) {
+        if (m_ui.video_frame->underMouse() && !m_effectView->isVisible()) {
             m_dragStarted = true;
             m_DragStartPosition = event->pos();
         }
@@ -378,7 +393,7 @@ void Monitor::mousePressEvent(QMouseEvent * event)
 void Monitor::mouseReleaseEvent(QMouseEvent * event)
 {
     if (m_dragStarted) {
-        if (m_ui.video_frame->underMouse()) {
+        if (m_ui.video_frame->underMouse() && !m_effectView->isVisible()) {
             if (isActive()) slotPlay();
             else activateMonitor();
         } else QWidget::mouseReleaseEvent(event);
@@ -818,6 +833,21 @@ QStringList Monitor::getZoneInfo() const
     return result;
 }
 
+void Monitor::slotEffectScene(bool show)
+{
+    if (m_name == "project") {
+        m_monitorRefresh->setVisible(!show);
+        m_effectView->setVisible(show);
+        if (show)
+            m_effectScene->slotUpdateBackground();
+    }
+}
+
+MonitorScene * Monitor::getEffectScene()
+{
+    return m_effectScene;
+}
+
 MonitorRefresh::MonitorRefresh(QWidget* parent) : \
         QWidget(parent),
         m_renderer(NULL)
@@ -832,8 +862,9 @@ void MonitorRefresh::setRenderer(Render* render)
     m_renderer = render;
 }
 
-void MonitorRefresh::paintEvent(QPaintEvent * /*event*/)
+void MonitorRefresh::paintEvent(QPaintEvent *event)
 {
+    Q_UNUSED(event);
     if (m_renderer) m_renderer->doRefresh();
 }
 
