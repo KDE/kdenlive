@@ -44,10 +44,10 @@ public slots:
 
 private:
     Ui::GeometryWidget_UI m_ui;
+    Monitor *m_monitor;
     int m_clipPos;
     int m_inPoint;
     int m_outPoint;
-    Monitor *m_monitor;
     MonitorScene *m_scene;
     QGraphicsRectItem *m_rect;
     Mlt::Geometry *m_geometry;

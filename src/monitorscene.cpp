@@ -20,6 +20,7 @@
 
 #include "monitorscene.h"
 #include "renderer.h"
+#include "kdenlivesettings.h"
 
 #include <QGraphicsView>
 #include <QGraphicsPixmapItem>
@@ -33,7 +34,7 @@ MonitorScene::MonitorScene(Render *renderer, QObject* parent) :
 
 void MonitorScene::setUp()
 {
-    setBackgroundBrush(QBrush(QColor(0, 0, 255)));
+    setBackgroundBrush(QBrush(QColor(KdenliveSettings::window_background().name())));
 
     QPen framepen(Qt::DotLine);
     framepen.setColor(Qt::red);
@@ -57,8 +58,6 @@ void MonitorScene::setUp()
     connect(m_renderer, SIGNAL(rendererPosition(int)), this, SLOT(slotUpdateBackground()));
     connect(m_renderer, SIGNAL(frameUpdated(int)), this, SLOT(slotUpdateBackground()));
     slotUpdateBackground();
-    views().at(0)->fitInView(m_frameBorder, Qt::KeepAspectRatio);
-    views().at(0)->centerOn(m_frameBorder);
 }
 
 void MonitorScene::slotUpdateBackground()

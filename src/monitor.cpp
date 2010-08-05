@@ -42,7 +42,6 @@
 #include <QIntValidator>
 #include <QVBoxLayout>
 #include <QGraphicsView>
-#include <QGraphicsPixmapItem>
 
 
 Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget *parent) :
@@ -382,7 +381,7 @@ void Monitor::slotSetZoneEnd()
 void Monitor::mousePressEvent(QMouseEvent * event)
 {
     if (event->button() != Qt::RightButton) {
-        if (m_ui.video_frame->underMouse() && !m_effectView->isVisible()) {
+        if (m_ui.video_frame->underMouse()) {
             m_dragStarted = true;
             m_DragStartPosition = event->pos();
         }
@@ -393,7 +392,7 @@ void Monitor::mousePressEvent(QMouseEvent * event)
 void Monitor::mouseReleaseEvent(QMouseEvent * event)
 {
     if (m_dragStarted) {
-        if (m_ui.video_frame->underMouse() && !m_effectView->isVisible()) {
+        if (m_ui.video_frame->underMouse()) {
             if (isActive()) slotPlay();
             else activateMonitor();
         } else QWidget::mouseReleaseEvent(event);

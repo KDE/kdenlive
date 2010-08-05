@@ -23,16 +23,17 @@
 #include "renderer.h"
 #include "monitorscene.h"
 
+#include <QGraphicsView>
 #include <QGraphicsRectItem>
 
 GeometryWidget::GeometryWidget(Monitor* monitor, int clipPos, QWidget* parent ):
         QWidget(parent),
         m_monitor(monitor),
-        m_rect(NULL),
-        m_geometry(NULL),
         m_clipPos(clipPos),
         m_inPoint(0),
-        m_outPoint(1)
+        m_outPoint(1),
+        m_rect(NULL),
+        m_geometry(NULL)
 {
     m_ui.setupUi(this);
     m_scene = monitor->getEffectScene();
@@ -94,9 +95,10 @@ void GeometryWidget::setupParam(const QDomElement elem, int minframe, int maxfra
 
 void GeometryWidget::slotCheckPosition(int renderPos)
 {
-    if (renderPos >= m_clipPos && renderPos <= m_clipPos + m_outPoint - m_inPoint)
-        m_monitor->slotEffectScene(true);
-    else
+    if (renderPos >= m_clipPos && renderPos <= m_clipPos + m_outPoint - m_inPoint) {
+        if (!m_scene->views().at(0)->isVisible())
+            m_monitor->slotEffectScene(true);
+    } else
         m_monitor->slotEffectScene(false);
 }
 
