@@ -55,7 +55,8 @@ Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget
         m_isActive(false),
         m_scale(1),
         m_length(0),
-        m_dragStarted(false)
+        m_dragStarted(false),
+        m_delStage(false)
 {
     m_ui.setupUi(this);
     QVBoxLayout *layout = new QVBoxLayout;
@@ -169,6 +170,7 @@ Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget
         m_effectScene = new MonitorScene(render);
         m_effectView = new QGraphicsView(m_effectScene, m_ui.video_frame);
         rendererBox->addWidget(m_effectView);
+        m_effectView->setMouseTracking(true);
         m_effectScene->setUp();
         m_effectView->hide();
     }
@@ -178,12 +180,15 @@ Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget
 
 Monitor::~Monitor()
 {
+    m_delStage = true;
     delete m_ruler;
     delete m_timePos;
     delete m_overlay;
+    if (m_name == "project") {
+        delete m_effectView;
+        delete m_effectScene;
+    }
     delete m_monitorRefresh;
-    delete m_effectView;
-    delete m_effectScene;
     delete render;
 }
 
@@ -834,7 +839,7 @@ QStringList Monitor::getZoneInfo() const
 
 void Monitor::slotEffectScene(bool show)
 {
-    if (m_name == "project") {
+    if (m_name == "project" && !m_delStage) {
         m_monitorRefresh->setVisible(!show);
         m_effectView->setVisible(show);
         if (show)

@@ -129,6 +129,7 @@ private:
     QPoint m_DragStartPosition;
     MonitorScene *m_effectScene;
     QGraphicsView *m_effectView;
+    bool m_delStage;
 #ifdef Q_WS_MAC
     VideoGLWidget *m_glWidget;
 #endif

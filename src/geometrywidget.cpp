@@ -23,6 +23,7 @@
 #include "renderer.h"
 #include "monitorscene.h"
 
+#include <QtCore>
 #include <QGraphicsView>
 #include <QGraphicsRectItem>
 
@@ -50,8 +51,8 @@ GeometryWidget::GeometryWidget(Monitor* monitor, int clipPos, QWidget* parent ):
 
 GeometryWidget::~GeometryWidget()
 {
-    m_monitor->slotEffectScene(false);
-    m_scene->disconnect(this);
+    if (m_monitor)
+        m_monitor->slotEffectScene(false);
     delete m_rect;
     delete m_geometry;
 }

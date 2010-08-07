@@ -24,8 +24,9 @@
 #include <QGraphicsScene>
 #include <QTime>
 
-class QGraphicsPixmapItem;
 class Render;
+
+enum resizeModes { NoResize, TopLeft, BottomLeft, TopRight, BottomRight, Left, Right, Top, Bottom };
 
 class MonitorScene : public QGraphicsScene
 {
@@ -36,16 +37,24 @@ public:
 
 protected:
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
 
 public slots:
     void slotUpdateBackground();
 
 private:
+    resizeModes getResizeMode(QGraphicsRectItem *item, QPoint pos);
+
     Render *m_renderer;
     QGraphicsPixmapItem *m_background;
     QGraphicsRectItem *m_frameBorder;
     QTime m_lastUpdate;
+    QGraphicsView *m_view;
+    QGraphicsItem *m_selectedItem;
+    resizeModes m_resizeMode;
+    QPointF m_clickPoint;
+
 signals:
     void actionFinished();
 };

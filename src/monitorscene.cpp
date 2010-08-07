@@ -22,17 +22,18 @@
 #include "renderer.h"
 #include "kdenlivesettings.h"
 
+#include <QtCore>
 #include <QGraphicsView>
 #include <QGraphicsPixmapItem>
-#include <QtCore>
+#include <QGraphicsSceneMouseEvent>
 
 MonitorScene::MonitorScene(Render *renderer, QObject* parent) :
         QGraphicsScene(parent),
-        m_renderer(renderer)
-{
-}
-
-void MonitorScene::setUp()
+        m_renderer(renderer),
+        m_view(NULL),
+        m_selectedItem(NULL),
+        m_resizeMode(NoResize),
+        m_clickPoint(0, 0)
 {
     setBackgroundBrush(QBrush(QColor(KdenliveSettings::window_background().name())));
 
@@ -57,28 +58,210 @@ void MonitorScene::setUp()
 
     connect(m_renderer, SIGNAL(rendererPosition(int)), this, SLOT(slotUpdateBackground()));
     connect(m_renderer, SIGNAL(frameUpdated(int)), this, SLOT(slotUpdateBackground()));
+}
+
+void MonitorScene::setUp()
+{
+    if (views().count() > 0)
+        m_view = views().at(0);
+    else
+        m_view = NULL;
     slotUpdateBackground();
 }
 
 void MonitorScene::slotUpdateBackground()
 {
-    if (views().count() > 0 && views().at(0)->isVisible()) {
+    if (m_view && m_view->isVisible()) {
         if (m_lastUpdate.elapsed() > 200) {
             m_background->setPixmap(QPixmap::fromImage(m_renderer->extractFrame(m_renderer->seekFramePosition())));
-            views().at(0)->fitInView(m_frameBorder, Qt::KeepAspectRatio);
-            views().at(0)->centerOn(m_frameBorder);
+            m_view->fitInView(m_frameBorder, Qt::KeepAspectRatio);
+            m_view->centerOn(m_frameBorder);
             m_lastUpdate.start();
         }
     }
 }
 
-void MonitorScene::mousePressEvent(QGraphicsSceneMouseEvent* event)
+resizeModes MonitorScene::getResizeMode(QGraphicsRectItem *item, QPoint pos)
 {
+    if(!m_view)
+        return NoResize;
+
+    QRectF rect = item->rect().normalized();
+    // Item mapped coordinates
+    QPolygon pol = item->deviceTransform(m_view->viewportTransform()).map(rect).toPolygon();
+    QPainterPath top(pol.point(0));
+    top.lineTo(pol.point(1));
+    QPainterPath bottom(pol.point(2));
+    bottom.lineTo(pol.point(3));
+    QPainterPath left(pol.point(0));
+    left.lineTo(pol.point(3));
+    QPainterPath right(pol.point(1));
+    right.lineTo(pol.point(2));
+
+    QPainterPath mouseArea;
+    mouseArea.addRect(pos.x() - 4, pos.y() - 4, 8, 8);
+
+    // Check for collisions between the mouse and the borders
+    if (mouseArea.contains(pol.point(0)))
+        return TopLeft;
+    else if (mouseArea.contains(pol.point(2)))
+        return BottomRight;
+    else if (mouseArea.contains(pol.point(1)))
+        return TopRight;
+    else if (mouseArea.contains(pol.point(3)))
+        return BottomLeft;
+    else if (top.intersects(mouseArea))
+        return Top;
+    else if (bottom.intersects(mouseArea))
+        return Bottom;
+    else if (right.intersects(mouseArea))
+        return Right;
+    else if (left.intersects(mouseArea))
+        return Left;
+    else
+        return NoResize;
+}
+
+void MonitorScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+    m_resizeMode = NoResize;
+    m_selectedItem = NULL;
+
+    m_clickPoint = event->scenePos();
+    QList<QGraphicsItem *> itemList = items(QRectF(m_clickPoint - QPoint(4, 4), QSizeF(4, 4)).toRect());
+
+    for (int i = 0; i < itemList.count(); ++i) {
+        if (itemList.at(i)->zValue() >= 0 && itemList.at(i)->flags() & QGraphicsItem::ItemIsMovable) {
+            m_selectedItem = itemList.at(i);
+            // Rect
+            if (itemList.at(i)->type() == 3) {
+                m_resizeMode = getResizeMode((QGraphicsRectItem*)m_selectedItem, m_view->mapFromScene(m_clickPoint));
+                break;
+            }
+        }
+    }
+
     QGraphicsScene::mousePressEvent(event);
 }
 
+void MonitorScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+{
+    QPointF mousePos = event->scenePos();
 
-void MonitorScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
+    if (m_selectedItem && event->buttons() & Qt::LeftButton) {
+        // Rect
+        if (m_selectedItem->type() == 3) {
+            QGraphicsRectItem *item = static_cast <QGraphicsRectItem *>(m_selectedItem);
+            QRectF rect = item->rect().normalized();
+            QPointF pos = item->pos();
+            QPointF mousePosInRect = item->mapFromScene(mousePos);
+            switch (m_resizeMode) {
+            case TopLeft:
+                if (mousePos.x() < pos.x() + rect.height() && mousePos.y() < pos.y() + rect.height()) {
+                    item->setRect(rect.adjusted(0, 0, -mousePosInRect.x(), -mousePosInRect.y()));
+                    item->setPos(mousePos);
+                }
+                break;
+            case Top:
+                if (mousePos.y() < pos.y() + rect.height()) {
+                    rect.setBottom(rect.height() - mousePosInRect.y());
+                    item->setRect(rect);
+                    item->setPos(QPointF(pos.x(), mousePos.y()));
+                }
+                break;
+            case TopRight:
+                if (mousePos.x() > pos.x() && mousePos.y() < pos.y() + rect.height()) {
+                    rect.setBottomRight(QPointF(mousePosInRect.x(), rect.bottom() - mousePosInRect.y()));
+                    item->setRect(rect);
+                    item->setPos(QPointF(pos.x(), mousePos.y()));
+                }
+                break;
+            case Left:
+                if (mousePos.x() < pos.x() + rect.width()) {
+                    rect.setRight(rect.width() - mousePosInRect.x());
+                    item->setRect(rect);
+                    item->setPos(QPointF(mousePos.x(), pos.y()));
+                }
+                break;
+            case Right:
+                if (mousePos.x() > pos.x()) {
+                    rect.setRight(mousePosInRect.x());
+                    item->setRect(rect);
+                }
+                break;
+            case BottomLeft:
+                if (mousePos.x() < pos.x() + rect.width() && mousePos.y() > pos.y()) {
+                    rect.setBottomRight(QPointF(rect.width() - mousePosInRect.x(), mousePosInRect.y()));
+                    item->setRect(rect);
+                    item->setPos(QPointF(mousePos.x(), pos.y()));
+                }
+                break;
+            case Bottom:
+                if (mousePos.y() > pos.y()) {
+                    rect.setBottom(mousePosInRect.y());
+                    item->setRect(rect);
+                }
+                break;
+            case BottomRight:
+                if (mousePos.x() > pos.x() && mousePos.y() > pos.y()) {
+                    rect.setBottomRight(mousePosInRect);
+                    item->setRect(rect);
+                }
+                break;
+            default:
+                QPointF diff = mousePos - m_clickPoint;
+                m_clickPoint = mousePos;
+                item->moveBy(diff.x(), diff.y());
+                break;
+            }
+        }
+    } else {
+        mousePos -= QPoint(4, 4);
+        bool itemFound = false;
+        QList<QGraphicsItem *> itemList = items(QRectF(mousePos, QSizeF(4, 4)).toRect());
+
+        foreach (const QGraphicsItem* item, itemList) {
+            if (item->zValue() >= 0 && item->flags() &QGraphicsItem::ItemIsMovable) {
+                // Rect
+                if (item->type() == 3) {
+                    if (m_view == NULL)
+                        continue;
+
+                    itemFound = true;
+
+                    switch (getResizeMode((QGraphicsRectItem*)item, m_view->mapFromScene(event->scenePos()))) {
+                    case TopLeft:
+                    case BottomRight:
+                        m_view->setCursor(Qt::SizeFDiagCursor);
+                        break;
+                    case TopRight:
+                    case BottomLeft:
+                        m_view->setCursor(Qt::SizeBDiagCursor);
+                        break;
+                    case Top:
+                    case Bottom:
+                        m_view->setCursor(Qt::SizeVerCursor);
+                        break;
+                    case Left:
+                    case Right:
+                        m_view->setCursor(Qt::SizeHorCursor);
+                        break;
+                    default:
+                        m_view->setCursor(Qt::OpenHandCursor);
+                    }
+                    break;
+                }
+            }
+        }
+
+        if (!itemFound && m_view != NULL)
+            m_view->setCursor(Qt::ArrowCursor);
+
+        QGraphicsScene::mouseMoveEvent(event);
+    }
+}
+
+void MonitorScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     QGraphicsScene::mouseReleaseEvent(event);
     emit actionFinished();
