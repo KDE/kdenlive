@@ -252,7 +252,6 @@ void Geometryval::slotPositionChanged(int pos, bool seek)
     if (pos == -1) {
         pos = m_timePos.getValue();
     }
-    kDebug() << "// POS CHANGED: " << pos << ", SEK: " << seek;
     if (seek && KdenliveSettings::transitionfollowcursor()) emit seekToPos(pos + m_startPoint);
     m_timePos.setValue(pos);
     //spinPos->setValue(pos);
