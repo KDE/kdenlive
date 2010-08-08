@@ -44,6 +44,9 @@ volume.xml
 wave.xml
 fadein.xml
 fadeout.xml
+frei0r_alpha0ps.xml
+frei0r_alphagrad.xml
+frei0r_alphaspot.xml
 frei0r_balanc0r.xml
 frei0r_brightness.xml
 frei0r_coloradj_rgb.xml
