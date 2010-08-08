@@ -155,7 +155,7 @@ void TimecodeDisplay::setValue(int value)
     if (m_maximum > m_minimum && value > m_maximum)
         value = m_maximum;
 
-    if (value == getValue()) return;
+    if (value == getValue() && !lineedit->text().isEmpty()) return;
     downarrow->setEnabled(value > m_minimum);
     uparrow->setEnabled(m_maximum < m_minimum || value < m_maximum);
 
@@ -163,7 +163,6 @@ void TimecodeDisplay::setValue(int value)
         lineedit->setText(QString::number(value));
     else {
         QString v = m_timecode.getTimecodeFromFrames(value);
-        kDebug() << "// SETTING TO: " << value << " = " << v << "( " << m_timecode.fps();
         lineedit->setText(v);
     }
 }

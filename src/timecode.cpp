@@ -362,8 +362,6 @@ const QString Timecode::getTimecodeDropFrame(int framenumber) const
     int d = floor(framenumber / m_framesPer10Minutes);
     int m = framenumber % m_framesPer10Minutes;
 
-    int framesPerMinute = round(m_realFps * 60) -  m_dropFrames; //Number of frames per minute is the round of the framerate * 60 minus the number of dropped frames
-
     if (m > m_dropFrames) {
         framenumber += (m_dropFrames * 9 * d) + m_dropFrames * (floor((m - m_dropFrames) / (round(m_realFps * 60) - m_dropFrames)));
     } else {
