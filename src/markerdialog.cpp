@@ -70,7 +70,7 @@ MarkerDialog::MarkerDialog(DocClipBase *clip, CommentedTime t, Timecode tc, cons
             connect(this, SIGNAL(updateThumb()), m_previewTimer, SLOT(start()));
         case IMAGE:
         case TEXT:
-            p = QPixmap::fromImage(KThumb::getFrame(m_producer, m_in->value(), width, 100));
+            p = QPixmap::fromImage(KThumb::getFrame(m_producer, m_in->getValue(), width, 100));
             break;
         case COLOR:
             colour = colour.replace(0, 2, "#");
@@ -107,7 +107,7 @@ MarkerDialog::~MarkerDialog()
 void MarkerDialog::slotUpdateThumb()
 {
     m_previewTimer->stop();
-    int pos = m_in->value();
+    int pos = m_in->getValue();
     int width = 100.0 * m_dar;
     if (width % 2 == 1) width++;
     QPixmap p = QPixmap::fromImage(KThumb::getFrame(m_producer, pos, width, 100));

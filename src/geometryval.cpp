@@ -109,7 +109,6 @@ Geometryval::Geometryval(const MltVideoProfile profile, Timecode t, QPoint frame
     connect(buttonDelete , SIGNAL(clicked()) , this , SLOT(slotDeleteFrame()));
     connect(buttonAdd , SIGNAL(clicked()) , this , SLOT(slotAddFrame()));
     connect(m_scene, SIGNAL(actionFinished()), this, SLOT(slotUpdateTransitionProperties()));
-    connect(m_scene, SIGNAL(doubleClickEvent()), this, SLOT(slotGeometry()));
 
     buttonhcenter->setIcon(KIcon("kdenlive-align-hor"));
     buttonhcenter->setToolTip(i18n("Align item horizontally"));
@@ -225,7 +224,7 @@ void Geometryval::slotResizeCustom()
 
 void Geometryval::slotTransparencyChanged(int transp)
 {
-    int pos = m_timePos.value();
+    int pos = m_timePos.getValue();
     Mlt::GeometryItem item;
     int error = m_geom->fetch(&item, pos);
     if (error || item.key() == false) {
@@ -251,12 +250,15 @@ void Geometryval::updateTimecodeFormat()
 void Geometryval::slotPositionChanged(int pos, bool seek)
 {
     if (pos == -1) {
-        pos = m_timePos.value();
+        pos = m_timePos.getValue();
     }
+    kDebug() << "// POS CHANGED: " << pos << ", SEK: " << seek;
     if (seek && KdenliveSettings::transitionfollowcursor()) emit seekToPos(pos + m_startPoint);
     m_timePos.setValue(pos);
     //spinPos->setValue(pos);
+    m_helper->blockSignals(true);
     m_helper->setValue(pos);
+    m_helper->blockSignals(false);
     Mlt::GeometryItem item;
     int error = m_geom->fetch(&item, pos);
     if (error || item.key() == false) {
@@ -287,7 +289,7 @@ void Geometryval::slotDeleteFrame(int pos)
 {
     // check there is more than one keyframe
     Mlt::GeometryItem item;
-    int frame = m_timePos.value();
+    int frame = m_timePos.getValue();
 
     if (pos == -1) pos = frame;
     int error = m_geom->next_key(&item, pos + 1);
@@ -311,7 +313,7 @@ void Geometryval::slotDeleteFrame(int pos)
 
 void Geometryval::slotAddFrame(int pos)
 {
-    int frame = m_timePos.value();
+    int frame = m_timePos.getValue();
     if (pos == -1) pos = frame;
     Mlt::GeometryItem item;
     item.frame(pos);
@@ -445,7 +447,7 @@ void Geometryval::updateTransitionPath()
 
 void Geometryval::slotUpdateTransitionProperties()
 {
-    int pos = m_timePos.value();
+    int pos = m_timePos.getValue();
     Mlt::GeometryItem item;
     int error = m_geom->next_key(&item, pos);
     if (error || item.frame() != pos) {
@@ -559,7 +561,7 @@ void Geometryval::slotUpdateGeometry()
 bool Geometryval::keyframeSelected()
 {
     Mlt::GeometryItem item;
-    int pos = m_timePos.value();
+    int pos = m_timePos.getValue();
     if (m_geom->fetch(&item, pos) || item.key() == false) return false;
     return true;
 }

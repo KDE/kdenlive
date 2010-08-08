@@ -716,8 +716,7 @@ bool KdenliveDoc::setProfilePath(QString path)
     m_width = m_profile.width;
     m_height = m_profile.height;
     kDebug() << "Kdenlive document, init timecode from path: " << path << ",  " << m_fps;
-    if (m_fps / 1.00 == (int)m_fps) m_timecode.setFormat(m_fps);
-    else m_timecode.setFormat(m_fps, true);
+    m_timecode.setFormat(m_fps);
     return (current_fps != m_fps);
 }
 

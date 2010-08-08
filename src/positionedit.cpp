@@ -75,7 +75,7 @@ void PositionEdit::setPosition(int pos)
 void PositionEdit::slotUpdatePosition()
 {
     m_slider->blockSignals(true);
-    m_slider->setValue(m_display->value());
+    m_slider->setValue(m_display->getValue());
     m_slider->blockSignals(false);
     emit parameterChanged();
 }

@@ -523,7 +523,7 @@ void Monitor::setTimePos(const QString &pos)
 
 void Monitor::slotSeek()
 {
-    slotSeek(m_timePos->value());
+    slotSeek(m_timePos->getValue());
 }
 
 void Monitor::slotSeek(int pos)

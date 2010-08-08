@@ -57,7 +57,7 @@ public:
     void setRange(int min, int max);
 
     /** @brief Returns the current input in frames. */
-    int value() const;
+    int getValue() const;
 
     /** @brief Returns the current input as a GenTime object. */
     GenTime gentime() const;

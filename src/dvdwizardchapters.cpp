@@ -38,7 +38,7 @@ DvdWizardChapters::DvdWizardChapters(bool isPal, QWidget *parent) :
     // Build monitor for chapters
 
     if (m_isPal) m_tc.setFormat(25);
-    else m_tc.setFormat(30000.0 / 1001, true);
+    else m_tc.setFormat(30000.0 / 1001);
 
     m_manager = new MonitorManager(this);
     m_manager->resetProfiles(m_tc);
@@ -142,7 +142,7 @@ void DvdWizardChapters::setVobFiles(bool isPal, bool isWide, const QStringList m
         m_tc.setFormat(25);
         profile = "dv_pal";
     } else {
-        m_tc.setFormat(30000.0 / 1001, true);
+        m_tc.setFormat(30000.0 / 1001);
         profile = "dv_ntsc";
     }
     if (isWide) profile.append("_wide");

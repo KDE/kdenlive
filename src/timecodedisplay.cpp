@@ -40,7 +40,7 @@ TimecodeDisplay::TimecodeDisplay(Timecode t, QWidget *parent)
     QFontMetrics fm = lineedit->fontMetrics();
     lineedit->setMaximumWidth(fm.width("88:88:88:888"));
     setSizePolicy(QSizePolicy::Maximum, QSizePolicy::MinimumExpanding);
-    
+
     setTimeCodeFormat(KdenliveSettings::frametimecode(), true);
 
     connect(uparrow, SIGNAL(clicked()), this, SLOT(slotValueUp()));
@@ -50,7 +50,7 @@ TimecodeDisplay::TimecodeDisplay(Timecode t, QWidget *parent)
 
 void TimecodeDisplay::slotValueUp()
 {
-    int val = value();
+    int val = getValue();
     val++;
     setValue(val);
     lineedit->clearFocus();
@@ -59,7 +59,7 @@ void TimecodeDisplay::slotValueUp()
 
 void TimecodeDisplay::slotValueDown()
 {
-    int val = value();
+    int val = getValue();
     val--;
     setValue(val);
     lineedit->clearFocus();
@@ -69,7 +69,7 @@ void TimecodeDisplay::slotValueDown()
 void TimecodeDisplay::setTimeCodeFormat(bool frametimecode, bool init)
 {
     if (!init && m_frametimecode == frametimecode) return;
-    int val = value();
+    int val = getValue();
     m_frametimecode = frametimecode;
     if (m_frametimecode) {
         QIntValidator *valid = new QIntValidator(lineedit);
@@ -121,7 +121,7 @@ int TimecodeDisplay::minimum() const
     return m_minimum;
 }
 
-int TimecodeDisplay::value() const
+int TimecodeDisplay::getValue() const
 {
     if (m_frametimecode) return lineedit->text().toInt();
     else return m_timecode.getFrameCount(lineedit->text());
@@ -129,7 +129,7 @@ int TimecodeDisplay::value() const
 
 GenTime TimecodeDisplay::gentime() const
 {
-    return GenTime(value(), m_timecode.fps());
+    return GenTime(getValue(), m_timecode.fps());
 }
 
 Timecode TimecodeDisplay::timecode() const
@@ -155,13 +155,17 @@ void TimecodeDisplay::setValue(int value)
     if (m_maximum > m_minimum && value > m_maximum)
         value = m_maximum;
 
+    if (value == getValue()) return;
     downarrow->setEnabled(value > m_minimum);
     uparrow->setEnabled(m_maximum < m_minimum || value < m_maximum);
 
     if (m_frametimecode)
         lineedit->setText(QString::number(value));
-    else
-        lineedit->setText(m_timecode.getTimecodeFromFrames(value));
+    else {
+        QString v = m_timecode.getTimecodeFromFrames(value);
+        kDebug() << "// SETTING TO: " << value << " = " << v << "( " << m_timecode.fps();
+        lineedit->setText(v);
+    }
 }
 
 void TimecodeDisplay::setValue(GenTime value)

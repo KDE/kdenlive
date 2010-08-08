@@ -34,14 +34,12 @@ class Timecode
 public:
     enum Formats { HH_MM_SS_FF, HH_MM_SS_HH, Frames, Seconds };
 
-    explicit Timecode(Formats format = HH_MM_SS_FF, double framesPerSecond = 25,
-                      bool dropFrame = false);
+    explicit Timecode(Formats format = HH_MM_SS_FF, double framesPerSecond = 25);
 
     /**
      * Set the current timecode format; this is the output format for this timecode.
      */
-    void setFormat(double framesPerSecond, bool dropFrame = false,
-                   Formats format = HH_MM_SS_FF);
+    void setFormat(double framesPerSecond, Formats format = HH_MM_SS_FF);
 
     Formats format() const {
         return m_format;
@@ -75,11 +73,11 @@ private:
     const QString getTimecodeHH_MM_SS_FF(const GenTime & time) const;
     const QString getTimecodeHH_MM_SS_FF(int frames) const;
 
-    QString getTimecodeHH_MM_SS_HH(const GenTime & time) const;
-    QString getTimecodeFrames(const GenTime & time) const;
-    QString getTimecodeSeconds(const GenTime & time) const;
-    QString getTimecodeDropFrame(const GenTime & time) const;
-    QString getTimecodeDropFrame(int framenumber) const;
+    const QString getTimecodeHH_MM_SS_HH(const GenTime & time) const;
+    const QString getTimecodeFrames(const GenTime & time) const;
+    const QString getTimecodeSeconds(const GenTime & time) const;
+    const QString getTimecodeDropFrame(const GenTime & time) const;
+    const QString getTimecodeDropFrame(int framenumber) const;
 };
 
 #endif
