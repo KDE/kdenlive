@@ -1447,8 +1447,8 @@ void Render::emitFrameUpdated(Mlt::Frame& frame)
     int height = 0;
     const uchar* image = frame.get_image(format, width, height);
     QImage qimage(width, height, QImage::Format_ARGB32);
-	memcpy(qimage.bits(), image, width * height * 4);
-	emit frameUpdated(qimage);
+    memcpy(qimage.bits(), image, width * height * 4);
+    emit frameUpdated(qimage.rgbSwapped());
 }
 
 void Render::emitFrameNumber(double position)
