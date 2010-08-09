@@ -58,13 +58,13 @@ QImage Waveform::renderHUD(uint)
     return QImage();
 }
 
-QImage Waveform::renderScope(uint accelFactor)
+QImage Waveform::renderScope(uint accelFactor, QImage qimage)
 {
     QTime start = QTime::currentTime();
     start.start();
 
     QImage wave = m_waveformGenerator->calculateWaveform(scopeRect().size(),
-                                                         m_activeRender->extractFrame(m_activeRender->seekFramePosition()), true, accelFactor);
+                                                         qimage, true, accelFactor);
 
     emit signalScopeRenderingFinished(start.elapsed(), 1);
     return wave;

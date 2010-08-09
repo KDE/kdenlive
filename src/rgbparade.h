@@ -39,7 +39,7 @@ private:
     bool isBackgroundDependingOnInput() const;
 
     QImage renderHUD(uint accelerationFactor);
-    QImage renderScope(uint accelerationFactor);
+    QImage renderScope(uint accelerationFactor, QImage);
     QImage renderBackground(uint accelerationFactor);
 };
 

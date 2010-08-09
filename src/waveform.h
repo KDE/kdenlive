@@ -39,7 +39,7 @@ private:
     /// Implemented methods ///
     QRect scopeRect();
     QImage renderHUD(uint);
-    QImage renderScope(uint);
+    QImage renderScope(uint, QImage);
     QImage renderBackground(uint);
     bool isHUDDependingOnInput() const;
     bool isScopeDependingOnInput() const;

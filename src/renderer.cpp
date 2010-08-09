@@ -65,6 +65,8 @@ static void consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr
 #endif
 
     self->emitFrameNumber(mlt_frame_get_position(frame_ptr));
+    if (frame_ptr->convert_image)
+        self->emitFrameUpdated(frame);
     if (frame.get_double("_speed") == 0.0) {
         self->emitConsumerStopped();
     } else if (frame.get_double("_speed") < 0.0 && mlt_frame_get_position(frame_ptr) <= 0) {
@@ -1438,12 +1440,19 @@ const QString & Render::rendererName() const
     return m_name;
 }
 
+void Render::emitFrameUpdated(Mlt::Frame& frame)
+{
+    mlt_image_format format = mlt_image_rgb24a;
+    int width = 0;
+    int height = 0;
+    const uchar* image = frame.get_image(format, width, height);
+    QImage qimage(width, height, QImage::Format_ARGB32);
+	memcpy(qimage.bits(), image, width * height * 4);
+	emit frameUpdated(qimage);
+}
+
 void Render::emitFrameNumber(double position)
 {
-    if (position == m_framePosition) {
-        emit frameUpdated((int) position);
-        return;
-    }
     m_framePosition = position;
     emit rendererPosition((int) position);
 }

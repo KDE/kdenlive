@@ -37,11 +37,11 @@ QRect RGBParade::scopeRect()
 }
 
 QImage RGBParade::renderHUD(uint) { return QImage(); }
-QImage RGBParade::renderScope(uint accelerationFactor)
+QImage RGBParade::renderScope(uint accelerationFactor, QImage qimage)
 {
     QTime start = QTime::currentTime();
     start.start();
-    QImage parade = m_rgbParadeGenerator->calculateRGBParade(m_scopeRect.size(), m_activeRender->extractFrame(m_activeRender->seekFramePosition()),
+    QImage parade = m_rgbParadeGenerator->calculateRGBParade(m_scopeRect.size(), qimage,
                                                     true, accelerationFactor);
     emit signalScopeRenderingFinished(start.elapsed(), accelerationFactor);
     return parade;

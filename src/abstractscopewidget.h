@@ -125,7 +125,7 @@ protected:
     /** @brief Scope renderer. Must emit signalScopeRenderingFinished()
         when calculation has finished, to allow multi-threading.
         accelerationFactor hints how much faster than usual the calculation should be accomplished, if possible. */
-    virtual QImage renderScope(uint accelerationFactor) = 0;
+    virtual QImage renderScope(uint accelerationFactor, QImage) = 0;
     /** @brief Background renderer. Must emit signalBackgroundRenderingFinished(). @see renderScope */
     virtual QImage renderBackground(uint accelerationFactor) = 0;
 
@@ -193,6 +193,8 @@ private:
     QFuture<QImage> m_threadScope;
     QFuture<QImage> m_threadBackground;
 
+    QImage m_scopeImage;
+
     bool initialDimensionUpdateDone;
     void prodHUDThread();
     void prodScopeThread();
@@ -206,6 +208,7 @@ private slots:
     void slotActiveMonitorChanged(bool isClipMonitor);
     void customContextMenuRequested(const QPoint &pos);
     void slotRenderZoneUpdated();
+    void slotRenderZoneUpdated(QImage);
     void slotHUDRenderingFinished(uint mseconds, uint accelerationFactor);
     void slotScopeRenderingFinished(uint mseconds, uint accelerationFactor);
     void slotBackgroundRenderingFinished(uint mseconds, uint accelerationFactor);

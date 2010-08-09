@@ -192,7 +192,7 @@ QImage Vectorscope::renderHUD(uint)
     return hud;
 }
 
-QImage Vectorscope::renderScope(uint accelerationFactor)
+QImage Vectorscope::renderScope(uint accelerationFactor, QImage qimage)
 {
     QTime start = QTime::currentTime();
     QImage scope;
@@ -202,7 +202,7 @@ QImage Vectorscope::renderScope(uint accelerationFactor)
     } else {
 
         scope = m_vectorscopeGenerator->calculateVectorscope(m_scopeRect.size(),
-                                                             m_activeRender->extractFrame(m_activeRender->seekFramePosition()),
+                                                             qimage,
                                                              m_gain, (VectorscopeGenerator::PaintMode) ui->paintMode->itemData(ui->paintMode->currentIndex()).toInt(),
                                                              m_aAxisEnabled->isChecked(), accelerationFactor);
 

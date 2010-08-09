@@ -65,7 +65,7 @@ QImage Histogram::renderHUD(uint)
     emit signalHUDRenderingFinished(0, 1);
     return QImage();
 }
-QImage Histogram::renderScope(uint accelFactor)
+QImage Histogram::renderScope(uint accelFactor, QImage qimage)
 {
     QTime start = QTime::currentTime();
     start.start();
@@ -75,7 +75,7 @@ QImage Histogram::renderScope(uint accelFactor)
                                | (ui->cbG->isChecked() ? 1 : 0) * HistogramGenerator::ComponentG
                                | (ui->cbB->isChecked() ? 1 : 0) * HistogramGenerator::ComponentB;
 
-    QImage histogram = m_histogramGenerator->calculateHistogram(m_scopeRect.size(), m_activeRender->extractFrame(m_activeRender->seekFramePosition()),
+    QImage histogram = m_histogramGenerator->calculateHistogram(m_scopeRect.size(), qimage,
                                                        componentFlags, m_aUnscaled->isChecked(), accelFactor);
 
     emit signalScopeRenderingFinished(start.elapsed(), accelFactor);

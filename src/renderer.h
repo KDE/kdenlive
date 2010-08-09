@@ -161,6 +161,7 @@ Q_OBJECT public:
     GenTime seekPosition() const;
     int seekFramePosition() const;
 
+    void emitFrameUpdated(Mlt::Frame&);
     void emitFrameNumber(double position);
     void emitConsumerStopped();
 
@@ -344,7 +345,7 @@ signals:
      * Used in Mac OS X. */
     void showImageSignal(QImage);
     /** @brief The renderer refreshed the current frame, but no seeking was done. */
-    void frameUpdated(int);
+    void frameUpdated(QImage);
 
 public slots:
 

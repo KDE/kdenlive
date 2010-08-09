@@ -68,7 +68,7 @@ AbstractScopeWidget::AbstractScopeWidget(Monitor *projMonitor, Monitor *clipMoni
     b &= connect(this, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(customContextMenuRequested(QPoint)));
 
     b &= connect(m_activeRender, SIGNAL(rendererPosition(int)), this, SLOT(slotRenderZoneUpdated()));
-    b &= connect(m_activeRender, SIGNAL(frameUpdated(int)), this, SLOT(slotRenderZoneUpdated()));
+    b &= connect(m_activeRender, SIGNAL(frameUpdated(QImage)), this, SLOT(slotRenderZoneUpdated(QImage)));
 
     b &= connect(this, SIGNAL(signalHUDRenderingFinished(uint,uint)), this, SLOT(slotHUDRenderingFinished(uint,uint)));
     b &= connect(this, SIGNAL(signalScopeRenderingFinished(uint,uint)), this, SLOT(slotScopeRenderingFinished(uint,uint)));
@@ -122,7 +122,7 @@ void AbstractScopeWidget::prodScopeThread()
 
             // See http://doc.qt.nokia.com/latest/qtconcurrentrun.html#run about
             // running member functions in a thread
-            m_threadScope = QtConcurrent::run(this, &AbstractScopeWidget::renderScope, m_accelFactorScope);
+            m_threadScope = QtConcurrent::run(this, &AbstractScopeWidget::renderScope, m_accelFactorScope, m_scopeImage);
 
             qDebug() << "Scope thread started in " << widgetName();
 
@@ -328,7 +328,7 @@ void AbstractScopeWidget::slotActiveMonitorChanged(bool isClipMonitor)
     m_activeRender = (isClipMonitor) ? m_clipMonitor->render : m_projMonitor->render;
 
     b &= connect(m_activeRender, SIGNAL(rendererPosition(int)), this, SLOT(slotRenderZoneUpdated()));
-    b &= connect(m_activeRender, SIGNAL(frameUpdated(int)), this, SLOT(slotRenderZoneUpdated()));
+    b &= connect(m_activeRender, SIGNAL(frameUpdated(QImage)), this, SLOT(slotRenderZoneUpdated(QImage)));
     Q_ASSERT(b);
 
     // Update the scope for the new monitor.
@@ -355,6 +355,12 @@ void AbstractScopeWidget::slotRenderZoneUpdated()
             prodBackgroundThread();
         }
     }
+}
+
+void AbstractScopeWidget::slotRenderZoneUpdated(QImage frame)
+{
+    m_scopeImage = frame;
+    slotRenderZoneUpdated();
 }
 
 void AbstractScopeWidget::slotResetRealtimeFactor(bool realtimeChecked)

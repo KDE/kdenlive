@@ -41,7 +41,7 @@ protected:
     ///// Implemented methods /////
     QRect scopeRect();
     QImage renderHUD(uint accelerationFactor);
-    QImage renderScope(uint accelerationFactor);
+    QImage renderScope(uint accelerationFactor, QImage);
     QImage renderBackground(uint accelerationFactor);
     bool isHUDDependingOnInput() const;
     bool isScopeDependingOnInput() const;
