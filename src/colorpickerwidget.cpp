@@ -241,7 +241,7 @@ QColor ColorPickerWidget::grabColor(const QPoint &p, bool destroyImage)
                 &xcol);
     return QColor::fromRgbF(xcol.red / 65535.0, xcol.green / 65535.0, xcol.blue / 65535.0);
 #else
-    if (!m_image.isNull()) {
+    if (m_image.isNull()) {
         QWidget *desktop = QApplication::desktop();
         QPixmap pm = QPixmap::grabWindow(desktop->winId(), p.x(), p.y(), 1, 1);
         QImage i = pm.toImage();
