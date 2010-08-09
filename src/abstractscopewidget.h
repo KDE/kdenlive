@@ -163,7 +163,7 @@ protected slots:
 
 signals:
     /** mseconds represent the time taken for the calculation,
-        accelerationFactor the acceleration factor that has been used. */
+        accelerationFactor is the acceleration factor that has been used. */
     void signalHUDRenderingFinished(uint mseconds, uint accelerationFactor);
     void signalScopeRenderingFinished(uint mseconds, uint accelerationFactor);
     void signalBackgroundRenderingFinished(uint mseconds, uint accelerationFactor);
@@ -207,8 +207,13 @@ private slots:
       done in this abstract class. */
     void slotActiveMonitorChanged(bool isClipMonitor);
     void customContextMenuRequested(const QPoint &pos);
+    /** To be called when a new frame has been received.
+      The scope then decides whether and when it wants to recalculate the scope, depending
+      on whether it is currently visible and whether a calculation thread is already running. */
     void slotRenderZoneUpdated();
     void slotRenderZoneUpdated(QImage);
+    /** The following slots are called when rendering of a component has finished. They e.g. update
+      the widget and decide whether to immediately restart the calculation thread. */
     void slotHUDRenderingFinished(uint mseconds, uint accelerationFactor);
     void slotScopeRenderingFinished(uint mseconds, uint accelerationFactor);
     void slotBackgroundRenderingFinished(uint mseconds, uint accelerationFactor);
