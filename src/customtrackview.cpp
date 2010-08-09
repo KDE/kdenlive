@@ -3001,10 +3001,10 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
             if (m_dragItem->type() == AVWIDGET && (m_dragItemInfo.startPos != info.startPos || m_dragItemInfo.track != info.track)) {
                 ClipItem *item = static_cast <ClipItem *>(m_dragItem);
                 Mlt::Producer *prod;
-                if (item->isAudioOnly()) prod = item->baseClip()->audioProducer(m_dragItemInfo.track);
+                if (item->isAudioOnly()) prod = item->baseClip()->audioProducer(info.track);
                 else if (item->isVideoOnly()) prod = item->baseClip()->videoProducer();
-                else prod = item->baseClip()->producer(m_dragItemInfo.track);
-                bool success = m_document->renderer()->mltMoveClip((int)(m_document->tracksCount() - m_dragItemInfo.track), (int)(m_document->tracksCount() - m_dragItem->track()), (int) m_dragItemInfo.startPos.frames(m_document->fps()), (int)(m_dragItem->startPos().frames(m_document->fps())), prod, m_scene->editMode() == OVERWRITEEDIT, m_scene->editMode() == INSERTEDIT);
+                else prod = item->baseClip()->producer(info.track);
+                bool success = m_document->renderer()->mltMoveClip((int)(m_document->tracksCount() - m_dragItemInfo.track), (int)(m_document->tracksCount() - info.track), (int) m_dragItemInfo.startPos.frames(m_document->fps()), (int)(info.startPos.frames(m_document->fps())), prod, m_scene->editMode() == OVERWRITEEDIT, m_scene->editMode() == INSERTEDIT);
 
                 if (success) {
                     QUndoCommand *moveCommand = new QUndoCommand();
