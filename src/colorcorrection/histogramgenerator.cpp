@@ -64,7 +64,7 @@ QImage HistogramGenerator::calculateHistogram(const QSize &paradeSize, const QIm
 
 
     const int nParts = (drawY ? 1 : 0) + (drawR ? 1 : 0) + (drawG ? 1 : 0) + (drawB ? 1 : 0);
-    if (nParts == 0) {
+    if (nParts == 0 || byteCount == 0) {
         // Nothing to draw
         return QImage();
     }
@@ -115,6 +115,7 @@ QImage HistogramGenerator::drawComponent(const int *y, const QSize &size, const 
 {
     QImage component(256, size.height(), QImage::Format_ARGB32);
     component.fill(qRgba(0, 0, 0, 0));
+    Q_ASSERT(scaling != INFINITY);
 
     const int partH = size.height();
     int partY;
