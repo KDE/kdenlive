@@ -60,7 +60,6 @@ ColorPickerWidget::ColorPickerWidget(QWidget *parent) :
 #ifdef Q_WS_X11
     m_filter = 0;
 #endif
-    m_image = 0;
 
     QHBoxLayout *layout = new QHBoxLayout(this);
 
@@ -142,7 +141,6 @@ QColor ColorPickerWidget::averagePickedColor(const QPoint pos)
 #ifdef Q_WS_X11
     XDestroyImage(m_image);
 #endif
-    m_image = 0;
 
     if (size > 200)
         emit displayMessage(i18n("Calculated average color for rectangle."), -1);
@@ -243,7 +241,7 @@ QColor ColorPickerWidget::grabColor(const QPoint &p, bool destroyImage)
                 &xcol);
     return QColor::fromRgbF(xcol.red / 65535.0, xcol.green / 65535.0, xcol.blue / 65535.0);
 #else
-    if (m_image == 0) {
+    if (!m_image.isNull()) {
         QWidget *desktop = QApplication::desktop();
         QPixmap pm = QPixmap::grabWindow(desktop->winId(), p.x(), p.y(), 1, 1);
         QImage i = pm.toImage();
