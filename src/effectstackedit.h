@@ -73,7 +73,7 @@ private:
 
 public slots:
     /** \brief Called when an effect is selected, builds the UI for this effect */
-    void transferParamDesc(const QDomElement, int, int , int);
+    void transferParamDesc(const QDomElement d, int pos, int in, int out, bool isEffect = true);
     void slotSliderMoved(int);
     /** \brief Called whenever(?) some parameter is changed in the gui.
      *
@@ -84,6 +84,7 @@ signals:
     void parameterChanged(const QDomElement, const QDomElement);
     void seekTimeline(int);
     void displayMessage(const QString&, int);
+    void checkMonitorPosition(int);
 };
 
 #endif

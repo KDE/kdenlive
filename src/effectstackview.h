@@ -60,6 +60,7 @@ private:
     ClipItem* m_clipref;
     QMap<QString, EffectsList*> m_effectLists;
     EffectStackEdit* m_effectedit;
+    Monitor *m_monitor;
 
     /** @brief Sets the list of effects according to the clip's effect list.
     * @param ix Number of the effect to preselect */
@@ -114,6 +115,8 @@ private slots:
 
     /** @brief Define the region filter for current effect. */
     void slotRegionChanged();
+
+    void slotCheckMonitorPosition(int renderPos);
 
 signals:
     void removeEffect(ClipItem*, QDomElement);

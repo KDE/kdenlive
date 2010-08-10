@@ -105,7 +105,7 @@ void EffectStackEdit::setFrameSize(QPoint p)
         QString type = pa.attributes().namedItem("type").nodeValue();
         QString paramName = i18n(na.toElement().text().toUtf8().data());
 
-        if (type == "geometry") {
+        if (type == "geometry" && !KdenliveSettings::on_monitor_effects()) {
             Geometryval *geom = ((Geometryval*)m_valueItems[paramName+"geometry"]);
             geom->setFrameSize(m_frameSize);
             break;
@@ -148,7 +148,7 @@ void EffectStackEdit::updateParameter(const QString &name, const QString &value)
     m_params.setAttribute(name, value);
 }
 
-void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, int out)
+void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, int out, bool isEffect)
 {
     clearAllItems();
     if (m_keyframeEditor) delete m_keyframeEditor;
@@ -260,7 +260,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
             connect(pl, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
         } else if (type == "geometry") {
             if (KdenliveSettings::on_monitor_effects()) {
-                GeometryWidget *geometry = new GeometryWidget(m_monitor, pos, this);
+                GeometryWidget *geometry = new GeometryWidget(m_monitor, pos, isEffect, this);
                 if (minFrame == maxFrame)
                     geometry->setupParam(pa, m_in, m_out);
                 else
@@ -268,6 +268,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
                 m_vbox->addWidget(geometry);
                 m_valueItems[paramName+"geometry"] = geometry;
                 connect(geometry, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
+                connect(geometry, SIGNAL(checkMonitorPosition(int)), this, SIGNAL(checkMonitorPosition(int)));
             } else {
                 Geometryval *geo = new Geometryval(m_profile, m_timecode, m_frameSize, pos);
                 if (minFrame == maxFrame)

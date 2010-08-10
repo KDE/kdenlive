@@ -27,12 +27,13 @@
 #include <QGraphicsView>
 #include <QGraphicsRectItem>
 
-GeometryWidget::GeometryWidget(Monitor* monitor, int clipPos, QWidget* parent ):
+GeometryWidget::GeometryWidget(Monitor* monitor, int clipPos, bool isEffect, QWidget* parent ):
         QWidget(parent),
         m_monitor(monitor),
         m_clipPos(clipPos),
         m_inPoint(0),
         m_outPoint(1),
+        m_isEffect(isEffect),
         m_rect(NULL),
         m_geometry(NULL)
 {
@@ -118,12 +119,19 @@ void GeometryWidget::setupParam(const QDomElement elem, int minframe, int maxfra
 
 void GeometryWidget::slotCheckPosition(int renderPos)
 {
-    qDebug() << m_clipPos << m_inPoint << m_outPoint;
-    if (renderPos >= m_clipPos && renderPos <= m_clipPos + m_outPoint - m_inPoint) {
-        if (!m_scene->views().at(0)->isVisible())
-            m_monitor->slotEffectScene(true);
+    /*
+        We do only get the position in timeline if this geometry belongs to a transition,
+        therefore we need to ways here.
+    */
+    if (m_isEffect) {
+        emit checkMonitorPosition(renderPos);
     } else {
-        m_monitor->slotEffectScene(false);
+        if (renderPos >= m_clipPos && renderPos <= m_clipPos + m_outPoint - m_inPoint) {
+            if (!m_scene->views().at(0)->isVisible())
+                m_monitor->slotEffectScene(true);
+        } else {
+            m_monitor->slotEffectScene(false);
+        }
     }
 }
 

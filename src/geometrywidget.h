@@ -39,7 +39,7 @@ public:
     * @param monitor Project monitor
     * @param clipPos Position of the clip in timeline
     * @param parent (optional) Parent widget */
-    GeometryWidget(Monitor *monitor, int clipPos, QWidget* parent = 0);
+    GeometryWidget(Monitor *monitor, int clipPos, bool isEffect, QWidget* parent = 0);
     virtual ~GeometryWidget();
     /** @brief Gets the geometry as a serialized string. */
     QString getValue() const;
@@ -60,6 +60,7 @@ private:
     int m_inPoint;
     /** Out point of the clip (crop from end). */
     int m_outPoint;
+    bool m_isEffect;
     MonitorScene *m_scene;
     QGraphicsRectItem *m_rect;
     Mlt::Geometry *m_geometry;
@@ -100,6 +101,7 @@ private slots:
 
 signals:
     void parameterChanged();
+    void checkMonitorPosition(int);
 };
 
 #endif
