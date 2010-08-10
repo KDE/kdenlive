@@ -41,7 +41,10 @@ protected:
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
 
 public slots:
-    void slotUpdateBackground();
+    void slotUpdateBackground(bool fit = false);
+
+private slots:
+    void slotSetBackgroundImage(QImage image);
 
 private:
     resizeModes getResizeMode(QGraphicsRectItem *item, QPoint pos);
@@ -54,6 +57,7 @@ private:
     QGraphicsItem *m_selectedItem;
     resizeModes m_resizeMode;
     QPointF m_clickPoint;
+    QImage m_backgroundImage;
 
 signals:
     void actionFinished();

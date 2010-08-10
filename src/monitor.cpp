@@ -843,7 +843,7 @@ void Monitor::slotEffectScene(bool show)
         m_monitorRefresh->setVisible(!show);
         m_effectView->setVisible(show);
         if (show)
-            m_effectScene->slotUpdateBackground();
+            m_effectScene->slotUpdateBackground(true);
     }
 }
 

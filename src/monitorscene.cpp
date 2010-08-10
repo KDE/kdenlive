@@ -33,7 +33,8 @@ MonitorScene::MonitorScene(Render *renderer, QObject* parent) :
         m_view(NULL),
         m_selectedItem(NULL),
         m_resizeMode(NoResize),
-        m_clickPoint(0, 0)
+        m_clickPoint(0, 0),
+        m_backgroundImage(QImage())
 {
     setBackgroundBrush(QBrush(QColor(KdenliveSettings::window_background().name())));
 
@@ -56,8 +57,8 @@ MonitorScene::MonitorScene(Render *renderer, QObject* parent) :
     m_background->setPixmap(bg);
     addItem(m_background);
 
-    connect(m_renderer, SIGNAL(rendererPosition(int)), this, SLOT(slotUpdateBackground()));
-    connect(m_renderer, SIGNAL(frameUpdated(int)), this, SLOT(slotUpdateBackground()));
+    //connect(m_renderer, SIGNAL(rendererPosition(int)), this, SLOT(slotUpdateBackground()));
+    connect(m_renderer, SIGNAL(frameUpdated(QImage)), this, SLOT(slotSetBackgroundImage(QImage)));
 }
 
 void MonitorScene::setUp()
@@ -66,19 +67,27 @@ void MonitorScene::setUp()
         m_view = views().at(0);
     else
         m_view = NULL;
-    slotUpdateBackground();
+    slotUpdateBackground(true);
 }
 
-void MonitorScene::slotUpdateBackground()
+void MonitorScene::slotUpdateBackground(bool fit)
 {
     if (m_view && m_view->isVisible()) {
         if (m_lastUpdate.elapsed() > 200) {
-            m_background->setPixmap(QPixmap::fromImage(m_renderer->extractFrame(m_renderer->seekFramePosition())));
-            m_view->fitInView(m_frameBorder, Qt::KeepAspectRatio);
-            m_view->centerOn(m_frameBorder);
+            m_background->setPixmap(QPixmap::fromImage(m_backgroundImage));
+            if (fit) {
+                m_view->fitInView(m_frameBorder, Qt::KeepAspectRatio);
+                m_view->centerOn(m_frameBorder);
+            }
             m_lastUpdate.start();
         }
     }
+}
+
+void MonitorScene::slotSetBackgroundImage(QImage image)
+{
+    m_backgroundImage = image;
+    slotUpdateBackground();
 }
 
 resizeModes MonitorScene::getResizeMode(QGraphicsRectItem *item, QPoint pos)

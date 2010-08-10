@@ -74,10 +74,9 @@ GeometryWidget::GeometryWidget(Monitor* monitor, int clipPos, QWidget* parent ):
 
 GeometryWidget::~GeometryWidget()
 {
-    if (m_monitor)
-        m_monitor->slotEffectScene(false);
-    delete m_rect;
+    m_scene->removeItem(m_rect);
     delete m_geometry;
+    m_monitor->slotEffectScene(false);
 }
 
 QString GeometryWidget::getValue() const
@@ -119,6 +118,7 @@ void GeometryWidget::setupParam(const QDomElement elem, int minframe, int maxfra
 
 void GeometryWidget::slotCheckPosition(int renderPos)
 {
+    qDebug() << m_clipPos << m_inPoint << m_outPoint;
     if (renderPos >= m_clipPos && renderPos <= m_clipPos + m_outPoint - m_inPoint) {
         if (!m_scene->views().at(0)->isVisible())
             m_monitor->slotEffectScene(true);

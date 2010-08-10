@@ -6,7 +6,7 @@
         
         
         <parameter type="list" name="Shape" default="0.0" paramlist="0.0,0.38,0.62,1.0"
-                   paramlistdisplay="Rectangle,Round,Triangle,Diamond">
+                   paramlistdisplay="Rectangle,Ellipse,Triangle,Diamond">
                 <name>Shape</name>
         </parameter>
         
