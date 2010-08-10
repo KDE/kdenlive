@@ -1,7 +1,7 @@
 <!DOCTYPE kpartgui>
 <effect tag="frei0r.alpha0ps" id="frei0r.alpha0ps">
         <name>alpha0ps</name>
-        <description>Diplay and manipulation of the alpha channel</description>
+        <description>Display and manipulation of the alpha channel</description>
         <author>Marko Cebokli</author>
         
         <parameter type="list" name="Display" default="0.0" paramlist="0.0,0.21,0.36,0.50,0.64,0.79,1.0"
