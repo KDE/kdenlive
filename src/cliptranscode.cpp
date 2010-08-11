@@ -34,14 +34,15 @@ ClipTranscode::ClipTranscode(KUrl::List urls, const QString &params, const QStri
     setAttribute(Qt::WA_DeleteOnClose);
     setWindowTitle(i18n("Transcode Clip"));
     auto_add->setText(i18np("Add clip to project", "Add clips to project", m_urls.count()));
-    dest_url->fileDialog()->setOperationMode(KFileDialog::Saving);
 
     if (m_urls.count() == 1) {
         QString fileName = m_urls.at(0).path(); //.section('.', 0, -1);
         QString newFile = params.section(' ', -1).replace("%1", fileName);
         KUrl dest(newFile);
         source_url->setUrl(m_urls.at(0));
+        dest_url->setMode(KFile::File);
         dest_url->setUrl(dest);
+        dest_url->fileDialog()->setOperationMode(KFileDialog::Saving);
         urls_list->setHidden(true);
         connect(source_url, SIGNAL(textChanged(const QString &)), this, SLOT(slotUpdateParams()));
     } else {
@@ -50,6 +51,7 @@ ClipTranscode::ClipTranscode(KUrl::List urls, const QString &params, const QStri
         label_dest->setText(i18n("Destination folder"));
         dest_url->setMode(KFile::Directory);
         dest_url->setUrl(KUrl(m_urls.at(0).directory()));
+        dest_url->fileDialog()->setOperationMode(KFileDialog::Saving);
         for (int i = 0; i < m_urls.count(); i++)
             urls_list->addItem(m_urls.at(i).path());
     }
