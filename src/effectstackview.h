@@ -119,7 +119,7 @@ private slots:
     /** @brief Checks whether the monitor scene has to be displayed. */
     void slotCheckMonitorPosition(int renderPos);
 
-    /** @brief Pass position changes in project monitor/timline to the effects to keep their local timelines in sync. */
+    /** @brief Pass position changes of the timeline cursor to the effects to keep their local timelines in sync. */
     void slotRenderPos(int pos);
 
 signals:

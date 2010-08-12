@@ -55,7 +55,7 @@ public slots:
 private slots:
     /** @brief Sets the new B track for the transition (automatic or forced). */
     void slotTransitionTrackChanged();
-    /** @brief Pass position changes in project monitor/timline to the effects to keep their local timelines in sync. */
+    /** @brief Pass position changes of the timeline cursor to the effects to keep their local timelines in sync. */
     void slotRenderPos(int pos);
 
 signals:

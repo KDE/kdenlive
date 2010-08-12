@@ -98,6 +98,9 @@ GeometryWidget::GeometryWidget(Monitor* monitor, Timecode timecode, int clipPos,
 
     connect(m_ui.spinSize,         SIGNAL(valueChanged(int)), this, SLOT(slotResize(int)));
 
+    connect(m_ui.spinOpacity,      SIGNAL(valueChanged(int)), this, SLOT(slotSetOpacity(int)));
+    connect(m_ui.sliderOpacity,    SIGNAL(valueChanged(int)), m_ui.spinOpacity, SLOT(setValue(int)));
+
     connect(m_ui.buttonMoveLeft,   SIGNAL(clicked()), this, SLOT(slotMoveLeft()));
     connect(m_ui.buttonCenterH,    SIGNAL(clicked()), this, SLOT(slotCenterH()));
     connect(m_ui.buttonMoveRight,  SIGNAL(clicked()), this, SLOT(slotMoveRight()));
@@ -152,6 +155,10 @@ void GeometryWidget::setupParam(const QDomElement elem, int minframe, int maxfra
         m_timeline->update();
         m_timePos->setRange(0, m_outPoint - m_inPoint - 1);
     }
+
+    // no opacity
+    if (elem.attribute("opacity") == "false")
+        m_ui.widgetOpacity->setHidden(true);
 
     Mlt::GeometryItem item;
 
@@ -211,6 +218,14 @@ void GeometryWidget::slotPositionChanged(int pos, bool seek)
 
     m_rect->setPos(item.x(), item.y());
     m_rect->setRect(0, 0, item.w(), item.h());
+
+    m_ui.spinOpacity->blockSignals(true);
+    m_ui.sliderOpacity->blockSignals(true);
+    m_ui.spinOpacity->setValue(item.mix());
+    m_ui.sliderOpacity->setValue(item.mix());
+    m_ui.spinOpacity->blockSignals(false);
+    m_ui.sliderOpacity->blockSignals(false);
+
     slotUpdateProperties();
 
     if (seek && KdenliveSettings::transitionfollowcursor())
@@ -235,6 +250,7 @@ void GeometryWidget::slotAddKeyframe(int pos)
     item.y(rectpos.y());
     item.w(r.width());
     item.h(r.height());
+    item.mix(m_ui.spinOpacity->value());
     m_geometry->insert(item);
 
     m_timeline->update();
@@ -387,6 +403,23 @@ void GeometryWidget::slotResize(int value)
 {
     m_rect->setRect(0, 0, m_monitor->render->renderWidth() * value / 100, m_monitor->render->renderHeight() * value / 100);
     slotUpdateGeometry();
+}
+
+
+void GeometryWidget::slotSetOpacity(int value)
+{
+    m_ui.sliderOpacity->blockSignals(true);
+    m_ui.sliderOpacity->setValue(value);
+    m_ui.sliderOpacity->blockSignals(false);
+
+    int pos = m_timePos->getValue();
+    Mlt::GeometryItem item;
+    if (m_geometry->fetch(&item, pos) || item.key() == false)
+        return;
+    item.mix(value);
+    m_geometry->insert(item);
+
+    emit parameterChanged();
 }
 
 

@@ -79,6 +79,7 @@ public slots:
      *
      * Transfers all Dynamic gui parameter settings into m_params(??) */
     void collectAllParameters();
+    /** @brief Pass position changes of the timeline cursor to the effects to keep their local timelines in sync. */
     void slotSyncEffectsPos(int pos);
 
 signals:

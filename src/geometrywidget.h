@@ -119,6 +119,9 @@ private slots:
     /** @brief Resizes the rect by @param value (in perecent) compared to the frame size. */
     void slotResize(int value);
 
+    /** @brief Sets the opacity to @param value. */
+    void slotSetOpacity(int value);
+
     /** @brief Moves the rect to the left frame border (x position = 0). */
     void slotMoveLeft();
     /** @brief Centers the rect horizontally. */
