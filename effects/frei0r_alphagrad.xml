@@ -1,6 +1,6 @@
 <!DOCTYPE kpartgui>
 <effect tag="frei0r.alphagrad" id="frei0r.alphagrad">
-        <name>alphagrad</name>
+        <name>Alpha gradient</name>
         <description>Fill the alpha channel with a specified gradient</description>
         <author>Marko Cebokli</author>
         

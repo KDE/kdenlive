@@ -1,6 +1,6 @@
 <!DOCTYPE kpartgui>
 <effect tag="frei0r.alphaspot" id="frei0r.alphaspot">
-        <name>alphaspot</name>
+        <name>Alpha shapes</name>
         <description>Draws simple shapes into the alpha channel</description>
         <author>Marko Cebokli</author>
         
@@ -10,27 +10,27 @@
                 <name>Shape</name>
         </parameter>
         
-        <parameter type="constant" name="Position X" default="500" min="0" max="1000" factor="1000">
+        <parameter type="simplekeyframe" name="Position X" default="500" min="0" max="1000" factor="1000">
                 <name>Position X</name>
         </parameter>
         
-        <parameter type="constant" name="Position Y" default="500" min="0" max="1000" factor="1000">
+        <parameter type="simplekeyframe" name="Position Y" default="500" min="0" max="1000" factor="1000">
                 <name>Position Y</name>
         </parameter>
         
-        <parameter type="constant" name="Size X" default="100" min="0" max="1000" factor="1000">
+        <parameter type="simplekeyframe" name="Size X" default="100" min="0" max="1000" factor="1000">
                 <name>Size X</name>
         </parameter>
         
-        <parameter type="constant" name="Size Y" default="100" min="0" max="1000" factor="1000">
+        <parameter type="simplekeyframe" name="Size Y" default="100" min="0" max="1000" factor="1000">
                 <name>Size Y</name>
         </parameter>
 
-        <parameter type="constant" name="Tilt" default="500" min="0" max="1000" factor="1000">
+        <parameter type="simplekeyframe" name="Tilt" default="500" min="0" max="1000" factor="1000">
                 <name>Tilt</name>
         </parameter>
         
-        <parameter type="constant" name="Transition width" default="200" min="0" max="1000" factor="1000">
+        <parameter type="simplekeyframe" name="Transition width" default="200" min="0" max="1000" factor="1000">
                 <name>Transition width</name>
         </parameter>
         

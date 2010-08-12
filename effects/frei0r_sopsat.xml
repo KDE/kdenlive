@@ -3,46 +3,46 @@
         <name>SOP/Sat</name>
         <description>Changes Slope, Offset, and Power of the color components, and the overall Saturation, according to the ASC CDL (Color Decision List).</description>
         <author>Simon A. Eugster (Granjow)</author>
-        <parameter type="constant" name="rSlope" default="100" min="0" max="1000" factor="100">
+        <parameter type="simplekeyframe" name="rSlope" default="100" min="0" max="1000" factor="100">
                 <name>Slope Red</name>
         </parameter>
-        <parameter type="constant" name="gSlope" default="100" min="0" max="1000" factor="100">
+        <parameter type="simplekeyframe" name="gSlope" default="100" min="0" max="1000" factor="100">
                 <name>Slope Green</name>
         </parameter>
-        <parameter type="constant" name="bSlope" default="100" min="0" max="1000" factor="100">
+        <parameter type="simplekeyframe" name="bSlope" default="100" min="0" max="1000" factor="100">
                 <name>Slope Blue</name>
         </parameter>
-        <parameter type="constant" name="aSlope" default="100" min="0" max="1000" factor="100">
+        <parameter type="simplekeyframe" name="aSlope" default="100" min="0" max="1000" factor="100">
                 <name>Slope Alpha</name>
         </parameter>
 
-        <parameter type="constant" name="rOffset" default="0" min="-1024" max="1024" factor="256">
+        <parameter type="simplekeyframe" name="rOffset" default="0" min="-1024" max="1024" factor="256">
                 <name>Offset Red</name>
         </parameter>
-        <parameter type="constant" name="gOffset" default="0" min="-1024" max="1024" factor="256">
+        <parameter type="simplekeyframe" name="gOffset" default="0" min="-1024" max="1024" factor="256">
                 <name>Offset Green</name>
         </parameter>
-        <parameter type="constant" name="bOffset" default="0" min="-1024" max="1024" factor="256">
+        <parameter type="simplekeyframe" name="bOffset" default="0" min="-1024" max="1024" factor="256">
                 <name>Offset Blue</name>
         </parameter>
-        <parameter type="constant" name="aOffset" default="0" min="-1024" max="1024" factor="256">
+        <parameter type="simplekeyframe" name="aOffset" default="0" min="-1024" max="1024" factor="256">
                 <name>Offset Alpha</name>
         </parameter>
 
-        <parameter type="constant" name="rPower" default="100" min="1" max="1000" factor="100">
+        <parameter type="simplekeyframe" name="rPower" default="100" min="1" max="1000" factor="100">
                 <name>Power (Gamma) Red</name>
         </parameter>
-        <parameter type="constant" name="gPower" default="100" min="1" max="1000" factor="100">
+        <parameter type="simplekeyframe" name="gPower" default="100" min="1" max="1000" factor="100">
                 <name>Power (Gamma) Green</name>
         </parameter>
-        <parameter type="constant" name="bPower" default="100" min="1" max="1000" factor="100">
+        <parameter type="simplekeyframe" name="bPower" default="100" min="1" max="1000" factor="100">
                 <name>Power (Gamma) Blue</name>
         </parameter>
-        <parameter type="constant" name="aPower" default="100" min="1" max="1000" factor="100">
+        <parameter type="simplekeyframe" name="aPower" default="100" min="1" max="1000" factor="100">
                 <name>Power (Gamma) Alpha</name>
         </parameter>
 
-        <parameter type="constant" name="saturation" default="100" min="0" max="500" factor="100">
+        <parameter type="simplekeyframe" name="saturation" default="100" min="0" max="500" factor="100">
                 <name>Overall Saturation</name>
         </parameter>
 
