@@ -79,12 +79,14 @@ public slots:
      *
      * Transfers all Dynamic gui parameter settings into m_params(??) */
     void collectAllParameters();
+    void slotSyncEffectsPos(int pos);
 
 signals:
     void parameterChanged(const QDomElement, const QDomElement);
     void seekTimeline(int);
     void displayMessage(const QString&, int);
     void checkMonitorPosition(int);
+    void syncEffectsPos(int pos);
 };
 
 #endif

@@ -72,6 +72,8 @@ private:
 
 public slots:
     void setupParam(const QDomElement, int minframe, int maxframe);
+    /** @brief Updates position of the local timeline to @param relTimelinePos.  */
+    void slotSyncPosition(int relTimelinePos);
 
 private slots:
     void slotNextFrame();

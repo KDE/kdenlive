@@ -55,6 +55,8 @@ public slots:
     * @param minframe In point of the clip
     * @param maxframe Out point of the clip */
     void setupParam(const QDomElement elem, int minframe, int maxframe);
+    /** @brief Updates position of the local timeline to @param relTimelinePos.  */
+    void slotSyncPosition(int relTimelinePos);
 
 private:
     Ui::GeometryWidget_UI m_ui;

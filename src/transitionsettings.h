@@ -53,9 +53,10 @@ public slots:
     void slotUpdateEffectParams(const QDomElement&, const QDomElement&);
 
 private slots:
-
     /** @brief Sets the new B track for the transition (automatic or forced). */
     void slotTransitionTrackChanged();
+    /** @brief Pass position changes in project monitor/timline to the effects to keep their local timelines in sync. */
+    void slotRenderPos(int pos);
 
 signals:
     void transitionUpdated(Transition *, QDomElement);

@@ -85,6 +85,7 @@ EffectStackView::EffectStackView(Monitor *monitor, QWidget *parent) :
     connect(m_effectedit, SIGNAL(seekTimeline(int)), this , SLOT(slotSeekTimeline(int)));
     connect(m_effectedit, SIGNAL(displayMessage(const QString&, int)), this, SIGNAL(displayMessage(const QString&, int)));
     connect(m_effectedit, SIGNAL(checkMonitorPosition(int)), this, SLOT(slotCheckMonitorPosition(int)));
+    connect(monitor, SIGNAL(renderPosition(int)), this, SLOT(slotRenderPos(int)));
     m_effectLists["audio"] = &MainWindow::audioEffects;
     m_effectLists["video"] = &MainWindow::videoEffects;
     m_effectLists["custom"] = &MainWindow::customEffects;
@@ -405,6 +406,12 @@ void EffectStackView::slotCheckMonitorPosition(int renderPos)
     } else {
         m_monitor->slotEffectScene(false);
     }
+}
+
+void EffectStackView::slotRenderPos(int pos)
+{
+    if (m_clipref)
+        m_effectedit->slotSyncEffectsPos(pos - m_clipref->startPos().frames(KdenliveSettings::project_fps()));
 }
 
 #include "effectstackview.moc"

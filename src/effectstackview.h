@@ -116,7 +116,11 @@ private slots:
     /** @brief Define the region filter for current effect. */
     void slotRegionChanged();
 
+    /** @brief Checks whether the monitor scene has to be displayed. */
     void slotCheckMonitorPosition(int renderPos);
+
+    /** @brief Pass position changes in project monitor/timline to the effects to keep their local timelines in sync. */
+    void slotRenderPos(int pos);
 
 signals:
     void removeEffect(ClipItem*, QDomElement);

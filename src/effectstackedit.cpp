@@ -275,6 +275,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
                 connect(geometry, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
                 connect(geometry, SIGNAL(checkMonitorPosition(int)), this, SIGNAL(checkMonitorPosition(int)));
                 connect(geometry, SIGNAL(seekToPos(int)), this, SIGNAL(seekTimeline(int)));
+                connect(this, SIGNAL(syncEffectsPos(int)), geometry, SLOT(slotSyncPosition(int)));
             } else {
                 Geometryval *geo = new Geometryval(m_profile, m_timecode, m_frameSize, pos);
                 if (minFrame == maxFrame)
@@ -285,6 +286,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
                 m_valueItems[paramName+"geometry"] = geo;
                 connect(geo, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
                 connect(geo, SIGNAL(seekToPos(int)), this, SIGNAL(seekTimeline(int)));
+                connect(this, SIGNAL(syncEffectsPos(int)), geo, SLOT(slotSyncPosition(int)));
             }
         } else if (type == "keyframe" || type == "simplekeyframe") {
             // keyframe editor widget
@@ -691,4 +693,9 @@ void EffectStackEdit::clearAllItems()
     }
     m_keyframeEditor = NULL;
     blockSignals(false);
+}
+
+void EffectStackEdit::slotSyncEffectsPos(int pos)
+{
+    emit syncEffectsPos(pos);
 }

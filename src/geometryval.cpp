@@ -423,6 +423,16 @@ void Geometryval::setupParam(const QDomElement par, int minFrame, int maxFrame)
     connect(spinTransp, SIGNAL(valueChanged(int)), this , SLOT(slotTransparencyChanged(int)));
 }
 
+void Geometryval::slotSyncPosition(int relTimelinePos)
+{
+    if (m_timePos.maximum() > 0 && KdenliveSettings::transitionfollowcursor()) {
+        relTimelinePos = qMax(0, relTimelinePos);
+        relTimelinePos = qMin(relTimelinePos, m_timePos.maximum());
+        if (relTimelinePos != m_timePos.getValue())
+            slotPositionChanged(relTimelinePos, false);
+    }
+}
+
 void Geometryval::updateTransitionPath()
 {
     if (m_fixedMode) return;

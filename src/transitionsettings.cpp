@@ -63,6 +63,7 @@ TransitionSettings::TransitionSettings(Monitor *monitor, QWidget* parent) :
     connect(transitionList, SIGNAL(activated(int)), this, SLOT(slotTransitionChanged()));
     connect(transitionTrack, SIGNAL(activated(int)), this, SLOT(slotTransitionTrackChanged()));
     connect(m_effectEdit, SIGNAL(parameterChanged(const QDomElement&, const QDomElement&)), this , SLOT(slotUpdateEffectParams(const QDomElement&, const QDomElement&)));
+    connect(monitor, SIGNAL(renderPosition(int)), this, SLOT(slotRenderPos(int)));
 }
 
 void TransitionSettings::updateProjectFormat(MltVideoProfile profile, Timecode t, const QList <TrackInfo> info)
@@ -205,3 +206,10 @@ void TransitionSettings::raiseWindow(QWidget* dock)
 
 }
 
+void TransitionSettings::slotRenderPos(int pos)
+{
+    if (m_usedTransition)
+        m_effectEdit->slotSyncEffectsPos(pos - m_usedTransition->startPos().frames(KdenliveSettings::project_fps()));
+}
+
+#include "transitionsettings.moc"

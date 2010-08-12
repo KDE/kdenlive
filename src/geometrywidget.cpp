@@ -108,7 +108,7 @@ GeometryWidget::GeometryWidget(Monitor* monitor, Timecode timecode, int clipPos,
 
     m_scene = monitor->getEffectScene();
     connect(m_scene, SIGNAL(actionFinished()), this, SLOT(slotUpdateGeometry()));
-    connect(m_monitor->render, SIGNAL(rendererPosition(int)), this, SLOT(slotCheckMonitorPosition(int)));
+    connect(m_monitor, SIGNAL(renderPosition(int)), this, SLOT(slotCheckMonitorPosition(int)));
     connect(this, SIGNAL(parameterChanged()), this, SLOT(slotUpdateProperties()));
 }
 
@@ -147,6 +147,7 @@ void GeometryWidget::setupParam(const QDomElement elem, int minframe, int maxfra
         // Keyframes are disabled
         m_ui.widgetTimeWrapper->setHidden(true);
     } else {
+        m_ui.widgetTimeWrapper->setHidden(false);
         m_timeline->setKeyGeometry(m_geometry, m_outPoint - m_inPoint - 1);
         m_timeline->update();
         m_timePos->setRange(0, m_outPoint - m_inPoint - 1);
@@ -170,6 +171,16 @@ void GeometryWidget::setupParam(const QDomElement elem, int minframe, int maxfra
     slotPositionChanged(0, false);
     slotUpdateProperties();
     slotCheckMonitorPosition(m_monitor->render->seekFramePosition());
+}
+
+void GeometryWidget::slotSyncPosition(int relTimelinePos)
+{
+    if (m_timePos->maximum() > 0 && KdenliveSettings::transitionfollowcursor()) {
+        relTimelinePos = qMax(0, relTimelinePos);
+        relTimelinePos = qMin(relTimelinePos, m_timePos->maximum());
+        if (relTimelinePos != m_timePos->getValue())
+            slotPositionChanged(relTimelinePos, false);
+    }
 }
 
 
