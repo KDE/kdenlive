@@ -34,6 +34,7 @@ class MonitorScene : public QGraphicsScene
 public:
     MonitorScene(Render *renderer, QObject* parent = 0);
     void setUp();
+    void setEnabled(bool enabled = true);
 
 protected:
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);
@@ -58,6 +59,7 @@ private:
     resizeModes m_resizeMode;
     QPointF m_clickPoint;
     QImage m_backgroundImage;
+    bool m_enabled;
 
 signals:
     void actionFinished();

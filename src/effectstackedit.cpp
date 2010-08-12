@@ -124,9 +124,14 @@ void EffectStackEdit::updateTimecodeFormat()
         QString type = pa.attributes().namedItem("type").nodeValue();
         QString paramName = i18n(na.toElement().text().toUtf8().data());
 
-        if (type == "geometry" && !KdenliveSettings::on_monitor_effects()) {
-            Geometryval *geom = ((Geometryval*)m_valueItems[paramName+"geometry"]);
-            geom->updateTimecodeFormat();
+        if (type == "geometry") {
+            if (KdenliveSettings::on_monitor_effects()) {
+                GeometryWidget *geom = (GeometryWidget*)m_valueItems[paramName+"geometry"];
+                geom->updateTimecodeFormat();
+            } else {
+                Geometryval *geom = ((Geometryval*)m_valueItems[paramName+"geometry"]);
+                geom->updateTimecodeFormat();
+            }
             break;
         }
         if (type == "position") {
@@ -260,7 +265,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
             connect(pl, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
         } else if (type == "geometry") {
             if (KdenliveSettings::on_monitor_effects()) {
-                GeometryWidget *geometry = new GeometryWidget(m_monitor, pos, isEffect, this);
+                GeometryWidget *geometry = new GeometryWidget(m_monitor, m_timecode, pos, isEffect, this);
                 if (minFrame == maxFrame)
                     geometry->setupParam(pa, m_in, m_out);
                 else
@@ -269,6 +274,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
                 m_valueItems[paramName+"geometry"] = geometry;
                 connect(geometry, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
                 connect(geometry, SIGNAL(checkMonitorPosition(int)), this, SIGNAL(checkMonitorPosition(int)));
+                connect(geometry, SIGNAL(seekToPos(int)), this, SIGNAL(seekTimeline(int)));
             } else {
                 Geometryval *geo = new Geometryval(m_profile, m_timecode, m_frameSize, pos);
                 if (minFrame == maxFrame)

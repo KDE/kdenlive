@@ -39,7 +39,7 @@ TimecodeDisplay::TimecodeDisplay(Timecode t, QWidget *parent)
     lineedit->setFont(KGlobalSettings::toolBarFont());
     QFontMetrics fm = lineedit->fontMetrics();
     lineedit->setMaximumWidth(fm.width("88:88:88:888"));
-    setSizePolicy(QSizePolicy::Maximum, QSizePolicy::MinimumExpanding);
+    setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
 
     setTimeCodeFormat(KdenliveSettings::frametimecode(), true);
 

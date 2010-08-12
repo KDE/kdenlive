@@ -21,15 +21,21 @@
 #include "geometrywidget.h"
 #include "monitor.h"
 #include "renderer.h"
+#include "keyframehelper.h"
+#include "timecodedisplay.h"
 #include "monitorscene.h"
+#include "kdenlivesettings.h"
 
 #include <QtCore>
 #include <QGraphicsView>
 #include <QGraphicsRectItem>
+#include <QVBoxLayout>
+#include <QGridLayout>
 
-GeometryWidget::GeometryWidget(Monitor* monitor, int clipPos, bool isEffect, QWidget* parent ):
+GeometryWidget::GeometryWidget(Monitor* monitor, Timecode timecode, int clipPos, bool isEffect, QWidget* parent ):
         QWidget(parent),
         m_monitor(monitor),
+        m_timePos(new TimecodeDisplay(timecode)),
         m_clipPos(clipPos),
         m_inPoint(0),
         m_outPoint(1),
@@ -38,7 +44,39 @@ GeometryWidget::GeometryWidget(Monitor* monitor, int clipPos, bool isEffect, QWi
         m_geometry(NULL)
 {
     m_ui.setupUi(this);
-    m_scene = monitor->getEffectScene();
+
+
+    /*
+        Setup of timeline and keyframe controls
+    */
+
+    ((QGridLayout *)(m_ui.widgetTimeWrapper->layout()))->addWidget(m_timePos, 1, 4);
+
+    QVBoxLayout *layout = new QVBoxLayout(m_ui.frameTimeline);
+    m_timeline = new KeyframeHelper(m_ui.frameTimeline);
+    layout->addWidget(m_timeline);
+    layout->setContentsMargins(0, 0, 0, 0);
+
+    m_ui.buttonPrevious->setIcon(KIcon("media-skip-backward"));
+    m_ui.buttonPrevious->setToolTip(i18n("Go to previous keyframe"));
+    m_ui.buttonNext->setIcon(KIcon("media-skip-forward"));
+    m_ui.buttonNext->setToolTip(i18n("Go to next keyframe"));
+    m_ui.buttonAddDelete->setIcon(KIcon("document-new"));
+    m_ui.buttonAddDelete->setToolTip(i18n("Add keyframe"));
+
+    connect(m_timeline, SIGNAL(positionChanged(int)), this, SLOT(slotPositionChanged(int)));
+    connect(m_timeline, SIGNAL(keyframeMoved(int)),   this, SLOT(slotKeyframeMoved(int)));
+    connect(m_timeline, SIGNAL(addKeyframe(int)),     this, SLOT(slotAddKeyframe(int)));
+    connect(m_timeline, SIGNAL(removeKeyframe(int)),  this, SLOT(slotDeleteKeyframe(int)));
+    connect(m_timePos, SIGNAL(editingFinished()), this , SLOT(slotPositionChanged()));
+    connect(m_ui.buttonPrevious,  SIGNAL(clicked()), this, SLOT(slotPreviousKeyframe()));
+    connect(m_ui.buttonNext,      SIGNAL(clicked()), this, SLOT(slotNextKeyframe()));
+    connect(m_ui.buttonAddDelete, SIGNAL(clicked()), this, SLOT(slotAddDeleteKeyframe()));
+
+
+    /*
+        Setup of geometry controls
+    */
 
     m_ui.buttonMoveLeft->setIcon(KIcon("kdenlive-align-left"));
     m_ui.buttonMoveLeft->setToolTip(i18n("Move to left"));
@@ -52,7 +90,6 @@ GeometryWidget::GeometryWidget(Monitor* monitor, int clipPos, bool isEffect, QWi
     m_ui.buttonCenterV->setToolTip(i18n("Center vertically"));
     m_ui.buttonMoveBottom->setIcon(KIcon("kdenlive-align-bottom"));
     m_ui.buttonMoveBottom->setToolTip(i18n("Move to bottom"));
-
 
     connect(m_ui.spinX,            SIGNAL(valueChanged(int)), this, SLOT(slotSetX(int)));
     connect(m_ui.spinY,            SIGNAL(valueChanged(int)), this, SLOT(slotSetY(int)));
@@ -68,16 +105,25 @@ GeometryWidget::GeometryWidget(Monitor* monitor, int clipPos, bool isEffect, QWi
     connect(m_ui.buttonCenterV,    SIGNAL(clicked()), this, SLOT(slotCenterV()));
     connect(m_ui.buttonMoveBottom, SIGNAL(clicked()), this, SLOT(slotMoveBottom()));
 
+
+    m_scene = monitor->getEffectScene();
     connect(m_scene, SIGNAL(actionFinished()), this, SLOT(slotUpdateGeometry()));
-    connect(m_monitor->render, SIGNAL(rendererPosition(int)), this, SLOT(slotCheckPosition(int)));
+    connect(m_monitor->render, SIGNAL(rendererPosition(int)), this, SLOT(slotCheckMonitorPosition(int)));
     connect(this, SIGNAL(parameterChanged()), this, SLOT(slotUpdateProperties()));
 }
 
 GeometryWidget::~GeometryWidget()
 {
+    delete m_timePos;
+    delete m_timeline;
     m_scene->removeItem(m_rect);
     delete m_geometry;
     m_monitor->slotEffectScene(false);
+}
+
+void GeometryWidget::updateTimecodeFormat()
+{
+    m_timePos->slotUpdateTimeCodeFormat();
 }
 
 QString GeometryWidget::getValue() const
@@ -89,14 +135,22 @@ void GeometryWidget::setupParam(const QDomElement elem, int minframe, int maxfra
 {
     m_inPoint = minframe;
     m_outPoint = maxframe;
-    QString value = elem.attribute("value");
 
-    char *tmp = (char *) qstrdup(value.toUtf8().data());
+    char *tmp = (char *) qstrdup(elem.attribute("value").toUtf8().data());
     if (m_geometry)
         m_geometry->parse(tmp, maxframe - minframe, m_monitor->render->renderWidth(), m_monitor->render->renderHeight());
     else
         m_geometry = new Mlt::Geometry(tmp, maxframe - minframe, m_monitor->render->renderWidth(), m_monitor->render->renderHeight());
     delete[] tmp;
+
+    if (elem.attribute("fixed") == "1") {
+        // Keyframes are disabled
+        m_ui.widgetTimeWrapper->setHidden(true);
+    } else {
+        m_timeline->setKeyGeometry(m_geometry, m_outPoint - m_inPoint - 1);
+        m_timeline->update();
+        m_timePos->setRange(0, m_outPoint - m_inPoint - 1);
+    }
 
     Mlt::GeometryItem item;
 
@@ -113,11 +167,120 @@ void GeometryWidget::setupParam(const QDomElement elem, int minframe, int maxfra
     m_rect->setBrush(Qt::transparent);
     m_scene->addItem(m_rect);
 
+    slotPositionChanged(0, false);
     slotUpdateProperties();
-    slotCheckPosition(m_monitor->render->seekFramePosition());
+    slotCheckMonitorPosition(m_monitor->render->seekFramePosition());
 }
 
-void GeometryWidget::slotCheckPosition(int renderPos)
+
+void GeometryWidget::slotPositionChanged(int pos, bool seek)
+{
+    if (pos == -1)
+        pos = m_timePos->getValue();
+
+    m_timePos->setValue(pos);
+    m_timeline->blockSignals(true);
+    m_timeline->setValue(pos);
+    m_timeline->blockSignals(false);
+
+    Mlt::GeometryItem item;
+    if (m_geometry->fetch(&item, pos) || item.key() == false) {
+        // no keyframe
+        m_scene->setEnabled(false);
+        m_ui.widgetGeometry->setEnabled(false);
+        m_ui.buttonAddDelete->setIcon(KIcon("document-new"));
+        m_ui.buttonAddDelete->setToolTip(i18n("Add keyframe"));
+    } else {
+        // keyframe
+        m_scene->setEnabled(true);
+        m_ui.widgetGeometry->setEnabled(true);
+        m_ui.buttonAddDelete->setIcon(KIcon("edit-delete"));
+        m_ui.buttonAddDelete->setToolTip(i18n("Delete keyframe"));
+    }
+
+    m_rect->setPos(item.x(), item.y());
+    m_rect->setRect(0, 0, item.w(), item.h());
+    slotUpdateProperties();
+
+    if (seek && KdenliveSettings::transitionfollowcursor())
+        emit seekToPos(m_clipPos + pos);
+}
+
+void GeometryWidget::slotKeyframeMoved(int pos)
+{
+    slotPositionChanged(pos);
+    slotUpdateGeometry();
+}
+
+void GeometryWidget::slotAddKeyframe(int pos)
+{
+    Mlt::GeometryItem item;
+    if (pos == -1)
+        pos = m_timePos->getValue();
+    item.frame(pos);
+    QRectF r = m_rect->rect().normalized();
+    QPointF rectpos = m_rect->pos();
+    item.x(rectpos.x());
+    item.y(rectpos.y());
+    item.w(r.width());
+    item.h(r.height());
+    m_geometry->insert(item);
+
+    m_timeline->update();
+    slotPositionChanged(pos, false);
+    emit parameterChanged();
+}
+
+void GeometryWidget::slotDeleteKeyframe(int pos)
+{
+    Mlt::GeometryItem item;
+    if (pos == -1)
+        pos = m_timePos->getValue();
+    // check there is more than one keyframe, do not allow to delete last one
+    if (m_geometry->next_key(&item, pos + 1)) {
+        if (m_geometry->prev_key(&item, pos - 1) || item.frame() == pos)
+            return;
+    }
+    m_geometry->remove(pos);
+
+    m_timeline->update();
+    slotPositionChanged(pos, false);
+    emit parameterChanged();
+}
+
+void GeometryWidget::slotPreviousKeyframe()
+{
+    Mlt::GeometryItem item;
+    // Go to start if no keyframe is found
+    int pos = 0;
+    if(!m_geometry->prev_key(&item, m_timeline->value() - 1))
+        pos = item.frame();
+
+    slotPositionChanged(pos);
+}
+
+void GeometryWidget::slotNextKeyframe()
+{
+    Mlt::GeometryItem item;
+    // Go to end if no keyframe is found
+    int pos = m_timeline->frameLength;
+    if (!m_geometry->next_key(&item, m_timeline->value() + 1))
+        pos = item.frame();
+
+    slotPositionChanged(pos);
+}
+
+void GeometryWidget::slotAddDeleteKeyframe()
+{
+    Mlt::GeometryItem item;
+    if (m_geometry->fetch(&item, m_timePos->getValue()) || item.key() == false)
+        slotAddKeyframe();
+    else
+        slotDeleteKeyframe();
+}
+
+
+void GeometryWidget::slotCheckMonitorPosition(int renderPos)
 {
     /*
         We do only get the position in timeline if this geometry belongs to a transition,
@@ -135,10 +298,14 @@ void GeometryWidget::slotCheckPosition(int renderPos)
     }
 }
 
+
 void GeometryWidget::slotUpdateGeometry()
 {
     Mlt::GeometryItem item;
-    m_geometry->next_key(&item, 0);
+    int pos = m_timePos->getValue();
+    // get keyframe and make sure it is the correct one
+    if (m_geometry->next_key(&item, pos) || item.frame() != pos)
+        return;
 
     QRectF rectSize = m_rect->rect().normalized();
     QPointF rectPos = m_rect->pos();

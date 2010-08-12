@@ -33,7 +33,8 @@ MonitorScene::MonitorScene(Render *renderer, QObject* parent) :
         m_selectedItem(NULL),
         m_resizeMode(NoResize),
         m_clickPoint(0, 0),
-        m_backgroundImage(QImage())
+        m_backgroundImage(QImage()),
+        m_enabled(true)
 {
     setBackgroundBrush(QBrush(QColor(KdenliveSettings::window_background().name())));
 
@@ -72,6 +73,11 @@ void MonitorScene::setUp()
     m_view->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
 
     slotUpdateBackground(true);
+}
+
+void MonitorScene::setEnabled(bool enabled)
+{
+    m_enabled = enabled;
 }
 
 void MonitorScene::slotUpdateBackground(bool fit)
@@ -137,6 +143,9 @@ resizeModes MonitorScene::getResizeMode(QGraphicsRectItem *item, QPoint pos)
 
 void MonitorScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
+    if (!m_enabled)
+        return;
+
     m_resizeMode = NoResize;
     m_selectedItem = NULL;
 
@@ -159,6 +168,9 @@ void MonitorScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
 void MonitorScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
+    if (!m_enabled)
+        return;
+
     QPointF mousePos = event->scenePos();
 
     if (m_selectedItem && event->buttons() & Qt::LeftButton) {
@@ -276,6 +288,9 @@ void MonitorScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 
 void MonitorScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
+    if (!m_enabled)
+        return;
+
     QGraphicsScene::mouseReleaseEvent(event);
     emit actionFinished();
 }

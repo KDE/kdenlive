@@ -22,6 +22,7 @@
 #define GEOMETRYWIDGET_H
 
 #include "ui_geometrywidget_ui.h"
+#include "timecode.h"
 #include <mlt++/Mlt.h>
 
 #include <QWidget>
@@ -30,6 +31,8 @@ class QDomElement;
 class QGraphicsRectItem;
 class Monitor;
 class MonitorScene;
+class KeyframeHelper;
+class TimecodeDisplay;
 
 class GeometryWidget : public QWidget
 {
@@ -39,10 +42,12 @@ public:
     * @param monitor Project monitor
     * @param clipPos Position of the clip in timeline
     * @param parent (optional) Parent widget */
-    GeometryWidget(Monitor *monitor, int clipPos, bool isEffect, QWidget* parent = 0);
+    GeometryWidget(Monitor *monitor, Timecode timecode, int clipPos, bool isEffect, QWidget* parent = 0);
     virtual ~GeometryWidget();
     /** @brief Gets the geometry as a serialized string. */
     QString getValue() const;
+    /** @brief Updates the timecode display according to settings (frame number or hh:mm:ss:ff) */
+    void updateTimecodeFormat();
 
 public slots:
     /** @brief Sets up the rect and the geometry object.
@@ -54,6 +59,7 @@ public slots:
 private:
     Ui::GeometryWidget_UI m_ui;
     Monitor *m_monitor;
+    TimecodeDisplay *m_timePos;
     /** Position of the clip in timeline. */
     int m_clipPos;
     /** In point of the clip (crop from start). */
@@ -63,12 +69,37 @@ private:
     bool m_isEffect;
     MonitorScene *m_scene;
     QGraphicsRectItem *m_rect;
+    KeyframeHelper *m_timeline;
+    /** Stores the different settings in the MLT geometry format. */
     Mlt::Geometry *m_geometry;
 
 private slots:
+    /** @brief Updates controls according to position.
+    * @param pos (optional) Position to update to
+    * @param seek (optional, default = true) Whether to seek timleine & project monitor to pos
+    * If pos = -1 (default) the value of m_timePos is used. */
+    void slotPositionChanged(int pos = -1, bool seek = true);
+    /** @brief Updates settings after a keyframe was moved to @param pos. */
+    void slotKeyframeMoved(int pos);
+    /** @brief Adds a keyframe.
+    * @param pos (optional) Position where the keyframe should be added
+    * If pos = -1 (default) the value of m_timePos is used. */
+    void slotAddKeyframe(int pos = -1);
+    /** @brief Deletes a keyframe.
+    * @param pos (optional) Position of the keyframe which should be deleted
+    * If pos = -1 (default) the value of m_timePos is used. */
+    void slotDeleteKeyframe(int pos = -1);
+    /** @brief Goes to the next keyframe or to the end if none is available. */
+    void slotNextKeyframe();
+    /** @brief Goes to the previous keyframe or to the beginning if none is available. */
+    void slotPreviousKeyframe();
+    /** @brief Adds or deletes a keyframe depending on whether there is already a keyframe at the current position. */
+    void slotAddDeleteKeyframe();
+
     /** @brief Makes sure the monitor effect scene is only visible if the clip this geometry belongs to is visible.
     * @param renderPos Postion of the Monitor / Timeline cursor */
-    void slotCheckPosition(int renderPos);
+    void slotCheckMonitorPosition(int renderPos);
+
     /** @brief Updates the Mlt::Geometry object. */
     void slotUpdateGeometry();
     /** @brief Updates the spinBoxes according to the rect. */
@@ -102,6 +133,7 @@ private slots:
 signals:
     void parameterChanged();
     void checkMonitorPosition(int);
+    void seekToPos(int);
 };
 
 #endif
