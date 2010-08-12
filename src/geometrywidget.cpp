@@ -107,7 +107,7 @@ void GeometryWidget::setupParam(const QDomElement elem, int minframe, int maxfra
     m_rect->setZValue(0);
     m_rect->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
 
-    QPen framepen(Qt::DotLine);
+    QPen framepen(Qt::SolidLine);
     framepen.setColor(Qt::yellow);
     m_rect->setPen(framepen);
     m_rect->setBrush(Qt::transparent);

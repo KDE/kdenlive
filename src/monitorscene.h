@@ -21,8 +21,8 @@
 #ifndef MONITORSCENE_H
 #define MONITORSCENE_H
 
+#include <QtCore>
 #include <QGraphicsScene>
-#include <QTime>
 
 class Render;
 

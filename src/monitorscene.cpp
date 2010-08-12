@@ -22,7 +22,6 @@
 #include "renderer.h"
 #include "kdenlivesettings.h"
 
-#include <QtCore>
 #include <QGraphicsView>
 #include <QGraphicsPixmapItem>
 #include <QGraphicsSceneMouseEvent>
@@ -38,20 +37,22 @@ MonitorScene::MonitorScene(Render *renderer, QObject* parent) :
 {
     setBackgroundBrush(QBrush(QColor(KdenliveSettings::window_background().name())));
 
-    QPen framepen(Qt::DotLine);
+    QPen framepen(Qt::SolidLine);
     framepen.setColor(Qt::red);
 
     m_frameBorder = new QGraphicsRectItem(QRectF(0, 0, m_renderer->renderWidth(), m_renderer->renderHeight()));
     m_frameBorder->setPen(framepen);
-    m_frameBorder->setZValue(-9);
+    m_frameBorder->setZValue(-2);
     m_frameBorder->setBrush(Qt::transparent);
     m_frameBorder->setFlags(0);
     addItem(m_frameBorder);
 
     m_lastUpdate.start();
     m_background = new QGraphicsPixmapItem();
-    m_background->setZValue(-10);
+    m_background->setZValue(-1);
     m_background->setFlags(0);
+    m_background->setShapeMode(QGraphicsPixmapItem::BoundingRectShape);
+    m_background->setTransformationMode(Qt::FastTransformation);
     QPixmap bg(m_renderer->renderWidth(), m_renderer->renderHeight());
     bg.fill();
     m_background->setPixmap(bg);
@@ -67,6 +68,9 @@ void MonitorScene::setUp()
         m_view = views().at(0);
     else
         m_view = NULL;
+
+    m_view->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
+
     slotUpdateBackground(true);
 }
 
@@ -74,7 +78,7 @@ void MonitorScene::slotUpdateBackground(bool fit)
 {
     if (m_view && m_view->isVisible()) {
         if (m_lastUpdate.elapsed() > 200) {
-            m_background->setPixmap(QPixmap::fromImage(m_backgroundImage));
+            m_background->setPixmap(QPixmap::fromImage(m_backgroundImage, Qt::ThresholdDither));
             if (fit) {
                 m_view->fitInView(m_frameBorder, Qt::KeepAspectRatio);
                 m_view->centerOn(m_frameBorder);
