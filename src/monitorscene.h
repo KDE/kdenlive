@@ -35,6 +35,7 @@ public:
     MonitorScene(Render *renderer, QObject* parent = 0);
     void setUp();
     void setEnabled(bool enabled = true);
+    bool getDirectUpdate();
 
 protected:
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);
@@ -43,6 +44,7 @@ protected:
 
 public slots:
     void slotUpdateBackground(bool fit = false);
+    void slotSetDirectUpdate(bool directUpdate);
 
 private slots:
     void slotSetBackgroundImage(QImage image);
@@ -60,6 +62,8 @@ private:
     QPointF m_clickPoint;
     QImage m_backgroundImage;
     bool m_enabled;
+    bool m_modified;
+    bool m_directUpdate;
 
 signals:
     void actionFinished();

@@ -74,6 +74,7 @@ private:
     KeyframeHelper *m_timeline;
     /** Stores the different settings in the MLT geometry format. */
     Mlt::Geometry *m_geometry;
+    bool m_showScene;
 
 private slots:
     /** @brief Updates controls according to position.
@@ -134,6 +135,11 @@ private slots:
     void slotCenterV();
     /** @brief Moves the rect to the bottom frame border (y position = frame height - rect height). */
     void slotMoveBottom();
+
+    /** @brief Enables/Disables syncing with the timeline according to @param sync. */
+    void slotSetSynchronize(bool sync);
+    /** @brief Switches from normal monitor to monitor scene according to @param show. */
+    void slotShowScene(bool show = true);
 
 signals:
     void parameterChanged();

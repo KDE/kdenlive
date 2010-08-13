@@ -41,9 +41,11 @@ GeometryWidget::GeometryWidget(Monitor* monitor, Timecode timecode, int clipPos,
         m_outPoint(1),
         m_isEffect(isEffect),
         m_rect(NULL),
-        m_geometry(NULL)
+        m_geometry(NULL),
+        m_showScene(true)
 {
     m_ui.setupUi(this);
+    m_scene = monitor->getEffectScene();
 
 
     /*
@@ -109,7 +111,24 @@ GeometryWidget::GeometryWidget(Monitor* monitor, Timecode timecode, int clipPos,
     connect(m_ui.buttonMoveBottom, SIGNAL(clicked()), this, SLOT(slotMoveBottom()));
 
 
-    m_scene = monitor->getEffectScene();
+    /*
+        Setup of configuration controls
+    */
+
+    m_ui.buttonConfig->setIcon(KIcon("system-run"));
+    m_ui.buttonConfig->setToolTip(i18n("Show/Hide settings"));
+    m_ui.buttonConfig->setCheckable(true);
+    m_ui.groupSettings->setHidden(true);
+    m_ui.checkSync->setChecked(KdenliveSettings::transitionfollowcursor());
+    m_ui.checkDirectUpdate->setChecked(m_scene->getDirectUpdate());
+
+    connect(m_ui.buttonConfig, SIGNAL(toggled(bool)), m_ui.groupSettings, SLOT(setVisible(bool)));
+
+    connect(m_ui.checkSync,         SIGNAL(toggled(bool)), this, SLOT(slotSetSynchronize(bool)));
+    connect(m_ui.checkShowScene,    SIGNAL(toggled(bool)), this, SLOT(slotShowScene(bool)));
+    connect(m_ui.checkDirectUpdate, SIGNAL(toggled(bool)), m_scene, SLOT(slotSetDirectUpdate(bool)));
+
+
     connect(m_scene, SIGNAL(actionFinished()), this, SLOT(slotUpdateGeometry()));
     connect(m_monitor, SIGNAL(renderPosition(int)), this, SLOT(slotCheckMonitorPosition(int)));
     connect(this, SIGNAL(parameterChanged()), this, SLOT(slotUpdateProperties()));
@@ -309,18 +328,20 @@ void GeometryWidget::slotAddDeleteKeyframe()
 
 void GeometryWidget::slotCheckMonitorPosition(int renderPos)
 {
-    /*
-        We do only get the position in timeline if this geometry belongs to a transition,
-        therefore we need to ways here.
-    */
-    if (m_isEffect) {
-        emit checkMonitorPosition(renderPos);
-    } else {
-        if (renderPos >= m_clipPos && renderPos <= m_clipPos + m_outPoint - m_inPoint) {
-            if (!m_scene->views().at(0)->isVisible())
-                m_monitor->slotEffectScene(true);
+    if (m_showScene) {
+        /*
+            We do only get the position in timeline if this geometry belongs to a transition,
+            therefore we need to ways here.
+        */
+        if (m_isEffect) {
+            emit checkMonitorPosition(renderPos);
         } else {
-            m_monitor->slotEffectScene(false);
+            if (renderPos >= m_clipPos && renderPos <= m_clipPos + m_outPoint - m_inPoint) {
+                if (!m_scene->views().at(0)->isVisible())
+                    m_monitor->slotEffectScene(true);
+            } else {
+                m_monitor->slotEffectScene(false);
+            }
         }
     }
 }
@@ -457,6 +478,21 @@ void GeometryWidget::slotMoveBottom()
 {
     m_rect->setPos(m_rect->pos().x(), m_monitor->render->renderHeight() - m_rect->rect().height());
     slotUpdateGeometry();
+}
+
+
+void GeometryWidget::slotSetSynchronize(bool sync)
+{
+    KdenliveSettings::setTransitionfollowcursor(sync);
+}
+
+void GeometryWidget::slotShowScene(bool show)
+{
+    m_showScene = show;
+    if (!m_showScene)
+        m_monitor->slotEffectScene(false);
+    else
+        slotCheckMonitorPosition(m_monitor->render->seekFramePosition());
 }
 
 #include "geometrywidget.moc"

@@ -34,7 +34,9 @@ MonitorScene::MonitorScene(Render *renderer, QObject* parent) :
         m_resizeMode(NoResize),
         m_clickPoint(0, 0),
         m_backgroundImage(QImage()),
-        m_enabled(true)
+        m_enabled(true),
+        m_modified(false),
+        m_directUpdate(false)
 {
     setBackgroundBrush(QBrush(QColor(KdenliveSettings::window_background().name())));
 
@@ -92,6 +94,16 @@ void MonitorScene::slotUpdateBackground(bool fit)
             m_lastUpdate.start();
         }
     }
+}
+
+void MonitorScene::slotSetDirectUpdate(bool directUpdate)
+{
+    m_directUpdate = directUpdate;
+}
+
+bool MonitorScene::getDirectUpdate()
+{
+    return m_directUpdate;
 }
 
 void MonitorScene::slotSetBackgroundImage(QImage image)
@@ -185,6 +197,7 @@ void MonitorScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
                 if (mousePos.x() < pos.x() + rect.height() && mousePos.y() < pos.y() + rect.height()) {
                     item->setRect(rect.adjusted(0, 0, -mousePosInRect.x(), -mousePosInRect.y()));
                     item->setPos(mousePos);
+                    m_modified = true;
                 }
                 break;
             case Top:
@@ -192,6 +205,7 @@ void MonitorScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
                     rect.setBottom(rect.height() - mousePosInRect.y());
                     item->setRect(rect);
                     item->setPos(QPointF(pos.x(), mousePos.y()));
+                    m_modified = true;
                 }
                 break;
             case TopRight:
@@ -199,6 +213,7 @@ void MonitorScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
                     rect.setBottomRight(QPointF(mousePosInRect.x(), rect.bottom() - mousePosInRect.y()));
                     item->setRect(rect);
                     item->setPos(QPointF(pos.x(), mousePos.y()));
+                    m_modified = true;
                 }
                 break;
             case Left:
@@ -206,12 +221,14 @@ void MonitorScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
                     rect.setRight(rect.width() - mousePosInRect.x());
                     item->setRect(rect);
                     item->setPos(QPointF(mousePos.x(), pos.y()));
+                    m_modified = true;
                 }
                 break;
             case Right:
                 if (mousePos.x() > pos.x()) {
                     rect.setRight(mousePosInRect.x());
                     item->setRect(rect);
+                    m_modified = true;
                 }
                 break;
             case BottomLeft:
@@ -219,24 +236,28 @@ void MonitorScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
                     rect.setBottomRight(QPointF(rect.width() - mousePosInRect.x(), mousePosInRect.y()));
                     item->setRect(rect);
                     item->setPos(QPointF(mousePos.x(), pos.y()));
+                    m_modified = true;
                 }
                 break;
             case Bottom:
                 if (mousePos.y() > pos.y()) {
                     rect.setBottom(mousePosInRect.y());
                     item->setRect(rect);
+                    m_modified = true;
                 }
                 break;
             case BottomRight:
                 if (mousePos.x() > pos.x() && mousePos.y() > pos.y()) {
                     rect.setBottomRight(mousePosInRect);
                     item->setRect(rect);
+                    m_modified = true;
                 }
                 break;
             default:
                 QPointF diff = mousePos - m_clickPoint;
                 m_clickPoint = mousePos;
                 item->moveBy(diff.x(), diff.y());
+                m_modified = true;
                 break;
             }
         }
@@ -279,10 +300,14 @@ void MonitorScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
             }
         }
 
-        if (!itemFound && m_view != NULL)
+        if (!itemFound && m_view)
             m_view->setCursor(Qt::ArrowCursor);
 
         QGraphicsScene::mouseMoveEvent(event);
+    }
+    if (m_modified && m_directUpdate) {
+        emit actionFinished();
+        m_modified = false;
     }
 }
 
@@ -292,7 +317,10 @@ void MonitorScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
         return;
 
     QGraphicsScene::mouseReleaseEvent(event);
-    emit actionFinished();
+    if (m_modified) {
+        m_modified = false;
+        emit actionFinished();
+    }
 }
 
 #include "monitorscene.moc"
