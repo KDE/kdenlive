@@ -298,8 +298,9 @@ void GeometryWidget::slotPreviousKeyframe()
 {
     Mlt::GeometryItem item;
     // Go to start if no keyframe is found
+    int currentPos = m_timePos->getValue();
     int pos = 0;
-    if(!m_geometry->prev_key(&item, m_timeline->value() - 1))
+    if(!m_geometry->prev_key(&item, currentPos - 1) && item.frame() < currentPos)
         pos = item.frame();
 
     slotPositionChanged(pos);

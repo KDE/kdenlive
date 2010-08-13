@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>348</width>
-    <height>215</height>
+    <height>242</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout_4">
@@ -106,7 +106,7 @@
    <item row="4" column="0">
     <widget class="QCheckBox" name="kcfg_on_monitor_effects">
      <property name="text">
-      <string>Use on-monitor effects (Warning: experimental)</string>
+      <string>Use on-monitor effects</string>
      </property>
     </widget>
    </item>
