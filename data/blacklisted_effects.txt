@@ -35,6 +35,8 @@ frei0r.coloradj_RGB
 frei0r.alpha0ps
 frei0r.alphagrad
 frei0r.alphaspot
+frei0r.pr0be
+frei0r.pr0file
 
 #effects that have simplekeyframes
 vignette

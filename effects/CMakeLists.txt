@@ -61,6 +61,8 @@ frei0r_hueshift0r.xml
 frei0r_lenscorrection.xml
 frei0r_levels.xml
 frei0r_pixeliz0r.xml
+frei0r_pr0be.xml
+frei0r_pr0file.xml
 frei0r_saturat0r.xml
 frei0r_scale0tilt.xml
 frei0r_sopsat.xml
