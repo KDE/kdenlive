@@ -90,7 +90,7 @@ QImage VectorscopeGenerator::calculateVectorscope(const QSize &vectorscopeSize, 
                                                   const VectorscopeGenerator::PaintMode &paintMode, const bool&,
                                                   const uint &accelFactor) const
 {
-    if (vectorscopeSize.width() <= 0 || vectorscopeSize.height() <= 0) {
+    if (vectorscopeSize.width() <= 0 || vectorscopeSize.height() <= 0 || image.width() <= 0 || image.height() <= 0) {
         // Invalid size
         return QImage();
     }

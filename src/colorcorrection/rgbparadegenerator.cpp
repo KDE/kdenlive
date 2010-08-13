@@ -30,7 +30,7 @@ QImage RGBParadeGenerator::calculateRGBParade(const QSize &paradeSize, const QIm
 {
     Q_ASSERT(accelFactor >= 1);
 
-    if (paradeSize.width() <= 0 || paradeSize.height() <= 0) {
+    if (paradeSize.width() <= 0 || paradeSize.height() <= 0 || image.width() <= 0 || image.height() <= 0) {
         return QImage();
 
     } else {

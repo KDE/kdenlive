@@ -23,7 +23,7 @@ QImage HistogramGenerator::calculateHistogram(const QSize &paradeSize, const QIm
                                         const bool &unscaled, const uint &accelFactor) const
 {
     qDebug() << "Histogram rect size is: " << paradeSize.width() << "/" << paradeSize.height();
-    if (paradeSize.height() <= 0 || paradeSize.width() <= 0) {
+    if (paradeSize.height() <= 0 || paradeSize.width() <= 0 || image.width() <= 0 || image.height() <= 0) {
         return QImage();
     }
 
@@ -64,7 +64,7 @@ QImage HistogramGenerator::calculateHistogram(const QSize &paradeSize, const QIm
 
 
     const int nParts = (drawY ? 1 : 0) + (drawR ? 1 : 0) + (drawG ? 1 : 0) + (drawB ? 1 : 0);
-    if (nParts == 0 || byteCount == 0) {
+    if (nParts == 0) {
         // Nothing to draw
         return QImage();
     }
