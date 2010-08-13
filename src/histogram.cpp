@@ -19,6 +19,7 @@ Histogram::Histogram(Monitor *projMonitor, Monitor *clipMonitor, QWidget *parent
 {
     ui = new Ui::Histogram_UI();
     ui->setupUi(this);
+    init();
 
     ui->cbY->setChecked(true);
     ui->cbR->setChecked(true);

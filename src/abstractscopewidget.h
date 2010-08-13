@@ -68,6 +68,10 @@ public:
     virtual ~AbstractScopeWidget(); // Must be virtual because of inheritance, to avoid memory leaks
     QPalette m_scopePalette;
 
+    /** Initializes widget settings (reads configuration).
+      Has to be called in the implementing object. */
+    void init();
+
     ///// Unimplemented /////
 
     virtual QString widgetName() const = 0;
@@ -112,6 +116,15 @@ protected:
     int m_accelFactorHUD;
     int m_accelFactorScope;
     int m_accelFactorBackground;
+
+    /** Reads the widget's configuration.
+        Can be extended in the implementing subclass (make sure to run readConfig as well). */
+    virtual void readConfig();
+    /** Writes the widget configuration.
+        Implementing widgets have to implement an own method and run it in their destructor. */
+    void writeConfig();
+    /** Identifier for the widget's configuration. */
+    QString configName();
 
 
     ///// Unimplemented Methods /////
@@ -194,6 +207,8 @@ private:
     QFuture<QImage> m_threadBackground;
 
     QImage m_scopeImage;
+
+    QString m_widgetName;
 
     bool initialDimensionUpdateDone;
     void prodHUDThread();

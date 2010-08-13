@@ -23,6 +23,7 @@ Waveform::Waveform(Monitor *projMonitor, Monitor *clipMonitor, QWidget *parent) 
 {
     ui = new Ui::Waveform_UI();
     ui->setupUi(this);
+    init();
 
     m_waveformGenerator = new WaveformGenerator();
 }

@@ -48,8 +48,6 @@ Vectorscope::Vectorscope(Monitor *projMonitor, Monitor *clipMonitor, QWidget *pa
     ui = new Ui::Vectorscope_UI();
     ui->setupUi(this);
 
-    //TODO don't draw circle when mouseLeaved
-
     m_colorTools = new ColorTools();
     m_colorPlaneExport = new ColorPlaneExport(this);
     m_vectorscopeGenerator = new VectorscopeGenerator();
@@ -100,10 +98,14 @@ Vectorscope::Vectorscope(Monitor *projMonitor, Monitor *clipMonitor, QWidget *pa
 
     this->setMouseTracking(true);
     slotGainChanged(ui->sliderGain->value());
+
+    init();
 }
 
 Vectorscope::~Vectorscope()
 {
+    writeConfig();
+
     delete m_colorTools;
     delete m_colorPlaneExport;
     delete m_vectorscopeGenerator;
@@ -114,6 +116,25 @@ Vectorscope::~Vectorscope()
 }
 
 QString Vectorscope::widgetName() const { return QString("Vectorscope"); }
+
+void Vectorscope::readConfig()
+{
+    AbstractScopeWidget::readConfig();
+
+    KSharedConfigPtr config = KGlobal::config();
+    KConfigGroup scopeConfig(config, configName());
+    m_a75PBox->setChecked(scopeConfig.readEntry("75PBox", false));
+    m_aAxisEnabled->setChecked(scopeConfig.readEntry("axis", false));
+}
+
+void Vectorscope::writeConfig()
+{
+    KSharedConfigPtr config = KGlobal::config();
+    KConfigGroup scopeConfig(config, configName());
+    scopeConfig.writeEntry("75PBox", m_a75PBox->isChecked());
+    scopeConfig.writeEntry("axis", m_aAxisEnabled->isChecked());
+    scopeConfig.sync();
+}
 
 QRect Vectorscope::scopeRect()
 {
@@ -209,10 +230,7 @@ QImage Vectorscope::renderScope(uint accelerationFactor, QImage qimage)
     }
 
     unsigned int mseconds = start.msecsTo(QTime::currentTime());
-//    qDebug() << "Scope rendered in " << mseconds << " ms. Sending finished signal.";
-//    emit signalScopeCalculationFinished(mseconds, skipPixels);
     emit signalScopeRenderingFinished(mseconds, accelerationFactor);
-//    qDebug() << "xxScope: Signal finished sent.";
     return scope;
 }
 

@@ -19,6 +19,8 @@ RGBParade::RGBParade(Monitor *projMonitor, Monitor *clipMonitor, QWidget *parent
 {
     ui = new Ui::RGBParade_UI();
     ui->setupUi(this);
+    init();
+
     m_rgbParadeGenerator = new RGBParadeGenerator();
 }
 

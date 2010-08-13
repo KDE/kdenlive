@@ -46,6 +46,10 @@ protected:
     bool isHUDDependingOnInput() const;
     bool isScopeDependingOnInput() const;
     bool isBackgroundDependingOnInput() const;
+    virtual void readConfig();
+
+    ///// Other /////
+    void writeConfig();
 
 private:
     Ui::Vectorscope_UI *ui;
