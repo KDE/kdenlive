@@ -840,8 +840,11 @@ QStringList Monitor::getZoneInfo() const
 void Monitor::slotEffectScene(bool show)
 {
     if (m_name == "project" && !m_delStage) {
-        if (m_monitorRefresh)
-            m_monitorRefresh->setVisible(!show);
+#ifdef Q_WS_MAC
+        m_glWidget->setVisible(!show);
+#else
+        m_monitorRefresh->setVisible(!show);
+#endif
         m_effectView->setVisible(show);
         if (show)
             m_effectScene->slotUpdateBackground(true);
