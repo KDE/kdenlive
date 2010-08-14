@@ -676,6 +676,11 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
         if (aindex != 0) producer->set("audio_index", aindex);
     }
 
+    // setup length here as otherwise default length (currently 15000 frames in MLT) will be taken although outpoint is larger
+    if (xml.attribute("type").toInt() == COLOR || xml.attribute("type").toInt() == TEXT
+        || xml.attribute("type").toInt() == IMAGE || xml.attribute("type").toInt() == SLIDESHOW)
+        producer->set("length", xml.attribute("out").toInt() - xml.attribute("in").toInt() + 1);
+
     if (xml.hasAttribute("out")) producer->set_in_and_out(xml.attribute("in").toInt(), xml.attribute("out").toInt());
 
     char *tmp = decodedString(clipId);
