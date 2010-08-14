@@ -839,7 +839,7 @@ QStringList Monitor::getZoneInfo() const
 
 void Monitor::slotEffectScene(bool show)
 {
-    if (m_name == "project" && !m_delStage) {
+    if (m_name == "project" && !m_delStage && m_monitorRefresh) {
         m_monitorRefresh->setVisible(!show);
         m_effectView->setVisible(show);
         if (show)
