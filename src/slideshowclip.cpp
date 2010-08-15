@@ -61,7 +61,7 @@ SlideshowClip::SlideshowClip(Timecode tc, QWidget * parent) :
 
     m_view.clip_duration->setInputMask("");
     m_view.clip_duration->setValidator(m_timecode.validator());
-    m_view.clip_duration->setText(m_timecode.reformatSeparators(KdenliveSettings::image_duration()));
+    m_view.clip_duration->setText(m_timecode.reformatSeparators(KdenliveSettings::sequence_duration()));
     m_view.luma_duration->setInputMask("");
     m_view.luma_duration->setValidator(m_timecode.validator());
     m_view.luma_duration->setText(m_timecode.getTimecodeFromFrames(int(ceil(m_timecode.fps()))));
@@ -147,6 +147,33 @@ void SlideshowClip::slotEnableLumaFile(int state)
     m_view.luma_file->setEnabled(enable);
     m_view.luma_softness->setEnabled(enable);
     m_view.label_softness->setEnabled(enable);
+}
+
+// static
+int SlideshowClip::sequenceCount(KUrl file)
+{
+    // find pattern
+    QString filter = file.fileName();
+    QString ext = filter.section('.', -1);
+    filter = filter.section('.', 0, -2);
+    bool hasDigit = false;
+    while (filter.at(filter.size() - 1).isDigit()) {
+        hasDigit = true;
+        filter.remove(filter.size() - 1, 1);
+    }
+    if (!hasDigit) return 0;
+
+    QString regexp = "^" + filter + "\\d+\\." + ext + "$";
+    QRegExp rx(regexp);
+
+    QDir dir(file.directory());
+    QStringList result = dir.entryList(QDir::Files);
+
+    int count = 0;
+    foreach(const QString &path, result) {
+        if (rx.exactMatch(path)) count ++;
+    }
+    return count;
 }
 
 void SlideshowClip::parseFolder()
@@ -257,7 +284,7 @@ QString SlideshowClip::selectedPath() const
         filter = filter.section('.', 0, -2);
 
         while (filter.at(filter.size() - 1).isDigit()) {
-            filter.remove(filter.size() - 1, 1);
+            filter.chop(1);
         }
         extension = filter + "%d." + ext;
     }

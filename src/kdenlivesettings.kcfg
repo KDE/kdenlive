@@ -34,7 +34,17 @@
       <label>Default image clip duration.</label>
       <default>00:00:05:00</default>
     </entry>
-    
+
+    <entry name="sequence_duration" type="String">
+      <label>Default image sequence frame duration.</label>
+      <default>00:00:00:01</default>
+    </entry>
+
+    <entry name="autoimagesequence" type="Bool">
+      <label>Automatically import image sequences.</label>
+      <default>true</default>
+    </entry>
+
     <entry name="title_duration" type="String">
       <label>Default title clip duration.</label>
       <default>00:00:05:00</default>

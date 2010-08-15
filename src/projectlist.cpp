@@ -1077,8 +1077,41 @@ void ProjectList::slotAddClip(const QList <QUrl> givenList, const QString &group
     if (givenList.isEmpty()) {
         QString allExtensions = getExtensions();
         const QString dialogFilter = allExtensions + ' ' + QLatin1Char('|') + i18n("All Supported Files") + "\n* " + QLatin1Char('|') + i18n("All Files");
-        list = KFileDialog::getOpenUrls(KUrl("kfiledialog:///clipfolder"), dialogFilter, this);
+        QCheckBox *b = new QCheckBox(i18n("Import image sequence"));
+        b->setChecked(KdenliveSettings::autoimagesequence());
+        KFileDialog *d = new KFileDialog(KUrl("kfiledialog:///clipfolder"), dialogFilter, this, b);
+        d->setOperationMode(KFileDialog::Opening);
+        d->setMode(KFile::Files);
+        d->exec();
+        list = d->selectedUrls();
+        if (b->isChecked() && list.count() == 1) {
+            // Check for image sequence
+            KUrl url = list.at(0);
+            QString fileName = url.fileName().section('.', 0, -2);
+            if (fileName.at(fileName.size() - 1).isDigit()) {
+                KFileItem item(KFileItem::Unknown, KFileItem::Unknown, url);
+                if (item.mimetype().startsWith("image")) {
+                    int count = SlideshowClip::sequenceCount(url);
+                    // import as sequence if we found at least 5 images in the sequence
+                    if (count > 4) {
+                        delete d;
+                        QStringList groupInfo = getGroup();
 
+                        // get image sequence base name
+                        while (fileName.at(fileName.size() - 1).isDigit()) {
+                            fileName.chop(1);
+                        }
+                        QString folder = url.directory(KUrl::AppendTrailingSlash);
+                        QString ext = url.path().section('.', -1);
+                        folder.append(fileName + "%d." + ext);
+
+                        m_doc->slotCreateSlideshowClipFile(fileName, folder, count, m_timecode.reformatSeparators(KdenliveSettings::sequence_duration()), false, false, m_timecode.getTimecodeFromFrames(int(ceil(m_timecode.fps()))), QString(), 0, groupInfo.at(0), groupInfo.at(1));
+                        return;
+                    }
+                }
+            }
+        }
+        delete d;
     } else {
         for (int i = 0; i < givenList.count(); i++)
             list << givenList.at(i);

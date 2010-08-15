@@ -47,6 +47,9 @@ public:
     QString lumaFile() const;
     int softness() const;
 
+    /** @brief Check if there are several files with filename pattern, like: image_001.jpg, image_002.jpg,... */
+    static int sequenceCount(KUrl file);
+
 private slots:
     void parseFolder();
     void slotEnableLuma(int state);

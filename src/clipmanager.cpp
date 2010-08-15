@@ -316,7 +316,7 @@ void ClipManager::slotAddClipList(const KUrl::List urls, const QString group, co
                     if (out > 0)
                         prod.setAttribute("out", out);
                     else
-                        prod.setAttribute("out", m_doc->getFramePos(KdenliveSettings::image_duration()) - 1);
+                        prod.setAttribute("out", m_doc->getFramePos(KdenliveSettings::title_duration()) - 1);
                 } else
                     txtfile.close();
             }
