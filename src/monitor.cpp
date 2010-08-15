@@ -55,8 +55,7 @@ Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget
         m_isActive(false),
         m_scale(1),
         m_length(0),
-        m_dragStarted(false),
-        m_delStage(false)
+        m_dragStarted(false)
 {
     m_ui.setupUi(this);
     QVBoxLayout *layout = new QVBoxLayout;
@@ -180,7 +179,6 @@ Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget
 
 Monitor::~Monitor()
 {
-    m_delStage = true;
     delete m_ruler;
     delete m_timePos;
     delete m_overlay;
@@ -839,7 +837,7 @@ QStringList Monitor::getZoneInfo() const
 
 void Monitor::slotEffectScene(bool show)
 {
-    if (m_name == "project" && !m_delStage) {
+    if (m_name == "project") {
 #ifdef Q_WS_MAC
         m_glWidget->setVisible(!show);
 #else

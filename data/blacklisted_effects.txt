@@ -8,6 +8,7 @@ frei0r.bw0r
 frei0r.flippo
 frei0r.invert0r
 frei0r.twolay0r
+frei0r.bluescreen0r
 
 # effects with XML UI
 frei0r.squareblur
