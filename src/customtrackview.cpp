@@ -1872,10 +1872,7 @@ ClipItem *CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut, boo
             m_blockRefresh = false;
             return NULL;
         }
-        if (item->parentItem()) {
-            // Item is part of a group, reset group
-            resetSelectionGroup();
-        }
+
         kDebug() << "/////////  CUTTING CLIP : (" << item->startPos().frames(25) << "-" << item->endPos().frames(25) << "), INFO: (" << info.startPos.frames(25) << "-" << info.endPos.frames(25) << ")" << ", CUT: " << cutTime.frames(25);
 
         if (execute) m_document->renderer()->mltCutClip(m_document->tracksCount() - info.track, cutTime);
@@ -3597,22 +3594,49 @@ void CustomTrackView::cutSelectedClips()
 {
     QList<QGraphicsItem *> itemList = scene()->selectedItems();
     GenTime currentPos = GenTime(m_cursorPos, m_document->fps());
-    QList <QGraphicsItem *> skipList;
     for (int i = 0; i < itemList.count(); ++i) {
-        if (skipList.indexOf(itemList.at(i)) != -1)
+        if (!itemList.at(i))
             continue;
         if (itemList.at(i)->type() == AVWIDGET) {
             ClipItem *item = static_cast <ClipItem *>(itemList.at(i));
             if (item->parentItem() && item->parentItem() != m_selectionGroup) {
-                skipList.append(item->parentItem()->childItems());
+                // remove all group children from itemList so we do not attempt to cut them twice
+                QList <QGraphicsItem *> children = item->parentItem()->childItems();
+                QList <int> toRemove;
+                for (int j = 0; j < children.count(); ++j) {
+                    for (int k = 0; k < itemList.count(); ++k) {
+                        if (children.at(j)->pos() == itemList.at(k)->pos()
+                            && children.at(j)->boundingRect() == itemList.at(k)->boundingRect()) {
+                            toRemove.append(k);
+                        }
+                    }
+                }
+                for (int j = 0; j < toRemove.count(); ++j)
+                    itemList.removeAt(toRemove.at(j));
+
                 razorGroup((AbstractGroupItem *)item->parentItem(), currentPos);
             } else if (currentPos > item->startPos() && currentPos < item->endPos()) {
                 RazorClipCommand *command = new RazorClipCommand(this, item->info(), currentPos);
                 m_commandStack->push(command);
             }
         } else if (itemList.at(i)->type() == GROUPWIDGET && itemList.at(i) != m_selectionGroup) {
-            skipList.append(itemList.at(i)->childItems());
-            razorGroup((AbstractGroupItem *)itemList.at(i), currentPos);
+            // remove all group children from itemList so we do not attempt to cut them twice
+            AbstractGroupItem *group = static_cast<AbstractGroupItem *>(itemList.at(i));
+
+            QList <QGraphicsItem *> children = itemList.at(i)->childItems();
+            QList <int> toRemove;
+            for (int j = 0; j < children.count(); ++j) {
+                for (int k = 0; k < itemList.count(); ++k) {
+                    if (children.at(j)->pos() == itemList.at(k)->pos()
+                        && children.at(j)->boundingRect() == itemList.at(k)->boundingRect()) {
+                        toRemove.append(k);
+                    }
+                }
+            }
+            for (int j = 0; j < toRemove.count(); ++j)
+                itemList.removeAt(toRemove.at(j));
+
+            razorGroup(group, currentPos);
         }
     }
 }
