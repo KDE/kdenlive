@@ -1,0 +1,47 @@
+<!DOCTYPE kpartgui>
+<effect tag="frei0r.select0r" id="frei0r.select0r">
+        <name>Select0r</name>
+        <description>Color based alpha selection</description>
+        <author>Marko Cebokli</author>
+        
+        <parameter type="color" name="Color to select" default="0x00FF00">
+                <name>Color to select</name>
+        </parameter>
+        
+        <parameter type="bool" name="Invert selection" default="0">
+                <name>Invert selection</name>
+        </parameter>    
+        
+        <parameter type="constant" name="Delta R / A / Hue" default="200" min="0" max="1000" factor="1000">
+                <name>Delta R / A / Hue</name>
+        </parameter>
+        
+        <parameter type="constant" name="Delta G / B / Chroma" default="200" min="0" max="1000" factor="1000">
+                <name>Delta G / B / Chroma</name>
+        </parameter>
+        
+        <parameter type="constant" name="Delta B / I / I" default="200" min="0" max="1000" factor="1000">
+                <name>Delta B / I / I</name>
+        </parameter>
+        
+        <parameter type="list" name="Selection subspace" default="0.0" paramlist="0.0,0.5,1.0"
+                   paramlistdisplay="RGB,ABI,HCI">
+                <name>Selection subspace</name>
+        </parameter>
+        
+        <parameter type="list" name="Subspace shape" default="0.0" paramlist="0.0,0.5,1.0"
+                   paramlistdisplay="Box,Ellipsoid,Diamond">
+                <name>Subspace shape</name>
+        </parameter>
+        
+        <parameter type="list" name="Edge mode" default="0.0" paramlist="0.0,0.35,0.60,1.0"
+                   paramlistdisplay="Hard,Fat,Normal,Skiny">
+                <name>Edge mode</name>
+        </parameter>
+        
+        <parameter type="list" name="Operation" default="0.0" paramlist="0.0,0.3,0.5,0.7,1.0"
+                   paramlistdisplay="Write on clear, Max, Min, Add, Subtract">
+                <name>Operation</name>
+        </parameter>
+        
+</effect>

@@ -65,6 +65,7 @@ frei0r_pr0be.xml
 frei0r_pr0file.xml
 frei0r_saturat0r.xml
 frei0r_scale0tilt.xml
+frei0r_select0r.xml
 frei0r_sopsat.xml
 frei0r_squareblur.xml
 frei0r_three_point_balance.xml
