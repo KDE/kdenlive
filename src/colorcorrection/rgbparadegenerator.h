@@ -19,8 +19,11 @@ class QSize;
 class RGBParadeGenerator : public QObject
 {
 public:
+    enum PaintMode { PaintMode_RGB, PaintMode_RGB2 };
+
     RGBParadeGenerator();
-    QImage calculateRGBParade(const QSize &paradeSize, const QImage &image, const bool &drawAxis, const uint &accelFactor = 1);
+    QImage calculateRGBParade(const QSize &paradeSize, const QImage &image, const RGBParadeGenerator::PaintMode paintMode,
+                              const bool &drawAxis, const uint &accelFactor = 1);
 
     static const QColor colHighlight;
     static const QColor colLight;

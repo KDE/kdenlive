@@ -28,6 +28,8 @@ public:
     QString widgetName() const;
 
 protected:
+    virtual void readConfig();
+    void writeConfig();
     QRect scopeRect();
 
 private:

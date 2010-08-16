@@ -11,7 +11,6 @@
 #include "rgbparadegenerator.h"
 
 #include <QColor>
-#include <QDebug>
 #include <QPainter>
 #include <QPoint>
 #include <QTime>
@@ -26,7 +25,8 @@ RGBParadeGenerator::RGBParadeGenerator()
 {
 }
 
-QImage RGBParadeGenerator::calculateRGBParade(const QSize &paradeSize, const QImage &image, const bool &drawAxis, const uint &accelFactor)
+QImage RGBParadeGenerator::calculateRGBParade(const QSize &paradeSize, const QImage &image,
+                                              const RGBParadeGenerator::PaintMode paintMode, const bool &drawAxis, const uint &accelFactor)
 {
     Q_ASSERT(accelFactor >= 1);
 
@@ -64,9 +64,12 @@ QImage RGBParadeGenerator::calculateRGBParade(const QSize &paradeSize, const QIm
         const int vm = weaken*18;
         const int vl = weaken*9;
 
+        // Divide by 3 because of the 3 components
+        const float brightnessAdjustment = accelFactor * ((float) ww*wh/(byteCount>>3)) / 3;
+
         uchar minR = 255, minG = 255, minB = 255, maxR = 0, maxG = 0, maxB = 0, r, g, b;
-        qDebug() << "Expecting about " << avgPxPerPx << " pixels per pixel in the RGB parade. Weakening by " << weaken
-                << " with an acceleration factor of " << accelFactor;
+//        qDebug() << "Expecting about " << avgPxPerPx << " pixels per pixel in the RGB parade. Weakening by " << weaken
+//                << " with an acceleration factor of " << accelFactor;
 
 
         QImage unscaled(ww-right, 256, QImage::Format_ARGB32);
@@ -88,18 +91,39 @@ QImage RGBParadeGenerator::calculateRGBParade(const QSize &paradeSize, const QIm
 
             paradePoint = QPoint((int)dx, r);
             paradeCol = QRgb(unscaled.pixel(paradePoint));
-            unscaled.setPixel(paradePoint, qRgba(CHOP255(vh + qRed(paradeCol)), CHOP255(vm + qGreen(paradeCol)),
-                                           CHOP255(vl + qBlue(paradeCol)), 255));
+            switch(paintMode) {
+            case PaintMode_RGB2:
+                unscaled.setPixel(paradePoint, qRgba(CHOP255(vh + qRed(paradeCol)), CHOP255(vm + qGreen(paradeCol)),
+                                                     CHOP255(vl + qBlue(paradeCol)), 255));
+                break;
+            default:
+                unscaled.setPixel(paradePoint, qRgba(255,0,0, CHOP255(brightnessAdjustment*16 + qAlpha(paradeCol))));
+                break;
+            }
 
             paradePoint = QPoint((int) (dx + partW + offset), g);
             paradeCol = QRgb(unscaled.pixel(paradePoint));
-            unscaled.setPixel(paradePoint, qRgba(CHOP255(vl + qRed(paradeCol)), CHOP255(vh + qGreen(paradeCol)),
-                                           CHOP255(vm + qBlue(paradeCol)), 255));
+            switch(paintMode) {
+            case PaintMode_RGB2:
+                unscaled.setPixel(paradePoint, qRgba(CHOP255(vl + qRed(paradeCol)), CHOP255(vh + qGreen(paradeCol)),
+                                               CHOP255(vm + qBlue(paradeCol)), 255));
+                break;
+            default:
+                unscaled.setPixel(paradePoint, qRgba(0,255,0, CHOP255(brightnessAdjustment*16 + qAlpha(paradeCol))));
+                break;
+            }
 
             paradePoint = QPoint((int) (dx + 2*partW + 2*offset), b);
             paradeCol = QRgb(unscaled.pixel(paradePoint));
-            unscaled.setPixel(paradePoint, qRgba(CHOP255(vm + qRed(paradeCol)), CHOP255(vl + qGreen(paradeCol)),
-                                           CHOP255(vh + qBlue(paradeCol)), 255));
+            switch(paintMode) {
+            case PaintMode_RGB2:
+                unscaled.setPixel(paradePoint, qRgba(CHOP255(vm + qRed(paradeCol)), CHOP255(vl + qGreen(paradeCol)),
+                                               CHOP255(vh + qBlue(paradeCol)), 255));
+                break;
+            default:
+                unscaled.setPixel(paradePoint, qRgba(0,0,255, CHOP255(brightnessAdjustment*16 + qAlpha(paradeCol))));
+                break;
+            }
 
 
             if (r < minR) { minR = r; }
