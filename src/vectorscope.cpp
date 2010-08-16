@@ -125,6 +125,8 @@ void Vectorscope::readConfig()
     KConfigGroup scopeConfig(config, configName());
     m_a75PBox->setChecked(scopeConfig.readEntry("75PBox", false));
     m_aAxisEnabled->setChecked(scopeConfig.readEntry("axis", false));
+    ui->backgroundMode->setCurrentIndex(scopeConfig.readEntry("backgroundmode").toInt());
+    ui->paintMode->setCurrentIndex(scopeConfig.readEntry("paintmode").toInt());
 }
 
 void Vectorscope::writeConfig()
@@ -133,6 +135,8 @@ void Vectorscope::writeConfig()
     KConfigGroup scopeConfig(config, configName());
     scopeConfig.writeEntry("75PBox", m_a75PBox->isChecked());
     scopeConfig.writeEntry("axis", m_aAxisEnabled->isChecked());
+    scopeConfig.writeEntry("backgroundmode", ui->backgroundMode->currentIndex());
+    scopeConfig.writeEntry("paintMode", ui->paintMode->currentIndex());
     scopeConfig.sync();
 }
 
@@ -195,7 +199,11 @@ QImage Vectorscope::renderHUD(uint)
             davinci.setPen(penLight);
             break;
         default:
-            davinci.setPen(penDark);
+            if (r > cw/2) {
+                davinci.setPen(penLight);
+            } else {
+                davinci.setPen(penDark);
+            }
             break;
         }
         davinci.drawEllipse(m_centerPoint, (int)r, (int)r);
