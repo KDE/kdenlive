@@ -48,7 +48,7 @@ public slots:
     void slotSetDirectUpdate(bool directUpdate);
 
 private slots:
-    void slotSetBackgroundImage(QImage image);
+    void slotSetBackgroundImage(const QImage &image);
 
 private:
     resizeModes getResizeMode(QGraphicsRectItem *item, QPoint pos);

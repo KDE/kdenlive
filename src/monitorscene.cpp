@@ -112,7 +112,7 @@ bool MonitorScene::getDirectUpdate()
     return m_directUpdate;
 }
 
-void MonitorScene::slotSetBackgroundImage(QImage image)
+void MonitorScene::slotSetBackgroundImage(const QImage &image)
 {
     m_backgroundImage = image;
     slotUpdateBackground();

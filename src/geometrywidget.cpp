@@ -372,9 +372,9 @@ void GeometryWidget::slotUpdateProperties()
     QPointF rectPos = m_rect->pos();
     int size;
     if (rectSize.width() / m_monitor->render->dar() < rectSize.height())
-        size = (int)(rectSize.width() * 100 / m_monitor->render->renderWidth());
+        size = (int)((rectSize.width() * 100.0 / m_monitor->render->renderWidth()) + 0.5);
     else
-        size = (int)(rectSize.height() * 100 / m_monitor->render->renderHeight());
+        size = (int)((rectSize.height() * 100.0 / m_monitor->render->renderHeight()) + 0.5);
 
     m_ui.spinX->blockSignals(true);
     m_ui.spinY->blockSignals(true);
@@ -423,7 +423,9 @@ void GeometryWidget::slotSetHeight(int value)
 
 void GeometryWidget::slotResize(int value)
 {
-    m_rect->setRect(0, 0, m_monitor->render->renderWidth() * value / 100, m_monitor->render->renderHeight() * value / 100);
+    m_rect->setRect(0, 0,
+                    (int)((m_monitor->render->renderWidth() * value / 100.0) + 0.5),
+                    (int)((m_monitor->render->renderHeight() * value / 100.0) + 0.5));
     slotUpdateGeometry();
 }
 
