@@ -1,0 +1,6 @@
+<!DOCTYPE kpartgui>
+ <effect tag="channelswap" id="swapchannels" type="audio">
+         <name>Swap channels</name>
+         <description>Move the left channel to the right and right-to-left</description>
+         <author>Dan Dennedy</author>
+ </effect>

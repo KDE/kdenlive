@@ -77,5 +77,6 @@ fade_from_black.xml
 fade_to_black.xml
 speed.xml
 vignette.xml
+swapchannels.xml
 
 DESTINATION ${DATA_INSTALL_DIR}/kdenlive/effects)

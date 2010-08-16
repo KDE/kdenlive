@@ -1,6 +1,12 @@
 <!DOCTYPE kpartgui>
  <effect tag="channelcopy" id="channelcopy" type="audio">
          <name>Mono to stereo</name>
-         <description>Copy the left channel to the right</description>
+         <description>Copy one channel to another</description>
          <author>Dan Dennedy</author>
+         <parameter type="list" name="from" default="0" paramlist="0,1" paramlistdisplay="Left,Right">
+                 <name>From</name>
+         </parameter>
+         <parameter type="list" name="to" default="1" paramlist="0,1" paramlistdisplay="Left,Right">
+                 <name>To</name>
+         </parameter>
  </effect>
