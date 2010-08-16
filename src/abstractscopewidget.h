@@ -162,13 +162,13 @@ protected:
 
     void mouseReleaseEvent(QMouseEvent *);
     void paintEvent(QPaintEvent *);
-    void raise();
     void resizeEvent(QResizeEvent *);
-    void showEvent(QShowEvent *);
+    void showEvent(QShowEvent *); // Called when the widget is activated via the Menu entry
+    //    void raise(); // Called only when  manually calling the event -> useless
 
 protected slots:
     /** Forces an update of all layers. */
-    void forceUpdate();
+    void forceUpdate(bool doUpdate = true);
     void forceUpdateHUD();
     void forceUpdateScope();
     void forceUpdateBackground();

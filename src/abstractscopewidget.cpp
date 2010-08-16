@@ -16,7 +16,6 @@
 
 #include <QFuture>
 #include <QColor>
-#include <QDebug>
 #include <QMenu>
 #include <QPainter>
 
@@ -116,7 +115,7 @@ QString AbstractScopeWidget::configName() { return "Scope_" + m_widgetName; }
 void AbstractScopeWidget::prodHUDThread()
 {
     if (this->visibleRegion().isEmpty()) {
-        qDebug() << "Scope " << m_widgetName << " is not visible. Not calculating HUD.";
+//        qDebug() << "Scope " << m_widgetName << " is not visible. Not calculating HUD.";
     } else {
         if (m_semaphoreHUD.tryAcquire(1)) {
             Q_ASSERT(!m_threadHUD.isRunning());
@@ -124,10 +123,10 @@ void AbstractScopeWidget::prodHUDThread()
             m_newHUDFrames.fetchAndStoreRelaxed(0);
             m_newHUDUpdates.fetchAndStoreRelaxed(0);
             m_threadHUD = QtConcurrent::run(this, &AbstractScopeWidget::renderHUD, m_accelFactorHUD);
-            qDebug() << "HUD thread started in " << m_widgetName;
+//            qDebug() << "HUD thread started in " << m_widgetName;
 
         } else {
-            qDebug() << "HUD semaphore locked, not prodding in " << m_widgetName << ". Thread running: " << m_threadHUD.isRunning();
+//            qDebug() << "HUD semaphore locked, not prodding in " << m_widgetName << ". Thread running: " << m_threadHUD.isRunning();
         }
     }
 }
@@ -137,7 +136,7 @@ void AbstractScopeWidget::prodScopeThread()
     // Only start a new thread if the scope is actually visible
     // and not hidden by another widget on the stack.
     if (this->visibleRegion().isEmpty()) {
-        qDebug() << "Scope " << m_widgetName << " is not visible. Not calculating scope.";
+//        qDebug() << "Scope " << m_widgetName << " is not visible. Not calculating scope.";
     } else {
         // Try to acquire the semaphore. This must only succeed if m_threadScope is not running
         // anymore. Therefore the semaphore must NOT be released before m_threadScope ends.
@@ -154,17 +153,17 @@ void AbstractScopeWidget::prodScopeThread()
             // running member functions in a thread
             m_threadScope = QtConcurrent::run(this, &AbstractScopeWidget::renderScope, m_accelFactorScope, m_scopeImage);
 
-            qDebug() << "Scope thread started in " << m_widgetName;
+//            qDebug() << "Scope thread started in " << m_widgetName;
 
         } else {
-            qDebug() << "Scope semaphore locked, not prodding in " << m_widgetName << ". Thread running: " << m_threadScope.isRunning();
+//            qDebug() << "Scope semaphore locked, not prodding in " << m_widgetName << ". Thread running: " << m_threadScope.isRunning();
         }
     }
 }
 void AbstractScopeWidget::prodBackgroundThread()
 {
     if (this->visibleRegion().isEmpty()) {
-        qDebug() << "Scope " << m_widgetName << " is not visible. Not calculating background.";
+//        qDebug() << "Scope " << m_widgetName << " is not visible. Not calculating background.";
     } else {
         if (m_semaphoreBackground.tryAcquire(1)) {
             Q_ASSERT(!m_threadBackground.isRunning());
@@ -172,16 +171,18 @@ void AbstractScopeWidget::prodBackgroundThread()
             m_newBackgroundFrames.fetchAndStoreRelaxed(0);
             m_newBackgroundUpdates.fetchAndStoreRelaxed(0);
             m_threadBackground = QtConcurrent::run(this, &AbstractScopeWidget::renderBackground, m_accelFactorBackground);
-            qDebug() << "Background thread started in " << m_widgetName;
+//            qDebug() << "Background thread started in " << m_widgetName;
 
         } else {
-            qDebug() << "Background semaphore locked, not prodding in " << m_widgetName << ". Thread running: " << m_threadBackground.isRunning();
+//            qDebug() << "Background semaphore locked, not prodding in " << m_widgetName << ". Thread running: " << m_threadBackground.isRunning();
         }
     }
 }
 
-void AbstractScopeWidget::forceUpdate()
+void AbstractScopeWidget::forceUpdate(bool doUpdate)
 {
+//    qDebug() << "Force update called in " << widgetName() << ". Arg: " << doUpdate;
+    if (!doUpdate) { return; }
     m_newHUDUpdates.fetchAndAddRelaxed(1);
     m_newScopeUpdates.fetchAndAddRelaxed(1);
     m_newBackgroundUpdates.fetchAndAddRelaxed(1);
@@ -229,17 +230,8 @@ void AbstractScopeWidget::resizeEvent(QResizeEvent *event)
     QWidget::resizeEvent(event);
 }
 
-void AbstractScopeWidget::raise()
-{
-    // Widget has been brought to the top of a widget stack,
-    // layers need to be updated.
-    QWidget::raise();
-    forceUpdate();
-}
-
 void AbstractScopeWidget::showEvent(QShowEvent *event)
 {
-    m_scopeRect = scopeRect();
     QWidget::showEvent(event);
     m_scopeRect = scopeRect();
 }
@@ -266,7 +258,7 @@ uint AbstractScopeWidget::calculateAccelFactorBackground(uint oldMseconds, uint)
 
 void AbstractScopeWidget::slotHUDRenderingFinished(uint mseconds, uint oldFactor)
 {
-    qDebug() << "HUD rendering has finished, waiting for termination in " << m_widgetName;
+//    qDebug() << "HUD rendering has finished, waiting for termination in " << m_widgetName;
     m_threadHUD.waitForFinished();
     m_imgHUD = m_threadHUD.result();
 
@@ -283,8 +275,8 @@ void AbstractScopeWidget::slotHUDRenderingFinished(uint mseconds, uint oldFactor
     }
 
     if ( (m_newHUDFrames > 0 && m_aAutoRefresh->isChecked()) || m_newHUDUpdates > 0) {
-        qDebug() << "Trying to start a new HUD thread for " << m_widgetName
-                << ". New frames/updates: " << m_newHUDFrames << "/" << m_newHUDUpdates;
+//        qDebug() << "Trying to start a new HUD thread for " << m_widgetName
+//                << ". New frames/updates: " << m_newHUDFrames << "/" << m_newHUDUpdates;
         prodHUDThread();;
     }
 }
@@ -293,7 +285,7 @@ void AbstractScopeWidget::slotScopeRenderingFinished(uint mseconds, uint oldFact
 {
     // The signal can be received before the thread has really finished. So we
     // need to wait until it has really finished before starting a new thread.
-    qDebug() << "Scope rendering has finished, waiting for termination in " << m_widgetName;
+//    qDebug() << "Scope rendering has finished, waiting for termination in " << m_widgetName;
     m_threadScope.waitForFinished();
     m_imgScope = m_threadScope.result();
 
@@ -317,15 +309,15 @@ void AbstractScopeWidget::slotScopeRenderingFinished(uint mseconds, uint oldFact
     }
 
     if ( (m_newScopeFrames > 0 && m_aAutoRefresh->isChecked()) || m_newScopeUpdates > 0) {
-        qDebug() << "Trying to start a new scope thread for " << m_widgetName
-                << ". New frames/updates: " << m_newScopeFrames << "/" << m_newScopeUpdates;
+//        qDebug() << "Trying to start a new scope thread for " << m_widgetName
+//                << ". New frames/updates: " << m_newScopeFrames << "/" << m_newScopeUpdates;
         prodScopeThread();
     }
 }
 
 void AbstractScopeWidget::slotBackgroundRenderingFinished(uint mseconds, uint oldFactor)
 {
-    qDebug() << "Background rendering has finished, waiting for termination in " << m_widgetName;
+//    qDebug() << "Background rendering has finished, waiting for termination in " << m_widgetName;
     m_threadBackground.waitForFinished();
     m_imgBackground = m_threadBackground.result();
 
@@ -342,15 +334,15 @@ void AbstractScopeWidget::slotBackgroundRenderingFinished(uint mseconds, uint ol
     }
 
     if ( (m_newBackgroundFrames > 0 && m_aAutoRefresh->isChecked()) || m_newBackgroundUpdates > 0) {
-        qDebug() << "Trying to start a new background thread for " << m_widgetName
-                << ". New frames/updates: " << m_newBackgroundFrames << "/" << m_newBackgroundUpdates;
+//        qDebug() << "Trying to start a new background thread for " << m_widgetName
+//                << ". New frames/updates: " << m_newBackgroundFrames << "/" << m_newBackgroundUpdates;
         prodBackgroundThread();;
     }
 }
 
 void AbstractScopeWidget::slotActiveMonitorChanged(bool isClipMonitor)
 {
-    qDebug() << "Active monitor has changed in " << m_widgetName << ". Is the clip monitor active now? " << isClipMonitor;
+//    qDebug() << "Active monitor has changed in " << m_widgetName << ". Is the clip monitor active now? " << isClipMonitor;
 
     bool b = m_activeRender->disconnect(this);
     Q_ASSERT(b);
@@ -373,11 +365,11 @@ void AbstractScopeWidget::slotRenderZoneUpdated()
     m_newScopeFrames.fetchAndAddRelaxed(1);
     m_newBackgroundFrames.fetchAndAddRelaxed(1);
 
-    qDebug() << "Monitor incoming. New frames total HUD/Scope/Background: " << m_newHUDFrames
-            << "/" << m_newScopeFrames << "/" << m_newBackgroundFrames;
+//    qDebug() << "Monitor incoming. New frames total HUD/Scope/Background: " << m_newHUDFrames
+//            << "/" << m_newScopeFrames << "/" << m_newBackgroundFrames;
 
     if (this->visibleRegion().isEmpty()) {
-        qDebug() << "Scope of widget " << m_widgetName << " is not at the top, not rendering.";
+//        qDebug() << "Scope of widget " << m_widgetName << " is not at the top, not rendering.";
     } else {
         if (m_aAutoRefresh->isChecked()) {
             prodHUDThread();
