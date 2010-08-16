@@ -19,7 +19,6 @@ Histogram::Histogram(Monitor *projMonitor, Monitor *clipMonitor, QWidget *parent
 {
     ui = new Ui::Histogram_UI();
     ui->setupUi(this);
-    init();
 
     ui->cbY->setChecked(true);
     ui->cbR->setChecked(true);
@@ -40,12 +39,38 @@ Histogram::Histogram(Monitor *projMonitor, Monitor *clipMonitor, QWidget *parent
     b &= connect(m_aUnscaled, SIGNAL(toggled(bool)), this, SLOT(forceUpdateScope()));
     Q_ASSERT(b);
 
+    init();
 }
 
 Histogram::~Histogram()
 {
+    writeConfig();
+
     delete ui;
     delete m_aUnscaled;
+}
+
+void Histogram::readConfig()
+{
+    AbstractScopeWidget::readConfig();
+
+    KSharedConfigPtr config = KGlobal::config();
+    KConfigGroup scopeConfig(config, configName());
+    ui->cbY->setChecked(scopeConfig.readEntry("yEnabled", true));
+    ui->cbR->setChecked(scopeConfig.readEntry("rEnabled", true));
+    ui->cbG->setChecked(scopeConfig.readEntry("gEnabled", true));
+    ui->cbB->setChecked(scopeConfig.readEntry("bEnabled", true));
+}
+
+void Histogram::writeConfig()
+{
+    KSharedConfigPtr config = KGlobal::config();
+    KConfigGroup scopeConfig(config, configName());
+    scopeConfig.writeEntry("yEnabled", ui->cbY->isChecked());
+    scopeConfig.writeEntry("rEnabled", ui->cbR->isChecked());
+    scopeConfig.writeEntry("gEnabled", ui->cbG->isChecked());
+    scopeConfig.writeEntry("bEnabled", ui->cbB->isChecked());
+    scopeConfig.sync();
 }
 
 QString Histogram::widgetName() const { return QString("Histogram"); }

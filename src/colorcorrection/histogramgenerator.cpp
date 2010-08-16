@@ -10,7 +10,6 @@
 
 #include <algorithm>
 #include <math.h>
-#include <QDebug>
 #include <QImage>
 #include <QPainter>
 #include "histogramgenerator.h"
@@ -22,7 +21,7 @@ HistogramGenerator::HistogramGenerator()
 QImage HistogramGenerator::calculateHistogram(const QSize &paradeSize, const QImage &image, const int &components,
                                         const bool &unscaled, const uint &accelFactor) const
 {
-    qDebug() << "Histogram rect size is: " << paradeSize.width() << "/" << paradeSize.height();
+//    qDebug() << "Histogram rect size is: " << paradeSize.width() << "/" << paradeSize.height();
     if (paradeSize.height() <= 0 || paradeSize.width() <= 0 || image.width() <= 0 || image.height() <= 0) {
         return QImage();
     }
@@ -82,27 +81,27 @@ QImage HistogramGenerator::calculateHistogram(const QSize &paradeSize, const QIm
     histogram.fill(qRgba(0, 0, 0, 0));
 
     if (drawY) {
-        qDebug() << "Drawing Y at " << wy << " with height " << partH;
+//        qDebug() << "Drawing Y at " << wy << " with height " << partH;
         drawComponentFull(&davinci, y, scaling, QRect(0, wy, ww, partH + dist), QColor(220, 220, 210, 255), dist, unscaled);
 
         wy += partH + d;
     }
 
     if (drawR) {
-        qDebug() << "Drawing R at " << wy << " with height " << partH;
+//        qDebug() << "Drawing R at " << wy << " with height " << partH;
         drawComponentFull(&davinci, r, scaling, QRect(0, wy, ww, partH + dist), QColor(255, 128, 0, 255), dist, unscaled);
 
         wy += partH + d;
     }
 
     if (drawG) {
-        qDebug() << "Drawing G at " << wy << " with height " << partH;
+//        qDebug() << "Drawing G at " << wy << " with height " << partH;
         drawComponentFull(&davinci, g, scaling, QRect(0, wy, ww, partH + dist), QColor(128, 255, 0, 255), dist, unscaled);
         wy += partH + d;
     }
 
     if (drawB) {
-        qDebug() << "Drawing B at " << wy << " with height " << partH;
+//        qDebug() << "Drawing B at " << wy << " with height " << partH;
         drawComponentFull(&davinci, b, scaling, QRect(0, wy, ww, partH + dist), QColor(0, 128, 255, 255), dist, unscaled);
 
         wy += partH + d;

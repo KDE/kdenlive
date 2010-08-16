@@ -24,6 +24,9 @@ public:
     ~Histogram();
     QString widgetName() const;
 
+protected:
+    virtual void readConfig();
+    void writeConfig();
 
 private:
     HistogramGenerator *m_histogramGenerator;
