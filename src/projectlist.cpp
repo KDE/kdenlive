@@ -1091,9 +1091,10 @@ void ProjectList::slotAddClip(const QList <QUrl> givenList, const QString &group
             if (fileName.at(fileName.size() - 1).isDigit()) {
                 KFileItem item(KFileItem::Unknown, KFileItem::Unknown, url);
                 if (item.mimetype().startsWith("image")) {
-                    int count = SlideshowClip::sequenceCount(url);
+                    int count = 0;
                     // import as sequence if we found at least 5 images in the sequence
-                    if (count > 4) {
+                    QString pattern = SlideshowClip::selectedPath(url.path(), false, QString(), &count);
+                    if (count > 1) {
                         delete d;
                         QStringList groupInfo = getGroup();
 
@@ -1101,11 +1102,8 @@ void ProjectList::slotAddClip(const QList <QUrl> givenList, const QString &group
                         while (fileName.at(fileName.size() - 1).isDigit()) {
                             fileName.chop(1);
                         }
-                        QString folder = url.directory(KUrl::AppendTrailingSlash);
-                        QString ext = url.path().section('.', -1);
-                        folder.append(fileName + "%d." + ext);
 
-                        m_doc->slotCreateSlideshowClipFile(fileName, folder, count, m_timecode.reformatSeparators(KdenliveSettings::sequence_duration()), false, false, m_timecode.getTimecodeFromFrames(int(ceil(m_timecode.fps()))), QString(), 0, groupInfo.at(0), groupInfo.at(1));
+                        m_doc->slotCreateSlideshowClipFile(fileName, pattern, count, m_timecode.reformatSeparators(KdenliveSettings::sequence_duration()), false, false, m_timecode.getTimecodeFromFrames(int(ceil(m_timecode.fps()))), QString(), 0, groupInfo.at(0), groupInfo.at(1));
                         return;
                     }
                 }

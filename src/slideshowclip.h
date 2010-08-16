@@ -37,7 +37,7 @@ public:
     SlideshowClip(Timecode tc, QWidget * parent = 0);
     virtual ~ SlideshowClip();
     /** return selected path for slideshow in MLT format */
-    QString selectedPath() const;
+    QString selectedPath();
     QString clipName() const;
     QString clipDuration() const;
     QString lumaDuration() const;
@@ -49,6 +49,8 @@ public:
 
     /** @brief Check if there are several files with filename pattern, like: image_001.jpg, image_002.jpg,... */
     static int sequenceCount(KUrl file);
+    /** @brief return the url pattern for selected slideshow. */
+    static QString selectedPath(KUrl url, bool isMime, QString extension, int *count);
 
 private slots:
     void parseFolder();

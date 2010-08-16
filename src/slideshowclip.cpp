@@ -267,26 +267,58 @@ void SlideshowClip::slotSetPixmap(const KFileItem &fileItem, const QPixmap &pix)
 }
 
 
-QString SlideshowClip::selectedPath() const
+QString SlideshowClip::selectedPath()
 {
-    QString extension;
+    return selectedPath(m_view.folder_url->url(), m_view.method_mime->isChecked(), ".all." + m_view.image_type->itemData(m_view.image_type->currentIndex()).toString(), &m_count);
+
+
+}
+// static
+QString SlideshowClip::selectedPath(KUrl url, bool isMime, QString extension, int *count)
+{
     QString folder;
 
-    bool isMime = m_view.method_mime->isChecked();
-
     if (isMime) {
-        folder = m_view.folder_url->url().path(KUrl::AddTrailingSlash);
-        extension = ".all." + m_view.image_type->itemData(m_view.image_type->currentIndex()).toString();
+        folder = url.path(KUrl::AddTrailingSlash);
     } else {
-        folder = m_view.pattern_url->url().directory(KUrl::AppendTrailingSlash);
-        QString filter = m_view.pattern_url->url().fileName();
-        QString ext = filter.section('.', -1);
+        folder = url.directory(KUrl::AppendTrailingSlash);
+        QString filter = url.fileName();
+        QString ext = '.' + filter.section('.', -1);
         filter = filter.section('.', 0, -2);
 
         while (filter.at(filter.size() - 1).isDigit()) {
             filter.chop(1);
         }
-        extension = filter + "%d." + ext;
+        // Check that the first image exists and which format it has (image1.jpg or image001.jpg, ...)
+
+        // Find first image in sequence
+        QString regexp = "^" + filter + "\\d+" + ext + "$";
+        QRegExp rx(regexp);
+        QStringList entries;
+
+        QDir dir(folder);
+        QStringList result = dir.entryList(QDir::Files);
+        int precision = 1;
+        QString pathValue;
+        QMap <int, QString> sortedList;
+        foreach(const QString &path, result) {
+            if (rx.exactMatch(path)) {
+                pathValue = path.section('.', 0, -2);
+                pathValue.remove(0, filter.size());
+                sortedList.insert(pathValue.toInt(), path);
+            }
+        }
+        *count = sortedList.size();
+        if (*count == 0) kDebug() << "No IMAGE FOUND!!!!!!!";
+        else  {
+            QMapIterator<int, QString> i(sortedList);
+            i.next();
+            QString result = i.value();
+            result.remove(0, filter.size());
+            result = result.section('.', 0, -2);
+            precision = result.size();
+        }
+        extension = filter + "%." + QString::number(precision) + "d" + ext;
     }
     return  folder + extension;
 }

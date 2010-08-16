@@ -579,14 +579,17 @@ QMap <QString, QString> ClipProperties::properties()
         if (m_old_props.value("fade") != value) props["fade"] = value;
         value = QString::number((int) m_view.luma_softness->value());
         if (m_old_props.value("softness") != value) props["softness"] = value;
-
-        QString extension = "/.all." + m_view.image_type->itemData(m_view.image_type->currentIndex()).toString();
-        QString new_path = m_view.clip_path->text() + extension;
-        if (new_path != m_old_props.value("resource")) {
-            m_clipNeedsReLoad = true;
-            props["resource"] = new_path;
-            kDebug() << "////  SLIDE EDIT, NEW:" << new_path << ", OLD; " << m_old_props.value("resource");
-        }
+	
+	bool isMime = !(m_view.clip_path->text().contains('%'));
+	if (isMime) {
+	    QString extension = "/.all." + m_view.image_type->itemData(m_view.image_type->currentIndex()).toString();
+	    QString new_path = m_view.clip_path->text() + extension;
+	    if (new_path != m_old_props.value("resource")) {
+		m_clipNeedsReLoad = true;
+		props["resource"] = new_path;
+		kDebug() << "////  SLIDE EDIT, NEW:" << new_path << ", OLD; " << m_old_props.value("resource");
+	    }
+	}
         int duration;
         if (m_view.slide_duration_format->currentIndex() == 1) {
             // we are in frames mode
@@ -643,7 +646,7 @@ bool ClipProperties::needsTimelineReload() const
 void ClipProperties::parseFolder()
 {
     QString path = m_view.clip_path->text();
-    bool isMime = !(path.contains("%d"));
+    bool isMime = !(path.contains('%'));
     if (!isMime) path = KUrl(path).directory();
     QDir dir(path);
 
@@ -663,7 +666,7 @@ void ClipProperties::parseFolder()
         // find pattern
         QString filter = KUrl(m_view.clip_path->text()).fileName();
         QString ext = filter.section('.', -1);
-        filter = filter.section("%d", 0, -2);
+        filter = filter.section('%', 0, -2);
         QString regexp = "^" + filter + "\\d+\\." + ext + "$";
         QRegExp rx(regexp);
         QStringList entries;
