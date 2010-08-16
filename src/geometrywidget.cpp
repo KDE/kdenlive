@@ -52,7 +52,7 @@ GeometryWidget::GeometryWidget(Monitor* monitor, Timecode timecode, int clipPos,
         Setup of timeline and keyframe controls
     */
 
-    ((QGridLayout *)(m_ui.widgetTimeWrapper->layout()))->addWidget(m_timePos, 1, 4);
+    ((QGridLayout *)(m_ui.widgetTimeWrapper->layout()))->addWidget(m_timePos, 1, 6);
 
     QVBoxLayout *layout = new QVBoxLayout(m_ui.frameTimeline);
     m_timeline = new KeyframeHelper(m_ui.frameTimeline);
@@ -66,6 +66,11 @@ GeometryWidget::GeometryWidget(Monitor* monitor, Timecode timecode, int clipPos,
     m_ui.buttonAddDelete->setIcon(KIcon("document-new"));
     m_ui.buttonAddDelete->setToolTip(i18n("Add keyframe"));
 
+    m_ui.buttonSync->setIcon(KIcon("insert-link"));
+    m_ui.buttonSync->setToolTip(i18n("Synchronize with timeline cursor"));
+    m_ui.buttonSync->setCheckable(true);
+    m_ui.buttonSync->setChecked(KdenliveSettings::transitionfollowcursor());
+
     connect(m_timeline, SIGNAL(positionChanged(int)), this, SLOT(slotPositionChanged(int)));
     connect(m_timeline, SIGNAL(keyframeMoved(int)),   this, SLOT(slotKeyframeMoved(int)));
     connect(m_timeline, SIGNAL(addKeyframe(int)),     this, SLOT(slotAddKeyframe(int)));
@@ -74,6 +79,7 @@ GeometryWidget::GeometryWidget(Monitor* monitor, Timecode timecode, int clipPos,
     connect(m_ui.buttonPrevious,  SIGNAL(clicked()), this, SLOT(slotPreviousKeyframe()));
     connect(m_ui.buttonNext,      SIGNAL(clicked()), this, SLOT(slotNextKeyframe()));
     connect(m_ui.buttonAddDelete, SIGNAL(clicked()), this, SLOT(slotAddDeleteKeyframe()));
+    connect(m_ui.buttonSync,      SIGNAL(toggled(bool)), this, SLOT(slotSetSynchronize(bool)));
 
 
     /*
@@ -119,12 +125,10 @@ GeometryWidget::GeometryWidget(Monitor* monitor, Timecode timecode, int clipPos,
     m_ui.buttonConfig->setToolTip(i18n("Show/Hide settings"));
     m_ui.buttonConfig->setCheckable(true);
     m_ui.groupSettings->setHidden(true);
-    m_ui.checkSync->setChecked(KdenliveSettings::transitionfollowcursor());
     m_ui.checkDirectUpdate->setChecked(m_scene->getDirectUpdate());
 
     connect(m_ui.buttonConfig, SIGNAL(toggled(bool)), m_ui.groupSettings, SLOT(setVisible(bool)));
 
-    connect(m_ui.checkSync,         SIGNAL(toggled(bool)), this, SLOT(slotSetSynchronize(bool)));
     connect(m_ui.checkShowScene,    SIGNAL(toggled(bool)), this, SLOT(slotShowScene(bool)));
     connect(m_ui.checkDirectUpdate, SIGNAL(toggled(bool)), m_scene, SLOT(slotSetDirectUpdate(bool)));
 
@@ -201,6 +205,7 @@ void GeometryWidget::setupParam(const QDomElement elem, int minframe, int maxfra
 
 void GeometryWidget::slotSyncPosition(int relTimelinePos)
 {
+    // do only sync if this effect is keyframable
     if (m_timePos->maximum() > 0 && KdenliveSettings::transitionfollowcursor()) {
         relTimelinePos = qMax(0, relTimelinePos);
         relTimelinePos = qMin(relTimelinePos, m_timePos->maximum());

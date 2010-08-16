@@ -52,7 +52,7 @@
     
     <entry name="on_monitor_effects" type="Bool">
       <label>Use on-monitor effects.</label>
-      <default>false</default>
+      <default>true</default>
     </entry>
   </group>
 

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>381</width>
-    <height>304</height>
+    <width>366</width>
+    <height>282</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -332,7 +332,7 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="3">
+      <item row="1" column="5">
        <spacer name="horizontalSpacer_3">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -345,7 +345,7 @@
         </property>
        </spacer>
       </item>
-      <item row="0" column="0" colspan="5">
+      <item row="0" column="0" colspan="7">
        <widget class="QFrame" name="frameTimeline">
         <property name="sizePolicy">
          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
@@ -367,8 +367,34 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="4">
+      <item row="1" column="6">
        <widget class="QFrame" name="frameTimePos"/>
+      </item>
+      <item row="1" column="4">
+       <widget class="QToolButton" name="buttonSync">
+        <property name="text">
+         <string>...</string>
+        </property>
+        <property name="autoRaise">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="3">
+       <spacer name="horizontalSpacer_6">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Fixed</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>15</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
       </item>
      </layout>
     </widget>
@@ -451,16 +477,6 @@
       <property name="bottomMargin">
        <number>4</number>
       </property>
-      <item>
-       <widget class="QCheckBox" name="checkSync">
-        <property name="text">
-         <string>Synchronize with timeline cursor</string>
-        </property>
-        <property name="checked">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
       <item>
        <widget class="QCheckBox" name="checkShowScene">
         <property name="text">
