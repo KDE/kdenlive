@@ -221,24 +221,28 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
     m_vectorscopeDock->setObjectName(m_vectorscope->widgetName());
     m_vectorscopeDock->setWidget(m_vectorscope);
     addDockWidget(Qt::TopDockWidgetArea, m_vectorscopeDock);
+    connect(m_vectorscopeDock, SIGNAL(visibilityChanged(bool)), m_vectorscope, SLOT(forceUpdate(bool)));
 
     m_waveform = new Waveform(m_projectMonitor, m_clipMonitor, this);
     m_waveformDock = new QDockWidget(i18n("Waveform"), this);
     m_waveformDock->setObjectName(m_waveform->widgetName());
     m_waveformDock->setWidget(m_waveform);
     addDockWidget(Qt::TopDockWidgetArea, m_waveformDock);
+    connect(m_waveformDock, SIGNAL(visibilityChanged(bool)), m_waveform, SLOT(forceUpdate(bool)));
 
     m_RGBParade = new RGBParade(m_projectMonitor, m_clipMonitor, this);
     m_RGBParadeDock = new QDockWidget(i18n("RGB Parade"), this);
     m_RGBParadeDock->setObjectName(m_RGBParade->widgetName());
     m_RGBParadeDock->setWidget(m_RGBParade);
     addDockWidget(Qt::TopDockWidgetArea, m_RGBParadeDock);
+    connect(m_RGBParadeDock, SIGNAL(visibilityChanged(bool)), m_RGBParade, SLOT(forceUpdate(bool)));
 
     m_histogram = new Histogram(m_projectMonitor, m_clipMonitor, this);
     m_histogramDock = new QDockWidget(i18n("Histogram"), this);
     m_histogramDock->setObjectName(m_histogram->widgetName());
     m_histogramDock->setWidget(m_histogram);
     addDockWidget(Qt::TopDockWidgetArea, m_histogramDock);
+    connect(m_histogramDock, SIGNAL(visibilityChanged(bool)), m_histogram, SLOT(forceUpdate(bool)));
 
 
     m_undoViewDock = new QDockWidget(i18n("Undo History"), this);
