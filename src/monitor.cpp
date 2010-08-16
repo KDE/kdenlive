@@ -55,7 +55,9 @@ Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget
         m_isActive(false),
         m_scale(1),
         m_length(0),
-        m_dragStarted(false)
+        m_dragStarted(false),
+        m_effectScene(NULL),
+        m_effectView(NULL)
 {
     m_ui.setupUi(this);
     QVBoxLayout *layout = new QVBoxLayout;
@@ -777,6 +779,9 @@ void Monitor::resetProfile(const QString profile)
     m_timePos->updateTimeCode(m_monitorManager->timecode());
     if (render == NULL) return;
     render->resetProfile(profile);
+    if (m_effectScene) {
+        m_effectScene->resetProfile();
+    }
 }
 
 void Monitor::saveSceneList(QString path, QDomElement info)

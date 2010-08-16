@@ -36,6 +36,7 @@ public:
     void setUp();
     void setEnabled(bool enabled = true);
     bool getDirectUpdate();
+    void resetProfile();
 
 protected:
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);

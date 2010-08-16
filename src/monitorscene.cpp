@@ -77,6 +77,12 @@ void MonitorScene::setUp()
     slotUpdateBackground(true);
 }
 
+void MonitorScene::resetProfile()
+{
+    const QRectF border(0, 0, m_renderer->renderWidth(), m_renderer->renderHeight());
+    m_frameBorder->setRect(border);
+}
+
 void MonitorScene::setEnabled(bool enabled)
 {
     m_enabled = enabled;
@@ -114,7 +120,7 @@ void MonitorScene::slotSetBackgroundImage(QImage image)
 
 resizeModes MonitorScene::getResizeMode(QGraphicsRectItem *item, QPoint pos)
 {
-    if(!m_view)
+    if (!m_view)
         return NoResize;
 
     QRectF rect = item->rect().normalized();
@@ -266,7 +272,7 @@ void MonitorScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
         bool itemFound = false;
         QList<QGraphicsItem *> itemList = items(QRectF(mousePos, QSizeF(4, 4)).toRect());
 
-        foreach (const QGraphicsItem* item, itemList) {
+        foreach(const QGraphicsItem* item, itemList) {
             if (item->zValue() >= 0 && item->flags() &QGraphicsItem::ItemIsMovable) {
                 // Rect
                 if (item->type() == 3) {

@@ -140,7 +140,7 @@ GeometryWidget::~GeometryWidget()
     delete m_timeline;
     m_scene->removeItem(m_rect);
     delete m_geometry;
-    m_monitor->slotEffectScene(false);
+    if (m_monitor) m_monitor->slotEffectScene(false);
 }
 
 void GeometryWidget::updateTimecodeFormat()
