@@ -9,7 +9,6 @@
  ***************************************************************************/
 
 #include <QColor>
-#include <QDebug>
 #include <QImage>
 #include <QPainter>
 #include <QSize>
@@ -27,7 +26,8 @@ WaveformGenerator::~WaveformGenerator()
 {
 }
 
-QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, const QImage &image, const bool &drawAxis, const uint &accelFactor)
+QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, const QImage &image, WaveformGenerator::PaintMode paintMode,
+                                            const bool &drawAxis, const uint &accelFactor)
 {
     Q_ASSERT(accelFactor >= 1);
 
@@ -40,8 +40,6 @@ QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, const QIm
         return QImage();
 
     } else {
-
-        qDebug() << "Waveform calculation started.";
 
         // Fill with transparent color
         wave.fill(qRgba(0,0,0,0));
@@ -63,6 +61,8 @@ QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, const QIm
         const float hPrediv = (float)(wh-1)/255;
         const float wPrediv = (float)(ww-1)/(iw-1);
 
+        const float brightnessAdjustment = accelFactor * ((float) ww*wh/(byteCount>>3));
+
         const uchar *bits = image.bits();
         const uint stepsize = 4*accelFactor;
 
@@ -79,8 +79,16 @@ QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, const QIm
             wavePoint = QPoint((int)dx, (int)(wh-1 - dy));
 
             waveCol = QRgb(wave.pixel(wavePoint));
-            wave.setPixel(wavePoint, qRgba(CHOP255(9 + qRed(waveCol)), CHOP255(36 + qGreen(waveCol)),
-                                           CHOP255(18 + qBlue(waveCol)), 255));
+            switch (paintMode) {
+            case PaintMode_Green:
+                wave.setPixel(wavePoint, qRgba(CHOP255(9 + qRed(waveCol)), CHOP255(36 + qGreen(waveCol)),
+                                               CHOP255(18 + qBlue(waveCol)), 255));
+                break;
+            default:
+                wave.setPixel(wavePoint, qRgba(255, 242,
+                                               0, CHOP255(brightnessAdjustment*10+qAlpha(waveCol))));
+                break;
+            }
 
             bits += stepsize;
             x += stepsize;
@@ -99,14 +107,12 @@ QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, const QIm
                     wave.setPixel(x,dy, qRgba(CHOP255(150+qRed(opx)), 255,
                                               CHOP255(200+qBlue(opx)), CHOP255(32+qAlpha(opx))));
                 }
-                //davinci.drawLine(0, dy, ww-1, dy);
             }
         }
 
     }
 
     uint diff = time.elapsed();
-//    qDebug() << "Waveform calculation ended. Time taken: " << diff << " ms. Sending signal now.";
     emit signalCalculationFinished(wave, diff);
 
     return wave;

@@ -23,16 +23,43 @@ Waveform::Waveform(Monitor *projMonitor, Monitor *clipMonitor, QWidget *parent) 
 {
     ui = new Ui::Waveform_UI();
     ui->setupUi(this);
-    init();
 
+    ui->paintMode->addItem(i18n("Yellow"), QVariant(WaveformGenerator::PaintMode_Yellow));
+    ui->paintMode->addItem(i18n("Green"), QVariant(WaveformGenerator::PaintMode_Green));
+
+
+    bool b = true;
+    b &= connect(ui->paintMode, SIGNAL(currentIndexChanged(int)), this, SLOT(forceUpdateScope()));
+    Q_ASSERT(b);
+
+
+    init();
     m_waveformGenerator = new WaveformGenerator();
 }
 
 Waveform::~Waveform()
 {
+    writeConfig();
+
     delete m_waveformGenerator;
 }
 
+void Waveform::readConfig()
+{
+    AbstractScopeWidget::readConfig();
+
+    KSharedConfigPtr config = KGlobal::config();
+    KConfigGroup scopeConfig(config, configName());
+    ui->paintMode->setCurrentIndex(scopeConfig.readEntry("paintmode", 0));
+}
+
+void Waveform::writeConfig()
+{
+    KSharedConfigPtr config = KGlobal::config();
+    KConfigGroup scopeConfig(config, configName());
+    scopeConfig.writeEntry("paintmode", ui->paintMode->currentIndex());
+    scopeConfig.sync();
+}
 
 
 QRect Waveform::scopeRect()
@@ -64,8 +91,9 @@ QImage Waveform::renderScope(uint accelFactor, QImage qimage)
     QTime start = QTime::currentTime();
     start.start();
 
-    QImage wave = m_waveformGenerator->calculateWaveform(scopeRect().size(),
-                                                         qimage, true, accelFactor);
+    int paintmode = ui->paintMode->itemData(ui->paintMode->currentIndex()).toInt();
+    QImage wave = m_waveformGenerator->calculateWaveform(scopeRect().size(), qimage, (WaveformGenerator::PaintMode) paintmode,
+                                                         true, accelFactor);
 
     emit signalScopeRenderingFinished(start.elapsed(), 1);
     return wave;

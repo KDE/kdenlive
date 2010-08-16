@@ -27,6 +27,10 @@ public:
 
     virtual QString widgetName() const;
 
+protected:
+    virtual void readConfig();
+    void writeConfig();
+
 private:
     Ui::Waveform_UI *ui;
 
