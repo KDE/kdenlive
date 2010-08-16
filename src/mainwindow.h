@@ -83,6 +83,7 @@ public:
      * a default new file will be created. */
     explicit MainWindow(const QString &MltPath = QString(),
                         const KUrl &Url = KUrl(), QWidget *parent = 0);
+    virtual ~MainWindow();
 
     /** @brief Locates the MLT environment.
      * @param mltPath (optional) path to MLT environment

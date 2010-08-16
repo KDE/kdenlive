@@ -466,21 +466,32 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
     m_projectListDock->raise();
 }
 
+MainWindow::~MainWindow()
+{
+    m_effectStack->slotClipItemSelected(NULL, 0);
+    m_transitionConfig->slotTransitionItemSelected(NULL, 0, QPoint(), false);
+
+    if (m_projectMonitor) m_projectMonitor->stop();
+    if (m_clipMonitor) m_clipMonitor->stop();
+
+    if (m_activeTimeline) delete m_activeTimeline;
+
+    delete m_effectStack;
+    delete m_transitionConfig;
+
+    if (m_activeDocument) delete m_activeDocument;
+#ifndef Q_WS_MAC
+    // This sometimes causes crash on exit on OS X for some reason.
+    delete m_projectMonitor;
+    delete m_clipMonitor;
+#endif
+    delete m_shortcutRemoveFocus;
+    Mlt::Factory::close();
+}
+
 void MainWindow::queryQuit()
 {
     if (queryClose()) {
-        if (m_projectMonitor) m_projectMonitor->stop();
-        if (m_clipMonitor) m_clipMonitor->stop();
-        delete m_activeTimeline;
-#ifndef Q_WS_MAC
-        // This sometimes causes crash on exit on OS X for some reason.
-        delete m_projectMonitor;
-        delete m_clipMonitor;
-#endif
-        delete m_effectStack;
-        delete m_activeDocument;
-        delete m_shortcutRemoveFocus;
-        Mlt::Factory::close();
         kapp->quit();
     }
 }
