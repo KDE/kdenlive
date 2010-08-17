@@ -72,9 +72,6 @@ public:
     * @return The parameters that will be passed to Mlt */
     EffectsParameterList addEffect(const QDomElement effect, bool animate = true);
 
-    /** @brief Gets the effect parameters that will be passed to Mlt. */
-    EffectsParameterList getEffectArgs(QDomElement effect);
-
     /** @brief Deletes the effect with id @param index. */
     void deleteEffect(QString index);
 

@@ -205,6 +205,8 @@ Q_OBJECT public:
 
     /** @brief Adds an effect to a clip in MLT's playlist. */
     bool mltAddEffect(int track, GenTime position, EffectsParameterList params, bool doRefresh = true);
+    bool mltAddEffect(Mlt::Service service, EffectsParameterList params, int duration, bool doRefresh);
+    bool mltAddTrackEffect(int track, EffectsParameterList params);
 
     /** @brief Edits an effect parameters in MLT's playlist. */
     bool mltEditEffect(int track, GenTime position, EffectsParameterList params);

@@ -22,6 +22,7 @@
 
 #include <QContextMenuEvent>
 #include <QMenu>
+#include <QDomElement>
 
 #include "definitions.h"
 #include "ui_trackheader_ui.h"
@@ -41,6 +42,8 @@ protected:
     virtual void mousePressEvent(QMouseEvent * event);
     virtual void mouseDoubleClickEvent(QMouseEvent * event);
     virtual void contextMenuEvent(QContextMenuEvent * event);
+    virtual void dropEvent(QDropEvent * event);
+    virtual void dragEnterEvent(QDragEnterEvent *event);
 
 private:
     int m_index;
@@ -68,6 +71,7 @@ signals:
     void renameTrack(int, QString);
     void selectTrack(int);
     void configTrack(int);
+    void addTrackInfo(const QDomElement, int);
 };
 
 #endif

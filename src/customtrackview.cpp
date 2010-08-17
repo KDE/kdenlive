@@ -60,6 +60,7 @@
 #include "configtrackscommand.h"
 #include "rebuildgroupcommand.h"
 #include "razorgroupcommand.h"
+#include "profilesdialog.h"
 
 #include <KDebug>
 #include <KLocale>
@@ -1537,7 +1538,7 @@ void CustomTrackView::slotRefreshEffects(ClipItem *clip)
     }
     bool success = true;
     for (int i = 0; i < clip->effectsCount(); i++) {
-        if (!m_document->renderer()->mltAddEffect(track, pos, clip->getEffectArgs(clip->effectAt(i)), false)) success = false;
+        if (!m_document->renderer()->mltAddEffect(track, pos, getEffectArgs(clip->effectAt(i)), false)) success = false;
     }
     if (!success) emit displayMessage(i18n("Problem adding effect to clip"), ErrorMessage);
     m_document->renderer()->doRefresh();
@@ -1773,7 +1774,7 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedE
             return;
         }
 
-        EffectsParameterList effectParams = clip->getEffectArgs(effect);
+        EffectsParameterList effectParams = getEffectArgs(effect);
         if (effect.attribute("tag") == "ladspa") {
             // Update the ladspa affect file
             initEffects::ladspaEffectFile(effect.attribute("src"), effect.attribute("ladspaid").toInt(), getLadspaParams(effect));
@@ -1781,7 +1782,7 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedE
         // check if we are trying to reset a keyframe effect
         if (effectParams.hasParam("keyframes") && effectParams.paramValue("keyframes").isEmpty()) {
             clip->initEffect(effect);
-            effectParams = clip->getEffectArgs(effect);
+            effectParams = getEffectArgs(effect);
         }
         if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - clip->track(), clip->startPos(), effectParams))
             emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
@@ -3208,7 +3209,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                             prod = clip->baseClip()->producer(info.track);
                         m_document->renderer()->mltInsertClip(info, clip->xml(), prod, m_scene->editMode() == OVERWRITEEDIT, m_scene->editMode() == INSERTEDIT);
                         for (int i = 0; i < clip->effectsCount(); i++) {
-                            m_document->renderer()->mltAddEffect(info.track, info.startPos, clip->getEffectArgs(clip->effectAt(i)), false);
+                            m_document->renderer()->mltAddEffect(info.track, info.startPos, getEffectArgs(clip->effectAt(i)), false);
                         }
                     } else {
                         Transition *tr = static_cast <Transition*>(item);
@@ -3609,7 +3610,7 @@ void CustomTrackView::cutSelectedClips()
                 for (int j = 0; j < children.count(); ++j) {
                     for (int k = 0; k < itemList.count(); ++k) {
                         if (children.at(j)->pos() == itemList.at(k)->pos()
-                            && children.at(j)->boundingRect() == itemList.at(k)->boundingRect()) {
+                                && children.at(j)->boundingRect() == itemList.at(k)->boundingRect()) {
                             toRemove.append(k);
                         }
                     }
@@ -3631,7 +3632,7 @@ void CustomTrackView::cutSelectedClips()
             for (int j = 0; j < children.count(); ++j) {
                 for (int k = 0; k < itemList.count(); ++k) {
                     if (children.at(j)->pos() == itemList.at(k)->pos()
-                        && children.at(j)->boundingRect() == itemList.at(k)->boundingRect()) {
+                            && children.at(j)->boundingRect() == itemList.at(k)->boundingRect()) {
                         toRemove.append(k);
                     }
                 }
@@ -3845,7 +3846,7 @@ void CustomTrackView::addClip(QDomElement xml, const QString &clipId, ItemInfo i
     else prod = baseclip->producer(info.track);
     m_document->renderer()->mltInsertClip(info, xml, prod, overwrite, push);
     for (int i = 0; i < item->effectsCount(); i++) {
-        m_document->renderer()->mltAddEffect(info.track, info.startPos, item->getEffectArgs(item->effectAt(i)), false);
+        m_document->renderer()->mltAddEffect(info.track, info.startPos, getEffectArgs(item->effectAt(i)), false);
     }
     setDocumentModified();
     if (refresh) m_document->renderer()->doRefresh();
@@ -4493,7 +4494,7 @@ void CustomTrackView::updatePositionEffects(ClipItem * item, ItemInfo info)
             end += start;
             EffectsList::setParameter(oldeffect, "in", QString::number(start));
             EffectsList::setParameter(oldeffect, "out", QString::number(end));
-            if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - item->track(), item->startPos(), item->getEffectArgs(oldeffect)))
+            if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - item->track(), item->startPos(), getEffectArgs(oldeffect)))
                 emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
             // if fade effect is displayed, update the effect edit widget with new clip duration
             if (item->isSelected() && effectPos == item->selectedEffectIndex()) emit clipItemSelected(item, effectPos);
@@ -4511,7 +4512,7 @@ void CustomTrackView::updatePositionEffects(ClipItem * item, ItemInfo info)
             end += start;
             EffectsList::setParameter(oldeffect, "in", QString::number(start));
             EffectsList::setParameter(oldeffect, "out", QString::number(end));
-            if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - item->track(), item->startPos(), item->getEffectArgs(oldeffect)))
+            if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - item->track(), item->startPos(), getEffectArgs(oldeffect)))
                 emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
             // if fade effect is displayed, update the effect edit widget with new clip duration
             if (item->isSelected() && effectPos == item->selectedEffectIndex()) emit clipItemSelected(item, effectPos);
@@ -4533,7 +4534,7 @@ void CustomTrackView::updatePositionEffects(ClipItem * item, ItemInfo info)
             start = end - start;
             EffectsList::setParameter(oldeffect, "in", QString::number(start));
             EffectsList::setParameter(oldeffect, "out", QString::number(end));
-            if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - item->track(), item->startPos(), item->getEffectArgs(oldeffect)))
+            if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - item->track(), item->startPos(), getEffectArgs(oldeffect)))
                 emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
             // if fade effect is displayed, update the effect edit widget with new clip duration
             if (item->isSelected() && effectPos == item->selectedEffectIndex()) emit clipItemSelected(item, effectPos);
@@ -4551,7 +4552,7 @@ void CustomTrackView::updatePositionEffects(ClipItem * item, ItemInfo info)
             start = end - start;
             EffectsList::setParameter(oldeffect, "in", QString::number(start));
             EffectsList::setParameter(oldeffect, "out", QString::number(end));
-            if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - item->track(), item->startPos(), item->getEffectArgs(oldeffect)))
+            if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - item->track(), item->startPos(), getEffectArgs(oldeffect)))
                 emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
             // if fade effect is displayed, update the effect edit widget with new clip duration
             if (item->isSelected() && effectPos == item->selectedEffectIndex()) emit clipItemSelected(item, effectPos);
@@ -4583,7 +4584,7 @@ void CustomTrackView::updatePositionEffects(ClipItem * item, ItemInfo info)
         }
         oldeffect.setAttribute("in", start);
         oldeffect.setAttribute("out", max);
-        if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - item->track(), item->startPos(), item->getEffectArgs(oldeffect)))
+        if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - item->track(), item->startPos(), getEffectArgs(oldeffect)))
             emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
         // if effect is displayed, update the effect edit widget with new clip duration
         if (item->isSelected() && effectPos == item->selectedEffectIndex()) emit clipItemSelected(item, effectPos);
@@ -5411,7 +5412,7 @@ void CustomTrackView::slotUpdateAllThumbs()
                         item->slotSetEndThumb(pix);
                     }
                 }
-		item->refreshClip(false);
+                item->refreshClip(false);
             }
         }
     }
@@ -6258,4 +6259,77 @@ bool CustomTrackView::hasAudio(int track) const
         }
     }
     return false;
+}
+
+void CustomTrackView::slotAddTrackEffect(const QDomElement effect, int ix)
+{
+    m_document->renderer()->mltAddTrackEffect(m_document->tracksCount() - ix, getEffectArgs(effect));
+}
+
+
+EffectsParameterList CustomTrackView::getEffectArgs(const QDomElement effect)
+{
+    EffectsParameterList parameters;
+    parameters.addParam("tag", effect.attribute("tag"));
+    if (effect.hasAttribute("region")) parameters.addParam("region", effect.attribute("region"));
+    parameters.addParam("kdenlive_ix", effect.attribute("kdenlive_ix"));
+    parameters.addParam("id", effect.attribute("id"));
+    if (effect.hasAttribute("src")) parameters.addParam("src", effect.attribute("src"));
+    if (effect.hasAttribute("disable")) parameters.addParam("disable", effect.attribute("disable"));
+    if (effect.hasAttribute("in")) parameters.addParam("in", effect.attribute("in"));
+    if (effect.hasAttribute("out")) parameters.addParam("out", effect.attribute("out"));
+
+    QDomNodeList params = effect.elementsByTagName("parameter");
+    for (int i = 0; i < params.count(); i++) {
+        QDomElement e = params.item(i).toElement();
+        //kDebug() << "/ / / /SENDING EFFECT PARAM: " << e.attribute("type") << ", NAME_ " << e.attribute("tag");
+        if (e.attribute("type") == "simplekeyframe") {
+
+            QStringList values = e.attribute("keyframes").split(";", QString::SkipEmptyParts);
+            double factor = e.attribute("factor", "1").toDouble();
+            for (int j = 0; j < values.count(); j++) {
+                QString pos = values.at(j).section(":", 0, 0);
+                double val = values.at(j).section(":", 1, 1).toDouble() / factor;
+                values[j] = pos + "=" + QString::number(val);
+            }
+            // kDebug() << "/ / / /SENDING KEYFR:" << values;
+            parameters.addParam(e.attribute("name"), values.join(";"));
+            /*parameters.addParam(e.attribute("name"), e.attribute("keyframes").replace(":", "="));
+            parameters.addParam("max", e.attribute("max"));
+            parameters.addParam("min", e.attribute("min"));
+            parameters.addParam("factor", e.attribute("factor", "1"));*/
+        } else if (e.attribute("type") == "keyframe") {
+            kDebug() << "/ / / /SENDING KEYFR EFFECT TYPE";
+            parameters.addParam("keyframes", e.attribute("keyframes"));
+            parameters.addParam("max", e.attribute("max"));
+            parameters.addParam("min", e.attribute("min"));
+            parameters.addParam("factor", e.attribute("factor", "1"));
+            parameters.addParam("starttag", e.attribute("starttag", "start"));
+            parameters.addParam("endtag", e.attribute("endtag", "end"));
+        } else if (e.attribute("namedesc").contains(';')) {
+            QString format = e.attribute("format");
+            QStringList separators = format.split("%d", QString::SkipEmptyParts);
+            QStringList values = e.attribute("value").split(QRegExp("[,:;x]"));
+            QString neu;
+            QTextStream txtNeu(&neu);
+            if (values.size() > 0)
+                txtNeu << (int)values[0].toDouble();
+            for (int i = 0; i < separators.size() && i + 1 < values.size(); i++) {
+                txtNeu << separators[i];
+                txtNeu << (int)(values[i+1].toDouble());
+            }
+            parameters.addParam("start", neu);
+        } else {
+            if (e.attribute("factor", "1") != "1") {
+                double fact;
+                if (e.attribute("factor").startsWith('%')) {
+                    fact = ProfilesDialog::getStringEval(m_document->mltProfile(), e.attribute("factor"));
+                } else fact = e.attribute("factor", "1").toDouble();
+                parameters.addParam(e.attribute("name"), QString::number(e.attribute("value").toDouble() / fact));
+            } else {
+                parameters.addParam(e.attribute("name"), e.attribute("value"));
+            }
+        }
+    }
+    return parameters;
 }

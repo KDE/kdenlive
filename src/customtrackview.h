@@ -246,6 +246,11 @@ public slots:
     * @param cut true = cut, false = "uncut" */
     void slotRazorGroup(QList <ItemInfo> clips1, QList <ItemInfo> transitions1, QList <ItemInfo> clipsCut, QList <ItemInfo> transitionsCut, QList <ItemInfo> clips2, QList <ItemInfo> transitions2, GenTime cutPos, bool cut);
 
+    /** @brief Add en effect to a track.
+    * @param effect The new effect xml
+    * @param ix The track index */
+    void slotAddTrackEffect(const QDomElement effect, int ix);
+
 protected:
     virtual void drawBackground(QPainter * painter, const QRectF & rect);
     //virtual void drawForeground ( QPainter * painter, const QRectF & rect );
@@ -382,6 +387,9 @@ private:
     * @param group The group to cut
     * @param cutPos The absolute position of the cut */
     void razorGroup(AbstractGroupItem *group, GenTime cutPos);
+
+    /** @brief Gets the effect parameters that will be passed to Mlt. */
+    EffectsParameterList getEffectArgs(const QDomElement effect);
 
 private slots:
     void slotRefreshGuides();

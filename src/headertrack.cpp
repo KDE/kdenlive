@@ -31,6 +31,7 @@
 #include <QAction>
 #include <QTimer>
 #include <QColor>
+#include <QDomDocument>
 
 HeaderTrack::HeaderTrack(int index, TrackInfo info, int height, QWidget *parent) :
         QWidget(parent),
@@ -53,6 +54,8 @@ HeaderTrack::HeaderTrack(int index, TrackInfo info, int height, QWidget *parent)
     buttonAudio->setToolTip(i18n("Mute track"));
     buttonLock->setChecked(info.isLocked);
     buttonLock->setToolTip(i18n("Lock track"));
+
+    setAcceptDrops(true);
 
     QPalette p = palette();
     KColorScheme scheme(p.currentColorGroup(), KColorScheme::Window);
@@ -138,6 +141,28 @@ void HeaderTrack::mouseDoubleClickEvent(QMouseEvent* event)
     }
     slotConfigTrack();
     QWidget::mouseDoubleClickEvent(event);
+}
+
+//virtual
+void HeaderTrack::dropEvent(QDropEvent * event)
+{
+    const QString effects = QString(event->mimeData()->data("kdenlive/effectslist"));
+    QDomDocument doc;
+    doc.setContent(effects, true);
+    const QDomElement e = doc.documentElement();
+    emit addTrackInfo(e, m_index);
+    /*if (scene() && !scene()->views().isEmpty()) {
+        event->accept();
+        CustomTrackView *view = (CustomTrackView *) scene()->views()[0];
+        if (view) view->slotAddEffect(e, m_info.startPos, track());
+    }*/
+}
+
+//virtual
+void HeaderTrack::dragEnterEvent(QDragEnterEvent *event)
+{
+    if (buttonLock->isChecked()) event->setAccepted(false);
+    else event->setAccepted(event->mimeData()->hasFormat("kdenlive/effectslist"));
 }
 
 void HeaderTrack::setSelectedIndex(int ix)
