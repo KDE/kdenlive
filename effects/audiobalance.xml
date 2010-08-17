@@ -1,0 +1,9 @@
+<!DOCTYPE kpartgui>
+<effect tag="panner" id="audiobalance" type="audio">
+	<name>Balance</name>
+	<description>Adjust the left/right balance</description>
+	<author>Dan Dennedy</author>
+	<parameter type="keyframe" name="start" max="1000" min="0" default="500" factor="1000">
+		<name>Balance</name>
+	</parameter>
+</effect>
