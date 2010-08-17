@@ -35,7 +35,6 @@ public:
     MonitorScene(Render *renderer, QObject* parent = 0);
     void setUp();
     void setEnabled(bool enabled = true);
-    bool getDirectUpdate();
     void resetProfile();
 
 protected:
@@ -46,6 +45,12 @@ protected:
 public slots:
     void slotUpdateBackground(bool fit = false);
     void slotSetDirectUpdate(bool directUpdate);
+
+    void slotZoom(int value);
+    void slotZoomFit();
+    void slotZoomOriginal();
+    void slotZoomIn();
+    void slotZoomOut();
 
 private slots:
     void slotSetBackgroundImage(const QImage &image);
@@ -64,10 +69,11 @@ private:
     QImage m_backgroundImage;
     bool m_enabled;
     bool m_modified;
-    bool m_directUpdate;
+    qreal m_zoom;
 
 signals:
     void actionFinished();
+    void zoomChanged(int);
 };
 
 #endif

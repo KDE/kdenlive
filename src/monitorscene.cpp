@@ -36,7 +36,7 @@ MonitorScene::MonitorScene(Render *renderer, QObject* parent) :
         m_backgroundImage(QImage()),
         m_enabled(true),
         m_modified(false),
-        m_directUpdate(false)
+        m_zoom(1.0)
 {
     setBackgroundBrush(QBrush(QColor(KdenliveSettings::window_background().name())));
 
@@ -93,10 +93,8 @@ void MonitorScene::slotUpdateBackground(bool fit)
     if (m_view && m_view->isVisible()) {
         if (m_lastUpdate.elapsed() > 200) {
             m_background->setPixmap(QPixmap::fromImage(m_backgroundImage, Qt::ThresholdDither));
-            if (fit) {
-                m_view->fitInView(m_frameBorder, Qt::KeepAspectRatio);
-                m_view->centerOn(m_frameBorder);
-            }
+            if (fit)
+                slotZoomFit();
             m_lastUpdate.start();
         }
     }
@@ -104,12 +102,7 @@ void MonitorScene::slotUpdateBackground(bool fit)
 
 void MonitorScene::slotSetDirectUpdate(bool directUpdate)
 {
-    m_directUpdate = directUpdate;
-}
-
-bool MonitorScene::getDirectUpdate()
-{
-    return m_directUpdate;
+    KdenliveSettings::setMonitorscene_directupdate(directUpdate);
 }
 
 void MonitorScene::slotSetBackgroundImage(const QImage &image)
@@ -117,6 +110,45 @@ void MonitorScene::slotSetBackgroundImage(const QImage &image)
     m_backgroundImage = image;
     slotUpdateBackground();
 }
+
+
+void MonitorScene::slotZoom(int value)
+{
+    if (m_view) {
+        m_zoom = value / 100.0;
+        m_view->resetTransform();
+        m_view->scale(m_zoom, m_zoom);
+        emit zoomChanged(value);
+    }
+}
+
+void MonitorScene::slotZoomFit()
+{
+    if (m_view) {
+        m_view->fitInView(m_frameBorder, Qt::KeepAspectRatio);
+        m_view->centerOn(m_frameBorder);
+        m_zoom = m_view->matrix().m11();
+        emit zoomChanged((int)(m_zoom * 100));
+    }
+}
+
+void MonitorScene::slotZoomOriginal()
+{
+    slotZoom(100);
+    if (m_view)
+        m_view->centerOn(m_frameBorder);
+}
+
+void MonitorScene::slotZoomOut()
+{
+    slotZoom(qMax(0, (int)(m_zoom * 100 - 1)));
+}
+
+void MonitorScene::slotZoomIn()
+{
+    slotZoom(qMin(300, (int)(m_zoom * 100 + 1)));
+}
+
 
 resizeModes MonitorScene::getResizeMode(QGraphicsRectItem *item, QPoint pos)
 {
@@ -311,7 +343,7 @@ void MonitorScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 
         QGraphicsScene::mouseMoveEvent(event);
     }
-    if (m_modified && m_directUpdate) {
+    if (m_modified && KdenliveSettings::monitorscene_directupdate()) {
         emit actionFinished();
         m_modified = false;
     }
