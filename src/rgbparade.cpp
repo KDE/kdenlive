@@ -8,6 +8,7 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
+#include <QMenu>
 #include <QRect>
 #include <QTime>
 #include "renderer.h"
@@ -24,7 +25,20 @@ RGBParade::RGBParade(Monitor *projMonitor, Monitor *clipMonitor, QWidget *parent
     ui->paintMode->addItem(i18n("RGB 2"), QVariant(RGBParadeGenerator::PaintMode_RGB2));
 
     bool b = true;
+
+    m_menu->addSeparator();
+    m_aAxis = new QAction(i18n("Draw axis"), this);
+    m_aAxis->setCheckable(true);
+    m_menu->addAction(m_aAxis);
+    b &= connect(m_aAxis, SIGNAL(changed()), this, SLOT(forceUpdateScope()));
+
+    m_aGradRef = new QAction(i18n("Gradient reference line"), this);
+    m_aGradRef->setCheckable(true);
+    m_menu->addAction(m_aGradRef);
+    b &= connect(m_aGradRef, SIGNAL(changed()), this, SLOT(forceUpdateScope()));
+
     b &= connect(ui->paintMode, SIGNAL(currentIndexChanged(int)), this, SLOT(forceUpdateScope()));
+
     Q_ASSERT(b);
 
     m_rgbParadeGenerator = new RGBParadeGenerator();
@@ -37,6 +51,8 @@ RGBParade::~RGBParade()
 
     delete ui;
     delete m_rgbParadeGenerator;
+    delete m_aAxis;
+    delete m_aGradRef;
 }
 
 void RGBParade::readConfig()
@@ -46,6 +62,8 @@ void RGBParade::readConfig()
     KSharedConfigPtr config = KGlobal::config();
     KConfigGroup scopeConfig(config, configName());
     ui->paintMode->setCurrentIndex(scopeConfig.readEntry("paintmode", 0));
+    m_aAxis->setChecked(scopeConfig.readEntry("axis", true));
+    m_aGradRef->setChecked(scopeConfig.readEntry("gradref", false));
 }
 
 void RGBParade::writeConfig()
@@ -53,6 +71,8 @@ void RGBParade::writeConfig()
     KSharedConfigPtr config = KGlobal::config();
     KConfigGroup scopeConfig(config, configName());
     scopeConfig.writeEntry("paintmode", ui->paintMode->currentIndex());
+    scopeConfig.writeEntry("axis", m_aAxis->isChecked());
+    scopeConfig.writeEntry("gradref", m_aGradRef->isChecked());
     scopeConfig.sync();
 }
 
@@ -73,7 +93,7 @@ QImage RGBParade::renderScope(uint accelerationFactor, QImage qimage)
 
     int paintmode = ui->paintMode->itemData(ui->paintMode->currentIndex()).toInt();
     QImage parade = m_rgbParadeGenerator->calculateRGBParade(m_scopeRect.size(), qimage, (RGBParadeGenerator::PaintMode) paintmode,
-                                                    true, accelerationFactor);
+                                                    m_aAxis->isChecked(), m_aGradRef->isChecked(), accelerationFactor);
     emit signalScopeRenderingFinished(start.elapsed(), accelerationFactor);
     return parade;
 }

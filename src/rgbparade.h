@@ -36,6 +36,9 @@ private:
     Ui::RGBParade_UI *ui;
     RGBParadeGenerator *m_rgbParadeGenerator;
 
+    QAction *m_aAxis;
+    QAction *m_aGradRef;
+
     bool isHUDDependingOnInput() const;
     bool isScopeDependingOnInput() const;
     bool isBackgroundDependingOnInput() const;

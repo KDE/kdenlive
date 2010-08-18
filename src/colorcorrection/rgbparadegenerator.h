@@ -23,7 +23,7 @@ public:
 
     RGBParadeGenerator();
     QImage calculateRGBParade(const QSize &paradeSize, const QImage &image, const RGBParadeGenerator::PaintMode paintMode,
-                              const bool &drawAxis, const uint &accelFactor = 1);
+                              const bool &drawAxis, const bool &drawGradientRef, const uint &accelFactor = 1);
 
     static const QColor colHighlight;
     static const QColor colLight;

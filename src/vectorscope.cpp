@@ -83,13 +83,11 @@ Vectorscope::Vectorscope(Monitor *projMonitor, Monitor *clipMonitor, QWidget *pa
 
     m_a75PBox = new QAction(i18n("75% box"), this);
     m_a75PBox->setCheckable(true);
-    m_a75PBox->setChecked(false);
     m_menu->addAction(m_a75PBox);
     b &= connect(m_a75PBox, SIGNAL(changed()), this, SLOT(forceUpdateBackground()));
 
     m_aAxisEnabled = new QAction(i18n("Draw axis"), this);
     m_aAxisEnabled->setCheckable(true);
-    m_aAxisEnabled->setChecked(false);
     m_menu->addAction(m_aAxisEnabled);
     b &= connect(m_aAxisEnabled, SIGNAL(changed()), this, SLOT(forceUpdateBackground()));
 

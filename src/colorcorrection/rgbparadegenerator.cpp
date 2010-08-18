@@ -26,7 +26,8 @@ RGBParadeGenerator::RGBParadeGenerator()
 }
 
 QImage RGBParadeGenerator::calculateRGBParade(const QSize &paradeSize, const QImage &image,
-                                              const RGBParadeGenerator::PaintMode paintMode, const bool &drawAxis, const uint &accelFactor)
+                                              const RGBParadeGenerator::PaintMode paintMode, const bool &drawAxis, 
+                                              const bool &drawGradientRef, const uint &accelFactor)
 {
     Q_ASSERT(accelFactor >= 1);
 
@@ -152,6 +153,13 @@ QImage RGBParadeGenerator::calculateRGBParade(const QSize &paradeSize, const QIm
                                               CHOP255(200+qBlue(opx)), CHOP255(32+qAlpha(opx))));
                 }
             }
+        }
+        
+        if (drawGradientRef) {
+            davinci.setPen(colLight);
+            davinci.drawLine(0                 ,partH,   partW,           0);
+            davinci.drawLine(  partW +   offset,partH, 2*partW +   offset,0);
+            davinci.drawLine(2*partW + 2*offset,partH, 3*partW + 2*offset,0);
         }
 
 
