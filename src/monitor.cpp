@@ -849,8 +849,10 @@ void Monitor::slotEffectScene(bool show)
         m_monitorRefresh->setVisible(!show);
 #endif
         m_effectView->setVisible(show);
-        if (show)
-            m_effectScene->slotUpdateBackground(true);
+        if (show) {
+            render->doRefresh();
+            m_effectScene->slotZoomFit();
+        }
     }
 }
 

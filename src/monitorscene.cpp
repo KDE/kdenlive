@@ -73,8 +73,6 @@ void MonitorScene::setUp()
         m_view = NULL;
 
     m_view->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
-
-    slotUpdateBackground(true);
 }
 
 void MonitorScene::resetProfile()
@@ -88,13 +86,11 @@ void MonitorScene::setEnabled(bool enabled)
     m_enabled = enabled;
 }
 
-void MonitorScene::slotUpdateBackground(bool fit)
+void MonitorScene::slotUpdateBackground()
 {
     if (m_view && m_view->isVisible()) {
         if (m_lastUpdate.elapsed() > 200) {
             m_background->setPixmap(QPixmap::fromImage(m_backgroundImage, Qt::ThresholdDither));
-            if (fit)
-                slotZoomFit();
             m_lastUpdate.start();
         }
     }
@@ -107,8 +103,10 @@ void MonitorScene::slotSetDirectUpdate(bool directUpdate)
 
 void MonitorScene::slotSetBackgroundImage(const QImage &image)
 {
-    m_backgroundImage = image;
-    slotUpdateBackground();
+    if (m_view && m_view->isVisible()) {
+        m_backgroundImage = image;
+        slotUpdateBackground();
+    }
 }
 
 

@@ -43,7 +43,7 @@ protected:
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
 
 public slots:
-    void slotUpdateBackground(bool fit = false);
+    void slotUpdateBackground();
     void slotSetDirectUpdate(bool directUpdate);
 
     void slotZoom(int value);
