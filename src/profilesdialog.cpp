@@ -72,7 +72,7 @@ void ProfilesDialog::slotProfileEdited()
 
 void ProfilesDialog::fillList(const QString selectedProfile)
 {
-    // List the Mlt profiles
+    // List the Mlt profiles
     m_view.profiles_list->clear();
     QMap <QString, QString> profilesInfo = ProfilesDialog::getProfilesInfo();
     QMapIterator<QString, QString> i(profilesInfo);
@@ -196,7 +196,7 @@ MltVideoProfile ProfilesDialog::getVideoProfile(QString name)
     if (name.contains('/')) isCustom = true;
 
     if (!isCustom) {
-        // List the Mlt profiles
+        // List the Mlt profiles
         profilesFiles = QDir(KdenliveSettings::mltpath()).entryList(profilesFilter, QDir::Files);
         if (profilesFiles.contains(name)) path = KdenliveSettings::mltpath() + name;
     }
@@ -206,7 +206,7 @@ MltVideoProfile ProfilesDialog::getVideoProfile(QString name)
 
     if (path.isEmpty() || !QFile::exists(path)) {
         if (name == "dv_pal") {
-            kDebug() << "!!! WARNING, COULD NOT FIND DEFAULT MLT PROFILE";
+            kDebug() << "!!! WARNING, COULD NOT FIND DEFAULT MLT PROFILE";
             return result;
         }
         if (name == KdenliveSettings::default_profile()) KdenliveSettings::setDefault_profile("dv_pal");
@@ -249,7 +249,7 @@ bool ProfilesDialog::existingProfileDescription(const QString &desc)
     QStringList profilesFilter;
     profilesFilter << "*";
 
-    // List the Mlt profiles
+    // List the Mlt profiles
     QStringList profilesFiles = QDir(KdenliveSettings::mltpath()).entryList(profilesFilter, QDir::Files);
     for (int i = 0; i < profilesFiles.size(); ++i) {
         KConfig confFile(KdenliveSettings::mltpath() + profilesFiles.at(i), KConfig::SimpleConfig);
@@ -275,7 +275,7 @@ QString ProfilesDialog::existingProfile(MltVideoProfile profile)
     QStringList profilesFilter;
     profilesFilter << "*";
 
-    // Check the Mlt profiles
+    // Check the Mlt profiles
     QStringList profilesFiles = QDir(KdenliveSettings::mltpath()).entryList(profilesFilter, QDir::Files);
     for (int i = 0; i < profilesFiles.size(); ++i) {
         KConfig confFile(KdenliveSettings::mltpath() + profilesFiles.at(i), KConfig::SimpleConfig);
@@ -319,7 +319,7 @@ QMap <QString, QString> ProfilesDialog::getProfilesInfo()
     QStringList profilesFilter;
     profilesFilter << "*";
 
-    // List the Mlt profiles
+    // List the Mlt profiles
     QStringList profilesFiles = QDir(KdenliveSettings::mltpath()).entryList(profilesFilter, QDir::Files);
     for (int i = 0; i < profilesFiles.size(); ++i) {
         KConfig confFile(KdenliveSettings::mltpath() + profilesFiles.at(i), KConfig::SimpleConfig);
@@ -367,7 +367,7 @@ QMap< QString, QString > ProfilesDialog::getSettingsForProfile(const QString pro
     QStringList profilesFilter;
     profilesFilter << "*";
 
-    // List the Mlt profiles
+    // List the Mlt profiles
     profilesFiles = QDir(KdenliveSettings::mltpath()).entryList(profilesFilter, QDir::Files);
     for (int i = 0; i < profilesFiles.size(); ++i) {
         KConfig confFile(KdenliveSettings::mltpath() + profilesFiles.at(i), KConfig::SimpleConfig);
@@ -402,7 +402,7 @@ QString ProfilesDialog::getPathFromDescription(const QString profileDesc)
     QStringList profilesFilter;
     profilesFilter << "*";
 
-    // List the Mlt profiles
+    // List the Mlt profiles
     profilesFiles = QDir(KdenliveSettings::mltpath()).entryList(profilesFilter, QDir::Files);
     for (int i = 0; i < profilesFiles.size(); ++i) {
         KConfig confFile(KdenliveSettings::mltpath() + profilesFiles.at(i), KConfig::SimpleConfig);
@@ -476,6 +476,11 @@ void ProfilesDialog::slotUpdateDisplay()
     m_view.frame_num->setValue(values.value("frame_rate_num").toInt());
     m_view.frame_den->setValue(values.value("frame_rate_den").toInt());
     m_view.progressive->setChecked(values.value("progressive").toInt());
+    if (values.value("progressive").toInt()) {
+        m_view.fields->setText(QString::number((double)values.value("frame_rate_num").toInt()/values.value("frame_rate_den").toInt(), 'f', 2));
+    } else {
+        m_view.fields->setText(QString::number((double)2*values.value("frame_rate_num").toInt()/values.value("frame_rate_den").toInt(), 'f', 2));
+    }
     m_profileIsModified = false;
 }
 

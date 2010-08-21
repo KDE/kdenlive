@@ -196,8 +196,12 @@ void ProjectSettings::slotUpdateDisplay()
     p_fps->setText(values.value("frame_rate_num") + '/' + values.value("frame_rate_den"));
     p_aspect->setText(values.value("sample_aspect_num") + '/' + values.value("sample_aspect_den"));
     p_display->setText(values.value("display_aspect_num") + '/' + values.value("display_aspect_den"));
-    if (values.value("progressive").toInt() == 0) p_progressive->setText(i18n("Interlaced"));
-    else p_progressive->setText(i18n("Progressive"));
+    if (values.value("progressive").toInt() == 0) {
+        p_progressive->setText(i18n("Interlaced (%1 fields per second)",
+                                    QString::number((double)2*values.value("frame_rate_num").toInt()/values.value("frame_rate_den").toInt(), 'f', 2)));
+    } else {
+        p_progressive->setText(i18n("Progressive"));
+    }
 }
 
 void ProjectSettings::slotUpdateButton(const QString &path)
