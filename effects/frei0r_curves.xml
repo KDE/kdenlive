@@ -6,7 +6,7 @@
 	<parameter type="list" name="Channel" default="0" paramlist="0,1,2,3" paramlistdisplay="Red,Green,Blue,Luma">
 		<name>Channel</name>
 	</parameter>
-	<parameter type="curve" default="0" number="Curve point number" inpoints="Point %i input value" outpoints="Point %i output value" min="1" max="5">
+	<parameter type="curve" default="0" depends="Channel" number="Curve point number" inpoints="Point %i input value" outpoints="Point %i output value" min="1" max="5">
                 <name>Curve Widget</name>
         </parameter>
 	<parameter type="fixed" name="Curve point number" default="2" min="2" max="5">

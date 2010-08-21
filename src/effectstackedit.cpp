@@ -32,6 +32,7 @@
 #include "kis_cubic_curve.h"
 #include "choosecolorwidget.h"
 #include "geometrywidget.h"
+#include "colortools.h"
 
 #include <KDebug>
 #include <KLocale>
@@ -138,6 +139,20 @@ void EffectStackEdit::updateTimecodeFormat()
             PositionEdit *posi = ((PositionEdit*)m_valueItems[paramName+"position"]);
             posi->updateTimecodeFormat();
             break;
+        }
+    }
+}
+
+void EffectStackEdit::meetDependency(const QString& name, QString type, QString value)
+{
+    if (type == "curve") {
+        KisCurveWidget *curve = (KisCurveWidget*)m_valueItems[name];
+        if (curve) {
+            int color = value.toInt();
+            if (color < 3)
+                curve->setPixmap(QPixmap::fromImage(ColorTools::rgbCurvePlane(curve->size(), (ColorTools::ColorsRGB)color)));
+            else
+                curve->setPixmap(QPixmap());
         }
     }
 }
@@ -348,8 +363,13 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
             m_vbox->addWidget(curve);
             m_vbox->addWidget(spinin);
             m_vbox->addWidget(spinout);
+
             connect(curve, SIGNAL(modified()), this, SLOT(collectAllParameters()));
             m_valueItems[paramName] = curve;
+
+            QString depends = pa.attribute("depends");
+            if (!depends.isEmpty())
+                meetDependency(paramName, type, EffectsList::parameter(e, depends));
         } else if (type == "wipe") {
             Wipeval *wpval = new Wipeval;
             wpval->setupUi(toFillin);
@@ -601,6 +621,9 @@ void EffectStackEdit::collectAllParameters()
                 EffectsList::setParameter(newparam, in, QString::number(points.at(j).x()));
                 EffectsList::setParameter(newparam, out, QString::number(points.at(j).y()));
             }
+            QString depends = pa.attributes().namedItem("depends").nodeValue();
+            if (!depends.isEmpty())
+                meetDependency(paramName, type, EffectsList::parameter(newparam, depends));
         } else if (type == "wipe") {
             Wipeval *wp = (Wipeval*)m_valueItems.value(paramName);
             wipeInfo info;

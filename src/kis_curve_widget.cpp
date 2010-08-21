@@ -168,7 +168,6 @@ void KisCurveWidget::setCurveGuide(const QColor & color)
 {
     d->m_guideVisible = true;
     d->m_colorGuide   = color;
-
 }
 
 void KisCurveWidget::setPixmap(const QPixmap & pix)

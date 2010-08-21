@@ -55,14 +55,20 @@ public:
 
 private:
     void clearAllItems();
+    void createSliderItem(const QString& name, int val , int min, int max, const QString);
+    wipeInfo getWipeInfo(QString value);
+    QString getWipeString(wipeInfo info);
+    /** @brief Updates parameter @param name according to new value of dependency.
+    * @param name Name of the parameter which will be updated
+    * @param type Type of the parameter which will be updated
+    * @param value Value of the dependency parameter */
+    void meetDependency(const QString& name, QString type, QString value);
+
     QVBoxLayout *m_vbox;
     QList<QWidget*> m_uiItems;
     QWidget *m_baseWidget;
     QDomElement m_params;
     QMap<QString, QWidget*> m_valueItems;
-    void createSliderItem(const QString& name, int val , int min, int max, const QString);
-    wipeInfo getWipeInfo(QString value);
-    QString getWipeString(wipeInfo info);
     MltVideoProfile m_profile;
     Timecode m_timecode;
     int m_in;

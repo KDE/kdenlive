@@ -51,7 +51,7 @@ public:
       color defines the color to modify on the y axis. The other two components will be increased
       in equal terms (linear as well) on the x axis.
      */
-    QImage rgbCurvePlane(const QSize &size, const ColorTools::ColorsRGB &color);
+    static QImage rgbCurvePlane(const QSize &size, const ColorTools::ColorsRGB &color);
     /**
       @brief Draws a YPbPr plane with Pb on the x axis and Pr on the y axis.
       Y is the Y value to use.
