@@ -58,7 +58,6 @@ kde4_add_ui_files(kdenlive_UI
   widgets/profiledialog_ui.ui
   widgets/projectsettings_ui.ui
   widgets/keyframewidget_ui.ui
-  widgets/constval_ui.ui
   widgets/listval_ui.ui
   widgets/wipeval_ui.ui
   widgets/boolval_ui.ui
