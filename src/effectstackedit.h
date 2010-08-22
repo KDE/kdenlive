@@ -49,13 +49,17 @@ public:
     ~EffectStackEdit();
     void updateProjectFormat(MltVideoProfile profile, Timecode t);
     static QMap<QString, QImage> iconCache;
+    /** @brief Sets attribute @param name to @param value. 
+    *
+    * Used to disable the effect, by setting disabled="1" */
     void updateParameter(const QString &name, const QString &value);
     void setFrameSize(QPoint p);
+    /** @brief Tells the parameters to update their timecode format according to KdenliveSettings. */
     void updateTimecodeFormat();
 
 private:
+    /** @brief Deletes all parameter widgets. */
     void clearAllItems();
-    void createSliderItem(const QString& name, int val , int min, int max, const QString);
     wipeInfo getWipeInfo(QString value);
     QString getWipeString(wipeInfo info);
     /** @brief Updates parameter @param name according to new value of dependency.
@@ -78,10 +82,9 @@ private:
     Monitor *m_monitor;
 
 public slots:
-    /** \brief Called when an effect is selected, builds the UI for this effect */
+    /** @brief Called when an effect is selected, builds the UI for this effect. */
     void transferParamDesc(const QDomElement d, int pos, int in, int out, bool isEffect = true);
-    void slotSliderMoved(int);
-    /** \brief Called whenever(?) some parameter is changed in the gui.
+    /** @brief Called whenever(?) some parameter is changed in the gui.
      *
      * Transfers all Dynamic gui parameter settings into m_params(??) */
     void collectAllParameters();

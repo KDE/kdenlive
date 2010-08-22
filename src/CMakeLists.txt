@@ -217,6 +217,7 @@ set(kdenlive_SRCS
   choosecolorwidget.cpp
   monitorscene.cpp
   geometrywidget.cpp
+  doubleparameterwidget.cpp
 )
 
 

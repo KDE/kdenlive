@@ -16,7 +16,6 @@
  ***************************************************************************/
 
 #include "effectstackedit.h"
-#include "ui_constval_ui.h"
 #include "ui_listval_ui.h"
 #include "ui_boolval_ui.h"
 #include "ui_wipeval_ui.h"
@@ -33,13 +32,13 @@
 #include "choosecolorwidget.h"
 #include "geometrywidget.h"
 #include "colortools.h"
+#include "doubleparameterwidget.h"
 
 #include <KDebug>
 #include <KLocale>
 #include <KFileDialog>
 
 #include <QVBoxLayout>
-#include <QSlider>
 #include <QLabel>
 #include <QPushButton>
 #include <QCheckBox>
@@ -47,10 +46,6 @@
 
 
 class Boolval: public QWidget, public Ui::Boolval_UI
-{
-};
-
-class Constval: public QWidget, public Ui::Constval_UI
 {
 };
 
@@ -118,6 +113,7 @@ void EffectStackEdit::updateTimecodeFormat()
 {
     if (m_keyframeEditor)
         m_keyframeEditor->updateTimecodeFormat();
+
     QDomNodeList namenode = m_params.elementsByTagName("parameter");
     for (int i = 0; i < namenode.count() ; i++) {
         QDomNode pa = namenode.item(i);
@@ -181,10 +177,6 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
         return;
     }
 
-    /*QDomDocument doc;
-    doc.appendChild(doc.importNode(m_params, true));
-    kDebug() << "IMPORTED TRANS: " << doc.toString();*/
-
     QDomNodeList namenode = m_params.elementsByTagName("parameter");
     QDomElement e = m_params.toElement();
     const int minFrame = e.attribute("start").toInt();
@@ -224,9 +216,11 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
                 max = (int) ProfilesDialog::getStringEval(m_profile, pa.attribute("max"));
             else
                 max = pa.attribute("max").toInt();
-            createSliderItem(paramName, (int)(value.toDouble() + 0.5) , min, max, pa.attribute("suffix", QString()));
-            delete toFillin;
-            toFillin = NULL;
+
+            DoubleParameterWidget *doubleparam = new DoubleParameterWidget(paramName, (int)(value.toDouble() + 0.5), min, max, pa.attribute("suffix", QString()), this);
+            m_vbox->addWidget(doubleparam);
+            m_valueItems[paramName] = doubleparam;
+            connect(doubleparam, SIGNAL(valueChanged(int)), this, SLOT(collectAllParameters()));
         } else if (type == "list") {
             Listval *lsval = new Listval;
             lsval->setupUi(toFillin);
@@ -260,19 +254,6 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
             connect(bval->checkBox, SIGNAL(stateChanged(int)) , this, SLOT(collectAllParameters()));
             m_uiItems.append(bval);
         } else if (type == "complex") {
-            /*QStringList names=nodeAtts.namedItem("name").nodeValue().split(';');
-            QStringList max=nodeAtts.namedItem("max").nodeValue().split(';');
-            QStringList min=nodeAtts.namedItem("min").nodeValue().split(';');
-            QStringList val=value.split(';');
-            kDebug() << "in complex"<<names.size() << " " << max.size() << " " << min.size() << " " << val.size()  ;
-            if ( (names.size() == max.size() ) &&
-                 (names.size()== min.size()) &&
-                 (names.size()== val.size()) )
-            {
-             for (int i=0;i< names.size();i++){
-              createSliderItem(names[i],val[i].toInt(),min[i].toInt(),max[i].toInt());
-             };
-            }*/
             ComplexParameter *pl = new ComplexParameter;
             pl->setupParam(d, pa.attribute("name"), 0, 100);
             m_vbox->addWidget(pl);
@@ -559,8 +540,8 @@ void EffectStackEdit::collectAllParameters()
 
         QString setValue;
         if (type == "double" || type == "constant") {
-            QSlider* slider = ((Constval*)m_valueItems.value(paramName))->horizontalSlider;
-            setValue = QString::number(slider->value());
+            DoubleParameterWidget *doubleparam = (DoubleParameterWidget*)m_valueItems.value(paramName);
+            setValue = QString::number(doubleparam->getValue());
         } else if (type == "list") {
             KComboBox *box = ((Listval*)m_valueItems.value(paramName))->list;
             setValue = box->itemData(box->currentIndex()).toString();
@@ -671,30 +652,6 @@ void EffectStackEdit::collectAllParameters()
 
     }
     emit parameterChanged(oldparam, newparam);
-}
-
-void EffectStackEdit::createSliderItem(const QString& name, int val , int min, int max, const QString suffix)
-{
-    QWidget* toFillin = new QWidget(m_baseWidget);
-    Constval *ctval = new Constval;
-    ctval->setupUi(toFillin);
-    ctval->horizontalSlider->setMinimum(min);
-    ctval->horizontalSlider->setMaximum(max);
-    if (!suffix.isEmpty()) ctval->spinBox->setSuffix(suffix);
-    ctval->spinBox->setMinimum(min);
-    ctval->spinBox->setMaximum(max);
-    ctval->horizontalSlider->setPageStep((int)(max - min) / 10);
-    ctval->horizontalSlider->setValue(val);
-    ctval->label->setText(name);
-    m_valueItems[name] = ctval;
-    m_uiItems.append(ctval);
-    connect(ctval->horizontalSlider, SIGNAL(valueChanged(int)) , this, SLOT(collectAllParameters()));
-    m_vbox->addWidget(toFillin);
-}
-
-void EffectStackEdit::slotSliderMoved(int)
-{
-    collectAllParameters();
 }
 
 void EffectStackEdit::clearAllItems()
