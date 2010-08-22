@@ -44,9 +44,10 @@ public:
     * @param value Value of the parameter
     * @param min Minimum value
     * @param max maximum value
+    * @param defaultValue Value used when using reset functionality
     * @param suffix (optional) Suffix to display in spinbox
     * @param parent (optional) Parent Widget */
-    DoubleParameterWidget(const QString &name, int value, int min, int max, const QString suffix = QString(), QWidget* parent = 0);
+    DoubleParameterWidget(const QString &name, int value, int min, int max, int defaultValue, const QString suffix = QString(), QWidget* parent = 0);
     /** @brief Updates the label to display @param name. */
     void setName(const QString &name);
     /** @brief Gets the parameter's value. */
@@ -56,7 +57,12 @@ public slots:
     /** @brief Sets the value to @param value. */
     void setValue(int value);
 
+private slots:
+    /** @brief Sets value to m_default. */
+    void slotReset();
+
 private:
+    int m_default;
     QLabel *m_name;
     QSlider *m_slider;
     QSpinBox *m_spinBox;

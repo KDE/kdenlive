@@ -217,7 +217,8 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
             else
                 max = pa.attribute("max").toInt();
 
-            DoubleParameterWidget *doubleparam = new DoubleParameterWidget(paramName, (int)(value.toDouble() + 0.5), min, max, pa.attribute("suffix", QString()), this);
+            DoubleParameterWidget *doubleparam = new DoubleParameterWidget(paramName, (int)(value.toDouble() + 0.5), min, max,
+                                                                           pa.attribute("default").toInt(), pa.attribute("suffix"), this);
             m_vbox->addWidget(doubleparam);
             m_valueItems[paramName] = doubleparam;
             connect(doubleparam, SIGNAL(valueChanged(int)), this, SLOT(collectAllParameters()));

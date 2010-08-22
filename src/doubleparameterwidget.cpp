@@ -24,10 +24,15 @@
 #include <QLabel>
 #include <QSlider>
 #include <QSpinBox>
+#include <QToolButton>
+
+#include <KIcon>
+#include <KLocalizedString>
 
 
-DoubleParameterWidget::DoubleParameterWidget(const QString &name, int value, int min, int max, const QString suffix, QWidget *parent) :
-        QWidget(parent)
+DoubleParameterWidget::DoubleParameterWidget(const QString &name, int value, int min, int max, int defaultValue, const QString suffix, QWidget *parent) :
+        QWidget(parent),
+        m_default(defaultValue)
 {
     QHBoxLayout *layout = new QHBoxLayout(this);
 
@@ -41,12 +46,20 @@ DoubleParameterWidget::DoubleParameterWidget(const QString &name, int value, int
 
     m_spinBox = new QSpinBox(this);
     m_spinBox->setRange(min, max);
+    m_spinBox->setKeyboardTracking(false);
     if (!suffix.isEmpty())
         m_spinBox->setSuffix(suffix);
     layout->addWidget(m_spinBox);
 
+    QToolButton *reset = new QToolButton(this);
+    reset->setAutoRaise(true);
+    reset->setIcon(KIcon("edit-undo"));
+    reset->setToolTip(i18n("Reset to default value"));
+    layout->addWidget(reset);
+
     connect(m_slider,  SIGNAL(valueChanged(int)), this, SLOT(setValue(int)));
     connect(m_spinBox, SIGNAL(valueChanged(int)), this, SLOT(setValue(int)));
+    connect(reset,     SIGNAL(clicked(bool)),     this, SLOT(slotReset()));
 
     m_spinBox->setValue(value);
 }
@@ -70,10 +83,14 @@ int DoubleParameterWidget::getValue()
     return m_spinBox->value();
 }
 
-
 void DoubleParameterWidget::setName(const QString& name)
 {
     m_name->setText(name);
+}
+
+void DoubleParameterWidget::slotReset()
+{
+    m_spinBox->setValue(m_default);
 }
 
 #include "doubleparameterwidget.moc"

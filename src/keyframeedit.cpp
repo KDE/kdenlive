@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "keyframeedit.h"
+#include "doubleparameterwidget.h"
 #include "kdenlivesettings.h"
 
 #include <KDebug>
@@ -89,11 +90,12 @@ void KeyframeEdit::addParameter(QDomElement e)
     int columnId = keyframe_list->columnCount();
     keyframe_list->insertColumn(columnId);
     keyframe_list->setHorizontalHeaderItem(columnId, new QTableWidgetItem(paramName));
-    m_slidersLayout->addWidget(new QLabel(paramName), columnId, 0);
-    QSlider *sl = new QSlider(Qt::Horizontal, this);
-    sl->setRange(m_params.at(columnId).attribute("min").toInt(), m_params.at(columnId).attribute("max").toInt());
-    connect(sl, SIGNAL(valueChanged(int)), this, SLOT(slotAdjustKeyframeValue(int)));
-    m_slidersLayout->addWidget(sl, columnId, 1);
+
+    DoubleParameterWidget *doubleparam = new DoubleParameterWidget(paramName, 0,
+                                                                   m_params.at(columnId).attribute("min").toInt(), m_params.at(columnId).attribute("max").toInt(),
+                                                                   m_params.at(columnId).attribute("default").toInt(), m_params.at(columnId).attribute("suffix"), this);
+    connect(doubleparam, SIGNAL(valueChanged(int)), this, SLOT(slotAdjustKeyframeValue(int)));
+    m_slidersLayout->addWidget(doubleparam, columnId, 0);
 
     QStringList frames = e.attribute("keyframes").split(";", QString::SkipEmptyParts);
     for (int i = 0; i < frames.count(); i++) {
@@ -132,13 +134,14 @@ void KeyframeEdit::setupParam()
     kDebug() << " INSERT COL: " << col << ", " << paramName;
     keyframe_list->insertColumn(col);
     keyframe_list->setHorizontalHeaderItem(col, new QTableWidgetItem(paramName));
-    m_slidersLayout = new QGridLayout;
-    m_slidersLayout->addWidget(new QLabel(paramName), 0, 0);
-    QSlider *sl = new QSlider(Qt::Horizontal, this);
-    sl->setRange(m_params.at(0).attribute("min").toInt(), m_params.at(0).attribute("max").toInt());
-    connect(sl, SIGNAL(valueChanged(int)), this, SLOT(slotAdjustKeyframeValue(int)));
-    m_slidersLayout->addWidget(sl, 0, 1);
-    param_sliders->setLayout(m_slidersLayout);
+    m_slidersLayout = new QGridLayout(param_sliders);
+
+    DoubleParameterWidget *doubleparam = new DoubleParameterWidget(paramName, 0,
+                                                                   m_params.at(0).attribute("min").toInt(), m_params.at(0).attribute("max").toInt(),
+                                                                   m_params.at(0).attribute("default").toInt(), m_params.at(0).attribute("suffix"), this);
+    connect(doubleparam, SIGNAL(valueChanged(int)), this, SLOT(slotAdjustKeyframeValue(int)));
+    m_slidersLayout->addWidget(doubleparam, 0, 0);
+
     keyframe_list->setSelectionBehavior(QAbstractItemView::SelectRows);
     keyframe_list->setSelectionMode(QAbstractItemView::SingleSelection);
 
@@ -333,12 +336,12 @@ void KeyframeEdit::slotAdjustKeyframeInfo(bool seek)
     keyframe_pos->setValue(getPos(item->row()));
     keyframe_pos->blockSignals(false);
     for (int col = 0; col < keyframe_list->columnCount(); col++) {
-        QSlider *sl = static_cast <QSlider*>(m_slidersLayout->itemAtPosition(col, 1)->widget());
-        if (!sl)
+        DoubleParameterWidget *doubleparam = static_cast <DoubleParameterWidget*>(m_slidersLayout->itemAtPosition(col, 0)->widget());
+        if (!doubleparam)
             continue;
-        sl->blockSignals(true);
-        sl->setValue(keyframe_list->item(item->row(), col)->text().toInt());
-        sl->blockSignals(false);
+        doubleparam->blockSignals(true);
+        doubleparam->setValue(keyframe_list->item(item->row(), col)->text().toInt());
+        doubleparam->blockSignals(false);
     }
     if (KdenliveSettings::keyframeseek() && seek)
         emit seekToPos(keyframe_pos->value() - m_min);
@@ -357,10 +360,10 @@ void KeyframeEdit::slotAdjustKeyframeValue(int /*value*/)
 {
     QTableWidgetItem *item = keyframe_list->currentItem();
     for (int col = 0; col < keyframe_list->columnCount(); col++) {
-        QSlider *sl = static_cast <QSlider*>(m_slidersLayout->itemAtPosition(col, 1)->widget());
-        if (!sl)
+        DoubleParameterWidget *doubleparam = static_cast <DoubleParameterWidget*>(m_slidersLayout->itemAtPosition(col, 0)->widget());
+        if (!doubleparam)
             continue;
-        int val = sl->value();
+        int val = doubleparam->getValue();
         QTableWidgetItem *nitem = keyframe_list->item(item->row(), col);
         if (nitem->text().toInt() != val)
             nitem->setText(QString::number(val));
