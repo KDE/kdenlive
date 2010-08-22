@@ -116,6 +116,11 @@ Q_OBJECT public:
     const QString getDocumentProperty(const QString &name) const;
     /** @brief get the list of renderer properties that were saved in the document */
     QMap <QString, QString> getRenderProperties() const;
+    void addTrackEffect(int ix, QDomElement effect);
+    void removeTrackEffect(int ix, QDomElement effect);
+    void setTrackEffect(int trackIndex, int effectIndex, QDomElement effect);
+    const EffectsList getTrackEffects(int ix);
+    QDomElement getTrackEffect(int trackIndex, int effectIndex) const;
 
 private:
     KUrl m_url;

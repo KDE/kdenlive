@@ -202,6 +202,7 @@ Q_OBJECT public:
 
     /** @brief Deletes an effect from a clip in MLT's playlist. */
     bool mltRemoveEffect(int track, GenTime position, QString index, bool updateIndex, bool doRefresh = true);
+    bool mltRemoveTrackEffect(int track, QString index, bool updateIndex);
 
     /** @brief Adds an effect to a clip in MLT's playlist. */
     bool mltAddEffect(int track, GenTime position, EffectsParameterList params, bool doRefresh = true);
@@ -210,6 +211,7 @@ Q_OBJECT public:
 
     /** @brief Edits an effect parameters in MLT's playlist. */
     bool mltEditEffect(int track, GenTime position, EffectsParameterList params);
+    bool mltEditTrackEffect(int track, EffectsParameterList params);
 
     /** @brief Updates the "kdenlive_ix" (index) value of an effect. */
     void mltUpdateEffectPosition(int track, GenTime position, int oldPos, int newPos);
@@ -219,6 +221,7 @@ Q_OBJECT public:
      * It switches effects from oldPos and newPos, updating the "kdenlive_ix"
      * (index) value. */
     void mltMoveEffect(int track, GenTime position, int oldPos, int newPos);
+    void mltMoveTrackEffect(int track, int oldPos, int newPos);
 
     /** @brief Enables/disables audio/video in a track. */
     void mltChangeTrackState(int track, bool mute, bool blind);

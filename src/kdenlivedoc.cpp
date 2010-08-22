@@ -1118,26 +1118,46 @@ int KdenliveDoc::tracksCount() const
 
 TrackInfo KdenliveDoc::trackInfoAt(int ix) const
 {
+    if (ix < 0 || ix >= m_tracksList.count()) {
+        kWarning() << "Track INFO outisde of range";
+        return TrackInfo();
+    }
     return m_tracksList.at(ix);
 }
 
 void KdenliveDoc::switchTrackAudio(int ix, bool hide)
 {
+    if (ix < 0 || ix >= m_tracksList.count()) {
+        kWarning() << "SWITCH Track outisde of range";
+        return;
+    }
     m_tracksList[ix].isMute = hide; // !m_tracksList.at(ix).isMute;
 }
 
 void KdenliveDoc::switchTrackLock(int ix, bool lock)
 {
+    if (ix < 0 || ix >= m_tracksList.count()) {
+        kWarning() << "Track Lock outisde of range";
+        return;
+    }
     m_tracksList[ix].isLocked = lock;
 }
 
 bool KdenliveDoc::isTrackLocked(int ix) const
 {
+    if (ix < 0 || ix >= m_tracksList.count()) {
+        kWarning() << "Track Lock outisde of range";
+        return true;
+    }
     return m_tracksList.at(ix).isLocked;
 }
 
 void KdenliveDoc::switchTrackVideo(int ix, bool hide)
 {
+    if (ix < 0 || ix >= m_tracksList.count()) {
+        kWarning() << "SWITCH Track outisde of range";
+        return;
+    }
     m_tracksList[ix].isBlind = hide; // !m_tracksList.at(ix).isBlind;
 }
 
@@ -1149,11 +1169,19 @@ void KdenliveDoc::insertTrack(int ix, TrackInfo type)
 
 void KdenliveDoc::deleteTrack(int ix)
 {
+    if (ix < 0 || ix >= m_tracksList.count()) {
+        kWarning() << "Delete Track outisde of range";
+        return;
+    }
     m_tracksList.removeAt(ix);
 }
 
 void KdenliveDoc::setTrackType(int ix, TrackInfo type)
 {
+    if (ix < 0 || ix >= m_tracksList.count()) {
+        kWarning() << "SET Track Type outisde of range";
+        return;
+    }
     m_tracksList[ix].type = type.type;
     m_tracksList[ix].isMute = type.isMute;
     m_tracksList[ix].isBlind = type.isBlind;
@@ -1249,6 +1277,70 @@ QMap <QString, QString> KdenliveDoc::getRenderProperties() const
         if (i.key().startsWith("render")) renderProperties.insert(i.key(), i.value());
     }
     return renderProperties;
+}
+
+void KdenliveDoc::addTrackEffect(int ix, QDomElement effect)
+{
+    if (ix < 0 || ix >= m_tracksList.count()) {
+        kWarning() << "Add Track effect outisde of range";
+        return;
+    }
+    effect.setAttribute("kdenlive_ix", m_tracksList.at(ix).effectsList.count() + 1);
+    m_tracksList[ix].effectsList.append(effect);
+}
+
+void KdenliveDoc::removeTrackEffect(int ix, QDomElement effect)
+{
+    if (ix < 0 || ix >= m_tracksList.count()) {
+        kWarning() << "Remove Track effect outisde of range";
+        return;
+    }
+    QString index;
+    QString toRemove = effect.attribute("kdenlive_ix");
+    for (int i = 0; i < m_tracksList.at(ix).effectsList.count(); ++i) {
+        index = m_tracksList.at(ix).effectsList.at(i).attribute("kdenlive_ix");
+        if (toRemove == index) {
+            m_tracksList[ix].effectsList.removeAt(i);
+            i--;
+        } else if (index.toInt() > toRemove.toInt()) {
+            m_tracksList[ix].effectsList.item(i).setAttribute("kdenlive_ix", index.toInt() - 1);
+        }
+    }
+}
+
+void KdenliveDoc::setTrackEffect(int trackIndex, int effectIndex, QDomElement effect)
+{
+    if (trackIndex < 0 || trackIndex >= m_tracksList.count()) {
+        kWarning() << "Set Track effect outisde of range";
+        return;
+    }
+    if (effectIndex < 0 || effectIndex > (m_tracksList.at(trackIndex).effectsList.count() - 1) || effect.isNull()) {
+        kDebug() << "Invalid effect index: " << effectIndex;
+        return;
+    }
+    kDebug() << "CHange TRK EFFECT AT: " << trackIndex;
+    effect.setAttribute("kdenlive_ix", effectIndex + 1);
+    m_tracksList[trackIndex].effectsList.replace(effectIndex, effect);
+}
+
+const EffectsList KdenliveDoc::getTrackEffects(int ix)
+{
+    if (ix < 0 || ix >= m_tracksList.count()) {
+        kWarning() << "Get Track effects outisde of range";
+        return EffectsList();
+    }
+    return m_tracksList.at(ix).effectsList;
+}
+
+QDomElement KdenliveDoc::getTrackEffect(int trackIndex, int effectIndex) const
+{
+    if (trackIndex < 0 || trackIndex >= m_tracksList.count()) {
+        kWarning() << "Get Track effect outisde of range";
+        return QDomElement();
+    }
+    EffectsList list = m_tracksList.at(trackIndex).effectsList;
+    if (effectIndex > list.count() - 1 || effectIndex < 0 || list.at(effectIndex).isNull()) return QDomElement();
+    return list.at(effectIndex).cloneNode().toElement();
 }
 
 #include "kdenlivedoc.moc"

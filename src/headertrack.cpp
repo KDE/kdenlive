@@ -120,6 +120,7 @@ void HeaderTrack::mousePressEvent(QMouseEvent * event)
         return;
     }
     if (!m_isSelected) emit selectTrack(m_index);
+    emit showTrackEffects(m_index);
     QWidget::mousePressEvent(event);
 }
 

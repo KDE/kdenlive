@@ -105,6 +105,7 @@ TrackView::TrackView(KdenliveDoc *doc, bool *ok, QWidget *parent) :
     connect(m_trackview, SIGNAL(trackHeightChanged()), this, SLOT(slotRebuildTrackHeaders()));
     connect(m_trackview, SIGNAL(tracksChanged()), this, SLOT(slotReloadTracks()));
     connect(m_trackview, SIGNAL(updateTrackHeaders()), this, SLOT(slotRepaintTracks()));
+    connect(m_trackview, SIGNAL(showTrackEffects(int, EffectsList)), this, SIGNAL(showTrackEffects(int, EffectsList)));
 
     parseDocument(m_doc->toXml());
     if (m_doc->setSceneList() == -1) *ok = false;
@@ -557,7 +558,8 @@ void TrackView::slotRebuildTrackHeaders()
         connect(header, SIGNAL(insertTrack(int)), this, SIGNAL(insertTrack(int)));
         connect(header, SIGNAL(renameTrack(int, QString)), this, SLOT(slotRenameTrack(int, QString)));
         connect(header, SIGNAL(configTrack(int)), this, SIGNAL(configTrack(int)));
-	connect(header, SIGNAL(addTrackInfo(const QDomElement, int)), m_trackview, SLOT(slotAddTrackEffect(const QDomElement, int)));
+        connect(header, SIGNAL(addTrackInfo(const QDomElement, int)), m_trackview, SLOT(slotAddTrackEffect(const QDomElement, int)));
+        connect(header, SIGNAL(showTrackEffects(int)), this, SLOT(slotShowTrackEffects(int)));
         headers_container->layout()->addWidget(header);
     }
     frame = new QFrame(this);
@@ -975,6 +977,11 @@ void TrackView::slotUpdateVerticalScroll(int /*min*/, int max)
 void TrackView::updateRuler()
 {
     m_ruler->update();
+}
+
+void TrackView::slotShowTrackEffects(int ix)
+{
+    emit showTrackEffects(m_doc->tracksCount() - ix, m_doc->getTrackEffects(ix));
 }
 
 #include "trackview.moc"

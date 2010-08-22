@@ -57,10 +57,18 @@ public:
 
 private:
     Ui::EffectStack_UI m_ui;
+    Monitor *m_monitor;
     ClipItem* m_clipref;
     QMap<QString, EffectsList*> m_effectLists;
+    EffectsList m_currentEffectList;
     EffectStackEdit* m_effectedit;
-    Monitor *m_monitor;
+
+    /** @brief Effectstackview can show the effects of a clip or the effects of a track.
+     * true if showing track effects. */
+    bool m_trackMode;
+
+    /** @brief The track index of currently edited track. */
+    int m_trackindex;
 
     /** @brief Sets the list of effects according to the clip's effect list.
     * @param ix Number of the effect to preselect */
@@ -71,6 +79,8 @@ public slots:
     * @param c Clip whose effect list should be managed
     * @param ix Effect to preselect */
     void slotClipItemSelected(ClipItem* c, int ix);
+
+    void slotTrackItemSelected(int ix, EffectsList list);
 
     /** @brief Emits updateClipEffect.
     * @param old Old effect information
@@ -123,16 +133,16 @@ private slots:
     void slotRenderPos(int pos);
 
 signals:
-    void removeEffect(ClipItem*, QDomElement);
+    void removeEffect(ClipItem*, int, QDomElement);
     /**  Parameters for an effect changed, update the filter in playlist */
-    void updateClipEffect(ClipItem*, QDomElement, QDomElement, int);
+    void updateEffect(ClipItem*, int, QDomElement, QDomElement, int);
     /** An effect in stack was moved, we need to regenerate
         all effects for this clip in the playlist */
     void refreshEffectStack(ClipItem *);
     /** Enable or disable an effect */
-    void changeEffectState(ClipItem*, int, bool);
+    void changeEffectState(ClipItem*, int, int, bool);
     /** An effect in stack was moved */
-    void changeEffectPosition(ClipItem*, int, int);
+    void changeEffectPosition(ClipItem*, int, int, int);
     /** an effect was saved, reload list */
     void reloadEffects();
     /** An effect with position parameter was changed, seek */

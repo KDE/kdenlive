@@ -35,6 +35,7 @@
 #include <KRuler>
 
 #include "customtrackscene.h"
+#include "effectslist.h"
 #include "ui_timeline_ui.h"
 
 class ClipItem;
@@ -123,6 +124,7 @@ private slots:
      * the horizontal scrollbar is visible and the position
      * of the vertical scrollbar is maximal */
     void slotUpdateVerticalScroll(int min, int max);
+    void slotShowTrackEffects(int);
 
 signals:
     void mousePosition(int);
@@ -133,6 +135,7 @@ signals:
     void configTrack(int);
     void updateTracksInfo();
     void setZoom(int);
+    void showTrackEffects(int, EffectsList);
 };
 
 #endif

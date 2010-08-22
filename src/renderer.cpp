@@ -678,7 +678,7 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
 
     // setup length here as otherwise default length (currently 15000 frames in MLT) will be taken although outpoint is larger
     if (xml.attribute("type").toInt() == COLOR || xml.attribute("type").toInt() == TEXT
-        || xml.attribute("type").toInt() == IMAGE || xml.attribute("type").toInt() == SLIDESHOW)
+            || xml.attribute("type").toInt() == IMAGE || xml.attribute("type").toInt() == SLIDESHOW)
         producer->set("length", xml.attribute("out").toInt() - xml.attribute("in").toInt() + 1);
 
     if (xml.hasAttribute("out")) producer->set_in_and_out(xml.attribute("in").toInt(), xml.attribute("out").toInt());
@@ -2248,8 +2248,40 @@ int Render::mltChangeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, dou
     return newLength;
 }
 
+bool Render::mltRemoveTrackEffect(int track, QString index, bool updateIndex)
+{
+    kDebug() << "REMOVE TK EFF: " << track << ", IX: " << index;
+    Mlt::Service service(m_mltProducer->parent().get_service());
+    bool success = false;
+    Mlt::Tractor tractor(service);
+    Mlt::Producer trackProducer(tractor.track(track));
+    Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
+    Mlt::Service clipService(trackPlaylist.get_service());
+
+    m_isBlocked = true;
+    int ct = 0;
+    Mlt::Filter *filter = clipService.filter(ct);
+    while (filter) {
+        if ((index == "-1" && strcmp(filter->get("kdenlive_id"), ""))  || filter->get("kdenlive_ix") == index) {
+            if (clipService.detach(*filter) == 0) success = true;
+        } else if (updateIndex) {
+            // Adjust the other effects index
+            if (QString(filter->get("kdenlive_ix")).toInt() > index.toInt()) filter->set("kdenlive_ix", QString(filter->get("kdenlive_ix")).toInt() - 1);
+            ct++;
+        } else ct++;
+        filter = clipService.filter(ct);
+    }
+    m_isBlocked = false;
+    refresh();
+    return success;
+}
+
 bool Render::mltRemoveEffect(int track, GenTime position, QString index, bool updateIndex, bool doRefresh)
 {
+    if (position < GenTime()) {
+        // Remove track effect
+        return mltRemoveTrackEffect(track, index, updateIndex);
+    }
     Mlt::Service service(m_mltProducer->parent().get_service());
     bool success = false;
     Mlt::Tractor tractor(service);
@@ -2298,7 +2330,7 @@ bool Render::mltAddTrackEffect(int track, EffectsParameterList params)
     Mlt::Tractor tractor(service);
     Mlt::Producer trackProducer(tractor.track(track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
-    Mlt::Service trackService(trackPlaylist.get_service());
+    Mlt::Service trackService(trackProducer.get_service()); //trackPlaylist
     return mltAddEffect(trackService, params, 15000, true);
 }
 
@@ -2329,7 +2361,7 @@ bool Render::mltAddEffect(int track, GenTime position, EffectsParameterList para
     delete clip;
     return mltAddEffect(clipService, params, duration, doRefresh);
 }
-    
+
 bool Render::mltAddEffect(Mlt::Service service, EffectsParameterList params, int duration, bool doRefresh)
 {
     bool updateIndex = false;
@@ -2502,6 +2534,55 @@ bool Render::mltAddEffect(Mlt::Service service, EffectsParameterList params, int
     return true;
 }
 
+bool Render::mltEditTrackEffect(int track, EffectsParameterList params)
+{
+    kDebug() << "EDIT TK, FILTER: " << track;
+    Mlt::Service service(m_mltProducer->parent().get_service());
+    Mlt::Tractor tractor(service);
+    Mlt::Producer trackProducer(tractor.track(track));
+    Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
+    Mlt::Service clipService(trackPlaylist.get_service());
+    m_isBlocked = true;
+    int ct = 0;
+    QString index = params.paramValue("kdenlive_ix");
+    QString tag =  params.paramValue("tag");
+
+    Mlt::Filter *filter = clipService.filter(ct);
+    while (filter) {
+        if (filter->get("kdenlive_ix") == index) {
+            break;
+        }
+        ct++;
+        filter = clipService.filter(ct);
+    }
+
+    if (!filter) {
+        kDebug() << "WARINIG, FILTER FOR EDITING NOT FOUND, ADDING IT! " << index << ", " << tag;
+        // filter was not found, it was probably a disabled filter, so add it to the correct place...
+
+        bool success = false;//mltAddTrackEffect(track, params);
+        m_isBlocked = false;
+        return success;
+    }
+    QString prefix;
+    QString ser = filter->get("mlt_service");
+    if (ser == "region") prefix = "filter0.";
+    mlt_service_lock(service.get_service());
+    for (int j = 0; j < params.count(); j++) {
+        char *name = decodedString(prefix + params.at(j).name());
+        char *value = decodedString(params.at(j).value());
+        filter->set(name, value);
+        delete[] name;
+        delete[] value;
+    }
+    mlt_service_unlock(service.get_service());
+
+    m_isBlocked = false;
+    refresh();
+    return true;
+
+}
+
 bool Render::mltEditEffect(int track, GenTime position, EffectsParameterList params)
 {
     QString index = params.paramValue("kdenlive_ix");
@@ -2513,7 +2594,9 @@ bool Render::mltEditEffect(int track, GenTime position, EffectsParameterList par
         bool success = mltAddEffect(track, position, params);
         return success;
     }
-
+    if (position < GenTime()) {
+        return mltEditTrackEffect(track, params);
+    }
     // find filter
     Mlt::Service service(m_mltProducer->parent().get_service());
     Mlt::Tractor tractor(service);
@@ -2584,10 +2667,7 @@ bool Render::mltEditEffect(int track, GenTime position, EffectsParameterList par
 
 void Render::mltUpdateEffectPosition(int track, GenTime position, int oldPos, int newPos)
 {
-
-    kDebug() << "MOVING EFFECT FROM " << oldPos << ", TO: " << newPos;
     Mlt::Service service(m_mltProducer->parent().get_service());
-
     Mlt::Tractor tractor(service);
     Mlt::Producer trackProducer(tractor.track(track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
@@ -2624,10 +2704,11 @@ void Render::mltUpdateEffectPosition(int track, GenTime position, int oldPos, in
 
 void Render::mltMoveEffect(int track, GenTime position, int oldPos, int newPos)
 {
-
-    kDebug() << "MOVING EFFECT FROM " << oldPos << ", TO: " << newPos;
+    if (position < GenTime()) {
+        mltMoveTrackEffect(track, oldPos, newPos);
+        return;
+    }
     Mlt::Service service(m_mltProducer->parent().get_service());
-
     Mlt::Tractor tractor(service);
     Mlt::Producer trackProducer(tractor.track(track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
@@ -2701,6 +2782,70 @@ void Render::mltMoveEffect(int track, GenTime position, int oldPos, int newPos)
 
     m_isBlocked = false;
     if (doRefresh) refresh();
+}
+
+void Render::mltMoveTrackEffect(int track, int oldPos, int newPos)
+{
+    Mlt::Service service(m_mltProducer->parent().get_service());
+    Mlt::Tractor tractor(service);
+    Mlt::Producer trackProducer(tractor.track(track));
+    Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
+
+    Mlt::Service clipService(trackPlaylist.get_service());
+
+    m_isBlocked = true;
+    int ct = 0;
+    QList <Mlt::Filter *> filtersList;
+    Mlt::Filter *filter = clipService.filter(ct);
+    bool found = false;
+    if (newPos > oldPos) {
+        while (filter) {
+            if (!found && QString(filter->get("kdenlive_ix")).toInt() == oldPos) {
+                filter->set("kdenlive_ix", newPos);
+                filtersList.append(filter);
+                clipService.detach(*filter);
+                filter = clipService.filter(ct);
+                while (filter && QString(filter->get("kdenlive_ix")).toInt() <= newPos) {
+                    filter->set("kdenlive_ix", QString(filter->get("kdenlive_ix")).toInt() - 1);
+                    ct++;
+                    filter = clipService.filter(ct);
+                }
+                found = true;
+            }
+            if (filter && QString(filter->get("kdenlive_ix")).toInt() > newPos) {
+                filtersList.append(filter);
+                clipService.detach(*filter);
+            } else ct++;
+            filter = clipService.filter(ct);
+        }
+    } else {
+        while (filter) {
+            if (QString(filter->get("kdenlive_ix")).toInt() == oldPos) {
+                filter->set("kdenlive_ix", newPos);
+                filtersList.append(filter);
+                clipService.detach(*filter);
+            } else ct++;
+            filter = clipService.filter(ct);
+        }
+
+        ct = 0;
+        filter = clipService.filter(ct);
+        while (filter) {
+            int pos = QString(filter->get("kdenlive_ix")).toInt();
+            if (pos >= newPos) {
+                if (pos < oldPos) filter->set("kdenlive_ix", pos + 1);
+                filtersList.append(filter);
+                clipService.detach(*filter);
+            } else ct++;
+            filter = clipService.filter(ct);
+        }
+    }
+
+    for (int i = 0; i < filtersList.count(); i++) {
+        clipService.attach(*(filtersList.at(i)));
+    }
+    m_isBlocked = false;
+    refresh();
 }
 
 bool Render::mltResizeClipEnd(ItemInfo info, GenTime clipDuration)

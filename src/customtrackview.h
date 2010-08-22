@@ -187,10 +187,10 @@ public slots:
     void setCursorPos(int pos, bool seek = true);
     void moveCursorPos(int delta);
     void updateCursorPos();
-    void slotDeleteEffect(ClipItem *clip, QDomElement effect, bool affectGroup = true);
-    void slotChangeEffectState(ClipItem *clip, int effectPos, bool disable);
-    void slotChangeEffectPosition(ClipItem *clip, int currentPos, int newPos);
-    void slotUpdateClipEffect(ClipItem *clip, QDomElement oldeffect, QDomElement effect, int ix);
+    void slotDeleteEffect(ClipItem *clip, int track, QDomElement effect, bool affectGroup = true);
+    void slotChangeEffectState(ClipItem *clip, int track, int effectPos, bool disable);
+    void slotChangeEffectPosition(ClipItem *clip, int track, int currentPos, int newPos);
+    void slotUpdateClipEffect(ClipItem *clip, int track, QDomElement oldeffect, QDomElement effect, int ix);
     void slotUpdateClipRegion(ClipItem *clip, int ix, QString region);
     void slotRefreshEffects(ClipItem *clip);
     void setDuration(int duration);
@@ -422,6 +422,7 @@ signals:
     /** @brief Monitor document changes (for example the presence of audio data in timeline for export widget.*/
     void documentModified();
     void forceClipProcessing(const QString &);
+    void showTrackEffects(int, EffectsList);
 };
 
 #endif

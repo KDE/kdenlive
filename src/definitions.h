@@ -22,6 +22,7 @@
 #define DEFINITIONS_H
 
 #include "gentime.h"
+#include "effectslist.h"
 
 #include <QTreeWidgetItem>
 #include <KLocale>
@@ -63,6 +64,7 @@ struct TrackInfo {
     bool isMute;
     bool isBlind;
     bool isLocked;
+    EffectsList effectsList;
 };
 
 struct ItemInfo {
