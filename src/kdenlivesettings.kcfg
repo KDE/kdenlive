@@ -42,7 +42,7 @@
 
     <entry name="autoimagesequence" type="Bool">
       <label>Automatically import image sequences.</label>
-      <default>true</default>
+      <default>false</default>
     </entry>
 
     <entry name="title_duration" type="String">
