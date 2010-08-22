@@ -4135,9 +4135,14 @@ void CustomTrackView::moveGroup(QList <ItemInfo> startClip, QList <ItemInfo> sta
                 m_document->renderer()->mltAddTransition(tr->transitionTag(), newTrack, m_document->tracksCount() - info.track, info.startPos, info.endPos, tr->toXML());
             }
         }
-        if (!reverseMove)
-            rebuildGroup(m_selectionGroup);
+
         resetSelectionGroup(false);
+
+        for (int i = 0; i < children.count(); i++) {
+            if (children.at(i)->parentItem())
+                rebuildGroup((AbstractGroupItem*)children.at(i)->parentItem());
+        }
+
         KdenliveSettings::setSnaptopoints(snap);
         m_document->renderer()->doRefresh();
     } else kDebug() << "///////// WARNING; NO GROUP TO MOVE";
