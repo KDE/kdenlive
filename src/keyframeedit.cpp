@@ -24,7 +24,6 @@
 
 #include <QHeaderView>
 
-
 KeyframeEdit::KeyframeEdit(QDomElement e, int minFrame, int maxFrame, int minVal, int maxVal, Timecode tc, int active_keyframe, QWidget* parent) :
         QWidget(parent),
         m_min(minFrame),
@@ -340,7 +339,11 @@ void KeyframeEdit::slotAdjustKeyframeInfo(bool seek)
         if (!doubleparam)
             continue;
         doubleparam->blockSignals(true);
-        doubleparam->setValue(keyframe_list->item(item->row(), col)->text().toInt());
+        if (keyframe_list->item(item->row(), col)) {
+            doubleparam->setValue(keyframe_list->item(item->row(), col)->text().toInt());
+        } else {
+            kDebug() << "Null pointer exception caught: http://www.kdenlive.org/mantis/view.php?id=1771";
+        }
         doubleparam->blockSignals(false);
     }
     if (KdenliveSettings::keyframeseek() && seek)
