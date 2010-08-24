@@ -26,7 +26,7 @@ class ColorTools : public QObject
 public:
     ColorTools();
 
-    enum ColorsRGB { COL_R, COL_G, COL_B };
+    enum ColorsRGB { COL_R, COL_G, COL_B, COL_Luma };
 
     /**
       @brief Draws a UV plane with given Y value.
@@ -50,8 +50,11 @@ public:
       are neutral colors. The colors on the y axis show what the neutral color will look like when modifying the curve.
       color defines the color to modify on the y axis. The other two components will be increased
       in equal terms (linear as well) on the x axis.
+      scaling \in ]0,1] defines the maximum variance of the selected component; Chosing a value lower than 1
+      simulates the case that the curves can adjust only +- scaling*255. This mainly delivers a more constant look
+      when also using the Luma component for the curves display but might not represent the actual color change!
      */
-    static QImage rgbCurvePlane(const QSize &size, const ColorTools::ColorsRGB &color);
+    static QImage rgbCurvePlane(const QSize &size, const ColorTools::ColorsRGB &color, float scaling = 1);
     /**
       @brief Draws a YPbPr plane with Pb on the x axis and Pr on the y axis.
       Y is the Y value to use.

@@ -134,8 +134,10 @@ QImage ColorTools::yuvVerticalPlane(const QSize &size, const float &angle, const
 
 }
 
-QImage ColorTools::rgbCurvePlane(const QSize &size, const ColorsRGB &color)
+QImage ColorTools::rgbCurvePlane(const QSize &size, const ColorTools::ColorsRGB &color, float scaling)
 {
+    Q_ASSERT(scaling > 0 && scaling <= 1);
+
     QImage plane(size, QImage::Format_ARGB32);
     if (size.width() == 0 || size.height() == 0) {
         qCritical("ERROR: Size of the color plane must not be 0!");
@@ -151,14 +153,20 @@ QImage ColorTools::rgbCurvePlane(const QSize &size, const ColorsRGB &color)
         dval = (double)255*x/(w-1);
 
         for (int y = 0; y < h; y++) {
-            dcol = (double)255*y/(h-1);
+            if (1-scaling < 0.0001) {
+                dcol = (double)255*y/(h-1);
+            } else {
+                dcol = (double)255 * (y - (y-x)*(1-scaling))/(h-1);
+            }
 
             if (color == ColorTools::COL_R) {
                 plane.setPixel(x, (h-y-1), qRgb(dcol, dval, dval));
             } else if (color == ColorTools::COL_G) {
                 plane.setPixel(x, (h-y-1), qRgb(dval, dcol, dval));
-            } else {
+            } else if (color == ColorTools::COL_B){
                 plane.setPixel(x, (h-y-1), qRgb(dval, dval, dcol));
+            } else {
+                plane.setPixel(x, (h-y-1), qRgb(dcol, dcol, dcol));
             }
 
         }
