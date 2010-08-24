@@ -37,6 +37,7 @@
 #include "customtrackscene.h"
 #include "effectslist.h"
 #include "ui_timeline_ui.h"
+#include "definitions.h"
 
 class ClipItem;
 class Transition;
@@ -100,6 +101,7 @@ private:
     int slotAddProjectTrack(int ix, QDomElement xml, bool locked);
     DocClipBase *getMissingProducer(const QString id) const;
     void adjustTrackHeaders();
+    void slotAddProjectEffects(QDomNodeList effects, QDomElement parent, ClipItem *clip, int trackIndex);
 
 private slots:
     void setCursorPos(int pos);
@@ -135,7 +137,7 @@ signals:
     void configTrack(int);
     void updateTracksInfo();
     void setZoom(int);
-    void showTrackEffects(int, EffectsList);
+    void showTrackEffects(int, TrackInfo);
 };
 
 #endif

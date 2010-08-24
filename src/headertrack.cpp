@@ -151,6 +151,7 @@ void HeaderTrack::dropEvent(QDropEvent * event)
     QDomDocument doc;
     doc.setContent(effects, true);
     const QDomElement e = doc.documentElement();
+    emit selectTrack(m_index);
     emit addTrackInfo(e, m_index);
     /*if (scene() && !scene()->views().isEmpty()) {
         event->accept();

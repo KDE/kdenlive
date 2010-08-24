@@ -422,7 +422,7 @@ signals:
     /** @brief Monitor document changes (for example the presence of audio data in timeline for export widget.*/
     void documentModified();
     void forceClipProcessing(const QString &);
-    void showTrackEffects(int, EffectsList);
+    void showTrackEffects(int, TrackInfo);
 };
 
 #endif

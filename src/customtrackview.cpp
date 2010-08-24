@@ -1548,9 +1548,9 @@ void CustomTrackView::addEffect(int track, GenTime pos, QDomElement effect)
 {
     if (pos < GenTime()) {
         // Add track effect
-        m_document->addTrackEffect(m_document->tracksCount() - track, effect);
+        m_document->addTrackEffect(track - 1, effect);
         m_document->renderer()->mltAddTrackEffect(track, getEffectArgs(effect));
-        emit showTrackEffects(track, m_document->getTrackEffects(m_document->tracksCount() - track));
+        emit showTrackEffects(track, m_document->trackInfoAt(track - 1));
         return;
     }
     ClipItem *clip = getClipItemAt((int)pos.frames(m_document->fps()), m_document->tracksCount() - track);
@@ -1582,9 +1582,9 @@ void CustomTrackView::deleteEffect(int track, GenTime pos, QDomElement effect)
     QString index = effect.attribute("kdenlive_ix");
     if (pos < GenTime()) {
         // Delete track effect
-        m_document->removeTrackEffect(m_document->tracksCount() - track, effect);
+        m_document->removeTrackEffect(track - 1, effect);
         m_document->renderer()->mltRemoveTrackEffect(track, index, true);
-        emit showTrackEffects(track, m_document->getTrackEffects(m_document->tracksCount() - track));
+        emit showTrackEffects(track, m_document->trackInfoAt(track - 1));
         return;
     }
     // Special case: speed effect
@@ -1790,7 +1790,7 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedE
         }
         if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - track, pos, effectParams))
             emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
-        m_document->setTrackEffect(track, ix, effect);
+        m_document->setTrackEffect(track - 1, ix, effect);
         return;
 
     }
@@ -1850,15 +1850,14 @@ void CustomTrackView::moveEffect(int track, GenTime pos, int oldPos, int newPos)
 {
     if (pos < GenTime()) {
         // Moving track effect
-        kDebug() << "MOVING EFFECT IN TK: " << track;
-        QDomElement act = m_document->getTrackEffect(track, newPos - 1);
-        QDomElement before = m_document->getTrackEffect(track, oldPos - 1);
+        QDomElement act = m_document->getTrackEffect(m_document->tracksCount() - track - 1, newPos - 1);
+        QDomElement before = m_document->getTrackEffect(m_document->tracksCount() - track - 1, oldPos - 1);
 
         if (!act.isNull() && !before.isNull()) {
-            m_document->setTrackEffect(track, oldPos - 1, act);
-            m_document->setTrackEffect(track, newPos - 1, before);
+            m_document->setTrackEffect(m_document->tracksCount() - track - 1, oldPos - 1, act);
+            m_document->setTrackEffect(m_document->tracksCount() - track - 1, newPos - 1, before);
             m_document->renderer()->mltMoveEffect(m_document->tracksCount() - track, pos, oldPos, newPos);
-            emit showTrackEffects(m_document->tracksCount() - track, m_document->getTrackEffects(track));
+            emit showTrackEffects(m_document->tracksCount() - track, m_document->trackInfoAt(m_document->tracksCount() - track - 1));
         } else emit displayMessage(i18n("Cannot move effect"), ErrorMessage);
         return;
     }
@@ -1883,7 +1882,7 @@ void CustomTrackView::slotChangeEffectState(ClipItem *clip, int track, int effec
 {
     EditEffectCommand *command;
     QDomElement effect;
-    if (clip == NULL) effect = m_document->getTrackEffect(m_document->tracksCount() - track, effectPos);
+    if (clip == NULL) effect = m_document->getTrackEffect(track - 1, effectPos);
     else effect = clip->effectAt(effectPos);
     QDomElement oldEffect = effect.cloneNode().toElement();
     effect.setAttribute("disable", (int) disable);
@@ -6338,6 +6337,7 @@ void CustomTrackView::slotAddTrackEffect(const QDomElement effect, int ix)
 {
     AddEffectCommand *command = new AddEffectCommand(this, m_document->tracksCount() - ix, GenTime(-1), effect, true);
     m_commandStack->push(command);
+    setDocumentModified();
 }
 
 

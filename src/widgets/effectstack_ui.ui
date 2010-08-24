@@ -140,7 +140,7 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="0">
+       <item row="0" column="0" colspan="7">
         <widget class="QCheckBox" name="checkAll">
          <property name="enabled">
           <bool>false</bool>

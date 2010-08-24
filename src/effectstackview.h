@@ -80,7 +80,7 @@ public slots:
     * @param ix Effect to preselect */
     void slotClipItemSelected(ClipItem* c, int ix);
 
-    void slotTrackItemSelected(int ix, EffectsList list);
+    void slotTrackItemSelected(int ix, const TrackInfo info);
 
     /** @brief Emits updateClipEffect.
     * @param old Old effect information

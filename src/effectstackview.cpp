@@ -169,6 +169,7 @@ void EffectStackView::slotClipItemSelected(ClipItem* c, int ix)
     } else {
         m_clipref = c;
         if (c) {
+            m_ui.checkAll->setText(i18n("Effects for %1").arg(m_clipref->clipName()));
             ix = c->selectedEffectIndex();
             QString size = c->baseClip()->getProperty("frame_size");
             double factor = c->baseClip()->getProperty("aspect_ratio").toDouble();
@@ -192,12 +193,14 @@ void EffectStackView::slotClipItemSelected(ClipItem* c, int ix)
     setupListView(ix);
 }
 
-void EffectStackView::slotTrackItemSelected(int ix, EffectsList list)
+void EffectStackView::slotTrackItemSelected(int ix, const TrackInfo info)
 {
-    setEnabled(!list.isEmpty());
     m_clipref = NULL;
     m_trackMode = true;
-    m_currentEffectList = list;
+    m_currentEffectList = info.effectsList;
+    kDebug() << "// TRACK; " << ix << ", EFFECTS: " << m_currentEffectList.count();
+    setEnabled(true);
+    m_ui.checkAll->setText(i18n("Effects for track %1").arg(info.trackName.isEmpty() ? QString::number(ix) : info.trackName));
     m_trackindex = ix;
     setupListView(0);
 }

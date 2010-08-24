@@ -2174,8 +2174,8 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
 
     connect(trackView->projectView(), SIGNAL(clipItemSelected(ClipItem*, int)), m_effectStack, SLOT(slotClipItemSelected(ClipItem*, int)));
     connect(trackView->projectView(), SIGNAL(updateClipMarkers(DocClipBase *)), this, SLOT(slotUpdateClipMarkers(DocClipBase*)));
-    connect(trackView, SIGNAL(showTrackEffects(int, EffectsList)), m_effectStack, SLOT(slotTrackItemSelected(int, EffectsList)));
-    connect(trackView, SIGNAL(showTrackEffects(int, EffectsList)), this, SLOT(slotActivateEffectStackView()));
+    connect(trackView, SIGNAL(showTrackEffects(int, TrackInfo)), m_effectStack, SLOT(slotTrackItemSelected(int, TrackInfo)));
+    connect(trackView, SIGNAL(showTrackEffects(int, TrackInfo)), this, SLOT(slotActivateEffectStackView()));
 
     connect(trackView->projectView(), SIGNAL(clipItemSelected(ClipItem*, int)), this, SLOT(slotActivateEffectStackView()));
     connect(trackView->projectView(), SIGNAL(transitionItemSelected(Transition*, int, QPoint, bool)), m_transitionConfig, SLOT(slotTransitionItemSelected(Transition*, int, QPoint, bool)));

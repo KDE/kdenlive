@@ -114,13 +114,13 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                         // Build tracks
                         QDomElement e;
                         QDomElement tracksinfo = infoXml.firstChildElement("tracksinfo");
-                        TrackInfo projectTrack;
                         if (!tracksinfo.isNull()) {
                             QDomNodeList trackslist = tracksinfo.childNodes();
                             int maxchild = trackslist.count();
                             for (int k = 0; k < maxchild; k++) {
                                 e = trackslist.at(k).toElement();
                                 if (e.tagName() == "trackinfo") {
+                                    TrackInfo projectTrack;
                                     if (e.attribute("type") == "audio") projectTrack.type = AUDIOTRACK;
                                     else projectTrack.type = VIDEOTRACK;
                                     projectTrack.isMute = e.attribute("mute").toInt();
@@ -262,29 +262,27 @@ int KdenliveDoc::setSceneList()
 
 QDomDocument KdenliveDoc::createEmptyDocument(int videotracks, int audiotracks)
 {
-    TrackInfo videoTrack;
-    videoTrack.type = VIDEOTRACK;
-    videoTrack.isMute = false;
-    videoTrack.isBlind = false;
-    videoTrack.isLocked = false;
-
-    TrackInfo audioTrack;
-    audioTrack.type = AUDIOTRACK;
-    audioTrack.isMute = false;
-    audioTrack.isBlind = true;
-    audioTrack.isLocked = false;
-
     m_tracksList.clear();
 
     // Tracks are added «backwards», so we need to reverse the track numbering
     // mbt 331: http://www.kdenlive.org/mantis/view.php?id=331
     // Better default names for tracks: Audio 1 etc. instead of blank numbers
     for (int i = 0; i < audiotracks; i++) {
+        TrackInfo audioTrack;
+        audioTrack.type = AUDIOTRACK;
+        audioTrack.isMute = false;
+        audioTrack.isBlind = true;
+        audioTrack.isLocked = false;
         audioTrack.trackName = QString("Audio ") + QString::number(audiotracks - i);
         m_tracksList.append(audioTrack);
 
     }
     for (int i = 0; i < videotracks; i++) {
+        TrackInfo videoTrack;
+        videoTrack.type = VIDEOTRACK;
+        videoTrack.isMute = false;
+        videoTrack.isBlind = false;
+        videoTrack.isLocked = false;
         videoTrack.trackName = QString("Video ") + QString::number(videotracks - i);
         m_tracksList.append(videoTrack);
     }
@@ -1318,7 +1316,6 @@ void KdenliveDoc::setTrackEffect(int trackIndex, int effectIndex, QDomElement ef
         kDebug() << "Invalid effect index: " << effectIndex;
         return;
     }
-    kDebug() << "CHange TRK EFFECT AT: " << trackIndex;
     effect.setAttribute("kdenlive_ix", effectIndex + 1);
     m_tracksList[trackIndex].effectsList.replace(effectIndex, effect);
 }
