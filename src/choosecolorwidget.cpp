@@ -45,7 +45,7 @@ ChooseColorWidget::ChooseColorWidget(QString text, QColor color, QWidget *parent
 
     connect(picker, SIGNAL(colorPicked(QColor)), this, SLOT(setColor(QColor)));
     connect(picker, SIGNAL(displayMessage(const QString&, int)), this, SIGNAL(displayMessage(const QString&, int)));
-    connect(m_button, SIGNAL(clicked(bool)), this, SIGNAL(modified()));
+    connect(m_button, SIGNAL(changed(QColor)), this, SIGNAL(modified()));
 }
 
 QColor ChooseColorWidget::getColor()
@@ -56,7 +56,6 @@ QColor ChooseColorWidget::getColor()
 void ChooseColorWidget::setColor(QColor color)
 {
     m_button->setColor(color);
-    emit modified();
 }
 
 #include "choosecolorwidget.moc"
