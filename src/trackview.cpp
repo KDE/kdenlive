@@ -769,7 +769,10 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parent, 
                         endvalue = effectparam.text().toDouble() * fact;
                 }
                 // add first keyframe
-                keyframes.append(QString::number(effectin) + ':' + QString::number(startvalue) + ';' + QString::number(effectout) + ':' + QString::number(endvalue) + ';');
+                if (effectout <= effectin) {
+                    // there is only one keyframe
+                    keyframes.append(QString::number(effectin) + ':' + QString::number(startvalue) + ';');
+                } else keyframes.append(QString::number(effectin) + ':' + QString::number(startvalue) + ';' + QString::number(effectout) + ':' + QString::number(endvalue) + ';');
                 QDomNode lastParsedEffect;
                 ix++;
                 QDomNode n2 = effects.at(ix);

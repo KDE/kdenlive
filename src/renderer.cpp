@@ -2433,16 +2433,13 @@ bool Render::mltAddEffect(Mlt::Service service, EffectsParameterList params, int
         params.removeParam("max");
         params.removeParam("factor");
         int offset = 0;
-        for (int i = 0; i < keyFrames.size() - 1; ++i) {
+        // Special case, only one keyframe, means we want a constant value
+        if (keyFrames.count() == 1) {
             Mlt::Filter *filter = new Mlt::Filter(*m_mltProfile, filterTag);
             if (filter && filter->is_valid()) {
                 filter->set("kdenlive_id", filterId);
-                int x1 = keyFrames.at(i).section(':', 0, 0).toInt() + offset;
-                double y1 = keyFrames.at(i).section(':', 1, 1).toDouble();
-                int x2 = keyFrames.at(i + 1).section(':', 0, 0).toInt();
-                double y2 = keyFrames.at(i + 1).section(':', 1, 1).toDouble();
-                if (x2 == -1) x2 = duration;
-
+                int x1 = keyFrames.at(0).section(':', 0, 0).toInt();
+                double y1 = keyFrames.at(0).section(':', 1, 1).toDouble();
                 for (int j = 0; j < params.count(); j++) {
                     char *name = decodedString(params.at(j).name());
                     char *value = decodedString(params.at(j).value());
@@ -2450,16 +2447,38 @@ bool Render::mltAddEffect(Mlt::Service service, EffectsParameterList params, int
                     delete[] name;
                     delete[] value;
                 }
-
                 filter->set("in", x1);
-                filter->set("out", x2);
                 //kDebug() << "// ADDING KEYFRAME vals: " << min<<" / "<<max<<", "<<y1<<", factor: "<<factor;
                 filter->set(starttag, QString::number((min + y1) / factor).toUtf8().data());
-                filter->set(endtag, QString::number((min + y2) / factor).toUtf8().data());
                 service.attach(*filter);
-                offset = 1;
             }
-        }
+        } else for (int i = 0; i < keyFrames.size() - 1; ++i) {
+                Mlt::Filter *filter = new Mlt::Filter(*m_mltProfile, filterTag);
+                if (filter && filter->is_valid()) {
+                    filter->set("kdenlive_id", filterId);
+                    int x1 = keyFrames.at(i).section(':', 0, 0).toInt() + offset;
+                    double y1 = keyFrames.at(i).section(':', 1, 1).toDouble();
+                    int x2 = keyFrames.at(i + 1).section(':', 0, 0).toInt();
+                    double y2 = keyFrames.at(i + 1).section(':', 1, 1).toDouble();
+                    if (x2 == -1) x2 = duration;
+
+                    for (int j = 0; j < params.count(); j++) {
+                        char *name = decodedString(params.at(j).name());
+                        char *value = decodedString(params.at(j).value());
+                        filter->set(name, value);
+                        delete[] name;
+                        delete[] value;
+                    }
+
+                    filter->set("in", x1);
+                    filter->set("out", x2);
+                    //kDebug() << "// ADDING KEYFRAME vals: " << min<<" / "<<max<<", "<<y1<<", factor: "<<factor;
+                    filter->set(starttag, QString::number((min + y1) / factor).toUtf8().data());
+                    filter->set(endtag, QString::number((min + y2) / factor).toUtf8().data());
+                    service.attach(*filter);
+                    offset = 1;
+                }
+            }
         delete[] starttag;
         delete[] endtag;
     } else {
