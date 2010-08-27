@@ -21,7 +21,7 @@
 	<parameter type="constant" name="White output" default="1000" min="0" max="1000" factor="1000">
 		<name>White output</name>
 	</parameter>
-	<parameter type="bool" name="Show histogram" default="1">
+	<parameter type="bool" name="Show histogram" default="0">
 		<name>Show histogram</name>
 	</parameter>
 	<parameter type="list" name="Histogram position" default="3" paramlist="0,1,2,3" paramlistdisplay="Top Left,Top Right,Bottom Left,Bottom Right">
