@@ -147,6 +147,7 @@ void KeyframeEdit::setupParam()
     keyframe_list->setSelectionMode(QAbstractItemView::SingleSelection);
 
     QStringList frames = m_params.at(0).attribute("keyframes").split(";", QString::SkipEmptyParts);
+    setEnabled(frames.count() > 0);
     for (int i = 0; i < frames.count(); i++) {
         keyframe_list->insertRow(i);
         int currentpos = frames.at(i).section(':', 0, 0).toInt();
