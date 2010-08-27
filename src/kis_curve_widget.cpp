@@ -81,7 +81,8 @@ KisCurveWidget::KisCurveWidget(QWidget *parent, Qt::WFlags f)
     setAutoFillBackground(false);
     setAttribute(Qt::WA_OpaquePaintEvent);
     setMinimumSize(150, 150);
-    setMaximumSize(350, 350);
+    setMaximumSize(1000, 1000);
+    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
     d->setCurveModified();
 
@@ -93,6 +94,11 @@ KisCurveWidget::~KisCurveWidget()
     if (d->m_pixmapCache)
         delete d->m_pixmapCache;
     delete d;
+}
+
+QSize KisCurveWidget::sizeHint() const
+{
+    return QSize(500, 500);
 }
 
 void KisCurveWidget::setupInOutControls(QSpinBox *in, QSpinBox *out, int min, int max)

@@ -82,6 +82,8 @@ public:
      */
     void setPixmap(const QPixmap & pix);
 
+    virtual QSize sizeHint() const;
+
 signals:
 
     /**
