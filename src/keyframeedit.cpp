@@ -62,6 +62,8 @@ KeyframeEdit::KeyframeEdit(QDomElement e, int minFrame, int maxFrame, int minVal
         keyframe_list->setCurrentCell(0, 0);
         keyframe_list->selectRow(0);
     }
+    // ensure the keyframe list shows at least 3 lines
+    keyframe_list->setMinimumHeight(QFontInfo(keyframe_list->font()).pixelSize() * 9);
     /*m_delegate = new KeyItemDelegate(minVal, maxVal);
     keyframe_list->setItemDelegate(m_delegate);*/
 }
@@ -91,8 +93,8 @@ void KeyframeEdit::addParameter(QDomElement e)
     keyframe_list->setHorizontalHeaderItem(columnId, new QTableWidgetItem(paramName));
 
     DoubleParameterWidget *doubleparam = new DoubleParameterWidget(paramName, 0,
-                                                                   m_params.at(columnId).attribute("min").toInt(), m_params.at(columnId).attribute("max").toInt(),
-                                                                   m_params.at(columnId).attribute("default").toInt(), m_params.at(columnId).attribute("suffix"), this);
+            m_params.at(columnId).attribute("min").toInt(), m_params.at(columnId).attribute("max").toInt(),
+            m_params.at(columnId).attribute("default").toInt(), m_params.at(columnId).attribute("suffix"), this);
     connect(doubleparam, SIGNAL(valueChanged(int)), this, SLOT(slotAdjustKeyframeValue(int)));
     m_slidersLayout->addWidget(doubleparam, columnId, 0);
 
@@ -136,8 +138,8 @@ void KeyframeEdit::setupParam()
     m_slidersLayout = new QGridLayout(param_sliders);
 
     DoubleParameterWidget *doubleparam = new DoubleParameterWidget(paramName, 0,
-                                                                   m_params.at(0).attribute("min").toInt(), m_params.at(0).attribute("max").toInt(),
-                                                                   m_params.at(0).attribute("default").toInt(), m_params.at(0).attribute("suffix"), this);
+            m_params.at(0).attribute("min").toInt(), m_params.at(0).attribute("max").toInt(),
+            m_params.at(0).attribute("default").toInt(), m_params.at(0).attribute("suffix"), this);
     connect(doubleparam, SIGNAL(valueChanged(int)), this, SLOT(slotAdjustKeyframeValue(int)));
     m_slidersLayout->addWidget(doubleparam, 0, 0);
 
