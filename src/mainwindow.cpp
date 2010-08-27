@@ -521,6 +521,8 @@ bool MainWindow::queryClose()
     if (m_activeDocument && m_activeDocument->isModified() &&
             ((m_projectList->documentClipList().isEmpty() && !m_activeDocument->url().isEmpty()) ||
              !m_projectList->documentClipList().isEmpty())) {
+        raise();
+        activateWindow();
         QString message;
         if (m_activeDocument->url().fileName().isEmpty())
             message = i18n("Save changes to document?");
