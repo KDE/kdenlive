@@ -2877,16 +2877,17 @@ bool Render::mltResizeClipEnd(ItemInfo info, GenTime clipDuration)
     Mlt::Producer *clip = trackPlaylist.get_clip(clipIndex);
     int previousStart = clip->get_in();
     int newDuration = (int) clipDuration.frames(m_fps) - 1;
+    int currentOut = (int)(info.cropStart + info.cropDuration).frames(m_fps) - 1;
     int diff = newDuration - (trackPlaylist.clip_length(clipIndex) - 1);
-    if (newDuration > clip->get_length()) {
-        clip->parent().set("length", newDuration + 1);
-        clip->parent().set("out", newDuration);
-        clip->set("length", newDuration + 1);
+    if (currentOut > clip->get_length()) {
+        clip->parent().set("length", currentOut + 1);
+        clip->parent().set("out", currentOut);
+        clip->set("length", currentOut + 1);
     }
-    if (newDuration > clip->get_out()) {
+    /*if (newDuration > clip->get_out()) {
         clip->parent().set_in_and_out(0, newDuration + 1);
         clip->set_in_and_out(0, newDuration + 1);
-    }
+    }*/
     delete clip;
     trackPlaylist.resize_clip(clipIndex, previousStart, newDuration + previousStart);
     trackPlaylist.consolidate_blanks(0);
