@@ -274,6 +274,7 @@ void KisCurveWidget::paintEvent(QPaintEvent *)
     /*KisConfig cfg;
     if (cfg.antialiasCurves())
         p.setRenderHint(QPainter::Antialiasing);*/
+    p.setRenderHint(QPainter::Antialiasing);
 
     // Draw default line
     p.setPen(QPen(Qt::gray, 1, Qt::SolidLine));
