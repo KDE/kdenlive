@@ -992,6 +992,7 @@ void TrackView::updateRuler()
 
 void TrackView::slotShowTrackEffects(int ix)
 {
+    m_trackview->clearSelection();
     emit showTrackEffects(m_doc->tracksCount() - ix, m_doc->trackInfoAt(m_doc->tracksCount() - ix - 1));
 }
 
