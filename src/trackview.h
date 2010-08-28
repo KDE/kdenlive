@@ -101,7 +101,7 @@ private:
     int slotAddProjectTrack(int ix, QDomElement xml, bool locked);
     DocClipBase *getMissingProducer(const QString id) const;
     void adjustTrackHeaders();
-    void slotAddProjectEffects(QDomNodeList effects, QDomElement parent, ClipItem *clip, int trackIndex);
+    void slotAddProjectEffects(QDomNodeList effects, QDomElement parentNode, ClipItem *clip, int trackIndex);
 
 private slots:
     void setCursorPos(int pos);

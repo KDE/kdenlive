@@ -251,8 +251,7 @@ void TrackView::parseDocument(QDomDocument doc)
                 p = playlists.item(j).toElement();
                 if (p.attribute("id") == playlist_name) {
                     // playlist found, check track effects
-                    QDomNodeList trackEffects = p.elementsByTagName("filter");
-                    kDebug() << "<< PLAYLIST: " << playlist_name << ", effects: " << trackEffects.count() << ", TK IX: " << trackIndex;
+                    QDomNodeList trackEffects = p.childNodes();
                     slotAddProjectEffects(trackEffects, p, NULL, trackIndex++);
                     break;
                 }
@@ -683,11 +682,12 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked)
     return position;
 }
 
-void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parent, ClipItem *clip, int trackIndex)
+void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNode, ClipItem *clip, int trackIndex)
 {
     for (int ix = 0; ix < effects.count(); ix++) {
         bool disableeffect = false;
         QDomElement effect = effects.at(ix).toElement();
+        if (effect.tagName() != "filter") continue;
 
         // add effect to clip
         QString effecttag;
@@ -727,7 +727,7 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parent, 
         if (clipeffect.isNull()) {
             kDebug() << "///  WARNING, EFFECT: " << effecttag << ": " << effectid << " not found, removing it from project";
             m_documentErrors.append(i18n("Effect %1:%2 not found in MLT, it was removed from this project\n", effecttag, effectid));
-            parent.removeChild(effects.at(ix));
+            if (parentNode.removeChild(effects.at(ix)).isNull()) kDebug() << "///  PROBLEM REMOVING EFFECT: " << effecttag;
             ix--;
         } else {
             QDomElement currenteffect = clipeffect.cloneNode().toElement();
