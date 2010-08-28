@@ -123,8 +123,8 @@ private slots:
     /** @brief Sets the check state of all effects according to @param state. */
     void slotCheckAll(int state);
 
-    /** @brief Define the region filter for current effect. */
-    void slotRegionChanged();
+    /* @brief Define the region filter for current effect.
+    void slotRegionChanged();*/
 
     /** @brief Checks whether the monitor scene has to be displayed. */
     void slotCheckMonitorPosition(int renderPos);

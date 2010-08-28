@@ -170,13 +170,6 @@
          </property>
         </widget>
        </item>
-       <item>
-        <widget class="KUrlRequester" name="region_url">
-         <property name="clickMessage">
-          <string>Set filter region</string>
-         </property>
-        </widget>
-       </item>
       </layout>
      </widget>
     </widget>
@@ -184,11 +177,6 @@
   </layout>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>KUrlRequester</class>
-   <extends>QFrame</extends>
-   <header>kurlrequester.h</header>
-  </customwidget>
   <customwidget>
    <class>KListWidget</class>
    <extends>QListWidget</extends>

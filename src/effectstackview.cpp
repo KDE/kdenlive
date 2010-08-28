@@ -52,7 +52,7 @@ EffectStackView::EffectStackView(Monitor *monitor, QWidget *parent) :
     vbox1->setSpacing(0);
     vbox1->addWidget(m_effectedit);
     m_ui.frame->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
-    m_ui.region_url->fileDialog()->setFilter(ProjectList::getExtensions());
+    //m_ui.region_url->fileDialog()->setFilter(ProjectList::getExtensions());
     //m_ui.effectlist->horizontalHeader()->setVisible(false);
     //m_ui.effectlist->verticalHeader()->setVisible(false);
 
@@ -73,8 +73,8 @@ EffectStackView::EffectStackView(Monitor *monitor, QWidget *parent) :
 
     m_ui.effectlist->setDragDropMode(QAbstractItemView::NoDragDrop); //use internal if drop is recognised right
 
-    connect(m_ui.region_url, SIGNAL(urlSelected(const KUrl &)), this , SLOT(slotRegionChanged()));
-    connect(m_ui.region_url, SIGNAL(returnPressed()), this , SLOT(slotRegionChanged()));
+    //connect(m_ui.region_url, SIGNAL(urlSelected(const KUrl &)), this , SLOT(slotRegionChanged()));
+    //connect(m_ui.region_url, SIGNAL(returnPressed()), this , SLOT(slotRegionChanged()));
     connect(m_ui.effectlist, SIGNAL(itemSelectionChanged()), this , SLOT(slotItemSelectionChanged()));
     connect(m_ui.effectlist, SIGNAL(itemChanged(QListWidgetItem *)), this , SLOT(slotItemChanged(QListWidgetItem *)));
     connect(m_ui.buttonUp, SIGNAL(clicked()), this, SLOT(slotItemUp()));
@@ -182,7 +182,7 @@ void EffectStackView::slotClipItemSelected(ClipItem* c, int ix)
         m_ui.effectlist->blockSignals(true);
         m_ui.effectlist->clear();
         m_effectedit->transferParamDesc(QDomElement(), 0, 0, 0);
-        m_ui.region_url->clear();
+        //m_ui.region_url->clear();
         m_ui.effectlist->blockSignals(false);
         setEnabled(false);
         return;
@@ -276,7 +276,7 @@ void EffectStackView::setupListView(int ix)
     m_ui.effectlist->blockSignals(false);
     if (m_ui.effectlist->count() == 0) {
         m_effectedit->transferParamDesc(QDomElement(), 0, 0, 0);
-        m_ui.region_url->clear();
+        //m_ui.region_url->clear();
     } else slotItemSelectionChanged(false);
     slotUpdateCheckAllButton();
 }
@@ -296,7 +296,7 @@ void EffectStackView::slotItemSelectionChanged(bool update)
                                                    0,
                                                    m_clipref->cropStart().frames(KdenliveSettings::project_fps()),
                                                    (m_clipref->cropStart() + m_clipref->cropDuration()).frames(KdenliveSettings::project_fps())); //minx max frame
-        m_ui.region_url->setUrl(KUrl(eff.attribute("region")));
+        //m_ui.region_url->setUrl(KUrl(eff.attribute("region")));
     }
     if (!m_trackMode && m_clipref && update) m_clipref->setSelectedEffect(activeRow);
     m_ui.buttonDel->setEnabled(hasItem);
@@ -357,7 +357,7 @@ void EffectStackView::slotResetEffect()
         } else {
             m_clipref->initEffect(dom);
             m_effectedit->transferParamDesc(dom, 0, m_clipref->cropStart().frames(KdenliveSettings::project_fps()), (m_clipref->cropStart() + m_clipref->cropDuration()).frames(KdenliveSettings::project_fps()));//minx max frame
-            m_ui.region_url->setUrl(KUrl(dom.attribute("region")));
+            //m_ui.region_url->setUrl(KUrl(dom.attribute("region")));
             emit updateEffect(m_clipref, -1, old, dom, activeRow);
         }
     }
@@ -381,7 +381,7 @@ void EffectStackView::clear()
     m_ui.buttonDown->setEnabled(false);
     m_ui.checkAll->setEnabled(false);
     m_effectedit->transferParamDesc(QDomElement(), 0, 0, 0);
-    m_ui.region_url->clear();
+    //m_ui.region_url->clear();
     m_ui.effectlist->blockSignals(false);
 }
 
@@ -426,10 +426,10 @@ void EffectStackView::slotCheckAll(int state)
         m_ui.effectlist->item(i)->setCheckState((Qt::CheckState)state);
 }
 
-void EffectStackView::slotRegionChanged()
+/*void EffectStackView::slotRegionChanged()
 {
     if (!m_trackMode) emit updateClipRegion(m_clipref, m_ui.effectlist->currentRow(), m_ui.region_url->text());
-}
+}*/
 
 void EffectStackView::slotCheckMonitorPosition(int renderPos)
 {

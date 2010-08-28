@@ -1,5 +1,5 @@
 /***************************************************************************
-                          effecstackview.cpp  -  description
+                          effecstackedit.cpp  -  description
                              -------------------
     begin                : Feb 15 2008
     copyright            : (C) 2008 by Marco Gittler
