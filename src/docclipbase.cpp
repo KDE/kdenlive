@@ -881,7 +881,7 @@ QMap <QString, QString> DocClipBase::properties() const
 
 bool DocClipBase::slotGetAudioThumbs()
 {
-    if (m_thumbProd == NULL) return false;
+    if (m_thumbProd == NULL || isPlaceHolder()) return false;
     if (!KdenliveSettings::audiothumbnails() || m_audioTimer == NULL) {
         if (m_audioTimer != NULL) m_audioTimer->stop();
         return false;
