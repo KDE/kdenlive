@@ -1693,7 +1693,7 @@ void CustomTrackView::slotAddEffect(QDomElement effect, GenTime pos, int track)
                     emit displayMessage(i18n("Cannot add an audio effect to this clip"), ErrorMessage);
                     continue;
                 }
-            } else if (effect.hasAttribute("type") == false) {
+            } else if (effect.attribute("type") == "video" || !effect.hasAttribute("type")) {
                 // Don't add video effect on audio clips
                 if (item->isAudioOnly() || item->clipType() == AUDIO) {
                     emit displayMessage(i18n("Cannot add a video effect to this clip"), ErrorMessage);
