@@ -3308,9 +3308,20 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                     m_selectionGroupInfo.track = m_selectionGroup->track();
 
                     for (int i = 0; i < items.count(); ++i) {
-                        if (items.at(i)->type() == GROUPWIDGET)
+                        if (items.at(i)->type() == GROUPWIDGET) {
                             rebuildGroup((AbstractGroupItem*)items.at(i));
+                            items.removeAt(i);
+                            --i;
+                        }
                     }
+                    for (int i = 0; i < items.count(); ++i) {
+                        if (items.at(i)) {
+                            items.at(i)->setSelected(true);
+                            if (items.at(i)->parentItem())
+                                items.at(i)->parentItem()->setSelected(true);
+                        }
+                    }
+                    groupSelectedItems();
                 } else {
                     rebuildGroup((AbstractGroupItem *)group);
                 }
@@ -4198,6 +4209,7 @@ void CustomTrackView::moveGroup(QList <ItemInfo> startClip, QList <ItemInfo> sta
             if (children.at(i)->parentItem())
                 rebuildGroup((AbstractGroupItem*)children.at(i)->parentItem());
         }
+        clearSelection();
 
         KdenliveSettings::setSnaptopoints(snap);
         m_document->renderer()->doRefresh();
