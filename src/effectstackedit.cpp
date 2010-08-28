@@ -260,6 +260,8 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
         } else if (type == "geometry") {
             if (KdenliveSettings::on_monitor_effects()) {
                 GeometryWidget *geometry = new GeometryWidget(m_monitor, m_timecode, pos, isEffect, this);
+                // connect this before setupParam to make sure the monitor scene shows up at startup
+                connect(geometry, SIGNAL(checkMonitorPosition(int)), this, SIGNAL(checkMonitorPosition(int)));
                 if (minFrame == maxFrame)
                     geometry->setupParam(pa, m_in, m_out);
                 else
@@ -267,7 +269,6 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
                 m_vbox->addWidget(geometry);
                 m_valueItems[paramName+"geometry"] = geometry;
                 connect(geometry, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
-                connect(geometry, SIGNAL(checkMonitorPosition(int)), this, SIGNAL(checkMonitorPosition(int)));
                 connect(geometry, SIGNAL(seekToPos(int)), this, SIGNAL(seekTimeline(int)));
                 connect(this, SIGNAL(syncEffectsPos(int)), geometry, SLOT(slotSyncPosition(int)));
             } else {

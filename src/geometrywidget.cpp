@@ -220,7 +220,6 @@ void GeometryWidget::setupParam(const QDomElement elem, int minframe, int maxfra
     m_scene->addItem(m_rect);
 
     slotPositionChanged(0, false);
-    slotUpdateProperties();
     slotCheckMonitorPosition(m_monitor->render->seekFramePosition());
 }
 

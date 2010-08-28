@@ -444,7 +444,7 @@ void EffectStackView::slotCheckMonitorPosition(int renderPos)
 
 void EffectStackView::slotRenderPos(int pos)
 {
-    if (m_clipref && m_effectedit)
+    if (m_clipref && m_effectedit && !m_trackMode)
         m_effectedit->slotSyncEffectsPos(pos - m_clipref->startPos().frames(KdenliveSettings::project_fps()));
 }
 
