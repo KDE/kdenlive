@@ -1690,13 +1690,19 @@ void CustomTrackView::slotAddEffect(QDomElement effect, GenTime pos, int track)
             if (effect.attribute("type") == "audio") {
                 // Don't add audio effects on video clips
                 if (item->isVideoOnly() || (item->clipType() != AUDIO && item->clipType() != AV && item->clipType() != PLAYLIST)) {
-                    emit displayMessage(i18n("Cannot add an audio effect to this clip"), ErrorMessage);
+                    /* do not show error message when item is part of a group as the user probably knows what he does then
+                     * and the message is annoying when working with the split audio feature */
+                    if (!item->parentItem() || item->parentItem() == m_selectionGroup)
+                        emit displayMessage(i18n("Cannot add an audio effect to this clip"), ErrorMessage);
                     continue;
                 }
             } else if (effect.attribute("type") == "video" || !effect.hasAttribute("type")) {
                 // Don't add video effect on audio clips
                 if (item->isAudioOnly() || item->clipType() == AUDIO) {
-                    emit displayMessage(i18n("Cannot add a video effect to this clip"), ErrorMessage);
+                    /* do not show error message when item is part of a group as the user probably knows what he does then
+                     * and the message is annoying when working with the split audio feature */
+                    if (!item->parentItem() || item->parentItem() == m_selectionGroup)
+                        emit displayMessage(i18n("Cannot add a video effect to this clip"), ErrorMessage);
                     continue;
                 }
             }
