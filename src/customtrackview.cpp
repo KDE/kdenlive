@@ -1069,6 +1069,9 @@ void CustomTrackView::rebuildGroup(int childTrack, GenTime childPos)
 void CustomTrackView::rebuildGroup(AbstractGroupItem *group)
 {
     if (group) {
+        resetSelectionGroup(false);
+        m_scene->clearSelection();
+
         QList <QGraphicsItem *> children = group->childItems();
         m_document->clipManager()->removeGroup(group);
         scene()->destroyItemGroup(group);
@@ -3190,8 +3193,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                     emit displayMessage(i18n("Cannot move clip to position %1", m_document->timecode().getTimecodeFromFrames(m_dragItemInfo.startPos.frames(m_document->fps()))), ErrorMessage);
                 }
                 setDocumentModified();
-            }
-            if (m_dragItem->type() == TRANSITIONWIDGET && (m_dragItemInfo.startPos != info.startPos || m_dragItemInfo.track != info.track)) {
+            } else if (m_dragItem->type() == TRANSITIONWIDGET && (m_dragItemInfo.startPos != info.startPos || m_dragItemInfo.track != info.track)) {
                 Transition *transition = static_cast <Transition *>(m_dragItem);
                 transition->updateTransitionEndTrack(getPreviousVideoTrack(m_dragItem->track()));
                 if (!m_document->renderer()->mltMoveTransition(transition->transitionTag(), (int)(m_document->tracksCount() - m_dragItemInfo.track), (int)(m_document->tracksCount() - m_dragItem->track()), transition->transitionEndTrack(), m_dragItemInfo.startPos, m_dragItemInfo.endPos, info.startPos, info.endPos)) {
@@ -3210,7 +3212,11 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
         } else {
             // Moving several clips. We need to delete them and readd them to new position,
             // or they might overlap each other during the move
-            QGraphicsItemGroup *group = static_cast <QGraphicsItemGroup *>(m_dragItem->parentItem());
+            QGraphicsItemGroup *group;
+            if (m_selectionGroup)
+                group = static_cast <QGraphicsItemGroup *>(m_selectionGroup);
+            else
+                group = static_cast <QGraphicsItemGroup *>(m_dragItem->parentItem());
             QList<QGraphicsItem *> items = group->childItems();
 
             QList<ItemInfo> clipsToMove;
@@ -3300,6 +3306,11 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                 if (m_selectionGroup) {
                     m_selectionGroupInfo.startPos = GenTime(m_selectionGroup->scenePos().x(), m_document->fps());
                     m_selectionGroupInfo.track = m_selectionGroup->track();
+
+                    for (int i = 0; i < items.count(); ++i) {
+                        if (items.at(i)->type() == GROUPWIDGET)
+                            rebuildGroup((AbstractGroupItem*)items.at(i));
+                    }
                 } else {
                     rebuildGroup((AbstractGroupItem *)group);
                 }
