@@ -338,7 +338,6 @@ void EffectsListWidget::dragMoveEvent(QDragMoveEvent * event)
     if (event->mimeData()->hasText()) {
         event->acceptProposedAction();
     }
-    //}
 }
 
 //virtual

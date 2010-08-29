@@ -1414,7 +1414,7 @@ EffectsParameterList ClipItem::addEffect(const QDomElement effect, bool /*animat
     if (effectId.isEmpty()) effectId = effect.attribute("tag");
     parameters.addParam("id", effectId);
 
-    // special case: the affine effect need in / out points
+    // special case: the affine effect needs in / out points
     if (effectId == "pan_zoom") {
         int start = cropStart().frames(m_fps);
         int end = (cropStart() + cropDuration()).frames(m_fps);

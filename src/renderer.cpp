@@ -2534,6 +2534,9 @@ bool Render::mltAddEffect(Mlt::Service service, EffectsParameterList params, int
             delete[] value;
         }
 
+        if (params.paramValue("id") == "pan_zoom") {
+            filter->set_in_and_out(service.get_int("in"), service.get_int("out") + 1);
+        }
 
         // attach filter to the clip
         service.attach(*filter);

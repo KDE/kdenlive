@@ -1713,9 +1713,13 @@ void CustomTrackView::slotAddEffect(QDomElement effect, GenTime pos, int track)
             if (item->isItemLocked()) {
                 continue;
             }
+
             if (effect.attribute("id") == "freeze" && m_cursorPos > item->startPos().frames(m_document->fps()) && m_cursorPos < item->endPos().frames(m_document->fps())) {
                 item->initEffect(effect, m_cursorPos - item->startPos().frames(m_document->fps()));
-            } else item->initEffect(effect);
+            } else {
+                item->initEffect(effect);
+            }
+
             if (effect.attribute("tag") == "ladspa") {
                 QString ladpsaFile = m_document->getLadspaFile();
                 initEffects::ladspaEffectFile(ladpsaFile, effect.attribute("ladspaid").toInt(), getLadspaParams(effect));
