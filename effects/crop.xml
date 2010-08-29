@@ -18,4 +18,7 @@
 	<parameter type="bool" name="center" default="0">
 		<name>Automatic center-crop</name>
 	</parameter>
+	<parameter type="constant" name="center_bias" max="5000" min="-5000" default="0">
+		<name>Center balance</name>
+	</parameter>
 </effect>
