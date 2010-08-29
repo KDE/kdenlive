@@ -4199,6 +4199,9 @@ void CustomTrackView::moveGroup(QList <ItemInfo> startClip, QList <ItemInfo> sta
                 else
                     prod = clip->baseClip()->producer(info.track);
                 m_document->renderer()->mltInsertClip(info, clip->xml(), prod);
+                for (int i = 0; i < clip->effectsCount(); i++) {
+                    m_document->renderer()->mltAddEffect(info.track, info.startPos, getEffectArgs(clip->effectAt(i)), false);
+                }
             } else if (item->type() == TRANSITIONWIDGET) {
                 Transition *tr = static_cast <Transition*>(item);
                 int newTrack;
