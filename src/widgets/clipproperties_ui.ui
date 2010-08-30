@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>295</width>
-    <height>418</height>
+    <width>302</width>
+    <height>424</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -324,21 +324,21 @@
        <item row="1" column="2">
         <widget class="KComboBox" name="slide_duration_format"/>
        </item>
-       <item row="2" column="0" colspan="3">
+       <item row="3" column="0" colspan="3">
         <widget class="QCheckBox" name="slide_loop">
          <property name="text">
           <string>Loop</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="0">
+       <item row="5" column="0">
         <widget class="QCheckBox" name="slide_fade">
          <property name="text">
           <string>Dissolve</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="1" colspan="2">
+       <item row="5" column="1" colspan="2">
         <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
           <widget class="KRestrictedLine" name="luma_duration">
@@ -365,24 +365,24 @@
          </item>
         </layout>
        </item>
-       <item row="4" column="0">
+       <item row="6" column="0">
         <widget class="QCheckBox" name="slide_luma">
          <property name="text">
           <string>Wipe</string>
          </property>
         </widget>
        </item>
-       <item row="4" column="1" colspan="2">
+       <item row="6" column="1" colspan="2">
         <widget class="KComboBox" name="luma_file"/>
        </item>
-       <item row="5" column="0">
+       <item row="7" column="0">
         <widget class="QLabel" name="label_softness">
          <property name="text">
           <string>Softness</string>
          </property>
         </widget>
        </item>
-       <item row="5" column="1" colspan="2">
+       <item row="7" column="1" colspan="2">
         <widget class="QSlider" name="luma_softness">
          <property name="maximum">
           <number>100</number>
@@ -392,14 +392,14 @@
          </property>
         </widget>
        </item>
-       <item row="6" column="0" colspan="3">
+       <item row="8" column="0" colspan="3">
         <widget class="QLabel" name="slide_info">
          <property name="text">
           <string>No image found</string>
          </property>
         </widget>
        </item>
-       <item row="7" column="1">
+       <item row="9" column="1">
         <spacer name="verticalSpacer_6">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -411,6 +411,13 @@
           </size>
          </property>
         </spacer>
+       </item>
+       <item row="4" column="0">
+        <widget class="QCheckBox" name="slide_crop">
+         <property name="text">
+          <string>Center crop</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>

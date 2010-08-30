@@ -732,6 +732,14 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
                 clipService.attach(*filter);
             }
         }
+        if (xml.attribute("crop") == "1") {
+            // user wants to center crop the slides
+            Mlt::Filter *filter = new Mlt::Filter(*m_mltProfile, "crop");
+            if (filter && filter->is_valid()) {
+                filter->set("center", 1);
+                producer->attach(*filter);
+            }
+        }
     }
 
 
@@ -2433,7 +2441,7 @@ bool Render::mltAddEffect(Mlt::Service service, EffectsParameterList params, int
         params.removeParam("max");
         params.removeParam("factor");
         int offset = 0;
-        // Special case, only one keyframe, means we want a constant value
+        // Special case, only one keyframe, means we want a constant value
         if (keyFrames.count() == 1) {
             Mlt::Filter *filter = new Mlt::Filter(*m_mltProfile, filterTag);
             if (filter && filter->is_valid()) {

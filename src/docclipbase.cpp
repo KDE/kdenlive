@@ -702,6 +702,36 @@ void DocClipBase::slotRefreshProducer()
                 filter = clipService.filter(ct);
             }
         }
+        if (getProperty("crop") == "1") {
+            // we want a center crop filter effect
+            Mlt::Service clipService(m_baseTrackProducers.at(0)->get_service());
+            int ct = 0;
+            Mlt::Filter *filter = clipService.filter(ct);
+            while (filter) {
+                if (strcmp(filter->get("mlt_service"), "crop") == 0) {
+                    break;
+                }
+                ct++;
+                filter = clipService.filter(ct);
+            }
+
+            if (!filter || strcmp(filter->get("mlt_service"), "crop")) {
+                // filter does not exist, create it...
+                Mlt::Filter *filter = new Mlt::Filter(*(m_baseTrackProducers.at(0)->profile()), "crop");
+                filter->set("center", 1);
+                clipService.attach(*filter);
+            }
+        } else {
+            Mlt::Service clipService(m_baseTrackProducers.at(0)->get_service());
+            int ct = 0;
+            Mlt::Filter *filter = clipService.filter(0);
+            while (filter) {
+                if (strcmp(filter->get("mlt_service"), "crop") == 0) {
+                    clipService.detach(*filter);
+                } else ct++;
+                filter = clipService.filter(ct);
+            }
+        }
     }
 }
 

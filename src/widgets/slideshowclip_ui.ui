@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>259</width>
-    <height>412</height>
+    <width>287</width>
+    <height>453</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -165,14 +165,14 @@
      </property>
     </widget>
    </item>
-   <item row="4" column="0">
+   <item row="5" column="0">
     <widget class="QCheckBox" name="slide_fade">
      <property name="text">
       <string>Dissolve</string>
      </property>
     </widget>
    </item>
-   <item row="4" column="2" colspan="2">
+   <item row="5" column="2" colspan="2">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="KRestrictedLine" name="luma_duration">
@@ -205,7 +205,7 @@
      </item>
     </layout>
    </item>
-   <item row="5" column="0">
+   <item row="6" column="0">
     <widget class="QCheckBox" name="luma_fade">
      <property name="enabled">
       <bool>false</bool>
@@ -215,14 +215,14 @@
      </property>
     </widget>
    </item>
-   <item row="5" column="2" colspan="2">
+   <item row="6" column="2" colspan="2">
     <widget class="KComboBox" name="luma_file">
      <property name="enabled">
       <bool>false</bool>
      </property>
     </widget>
    </item>
-   <item row="6" column="0">
+   <item row="7" column="0">
     <widget class="QLabel" name="label_softness">
      <property name="enabled">
       <bool>false</bool>
@@ -232,7 +232,7 @@
      </property>
     </widget>
    </item>
-   <item row="6" column="2" colspan="2">
+   <item row="7" column="2" colspan="2">
     <widget class="QSlider" name="luma_softness">
      <property name="enabled">
       <bool>false</bool>
@@ -245,10 +245,10 @@
      </property>
     </widget>
    </item>
-   <item row="7" column="0" colspan="4">
+   <item row="8" column="0" colspan="4">
     <widget class="KListWidget" name="icon_list"/>
    </item>
-   <item row="8" column="0" colspan="4">
+   <item row="9" column="0" colspan="4">
     <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
       <widget class="QCheckBox" name="show_thumbs">
@@ -279,13 +279,20 @@
      </item>
     </layout>
    </item>
-   <item row="9" column="2" colspan="2">
+   <item row="10" column="2" colspan="2">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
      <property name="standardButtons">
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0" colspan="2">
+    <widget class="QCheckBox" name="slide_crop">
+     <property name="text">
+      <string>Center crop</string>
      </property>
     </widget>
    </item>

@@ -76,7 +76,7 @@ Q_OBJECT public:
     void slotAddTextTemplateClip(QString titleName, const KUrl path, const QString group, const QString &groupId);
     void slotAddXmlClipFile(const QString name, const QDomElement xml, const QString group, const QString &groupId);
     void slotAddColorClipFile(const QString name, const QString color, QString duration, const QString group, const QString &groupId);
-    void slotAddSlideshowClipFile(const QString name, const QString path, int count, const QString duration, const bool loop, const bool fade, const QString &luma_duration, const QString &luma_file, const int softness, const QString group, const QString &groupId);
+    void slotAddSlideshowClipFile(const QString name, const QString path, int count, const QString duration, const bool loop, const bool crop, const bool fade, const QString &luma_duration, const QString &luma_file, const int softness, const QString group, const QString &groupId);
     DocClipBase *getClipById(QString clipId);
     const QList <DocClipBase *> getClipByResource(QString resource);
     void slotDeleteClips(QStringList ids);

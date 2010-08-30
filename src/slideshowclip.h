@@ -43,6 +43,7 @@ public:
     QString lumaDuration() const;
     int imageCount() const;
     bool loop() const;
+    bool crop() const;
     bool fade() const;
     QString lumaFile() const;
     int softness() const;

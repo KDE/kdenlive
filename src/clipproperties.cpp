@@ -185,6 +185,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
         m_view.image_type->addItem("Open EXR (*.exr)", "exr");
 
         m_view.slide_loop->setChecked(props.value("loop").toInt());
+        m_view.slide_crop->setChecked(props.value("crop").toInt());
         m_view.slide_fade->setChecked(props.value("fade").toInt());
         m_view.luma_softness->setValue(props.value("softness").toInt());
         QString path = props.value("resource");
@@ -575,6 +576,8 @@ QMap <QString, QString> ClipProperties::properties()
     } else if (t == SLIDESHOW) {
         QString value = QString::number((int) m_view.slide_loop->isChecked());
         if (m_old_props.value("loop") != value) props["loop"] = value;
+        value = QString::number((int) m_view.slide_crop->isChecked());
+        if (m_old_props.value("crop") != value) props["crop"] = value;
         value = QString::number((int) m_view.slide_fade->isChecked());
         if (m_old_props.value("fade") != value) props["fade"] = value;
         value = QString::number((int) m_view.luma_softness->value());

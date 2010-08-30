@@ -353,6 +353,11 @@ bool SlideshowClip::loop() const
     return m_view.slide_loop->isChecked();
 }
 
+bool SlideshowClip::crop() const
+{
+    return m_view.slide_crop->isChecked();
+}
+
 bool SlideshowClip::fade() const
 {
     return m_view.slide_fade->isChecked();
