@@ -1284,6 +1284,32 @@ void KdenliveDoc::addTrackEffect(int ix, QDomElement effect)
         return;
     }
     effect.setAttribute("kdenlive_ix", m_tracksList.at(ix).effectsList.count() + 1);
+
+    // Init parameter value & keyframes if required
+    QDomNodeList params = effect.elementsByTagName("parameter");
+    for (int i = 0; i < params.count(); i++) {
+        QDomElement e = params.item(i).toElement();
+
+        // Check if this effect has a variable parameter
+        if (e.attribute("default").startsWith('%')) {
+            double evaluatedValue = ProfilesDialog::getStringEval(m_profile, e.attribute("default"));
+            e.setAttribute("default", evaluatedValue);
+            if (e.hasAttribute("value") && e.attribute("value").startsWith('%')) {
+                e.setAttribute("value", evaluatedValue);
+            }
+        }
+
+        if (!e.isNull() && (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe")) {
+            QString def = e.attribute("default");
+            // Effect has a keyframe type parameter, we need to set the values
+            if (e.attribute("keyframes").isEmpty()) {
+                e.setAttribute("keyframes", "0:" + def + ';');
+                kDebug() << "///// EFFECT KEYFRAMES INITED: " << e.attribute("keyframes");
+                //break;
+            }
+        }
+    }
+
     m_tracksList[ix].effectsList.append(effect);
 }
 

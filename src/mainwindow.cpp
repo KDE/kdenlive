@@ -1704,7 +1704,7 @@ bool MainWindow::saveFileAs()
     }
     if (QFile::exists(outputFile)) {
         // Show the file dialog again if the user does not want to overwrite the file
-        if (KMessageBox::questionYesNo(this, i18n("File already exists.\nDo you want to overwrite it?")) == KMessageBox::No)
+        if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", outputFile)) == KMessageBox::No)
             return saveFileAs();
     }
     return saveFileAs(outputFile);

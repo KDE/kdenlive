@@ -123,7 +123,7 @@ void EffectStackView::slotSaveEffect()
     if (name.isEmpty()) return;
     QString path = KStandardDirs::locateLocal("appdata", "effects/", true);
     path = path + name + ".xml";
-    if (QFile::exists(path)) if (KMessageBox::questionYesNo(this, i18n("File already exists.\nDo you want to overwrite it?")) == KMessageBox::No) return;
+    if (QFile::exists(path)) if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", path)) == KMessageBox::No) return;
 
     int i = m_ui.effectlist->currentRow();
     QDomDocument doc;

@@ -215,7 +215,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
                 max = pa.attribute("max").toInt();
 
             DoubleParameterWidget *doubleparam = new DoubleParameterWidget(paramName, (int)(value.toDouble() + 0.5), min, max,
-                                                                           pa.attribute("default").toInt(), pa.attribute("suffix"), this);
+                    pa.attribute("default").toInt(), pa.attribute("suffix"), this);
             m_vbox->addWidget(doubleparam);
             m_valueItems[paramName] = doubleparam;
             connect(doubleparam, SIGNAL(valueChanged(int)), this, SLOT(collectAllParameters()));
@@ -639,7 +639,7 @@ void EffectStackEdit::collectAllParameters()
         } else if ((type == "simplekeyframe" || type == "keyframe") && m_keyframeEditor) {
             QString realName = i18n(na.toElement().text().toUtf8().data());
             QString val = m_keyframeEditor->getValue(realName);
-            kDebug() << "SET VALUE: " << val;
+            //kDebug() << "SET VALUE: " << val;
             namenode.item(i).toElement().setAttribute("keyframes", val);
         } else if (type == "url") {
             KUrlRequester *req = ((Urlval*)m_valueItems.value(paramName))->urlwidget;

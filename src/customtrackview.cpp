@@ -1789,6 +1789,7 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedE
         return;
     }
     QDomElement effect = insertedEffect.cloneNode().toElement();
+    kDebug() << "// update effect ix: " << effect.attribute("kdenlive_ix");
     if (pos < GenTime()) {
         // editing a track effect
         EffectsParameterList effectParams = getEffectArgs(effect);
@@ -1803,7 +1804,8 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedE
         }
         if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - track, pos, effectParams))
             emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
-        m_document->setTrackEffect(track - 1, ix, effect);
+        m_document->setTrackEffect(m_document->tracksCount() - track - 1, ix, effect);
+        setDocumentModified();
         return;
 
     }

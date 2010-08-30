@@ -1527,6 +1527,7 @@ void Render::showFrame(Mlt::Frame& frame)
 }
 #endif
 
+
 /*
  * MLT playlist direct manipulation.
  */
@@ -1789,7 +1790,7 @@ bool Render::mltUpdateClip(ItemInfo info, QDomElement element, Mlt::Producer *pr
     int ct = 0;
     Mlt::Filter *filter = sourceService.filter(ct);
     while (filter) {
-        if (filter->get("kdenlive_ix") != 0) {
+        if (filter->get_int("kdenlive_ix") != 0) {
             filtersList.append(filter);
         }
         ct++;
@@ -2072,7 +2073,7 @@ void Render::mltPasteEffects(Mlt::Producer *source, Mlt::Producer *dest)
     int ct = 0;
     Mlt::Filter *filter = sourceService.filter(ct);
     while (filter) {
-        if (filter->get("kdenlive_ix") != 0) {
+        if (filter->get_int("kdenlive_ix") != 0) {
             sourceService.detach(*filter);
             destService.attach(*filter);
         } else ct++;
@@ -2258,7 +2259,6 @@ int Render::mltChangeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, dou
 
 bool Render::mltRemoveTrackEffect(int track, QString index, bool updateIndex)
 {
-    kDebug() << "REMOVE TK EFF: " << track << ", IX: " << index;
     Mlt::Service service(m_mltProducer->parent().get_service());
     bool success = false;
     Mlt::Tractor tractor(service);
@@ -2270,11 +2270,11 @@ bool Render::mltRemoveTrackEffect(int track, QString index, bool updateIndex)
     int ct = 0;
     Mlt::Filter *filter = clipService.filter(ct);
     while (filter) {
-        if ((index == "-1" && strcmp(filter->get("kdenlive_id"), ""))  || filter->get("kdenlive_ix") == index) {
+        if ((index == "-1" && strcmp(filter->get("kdenlive_id"), ""))  || QString(filter->get("kdenlive_ix")) == index) {
             if (clipService.detach(*filter) == 0) success = true;
         } else if (updateIndex) {
             // Adjust the other effects index
-            if (QString(filter->get("kdenlive_ix")).toInt() > index.toInt()) filter->set("kdenlive_ix", QString(filter->get("kdenlive_ix")).toInt() - 1);
+            if (filter->get_int("kdenlive_ix") > index.toInt()) filter->set("kdenlive_ix", filter->get_int("kdenlive_ix") - 1);
             ct++;
         } else ct++;
         filter = clipService.filter(ct);
@@ -2317,12 +2317,12 @@ bool Render::mltRemoveEffect(int track, GenTime position, QString index, bool up
     int ct = 0;
     Mlt::Filter *filter = clipService.filter(ct);
     while (filter) {
-        if ((index == "-1" && strcmp(filter->get("kdenlive_id"), ""))  || filter->get("kdenlive_ix") == index) {// && filter->get("kdenlive_id") == id) {
+        if ((index == "-1" && strcmp(filter->get("kdenlive_id"), ""))  || QString(filter->get("kdenlive_ix")) == index) {// && filter->get("kdenlive_id") == id) {
             if (clipService.detach(*filter) == 0) success = true;
             //kDebug()<<"Deleted filter id:"<<filter->get("kdenlive_id")<<", ix:"<<filter->get("kdenlive_ix")<<", SERVICE:"<<filter->get("mlt_service");
         } else if (updateIndex) {
             // Adjust the other effects index
-            if (QString(filter->get("kdenlive_ix")).toInt() > index.toInt()) filter->set("kdenlive_ix", QString(filter->get("kdenlive_ix")).toInt() - 1);
+            if (filter->get_int("kdenlive_ix") > index.toInt()) filter->set("kdenlive_ix", filter->get_int("kdenlive_ix") - 1);
             ct++;
         } else ct++;
         filter = clipService.filter(ct);
@@ -2378,7 +2378,7 @@ bool Render::mltAddEffect(Mlt::Service service, EffectsParameterList params, int
     int ct = 0;
     Mlt::Filter *filter = service.filter(ct);
     while (filter) {
-        if (QString(filter->get("kdenlive_ix")).toInt() == filter_ix) {
+        if (filter->get_int("kdenlive_ix") == filter_ix) {
             // A filter at that position already existed, so we will increase all indexes later
             updateIndex = true;
             break;
@@ -2392,8 +2392,8 @@ bool Render::mltAddEffect(Mlt::Service service, EffectsParameterList params, int
         ct = 0;
         filter = service.filter(ct);
         while (filter) {
-            if (QString(filter->get("kdenlive_ix")).toInt() >= filter_ix) {
-                if (updateIndex) filter->set("kdenlive_ix", QString(filter->get("kdenlive_ix")).toInt() + 1);
+            if (filter->get_int("kdenlive_ix") >= filter_ix) {
+                if (updateIndex) filter->set("kdenlive_ix", filter->get_int("kdenlive_ix") + 1);
             }
             ct++;
             filter = service.filter(ct);
@@ -2409,7 +2409,7 @@ bool Render::mltAddEffect(Mlt::Service service, EffectsParameterList params, int
     ct = 0;
     filter = service.filter(ct);
     while (filter) {
-        if (QString(filter->get("kdenlive_ix")).toInt() >= filter_ix) {
+        if (filter->get_int("kdenlive_ix") >= filter_ix) {
             filtersList.append(filter);
             service.detach(*filter);
         } else ct++;
@@ -2556,7 +2556,7 @@ bool Render::mltAddEffect(Mlt::Service service, EffectsParameterList params, int
     for (int i = 0; i < filtersList.count(); i++) {
         Mlt::Filter *filter = filtersList.at(i);
         if (updateIndex)
-            filter->set("kdenlive_ix", QString(filter->get("kdenlive_ix")).toInt() + 1);
+            filter->set("kdenlive_ix", filter->get_int("kdenlive_ix") + 1);
         service.attach(*filter);
     }
     m_isBlocked = false;
@@ -2566,7 +2566,6 @@ bool Render::mltAddEffect(Mlt::Service service, EffectsParameterList params, int
 
 bool Render::mltEditTrackEffect(int track, EffectsParameterList params)
 {
-    kDebug() << "EDIT TK, FILTER: " << track;
     Mlt::Service service(m_mltProducer->parent().get_service());
     Mlt::Tractor tractor(service);
     Mlt::Producer trackProducer(tractor.track(track));
@@ -2579,7 +2578,7 @@ bool Render::mltEditTrackEffect(int track, EffectsParameterList params)
 
     Mlt::Filter *filter = clipService.filter(ct);
     while (filter) {
-        if (filter->get("kdenlive_ix") == index) {
+        if (QString(filter->get("kdenlive_ix")) == index) {
             break;
         }
         ct++;
@@ -2620,8 +2619,10 @@ bool Render::mltEditEffect(int track, GenTime position, EffectsParameterList par
 
     if (!params.paramValue("keyframes").isEmpty() || /*it.key().startsWith("#") || */tag.startsWith("ladspa") || tag == "sox" || tag == "autotrack_rectangle" || params.hasParam("region")) {
         // This is a keyframe effect, to edit it, we remove it and re-add it.
-        mltRemoveEffect(track, position, index, false);
-        bool success = mltAddEffect(track, position, params);
+        bool success = mltRemoveEffect(track, position, index, false);
+        if (!success) kDebug() << "// ERROR Removing effect : " << index;
+        success = mltAddTrackEffect(track, params);
+        if (!success) kDebug() << "// ERROR Adding effect : " << index;
         return success;
     }
     if (position < GenTime()) {
@@ -2662,7 +2663,7 @@ bool Render::mltEditEffect(int track, GenTime position, EffectsParameterList par
 
     Mlt::Filter *filter = clipService.filter(ct);
     while (filter) {
-        if (filter->get("kdenlive_ix") == index) {
+        if (QString(filter->get("kdenlive_ix")) == index) {
             break;
         }
         ct++;
@@ -2721,7 +2722,7 @@ void Render::mltUpdateEffectPosition(int track, GenTime position, int oldPos, in
     int ct = 0;
     Mlt::Filter *filter = clipService.filter(ct);
     while (filter) {
-        int pos = QString(filter->get("kdenlive_ix")).toInt();
+        int pos = filter->get_int("kdenlive_ix");
         if (pos == oldPos) {
             filter->set("kdenlive_ix", newPos);
         } else ct++;
@@ -2765,19 +2766,19 @@ void Render::mltMoveEffect(int track, GenTime position, int oldPos, int newPos)
     bool found = false;
     if (newPos > oldPos) {
         while (filter) {
-            if (!found && QString(filter->get("kdenlive_ix")).toInt() == oldPos) {
+            if (!found && filter->get_int("kdenlive_ix") == oldPos) {
                 filter->set("kdenlive_ix", newPos);
                 filtersList.append(filter);
                 clipService.detach(*filter);
                 filter = clipService.filter(ct);
-                while (filter && QString(filter->get("kdenlive_ix")).toInt() <= newPos) {
-                    filter->set("kdenlive_ix", QString(filter->get("kdenlive_ix")).toInt() - 1);
+                while (filter && filter->get_int("kdenlive_ix") <= newPos) {
+                    filter->set("kdenlive_ix", filter->get_int("kdenlive_ix") - 1);
                     ct++;
                     filter = clipService.filter(ct);
                 }
                 found = true;
             }
-            if (filter && QString(filter->get("kdenlive_ix")).toInt() > newPos) {
+            if (filter && filter->get_int("kdenlive_ix") > newPos) {
                 filtersList.append(filter);
                 clipService.detach(*filter);
             } else ct++;
@@ -2785,7 +2786,7 @@ void Render::mltMoveEffect(int track, GenTime position, int oldPos, int newPos)
         }
     } else {
         while (filter) {
-            if (QString(filter->get("kdenlive_ix")).toInt() == oldPos) {
+            if (filter->get_int("kdenlive_ix") == oldPos) {
                 filter->set("kdenlive_ix", newPos);
                 filtersList.append(filter);
                 clipService.detach(*filter);
@@ -2796,7 +2797,7 @@ void Render::mltMoveEffect(int track, GenTime position, int oldPos, int newPos)
         ct = 0;
         filter = clipService.filter(ct);
         while (filter) {
-            int pos = QString(filter->get("kdenlive_ix")).toInt();
+            int pos = filter->get_int("kdenlive_ix");
             if (pos >= newPos) {
                 if (pos < oldPos) filter->set("kdenlive_ix", pos + 1);
                 filtersList.append(filter);
@@ -2830,19 +2831,19 @@ void Render::mltMoveTrackEffect(int track, int oldPos, int newPos)
     bool found = false;
     if (newPos > oldPos) {
         while (filter) {
-            if (!found && QString(filter->get("kdenlive_ix")).toInt() == oldPos) {
+            if (!found && filter->get_int("kdenlive_ix") == oldPos) {
                 filter->set("kdenlive_ix", newPos);
                 filtersList.append(filter);
                 clipService.detach(*filter);
                 filter = clipService.filter(ct);
-                while (filter && QString(filter->get("kdenlive_ix")).toInt() <= newPos) {
-                    filter->set("kdenlive_ix", QString(filter->get("kdenlive_ix")).toInt() - 1);
+                while (filter && filter->get_int("kdenlive_ix") <= newPos) {
+                    filter->set("kdenlive_ix", filter->get_int("kdenlive_ix") - 1);
                     ct++;
                     filter = clipService.filter(ct);
                 }
                 found = true;
             }
-            if (filter && QString(filter->get("kdenlive_ix")).toInt() > newPos) {
+            if (filter && filter->get_int("kdenlive_ix") > newPos) {
                 filtersList.append(filter);
                 clipService.detach(*filter);
             } else ct++;
@@ -2850,7 +2851,7 @@ void Render::mltMoveTrackEffect(int track, int oldPos, int newPos)
         }
     } else {
         while (filter) {
-            if (QString(filter->get("kdenlive_ix")).toInt() == oldPos) {
+            if (filter->get_int("kdenlive_ix") == oldPos) {
                 filter->set("kdenlive_ix", newPos);
                 filtersList.append(filter);
                 clipService.detach(*filter);
@@ -2861,7 +2862,7 @@ void Render::mltMoveTrackEffect(int track, int oldPos, int newPos)
         ct = 0;
         filter = clipService.filter(ct);
         while (filter) {
-            int pos = QString(filter->get("kdenlive_ix")).toInt();
+            int pos = filter->get_int("kdenlive_ix");
             if (pos >= newPos) {
                 if (pos < oldPos) filter->set("kdenlive_ix", pos + 1);
                 filtersList.append(filter);

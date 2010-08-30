@@ -36,6 +36,14 @@ KeyframeEdit::KeyframeEdit(QDomElement e, int minFrame, int maxFrame, int minVal
 {
     kDebug() << " / / / /MODIFIED KFR: " << m_active_keyframe;
     setupUi(this);
+    if (m_max == -1) {
+        // special case: keyframe for tracks, do not allow keyframes
+        button_add->setEnabled(false);
+        button_delete->setEnabled(false);
+        keyframe_seek->setEnabled(false);
+        label->setHidden(true);
+        keyframe_pos->setHidden(true);
+    }
     m_params.append(e.cloneNode().toElement());
     keyframe_list->setFont(KGlobalSettings::generalFont());
     keyframe_seek->setChecked(KdenliveSettings::keyframeseek());
@@ -234,7 +242,7 @@ void KeyframeEdit::slotGenerateParams(int row, int column)
         int pos = getPos(row);
         if (pos <= m_min)
             pos = m_min;
-        if (pos > m_max)
+        if (m_max != -1 && pos > m_max)
             pos = m_max;
         QString val = getPosString(pos);
         if (val != keyframe_list->verticalHeaderItem(row)->text())
@@ -266,7 +274,7 @@ void KeyframeEdit::slotGenerateParams(int row, int column)
     int pos = getPos(row);
     if (pos <= m_min)
         pos = m_min;
-    if (pos > m_max)
+    if (m_max != -1 && pos > m_max)
         pos = m_max;
     /*QList<QTreeWidgetItem *> duplicates = keyframe_list->findItems(val, Qt::MatchExactly, 0);
     duplicates.removeAll(item);
@@ -312,7 +320,7 @@ const QString KeyframeEdit::getValue(const QString &name)
     for (int col = 0; col < keyframe_list->columnCount(); col++) {
         QDomNode na = m_params.at(col).firstChildElement("name");
         QString paramName = i18n(na.toElement().text().toUtf8().data());
-        kDebug() << paramName << " == " << name;
+        //kDebug() << paramName << " == " << name;
         if (paramName == name)
             return m_params.at(col).attribute("keyframes");
     }
