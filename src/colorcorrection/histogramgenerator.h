@@ -24,19 +24,23 @@ class HistogramGenerator : public QObject
 public:
     HistogramGenerator();
 
+    /** Recommendation to use.
+        See http://www.poynton.com/ColorFAQ.html for details. */
+    enum Rec { Rec_601, Rec_709 };
+
     /**
         Calculates a histogram display from the input image.
         components are OR-ed HistogramGenerator::Components flags and decide with components (Y, R, G, B) to paint.
         unscaled = true leaves the width at 256 if the widget is wider (to avoid scaling). */
-    QImage calculateHistogram(const QSize &paradeSize, const QImage &image, const int &components, const bool &unscaled,
-                           const uint &accelFactor = 1) const;
+    QImage calculateHistogram(const QSize &paradeSize, const QImage &image, const int &components, const HistogramGenerator::Rec rec,
+                              const bool &unscaled, const uint &accelFactor = 1) const;
 
-    QImage drawComponent(const int *y, const QSize &size, const float &scaling, const QColor &color, const bool &unscaled) const;
+    QImage drawComponent(const int *y, const QSize &size, const float &scaling, const QColor &color, const bool &unscaled, const uint &max) const;
 
     void drawComponentFull(QPainter *davinci, const int *y, const float &scaling, const QRect &rect,
-                           const QColor &color, const int &textSpace, const bool &unscaled) const;
+                           const QColor &color, const int &textSpace, const bool &unscaled, const uint &max) const;
 
-    enum Components { ComponentY = 1<<0, ComponentR = 1<<1, ComponentG = 1<<2, ComponentB = 1<<3 };
+    enum Components { ComponentY = 1<<0, ComponentR = 1<<1, ComponentG = 1<<2, ComponentB = 1<<3, ComponentSum = 1<<4 };
 
 };
 

@@ -19,7 +19,7 @@ HistogramGenerator::HistogramGenerator()
 }
 
 QImage HistogramGenerator::calculateHistogram(const QSize &paradeSize, const QImage &image, const int &components,
-                                        const bool &unscaled, const uint &accelFactor) const
+                                              HistogramGenerator::Rec rec, const bool &unscaled, const uint &accelFactor) const
 {
 //    qDebug() << "Histogram rect size is: " << paradeSize.width() << "/" << paradeSize.height();
     if (paradeSize.height() <= 0 || paradeSize.width() <= 0 || image.width() <= 0 || image.height() <= 0) {
@@ -30,13 +30,15 @@ QImage HistogramGenerator::calculateHistogram(const QSize &paradeSize, const QIm
     bool drawR = (components & HistogramGenerator::ComponentR) != 0;
     bool drawG = (components & HistogramGenerator::ComponentG) != 0;
     bool drawB = (components & HistogramGenerator::ComponentB) != 0;
+    bool drawSum = (components & HistogramGenerator::ComponentSum) != 0;
 
-    int r[256], g[256], b[256], y[256];
+    int r[256], g[256], b[256], y[256], s[766];
     // Initialize the values to zero
     std::fill(r, r+256, 0);
     std::fill(g, g+256, 0);
     std::fill(b, b+256, 0);
     std::fill(y, y+256, 0);
+    std::fill(s, s+766, 0);
 
     const uint iw = image.bytesPerLine();
     const uint ih = image.height();
@@ -56,13 +58,26 @@ QImage HistogramGenerator::calculateHistogram(const QSize &paradeSize, const QIm
         r[qRed(*col)]++;
         g[qGreen(*col)]++;
         b[qBlue(*col)]++;
-        y[(int)floor(.299*qRed(*col) + .587*qGreen(*col) + .114*qBlue(*col))]++;
+        if (drawY) {
+            // Use if branch to avoid expensive multiplication if Y disabled
+            if (rec == HistogramGenerator::Rec_601) {
+                y[(int)floor(.299*qRed(*col) + .587*qGreen(*col) + .114*qBlue(*col))]++;
+            } else {
+                y[(int)floor(.2125*qRed(*col) + .7154*qGreen(*col) + .0721*qBlue(*col))]++;
+            }
+        }
+        if (drawSum) {
+            // Use an if branch here because the sum takes more operations than rgb
+            s[qRed(*col)]++;
+            s[qGreen(*col)]++;
+            s[qBlue(*col)]++;
+        }
 
         bits += stepsize;
     }
 
 
-    const int nParts = (drawY ? 1 : 0) + (drawR ? 1 : 0) + (drawG ? 1 : 0) + (drawB ? 1 : 0);
+    const int nParts = (drawY ? 1 : 0) + (drawR ? 1 : 0) + (drawG ? 1 : 0) + (drawB ? 1 : 0) + (drawSum ? 1 : 0);
     if (nParts == 0) {
         // Nothing to draw
         return QImage();
@@ -82,27 +97,34 @@ QImage HistogramGenerator::calculateHistogram(const QSize &paradeSize, const QIm
 
     if (drawY) {
 //        qDebug() << "Drawing Y at " << wy << " with height " << partH;
-        drawComponentFull(&davinci, y, scaling, QRect(0, wy, ww, partH + dist), QColor(220, 220, 210, 255), dist, unscaled);
+        drawComponentFull(&davinci, y, scaling, QRect(0, wy, ww, partH + dist), QColor(220, 220, 210, 255), dist, unscaled, 256);
+
+        wy += partH + d;
+    }
+
+    if (drawSum) {
+//        qDebug() << "Drawing S at " << wy << " with height " << partH;
+        drawComponentFull(&davinci, s, scaling/3, QRect(0, wy, ww, partH + dist), QColor(220, 220, 210, 255), dist, unscaled, 256);
 
         wy += partH + d;
     }
 
     if (drawR) {
 //        qDebug() << "Drawing R at " << wy << " with height " << partH;
-        drawComponentFull(&davinci, r, scaling, QRect(0, wy, ww, partH + dist), QColor(255, 128, 0, 255), dist, unscaled);
+        drawComponentFull(&davinci, r, scaling, QRect(0, wy, ww, partH + dist), QColor(255, 128, 0, 255), dist, unscaled, 256);
 
         wy += partH + d;
     }
 
     if (drawG) {
 //        qDebug() << "Drawing G at " << wy << " with height " << partH;
-        drawComponentFull(&davinci, g, scaling, QRect(0, wy, ww, partH + dist), QColor(128, 255, 0, 255), dist, unscaled);
+        drawComponentFull(&davinci, g, scaling, QRect(0, wy, ww, partH + dist), QColor(128, 255, 0, 255), dist, unscaled, 256);
         wy += partH + d;
     }
 
     if (drawB) {
 //        qDebug() << "Drawing B at " << wy << " with height " << partH;
-        drawComponentFull(&davinci, b, scaling, QRect(0, wy, ww, partH + dist), QColor(0, 128, 255, 255), dist, unscaled);
+        drawComponentFull(&davinci, b, scaling, QRect(0, wy, ww, partH + dist), QColor(0, 128, 255, 255), dist, unscaled, 256);
 
         wy += partH + d;
     }
@@ -110,16 +132,17 @@ QImage HistogramGenerator::calculateHistogram(const QSize &paradeSize, const QIm
     return histogram;
 }
 
-QImage HistogramGenerator::drawComponent(const int *y, const QSize &size, const float &scaling, const QColor &color, const bool &unscaled) const
+QImage HistogramGenerator::drawComponent(const int *y, const QSize &size, const float &scaling, const QColor &color,
+                                         const bool &unscaled, const uint &max) const
 {
-    QImage component(256, size.height(), QImage::Format_ARGB32);
+    QImage component(max, size.height(), QImage::Format_ARGB32);
     component.fill(qRgba(0, 0, 0, 0));
     Q_ASSERT(scaling != INFINITY);
 
     const int partH = size.height();
     int partY;
 
-    for (int x = 0; x < 256; x++) {
+    for (uint x = 0; x < max; x++) {
         // Calculate the height of the curve at position x
         partY = scaling*y[x];
 
@@ -139,21 +162,21 @@ QImage HistogramGenerator::drawComponent(const int *y, const QSize &size, const 
 }
 
 void HistogramGenerator::drawComponentFull(QPainter *davinci, const int *y, const float &scaling, const QRect &rect,
-                                        const QColor &color, const int &textSpace, const bool &unscaled) const
+                                        const QColor &color, const int &textSpace, const bool &unscaled, const uint &max) const
 {
-    QImage component = drawComponent(y, rect.size() - QSize(0, textSpace), scaling, color, unscaled);
+    QImage component = drawComponent(y, rect.size() - QSize(0, textSpace), scaling, color, unscaled, max);
     davinci->drawImage(rect.topLeft(), component);
 
     int min = 0;
-    for (int x = 0; x < 256; x++) {
+    for (uint x = 0; x < max; x++) {
         min = x;
         if (y[x] > 0) {
             break;
         }
     }
-    int max = 255;
-    for (int x = 255; x >= 0; x--) {
-        max = x;
+    int maxVal = max-1;
+    for (int x = max-1; x >= 0; x--) {
+        maxVal = x;
         if (y[x] > 0) {
             break;
         }

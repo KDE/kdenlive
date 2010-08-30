@@ -31,6 +31,9 @@ protected:
 private:
     HistogramGenerator *m_histogramGenerator;
     QAction *m_aUnscaled;
+    QAction *m_aRec601;
+    QAction *m_aRec709;
+    QActionGroup *m_agRec;
 
     QRect scopeRect();
     bool isHUDDependingOnInput() const;

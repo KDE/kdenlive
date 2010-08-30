@@ -20,23 +20,34 @@ Histogram::Histogram(Monitor *projMonitor, Monitor *clipMonitor, QWidget *parent
     ui = new Ui::Histogram_UI();
     ui->setupUi(this);
 
-    ui->cbY->setChecked(true);
-    ui->cbR->setChecked(true);
-    ui->cbG->setChecked(true);
-    ui->cbB->setChecked(true);
-
 
     m_aUnscaled = new QAction(i18n("Unscaled"), this);
     m_aUnscaled->setCheckable(true);
+
+    m_aRec601 = new QAction(i18n("Rec. 601"), this);
+    m_aRec601->setCheckable(true);
+    m_aRec709 = new QAction(i18n("Rec. 709"), this);
+    m_aRec709->setCheckable(true);
+
+    m_agRec = new QActionGroup(this);
+    m_agRec->addAction(m_aRec601);
+    m_agRec->addAction(m_aRec709);
+
     m_menu->addSeparator();
     m_menu->addAction(m_aUnscaled);
+    m_menu->addSeparator()->setText(i18n("Luma mode"));
+    m_menu->addAction(m_aRec601);
+    m_menu->addAction(m_aRec709);
 
     bool b = true;
     b &= connect(ui->cbY, SIGNAL(toggled(bool)), this, SLOT(forceUpdateScope()));
+    b &= connect(ui->cbS, SIGNAL(toggled(bool)), this, SLOT(forceUpdateScope()));
     b &= connect(ui->cbR, SIGNAL(toggled(bool)), this, SLOT(forceUpdateScope()));
     b &= connect(ui->cbG, SIGNAL(toggled(bool)), this, SLOT(forceUpdateScope()));
     b &= connect(ui->cbB, SIGNAL(toggled(bool)), this, SLOT(forceUpdateScope()));
     b &= connect(m_aUnscaled, SIGNAL(toggled(bool)), this, SLOT(forceUpdateScope()));
+    b &= connect(m_aRec601, SIGNAL(toggled(bool)), this, SLOT(forceUpdateScope()));
+    b &= connect(m_aRec709, SIGNAL(toggled(bool)), this, SLOT(forceUpdateScope()));
     Q_ASSERT(b);
 
     init();
@@ -48,6 +59,9 @@ Histogram::~Histogram()
 
     delete ui;
     delete m_aUnscaled;
+    delete m_aRec601;
+    delete m_aRec709;
+    delete m_agRec;
 }
 
 void Histogram::readConfig()
@@ -57,9 +71,12 @@ void Histogram::readConfig()
     KSharedConfigPtr config = KGlobal::config();
     KConfigGroup scopeConfig(config, configName());
     ui->cbY->setChecked(scopeConfig.readEntry("yEnabled", true));
+    ui->cbS->setChecked(scopeConfig.readEntry("sEnabled", false));
     ui->cbR->setChecked(scopeConfig.readEntry("rEnabled", true));
     ui->cbG->setChecked(scopeConfig.readEntry("gEnabled", true));
     ui->cbB->setChecked(scopeConfig.readEntry("bEnabled", true));
+    m_aRec601->setChecked(scopeConfig.readEntry("rec601", false));
+    m_aRec709->setChecked(!m_aRec601->isChecked());
 }
 
 void Histogram::writeConfig()
@@ -67,9 +84,11 @@ void Histogram::writeConfig()
     KSharedConfigPtr config = KGlobal::config();
     KConfigGroup scopeConfig(config, configName());
     scopeConfig.writeEntry("yEnabled", ui->cbY->isChecked());
+    scopeConfig.writeEntry("sEnabled", ui->cbS->isChecked());
     scopeConfig.writeEntry("rEnabled", ui->cbR->isChecked());
     scopeConfig.writeEntry("gEnabled", ui->cbG->isChecked());
     scopeConfig.writeEntry("bEnabled", ui->cbB->isChecked());
+    scopeConfig.writeEntry("rec601", m_aRec601->isChecked());
     scopeConfig.sync();
 }
 
@@ -81,7 +100,7 @@ bool Histogram::isBackgroundDependingOnInput() const { return false; }
 
 QRect Histogram::scopeRect()
 {
-    qDebug() << "According to the spacer, the top left point is " << ui->verticalSpacer->geometry().x() << "/" << ui->verticalSpacer->geometry().y();
+    //qDebug() << "According to the spacer, the top left point is " << ui->verticalSpacer->geometry().x() << "/" << ui->verticalSpacer->geometry().y();
     QPoint topleft(offset, offset+ ui->verticalSpacer->geometry().y());
     return QRect(topleft, this->rect().size() - QSize(topleft.x() + offset, topleft.y() + offset));
 }
@@ -97,12 +116,15 @@ QImage Histogram::renderScope(uint accelFactor, QImage qimage)
     start.start();
 
     const int componentFlags =   (ui->cbY->isChecked() ? 1 : 0) * HistogramGenerator::ComponentY
+                               | (ui->cbS->isChecked() ? 1 : 0) * HistogramGenerator::ComponentSum
                                | (ui->cbR->isChecked() ? 1 : 0) * HistogramGenerator::ComponentR
                                | (ui->cbG->isChecked() ? 1 : 0) * HistogramGenerator::ComponentG
                                | (ui->cbB->isChecked() ? 1 : 0) * HistogramGenerator::ComponentB;
 
-    QImage histogram = m_histogramGenerator->calculateHistogram(m_scopeRect.size(), qimage,
-                                                       componentFlags, m_aUnscaled->isChecked(), accelFactor);
+    HistogramGenerator::Rec rec = m_aRec601->isChecked() ? HistogramGenerator::Rec_601 : HistogramGenerator::Rec_709;
+
+    QImage histogram = m_histogramGenerator->calculateHistogram(m_scopeRect.size(), qimage, componentFlags,
+                                                                rec, m_aUnscaled->isChecked(), accelFactor);
 
     emit signalScopeRenderingFinished(start.elapsed(), accelFactor);
     return histogram;
