@@ -169,7 +169,15 @@ void EffectStackView::slotClipItemSelected(ClipItem* c, int ix)
     } else {
         m_clipref = c;
         if (c) {
-            m_ui.checkAll->setText(i18n("Effects for %1").arg(m_clipref->clipName()));
+            QString cname = m_clipref->clipName();
+            if (cname.length() > 20) {
+                m_ui.checkAll->setToolTip(i18n("Effects for %1").arg(cname));
+                cname.truncate(17);
+                m_ui.checkAll->setText(i18n("Effects for %1").arg(cname) + "...");
+            } else {
+                m_ui.checkAll->setToolTip(QString());
+                m_ui.checkAll->setText(i18n("Effects for %1").arg(cname));
+            }
             ix = c->selectedEffectIndex();
             QString size = c->baseClip()->getProperty("frame_size");
             double factor = c->baseClip()->getProperty("aspect_ratio").toDouble();
@@ -184,6 +192,8 @@ void EffectStackView::slotClipItemSelected(ClipItem* c, int ix)
         m_effectedit->transferParamDesc(QDomElement(), 0, 0, 0);
         //m_ui.region_url->clear();
         m_ui.effectlist->blockSignals(false);
+        m_ui.checkAll->setToolTip(QString());
+        m_ui.checkAll->setText(QString());
         setEnabled(false);
         return;
     }
@@ -200,6 +210,7 @@ void EffectStackView::slotTrackItemSelected(int ix, const TrackInfo info)
     m_currentEffectList = info.effectsList;
     kDebug() << "// TRACK; " << ix << ", EFFECTS: " << m_currentEffectList.count();
     setEnabled(true);
+    m_ui.checkAll->setToolTip(QString());
     m_ui.checkAll->setText(i18n("Effects for track %1").arg(info.trackName.isEmpty() ? QString::number(ix) : info.trackName));
     m_trackindex = ix;
     setupListView(0);
