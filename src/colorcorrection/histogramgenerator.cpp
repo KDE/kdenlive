@@ -33,10 +33,10 @@ QImage HistogramGenerator::calculateHistogram(const QSize &paradeSize, const QIm
 
     int r[256], g[256], b[256], y[256];
     // Initialize the values to zero
-    std::fill(r, r+255, 0);
-    std::fill(g, g+255, 0);
-    std::fill(b, b+255, 0);
-    std::fill(y, y+255, 0);
+    std::fill(r, r+256, 0);
+    std::fill(g, g+256, 0);
+    std::fill(b, b+256, 0);
+    std::fill(y, y+256, 0);
 
     const uint iw = image.bytesPerLine();
     const uint ih = image.height();
