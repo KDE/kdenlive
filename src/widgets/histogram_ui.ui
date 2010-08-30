@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>398</width>
-    <height>298</height>
+    <width>396</width>
+    <height>296</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,10 @@
    <item row="0" column="1">
     <widget class="QCheckBox" name="cbY">
      <property name="toolTip">
-      <string extracomment="Luma value"/>
+      <string>Luma value</string>
+     </property>
+     <property name="whatsThis">
+      <string/>
      </property>
      <property name="text">
       <string>Y</string>
@@ -68,7 +71,7 @@
    <item row="0" column="2">
     <widget class="QCheckBox" name="cbS">
      <property name="toolTip">
-      <string extracomment="RGB summed up"/>
+      <string>RGB summed up</string>
      </property>
      <property name="text">
       <string>Sum</string>
