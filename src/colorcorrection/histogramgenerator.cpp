@@ -190,5 +190,5 @@ void HistogramGenerator::drawComponentFull(QPainter *davinci, const int *y, cons
     davinci->drawText(dist,         textY, QString::number(min, 'f', 0));
 
     davinci->drawText(cw-dist-30,   textY, "max");
-    davinci->drawText(cw-30,        textY, QString::number(max, 'f', 0));
+    davinci->drawText(cw-30,        textY, QString::number(maxVal, 'f', 0));
 }
