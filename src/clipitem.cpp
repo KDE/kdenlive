@@ -196,8 +196,10 @@ void ClipItem::setEffectList(const EffectsList effectList)
                     }
                 }
             }
-            if (fade > 0) m_startFade = fade;
-            else if (fade < 0) m_endFade = -fade;
+            if (fade > 0)
+                m_startFade = fade;
+            else if (fade < 0)
+                m_endFade = -fade;
         }
         setSelectedEffect(0);
     }

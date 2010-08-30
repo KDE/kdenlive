@@ -219,6 +219,11 @@ void MonitorScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
     if (!m_enabled)
         return;
 
+    /*if (event->buttons() != Qt::NoButton && (event->screenPos() - m_screenClickPoint).manhattanLength() < QApplication::startDragDistance()) {
+        event->accept();
+        return;
+    }*/
+
     QPointF mousePos = event->scenePos();
 
     if (m_selectedItem && event->buttons() & Qt::LeftButton) {
