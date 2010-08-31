@@ -9,6 +9,7 @@
  ***************************************************************************/
 
 #include <QMenu>
+#include <QPainter>
 #include <QRect>
 #include <QTime>
 #include "renderer.h"
@@ -16,13 +17,13 @@
 #include "rgbparadegenerator.h"
 
 RGBParade::RGBParade(Monitor *projMonitor, Monitor *clipMonitor, QWidget *parent) :
-        AbstractScopeWidget(projMonitor, clipMonitor, parent)
+        AbstractScopeWidget(projMonitor, clipMonitor, true, parent)
 {
     ui = new Ui::RGBParade_UI();
     ui->setupUi(this);
 
     ui->paintMode->addItem(i18n("RGB"), QVariant(RGBParadeGenerator::PaintMode_RGB));
-    ui->paintMode->addItem(i18n("RGB 2"), QVariant(RGBParadeGenerator::PaintMode_RGB2));
+    ui->paintMode->addItem(i18n("White"), QVariant(RGBParadeGenerator::PaintMode_White));
 
     bool b = true;
 
@@ -38,7 +39,7 @@ RGBParade::RGBParade(Monitor *projMonitor, Monitor *clipMonitor, QWidget *parent
     b &= connect(m_aGradRef, SIGNAL(changed()), this, SLOT(forceUpdateScope()));
 
     b &= connect(ui->paintMode, SIGNAL(currentIndexChanged(int)), this, SLOT(forceUpdateScope()));
-
+    b &= connect(this, SIGNAL(signalMousePositionChanged()), this, SLOT(forceUpdateHUD()));
     Q_ASSERT(b);
 
     m_rgbParadeGenerator = new RGBParadeGenerator();
@@ -85,7 +86,32 @@ QRect RGBParade::scopeRect()
     return QRect(topleft, QPoint(this->size().width() - offset, this->size().height() - offset));
 }
 
-QImage RGBParade::renderHUD(uint) { return QImage(); }
+QImage RGBParade::renderHUD(uint)
+{
+    if (scopeRect().height() > 0 && m_mouseWithinWidget) {
+        QImage hud(m_scopeRect.size(), QImage::Format_ARGB32);
+        hud.fill(qRgba(0,0,0,0));
+
+        QPainter davinci(&hud);
+        davinci.setPen(penLight);
+
+        int x = scopeRect().width()-30;
+        int y = m_mousePos.y() - scopeRect().y();
+
+        // Draw a horizontal line through the current mouse position
+        // and show the value of the waveform there
+        davinci.drawLine(0, y, scopeRect().size().width()-RGBParadeGenerator::distRight, y);
+
+        int val = 255*(1-((float)y/(scopeRect().height()-RGBParadeGenerator::distBottom)));
+        davinci.drawText(x, scopeRect().height()/2, QVariant(val).toString());
+
+        emit signalHUDRenderingFinished(1, 1);
+        return hud;
+    } else {
+        emit signalHUDRenderingFinished(1, 1);
+        return QImage();
+    }
+}
 QImage RGBParade::renderScope(uint accelerationFactor, QImage qimage)
 {
     QTime start = QTime::currentTime();

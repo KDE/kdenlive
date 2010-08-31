@@ -107,15 +107,18 @@ QImage Waveform::renderHUD(uint)
 {
     QImage hud(m_scopeRect.size(), QImage::Format_ARGB32);
     hud.fill(qRgba(0,0,0,0));
-    QPainter davinci(&hud);
 
+    QPainter davinci(&hud);
     davinci.setPen(penLight);
 
     int x = scopeRect().width()-m_textWidth.width()+3;
     int y = m_mousePos.y() - scopeRect().y();
 
     if (scopeRect().height() > 0 && m_mouseWithinWidget) {
+        // Draw a horizontal line through the current mouse position
+        // and show the value of the waveform there
         davinci.drawLine(0, y, scopeRect().size().width()-m_textWidth.width(), y);
+
         int val = 255*(1-(float)y/scopeRect().height());
         davinci.drawText(x, scopeRect().height()/2, QVariant(val).toString());
     }
