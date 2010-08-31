@@ -27,7 +27,7 @@ WaveformGenerator::~WaveformGenerator()
 }
 
 QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, const QImage &image, WaveformGenerator::PaintMode paintMode,
-                                            const bool &drawAxis, const uint &accelFactor)
+                                            const bool &drawAxis, WaveformGenerator::Rec rec, const uint &accelFactor)
 {
     Q_ASSERT(accelFactor >= 1);
 
@@ -70,9 +70,14 @@ QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, const QIm
 
             col = (QRgb *)bits;
 
-            // CIE 601 Luminance
+            if (rec == WaveformGenerator::Rec_601) {
+                // CIE 601 Luminance
+                dY = .299*qRed(*col) + .587*qGreen(*col) + .114*qBlue(*col);
+            } else {
+                // CIE 709 Luminance
+                dY = .2125*qRed(*col) + .7154*qGreen(*col) + .0721*qBlue(*col);
+            }
             // dY is on [0,255] now.
-            dY = .299*qRed(*col) + .587*qGreen(*col) + .114*qBlue(*col);
 
             dy = dY*hPrediv;
             dx = x*wPrediv;
@@ -84,9 +89,13 @@ QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, const QIm
                 wave.setPixel(wavePoint, qRgba(CHOP255(9 + qRed(waveCol)), CHOP255(36 + qGreen(waveCol)),
                                                CHOP255(18 + qBlue(waveCol)), 255));
                 break;
-            default:
+            case PaintMode_Yellow:
                 wave.setPixel(wavePoint, qRgba(255, 242,
                                                0, CHOP255(brightnessAdjustment*10+qAlpha(waveCol))));
+                break;
+            default:
+                wave.setPixel(wavePoint, qRgba(255,255,255,
+                                               CHOP255(brightnessAdjustment*32+qAlpha(waveCol))));
                 break;
             }
 

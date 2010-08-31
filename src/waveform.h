@@ -35,6 +35,10 @@ private:
     Ui::Waveform_UI *ui;
     WaveformGenerator *m_waveformGenerator;
 
+    QAction *m_aRec601;
+    QAction *m_aRec709;
+    QActionGroup *m_agRec;
+
     static const QSize m_textWidth;
 
     QImage m_waveform;

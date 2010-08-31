@@ -28,7 +28,6 @@ Histogram::Histogram(Monitor *projMonitor, Monitor *clipMonitor, QWidget *parent
     m_aRec601->setCheckable(true);
     m_aRec709 = new QAction(i18n("Rec. 709"), this);
     m_aRec709->setCheckable(true);
-
     m_agRec = new QActionGroup(this);
     m_agRec->addAction(m_aRec601);
     m_agRec->addAction(m_aRec709);

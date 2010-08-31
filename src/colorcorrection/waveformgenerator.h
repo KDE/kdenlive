@@ -20,13 +20,14 @@ class WaveformGenerator : public QObject
     Q_OBJECT
 
 public:
-    enum PaintMode { PaintMode_Green, PaintMode_Yellow };
+    enum PaintMode { PaintMode_Green, PaintMode_Yellow, PaintMode_White };
+    enum Rec { Rec_601, Rec_709 };
 
     WaveformGenerator();
     ~WaveformGenerator();
 
     QImage calculateWaveform(const QSize &waveformSize, const QImage &image, WaveformGenerator::PaintMode paintMode,
-                             const bool &drawAxis, const uint &accelFactor = 1);
+                             const bool &drawAxis, const WaveformGenerator::Rec rec, const uint &accelFactor = 1);
 
 signals:
     void signalCalculationFinished(QImage image, const uint &ms);

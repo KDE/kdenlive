@@ -8,10 +8,10 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
+#include <QMenu>
 #include <QMouseEvent>
 #include <QPainter>
 #include <QPoint>
-#include <QDebug>
 
 #include "renderer.h"
 #include "waveform.h"
@@ -27,11 +27,27 @@ Waveform::Waveform(Monitor *projMonitor, Monitor *clipMonitor, QWidget *parent) 
     ui->setupUi(this);
 
     ui->paintMode->addItem(i18n("Yellow"), QVariant(WaveformGenerator::PaintMode_Yellow));
+    ui->paintMode->addItem(i18n("White"), QVariant(WaveformGenerator::PaintMode_White));
     ui->paintMode->addItem(i18n("Green"), QVariant(WaveformGenerator::PaintMode_Green));
+
+
+    m_aRec601 = new QAction(i18n("Rec. 601"), this);
+    m_aRec601->setCheckable(true);
+    m_aRec709 = new QAction(i18n("Rec. 709"), this);
+    m_aRec709->setCheckable(true);
+    m_agRec = new QActionGroup(this);
+    m_agRec->addAction(m_aRec601);
+    m_agRec->addAction(m_aRec709);
+    m_menu->addSeparator()->setText(i18n("Luma mode"));
+    m_menu->addAction(m_aRec601);
+    m_menu->addAction(m_aRec709);
+
 
     bool b = true;
     b &= connect(ui->paintMode, SIGNAL(currentIndexChanged(int)), this, SLOT(forceUpdateScope()));
     b &= connect(this, SIGNAL(signalMousePositionChanged()), this, SLOT(forceUpdateHUD()));
+    b &= connect(m_aRec601, SIGNAL(toggled(bool)), this, SLOT(forceUpdateScope()));
+    b &= connect(m_aRec709, SIGNAL(toggled(bool)), this, SLOT(forceUpdateScope()));
     Q_ASSERT(b);
 
     init();
@@ -43,6 +59,9 @@ Waveform::~Waveform()
     writeConfig();
 
     delete m_waveformGenerator;
+    delete m_aRec601;
+    delete m_aRec709;
+    delete m_agRec;
 }
 
 void Waveform::readConfig()
@@ -52,6 +71,8 @@ void Waveform::readConfig()
     KSharedConfigPtr config = KGlobal::config();
     KConfigGroup scopeConfig(config, configName());
     ui->paintMode->setCurrentIndex(scopeConfig.readEntry("paintmode", 0));
+    m_aRec601->setChecked(scopeConfig.readEntry("rec601", false));
+    m_aRec709->setChecked(!m_aRec601->isChecked());
 }
 
 void Waveform::writeConfig()
@@ -59,6 +80,7 @@ void Waveform::writeConfig()
     KSharedConfigPtr config = KGlobal::config();
     KConfigGroup scopeConfig(config, configName());
     scopeConfig.writeEntry("paintmode", ui->paintMode->currentIndex());
+    scopeConfig.writeEntry("rec601", m_aRec601->isChecked());
     scopeConfig.sync();
 }
 
@@ -110,8 +132,9 @@ QImage Waveform::renderScope(uint accelFactor, QImage qimage)
     start.start();
 
     int paintmode = ui->paintMode->itemData(ui->paintMode->currentIndex()).toInt();
+    WaveformGenerator::Rec rec = m_aRec601->isChecked() ? WaveformGenerator::Rec_601 : WaveformGenerator::Rec_709;
     QImage wave = m_waveformGenerator->calculateWaveform(scopeRect().size() - m_textWidth, qimage, (WaveformGenerator::PaintMode) paintmode,
-                                                         true, accelFactor);
+                                                         true, rec, accelFactor);
 
     emit signalScopeRenderingFinished(start.elapsed(), 1);
     return wave;
