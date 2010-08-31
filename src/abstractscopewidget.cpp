@@ -17,6 +17,7 @@
 #include <QFuture>
 #include <QColor>
 #include <QMenu>
+#include <QMouseEvent>
 #include <QPainter>
 
 const int REALTIME_FPS = 30;
@@ -30,10 +31,12 @@ const QPen AbstractScopeWidget::penThin (QBrush(QColor(250,250,250)),     1, Qt:
 const QPen AbstractScopeWidget::penLight(QBrush(QColor(200,200,250,150)), 1, Qt::SolidLine);
 const QPen AbstractScopeWidget::penDark (QBrush(QColor(0,0,20,250)),      1, Qt::SolidLine);
 
-AbstractScopeWidget::AbstractScopeWidget(Monitor *projMonitor, Monitor *clipMonitor, QWidget *parent) :
+AbstractScopeWidget::AbstractScopeWidget(Monitor *projMonitor, Monitor *clipMonitor, bool trackMouse, QWidget *parent) :
     QWidget(parent),
     m_projMonitor(projMonitor),
     m_clipMonitor(clipMonitor),
+    m_mousePos(0,0),
+    m_mouseWithinWidget(false),
     offset(5),
     m_accelFactorHUD(1),
     m_accelFactorScope(1),
@@ -80,6 +83,11 @@ AbstractScopeWidget::AbstractScopeWidget(Monitor *projMonitor, Monitor *clipMoni
     b &= connect(m_aRealtime, SIGNAL(toggled(bool)), this, SLOT(slotResetRealtimeFactor(bool)));
     b &= connect(m_aAutoRefresh, SIGNAL(toggled(bool)), this, SLOT(slotAutoRefreshToggled(bool)));
     Q_ASSERT(b);
+
+    // Enable mouse tracking if desired.
+    // Causes the mouseMoved signal to be emitted when the mouse moves inside the
+    // widget, even when no mouse button is pressed.
+    this->setMouseTracking(trackMouse);
 }
 
 AbstractScopeWidget::~AbstractScopeWidget()
@@ -247,6 +255,18 @@ void AbstractScopeWidget::paintEvent(QPaintEvent *)
     davinci.drawImage(m_scopeRect.topLeft(), m_imgBackground);
     davinci.drawImage(m_scopeRect.topLeft(), m_imgScope);
     davinci.drawImage(m_scopeRect.topLeft(), m_imgHUD);
+}
+
+void AbstractScopeWidget::mouseMoveEvent(QMouseEvent *event)
+{
+    m_mousePos = event->pos();
+    m_mouseWithinWidget = true;
+    emit signalMousePositionChanged();
+}
+void AbstractScopeWidget::leaveEvent(QEvent *)
+{
+    m_mouseWithinWidget = false;
+    emit signalMousePositionChanged();
 }
 
 void AbstractScopeWidget::customContextMenuRequested(const QPoint &pos)

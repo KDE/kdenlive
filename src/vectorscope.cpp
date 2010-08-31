@@ -37,8 +37,7 @@ const QPointF YUV_Yl(-.437,  .100);
 
 Vectorscope::Vectorscope(Monitor *projMonitor, Monitor *clipMonitor, QWidget *parent) :
     AbstractScopeWidget(projMonitor, clipMonitor, parent),
-    m_gain(1),
-    m_circleEnabled(false)
+    m_gain(1)
 {
     ui = new Ui::Vectorscope_UI();
     ui->setupUi(this);
@@ -65,6 +64,7 @@ Vectorscope::Vectorscope(Monitor *projMonitor, Monitor *clipMonitor, QWidget *pa
     b &= connect(ui->backgroundMode, SIGNAL(currentIndexChanged(int)), this, SLOT(slotBackgroundChanged()));
     b &= connect(ui->sliderGain, SIGNAL(valueChanged(int)), this, SLOT(slotGainChanged(int)));
     b &= connect(ui->paintMode, SIGNAL(currentIndexChanged(int)), this, SLOT(forceUpdateScope()));
+    b &= connect(this, SIGNAL(signalMousePositionChanged()), this, SLOT(forceUpdateHUD()));
     ui->sliderGain->setValue(0);
 
 
@@ -88,8 +88,7 @@ Vectorscope::Vectorscope(Monitor *projMonitor, Monitor *clipMonitor, QWidget *pa
 
     Q_ASSERT(b);
 
-
-    this->setMouseTracking(true);
+    // To make the 1.0x text show
     slotGainChanged(ui->sliderGain->value());
 
     init();
@@ -172,7 +171,7 @@ QImage Vectorscope::renderHUD(uint)
 
     QImage hud;
 
-    if (m_circleEnabled) {
+    if (m_mouseWithinWidget) {
         // Mouse moved: Draw a circle over the scope
 
         hud = QImage(m_scopeRect.size(), QImage::Format_ARGB32);
@@ -208,7 +207,7 @@ QImage Vectorscope::renderHUD(uint)
         float angle = copysign(acos(dx/r)*180/M_PI, dy);
         davinci.drawText(QPoint(10, m_scopeRect.height()), i18n("%1°", QString::number(angle, 'f', 1)));
 
-        m_circleEnabled = false;
+//        m_circleEnabled = false;
     } else {
         hud = QImage(0, 0, QImage::Format_ARGB32);
     }
@@ -389,27 +388,4 @@ void Vectorscope::slotBackgroundChanged()
         break;
     }
     forceUpdateBackground();
-}
-
-
-
-///// Events /////
-
-void Vectorscope::mouseMoveEvent(QMouseEvent *event)
-{
-    // Draw a circle around the center,
-    // showing percentage number of the radius length
-
-    m_circleEnabled = true;
-    m_mousePos = event->pos();
-    forceUpdateHUD();
-}
-
-void Vectorscope::leaveEvent(QEvent *event)
-{
-    // Repaint the HUD without the circle
-
-    m_circleEnabled = false;
-    QWidget::leaveEvent(event);
-    forceUpdateHUD();
 }

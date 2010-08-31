@@ -64,7 +64,7 @@ class AbstractScopeWidget : public QWidget
     Q_OBJECT
 
 public:
-    AbstractScopeWidget(Monitor *projMonitor, Monitor *clipMonitor, QWidget *parent = 0);
+    AbstractScopeWidget(Monitor *projMonitor, Monitor *clipMonitor, bool trackMouse = false, QWidget *parent = 0);
     virtual ~AbstractScopeWidget(); // Must be virtual because of inheritance, to avoid memory leaks
     QPalette m_scopePalette;
 
@@ -103,6 +103,12 @@ protected:
         how many times faster the scope should be calculated. */
     QAction *m_aRealtime;
 
+    /** The mouse position; Updated when the mouse enters the widget
+        AND mouse tracking has been enabled. */
+    QPoint m_mousePos;
+    /** Knows whether the mouse currently lies within the widget or not.
+        Can e.g. be used for drawing a HUD only when the mouse is in the widget. */
+    bool m_mouseWithinWidget;
 
     /** Offset from the widget's borders */
     const uchar offset;
@@ -166,11 +172,14 @@ protected:
 
     ///// Reimplemented /////
 
+    void mouseMoveEvent(QMouseEvent *);
+    void leaveEvent(QEvent *);
     void mouseReleaseEvent(QMouseEvent *);
     void paintEvent(QPaintEvent *);
     void resizeEvent(QResizeEvent *);
     void showEvent(QShowEvent *); // Called when the widget is activated via the Menu entry
     //    void raise(); // Called only when  manually calling the event -> useless
+
 
 protected slots:
     /** Forces an update of all layers. */
@@ -186,6 +195,10 @@ signals:
     void signalHUDRenderingFinished(uint mseconds, uint accelerationFactor);
     void signalScopeRenderingFinished(uint mseconds, uint accelerationFactor);
     void signalBackgroundRenderingFinished(uint mseconds, uint accelerationFactor);
+
+    /** For the mouse position itself see m_mousePos.
+        To check whether the mouse has leaved the widget, see m_mouseWithinWidget. */
+    void signalMousePositionChanged();
 
 private:
 

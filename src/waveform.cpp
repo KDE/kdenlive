@@ -21,7 +21,7 @@
 const QSize Waveform::m_textWidth(35,0);
 
 Waveform::Waveform(Monitor *projMonitor, Monitor *clipMonitor, QWidget *parent) :
-    AbstractScopeWidget(projMonitor, clipMonitor, parent)
+    AbstractScopeWidget(projMonitor, clipMonitor, true, parent)
 {
     ui = new Ui::Waveform_UI();
     ui->setupUi(this);
@@ -31,10 +31,8 @@ Waveform::Waveform(Monitor *projMonitor, Monitor *clipMonitor, QWidget *parent) 
 
     bool b = true;
     b &= connect(ui->paintMode, SIGNAL(currentIndexChanged(int)), this, SLOT(forceUpdateScope()));
+    b &= connect(this, SIGNAL(signalMousePositionChanged()), this, SLOT(forceUpdateHUD()));
     Q_ASSERT(b);
-
-    // Track the mouse also when no button held down
-    this->setMouseTracking(true);
 
     init();
     m_waveformGenerator = new WaveformGenerator();
@@ -94,7 +92,7 @@ QImage Waveform::renderHUD(uint)
     int x = scopeRect().width()-m_textWidth.width()+3;
     int y = m_mousePos.y() - scopeRect().y();
 
-    if (scopeRect().height() > 0 && m_lineEnabled) {
+    if (scopeRect().height() > 0 && m_mouseWithinWidget) {
         davinci.drawLine(0, y, scopeRect().size().width()-m_textWidth.width(), y);
         int val = 255*(1-(float)y/scopeRect().height());
         davinci.drawText(x, scopeRect().height()/2, QVariant(val).toString());
@@ -123,24 +121,4 @@ QImage Waveform::renderBackground(uint)
 {
     emit signalBackgroundRenderingFinished(0, 1);
     return QImage();
-}
-
-
-///// Events /////
-
-void Waveform::mouseMoveEvent(QMouseEvent *event)
-{
-    // Note: Mouse tracking has to be enabled
-    m_lineEnabled = true;
-    m_mousePos = event->pos();
-    forceUpdateHUD();
-}
-
-void Waveform::leaveEvent(QEvent *event)
-{
-    // Repaint the HUD without the circle
-
-    m_lineEnabled = false;
-    QWidget::leaveEvent(event);
-    forceUpdateHUD();
 }

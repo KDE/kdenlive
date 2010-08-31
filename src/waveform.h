@@ -31,17 +31,12 @@ protected:
     virtual void readConfig();
     void writeConfig();
 
-    void mouseMoveEvent(QMouseEvent *);
-    void leaveEvent(QEvent *);
-
 private:
     Ui::Waveform_UI *ui;
     WaveformGenerator *m_waveformGenerator;
 
     static const QSize m_textWidth;
 
-    bool m_lineEnabled;
-    QPoint m_mousePos;
     QImage m_waveform;
 
     /// Implemented methods ///

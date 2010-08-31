@@ -34,10 +34,6 @@ public:
     QString widgetName() const;
 
 protected:
-    void mouseMoveEvent(QMouseEvent *);
-    void leaveEvent(QEvent *);
-
-
     ///// Implemented methods /////
     QRect scopeRect();
     QImage renderHUD(uint accelerationFactor);
@@ -70,9 +66,6 @@ private:
     float m_gain;
 
     QPoint m_centerPoint, pR75, pG75, pB75, pCy75, pMg75, pYl75;
-
-    bool m_circleEnabled;
-    QPoint m_mousePos;
 
     /** Updates the dimension. Only necessary when the widget has been resized. */
     void updateDimensions();
