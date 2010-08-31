@@ -2267,10 +2267,11 @@ bool Render::mltRemoveTrackEffect(int track, QString index, bool updateIndex)
     Mlt::Service clipService(trackPlaylist.get_service());
 
     m_isBlocked = true;
+    mlt_service_lock(service.get_service());
     int ct = 0;
     Mlt::Filter *filter = clipService.filter(ct);
     while (filter) {
-        if ((index == "-1" && strcmp(filter->get("kdenlive_id"), ""))  || QString(filter->get("kdenlive_ix")) == index) {
+        if ((index == "-1" && strcmp(filter->get("kdenlive_id"), ""))  || filter->get_int("kdenlive_ix") == index.toInt()) {
             if (clipService.detach(*filter) == 0) success = true;
         } else if (updateIndex) {
             // Adjust the other effects index
@@ -2280,6 +2281,7 @@ bool Render::mltRemoveTrackEffect(int track, QString index, bool updateIndex)
         filter = clipService.filter(ct);
     }
     m_isBlocked = false;
+    mlt_service_unlock(service.get_service());
     refresh();
     return success;
 }
@@ -2314,10 +2316,11 @@ bool Render::mltRemoveEffect(int track, GenTime position, QString index, bool up
 
 //    if (tag.startsWith("ladspa")) tag = "ladspa";
     m_isBlocked = true;
+    mlt_service_lock(service.get_service());
     int ct = 0;
     Mlt::Filter *filter = clipService.filter(ct);
     while (filter) {
-        if ((index == "-1" && strcmp(filter->get("kdenlive_id"), ""))  || QString(filter->get("kdenlive_ix")) == index) {// && filter->get("kdenlive_id") == id) {
+        if ((index == "-1" && strcmp(filter->get("kdenlive_id"), ""))  || filter->get_int("kdenlive_ix") == index.toInt()) {// && filter->get("kdenlive_id") == id) {
             if (clipService.detach(*filter) == 0) success = true;
             //kDebug()<<"Deleted filter id:"<<filter->get("kdenlive_id")<<", ix:"<<filter->get("kdenlive_ix")<<", SERVICE:"<<filter->get("mlt_service");
         } else if (updateIndex) {
@@ -2328,6 +2331,7 @@ bool Render::mltRemoveEffect(int track, GenTime position, QString index, bool up
         filter = clipService.filter(ct);
     }
     m_isBlocked = false;
+    mlt_service_unlock(service.get_service());
     if (doRefresh) refresh();
     return success;
 }
@@ -2359,7 +2363,6 @@ bool Render::mltAddEffect(int track, GenTime position, EffectsParameterList para
     }
 
     Mlt::Service clipService(clip->get_service());
-    m_isBlocked = true;
     int duration = clip->get_playtime();
     if (doRefresh) {
         // Check if clip is visible in monitor
@@ -2376,6 +2379,9 @@ bool Render::mltAddEffect(Mlt::Service service, EffectsParameterList params, int
     const int filter_ix = params.paramValue("kdenlive_ix").toInt();
     const QString region =  params.paramValue("region");
     int ct = 0;
+    m_isBlocked = true;
+    mlt_service_lock(service.get_service());
+
     Mlt::Filter *filter = service.filter(ct);
     while (filter) {
         if (filter->get_int("kdenlive_ix") == filter_ix) {
@@ -2399,6 +2405,7 @@ bool Render::mltAddEffect(Mlt::Service service, EffectsParameterList params, int
             filter = service.filter(ct);
         }
         m_isBlocked = false;
+        mlt_service_unlock(service.get_service());
         if (doRefresh) refresh();
         return true;
     }
@@ -2512,6 +2519,7 @@ bool Render::mltAddEffect(Mlt::Service service, EffectsParameterList params, int
         } else {
             kDebug() << "filter is NULL";
             m_isBlocked = false;
+            mlt_service_unlock(service.get_service());
             return false;
         }
         params.removeParam("kdenlive_id");
@@ -2560,6 +2568,7 @@ bool Render::mltAddEffect(Mlt::Service service, EffectsParameterList params, int
         service.attach(*filter);
     }
     m_isBlocked = false;
+    mlt_service_unlock(service.get_service());
     if (doRefresh) refresh();
     return true;
 }
@@ -2578,7 +2587,7 @@ bool Render::mltEditTrackEffect(int track, EffectsParameterList params)
 
     Mlt::Filter *filter = clipService.filter(ct);
     while (filter) {
-        if (QString(filter->get("kdenlive_ix")) == index) {
+        if (filter->get_int("kdenlive_ix") == index.toInt()) {
             break;
         }
         ct++;
@@ -2621,7 +2630,8 @@ bool Render::mltEditEffect(int track, GenTime position, EffectsParameterList par
         // This is a keyframe effect, to edit it, we remove it and re-add it.
         bool success = mltRemoveEffect(track, position, index, false);
         if (!success) kDebug() << "// ERROR Removing effect : " << index;
-        success = mltAddTrackEffect(track, params);
+        if (position < GenTime()) success = mltAddTrackEffect(track, params);
+        else success = mltAddEffect(track, position, params);
         if (!success) kDebug() << "// ERROR Adding effect : " << index;
         return success;
     }
@@ -2663,7 +2673,7 @@ bool Render::mltEditEffect(int track, GenTime position, EffectsParameterList par
 
     Mlt::Filter *filter = clipService.filter(ct);
     while (filter) {
-        if (QString(filter->get("kdenlive_ix")) == index) {
+        if (filter->get_int("kdenlive_ix") == index.toInt()) {
             break;
         }
         ct++;
