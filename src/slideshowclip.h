@@ -47,11 +47,14 @@ public:
     bool fade() const;
     QString lumaFile() const;
     int softness() const;
+    QString animation() const;
 
     /** @brief Check if there are several files with filename pattern, like: image_001.jpg, image_002.jpg,... */
     static int sequenceCount(KUrl file);
     /** @brief return the url pattern for selected slideshow. */
     static QString selectedPath(KUrl url, bool isMime, QString extension, int *count);
+    /** @brief Convert the selection animation style into an affine geometry string. */
+    static QString animationToGeometry(const QString &animation, int &ttl);
 
 private slots:
     void parseFolder();

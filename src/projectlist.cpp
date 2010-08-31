@@ -1103,7 +1103,10 @@ void ProjectList::slotAddClip(const QList <QUrl> givenList, const QString &group
                             fileName.chop(1);
                         }
 
-                        m_doc->slotCreateSlideshowClipFile(fileName, pattern, count, m_timecode.reformatSeparators(KdenliveSettings::sequence_duration()), false, false, false, m_timecode.getTimecodeFromFrames(int(ceil(m_timecode.fps()))), QString(), 0, groupInfo.at(0), groupInfo.at(1));
+                        m_doc->slotCreateSlideshowClipFile(fileName, pattern, count, m_timecode.reformatSeparators(KdenliveSettings::sequence_duration()),
+                                                           false, false, false,
+                                                           m_timecode.getTimecodeFromFrames(int(ceil(m_timecode.fps()))), QString(), 0,
+                                                           QString(), groupInfo.at(0), groupInfo.at(1));
                         return;
                     }
                 }
@@ -1191,8 +1194,10 @@ void ProjectList::slotAddSlideshowClip()
 
     if (dia->exec() == QDialog::Accepted) {
         QStringList groupInfo = getGroup();
-        m_doc->slotCreateSlideshowClipFile(dia->clipName(), dia->selectedPath(), dia->imageCount(), dia->clipDuration(), dia->loop(), dia->crop(), dia->fade(),
-                                           dia->lumaDuration(), dia->lumaFile(), dia->softness(), groupInfo.at(0), groupInfo.at(1));
+        m_doc->slotCreateSlideshowClipFile(dia->clipName(), dia->selectedPath(), dia->imageCount(), dia->clipDuration(),
+                                           dia->loop(), dia->crop(), dia->fade(),
+                                           dia->lumaDuration(), dia->lumaFile(), dia->softness(),
+                                           dia->animation(), groupInfo.at(0), groupInfo.at(1));
     }
     delete dia;
 }

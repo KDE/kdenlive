@@ -183,11 +183,22 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
         m_view.image_type->addItem("TGA (*.tga)", "tga");
         m_view.image_type->addItem("TIFF (*.tiff)", "tiff");
         m_view.image_type->addItem("Open EXR (*.exr)", "exr");
+        m_view.animation->addItem(i18n("None"), QString());
+        m_view.animation->addItem(i18n("Pan"), "Pan");
+        m_view.animation->addItem(i18n("Pan, low-pass"), "Pan, low-pass");
+        m_view.animation->addItem(i18n("Pan and zoom"), "Pan and zoom");
+        m_view.animation->addItem(i18n("Pan and zoom, low-pass"), "Pan and zoom, low-pass");
+        m_view.animation->addItem(i18n("Zoom"), "Zoom");
+        m_view.animation->addItem(i18n("Zoom, low-pass"), "Zoom, low-pass");
 
         m_view.slide_loop->setChecked(props.value("loop").toInt());
         m_view.slide_crop->setChecked(props.value("crop").toInt());
         m_view.slide_fade->setChecked(props.value("fade").toInt());
         m_view.luma_softness->setValue(props.value("softness").toInt());
+        if (!props.value("animation").isEmpty())
+            m_view.animation->setCurrentItem(props.value("animation"));
+        else
+            m_view.animation->setCurrentIndex(0);
         QString path = props.value("resource");
         QString ext = path.section('.', -1);
         for (int i = 0; i < m_view.image_type->count(); i++) {
@@ -631,6 +642,15 @@ QMap <QString, QString> ClipProperties::properties()
             }
         }
 
+        QString animation = m_view.animation->itemData(m_view.animation->currentIndex()).toString();
+        if (animation != m_old_props.value("animation")) {
+            if (animation.isEmpty()) {
+                props["animation"].clear();
+            } else {
+                props["animation"] = animation;
+            }
+            m_clipNeedsRefresh = true;
+        }
     }
     return props;
 }

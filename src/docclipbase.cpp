@@ -28,6 +28,7 @@
 #include "kdenlivesettings.h"
 #include "kthumb.h"
 #include "clipmanager.h"
+#include "slideshowclip.h"
 
 #include <KIO/NetAccess>
 #include <KDebug>
@@ -650,6 +651,49 @@ void DocClipBase::slotRefreshProducer()
         if (!getProperty("out").isEmpty()) m_clipProducer->set_in_and_out(getProperty("in").toInt(), getProperty("out").toInt());*/
         setProducerProperty("ttl", getProperty("ttl").toInt());
         //m_clipProducer->set("id", getProperty("id"));
+        if (!getProperty("animation").isEmpty()) {
+            Mlt::Service clipService(m_baseTrackProducers.at(0)->get_service());
+            int ct = 0;
+            Mlt::Filter *filter = clipService.filter(ct);
+            while (filter) {
+                if (strcmp(filter->get("mlt_service"), "affine") == 0) {
+                    break;
+                }
+                else if (strcmp(filter->get("mlt_service"), "boxblur") == 0) {
+                    clipService.detach(*filter);
+                } else ct++;
+                filter = clipService.filter(ct);
+            }
+
+            if (!filter || strcmp(filter->get("mlt_service"), "affine")) {
+                // filter does not exist, create it.
+                Mlt::Filter *filter = new Mlt::Filter(*(m_baseTrackProducers.at(0)->profile()), "affine");
+                if (filter && filter->is_valid()) {
+                    int cycle = getProperty("ttl").toInt();
+                    QString geometry = SlideshowClip::animationToGeometry(getProperty("animation"), cycle);
+                    if (!geometry.isEmpty()) {
+                        if (getProperty("animation").contains("low-pass")) {
+                            Mlt::Filter *blur = new Mlt::Filter(*(m_baseTrackProducers.at(0)->profile()), "boxblur");
+                            if (blur && blur->is_valid())
+                                clipService.attach(*blur);
+                        }
+                        filter->set("transition.geometry", geometry.toUtf8().data());
+                        filter->set("transition.cycle", cycle);
+                        clipService.attach(*filter);
+                    }
+                }
+            }
+        } else {
+            Mlt::Service clipService(m_baseTrackProducers.at(0)->get_service());
+            int ct = 0;
+            Mlt::Filter *filter = clipService.filter(0);
+            while (filter) {
+                if (strcmp(filter->get("mlt_service"), "affine") == 0 || strcmp(filter->get("mlt_service"), "boxblur") == 0) {
+                    clipService.detach(*filter);
+                } else ct++;
+                filter = clipService.filter(ct);
+            }
+        }
         if (getProperty("fade") == "1") {
             // we want a fade filter effect
             kDebug() << "////////////   FADE WANTED";
@@ -665,8 +709,8 @@ void DocClipBase::slotRefreshProducer()
             }
 
             if (filter && strcmp(filter->get("mlt_service"), "luma") == 0) {
-                filter->set("period", getProperty("ttl").toInt() - 1);
-                filter->set("luma.out", getProperty("luma_duration").toInt());
+                filter->set("cycle", getProperty("ttl").toInt());
+                filter->set("duration", getProperty("luma_duration").toInt());
                 QString resource = getProperty("luma_file");
                 char *tmp = (char *) qstrdup(resource.toUtf8().data());
                 filter->set("luma.resource", tmp);
@@ -678,8 +722,8 @@ void DocClipBase::slotRefreshProducer()
             } else {
                 // filter does not exist, create it...
                 Mlt::Filter *filter = new Mlt::Filter(*(m_baseTrackProducers.at(0)->profile()), "luma");
-                filter->set("period", getProperty("ttl").toInt() - 1);
-                filter->set("luma.out", getProperty("luma_duration").toInt());
+                filter->set("cycle", getProperty("ttl").toInt());
+                filter->set("duration", getProperty("luma_duration").toInt());
                 QString resource = getProperty("luma_file");
                 char *tmp = (char *) qstrdup(resource.toUtf8().data());
                 filter->set("luma.resource", tmp);

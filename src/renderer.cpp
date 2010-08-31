@@ -27,6 +27,7 @@
 #include "kdenlivesettings.h"
 #include "kthumb.h"
 #include "definitions.h"
+#include "slideshowclip.h"
 
 #include <mlt++/Mlt.h>
 
@@ -712,13 +713,31 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
     Mlt::Frame *frame = producer->get_frame();
 
     if (xml.attribute("type").toInt() == SLIDESHOW) {
-        if (xml.hasAttribute("ttl")) producer->set("ttl", xml.attribute("ttl").toInt());
+        int ttl = xml.hasAttribute("ttl") ? xml.attribute("ttl").toInt() : 0;
+        if (ttl) producer->set("ttl", ttl);
+        if (!xml.attribute("animation").isEmpty()) {
+            Mlt::Filter *filter = new Mlt::Filter(*m_mltProfile, "affine");
+            if (filter && filter->is_valid()) {
+                int cycle = ttl;
+                QString geometry = SlideshowClip::animationToGeometry(xml.attribute("animation"), cycle);
+                if (!geometry.isEmpty()) {
+                    if (xml.attribute("animation").contains("low-pass")) {
+                        Mlt::Filter *blur = new Mlt::Filter(*m_mltProfile, "boxblur");
+                        if (blur && blur->is_valid())
+                            producer->attach(*blur);
+                    }
+                    filter->set("transition.geometry", geometry.toUtf8().data());
+                    filter->set("transition.cycle", cycle);
+                    producer->attach(*filter);
+                }
+            }
+        }
         if (xml.attribute("fade") == "1") {
             // user wants a fade effect to slideshow
             Mlt::Filter *filter = new Mlt::Filter(*m_mltProfile, "luma");
             if (filter && filter->is_valid()) {
-                if (xml.hasAttribute("ttl")) filter->set("period", xml.attribute("ttl").toInt() - 1);
-                if (xml.hasAttribute("luma_duration") && !xml.attribute("luma_duration").isEmpty()) filter->set("luma.out", xml.attribute("luma_duration").toInt());
+                if (ttl) filter->set("cycle", ttl);
+                if (xml.hasAttribute("luma_duration") && !xml.attribute("luma_duration").isEmpty()) filter->set("duration", xml.attribute("luma_duration").toInt());
                 if (xml.hasAttribute("luma_file") && !xml.attribute("luma_file").isEmpty()) {
                     char *tmp = decodedString(xml.attribute("luma_file"));
                     filter->set("luma.resource", tmp);
@@ -728,8 +747,7 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
                         filter->set("luma.softness", (double) soft / 100.0);
                     }
                 }
-                Mlt::Service clipService(producer->get_service());
-                clipService.attach(*filter);
+                producer->attach(*filter);
             }
         }
         if (xml.attribute("crop") == "1") {

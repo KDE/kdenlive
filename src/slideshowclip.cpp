@@ -58,6 +58,13 @@ SlideshowClip::SlideshowClip(Timecode tc, QWidget * parent) :
     m_view.image_type->addItem("TGA (*.tga)", "tga");
     m_view.image_type->addItem("TIFF (*.tiff)", "tiff");
     m_view.image_type->addItem("Open EXR (*.exr)", "exr");
+    m_view.animation->addItem(i18n("None"), QString());
+    m_view.animation->addItem(i18n("Pan"), "Pan");
+    m_view.animation->addItem(i18n("Pan, low-pass"), "Pan, low-pass");
+    m_view.animation->addItem(i18n("Pan and zoom"), "Pan and zoom");
+    m_view.animation->addItem(i18n("Pan and zoom, low-pass"), "Pan and zoom, low-pass");
+    m_view.animation->addItem(i18n("Zoom"), "Zoom");
+    m_view.animation->addItem(i18n("Zoom, low-pass"), "Zoom, low-pass");
 
     m_view.clip_duration->setInputMask("");
     m_view.clip_duration->setValidator(m_timecode.validator());
@@ -378,6 +385,12 @@ QString SlideshowClip::lumaFile() const
     return m_view.luma_file->itemData(m_view.luma_file->currentIndex()).toString();
 }
 
+QString SlideshowClip::animation() const
+{
+    if (m_view.animation->itemData(m_view.animation->currentIndex()).isNull()) return QString();
+    return m_view.animation->itemData(m_view.animation->currentIndex()).toString();
+}
+
 void SlideshowClip::slotUpdateDurationFormat(int ix)
 {
     bool framesFormat = ix == 1;
@@ -414,7 +427,24 @@ void SlideshowClip::slotMethodChanged(bool active)
     parseFolder();
 }
 
-
+// static
+QString SlideshowClip::animationToGeometry(const QString &animation, int &ttl)
+{
+    QString geometry;
+    if (animation.startsWith("Pan and zoom")) {
+        geometry = QString().sprintf("0=0,0:100%%x100%%;%d=-14%%,-14%%:120%%x120%%;%d=-5%%,-5%%:110%%x110%%;%d=0,0:110%%x110%%;%d=0,-5%%:110%%x110%%;%d=-5%%,0:110%%x110%%",
+                                     ttl-1, ttl, ttl*2 - 1, ttl*2, ttl*3 - 1 );
+        ttl *= 3;
+    } else if (animation.startsWith("Pan")) {
+        geometry = QString().sprintf("0=-5%%,-5%%:110%%x110%%;%d=0,0:110%%x110%%;%d=0,0:110%%x110%%;%d=0,-5%%:110%%x110%%;%d=0,-5%%:110%%x110%%;%d=-5%%,-5%%:110%%x110%%;%d=0,-5%%:110%%x110%%;%d=-5%%,0:110%%x110%%",
+                                     ttl-1, ttl, ttl*2 - 1, ttl*2, ttl*3 - 1, ttl*3, ttl*4 - 1 );
+        ttl *= 4;
+    } else if (animation.startsWith("Zoom")) {
+        geometry = QString().sprintf("0=0,0:100%%x100%%;%d=-14%%,-14%%:120%%x120%%",
+                                     ttl-1, ttl );
+    }
+    return geometry;
+}
 
 #include "slideshowclip.moc"
 
