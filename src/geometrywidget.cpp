@@ -190,7 +190,7 @@ void GeometryWidget::setupParam(const QDomElement elem, int minframe, int maxfra
         m_geometry = new Mlt::Geometry(tmp, maxframe - minframe, m_monitor->render->renderWidth(), m_monitor->render->renderHeight());
     delete[] tmp;
 
-    if (elem.attribute("fixed") == "1") {
+    if (elem.attribute("fixed") == "1" || maxframe < minframe) {
         // Keyframes are disabled
         m_ui.widgetTimeWrapper->setHidden(true);
     } else {

@@ -444,8 +444,7 @@ void EffectStackView::slotCheckAll(int state)
 
 void EffectStackView::slotCheckMonitorPosition(int renderPos)
 {
-    if (m_trackMode) return;
-    if (renderPos >= m_clipref->startPos().frames(KdenliveSettings::project_fps()) && renderPos <= m_clipref->endPos().frames(KdenliveSettings::project_fps())) {
+    if (m_trackMode || (renderPos >= m_clipref->startPos().frames(KdenliveSettings::project_fps()) && renderPos <= m_clipref->endPos().frames(KdenliveSettings::project_fps()))) {
         if (!m_monitor->getEffectScene()->views().at(0)->isVisible())
             m_monitor->slotEffectScene(true);
     } else {
