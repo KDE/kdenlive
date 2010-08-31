@@ -34,11 +34,6 @@ const QPointF YUV_Cy(.147, -.615);
 const QPointF YUV_Mg(.289,  .515);
 const QPointF YUV_Yl(-.437,  .100);
 
-const QPen penThick(QBrush(QColor(250,250,250)), 2, Qt::SolidLine);
-const QPen penThin(QBrush(QColor(250,250,250)), 1, Qt::SolidLine);
-const QPen penLight(QBrush(QColor(200,200,250,150)), 1, Qt::SolidLine);
-const QPen penDark(QBrush(QColor(0,0,20,250)), 1, Qt::SolidLine);
-
 
 Vectorscope::Vectorscope(Monitor *projMonitor, Monitor *clipMonitor, QWidget *parent) :
     AbstractScopeWidget(projMonitor, clipMonitor, parent),

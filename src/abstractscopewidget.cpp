@@ -25,6 +25,11 @@ const QColor light(250, 238, 226, 255);
 const QColor dark ( 40,  40,  39, 255);
 const QColor dark2( 25,  25,  23, 255);
 
+const QPen AbstractScopeWidget::penThick(QBrush(QColor(250,250,250)),     2, Qt::SolidLine);
+const QPen AbstractScopeWidget::penThin (QBrush(QColor(250,250,250)),     1, Qt::SolidLine);
+const QPen AbstractScopeWidget::penLight(QBrush(QColor(200,200,250,150)), 1, Qt::SolidLine);
+const QPen AbstractScopeWidget::penDark (QBrush(QColor(0,0,20,250)),      1, Qt::SolidLine);
+
 AbstractScopeWidget::AbstractScopeWidget(Monitor *projMonitor, Monitor *clipMonitor, QWidget *parent) :
     QWidget(parent),
     m_projMonitor(projMonitor),
