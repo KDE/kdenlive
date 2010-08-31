@@ -225,8 +225,10 @@ void EffectStackView::slotItemChanged(QListWidgetItem *item)
     int activeRow = m_ui.effectlist->currentRow();
     if (activeRow >= 0) {
         m_effectedit->updateParameter("disable", QString::number((int) disable));
-        if (m_trackMode) emit changeEffectState(NULL, m_trackindex, activeRow, disable);
-        else emit changeEffectState(m_clipref, -1, activeRow, disable);
+        if (m_trackMode)
+            emit changeEffectState(NULL, m_trackindex, activeRow, disable);
+        else
+            emit changeEffectState(m_clipref, -1, activeRow, disable);
     }
     slotUpdateCheckAllButton();
 }
@@ -267,8 +269,10 @@ void EffectStackView::setupListView(int ix)
                 item = new QListWidgetItem(videoIcon, i18n(namenode.toElement().text().toUtf8().data()), m_ui.effectlist);
             }
             item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
-            if (d.attribute("disable") == "1") item->setCheckState(Qt::Unchecked);
-            else item->setCheckState(Qt::Checked);
+            if (d.attribute("disable") == "1")
+                item->setCheckState(Qt::Unchecked);
+            else
+                item->setCheckState(Qt::Checked);
         }
     }
     if (m_ui.effectlist->count() == 0) {
@@ -433,8 +437,17 @@ void EffectStackView::slotCheckAll(int state)
         m_ui.checkAll->blockSignals(false);
     }
 
-    for (int i = 0; i < m_ui.effectlist->count(); ++i)
-        m_ui.effectlist->item(i)->setCheckState((Qt::CheckState)state);
+    bool disabled = (state != 2);
+    m_effectedit->updateParameter("disable", QString::number((int) disabled));
+    for (int i = 0; i < m_ui.effectlist->count(); ++i) {
+        if (m_ui.effectlist->item(i)->checkState() != (Qt::CheckState)state) {
+            m_ui.effectlist->item(i)->setCheckState((Qt::CheckState)state);
+            if (m_trackMode)
+                emit changeEffectState(NULL, m_trackindex, i, disabled);
+            else
+                emit changeEffectState(m_clipref, -1, i, disabled);
+        }
+    }
 }
 
 /*void EffectStackView::slotRegionChanged()
