@@ -8,6 +8,7 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
+#include <QMouseEvent>
 #include <QPainter>
 #include <QPoint>
 #include <QDebug>
@@ -17,9 +18,10 @@
 #include "waveformgenerator.h"
 
 
+const QSize Waveform::m_textWidth(35,0);
+
 Waveform::Waveform(Monitor *projMonitor, Monitor *clipMonitor, QWidget *parent) :
-    AbstractScopeWidget(projMonitor, clipMonitor, parent),
-    initialDimensionUpdateDone(false)
+    AbstractScopeWidget(projMonitor, clipMonitor, parent)
 {
     ui = new Ui::Waveform_UI();
     ui->setupUi(this);
@@ -27,11 +29,12 @@ Waveform::Waveform(Monitor *projMonitor, Monitor *clipMonitor, QWidget *parent) 
     ui->paintMode->addItem(i18n("Yellow"), QVariant(WaveformGenerator::PaintMode_Yellow));
     ui->paintMode->addItem(i18n("Green"), QVariant(WaveformGenerator::PaintMode_Green));
 
-
     bool b = true;
     b &= connect(ui->paintMode, SIGNAL(currentIndexChanged(int)), this, SLOT(forceUpdateScope()));
     Q_ASSERT(b);
 
+    // Track the mouse also when no button held down
+    this->setMouseTracking(true);
 
     init();
     m_waveformGenerator = new WaveformGenerator();
@@ -82,8 +85,25 @@ bool Waveform::isBackgroundDependingOnInput() const { return false; }
 
 QImage Waveform::renderHUD(uint)
 {
+    QImage hud(m_scopeRect.size(), QImage::Format_ARGB32);
+    hud.fill(qRgba(0,0,0,0));
+    QPainter davinci(&hud);
+
+    davinci.setPen(penLight);
+
+    int x = scopeRect().width()-m_textWidth.width()+3;
+    int y = m_mousePos.y() - scopeRect().y();
+
+    if (scopeRect().height() > 0 && m_lineEnabled) {
+        davinci.drawLine(0, y, scopeRect().size().width()-m_textWidth.width(), y);
+        int val = 255*(1-(float)y/scopeRect().height());
+        davinci.drawText(x, scopeRect().height()/2, QVariant(val).toString());
+    }
+    davinci.drawText(x, scopeRect().height(), "0");
+    davinci.drawText(x, 10, "255");
+
     emit signalHUDRenderingFinished(0, 1);
-    return QImage();
+    return hud;
 }
 
 QImage Waveform::renderScope(uint accelFactor, QImage qimage)
@@ -92,7 +112,7 @@ QImage Waveform::renderScope(uint accelFactor, QImage qimage)
     start.start();
 
     int paintmode = ui->paintMode->itemData(ui->paintMode->currentIndex()).toInt();
-    QImage wave = m_waveformGenerator->calculateWaveform(scopeRect().size(), qimage, (WaveformGenerator::PaintMode) paintmode,
+    QImage wave = m_waveformGenerator->calculateWaveform(scopeRect().size() - m_textWidth, qimage, (WaveformGenerator::PaintMode) paintmode,
                                                          true, accelFactor);
 
     emit signalScopeRenderingFinished(start.elapsed(), 1);
@@ -103,4 +123,24 @@ QImage Waveform::renderBackground(uint)
 {
     emit signalBackgroundRenderingFinished(0, 1);
     return QImage();
+}
+
+
+///// Events /////
+
+void Waveform::mouseMoveEvent(QMouseEvent *event)
+{
+    // Note: Mouse tracking has to be enabled
+    m_lineEnabled = true;
+    m_mousePos = event->pos();
+    forceUpdateHUD();
+}
+
+void Waveform::leaveEvent(QEvent *event)
+{
+    // Repaint the HUD without the circle
+
+    m_lineEnabled = false;
+    QWidget::leaveEvent(event);
+    forceUpdateHUD();
 }
