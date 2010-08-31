@@ -190,14 +190,6 @@ void GeometryWidget::setupParam(const QDomElement elem, int minframe, int maxfra
         m_geometry = new Mlt::Geometry(tmp, maxframe - minframe, m_monitor->render->renderWidth(), m_monitor->render->renderHeight());
     delete[] tmp;
 
-    // remove keyframes out of range
-    Mlt::GeometryItem invalidItem;
-    bool foundInvalidItem = false;
-    while (!m_geometry->next_key(&invalidItem, maxframe - minframe)) {
-        foundInvalidItem = true;
-        m_geometry->remove(invalidItem.frame());
-    }
-
     if (elem.attribute("fixed") == "1") {
         // Keyframes are disabled
         m_ui.widgetTimeWrapper->setHidden(true);
@@ -229,10 +221,6 @@ void GeometryWidget::setupParam(const QDomElement elem, int minframe, int maxfra
 
     slotPositionChanged(0, false);
     slotCheckMonitorPosition(m_monitor->render->seekFramePosition());
-
-    // update if we had to remove a keyframe which got out of range
-    if (foundInvalidItem)
-        QTimer::singleShot(300, this, SIGNAL(parameterChanged()));
 }
 
 void GeometryWidget::slotSyncPosition(int relTimelinePos)
@@ -249,14 +237,14 @@ void GeometryWidget::slotSyncPosition(int relTimelinePos)
 
 void GeometryWidget::slotPositionChanged(int pos, bool seek)
 {
-    if (pos == -1) {
+    if (pos == -1)
         pos = m_timePos->getValue();
-        m_timeline->blockSignals(true);
-        m_timeline->setValue(pos);
-        m_timeline->blockSignals(false);
-    } else {
+    else
         m_timePos->setValue(pos);
-    }
+
+    m_timeline->blockSignals(true);
+    m_timeline->setValue(pos);
+    m_timeline->blockSignals(false);
 
     Mlt::GeometryItem item;
     if (m_geometry->fetch(&item, pos) || item.key() == false) {

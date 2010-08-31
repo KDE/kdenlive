@@ -4385,6 +4385,9 @@ void CustomTrackView::prepareResizeClipStart(AbstractClipItem* item, ItemInfo ol
                     new MoveTransitionCommand(this, trInfo, newTrInfo, true, command);
             }
 
+            /*
+                TODO: cleanup the effect update process
+             */
             ClipItem *clip = static_cast < ClipItem * >(item);
             updatePositionEffects(clip, oldInfo);
 
@@ -4399,6 +4402,12 @@ void CustomTrackView::prepareResizeClipStart(AbstractClipItem* item, ItemInfo ol
                     doc.appendChild(doc.importNode(effect, true));
                     indexes.append(i);
                 }
+            }
+
+            int panZoomPos = clip->hasEffect("affine", "pan_zoom");
+            if (panZoomPos != -1) {
+                doc.appendChild(doc.importNode(clip->effectAt(panZoomPos), true));
+                indexes.append(panZoomPos);
             }
 
             if (clip->checkEffectsKeyframesPos(oldInfo.cropStart.frames(m_document->fps()), clip->cropStart().frames(m_document->fps()), true)) {
@@ -4673,6 +4682,7 @@ void CustomTrackView::updatePositionEffects(ClipItem * item, ItemInfo info)
         }
         oldeffect.setAttribute("in", start);
         oldeffect.setAttribute("out", max);
+
         if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - item->track(), item->startPos(), getEffectArgs(oldeffect)))
             emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
         // if effect is displayed, update the effect edit widget with new clip duration

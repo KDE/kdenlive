@@ -1219,7 +1219,9 @@ bool ClipItem::checkEffectsKeyframesPos(const int previous, const int current, b
         for (int j = 0; j < params.count(); j++) {
             bool modified = false;
             QDomElement e = params.item(j).toElement();
-            if (!e.isNull() && (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe")) {
+            if (e.isNull())
+                continue;
+            if (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe") {
                 // parse keyframes and adjust values
                 const QStringList keyframes = e.attribute("keyframes").split(';', QString::SkipEmptyParts);
                 QMap <int, double> kfr;
@@ -1250,6 +1252,18 @@ bool ClipItem::checkEffectsKeyframesPos(const int previous, const int current, b
                     }
                     e.setAttribute("keyframes", newkfr);
                 }
+            } else if (e.attribute("type") == "geometry" && !e.hasAttribute("fixed")) {
+                char *tmp = (char *) qstrdup(e.attribute("value").toUtf8().data());
+                Mlt::Geometry geometry(tmp, cropDuration().frames(fps()));
+                delete[] tmp;
+
+                Mlt::GeometryItem item;
+                while (!geometry.next_key(&item, cropDuration().frames(fps()))) {
+                    geometry.remove(item.frame());
+                    modified = true;
+                }
+ 
+                e.setAttribute("value", geometry.serialise());
             }
         }
     }
