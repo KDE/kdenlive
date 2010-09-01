@@ -88,29 +88,40 @@ QRect RGBParade::scopeRect()
 
 QImage RGBParade::renderHUD(uint)
 {
+    QImage hud(m_scopeRect.size(), QImage::Format_ARGB32);
+    hud.fill(qRgba(0,0,0,0));
+
+    QPainter davinci(&hud);
+    davinci.setPen(penLight);
+
+    int x = scopeRect().width()-30;
+
+    davinci.drawText(x, scopeRect().height()-RGBParadeGenerator::distBottom, "0");
+    davinci.drawText(x, 10, "255");
+
     if (scopeRect().height() > 0 && m_mouseWithinWidget) {
-        QImage hud(m_scopeRect.size(), QImage::Format_ARGB32);
-        hud.fill(qRgba(0,0,0,0));
 
-        QPainter davinci(&hud);
-        davinci.setPen(penLight);
-
-        int x = scopeRect().width()-30;
         int y = m_mousePos.y() - scopeRect().y();
 
         // Draw a horizontal line through the current mouse position
         // and show the value of the waveform there
         davinci.drawLine(0, y, scopeRect().size().width()-RGBParadeGenerator::distRight, y);
 
+        // Make the value stick to the line unless it is at the top/bottom of the scope
+        const int top = 30;
+        const int bottom = 20+RGBParadeGenerator::distBottom;
+        int valY = y+5;
+        if (valY < top) {
+            valY = top;
+        } else if (valY > scopeRect().height()-bottom) {
+            valY = scopeRect().height()-bottom;
+        }
         int val = 255*(1-((float)y/(scopeRect().height()-RGBParadeGenerator::distBottom)));
-        davinci.drawText(x, scopeRect().height()/2, QVariant(val).toString());
-
-        emit signalHUDRenderingFinished(1, 1);
-        return hud;
-    } else {
-        emit signalHUDRenderingFinished(1, 1);
-        return QImage();
+        davinci.drawText(x, valY, QVariant(val).toString());
     }
+
+    emit signalHUDRenderingFinished(1, 1);
+    return hud;
 }
 QImage RGBParade::renderScope(uint accelerationFactor, QImage qimage)
 {

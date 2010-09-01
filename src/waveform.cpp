@@ -119,8 +119,17 @@ QImage Waveform::renderHUD(uint)
         // and show the value of the waveform there
         davinci.drawLine(0, y, scopeRect().size().width()-m_textWidth.width(), y);
 
+        // Make the value stick to the line unless it is at the top/bottom of the scope
+        const int top = 30;
+        const int bottom = 20;
+        int valY = y+5;
+        if (valY < top) {
+            valY = top;
+        } else if (valY > scopeRect().height()-bottom) {
+            valY = scopeRect().height()-bottom;
+        }
         int val = 255*(1-(float)y/scopeRect().height());
-        davinci.drawText(x, scopeRect().height()/2, QVariant(val).toString());
+        davinci.drawText(x, valY, QVariant(val).toString());
     }
     davinci.drawText(x, scopeRect().height(), "0");
     davinci.drawText(x, 10, "255");

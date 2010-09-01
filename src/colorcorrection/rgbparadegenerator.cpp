@@ -183,10 +183,6 @@ QImage RGBParadeGenerator::calculateRGBParade(const QSize &paradeSize, const QIm
         davinci.drawText(partW + offset + d,       wh-20, QString::number(maxG, 'f', 0));
         davinci.drawText(2*partW + 2*offset + d,   wh-20, QString::number(maxB, 'f', 0));
 
-        davinci.drawText(ww-distRight+5,            10,      "255");
-        davinci.drawText(ww-distRight+5,            partH+5,  "0");
-
-
 
         return parade;
     }
