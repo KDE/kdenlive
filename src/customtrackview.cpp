@@ -4404,11 +4404,11 @@ void CustomTrackView::prepareResizeClipStart(AbstractClipItem* item, ItemInfo ol
                 }
             }
 
-            int panZoomPos = clip->hasEffect("affine", "pan_zoom");
+            /*int panZoomPos = clip->hasEffect("affine", "pan_zoom");
             if (panZoomPos != -1) {
                 doc.appendChild(doc.importNode(clip->effectAt(panZoomPos), true));
                 indexes.append(panZoomPos);
-            }
+            }*/
 
             if (clip->checkEffectsKeyframesPos(oldInfo.cropStart.frames(m_document->fps()), clip->cropStart().frames(m_document->fps()), true, m_document->width(), m_document->height())) {
                 // Keyframes were modified, updateClip
@@ -4527,7 +4527,7 @@ void CustomTrackView::prepareResizeClipEnd(AbstractClipItem* item, ItemInfo oldI
                 }
             }
 
-            if (clip->checkEffectsKeyframesPos((oldInfo.cropStart + oldInfo.endPos - oldInfo.startPos).frames(m_document->fps()) - 1, (clip->cropStart() + clip->cropDuration()).frames(m_document->fps()) - 1, false)) {
+            if (clip->checkEffectsKeyframesPos((oldInfo.cropStart + oldInfo.endPos - oldInfo.startPos).frames(m_document->fps()) - 1, (clip->cropStart() + clip->cropDuration()).frames(m_document->fps()) - 1, false, m_document->width(), m_document->height())) {
                 // Keyframes were modified, updateClip
                 QDomNodeList effs = doc.elementsByTagName("effect");
                 // Hack:
