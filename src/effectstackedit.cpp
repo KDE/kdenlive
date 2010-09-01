@@ -314,7 +314,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
                 // fadeout position starts from clip end
                 pos = m_out - (pos - m_in);
             }
-            PositionEdit *posedit = new PositionEdit(paramName, pos, 1, m_out, m_timecode);
+            PositionEdit *posedit = new PositionEdit(paramName, pos, 1, m_out - m_in, m_timecode);
             m_vbox->addWidget(posedit);
             m_valueItems[paramName+"position"] = posedit;
             connect(posedit, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
