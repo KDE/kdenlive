@@ -1210,7 +1210,7 @@ void ClipItem::resizeEnd(int posx)
 }
 
 
-bool ClipItem::checkEffectsKeyframesPos(const int previous, const int current, bool fromStart)
+bool ClipItem::checkEffectsKeyframesPos(const int previous, const int current, bool fromStart, int renderWidth, int renderHeight)
 {
     bool effModified = false;
     for (int i = 0; i < m_effectList.count(); i++) {
@@ -1253,9 +1253,7 @@ bool ClipItem::checkEffectsKeyframesPos(const int previous, const int current, b
                     e.setAttribute("keyframes", newkfr);
                 }
             } else if (e.attribute("type") == "geometry" && !e.hasAttribute("fixed")) {
-                char *tmp = (char *) qstrdup(e.attribute("value").toUtf8().data());
-                Mlt::Geometry geometry(tmp, cropDuration().frames(fps()));
-                delete[] tmp;
+                Mlt::Geometry geometry(e.attribute("value").toUtf8().data(), cropDuration().frames(fps()), renderWidth, renderHeight);
 
                 Mlt::GeometryItem item;
                 while (!geometry.next_key(&item, cropDuration().frames(fps()))) {

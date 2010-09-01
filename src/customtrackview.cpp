@@ -4410,7 +4410,7 @@ void CustomTrackView::prepareResizeClipStart(AbstractClipItem* item, ItemInfo ol
                 indexes.append(panZoomPos);
             }
 
-            if (clip->checkEffectsKeyframesPos(oldInfo.cropStart.frames(m_document->fps()), clip->cropStart().frames(m_document->fps()), true)) {
+            if (clip->checkEffectsKeyframesPos(oldInfo.cropStart.frames(m_document->fps()), clip->cropStart().frames(m_document->fps()), true, m_document->width(), m_document->height())) {
                 // Keyframes were modified, updateClip
                 QDomNodeList effs = doc.elementsByTagName("effect");
                 // Hack:

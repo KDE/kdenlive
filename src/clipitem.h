@@ -156,7 +156,7 @@ public:
     * @param current New crop value
     * @param fromStart true = crop from start, false = crop from end
     * @return true if anything was modified */
-    bool checkEffectsKeyframesPos(const int previous, const int current, bool fromStart);
+    bool checkEffectsKeyframesPos(const int previous, const int current, bool fromStart, int renderWidth = 0, int renderHeight = 0);
     void insertKeyframe(QDomElement effect, int pos, int val);
     void movedKeyframe(QDomElement effect, int oldpos, int newpos, double value);
     void updateKeyframes(QDomElement effect);
