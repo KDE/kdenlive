@@ -5253,16 +5253,24 @@ void CustomTrackView::pasteClip()
         return;
     }
     QPoint position;
+    int track = -1;
+    GenTime pos = GenTime(-1);
     if (m_menuPosition.isNull()) {
         position = mapFromGlobal(QCursor::pos());
         if (!contentsRect().contains(position) || mapToScene(position).y() / m_tracksHeight > m_document->tracksCount()) {
-            emit displayMessage(i18n("Cannot paste selected clips"), ErrorMessage);
-            return;
+            track = m_selectedTrack;
+            pos = GenTime(m_cursorPos, m_document->fps());
+            /*emit displayMessage(i18n("Cannot paste selected clips"), ErrorMessage);
+            return;*/
         }
-    } else position = m_menuPosition;
+    } else {
+        position = m_menuPosition;
+    }
 
-    GenTime pos = GenTime((int)(mapToScene(position).x()), m_document->fps());
-    int track = (int)(mapToScene(position).y() / m_tracksHeight);
+    if (pos == GenTime(-1))
+        pos = GenTime((int)(mapToScene(position).x()), m_document->fps());
+    if (track == -1)
+        track = (int)(mapToScene(position).y() / m_tracksHeight);
 
     GenTime leftPos = m_copiedItems.at(0)->startPos();
     int lowerTrack = m_copiedItems.at(0)->track();
