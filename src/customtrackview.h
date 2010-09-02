@@ -127,9 +127,10 @@ public:
     /** @brief Locks or unlocks a track.
     * @param ix number of track
     * @param lock whether to lock or unlock
+    * @param requestUpdate (default = true) Whether to request an update of the icon in the track header
     *
     * Makes sure no clip on track to lock is selected. */
-    void lockTrack(int ix, bool lock);
+    void lockTrack(int ix, bool lock, bool requestUpdate = true);
     void groupClips(bool group = true);
     void doGroupClips(QList <ItemInfo> clipInfos, QList <ItemInfo> transitionInfos, bool group);
     void loadGroups(const QDomNodeList groups);

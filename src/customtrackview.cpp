@@ -2645,6 +2645,7 @@ void CustomTrackView::configTracks(QList < TrackInfo > trackInfos)
     for (int i = 0; i < trackInfos.count(); ++i) {
         m_document->setTrackType(i, trackInfos.at(i));
         m_document->renderer()->mltChangeTrackState(i + 1, m_document->trackInfoAt(i).isMute, m_document->trackInfoAt(i).isBlind);
+        lockTrack(m_document->tracksCount() - i - 1, m_document->trackInfoAt(i).isLocked, false);
     }
 
     QTimer::singleShot(300, this, SIGNAL(trackHeightChanged()));
@@ -2670,11 +2671,12 @@ void CustomTrackView::slotSwitchTrackLock(int ix)
 }
 
 
-void CustomTrackView::lockTrack(int ix, bool lock)
+void CustomTrackView::lockTrack(int ix, bool lock, bool requestUpdate)
 {
     int tracknumber = m_document->tracksCount() - ix - 1;
     m_document->switchTrackLock(tracknumber, lock);
-    emit doTrackLock(ix, lock);
+    if (requestUpdate)
+        emit doTrackLock(ix, lock);
     AbstractClipItem *clip = NULL;
     QList<QGraphicsItem *> selection = m_scene->items(0, ix * m_tracksHeight + m_tracksHeight / 2, sceneRect().width(), m_tracksHeight / 2 - 2);
 
