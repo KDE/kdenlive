@@ -40,6 +40,7 @@ private:
     QActionGroup *m_agRec;
 
     static const QSize m_textWidth;
+    static const int m_paddingBottom;
 
     QImage m_waveform;
 
