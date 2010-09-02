@@ -63,7 +63,7 @@ void RGBParade::readConfig()
     KSharedConfigPtr config = KGlobal::config();
     KConfigGroup scopeConfig(config, configName());
     ui->paintMode->setCurrentIndex(scopeConfig.readEntry("paintmode", 0));
-    m_aAxis->setChecked(scopeConfig.readEntry("axis", true));
+    m_aAxis->setChecked(scopeConfig.readEntry("axis", false));
     m_aGradRef->setChecked(scopeConfig.readEntry("gradref", false));
 }
 
