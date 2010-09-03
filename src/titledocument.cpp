@@ -245,6 +245,16 @@ int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsRectItem* startv, QGra
             m_width = doc_width;
             m_height = doc_height;
         }
+    } else {
+        // Document has no size info, it is likely an old version title, so ignore viewport data
+        QDomNodeList viewportlist = doc.documentElement().elementsByTagName("startviewport");
+        if (!viewportlist.isEmpty()) {
+            doc.documentElement().removeChild(viewportlist.at(0));
+        }
+        viewportlist = doc.documentElement().elementsByTagName("endviewport");
+        if (!viewportlist.isEmpty()) {
+            doc.documentElement().removeChild(viewportlist.at(0));
+        }
     }
     //TODO: get default title duration instead of hardcoded one
     if (doc.documentElement().hasAttribute("out"))
