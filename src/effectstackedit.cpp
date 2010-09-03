@@ -145,7 +145,7 @@ void EffectStackEdit::meetDependency(const QString& name, QString type, QString 
         KisCurveWidget *curve = (KisCurveWidget*)m_valueItems[name];
         if (curve) {
             int color = value.toInt();
-            curve->setPixmap(QPixmap::fromImage(ColorTools::rgbCurvePlane(curve->size(), (ColorTools::ColorsRGB)color)));
+            curve->setPixmap(QPixmap::fromImage(ColorTools::rgbCurvePlane(curve->size(), (ColorTools::ColorsRGB)color, 0.8)));
         }
     }
 }
