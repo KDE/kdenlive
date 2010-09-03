@@ -50,6 +50,7 @@ private:
     bool m_movingKeyframe;
     Mlt::GeometryItem m_movingItem;
     QPoint m_dragStart;
+    int m_lineHeight;
 
 public slots:
     void setKeyGeometry(Mlt::Geometry *geom, const int length);

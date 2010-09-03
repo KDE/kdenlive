@@ -34,7 +34,8 @@ KeyframeHelper::KeyframeHelper(QWidget *parent) :
         m_geom(NULL),
         m_position(0),
         m_scale(0),
-        m_movingKeyframe(false)
+        m_movingKeyframe(false),
+        m_lineHeight(9)
 {
     setFont(KGlobalSettings::toolBarFont());
 }
@@ -42,7 +43,7 @@ KeyframeHelper::KeyframeHelper(QWidget *parent) :
 // virtual
 void KeyframeHelper::mousePressEvent(QMouseEvent * event)
 {
-    if (m_geom != NULL && (event->y() < height() / 2) && event->button() == Qt::LeftButton) {
+    if (m_geom != NULL && (event->y() < m_lineHeight) && event->button() == Qt::LeftButton) {
         // check if we want to move a keyframe
         int mousePos = qMax((int)(event->x() / m_scale), 0);
         Mlt::GeometryItem item;
@@ -118,8 +119,10 @@ void KeyframeHelper::mouseReleaseEvent(QMouseEvent * event)
 // virtual
 void KeyframeHelper::wheelEvent(QWheelEvent * e)
 {
-    if (e->delta() < 0) m_position = m_position - 1;
-    else m_position = m_position + 1;
+    if (e->delta() < 0)
+        --m_position;
+    else
+        ++m_position;
     m_position = qMax(0, m_position);
     m_position = qMin(frameLength, m_position);
     emit positionChanged(m_position);
@@ -148,10 +151,14 @@ void KeyframeHelper::paintEvent(QPaintEvent *e)
             pos = item.frame();
             int scaledPos = pos * m_scale;
             // draw keyframes
-            p.drawLine(scaledPos, 6, scaledPos, 10);
+            p.drawLine(scaledPos, 10, scaledPos, 14);
             // draw pointer
-            QPolygon pa(3);
-            pa.setPoints(3, scaledPos - 4, 0, scaledPos + 4, 0, scaledPos, 4);
+            QPolygon pa(4);
+            pa.setPoints(4,
+                         scaledPos,     0,
+                         scaledPos - 4, 4,
+                         scaledPos,     8,
+                         scaledPos + 4, 4);
             p.drawPolygon(pa);
             //p.fillRect(QRect(scaledPos - 1, 0, 2, 15), QBrush(QColor(255, 20, 20)));
             pos++;
@@ -159,20 +166,24 @@ void KeyframeHelper::paintEvent(QPaintEvent *e)
         if (m_movingKeyframe) {
             int scaledPos = (int)(m_movingItem.frame() * m_scale);
             // draw keyframes
-            p.drawLine(scaledPos, 6, scaledPos, 10);
+            p.drawLine(scaledPos, 10, scaledPos, 14);
             // draw pointer
-            QPolygon pa(3);
-            pa.setPoints(3, scaledPos - 4, 0, scaledPos + 4, 0, scaledPos, 4);
+            QPolygon pa(5);
+            pa.setPoints(4,
+                         scaledPos,     0,
+                         scaledPos - 4, 4,
+                         scaledPos,     8,
+                         scaledPos + 4, 4);
             p.drawPolygon(pa);
         }
     }
     p.setPen(palette().dark().color());
-    p.drawLine(clipRect.x(), 5, clipRect.right(), 5);
+    p.drawLine(clipRect.x(), m_lineHeight, clipRect.right(), m_lineHeight);
 
     // draw pointer
     QPolygon pa(3);
     const int cursor = m_position * m_scale;
-    pa.setPoints(3, cursor - 5, 11, cursor + 5, 11, cursor, 6);
+    pa.setPoints(3, cursor - 5, 15, cursor + 5, 15, cursor, 10);
     p.setBrush(palette().dark().color());
     p.drawPolygon(pa);
 

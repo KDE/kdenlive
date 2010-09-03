@@ -183,12 +183,10 @@ void GeometryWidget::setupParam(const QDomElement elem, int minframe, int maxfra
     m_inPoint = minframe;
     m_outPoint = maxframe;
 
-    char *tmp = (char *) qstrdup(elem.attribute("value").toUtf8().data());
     if (m_geometry)
-        m_geometry->parse(tmp, maxframe - minframe, m_monitor->render->renderWidth(), m_monitor->render->renderHeight());
+        m_geometry->parse(elem.attribute("value").toUtf8().data(), maxframe - minframe, m_monitor->render->renderWidth(), m_monitor->render->renderHeight());
     else
-        m_geometry = new Mlt::Geometry(tmp, maxframe - minframe, m_monitor->render->renderWidth(), m_monitor->render->renderHeight());
-    delete[] tmp;
+        m_geometry = new Mlt::Geometry(elem.attribute("value").toUtf8().data(), maxframe - minframe, m_monitor->render->renderWidth(), m_monitor->render->renderHeight());
 
     if (elem.attribute("fixed") == "1" || maxframe < minframe) {
         // Keyframes are disabled
@@ -514,6 +512,8 @@ void GeometryWidget::slotMoveBottom()
 void GeometryWidget::slotSetSynchronize(bool sync)
 {
     KdenliveSettings::setTransitionfollowcursor(sync);
+    if (sync)
+        emit seekToPos(m_clipPos + m_timePos->getValue());
 }
 
 void GeometryWidget::slotShowScene(bool show)
