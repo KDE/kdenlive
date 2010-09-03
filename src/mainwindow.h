@@ -346,8 +346,8 @@ private slots:
     *
     * Adopted from Dolphin (src/statusbar/dolphinstatusbar.cpp) */
     void slotShowZoomSliderToolTip(int zoomlevel = -1);
-
-    void closeCurrentDocument(bool saveChanges = true);
+    /** @brief Close currently opened document. Returns false if something went wrong (cannot save modifications, ...). */
+    bool closeCurrentDocument(bool saveChanges = true);
     /** @brief Deletes item in timeline, project tree or effect stack depending on focus. */
     void slotDeleteItem();
     void slotAddClipMarker();

@@ -1582,13 +1582,13 @@ void MainWindow::newFile(bool showProjectSettings, bool force)
     KUrl projectFolder;
     QPoint projectTracks(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks());
     if (!showProjectSettings) {
-        if (!KdenliveSettings::activatetabs()) closeCurrentDocument();
+        if (!KdenliveSettings::activatetabs()) if (!closeCurrentDocument()) return;
         profileName = KdenliveSettings::default_profile();
         projectFolder = KdenliveSettings::defaultprojectfolder();
     } else {
         ProjectSettings *w = new ProjectSettings(NULL, QStringList(), projectTracks.x(), projectTracks.y(), KdenliveSettings::defaultprojectfolder(), false, true, this);
         if (w->exec() != QDialog::Accepted) return;
-        if (!KdenliveSettings::activatetabs()) closeCurrentDocument();
+        if (!KdenliveSettings::activatetabs()) if (!closeCurrentDocument()) return;
         if (KdenliveSettings::videothumbnails() != w->enableVideoThumbs()) slotSwitchVideoThumbs();
         if (KdenliveSettings::audiothumbnails() != w->enableAudioThumbs()) slotSwitchAudioThumbs();
         profileName = w->selectedProfile();
@@ -1627,10 +1627,10 @@ void MainWindow::activateDocument()
     connectDocument(currentTab, currentDoc);
 }
 
-void MainWindow::closeCurrentDocument(bool saveChanges)
+bool MainWindow::closeCurrentDocument(bool saveChanges)
 {
     QWidget *w = m_timelineArea->currentWidget();
-    if (!w) return;
+    if (!w) return true;
     // closing current document
     int ix = m_timelineArea->currentIndex() + 1;
     if (ix == m_timelineArea->count()) ix = 0;
@@ -1646,10 +1646,10 @@ void MainWindow::closeCurrentDocument(bool saveChanges)
         switch (KMessageBox::warningYesNoCancel(this, message)) {
         case KMessageBox::Yes :
             // save document here. If saving fails, return false;
-            if (saveFile() == false) return;
+            if (saveFile() == false) return false;
             break;
         case KMessageBox::Cancel :
-            return;
+            return false;
             break;
         default:
             break;
@@ -1675,6 +1675,7 @@ void MainWindow::closeCurrentDocument(bool saveChanges)
     } else {
         delete w;
     }
+    return true;
 }
 
 bool MainWindow::saveFileAs(const QString &outputFileName)
@@ -1774,6 +1775,8 @@ void MainWindow::openFile(const KUrl &url)
         return;
     }
 
+    if (!KdenliveSettings::activatetabs()) if (!closeCurrentDocument()) return;
+
     // Check for backup file
     QList<KAutoSaveFile *> staleFiles = KAutoSaveFile::staleFiles(url);
     if (!staleFiles.isEmpty()) {
@@ -1791,7 +1794,6 @@ void MainWindow::openFile(const KUrl &url)
             }
         }
     }
-    if (!KdenliveSettings::activatetabs()) closeCurrentDocument();
     m_messageLabel->setMessage(i18n("Opening file %1", url.path()), InformationMessage);
     m_messageLabel->repaint();
     doOpenFile(url, NULL);
@@ -1836,7 +1838,6 @@ void MainWindow::doOpenFile(const KUrl &url, KAutoSaveFile *stale)
 
 void MainWindow::recoverFiles(QList<KAutoSaveFile *> staleFiles)
 {
-    if (!KdenliveSettings::activatetabs()) closeCurrentDocument();
     foreach(KAutoSaveFile *stale, staleFiles) {
         /*if (!stale->open(QIODevice::QIODevice::ReadOnly)) {
                   // show an error message; we could not steal the lockfile
@@ -3509,8 +3510,8 @@ void MainWindow::slotRevert()
 {
     if (KMessageBox::warningContinueCancel(this, i18n("This will delete all changes made since you last saved your project. Are you sure you want to continue?"), i18n("Revert to last saved version")) == KMessageBox::Cancel) return;
     KUrl url = m_activeDocument->url();
-    closeCurrentDocument(false);
-    doOpenFile(url, NULL);
+    if (closeCurrentDocument(false))
+        doOpenFile(url, NULL);
 }
 
 
@@ -3765,7 +3766,7 @@ void MainWindow::slotUpdateColorScopes()
 {
     bool request = false;
     for (int i = 0; i < m_scopesList.count(); i++) {
-	// Check if we need the renderer to send a new frame for update
+        // Check if we need the renderer to send a new frame for update
         if (!m_scopesList.at(i)->widget()->visibleRegion().isEmpty() && !(static_cast<AbstractScopeWidget *>(m_scopesList.at(i)->widget())->autoRefreshEnabled())) request = true;
         static_cast<AbstractScopeWidget *>(m_scopesList.at(i)->widget())->slotActiveMonitorChanged(m_clipMonitor->isActive());
     }
