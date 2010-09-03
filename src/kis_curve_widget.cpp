@@ -429,10 +429,11 @@ void KisCurveWidget::mouseMoveEvent(QMouseEvent * e)
         double rightX;
         if (d->m_grab_point_index == 0) {
             leftX = 0.0;
-            if (d->m_curve.points().count() > 1)
+            rightX = 0.0;
+            /*if (d->m_curve.points().count() > 1)
                 rightX = d->m_curve.points()[d->m_grab_point_index + 1].x() - POINT_AREA;
             else
-                rightX = 1.0;
+                rightX = 1.0;*/
         } else if (d->m_grab_point_index == d->m_curve.points().count() - 1) {
             leftX = d->m_curve.points()[d->m_grab_point_index - 1].x() + POINT_AREA;
             rightX = 1.0;
