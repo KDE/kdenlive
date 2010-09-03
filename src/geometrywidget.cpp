@@ -281,6 +281,7 @@ void GeometryWidget::slotKeyframeMoved(int pos)
 {
     slotPositionChanged(pos);
     slotUpdateGeometry();
+    QTimer::singleShot(100, this, SIGNAL(parameterChanged()));
 }
 
 void GeometryWidget::slotAddKeyframe(int pos)

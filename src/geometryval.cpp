@@ -26,6 +26,7 @@
 #include <QGraphicsRectItem>
 #include <QMenu>
 #include <QInputDialog>
+#include <QTimer>
 
 
 Geometryval::Geometryval(const MltVideoProfile profile, Timecode t, QPoint frame_size, int startPoint, QWidget* parent) :
@@ -498,6 +499,7 @@ void Geometryval::slotKeyframeMoved(int pos)
 {
     slotPositionChanged(pos);
     slotUpdateTransitionProperties();
+    QTimer::singleShot(100, this, SIGNAL(parameterChanged()));
 }
 
 void Geometryval::slotSwitchOptions()
