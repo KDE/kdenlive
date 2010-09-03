@@ -37,7 +37,6 @@ sox_echo.xml
 sox_flanger.xml
 sox_pitch.xml
 sox_reverb.xml
-sox_vibro.xml
 sox_stretch.xml
 threshold.xml
 volume.xml
