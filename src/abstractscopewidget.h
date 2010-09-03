@@ -153,7 +153,7 @@ protected:
     /** @brief Scope renderer. Must emit signalScopeRenderingFinished()
         when calculation has finished, to allow multi-threading.
         accelerationFactor hints how much faster than usual the calculation should be accomplished, if possible. */
-    virtual QImage renderScope(uint accelerationFactor, QImage) = 0;
+    virtual QImage renderScope(uint accelerationFactor, const QImage) = 0;
     /** @brief Background renderer. Must emit signalBackgroundRenderingFinished(). @see renderScope */
     virtual QImage renderBackground(uint accelerationFactor) = 0;
 
@@ -231,21 +231,24 @@ private:
     QFuture<QImage> m_threadScope;
     QFuture<QImage> m_threadBackground;
 
+    bool initialDimensionUpdateDone;
+    bool m_requestForcedUpdate;
+
     QImage m_scopeImage;
 
     QString m_widgetName;
 
-    bool initialDimensionUpdateDone;
     void prodHUDThread();
     void prodScopeThread();
     void prodBackgroundThread();
 
-
-private slots:
+public slots:
     /** @brief Must be called when the active monitor has shown a new frame.
       This slot must be connected in the implementing class, it is *not*
       done in this abstract class. */
     void slotActiveMonitorChanged(bool isClipMonitor);
+
+private slots:
     void customContextMenuRequested(const QPoint &pos);
     /** To be called when a new frame has been received.
       The scope then decides whether and when it wants to recalculate the scope, depending

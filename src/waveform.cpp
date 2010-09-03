@@ -169,7 +169,7 @@ QImage Waveform::renderHUD(uint)
     return hud;
 }
 
-QImage Waveform::renderScope(uint accelFactor, QImage qimage)
+QImage Waveform::renderScope(uint accelFactor, const QImage qimage)
 {
     QTime start = QTime::currentTime();
     start.start();

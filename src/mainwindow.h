@@ -470,7 +470,10 @@ private slots:
     void slotMonitorRequestRenderFrame(bool request);
     /** @brief Check if someone needs the render frame sent. */
     void slotUpdateScopeFrameRequest();
+    /** @brief Check if someone needs the render frame sent. */
     void slotDoUpdateScopeFrameRequest();
+    /** @brief When switching between monitors, update the visible scopes. */
+    void slotUpdateColorScopes();
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

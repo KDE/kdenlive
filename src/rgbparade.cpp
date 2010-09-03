@@ -123,7 +123,8 @@ QImage RGBParade::renderHUD(uint)
     emit signalHUDRenderingFinished(1, 1);
     return hud;
 }
-QImage RGBParade::renderScope(uint accelerationFactor, QImage qimage)
+
+QImage RGBParade::renderScope(uint accelerationFactor, const QImage qimage)
 {
     QTime start = QTime::currentTime();
     start.start();
@@ -134,6 +135,7 @@ QImage RGBParade::renderScope(uint accelerationFactor, QImage qimage)
     emit signalScopeRenderingFinished(start.elapsed(), accelerationFactor);
     return parade;
 }
+
 QImage RGBParade::renderBackground(uint) { return QImage(); }
 
 bool RGBParade::isHUDDependingOnInput() const { return false; }

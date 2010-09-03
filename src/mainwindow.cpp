@@ -446,10 +446,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
     connect(m_clipMonitorDock, SIGNAL(visibilityChanged(bool)), m_clipMonitor, SLOT(refreshMonitor(bool)));
     //connect(m_monitorManager, SIGNAL(connectMonitors()), this, SLOT(slotConnectMonitors()));
     connect(m_monitorManager, SIGNAL(raiseClipMonitor(bool)), this, SLOT(slotRaiseMonitor(bool)));
-    connect(m_monitorManager, SIGNAL(raiseClipMonitor(bool)), m_vectorscope, SLOT(slotActiveMonitorChanged(bool)));
-    connect(m_monitorManager, SIGNAL(raiseClipMonitor(bool)), m_waveform, SLOT(slotActiveMonitorChanged(bool)));
-    connect(m_monitorManager, SIGNAL(raiseClipMonitor(bool)), m_RGBParade, SLOT(slotActiveMonitorChanged(bool)));
-    connect(m_monitorManager, SIGNAL(raiseClipMonitor(bool)), m_histogram, SLOT(slotActiveMonitorChanged(bool)));
+    connect(m_monitorManager, SIGNAL(checkColorScopes()), this, SLOT(slotUpdateColorScopes()));
     connect(m_effectList, SIGNAL(addEffect(const QDomElement)), this, SLOT(slotAddEffect(const QDomElement)));
     connect(m_effectList, SIGNAL(reloadEffects()), this, SLOT(slotReloadEffects()));
 
@@ -3150,9 +3147,8 @@ void MainWindow::keyPressEvent(QKeyEvent *ke)
 /** Gets called when the window gets hidden */
 void MainWindow::hideEvent(QHideEvent */*event*/)
 {
-    if (isMinimized())
-        if (m_monitorManager)
-            m_monitorManager->stopActiveMonitor();
+    if (isMinimized() && m_monitorManager)
+        m_monitorManager->stopActiveMonitor();
 }
 
 bool MainWindow::eventFilter(QObject *obj, QEvent *event)
@@ -3762,6 +3758,20 @@ void MainWindow::slotDoUpdateScopeFrameRequest()
     } else {
         m_projectMonitor->render->sendFrameForAnalysis = true;
         m_clipMonitor->render->sendFrameForAnalysis = true;
+    }
+}
+
+void MainWindow::slotUpdateColorScopes()
+{
+    bool request = false;
+    for (int i = 0; i < m_scopesList.count(); i++) {
+	// Check if we need the renderer to send a new frame for update
+        if (!m_scopesList.at(i)->widget()->visibleRegion().isEmpty() && !(static_cast<AbstractScopeWidget *>(m_scopesList.at(i)->widget())->autoRefreshEnabled())) request = true;
+        static_cast<AbstractScopeWidget *>(m_scopesList.at(i)->widget())->slotActiveMonitorChanged(m_clipMonitor->isActive());
+    }
+    if (request) {
+        if (m_clipMonitor->isActive()) m_clipMonitor->render->sendFrameUpdate();
+        else m_projectMonitor->render->sendFrameUpdate();
     }
 }
 

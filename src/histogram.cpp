@@ -109,7 +109,7 @@ QImage Histogram::renderHUD(uint)
     emit signalHUDRenderingFinished(0, 1);
     return QImage();
 }
-QImage Histogram::renderScope(uint accelFactor, QImage qimage)
+QImage Histogram::renderScope(uint accelFactor, const QImage qimage)
 {
     QTime start = QTime::currentTime();
     start.start();

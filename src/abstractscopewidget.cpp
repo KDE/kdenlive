@@ -44,7 +44,8 @@ AbstractScopeWidget::AbstractScopeWidget(Monitor *projMonitor, Monitor *clipMoni
         m_semaphoreHUD(1),
         m_semaphoreScope(1),
         m_semaphoreBackground(1),
-        initialDimensionUpdateDone(false)
+        initialDimensionUpdateDone(false),
+        m_requestForcedUpdate(false)
 
 {
     m_scopePalette = QPalette();
@@ -150,8 +151,8 @@ void AbstractScopeWidget::prodHUDThread()
 void AbstractScopeWidget::prodScopeThread()
 {
     // Only start a new thread if the scope is actually visible
-    // and not hidden by another widget on the stack.
-    if (this->visibleRegion().isEmpty()) {
+    // and not hidden by another widget on the stack and if user want the scope to update.
+    if (this->visibleRegion().isEmpty() || (!m_aAutoRefresh->isChecked() && !m_requestForcedUpdate)) {
 //        qDebug() << "Scope " << m_widgetName << " is not visible. Not calculating scope.";
     } else {
         // Try to acquire the semaphore. This must only succeed if m_threadScope is not running
@@ -168,6 +169,7 @@ void AbstractScopeWidget::prodScopeThread()
             // See http://doc.qt.nokia.com/latest/qtconcurrentrun.html#run about
             // running member functions in a thread
             m_threadScope = QtConcurrent::run(this, &AbstractScopeWidget::renderScope, m_accelFactorScope, m_scopeImage);
+            m_requestForcedUpdate = false;
 
 //            qDebug() << "Scope thread started in " << m_widgetName;
 
@@ -232,7 +234,10 @@ void AbstractScopeWidget::forceUpdateBackground()
 
 void AbstractScopeWidget::mouseReleaseEvent(QMouseEvent *event)
 {
-    if (!m_aAutoRefresh->isChecked()) m_activeRender->sendFrameUpdate();
+    if (!m_aAutoRefresh->isChecked()) {
+        m_requestForcedUpdate = true;
+        m_activeRender->sendFrameUpdate();
+    }
     prodHUDThread();
     prodScopeThread();
     prodBackgroundThread();

@@ -215,7 +215,7 @@ QImage Vectorscope::renderHUD(uint)
     return hud;
 }
 
-QImage Vectorscope::renderScope(uint accelerationFactor, QImage qimage)
+QImage Vectorscope::renderScope(uint accelerationFactor, const QImage qimage)
 {
     QTime start = QTime::currentTime();
     QImage scope;

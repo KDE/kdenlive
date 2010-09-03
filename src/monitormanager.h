@@ -70,6 +70,8 @@ private:
 signals:
     /** @brief Emitted when the active monitor changes */
     void raiseClipMonitor(bool);
+    /** @brief When the monitor changed, update the visible color scopes */
+    void checkColorScopes();
 
 };
 

@@ -62,6 +62,7 @@ void MonitorManager::activateMonitor(QString name)
         emit raiseClipMonitor(false);
     }
     m_activeMonitor = name;
+    emit checkColorScopes();
 }
 
 void MonitorManager::slotSwitchMonitors(bool activateClip)
