@@ -158,7 +158,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="layoutWidget">
+     <widget class="QWidget" name="layoutWidget_2">
       <layout class="QVBoxLayout" name="frame_layout">
        <item>
         <widget class="QFrame" name="frame">
