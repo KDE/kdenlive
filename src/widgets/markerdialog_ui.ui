@@ -73,11 +73,9 @@
   </layout>
   <zorder>buttonBox</zorder>
   <zorder>clip_filesize_3</zorder>
-  <zorder>verticalSpacer</zorder>
   <zorder>clip_thumb</zorder>
   <zorder>marker_comment</zorder>
   <zorder>clip_filesize_2</zorder>
-  <zorder></zorder>
  </widget>
  <customwidgets>
   <customwidget>
