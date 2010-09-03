@@ -3,13 +3,22 @@
 	<name>Sox Reverb</name>
 	<description>Sox reverb audio effect</description>
 	<author>http://sox.sourceforge.net</author>
-	<parameter type="constant" name="gain-out" max="100" min="0" default="50" factor="100">
-		<name>Gain out</name>
+	<parameter type="constant" name="reverberance" max="100" min="0" default="50" suffix="%">
+		<name>Reverberance</name>
 	</parameter>
-	<parameter type="constant" name="reverb-time" max="5000" min="100" default="1000">
-		<name>Reverb Time</name>
+	<parameter type="constant" name="hf_damping" max="100" min="0" default="50" suffix="%">
+		<name>High frequency damping</name>
 	</parameter>	
-	<parameter type="constant" name="delay" max="500" min="100" default="200">
-		<name>Delay</name>
+	<parameter type="constant" name="room_scale" max="100" min="0" default="100" suffix="%">
+		<name>Room scale</name>
+	</parameter>
+	<parameter type="constant" name="stereo_depth" max="100" min="0" default="100" suffix="%">
+		<name>Stereo depth</name>
+	</parameter>
+	<parameter type="constant" name="pre_delay_ms" max="500" min="0" default="0" suffix="ms">
+		<name>Pre-delay</name>
+	</parameter>
+	<parameter type="constant" name="wet_gain_dB" max="10" min="-10" default="0" suffix="dB">
+		<name>Wet gain</name>
 	</parameter>
 </effect>
