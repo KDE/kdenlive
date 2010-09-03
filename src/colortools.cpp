@@ -148,15 +148,19 @@ QImage ColorTools::rgbCurvePlane(const QSize &size, const ColorTools::ColorsRGB 
     const int h = size.height();
 
     double dcol, dval;
+    double dx, dy;
 
     for (int x = 0; x < w; x++) {
         dval = (double)255*x/(w-1);
 
         for (int y = 0; y < h; y++) {
+            dy = (double)y/(h-1);
+            dx = (double)x/(w-1);
+
             if (1-scaling < 0.0001) {
-                dcol = (double)255*y/(h-1);
+                dcol = (double)255*dy;
             } else {
-                dcol = (double)255 * (y - (y-x)*(1-scaling))/(h-1);
+                dcol = (double)255 * (dy - (dy-dx)*(1-scaling));
             }
 
             if (color == ColorTools::COL_R) {
