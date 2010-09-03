@@ -849,6 +849,7 @@ void Monitor::slotEffectScene(bool show)
         m_monitorRefresh->setVisible(!show);
 #endif
         m_effectView->setVisible(show);
+        emit requestFrameForAnalysis(show);
         if (show) {
             render->doRefresh();
             m_effectScene->slotZoomFit();
@@ -861,7 +862,12 @@ MonitorScene * Monitor::getEffectScene()
     return m_effectScene;
 }
 
-MonitorRefresh::MonitorRefresh(QWidget* parent) : \
+bool Monitor::effectSceneDisplayed()
+{
+    return m_effectView->isVisible();
+}
+
+MonitorRefresh::MonitorRefresh(QWidget* parent) :
         QWidget(parent),
         m_renderer(NULL)
 {

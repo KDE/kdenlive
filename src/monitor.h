@@ -178,6 +178,7 @@ public slots:
     void setTimePos(const QString &pos);
     QStringList getZoneInfo() const;
     void slotEffectScene(bool show = true);
+    bool effectSceneDisplayed();
 
 signals:
     void renderPosition(int);
@@ -186,6 +187,9 @@ signals:
     void adjustMonitorSize();
     void zoneUpdated(QPoint);
     void saveZone(Render *, QPoint);
+    /** @brief  Editing transitions / effects over the monitor requires thr renderer to send frames as QImage.
+     *      This causes a major slowdown, so we only enable it if required */
+    void requestFrameForAnalysis(bool);
 };
 
 #endif

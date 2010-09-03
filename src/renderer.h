@@ -244,7 +244,7 @@ Q_OBJECT public:
      *
      * It creates a new "framebuffer" producer, which must have its "resource"
      * property set to "video.mpg?0.6", where "video.mpg" is the path to the
-     * clip and "0.6" is the speed in percentile. The newly created producer
+     * clip and "0.6" is the speed in percentage. The newly created producer
      * will have its "id" property set to "slowmotion:parentid:speed", where
      * "parentid" is the id of the original clip in the ClipManager list and
      * "speed" is the current speed. */
@@ -257,7 +257,10 @@ Q_OBJECT public:
 #ifdef Q_WS_MAC
     void showFrame(Mlt::Frame&);
 #endif
+    /** @brief This property is used to decide if the renderer should convert it's frames to QImage for use in other Kdenlive widgets. */
+    bool sendFrameForAnalysis;
     QList <int> checkTrackSequence(int);
+    void sendFrameUpdate();
 
 private:
 

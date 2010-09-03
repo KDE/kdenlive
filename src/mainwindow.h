@@ -67,6 +67,7 @@ class Waveform;
 class RGBParade;
 class KActionCollection;
 
+
 class MainWindow : public KXmlGuiWindow
 {
     Q_OBJECT
@@ -172,6 +173,9 @@ private:
     QUndoGroup *m_commandStack;
 
     KComboBox *m_timecodeFormat;
+
+    /** This list holds all the scopes used in Kdenlive, allowing to manage some global settings */
+    QList <QDockWidget *> m_scopesList;
 
     QMenu *m_videoEffectsMenu;
     QMenu *m_audioEffectsMenu;
@@ -461,6 +465,12 @@ private slots:
     void slotDeleteProjectClips(QStringList ids, QMap<QString, QString> folderids);
     void slotShowTitleBars(bool show);
     void slotSwitchTitles();
+
+    /** @brief The monitor informs that it needs (or not) to have frames sent by the renderer. */
+    void slotMonitorRequestRenderFrame(bool request);
+    /** @brief Check if someone needs the render frame sent. */
+    void slotUpdateScopeFrameRequest();
+    void slotDoUpdateScopeFrameRequest();
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

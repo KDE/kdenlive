@@ -72,6 +72,9 @@ public:
       Has to be called in the implementing object. */
     void init();
 
+    /** Does this scope have auto-refresh enabled */
+    bool autoRefreshEnabled();
+
     ///// Unimplemented /////
 
     virtual QString widgetName() const = 0;
@@ -199,6 +202,9 @@ signals:
     /** For the mouse position itself see m_mousePos.
         To check whether the mouse has leaved the widget, see m_mouseWithinWidget. */
     void signalMousePositionChanged();
+
+    /** Do we need the renderer to send its frames to us? */
+    void requestAutoRefresh(bool);
 
 private:
 

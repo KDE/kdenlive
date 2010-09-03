@@ -23,28 +23,28 @@
 const int REALTIME_FPS = 30;
 
 const QColor light(250, 238, 226, 255);
-const QColor dark ( 40,  40,  39, 255);
-const QColor dark2( 25,  25,  23, 255);
+const QColor dark(40,  40,  39, 255);
+const QColor dark2(25,  25,  23, 255);
 
-const QPen AbstractScopeWidget::penThick(QBrush(QColor(250,250,250)),     2, Qt::SolidLine);
-const QPen AbstractScopeWidget::penThin (QBrush(QColor(250,250,250)),     1, Qt::SolidLine);
-const QPen AbstractScopeWidget::penLight(QBrush(QColor(200,200,250,150)), 1, Qt::SolidLine);
-const QPen AbstractScopeWidget::penDark (QBrush(QColor(0,0,20,250)),      1, Qt::SolidLine);
+const QPen AbstractScopeWidget::penThick(QBrush(QColor(250, 250, 250)),     2, Qt::SolidLine);
+const QPen AbstractScopeWidget::penThin(QBrush(QColor(250, 250, 250)),     1, Qt::SolidLine);
+const QPen AbstractScopeWidget::penLight(QBrush(QColor(200, 200, 250, 150)), 1, Qt::SolidLine);
+const QPen AbstractScopeWidget::penDark(QBrush(QColor(0, 0, 20, 250)),      1, Qt::SolidLine);
 
 AbstractScopeWidget::AbstractScopeWidget(Monitor *projMonitor, Monitor *clipMonitor, bool trackMouse, QWidget *parent) :
-    QWidget(parent),
-    m_projMonitor(projMonitor),
-    m_clipMonitor(clipMonitor),
-    m_mousePos(0,0),
-    m_mouseWithinWidget(false),
-    offset(5),
-    m_accelFactorHUD(1),
-    m_accelFactorScope(1),
-    m_accelFactorBackground(1),
-    m_semaphoreHUD(1),
-    m_semaphoreScope(1),
-    m_semaphoreBackground(1),
-    initialDimensionUpdateDone(false)
+        QWidget(parent),
+        m_projMonitor(projMonitor),
+        m_clipMonitor(clipMonitor),
+        m_mousePos(0, 0),
+        m_mouseWithinWidget(false),
+        offset(5),
+        m_accelFactorHUD(1),
+        m_accelFactorScope(1),
+        m_accelFactorBackground(1),
+        m_semaphoreHUD(1),
+        m_semaphoreScope(1),
+        m_semaphoreBackground(1),
+        initialDimensionUpdateDone(false)
 
 {
     m_scopePalette = QPalette();
@@ -74,12 +74,12 @@ AbstractScopeWidget::AbstractScopeWidget(Monitor *projMonitor, Monitor *clipMoni
     bool b = true;
     b &= connect(this, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(customContextMenuRequested(QPoint)));
 
-    b &= connect(m_activeRender, SIGNAL(rendererPosition(int)), this, SLOT(slotRenderZoneUpdated()));
+    //b &= connect(m_activeRender, SIGNAL(rendererPosition(int)), this, SLOT(slotRenderZoneUpdated()));
     b &= connect(m_activeRender, SIGNAL(frameUpdated(QImage)), this, SLOT(slotRenderZoneUpdated(QImage)));
 
-    b &= connect(this, SIGNAL(signalHUDRenderingFinished(uint,uint)), this, SLOT(slotHUDRenderingFinished(uint,uint)));
-    b &= connect(this, SIGNAL(signalScopeRenderingFinished(uint,uint)), this, SLOT(slotScopeRenderingFinished(uint,uint)));
-    b &= connect(this, SIGNAL(signalBackgroundRenderingFinished(uint,uint)), this, SLOT(slotBackgroundRenderingFinished(uint,uint)));
+    b &= connect(this, SIGNAL(signalHUDRenderingFinished(uint, uint)), this, SLOT(slotHUDRenderingFinished(uint, uint)));
+    b &= connect(this, SIGNAL(signalScopeRenderingFinished(uint, uint)), this, SLOT(slotScopeRenderingFinished(uint, uint)));
+    b &= connect(this, SIGNAL(signalBackgroundRenderingFinished(uint, uint)), this, SLOT(slotBackgroundRenderingFinished(uint, uint)));
     b &= connect(m_aRealtime, SIGNAL(toggled(bool)), this, SLOT(slotResetRealtimeFactor(bool)));
     b &= connect(m_aAutoRefresh, SIGNAL(toggled(bool)), this, SLOT(slotAutoRefreshToggled(bool)));
     Q_ASSERT(b);
@@ -123,7 +123,10 @@ void AbstractScopeWidget::writeConfig()
     scopeConfig.sync();
 }
 
-QString AbstractScopeWidget::configName() { return "Scope_" + m_widgetName; }
+QString AbstractScopeWidget::configName()
+{
+    return "Scope_" + m_widgetName;
+}
 
 void AbstractScopeWidget::prodHUDThread()
 {
@@ -195,7 +198,9 @@ void AbstractScopeWidget::prodBackgroundThread()
 void AbstractScopeWidget::forceUpdate(bool doUpdate)
 {
 //    qDebug() << "Force update called in " << widgetName() << ". Arg: " << doUpdate;
-    if (!doUpdate) { return; }
+    if (!doUpdate) {
+        return;
+    }
     m_newHUDUpdates.fetchAndAddRelaxed(1);
     m_newScopeUpdates.fetchAndAddRelaxed(1);
     m_newBackgroundUpdates.fetchAndAddRelaxed(1);
@@ -227,6 +232,7 @@ void AbstractScopeWidget::forceUpdateBackground()
 
 void AbstractScopeWidget::mouseReleaseEvent(QMouseEvent *event)
 {
+    if (!m_aAutoRefresh->isChecked()) m_activeRender->sendFrameUpdate();
     prodHUDThread();
     prodScopeThread();
     prodBackgroundThread();
@@ -274,9 +280,18 @@ void AbstractScopeWidget::customContextMenuRequested(const QPoint &pos)
     m_menu->exec(this->mapToGlobal(pos));
 }
 
-uint AbstractScopeWidget::calculateAccelFactorHUD(uint oldMseconds, uint) { return ceil((float)oldMseconds*REALTIME_FPS/1000 ); }
-uint AbstractScopeWidget::calculateAccelFactorScope(uint oldMseconds, uint) { return ceil((float)oldMseconds*REALTIME_FPS/1000 ); }
-uint AbstractScopeWidget::calculateAccelFactorBackground(uint oldMseconds, uint) { return ceil((float)oldMseconds*REALTIME_FPS/1000 ); }
+uint AbstractScopeWidget::calculateAccelFactorHUD(uint oldMseconds, uint)
+{
+    return ceil((float)oldMseconds*REALTIME_FPS / 1000);
+}
+uint AbstractScopeWidget::calculateAccelFactorScope(uint oldMseconds, uint)
+{
+    return ceil((float)oldMseconds*REALTIME_FPS / 1000);
+}
+uint AbstractScopeWidget::calculateAccelFactorBackground(uint oldMseconds, uint)
+{
+    return ceil((float)oldMseconds*REALTIME_FPS / 1000);
+}
 
 
 ///// Slots /////
@@ -299,7 +314,7 @@ void AbstractScopeWidget::slotHUDRenderingFinished(uint mseconds, uint oldFactor
         m_accelFactorHUD = accel;
     }
 
-    if ( (m_newHUDFrames > 0 && m_aAutoRefresh->isChecked()) || m_newHUDUpdates > 0) {
+    if ((m_newHUDFrames > 0 && m_aAutoRefresh->isChecked()) || m_newHUDUpdates > 0) {
 //        qDebug() << "Trying to start a new HUD thread for " << m_widgetName
 //                << ". New frames/updates: " << m_newHUDFrames << "/" << m_newHUDUpdates;
         prodHUDThread();;
@@ -333,7 +348,7 @@ void AbstractScopeWidget::slotScopeRenderingFinished(uint mseconds, uint oldFact
         m_accelFactorScope = accel;
     }
 
-    if ( (m_newScopeFrames > 0 && m_aAutoRefresh->isChecked()) || m_newScopeUpdates > 0) {
+    if ((m_newScopeFrames > 0 && m_aAutoRefresh->isChecked()) || m_newScopeUpdates > 0) {
 //        qDebug() << "Trying to start a new scope thread for " << m_widgetName
 //                << ". New frames/updates: " << m_newScopeFrames << "/" << m_newScopeUpdates;
         prodScopeThread();
@@ -358,7 +373,7 @@ void AbstractScopeWidget::slotBackgroundRenderingFinished(uint mseconds, uint ol
         m_accelFactorBackground = accel;
     }
 
-    if ( (m_newBackgroundFrames > 0 && m_aAutoRefresh->isChecked()) || m_newBackgroundUpdates > 0) {
+    if ((m_newBackgroundFrames > 0 && m_aAutoRefresh->isChecked()) || m_newBackgroundUpdates > 0) {
 //        qDebug() << "Trying to start a new background thread for " << m_widgetName
 //                << ". New frames/updates: " << m_newBackgroundFrames << "/" << m_newBackgroundUpdates;
         prodBackgroundThread();;
@@ -374,7 +389,7 @@ void AbstractScopeWidget::slotActiveMonitorChanged(bool isClipMonitor)
 
     m_activeRender = (isClipMonitor) ? m_clipMonitor->render : m_projMonitor->render;
 
-    b &= connect(m_activeRender, SIGNAL(rendererPosition(int)), this, SLOT(slotRenderZoneUpdated()));
+    //b &= connect(m_activeRender, SIGNAL(rendererPosition(int)), this, SLOT(slotRenderZoneUpdated()));
     b &= connect(m_activeRender, SIGNAL(frameUpdated(QImage)), this, SLOT(slotRenderZoneUpdated(QImage)));
     Q_ASSERT(b);
 
@@ -419,8 +434,14 @@ void AbstractScopeWidget::slotResetRealtimeFactor(bool realtimeChecked)
     }
 }
 
+bool AbstractScopeWidget::autoRefreshEnabled()
+{
+    return m_aAutoRefresh->isChecked();
+}
+
 void AbstractScopeWidget::slotAutoRefreshToggled(bool autoRefresh)
 {
+    if (isVisible()) emit requestAutoRefresh(autoRefresh);
     // TODO only if depends on input
     if (autoRefresh) {
         forceUpdate();

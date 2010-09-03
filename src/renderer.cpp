@@ -66,8 +66,9 @@ static void consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr
 #endif
 
     self->emitFrameNumber(mlt_frame_get_position(frame_ptr));
-    if (frame_ptr->convert_image)
+    if (self->sendFrameForAnalysis && frame_ptr->convert_image) {
         self->emitFrameUpdated(frame);
+    }
     if (frame.get_double("_speed") == 0.0) {
         self->emitConsumerStopped();
     } else if (frame.get_double("_speed") < 0.0 && mlt_frame_get_position(frame_ptr) <= 0) {
@@ -80,6 +81,7 @@ static void consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr
 Render::Render(const QString & rendererName, int winid, int /* extid */, QString profile, QWidget *parent) :
         QObject(parent),
         m_isBlocked(0),
+        sendFrameForAnalysis(false),
         m_name(rendererName),
         m_mltConsumer(NULL),
         m_mltProducer(NULL),
@@ -4081,6 +4083,17 @@ QString Render::updateSceneListFps(double current_fps, double new_fps, QString s
     //kDebug() << "///////////////////////////// " << out << " \n" << doc.toString() << "\n-------------------------";
     return doc.toString();
 }
+
+
+void Render::sendFrameUpdate()
+{
+    if (m_mltProducer) {
+        Mlt::Frame * frame = m_mltProducer->get_frame();
+        emitFrameUpdated(*frame);
+        delete frame;
+    }
+}
+
 
 #include "renderer.moc"
 

@@ -222,6 +222,9 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
     m_vectorscopeDock->setWidget(m_vectorscope);
     addDockWidget(Qt::TopDockWidgetArea, m_vectorscopeDock);
     connect(m_vectorscopeDock, SIGNAL(visibilityChanged(bool)), m_vectorscope, SLOT(forceUpdate(bool)));
+    connect(m_vectorscopeDock, SIGNAL(visibilityChanged(bool)), this, SLOT(slotUpdateScopeFrameRequest()));
+    connect(m_vectorscope, SIGNAL(requestAutoRefresh(bool)), this, SLOT(slotUpdateScopeFrameRequest()));
+    m_scopesList.append(m_vectorscopeDock);
 
     m_waveform = new Waveform(m_projectMonitor, m_clipMonitor, this);
     m_waveformDock = new QDockWidget(i18n("Waveform"), this);
@@ -229,6 +232,9 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
     m_waveformDock->setWidget(m_waveform);
     addDockWidget(Qt::TopDockWidgetArea, m_waveformDock);
     connect(m_waveformDock, SIGNAL(visibilityChanged(bool)), m_waveform, SLOT(forceUpdate(bool)));
+    connect(m_waveformDock, SIGNAL(visibilityChanged(bool)), this, SLOT(slotUpdateScopeFrameRequest()));
+    connect(m_waveform, SIGNAL(requestAutoRefresh(bool)), this, SLOT(slotUpdateScopeFrameRequest()));
+    m_scopesList.append(m_waveformDock);
 
     m_RGBParade = new RGBParade(m_projectMonitor, m_clipMonitor, this);
     m_RGBParadeDock = new QDockWidget(i18n("RGB Parade"), this);
@@ -236,6 +242,9 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
     m_RGBParadeDock->setWidget(m_RGBParade);
     addDockWidget(Qt::TopDockWidgetArea, m_RGBParadeDock);
     connect(m_RGBParadeDock, SIGNAL(visibilityChanged(bool)), m_RGBParade, SLOT(forceUpdate(bool)));
+    connect(m_RGBParadeDock, SIGNAL(visibilityChanged(bool)), this, SLOT(slotUpdateScopeFrameRequest()));
+    connect(m_RGBParade, SIGNAL(requestAutoRefresh(bool)), this, SLOT(slotUpdateScopeFrameRequest()));
+    m_scopesList.append(m_RGBParadeDock);
 
     m_histogram = new Histogram(m_projectMonitor, m_clipMonitor, this);
     m_histogramDock = new QDockWidget(i18n("Histogram"), this);
@@ -243,6 +252,9 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
     m_histogramDock->setWidget(m_histogram);
     addDockWidget(Qt::TopDockWidgetArea, m_histogramDock);
     connect(m_histogramDock, SIGNAL(visibilityChanged(bool)), m_histogram, SLOT(forceUpdate(bool)));
+    connect(m_histogramDock, SIGNAL(visibilityChanged(bool)), this, SLOT(slotUpdateScopeFrameRequest()));
+    connect(m_histogram, SIGNAL(requestAutoRefresh(bool)), this, SLOT(slotUpdateScopeFrameRequest()));
+    m_scopesList.append(m_histogramDock);
 
 
     m_undoViewDock = new QDockWidget(i18n("Undo History"), this);
@@ -762,6 +774,8 @@ void MainWindow::slotConnectMonitors()
 
     connect(m_clipMonitor, SIGNAL(adjustMonitorSize()), this, SLOT(slotAdjustClipMonitor()));
     connect(m_projectMonitor, SIGNAL(adjustMonitorSize()), this, SLOT(slotAdjustProjectMonitor()));
+
+    connect(m_projectMonitor, SIGNAL(requestFrameForAnalysis(bool)), this, SLOT(slotMonitorRequestRenderFrame(bool)));
 
     connect(m_clipMonitor, SIGNAL(saveZone(Render *, QPoint)), this, SLOT(slotSaveZone(Render *, QPoint)));
     connect(m_projectMonitor, SIGNAL(saveZone(Render *, QPoint)), this, SLOT(slotSaveZone(Render *, QPoint)));
@@ -3704,6 +3718,51 @@ QString MainWindow::getMimeType()
     KMimeType::Ptr mime = KMimeType::mimeType(mimetype);
     if (!mime) mimetype = "*.kdenlive";
     return mimetype;
+}
+
+void MainWindow::slotMonitorRequestRenderFrame(bool request)
+{
+    if (request) {
+        m_projectMonitor->render->sendFrameForAnalysis = true;
+        return;
+    } else {
+        for (int i = 0; i < m_scopesList.count(); i++) {
+            if (m_scopesList.at(i)->isVisible() && tabifiedDockWidgets(m_scopesList.at(i)).isEmpty() && static_cast<AbstractScopeWidget *>(m_scopesList.at(i)->widget())->autoRefreshEnabled()) {
+                request = true;
+                break;
+            }
+        }
+    }
+    if (!request) {
+        m_projectMonitor->render->sendFrameForAnalysis = false;
+    }
+}
+
+void MainWindow::slotUpdateScopeFrameRequest()
+{
+    // We need a delay to make sure widgets are hidden after a close event for example
+    QTimer::singleShot(500, this, SLOT(slotDoUpdateScopeFrameRequest()));
+}
+
+void MainWindow::slotDoUpdateScopeFrameRequest()
+{
+    // Check scopes
+    bool request = false;
+    for (int i = 0; i < m_scopesList.count(); i++) {
+        if (!m_scopesList.at(i)->widget()->visibleRegion().isEmpty() && static_cast<AbstractScopeWidget *>(m_scopesList.at(i)->widget())->autoRefreshEnabled()) {
+            kDebug() << "SCOPE VISIBLE: " << static_cast<AbstractScopeWidget *>(m_scopesList.at(i)->widget())->widgetName();
+            request = true;
+            break;
+        }
+    }
+    if (!request) {
+        if (!m_projectMonitor->effectSceneDisplayed())
+            m_projectMonitor->render->sendFrameForAnalysis = false;
+        m_clipMonitor->render->sendFrameForAnalysis = false;
+    } else {
+        m_projectMonitor->render->sendFrameForAnalysis = true;
+        m_clipMonitor->render->sendFrameForAnalysis = true;
+    }
 }
 
 #include "mainwindow.moc"
