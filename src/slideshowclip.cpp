@@ -440,8 +440,7 @@ QString SlideshowClip::animationToGeometry(const QString &animation, int &ttl)
                                      ttl-1, ttl, ttl*2 - 1, ttl*2, ttl*3 - 1, ttl*3, ttl*4 - 1 );
         ttl *= 4;
     } else if (animation.startsWith("Zoom")) {
-        geometry = QString().sprintf("0=0,0:100%%x100%%;%d=-14%%,-14%%:120%%x120%%",
-                                     ttl-1, ttl );
+        geometry = QString().sprintf("0=0,0:100%%x100%%;%d=-14%%,-14%%:120%%x120%%", ttl-1 );
     }
     return geometry;
 }
