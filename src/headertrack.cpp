@@ -19,6 +19,7 @@
 
 
 #include "headertrack.h"
+#include "effectslist.h"
 
 #include <KIcon>
 #include <KLocale>
@@ -54,7 +55,8 @@ HeaderTrack::HeaderTrack(int index, TrackInfo info, int height, QWidget *parent)
     buttonAudio->setToolTip(i18n("Mute track"));
     buttonLock->setChecked(info.isLocked);
     buttonLock->setToolTip(i18n("Lock track"));
-
+    effect_label->setPixmap(KIcon("kdenlive-track_has_effect").pixmap(16, 16));
+    updateEffectLabel(info.effectsList.effectNames());
     setAcceptDrops(true);
 
     QPalette p = palette();
@@ -111,6 +113,18 @@ HeaderTrack::HeaderTrack(int index, TrackInfo info, int height, QWidget *parent)
 /*HeaderTrack::~HeaderTrack()
 {
 }*/
+
+void HeaderTrack::updateEffectLabel(QStringList effects)
+{
+    QColor col = track_number->palette().color(QPalette::Base);
+    if (!effects.isEmpty()) {
+        effect_label->setHidden(false);
+        effect_label->setToolTip(effects.join("/"));
+    } else {
+        effect_label->setHidden(true);
+        effect_label->setToolTip(QString());
+    }
+}
 
 // virtual
 void HeaderTrack::mousePressEvent(QMouseEvent * event)

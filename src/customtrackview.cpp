@@ -1553,6 +1553,7 @@ void CustomTrackView::addEffect(int track, GenTime pos, QDomElement effect)
         // Add track effect
         m_document->addTrackEffect(track - 1, effect);
         m_document->renderer()->mltAddTrackEffect(track, getEffectArgs(effect));
+        emit updateTrackEffectState(track - 1);
         emit showTrackEffects(track, m_document->trackInfoAt(track - 1));
         return;
     }
@@ -1587,6 +1588,7 @@ void CustomTrackView::deleteEffect(int track, GenTime pos, QDomElement effect)
         // Delete track effect
         m_document->removeTrackEffect(track - 1, effect);
         m_document->renderer()->mltRemoveTrackEffect(track, index, true);
+        emit updateTrackEffectState(track - 1);
         emit showTrackEffects(track, m_document->trackInfoAt(track - 1));
         return;
     }
@@ -1805,6 +1807,7 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedE
         if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - track, pos, effectParams))
             emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
         m_document->setTrackEffect(m_document->tracksCount() - track - 1, ix, effect);
+        emit updateTrackEffectState(track - 1);
         setDocumentModified();
         return;
 

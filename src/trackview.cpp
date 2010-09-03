@@ -105,6 +105,8 @@ TrackView::TrackView(KdenliveDoc *doc, bool *ok, QWidget *parent) :
     connect(m_trackview, SIGNAL(tracksChanged()), this, SLOT(slotReloadTracks()));
     connect(m_trackview, SIGNAL(updateTrackHeaders()), this, SLOT(slotRepaintTracks()));
     connect(m_trackview, SIGNAL(showTrackEffects(int, TrackInfo)), this, SIGNAL(showTrackEffects(int, TrackInfo)));
+    connect(m_trackview, SIGNAL(updateTrackEffectState(int)), this, SLOT(slotUpdateTrackEffectState(int)));
+
 
     parseDocument(m_doc->toXml());
     if (m_doc->setSceneList() == -1) *ok = false;
@@ -994,6 +996,16 @@ void TrackView::slotShowTrackEffects(int ix)
 {
     m_trackview->clearSelection();
     emit showTrackEffects(m_doc->tracksCount() - ix, m_doc->trackInfoAt(m_doc->tracksCount() - ix - 1));
+}
+
+void TrackView::slotUpdateTrackEffectState(int ix)
+{
+    QList<HeaderTrack *> widgets = findChildren<HeaderTrack *>();
+    if (ix >= widgets.count()) {
+        kDebug() << "ERROR, Trying to access a non existant track: " << ix;
+        return;
+    }
+    widgets.at(m_doc->tracksCount() - ix - 1)->updateEffectLabel(m_doc->trackInfoAt(ix).effectsList.effectNames());
 }
 
 #include "trackview.moc"

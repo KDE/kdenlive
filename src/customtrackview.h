@@ -424,6 +424,8 @@ signals:
     void documentModified();
     void forceClipProcessing(const QString &);
     void showTrackEffects(int, TrackInfo);
+    /** @brief Update the track effect button that shows if a track has effects or not.*/
+    void updateTrackEffectState(int);
 };
 
 #endif

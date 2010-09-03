@@ -127,6 +127,8 @@ private slots:
      * of the vertical scrollbar is maximal */
     void slotUpdateVerticalScroll(int min, int max);
     void slotShowTrackEffects(int);
+    /** @brief Update the track label showing applied effects.*/
+    void slotUpdateTrackEffectState(int);
 
 signals:
     void mousePosition(int);
