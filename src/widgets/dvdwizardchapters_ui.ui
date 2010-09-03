@@ -62,7 +62,6 @@
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
-     <zorder>chapters_list</zorder>
     </widget>
    </item>
    <item row="2" column="0" colspan="5">
