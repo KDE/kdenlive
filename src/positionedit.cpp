@@ -68,7 +68,6 @@ int PositionEdit::getPosition() const
 void PositionEdit::setPosition(int pos)
 {
     m_slider->setValue(pos);
-    m_display->setValue(pos);
 }
 
 

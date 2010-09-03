@@ -312,9 +312,9 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
                 pos = pos - m_in;
             } else if (d.attribute("id") == "fadeout" || d.attribute("id") == "fade_to_black") {
                 // fadeout position starts from clip end
-                pos = m_out - (pos - m_in);
+                pos = m_out - pos;
             }
-            PositionEdit *posedit = new PositionEdit(paramName, pos, 1, m_out - m_in, m_timecode);
+            PositionEdit *posedit = new PositionEdit(paramName, pos, 0, m_out - m_in, m_timecode);
             m_vbox->addWidget(posedit);
             m_valueItems[paramName+"position"] = posedit;
             connect(posedit, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
@@ -580,8 +580,8 @@ void EffectStackEdit::collectAllParameters()
                     pos = m_out;
                     pedit->setPosition(pos);
                 }*/
-                EffectsList::setParameter(newparam, "in", QString::number(m_out + m_in - pos));
-                EffectsList::setParameter(newparam, "out", QString::number(m_out + m_in));
+                EffectsList::setParameter(newparam, "in", QString::number(m_out - pos));
+                EffectsList::setParameter(newparam, "out", QString::number(m_out));
                 setValue.clear();
             }
         } else if (type == "curve") {

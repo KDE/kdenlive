@@ -310,7 +310,7 @@ void EffectStackView::slotItemSelectionChanged(bool update)
         } else m_effectedit->transferParamDesc(eff,
                                                    0,
                                                    m_clipref->cropStart().frames(KdenliveSettings::project_fps()),
-                                                   (m_clipref->cropStart() + m_clipref->cropDuration()).frames(KdenliveSettings::project_fps())); //minx max frame
+                                                   (m_clipref->cropStart() + m_clipref->cropDuration()).frames(KdenliveSettings::project_fps()) - 1); //minx max frame
         //m_ui.region_url->setUrl(KUrl(eff.attribute("region")));
     }
     if (!m_trackMode && m_clipref && update) m_clipref->setSelectedEffect(activeRow);

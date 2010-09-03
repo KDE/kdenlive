@@ -253,7 +253,7 @@ void ClipItem::initEffect(QDomElement effect, int diff)
     }
     if (effect.attribute("tag") == "volume" || effect.attribute("tag") == "brightness") {
         if (effect.attribute("id") == "fadeout" || effect.attribute("id") == "fade_to_black") {
-            int end = (cropDuration() + cropStart()).frames(m_fps);
+            int end = (cropDuration() + cropStart()).frames(m_fps) - 1;
             int start = end;
             if (effect.attribute("id") == "fadeout") {
                 if (m_effectList.hasEffect(QString(), "fade_to_black") == -1) {
