@@ -4394,7 +4394,6 @@ void CustomTrackView::prepareResizeClipStart(AbstractClipItem* item, ItemInfo ol
                 TODO: cleanup the effect update process
              */
             ClipItem *clip = static_cast < ClipItem * >(item);
-            updatePositionEffects(clip, oldInfo);
 
             // check keyframes
             QDomDocument doc;
@@ -4433,6 +4432,8 @@ void CustomTrackView::prepareResizeClipStart(AbstractClipItem* item, ItemInfo ol
             } else {
                 new ResizeClipCommand(this, oldInfo, info, false, false, command);
             }
+
+            updatePositionEffects(clip, oldInfo);
         } else {
             KdenliveSettings::setSnaptopoints(false);
             item->resizeStart((int) oldInfo.startPos.frames(m_document->fps()));
