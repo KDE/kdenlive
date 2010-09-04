@@ -483,17 +483,12 @@ MainWindow::~MainWindow()
     if (m_projectMonitor) m_projectMonitor->stop();
     if (m_clipMonitor) m_clipMonitor->stop();
 
-    if (m_activeTimeline) delete m_activeTimeline;
-
+    delete m_activeTimeline;
     delete m_effectStack;
     delete m_transitionConfig;
-
-    if (m_activeDocument) delete m_activeDocument;
-#ifndef Q_WS_MAC
-    // This sometimes causes crash on exit on OS X for some reason.
+    delete m_activeDocument;
     delete m_projectMonitor;
     delete m_clipMonitor;
-#endif
     delete m_shortcutRemoveFocus;
     Mlt::Factory::close();
 }

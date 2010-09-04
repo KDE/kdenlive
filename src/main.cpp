@@ -56,6 +56,7 @@ int main(int argc, char *argv[])
     KCmdLineArgs::addCmdLineOptions(options); //new
 
     KApplication app;
+    MainWindow* window = 0;
 
     // see if we are starting with session management
     if (app.isSessionRestored()) {
@@ -63,8 +64,8 @@ int main(int argc, char *argv[])
         while (KMainWindow::canBeRestored(n)) {
             const QString className = KXmlGuiWindow::classNameOfToplevel(n);
             if (className == QLatin1String("MainWindow")) {
-                MainWindow* win = new MainWindow();
-                win->restore(n);
+                window = new MainWindow();
+                window->restore(n);
             } else {
                 kWarning() << "Unknown class " << className << " in session saved data!";
             }
@@ -78,11 +79,15 @@ int main(int argc, char *argv[])
         if (args->count()) {
             url = args->url(0);
         }
-        MainWindow* window = new MainWindow(mltPath, url);
+        window = new MainWindow(mltPath, url);
         window->show();
 
         args->clear();
     }
 
-    return app.exec();
+    int result = app.exec();
+#ifdef Q_WS_MAC
+    delete window;
+#endif
+    return result;
 }
