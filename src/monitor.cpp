@@ -170,6 +170,8 @@ Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget
     if (name == "project") {
         m_effectScene = new MonitorScene(render);
         m_effectView = new QGraphicsView(m_effectScene, m_ui.video_frame);
+        m_effectView->setRenderHints(QFlags<QPainter::RenderHint>());
+        m_effectView->scale(((double) render->renderWidth()) / render->frameRenderWidth(), 1.0);
         rendererBox->addWidget(m_effectView);
         m_effectView->setMouseTracking(true);
         m_effectScene->setUp();
@@ -780,6 +782,7 @@ void Monitor::resetProfile(const QString profile)
     if (render == NULL) return;
     render->resetProfile(profile);
     if (m_effectScene) {
+        m_effectView->scale(((double) render->renderWidth()) / render->frameRenderWidth(), 1.0);
         m_effectScene->resetProfile();
     }
 }

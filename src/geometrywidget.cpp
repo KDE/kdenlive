@@ -187,9 +187,9 @@ void GeometryWidget::setupParam(const QDomElement elem, int minframe, int maxfra
     m_outPoint = maxframe;
 
     if (m_geometry)
-        m_geometry->parse(elem.attribute("value").toUtf8().data(), maxframe - minframe, m_monitor->render->renderWidth(), m_monitor->render->renderHeight());
+        m_geometry->parse(elem.attribute("value").toUtf8().data(), maxframe - minframe, m_monitor->render->frameRenderWidth(), m_monitor->render->renderHeight());
     else
-        m_geometry = new Mlt::Geometry(elem.attribute("value").toUtf8().data(), maxframe - minframe, m_monitor->render->renderWidth(), m_monitor->render->renderHeight());
+        m_geometry = new Mlt::Geometry(elem.attribute("value").toUtf8().data(), maxframe - minframe, m_monitor->render->frameRenderWidth(), m_monitor->render->renderHeight());
 
     if (elem.attribute("fixed") == "1" || maxframe < minframe) {
         // Keyframes are disabled
@@ -382,6 +382,7 @@ void GeometryWidget::slotUpdateGeometry()
 {
     Mlt::GeometryItem item;
     int pos = m_timePos->getValue();
+
     // get keyframe and make sure it is the correct one
     if (m_geometry->next_key(&item, pos) || item.frame() != pos)
         return;
@@ -402,7 +403,7 @@ void GeometryWidget::slotUpdateProperties()
     QPointF rectPos = m_rect->pos();
     int size;
     if (rectSize.width() / m_monitor->render->dar() < rectSize.height())
-        size = (int)((rectSize.width() * 100.0 / m_monitor->render->renderWidth()) + 0.5);
+        size = (int)((rectSize.width() * 100.0 / m_monitor->render->frameRenderWidth()) + 0.5);
     else
         size = (int)((rectSize.height() * 100.0 / m_monitor->render->renderHeight()) + 0.5);
 
@@ -454,7 +455,7 @@ void GeometryWidget::slotSetHeight(int value)
 void GeometryWidget::slotResize(int value)
 {
     m_rect->setRect(0, 0,
-                    (int)((m_monitor->render->renderWidth() * value / 100.0) + 0.5),
+                    (int)((m_monitor->render->frameRenderWidth() * value / 100.0) + 0.5),
                     (int)((m_monitor->render->renderHeight() * value / 100.0) + 0.5));
     slotUpdateGeometry();
 }
@@ -485,13 +486,13 @@ void GeometryWidget::slotMoveLeft()
 
 void GeometryWidget::slotCenterH()
 {
-    m_rect->setPos((m_monitor->render->renderWidth() - m_rect->rect().width()) / 2, m_rect->pos().y());
+    m_rect->setPos((m_monitor->render->frameRenderWidth() - m_rect->rect().width()) / 2, m_rect->pos().y());
     slotUpdateGeometry();
 }
 
 void GeometryWidget::slotMoveRight()
 {
-    m_rect->setPos(m_monitor->render->renderWidth() - m_rect->rect().width(), m_rect->pos().y());
+    m_rect->setPos(m_monitor->render->frameRenderWidth() - m_rect->rect().width(), m_rect->pos().y());
     slotUpdateGeometry();
 }
 

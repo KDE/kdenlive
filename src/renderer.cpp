@@ -371,6 +371,11 @@ char *Render::decodedString(QString str)
     return pix;
 }
 */
+int Render::frameRenderWidth() const
+{
+    return m_mltProfile->width();
+}
+
 int Render::renderWidth() const
 {
     return (int)(m_mltProfile->height() * m_mltProfile->dar() + 0.5);

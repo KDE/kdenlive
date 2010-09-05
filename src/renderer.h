@@ -177,7 +177,12 @@ Q_OBJECT public:
     void refreshDisplay();
     int resetProfile(const QString profileName);
     double fps() const;
+
+    /** @brief Returns the width of a frame for this profile. */
+    int frameRenderWidth() const;
+    /** @brief Returns the display width of a frame for this profile. */
     int renderWidth() const;
+    /** @brief Returns the height of a frame for this profile. */
     int renderHeight() const;
 
     /** @brief Returns display aspect ratio. */

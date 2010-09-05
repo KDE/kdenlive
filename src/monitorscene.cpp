@@ -43,7 +43,7 @@ MonitorScene::MonitorScene(Render *renderer, QObject* parent) :
     QPen framepen(Qt::SolidLine);
     framepen.setColor(Qt::red);
 
-    m_frameBorder = new QGraphicsRectItem(QRectF(0, 0, m_renderer->renderWidth(), m_renderer->renderHeight()));
+    m_frameBorder = new QGraphicsRectItem(QRectF(0, 0, m_renderer->frameRenderWidth(), m_renderer->renderHeight()));
     m_frameBorder->setPen(framepen);
     m_frameBorder->setZValue(-2);
     m_frameBorder->setBrush(Qt::transparent);
@@ -56,7 +56,7 @@ MonitorScene::MonitorScene(Render *renderer, QObject* parent) :
     m_background->setFlags(0);
     m_background->setShapeMode(QGraphicsPixmapItem::BoundingRectShape);
     m_background->setTransformationMode(Qt::FastTransformation);
-    QPixmap bg(m_renderer->renderWidth(), m_renderer->renderHeight());
+    QPixmap bg(m_renderer->frameRenderWidth(), m_renderer->renderHeight());
     bg.fill();
     m_background->setPixmap(bg);
     addItem(m_background);
@@ -77,7 +77,7 @@ void MonitorScene::setUp()
 
 void MonitorScene::resetProfile()
 {
-    const QRectF border(0, 0, m_renderer->renderWidth(), m_renderer->renderHeight());
+    const QRectF border(0, 0, m_renderer->frameRenderWidth(), m_renderer->renderHeight());
     m_frameBorder->setRect(border);
 }
 
@@ -115,7 +115,7 @@ void MonitorScene::slotZoom(int value)
     if (m_view) {
         m_zoom = value / 100.0;
         m_view->resetTransform();
-        m_view->scale(m_zoom, m_zoom);
+        m_view->scale(m_renderer->renderWidth() * m_zoom / m_renderer->frameRenderWidth(), m_zoom);
         emit zoomChanged(value);
     }
 }
@@ -123,10 +123,10 @@ void MonitorScene::slotZoom(int value)
 void MonitorScene::slotZoomFit()
 {
     if (m_view) {
-        m_view->fitInView(m_frameBorder, Qt::KeepAspectRatio);
+        int xzoom = 100 * m_view->viewport()->height() / m_renderer->renderHeight();
+        int yzoom = 100 * m_view->viewport()->width() / m_renderer->renderWidth();
+        slotZoom(qMin(xzoom, yzoom));
         m_view->centerOn(m_frameBorder);
-        m_zoom = m_view->matrix().m11();
-        emit zoomChanged((int)(m_zoom * 100));
     }
 }
 
@@ -144,7 +144,9 @@ void MonitorScene::slotZoomOut()
 
 void MonitorScene::slotZoomIn()
 {
-    slotZoom(qMin(300, (int)(m_zoom * 100 + 1)));
+    int newzoom = (100 * m_zoom + 0.5);
+    newzoom++;
+    slotZoom(qMin(300, newzoom));
 }
 
 
