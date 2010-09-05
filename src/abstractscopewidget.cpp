@@ -219,6 +219,7 @@ void AbstractScopeWidget::forceUpdateHUD()
 void AbstractScopeWidget::forceUpdateScope()
 {
     m_newScopeUpdates.fetchAndAddRelaxed(1);
+    m_requestForcedUpdate = true;    
     prodScopeThread();
 
 }
