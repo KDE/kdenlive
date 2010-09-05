@@ -89,7 +89,7 @@ void MonitorScene::setEnabled(bool enabled)
 void MonitorScene::slotUpdateBackground()
 {
     if (m_view && m_view->isVisible()) {
-        if (m_lastUpdate.elapsed() > 200) {
+        if (m_lastUpdate.elapsed() > 100) {
             m_background->setPixmap(QPixmap::fromImage(m_backgroundImage, Qt::ThresholdDither));
             m_lastUpdate.start();
         }
@@ -216,8 +216,11 @@ void MonitorScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
 void MonitorScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
-    if (!m_enabled)
+    if (!m_enabled) {
+        if (m_view)
+            m_view->setCursor(Qt::ArrowCursor);
         return;
+    }
 
     /*if (event->buttons() != Qt::NoButton && (event->screenPos() - m_screenClickPoint).manhattanLength() < QApplication::startDragDistance()) {
         event->accept();
@@ -354,14 +357,24 @@ void MonitorScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 
 void MonitorScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
+    Q_UNUSED(event);
+
     if (!m_enabled)
         return;
 
-    QGraphicsScene::mouseReleaseEvent(event);
     if (m_modified) {
         m_modified = false;
         emit actionFinished();
     }
 }
+
+void MonitorScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event)
+{
+    Q_UNUSED(event);
+
+    if (!m_enabled)
+        emit addKeyframe();
+}
+
 
 #include "monitorscene.moc"

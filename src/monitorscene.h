@@ -41,6 +41,7 @@ protected:
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+    virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 
 public slots:
     void slotUpdateBackground();
@@ -74,6 +75,7 @@ private:
 signals:
     void actionFinished();
     void zoomChanged(int);
+    void addKeyframe();
 };
 
 #endif

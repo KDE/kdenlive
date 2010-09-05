@@ -154,6 +154,7 @@ GeometryWidget::GeometryWidget(Monitor* monitor, Timecode timecode, int clipPos,
 
 
     connect(m_scene, SIGNAL(actionFinished()), this, SLOT(slotUpdateGeometry()));
+    connect(m_scene, SIGNAL(addKeyframe()),    this, SLOT(slotAddKeyframe()));
     connect(m_monitor, SIGNAL(renderPosition(int)), this, SLOT(slotCheckMonitorPosition(int)));
     connect(this, SIGNAL(parameterChanged()), this, SLOT(slotUpdateProperties()));
 }
