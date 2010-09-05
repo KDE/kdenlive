@@ -32,7 +32,9 @@
 #include <QVBoxLayout>
 #include <QGridLayout>
 
-GeometryWidget::GeometryWidget(Monitor* monitor, Timecode timecode, int clipPos, bool isEffect, QWidget* parent ):
+
+
+GeometryWidget::GeometryWidget(Monitor* monitor, Timecode timecode, int clipPos, bool isEffect, QWidget* parent):
         QWidget(parent),
         m_monitor(monitor),
         m_timePos(new TimecodeDisplay(timecode)),
@@ -207,7 +209,7 @@ void GeometryWidget::setupParam(const QDomElement elem, int minframe, int maxfra
 
     m_geometry->fetch(&item, 0);
     delete m_rect;
-    m_rect = new QGraphicsRectItem(QRectF(0, 0, item.w(), item.h()));
+    m_rect = new QGraphicsRectHandleItem(QRectF(0, 0, item.w(), item.h()));
     m_rect->setPos(item.x(), item.y());
     m_rect->setZValue(0);
     m_rect->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
@@ -248,12 +250,14 @@ void GeometryWidget::slotPositionChanged(int pos, bool seek)
     Mlt::GeometryItem item;
     if (m_geometry->fetch(&item, pos) || item.key() == false) {
         // no keyframe
+        m_rect->drawHandles = false;
         m_scene->setEnabled(false);
         m_ui.widgetGeometry->setEnabled(false);
         m_ui.buttonAddDelete->setIcon(KIcon("document-new"));
         m_ui.buttonAddDelete->setToolTip(i18n("Add keyframe"));
     } else {
         // keyframe
+        m_rect->drawHandles = true;
         m_scene->setEnabled(true);
         m_ui.widgetGeometry->setEnabled(true);
         m_ui.buttonAddDelete->setIcon(KIcon("edit-delete"));
@@ -326,7 +330,7 @@ void GeometryWidget::slotPreviousKeyframe()
     // Go to start if no keyframe is found
     int currentPos = m_timePos->getValue();
     int pos = 0;
-    if(!m_geometry->prev_key(&item, currentPos - 1) && item.frame() < currentPos)
+    if (!m_geometry->prev_key(&item, currentPos - 1) && item.frame() < currentPos)
         pos = item.frame();
 
     slotPositionChanged(pos);

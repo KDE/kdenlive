@@ -26,6 +26,8 @@
 #include <mlt++/Mlt.h>
 
 #include <QWidget>
+#include <QGraphicsRectItem>
+#include <QPainter>
 
 class QDomElement;
 class QGraphicsRectItem;
@@ -33,6 +35,32 @@ class Monitor;
 class MonitorScene;
 class KeyframeHelper;
 class TimecodeDisplay;
+
+
+class QGraphicsRectHandleItem: public QGraphicsRectItem
+{
+public:
+
+    QGraphicsRectHandleItem(const QRectF & rect, QGraphicsItem * parent = 0):
+            QGraphicsRectItem(rect, parent),
+            drawHandles(false) {
+    }
+
+    bool drawHandles;
+
+
+    virtual void paint(QPainter *painter,
+                       const QStyleOptionGraphicsItem * option,
+                       QWidget* widget = 0) {
+        QGraphicsRectItem::paint(painter, option, widget);
+        if (!drawHandles) return;
+        double handleSize = 6 / painter->matrix().m11();
+        painter->fillRect(0, 0, handleSize, handleSize, QColor(Qt::yellow));
+        painter->fillRect(option->rect.width() - handleSize, 0, handleSize, handleSize, QColor(Qt::yellow));
+        painter->fillRect(option->rect.width() - handleSize, option->rect.height() - handleSize, handleSize, handleSize, QColor(Qt::yellow));
+        painter->fillRect(0, option->rect.height() - handleSize, handleSize, handleSize, QColor(Qt::yellow));
+    }
+};
 
 class GeometryWidget : public QWidget
 {
@@ -70,7 +98,7 @@ private:
     int m_outPoint;
     bool m_isEffect;
     MonitorScene *m_scene;
-    QGraphicsRectItem *m_rect;
+    QGraphicsRectHandleItem *m_rect;
     KeyframeHelper *m_timeline;
     /** Stores the different settings in the MLT geometry format. */
     Mlt::Geometry *m_geometry;
