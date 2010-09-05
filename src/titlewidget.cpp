@@ -462,6 +462,8 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     m_endViewport->setData(0, m_frameWidth);
     m_endViewport->setData(1, m_frameHeight);
 
+    // scale the view so that the title widget is not too big at startup
+    graphicsView->scale(.5, .5);
     if (!url.isEmpty()) loadTitle(url);
     else {
         slotTextTool();
