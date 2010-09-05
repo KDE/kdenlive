@@ -186,6 +186,12 @@ QRect Vectorscope::scopeRect()
     pCy75 = m_vectorscopeGenerator->mapToCircle(scopeRect.size(), P75*VectorscopeGenerator::scaling*YUV_Cy);
     pMg75 = m_vectorscopeGenerator->mapToCircle(scopeRect.size(), P75*VectorscopeGenerator::scaling*YUV_Mg);
     pYl75 = m_vectorscopeGenerator->mapToCircle(scopeRect.size(), P75*VectorscopeGenerator::scaling*YUV_Yl);
+    qR75 = m_vectorscopeGenerator->mapToCircle(scopeRect.size(), P75*VectorscopeGenerator::scaling*YPbPr_R);
+    qG75 = m_vectorscopeGenerator->mapToCircle(scopeRect.size(), P75*VectorscopeGenerator::scaling*YPbPr_G);
+    qB75 = m_vectorscopeGenerator->mapToCircle(scopeRect.size(), P75*VectorscopeGenerator::scaling*YPbPr_B);
+    qCy75 = m_vectorscopeGenerator->mapToCircle(scopeRect.size(), P75*VectorscopeGenerator::scaling*YPbPr_Cy);
+    qMg75 = m_vectorscopeGenerator->mapToCircle(scopeRect.size(), P75*VectorscopeGenerator::scaling*YPbPr_Mg);
+    qYl75 = m_vectorscopeGenerator->mapToCircle(scopeRect.size(), P75*VectorscopeGenerator::scaling*YPbPr_Yl);
 
     return scopeRect;
 }
@@ -382,22 +388,40 @@ QImage Vectorscope::renderBackground(uint)
 
     // Draw 75% box
     if (m_a75PBox->isChecked()) {
-        davinci.drawLine(pR75, pYl75);
-        davinci.drawLine(pYl75, pG75);
-        davinci.drawLine(pG75, pCy75);
-        davinci.drawLine(pCy75, pB75);
-        davinci.drawLine(pB75, pMg75);
-        davinci.drawLine(pMg75, pR75);
+        if (m_aColorSpace_YUV->isChecked()) {
+            davinci.drawLine(pR75, pYl75);
+            davinci.drawLine(pYl75, pG75);
+            davinci.drawLine(pG75, pCy75);
+            davinci.drawLine(pCy75, pB75);
+            davinci.drawLine(pB75, pMg75);
+            davinci.drawLine(pMg75, pR75);
+        } else {
+            davinci.drawLine(qR75, qYl75);
+            davinci.drawLine(qYl75, qG75);
+            davinci.drawLine(qG75, qCy75);
+            davinci.drawLine(qCy75, qB75);
+            davinci.drawLine(qB75, qMg75);
+            davinci.drawLine(qMg75, qR75);
+        }
     }
 
     // Draw RGB/CMY points with 75% chroma (for NTSC)
     davinci.setPen(penThin);
-    davinci.drawEllipse(pR75, 3,3);
-    davinci.drawEllipse(pG75, 3,3);
-    davinci.drawEllipse(pB75, 3,3);
-    davinci.drawEllipse(pCy75, 3,3);
-    davinci.drawEllipse(pMg75, 3,3);
-    davinci.drawEllipse(pYl75, 3,3);
+    if (m_aColorSpace_YUV->isChecked()) {
+        davinci.drawEllipse(pR75, 3,3);
+        davinci.drawEllipse(pG75, 3,3);
+        davinci.drawEllipse(pB75, 3,3);
+        davinci.drawEllipse(pCy75, 3,3);
+        davinci.drawEllipse(pMg75, 3,3);
+        davinci.drawEllipse(pYl75, 3,3);
+    } else {
+        davinci.drawEllipse(qR75, 3,3);
+        davinci.drawEllipse(qG75, 3,3);
+        davinci.drawEllipse(qB75, 3,3);
+        davinci.drawEllipse(qCy75, 3,3);
+        davinci.drawEllipse(qMg75, 3,3);
+        davinci.drawEllipse(qYl75, 3,3);
+    }
 
     // Draw realtime factor (number of skipped pixels)
     if (m_aRealtime->isChecked()) {
