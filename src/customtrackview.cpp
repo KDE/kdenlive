@@ -1990,6 +1990,10 @@ ClipItem *CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut, boo
             slotRefreshEffects(item);
         if (dup->checkKeyFrames())
             slotRefreshEffects(dup);
+
+        updatePanZoom(item);
+        updatePanZoom(dup, cutTime - item->startPos());
+
         item->baseClip()->addReference();
         m_document->updateClip(item->baseClip()->getId());
         setDocumentModified();
@@ -2031,6 +2035,9 @@ ClipItem *CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut, boo
         bool success = m_document->renderer()->mltResizeClipEnd(clipinfo, info.endPos - info.startPos);
         if (success) {
             item->resizeEnd((int) info.endPos.frames(m_document->fps()));
+
+            updatePanZoom(item);
+
             setDocumentModified();
         } else {
             emit displayMessage(i18n("Error when resizing clip"), ErrorMessage);
@@ -4408,13 +4415,9 @@ void CustomTrackView::prepareResizeClipStart(AbstractClipItem* item, ItemInfo ol
                 }
             }
 
-            /*int panZoomPos = clip->hasEffect("affine", "pan_zoom");
-            if (panZoomPos != -1) {
-                doc.appendChild(doc.importNode(clip->effectAt(panZoomPos), true));
-                indexes.append(panZoomPos);
-            }*/
+            updatePanZoom(clip);
 
-            if (clip->checkEffectsKeyframesPos(oldInfo.cropStart.frames(m_document->fps()), clip->cropStart().frames(m_document->fps()), true, m_document->width(), m_document->height())) {
+            if (clip->checkEffectsKeyframesPos(oldInfo.cropStart.frames(m_document->fps()), clip->cropStart().frames(m_document->fps()), true)) {
                 // Keyframes were modified, updateClip
                 QDomNodeList effs = doc.elementsByTagName("effect");
                 // Hack:
@@ -4532,8 +4535,10 @@ void CustomTrackView::prepareResizeClipEnd(AbstractClipItem* item, ItemInfo oldI
                     indexes.append(i);
                 }
             }
+            
+            updatePanZoom(clip);
 
-            if (clip->checkEffectsKeyframesPos((oldInfo.cropStart + oldInfo.endPos - oldInfo.startPos).frames(m_document->fps()) - 1, (clip->cropStart() + clip->cropDuration()).frames(m_document->fps()) - 1, false, m_document->width(), m_document->height())) {
+            if (clip->checkEffectsKeyframesPos((oldInfo.cropStart + oldInfo.endPos - oldInfo.startPos).frames(m_document->fps()) - 1, (clip->cropStart() + clip->cropDuration()).frames(m_document->fps()) - 1, false)) {
                 // Keyframes were modified, updateClip
                 QDomNodeList effs = doc.elementsByTagName("effect");
                 // Hack:
@@ -6447,4 +6452,17 @@ EffectsParameterList CustomTrackView::getEffectArgs(const QDomElement effect)
         }
     }
     return parameters;
+}
+
+void CustomTrackView::updatePanZoom(ClipItem* item, GenTime cutPos)
+{
+    QList <int> effects = item->updatePanZoom(m_document->width(), m_document->height(), cutPos.frames(m_document->fps()));
+    for (int i = 0; i < effects.count(); ++i) {
+        if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - item->track(), item->startPos(), getEffectArgs(item->effectAt(effects.at(i)))))
+            emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
+
+        // if effect is displayed, update the effect edit widget with new clip duration
+        if (item->isSelected() && effects.at(i) == item->selectedEffectIndex())
+            emit clipItemSelected(item, effects.at(i));
+    }
 }

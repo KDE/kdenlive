@@ -1210,7 +1210,7 @@ void ClipItem::resizeEnd(int posx)
 }
 
 
-bool ClipItem::checkEffectsKeyframesPos(const int previous, const int current, bool fromStart, int renderWidth, int renderHeight)
+bool ClipItem::checkEffectsKeyframesPos(const int previous, const int current, bool fromStart)
 {
     bool effModified = false;
     for (int i = 0; i < m_effectList.count(); i++) {
@@ -1252,16 +1252,6 @@ bool ClipItem::checkEffectsKeyframesPos(const int previous, const int current, b
                     }
                     e.setAttribute("keyframes", newkfr);
                 }
-            } else if (e.attribute("type") == "geometry" && !e.hasAttribute("fixed")) {
-                Mlt::Geometry geometry(e.attribute("value").toUtf8().data(), cropDuration().frames(fps()), renderWidth, renderHeight);
-
-                Mlt::GeometryItem item;
-                while (!geometry.next_key(&item, cropDuration().frames(fps()))) {
-                    geometry.remove(item.frame());
-                    modified = true;
-                }
- 
-                e.setAttribute("value", geometry.serialise());
             }
         }
     }
@@ -1785,5 +1775,81 @@ void ClipItem::doGetIntraThumbs(QPainter *painter, const QPointF startPos, int o
     }
 }
 
+QList <int> ClipItem::updatePanZoom(int width, int height, int cut)
+{
+    QList <int> effectPositions;
+    for (int i = 0; i < m_effectList.count(); i++) {
+        QDomElement effect = m_effectList.at(i);
+        QDomNodeList params = effect.elementsByTagName("parameter");
+        for (int j = 0; j < params.count(); j++) {
+            QDomElement e = params.item(j).toElement();
+            if (e.isNull())
+                continue;
+            if (e.attribute("type") == "geometry" && !e.hasAttribute("fixed")) {
+                effectPositions << i;
+
+                int in = cropStart().frames(fps());
+                int out = in + cropDuration().frames(fps());
+                if (in < 0) {
+                    out -= in;
+                    in = 0;
+                }
+                int dur = out - in - 1;
+
+                effect.setAttribute("in", in);
+                effect.setAttribute("out", out);
+
+                Mlt::Geometry geometry(e.attribute("value").toUtf8().data(), dur, width, height);
+                Mlt::GeometryItem item;
+                bool endFrameAdded = false;
+                if (cut == 0) {
+                    while (!geometry.next_key(&item, dur)) {
+                        if (!endFrameAdded) {
+                            // add keyframe at the end with interpolated value
+
+                            // but only once ;)
+                            endFrameAdded = true;
+
+                            Mlt::GeometryItem endItem;
+                            Mlt::GeometryItem interp;
+                            geometry.fetch(&interp, dur - 1);
+                            endItem.frame(dur - 1);
+                            endItem.x(interp.x());
+                            endItem.y(interp.y());
+                            endItem.w(interp.w());
+                            endItem.h(interp.h());
+                            endItem.mix(interp.mix());
+                            geometry.insert(&endItem);
+                        }
+                        geometry.remove(item.frame());
+                    }
+                } else {
+                    Mlt::Geometry origGeometry(e.attribute("value").toUtf8().data(), dur, width, height);
+                    // remove keyframes before cut point
+                    while (!geometry.prev_key(&item, cut - 1) && item.frame() < cut)
+                        geometry.remove(item.frame());
+
+                    // add a keyframe at new pos 0
+                    origGeometry.fetch(&item, cut);
+                    item.frame(0);
+                    geometry.insert(&item);
+
+                    // move exisiting keyframes by -cut
+                    while (!origGeometry.next_key(&item, cut)) {
+                        geometry.remove(item.frame());
+                        origGeometry.remove(item.frame());
+                        item.frame(item.frame() - cut);
+                        geometry.insert(&item);
+                    }
+                    
+                }
+
+                e.setAttribute("value", geometry.serialise());
+            }
+        }
+    }
+
+    return effectPositions;
+}
 
 #include "clipitem.moc"

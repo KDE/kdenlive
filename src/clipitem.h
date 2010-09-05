@@ -156,10 +156,18 @@ public:
     * @param current New crop value
     * @param fromStart true = crop from start, false = crop from end
     * @return true if anything was modified */
-    bool checkEffectsKeyframesPos(const int previous, const int current, bool fromStart, int renderWidth = 0, int renderHeight = 0);
+    bool checkEffectsKeyframesPos(const int previous, const int current, bool fromStart);
     void insertKeyframe(QDomElement effect, int pos, int val);
     void movedKeyframe(QDomElement effect, int oldpos, int newpos, double value);
     void updateKeyframes(QDomElement effect);
+    /** @brief Updates the keyframes in the pan and zoom effect to fit the clips cropDuration.
+     * @param width Render width
+     * @param height Render height
+     * @param cut (optional) if clip was cut, cut position relative to the original's clip position
+     * @return List of the pan and zoom effects indexes
+     * 
+     * Can be used for all effects using mlt_geometry with keyframes, but at the moment Pan & Zoom is the only one. */
+    QList <int> updatePanZoom(int width, int height, int cut = 0);
 
 protected:
     //virtual void mouseMoveEvent(QGraphicsSceneMouseEvent * event);
