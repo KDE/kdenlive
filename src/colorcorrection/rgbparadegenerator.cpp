@@ -16,6 +16,7 @@
 #include <QTime>
 
 #define CHOP255(a) ((255) < (a) ? (255) : (a))
+#define CHOP1255(a) ((a) < (1) ? (1) : ((a) > (255) ? (255) : (a)))
 
 const QColor RGBParadeGenerator::colHighlight(255, 245, 235, 255);
 const QColor RGBParadeGenerator::colLight(200, 200, 200, 255);
@@ -24,6 +25,12 @@ const QColor RGBParadeGenerator::colSoft(150, 150, 150, 255);
 
 const uchar RGBParadeGenerator::distRight(40);
 const uchar RGBParadeGenerator::distBottom(40);
+
+struct StructRGB {
+    uint r;
+    uint g;
+    uint b;
+};
 
 RGBParadeGenerator::RGBParadeGenerator()
 {
@@ -43,8 +50,6 @@ QImage RGBParadeGenerator::calculateRGBParade(const QSize &paradeSize, const QIm
         parade.fill(qRgba(0,0,0,0));
 
         QRgb *col;
-        QRgb paradeCol;
-        QPoint paradePoint;
         QPainter davinci(&parade);
 
         double dx, dy;
@@ -53,26 +58,35 @@ QImage RGBParadeGenerator::calculateRGBParade(const QSize &paradeSize, const QIm
         const uint wh = paradeSize.height();
         const uint iw = image.bytesPerLine();
         const uint ih = image.height();
-        const uint byteCount = iw*ih;
+        const uint byteCount = iw*ih;   // Note that 1 px = 4 B
 
         const uchar offset = 10;
-        const int partW = (ww - 2*offset - distRight) / 3;
-        const int partH = wh - distBottom;
+        const uint partW = (ww - 2*offset - distRight) / 3;
+        const uint partH = wh - distBottom;
 
-        // To get constant brightness, independant of acceleration factor and input image size
-        // Must be a float because the acceleration factor can be high, leading to <1 expected px per px.
-        // Divide by 3 because of the 3 components.
-        const float brightnessAdjustment = accelFactor * ((float) ww*wh/(byteCount>>3)) / 3;
-
+        // Statistics
         uchar minR = 255, minG = 255, minB = 255, maxR = 0, maxG = 0, maxB = 0, r, g, b;
-//        qDebug() << "Expecting about " << avgPxPerPx << " pixels per pixel in the RGB parade. Weakening by " << weaken
-//                << " with an acceleration factor of " << accelFactor;
 
+
+        // Number of input pixels that will fall on one scope pixel.
+        // Must be a float because the acceleration factor can be high, leading to <1 expected px per px.
+        const float pixelDepth = (float)((byteCount>>2) / accelFactor)/(partW*255);
+        const float gain = 255/(8*pixelDepth);
+//        qDebug() << "Pixel depth: expected " << pixelDepth << "; Gain: using " << gain << " (acceleration: " << accelFactor << "x)";
 
         QImage unscaled(ww-distRight, 256, QImage::Format_ARGB32);
         unscaled.fill(qRgba(0, 0, 0, 0));
 
         const float wPrediv = (float)(partW-1)/(iw-1);
+
+        StructRGB paradeVals[partW][256];
+        for (uint i = 0; i < partW; i++) {
+            for (uint j = 0; j < 256; j++) {
+                paradeVals[i][j].r = 0;
+                paradeVals[i][j].g = 0;
+                paradeVals[i][j].b = 0;
+            }
+        }
 
         const uchar *bits = image.bits();
         const uint stepsize = 4*accelFactor;
@@ -86,38 +100,9 @@ QImage RGBParadeGenerator::calculateRGBParade(const QSize &paradeSize, const QIm
 
             dx = x*wPrediv;
 
-            paradePoint = QPoint((int)dx, r);
-            paradeCol = QRgb(unscaled.pixel(paradePoint));
-            switch(paintMode) {
-            case PaintMode_RGB:
-                unscaled.setPixel(paradePoint, qRgba(255,10,10, CHOP255(brightnessAdjustment*16 + qAlpha(paradeCol))));
-                break;
-            default:
-                unscaled.setPixel(paradePoint, qRgba(255,255,255, CHOP255(brightnessAdjustment*16 + qAlpha(paradeCol))));
-                break;
-            }
-
-            paradePoint = QPoint((int) (dx + partW + offset), g);
-            paradeCol = QRgb(unscaled.pixel(paradePoint));
-            switch(paintMode) {
-            case PaintMode_RGB:
-                unscaled.setPixel(paradePoint, qRgba(10,255,10, CHOP255(brightnessAdjustment*16 + qAlpha(paradeCol))));
-                break;
-            default:
-                unscaled.setPixel(paradePoint, qRgba(255,255,255, CHOP255(brightnessAdjustment*16 + qAlpha(paradeCol))));
-                break;
-            }
-
-            paradePoint = QPoint((int) (dx + 2*partW + 2*offset), b);
-            paradeCol = QRgb(unscaled.pixel(paradePoint));
-            switch(paintMode) {
-            case PaintMode_RGB:
-                unscaled.setPixel(paradePoint, qRgba(10,10,255, CHOP255(brightnessAdjustment*16 + qAlpha(paradeCol))));
-                break;
-            default:
-                unscaled.setPixel(paradePoint, qRgba(255,255,255, CHOP255(brightnessAdjustment*16 + qAlpha(paradeCol))));
-                break;
-            }
+            paradeVals[(int)dx][r].r++;
+            paradeVals[(int)dx][g].g++;
+            paradeVals[(int)dx][b].b++;
 
 
             if (r < minR) { minR = r; }
@@ -131,6 +116,31 @@ QImage RGBParadeGenerator::calculateRGBParade(const QSize &paradeSize, const QIm
             x += stepsize;
             x %= iw; // Modulo image width, to represent the current x position in the image
         }
+
+
+        const uint offset1 = partW + offset;
+        const uint offset2 = 2*partW + 2*offset;
+        switch(paintMode) {
+        case PaintMode_RGB:
+            for (uint i = 0; i < partW; i++) {
+                for (uint j = 0; j < 256; j++) {
+                    unscaled.setPixel(i,         j, qRgba(255,10,10, CHOP255(gain*paradeVals[i][j].r)));
+                    unscaled.setPixel(i+offset1, j, qRgba(10,255,10, CHOP255(gain*paradeVals[i][j].g)));
+                    unscaled.setPixel(i+offset2, j, qRgba(10,10,255, CHOP255(gain*paradeVals[i][j].b)));
+                }
+            }
+            break;
+        default:
+            for (uint i = 0; i < partW; i++) {
+                for (uint j = 0; j < 256; j++) {
+                    unscaled.setPixel(i,         j, qRgba(255,255,255, CHOP255(gain*paradeVals[i][j].r)));
+                    unscaled.setPixel(i+offset1, j, qRgba(255,255,255, CHOP255(gain*paradeVals[i][j].g)));
+                    unscaled.setPixel(i+offset2, j, qRgba(255,255,255, CHOP255(gain*paradeVals[i][j].b)));
+                }
+            }
+            break;
+        }
+
         // Scale the image to the target height. Scaling is not accomplished before because
         // there are only 255 different values which would lead to gaps if the height is not exactly 255.
         // Don't use bilinear transformation because the fast transformation meets the goal better.
