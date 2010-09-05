@@ -3412,7 +3412,7 @@ void Render::mltUpdateTransition(QString oldTag, QString tag, int a_track, int b
         mltAddTransition(tag, a_track, b_track, in, out, xml, false);
     }
 
-    if (m_mltProducer->position() > in.frames(m_fps) && m_mltProducer->position() < out.frames(m_fps)) refresh();
+    if (m_mltProducer->position() >= in.frames(m_fps) && m_mltProducer->position() <= out.frames(m_fps)) refresh();
 }
 
 void Render::mltUpdateTransitionParams(QString type, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml)
