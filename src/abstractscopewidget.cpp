@@ -203,6 +203,7 @@ void AbstractScopeWidget::forceUpdate(bool doUpdate)
     if (!doUpdate) {
         return;
     }
+    m_requestForcedUpdate = true;
     m_newHUDUpdates.fetchAndAddRelaxed(1);
     m_newScopeUpdates.fetchAndAddRelaxed(1);
     m_newBackgroundUpdates.fetchAndAddRelaxed(1);
@@ -219,7 +220,7 @@ void AbstractScopeWidget::forceUpdateHUD()
 void AbstractScopeWidget::forceUpdateScope()
 {
     m_newScopeUpdates.fetchAndAddRelaxed(1);
-    m_requestForcedUpdate = true;    
+    m_requestForcedUpdate = true;
     prodScopeThread();
 
 }
@@ -249,7 +250,6 @@ void AbstractScopeWidget::resizeEvent(QResizeEvent *event)
 {
     // Update the dimension of the available rect for painting
     m_scopeRect = scopeRect();
-
     forceUpdate();
 
     QWidget::resizeEvent(event);
@@ -450,6 +450,8 @@ void AbstractScopeWidget::slotAutoRefreshToggled(bool autoRefresh)
     if (isVisible()) emit requestAutoRefresh(autoRefresh);
     // TODO only if depends on input
     if (autoRefresh) {
-        forceUpdate();
+        //forceUpdate();
+        m_requestForcedUpdate = true;
+        m_activeRender->sendFrameUpdate();
     }
 }
