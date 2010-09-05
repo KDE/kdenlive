@@ -77,9 +77,11 @@ QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, const QIm
         const float wPrediv = (float)(ww-1)/(iw-1);
 
         const uchar *bits = image.bits();
-        const uint stepsize = 4*accelFactor;
+        const uchar *bitsStart = bits;
 
-        for (uint i = 0, x = 0; i < byteCount; i += stepsize) {
+        for (uint i = 0, x = 0; i < byteCount; i += 4) {
+
+            Q_ASSERT(bits < bitsStart + byteCount);
 
             col = (QRgb *)bits;
 
@@ -96,9 +98,15 @@ QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, const QIm
             dx = x*wPrediv;
             waveValues[(int)dx][(int)dy]++;
 
-            bits += stepsize;
-            x += stepsize;
-            x %= iw; // Modulo image width, to represent the current x position in the image
+            bits += 4;
+            x += 4;
+            if (x > iw) {
+                x -= iw;
+                if (accelFactor > 1) {
+                    bits += 4*iw*(accelFactor-1);
+                    i += 4*iw*(accelFactor-1);
+                }
+            }
         }
 
         switch (paintMode) {
