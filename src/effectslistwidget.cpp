@@ -43,17 +43,15 @@ EffectsListWidget::EffectsListWidget(QMenu *menu, QWidget *parent) :
         QTreeWidget(parent),
         m_menu(menu)
 {
-    //setSelectionMode(QAbstractItemView::ExtendedSelection);
-    //setDragDropMode(QAbstractItemView::DragDrop);
     setColumnCount(1);
-    setDropIndicatorShown(true);
-    //setAlternatingRowColors(true);
     setDragEnabled(true);
-    setAcceptDrops(true);
+    setAcceptDrops(false);
     setHeaderHidden(true);
     setFrameShape(QFrame::NoFrame);
     setAutoFillBackground(false);
     setRootIsDecorated(false);
+    //setSelectionMode(QAbstractItemView::ExtendedSelection);
+    setDragDropMode(QAbstractItemView::DragOnly);
     QPalette p = palette();
     p.setBrush(QPalette::Base, Qt::NoBrush);
     setPalette(p);
@@ -120,6 +118,7 @@ void EffectsListWidget::initList()
             item->setIcon(0, folderIcon);
             item->setData(0, TypeRole, QString::number((int) EFFECT_FOLDER));
             item->setData(0, IdRole, groups.at(i).toElement().attribute("list"));
+            item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
             insertTopLevelItem(0, item);
         }
         folders.append(item);
@@ -130,6 +129,7 @@ void EffectsListWidget::initList()
         misc = new QTreeWidgetItem((QTreeWidget*)0, QStringList(i18n("Misc")));
         misc->setIcon(0, folderIcon);
         misc->setData(0, TypeRole, QString::number((int) EFFECT_FOLDER));
+        misc->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
         insertTopLevelItem(0, misc);
     }
 
@@ -138,6 +138,7 @@ void EffectsListWidget::initList()
         audio = new QTreeWidgetItem((QTreeWidget*)0, QStringList(i18n("Audio")));
         audio->setIcon(0, folderIcon);
         audio->setData(0, TypeRole, QString::number((int) EFFECT_FOLDER));
+        audio->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
         insertTopLevelItem(0, audio);
     }
 
@@ -146,6 +147,7 @@ void EffectsListWidget::initList()
         custom = new QTreeWidgetItem((QTreeWidget*)0, QStringList(i18n("Custom")));
         custom->setIcon(0, folderIcon);
         custom->setData(0, TypeRole, QString::number((int) EFFECT_FOLDER));
+        custom->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
         insertTopLevelItem(0, custom);
     }
 
@@ -290,55 +292,33 @@ QString EffectsListWidget::currentInfo()
     return info;
 }
 
-// virtual
-void EffectsListWidget::mousePressEvent(QMouseEvent *event)
+//virtual
+QMimeData * EffectsListWidget::mimeData(const QList<QTreeWidgetItem *> list) const
 {
-    if (event->button() == Qt::LeftButton) {
-        m_DragStartPosition = event->pos();
-        m_dragStarted = true;
-    }
-    QTreeWidget::mousePressEvent(event);
-}
-
-// virtual
-void EffectsListWidget::mouseMoveEvent(QMouseEvent *event)
-{
-    if (!m_dragStarted) return;
-    if ((event->pos() - m_DragStartPosition).manhattanLength()
-            < QApplication::startDragDistance())
-        return;
-
-    {
-        QTreeWidgetItem *clickItem = itemAt(event->pos());
-        if (clickItem && clickItem->data(0, TypeRole).toInt() != (int)EFFECT_FOLDER) {
-            QDrag *drag = new QDrag(this);
-            QMimeData *mimeData = new QMimeData;
-            const QList <QTreeWidgetItem *>list = selectedItems();
-            QDomDocument doc;
-            foreach(QTreeWidgetItem *item, list) {
-                const QDomElement e = itemEffect(item);
-                if (!e.isNull()) doc.appendChild(doc.importNode(e, true));
-            }
-            QByteArray data;
-            data.append(doc.toString().toUtf8());
-            mimeData->setData("kdenlive/effectslist", data);
-            drag->setMimeData(mimeData);
-            //QPixmap pix = qVariantValue<QPixmap>(clickItem->data(Qt::DecorationRole));
-            //drag->setPixmap(pix);
-            //drag->setHotSpot(QPoint(0, 50));
-            drag->start(Qt::CopyAction);
+    QDomDocument doc;
+    foreach(QTreeWidgetItem *item, list) {
+        if (item->flags() & Qt::ItemIsDragEnabled) {
+            const QDomElement e = itemEffect(item);
+            if (!e.isNull()) doc.appendChild(doc.importNode(e, true));
         }
-        event->accept();
+    }
+    QMimeData *mime = new QMimeData;
+    QByteArray data;
+    data.append(doc.toString().toUtf8());
+    mime->setData("kdenlive/effectslist", data);
+    return mime;
+}
+
+//virtual
+void EffectsListWidget::dragMoveEvent(QDragMoveEvent *event)
+{
+    if (event->mimeData()->hasFormat("kdenlive/effectslist")) {
+        event->acceptProposedAction();
+    } else {
+        event->ignore();
     }
 }
 
-void EffectsListWidget::dragMoveEvent(QDragMoveEvent * event)
-{
-    event->setDropAction(Qt::CopyAction);
-    if (event->mimeData()->hasText()) {
-        event->acceptProposedAction();
-    }
-}
 
 //virtual
 void EffectsListWidget::contextMenuEvent(QContextMenuEvent * event)

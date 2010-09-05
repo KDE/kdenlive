@@ -39,17 +39,15 @@ public:
     void initList();
 
 protected:
-    virtual void mousePressEvent(QMouseEvent *event);
-    virtual void mouseMoveEvent(QMouseEvent *event);
     virtual void dragMoveEvent(QDragMoveEvent *event);
     virtual void contextMenuEvent(QContextMenuEvent * event);
+    virtual QMimeData *mimeData(const QList<QTreeWidgetItem *> list) const;
 
 private:
-    bool m_dragStarted;
-    QPoint m_DragStartPosition;
     QMenu *m_menu;
     /** @brief Returns the folder item with name equal to passed parameter. */
     QTreeWidgetItem *findFolder(const QString name);
+
 private slots:
     void slotExpandItem(const QModelIndex & index);
 };
