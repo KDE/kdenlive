@@ -12,7 +12,8 @@
 
   Vectorscope.
 
-  The basis matrix for converting RGB to YUV is:
+  The basis matrix for converting RGB to YUV is
+  (in this example for calculating the YUV value of red):
 
 mRgb2Yuv =                       r =
 
@@ -33,14 +34,42 @@ mRgb2Yuv =                       r =
   divide the conversion values by 255 previously, e.g. in
   GNU octave.
 
+
+  The basis matrix for converting RGB to YPbPr is:
+
+mRgb2YPbPr =                        r =
+
+   0.299000   0.587000   0.114000     1.0000
+  -0.168736  -0.331264   0.500000  x  0.0000
+   0.500000  -0.418688  -0.081312     0.0000
+
+
+
+   Note that YUV and YPbPr are not the same.
+   * YUV is used for analog transfer of PAL/NTSC
+   * YPbPr is used for analog transfer of YCbCr sources
+     like DVD/DVB.
+   It does _not_ matter for the Vectorscope what color space
+   the input video is; The used color space is just a tool
+   to visualize the hue. The difference is merely that the
+   scope looks slightly different when choosing the respectively
+   other color space; The way the Vectorscope works stays the same.
+
+   YCbCr is basically YPbPr for digital use (it is defined
+   on a range of {16,219} for Y and {16,240} for Cb/Cr
+   components).
+
+
+
+
   See also:
+    http://www.poynton.com/ColorFAQ.html
     http://de.wikipedia.org/wiki/Vektorskop
     http://www.elektroniktutor.de/techno/vektskop.html
 
  */
 
 #include <math.h>
-#include <QDebug>
 #include <QImage>
 #include "vectorscopegenerator.h"
 
@@ -87,8 +116,9 @@ QPoint VectorscopeGenerator::mapToCircle(const QSize &targetSize, const QPointF 
 }
 
 QImage VectorscopeGenerator::calculateVectorscope(const QSize &vectorscopeSize, const QImage &image, const float &gain,
-                                                  const VectorscopeGenerator::PaintMode &paintMode, const bool&,
-                                                  const uint &accelFactor) const
+                                                  const VectorscopeGenerator::PaintMode &paintMode,
+                                                  const VectorscopeGenerator::ColorSpace &colorSpace,
+                                                  const bool &, const uint &accelFactor) const
 {
     if (vectorscopeSize.width() <= 0 || vectorscopeSize.height() <= 0 || image.width() <= 0 || image.height() <= 0) {
         // Invalid size
@@ -113,7 +143,6 @@ QImage VectorscopeGenerator::calculateVectorscope(const QSize &vectorscopeSize, 
     // Just an average for the number of image pixels per scope pixel.
     // NOTE: byteCount() has to be replaced by (img.bytesPerLine()*img.height()) for Qt 4.5 to compile, see: http://doc.trolltech.org/4.6/qimage.html#bytesPerLine
     double avgPxPerPx = (double) 4*(image.bytesPerLine()*image.height())/scope.size().width()/scope.size().height()/accelFactor;
-    qDebug() << "Expecting " << avgPxPerPx << " pixels per pixel.";
 
     for (int i = 0; i < (image.bytesPerLine()*image.height()); i+= stepsize) {
         QRgb *col = (QRgb *) bits;
@@ -122,9 +151,19 @@ QImage VectorscopeGenerator::calculateVectorscope(const QSize &vectorscopeSize, 
         g = qGreen(*col);
         b = qBlue(*col);
 
-        y = (double)  0.001173 * r +0.002302 * g +0.0004471* b;
-        u = (double) -0.0005781* r -0.001135 * g +0.001713 * b;
-        v = (double)  0.002411 * r -0.002019 * g -0.0003921* b;
+        switch (colorSpace) {
+        case VectorscopeGenerator::ColorSpace_YUV:
+            y = (double)  0.001173 * r +0.002302 * g +0.0004471* b;
+            u = (double) -0.0005781* r -0.001135 * g +0.001713 * b;
+            v = (double)  0.002411 * r -0.002019 * g -0.0003921* b;
+            break;
+        case VectorscopeGenerator::ColorSpace_YPbPr:
+            y = (double)  0.001173 * r +0.002302 * g +0.0004471* b;
+            u = (double) -0.0006671* r -0.001299 * g +0.0019608* b;
+            v = (double)  0.001961 * r -0.001642 * g -0.0003189* b;
+            break;
+        }
+
 
         pt = mapToCircle(vectorscopeSize, QPointF(SCALING*gain*u, SCALING*gain*v));
 
@@ -140,10 +179,20 @@ QImage VectorscopeGenerator::calculateVectorscope(const QSize &vectorscopeSize, 
                 // see yuvColorWheel
                 dy = 128; // Default Y value. Lower = darker.
 
-                // Calculate the RGB values from YUV
-                dr = dy + 290.8*v;
-                dg = dy - 100.6*u - 148*v;
-                db = dy + 517.2*u;
+                // Calculate the RGB values from YUV/YPbPr
+                switch (colorSpace) {
+                case VectorscopeGenerator::ColorSpace_YUV:
+                    dr = dy + 290.8*v;
+                    dg = dy - 100.6*u - 148*v;
+                    db = dy + 517.2*u;
+                    break;
+                case VectorscopeGenerator::ColorSpace_YPbPr:
+                    dr = dy + 357.5*v;
+                    dg = dy - 87.75*u - 182*v;
+                    db = dy + 451.9*u;
+                    break;
+                }
+
 
                 if (dr < 0) dr = 0;
                 if (dg < 0) dg = 0;
@@ -158,10 +207,19 @@ QImage VectorscopeGenerator::calculateVectorscope(const QSize &vectorscopeSize, 
             case PaintMode_Chroma:
                 dy = 200; // Default Y value. Lower = darker.
 
-                // Calculate the RGB values from YUV
-                dr = dy + 290.8*v;
-                dg = dy - 100.6*u - 148*v;
-                db = dy + 517.2*u;
+                // Calculate the RGB values from YUV/YPbPr
+                switch (colorSpace) {
+                case VectorscopeGenerator::ColorSpace_YUV:
+                    dr = dy + 290.8*v;
+                    dg = dy - 100.6*u - 148*v;
+                    db = dy + 517.2*u;
+                    break;
+                case VectorscopeGenerator::ColorSpace_YPbPr:
+                    dr = dy + 357.5*v;
+                    dg = dy - 87.75*u - 182*v;
+                    db = dy + 451.9*u;
+                    break;
+                }
 
                 // Scale the RGB values back to max 255
                 dmax = dr;

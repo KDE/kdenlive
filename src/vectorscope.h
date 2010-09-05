@@ -22,7 +22,7 @@ class Monitor;
 class Vectorscope_UI;
 class VectorscopeGenerator;
 
-enum BACKGROUND_MODE { BG_NONE = 0, BG_YUV = 1, BG_CHROMA = 2 };
+enum BACKGROUND_MODE { BG_NONE = 0, BG_YUV = 1, BG_CHROMA = 2, BG_YPbPr = 3 };
 
 class Vectorscope : public AbstractScopeWidget {
     Q_OBJECT
@@ -53,6 +53,9 @@ private:
     ColorTools *m_colorTools;
     ColorPlaneExport *m_colorPlaneExport;
 
+    QActionGroup *m_agColorSpace;
+    QAction *m_aColorSpace_YUV;
+    QAction *m_aColorSpace_YPbPr;
     QAction *m_aExportBackground;
     QAction *m_aAxisEnabled;
     QAction *m_a75PBox;
@@ -88,6 +91,7 @@ private slots:
     void slotGainChanged(int);
     void slotBackgroundChanged();
     void slotExportBackground();
+    void slotColorSpaceChanged();
 };
 
 #endif // VECTORSCOPE_H

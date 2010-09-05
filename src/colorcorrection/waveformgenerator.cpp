@@ -11,7 +11,6 @@
 #include <cmath>
 
 #include <QColor>
-#include <QDebug>
 #include <QImage>
 #include <QPainter>
 #include <QSize>
@@ -68,7 +67,7 @@ QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, const QIm
         // Must be a float because the acceleration factor can be high, leading to <1 expected px per px.
         const float pixelDepth = (float)((byteCount>>2) / accelFactor)/(ww*wh);
         const float gain = 255/(8*pixelDepth);
-        qDebug() << "Pixel depth: expected " << pixelDepth << "; Gain: using " << gain << " (acceleration: " << accelFactor << "x)";
+        //qDebug() << "Pixel depth: expected " << pixelDepth << "; Gain: using " << gain << " (acceleration: " << accelFactor << "x)";
 
 
         // Subtract 1 from sizes because we start counting from 0.
