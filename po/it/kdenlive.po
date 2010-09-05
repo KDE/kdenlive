@@ -3,7 +3,7 @@
 #
 # Salvatore Brigaglia <opensourcecat@gmail.com>, 2008, 2009.
 # opensourcecat <opensourcecat@gmail.com>, 2008.
-# Tore Brigaglia <opensourcecat@gmail.com>, 2009.
+# Tore Brigaglia <opensourcecat@gmail.com>, 2009, 2010.
 # Alberto Villa <villa.alberto@gmail.com>, 2009.
 # Salvatore Brigaglia <tore@studiobrigaglia.com>, 2010.
 msgid ""
@@ -11,13 +11,13 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-02-02 18:20+0200\n"
-"PO-Revision-Date: 2010-02-04 00:44+0100\n"
-"Last-Translator: Salvatore Brigaglia <tore@studiobrigaglia.com>\n"
+"PO-Revision-Date: 2010-09-05 10:23+0200\n"
+"Last-Translator: Tore Brigaglia <opensourcecat@gmail.com>\n"
 "Language-Team: American English <kde-i18n-it@kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.0\n"
+"X-Generator: Lokalize 1.1\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: rc.cpp:1136 rc.cpp:1142 rc.cpp:2670 rc.cpp:2676
@@ -109,7 +109,7 @@ msgstr "25/1"
 
 #: rc.cpp:263
 msgid "3 point balance"
-msgstr ""
+msgstr "Bilanciamento in 3 punti"
 
 #: rc.cpp:1349 rc.cpp:2883
 msgid "32000"
@@ -764,7 +764,7 @@ msgstr "Opacità dello sfondo"
 
 #: rc.cpp:265
 msgid "Balances colors along with 3 points"
-msgstr ""
+msgstr "Regola i colori utilizzando tre punti"
 
 #: src/renderwidget.cpp:269
 msgid "Beginning"
@@ -789,7 +789,7 @@ msgstr "Nero"
 
 #: rc.cpp:267
 msgid "Black color"
-msgstr ""
+msgstr "Colore nero"
 
 #: rc.cpp:223
 msgid "Black output"
@@ -2303,7 +2303,7 @@ msgstr "Colore di riempimento"
 
 #: src/titlewidget.cpp:293
 msgid "Fill opacity"
-msgstr ""
+msgstr "Riempi trasparenza"
 
 #: src/mainwindow.cpp:928
 msgid "Find"
@@ -2594,7 +2594,7 @@ msgstr "Vai al fotogramma chiave precedente"
 
 #: rc.cpp:165
 msgid "Graph position"
-msgstr ""
+msgstr "Posizione del grafico"
 
 #: rc.cpp:1958 rc.cpp:3492
 msgid "GraphView"
@@ -3661,43 +3661,43 @@ msgstr ""
 
 #: rc.cpp:169
 msgid "Point 1 input value"
-msgstr ""
+msgstr "Valore iniziale del punto 1"
 
 #: rc.cpp:171
 msgid "Point 1 output value"
-msgstr ""
+msgstr "Valore finale del punto 1"
 
 #: rc.cpp:173
 msgid "Point 2 input value"
-msgstr ""
+msgstr "Valore iniziale del punto 2"
 
 #: rc.cpp:175
 msgid "Point 2 output value"
-msgstr ""
+msgstr "Valore finale del punto 2"
 
 #: rc.cpp:177
 msgid "Point 3 input value"
-msgstr ""
+msgstr "Valore iniziale del punto 3"
 
 #: rc.cpp:179
 msgid "Point 3 output value"
-msgstr ""
+msgstr "Valore finale del punto 3"
 
 #: rc.cpp:181
 msgid "Point 4 input value"
-msgstr ""
+msgstr "Valore iniziale del punto 4"
 
 #: rc.cpp:183
 msgid "Point 4 output value"
-msgstr ""
+msgstr "Valore finale del punto 4"
 
 #: rc.cpp:185
 msgid "Point 5 input value"
-msgstr ""
+msgstr "Valore iniziale del punto 5"
 
 #: rc.cpp:187
 msgid "Point 5 output value"
-msgstr ""
+msgstr "Valore finale del punto 5"
 
 #: rc.cpp:1367 rc.cpp:2901
 msgid "Ports:"
@@ -5037,7 +5037,7 @@ msgstr "Clip di testo"
 
 #: src/wizard.cpp:304
 msgid "Title module"
-msgstr ""
+msgstr "Titolatrice"
 
 #: rc.cpp:2048 rc.cpp:3582
 msgid "Toggle selection"
@@ -5358,11 +5358,11 @@ msgstr "Bilanciamento del bianco"
 
 #: rc.cpp:271
 msgid "White color"
-msgstr ""
+msgstr "Colore bianco"
 
 #: rc.cpp:225
 msgid "White output"
-msgstr ""
+msgstr "Colore bianco"
 
 #: rc.cpp:481 rc.cpp:1196 rc.cpp:2027 rc.cpp:2730 rc.cpp:3561
 msgid "Width"
