@@ -8,7 +8,10 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
+#include <cmath>
+
 #include <QColor>
+#include <QDebug>
 #include <QImage>
 #include <QPainter>
 #include <QSize>
@@ -45,8 +48,6 @@ QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, const QIm
         wave.fill(qRgba(0,0,0,0));
 
         QRgb *col;
-        QRgb waveCol;
-        QPoint wavePoint;
 
         double dY, dx, dy;
 
@@ -56,12 +57,24 @@ QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, const QIm
         const uint ih = image.height();
         const uint byteCount = iw*ih;
 
+        uint waveValues[waveformSize.width()][waveformSize.height()];
+        for (int i = 0; i < waveformSize.width(); i++) {
+            for (int j = 0; j < waveformSize.height(); j++) {
+                waveValues[i][j] = 0;
+            }
+        }
+
+        // Number of input pixels that will fall on one scope pixel.
+        // Must be a float because the acceleration factor can be high, leading to <1 expected px per px.
+        const float pixelDepth = (float)((byteCount>>2) / accelFactor)/(ww*wh);
+        const float gain = 255/(8*pixelDepth);
+        qDebug() << "Pixel depth: expected " << pixelDepth << "; Gain: using " << gain << " (acceleration: " << accelFactor << "x)";
+
+
         // Subtract 1 from sizes because we start counting from 0.
         // Not doing it would result in attempts to paint outside of the image.
         const float hPrediv = (float)(wh-1)/255;
         const float wPrediv = (float)(ww-1)/(iw-1);
-
-        const float brightnessAdjustment = accelFactor * ((float) ww*wh/(byteCount>>3));
 
         const uchar *bits = image.bits();
         const uint stepsize = 4*accelFactor;
@@ -81,27 +94,39 @@ QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, const QIm
 
             dy = dY*hPrediv;
             dx = x*wPrediv;
-            wavePoint = QPoint((int)dx, (int)(wh-1 - dy));
-
-            waveCol = QRgb(wave.pixel(wavePoint));
-            switch (paintMode) {
-            case PaintMode_Green:
-                wave.setPixel(wavePoint, qRgba(CHOP255(9 + qRed(waveCol)), CHOP255(36 + qGreen(waveCol)),
-                                               CHOP255(18 + qBlue(waveCol)), 255));
-                break;
-            case PaintMode_Yellow:
-                wave.setPixel(wavePoint, qRgba(255, 242,
-                                               0, CHOP255(brightnessAdjustment*10+qAlpha(waveCol))));
-                break;
-            default:
-                wave.setPixel(wavePoint, qRgba(255,255,255,
-                                               CHOP255(brightnessAdjustment*32+qAlpha(waveCol))));
-                break;
-            }
+            waveValues[(int)dx][(int)dy]++;
 
             bits += stepsize;
             x += stepsize;
             x %= iw; // Modulo image width, to represent the current x position in the image
+        }
+
+        switch (paintMode) {
+        case PaintMode_Green:
+            for (int i = 0; i < waveformSize.width(); i++) {
+                for (int j = 0; j < waveformSize.height(); j++) {
+                    // Logarithmic scale. Needs fine tuning by hand, but looks great.
+                    wave.setPixel(i, waveformSize.height()-j-1, qRgba(CHOP255(52*log(0.1*gain*waveValues[i][j])),
+                                                                      CHOP255(52*log(gain*waveValues[i][j])),
+                                                                      CHOP255(52*log(.25*gain*waveValues[i][j])),
+                                                                      CHOP255(64*log(gain*waveValues[i][j]))));
+                }
+            }
+            break;
+        case PaintMode_Yellow:
+            for (int i = 0; i < waveformSize.width(); i++) {
+                for (int j = 0; j < waveformSize.height(); j++) {
+                    wave.setPixel(i, waveformSize.height()-j-1, qRgba(255,242,0,   CHOP255(gain*waveValues[i][j])));
+                }
+            }
+            break;
+        default:
+            for (int i = 0; i < waveformSize.width(); i++) {
+                for (int j = 0; j < waveformSize.height(); j++) {
+                    wave.setPixel(i, waveformSize.height()-j-1, qRgba(255,255,255, CHOP255(2*gain*waveValues[i][j])));
+                }
+            }
+            break;
         }
 
         if (drawAxis) {
