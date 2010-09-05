@@ -4402,6 +4402,8 @@ void CustomTrackView::prepareResizeClipStart(AbstractClipItem* item, ItemInfo ol
              */
             ClipItem *clip = static_cast < ClipItem * >(item);
 
+            updatePositionEffects(clip, oldInfo);
+
             // check keyframes
             QDomDocument doc;
             QDomElement root = doc.createElement("list");
@@ -4414,8 +4416,6 @@ void CustomTrackView::prepareResizeClipStart(AbstractClipItem* item, ItemInfo ol
                     indexes.append(i);
                 }
             }
-
-            updatePanZoom(clip);
 
             if (clip->checkEffectsKeyframesPos(oldInfo.cropStart.frames(m_document->fps()), clip->cropStart().frames(m_document->fps()), true)) {
                 // Keyframes were modified, updateClip
@@ -4435,8 +4435,6 @@ void CustomTrackView::prepareResizeClipStart(AbstractClipItem* item, ItemInfo ol
             } else {
                 new ResizeClipCommand(this, oldInfo, info, false, false, command);
             }
-
-            updatePositionEffects(clip, oldInfo);
         } else {
             KdenliveSettings::setSnaptopoints(false);
             item->resizeStart((int) oldInfo.startPos.frames(m_document->fps()));
@@ -4522,8 +4520,11 @@ void CustomTrackView::prepareResizeClipEnd(AbstractClipItem* item, ItemInfo oldI
 
             }
 
-            // check keyframes
             ClipItem *clip = static_cast < ClipItem * >(item);
+
+            updatePositionEffects(clip, oldInfo);
+
+            // check keyframes
             QDomDocument doc;
             QDomElement root = doc.createElement("list");
             doc.appendChild(root);
@@ -4535,8 +4536,6 @@ void CustomTrackView::prepareResizeClipEnd(AbstractClipItem* item, ItemInfo oldI
                     indexes.append(i);
                 }
             }
-            
-            updatePanZoom(clip);
 
             if (clip->checkEffectsKeyframesPos((oldInfo.cropStart + oldInfo.endPos - oldInfo.startPos).frames(m_document->fps()) - 1, (clip->cropStart() + clip->cropDuration()).frames(m_document->fps()) - 1, false)) {
                 // Keyframes were modified, updateClip
@@ -4556,8 +4555,6 @@ void CustomTrackView::prepareResizeClipEnd(AbstractClipItem* item, ItemInfo oldI
             } else {
                 new ResizeClipCommand(this, oldInfo, info, false, false, command);
             }
-
-            updatePositionEffects(clip, oldInfo);
         } else {
             KdenliveSettings::setSnaptopoints(false);
             item->resizeEnd((int) oldInfo.endPos.frames(m_document->fps()));
@@ -4682,23 +4679,7 @@ void CustomTrackView::updatePositionEffects(ClipItem * item, ItemInfo info)
         }
     }
 
-    effectPos = item->hasEffect("affine", "pan_zoom");
-    if (effectPos != -1) {
-        QDomElement oldeffect = item->effectAt(effectPos);
-        int start = item->cropStart().frames(m_document->fps());
-        int max = start + item->cropDuration().frames(m_document->fps());
-        if (start < 0) {
-            max -= start;
-            start = 0;
-        }
-        oldeffect.setAttribute("in", start);
-        oldeffect.setAttribute("out", max);
-
-        if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - item->track(), item->startPos(), getEffectArgs(oldeffect)))
-            emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
-        // if effect is displayed, update the effect edit widget with new clip duration
-        if (item->isSelected() && effectPos == item->selectedEffectIndex()) emit clipItemSelected(item, effectPos);
-    }
+    updatePanZoom(item);
 }
 
 double CustomTrackView::getSnapPointForPos(double pos)
@@ -6462,7 +6443,10 @@ void CustomTrackView::updatePanZoom(ClipItem* item, GenTime cutPos)
             emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
 
         // if effect is displayed, update the effect edit widget with new clip duration
-        if (item->isSelected() && effects.at(i) == item->selectedEffectIndex())
-            emit clipItemSelected(item, effects.at(i));
+        /*if (item->isSelected() && effects.at(i) == item->selectedEffectIndex())
+            emit clipItemSelected(item, effects.at(i));*/
     }
+    // update always, otherwise there might problems when resizing groups
+    if (effects.count() > 0)
+        emit clipItemSelected(item, item->selectedEffectIndex());
 }
