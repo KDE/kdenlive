@@ -2709,6 +2709,9 @@ void MainWindow::slotFitZoom()
 
 void MainWindow::slotSetZoom(int value)
 {
+    value = qMax(m_zoomSlider->minimum(), value);
+    value = qMin(m_zoomSlider->maximum(), value);
+
     if (m_activeTimeline)
         m_activeTimeline->slotChangeZoom(value);
 
