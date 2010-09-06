@@ -333,6 +333,10 @@ private:
     QMutex m_mutex;
     QWaitCondition m_producerNotReady;
 
+    /** stores the state of the control modifier during mouse press.
+     * Will then be used to identify whether we resize a group or only one item of it. */
+    bool m_controlModifier;
+
     /** Get the index of the video track that is just below current track */
     int getPreviousVideoTrack(int track);
     void updatePositionEffects(ClipItem * item, ItemInfo info);

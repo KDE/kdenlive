@@ -124,7 +124,8 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscen
         m_menuPosition(),
         m_blockRefresh(false),
         m_selectionGroup(NULL),
-        m_selectedTrack(0)
+        m_selectedTrack(0),
+        m_controlModifier(false)
 {
     if (doc) m_commandStack = doc->commandStack();
     else m_commandStack = NULL;
@@ -394,7 +395,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
                 }
             } else if (m_operationMode == RESIZESTART && move) {
                 m_document->renderer()->pause();
-                if (event->modifiers() != Qt::ControlModifier && m_dragItem->type() == AVWIDGET && m_dragItem->parentItem() && m_dragItem->parentItem() != m_selectionGroup) {
+                if (!m_controlModifier && m_dragItem->type() == AVWIDGET && m_dragItem->parentItem() && m_dragItem->parentItem() != m_selectionGroup) {
                     AbstractGroupItem *parent = static_cast <AbstractGroupItem *>(m_dragItem->parentItem());
                     if (parent)
                         parent->resizeStart((int)(snappedPos) - m_dragItemInfo.startPos.frames(m_document->fps()));
@@ -403,7 +404,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
                 }
             } else if (m_operationMode == RESIZEEND && move) {
                 m_document->renderer()->pause();
-                if (event->modifiers() != Qt::ControlModifier && m_dragItem->type() == AVWIDGET && m_dragItem->parentItem() && m_dragItem->parentItem() != m_selectionGroup) {
+                if (!m_controlModifier && m_dragItem->type() == AVWIDGET && m_dragItem->parentItem() && m_dragItem->parentItem() != m_selectionGroup) {
                     AbstractGroupItem *parent = static_cast <AbstractGroupItem *>(m_dragItem->parentItem());
                     if (parent)
                         parent->resizeEnd((int)(snappedPos) - m_dragItemInfo.endPos.frames(m_document->fps()));
@@ -938,6 +939,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
 
     m_clickPoint = QPoint((int)(mapToScene(event->pos()).x() - m_dragItem->startPos().frames(m_document->fps())), (int)(event->pos().y() - m_dragItem->pos().y()));
     m_operationMode = m_dragItem->operationMode(mapToScene(event->pos()));
+    m_controlModifier = (event->modifiers() == Qt::ControlModifier);
 
     // Update snap points
     if (m_selectionGroup == NULL) {
@@ -3356,7 +3358,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
         m_document->renderer()->doRefresh();
     } else if (m_operationMode == RESIZESTART && m_dragItem->startPos() != m_dragItemInfo.startPos) {
         // resize start
-        if (event->modifiers() != Qt::ControlModifier && m_dragItem->type() == AVWIDGET && m_dragItem->parentItem() && m_dragItem->parentItem() != m_selectionGroup) {
+        if (!m_controlModifier && m_dragItem->type() == AVWIDGET && m_dragItem->parentItem() && m_dragItem->parentItem() != m_selectionGroup) {
             AbstractGroupItem *parent = static_cast <AbstractGroupItem *>(m_dragItem->parentItem());
             if (parent) {
                 QUndoCommand *resizeCommand = new QUndoCommand();
@@ -3380,7 +3382,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
         }
     } else if (m_operationMode == RESIZEEND && m_dragItem->endPos() != m_dragItemInfo.endPos) {
         // resize end
-        if (event->modifiers() != Qt::ControlModifier && m_dragItem->type() == AVWIDGET && m_dragItem->parentItem() && m_dragItem->parentItem() != m_selectionGroup) {
+        if (!m_controlModifier && m_dragItem->type() == AVWIDGET && m_dragItem->parentItem() && m_dragItem->parentItem() != m_selectionGroup) {
             AbstractGroupItem *parent = static_cast <AbstractGroupItem *>(m_dragItem->parentItem());
             if (parent) {
                 QUndoCommand *resizeCommand = new QUndoCommand();
