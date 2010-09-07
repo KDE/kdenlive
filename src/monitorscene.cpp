@@ -40,19 +40,19 @@ MonitorScene::MonitorScene(Render *renderer, QObject* parent) :
 {
     setBackgroundBrush(QBrush(QColor(KdenliveSettings::window_background().name())));
 
-    QPen framepen(Qt::SolidLine);
+    QPen framepen(Qt::DotLine);
     framepen.setColor(Qt::red);
 
     m_frameBorder = new QGraphicsRectItem(QRectF(0, 0, m_renderer->frameRenderWidth(), m_renderer->renderHeight()));
     m_frameBorder->setPen(framepen);
-    m_frameBorder->setZValue(-2);
+    m_frameBorder->setZValue(-1);
     m_frameBorder->setBrush(Qt::transparent);
     m_frameBorder->setFlags(0);
     addItem(m_frameBorder);
 
     m_lastUpdate.start();
     m_background = new QGraphicsPixmapItem();
-    m_background->setZValue(-1);
+    m_background->setZValue(-2);
     m_background->setFlags(0);
     m_background->setShapeMode(QGraphicsPixmapItem::BoundingRectShape);
     m_background->setTransformationMode(Qt::FastTransformation);
@@ -90,7 +90,7 @@ void MonitorScene::slotUpdateBackground()
 {
     if (m_view && m_view->isVisible()) {
         if (m_lastUpdate.elapsed() > 100) {
-            m_background->setPixmap(QPixmap::fromImage(m_backgroundImage, Qt::ThresholdDither));
+            m_background->setPixmap(QPixmap::fromImage(m_backgroundImage));
             m_lastUpdate.start();
         }
     }

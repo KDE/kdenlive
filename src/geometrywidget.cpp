@@ -362,7 +362,7 @@ void GeometryWidget::slotCheckMonitorPosition(int renderPos)
     if (m_showScene) {
         /*
             We do only get the position in timeline if this geometry belongs to a transition,
-            therefore we need to ways here.
+            therefore we need two ways here.
         */
         if (m_isEffect) {
             emit checkMonitorPosition(renderPos);
