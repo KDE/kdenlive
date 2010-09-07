@@ -658,8 +658,7 @@ void DocClipBase::slotRefreshProducer()
             while (filter) {
                 if (strcmp(filter->get("mlt_service"), "affine") == 0) {
                     break;
-                }
-                else if (strcmp(filter->get("mlt_service"), "boxblur") == 0) {
+                } else if (strcmp(filter->get("mlt_service"), "boxblur") == 0) {
                     clipService.detach(*filter);
                 } else ct++;
                 filter = clipService.filter(ct);
@@ -786,7 +785,7 @@ void DocClipBase::setProperties(QMap <QString, QString> properties)
     QMapIterator<QString, QString> i(properties);
     bool refreshProducer = false;
     QStringList keys;
-    keys << "luma_duration" << "luma_file" << "fade" << "ttl" << "softness";
+    keys << "luma_duration" << "luma_file" << "fade" << "ttl" << "softness" << "crop" << "animation";
     while (i.hasNext()) {
         i.next();
         setProperty(i.key(), i.value());
