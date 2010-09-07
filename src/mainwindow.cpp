@@ -172,26 +172,26 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
 
     m_projectListDock = new QDockWidget(i18n("Project Tree"), this);
     m_projectListDock->setObjectName("project_tree");
-    m_projectList = new ProjectList(this);
+    m_projectList = new ProjectList();
     m_projectListDock->setWidget(m_projectList);
     addDockWidget(Qt::TopDockWidgetArea, m_projectListDock);
 
     m_clipMonitorDock = new QDockWidget(i18n("Clip Monitor"), this);
     m_clipMonitorDock->setObjectName("clip_monitor");
-    m_clipMonitor = new Monitor("clip", m_monitorManager, QString(), this);
+    m_clipMonitor = new Monitor("clip", m_monitorManager, QString());
     m_clipMonitorDock->setWidget(m_clipMonitor);
     addDockWidget(Qt::TopDockWidgetArea, m_clipMonitorDock);
 
     m_projectMonitorDock = new QDockWidget(i18n("Project Monitor"), this);
     m_projectMonitorDock->setObjectName("project_monitor");
-    m_projectMonitor = new Monitor("project", m_monitorManager, QString(), this);
+    m_projectMonitor = new Monitor("project", m_monitorManager, QString());
     m_projectMonitorDock->setWidget(m_projectMonitor);
     addDockWidget(Qt::TopDockWidgetArea, m_projectMonitorDock);
 
 #ifndef Q_WS_MAC
     m_recMonitorDock = new QDockWidget(i18n("Record Monitor"), this);
     m_recMonitorDock->setObjectName("record_monitor");
-    m_recMonitor = new RecMonitor("record", this);
+    m_recMonitor = new RecMonitor("record");
     m_recMonitorDock->setWidget(m_recMonitor);
     addDockWidget(Qt::TopDockWidgetArea, m_recMonitorDock);
     connect(m_recMonitor, SIGNAL(addProjectClip(KUrl)), this, SLOT(slotAddProjectClip(KUrl)));
@@ -200,13 +200,13 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
 
     m_effectStackDock = new QDockWidget(i18n("Effect Stack"), this);
     m_effectStackDock->setObjectName("effect_stack");
-    m_effectStack = new EffectStackView(m_projectMonitor, this);
+    m_effectStack = new EffectStackView(m_projectMonitor);
     m_effectStackDock->setWidget(m_effectStack);
     addDockWidget(Qt::TopDockWidgetArea, m_effectStackDock);
 
     m_transitionConfigDock = new QDockWidget(i18n("Transition"), this);
     m_transitionConfigDock->setObjectName("transition");
-    m_transitionConfig = new TransitionSettings(m_projectMonitor, this);
+    m_transitionConfig = new TransitionSettings(m_projectMonitor);
     m_transitionConfigDock->setWidget(m_transitionConfig);
     addDockWidget(Qt::TopDockWidgetArea, m_transitionConfigDock);
 
@@ -216,7 +216,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
     m_effectListDock->setWidget(m_effectList);
     addDockWidget(Qt::TopDockWidgetArea, m_effectListDock);
 
-    m_vectorscope = new Vectorscope(m_projectMonitor, m_clipMonitor, this);
+    m_vectorscope = new Vectorscope(m_projectMonitor, m_clipMonitor);
     m_vectorscopeDock = new QDockWidget(i18n("Vectorscope"), this);
     m_vectorscopeDock->setObjectName(m_vectorscope->widgetName());
     m_vectorscopeDock->setWidget(m_vectorscope);
@@ -226,7 +226,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
     connect(m_vectorscope, SIGNAL(requestAutoRefresh(bool)), this, SLOT(slotUpdateScopeFrameRequest()));
     m_scopesList.append(m_vectorscopeDock);
 
-    m_waveform = new Waveform(m_projectMonitor, m_clipMonitor, this);
+    m_waveform = new Waveform(m_projectMonitor, m_clipMonitor);
     m_waveformDock = new QDockWidget(i18n("Waveform"), this);
     m_waveformDock->setObjectName(m_waveform->widgetName());
     m_waveformDock->setWidget(m_waveform);
@@ -236,7 +236,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
     connect(m_waveform, SIGNAL(requestAutoRefresh(bool)), this, SLOT(slotUpdateScopeFrameRequest()));
     m_scopesList.append(m_waveformDock);
 
-    m_RGBParade = new RGBParade(m_projectMonitor, m_clipMonitor, this);
+    m_RGBParade = new RGBParade(m_projectMonitor, m_clipMonitor);
     m_RGBParadeDock = new QDockWidget(i18n("RGB Parade"), this);
     m_RGBParadeDock->setObjectName(m_RGBParade->widgetName());
     m_RGBParadeDock->setWidget(m_RGBParade);
@@ -246,7 +246,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
     connect(m_RGBParade, SIGNAL(requestAutoRefresh(bool)), this, SLOT(slotUpdateScopeFrameRequest()));
     m_scopesList.append(m_RGBParadeDock);
 
-    m_histogram = new Histogram(m_projectMonitor, m_clipMonitor, this);
+    m_histogram = new Histogram(m_projectMonitor, m_clipMonitor);
     m_histogramDock = new QDockWidget(i18n("Histogram"), this);
     m_histogramDock->setObjectName(m_histogram->widgetName());
     m_histogramDock->setWidget(m_histogram);
@@ -259,7 +259,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
 
     m_undoViewDock = new QDockWidget(i18n("Undo History"), this);
     m_undoViewDock->setObjectName("undo_history");
-    m_undoView = new QUndoView(this);
+    m_undoView = new QUndoView();
     m_undoView->setCleanIcon(KIcon("edit-clear"));
     m_undoView->setEmptyLabel(i18n("Clean"));
     m_undoViewDock->setWidget(m_undoView);
