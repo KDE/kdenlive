@@ -322,6 +322,7 @@ QDomElement Transition::toXML()
     m_parameters.setAttribute("start", startPos().frames(m_fps));
     m_parameters.setAttribute("end", endPos().frames(m_fps));
     m_parameters.setAttribute("force_track", m_forceTransitionTrack);
+    m_parameters.setAttribute("automatic", m_automaticTransition);
 
     if (m_secondClip) {
         m_parameters.setAttribute("clipb_starttime", m_secondClip->startPos().frames(m_referenceClip->fps()));
