@@ -224,11 +224,11 @@ add_subdirectory( ${CMAKE_SOURCE_DIR}/src/colorcorrection )
 
 add_definitions( ${KDE4_DEFINITIONS} )
 
-if(NO_JOGSHUTTLE)
+if(APPLE OR CMAKE_SYSTEM_NAME STREQUAL "FreeBSD" OR NO_JOGSHUTTLE)
   add_definitions(-DNO_JOGSHUTTLE)
-else(NO_JOGSHUTTLE)
+else(APPLE OR CMAKE_SYSTEM_NAME STREQUAL "FreeBSD" OR NO_JOGSHUTTLE)
   set(kdenlive_SRCS jogshuttle.cpp ${kdenlive_SRCS})
-endif(NO_JOGSHUTTLE)
+endif(APPLE OR CMAKE_SYSTEM_NAME STREQUAL "FreeBSD" OR NO_JOGSHUTTLE)
 
 if (APPLE)
   set(kdenlive_SRCS videoglwidget.cpp ${kdenlive_SRCS})
