@@ -684,7 +684,7 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
         if (aindex != 0) producer->set("audio_index", aindex);
     }
 
-    // setup length here as otherwise default length (currently 15000 frames in MLT) will be taken although outpoint is larger
+    // setup length here as otherwise default length (currently 15000 frames in MLT) will be taken even if outpoint is larger
     if (xml.attribute("type").toInt() == COLOR || xml.attribute("type").toInt() == TEXT
             || xml.attribute("type").toInt() == IMAGE || xml.attribute("type").toInt() == SLIDESHOW)
         producer->set("length", xml.attribute("out").toInt() - xml.attribute("in").toInt() + 1);
@@ -3068,7 +3068,7 @@ bool Render::mltResizeClipStart(ItemInfo info, GenTime diff)
     }
     int previousStart = clip->get_in();
     int previousOut = clip->get_out();
-    delete clip;
+
     m_isBlocked = true;
     previousStart += moveFrame;
     if (previousStart < 0) {
@@ -3076,10 +3076,20 @@ bool Render::mltResizeClipStart(ItemInfo info, GenTime diff)
         previousOut -= previousStart;
         previousStart = 0;
     }
+
+    int length = previousOut + 1;
+    if (length > clip->get_length()) {
+        clip->parent().set("length", length + 1);
+        clip->parent().set("out", length);
+        clip->set("length", length + 1);
+    }
+    delete clip;
+
     // kDebug() << "RESIZE, new start: " << previousStart << ", " << previousOut;
     trackPlaylist.resize_clip(clipIndex, previousStart, previousOut);
-    if (moveFrame > 0) trackPlaylist.insert_blank(clipIndex, moveFrame - 1);
-    else {
+    if (moveFrame > 0) {
+        trackPlaylist.insert_blank(clipIndex, moveFrame - 1);
+    } else {
         //int midpos = info.startPos.frames(m_fps) + moveFrame - 1;
         int blankIndex = clipIndex - 1;
         int blankLength = trackPlaylist.clip_length(blankIndex);
