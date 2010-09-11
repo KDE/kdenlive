@@ -2209,7 +2209,8 @@ void CustomTrackView::updateTransition(int track, GenTime pos, QDomElement oldTr
         return;
     }
     bool force = false;
-    if (oldTransition.attribute("transition_atrack") != transition.attribute("transition_atrack") || oldTransition.attribute("transition_btrack") != transition.attribute("transition_btrack")) force = true;
+    if (oldTransition.attribute("transition_atrack") != transition.attribute("transition_atrack") || oldTransition.attribute("transition_btrack") != transition.attribute("transition_btrack"))
+        force = true;
     m_document->renderer()->mltUpdateTransition(oldTransition.attribute("tag"), transition.attribute("tag"), transition.attribute("transition_btrack").toInt(), m_document->tracksCount() - transition.attribute("transition_atrack").toInt(), item->startPos(), item->endPos(), transition, force);
     //kDebug() << "ORIGINAL TRACK: "<< oldTransition.attribute("transition_btrack") << ", NEW TRACK: "<<transition.attribute("transition_btrack");
     item->setTransitionParameters(transition);

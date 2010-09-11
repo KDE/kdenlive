@@ -2838,6 +2838,8 @@ void MainWindow::slotShowClipProperties(DocClipBase *clip)
         //m_activeDocument->editTextClip(clip->getProperty("xml"), clip->getId());
         return;
     }
+
+    // any type of clip but a title
     ClipProperties dia(clip, m_activeDocument->timecode(), m_activeDocument->fps(), this);
     connect(&dia, SIGNAL(addMarker(const QString &, GenTime, QString)), m_activeTimeline->projectView(), SLOT(slotAddClipMarker(const QString &, GenTime, QString)));
     if (dia.exec() == QDialog::Accepted) {
@@ -2845,6 +2847,7 @@ void MainWindow::slotShowClipProperties(DocClipBase *clip)
         if (newprops.isEmpty()) return;
         EditClipCommand *command = new EditClipCommand(m_projectList, clip->getId(), clip->properties(), newprops, true);
         m_activeDocument->commandStack()->push(command);
+        m_activeDocument->setModified();
 
         if (dia.needsTimelineRefresh()) {
             // update clip occurences in timeline
