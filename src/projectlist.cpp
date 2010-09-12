@@ -1092,7 +1092,7 @@ void ProjectList::slotAddClip(const QList <QUrl> givenList, const QString &group
                 KFileItem item(KFileItem::Unknown, KFileItem::Unknown, url);
                 if (item.mimetype().startsWith("image")) {
                     int count = 0;
-                    // import as sequence if we found at least 5 images in the sequence
+                    // import as sequence if we found more than one image in the sequence
                     QString pattern = SlideshowClip::selectedPath(url.path(), false, QString(), &count);
                     if (count > 1) {
                         delete d;
