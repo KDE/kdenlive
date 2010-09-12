@@ -55,8 +55,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
         m_render(render),
         m_commandStack(new QUndoStack(undoGroup)),
         m_modified(false),
-        m_projectFolder(projectFolder),
-        m_abortLoading(false)
+        m_projectFolder(projectFolder)
 {
     m_clipManager = new ClipManager(this);
     m_autoSaveTimer = new QTimer(this);
@@ -91,7 +90,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                 success = validator.isProject();
                 if (!success) {
                     // It is not a project file
-                    parent->slotGotProgressInfo(i18n("File %1 is not a Kdenlive project file", m_url.path()), 0);
+                    parent->slotGotProgressInfo(i18n("File %1 is not a Kdenlive project file", m_url.path()), 100);
                 } else {
                     /*
                      * Validate the file against the current version (upgrade
@@ -100,95 +99,96 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                     // TODO: backup the document or alert the user?
                     success = validator.validate(DOCUMENTVERSION);
                     if (success) { // Let the validator handle error messages
-                        parent->slotGotProgressInfo(i18n("Loading"), 0);
-                        QDomElement mlt = m_document.firstChildElement("mlt");
-                        QDomElement infoXml = mlt.firstChildElement("kdenlivedoc");
-
-                        profileName = infoXml.attribute("profile");
-                        m_projectFolder = KUrl(infoXml.attribute("projectfolder"));
-                        QDomElement docproperties = infoXml.firstChildElement("documentproperties");
-                        QDomNamedNodeMap props = docproperties.attributes();
-                        for (int i = 0; i < props.count(); i++) {
-                            m_documentProperties.insert(props.item(i).nodeName(), props.item(i).nodeValue());
-                        }
-                        // Build tracks
-                        QDomElement e;
-                        QDomElement tracksinfo = infoXml.firstChildElement("tracksinfo");
-                        if (!tracksinfo.isNull()) {
-                            QDomNodeList trackslist = tracksinfo.childNodes();
-                            int maxchild = trackslist.count();
-                            for (int k = 0; k < maxchild; k++) {
-                                e = trackslist.at(k).toElement();
-                                if (e.tagName() == "trackinfo") {
-                                    TrackInfo projectTrack;
-                                    if (e.attribute("type") == "audio") projectTrack.type = AUDIOTRACK;
-                                    else projectTrack.type = VIDEOTRACK;
-                                    projectTrack.isMute = e.attribute("mute").toInt();
-                                    projectTrack.isBlind = e.attribute("blind").toInt();
-                                    projectTrack.isLocked = e.attribute("locked").toInt();
-                                    projectTrack.trackName = e.attribute("trackname");
-                                    m_tracksList.append(projectTrack);
-                                }
-                            }
-                            mlt.removeChild(tracksinfo);
-                        }
-                        QDomNodeList producers = m_document.elementsByTagName("producer");
-                        QDomNodeList infoproducers = m_document.elementsByTagName("kdenlive_producer");
                         parent->slotGotProgressInfo(i18n("Check missing clips"), 0);
-                        if (checkDocumentClips(infoproducers) == false) m_abortLoading = true;
-                        const int max = producers.count();
-                        const int infomax = infoproducers.count();
+                        QDomNodeList infoproducers = m_document.elementsByTagName("kdenlive_producer");
+                        success = checkDocumentClips(infoproducers);
+                        if (success) {
+                            parent->slotGotProgressInfo(i18n("Loading"), 0);
+                            QDomElement mlt = m_document.firstChildElement("mlt");
+                            QDomElement infoXml = mlt.firstChildElement("kdenlivedoc");
+                            QDomElement e;
 
-                        QDomNodeList                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    folders = m_document.elementsByTagName("folder");
-                        for (int i = 0; i < folders.count(); i++) {
-                            e = folders.item(i).cloneNode().toElement();
-                            m_clipManager->addFolder(e.attribute("id"), e.attribute("name"));
-                        }
+                            // Build tracks
+                            QDomElement tracksinfo = infoXml.firstChildElement("tracksinfo");
+                            if (!tracksinfo.isNull()) {
+                                QDomNodeList trackslist = tracksinfo.childNodes();
+                                int maxchild = trackslist.count();
+                                for (int k = 0; k < maxchild; k++) {
+                                    e = trackslist.at(k).toElement();
+                                    if (e.tagName() == "trackinfo") {
+                                        TrackInfo projectTrack;
+                                        if (e.attribute("type") == "audio")
+                                            projectTrack.type = AUDIOTRACK;
+                                        else
+                                            projectTrack.type = VIDEOTRACK;
+                                        projectTrack.isMute = e.attribute("mute").toInt();
+                                        projectTrack.isBlind = e.attribute("blind").toInt();
+                                        projectTrack.isLocked = e.attribute("locked").toInt();
+                                        projectTrack.trackName = e.attribute("trackname");
+                                        m_tracksList.append(projectTrack);
+                                    }
+                                }
+                                mlt.removeChild(tracksinfo);
+                            }
 
-                        for (int i = 0; i < infomax && !m_abortLoading; i++) {
-                            e = infoproducers.item(i).cloneNode().toElement();
-                            QString prodId = e.attribute("id");
-                            if (!e.isNull() && prodId != "black" && !prodId.startsWith("slowmotion") && !m_abortLoading) {
-                                e.setTagName("producer");
-                                // Get MLT's original producer properties
-                                QDomElement orig;
-                                for (int j = 0; j < max; j++) {
-                                    QDomElement o = producers.item(j).cloneNode().toElement();
-                                    QString origId = o.attribute("id").section('_', 0, 0);
-                                    if (origId == prodId) {
-                                        orig = o;
+                            QDomNodeList                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    folders = m_document.elementsByTagName("folder");
+                            for (int i = 0; i < folders.count(); i++) {
+                                e = folders.item(i).cloneNode().toElement();
+                                m_clipManager->addFolder(e.attribute("id"), e.attribute("name"));
+                            }
+
+                            const int infomax = infoproducers.count();
+                            QDomNodeList producers = m_document.elementsByTagName("producer");
+                            const int max = producers.count();
+
+                            for (int i = 0; i < infomax; i++) {
+                                e = infoproducers.item(i).cloneNode().toElement();
+                                QString prodId = e.attribute("id");
+                                if (!e.isNull() && prodId != "black" && !prodId.startsWith("slowmotion")) {
+                                    e.setTagName("producer");
+                                    // Get MLT's original producer properties
+                                    QDomElement orig;
+                                    for (int j = 0; j < max; j++) {
+                                        QDomElement o = producers.item(j).cloneNode().toElement();
+                                        QString origId = o.attribute("id").section('_', 0, 0);
+                                        if (origId == prodId) {
+                                            orig = o;
+                                            break;
+                                        }
+                                    }
+                                    if (!addClipInfo(e, orig, prodId)) {
+                                        // The user manually aborted the loading.
+                                        success = false;
+                                        emit resetProjectList();
+                                        m_tracksList.clear();
+                                        m_clipManager->clear();
                                         break;
                                     }
                                 }
-                                addClipInfo(e, orig, prodId);
                             }
-                        }
-                        if (m_abortLoading) {
-                            //parent->slotGotProgressInfo(i18n("File %1 is not a Kdenlive project file."), 100);
-                            emit resetProjectList();
-                            m_documentProperties.remove("position");
-                            m_url = KUrl();
-                            m_tracksList.clear();
-                            kWarning() << "Aborted loading of: " << url.path();
-                            m_document = createEmptyDocument(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks());
-                            setProfilePath(KdenliveSettings::default_profile());
-                            m_clipManager->clear();
-                        } else {
-                            QDomElement markers = infoXml.firstChildElement("markers");
-                            if (!markers.isNull()) {
-                                QDomNodeList markerslist = markers.childNodes();
-                                int maxchild = markerslist.count();
-                                for (int k = 0; k < maxchild; k++) {
-                                    e = markerslist.at(k).toElement();
-                                    if (e.tagName() == "marker") {
-                                        m_clipManager->getClipById(e.attribute("id"))->addSnapMarker(GenTime(e.attribute("time").toDouble()), e.attribute("comment"));
+
+                            if (success) {
+                                QDomElement markers = infoXml.firstChildElement("markers");
+                                if (!markers.isNull()) {
+                                    QDomNodeList markerslist = markers.childNodes();
+                                    int maxchild = markerslist.count();
+                                    for (int k = 0; k < maxchild; k++) {
+                                        e = markerslist.at(k).toElement();
+                                        if (e.tagName() == "marker")
+                                            m_clipManager->getClipById(e.attribute("id"))->addSnapMarker(GenTime(e.attribute("time").toDouble()), e.attribute("comment"));
                                     }
+                                    infoXml.removeChild(markers);
                                 }
-                                infoXml.removeChild(markers);
+
+                                m_projectFolder = KUrl(infoXml.attribute("projectfolder"));
+                                QDomElement docproperties = infoXml.firstChildElement("documentproperties");
+                                QDomNamedNodeMap props = docproperties.attributes();
+                                for (int i = 0; i < props.count(); i++)
+                                    m_documentProperties.insert(props.item(i).nodeName(), props.item(i).nodeValue());
+                                setProfilePath(infoXml.attribute("profile"));
+                                setModified(validator.isModified());
+                                kDebug() << "Reading file: " << url.path() << ", found clips: " << producers.count();
                             }
-                            setProfilePath(profileName);
-                            setModified(validator.isModified());
-                            kDebug() << "Reading file: " << url.path() << ", found clips: " << producers.count();
                         }
                     }
                 }
@@ -198,8 +198,8 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
 
     // Something went wrong, or a new file was requested: create a new project
     if (!success) {
-        setProfilePath(profileName);
         m_url = KUrl();
+        setProfilePath(profileName);
         m_document = createEmptyDocument(tracks.x(), tracks.y());
     }
 
@@ -865,7 +865,7 @@ const QString KdenliveDoc::description() const
         return m_url.fileName() + " / " + m_profile.description;
 }
 
-void KdenliveDoc::addClip(QDomElement elem, QString clipId, bool createClipItem)
+bool KdenliveDoc::addClip(QDomElement elem, QString clipId, bool createClipItem)
 {
     const QString producerId = clipId.section('_', 0, 0);
     DocClipBase *clip = m_clipManager->getClipById(producerId);
@@ -886,8 +886,10 @@ void KdenliveDoc::addClip(QDomElement elem, QString clipId, bool createClipItem)
             QString newpath;
             int action = KMessageBox::No;
             if (!size.isEmpty() && !hash.isEmpty()) {
-                if (!m_searchFolder.isEmpty()) newpath = searchFileRecursively(m_searchFolder, size, hash);
-                else action = (KMessageBox::ButtonCode) KMessageBox::questionYesNoCancel(kapp->activeWindow(), i18n("Clip <b>%1</b><br />is invalid, what do you want to do?", path), i18n("File not found"), KGuiItem(i18n("Search automatically")), KGuiItem(i18n("Keep as placeholder")));
+                if (!m_searchFolder.isEmpty())
+                    newpath = searchFileRecursively(m_searchFolder, size, hash);
+                else
+                    action = (KMessageBox::ButtonCode) KMessageBox::questionYesNoCancel(kapp->activeWindow(), i18n("Clip <b>%1</b><br />is invalid, what do you want to do?", path), i18n("File not found"), KGuiItem(i18n("Search automatically")), KGuiItem(i18n("Keep as placeholder")));
             } else {
                 if (elem.attribute("type").toInt() == SLIDESHOW) {
                     int res = KMessageBox::questionYesNoCancel(kapp->activeWindow(), i18n("Clip <b>%1</b><br />is invalid or missing, what do you want to do?", path), i18n("File not found"), KGuiItem(i18n("Search manually")), KGuiItem(i18n("Keep as placeholder")));
@@ -910,18 +912,17 @@ void KdenliveDoc::addClip(QDomElement elem, QString clipId, bool createClipItem)
             if (action == KMessageBox::Yes) {
                 kDebug() << "// ASKED FOR SRCH CLIP: " << clipId;
                 m_searchFolder = KFileDialog::getExistingDirectory(KUrl("kfiledialog:///clipfolder"), kapp->activeWindow());
-                if (!m_searchFolder.isEmpty()) {
+                if (!m_searchFolder.isEmpty())
                     newpath = searchFileRecursively(QDir(m_searchFolder), size, hash);
-                }
             } else if (action == KMessageBox::Cancel) {
-                m_abortLoading = true;
-                return;
+                return false;
             } else if (action == KMessageBox::No) {
                 // Keep clip as placeHolder
                 elem.setAttribute("placeholder", '1');
             }
             if (!newpath.isEmpty()) {
-                if (elem.attribute("type").toInt() == SLIDESHOW) newpath.append('/' + extension);
+                if (elem.attribute("type").toInt() == SLIDESHOW)
+                    newpath.append('/' + extension);
                 elem.setAttribute("resource", newpath);
                 setNewClipResource(clipId, newpath);
                 setModified(true);
@@ -935,6 +936,8 @@ void KdenliveDoc::addClip(QDomElement elem, QString clipId, bool createClipItem)
         emit addProjectClip(clip);
         //qApp->processEvents();
     }
+
+    return true;
 }
 
 void KdenliveDoc::setNewClipResource(const QString &id, const QString &path)
@@ -994,17 +997,17 @@ QString KdenliveDoc::searchFileRecursively(const QDir &dir, const QString &match
     return foundFileName;
 }
 
-void KdenliveDoc::addClipInfo(QDomElement elem, QDomElement orig, QString clipId)
+bool KdenliveDoc::addClipInfo(QDomElement elem, QDomElement orig, QString clipId)
 {
     DocClipBase *clip = m_clipManager->getClipById(clipId);
     if (clip == NULL) {
-        addClip(elem, clipId, false);
+        if (!addClip(elem, clipId, false))
+            return false;
     } else {
         QMap <QString, QString> properties;
         QDomNamedNodeMap attributes = elem.attributes();
-        QString attrname;
         for (int i = 0; i < attributes.count(); i++) {
-            attrname = attributes.item(i).nodeName();
+            QString attrname = attributes.item(i).nodeName();
             if (attrname != "resource")
                 properties.insert(attrname, attributes.item(i).nodeValue());
             kDebug() << attrname << " = " << attributes.item(i).nodeValue();
@@ -1014,19 +1017,19 @@ void KdenliveDoc::addClipInfo(QDomElement elem, QDomElement orig, QString clipId
     }
     if (orig != QDomElement()) {
         QMap<QString, QString> meta;
-        QDomNode m = orig.firstChild();
-        while (!m.isNull()) {
+        for (QDomNode m = orig.firstChild(); !m.isNull(); m = m.nextSibling()) {
             QString name = m.toElement().attribute("name");
-            if (name.startsWith("meta.attr")) {
+            if (name.startsWith("meta.attr"))
                 meta.insert(name.section('.', 2, 3), m.firstChild().nodeValue());
-            }
-            m = m.nextSibling();
         }
         if (!meta.isEmpty()) {
-            if (clip == NULL) clip = m_clipManager->getClipById(clipId);
-            if (clip) clip->setMetadata(meta);
+            if (clip == NULL)
+                clip = m_clipManager->getClipById(clipId);
+            if (clip)
+                clip->setMetadata(meta);
         }
     }
+    return true;
 }
 
 

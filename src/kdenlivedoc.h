@@ -66,27 +66,43 @@ Q_OBJECT public:
     QDomDocument m_guidesXml;
     QDomElement guidesXml() const;
     ClipManager *clipManager();
-    /** @brief Add a clip to the project tree */
-    void addClip(QDomElement elem, QString clipId, bool createClipItem = true);
-    void addClipInfo(QDomElement elem, QDomElement orig, QString clipId);
+
+    /** @brief Adds a clip to the project tree.
+     * @return false if the user aborted the operation, true otherwise */
+    bool addClip(QDomElement elem, QString clipId, bool createClipItem = true);
+
+    /** @brief Updates information about a clip.
+     * @param elem the <kdenlive_producer />
+     * @param orig the potential <producer />
+     * @param clipId the producer id
+     * @return false if the user aborted the operation (in case the clip wasn't
+     *     there yet), true otherwise
+     *
+     * If the clip wasn't added before, it tries to add it to the project. */
+    bool addClipInfo(QDomElement elem, QDomElement orig, QString clipId);
     void slotAddClipFile(const KUrl url, const QString group, const QString &groupId = QString());
     void slotAddClipList(const KUrl::List urls, const QString group, const QString &groupId = QString());
     void deleteClip(const QString &clipId);
     int getFramePos(QString duration);
     DocClipBase *getBaseClip(const QString &clipId);
     void updateClip(const QString id);
-    /** Inform application of the audio thumbnails generation progress */
+
+    /** @brief Informs Kdenlive of the audio thumbnails generation progress. */
     void setThumbsProgress(const QString &message, int progress);
     const QString &profilePath() const;
     MltVideoProfile mltProfile() const;
     const QString description() const;
     void setUrl(KUrl url);
-    /** update project profile, returns true if fps was changed */
+
+    /** @brief Updates the project profile.
+     * @return true if frame rate was changed */
     bool setProfilePath(QString path);
     const QString getFreeClipId();
-    /** does the document need saving */
+
+    /** @brief Defines whether the document needs to be saved. */
     bool isModified() const;
-    /** Returns project folder, used to store project files (titles, effects,...) */
+
+    /** @brief Returns the project folder, used to store project files. */
     KUrl projectFolder() const;
     void syncGuides(QList <Guide *> guides);
     void setZoom(int horizontal, int vertical);
@@ -114,7 +130,8 @@ Q_OBJECT public:
     bool isTrackLocked(int ix) const;
     void setDocumentProperty(const QString &name, const QString &value);
     const QString getDocumentProperty(const QString &name) const;
-    /** @brief get the list of renderer properties that were saved in the document */
+
+    /** @brief Gets the list of renderer properties saved into the document. */
     QMap <QString, QString> getRenderProperties() const;
     void addTrackEffect(int ix, QDomElement effect);
     void removeTrackEffect(int ix, QDomElement effect);
@@ -135,11 +152,12 @@ private:
     MltVideoProfile m_profile;
     QTimer *m_autoSaveTimer;
     QString m_searchFolder;
-    /** tells whether current doc has been changed since last save event */
+
+    /** @brief Tells whether the current document has been changed after being saved. */
     bool m_modified;
-    /** Project folder, used to store project files (titles, effects,...) */
+
+    /** @brief The project folder, used to store project files (titles, effects...). */
     KUrl m_projectFolder;
-    bool m_abortLoading;
     QMap <QString, QString> m_documentProperties;
 
     QList <TrackInfo> m_tracksList;
@@ -147,20 +165,26 @@ private:
     QString searchFileRecursively(const QDir &dir, const QString &matchSize, const QString &matchHash) const;
     void moveProjectData(KUrl url);
     bool checkDocumentClips(QDomNodeList infoproducers);
-    /** Creates a new project */
+
+    /** @brief Creates a new project. */
     QDomDocument createEmptyDocument(int videotracks, int audiotracks);
     QDomDocument createEmptyDocument(QList <TrackInfo> tracks);
 
 public slots:
     void slotCreateXmlClip(const QString &name, const QDomElement xml, QString group, const QString &groupId);
     void slotCreateColorClip(const QString &name, const QString &color, const QString &duration, QString group, const QString &groupId);
-    void slotCreateSlideshowClipFile(const QString name, const QString path, int count, const QString duration,
-                                     const bool loop, const bool crop, const bool fade,
-                                     const QString &luma_duration, const QString &luma_file, const int softness,
-                                     const QString &animation, QString group, const QString &groupId);
+    void slotCreateSlideshowClipFile(const QString name, const QString path,
+                                     int count, const QString duration,
+                                     const bool loop, const bool crop,
+                                     const bool fade, const QString &luma_duration,
+                                     const QString &luma_file, const int softness,
+                                     const QString &animation, QString group,
+                                     const QString &groupId);
     void slotCreateTextClip(QString group, const QString &groupId, const QString &templatePath = QString());
     void slotCreateTextTemplateClip(QString group, const QString &groupId, KUrl path);
-    /** Set to true if document needs saving, false otherwise */
+
+    /** @brief Sets the document as modified or up to date.
+     * @param mod (optional) true if the document has to be saved */
     void setModified(bool mod = true);
     void checkProjectClips();
 
@@ -174,7 +198,10 @@ signals:
     void updateClipDisplay(const QString&);
     void deleteTimelineClip(const QString&);
     void progressInfo(const QString &, int);
-    /** emitted when the document state has been modified (= needs saving or not) */
+
+    /** @brief Informs that the document status has been changed.
+     *
+     * If the document has been modified, it's called with true as an argument. */
     void docModified(bool);
     void selectLastAddedClip(const QString &);
     void guidesUpdated();
