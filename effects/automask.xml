@@ -6,10 +6,10 @@
 	<parameter type="geometry" name="geometry" default="50%,50%:50%x50%" fixed="1" opacity="false">
 		<name>Geometry</name>
 	</parameter>
-	<parameter type="bool" name="debug" default="1">
+	<parameter type="bool" name="debug" default="0">
 		<name>Debug</name>
 	</parameter>
-	<parameter type="bool" name="obscure" default="0">
+	<parameter type="bool" name="obscure" default="1">
 		<name>Obscure</name>
 	</parameter>
 </effect>
