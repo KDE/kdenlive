@@ -190,6 +190,7 @@ void AbstractClipItem::resizeEnd(int posx)
     }
 
     m_info.cropDuration += durationDiff;
+    m_info.endPos += durationDiff;
 
     setRect(0, 0, cropDuration().frames(m_fps) - 0.02, rect().height());
     if (durationDiff > GenTime()) {

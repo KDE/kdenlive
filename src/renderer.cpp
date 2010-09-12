@@ -2941,15 +2941,22 @@ bool Render::mltResizeClipEnd(ItemInfo info, GenTime clipDuration)
     int clipIndex = trackPlaylist.get_clip_index_at((int) info.startPos.frames(m_fps));
     //kDebug() << "// SELECTED CLIP START: " << trackPlaylist.clip_start(clipIndex);
     Mlt::Producer *clip = trackPlaylist.get_clip(clipIndex);
+
     int previousStart = clip->get_in();
     int newDuration = (int) clipDuration.frames(m_fps) - 1;
-    int currentOut = (int)(info.cropStart + info.cropDuration).frames(m_fps) - 1;
     int diff = newDuration - (trackPlaylist.clip_length(clipIndex) - 1);
+
+    int currentOut;
+    if (info.cropStart < GenTime())
+        currentOut = newDuration - info.cropStart.frames(m_fps);
+    else
+        currentOut = newDuration + previousStart;
     if (currentOut > clip->get_length()) {
         clip->parent().set("length", currentOut + 1);
         clip->parent().set("out", currentOut);
         clip->set("length", currentOut + 1);
     }
+
     /*if (newDuration > clip->get_out()) {
         clip->parent().set_in_and_out(0, newDuration + 1);
         clip->set_in_and_out(0, newDuration + 1);

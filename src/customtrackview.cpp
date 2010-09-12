@@ -4499,7 +4499,7 @@ void CustomTrackView::prepareResizeClipEnd(AbstractClipItem* item, ItemInfo oldI
     if (item->type() == AVWIDGET) {
         ItemInfo resizeinfo = info;
         resizeinfo.track = m_document->tracksCount() - resizeinfo.track;
-        bool success = m_document->renderer()->mltResizeClipEnd(resizeinfo, resizeinfo.endPos - resizeinfo.startPos);
+        bool success = m_document->renderer()->mltResizeClipEnd(resizeinfo, resizeinfo.cropDuration);
         if (success) {
             // Check if there is an automatic transition on that clip (lower track)
             Transition *tr = getTransitionItemAtEnd(oldInfo.endPos, oldInfo.track);
