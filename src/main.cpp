@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
     aboutData.addAuthor(ki18n("Jean-Baptiste Mardelle"), ki18n("MLT and KDE SC 4 porting, main developer and maintainer"), "jb@kdenlive.org");
     aboutData.addAuthor(ki18n("Marco Gittler"), ki18n("MLT transitions and effects, timeline, audio thumbs"), "g.marco@freenet.de");
     aboutData.addAuthor(ki18n("Dan Dennedy"), ki18n("Bug fixing, etc."), "dan@dennedy.org");
-    aboutData.addAuthor(ki18n("Simon A. Eugster"), ki18n("Bug fixing, etc."), "simon.eu@gmail.com");
+    aboutData.addAuthor(ki18n("Simon A. Eugster"), ki18n("Color scopes, bug fixing, etc."), "simon.eu@gmail.com");
     aboutData.addAuthor(ki18n("Till Theato"), ki18n("Bug fixing, etc."), "root@ttill.de");
     aboutData.addAuthor(ki18n("Alberto Villa"), ki18n("Bug fixing, logo, etc."), "avilla@FreeBSD.org");
     aboutData.addAuthor(ki18n("Jean-Michel Poure"), ki18n("Rendering profiles customization"), "jm@poure.com");
