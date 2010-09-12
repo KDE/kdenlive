@@ -1571,21 +1571,27 @@ void MainWindow::slotRunWizard()
 
 void MainWindow::newFile(bool showProjectSettings, bool force)
 {
-    if (!m_timelineArea->isEnabled() && !force) return;
+    if (!m_timelineArea->isEnabled() && !force)
+        return;
     m_fileRevert->setEnabled(false);
-    QString profileName;
-    KUrl projectFolder;
+    QString profileName = KdenliveSettings::default_profile();
+    KUrl projectFolder = KdenliveSettings::defaultprojectfolder();
     QPoint projectTracks(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks());
     if (!showProjectSettings) {
-        if (!KdenliveSettings::activatetabs()) if (!closeCurrentDocument()) return;
-        profileName = KdenliveSettings::default_profile();
-        projectFolder = KdenliveSettings::defaultprojectfolder();
+        if (!KdenliveSettings::activatetabs())
+            if (!closeCurrentDocument())
+                return;
     } else {
         ProjectSettings *w = new ProjectSettings(NULL, QStringList(), projectTracks.x(), projectTracks.y(), KdenliveSettings::defaultprojectfolder(), false, true, this);
-        if (w->exec() != QDialog::Accepted) return;
-        if (!KdenliveSettings::activatetabs()) if (!closeCurrentDocument()) return;
-        if (KdenliveSettings::videothumbnails() != w->enableVideoThumbs()) slotSwitchVideoThumbs();
-        if (KdenliveSettings::audiothumbnails() != w->enableAudioThumbs()) slotSwitchAudioThumbs();
+        if (w->exec() != QDialog::Accepted)
+            return;
+        if (!KdenliveSettings::activatetabs())
+            if (!closeCurrentDocument())
+                return;
+        if (KdenliveSettings::videothumbnails() != w->enableVideoThumbs())
+            slotSwitchVideoThumbs();
+        if (KdenliveSettings::audiothumbnails() != w->enableAudioThumbs())
+            slotSwitchAudioThumbs();
         profileName = w->selectedProfile();
         projectFolder = w->selectedFolder();
         projectTracks = w->tracks();
@@ -1608,7 +1614,8 @@ void MainWindow::newFile(bool showProjectSettings, bool force)
     if (m_timelineArea->count() == 1) {
         connectDocumentInfo(doc);
         connectDocument(trackView, doc);
-    } else m_timelineArea->setTabBarHidden(false);
+    } else
+        m_timelineArea->setTabBarHidden(false);
     m_monitorManager->activateMonitor("clip");
     m_closeAction->setEnabled(m_timelineArea->count() > 1);
 }
