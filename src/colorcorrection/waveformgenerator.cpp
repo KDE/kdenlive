@@ -33,8 +33,8 @@ QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, const QIm
 {
     Q_ASSERT(accelFactor >= 1);
 
-    QTime time;
-    time.start();
+    //QTime time;
+    //time.start();
 
     QImage wave(waveformSize, QImage::Format_ARGB32);
 
@@ -153,8 +153,8 @@ QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, const QIm
 
     }
 
-    uint diff = time.elapsed();
-    emit signalCalculationFinished(wave, diff);
+    //uint diff = time.elapsed();
+    //emit signalCalculationFinished(wave, diff);
 
     return wave;
 }
