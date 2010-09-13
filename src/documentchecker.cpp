@@ -389,13 +389,17 @@ void DocumentChecker::acceptDialog()
                 }
                 for (int i = 0; i < producers.count(); i++) {
                     e = producers.item(i).toElement();
-                    if (e.attribute("id").section('_', 0, 0) == id) {
+                    if (e.attribute("id").section('_', 0, 0) == id || e.attribute("id").section(':', 1, 1) == id) {
                         // Fix clip
                         properties = e.childNodes();
                         for (int j = 0; j < properties.count(); ++j) {
                             property = properties.item(j).toElement();
                             if (property.attribute("name") == "resource") {
-                                property.firstChild().setNodeValue(child->text(1));
+                                QString resource = property.firstChild().nodeValue();
+                                if (resource.contains(QRegExp("\\?[0-9]+\\.[0-9]+(&amp;strobe=[0-9]+)?$")))
+                                    property.firstChild().setNodeValue(child->text(1) + '?' + resource.section('?', -1));
+                                else
+                                    property.firstChild().setNodeValue(child->text(1));
                                 break;
                             }
                         }
@@ -473,22 +477,16 @@ void DocumentChecker::checkStatus()
 
 void DocumentChecker::slotDeleteSelected()
 {
-    if (KMessageBox::warningContinueCancel(m_dialog, i18np("This will remove the selected clip from this project", "This will remove the selected clips from this project", m_ui.treeWidget->selectedItems().count()), i18n("Remove clips")) == KMessageBox::Cancel) return;
-    int ix = 0;
+    if (KMessageBox::warningContinueCancel(m_dialog, i18np("This will remove the selected clip from this project", "This will remove the selected clips from this project", m_ui.treeWidget->selectedItems().count()), i18n("Remove clips")) == KMessageBox::Cancel)
+        return;
     QStringList deletedIds;
-    QTreeWidgetItem *child = m_ui.treeWidget->topLevelItem(ix);
     QDomNodeList playlists = m_doc.elementsByTagName("playlist");
 
-    while (child) {
-        int id = child->data(0, statusRole).toInt();
-        if (child->isSelected() && id < 10) {
-            QString id = child->data(0, idRole).toString();
-            deletedIds.append(id);
-            for (int j = 0; j < playlists.count(); j++)
-                deletedIds.append(id + '_' + QString::number(j));
+    foreach(QTreeWidgetItem *child, m_ui.treeWidget->selectedItems()) {
+        if (child->data(0, statusRole).toInt() < 10) {
+            deletedIds.append(child->data(0, idRole).toString());
             delete child;
-        } else ix++;
-        child = m_ui.treeWidget->topLevelItem(ix);
+        }
     }
     kDebug() << "// Clips to delete: " << deletedIds;
 
@@ -500,34 +498,38 @@ void DocumentChecker::slotDeleteSelected()
         QDomElement mlt = m_doc.firstChildElement("mlt");
         QDomElement kdenlivedoc = mlt.firstChildElement("kdenlivedoc");
 
-        for (int i = 0; i < infoproducers.count(); i++) {
+        for (int i = 0, j = 0; i < infoproducers.count() && j < deletedIds.count(); i++) {
             e = infoproducers.item(i).toElement();
             if (deletedIds.contains(e.attribute("id"))) {
                 // Remove clip
                 kdenlivedoc.removeChild(e);
-                break;
+                i--;
+                j++;
             }
         }
 
         for (int i = 0; i < producers.count(); i++) {
             e = producers.item(i).toElement();
-            if (deletedIds.contains(e.attribute("id"))) {
+            if (deletedIds.contains(e.attribute("id").section('_', 0, 0)) || deletedIds.contains(e.attribute("id").section(':', 1, 1).section('_', 0, 0))) {
                 // Remove clip
                 mlt.removeChild(e);
-                break;
+                i--;
             }
         }
 
         for (int i = 0; i < playlists.count(); i++) {
             QDomNodeList entries = playlists.at(i).toElement().elementsByTagName("entry");
-            for (int j = 0; j < playlists.count(); j++) {
+            for (int j = 0; j < entries.count(); j++) {
                 e = entries.item(j).toElement();
-                if (deletedIds.contains(e.attribute("producer"))) {
+                if (deletedIds.contains(e.attribute("producer").section('_', 0, 0)) || deletedIds.contains(e.attribute("producer").section(':', 1, 1).section('_', 0, 0))) {
                     // Replace clip with blank
+                    while (e.childNodes().count() > 0)
+                        e.removeChild(e.firstChild());
                     e.setTagName("blank");
                     e.removeAttribute("producer");
                     int length = e.attribute("out").toInt() - e.attribute("in").toInt();
                     e.setAttribute("length", length);
+                    j--;
                 }
             }
         }
