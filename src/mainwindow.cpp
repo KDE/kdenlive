@@ -726,7 +726,7 @@ void MainWindow::slotFullScreen()
     KToggleFullScreenAction::setFullScreen(this, actionCollection()->action("fullscreen")->isChecked());
 }
 
-void MainWindow::slotAddEffect(const QDomElement effect, GenTime pos, int track)
+void MainWindow::slotAddEffect(const QDomElement effect)
 {
     if (!m_activeDocument) return;
     if (effect.isNull()) {
@@ -734,7 +734,10 @@ void MainWindow::slotAddEffect(const QDomElement effect, GenTime pos, int track)
         return;
     }
     QDomElement effectToAdd = effect.cloneNode().toElement();
-    m_activeTimeline->projectView()->slotAddEffect(effectToAdd, pos, track);
+    bool ok;
+    int ix = m_effectStack->isTrackMode(&ok);
+    if (ok) m_activeTimeline->projectView()->slotAddTrackEffect(effectToAdd, m_activeDocument->tracksCount() - ix);
+    else m_activeTimeline->projectView()->slotAddEffect(effectToAdd, GenTime(), -1);
 }
 
 void MainWindow::slotRaiseMonitor(bool clipMonitor)
@@ -3571,8 +3574,9 @@ void MainWindow::slotChangePalette(QAction *action, const QString &themename)
                 ((QWidget*)subchild)->setPalette(plt);
         }
     }
-    if (m_activeTimeline)
+    if (m_activeTimeline) {
         m_activeTimeline->projectView()->updatePalette();
+    }
 }
 
 

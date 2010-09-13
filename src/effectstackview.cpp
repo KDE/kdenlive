@@ -471,4 +471,10 @@ void EffectStackView::slotRenderPos(int pos)
         m_effectedit->slotSyncEffectsPos(pos - m_clipref->startPos().frames(KdenliveSettings::project_fps()));
 }
 
+int EffectStackView::isTrackMode(bool *ok) const
+{
+    *ok = m_trackMode;
+    return m_trackindex;
+}
+
 #include "effectstackview.moc"

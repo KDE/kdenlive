@@ -55,6 +55,10 @@ public:
     /** @brief Tells the effect editor to update its timecode format. */
     void updateTimecodeFormat();
 
+    /** @brief return the index of the track displayed in effect stack
+     ** @param ok set to true if we are looking at a track's effects, otherwise false. */
+    int isTrackMode(bool *ok) const;
+
 private:
     Ui::EffectStack_UI m_ui;
     Monitor *m_monitor;
