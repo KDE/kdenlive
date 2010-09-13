@@ -22,6 +22,7 @@
 #define CUSTOMTRACKVIEW_H
 
 #include <KPixmapCache>
+#include <KColorScheme>
 
 #include <QGraphicsView>
 #include <QGraphicsItemAnimation>
@@ -41,6 +42,7 @@ class ClipItem;
 class AbstractClipItem;
 class AbstractGroupItem;
 class Transition;
+
 
 class CustomTrackView : public QGraphicsView
 {
@@ -332,6 +334,7 @@ private:
 
     QMutex m_mutex;
     QWaitCondition m_producerNotReady;
+    KStatefulBrush m_activeTrackBrush;
 
     /** stores the state of the control modifier during mouse press.
      * Will then be used to identify whether we resize a group or only one item of it. */

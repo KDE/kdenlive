@@ -54,7 +54,6 @@ TrackView::TrackView(KdenliveDoc *doc, bool *ok, QWidget *parent) :
     m_trackview = new CustomTrackView(doc, m_scene, parent);
     m_trackview->scale(1, 1);
     m_trackview->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-    //m_scene->addRect(QRectF(0, 0, 100, 100), QPen(), QBrush(Qt::red));
 
     m_ruler = new CustomRuler(doc->timecode(), m_trackview);
     connect(m_ruler, SIGNAL(zoneMoved(int, int)), this, SIGNAL(zoneMoved(int, int)));
@@ -518,13 +517,9 @@ void TrackView::refresh()
 
 void TrackView::slotRepaintTracks()
 {
-    QLayoutItem *child;
-    for (int i = 0; i < headers_container->layout()->count(); i++) {
-        child = headers_container->layout()->itemAt(i);
-        if (child->widget() && child->widget()->height() > 5) {
-            HeaderTrack *head = static_cast <HeaderTrack *>(child->widget());
-            if (head) head->setSelectedIndex(m_trackview->selectedTrack());
-        }
+    QList<HeaderTrack *> widgets = findChildren<HeaderTrack *>();
+    for (int i = 0; i < widgets.count(); i++) {
+        if (widgets.at(i)) widgets.at(i)->setSelectedIndex(m_trackview->selectedTrack());
     }
 }
 
@@ -549,10 +544,8 @@ void TrackView::slotRebuildTrackHeaders()
     QFrame *frame = NULL;
     for (int i = 0; i < max; i++) {
         frame = new QFrame(headers_container);
+        frame->setFrameStyle(QFrame::HLine);
         frame->setFixedHeight(1);
-        frame->setFrameStyle(QFrame::Plain);
-        frame->setFrameShape(QFrame::Box);
-        frame->setLineWidth(1);
         headers_container->layout()->addWidget(frame);
         TrackInfo info = list.at(max - i - 1);
         header = new HeaderTrack(i, info, height, headers_container);
@@ -570,10 +563,8 @@ void TrackView::slotRebuildTrackHeaders()
         headers_container->layout()->addWidget(header);
     }
     frame = new QFrame(this);
+    frame->setFrameStyle(QFrame::HLine);
     frame->setFixedHeight(1);
-    frame->setFrameStyle(QFrame::Plain);
-    frame->setFrameShape(QFrame::Box);
-    frame->setLineWidth(1);
     headers_container->layout()->addWidget(frame);
 }
 
@@ -581,10 +572,9 @@ void TrackView::slotRebuildTrackHeaders()
 void TrackView::adjustTrackHeaders()
 {
     int height = KdenliveSettings::trackheight() * m_scene->scale().y() - 1;
-    QLayoutItem *child;
-    for (int i = 0; i < headers_container->layout()->count(); i++) {
-        child = headers_container->layout()->itemAt(i);
-        if (child->widget() && child->widget()->height() > 5)(static_cast <HeaderTrack *>(child->widget()))->adjustSize(height);
+    QList<HeaderTrack *> widgets = findChildren<HeaderTrack *>();
+    for (int i = 0; i < widgets.count(); i++) {
+        if (widgets.at(i)) widgets.at(i)->adjustSize(height);
     }
 }
 

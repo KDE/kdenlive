@@ -67,7 +67,6 @@
 #include <KUrl>
 #include <KIcon>
 #include <KCursor>
-#include <KColorScheme>
 #include <KMessageBox>
 #include <KIO/NetAccess>
 
@@ -135,8 +134,9 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscen
     setLineWidth(0);
     //setCacheMode(QGraphicsView::CacheBackground);
     //setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
+    setAutoFillBackground(false);
     setViewportUpdateMode(QGraphicsView::SmartViewportUpdate);
-
+    m_activeTrackBrush = KStatefulBrush(KColorScheme::View, KColorScheme::ActiveBackground, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
     pixmapCache = new KPixmapCache("kdenlive-thumbs");
     KdenliveSettings::setTrackheight(m_tracksHeight);
     m_animationTimer = new QTimeLine(800);
@@ -280,7 +280,7 @@ void CustomTrackView::checkTrackHeight()
         }
     }
     double newHeight = m_tracksHeight * m_document->tracksCount() * matrix().m22();
-    m_cursorLine->setLine(m_cursorLine->line().x1(), 0, m_cursorLine->line().x1(), newHeight);
+    m_cursorLine->setLine(m_cursorLine->line().x1(), 0, m_cursorLine->line().x1(), newHeight - 1);
 
     for (int i = 0; i < m_guides.count(); i++) {
         QLineF l = m_guides.at(i)->line();
@@ -2571,7 +2571,8 @@ void CustomTrackView::addTrack(TrackInfo type, int ix)
         l.setP2(QPointF(l.x2(), maxHeight));
         m_guides.at(i)->setLine(l);
     }
-    m_cursorLine->setLine(m_cursorLine->line().x1(), 0, m_cursorLine->line().x1(), maxHeight);
+
+    m_cursorLine->setLine(m_cursorLine->line().x1(), 0, m_cursorLine->line().x1(), maxHeight - 1);
     setSceneRect(0, 0, sceneRect().width(), m_tracksHeight * m_document->tracksCount());
     viewport()->update();
     emit tracksChanged();
@@ -2644,7 +2645,7 @@ void CustomTrackView::removeTrack(int ix)
         l.setP2(QPointF(l.x2(), maxHeight));
         m_guides.at(i)->setLine(l);
     }
-    m_cursorLine->setLine(m_cursorLine->line().x1(), 0, m_cursorLine->line().x1(), maxHeight);
+    m_cursorLine->setLine(m_cursorLine->line().x1(), 0, m_cursorLine->line().x1(), maxHeight - 1);
     setSceneRect(0, 0, sceneRect().width(), m_tracksHeight * m_document->tracksCount());
 
     m_selectedTrack = qMin(m_selectedTrack, m_document->tracksCount() - 1);
@@ -4997,13 +4998,12 @@ void CustomTrackView::setScale(double scaleFactor, double verticalScale)
     newmatrix = newmatrix.scale(scaleFactor, verticalScale);
     m_scene->setScale(scaleFactor, verticalScale);
     removeTipAnimation();
-    double verticalPos = mapToScene(QPoint(0, viewport()->height() / 2)).y();
     bool adjust = false;
     if (verticalScale != matrix().m22()) adjust = true;
     setMatrix(newmatrix);
     if (adjust) {
         double newHeight = m_tracksHeight * m_document->tracksCount() * matrix().m22();
-        m_cursorLine->setLine(m_cursorLine->line().x1(), 0, m_cursorLine->line().x1(), newHeight);
+        m_cursorLine->setLine(m_cursorLine->line().x1(), 0, m_cursorLine->line().x1(), newHeight - 1);
         for (int i = 0; i < m_guides.count(); i++) {
             QLineF l = m_guides.at(i)->line();
             l.setP2(QPointF(l.x2(), newHeight));
@@ -5019,6 +5019,7 @@ void CustomTrackView::setScale(double scaleFactor, double verticalScale)
         else
             setSceneRect(0, 0, (m_projectDuration + 300), sceneRect().height());
     }
+    double verticalPos = mapToScene(QPoint(0, viewport()->height() / 2)).y();
     centerOn(QPointF(cursorPos(), verticalPos));
 }
 
@@ -5032,34 +5033,26 @@ void CustomTrackView::slotRefreshGuides()
 
 void CustomTrackView::drawBackground(QPainter * painter, const QRectF &rect)
 {
-    //kDebug() << "// DRAW BG: " << rect.width();
     painter->setClipRect(rect);
-    KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Window);
     QPen pen1 = painter->pen();
-    pen1.setColor(scheme.shade(KColorScheme::DarkShade));
+    pen1.setColor(palette().dark().color());
     painter->setPen(pen1);
     double min = rect.left();
     double max = rect.right();
     painter->drawLine(QPointF(min, 0), QPointF(max, 0));
     int maxTrack = m_document->tracksCount();
-    QColor lockedColor = scheme.background(KColorScheme::NegativeBackground).color();
+    QColor lockedColor = palette().button().color();
     QColor audioColor = palette().alternateBase().color();
-    QColor base = scheme.background(KColorScheme::NormalBackground).color();
     for (int i = 0; i < maxTrack; i++) {
         TrackInfo info = m_document->trackInfoAt(maxTrack - i - 1);
         if (info.isLocked || info.type == AUDIOTRACK || i == m_selectedTrack) {
             const QRectF track(min, m_tracksHeight * i + 1, max - min, m_tracksHeight - 1);
             if (i == m_selectedTrack)
-                painter->fillRect(track, scheme.background(KColorScheme::ActiveBackground).color());
+                painter->fillRect(track, m_activeTrackBrush.brush(this));
             else
                 painter->fillRect(track, info.isLocked ? lockedColor : audioColor);
         }
         painter->drawLine(QPointF(min, m_tracksHeight *(i + 1)), QPointF(max, m_tracksHeight *(i + 1)));
-    }
-    int lowerLimit = m_tracksHeight * maxTrack + 1;
-    if (height() > lowerLimit) {
-        const QRectF bg(min, lowerLimit, max - min, height() - lowerLimit);
-        painter->fillRect(bg, base);
     }
 }
 
@@ -6253,12 +6246,14 @@ void CustomTrackView::clearSelection()
 
 void CustomTrackView::updatePalette()
 {
+    m_activeTrackBrush = KStatefulBrush(KColorScheme::View, KColorScheme::ActiveBackground, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
     if (m_cursorLine) {
         QPen pen1 = QPen();
         pen1.setWidth(1);
         pen1.setColor(palette().text().color());
         m_cursorLine->setPen(pen1);
     }
+    emit tracksChanged();
 }
 
 void CustomTrackView::removeTipAnimation()
