@@ -35,7 +35,7 @@
 #include <QXmlStreamWriter>
 #include <QTimer>
 
-const double recommendedMltVersion = 50;
+const double recommendedMltVersion = 510;
 static const char kdenlive_version[] = VERSION;
 
 Wizard::Wizard(bool upgrade, QWidget *parent) :
@@ -180,7 +180,7 @@ void Wizard::checkMltComponents()
                 } else {
                     checkProcess.waitForFinished();
                     mltVersion = checkProcess.readAllStandardOutput();
-                    version = 100 * mltVersion.section('.', 0, 0).toInt() + 10 * mltVersion.section('.', 1, 1).toInt() + mltVersion.section('.', 2, 2).toInt();
+                    version = 1000 * mltVersion.section('.', 0, 0).toInt() + 100 * mltVersion.section('.', 1, 1).toInt() + mltVersion.section('.', 2, 2).toInt();
                     kDebug() << "// FOUND MLT's pkgconfig version: " << version;
                 }
             }
@@ -193,14 +193,14 @@ void Wizard::checkMltComponents()
                     mltVersion = checkProcess.readAllStandardError();
                     mltVersion = mltVersion.section('\n', 0, 0).simplified();
                     mltVersion = mltVersion.section(' ', -1).simplified();
-                    version = 100 * mltVersion.section('.', 0, 0).toInt() + 10 * mltVersion.section('.', 1, 1).toInt() + mltVersion.section('.', 2, 2).toInt();
+                    version = 1000 * mltVersion.section('.', 0, 0).toInt() + 100 * mltVersion.section('.', 1, 1).toInt() + mltVersion.section('.', 2, 2).toInt();
                     kDebug() << "// FOUND MLT version: " << version;
                 }
             }
 
             mltitem->setText(1, i18n("MLT version: %1", mltVersion.simplified()));
             mltitem->setSizeHint(0, itemSize);
-            if (version < 40) {
+            if (version < 506) {
                 mltitem->setData(1, Qt::UserRole, i18n("Your MLT version is unsupported!!!"));
                 mltitem->setIcon(0, m_badIcon);
             } else {
