@@ -144,6 +144,7 @@ void CustomRuler::mousePressEvent(QMouseEvent * event)
         if (qAbs(pos - m_zoneStart * m_factor) < 4) m_moveCursor = RULER_START;
         else if (qAbs(pos - (m_zoneStart + (m_zoneEnd - m_zoneStart) / 2) * m_factor) < 4) m_moveCursor = RULER_MIDDLE;
         else if (qAbs(pos - m_zoneEnd * m_factor) < 4) m_moveCursor = RULER_END;
+        m_view->updateSnapPoints(NULL);
     }
     if (m_moveCursor == RULER_CURSOR) {
         m_view->setCursorPos((int) pos / m_factor);

@@ -254,6 +254,12 @@ public slots:
     * @param ix The track index */
     void slotAddTrackEffect(const QDomElement effect, int ix);
 
+    /** @brief Update the list of snap points (sticky timeline hotspots).
+    * @param selected The currently selected clip if any
+    * @param offsetList The list of points that should also snap (for example when movin a clip, start and end points should snap
+    * @param skipSelectedItems if true, the selected item start and end points will not be added to snap list */
+    void updateSnapPoints(AbstractClipItem *selected, QList <GenTime> offsetList = QList <GenTime> (), bool skipSelectedItems = false);
+
 protected:
     virtual void drawBackground(QPainter * painter, const QRectF & rect);
     //virtual void drawForeground ( QPainter * painter, const QRectF & rect );
@@ -290,7 +296,7 @@ private:
     QPoint m_clickEvent;
     QList <CommentedTime> m_searchPoints;
     QList <Guide *> m_guides;
-    void updateSnapPoints(AbstractClipItem *selected, QList <GenTime> offsetList = QList <GenTime> (), bool skipSelectedItems = false);
+
     ClipItem *getClipItemAt(int pos, int track);
     ClipItem *getClipItemAt(GenTime pos, int track);
     ClipItem *getClipItemAtEnd(GenTime pos, int track);

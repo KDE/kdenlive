@@ -18,6 +18,7 @@
  ***************************************************************************/
 
 #include "dvdwizardmenu.h"
+#include "kdenlivesettings.h"
 
 #include <KDebug>
 #include <KColorScheme>
@@ -111,7 +112,7 @@ DvdWizardMenu::DvdWizardMenu(const QString &profile, QWidget *parent) :
     connect(m_scene, SIGNAL(changed(const QList<QRectF> &)), this, SIGNAL(completeChanged()));
 
     // red background for error message
-    KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Window);
+    KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Window, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
     QPalette p = m_view.error_message->palette();
     p.setColor(QPalette::Background, scheme.background(KColorScheme::NegativeBackground).color());
     m_view.error_message->setAutoFillBackground(true);
