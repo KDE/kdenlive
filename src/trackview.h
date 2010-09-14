@@ -83,7 +83,7 @@ public slots:
     void slotDeleteClip(const QString &clipId);
     void slotChangeZoom(int horizontal, int vertical = -1);
     void setDuration(int dur);
-    void slotSetZone(QPoint p);
+    void slotSetZone(QPoint p, bool updateDocumentProperties = true);
 
 private:
     CustomRuler *m_ruler;

@@ -117,7 +117,7 @@ TrackView::TrackView(KdenliveDoc *doc, bool *ok, QWidget *parent) :
     connect(m_trackview, SIGNAL(doTrackLock(int, bool)), this, SLOT(slotChangeTrackLock(int, bool)));
 
     slotChangeZoom(m_doc->zoom().x(), m_doc->zoom().y());
-    slotSetZone(m_doc->zone());
+    slotSetZone(m_doc->zone(), false);
 }
 
 TrackView::~TrackView()
@@ -173,9 +173,10 @@ int TrackView::outPoint() const
     return m_ruler->outPoint();
 }
 
-void TrackView::slotSetZone(QPoint p)
+void TrackView::slotSetZone(QPoint p, bool updateDocumentProperties)
 {
     m_ruler->setZone(p);
+    if (updateDocumentProperties) m_doc->setZone(p.x(), p.y());
 }
 
 void TrackView::setDuration(int dur)

@@ -122,7 +122,12 @@ void CustomRuler::setZone(QPoint p)
 
 void CustomRuler::mouseReleaseEvent(QMouseEvent * /*event*/)
 {
+    if (m_moveCursor == RULER_START || m_moveCursor == RULER_END || m_moveCursor == RULER_MIDDLE) {
+        emit zoneMoved(m_zoneStart, m_zoneEnd);
+        m_view->setDocumentModified();
+    }
     m_mouseMove = NO_MOVE;
+
 }
 
 // virtual
@@ -189,8 +194,6 @@ void CustomRuler::mouseMoveEvent(QMouseEvent * event)
             m_zoneStart += move;
             m_zoneEnd += move;
         }
-        emit zoneMoved(m_zoneStart, m_zoneEnd);
-        m_view->setDocumentModified();
 
         int min = qMin(m_zoneStart, zoneStart);
         int max = qMax(m_zoneEnd, zoneEnd);
