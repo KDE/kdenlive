@@ -104,7 +104,7 @@ RenderWidget::RenderWidget(const QString &projectfolder, QWidget * parent) :
     m_view.format_list->setAlternatingRowColors(true);
     m_view.size_list->setAlternatingRowColors(true);
 
-    KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Window);
+    KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Window, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
     QPalette p = m_view.errorLabel->palette();
     p.setColor(QPalette::Background, scheme.background(KColorScheme::NegativeBackground).color());
     m_view.errorLabel->setAutoFillBackground(true);
