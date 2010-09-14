@@ -43,7 +43,7 @@ const QPointF YPbPr_Yl(-.5, .081);
 
 
 Vectorscope::Vectorscope(Monitor *projMonitor, Monitor *clipMonitor, QWidget *parent) :
-    AbstractScopeWidget(projMonitor, clipMonitor, parent),
+    AbstractScopeWidget(projMonitor, clipMonitor, true, parent),
     m_gain(1)
 {
     ui = new Ui::Vectorscope_UI();

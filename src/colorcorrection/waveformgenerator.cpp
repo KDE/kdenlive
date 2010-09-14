@@ -76,11 +76,10 @@ QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, const QIm
         const float wPrediv = (float)(ww-1)/(iw-1);
 
         const uchar *bits = image.bits();
-        const uchar *bitsStart = bits;
 
         for (uint i = 0, x = 0; i < byteCount; i += 4) {
 
-            Q_ASSERT(bits < bitsStart + byteCount);
+            Q_ASSERT(bits < image.bits() + byteCount);
 
             col = (QRgb *)bits;
 
