@@ -1,7 +1,7 @@
 project(kdenlive)
 
 set(BASE_VERSION 0.7.8)
-set(LIBMLT_REQUIRED_VERSION 0.4.0)
+set(LIBMLT_REQUIRED_VERSION 0.5.10)
 
 option(RELEASE_BUILD "Remove compilation date from program version (use for stable releases)" OFF)
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)
@@ -18,7 +18,7 @@ add_definitions(${QT_DEFINITIONS})
 # Search MLT package.
 find_package(LIBMLT REQUIRED)
 if(LIBMLT_VERSION VERSION_LESS ${LIBMLT_REQUIRED_VERSION})
-  message(FATAL_ERROR "MLT must be at least version ${LIBMLT_REQUIRED_VERSION}")
+  message(FATAL_ERROR "MLT must be at least version ${LIBMLT_REQUIRED_VERSION}, you have ${LIBMLT_VERSION}\nPlease install recent MLT http://www.mltframework.org")
 endif(LIBMLT_VERSION VERSION_LESS ${LIBMLT_REQUIRED_VERSION})
 
 find_package(MSGFMT REQUIRED)
