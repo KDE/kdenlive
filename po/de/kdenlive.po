@@ -14,14 +14,14 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-09-02 13:20+0300\n"
-"PO-Revision-Date: 2010-09-12 23:52+0200\n"
-"Last-Translator: Till Theato <root@ttill.de>\n"
+"PO-Revision-Date: 2010-09-14 21:09+0200\n"
+"Last-Translator: Simon Eugster\n"
 "Language-Team: American English <kde-i18n-de@kde.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.1\n"
+"X-Generator: Lokalize 1.0\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
 
 #: src/customtrackview.cpp:587
@@ -151,12 +151,11 @@ msgstr "256-Skalierung"
 
 #: rc.cpp:421
 msgid "2D video oscilloscope"
-msgstr ""
+msgstr "2D-Videooszilloskop"
 
 #: rc.cpp:549
-#, fuzzy
 msgid "3 point balance"
-msgstr "3 Punkte Gewichtung"
+msgstr "3-Point-Balance"
 
 #: rc.cpp:1675 rc.cpp:3453
 msgid "32000"
@@ -440,7 +439,6 @@ msgid "Add chapter"
 msgstr "Kapitel hinzufügen"
 
 #: src/clipmanager.cpp:327 src/addclipcommand.cpp:33
-#, fuzzy
 msgid "Add clip"
 msgid_plural "Add clips"
 msgstr[0] "Clip hinzufügen"
@@ -696,7 +694,7 @@ msgstr "Ein Open-Source-Videoschnittprogramm"
 
 #: src/colorplaneexport.cpp:202
 msgid "Angle through the UV plane, with all possible Y values."
-msgstr ""
+msgstr "Winkel durch die UV-Fläche, mit allen möglichen Y-Werten."
 
 #: rc.cpp:737
 msgid "Animate Rotate X"
@@ -1080,7 +1078,7 @@ msgstr "C0rners"
 
 #: src/colorpickerwidget.cpp:148
 msgid "Calculated average color for rectangle."
-msgstr ""
+msgstr "Berechne mittleren Farbwert für Rechteck."
 
 #: src/customtrackview.cpp:1705
 msgid "Cannot add a video effect to this clip"
@@ -1107,7 +1105,7 @@ msgstr "Ein Szenenübergang kann nicht geschnitten werden"
 
 #: src/customtrackview.cpp:1263
 msgid "Cannot edit an item in a group"
-msgstr ""
+msgstr "Kann Clip in einer Gruppe nicht bearbeiten."
 
 #: src/customtrackview.cpp:1252
 msgid "Cannot edit the duration of multiple items"
@@ -1165,7 +1163,7 @@ msgstr "Kann den Clip nicht einfügen..."
 
 #: src/customtrackview.cpp:2803
 msgid "Cannot insert space in a locked track"
-msgstr ""
+msgstr "Abstand kann nicht auf gesperrter Spur eingefügt werden."
 
 #: src/customtrackview.cpp:2816
 msgid "Cannot insert space in a track with a group"
@@ -1239,7 +1237,7 @@ msgstr ""
 
 #: src/customtrackview.cpp:2739
 msgid "Cannot remove space in a locked track"
-msgstr ""
+msgstr "Abstand kann nicht von gesperrter Spur gelöscht werden."
 
 #: src/customtrackview.cpp:2762
 msgid "Cannot remove space in a track with a group"
@@ -1378,6 +1376,8 @@ msgid ""
 "Changes Slope, Offset, and Power of the color components, and the overall "
 "Saturation, according to the ASC CDL (Color Decision List)."
 msgstr ""
+"Ändert Steigung, Offset und Exponent (Slope/Offset/Power) der Farbkomponenten, plus die "
+"Gesamtsättigung, entsprechend der ASC CDL (Color Decision List)."
 
 #: src/projectsettings.cpp:187
 msgid ""
@@ -1501,7 +1501,7 @@ msgstr "Clip-Eigenschaften"
 
 #: src/clipmanager.cpp:278
 msgid "Clip already exists"
-msgstr ""
+msgstr "Clip existiert bereits"
 
 #: rc.cpp:481
 msgid "Clip bottom"
@@ -1572,7 +1572,7 @@ msgstr "Koeffizient"
 
 #: rc.cpp:1627 rc.cpp:3405
 msgid "Codec"
-msgstr ""
+msgstr "Codec"
 
 #: rc.cpp:461 rc.cpp:1107 rc.cpp:1110 rc.cpp:1260 rc.cpp:1489 rc.cpp:2885
 #: rc.cpp:2888 rc.cpp:3038 rc.cpp:3267
@@ -1671,7 +1671,7 @@ msgstr "Verbinden"
 
 #: rc.cpp:1642 rc.cpp:3420
 msgid "Container"
-msgstr ""
+msgstr "Container"
 
 #: rc.cpp:281
 msgid "Contrast"
@@ -2613,7 +2613,7 @@ msgstr "Hintergrund exportieren"
 
 #: rc.cpp:2574 rc.cpp:4352
 msgid "Export color plane to PNG"
-msgstr ""
+msgstr "Farbfläche in ein PNG exportieren"
 
 #: rc.cpp:1648 rc.cpp:2271 rc.cpp:3426 rc.cpp:4049
 msgid "Extension"
@@ -2843,7 +2843,7 @@ msgstr "Ordner"
 
 #: src/dvdwizard.cpp:674
 msgid "Folder %1 already exists. Overwrite?\n"
-msgstr ""
+msgstr "Ordner %1 existiert bereits. Überschreiben?\n"
 
 #: rc.cpp:1705 rc.cpp:3483
 msgid "Follow mouse"
@@ -3121,7 +3121,7 @@ msgstr "Gehe zum vorherigen Keyframe"
 
 #: src/rgbparade.cpp:36
 msgid "Gradient reference line"
-msgstr ""
+msgstr "Gradient-Referenzlinie"
 
 #: rc.cpp:315
 msgid "Graph position"
@@ -3250,11 +3250,11 @@ msgstr "Horizontale Streuung"
 
 #: rc.cpp:2588 rc.cpp:4366
 msgid "How much to zoom in"
-msgstr ""
+msgstr "Wie viel hineinzuzoomen"
 
 #: rc.cpp:355
 msgid "Hue"
-msgstr ""
+msgstr "Farbton"
 
 #: rc.cpp:351
 msgid "Hueshift0r"
@@ -3424,7 +3424,7 @@ msgstr "Interlaced"
 
 #: src/projectsettings.cpp:200
 msgid "Interlaced (%1 fields per second)"
-msgstr ""
+msgstr "Interlaced (%1 Felder pro Sekunde)"
 
 #: rc.cpp:248 rc.cpp:331
 msgid "Interpolator"
@@ -3525,7 +3525,7 @@ msgstr "Seitenverhältnis beibehalten"
 
 #: rc.cpp:266
 msgid "Keep luma"
-msgstr ""
+msgstr "Luma beibehalten"
 
 #: rc.cpp:547
 msgid "Kernel size"
@@ -3668,7 +3668,7 @@ msgstr "Objekt nach ganz unten absenken"
 
 #: src/colorplaneexport.cpp:213 src/colorplaneexport.cpp:222
 msgid "Luma"
-msgstr ""
+msgstr "Luma"
 
 #: src/documentchecker.cpp:123
 msgid "Luma file"
@@ -3676,15 +3676,15 @@ msgstr "Luma-Datei"
 
 #: rc.cpp:270
 msgid "Luma formula"
-msgstr ""
+msgstr "Luma-Formel"
 
 #: src/histogram.cpp:37 src/waveform.cpp:41
 msgid "Luma mode"
-msgstr ""
+msgstr "Luma-Modus"
 
 #: rc.cpp:1750 rc.cpp:3528
 msgid "Luma value"
-msgstr ""
+msgstr "Luma-Wert"
 
 #: rc.cpp:1819 rc.cpp:3597
 msgid "M"
@@ -3748,7 +3748,7 @@ msgstr "Projekt-Profile verwalten"
 
 #: rc.cpp:335
 msgid "Manual Aspect"
-msgstr ""
+msgstr "Manuelles Seitenverhältnis"
 
 #: rc.cpp:329
 msgid "Manual Scale"
@@ -3797,7 +3797,7 @@ msgstr ""
 
 #: rc.cpp:403
 msgid "Measurement"
-msgstr ""
+msgstr "Messung"
 
 #: src/renderwidget.cpp:1213
 msgid "Media players"
@@ -4155,19 +4155,19 @@ msgstr "Versatz"
 
 #: rc.cpp:531
 msgid "Offset Alpha"
-msgstr ""
+msgstr "Offset Alpha"
 
 #: rc.cpp:529
 msgid "Offset Blue"
-msgstr ""
+msgstr "Offset Blau"
 
 #: rc.cpp:527
 msgid "Offset Green"
-msgstr ""
+msgstr "Offset Grün"
 
 #: rc.cpp:525
 msgid "Offset Red"
-msgstr ""
+msgstr "Offset Rot"
 
 #: rc.cpp:1834 rc.cpp:2640 rc.cpp:3612 rc.cpp:4418
 msgid "Opacity"
@@ -4511,19 +4511,19 @@ msgstr "Position: %1"
 
 #: rc.cpp:539
 msgid "Power (Gamma) Alpha"
-msgstr ""
+msgstr "Exponent (Gamma) Alpha"
 
 #: rc.cpp:537
 msgid "Power (Gamma) Blue"
-msgstr ""
+msgstr "Exponent (Gamma) Blau"
 
 #: rc.cpp:535
 msgid "Power (Gamma) Green"
-msgstr ""
+msgstr "Exponent (Gamma) Grün"
 
 #: rc.cpp:533
 msgid "Power (Gamma) Red"
-msgstr ""
+msgstr "Exponent (Gamma) Rot"
 
 #: rc.cpp:445
 msgid "Pr trace"
@@ -4637,7 +4637,7 @@ msgstr "Projektinhalt"
 
 #: src/kdenlivedoc.cpp:211
 msgid "Project directory %1 does not exist. Create it?"
-msgstr ""
+msgstr "Projektverzeichnis %1 existiert noch nicht. Soll es erstellt werden?"
 
 #: rc.cpp:1986 rc.cpp:3764
 msgid "Project files"
@@ -4714,7 +4714,7 @@ msgstr "RGB"
 
 #: src/mainwindow.cpp:234 rc.cpp:1050 rc.cpp:2828
 msgid "RGB Parade"
-msgstr ""
+msgstr "RGB-Parade"
 
 #: rc.cpp:254
 msgid "RGB adjustment"
@@ -4722,7 +4722,7 @@ msgstr "RGB Anpassung"
 
 #: src/colorplaneexport.cpp:32
 msgid "RGB plane, one component varying"
-msgstr ""
+msgstr "RGB-Fläche, eine Komponente variierend"
 
 #: rc.cpp:1768 rc.cpp:3546
 msgid "RGB summed up"
@@ -5450,7 +5450,7 @@ msgstr "Zeitleiste anzeigen"
 
 #: src/mainwindow.cpp:1351
 msgid "Show Title Bars"
-msgstr ""
+msgstr "Titelbalken anzeigen"
 
 #: rc.cpp:415
 msgid "Show alpha"
@@ -5466,7 +5466,7 @@ msgstr "Hintergrund anzeigen"
 
 #: rc.cpp:313
 msgid "Show graph in picture"
-msgstr ""
+msgstr "Graph im Bild anzeigen"
 
 #: rc.cpp:387
 msgid "Show histogram"
@@ -5577,19 +5577,19 @@ msgstr "Diashow-Clip"
 
 #: rc.cpp:523
 msgid "Slope Alpha"
-msgstr ""
+msgstr "Steigung Alpha"
 
 #: rc.cpp:521
 msgid "Slope Blue"
-msgstr ""
+msgstr "Steigung Blau"
 
 #: rc.cpp:519
 msgid "Slope Green"
-msgstr ""
+msgstr "Steigung Grün"
 
 #: rc.cpp:517
 msgid "Slope Red"
-msgstr ""
+msgstr "Steigung Rot"
 
 #: src/trackview.cpp:75
 msgid "Smaller tracks"
@@ -5893,7 +5893,7 @@ msgstr "Text-Clip"
 
 #: src/colorplaneexport.cpp:191
 msgid "The Y value describes the brightness of the colors."
-msgstr ""
+msgstr "Der Y-Wert beschreibt die Helligkeit der Farben."
 
 #: src/profilesdialog.cpp:114
 msgid "The custom profile was modified, do you want to save it?"
@@ -5904,6 +5904,8 @@ msgid ""
 "The directory %1, could not be created.\n"
 "Please make sure you have the required permissions."
 msgstr ""
+"Das Verzeichnis %1 konnte nicht erstellt werden.\n"
+"Bitte vergewissern Sie sich, dass Sie über die notwendigen Berechtigungen verfügen."
 
 #: src/mainwindow.cpp:530 src/mainwindow.cpp:1634
 msgid ""
@@ -6473,7 +6475,7 @@ msgstr "Wellen"
 
 #: src/mainwindow.cpp:227
 msgid "Waveform"
-msgstr ""
+msgstr "Waveform"
 
 #: rc.cpp:693
 msgid "Wear"
@@ -6571,7 +6573,7 @@ msgstr "Y Wert"
 
 #: src/colorplaneexport.cpp:31
 msgid "YCbCr CbCr plane"
-msgstr ""
+msgstr "YCbCr CbCr-Fläche"
 
 #: src/vectorscope.cpp:53 src/vectorscope.cpp:57
 msgid "YUV"
@@ -6579,11 +6581,11 @@ msgstr "YUV"
 
 #: src/colorplaneexport.cpp:28
 msgid "YUV UV plane"
-msgstr ""
+msgstr "YUV UV-Fläche"
 
 #: src/colorplaneexport.cpp:29
 msgid "YUV Y plane"
-msgstr ""
+msgstr "YUV Y-Fläche"
 
 #: rc.cpp:685
 msgid "Year"
