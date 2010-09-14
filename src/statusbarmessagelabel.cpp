@@ -21,6 +21,7 @@
  ***************************************************************************/
 
 #include "statusbarmessagelabel.h"
+#include "kdenlivesettings.h"
 
 #include <kcolorscheme.h>
 #include <kiconloader.h>
@@ -44,7 +45,6 @@ StatusBarMessageLabel::StatusBarMessageLabel(QWidget* parent) :
         m_closeButton(0)
 {
     setMinimumHeight(KIconLoader::SizeSmall);
-
     QPalette palette;
     palette.setColor(QPalette::Background, Qt::transparent);
     setPalette(palette);
@@ -157,8 +157,7 @@ void StatusBarMessageLabel::paintEvent(QPaintEvent* /* event */)
     QColor backgroundColor;
     if (m_state == Default || m_illumination < 0) backgroundColor = palette().window().color();
     else {
-        KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Window);
-        backgroundColor = scheme.background(KColorScheme::NegativeBackground).color();
+        backgroundColor = KStatefulBrush(KColorScheme::Window, KColorScheme::NegativeBackground, KSharedConfig::openConfig(KdenliveSettings::colortheme())).brush(this).color();
     }
     if (m_state == Desaturate && m_illumination > 0) {
         backgroundColor.setAlpha(m_illumination * 2);
