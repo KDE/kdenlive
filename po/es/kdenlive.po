@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-09-02 13:20+0300\n"
-"PO-Revision-Date: 2010-09-04 17:59-0300\n"
+"PO-Revision-Date: 2010-09-14 15:23-0300\n"
 "Last-Translator: Gabriel Gazzan <gabcorreo@gmail.com>\n"
 "Language-Team: Español <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -4804,19 +4804,19 @@ msgstr "Desplazar"
 
 #: rc.cpp:531
 msgid "Offset Alpha"
-msgstr "Desplazar alfa"
+msgstr "Desplazamiento alfa"
 
 #: rc.cpp:529
 msgid "Offset Blue"
-msgstr "Desplazar azul"
+msgstr "Desplazamiento azul"
 
 #: rc.cpp:527
 msgid "Offset Green"
-msgstr "Desplazar verde"
+msgstr "Desplazamiento verde"
 
 #: rc.cpp:525
 msgid "Offset Red"
-msgstr "Desplazar rojo"
+msgstr "Desplazamiento rojo"
 
 #: rc.cpp:1834
 #: rc.cpp:2640
@@ -5433,7 +5433,7 @@ msgstr "RGB"
 #: rc.cpp:1050
 #: rc.cpp:2828
 msgid "RGB Parade"
-msgstr "Desfile RGB"
+msgstr "Presentación RGB"
 
 #: rc.cpp:254
 msgid "RGB adjustment"
@@ -5891,7 +5891,7 @@ msgstr "S"
 
 #: rc.cpp:513
 msgid "SOP/Sat"
-msgstr "SOP/Sat."
+msgstr "PDP/Sat."
 
 #: src/kdenlivesettingsdialog.cpp:253
 msgid "SVGAlib"
