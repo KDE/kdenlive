@@ -19,11 +19,14 @@
 
 
 #include "smallruler.h"
+#include "kdenlivesettings.h"
 
 #include <KDebug>
+#include <KColorScheme>
 
 #include <QMouseEvent>
 #include <QStylePainter>
+
 
 SmallRuler::SmallRuler(MonitorManager *manager, QWidget *parent) :
         QWidget(parent),
@@ -33,7 +36,7 @@ SmallRuler::SmallRuler(MonitorManager *manager, QWidget *parent) :
 {
     m_zoneStart = 10;
     m_zoneEnd = 60;
-    m_zoneColor = QColor(133, 255, 143);
+    m_zoneColor = KStatefulBrush(KColorScheme::View, KColorScheme::PositiveBackground, KSharedConfig::openConfig(KdenliveSettings::colortheme())).brush(this).color();
     setMouseTracking(true);
 }
 
@@ -158,7 +161,7 @@ void SmallRuler::updatePixmap()
             p.drawLine(m_markers.at(i) * m_scale, 0, m_markers.at(i) * m_scale, 9);
         }
     }
-    p.setPen(palette().dark().color());
+    p.setPen(palette().text().color());
     // draw the little marks
     fend = m_scale * m_small;
     if (fend > 2) for (f = 0; f < width(); f += fend) {
@@ -186,7 +189,7 @@ void SmallRuler::paintEvent(QPaintEvent *e)
     // draw pointer
     QPolygon pa(3);
     pa.setPoints(3, m_cursorPosition - 5, 10, m_cursorPosition + 5, 10, m_cursorPosition/*+0*/, 5);
-    p.setBrush(palette().dark().color());
+    p.setBrush(palette().text().color());
     p.setPen(Qt::NoPen);
     p.drawPolygon(pa);
 }

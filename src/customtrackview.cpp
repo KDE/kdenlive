@@ -4756,6 +4756,11 @@ void CustomTrackView::updateSnapPoints(AbstractClipItem *selected, QList <GenTim
         }
     }
 
+    // add render zone
+    QPoint z = m_document->zone();
+    snaps.append(GenTime(z.x(), m_document->fps()));
+    snaps.append(GenTime(z.y(), m_document->fps()));
+
     qSort(snaps);
     m_scene->setSnapList(snaps);
     //for (int i = 0; i < m_snapPoints.size(); ++i)

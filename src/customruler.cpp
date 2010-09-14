@@ -24,6 +24,7 @@
 #include <KIcon>
 #include <KCursor>
 #include <KGlobalSettings>
+#include <KColorScheme>
 
 #include <QApplication>
 #include <QMouseEvent>
@@ -67,7 +68,7 @@ CustomRuler::CustomRuler(Timecode tc, CustomTrackView *parent) :
     QFontMetricsF fontMetrics(font());
     LABEL_SIZE = fontMetrics.ascent() - 2;
     m_scale = 3;
-    m_zoneColor = QColor(133, 255, 143);
+    m_zoneColor = KStatefulBrush(KColorScheme::View, KColorScheme::PositiveBackground, KSharedConfig::openConfig(KdenliveSettings::colortheme())).brush(this).color();
     littleMarkDistance = FRAME_SIZE;
     mediumMarkDistance = FRAME_SIZE * m_timecode.fps();
     bigMarkDistance = FRAME_SIZE * m_timecode.fps() * 60;
@@ -155,7 +156,10 @@ void CustomRuler::mousePressEvent(QMouseEvent * event)
 void CustomRuler::mouseMoveEvent(QMouseEvent * event)
 {
     if (event->buttons() == Qt::LeftButton) {
-        int pos = (int)((event->x() + offset()) / m_factor);
+        int pos;
+        if (m_moveCursor == RULER_START || m_moveCursor == RULER_END) {
+            pos = m_view->getSnapPointForPos((int)((event->x() + offset()) / m_factor));
+        } else pos = (int)((event->x() + offset()) / m_factor);
         int zoneStart = m_zoneStart;
         int zoneEnd = m_zoneEnd;
         if (pos < 0) pos = 0;
