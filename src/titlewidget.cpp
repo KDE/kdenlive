@@ -1787,6 +1787,11 @@ void TitleWidget::saveTitle(KUrl url)
 {
     if (anim_start->isChecked()) slotAnimStart(false);
     if (anim_end->isChecked()) slotAnimEnd(false);
+    bool embed_image=false;
+    if (KMessageBox::questionYesNo(this, i18n("Do you want to embed Images into this TitleDocument?\nThis is most needed for sharing Titles.")) != KMessageBox::No)
+    {
+        embed_image=true;	
+    }
     if (url.isEmpty()) {
         KFileDialog *fs = new KFileDialog(KUrl(m_projectTitlePath), "application/x-kdenlivetitle", this);
         fs->setOperationMode(KFileDialog::Saving);
@@ -1800,7 +1805,7 @@ void TitleWidget::saveTitle(KUrl url)
         delete fs;
     }
     if (!url.isEmpty()) {
-        if (m_titledocument.saveDocument(url, m_startViewport, m_endViewport, m_tc.getFrameCount(title_duration->text()) - 1) == false)
+        if (m_titledocument.saveDocument(url, m_startViewport, m_endViewport, m_tc.getFrameCount(title_duration->text()) - 1, embed_image) == false)
             KMessageBox::error(this, i18n("Cannot write to file %1", url.path()));
     }
 }
@@ -1820,7 +1825,7 @@ int TitleWidget::outPoint() const
 void TitleWidget::setXml(QDomDocument doc)
 {
     int out;
-    m_count = m_titledocument.loadFromXml(doc, m_startViewport, m_endViewport, &out);
+    m_count = m_titledocument.loadFromXml(doc, m_startViewport, m_endViewport, &out, m_projectTitlePath);
     adjustFrameSize();
     title_duration->setText(m_tc.getTimecode(GenTime(out + 1, m_render->fps())));
     /*if (doc.documentElement().hasAttribute("out")) {

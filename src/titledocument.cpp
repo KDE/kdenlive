@@ -21,6 +21,7 @@
 #include <KTemporaryFile>
 #include <kio/netaccess.h>
 #include <KApplication>
+#include <KStandardDirs>
 #include <KLocale>
 #include <KMessageBox>
 
@@ -30,6 +31,8 @@
 #include <QGraphicsRectItem>
 #include <QGraphicsTextItem>
 #include <QGraphicsSvgItem>
+#include <QCryptographicHash>
+#include <QSvgRenderer>
 #include <QFontInfo>
 #include <QFile>
 #include <QTextCursor>
@@ -39,6 +42,19 @@
 #include <QGraphicsBlurEffect>
 #include <QGraphicsDropShadowEffect>
 #endif
+
+QByteArray fileToByteArray(const QString& filename)
+{
+    QByteArray ret;
+    QFile file(filename);
+    if (file.open(QIODevice::ReadOnly))
+    {
+        while (!file.atEnd()){
+            ret.append(file.readLine());
+        }
+    }
+    return ret;
+}
 
 TitleDocument::TitleDocument()
 {
@@ -52,7 +68,48 @@ void TitleDocument::setScene(QGraphicsScene* _scene, int width, int height)
     m_height = height;
 }
 
-QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* endv)
+int TitleDocument::base64ToUrl(QGraphicsItem* item, QDomElement& content, bool embed)
+{
+            if (embed)
+            {
+                if (!item->data(Qt::UserRole+1).toString().isEmpty())
+                {
+                     content.setAttribute("base64",item->data(Qt::UserRole+1).toString());
+                } else if (!item->data(Qt::UserRole).toString().isEmpty() ) 
+                {
+                    content.setAttribute("base64",fileToByteArray( item->data(Qt::UserRole).toString() ).toBase64().data());
+                }
+                content.removeAttribute("url");
+            }else{
+                // save for project files to disk
+                QString base64=item->data(Qt::UserRole+1).toString();
+                if (!base64.isEmpty()){
+                    QString titlePath;
+                    if (!m_projectPath.isEmpty())
+                    {
+                        titlePath=m_projectPath;
+                    }else{
+                        titlePath="/tmp/titles";
+                    } 
+                    qDebug() << titlePath;
+                    QString filename=titlePath+QString( QCryptographicHash::hash(base64.toAscii(), QCryptographicHash::Md5).toHex().append(".titlepart"));
+                    KStandardDirs::makeDir(titlePath);
+                    QFile f(filename);
+                    if (f.open(QIODevice::WriteOnly)){
+                        f.write(QByteArray::fromBase64(base64.toAscii()) ) ;
+                        f.close();
+                        content.setAttribute("url",filename);
+                        content.removeAttribute("base64");
+                    }
+
+                } else {
+                    return 1;
+                }
+            }
+        	return 0;
+} 
+
+QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* endv, bool embed)
 {
     QDomDocument doc;
 
@@ -71,10 +128,12 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
         case 7:
             e.setAttribute("type", "QGraphicsPixmapItem");
             content.setAttribute("url", item->data(Qt::UserRole).toString());
+            base64ToUrl (item, content, embed );
             break;
         case 13:
             e.setAttribute("type", "QGraphicsSvgItem");
             content.setAttribute("url", item->data(Qt::UserRole).toString());
+            base64ToUrl (item, content, embed );
             break;
         case 3:
             e.setAttribute("type", "QGraphicsRectItem");
@@ -209,12 +268,12 @@ QColor TitleDocument::getBackgroundColor()
 }
 
 
-bool TitleDocument::saveDocument(const KUrl& url, QGraphicsRectItem* startv, QGraphicsRectItem* endv, int out)
+bool TitleDocument::saveDocument(const KUrl& url, QGraphicsRectItem* startv, QGraphicsRectItem* endv, int out, bool embed)
 {
     if (!m_scene)
         return false;
 
-    QDomDocument doc = xml(startv, endv);
+    QDomDocument doc = xml(startv, endv, embed);
     doc.documentElement().setAttribute("out", out);
     KTemporaryFile tmpfile;
     if (!tmpfile.open()) {
@@ -232,8 +291,9 @@ bool TitleDocument::saveDocument(const KUrl& url, QGraphicsRectItem* startv, QGr
     return KIO::NetAccess::upload(tmpfile.fileName(), url, 0);
 }
 
-int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsRectItem* startv, QGraphicsRectItem* endv, int *out)
+int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsRectItem* startv, QGraphicsRectItem* endv, int *out, const QString& projectpath)
 {
+    m_projectPath=projectpath;
     QDomNodeList titles = doc.elementsByTagName("kdenlivetitle");
     //TODO: Check if the opened title size is equal to project size, otherwise warn user and rescale
     if (doc.documentElement().hasAttribute("width") && doc.documentElement().hasAttribute("height")) {
@@ -347,16 +407,40 @@ int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsRectItem* startv, QGra
                     gitem = rec;
                 } else if (items.item(i).attributes().namedItem("type").nodeValue() == "QGraphicsPixmapItem") {
                     QString url = items.item(i).namedItem("content").attributes().namedItem("url").nodeValue();
-                    QPixmap pix(url);
+                    QString base64 = items.item(i).namedItem("content").attributes().namedItem("base64").nodeValue();
+                    QPixmap pix;
+                    if (base64.isEmpty()){
+                        pix.load(url);
+                    }else{
+                        pix.loadFromData(QByteArray::fromBase64(base64.toAscii()));
+                    }
                     QGraphicsPixmapItem *rec = m_scene->addPixmap(pix);
                     rec->setData(Qt::UserRole, url);
+                    if (!base64.isEmpty()){
+                        rec->setData(Qt::UserRole+1, base64);
+                    }
                     gitem = rec;
                 } else if (items.item(i).attributes().namedItem("type").nodeValue() == "QGraphicsSvgItem") {
                     QString url = items.item(i).namedItem("content").attributes().namedItem("url").nodeValue();
-                    QGraphicsSvgItem *rec = new QGraphicsSvgItem(url);
-                    m_scene->addItem(rec);
-                    rec->setData(Qt::UserRole, url);
-                    gitem = rec;
+                    QString base64 = items.item(i).namedItem("content").attributes().namedItem("base64").nodeValue();
+                    QGraphicsSvgItem *rec = NULL;
+                    if (base64.isEmpty()){
+                        rec = new QGraphicsSvgItem(url);
+                    }else{
+                        rec = new QGraphicsSvgItem();
+                        QSvgRenderer *renderer= new QSvgRenderer(QByteArray::fromBase64(base64.toAscii()), rec );
+                        rec->setSharedRenderer(renderer);
+                        //QString elem=rec->elementId();
+                        //QRectF bounds = renderer->boundsOnElement(elem);
+                    }
+                    if (rec){
+                        m_scene->addItem(rec);
+                        rec->setData(Qt::UserRole, url);
+                        if (!base64.isEmpty()){
+                            rec->setData(Qt::UserRole+1, base64);
+                        }
+                        gitem = rec;
+                    }
                 }
             }
             //pos and transform
