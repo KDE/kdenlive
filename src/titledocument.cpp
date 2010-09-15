@@ -91,7 +91,6 @@ int TitleDocument::base64ToUrl(QGraphicsItem* item, QDomElement& content, bool e
                     }else{
                         titlePath="/tmp/titles";
                     } 
-                    qDebug() << titlePath;
                     QString filename=titlePath+QString( QCryptographicHash::hash(base64.toAscii(), QCryptographicHash::Md5).toHex().append(".titlepart"));
                     KStandardDirs::makeDir(titlePath);
                     QFile f(filename);
