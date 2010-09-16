@@ -992,7 +992,7 @@ void TrackView::slotShowTrackEffects(int ix)
 void TrackView::slotUpdateTrackEffectState(int ix)
 {
     QList<HeaderTrack *> widgets = findChildren<HeaderTrack *>();
-    if (ix >= widgets.count()) {
+    if (ix < 0 || ix >= widgets.count()) {
         kDebug() << "ERROR, Trying to access a non existant track: " << ix;
         return;
     }
