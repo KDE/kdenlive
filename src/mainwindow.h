@@ -78,12 +78,13 @@ public:
     /** @brief Initialises the main window.
      * @param MltPath (optional) path to MLT environment
      * @param Url (optional) file to open
+     * @param clipsToLoad (optional) a comma separated list of clips to import in project
      *
      * If Url is present, it will be opened, otherwhise, if openlastproject is
      * set, latest project will be opened. If no file is open after trying this,
      * a default new file will be created. */
     explicit MainWindow(const QString &MltPath = QString(),
-                        const KUrl &Url = KUrl(), QWidget *parent = 0);
+                        const KUrl &Url = KUrl(), const QString & clipsToLoad = QString(), QWidget *parent = 0);
     virtual ~MainWindow();
 
     /** @brief Locates the MLT environment.

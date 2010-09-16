@@ -54,6 +54,7 @@ int main(int argc, char *argv[])
     KCmdLineOptions options;
     options.add("mlt-path <path>", ki18n("Set the path for MLT environment"));
     options.add("+[file]", ki18n("Document to open")); //new
+    options.add("i <clips>", ki18n("Comma separated list of clips to add")); //new
     KCmdLineArgs::addCmdLineOptions(options); //new
 
     KApplication app;
@@ -74,13 +75,13 @@ int main(int argc, char *argv[])
         }
     } else {
         KCmdLineArgs *args = KCmdLineArgs::parsedArgs(); //new
-
+	QString clipsToLoad = args->getOption("i");
         QString mltPath = args->getOption("mlt-path");
         KUrl url;
         if (args->count()) {
             url = args->url(0);
         }
-        window = new MainWindow(mltPath, url);
+        window = new MainWindow(mltPath, url, clipsToLoad);
         window->show();
 
         args->clear();

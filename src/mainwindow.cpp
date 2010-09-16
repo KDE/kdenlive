@@ -120,7 +120,7 @@ EffectsList MainWindow::audioEffects;
 EffectsList MainWindow::customEffects;
 EffectsList MainWindow::transitions;
 
-MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent) :
+MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString & clipsToLoad, QWidget *parent) :
         KXmlGuiWindow(parent),
         m_activeDocument(NULL),
         m_activeTimeline(NULL),
@@ -467,6 +467,16 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
         QTimer::singleShot(500, this, SLOT(openLastFile()));
     } else { //if (m_timelineArea->count() == 0) {
         newFile(false);
+    }
+
+    if (!clipsToLoad.isEmpty() && m_activeDocument) {
+        QStringList list = clipsToLoad.split(',');
+        QList <QUrl> urls;
+        foreach(QString path, list) {
+            kDebug() << QDir::current().absoluteFilePath(path);
+            urls << QUrl::fromLocalFile(QDir::current().absoluteFilePath(path));
+        }
+        m_projectList->slotAddClip(urls);
     }
 
 #ifndef NO_JOGSHUTTLE
