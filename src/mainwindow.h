@@ -271,6 +271,9 @@ private:
     * @return The mimetype */
     QString getMimeType();
 
+    /** @brief Populates the "load layout" menu. */
+    void loadLayouts();
+
 public slots:
     /** @brief Prepares opening @param url.
     *
@@ -279,6 +282,7 @@ public slots:
     void slotGotProgressInfo(const QString &message, int progress);
     Q_SCRIPTABLE void setRenderingProgress(const QString &url, int progress);
     Q_SCRIPTABLE void setRenderingFinished(const QString &url, int status, const QString &error);
+
 
 private slots:
     void newFile(bool showProjectSettings = true, bool force = false);
@@ -466,6 +470,11 @@ private slots:
     void slotDeleteProjectClips(QStringList ids, QMap<QString, QString> folderids);
     void slotShowTitleBars(bool show);
     void slotSwitchTitles();
+
+    /** @brief Saves the widgets layout */
+    void slotSaveLayout(QString &layoutName);
+    void slotLoadLayout(QAction*);
+    void slotDeleteLayout(QString &layoutName);
 
     /** @brief The monitor informs that it needs (or not) to have frames sent by the renderer. */
     void slotMonitorRequestRenderFrame(bool request);
