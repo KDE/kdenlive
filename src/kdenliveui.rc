@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<gui name="kdenlive" version="53">
+<gui name="kdenlive" version="54">
   <ToolBar name="extraToolBar" >
     <text>Extra Toolbar</text>
 	<Action name="project_render" />
@@ -148,8 +148,17 @@
       <Action name="insert_timeline" />
     </Menu>
     <Menu name="dockwindows" ><text>View</text>
-      <Action name="layout_save" />
+      <Menu name="layout_save_as" ><text>Save Layout As</text>
+	<Action name="save_layout1" />
+	<Action name="save_layout2" />
+	<Action name="save_layout3" />
+	<Action name="save_layout4" />
+      </Menu>
       <Menu name="layout_load" ><text>Load Layout</text>
+	<Action name="load_layout1" />
+	<Action name="load_layout2" />
+	<Action name="load_layout3" />
+	<Action name="load_layout4" />
       </Menu>
       <Separator />
       <Action name="show_titlebars" />

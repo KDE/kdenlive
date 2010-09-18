@@ -472,9 +472,8 @@ private slots:
     void slotSwitchTitles();
 
     /** @brief Saves the widgets layout */
-    void slotSaveLayout(QString &layoutName);
+    void slotSaveLayout(QAction*);
     void slotLoadLayout(QAction*);
-    void slotDeleteLayout(QString &layoutName);
 
     /** @brief The monitor informs that it needs (or not) to have frames sent by the renderer. */
     void slotMonitorRequestRenderFrame(bool request);

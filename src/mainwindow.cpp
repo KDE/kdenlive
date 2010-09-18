@@ -301,6 +301,16 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     m_fileRevert = KStandardAction::revert(this, SLOT(slotRevert()), actionCollection());
     m_fileRevert->setEnabled(false);
 
+    // Prepare layout actions
+    KActionCategory *layoutActions = new KActionCategory(i18n("Layouts"), actionCollection());
+    for(int i = 1; i < 5; i++) {
+        KAction *load = new KAction(KIcon(), i18n("Load Layout %1").arg(i), this);
+        load->setData("_" + QString::number(i));
+        layoutActions->addAction("load_layout" + QString::number(i), load);
+        KAction *save = new KAction(KIcon(), i18n("Save As Layout %1").arg(i), this);
+        save->setData("_" + QString::number(i));
+        layoutActions->addAction("save_layout" + QString::number(i), save);
+    }
 
     setupGUI();
 
@@ -315,10 +325,17 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     /*ScriptingPart* sp = new ScriptingPart(this, QStringList());
     guiFactory()->addClient(sp);*/
 
-    loadLayouts();
+
     QMenu *loadLayout = (QMenu*)(factory()->container("layout_load", this));
     if(loadLayout)
         connect(loadLayout, SIGNAL(triggered(QAction*)), this, SLOT(slotLoadLayout(QAction*)));
+    QMenu *saveLayout = (QMenu*)(factory()->container("layout_save_as", this));
+    if(saveLayout)
+        connect(saveLayout, SIGNAL(triggered(QAction*)), this, SLOT(slotSaveLayout(QAction*)));
+
+
+    // Load layout names from config file
+    loadLayouts();
 
     loadPlugins();
     loadTranscoders();
@@ -438,7 +455,6 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     m_timelineContextClipMenu->addMenu(m_transitionsMenu);
     m_timelineContextClipMenu->addMenu(m_videoEffectsMenu);
     m_timelineContextClipMenu->addMenu(m_audioEffectsMenu);
-    //TODO: re-enable custom effects menu when it is implemented
     m_timelineContextClipMenu->addMenu(m_customEffectsMenu);
 
     m_timelineContextTransitionMenu->addAction(actionCollection()->action("edit_item_duration"));
@@ -1384,10 +1400,6 @@ void MainWindow::setupActions()
     slotShowTitleBars(KdenliveSettings::showtitlebars());
 
 
-    QAction *saveLayout = new KAction(KIcon(), i18n("Save Layout"), this);
-    collection->addAction("layout_save", saveLayout);
-    connect(saveLayout, SIGNAL(triggered()), this, SLOT(slotSaveLayout()));
-
     //const QByteArray state = layoutGroup.readEntry("layout1", QByteArray());
 
     /*QAction *maxCurrent = new KAction(i18n("Maximize Current Widget"), this);
@@ -1541,17 +1553,35 @@ void MainWindow::slotDisplayActionMessage(QAction *a)
 
 void MainWindow::loadLayouts()
 {
+    QMenu *saveLayout = (QMenu*)(factory()->container("layout_save_as", this));
     QMenu *loadLayout = (QMenu*)(factory()->container("layout_load", this));
-    if(loadLayout == NULL) return;
-    loadLayout->clear();
+    if(loadLayout == NULL || saveLayout == NULL) return;
     KSharedConfigPtr config = KGlobal::config();
     KConfigGroup layoutGroup(config, "Layouts");
     QStringList entries = layoutGroup.keyList();
-    foreach(const QString & key, entries) {
-        if(!key.endsWith("_state")) {
-            QAction *a = new QAction(key, this);
-            a->setData(key);
-            loadLayout->addAction(a);
+    QList<QAction *> loadActions = loadLayout->actions();
+    QList<QAction *> saveActions = saveLayout->actions();
+    for(int i = 1; i < 5; i++) {
+        // Rename the layouts actions
+        foreach(const QString & key, entries) {
+            if(key.endsWith(QString("_%1").arg(i))) {
+                // Found previously saved layout
+                QString layoutName = key.section("_", 0, -2);
+                for(int j = 0; j < loadActions.count(); j++) {
+                    if(loadActions.at(j)->data().toString().endsWith("_" + QString::number(i))) {
+                        loadActions[j]->setText(layoutName);
+                        loadActions[j]->setData(key);
+                        break;
+                    }
+                }
+                for(int j = 0; j < saveActions.count(); j++) {
+                    if(saveActions.at(j)->data().toString().endsWith("_" + QString::number(i))) {
+                        saveActions[j]->setText(layoutName);
+                        saveActions[j]->setData(key);
+                        break;
+                    }
+                }
+            }
         }
     }
 }
@@ -1559,35 +1589,30 @@ void MainWindow::loadLayouts()
 void MainWindow::slotLoadLayout(QAction *action)
 {
     if(!action) return;
-    QString layoutName = action->data().toString();
-    kDebug() << " LOADING LAYOUT: " << layoutName;
+    QString layoutId = action->data().toString();
+    if(layoutId.isEmpty()) return;
     KSharedConfigPtr config = KGlobal::config();
     KConfigGroup layouts(config, "Layouts");
-    if(!layouts.hasKey(layoutName)) kDebug() << "Config entry not found";
-    QByteArray geom = QByteArray::fromBase64(layouts.readEntry(layoutName).toAscii());
-    QByteArray state = QByteArray::fromBase64(layouts.readEntry(layoutName + "_state").toAscii());
-    restoreGeometry(geom);
+    //QByteArray geom = QByteArray::fromBase64(layouts.readEntry(layoutId).toAscii());
+    QByteArray state = QByteArray::fromBase64(layouts.readEntry(layoutId).toAscii());
+    //restoreGeometry(geom);
     restoreState(state);
 }
 
-void MainWindow::slotSaveLayout(QString &layoutName)
+void MainWindow::slotSaveLayout(QAction *action)
 {
-    if(layoutName.isEmpty()) layoutName = QInputDialog::getText(this, i18n("Save Layout"), i18n("Layout name:"));
-    KSharedConfigPtr config = KGlobal::config();
-    KConfigGroup layouts(config, "Layouts");
-    QByteArray ge = saveGeometry();
-    QByteArray st = saveState();
-    layouts.writeEntry(layoutName, ge.toBase64());
-    layouts.writeEntry(layoutName + "_state", st.toBase64());
-    loadLayouts();
-}
+    QString originallayoutName = action->data().toString();
+    int layoutId = originallayoutName.section("_", -1).toInt();
 
-void MainWindow::slotDeleteLayout(QString &layoutName)
-{
+    QString layoutName = QInputDialog::getText(this, i18n("Save Layout"), i18n("Layout name:"), QLineEdit::Normal, originallayoutName.section("_", 0, -2));
+    if(layoutName.isEmpty()) return;
     KSharedConfigPtr config = KGlobal::config();
     KConfigGroup layouts(config, "Layouts");
-    layouts.deleteEntry(layoutName);
-    layouts.deleteEntry(layoutName + "_state");
+    layouts.deleteEntry(originallayoutName);
+
+    QByteArray st = saveState();
+    layoutName.append("_" + QString::number(layoutId));
+    layouts.writeEntry(layoutName, st.toBase64());
     loadLayouts();
 }
 
