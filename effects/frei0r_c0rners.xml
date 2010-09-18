@@ -4,35 +4,35 @@
 	<description>Four corners geometry engine</description>
 	<author>Marko Cebokli</author>
 	
-	<parameter type="constant" name="Corner 1 X" default="1000" min="0" max="3000" factor="3000">
+	<parameter type="constant" name="Corner 1 X" default="2000" min="0" max="6000" factor="6000">
 		<name>Corner 1 X</name>
 	</parameter>
 	
-	<parameter type="constant" name="Corner 1 Y" default="1000" min="0" max="3000" factor="3000">
+	<parameter type="constant" name="Corner 1 Y" default="2000" min="0" max="6000" factor="6000">
 		<name>Corner 1 Y</name>
 	</parameter>
 	
-	<parameter type="constant" name="Corner 2 X" default="2000" min="0" max="3000" factor="3000">
+	<parameter type="constant" name="Corner 2 X" default="4000" min="0" max="6000" factor="6000">
 		<name>Corner 2 X</name>
 	</parameter>
 	
-	<parameter type="constant" name="Corner 2 Y" default="1000" min="0" max="3000" factor="3000">
+	<parameter type="constant" name="Corner 2 Y" default="2000" min="0" max="6000" factor="6000">
 		<name>Corner 2 Y</name>
 	</parameter>
 	
-	<parameter type="constant" name="Corner 3 X" default="2000" min="0" max="3000" factor="3000">
+	<parameter type="constant" name="Corner 3 X" default="4000" min="0" max="6000" factor="6000">
 		<name>Corner 3 X</name>
 	</parameter>
 	
-	<parameter type="constant" name="Corner 3 Y" default="2000" min="0" max="3000" factor="3000">
+	<parameter type="constant" name="Corner 3 Y" default="4000" min="0" max="6000" factor="6000">
 		<name>Corner 3 Y</name>
 	</parameter>
 	
-	<parameter type="constant" name="Corner 4 X" default="1000" min="0" max="3000" factor="3000">
+	<parameter type="constant" name="Corner 4 X" default="2000" min="0" max="6000" factor="6000">
 		<name>Corner 4 X</name>
 	</parameter>
 	
-	<parameter type="constant" name="Corner 4 Y" default="2000" min="0" max="3000" factor="3000">
+	<parameter type="constant" name="Corner 4 Y" default="4000" min="0" max="6000" factor="6000">
 		<name>Corner 4 Y</name>
 	</parameter>
 	
