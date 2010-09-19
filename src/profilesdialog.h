@@ -41,7 +41,13 @@ public:
     static void saveProfile(MltVideoProfile &profile);
     static QString existingProfile(MltVideoProfile profile);
     static bool existingProfileDescription(const QString &desc);
-    static QString getPathFromProperties(int width, int height, double fps, double par = 0, double dar = 0);
+
+    /** @brief Find a profile to match parameter properties:
+     *  @param width The profile frame width
+     *  @param height The profile frame height
+     *  @param fps The profile fps
+     *  @param useDisplayWidth If true, compare width with profile's display width ( = dar * height) */
+    static QString getPathFromProperties(int width, int height, double fps, bool useDisplayWidth = false);
     static double getStringEval(const MltVideoProfile &profile, QString eval);
 
 protected:

@@ -71,19 +71,19 @@ public:
     }*/
 
     void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const {
-        if(index.column() == 0 && !index.data(DurationRole).isNull()) {
+        if (index.column() == 0 && !index.data(DurationRole).isNull()) {
             QRect r1 = option.rect;
             painter->save();
             QStyleOptionViewItemV4 opt(option);
             QStyle *style = opt.widget ? opt.widget->style() : QApplication::style();
             style->drawPrimitive(QStyle::PE_PanelItemViewItem, &opt, painter, opt.widget);
 
-            if(option.state & QStyle::State_Selected) {
+            if (option.state & QStyle::State_Selected) {
                 painter->setPen(option.palette.highlightedText().color());
             }
             const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
             QPixmap pixmap = qVariantValue<QPixmap>(index.data(Qt::DecorationRole));
-            if((index.flags() & (Qt::ItemIsDragEnabled)) == false) {
+            if ((index.flags() & (Qt::ItemIsDragEnabled)) == false) {
                 KIcon icon("dialog-close");
                 QPainter p(&pixmap);
                 p.drawPixmap(1, 1, icon.pixmap(16, 16));
@@ -105,17 +105,17 @@ public:
             painter->setFont(font);
             QString subText = index.data(DurationRole).toString();
             int usage = index.data(UsageRole).toInt();
-            if(usage != 0) subText.append(QString(" (%1)").arg(usage));
-            if(option.state & (QStyle::State_Selected)) painter->setPen(option.palette.color(QPalette::Mid));
+            if (usage != 0) subText.append(QString(" (%1)").arg(usage));
+            if (option.state & (QStyle::State_Selected)) painter->setPen(option.palette.color(QPalette::Mid));
             painter->drawText(r2, Qt::AlignLeft | Qt::AlignVCenter , subText);
             painter->restore();
-        } else if(index.column() == 2 && KdenliveSettings::activate_nepomuk()) {
-            if(index.data().toString().isEmpty()) {
+        } else if (index.column() == 2 && KdenliveSettings::activate_nepomuk()) {
+            if (index.data().toString().isEmpty()) {
                 QStyledItemDelegate::paint(painter, option, index);
                 return;
             }
             QRect r1 = option.rect;
-            if(option.state & (QStyle::State_Selected)) {
+            if (option.state & (QStyle::State_Selected)) {
                 painter->fillRect(r1, option.palette.highlight());
             }
 #ifdef NEPOMUK
