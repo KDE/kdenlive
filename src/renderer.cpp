@@ -628,7 +628,7 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
         char *tmp = decodedString("kdenlivetitle:" + xml.attribute("resource"));
         producer = new Mlt::Producer(*m_mltProfile, 0, tmp);
         delete[] tmp;
-        if (producer && xml.hasAttribute("xmldata")) {
+        if (producer && producer->is_valid() && xml.hasAttribute("xmldata")) {
             tmp = decodedString(xml.attribute("xmldata"));
             producer->set("xmldata", tmp);
             delete[] tmp;
