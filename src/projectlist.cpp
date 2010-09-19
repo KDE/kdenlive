@@ -1481,7 +1481,7 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
             int width = properties.value("frame_size").section('x', 0, 0).toInt();
             int height = properties.value("frame_size").section('x', -1).toInt();
             double fps = properties.value("fps").toDouble();
-            if(width != m_doc->width() || height != m_doc->width() || qAbs(fps - m_doc->fps()) > 0.5) {
+            if(width != m_doc->width() || height != m_doc->height() || qAbs(fps - m_doc->fps()) > 0.5) {
                 QString suggestedProfile = ProfilesDialog::getPathFromProperties(width, height, fps);
                 if(!suggestedProfile.isEmpty()) {
                     QString description = ProfilesDialog::getSettingsFromFile(suggestedProfile).value("description");
