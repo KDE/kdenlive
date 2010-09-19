@@ -135,13 +135,18 @@ void AbstractClipItem::resizeStart(int posx, bool hasSizeLimit)
         durationDiff = GenTime() - cropStart();
     } else if (durationDiff >= cropDuration()) {
         return;
-        if (cropDuration() > GenTime(3, m_fps)) durationDiff = GenTime(3, m_fps);
-        else return;
+        /*if (cropDuration() > GenTime(3, m_fps)) durationDiff = GenTime(3, m_fps);
+        else return;*/
     }
     m_info.startPos += durationDiff;
 
-    if (type() == AVWIDGET)
+    // set to true if crop from start is negative (possible for color clips, images as they have no size limit)
+    bool negCropStart = false;
+    if (type() == AVWIDGET) {
         m_info.cropStart += durationDiff;
+        if (m_info.cropStart < GenTime())
+            negCropStart = true;
+    }
 
     m_info.cropDuration -= durationDiff;
     setRect(0, 0, cropDuration().frames(m_fps) - 0.02, rect().height());
@@ -159,6 +164,9 @@ void AbstractClipItem::resizeStart(int posx, bool hasSizeLimit)
         //kDebug()<<"// NEW START: "<<m_startPos.frames(25)<<", NW DUR: "<<m_cropDuration.frames(25);
     }
 
+    // set crop from start to 0 (isn't relevant as this only happens for color clips, images)
+    if (negCropStart)
+        m_info.cropStart = GenTime();
 
     //kDebug() << "-- NEW CLIP=" << startPos().frames(25) << "-" << endPos().frames(25);
     //setRect((double) m_startPos.frames(m_fps) * scale, rect().y(), (double) m_cropDuration.frames(m_fps) * scale, rect().height());
