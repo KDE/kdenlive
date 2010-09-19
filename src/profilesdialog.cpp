@@ -417,7 +417,7 @@ QString ProfilesDialog::getPathFromProperties(int width, int height, double fps,
     QStringList customProfiles = KGlobal::dirs()->findDirs("appdata", "profiles");
     for(int i = 0; i < customProfiles.size(); ++i) {
         QStringList profiles = QDir(customProfiles.at(i)).entryList(profilesFilter, QDir::Files);
-        for(int j = 0; j < profiles.size(); ++i) {
+        for(int j = 0; j < profiles.size(); j++) {
             KConfig confFile(customProfiles.at(i) + profiles.at(j), KConfig::SimpleConfig);
             QMap< QString, QString > values = confFile.entryMap();
             if(values.value("width").toInt() == width && values.value("height").toInt() == height) {
