@@ -1440,8 +1440,8 @@ EffectsParameterList ClipItem::addEffect(const QDomElement effect, bool /*animat
                 double factor = e.attribute("factor", "1").toDouble();
                 if (factor != 1) {
                     for (int j = 0; j < values.count(); j++) {
-                        QString pos = values.at(j).section(":", 0, 0);
-                        double val = values.at(j).section(":", 1, 1).toDouble() / factor;
+                        QString pos = values.at(j).section(':', 0, 0);
+                        double val = values.at(j).section(':', 1, 1).toDouble() / factor;
                         values[j] = pos + "=" + QString::number(val);
                     }
                 }

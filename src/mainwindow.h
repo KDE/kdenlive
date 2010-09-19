@@ -321,6 +321,8 @@ private slots:
     void slotEditProfiles();
     void slotDetectAudioDriver();
     void slotEditProjectSettings();
+    /** @brief Change current document MLT profile. */
+    void slotUpdateProjectProfile(const QString &profile);
     void slotDisplayActionMessage(QAction *a);
 
     /** @brief Turns automatic splitting of audio and video on/off. */

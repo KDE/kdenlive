@@ -18,21 +18,21 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="0" colspan="3">
+   <item row="2" column="0" colspan="3">
     <widget class="QCheckBox" name="kcfg_crashrecovery">
      <property name="text">
       <string>Crash recovery (automatic backup)</string>
      </property>
     </widget>
    </item>
-   <item row="2" column="0" colspan="3">
+   <item row="3" column="0" colspan="3">
     <widget class="QCheckBox" name="kcfg_activatetabs">
      <property name="text">
       <string>Open projects in new tabs</string>
      </property>
     </widget>
    </item>
-   <item row="5" column="0" colspan="3">
+   <item row="6" column="0" colspan="3">
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
       <string>Default Durations</string>
@@ -100,7 +100,7 @@
      </layout>
     </widget>
    </item>
-   <item row="7" column="0" colspan="3">
+   <item row="8" column="0" colspan="3">
     <spacer>
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -113,24 +113,31 @@
      </property>
     </spacer>
    </item>
-   <item row="3" column="0" colspan="2">
+   <item row="4" column="0" colspan="2">
     <widget class="QCheckBox" name="kcfg_usekuiserver">
      <property name="text">
       <string>Use KDE job tracking for render jobs</string>
      </property>
     </widget>
    </item>
-   <item row="4" column="0">
+   <item row="5" column="0">
     <widget class="QCheckBox" name="kcfg_on_monitor_effects">
      <property name="text">
       <string>Use on-monitor effects</string>
      </property>
     </widget>
    </item>
-   <item row="6" column="0">
+   <item row="7" column="0">
     <widget class="QCheckBox" name="kcfg_autoimagesequence">
      <property name="text">
       <string>Automatically import image sequences</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0" colspan="2">
+    <widget class="QCheckBox" name="kcfg_checkfirstprojectclip">
+     <property name="text">
+      <string>Check if first added clip matches project profile</string>
      </property>
     </widget>
    </item>

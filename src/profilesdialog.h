@@ -41,6 +41,7 @@ public:
     static void saveProfile(MltVideoProfile &profile);
     static QString existingProfile(MltVideoProfile profile);
     static bool existingProfileDescription(const QString &desc);
+    static QString getPathFromProperties(int width, int height, double fps, double par = 0, double dar = 0);
     static double getStringEval(const MltVideoProfile &profile, QString eval);
 
 protected:

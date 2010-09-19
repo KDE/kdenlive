@@ -1602,9 +1602,9 @@ void MainWindow::slotLoadLayout(QAction *action)
 void MainWindow::slotSaveLayout(QAction *action)
 {
     QString originallayoutName = action->data().toString();
-    int layoutId = originallayoutName.section("_", -1).toInt();
+    int layoutId = originallayoutName.section('_', -1).toInt();
 
-    QString layoutName = QInputDialog::getText(this, i18n("Save Layout"), i18n("Layout name:"), QLineEdit::Normal, originallayoutName.section("_", 0, -2));
+    QString layoutName = QInputDialog::getText(this, i18n("Save Layout"), i18n("Layout name:"), QLineEdit::Normal, originallayoutName.section('_', 0, -2));
     if(layoutName.isEmpty()) return;
     KSharedConfigPtr config = KGlobal::config();
     KConfigGroup layouts(config, "Layouts");
@@ -2072,39 +2072,40 @@ void MainWindow::slotEditProjectSettings()
         if(m_renderWidget) m_renderWidget->setDocumentPath(w->selectedFolder().path(KUrl::AddTrailingSlash));
         if(KdenliveSettings::videothumbnails() != w->enableVideoThumbs()) slotSwitchVideoThumbs();
         if(KdenliveSettings::audiothumbnails() != w->enableAudioThumbs()) slotSwitchAudioThumbs();
-        if(m_activeDocument->profilePath() != profile) {
-            // Profile was changed
-            double dar = m_activeDocument->dar();
-
-            // Deselect current effect / transition
-            m_effectStack->slotClipItemSelected(NULL, 0);
-            m_transitionConfig->slotTransitionItemSelected(NULL, 0, QPoint(), false);
-            m_clipMonitor->slotSetXml(NULL);
-            bool updateFps = m_activeDocument->setProfilePath(profile);
-            KdenliveSettings::setCurrent_profile(profile);
-            KdenliveSettings::setProject_fps(m_activeDocument->fps());
-            setCaption(m_activeDocument->description(), m_activeDocument->isModified());
-
-            m_activeDocument->clipManager()->clearUnusedProducers();
-            m_monitorManager->resetProfiles(m_activeDocument->timecode());
-
-            m_transitionConfig->updateProjectFormat(m_activeDocument->mltProfile(), m_activeDocument->timecode(), m_activeDocument->tracksList());
-            m_effectStack->updateProjectFormat(m_activeDocument->mltProfile(), m_activeDocument->timecode());
-            m_projectList->updateProjectFormat(m_activeDocument->timecode());
-            if(m_renderWidget) m_renderWidget->setProfile(m_activeDocument->mltProfile());
-            m_timelineArea->setTabText(m_timelineArea->currentIndex(), m_activeDocument->description());
-            //m_activeDocument->clipManager()->resetProducersList(m_projectMonitor->render->producersList());
-            if(dar != m_activeDocument->dar()) m_projectList->reloadClipThumbnails();
-            if(updateFps) m_activeTimeline->updateProjectFps();
-            m_activeDocument->setModified(true);
-            m_commandStack->activeStack()->clear();
-            //Update the mouse position display so it will display in DF/NDF format by default based on the project setting.
-            slotUpdateMousePosition(0);
-            // We need to desactivate & reactivate monitors to get a refresh
-            //m_monitorManager->switchMonitors();
-        }
+        if(m_activeDocument->profilePath() != profile) slotUpdateProjectProfile(profile);
     }
     delete w;
+}
+
+void MainWindow::slotUpdateProjectProfile(const QString &profile)
+{
+    double dar = m_activeDocument->dar();
+
+    // Deselect current effect / transition
+    m_effectStack->slotClipItemSelected(NULL, 0);
+    m_transitionConfig->slotTransitionItemSelected(NULL, 0, QPoint(), false);
+    m_clipMonitor->slotSetXml(NULL);
+    bool updateFps = m_activeDocument->setProfilePath(profile);
+    KdenliveSettings::setCurrent_profile(profile);
+    KdenliveSettings::setProject_fps(m_activeDocument->fps());
+    setCaption(m_activeDocument->description(), m_activeDocument->isModified());
+
+    m_activeDocument->clipManager()->clearUnusedProducers();
+    m_monitorManager->resetProfiles(m_activeDocument->timecode());
+    m_transitionConfig->updateProjectFormat(m_activeDocument->mltProfile(), m_activeDocument->timecode(), m_activeDocument->tracksList());
+    m_effectStack->updateProjectFormat(m_activeDocument->mltProfile(), m_activeDocument->timecode());
+    m_projectList->updateProjectFormat(m_activeDocument->timecode());
+    if(m_renderWidget) m_renderWidget->setProfile(m_activeDocument->mltProfile());
+    m_timelineArea->setTabText(m_timelineArea->currentIndex(), m_activeDocument->description());
+    //m_activeDocument->clipManager()->resetProducersList(m_projectMonitor->render->producersList());
+    if(dar != m_activeDocument->dar()) m_projectList->reloadClipThumbnails();
+    if(updateFps) m_activeTimeline->updateProjectFps();
+    m_activeDocument->setModified(true);
+    m_commandStack->activeStack()->clear();
+    //Update the mouse position display so it will display in DF/NDF format by default based on the project setting.
+    slotUpdateMousePosition(0);
+    // We need to desactivate & reactivate monitors to get a refresh
+    //m_monitorManager->switchMonitors();
 }
 
 
@@ -2209,6 +2210,8 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
             disconnect(m_projectMonitor, SIGNAL(zoneUpdated(QPoint)), m_activeDocument, SLOT(setModified()));
             disconnect(m_clipMonitor, SIGNAL(zoneUpdated(QPoint)), m_activeDocument, SLOT(setModified()));
             disconnect(m_projectList, SIGNAL(projectModified()), m_activeDocument, SLOT(setModified()));
+            disconnect(m_projectList, SIGNAL(updateProfile(const QString &)), this, SLOT(slotUpdateProjectProfile(const QString &)));
+
             disconnect(m_projectMonitor->render, SIGNAL(refreshDocumentProducers()), m_activeDocument, SLOT(checkProjectClips()));
 
             disconnect(m_activeDocument, SIGNAL(guidesUpdated()), this, SLOT(slotGuidesUpdated()));
@@ -2263,6 +2266,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     connect(m_projectList, SIGNAL(clipNeedsReload(const QString&, bool)), trackView->projectView(), SLOT(slotUpdateClip(const QString &, bool)));
 
     connect(m_projectList, SIGNAL(projectModified()), doc, SLOT(setModified()));
+    connect(m_projectList, SIGNAL(updateProfile(const QString &)), this, SLOT(slotUpdateProjectProfile(const QString &)));
     connect(m_projectList, SIGNAL(clipNameChanged(const QString, const QString)), trackView->projectView(), SLOT(clipNameChanged(const QString, const QString)));
 
     connect(m_projectList, SIGNAL(findInTimeline(const QString&)), this, SLOT(slotClipInTimeline(const QString&)));

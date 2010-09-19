@@ -834,8 +834,8 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
                             if (e.attribute("type") == "simplekeyframe") {
                                 QStringList kfrs = paramvalue.split(";");
                                 for (int l = 0; l < kfrs.count(); l++) {
-                                    QString fr = kfrs.at(l).section("=", 0, 0);
-                                    double val = kfrs.at(l).section("=", 1, 1).toDouble();
+                                    QString fr = kfrs.at(l).section('=', 0, 0);
+                                    double val = kfrs.at(l).section('=', 1, 1).toDouble();
                                     kfrs[l] = fr + ":" + QString::number((int)(val * fact));
                                 }
                                 e.setAttribute("keyframes", kfrs.join(";"));

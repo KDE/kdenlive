@@ -6392,8 +6392,8 @@ EffectsParameterList CustomTrackView::getEffectArgs(const QDomElement effect)
             QStringList values = e.attribute("keyframes").split(";", QString::SkipEmptyParts);
             double factor = e.attribute("factor", "1").toDouble();
             for (int j = 0; j < values.count(); j++) {
-                QString pos = values.at(j).section(":", 0, 0);
-                double val = values.at(j).section(":", 1, 1).toDouble() / factor;
+                QString pos = values.at(j).section(':', 0, 0);
+                double val = values.at(j).section(':', 1, 1).toDouble() / factor;
                 values[j] = pos + "=" + QString::number(val);
             }
             // kDebug() << "/ / / /SENDING KEYFR:" << values;

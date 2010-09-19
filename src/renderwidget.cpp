@@ -762,7 +762,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
     QString subsize = currentSize;
     if (std.startsWith("s=")) {
         subsize = std.section(' ', 0, 0).toLower();
-        subsize = subsize.section("=", 1, 1);
+        subsize = subsize.section('=', 1, 1);
     } else if (std.contains(" s=")) {
         subsize = std.section(" s=", 1, 1);
         subsize = subsize.section(' ', 0, 0).toLower();
