@@ -1473,6 +1473,7 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
     int max = m_doc->clipManager()->clipsCount();
     if (item && m_infoQueue.isEmpty() && m_thumbnailQueue.isEmpty()) {
         m_listView->setCurrentItem(item);
+        bool displayClipInMonitor = true;
         if (item->parent()) {
             if (item->parent()->type() == PROJECTFOLDERTYPE)
                 static_cast <FolderProjectItem *>(item->parent())->switchIcon();
@@ -1481,29 +1482,47 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
             int width = properties.value("frame_size").section('x', 0, 0).toInt();
             int height = properties.value("frame_size").section('x', -1).toInt();
             double fps = properties.value("fps").toDouble();
-            int renderWidth = -1;
-            int renderHeight = -1;
-            double renderFps = -1;
-            if (item->clipType() == IMAGE) {
-                renderWidth = m_doc->renderer()->renderWidth();
-                renderHeight = m_doc->height();
-            } else if (item->clipType() == AV || item->clipType() == VIDEO) {
-                renderWidth = m_doc->width();
-                renderHeight = m_doc->height();
-                renderFps = m_doc->fps();
-            }
-            if ((renderWidth > 0 && width != renderWidth) || (renderHeight > 0 && height != renderHeight) || (renderFps > 0 && qAbs(fps - renderFps) > 0.5)) {
-                QString suggestedProfile = ProfilesDialog::getPathFromProperties(width, height, fps, item->clipType() == IMAGE);
-                if (!suggestedProfile.isEmpty()) {
-                    QString description = ProfilesDialog::getSettingsFromFile(suggestedProfile).value("description");
-                    if (KMessageBox::questionYesNo(this, i18n("Your clip does not match current project's profile.\nDo you want to adjust the profile (clip size: %1, fps: %2)?\nSuggested profile is %3", properties.value("frame_size"), fps, description)) == KMessageBox::Yes) {
-                        //Change project profile
-                        emit updateProfile(suggestedProfile);
-                    }
-                } else KMessageBox::information(this, i18n("Your clip does not match current project's profile.\nNo existing profile found to match the clip's properties.\nClip size: %1\nFps: %2\n", properties.value("frame_size"), fps));
+            double par = properties.value("aspect_ratio").toDouble();
+            if (item->clipType() == IMAGE || item->clipType() == AV || item->clipType() == VIDEO) {
+                if (ProfilesDialog::matchProfile(width, height, fps, par, item->clipType() == IMAGE, m_doc->mltProfile()) == false) {
+                    // get a list of compatible profiles
+                    QMap <QString, QString> suggestedProfiles = ProfilesDialog::getProfilesFromProperties(width, height, fps, par, item->clipType() == IMAGE);
+                    if (!suggestedProfiles.isEmpty()) {
+                        KDialog *dialog = new KDialog(this);
+                        dialog->setCaption(i18n("Change project profile"));
+                        dialog->setButtons(KDialog::Ok | KDialog::Cancel);
+
+                        QWidget container;
+                        QVBoxLayout *l = new QVBoxLayout;
+                        QLabel *label = new QLabel(i18n("Your clip does not match current project's profile.\nDo you want to change the project profile?\n\nThe following profiles match the clip (size: %1, fps: %2)", properties.value("frame_size"), fps));
+                        l->addWidget(label);
+                        QListWidget *list = new QListWidget;
+                        list->setAlternatingRowColors(true);
+                        QMapIterator<QString, QString> i(suggestedProfiles);
+                        while (i.hasNext()) {
+                            i.next();
+                            QListWidgetItem *item = new QListWidgetItem(i.value(), list);
+                            item->setData(Qt::UserRole, i.key());
+                            item->setToolTip(i.key());
+                        }
+                        list->setCurrentRow(0);
+                        l->addWidget(list);
+                        container.setLayout(l);
+                        dialog->setButtonText(KDialog::Ok, i18n("Update profile"));
+                        dialog->setMainWidget(&container);
+                        if (dialog->exec() == QDialog::Accepted) {
+                            //Change project profile
+                            displayClipInMonitor = false;
+                            if (list->currentItem())
+                                emit updateProfile(list->currentItem()->data(Qt::UserRole).toString());
+                        }
+                        delete list;
+                        delete label;
+                    } else KMessageBox::information(this, i18n("Your clip does not match current project's profile.\nNo existing profile found to match the clip's properties.\nClip size: %1\nFps: %2\n", properties.value("frame_size"), fps));
+                }
             }
         }
-        emit clipSelected(item->referencedClip());
+        if (displayClipInMonitor) emit clipSelected(item->referencedClip());
     } else {
         emit displayMessage(i18n("Loading clips"), (int)(100 *(max - m_infoQueue.count()) / max));
     }

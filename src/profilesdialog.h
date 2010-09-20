@@ -42,12 +42,29 @@ public:
     static QString existingProfile(MltVideoProfile profile);
     static bool existingProfileDescription(const QString &desc);
 
+    /** @brief Check if a given profile matches passed properties:
+     *  @param width The profile frame width
+     *  @param height The profile frame height
+     *  @param fps The profile fps
+     *  @param par The sample aspect ratio
+     *  @param isImage If true, compare width with profile's display width ( = dar * height)
+     *  @param profile The profile to match
+     *  @return true if properties match profile */
+    static bool matchProfile(int width, int height, double fps, double par, bool isImage, MltVideoProfile profile);
+
     /** @brief Find a profile to match parameter properties:
      *  @param width The profile frame width
      *  @param height The profile frame height
      *  @param fps The profile fps
-     *  @param useDisplayWidth If true, compare width with profile's display width ( = dar * height) */
-    static QString getPathFromProperties(int width, int height, double fps, bool useDisplayWidth = false);
+     *  @param par The sample aspect ratio
+     *  @param useDisplayWidth If true, compare width with profile's display width ( = dar * height)
+     *  @return A string list of the matching profiles description */
+    static QMap <QString, QString> getProfilesFromProperties(int width, int height, double fps, double par, bool useDisplayWidth = false);
+
+    /** @brief Returns an value from a string by replacing "%width" and "%height" with given profile values:
+     *  @param profile The profile that gives width & height
+     *  @param eval The string to be evaluated, for example: "%width / 2"
+     *  @return the evaluated value */
     static double getStringEval(const MltVideoProfile &profile, QString eval);
 
 protected:

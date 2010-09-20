@@ -45,19 +45,19 @@
 
 
 Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget *parent) :
-        QWidget(parent),
-        render(NULL),
-        m_name(name),
-        m_monitorManager(manager),
-        m_currentClip(NULL),
-        m_ruler(new SmallRuler(m_monitorManager)),
-        m_overlay(NULL),
-        m_isActive(false),
-        m_scale(1),
-        m_length(0),
-        m_dragStarted(false),
-        m_effectScene(NULL),
-        m_effectView(NULL)
+    QWidget(parent),
+    render(NULL),
+    m_name(name),
+    m_monitorManager(manager),
+    m_currentClip(NULL),
+    m_ruler(new SmallRuler(m_monitorManager)),
+    m_overlay(NULL),
+    m_isActive(false),
+    m_scale(1),
+    m_length(0),
+    m_dragStarted(false),
+    m_effectScene(NULL),
+    m_effectView(NULL)
 {
     m_ui.setupUi(this);
     QVBoxLayout *layout = new QVBoxLayout;
@@ -739,7 +739,7 @@ void Monitor::slotSetXml(DocClipBase *clip, QPoint zone, const int position)
         render->setProducer(NULL, -1);
         return;
     }
-    if (m_currentClip != NULL) activateMonitor();
+    if (m_currentClip != NULL || clip != NULL) activateMonitor();
     if (clip != m_currentClip) {
         m_currentClip = clip;
         updateMarkers(clip);
@@ -871,8 +871,8 @@ bool Monitor::effectSceneDisplayed()
 }
 
 MonitorRefresh::MonitorRefresh(QWidget* parent) :
-        QWidget(parent),
-        m_renderer(NULL)
+    QWidget(parent),
+    m_renderer(NULL)
 {
     setAttribute(Qt::WA_PaintOnScreen);
     setAttribute(Qt::WA_OpaquePaintEvent);
@@ -891,7 +891,7 @@ void MonitorRefresh::paintEvent(QPaintEvent *event)
 }
 
 Overlay::Overlay(QWidget* parent) :
-        QLabel(parent)
+    QLabel(parent)
 {
     setAttribute(Qt::WA_TransparentForMouseEvents);
     //setAttribute(Qt::WA_OpaquePaintEvent);

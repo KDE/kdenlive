@@ -718,7 +718,7 @@ bool KdenliveDoc::setProfilePath(QString path)
     return (current_fps != m_fps);
 }
 
-double KdenliveDoc::dar()
+double KdenliveDoc::dar() const
 {
     return (double) m_profile.display_aspect_num / m_profile.display_aspect_den;
 }
