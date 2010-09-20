@@ -44,6 +44,7 @@
       <Separator />
       <Action name="project_clean" />
       <Action name="project_render" />
+      <Action name="project_adjust_profile" />
       <Action name="project_settings" />
     </Menu>
 

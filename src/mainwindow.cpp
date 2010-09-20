@@ -1092,6 +1092,10 @@ void MainWindow::setupActions()
     collection->addAction("project_clean", projectClean);
     connect(projectClean, SIGNAL(triggered(bool)), this, SLOT(slotCleanProject()));
 
+    KAction* projectAdjust = new KAction(KIcon(), i18n("Adjust Profile to Current Clip"), this);
+    collection->addAction("project_adjust_profile", projectAdjust);
+    connect(projectAdjust, SIGNAL(triggered(bool)), m_projectList, SLOT(adjustProjectProfileToItem()));
+
     KAction* monitorPlay = new KAction(KIcon("media-playback-start"), i18n("Play"), this);
     KShortcut playShortcut;
     playShortcut.setPrimary(Qt::Key_Space);

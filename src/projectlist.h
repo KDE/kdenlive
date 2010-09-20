@@ -261,6 +261,8 @@ private slots:
     void slotModifiedClip(const QString &id);
     void slotMissingClip(const QString &id);
     void slotAvailableClip(const QString &id);
+    /** @brief Try to find a matching profile for given item. */
+    bool adjustProjectProfileToItem(ProjectItem *item = NULL);
     //void slotShowMenu(const QPoint &pos);
 
 signals:
