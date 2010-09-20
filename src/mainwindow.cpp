@@ -286,6 +286,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     /// Tabify Widgets ///
     tabifyDockWidget(m_projectListDock, m_effectStackDock);
     tabifyDockWidget(m_projectListDock, m_transitionConfigDock);
+    tabifyDockWidget(m_projectListDock, m_notesDock);
 
 
     tabifyDockWidget(m_clipMonitorDock, m_projectMonitorDock);
@@ -3793,6 +3794,7 @@ void MainWindow::slotShowTitleBars(bool show)
         m_waveformDock->setTitleBarWidget(0);
         m_RGBParadeDock->setTitleBarWidget(0);
         m_histogramDock->setTitleBarWidget(0);
+        m_notesDock->setTitleBarWidget(0);
     } else {
         if (!m_effectStackDock->isFloating()) {
             m_effectStackDock->setTitleBarWidget(new QWidget);
@@ -3831,6 +3833,9 @@ void MainWindow::slotShowTitleBars(bool show)
         }
         if (!m_histogramDock->isFloating()) {
             m_histogramDock->setTitleBarWidget(new QWidget(this));
+        }
+        if(!m_notesDock->isFloating()) {
+            m_notesDock->setTitleBarWidget(new QWidget(this));
         }
     }
     KdenliveSettings::setShowtitlebars(show);
