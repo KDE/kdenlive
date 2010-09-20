@@ -45,11 +45,13 @@ class DocClipBase;
 class MainWindow;
 class TrackInfo;
 
+class KTextEdit;
+
 class KdenliveDoc: public QObject
 {
 Q_OBJECT public:
 
-    KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, QString profileName, const QPoint tracks, Render *render, MainWindow *parent = 0);
+    KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, QString profileName, const QPoint tracks, Render *render, KTextEdit *notes, MainWindow *parent = 0);
     ~KdenliveDoc();
     QDomNodeList producersList();
     double fps() const;
@@ -147,6 +149,7 @@ private:
     int m_height;
     Timecode m_timecode;
     Render *m_render;
+    KTextEdit *m_notesWidget;
     QUndoStack *m_commandStack;
     ClipManager *m_clipManager;
     MltVideoProfile m_profile;

@@ -198,6 +198,14 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     connect(m_recMonitor, SIGNAL(showConfigDialog(int, int)), this, SLOT(slotPreferences(int, int)));
 #endif
 
+    m_notesDock = new QDockWidget(i18n("Project Notes"), this);
+    m_notesDock->setObjectName("notes_widget");
+    m_notesWidget = new KTextEdit();
+    m_notesWidget->setTabChangesFocus(true);
+    m_notesWidget->setClickMessage(i18n("Enter your project notes here..."));
+    m_notesDock->setWidget(m_notesWidget);
+    addDockWidget(Qt::TopDockWidgetArea, m_notesDock);
+
     m_effectStackDock = new QDockWidget(i18n("Effect Stack"), this);
     m_effectStackDock->setObjectName("effect_stack");
     m_effectStack = new EffectStackView(m_projectMonitor);
@@ -1709,7 +1717,7 @@ void MainWindow::newFile(bool showProjectSettings, bool force)
     }
     m_timelineArea->setEnabled(true);
     m_projectList->setEnabled(true);
-    KdenliveDoc *doc = new KdenliveDoc(KUrl(), projectFolder, m_commandStack, profileName, projectTracks, m_projectMonitor->render, this);
+    KdenliveDoc *doc = new KdenliveDoc(KUrl(), projectFolder, m_commandStack, profileName, projectTracks, m_projectMonitor->render, m_notesWidget, this);
     doc->m_autosave = new KAutoSaveFile(KUrl(), doc);
     bool ok;
     TrackView *trackView = new TrackView(doc, &ok, this);
@@ -1915,7 +1923,7 @@ void MainWindow::doOpenFile(const KUrl &url, KAutoSaveFile *stale)
 {
     if (!m_timelineArea->isEnabled()) return;
     m_fileRevert->setEnabled(true);
-    KdenliveDoc *doc = new KdenliveDoc(url, KdenliveSettings::defaultprojectfolder(), m_commandStack, KdenliveSettings::default_profile(), QPoint(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks()), m_projectMonitor->render, this);
+    KdenliveDoc *doc = new KdenliveDoc(url, KdenliveSettings::defaultprojectfolder(), m_commandStack, KdenliveSettings::default_profile(), QPoint(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks()), m_projectMonitor->render, m_notesWidget, this);
     if (stale == NULL) {
         stale = new KAutoSaveFile(url, doc);
         doc->m_autosave = stale;
@@ -2212,6 +2220,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
             disconnect(m_projectMonitor, SIGNAL(zoneUpdated(QPoint)), m_activeTimeline, SLOT(slotSetZone(QPoint)));
             disconnect(m_projectMonitor, SIGNAL(durationChanged(int)), m_activeTimeline, SLOT(setDuration(int)));
             disconnect(m_projectMonitor, SIGNAL(zoneUpdated(QPoint)), m_activeDocument, SLOT(setModified()));
+            disconnect(m_notesWidget, SIGNAL(textChanged()), m_activeDocument, SLOT(setModified()));
             disconnect(m_clipMonitor, SIGNAL(zoneUpdated(QPoint)), m_activeDocument, SLOT(setModified()));
             disconnect(m_projectList, SIGNAL(projectModified()), m_activeDocument, SLOT(setModified()));
             disconnect(m_projectList, SIGNAL(updateProfile(const QString &)), this, SLOT(slotUpdateProjectProfile(const QString &)));
@@ -2300,7 +2309,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     connect(doc, SIGNAL(deleteTimelineClip(const QString &)), trackView, SLOT(slotDeleteClip(const QString &)));
     connect(doc, SIGNAL(docModified(bool)), this, SLOT(slotUpdateDocumentState(bool)));
     connect(doc, SIGNAL(guidesUpdated()), this, SLOT(slotGuidesUpdated()));
-
+    connect(m_notesWidget, SIGNAL(textChanged()), doc, SLOT(setModified()));
 
     connect(trackView->projectView(), SIGNAL(clipItemSelected(ClipItem*, int)), m_effectStack, SLOT(slotClipItemSelected(ClipItem*, int)));
     connect(trackView->projectView(), SIGNAL(updateClipMarkers(DocClipBase *)), this, SLOT(slotUpdateClipMarkers(DocClipBase*)));

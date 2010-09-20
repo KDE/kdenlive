@@ -48,14 +48,15 @@
 
 const double DOCUMENTVERSION = 0.85;
 
-KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, QString profileName, const QPoint tracks, Render *render, MainWindow *parent) :
-        QObject(parent),
-        m_autosave(NULL),
-        m_url(url),
-        m_render(render),
-        m_commandStack(new QUndoStack(undoGroup)),
-        m_modified(false),
-        m_projectFolder(projectFolder)
+KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, QString profileName, const QPoint tracks, Render *render, KTextEdit *notes, MainWindow *parent) :
+    QObject(parent),
+    m_autosave(NULL),
+    m_url(url),
+    m_render(render),
+    m_notesWidget(notes),
+    m_commandStack(new QUndoStack(undoGroup)),
+    m_modified(false),
+    m_projectFolder(projectFolder)
 {
     m_clipManager = new ClipManager(this);
     m_autoSaveTimer = new QTimer(this);
@@ -107,6 +108,10 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                             QDomElement mlt = m_document.firstChildElement("mlt");
                             QDomElement infoXml = mlt.firstChildElement("kdenlivedoc");
                             QDomElement e;
+
+                            // Read notes
+                            QDomElement notesxml = infoXml.firstChildElement("documentnotes");
+                            if (!notesxml.isNull()) m_notesWidget->setText(notesxml.firstChild().nodeValue());
 
                             // Build tracks
                             QDomElement tracksinfo = infoXml.firstChildElement("tracksinfo");
@@ -514,6 +519,11 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene)
     }
     docproperties.setAttribute("position", m_render->seekPosition().frames(m_fps));
     addedXml.appendChild(docproperties);
+
+    QDomElement docnotes = sceneList.createElement("documentnotes");
+    QDomText value = sceneList.createTextNode(m_notesWidget->toPlainText());
+    docnotes.appendChild(value);
+    addedXml.appendChild(docnotes);
 
     // Add profile info
     QDomElement profileinfo = sceneList.createElement("profileinfo");
@@ -1078,9 +1088,9 @@ void KdenliveDoc::slotCreateColorClip(const QString &name, const QString &color,
 }
 
 void KdenliveDoc::slotCreateSlideshowClipFile(const QString name, const QString path, int count, const QString duration,
-                                              const bool loop, const bool crop, const bool fade,
-                                              const QString &luma_duration, const QString &luma_file, const int softness,
-                                              const QString &animation, QString group, const QString &groupId)
+        const bool loop, const bool crop, const bool fade,
+        const QString &luma_duration, const QString &luma_file, const int softness,
+        const QString &animation, QString group, const QString &groupId)
 {
     m_clipManager->slotAddSlideshowClipFile(name, path, count, duration, loop,
                                             crop, fade, luma_duration,

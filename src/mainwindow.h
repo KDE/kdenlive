@@ -142,6 +142,9 @@ private:
     EffectsListView *m_effectList;
     //KListWidget *m_effectList;
 
+    QDockWidget *m_notesDock;
+    KTextEdit *m_notesWidget;
+
     QDockWidget *m_effectStackDock;
     EffectStackView *m_effectStack;
 
