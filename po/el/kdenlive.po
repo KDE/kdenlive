@@ -3288,7 +3288,7 @@ msgstr "Κατάλογος"
 
 #: src/dvdwizard.cpp:674
 msgid "Folder %1 already exists. Overwrite?\n"
-msgstr "Ο φάκελος %1 υπάρχει ήδη. Να αντικατασταθεί;"
+msgstr "Ο φάκελος %1 υπάρχει ήδη. Να αντικατασταθεί;\n"
 
 #: rc.cpp:1705
 #: rc.cpp:3483
