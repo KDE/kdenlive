@@ -2695,15 +2695,41 @@ void CustomTrackView::lockTrack(int ix, bool lock, bool requestUpdate)
     QList<QGraphicsItem *> selection = m_scene->items(0, ix * m_tracksHeight + m_tracksHeight / 2, sceneRect().width(), m_tracksHeight / 2 - 2);
 
     for (int i = 0; i < selection.count(); i++) {
-        if (selection.at(i)->type() != AVWIDGET && selection.at(i)->type() != TRANSITIONWIDGET) continue;
-        if (selection.at(i)->isSelected()) {
-            if (selection.at(i)->type() == AVWIDGET) emit clipItemSelected(NULL);
-            else emit transitionItemSelected(NULL);
+        if (selection.at(i)->type() == GROUPWIDGET && (AbstractGroupItem *)selection.at(i) != m_selectionGroup) {
+            bool changeGroupLock = true;
+            QList <QGraphicsItem *> children =  selection.at(i)->childItems();
+            for (int j = 0; j < children.count(); ++j) {
+                if (children.at(j)->isSelected()) {
+                    if (children.at(j)->type() == AVWIDGET)
+                        emit clipItemSelected(NULL);
+                    else if (children.at(j)->type() == TRANSITIONWIDGET)
+                        emit transitionItemSelected(NULL);
+                    else
+                        continue;
+                }
+
+                AbstractClipItem * child = static_cast <AbstractClipItem *>(children.at(j));
+                if (child == m_dragItem)
+                    m_dragItem = NULL;
+                
+                // only unlock group, if it is not locked by another track too
+                if (!lock && child->track() != ix && m_document->trackInfoAt(m_document->tracksCount() - child->track() - 1).isLocked)
+                    changeGroupLock = false;
+            }
+            if (changeGroupLock)
+                ((AbstractGroupItem*)selection.at(i))->setItemLocked(lock);
+        } else if(selection.at(i)->type() == AVWIDGET || selection.at(i)->type() == TRANSITIONWIDGET) {
+            if (selection.at(i)->isSelected()) {
+                if (selection.at(i)->type() == AVWIDGET)
+                    emit clipItemSelected(NULL);
+                else
+                    emit transitionItemSelected(NULL);
+            }
+            clip = static_cast <AbstractClipItem *>(selection.at(i));
+            clip->setItemLocked(lock);
+            if (clip == m_dragItem)
+                m_dragItem = NULL;
         }
-        clip = static_cast <AbstractClipItem *>(selection.at(i));
-        clip->setItemLocked(lock);
-        if (clip == m_dragItem)
-            m_dragItem = NULL;
     }
     kDebug() << "NEXT TRK STATE: " << m_document->trackInfoAt(tracknumber).isLocked;
     viewport()->update();
