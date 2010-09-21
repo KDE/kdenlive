@@ -63,7 +63,7 @@ Vectorscope::Vectorscope(Monitor *projMonitor, Monitor *clipMonitor, QWidget *pa
     ui->backgroundMode->addItem(i18n("None"), QVariant(BG_NONE));
     ui->backgroundMode->addItem(i18n("YUV"), QVariant(BG_YUV));
     ui->backgroundMode->addItem(i18n("Modified YUV (Chroma)"), QVariant(BG_CHROMA));
-    ui->backgroundMode->addItem("YPbPr", QVariant(BG_YPbPr)); // TODO translate after 0.7.8 release
+    ui->backgroundMode->addItem(i18n("YPbPr"), QVariant(BG_YPbPr));
 
     ui->sliderGain->setMinimum(0);
     ui->sliderGain->setMaximum(40);
@@ -94,11 +94,10 @@ Vectorscope::Vectorscope(Monitor *projMonitor, Monitor *clipMonitor, QWidget *pa
     m_menu->addAction(m_aAxisEnabled);
     b &= connect(m_aAxisEnabled, SIGNAL(changed()), this, SLOT(forceUpdateBackground()));
 
-    // TODO use i18n after the 0.7.8 release
-    m_menu->addSeparator()->setText("Color Space");
-    m_aColorSpace_YPbPr = new QAction("YPbPr", this);
+    m_menu->addSeparator()->setText(i18n("Color Space"));
+    m_aColorSpace_YPbPr = new QAction(i18n("YPbPr"), this);
     m_aColorSpace_YPbPr->setCheckable(true);
-    m_aColorSpace_YUV = new QAction("YUV", this);
+    m_aColorSpace_YUV = new QAction(i18n("YUV"), this);
     m_aColorSpace_YUV->setCheckable(true);
     m_agColorSpace = new QActionGroup(this);
     m_agColorSpace->addAction(m_aColorSpace_YPbPr);
