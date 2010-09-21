@@ -57,6 +57,7 @@ public:
     static Mlt::Repository *parseEffectFiles();
     static void refreshLumas();
     static QDomDocument createDescriptionFromMlt(Mlt::Repository* repository, const QString& type, const QString& name);
+    static QDomDocument getUsedCustomEffects(QMap <QString, QString> effectids);
 
     /** @brief Fills the transitions list.
      * @param repository MLT repository

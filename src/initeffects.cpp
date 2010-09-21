@@ -33,7 +33,7 @@
 #include <QIcon>
 
 initEffectsThumbnailer::initEffectsThumbnailer() :
-        QThread()
+    QThread()
 {
 }
 
@@ -46,7 +46,7 @@ void initEffectsThumbnailer::prepareThumbnailsCall(const QStringList& list)
 
 void initEffectsThumbnailer::run()
 {
-    foreach(const QString &entry, m_list) {
+    foreach(const QString & entry, m_list) {
         kDebug() << entry;
         if (!entry.isEmpty() && (entry.endsWith(".png") || entry.endsWith(".pgm"))) {
             if (!EffectStackEdit::iconCache.contains(entry)) {
@@ -71,9 +71,9 @@ void initEffects::refreshLumas()
     filters << "*.pgm" << "*.png";
 
     QStringList customLumas = KGlobal::dirs()->findDirs("appdata", "lumas");
-    foreach(const QString &folder, customLumas) {
+    foreach(const QString & folder, customLumas) {
         QStringList filesnames = QDir(folder).entryList(filters, QDir::Files);
-        foreach(const QString &fname, filesnames) {
+        foreach(const QString & fname, filesnames) {
             imagenamelist.append(fname);
             imagefiles.append(KUrl(folder).path(KUrl::AddTrailingSlash) + fname);
         }
@@ -85,7 +85,7 @@ void initEffects::refreshLumas()
     folder.addPath(mlt_environment("MLT_NORMALISATION"));
     QDir lumafolder(folder.path());
     QStringList filesnames = lumafolder.entryList(filters, QDir::Files);
-    foreach(const QString &fname, filesnames) {
+    foreach(const QString & fname, filesnames) {
         imagenamelist.append(fname);
         KUrl path(folder);
         path.addPath(fname);
@@ -112,6 +112,25 @@ void initEffects::refreshLumas()
             break;
         }
     }
+}
+
+// static
+QDomDocument initEffects::getUsedCustomEffects(QMap <QString, QString> effectids)
+{
+    QMapIterator<QString, QString> i(effectids);
+    int ix;
+    QDomDocument doc;
+    QDomElement list = doc.createElement("customeffects");
+    doc.appendChild(list);
+    while (i.hasNext()) {
+        i.next();
+        ix = MainWindow::customEffects.hasEffect(i.value(), i.key());
+        if (ix > -1) {
+            QDomElement e = MainWindow::customEffects.at(ix);
+            list.appendChild(doc.importNode(e, true));
+        }
+    }
+    return doc;
 }
 
 //static
@@ -222,7 +241,7 @@ Mlt::Repository *initEffects::parseEffectFiles()
         effectsMap.insert(effectInfo.elementsByTagName("name").item(0).toElement().text().toLower().toUtf8().data(), effectInfo);
     }
     MainWindow::transitions.clearList();
-    foreach(const QDomElement &effect, effectsMap)
+    foreach(const QDomElement & effect, effectsMap)
     MainWindow::transitions.append(effect);
     effectsMap.clear();
     for (int i = 0; i < MainWindow::customEffects.count(); ++i) {
@@ -230,7 +249,7 @@ Mlt::Repository *initEffects::parseEffectFiles()
         effectsMap.insert(effectInfo.elementsByTagName("name").item(0).toElement().text().toLower().toUtf8().data(), effectInfo);
     }
     MainWindow::customEffects.clearList();
-    foreach(const QDomElement &effect, effectsMap)
+    foreach(const QDomElement & effect, effectsMap)
     MainWindow::customEffects.append(effect);
     effectsMap.clear();
     for (int i = 0; i < MainWindow::audioEffects.count(); ++i) {
@@ -238,7 +257,7 @@ Mlt::Repository *initEffects::parseEffectFiles()
         effectsMap.insert(effectInfo.elementsByTagName("name").item(0).toElement().text().toLower().toUtf8().data(), effectInfo);
     }
     MainWindow::audioEffects.clearList();
-    foreach(const QDomElement &effect, effectsMap)
+    foreach(const QDomElement & effect, effectsMap)
     MainWindow::audioEffects.append(effect);
     effectsMap.clear();
     for (int i = 0; i < MainWindow::videoEffects.count(); ++i) {
@@ -246,13 +265,13 @@ Mlt::Repository *initEffects::parseEffectFiles()
         effectsMap.insert(effectInfo.elementsByTagName("name").item(0).toElement().text().toLower().toUtf8().data(), effectInfo);
     }
     // Add remaining filters to the list of video effects.
-    foreach(const QString &filtername, filtersList) {
+    foreach(const QString & filtername, filtersList) {
         QDomDocument doc = createDescriptionFromMlt(repository, "filters", filtername);
         if (!doc.isNull())
             effectsMap.insert(doc.documentElement().elementsByTagName("name").item(0).toElement().text().toLower().toUtf8().data(), doc.documentElement());
     }
     MainWindow::videoEffects.clearList();
-    foreach(const QDomElement &effect, effectsMap)
+    foreach(const QDomElement & effect, effectsMap)
     MainWindow::videoEffects.append(effect);
 
     return repository;
@@ -280,7 +299,7 @@ void initEffects::parseCustomEffectsFile()
     QDomDocument doc;
     QDomNodeList effects;
     QDomElement e;
-    foreach(const QString &filename, fileList) {
+    foreach(const QString & filename, fileList) {
         QString itemName = KUrl(path + filename).path();
         QFile file(itemName);
         doc.setContent(&file, false);
@@ -293,8 +312,8 @@ void initEffects::parseCustomEffectsFile()
             effectsMap.insert(e.elementsByTagName("name").item(0).toElement().text().toLower().toUtf8().data(), e);
         }
     }
-    foreach(const QDomElement &effect, effectsMap)
-        MainWindow::customEffects.append(effect);
+    foreach(const QDomElement & effect, effectsMap)
+    MainWindow::customEffects.append(effect);
 }
 
 // static
@@ -575,8 +594,8 @@ QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, 
                 if (QString(paramdesc.get("type")) == "float") {
                     params.setAttribute("type", "constant");
                     params.setAttribute("factor", "1000");
-                    if (paramdesc.get("maximum")) params.setAttribute("max", QString(paramdesc.get("maximum")).toFloat()*1000.0);
-                    if (paramdesc.get("minimum")) params.setAttribute("min", QString(paramdesc.get("minimum")).toFloat()*1000.0);
+                    if (paramdesc.get("maximum")) params.setAttribute("max", QString(paramdesc.get("maximum")).toFloat() * 1000.0);
+                    if (paramdesc.get("minimum")) params.setAttribute("min", QString(paramdesc.get("minimum")).toFloat() * 1000.0);
                 }
                 if (QString(paramdesc.get("type")) == "boolean")
                     params.setAttribute("type", "bool");
@@ -630,7 +649,7 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
         if (!folder.endsWith('/'))
             folder.append('/');
         QStringList filesnames = QDir(folder).entryList(filters, QDir::Files);
-        foreach(const QString &fname, filesnames) {
+        foreach(const QString & fname, filesnames) {
             imagenamelist.append(fname);
             imagefiles.append(folder + fname);
         }
@@ -642,14 +661,14 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
     folder.addPath(mlt_environment("MLT_NORMALISATION"));
     QDir lumafolder(folder.path());
     QStringList filesnames = lumafolder.entryList(filters, QDir::Files);
-    foreach(const QString &fname, filesnames) {
+    foreach(const QString & fname, filesnames) {
         imagenamelist.append(fname);
         KUrl path(folder);
         path.addPath(fname);
         imagefiles.append(path.toLocalFile());
     }
 
-    foreach(const QString &name, names) {
+    foreach(const QString & name, names) {
         QDomDocument ret;
         QDomElement ktrans = ret.createElement("ktransition");
         ret.appendChild(ktrans);
@@ -767,7 +786,7 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
                 paramList.append(quickParameterFill(ret, i18n("Force Progressive Rendering"), "composite.progressive", "bool", "1", "0", "1"));
                 paramList.append(quickParameterFill(ret, i18n("Force Deinterlace Overlay"), "composite.deinterlace", "bool", "0", "0", "1"));
             }
-            foreach(const QDomElement &e, paramList)
+            foreach(const QDomElement & e, paramList)
             ktrans.appendChild(e);
         }
 

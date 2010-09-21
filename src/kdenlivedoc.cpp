@@ -29,6 +29,7 @@
 #include "documentchecker.h"
 #include "documentvalidator.h"
 #include "kdenlive-config.h"
+#include "initeffects.h"
 
 #include <KDebug>
 #include <KStandardDirs>
@@ -107,8 +108,15 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                             parent->slotGotProgressInfo(i18n("Loading"), 0);
                             QDomElement mlt = m_document.firstChildElement("mlt");
                             QDomElement infoXml = mlt.firstChildElement("kdenlivedoc");
-                            QDomElement e;
 
+                            // Check embedded effects
+                            QDomElement customeffects = infoXml.firstChildElement("customeffects");
+                            if (!customeffects.isNull() && customeffects.hasChildNodes()) {
+                                parent->slotGotProgressInfo(i18n("Importing project effects"), 0);
+                                if (saveCustomEffects(customeffects.childNodes())) parent->slotReloadEffects();
+                            }
+
+                            QDomElement e;
                             // Read notes
                             QDomElement notesxml = infoXml.firstChildElement("documentnotes");
                             if (!notesxml.isNull()) m_notesWidget->setText(notesxml.firstChild().nodeValue());
@@ -502,8 +510,33 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene)
         KMessageBox::error(kapp->activeWindow(), i18n("Cannot write to file %1, scene list is corrupted.", path));
         return false;
     }
+
     QDomElement addedXml = sceneList.createElement("kdenlivedoc");
     mlt.appendChild(addedXml);
+
+    // check if project contains custom effects to embed them in project file
+    QDomNodeList effects = mlt.elementsByTagName("filter");
+    int maxEffects = effects.count();
+    kDebug() << "// FOUD " << maxEffects << " EFFECTS+++++++++++++++++++++";
+    QMap <QString, QString> effectIds;
+    for (int i = 0; i < maxEffects; i++) {
+        QDomNode m = effects.at(i);
+        QDomNodeList params = m.childNodes();
+        QString id;
+        QString tag;
+        for (int j = 0; j < params.count(); j++) {
+            QDomElement e = params.item(j).toElement();
+            if (e.attribute("name") == "kdenlive_id") {
+                id = e.firstChild().nodeValue();
+            }
+            if (e.attribute("name") == "tag") {
+                tag = e.firstChild().nodeValue();
+            }
+            if (!id.isEmpty() && !tag.isEmpty()) effectIds.insert(id, tag);
+        }
+    }
+    QDomDocument customeffects = initEffects::getUsedCustomEffects(effectIds);
+    addedXml.appendChild(sceneList.importNode(customeffects.documentElement(), true));
 
     QDomElement markers = sceneList.createElement("markers");
     addedXml.setAttribute("version", DOCUMENTVERSION);
@@ -1383,6 +1416,37 @@ QDomElement KdenliveDoc::getTrackEffect(int trackIndex, int effectIndex) const
     EffectsList list = m_tracksList.at(trackIndex).effectsList;
     if (effectIndex > list.count() - 1 || effectIndex < 0 || list.at(effectIndex).isNull()) return QDomElement();
     return list.at(effectIndex).cloneNode().toElement();
+}
+
+bool KdenliveDoc::saveCustomEffects(QDomNodeList customeffects)
+{
+    QDomElement e;
+    QStringList importedEffects;
+    int maxchild = customeffects.count();
+    for (int i = 0; i < maxchild; i++) {
+        e = customeffects.at(i).toElement();
+        QString id = e.attribute("id");
+        QString tag = e.attribute("tag");
+        if (!id.isEmpty()) {
+            // Check if effect exists or save it
+            if (MainWindow::customEffects.hasEffect(tag, id) == -1) {
+                QDomDocument doc;
+                doc.appendChild(doc.importNode(e, true));
+                QString path = KStandardDirs::locateLocal("appdata", "effects/", true);
+                path += id + ".xml";
+                if (!QFile::exists(path)) {
+                    importedEffects << id;
+                    QFile file(path);
+                    if (file.open(QFile::WriteOnly | QFile::Truncate)) {
+                        QTextStream out(&file);
+                        out << doc.toString();
+                    }
+                }
+            }
+        }
+    }
+    if (!importedEffects.isEmpty()) KMessageBox::informationList(kapp->activeWindow(), i18n("The following effects were imported from the project:"), importedEffects);
+    return (!importedEffects.isEmpty());
 }
 
 #include "kdenlivedoc.moc"

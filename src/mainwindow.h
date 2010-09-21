@@ -283,6 +283,7 @@ public slots:
     * Checks if already open and whether backup exists */
     void openFile(const KUrl &url);
     void slotGotProgressInfo(const QString &message, int progress);
+    void slotReloadEffects();
     Q_SCRIPTABLE void setRenderingProgress(const QString &url, int progress);
     Q_SCRIPTABLE void setRenderingFinished(const QString &url, int status, const QString &error);
 
@@ -410,7 +411,6 @@ private slots:
     void slotCopy();
     void slotPaste();
     void slotPasteEffects();
-    void slotReloadEffects();
 
     void slotAdjustClipMonitor();
     void slotAdjustProjectMonitor();

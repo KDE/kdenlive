@@ -172,6 +172,9 @@ private:
     /** @brief Creates a new project. */
     QDomDocument createEmptyDocument(int videotracks, int audiotracks);
     QDomDocument createEmptyDocument(QList <TrackInfo> tracks);
+    /** @brief Saves effects embedded in project file.
+    *   @return True if effects were imported.  */
+    bool saveCustomEffects(QDomNodeList customeffects);
 
 public slots:
     void slotCreateXmlClip(const QString &name, const QDomElement xml, QString group, const QString &groupId);
