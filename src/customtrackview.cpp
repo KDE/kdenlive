@@ -2696,7 +2696,13 @@ void CustomTrackView::lockTrack(int ix, bool lock, bool requestUpdate)
 
     for (int i = 0; i < selection.count(); i++) {
         if (selection.at(i)->type() == GROUPWIDGET && (AbstractGroupItem *)selection.at(i) != m_selectionGroup) {
+            if (selection.at(i)->parentItem() && m_selectionGroup) {
+                selection.removeAll((QGraphicsItem*)m_selectionGroup);
+                resetSelectionGroup();
+            }
+
             bool changeGroupLock = true;
+            bool hasClipOnTrack = false;
             QList <QGraphicsItem *> children =  selection.at(i)->childItems();
             for (int j = 0; j < children.count(); ++j) {
                 if (children.at(j)->isSelected()) {
@@ -2711,14 +2717,28 @@ void CustomTrackView::lockTrack(int ix, bool lock, bool requestUpdate)
                 AbstractClipItem * child = static_cast <AbstractClipItem *>(children.at(j));
                 if (child == m_dragItem)
                     m_dragItem = NULL;
-                
+
                 // only unlock group, if it is not locked by another track too
                 if (!lock && child->track() != ix && m_document->trackInfoAt(m_document->tracksCount() - child->track() - 1).isLocked)
                     changeGroupLock = false;
+                
+                // only (un-)lock if at least one clip is on the track
+                if (child->track() == ix)
+                    hasClipOnTrack = true;
             }
-            if (changeGroupLock)
+            if (changeGroupLock && hasClipOnTrack)
                 ((AbstractGroupItem*)selection.at(i))->setItemLocked(lock);
-        } else if(selection.at(i)->type() == AVWIDGET || selection.at(i)->type() == TRANSITIONWIDGET) {
+        } else if((selection.at(i)->type() == AVWIDGET || selection.at(i)->type() == TRANSITIONWIDGET)) {
+            if (selection.at(i)->parentItem()) {
+                if (selection.at(i)->parentItem() == m_selectionGroup) {
+                    selection.removeAll((QGraphicsItem*)m_selectionGroup);
+                    resetSelectionGroup();
+                } else {
+                    // groups are handled separately
+                    continue;
+                }
+            }
+
             if (selection.at(i)->isSelected()) {
                 if (selection.at(i)->type() == AVWIDGET)
                     emit clipItemSelected(NULL);
