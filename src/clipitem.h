@@ -36,6 +36,10 @@
 class DocClipBase;
 class Transition;
 
+namespace Mlt
+{
+class Producer;
+};
 
 class ClipItem : public AbstractClipItem
 {
@@ -168,6 +172,13 @@ public:
      * 
      * Can be used for all effects using mlt_geometry with keyframes, but at the moment Pan & Zoom is the only one. */
     QList <int> updatePanZoom(int width, int height, int cut = 0);
+
+    /** Returns the necessary (audio, video, general) producer.
+     * @param track Track of the requested producer
+     * @param trackSpecific (default = true) Whether to return general producer for a specific track.
+     * @return Fitting producer
+     * Which producer is returned depends on the type of this clip (audioonly, videoonly, normal) */
+    Mlt::Producer *getProducer(int track, bool trackSpecific = true);
 
 protected:
     //virtual void mouseMoveEvent(QGraphicsSceneMouseEvent * event);

@@ -61,7 +61,8 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, i
     setPos(info.startPos.frames(fps), (double)(info.track * KdenliveSettings::trackheight()) + 1);
 
     // set speed independant info
-    if (m_speed <= 0 && m_speed > -1) m_speed = 1.0;
+    if (m_speed <= 0 && m_speed > -1)
+        m_speed = -1.0;
     m_speedIndependantInfo = m_info;
     m_speedIndependantInfo.cropStart = GenTime((int)(m_info.cropStart.frames(m_fps) * qAbs(m_speed)), m_fps);
     m_speedIndependantInfo.cropDuration = GenTime((int)(m_info.cropDuration.frames(m_fps) * qAbs(m_speed)), m_fps);
@@ -69,10 +70,11 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, i
     m_videoPix = KIcon("kdenlive-show-video").pixmap(QSize(16, 16));
     m_audioPix = KIcon("kdenlive-show-audio").pixmap(QSize(16, 16));
 
-    if (m_speed == 1.0) m_clipName = m_clip->name();
-    else {
+    if (m_speed == 1.0)
+        m_clipName = m_clip->name();
+    else
         m_clipName = m_clip->name() + " - " + QString::number(m_speed * 100, 'f', 0) + '%';
-    }
+
     m_producer = m_clip->getId();
     m_clipType = m_clip->clipType();
     //m_cropStart = info.cropStart;
@@ -1584,7 +1586,7 @@ void ClipItem::setSpeed(const double speed, const int strobe)
 {
     m_speed = speed;
     if (m_speed <= 0 && m_speed > -1)
-        m_speed = 1.0;
+        m_speed = -1.0;
     m_strobe = strobe;
     if (m_speed == 1.0) m_clipName = baseClip()->name();
     else m_clipName = baseClip()->name() + " - " + QString::number(speed * 100, 'f', 0) + '%';
@@ -1850,6 +1852,16 @@ QList <int> ClipItem::updatePanZoom(int width, int height, int cut)
     }
 
     return effectPositions;
+}
+
+Mlt::Producer *ClipItem::getProducer(int track, bool trackSpecific)
+{
+    if (isAudioOnly())
+        return m_clip->audioProducer(track);
+    else if (isVideoOnly())
+        return m_clip->videoProducer();
+    else
+        return m_clip->producer(trackSpecific ? track : -1);
 }
 
 #include "clipitem.moc"

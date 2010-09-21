@@ -2545,10 +2545,7 @@ void CustomTrackView::addTrack(TrackInfo type, int ix)
                 if (clip->speed() != 1.0) continue;
                 // We add a move clip command so that we get the correct producer for new track number
                 if (clip->clipType() == AV || clip->clipType() == AUDIO) {
-                    Mlt::Producer *prod;
-                    if (clip->isAudioOnly()) prod = clip->baseClip()->audioProducer(clipinfo.track);
-                    else if (clip->isVideoOnly()) prod = clip->baseClip()->videoProducer();
-                    else prod = clip->baseClip()->producer(clipinfo.track);
+                    Mlt::Producer *prod = clip->getProducer(clipinfo.track);
                     if (m_document->renderer()->mltUpdateClipProducer((int)(m_document->tracksCount() - clipinfo.track), clipinfo.startPos.frames(m_document->fps()), prod) == false) {
                         // problem updating clip
                         emit displayMessage(i18n("Cannot update clip (time: %1, track: %2)", clipinfo.startPos.frames(m_document->fps()), clipinfo.track), ErrorMessage);
@@ -2619,10 +2616,7 @@ void CustomTrackView::removeTrack(int ix)
             ItemInfo clipinfo = clip->info();
             // We add a move clip command so that we get the correct producer for new track number
             if (clip->clipType() == AV || clip->clipType() == AUDIO) {
-                Mlt::Producer *prod;
-                if (clip->isAudioOnly()) prod = clip->baseClip()->audioProducer(clipinfo.track);
-                else if (clip->isVideoOnly()) prod = clip->baseClip()->videoProducer();
-                else prod = clip->baseClip()->producer(clipinfo.track);
+                Mlt::Producer *prod = clip->getProducer(clipinfo.track);
                 if (!m_document->renderer()->mltUpdateClipProducer((int)(m_document->tracksCount() - clipinfo.track), clipinfo.startPos.frames(m_document->fps()), prod)) {
                     emit displayMessage(i18n("Cannot update clip (time: %1, track: %2)", clipinfo.startPos.frames(m_document->fps()), clipinfo.track), ErrorMessage);
                 }
@@ -3143,10 +3137,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
             // we are moving one clip, easy
             if (m_dragItem->type() == AVWIDGET && (m_dragItemInfo.startPos != info.startPos || m_dragItemInfo.track != info.track)) {
                 ClipItem *item = static_cast <ClipItem *>(m_dragItem);
-                Mlt::Producer *prod;
-                if (item->isAudioOnly()) prod = item->baseClip()->audioProducer(info.track);
-                else if (item->isVideoOnly()) prod = item->baseClip()->videoProducer();
-                else prod = item->baseClip()->producer(info.track);
+                Mlt::Producer *prod = item->getProducer(info.track);
                 bool success = m_document->renderer()->mltMoveClip((int)(m_document->tracksCount() - m_dragItemInfo.track), (int)(m_document->tracksCount() - info.track), (int) m_dragItemInfo.startPos.frames(m_document->fps()), (int)(info.startPos.frames(m_document->fps())), prod, m_scene->editMode() == OVERWRITEEDIT, m_scene->editMode() == INSERTEDIT);
 
                 if (success) {
@@ -3347,15 +3338,8 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                     if (item->type() == AVWIDGET) {
                         ClipItem *clip = static_cast <ClipItem*>(item);
                         info.track = m_document->tracksCount() - info.track;
-                        Mlt::Producer *prod;
                         adjustTimelineClips(m_scene->editMode(), clip, ItemInfo(), moveGroup);
-                        if (clip->isAudioOnly())
-                            prod = clip->baseClip()->audioProducer(info.track);
-                        else if (clip->isVideoOnly())
-                            prod = clip->baseClip()->videoProducer();
-                        else
-                            prod = clip->baseClip()->producer(info.track);
-                        m_document->renderer()->mltInsertClip(info, clip->xml(), prod, m_scene->editMode() == OVERWRITEEDIT, m_scene->editMode() == INSERTEDIT);
+                        m_document->renderer()->mltInsertClip(info, clip->xml(), clip->getProducer(info.track), m_scene->editMode() == OVERWRITEEDIT, m_scene->editMode() == INSERTEDIT);
                         for (int i = 0; i < clip->effectsCount(); i++) {
                             m_document->renderer()->mltAddEffect(info.track, info.startPos, getEffectArgs(clip->effectAt(i)), false);
                         }
@@ -3732,7 +3716,9 @@ void CustomTrackView::changeClipSpeed()
 
 void CustomTrackView::doChangeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, const double speed, const double oldspeed, int strobe, const QString &id)
 {
-    DocClipBase *baseclip = m_document->clipManager()->getClipById(id);
+    Q_UNUSED(id);
+    //DocClipBase *baseclip = m_document->clipManager()->getClipById(id);
+
     ClipItem *item = getClipItemAt((int) info.startPos.frames(m_document->fps()), info.track);
     if (!item) {
         kDebug() << "ERROR: Cannot find clip for speed change";
@@ -3740,22 +3726,17 @@ void CustomTrackView::doChangeClipSpeed(ItemInfo info, ItemInfo speedIndependant
         return;
     }
     info.track = m_document->tracksCount() - item->track();
-    int endPos;
-    if (item->isVideoOnly())
-        endPos = m_document->renderer()->mltChangeClipSpeed(info, speedIndependantInfo, speed, oldspeed, strobe, baseclip->videoProducer());
-    else if (item->isAudioOnly())
-        endPos = m_document->renderer()->mltChangeClipSpeed(info, speedIndependantInfo, speed, oldspeed, strobe, baseclip->audioProducer(item->track()));
-    else
-        endPos = m_document->renderer()->mltChangeClipSpeed(info, speedIndependantInfo, speed, oldspeed, strobe, baseclip->producer());
+    int endPos = m_document->renderer()->mltChangeClipSpeed(info, speedIndependantInfo, speed, oldspeed, strobe, item->getProducer(item->track(), false));
     if (endPos >= 0) {
         item->setSpeed(speed, strobe);
         item->updateRectGeometry();
-        if (item->cropDuration().frames(m_document->fps()) != endPos) {
+        if (item->cropDuration().frames(m_document->fps()) != endPos)
             item->resizeEnd((int) info.startPos.frames(m_document->fps()) + endPos - 1);
-        }
         updatePositionEffects(item, info);
         setDocumentModified();
-    } else emit displayMessage(i18n("Invalid clip"), ErrorMessage);
+    } else {
+        emit displayMessage(i18n("Invalid clip"), ErrorMessage);
+    }
 }
 
 void CustomTrackView::cutSelectedClips()
@@ -3982,17 +3963,15 @@ void CustomTrackView::addClip(QDomElement xml, const QString &clipId, ItemInfo i
     baseclip->addReference();
     m_document->updateClip(baseclip->getId());
     info.track = m_document->tracksCount() - info.track;
-    Mlt::Producer *prod;
-    if (item->isAudioOnly()) prod = baseclip->audioProducer(info.track);
-    else if (item->isVideoOnly()) prod = baseclip->videoProducer();
-    else prod = baseclip->producer(info.track);
-    m_document->renderer()->mltInsertClip(info, xml, prod, overwrite, push);
+    m_document->renderer()->mltInsertClip(info, xml, item->getProducer(info.track), overwrite, push);
     for (int i = 0; i < item->effectsCount(); i++) {
         m_document->renderer()->mltAddEffect(info.track, info.startPos, getEffectArgs(item->effectAt(i)), false);
     }
     setDocumentModified();
-    if (refresh) m_document->renderer()->doRefresh();
-    if (!baseclip->isPlaceHolder()) m_waitingThumbs.append(item);
+    if (refresh)
+        m_document->renderer()->doRefresh();
+    if (!baseclip->isPlaceHolder())
+        m_waitingThumbs.append(item);
     m_thumbsTimer.start();
 }
 
@@ -4129,10 +4108,7 @@ void CustomTrackView::moveClip(const ItemInfo start, const ItemInfo end, bool re
         kDebug() << "----------------  ERROR, CANNOT find clip to move at.. ";
         return;
     }
-    Mlt::Producer *prod;
-    if (item->isAudioOnly()) prod = item->baseClip()->audioProducer(end.track);
-    else if (item->isVideoOnly()) prod = item->baseClip()->videoProducer();
-    else prod = item->baseClip()->producer(end.track);
+    Mlt::Producer *prod = item->getProducer(end.track);
 
     bool success = m_document->renderer()->mltMoveClip((int)(m_document->tracksCount() - start.track), (int)(m_document->tracksCount() - end.track), (int) start.startPos.frames(m_document->fps()), (int)end.startPos.frames(m_document->fps()), prod);
     if (success) {
@@ -4256,14 +4232,7 @@ void CustomTrackView::moveGroup(QList <ItemInfo> startClip, QList <ItemInfo> sta
             if (item->type() == AVWIDGET) {
                 ClipItem *clip = static_cast <ClipItem*>(item);
                 info.track = m_document->tracksCount() - info.track;
-                Mlt::Producer *prod;
-                if (clip->isAudioOnly())
-                    prod = clip->baseClip()->audioProducer(info.track);
-                else if (clip->isVideoOnly())
-                    prod = clip->baseClip()->videoProducer();
-                else
-                    prod = clip->baseClip()->producer(info.track);
-                m_document->renderer()->mltInsertClip(info, clip->xml(), prod);
+                m_document->renderer()->mltInsertClip(info, clip->xml(), clip->getProducer(info.track));
                 for (int i = 0; i < clip->effectsCount(); i++) {
                     m_document->renderer()->mltAddEffect(info.track, info.startPos, getEffectArgs(clip->effectAt(i)), false);
                 }
