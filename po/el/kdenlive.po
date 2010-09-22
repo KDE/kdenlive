@@ -1179,7 +1179,7 @@ msgstr "Θόλωμα εικόνας με keyframes"
 #: src/titlewidget.cpp:241
 msgctxt "Font style"
 msgid "Bold"
-msgstr "Έντονα"
+msgstr "Έντονο"
 
 #: rc.cpp:1387
 #: rc.cpp:3165
@@ -2524,7 +2524,7 @@ msgstr "Δέλτα R / A / Hue"
 #: src/titlewidget.cpp:240
 msgctxt "Font style"
 msgid "Demi-Bold"
-msgstr "Ημι-έντονα"
+msgstr "Ημι-έντονο"
 
 #: rc.cpp:639
 msgid "Depth"
@@ -4165,7 +4165,7 @@ msgstr "Επίπεδα"
 #: src/titlewidget.cpp:238
 msgctxt "Font style"
 msgid "Light"
-msgstr "Φως"
+msgstr "Ασθενές"
 
 #: rc.cpp:629
 msgid "Limit (dB)"
@@ -4512,7 +4512,7 @@ msgstr "Ρυθμίσης επιτάχυνσης της προεπισκόπησ�
 #: rc.cpp:1341
 #: rc.cpp:3119
 msgid "Monitor background color:"
-msgstr "Χρώματος φόντου επισκόπησης:"
+msgstr "Χρώμα φόντου επισκόπησης:"
 
 #: src/monitor.cpp:229
 msgid "Monitor overlay infos"
@@ -4945,7 +4945,7 @@ msgstr "PAL 4:3"
 #: rc.cpp:3956
 #: rc.cpp:4205
 msgid "Paint mode"
-msgstr "Είδος σχεδίασης"
+msgstr "Αναπαράσταση"
 
 #: src/slideshowclip.cpp:62
 #: src/clipproperties.cpp:187
@@ -5336,7 +5336,7 @@ msgstr "Προεπιλογές του έργου"
 #: rc.cpp:1968
 #: rc.cpp:3746
 msgid "Project Files"
-msgstr "Αρχεία του έργου"
+msgstr "Αρχεία έργου"
 
 #: src/mainwindow.cpp:185
 msgid "Project Monitor"
@@ -5676,7 +5676,7 @@ msgstr "Απαιτείται για την δημιουργία εικόνων I
 
 #: src/wizard.cpp:339
 msgid "Required for firewire capture"
-msgstr "Απαιτείται για την σύλληψη μέσω firewire"
+msgstr "Απαιτείται για σύλληψη μέσω firewire"
 
 #: src/wizard.cpp:148
 msgid "Required for rendering (part of MLT package)"
@@ -5684,11 +5684,11 @@ msgstr "Απαιτείται για αποτύπωση (μέρος του πακ
 
 #: src/wizard.cpp:333
 msgid "Required for screen capture"
-msgstr "Απαιτείται για την σύλληψη οθόνης"
+msgstr "Απαιτείται για σύλληψη οθόνης"
 
 #: src/wizard.cpp:324
 msgid "Required for webcam capture"
-msgstr "Απαιτείται για την σύλληψη από κάμερα υπολογιστή"
+msgstr "Απαιτείται για σύλληψη από κάμερα υπολογιστή"
 
 #: src/wizard.cpp:280
 msgid "Required to work with dv files if avformat module is not installed"
@@ -5740,25 +5740,23 @@ msgstr "Αλλαγή μεγέθους (50%)"
 
 #: src/mainwindow.cpp:1107
 msgid "Resize Item End"
-msgstr "Αλλαγή μεγέθους τέλους του αντικειμένου"
+msgstr "Ορισμός τέλους του αντικειμένου"
 
 #: src/mainwindow.cpp:1102
 msgid "Resize Item Start"
-msgstr "Αλλαγή μεγέθους αρχής του αντικειμένου"
+msgstr "Ορισμός αρχής του αντικειμένου"
 
 #: src/resizeclipcommand.cpp:34
 msgid "Resize clip"
 msgstr "Αλλαγή μεγέθους κλιπ"
 
 #: src/customtrackview.cpp:4481
-#, fuzzy
 msgid "Resize clip end"
-msgstr "Τέλος αλλαγής μεγέθους κλιπ"
+msgstr "Ορισμός τέλους κλιπ"
 
 #: src/customtrackview.cpp:4355
-#, fuzzy
 msgid "Resize clip start"
-msgstr "Αρχή αλλαγής μεγέθους κλιπ"
+msgstr "Ορισμός αρχής κλιπ"
 
 #: src/customtrackview.cpp:3351
 #: src/customtrackview.cpp:3375
@@ -6511,12 +6509,12 @@ msgstr "Ταχύτητα"
 
 #: src/mainwindow.cpp:1278
 msgid "Split Audio"
-msgstr "Διαίρεση κομματιού ήχου"
+msgstr "Διαχωρισμός κομματιού ήχου"
 
 #: src/splitaudiocommand.cpp:32
 #: src/customtrackview.cpp:5768
 msgid "Split audio"
-msgstr "Διαίρεση κομματιού ήχου"
+msgstr "Διαχωρισμός κομματιού ήχου"
 
 #: src/mainwindow.cpp:938
 msgid "Split audio and video automatically"
@@ -7026,7 +7024,7 @@ msgstr "Αδυναμία εγγραφής στο αρχείο %1"
 
 #: src/mainwindow.cpp:248
 msgid "Undo History"
-msgstr "Ιστορικού αναιρέσεων"
+msgstr "Ιστορικό αναιρέσεων"
 
 #: src/mainwindow.cpp:1204
 msgid "Ungroup Clips"
