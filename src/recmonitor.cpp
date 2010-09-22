@@ -45,12 +45,12 @@
 
 
 RecMonitor::RecMonitor(QString name, QWidget *parent) :
-        QWidget(parent),
-        m_name(name),
-        m_isActive(false),
-        m_isCapturing(false),
-        m_didCapture(false),
-        m_isPlaying(false)
+    QWidget(parent),
+    m_name(name),
+    m_isActive(false),
+    m_isCapturing(false),
+    m_didCapture(false),
+    m_isPlaying(false)
 {
     setupUi(this);
 
@@ -160,15 +160,16 @@ void RecMonitor::slotConfigure()
     emit showConfigDialog(4, device_selector->currentIndex());
 }
 
-void RecMonitor::slotUpdateCaptureFolder()
+void RecMonitor::slotUpdateCaptureFolder(const QString currentProjectFolder)
 {
-    if (m_captureProcess) m_captureProcess->setWorkingDirectory(KdenliveSettings::capturefolder());
+    if (KdenliveSettings::capturetoprojectfolder()) m_capturePath = currentProjectFolder;
+    else m_capturePath = KdenliveSettings::capturefolder();
+    if (m_captureProcess) m_captureProcess->setWorkingDirectory(m_capturePath);
     if (m_captureProcess->state() != QProcess::NotRunning) {
         if (device_selector->currentIndex() == FIREWIRE)
             KMessageBox::information(this, i18n("You need to disconnect and reconnect in the capture monitor to apply your changes"), i18n("Capturing"));
         else KMessageBox::information(this, i18n("You need to stop capture before your changes can be applied"), i18n("Capturing"));
     } else slotVideoDeviceChanged(device_selector->currentIndex());
-    kDebug() << "// UPDATE CAPT FOLD: " << KdenliveSettings::capturefolder();
 
 #if KDE_IS_VERSION(4,2,0)
     // update free space info
@@ -191,7 +192,7 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
             if (rmdpath.isEmpty()) video_frame->setPixmap(mergeSideBySide(KIcon("dialog-warning").pixmap(QSize(50, 50)), i18n("Recordmydesktop utility not found,\n please install it for screen grabs")));
             else KdenliveSettings::setRmd_path(rmdpath);
         }
-        if (!KdenliveSettings::rmd_path().isEmpty()) video_frame->setPixmap(mergeSideBySide(KIcon("video-display").pixmap(QSize(50, 50)), i18n("Press record button\nto start screen capture\nFiles will be saved in:\n%1", KdenliveSettings::capturefolder())));
+        if (!KdenliveSettings::rmd_path().isEmpty()) video_frame->setPixmap(mergeSideBySide(KIcon("video-display").pixmap(QSize(50, 50)), i18n("Press record button\nto start screen capture\nFiles will be saved in:\n%1", m_capturePath)));
         //video_frame->setText(i18n("Press record button\nto start screen capture"));
         break;
     case VIDEO4LINUX:
@@ -218,7 +219,7 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
             else KdenliveSettings::setDvgrab_path(dvgrabpath);
         } else {
             // Show capture info
-            QString capturefile = KdenliveSettings::capturefolder();
+            QString capturefile = m_capturePath;
             if (!capturefile.endsWith("/")) capturefile.append("/");
             QString capturename = KdenliveSettings::dvgrabfilename();
             if (capturename.isEmpty()) capturename = "capture";
@@ -270,7 +271,7 @@ void RecMonitor::checkDeviceAvailability()
         video_frame->setPixmap(mergeSideBySide(KIcon("camera-web").pixmap(QSize(50, 50)), i18n("Cannot read from device %1\nPlease check drivers and access rights.", KdenliveSettings::video4vdevice())));
         //video_frame->setText(i18n("Cannot read from device %1\nPlease check drivers and access rights.", KdenliveSettings::video4vdevice()));
     } else //video_frame->setText(i18n("Press play or record button\nto start video capture"));
-        video_frame->setPixmap(mergeSideBySide(KIcon("camera-web").pixmap(QSize(50, 50)), i18n("Press play or record button\nto start video capture\nFiles will be saved in:\n%1", KdenliveSettings::capturefolder())));
+        video_frame->setPixmap(mergeSideBySide(KIcon("camera-web").pixmap(QSize(50, 50)), i18n("Press play or record button\nto start video capture\nFiles will be saved in:\n%1", m_capturePath)));
 }
 
 void RecMonitor::slotDisconnect()
@@ -383,7 +384,7 @@ void RecMonitor::slotStartCapture(bool play)
         m_displayArgs << "-x" << QString::number(video_frame->width()) << "-y" << QString::number(video_frame->height()) << "-";
 
         m_captureProcess->setStandardOutputProcess(m_displayProcess);
-        m_captureProcess->setWorkingDirectory(KdenliveSettings::capturefolder());
+        m_captureProcess->setWorkingDirectory(m_capturePath);
         kDebug() << "Capture: Running dvgrab " << m_captureArgs.join(" ");
 
         m_captureProcess->start(KdenliveSettings::dvgrab_path(), m_captureArgs);
@@ -453,11 +454,11 @@ void RecMonitor::slotRecord()
         QString extension = "mp4";
         if (device_selector->currentIndex() == SCREENGRAB) extension = "ogv"; //KdenliveSettings::screengrabextension();
         else if (device_selector->currentIndex() == VIDEO4LINUX) extension = KdenliveSettings::video4extension();
-        QString path = KdenliveSettings::capturefolder() + "/capture0000." + extension;
+        QString path = m_capturePath + "/capture0000." + extension;
         int i = 1;
         while (QFile::exists(path)) {
             QString num = QString::number(i).rightJustified(4, '0', false);
-            path = KdenliveSettings::capturefolder() + "/capture" + num + '.' + extension;
+            path = m_capturePath + "/capture" + num + '.' + extension;
             i++;
         }
         m_captureFile = KUrl(path);
@@ -597,7 +598,7 @@ void RecMonitor::slotProcessStatus(QProcess::ProcessState status)
                 if (m_captureProcess->exitCode() != 0) {
                     video_frame->setText(i18n("Capture crashed, please check your parameters\nRecordMyDesktop exit code: %1", QString::number(m_captureProcess->exitCode())));
                 } else {
-                    video_frame->setPixmap(mergeSideBySide(KIcon("video-display").pixmap(QSize(50, 50)), i18n("Press record button\nto start screen capture\nFiles will be saved in:\n%1", KdenliveSettings::capturefolder())));
+                    video_frame->setPixmap(mergeSideBySide(KIcon("video-display").pixmap(QSize(50, 50)), i18n("Press record button\nto start screen capture\nFiles will be saved in:\n%1", m_capturePath)));
                 }
             }
         }
@@ -630,14 +631,14 @@ void RecMonitor::manageCapturedFiles()
         extension = ".m2t";
         break;
     }
-    QDir dir(KdenliveSettings::capturefolder());
+    QDir dir(m_capturePath);
     QStringList filters;
     QString capturename = KdenliveSettings::dvgrabfilename();
     if (capturename.isEmpty()) capturename = "capture";
     filters << capturename + "*" + extension;
     const QStringList result = dir.entryList(filters, QDir::Files, QDir::Time);
     KUrl::List capturedFiles;
-    foreach(const QString &name, result) {
+    foreach(const QString & name, result) {
         KUrl url = KUrl(dir.filePath(name));
         if (KIO::NetAccess::exists(url, KIO::NetAccess::SourceSide, this)) {
             KFileItem file(KFileItem::Unknown, KFileItem::Unknown, url, true);
@@ -651,7 +652,7 @@ void RecMonitor::manageCapturedFiles()
         ManageCapturesDialog *d = new ManageCapturesDialog(capturedFiles, this);
         if (d->exec() == QDialog::Accepted) {
             capturedFiles = d->importFiles();
-            foreach(const KUrl &url, capturedFiles) {
+            foreach(const KUrl & url, capturedFiles) {
                 emit addProjectClip(url);
             }
         }
@@ -670,7 +671,7 @@ void RecMonitor::mousePressEvent(QMouseEvent * /*event*/)
 void RecMonitor::slotUpdateFreeSpace()
 {
 #if KDE_IS_VERSION(4,2,0)
-    KDiskFreeSpaceInfo info = KDiskFreeSpaceInfo::freeSpaceInfo(KdenliveSettings::capturefolder());
+    KDiskFreeSpaceInfo info = KDiskFreeSpaceInfo::freeSpaceInfo(m_capturePath);
     if (info.isValid()) {
         m_freeSpace->setValue(100 * info.used() / info.size());
         m_freeSpace->setText(i18n("Free space: %1", KIO::convertSize(info.available())));

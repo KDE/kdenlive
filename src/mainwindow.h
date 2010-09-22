@@ -475,6 +475,8 @@ private slots:
     void slotDeleteProjectClips(QStringList ids, QMap<QString, QString> folderids);
     void slotShowTitleBars(bool show);
     void slotSwitchTitles();
+    /** @brief Update the capture folder if user asked a change. */
+    void slotUpdateCaptureFolder();
 
     /** @brief Saves the widgets layout */
     void slotSaveLayout(QAction*);

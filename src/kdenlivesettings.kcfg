@@ -193,6 +193,11 @@
       <default>$HOME/kdenlive</default>
     </entry>
 
+    <entry name="capturetoprojectfolder" type="Bool">
+      <label>Save captured files to project folder by default.</label>
+      <default>true</default>
+    </entry>
+
     <entry name="capturefolder" type="Path">
       <label>Default folder for captured files.</label>
       <default>$HOME</default>

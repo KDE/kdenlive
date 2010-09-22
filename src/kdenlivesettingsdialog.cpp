@@ -43,8 +43,8 @@
 
 
 KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent) :
-        KConfigDialog(parent, "settings", KdenliveSettings::self()),
-        m_modified(false)
+    KConfigDialog(parent, "settings", KdenliveSettings::self()),
+    m_modified(false)
 {
 
     QWidget *p1 = new QWidget;
@@ -73,6 +73,8 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent) :
     m_configEnv.projecturl->lineEdit()->setObjectName("kcfg_defaultprojectfolder");
     m_configEnv.capturefolderurl->setMode(KFile::Directory);
     m_configEnv.capturefolderurl->lineEdit()->setObjectName("kcfg_capturefolder");
+    m_configEnv.capturefolderurl->setEnabled(!KdenliveSettings::capturetoprojectfolder());
+    connect(m_configEnv.kcfg_capturetoprojectfolder, SIGNAL(clicked()), this, SLOT(slotEnableCaptureFolder()));
     m_page2 = addPage(p2, i18n("Environment"), "application-x-executable-script");
 
     QWidget *p4 = new QWidget;
@@ -199,6 +201,11 @@ void KdenliveSettingsDialog::slotUpdateRmdRegionStatus()
     m_configCapture.region_group->setHidden(m_configCapture.kcfg_rmd_capture_type->currentIndex() != 1);
 }
 
+void KdenliveSettingsDialog::slotEnableCaptureFolder()
+{
+    m_configEnv.capturefolderurl->setEnabled(!m_configEnv.kcfg_capturetoprojectfolder->isChecked());
+}
+
 void KdenliveSettingsDialog::checkProfile()
 {
     m_configProject.kcfg_profiles_list->clear();
@@ -305,7 +312,7 @@ void KdenliveSettingsDialog::slotReadAudioDevices()
     kDebug() << "// / / / / / READING APLAY: ";
     kDebug() << result;
     QStringList lines = result.split('\n');
-    foreach(const QString &data, lines) {
+    foreach(const QString & data, lines) {
         kDebug() << "// READING LINE: " << data;
         if (data.simplified().startsWith("card")) {
             QString card = data.section(':', 0, 0).section(' ', -1);
@@ -429,6 +436,11 @@ void KdenliveSettingsDialog::updateSettings()
 
     bool resetProfile = false;
     bool updateCapturePath = false;
+
+    if (m_configEnv.kcfg_capturetoprojectfolder->isChecked() != KdenliveSettings::capturetoprojectfolder()) {
+        KdenliveSettings::setCapturetoprojectfolder(m_configEnv.kcfg_capturetoprojectfolder->isChecked());
+        updateCapturePath = true;
+    }
 
     if (m_configEnv.capturefolderurl->url().path() != KdenliveSettings::capturefolder()) {
         KdenliveSettings::setCapturefolder(m_configEnv.capturefolderurl->url().path());

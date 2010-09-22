@@ -63,6 +63,7 @@ private:
     bool m_isActive;
     KDateTime m_captureTime;
     QLabel m_dvinfo;
+    QString m_capturePath;
 
 #if KDE_IS_VERSION(4,2,0)
     KCapacityBar *m_freeSpace;
@@ -111,7 +112,7 @@ public slots:
     void start();
     void activateRecMonitor();
     void slotPlay();
-    void slotUpdateCaptureFolder();
+    void slotUpdateCaptureFolder(const QString currentProjectFolder);
 
 signals:
     void renderPosition(int);

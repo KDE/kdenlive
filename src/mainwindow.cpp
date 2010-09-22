@@ -2082,7 +2082,8 @@ void MainWindow::slotEditProjectSettings()
     if (w->exec() == QDialog::Accepted) {
         QString profile = w->selectedProfile();
         m_activeDocument->setProjectFolder(w->selectedFolder());
-        if (m_renderWidget) m_renderWidget->setDocumentPath(w->selectedFolder().path(KUrl::AddTrailingSlash));
+        m_recMonitor->slotUpdateCaptureFolder(m_activeDocument->projectFolder().path(KUrl::AddTrailingSlash));
+        if (m_renderWidget) m_renderWidget->setDocumentPath(m_activeDocument->projectFolder().path(KUrl::AddTrailingSlash));
         if (KdenliveSettings::videothumbnails() != w->enableVideoThumbs()) slotSwitchVideoThumbs();
         if (KdenliveSettings::audiothumbnails() != w->enableAudioThumbs()) slotSwitchAudioThumbs();
         if (m_activeDocument->profilePath() != profile) slotUpdateProjectProfile(profile);
@@ -2373,6 +2374,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     m_activeDocument = doc;
     m_activeTimeline->updateProjectFps();
     m_activeDocument->checkProjectClips();
+    m_recMonitor->slotUpdateCaptureFolder(m_activeDocument->projectFolder().path(KUrl::AddTrailingSlash));
     if (KdenliveSettings::dropbframes()) slotUpdatePreviewSettings();
     //Update the mouse position display so it will display in DF/NDF format by default based on the project setting.
     slotUpdateMousePosition(0);
@@ -2419,11 +2421,17 @@ void MainWindow::slotPreferences(int page, int option)
     connect(dialog, SIGNAL(doResetProfile()), m_monitorManager, SLOT(slotResetProfiles()));
     connect(dialog, SIGNAL(updatePreviewSettings()), this, SLOT(slotUpdatePreviewSettings()));
 #ifndef Q_WS_MAC
-    connect(dialog, SIGNAL(updateCaptureFolder()), m_recMonitor, SLOT(slotUpdateCaptureFolder()));
+    connect(dialog, SIGNAL(updateCaptureFolder()), this, SLOT(slotUpdateCaptureFolder()));
 #endif
     //connect(dialog, SIGNAL(updatePreviewSettings()), this, SLOT(slotUpdatePreviewSettings()));
     dialog->show();
     if (page != -1) dialog->showPage(page, option);
+}
+
+void MainWindow::slotUpdateCaptureFolder()
+{
+    if (m_activeDocument) m_recMonitor->slotUpdateCaptureFolder(m_activeDocument->projectFolder().path(KUrl::AddTrailingSlash));
+    else m_recMonitor->slotUpdateCaptureFolder(KdenliveSettings::defaultprojectfolder());
 }
 
 void MainWindow::slotUpdatePreviewSettings()
@@ -3313,8 +3321,7 @@ void MainWindow::slotSaveZone(Render *render, QPoint zone)
 
     QVBoxLayout *vbox = new QVBoxLayout(widget);
     QLabel *label1 = new QLabel(i18n("Save clip zone as:"), this);
-    QString path = m_activeDocument->projectFolder().path();
-    path.append("/");
+    QString path = m_activeDocument->projectFolder().path(KUrl::AddTrailingSlash);
     path.append("untitled.mlt");
     KUrlRequester *url = new KUrlRequester(KUrl(path), this);
     url->setFilter("video/mlt-playlist");
@@ -3543,7 +3550,7 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
     QString playlistPath;
     if (scriptExport) {
         bool ok;
-        QString scriptsFolder = m_activeDocument->projectFolder().path() + "/scripts/";
+        QString scriptsFolder = m_activeDocument->projectFolder().path(KUrl::AddTrailingSlash) + "scripts/";
         QString path = m_renderWidget->getFreeScriptName();
         scriptPath = QInputDialog::getText(this, i18n("Create Render Script"), i18n("Script name (will be saved in: %1)", scriptsFolder), QLineEdit::Normal, KUrl(path).fileName(), &ok);
         if (!ok || scriptPath.isEmpty()) return;
@@ -3834,7 +3841,7 @@ void MainWindow::slotShowTitleBars(bool show)
         if (!m_histogramDock->isFloating()) {
             m_histogramDock->setTitleBarWidget(new QWidget(this));
         }
-        if(!m_notesDock->isFloating()) {
+        if (!m_notesDock->isFloating()) {
             m_notesDock->setTitleBarWidget(new QWidget(this));
         }
     }

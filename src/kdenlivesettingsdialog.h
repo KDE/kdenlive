@@ -65,6 +65,7 @@ private slots:
     void slotAddTranscode();
     void slotDeleteTranscode();
     void slotDialogModified();
+    void slotEnableCaptureFolder();
 
 private:
     KPageWidgetItem *m_page1;
