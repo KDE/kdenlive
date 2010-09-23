@@ -202,7 +202,9 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     m_notesDock->setObjectName("notes_widget");
     m_notesWidget = new KTextEdit();
     m_notesWidget->setTabChangesFocus(true);
+#if KDE_IS_VERSION(4,4,0)
     m_notesWidget->setClickMessage(i18n("Enter your project notes here..."));
+#endif
     m_notesDock->setWidget(m_notesWidget);
     addDockWidget(Qt::TopDockWidgetArea, m_notesDock);
 
