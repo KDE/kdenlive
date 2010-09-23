@@ -200,15 +200,12 @@ private:
     Render *m_render;
     Timecode m_timecode;
     double m_fps;
-    QToolBar *m_toolbar;
     QTimer m_queueTimer;
     QMenu *m_menu;
     QUndoStack *m_commandStack;
     ProjectItem *getItemById(const QString &id);
     QTreeWidgetItem *getAnyItemById(const QString &id);
     FolderProjectItem *getFolderItemById(const QString &id);
-    QAction *m_editAction;
-    QAction *m_deleteAction;
     QAction *m_openAction;
     QAction *m_reloadAction;
     QMenu *m_transcodeAction;
@@ -216,6 +213,8 @@ private:
     ItemDelegate *m_listViewDelegate;
     bool m_refreshed;
     QToolButton *m_addButton;
+    QToolButton *m_deleteButton;
+    QToolButton *m_editButton;
     QMap <QString, QDomElement> m_infoQueue;
     QMap <QString, QDomElement> m_producerQueue;
     void requestClipInfo(const QDomElement xml, const QString id);

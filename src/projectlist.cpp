@@ -48,6 +48,7 @@
 #include <KMessageBox>
 #include <KIO/NetAccess>
 #include <KFileItem>
+#include <KApplication>
 #ifdef NEPOMUK
 #include <nepomuk/global.h>
 #include <nepomuk/resourcemanager.h>
@@ -68,8 +69,6 @@ ProjectList::ProjectList(QWidget *parent) :
     m_render(NULL),
     m_fps(-1),
     m_commandStack(NULL),
-    m_editAction(NULL),
-    m_deleteAction(NULL),
     m_openAction(NULL),
     m_reloadAction(NULL),
     m_transcodeAction(NULL),
@@ -78,27 +77,39 @@ ProjectList::ProjectList(QWidget *parent) :
     m_infoQueue(),
     m_thumbnailQueue()
 {
-
-    m_listView = new ProjectListView(this);;
     QVBoxLayout *layout = new QVBoxLayout;
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
 
     // setup toolbar
-    KTreeWidgetSearchLine *searchView = new KTreeWidgetSearchLine(this);
-    m_toolbar = new QToolBar("projectToolBar", this);
-    m_toolbar->addWidget(searchView);
+    QFrame *frame = new QFrame;
+    frame->setFrameStyle(QFrame::NoFrame);
+    QHBoxLayout *box = new QHBoxLayout;
+    KTreeWidgetSearchLine *searchView = new KTreeWidgetSearchLine;
+
+    box->addWidget(searchView);
     int s = style()->pixelMetric(QStyle::PM_SmallIconSize);
-    m_toolbar->setIconSize(QSize(s, s));
-    searchView->setTreeWidget(m_listView);
+    //m_toolbar->setIconSize(QSize(s, s));
 
-    m_addButton = new QToolButton(m_toolbar);
+    m_addButton = new QToolButton;
     m_addButton->setPopupMode(QToolButton::MenuButtonPopup);
-    m_toolbar->addWidget(m_addButton);
+    m_addButton->setAutoRaise(true);
+    box->addWidget(m_addButton);
 
-    layout->addWidget(m_toolbar);
+    m_editButton = new QToolButton;
+    m_editButton->setAutoRaise(true);
+    box->addWidget(m_editButton);
+
+    m_deleteButton = new QToolButton;
+    m_deleteButton->setAutoRaise(true);
+    box->addWidget(m_deleteButton);
+    frame->setLayout(box);
+    layout->addWidget(frame);
+
+    m_listView = new ProjectListView;
     layout->addWidget(m_listView);
     setLayout(layout);
+    searchView->setTreeWidget(m_listView);
 
     m_queueTimer.setInterval(100);
     connect(&m_queueTimer, SIGNAL(timeout()), this, SLOT(slotProcessNextClipInQueue()));
@@ -132,7 +143,6 @@ ProjectList::ProjectList(QWidget *parent) :
 ProjectList::~ProjectList()
 {
     delete m_menu;
-    delete m_toolbar;
     m_listView->blockSignals(true);
     m_listView->clear();
     delete m_listViewDelegate;
@@ -148,13 +158,11 @@ void ProjectList::setupMenu(QMenu *addMenu, QAction *defaultAction)
     QList <QAction *> actions = addMenu->actions();
     for (int i = 0; i < actions.count(); i++) {
         if (actions.at(i)->data().toString() == "clip_properties") {
-            m_editAction = actions.at(i);
-            m_toolbar->addAction(m_editAction);
+            m_editButton->setDefaultAction(actions.at(i));
             actions.removeAt(i);
             i--;
         } else if (actions.at(i)->data().toString() == "delete_clip") {
-            m_deleteAction = actions.at(i);
-            m_toolbar->addAction(m_deleteAction);
+            m_deleteButton->setDefaultAction(actions.at(i));
             actions.removeAt(i);
             i--;
         } else if (actions.at(i)->data().toString() == "edit_clip") {
@@ -194,10 +202,10 @@ void ProjectList::setupGeneratorMenu(QMenu *addMenu, QMenu *transcodeMenu, QMenu
     m_menu->addAction(m_reloadAction);
     m_menu->addMenu(inTimelineMenu);
     inTimelineMenu->setEnabled(false);
-    m_menu->addAction(m_editAction);
+    m_menu->addAction(m_editButton->defaultAction());
     m_menu->addAction(m_openAction);
-    m_menu->addAction(m_deleteAction);
-    m_menu->insertSeparator(m_deleteAction);
+    m_menu->addAction(m_deleteButton->defaultAction());
+    m_menu->insertSeparator(m_deleteButton->defaultAction());
 }
 
 
@@ -312,13 +320,13 @@ void ProjectList::slotOpenClip()
     if (item) {
         if (item->clipType() == IMAGE) {
             if (KdenliveSettings::defaultimageapp().isEmpty())
-                KMessageBox::sorry(this, i18n("Please set a default application to open images in the Settings dialog"));
+                KMessageBox::sorry(kapp->activeWindow(), i18n("Please set a default application to open images in the Settings dialog"));
             else
                 QProcess::startDetached(KdenliveSettings::defaultimageapp(), QStringList() << item->clipUrl().path());
         }
         if (item->clipType() == AUDIO) {
             if (KdenliveSettings::defaultaudioapp().isEmpty())
-                KMessageBox::sorry(this, i18n("Please set a default application to open audio files in the Settings dialog"));
+                KMessageBox::sorry(kapp->activeWindow(), i18n("Please set a default application to open audio files in the Settings dialog"));
             else
                 QProcess::startDetached(KdenliveSettings::defaultaudioapp(), QStringList() << item->clipUrl().path());
         }
@@ -497,8 +505,8 @@ void ProjectList::slotClipSelected()
     if (m_listView->currentItem()) {
         if (m_listView->currentItem()->type() == PROJECTFOLDERTYPE) {
             emit clipSelected(NULL);
-            m_editAction->setEnabled(false);
-            m_deleteAction->setEnabled(true);
+            m_editButton->defaultAction()->setEnabled(false);
+            m_deleteButton->defaultAction()->setEnabled(true);
             m_openAction->setEnabled(false);
             m_reloadAction->setEnabled(false);
             m_transcodeAction->setEnabled(false);
@@ -506,7 +514,7 @@ void ProjectList::slotClipSelected()
             ProjectItem *clip;
             if (m_listView->currentItem()->type() == PROJECTSUBCLIPTYPE) {
                 // this is a sub item, use base clip
-                m_deleteAction->setEnabled(true);
+                m_deleteButton->defaultAction()->setEnabled(true);
                 clip = static_cast <ProjectItem*>(m_listView->currentItem()->parent());
                 if (clip == NULL) kDebug() << "-----------ERROR";
                 SubProjectItem *sub = static_cast <SubProjectItem*>(m_listView->currentItem());
@@ -517,8 +525,8 @@ void ProjectList::slotClipSelected()
             clip = static_cast <ProjectItem*>(m_listView->currentItem());
             if (clip)
                 emit clipSelected(clip->referencedClip());
-            m_editAction->setEnabled(true);
-            m_deleteAction->setEnabled(true);
+            m_editButton->defaultAction()->setEnabled(true);
+            m_deleteButton->defaultAction()->setEnabled(true);
             m_reloadAction->setEnabled(true);
             m_transcodeAction->setEnabled(true);
             if (clip && clip->clipType() == IMAGE && !KdenliveSettings::defaultimageapp().isEmpty()) {
@@ -537,8 +545,8 @@ void ProjectList::slotClipSelected()
         }
     } else {
         emit clipSelected(NULL);
-        m_editAction->setEnabled(false);
-        m_deleteAction->setEnabled(false);
+        m_editButton->defaultAction()->setEnabled(false);
+        m_deleteButton->defaultAction()->setEnabled(false);
         m_openAction->setEnabled(false);
         m_reloadAction->setEnabled(false);
         m_transcodeAction->setEnabled(false);
@@ -680,8 +688,8 @@ void ProjectList::slotItemEdited(QTreeWidgetItem *item, int column)
 void ProjectList::slotContextMenu(const QPoint &pos, QTreeWidgetItem *item)
 {
     bool enable = item ? true : false;
-    m_editAction->setEnabled(enable);
-    m_deleteAction->setEnabled(enable);
+    m_editButton->defaultAction()->setEnabled(enable);
+    m_deleteButton->defaultAction()->setEnabled(enable);
     m_reloadAction->setEnabled(enable);
     m_transcodeAction->setEnabled(enable);
     if (enable) {
@@ -737,7 +745,7 @@ void ProjectList::slotRemoveClip()
             folderids[folder->groupName()] = folder->clipId();
             int children = folder->childCount();
 
-            if (children > 0 && KMessageBox::questionYesNo(this, i18np("Delete folder <b>%2</b>?<br />This will also remove the clip in that folder", "Delete folder <b>%2</b>?<br />This will also remove the %1 clips in that folder",  children, folder->text(1)), i18n("Delete Folder")) != KMessageBox::Yes)
+            if (children > 0 && KMessageBox::questionYesNo(kapp->activeWindow(), i18np("Delete folder <b>%2</b>?<br />This will also remove the clip in that folder", "Delete folder <b>%2</b>?<br />This will also remove the %1 clips in that folder",  children, folder->text(1)), i18n("Delete Folder")) != KMessageBox::Yes)
                 return;
             for (int i = 0; i < children; ++i) {
                 ProjectItem *child = static_cast <ProjectItem *>(folder->child(i));
@@ -746,7 +754,7 @@ void ProjectList::slotRemoveClip()
         } else {
             ProjectItem *item = static_cast <ProjectItem *>(selected.at(i));
             ids << item->clipId();
-            if (item->numReferences() > 0 && KMessageBox::questionYesNo(this, i18np("Delete clip <b>%2</b>?<br />This will also remove the clip in timeline", "Delete clip <b>%2</b>?<br />This will also remove its %1 clips in timeline", item->numReferences(), item->names().at(1)), i18n("Delete Clip")) != KMessageBox::Yes)
+            if (item->numReferences() > 0 && KMessageBox::questionYesNo(kapp->activeWindow(), i18np("Delete clip <b>%2</b>?<br />This will also remove the clip in timeline", "Delete clip <b>%2</b>?<br />This will also remove its %1 clips in timeline", item->numReferences(), item->names().at(1)), i18n("Delete Clip")) != KMessageBox::Yes)
                 return;
         }
     }
@@ -761,14 +769,14 @@ void ProjectList::slotRemoveClip()
 void ProjectList::updateButtons() const
 {
     if (m_listView->topLevelItemCount() == 0) {
-        m_deleteAction->setEnabled(false);
+        m_deleteButton->defaultAction()->setEnabled(false);
     } else {
-        m_deleteAction->setEnabled(true);
+        m_deleteButton->defaultAction()->setEnabled(true);
         if (!m_listView->currentItem())
             m_listView->setCurrentItem(m_listView->topLevelItem(0));
         QTreeWidgetItem *item = m_listView->currentItem();
         if (item && item->type() == PROJECTCLIPTYPE) {
-            m_editAction->setEnabled(true);
+            m_editButton->defaultAction()->setEnabled(true);
             m_openAction->setEnabled(true);
             m_reloadAction->setEnabled(true);
             m_transcodeAction->setEnabled(true);
@@ -776,7 +784,7 @@ void ProjectList::updateButtons() const
         }
     }
 
-    m_editAction->setEnabled(false);
+    m_editButton->defaultAction()->setEnabled(false);
     m_openAction->setEnabled(false);
     m_reloadAction->setEnabled(false);
     m_transcodeAction->setEnabled(false);
@@ -1080,7 +1088,7 @@ void ProjectList::slotAddClip(const QList <QUrl> givenList, const QString &group
         const QString dialogFilter = allExtensions + ' ' + QLatin1Char('|') + i18n("All Supported Files") + "\n* " + QLatin1Char('|') + i18n("All Files");
         QCheckBox *b = new QCheckBox(i18n("Import image sequence"));
         b->setChecked(KdenliveSettings::autoimagesequence());
-        KFileDialog *d = new KFileDialog(KUrl("kfiledialog:///clipfolder"), dialogFilter, this, b);
+        KFileDialog *d = new KFileDialog(KUrl("kfiledialog:///clipfolder"), dialogFilter, kapp->activeWindow(), b);
         d->setOperationMode(KFileDialog::Opening);
         d->setMode(KFile::Files);
         d->exec();
@@ -1148,8 +1156,8 @@ void ProjectList::slotRemoveInvalidClip(const QString &id, bool replace)
         if (item->referencedClip()->isPlaceHolder()) replace = false;
         if (!path.isEmpty()) {
             if (replace)
-                KMessageBox::sorry(this, i18n("Clip <b>%1</b><br />is invalid, will be removed from project.", path));
-            else if (KMessageBox::questionYesNo(this, i18n("Clip <b>%1</b><br />is missing or invalid. Remove it from project?", path), i18n("Invalid clip")) == KMessageBox::Yes)
+                KMessageBox::sorry(kapp->activeWindow(), i18n("Clip <b>%1</b><br />is invalid, will be removed from project.", path));
+            else if (KMessageBox::questionYesNo(kapp->activeWindow(), i18n("Clip <b>%1</b><br />is missing or invalid. Remove it from project?", path), i18n("Invalid clip")) == KMessageBox::Yes)
                 replace = true;
         }
         if (replace)
@@ -1286,7 +1294,6 @@ void ProjectList::setDocument(KdenliveDoc *doc)
         slotAddClip(list.at(i), false);
 
     m_listView->blockSignals(false);
-    m_toolbar->setEnabled(true);
     connect(m_doc->clipManager(), SIGNAL(reloadClip(const QString &)), this, SLOT(slotReloadClip(const QString &)));
     connect(m_doc->clipManager(), SIGNAL(modifiedClip(const QString &)), this, SLOT(slotModifiedClip(const QString &)));
     connect(m_doc->clipManager(), SIGNAL(missingClip(const QString &)), this, SLOT(slotMissingClip(const QString &)));
@@ -1498,7 +1505,7 @@ bool ProjectList::adjustProjectProfileToItem(ProjectItem *item)
             item = static_cast <ProjectItem*>(m_listView->currentItem());
     }
     if (item == NULL || item->referencedClip() == NULL) {
-        KMessageBox::information(this, i18n("Cannot find profile from current clip"));
+        KMessageBox::information(kapp->activeWindow(), i18n("Cannot find profile from current clip"));
         return false;
     }
     bool profileUpdated = false;
@@ -1542,7 +1549,7 @@ bool ProjectList::adjustProjectProfileToItem(ProjectItem *item)
                 }
                 delete list;
                 delete label;
-            } else KMessageBox::information(this, i18n("Your clip does not match current project's profile.\nNo existing profile found to match the clip's properties.\nClip size: %1\nFps: %2\n", size, fps));
+            } else KMessageBox::information(kapp->activeWindow(), i18n("Your clip does not match current project's profile.\nNo existing profile found to match the clip's properties.\nClip size: %1\nFps: %2\n", size, fps));
         }
     }
     return profileUpdated;
@@ -1634,8 +1641,8 @@ void ProjectList::slotSelectClip(const QString &ix)
     if (clip) {
         m_listView->setCurrentItem(clip);
         m_listView->scrollToItem(clip);
-        m_editAction->setEnabled(true);
-        m_deleteAction->setEnabled(true);
+        m_editButton->defaultAction()->setEnabled(true);
+        m_deleteButton->defaultAction()->setEnabled(true);
         m_reloadAction->setEnabled(true);
         m_transcodeAction->setEnabled(true);
         if (clip->clipType() == IMAGE && !KdenliveSettings::defaultimageapp().isEmpty()) {
