@@ -2572,9 +2572,10 @@ void CustomTrackView::addTrack(TrackInfo type, int ix)
     m_cursorLine->setLine(m_cursorLine->line().x1(), 0, m_cursorLine->line().x1(), maxHeight - 1);
     setSceneRect(0, 0, sceneRect().width(), m_tracksHeight * m_document->tracksCount());
     viewport()->update();
-    emit tracksChanged();
     //QTimer::singleShot(500, this, SIGNAL(trackHeightChanged()));
     //setFixedHeight(50 * m_tracksCount);
+
+    updateTrackNames(ix, true);
 }
 
 void CustomTrackView::removeTrack(int ix)
@@ -2644,7 +2645,8 @@ void CustomTrackView::removeTrack(int ix)
 
     m_selectedTrack = qMin(m_selectedTrack, m_document->tracksCount() - 1);
     viewport()->update();
-    emit tracksChanged();
+
+    updateTrackNames(ix, false);
     //QTimer::singleShot(500, this, SIGNAL(trackHeightChanged()));
 }
 
@@ -6468,3 +6470,41 @@ void CustomTrackView::updatePanZoom(ClipItem* item, GenTime cutPos)
     if (effects.count() > 0)
         emit clipItemSelected(item, item->selectedEffectIndex());
 }
+
+void CustomTrackView::updateTrackNames(int track, bool added)
+{
+    QList <TrackInfo> tracks = m_document->tracksList();
+    int max = tracks.count();
+    int docTrack = max - track - 1;
+
+    // count number of tracks of each type
+    int videoTracks = 0;
+    int audioTracks = 0;
+    for (int i = max - 1; i >= 0; --i) {
+        TrackInfo info = tracks.at(i);
+        if (info.type == VIDEOTRACK)
+            videoTracks++;
+        else
+            audioTracks++;
+
+        if (i <= docTrack) {
+            QString type = (info.type == VIDEOTRACK ? "Video " : "Audio ");
+            int typeNumber = (info.type == VIDEOTRACK ? videoTracks : audioTracks);
+
+            if (added) {
+                if (i == docTrack || info.trackName == type + QString::number(typeNumber - 1)) {
+                    info.trackName = type + QString::number(typeNumber);
+                    m_document->setTrackType(i, info);
+                }
+            } else {
+                if (info.trackName == type + QString::number(typeNumber + 1)) {
+                    info.trackName = type + QString::number(typeNumber);
+                    m_document->setTrackType(i, info);
+                }
+            }
+        }
+    }
+
+    emit tracksChanged();
+}
+

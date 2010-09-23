@@ -410,6 +410,14 @@ private:
      * @param cutPos (optional) if clip was cut, cut position relative to the original's clip position */
     void updatePanZoom(ClipItem *item, GenTime cutPos = GenTime());
 
+    /** @brief Update Tracknames to fit again after track was added/deleted.
+     * @param track Number of track which was added/deleted
+     * @param added true = track added, false = track deleted
+     * 
+     * The default track name consists of type + number. If we add/delete a track the number has to be adjusted
+     * if the name is still the default one. */
+    void updateTrackNames(int track, bool added);
+
 private slots:
     void slotRefreshGuides();
     void slotEnableRefresh();
