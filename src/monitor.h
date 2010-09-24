@@ -40,6 +40,9 @@ class Render;
 class SmallRuler;
 class DocClipBase;
 class MonitorScene;
+class AbstractClipItem;
+class Transition;
+class ClipItem;
 class QGraphicsView;
 class QGraphicsPixmapItem;
 
@@ -79,7 +82,7 @@ public:
     void resetSize();
     bool isActive() const;
     void pause();
-    void setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu = NULL);
+    void setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu = NULL, QAction *loopClip = NULL);
     const QString sceneList();
     DocClipBase *activeClip();
     GenTime position();
@@ -122,6 +125,8 @@ private:
     KIcon m_pauseIcon;
     TimecodeDisplay *m_timePos;
     QAction *m_playAction;
+    /** Has to be available so we can enable and disable it. */
+    QAction *m_loopClipAction;
     QMenu *m_contextMenu;
     QMenu *m_configMenu;
     QMenu *m_playMenu;
@@ -129,9 +134,15 @@ private:
     QPoint m_DragStartPosition;
     MonitorScene *m_effectScene;
     QGraphicsView *m_effectView;
+    /** Selected clip/transition in timeline. Used for looping it. */
+    AbstractClipItem *m_selectedClip;
+    /** true if selected clip is transition, false = selected clip is clip.
+     *  Necessary because sometimes we get two signals, e.g. we get a clip and we get selected transition = NULL. */
+    bool m_loopClipTransition;
 #ifdef Q_WS_MAC
     VideoGLWidget *m_glWidget;
 #endif
+
     GenTime getSnapForPos(bool previous);
 
 private slots:
@@ -160,6 +171,8 @@ public slots:
     void slotPlay();
     void slotPlayZone();
     void slotLoopZone();
+    /** @brief Loops the selected item (clip or transition). */
+    void slotLoopClip();
     void slotForward(double speed = 0);
     void slotRewind(double speed = 0);
     void slotRewindOneFrame(int diff = 1);
@@ -180,6 +193,11 @@ public slots:
     void slotEffectScene(bool show = true);
     bool effectSceneDisplayed();
 
+    /** @brief Sets m_selectedClip to @param item. Used for looping it. */
+    void slotSetSelectedClip(AbstractClipItem *item);
+    void slotSetSelectedClip(ClipItem *item);
+    void slotSetSelectedClip(Transition *item);
+
 signals:
     void renderPosition(int);
     void durationChanged(int);
@@ -187,7 +205,7 @@ signals:
     void adjustMonitorSize();
     void zoneUpdated(QPoint);
     void saveZone(Render *, QPoint);
-    /** @brief  Editing transitions / effects over the monitor requires thr renderer to send frames as QImage.
+    /** @brief  Editing transitions / effects over the monitor requires the renderer to send frames as QImage.
      *      This causes a major slowdown, so we only enable it if required */
     void requestFrameForAnalysis(bool);
 };

@@ -230,6 +230,7 @@ private:
     KAction *m_zoomOut;
     KAction *m_loopZone;
     KAction *m_playZone;
+    KAction *m_loopClip;
     StatusBarMessageLabel *m_messageLabel;
     QActionGroup *m_clipTypeGroup;
     KActionCollection *m_effectsActionCollection;

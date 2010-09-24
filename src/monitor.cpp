@@ -24,6 +24,7 @@
 #include "smallruler.h"
 #include "docclipbase.h"
 #include "monitorscene.h"
+#include "abstractclipitem.h"
 #include "kdenlivesettings.h"
 
 #include <KDebug>
@@ -57,7 +58,9 @@ Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget
     m_length(0),
     m_dragStarted(false),
     m_effectScene(NULL),
-    m_effectView(NULL)
+    m_effectView(NULL),
+    m_selectedClip(NULL),
+    m_loopClipTransition(true)
 {
     m_ui.setupUi(this);
     QVBoxLayout *layout = new QVBoxLayout;
@@ -199,15 +202,21 @@ QString Monitor::name() const
     return m_name;
 }
 
-void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu)
+void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu, QAction *loopClip)
 {
     m_contextMenu = new QMenu(this);
     m_contextMenu->addMenu(m_playMenu);
-    if (goMenu) m_contextMenu->addMenu(goMenu);
-    if (markerMenu) m_contextMenu->addMenu(markerMenu);
+    if (goMenu)
+        m_contextMenu->addMenu(goMenu);
+    if (markerMenu)
+        m_contextMenu->addMenu(markerMenu);
 
     m_playMenu->addAction(playZone);
     m_playMenu->addAction(loopZone);
+    if (loopClip) {
+        m_loopClipAction = loopClip;
+        m_playMenu->addAction(loopClip);
+    }
 
     //TODO: add save zone to timeline monitor when fixed
     if (m_name == "clip") {
@@ -730,6 +739,16 @@ void Monitor::slotLoopZone()
     m_playAction->setIcon(m_pauseIcon);
 }
 
+void Monitor::slotLoopClip()
+{
+    if (render == NULL || m_selectedClip == NULL)
+        return;
+    activateMonitor();
+    render->loopZone(m_selectedClip->startPos(), m_selectedClip->endPos());
+    m_playAction->setChecked(true);
+    m_playAction->setIcon(m_pauseIcon);
+}
+
 void Monitor::slotSetXml(DocClipBase *clip, QPoint zone, const int position)
 {
     if (render == NULL) return;
@@ -842,6 +861,33 @@ QStringList Monitor::getZoneInfo() const
     result << QString::number(zone.x()) << QString::number(zone.y());
     return result;
 }
+
+void Monitor::slotSetSelectedClip(AbstractClipItem* item)
+{
+    if (item) {
+        m_loopClipAction->setEnabled(true);
+        m_selectedClip = item;
+    } else {
+        m_loopClipAction->setEnabled(false);
+    }
+}
+
+void Monitor::slotSetSelectedClip(ClipItem* item)
+{
+    if (item || (!item && !m_loopClipTransition)) {
+        m_loopClipTransition = false; 
+        slotSetSelectedClip((AbstractClipItem*)item);
+    }
+}
+
+void Monitor::slotSetSelectedClip(Transition* item)
+{
+    if (item || (!item && m_loopClipTransition)) {
+        m_loopClipTransition = true;
+        slotSetSelectedClip((AbstractClipItem*)item);
+    }
+}
+
 
 void Monitor::slotEffectScene(bool show)
 {

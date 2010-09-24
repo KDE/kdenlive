@@ -352,7 +352,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     loadTranscoders();
     //kDebug() << factory() << " " << factory()->container("video_effects_menu", this);
 
-    m_projectMonitor->setupMenu(static_cast<QMenu*>(factory()->container("monitor_go", this)), m_playZone, m_loopZone);
+    m_projectMonitor->setupMenu(static_cast<QMenu*>(factory()->container("monitor_go", this)), m_playZone, m_loopZone, NULL, m_loopClip);
     m_clipMonitor->setupMenu(static_cast<QMenu*>(factory()->container("monitor_go", this)), m_playZone, m_loopZone, static_cast<QMenu*>(factory()->container("marker_menu", this)));
 
     QMenu *clipInTimeline = static_cast<QMenu*>(factory()->container("clip_in_timeline", this));
@@ -1124,6 +1124,11 @@ void MainWindow::setupActions()
     m_loopZone->setShortcut(Qt::ALT + Qt::Key_Space);
     collection->addAction("monitor_loop_zone", m_loopZone);
     connect(m_loopZone, SIGNAL(triggered(bool)), m_monitorManager, SLOT(slotLoopZone()));
+
+    m_loopClip = new KAction(KIcon("media-playback-start"), i18n("Loop selected clip"), this);
+    m_loopClip->setEnabled(false);
+    collection->addAction("monitor_loop_clip", m_loopClip);
+    connect(m_loopClip, SIGNAL(triggered(bool)), m_projectMonitor, SLOT(slotLoopClip()));
 
     KAction *dvdWizard =  new KAction(KIcon("media-optical"), i18n("DVD Wizard"), this);
     collection->addAction("dvd_wizard", dvdWizard);
@@ -2240,8 +2245,10 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
             disconnect(m_activeDocument, SIGNAL(deleteTimelineClip(const QString &)), m_activeTimeline, SLOT(slotDeleteClip(const QString &)));
             disconnect(m_activeTimeline->projectView(), SIGNAL(clipItemSelected(ClipItem*, int)), m_effectStack, SLOT(slotClipItemSelected(ClipItem*, int)));
             disconnect(m_activeTimeline->projectView(), SIGNAL(clipItemSelected(ClipItem*, int)), this, SLOT(slotActivateEffectStackView()));
+            disconnect(m_activeTimeline->projectView(), SIGNAL(clipItemSelected(ClipItem*, int)), m_projectMonitor, SLOT(slotSetSelectedClip(ClipItem*)));
             disconnect(m_activeTimeline->projectView(), SIGNAL(transitionItemSelected(Transition*, int, QPoint, bool)), m_transitionConfig, SLOT(slotTransitionItemSelected(Transition*, int, QPoint, bool)));
             disconnect(m_activeTimeline->projectView(), SIGNAL(transitionItemSelected(Transition*, int, QPoint, bool)), this, SLOT(slotActivateTransitionView(Transition *)));
+            disconnect(m_activeTimeline->projectView(), SIGNAL(transitionItemSelected(Transition*, int, QPoint, bool)), m_projectMonitor, SLOT(slotSetSelectedClip(Transition*)));
             disconnect(m_activeTimeline->projectView(), SIGNAL(playMonitor()), m_projectMonitor, SLOT(slotPlay()));
             disconnect(m_activeTimeline->projectView(), SIGNAL(displayMessage(const QString&, MessageType)), m_messageLabel, SLOT(setMessage(const QString&, MessageType)));
             disconnect(m_activeTimeline->projectView(), SIGNAL(showClipFrame(DocClipBase *, QPoint, const int)), m_clipMonitor, SLOT(slotSetXml(DocClipBase *, QPoint, const int)));
@@ -2332,6 +2339,8 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     connect(trackView->projectView(), SIGNAL(showClipFrame(DocClipBase *, QPoint, const int)), m_clipMonitor, SLOT(slotSetXml(DocClipBase *, QPoint, const int)));
     connect(trackView->projectView(), SIGNAL(playMonitor()), m_projectMonitor, SLOT(slotPlay()));
 
+    connect(trackView->projectView(), SIGNAL(clipItemSelected(ClipItem*, int)), m_projectMonitor, SLOT(slotSetSelectedClip(ClipItem*)));
+    connect(trackView->projectView(), SIGNAL(transitionItemSelected(Transition*, int, QPoint, bool)), m_projectMonitor, SLOT(slotSetSelectedClip(Transition*)));
 
     connect(m_effectStack, SIGNAL(updateEffect(ClipItem*, int, QDomElement, QDomElement, int)), trackView->projectView(), SLOT(slotUpdateClipEffect(ClipItem*, int, QDomElement, QDomElement, int)));
     connect(m_effectStack, SIGNAL(updateClipRegion(ClipItem*, int, QString)), trackView->projectView(), SLOT(slotUpdateClipRegion(ClipItem*, int, QString)));

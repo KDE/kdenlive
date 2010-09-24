@@ -58,7 +58,6 @@ private:
     void closeEventFilter();
 
     /** @brief Calculates the average color for a rect around @param pos with m_size->value() as width. */
-
     QColor averagePickedColor(const QPoint pos);
 
     /** @brief Color of the screen at point @param p.
