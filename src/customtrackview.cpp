@@ -398,19 +398,26 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
                 if (!m_controlModifier && m_dragItem->type() == AVWIDGET && m_dragItem->parentItem() && m_dragItem->parentItem() != m_selectionGroup) {
                     AbstractGroupItem *parent = static_cast <AbstractGroupItem *>(m_dragItem->parentItem());
                     if (parent)
-                        parent->resizeStart((int)(snappedPos) - m_dragItemInfo.startPos.frames(m_document->fps()));
+                        parent->resizeStart((int)(snappedPos - m_dragItemInfo.startPos.frames(m_document->fps())));
                 } else {
                     m_dragItem->resizeStart((int)(snappedPos));
                 }
+                QString crop = m_document->timecode().getDisplayTimecode(m_dragItem->cropStart(), KdenliveSettings::frametimecode());
+                QString duration = m_document->timecode().getDisplayTimecode(m_dragItem->cropDuration(), KdenliveSettings::frametimecode());
+                QString offset = m_document->timecode().getDisplayTimecode(m_dragItem->cropStart() - m_dragItemInfo.cropStart, KdenliveSettings::frametimecode());
+                emit displayMessage(i18n("Crop from start:") + " " + crop + " " + i18n("Duration:") + " " + duration + " " + i18n("Offset: ") + offset, InformationMessage);
             } else if (m_operationMode == RESIZEEND && move) {
                 m_document->renderer()->pause();
                 if (!m_controlModifier && m_dragItem->type() == AVWIDGET && m_dragItem->parentItem() && m_dragItem->parentItem() != m_selectionGroup) {
                     AbstractGroupItem *parent = static_cast <AbstractGroupItem *>(m_dragItem->parentItem());
                     if (parent)
-                        parent->resizeEnd((int)(snappedPos) - m_dragItemInfo.endPos.frames(m_document->fps()));
+                        parent->resizeEnd((int)(snappedPos - m_dragItemInfo.endPos.frames(m_document->fps())));
                 } else {
                     m_dragItem->resizeEnd((int)(snappedPos));
                 }
+                QString duration = m_document->timecode().getDisplayTimecode(m_dragItem->cropDuration(), KdenliveSettings::frametimecode());
+                QString offset = m_document->timecode().getDisplayTimecode(m_dragItem->cropDuration() - m_dragItemInfo.cropDuration, KdenliveSettings::frametimecode());
+                emit displayMessage(i18n("Duration:") + " " + duration + " " + i18n("Offset: ") + offset, InformationMessage);
             } else if (m_operationMode == FADEIN && move) {
                 ((ClipItem*) m_dragItem)->setFadeIn((int)(mappedXPos - m_dragItem->startPos().frames(m_document->fps())));
             } else if (m_operationMode == FADEOUT && move) {
