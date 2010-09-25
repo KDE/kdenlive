@@ -217,12 +217,21 @@ const QString Timecode::getTimecodeFromFrames(int frames) const
 QString Timecode::getStringTimecode(int frames, const double &fps)
 {
     // Returns the timecode in an hh:mm:ss format
+
+    bool negative = false;
+    if (frames < 0) {
+        negative = true;
+        frames = qAbs(frames);
+    }
+
     int seconds = (int)(frames / fps);
     int minutes = seconds / 60;
     seconds = seconds % 60;
     int hours = minutes / 60;
     minutes = minutes % 60;
     QString text;
+    if (negative)
+        text.append('-');
     text.append(QString::number(hours).rightJustified(2, '0', false));
     text.append(':');
     text.append(QString::number(minutes).rightJustified(2, '0', false));
@@ -237,6 +246,13 @@ QString Timecode::getEasyTimecode(const GenTime & time, const double &fps)
 {
     // Returns the timecode in an easily read display, like 3 min. 5 sec.
     int frames = (int) time.frames(fps);
+
+    bool negative = false;
+    if (frames < 0) {
+        negative = true;
+        frames = qAbs(frames);
+    }
+
     int seconds = (int)(frames / fps);
     frames = frames - ((int)(fps * seconds));
 
@@ -248,6 +264,8 @@ QString Timecode::getEasyTimecode(const GenTime & time, const double &fps)
     QString text;
     bool trim = false;
 
+    if (negative)
+        text.append('-');
     if (hours != 0) {
         text.append(QString::number(hours).rightJustified(2, '0', false));
         text.append(' ' + i18n("hour") + ' ');
@@ -291,6 +309,13 @@ const QString Timecode::getTimecodeHH_MM_SS_FF(int frames) const
     if (m_dropFrameTimecode) {
         return getTimecodeDropFrame(frames);
     }
+
+    bool negative = false;
+    if (frames < 0) {
+        negative = true;
+        frames = qAbs(frames);
+    }
+
     int seconds = frames / m_displayedFramesPerSecond;
     frames = frames % m_displayedFramesPerSecond;
 
@@ -300,6 +325,8 @@ const QString Timecode::getTimecodeHH_MM_SS_FF(int frames) const
     minutes = minutes % 60;
 
     QString text;
+    if (negative)
+        text.append('-');
     text.append(QString::number(hours).rightJustified(2, '0', false));
     text.append(':');
     text.append(QString::number(minutes).rightJustified(2, '0', false));
@@ -314,6 +341,13 @@ const QString Timecode::getTimecodeHH_MM_SS_FF(int frames) const
 const QString Timecode::getTimecodeHH_MM_SS_HH(const GenTime & time) const
 {
     int hundredths = (int)(time.seconds() * 100);
+
+    bool negative = false;
+    if (hundredths < 0) {
+        negative = true;
+        hundredths = qAbs(hundredths);
+    }
+
     int seconds = hundredths / 100;
     hundredths = hundredths % 100;
     int minutes = seconds / 60;
@@ -322,7 +356,8 @@ const QString Timecode::getTimecodeHH_MM_SS_HH(const GenTime & time) const
     minutes = minutes % 60;
 
     QString text;
-
+    if (negative)
+        text.append('-');
     text.append(QString::number(hours).rightJustified(2, '0', false));
     text.append(':');
     text.append(QString::number(minutes).rightJustified(2, '0', false));
@@ -359,6 +394,12 @@ const QString Timecode::getTimecodeDropFrame(int framenumber) const
     //Given an int called framenumber and a double called framerate
     //Framerate should be 29.97, 59.94, or 23.976, otherwise the calculations will be off.
 
+    bool negative = false;
+    if (framenumber < 0) {
+        negative = true;
+        framenumber = qAbs(framenumber);
+    }
+
     int d = floor(framenumber / m_framesPer10Minutes);
     int m = framenumber % m_framesPer10Minutes;
 
@@ -374,6 +415,8 @@ const QString Timecode::getTimecodeDropFrame(int framenumber) const
     int hours = floor(floor(floor(framenumber / m_displayedFramesPerSecond) / 60) / 60);
 
     QString text;
+    if (negative)
+        text.append('-');
     text.append(QString::number(hours).rightJustified(2, '0', false));
     text.append(':');
     text.append(QString::number(minutes).rightJustified(2, '0', false));
