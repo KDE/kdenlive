@@ -5806,6 +5806,11 @@ void CustomTrackView::doSplitAudio(const GenTime &pos, int track, bool split)
     if (split) {
         int start = pos.frames(m_document->fps());
         int freetrack = m_document->tracksCount() - track - 1;
+
+        // do not split audio when we are on an audio track
+        if (m_document->trackInfoAt(freetrack).type == AUDIOTRACK)
+            return;
+
         for (; freetrack > 0; freetrack--) {
             kDebug() << "// CHK DOC TRK:" << freetrack << ", DUR:" << m_document->renderer()->mltTrackDuration(freetrack);
             if (m_document->trackInfoAt(freetrack - 1).type == AUDIOTRACK && !m_document->trackInfoAt(freetrack - 1).isLocked) {
