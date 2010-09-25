@@ -2338,8 +2338,12 @@ void CustomTrackView::dropEvent(QDropEvent * event)
         */
 
         m_pasteEffectsAction->setEnabled(m_copiedItems.count() == 1);
-        if (items.count() > 1) groupSelectedItems(true);
-        else if (items.count() == 1) m_dragItem = static_cast <ClipItem *>(items.at(0));
+        if (items.count() > 1) {
+            groupSelectedItems(true);
+        } else if (items.count() == 1) {
+            m_dragItem = static_cast <AbstractClipItem *>(items.at(0));
+            emit clipItemSelected((ClipItem*)m_dragItem);
+        }
         event->setDropAction(Qt::MoveAction);
         event->accept();
     } else QGraphicsView::dropEvent(event);
