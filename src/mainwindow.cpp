@@ -2415,9 +2415,11 @@ void MainWindow::slotEditKeys()
 
 void MainWindow::slotPreferences(int page, int option)
 {
-    //An instance of your dialog could be already created and could be
-    // cached, in which case you want to display the cached dialog
-    // instead of creating another one
+    /*
+     * An instance of your dialog could be already created and could be
+     * cached, in which case you want to display the cached dialog
+     * instead of creating another one
+     */
     if (KConfigDialog::showDialog("settings")) {
         KdenliveSettingsDialog* d = static_cast <KdenliveSettingsDialog*>(KConfigDialog::exists("settings"));
         if (page != -1) d->showPage(page, option);

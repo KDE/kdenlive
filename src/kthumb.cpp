@@ -171,11 +171,8 @@ void KThumb::updateThumbUrl(const QString &hash)
 void KThumb::updateClipUrl(KUrl url, const QString &hash)
 {
     m_url = url;
-    if (m_producer) {
-        char *tmp = Render::decodedString(url.path());
-        m_producer->set("resource", tmp);
-        delete[] tmp;
-    }
+    if (m_producer)
+        m_producer->set("resource", url.path().toUtf8().constData());
     m_thumbFile = m_clipManager->projectFolder() + "/thumbs/" + hash + ".thumb";
 }
 
@@ -216,17 +213,13 @@ QPixmap KThumb::extractImage(int frame, int width, int height)
 //static
 QPixmap KThumb::getImage(KUrl url, int frame, int width, int height)
 {
-    char *tmp = Render::decodedString(KdenliveSettings::current_profile());
-    Mlt::Profile profile(tmp);
-    delete[] tmp;
+    Mlt::Profile profile(KdenliveSettings::current_profile().toUtf8().constData());
     QPixmap pix(width, height);
     if (url.isEmpty()) return pix;
 
-    tmp = Render::decodedString(url.path());
     //"<mlt><playlist><producer resource=\"" + url.path() + "\" /></playlist></mlt>");
     //Mlt::Producer producer(profile, "xml-string", tmp);
-    Mlt::Producer *producer = new Mlt::Producer(profile, tmp);
-    delete[] tmp;
+    Mlt::Producer *producer = new Mlt::Producer(profile, url.path().toUtf8().constData());
 
     pix = QPixmap::fromImage(getFrame(producer, frame, width, height));
     delete producer;
@@ -283,9 +276,7 @@ void KThumb::getImage(KUrl url, int frame, int width, int height)
 {
     if (url.isEmpty()) return;
     QPixmap image(width, height);
-    char *tmp = KRender::decodedString(url.path());
-    Mlt::Producer m_producer(tmp);
-    delete tmp;
+    Mlt::Producer m_producer(url.path().toUtf8().constData());
     image.fill(Qt::black);
 
     if (m_producer.is_blank()) {
@@ -313,9 +304,7 @@ void KThumb::getThumbs(KUrl url, int startframe, int endframe, int width, int he
 {
     if (url.isEmpty()) return;
     QPixmap image(width, height);
-    char *tmp = KRender::decodedString(url.path());
-    Mlt::Producer m_producer(tmp);
-    delete tmp;
+    Mlt::Producer m_producer(url.path().toUtf8().constData());
     image.fill(Qt::black);
 
     if (m_producer.is_blank()) {

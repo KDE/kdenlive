@@ -51,7 +51,7 @@ static void kdenlive_callback(void* /*ptr*/, int level, const char* fmt, va_list
 {
     if (level > MLT_LOG_ERROR) return;
     QString error;
-    QApplication::postEvent(qApp->activeWindow() , new MltErrorEvent(error.vsprintf(fmt, vl).simplified()));
+    QApplication::postEvent(qApp->activeWindow(), new MltErrorEvent(error.vsprintf(fmt, vl).simplified()));
     va_end(vl);
 }
 
@@ -165,9 +165,8 @@ void Render::slotSwitchFullscreen()
 
 void Render::buildConsumer(const QString profileName)
 {
-    char *tmp;
     m_activeProfile = profileName;
-    tmp = decodedString(m_activeProfile);
+    char *tmp = qstrdup(m_activeProfile.toUtf8().constData());
     setenv("MLT_PROFILE", tmp, 1);
     delete m_blackClip;
     m_blackClip = NULL;
@@ -190,18 +189,16 @@ void Render::buildConsumer(const QString profileName)
 
     //m_mltConsumer->set("fullscreen", 1);
 #ifdef Q_WS_MAC
-    m_mltConsumer = new Mlt::Consumer(*m_mltProfile , "sdl_audio");
+    m_mltConsumer = new Mlt::Consumer(*m_mltProfile, "sdl_audio");
     m_mltConsumer->set("preview_off", 1);
     m_mltConsumer->set("preview_format", mlt_image_rgb24a);
 #else
-    m_mltConsumer = new Mlt::Consumer(*m_mltProfile , "sdl_preview");
+    m_mltConsumer = new Mlt::Consumer(*m_mltProfile, "sdl_preview");
 #endif
     m_mltConsumer->set("resize", 1);
     m_mltConsumer->set("window_id", m_winid);
     m_mltConsumer->set("terminate_on_pause", 1);
-    tmp = decodedString(KdenliveSettings::window_background().name());
-    m_mltConsumer->set("window_background", tmp);
-    delete [] tmp;
+    m_mltConsumer->set("window_background", KdenliveSettings::window_background().name().toUtf8().constData());
 
     // FIXME: the event object returned by the listen gets leaked...
     m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
@@ -209,17 +206,11 @@ void Render::buildConsumer(const QString profileName)
     mlt_log_set_callback(kdenlive_callback);
 
     QString audioDevice = KdenliveSettings::audiodevicename();
-    if (!audioDevice.isEmpty()) {
-        tmp = decodedString(audioDevice);
-        m_mltConsumer->set("audio_device", tmp);
-        delete[] tmp;
-    }
+    if (!audioDevice.isEmpty())
+        m_mltConsumer->set("audio_device", audioDevice.toUtf8().constData());
 
-    if (!videoDriver.isEmpty()) {
-        tmp = decodedString(videoDriver);
-        m_mltConsumer->set("video_driver", tmp);
-        delete[] tmp;
-    }
+    if (!videoDriver.isEmpty())
+        m_mltConsumer->set("video_driver", videoDriver.toUtf8().constData());
 
     QString audioDriver = KdenliveSettings::audiodrivername();
 
@@ -229,11 +220,8 @@ void Render::buildConsumer(const QString profileName)
         audioDriver = KdenliveSettings::autoaudiodrivername();
     */
 
-    if (!audioDriver.isEmpty()) {
-        tmp = decodedString(audioDriver);
-        m_mltConsumer->set("audio_driver", tmp);
-        delete[] tmp;
-    }
+    if (!audioDriver.isEmpty())
+        m_mltConsumer->set("audio_driver", audioDriver.toUtf8().constData());
 
     int volume = KdenliveSettings::volume();
     m_mltConsumer->set("volume", (float)volume / 100);
@@ -242,7 +230,7 @@ void Render::buildConsumer(const QString profileName)
     m_mltConsumer->set("audio_buffer", 1024);
     m_mltConsumer->set("frequency", 48000);
 
-    m_blackClip = new Mlt::Producer(*m_mltProfile , "colour", "black");
+    m_blackClip = new Mlt::Producer(*m_mltProfile, "colour", "black");
     m_blackClip->set("id", "black");
     m_blackClip->set("mlt_type", "producer");
 
@@ -250,10 +238,8 @@ void Render::buildConsumer(const QString profileName)
 
 Mlt::Producer *Render::invalidProducer(const QString &id)
 {
-    Mlt::Producer *clip = new Mlt::Producer(*m_mltProfile , "colour", "red");
-    char *tmp = decodedString(id);
-    clip->set("id", tmp);
-    delete[] tmp;
+    Mlt::Producer *clip = new Mlt::Producer(*m_mltProfile, "colour", "red");
+    clip->set("id", id.toUtf8().constData());
     clip->set("mlt_type", "producer");
     return clip;
 }
@@ -312,9 +298,7 @@ int Render::resetProfile(const QString profileName)
     setSceneList(scene, pos);
     // producers have changed (different profile), so reset them...
     emit refreshDocumentProducers();
-    /*char *tmp = decodedString(scene);
-    Mlt::Producer *producer = new Mlt::Producer(*m_mltProfile , "xml-string", tmp);
-    delete[] tmp;
+    /*Mlt::Producer *producer = new Mlt::Producer(*m_mltProfile , "xml-string", scene.toUtf8().constData());
     m_mltProducer = producer;
     m_blackClip = new Mlt::Producer(*m_mltProfile , "colour", "black");
     m_mltProducer->optimise();
@@ -341,16 +325,6 @@ void Render::seek(GenTime time)
     m_isBlocked = false;
     m_mltProducer->seek((int)(time.frames(m_fps)));
     refresh();
-}
-
-//static
-char *Render::decodedString(QString str)
-{
-    /*QCString fn = QFile::encodeName(str);
-    char *t = new char[fn.length() + 1];
-    strcpy(t, (const char *)fn);*/
-
-    return (char *) qstrdup(str.toUtf8().data());   //toLatin1
 }
 
 //static
@@ -424,10 +398,8 @@ QPixmap Render::getImageThumbnail(KUrl url, int /*width*/, int /*height*/)
 //static
 QPixmap Render::getVideoThumbnail(char *profile, QString file, int frame_position, int width, int height) {
     QPixmap pix(width, height);
-    char *tmp = decodedString(file);
     Mlt::Profile *prof = new Mlt::Profile(profile);
-    Mlt::Producer m_producer(*prof, tmp);
-    delete[] tmp;
+    Mlt::Producer m_producer(*prof, file.toUtf8().constData());
     if (m_producer.is_blank()) {
         pix.fill(Qt::black);
         return pix;
@@ -449,9 +421,7 @@ QPixmap Render::getVideoThumbnail(char *profile, QString file, int frame_positio
 /*
 void Render::getImage(KUrl url, int frame_position, QPoint size)
 {
-    char *tmp = decodedString(url.path());
-    Mlt::Producer m_producer(tmp);
-    delete[] tmp;
+    Mlt::Producer m_producer(url.path().toUtf8().constData());
     if (m_producer.is_blank()) {
  return;
     }
@@ -532,9 +502,7 @@ int Render::getLength()
 
 bool Render::isValid(KUrl url)
 {
-    char *tmp = decodedString(url.path());
-    Mlt::Producer producer(*m_mltProfile, tmp);
-    delete[] tmp;
+    Mlt::Producer producer(*m_mltProfile, url.path().toUtf8().constData());
     if (producer.is_blank())
         return false;
 
@@ -621,18 +589,11 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
         return;
     }*/
     if (xml.attribute("type").toInt() == COLOR) {
-        char *tmp = decodedString("colour:" + xml.attribute("colour"));
-        producer = new Mlt::Producer(*m_mltProfile, 0, tmp);
-        delete[] tmp;
+        producer = new Mlt::Producer(*m_mltProfile, 0, ("colour:" + xml.attribute("colour")).toUtf8().constData());
     } else if (xml.attribute("type").toInt() == TEXT) {
-        char *tmp = decodedString("kdenlivetitle:" + xml.attribute("resource"));
-        producer = new Mlt::Producer(*m_mltProfile, 0, tmp);
-        delete[] tmp;
-        if (producer && producer->is_valid() && xml.hasAttribute("xmldata")) {
-            tmp = decodedString(xml.attribute("xmldata"));
-            producer->set("xmldata", tmp);
-            delete[] tmp;
-        }
+        producer = new Mlt::Producer(*m_mltProfile, 0, ("kdenlivetitle:" + xml.attribute("resource")).toUtf8().constData());
+        if (producer && producer->is_valid() && xml.hasAttribute("xmldata"))
+            producer->set("xmldata", xml.attribute("xmldata").toUtf8().constData());
     } else if (url.isEmpty()) {
         QDomDocument doc;
         QDomElement mlt = doc.createElement("mlt");
@@ -640,13 +601,9 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
         doc.appendChild(mlt);
         mlt.appendChild(play);
         play.appendChild(doc.importNode(xml, true));
-        char *tmp = decodedString(doc.toString());
-        producer = new Mlt::Producer(*m_mltProfile, "xml-string", tmp);
-        delete[] tmp;
+        producer = new Mlt::Producer(*m_mltProfile, "xml-string", doc.toString().toUtf8().constData());
     } else {
-        char *tmp = decodedString(url.path());
-        producer = new Mlt::Producer(*m_mltProfile, tmp);
-        delete[] tmp;
+        producer = new Mlt::Producer(*m_mltProfile, url.path().toUtf8().constData());
     }
 
     if (producer == NULL || producer->is_blank() || !producer->is_valid()) {
@@ -689,17 +646,13 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
             || xml.attribute("type").toInt() == IMAGE || xml.attribute("type").toInt() == SLIDESHOW)
         producer->set("length", xml.attribute("out").toInt() - xml.attribute("in").toInt() + 1);
 
-    if (xml.hasAttribute("out")) producer->set_in_and_out(xml.attribute("in").toInt(), xml.attribute("out").toInt());
+    if (xml.hasAttribute("out"))
+        producer->set_in_and_out(xml.attribute("in").toInt(), xml.attribute("out").toInt());
 
-    char *tmp = decodedString(clipId);
-    producer->set("id", tmp);
-    delete[] tmp;
+    producer->set("id", clipId.toUtf8().constData());
 
-    if (xml.hasAttribute("templatetext")) {
-        char *tmp = decodedString(xml.attribute("templatetext"));
-        producer->set("templatetext", tmp);
-        delete[] tmp;
-    }
+    if (xml.hasAttribute("templatetext"))
+        producer->set("templatetext", xml.attribute("templatetext").toUtf8().constData());
 
     if (!replaceProducer && xml.hasAttribute("file_hash")) {
         // Clip  already has all properties
@@ -746,9 +699,7 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
                 if (ttl) filter->set("cycle", ttl);
                 if (xml.hasAttribute("luma_duration") && !xml.attribute("luma_duration").isEmpty()) filter->set("duration", xml.attribute("luma_duration").toInt());
                 if (xml.hasAttribute("luma_file") && !xml.attribute("luma_file").isEmpty()) {
-                    char *tmp = decodedString(xml.attribute("luma_file"));
-                    filter->set("luma.resource", tmp);
-                    delete[] tmp;
+                    filter->set("luma.resource", xml.attribute("luma_file").toUtf8().constData());
                     if (xml.hasAttribute("softness")) {
                         int soft = xml.attribute("softness").toInt();
                         filter->set("luma.softness", (double) soft / 100.0);
@@ -1040,15 +991,13 @@ int Render::setSceneList(QString playlist, int position)
     }
 
     blockSignals(true);
-    char *tmp = decodedString(playlist);
-    m_mltProducer = new Mlt::Producer(*m_mltProfile, "xml-string", tmp);
+    m_mltProducer = new Mlt::Producer(*m_mltProfile, "xml-string", playlist.toUtf8().constData());
 
     if (!m_mltProducer || !m_mltProducer->is_valid()) {
-        kDebug() << " WARNING - - - - -INVALID PLAYLIST: " << tmp;
+        kDebug() << " WARNING - - - - -INVALID PLAYLIST: " << playlist.toUtf8().constData();
         m_mltProducer = m_blackClip->cut(0, 50);
         error = -1;
     }
-    delete[] tmp;
 
     m_mltProducer->optimise();
 
@@ -1062,9 +1011,7 @@ int Render::setSceneList(QString playlist, int position)
     mlt_filter_close( filter );
 
       m_osdInfo = new Mlt::Filter("data_show");
-    tmp = decodedString(m_osdProfile);
-      m_osdInfo->set("resource", tmp);
-    delete[] tmp;
+    m_osdInfo->set("resource", m_osdProfile.toUtf8().constData());
     mlt_properties properties = MLT_PRODUCER_PROPERTIES(m_mltProducer->get_producer());
     mlt_properties_set_int( properties, "meta.attr.timecode", 1);
     mlt_properties_set( properties, "meta.attr.timecode.markup", "#timecode#");
@@ -1097,7 +1044,7 @@ int Render::setSceneList(QString playlist, int position)
 const QString Render::sceneList()
 {
     QString playlist;
-    Mlt::Consumer xmlConsumer(*m_mltProfile , "xml:kdenlive_playlist");
+    Mlt::Consumer xmlConsumer(*m_mltProfile, "xml:kdenlive_playlist");
     m_mltProducer->optimise();
     xmlConsumer.set("terminate_on_pause", 1);
     Mlt::Producer prod(m_mltProducer->get_producer());
@@ -1137,19 +1084,15 @@ bool Render::saveSceneList(QString path, QDomElement kdenliveData)
 void Render::saveZone(KUrl url, QString desc, QPoint zone)
 {
     kDebug() << "// SAVING CLIP ZONE, RENDER: " << m_name;
-    char *tmppath = decodedString("xml:" + url.path());
-    Mlt::Consumer xmlConsumer(*m_mltProfile , tmppath);
+    Mlt::Consumer xmlConsumer(*m_mltProfile, ("xml:" + url.path()).toUtf8().constData());
     m_mltProducer->optimise();
-    delete[] tmppath;
     xmlConsumer.set("terminate_on_pause", 1);
     if (m_name == "clip") {
         Mlt::Producer *prod = m_mltProducer->cut(zone.x(), zone.y());
-        tmppath = decodedString(desc);
         Mlt::Playlist list;
         list.insert_at(0, prod, 0);
         delete prod;
-        list.set("title", tmppath);
-        delete[] tmppath;
+        list.set("title", desc.toUtf8().constData());
         xmlConsumer.connect(list);
 
     } else {
@@ -1159,9 +1102,7 @@ void Render::saveZone(KUrl url, QString desc, QPoint zone)
          if (service.type() != tractor_type) kWarning() << "// TRACTOR PROBLEM";*/
 
         //Mlt::Producer *prod = p1->cut(zone.x(), zone.y());
-        tmppath = decodedString(desc);
-        //prod->set("title", tmppath);
-        delete[] tmppath;
+        //prod->set("title", desc.toUtf8().constData());
         xmlConsumer.connect(*p1); //list);
     }
 
@@ -1622,17 +1563,13 @@ Mlt::Producer *Render::checkSlowMotionProducer(Mlt::Producer *prod, QDomElement 
     if (strobe > 1) url.append("&strobe=" + QString::number(strobe));
     Mlt::Producer *slowprod = m_slowmotionProducers.value(url);
     if (!slowprod || slowprod->get_producer() == NULL) {
-        char *tmp = decodedString(url);
-        slowprod = new Mlt::Producer(*m_mltProfile, "framebuffer", tmp);
+        slowprod = new Mlt::Producer(*m_mltProfile, "framebuffer", url.toUtf8().constData());
         if (strobe > 1) slowprod->set("strobe", strobe);
-        delete[] tmp;
         QString id = prod->get("id");
         if (id.contains('_')) id = id.section('_', 0, 0);
         QString producerid = "slowmotion:" + id + ':' + QString::number(speed);
         if (strobe > 1) producerid.append(':' + QString::number(strobe));
-        tmp = decodedString(producerid);
-        slowprod->set("id", tmp);
-        delete[] tmp;
+        slowprod->set("id", producerid.toUtf8().constData());
         m_slowmotionProducers.insert(url, slowprod);
     }
     return slowprod;
@@ -2150,15 +2087,11 @@ int Render::mltChangeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, dou
         if (strobe > 1) url.append("&strobe=" + QString::number(strobe));
         Mlt::Producer *slowprod = m_slowmotionProducers.value(url);
         if (!slowprod || slowprod->get_producer() == NULL) {
-            char *tmp = decodedString("framebuffer:" + url);
-            slowprod = new Mlt::Producer(*m_mltProfile, 0, tmp);
+            slowprod = new Mlt::Producer(*m_mltProfile, 0, ("framebuffer:" + url).toUtf8().constData());
             if (strobe > 1) slowprod->set("strobe", strobe);
-            delete[] tmp;
             QString producerid = "slowmotion:" + id + ':' + QString::number(speed);
             if (strobe > 1) producerid.append(':' + QString::number(strobe));
-            tmp = decodedString(producerid);
-            slowprod->set("id", tmp);
-            delete[] tmp;
+            slowprod->set("id", producerid.toUtf8().constData());
             // copy producer props
             double ar = original->parent().get_double("force_aspect_ratio");
             if (ar != 0.0) slowprod->set("force_aspect_ratio", ar);
@@ -2227,15 +2160,11 @@ int Render::mltChangeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, dou
         if (strobe > 1) url.append("&strobe=" + QString::number(strobe));
         Mlt::Producer *slowprod = m_slowmotionProducers.value(url);
         if (!slowprod || slowprod->get_producer() == NULL) {
-            char *tmp = decodedString("framebuffer:" + url);
-            slowprod = new Mlt::Producer(*m_mltProfile, 0, tmp);
-            delete[] tmp;
+            slowprod = new Mlt::Producer(*m_mltProfile, 0, ("framebuffer:" + url).toUtf8().constData());
             slowprod->set("strobe", strobe);
             QString producerid = "slowmotion:" + id.section(':', 1, 1) + ':' + QString::number(speed);
             if (strobe > 1) producerid.append(':' + QString::number(strobe));
-            tmp = decodedString(producerid);
-            slowprod->set("id", tmp);
-            delete[] tmp;
+            slowprod->set("id", producerid.toUtf8().constData());
             // copy producer props
             double ar = original->parent().get_double("force_aspect_ratio");
             if (ar != 0.0) slowprod->set("force_aspect_ratio", ar);
@@ -2452,16 +2381,16 @@ bool Render::mltAddEffect(Mlt::Service service, EffectsParameterList params, int
     QString tag =  params.paramValue("tag");
     kDebug() << " / / INSERTING EFFECT: " << tag << ", REGI: " << region;
     if (tag.startsWith("ladspa")) tag = "ladspa";
-    char *filterTag = decodedString(tag);
-    char *filterId = decodedString(params.paramValue("id"));
+    char *filterTag = qstrdup(tag.toUtf8().constData());
+    char *filterId = qstrdup(params.paramValue("id").toUtf8().constData());
     QHash<QString, QString>::Iterator it;
     QString kfr = params.paramValue("keyframes");
 
     if (!kfr.isEmpty()) {
         QStringList keyFrames = kfr.split(';', QString::SkipEmptyParts);
         kDebug() << "// ADDING KEYFRAME EFFECT: " << params.paramValue("keyframes");
-        char *starttag = decodedString(params.paramValue("starttag", "start"));
-        char *endtag = decodedString(params.paramValue("endtag", "end"));
+        char *starttag = qstrdup(params.paramValue("starttag", "start").toUtf8().constData());
+        char *endtag = qstrdup(params.paramValue("endtag", "end").toUtf8().constData());
         kDebug() << "// ADDING KEYFRAME TAGS: " << starttag << ", " << endtag;
         //double max = params.paramValue("max").toDouble();
         double min = params.paramValue("min").toDouble();
@@ -2481,11 +2410,7 @@ bool Render::mltAddEffect(Mlt::Service service, EffectsParameterList params, int
                 int x1 = keyFrames.at(0).section(':', 0, 0).toInt();
                 double y1 = keyFrames.at(0).section(':', 1, 1).toDouble();
                 for (int j = 0; j < params.count(); j++) {
-                    char *name = decodedString(params.at(j).name());
-                    char *value = decodedString(params.at(j).value());
-                    filter->set(name, value);
-                    delete[] name;
-                    delete[] value;
+                    filter->set(params.at(j).name().toUtf8().constData(), params.at(j).value().toUtf8().constData());
                 }
                 filter->set("in", x1);
                 //kDebug() << "// ADDING KEYFRAME vals: " << min<<" / "<<max<<", "<<y1<<", factor: "<<factor;
@@ -2503,11 +2428,7 @@ bool Render::mltAddEffect(Mlt::Service service, EffectsParameterList params, int
                     if (x2 == -1) x2 = duration;
 
                     for (int j = 0; j < params.count(); j++) {
-                        char *name = decodedString(params.at(j).name());
-                        char *value = decodedString(params.at(j).value());
-                        filter->set(name, value);
-                        delete[] name;
-                        delete[] value;
+                        filter->set(params.at(j).name().toUtf8().constData(), params.at(j).value().toUtf8().constData());
                     }
 
                     filter->set("in", x1);
@@ -2530,13 +2451,10 @@ bool Render::mltAddEffect(Mlt::Service service, EffectsParameterList params, int
         if (filter && filter->is_valid()) {
             filter->set("kdenlive_id", filterId);
             if (!region.isEmpty()) {
-                char *tmp = decodedString(region);
-                filter->set("resource", tmp);
-                tmp = decodedString(params.paramValue("kdenlive_ix"));
-                filter->set("kdenlive_ix", tmp);
+                filter->set("resource", region.toUtf8().constData());
+                filter->set("kdenlive_ix", params.paramValue("kdenlive_ix").toUtf8().constData());
                 filter->set("filter0", filterTag);
                 prefix = "filter0.";
-                delete[] tmp;
                 params.removeParam("id");
                 params.removeParam("region");
                 params.removeParam("kdenlive_ix");
@@ -2550,11 +2468,7 @@ bool Render::mltAddEffect(Mlt::Service service, EffectsParameterList params, int
         params.removeParam("kdenlive_id");
 
         for (int j = 0; j < params.count(); j++) {
-            char *name = decodedString(prefix + params.at(j).name());
-            char *value = decodedString(params.at(j).value());
-            filter->set(name, value);
-            delete[] name;
-            delete[] value;
+            filter->set((prefix + params.at(j).name()).toUtf8().constData(), params.at(j).value().toUtf8().constData());
         }
 
         if (tag == "sox") {
@@ -2570,9 +2484,7 @@ bool Render::mltAddEffect(Mlt::Service service, EffectsParameterList params, int
                 effectArgs.append(' ' + params.at(j).value());
             }
             //kDebug() << "SOX EFFECTS: " << effectArgs.simplified();
-            char *value = decodedString(effectArgs.simplified());
-            filter->set("effect", value);
-            delete[] value;
+            filter->set("effect", effectArgs.simplified().toUtf8().constData());
         }
 
         if (params.paramValue("id") == "pan_zoom") {
@@ -2632,11 +2544,7 @@ bool Render::mltEditTrackEffect(int track, EffectsParameterList params)
     if (ser == "region") prefix = "filter0.";
     mlt_service_lock(service.get_service());
     for (int j = 0; j < params.count(); j++) {
-        char *name = decodedString(prefix + params.at(j).name());
-        char *value = decodedString(params.at(j).value());
-        filter->set(name, value);
-        delete[] name;
-        delete[] value;
+        filter->set((prefix + params.at(j).name()).toUtf8().constData(), params.at(j).value().toUtf8().constData());
     }
     mlt_service_unlock(service.get_service());
 
@@ -2718,11 +2626,7 @@ bool Render::mltEditEffect(int track, GenTime position, EffectsParameterList par
     if (ser == "region") prefix = "filter0.";
     mlt_service_lock(service.get_service());
     for (int j = 0; j < params.count(); j++) {
-        char *name = decodedString(prefix + params.at(j).name());
-        char *value = decodedString(params.at(j).value());
-        filter->set(name, value);
-        delete[] name;
-        delete[] value;
+        filter->set((prefix + params.at(j).name()).toUtf8().constData(), params.at(j).value().toUtf8().constData());
     }
     mlt_service_unlock(service.get_service());
 
@@ -3360,9 +3264,7 @@ bool Render::mltMoveTransition(QString type, int startTrack, int newTrack, int n
             found = true;
             if (newTrack - startTrack != 0) {
                 Mlt::Properties trans_props(transition.get_properties());
-                char *tmp = decodedString(transition.get("mlt_service"));
-                Mlt::Transition new_transition(*m_mltProfile, tmp);
-                delete[] tmp;
+                Mlt::Transition new_transition(*m_mltProfile, transition.get("mlt_service"));
                 Mlt::Properties new_trans_props(new_transition.get_properties());
                 new_trans_props.inherit(trans_props);
                 new_transition.set_in_and_out(new_in, new_out);
@@ -3400,9 +3302,7 @@ void Render::mltPlantTransition(Mlt::Field *field, Mlt::Transition &tr, int a_tr
         int bTrack = transition.get_b_track();
         if (resource != "mix" && (aTrack < a_track || (aTrack == a_track && bTrack > b_track))) {
             Mlt::Properties trans_props(transition.get_properties());
-            char *tmp = decodedString(transition.get("mlt_service"));
-            Mlt::Transition *cp = new Mlt::Transition(*m_mltProfile, tmp);
-            delete[] tmp;
+            Mlt::Transition *cp = new Mlt::Transition(*m_mltProfile, transition.get("mlt_service"));
             Mlt::Properties new_trans_props(cp->get_properties());
             new_trans_props.inherit(trans_props);
             trList.append(cp);
@@ -3468,9 +3368,7 @@ void Render::mltUpdateTransitionParams(QString type, int a_track, int b_track, G
             QString currentId = mlt_properties_get(transproperties, "kdenlive_id");
             if (currentId != xml.attribute("id")) {
                 // The transition ID is not the same, so reset all properties
-                char *tmp = decodedString(xml.attribute("id"));
-                mlt_properties_set(transproperties, "kdenlive_id", tmp);
-                delete[] tmp;
+                mlt_properties_set(transproperties, "kdenlive_id", xml.attribute("id").toUtf8().constData());
                 // Cleanup previous properties
                 QStringList permanentProps;
                 permanentProps << "factory" << "kdenlive_id" << "mlt_service" << "mlt_type" << "in";
@@ -3478,9 +3376,7 @@ void Render::mltUpdateTransitionParams(QString type, int a_track, int b_track, G
                 for (int i = 0; i < mlt_properties_count(transproperties); i++) {
                     QString propName = mlt_properties_get_name(transproperties, i);
                     if (!propName.startsWith('_') && ! permanentProps.contains(propName)) {
-                        tmp = decodedString(propName);
-                        mlt_properties_set(transproperties, tmp, "");
-                        delete[] tmp;
+                        mlt_properties_set(transproperties, propName.toUtf8().constData(), "");
                     }
                 }
             }
@@ -3493,13 +3389,9 @@ void Render::mltUpdateTransitionParams(QString type, int a_track, int b_track, G
             }
             for (it = map.begin(); it != map.end(); ++it) {
                 key = it.key();
-                char *name = decodedString(key);
-                char *value = decodedString(it.value());
-                mlt_properties_set(transproperties, name, value);
-                //kDebug() << " ------  UPDATING TRANS PARAM: " << name << ": " << value;
+                mlt_properties_set(transproperties, key.toUtf8().constData(), it.value().toUtf8().constData());
+                //kDebug() << " ------  UPDATING TRANS PARAM: " << key.toUtf8().constData() << ": " << it.value().toUtf8().constData();
                 //filter->set("kdenlive_id", id);
-                delete[] name;
-                delete[] value;
             }
             break;
         }
@@ -3743,8 +3635,7 @@ bool Render::mltAddTransition(QString tag, int a_track, int b_track, GenTime in,
     Mlt::Tractor tractor(service);
     Mlt::Field *field = tractor.field();
 
-    char *transId = decodedString(tag);
-    Mlt::Transition *transition = new Mlt::Transition(*m_mltProfile, transId);
+    Mlt::Transition *transition = new Mlt::Transition(*m_mltProfile, tag.toUtf8().constData());
     if (out != GenTime())
         transition->set_in_and_out((int) in.frames(m_fps), (int) out.frames(m_fps) - 1);
 
@@ -3758,17 +3649,13 @@ bool Render::mltAddTransition(QString tag, int a_track, int b_track, GenTime in,
 
     for (it = args.begin(); it != args.end(); ++it) {
         key = it.key();
-        char *name = decodedString(key);
-        char *value = decodedString(it.value());
-        if (it.value().isEmpty() == false) transition->set(name, value);
-        //kDebug() << " ------  ADDING TRANS PARAM: " << name << ": " << value;
-        delete[] name;
-        delete[] value;
+        if (!it.value().isEmpty())
+            transition->set(key.toUtf8().constData(), it.value().toUtf8().constData());
+        //kDebug() << " ------  ADDING TRANS PARAM: " << key << ": " << it.value();
     }
     // attach transition
     mltPlantTransition(field, *transition, a_track, b_track);
     // field->plant_transition(*transition, a_track, b_track);
-    delete[] transId;
     if (do_refresh) refresh();
     return true;
 }

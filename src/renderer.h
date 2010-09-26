@@ -379,7 +379,6 @@ public slots:
     void getFileProperties(const QDomElement xml, const QString &clipId, int imageHeight, bool replaceProducer = true);
 
     void exportFileToFirewire(QString srcFileName, int port, GenTime startTime, GenTime endTime);
-    static char *decodedString(QString str);
     void mltSavePlaylist();
     void slotSplitView(bool doit);
     void slotSwitchFullscreen();
