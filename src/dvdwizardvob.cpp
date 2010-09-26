@@ -109,18 +109,14 @@ void DvdWizardVob::slotAddVobFile(KUrl url, const QString &chapters)
         break;
     }
 
-    char *tmp = (char*) qstrdup(profilename.toUtf8().data());
-    Mlt::Profile profile(tmp);
-    delete[] tmp;
+    Mlt::Profile profile(profilename.toUtf8().data());
     QTreeWidgetItem *item = new QTreeWidgetItem(m_view.vobs_list, QStringList() << url.path() << QString() << KIO::convertSize(fileSize));
     item->setData(0, Qt::UserRole, fileSize);
     item->setIcon(0, KIcon("video-x-generic"));
 
     QPixmap pix(60, 45);
 
-    tmp = (char *) qstrdup(url.path().toUtf8().data());
-    Mlt::Producer *producer = new Mlt::Producer(profile, tmp);
-    delete[] tmp;
+    Mlt::Producer *producer = new Mlt::Producer(profile, url.path().toUtf8().data());
 
     if (producer->is_blank() == false) {
         int width = 45.0 * profile.dar();
@@ -173,16 +169,12 @@ void DvdWizardVob::changeFormat()
         break;
     }
 
-    char *tmp = (char*) qstrdup(profilename.toUtf8().data());
-    Mlt::Profile profile(tmp);
-    delete[] tmp;
+    Mlt::Profile profile(profilename.toUtf8().data());
     QPixmap pix(180, 135);
 
     for (int i = 0; i < max; i++) {
         QTreeWidgetItem *item = m_view.vobs_list->topLevelItem(i);
-        tmp = (char *) qstrdup(item->text(0).toUtf8().data());
-        Mlt::Producer *producer = new Mlt::Producer(profile, tmp);
-        delete[] tmp;
+        Mlt::Producer *producer = new Mlt::Producer(profile, item->text(0).toUtf8().data());
 
         if (producer->is_blank() == false) {
             //pix = KThumb::getFrame(producer, 0, 135 * profile.dar(), 135);

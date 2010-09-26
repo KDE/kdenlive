@@ -384,10 +384,10 @@ void Geometryval::setupParam(const QDomElement par, int minFrame, int maxFrame)
         label_opacity->setHidden(true);
         spinTransp->setHidden(true);
     }
-    char *tmp = (char *) qstrdup(val.toUtf8().data());
-    if (m_geom) m_geom->parse(tmp, maxFrame - minFrame, m_profile.width, m_profile.height);
-    else m_geom = new Mlt::Geometry(tmp, maxFrame - minFrame, m_profile.width, m_profile.height);
-    delete[] tmp;
+    if (m_geom)
+        m_geom->parse(val.toUtf8().data(), maxFrame - minFrame, m_profile.width, m_profile.height);
+    else
+        m_geom = new Mlt::Geometry(val.toUtf8().data(), maxFrame - minFrame, m_profile.width, m_profile.height);
 
     //kDebug() << " / / UPDATING TRANSITION VALUE: " << m_geom->serialise();
     //read param her and set rect

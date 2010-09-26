@@ -519,9 +519,7 @@ Mlt::Producer *DocClipBase::audioProducer(int track)
         if (m_properties.contains("threads")) m_audioTrackProducers.at(track)->set("threads", m_properties.value("threads").toInt());
         m_audioTrackProducers.at(track)->set("video_index", -1);
         if (m_properties.contains("audio_index")) m_audioTrackProducers.at(track)->set("audio_index", m_properties.value("audio_index").toInt());
-        char *tmp = (char *) qstrdup(QString(getId() + '_' + QString::number(track) + "_audio").toUtf8().data());
-        m_audioTrackProducers.at(track)->set("id", tmp);
-        delete[] tmp;
+        m_audioTrackProducers.at(track)->set("id", QString(getId() + '_' + QString::number(track) + "_audio").toUtf8().data());
     }
     return m_audioTrackProducers.at(track);
 }
@@ -540,9 +538,7 @@ Mlt::Producer *DocClipBase::videoProducer()
         if (m_properties.contains("threads")) m_videoOnlyProducer->set("threads", m_properties.value("threads").toInt());
         m_videoOnlyProducer->set("audio_index", -1);
         if (m_properties.contains("video_index")) m_videoOnlyProducer->set("video_index", m_properties.value("video_index").toInt());
-        char *tmp = (char *) qstrdup(QString(getId() + "_video").toUtf8().data());
-        m_videoOnlyProducer->set("id", tmp);
-        delete[] tmp;
+        m_videoOnlyProducer->set("id", QString(getId() + "_video").toUtf8().data());
     }
     return m_videoOnlyProducer;
 }
@@ -584,9 +580,7 @@ Mlt::Producer *DocClipBase::producer(int track)
         if (m_properties.contains("threads")) m_baseTrackProducers[track]->set("threads", m_properties.value("threads").toInt());
         if (m_properties.contains("video_index")) m_baseTrackProducers[track]->set("video_index", m_properties.value("video_index").toInt());
         if (m_properties.contains("audio_index")) m_baseTrackProducers[track]->set("audio_index", m_properties.value("audio_index").toInt());
-        char *tmp = (char *) qstrdup(QString(getId() + '_' + QString::number(track)).toUtf8().data());
-        m_baseTrackProducers[track]->set("id", tmp);
-        delete[] tmp;
+        m_baseTrackProducers[track]->set("id", QString(getId() + '_' + QString::number(track)).toUtf8().data());
         if (KdenliveSettings::dropbframes() && m_baseTrackProducers.at(i)->get("skip_loop_filter") && strcmp(m_baseTrackProducers.at(i)->get("skip_loop_filter"), "all") == 0) {
             m_baseTrackProducers[track]->set("skip_loop_filter", "all");
             m_baseTrackProducers[track]->set("skip_frame", "bidir");
@@ -643,9 +637,7 @@ void DocClipBase::slotRefreshProducer()
     if (m_baseTrackProducers.count() == 0) return;
     kDebug() << "////////////   REFRESH CLIP !!!!!!!!!!!!!!!!";
     if (m_clipType == SLIDESHOW) {
-        /*char *tmp = (char *) qstrdup(getProperty("resource").toUtf8().data());
-               Mlt::Producer producer(*(m_clipProducer->profile()), tmp);
-               delete[] tmp;
+        /*Mlt::Producer producer(*(m_clipProducer->profile()), getProperty("resource").toUtf8().data());
         delete m_clipProducer;
         m_clipProducer = new Mlt::Producer(producer.get_producer());
         if (!getProperty("out").isEmpty()) m_clipProducer->set_in_and_out(getProperty("in").toInt(), getProperty("out").toInt());*/
@@ -710,10 +702,7 @@ void DocClipBase::slotRefreshProducer()
             if (filter && strcmp(filter->get("mlt_service"), "luma") == 0) {
                 filter->set("cycle", getProperty("ttl").toInt());
                 filter->set("duration", getProperty("luma_duration").toInt());
-                QString resource = getProperty("luma_file");
-                char *tmp = (char *) qstrdup(resource.toUtf8().data());
-                filter->set("luma.resource", tmp);
-                delete[] tmp;
+                filter->set("luma.resource", getProperty("luma_file").toUtf8().data());
                 if (!getProperty("softness").isEmpty()) {
                     int soft = getProperty("softness").toInt();
                     filter->set("luma.softness", (double) soft / 100.0);
@@ -723,10 +712,7 @@ void DocClipBase::slotRefreshProducer()
                 Mlt::Filter *filter = new Mlt::Filter(*(m_baseTrackProducers.at(0)->profile()), "luma");
                 filter->set("cycle", getProperty("ttl").toInt());
                 filter->set("duration", getProperty("luma_duration").toInt());
-                QString resource = getProperty("luma_file");
-                char *tmp = (char *) qstrdup(resource.toUtf8().data());
-                filter->set("luma.resource", tmp);
-                delete[] tmp;
+                filter->set("luma.resource", getProperty("luma_file").toUtf8().data());
                 if (!getProperty("softness").isEmpty()) {
                     int soft = getProperty("softness").toInt();
                     filter->set("luma.softness", (double) soft / 100.0);
@@ -901,18 +887,12 @@ void DocClipBase::setProperty(const QString &key, const QString &value)
     } else if (key == "out") setDuration(GenTime(value.toInt(), KdenliveSettings::project_fps()));
     //else if (key == "transparency") m_clipProducer->set("transparency", value.toInt());
     else if (key == "colour") {
-        char *tmp = (char *) qstrdup(value.toUtf8().data());
-        setProducerProperty("colour", tmp);
-        delete[] tmp;
+        setProducerProperty("colour", value.toUtf8().data());
     } else if (key == "templatetext") {
-        char *tmp = (char *) qstrdup(value.toUtf8().data());
-        setProducerProperty("templatetext", tmp);
-        delete[] tmp;
+        setProducerProperty("templatetext", value.toUtf8().data());
         setProducerProperty("force_reload", 1);
     } else if (key == "xmldata") {
-        char *tmp = (char *) qstrdup(value.toUtf8().data());
-        setProducerProperty("xmldata", tmp);
-        delete[] tmp;
+        setProducerProperty("xmldata", value.toUtf8().data());
         setProducerProperty("force_reload", 1);
     } else if (key == "force_aspect_ratio") {
         if (value.isEmpty()) {

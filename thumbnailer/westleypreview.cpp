@@ -62,9 +62,7 @@ MltPreview::~MltPreview()
 bool MltPreview::create(const QString &path, int width, int height, QImage &img)
 {
     Mlt::Profile *profile = new Mlt::Profile("dv_pal");
-    char *tmp = (char *) qstrdup(path.toUtf8().data());
-    Mlt::Producer *producer = new Mlt::Producer(*profile, tmp);
-    delete[] tmp;
+    Mlt::Producer *producer = new Mlt::Producer(*profile, path.toUtf8().data());
 
 
     if (producer->is_blank()) {
