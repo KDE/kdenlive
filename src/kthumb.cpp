@@ -237,7 +237,7 @@ QPixmap KThumb::getImage(KUrl url, int frame, int width, int height)
 //static
 QImage KThumb::getFrame(Mlt::Producer *producer, int framepos, int width, int height)
 {
-    QImage p(width, height, QImage::Format_ARGB32);
+    QImage p(width, height, QImage::Format_ARGB32_Premultiplied);
     if (producer == NULL) {
         p.fill(Qt::red);
         return p;
@@ -263,7 +263,7 @@ QImage KThumb::getFrame(Mlt::Producer *producer, int framepos, int width, int he
     int oh = height;
     mlt_image_format format = mlt_image_rgb24a;
     uint8_t *data = frame->get_image(format, ow, oh, 0);
-    QImage image((uchar *)data, ow, oh, QImage::Format_ARGB32);
+    QImage image((uchar *)data, ow, oh, QImage::Format_ARGB32_Premultiplied);
     //mlt_service_unlock(service.get_service());
 
     if (!image.isNull()) {

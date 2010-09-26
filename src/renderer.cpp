@@ -789,7 +789,7 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
             int frame_width = width;
             int frame_height = imageHeight;
             uint8_t *data = frame->get_image(format, frame_width, frame_height, 0);
-            QImage image((uchar *)data, frame_width, frame_height, QImage::Format_ARGB32);
+            QImage image((uchar *)data, frame_width, frame_height, QImage::Format_ARGB32_Premultiplied);
             QPixmap pix;
 
             if (!image.isNull()) {
@@ -1546,7 +1546,7 @@ void Render::showFrame(Mlt::Frame& frame)
     int width = 0;
     int height = 0;
     const uchar* image = frame.get_image(format, width, height);
-    QImage qimage(width, height, QImage::Format_ARGB32);
+    QImage qimage(width, height, QImage::Format_ARGB32_Premultiplied);
     memcpy(qimage.scanLine(0), image, width * height * 4);
     emit showImageSignal(qimage);
 }
