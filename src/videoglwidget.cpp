@@ -15,6 +15,8 @@ VideoGLWidget::VideoGLWidget(QWidget *parent)
     , m_display_ratio(4.0 / 3.0)
     , m_backgroundColor(Qt::gray)
 {
+    setAttribute(Qt::WA_PaintOnScreen);
+    setAttribute(Qt::WA_OpaquePaintEvent);
 }
 
 VideoGLWidget::~VideoGLWidget()
@@ -72,11 +74,11 @@ void VideoGLWidget::resizeGL(int width, int height)
     glLoadIdentity();
     gluOrtho2D(0, width, height, 0);
     glMatrixMode(GL_MODELVIEW);
+    glClear(GL_COLOR_BUFFER_BIT); // | GL_DEPTH_BUFFER_BIT // Depth is disabled, so shouldn'b be necessary to clear DEPTH_BUFFER
 }
 
 void VideoGLWidget::paintGL()
 {
-    glClear(GL_COLOR_BUFFER_BIT); // | GL_DEPTH_BUFFER_BIT // Depth is disabled, so shouldn'b be necessary to clear DEPTH_BUFFER
     if (m_texture) {
         glEnable(GL_TEXTURE_RECTANGLE_EXT);
         glBegin(GL_QUADS);
@@ -114,11 +116,23 @@ void VideoGLWidget::showImage(QImage image)
 
 void VideoGLWidget::mouseDoubleClickEvent(QMouseEvent * event)
 {
-    // TODO: disable screensaver? or should we leave that responsibility to the
-    // application?
+    // TODO: disable screensaver?
     Qt::WindowFlags flags = windowFlags();
     if (!isFullScreen()) {
-        //we only update that value if it is not already fullscreen
+        // Check if we ahave a multiple monitor setup
+        int monitors = QApplication::desktop()->screenCount();
+        if (monitors > 1) {
+            QRect screenres;
+            // Move monitor widget to the second screen (one screen for Kdenlive, the other one for the Monitor widget
+            int currentScreen = QApplication::desktop()->screenNumber(this);
+            if (currentScreen < monitors - 1)
+                screenres = QApplication::desktop()->screenGeometry(currentScreen + 1);
+            else
+                screenres = QApplication::desktop()->screenGeometry(currentScreen - 1);
+            move(QPoint(screenres.x(), screenres.y()));
+            resize(screenres.width(), screenres.height());
+        }
+
         m_baseFlags = flags & (Qt::Window | Qt::SubWindow);
         flags |= Qt::Window;
         flags ^= Qt::SubWindow;
@@ -140,5 +154,6 @@ void VideoGLWidget::mouseDoubleClickEvent(QMouseEvent * event)
         setWindowState(windowState()  ^ Qt::WindowFullScreen);   // reset
         show();
     }
+    event->accept();
 }
 
