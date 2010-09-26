@@ -8,12 +8,12 @@
 #endif
 
 VideoGLWidget::VideoGLWidget(QWidget *parent)
-        : QGLWidget(parent)
-        , m_image_width(0)
-        , m_image_height(0)
-        , m_texture(0)
-        , m_display_ratio(4.0 / 3.0)
-        , m_backgroundColor(Qt::gray)
+    : QGLWidget(parent)
+    , m_image_width(0)
+    , m_image_height(0)
+    , m_texture(0)
+    , m_display_ratio(4.0 / 3.0)
+    , m_backgroundColor(Qt::gray)
 {
 }
 
@@ -76,7 +76,7 @@ void VideoGLWidget::resizeGL(int width, int height)
 
 void VideoGLWidget::paintGL()
 {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT); // | GL_DEPTH_BUFFER_BIT // Depth is disabled, so shouldn'b be necessary to clear DEPTH_BUFFER
     if (m_texture) {
         glEnable(GL_TEXTURE_RECTANGLE_EXT);
         glBegin(GL_QUADS);
@@ -101,6 +101,7 @@ void VideoGLWidget::showImage(QImage image)
     makeCurrent();
     if (m_texture)
         glDeleteTextures(1, &m_texture);
+
     glPixelStorei(GL_UNPACK_ROW_LENGTH, m_image_width);
     glGenTextures(1, &m_texture);
     glBindTexture(GL_TEXTURE_RECTANGLE_EXT, m_texture);
@@ -110,3 +111,34 @@ void VideoGLWidget::showImage(QImage image)
                  GL_UNSIGNED_BYTE, image.bits());
     updateGL();
 }
+
+void VideoGLWidget::mouseDoubleClickEvent(QMouseEvent * event)
+{
+    // TODO: disable screensaver? or should we leave that responsibility to the
+    // application?
+    Qt::WindowFlags flags = windowFlags();
+    if (!isFullScreen()) {
+        //we only update that value if it is not already fullscreen
+        m_baseFlags = flags & (Qt::Window | Qt::SubWindow);
+        flags |= Qt::Window;
+        flags ^= Qt::SubWindow;
+        setWindowFlags(flags);
+#ifdef Q_WS_X11
+        // This works around a bug with Compiz
+        // as the window must be visible before we can set the state
+        show();
+        raise();
+        setWindowState(windowState() | Qt::WindowFullScreen);   // set
+#else
+        setWindowState(windowState() | Qt::WindowFullScreen);   // set
+        show();
+#endif
+    } else {
+        flags ^= (Qt::Window | Qt::SubWindow); //clear the flags...
+        flags |= m_baseFlags; //then we reset the flags (window and subwindow)
+        setWindowFlags(flags);
+        setWindowState(windowState()  ^ Qt::WindowFullScreen);   // reset
+        show();
+    }
+}
+

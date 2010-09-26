@@ -27,6 +27,7 @@ private:
     GLuint m_texture;
     double m_display_ratio;
     QColor m_backgroundColor;
+    Qt::WindowFlags m_baseFlags;
 
 public slots:
     void showImage(QImage image);
@@ -35,6 +36,7 @@ protected:
     void initializeGL();
     void resizeGL(int width, int height);
     void paintGL();
+    void mouseDoubleClickEvent(QMouseEvent * event);
 };
 
 #endif
