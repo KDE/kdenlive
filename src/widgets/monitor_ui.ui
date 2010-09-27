@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>237</width>
-    <height>177</height>
+    <width>391</width>
+    <height>242</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
@@ -17,7 +17,26 @@
    <property name="spacing">
     <number>0</number>
    </property>
-   <item row="0" column="0" colspan="2">
+   <item row="0" column="0">
+    <widget class="QFrame" name="audio_monitor">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+     <property name="lineWidth">
+      <number>0</number>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
     <widget class="QFrame" name="video_frame">
      <property name="font">
       <font>
@@ -29,7 +48,7 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="0" colspan="2">
+   <item row="2" column="0">
     <widget class="QFrame" name="ruler_frame">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -54,7 +73,7 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="0" colspan="2">
+   <item row="3" column="0">
     <widget class="QFrame" name="button_frame">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Maximum">

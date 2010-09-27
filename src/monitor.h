@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #ifndef MONITOR_H
 #define MONITOR_H
 
@@ -31,7 +30,7 @@
 #include "gentime.h"
 #include "ui_monitor_ui.h"
 #include "timecodedisplay.h"
-#ifdef Q_WS_MAC
+#if defined(Q_WS_MAC) || defined(USE_OPEN_GL)
 #include "videoglwidget.h"
 #endif
 
@@ -112,6 +111,7 @@ protected:
 
 private:
     Ui::Monitor_UI m_ui;
+    AudioSignal *m_audiosignal;
     QString m_name;
     MonitorManager *m_monitorManager;
     DocClipBase *m_currentClip;
@@ -140,10 +140,10 @@ private:
     /** true if selected clip is transition, false = selected clip is clip.
      *  Necessary because sometimes we get two signals, e.g. we get a clip and we get selected transition = NULL. */
     bool m_loopClipTransition;
-#ifdef Q_WS_MAC
+#if defined(Q_WS_MAC) || defined(USE_OPEN_GL)
     VideoGLWidget *m_glWidget;
+    bool createOpenGlWidget(QVBoxLayout *rendererBox, const QString profile);
 #endif
-	AudioSignal *m_audiosignal;
 
     GenTime getSnapForPos(bool previous);
 
@@ -164,7 +164,6 @@ private slots:
 public slots:
     void slotOpenFile(const QString &);
     void slotSetXml(DocClipBase *clip, QPoint zone = QPoint(), const int position = -1);
-    void initMonitor();
     void refreshMonitor(bool visible = true);
     void slotSeek(int pos);
     void stop();

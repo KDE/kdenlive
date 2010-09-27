@@ -121,6 +121,11 @@
     </group>
 
     <group name="sdl">
+    <entry name="openglmonitors" type="Bool">
+      <label>Use OpenGL for video display.</label>
+      <default>false</default>
+    </entry>
+    
     <entry name="video_driver" type="UInt">
       <label>Video driver used for output.</label>
       <default>0</default>

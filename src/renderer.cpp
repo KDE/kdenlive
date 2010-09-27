@@ -61,14 +61,12 @@ static void consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr
     // detect if the producer has finished playing. Is there a better way to do it?
     if (self->m_isBlocked) return;
     Mlt::Frame frame(frame_ptr);
-#ifdef Q_WS_MAC
-    self->showFrame(frame);
-#endif
-	self->showAudio(frame);
+    if (!frame.is_valid()) return;
     self->emitFrameNumber(mlt_frame_get_position(frame_ptr));
     if (self->sendFrameForAnalysis && frame_ptr->convert_image) {
         self->emitFrameUpdated(frame);
     }
+    self->showAudio(frame);
     if (frame.get_double("_speed") == 0.0) {
         self->emitConsumerStopped();
     } else if (frame.get_double("_speed") < 0.0 && mlt_frame_get_position(frame_ptr) <= 0) {
@@ -77,24 +75,34 @@ static void consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr
     }
 }
 
+static void consumer_gl_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr)
+{
+    // detect if the producer has finished playing. Is there a better way to do it?
+    if (self->m_isBlocked) return;
+    Mlt::Frame frame(frame_ptr);
+    self->showFrame(frame);
+    if (frame.get_double("_speed") == 0.0) {
+        self->emitConsumerStopped();
+    } else if (frame.get_double("_speed") < 0.0 && mlt_frame_get_position(frame_ptr) <= 0) {
+        self->pause();
+        self->emitConsumerStopped();
+    }
+}
 
-Render::Render(const QString & rendererName, int winid, int /* extid */, QString profile, QWidget *parent) :
-        QObject(parent),
-        m_isBlocked(0),
-        sendFrameForAnalysis(false),
-        m_name(rendererName),
-        m_mltConsumer(NULL),
-        m_mltProducer(NULL),
-        m_mltProfile(NULL),
-        m_framePosition(0),
-        m_isZoneMode(false),
-        m_isLoopMode(false),
-        m_isSplitView(false),
-        m_blackClip(NULL),
-        m_winid(winid)
-#ifdef Q_WS_MAC
-        , m_glWidget(0)
-#endif
+Render::Render(const QString & rendererName, int winid, QString profile, QWidget *parent) :
+    QObject(parent),
+    m_isBlocked(0),
+    sendFrameForAnalysis(false),
+    m_name(rendererName),
+    m_mltConsumer(NULL),
+    m_mltProducer(NULL),
+    m_mltProfile(NULL),
+    m_framePosition(0),
+    m_isZoneMode(false),
+    m_isLoopMode(false),
+    m_isSplitView(false),
+    m_blackClip(NULL),
+    m_winid(winid)
 {
     /*if (rendererName == "project") m_monitorId = 10000;
     else m_monitorId = 10001;*/
@@ -188,20 +196,21 @@ void Render::buildConsumer(const QString profileName)
     setenv("SDL_VIDEO_ALLOW_SCREENSAVER", "1", 1);
 
     //m_mltConsumer->set("fullscreen", 1);
-#ifdef Q_WS_MAC
-    m_mltConsumer = new Mlt::Consumer(*m_mltProfile, "sdl_audio");
-    m_mltConsumer->set("preview_off", 1);
-    m_mltConsumer->set("preview_format", mlt_image_rgb24a);
-#else
-    m_mltConsumer = new Mlt::Consumer(*m_mltProfile, "sdl_preview");
-#endif
+    if (m_winid == 0) {
+        // OpenGL monitor
+        m_mltConsumer = new Mlt::Consumer(*m_mltProfile, "sdl_audio");
+        m_mltConsumer->set("preview_off", 1);
+        m_mltConsumer->set("preview_format", mlt_image_rgb24a);
+        m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_gl_frame_show);
+    } else {
+        m_mltConsumer = new Mlt::Consumer(*m_mltProfile, "sdl_preview");
+        // FIXME: the event object returned by the listen gets leaked...
+        m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
+        m_mltConsumer->set("window_id", m_winid);
+    }
     m_mltConsumer->set("resize", 1);
-    m_mltConsumer->set("window_id", m_winid);
     m_mltConsumer->set("terminate_on_pause", 1);
     m_mltConsumer->set("window_background", KdenliveSettings::window_background().name().toUtf8().constData());
-
-    // FIXME: the event object returned by the listen gets leaked...
-    m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
     m_mltConsumer->set("rescale", "nearest");
     mlt_log_set_callback(kdenlive_callback);
 
@@ -233,7 +242,6 @@ void Render::buildConsumer(const QString profileName)
     m_blackClip = new Mlt::Producer(*m_mltProfile, "colour", "black");
     m_blackClip->set("id", "black");
     m_blackClip->set("mlt_type", "producer");
-
 }
 
 Mlt::Producer *Render::invalidProducer(const QString &id)
@@ -287,7 +295,6 @@ int Render::resetProfile(const QString profileName)
         delete m_mltProducer;
     }
     m_mltProducer = NULL;
-
     buildConsumer(profileName);
     double new_fps = m_mltProfile->fps();
     if (current_fps != new_fps) {
@@ -394,94 +401,6 @@ QPixmap Render::getImageThumbnail(KUrl url, int /*width*/, int /*height*/)
     //pixmap = im.scaled(width, height);
     return pixmap;
 }
-/*
-//static
-QPixmap Render::getVideoThumbnail(char *profile, QString file, int frame_position, int width, int height) {
-    QPixmap pix(width, height);
-    Mlt::Profile *prof = new Mlt::Profile(profile);
-    Mlt::Producer m_producer(*prof, file.toUtf8().constData());
-    if (m_producer.is_blank()) {
-        pix.fill(Qt::black);
-        return pix;
-    }
-
-    Mlt::Filter m_convert(*prof, "avcolour_space");
-    m_convert.set("forced", mlt_image_rgb24a);
-    m_producer.attach(m_convert);
-    m_producer.seek(frame_position);
-    Mlt::Frame * frame = m_producer.get_frame();
-    if (frame) {
-        pix = frameThumbnail(frame, width, height, true);
-        delete frame;
-    }
-    if (prof) delete prof;
-    return pix;
-}
-*/
-/*
-void Render::getImage(KUrl url, int frame_position, QPoint size)
-{
-    Mlt::Producer m_producer(url.path().toUtf8().constData());
-    if (m_producer.is_blank()) {
- return;
-    }
-    Mlt::Filter m_convert("avcolour_space");
-    m_convert.set("forced", mlt_image_rgb24a);
-    m_producer.attach(m_convert);
-    m_producer.seek(frame_position);
-
-    Mlt::Frame * frame = m_producer.get_frame();
-
-    if (frame) {
- QPixmap pix = frameThumbnail(frame, size.x(), size.y(), true);
- delete frame;
- emit replyGetImage(url, frame_position, pix, size.x(), size.y());
-    }
-}*/
-
-/* Create thumbnail for color */
-/*void Render::getImage(int id, QString color, QPoint size)
-{
-    QPixmap pixmap(size.x() - 2, size.y() - 2);
-    color = color.replace(0, 2, "#");
-    color = color.left(7);
-    pixmap.fill(QColor(color));
-    QPixmap result(size.x(), size.y());
-    result.fill(Qt::black);
-    //copyBlt(&result, 1, 1, &pixmap, 0, 0, size.x() - 2, size.y() - 2);
-    emit replyGetImage(id, result, size.x(), size.y());
-
-}*/
-
-/* Create thumbnail for image */
-/*void Render::getImage(KUrl url, QPoint size)
-{
-    QImage im;
-    QPixmap pixmap;
-    if (url.fileName().startsWith(".all.")) {  //  check for slideshow
-     QString fileType = url.fileName().right(3);
-         QStringList more;
-         QStringList::Iterator it;
-
-            QDir dir( url.directory() );
-            more = dir.entryList( QDir::Files );
-            for ( it = more.begin() ; it != more.end() ; ++it ) {
-                if ((*it).endsWith("."+fileType, Qt::CaseInsensitive)) {
-   if (!im.load(url.directory() + '/' + *it))
-       kDebug()<<"++ ERROR LOADIN IMAGE: "<<url.directory() + '/' + *it;
-   break;
-  }
-     }
-    }
-    else im.load(url.path());
-
-    //pixmap = im.smoothScale(size.x() - 2, size.y() - 2);
-    QPixmap result(size.x(), size.y());
-    result.fill(Qt::black);
-    //copyBlt(&result, 1, 1, &pixmap, 0, 0, size.x() - 2, size.y() - 2);
-    emit replyGetImage(url, 1, result, size.x(), size.y());
-}*/
-
 
 double Render::consumerRatio() const
 {
@@ -513,6 +432,7 @@ double Render::dar() const
 {
     return m_mltProfile->dar();
 }
+
 
 void Render::slotSplitView(bool doit)
 {
@@ -1384,11 +1304,11 @@ void Render::setDropFrames(bool show)
         int dropFrames = 1;
         if (show == false) dropFrames = 0;
         m_mltConsumer->stop();
-#ifdef Q_WS_MAC
-        m_mltConsumer->set("real_time", dropFrames);
-#else
-        m_mltConsumer->set("play.real_time", dropFrames);
-#endif
+        if (m_winid == 0)
+            m_mltConsumer->set("real_time", dropFrames);
+        else
+            m_mltConsumer->set("play.real_time", dropFrames);
+
         if (m_mltConsumer->start() == -1) {
             kDebug(QtWarningMsg) << "ERROR, Cannot start monitor";
         }
@@ -1480,9 +1400,11 @@ void Render::exportCurrentFrame(KUrl url, bool /*notify*/)
     //if (notify) QApplication::postEvent(qApp->activeWindow(), new UrlEvent(url, 10003));
 }
 
-#ifdef Q_WS_MAC
+
 void Render::showFrame(Mlt::Frame& frame)
 {
+    m_framePosition = qMax(frame.get_int("_position"), 0);
+    emit rendererPosition((int) m_framePosition);
     mlt_image_format format = mlt_image_rgb24a;
     int width = 0;
     int height = 0;
@@ -1490,49 +1412,54 @@ void Render::showFrame(Mlt::Frame& frame)
     QImage qimage(width, height, QImage::Format_ARGB32_Premultiplied);
     memcpy(qimage.scanLine(0), image, width * height * 4);
     emit showImageSignal(qimage);
+    showAudio(frame);
+    if (sendFrameForAnalysis && frame.get_frame()->convert_image) {
+        emit frameUpdated(qimage.rgbSwapped());
+    }
 }
-#endif
 
 void Render::showAudio(Mlt::Frame& frame)
 {
-	mlt_audio_format audio_format=mlt_audio_pcm;
-	int freq,num_channels,samples;
-	uint8_t* data=(uint8_t*)frame.get_audio(audio_format,freq,num_channels,samples);
-	if (!data)
-		return;
-	int value=0;
-	QByteArray channels;
+    if (!frame.is_valid() || frame.get_int("test_audio") != 0) return;
+    mlt_audio_format audio_format = mlt_audio_pcm;
+    int freq = 0;
+    int num_channels = 0;
+    int samples = 0;
+    uint8_t* data = (uint8_t*)frame.get_audio(audio_format, freq, num_channels, samples);
+    if (!data)
+        return;
+    int value = 0;
+    QByteArray channels;
+    for (int i = 0; i < num_channels; i++) {
+        /*  switch (audio_format)
+            {
+                case 0:
+                    value=( ( (uint8_t*)data) [i]   );
+                    break;
+                case 1:
+                    value=( ( (uint16_t*)data) [i]  >> 8 );
+                    break;
+                case 2:
+                    value=( ((uint32_t*)data) [i] >> 16 );
+                    break;
+                case 3:
+                    value=( ((float*)data) [i]*255);
+                    break;
+                default:
+                    value=0;
+            }
+            */
+        long val = 0;
+        int num_samples = 20;
+        for (int s = 0; s < samples; s += samples / num_samples) {
+            val += (data[i+s*num_channels] - 127);
+        }
+        channels.append(val / num_samples);
+    }
 
-	for (int i=0;i<num_channels;i++){
-	/*	switch (audio_format)
-		{
-			case 0:
-				value=( ( (uint8_t*)data) [i]   );
-				break;
-			case 1:
-				value=( ( (uint16_t*)data) [i]  >> 8 );
-				break;
-			case 2:
-				value=( ((uint32_t*)data) [i] >> 16 );
-				break;
-			case 3:
-				value=( ((float*)data) [i]*255);
-				break;
-			default:
-				value=0;
-		}
-		*/
-		long val=0;
-		int num_samples=20;
-		for (int s=0;s<samples;s+=samples/num_samples){
-			val+=(data[i+s*num_channels]- 127);
-		}
-		channels.append(val/num_samples);
-	}
 
-
-	if (samples>0)
-		emit showAudioSignal(channels);
+    if (samples > 0)
+        emit showAudioSignal(channels);
 }
 
 /*

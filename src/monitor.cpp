@@ -49,7 +49,7 @@
 Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget *parent) :
     QWidget(parent),
     render(NULL),
-	m_audiosignal(NULL),
+    m_audiosignal(NULL),
     m_name(name),
     m_monitorManager(manager),
     m_currentClip(NULL),
@@ -59,10 +59,12 @@ Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget
     m_scale(1),
     m_length(0),
     m_dragStarted(false),
+    m_monitorRefresh(NULL),
     m_effectScene(NULL),
     m_effectView(NULL),
     m_selectedClip(NULL),
     m_loopClipTransition(true)
+
 {
     m_ui.setupUi(this);
     QVBoxLayout *layout = new QVBoxLayout;
@@ -139,25 +141,29 @@ Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget
 
     QVBoxLayout *rendererBox = new QVBoxLayout(m_ui.video_frame);
     rendererBox->setContentsMargins(0, 0, 0, 0);
+    bool monitorCreated = false;
 #ifdef Q_WS_MAC
-    m_glWidget = new VideoGLWidget(m_ui.video_frame);
-    rendererBox->addWidget(m_glWidget);
-    render = new Render(m_name, (int) m_ui.video_frame->winId(), -1, profile, this);
-    m_glWidget->setImageAspectRatio(render->dar());
-    m_glWidget->setBackgroundColor(KdenliveSettings::window_background());
-    m_glWidget->resize(m_ui.video_frame->size());
-    connect(render, SIGNAL(showImageSignal(QImage)), m_glWidget, SLOT(showImage(QImage)));
-    m_monitorRefresh = 0;
-#else
-    m_monitorRefresh = new MonitorRefresh(m_ui.video_frame);
-    rendererBox->addWidget(m_monitorRefresh);
-    render = new Render(m_name, (int) m_monitorRefresh->winId(), -1, profile, this);
-    m_monitorRefresh->setRenderer(render);
+    createOpenGlWidget(rendererBox, profile);
+    monitorCreated = true;
+    //m_glWidget->setFixedSize(width, height);
+#elif defined (USE_OPEN_GL)
+    if (KdenliveSettings::openglmonitors()) {
+        monitorCreated = createOpenGlWidget(rendererBox, profile);
+    }
 #endif
-	m_audiosignal= new AudioSignal(this);
-	rendererBox->addWidget(m_audiosignal);
-    connect(render, SIGNAL(showAudioSignal(QByteArray)), m_audiosignal, SLOT(showAudio(QByteArray)));
+    if (!monitorCreated) {
+        m_monitorRefresh = new MonitorRefresh(m_ui.video_frame);
+        rendererBox->addWidget(m_monitorRefresh);
+        render = new Render(m_name, (int) m_monitorRefresh->winId(), profile, this);
+        m_monitorRefresh->setRenderer(render);
+    }
 
+    QVBoxLayout *audioBox = new QVBoxLayout;
+    audioBox->setContentsMargins(0, 0, 0, 0);
+    m_audiosignal = new AudioSignal();
+    audioBox->addWidget(m_audiosignal);
+    m_ui.audio_monitor->setLayout(audioBox);
+    connect(render, SIGNAL(showAudioSignal(const QByteArray)), m_audiosignal, SLOT(showAudio(const QByteArray)));
     connect(m_ruler, SIGNAL(seekRenderer(int)), this, SLOT(slotSeek(int)));
     connect(render, SIGNAL(durationChanged(int)), this, SLOT(adjustRulerSize(int)));
     connect(render, SIGNAL(rendererStopped(int)), this, SLOT(rendererStopped(int)));
@@ -171,9 +177,8 @@ Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget
     } else {
         connect(m_ruler, SIGNAL(zoneChanged(QPoint)), this, SLOT(setClipZone(QPoint)));
     }
-#ifndef Q_WS_MAC
-    m_monitorRefresh->show();
-#endif
+
+    if (m_monitorRefresh) m_monitorRefresh->show();
 
     if (name == "project") {
         m_effectScene = new MonitorScene(render);
@@ -185,8 +190,6 @@ Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget
         m_effectScene->setUp();
         m_effectView->hide();
     }
-
-    kDebug() << "/////// BUILDING MONITOR, ID: " << m_ui.video_frame->winId();
 }
 
 Monitor::~Monitor()
@@ -206,6 +209,23 @@ QString Monitor::name() const
 {
     return m_name;
 }
+
+#if defined(Q_WS_MAC) || defined(USE_OPEN_GL)
+bool Monitor::createOpenGlWidget(QVBoxLayout *rendererBox, const QString profile)
+{
+    render = new Render(m_name, 0, profile, this);
+    m_glWidget = new VideoGLWidget(m_ui.video_frame);
+    if (m_glWidget == NULL) {
+        // Creation failed, we are in trouble...
+        return false;
+    }
+    rendererBox->addWidget(m_glWidget);
+    m_glWidget->setImageAspectRatio(render->dar());
+    m_glWidget->setBackgroundColor(KdenliveSettings::window_background());
+    connect(render, SIGNAL(showImageSignal(QImage)), m_glWidget, SLOT(showImage(QImage)));
+    return true;
+}
+#endif
 
 void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu, QAction *loopClip)
 {
@@ -232,7 +252,10 @@ void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMe
     m_contextMenu->addAction(extractFrame);
 
     if (m_name != "clip") {
-#ifndef Q_WS_MAC
+#if defined(Q_WS_MAC) || defined(USE_OPEN_GL)
+        // TODO: why disable in OpenGL?
+        // Don't show split action
+#else
         QAction *splitView = m_contextMenu->addAction(KIcon("view-split-left-right"), i18n("Split view"), render, SLOT(slotSplitView(bool)));
         splitView->setCheckable(true);
         m_configMenu->addAction(splitView);
@@ -656,19 +679,6 @@ void Monitor::rendererStopped(int pos)
     m_playAction->setIcon(m_playIcon);
 }
 
-void Monitor::initMonitor()
-{
-    kDebug() << "/////// INITING MONITOR, ID: " << m_ui.video_frame->winId();
-}
-
-// virtual
-/*void Monitor::resizeEvent(QResizeEvent * event) {
-    QWidget::resizeEvent(event);
-    adjustRulerSize(-1);
-    if (render && m_isActive) render->doRefresh();
-    //
-}*/
-
 void Monitor::adjustRulerSize(int length)
 {
     if (length > 0) m_length = length;
@@ -839,13 +849,16 @@ void Monitor::slotSwitchMonitorInfo(bool show)
     KdenliveSettings::setDisplayMonitorInfo(show);
     if (show) {
         if (m_overlay) return;
-#ifndef Q_WS_MAC
-        m_overlay = new Overlay(m_monitorRefresh);
-        m_overlay->raise();
-        m_overlay->setHidden(true);
-#else
-        m_overlay = new Overlay(m_glWidget);
+        if (m_monitorRefresh == NULL) {
+            // Using OpenGL display
+#if defined(Q_WS_MAC) || defined(USE_OPEN_GL)
+            m_overlay = new Overlay(m_glWidget);
 #endif
+        } else {
+            m_overlay = new Overlay(m_monitorRefresh);
+            m_overlay->raise();
+            m_overlay->setHidden(true);
+        }
     } else {
         delete m_overlay;
         m_overlay = NULL;
@@ -880,7 +893,7 @@ void Monitor::slotSetSelectedClip(AbstractClipItem* item)
 void Monitor::slotSetSelectedClip(ClipItem* item)
 {
     if (item || (!item && !m_loopClipTransition)) {
-        m_loopClipTransition = false; 
+        m_loopClipTransition = false;
         slotSetSelectedClip((AbstractClipItem*)item);
     }
 }
@@ -897,11 +910,13 @@ void Monitor::slotSetSelectedClip(Transition* item)
 void Monitor::slotEffectScene(bool show)
 {
     if (m_name == "project") {
-#ifdef Q_WS_MAC
-        m_glWidget->setVisible(!show);
-#else
-        m_monitorRefresh->setVisible(!show);
+        if (m_monitorRefresh) {
+            m_monitorRefresh->setVisible(!show);
+        } else {
+#if defined(Q_WS_MAC) || defined(USE_OPEN_GL)
+            m_glWidget->setVisible(!show);
 #endif
+        }
         m_effectView->setVisible(show);
         emit requestFrameForAnalysis(show);
         if (show) {

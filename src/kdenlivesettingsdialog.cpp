@@ -105,6 +105,9 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent) :
 
     // Disable drop B frames, see Kdenlive issue #1330
     m_configSdl.groupBox->setHidden(true);
+#if not defined(Q_WS_MAC) && not defined(USE_OPEN_GL)
+    m_configSdl.kcfg_openglmonitors->setHidden(true);
+#endif
 
     m_page6 = addPage(p6, i18n("Playback"), "media-playback-start");
 

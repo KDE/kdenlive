@@ -2,8 +2,9 @@
                          krender.h  -  description
                             -------------------
    begin                : Fri Nov 22 2002
-   copyright            : (C) 2002 by Jason Wood
-   email                : jasonwood@blueyonder.co.uk
+   copyright            : (C) 2002 by Jason Wood (jasonwood@blueyonder.co.uk)
+   copyright            : (C) 2010 by Jean-Baptiste Mardelle (jb@kdenlive.org)
+
 ***************************************************************************/
 
 /***************************************************************************
@@ -17,7 +18,6 @@
 
 /**
  * @class Render
- * @author Jason Wood
  * @brief Client side of the interface to a renderer.
  *
  * From Kdenlive's point of view, you treat the Render object as the renderer,
@@ -40,9 +40,6 @@
 #include <QList>
 #include <QEvent>
 
-#ifdef Q_WS_MAC
-#include "videoglwidget.h"
-#endif
 
 class Render;
 
@@ -82,8 +79,13 @@ Q_OBJECT public:
     enum FailStates { OK = 0,
                       APP_NOEXIST
                     };
+    /** @brief Build a MLT Renderer
+     *  @param rendererName A unique identifier for this renderer
+     *  @param winid The parent widget identifier (required for SDL display). Set to 0 for OpenGL rendering
+     *  @param profile The MLT profile used for the renderer (default one will be used if empty). */
+    Render(const QString & rendererName, int winid, QString profile = QString(), QWidget *parent = 0);
 
-    Render(const QString & rendererName, int winid, int extid, QString profile = QString(), QWidget *parent = 0);
+    /** @brief Destroy the MLT Renderer. */
     ~Render();
 
     /** @brief Seeks the renderer clip to the given time. */
@@ -92,33 +94,24 @@ Q_OBJECT public:
     void seekToFrameDiff(int diff);
     int m_isBlocked;
 
-    //static QPixmap getVideoThumbnail(char *profile, QString file, int frame, int width, int height);
     QPixmap getImageThumbnail(KUrl url, int width, int height);
 
-    /* Return thumbnail for color clip
-    void getImage(int id, QString color, QPoint size);*/
-
-    // static QPixmap frameThumbnail(Mlt::Frame *frame, int width, int height, bool border = false);
-
-    /* Return thumbnail for image clip
-    void getImage(KUrl url, QPoint size);*/
-
-    /* Requests a particular frame from the given file.
-     *
-     * The pixmap will be returned by emitting the replyGetImage() signal.
-    void getImage(KUrl url, int frame, QPoint size);*/
-
+    /** @brief Sets the current MLT producer playlist.
+     * @param list The xml describing the playlist
+     * @param position (optional) time to seek to */
     int setSceneList(QDomDocument list, int position = 0);
 
-    /** @brief Sets the current scene list.
-     * @param list new scene list
+    /** @brief Sets the current MLT producer playlist.
+     * @param list new playlist
      * @param position (optional) time to seek to
      * @return 0 when it has success, different from 0 otherwise
      *
-     * Creates the producer from the MLT XML QDomDocument. Wraps the VEML
-     * command of the same name. */
+     * Creates the producer from the text playlist. */
     int setSceneList(QString playlist, int position = 0);
     int setProducer(Mlt::Producer *producer, int position);
+
+    /** @brief Get the current MLT producer playlist.
+     * @return A string describing the playlist */
     const QString sceneList();
     bool saveSceneList(QString path, QDomElement kdenliveData = QDomElement());
 
@@ -126,8 +119,7 @@ Q_OBJECT public:
      * @param speed speed to play the scene to
      *
      * The speed is relative to normal playback, e.g. 1.0 is normal speed, 0.0
-     * is paused, -1.0 means play backwards. It does not specify start/stop
-     * times for playback. Wraps the VEML command of the same name. */
+     * is paused, -1.0 means play backwards. It does not specify start/stop */
     void play(double speed);
     void switchPlay();
     void pause();
@@ -140,9 +132,7 @@ Q_OBJECT public:
     QImage extractFrame(int frame_position, int width = -1, int height = -1);
 
     /** @brief Plays the scene starting from a specific time.
-     * @param startTime time to start playing the scene from
-     *
-     * Wraps the VEML command of the same name. */
+     * @param startTime time to start playing the scene from */
     void play(const GenTime & startTime);
     void playZone(const GenTime & startTime, const GenTime & stopTime);
     void loopZone(const GenTime & startTime, const GenTime & stopTime);
@@ -259,10 +249,9 @@ Q_OBJECT public:
     void updatePreviewSettings();
     void setDropFrames(bool show);
     QString updateSceneListFps(double current_fps, double new_fps, QString scene);
-#ifdef Q_WS_MAC
     void showFrame(Mlt::Frame&);
-#endif
-	void showAudio(Mlt::Frame&);
+
+    void showAudio(Mlt::Frame&);
     /** @brief This property is used to decide if the renderer should convert it's frames to QImage for use in other Kdenlive widgets. */
     bool sendFrameForAnalysis;
     QList <int> checkTrackSequence(int);
@@ -301,14 +290,14 @@ private:
     /** @brief A human-readable description of this renderer. */
     int m_winid;
 
-#ifdef Q_WS_MAC
-    VideoGLWidget *m_glWidget;
-#endif
     void closeMlt();
     void mltCheckLength(Mlt::Tractor *tractor);
     void mltPasteEffects(Mlt::Producer *source, Mlt::Producer *dest);
     QMap<QString, QString> mltGetTransitionParamsFromXml(QDomElement xml);
     QMap<QString, Mlt::Producer *> m_slowmotionProducers;
+
+    /** @brief Build the MLT Consumer object with initial settings.
+     *  @param profileName The MLT profile to use for the consumer */
     void buildConsumer(const QString profileName);
     void resetZoneMode();
     void fillSlowMotionProducers();
@@ -358,7 +347,7 @@ signals:
      *
      * Used in Mac OS X. */
     void showImageSignal(QImage);
-    void showAudioSignal(QByteArray);
+    void showAudioSignal(const QByteArray);
     /** @brief The renderer refreshed the current frame, but no seeking was done. */
     void frameUpdated(QImage);
 

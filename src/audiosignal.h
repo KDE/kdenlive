@@ -7,19 +7,19 @@
 class QLabel;
 
 #include  <QWidget>
-class AudioSignal : public QWidget 
+class AudioSignal : public QWidget
 {
-	Q_OBJECT
-	public:
-		AudioSignal (QWidget *parent=0);
-	private:
-		QLabel* label;
-		QByteArray channels;
-		QList<QColor> col;
-	protected:
-		void paintEvent(QPaintEvent* );
-	public slots:
-		void showAudio(QByteArray);
+    Q_OBJECT
+public:
+    AudioSignal(QWidget *parent = 0);
+private:
+    QLabel* label;
+    QByteArray channels;
+    QList<QColor> col;
+protected:
+    void paintEvent(QPaintEvent*);
+public slots:
+    void showAudio(const QByteArray);
 
 
 };
