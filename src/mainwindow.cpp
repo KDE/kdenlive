@@ -2089,7 +2089,9 @@ void MainWindow::slotEditProjectSettings()
     if (w->exec() == QDialog::Accepted) {
         QString profile = w->selectedProfile();
         m_activeDocument->setProjectFolder(w->selectedFolder());
+#ifndef   Q_WS_MAC
         m_recMonitor->slotUpdateCaptureFolder(m_activeDocument->projectFolder().path(KUrl::AddTrailingSlash));
+#endif
         if (m_renderWidget) m_renderWidget->setDocumentPath(m_activeDocument->projectFolder().path(KUrl::AddTrailingSlash));
         if (KdenliveSettings::videothumbnails() != w->enableVideoThumbs()) slotSwitchVideoThumbs();
         if (KdenliveSettings::audiothumbnails() != w->enableAudioThumbs()) slotSwitchAudioThumbs();
@@ -2385,7 +2387,9 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     m_activeDocument = doc;
     m_activeTimeline->updateProjectFps();
     m_activeDocument->checkProjectClips();
+#ifndef   Q_WS_MAC
     m_recMonitor->slotUpdateCaptureFolder(m_activeDocument->projectFolder().path(KUrl::AddTrailingSlash));
+#endif
     if (KdenliveSettings::dropbframes()) slotUpdatePreviewSettings();
     //Update the mouse position display so it will display in DF/NDF format by default based on the project setting.
     slotUpdateMousePosition(0);
@@ -2443,8 +2447,11 @@ void MainWindow::slotPreferences(int page, int option)
 
 void MainWindow::slotUpdateCaptureFolder()
 {
+
+#ifndef   Q_WS_MAC
     if (m_activeDocument) m_recMonitor->slotUpdateCaptureFolder(m_activeDocument->projectFolder().path(KUrl::AddTrailingSlash));
     else m_recMonitor->slotUpdateCaptureFolder(KdenliveSettings::defaultprojectfolder());
+#endif
 }
 
 void MainWindow::slotUpdatePreviewSettings()
