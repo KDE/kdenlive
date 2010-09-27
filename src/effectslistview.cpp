@@ -109,7 +109,7 @@ void EffectsListView::slotEffectSelected()
 {
     QDomElement effect = m_effectsList->currentEffect();
 	QTreeWidgetItem* item=m_effectsList->currentItem();
-	if (item &&  item->data(0, Qt::UserRole).toInt() == 4){
+	if (item &&  m_effectsList->indexOfTopLevelItem(item)!=-1){
 		item->setExpanded(!item->isExpanded());		
 	}
     if (!effect.isNull())
