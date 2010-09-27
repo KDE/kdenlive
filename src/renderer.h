@@ -262,6 +262,7 @@ Q_OBJECT public:
 #ifdef Q_WS_MAC
     void showFrame(Mlt::Frame&);
 #endif
+	void showAudio(Mlt::Frame&);
     /** @brief This property is used to decide if the renderer should convert it's frames to QImage for use in other Kdenlive widgets. */
     bool sendFrameForAnalysis;
     QList <int> checkTrackSequence(int);
@@ -357,6 +358,7 @@ signals:
      *
      * Used in Mac OS X. */
     void showImageSignal(QImage);
+    void showAudioSignal(QByteArray);
     /** @brief The renderer refreshed the current frame, but no seeking was done. */
     void frameUpdated(QImage);
 

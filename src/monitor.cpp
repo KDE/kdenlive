@@ -26,6 +26,7 @@
 #include "monitorscene.h"
 #include "abstractclipitem.h"
 #include "kdenlivesettings.h"
+#include "audiosignal.h"
 
 #include <KDebug>
 #include <KLocale>
@@ -48,6 +49,7 @@
 Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget *parent) :
     QWidget(parent),
     render(NULL),
+	m_audiosignal(NULL),
     m_name(name),
     m_monitorManager(manager),
     m_currentClip(NULL),
@@ -152,6 +154,9 @@ Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget
     render = new Render(m_name, (int) m_monitorRefresh->winId(), -1, profile, this);
     m_monitorRefresh->setRenderer(render);
 #endif
+	m_audiosignal= new AudioSignal(this);
+	rendererBox->addWidget(m_audiosignal);
+    connect(render, SIGNAL(showAudioSignal(QByteArray)), m_audiosignal, SLOT(showAudio(QByteArray)));
 
     connect(m_ruler, SIGNAL(seekRenderer(int)), this, SLOT(slotSeek(int)));
     connect(render, SIGNAL(durationChanged(int)), this, SLOT(adjustRulerSize(int)));

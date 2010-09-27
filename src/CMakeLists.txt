@@ -217,6 +217,7 @@ set(kdenlive_SRCS
   monitorscene.cpp
   geometrywidget.cpp
   doubleparameterwidget.cpp
+  audiosignal.cpp
 )
 
 

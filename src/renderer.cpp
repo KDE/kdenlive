@@ -64,7 +64,7 @@ static void consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr
 #ifdef Q_WS_MAC
     self->showFrame(frame);
 #endif
-
+	self->showAudio(frame);
     self->emitFrameNumber(mlt_frame_get_position(frame_ptr));
     if (self->sendFrameForAnalysis && frame_ptr->convert_image) {
         self->emitFrameUpdated(frame);
@@ -1493,6 +1493,47 @@ void Render::showFrame(Mlt::Frame& frame)
 }
 #endif
 
+void Render::showAudio(Mlt::Frame& frame)
+{
+	mlt_audio_format audio_format=mlt_audio_pcm;
+	int freq,num_channels,samples;
+	uint8_t* data=(uint8_t*)frame.get_audio(audio_format,freq,num_channels,samples);
+	if (!data)
+		return;
+	int value=0;
+	QByteArray channels;
+
+	for (int i=0;i<num_channels;i++){
+	/*	switch (audio_format)
+		{
+			case 0:
+				value=( ( (uint8_t*)data) [i]   );
+				break;
+			case 1:
+				value=( ( (uint16_t*)data) [i]  >> 8 );
+				break;
+			case 2:
+				value=( ((uint32_t*)data) [i] >> 16 );
+				break;
+			case 3:
+				value=( ((float*)data) [i]*255);
+				break;
+			default:
+				value=0;
+		}
+		*/
+		long val=0;
+		int num_samples=20;
+		for (int s=0;s<samples;s+=samples/num_samples){
+			val+=(data[i+s*num_channels]- 127);
+		}
+		channels.append(val/num_samples);
+	}
+
+
+	if (samples>0)
+		emit showAudioSignal(channels);
+}
 
 /*
  * MLT playlist direct manipulation.

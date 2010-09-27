@@ -45,6 +45,7 @@ class Transition;
 class ClipItem;
 class QGraphicsView;
 class QGraphicsPixmapItem;
+class AudioSignal;
 
 class MonitorRefresh : public QWidget
 {
@@ -142,6 +143,7 @@ private:
 #ifdef Q_WS_MAC
     VideoGLWidget *m_glWidget;
 #endif
+	AudioSignal *m_audiosignal;
 
     GenTime getSnapForPos(bool previous);
 
