@@ -65,7 +65,7 @@ void AudioSignal::paintEvent(QPaintEvent* /*e*/)
     //p.fillRect(0,height()/2,(unsigned char)channels[1]*width()/255,height()/2,QBrush(Qt::SolidPattern));
     int numchan = channels.size();
     for (int i = 0; i < numchan; i++) {
-        int maxx = (unsigned char)channels[i] * width() / 255;
+        int maxx = (unsigned char)channels[i] * width() / 127;
         int xdelta = width() / 20;
         int y1 = height() * i / numchan;
         int _h = height() / numchan - 1;
@@ -75,7 +75,7 @@ void AudioSignal::paintEvent(QPaintEvent* /*e*/)
                 maxx -= xdelta;
             }
         }
-        p.fillRect(peeks.at(i)*width()/255-2,y1,3,_h,QBrush(Qt::black,Qt::SolidPattern));
+        p.fillRect(peeks.at(i)*width()/127-2,y1,3,_h,QBrush(Qt::black,Qt::SolidPattern));
     }
     p.end();
 }
