@@ -42,6 +42,19 @@ AudioSignal::AudioSignal(QWidget *parent): QWidget(parent)
 void AudioSignal::showAudio(const QByteArray arr)
 {
     channels = arr;
+    if (peeks.count()!=channels.count()){
+        peeks=QByteArray(channels.count(),0);
+        peekage=QByteArray(channels.count(),0);
+    }
+    for (int chan=0;chan<peeks.count();chan++)
+    {
+        peekage[chan]=peekage[chan]+1;
+        if (  peeks.at(chan)<arr.at(chan) ||  peekage.at(chan)>50 )
+        {
+            peekage[chan]=0;
+            peeks[chan]=arr[chan];
+        }
+    }
     update();
 }
 void AudioSignal::paintEvent(QPaintEvent* /*e*/)
@@ -62,6 +75,7 @@ void AudioSignal::paintEvent(QPaintEvent* /*e*/)
                 maxx -= xdelta;
             }
         }
+        p.fillRect(peeks.at(i)*width()/255-2,y1,3,_h,QBrush(Qt::black,Qt::SolidPattern));
     }
     p.end();
 }

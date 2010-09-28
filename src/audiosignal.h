@@ -33,7 +33,7 @@ public:
     AudioSignal(QWidget *parent = 0);
 private:
     QLabel* label;
-    QByteArray channels;
+    QByteArray channels,peeks,peekage;
     QList<QColor> col;
 protected:
     void paintEvent(QPaintEvent*);
