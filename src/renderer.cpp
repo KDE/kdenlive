@@ -1421,45 +1421,28 @@ void Render::showFrame(Mlt::Frame& frame)
 void Render::showAudio(Mlt::Frame& frame)
 {
     if (!frame.is_valid() || frame.get_int("test_audio") != 0) return;
-    mlt_audio_format audio_format = mlt_audio_pcm;
+    mlt_audio_format audio_format = mlt_audio_s16;
     int freq = 0;
     int num_channels = 0;
     int samples = 0;
-    uint8_t* data = (uint8_t*)frame.get_audio(audio_format, freq, num_channels, samples);
+    int16_t* data = (int16_t*)frame.get_audio(audio_format, freq, num_channels, samples);
     if (!data)
         return;
-    int value = 0;
+    int num_samples = samples>200?200:samples;
     QByteArray channels;
     for (int i = 0; i < num_channels; i++) {
-        /*  switch (audio_format)
-            {
-                case 0:
-                    value=( ( (uint8_t*)data) [i]   );
-                    break;
-                case 1:
-                    value=( ( (uint16_t*)data) [i]  >> 8 );
-                    break;
-                case 2:
-                    value=( ((uint32_t*)data) [i] >> 16 );
-                    break;
-                case 3:
-                    value=( ((float*)data) [i]*255);
-                    break;
-                default:
-                    value=0;
-            }
-            */
         long val = 0;
-        int num_samples = 20;
-        for (int s = 0; s < samples; s += samples / num_samples) {
-            val += (data[i+s*num_channels] - 127);
+        for (int s = 0; s < num_samples; s ++ ) {
+            val += abs(data[i+s*num_channels]/128);
         }
-        channels.append(val / num_samples);
+        channels.append(val/num_samples);
     }
 
 
     if (samples > 0)
         emit showAudioSignal(channels);
+    else 
+        emit showAudioSignal(QByteArray());
 }
 
 /*
