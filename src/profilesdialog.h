@@ -67,6 +67,11 @@ public:
      *  @return the evaluated value */
     static double getStringEval(const MltVideoProfile &profile, QString eval);
 
+    /** @brief Get the descriptive text for given colorspace code (defined by MLT)
+     *  @param colorspace An int as defined in mlt_profile.h
+     *  @return The string description */
+    static QString getColorspaceDescription(int colorspace);
+
 protected:
     virtual void closeEvent(QCloseEvent *event);
 

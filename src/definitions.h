@@ -91,6 +91,7 @@ struct MltVideoProfile {
     int sample_aspect_den;
     int display_aspect_num;
     int display_aspect_den;
+    int colorspace;
 };
 
 
@@ -149,7 +150,7 @@ class CommentedTime
 public:
     CommentedTime(): t(GenTime(0)) {}
     CommentedTime(const GenTime time, QString comment)
-            : t(time), c(comment) { }
+        : t(time), c(comment) { }
 
     QString comment()   const          {
         return (c.isEmpty() ? i18n("Marker") : c);

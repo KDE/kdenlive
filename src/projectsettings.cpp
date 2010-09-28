@@ -34,7 +34,7 @@
 #include <kmessagebox.h>
 
 ProjectSettings::ProjectSettings(ProjectList *projectlist, QStringList lumas, int videotracks, int audiotracks, const QString projectPath, bool readOnlyTracks, bool savedProject, QWidget * parent) :
-        QDialog(parent), m_savedProject(savedProject), m_projectList(projectlist), m_lumas(lumas)
+    QDialog(parent), m_savedProject(savedProject), m_projectList(projectlist), m_lumas(lumas)
 {
     setupUi(this);
 
@@ -198,10 +198,11 @@ void ProjectSettings::slotUpdateDisplay()
     p_display->setText(values.value("display_aspect_num") + '/' + values.value("display_aspect_den"));
     if (values.value("progressive").toInt() == 0) {
         p_progressive->setText(i18n("Interlaced (%1 fields per second)",
-                                    QString::number((double)2*values.value("frame_rate_num").toInt()/values.value("frame_rate_den").toInt(), 'f', 2)));
+                                    QString::number((double)2 * values.value("frame_rate_num").toInt() / values.value("frame_rate_den").toInt(), 'f', 2)));
     } else {
         p_progressive->setText(i18n("Progressive"));
     }
+    p_colorspace->setText(ProfilesDialog::getColorspaceDescription(values.value("colorspace").toInt()));
 }
 
 void ProjectSettings::slotUpdateButton(const QString &path)

@@ -35,6 +35,12 @@ ProfilesDialog::ProfilesDialog(QWidget * parent) :
 {
     m_view.setupUi(this);
 
+    // Fill colorspace list (see mlt_profile.h)
+    m_view.colorspace->addItem(getColorspaceDescription(601), 601);
+    m_view.colorspace->addItem(getColorspaceDescription(709), 709);
+    m_view.colorspace->addItem(getColorspaceDescription(240), 240);
+    m_view.colorspace->addItem(getColorspaceDescription(0), 0);
+
     QStringList profilesFilter;
     profilesFilter << "*";
 
@@ -167,7 +173,7 @@ void ProfilesDialog::saveProfile(const QString path)
         return;
     }
     QTextStream out(&file);
-    out << "description=" << m_view.description->text() << "\n" << "frame_rate_num=" << m_view.frame_num->value() << "\n" << "frame_rate_den=" << m_view.frame_den->value() << "\n" << "width=" << m_view.size_w->value() << "\n" << "height=" << m_view.size_h->value() << "\n" << "progressive=" << m_view.progressive->isChecked() << "\n" << "sample_aspect_num=" << m_view.aspect_num->value() << "\n" << "sample_aspect_den=" << m_view.aspect_den->value() << "\n" << "display_aspect_num=" << m_view.display_num->value() << "\n" << "display_aspect_den=" << m_view.display_den->value() << "\n";
+    out << "description=" << m_view.description->text() << "\n" << "frame_rate_num=" << m_view.frame_num->value() << "\n" << "frame_rate_den=" << m_view.frame_den->value() << "\n" << "width=" << m_view.size_w->value() << "\n" << "height=" << m_view.size_h->value() << "\n" << "progressive=" << m_view.progressive->isChecked() << "\n" << "sample_aspect_num=" << m_view.aspect_num->value() << "\n" << "sample_aspect_den=" << m_view.aspect_den->value() << "\n" << "display_aspect_num=" << m_view.display_num->value() << "\n" << "display_aspect_den=" << m_view.display_den->value() << "\n" << "colorspace=" << m_view.colorspace->itemData(m_view.colorspace->currentIndex()).toInt() << "\n";
     if (file.error() != QFile::NoError) {
         KMessageBox::error(this, i18n("Cannot write to file %1", path));
     }
@@ -225,6 +231,7 @@ MltVideoProfile ProfilesDialog::getVideoProfile(QString name)
     result.sample_aspect_den = confFile.entryMap().value("sample_aspect_den").toInt();
     result.display_aspect_num = confFile.entryMap().value("display_aspect_num").toInt();
     result.display_aspect_den = confFile.entryMap().value("display_aspect_den").toInt();
+    result.colorspace = confFile.entryMap().value("colorspace").toInt();
     return result;
 }
 
@@ -288,6 +295,7 @@ QString ProfilesDialog::existingProfile(MltVideoProfile profile)
         if (profile.frame_rate_den != confFile.entryMap().value("frame_rate_den").toInt()) continue;
         if (profile.frame_rate_num != confFile.entryMap().value("frame_rate_num").toInt()) continue;
         if (profile.progressive != confFile.entryMap().value("progressive").toInt()) continue;
+        if (profile.colorspace != confFile.entryMap().value("colorspace").toInt()) continue;
         return profilesFiles.at(i);
     }
 
@@ -306,6 +314,7 @@ QString ProfilesDialog::existingProfile(MltVideoProfile profile)
             if (profile.frame_rate_den != confFile.entryMap().value("frame_rate_den").toInt()) continue;
             if (profile.frame_rate_num != confFile.entryMap().value("frame_rate_num").toInt()) continue;
             if (profile.progressive != confFile.entryMap().value("progressive").toInt()) continue;
+            if (profile.colorspace != confFile.entryMap().value("colorspace").toInt()) continue;
             return customProfiles.at(i) + profilesFiles.at(j);
         }
     }
@@ -497,7 +506,7 @@ void ProfilesDialog::saveProfile(MltVideoProfile &profile)
         return;
     }
     QTextStream out(&file);
-    out << "description=" << profile.description << "\n" << "frame_rate_num=" << profile.frame_rate_num << "\n" << "frame_rate_den=" << profile.frame_rate_den << "\n" << "width=" << profile.width << "\n" << "height=" << profile.height << "\n" << "progressive=" << profile.progressive << "\n" << "sample_aspect_num=" << profile.sample_aspect_num << "\n" << "sample_aspect_den=" << profile.sample_aspect_den << "\n" << "display_aspect_num=" << profile.display_aspect_num << "\n" << "display_aspect_den=" << profile.display_aspect_den << "\n";
+    out << "description=" << profile.description << "\n" << "frame_rate_num=" << profile.frame_rate_num << "\n" << "frame_rate_den=" << profile.frame_rate_den << "\n" << "width=" << profile.width << "\n" << "height=" << profile.height << "\n" << "progressive=" << profile.progressive << "\n" << "sample_aspect_num=" << profile.sample_aspect_num << "\n" << "sample_aspect_den=" << profile.sample_aspect_den << "\n" << "display_aspect_num=" << profile.display_aspect_num << "\n" << "display_aspect_den=" << profile.display_aspect_den << "\n" << "colorspace=" << profile.colorspace << "\n";
     if (file.error() != QFile::NoError) {
         KMessageBox::error(0, i18n("Cannot write to file %1", profilePath));
     }
@@ -538,9 +547,27 @@ void ProfilesDialog::slotUpdateDisplay()
     } else {
         m_view.fields->setText(QString::number((double) 2 * values.value("frame_rate_num").toInt() / values.value("frame_rate_den").toInt(), 'f', 2));
     }
+
+    int colorix = m_view.colorspace->findData(values.value("colorspace").toInt());
+    if (colorix > -1) m_view.colorspace->setCurrentIndex(colorix);
     m_profileIsModified = false;
 }
 
+//static
+QString ProfilesDialog::getColorspaceDescription(int colorspace)
+{
+    //TODO: should the descriptions be translated?
+    switch (colorspace) {
+    case 601:
+        return QString("ITU-R 601");
+    case 709:
+        return QString("ITU-R 709");
+    case 240:
+        return QString("SMPTE240M");
+    default:
+        return i18n("Unknown");
+    }
+}
 
 #include "profilesdialog.moc"
 
