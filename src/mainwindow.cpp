@@ -142,6 +142,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     setFont(KGlobalSettings::toolBarFont());
     parseProfiles(MltPath);
     m_commandStack = new QUndoGroup;
+    setDockNestingEnabled(true);
     m_timelineArea = new KTabWidget(this);
     m_timelineArea->setTabReorderingEnabled(true);
     m_timelineArea->setTabBarHidden(true);
