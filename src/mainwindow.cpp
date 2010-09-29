@@ -3838,6 +3838,7 @@ void MainWindow::slotShowTitleBars(bool show)
         m_RGBParadeDock->setTitleBarWidget(0);
         m_histogramDock->setTitleBarWidget(0);
         m_notesDock->setTitleBarWidget(0);
+        m_audiosignalDock->setTitleBarWidget(0);
     } else {
         if (!m_effectStackDock->isFloating()) {
             m_effectStackDock->setTitleBarWidget(new QWidget);
@@ -3879,6 +3880,9 @@ void MainWindow::slotShowTitleBars(bool show)
         }
         if (!m_notesDock->isFloating()) {
             m_notesDock->setTitleBarWidget(new QWidget(this));
+        }
+        if (!m_audiosignalDock->isFloating()) {
+            m_audiosignalDock->setTitleBarWidget(new QWidget);
         }
     }
     KdenliveSettings::setShowtitlebars(show);
