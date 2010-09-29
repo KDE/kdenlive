@@ -32,6 +32,7 @@ AudioSignal::AudioSignal(QWidget *parent): QWidget(parent)
     //label=new QLabel();
     //vbox->addWidget(label);
     setMinimumHeight(10);
+    setMinimumWidth(10);
     col << Qt::green <<  Qt::green << Qt::green << Qt::green << Qt::green << Qt::green << Qt::green << Qt::green << Qt::green << Qt::green ;
     col << Qt::yellow <<  Qt::yellow << Qt::yellow << Qt::yellow << Qt::yellow  ;
     col << Qt::darkYellow << Qt::darkYellow << Qt::darkYellow;
@@ -64,18 +65,24 @@ void AudioSignal::paintEvent(QPaintEvent* /*e*/)
     //p.fillRect(0,0,(unsigned char)channels[0]*width()/255,height()/2,QBrush(Qt::SolidPattern));
     //p.fillRect(0,height()/2,(unsigned char)channels[1]*width()/255,height()/2,QBrush(Qt::SolidPattern));
     int numchan = channels.size();
+    bool horiz=width() > height();
     for (int i = 0; i < numchan; i++) {
-        int maxx = (unsigned char)channels[i] * width() / 127;
-        int xdelta = width() / 20;
-        int y1 = height() * i / numchan;
-        int _h = height() / numchan - 1;
+        int maxx= (unsigned char)channels[i] * (horiz ? width() : height() ) / 127;
+        int xdelta=(horiz ? width():height() )  /20 ;
+        int _y2= (horiz ?  height() :width () ) / numchan - 1  ;
+        int _y1=(horiz ? height():width() ) *i/numchan;
+        int _x2=maxx >  xdelta ? xdelta - (horiz?1:3) : maxx - (horiz ?1 :3 );
+
         for (int x = 0; x < 20; x++) {
+            int _x1= x *xdelta;
             if (maxx > 0) {
-                p.fillRect(x * xdelta, y1, maxx > xdelta ? xdelta - 1 : maxx - 1, _h, QBrush(col.at(x), Qt::SolidPattern));
+                //p.fillRect(x * xdelta, y1, maxx > xdelta ? xdelta - 1 : maxx - 1, _h, QBrush(col.at(x), Qt::SolidPattern));
+                p.fillRect(horiz?_x1:_y1, horiz?_y1:height()-_x1, horiz?_x2:_y2,horiz? _y2:-_x2, QBrush(col.at(x), Qt::SolidPattern));
                 maxx -= xdelta;
             }
         }
-        p.fillRect(peeks.at(i)*width()/127-2,y1,3,_h,QBrush(Qt::black,Qt::SolidPattern));
+        int xp=peeks.at(i)*(horiz?width():height())/127-2;
+        p.fillRect(horiz?xp:_y1,horiz?_y1:height()-xdelta-xp,horiz?3:_y2,horiz?_y2:3,QBrush(Qt::black,Qt::SolidPattern));
     }
     p.end();
 }

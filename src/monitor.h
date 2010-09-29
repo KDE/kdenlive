@@ -44,7 +44,6 @@ class Transition;
 class ClipItem;
 class QGraphicsView;
 class QGraphicsPixmapItem;
-class AudioSignal;
 
 class MonitorRefresh : public QWidget
 {
@@ -111,7 +110,6 @@ protected:
 
 private:
     Ui::Monitor_UI m_ui;
-    AudioSignal *m_audiosignal;
     QString m_name;
     MonitorManager *m_monitorManager;
     DocClipBase *m_currentClip;

@@ -39,6 +39,7 @@
 #include "transitionsettings.h"
 #include "renderwidget.h"
 #include "renderer.h"
+#include "audiosignal.h"
 #ifndef NO_JOGSHUTTLE
 #include "jogshuttle.h"
 #endif /* NO_JOGSHUTTLE */
@@ -266,6 +267,20 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     connect(m_histogram, SIGNAL(requestAutoRefresh(bool)), this, SLOT(slotUpdateScopeFrameRequest()));
     m_scopesList.append(m_histogramDock);
 
+
+    m_audiosignal = new AudioSignal(m_projectMonitor);
+    m_audiosignalDock = new QDockWidget(i18n("AudioSignal"), this);
+    m_audiosignalDock->setObjectName("audiosignal");
+    m_audiosignalDock->setWidget(m_audiosignal);
+	addDockWidget(Qt::TopDockWidgetArea, m_audiosignalDock);
+    if (m_projectMonitor){
+    	connect(m_projectMonitor->render, SIGNAL(showAudioSignal(const QByteArray&)), m_audiosignal, SLOT(showAudio(const QByteArray&)) );
+	}
+    if (m_clipMonitor){
+    	connect(m_clipMonitor->render, SIGNAL(showAudioSignal(const QByteArray&)), m_audiosignal, SLOT(showAudio(const QByteArray&)) );
+	}
+    //connect(m_histogramDock, SIGNAL(visibilityChanged(bool)), this, SLOT(slotUpdateScopeFrameRequest()));
+    //connect(m_histogram, SIGNAL(requestAutoRefresh(bool)), this, SLOT(slotUpdateScopeFrameRequest()));
 
     m_undoViewDock = new QDockWidget(i18n("Undo History"), this);
     m_undoViewDock->setObjectName("undo_history");

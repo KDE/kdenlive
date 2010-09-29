@@ -66,7 +66,7 @@ class Vectorscope;
 class Waveform;
 class RGBParade;
 class KActionCollection;
-
+class AudioSignal;
 
 class MainWindow : public KXmlGuiWindow
 {
@@ -171,6 +171,9 @@ private:
 
     QDockWidget *m_histogramDock;
     Histogram *m_histogram;
+
+    QDockWidget *m_audiosignalDock;
+    AudioSignal *m_audiosignal;
 
     QDockWidget *m_undoViewDock;
     QUndoView *m_undoView;
