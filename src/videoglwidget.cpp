@@ -120,7 +120,11 @@ void VideoGLWidget::mouseDoubleClickEvent(QMouseEvent * event)
     Qt::WindowFlags flags = windowFlags();
     if (!isFullScreen()) {
         // Check if we ahave a multiple monitor setup
+#if QT_VERSION >= 0x040600
         int monitors = QApplication::desktop()->screenCount();
+#else
+        int monitors = QApplication::desktop()->numScreens();
+#endif
         if (monitors > 1) {
             QRect screenres;
             // Move monitor widget to the second screen (one screen for Kdenlive, the other one for the Monitor widget
