@@ -2801,11 +2801,7 @@ bool Render::mltResizeClipEnd(ItemInfo info, GenTime clipDuration)
     int newDuration = (int) clipDuration.frames(m_fps) - 1;
     int diff = newDuration - (trackPlaylist.clip_length(clipIndex) - 1);
 
-    int currentOut;
-    if (info.cropStart < GenTime())
-        currentOut = newDuration - info.cropStart.frames(m_fps);
-    else
-        currentOut = newDuration + previousStart;
+    int currentOut = newDuration + previousStart;
     if (currentOut > clip->get_length()) {
         clip->parent().set("length", currentOut + 1);
         clip->parent().set("out", currentOut);
@@ -2933,11 +2929,6 @@ bool Render::mltResizeClipStart(ItemInfo info, GenTime diff)
 
     m_isBlocked = true;
     previousStart += moveFrame;
-    if (previousStart < 0) {
-        // special case, in point becoming negative (resizing images)
-        previousOut -= previousStart;
-        previousStart = 0;
-    }
 
     int length = previousOut + 1;
     if (length > clip->get_length()) {
@@ -2959,8 +2950,10 @@ bool Render::mltResizeClipStart(ItemInfo info, GenTime diff)
         if (! trackPlaylist.is_blank(blankIndex)) {
             kDebug() << "WARNING, CLIP TO RESIZE IS NOT BLANK";
         }
-        if (blankLength + moveFrame == 0) trackPlaylist.remove(blankIndex);
-        else trackPlaylist.resize_clip(blankIndex, 0, blankLength + moveFrame - 1);
+        if (blankLength + moveFrame == 0)
+            trackPlaylist.remove(blankIndex);
+        else
+            trackPlaylist.resize_clip(blankIndex, 0, blankLength + moveFrame - 1);
     }
     trackPlaylist.consolidate_blanks(0);
     /*if (QString(clip->parent().get("transparency")).toInt() == 1) {

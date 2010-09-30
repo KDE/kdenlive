@@ -1422,14 +1422,8 @@ EffectsParameterList ClipItem::addEffect(const QDomElement effect, bool /*animat
 
     // special case: the affine effect needs in / out points
     if (effectId == "pan_zoom") {
-        int start = cropStart().frames(m_fps);
-        int end = (cropStart() + cropDuration()).frames(m_fps);
-        if (start < 0) {
-            end -= start;
-            start = 0;
-        }
-        parameters.addParam("in", QString::number(start));
-        parameters.addParam("out", QString::number(end));
+        parameters.addParam("in", QString::number(cropStart().frames(m_fps)));
+        parameters.addParam("out", QString::number((cropStart() + cropDuration()).frames(m_fps)));
     }
 
     QDomNodeList params = effect.elementsByTagName("parameter");
@@ -1792,10 +1786,6 @@ QList <int> ClipItem::updatePanZoom(int width, int height, int cut)
 
                 int in = cropStart().frames(fps());
                 int out = in + cropDuration().frames(fps());
-                if (in < 0) {
-                    out -= in;
-                    in = 0;
-                }
                 int dur = out - in - 1;
 
                 effect.setAttribute("in", in);
