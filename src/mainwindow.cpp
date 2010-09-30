@@ -3825,7 +3825,6 @@ void MainWindow::slotShowTitleBars(bool show)
     QList <QDockWidget *> docks = findChildren<QDockWidget *>();
     for (int i = 0; i < docks.count(); i++) {
         QDockWidget* dock=docks.at(i);
-        qDebug() << dock->objectName() ;
         if (show){
             dock->setTitleBarWidget(0);	
         }else{
