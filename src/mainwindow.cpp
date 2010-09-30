@@ -3822,67 +3822,16 @@ void MainWindow::slotDeleteProjectClips(QStringList ids, QMap<QString, QString> 
 
 void MainWindow::slotShowTitleBars(bool show)
 {
-    if (show) {
-        m_effectStackDock->setTitleBarWidget(0);
-        m_clipMonitorDock->setTitleBarWidget(0);
-        m_projectMonitorDock->setTitleBarWidget(0);
-#ifndef Q_WS_MAC
-        m_recMonitorDock->setTitleBarWidget(0);
-#endif
-        m_effectListDock->setTitleBarWidget(0);
-        m_transitionConfigDock->setTitleBarWidget(0);
-        m_projectListDock->setTitleBarWidget(0);
-        m_undoViewDock->setTitleBarWidget(0);
-        m_vectorscopeDock->setTitleBarWidget(0);
-        m_waveformDock->setTitleBarWidget(0);
-        m_RGBParadeDock->setTitleBarWidget(0);
-        m_histogramDock->setTitleBarWidget(0);
-        m_notesDock->setTitleBarWidget(0);
-        m_audiosignalDock->setTitleBarWidget(0);
-    } else {
-        if (!m_effectStackDock->isFloating()) {
-            m_effectStackDock->setTitleBarWidget(new QWidget);
-        }
-        if (!m_clipMonitorDock->isFloating()) {
-            m_clipMonitorDock->setTitleBarWidget(new QWidget);
-        }
-        if (!m_projectMonitorDock->isFloating()) {
-            m_projectMonitorDock->setTitleBarWidget(new QWidget);
-        }
-#ifndef Q_WS_MAC
-        if (!m_recMonitorDock->isFloating()) {
-            m_recMonitorDock->setTitleBarWidget(new QWidget);
-        }
-#endif
-        if (!m_effectListDock->isFloating()) {
-            m_effectListDock->setTitleBarWidget(new QWidget);
-        }
-        if (!m_transitionConfigDock->isFloating()) {
-            m_transitionConfigDock->setTitleBarWidget(new QWidget);
-        }
-        if (!m_projectListDock->isFloating()) {
-            m_projectListDock->setTitleBarWidget(new QWidget);
-        }
-        if (!m_undoViewDock->isFloating()) {
-            m_undoViewDock->setTitleBarWidget(new QWidget);
-        }
-        if (!m_vectorscopeDock->isFloating()) {
-            m_vectorscopeDock->setTitleBarWidget(new QWidget);
-        }
-        if (!m_waveformDock->isFloating()) {
-            m_waveformDock->setTitleBarWidget(new QWidget);
-        }
-        if (!m_RGBParadeDock->isFloating()) {
-            m_RGBParadeDock->setTitleBarWidget(new QWidget(this));
-        }
-        if (!m_histogramDock->isFloating()) {
-            m_histogramDock->setTitleBarWidget(new QWidget(this));
-        }
-        if (!m_notesDock->isFloating()) {
-            m_notesDock->setTitleBarWidget(new QWidget(this));
-        }
-        if (!m_audiosignalDock->isFloating()) {
-            m_audiosignalDock->setTitleBarWidget(new QWidget);
+    QList <QDockWidget *> docks = findChildren<QDockWidget *>();
+    for (int i = 0; i < docks.count(); i++) {
+        QDockWidget* dock=docks.at(i);
+        qDebug() << dock->objectName() ;
+        if (show){
+            dock->setTitleBarWidget(0);	
+        }else{
+            if (!dock->isFloating()){
+                dock->setTitleBarWidget(new QWidget);
+            }
         }
     }
     KdenliveSettings::setShowtitlebars(show);
