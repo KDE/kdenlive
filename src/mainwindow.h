@@ -369,6 +369,13 @@ private slots:
     void slotDeleteClipMarker();
     void slotDeleteAllClipMarkers();
     void slotEditClipMarker();
+
+    /** @brief Adds marker or auide at the current position without showing the marker dialog.
+     * 
+     * Adds a marker if clip monitor is active, otherwise a guide.
+     * The comment is set to the current position (therefore not dialog).
+     * This can be useful to mark something during playback. */
+    void slotAddMarkerGuideQuickly();
     void slotCutTimelineClip();
     void slotInsertClipOverwrite();
     void slotSelectTimelineClip();

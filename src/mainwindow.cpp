@@ -1355,6 +1355,11 @@ void MainWindow::setupActions()
     collection->addAction("edit_clip_marker", editClipMarker);
     connect(editClipMarker, SIGNAL(triggered(bool)), this, SLOT(slotEditClipMarker()));
 
+    KAction *addMarkerGuideQuickly = new KAction(KIcon("bookmark-new"), i18n("Add Marker/Guide quickly"), this);
+    addMarkerGuideQuickly->setShortcut(Qt::Key_Asterisk);
+    collection->addAction("add_marker_guide_quickly", addMarkerGuideQuickly);
+    connect(addMarkerGuideQuickly, SIGNAL(triggered(bool)), this, SLOT(slotAddMarkerGuideQuickly()));
+
     KAction* splitAudio = new KAction(KIcon("document-new"), i18n("Split Audio"), this);
     collection->addAction("split_audio", splitAudio);
     connect(splitAudio, SIGNAL(triggered(bool)), this, SLOT(slotSplitAudio()));
@@ -2686,6 +2691,26 @@ void MainWindow::slotEditClipMarker()
             // remove old marker
             m_activeTimeline->projectView()->slotAddClipMarker(id, pos, QString());
         }
+    }
+}
+
+void MainWindow::slotAddMarkerGuideQuickly()
+{
+    if (!m_activeTimeline || !m_activeDocument)
+        return;
+
+    if (m_clipMonitor->isActive()) {
+        DocClipBase *clip = m_clipMonitor->activeClip();
+        GenTime pos = m_clipMonitor->position();
+
+        if (!clip) {
+            m_messageLabel->setMessage(i18n("Cannot find clip to add marker"), ErrorMessage);
+            return;
+        }
+
+        m_activeTimeline->projectView()->slotAddClipMarker(clip->getId(), pos, m_activeDocument->timecode().getDisplayTimecode(pos, false));
+    } else {
+        m_activeTimeline->projectView()->slotAddGuide(false);
     }
 }
 

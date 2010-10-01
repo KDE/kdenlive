@@ -4936,13 +4936,18 @@ bool CustomTrackView::addGuide(const GenTime pos, const QString &comment)
     return true;
 }
 
-void CustomTrackView::slotAddGuide()
+void CustomTrackView::slotAddGuide(bool dialog)
 {
     CommentedTime marker(GenTime(m_cursorPos, m_document->fps()), i18n("Guide"));
-    MarkerDialog d(NULL, marker, m_document->timecode(), i18n("Add Guide"), this);
-    if (d.exec() != QDialog::Accepted) return;
-    if (addGuide(d.newMarker().time(), d.newMarker().comment())) {
-        EditGuideCommand *command = new EditGuideCommand(this, GenTime(), QString(), d.newMarker().time(), d.newMarker().comment(), false);
+    if (dialog) {
+        MarkerDialog d(NULL, marker, m_document->timecode(), i18n("Add Guide"), this);
+        if (d.exec() != QDialog::Accepted) return;
+        marker.setComment(d.newMarker().comment());
+    } else {
+        marker.setComment(m_document->timecode().getDisplayTimecodeFromFrames(m_cursorPos, false));
+    }
+    if (addGuide(marker.time(), marker.comment())) {
+        EditGuideCommand *command = new EditGuideCommand(this, GenTime(), QString(), marker.time(), marker.comment(), false);
         m_commandStack->push(command);
     }
 }

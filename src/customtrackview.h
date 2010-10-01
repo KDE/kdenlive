@@ -204,9 +204,17 @@ public slots:
     void slotSwitchTrackVideo(int ix);
     void slotSwitchTrackLock(int ix);
     void slotUpdateClip(const QString &clipId, bool reload = true);
+
+    /** @brief Creates a AddClipCommand to add, edit or delete a marker.
+     * @param id Id of the marker's clip
+     * @param t Position of the marker
+     * @param c Comment of the marker */
     void slotAddClipMarker(const QString &id, GenTime t, QString c);
     bool addGuide(const GenTime pos, const QString &comment);
-    void slotAddGuide();
+
+    /** @brief Shows a dialog for adding a guide.
+     * @param dialog (default = true) false = do not show the dialog but use current position as position and comment */
+    void slotAddGuide(bool dialog = true);
     void slotEditGuide(CommentedTime guide);
     void slotEditGuide(int guidePos = -1);
     void slotDeleteGuide(int guidePos = -1);
