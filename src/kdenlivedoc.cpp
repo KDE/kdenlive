@@ -34,6 +34,7 @@
 #include <KDebug>
 #include <KStandardDirs>
 #include <KMessageBox>
+#include <KProgressDialog>
 #include <KLocale>
 #include <KFileDialog>
 #include <KIO/NetAccess>
@@ -154,6 +155,11 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                             QDomNodeList producers = m_document.elementsByTagName("producer");
                             const int max = producers.count();
 
+                            KProgressDialog progressDialog(parent, i18n("Loading project"), i18n("Loading project"));
+                            progressDialog.setAllowCancel(false);
+                            progressDialog.progressBar()->setMaximum(infomax - 1);
+                            progressDialog.show();
+
                             for (int i = 0; i < infomax; i++) {
                                 e = infoproducers.item(i).cloneNode().toElement();
                                 QString prodId = e.attribute("id");
@@ -169,6 +175,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                                             break;
                                         }
                                     }
+
                                     if (!addClipInfo(e, orig, prodId)) {
                                         // The user manually aborted the loading.
                                         success = false;
@@ -178,6 +185,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                                         break;
                                     }
                                 }
+                                progressDialog.progressBar()->setValue(i);
                             }
 
                             if (success) {
