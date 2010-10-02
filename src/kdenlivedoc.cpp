@@ -168,10 +168,10 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                                     // Get MLT's original producer properties
                                     QDomElement orig;
                                     for (int j = 0; j < max; j++) {
-                                        QDomElement o = producers.item(j).cloneNode().toElement();
-                                        QString origId = o.attribute("id").section('_', 0, 0);
+                                        QDomNode o = producers.item(j);
+                                        QString origId = o.attributes().namedItem("id").nodeValue().section('_', 0, 0);
                                         if (origId == prodId) {
-                                            orig = o;
+                                            orig = o.cloneNode().toElement();
                                             break;
                                         }
                                     }
