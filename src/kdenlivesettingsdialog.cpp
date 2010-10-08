@@ -19,6 +19,7 @@
 
 #include "kdenlivesettingsdialog.h"
 #include "profilesdialog.h"
+#include "blackmagic/devices.h"
 #include "kdenlivesettings.h"
 
 #include <KStandardDirs>
@@ -167,6 +168,12 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent) :
     }
 
 
+    BMInterface::getBlackMagicDeviceList(m_configCapture.hdmi_list, m_configCapture.hdmi_capturemode);
+    connect(m_configCapture.hdmi_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateHDMIModes()));
+    connect(m_configCapture.hdmi_capturemode, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateHDMICaptureMode()));
+    m_configCapture.hdmi_list->setCurrentIndex(KdenliveSettings::hdmicapturedevice());
+    m_configCapture.hdmi_capturemode->setCurrentIndex(KdenliveSettings::hdmicapturemode());
+
     double dvgrabVersion = 0;
     if (!KdenliveSettings::dvgrab_path().isEmpty()) {
         QProcess *versionCheck = new QProcess;
@@ -198,6 +205,19 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent) :
 }
 
 KdenliveSettingsDialog::~KdenliveSettingsDialog() {}
+
+void KdenliveSettingsDialog::slotUpdateHDMIModes()
+{
+    QStringList modes = m_configCapture.hdmi_list->itemData(m_configCapture.hdmi_list->currentIndex()).toStringList();
+    m_configCapture.hdmi_capturemode->clear();
+    m_configCapture.hdmi_capturemode->insertItems(0, modes);
+    KdenliveSettings::setHdmicapturedevice(m_configCapture.hdmi_list->currentIndex());
+}
+
+void KdenliveSettingsDialog::slotUpdateHDMICaptureMode()
+{
+    KdenliveSettings::setHdmicapturemode(m_configCapture.hdmi_capturemode->currentIndex());
+}
 
 void KdenliveSettingsDialog::slotUpdateRmdRegionStatus()
 {

@@ -612,7 +612,7 @@ QMap <QString, QString> ClipProperties::properties()
         if (duration != m_old_props.value("ttl").toInt()) {
             m_clipNeedsRefresh = true;
             props["ttl"] = QString::number(duration);
-            props["out"] = QString::number(duration * m_count);
+            props["out"] = QString::number(duration * m_count - 1);
         }
 
         if (duration * m_count - 1 != m_old_props.value("out").toInt()) {

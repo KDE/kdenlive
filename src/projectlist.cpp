@@ -1834,4 +1834,36 @@ void ProjectList::slotForceProcessing(const QString &id)
     }
 }
 
+void ProjectList::slotAddOrUpdateSequence(const QString frameName)
+{
+    QString fileName = KUrl(frameName).fileName().section('_', 0, -2);
+    int count;
+    QString pattern = SlideshowClip::selectedPath(frameName, false, QString(), &count);
+    if (count > 1) {
+         const QList <DocClipBase *> existing = m_doc->clipManager()->getClipByResource(pattern);
+	if (!existing.isEmpty()) {
+	    // Sequence already exists, update
+	    QString id = existing.at(0)->getId();
+	    ProjectItem *item = getItemById(id);
+            QMap <QString, QString> oldprops;
+            QMap <QString, QString> newprops;
+	    int ttl = existing.at(0)->getProperty("ttl").toInt();
+            oldprops["out"] = existing.at(0)->getProperty("out");
+            newprops["out"] = QString::number(ttl * count - 1);
+	    slotUpdateClipProperties(id, newprops);
+            EditClipCommand *command = new EditClipCommand(this, id, oldprops, newprops, false);
+            m_commandStack->push(command);
+	}
+	else {
+	    // Create sequence
+	    QStringList groupInfo = getGroup();
+	    m_doc->slotCreateSlideshowClipFile(fileName, pattern, count, m_timecode.reformatSeparators(KdenliveSettings::sequence_duration()),
+                                                           false, false, false,
+                                                           m_timecode.getTimecodeFromFrames(int(ceil(m_timecode.fps()))), QString(), 0,
+                                                           QString(), groupInfo.at(0), groupInfo.at(1));
+	}
+    }
+    else emit displayMessage(i18n("Sequence not found"), -2);
+}
+
 #include "projectlist.moc"

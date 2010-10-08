@@ -129,7 +129,8 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
 #ifndef NO_JOGSHUTTLE
     m_jogProcess(NULL),
 #endif /* NO_JOGSHUTTLE */
-    m_findActivated(false)
+    m_findActivated(false),
+    m_stopmotion(NULL)
 {
 
     // Create DBus interface
@@ -180,7 +181,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
 
     m_clipMonitorDock = new QDockWidget(i18n("Clip Monitor"), this);
     m_clipMonitorDock->setObjectName("clip_monitor");
-    m_clipMonitor = new Monitor("clip", m_monitorManager, QString());
+    m_clipMonitor = new Monitor("clip", m_monitorManager, QString(), m_timelineArea);
     m_clipMonitorDock->setWidget(m_clipMonitor);
     addDockWidget(Qt::TopDockWidgetArea, m_clipMonitorDock);
 
@@ -1169,6 +1170,11 @@ void MainWindow::setupActions()
     switchMon->setShortcut(Qt::Key_T);
     connect(switchMon, SIGNAL(triggered(bool)), this, SLOT(slotSwitchMonitors()));
 
+    KAction *fullMon = collection->addAction("monitor_fullscreen");
+    fullMon->setText(i18n("Switch monitor fullscreen"));
+    fullMon->setIcon(KIcon("view-fullscreen"));
+    connect(fullMon, SIGNAL(triggered(bool)), this, SLOT(slotSwitchFullscreen()));
+
     KAction *insertTree = collection->addAction("insert_project_tree");
     insertTree->setText(i18n("Insert zone in project tree"));
     insertTree->setShortcut(Qt::CTRL + Qt::Key_I);
@@ -1524,6 +1530,10 @@ void MainWindow::setupActions()
     reloadClip->setData("reload_clip");
     connect(reloadClip , SIGNAL(triggered()), m_projectList, SLOT(slotReloadClip()));
     reloadClip->setEnabled(false);
+
+    QAction *stopMotion = new KAction(KIcon("image-x-generic"), i18n("Stopmotion Animation"), this);
+    collection->addAction("stopmotion", stopMotion);
+    connect(stopMotion , SIGNAL(triggered()), this, SLOT(slotOpenStopmotion()));
 
     QMenu *addClips = new QMenu();
     addClips->addAction(addClip);
@@ -3816,6 +3826,12 @@ void MainWindow::slotSwitchMonitors()
     else m_projectList->focusTree();
 }
 
+void MainWindow::slotSwitchFullscreen()
+{
+    if (m_projectMonitor->isActive()) m_projectMonitor->slotSwitchFullScreen();
+    else m_clipMonitor->slotSwitchFullScreen();
+}
+
 void MainWindow::slotInsertZoneToTree()
 {
     if (!m_clipMonitor->isActive() || m_clipMonitor->activeClip() == NULL) return;
@@ -3931,6 +3947,15 @@ void MainWindow::slotUpdateColorScopes()
         if (m_clipMonitor->isActive()) m_clipMonitor->render->sendFrameUpdate();
         else m_projectMonitor->render->sendFrameUpdate();
     }
+}
+
+void MainWindow::slotOpenStopmotion()
+{
+    if (m_stopmotion == NULL) {
+	m_stopmotion = new StopmotionWidget(m_activeDocument->projectFolder(), this);
+	connect(m_stopmotion, SIGNAL(addOrUpdateSequence(const QString)), m_projectList, SLOT(slotAddOrUpdateSequence(const QString)));
+    }
+    m_stopmotion->show();
 }
 
 #include "mainwindow.moc"

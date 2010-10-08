@@ -28,6 +28,12 @@ Comment[sv]=Rendering påbörjades
 Comment[uk]=Розпочато обробку проекту
 Action=Popup
 
+[Event/FrameCaptured]
+Name=Frame captured
+Comment=A frame was captured to disk
+Action=Sound
+Sound=KDE-Sys-App-Positive.ogg
+
 [Event/ErrorMessage]
 Name=Error
 Name[de]=Fehler

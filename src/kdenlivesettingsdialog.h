@@ -66,6 +66,8 @@ private slots:
     void slotDeleteTranscode();
     void slotDialogModified();
     void slotEnableCaptureFolder();
+    void slotUpdateHDMIModes();
+    void slotUpdateHDMICaptureMode();
 
 private:
     KPageWidgetItem *m_page1;

@@ -100,6 +100,7 @@ kde4_add_ui_files(kdenlive_UI
   widgets/rgbparade_ui.ui
   widgets/histogram_ui.ui
   widgets/geometrywidget_ui.ui
+  widgets/stopmotion_ui.ui
 )
 
 set(kdenlive_SRCS
@@ -220,6 +221,10 @@ set(kdenlive_SRCS
   geometrywidget.cpp
   doubleparameterwidget.cpp
   audiosignal.cpp
+  blackmagic/include/DeckLinkAPIDispatch.cpp
+  blackmagic/capture.cpp
+  blackmagic/devices.cpp
+  stopmotion/stopmotion.cpp
 )
 
 

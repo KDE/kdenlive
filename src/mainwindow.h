@@ -43,6 +43,7 @@
 #include "definitions.h"
 #include "statusbarmessagelabel.h"
 #include "dvdwizard.h"
+#include "stopmotion/stopmotion.h"
 
 class KdenliveDoc;
 class TrackView;
@@ -281,6 +282,8 @@ private:
     /** @brief Populates the "load layout" menu. */
     void loadLayouts();
 
+    StopmotionWidget *m_stopmotion;
+
 public slots:
     /** @brief Prepares opening @param url.
     *
@@ -501,6 +504,10 @@ private slots:
     void slotDoUpdateScopeFrameRequest();
     /** @brief When switching between monitors, update the visible scopes. */
     void slotUpdateColorScopes();
+    /** @brief Switch current monitor to fullscreen. */
+    void slotSwitchFullscreen();
+    /** @brief Open the stopmotion dialog. */
+    void slotOpenStopmotion();
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

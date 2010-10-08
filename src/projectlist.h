@@ -262,6 +262,8 @@ private slots:
     void slotAvailableClip(const QString &id);
     /** @brief Try to find a matching profile for given item. */
     bool adjustProjectProfileToItem(ProjectItem *item = NULL);
+    /** @brief Add a sequence from the stopmotion widget. */
+    void slotAddOrUpdateSequence(const QString frameName);
     //void slotShowMenu(const QPoint &pos);
 
 signals:

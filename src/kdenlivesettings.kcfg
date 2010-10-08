@@ -613,6 +613,17 @@
       <label>Update parameters while monitor scene changes.</label>
       <default>false</default>
     </entry>
+
+    <entry name="hdmicapturedevice" type="Int">
+      <label>default HDMI capture device.</label>
+      <default>0</default>
+    </entry>
+
+    <entry name="hdmicapturemode" type="Int">
+      <label>default HDMI capture mode.</label>
+      <default>0</default>
+    </entry>
+    
   </group>
 
 </kcfg>
