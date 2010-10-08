@@ -3828,8 +3828,8 @@ void MainWindow::slotSwitchMonitors()
 
 void MainWindow::slotSwitchFullscreen()
 {
-    if (m_projectMonitor->isActive()) m_projectMonitor->slotSwitchFullScreen();
-    else m_clipMonitor->slotSwitchFullScreen();
+    /*if (m_projectMonitor->isActive()) m_projectMonitor->slotSwitchFullScreen();
+    else m_clipMonitor->slotSwitchFullScreen();*/
 }
 
 void MainWindow::slotInsertZoneToTree()
