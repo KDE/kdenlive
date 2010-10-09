@@ -55,6 +55,9 @@ private:
 
   QAction *m_captureAction;
   
+  /** @brief Holds the index of the frame to be displayed in the frame preview mode. */
+  int m_animatedIndex;
+  
 private slots:
   /** @brief Display the live feed from capture device.
    @param isOn enable or disable the feature */
@@ -83,6 +86,18 @@ private slots:
 
   /** @brief Add sequence to current project. */
   void slotAddSequence();
+
+  /** @brief Update the frame list widget with newly created frame. */
+  void slotUpdateFrameList(int ix = -1);
+  
+  /** @brief Display selected fram in monitor. */
+  void slotShowSelectedFrame();
+
+  /** @brief Start animation preview mode. */
+  void slotPlayPreview();
+  
+  /** @brief Simulate animation. */
+  void slotAnimate();
 
 signals:
   /** @brief Ask to add sequence to current project. */

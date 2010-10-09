@@ -846,12 +846,12 @@ void CaptureHandler::captureFrame(const QString &fname)
 
 void CaptureHandler::showOverlay(QImage img, bool transparent)
 {
-    previewView->showOverlay(img, transparent);
+    if (previewView) previewView->showOverlay(img, transparent);
 }
 
 void CaptureHandler::hideOverlay()
 {
-    previewView->hideOverlay();
+    if (previewView) previewView->hideOverlay();
 }
 
 void CaptureHandler::stopPreview()

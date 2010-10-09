@@ -6,31 +6,65 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>778</width>
-    <height>411</height>
+    <width>662</width>
+    <height>418</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0" colspan="12">
-    <widget class="QFrame" name="video_preview">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
+   <item row="0" column="0" colspan="10">
+    <widget class="QSplitter" name="splitter">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
      </property>
-     <property name="frameShape">
-      <enum>QFrame::NoFrame</enum>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Plain</enum>
-     </property>
-     <property name="lineWidth">
-      <number>0</number>
-     </property>
+     <widget class="QFrame" name="video_preview">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::NoFrame</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Plain</enum>
+      </property>
+      <property name="lineWidth">
+       <number>0</number>
+      </property>
+     </widget>
+     <widget class="QListWidget" name="frame_list">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>120</height>
+       </size>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="verticalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOff</enum>
+      </property>
+      <property name="horizontalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOn</enum>
+      </property>
+      <property name="movement">
+       <enum>QListView::Static</enum>
+      </property>
+      <property name="isWrapping" stdset="0">
+       <bool>false</bool>
+      </property>
+      <property name="viewMode">
+       <enum>QListView::IconMode</enum>
+      </property>
+      <property name="uniformItemSizes">
+       <bool>true</bool>
+      </property>
+     </widget>
     </widget>
    </item>
    <item row="1" column="0">
@@ -49,7 +83,7 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="2">
+   <item row="1" column="1">
     <widget class="QToolButton" name="frameoverlay_button">
      <property name="toolTip">
       <string>Overlay last frame</string>
@@ -65,7 +99,7 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="3">
+   <item row="1" column="2">
     <widget class="QToolButton" name="preview_button">
      <property name="toolTip">
       <string>Preview sequence</string>
@@ -78,7 +112,7 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="4">
+   <item row="1" column="3">
     <widget class="KLineEdit" name="sequence_name">
      <property name="sizePolicy">
       <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
@@ -94,7 +128,7 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="5">
+   <item row="1" column="4">
     <widget class="QSpinBox" name="frame_number">
      <property name="toolTip">
       <string>Frame number</string>
@@ -104,17 +138,7 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="11">
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Close</set>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="6">
+   <item row="1" column="5">
     <widget class="QToolButton" name="capture_button">
      <property name="toolTip">
       <string>Capture frame</string>
@@ -127,7 +151,7 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="7">
+   <item row="1" column="6">
     <widget class="QToolButton" name="removelast_button">
      <property name="toolTip">
       <string>Remove current frame</string>
@@ -140,7 +164,7 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="9">
+   <item row="1" column="7">
     <widget class="KComboBox" name="capture_device">
      <property name="toolTip">
       <string>Capture device</string>
@@ -151,22 +175,25 @@
     </widget>
    </item>
    <item row="1" column="8">
-    <spacer name="horizontalSpacer">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>40</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="1" column="10">
     <widget class="QPushButton" name="button_addsequence">
      <property name="text">
       <string>Add sequence to project</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="9">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Close</set>
      </property>
     </widget>
    </item>
