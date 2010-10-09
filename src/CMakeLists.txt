@@ -32,6 +32,7 @@ include_directories (
 
     ${CMAKE_SOURCE_DIR}/src/widgets
     ${CMAKE_SOURCE_DIR}/src/colorcorrection
+    ${CMAKE_SOURCE_DIR}/src/onmonitoritems
 )
 
 LINK_LIBRARIES(
@@ -225,10 +226,12 @@ set(kdenlive_SRCS
   blackmagic/capture.cpp
   blackmagic/devices.cpp
   stopmotion/stopmotion.cpp
+  onmonitoritems/onmonitorrectitem.cpp
 )
 
 
 add_subdirectory( ${CMAKE_SOURCE_DIR}/src/colorcorrection )
+add_subdirectory( ${CMAKE_SOURCE_DIR}/src/onmonitoritems )
 
 add_definitions( ${KDE4_DEFINITIONS} )
 

@@ -24,6 +24,7 @@
 #include "keyframehelper.h"
 #include "timecodedisplay.h"
 #include "monitorscene.h"
+#include "onmonitoritems/onmonitorrectitem.h"
 #include "kdenlivesettings.h"
 
 #include <QtCore>
@@ -209,15 +210,9 @@ void GeometryWidget::setupParam(const QDomElement elem, int minframe, int maxfra
 
     m_geometry->fetch(&item, 0);
     delete m_rect;
-    m_rect = new QGraphicsRectHandleItem(QRectF(0, 0, item.w(), item.h()));
+    m_rect = new OnMonitorRectItem(QRectF(0, 0, item.w(), item.h()));
     m_rect->setPos(item.x(), item.y());
     m_rect->setZValue(0);
-    m_rect->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
-
-    QPen framepen(Qt::SolidLine);
-    framepen.setColor(Qt::yellow);
-    m_rect->setPen(framepen);
-    m_rect->setBrush(Qt::transparent);
     m_scene->addItem(m_rect);
 
     slotPositionChanged(0, false);
@@ -250,14 +245,14 @@ void GeometryWidget::slotPositionChanged(int pos, bool seek)
     Mlt::GeometryItem item;
     if (m_geometry->fetch(&item, pos) || item.key() == false) {
         // no keyframe
-        m_rect->drawHandles = false;
+        m_rect->setEnabled(false);
         m_scene->setEnabled(false);
         m_ui.widgetGeometry->setEnabled(false);
         m_ui.buttonAddDelete->setIcon(KIcon("document-new"));
         m_ui.buttonAddDelete->setToolTip(i18n("Add keyframe"));
     } else {
         // keyframe
-        m_rect->drawHandles = true;
+        m_rect->setEnabled(true);
         m_scene->setEnabled(true);
         m_ui.widgetGeometry->setEnabled(true);
         m_ui.buttonAddDelete->setIcon(KIcon("edit-delete"));
