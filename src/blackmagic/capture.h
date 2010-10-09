@@ -30,7 +30,7 @@ private:
 class CaptureHandler
 {
 public:
-	CaptureHandler(QLayout *lay, QWidget *parent = 0);
+	CaptureHandler(QVBoxLayout *lay, QWidget *parent = 0);
 	~CaptureHandler();
 	CDeckLinkGLWidget *previewView;
 	void startPreview(int deviceId, int captureMode);
@@ -40,6 +40,7 @@ public:
 	void captureFrame(const QString &fname);
 	void showOverlay(QImage img, bool transparent = true);
 	void hideOverlay();
+	void hidePreview(bool hide);
 	
 private:
   	IDeckLinkIterator		*deckLinkIterator;
@@ -48,7 +49,7 @@ private:
 	IDeckLink			*deckLink;
 	IDeckLinkInput			*deckLinkInput;
 	IDeckLinkDisplayModeIterator	*displayModeIterator;
-	QLayout *m_layout;
+	QVBoxLayout *m_layout;
 	QWidget *m_parent;
 };
 

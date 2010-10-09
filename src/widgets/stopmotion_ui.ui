@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>662</width>
-    <height>418</height>
+    <width>619</width>
+    <height>434</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -81,6 +81,9 @@
      <property name="checkable">
       <bool>true</bool>
      </property>
+     <property name="autoRaise">
+      <bool>true</bool>
+     </property>
     </widget>
    </item>
    <item row="1" column="1">
@@ -97,6 +100,9 @@
      <property name="checkable">
       <bool>true</bool>
      </property>
+     <property name="autoRaise">
+      <bool>true</bool>
+     </property>
     </widget>
    </item>
    <item row="1" column="2">
@@ -109,22 +115,6 @@
      </property>
      <property name="text">
       <string>...</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="3">
-    <widget class="KLineEdit" name="sequence_name">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="toolTip">
-      <string>Sequence name</string>
-     </property>
-     <property name="whatsThis">
-      <string/>
      </property>
     </widget>
    </item>
@@ -197,14 +187,19 @@
      </property>
     </widget>
    </item>
+   <item row="1" column="3">
+    <widget class="KComboBox" name="sequence_name">
+     <property name="toolTip">
+      <string>Sequence name</string>
+     </property>
+     <property name="editable">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>KLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
-  </customwidget>
   <customwidget>
    <class>KComboBox</class>
    <extends>QComboBox</extends>

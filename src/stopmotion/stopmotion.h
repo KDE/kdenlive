@@ -22,6 +22,27 @@
 #include "../blackmagic/capture.h"
 
 #include <KUrl>
+#include <QLabel>
+
+class MyLabel : public QLabel
+{
+  Q_OBJECT
+public:
+    MyLabel(QWidget *parent = 0);
+    void setImage(QImage img);
+
+protected:
+    virtual void paintEvent( QPaintEvent * event);
+    virtual void wheelEvent(QWheelEvent * event);
+
+private:
+    QImage m_img;
+
+signals:
+    /** @brief Seek to next or previous frame.
+     *  @param forward set to true to go to next frame, fals to go to previous frame */
+    void seek(bool forward);
+};
 
 class StopmotionWidget : public QDialog , public Ui::Stopmotion_UI
 {
@@ -57,6 +78,15 @@ private:
   
   /** @brief Holds the index of the frame to be displayed in the frame preview mode. */
   int m_animatedIndex;
+
+  /** @brief Find all stopmotion sequences in current project folder. */
+  void parseExistingSequences();
+
+  /** @brief Select a frame in the list. */
+  void selectFrame(int ix);
+
+  /** @brief This widget will hold the frame preview. */
+  MyLabel *m_frame_preview;
   
 private slots:
   /** @brief Display the live feed from capture device.
@@ -98,6 +128,10 @@ private slots:
   
   /** @brief Simulate animation. */
   void slotAnimate();
+  
+  /** @brief Seek to previous or next captured frame.
+   *  @param forward set to true for next frame, false for previous one. */
+  void slotSeekFrame(bool forward);
 
 signals:
   /** @brief Ask to add sequence to current project. */

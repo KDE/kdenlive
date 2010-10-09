@@ -554,7 +554,7 @@ HRESULT DeckLinkCaptureDelegate::VideoInputFormatChanged(BMDVideoInputFormatChan
 
 
 
-CaptureHandler::CaptureHandler(QLayout *lay, QWidget *parent):
+CaptureHandler::CaptureHandler(QVBoxLayout *lay, QWidget *parent):
     m_layout(lay)
     , m_parent(parent)
     , previewView(NULL)
@@ -854,8 +854,14 @@ void CaptureHandler::hideOverlay()
     if (previewView) previewView->hideOverlay();
 }
 
+void CaptureHandler::hidePreview(bool hide)
+{
+    if (previewView) previewView->setHidden(hide);
+}
+
 void CaptureHandler::stopPreview()
 {
+    if (!previewView) return;
       if (deckLinkInput != NULL) deckLinkInput->StopStreams();
       if (videoOutputFile)
 		close(videoOutputFile);
@@ -880,11 +886,15 @@ void CaptureHandler::stopPreview()
         deckLink = NULL;
     }
 
-	if (deckLinkIterator != NULL)
-		deckLinkIterator->Release();  
+    if (deckLinkIterator != NULL) {
+	deckLinkIterator->Release();
+	deckLinkIterator = NULL;
+    }
 
-    if (previewView != NULL)
+    if (previewView != NULL) {
 	delete previewView;
+	previewView = NULL;
+    }
 
     /*if (delegate != NULL)
 	delete delegate;*/
