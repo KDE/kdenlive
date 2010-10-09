@@ -228,7 +228,8 @@ void OnMonitorRectItem::slotMouseMoved(QGraphicsSceneMouseEvent* event)
 
 void OnMonitorRectItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
-    QGraphicsRectItem::paint(painter, option, widget);
+    painter->setPen(pen());
+    painter->drawRect(option->rect);
 
     if (m_enabled) {
         double handleSize = 6 / painter->matrix().m11();
