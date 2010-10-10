@@ -124,6 +124,8 @@ void OnMonitorRectItem::slotMouseMoved(QGraphicsSceneMouseEvent* event)
         QRectF r = rect().normalized();
         QPointF p = pos();
         QPointF mousePosInRect = mapFromScene(mousePos);
+        QPointF diff = mousePos - m_clickPoint;
+        m_clickPoint = mousePos;
         switch (m_mode) {
         case ResizeTopLeft:
             if (mousePos.x() < p.x() + r.height() && mousePos.y() < p.y() + r.height()) {
@@ -186,10 +188,10 @@ void OnMonitorRectItem::slotMouseMoved(QGraphicsSceneMouseEvent* event)
             }
             break;
         case Move:
-            QPointF diff = mousePos - m_clickPoint;
-            m_clickPoint = mousePos;
             moveBy(diff.x(), diff.y());
             m_modified = true;
+            break;
+        default:
             break;
         }
     } else {
@@ -228,6 +230,8 @@ void OnMonitorRectItem::slotMouseMoved(QGraphicsSceneMouseEvent* event)
 
 void OnMonitorRectItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
+    Q_UNUSED(widget);
+
     painter->setPen(pen());
     painter->drawRect(option->rect);
 

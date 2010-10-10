@@ -1844,7 +1844,7 @@ void ProjectList::slotAddOrUpdateSequence(const QString frameName)
 	if (!existing.isEmpty()) {
 	    // Sequence already exists, update
 	    QString id = existing.at(0)->getId();
-	    ProjectItem *item = getItemById(id);
+	    //ProjectItem *item = getItemById(id);
             QMap <QString, QString> oldprops;
             QMap <QString, QString> newprops;
 	    int ttl = existing.at(0)->getProperty("ttl").toInt();

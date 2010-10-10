@@ -322,6 +322,7 @@ void	CDeckLinkGLWidget::resizeGL (int width, int height)
 
 HRESULT		CDeckLinkGLWidget::QueryInterface (REFIID iid, LPVOID *ppv)
 {
+        Q_UNUSED(iid);
 	*ppv = NULL;
 	return E_NOINTERFACE;
 }
@@ -489,6 +490,8 @@ HRESULT DeckLinkCaptureDelegate::VideoInputFrameArrived(IDeckLinkVideoInputFrame
 
 HRESULT DeckLinkCaptureDelegate::VideoInputFormatChanged(BMDVideoInputFormatChangedEvents events, IDeckLinkDisplayMode *mode, BMDDetectedVideoInputFormatFlags)
 {
+    Q_UNUSED(events);
+    Q_UNUSED(mode);
     return S_OK;
 }
 
@@ -555,15 +558,15 @@ HRESULT DeckLinkCaptureDelegate::VideoInputFormatChanged(BMDVideoInputFormatChan
 
 
 CaptureHandler::CaptureHandler(QVBoxLayout *lay, QWidget *parent):
-    m_layout(lay)
-    , m_parent(parent)
-    , previewView(NULL)
-    , deckLinkInput(NULL)
-    , displayModeIterator(NULL)
-    , deckLink(NULL)
-    , displayMode(NULL)
-    , delegate(NULL)
-    , deckLinkIterator(NULL)
+    previewView(NULL),
+    deckLinkIterator(NULL),
+    delegate(NULL),
+    displayMode(NULL),
+    deckLink(NULL),
+    deckLinkInput(NULL),
+    displayModeIterator(NULL),
+    m_layout(lay),
+    m_parent(parent)
 {
 }
 
@@ -575,9 +578,9 @@ void CaptureHandler::startPreview(int deviceId, int captureMode)
 	BMDPixelFormat				pixelFormat = bmdFormat8BitYUV;
 	int							displayModeCount = 0;
 	int							exitStatus = 1;
-	int							ch;
+	//int							ch;
 	bool 						foundDisplayMode = false;
-	HRESULT						result;
+	HRESULT						result = 1;
 
 	/*pthread_mutex_init(&sleepMutex, NULL);
 	pthread_cond_init(&sleepCond, NULL);*/

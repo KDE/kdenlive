@@ -37,7 +37,8 @@
 #include <QAction>
 #include <QWheelEvent>
 
-MyLabel::MyLabel(QWidget *parent)
+MyLabel::MyLabel(QWidget *parent) :
+        QLabel(parent)
 {
 }
 
@@ -56,6 +57,8 @@ void MyLabel::wheelEvent(QWheelEvent * event)
 //virtual
 void MyLabel::paintEvent( QPaintEvent * event)
 {
+    Q_UNUSED(event);
+
     QRect r(0, 0, width(), height());
     QPainter p(this);
     p.fillRect(r, QColor(KdenliveSettings::window_background()));

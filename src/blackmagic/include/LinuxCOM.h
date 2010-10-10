@@ -89,6 +89,7 @@ typedef void *LPVOID;
 class IUnknown
 {
     public:
+        virtual ~IUnknown() {};
     	virtual HRESULT STDMETHODCALLTYPE QueryInterface(REFIID iid, LPVOID *ppv) = 0;
     	virtual ULONG STDMETHODCALLTYPE AddRef(void) = 0;
     	virtual ULONG STDMETHODCALLTYPE Release(void) = 0;

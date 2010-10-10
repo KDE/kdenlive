@@ -90,13 +90,13 @@ void BMInterface::getBlackMagicDeviceList(KComboBox *devicelist, KComboBox *mode
 			    result = displayMode->GetName((const char **) &displayModeString);
 			    if (result == S_OK)
 			    {
-				char					modeName[64];
+				//char					modeName[64];
 				int						modeWidth;
 				int						modeHeight;
 				BMDTimeValue			frameRateDuration;
 				BMDTimeScale			frameRateScale;
-				int						pixelFormatIndex = 0; // index into the gKnownPixelFormats / gKnownFormatNames arrays
-				BMDDisplayModeSupport	displayModeSupport;
+				//int						pixelFormatIndex = 0; // index into the gKnownPixelFormats / gKnownFormatNames arrays
+				//BMDDisplayModeSupport	displayModeSupport;
 
 
 				// Obtain the display mode's properties
