@@ -23,6 +23,7 @@
 
 #include <KUrl>
 #include <QLabel>
+#include <QFuture>
 
 class MyLabel : public QLabel
 {
@@ -87,6 +88,15 @@ private:
 
   /** @brief This widget will hold the frame preview. */
   MyLabel *m_frame_preview;
+
+  /** @brief The list of files in the sequence to create thumbnails. */
+  QStringList m_filesList;
+  
+  /** @brief The index of currently created thumbnail. */
+  int m_currentIndex;
+  
+  /** @brief Holds the state of the threaded thumbnail generation. */
+  QFuture<void> m_future;
   
 private slots:
   /** @brief Display the live feed from capture device.
@@ -133,9 +143,14 @@ private slots:
    *  @param forward set to true for next frame, false for previous one. */
   void slotSeekFrame(bool forward);
 
+  void slotCreateThumbs(QImage img, int ix);
+  void slotPrepareThumbs();
+
 signals:
   /** @brief Ask to add sequence to current project. */
   void addOrUpdateSequence(const QString);
+
+  void doCreateThumbs(QImage, int);
 };
 
 #endif

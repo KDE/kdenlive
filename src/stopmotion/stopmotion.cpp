@@ -29,6 +29,7 @@
 #include <kdeversion.h>
 #include <KNotification>
 
+#include <QtConcurrentRun>
 #include <QInputDialog>
 #include <QComboBox>
 #include <QVBoxLayout>
@@ -118,7 +119,7 @@ StopmotionWidget::StopmotionWidget(KUrl projectFolder, QWidget *parent) :
     connect(button_addsequence, SIGNAL(clicked(bool)), this, SLOT(slotAddSequence()));
     connect(preview_button, SIGNAL(clicked(bool)), this, SLOT(slotPlayPreview()));
     connect(frame_list, SIGNAL(currentRowChanged(int)), this, SLOT(slotShowSelectedFrame()));
-
+    connect(this, SIGNAL(doCreateThumbs(QImage, int)), this, SLOT(slotCreateThumbs(QImage,int)));
     
     parseExistingSequences();
 }
@@ -183,6 +184,10 @@ void StopmotionWidget::slotUpdateOverlay()
 
 void StopmotionWidget::sequenceNameChanged(const QString &name)
 {
+    // Get rid of frames from previous sequence
+    disconnect(this, SIGNAL(doCreateThumbs(QImage, int)), this, SLOT(slotCreateThumbs(QImage,int)));
+    m_filesList.clear();
+    m_future.waitForFinished();
     frame_list->clear();
     if (name.isEmpty()) {
 	button_addsequence->setEnabled(false);
@@ -197,12 +202,19 @@ void StopmotionWidget::sequenceNameChanged(const QString &name)
 	int count = 0;
 	QString pattern = SlideshowClip::selectedPath(getPathForFrame(0, sequence_name->currentText()), false, QString(), &count);
 	m_sequenceFrame = count;
+	frame_number->blockSignals(true);
+	frame_number->setValue(0);
+	frame_number->blockSignals(false);
+	m_currentIndex = 0;
 	if (count > 0) {
 	    m_sequenceName = sequence_name->currentText();
 	    //TODO: Do the thumbnail stuff in a thread
 	    for (int i = 0; i < count; i++) {
-		slotUpdateFrameList(i);
+		//slotUpdateFrameList(i);
+		m_filesList.append(getPathForFrame(i));
 	    }
+	    connect(this, SIGNAL(doCreateThumbs(QImage, int)), this, SLOT(slotCreateThumbs(QImage,int)));
+	    m_future = QtConcurrent::run(this, &StopmotionWidget::slotPrepareThumbs);
 	    button_addsequence->setEnabled(true);
 	    frameoverlay_button->setEnabled(true);
 	}
@@ -211,9 +223,6 @@ void StopmotionWidget::sequenceNameChanged(const QString &name)
 	    frameoverlay_button->setEnabled(false);
 	}
 	frame_number->setRange(0, m_sequenceFrame);
-	frame_number->blockSignals(true);
-	frame_number->setValue(m_sequenceFrame);
-	frame_number->blockSignals(false);
 	capture_button->setEnabled(true);
     }
 }
@@ -245,6 +254,37 @@ void StopmotionWidget::slotCaptureFrame()
     QTimer::singleShot(1000, this, SLOT(slotUpdateFrameList()));
 }
 
+void StopmotionWidget::slotPrepareThumbs()
+{
+    if (m_filesList.isEmpty()) return;
+    QString path = m_filesList.takeFirst();
+    emit doCreateThumbs(QImage(path), m_currentIndex++);
+    
+}
+
+void StopmotionWidget::slotCreateThumbs(QImage img, int ix)
+{
+    if (img.isNull()) {
+	m_future = QtConcurrent::run(this, &StopmotionWidget::slotPrepareThumbs);
+	return;
+    }
+    int height = 90;
+    int width = height * img.width() / img.height();
+    frame_list->setIconSize(QSize(width, height));
+    QPixmap pix = QPixmap::fromImage(img).scaled(width, height);
+    QString nb = QString::number(ix);
+    QPainter p(&pix);
+    QFontInfo finfo(font());
+    p.fillRect(0, 0, finfo.pixelSize() * nb.count() + 6, finfo.pixelSize() + 6, QColor(0, 0, 0, 150));
+    p.setPen(Qt::white);
+    p.drawText(QPoint(3, finfo.pixelSize() + 3), nb);
+    p.end();
+    QIcon icon(pix);
+    QListWidgetItem *item = new QListWidgetItem(icon, QString(), frame_list);
+    item->setData(Qt::UserRole, ix);
+    m_future = QtConcurrent::run(this, &StopmotionWidget::slotPrepareThumbs);
+}
+
 void StopmotionWidget::slotUpdateFrameList(int ix)
 {
     kDebug()<< "// GET FRAME: "<<ix;
@@ -272,9 +312,7 @@ void StopmotionWidget::slotUpdateFrameList(int ix)
     p.end();
     QIcon icon(pix);
     QListWidgetItem *item = new QListWidgetItem(icon, QString(), frame_list);
-    item->setData(Qt::UserRole, path);
-    item->setData(Qt::UserRole + 1, ix);
-    item->setToolTip(path);
+    item->setData(Qt::UserRole, ix);
     capture_button->setEnabled(true);
 }
 
@@ -308,21 +346,21 @@ void StopmotionWidget::slotShowFrame(int ix)
 	    selectFrame(ix);
 	}
     }
-    else {
+    /*else {
 	slotLive(true);
 	m_frame_preview->setImage(QImage());
 	m_frame_preview->setHidden(true);
 	m_bmCapture->hideOverlay();
 	m_bmCapture->hidePreview(false);
 	capture_button->setEnabled(true);
-    }    
+    }*/   
 }
 
 void StopmotionWidget::slotShowSelectedFrame()
 {
     QListWidgetItem *item = frame_list->currentItem();
     if (item) {
-	int ix = item->data(Qt::UserRole + 1).toInt();
+	int ix = item->data(Qt::UserRole).toInt();
       	//frame_number->blockSignals(true);
 	frame_number->setValue(ix);
 	//frame_number->blockSignals(false);
@@ -344,7 +382,7 @@ void StopmotionWidget::slotPlayPreview()
     }
     QListWidgetItem *item = frame_list->currentItem();
     if (item) {
-	m_animatedIndex = item->data(Qt::UserRole + 1).toInt();
+	m_animatedIndex = item->data(Qt::UserRole).toInt();
     }
     QTimer::singleShot(200, this, SLOT(slotAnimate()));
 }
@@ -361,14 +399,14 @@ void StopmotionWidget::selectFrame(int ix)
 {
     frame_list->blockSignals(true);
     QListWidgetItem *item = frame_list->item(ix);
-    int current = item->data(Qt::UserRole + 1).toInt();
+    int current = item->data(Qt::UserRole).toInt();
     if (current == ix) {
 	frame_list->setCurrentItem(item);
     }
     else if (current < ix) {
 	for (int i = ix; i < frame_list->count(); i++) {
 	    item = frame_list->item(i);
-	    current = item->data(Qt::UserRole + 1).toInt();
+	    current = item->data(Qt::UserRole).toInt();
 	    if (current == ix) {
 		frame_list->setCurrentItem(item);
 		break;
@@ -378,7 +416,7 @@ void StopmotionWidget::selectFrame(int ix)
     else {
 	for (int i = ix; i >= 0; i--) {
 	    item = frame_list->item(i);
-	    current = item->data(Qt::UserRole + 1).toInt();
+	    current = item->data(Qt::UserRole).toInt();
 	    if (current == ix) {
 		frame_list->setCurrentItem(item);
 		break;
