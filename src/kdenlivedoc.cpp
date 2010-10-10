@@ -50,7 +50,7 @@
 
 const double DOCUMENTVERSION = 0.85;
 
-KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, QString profileName, const QPoint tracks, Render *render, KTextEdit *notes, MainWindow *parent) :
+KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, QString profileName, const QPoint tracks, Render *render, KTextEdit *notes, MainWindow *parent, KProgressDialog *progressDialog) :
     QObject(parent),
     m_autosave(NULL),
     m_url(url),
@@ -89,6 +89,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                 KMessageBox::error(parent, errorMsg);
             else {
                 parent->slotGotProgressInfo(i18n("Validating"), 0);
+                qApp->processEvents();
                 DocumentValidator validator(m_document);
                 success = validator.isProject();
                 if (!success) {
@@ -103,6 +104,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                     success = validator.validate(DOCUMENTVERSION);
                     if (success) { // Let the validator handle error messages
                         parent->slotGotProgressInfo(i18n("Check missing clips"), 0);
+                        qApp->processEvents();
                         QDomNodeList infoproducers = m_document.elementsByTagName("kdenlive_producer");
                         success = checkDocumentClips(infoproducers);
                         if (success) {
@@ -114,6 +116,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                             QDomElement customeffects = infoXml.firstChildElement("customeffects");
                             if (!customeffects.isNull() && customeffects.hasChildNodes()) {
                                 parent->slotGotProgressInfo(i18n("Importing project effects"), 0);
+                                qApp->processEvents();
                                 if (saveCustomEffects(customeffects.childNodes())) parent->slotReloadEffects();
                             }
 
@@ -155,10 +158,15 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                             QDomNodeList producers = m_document.elementsByTagName("producer");
                             const int max = producers.count();
 
-                            KProgressDialog progressDialog(parent, i18n("Loading project"), i18n("Loading project"));
-                            progressDialog.setAllowCancel(false);
-                            progressDialog.progressBar()->setMaximum(infomax - 1);
-                            progressDialog.show();
+                            if (!progressDialog) {
+                                progressDialog = new KProgressDialog(parent, i18n("Loading project"), i18n("Adding clips"));
+                                progressDialog->setAllowCancel(false);
+                            } else {
+                                progressDialog->setLabelText(i18n("Adding clips"));
+                            }
+                            progressDialog->progressBar()->setMaximum(infomax);
+                            progressDialog->show();
+                            qApp->processEvents();
 
                             for (int i = 0; i < infomax; i++) {
                                 e = infoproducers.item(i).cloneNode().toElement();
@@ -185,7 +193,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                                         break;
                                     }
                                 }
-                                progressDialog.progressBar()->setValue(i);
+                                progressDialog->progressBar()->setValue(i);
                             }
 
                             if (success) {

@@ -46,12 +46,13 @@ class MainWindow;
 class TrackInfo;
 
 class KTextEdit;
+class KProgressDialog;
 
 class KdenliveDoc: public QObject
 {
 Q_OBJECT public:
 
-    KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, QString profileName, const QPoint tracks, Render *render, KTextEdit *notes, MainWindow *parent = 0);
+    KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, QString profileName, const QPoint tracks, Render *render, KTextEdit *notes, MainWindow *parent = 0, KProgressDialog *progressDialog = 0);
     ~KdenliveDoc();
     QDomNodeList producersList();
     double fps() const;

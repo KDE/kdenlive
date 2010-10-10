@@ -96,6 +96,7 @@
 #endif /* KDE_IS_VERSION(4,3,80) */
 #include <KToolBar>
 #include <KColorScheme>
+#include <KProgressDialog>
 
 #include <QTextStream>
 #include <QTimer>
@@ -1962,7 +1963,21 @@ void MainWindow::doOpenFile(const KUrl &url, KAutoSaveFile *stale)
 {
     if (!m_timelineArea->isEnabled()) return;
     m_fileRevert->setEnabled(true);
-    KdenliveDoc *doc = new KdenliveDoc(url, KdenliveSettings::defaultprojectfolder(), m_commandStack, KdenliveSettings::default_profile(), QPoint(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks()), m_projectMonitor->render, m_notesWidget, this);
+
+    KProgressDialog progressDialog(this, i18n("Loading project"), i18n("Loading project"));
+    progressDialog.setAllowCancel(false);
+    progressDialog.progressBar()->setMaximum(4);
+    progressDialog.show();
+    progressDialog.progressBar()->setValue(0);
+    qApp->processEvents();
+
+    KdenliveDoc *doc = new KdenliveDoc(url, KdenliveSettings::defaultprojectfolder(), m_commandStack, KdenliveSettings::default_profile(), QPoint(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks()), m_projectMonitor->render, m_notesWidget, this, &progressDialog);
+
+    progressDialog.progressBar()->setValue(1);
+    progressDialog.progressBar()->setMaximum(4);
+    progressDialog.setLabelText(i18n("Loading project"));
+    qApp->processEvents();
+
     if (stale == NULL) {
         stale = new KAutoSaveFile(url, doc);
         doc->m_autosave = stale;
@@ -1973,8 +1988,16 @@ void MainWindow::doOpenFile(const KUrl &url, KAutoSaveFile *stale)
         stale->setParent(doc);
     }
     connectDocumentInfo(doc);
+
+    progressDialog.progressBar()->setValue(2);
+    qApp->processEvents();
+
     bool ok;
     TrackView *trackView = new TrackView(doc, &ok, this);
+
+    progressDialog.progressBar()->setValue(3);
+    qApp->processEvents();
+
     m_timelineArea->setCurrentIndex(m_timelineArea->addTab(trackView, KIcon("kdenlive"), doc->description()));
     if (!ok) {
         m_timelineArea->setEnabled(false);
@@ -1993,6 +2016,8 @@ void MainWindow::doOpenFile(const KUrl &url, KAutoSaveFile *stale)
     m_projectMonitor->adjustRulerSize(trackView->duration());
     m_projectMonitor->slotZoneMoved(trackView->inPoint(), trackView->outPoint());
     m_clipMonitor->refreshMonitor(true);
+
+    progressDialog.progressBar()->setValue(4);
 }
 
 void MainWindow::recoverFiles(QList<KAutoSaveFile *> staleFiles)
