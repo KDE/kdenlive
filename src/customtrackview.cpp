@@ -2669,8 +2669,8 @@ void CustomTrackView::configTracks(QList < TrackInfo > trackInfos)
         lockTrack(m_document->tracksCount() - i - 1, m_document->trackInfoAt(i).isLocked, false);
     }
 
-    QTimer::singleShot(300, this, SIGNAL(trackHeightChanged()));
     viewport()->update();
+    emit trackHeightChanged();
 }
 
 void CustomTrackView::slotSwitchTrackAudio(int ix)
