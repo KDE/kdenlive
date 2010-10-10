@@ -24,6 +24,7 @@
 #include "keyframehelper.h"
 #include "timecodedisplay.h"
 #include "monitorscene.h"
+#include "monitorscenecontrolwidget.h"
 #include "onmonitoritems/onmonitorrectitem.h"
 #include "kdenlivesettings.h"
 
@@ -123,37 +124,13 @@ GeometryWidget::GeometryWidget(Monitor* monitor, Timecode timecode, int clipPos,
         Setup of configuration controls
     */
 
-    m_ui.buttonConfig->setIcon(KIcon("system-run"));
-    m_ui.buttonConfig->setToolTip(i18n("Show/Hide settings"));
-    m_ui.groupSettings->setHidden(true);
+    m_config = new MonitorSceneControlWidget(m_scene, m_ui.frameSettings);
+    QHBoxLayout *settingsLayout = new QHBoxLayout(m_ui.frameSettings);
+    settingsLayout->addWidget(m_config);
+    settingsLayout->setContentsMargins(0, 0, 0, 0);
+    ((QGridLayout *)m_ui.widgetFirstColumn->layout())->addWidget(m_config->getShowHideButton(), 1, 2);
+    connect(m_config, SIGNAL(showScene(bool)), this, SLOT(slotShowScene(bool)));
 
-    m_ui.buttonShowScene->setIcon(KIcon("video-display"));
-    m_ui.buttonShowScene->setToolTip(i18n("Show monitor scene"));
-    m_ui.buttonDirectUpdate->setIcon(KIcon("transform-scale"));
-    m_ui.buttonDirectUpdate->setToolTip(i18n("Update parameters while monitor scene changes"));
-    m_ui.buttonDirectUpdate->setChecked(KdenliveSettings::monitorscene_directupdate());
-
-    m_ui.buttonZoomFit->setIcon(KIcon("zoom-fit-best"));
-    m_ui.buttonZoomFit->setToolTip(i18n("Fit zoom to monitor size"));
-    m_ui.buttonZoomOriginal->setIcon(KIcon("zoom-original"));
-    m_ui.buttonZoomOriginal->setToolTip(i18n("Original size"));
-    m_ui.buttonZoomIn->setIcon(KIcon("zoom-in"));
-    m_ui.buttonZoomIn->setToolTip(i18n("Zoom in"));
-    m_ui.buttonZoomOut->setIcon(KIcon("zoom-out"));
-    m_ui.buttonZoomOut->setToolTip(i18n("Zoom out"));
-
-    connect(m_ui.buttonConfig, SIGNAL(toggled(bool)), m_ui.groupSettings, SLOT(setVisible(bool)));
-
-    connect(m_ui.sliderZoom, SIGNAL(valueChanged(int)), m_scene, SLOT(slotZoom(int)));
-    connect(m_scene, SIGNAL(zoomChanged(int)), m_ui.sliderZoom, SLOT(setValue(int)));
-    connect(m_ui.buttonZoomFit,      SIGNAL(clicked()), m_scene, SLOT(slotZoomFit()));
-    connect(m_ui.buttonZoomOriginal, SIGNAL(clicked()), m_scene, SLOT(slotZoomOriginal()));
-    connect(m_ui.buttonZoomIn,       SIGNAL(clicked()), m_scene, SLOT(slotZoomIn()));
-    connect(m_ui.buttonZoomOut,      SIGNAL(clicked()), m_scene, SLOT(slotZoomOut()));
-    m_scene->slotZoomFit();
-
-    connect(m_ui.buttonShowScene, SIGNAL(toggled(bool)), this, SLOT(slotShowScene(bool)));
-    connect(m_ui.buttonDirectUpdate, SIGNAL(toggled(bool)), m_scene, SLOT(slotSetDirectUpdate(bool)));
 
 
     connect(m_scene, SIGNAL(actionFinished()), this, SLOT(slotUpdateGeometry()));
@@ -168,6 +145,7 @@ GeometryWidget::~GeometryWidget()
     delete m_timeline;
     m_scene->removeItem(m_rect);
     delete m_geometry;
+    delete m_config;
     if (m_monitor)
         m_monitor->slotEffectScene(false);
 }

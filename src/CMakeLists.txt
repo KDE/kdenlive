@@ -102,6 +102,7 @@ kde4_add_ui_files(kdenlive_UI
   widgets/histogram_ui.ui
   widgets/geometrywidget_ui.ui
   widgets/stopmotion_ui.ui
+  widgets/monitorscenecontrolwidget_ui.ui
 )
 
 set(kdenlive_SRCS
@@ -227,6 +228,7 @@ set(kdenlive_SRCS
   blackmagic/devices.cpp
   stopmotion/stopmotion.cpp
   onmonitoritems/onmonitorrectitem.cpp
+  monitorscenecontrolwidget.cpp
 )
 
 
