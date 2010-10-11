@@ -346,7 +346,7 @@ void RenderWidget::slotSaveProfile()
     QString dest = ui.destination_list->itemData(ui.destination_list->currentIndex(), Qt::UserRole).toString();
 
     QString customGroup = m_view.format_list->currentItem()->text();
-    if (customGroup.isEmpty()) customGroup = i18n("Custom");
+    if (customGroup.isEmpty()) customGroup = i18nc("Group Name", "Custom");
     ui.group_name->setText(customGroup);
 
     ui.parameters->setText(m_view.advanced_params->toPlainText());
@@ -356,7 +356,7 @@ void RenderWidget::slotSaveProfile()
     if (d->exec() == QDialog::Accepted && !ui.profile_name->text().simplified().isEmpty()) {
         QString newProfileName = ui.profile_name->text().simplified();
         QString newGroupName = ui.group_name->text().simplified();
-        if (newGroupName.isEmpty()) newGroupName = i18n("Custom");
+        if (newGroupName.isEmpty()) newGroupName = i18nc("Group Name", "Custom");
         QString newMetaGroupId = ui.destination_list->itemData(ui.destination_list->currentIndex(), Qt::UserRole).toString();
 
         QDomDocument doc;
@@ -449,7 +449,7 @@ void RenderWidget::slotCopyToFavorites()
     QDomDocument doc;
     QDomElement profileElement = doc.createElement("profile");
     profileElement.setAttribute("name", currentProfile);
-    profileElement.setAttribute("category", i18n("Custom"));
+    profileElement.setAttribute("category", i18nc("Category Name", "Custom"));
     profileElement.setAttribute("destinationid", "favorites");
     profileElement.setAttribute("extension", extension);
     profileElement.setAttribute("args", params);
@@ -479,7 +479,7 @@ void RenderWidget::slotEditProfile()
     QString dest = ui.destination_list->itemData(ui.destination_list->currentIndex(), Qt::UserRole).toString();
 
     QString customGroup = m_view.format_list->currentItem()->text();
-    if (customGroup.isEmpty()) customGroup = i18n("Custom");
+    if (customGroup.isEmpty()) customGroup = i18nc("Group Name", "Custom");
     ui.group_name->setText(customGroup);
 
     ui.profile_name->setText(currentProfile);
@@ -515,7 +515,7 @@ void RenderWidget::slotEditProfile()
 
         QString newProfileName = ui.profile_name->text().simplified();
         QString newGroupName = ui.group_name->text().simplified();
-        if (newGroupName.isEmpty()) newGroupName = i18n("Custom");
+        if (newGroupName.isEmpty()) newGroupName = i18nc("Group Name", "Custom");
         QString newMetaGroupId = ui.destination_list->itemData(ui.destination_list->currentIndex(), Qt::UserRole).toString();
         QDomNodeList profilelist = doc.elementsByTagName("profile");
         int i = 0;
@@ -1284,7 +1284,7 @@ void RenderWidget::parseFile(QString exportFile, bool editable)
             newdoc.appendChild(newprofiles);
             QDomNodeList profilelist = doc.elementsByTagName("profile");
             for (int i = 0; i < profilelist.count(); i++) {
-                QString category = i18n("Custom");
+                QString category = i18nc("Category Name", "Custom");
                 QString extension;
                 QDomNode parent = profilelist.at(i).parentNode();
                 if (!parent.isNull()) {
@@ -1329,7 +1329,7 @@ void RenderWidget::parseFile(QString exportFile, bool editable)
                 params = params.replace("aac", "libfaac");
             }
 
-            QString category = profile.attribute("category", i18n("Custom"));
+            QString category = profile.attribute("category", i18nc("Category Name", "Custom"));
             QString dest = profile.attribute("destinationid");
             QString prof_extension = profile.attribute("extension");
             if (!prof_extension.isEmpty()) extension = prof_extension;
@@ -1409,7 +1409,7 @@ void RenderWidget::parseFile(QString exportFile, bool editable)
                 m_view.destination_list->addItem(icon, i18n(metagroupName.toUtf8().data()), metagroupId);
             }
         }
-        groupName = documentElement.attribute("name", i18n("Custom"));
+        groupName = documentElement.attribute("name", i18nc("Attribute Name", "Custom"));
         extension = documentElement.attribute("extension", QString());
         renderer = documentElement.attribute("renderer", QString());
         bool exists = false;

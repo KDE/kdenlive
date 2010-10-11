@@ -735,7 +735,7 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
                 desc.appendChild(ret.createTextNode(i18n("Applies a stationary transition between the current and next frames.")));
 
                 paramList.append(quickParameterFill(ret, i18n("Softness"), "softness", "double", "0", "0", "100", "", "", "100"));
-                paramList.append(quickParameterFill(ret, i18n("Invert"), "invert", "bool", "0", "0", "1"));
+                paramList.append(quickParameterFill(ret, i18nc("@property: means that the image is inverted", "Invert"), "invert", "bool", "0", "0", "1"));
                 paramList.append(quickParameterFill(ret, i18n("Image File"), "resource", "list", "", "", "", imagefiles.join(","), imagenamelist.join(",")));
                 paramList.append(quickParameterFill(ret, i18n("Reverse Transition"), "reverse", "bool", "0", "0", "1"));
                 //thumbnailer.prepareThumbnailsCall(imagelist);
@@ -796,7 +796,7 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
     }
 
     // Add some virtual transitions.
-    QString slidetrans = "<ktransition tag=\"composite\" id=\"slide\"><name>" + i18n("Slide") + "</name><description>" + i18n("Slide image from one side to another.") + "</description><parameter tag=\"geometry\" type=\"wipe\" default=\"-100%,0%:100%x100%;-1=0%,0%:100%x100%\" name=\"geometry\"><name>" + i18n("Direction") + "</name>                                               </parameter><parameter tag=\"aligned\" default=\"0\" type=\"bool\" name=\"aligned\" ><name>" + i18n("Align") + "</name></parameter><parameter tag=\"progressive\" default=\"1\" type=\"bool\" name=\"progressive\" ><name>" + i18n("Force Progressive Rendering") + "</name></parameter><parameter tag=\"deinterlace\" default=\"0\" type=\"bool\" name=\"deinterlace\" ><name>" + i18n("Force Deinterlace Overlay") + "</name></parameter><parameter tag=\"invert\" default=\"0\" type=\"bool\" name=\"invert\" ><name>" + i18n("Invert") + "</name></parameter></ktransition>";
+    QString slidetrans = "<ktransition tag=\"composite\" id=\"slide\"><name>" + i18n("Slide") + "</name><description>" + i18n("Slide image from one side to another.") + "</description><parameter tag=\"geometry\" type=\"wipe\" default=\"-100%,0%:100%x100%;-1=0%,0%:100%x100%\" name=\"geometry\"><name>" + i18n("Direction") + "</name>                                               </parameter><parameter tag=\"aligned\" default=\"0\" type=\"bool\" name=\"aligned\" ><name>" + i18n("Align") + "</name></parameter><parameter tag=\"progressive\" default=\"1\" type=\"bool\" name=\"progressive\" ><name>" + i18n("Force Progressive Rendering") + "</name></parameter><parameter tag=\"deinterlace\" default=\"0\" type=\"bool\" name=\"deinterlace\" ><name>" + i18n("Force Deinterlace Overlay") + "</name></parameter><parameter tag=\"invert\" default=\"0\" type=\"bool\" name=\"invert\" ><name>" + i18nc("@property: means that the image is inverted", "Invert") + "</name></parameter></ktransition>";
     QDomDocument ret;
     ret.setContent(slidetrans);
     transitions->append(ret.documentElement());

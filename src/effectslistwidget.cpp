@@ -103,7 +103,7 @@ void EffectsListWidget::initList()
     for (int i = 0; i < topLevelItemCount(); i++) {
         topLevelItem(i)->takeChildren();
         QString currentName = topLevelItem(i)->text(0);
-        if (currentName != i18n("Misc") && currentName != i18n("Audio") && currentName != i18n("Custom") && !folderNames.contains(currentName)) {
+        if (currentName != i18n("Misc") && currentName != i18n("Audio") && currentName != i18nc("Folder Name", "Custom") && !folderNames.contains(currentName)) {
             takeTopLevelItem(i);
             i--;
         }
@@ -142,9 +142,9 @@ void EffectsListWidget::initList()
         insertTopLevelItem(0, audio);
     }
 
-    QTreeWidgetItem *custom = findFolder(i18n("Custom"));
+    QTreeWidgetItem *custom = findFolder(i18nc("Folder Name", "Custom"));
     if (custom == NULL) {
-        custom = new QTreeWidgetItem((QTreeWidget*)0, QStringList(i18n("Custom")));
+        custom = new QTreeWidgetItem((QTreeWidget*)0, QStringList(i18nc("Folder Name", "Custom")));
         custom->setIcon(0, folderIcon);
         custom->setData(0, TypeRole, QString::number((int) EFFECT_FOLDER));
         custom->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
