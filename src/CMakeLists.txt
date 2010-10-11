@@ -248,6 +248,11 @@ if (APPLE OR OPENGL_FOUND)
   set(kdenlive_SRCS videoglwidget.cpp ${kdenlive_SRCS})
 endif (APPLE OR OPENGL_FOUND)
 
+
+# Add libdl
+find_library( DL_LIB NAMES ${CMAKE_DL_LIBS} )
+MESSAGE( STATUS "using dl library: ${DL_LIB}" )
+
 kde4_add_kcfg_files(kdenlive_SRCS kdenlivesettings.kcfgc )
 QT4_ADD_DBUS_ADAPTOR(kdenlive_SRCS org.kdenlive.MainWindow.xml mainwindow.h MainWindow)
 kde4_add_executable(kdenlive ${kdenlive_SRCS} ${kdenlive_UI})
@@ -267,6 +272,7 @@ target_link_libraries(kdenlive
   ${optional_libs}
   ${KDE4_KNOTIFYCONFIG_LIBRARY}
   ${KDE4_KROSSUI_LIBS}
+  ${CMAKE_DL_LIBS}
 )
 
 if (Q_WS_X11)
