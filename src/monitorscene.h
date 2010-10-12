@@ -43,9 +43,6 @@ public:
     /** @brief Makes the background frame fit again after the profile changed (and therefore the resolution might have changed). */
     void resetProfile();
 
-    /** @brief Adds an item to the scene and connects mouse events + change signals if it is a onmonitor item. */
-    void addItem(QGraphicsItem *item);
-
 protected:
     /** @brief Emits signal mousePressed to be used in onmonitor items. */
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);

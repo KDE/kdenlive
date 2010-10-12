@@ -39,7 +39,7 @@ public:
     rectActions getMode(QPoint pos);
     
     /*enum { Type = UserType + 1};
-    /** @brief Reimplemented to make sure casting works. * /
+    / ** @brief Reimplemented to make sure casting works. * /
     int type() const;*/
 
     /** @brief Reimplemented to draw the handles. */

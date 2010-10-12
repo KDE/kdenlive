@@ -139,20 +139,6 @@ void MonitorScene::slotZoomIn()
     slotZoom(qMin(300, newzoom));
 }
 
-void MonitorScene::addItem(QGraphicsItem* item)
-{
-    QGraphicsScene::addItem(item);
-
-    /*OnMonitorRectItem *rect = qgraphicsitem_cast<OnMonitorRectItem*>(item);
-    if (rect) {
-        connect(this, SIGNAL(mousePressed(QGraphicsSceneMouseEvent*)), rect, SLOT(slotMousePressed(QGraphicsSceneMouseEvent*)));
-        connect(this, SIGNAL(mouseReleased(QGraphicsSceneMouseEvent*)), rect, SLOT(slotMouseReleased(QGraphicsSceneMouseEvent*)));
-        connect(this, SIGNAL(mouseMoved(QGraphicsSceneMouseEvent*)), rect, SLOT(slotMouseMoved(QGraphicsSceneMouseEvent*)));
-        connect(rect, SIGNAL(actionFinished()), this, SIGNAL(actionFinished()));
-        connect(rect, SIGNAL(setCursor(const QCursor &)), this, SLOT(slotSetCursor(const QCursor &)));
-    }*/
-}
-
 void MonitorScene::slotSetCursor(const QCursor &cursor)
 {
     if (m_view)
@@ -164,7 +150,7 @@ void MonitorScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     emit mousePressed(event);
 
-    if (!event->isAccepted() && m_enabled)
+    if (!event->isAccepted())
         QGraphicsScene::mousePressEvent(event);
 }
 
@@ -172,7 +158,7 @@ void MonitorScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
     emit mouseMoved(event);
 
-    if (!event->isAccepted() && m_enabled)
+    if (!event->isAccepted())
         QGraphicsScene::mouseMoveEvent(event);
 }
 
@@ -180,7 +166,7 @@ void MonitorScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     emit mouseReleased(event);
 
-    if (!event->isAccepted() && m_enabled)
+    if (!event->isAccepted())
         QGraphicsScene::mouseReleaseEvent(event);
 }
 

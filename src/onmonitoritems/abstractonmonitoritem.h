@@ -32,7 +32,7 @@ class AbstractOnMonitorItem : public QObject
     Q_OBJECT
 public:
     AbstractOnMonitorItem(MonitorScene *scene);
-    //virtual ~AbstractOnMonitorItem() = 0;
+    virtual ~AbstractOnMonitorItem() {};
 
 protected slots:
     virtual void slotMousePressed(QGraphicsSceneMouseEvent *event) = 0;
@@ -46,7 +46,6 @@ protected:
 signals:
     void actionFinished();
     void requestCursor(const QCursor &);
-    //void modified();
 };
 
 #endif
