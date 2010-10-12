@@ -10,8 +10,9 @@
 class CDeckLinkGLWidget;
 class PlaybackDelegate;
 
-class DeckLinkCaptureDelegate : public IDeckLinkInputCallback
+class DeckLinkCaptureDelegate : public QObject, public IDeckLinkInputCallback
 {
+Q_OBJECT
 public:
 	DeckLinkCaptureDelegate();
 	virtual ~DeckLinkCaptureDelegate();
@@ -25,17 +26,21 @@ public:
 private:
 	ULONG				m_refCount;
 	pthread_mutex_t		m_mutex;
+signals:
+	void gotTimeCode(ulong);
+	void gotMessage(const QString &);
 };
 
-class CaptureHandler
+class CaptureHandler : public QObject
 {
+  Q_OBJECT
 public:
 	CaptureHandler(QVBoxLayout *lay, QWidget *parent = 0);
 	~CaptureHandler();
 	CDeckLinkGLWidget *previewView;
 	void startPreview(int deviceId, int captureMode);
 	void stopPreview();
-	void startCapture();
+	void startCapture(const QString &path);
 	void stopCapture();
 	void captureFrame(const QString &fname);
 	void showOverlay(QImage img, bool transparent = true);
@@ -51,6 +56,10 @@ private:
 	IDeckLinkDisplayModeIterator	*displayModeIterator;
 	QVBoxLayout *m_layout;
 	QWidget *m_parent;
+
+signals:
+	void gotTimeCode(ulong);
+	void gotMessage(const QString &);
 };
 
 

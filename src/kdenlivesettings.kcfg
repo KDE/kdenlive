@@ -623,6 +623,17 @@
       <label>default HDMI capture mode.</label>
       <default>0</default>
     </entry>
+
+    <entry name="hdmifilename" type="String">
+      <label>default HDMI capture filename.</label>
+      <default>capture</default>
+    </entry>
+
+    <entry name="hdmicaptureaudio" type="Bool">
+      <label>Should we capture HDMI audio.</label>
+      <default>true</default>
+    </entry>
+    
     
   </group>
 

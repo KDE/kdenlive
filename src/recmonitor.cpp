@@ -50,15 +50,15 @@ RecMonitor::RecMonitor(QString name, QWidget *parent) :
     m_isActive(false),
     m_isCapturing(false),
     m_didCapture(false),
-    m_isPlaying(false)
+    m_isPlaying(false),
+    m_bmCapture(NULL),
+    m_hdmiCapturing(false)
 {
     setupUi(this);
 
     video_frame->setAttribute(Qt::WA_PaintOnScreen);
     device_selector->setCurrentIndex(KdenliveSettings::defaultcapture());
     connect(device_selector, SIGNAL(currentIndexChanged(int)), this, SLOT(slotVideoDeviceChanged(int)));
-
-
 
     QToolBar *toolbar = new QToolBar(name, this);
     QHBoxLayout *layout = new QHBoxLayout;
@@ -92,8 +92,12 @@ RecMonitor::RecMonitor(QString name, QWidget *parent) :
     configAction->setCheckable(false);
 
     layout->addWidget(toolbar);
-
+    layout->addWidget(&m_logger);
     layout->addWidget(&m_dvinfo);
+    m_logger.setMaxCount(10);
+    m_logger.setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    m_logger.setFrame(false);
+    //m_logger.setInsertPolicy(QComboBox::InsertAtTop);
 
 #if KDE_IS_VERSION(4,2,0)
     m_freeSpace = new KCapacityBar(KCapacityBar::DrawTextInline, this);
@@ -179,6 +183,12 @@ void RecMonitor::slotUpdateCaptureFolder(const QString currentProjectFolder)
 
 void RecMonitor::slotVideoDeviceChanged(int ix)
 {
+    QString capturefile;
+    QString capturename;
+    m_fwdAction->setVisible(ix != HDMI);
+    m_discAction->setVisible(ix != HDMI);
+    m_rewAction->setVisible(ix != HDMI);
+    m_logger.setVisible(ix == HDMI);
     switch (ix) {
     case SCREENGRAB:
         m_discAction->setEnabled(false);
@@ -204,6 +214,21 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
         m_playAction->setEnabled(true);
         checkDeviceAvailability();
         break;
+    case HDMI:
+	createHDMIDevice();
+        m_recAction->setEnabled(false);
+        m_stopAction->setEnabled(false);
+        m_playAction->setEnabled(true);
+	video_capture->setHidden(true);
+	video_frame->setHidden(false);
+
+	capturefile = m_capturePath;
+        if (!capturefile.endsWith("/")) capturefile.append("/");
+	capturename = KdenliveSettings::hdmifilename();
+	capturename.append("xxx.raw");
+        capturefile.append(capturename);	    
+	video_frame->setPixmap(mergeSideBySide(KIcon("camera-photo").pixmap(QSize(50, 50)), i18n("Plug your camcorder and\npress play button\nto start preview.\nFiles will be saved in:\n%1", capturefile)));
+	break;
     default: // FIREWIRE
         m_discAction->setEnabled(true);
         m_recAction->setEnabled(false);
@@ -219,9 +244,9 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
             else KdenliveSettings::setDvgrab_path(dvgrabpath);
         } else {
             // Show capture info
-            QString capturefile = m_capturePath;
+            capturefile = m_capturePath;
             if (!capturefile.endsWith("/")) capturefile.append("/");
-            QString capturename = KdenliveSettings::dvgrabfilename();
+            capturename = KdenliveSettings::dvgrabfilename();
             if (capturename.isEmpty()) capturename = "capture";
             QString extension;
             switch (KdenliveSettings::firewireformat()) {
@@ -242,6 +267,28 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
         }
         break;
     }
+}
+
+void RecMonitor::createHDMIDevice()
+{
+	//video_capture->setVisible(true);
+	if (m_bmCapture == NULL) {
+	    QVBoxLayout *lay = new QVBoxLayout;
+	    m_bmCapture = new CaptureHandler(lay);
+	    connect(m_bmCapture, SIGNAL(gotTimeCode(ulong)), this, SLOT(slotGotHDMIFrameNumber(ulong)));
+	    connect(m_bmCapture, SIGNAL(gotMessage(const QString &)), this, SLOT(slotGotHDMIMessage(const QString &)));
+	    video_capture->setLayout(lay);
+	}
+}
+
+void RecMonitor::slotGotHDMIFrameNumber(ulong ix)
+{
+    m_dvinfo.setText(QString::number(ix));
+}
+
+void RecMonitor::slotGotHDMIMessage(const QString &message)
+{
+    m_logger.insertItem(0, message);
 }
 
 QPixmap RecMonitor::mergeSideBySide(const QPixmap& pix, const QString txt)
@@ -320,6 +367,14 @@ void RecMonitor::slotStopCapture()
         m_captureProcess->write("q\n", 3);
         QTimer::singleShot(1000, m_captureProcess, SLOT(kill()));
         break;
+    case HDMI:
+	video_capture->setHidden(true);
+	video_frame->setHidden(false);
+	m_bmCapture->stopPreview();
+	m_playAction->setEnabled(true);
+	m_stopAction->setEnabled(false);
+	m_recAction->setEnabled(false);
+	break;
     default:
         break;
     }
@@ -398,11 +453,19 @@ void RecMonitor::slotStartCapture(bool play)
         kDebug() << "Capture: Running ffmpeg " << m_captureArgs.join(" ");
         m_captureProcess->start("ffmpeg", m_captureArgs);
         break;
+    case HDMI:
+	video_capture->setVisible(true);
+	video_frame->setHidden(true);
+	m_bmCapture->startPreview(KdenliveSettings::hdmicapturedevice(), KdenliveSettings::hdmicapturemode());
+	m_playAction->setEnabled(false);
+	m_stopAction->setEnabled(true);
+	m_recAction->setEnabled(true);
+	break;
     default:
         break;
     }
 
-    if (device_selector->currentIndex() != SCREENGRAB) {
+    if (device_selector->currentIndex() == FIREWIRE || device_selector->currentIndex() == VIDEO4LINUX) {
         kDebug() << "Capture: Running ffplay " << m_displayArgs.join(" ");
         m_displayProcess->start("ffplay", m_displayArgs);
         video_frame->setText(i18n("Initialising..."));
@@ -413,6 +476,23 @@ void RecMonitor::slotStartCapture(bool play)
 
 void RecMonitor::slotRecord()
 {
+    if (device_selector->currentIndex() == HDMI) {
+	if (m_hdmiCapturing) {
+	    // We are capturing, stop it
+	    m_bmCapture->stopCapture();
+	    m_hdmiCapturing = false;
+	}
+	else {
+	    // Start capture, get capture filename first
+	    QString path = m_capturePath;
+	    if (!path.endsWith("/")) path.append("/");
+	    path.append(KdenliveSettings::hdmifilename());
+	    m_bmCapture->startCapture(path);
+	    m_hdmiCapturing = true;
+	}
+	return;
+    }
+  
     if (m_captureProcess->state() == QProcess::NotRunning && device_selector->currentIndex() == FIREWIRE) {
         slotStartCapture();
     }

@@ -143,7 +143,13 @@ private slots:
    *  @param forward set to true for next frame, false for previous one. */
   void slotSeekFrame(bool forward);
 
+  /** @brief Display warning / error message from capture backend. */
+  void slotGotHDMIMessage(const QString &message);
+
+  /** @brief Create thumbnails for existing sequence frames. */
   void slotCreateThumbs(QImage img, int ix);
+
+  /** @brief Prepare thumbnails creation. */
   void slotPrepareThumbs();
 
 signals:

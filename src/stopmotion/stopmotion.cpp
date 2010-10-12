@@ -105,6 +105,7 @@ StopmotionWidget::StopmotionWidget(KUrl projectFolder, QWidget *parent) :
     BMInterface::getBlackMagicDeviceList(capture_device, NULL);
     QVBoxLayout *lay = new QVBoxLayout;
     m_bmCapture = new CaptureHandler(lay);
+    connect(m_bmCapture, SIGNAL(gotMessage(const QString &)), this, SLOT(slotGotHDMIMessage(const QString &)));
     m_frame_preview = new MyLabel(this);
     connect(m_frame_preview, SIGNAL(seek(bool)), this, SLOT(slotSeekFrame(bool)));
     lay->addWidget(m_frame_preview);
@@ -127,6 +128,11 @@ StopmotionWidget::StopmotionWidget(KUrl projectFolder, QWidget *parent) :
 StopmotionWidget::~StopmotionWidget()
 {
     m_bmCapture->stopPreview();
+}
+
+void StopmotionWidget::slotGotHDMIMessage(const QString &message)
+{
+    log_box->insertItem(0, message);
 }
 
 void StopmotionWidget::parseExistingSequences()

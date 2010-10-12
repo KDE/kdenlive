@@ -45,6 +45,7 @@
 #endif
 
 #include <KDebug>
+#include <KLocale>
 
 #include "capture.h"
 #include "kdenlivesettings.h"
@@ -58,8 +59,6 @@ static BMDTimecodeFormat		g_timecodeFormat = 0;
 static int						g_videoModeIndex = -1;
 static int						g_audioChannels = 2;
 static int						g_audioSampleDepth = 16;
-const char *					g_videoOutputFile = NULL;
-const char *					g_audioOutputFile = NULL;
 static int						g_maxFrames = -1;
 static QString 					doCaptureFrame;
 static double 				g_aspect_ratio = 16.0 / 9.0;
@@ -416,6 +415,7 @@ HRESULT DeckLinkCaptureDelegate::VideoInputFrameArrived(IDeckLinkVideoInputFrame
 
 		if (videoFrame->GetFlags() & bmdFrameHasNoInputSource)
 		{
+			emit gotMessage(i18n("Frame (%1) - No input signal", frameCount));
 			fprintf(stderr, "Frame received (#%lu) - No input signal detected\n", frameCount);
 		}
 		else
@@ -429,7 +429,8 @@ HRESULT DeckLinkCaptureDelegate::VideoInputFrameArrived(IDeckLinkVideoInputFrame
 					timecode->GetString(&timecodeString);
 				}
 			}
-
+			// There seems to be No timecode with HDMI... Using frame number
+			emit gotTimeCode(frameCount);
 			/*fprintf(stderr, "Frame received (#%lu) [%s] - %s - Size: %li bytes\n",
 				frameCount,
 				timecodeString != NULL ? timecodeString : "No timecode",
@@ -588,6 +589,7 @@ void CaptureHandler::startPreview(int deviceId, int captureMode)
 
 	if (!deckLinkIterator)
 	{
+		emit gotMessage(i18n("This application requires the DeckLink drivers installed."));
 		fprintf(stderr, "This application requires the DeckLink drivers installed.\n");
 		stopCapture();
 		return;
@@ -599,6 +601,7 @@ void CaptureHandler::startPreview(int deviceId, int captureMode)
 	if (result != S_OK)
 	{
 		fprintf(stderr, "No DeckLink PCI cards found.\n");
+		emit gotMessage(i18n("No DeckLink PCI cards found."));
 		stopCapture();
 		return;
 	}
@@ -610,6 +613,8 @@ void CaptureHandler::startPreview(int deviceId, int captureMode)
 	}
 
 	delegate = new DeckLinkCaptureDelegate();
+	connect(delegate, SIGNAL(gotTimeCode(ulong)), this, SIGNAL(gotTimeCode(ulong)));
+	connect(delegate, SIGNAL(gotMessage(const QString &)), this, SIGNAL(gotMessage(const QString &)));
 	deckLinkInput->SetCallback(delegate);
 
 	previewView = new CDeckLinkGLWidget(deckLinkInput, m_parent);
@@ -622,6 +627,7 @@ void CaptureHandler::startPreview(int deviceId, int captureMode)
 	result = deckLinkInput->GetDisplayModeIterator(&displayModeIterator);
 	if (result != S_OK)
 	{
+	  	emit gotMessage(i18n("Could not obtain the video output display mode iterator - result = ", result));
 		fprintf(stderr, "Could not obtain the video output display mode iterator - result = %08x\n", result);
 		stopCapture();
 		return;
@@ -701,16 +707,18 @@ void CaptureHandler::startPreview(int deviceId, int captureMode)
 
 	if (g_videoModeIndex < 0)
 	{
+		emit gotMessage(i18n("No video mode specified"));
 		fprintf(stderr, "No video mode specified\n");
 		stopCapture();
 		return;
 	}
-	//g_videoOutputFile="/home/one/bm.raw";
-	if (g_videoOutputFile != NULL)
+
+	/*if (g_videoOutputFile != NULL)
 	{
 		videoOutputFile = open(g_videoOutputFile, O_WRONLY|O_CREAT|O_TRUNC, 0664);
 		if (videoOutputFile < 0)
 		{
+			emit gotMessage(i18n("Could not open video output file %1", g_videoOutputFile));
 			fprintf(stderr, "Could not open video output file \"%s\"\n", g_videoOutputFile);
    stopCapture();
 		}
@@ -720,10 +728,11 @@ void CaptureHandler::startPreview(int deviceId, int captureMode)
 		audioOutputFile = open(g_audioOutputFile, O_WRONLY|O_CREAT|O_TRUNC, 0664);
 		if (audioOutputFile < 0)
 		{
+		    emit gotMessage(i18n("Could not open audio output file %1", g_audioOutputFile));
 			fprintf(stderr, "Could not open audio output file \"%s\"\n", g_audioOutputFile);
    stopCapture();
 		}
-	}
+	}*/
 
 	while (displayModeIterator->Next(&displayMode) == S_OK)
 	{
@@ -742,6 +751,7 @@ void CaptureHandler::startPreview(int deviceId, int captureMode)
 
 			if (result == bmdDisplayModeNotSupported)
 			{
+				emit gotMessage(i18n("The display mode %1 is not supported with the selected pixel format", displayModeName));
 				fprintf(stderr, "The display mode %s is not supported with the selected pixel format\n", displayModeName);
 				stopCapture();
 				return;
@@ -751,6 +761,7 @@ void CaptureHandler::startPreview(int deviceId, int captureMode)
 			{
 				if (!(displayMode->GetFlags() & bmdDisplayModeSupports3D))
 				{
+					emit gotMessage(i18n("The display mode %1 is not supported with 3D", displayModeName));
 					fprintf(stderr, "The display mode %s is not supported with 3D\n", displayModeName);
 					stopCapture();
 					return;
@@ -765,6 +776,7 @@ void CaptureHandler::startPreview(int deviceId, int captureMode)
 
 	if (!foundDisplayMode)
 	{
+		emit gotMessage(i18n("Invalid mode %1 specified", g_videoModeIndex));
 		fprintf(stderr, "Invalid mode %d specified\n", g_videoModeIndex);
 		stopCapture();
 		return;
@@ -773,6 +785,7 @@ void CaptureHandler::startPreview(int deviceId, int captureMode)
     result = deckLinkInput->EnableVideoInput(selectedDisplayMode, pixelFormat, inputFlags);
     if(result != S_OK)
     {
+		emit gotMessage(i18n("Failed to enable video input. Is another application using the card?"));
 		fprintf(stderr, "Failed to enable video input. Is another application using the card?\n");
 		stopCapture();
 		return;
@@ -789,6 +802,7 @@ void CaptureHandler::startPreview(int deviceId, int captureMode)
     if(result != S_OK)
     {
         qDebug()<<"/// CAPTURE FAILED....";
+	emit gotMessage(i18n("Capture failed"));
     }
 
 	// All Okay.
@@ -834,12 +848,42 @@ CaptureHandler::~CaptureHandler()
     stopCapture();
 }
 
-void CaptureHandler::startCapture()
+void CaptureHandler::startCapture(const QString &path)
 {
+    int i = 0;
+    QString videopath = path + "_video_" + QString::number(i).rightJustified(4, '0', false) + ".raw";
+    QString audiopath = path + "_audio_" + QString::number(i).rightJustified(4, '0', false) + ".raw";
+    while (QFile::exists(videopath) || QFile::exists(audiopath)) {
+	i++;
+	videopath = path + "_video_" + QString::number(i).rightJustified(4, '0', false) + ".raw";
+	audiopath = path + "_audio_" + QString::number(i).rightJustified(4, '0', false) + ".raw";
+    }
+    videoOutputFile = open(videopath.toUtf8().constData(), O_WRONLY|O_CREAT|O_TRUNC, 0664);
+    if (videoOutputFile < 0)
+    {
+	emit gotMessage(i18n("Could not open video output file %1", videopath));
+	fprintf(stderr, "Could not open video output file \"%s\"\n", videopath.toUtf8().constData());
+	return;
+    }
+    if (KdenliveSettings::hdmicaptureaudio()) {
+	audioOutputFile = open(audiopath.toUtf8().constData(), O_WRONLY|O_CREAT|O_TRUNC, 0664);
+	if (audioOutputFile < 0)
+	{
+	    emit gotMessage(i18n("Could not open audio output file %1", audiopath));
+	    fprintf(stderr, "Could not open video output file \"%s\"\n", audiopath.toUtf8().constData());
+	    return;
+	}
+    }
 }
 
 void CaptureHandler::stopCapture()
 {
+  	if (videoOutputFile)
+		close(videoOutputFile);
+	if (audioOutputFile)
+		close(audioOutputFile);
+	videoOutputFile = -1;
+	audioOutputFile = -1;
 }
 
 void CaptureHandler::captureFrame(const QString &fname)

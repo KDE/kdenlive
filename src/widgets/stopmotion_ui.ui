@@ -6,15 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>619</width>
-    <height>434</height>
+    <width>643</width>
+    <height>395</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0" colspan="10">
+   <item row="0" column="0" colspan="11">
     <widget class="QSplitter" name="splitter">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -164,14 +164,14 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="8">
+   <item row="1" column="9">
     <widget class="QPushButton" name="button_addsequence">
      <property name="text">
-      <string>Add sequence to project</string>
+      <string>Add to project</string>
      </property>
     </widget>
    </item>
-   <item row="1" column="9">
+   <item row="1" column="10">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
@@ -194,6 +194,22 @@
      </property>
      <property name="editable">
       <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="8">
+    <widget class="KComboBox" name="log_box">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="maxCount">
+      <number>10</number>
+     </property>
+     <property name="frame">
+      <bool>false</bool>
      </property>
     </widget>
    </item>
