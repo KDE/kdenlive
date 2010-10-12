@@ -227,6 +227,7 @@ set(kdenlive_SRCS
   blackmagic/capture.cpp
   blackmagic/devices.cpp
   stopmotion/stopmotion.cpp
+  onmonitoritems/abstractonmonitoritem.cpp 
   onmonitoritems/onmonitorrectitem.cpp
   monitorscenecontrolwidget.cpp
 )

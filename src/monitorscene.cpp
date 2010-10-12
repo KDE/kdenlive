@@ -92,11 +92,6 @@ void MonitorScene::slotUpdateBackground()
     }
 }
 
-void MonitorScene::slotSetDirectUpdate(bool directUpdate)
-{
-    KdenliveSettings::setMonitorscene_directupdate(directUpdate);
-}
-
 void MonitorScene::slotSetBackgroundImage(const QImage &image)
 {
     if (m_view && m_view->isVisible()) {
@@ -148,14 +143,14 @@ void MonitorScene::addItem(QGraphicsItem* item)
 {
     QGraphicsScene::addItem(item);
 
-    OnMonitorRectItem *rect = qgraphicsitem_cast<OnMonitorRectItem*>(item);
+    /*OnMonitorRectItem *rect = qgraphicsitem_cast<OnMonitorRectItem*>(item);
     if (rect) {
         connect(this, SIGNAL(mousePressed(QGraphicsSceneMouseEvent*)), rect, SLOT(slotMousePressed(QGraphicsSceneMouseEvent*)));
         connect(this, SIGNAL(mouseReleased(QGraphicsSceneMouseEvent*)), rect, SLOT(slotMouseReleased(QGraphicsSceneMouseEvent*)));
         connect(this, SIGNAL(mouseMoved(QGraphicsSceneMouseEvent*)), rect, SLOT(slotMouseMoved(QGraphicsSceneMouseEvent*)));
         connect(rect, SIGNAL(actionFinished()), this, SIGNAL(actionFinished()));
         connect(rect, SIGNAL(setCursor(const QCursor &)), this, SLOT(slotSetCursor(const QCursor &)));
-    }
+    }*/
 }
 
 void MonitorScene::slotSetCursor(const QCursor &cursor)

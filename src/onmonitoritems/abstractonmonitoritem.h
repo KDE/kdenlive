@@ -18,39 +18,35 @@
  ***************************************************************************/
 
 
-#ifndef MONITORSCENECONTROLWIDGET_H
-#define MONITORSCENECONTROLWIDGET_H
+#ifndef ABSTRACTONMONITORITEM_H
+#define ABSTRACTONMONITORITEM_H
 
-#include "ui_monitorscenecontrolwidget_ui.h"
+#include <QtCore>
+#include <QGraphicsItem>
 
-#include <QWidget>
-#include <QToolButton>
 
 class MonitorScene;
 
-
-class MonitorSceneControlWidget : public QWidget
+class AbstractOnMonitorItem : public QObject
 {
     Q_OBJECT
 public:
-    /** @brief Sets up the UI and connects it. */
-    MonitorSceneControlWidget(MonitorScene *scene, QWidget *parent = 0);
-    virtual ~MonitorSceneControlWidget();
+    AbstractOnMonitorItem(MonitorScene *scene);
+    //virtual ~AbstractOnMonitorItem() = 0;
 
-    /** @brief Returns a button for showing and hiding the monitor scene controls (this widget). */
-    QToolButton *getShowHideButton();
+protected slots:
+    virtual void slotMousePressed(QGraphicsSceneMouseEvent *event) = 0;
+    /** @brief emits actionFinished signal if item was modified. */
+    virtual void slotMouseReleased(QGraphicsSceneMouseEvent *event);
+    virtual void slotMouseMoved(QGraphicsSceneMouseEvent *event) = 0;
 
-private slots:
-    /** @brief Sets the KdenliveSetting directupdate with true = update parameters (rerender frame) during mouse move (before mouse button is released) */
-    void slotSetDirectUpdate(bool directUpdate);
-
-private:
-    Ui::MonitorSceneControlWidget_UI m_ui;
-    MonitorScene *m_scene;
-    QToolButton *m_buttonConfig;
+protected:
+    bool m_modified;
 
 signals:
-    void showScene(bool);
+    void actionFinished();
+    void requestCursor(const QCursor &);
+    //void modified();
 };
 
 #endif

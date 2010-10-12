@@ -17,40 +17,29 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
+#include "abstractonmonitoritem.h"
+#include "monitorscene.h"
 
-#ifndef MONITORSCENECONTROLWIDGET_H
-#define MONITORSCENECONTROLWIDGET_H
-
-#include "ui_monitorscenecontrolwidget_ui.h"
-
-#include <QWidget>
-#include <QToolButton>
-
-class MonitorScene;
+#include <QGraphicsSceneMouseEvent>
 
 
-class MonitorSceneControlWidget : public QWidget
+AbstractOnMonitorItem::AbstractOnMonitorItem(MonitorScene* scene) :
+    m_modified(false)
 {
-    Q_OBJECT
-public:
-    /** @brief Sets up the UI and connects it. */
-    MonitorSceneControlWidget(MonitorScene *scene, QWidget *parent = 0);
-    virtual ~MonitorSceneControlWidget();
+    connect(scene, SIGNAL(mousePressed(QGraphicsSceneMouseEvent*)), this, SLOT(slotMousePressed(QGraphicsSceneMouseEvent*)));
+    connect(scene, SIGNAL(mouseReleased(QGraphicsSceneMouseEvent*)), this, SLOT(slotMouseReleased(QGraphicsSceneMouseEvent*)));
+    connect(scene, SIGNAL(mouseMoved(QGraphicsSceneMouseEvent*)), this, SLOT(slotMouseMoved(QGraphicsSceneMouseEvent*)));
+    connect(this, SIGNAL(actionFinished()), scene, SIGNAL(actionFinished()));
+    connect(this, SIGNAL(requestCursor(const QCursor &)), scene, SLOT(slotSetCursor(const QCursor &)));
+}
 
-    /** @brief Returns a button for showing and hiding the monitor scene controls (this widget). */
-    QToolButton *getShowHideButton();
+void AbstractOnMonitorItem::slotMouseReleased(QGraphicsSceneMouseEvent* event)
+{
+    if (m_modified) {
+        m_modified = false;
+        emit actionFinished();
+    }
+    event->accept();
+}
 
-private slots:
-    /** @brief Sets the KdenliveSetting directupdate with true = update parameters (rerender frame) during mouse move (before mouse button is released) */
-    void slotSetDirectUpdate(bool directUpdate);
-
-private:
-    Ui::MonitorSceneControlWidget_UI m_ui;
-    MonitorScene *m_scene;
-    QToolButton *m_buttonConfig;
-
-signals:
-    void showScene(bool);
-};
-
-#endif
+#include "abstractonmonitoritem.moc"

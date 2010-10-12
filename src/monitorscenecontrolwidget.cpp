@@ -61,7 +61,7 @@ MonitorSceneControlWidget::MonitorSceneControlWidget(MonitorScene* scene, QWidge
     m_scene->slotZoomFit();
 
     connect(m_ui.buttonShowScene, SIGNAL(toggled(bool)), this, SIGNAL(showScene(bool)));
-    connect(m_ui.buttonDirectUpdate, SIGNAL(toggled(bool)), m_scene, SLOT(slotSetDirectUpdate(bool)));
+    connect(m_ui.buttonDirectUpdate, SIGNAL(toggled(bool)), this, SLOT(slotSetDirectUpdate(bool)));
 }
 
 MonitorSceneControlWidget::~MonitorSceneControlWidget()
@@ -73,5 +73,11 @@ QToolButton *MonitorSceneControlWidget::getShowHideButton()
 {
     return m_buttonConfig;
 }
+
+void MonitorSceneControlWidget::slotSetDirectUpdate(bool directUpdate)
+{
+    KdenliveSettings::setMonitorscene_directupdate(directUpdate);
+}
+
 
 #include "monitorscenecontrolwidget.moc"

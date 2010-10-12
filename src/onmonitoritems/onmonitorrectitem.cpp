@@ -25,7 +25,8 @@
 #include <QStyleOptionGraphicsItem>
 #include <QCursor>
 
-OnMonitorRectItem::OnMonitorRectItem(const QRectF &rect, QGraphicsItem* parent) :
+OnMonitorRectItem::OnMonitorRectItem(const QRectF &rect, MonitorScene *scene, QGraphicsItem* parent) :
+        AbstractOnMonitorItem(scene),
         QGraphicsRectItem(rect, parent)
 {
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
@@ -77,39 +78,28 @@ rectActions OnMonitorRectItem::getMode(QPoint pos)
         return NoAction;
 }
 
-int OnMonitorRectItem::type() const
+/*int OnMonitorRectItem::type() const
 {
     return Type;
-}
-
-void OnMonitorRectItem::setEnabled(bool enabled)
-{
-    m_enabled = enabled;
-}
+}*/
 
 void OnMonitorRectItem::slotMousePressed(QGraphicsSceneMouseEvent* event)
 {
-    if (!m_enabled)
+    event->accept();
+
+    if (!isEnabled())
         return;
 
     m_clickPoint = event->scenePos();
     m_mode = getMode(m_clickPoint.toPoint());
 }
 
-void OnMonitorRectItem::slotMouseReleased(QGraphicsSceneMouseEvent* event)
-{
-    if (m_modified) {
-        m_modified = false;
-        emit actionFinished();
-    }
-
-    event->accept();
-}
-
 void OnMonitorRectItem::slotMouseMoved(QGraphicsSceneMouseEvent* event)
 {
-    if (!m_enabled) {
-        emit setCursor(QCursor(Qt::ArrowCursor));
+    event->accept();
+
+    if (!isEnabled()) {
+        emit requestCursor(QCursor(Qt::ArrowCursor));
         return;
     }
 
@@ -198,25 +188,25 @@ void OnMonitorRectItem::slotMouseMoved(QGraphicsSceneMouseEvent* event)
         switch (getMode(event->scenePos().toPoint())) {
         case ResizeTopLeft:
         case ResizeBottomRight:
-            emit setCursor(QCursor(Qt::SizeFDiagCursor));
+            emit requestCursor(QCursor(Qt::SizeFDiagCursor));
             break;
         case ResizeTopRight:
         case ResizeBottomLeft:
-            emit setCursor(QCursor(Qt::SizeBDiagCursor));
+            emit requestCursor(QCursor(Qt::SizeBDiagCursor));
             break;
         case ResizeTop:
         case ResizeBottom:
-            emit setCursor(QCursor(Qt::SizeVerCursor));
+            emit requestCursor(QCursor(Qt::SizeVerCursor));
             break;
         case ResizeLeft:
         case ResizeRight:
-            emit setCursor(QCursor(Qt::SizeHorCursor));
+            emit requestCursor(QCursor(Qt::SizeHorCursor));
             break;
         case Move:
-            emit setCursor(QCursor(Qt::OpenHandCursor));
+            emit requestCursor(QCursor(Qt::OpenHandCursor));
             break;
         default:
-            emit setCursor(QCursor(Qt::ArrowCursor));
+            emit requestCursor(QCursor(Qt::ArrowCursor));
             break;
         }
     }
@@ -224,8 +214,6 @@ void OnMonitorRectItem::slotMouseMoved(QGraphicsSceneMouseEvent* event)
         emit actionFinished();
         m_modified = false;
     }
-
-    event->accept();
 }
 
 void OnMonitorRectItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
@@ -235,7 +223,7 @@ void OnMonitorRectItem::paint(QPainter* painter, const QStyleOptionGraphicsItem*
     painter->setPen(pen());
     painter->drawRect(option->rect);
 
-    if (m_enabled) {
+    if (isEnabled()) {
         double handleSize = 6 / painter->matrix().m11();
         double halfHandleSize = handleSize / 2;
         painter->fillRect(-halfHandleSize, -halfHandleSize, handleSize, handleSize, QColor(Qt::yellow));
@@ -244,7 +232,5 @@ void OnMonitorRectItem::paint(QPainter* painter, const QStyleOptionGraphicsItem*
         painter->fillRect(-halfHandleSize, option->rect.height() - halfHandleSize, handleSize, handleSize, QColor(Qt::yellow));
     }
 }
-
-
 
 #include "onmonitorrectitem.moc"

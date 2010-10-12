@@ -188,7 +188,7 @@ void GeometryWidget::setupParam(const QDomElement elem, int minframe, int maxfra
 
     m_geometry->fetch(&item, 0);
     delete m_rect;
-    m_rect = new OnMonitorRectItem(QRectF(0, 0, item.w(), item.h()));
+    m_rect = new OnMonitorRectItem(QRectF(0, 0, item.w(), item.h()), m_scene);
     m_rect->setPos(item.x(), item.y());
     m_rect->setZValue(0);
     m_scene->addItem(m_rect);

@@ -59,9 +59,6 @@ protected:
 public slots:
     /** @brief Sets the backgrounditem's pixmap to m_backgroundImage (only if a certain amount of time has passed since last update). */
     void slotUpdateBackground();
-    
-    /** @brief Sets the KdenliveSetting directupdate with true = update parameters (rerender frame) during mouse move (before mouse button is released) */
-    void slotSetDirectUpdate(bool directUpdate);
 
     /** @brief Sets the scene's zoom level.
      * @param value zoom level with 100 = show frame at original size */

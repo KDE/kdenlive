@@ -21,28 +21,26 @@
 #ifndef ONMONITORRECTITEM_H
 #define ONMONITORRECTITEM_H
 
+#include "abstractonmonitoritem.h"
+
 #include <QtCore>
 #include <QGraphicsRectItem>
 
 enum rectActions { Move, ResizeTopLeft, ResizeBottomLeft, ResizeTopRight, ResizeBottomRight, ResizeLeft, ResizeRight, ResizeTop, ResizeBottom, NoAction };
 
-class OnMonitorRectItem : public QObject, public QGraphicsRectItem
+class OnMonitorRectItem : public AbstractOnMonitorItem, public QGraphicsRectItem
 {
     Q_OBJECT
 public:
-    OnMonitorRectItem(const QRectF &rect, QGraphicsItem *parent = 0);
-
-    /** @brief Enables/Disables the ability to modify the item.
-     * @param enabled (default = true) */
-    void setEnabled(bool enabled = true);
+    OnMonitorRectItem(const QRectF &rect, MonitorScene *scene, QGraphicsItem *parent = 0);
 
     /** @brief Gets The action mode for the area @param pos +- 4.
      * e.g. pos(0,0) returns ResizeTopLeft */
     rectActions getMode(QPoint pos);
     
-    enum { Type = UserType + 1};
-    /** @brief Reimplemented to make sure casting works. */
-    int type() const;
+    /*enum { Type = UserType + 1};
+    /** @brief Reimplemented to make sure casting works. * /
+    int type() const;*/
 
     /** @brief Reimplemented to draw the handles. */
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0 );
@@ -50,20 +48,12 @@ public:
 public slots:
     /** @brief Saves current mouse position and mode. */
     void slotMousePressed(QGraphicsSceneMouseEvent *event);
-    /** @brief emits actionFinished signal if item was modified. */
-    void slotMouseReleased(QGraphicsSceneMouseEvent *event);
     /** @brief Modifies item according to mouse position and mode. */
     void slotMouseMoved(QGraphicsSceneMouseEvent *event);
 
 private:
     rectActions m_mode;
     QPointF m_clickPoint;
-    bool m_enabled;
-    bool m_modified;
-
-signals:
-    void actionFinished();
-    void setCursor(const QCursor &);
 };
 
 #endif
