@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>306</width>
-    <height>478</height>
+    <width>284</width>
+    <height>458</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -165,7 +165,7 @@
          </property>
         </widget>
        </item>
-       <item row="4" column="2">
+       <item row="5" column="2">
         <spacer name="verticalSpacer_2">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -177,6 +177,16 @@
           </size>
          </property>
         </spacer>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Pixel format</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="2">
+        <widget class="KLineEdit" name="clip_pixfmt"/>
        </item>
       </layout>
      </widget>

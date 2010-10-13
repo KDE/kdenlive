@@ -22,6 +22,7 @@
 #include "kdenlivesettings.h"
 #include "kthumb.h"
 #include "markerdialog.h"
+#include "profilesdialog.h"
 
 #include <KStandardDirs>
 #include <KDebug>
@@ -39,13 +40,13 @@ static const int METATAB = 6;
 static const int ADVANCEDTAB = 7;
 
 ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidget * parent) :
-        QDialog(parent),
-        m_clip(clip),
-        m_tc(tc),
-        m_fps(fps),
-        m_count(0),
-        m_clipNeedsRefresh(false),
-        m_clipNeedsReLoad(false)
+    QDialog(parent),
+    m_clip(clip),
+    m_tc(tc),
+    m_fps(fps),
+    m_count(0),
+    m_clipNeedsRefresh(false),
+    m_clipNeedsReLoad(false)
 {
     setFont(KGlobalSettings::toolBarFont());
     m_view.setupUi(this);
@@ -225,9 +226,9 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
         filters << "*.pgm" << "*.png";
 
         QStringList customLumas = KGlobal::dirs()->findDirs("appdata", "lumas");
-        foreach(const QString &folder, customLumas) {
+        foreach(const QString & folder, customLumas) {
             QStringList filesnames = QDir(folder).entryList(filters, QDir::Files);
-            foreach(const QString &fname, filesnames) {
+            foreach(const QString & fname, filesnames) {
                 QString filePath = KUrl(folder).path(KUrl::AddTrailingSlash) + fname;
                 m_view.luma_file->addItem(KIcon(filePath), fname, filePath);
             }
@@ -239,7 +240,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
         folder.append("/lumas/PAL"); // TODO: cleanup the PAL / NTSC mess in luma files
         QDir lumafolder(folder);
         QStringList filesnames = lumafolder.entryList(filters, QDir::Files);
-        foreach(const QString &fname, filesnames) {
+        foreach(const QString & fname, filesnames) {
             QString filePath = KUrl(folder).path(KUrl::AddTrailingSlash) + fname;
             m_view.luma_file->addItem(KIcon(filePath), fname, filePath);
         }
@@ -266,6 +267,10 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
             m_view.clip_fps->setText(props.value("fps"));
             if (!m_view.clip_framerate->isEnabled()) m_view.clip_framerate->setValue(props.value("fps").toDouble());
         }
+        if (props.contains("pix_fmt")) {
+            m_view.clip_pixfmt->setText(props.value("pix_fmt"));
+        } else m_view.clip_pixfmt->setEnabled(false);
+
         if (props.contains("aspect_ratio"))
             m_view.clip_ratio->setText(props.value("aspect_ratio"));
         int width = 180.0 * KdenliveSettings::project_display_ratio();
@@ -314,13 +319,13 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
 
 // Used for multiple clips editing
 ClipProperties::ClipProperties(QList <DocClipBase *>cliplist, Timecode tc, QMap <QString, QString> commonproperties, QWidget * parent) :
-        QDialog(parent),
-        m_clip(NULL),
-        m_tc(tc),
-        m_fps(0),
-        m_count(0),
-        m_clipNeedsRefresh(false),
-        m_clipNeedsReLoad(false)
+    QDialog(parent),
+    m_clip(NULL),
+    m_tc(tc),
+    m_fps(0),
+    m_count(0),
+    m_clipNeedsRefresh(false),
+    m_clipNeedsReLoad(false)
 {
     setFont(KGlobalSettings::toolBarFont());
     m_view.setupUi(this);
@@ -593,17 +598,17 @@ QMap <QString, QString> ClipProperties::properties()
         if (m_old_props.value("fade") != value) props["fade"] = value;
         value = QString::number((int) m_view.luma_softness->value());
         if (m_old_props.value("softness") != value) props["softness"] = value;
-	
-	bool isMime = !(m_view.clip_path->text().contains('%'));
-	if (isMime) {
-	    QString extension = "/.all." + m_view.image_type->itemData(m_view.image_type->currentIndex()).toString();
-	    QString new_path = m_view.clip_path->text() + extension;
-	    if (new_path != m_old_props.value("resource")) {
-		m_clipNeedsReLoad = true;
-		props["resource"] = new_path;
-		kDebug() << "////  SLIDE EDIT, NEW:" << new_path << ", OLD; " << m_old_props.value("resource");
-	    }
-	}
+
+        bool isMime = !(m_view.clip_path->text().contains('%'));
+        if (isMime) {
+            QString extension = "/.all." + m_view.image_type->itemData(m_view.image_type->currentIndex()).toString();
+            QString new_path = m_view.clip_path->text() + extension;
+            if (new_path != m_old_props.value("resource")) {
+                m_clipNeedsReLoad = true;
+                props["resource"] = new_path;
+                kDebug() << "////  SLIDE EDIT, NEW:" << new_path << ", OLD; " << m_old_props.value("resource");
+            }
+        }
         int duration;
         if (m_view.slide_duration_format->currentIndex() == 1) {
             // we are in frames mode
@@ -693,7 +698,7 @@ void ClipProperties::parseFolder()
         QString regexp = "^" + filter + "\\d+\\." + ext + "$";
         QRegExp rx(regexp);
         QStringList entries;
-        foreach(const QString &path, result) {
+        foreach(const QString & path, result) {
             if (rx.exactMatch(path)) entries << path;
         }
         result = entries;

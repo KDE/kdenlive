@@ -104,10 +104,6 @@ Render::Render(const QString & rendererName, int winid, QString profile, QWidget
     m_blackClip(NULL),
     m_winid(winid)
 {
-    /*if (rendererName == "project") m_monitorId = 10000;
-    else m_monitorId = 10001;*/
-    /*m_osdTimer = new QTimer(this);
-    connect(m_osdTimer, SIGNAL(timeout()), this, SLOT(slotOsdTimeout()));*/
     if (profile.isEmpty()) profile = KdenliveSettings::current_profile();
     buildConsumer(profile);
 
@@ -638,8 +634,9 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
         }
     }
 
-
-    filePropertyMap["fps"] = producer->get("source_fps");
+    if (producer->get_double("meta.media.frame_rate_den") > 0) {
+        filePropertyMap["fps"] = QString::number(producer->get_double("meta.media.frame_rate_num") / producer->get_double("meta.media.frame_rate_den"));
+    } else filePropertyMap["fps"] = producer->get("source_fps");
 
     if (frame && frame->is_valid()) {
         filePropertyMap["frame_size"] = QString::number(frame->get_int("width")) + 'x' + QString::number(frame->get_int("height"));
@@ -720,6 +717,9 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
             if (producer->get(property))
                 filePropertyMap["videocodec"] = producer->get(property);
         }
+        QString query;
+        query = QString("meta.media.%1.codec.pix_fmt").arg(default_video);
+        filePropertyMap["pix_fmt"] = producer->get(query.toUtf8().constData());
 
         if (KdenliveSettings::dropbframes()) {
             kDebug() << "// LOOKING FOR H264 on: " << default_video;
@@ -1364,8 +1364,6 @@ void Render::emitConsumerStopped()
         if (m_isLoopMode) play(m_loopStart);
         else if (m_isZoneMode) resetZoneMode();
         emit rendererStopped((int) pos);
-        //if (qApp->activeWindow()) QApplication::postEvent(qApp->activeWindow(), new PositionChangeEvent(GenTime((int) pos, m_fps), m_monitorId + 100));
-        //new QCustomEvent(10002));
     }
 }
 
@@ -1428,20 +1426,20 @@ void Render::showAudio(Mlt::Frame& frame)
     int16_t* data = (int16_t*)frame.get_audio(audio_format, freq, num_channels, samples);
     if (!data)
         return;
-    int num_samples = samples>200?200:samples;
+    int num_samples = samples > 200 ? 200 : samples;
     QByteArray channels;
     for (int i = 0; i < num_channels; i++) {
         long val = 0;
-        for (int s = 0; s < num_samples; s ++ ) {
-            val += abs(data[i+s*num_channels]/128);
+        for (int s = 0; s < num_samples; s ++) {
+            val += abs(data[i+s*num_channels] / 128);
         }
-        channels.append(val/num_samples);
+        channels.append(val / num_samples);
     }
 
 
     if (samples > 0)
         emit showAudioSignal(channels);
-    else 
+    else
         emit showAudioSignal(QByteArray());
 }
 
