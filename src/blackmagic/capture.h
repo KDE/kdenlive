@@ -6,6 +6,9 @@
 #include <QWidget>
 #include <QObject>
 #include <QLayout>
+#ifdef Q_WS_MAC
+#include <pthread.h>
+#endif
 
 class CDeckLinkGLWidget;
 class PlaybackDelegate;
