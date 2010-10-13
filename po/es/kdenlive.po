@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-10-11 19:04+0300\n"
-"PO-Revision-Date: 2010-10-12 19:24-0300\n"
+"PO-Revision-Date: 2010-10-13 00:30-0300\n"
 "Last-Translator: Gabriel Gazzan <gabcorreo@gmail.com>\n"
 "Language-Team: Español <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -1008,7 +1008,7 @@ msgstr "Frecuencia del audio"
 #: rc.cpp:1206
 #: rc.cpp:3056
 msgid "Audio index"
-msgstr "Índice del audio"
+msgstr "Índice de audio"
 
 #: src/renderwidget.cpp:1211
 #: src/customtrackview.cpp:5923
@@ -1155,7 +1155,7 @@ msgstr "Agrandar pistas"
 #: rc.cpp:1738
 #: rc.cpp:3588
 msgid "Bit rate"
-msgstr "Frecuencia de bits"
+msgstr "Frecuencia de muestreo"
 
 #: src/vectorscope.cpp:58
 #: src/transitionsettings.cpp:99
@@ -3478,7 +3478,7 @@ msgstr "Forzar duración"
 #: rc.cpp:1212
 #: rc.cpp:3062
 msgid "Force frame rate"
-msgstr "Forzar velocidad de fotograma"
+msgstr "Forzar velocidad de fotogramas"
 
 #: rc.cpp:1197
 #: rc.cpp:3047
@@ -3563,7 +3563,7 @@ msgstr "Duración del fotograma"
 #: rc.cpp:1928
 #: rc.cpp:3778
 msgid "Frame number"
-msgstr "Número del fotograma"
+msgstr "Número de fotograma"
 
 #: rc.cpp:976
 #: rc.cpp:1098
@@ -3574,7 +3574,7 @@ msgstr "Número del fotograma"
 #: rc.cpp:3489
 #: rc.cpp:3585
 msgid "Frame rate"
-msgstr "Velocidad de fotograma"
+msgstr "Velocidad de fotogramas"
 
 #: src/wizard.cpp:493
 #: rc.cpp:2004
@@ -3582,7 +3582,7 @@ msgstr "Velocidad de fotograma"
 #: rc.cpp:3854
 #: rc.cpp:4073
 msgid "Frame rate:"
-msgstr "Velocidad de fotograma:"
+msgstr "Velocidad de fotogramas:"
 
 #: rc.cpp:1095
 #: rc.cpp:2945
@@ -4269,39 +4269,39 @@ msgstr "Tamaño del núcleo"
 
 #: rc.cpp:653
 msgid "LADSPA change pitch audio effect"
-msgstr "LADSPA efecto de cambio de tono"
+msgstr "Cambiar timbre (efecto de audio LADSPA)"
 
 #: rc.cpp:611
 msgid "LADSPA declipper audio effect"
-msgstr "LADSPA efecto declipper"
+msgstr "Declipper (efecto de audio LADSPA)"
 
 #: rc.cpp:615
 msgid "LADSPA equalizer audio effect"
-msgstr "LADSPA efecto ecualizador"
+msgstr "Ecualizador (efecto de audio LADSPA)"
 
 #: rc.cpp:625
 msgid "LADSPA limiter audio effect"
-msgstr "LADSPA efecto limitador"
+msgstr "Limitador (efecto de audio LADSPA)"
 
 #: rc.cpp:635
 msgid "LADSPA phaser audio effect"
-msgstr "LADSPA efecto phaser"
+msgstr "Phaser (efecto de audio LADSPA)"
 
 #: rc.cpp:647
 msgid "LADSPA pitch scale audio effect"
-msgstr "LADSPA efecto escala de tonos"
+msgstr "Escalar timbre (efecto de audio LADSPA)"
 
 #: rc.cpp:659
 msgid "LADSPA rate scale audio effect"
-msgstr "LADSPA efecto escala de ratio"
+msgstr "Redimensionar frecuencia (efecto de audio LADSPA)"
 
 #: rc.cpp:665
 msgid "LADSPA reverb audio effect"
-msgstr "LADSPA efecto reverberación"
+msgstr "Reverberación (efecto de audio LADSPA)"
 
 #: rc.cpp:673
 msgid "LADSPA room reverb audio effect"
-msgstr "LADSPA efecto reverberación en habitación"
+msgstr "Reverberación de salón (efecto de audio LADSPA)"
 
 #: src/mainwindow.cpp:1659
 msgid "Layout name:"
@@ -5179,7 +5179,7 @@ msgstr "Param"
 
 #: src/complexparameter.cpp:42
 msgid "Parameter info"
-msgstr "Información de parámetro"
+msgstr "Información del parámetro"
 
 #: src/kdenlivesettingsdialog.cpp:607
 #: rc.cpp:2349
@@ -5220,11 +5220,11 @@ msgstr "Escoger un color de la pantalla"
 
 #: rc.cpp:645
 msgid "Pitch Scaler"
-msgstr "Escalador de tono"
+msgstr "Escalar timbre"
 
 #: rc.cpp:651
 msgid "Pitch Shift"
-msgstr "Cambio de tono"
+msgstr "Cambiar timbre"
 
 #: src/wizard.cpp:294
 msgid "Pixbuf module"
@@ -5689,7 +5689,7 @@ msgstr "Frecuencia (Hz)"
 
 #: rc.cpp:657
 msgid "Rate Scaler"
-msgstr "Redimensionador de frecuencia"
+msgstr "Redimensionar frecuencia"
 
 #: src/projectlistview.cpp:50
 msgid "Rating"
@@ -6043,15 +6043,15 @@ msgstr "Derecha"
 
 #: rc.cpp:671
 msgid "Room Reverb"
-msgstr "Reverberación de habitación"
+msgstr "Reverberación de salón"
 
 #: rc.cpp:845
 msgid "Room scale"
-msgstr "Tamaño del salón"
+msgstr "Dimensión del salón"
 
 #: rc.cpp:675
 msgid "Room size (m)"
-msgstr "Tamaño de la habitación (m)"
+msgstr "Tamaño (m) del salón"
 
 #: src/initeffects.cpp:759
 #: rc.cpp:731
@@ -6085,7 +6085,7 @@ msgstr "Rotación Z:"
 
 #: rc.cpp:727
 msgid "Rotate and Shear"
-msgstr "Rotar e Inclinar"
+msgstr "Rotar e inclinar"
 
 #: rc.cpp:729
 msgid "Rotate clip in any 3 directions"
@@ -6441,7 +6441,7 @@ msgstr "Inclinación Y"
 
 #: src/initeffects.cpp:766
 msgid "Shear Z"
-msgstr "Inclinar Z"
+msgstr "Inclinación Z"
 
 #: rc.cpp:655
 #: rc.cpp:833
@@ -6521,7 +6521,7 @@ msgstr "Mostrar/ocultar preferencias"
 
 #: src/geometryval.cpp:88
 msgid "Show/Hide options"
-msgstr "Opciones de mostrar/ocultar"
+msgstr "Mostrar/ocultar opciones"
 
 #: src/effectslistview.cpp:46
 msgid "Show/Hide the effect description"
@@ -6651,7 +6651,7 @@ msgstr "Algunos de los clips de texto han sido guardados con su tamaño expresad
 #: rc.cpp:1308
 #: rc.cpp:3158
 msgid "Source"
-msgstr "Fuente"
+msgstr "Original"
 
 #: rc.cpp:275
 msgid "Source Color"
@@ -6687,7 +6687,7 @@ msgstr "Sox Phaser"
 
 #: rc.cpp:829
 msgid "Sox Pitch Shift"
-msgstr "Sox Cambio de tono"
+msgstr "Sox Cambiar timbre"
 
 #: rc.cpp:837
 msgid "Sox Reverb"
@@ -6699,39 +6699,39 @@ msgstr "Sox Estirar"
 
 #: rc.cpp:763
 msgid "Sox band audio effect"
-msgstr "Sox efecto de banda"
+msgstr "Banda (efecto de audio Sox)"
 
 #: rc.cpp:771
 msgid "Sox bass audio effect"
-msgstr "Sox efecto de bajos"
+msgstr "Bajos (efecto de audio Sox)"
 
 #: rc.cpp:831
 msgid "Sox change pitch audio effect"
-msgstr "Sox efecto cambio de tono"
+msgstr "Cambiar timbre (efecto de audio Sox)"
 
 #: rc.cpp:779
 msgid "Sox echo audio effect"
-msgstr "Sox efecto de eco"
+msgstr "Eco (efecto de audio Sox)"
 
 #: rc.cpp:791
 msgid "Sox flanger audio effect"
-msgstr "Sox efecto flanger"
+msgstr "Flanger (efecto de audio Sox)"
 
 #: rc.cpp:811
 msgid "Sox gain audio effect"
-msgstr "Sox efecto de ganancia"
+msgstr "Ganancia (efecto de audio Sox)"
 
 #: rc.cpp:817
 msgid "Sox phaser audio effect"
-msgstr "Sox efecto phaser"
+msgstr "Phaser (efecto de audio Sox)"
 
 #: rc.cpp:839
 msgid "Sox reverb audio effect"
-msgstr "Sox efecto de reverberación"
+msgstr "Reverberación (efecto de audio Sox)"
 
 #: rc.cpp:855
 msgid "Sox stretch audio effect"
-msgstr "Sox efecto de estiramiento"
+msgstr "Estirar (efecto de audio Sox)"
 
 #: rc.cpp:4673
 msgid "Space"
