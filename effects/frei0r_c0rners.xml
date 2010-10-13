@@ -42,11 +42,11 @@
 	</parameter>
 
 	
-	<parameter type="constant" name="Stretch X" default="500" min="0" max="1000" factor="1000">
+	<parameter type="constant" name="Stretch X" default="1000" min="0" max="2000" factor="2000">
 		<name>Stretch X</name>
 	</parameter>
 	
-	<parameter type="constant" name="Stretch Y" default="500" min="0" max="1000" factor="1000">
+	<parameter type="constant" name="Stretch Y" default="1000" min="0" max="2000" factor="2000">
 		<name>Stretch Y</name>
 	</parameter>
 	
@@ -55,7 +55,7 @@
 		<name>Interpolator</name>
 	</parameter>
 
-	<parameter type="bool" name="Transparent Background" default="0">
+	<parameter type="bool" name="Transparent Background" default="1">
 		<name>Transparent Background</name>
 	</parameter>
 
