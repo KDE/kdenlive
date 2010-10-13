@@ -47,9 +47,8 @@ QByteArray fileToByteArray(const QString& filename)
 {
     QByteArray ret;
     QFile file(filename);
-    if (file.open(QIODevice::ReadOnly))
-    {
-        while (!file.atEnd()){
+    if (file.open(QIODevice::ReadOnly)) {
+        while (!file.atEnd()) {
             ret.append(file.readLine());
         }
     }
@@ -70,43 +69,50 @@ void TitleDocument::setScene(QGraphicsScene* _scene, int width, int height)
 
 int TitleDocument::base64ToUrl(QGraphicsItem* item, QDomElement& content, bool embed)
 {
-            if (embed)
-            {
-                if (!item->data(Qt::UserRole+1).toString().isEmpty())
-                {
-                     content.setAttribute("base64",item->data(Qt::UserRole+1).toString());
-                } else if (!item->data(Qt::UserRole).toString().isEmpty() ) 
-                {
-                    content.setAttribute("base64",fileToByteArray( item->data(Qt::UserRole).toString() ).toBase64().data());
-                }
-                content.removeAttribute("url");
-            }else{
-                // save for project files to disk
-                QString base64=item->data(Qt::UserRole+1).toString();
-                if (!base64.isEmpty()){
-                    QString titlePath;
-                    if (!m_projectPath.isEmpty())
-                    {
-                        titlePath=m_projectPath;
-                    }else{
-                        titlePath="/tmp/titles";
-                    } 
-                    QString filename=titlePath+QString( QCryptographicHash::hash(base64.toAscii(), QCryptographicHash::Md5).toHex().append(".titlepart"));
-                    KStandardDirs::makeDir(titlePath);
-                    QFile f(filename);
-                    if (f.open(QIODevice::WriteOnly)){
-                        f.write(QByteArray::fromBase64(base64.toAscii()) ) ;
-                        f.close();
-                        content.setAttribute("url",filename);
-                        content.removeAttribute("base64");
-                    }
-
-                } else {
-                    return 1;
-                }
+    if (embed) {
+        if (!item->data(Qt::UserRole + 1).toString().isEmpty()) {
+            content.setAttribute("base64", item->data(Qt::UserRole + 1).toString());
+        } else if (!item->data(Qt::UserRole).toString().isEmpty()) {
+            content.setAttribute("base64", fileToByteArray(item->data(Qt::UserRole).toString()).toBase64().data());
+        }
+        content.removeAttribute("url");
+    } else {
+        // save for project files to disk
+        QString base64 = item->data(Qt::UserRole + 1).toString();
+        if (!base64.isEmpty()) {
+            QString titlePath;
+            if (!m_projectPath.isEmpty()) {
+                titlePath = m_projectPath;
+            } else {
+                titlePath = "/tmp/titles";
             }
-        	return 0;
-} 
+            QString filename = extractBase64Image(titlePath, base64);
+            if (!filename.isEmpty()) {
+                content.setAttribute("url", filename);
+                content.removeAttribute("base64");
+            }
+
+        } else {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+
+//static
+const QString TitleDocument::extractBase64Image(const QString &titlePath, const QString &data)
+{
+    QString filename = titlePath + QString(QCryptographicHash::hash(data.toAscii(), QCryptographicHash::Md5).toHex().append(".titlepart"));
+    KStandardDirs::makeDir(titlePath);
+    QFile f(filename);
+    if (f.open(QIODevice::WriteOnly)) {
+        f.write(QByteArray::fromBase64(data.toAscii())) ;
+        f.close();
+        return filename;
+    }
+    return QString();
+}
 
 QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* endv, bool embed)
 {
@@ -117,7 +123,7 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
     main.setAttribute("height", m_height);
     doc.appendChild(main);
 
-    foreach(QGraphicsItem* item, m_scene->items()) {
+    foreach(QGraphicsItem * item, m_scene->items()) {
         QDomElement e = doc.createElement("item");
         QDomElement content = doc.createElement("content");
         QFont font;
@@ -127,12 +133,12 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
         case 7:
             e.setAttribute("type", "QGraphicsPixmapItem");
             content.setAttribute("url", item->data(Qt::UserRole).toString());
-            base64ToUrl (item, content, embed );
+            base64ToUrl(item, content, embed);
             break;
         case 13:
             e.setAttribute("type", "QGraphicsSvgItem");
             content.setAttribute("url", item->data(Qt::UserRole).toString());
-            base64ToUrl (item, content, embed );
+            base64ToUrl(item, content, embed);
             break;
         case 3:
             e.setAttribute("type", "QGraphicsRectItem");
@@ -292,7 +298,7 @@ bool TitleDocument::saveDocument(const KUrl& url, QGraphicsRectItem* startv, QGr
 
 int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsRectItem* startv, QGraphicsRectItem* endv, int *out, const QString& projectpath)
 {
-    m_projectPath=projectpath;
+    m_projectPath = projectpath;
     QDomNodeList titles = doc.elementsByTagName("kdenlivetitle");
     //TODO: Check if the opened title size is equal to project size, otherwise warn user and rescale
     if (doc.documentElement().hasAttribute("width") && doc.documentElement().hasAttribute("height")) {
@@ -408,35 +414,35 @@ int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsRectItem* startv, QGra
                     QString url = items.item(i).namedItem("content").attributes().namedItem("url").nodeValue();
                     QString base64 = items.item(i).namedItem("content").attributes().namedItem("base64").nodeValue();
                     QPixmap pix;
-                    if (base64.isEmpty()){
+                    if (base64.isEmpty()) {
                         pix.load(url);
-                    }else{
+                    } else {
                         pix.loadFromData(QByteArray::fromBase64(base64.toAscii()));
                     }
                     QGraphicsPixmapItem *rec = m_scene->addPixmap(pix);
                     rec->setData(Qt::UserRole, url);
-                    if (!base64.isEmpty()){
-                        rec->setData(Qt::UserRole+1, base64);
+                    if (!base64.isEmpty()) {
+                        rec->setData(Qt::UserRole + 1, base64);
                     }
                     gitem = rec;
                 } else if (items.item(i).attributes().namedItem("type").nodeValue() == "QGraphicsSvgItem") {
                     QString url = items.item(i).namedItem("content").attributes().namedItem("url").nodeValue();
                     QString base64 = items.item(i).namedItem("content").attributes().namedItem("base64").nodeValue();
                     QGraphicsSvgItem *rec = NULL;
-                    if (base64.isEmpty()){
+                    if (base64.isEmpty()) {
                         rec = new QGraphicsSvgItem(url);
-                    }else{
+                    } else {
                         rec = new QGraphicsSvgItem();
-                        QSvgRenderer *renderer= new QSvgRenderer(QByteArray::fromBase64(base64.toAscii()), rec );
+                        QSvgRenderer *renderer = new QSvgRenderer(QByteArray::fromBase64(base64.toAscii()), rec);
                         rec->setSharedRenderer(renderer);
                         //QString elem=rec->elementId();
                         //QRectF bounds = renderer->boundsOnElement(elem);
                     }
-                    if (rec){
+                    if (rec) {
                         m_scene->addItem(rec);
                         rec->setData(Qt::UserRole, url);
-                        if (!base64.isEmpty()){
-                            rec->setData(Qt::UserRole+1, base64);
+                        if (!base64.isEmpty()) {
+                            rec->setData(Qt::UserRole + 1, base64);
                         }
                         gitem = rec;
                     }

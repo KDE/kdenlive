@@ -25,6 +25,7 @@
 #include "kdenlivedoc.h"
 #include "abstractclipitem.h"
 #include "abstractgroupitem.h"
+#include "titledocument.h"
 
 #include <mlt++/Mlt.h>
 
@@ -39,10 +40,10 @@
 #include <KFileMetaInfo>
 
 ClipManager::ClipManager(KdenliveDoc *doc) :
-        QObject(),
-        m_audioThumbsQueue(),
-        m_doc(doc),
-        m_generatingAudioId()
+    QObject(),
+    m_audioThumbsQueue(),
+    m_doc(doc),
+    m_generatingAudioId()
 {
     m_clipIdCounter = 1;
     m_folderIdCounter = 1;
@@ -272,7 +273,7 @@ void ClipManager::slotAddClipList(const KUrl::List urls, const QString group, co
 {
     QUndoCommand *addClips = new QUndoCommand();
 
-    foreach(const KUrl &file, urls) {
+    foreach(const KUrl & file, urls) {
         if (KIO::NetAccess::exists(file, KIO::NetAccess::SourceSide, NULL)) {
             if (!getClipByResource(file.path()).empty()) {
                 if (KMessageBox::warningContinueCancel(kapp->activeWindow(), i18n("Clip <b>%1</b><br />already exists in project, what do you want to do?", file.path()), i18n("Clip already exists")) == KMessageBox::Cancel)
@@ -298,7 +299,7 @@ void ClipManager::slotAddClipList(const KUrl::List urls, const QString group, co
                 if (type->is("image/jpeg")) {
                     KFileMetaInfo metaInfo(file.path(), QString("image/jpeg"), KFileMetaInfo::TechnicalInfo);
                     const QHash<QString, KFileMetaInfoItem> metaInfoItems = metaInfo.items();
-                    foreach(const KFileMetaInfoItem& metaInfoItem, metaInfoItems) {
+                    foreach(const KFileMetaInfoItem & metaInfoItem, metaInfoItems) {
                         prod.setAttribute("meta.attr." + metaInfoItem.name().section("#", 1), metaInfoItem.value().toString());
                     }
                 }
@@ -309,7 +310,21 @@ void ClipManager::slotAddClipList(const KUrl::List urls, const QString group, co
                 if (txtfile.open(QIODevice::ReadOnly) && txtdoc.setContent(&txtfile)) {
                     txtfile.close();
                     prod.setAttribute("type", (int) TEXT);
-                    prod.setAttribute("xmldata", txtdoc.toString());
+                    // extract embeded images
+                    QDomNodeList items = txtdoc.elementsByTagName("content");
+                    for (int i = 0; i < items.count() ; i++) {
+                        QDomElement content = items.item(i).toElement();
+                        if (content.hasAttribute("base64")) {
+                            QString titlesFolder = m_doc->projectFolder().path(KUrl::AddTrailingSlash) + "titles/";
+                            QString path = TitleDocument::extractBase64Image(titlesFolder, content.attribute("base64"));
+                            if (!path.isEmpty()) {
+                                content.setAttribute("url", path);
+                                content.removeAttribute("base64");
+                            }
+                        }
+                    }
+                    QString titleData = txtdoc.toString();
+                    prod.setAttribute("xmldata", titleData);
                     prod.setAttribute("transparency", 1);
                     prod.setAttribute("in", 0);
                     int out = txtdoc.documentElement().attribute("out").toInt();
@@ -373,9 +388,9 @@ void ClipManager::slotAddColorClipFile(const QString name, const QString color, 
 }
 
 void ClipManager::slotAddSlideshowClipFile(const QString name, const QString path, int count, const QString duration,
-                                           const bool loop, const bool crop, const bool fade,
-                                           const QString &luma_duration, const QString &luma_file, const int softness,
-                                           const QString &animation, QString group, const QString &groupId)
+        const bool loop, const bool crop, const bool fade,
+        const QString &luma_duration, const QString &luma_file, const int softness,
+        const QString &animation, QString group, const QString &groupId)
 {
     QDomDocument doc;
     QDomElement prod = doc.createElement("producer");
