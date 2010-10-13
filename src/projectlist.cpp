@@ -587,9 +587,9 @@ void ProjectList::slotUpdateClipProperties(const QString &id, QMap <QString, QSt
     ProjectItem *item = getItemById(id);
     if (item) {
         slotUpdateClipProperties(item, properties);
-        if (properties.contains("out") || properties.contains("force_fps")) {
+        if (properties.contains("out") || properties.contains("force_fps") || properties.contains("resource")) {
             slotReloadClip(id);
-        } else if (properties.contains("colour") || properties.contains("resource") || properties.contains("xmldata") || properties.contains("force_aspect_ratio") || properties.contains("templatetext")) {
+        } else if (properties.contains("colour") || properties.contains("xmldata") || properties.contains("force_aspect_ratio") || properties.contains("templatetext")) {
             slotRefreshClipThumbnail(item);
             emit refreshClip();
         }
@@ -1238,7 +1238,7 @@ void ProjectList::slotAddTitleTemplateClip()
 
     if (!templateFiles.isEmpty())
         dia_ui.buttonBox->button(QDialogButtonBox::Ok)->setFocus();
-    dia_ui.template_list->fileDialog()->setFilter("*.kdenlivetitle");
+    dia_ui.template_list->fileDialog()->setFilter("application/x-kdenlivetitle");
     //warning: setting base directory doesn't work??
     KUrl startDir(path);
     dia_ui.template_list->fileDialog()->setUrl(startDir);
