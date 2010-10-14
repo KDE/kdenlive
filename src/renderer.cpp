@@ -720,6 +720,7 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
         QString query;
         query = QString("meta.media.%1.codec.pix_fmt").arg(default_video);
         filePropertyMap["pix_fmt"] = producer->get(query.toUtf8().constData());
+        filePropertyMap["colorspace"] = producer->get("meta.media.colorspace");
 
         if (KdenliveSettings::dropbframes()) {
             kDebug() << "// LOOKING FOR H264 on: " << default_video;

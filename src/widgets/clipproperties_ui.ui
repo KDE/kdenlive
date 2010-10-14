@@ -165,7 +165,7 @@
          </property>
         </widget>
        </item>
-       <item row="5" column="2">
+       <item row="6" column="2">
         <spacer name="verticalSpacer_2">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -185,8 +185,22 @@
          </property>
         </widget>
        </item>
+       <item row="5" column="0">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Colorspace</string>
+         </property>
+        </widget>
+       </item>
        <item row="4" column="2">
         <widget class="KLineEdit" name="clip_pixfmt">
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="2">
+        <widget class="KLineEdit" name="clip_colorspace">
          <property name="readOnly">
           <bool>true</bool>
          </property>

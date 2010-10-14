@@ -270,6 +270,9 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
         if (props.contains("pix_fmt")) {
             m_view.clip_pixfmt->setText(props.value("pix_fmt"));
         } else m_view.clip_pixfmt->setEnabled(false);
+        if (props.contains("colorspace")) {
+            m_view.clip_colorspace->setText(ProfilesDialog::getColorspaceDescription(props.value("colorspace").toInt()));
+        } else m_view.clip_colorspace->setEnabled(false);
 
         if (props.contains("aspect_ratio"))
             m_view.clip_ratio->setText(props.value("aspect_ratio"));
