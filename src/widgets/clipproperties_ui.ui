@@ -186,7 +186,11 @@
         </widget>
        </item>
        <item row="4" column="2">
-        <widget class="KLineEdit" name="clip_pixfmt"/>
+        <widget class="KLineEdit" name="clip_pixfmt">
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
