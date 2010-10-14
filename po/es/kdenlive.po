@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-10-11 19:04+0300\n"
-"PO-Revision-Date: 2010-10-13 00:30-0300\n"
+"PO-Revision-Date: 2010-10-14 16:08-0300\n"
 "Last-Translator: Gabriel Gazzan <gabcorreo@gmail.com>\n"
 "Language-Team: Español <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -833,7 +833,7 @@ msgstr "Gradiente alfa"
 
 #: rc.cpp:929
 msgid "Alpha manipulation"
-msgstr "Manipulación del alfa"
+msgstr "Manipulación del canal alfa"
 
 #: rc.cpp:184
 msgid "Alpha shapes"
@@ -896,7 +896,7 @@ msgstr "Animación"
 
 #: src/initeffects.cpp:735
 msgid "Applies a stationary transition between the current and next frames."
-msgstr "Aplica una transición estacionaria entre el fotograma actual y los siguientes"
+msgstr "Aplica una transición estacionaria entre el fotograma actual y los siguientes."
 
 #: src/kdenlivesettingsdialog.cpp:285
 msgid "Ascii art library"
@@ -972,7 +972,7 @@ msgstr "Compresor de audio"
 
 #: rc.cpp:917
 msgid "Audio correction"
-msgstr "Audio - corrección"
+msgstr "Corrección de audio"
 
 #: rc.cpp:1648
 #: rc.cpp:3498
@@ -1173,7 +1173,7 @@ msgstr "Color negro"
 
 #: rc.cpp:383
 msgid "Black output"
-msgstr "Salida de negro"
+msgstr "Negro saliente"
 
 #: rc.cpp:395
 msgid "Block Size X"
@@ -2338,7 +2338,7 @@ msgstr "Imagen ISO de DVD"
 
 #: src/dvdwizard.cpp:631
 msgid "DVD ISO image %1 successfully created."
-msgstr "Imagen ISO de DVD %1 creada exitosamente"
+msgstr "Imagen ISO de DVD %1 creada exitosamente."
 
 #: src/dvdwizard.cpp:615
 msgid "DVD ISO is broken"
@@ -3128,7 +3128,7 @@ msgstr "Error al arrancar el reproductor de línea de comandos de MLT (melt)"
 
 #: src/wizard.cpp:553
 msgid "Error starting MLT's command line player (melt)."
-msgstr "Error al arrancar el reproductor de línea de comandos de MLT (melt)"
+msgstr "Error al arrancar el reproductor de línea de comandos de MLT (melt)."
 
 #: src/customtrackview.cpp:2052
 #: src/customtrackview.cpp:4352
@@ -3214,7 +3214,7 @@ msgstr "Fundido entrante"
 #: rc.cpp:110
 #: rc.cpp:121
 msgid "Fade in audio track"
-msgstr "Fundido de audio"
+msgstr "Fundido entrante de audio"
 
 #: rc.cpp:119
 msgid "Fade out"
@@ -3222,7 +3222,7 @@ msgstr "Fundido saliente"
 
 #: src/initeffects.cpp:804
 msgid "Fade out one video while fading in the other video."
-msgstr "Hace desaparecer un video, mientras aparece otro."
+msgstr "Fundido saliente de un video y entrante del otro."
 
 #: rc.cpp:130
 msgid "Fade to Black"
@@ -3230,11 +3230,11 @@ msgstr "Fundido a negro"
 
 #: rc.cpp:98
 msgid "Fade video from black"
-msgstr "Fundir el video desde negro"
+msgstr "Funde el video desde negro"
 
 #: rc.cpp:132
 msgid "Fade video to black"
-msgstr "Fundir el video a negro"
+msgstr "Funde el video a negro"
 
 #: src/wizard.cpp:561
 msgid "Fatal Error"
@@ -3653,11 +3653,11 @@ msgstr "Captura de pantalla completa"
 #: rc.cpp:1744
 #: rc.cpp:3594
 msgid "Full shots"
-msgstr "Disparos completos"
+msgstr "Tomas completas"
 
 #: rc.cpp:921
 msgid "Fun"
-msgstr "Diversión"
+msgstr "Divertidos"
 
 #: rc.cpp:260
 #: rc.cpp:1783
@@ -3682,12 +3682,12 @@ msgstr "Ganancia"
 #: rc.cpp:781
 #: rc.cpp:819
 msgid "Gain In"
-msgstr "Ganancia"
+msgstr "Ganancia entrante"
 
 #: rc.cpp:783
 #: rc.cpp:821
 msgid "Gain Out"
-msgstr "Pérdida"
+msgstr "Ganancia de salida"
 
 #: rc.cpp:381
 #: rc.cpp:595
@@ -4051,7 +4051,7 @@ msgstr "Inicializando..."
 
 #: rc.cpp:377
 msgid "Input black level"
-msgstr "Nivel negro de entrada"
+msgstr "Nivel de negro entrante"
 
 #: rc.cpp:627
 msgid "Input gain (dB)"
@@ -4059,7 +4059,7 @@ msgstr "Ganancia de entrada (dB)"
 
 #: rc.cpp:379
 msgid "Input white level"
-msgstr "Nivel blanco de entrada"
+msgstr "Nivel de blanco entrante"
 
 #: src/mainwindow.cpp:1309
 msgid "Insert Clip Zone in Timeline (Overwrite)"
@@ -5245,7 +5245,7 @@ msgstr "Proporción de pixel:"
 
 #: rc.cpp:393
 msgid "Pixelize input image."
-msgstr "Pixeliza la imagen suministrada"
+msgstr "Pixeliza la imagen suministrada."
 
 #: rc.cpp:339
 msgid "Plasma"
@@ -5329,43 +5329,43 @@ msgstr ""
 
 #: rc.cpp:293
 msgid "Point 1 input value"
-msgstr "Punto 1 valor de entrada"
+msgstr "Punto 1 valor entrante"
 
 #: rc.cpp:295
 msgid "Point 1 output value"
-msgstr "Punto 1 valor de salida"
+msgstr "Punto 1 valor saliente"
 
 #: rc.cpp:297
 msgid "Point 2 input value"
-msgstr "Punto 2 valor de entrada"
+msgstr "Punto 2 valor entrante"
 
 #: rc.cpp:299
 msgid "Point 2 output value"
-msgstr "Punto 2 valor de salida"
+msgstr "Punto 2 valor saliente"
 
 #: rc.cpp:301
 msgid "Point 3 input value"
-msgstr "Punto 3 valor de entrada"
+msgstr "Punto 3 valor entrante"
 
 #: rc.cpp:303
 msgid "Point 3 output value"
-msgstr "Punto 3 valor de salida"
+msgstr "Punto 3 valor saliente"
 
 #: rc.cpp:305
 msgid "Point 4 input value"
-msgstr "Punto 4 valor de entrada"
+msgstr "Punto 4 valor entrante"
 
 #: rc.cpp:307
 msgid "Point 4 output value"
-msgstr "Punto 4 valor de salida"
+msgstr "Punto 4 valor saliente"
 
 #: rc.cpp:309
 msgid "Point 5 input value"
-msgstr "Punto 5 valor de entrada"
+msgstr "Punto 5 valor entrante"
 
 #: rc.cpp:311
 msgid "Point 5 output value"
-msgstr "Punto 5 valor de salida"
+msgstr "Punto 5 valor saliente"
 
 #: rc.cpp:1708
 #: rc.cpp:3558
@@ -6299,7 +6299,7 @@ msgstr "Seleccionar un clip para aplicarle un efecto"
 
 #: src/regiongrabber.cpp:114
 msgid "Select a region using the mouse. To take the snapshot, press the Enter key. Press Esc to quit."
-msgstr "Seleccionar una región usando el ratón. Para captar una instantánea, presionar la tecla Intro. Pulsar Esc para salir."
+msgstr "Seleccionar una región usando el ratón. Para captar una instantánea, presionar la tecla Enter. Pulsar Esc para salir."
 
 #: src/titlewidget.cpp:341
 msgid "Select all"
@@ -6590,7 +6590,7 @@ msgstr "Deslizar"
 
 #: src/initeffects.cpp:799
 msgid "Slide image from one side to another."
-msgstr "Desliza la imagen de un lado al otro"
+msgstr "Desliza la imagen de un lado al otro."
 
 #: rc.cpp:1122
 #: rc.cpp:2972
@@ -6831,15 +6831,15 @@ msgstr "Profundidad del estéreo"
 
 #: src/recmonitor.cpp:78
 msgid "Stop"
-msgstr "Parar"
+msgstr "Detener"
 
 #: src/stopmotion/stopmotion.cpp:88
 msgid "Stop Motion Capture"
-msgstr "Captura Stopmotion"
+msgstr "Captura 'stop motion'"
 
 #: src/mainwindow.cpp:1535
 msgid "Stopmotion Animation"
-msgstr "Animación Stopmotion"
+msgstr "Animación 'stop motion'"
 
 #: rc.cpp:244
 msgid "Stretch X"
@@ -7417,7 +7417,7 @@ msgstr "Valor"
 
 #: rc.cpp:545
 msgid "Variable-size square blur (frei0r.squareblur)"
-msgstr "Desenfoque de cuadro de tamaño variable (frei0r.squareblur)"
+msgstr "Desenfoque suave de tamaño variable (frei0r.squareblur)"
 
 #: rc.cpp:70
 #: rc.cpp:78
@@ -7631,7 +7631,7 @@ msgstr "Color blanco"
 
 #: rc.cpp:385
 msgid "White output"
-msgstr "Salida de blanco"
+msgstr "Blanco saliente"
 
 #: rc.cpp:767
 #: rc.cpp:799
