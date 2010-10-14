@@ -110,100 +110,41 @@
       </attribute>
       <layout class="QGridLayout" name="gridLayout">
        <item row="0" column="0" colspan="2">
-        <widget class="QLabel" name="label_8">
-         <property name="text">
-          <string>Video codec</string>
+        <widget class="QTreeWidget" name="clip_vproperties">
+         <property name="frameShape">
+          <enum>QFrame::NoFrame</enum>
          </property>
-        </widget>
-       </item>
-       <item row="0" column="2">
-        <widget class="KLineEdit" name="clip_vcodec">
-         <property name="readOnly">
+         <property name="alternatingRowColors">
           <bool>true</bool>
          </property>
-        </widget>
-       </item>
-       <item row="1" column="0" colspan="2">
-        <widget class="QLabel" name="label_6">
-         <property name="text">
-          <string>Frame size</string>
+         <property name="selectionMode">
+          <enum>QAbstractItemView::NoSelection</enum>
          </property>
-        </widget>
-       </item>
-       <item row="1" column="2">
-        <widget class="KLineEdit" name="clip_size">
-         <property name="readOnly">
+         <property name="rootIsDecorated">
+          <bool>false</bool>
+         </property>
+         <property name="itemsExpandable">
+          <bool>false</bool>
+         </property>
+         <property name="allColumnsShowFocus">
           <bool>true</bool>
          </property>
-        </widget>
-       </item>
-       <item row="2" column="0" colspan="2">
-        <widget class="QLabel" name="label_7">
-         <property name="text">
-          <string>Frame rate</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="2">
-        <widget class="KLineEdit" name="clip_fps">
-         <property name="readOnly">
+         <property name="headerHidden">
           <bool>true</bool>
          </property>
-        </widget>
-       </item>
-       <item row="3" column="0" colspan="2">
-        <widget class="QLabel" name="label_12">
-         <property name="text">
-          <string>Pixel aspect ratio</string>
+         <property name="columnCount">
+          <number>2</number>
          </property>
-        </widget>
-       </item>
-       <item row="3" column="2">
-        <widget class="KLineEdit" name="clip_ratio">
-         <property name="readOnly">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="2">
-        <spacer name="verticalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>17</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="4" column="0">
-        <widget class="QLabel" name="label">
-         <property name="text">
-          <string>Pixel format</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0">
-        <widget class="QLabel" name="label_2">
-         <property name="text">
-          <string>Colorspace</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="2">
-        <widget class="KLineEdit" name="clip_pixfmt">
-         <property name="readOnly">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="2">
-        <widget class="KLineEdit" name="clip_colorspace">
-         <property name="readOnly">
-          <bool>true</bool>
-         </property>
+         <column>
+          <property name="text">
+           <string>1</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>2</string>
+          </property>
+         </column>
         </widget>
        </item>
       </layout>
@@ -213,60 +154,43 @@
        <string>Audio</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_4">
-       <item row="0" column="1" colspan="2">
-        <widget class="KLineEdit" name="clip_acodec">
-         <property name="readOnly">
+       <item row="0" column="0" colspan="2">
+        <widget class="QTreeWidget" name="clip_aproperties">
+         <property name="frameShape">
+          <enum>QFrame::NoFrame</enum>
+         </property>
+         <property name="alternatingRowColors">
           <bool>true</bool>
          </property>
-        </widget>
-       </item>
-       <item row="2" column="1" colspan="2">
-        <widget class="KLineEdit" name="clip_frequency">
-         <property name="readOnly">
+         <property name="selectionMode">
+          <enum>QAbstractItemView::NoSelection</enum>
+         </property>
+         <property name="rootIsDecorated">
+          <bool>false</bool>
+         </property>
+         <property name="itemsExpandable">
+          <bool>false</bool>
+         </property>
+         <property name="allColumnsShowFocus">
           <bool>true</bool>
          </property>
-        </widget>
-       </item>
-       <item row="1" column="1" colspan="2">
-        <widget class="KLineEdit" name="clip_channels">
-         <property name="readOnly">
+         <property name="headerHidden">
           <bool>true</bool>
          </property>
+         <property name="columnCount">
+          <number>2</number>
+         </property>
+         <column>
+          <property name="text">
+           <string>1</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>2</string>
+          </property>
+         </column>
         </widget>
-       </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_9">
-         <property name="text">
-          <string>Audio codec</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_11">
-         <property name="text">
-          <string>Channels</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="label_10">
-         <property name="text">
-          <string>Frequency</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1">
-        <spacer name="verticalSpacer_8">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
        </item>
       </layout>
      </widget>

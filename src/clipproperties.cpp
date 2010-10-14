@@ -39,6 +39,7 @@ static const int MARKERTAB = 5;
 static const int METATAB = 6;
 static const int ADVANCEDTAB = 7;
 
+
 ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidget * parent) :
     QDialog(parent),
     m_clip(clip),
@@ -120,11 +121,13 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
     connect(m_view.clip_force_aindex, SIGNAL(toggled(bool)), m_view.clip_aindex, SLOT(setEnabled(bool)));
 
     if (props.contains("audiocodec"))
-        m_view.clip_acodec->setText(props.value("audiocodec"));
-    if (props.contains("frequency"))
-        m_view.clip_frequency->setText(props.value("frequency"));
+        QTreeWidgetItem *item = new QTreeWidgetItem(m_view.clip_aproperties, QStringList() << i18n("Audio codec") << props.value("audiocodec"));
+
     if (props.contains("channels"))
-        m_view.clip_channels->setText(props.value("channels"));
+        QTreeWidgetItem *item = new QTreeWidgetItem(m_view.clip_aproperties, QStringList() << i18n("Channels") << props.value("channels"));
+
+    if (props.contains("frequency"))
+        QTreeWidgetItem *item = new QTreeWidgetItem(m_view.clip_aproperties, QStringList() << i18n("Frequency") << props.value("frequency"));
 
     CLIPTYPE t = m_clip->clipType();
     if (t != AUDIO && t != AV) {
@@ -259,23 +262,34 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
         m_view.tabWidget->removeTab(IMAGETAB);
         m_view.tabWidget->removeTab(SLIDETAB);
         m_view.tabWidget->removeTab(COLORTAB);
-        if (props.contains("frame_size"))
-            m_view.clip_size->setText(props.value("frame_size"));
+
+
+
+        m_propsDelegate = new PropertiesViewDelegate(this);
+        m_view.clip_vproperties->setItemDelegate(m_propsDelegate);
+        m_view.clip_aproperties->setItemDelegate(m_propsDelegate);
+        m_view.clip_aproperties->setStyleSheet(QString("QTreeWidget { background-color: transparent;}"));
+        m_view.clip_vproperties->setStyleSheet(QString("QTreeWidget { background-color: transparent;}"));
+
         if (props.contains("videocodec"))
-            m_view.clip_vcodec->setText(props.value("videocodec"));
+            QTreeWidgetItem *item = new QTreeWidgetItem(m_view.clip_vproperties, QStringList() << i18n("Video codec") << props.value("videocodec"));
+
+        if (props.contains("frame_size"))
+            new QTreeWidgetItem(m_view.clip_vproperties, QStringList() << i18n("Frame size") << props.value("frame_size"));
+
         if (props.contains("fps")) {
-            m_view.clip_fps->setText(props.value("fps"));
+            new QTreeWidgetItem(m_view.clip_vproperties, QStringList() << i18n("Frame rate") << props.value("fps"));
             if (!m_view.clip_framerate->isEnabled()) m_view.clip_framerate->setValue(props.value("fps").toDouble());
         }
-        if (props.contains("pix_fmt")) {
-            m_view.clip_pixfmt->setText(props.value("pix_fmt"));
-        } else m_view.clip_pixfmt->setEnabled(false);
-        if (props.contains("colorspace")) {
-            m_view.clip_colorspace->setText(ProfilesDialog::getColorspaceDescription(props.value("colorspace").toInt()));
-        } else m_view.clip_colorspace->setEnabled(false);
-
         if (props.contains("aspect_ratio"))
-            m_view.clip_ratio->setText(props.value("aspect_ratio"));
+            new QTreeWidgetItem(m_view.clip_vproperties, QStringList() << i18n("Pixel aspect ratio") << props.value("aspect_ratio"));
+
+        if (props.contains("pix_fmt"))
+            new QTreeWidgetItem(m_view.clip_vproperties, QStringList() << i18n("Pixel format") << props.value("pix_fmt"));
+
+        if (props.contains("colorspace"))
+            new QTreeWidgetItem(m_view.clip_vproperties, QStringList() << i18n("Colorspace") << ProfilesDialog::getColorspaceDescription(props.value("colorspace").toInt()));
+
         int width = 180.0 * KdenliveSettings::project_display_ratio();
         if (width % 2 == 1) width++;
         QPixmap pix = m_clip->thumbProducer()->getImage(url, m_clip->getClipThumbFrame(), width, 180);
@@ -417,7 +431,10 @@ ClipProperties::ClipProperties(QList <DocClipBase *>cliplist, Timecode tc, QMap 
     }
 }
 
-
+ClipProperties::~ClipProperties()
+{
+    delete m_propsDelegate;
+}
 
 void ClipProperties::slotEnableLuma(int state)
 {

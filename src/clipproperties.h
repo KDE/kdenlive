@@ -21,11 +21,26 @@
 #ifndef CLIPPROPERTIES_H
 #define CLIPPROPERTIES_H
 
-
 #include "definitions.h"
 #include "timecode.h"
 #include "docclipbase.h"
 #include "ui_clipproperties_ui.h"
+
+#include <QStyledItemDelegate>
+
+class PropertiesViewDelegate : public QStyledItemDelegate
+{
+    Q_OBJECT
+public:
+    PropertiesViewDelegate(QWidget *parent) : QStyledItemDelegate(parent) {
+        m_height = parent->fontMetrics().height() * 1.5;
+    }
+    virtual QSize sizeHint(const QStyleOptionViewItem & option, const QModelIndex & index) const {
+        return QSize(10, m_height);
+    }
+private:
+    int m_height;
+};
 
 class ClipProperties : public QDialog
 {
@@ -34,6 +49,7 @@ class ClipProperties : public QDialog
 public:
     ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidget * parent = 0);
     ClipProperties(QList <DocClipBase *>cliplist, Timecode tc, QMap <QString, QString> commonproperties, QWidget * parent);
+    virtual ~ClipProperties();
     QMap <QString, QString> properties();
     const QString &clipId() const;
     bool needsTimelineRefresh() const;
@@ -62,6 +78,8 @@ private:
     bool m_clipNeedsRefresh;
     /** clip resource changed, reload it */
     bool m_clipNeedsReLoad;
+    /** Used to draw video / audio properties */
+    PropertiesViewDelegate *m_propsDelegate;
 
 signals:
     void addMarker(const QString &, GenTime, QString);
