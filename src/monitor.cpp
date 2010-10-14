@@ -698,6 +698,13 @@ void Monitor::refreshMonitor(bool visible)
     }
 }
 
+void Monitor::refreshMonitor()
+{
+    if (m_isActive) {
+        render->doRefresh();
+    }
+}
+
 void Monitor::pause()
 {
     if (render == NULL) return;
