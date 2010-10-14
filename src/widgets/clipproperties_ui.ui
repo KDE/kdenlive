@@ -101,6 +101,9 @@
    </item>
    <item row="6" column="0" colspan="4">
     <widget class="QTabWidget" name="tabWidget">
+     <property name="tabPosition">
+      <enum>QTabWidget::South</enum>
+     </property>
      <property name="currentIndex">
       <number>0</number>
      </property>
