@@ -60,6 +60,9 @@ public slots:
      * @param activateClip whether to activate the clip monitor */
     void slotSwitchMonitors(bool activateClip);
 
+private slots:
+    void slotRefreshCurrentMonitor();
+
 private:
     Monitor *m_clipMonitor;
     Monitor *m_projectMonitor;

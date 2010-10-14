@@ -169,5 +169,10 @@ void MonitorManager::slotResetProfiles()
     activateMonitor(active);
 }
 
+void MonitorManager::slotRefreshCurrentMonitor()
+{
+    if (m_clipMonitor->isActive()) m_clipMonitor->refreshMonitor();
+    else m_projectMonitor->refreshMonitor();
+}
 
 #include "monitormanager.moc"

@@ -47,15 +47,18 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
     m_fps(fps),
     m_count(0),
     m_clipNeedsRefresh(false),
-    m_clipNeedsReLoad(false)
+    m_clipNeedsReLoad(false),
+    m_propsDelegate(NULL)
 {
+    setAttribute(Qt::WA_DeleteOnClose, true);
     setFont(KGlobalSettings::toolBarFont());
     m_view.setupUi(this);
     KUrl url = m_clip->fileURL();
     m_view.clip_path->setText(url.path());
     m_view.clip_description->setText(m_clip->description());
-    QMap <QString, QString> props = m_clip->properties();
+    connect(m_view.clip_description, SIGNAL(textChanged(QString)), this, SLOT(slotModified()));
 
+    QMap <QString, QString> props = m_clip->properties();
     m_view.clip_force_out->setHidden(true);
     m_view.clip_out->setHidden(true);
 
@@ -63,37 +66,49 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
         m_view.clip_force_ar->setChecked(true);
         m_view.clip_ar->setEnabled(true);
         m_view.clip_ar->setValue(props.value("force_aspect_ratio").toDouble());
-    }
+    } else if (props.contains("aspect_ratio")) m_view.clip_ar->setValue(props.value("aspect_ratio").toDouble());
+    connect(m_view.clip_force_ar, SIGNAL(toggled(bool)), this, SLOT(slotModified()));
+    connect(m_view.clip_ar, SIGNAL(valueChanged(double)), this, SLOT(slotModified()));
 
     if (props.contains("force_fps") && props.value("force_fps").toDouble() > 0) {
         m_view.clip_force_framerate->setChecked(true);
         m_view.clip_framerate->setEnabled(true);
         m_view.clip_framerate->setValue(props.value("force_fps").toDouble());
     }
+    connect(m_view.clip_force_framerate, SIGNAL(toggled(bool)), this, SLOT(slotModified()));
+    connect(m_view.clip_framerate, SIGNAL(valueChanged(double)), this, SLOT(slotModified()));
 
     if (props.contains("force_progressive")) {
         m_view.clip_force_progressive->setChecked(true);
         m_view.clip_progressive->setEnabled(true);
         m_view.clip_progressive->setValue(props.value("force_progressive").toInt());
     }
+    connect(m_view.clip_force_progressive, SIGNAL(toggled(bool)), this, SLOT(slotModified()));
+    connect(m_view.clip_progressive, SIGNAL(valueChanged(int)), this, SLOT(slotModified()));
 
     if (props.contains("threads") && props.value("threads").toInt() != 1) {
         m_view.clip_force_threads->setChecked(true);
         m_view.clip_threads->setEnabled(true);
         m_view.clip_threads->setValue(props.value("threads").toInt());
     }
+    connect(m_view.clip_force_threads, SIGNAL(toggled(bool)), this, SLOT(slotModified()));
+    connect(m_view.clip_threads, SIGNAL(valueChanged(int)), this, SLOT(slotModified()));
 
     if (props.contains("video_index") && props.value("video_index").toInt() != 0) {
         m_view.clip_force_vindex->setChecked(true);
         m_view.clip_vindex->setEnabled(true);
         m_view.clip_vindex->setValue(props.value("video_index").toInt());
     }
+    connect(m_view.clip_force_vindex, SIGNAL(toggled(bool)), this, SLOT(slotModified()));
+    connect(m_view.clip_vindex, SIGNAL(valueChanged(int)), this, SLOT(slotModified()));
 
     if (props.contains("audio_index") && props.value("audio_index").toInt() != 0) {
         m_view.clip_force_aindex->setChecked(true);
         m_view.clip_aindex->setEnabled(true);
         m_view.clip_aindex->setValue(props.value("audio_index").toInt());
     }
+    connect(m_view.clip_force_aindex, SIGNAL(toggled(bool)), this, SLOT(slotModified()));
+    connect(m_view.clip_aindex, SIGNAL(valueChanged(int)), this, SLOT(slotModified()));
 
     if (props.contains("audio_max")) {
         m_view.clip_aindex->setMaximum(props.value("audio_max").toInt());
@@ -147,6 +162,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
             m_view.image_size->setText(props.value("frame_size"));
         if (props.contains("transparency"))
             m_view.image_transparency->setChecked(props.value("transparency").toInt());
+        connect(m_view.image_transparency, SIGNAL(toggled(bool)), this, SLOT(slotModified()));
         int width = 180.0 * KdenliveSettings::project_display_ratio();
         if (width % 2 == 1) width++;
         m_view.clip_thumb->setPixmap(QPixmap(url.path()).scaled(QSize(width, 180), Qt::KeepAspectRatio));
@@ -159,6 +175,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
         m_view.tabWidget->removeTab(VIDEOTAB);
         m_view.clip_thumb->setHidden(true);
         m_view.clip_color->setColor(QColor('#' + props.value("colour").right(8).left(6)));
+        connect(m_view.clip_color, SIGNAL(changed(QColor)), this, SLOT(slotModified()));
     } else if (t == SLIDESHOW) {
         bool isMime = true;
         if (url.fileName().startsWith(".all.")) {
@@ -254,10 +271,23 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
         } else m_view.luma_file->setEnabled(false);
         slotEnableLuma(m_view.slide_fade->checkState());
         slotEnableLumaFile(m_view.slide_luma->checkState());
+
+        connect(m_view.slide_fade, SIGNAL(toggled(bool)), this, SLOT(slotModified()));
+        connect(m_view.slide_luma, SIGNAL(toggled(bool)), this, SLOT(slotModified()));
+        connect(m_view.slide_loop, SIGNAL(toggled(bool)), this, SLOT(slotModified()));
+        connect(m_view.slide_crop, SIGNAL(toggled(bool)), this, SLOT(slotModified()));
+        connect(m_view.slide_duration, SIGNAL(textChanged(QString)), this, SLOT(slotModified()));
+        connect(m_view.slide_duration_frames, SIGNAL(valueChanged(int)), this, SLOT(slotModified()));
+        connect(m_view.luma_duration, SIGNAL(textChanged(QString)), this, SLOT(slotModified()));
+        connect(m_view.luma_softness, SIGNAL(valueChanged(int)), this, SLOT(slotModified()));
+        connect(m_view.luma_file, SIGNAL(currentIndexChanged(int)), this, SLOT(slotModified()));
+        connect(m_view.animation, SIGNAL(currentIndexChanged(int)), this, SLOT(slotModified()));
+
+
         connect(m_view.slide_fade, SIGNAL(stateChanged(int)), this, SLOT(slotEnableLuma(int)));
         connect(m_view.slide_luma, SIGNAL(stateChanged(int)), this, SLOT(slotEnableLumaFile(int)));
-
         connect(m_view.image_type, SIGNAL(currentIndexChanged(int)), this, SLOT(parseFolder()));
+
     } else if (t != AUDIO) {
         m_view.tabWidget->removeTab(IMAGETAB);
         m_view.tabWidget->removeTab(SLIDETAB);
@@ -330,6 +360,9 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
     connect(m_view.marker_delete, SIGNAL(clicked()), this, SLOT(slotDeleteMarker()));
     connect(m_view.markers_list, SIGNAL(doubleClicked(const QModelIndex &)), this, SLOT(slotEditMarker()));
 
+    connect(this, SIGNAL(accepted()), this, SLOT(slotApplyProperties()));
+    connect(m_view.buttonBox->button(QDialogButtonBox::Apply), SIGNAL(clicked()), this, SLOT(slotApplyProperties()));
+    m_view.buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
     //adjustSize();
 }
 
@@ -433,8 +466,31 @@ ClipProperties::ClipProperties(QList <DocClipBase *>cliplist, Timecode tc, QMap 
 
 ClipProperties::~ClipProperties()
 {
-    delete m_propsDelegate;
+    if (m_propsDelegate) delete m_propsDelegate;
 }
+
+void ClipProperties::slotApplyProperties()
+{
+    if (m_clip != NULL)
+        emit applyNewClipProperties(m_clip->getId(), m_clip->properties(), properties(), needsTimelineRefresh(), needsTimelineReload());
+    m_view.buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
+}
+
+void ClipProperties::disableClipId(const QString &id)
+{
+    if (m_clip && m_view.buttonBox->button(QDialogButtonBox::Ok)->isEnabled()) {
+        if (m_clip->getId() == id) {
+            // clip was removed from project, close this properties dialog
+            close();
+        }
+    }
+}
+
+void ClipProperties::slotModified()
+{
+    m_view.buttonBox->button(QDialogButtonBox::Apply)->setEnabled(true);
+}
+
 
 void ClipProperties::slotEnableLuma(int state)
 {
@@ -725,6 +781,7 @@ void ClipProperties::parseFolder()
     }
 
     m_count = result.count();
+    m_view.buttonBox->button(QDialogButtonBox::Apply)->setEnabled(m_count > 0);
     if (m_count == 0) {
         // no images, do not accept that
         m_view.slide_info->setText(i18n("No image found"));

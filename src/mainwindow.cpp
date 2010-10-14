@@ -276,11 +276,11 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     m_audiosignalDock->setObjectName("audiosignal");
     m_audiosignalDock->setWidget(m_audiosignal);
     addDockWidget(Qt::TopDockWidgetArea, m_audiosignalDock);
-    if (m_projectMonitor){
-    	connect(m_projectMonitor->render, SIGNAL(showAudioSignal(const QByteArray&)), m_audiosignal, SLOT(showAudio(const QByteArray&)) );
+    if (m_projectMonitor) {
+        connect(m_projectMonitor->render, SIGNAL(showAudioSignal(const QByteArray&)), m_audiosignal, SLOT(showAudio(const QByteArray&)));
     }
-    if (m_clipMonitor){
-    	connect(m_clipMonitor->render, SIGNAL(showAudioSignal(const QByteArray&)), m_audiosignal, SLOT(showAudio(const QByteArray&)) );
+    if (m_clipMonitor) {
+        connect(m_clipMonitor->render, SIGNAL(showAudioSignal(const QByteArray&)), m_audiosignal, SLOT(showAudio(const QByteArray&)));
     }
     //connect(m_histogramDock, SIGNAL(visibilityChanged(bool)), this, SLOT(slotUpdateScopeFrameRequest()));
     //connect(m_histogram, SIGNAL(requestAutoRefresh(bool)), this, SLOT(slotUpdateScopeFrameRequest()));
@@ -2297,7 +2297,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
             disconnect(m_activeDocument, SIGNAL(guidesUpdated()), this, SLOT(slotGuidesUpdated()));
             disconnect(m_activeDocument, SIGNAL(addProjectClip(DocClipBase *, bool)), m_projectList, SLOT(slotAddClip(DocClipBase *, bool)));
             disconnect(m_activeDocument, SIGNAL(resetProjectList()), m_projectList, SLOT(slotResetProjectList()));
-            disconnect(m_activeDocument, SIGNAL(signalDeleteProjectClip(const QString &)), m_projectList, SLOT(slotDeleteClip(const QString &)));
+            disconnect(m_activeDocument, SIGNAL(signalDeleteProjectClip(const QString &)), this, SLOT(slotDeleteClip(const QString &)));
             disconnect(m_activeDocument, SIGNAL(updateClipDisplay(const QString &)), m_projectList, SLOT(slotUpdateClip(const QString &)));
             disconnect(m_activeDocument, SIGNAL(selectLastAddedClip(const QString &)), m_projectList, SLOT(slotSelectClip(const QString &)));
             disconnect(m_activeDocument, SIGNAL(deleteTimelineClip(const QString &)), m_activeTimeline, SLOT(slotDeleteClip(const QString &)));
@@ -2334,7 +2334,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
         }
         //m_activeDocument->setRenderer(NULL);
         disconnect(m_projectList, SIGNAL(clipSelected(DocClipBase *)), m_clipMonitor, SLOT(slotSetXml(DocClipBase *)));
-        disconnect(m_projectList, SIGNAL(refreshClip()), m_clipMonitor, SLOT(refreshMonitor()));
+        disconnect(m_projectList, SIGNAL(refreshClip()), m_monitorManager, SLOT(slotRefreshCurrentMonitor()));
         m_clipMonitor->stop();
     }
     KdenliveSettings::setCurrent_profile(doc->profilePath());
@@ -2344,7 +2344,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     m_transitionConfig->updateProjectFormat(doc->mltProfile(), doc->timecode(), doc->tracksList());
     m_effectStack->updateProjectFormat(doc->mltProfile(), doc->timecode());
     connect(m_projectList, SIGNAL(clipSelected(DocClipBase *, QPoint)), m_clipMonitor, SLOT(slotSetXml(DocClipBase *, QPoint)));
-    connect(m_projectList, SIGNAL(refreshClip()), m_clipMonitor, SLOT(refreshMonitor()));
+    connect(m_projectList, SIGNAL(refreshClip()), m_monitorManager, SLOT(slotRefreshCurrentMonitor()));
     connect(m_projectList, SIGNAL(clipNeedsReload(const QString&, bool)), trackView->projectView(), SLOT(slotUpdateClip(const QString &, bool)));
 
     connect(m_projectList, SIGNAL(projectModified()), doc, SLOT(setModified()));
@@ -2371,7 +2371,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
 
     connect(doc, SIGNAL(addProjectClip(DocClipBase *, bool)), m_projectList, SLOT(slotAddClip(DocClipBase *, bool)));
     connect(doc, SIGNAL(resetProjectList()), m_projectList, SLOT(slotResetProjectList()));
-    connect(doc, SIGNAL(signalDeleteProjectClip(const QString &)), m_projectList, SLOT(slotDeleteClip(const QString &)));
+    connect(doc, SIGNAL(signalDeleteProjectClip(const QString &)), this, SLOT(slotDeleteClip(const QString &)));
     connect(doc, SIGNAL(updateClipDisplay(const QString &)), m_projectList, SLOT(slotUpdateClip(const QString &)));
     connect(doc, SIGNAL(selectLastAddedClip(const QString &)), m_projectList, SLOT(slotSelectClip(const QString &)));
 
@@ -3075,19 +3075,23 @@ void MainWindow::slotShowClipProperties(DocClipBase *clip)
     }
 
     // any type of clip but a title
-    ClipProperties dia(clip, m_activeDocument->timecode(), m_activeDocument->fps(), this);
-    connect(&dia, SIGNAL(addMarker(const QString &, GenTime, QString)), m_activeTimeline->projectView(), SLOT(slotAddClipMarker(const QString &, GenTime, QString)));
-    if (dia.exec() == QDialog::Accepted) {
-        QMap <QString, QString> newprops = dia.properties();
-        if (newprops.isEmpty()) return;
-        EditClipCommand *command = new EditClipCommand(m_projectList, clip->getId(), clip->properties(), newprops, true);
-        m_activeDocument->commandStack()->push(command);
-        m_activeDocument->setModified();
+    ClipProperties *dia = new ClipProperties(clip, m_activeDocument->timecode(), m_activeDocument->fps(), this);
+    connect(dia, SIGNAL(addMarker(const QString &, GenTime, QString)), m_activeTimeline->projectView(), SLOT(slotAddClipMarker(const QString &, GenTime, QString)));
+    connect(dia, SIGNAL(applyNewClipProperties(const QString, QMap <QString, QString> , QMap <QString, QString> , bool, bool)), this, SLOT(slotApplyNewClipProperties(const QString, QMap <QString, QString> , QMap <QString, QString> , bool, bool)));
+    dia->show();
+}
 
-        if (dia.needsTimelineRefresh()) {
-            // update clip occurences in timeline
-            m_activeTimeline->projectView()->slotUpdateClip(clip->getId(), dia.needsTimelineReload());
-        }
+
+void MainWindow::slotApplyNewClipProperties(const QString id, QMap <QString, QString> props, QMap <QString, QString> newprops, bool refresh, bool reload)
+{
+    if (newprops.isEmpty()) return;
+    EditClipCommand *command = new EditClipCommand(m_projectList, id, props, newprops, true);
+    m_activeDocument->commandStack()->push(command);
+    m_activeDocument->setModified();
+
+    if (refresh) {
+        // update clip occurences in timeline
+        m_activeTimeline->projectView()->slotUpdateClip(id, reload);
     }
 }
 
@@ -3890,11 +3894,11 @@ void MainWindow::slotShowTitleBars(bool show)
 {
     QList <QDockWidget *> docks = findChildren<QDockWidget *>();
     for (int i = 0; i < docks.count(); i++) {
-        QDockWidget* dock=docks.at(i);
-        if (show){
-            dock->setTitleBarWidget(0);	
-        }else{
-            if (!dock->isFloating()){
+        QDockWidget* dock = docks.at(i);
+        if (show) {
+            dock->setTitleBarWidget(0);
+        } else {
+            if (!dock->isFloating()) {
                 dock->setTitleBarWidget(new QWidget);
             }
         }
@@ -3977,10 +3981,20 @@ void MainWindow::slotUpdateColorScopes()
 void MainWindow::slotOpenStopmotion()
 {
     if (m_stopmotion == NULL) {
-	m_stopmotion = new StopmotionWidget(m_activeDocument->projectFolder(), this);
-	connect(m_stopmotion, SIGNAL(addOrUpdateSequence(const QString)), m_projectList, SLOT(slotAddOrUpdateSequence(const QString)));
+        m_stopmotion = new StopmotionWidget(m_activeDocument->projectFolder(), this);
+        connect(m_stopmotion, SIGNAL(addOrUpdateSequence(const QString)), m_projectList, SLOT(slotAddOrUpdateSequence(const QString)));
     }
     m_stopmotion->show();
+}
+
+
+void MainWindow::slotDeleteClip(const QString &id)
+{
+    QList <ClipProperties *> list = findChildren<ClipProperties *>();
+    for (int i = 0; i < list.size(); ++i) {
+        list.at(i)->disableClipId(id);
+    }
+    m_projectList->slotDeleteClip(id);
 }
 
 #include "mainwindow.moc"

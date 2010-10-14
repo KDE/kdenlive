@@ -54,7 +54,8 @@ public:
     const QString &clipId() const;
     bool needsTimelineRefresh() const;
     bool needsTimelineReload() const;
-
+    void disableClipId(const QString &id);
+    
 private slots:
     void parseFolder();
     void slotAddMarker();
@@ -65,6 +66,8 @@ private slots:
     void slotEnableLuma(int state);
     void slotEnableLumaFile(int state);
     void slotUpdateDurationFormat(int ix);
+    void slotApplyProperties();
+    void slotModified();
 
 private:
     Ui::ClipProperties_UI m_view;
@@ -83,6 +86,7 @@ private:
 
 signals:
     void addMarker(const QString &, GenTime, QString);
+    void applyNewClipProperties(const QString, QMap <QString, QString> , QMap <QString, QString> , bool, bool);
 };
 
 

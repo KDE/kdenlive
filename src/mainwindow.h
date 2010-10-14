@@ -492,6 +492,12 @@ private slots:
     /** @brief Update the capture folder if user asked a change. */
     void slotUpdateCaptureFolder();
 
+    /** @brief Apply new properties to a clip */
+    void slotApplyNewClipProperties(const QString id, QMap <QString, QString> props, QMap <QString, QString> newprops, bool refresh, bool reload);
+
+    /** @brief Delete a clip from current project */
+    void slotDeleteClip(const QString &id);
+
     /** @brief Saves the widgets layout */
     void slotSaveLayout(QAction*);
     void slotLoadLayout(QAction*);
