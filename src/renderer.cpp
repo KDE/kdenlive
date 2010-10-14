@@ -964,7 +964,8 @@ int Render::setSceneList(QString playlist, int position)
 const QString Render::sceneList()
 {
     QString playlist;
-    Mlt::Consumer xmlConsumer(*m_mltProfile, "xml:kdenlive_playlist");
+    Mlt::Profile profile((mlt_profile) 0);
+    Mlt::Consumer xmlConsumer(profile, "xml:kdenlive_playlist");
     m_mltProducer->optimise();
     xmlConsumer.set("terminate_on_pause", 1);
     Mlt::Producer prod(m_mltProducer->get_producer());
