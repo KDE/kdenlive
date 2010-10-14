@@ -3,7 +3,7 @@ EXTRACTRC=`which extractrc`
 # XGETTEXT="`which xgettext` --kde -ki18n --no-location -s "
 XGETTEXT="`which xgettext` -s "
 podir=`pwd`/po
-kdenlive_subdirs="src src/widgets renderer"
+kdenlive_subdirs="src src/widgets renderer plugins"
 
 
 kde_inc=${includedir:-${KDEDIR:-@CMAKE_INSTALL_PREFIX@}/include/kde}/kde.pot
