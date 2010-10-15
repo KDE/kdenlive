@@ -6,15 +6,31 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>322</width>
-    <height>111</height>
+    <width>312</width>
+    <height>88</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Marker</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="3" column="0" colspan="3">
+   <item row="2" column="1" colspan="3">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>218</width>
+       <height>2</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="0" column="2">
+    <layout class="QHBoxLayout" name="inputLayout"/>
+   </item>
+   <item row="3" column="0" colspan="4">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -31,23 +47,10 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="1" colspan="2">
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>218</width>
-       <height>2</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="0" column="0" rowspan="2">
+   <item row="0" column="0" rowspan="3">
     <widget class="QLabel" name="clip_thumb">
      <property name="frameShape">
-      <enum>QFrame::Box</enum>
+      <enum>QFrame::NoFrame</enum>
      </property>
      <property name="text">
       <string>Image preview</string>
@@ -57,7 +60,7 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="2">
+   <item row="1" column="2" colspan="2">
     <widget class="KLineEdit" name="marker_comment"/>
    </item>
    <item row="0" column="1">
@@ -67,15 +70,20 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="2">
-    <layout class="QHBoxLayout" name="inputLayout"/>
+   <item row="0" column="3">
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
    </item>
   </layout>
-  <zorder>buttonBox</zorder>
-  <zorder>clip_filesize_3</zorder>
-  <zorder>clip_thumb</zorder>
-  <zorder>marker_comment</zorder>
-  <zorder>clip_filesize_2</zorder>
  </widget>
  <customwidgets>
   <customwidget>

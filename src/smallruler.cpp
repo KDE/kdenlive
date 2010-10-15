@@ -38,6 +38,7 @@ SmallRuler::SmallRuler(MonitorManager *manager, QWidget *parent) :
     m_zoneEnd = 60;
     m_zoneColor = KStatefulBrush(KColorScheme::View, KColorScheme::PositiveBackground, KSharedConfig::openConfig(KdenliveSettings::colortheme())).brush(this).color();
     setMouseTracking(true);
+    setMinimumHeight(15);
 }
 
 void SmallRuler::adjustScale(int maximum)
@@ -154,6 +155,19 @@ void SmallRuler::updatePixmap()
     const int zoneEnd = (int)(m_zoneEnd * m_scale);
     p.fillRect(zoneStart, height() / 2 - 1, zoneEnd - zoneStart, height() / 2, m_zoneColor);
 
+    // draw ruler
+    p.setPen(palette().text().color());
+    // draw the little marks
+    fend = m_scale * m_small;
+    if (fend > 2) for (f = 0; f < width(); f += fend) {
+        p.drawLine((int)f, 0, (int)f, 3);
+    }
+
+    // draw medium marks
+    fend = m_scale * m_medium;
+    if (fend > 2) for (f = 0; f < width(); f += fend) {
+	p.drawLine((int)f, 0, (int)f, 6);
+    }
     // draw markers
     if (!m_markers.isEmpty()) {
         p.setPen(Qt::red);
@@ -161,18 +175,6 @@ void SmallRuler::updatePixmap()
             p.drawLine(m_markers.at(i) * m_scale, 0, m_markers.at(i) * m_scale, 9);
         }
     }
-    p.setPen(palette().text().color());
-    // draw the little marks
-    fend = m_scale * m_small;
-    if (fend > 2) for (f = 0; f < width(); f += fend) {
-            p.drawLine((int)f, 0, (int)f, 3);
-        }
-
-    // draw medium marks
-    fend = m_scale * m_medium;
-    if (fend > 2) for (f = 0; f < width(); f += fend) {
-            p.drawLine((int)f, 0, (int)f, 6);
-        }
     p.end();
     update();
 }
