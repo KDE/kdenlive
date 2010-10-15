@@ -42,7 +42,9 @@ class GeometryWidget : public QWidget
 public:
     /** @brief Sets up the UI and connects it.
     * @param monitor Project monitor
+    * @param timecode Timecode needed by timecode display widget
     * @param clipPos Position of the clip in timeline
+    * @param isEffect true if used in an effect, false if used in a transition
     * @param parent (optional) Parent widget */
     GeometryWidget(Monitor *monitor, Timecode timecode, int clipPos, bool isEffect, QWidget* parent = 0);
     virtual ~GeometryWidget();

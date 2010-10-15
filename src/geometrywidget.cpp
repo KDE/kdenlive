@@ -30,7 +30,6 @@
 
 #include <QtCore>
 #include <QGraphicsView>
-#include <QGraphicsRectItem>
 #include <QVBoxLayout>
 #include <QGridLayout>
 
@@ -141,6 +140,7 @@ GeometryWidget::GeometryWidget(Monitor* monitor, Timecode timecode, int clipPos,
 
 GeometryWidget::~GeometryWidget()
 {
+    m_scene->setEnabled(true);
     delete m_timePos;
     delete m_timeline;
     m_scene->removeItem(m_rect);

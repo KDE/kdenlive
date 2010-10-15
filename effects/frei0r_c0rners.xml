@@ -3,39 +3,43 @@
 	<name>C0rners</name>
 	<description>Four corners geometry engine</description>
 	<author>Marko Cebokli</author>
-	
-	<parameter type="constant" name="Corner 1 X" default="2000" min="0" max="6000" factor="6000">
+
+        <!-- No actual parameter: Represents the corners widget (used to edit corners on the monitor) -->
+        <parameter type="corners" default="0" xpoints="Corner %i X" ypoints="Corner %i Y" factor="6000">
+                <name>Corners widget</name>
+        </parameter>
+
+	<parameter type="fixed" name="Corner 1 X" default="2000" min="0" max="6000" factor="6000">
 		<name>Corner 1 X</name>
 	</parameter>
 	
-	<parameter type="constant" name="Corner 1 Y" default="2000" min="0" max="6000" factor="6000">
+	<parameter type="fixed" name="Corner 1 Y" default="2000" min="0" max="6000" factor="6000">
 		<name>Corner 1 Y</name>
 	</parameter>
 	
-	<parameter type="constant" name="Corner 2 X" default="4000" min="0" max="6000" factor="6000">
+	<parameter type="fixed" name="Corner 2 X" default="4000" min="0" max="6000" factor="6000">
 		<name>Corner 2 X</name>
 	</parameter>
 	
-	<parameter type="constant" name="Corner 2 Y" default="2000" min="0" max="6000" factor="6000">
+        <parameter type="fixed" name="Corner 2 Y" default="2000" min="0" max="6000" factor="6000">
 		<name>Corner 2 Y</name>
 	</parameter>
 	
-	<parameter type="constant" name="Corner 3 X" default="4000" min="0" max="6000" factor="6000">
+        <parameter type="fixed" name="Corner 3 X" default="4000" min="0" max="6000" factor="6000">
 		<name>Corner 3 X</name>
 	</parameter>
 	
-	<parameter type="constant" name="Corner 3 Y" default="4000" min="0" max="6000" factor="6000">
+        <parameter type="fixed" name="Corner 3 Y" default="4000" min="0" max="6000" factor="6000">
 		<name>Corner 3 Y</name>
 	</parameter>
 	
-	<parameter type="constant" name="Corner 4 X" default="2000" min="0" max="6000" factor="6000">
+        <parameter type="fixed" name="Corner 4 X" default="2000" min="0" max="6000" factor="6000">
 		<name>Corner 4 X</name>
 	</parameter>
 	
-	<parameter type="constant" name="Corner 4 Y" default="4000" min="0" max="6000" factor="6000">
+        <parameter type="fixed" name="Corner 4 Y" default="4000" min="0" max="6000" factor="6000">
 		<name>Corner 4 Y</name>
 	</parameter>
-	
 	
 	<parameter type="bool" name="Enable Stretch" default="0">
 		<name>Enable Stretch</name>

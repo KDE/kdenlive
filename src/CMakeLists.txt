@@ -103,6 +103,7 @@ kde4_add_ui_files(kdenlive_UI
   widgets/geometrywidget_ui.ui
   widgets/stopmotion_ui.ui
   widgets/monitorscenecontrolwidget_ui.ui
+  widgets/cornerswidget_ui.ui
 )
 
 set(kdenlive_SRCS
@@ -229,7 +230,9 @@ set(kdenlive_SRCS
   stopmotion/stopmotion.cpp
   onmonitoritems/abstractonmonitoritem.cpp 
   onmonitoritems/onmonitorrectitem.cpp
+  onmonitoritems/onmonitorcornersitem.cpp
   monitorscenecontrolwidget.cpp
+  cornerswidget.cpp
 )
 
 
