@@ -34,49 +34,24 @@ OnMonitorCornersItem::OnMonitorCornersItem(MonitorScene* scene, QGraphicsItem* p
     QPen framepen(Qt::SolidLine);
     framepen.setColor(Qt::yellow);
     setPen(framepen);
-    setBrush(Qt::transparent);
+    setBrush(Qt::NoBrush);
 }
 
 cornersActions OnMonitorCornersItem::getMode(QPoint pos)
 {
-    /*pos = mapFromScene(pos).toPoint();
-    // Item mapped coordinates
-    QPolygon pol(rect().normalized().toRect());
-
-    QPainterPath top(pol.point(0));
-    top.lineTo(pol.point(1));
-    QPainterPath bottom(pol.point(2));
-    bottom.lineTo(pol.point(3));
-    QPainterPath left(pol.point(0));
-    left.lineTo(pol.point(3));
-    QPainterPath right(pol.point(1));
-    right.lineTo(pol.point(2));
-
     QPainterPath mouseArea;
-    mouseArea.addRect(pos.x() - 4, pos.y() - 4, 8, 8);
-
-    // Check for collisions between the mouse and the borders
-    if (mouseArea.contains(pol.point(0)))
-        return ResizeTopLeft;
-    else if (mouseArea.contains(pol.point(2)))
-        return ResizeBottomRight;
-    else if (mouseArea.contains(pol.point(1)))
-        return ResizeTopRight;
-    else if (mouseArea.contains(pol.point(3)))
-        return ResizeBottomLeft;
-    else if (top.intersects(mouseArea))
-        return ResizeTop;
-    else if (bottom.intersects(mouseArea))
-        return ResizeBottom;
-    else if (right.intersects(mouseArea))
-        return ResizeRight;
-    else if (left.intersects(mouseArea))
-        return ResizeLeft;
-    else if (rect().normalized().contains(pos))
-        return Move;
+    pos = mapFromScene(pos).toPoint();
+    mouseArea.addRect(pos.x() - 6, pos.y() - 6, 12, 12);
+    if (mouseArea.contains(polygon().at(0)))
+        return Corner1;
+    else if (mouseArea.contains(polygon().at(1)))
+        return Corner2;
+    else if (mouseArea.contains(polygon().at(2)))
+        return Corner3;
+    else if (mouseArea.contains(polygon().at(3)))
+        return Corner4;
     else
-        return NoAction;*/
-    return NoAction;
+        return NoAction;
 }
 
 void OnMonitorCornersItem::slotMousePressed(QGraphicsSceneMouseEvent* event)
@@ -86,8 +61,7 @@ void OnMonitorCornersItem::slotMousePressed(QGraphicsSceneMouseEvent* event)
     if (!isEnabled())
         return;
 
-    m_clickPoint = event->scenePos();
-    m_mode = getMode(m_clickPoint.toPoint());
+    m_mode = getMode(event->scenePos().toPoint());
 }
 
 void OnMonitorCornersItem::slotMouseMoved(QGraphicsSceneMouseEvent* event)
@@ -104,26 +78,30 @@ void OnMonitorCornersItem::slotMouseMoved(QGraphicsSceneMouseEvent* event)
      *   return;
     }*/
 
-    QPointF mousePos = event->scenePos();
-
     if (event->buttons() & Qt::LeftButton) {
-        m_clickPoint = mousePos;
+        QPoint mousePos = mapFromScene(event->scenePos()).toPoint();
+        QPolygon p = polygon().toPolygon();
         switch (m_mode) {
         case Corner1:
-            
+            p.replace(0, mousePos);
+            m_modified = true;
             break;
         case Corner2:
-            
+            p.replace(1, mousePos);
+            m_modified = true;
             break;
         case Corner3:
-            
+            p.replace(2, mousePos);
+            m_modified = true;
             break;
         case Corner4:
-            
+            p.replace(3, mousePos);
+            m_modified = true;
             break;
         default:
             break;
         }
+        setPolygon(p);
     } else {
         switch (getMode(event->scenePos().toPoint())) {
         case NoAction:
@@ -140,21 +118,17 @@ void OnMonitorCornersItem::slotMouseMoved(QGraphicsSceneMouseEvent* event)
     }
 }
 
-/*void OnMonitorRectItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
+void OnMonitorCornersItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
-    Q_UNUSED(widget);
+    QGraphicsPolygonItem::paint(painter, option, widget);
 
-    painter->setPen(pen());
-    painter->drawRect(option->rect);
-
-    if (isEnabled()) {
-        double handleSize = 6 / painter->matrix().m11();
-        double halfHandleSize = handleSize / 2;
-        painter->fillRect(-halfHandleSize, -halfHandleSize, handleSize, handleSize, QColor(Qt::yellow));
-        painter->fillRect(option->rect.width() - halfHandleSize, -halfHandleSize, handleSize, handleSize, QColor(Qt::yellow));
-        painter->fillRect(option->rect.width() - halfHandleSize, option->rect.height() - halfHandleSize, handleSize, handleSize, QColor(Qt::yellow));
-        painter->fillRect(-halfHandleSize, option->rect.height() - halfHandleSize, handleSize, handleSize, QColor(Qt::yellow));
-    }
-}*/
+    painter->setRenderHint(QPainter::Antialiasing);
+    painter->setBrush(QBrush(Qt::yellow));
+    double handleSize = 4 / painter->matrix().m11();
+    painter->drawEllipse(polygon().at(0), handleSize, handleSize);
+    painter->drawEllipse(polygon().at(1), handleSize, handleSize);
+    painter->drawEllipse(polygon().at(2), handleSize, handleSize);
+    painter->drawEllipse(polygon().at(3), handleSize, handleSize);
+}
 
 #include "onmonitorcornersitem.moc"

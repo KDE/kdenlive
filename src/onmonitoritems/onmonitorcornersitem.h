@@ -38,7 +38,7 @@ public:
     cornersActions getMode(QPoint pos);
     
     /** @brief Reimplemented to draw the handles. */
-    //virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0 );
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0 );
 
 public slots:
     /** @brief Saves current mouse position and mode. */
