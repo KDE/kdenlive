@@ -1030,6 +1030,16 @@ void VideoContainer::mouseMoveEvent(QMouseEvent *event)
 }
 
 // virtual
+void VideoContainer::keyPressEvent(QKeyEvent *event)
+{
+    // Exit fullscreen with Esc key
+    if (event->key() == Qt::Key_Escape && isFullScreen()) {
+        switchFullScreen();
+        event->setAccepted(true);
+    } else event->setAccepted(false);
+}
+
+// virtual
 void VideoContainer::wheelEvent(QWheelEvent * event)
 {
     if (m_monitor->underMouse()) event->setAccepted(false);
