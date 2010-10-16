@@ -81,6 +81,11 @@ CornersWidget::CornersWidget(Monitor* monitor, int clipPos, bool isEffect, int f
     connect(m_ui.spinY3, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateItem()));
     connect(m_ui.spinY4, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateItem()));
 
+    connect(m_ui.toolReset1, SIGNAL(clicked()), this, SLOT(slotResetCorner1()));
+    connect(m_ui.toolReset2, SIGNAL(clicked()), this, SLOT(slotResetCorner2()));
+    connect(m_ui.toolReset3, SIGNAL(clicked()), this, SLOT(slotResetCorner3()));
+    connect(m_ui.toolReset4, SIGNAL(clicked()), this, SLOT(slotResetCorner4()));
+
     connect(m_config, SIGNAL(showScene(bool)), this, SLOT(slotShowScene(bool)));
     connect(m_monitor, SIGNAL(renderPosition(int)), this, SLOT(slotCheckMonitorPosition(int)));
     connect(m_scene, SIGNAL(actionFinished()), this, SLOT(slotUpdateProperties()));
@@ -193,6 +198,42 @@ void CornersWidget::slotShowScene(bool show)
         m_monitor->slotEffectScene(false);
     else
         slotCheckMonitorPosition(m_monitor->render->seekFramePosition());
+}
+
+void CornersWidget::slotResetCorner1()
+{
+    blockSignals(true);
+    m_ui.spinX1->setValue(0);
+    m_ui.spinY1->setValue(0);
+    blockSignals(false);
+    slotUpdateItem();
+}
+
+void CornersWidget::slotResetCorner2()
+{
+    blockSignals(true);
+    m_ui.spinX2->setValue(m_monitor->render->frameRenderWidth());
+    m_ui.spinY2->setValue(0);
+    blockSignals(false);
+    slotUpdateItem();
+}
+
+void CornersWidget::slotResetCorner3()
+{
+    blockSignals(true);
+    m_ui.spinX3->setValue(m_monitor->render->frameRenderWidth());
+    m_ui.spinY3->setValue(m_monitor->render->renderHeight());
+    blockSignals(false);
+    slotUpdateItem();
+}
+
+void CornersWidget::slotResetCorner4()
+{
+    blockSignals(true);
+    m_ui.spinX4->setValue(0);
+    m_ui.spinY4->setValue(m_monitor->render->renderHeight());
+    blockSignals(false);
+    slotUpdateItem();
 }
 
 #include "cornerswidget.moc"

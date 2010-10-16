@@ -86,6 +86,16 @@ private slots:
      * @param changed (default = true) Whether to emit parameterChanged */
     void slotUpdateProperties(bool changed = true);
 
+    /*
+     * These functions reset the positions of the corners.
+     * The default values in the effect XML file are not considered, but
+     * the position the corner would have without this effect applied. 
+     */
+    void slotResetCorner1();
+    void slotResetCorner2();
+    void slotResetCorner3();
+    void slotResetCorner4();
+
 signals:
     void parameterChanged();
     void checkMonitorPosition(int);

@@ -107,9 +107,6 @@
    </item>
    <item row="1" column="3">
     <widget class="QToolButton" name="toolReset1">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
      <property name="text">
       <string>...</string>
      </property>
@@ -120,9 +117,6 @@
    </item>
    <item row="2" column="3">
     <widget class="QToolButton" name="toolReset2">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
      <property name="text">
       <string>...</string>
      </property>
@@ -133,9 +127,6 @@
    </item>
    <item row="3" column="3">
     <widget class="QToolButton" name="toolReset3">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
      <property name="text">
       <string>...</string>
      </property>
@@ -146,9 +137,6 @@
    </item>
    <item row="4" column="3">
     <widget class="QToolButton" name="toolReset4">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
      <property name="text">
       <string>...</string>
      </property>
