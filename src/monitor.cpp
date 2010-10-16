@@ -64,13 +64,20 @@ Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget
     m_loopClipTransition(true)
 
 {
-    m_ui.setupUi(this);
     QVBoxLayout *layout = new QVBoxLayout;
     layout->setContentsMargins(0, 0, 0, 0);
+
+    // Video widget holder
+    m_videoBox = new VideoContainer(this);
+    m_videoBox->setContentsMargins(0, 0, 0, 0);
+    m_videoBox->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+    layout->addWidget(m_videoBox, 10);
+    layout->addStretch();
+
+    // Monitor ruler
     layout->addWidget(m_ruler);
-    m_ui.ruler_frame->setLayout(layout);
-    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    setMinimumHeight(200);
+
+    // Tool bar buttons
     QToolBar *toolbar = new QToolBar(name, this);
     QVBoxLayout *layout2 = new QVBoxLayout;
     layout2->setContentsMargins(0, 0, 0, 0);
@@ -91,7 +98,7 @@ Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget
     QToolButton *playButton = new QToolButton(toolbar);
     m_playMenu = new QMenu(i18n("Play..."), this);
     m_playAction = m_playMenu->addAction(m_playIcon, i18n("Play"));
-    m_playAction->setCheckable(true);
+    //m_playAction->setCheckable(true);
     connect(m_playAction, SIGNAL(triggered()), this, SLOT(slotPlay()));
 
     playButton->setMenu(m_playMenu);
@@ -127,31 +134,30 @@ Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget
     m_timePos = new TimecodeDisplay(m_monitorManager->timecode(), this);
     toolbar->addWidget(m_timePos);
     connect(m_timePos, SIGNAL(editingFinished()), this, SLOT(slotSeek()));
+    layout->addWidget(toolbar);
 
-    layout2->addWidget(toolbar);
-    m_ui.button_frame->setLayout(layout2);
-    const int toolHeight = toolbar->height();
-    m_ui.button_frame->setMinimumHeight(toolHeight);
-
-    //m_ruler->setPixelPerMark(3);
+    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    setLayout(layout);
+    setMinimumHeight(200);
 
     if (profile.isEmpty()) profile = KdenliveSettings::current_profile();
 
-    QVBoxLayout *rendererBox = new QVBoxLayout(m_ui.video_frame);
-    rendererBox->setContentsMargins(0, 0, 0, 0);
     bool monitorCreated = false;
 #ifdef Q_WS_MAC
-    createOpenGlWidget(rendererBox, profile);
+    createOpenGlWidget(videoBox, profile);
     monitorCreated = true;
     //m_glWidget->setFixedSize(width, height);
 #elif defined (USE_OPEN_GL)
     if (KdenliveSettings::openglmonitors()) {
-        monitorCreated = createOpenGlWidget(rendererBox, profile);
+        monitorCreated = createOpenGlWidget(m_videoBox, profile);
     }
 #endif
+    QVBoxLayout *lay = new QVBoxLayout;
+    lay->setContentsMargins(0, 0, 0, 0);
     if (!monitorCreated) {
-        m_monitorRefresh = new MonitorRefresh(m_ui.video_frame);
-        rendererBox->addWidget(m_monitorRefresh);
+        m_monitorRefresh = new MonitorRefresh;
+        lay->addWidget(m_monitorRefresh);
+        m_videoBox->setLayout(lay);
         render = new Render(m_name, (int) m_monitorRefresh->winId(), profile, this);
         m_monitorRefresh->setRenderer(render);
     }
@@ -174,10 +180,10 @@ Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget
 
     if (name == "project") {
         m_effectScene = new MonitorScene(render);
-        m_effectView = new QGraphicsView(m_effectScene, m_ui.video_frame);
+        m_effectView = new QGraphicsView(m_effectScene, m_videoBox);
+        lay->addWidget(m_effectView);
         m_effectView->setRenderHints(QFlags<QPainter::RenderHint>());
         m_effectView->scale(((double) render->renderWidth()) / render->frameRenderWidth(), 1.0);
-        rendererBox->addWidget(m_effectView);
         m_effectView->setMouseTracking(true);
         m_effectScene->setUp();
         m_effectView->hide();
@@ -197,21 +203,25 @@ Monitor::~Monitor()
     delete render;
 }
 
+QWidget *Monitor::container()
+{
+    return m_videoBox;
+}
+
 QString Monitor::name() const
 {
     return m_name;
 }
 
 #if defined(Q_WS_MAC) || defined(USE_OPEN_GL)
-bool Monitor::createOpenGlWidget(QVBoxLayout *rendererBox, const QString profile)
+bool Monitor::createOpenGlWidget(QWidget *parent, const QString profile)
 {
     render = new Render(m_name, 0, profile, this);
-    m_glWidget = new VideoGLWidget(m_ui.video_frame);
+    m_glWidget = new VideoGLWidget(parent);
     if (m_glWidget == NULL) {
         // Creation failed, we are in trouble...
         return false;
     }
-    rendererBox->addWidget(m_glWidget);
     m_glWidget->setImageAspectRatio(render->dar());
     m_glWidget->setBackgroundColor(KdenliveSettings::window_background());
     connect(render, SIGNAL(showImageSignal(QImage)), m_glWidget, SLOT(showImage(QImage)));
@@ -286,7 +296,7 @@ void Monitor::slotSetSizeOneToOne()
         height = height * 0.8;
     }
     kDebug() << "// MONITOR; set SIZE: " << width << ", " << height;
-    m_ui.video_frame->setFixedSize(width, height);
+    m_videoBox->setFixedSize(width, height);
     updateGeometry();
     adjustSize();
     //m_ui.video_frame->setMinimumSize(0, 0);
@@ -306,7 +316,7 @@ void Monitor::slotSetSizeOneToTwo()
         height = height * 0.8;
     }
     kDebug() << "// MONITOR; set SIZE: " << width << ", " << height;
-    m_ui.video_frame->setFixedSize(width, height);
+    m_videoBox->setFixedSize(width, height);
     updateGeometry();
     adjustSize();
     //m_ui.video_frame->setMinimumSize(0, 0);
@@ -315,7 +325,7 @@ void Monitor::slotSetSizeOneToTwo()
 
 void Monitor::resetSize()
 {
-    m_ui.video_frame->setMinimumSize(0, 0);
+    m_videoBox->setMinimumSize(0, 0);
 }
 
 DocClipBase *Monitor::activeClip()
@@ -412,18 +422,23 @@ void Monitor::slotSetZoneEnd()
 void Monitor::mousePressEvent(QMouseEvent * event)
 {
     if (event->button() != Qt::RightButton) {
-        if (m_ui.video_frame->underMouse()) {
+        if (m_videoBox->underMouse()) {
             m_dragStarted = true;
             m_DragStartPosition = event->pos();
         }
     } else m_contextMenu->popup(event->globalPos());
 }
 
+void Monitor::slotSwitchFullScreen()
+{
+    m_videoBox->switchFullScreen();
+}
+
 // virtual
 void Monitor::mouseReleaseEvent(QMouseEvent * event)
 {
     if (m_dragStarted) {
-        if (m_ui.video_frame->underMouse() && (!m_effectView || !m_effectView->isVisible())) {
+        if (m_videoBox->underMouse() && (!m_effectView || !m_effectView->isVisible())) {
             if (isActive()) slotPlay();
             else activateMonitor();
         } else QWidget::mouseReleaseEvent(event);
@@ -492,12 +507,18 @@ QStringList Monitor::mimeTypes() const
 // virtual
 void Monitor::wheelEvent(QWheelEvent * event)
 {
-    if (event->modifiers() == Qt::ControlModifier) {
+    slotMouseSeek(event->delta(), event->modifiers() == Qt::ControlModifier);
+    event->accept();
+}
+
+void Monitor::slotMouseSeek(int eventDelta, bool fast)
+{
+    if (fast) {
         int delta = m_monitorManager->timecode().fps();
-        if (event->delta() > 0) delta = 0 - delta;
+        if (eventDelta > 0) delta = 0 - delta;
         slotSeek(render->seekFramePosition() - delta);
     } else {
-        if (event->delta() >= 0) slotForwardOneFrame();
+        if (eventDelta >= 0) slotForwardOneFrame();
         else slotRewindOneFrame();
     }
 }
@@ -615,7 +636,7 @@ void Monitor::slotRewind(double speed)
         if (currentspeed >= 0) render->play(-2);
         else render->play(currentspeed * 2);
     } else render->play(speed);
-    m_playAction->setChecked(true);
+    //m_playAction->setChecked(true);
     m_playAction->setIcon(m_pauseIcon);
 }
 
@@ -627,7 +648,7 @@ void Monitor::slotForward(double speed)
         if (currentspeed <= 1) render->play(2);
         else render->play(currentspeed * 2);
     } else render->play(speed);
-    m_playAction->setChecked(true);
+    //m_playAction->setChecked(true);
     m_playAction->setIcon(m_pauseIcon);
 }
 
@@ -661,7 +682,7 @@ void Monitor::rendererStopped(int pos)
         m_timePos->setValue(pos);
     }
     disconnect(m_playAction, SIGNAL(triggered()), this, SLOT(slotPlay()));
-    m_playAction->setChecked(false);
+    //m_playAction->setChecked(false);
     connect(m_playAction, SIGNAL(triggered()), this, SLOT(slotPlay()));
     m_playAction->setIcon(m_playIcon);
 }
@@ -711,7 +732,7 @@ void Monitor::pause()
     activateMonitor();
     render->pause();
     //m_playAction->setChecked(true);
-    //m_playAction->setIcon(m_pauseIcon);
+    m_playAction->setIcon(m_playIcon);
 }
 
 void Monitor::slotPlay()
@@ -719,10 +740,10 @@ void Monitor::slotPlay()
     if (render == NULL) return;
     activateMonitor();
     if (render->playSpeed() == 0) {
-        m_playAction->setChecked(true);
+        //m_playAction->setChecked(true);
         m_playAction->setIcon(m_pauseIcon);
     } else {
-        m_playAction->setChecked(false);
+        //m_playAction->setChecked(false);
         m_playAction->setIcon(m_playIcon);
     }
     render->switchPlay();
@@ -734,7 +755,7 @@ void Monitor::slotPlayZone()
     activateMonitor();
     QPoint p = m_ruler->zone();
     render->playZone(GenTime(p.x(), m_monitorManager->timecode().fps()), GenTime(p.y(), m_monitorManager->timecode().fps()));
-    m_playAction->setChecked(true);
+    //m_playAction->setChecked(true);
     m_playAction->setIcon(m_pauseIcon);
 }
 
@@ -744,7 +765,7 @@ void Monitor::slotLoopZone()
     activateMonitor();
     QPoint p = m_ruler->zone();
     render->loopZone(GenTime(p.x(), m_monitorManager->timecode().fps()), GenTime(p.y(), m_monitorManager->timecode().fps()));
-    m_playAction->setChecked(true);
+    //m_playAction->setChecked(true);
     m_playAction->setIcon(m_pauseIcon);
 }
 
@@ -754,7 +775,7 @@ void Monitor::slotLoopClip()
         return;
     activateMonitor();
     render->loopZone(m_selectedClip->startPos(), m_selectedClip->endPos());
-    m_playAction->setChecked(true);
+    //m_playAction->setChecked(true);
     m_playAction->setIcon(m_pauseIcon);
 }
 
@@ -931,9 +952,10 @@ bool Monitor::effectSceneDisplayed()
 }
 
 MonitorRefresh::MonitorRefresh(QWidget* parent) :
-    QWidget(parent),
-    m_renderer(NULL)
+    QWidget(parent)
+    , m_renderer(NULL)
 {
+    // MonitorRefresh is used as container for the SDL display (it's window id is passed to SDL)
     setAttribute(Qt::WA_PaintOnScreen);
     setAttribute(Qt::WA_OpaquePaintEvent);
     //setAttribute(Qt::WA_NoSystemBackground);
@@ -949,7 +971,6 @@ void MonitorRefresh::paintEvent(QPaintEvent *event)
     Q_UNUSED(event);
     if (m_renderer) m_renderer->doRefresh();
 }
-
 
 Overlay::Overlay(QWidget* parent) :
     QLabel(parent)
@@ -974,5 +995,106 @@ void Overlay::setOverlayText(const QString &text, bool isZone)
     setHidden(false);
     update();
 }
+
+VideoContainer::VideoContainer(Monitor* parent) :
+    QFrame()
+    , m_monitor(parent)
+{
+    setFrameShape(QFrame::NoFrame);
+    setFocusPolicy(Qt::ClickFocus);
+    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+}
+
+// virtual
+void VideoContainer::mousePressEvent(QMouseEvent * event)
+{
+    if (m_monitor->underMouse()) event->setAccepted(false);
+}
+
+// virtual
+void VideoContainer::mouseReleaseEvent(QMouseEvent * event)
+{
+    if (m_monitor->underMouse()) event->setAccepted(false);
+    else {
+        if (m_monitor->isActive()) {
+            m_monitor->slotPlay();
+            event->accept();
+        }
+    }
+}
+
+// virtual
+void VideoContainer::mouseMoveEvent(QMouseEvent *event)
+{
+    if (m_monitor->underMouse()) event->setAccepted(false);
+}
+
+// virtual
+void VideoContainer::wheelEvent(QWheelEvent * event)
+{
+    if (m_monitor->underMouse()) event->setAccepted(false);
+    else {
+        m_monitor->slotMouseSeek(event->delta(), event->modifiers() == Qt::ControlModifier);
+        event->accept();
+    }
+}
+
+void VideoContainer::mouseDoubleClickEvent(QMouseEvent * event)
+{
+    if (!KdenliveSettings::openglmonitors())
+        switchFullScreen();
+}
+
+void VideoContainer::switchFullScreen()
+{
+    // TODO: disable screensaver?
+    Qt::WindowFlags flags = windowFlags();
+    if (!isFullScreen()) {
+        // Check if we ahave a multiple monitor setup
+        setUpdatesEnabled(false);
+#if QT_VERSION >= 0x040600
+        int monitors = QApplication::desktop()->screenCount();
+#else
+        int monitors = QApplication::desktop()->numScreens();
+#endif
+        if (monitors > 1) {
+            QRect screenres;
+            // Move monitor widget to the second screen (one screen for Kdenlive, the other one for the Monitor widget
+            int currentScreen = QApplication::desktop()->screenNumber(this);
+            if (currentScreen < monitors - 1)
+                screenres = QApplication::desktop()->screenGeometry(currentScreen + 1);
+            else
+                screenres = QApplication::desktop()->screenGeometry(currentScreen - 1);
+            move(QPoint(screenres.x(), screenres.y()));
+            resize(screenres.width(), screenres.height());
+        }
+
+        m_baseFlags = flags & (Qt::Window | Qt::SubWindow);
+        flags |= Qt::Window;
+        flags ^= Qt::SubWindow;
+        setWindowFlags(flags);
+#ifdef Q_WS_X11
+        // This works around a bug with Compiz
+        // as the window must be visible before we can set the state
+        show();
+        raise();
+        setWindowState(windowState() | Qt::WindowFullScreen);   // set
+#else
+        setWindowState(windowState() | Qt::WindowFullScreen);   // set
+        setUpdatesEnabled(true);
+        show();
+#endif
+    } else {
+        setUpdatesEnabled(false);
+        flags ^= (Qt::Window | Qt::SubWindow); //clear the flags...
+        flags |= m_baseFlags; //then we reset the flags (window and subwindow)
+        setWindowFlags(flags);
+        setWindowState(windowState()  ^ Qt::WindowFullScreen);   // reset
+        setUpdatesEnabled(true);
+        show();
+    }
+    m_monitor->pause();
+}
+
 
 #include "monitor.moc"

@@ -533,6 +533,9 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     activateShuttleDevice();
 #endif /* NO_JOGSHUTTLE */
     m_projectListDock->raise();
+
+    actionCollection()->addAssociatedWidget(m_clipMonitor->container());
+    actionCollection()->addAssociatedWidget(m_projectMonitor->container());
 }
 
 MainWindow::~MainWindow()
@@ -3857,8 +3860,8 @@ void MainWindow::slotSwitchMonitors()
 
 void MainWindow::slotSwitchFullscreen()
 {
-    /*if (m_projectMonitor->isActive()) m_projectMonitor->slotSwitchFullScreen();
-    else m_clipMonitor->slotSwitchFullScreen();*/
+    if (m_projectMonitor->isActive()) m_projectMonitor->slotSwitchFullScreen();
+    else m_clipMonitor->slotSwitchFullScreen();
 }
 
 void MainWindow::slotInsertZoneToTree()

@@ -45,7 +45,6 @@ ${optional_libs}
 
 kde4_add_ui_files(kdenlive_UI
   widgets/timeline_ui.ui
-  widgets/monitor_ui.ui
   widgets/recmonitor_ui.ui
   widgets/colorclip_ui.ui
   widgets/slideshowclip_ui.ui
