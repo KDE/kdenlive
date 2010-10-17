@@ -66,6 +66,7 @@ Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget
 {
     QVBoxLayout *layout = new QVBoxLayout;
     layout->setContentsMargins(0, 0, 0, 0);
+    layout->setSpacing(0);
 
     // Video widget holder
     m_videoBox = new VideoContainer(this);
@@ -74,13 +75,14 @@ Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget
     layout->addWidget(m_videoBox, 10);
     layout->addStretch();
 
+    // Get base size for icons
+    int s = style()->pixelMetric(QStyle::PM_SmallIconSize);
+
     // Monitor ruler
     layout->addWidget(m_ruler);
-
     // Tool bar buttons
     QToolBar *toolbar = new QToolBar(name, this);
-    QVBoxLayout *layout2 = new QVBoxLayout;
-    layout2->setContentsMargins(0, 0, 0, 0);
+    toolbar->setIconSize(QSize(s, s));
 
     m_playIcon = KIcon("media-playback-start");
     m_pauseIcon = KIcon("media-playback-pause");
@@ -134,6 +136,7 @@ Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget
     m_timePos = new TimecodeDisplay(m_monitorManager->timecode(), this);
     toolbar->addWidget(m_timePos);
     connect(m_timePos, SIGNAL(editingFinished()), this, SLOT(slotSeek()));
+    toolbar->setMaximumHeight(s * 1.5);
     layout->addWidget(toolbar);
 
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
