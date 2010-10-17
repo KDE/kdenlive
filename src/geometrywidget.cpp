@@ -127,7 +127,7 @@ GeometryWidget::GeometryWidget(Monitor* monitor, Timecode timecode, int clipPos,
     QHBoxLayout *settingsLayout = new QHBoxLayout(m_ui.frameSettings);
     settingsLayout->addWidget(m_config);
     settingsLayout->setContentsMargins(0, 0, 0, 0);
-    ((QGridLayout *)m_ui.widgetFirstColumn->layout())->addWidget(m_config->getShowHideButton(), 1, 2);
+    ((QGridLayout *)m_ui.widgetConfigButton->layout())->addWidget(m_config->getShowHideButton(), 1, 1);
     connect(m_config, SIGNAL(showScene(bool)), this, SLOT(slotShowScene(bool)));
 
 

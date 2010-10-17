@@ -48,8 +48,11 @@ CornersWidget::CornersWidget(Monitor* monitor, int clipPos, bool isEffect, int f
 
     m_config = new MonitorSceneControlWidget(m_scene, m_ui.frameConfig);
     QHBoxLayout *layout = new QHBoxLayout(m_ui.frameConfig);
-    layout->addWidget(m_config->getShowHideButton());
+    layout->setContentsMargins(0, 0, 0, 0);
     layout->addWidget(m_config);
+    QHBoxLayout *layout2 = new QHBoxLayout(m_ui.widgetConfigButton);
+    layout2->setContentsMargins(0, 0, 0, 0);
+    layout2->addWidget(m_config->getShowHideButton());
 
     int width = m_monitor->render->frameRenderWidth();
     int height = m_monitor->render->renderHeight();
