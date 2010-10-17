@@ -127,16 +127,14 @@ void MonitorScene::slotZoomOriginal()
         m_view->centerOn(m_frameBorder);
 }
 
-void MonitorScene::slotZoomOut()
+void MonitorScene::slotZoomOut(int by)
 {
-    slotZoom(qMax(0, (int)(m_zoom * 100 - 1)));
+    slotZoom(qMax(0, (int)(m_zoom * 100 - by)));
 }
 
-void MonitorScene::slotZoomIn()
+void MonitorScene::slotZoomIn(int by)
 {
-    int newzoom = (100 * m_zoom + 0.5);
-    newzoom++;
-    slotZoom(qMin(300, newzoom));
+    slotZoom(qMin(300, (int)(m_zoom * 100 + by + 0.5)));
 }
 
 void MonitorScene::slotSetCursor(const QCursor &cursor)
@@ -178,5 +176,18 @@ void MonitorScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event)
         emit addKeyframe();
 }
 
+void MonitorScene::wheelEvent(QGraphicsSceneWheelEvent* event)
+{
+    if (event->modifiers() == Qt::ControlModifier) {
+        if (event->delta() > 0)
+            slotZoomIn(5);
+        else
+            slotZoomOut(5);
+
+        event->accept();
+    } else {
+        QGraphicsScene::wheelEvent(event);
+    }
+}
 
 #include "monitorscene.moc"

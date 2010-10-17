@@ -52,6 +52,7 @@ protected:
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     /** @brief Adds a keyframe if scene is disabled. */
     virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
+    virtual void wheelEvent(QGraphicsSceneWheelEvent *event);
 
 public slots:
     /** @brief Sets the backgrounditem's pixmap to m_backgroundImage (only if a certain amount of time has passed since last update). */
@@ -64,10 +65,10 @@ public slots:
     void slotZoomFit();
     /** @brief Shows the frame at it's original size and center. */
     void slotZoomOriginal();
-    /** @brief Zooms in by 1%. */
-    void slotZoomIn();
-    /** @brief Zooms out by 1%. */
-    void slotZoomOut();
+    /** @brief Zooms in by @param by%. */
+    void slotZoomIn(int by = 1);
+    /** @brief Zooms out by @param by%. */
+    void slotZoomOut(int by = 1);
 
 private slots:
     /** @brief Sets m_backgroundImage to @param image and requests updating the background item. */
