@@ -17,6 +17,7 @@
 
 #include "stopmotion.h"
 #include "../blackmagic/devices.h"
+#include "../v4l/v4lcapture.h"
 #include "../slideshowclip.h"
 #include "kdenlivesettings.h"
 
@@ -81,6 +82,7 @@ StopmotionWidget::StopmotionWidget(KUrl projectFolder, QWidget *parent) :
         QDialog(parent)
         , Ui::Stopmotion_UI()
 	, m_projectFolder(projectFolder)
+	, m_bmCapture(NULL)
 	, m_sequenceFrame(0)
 	, m_animatedIndex(-1)
 {
@@ -102,10 +104,18 @@ StopmotionWidget::StopmotionWidget(KUrl projectFolder, QWidget *parent) :
     capture_button->setEnabled(false);
 
     connect(sequence_name, SIGNAL(textChanged(const QString &)), this, SLOT(sequenceNameChanged(const QString &)));
-    BMInterface::getBlackMagicDeviceList(capture_device, NULL);
     QVBoxLayout *lay = new QVBoxLayout;
-    m_bmCapture = new CaptureHandler(lay);
-    connect(m_bmCapture, SIGNAL(gotMessage(const QString &)), this, SLOT(slotGotHDMIMessage(const QString &)));
+    if (BMInterface::getBlackMagicDeviceList(capture_device, NULL)) {
+	// Found a BlackMagic device
+	kDebug()<<"CREATE BM DEVICE";
+	m_bmCapture = new BmdCaptureHandler(lay);
+	connect(m_bmCapture, SIGNAL(gotMessage(const QString &)), this, SLOT(slotGotHDMIMessage(const QString &)));
+    }
+    else {
+      	kDebug()<<"CREATE V4L DEVICE";
+	m_bmCapture = new V4lCaptureHandler(lay);
+	capture_device->addItem(KdenliveSettings::video4vdevice());
+    }
     m_frame_preview = new MyLabel(this);
     connect(m_frame_preview, SIGNAL(seek(bool)), this, SLOT(slotSeekFrame(bool)));
     lay->addWidget(m_frame_preview);

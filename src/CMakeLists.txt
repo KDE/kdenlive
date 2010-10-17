@@ -224,9 +224,13 @@ set(kdenlive_SRCS
   doubleparameterwidget.cpp
   audiosignal.cpp
   blackmagic/include/DeckLinkAPIDispatch.cpp
+  stopmotion/stopmotion.cpp
+  stopmotion/capturehandler.cpp
   blackmagic/capture.cpp
   blackmagic/devices.cpp
-  stopmotion/stopmotion.cpp
+  v4l/v4lcapture.cpp
+  v4l/src.c
+  v4l/src_v4l2.c
   onmonitoritems/abstractonmonitoritem.cpp 
   onmonitoritems/onmonitorrectitem.cpp
   onmonitoritems/onmonitorcornersitem.cpp
@@ -288,6 +292,7 @@ if (APPLE)
   target_link_libraries(kdenlive ${QT_QTOPENGL_LIBRARY})
   target_link_libraries(kdenlive ${OPENGL_LIBRARIES})
 else (APPLE)
+  add_definitions(-DHAVE_V4L2)
   if (OPENGL_FOUND)
       target_link_libraries(kdenlive ${QT_QTOPENGL_LIBRARY})
       target_link_libraries(kdenlive ${OPENGL_LIBRARIES})

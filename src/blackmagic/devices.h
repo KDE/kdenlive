@@ -10,9 +10,9 @@
 class BMInterface
 {
 public:
-	BMInterface();
-	~BMInterface();
-	static void getBlackMagicDeviceList(KComboBox *devicelist, KComboBox *modelist);
+    BMInterface();
+    ~BMInterface();
+    static bool getBlackMagicDeviceList(KComboBox *devicelist, KComboBox *modelist);
 };
 
 #endif
