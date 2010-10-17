@@ -60,7 +60,7 @@ RecMonitor::RecMonitor(QString name, QWidget *parent) :
     device_selector->setCurrentIndex(KdenliveSettings::defaultcapture());
     connect(device_selector, SIGNAL(currentIndexChanged(int)), this, SLOT(slotVideoDeviceChanged(int)));
 
-    QToolBar *toolbar = new QToolBar(name, this);
+    QToolBar *toolbar = new QToolBar(this);
     QHBoxLayout *layout = new QHBoxLayout;
     layout->setContentsMargins(0, 0, 0, 0);
     m_playIcon = KIcon("media-playback-start");
@@ -274,7 +274,7 @@ void RecMonitor::createHDMIDevice()
 	//video_capture->setVisible(true);
 	if (m_bmCapture == NULL) {
 	    QVBoxLayout *lay = new QVBoxLayout;
-	    m_bmCapture = new CaptureHandler(lay);
+	    m_bmCapture = new BmdCaptureHandler(lay);
 	    connect(m_bmCapture, SIGNAL(gotTimeCode(ulong)), this, SLOT(slotGotHDMIFrameNumber(ulong)));
 	    connect(m_bmCapture, SIGNAL(gotMessage(const QString &)), this, SLOT(slotGotHDMIMessage(const QString &)));
 	    video_capture->setLayout(lay);
