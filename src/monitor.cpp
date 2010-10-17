@@ -165,7 +165,7 @@ Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget
 
     bool monitorCreated = false;
 #ifdef Q_WS_MAC
-    createOpenGlWidget(videoBox, profile);
+    createOpenGlWidget(m_videoBox, profile);
     monitorCreated = true;
     //m_glWidget->setFixedSize(width, height);
 #elif defined (USE_OPEN_GL)
