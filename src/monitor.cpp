@@ -71,7 +71,7 @@ Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget
     // Video widget holder
     m_videoBox = new VideoContainer(this);
     m_videoBox->setContentsMargins(0, 0, 0, 0);
-    m_videoBox->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+    m_videoBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     layout->addWidget(m_videoBox, 10);
     layout->addStretch();
 
