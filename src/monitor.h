@@ -20,18 +20,22 @@
 #ifndef MONITOR_H
 #define MONITOR_H
 
-#include <QLabel>
-
-#include <KIcon>
-#include <KAction>
-#include <KRestrictedLine>
-#include <QDomElement>
 
 #include "gentime.h"
 #include "timecodedisplay.h"
 #if defined(Q_WS_MAC) || defined(USE_OPEN_GL)
 #include "videoglwidget.h"
 #endif
+
+#include <QLabel>
+#include <QDomElement>
+#include <QToolBar>
+#include <QSlider>
+
+#include <KIcon>
+#include <KAction>
+#include <KRestrictedLine>
+
 
 class MonitorManager;
 class Render;
@@ -118,6 +122,7 @@ public:
     void updateMarkers(DocClipBase *source);
     MonitorScene *getEffectScene();
     QWidget *container();
+    QFrame *m_volumePopup;
 
 protected:
     virtual void mousePressEvent(QMouseEvent * event);
@@ -174,6 +179,9 @@ private:
 
     GenTime getSnapForPos(bool previous);
     Qt::WindowFlags m_baseFlags;
+    QToolBar *m_toolbar;
+    QWidget *m_volumeWidget;
+    QSlider *m_audioSlider;
 
 private slots:
     void seekCursor(int pos);
@@ -188,6 +196,8 @@ private slots:
     void slotSwitchMonitorInfo(bool show);
     void slotSwitchDropFrames(bool show);
     void slotGoToMarker(QAction *action);
+    void slotSetVolume(int volume);
+    void slotShowVolume();
 
 public slots:
     void slotOpenFile(const QString &);

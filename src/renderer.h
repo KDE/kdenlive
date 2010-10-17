@@ -127,7 +127,7 @@ Q_OBJECT public:
     /** @brief Stops playing.
      * @param startTime time to seek to */
     void stop(const GenTime & startTime);
-    void setVolume(double volume);
+    int volume() const;
 
     QImage extractFrame(int frame_position, int width = -1, int height = -1);
 
@@ -373,6 +373,7 @@ public slots:
     void mltSavePlaylist();
     void slotSplitView(bool doit);
     void slotSwitchFullscreen();
+    void slotSetVolume(int volume);
 };
 
 #endif

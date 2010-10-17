@@ -38,7 +38,7 @@ SmallRuler::SmallRuler(MonitorManager *manager, QWidget *parent) :
     m_zoneEnd = 60;
     m_zoneColor = KStatefulBrush(KColorScheme::View, KColorScheme::PositiveBackground, KSharedConfig::openConfig(KdenliveSettings::colortheme())).brush(this).color();
     setMouseTracking(true);
-    setMinimumHeight(15);
+    setMinimumHeight(10);
 }
 
 void SmallRuler::adjustScale(int maximum)

@@ -228,9 +228,6 @@ void Render::buildConsumer(const QString profileName)
     if (!audioDriver.isEmpty())
         m_mltConsumer->set("audio_driver", audioDriver.toUtf8().constData());
 
-    int volume = KdenliveSettings::volume();
-    m_mltConsumer->set("volume", (float)volume / 100);
-
     m_mltConsumer->set("progressive", 1);
     m_mltConsumer->set("audio_buffer", 1024);
     m_mltConsumer->set("frequency", 48000);
@@ -256,9 +253,7 @@ int Render::resetProfile(const QString profileName)
         if (getenv("SDL_VIDEO_YUV_HWACCEL") != NULL && currentDriver == "x11") currentDriver = "x11_noaccel";
         QString background = KdenliveSettings::window_background().name();
         QString currentBackground = m_mltConsumer->get("window_background");
-        int volume = KdenliveSettings::volume();
-        int currentVolume = (int)(QString(m_mltConsumer->get("volume")).toDouble() * 100.0);
-        if (m_activeProfile == profileName && currentDriver == videoDriver && volume == currentVolume && background == currentBackground) {
+        if (m_activeProfile == profileName && currentDriver == videoDriver && background == currentBackground) {
             kDebug() << "reset to same profile, nothing to do";
             return 1;
         }
@@ -813,7 +808,6 @@ int Render::setProducer(Mlt::Producer *producer, int position)
     } else return -1;
 
     m_mltConsumer->purge();
-
     m_isBlocked = true;
     if (m_mltProducer) {
         m_mltProducer->set_speed(0);
@@ -824,6 +818,7 @@ int Render::setProducer(Mlt::Producer *producer, int position)
     if (producer) {
         m_mltProducer = new Mlt::Producer(producer->get_producer());
     } else m_mltProducer = m_blackClip->cut(0, 50);
+
     /*if (KdenliveSettings::dropbframes()) {
     m_mltProducer->set("skip_loop_filter", "all");
         m_mltProducer->set("skip_frame", "bidir");
@@ -832,7 +827,8 @@ int Render::setProducer(Mlt::Producer *producer, int position)
         kDebug() << " WARNING - - - - -INVALID PLAYLIST: ";
         return -1;
     }
-
+    int volume = KdenliveSettings::volume();
+    m_mltProducer->set("meta.volume", (double)volume / 100);
     m_fps = m_mltProducer->get_fps();
     int error = connectPlaylist();
 
@@ -919,7 +915,8 @@ int Render::setSceneList(QString playlist, int position)
         m_mltProducer = m_blackClip->cut(0, 50);
         error = -1;
     }
-
+    int volume = KdenliveSettings::volume();
+    m_mltProducer->set("meta.volume", (double)volume / 100);
     m_mltProducer->optimise();
 
     /*if (KdenliveSettings::osdtimecode()) {
@@ -1074,9 +1071,17 @@ void Render::refreshDisplay()
     refresh();
 }
 
-void Render::setVolume(double /*volume*/)
+int Render::volume() const
+{
+    if (!m_mltConsumer || !m_mltProducer) return -1;
+    return ((int) 100 * m_mltProducer->get_double("meta.volume"));
+}
+
+void Render::slotSetVolume(int volume)
 {
     if (!m_mltConsumer || !m_mltProducer) return;
+    m_mltProducer->set("meta.volume", (double)volume / 100.0);
+    return;
     /*osdTimer->stop();
     m_mltConsumer->set("refresh", 0);
     // Attach filter for on screen display of timecode

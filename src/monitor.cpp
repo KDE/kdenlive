@@ -81,23 +81,23 @@ Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget
     // Monitor ruler
     layout->addWidget(m_ruler);
     // Tool bar buttons
-    QToolBar *toolbar = new QToolBar(name, this);
-    toolbar->setIconSize(QSize(s, s));
+    m_toolbar = new QToolBar(name, this);
+    m_toolbar->setIconSize(QSize(s, s));
 
     m_playIcon = KIcon("media-playback-start");
     m_pauseIcon = KIcon("media-playback-pause");
 
     if (name != "chapter") {
-        toolbar->addAction(KIcon("kdenlive-zone-start"), i18n("Set zone start"), this, SLOT(slotSetZoneStart()));
-        toolbar->addAction(KIcon("kdenlive-zone-end"), i18n("Set zone end"), this, SLOT(slotSetZoneEnd()));
+        m_toolbar->addAction(KIcon("kdenlive-zone-start"), i18n("Set zone start"), this, SLOT(slotSetZoneStart()));
+        m_toolbar->addAction(KIcon("kdenlive-zone-end"), i18n("Set zone end"), this, SLOT(slotSetZoneEnd()));
     } else {
         m_ruler->setZone(-3, -2);
     }
 
-    toolbar->addAction(KIcon("media-seek-backward"), i18n("Rewind"), this, SLOT(slotRewind()));
-    //toolbar->addAction(KIcon("media-skip-backward"), i18n("Rewind 1 frame"), this, SLOT(slotRewindOneFrame()));
+    m_toolbar->addAction(KIcon("media-seek-backward"), i18n("Rewind"), this, SLOT(slotRewind()));
+    //m_toolbar->addAction(KIcon("media-skip-backward"), i18n("Rewind 1 frame"), this, SLOT(slotRewindOneFrame()));
 
-    QToolButton *playButton = new QToolButton(toolbar);
+    QToolButton *playButton = new QToolButton(m_toolbar);
     m_playMenu = new QMenu(i18n("Play..."), this);
     m_playAction = m_playMenu->addAction(m_playIcon, i18n("Play"));
     //m_playAction->setCheckable(true);
@@ -105,20 +105,20 @@ Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget
 
     playButton->setMenu(m_playMenu);
     playButton->setPopupMode(QToolButton::MenuButtonPopup);
-    toolbar->addWidget(playButton);
+    m_toolbar->addWidget(playButton);
 
-    //toolbar->addAction(KIcon("media-skip-forward"), i18n("Forward 1 frame"), this, SLOT(slotForwardOneFrame()));
-    toolbar->addAction(KIcon("media-seek-forward"), i18n("Forward"), this, SLOT(slotForward()));
+    //m_toolbar->addAction(KIcon("media-skip-forward"), i18n("Forward 1 frame"), this, SLOT(slotForwardOneFrame()));
+    m_toolbar->addAction(KIcon("media-seek-forward"), i18n("Forward"), this, SLOT(slotForward()));
 
     playButton->setDefaultAction(m_playAction);
 
     if (name != "chapter") {
-        QToolButton *configButton = new QToolButton(toolbar);
+        QToolButton *configButton = new QToolButton(m_toolbar);
         m_configMenu = new QMenu(i18n("Misc..."), this);
         configButton->setIcon(KIcon("system-run"));
         configButton->setMenu(m_configMenu);
         configButton->setPopupMode(QToolButton::QToolButton::InstantPopup);
-        toolbar->addWidget(configButton);
+        m_toolbar->addWidget(configButton);
 
         if (name == "clip") {
             m_markerMenu = new QMenu(i18n("Go to marker..."), this);
@@ -130,14 +130,32 @@ Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget
         m_configMenu->addAction(KIcon("transform-scale"), i18n("Resize (50%)"), this, SLOT(slotSetSizeOneToTwo()));
     }
 
+    // Create Volume slider popup
+    m_volumePopup = new QFrame(this, Qt::Popup);
+    QVBoxLayout *poplayout = new QVBoxLayout;
+    poplayout->setContentsMargins(0, 0, 0, 0);
+    m_audioSlider = new QSlider(Qt::Vertical);
+    m_audioSlider->setRange(0, 100);
+    poplayout->addWidget(m_audioSlider);
+    m_volumePopup->setLayout(poplayout);
+    KIcon icon;
+    if (KdenliveSettings::volume() == 0) icon = KIcon("audio-volume-muted");
+    else icon = KIcon("audio-volume-medium");
+
+    m_volumeWidget = m_toolbar->widgetForAction(m_toolbar->addAction(icon, i18n("Audio volume"), this, SLOT(slotShowVolume())));
+
+    // we need to show / hide the popup once so that it's geometry can be calculated in slotShowVolume
+    m_volumePopup->show();
+    m_volumePopup->hide();
+
     QWidget *spacer = new QWidget(this);
     spacer->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
-    toolbar->addWidget(spacer);
+    m_toolbar->addWidget(spacer);
     m_timePos = new TimecodeDisplay(m_monitorManager->timecode(), this);
-    toolbar->addWidget(m_timePos);
+    m_toolbar->addWidget(m_timePos);
     connect(m_timePos, SIGNAL(editingFinished()), this, SLOT(slotSeek()));
-    toolbar->setMaximumHeight(s * 1.5);
-    layout->addWidget(toolbar);
+    m_toolbar->setMaximumHeight(s * 1.5);
+    layout->addWidget(m_toolbar);
 
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     setLayout(layout);
@@ -165,6 +183,7 @@ Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget
         m_monitorRefresh->setRenderer(render);
     }
 
+    connect(m_audioSlider, SIGNAL(valueChanged(int)), this, SLOT(slotSetVolume(int)));
     connect(m_ruler, SIGNAL(seekRenderer(int)), this, SLOT(slotSeek(int)));
     connect(render, SIGNAL(durationChanged(int)), this, SLOT(adjustRulerSize(int)));
     connect(render, SIGNAL(rendererStopped(int)), this, SLOT(rendererStopped(int)));
@@ -952,6 +971,28 @@ MonitorScene * Monitor::getEffectScene()
 bool Monitor::effectSceneDisplayed()
 {
     return m_effectView->isVisible();
+}
+
+void Monitor::slotSetVolume(int volume)
+{
+    KdenliveSettings::setVolume(volume);
+    KIcon icon;
+    if (volume == 0) icon = KIcon("audio-volume-muted");
+    else icon = KIcon("audio-volume-medium");
+    static_cast <QToolButton *>(m_volumeWidget)->setIcon(icon);
+    render->slotSetVolume(volume);
+}
+
+void Monitor::slotShowVolume()
+{
+    m_volumePopup->move(mapToGlobal(m_toolbar->geometry().topLeft()) + QPoint(mapToParent(m_volumeWidget->geometry().bottomLeft()).x(), -m_volumePopup->height()));
+    int vol = render->volume();
+    // Disable widget if we cannot get the volume
+    m_volumePopup->setEnabled(vol != -1);
+    m_audioSlider->blockSignals(true);
+    m_audioSlider->setValue(vol);
+    m_audioSlider->blockSignals(false);
+    m_volumePopup->show();
 }
 
 MonitorRefresh::MonitorRefresh(QWidget* parent) :
