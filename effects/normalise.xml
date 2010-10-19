@@ -1,9 +1,15 @@
 <!DOCTYPE kpartgui>
 <effect tag="volume" id="normalise" type="audio">
 	<name>Normalise</name>
-	<description>Normalise audio volume</description>
+	<description>Dynamically normalise the audio volume</description>
 	<author>Dan Dennedy</author>
-	<parameter type="constant" name="gain" max="0" min="0" default="normalise">
+	<parameter type="constant" name="normalise" max="1000" min="0" factor="400" default="100" suffix="%">
 		<name>Gain</name>
+	</parameter>
+	<parameter type="constant" name="max_gain" max="3000" min="0" factor="100" default="1000" suffix="%">
+		<name>Maximum gain</name>
+	</parameter>
+	<parameter type="constant" name="window" max="300" min="0" default="75" suffix=" frames">
+		<name>Window</name>
 	</parameter>
 </effect>
