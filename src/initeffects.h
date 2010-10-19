@@ -117,6 +117,7 @@ public:
     static const char* ladspaPitchShifterEffectString(QStringList params);
     static const char* ladspaPhaserEffectString(QStringList params);
     static const char* ladspaRateScalerEffectString(QStringList params);
+    static const char* ladspaEqualizer15EffectString(QStringList params);
 
 private:
     initEffects(); // disable the constructor

@@ -479,6 +479,9 @@ void initEffects::ladspaEffectFile(const QString & fname, int ladspaId, QStringL
     case 1217: // Phaser
         filterString = ladspaPhaserEffectString(params);
         break;
+    case 1197: // 15 Band Equalizer
+        filterString = ladspaEqualizer15EffectString(params);
+        break;
     default:
         kDebug() << "++++++++++  ASKING FOR UNKNOWN LADSPA EFFECT: " << ladspaId << endl;
         return;
@@ -551,6 +554,10 @@ const char* initEffects::ladspaRateScalerEffectString(QStringList params)
 const char* initEffects::ladspaPhaserEffectString(QStringList params)
 {
     return qstrdup(QString(jackString + "1217</id><enabled>true</enabled><wet_dry_enabled>false</wet_dry_enabled><wet_dry_locked>true</wet_dry_locked><wet_dry_values><value>1.000000</value><value>1.000000</value></wet_dry_values><lockall>true</lockall><controlrow><lock>true</lock><value>%1</value><value>%1</value></controlrow><controlrow><lock>true</lock><value>%2</value><value>%2</value></controlrow><controlrow><lock>true</lock><value>%3</value><value>%3</value></controlrow><controlrow><lock>true</lock><value>%4</value><value>%4</value></controlrow></plugin></jackrack>").arg(params[0]).arg(params[1]).arg(params[2]).arg(params[3]).toUtf8());
+}
+const char* initEffects::ladspaEqualizer15EffectString(QStringList params)
+{
+    return qstrdup(QString(jackString + "1197</id><enabled>true</enabled><wet_dry_enabled>false</wet_dry_enabled><wet_dry_locked>true</wet_dry_locked><wet_dry_values><value>1.000000</value><value>1.000000</value></wet_dry_values><lockall>true</lockall><controlrow><lock>true</lock><value>%1</value><value>%1</value></controlrow><controlrow><lock>true</lock><value>%2</value><value>%2</value></controlrow><controlrow><lock>true</lock><value>%3</value><value>%3</value></controlrow><controlrow><lock>true</lock><value>%4</value><value>%4</value></controlrow><controlrow><lock>true</lock><value>%5</value><value>%5</value></controlrow><controlrow><lock>true</lock><value>%6</value><value>%6</value></controlrow><controlrow><lock>true</lock><value>%7</value><value>%7</value></controlrow><controlrow><lock>true</lock><value>%8</value><value>%8</value></controlrow><controlrow><lock>true</lock><value>%9</value><value>%9</value></controlrow><controlrow><lock>true</lock><value>%10</value><value>%10</value></controlrow><controlrow><lock>true</lock><value>%11</value><value>%11</value></controlrow><controlrow><lock>true</lock><value>%12</value><value>%12</value></controlrow><controlrow><lock>true</lock><value>%13</value><value>%13</value></controlrow><controlrow><lock>true</lock><value>%14</value><value>%14</value></controlrow><controlrow><lock>true</lock><value>%15</value><value>%15</value></controlrow></plugin></jackrack>").arg(params[0]).arg(params[1]).arg(params[2]).arg(params[3]).arg(params[4]).arg(params[5]).arg(params[6]).arg(params[7]).arg(params[8]).arg(params[9]).arg(params[10]).arg(params[11]).arg(params[12]).arg(params[13]).arg(params[14]).toUtf8());
 }
 
 
