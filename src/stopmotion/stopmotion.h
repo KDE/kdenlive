@@ -24,6 +24,7 @@
 #include <KUrl>
 #include <QLabel>
 #include <QFuture>
+#include <QVBoxLayout>
 
 class MyLabel : public QLabel
 {
@@ -62,6 +63,9 @@ protected:
 
 
 private:
+  /** @brief Widget layout holding video and frame preview. */
+  QVBoxLayout *m_layout;
+  
   /** @brief Current project folder (where the captured frames will be saved). */
   KUrl m_projectFolder;
 
@@ -97,6 +101,9 @@ private:
   
   /** @brief Holds the state of the threaded thumbnail generation. */
   QFuture<void> m_future;
+
+  /** @brief Get the frame number ix. */
+  QListWidgetItem *getFrameFromIndex(int ix);
   
 private slots:
   /** @brief Display the live feed from capture device.
@@ -151,6 +158,9 @@ private slots:
 
   /** @brief Prepare thumbnails creation. */
   void slotPrepareThumbs();
+
+  /** @brief Called when user switches the video capture backend. */
+  void slotUpdateHandler();
 
 signals:
   /** @brief Ask to add sequence to current project. */

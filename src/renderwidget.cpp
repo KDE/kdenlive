@@ -176,7 +176,6 @@ RenderWidget::RenderWidget(const QString &projectfolder, QWidget * parent) :
     m_view.running_jobs->setItemDelegate(m_jobsDelegate);
 
     QHeaderView *header = m_view.running_jobs->header();
-    QFontMetrics fm = fontMetrics();
     header->setResizeMode(0, QHeaderView::Fixed);
     header->resizeSection(0, 30);
     header->setResizeMode(1, QHeaderView::Interactive);

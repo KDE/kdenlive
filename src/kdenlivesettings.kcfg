@@ -614,12 +614,12 @@
       <default>false</default>
     </entry>
 
-    <entry name="hdmicapturedevice" type="Int">
+    <entry name="hdmi_capturedevice" type="Int">
       <label>default HDMI capture device.</label>
       <default>0</default>
     </entry>
 
-    <entry name="hdmicapturemode" type="Int">
+    <entry name="hdmi_capturemode" type="Int">
       <label>default HDMI capture mode.</label>
       <default>0</default>
     </entry>

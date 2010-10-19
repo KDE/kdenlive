@@ -28,10 +28,10 @@
 
 
 SlideshowClip::SlideshowClip(Timecode tc, QWidget * parent) :
-        QDialog(parent),
-        m_count(0),
-        m_timecode(tc),
-        m_thumbJob(NULL)
+    QDialog(parent),
+    m_count(0),
+    m_timecode(tc),
+    m_thumbJob(NULL)
 {
     setFont(KGlobalSettings::toolBarFont());
     setWindowTitle(i18n("Add Slideshow Clip"));
@@ -88,9 +88,9 @@ SlideshowClip::SlideshowClip(Timecode tc, QWidget * parent) :
     filters << "*.pgm" << "*.png";
 
     QStringList customLumas = KGlobal::dirs()->findDirs("appdata", "lumas");
-    foreach(const QString &folder, customLumas) {
+    foreach(const QString & folder, customLumas) {
         QStringList filesnames = QDir(folder).entryList(filters, QDir::Files);
-        foreach(const QString &fname, filesnames) {
+        foreach(const QString & fname, filesnames) {
             QString filePath = KUrl(folder).path(KUrl::AddTrailingSlash) + fname;
             m_view.luma_file->addItem(KIcon(filePath), fname, filePath);
         }
@@ -102,7 +102,7 @@ SlideshowClip::SlideshowClip(Timecode tc, QWidget * parent) :
     folder.append("/lumas/PAL"); // TODO: cleanup the PAL / NTSC mess in luma files
     QDir lumafolder(folder);
     QStringList filesnames = lumafolder.entryList(filters, QDir::Files);
-    foreach(const QString &fname, filesnames) {
+    foreach(const QString & fname, filesnames) {
         QString filePath = KUrl(folder).path(KUrl::AddTrailingSlash) + fname;
         m_view.luma_file->addItem(KIcon(filePath), fname, filePath);
     }
@@ -160,9 +160,11 @@ void SlideshowClip::slotEnableLumaFile(int state)
 int SlideshowClip::sequenceCount(KUrl file)
 {
     // find pattern
+    int count = 0;
     QString filter = file.fileName();
     QString ext = filter.section('.', -1);
     filter = filter.section('.', 0, -2);
+    int fullSize = filter.size();
     bool hasDigit = false;
     while (filter.at(filter.size() - 1).isDigit()) {
         hasDigit = true;
@@ -170,15 +172,22 @@ int SlideshowClip::sequenceCount(KUrl file)
     }
     if (!hasDigit) return 0;
 
-    QString regexp = "^" + filter + "\\d+\\." + ext + "$";
-    QRegExp rx(regexp);
 
-    QDir dir(file.directory());
-    QStringList result = dir.entryList(QDir::Files);
-
-    int count = 0;
-    foreach(const QString &path, result) {
-        if (rx.exactMatch(path)) count ++;
+    // Find number of digits in sequence
+    int precision = fullSize - filter.size();
+    QString folder = file.directory(KUrl::AppendTrailingSlash);
+    // Check how many files we have
+    QDir dir(folder);
+    QString path;
+    int gap = 0;
+    for (int i = 0; gap < 100; i++) {
+        path = filter + QString::number(i).rightJustified(precision, '0', false) + ext;
+        if (dir.exists(path)) {
+            count ++;
+            gap = 0;
+        } else {
+            gap++;
+        }
     }
     return count;
 }
@@ -191,6 +200,8 @@ void SlideshowClip::parseFolder()
     QDir dir(path);
     if (path.isEmpty() || !dir.exists()) return;
 
+    KIcon unknownicon("unknown");
+    QStringList result;
     QStringList filters;
     QString filter;
     if (isMime) {
@@ -198,41 +209,39 @@ void SlideshowClip::parseFolder()
         filter = m_view.image_type->itemData(m_view.image_type->currentIndex()).toString();
         filters << "*." + filter;
         dir.setNameFilters(filters);
-    }
-
-    QStringList result = dir.entryList(QDir::Files);
-
-    if (!isMime) {
+        result = dir.entryList(QDir::Files);
+    } else {
         // find pattern
         filter = m_view.pattern_url->url().fileName();
         QString ext = filter.section('.', -1);
         filter = filter.section('.', 0, -2);
-
+        int fullSize = filter.size();
         while (filter.at(filter.size() - 1).isDigit()) {
             filter.remove(filter.size() - 1, 1);
         }
-        QString regexp = "^" + filter + "\\d+\\." + ext + "$";
-        QRegExp rx(regexp);
-        QStringList entries;
-        foreach(const QString &path, result) {
-            if (rx.exactMatch(path)) entries << path;
+        int precision = fullSize - filter.size();
+        QString path;
+        int gap = 0;
+        for (int i = 0; gap < 100; i++) {
+            path = filter + QString::number(i).rightJustified(precision, '0', false) + ext;
+            if (dir.exists(path)) {
+                result.append(path);
+                gap = 0;
+            } else {
+                gap++;
+            }
         }
-        result = entries;
     }
-
-    m_count = result.count();
-    if (m_count == 0) m_view.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
-    else m_view.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
-    m_view.label_info->setText(i18np("1 image found", "%1 images found", m_count));
     QListWidgetItem *item;
-    int i = 0;
-    KIcon unknownicon("unknown");
-    foreach(const QString &path, result) {
-        i++;
+    foreach(const QString & path, result) {
         item = new QListWidgetItem(unknownicon, KUrl(path).fileName());
         item->setData(Qt::UserRole, dir.filePath(path));
         m_view.icon_list->addItem(item);
     }
+    m_count = result.count();
+    if (m_count == 0) m_view.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
+    else m_view.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
+    m_view.label_info->setText(i18np("1 image found", "%1 images found", m_count));
     if (m_view.show_thumbs->isChecked()) slotGenerateThumbs();
     m_view.icon_list->setCurrentRow(0);
 }
@@ -276,15 +285,30 @@ void SlideshowClip::slotSetPixmap(const KFileItem &fileItem, const QPixmap &pix)
 
 QString SlideshowClip::selectedPath()
 {
-    return selectedPath(m_view.folder_url->url(), m_view.method_mime->isChecked(), ".all." + m_view.image_type->itemData(m_view.image_type->currentIndex()).toString(), &m_count);
+    QStringList list;
+    QString path = selectedPath(m_view.folder_url->url(), m_view.method_mime->isChecked(), ".all." + m_view.image_type->itemData(m_view.image_type->currentIndex()).toString(), &list);
+    m_count = list.count();
+    return path;
 
 
 }
+
 // static
-QString SlideshowClip::selectedPath(KUrl url, bool isMime, QString extension, int *count)
+int SlideshowClip::getFrameNumberFromPath(KUrl path)
+{
+    QString filter = path.fileName();
+    filter = filter.section('.', 0, -2);
+    int ix = filter.size() - 1;
+    while (filter.at(ix).isDigit()) {
+        ix--;
+    }
+    return filter.remove(0, ix + 1).toInt();
+}
+
+// static
+QString SlideshowClip::selectedPath(KUrl url, bool isMime, QString extension, QStringList *list)
 {
     QString folder;
-
     if (isMime) {
         folder = url.path(KUrl::AddTrailingSlash);
     } else {
@@ -292,41 +316,31 @@ QString SlideshowClip::selectedPath(KUrl url, bool isMime, QString extension, in
         QString filter = url.fileName();
         QString ext = '.' + filter.section('.', -1);
         filter = filter.section('.', 0, -2);
+        int fullSize = filter.size();
 
         while (filter.at(filter.size() - 1).isDigit()) {
             filter.chop(1);
         }
-        // Check that the first image exists and which format it has (image1.jpg or image001.jpg, ...)
 
-        // Find first image in sequence
-        QString regexp = "^" + filter + "\\d+" + ext + "$";
-        QRegExp rx(regexp);
-        QStringList entries;
+        // Find number of digits in sequence
+        int precision = fullSize - filter.size();
 
+        // Check how many files we have
         QDir dir(folder);
-        QStringList result = dir.entryList(QDir::Files);
-        int precision = 1;
-        QString pathValue;
-        QMap <int, QString> sortedList;
-        foreach(const QString &path, result) {
-            if (rx.exactMatch(path)) {
-                pathValue = path.section('.', 0, -2);
-                pathValue.remove(0, filter.size());
-                sortedList.insert(pathValue.toInt(), path);
+        QString path;
+        int gap = 0;
+        for (int i = 0; gap < 100; i++) {
+            path = filter + QString::number(i).rightJustified(precision, '0', false) + ext;
+            if (dir.exists(path)) {
+                (*list).append(folder + path);
+                gap = 0;
+            } else {
+                gap++;
             }
-        }
-        *count = sortedList.size();
-        if (*count == 0) kDebug() << "No IMAGE FOUND!!!!!!!";
-        else  {
-            QMapIterator<int, QString> i(sortedList);
-            i.next();
-            QString result = i.value();
-            result.remove(0, filter.size());
-            result = result.section('.', 0, -2);
-            precision = result.size();
         }
         extension = filter + "%." + QString::number(precision) + "d" + ext;
     }
+    kDebug() << "// FOUND " << (*list).count() << " items for " << url.path();
     return  folder + extension;
 }
 
@@ -418,15 +432,15 @@ void SlideshowClip::slotMethodChanged(bool active)
     if (active) {
         // User wants mimetype image sequence
         if (m_view.clip_duration->text().isEmpty()) {
-	    m_view.clip_duration->setText(m_timecode.reformatSeparators(KdenliveSettings::image_duration()));
-	}
+            m_view.clip_duration->setText(m_timecode.reformatSeparators(KdenliveSettings::image_duration()));
+        }
         m_view.stackedWidget->setCurrentIndex(0);
         KdenliveSettings::setSlideshowbymime(true);
     } else {
         // User wants pattern image sequence
         if (m_view.clip_duration->text().isEmpty()) {
-	    m_view.clip_duration->setText(m_timecode.reformatSeparators(KdenliveSettings::sequence_duration()));
-	}
+            m_view.clip_duration->setText(m_timecode.reformatSeparators(KdenliveSettings::sequence_duration()));
+        }
         m_view.stackedWidget->setCurrentIndex(1);
         KdenliveSettings::setSlideshowbymime(false);
     }

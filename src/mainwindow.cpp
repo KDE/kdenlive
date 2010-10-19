@@ -1967,6 +1967,12 @@ void MainWindow::doOpenFile(const KUrl &url, KAutoSaveFile *stale)
     if (!m_timelineArea->isEnabled()) return;
     m_fileRevert->setEnabled(true);
 
+    // Recreate stopmotion widget on document change
+    if (m_stopmotion) {
+	delete m_stopmotion;
+	m_stopmotion = NULL;
+    }
+
     KProgressDialog progressDialog(this, i18n("Loading project"), i18n("Loading project"));
     progressDialog.setAllowCancel(false);
     progressDialog.progressBar()->setMaximum(4);
@@ -2162,6 +2168,12 @@ void MainWindow::slotEditProjectSettings()
 void MainWindow::slotUpdateProjectProfile(const QString &profile)
 {
     double dar = m_activeDocument->dar();
+
+    // Recreate the stopmotion widget if profile changes
+    if (m_stopmotion) {
+	delete m_stopmotion;
+	m_stopmotion = NULL;
+    }
 
     // Deselect current effect / transition
     m_effectStack->slotClipItemSelected(NULL, 0);

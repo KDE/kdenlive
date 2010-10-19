@@ -456,7 +456,7 @@ void RecMonitor::slotStartCapture(bool play)
     case HDMI:
 	video_capture->setVisible(true);
 	video_frame->setHidden(true);
-	m_bmCapture->startPreview(KdenliveSettings::hdmicapturedevice(), KdenliveSettings::hdmicapturemode());
+	m_bmCapture->startPreview(KdenliveSettings::hdmi_capturedevice(), KdenliveSettings::hdmi_capturemode());
 	m_playAction->setEnabled(false);
 	m_stopAction->setEnabled(true);
 	m_recAction->setEnabled(true);

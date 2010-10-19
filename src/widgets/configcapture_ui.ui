@@ -798,7 +798,7 @@
         </widget>
        </item>
        <item row="0" column="1">
-        <widget class="KComboBox" name="hdmi_list">
+        <widget class="KComboBox" name="kcfg_hdmi_capturedevice">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -815,7 +815,7 @@
         </widget>
        </item>
        <item row="1" column="1">
-        <widget class="KComboBox" name="hdmi_capturemode"/>
+        <widget class="KComboBox" name="kcfg_hdmi_capturemode"/>
        </item>
        <item row="2" column="0">
         <widget class="QLabel" name="label_29">

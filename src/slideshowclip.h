@@ -51,8 +51,10 @@ public:
 
     /** @brief Check if there are several files with filename pattern, like: image_001.jpg, image_002.jpg,... */
     static int sequenceCount(KUrl file);
+    /** @brief Get the image frame number from a file path, for example image_047.jpg will return 47. */
+    static int getFrameNumberFromPath(KUrl path);
     /** @brief return the url pattern for selected slideshow. */
-    static QString selectedPath(KUrl url, bool isMime, QString extension, int *count);
+    static QString selectedPath(KUrl url, bool isMime, QString extension, QStringList *list);
     /** @brief Convert the selection animation style into an affine geometry string. */
     static QString animationToGeometry(const QString &animation, int &ttl);
 
