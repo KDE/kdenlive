@@ -14,6 +14,7 @@ greyscale.xml
 invert.xml
 ladspa_declipper.xml
 ladspa_equalizer.xml
+ladspa_equalizer_15.xml
 ladspa_limiter.xml
 ladspa_phaser.xml
 ladspa_pitch_scale.xml

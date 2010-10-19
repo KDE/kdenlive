@@ -1,0 +1,52 @@
+<!DOCTYPE kpartgui>
+<effect tag="ladspa" library="mbeq_1197.so" id="equalizer_15" ladspaid="1197" type="audio">
+        <name>15 Band Equalizer</name>
+        <description>LADSPA equalizer audio effect (15 band)</description>
+        <author>http://www.ladspa.org</author>
+        <parameter type="constant" name="1" max="12" min="-70" default="0">
+                <name>50Hz</name>
+        </parameter>
+        <parameter type="constant" name="2" max="12" min="-70" default="0">
+                <name>100Hz</name>
+        </parameter>
+        <parameter type="constant" name="3" max="12" min="-70" default="0">
+                <name>156Hz</name>
+        </parameter>
+        <parameter type="constant" name="4" max="12" min="-70" default="0">
+                <name>220Hz</name>
+        </parameter>
+        <parameter type="constant" name="5" max="12" min="-70" default="0">
+                <name>311Hz</name>
+        </parameter>
+        <parameter type="constant" name="6" max="12" min="-70" default="0">
+                <name>440Hz</name>
+        </parameter>
+        <parameter type="constant" name="7" max="12" min="-70" default="0">
+                <name>622Hz</name>
+        </parameter>
+        <parameter type="constant" name="8" max="12" min="-70" default="0">
+                <name>880Hz</name>
+        </parameter>
+        <parameter type="constant" name="9" max="12" min="-70" default="0">
+                <name>1250Hz</name>
+        </parameter>
+        <parameter type="constant" name="10" max="12" min="-70" default="0">
+                <name>1750Hz</name>
+        </parameter>
+        <parameter type="constant" name="11" max="12" min="-70" default="0">
+                <name>2500Hz</name>
+        </parameter>
+        <parameter type="constant" name="12" max="12" min="-70" default="0">
+                <name>3500Hz</name>
+        </parameter>
+        <parameter type="constant" name="13" max="12" min="-70" default="0">
+                <name>5000Hz</name>
+        </parameter>
+        <parameter type="constant" name="14" max="12" min="-70" default="0">
+                <name>10000Hz</name>
+        </parameter>
+        <parameter type="constant" name="15" max="12" min="-70" default="0">
+                <name>20000Hz</name>
+        </parameter>
+        
+</effect>
