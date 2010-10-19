@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>284</width>
-    <height>458</height>
+    <width>306</width>
+    <height>478</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -556,7 +556,7 @@
        <string>Advanced</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_3">
-       <item row="8" column="2">
+       <item row="11" column="2">
         <spacer name="verticalSpacer">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -583,7 +583,7 @@
          </property>
         </widget>
        </item>
-       <item row="5" column="2">
+       <item row="6" column="2">
         <widget class="QSpinBox" name="clip_vindex">
          <property name="enabled">
           <bool>false</bool>
@@ -596,7 +596,7 @@
          </property>
         </widget>
        </item>
-       <item row="6" column="2">
+       <item row="7" column="2">
         <widget class="QSpinBox" name="clip_aindex">
          <property name="enabled">
           <bool>false</bool>
@@ -609,28 +609,28 @@
          </property>
         </widget>
        </item>
-       <item row="4" column="1">
+       <item row="5" column="1">
         <widget class="QCheckBox" name="clip_force_threads">
          <property name="text">
           <string>Decoding threads</string>
          </property>
         </widget>
        </item>
-       <item row="5" column="1">
+       <item row="6" column="1">
         <widget class="QCheckBox" name="clip_force_vindex">
          <property name="text">
           <string>Video index</string>
          </property>
         </widget>
        </item>
-       <item row="6" column="1">
+       <item row="7" column="1">
         <widget class="QCheckBox" name="clip_force_aindex">
          <property name="text">
           <string>Audio index</string>
          </property>
         </widget>
        </item>
-       <item row="4" column="2">
+       <item row="5" column="2">
         <widget class="QSpinBox" name="clip_threads">
          <property name="enabled">
           <bool>false</bool>
@@ -691,6 +691,27 @@
          </property>
          <property name="inputMask">
           <string>99:99:99:99; </string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="1">
+        <widget class="QCheckBox" name="clip_force_colorspace">
+         <property name="text">
+          <string>Force colorspace</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="2">
+        <widget class="KComboBox" name="clip_colorspace">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="1">
+        <widget class="QCheckBox" name="clip_full_luma">
+         <property name="text">
+          <string>Full luma range</string>
          </property>
         </widget>
        </item>

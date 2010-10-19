@@ -117,6 +117,24 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
     if (props.contains("video_max")) {
         m_view.clip_vindex->setMaximum(props.value("video_max").toInt());
     }
+    
+    m_view.clip_colorspace->addItem(ProfilesDialog::getColorspaceDescription(601), 601);
+    m_view.clip_colorspace->addItem(ProfilesDialog::getColorspaceDescription(709), 709);
+    m_view.clip_colorspace->addItem(ProfilesDialog::getColorspaceDescription(240), 240);
+    if (props.contains("force_colorspace")) {
+        m_view.clip_force_colorspace->setChecked(true);
+        m_view.clip_colorspace->setEnabled(true);
+        m_view.clip_colorspace->setCurrentIndex(m_view.clip_colorspace->findData(props.value("force_colorspace").toInt()));
+    } else if (props.contains("colorspace")) {
+        m_view.clip_colorspace->setCurrentIndex(m_view.clip_colorspace->findData(props.value("colorspace").toInt()));
+    }
+    connect(m_view.clip_force_colorspace, SIGNAL(toggled(bool)), this, SLOT(slotModified()));
+    connect(m_view.clip_colorspace, SIGNAL(currentIndexChanged(int)), this, SLOT(slotModified()));
+    
+    if (props.contains("full_luma")) {
+        m_view.clip_full_luma->setChecked(true);
+    }
+    connect(m_view.clip_full_luma, SIGNAL(toggled(bool)), this, SLOT(slotModified()));
 
     // Check for Metadata
     QMap<QString, QString> meta = m_clip->metadata();
@@ -134,6 +152,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
     connect(m_view.clip_force_threads, SIGNAL(toggled(bool)), m_view.clip_threads, SLOT(setEnabled(bool)));
     connect(m_view.clip_force_vindex, SIGNAL(toggled(bool)), m_view.clip_vindex, SLOT(setEnabled(bool)));
     connect(m_view.clip_force_aindex, SIGNAL(toggled(bool)), m_view.clip_aindex, SLOT(setEnabled(bool)));
+    connect(m_view.clip_force_colorspace, SIGNAL(toggled(bool)), m_view.clip_colorspace, SLOT(setEnabled(bool)));
 
     if (props.contains("audiocodec"))
         QTreeWidgetItem *item = new QTreeWidgetItem(m_view.clip_aproperties, QStringList() << i18n("Audio codec") << props.value("audiocodec"));
@@ -425,6 +444,16 @@ ClipProperties::ClipProperties(QList <DocClipBase *>cliplist, Timecode tc, QMap 
     if (props.contains("video_max")) {
         m_view.clip_vindex->setMaximum(props.value("video_max").toInt());
     }
+    
+    if (commonproperties.contains("force_colorspace") && !commonproperties.value("force_colorspace").isEmpty() && commonproperties.value("force_colorspace").toInt() != 0) {
+        m_view.clip_force_colorspace->setChecked(true);
+        m_view.clip_colorspace->setEnabled(true);
+        m_view.clip_colorspace->setCurrentIndex(m_view.clip_colorspace->findData(commonproperties.value("force_colorspace").toInt()));
+    }
+    
+    if (commonproperties.contains("full_luma") && !commonproperties.value("full_luma").isEmpty()) {
+        m_view.clip_full_luma->setChecked(true);
+    }
 
     connect(m_view.clip_force_ar, SIGNAL(toggled(bool)), m_view.clip_ar, SLOT(setEnabled(bool)));
     connect(m_view.clip_force_progressive, SIGNAL(toggled(bool)), m_view.clip_progressive, SLOT(setEnabled(bool)));
@@ -432,6 +461,7 @@ ClipProperties::ClipProperties(QList <DocClipBase *>cliplist, Timecode tc, QMap 
     connect(m_view.clip_force_vindex, SIGNAL(toggled(bool)), m_view.clip_vindex, SLOT(setEnabled(bool)));
     connect(m_view.clip_force_aindex, SIGNAL(toggled(bool)), m_view.clip_aindex, SLOT(setEnabled(bool)));
     connect(m_view.clip_force_out, SIGNAL(toggled(bool)), m_view.clip_out, SLOT(setEnabled(bool)));
+    connect(m_view.clip_force_colorspace, SIGNAL(toggled(bool)), m_view.clip_colorspace, SLOT(setEnabled(bool)));
 
     m_view.tabWidget->removeTab(METATAB);
     m_view.tabWidget->removeTab(MARKERTAB);
@@ -630,6 +660,25 @@ QMap <QString, QString> ClipProperties::properties()
         }
     } else if (m_old_props.contains("audio_index")) {
         props["audio_index"].clear();
+    }
+    
+    int colorspace = m_view.clip_colorspace->itemData(m_view.clip_colorspace->currentIndex()).toInt();
+    if (m_view.clip_force_colorspace->isChecked()) {
+        if (colorspace != m_old_props.value("force_colorspace").toInt()) {
+            props["force_colorspace"] = QString::number(colorspace);
+            m_clipNeedsRefresh = true;
+        }
+    } else if (m_old_props.contains("force_colorspace")) {
+        props["force_colorspace"].clear();
+        m_clipNeedsRefresh = true;
+    }
+
+    if (m_view.clip_full_luma->isChecked()) {
+        props["full_luma"] = QString::number(1);
+        m_clipNeedsRefresh = true;
+    } else if (m_old_props.contains("full_luma")) {
+        props["full_luma"].clear();
+        m_clipNeedsRefresh = true;
     }
 
     // If we adjust several clips, return now

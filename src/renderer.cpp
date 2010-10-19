@@ -551,6 +551,14 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
         int aindex = xml.attribute("audio_index").toInt();
         if (aindex != 0) producer->set("audio_index", aindex);
     }
+    if (xml.hasAttribute("force_colorspace")) {
+        int colorspace = xml.attribute("force_colorspace").toInt();
+        if (colorspace != 0) producer->set("force_colorspace", colorspace);
+    }
+    if (xml.hasAttribute("full_luma")) {
+        int full_luma = xml.attribute("full_luma").toInt();
+        if (full_luma != 0) producer->set("set.force_full_luma", full_luma);
+    }
 
     // setup length here as otherwise default length (currently 15000 frames in MLT) will be taken even if outpoint is larger
     if (xml.attribute("type").toInt() == COLOR || xml.attribute("type").toInt() == TEXT
@@ -2059,6 +2067,10 @@ int Render::mltChangeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, dou
                 slowprod->set("force_progressive", original->parent().get_int("force_progressive"));
             int ix = original->parent().get_int("video_index");
             if (ix != 0) slowprod->set("video_index", ix);
+            int colorspace = original->parent().get_int("force_colorspace");
+            if (colorspace != 0) slowprod->set("force_colorspace", colorspace);
+            int full_luma = original->parent().get_int("set.force_full_luma");
+            if (full_luma != 0) slowprod->set("set.force_full_luma", full_luma);
             m_slowmotionProducers.insert(url, slowprod);
         }
         Mlt::Producer *clip = trackPlaylist.replace_with_blank(clipIndex);
@@ -2132,6 +2144,10 @@ int Render::mltChangeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, dou
             if (threads != 0) slowprod->set("threads", threads);
             int ix = original->parent().get_int("video_index");
             if (ix != 0) slowprod->set("video_index", ix);
+            int colorspace = original->parent().get_int("force_colorspace");
+            if (colorspace != 0) slowprod->set("force_colorspace", colorspace);
+            int full_luma = original->parent().get_int("set.force_full_luma");
+            if (full_luma != 0) slowprod->set("set.force_full_luma", full_luma);
             m_slowmotionProducers.insert(url, slowprod);
         }
         Mlt::Producer *clip = trackPlaylist.replace_with_blank(clipIndex);

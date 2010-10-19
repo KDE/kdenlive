@@ -255,6 +255,8 @@ void ProjectList::editClipSelection(QList<QTreeWidgetItem *> list)
     commonproperties.insert("threads", "-");
     commonproperties.insert("video_index", "-");
     commonproperties.insert("audio_index", "-");
+    commonproperties.insert("force_colorspace", "-");
+    commonproperties.insert("full_luma", "-");
 
     bool allowDurationChange = true;
     int commonDuration = -1;
@@ -591,6 +593,8 @@ void ProjectList::slotUpdateClipProperties(const QString &id, QMap <QString, QSt
             slotReloadClip(id);
         } else if (properties.contains("colour") || properties.contains("xmldata") || properties.contains("force_aspect_ratio") || properties.contains("templatetext")) {
             slotRefreshClipThumbnail(item);
+            emit refreshClip();
+        } else if (properties.contains("full_luma") || properties.contains("force_colorspace")) {
             emit refreshClip();
         }
     }

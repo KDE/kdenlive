@@ -520,6 +520,8 @@ Mlt::Producer *DocClipBase::audioProducer(int track)
         m_audioTrackProducers.at(track)->set("video_index", -1);
         if (m_properties.contains("audio_index")) m_audioTrackProducers.at(track)->set("audio_index", m_properties.value("audio_index").toInt());
         m_audioTrackProducers.at(track)->set("id", QString(getId() + '_' + QString::number(track) + "_audio").toUtf8().data());
+        if (m_properties.contains("force_colorspace")) m_audioTrackProducers.at(track)->set("force_colorspace", m_properties.value("force_colorspace").toInt());
+        if (m_properties.contains("full_luma")) m_audioTrackProducers.at(track)->set("set.force_full_luma", m_properties.value("full_luma").toInt());
     }
     return m_audioTrackProducers.at(track);
 }
@@ -539,6 +541,8 @@ Mlt::Producer *DocClipBase::videoProducer()
         m_videoOnlyProducer->set("audio_index", -1);
         if (m_properties.contains("video_index")) m_videoOnlyProducer->set("video_index", m_properties.value("video_index").toInt());
         m_videoOnlyProducer->set("id", QString(getId() + "_video").toUtf8().data());
+        if (m_properties.contains("force_colorspace")) m_videoOnlyProducer->set("force_colorspace", m_properties.value("force_colorspace").toInt());
+        if (m_properties.contains("full_luma")) m_videoOnlyProducer->set("set.force_full_luma", m_properties.value("full_luma").toInt());
     }
     return m_videoOnlyProducer;
 }
@@ -585,6 +589,8 @@ Mlt::Producer *DocClipBase::producer(int track)
             m_baseTrackProducers[track]->set("skip_loop_filter", "all");
             m_baseTrackProducers[track]->set("skip_frame", "bidir");
         }
+        if (m_properties.contains("force_colorspace")) m_baseTrackProducers[track]->set("force_colorspace", m_properties.value("force_colorspace").toInt());
+        if (m_properties.contains("full_luma")) m_baseTrackProducers[track]->set("set.force_full_luma", m_properties.value("full_luma").toInt());
     }
     return m_baseTrackProducers.at(track);
 }
@@ -924,6 +930,16 @@ void DocClipBase::setProperty(const QString &key, const QString &value)
             m_properties.remove("audio_index");
             setProducerProperty("audio_index", m_properties.value("default_audio").toInt());
         } else setProducerProperty("audio_index", value.toInt());
+    } else if (key == "force_colorspace") {
+        if (value.isEmpty()) {
+            m_properties.remove("force_colorspace");
+            resetProducerProperty("force_colorspace");
+        } else setProducerProperty("force_colorspace", value.toInt());
+    } else if (key == "full_luma") {
+        if (value.isEmpty()) {
+            m_properties.remove("full_luma");
+            resetProducerProperty("set.force_full_luma");
+        } else setProducerProperty("set.force_full_luma", value.toInt());
     }
 }
 
