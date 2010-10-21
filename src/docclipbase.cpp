@@ -503,6 +503,17 @@ void DocClipBase::setProducer(Mlt::Producer *producer, bool reset)
     //m_clipProducer->set("transparency", m_properties.value("transparency").toInt());
 }
 
+static double getPixelAspect(QMap<QString, QString>& props) {
+    int width = props.value("frame_size").section('x', 0, 0).toInt();
+    int height = props.value("frame_size").section('x', 1, 1).toInt();
+    int aspectNumerator = props.value("force_aspect_num").toInt();
+    int aspectDenominator = props.value("force_aspect_den").toInt();
+    if (aspectDenominator != 0 && width != 0)
+        return double(height) * aspectNumerator / aspectDenominator / width;    
+    else
+        return 1.0;
+}
+
 Mlt::Producer *DocClipBase::audioProducer(int track)
 {
     if (m_audioTrackProducers.count() <= track) {
@@ -513,7 +524,8 @@ Mlt::Producer *DocClipBase::audioProducer(int track)
     if (m_audioTrackProducers.at(track) == NULL) {
         Mlt::Producer *base = producer();
         m_audioTrackProducers[track] = new Mlt::Producer(*(base->profile()), base->get("resource"));
-        if (m_properties.contains("force_aspect_ratio")) m_audioTrackProducers.at(track)->set("force_aspect_ratio", m_properties.value("force_aspect_ratio").toDouble());
+        if (m_properties.contains("force_aspect_num") && m_properties.contains("force_aspect_den") && m_properties.contains("frame_size"))
+            m_audioTrackProducers.at(track)->set("force_aspect_ratio", getPixelAspect(m_properties));
         if (m_properties.contains("force_fps")) m_audioTrackProducers.at(track)->set("force_fps", m_properties.value("force_fps").toDouble());
         if (m_properties.contains("force_progressive")) m_audioTrackProducers.at(track)->set("force_progressive", m_properties.value("force_progressive").toInt());
         if (m_properties.contains("threads")) m_audioTrackProducers.at(track)->set("threads", m_properties.value("threads").toInt());
@@ -534,7 +546,8 @@ Mlt::Producer *DocClipBase::videoProducer()
             if (m_baseTrackProducers.at(i) != NULL) break;
         if (i >= m_baseTrackProducers.count()) return NULL;
         m_videoOnlyProducer = new Mlt::Producer(*m_baseTrackProducers.at(i)->profile(), m_baseTrackProducers.at(i)->get("resource"));
-        if (m_properties.contains("force_aspect_ratio")) m_videoOnlyProducer->set("force_aspect_ratio", m_properties.value("force_aspect_ratio").toDouble());
+        if (m_properties.contains("force_aspect_num") && m_properties.contains("force_aspect_den") && m_properties.contains("frame_size"))
+            m_videoOnlyProducer->set("force_aspect_ratio", getPixelAspect(m_properties));
         if (m_properties.contains("force_fps")) m_videoOnlyProducer->set("force_fps", m_properties.value("force_fps").toDouble());
         if (m_properties.contains("force_progressive")) m_videoOnlyProducer->set("force_progressive", m_properties.value("force_progressive").toInt());
         if (m_properties.contains("threads")) m_videoOnlyProducer->set("threads", m_properties.value("threads").toInt());
@@ -578,7 +591,8 @@ Mlt::Producer *DocClipBase::producer(int track)
             m_baseTrackProducers[track] = NULL;
             return NULL;
         }
-        if (m_properties.contains("force_aspect_ratio")) m_baseTrackProducers[track]->set("force_aspect_ratio", m_properties.value("force_aspect_ratio").toDouble());
+        if (m_properties.contains("force_aspect_num") && m_properties.contains("force_aspect_den") && m_properties.contains("frame_size"))
+            m_baseTrackProducers[track]->set("force_aspect_raio", getPixelAspect(m_properties));
         if (m_properties.contains("force_fps")) m_baseTrackProducers[track]->set("force_fps", m_properties.value("force_fps").toDouble());
         if (m_properties.contains("force_progressive")) m_baseTrackProducers[track]->set("force_progressive", m_properties.value("force_progressive").toInt());
         if (m_properties.contains("threads")) m_baseTrackProducers[track]->set("threads", m_properties.value("threads").toInt());
@@ -900,11 +914,16 @@ void DocClipBase::setProperty(const QString &key, const QString &value)
     } else if (key == "xmldata") {
         setProducerProperty("xmldata", value.toUtf8().data());
         setProducerProperty("force_reload", 1);
-    } else if (key == "force_aspect_ratio") {
+    } else if (key == "force_aspect_num") {
         if (value.isEmpty()) {
-            m_properties.remove("force_aspect_ratio");
+            m_properties.remove("force_aspect_num");
             resetProducerProperty("force_aspect_ratio");
-        } else setProducerProperty("force_aspect_ratio", value.toDouble());
+        } else setProducerProperty("force_aspect_ratio", getPixelAspect(m_properties));
+    } else if (key == "force_aspect_den") {
+        if (value.isEmpty()) {
+            m_properties.remove("force_aspect_den");
+            resetProducerProperty("force_aspect_ratio");
+        } else setProducerProperty("force_aspect_ratio", getPixelAspect(m_properties));
     } else if (key == "force_fps") {
         if (value.isEmpty()) {
             m_properties.remove("force_fps");

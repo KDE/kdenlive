@@ -529,6 +529,15 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
         if (aspect > 0) producer->set("force_aspect_ratio", aspect);
     }
 
+    if (xml.hasAttribute("force_aspect_num") && xml.hasAttribute("force_aspect_den")) {
+        int width = xml.attribute("frame_size").section('x', 0, 0).toInt();
+        int height = xml.attribute("frame_size").section('x', 1, 1).toInt();
+        int aspectNumerator = xml.attribute("force_aspect_num").toInt();
+        int aspectDenominator = xml.attribute("force_aspect_den").toInt();
+        if (aspectDenominator != 0 && width != 0)
+            producer->set("force_aspect_ratio", double(height) * aspectNumerator / aspectDenominator / width );
+    }
+
     if (xml.hasAttribute("force_fps")) {
         double fps = xml.attribute("force_fps").toDouble();
         if (fps > 0) producer->set("force_fps", fps);

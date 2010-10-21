@@ -249,7 +249,8 @@ void ProjectList::editClipSelection(QList<QTreeWidgetItem *> list)
     // Gather all common properties
     QMap <QString, QString> commonproperties;
     QList <DocClipBase *> clipList;
-    commonproperties.insert("force_aspect_ratio", "-");
+    commonproperties.insert("force_aspect_num", "-");
+    commonproperties.insert("force_aspect_den", "-");
     commonproperties.insert("force_fps", "-");
     commonproperties.insert("force_progressive", "-");
     commonproperties.insert("threads", "-");
@@ -591,7 +592,11 @@ void ProjectList::slotUpdateClipProperties(const QString &id, QMap <QString, QSt
         slotUpdateClipProperties(item, properties);
         if (properties.contains("out") || properties.contains("force_fps") || properties.contains("resource")) {
             slotReloadClip(id);
-        } else if (properties.contains("colour") || properties.contains("xmldata") || properties.contains("force_aspect_ratio") || properties.contains("templatetext")) {
+        } else if (properties.contains("colour") ||
+                   properties.contains("xmldata") ||
+                   properties.contains("force_aspect_num") ||
+                   properties.contains("force_aspect_den") ||
+                   properties.contains("templatetext")) {
             slotRefreshClipThumbnail(item);
             emit refreshClip();
         } else if (properties.contains("full_luma") || properties.contains("force_colorspace")) {

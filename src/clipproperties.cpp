@@ -62,13 +62,40 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
     m_view.clip_force_out->setHidden(true);
     m_view.clip_out->setHidden(true);
 
-    if (props.contains("force_aspect_ratio") && props.value("force_aspect_ratio").toDouble() > 0) {
+    // New display aspect ratio support
+    if (props.contains("force_aspect_num") && props.value("force_aspect_num").toInt() > 0 &&
+        props.contains("force_aspect_den") && props.value("force_aspect_den").toInt() > 0) {
         m_view.clip_force_ar->setChecked(true);
-        m_view.clip_ar->setEnabled(true);
-        m_view.clip_ar->setValue(props.value("force_aspect_ratio").toDouble());
-    } else if (props.contains("aspect_ratio")) m_view.clip_ar->setValue(props.value("aspect_ratio").toDouble());
+        m_view.clip_ar_num->setEnabled(true);
+        m_view.clip_ar_den->setEnabled(true);
+        m_view.clip_ar_num->setValue(props.value("force_aspect_num").toInt());
+        m_view.clip_ar_den->setValue(props.value("force_aspect_den").toInt());
+    }
+    // Legacy support for pixel aspect ratio
+    else if (props.contains("force_aspect_ratio") && props.value("force_aspect_ratio").toDouble() > 0) {
+        m_view.clip_force_ar->setChecked(true);
+        m_view.clip_ar_num->setEnabled(true);
+        m_view.clip_ar_den->setEnabled(true);
+        if (props.contains("frame_size")) {
+            int width = props.value("force_aspect_ratio").toDouble() * props.value("frame_size").section('x', 0, 0).toInt();
+            int height = props.value("frame_size").section('x', 1, 1).toInt();
+            if (width > 0 && height > 0) {
+                if ((width / height * 100) == 133) {
+                    width = 4;
+                    height = 3;
+                }
+                else if (int(width / height * 100) == 177) {
+                    width = 16;
+                    height = 9;
+                }
+                m_view.clip_ar_num->setValue(width);
+                m_view.clip_ar_den->setValue(height);
+            }
+        }
+    }
     connect(m_view.clip_force_ar, SIGNAL(toggled(bool)), this, SLOT(slotModified()));
-    connect(m_view.clip_ar, SIGNAL(valueChanged(double)), this, SLOT(slotModified()));
+    connect(m_view.clip_ar_num, SIGNAL(valueChanged(int)), this, SLOT(slotModified()));
+    connect(m_view.clip_ar_den, SIGNAL(valueChanged(int)), this, SLOT(slotModified()));
 
     if (props.contains("force_fps") && props.value("force_fps").toDouble() > 0) {
         m_view.clip_force_framerate->setChecked(true);
@@ -146,7 +173,8 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
         ++i;
     }
 
-    connect(m_view.clip_force_ar, SIGNAL(toggled(bool)), m_view.clip_ar, SLOT(setEnabled(bool)));
+    connect(m_view.clip_force_ar, SIGNAL(toggled(bool)), m_view.clip_ar_num, SLOT(setEnabled(bool)));
+    connect(m_view.clip_force_ar, SIGNAL(toggled(bool)), m_view.clip_ar_den, SLOT(setEnabled(bool)));
     connect(m_view.clip_force_framerate, SIGNAL(toggled(bool)), m_view.clip_framerate, SLOT(setEnabled(bool)));
     connect(m_view.clip_force_progressive, SIGNAL(toggled(bool)), m_view.clip_progressive, SLOT(setEnabled(bool)));
     connect(m_view.clip_force_threads, SIGNAL(toggled(bool)), m_view.clip_threads, SLOT(setEnabled(bool)));
@@ -401,10 +429,12 @@ ClipProperties::ClipProperties(QList <DocClipBase *>cliplist, Timecode tc, QMap 
     QMap <QString, QString> props = cliplist.at(0)->properties();
     m_old_props = commonproperties;
 
-    if (commonproperties.contains("force_aspect_ratio") && !commonproperties.value("force_aspect_ratio").isEmpty() && commonproperties.value("force_aspect_ratio").toDouble() > 0) {
+    if (commonproperties.contains("force_aspect_num") && !commonproperties.value("force_aspect_num").isEmpty() && commonproperties.value("force_aspect_den").toInt() > 0) {
         m_view.clip_force_ar->setChecked(true);
-        m_view.clip_ar->setEnabled(true);
-        m_view.clip_ar->setValue(commonproperties.value("force_aspect_ratio").toDouble());
+        m_view.clip_ar_num->setEnabled(true);
+        m_view.clip_ar_den->setEnabled(true);
+        m_view.clip_ar_num->setValue(commonproperties.value("force_aspect_num").toInt());
+        m_view.clip_ar_den->setValue(commonproperties.value("force_aspect_den").toInt());
     }
 
     if (commonproperties.contains("force_fps") && !commonproperties.value("force_fps").isEmpty() && commonproperties.value("force_fps").toDouble() > 0) {
@@ -455,7 +485,8 @@ ClipProperties::ClipProperties(QList <DocClipBase *>cliplist, Timecode tc, QMap 
         m_view.clip_full_luma->setChecked(true);
     }
 
-    connect(m_view.clip_force_ar, SIGNAL(toggled(bool)), m_view.clip_ar, SLOT(setEnabled(bool)));
+    connect(m_view.clip_force_ar, SIGNAL(toggled(bool)), m_view.clip_ar_num, SLOT(setEnabled(bool)));
+    connect(m_view.clip_force_ar, SIGNAL(toggled(bool)), m_view.clip_ar_den, SLOT(setEnabled(bool)));
     connect(m_view.clip_force_progressive, SIGNAL(toggled(bool)), m_view.clip_progressive, SLOT(setEnabled(bool)));
     connect(m_view.clip_force_threads, SIGNAL(toggled(bool)), m_view.clip_threads, SLOT(setEnabled(bool)));
     connect(m_view.clip_force_vindex, SIGNAL(toggled(bool)), m_view.clip_vindex, SLOT(setEnabled(bool)));
@@ -604,15 +635,25 @@ QMap <QString, QString> ClipProperties::properties()
         m_old_props = m_clip->properties();
     }
 
-    double aspect = m_view.clip_ar->value();
+    int aspectNumerator = m_view.clip_ar_num->value();
+    int aspectDenominator = m_view.clip_ar_den->value();
     if (m_view.clip_force_ar->isChecked()) {
-        if (aspect != m_old_props.value("force_aspect_ratio").toDouble()) {
-            props["force_aspect_ratio"] = QString::number(aspect);
+        if (aspectNumerator != m_old_props.value("force_aspect_num").toInt() ||
+            aspectDenominator != m_old_props.value("force_aspect_den").toInt()) {
+            props["force_aspect_num"] = QString::number(aspectNumerator);
+            props["force_aspect_den"] = QString::number(aspectDenominator);
+            props["force_aspect_ratio"].clear();
             m_clipNeedsRefresh = true;
         }
-    } else if (m_old_props.contains("force_aspect_ratio")) {
-        props["force_aspect_ratio"].clear();
-        m_clipNeedsRefresh = true;
+    } else {
+        if (m_old_props.contains("force_aspect_num")) {
+            props["force_aspect_num"].clear();
+            m_clipNeedsRefresh = true;
+        }
+        if (m_old_props.contains("force_aspect_den")) {
+            props["force_aspect_den"].clear();
+            m_clipNeedsRefresh = true;
+        }
     }
 
     double fps = m_view.clip_framerate->value();
