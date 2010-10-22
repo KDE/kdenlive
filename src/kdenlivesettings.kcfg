@@ -436,6 +436,26 @@
       <label>Additionnal dvgrab parameters.</label>
       <default></default>
     </entry>
+    
+    <entry name="hdmi_capturedevice" type="Int">
+      <label>default HDMI capture device.</label>
+      <default>0</default>
+    </entry>
+
+    <entry name="hdmi_capturemode" type="Int">
+      <label>default HDMI capture mode.</label>
+      <default>0</default>
+    </entry>
+
+    <entry name="hdmifilename" type="String">
+      <label>default HDMI capture filename.</label>
+      <default>capture</default>
+    </entry>
+
+    <entry name="hdmicaptureaudio" type="Bool">
+      <label>Should we capture HDMI audio.</label>
+      <default>true</default>
+    </entry>
   </group>
 
   <group name="shuttle">
@@ -614,27 +634,20 @@
       <default>false</default>
     </entry>
 
-    <entry name="hdmi_capturedevice" type="Int">
-      <label>default HDMI capture device.</label>
-      <default>0</default>
-    </entry>
-
-    <entry name="hdmi_capturemode" type="Int">
-      <label>default HDMI capture mode.</label>
-      <default>0</default>
-    </entry>
-
-    <entry name="hdmifilename" type="String">
-      <label>default HDMI capture filename.</label>
-      <default>capture</default>
-    </entry>
-
-    <entry name="hdmicaptureaudio" type="Bool">
-      <label>Should we capture HDMI audio.</label>
+    <entry name="showstopmotionthumbs" type="Bool">
+      <label>Show sequence thumbnails in stopmotion widget.</label>
       <default>true</default>
-    </entry>
+    </entry> 
     
-    
+    <entry name="captureinterval" type="Int">
+      <label>Interval between each capture (in seconds).</label>
+      <default>5</default>
+    </entry> 
+
+    <entry name="blitzeffect" type="Int">
+      <label>Effect applied to stopmotion frame overlay.</label>
+      <default>0</default>
+    </entry> 
   </group>
 
 </kcfg>

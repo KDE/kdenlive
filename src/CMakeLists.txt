@@ -2,12 +2,22 @@ add_subdirectory( widgets )
 add_subdirectory( mimetypes )
 
 macro_optional_find_package(Nepomuk)
+pkg_check_modules(qimageblitz qimageblitz)
 
 if (Nepomuk_FOUND)
     INCLUDE_DIRECTORIES(NEPOMUK_INCLUDES )
     set( optional_libs ${NEPOMUK_LIBRARIES} )
     add_definitions(-DNEPOMUK)
 endif (Nepomuk_FOUND)
+
+if (qimageblitz_FOUND)
+    INCLUDE_DIRECTORIES(QIMAGEBLITZ_INCLUDES )
+    set( optional_libs ${QIMAGEBLITZ_LIBRARIES} )
+    add_definitions(-DQIMAGEBLITZ)
+    MESSAGE( STATUS "Found QImageBlitz: ${QIMAGEBLITZ_LIBRARIES}" )
+else (qimageblitz_FOUND)
+    MESSAGE( WARNING "Install QImageBlitz devel package for improved stopmotion features" )
+endif (qimageblitz_FOUND)
 
 if (Q_WS_X11)
     include_directories (${X11_Xlib_INCLUDE_PATH} ) 

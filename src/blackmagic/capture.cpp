@@ -434,11 +434,13 @@ HRESULT DeckLinkCaptureDelegate::VideoInputFrameArrived(IDeckLinkVideoInputFrame
                     videoOutputFile = open(doCaptureFrame.toUtf8().constData(), O_WRONLY | O_CREAT/*|O_TRUNC*/, 0664);
                     write(videoOutputFile, frameBytes, videoFrame->GetRowBytes() * videoFrame->GetHeight());
                     close(videoOutputFile);
+                    emit frameSaved(doCaptureFrame);
                 } else {
                     QImage image(videoFrame->GetWidth(), videoFrame->GetHeight(), QImage::Format_ARGB32_Premultiplied);
                     //convert from uyvy422 to rgba
                     yuv2rgb_int((uchar *)frameBytes, (uchar *)image.bits(), videoFrame->GetWidth(), videoFrame->GetHeight());
                     image.save(doCaptureFrame);
+                    emit frameSaved(doCaptureFrame);
                 }
                 doCaptureFrame.clear();
             }
@@ -592,6 +594,7 @@ void BmdCaptureHandler::startPreview(int deviceId, int captureMode)
     delegate = new DeckLinkCaptureDelegate();
     connect(delegate, SIGNAL(gotTimeCode(ulong)), this, SIGNAL(gotTimeCode(ulong)));
     connect(delegate, SIGNAL(gotMessage(const QString &)), this, SIGNAL(gotMessage(const QString &)));
+    connect(delegate, SIGNAL(frameSaved(const QString)), this, SIGNAL(frameSaved(const QString)));
     deckLinkInput->SetCallback(delegate);
 
     previewView = new CDeckLinkGLWidget(deckLinkInput, m_parent);

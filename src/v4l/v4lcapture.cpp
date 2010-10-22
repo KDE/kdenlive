@@ -27,6 +27,7 @@
 #include <QDebug>
 #include <QImage>
 #include <QTimer>
+#include <QPainter>
 
 #include <KDebug>
 #include <KLocale>
@@ -204,7 +205,15 @@ void V4lCaptureHandler::slotUpdate()
     yuv2rgb_int3((uchar *)img, (uchar *)qimg.bits(), v4lsrc.width, v4lsrc.height);
     if(!m_captureFramePath.isEmpty()) {
         qimg.save(m_captureFramePath);
+        emit frameSaved(m_captureFramePath);
         m_captureFramePath.clear();
+    }
+    if(!m_overlayImage.isNull()) {
+        // overlay image
+        QPainter p(&qimg);
+        p.setOpacity(0.5);
+        p.drawImage(0, 0, m_overlayImage);
+        p.end();
     }
     m_display->setPixmap(QPixmap::fromImage(qimg));
     if(m_update) QTimer::singleShot(200, this, SLOT(slotUpdate()));
@@ -223,12 +232,14 @@ void V4lCaptureHandler::captureFrame(const QString &fname)
     m_captureFramePath = fname;
 }
 
-void V4lCaptureHandler::showOverlay(QImage /*img*/, bool /*transparent*/)
+void V4lCaptureHandler::showOverlay(QImage img, bool /*transparent*/)
 {
+    m_overlayImage = img;
 }
 
 void V4lCaptureHandler::hideOverlay()
 {
+    m_overlayImage = QImage();
 }
 
 void V4lCaptureHandler::hidePreview(bool hide)

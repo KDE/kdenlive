@@ -35,6 +35,7 @@ private:
 signals:
     void gotTimeCode(ulong);
     void gotMessage(const QString &);
+    void frameSaved(const QString);
 };
 
 class BmdCaptureHandler : public CaptureHandler

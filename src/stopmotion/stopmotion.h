@@ -28,13 +28,13 @@
 
 class MyLabel : public QLabel
 {
-  Q_OBJECT
+    Q_OBJECT
 public:
     MyLabel(QWidget *parent = 0);
     void setImage(QImage img);
 
 protected:
-    virtual void paintEvent( QPaintEvent * event);
+    virtual void paintEvent(QPaintEvent * event);
     virtual void wheelEvent(QWheelEvent * event);
 
 private:
@@ -58,115 +58,133 @@ public:
     StopmotionWidget(KUrl projectFolder, QWidget *parent = 0);
     virtual ~StopmotionWidget();
 
-
 protected:
-
+    virtual void closeEvent(QCloseEvent *e);
 
 private:
-  /** @brief Widget layout holding video and frame preview. */
-  QVBoxLayout *m_layout;
-  
-  /** @brief Current project folder (where the captured frames will be saved). */
-  KUrl m_projectFolder;
+    /** @brief Widget layout holding video and frame preview. */
+    QVBoxLayout *m_layout;
 
-  /** @brief Capture holder that will handle all video operation. */
-  CaptureHandler *m_bmCapture;
+    /** @brief Current project folder (where the captured frames will be saved). */
+    KUrl m_projectFolder;
 
-  /** @brief Holds the name of the current sequence.
-   * Files will be saved in project folder with name: sequence001.png */
-  QString m_sequenceName;
+    /** @brief Capture holder that will handle all video operation. */
+    CaptureHandler *m_bmCapture;
 
-  /** @brief Holds the frame number of the current sequence. */
-  int m_sequenceFrame;
+    /** @brief Holds the name of the current sequence.
+     * Files will be saved in project folder with name: sequence001.png */
+    QString m_sequenceName;
 
-  QAction *m_captureAction;
-  
-  /** @brief Holds the index of the frame to be displayed in the frame preview mode. */
-  int m_animatedIndex;
+    /** @brief Holds the frame number of the current sequence. */
+    int m_sequenceFrame;
 
-  /** @brief Find all stopmotion sequences in current project folder. */
-  void parseExistingSequences();
+    QAction *m_captureAction;
 
-  /** @brief Select a frame in the list. */
-  void selectFrame(int ix);
+    /** @brief Holds the index of the frame to be displayed in the frame preview mode. */
+    int m_animatedIndex;
 
-  /** @brief This widget will hold the frame preview. */
-  MyLabel *m_frame_preview;
+    /** @brief Find all stopmotion sequences in current project folder. */
+    void parseExistingSequences();
 
-  /** @brief The list of files in the sequence to create thumbnails. */
-  QStringList m_filesList;
-  
-  /** @brief The index of currently created thumbnail. */
-  int m_currentIndex;
-  
-  /** @brief Holds the state of the threaded thumbnail generation. */
-  QFuture<void> m_future;
+    /** @brief Select a frame in the list. */
+    void selectFrame(int ix);
 
-  /** @brief Get the frame number ix. */
-  QListWidgetItem *getFrameFromIndex(int ix);
-  
+    /** @brief This widget will hold the frame preview. */
+    MyLabel *m_frame_preview;
+
+    /** @brief The list of files in the sequence to create thumbnails. */
+    QStringList m_filesList;
+
+    /** @brief Holds the state of the threaded thumbnail generation. */
+    QFuture<void> m_future;
+
+    /** @brief Get the frame number ix. */
+    QListWidgetItem *getFrameFromIndex(int ix);
+
+    /** @brief The action triggering interval capture. */
+    QAction *m_intervalCapture;
+
+    /** @brief The action triggering display of last frame over current live video feed. */
+    QAction *m_showOverlay;
+
+#ifdef QIMAGEBLITZ
+    int m_effectIndex;
+#endif
+
 private slots:
-  /** @brief Display the live feed from capture device.
-   @param isOn enable or disable the feature */
-  void slotLive(bool isOn);
+    /** @brief Display the live feed from capture device.
+     @param isOn enable or disable the feature */
+    void slotLive(bool isOn);
 
-  /** @brief Display the last captured frame over current live feed.
-   @param isOn enable or disable the feature */
-  void slotShowOverlay(bool isOn);
+    /** @brief Display the last captured frame over current live feed.
+     @param isOn enable or disable the feature */
+    void slotShowOverlay(bool isOn);
 
-  /** @brief Display the last captured frame over current live feed. */
-  void slotUpdateOverlay();
+    /** @brief Display the last captured frame over current live feed. */
+    void slotUpdateOverlay();
 
-  /** @brief User changed the capture name. */
-  void sequenceNameChanged(const QString &name);
+    /** @brief User changed the capture name. */
+    void sequenceNameChanged(const QString &name);
 
-  /** @brief Grab a frame from current capture feed. */
-  void slotCaptureFrame();
+    /** @brief Grab a frame from current capture feed. */
+    void slotCaptureFrame();
 
-  /** @brief Display a previous frame in monitor. */
-  void slotShowFrame(int);
+    /** @brief Display a previous frame in monitor. */
+    void slotShowFrame(int);
 
-  /** @brief Get full path for a frame in the sequence.
-   *  @param ix the frame number.
-   *  @param seqName (optional) the name of the sequence. */
-  QString getPathForFrame(int ix, QString seqName = QString());
+    /** @brief Get full path for a frame in the sequence.
+     *  @param ix the frame number.
+     *  @param seqName (optional) the name of the sequence. */
+    QString getPathForFrame(int ix, QString seqName = QString());
 
-  /** @brief Add sequence to current project. */
-  void slotAddSequence();
+    /** @brief Add sequence to current project. */
+    void slotAddSequence();
 
-  /** @brief Update the frame list widget with newly created frame. */
-  void slotUpdateFrameList(int ix = -1);
-  
-  /** @brief Display selected fram in monitor. */
-  void slotShowSelectedFrame();
+    /** @brief Display selected fram in monitor. */
+    void slotShowSelectedFrame();
 
-  /** @brief Start animation preview mode. */
-  void slotPlayPreview();
-  
-  /** @brief Simulate animation. */
-  void slotAnimate();
-  
-  /** @brief Seek to previous or next captured frame.
-   *  @param forward set to true for next frame, false for previous one. */
-  void slotSeekFrame(bool forward);
+    /** @brief Start animation preview mode. */
+    void slotPlayPreview();
 
-  /** @brief Display warning / error message from capture backend. */
-  void slotGotHDMIMessage(const QString &message);
+    /** @brief Simulate animation. */
+    void slotAnimate();
 
-  /** @brief Create thumbnails for existing sequence frames. */
-  void slotCreateThumbs(QImage img, int ix);
+    /** @brief Seek to previous or next captured frame.
+     *  @param forward set to true for next frame, false for previous one. */
+    void slotSeekFrame(bool forward);
 
-  /** @brief Prepare thumbnails creation. */
-  void slotPrepareThumbs();
+    /** @brief Display warning / error message from capture backend. */
+    void slotGotHDMIMessage(const QString &message);
 
-  /** @brief Called when user switches the video capture backend. */
-  void slotUpdateHandler();
+    /** @brief Create thumbnails for existing sequence frames. */
+    void slotCreateThumbs(QImage img, int ix);
+
+    /** @brief Prepare thumbnails creation. */
+    void slotPrepareThumbs();
+
+    /** @brief Called when user switches the video capture backend. */
+    void slotUpdateHandler();
+
+    /** @brief Show / hide sequence thumbnails. */
+    void slotShowThumbs(bool show);
+
+    /** @brief Capture one frame every interval time. */
+    void slotIntervalCapture(bool capture);
+
+    /** @brief Set the interval between each capture (in seconds). */
+    void slotSetCaptureInterval();
+
+    /** @brief Prepare to crete thumb for newly captured frame. */
+    void slotNewThumb(const QString path);
+
+    /** @brief Set the effect to be applied to overlay frame. */
+    void slotUpdateOverlayEffect(QAction *act);
 
 signals:
-  /** @brief Ask to add sequence to current project. */
-  void addOrUpdateSequence(const QString);
+    /** @brief Ask to add sequence to current project. */
+    void addOrUpdateSequence(const QString);
 
-  void doCreateThumbs(QImage, int);
+    void doCreateThumbs(QImage, int);
 };
 
 #endif

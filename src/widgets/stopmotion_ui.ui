@@ -6,15 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>643</width>
-    <height>395</height>
+    <width>671</width>
+    <height>406</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0" colspan="11">
+   <item row="0" column="0" colspan="13">
     <widget class="QSplitter" name="splitter">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -67,7 +67,79 @@
      </widget>
     </widget>
    </item>
-   <item row="1" column="0">
+   <item row="1" column="7">
+    <widget class="KComboBox" name="sequence_name">
+     <property name="toolTip">
+      <string>Sequence name</string>
+     </property>
+     <property name="editable">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="9">
+    <widget class="KComboBox" name="capture_device">
+     <property name="toolTip">
+      <string>Capture device</string>
+     </property>
+     <property name="whatsThis">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="10">
+    <widget class="KComboBox" name="log_box">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="maxCount">
+      <number>10</number>
+     </property>
+     <property name="frame">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="11">
+    <widget class="QPushButton" name="button_addsequence">
+     <property name="text">
+      <string>Add to project</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="5">
+    <widget class="QToolButton" name="preview_button">
+     <property name="toolTip">
+      <string>Preview sequence</string>
+     </property>
+     <property name="whatsThis">
+      <string/>
+     </property>
+     <property name="text">
+      <string>...</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="2">
+    <widget class="QToolButton" name="config_button">
+     <property name="toolTip">
+      <string>Overlay last frame</string>
+     </property>
+     <property name="whatsThis">
+      <string/>
+     </property>
+     <property name="text">
+      <string>...</string>
+     </property>
+     <property name="popupMode">
+      <enum>QToolButton::InstantPopup</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="3">
     <widget class="QToolButton" name="live_button">
      <property name="toolTip">
       <string>Live view</string>
@@ -86,49 +158,7 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="1">
-    <widget class="QToolButton" name="frameoverlay_button">
-     <property name="toolTip">
-      <string>Overlay last frame</string>
-     </property>
-     <property name="whatsThis">
-      <string/>
-     </property>
-     <property name="text">
-      <string>...</string>
-     </property>
-     <property name="checkable">
-      <bool>true</bool>
-     </property>
-     <property name="autoRaise">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="2">
-    <widget class="QToolButton" name="preview_button">
-     <property name="toolTip">
-      <string>Preview sequence</string>
-     </property>
-     <property name="whatsThis">
-      <string/>
-     </property>
-     <property name="text">
-      <string>...</string>
-     </property>
-    </widget>
-   </item>
    <item row="1" column="4">
-    <widget class="QSpinBox" name="frame_number">
-     <property name="toolTip">
-      <string>Frame number</string>
-     </property>
-     <property name="whatsThis">
-      <string/>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="5">
     <widget class="QToolButton" name="capture_button">
      <property name="toolTip">
       <string>Capture frame</string>
@@ -139,77 +169,15 @@
      <property name="text">
       <string>...</string>
      </property>
+     <property name="popupMode">
+      <enum>QToolButton::MenuButtonPopup</enum>
+     </property>
     </widget>
    </item>
    <item row="1" column="6">
-    <widget class="QToolButton" name="removelast_button">
-     <property name="toolTip">
-      <string>Remove current frame</string>
-     </property>
-     <property name="whatsThis">
-      <string/>
-     </property>
+    <widget class="QLabel" name="label">
      <property name="text">
-      <string>...</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="7">
-    <widget class="KComboBox" name="capture_device">
-     <property name="toolTip">
-      <string>Capture device</string>
-     </property>
-     <property name="whatsThis">
-      <string/>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="9">
-    <widget class="QPushButton" name="button_addsequence">
-     <property name="text">
-      <string>Add to project</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="10">
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Close</set>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="3">
-    <widget class="KComboBox" name="sequence_name">
-     <property name="toolTip">
       <string>Sequence name</string>
-     </property>
-     <property name="editable">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="8">
-    <widget class="KComboBox" name="log_box">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="maxCount">
-      <number>10</number>
-     </property>
-     <property name="frame">
-      <bool>false</bool>
      </property>
     </widget>
    </item>
@@ -223,38 +191,5 @@
   </customwidget>
  </customwidgets>
  <resources/>
- <connections>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>accepted()</signal>
-   <receiver>Stopmotion_UI</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>157</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>rejected()</signal>
-   <receiver>Stopmotion_UI</receiver>
-   <slot>reject()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>286</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

@@ -30,27 +30,27 @@
 
 class V4lCaptureHandler : public CaptureHandler
 {
-  Q_OBJECT
+    Q_OBJECT
 public:
-	V4lCaptureHandler(QVBoxLayout *lay, QWidget *parent = 0);
-	~V4lCaptureHandler();
-	void startPreview(int deviceId, int captureMode);
-	void stopPreview();
-	void startCapture(const QString &path);
-	void stopCapture();
-	void captureFrame(const QString &fname);
-	void showOverlay(QImage img, bool transparent = true);
-	void hideOverlay();
-	void hidePreview(bool hide);
-	
+    V4lCaptureHandler(QVBoxLayout *lay, QWidget *parent = 0);
+    ~V4lCaptureHandler();
+    void startPreview(int deviceId, int captureMode);
+    void stopPreview();
+    void startCapture(const QString &path);
+    void stopCapture();
+    void captureFrame(const QString &fname);
+    void showOverlay(QImage img, bool transparent = true);
+    void hideOverlay();
+    void hidePreview(bool hide);
+
 private:
-	bool m_update;
-	QLabel *m_display;
-	QString m_captureFramePath;
-	
+    bool m_update;
+    QLabel *m_display;
+    QString m_captureFramePath;
+    QImage m_overlayImage;
+
 private slots:
-      void slotUpdate();
-signals:
+    void slotUpdate();
 };
 
 
