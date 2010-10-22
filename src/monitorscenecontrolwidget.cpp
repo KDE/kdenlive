@@ -21,6 +21,8 @@
 #include "monitorscene.h"
 #include "kdenlivesettings.h"
 
+#include <QGridLayout>
+
 
 MonitorSceneControlWidget::MonitorSceneControlWidget(MonitorScene* scene, QWidget* parent) :
         QWidget(parent),
@@ -72,6 +74,11 @@ MonitorSceneControlWidget::~MonitorSceneControlWidget()
 QToolButton *MonitorSceneControlWidget::getShowHideButton()
 {
     return m_buttonConfig;
+}
+
+void MonitorSceneControlWidget::addWidget(QWidget* widget, int row, int column)
+{
+    ((QGridLayout*)m_ui.groupBox->layout())->addWidget(widget, row, column);
 }
 
 void MonitorSceneControlWidget::slotSetDirectUpdate(bool directUpdate)

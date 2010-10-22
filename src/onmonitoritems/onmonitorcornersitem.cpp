@@ -120,7 +120,8 @@ void OnMonitorCornersItem::slotMouseMoved(QGraphicsSceneMouseEvent* event)
 
 void OnMonitorCornersItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
-    QGraphicsPolygonItem::paint(painter, option, widget);
+    if (KdenliveSettings::onmonitoreffects_cornersshowlines())
+        QGraphicsPolygonItem::paint(painter, option, widget);
 
     painter->setRenderHint(QPainter::Antialiasing);
     painter->setBrush(QBrush(Qt::yellow));

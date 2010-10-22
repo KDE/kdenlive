@@ -23,6 +23,7 @@
 #include "monitorscenecontrolwidget.h"
 #include "onmonitoritems/onmonitorcornersitem.h"
 #include "renderer.h"
+#include "kdenlivesettings.h"
 
 #include <QGraphicsView>
 #include <QHBoxLayout>
@@ -53,6 +54,14 @@ CornersWidget::CornersWidget(Monitor* monitor, int clipPos, bool isEffect, int f
     QHBoxLayout *layout2 = new QHBoxLayout(m_ui.widgetConfigButton);
     layout2->setContentsMargins(0, 0, 0, 0);
     layout2->addWidget(m_config->getShowHideButton());
+
+    QToolButton *buttonShowLines = new QToolButton(m_config);
+    // TODO: Better Icon
+    buttonShowLines->setIcon(KIcon("insert-horizontal-rule"));
+    buttonShowLines->setToolTip(i18n("Show/Hide the lines connecting the corners"));
+    buttonShowLines->setCheckable(true);
+    connect(buttonShowLines, SIGNAL(toggled(bool)), this, SLOT(slotShowLines(bool)));
+    m_config->addWidget(buttonShowLines, 0, 2);
 
     int width = m_monitor->render->frameRenderWidth();
     int height = m_monitor->render->renderHeight();
@@ -201,6 +210,12 @@ void CornersWidget::slotShowScene(bool show)
         m_monitor->slotEffectScene(false);
     else
         slotCheckMonitorPosition(m_monitor->render->seekFramePosition());
+}
+
+void CornersWidget::slotShowLines(bool show)
+{
+    KdenliveSettings::setOnmonitoreffects_cornersshowlines(show);
+    m_item->update();
 }
 
 void CornersWidget::slotResetCorner1()

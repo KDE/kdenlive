@@ -40,6 +40,9 @@ public:
     /** @brief Returns a button for showing and hiding the monitor scene controls (this widget). */
     QToolButton *getShowHideButton();
 
+    /** @brief Adds a custom widget to the controls. */
+    void addWidget(QWidget *widget, int row, int column);
+
 private slots:
     /** @brief Sets the KdenliveSetting directupdate with true = update parameters (rerender frame) during mouse move (before mouse button is released) */
     void slotSetDirectUpdate(bool directUpdate);

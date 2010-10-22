@@ -647,7 +647,13 @@
     <entry name="blitzeffect" type="Int">
       <label>Effect applied to stopmotion frame overlay.</label>
       <default>0</default>
-    </entry> 
+    </entry>
+
+    <entry name="onmonitoreffects_cornersshowlines" type="Bool">
+      <label>Connect the corners in the widget for the c0rners effect with lines.</label>
+      <default>false</default>
+    </entry>
+
   </group>
 
 </kcfg>

@@ -52,6 +52,7 @@ protected:
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     /** @brief Adds a keyframe if scene is disabled. */
     virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
+    /** @brief Reimplemented to allow zooming using ctrl + mouse wheel. */
     virtual void wheelEvent(QGraphicsSceneWheelEvent *event);
 
 public slots:
