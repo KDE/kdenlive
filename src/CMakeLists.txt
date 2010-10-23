@@ -16,7 +16,7 @@ if (QIMAGEBLITZ_FOUND)
     add_definitions(-DQIMAGEBLITZ)
     MESSAGE( STATUS "Found QImageBlitz: ${QIMAGEBLITZ_LIBRARIES}" )
 else (QIMAGEBLITZ_FOUND)
-    MESSAGE( WARNING "Install QImageBlitz devel package for improved stopmotion features" )
+    MESSAGE( STATUS "Install QImageBlitz devel package for improved stopmotion features" )
 endif (QIMAGEBLITZ_FOUND)
 
 if (Q_WS_X11)
