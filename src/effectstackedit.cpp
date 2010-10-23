@@ -285,7 +285,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
                 connect(this, SIGNAL(syncEffectsPos(int)), geo, SLOT(slotSyncPosition(int)));
             }
         } else if (type == "keyframe" || type == "simplekeyframe") {
-            // keyframe editor widget
+            // keyframe editor widget
             kDebug() << "min: " << m_in << ", MAX: " << m_out;
             if (m_keyframeEditor == NULL) {
                 KeyframeEdit *geo = new KeyframeEdit(pa, m_in, m_in + m_out, pa.attribute("min").toInt(), pa.attribute("max").toInt(), m_timecode, e.attribute("active_keyframe", "-1").toInt());
