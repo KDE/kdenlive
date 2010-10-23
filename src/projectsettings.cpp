@@ -29,6 +29,8 @@
 #include <KDebug>
 #include <kio/directorysizejob.h>
 #include <KIO/NetAccess>
+#include <KTemporaryFile>
+#include <KFileDialog>
 
 #include <QDir>
 #include <kmessagebox.h>
@@ -38,7 +40,7 @@ ProjectSettings::ProjectSettings(ProjectList *projectlist, QStringList lumas, in
 {
     setupUi(this);
 
-    list_search->setListWidget(files_list);
+    list_search->setTreeWidget(files_list);
 
     QMap <QString, QString> profilesInfo = ProfilesDialog::getProfilesInfo();
     QMapIterator<QString, QString> i(profilesInfo);
@@ -76,6 +78,7 @@ ProjectSettings::ProjectSettings(ProjectList *projectlist, QStringList lumas, in
     } else tabWidget->widget(1)->setEnabled(false);
     connect(profiles_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateDisplay()));
     connect(project_folder, SIGNAL(textChanged(const QString &)), this, SLOT(slotUpdateButton(const QString &)));
+    connect(button_export, SIGNAL(clicked()), this, SLOT(slotExportToText()));
 }
 
 void ProjectSettings::slotDeleteUnused()
@@ -139,24 +142,75 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
     // images included in slideshow and titles, files in playlist clips
     // TODO: images used in luma transitions, files used for LADSPA effects?
 
-    QStringList allFiles;
+    // Setup categories
+    QTreeWidgetItem *videos = new QTreeWidgetItem(files_list, QStringList() << i18n("Video clips"));
+    videos->setIcon(0, KIcon("video-x-generic"));
+    videos->setExpanded(true);
+    QTreeWidgetItem *sounds = new QTreeWidgetItem(files_list, QStringList() << i18n("Audio clips"));
+    sounds->setIcon(0, KIcon("audio-x-generic"));
+    sounds->setExpanded(true);
+    QTreeWidgetItem *images = new QTreeWidgetItem(files_list, QStringList() << i18n("Image clips"));
+    images->setIcon(0, KIcon("image-x-generic"));
+    images->setExpanded(true);
+    QTreeWidgetItem *slideshows = new QTreeWidgetItem(files_list, QStringList() << i18n("Slideshow clips"));
+    slideshows->setIcon(0, KIcon("image-x-generic"));
+    slideshows->setExpanded(true);
+    QTreeWidgetItem *texts = new QTreeWidgetItem(files_list, QStringList() << i18n("Text clips"));
+    texts->setIcon(0, KIcon("text-plain"));
+    texts->setExpanded(true);
+    QTreeWidgetItem *others = new QTreeWidgetItem(files_list, QStringList() << i18n("Other clips"));
+    others->setIcon(0, KIcon("unknown"));
+    others->setExpanded(true);
+    int count = 0;
     QStringList allFonts;
-    allFiles << m_lumas;
+    foreach(const QString & file, m_lumas) {
+        count++;
+        new QTreeWidgetItem(images, QStringList() << file);
+    }
+
     for (int i = 0; i < list.count(); i++) {
         DocClipBase *clip = list.at(i);
         if (clip->clipType() == SLIDESHOW) {
-            // special case, list all images
-            QStringList files = extractSlideshowUrls(clip->fileURL());
-            allFiles << files;
-        } else if (!clip->fileURL().isEmpty()) allFiles.append(clip->fileURL().path());
+            QStringList subfiles = extractSlideshowUrls(clip->fileURL());
+            foreach(const QString & file, subfiles) {
+                count++;
+                new QTreeWidgetItem(slideshows, QStringList() << file);
+            }
+        } else if (!clip->fileURL().isEmpty()) {
+            //allFiles.append(clip->fileURL().path());
+            switch (clip->clipType()) {
+            case TEXT:
+                new QTreeWidgetItem(texts, QStringList() << clip->fileURL().path());
+                break;
+            case AUDIO:
+                new QTreeWidgetItem(sounds, QStringList() << clip->fileURL().path());
+                break;
+            case IMAGE:
+                new QTreeWidgetItem(images, QStringList() << clip->fileURL().path());
+                break;
+            case UNKNOWN:
+                new QTreeWidgetItem(others, QStringList() << clip->fileURL().path());
+                break;
+            default:
+                new QTreeWidgetItem(videos, QStringList() << clip->fileURL().path());
+                break;
+            }
+            count++;
+        }
         if (clip->clipType() == TEXT) {
-            QStringList images = TitleWidget::extractImageList(clip->getProperty("xmldata"));
+            QStringList imagefiles = TitleWidget::extractImageList(clip->getProperty("xmldata"));
             QStringList fonts = TitleWidget::extractFontList(clip->getProperty("xmldata"));
-            allFiles << images;
+            foreach(const QString & file, imagefiles) {
+                count++;
+                new QTreeWidgetItem(images, QStringList() << file);
+            }
             allFonts << fonts;
         } else if (clip->clipType() == PLAYLIST) {
             QStringList files = extractPlaylistUrls(clip->fileURL().path());
-            allFiles << files;
+            foreach(const QString & file, files) {
+                count++;
+                new QTreeWidgetItem(others, QStringList() << file);
+            }
         }
 
         if (clip->numReferences() == 0) {
@@ -168,12 +222,20 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
         }
     }
 #if QT_VERSION >= 0x040500
-    allFiles.removeDuplicates();
     allFonts.removeDuplicates();
 #endif
-    files_count->setText(QString::number(allFiles.count()));
-    files_list->addItems(allFiles);
+    // Hide unused categories
+    for (int i = 0; i < files_list->topLevelItemCount(); i++) {
+        if (files_list->topLevelItem(i)->childCount() == 0) {
+            files_list->topLevelItem(i)->setHidden(true);
+        }
+    }
+    files_count->setText(QString::number(count));
     fonts_list->addItems(allFonts);
+    if (allFonts.isEmpty()) {
+        fonts_list->setHidden(true);
+        label_fonts->setHidden(true);
+    }
     used_count->setText(QString::number(used));
     used_size->setText(KIO::convertSize(usedSize));
     unused_count->setText(QString::number(unused));
@@ -300,15 +362,63 @@ QStringList ProjectSettings::extractSlideshowUrls(KUrl url)
     QString path = url.directory(KUrl::AppendTrailingSlash);
     QString ext = url.path().section('.', -1);
     QDir dir(path);
-    QStringList filters;
-    filters << "*." + ext;
-    dir.setNameFilters(filters);
-    QStringList result = dir.entryList(QDir::Files);
-    for (int j = 0; j < result.count(); j++) {
-        urls.append(path + result.at(j));
+    if (url.path().contains(".all.")) {
+        // this is a mime slideshow, like *.jpeg
+        QStringList filters;
+        filters << "*." + ext;
+        dir.setNameFilters(filters);
+        QStringList result = dir.entryList(QDir::Files);
+        urls.append(path + filters.at(0) + " (" + i18n("%1 images found", result.count()) + ")");
+    } else {
+        // this is a pattern slideshow, like sequence%4d.jpg
+        QString filter = url.fileName();
+        QString ext = filter.section('.', -1);
+        filter = filter.section('%', 0, -2);
+        QString regexp = "^" + filter + "\\d+\\." + ext + "$";
+        QRegExp rx(regexp);
+        int count = 0;
+        QStringList result = dir.entryList(QDir::Files);
+        foreach(const QString & path, result) {
+            if (rx.exactMatch(path)) count++;
+        }
+        urls.append(url.path() + " (" + i18n("%1 images found", count) + ")");
     }
     return urls;
 }
+
+void ProjectSettings::slotExportToText()
+{
+    QString savePath = KFileDialog::getSaveFileName(project_folder->url(), "text/plain", this);
+    if (savePath.isEmpty()) return;
+    QString data;
+    data.append(i18n("Project folder: %1",  project_folder->url().path()) + "\n");
+    data.append(i18n("Project profile: %1",  profiles_list->currentText()) + "\n");
+    data.append(i18n("Total clips: %1 (%2 used in timeline).", files_count->text(), used_count->text()) + "\n\n");
+    for (int i = 0; i < files_list->topLevelItemCount(); i++) {
+        if (files_list->topLevelItem(i)->childCount() > 0) {
+            data.append("\n" + files_list->topLevelItem(i)->text(0) + ":\n\n");
+            for (int j = 0; j < files_list->topLevelItem(i)->childCount(); j++) {
+                data.append(files_list->topLevelItem(i)->child(j)->text(0) + "\n");
+            }
+        }
+    }
+    KTemporaryFile tmpfile;
+    if (!tmpfile.open()) {
+        kWarning() << "/////  CANNOT CREATE TMP FILE in: " << tmpfile.fileName();
+        return;
+    }
+    QFile xmlf(tmpfile.fileName());
+    xmlf.open(QIODevice::WriteOnly);
+    xmlf.write(data.toUtf8());
+    if (xmlf.error() != QFile::NoError) {
+        xmlf.close();
+        return;
+    }
+    xmlf.close();
+    KIO::NetAccess::upload(tmpfile.fileName(), savePath, 0);
+}
+
+
 
 #include "projectsettings.moc"
 

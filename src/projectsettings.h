@@ -50,6 +50,8 @@ private slots:
     void slotUpdateFiles(bool cacheOnly = false);
     void slotClearCache();
     void slotDeleteUnused();
+    /** @brief Export project data to text file. */
+    void slotExportToText();
 
 private:
     QPushButton *m_buttonOk;

@@ -6,15 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>295</width>
+    <width>291</width>
     <height>320</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Project Settings</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout_5">
-   <item row="0" column="0">
+  <layout class="QGridLayout" name="gridLayout_3">
+   <item row="0" column="0" colspan="2">
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
       <number>0</number>
@@ -231,7 +231,7 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="2">
+       <item row="0" column="3">
         <widget class="QLabel" name="used_size">
          <property name="text">
           <string/>
@@ -252,14 +252,14 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="2">
+       <item row="1" column="3">
         <widget class="QLabel" name="unused_size">
          <property name="text">
           <string/>
          </property>
         </widget>
        </item>
-       <item row="1" column="3">
+       <item row="1" column="4">
         <widget class="KPushButton" name="delete_unused">
          <property name="text">
           <string>Delete files</string>
@@ -280,14 +280,14 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="2">
+       <item row="2" column="3">
         <widget class="QLabel" name="thumbs_size">
          <property name="text">
           <string/>
          </property>
         </widget>
        </item>
-       <item row="2" column="3">
+       <item row="2" column="4">
         <widget class="KPushButton" name="clear_cache">
          <property name="text">
           <string>Clear cache</string>
@@ -308,37 +308,51 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="2" colspan="2">
-        <widget class="KListWidgetSearchLine" name="list_search">
-         <property name="clickMessage">
-          <string>Search</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0" colspan="4">
-        <widget class="QListWidget" name="files_list">
-         <property name="alternatingRowColors">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0">
-        <widget class="QLabel" name="label_14">
+       <item row="5" column="0" colspan="5">
+        <widget class="QLabel" name="label_fonts">
          <property name="text">
           <string>Fonts</string>
          </property>
         </widget>
        </item>
-       <item row="6" column="0" colspan="4">
+       <item row="6" column="0" colspan="5">
         <widget class="QListWidget" name="fonts_list">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
          <property name="alternatingRowColors">
           <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0" colspan="5">
+        <widget class="QTreeWidget" name="files_list">
+         <property name="alternatingRowColors">
+          <bool>true</bool>
+         </property>
+         <property name="rootIsDecorated">
+          <bool>false</bool>
+         </property>
+         <property name="itemsExpandable">
+          <bool>false</bool>
+         </property>
+         <property name="headerHidden">
+          <bool>true</bool>
+         </property>
+         <property name="expandsOnDoubleClick">
+          <bool>false</bool>
+         </property>
+         <column>
+          <property name="text">
+           <string notr="true">1</string>
+          </property>
+         </column>
+        </widget>
+       </item>
+       <item row="3" column="2" colspan="3">
+        <widget class="KTreeWidgetSearchLine" name="list_search"/>
+       </item>
+       <item row="7" column="0">
+        <widget class="QPushButton" name="button_export">
+         <property name="text">
+          <string>Plain text export</string>
          </property>
         </widget>
        </item>
@@ -346,7 +360,7 @@
      </widget>
     </widget>
    </item>
-   <item row="1" column="0">
+   <item row="1" column="1">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -365,6 +379,11 @@
    <header>kurlrequester.h</header>
   </customwidget>
   <customwidget>
+   <class>KTreeWidgetSearchLine</class>
+   <extends>KLineEdit</extends>
+   <header>ktreewidgetsearchline.h</header>
+  </customwidget>
+  <customwidget>
    <class>KPushButton</class>
    <extends>QPushButton</extends>
    <header>kpushbutton.h</header>
@@ -378,11 +397,6 @@
    <class>KComboBox</class>
    <extends>QComboBox</extends>
    <header>kcombobox.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KListWidgetSearchLine</class>
-   <extends>KLineEdit</extends>
-   <header>klistwidgetsearchline.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
