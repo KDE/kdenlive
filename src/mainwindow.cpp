@@ -1535,7 +1535,7 @@ void MainWindow::setupActions()
     connect(reloadClip , SIGNAL(triggered()), m_projectList, SLOT(slotReloadClip()));
     reloadClip->setEnabled(false);
 
-    QAction *stopMotion = new KAction(KIcon("image-x-generic"), i18n("Stopmotion Animation"), this);
+    QAction *stopMotion = new KAction(KIcon("image-x-generic"), i18n("Stop Motion Capture"), this);
     collection->addAction("stopmotion", stopMotion);
     connect(stopMotion , SIGNAL(triggered()), this, SLOT(slotOpenStopmotion()));
 

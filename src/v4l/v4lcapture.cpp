@@ -38,85 +38,60 @@
 
 static src_t v4lsrc;
 
-void yuv2rgb_int3(unsigned char *yuv_buffer, unsigned char *rgb_buffer, int width, int height)
+class MyDisplay : public QLabel
 {
-    int len;
-    int r, g, b;
-    int Y, U, V, Y2;
-    int rgb_ptr, y_ptr, t;
+public:
+    MyDisplay(QWidget *parent = 0);
+    void setImage(QImage img);
+    virtual void paintEvent(QPaintEvent *);
+    virtual void resizeEvent(QResizeEvent *);
 
-    len = width * height / 2;
+private:
+    QImage m_img;
+    bool m_clear;
+};
 
-    rgb_ptr = 0;
-    y_ptr = 0;
-
-    for(t = 0; t < len; t++) { /* process 2 pixels at a time */
-        /* Compute parts of the UV components */
-
-        U = yuv_buffer[y_ptr];
-        Y = yuv_buffer[y_ptr+1];
-        V = yuv_buffer[y_ptr+2];
-        Y2 = yuv_buffer[y_ptr+3];
-        y_ptr += 4;
-
-
-        /*r = 1.164*(Y-16) + 1.596*(V-128);
-        g = 1.164*(Y-16) - 0.813*(V-128) - 0.391*(U-128);
-        b = 1.164*(Y-16) + 2.018*(U-128);*/
-
-
-        r = ((298 * (Y - 16)               + 409 * (V - 128) + 128) >> 8);
-
-        g = ((298 * (Y - 16) - 100 * (U - 128) - 208 * (V - 128) + 128) >> 8);
-
-        b = ((298 * (Y - 16) + 516 * (U - 128)               + 128) >> 8);
-
-        if(r > 255) r = 255;
-        if(g > 255) g = 255;
-        if(b > 255) b = 255;
-
-        if(r < 0) r = 0;
-        if(g < 0) g = 0;
-        if(b < 0) b = 0;
-
-        rgb_buffer[rgb_ptr] = b;
-        rgb_buffer[rgb_ptr+1] = g;
-        rgb_buffer[rgb_ptr+2] = r;
-        rgb_buffer[rgb_ptr+3] = 255;
-
-        rgb_ptr += 4;
-        /*r = 1.164*(Y2-16) + 1.596*(V-128);
-        g = 1.164*(Y2-16) - 0.813*(V-128) - 0.391*(U-128);
-        b = 1.164*(Y2-16) + 2.018*(U-128);*/
-
-
-        r = ((298 * (Y2 - 16)               + 409 * (V - 128) + 128) >> 8);
-
-        g = ((298 * (Y2 - 16) - 100 * (U - 128) - 208 * (V - 128) + 128) >> 8);
-
-        b = ((298 * (Y2 - 16) + 516 * (U - 128)               + 128) >> 8);
-
-        if(r > 255) r = 255;
-        if(g > 255) g = 255;
-        if(b > 255) b = 255;
-
-        if(r < 0) r = 0;
-        if(g < 0) g = 0;
-        if(b < 0) b = 0;
-
-        rgb_buffer[rgb_ptr] = b;
-        rgb_buffer[rgb_ptr+1] = g;
-        rgb_buffer[rgb_ptr+2] = r;
-        rgb_buffer[rgb_ptr+3] = 255;
-        rgb_ptr += 4;
-    }
+MyDisplay::MyDisplay(QWidget *parent):
+    QLabel(parent)
+    , m_clear(false)
+{
+    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    setAttribute(Qt::WA_PaintOnScreen);
+    setAttribute(Qt::WA_OpaquePaintEvent);
 }
+
+void MyDisplay::resizeEvent(QResizeEvent *)
+{
+    m_clear = true;
+}
+
+void MyDisplay::paintEvent(QPaintEvent *)
+{
+    QPainter p(this);
+    if (m_clear) {
+        // widget resized, cleanup
+        p.fillRect(0, 0, width(), height(), palette().background());
+        m_clear = false;
+    }
+    if (m_img.isNull()) return;
+    QImage img = m_img.scaled(width(), height(), Qt::KeepAspectRatio);
+    p.drawImage((width() - img.width()) / 2, (height() - img.height()) / 2, img);
+    p.end();
+}
+
+void MyDisplay::setImage(QImage img)
+{
+    m_img = img;
+    update();
+}
+
+
 
 V4lCaptureHandler::V4lCaptureHandler(QVBoxLayout *lay, QWidget *parent):
     CaptureHandler(lay, parent)
     , m_update(false)
 {
-    m_display = new QLabel;
+    m_display = new MyDisplay;
     lay->addWidget(m_display);
 }
 
@@ -126,7 +101,7 @@ void V4lCaptureHandler::startPreview(int /*deviceId*/, int /*captureMode*/)
     fswebcam_config_t *config;
     /* Prepare the configuration structure. */
     config = (fswebcam_config_t *) calloc(sizeof(fswebcam_config_t), 1);
-    if(!config) {
+    if (!config) {
         /*WARN("Out of memory.");*/
         fprintf(stderr, "Out of MEM....");
         return;
@@ -180,7 +155,7 @@ void V4lCaptureHandler::startPreview(int /*deviceId*/, int /*captureMode*/)
     v4lsrc.option     = config->option;
     char *source = config->device;
 
-    if(src_open(&v4lsrc, source) != 0) return;
+    if (src_open(&v4lsrc, source) != 0) return;
     m_update = true;
     QTimer::singleShot(200, this, SLOT(slotUpdate()));
 }
@@ -192,31 +167,31 @@ V4lCaptureHandler::~V4lCaptureHandler()
 
 void V4lCaptureHandler::slotUpdate()
 {
-    if(!m_update) return;
+    if (!m_update) return;
     src_grab(&v4lsrc);
     uint8_t *img = (uint8_t *) v4lsrc.img;
     uint32_t i = v4lsrc.width * v4lsrc.height;
 
-    if(v4lsrc.length << 2 < i) return;
+    if (v4lsrc.length << 2 < i) return;
 
     QImage qimg(v4lsrc.width, v4lsrc.height, QImage::Format_RGB32);
     //Format_ARGB32_Premultiplied
     //convert from uyvy422 to rgba
-    yuv2rgb_int3((uchar *)img, (uchar *)qimg.bits(), v4lsrc.width, v4lsrc.height);
-    if(!m_captureFramePath.isEmpty()) {
+    CaptureHandler::yuv2rgb((uchar *)img, (uchar *)qimg.bits(), v4lsrc.width, v4lsrc.height);
+    if (!m_captureFramePath.isEmpty()) {
         qimg.save(m_captureFramePath);
         emit frameSaved(m_captureFramePath);
         m_captureFramePath.clear();
     }
-    if(!m_overlayImage.isNull()) {
+    if (!m_overlayImage.isNull()) {
         // overlay image
         QPainter p(&qimg);
         p.setOpacity(0.5);
         p.drawImage(0, 0, m_overlayImage);
         p.end();
     }
-    m_display->setPixmap(QPixmap::fromImage(qimg));
-    if(m_update) QTimer::singleShot(200, this, SLOT(slotUpdate()));
+    m_display->setImage(qimg);
+    if (m_update) QTimer::singleShot(200, this, SLOT(slotUpdate()));
 }
 
 void V4lCaptureHandler::startCapture(const QString &/*path*/)
@@ -249,7 +224,7 @@ void V4lCaptureHandler::hidePreview(bool hide)
 
 void V4lCaptureHandler::stopPreview()
 {
-    if(!m_update) return;
+    if (!m_update) return;
     m_update = false;
     src_close(&v4lsrc);
 }

@@ -28,6 +28,8 @@
 #include <QLayout>
 #include <QLabel>
 
+class MyDisplay;
+
 class V4lCaptureHandler : public CaptureHandler
 {
     Q_OBJECT
@@ -45,7 +47,7 @@ public:
 
 private:
     bool m_update;
-    QLabel *m_display;
+    MyDisplay *m_display;
     QString m_captureFramePath;
     QImage m_overlayImage;
 

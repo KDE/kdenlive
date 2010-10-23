@@ -65,80 +65,6 @@ static double               g_aspect_ratio = 16.0 / 9.0;
 
 static unsigned long            frameCount = 0;
 
-void yuv2rgb_int(unsigned char *yuv_buffer, unsigned char *rgb_buffer, int width, int height)
-{
-    int len;
-    int r, g, b;
-    int Y, U, V, Y2;
-    int rgb_ptr, y_ptr, t;
-
-    len = width * height / 2;
-
-    rgb_ptr = 0;
-    y_ptr = 0;
-
-    for(t = 0; t < len; t++) { /* process 2 pixels at a time */
-        /* Compute parts of the UV components */
-
-        U = yuv_buffer[y_ptr];
-        Y = yuv_buffer[y_ptr+1];
-        V = yuv_buffer[y_ptr+2];
-        Y2 = yuv_buffer[y_ptr+3];
-        y_ptr += 4;
-
-
-        /*r = 1.164*(Y-16) + 1.596*(V-128);
-        g = 1.164*(Y-16) - 0.813*(V-128) - 0.391*(U-128);
-        b = 1.164*(Y-16) + 2.018*(U-128);*/
-
-
-        r = ((298 * (Y - 16)               + 409 * (V - 128) + 128) >> 8);
-
-        g = ((298 * (Y - 16) - 100 * (U - 128) - 208 * (V - 128) + 128) >> 8);
-
-        b = ((298 * (Y - 16) + 516 * (U - 128)               + 128) >> 8);
-
-        if(r > 255) r = 255;
-        if(g > 255) g = 255;
-        if(b > 255) b = 255;
-
-        if(r < 0) r = 0;
-        if(g < 0) g = 0;
-        if(b < 0) b = 0;
-
-        rgb_buffer[rgb_ptr] = b;
-        rgb_buffer[rgb_ptr+1] = g;
-        rgb_buffer[rgb_ptr+2] = r;
-        rgb_buffer[rgb_ptr+3] = 255;
-
-        rgb_ptr += 4;
-        /*r = 1.164*(Y2-16) + 1.596*(V-128);
-        g = 1.164*(Y2-16) - 0.813*(V-128) - 0.391*(U-128);
-        b = 1.164*(Y2-16) + 2.018*(U-128);*/
-
-
-        r = ((298 * (Y2 - 16)               + 409 * (V - 128) + 128) >> 8);
-
-        g = ((298 * (Y2 - 16) - 100 * (U - 128) - 208 * (V - 128) + 128) >> 8);
-
-        b = ((298 * (Y2 - 16) + 516 * (U - 128)               + 128) >> 8);
-
-        if(r > 255) r = 255;
-        if(g > 255) g = 255;
-        if(b > 255) b = 255;
-
-        if(r < 0) r = 0;
-        if(g < 0) g = 0;
-        if(b < 0) b = 0;
-
-        rgb_buffer[rgb_ptr] = b;
-        rgb_buffer[rgb_ptr+1] = g;
-        rgb_buffer[rgb_ptr+2] = r;
-        rgb_buffer[rgb_ptr+3] = 255;
-        rgb_ptr += 4;
-    }
-}
-
 
 class CDeckLinkGLWidget : public QGLWidget, public IDeckLinkScreenPreviewCallback
 {
@@ -193,7 +119,7 @@ void CDeckLinkGLWidget::showOverlay(QImage img, bool transparent)
     m_img = convertToGLFormat(img);
     m_zx = (double)m_pictureWidth / m_img.width();
     m_zy = (double)m_pictureHeight / m_img.height();
-    if(m_transparentOverlay) {
+    if (m_transparentOverlay) {
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_COLOR);
     } else {
@@ -209,7 +135,7 @@ void CDeckLinkGLWidget::hideOverlay()
 
 void    CDeckLinkGLWidget::initializeGL()
 {
-    if(deckLinkScreenPreviewHelper != NULL) {
+    if (deckLinkScreenPreviewHelper != NULL) {
         mutex.lock();
         deckLinkScreenPreviewHelper->InitializeGL();
         glShadeModel(GL_FLAT);
@@ -251,7 +177,7 @@ void    CDeckLinkGLWidget::paintGL()
     //glClearColor(1.0f, 0.0f, 0.0f, 0.0f);
     glClear(GL_COLOR_BUFFER_BIT);
     deckLinkScreenPreviewHelper->PaintGL();
-    if(!m_img.isNull()) {
+    if (!m_img.isNull()) {
         glPixelZoom(m_zx, m_zy);
         glDrawPixels(m_img.width(), m_img.height(), GL_RGBA, GL_UNSIGNED_BYTE, m_img.bits());
     }
@@ -279,10 +205,10 @@ void    CDeckLinkGLWidget::resizeGL(int width, int height)
     m_pictureHeight = height;
     m_pictureWidth = width;
     int calculatedWidth = g_aspect_ratio * height;
-    if(calculatedWidth > width) m_pictureHeight = width / g_aspect_ratio;
+    if (calculatedWidth > width) m_pictureHeight = width / g_aspect_ratio;
     else {
         int calculatedHeight = width / g_aspect_ratio;
-        if(calculatedHeight > height) m_pictureWidth = height * g_aspect_ratio;
+        if (calculatedHeight > height) m_pictureWidth = height * g_aspect_ratio;
     }
     glViewport((width - m_pictureWidth) / 2, (height - m_pictureHeight) / 2, m_pictureWidth, m_pictureHeight);
     glMatrixMode(GL_PROJECTION);
@@ -290,7 +216,7 @@ void    CDeckLinkGLWidget::resizeGL(int width, int height)
     glOrtho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
     glMatrixMode(GL_MODELVIEW);
     glRasterPos2i(-1, -1);
-    if(!m_img.isNull()) {
+    if (!m_img.isNull()) {
         m_zx = (double)m_pictureWidth / m_img.width();
         m_zy = (double)m_pictureHeight / m_img.height();
     }
@@ -336,7 +262,7 @@ ULONG       CDeckLinkGLWidget::Release()
     int     oldValue;
 
     oldValue = refCount.fetchAndAddAcquire(-1);
-    if(oldValue == 1) {
+    if (oldValue == 1) {
         delete this;
     }
 
@@ -345,7 +271,7 @@ ULONG       CDeckLinkGLWidget::Release()
 
 HRESULT     CDeckLinkGLWidget::DrawFrame(IDeckLinkVideoFrame* theFrame)
 {
-    if(deckLinkScreenPreviewHelper != NULL && theFrame != NULL) {
+    if (deckLinkScreenPreviewHelper != NULL && theFrame != NULL) {
         /*mutex.lock();
         m_frame = theFrame;
         mutex.unlock();*/
@@ -381,7 +307,7 @@ ULONG DeckLinkCaptureDelegate::Release(void)
     m_refCount--;
     pthread_mutex_unlock(&m_mutex);
 
-    if(m_refCount == 0) {
+    if (m_refCount == 0) {
         delete this;
         return 0;
     }
@@ -397,22 +323,22 @@ HRESULT DeckLinkCaptureDelegate::VideoInputFrameArrived(IDeckLinkVideoInputFrame
     void*                   audioFrameBytes;
 
     // Handle Video Frame
-    if(videoFrame) {
+    if (videoFrame) {
         // If 3D mode is enabled we retreive the 3D extensions interface which gives.
         // us access to the right eye frame by calling GetFrameForRightEye() .
-        if((videoFrame->QueryInterface(IID_IDeckLinkVideoFrame3DExtensions, (void **) &threeDExtensions) != S_OK) ||
+        if ((videoFrame->QueryInterface(IID_IDeckLinkVideoFrame3DExtensions, (void **) &threeDExtensions) != S_OK) ||
                 (threeDExtensions->GetFrameForRightEye(&rightEyeFrame) != S_OK)) {
             rightEyeFrame = NULL;
         }
 
-        if(videoFrame->GetFlags() & bmdFrameHasNoInputSource) {
+        if (videoFrame->GetFlags() & bmdFrameHasNoInputSource) {
             emit gotMessage(i18n("Frame (%1) - No input signal", frameCount));
             fprintf(stderr, "Frame received (#%lu) - No input signal detected\n", frameCount);
         } else {
             const char *timecodeString = NULL;
-            if(g_timecodeFormat != 0) {
+            if (g_timecodeFormat != 0) {
                 IDeckLinkTimecode *timecode;
-                if(videoFrame->GetTimecode(g_timecodeFormat, &timecode) == S_OK) {
+                if (videoFrame->GetTimecode(g_timecodeFormat, &timecode) == S_OK) {
                     timecode->GetString(&timecodeString);
                 }
             }
@@ -424,12 +350,12 @@ HRESULT DeckLinkCaptureDelegate::VideoInputFrameArrived(IDeckLinkVideoInputFrame
                 rightEyeFrame != NULL ? "Valid Frame (3D left/right)" : "Valid Frame",
                 videoFrame->GetRowBytes() * videoFrame->GetHeight());*/
 
-            if(timecodeString)
+            if (timecodeString)
                 free((void*)timecodeString);
 
-            if(!doCaptureFrame.isEmpty()) {
+            if (!doCaptureFrame.isEmpty()) {
                 videoFrame->GetBytes(&frameBytes);
-                if(doCaptureFrame.endsWith("raw")) {
+                if (doCaptureFrame.endsWith("raw")) {
                     // Save as raw uyvy422 imgage
                     videoOutputFile = open(doCaptureFrame.toUtf8().constData(), O_WRONLY | O_CREAT/*|O_TRUNC*/, 0664);
                     write(videoOutputFile, frameBytes, videoFrame->GetRowBytes() * videoFrame->GetHeight());
@@ -438,18 +364,18 @@ HRESULT DeckLinkCaptureDelegate::VideoInputFrameArrived(IDeckLinkVideoInputFrame
                 } else {
                     QImage image(videoFrame->GetWidth(), videoFrame->GetHeight(), QImage::Format_ARGB32_Premultiplied);
                     //convert from uyvy422 to rgba
-                    yuv2rgb_int((uchar *)frameBytes, (uchar *)image.bits(), videoFrame->GetWidth(), videoFrame->GetHeight());
+                    CaptureHandler::yuv2rgb((uchar *)frameBytes, (uchar *)image.bits(), videoFrame->GetWidth(), videoFrame->GetHeight());
                     image.save(doCaptureFrame);
                     emit frameSaved(doCaptureFrame);
                 }
                 doCaptureFrame.clear();
             }
 
-            if(videoOutputFile != -1) {
+            if (videoOutputFile != -1) {
                 videoFrame->GetBytes(&frameBytes);
                 write(videoOutputFile, frameBytes, videoFrame->GetRowBytes() * videoFrame->GetHeight());
 
-                if(rightEyeFrame) {
+                if (rightEyeFrame) {
                     rightEyeFrame->GetBytes(&frameBytes);
                     write(videoOutputFile, frameBytes, videoFrame->GetRowBytes() * videoFrame->GetHeight());
                 }
@@ -457,14 +383,14 @@ HRESULT DeckLinkCaptureDelegate::VideoInputFrameArrived(IDeckLinkVideoInputFrame
         }
         frameCount++;
 
-        if(g_maxFrames > 0 && frameCount >= g_maxFrames) {
+        if (g_maxFrames > 0 && frameCount >= g_maxFrames) {
             pthread_cond_signal(&sleepCond);
         }
     }
 
     // Handle Audio Frame
-    if(audioFrame) {
-        if(audioOutputFile != -1) {
+    if (audioFrame) {
+        if (audioOutputFile != -1) {
             audioFrame->GetBytes(&audioFrameBytes);
             write(audioOutputFile, audioFrameBytes, audioFrame->GetSampleFrameCount() * g_audioChannels *(g_audioSampleDepth / 8));
         }
@@ -569,7 +495,7 @@ void BmdCaptureHandler::startPreview(int deviceId, int captureMode)
     pthread_cond_init(&sleepCond, NULL);*/
     kDebug() << "/// INIT CAPTURE ON DEV: " << deviceId;
 
-    if(!deckLinkIterator) {
+    if (!deckLinkIterator) {
         emit gotMessage(i18n("This application requires the DeckLink drivers installed."));
         fprintf(stderr, "This application requires the DeckLink drivers installed.\n");
         stopCapture();
@@ -577,16 +503,16 @@ void BmdCaptureHandler::startPreview(int deviceId, int captureMode)
     }
 
     /* Connect to selected DeckLink instance */
-    for(int i = 0; i < deviceId + 1; i++)
+    for (int i = 0; i < deviceId + 1; i++)
         result = deckLinkIterator->Next(&deckLink);
-    if(result != S_OK) {
+    if (result != S_OK) {
         fprintf(stderr, "No DeckLink PCI cards found.\n");
         emit gotMessage(i18n("No DeckLink PCI cards found."));
         stopCapture();
         return;
     }
 
-    if(deckLink->QueryInterface(IID_IDeckLinkInput, (void**)&deckLinkInput) != S_OK) {
+    if (deckLink->QueryInterface(IID_IDeckLinkInput, (void**)&deckLinkInput) != S_OK) {
         stopCapture();
         return;
     }
@@ -605,7 +531,7 @@ void BmdCaptureHandler::startPreview(int deviceId, int captureMode)
 
     // Obtain an IDeckLinkDisplayModeIterator to enumerate the display modes supported on output
     result = deckLinkInput->GetDisplayModeIterator(&displayModeIterator);
-    if(result != S_OK) {
+    if (result != S_OK) {
         emit gotMessage(i18n("Could not obtain the video output display mode iterator - result = ", result));
         fprintf(stderr, "Could not obtain the video output display mode iterator - result = %08x\n", result);
         stopCapture();
@@ -684,7 +610,7 @@ void BmdCaptureHandler::startPreview(int deviceId, int captureMode)
         }
     }*/
 
-    if(g_videoModeIndex < 0) {
+    if (g_videoModeIndex < 0) {
         emit gotMessage(i18n("No video mode specified"));
         fprintf(stderr, "No video mode specified\n");
         stopCapture();
@@ -712,8 +638,8 @@ void BmdCaptureHandler::startPreview(int deviceId, int captureMode)
         }
     }*/
 
-    while(displayModeIterator->Next(&displayMode) == S_OK) {
-        if(g_videoModeIndex == displayModeCount) {
+    while (displayModeIterator->Next(&displayMode) == S_OK) {
+        if (g_videoModeIndex == displayModeCount) {
             BMDDisplayModeSupport result;
             const char *displayModeName;
 
@@ -725,15 +651,15 @@ void BmdCaptureHandler::startPreview(int deviceId, int captureMode)
 
             deckLinkInput->DoesSupportVideoMode(selectedDisplayMode, pixelFormat, bmdVideoInputFlagDefault, &result, NULL);
 
-            if(result == bmdDisplayModeNotSupported) {
+            if (result == bmdDisplayModeNotSupported) {
                 emit gotMessage(i18n("The display mode %1 is not supported with the selected pixel format", displayModeName));
                 fprintf(stderr, "The display mode %s is not supported with the selected pixel format\n", displayModeName);
                 stopCapture();
                 return;
             }
 
-            if(inputFlags & bmdVideoInputDualStream3D) {
-                if(!(displayMode->GetFlags() & bmdDisplayModeSupports3D)) {
+            if (inputFlags & bmdVideoInputDualStream3D) {
+                if (!(displayMode->GetFlags() & bmdDisplayModeSupports3D)) {
                     emit gotMessage(i18n("The display mode %1 is not supported with 3D", displayModeName));
                     fprintf(stderr, "The display mode %s is not supported with 3D\n", displayModeName);
                     stopCapture();
@@ -747,7 +673,7 @@ void BmdCaptureHandler::startPreview(int deviceId, int captureMode)
         displayMode->Release();
     }
 
-    if(!foundDisplayMode) {
+    if (!foundDisplayMode) {
         emit gotMessage(i18n("Invalid mode %1 specified", g_videoModeIndex));
         fprintf(stderr, "Invalid mode %d specified\n", g_videoModeIndex);
         stopCapture();
@@ -755,7 +681,7 @@ void BmdCaptureHandler::startPreview(int deviceId, int captureMode)
     }
 
     result = deckLinkInput->EnableVideoInput(selectedDisplayMode, pixelFormat, inputFlags);
-    if(result != S_OK) {
+    if (result != S_OK) {
         emit gotMessage(i18n("Failed to enable video input. Is another application using the card?"));
         fprintf(stderr, "Failed to enable video input. Is another application using the card?\n");
         stopCapture();
@@ -763,13 +689,13 @@ void BmdCaptureHandler::startPreview(int deviceId, int captureMode)
     }
 
     result = deckLinkInput->EnableAudioInput(bmdAudioSampleRate48kHz, g_audioSampleDepth, g_audioChannels);
-    if(result != S_OK) {
+    if (result != S_OK) {
         stopCapture();
         return;
     }
     deckLinkInput->SetScreenPreviewCallback(previewView);
     result = deckLinkInput->StartStreams();
-    if(result != S_OK) {
+    if (result != S_OK) {
         qDebug() << "/// CAPTURE FAILED....";
         emit gotMessage(i18n("Capture failed"));
     }
@@ -822,20 +748,20 @@ void BmdCaptureHandler::startCapture(const QString &path)
     int i = 0;
     QString videopath = path + "_video_" + QString::number(i).rightJustified(4, '0', false) + ".raw";
     QString audiopath = path + "_audio_" + QString::number(i).rightJustified(4, '0', false) + ".raw";
-    while(QFile::exists(videopath) || QFile::exists(audiopath)) {
+    while (QFile::exists(videopath) || QFile::exists(audiopath)) {
         i++;
         videopath = path + "_video_" + QString::number(i).rightJustified(4, '0', false) + ".raw";
         audiopath = path + "_audio_" + QString::number(i).rightJustified(4, '0', false) + ".raw";
     }
     videoOutputFile = open(videopath.toUtf8().constData(), O_WRONLY | O_CREAT | O_TRUNC, 0664);
-    if(videoOutputFile < 0) {
+    if (videoOutputFile < 0) {
         emit gotMessage(i18n("Could not open video output file %1", videopath));
         fprintf(stderr, "Could not open video output file \"%s\"\n", videopath.toUtf8().constData());
         return;
     }
-    if(KdenliveSettings::hdmicaptureaudio()) {
+    if (KdenliveSettings::hdmicaptureaudio()) {
         audioOutputFile = open(audiopath.toUtf8().constData(), O_WRONLY | O_CREAT | O_TRUNC, 0664);
-        if(audioOutputFile < 0) {
+        if (audioOutputFile < 0) {
             emit gotMessage(i18n("Could not open audio output file %1", audiopath));
             fprintf(stderr, "Could not open video output file \"%s\"\n", audiopath.toUtf8().constData());
             return;
@@ -845,9 +771,9 @@ void BmdCaptureHandler::startCapture(const QString &path)
 
 void BmdCaptureHandler::stopCapture()
 {
-    if(videoOutputFile)
+    if (videoOutputFile)
         close(videoOutputFile);
-    if(audioOutputFile)
+    if (audioOutputFile)
         close(audioOutputFile);
     videoOutputFile = -1;
     audioOutputFile = -1;
@@ -860,49 +786,49 @@ void BmdCaptureHandler::captureFrame(const QString &fname)
 
 void BmdCaptureHandler::showOverlay(QImage img, bool transparent)
 {
-    if(previewView) previewView->showOverlay(img, transparent);
+    if (previewView) previewView->showOverlay(img, transparent);
 }
 
 void BmdCaptureHandler::hideOverlay()
 {
-    if(previewView) previewView->hideOverlay();
+    if (previewView) previewView->hideOverlay();
 }
 
 void BmdCaptureHandler::hidePreview(bool hide)
 {
-    if(previewView) previewView->setHidden(hide);
+    if (previewView) previewView->setHidden(hide);
 }
 
 void BmdCaptureHandler::stopPreview()
 {
-    if(!previewView) return;
-    if(deckLinkInput != NULL) deckLinkInput->StopStreams();
-    if(videoOutputFile)
+    if (!previewView) return;
+    if (deckLinkInput != NULL) deckLinkInput->StopStreams();
+    if (videoOutputFile)
         close(videoOutputFile);
-    if(audioOutputFile)
+    if (audioOutputFile)
         close(audioOutputFile);
 
-    if(displayModeIterator != NULL) {
+    if (displayModeIterator != NULL) {
         displayModeIterator->Release();
         displayModeIterator = NULL;
     }
 
-    if(deckLinkInput != NULL) {
+    if (deckLinkInput != NULL) {
         deckLinkInput->Release();
         deckLinkInput = NULL;
     }
 
-    if(deckLink != NULL) {
+    if (deckLink != NULL) {
         deckLink->Release();
         deckLink = NULL;
     }
 
-    if(deckLinkIterator != NULL) {
+    if (deckLinkIterator != NULL) {
         deckLinkIterator->Release();
         deckLinkIterator = NULL;
     }
 
-    if(previewView != NULL) {
+    if (previewView != NULL) {
         delete previewView;
         previewView = NULL;
     }

@@ -37,5 +37,80 @@ void CaptureHandler::stopCapture()
 {
 }
 
+//static
+void CaptureHandler::yuv2rgb(unsigned char *yuv_buffer, unsigned char *rgb_buffer, int width, int height)
+{
+    int len;
+    int r, g, b;
+    int Y, U, V, Y2;
+    int rgb_ptr, y_ptr, t;
+
+    len = width * height / 2;
+
+    rgb_ptr = 0;
+    y_ptr = 0;
+
+    for (t = 0; t < len; t++) { /* process 2 pixels at a time */
+        /* Compute parts of the UV components */
+
+        U = yuv_buffer[y_ptr];
+        Y = yuv_buffer[y_ptr+1];
+        V = yuv_buffer[y_ptr+2];
+        Y2 = yuv_buffer[y_ptr+3];
+        y_ptr += 4;
+
+
+        /*r = 1.164*(Y-16) + 1.596*(V-128);
+        g = 1.164*(Y-16) - 0.813*(V-128) - 0.391*(U-128);
+        b = 1.164*(Y-16) + 2.018*(U-128);*/
+
+
+        r = ((298 * (Y - 16)               + 409 * (V - 128) + 128) >> 8);
+
+        g = ((298 * (Y - 16) - 100 * (U - 128) - 208 * (V - 128) + 128) >> 8);
+
+        b = ((298 * (Y - 16) + 516 * (U - 128)               + 128) >> 8);
+
+        if (r > 255) r = 255;
+        if (g > 255) g = 255;
+        if (b > 255) b = 255;
+
+        if (r < 0) r = 0;
+        if (g < 0) g = 0;
+        if (b < 0) b = 0;
+
+        rgb_buffer[rgb_ptr] = b;
+        rgb_buffer[rgb_ptr+1] = g;
+        rgb_buffer[rgb_ptr+2] = r;
+        rgb_buffer[rgb_ptr+3] = 255;
+
+        rgb_ptr += 4;
+        /*r = 1.164*(Y2-16) + 1.596*(V-128);
+        g = 1.164*(Y2-16) - 0.813*(V-128) - 0.391*(U-128);
+        b = 1.164*(Y2-16) + 2.018*(U-128);*/
+
+
+        r = ((298 * (Y2 - 16)               + 409 * (V - 128) + 128) >> 8);
+
+        g = ((298 * (Y2 - 16) - 100 * (U - 128) - 208 * (V - 128) + 128) >> 8);
+
+        b = ((298 * (Y2 - 16) + 516 * (U - 128)               + 128) >> 8);
+
+        if (r > 255) r = 255;
+        if (g > 255) g = 255;
+        if (b > 255) b = 255;
+
+        if (r < 0) r = 0;
+        if (g < 0) g = 0;
+        if (b < 0) b = 0;
+
+        rgb_buffer[rgb_ptr] = b;
+        rgb_buffer[rgb_ptr+1] = g;
+        rgb_buffer[rgb_ptr+2] = r;
+        rgb_buffer[rgb_ptr+3] = 255;
+        rgb_ptr += 4;
+    }
+}
+
 
 

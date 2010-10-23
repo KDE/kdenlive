@@ -107,6 +107,10 @@ private:
     /** @brief The action triggering display of last frame over current live video feed. */
     QAction *m_showOverlay;
 
+    /** @brief The list of all frames path. */
+    QStringList m_animationList;
+
+
 #ifdef QIMAGEBLITZ
     int m_effectIndex;
 #endif
@@ -130,7 +134,7 @@ private slots:
     void slotCaptureFrame();
 
     /** @brief Display a previous frame in monitor. */
-    void slotShowFrame(int);
+    void slotShowFrame(const QString &path);
 
     /** @brief Get full path for a frame in the sequence.
      *  @param ix the frame number.
@@ -144,7 +148,7 @@ private slots:
     void slotShowSelectedFrame();
 
     /** @brief Start animation preview mode. */
-    void slotPlayPreview();
+    void slotPlayPreview(bool animate);
 
     /** @brief Simulate animation. */
     void slotAnimate();

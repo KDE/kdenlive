@@ -121,6 +121,9 @@
      <property name="text">
       <string>...</string>
      </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
     </widget>
    </item>
    <item row="1" column="2">
