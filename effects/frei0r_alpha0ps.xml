@@ -18,11 +18,11 @@
                 <name>Operation</name>
         </parameter>
         
-        <parameter type="constant" name="Threshold" default="500" min="0" max="1000" factor="1000">
+        <parameter type="simplekeyframe" name="Threshold" default="500" min="0" max="1000" factor="1000">
                 <name>Threshold</name>
         </parameter>
         
-        <parameter type="constant" name="Shrink/grow amount" default="500" min="0" max="1000" factor="1000">
+        <parameter type="simplekeyframe" name="Shrink/grow amount" default="500" min="0" max="1000" factor="1000">
                 <name>Shrink/grow amount</name>
         </parameter>
         

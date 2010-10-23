@@ -6,19 +6,19 @@
 	<parameter type="list" name="Channel" default="0" paramlist="0,1,2,3" paramlistdisplay="Red,Green,Blue,Luma">
 		<name>Channel</name>
 	</parameter>
-	<parameter type="constant" name="Input black level" default="0" min="0" max="1000" factor="1000">
+        <parameter type="simplekeyframe" name="Input black level" default="0" min="0" max="1000" factor="1000">
 		<name>Input black level</name>
 	</parameter>
-	<parameter type="constant" name="Input white level" default="1000" min="0" max="1000" factor="1000">
+        <parameter type="simplekeyframe" name="Input white level" default="1000" min="0" max="1000" factor="1000">
 		<name>Input white level</name>
 	</parameter>
-	<parameter type="constant" name="Gamma" default="1000" min="10" max="4000" factor="4000">
+        <parameter type="simplekeyframe" name="Gamma" default="1000" min="10" max="4000" factor="4000">
 		<name>Gamma</name>
 	</parameter>
-	<parameter type="constant" name="Black output" default="0" min="0" max="1000" factor="1000">
+        <parameter type="simplekeyframe" name="Black output" default="0" min="0" max="1000" factor="1000">
 		<name>Black output</name>
 	</parameter>
-	<parameter type="constant" name="White output" default="1000" min="0" max="1000" factor="1000">
+        <parameter type="simplekeyframe" name="White output" default="1000" min="0" max="1000" factor="1000">
 		<name>White output</name>
 	</parameter>
 	<parameter type="bool" name="Show histogram" default="0">

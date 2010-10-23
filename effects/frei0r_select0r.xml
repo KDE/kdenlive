@@ -12,15 +12,15 @@
                 <name>Invert selection</name>
         </parameter>    
         
-        <parameter type="constant" name="Delta R / A / Hue" default="200" min="0" max="1000" factor="1000">
+        <parameter type="simplekeyframe" name="Delta R / A / Hue" default="200" min="0" max="1000" factor="1000">
                 <name>Delta R / A / Hue</name>
         </parameter>
         
-        <parameter type="constant" name="Delta G / B / Chroma" default="200" min="0" max="1000" factor="1000">
+        <parameter type="simplekeyframe" name="Delta G / B / Chroma" default="200" min="0" max="1000" factor="1000">
                 <name>Delta G / B / Chroma</name>
         </parameter>
         
-        <parameter type="constant" name="Delta B / I / I" default="200" min="0" max="1000" factor="1000">
+        <parameter type="simplekeyframe" name="Delta B / I / I" default="200" min="0" max="1000" factor="1000">
                 <name>Delta B / I / I</name>
         </parameter>
         

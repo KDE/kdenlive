@@ -6,7 +6,7 @@
 	<parameter type="color" name="Neutral Color" default="0xFFFFFF">
 		<name>Neutral Color</name>
 	</parameter>
-	<parameter type="constant" name="Green Tint" default="1200" min="0" max="2500" factor="1000">
+        <parameter type="simplekeyframe" name="Green Tint" default="1200" min="0" max="2500" factor="1000">
 		<name>Green Tint</name>
 	</parameter>
 </effect>

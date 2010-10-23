@@ -3,10 +3,10 @@
 	<name>Distort0r</name>
 	<description>Plasma</description>
 	<author>Gephex crew</author>
-	<parameter type="constant" name="Amplitude" max="1000" min="-1000" default="0" factor="1000">
+        <parameter type="simplekeyframe" name="Amplitude" max="1000" min="-1000" default="0" factor="1000">
 		<name>Amplitude</name>
 	</parameter>
-	<parameter type="constant" name="Frequency" max="2000" min="-2000" default="0" factor="1000">
+        <parameter type="simplekeyframe" name="Frequency" max="2000" min="-2000" default="0" factor="1000">
 		<name>Frequency</name>
 	</parameter>
 </effect>

@@ -3,7 +3,7 @@
 	<name>Defish0r</name>
 	<description>Non rectilinear lens mappings</description>
 	<author>Marko Cebokli</author>
-	<parameter type="constant" name="Amount" default="0" min="0" max="1000" factor="1000">
+        <parameter type="simplekeyframe" name="Amount" default="0" min="0" max="1000" factor="1000">
 		<name>Amount</name>
 	</parameter>
 	<parameter type="bool" name="DeFish" default="1">

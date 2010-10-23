@@ -34,11 +34,11 @@
                 <name>Transition width</name>
         </parameter>
         
-        <parameter type="constant" name="Min" default="0" min="0" max="1000" factor="1000">
+        <parameter type="simplekeyframe" name="Min" default="0" min="0" max="1000" factor="1000">
                 <name>Min</name>
         </parameter>
         
-        <parameter type="constant" name="Max" default="1000" min="0" max="1000" factor="1000">
+        <parameter type="simplekeyframe" name="Max" default="1000" min="0" max="1000" factor="1000">
                 <name>Max</name>
         </parameter>
         
