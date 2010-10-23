@@ -12,7 +12,7 @@ endif (Nepomuk_FOUND)
 
 if (QIMAGEBLITZ_FOUND)
     INCLUDE_DIRECTORIES(QIMAGEBLITZ_INCLUDES )
-    set( optional_libs ${QIMAGEBLITZ_LIBRARIES} )
+    set( optional_libs ${optional_libs} ${QIMAGEBLITZ_LIBRARIES} )
     add_definitions(-DQIMAGEBLITZ)
     MESSAGE( STATUS "Found QImageBlitz: ${QIMAGEBLITZ_LIBRARIES}" )
 else (QIMAGEBLITZ_FOUND)
