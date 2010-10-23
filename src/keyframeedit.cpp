@@ -41,14 +41,14 @@ KeyframeEdit::KeyframeEdit(QDomElement e, int minFrame, int maxFrame, int minVal
         button_add->setEnabled(false);
         button_delete->setEnabled(false);
         keyframe_seek->setEnabled(false);
-        label->setHidden(true);
-        keyframe_pos->setHidden(true);
+        widgetTable->setHidden(true);
     }
     m_params.append(e.cloneNode().toElement());
     keyframe_list->setFont(KGlobalSettings::generalFont());
     keyframe_seek->setChecked(KdenliveSettings::keyframeseek());
     connect(keyframe_seek, SIGNAL(stateChanged(int)), this, SLOT(slotSetSeeking(int)));
 
+    buttonKeyframes->setIcon(KIcon("list-add"));
     button_add->setIcon(KIcon("list-add"));
     button_add->setToolTip(i18n("Add keyframe"));
     button_delete->setIcon(KIcon("list-remove"));
@@ -62,6 +62,7 @@ KeyframeEdit::KeyframeEdit(QDomElement e, int minFrame, int maxFrame, int minVal
     //keyframe_list->horizontalHeader()->resizeSections(QHeaderView::ResizeToContents);
     connect(button_delete, SIGNAL(clicked()), this, SLOT(slotDeleteKeyframe()));
     connect(button_add, SIGNAL(clicked()), this, SLOT(slotAddKeyframe()));
+    connect(buttonKeyframes, SIGNAL(clicked()), this, SLOT(slotKeyframeMode()));
     //connect(keyframe_list, SIGNAL(itemDoubleClicked(QTreeWidgetItem *, int)), this, SLOT(slotSaveCurrentParam(QTreeWidgetItem *, int)));
     connect(keyframe_pos, SIGNAL(valueChanged(int)), this, SLOT(slotAdjustKeyframePos(int)));
     //connect(keyframe_val, SIGNAL(valueChanged(int)), this, SLOT(slotAdjustKeyframeValue(int)));
@@ -74,6 +75,12 @@ KeyframeEdit::KeyframeEdit(QDomElement e, int minFrame, int maxFrame, int minVal
     keyframe_list->setMinimumHeight(QFontInfo(keyframe_list->font()).pixelSize() * 9);
     /*m_delegate = new KeyItemDelegate(minVal, maxVal);
     keyframe_list->setItemDelegate(m_delegate);*/
+
+    // Do not show keyframe table if only one keyframe exists at the beginning
+    if (keyframe_list->rowCount() < 2 && getPos(0) == m_min && m_max != -1)
+        widgetTable->setHidden(true);
+    else
+        buttonKeyframes->setHidden(true);
 }
 
 KeyframeEdit::~KeyframeEdit()
@@ -416,6 +423,13 @@ void KeyframeEdit::updateTimecodeFormat()
         else
             keyframe_list->verticalHeaderItem(row)->setText(m_timecode.getTimecodeFromFrames(pos.toInt()));
     }
+}
+
+void KeyframeEdit::slotKeyframeMode()
+{
+    widgetTable->setHidden(false);
+    buttonKeyframes->setHidden(true);
+    slotAddKeyframe();
 }
 
 /*void KeyframeEdit::slotSaveCurrentParam(QTreeWidgetItem *item, int column)

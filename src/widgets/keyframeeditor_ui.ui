@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>277</width>
-    <height>269</height>
+    <width>336</width>
+    <height>190</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
@@ -20,81 +20,6 @@
    <property name="rightMargin">
     <number>0</number>
    </property>
-   <item row="0" column="0" colspan="3">
-    <widget class="QTableWidget" name="keyframe_list">
-     <property name="alternatingRowColors">
-      <bool>true</bool>
-     </property>
-     <property name="cornerButtonEnabled">
-      <bool>false</bool>
-     </property>
-     <attribute name="horizontalHeaderHighlightSections">
-      <bool>false</bool>
-     </attribute>
-     <attribute name="horizontalHeaderStretchLastSection">
-      <bool>true</bool>
-     </attribute>
-     <attribute name="verticalHeaderVisible">
-      <bool>true</bool>
-     </attribute>
-     <attribute name="verticalHeaderHighlightSections">
-      <bool>false</bool>
-     </attribute>
-     <attribute name="verticalHeaderVisible">
-      <bool>true</bool>
-     </attribute>
-     <attribute name="horizontalHeaderStretchLastSection">
-      <bool>true</bool>
-     </attribute>
-     <attribute name="horizontalHeaderHighlightSections">
-      <bool>false</bool>
-     </attribute>
-     <attribute name="verticalHeaderHighlightSections">
-      <bool>false</bool>
-     </attribute>
-    </widget>
-   </item>
-   <item row="1" column="0">
-    <widget class="QToolButton" name="button_add">
-     <property name="text">
-      <string>A</string>
-     </property>
-     <property name="arrowType">
-      <enum>Qt::NoArrow</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="1">
-    <widget class="QToolButton" name="button_delete">
-     <property name="text">
-      <string>D</string>
-     </property>
-     <property name="arrowType">
-      <enum>Qt::NoArrow</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="2">
-    <widget class="QCheckBox" name="keyframe_seek">
-     <property name="text">
-      <string>Seek to active keyframe</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0" colspan="2">
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>Position</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="2">
-    <widget class="QSlider" name="keyframe_pos">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
    <item row="4" column="0" colspan="3">
     <widget class="Line" name="line">
      <property name="orientation">
@@ -107,6 +32,103 @@
      <property name="frameShape">
       <enum>QFrame::NoFrame</enum>
      </property>
+    </widget>
+   </item>
+   <item row="2" column="0" colspan="3">
+    <widget class="QWidget" name="widgetTable" native="true">
+     <layout class="QGridLayout" name="gridLayout_2">
+      <property name="margin">
+       <number>0</number>
+      </property>
+      <item row="3" column="0" colspan="3">
+       <widget class="QTableWidget" name="keyframe_list">
+        <property name="alternatingRowColors">
+         <bool>true</bool>
+        </property>
+        <property name="cornerButtonEnabled">
+         <bool>false</bool>
+        </property>
+        <attribute name="horizontalHeaderHighlightSections">
+         <bool>false</bool>
+        </attribute>
+        <attribute name="horizontalHeaderStretchLastSection">
+         <bool>true</bool>
+        </attribute>
+        <attribute name="verticalHeaderVisible">
+         <bool>true</bool>
+        </attribute>
+        <attribute name="verticalHeaderHighlightSections">
+         <bool>false</bool>
+        </attribute>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QToolButton" name="button_add">
+        <property name="text">
+         <string>A</string>
+        </property>
+        <property name="arrowType">
+         <enum>Qt::NoArrow</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="2">
+       <widget class="QCheckBox" name="keyframe_seek">
+        <property name="text">
+         <string>Seek to active keyframe</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0" colspan="2">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Position</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="2">
+       <widget class="QSlider" name="keyframe_pos">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QToolButton" name="button_delete">
+        <property name="text">
+         <string>D</string>
+        </property>
+        <property name="arrowType">
+         <enum>Qt::NoArrow</enum>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QWidget" name="widget" native="true">
+     <layout class="QGridLayout" name="gridLayout_3">
+      <property name="margin">
+       <number>0</number>
+      </property>
+      <item row="0" column="0">
+       <widget class="QToolButton" name="buttonKeyframes">
+        <property name="toolTip">
+         <string>Add keyframes</string>
+        </property>
+        <property name="text">
+         <string>Keyframes</string>
+        </property>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonTextBesideIcon</enum>
+        </property>
+        <property name="autoRaise">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
   </layout>

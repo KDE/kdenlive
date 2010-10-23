@@ -117,6 +117,9 @@ private slots:
     /** @brief Turns the seek to keyframe position setting on/off.
     * @param state State of the associated checkbox */
     void slotSetSeeking(int state);
+
+    /** @brief Shows the keyframe table and adds a second keyframe. */
+    void slotKeyframeMode();
     //void slotSaveCurrentParam(QTreeWidgetItem *item, int column);
 
 signals:
