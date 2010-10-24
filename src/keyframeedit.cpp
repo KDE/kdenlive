@@ -437,7 +437,7 @@ void KeyframeEdit::slotKeyframeMode()
 void KeyframeEdit::slotResetKeyframe()
 {
     for (int col = 0; col < keyframe_list->columnCount(); ++col) {
-        DoubleParameterWidget *doubleparam = qobject_cast<DoubleParameterWidget*>(m_slidersLayout->itemAtPosition(col, 0)->widget());
+        DoubleParameterWidget *doubleparam = static_cast<DoubleParameterWidget*>(m_slidersLayout->itemAtPosition(col, 0)->widget());
         if (doubleparam)
             doubleparam->slotReset();
     }
