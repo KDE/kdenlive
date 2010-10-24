@@ -53,6 +53,7 @@ public:
     void showOverlay(QImage img, bool transparent = true);
     void hideOverlay();
     void hidePreview(bool hide);
+    QString getDeviceName(QString);
 
 private:
     IDeckLinkIterator       *deckLinkIterator;

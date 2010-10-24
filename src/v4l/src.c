@@ -53,8 +53,6 @@ src_palette_t src_palette[] = {
 int src_open(src_t *src, char *source)
 {
 	int i = 0;
-	size_t sl;
-	char *s;
 	struct stat st;
 	
 	if(!source)
@@ -62,15 +60,6 @@ int src_open(src_t *src, char *source)
 		fprintf(stderr, "No source was specified.......");
 		return(-1);
 	}
-	
-	sl = strlen(source) + 1;
-	s = malloc(sl);
-	if(!s)
-	{
-		fprintf(stderr, "Out of memory.");
-		return(-1);
-	}
-	
 	src->source = source;
 	
 	i = 0;
@@ -88,6 +77,12 @@ int src_open(src_t *src, char *source)
 	    if(src_grab(src) == -1) break;*/
 
 	return 0;
+}
+
+const char *src_query(src_t *src, char *source)
+{
+    src->source = source;
+    return src_v4l2.query(src);
 }
 
 int src_close(src_t *src)

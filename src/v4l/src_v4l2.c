@@ -82,7 +82,7 @@ int src_v4l2_get_capability(src_t *src)
 		/*ERROR("%s: Not a V4L2 device?", src->source);*/
 		return(-1);
 	}
-	
+	fprintf(stderr, "cap.card: \"%s\"", s->cap.card);
 	/*DEBUG("%s information:", src->source);
 	DEBUG("cap.driver: \"%s\"", s->cap.driver);
 	DEBUG("cap.card: \"%s\"", s->cap.card);
@@ -802,6 +802,45 @@ int src_v4l2_set_read(src_t *src)
 	return(0);
 }
 
+static const char *src_v4l2_query(src_t *src)
+{
+	if(!src->source)
+	{
+		/*ERROR("No device name specified.");*/
+		fprintf(stderr, "No device name specified.");
+		return NULL;
+	}
+	src_v4l2_t *s;	
+
+	/* Allocate memory for the state structure. */
+	s = calloc(sizeof(src_v4l2_t), 1);
+	if(!s)
+	{
+		fprintf(stderr, "Out of memory.");
+		return NULL;
+	}
+	
+	src->state = (void *) s;
+
+	/* Open the device. */
+	s->fd = open(src->source, O_RDWR | O_NONBLOCK);
+	if(s->fd < 0)
+	{
+		fprintf(stderr, "Cannot open device.");
+		free(s);
+		return NULL;
+	}
+
+	if(ioctl(s->fd, VIDIOC_QUERYCAP, &s->cap) < 0) {
+	    src_v4l2_close(src);
+	    fprintf(stderr, "Cannot get capabilities.");
+	    return NULL;
+	}
+	char * res = (char*) s->cap.card;	
+	src_v4l2_close(src);
+	return res;
+}
+
 static int src_v4l2_open(src_t *src)
 {
 	src_v4l2_t *s;
@@ -989,7 +1028,8 @@ src_mod_t src_v4l2 = {
 	"v4l2", SRC_TYPE_DEVICE,
 	src_v4l2_open,
 	src_v4l2_close,
-	src_v4l2_grab
+	src_v4l2_grab,
+	src_v4l2_query
 };
 
 #else /* #ifdef HAVE_V4L2 */
@@ -998,7 +1038,8 @@ src_mod_t src_v4l2 = {
 	"", SRC_TYPE_NONE,
         NULL,
         NULL,
-        NULL
+        NULL,
+	NULL
 };
 
 #endif /* #ifdef HAVE_V4L2 */

@@ -479,6 +479,11 @@ BmdCaptureHandler::BmdCaptureHandler(QVBoxLayout *lay, QWidget *parent):
 {
 }
 
+QString BmdCaptureHandler::getDeviceName(QString)
+{
+    return QString();
+}
+
 void BmdCaptureHandler::startPreview(int deviceId, int captureMode)
 {
     deckLinkIterator = CreateDeckLinkIteratorInstance();

@@ -91,8 +91,73 @@ V4lCaptureHandler::V4lCaptureHandler(QVBoxLayout *lay, QWidget *parent):
     CaptureHandler(lay, parent)
     , m_update(false)
 {
+    if (lay == NULL) return;
     m_display = new MyDisplay;
     lay->addWidget(m_display);
+}
+
+QString V4lCaptureHandler::getDeviceName(QString input)
+{
+    fswebcam_config_t *config;
+    /* Prepare the configuration structure. */
+    config = (fswebcam_config_t *) calloc(sizeof(fswebcam_config_t), 1);
+    if (!config) {
+        /*WARN("Out of memory.");*/
+        fprintf(stderr, "Out of MEM....");
+        return input;
+    }
+
+    /* Set the defaults. */
+    config->loop = 0;
+    config->offset = 0;
+    config->background = 0;
+    config->pidfile = NULL;
+    config->logfile = NULL;
+    config->gmt = 0;
+    config->start = 0;
+    config->device = strdup(input.toUtf8().constData());
+    config->input = NULL;
+    config->tuner = 0;
+    config->frequency = 0;
+    config->delay = 0;
+    config->use_read = 0;
+    config->list = 0;
+    config->width = 384;
+    config->height = 288;
+    config->fps = 0;
+    config->frames = 1;
+    config->skipframes = 0;
+    config->palette = SRC_PAL_ANY;
+    config->option = NULL;
+    config->dumpframe = NULL;
+    config->jobs = 0;
+    config->job = NULL;
+
+    /* Set defaults and parse the command line. */
+    /*if(fswc_getopts(config, argc, argv)) return(-1);*/
+
+
+    /* Record the start time. */
+    config->start = time(NULL);
+    /* Set source options... */
+    memset(&v4lsrc, 0, sizeof(v4lsrc));
+    v4lsrc.input      = config->input;
+    v4lsrc.tuner      = config->tuner;
+    v4lsrc.frequency  = config->frequency;
+    v4lsrc.delay      = config->delay;
+    v4lsrc.timeout    = 10; /* seconds */
+    v4lsrc.use_read   = config->use_read;
+    v4lsrc.list       = config->list;
+    v4lsrc.palette    = config->palette;
+    v4lsrc.width      = config->width;
+    v4lsrc.height     = config->height;
+    v4lsrc.fps        = config->fps;
+    v4lsrc.option     = config->option;
+    char *source = config->device;
+
+    QString deviceName = src_query(&v4lsrc, source);
+    kDebug() << "DEVIE NAME: " << deviceName << ".";
+    return deviceName.isEmpty() ? input : deviceName;
 }
 
 void V4lCaptureHandler::startPreview(int /*deviceId*/, int /*captureMode*/)

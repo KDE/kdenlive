@@ -119,6 +119,7 @@ typedef struct {
 	int (*open)(src_t *);
 	int (*close)(src_t *);
 	int (*grab)(src_t *);
+	const char *(*query)(src_t *);
 	
 } src_mod_t;
 
@@ -206,6 +207,7 @@ typedef struct {
 extern int src_open(src_t *src, char *source);
 extern int src_close(src_t *src);
 extern int src_grab(src_t *src);
+extern const char *src_query(src_t *src, char *source);
 
 extern int src_set_option(src_option_t ***options, char *name, char *value);
 extern int src_get_option_by_number(src_option_t **opt, int number, char **name, char **value);

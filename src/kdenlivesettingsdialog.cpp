@@ -19,6 +19,7 @@
 
 #include "kdenlivesettingsdialog.h"
 #include "profilesdialog.h"
+#include "v4l/v4lcapture.h"
 #include "blackmagic/devices.h"
 #include "kdenlivesettings.h"
 
@@ -80,6 +81,18 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent) :
 
     QWidget *p4 = new QWidget;
     m_configCapture.setupUi(p4);
+
+    V4lCaptureHandler v4l(NULL);
+    // Video 4 Linux device detection
+    for (int i = 0; i < 10; i++) {
+        QString path = "/dev/video" + QString::number(i);
+        if (QFile::exists(path)) {
+            m_configCapture.kcfg_detectedv4ldevices->addItem(v4l.getDeviceName(path.toUtf8().constData()), path);
+        }
+    }
+    connect(m_configCapture.kcfg_detectedv4ldevices, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdatev4lDevice()));
+
+
     m_page4 = addPage(p4, i18n("Capture"), "media-record");
     m_configCapture.tabWidget->setCurrentIndex(KdenliveSettings::defaultcapture());
 #ifdef Q_WS_MAC
@@ -625,6 +638,11 @@ bool KdenliveSettingsDialog::hasChanged()
     return KConfigDialog::hasChanged();
 }
 
+void KdenliveSettingsDialog::slotUpdatev4lDevice()
+{
+    QString device = m_configCapture.kcfg_detectedv4ldevices->itemData(m_configCapture.kcfg_detectedv4ldevices->currentIndex()).toString();
+    if (!device.isEmpty()) m_configCapture.kcfg_video4vdevice->setText(device);
+}
 
 
 #include "kdenlivesettingsdialog.moc"
