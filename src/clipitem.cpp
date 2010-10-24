@@ -1699,7 +1699,12 @@ void ClipItem::insertKeyframe(QDomElement effect, int pos, int val)
                 added = true;
             } else newkfr.append(str);
         }
-        if (!added) newkfr.append(QString::number(pos) + ":" + QString::number(val));
+        if (!added) {
+            if (i == 0)
+                newkfr.append(QString::number(pos) + ":" + QString::number(val));
+            else
+                newkfr.append(QString::number(pos) + ":" + e.attribute("default"));
+        }
         e.setAttribute("keyframes", newkfr.join(";"));
     }
 }
