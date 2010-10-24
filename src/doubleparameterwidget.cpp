@@ -90,7 +90,7 @@ void DoubleParameterWidget::setName(const QString& name)
 
 void DoubleParameterWidget::slotReset()
 {
-    m_spinBox->setValue(m_default);
+    setValue(m_default);
 }
 
 #include "doubleparameterwidget.moc"

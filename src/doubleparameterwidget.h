@@ -57,7 +57,6 @@ public slots:
     /** @brief Sets the value to @param value. */
     void setValue(int value);
 
-private slots:
     /** @brief Sets value to m_default. */
     void slotReset();
 

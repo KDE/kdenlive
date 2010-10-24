@@ -53,6 +53,7 @@ KeyframeEdit::KeyframeEdit(QDomElement e, int minFrame, int maxFrame, int minVal
     button_add->setToolTip(i18n("Add keyframe"));
     button_delete->setIcon(KIcon("list-remove"));
     button_delete->setToolTip(i18n("Delete keyframe"));
+    buttonResetKeyframe->setIcon(KIcon("edit-undo"));
     connect(keyframe_list, SIGNAL(itemSelectionChanged()), this, SLOT(slotAdjustKeyframeInfo()));
     connect(keyframe_list, SIGNAL(cellChanged(int, int)), this, SLOT(slotGenerateParams(int, int)));
     setupParam();
@@ -63,6 +64,7 @@ KeyframeEdit::KeyframeEdit(QDomElement e, int minFrame, int maxFrame, int minVal
     connect(button_delete, SIGNAL(clicked()), this, SLOT(slotDeleteKeyframe()));
     connect(button_add, SIGNAL(clicked()), this, SLOT(slotAddKeyframe()));
     connect(buttonKeyframes, SIGNAL(clicked()), this, SLOT(slotKeyframeMode()));
+    connect(buttonResetKeyframe, SIGNAL(clicked()), this, SLOT(slotResetKeyframe()));
     //connect(keyframe_list, SIGNAL(itemDoubleClicked(QTreeWidgetItem *, int)), this, SLOT(slotSaveCurrentParam(QTreeWidgetItem *, int)));
     connect(keyframe_pos, SIGNAL(valueChanged(int)), this, SLOT(slotAdjustKeyframePos(int)));
     //connect(keyframe_val, SIGNAL(valueChanged(int)), this, SLOT(slotAdjustKeyframeValue(int)));
@@ -431,6 +433,16 @@ void KeyframeEdit::slotKeyframeMode()
     buttonKeyframes->setHidden(true);
     slotAddKeyframe();
 }
+
+void KeyframeEdit::slotResetKeyframe()
+{
+    for (int col = 0; col < keyframe_list->columnCount(); ++col) {
+        DoubleParameterWidget *doubleparam = qobject_cast<DoubleParameterWidget*>(m_slidersLayout->itemAtPosition(col, 0)->widget());
+        if (doubleparam)
+            doubleparam->slotReset();
+    }
+}
+
 
 /*void KeyframeEdit::slotSaveCurrentParam(QTreeWidgetItem *item, int column)
 {

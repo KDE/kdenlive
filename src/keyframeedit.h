@@ -120,6 +120,10 @@ private slots:
 
     /** @brief Shows the keyframe table and adds a second keyframe. */
     void slotKeyframeMode();
+
+    /** @brief Resets all parameters of the selected keyframe to their default values. */
+    void slotResetKeyframe();
+
     //void slotSaveCurrentParam(QTreeWidgetItem *item, int column);
 
 signals:
