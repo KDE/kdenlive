@@ -160,7 +160,7 @@ QString V4lCaptureHandler::getDeviceName(QString input)
     return deviceName.isEmpty() ? input : deviceName;
 }
 
-void V4lCaptureHandler::startPreview(int /*deviceId*/, int /*captureMode*/)
+void V4lCaptureHandler::startPreview(int /*deviceId*/, int /*captureMode*/, bool)
 {
     m_display->setHidden(false);
     fswebcam_config_t *config;

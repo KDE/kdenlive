@@ -315,6 +315,29 @@ ULONG DeckLinkCaptureDelegate::Release(void)
     return (ULONG)m_refCount;
 }
 
+void DeckLinkCaptureDelegate::slotProcessFrame()
+{
+    if (m_framesList.isEmpty()) return;
+    IDeckLinkVideoInputFrame* videoFrame = m_framesList.takeFirst();
+    QString capturePath = m_framePath.takeFirst();
+    void *frameBytes;
+    videoFrame->GetBytes(&frameBytes);
+    if (capturePath.endsWith("raw")) {
+        // Save as raw uyvy422 imgage
+        videoOutputFile = open(capturePath.toUtf8().constData(), O_WRONLY | O_CREAT/*|O_TRUNC*/, 0664);
+        write(videoOutputFile, frameBytes, videoFrame->GetRowBytes() * videoFrame->GetHeight());
+        close(videoOutputFile);
+        emit frameSaved(capturePath);
+    } else {
+        QImage image(videoFrame->GetWidth(), videoFrame->GetHeight(), QImage::Format_ARGB32_Premultiplied);
+        //convert from uyvy422 to rgba
+        CaptureHandler::yuv2rgb((uchar *)frameBytes, (uchar *)image.bits(), videoFrame->GetWidth(), videoFrame->GetHeight());
+        image.save(capturePath);
+        emit frameSaved(capturePath);
+    }
+    videoFrame->Release();
+}
+
 HRESULT DeckLinkCaptureDelegate::VideoInputFrameArrived(IDeckLinkVideoInputFrame* videoFrame, IDeckLinkAudioInputPacket* audioFrame)
 {
     IDeckLinkVideoFrame*                    rightEyeFrame = NULL;
@@ -354,21 +377,11 @@ HRESULT DeckLinkCaptureDelegate::VideoInputFrameArrived(IDeckLinkVideoInputFrame
                 free((void*)timecodeString);
 
             if (!doCaptureFrame.isEmpty()) {
-                videoFrame->GetBytes(&frameBytes);
-                if (doCaptureFrame.endsWith("raw")) {
-                    // Save as raw uyvy422 imgage
-                    videoOutputFile = open(doCaptureFrame.toUtf8().constData(), O_WRONLY | O_CREAT/*|O_TRUNC*/, 0664);
-                    write(videoOutputFile, frameBytes, videoFrame->GetRowBytes() * videoFrame->GetHeight());
-                    close(videoOutputFile);
-                    emit frameSaved(doCaptureFrame);
-                } else {
-                    QImage image(videoFrame->GetWidth(), videoFrame->GetHeight(), QImage::Format_ARGB32_Premultiplied);
-                    //convert from uyvy422 to rgba
-                    CaptureHandler::yuv2rgb((uchar *)frameBytes, (uchar *)image.bits(), videoFrame->GetWidth(), videoFrame->GetHeight());
-                    image.save(doCaptureFrame);
-                    emit frameSaved(doCaptureFrame);
-                }
+                videoFrame->AddRef();
+                m_framesList.append(videoFrame);
+                m_framePath.append(doCaptureFrame);
                 doCaptureFrame.clear();
+                QtConcurrent::run(this, &DeckLinkCaptureDelegate::slotProcessFrame);
             }
 
             if (videoOutputFile != -1) {
@@ -484,7 +497,7 @@ QString BmdCaptureHandler::getDeviceName(QString)
     return QString();
 }
 
-void BmdCaptureHandler::startPreview(int deviceId, int captureMode)
+void BmdCaptureHandler::startPreview(int deviceId, int captureMode, bool audio)
 {
     deckLinkIterator = CreateDeckLinkIteratorInstance();
     BMDVideoInputFlags          inputFlags = 0;
@@ -693,10 +706,12 @@ void BmdCaptureHandler::startPreview(int deviceId, int captureMode)
         return;
     }
 
-    result = deckLinkInput->EnableAudioInput(bmdAudioSampleRate48kHz, g_audioSampleDepth, g_audioChannels);
-    if (result != S_OK) {
-        stopCapture();
-        return;
+    if (audio) {
+        result = deckLinkInput->EnableAudioInput(bmdAudioSampleRate48kHz, g_audioSampleDepth, g_audioChannels);
+        if (result != S_OK) {
+            stopCapture();
+            return;
+        }
     }
     deckLinkInput->SetScreenPreviewCallback(previewView);
     result = deckLinkInput->StartStreams();

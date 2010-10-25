@@ -32,6 +32,12 @@ public:
 private:
     ULONG               m_refCount;
     pthread_mutex_t     m_mutex;
+    QList <IDeckLinkVideoInputFrame*> m_framesList;
+    QStringList m_framePath;
+
+private slots:
+    void slotProcessFrame();
+
 signals:
     void gotTimeCode(ulong);
     void gotMessage(const QString &);
@@ -45,7 +51,7 @@ public:
     BmdCaptureHandler(QVBoxLayout *lay, QWidget *parent = 0);
     ~BmdCaptureHandler();
     CDeckLinkGLWidget *previewView;
-    void startPreview(int deviceId, int captureMode);
+    void startPreview(int deviceId, int captureMode, bool audio = true);
     void stopPreview();
     void startCapture(const QString &path);
     void stopCapture();

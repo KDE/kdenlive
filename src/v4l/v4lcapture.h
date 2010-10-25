@@ -36,7 +36,7 @@ class V4lCaptureHandler : public CaptureHandler
 public:
     V4lCaptureHandler(QVBoxLayout *lay, QWidget *parent = 0);
     ~V4lCaptureHandler();
-    void startPreview(int deviceId, int captureMode);
+    void startPreview(int deviceId, int captureMode, bool audio = true);
     void stopPreview();
     void startCapture(const QString &path);
     void stopCapture();

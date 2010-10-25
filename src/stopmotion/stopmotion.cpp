@@ -62,6 +62,12 @@ void MyLabel::wheelEvent(QWheelEvent * event)
 }
 
 //virtual
+void MyLabel::mousePressEvent(QMouseEvent *)
+{
+    emit switchToLive();
+}
+
+//virtual
 void MyLabel::paintEvent(QPaintEvent * event)
 {
     Q_UNUSED(event);
@@ -153,8 +159,8 @@ StopmotionWidget::StopmotionWidget(KUrl projectFolder, const QList< QAction * > 
     connect(showThumbs, SIGNAL(triggered(bool)), this, SLOT(slotShowThumbs(bool)));
 
     QAction *removeCurrent = new QAction(KIcon("edit-delete"), i18n("Delete current frame"), this);
-    //TODO: implement frame deletion
-    //connect(removeCurrent, SIGNAL(triggered()), this, SLOT(slotRemoveFrame()));
+    removeCurrent->setShortcut(Qt::Key_Delete);
+    connect(removeCurrent, SIGNAL(triggered()), this, SLOT(slotRemoveFrame()));
 
     QAction *capInterval = new QAction(KIcon(), i18n("Set capture interval"), this);
     connect(capInterval, SIGNAL(triggered()), this, SLOT(slotSetCaptureInterval()));
@@ -175,6 +181,8 @@ StopmotionWidget::StopmotionWidget(KUrl projectFolder, const QList< QAction * > 
     capture_button->setMenu(capMenu);
 
     connect(sequence_name, SIGNAL(textChanged(const QString &)), this, SLOT(sequenceNameChanged(const QString &)));
+    connect(sequence_name, SIGNAL(currentIndexChanged(int)), live_button, SLOT(setFocus()));
+
     m_layout = new QVBoxLayout;
     if (BMInterface::getBlackMagicDeviceList(capture_device, NULL)) {
         // Found a BlackMagic device
@@ -190,6 +198,7 @@ StopmotionWidget::StopmotionWidget(KUrl projectFolder, const QList< QAction * > 
     connect(capture_device, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateHandler()));
     m_frame_preview = new MyLabel(this);
     connect(m_frame_preview, SIGNAL(seek(bool)), this, SLOT(slotSeekFrame(bool)));
+    connect(m_frame_preview, SIGNAL(switchToLive()), this, SLOT(slotSwitchLive()));
     m_layout->addWidget(m_frame_preview);
     m_frame_preview->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     video_preview->setLayout(m_layout);
@@ -199,8 +208,11 @@ StopmotionWidget::StopmotionWidget(KUrl projectFolder, const QList< QAction * > 
     connect(button_addsequence, SIGNAL(clicked(bool)), this, SLOT(slotAddSequence()));
     connect(preview_button, SIGNAL(clicked(bool)), this, SLOT(slotPlayPreview(bool)));
     connect(frame_list, SIGNAL(currentRowChanged(int)), this, SLOT(slotShowSelectedFrame()));
+    connect(frame_list, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(slotShowSelectedFrame()));
     connect(this, SIGNAL(doCreateThumbs(QImage, int)), this, SLOT(slotCreateThumbs(QImage, int)));
 
+    frame_list->addAction(removeCurrent);
+    frame_list->setContextMenuPolicy(Qt::ActionsContextMenu);
     frame_list->setHidden(!KdenliveSettings::showstopmotionthumbs());
     parseExistingSequences();
 }
@@ -304,7 +316,7 @@ void StopmotionWidget::slotLive(bool isOn)
     if (isOn) {
         //m_frame_preview->setImage(QImage());
         m_frame_preview->setHidden(true);
-        m_bmCapture->startPreview(KdenliveSettings::hdmi_capturedevice(), KdenliveSettings::hdmi_capturemode());
+        m_bmCapture->startPreview(KdenliveSettings::hdmi_capturedevice(), KdenliveSettings::hdmi_capturemode(), false);
         capture_button->setEnabled(true);
     } else {
         m_bmCapture->stopPreview();
@@ -404,7 +416,6 @@ void StopmotionWidget::slotCaptureFrame()
     }
     //capture_button->setEnabled(false);
     QString currentPath = getPathForFrame(m_sequenceFrame);
-    kDebug() << "Capture FRame NB: " << m_sequenceFrame;
     m_bmCapture->captureFrame(currentPath);
     KNotification::event("FrameCaptured");
     m_sequenceFrame++;
@@ -450,6 +461,9 @@ void StopmotionWidget::slotCreateThumbs(QImage img, int ix)
     QListWidgetItem *item = new QListWidgetItem(icon, QString(), frame_list);
     item->setToolTip(getPathForFrame(ix, sequence_name->currentText()));
     item->setData(Qt::UserRole, ix);
+    frame_list->blockSignals(true);
+    frame_list->setCurrentItem(item);
+    frame_list->blockSignals(false);
     m_future = QtConcurrent::run(this, &StopmotionWidget::slotPrepareThumbs);
 }
 
@@ -509,11 +523,11 @@ void StopmotionWidget::slotAnimate()
         //TODO: loop
         if (frame_list->currentRow() < (frame_list->count() - 1)) {
             frame_list->setCurrentRow(frame_list->currentRow() + 1);
-            QTimer::singleShot(200, this, SLOT(slotAnimate()));
+            QTimer::singleShot(100, this, SLOT(slotAnimate()));
         } else preview_button->setChecked(false);
     } else if (!m_animationList.isEmpty()) {
         slotShowFrame(m_animationList.takeFirst());
-        QTimer::singleShot(200, this, SLOT(slotAnimate()));
+        QTimer::singleShot(100, this, SLOT(slotAnimate()));
     } else preview_button->setChecked(false);
 
 }
@@ -568,4 +582,14 @@ void StopmotionWidget::slotSeekFrame(bool forward)
     } else if (ix > 0) frame_list->setCurrentRow(ix - 1);
 }
 
-
+void StopmotionWidget::slotRemoveFrame()
+{
+    if (frame_list->currentItem() == NULL) return;
+    QString path = frame_list->currentItem()->toolTip();
+    if (KMessageBox::questionYesNo(this, i18n("Delete frame %1 from disk?", path), i18n("Delete Frame")) != KMessageBox::Yes) return;
+    QFile f(path);
+    if (f.remove()) {
+        QListWidgetItem *item = frame_list->takeItem(frame_list->currentRow());
+        delete item;
+    }
+}

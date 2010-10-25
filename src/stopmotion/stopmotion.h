@@ -36,6 +36,7 @@ public:
 protected:
     virtual void paintEvent(QPaintEvent * event);
     virtual void wheelEvent(QWheelEvent * event);
+    virtual void mousePressEvent(QMouseEvent *);
 
 private:
     QImage m_img;
@@ -44,6 +45,9 @@ signals:
     /** @brief Seek to next or previous frame.
      *  @param forward set to true to go to next frame, fals to go to previous frame */
     void seek(bool forward);
+
+    /** @brief Switch to live view. */
+    void switchToLive();
 };
 
 class StopmotionWidget : public QDialog , public Ui::Stopmotion_UI
@@ -185,8 +189,12 @@ private slots:
     /** @brief Set the effect to be applied to overlay frame. */
     void slotUpdateOverlayEffect(QAction *act);
 
-    /** @brief Switch between live view / currently selected fram. */
+    /** @brief Switch between live view / currently selected frame. */
     void slotSwitchLive();
+
+    /** @brief Delete current frame from disk. */
+    void slotRemoveFrame();
+
 signals:
     /** @brief Ask to add sequence to current project. */
     void addOrUpdateSequence(const QString);
