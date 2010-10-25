@@ -83,7 +83,7 @@ void MyLabel::paintEvent(QPaintEvent * event)
 }
 
 
-StopmotionWidget::StopmotionWidget(KUrl projectFolder, QWidget *parent) :
+StopmotionWidget::StopmotionWidget(KUrl projectFolder, const QList< QAction * > actions, QWidget *parent) :
     QDialog(parent)
     , Ui::Stopmotion_UI()
     , m_projectFolder(projectFolder)
@@ -91,24 +91,25 @@ StopmotionWidget::StopmotionWidget(KUrl projectFolder, QWidget *parent) :
     , m_sequenceFrame(0)
     , m_animatedIndex(-1)
 {
+    addActions(actions);
     setupUi(this);
     setWindowTitle(i18n("Stop Motion Capture"));
     setFont(KGlobalSettings::toolBarFont());
 
     live_button->setIcon(KIcon("camera-photo"));
-    m_captureAction = new QAction(KIcon("media-record"), i18n("Capture frame"), this);
-    m_captureAction->setShortcut(QKeySequence(Qt::Key_Space));
+
+    m_captureAction = actions.at(0);
     connect(m_captureAction, SIGNAL(triggered()), this, SLOT(slotCaptureFrame()));
     capture_button->setDefaultAction(m_captureAction);
+
+    connect(actions.at(1), SIGNAL(triggered()), this, SLOT(slotSwitchLive()));
 
     preview_button->setIcon(KIcon("media-playback-start"));
     capture_button->setEnabled(false);
 
     // Build config menu
     QMenu *confMenu = new QMenu;
-    m_showOverlay = new QAction(KIcon("edit-paste"), i18n("Show last frame over video"), this);
-    m_showOverlay->setCheckable(true);
-    m_showOverlay->setChecked(false);
+    m_showOverlay = actions.at(2);
     connect(m_showOverlay, SIGNAL(triggered(bool)), this, SLOT(slotShowOverlay(bool)));
     confMenu->addAction(m_showOverlay);
 
@@ -285,15 +286,29 @@ void StopmotionWidget::parseExistingSequences()
     }
 }
 
+void StopmotionWidget::slotSwitchLive()
+{
+    setUpdatesEnabled(false);
+    if (m_frame_preview->isHidden()) {
+        m_bmCapture->hidePreview(true);
+        m_frame_preview->setHidden(false);
+    } else {
+        m_frame_preview->setHidden(true);
+        m_bmCapture->hidePreview(false);
+    }
+    setUpdatesEnabled(true);
+}
+
 void StopmotionWidget::slotLive(bool isOn)
 {
     if (isOn) {
-        m_frame_preview->setImage(QImage());
+        //m_frame_preview->setImage(QImage());
         m_frame_preview->setHidden(true);
         m_bmCapture->startPreview(KdenliveSettings::hdmi_capturedevice(), KdenliveSettings::hdmi_capturemode());
         capture_button->setEnabled(true);
     } else {
         m_bmCapture->stopPreview();
+        m_frame_preview->setHidden(false);
         capture_button->setEnabled(false);
         live_button->setChecked(false);
     }
@@ -446,7 +461,7 @@ QString StopmotionWidget::getPathForFrame(int ix, QString seqName)
 
 void StopmotionWidget::slotShowFrame(const QString &path)
 {
-    slotLive(false);
+    //slotLive(false);
     QImage img(path);
     capture_button->setEnabled(false);
     if (!img.isNull()) {

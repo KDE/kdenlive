@@ -341,6 +341,20 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
         layoutActions->addAction("save_layout" + QString::number(i), save);
     }
 
+    KAction *action;
+    // Stop motion actions. Beware of the order, we MUST use the same order in stopmotion/stopmotion.cpp
+    m_stopmotion_actions = new KActionCategory(i18n("Stop Motion"), actionCollection());
+    action = new KAction(KIcon("media-record"), i18n("Capture frame"), this);
+    action->setShortcut(Qt::Key_Space);
+    //action->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+    m_stopmotion_actions->addAction("stopmotion_capture", action);
+    action = new KAction(i18n("Switch live / captured frame"), this);
+    //action->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+    m_stopmotion_actions->addAction("stopmotion_switch", action);
+    action = new KAction(KIcon("edit-paste"), i18n("Show last frame over video"), this);
+    action->setCheckable(true);
+    action->setChecked(false);
+    m_stopmotion_actions->addAction("stopmotion_overlay", action);
     setupGUI();
 
 
@@ -379,7 +393,6 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
                                       static_cast<QMenu*>(factory()->container("transcoders", this)),
                                       clipInTimeline);
 
-    KAction *action;
     // build themes menus
     QMenu *themesMenu = static_cast<QMenu*>(factory()->container("themes_menu", this));
     QActionGroup *themegroup = new QActionGroup(this);
@@ -559,7 +572,7 @@ MainWindow::~MainWindow()
 void MainWindow::queryQuit()
 {
     if (queryClose()) {
-        kapp->quit();
+        close();
     }
 }
 
@@ -1969,8 +1982,8 @@ void MainWindow::doOpenFile(const KUrl &url, KAutoSaveFile *stale)
 
     // Recreate stopmotion widget on document change
     if (m_stopmotion) {
-	delete m_stopmotion;
-	m_stopmotion = NULL;
+        delete m_stopmotion;
+        m_stopmotion = NULL;
     }
 
     KProgressDialog progressDialog(this, i18n("Loading project"), i18n("Loading project"));
@@ -2171,8 +2184,8 @@ void MainWindow::slotUpdateProjectProfile(const QString &profile)
 
     // Recreate the stopmotion widget if profile changes
     if (m_stopmotion) {
-	delete m_stopmotion;
-	m_stopmotion = NULL;
+        delete m_stopmotion;
+        m_stopmotion = NULL;
     }
 
     // Deselect current effect / transition
@@ -3996,7 +4009,7 @@ void MainWindow::slotUpdateColorScopes()
 void MainWindow::slotOpenStopmotion()
 {
     if (m_stopmotion == NULL) {
-        m_stopmotion = new StopmotionWidget(m_activeDocument->projectFolder(), this);
+        m_stopmotion = new StopmotionWidget(m_activeDocument->projectFolder(), m_stopmotion_actions->actions(), this);
         connect(m_stopmotion, SIGNAL(addOrUpdateSequence(const QString)), m_projectList, SLOT(slotAddOrUpdateSequence(const QString)));
     }
     m_stopmotion->show();

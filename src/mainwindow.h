@@ -37,6 +37,7 @@
 #include <KRecentFilesAction>
 #include <KComboBox>
 #include <kautosavefile.h>
+#include <KActionCategory>
 
 #include "effectslist.h"
 #include "gentime.h"
@@ -193,6 +194,9 @@ private:
     QMenu *m_timelineContextClipMenu;
     QMenu *m_timelineContextTransitionMenu;
     KUrl m_startUrl;
+
+    /** Actions used in the stopmotion widget */
+    KActionCategory *m_stopmotion_actions;
 
     /** @brief Shortcut to remove the focus from any element.
      *
@@ -374,7 +378,7 @@ private slots:
     void slotEditClipMarker();
 
     /** @brief Adds marker or auide at the current position without showing the marker dialog.
-     * 
+     *
      * Adds a marker if clip monitor is active, otherwise a guide.
      * The comment is set to the current position (therefore not dialog).
      * This can be useful to mark something during playback. */

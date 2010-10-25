@@ -54,8 +54,9 @@ public:
 
     /** @brief Build the stopmotion dialog.
      * @param projectFolder The current project folder, where captured files will be stored.
+     * @param actions The actions for this widget that can have a keyboard shortcut.
      * @param parent (optional) parent widget */
-    StopmotionWidget(KUrl projectFolder, QWidget *parent = 0);
+    StopmotionWidget(KUrl projectFolder, const QList< QAction * > actions, QWidget *parent = 0);
     virtual ~StopmotionWidget();
 
 protected:
@@ -184,6 +185,8 @@ private slots:
     /** @brief Set the effect to be applied to overlay frame. */
     void slotUpdateOverlayEffect(QAction *act);
 
+    /** @brief Switch between live view / currently selected fram. */
+    void slotSwitchLive();
 signals:
     /** @brief Ask to add sequence to current project. */
     void addOrUpdateSequence(const QString);
