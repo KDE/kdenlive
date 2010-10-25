@@ -100,7 +100,7 @@
      </item>
      <item>
       <property name="text">
-       <string>HDMI</string>
+       <string>Blackmagic card</string>
       </property>
      </item>
     </widget>

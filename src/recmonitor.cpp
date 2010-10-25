@@ -52,7 +52,7 @@ RecMonitor::RecMonitor(QString name, QWidget *parent) :
     m_didCapture(false),
     m_isPlaying(false),
     m_bmCapture(NULL),
-    m_hdmiCapturing(false)
+    m_blackmagicCapturing(false)
 {
     setupUi(this);
 
@@ -185,10 +185,10 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
 {
     QString capturefile;
     QString capturename;
-    m_fwdAction->setVisible(ix != HDMI);
-    m_discAction->setVisible(ix != HDMI);
-    m_rewAction->setVisible(ix != HDMI);
-    m_logger.setVisible(ix == HDMI);
+    m_fwdAction->setVisible(ix != BLACKMAGIC);
+    m_discAction->setVisible(ix != BLACKMAGIC);
+    m_rewAction->setVisible(ix != BLACKMAGIC);
+    m_logger.setVisible(ix == BLACKMAGIC);
     switch (ix) {
     case SCREENGRAB:
         m_discAction->setEnabled(false);
@@ -214,8 +214,8 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
         m_playAction->setEnabled(true);
         checkDeviceAvailability();
         break;
-    case HDMI:
-	createHDMIDevice();
+    case BLACKMAGIC:
+	createBlackmagicDevice();
         m_recAction->setEnabled(false);
         m_stopAction->setEnabled(false);
         m_playAction->setEnabled(true);
@@ -269,24 +269,24 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
     }
 }
 
-void RecMonitor::createHDMIDevice()
+void RecMonitor::createBlackmagicDevice()
 {
 	//video_capture->setVisible(true);
 	if (m_bmCapture == NULL) {
 	    QVBoxLayout *lay = new QVBoxLayout;
 	    m_bmCapture = new BmdCaptureHandler(lay);
-	    connect(m_bmCapture, SIGNAL(gotTimeCode(ulong)), this, SLOT(slotGotHDMIFrameNumber(ulong)));
-	    connect(m_bmCapture, SIGNAL(gotMessage(const QString &)), this, SLOT(slotGotHDMIMessage(const QString &)));
+	    connect(m_bmCapture, SIGNAL(gotTimeCode(ulong)), this, SLOT(slotGotBlackMagicFrameNumber(ulong)));
+	    connect(m_bmCapture, SIGNAL(gotMessage(const QString &)), this, SLOT(slotGotBlackmagicMessage(const QString &)));
 	    video_capture->setLayout(lay);
 	}
 }
 
-void RecMonitor::slotGotHDMIFrameNumber(ulong ix)
+void RecMonitor::slotGotBlackmagicFrameNumber(ulong ix)
 {
     m_dvinfo.setText(QString::number(ix));
 }
 
-void RecMonitor::slotGotHDMIMessage(const QString &message)
+void RecMonitor::slotGotBlackmagicMessage(const QString &message)
 {
     m_logger.insertItem(0, message);
 }
@@ -367,7 +367,7 @@ void RecMonitor::slotStopCapture()
         m_captureProcess->write("q\n", 3);
         QTimer::singleShot(1000, m_captureProcess, SLOT(kill()));
         break;
-    case HDMI:
+    case BLACKMAGIC:
 	video_capture->setHidden(true);
 	video_frame->setHidden(false);
 	m_bmCapture->stopPreview();
@@ -453,7 +453,7 @@ void RecMonitor::slotStartCapture(bool play)
         kDebug() << "Capture: Running ffmpeg " << m_captureArgs.join(" ");
         m_captureProcess->start("ffmpeg", m_captureArgs);
         break;
-    case HDMI:
+    case BLACKMAGIC:
 	video_capture->setVisible(true);
 	video_frame->setHidden(true);
 	m_bmCapture->startPreview(KdenliveSettings::hdmi_capturedevice(), KdenliveSettings::hdmi_capturemode());
@@ -476,11 +476,11 @@ void RecMonitor::slotStartCapture(bool play)
 
 void RecMonitor::slotRecord()
 {
-    if (device_selector->currentIndex() == HDMI) {
-	if (m_hdmiCapturing) {
+    if (device_selector->currentIndex() == BLACKMAGIC) {
+	if (m_blackmagicCapturing) {
 	    // We are capturing, stop it
 	    m_bmCapture->stopCapture();
-	    m_hdmiCapturing = false;
+	    m_blackmagicCapturing = false;
 	}
 	else {
 	    // Start capture, get capture filename first
@@ -488,7 +488,7 @@ void RecMonitor::slotRecord()
 	    if (!path.endsWith("/")) path.append("/");
 	    path.append(KdenliveSettings::hdmifilename());
 	    m_bmCapture->startCapture(path);
-	    m_hdmiCapturing = true;
+	    m_blackmagicCapturing = true;
 	}
 	return;
     }

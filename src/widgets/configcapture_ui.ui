@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>409</width>
-    <height>460</height>
+    <height>470</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout_8">
@@ -38,12 +38,12 @@
      </item>
      <item>
       <property name="text">
-       <string>Screen Grab</string>
+       <string>Screen grab</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>HDMI</string>
+       <string>Blackmagic card</string>
       </property>
      </item>
     </widget>
@@ -803,7 +803,7 @@
      </widget>
      <widget class="QWidget" name="tab_4">
       <attribute name="title">
-       <string>HDMI</string>
+       <string>Blackmagic</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_10">
        <item row="0" column="0">

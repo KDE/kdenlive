@@ -55,7 +55,7 @@ public:
 
     QString name() const;
 
-    enum CAPTUREDEVICE {FIREWIRE = 0, VIDEO4LINUX = 1, SCREENGRAB = 2, HDMI = 3};
+    enum CAPTUREDEVICE {FIREWIRE = 0, VIDEO4LINUX = 1, SCREENGRAB = 2, BLACKMAGIC = 3};
 
 protected:
     virtual void mousePressEvent(QMouseEvent * event);
@@ -68,7 +68,7 @@ private:
     QLabel m_dvinfo;
     
     /** @brief Keeps a brief (max ten items) history of warning or error messages
-     * 	(currently only used for HDMI). */
+     * 	(currently only used for BLACKMAGIC). */
     KComboBox m_logger;
     QString m_capturePath;
 
@@ -99,9 +99,9 @@ private:
     QPixmap mergeSideBySide(const QPixmap& pix, const QString txt);
     void manageCapturedFiles();
     CaptureHandler *m_bmCapture;
-    /** @brief Indicates whether we are currently capturing from HDMI. */
-    bool m_hdmiCapturing;
-    void createHDMIDevice();
+    /** @brief Indicates whether we are currently capturing from BLACKMAGIC. */
+    bool m_blackmagicCapturing;
+    void createBlackmagicDevice();
 
 private slots:
     void slotStartCapture(bool play = true);
@@ -116,8 +116,8 @@ private slots:
     void slotConfigure();
     void slotReadDvgrabInfo();
     void slotUpdateFreeSpace();
-    void slotGotHDMIFrameNumber(ulong ix);
-    void slotGotHDMIMessage(const QString &message);
+    void slotGotBlackmagicFrameNumber(ulong ix);
+    void slotGotBlackmagicMessage(const QString &message);
 
 public slots:
     void refreshRecMonitor(bool visible);
