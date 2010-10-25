@@ -368,7 +368,7 @@ QStringList ProjectSettings::extractSlideshowUrls(KUrl url)
         filters << "*." + ext;
         dir.setNameFilters(filters);
         QStringList result = dir.entryList(QDir::Files);
-        urls.append(path + filters.at(0) + " (" + i18n("%1 images found", result.count()) + ")");
+        urls.append(path + filters.at(0) + " (" + i18np("1 image found", "%1 images found", result.count()) + ")");
     } else {
         // this is a pattern slideshow, like sequence%4d.jpg
         QString filter = url.fileName();
@@ -381,7 +381,7 @@ QStringList ProjectSettings::extractSlideshowUrls(KUrl url)
         foreach(const QString & path, result) {
             if (rx.exactMatch(path)) count++;
         }
-        urls.append(url.path() + " (" + i18n("%1 images found", count) + ")");
+        urls.append(url.path() + " (" + i18np("1 image found", "%1 images found", count) + ")");
     }
     return urls;
 }
