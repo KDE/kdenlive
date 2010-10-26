@@ -96,7 +96,7 @@ V4lCaptureHandler::V4lCaptureHandler(QVBoxLayout *lay, QWidget *parent):
     lay->addWidget(m_display);
 }
 
-QString V4lCaptureHandler::getDeviceName(QString input)
+QString V4lCaptureHandler::getDeviceName(QString input, int *width, int *height)
 {
     fswebcam_config_t *config;
     /* Prepare the configuration structure. */
@@ -154,8 +154,7 @@ QString V4lCaptureHandler::getDeviceName(QString input)
     v4lsrc.fps        = config->fps;
     v4lsrc.option     = config->option;
     char *source = config->device;
-
-    QString deviceName = src_query(&v4lsrc, source);
+    QString deviceName = src_query(&v4lsrc, source, width, height);
     kDebug() << "DEVIE NAME: " << deviceName << ".";
     return deviceName.isEmpty() ? input : deviceName;
 }

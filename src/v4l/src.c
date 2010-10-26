@@ -79,10 +79,10 @@ int src_open(src_t *src, char *source)
 	return 0;
 }
 
-const char *src_query(src_t *src, char *source)
+const char *src_query(src_t *src, char *source, int *width, int *height)
 {
     src->source = source;
-    return src_v4l2.query(src);
+    return src_v4l2.query(src, width, height);
 }
 
 int src_close(src_t *src)

@@ -492,7 +492,7 @@ BmdCaptureHandler::BmdCaptureHandler(QVBoxLayout *lay, QWidget *parent):
 {
 }
 
-QString BmdCaptureHandler::getDeviceName(QString)
+QString BmdCaptureHandler::getDeviceName(QString, int *, int *)
 {
     return QString();
 }

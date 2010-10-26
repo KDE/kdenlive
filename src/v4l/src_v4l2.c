@@ -802,7 +802,7 @@ int src_v4l2_set_read(src_t *src)
 	return(0);
 }
 
-static const char *src_v4l2_query(src_t *src)
+static const char *src_v4l2_query(src_t *src, int *width, int *height)
 {
 	if(!src->source)
 	{
@@ -836,7 +836,24 @@ static const char *src_v4l2_query(src_t *src)
 	    fprintf(stderr, "Cannot get capabilities.");
 	    return NULL;
 	}
-	char * res = (char*) s->cap.card;	
+	char * res = (char*) s->cap.card;
+	if(!s->cap.capabilities & V4L2_CAP_VIDEO_CAPTURE) {
+	    width = 0;
+	    height = 0;
+	}
+	else {
+	    struct v4l2_format format;
+	    memset(&format,0,sizeof(format));
+            format.type  = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+            if (ioctl(s->fd,VIDIOC_G_FMT,&format) < 0) {
+                fprintf(stderr, "Cannot get format.");
+            }
+            else {
+		*width = format.fmt.pix.width;
+		*height = format.fmt.pix.height;
+		fprintf(stderr, "Size: %d, %d.", width, height);
+	    }
+	}
 	src_v4l2_close(src);
 	return res;
 }

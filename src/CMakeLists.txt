@@ -89,6 +89,7 @@ kde4_add_ui_files(kdenlive_UI
   widgets/geometryval_ui.ui
   widgets/wizardstandard_ui.ui
   widgets/wizardextra_ui.ui
+  widgets/wizardcapture_ui.ui
   widgets/wizardcheck_ui.ui
   widgets/wizardmltcheck_ui.ui
   widgets/spacerdialog_ui.ui

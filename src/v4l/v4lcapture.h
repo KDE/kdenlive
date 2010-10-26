@@ -44,7 +44,7 @@ public:
     void showOverlay(QImage img, bool transparent = true);
     void hideOverlay();
     void hidePreview(bool hide);
-    QString getDeviceName(QString input);
+    QString getDeviceName(QString input, int *width, int *height);
 
 private:
     bool m_update;

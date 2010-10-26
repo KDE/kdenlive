@@ -59,7 +59,7 @@ public:
     void showOverlay(QImage img, bool transparent = true);
     void hideOverlay();
     void hidePreview(bool hide);
-    QString getDeviceName(QString);
+    QString getDeviceName(QString, int *, int *);
 
 private:
     IDeckLinkIterator       *deckLinkIterator;

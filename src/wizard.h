@@ -33,6 +33,7 @@
 #include "ui_wizardextra_ui.h"
 #include "ui_wizardcheck_ui.h"
 #include "ui_wizardmltcheck_ui.h"
+#include "ui_wizardcapture_ui.h"
 
 class WizardDelegate: public QItemDelegate
 {
@@ -85,6 +86,7 @@ private:
     Ui::WizardStandard_UI m_standard;
     Ui::WizardExtra_UI m_extra;
     Ui::WizardMltCheck_UI m_mltCheck;
+    Ui::WizardCapture_UI m_capture;
     Ui::WizardCheck_UI m_check;
     QVBoxLayout *m_startLayout;
     bool m_systemCheckIsOk;
@@ -102,6 +104,8 @@ private slots:
     void slotCheckSelectedItem();
     void slotCheckMlt();
     void slotShowWebInfos();
+    void slotDetectWebcam();
+    void slotUpdateCaptureParameters();
 };
 
 #endif

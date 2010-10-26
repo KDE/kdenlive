@@ -83,11 +83,15 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent) :
     m_configCapture.setupUi(p4);
 
     V4lCaptureHandler v4l(NULL);
+    int width;
+    int height;
     // Video 4 Linux device detection
     for (int i = 0; i < 10; i++) {
         QString path = "/dev/video" + QString::number(i);
         if (QFile::exists(path)) {
-            m_configCapture.kcfg_detectedv4ldevices->addItem(v4l.getDeviceName(path.toUtf8().constData()), path);
+            QString deviceName = v4l.getDeviceName(path.toUtf8().constData(), &width, &height);
+            m_configCapture.kcfg_detectedv4ldevices->addItem(deviceName, path);
+            if (width > 0) m_configCapture.kcfg_detectedv4ldevices->setItemData(m_configCapture.kcfg_detectedv4ldevices->count() - 1, QString("%1x%2").arg(width).arg(height), Qt::UserRole + 1);
         }
     }
     connect(m_configCapture.kcfg_detectedv4ldevices, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdatev4lDevice()));
@@ -642,6 +646,8 @@ void KdenliveSettingsDialog::slotUpdatev4lDevice()
 {
     QString device = m_configCapture.kcfg_detectedv4ldevices->itemData(m_configCapture.kcfg_detectedv4ldevices->currentIndex()).toString();
     if (!device.isEmpty()) m_configCapture.kcfg_video4vdevice->setText(device);
+    QString size = m_configCapture.kcfg_detectedv4ldevices->itemData(m_configCapture.kcfg_detectedv4ldevices->currentIndex(), Qt::UserRole + 1).toString();
+    if (!size.isEmpty()) m_configCapture.kcfg_video4size->setText(size);
 }
 
 

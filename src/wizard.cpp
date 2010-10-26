@@ -20,6 +20,7 @@
 #include "wizard.h"
 #include "kdenlivesettings.h"
 #include "profilesdialog.h"
+#include "v4l/v4lcapture.h"
 #include "kdenlive-config.h"
 
 #include <KStandardDirs>
@@ -39,7 +40,7 @@ const double recommendedMltVersion = 510;
 static const char kdenlive_version[] = VERSION;
 
 Wizard::Wizard(bool upgrade, QWidget *parent) :
-        QWizard(parent)
+    QWizard(parent)
 {
     setWindowTitle(i18n("Config Wizard"));
     setPixmap(QWizard::WatermarkPixmap, QPixmap(KStandardDirs::locate("appdata", "banner.png")));
@@ -122,6 +123,15 @@ Wizard::Wizard(bool upgrade, QWidget *parent) :
     slotCheckThumbs();
     addPage(page3);
 
+    QWizardPage *page6 = new QWizardPage;
+    page6->setTitle(i18n("Webcam"));
+    m_capture.setupUi(page6);
+    connect(m_capture.button_reload, SIGNAL(clicked()), this, SLOT(slotDetectWebcam()));
+    connect(m_capture.device_list, SIGNAL(itemSelectionChanged()), this, SLOT(slotUpdateCaptureParameters()));
+    m_capture.button_reload->setIcon(KIcon("view-refresh"));
+
+    addPage(page6);
+
 
     QWizardPage *page5 = new QWizardPage;
     page5->setTitle(i18n("Checking system"));
@@ -130,10 +140,57 @@ Wizard::Wizard(bool upgrade, QWidget *parent) :
 
     listViewDelegate = new WizardDelegate(m_check.programList);
     m_check.programList->setItemDelegate(listViewDelegate);
-
+    slotDetectWebcam();
     QTimer::singleShot(500, this, SLOT(slotCheckMlt()));
 }
 
+void Wizard::slotDetectWebcam()
+{
+    m_capture.device_list->clear();
+
+    // Video 4 Linux device detection
+    V4lCaptureHandler v4l(NULL);
+    int width = 0;
+    int height = 0;
+    for (int i = 0; i < 10; i++) {
+        QString path = "/dev/video" + QString::number(i);
+        if (QFile::exists(path)) {
+            QString deviceName = v4l.getDeviceName(path.toUtf8().constData(), &width, &height);
+            QString captureSize;
+            if (width > 0) captureSize = QString::number(width) + "x" + QString::number(height);
+            if (!deviceName.isEmpty()) {
+                QTreeWidgetItem *item = new QTreeWidgetItem(m_capture.device_list, QStringList() << deviceName << captureSize);
+                item->setData(0, Qt::UserRole, path);
+                if (!captureSize.isEmpty()) item->setData(0, Qt::UserRole + 1, captureSize);
+            }
+        }
+    }
+    if (m_capture.device_list->topLevelItemCount() > 0) {
+        m_capture.v4l_status->setText(i18n("Select your default video4linux device"));
+        // select default device
+        bool found = false;
+        for (int i = 0; i < m_capture.device_list->topLevelItemCount(); i++) {
+            QTreeWidgetItem * item = m_capture.device_list->topLevelItem(i);
+            if (item && item->data(0, Qt::UserRole).toString() == KdenliveSettings::video4vdevice()) {
+                m_capture.device_list->setCurrentItem(item);
+                found = true;
+                break;
+            }
+        }
+        if (!found) m_capture.device_list->setCurrentItem(m_capture.device_list->topLevelItem(0));
+    } else m_capture.v4l_status->setText(i18n("No device found, plug your webcam and refresh."));
+}
+
+void Wizard::slotUpdateCaptureParameters()
+{
+    QTreeWidgetItem * item = m_capture.device_list->currentItem();
+    if (!item) return;
+    QString device = item->data(0, Qt::UserRole).toString();
+    if (!device.isEmpty()) KdenliveSettings::setVideo4vdevice(device);
+
+    QString size = item->data(0, Qt::UserRole + 1).toString();
+    if (!size.isEmpty()) KdenliveSettings::setVideo4size(size);
+}
 
 void Wizard::checkMltComponents()
 {
@@ -388,7 +445,7 @@ void Wizard::installExtraMimes(QString baseName, QStringList globs)
     } else {
         QStringList extensions = mime->patterns();
         QString comment = mime->comment();
-        foreach(const QString &glob, globs) {
+        foreach(const QString & glob, globs) {
             if (!extensions.contains(glob)) extensions << glob;
         }
         kDebug() << "EXTS: " << extensions;
@@ -415,7 +472,7 @@ void Wizard::installExtraMimes(QString baseName, QStringList globs)
             writer.writeEndElement(); // comment
         }
 
-        foreach(const QString& pattern, extensions) {
+        foreach(const QString & pattern, extensions) {
             writer.writeStartElement(nsUri, "glob");
             writer.writeAttribute("pattern", pattern);
             writer.writeEndElement(); // glob
