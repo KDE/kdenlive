@@ -150,18 +150,14 @@ void Wizard::slotDetectWebcam()
 
     // Video 4 Linux device detection
     V4lCaptureHandler v4l(NULL);
-    int width = 0;
-    int height = 0;
     for (int i = 0; i < 10; i++) {
         QString path = "/dev/video" + QString::number(i);
         if (QFile::exists(path)) {
-            QString deviceName = v4l.getDeviceName(path.toUtf8().constData(), &width, &height);
-            QString captureSize;
-            if (width > 0) captureSize = QString::number(width) + "x" + QString::number(height);
-            if (!deviceName.isEmpty()) {
-                QTreeWidgetItem *item = new QTreeWidgetItem(m_capture.device_list, QStringList() << deviceName << captureSize);
+            QStringList deviceInfo = v4l.getDeviceName(path.toUtf8().constData());
+            if (!deviceInfo.isEmpty()) {
+                QTreeWidgetItem *item = new QTreeWidgetItem(m_capture.device_list, QStringList() << deviceInfo.at(0) << "(" + deviceInfo.at(1) + ") " + deviceInfo.at(2));
                 item->setData(0, Qt::UserRole, path);
-                if (!captureSize.isEmpty()) item->setData(0, Qt::UserRole + 1, captureSize);
+                item->setData(0, Qt::UserRole + 1, deviceInfo.at(1));
             }
         }
     }

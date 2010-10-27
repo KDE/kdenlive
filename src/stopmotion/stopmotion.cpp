@@ -191,7 +191,7 @@ StopmotionWidget::StopmotionWidget(KUrl projectFolder, const QList< QAction * > 
     }
     if (QFile::exists(KdenliveSettings::video4vdevice())) {
         if (m_bmCapture == NULL) m_bmCapture = new V4lCaptureHandler(m_layout);
-        capture_device->addItem(m_bmCapture->getDeviceName(KdenliveSettings::video4vdevice(), 0, 0), "v4l");
+        capture_device->addItem(m_bmCapture->getDeviceName(KdenliveSettings::video4vdevice()).at(0), "v4l");
     }
 
     connect(m_bmCapture, SIGNAL(frameSaved(const QString)), this, SLOT(slotNewThumb(const QString)));

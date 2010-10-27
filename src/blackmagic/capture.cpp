@@ -492,9 +492,9 @@ BmdCaptureHandler::BmdCaptureHandler(QVBoxLayout *lay, QWidget *parent):
 {
 }
 
-QString BmdCaptureHandler::getDeviceName(QString, int *, int *)
+QStringList BmdCaptureHandler::getDeviceName(QString)
 {
-    return QString();
+    return QStringList();
 }
 
 void BmdCaptureHandler::startPreview(int deviceId, int captureMode, bool audio)
