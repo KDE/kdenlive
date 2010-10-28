@@ -405,6 +405,11 @@ double AbstractClipItem::keyFrameFactor() const
     return m_keyframeFactor;
 }
 
+int AbstractClipItem::keyFrameNumber() const
+{
+    return m_keyframes.count();
+}
+
 int AbstractClipItem::addKeyFrame(const GenTime pos, const double value)
 {
     QRectF br = sceneBoundingRect();

@@ -3551,7 +3551,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
         int start = item->cropStart().frames(m_document->fps());
         int end = (item->cropStart() + item->cropDuration()).frames(m_document->fps()) - 1;
 
-        if ((val < -50 || val > 150) && item->editedKeyFramePos() != start && item->editedKeyFramePos() != end) {
+        if ((val < -50 || val > 150) && item->editedKeyFramePos() != start && item->editedKeyFramePos() != end && item->keyFrameNumber() > 1) {
             //delete keyframe
             item->movedKeyframe(item->getEffectAt(item->selectedEffectIndex()), item->selectedKeyFramePos(), -1, 0);
         } else {

@@ -57,6 +57,8 @@ public:
     double selectedKeyFrameValue() const;
     double editedKeyFrameValue() const;
     double keyFrameFactor() const;
+    /** @brief Returns the number of keyframes the selected effect has. */
+    int keyFrameNumber() const;
     ItemInfo info() const;
     CustomTrackScene* projectScene();
     void updateRectGeometry();
