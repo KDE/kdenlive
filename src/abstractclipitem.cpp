@@ -343,9 +343,9 @@ void AbstractClipItem::updateSelectedKeyFrame()
     QRectF br = sceneBoundingRect();
     double maxw = br.width() / cropDuration().frames(m_fps);
     double maxh = br.height() / 100.0 * m_keyframeFactor;
-    update(br.x() + maxw *(m_selectedKeyframe - cropStart().frames(m_fps)) - 3, br.bottom() - m_keyframes[m_selectedKeyframe] * maxh - 3, 12, 12);
+    update(br.x() + maxw *(m_selectedKeyframe - cropStart().frames(m_fps)) - 3, br.bottom() - m_keyframes.value(m_selectedKeyframe) * maxh - 3, 12, 12);
     m_selectedKeyframe = m_editedKeyframe;
-    update(br.x() + maxw *(m_selectedKeyframe - cropStart().frames(m_fps)) - 3, br.bottom() - m_keyframes[m_selectedKeyframe] * maxh - 3, 12, 12);
+    update(br.x() + maxw *(m_selectedKeyframe - cropStart().frames(m_fps)) - 3, br.bottom() - m_keyframes.value(m_selectedKeyframe) * maxh - 3, 12, 12);
 }
 
 int AbstractClipItem::editedKeyFramePos() const
