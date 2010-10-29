@@ -1560,7 +1560,9 @@ bool ProjectList::adjustProjectProfileToItem(ProjectItem *item)
                 }
                 delete list;
                 delete label;
-            } else KMessageBox::information(kapp->activeWindow(), i18n("Your clip does not match current project's profile.\nNo existing profile found to match the clip's properties.\nClip size: %1\nFps: %2\n", size, fps));
+            } else if (fps > 0) {
+                KMessageBox::information(kapp->activeWindow(), i18n("Your clip does not match current project's profile.\nNo existing profile found to match the clip's properties.\nClip size: %1\nFps: %2\n", size, fps));
+            }
         }
     }
     return profileUpdated;
