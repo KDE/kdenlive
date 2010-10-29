@@ -253,10 +253,8 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, QRectF /*exposedRect*/)
     QRectF br = rect();
     double maxw = br.width() / cropDuration().frames(m_fps);
     double maxh = br.height() / 100.0 * m_keyframeFactor;
-    double x1;
-    double y1;
-    double x2;
-    double y2;
+    double start = cropStart().frames(m_fps);
+    double x1, y1, x2, y2;
 
     // draw line showing default value
     bool active = isSelected() || (parentItem() && parentItem()->isSelected());
@@ -276,9 +274,16 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, QRectF /*exposedRect*/)
     // draw keyframes
     QMap<int, int>::const_iterator i = m_keyframes.constBegin();
     QColor color(Qt::blue);
-    x1 = br.x() + maxw * (i.key() - cropStart().frames(m_fps));
-    y1 = br.bottom() - i.value() * maxh;
     QLineF l2;
+    x1 = br.x() + maxw * (i.key() - start);
+    y1 = br.bottom() - i.value() * maxh;
+
+    // make sure line begins with clip beginning
+    if (i.key() != start) {
+        QLineF l(br.x(), y1, x1, y1);
+        l2 = painter->matrix().map(l);
+        painter->drawLine(l2);
+    }
     while (i != m_keyframes.constEnd()) {
         if (i.key() == m_editedKeyframe)
             color = QColor(Qt::red);
@@ -292,7 +297,7 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, QRectF /*exposedRect*/)
             x2 = br.right();
             y2 = y1;
         } else {
-            x2 = br.x() + maxw * (i.key() - cropStart().frames(m_fps));
+            x2 = br.x() + maxw * (i.key() - start);
             y2 = br.bottom() - i.value() * maxh;
         }
         QLineF l(x1, y1, x2, y2);
@@ -305,7 +310,14 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, QRectF /*exposedRect*/)
         x1 = x2;
         y1 = y2;
     }
-    if (active) {
+
+    // make sure line ends at clip end
+    if (x1 != br.right()) {
+        QLineF l(x1, y1, br.right(), y1);
+        painter->drawLine(painter->matrix().map(l));
+    }
+
+    if (active && m_keyframes.count() > 1) {
         const QRectF frame(l2.x2() - 3, l2.y2() - 3, 6, 6);
         painter->fillRect(frame, color);
     }
