@@ -239,9 +239,6 @@ set(kdenlive_SRCS
   stopmotion/capturehandler.cpp
   blackmagic/capture.cpp
   blackmagic/devices.cpp
-  v4l/v4lcapture.cpp
-  v4l/src.c
-  v4l/src_v4l2.c
   onmonitoritems/abstractonmonitoritem.cpp 
   onmonitoritems/onmonitorrectitem.cpp
   onmonitoritems/onmonitorcornersitem.cpp
@@ -265,6 +262,15 @@ if (APPLE OR OPENGL_FOUND)
   add_definitions(-DUSE_OPEN_GL)
   set(kdenlive_SRCS videoglwidget.cpp ${kdenlive_SRCS})
 endif (APPLE OR OPENGL_FOUND)
+
+if (NOT APPLE)
+  set(kdenlive_SRCS
+    ${kdenlive_SRCS}
+    v4l/v4lcapture.cpp
+    v4l/src.c
+    v4l/src_v4l2.c
+  )
+endif (NOT APPLE)
 
 
 # Add libdl

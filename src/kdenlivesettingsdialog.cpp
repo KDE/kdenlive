@@ -82,6 +82,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent) :
     QWidget *p4 = new QWidget;
     m_configCapture.setupUi(p4);
 
+#ifndef Q_WS_MAC
     V4lCaptureHandler v4l(NULL);
     // Video 4 Linux device detection
     for (int i = 0; i < 10; i++) {
@@ -93,7 +94,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent) :
         }
     }
     connect(m_configCapture.kcfg_detectedv4ldevices, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdatev4lDevice()));
-
+#endif
 
     m_page4 = addPage(p4, i18n("Capture"), "media-record");
     m_configCapture.tabWidget->setCurrentIndex(KdenliveSettings::defaultcapture());

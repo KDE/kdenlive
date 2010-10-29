@@ -190,8 +190,10 @@ StopmotionWidget::StopmotionWidget(KUrl projectFolder, const QList< QAction * > 
         connect(m_bmCapture, SIGNAL(gotMessage(const QString &)), this, SLOT(slotGotHDMIMessage(const QString &)));
     }
     if (QFile::exists(KdenliveSettings::video4vdevice())) {
+#ifndef Q_WS_MAC
         if (m_bmCapture == NULL) m_bmCapture = new V4lCaptureHandler(m_layout);
         capture_device->addItem(m_bmCapture->getDeviceName(KdenliveSettings::video4vdevice()).at(0), "v4l");
+#endif
     }
 
     connect(m_bmCapture, SIGNAL(frameSaved(const QString)), this, SLOT(slotNewThumb(const QString)));
@@ -219,7 +221,8 @@ StopmotionWidget::StopmotionWidget(KUrl projectFolder, const QList< QAction * > 
 
 StopmotionWidget::~StopmotionWidget()
 {
-    m_bmCapture->stopPreview();
+    if (m_bmCapture)
+        m_bmCapture->stopPreview();
 }
 
 void StopmotionWidget::slotUpdateOverlayEffect(QAction *act)
@@ -270,7 +273,9 @@ void StopmotionWidget::slotUpdateHandler()
     delete m_bmCapture;
     m_layout->removeWidget(m_frame_preview);
     if (data == "v4l") {
+#ifndef Q_WS_MAC
         m_bmCapture = new V4lCaptureHandler(m_layout);
+#endif
     } else {
         m_bmCapture = new BmdCaptureHandler(m_layout);
         connect(m_bmCapture, SIGNAL(gotMessage(const QString &)), this, SLOT(slotGotHDMIMessage(const QString &)));

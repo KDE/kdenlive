@@ -148,6 +148,7 @@ void Wizard::slotDetectWebcam()
 {
     m_capture.device_list->clear();
 
+#ifndef Q_WS_MAC
     // Video 4 Linux device detection
     V4lCaptureHandler v4l(NULL);
     for (int i = 0; i < 10; i++) {
@@ -175,6 +176,7 @@ void Wizard::slotDetectWebcam()
         }
         if (!found) m_capture.device_list->setCurrentItem(m_capture.device_list->topLevelItem(0));
     } else m_capture.v4l_status->setText(i18n("No device found, plug your webcam and refresh."));
+#endif
 }
 
 void Wizard::slotUpdateCaptureParameters()
