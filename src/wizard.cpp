@@ -123,6 +123,7 @@ Wizard::Wizard(bool upgrade, QWidget *parent) :
     slotCheckThumbs();
     addPage(page3);
 
+#ifndef Q_WS_MAC
     QWizardPage *page6 = new QWizardPage;
     page6->setTitle(i18n("Webcam"));
     m_capture.setupUi(page6);
@@ -131,7 +132,7 @@ Wizard::Wizard(bool upgrade, QWidget *parent) :
     m_capture.button_reload->setIcon(KIcon("view-refresh"));
 
     addPage(page6);
-
+#endif
 
     QWizardPage *page5 = new QWizardPage;
     page5->setTitle(i18n("Checking system"));
@@ -146,9 +147,9 @@ Wizard::Wizard(bool upgrade, QWidget *parent) :
 
 void Wizard::slotDetectWebcam()
 {
+#ifndef Q_WS_MAC
     m_capture.device_list->clear();
 
-#ifndef Q_WS_MAC
     // Video 4 Linux device detection
     V4lCaptureHandler v4l(NULL);
     for (int i = 0; i < 10; i++) {
