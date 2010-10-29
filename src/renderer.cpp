@@ -178,6 +178,7 @@ void Render::buildConsumer(const QString profileName)
     //TODO: uncomment following line when everything is clean
     //if (m_mltProfile) delete m_mltProfile;
     m_mltProfile = new Mlt::Profile(tmp);
+    m_mltProfile->get_profile()->is_explicit = 1;
     delete[] tmp;
 
     QString videoDriver = KdenliveSettings::videodrivername();
