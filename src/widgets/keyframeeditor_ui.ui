@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>336</width>
-    <height>190</height>
+    <width>346</width>
+    <height>196</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
@@ -40,7 +40,7 @@
       <property name="margin">
        <number>0</number>
       </property>
-      <item row="3" column="0" colspan="4">
+      <item row="3" column="0" colspan="5">
        <widget class="QTableWidget" name="keyframe_list">
         <property name="alternatingRowColors">
          <bool>true</bool>
@@ -72,13 +72,6 @@
         </property>
        </widget>
       </item>
-      <item row="4" column="3">
-       <widget class="QCheckBox" name="keyframe_seek">
-        <property name="text">
-         <string>Seek to active keyframe</string>
-        </property>
-       </widget>
-      </item>
       <item row="5" column="0" colspan="2">
        <widget class="QLabel" name="label">
         <property name="text">
@@ -86,7 +79,7 @@
         </property>
        </widget>
       </item>
-      <item row="5" column="2" colspan="2">
+      <item row="5" column="2" colspan="3">
        <widget class="QSlider" name="keyframe_pos">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -110,6 +103,19 @@
         </property>
         <property name="text">
          <string>...</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="3">
+       <widget class="QToolButton" name="buttonSeek">
+        <property name="toolTip">
+         <string>Seek to active keyframe</string>
+        </property>
+        <property name="text">
+         <string>...</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -139,6 +145,13 @@
        </widget>
       </item>
      </layout>
+    </widget>
+   </item>
+   <item row="0" column="0" colspan="3">
+    <widget class="Line" name="line_2">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
     </widget>
    </item>
   </layout>

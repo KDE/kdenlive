@@ -116,7 +116,7 @@ private slots:
     void slotAdjustKeyframeValue(int value);
     /** @brief Turns the seek to keyframe position setting on/off.
     * @param state State of the associated checkbox */
-    void slotSetSeeking(int state);
+    void slotSetSeeking(bool seek);
 
     /** @brief Shows the keyframe table and adds a second keyframe. */
     void slotKeyframeMode();

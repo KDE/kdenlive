@@ -38,15 +38,12 @@ KeyframeEdit::KeyframeEdit(QDomElement e, int minFrame, int maxFrame, int minVal
     setupUi(this);
     if (m_max == -1) {
         // special case: keyframe for tracks, do not allow keyframes
-        button_add->setEnabled(false);
-        button_delete->setEnabled(false);
-        keyframe_seek->setEnabled(false);
         widgetTable->setHidden(true);
     }
     m_params.append(e.cloneNode().toElement());
     keyframe_list->setFont(KGlobalSettings::generalFont());
-    keyframe_seek->setChecked(KdenliveSettings::keyframeseek());
-    connect(keyframe_seek, SIGNAL(stateChanged(int)), this, SLOT(slotSetSeeking(int)));
+    buttonSeek->setChecked(KdenliveSettings::keyframeseek());
+    connect(buttonSeek, SIGNAL(toggled(bool)), this, SLOT(slotSetSeeking(bool)));
 
     buttonKeyframes->setIcon(KIcon("list-add"));
     button_add->setIcon(KIcon("list-add"));
@@ -54,6 +51,7 @@ KeyframeEdit::KeyframeEdit(QDomElement e, int minFrame, int maxFrame, int minVal
     button_delete->setIcon(KIcon("list-remove"));
     button_delete->setToolTip(i18n("Delete keyframe"));
     buttonResetKeyframe->setIcon(KIcon("edit-undo"));
+    buttonSeek->setIcon(KIcon("insert-link"));
     connect(keyframe_list, SIGNAL(itemSelectionChanged()), this, SLOT(slotAdjustKeyframeInfo()));
     connect(keyframe_list, SIGNAL(cellChanged(int, int)), this, SLOT(slotGenerateParams(int, int)));
     setupParam();
@@ -411,9 +409,9 @@ QString KeyframeEdit::getPosString(int pos)
         return m_timecode.getTimecodeFromFrames(pos);
 }
 
-void KeyframeEdit::slotSetSeeking(int state)
+void KeyframeEdit::slotSetSeeking(bool seek)
 {
-    KdenliveSettings::setKeyframeseek(state == Qt::Checked);
+    KdenliveSettings::setKeyframeseek(seek);
 }
 
 void KeyframeEdit::updateTimecodeFormat()
