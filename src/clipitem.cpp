@@ -393,6 +393,7 @@ void ClipItem::setKeyframes(const int ix, const QStringList keyframes)
             e.setAttribute("keyframes", keyframes.at(keyframeParams));
             if (ix == m_selectedEffect && keyframeParams == 0) {
                 m_keyframes.clear();
+                m_visibleParam = i;
                 double max = e.attribute("max").toDouble();
                 double min = e.attribute("min").toDouble();
                 m_keyframeFactor = 100.0 / (max - min);
@@ -426,6 +427,7 @@ void ClipItem::setSelectedEffect(const int ix)
                 QDomElement e = params.item(i).toElement();
                 if (!e.isNull() && (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe")) {
                     m_keyframes.clear();
+                    m_visibleParam = i;
                     double max = e.attribute("max").toDouble();
                     double min = e.attribute("min").toDouble();
                     m_keyframeFactor = 100.0 / (max - min);
@@ -471,23 +473,19 @@ void ClipItem::updateKeyframeEffect()
     QDomElement effect = getEffectAt(m_selectedEffect);
     if (effect.attribute("disable") == "1") return;
     QDomNodeList params = effect.elementsByTagName("parameter");
+    QDomElement e = params.item(m_visibleParam).toElement();
 
-    for (int i = 0; i < params.count(); i++) {
-        QDomElement e = params.item(i).toElement();
-        if (!e.isNull() && (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe")) {
-            QString keyframes;
-            if (m_keyframes.count() > 0) {
-                QMap<int, int>::const_iterator i = m_keyframes.constBegin();
-                while (i != m_keyframes.constEnd()) {
-                    keyframes.append(QString::number(i.key()) + ':' + QString::number(i.value()) + ';');
-                    ++i;
-                }
+    if (!e.isNull()) {
+        QString keyframes;
+        if (m_keyframes.count() > 0) {
+            QMap<int, int>::const_iterator i = m_keyframes.constBegin();
+            while (i != m_keyframes.constEnd()) {
+                keyframes.append(QString::number(i.key()) + ':' + QString::number(i.value()) + ';');
+                ++i;
             }
-            // Effect has a keyframe type parameter, we need to set the values
-            //kDebug() << ":::::::::::::::   SETTING EFFECT KEYFRAMES: " << keyframes;
-            e.setAttribute("keyframes", keyframes);
-            break;
         }
+        // Effect has a keyframe type parameter, we need to set the values
+        e.setAttribute("keyframes", keyframes);
     }
 }
 
@@ -1221,9 +1219,7 @@ bool ClipItem::checkEffectsKeyframesPos(const int previous, const int current, b
         for (int j = 0; j < params.count(); j++) {
             bool modified = false;
             QDomElement e = params.item(j).toElement();
-            if (e.isNull())
-                continue;
-            if (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe") {
+            if (!e.isNull() && (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe")) {
                 // parse keyframes and adjust values
                 const QStringList keyframes = e.attribute("keyframes").split(';', QString::SkipEmptyParts);
                 QMap <int, double> kfr;
@@ -1683,29 +1679,33 @@ void ClipItem::insertKeyframe(QDomElement effect, int pos, int val)
     QDomNodeList params = effect.elementsByTagName("parameter");
     for (int i = 0; i < params.count(); i++) {
         QDomElement e = params.item(i).toElement();
-        QString kfr = e.attribute("keyframes");
-        const QStringList keyframes = kfr.split(';', QString::SkipEmptyParts);
-        QStringList newkfr;
-        bool added = false;
-        foreach(const QString &str, keyframes) {
-            int kpos = str.section(':', 0, 0).toInt();
-            double newval = str.section(':', 1, 1).toDouble();
-            if (kpos < pos) {
-                newkfr.append(str);
-            } else if (!added) {
-                if (i == 0) newkfr.append(QString::number(pos) + ":" + QString::number(val));
-                else newkfr.append(QString::number(pos) + ":" + QString::number(newval));
-                if (kpos > pos) newkfr.append(str);
-                added = true;
-            } else newkfr.append(str);
+        if (!e.isNull() && (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe")) {
+            QString kfr = e.attribute("keyframes");
+            const QStringList keyframes = kfr.split(';', QString::SkipEmptyParts);
+            QStringList newkfr;
+            bool added = false;
+            foreach(const QString &str, keyframes) {
+                int kpos = str.section(':', 0, 0).toInt();
+                double newval = str.section(':', 1, 1).toDouble();
+                if (kpos < pos) {
+                    newkfr.append(str);
+                } else if (!added) {
+                    if (i == m_visibleParam)
+                        newkfr.append(QString::number(pos) + ":" + QString::number(val));
+                    else
+                        newkfr.append(QString::number(pos) + ":" + QString::number(newval));
+                    if (kpos > pos) newkfr.append(str);
+                    added = true;
+                } else newkfr.append(str);
+            }
+            if (!added) {
+                if (i == m_visibleParam)
+                    newkfr.append(QString::number(pos) + ":" + QString::number(val));
+                else
+                    newkfr.append(QString::number(pos) + ":" + e.attribute("default"));
+            }
+            e.setAttribute("keyframes", newkfr.join(";"));
         }
-        if (!added) {
-            if (i == 0)
-                newkfr.append(QString::number(pos) + ":" + QString::number(val));
-            else
-                newkfr.append(QString::number(pos) + ":" + e.attribute("default"));
-        }
-        e.setAttribute("keyframes", newkfr.join(";"));
     }
 }
 
@@ -1718,20 +1718,24 @@ void ClipItem::movedKeyframe(QDomElement effect, int oldpos, int newpos, double 
     int end = (cropStart() + cropDuration()).frames(m_fps) - 1;
     for (int i = 0; i < params.count(); i++) {
         QDomElement e = params.item(i).toElement();
-        QString kfr = e.attribute("keyframes");
-        const QStringList keyframes = kfr.split(';', QString::SkipEmptyParts);
-        QStringList newkfr;
-        foreach(const QString &str, keyframes) {
-            if (str.section(':', 0, 0).toInt() != oldpos) {
-                newkfr.append(str);
-            } else if (newpos != -1) {
-                newpos = qMax(newpos, start);
-                newpos = qMin(newpos, end);
-                if (i == 0) newkfr.append(QString::number(newpos) + ":" + QString::number(value));
-                else newkfr.append(QString::number(newpos) + ":" + str.section(':', 1, 1));
+        if (!e.isNull() && (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe")) {
+            QString kfr = e.attribute("keyframes");
+            const QStringList keyframes = kfr.split(';', QString::SkipEmptyParts);
+            QStringList newkfr;
+            foreach(const QString &str, keyframes) {
+                if (str.section(':', 0, 0).toInt() != oldpos) {
+                    newkfr.append(str);
+                } else if (newpos != -1) {
+                    newpos = qMax(newpos, start);
+                    newpos = qMin(newpos, end);
+                    if (i == m_visibleParam)
+                        newkfr.append(QString::number(newpos) + ":" + QString::number(value));
+                    else
+                        newkfr.append(QString::number(newpos) + ":" + str.section(':', 1, 1));
+                }
             }
+            e.setAttribute("keyframes", newkfr.join(";"));
         }
-        e.setAttribute("keyframes", newkfr.join(";"));
     }
 
     updateKeyframes(effect);
@@ -1743,7 +1747,7 @@ void ClipItem::updateKeyframes(QDomElement effect)
     m_keyframes.clear();
     // parse keyframes
     QDomNodeList params = effect.elementsByTagName("parameter");
-    QDomElement e = params.item(0).toElement();
+    QDomElement e = params.item(m_visibleParam).toElement();
     const QStringList keyframes = e.attribute("keyframes").split(';', QString::SkipEmptyParts);
     foreach(const QString &str, keyframes) {
         int pos = str.section(':', 0, 0).toInt();

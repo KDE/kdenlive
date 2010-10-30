@@ -103,6 +103,8 @@ protected:
     QMap <int, int> m_keyframes;
     double m_keyframeFactor;
     double m_keyframeDefault;
+    /** The (keyframe) parameter that is visible and editable in timeline (on the clip) */
+    int m_visibleParam;
     double m_fps;
     //QRect visibleRect();
     void drawKeyFrames(QPainter *painter, QRectF exposedRect);
