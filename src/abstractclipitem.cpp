@@ -255,6 +255,7 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, QRectF /*exposedRect*/)
     double maxh = br.height() / 100.0 * m_keyframeFactor;
     double start = cropStart().frames(m_fps);
     double x1, y1, x2, y2;
+    bool antialiasing = painter->renderHints() & QPainter::Antialiasing;
 
     // draw line showing default value
     bool active = isSelected() || (parentItem() && parentItem()->isSelected());
@@ -269,6 +270,7 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, QRectF /*exposedRect*/)
         painter->setPen(QColor(108, 108, 108, 180));
         painter->drawLine(l2.translated(0, 1));
         painter->setPen(QColor(Qt::white));
+        painter->setRenderHint(QPainter::Antialiasing);
     }
 
     // draw keyframes
@@ -321,6 +323,8 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, QRectF /*exposedRect*/)
         const QRectF frame(l2.x2() - 3, l2.y2() - 3, 6, 6);
         painter->fillRect(frame, color);
     }
+
+    painter->setRenderHint(QPainter::Antialiasing, antialiasing);
 }
 
 int AbstractClipItem::mouseOverKeyFrames(QPointF pos, double maxOffset)
