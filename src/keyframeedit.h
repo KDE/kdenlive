@@ -79,10 +79,9 @@ class KeyframeEdit : public QWidget, public Ui::KeyframeEditor_UI
 {
     Q_OBJECT
 public:
-    explicit KeyframeEdit(QDomElement e, int minFrame, int maxFrame, int minVal, int maxVal, Timecode tc, int active_keyframe, QWidget* parent = 0);
+    explicit KeyframeEdit(QDomElement e, int minFrame, int maxFrame, Timecode tc, int activeKeyframe, QWidget* parent = 0);
     virtual ~KeyframeEdit();
-    void setupParam();
-    void addParameter(QDomElement e);
+    void addParameter(QDomElement e, int activeKeyframe = -1);
     const QString getValue(const QString &name);
     /** @brief Updates the timecode display according to settings (frame number or hh:mm:ss:ff) */
     void updateTimecodeFormat();
@@ -91,15 +90,10 @@ private:
     QList <QDomElement> m_params;
     int m_min;
     int m_max;
-    int m_minVal;
-    int m_maxVal;
     Timecode m_timecode;
-    int m_previousPos;
-    //KeyItemDelegate *m_delegate;
-    void generateAllParams();
     QGridLayout *m_slidersLayout;
-    int m_active_keyframe;
 
+    void generateAllParams();
     /** @brief Gets the position of a keyframe from the table.
     * @param row Row of the keyframe in the table */
     int getPos(int row);
@@ -123,8 +117,6 @@ private slots:
 
     /** @brief Resets all parameters of the selected keyframe to their default values. */
     void slotResetKeyframe();
-
-    //void slotSaveCurrentParam(QTreeWidgetItem *item, int column);
 
 signals:
     void parameterChanged();

@@ -24,23 +24,17 @@
 
 #include <QHeaderView>
 
-KeyframeEdit::KeyframeEdit(QDomElement e, int minFrame, int maxFrame, int minVal, int maxVal, Timecode tc, int active_keyframe, QWidget* parent) :
+KeyframeEdit::KeyframeEdit(QDomElement e, int minFrame, int maxFrame, Timecode tc, int activeKeyframe, QWidget* parent) :
         QWidget(parent),
         m_min(minFrame),
         m_max(maxFrame),
-        m_minVal(minVal),
-        m_maxVal(maxVal),
-        m_timecode(tc),
-        m_previousPos(0),
-        m_active_keyframe(active_keyframe)
+        m_timecode(tc)
 {
-    kDebug() << " / / / /MODIFIED KFR: " << m_active_keyframe;
     setupUi(this);
     if (m_max == -1) {
         // special case: keyframe for tracks, do not allow keyframes
         widgetTable->setHidden(true);
     }
-    m_params.append(e.cloneNode().toElement());
     keyframe_list->setFont(KGlobalSettings::generalFont());
     buttonSeek->setChecked(KdenliveSettings::keyframeseek());
     connect(buttonSeek, SIGNAL(toggled(bool)), this, SLOT(slotSetSeeking(bool)));
@@ -54,18 +48,22 @@ KeyframeEdit::KeyframeEdit(QDomElement e, int minFrame, int maxFrame, int minVal
     buttonSeek->setIcon(KIcon("insert-link"));
     connect(keyframe_list, SIGNAL(itemSelectionChanged()), this, SLOT(slotAdjustKeyframeInfo()));
     connect(keyframe_list, SIGNAL(cellChanged(int, int)), this, SLOT(slotGenerateParams(int, int)));
-    setupParam();
 
+    m_slidersLayout = new QGridLayout(param_sliders);
+    keyframe_list->setSelectionBehavior(QAbstractItemView::SelectRows);
+    keyframe_list->setSelectionMode(QAbstractItemView::SingleSelection);
+    addParameter(e, activeKeyframe);
     keyframe_list->resizeRowsToContents();
-    keyframe_list->resizeColumnsToContents();
+
     //keyframe_list->horizontalHeader()->resizeSections(QHeaderView::ResizeToContents);
     connect(button_delete, SIGNAL(clicked()), this, SLOT(slotDeleteKeyframe()));
     connect(button_add, SIGNAL(clicked()), this, SLOT(slotAddKeyframe()));
     connect(buttonKeyframes, SIGNAL(clicked()), this, SLOT(slotKeyframeMode()));
     connect(buttonResetKeyframe, SIGNAL(clicked()), this, SLOT(slotResetKeyframe()));
-    //connect(keyframe_list, SIGNAL(itemDoubleClicked(QTreeWidgetItem *, int)), this, SLOT(slotSaveCurrentParam(QTreeWidgetItem *, int)));
     connect(keyframe_pos, SIGNAL(valueChanged(int)), this, SLOT(slotAdjustKeyframePos(int)));
-    //connect(keyframe_val, SIGNAL(valueChanged(int)), this, SLOT(slotAdjustKeyframeValue(int)));
+
+    //connect(keyframe_list, SIGNAL(itemDoubleClicked(QTreeWidgetItem *, int)), this, SLOT(slotSaveCurrentParam(QTreeWidgetItem *, int)));
+
     keyframe_pos->setPageStep(1);
     if (!keyframe_list->currentItem()) {
         keyframe_list->setCurrentCell(0, 0);
@@ -73,8 +71,6 @@ KeyframeEdit::KeyframeEdit(QDomElement e, int minFrame, int maxFrame, int minVal
     }
     // ensure the keyframe list shows at least 3 lines
     keyframe_list->setMinimumHeight(QFontInfo(keyframe_list->font()).pixelSize() * 9);
-    /*m_delegate = new KeyItemDelegate(minVal, maxVal);
-    keyframe_list->setItemDelegate(m_delegate);*/
 
     // Do not show keyframe table if only one keyframe exists at the beginning
     if (keyframe_list->rowCount() < 2 && getPos(0) == m_min && m_max != -1)
@@ -94,10 +90,9 @@ KeyframeEdit::~KeyframeEdit()
         if (wid)
             delete wid;
     }
-    //delete m_delegate;
 }
 
-void KeyframeEdit::addParameter(QDomElement e)
+void KeyframeEdit::addParameter(QDomElement e, int activeKeyframe)
 {
     keyframe_list->blockSignals(true);
     m_params.append(e.cloneNode().toElement());
@@ -134,50 +129,13 @@ void KeyframeEdit::addParameter(QDomElement e)
             keyframe_list->setItem(j, columnId, new QTableWidgetItem(frames.at(i).section(':', 1, 1)));
             keyframe_list->resizeRowToContents(j);
         }
+        if ((activeKeyframe > -1) && (activeKeyframe == frame)) {
+            keyframe_list->setCurrentCell(i, columnId);
+            keyframe_list->selectRow(i);
+        }
     }
     keyframe_list->resizeColumnsToContents();
     keyframe_list->blockSignals(false);
-    slotAdjustKeyframeInfo(false);
-}
-
-void KeyframeEdit::setupParam()
-{
-    keyframe_list->blockSignals(true);
-    keyframe_list->clear();
-    int col = keyframe_list->columnCount();
-    QDomNode na = m_params.at(0).firstChildElement("name");
-    QString paramName = i18n(na.toElement().text().toUtf8().data());
-    kDebug() << " INSERT COL: " << col << ", " << paramName;
-    keyframe_list->insertColumn(col);
-    keyframe_list->setHorizontalHeaderItem(col, new QTableWidgetItem(paramName));
-    m_slidersLayout = new QGridLayout(param_sliders);
-
-    DoubleParameterWidget *doubleparam = new DoubleParameterWidget(paramName, 0,
-            m_params.at(0).attribute("min").toInt(), m_params.at(0).attribute("max").toInt(),
-            m_params.at(0).attribute("default").toInt(), m_params.at(0).attribute("suffix"), this);
-    connect(doubleparam, SIGNAL(valueChanged(int)), this, SLOT(slotAdjustKeyframeValue(int)));
-    m_slidersLayout->addWidget(doubleparam, 0, 0);
-
-    keyframe_list->setSelectionBehavior(QAbstractItemView::SelectRows);
-    keyframe_list->setSelectionMode(QAbstractItemView::SingleSelection);
-
-    QStringList frames = m_params.at(0).attribute("keyframes").split(";", QString::SkipEmptyParts);
-    setEnabled(frames.count() > 0);
-    for (int i = 0; i < frames.count(); i++) {
-        keyframe_list->insertRow(i);
-        int currentpos = frames.at(i).section(':', 0, 0).toInt();
-        keyframe_list->setVerticalHeaderItem(i, new QTableWidgetItem(getPosString(currentpos)));
-        keyframe_list->setItem(i, col, new QTableWidgetItem(frames.at(i).section(':', 1, 1)));
-        if ((m_active_keyframe > -1) && (m_active_keyframe == currentpos)) {
-            keyframe_list->setCurrentCell(i, 0);
-            keyframe_list->selectRow(i);
-        }
-        //item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsEnabled);
-    }
-    /*QTreeWidgetItem *first = keyframe_list->topLevelItem(0);
-    if (first) keyframe_list->setCurrentItem(first);*/
-    keyframe_list->blockSignals(false);
-    //keyframe_list->setCurrentCell(0, 0);
     slotAdjustKeyframeInfo(false);
     button_delete->setEnabled(keyframe_list->rowCount() > 1);
 }
@@ -206,7 +164,6 @@ void KeyframeEdit::slotAddKeyframe()
     int pos1 = getPos(row);
 
     int result;
-    kDebug() << "// ADD KF: " << row << ", MAX: " << keyframe_list->rowCount() << ", POS: " << pos1;
     if (row < (keyframe_list->rowCount() - 1)) {
         result = pos1 + (getPos(row + 1) - pos1) / 2;
         newrow++;
@@ -228,7 +185,6 @@ void KeyframeEdit::slotAddKeyframe()
         keyframe_list->setItem(newrow, i, new QTableWidgetItem(keyframe_list->item(item->row(), i)->text()));
 
     keyframe_list->resizeRowsToContents();
-    //keyframe_list->resizeRowToContents(newrow);
     slotAdjustKeyframeInfo();
     keyframe_list->blockSignals(false);
     generateAllParams();
@@ -327,7 +283,6 @@ const QString KeyframeEdit::getValue(const QString &name)
     for (int col = 0; col < keyframe_list->columnCount(); col++) {
         QDomNode na = m_params.at(col).firstChildElement("name");
         QString paramName = i18n(na.toElement().text().toUtf8().data());
-        //kDebug() << paramName << " == " << name;
         if (paramName == name)
             return m_params.at(col).attribute("keyframes");
     }
@@ -377,8 +332,10 @@ void KeyframeEdit::slotAdjustKeyframePos(int value)
         emit seekToPos(value - m_min);
 }
 
-void KeyframeEdit::slotAdjustKeyframeValue(int /*value*/)
+void KeyframeEdit::slotAdjustKeyframeValue(int value)
 {
+    Q_UNUSED(value);
+
     QTableWidgetItem *item = keyframe_list->currentItem();
     for (int col = 0; col < keyframe_list->columnCount(); col++) {
         DoubleParameterWidget *doubleparam = static_cast <DoubleParameterWidget*>(m_slidersLayout->itemAtPosition(col, 0)->widget());
@@ -441,9 +398,4 @@ void KeyframeEdit::slotResetKeyframe()
     }
 }
 
-
-/*void KeyframeEdit::slotSaveCurrentParam(QTreeWidgetItem *item, int column)
-{
-    if (item && column == 0) m_previousPos = m_timecode.getFrameCount(item->text(0));
-}*/
-
+#include "keyframeedit.moc"
