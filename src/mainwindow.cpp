@@ -553,6 +553,9 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
 
 MainWindow::~MainWindow()
 {
+    if (m_stopmotion) {
+        delete m_stopmotion;
+    }
     m_effectStack->slotClipItemSelected(NULL, 0);
     m_transitionConfig->slotTransitionItemSelected(NULL, 0, QPoint(), false);
 
@@ -2508,6 +2511,7 @@ void MainWindow::slotPreferences(int page, int option)
      * cached, in which case you want to display the cached dialog
      * instead of creating another one
      */
+    if (m_stopmotion) m_stopmotion->slotLive(false);
     if (KConfigDialog::showDialog("settings")) {
         KdenliveSettingsDialog* d = static_cast <KdenliveSettingsDialog*>(KConfigDialog::exists("settings"));
         if (page != -1) d->showPage(page, option);
@@ -4014,7 +4018,6 @@ void MainWindow::slotOpenStopmotion()
     }
     m_stopmotion->show();
 }
-
 
 void MainWindow::slotDeleteClip(const QString &id)
 {

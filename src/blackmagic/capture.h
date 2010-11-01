@@ -60,6 +60,7 @@ public:
     void hideOverlay();
     void hidePreview(bool hide);
     QStringList getDeviceName(QString);
+    void setDevice(const QString input, QString size = QString());
 
 private:
     IDeckLinkIterator       *deckLinkIterator;

@@ -269,6 +269,12 @@ if (NOT APPLE)
     v4l/v4lcapture.cpp
     v4l/src.c
     v4l/src_v4l2.c
+    v4l/dec_bayer.c
+    v4l/dec_grey.c
+    v4l/dec_jpeg.c
+    v4l/dec_rgb.c
+    v4l/dec_s561.c
+    v4l/dec_yuv.c
   )
 endif (NOT APPLE)
 
@@ -276,6 +282,7 @@ endif (NOT APPLE)
 # Add libdl
 find_library( DL_LIB NAMES ${CMAKE_DL_LIBS} )
 MESSAGE( STATUS "using dl library: ${DL_LIB}" )
+
 
 kde4_add_kcfg_files(kdenlive_SRCS kdenlivesettings.kcfgc )
 QT4_ADD_DBUS_ADAPTOR(kdenlive_SRCS org.kdenlive.MainWindow.xml mainwindow.h MainWindow)

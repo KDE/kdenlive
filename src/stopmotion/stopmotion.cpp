@@ -97,6 +97,7 @@ StopmotionWidget::StopmotionWidget(KUrl projectFolder, const QList< QAction * > 
     , m_sequenceFrame(0)
     , m_animatedIndex(-1)
 {
+    //setAttribute(Qt::WA_DeleteOnClose);
     addActions(actions);
     setupUi(this);
     setWindowTitle(i18n("Stop Motion Capture"));
@@ -191,13 +192,36 @@ StopmotionWidget::StopmotionWidget(KUrl projectFolder, const QList< QAction * > 
     }
     if (QFile::exists(KdenliveSettings::video4vdevice())) {
 #ifndef Q_WS_MAC
-        if (m_bmCapture == NULL) m_bmCapture = new V4lCaptureHandler(m_layout);
-        capture_device->addItem(m_bmCapture->getDeviceName(KdenliveSettings::video4vdevice()).at(0), "v4l");
+        V4lCaptureHandler v4l(NULL);
+        // Video 4 Linux device detection
+        for (int i = 0; i < 10; i++) {
+            QString path = "/dev/video" + QString::number(i);
+            if (QFile::exists(path)) {
+                QStringList deviceInfo = v4l.getDeviceName(path);
+                if (!deviceInfo.isEmpty()) {
+                    capture_device->addItem(deviceInfo.at(0), "v4l");
+                    capture_device->setItemData(capture_device->count() - 1, path, Qt::UserRole + 1);
+                    capture_device->setItemData(capture_device->count() - 1, deviceInfo.at(1), Qt::UserRole + 2);
+                    if (path == KdenliveSettings::video4vdevice()) capture_device->setCurrentIndex(capture_device->count() - 1);
+                }
+            }
+        }
+
+        /*V4lCaptureHandler v4lhandler(NULL);
+        QStringList deviceInfo = v4lhandler.getDeviceName(KdenliveSettings::video4vdevice());
+            capture_device->addItem(deviceInfo.at(0), "v4l");
+        capture_device->setItemData(capture_device->count() - 1, deviceInfo.at(3), Qt::UserRole + 1);*/
+        if (m_bmCapture == NULL) {
+            m_bmCapture = new V4lCaptureHandler(m_layout);
+            m_bmCapture->setDevice(capture_device->itemData(capture_device->currentIndex(), Qt::UserRole + 1).toString(), capture_device->itemData(capture_device->currentIndex(), Qt::UserRole + 2).toString());
+        }
 #endif
     }
 
-    connect(m_bmCapture, SIGNAL(frameSaved(const QString)), this, SLOT(slotNewThumb(const QString)));
     connect(capture_device, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateHandler()));
+    if (m_bmCapture) {
+        connect(m_bmCapture, SIGNAL(frameSaved(const QString)), this, SLOT(slotNewThumb(const QString)));
+    } else live_button->setEnabled(false);
     m_frame_preview = new MyLabel(this);
     connect(m_frame_preview, SIGNAL(seek(bool)), this, SLOT(slotSeekFrame(bool)));
     connect(m_frame_preview, SIGNAL(switchToLive()), this, SLOT(slotSwitchLive()));
@@ -269,17 +293,21 @@ void StopmotionWidget::slotIntervalCapture(bool capture)
 void StopmotionWidget::slotUpdateHandler()
 {
     QString data = capture_device->itemData(capture_device->currentIndex()).toString();
-    m_bmCapture->stopPreview();
-    delete m_bmCapture;
+    slotLive(false);
+    if (m_bmCapture) {
+        delete m_bmCapture;
+    }
     m_layout->removeWidget(m_frame_preview);
     if (data == "v4l") {
 #ifndef Q_WS_MAC
         m_bmCapture = new V4lCaptureHandler(m_layout);
+        m_bmCapture->setDevice(capture_device->itemData(capture_device->currentIndex(), Qt::UserRole + 1).toString(), capture_device->itemData(capture_device->currentIndex(), Qt::UserRole + 2).toString());
 #endif
     } else {
         m_bmCapture = new BmdCaptureHandler(m_layout);
-        connect(m_bmCapture, SIGNAL(gotMessage(const QString &)), this, SLOT(slotGotHDMIMessage(const QString &)));
+        if (m_bmCapture) connect(m_bmCapture, SIGNAL(gotMessage(const QString &)), this, SLOT(slotGotHDMIMessage(const QString &)));
     }
+    live_button->setEnabled(m_bmCapture != NULL);
     m_layout->addWidget(m_frame_preview);
 }
 
@@ -307,24 +335,24 @@ void StopmotionWidget::slotSwitchLive()
 {
     setUpdatesEnabled(false);
     if (m_frame_preview->isHidden()) {
-        m_bmCapture->hidePreview(true);
+        if (m_bmCapture) m_bmCapture->hidePreview(true);
         m_frame_preview->setHidden(false);
     } else {
         m_frame_preview->setHidden(true);
-        m_bmCapture->hidePreview(false);
+        if (m_bmCapture) m_bmCapture->hidePreview(false);
     }
     setUpdatesEnabled(true);
 }
 
 void StopmotionWidget::slotLive(bool isOn)
 {
-    if (isOn) {
+    if (isOn && m_bmCapture) {
         //m_frame_preview->setImage(QImage());
         m_frame_preview->setHidden(true);
         m_bmCapture->startPreview(KdenliveSettings::hdmi_capturedevice(), KdenliveSettings::hdmi_capturemode(), false);
         capture_button->setEnabled(true);
     } else {
-        m_bmCapture->stopPreview();
+        if (m_bmCapture) m_bmCapture->stopPreview();
         m_frame_preview->setHidden(false);
         capture_button->setEnabled(false);
         live_button->setChecked(false);
@@ -337,13 +365,14 @@ void StopmotionWidget::slotShowOverlay(bool isOn)
         if (live_button->isChecked() && m_sequenceFrame > 0) {
             slotUpdateOverlay();
         }
-    } else {
+    } else if (m_bmCapture) {
         m_bmCapture->hideOverlay();
     }
 }
 
 void StopmotionWidget::slotUpdateOverlay()
 {
+    if (m_bmCapture == NULL) return;
     QString path = getPathForFrame(m_sequenceFrame - 1);
     if (!QFile::exists(path)) return;
     QImage img(path);
@@ -408,6 +437,7 @@ void StopmotionWidget::sequenceNameChanged(const QString &name)
 
 void StopmotionWidget::slotCaptureFrame()
 {
+    if (m_bmCapture == NULL) return;
     if (sequence_name->currentText().isEmpty()) {
         QString seqName = QInputDialog::getText(this, i18n("Create New Sequence"), i18n("Enter sequence name"));
         if (seqName.isEmpty()) return;
@@ -484,7 +514,7 @@ void StopmotionWidget::slotShowFrame(const QString &path)
     QImage img(path);
     capture_button->setEnabled(false);
     if (!img.isNull()) {
-        m_bmCapture->hidePreview(true);
+        if (m_bmCapture) m_bmCapture->hidePreview(true);
         m_frame_preview->setImage(img);
         m_frame_preview->setHidden(false);
         m_frame_preview->update();

@@ -89,8 +89,10 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent) :
         QString path = "/dev/video" + QString::number(i);
         if (QFile::exists(path)) {
             QStringList deviceInfo = v4l.getDeviceName(path);
-            m_configCapture.kcfg_detectedv4ldevices->addItem(deviceInfo.at(0), path);
-            m_configCapture.kcfg_detectedv4ldevices->setItemData(m_configCapture.kcfg_detectedv4ldevices->count() - 1, deviceInfo.at(1), Qt::UserRole + 1);
+            if (!deviceInfo.isEmpty()) {
+                m_configCapture.kcfg_detectedv4ldevices->addItem(deviceInfo.at(0), path);
+                m_configCapture.kcfg_detectedv4ldevices->setItemData(m_configCapture.kcfg_detectedv4ldevices->count() - 1, deviceInfo.at(1), Qt::UserRole + 1);
+            }
         }
     }
     connect(m_configCapture.kcfg_detectedv4ldevices, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdatev4lDevice()));

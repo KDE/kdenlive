@@ -45,12 +45,17 @@ public:
     void hideOverlay();
     void hidePreview(bool hide);
     QStringList getDeviceName(QString input);
+    /** @brief Sets the path to the capture devide and optionnaly the width / height of the capture. */
+    void setDevice(const QString input, QString size = QString());
 
 private:
     bool m_update;
     MyDisplay *m_display;
     QString m_captureFramePath;
     QImage m_overlayImage;
+    QString m_device;
+    int m_width;
+    int m_height;
 
 private slots:
     void slotUpdate();

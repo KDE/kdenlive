@@ -802,7 +802,7 @@ int src_v4l2_set_read(src_t *src)
 	return(0);
 }
 
-static const char *src_v4l2_query(src_t *src, int *width, int *height, char **pixelformat)
+static const char *src_v4l2_query(src_t *src, uint *width, uint *height, char **pixelformatdescription)
 {
 	if(!src->source)
 	{
@@ -836,7 +836,8 @@ static const char *src_v4l2_query(src_t *src, int *width, int *height, char **pi
 	    fprintf(stderr, "Cannot get capabilities.");
 	    return NULL;
 	}
-	char *res = (char*) s->cap.card;
+	char *res = strdup((char*) s->cap.card);
+	/*strcpy(res, (char*) s->cap.card);*/
 	if(!s->cap.capabilities & V4L2_CAP_VIDEO_CAPTURE) {
 	    *width = 0;
 	    *height = 0;
@@ -858,10 +859,13 @@ static const char *src_v4l2_query(src_t *src, int *width, int *height, char **pi
 	    fmt.type  = V4L2_BUF_TYPE_VIDEO_CAPTURE;
 	    if (ioctl(s->fd, VIDIOC_ENUM_FMT, &fmt) != -1)
 	    {
-		*pixelformat = fmt.description;
+		/*strcpy(*pixelformatdescription, (char *) fmt.description);*/
+		*pixelformatdescription = strdup((char*)fmt.description);
 		fprintf(stderr, "format: %s", fmt.description);
 	    }
-	    else *pixelformat = "";
+	    else {
+		*pixelformatdescription = '\0';
+	    }
 	}
 	src_v4l2_close(src);
 	return res;

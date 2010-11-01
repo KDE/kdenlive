@@ -120,10 +120,12 @@ private:
     int m_effectIndex;
 #endif
 
-private slots:
+public slots:
     /** @brief Display the live feed from capture device.
      @param isOn enable or disable the feature */
     void slotLive(bool isOn);
+
+private slots:
 
     /** @brief Display the last captured frame over current live feed.
      @param isOn enable or disable the feature */

@@ -34,9 +34,29 @@
 
 #include "v4lcapture.h"
 #include "kdenlivesettings.h"
-
+#include "dec.h"
 
 static src_t v4lsrc;
+
+QImage add_image_png(src_t *src)
+{
+    QImage im;
+    im.loadFromData((uchar *)src->img, src->length, "PNG");
+    return im;
+}
+
+QImage add_image_jpeg(src_t *src)
+{
+    uint32_t hlength;
+    uint8_t *himg = NULL;
+    QImage im;
+
+    /* MJPEG data may lack the DHT segment required for decoding... */
+    verify_jpeg_dht((uint8_t *) src->img, src->length, &himg, &hlength);
+
+    im.loadFromData(himg, hlength, "JPG");
+    return im;
+}
 
 class MyDisplay : public QLabel
 {
@@ -90,6 +110,9 @@ void MyDisplay::setImage(QImage img)
 V4lCaptureHandler::V4lCaptureHandler(QVBoxLayout *lay, QWidget *parent):
     CaptureHandler(lay, parent)
     , m_update(false)
+    , m_device(KdenliveSettings::video4vdevice())
+    , m_width(-1)
+    , m_height(-1)
 {
     if (lay == NULL) return;
     m_display = new MyDisplay;
@@ -122,8 +145,10 @@ QStringList V4lCaptureHandler::getDeviceName(QString input)
     config->delay = 0;
     config->use_read = 0;
     config->list = 0;
-    config->width = 384;
-    config->height = 288;
+    if (m_width > 0) config->width = m_width;
+    else config->width = 384;
+    if (m_height > 0) config->height = m_height;
+    else config->height = 288;
     config->fps = 0;
     config->frames = 1;
     config->skipframes = 0;
@@ -154,13 +179,23 @@ QStringList V4lCaptureHandler::getDeviceName(QString input)
     v4lsrc.fps        = config->fps;
     v4lsrc.option     = config->option;
     char *source = config->device;
-    int width = 0;
-    int height = 0;
-    char *pixelformat;
-    QString deviceName = src_query(&v4lsrc, source, &width, &height, &pixelformat);
+    uint width = 0;
+    uint height = 0;
+    char *pixelformatdescription;
+    QString deviceName(src_query(&v4lsrc, source, &width, &height, &pixelformatdescription));
     QStringList result;
-    result << (deviceName.isEmpty() ? input : deviceName) << (width == 0 ? QString() : QString("%1x%2").arg(width).arg(height)) << QString(pixelformat);
+    result << (deviceName.isEmpty() ? input : deviceName) << (width == 0 ? QString() : QString("%1x%2").arg(width).arg(height)) << QString(pixelformatdescription);
     return result;
+}
+
+void V4lCaptureHandler::setDevice(const QString input, QString size)
+{
+    m_device = input;
+    if (!size.isEmpty()) {
+        m_width = size.section('x', 0, 0).toInt();
+        m_height = size.section('x', -1).toInt();
+
+    }
 }
 
 void V4lCaptureHandler::startPreview(int /*deviceId*/, int /*captureMode*/, bool)
@@ -183,15 +218,17 @@ void V4lCaptureHandler::startPreview(int /*deviceId*/, int /*captureMode*/, bool
     config->logfile = NULL;
     config->gmt = 0;
     config->start = 0;
-    config->device = strdup(KdenliveSettings::video4vdevice().toUtf8().constData());
+    config->device = strdup(m_device.toUtf8().constData());
     config->input = NULL;
     config->tuner = 0;
     config->frequency = 0;
     config->delay = 0;
     config->use_read = 0;
     config->list = 0;
-    config->width = KdenliveSettings::video4size().section("x", 0, 0).toInt();/*384;*/
-    config->height = KdenliveSettings::video4size().section("x", -1).toInt();/*288;*/
+    if (m_width > 0) config->width = m_width;
+    else config->width = KdenliveSettings::video4size().section("x", 0, 0).toInt();/*384;*/
+    if (m_height > 0) config->height = m_height;
+    else config->height = KdenliveSettings::video4size().section("x", -1).toInt();/*288;*/
     config->fps = 0;
     config->frames = 1;
     config->skipframes = 0;
@@ -237,15 +274,59 @@ void V4lCaptureHandler::slotUpdate()
 {
     if (!m_update) return;
     src_grab(&v4lsrc);
-    uint8_t *img = (uint8_t *) v4lsrc.img;
-    uint32_t i = v4lsrc.width * v4lsrc.height;
+    QImage qimg(v4lsrc.width, v4lsrc.height, QImage::Format_RGB888);
+    switch (v4lsrc.palette) {
+    case SRC_PAL_PNG:
+        qimg = add_image_png(&v4lsrc);
+        break;
+    case SRC_PAL_JPEG:
+    case SRC_PAL_MJPEG:
+        qimg = add_image_jpeg(&v4lsrc);
+        break;
+    case SRC_PAL_S561:
+        fswc_add_image_s561(qimg.bits(), (uchar *)v4lsrc.img, v4lsrc.length, v4lsrc.width, v4lsrc.height, v4lsrc.palette);
+        break;
+    case SRC_PAL_RGB32:
+        fswc_add_image_rgb32(&v4lsrc, qimg.bits());
+        break;
+    case SRC_PAL_BGR32:
+        fswc_add_image_bgr32(&v4lsrc, qimg.bits());
+        break;
+    case SRC_PAL_RGB24:
+        fswc_add_image_rgb24(&v4lsrc, qimg.bits());
+        break;
+    case SRC_PAL_BGR24:
+        fswc_add_image_bgr24(&v4lsrc, qimg.bits());
+        break;
+    case SRC_PAL_BAYER:
+    case SRC_PAL_SGBRG8:
+    case SRC_PAL_SGRBG8:
+        fswc_add_image_bayer(qimg.bits(), (uchar *)v4lsrc.img, v4lsrc.length, v4lsrc.width, v4lsrc.height, v4lsrc.palette);
+        break;
+    case SRC_PAL_YUYV:
+    case SRC_PAL_UYVY:
+        fswc_add_image_yuyv(&v4lsrc, (avgbmp_t *)qimg.bits());
+        break;
+    case SRC_PAL_YUV420P:
+        fswc_add_image_yuv420p(&v4lsrc, qimg.bits());
+        break;
+    case SRC_PAL_NV12MB:
+        fswc_add_image_nv12mb(&v4lsrc, qimg.bits());
+        break;
+    case SRC_PAL_RGB565:
+        fswc_add_image_rgb565(&v4lsrc, qimg.bits());
+        break;
+    case SRC_PAL_RGB555:
+        fswc_add_image_rgb555(&v4lsrc, qimg.bits());
+        break;
+    case SRC_PAL_Y16:
+        fswc_add_image_y16(&v4lsrc, qimg.bits());
+        break;
+    case SRC_PAL_GREY:
+        fswc_add_image_grey(&v4lsrc, qimg.bits());
+        break;
+    }
 
-    if (v4lsrc.length << 2 < i) return;
-
-    QImage qimg(v4lsrc.width, v4lsrc.height, QImage::Format_RGB32);
-    //Format_ARGB32_Premultiplied
-    //convert from uyvy422 to rgba
-    CaptureHandler::yuv2rgb((uchar *)img, (uchar *)qimg.bits(), v4lsrc.width, v4lsrc.height);
     if (!m_captureFramePath.isEmpty()) {
         qimg.save(m_captureFramePath);
         emit frameSaved(m_captureFramePath);
@@ -292,7 +373,10 @@ void V4lCaptureHandler::hidePreview(bool hide)
 
 void V4lCaptureHandler::stopPreview()
 {
+    m_display->setHidden(true);
     if (!m_update) return;
     m_update = false;
     src_close(&v4lsrc);
 }
+
+

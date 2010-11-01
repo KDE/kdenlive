@@ -331,7 +331,7 @@ void DeckLinkCaptureDelegate::slotProcessFrame()
     } else {
         QImage image(videoFrame->GetWidth(), videoFrame->GetHeight(), QImage::Format_ARGB32_Premultiplied);
         //convert from uyvy422 to rgba
-        CaptureHandler::yuv2rgb((uchar *)frameBytes, (uchar *)image.bits(), videoFrame->GetWidth(), videoFrame->GetHeight());
+        CaptureHandler::uyvy2rgb((uchar *)frameBytes, (uchar *)image.bits(), videoFrame->GetWidth(), videoFrame->GetHeight());
         image.save(capturePath);
         emit frameSaved(capturePath);
     }
@@ -812,6 +812,10 @@ void BmdCaptureHandler::showOverlay(QImage img, bool transparent)
 void BmdCaptureHandler::hideOverlay()
 {
     if (previewView) previewView->hideOverlay();
+}
+
+void BmdCaptureHandler::setDevice(const QString , QString)
+{
 }
 
 void BmdCaptureHandler::hidePreview(bool hide)
