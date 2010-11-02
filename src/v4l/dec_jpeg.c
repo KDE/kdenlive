@@ -14,7 +14,6 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdint.h>
-#include <gd.h>
 #include "src.h"
 
 int verify_jpeg_dht(uint8_t *src,  uint32_t lsrc,
