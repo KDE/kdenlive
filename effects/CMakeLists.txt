@@ -8,8 +8,10 @@ charcoal.xml
 chroma_hold.xml
 chroma.xml
 crop.xml
+dust.xml
 freeze.xml
 gamma.xml
+grain.xml
 greyscale.xml
 invert.xml
 ladspa_declipper.xml
@@ -26,9 +28,11 @@ ladspa_vinyl.xml
 mirror.xml
 mute.xml
 normalise.xml
+oldfilm.xml
 pan_zoom.xml
 obscure.xml
 rotation.xml
+scratchlines.xml
 sepia.xml
 sox_bass.xml
 sox_gain.xml

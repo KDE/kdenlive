@@ -1,0 +1,12 @@
+<!DOCTYPE kpartgui>
+<effect tag="oldfilm" id="dust" type="video" unique="1">
+	<name>Dust</name>
+	<description>Add dust and specks to the video, as in old movies</description>
+	<author>Marco Gittler</author>
+	<parameter type="integer" name="maxdiameter" max="100" min="0" default="2">
+		<name>Maximal Diameter</name>
+	</parameter>
+	<parameter type="integer" name="maxcount" max="400" min="0" default="10">
+		<name>Maximal number of dust</name>
+	</parameter>
+</effect>
