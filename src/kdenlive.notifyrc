@@ -5,51 +5,59 @@ Comment=Kdenlive
 [Event/RenderFinished]
 Name=Rendering finished
 Name[de]=Rendern beendet
+Name[es]=Procesamiento finalizado
 Name[it]=Esportazione conclusa
+Name[ru]=Рендеринг завершён
 Name[sv]=Rendering klar
 Name[uk]=Обробку завершено
-Name[es]=Procesamiento finalizado
 Comment=Rendering is over
 Comment[de]=Das Rendern eines Film wurde beendet
+Comment[es]=El procesamiento del video ha finalizado correctamente
 Comment[it]=L'esportazione del filmato si è conclusa correttamente
+Comment[ru]=Рендеринг видеоролика завершён
 Comment[sv]=Renderingen är avslutad
 Comment[uk]=Обробку проекту завершено
-Comment[es]=El procesamiento del video ha finalizado correctamente
 Action=Popup
 
 [Event/RenderStarted]
 Name=Rendering started
 Name[de]=Rendern angefangen
+Name[es]=Procesamiento iniciado
 Name[it]=Esportazione iniziata
+Name[ru]=Рендеринг начат
 Name[sv]=Rendering påbörjad
 Name[uk]=Розпочато обробку
-Name[es]=Procesamiento iniciado
 Comment=Rendering was started
 Comment[de]=Das Rendern eines Film wurde angefangen
+Comment[es]=El procesamiento del video ha sido iniciado
 Comment[it]=È iniziata l'esportazione di un filmato
+Comment[ru]=Рендеринг видеоролика начат
 Comment[sv]=Rendering påbörjades
 Comment[uk]=Розпочато обробку проекту
-Comment[es]=El procesamiento del video ha sido iniciado
 Action=Popup
 
 [Event/FrameCaptured]
 Name=Frame captured
 Name[es]=Fotograma capturado
+Name[ru]=Кадр снят
 Comment=A frame was captured to disk
 Comment[es]=Se ha capturado un fotograma al disco
+Comment[ru]=Кадр снят и сохранён на диск
 Action=Sound
 Sound=KDE-Sys-App-Positive.ogg
 
 [Event/ErrorMessage]
 Name=Error
 Name[de]=Fehler
-Name[it]=Errore
-Name[sv]=Fel
 Name[es]=Error
+Name[it]=Errore
+Name[ru]=Ошибка
+Name[sv]=Fel
 Comment=An error occured in Kdenlive
 Comment[de]=Ein Fehler ist in Kdenlive aufgetreten
+Comment[es]=Ocurrió un error en Kdenlive
+Comment[ru]=В работе Kdenlive произошла ошибка
 Comment[it]=Si è verificato un errore in Kdenlive
 Comment[sv]=Ett fel har inträffat i Kdenlive
-Comment[es]=Ocurrió un error en Kdenlive
 Action=Sound
 Sound=KDE-Sys-Warning.ogg
