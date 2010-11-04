@@ -8,11 +8,13 @@ Name[de]=Rendern beendet
 Name[it]=Esportazione conclusa
 Name[sv]=Rendering klar
 Name[uk]=Обробку завершено
+Name[es]=Procesamiento finalizado
 Comment=Rendering is over
 Comment[de]=Das Rendern eines Film wurde beendet
 Comment[it]=L'esportazione del filmato si è conclusa correttamente
 Comment[sv]=Renderingen är avslutad
 Comment[uk]=Обробку проекту завершено
+Comment[es]=El procesamiento del video ha finalizado correctamente
 Action=Popup
 
 [Event/RenderStarted]
@@ -21,16 +23,20 @@ Name[de]=Rendern angefangen
 Name[it]=Esportazione iniziata
 Name[sv]=Rendering påbörjad
 Name[uk]=Розпочато обробку
+Name[es]=Procesamiento iniciado
 Comment=Rendering was started
 Comment[de]=Das Rendern eines Film wurde angefangen
 Comment[it]=È iniziata l'esportazione di un filmato
 Comment[sv]=Rendering påbörjades
 Comment[uk]=Розпочато обробку проекту
+Comment[es]=El procesamiento del video ha sido iniciado
 Action=Popup
 
 [Event/FrameCaptured]
 Name=Frame captured
+Name[es]=Fotograma capturado
 Comment=A frame was captured to disk
+Comment[es]=Se ha capturado un fotograma al disco
 Action=Sound
 Sound=KDE-Sys-App-Positive.ogg
 
@@ -39,9 +45,11 @@ Name=Error
 Name[de]=Fehler
 Name[it]=Errore
 Name[sv]=Fel
+Name[es]=Error
 Comment=An error occured in Kdenlive
 Comment[de]=Ein Fehler ist in Kdenlive aufgetreten
 Comment[it]=Si è verificato un errore in Kdenlive
 Comment[sv]=Ett fel har inträffat i Kdenlive
+Comment[es]=Ocurrió un error en Kdenlive
 Action=Sound
 Sound=KDE-Sys-Warning.ogg
