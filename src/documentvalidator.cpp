@@ -36,36 +36,34 @@ DocumentValidator::DocumentValidator(QDomDocument doc):
 
 bool DocumentValidator::validate(const double currentVersion)
 {
-    // Check if we're validating a Kdenlive project
-    if (!isProject())
+    QDomElement mlt = m_doc.firstChildElement("mlt");
+    // At least the root element must be there
+    if (mlt.isNull())
         return false;
 
+    QDomElement kdenliveDoc = mlt.firstChildElement("kdenlivedoc");
+    // Check if we're validating a Kdenlive project
+    if (kdenliveDoc.isNull())
+        return false;
     // Upgrade the document to the latest version
-    QDomNode kdenlivedocNode = m_doc.elementsByTagName("kdenlivedoc").at(0);
-    QDomElement kdenlivedocElm = kdenlivedocNode.toElement();
-    if (!upgrade(kdenlivedocElm.attribute("version").toDouble(), currentVersion))
+    if (!upgrade(kdenliveDoc.attribute("version").toDouble(), currentVersion))
         return false;
 
     /*
      * Check the syntax (this will be replaced by XSD validation with Qt 4.6)
      * and correct some errors
      */
-    QDomNode mltNode = m_doc.elementsByTagName("mlt").at(0);
-    QDomElement mltElm = mltNode.toElement();
-    if (mltElm.isNull()) // At least the root element must be there
-        return false;
-    else {
+    {
         // Return (or create) the tractor
-        QDomNode tractorNode = m_doc.elementsByTagName("tractor").at(0);
-        QDomElement tractorElm = tractorNode.toElement();
-        if (tractorElm.isNull()) {
+        QDomElement tractor = mlt.firstChildElement("tractor");
+        if (tractor.isNull()) {
             m_modified = true;
-            tractorElm = m_doc.createElement("tractor");
-            tractorElm.setAttribute("global_feed", "1");
-            tractorElm.setAttribute("in", "0");
-            tractorElm.setAttribute("out", "-1");
-            tractorElm.setAttribute("id", "maintractor");
-            mltElm.appendChild(tractorElm);
+            tractor = m_doc.createElement("tractor");
+            tractor.setAttribute("global_feed", "1");
+            tractor.setAttribute("in", "0");
+            tractor.setAttribute("out", "-1");
+            tractor.setAttribute("id", "maintractor");
+            mlt.appendChild(tractor);
         }
 
         /*
@@ -74,9 +72,9 @@ bool DocumentValidator::validate(const double currentVersion)
          */
         QDomNodeList playlists = m_doc.elementsByTagName("playlist");
         int tracksMax = playlists.count() - 1; // Remove the black track
-        QDomNodeList tracks = m_doc.elementsByTagName("track");
+        QDomNodeList tracks = tractor.elementsByTagName("track");
         tracksMax = qMax(tracks.count() - 1, tracksMax);
-        QDomNodeList tracksinfo = m_doc.elementsByTagName("trackinfo");
+        QDomNodeList tracksinfo = kdenliveDoc.elementsByTagName("trackinfo");
         tracksMax = qMax(tracksinfo.count(), tracksMax);
         tracksMax = qMax(1, tracksMax); // Force existance of one track
         if (playlists.count() - 1 < tracksMax ||
@@ -90,7 +88,7 @@ bool DocumentValidator::validate(const double currentVersion)
                 // Looks like one MLT track is missing, remove the extra Kdenlive track if there is one.
                 if (tracksinfo.count() != tracks.count() - 1) {
                     // The Kdenlive tracks are not ok, clear and rebuild them
-                    QDomNode tinfo = m_doc.elementsByTagName("tracksinfo").at(0);
+                    QDomNode tinfo = kdenliveDoc.elementsByTagName("tracksinfo").at(0);
                     QDomNode tnode = tinfo.firstChild();
                     while (!tnode.isNull()) {
                         tinfo.removeChild(tnode);
@@ -120,22 +118,21 @@ bool DocumentValidator::validate(const double currentVersion)
                 difference = tracksMax - (playlists.count() - 1);
                 for (int i = 0; i < difference; ++i) {
                     QDomElement playlist = m_doc.createElement("playlist");
-                    mltElm.appendChild(playlist);
+                    mlt.appendChild(playlist);
                 }
             }
             if (tracks.count() - 1 < tracksMax) {
                 difference = tracksMax - (tracks.count() - 1);
                 for (int i = 0; i < difference; ++i) {
                     QDomElement track = m_doc.createElement("track");
-                    tractorElm.appendChild(track);
+                    tractor.appendChild(track);
                 }
             }
             if (tracksinfo.count() < tracksMax) {
-                QDomNode tracksinfoNode = m_doc.elementsByTagName("tracksinfo").at(0);
-                QDomElement tracksinfoElm = tracksinfoNode.toElement();
+                QDomElement tracksinfoElm = kdenliveDoc.firstChildElement("tracksinfo");
                 if (tracksinfoElm.isNull()) {
                     tracksinfoElm = m_doc.createElement("tracksinfo");
-                    kdenlivedocElm.appendChild(tracksinfoElm);
+                    kdenliveDoc.appendChild(tracksinfoElm);
                 }
                 difference = tracksMax - tracksinfo.count();
                 for (int i = 0; i < difference; ++i) {

@@ -197,8 +197,9 @@ void TrackView::parseDocument(QDomDocument doc)
     }*/
 
     // parse project tracks
-    QDomElement tractor = doc.elementsByTagName("tractor").item(0).toElement();
-    QDomNodeList tracks = doc.elementsByTagName("track");
+    QDomElement mlt = doc.firstChildElement("mlt");
+    QDomElement tractor = mlt.firstChildElement("tractor");
+    QDomNodeList tracks = tractor.elementsByTagName("track");
     QDomNodeList playlists = doc.elementsByTagName("playlist");
     int duration = 300;
     m_projectTracks = tracks.count();
@@ -232,7 +233,7 @@ void TrackView::parseDocument(QDomDocument doc)
         if (e.hasAttribute("in") == false && e.hasAttribute("out") == false) continue;
         int in = e.attribute("in").toInt();
         int out = e.attribute("out").toInt();
-        if (in > out || in == out) {
+        if (in >= out) {
             // invalid producer, remove it
             QString id = e.attribute("id");
             m_invalidProducers.append(id);
@@ -285,7 +286,7 @@ void TrackView::parseDocument(QDomDocument doc)
     }
 
     // parse transitions
-    QDomNodeList transitions = doc.elementsByTagName("transition");
+    QDomNodeList transitions = tractor.elementsByTagName("transition");
 
     //kDebug() << "//////////// TIMELINE FOUND: " << projectTransitions << " transitions";
     for (int i = 0; i < transitions.count(); i++) {
@@ -423,8 +424,11 @@ void TrackView::parseDocument(QDomDocument doc)
         }
     }
 
+
+    QDomElement infoXml = mlt.firstChildElement("kdenlivedoc");
+
     // Add guides
-    QDomNodeList guides = doc.elementsByTagName("guide");
+    QDomNodeList guides = infoXml.elementsByTagName("guide");
     for (int i = 0; i < guides.count(); i++) {
         e = guides.item(i).toElement();
         const QString comment = e.attribute("comment");
@@ -433,14 +437,12 @@ void TrackView::parseDocument(QDomDocument doc)
     }
 
     // Rebuild groups
-    QDomNodeList groups = doc.elementsByTagName("group");
+    QDomNodeList groups = infoXml.elementsByTagName("group");
     m_trackview->loadGroups(groups);
     m_trackview->setDuration(duration);
     kDebug() << "///////////  TOTAL PROJECT DURATION: " << duration;
 
     // Remove Kdenlive extra info from xml doc before sending it to MLT
-    QDomElement mlt = doc.firstChildElement("mlt");
-    QDomElement infoXml = mlt.firstChildElement("kdenlivedoc");
     mlt.removeChild(infoXml);
 
     slotRebuildTrackHeaders();
@@ -763,7 +765,7 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
                 }
                 // add first keyframe
                 if (effectout <= effectin) {
-                    // there is only one keyframe
+                    // there is only one keyframe
                     keyframes.append(QString::number(effectin) + ':' + QString::number(startvalue) + ';');
                 } else keyframes.append(QString::number(effectin) + ':' + QString::number(startvalue) + ';' + QString::number(effectout) + ':' + QString::number(endvalue) + ';');
                 QDomNode lastParsedEffect;
@@ -855,11 +857,10 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
                 currenteffect.setAttribute("src", ladspaEffectFile);
             }
             if (disableeffect) currenteffect.setAttribute("disable", "1");
-            if (clip) clip->addEffect(currenteffect, false);
-            else {
-                kDebug() << "<< TRACK: " << trackIndex << ", adding effect";;
+            if (clip)
+                clip->addEffect(currenteffect, false);
+            else
                 m_doc->addTrackEffect(trackIndex, currenteffect);
-            }
         }
     }
 }
