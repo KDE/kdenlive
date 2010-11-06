@@ -340,6 +340,7 @@ void StopmotionWidget::slotSwitchLive()
     } else {
         m_frame_preview->setHidden(true);
         if (m_bmCapture) m_bmCapture->hidePreview(false);
+        capture_button->setEnabled(true);
     }
     setUpdatesEnabled(true);
 }
