@@ -264,7 +264,7 @@
 
     <entry name="video4vcodec" type="String">
       <label>Default video4linux video codec.</label>
-      <default>mpeg4</default>
+      <default>mjpeg</default>
     </entry>
 
     <entry name="video4acodec" type="String">
@@ -274,12 +274,12 @@
 
     <entry name="video4container" type="String">
       <label>Default video4linux format.</label>
-      <default>mpegts</default>
+      <default>avi</default>
     </entry>
 
     <entry name="video4extension" type="String">
       <label>Default video4linux file extension.</label>
-      <default>mp4</default>
+      <default>avi</default>
     </entry>
 
     <entry name="video4aformat" type="String">

@@ -185,6 +185,8 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
 {
     QString capturefile;
     QString capturename;
+    video_capture->setHidden(true);
+    video_frame->setHidden(false);
     m_fwdAction->setVisible(ix != BLACKMAGIC);
     m_discAction->setVisible(ix != BLACKMAGIC);
     m_rewAction->setVisible(ix != BLACKMAGIC);
@@ -215,20 +217,18 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
         checkDeviceAvailability();
         break;
     case BLACKMAGIC:
-	createBlackmagicDevice();
+        createBlackmagicDevice();
         m_recAction->setEnabled(false);
         m_stopAction->setEnabled(false);
         m_playAction->setEnabled(true);
-	video_capture->setHidden(true);
-	video_frame->setHidden(false);
 
-	capturefile = m_capturePath;
+        capturefile = m_capturePath;
         if (!capturefile.endsWith("/")) capturefile.append("/");
-	capturename = KdenliveSettings::hdmifilename();
-	capturename.append("xxx.raw");
-        capturefile.append(capturename);	    
-	video_frame->setPixmap(mergeSideBySide(KIcon("camera-photo").pixmap(QSize(50, 50)), i18n("Plug your camcorder and\npress play button\nto start preview.\nFiles will be saved in:\n%1", capturefile)));
-	break;
+        capturename = KdenliveSettings::hdmifilename();
+        capturename.append("xxx.raw");
+        capturefile.append(capturename);
+        video_frame->setPixmap(mergeSideBySide(KIcon("camera-photo").pixmap(QSize(50, 50)), i18n("Plug your camcorder and\npress play button\nto start preview.\nFiles will be saved in:\n%1", capturefile)));
+        break;
     default: // FIREWIRE
         m_discAction->setEnabled(true);
         m_recAction->setEnabled(false);
@@ -271,14 +271,14 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
 
 void RecMonitor::createBlackmagicDevice()
 {
-	//video_capture->setVisible(true);
-	if (m_bmCapture == NULL) {
-	    QVBoxLayout *lay = new QVBoxLayout;
-	    m_bmCapture = new BmdCaptureHandler(lay);
-	    connect(m_bmCapture, SIGNAL(gotTimeCode(ulong)), this, SLOT(slotGotBlackMagicFrameNumber(ulong)));
-	    connect(m_bmCapture, SIGNAL(gotMessage(const QString &)), this, SLOT(slotGotBlackmagicMessage(const QString &)));
-	    video_capture->setLayout(lay);
-	}
+    //video_capture->setVisible(true);
+    if (m_bmCapture == NULL) {
+        QVBoxLayout *lay = new QVBoxLayout;
+        m_bmCapture = new BmdCaptureHandler(lay);
+        connect(m_bmCapture, SIGNAL(gotTimeCode(ulong)), this, SLOT(slotGotBlackMagicFrameNumber(ulong)));
+        connect(m_bmCapture, SIGNAL(gotMessage(const QString &)), this, SLOT(slotGotBlackmagicMessage(const QString &)));
+        video_capture->setLayout(lay);
+    }
 }
 
 void RecMonitor::slotGotBlackmagicFrameNumber(ulong ix)
@@ -356,6 +356,8 @@ void RecMonitor::slotForward()
 void RecMonitor::slotStopCapture()
 {
     // stop capture
+    video_capture->setHidden(true);
+    video_frame->setHidden(false);
     switch (device_selector->currentIndex()) {
     case FIREWIRE:
         m_captureProcess->write("\e", 2);
@@ -368,13 +370,11 @@ void RecMonitor::slotStopCapture()
         QTimer::singleShot(1000, m_captureProcess, SLOT(kill()));
         break;
     case BLACKMAGIC:
-	video_capture->setHidden(true);
-	video_frame->setHidden(false);
-	m_bmCapture->stopPreview();
-	m_playAction->setEnabled(true);
-	m_stopAction->setEnabled(false);
-	m_recAction->setEnabled(false);
-	break;
+        m_bmCapture->stopPreview();
+        m_playAction->setEnabled(true);
+        m_stopAction->setEnabled(false);
+        m_recAction->setEnabled(false);
+        break;
     default:
         break;
     }
@@ -402,6 +402,8 @@ void RecMonitor::slotStartCapture(bool play)
     m_isPlaying = false;
     QString capturename = KdenliveSettings::dvgrabfilename();
     QStringList dvargs = KdenliveSettings::dvgrabextra().simplified().split(" ", QString::SkipEmptyParts);
+    video_capture->setVisible(device_selector->currentIndex() == BLACKMAGIC);
+    video_frame->setHidden(device_selector->currentIndex() == BLACKMAGIC);
 
     switch (device_selector->currentIndex()) {
     case FIREWIRE:
@@ -454,13 +456,11 @@ void RecMonitor::slotStartCapture(bool play)
         m_captureProcess->start("ffmpeg", m_captureArgs);
         break;
     case BLACKMAGIC:
-	video_capture->setVisible(true);
-	video_frame->setHidden(true);
-	m_bmCapture->startPreview(KdenliveSettings::hdmi_capturedevice(), KdenliveSettings::hdmi_capturemode());
-	m_playAction->setEnabled(false);
-	m_stopAction->setEnabled(true);
-	m_recAction->setEnabled(true);
-	break;
+        m_bmCapture->startPreview(KdenliveSettings::hdmi_capturedevice(), KdenliveSettings::hdmi_capturemode());
+        m_playAction->setEnabled(false);
+        m_stopAction->setEnabled(true);
+        m_recAction->setEnabled(true);
+        break;
     default:
         break;
     }
@@ -477,22 +477,21 @@ void RecMonitor::slotStartCapture(bool play)
 void RecMonitor::slotRecord()
 {
     if (device_selector->currentIndex() == BLACKMAGIC) {
-	if (m_blackmagicCapturing) {
-	    // We are capturing, stop it
-	    m_bmCapture->stopCapture();
-	    m_blackmagicCapturing = false;
-	}
-	else {
-	    // Start capture, get capture filename first
-	    QString path = m_capturePath;
-	    if (!path.endsWith("/")) path.append("/");
-	    path.append(KdenliveSettings::hdmifilename());
-	    m_bmCapture->startCapture(path);
-	    m_blackmagicCapturing = true;
-	}
-	return;
+        if (m_blackmagicCapturing) {
+            // We are capturing, stop it
+            m_bmCapture->stopCapture();
+            m_blackmagicCapturing = false;
+        } else {
+            // Start capture, get capture filename first
+            QString path = m_capturePath;
+            if (!path.endsWith("/")) path.append("/");
+            path.append(KdenliveSettings::hdmifilename());
+            m_bmCapture->startCapture(path);
+            m_blackmagicCapturing = true;
+        }
+        return;
     }
-  
+
     if (m_captureProcess->state() == QProcess::NotRunning && device_selector->currentIndex() == FIREWIRE) {
         slotStartCapture();
     }

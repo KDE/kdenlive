@@ -649,6 +649,7 @@ void KdenliveSettingsDialog::slotUpdatev4lDevice()
     if (!device.isEmpty()) m_configCapture.kcfg_video4vdevice->setText(device);
     QString size = m_configCapture.kcfg_detectedv4ldevices->itemData(m_configCapture.kcfg_detectedv4ldevices->currentIndex(), Qt::UserRole + 1).toString();
     if (!size.isEmpty()) m_configCapture.kcfg_video4size->setText(size);
+    rebuildVideo4Commands();
 }
 
 
