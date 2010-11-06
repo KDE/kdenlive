@@ -199,6 +199,20 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>spinX1</tabstop>
+  <tabstop>spinY1</tabstop>
+  <tabstop>spinX2</tabstop>
+  <tabstop>spinY2</tabstop>
+  <tabstop>spinX3</tabstop>
+  <tabstop>spinY3</tabstop>
+  <tabstop>spinX4</tabstop>
+  <tabstop>spinY4</tabstop>
+  <tabstop>toolReset1</tabstop>
+  <tabstop>toolReset2</tabstop>
+  <tabstop>toolReset3</tabstop>
+  <tabstop>toolReset4</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
