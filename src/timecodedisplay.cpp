@@ -46,6 +46,7 @@ TimecodeDisplay::TimecodeDisplay(Timecode t, QWidget *parent)
     connect(uparrow, SIGNAL(clicked()), this, SLOT(slotValueUp()));
     connect(downarrow, SIGNAL(clicked()), this, SLOT(slotValueDown()));
     connect(lineedit, SIGNAL(editingFinished()), this, SIGNAL(editingFinished()));
+    connect(lineedit, SIGNAL(cursorPositionChanged(int, int)), this, SLOT(slotCursorPositionChanged(int, int)));
 }
 
 void TimecodeDisplay::slotValueUp()
@@ -170,6 +171,28 @@ void TimecodeDisplay::setValue(int value)
 void TimecodeDisplay::setValue(GenTime value)
 {
     setValue(m_timecode.getTimecode(value));
+}
+
+void TimecodeDisplay::slotCursorPositionChanged(int oldPos, int newPos)
+{
+    lineedit->blockSignals(true);
+    QString text = lineedit->text();
+
+    if (newPos < text.size() && !text.at(newPos).isDigit()) {
+        // char at newPos is a separator (':' or ';')
+
+        // make it possible move the cursor backwards at separators
+        if (newPos == oldPos - 1)
+            lineedit->setSelection(newPos, -1);
+        else
+            lineedit->setSelection(newPos + 2, -1);
+    } else if (newPos < text.size()) {
+        lineedit->setSelection(newPos + 1, -1);
+    } else {
+        lineedit->setSelection(newPos, -1);
+    }
+
+    lineedit->blockSignals(false);
 }
 
 #include <timecodedisplay.moc>

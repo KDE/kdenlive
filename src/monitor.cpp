@@ -1095,6 +1095,8 @@ void VideoContainer::wheelEvent(QWheelEvent * event)
 
 void VideoContainer::mouseDoubleClickEvent(QMouseEvent * event)
 {
+    Q_UNUSED(event);
+
     if (!KdenliveSettings::openglmonitors())
         switchFullScreen();
 }
