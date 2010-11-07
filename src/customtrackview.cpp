@@ -429,6 +429,8 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
                 double maxh = 100.0 / br.height();
                 pos = (br.bottom() - pos) * maxh;
                 m_dragItem->updateKeyFramePos(keyFramePos, pos);
+                QString position = m_document->timecode().getDisplayTimecodeFromFrames(m_dragItem->editedKeyFramePos(), KdenliveSettings::frametimecode());
+                emit displayMessage(position + " : " + QString::number(m_dragItem->editedKeyFrameValue()), InformationMessage);
             }
             removeTipAnimation();
             return;
