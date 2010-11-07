@@ -22,7 +22,7 @@
                 <name>Threshold</name>
         </parameter>
         
-        <parameter type="simplekeyframe" name="Shrink/grow amount" default="500" min="0" max="1000" factor="1000">
+        <parameter type="simplekeyframe" name="Shrink/grow amount" default="500" min="0" max="1000" factor="1000" intimeline="1">
                 <name>Shrink/grow amount</name>
         </parameter>
         

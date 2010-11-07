@@ -12,7 +12,7 @@
 	<parameter type="color" name="White color" default="0xFFFFFF">
 		<name>White color</name>
 	</parameter>
-	<parameter type="bool" name="Split preview" default="1">
+	<parameter type="bool" name="Split preview" default="0">
 		<name>Split screen preview</name>
 	</parameter>
 	<parameter type="bool" name="Source image on left side" default="1">

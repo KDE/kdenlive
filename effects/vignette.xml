@@ -6,7 +6,7 @@
 	<parameter type="simplekeyframe" name="smooth" default="800" min="0" max="1000" factor="1000">
 		<name>smooth</name>
 	</parameter>
-	<parameter type="simplekeyframe" name="radius" default="500" min="0" max="1000" factor="1000">
+	<parameter type="simplekeyframe" name="radius" default="500" min="0" max="1000" factor="1000" intimeline="1">
 		<name>radius</name>
 	</parameter>
 	<parameter type="simplekeyframe" name="x" default="500" min="0" max="1000" factor="1000">
