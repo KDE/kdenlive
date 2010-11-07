@@ -71,8 +71,9 @@ frei0r_select0r.xml
 frei0r_sopsat.xml
 frei0r_squareblur.xml
 frei0r_three_point_balance.xml
-frei0r_tint0r.xml
 frei0r_threshold0r.xml
+frei0r_tint0r.xml
+frei0r_transparency.xml
 frei0r_vertigo.xml
 gain.xml
 fade_from_black.xml
