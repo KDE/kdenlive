@@ -19,10 +19,12 @@
 #define POSITONEDIT_H
 
 
+#include "timecode.h"
+
 #include <QWidget>
 
-#include "timecode.h"
-#include "timecodedisplay.h"
+class QSlider;
+class TimecodeDisplay;
 
 class PositionEdit : public QWidget
 {

@@ -225,8 +225,8 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
             lsval->setupUi(toFillin);
             QStringList listitems = pa.attribute("paramlist").split(',');
             QStringList listitemsdisplay = pa.attribute("paramlistdisplay").split(',');
-            if (listitemsdisplay.count() != listitems.count()) listitemsdisplay = listitems;
-            //lsval->list->addItems(listitems);
+            if (listitemsdisplay.count() != listitems.count())
+                listitemsdisplay = listitems;
             lsval->list->setIconSize(QSize(30, 30));
             for (int i = 0; i < listitems.count(); i++) {
                 lsval->list->addItem(listitemsdisplay.at(i), listitems.at(i));
@@ -240,7 +240,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
                 }
             }
             if (!value.isEmpty()) lsval->list->setCurrentIndex(listitems.indexOf(value));
-            lsval->title->setTitle(paramName);
+            lsval->name->setText(paramName);
             m_valueItems[paramName] = lsval;
             connect(lsval->list, SIGNAL(currentIndexChanged(int)) , this, SLOT(collectAllParameters()));
             m_uiItems.append(lsval);
@@ -248,7 +248,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
             Boolval *bval = new Boolval;
             bval->setupUi(toFillin);
             bval->checkBox->setCheckState(value == "0" ? Qt::Unchecked : Qt::Checked);
-            bval->checkBox->setText(paramName);
+            bval->name->setText(paramName);
             m_valueItems[paramName] = bval;
             connect(bval->checkBox, SIGNAL(stateChanged(int)) , this, SLOT(collectAllParameters()));
             m_uiItems.append(bval);

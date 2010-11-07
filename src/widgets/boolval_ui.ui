@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>Boolval_UI</class>
- <widget class="QWidget" name="Boolval_UI" >
-  <property name="geometry" >
+ <widget class="QWidget" name="Boolval_UI">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,17 +10,24 @@
     <height>30</height>
    </rect>
   </property>
-  <layout class="QGridLayout" name="gridLayout" >
-   <property name="verticalSpacing" >
+  <layout class="QGridLayout" name="gridLayout">
+   <property name="verticalSpacing">
     <number>0</number>
    </property>
-   <property name="margin" >
+   <property name="margin">
     <number>0</number>
    </property>
-   <item row="0" column="0" >
-    <widget class="QCheckBox" name="checkBox" >
-     <property name="text" >
-      <string>CheckBox</string>
+   <item row="0" column="1">
+    <widget class="QCheckBox" name="checkBox">
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QLabel" name="name">
+     <property name="text">
+      <string>TextLabel</string>
      </property>
     </widget>
    </item>

@@ -1,43 +1,31 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>Listval_UI</class>
- <widget class="QWidget" name="Listval_UI" >
-  <property name="geometry" >
+ <widget class="QWidget" name="Listval_UI">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>270</width>
-    <height>59</height>
+    <width>215</width>
+    <height>32</height>
    </rect>
   </property>
-  <layout class="QGridLayout" >
-   <property name="margin" >
+  <layout class="QGridLayout">
+   <property name="margin">
     <number>0</number>
    </property>
-   <property name="spacing" >
+   <property name="spacing">
     <number>0</number>
    </property>
-   <item row="0" column="0" >
-    <widget class="QGroupBox" name="title" >
-     <property name="font" >
-      <font>
-       <pointsize>8</pointsize>
-      </font>
+   <item row="0" column="0">
+    <widget class="QLabel" name="name">
+     <property name="text">
+      <string>TextLabel</string>
      </property>
-     <property name="title" >
-      <string>GroupBox</string>
-     </property>
-     <layout class="QGridLayout" >
-      <property name="margin" >
-       <number>0</number>
-      </property>
-      <property name="spacing" >
-       <number>0</number>
-      </property>
-      <item row="0" column="0" >
-       <widget class="KComboBox" name="list" />
-      </item>
-     </layout>
     </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="KComboBox" name="list"/>
    </item>
   </layout>
  </widget>

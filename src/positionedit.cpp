@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "positionedit.h"
+#include "timecodedisplay.h"
 #include "kdenlivesettings.h"
 
 #include <KDebug>
@@ -26,25 +27,26 @@
 PositionEdit::PositionEdit(const QString name, int pos, int min, int max, const Timecode tc, QWidget* parent) :
         QWidget(parent)
 {
-    QVBoxLayout *l = new QVBoxLayout;
-    QLabel *lab = new QLabel(name);
-    l->addWidget(lab);
+    QHBoxLayout *layout = new QHBoxLayout(this);
 
-    QHBoxLayout *l2 = new QHBoxLayout;
-    m_display = new TimecodeDisplay(tc);
+    QLabel *label = new QLabel(name, this);
+
     m_slider = new QSlider(Qt::Horizontal);
     m_slider->setSizePolicy(QSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred));
-    m_display->setSizePolicy(QSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred));
-    l2->addWidget(m_display);
-    l2->addWidget(m_slider);
-    m_display->setRange(min, max);
     m_slider->setRange(min, max);
+
+    m_display = new TimecodeDisplay(tc, this);
+    m_display->setSizePolicy(QSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred));
+    m_display->setRange(min, max);
+
+    layout->addWidget(label);
+    layout->addWidget(m_slider);
+    layout->addWidget(m_display);
+
     connect(m_slider, SIGNAL(valueChanged(int)), m_display, SLOT(setValue(int)));
     connect(m_slider, SIGNAL(valueChanged(int)), this, SIGNAL(parameterChanged()));
     connect(m_display, SIGNAL(editingFinished()), this, SLOT(slotUpdatePosition()));
     m_slider->setValue(pos);
-    l->addLayout(l2);
-    setLayout(l);
 }
 
 PositionEdit::~PositionEdit()
@@ -70,7 +72,6 @@ void PositionEdit::setPosition(int pos)
     m_slider->setValue(pos);
 }
 
-
 void PositionEdit::slotUpdatePosition()
 {
     m_slider->blockSignals(true);
@@ -79,3 +80,4 @@ void PositionEdit::slotUpdatePosition()
     emit parameterChanged();
 }
 
+#include "positionedit.moc"
