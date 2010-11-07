@@ -90,6 +90,9 @@ public:
     /** @brief Returns true if the parameter @param name should be shown on the clip in timeline. */
     bool isVisibleParam(const QString &name);
 
+    /** @brief Makes the first parameter visible in timeline if no parameter is selected. */
+    void checkVisibleParam();
+
 private:
     QList <QDomElement> m_params;
     int m_min;

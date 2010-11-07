@@ -447,6 +447,9 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
             m_vbox->addWidget(toFillin);
     }
     m_vbox->addStretch();
+
+    if(m_keyframeEditor)
+        m_keyframeEditor->checkVisibleParam();
 }
 
 wipeInfo EffectStackEdit::getWipeInfo(QString value)

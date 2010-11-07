@@ -426,4 +426,20 @@ bool KeyframeEdit::isVisibleParam(const QString& name)
     return false;
 }
 
+void KeyframeEdit::checkVisibleParam()
+{
+    if (m_params.count() == 0)
+        return;
+
+    foreach(QDomElement elem, m_params) {
+        if (elem.attribute("intimeline") == "1")
+            return;
+    }
+
+    slotUpdateVisibleParameter(0);
+    QRadioButton *radio = static_cast<QRadioButton*>(m_slidersLayout->itemAtPosition(0, 1)->widget());
+    if (radio)
+        radio->setChecked(true);
+}
+
 #include "keyframeedit.moc"
