@@ -42,7 +42,7 @@
                 <name>Power (Gamma) Alpha</name>
         </parameter>
 
-        <parameter type="simplekeyframe" name="saturation" default="100" min="0" max="500" factor="100">
+        <parameter type="simplekeyframe" name="saturation" default="100" min="0" max="500" factor="100" intimeline="1">
                 <name>Overall Saturation</name>
         </parameter>
 

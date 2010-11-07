@@ -671,10 +671,15 @@ void EffectStackEdit::collectAllParameters()
 
             setValue = getWipeString(info);
         } else if ((type == "simplekeyframe" || type == "keyframe") && m_keyframeEditor) {
+            QDomElement elem = pa.toElement();
             QString realName = i18n(na.toElement().text().toUtf8().data());
             QString val = m_keyframeEditor->getValue(realName);
-            //kDebug() << "SET VALUE: " << val;
-            namenode.item(i).toElement().setAttribute("keyframes", val);
+            elem.setAttribute("keyframes", val);
+
+            if (m_keyframeEditor->isVisibleParam(realName))
+                elem.setAttribute("intimeline", "1");
+            else if (elem.hasAttribute("intimeline"))
+                elem.removeAttribute("intimeline");
         } else if (type == "url") {
             KUrlRequester *req = ((Urlval*)m_valueItems.value(paramName))->urlwidget;
             setValue = req->url().path();

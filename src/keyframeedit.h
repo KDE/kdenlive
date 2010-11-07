@@ -25,6 +25,7 @@
 #include <QAbstractItemView>
 #include <QSpinBox>
 
+class QButtonGroup;
 
 #include "ui_keyframeeditor_ui.h"
 #include "definitions.h"
@@ -86,12 +87,16 @@ public:
     /** @brief Updates the timecode display according to settings (frame number or hh:mm:ss:ff) */
     void updateTimecodeFormat();
 
+    /** @brief Returns true if the parameter @param name should be shown on the clip in timeline. */
+    bool isVisibleParam(const QString &name);
+
 private:
     QList <QDomElement> m_params;
     int m_min;
     int m_max;
     Timecode m_timecode;
     QGridLayout *m_slidersLayout;
+    QButtonGroup *m_showButtons;
 
     void generateAllParams();
     /** @brief Gets the position of a keyframe from the table.
@@ -117,6 +122,9 @@ private slots:
 
     /** @brief Resets all parameters of the selected keyframe to their default values. */
     void slotResetKeyframe();
+
+    /** @brief Makes the parameter at column @param id the visible (in timeline) one. */
+    void slotUpdateVisibleParameter(int id);
 
 signals:
     void parameterChanged();

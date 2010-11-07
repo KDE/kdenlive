@@ -389,7 +389,7 @@ void ClipItem::setKeyframes(const int ix, const QStringList keyframes)
     int keyframeParams = 0;
     for (int i = 0; i < params.count(); i++) {
         QDomElement e = params.item(i).toElement();
-        if (!e.isNull() && (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe")) {
+        if (!e.isNull() && (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe") && e.attribute("intimeline") == "1") {
             e.setAttribute("keyframes", keyframes.at(keyframeParams));
             if (ix == m_selectedEffect && keyframeParams == 0) {
                 m_keyframes.clear();
@@ -425,7 +425,7 @@ void ClipItem::setSelectedEffect(const int ix)
         if (effect.attribute("disable") != "1")
             for (int i = 0; i < params.count(); i++) {
                 QDomElement e = params.item(i).toElement();
-                if (!e.isNull() && (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe")) {
+                if (!e.isNull() && (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe") && e.attribute("intimeline") == "1") {
                     m_keyframes.clear();
                     m_visibleParam = i;
                     double max = e.attribute("max").toDouble();
@@ -1748,6 +1748,10 @@ void ClipItem::updateKeyframes(QDomElement effect)
     // parse keyframes
     QDomNodeList params = effect.elementsByTagName("parameter");
     QDomElement e = params.item(m_visibleParam).toElement();
+    if (e.attribute("intimeline") != "1") {
+        setSelectedEffect(m_selectedEffect);
+        return;
+    }
     const QStringList keyframes = e.attribute("keyframes").split(';', QString::SkipEmptyParts);
     foreach(const QString &str, keyframes) {
         int pos = str.section(':', 0, 0).toInt();
