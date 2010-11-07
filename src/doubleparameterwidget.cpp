@@ -35,6 +35,7 @@ DoubleParameterWidget::DoubleParameterWidget(const QString &name, int value, int
         m_default(defaultValue)
 {
     QHBoxLayout *layout = new QHBoxLayout(this);
+    layout->setContentsMargins(0, 0, 0, 0);
 
     m_name = new QLabel(name, this);
     layout->addWidget(m_name);
