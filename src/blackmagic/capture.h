@@ -7,7 +7,7 @@
 #include <QWidget>
 #include <QObject>
 #include <QLayout>
-#ifdef Q_WS_MAC
+#if defined(Q_WS_MAC) || defined(Q_OS_FREEBSD)
 #include <pthread.h>
 #endif
 

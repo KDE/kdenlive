@@ -191,7 +191,7 @@ StopmotionWidget::StopmotionWidget(KUrl projectFolder, const QList< QAction * > 
         connect(m_bmCapture, SIGNAL(gotMessage(const QString &)), this, SLOT(slotGotHDMIMessage(const QString &)));
     }
     if (QFile::exists(KdenliveSettings::video4vdevice())) {
-#ifndef Q_WS_MAC
+#if !defined(Q_WS_MAC) && !defined(Q_OS_FREEBSD)
         V4lCaptureHandler v4l(NULL);
         // Video 4 Linux device detection
         for (int i = 0; i < 10; i++) {
@@ -299,7 +299,7 @@ void StopmotionWidget::slotUpdateHandler()
     }
     m_layout->removeWidget(m_frame_preview);
     if (data == "v4l") {
-#ifndef Q_WS_MAC
+#if !defined(Q_WS_MAC) && !defined(Q_OS_FREEBSD)
         m_bmCapture = new V4lCaptureHandler(m_layout);
         m_bmCapture->setDevice(capture_device->itemData(capture_device->currentIndex(), Qt::UserRole + 1).toString(), capture_device->itemData(capture_device->currentIndex(), Qt::UserRole + 2).toString());
 #endif

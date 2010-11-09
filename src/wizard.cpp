@@ -147,7 +147,7 @@ Wizard::Wizard(bool upgrade, QWidget *parent) :
 
 void Wizard::slotDetectWebcam()
 {
-#ifndef Q_WS_MAC
+#if !defined(Q_WS_MAC) && !defined(Q_OS_FREEBSD)
     m_capture.device_list->clear();
 
     // Video 4 Linux device detection

@@ -1,57 +1,54 @@
-add_subdirectory( widgets )
-add_subdirectory( mimetypes )
+add_subdirectory(widgets)
+add_subdirectory(mimetypes)
 
 macro_optional_find_package(Nepomuk)
 include(FindQImageBlitz)
 
-if (Nepomuk_FOUND)
-    INCLUDE_DIRECTORIES(NEPOMUK_INCLUDES )
-    set( optional_libs ${NEPOMUK_LIBRARIES} )
-    add_definitions(-DNEPOMUK)
-endif (Nepomuk_FOUND)
+include_directories(
+  ${KDE4_INCLUDE_DIR}
+  ${KDE4_INCLUDE_DIR}/KDE
+  ${QT_INCLUDES}
+  ${LIBMLT_INCLUDE_DIR}
+  ${LIBMLTPLUS_INCLUDE_DIR}
+  ${QDBUS_INCLUDE_DIRS}
+  ${CMAKE_SOURCE_DIR}
+  ${CMAKE_BINARY_DIR}
+  ${CMAKE_SOURCE_DIR}/src/widgets
+  ${CMAKE_SOURCE_DIR}/src/colorcorrection
+  ${CMAKE_SOURCE_DIR}/src/onmonitoritems
+)
 
-if (QIMAGEBLITZ_FOUND)
-    INCLUDE_DIRECTORIES(QIMAGEBLITZ_INCLUDES )
-    set( optional_libs ${optional_libs} ${QIMAGEBLITZ_LIBRARIES} )
-    add_definitions(-DQIMAGEBLITZ)
-    MESSAGE( STATUS "Found QImageBlitz: ${QIMAGEBLITZ_LIBRARIES}" )
-else (QIMAGEBLITZ_FOUND)
-    MESSAGE( STATUS "Install QImageBlitz devel package for improved stopmotion features" )
-endif (QIMAGEBLITZ_FOUND)
+if(Nepomuk_FOUND)
+  include_directories(NEPOMUK_INCLUDES)
+  set(optional_libs ${NEPOMUK_LIBRARIES})
+  add_definitions(-DNEPOMUK)
+endif(Nepomuk_FOUND)
 
-if (Q_WS_X11)
-    include_directories (${X11_Xlib_INCLUDE_PATH} ) 
-endif (Q_WS_X11)
+if(QIMAGEBLITZ_FOUND)
+  include_directories(QIMAGEBLITZ_INCLUDES)
+  set(optional_libs ${optional_libs} ${QIMAGEBLITZ_LIBRARIES})
+  add_definitions(-DQIMAGEBLITZ)
+  message(STATUS "Found QImageBlitz: ${QIMAGEBLITZ_LIBRARIES}")
+else(QIMAGEBLITZ_FOUND)
+  message(STATUS "Install QImageBlitz devel package for improved stopmotion features")
+endif(QIMAGEBLITZ_FOUND)
 
-if (APPLE)
+if(Q_WS_X11)
+  include_directories(${X11_Xlib_INCLUDE_PATH})
+endif(Q_WS_X11)
+
+if(APPLE)
   find_package(OpenGL)
   set(QT_USE_QTOPENGL TRUE)
-else (APPLE)
+else(APPLE)
   macro_optional_find_package(OpenGL)
-endif (APPLE)
+endif(APPLE)
 
-include_directories (
-    ${KDE4_INCLUDE_DIR}
-    ${KDE4_INCLUDE_DIR}/KDE
-    ${QT_INCLUDES}
-    ${LIBMLT_INCLUDE_DIR}
-    ${LIBMLTPLUS_INCLUDE_DIR}
-    ${QDBUS_INCLUDE_DIRS}
-    ${CMAKE_SOURCE_DIR}
-    ${CMAKE_BINARY_DIR}
-
-    ${CMAKE_SOURCE_DIR}/src/widgets
-    ${CMAKE_SOURCE_DIR}/src/colorcorrection
-    ${CMAKE_SOURCE_DIR}/src/onmonitoritems
+link_libraries(
+  ${LIBMLT_LIBRARY}
+  ${LIBMLTPLUS_LIBRARY}
+  ${optional_libs}
 )
-
-LINK_LIBRARIES(
-${LIBMLT_LIBRARY}
-${LIBMLTPLUS_LIBRARY}
-${optional_libs}
-)
-
-
 
 kde4_add_ui_files(kdenlive_UI
   widgets/timeline_ui.ui
@@ -239,18 +236,17 @@ set(kdenlive_SRCS
   stopmotion/capturehandler.cpp
   blackmagic/capture.cpp
   blackmagic/devices.cpp
-  onmonitoritems/abstractonmonitoritem.cpp 
+  onmonitoritems/abstractonmonitoritem.cpp
   onmonitoritems/onmonitorrectitem.cpp
   onmonitoritems/onmonitorcornersitem.cpp
   monitorscenecontrolwidget.cpp
   cornerswidget.cpp
 )
 
+add_subdirectory(${CMAKE_SOURCE_DIR}/src/colorcorrection)
+add_subdirectory(${CMAKE_SOURCE_DIR}/src/onmonitoritems)
 
-add_subdirectory( ${CMAKE_SOURCE_DIR}/src/colorcorrection )
-add_subdirectory( ${CMAKE_SOURCE_DIR}/src/onmonitoritems )
-
-add_definitions( ${KDE4_DEFINITIONS} )
+add_definitions(${KDE4_DEFINITIONS})
 
 if(APPLE OR CMAKE_SYSTEM_NAME STREQUAL "FreeBSD" OR CMAKE_SYSTEM_NAME STREQUAL "NetBSD" OR NO_JOGSHUTTLE)
   add_definitions(-DNO_JOGSHUTTLE)
@@ -258,12 +254,12 @@ else(APPLE OR CMAKE_SYSTEM_NAME STREQUAL "FreeBSD" OR CMAKE_SYSTEM_NAME STREQUAL
   set(kdenlive_SRCS jogshuttle.cpp ${kdenlive_SRCS})
 endif(APPLE OR CMAKE_SYSTEM_NAME STREQUAL "FreeBSD" OR CMAKE_SYSTEM_NAME STREQUAL "NetBSD" OR NO_JOGSHUTTLE)
 
-if (APPLE OR OPENGL_FOUND)
+if(APPLE OR OPENGL_FOUND)
   add_definitions(-DUSE_OPEN_GL)
   set(kdenlive_SRCS videoglwidget.cpp ${kdenlive_SRCS})
-endif (APPLE OR OPENGL_FOUND)
+endif(APPLE OR OPENGL_FOUND)
 
-if (NOT APPLE)
+if(NOT APPLE AND NOT CMAKE_SYSTEM_NAME STREQUAL "FreeBSD")
   set(kdenlive_SRCS
     ${kdenlive_SRCS}
     v4l/v4lcapture.cpp
@@ -276,23 +272,21 @@ if (NOT APPLE)
     v4l/dec_s561.c
     v4l/dec_yuv.c
   )
-endif (NOT APPLE)
-
+endif(NOT APPLE AND NOT CMAKE_SYSTEM_NAME STREQUAL "FreeBSD")
 
 # Add libdl
-find_library( DL_LIB NAMES ${CMAKE_DL_LIBS} )
-MESSAGE( STATUS "using dl library: ${DL_LIB}" )
+find_library(DL_LIB NAMES ${CMAKE_DL_LIBS})
+message(STATUS "using dl library: ${DL_LIB}")
 
-
-kde4_add_kcfg_files(kdenlive_SRCS kdenlivesettings.kcfgc )
-QT4_ADD_DBUS_ADAPTOR(kdenlive_SRCS org.kdenlive.MainWindow.xml mainwindow.h MainWindow)
+kde4_add_kcfg_files(kdenlive_SRCS kdenlivesettings.kcfgc)
+qt4_add_dbus_adaptor(kdenlive_SRCS org.kdenlive.MainWindow.xml mainwindow.h MainWindow)
 kde4_add_executable(kdenlive ${kdenlive_SRCS} ${kdenlive_UI})
 
-if (${KDE_VERSION} VERSION_LESS 4.3.80)
+if(${KDE_VERSION} VERSION_LESS 4.3.80)
   set(KNEWSTUFF_LIBS ${KDE4_KNEWSTUFF2_LIBS})
-else (${KDE_VERSION} VERSION_LESS 4.3.80)
+else(${KDE_VERSION} VERSION_LESS 4.3.80)
   set(KNEWSTUFF_LIBS ${KDE4_KNEWSTUFF3_LIBS})
-endif (${KDE_VERSION} VERSION_LESS 4.3.80)
+endif(${KDE_VERSION} VERSION_LESS 4.3.80)
 
 target_link_libraries(kdenlive
   ${KDE4_KDEUI_LIBS}
@@ -306,29 +300,27 @@ target_link_libraries(kdenlive
   ${CMAKE_DL_LIBS}
 )
 
-if (Q_WS_X11)
+if(Q_WS_X11)
   target_link_libraries(kdenlive ${X11_LIBRARIES})
-endif (Q_WS_X11)
+endif(Q_WS_X11)
 
-if (APPLE)
+if(APPLE)
   find_package(SDL REQUIRED)
   target_link_libraries(kdenlive ${SDL_LIBRARY})
   target_link_libraries(kdenlive ${QT_QTOPENGL_LIBRARY})
   target_link_libraries(kdenlive ${OPENGL_LIBRARIES})
-else (APPLE)
+else(APPLE)
   add_definitions(-DHAVE_V4L2)
-  if (OPENGL_FOUND)
-      target_link_libraries(kdenlive ${QT_QTOPENGL_LIBRARY})
-      target_link_libraries(kdenlive ${OPENGL_LIBRARIES})
-  endif (OPENGL_FOUND)
-endif (APPLE)
+  if(OPENGL_FOUND)
+    target_link_libraries(kdenlive ${QT_QTOPENGL_LIBRARY})
+    target_link_libraries(kdenlive ${OPENGL_LIBRARIES})
+  endif(OPENGL_FOUND)
+endif(APPLE)
 
 install(TARGETS kdenlive DESTINATION ${BIN_INSTALL_DIR})
-install( FILES kdenliveui.rc kdenlive.notifyrc DESTINATION  ${DATA_INSTALL_DIR}/kdenlive )
-install (FILES kdenlivesettings.kcfg DESTINATION ${KCFG_INSTALL_DIR})
-install (FILES kdenlive.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
+install(FILES kdenliveui.rc kdenlive.notifyrc DESTINATION ${DATA_INSTALL_DIR}/kdenlive)
+install(FILES kdenlivesettings.kcfg DESTINATION ${KCFG_INSTALL_DIR})
+install(FILES kdenlive.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
 kde4_install_icons(${ICON_INSTALL_DIR})
-install( FILES kdenlive_titles.knsrc kdenlive_wipes.knsrc kdenlive_renderprofiles.knsrc kdenlive_projectprofiles.knsrc kdenlivetranscodingrc DESTINATION  ${CONFIG_INSTALL_DIR} )
-kde4_install_icons( ${ICON_INSTALL_DIR} )
-
-
+install(FILES kdenlive_titles.knsrc kdenlive_wipes.knsrc kdenlive_renderprofiles.knsrc kdenlive_projectprofiles.knsrc kdenlivetranscodingrc DESTINATION ${CONFIG_INSTALL_DIR})
+kde4_install_icons(${ICON_INSTALL_DIR})

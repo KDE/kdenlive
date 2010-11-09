@@ -82,7 +82,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent) :
     QWidget *p4 = new QWidget;
     m_configCapture.setupUi(p4);
 
-#ifndef Q_WS_MAC
+#if !defined(Q_WS_MAC) && !defined(Q_OS_FREEBSD)
     V4lCaptureHandler v4l(NULL);
     // Video 4 Linux device detection
     for (int i = 0; i < 10; i++) {
