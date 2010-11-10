@@ -1,6 +1,6 @@
 <!DOCTYPE kpartgui>
 <effect tag="frei0r.alpha0ps" id="frei0r.alpha0ps">
-        <name>alpha0ps</name>
+        <name>Alpha operations</name>
         <description>Display and manipulation of the alpha channel</description>
         <author>Marko Cebokli</author>
         

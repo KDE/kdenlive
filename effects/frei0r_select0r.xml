@@ -1,6 +1,6 @@
 <!DOCTYPE kpartgui>
 <effect tag="frei0r.select0r" id="frei0r.select0r">
-        <name>Select0r</name>
+        <name>Color Selection</name>
         <description>Color based alpha selection</description>
         <author>Marko Cebokli</author>
         
