@@ -249,6 +249,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
         m_view.image_type->addItem("BMP (*.bmp)", "bmp");
         m_view.image_type->addItem("GIF (*.gif)", "gif");
         m_view.image_type->addItem("TGA (*.tga)", "tga");
+        m_view.image_type->addItem("TIF (*.tif)", "tif");
         m_view.image_type->addItem("TIFF (*.tiff)", "tiff");
         m_view.image_type->addItem("Open EXR (*.exr)", "exr");
         m_view.animation->addItem(i18n("None"), QString());
