@@ -658,6 +658,11 @@
       <label>Connect the corners in the widget for the c0rners effect with lines.</label>
       <default>false</default>
     </entry>
+    
+    <entry name="projectloading_avformatnovalidate" type="Bool">
+      <label>Do not validate the video files when loading a project for the sake of speed.</label>
+      <default>false</default>
+    </entry>
 
   </group>
 

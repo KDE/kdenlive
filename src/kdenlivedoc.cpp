@@ -193,7 +193,8 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                                         break;
                                     }
                                 }
-                                progressDialog->progressBar()->setValue(i);
+                                if (i % 10 == 0)
+                                    progressDialog->progressBar()->setValue(i);
                             }
 
                             if (success) {

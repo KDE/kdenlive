@@ -869,7 +869,7 @@ int Render::setSceneList(QString playlist, int position)
     m_isBlocked = true;
     int error = 0;
 
-    kDebug() << "//////  RENDER, SET SCENE LIST: " << playlist;
+    //kDebug() << "//////  RENDER, SET SCENE LIST: " << playlist;
 
     if (m_mltConsumer) {
         if (!m_mltConsumer->is_stopped()) {
@@ -926,6 +926,13 @@ int Render::setSceneList(QString playlist, int position)
     }
 
     blockSignals(true);
+
+    // TODO: Better way to do this
+    if (KdenliveSettings::projectloading_avformatnovalidate())
+        playlist.replace(">avformat</property>", ">avformat-novalidate</property>");
+    else
+        playlist.replace(">avformat-novalidate</property>", ">avformat</property>");
+
     m_mltProducer = new Mlt::Producer(*m_mltProfile, "xml-string", playlist.toUtf8().constData());
 
     if (!m_mltProducer || !m_mltProducer->is_valid()) {
@@ -2054,7 +2061,7 @@ int Render::mltChangeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, dou
     QString id = clipparent.get("id");
     if (speed <= 0 && speed > -1) speed = 1.0;
     //kDebug() << "CLIP SERVICE: " << serv;
-    if (serv == "avformat" && (speed != 1.0 || strobe > 1)) {
+    if ((serv == "avformat" || serv == "avformat-novalidate") && (speed != 1.0 || strobe > 1)) {
         mlt_service_lock(service.get_service());
         QString url = QString::fromUtf8(clipparent.get("resource"));
         url.append('?' + QString::number(speed));
