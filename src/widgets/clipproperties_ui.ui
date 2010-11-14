@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>306</width>
-    <height>478</height>
+    <width>308</width>
+    <height>507</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -750,6 +750,20 @@
           </widget>
          </item>
         </layout>
+       </item>
+       <item row="4" column="1">
+        <widget class="QCheckBox" name="clip_force_fieldorder">
+         <property name="text">
+          <string>Force field order</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="2">
+        <widget class="KComboBox" name="clip_fieldorder">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>

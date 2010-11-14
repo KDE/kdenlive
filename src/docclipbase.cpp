@@ -528,6 +528,7 @@ Mlt::Producer *DocClipBase::audioProducer(int track)
             m_audioTrackProducers.at(track)->set("force_aspect_ratio", getPixelAspect(m_properties));
         if (m_properties.contains("force_fps")) m_audioTrackProducers.at(track)->set("force_fps", m_properties.value("force_fps").toDouble());
         if (m_properties.contains("force_progressive")) m_audioTrackProducers.at(track)->set("force_progressive", m_properties.value("force_progressive").toInt());
+        if (m_properties.contains("force_tff")) m_audioTrackProducers.at(track)->set("force_tff", m_properties.value("force_tff").toInt());
         if (m_properties.contains("threads")) m_audioTrackProducers.at(track)->set("threads", m_properties.value("threads").toInt());
         m_audioTrackProducers.at(track)->set("video_index", -1);
         if (m_properties.contains("audio_index")) m_audioTrackProducers.at(track)->set("audio_index", m_properties.value("audio_index").toInt());
@@ -550,6 +551,7 @@ Mlt::Producer *DocClipBase::videoProducer()
             m_videoOnlyProducer->set("force_aspect_ratio", getPixelAspect(m_properties));
         if (m_properties.contains("force_fps")) m_videoOnlyProducer->set("force_fps", m_properties.value("force_fps").toDouble());
         if (m_properties.contains("force_progressive")) m_videoOnlyProducer->set("force_progressive", m_properties.value("force_progressive").toInt());
+        if (m_properties.contains("force_tff")) m_videoOnlyProducer->set("force_tff", m_properties.value("force_tff").toInt());
         if (m_properties.contains("threads")) m_videoOnlyProducer->set("threads", m_properties.value("threads").toInt());
         m_videoOnlyProducer->set("audio_index", -1);
         if (m_properties.contains("video_index")) m_videoOnlyProducer->set("video_index", m_properties.value("video_index").toInt());
@@ -595,6 +597,7 @@ Mlt::Producer *DocClipBase::producer(int track)
             m_baseTrackProducers[track]->set("force_aspect_raio", getPixelAspect(m_properties));
         if (m_properties.contains("force_fps")) m_baseTrackProducers[track]->set("force_fps", m_properties.value("force_fps").toDouble());
         if (m_properties.contains("force_progressive")) m_baseTrackProducers[track]->set("force_progressive", m_properties.value("force_progressive").toInt());
+        if (m_properties.contains("force_tff")) m_baseTrackProducers[track]->set("force_tff", m_properties.value("force_tff").toInt());
         if (m_properties.contains("threads")) m_baseTrackProducers[track]->set("threads", m_properties.value("threads").toInt());
         if (m_properties.contains("video_index")) m_baseTrackProducers[track]->set("video_index", m_properties.value("video_index").toInt());
         if (m_properties.contains("audio_index")) m_baseTrackProducers[track]->set("audio_index", m_properties.value("audio_index").toInt());
@@ -934,6 +937,11 @@ void DocClipBase::setProperty(const QString &key, const QString &value)
             m_properties.remove("force_progressive");
             resetProducerProperty("force_progressive");
         } else setProducerProperty("force_progressive", value.toInt());
+    } else if (key == "force_tff") {
+        if (value.isEmpty()) {
+            m_properties.remove("force_tff");
+            resetProducerProperty("force_tff");
+        } else setProducerProperty("force_tff", value.toInt());
     } else if (key == "threads") {
         if (value.isEmpty()) {
             m_properties.remove("threads");

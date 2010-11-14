@@ -253,6 +253,7 @@ void ProjectList::editClipSelection(QList<QTreeWidgetItem *> list)
     commonproperties.insert("force_aspect_den", "-");
     commonproperties.insert("force_fps", "-");
     commonproperties.insert("force_progressive", "-");
+    commonproperties.insert("force_tff", "-");
     commonproperties.insert("threads", "-");
     commonproperties.insert("video_index", "-");
     commonproperties.insert("audio_index", "-");

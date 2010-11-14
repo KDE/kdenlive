@@ -113,6 +113,16 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
     connect(m_view.clip_force_progressive, SIGNAL(toggled(bool)), this, SLOT(slotModified()));
     connect(m_view.clip_progressive, SIGNAL(valueChanged(int)), this, SLOT(slotModified()));
 
+    m_view.clip_fieldorder->addItem(i18n("Bottom first"), 0);
+    m_view.clip_fieldorder->addItem(i18n("Top first"), 1);
+    if (props.contains("force_tff")) {
+        m_view.clip_force_fieldorder->setChecked(true);
+        m_view.clip_fieldorder->setEnabled(true);
+        m_view.clip_fieldorder->setCurrentIndex(props.value("force_tff").toInt());
+    }
+    connect(m_view.clip_force_fieldorder, SIGNAL(toggled(bool)), this, SLOT(slotModified()));
+    connect(m_view.clip_fieldorder, SIGNAL(currentIndexChanged(int)), this, SLOT(slotModified()));
+    
     if (props.contains("threads") && props.value("threads").toInt() != 1) {
         m_view.clip_force_threads->setChecked(true);
         m_view.clip_threads->setEnabled(true);
@@ -177,6 +187,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
     connect(m_view.clip_force_ar, SIGNAL(toggled(bool)), m_view.clip_ar_den, SLOT(setEnabled(bool)));
     connect(m_view.clip_force_framerate, SIGNAL(toggled(bool)), m_view.clip_framerate, SLOT(setEnabled(bool)));
     connect(m_view.clip_force_progressive, SIGNAL(toggled(bool)), m_view.clip_progressive, SLOT(setEnabled(bool)));
+    connect(m_view.clip_force_fieldorder, SIGNAL(toggled(bool)), m_view.clip_fieldorder, SLOT(setEnabled(bool)));
     connect(m_view.clip_force_threads, SIGNAL(toggled(bool)), m_view.clip_threads, SLOT(setEnabled(bool)));
     connect(m_view.clip_force_vindex, SIGNAL(toggled(bool)), m_view.clip_vindex, SLOT(setEnabled(bool)));
     connect(m_view.clip_force_aindex, SIGNAL(toggled(bool)), m_view.clip_aindex, SLOT(setEnabled(bool)));
@@ -450,6 +461,12 @@ ClipProperties::ClipProperties(QList <DocClipBase *>cliplist, Timecode tc, QMap 
         m_view.clip_progressive->setValue(commonproperties.value("force_progressive").toInt());
     }
 
+    if (commonproperties.contains("force_tff") && !commonproperties.value("force_tff").isEmpty()) {
+        m_view.clip_force_fieldorder->setChecked(true);
+        m_view.clip_fieldorder->setEnabled(true);
+        m_view.clip_fieldorder->setCurrentIndex(commonproperties.value("force_tff").toInt());
+    }
+    
     if (commonproperties.contains("threads") && !commonproperties.value("threads").isEmpty() && commonproperties.value("threads").toInt() != 1) {
         m_view.clip_force_threads->setChecked(true);
         m_view.clip_threads->setEnabled(true);
@@ -675,6 +692,15 @@ QMap <QString, QString> ClipProperties::properties()
         }
     } else if (m_old_props.contains("force_progressive")) {
         props["force_progressive"].clear();
+    }
+
+    int fieldOrder = m_view.clip_fieldorder->currentIndex();
+    if (m_view.clip_force_fieldorder->isChecked()) {
+        if (fieldOrder != m_old_props.value("force_tff").toInt()) {
+            props["force_tff"] = QString::number(fieldOrder);
+        }
+    } else if (m_old_props.contains("force_tff")) {
+        props["force_tff"].clear();
     }
 
     int threads = m_view.clip_threads->value();

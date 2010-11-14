@@ -549,6 +549,11 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
         int progressive = xml.attribute("force_progressive").toInt(&ok);
         if (ok) producer->set("force_progressive", progressive);
     }
+    if (xml.hasAttribute("force_tff")) {
+        bool ok;
+        int fieldOrder = xml.attribute("force_tff").toInt(&ok);
+        if (ok) producer->set("force_tff", fieldOrder);
+    }
     if (xml.hasAttribute("threads")) {
         int threads = xml.attribute("threads").toInt();
         if (threads != 1) producer->set("threads", threads);
@@ -2082,6 +2087,8 @@ int Render::mltChangeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, dou
             if (threads != 0) slowprod->set("threads", threads);
             if (original->parent().get("force_progressive"))
                 slowprod->set("force_progressive", original->parent().get_int("force_progressive"));
+            if (original->parent().get("force_tff"))
+                slowprod->set("force_tff", original->parent().get_int("force_tff"));
             int ix = original->parent().get_int("video_index");
             if (ix != 0) slowprod->set("video_index", ix);
             int colorspace = original->parent().get_int("force_colorspace");
@@ -2157,6 +2164,8 @@ int Render::mltChangeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, dou
             if (fps != 0.0) slowprod->set("force_fps", fps);
             if (original->parent().get("force_progressive"))
                 slowprod->set("force_progressive", original->parent().get_int("force_progressive"));
+            if (original->parent().get("force_tff"))
+                slowprod->set("force_tff", original->parent().get_int("force_tff"));
             int threads = original->parent().get_int("threads");
             if (threads != 0) slowprod->set("threads", threads);
             int ix = original->parent().get_int("video_index");
