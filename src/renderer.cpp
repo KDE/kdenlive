@@ -517,14 +517,17 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
 {
     KUrl url = KUrl(xml.attribute("resource", QString()));
     Mlt::Producer *producer = NULL;
+    CLIPTYPE type = (CLIPTYPE)xml.attribute("type").toInt();
+
     //kDebug() << "PROFILE WIDT: "<< xml.attribute("mlt_service") << ": "<< m_mltProfile->width() << "\n...................\n\n";
     /*if (xml.attribute("type").toInt() == TEXT && !QFile::exists(url.path())) {
         emit replyGetFileProperties(clipId, producer, QMap < QString, QString >(), QMap < QString, QString >(), replaceProducer);
         return;
     }*/
-    if (xml.attribute("type").toInt() == COLOR) {
+
+    if (type == COLOR) {
         producer = new Mlt::Producer(*m_mltProfile, 0, ("colour:" + xml.attribute("colour")).toUtf8().constData());
-    } else if (xml.attribute("type").toInt() == TEXT) {
+    } else if (type == TEXT) {
         producer = new Mlt::Producer(*m_mltProfile, 0, ("kdenlivetitle:" + xml.attribute("resource")).toUtf8().constData());
         if (producer && producer->is_valid() && xml.hasAttribute("xmldata"))
             producer->set("xmldata", xml.attribute("xmldata").toUtf8().constData());
@@ -598,8 +601,7 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
     }
 
     // setup length here as otherwise default length (currently 15000 frames in MLT) will be taken even if outpoint is larger
-    if (xml.attribute("type").toInt() == COLOR || xml.attribute("type").toInt() == TEXT
-            || xml.attribute("type").toInt() == IMAGE || xml.attribute("type").toInt() == SLIDESHOW)
+    if (type == COLOR || type == TEXT || type == IMAGE || type == SLIDESHOW)
         producer->set("length", xml.attribute("out").toInt() - xml.attribute("in").toInt() + 1);
 
     if (xml.hasAttribute("out"))
@@ -628,7 +630,7 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
 
     Mlt::Frame *frame = producer->get_frame();
 
-    if (xml.attribute("type").toInt() == SLIDESHOW) {
+    if (type == SLIDESHOW) {
         int ttl = xml.hasAttribute("ttl") ? xml.attribute("ttl").toInt() : 0;
         if (ttl) producer->set("ttl", ttl);
         if (!xml.attribute("animation").isEmpty()) {

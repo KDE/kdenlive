@@ -1446,7 +1446,8 @@ void ProjectList::slotRefreshClipThumbnail(QTreeWidgetItem *it, bool update)
         }
         if (update)
             emit projectModified();
-        QTimer::singleShot(30, this, SLOT(slotProcessNextThumbnail()));
+
+        slotProcessNextThumbnail();
     }
 }
 
@@ -1462,7 +1463,6 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
             item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsDropEnabled);
             toReload = clipId;
         }
-        //Q_ASSERT_X(item->referencedClip(), "void ProjectList::slotReplyGetFileProperties", QString("Item with groupName %1 does not have a clip associated").arg(item->groupName()).toLatin1());
         item->referencedClip()->setProducer(producer, replace);
         item->referencedClip()->askForAudioThumbs();
         if (!replace && item->data(0, Qt::DecorationRole).isNull())
@@ -1470,7 +1470,6 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
         if (!toReload.isEmpty())
             item->slotSetToolTip();
 
-        //emit receivedClipDuration(clipId);
         if (m_listView->isEnabled() && replace) {
             // update clip in clip monitor
             emit clipSelected(NULL);
@@ -1489,7 +1488,6 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
             requestClipThumbnail(clipId);
         }*/
     } else kDebug() << "////////  COULD NOT FIND CLIP TO UPDATE PRPS...";
-    int max = m_doc->clipManager()->clipsCount();
     if (item && m_infoQueue.isEmpty() && m_thumbnailQueue.isEmpty()) {
         m_listView->setCurrentItem(item);
         bool updatedProfile = false;
@@ -1502,12 +1500,14 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
         }
         if (updatedProfile == false) emit clipSelected(item->referencedClip());
     } else {
+        int max = m_doc->clipManager()->clipsCount();
         emit displayMessage(i18n("Loading clips"), (int)(100 *(max - m_infoQueue.count()) / max));
     }
     if (!toReload.isEmpty())
         emit clipNeedsReload(toReload, true);
-    // small delay so that the app can display the progress info
-    QTimer::singleShot(30, this, SLOT(slotProcessNextClipInQueue()));
+
+    qApp->processEvents();
+    slotProcessNextClipInQueue();
 }
 
 bool ProjectList::adjustProjectProfileToItem(ProjectItem *item)

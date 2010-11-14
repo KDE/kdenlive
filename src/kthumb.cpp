@@ -383,12 +383,20 @@ void KThumb::getAudioThumbs(int channel, double frame, double frameLength, int a
             slotAudioThumbOver();
             return;
         }
+
         kDebug() << "reading audio thumbs from file";
+
+        int h1 = arrayWidth * m_channels;
+        int h2 = (int) frame * h1;
+        int h3;
         for (int z = (int) frame; z < (int)(frame + frameLength); z++) {
+            h2 += h1;
+            h3 = 0;
             for (int c = 0; c < m_channels; c++) {
+                h3 += arrayWidth;
                 QByteArray m_array(arrayWidth, '\x00');
                 for (int i = 0; i < arrayWidth; i++)
-                    m_array[i] = channelarray[z*arrayWidth*m_channels + c*arrayWidth + i];
+                    m_array[i] = channelarray[h2 + h3 + i];
                 storeIn[z][c] = m_array;
             }
         }
