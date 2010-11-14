@@ -59,6 +59,7 @@ frei0r_curves.xml
 frei0r_defish0r.xml
 frei0r_distort0r.xml
 frei0r_glow.xml
+frei0r_hqdn3d.xml
 frei0r_hueshift0r.xml
 frei0r_lenscorrection.xml
 frei0r_levels.xml

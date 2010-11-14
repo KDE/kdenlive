@@ -31,7 +31,7 @@
   <group list="chroma,frei0r.alpha0ps,frei0r.alphagrad,frei0r.alphaspot,frei0r.transparency,frei0r.select0r">
     <text>Alpha manipulation</text>
   </group>
-  <group list="frei0r.d90stairsteppingfix">
+  <group list="frei0r.d90stairsteppingfix,frei0r.hqdn3d">
     <text>Enhancement</text>
   </group>
 </data>
