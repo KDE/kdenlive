@@ -122,8 +122,6 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent) :
     QWidget *p6 = new QWidget;
     m_configSdl.setupUi(p6);
 
-    // Disable drop B frames, see Kdenlive issue #1330
-    m_configSdl.groupBox->setHidden(true);
 #if not defined(Q_WS_MAC) && not defined(USE_OPEN_GL)
     m_configSdl.kcfg_openglmonitors->setHidden(true);
 #endif
@@ -537,12 +535,6 @@ void KdenliveSettingsDialog::updateSettings()
         resetProfile = true;
     }
 
-    bool updatePreview = false;
-    if (m_configSdl.kcfg_dropbframes->isChecked() != KdenliveSettings::dropbframes()) {
-        KdenliveSettings::setDropbframes(m_configSdl.kcfg_dropbframes->isChecked());
-        updatePreview = true;
-    }
-
     if (m_modified) {
         // The transcoding profiles were modified, save.
         m_modified = false;
@@ -555,7 +547,6 @@ void KdenliveSettingsDialog::updateSettings()
 
     //KConfigDialog::updateSettings();
     if (resetProfile) emit doResetProfile();
-    if (updatePreview) emit updatePreviewSettings();
 }
 
 void KdenliveSettingsDialog::slotUpdateDisplay()

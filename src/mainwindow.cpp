@@ -516,9 +516,6 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     m_monitorManager->initMonitors(m_clipMonitor, m_projectMonitor);
     slotConnectMonitors();
 
-    // Disable drop B frames, see Kdenlive issue #1330, see also kdenlivesettingsdialog.cpp
-    KdenliveSettings::setDropbframes(false);
-
     // Open or create a file.  Command line argument passed in Url has
     // precedence, then "openlastproject", then just a plain empty file.
     // If opening Url fails, openlastproject will _not_ be used.
@@ -1861,15 +1858,8 @@ bool MainWindow::saveFileAs(const QString &outputFileName)
 {
     QString currentSceneList;
     m_monitorManager->stopActiveMonitor();
-    if (KdenliveSettings::dropbframes()) {
-        KdenliveSettings::setDropbframes(false);
-        m_activeDocument->clipManager()->updatePreviewSettings();
-        currentSceneList = m_projectMonitor->sceneList();
-        KdenliveSettings::setDropbframes(true);
-        m_activeDocument->clipManager()->updatePreviewSettings();
-    } else currentSceneList = m_projectMonitor->sceneList();
 
-    if (m_activeDocument->saveSceneList(outputFileName, currentSceneList) == false)
+    if (m_activeDocument->saveSceneList(outputFileName, m_projectMonitor->sceneList()) == false)
         return false;
 
     // Save timeline thumbnails
@@ -2477,7 +2467,6 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
 #ifndef   Q_WS_MAC
     m_recMonitor->slotUpdateCaptureFolder(m_activeDocument->projectFolder().path(KUrl::AddTrailingSlash));
 #endif
-    if (KdenliveSettings::dropbframes()) slotUpdatePreviewSettings();
     //Update the mouse position display so it will display in DF/NDF format by default based on the project setting.
     slotUpdateMousePosition(0);
     // set tool to select tool
@@ -2524,11 +2513,9 @@ void MainWindow::slotPreferences(int page, int option)
     connect(dialog, SIGNAL(settingsChanged(const QString&)), this, SLOT(updateConfiguration()));
     //connect(dialog, SIGNAL(doResetProfile()), this, SLOT(slotDetectAudioDriver()));
     connect(dialog, SIGNAL(doResetProfile()), m_monitorManager, SLOT(slotResetProfiles()));
-    connect(dialog, SIGNAL(updatePreviewSettings()), this, SLOT(slotUpdatePreviewSettings()));
 #ifndef Q_WS_MAC
     connect(dialog, SIGNAL(updateCaptureFolder()), this, SLOT(slotUpdateCaptureFolder()));
 #endif
-    //connect(dialog, SIGNAL(updatePreviewSettings()), this, SLOT(slotUpdatePreviewSettings()));
     dialog->show();
     if (page != -1) dialog->showPage(page, option);
 }
@@ -2540,14 +2527,6 @@ void MainWindow::slotUpdateCaptureFolder()
     if (m_activeDocument) m_recMonitor->slotUpdateCaptureFolder(m_activeDocument->projectFolder().path(KUrl::AddTrailingSlash));
     else m_recMonitor->slotUpdateCaptureFolder(KdenliveSettings::defaultprojectfolder());
 #endif
-}
-
-void MainWindow::slotUpdatePreviewSettings()
-{
-    if (m_activeDocument) {
-        m_clipMonitor->slotSetXml(NULL);
-        m_activeDocument->updatePreviewSettings();
-    }
 }
 
 void MainWindow::updateConfiguration()

@@ -97,7 +97,6 @@ private:
 signals:
     void customChanged();
     void doResetProfile();
-    void updatePreviewSettings();
     void updateCaptureFolder();
 };
 

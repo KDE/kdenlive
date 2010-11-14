@@ -129,7 +129,6 @@ Q_OBJECT public:
     void setZone(int start, int end);
     QPoint zone() const;
     int setSceneList();
-    void updatePreviewSettings();
     bool isTrackLocked(int ix) const;
     void setDocumentProperty(const QString &name, const QString &value);
     const QString getDocumentProperty(const QString &name) const;

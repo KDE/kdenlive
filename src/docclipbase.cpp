@@ -602,10 +602,7 @@ Mlt::Producer *DocClipBase::producer(int track)
         if (m_properties.contains("video_index")) m_baseTrackProducers[track]->set("video_index", m_properties.value("video_index").toInt());
         if (m_properties.contains("audio_index")) m_baseTrackProducers[track]->set("audio_index", m_properties.value("audio_index").toInt());
         m_baseTrackProducers[track]->set("id", QString(getId() + '_' + QString::number(track)).toUtf8().data());
-        if (KdenliveSettings::dropbframes() && m_baseTrackProducers.at(i)->get("skip_loop_filter") && strcmp(m_baseTrackProducers.at(i)->get("skip_loop_filter"), "all") == 0) {
-            m_baseTrackProducers[track]->set("skip_loop_filter", "all");
-            m_baseTrackProducers[track]->set("skip_frame", "bidir");
-        }
+
         if (m_properties.contains("force_colorspace")) m_baseTrackProducers[track]->set("force_colorspace", m_properties.value("force_colorspace").toInt());
         if (m_properties.contains("full_luma")) m_baseTrackProducers[track]->set("set.force_full_luma", m_properties.value("full_luma").toInt());
     }

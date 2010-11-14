@@ -483,15 +483,7 @@ void KdenliveDoc::slotAutoSave()
             kDebug() << "ERROR; CANNOT CREATE AUTOSAVE FILE";
         }
         kDebug() << "// AUTOSAVE FILE: " << m_autosave->fileName();
-        QString doc;
-        if (KdenliveSettings::dropbframes()) {
-            KdenliveSettings::setDropbframes(false);
-            m_clipManager->updatePreviewSettings();
-            doc = m_render->sceneList();
-            KdenliveSettings::setDropbframes(true);
-            m_clipManager->updatePreviewSettings();
-        } else doc = m_render->sceneList();
-        saveSceneList(m_autosave->fileName(), doc);
+        saveSceneList(m_autosave->fileName(), m_render->sceneList());
     }
 }
 
@@ -811,16 +803,6 @@ void KdenliveDoc::checkProjectClips()
 {
     if (m_render == NULL) return;
     m_clipManager->resetProducersList(m_render->producersList());
-}
-
-void KdenliveDoc::updatePreviewSettings()
-{
-    m_clipManager->updatePreviewSettings();
-    m_render->updatePreviewSettings();
-    QList <Mlt::Producer *> prods = m_render->producersList();
-    m_clipManager->resetProducersList(m_render->producersList());
-    qDeleteAll(prods);
-    prods.clear();
 }
 
 Render *KdenliveDoc::renderer()
@@ -1167,7 +1149,7 @@ void KdenliveDoc::slotCreateTextTemplateClip(QString group, const QString &group
 {
     QString titlesFolder = projectFolder().path(KUrl::AddTrailingSlash) + "titles/";
     if (path.isEmpty()) {
-        path = KFileDialog::getOpenUrl(KUrl(titlesFolder), "*.kdenlivetitle", kapp->activeWindow(), i18n("Enter Template Path"));
+        path = KFileDialog::getOpenUrl(KUrl(titlesFolder), "application/x-kdenlivetitle", kapp->activeWindow(), i18n("Enter Template Path"));
     }
 
     if (path.isEmpty()) return;

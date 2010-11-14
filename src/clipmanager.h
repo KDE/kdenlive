@@ -104,9 +104,6 @@ Q_OBJECT public:
     QDomElement groupsXml() const;
     int clipsCount() const;
 
-public slots:
-    void updatePreviewSettings();
-
 private slots:
     /** A clip was externally modified, monitor for more changes and prepare for reload */
     void slotClipModified(const QString &path);
