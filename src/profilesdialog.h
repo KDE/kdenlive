@@ -52,7 +52,7 @@ public:
      *  @return true if properties match profile */
     static bool matchProfile(int width, int height, double fps, double par, bool isImage, MltVideoProfile profile);
 
-    /** @brief Find a profile to match parameter properties:
+    /** @brief Find profiles that match parameter properties:
      *  @param width The profile frame width
      *  @param height The profile frame height
      *  @param fps The profile fps

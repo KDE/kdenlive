@@ -28,6 +28,8 @@
 #include "kthumb.h"
 #include "definitions.h"
 #include "slideshowclip.h"
+#include "profilesdialog.h"
+#include "blackmagic/devices.h"
 
 #include <mlt++/Mlt.h>
 
@@ -181,6 +183,29 @@ void Render::buildConsumer(const QString profileName)
     m_mltProfile->get_profile()->is_explicit = 1;
     delete[] tmp;
 
+    m_blackClip = new Mlt::Producer(*m_mltProfile, "colour", "black");
+    m_blackClip->set("id", "black");
+    m_blackClip->set("mlt_type", "producer");
+
+    if (KdenliveSettings::external_display() && m_name != "clip") {
+        // Use blackmagic card for video output
+        QMap< QString, QString > profileProperties = ProfilesDialog::getSettingsFromFile(profileName);
+        if (BMInterface::isSupportedProfile(KdenliveSettings::blackmagic_output_device(), profileProperties)) {
+            QString decklink = "decklink:" + QString::number(KdenliveSettings::blackmagic_output_device());
+            tmp = qstrdup(decklink.toUtf8().constData());
+            m_mltConsumer = new Mlt::Consumer(*m_mltProfile, tmp);
+            delete[] tmp;
+            if (m_mltConsumer) {
+                m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
+                m_mltConsumer->set("terminate_on_pause", 0);
+                m_mltConsumer->set("audio_buffer", 1024);
+                m_mltConsumer->set("frequency", 48000);
+                mlt_log_set_callback(kdenlive_callback);
+            }
+            if (m_mltConsumer && m_mltConsumer->is_valid()) return;
+        } else KMessageBox::informationList(qApp->activeWindow(), i18n("Your project's profile %1 is not compatible with the blackmagic output card. Please see supported profiles below. Switching to normal video display.", m_mltProfile->description()), BMInterface::supportedModes(KdenliveSettings::blackmagic_output_device()));
+    }
+
     QString videoDriver = KdenliveSettings::videodrivername();
     if (!videoDriver.isEmpty()) {
         if (videoDriver == "x11_noaccel") {
@@ -232,10 +257,6 @@ void Render::buildConsumer(const QString profileName)
     m_mltConsumer->set("progressive", 1);
     m_mltConsumer->set("audio_buffer", 1024);
     m_mltConsumer->set("frequency", 48000);
-
-    m_blackClip = new Mlt::Producer(*m_mltProfile, "colour", "black");
-    m_blackClip->set("id", "black");
-    m_blackClip->set("mlt_type", "producer");
 }
 
 Mlt::Producer *Render::invalidProducer(const QString &id)
@@ -249,6 +270,7 @@ Mlt::Producer *Render::invalidProducer(const QString &id)
 int Render::resetProfile(const QString profileName)
 {
     if (m_mltConsumer) {
+        if (KdenliveSettings::external_display() && m_activeProfile == profileName) return 1;
         QString videoDriver = KdenliveSettings::videodrivername();
         QString currentDriver = m_mltConsumer->get("video_driver");
         if (getenv("SDL_VIDEO_YUV_HWACCEL") != NULL && currentDriver == "x11") currentDriver = "x11_noaccel";
@@ -536,7 +558,7 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
         int aspectNumerator = xml.attribute("force_aspect_num").toInt();
         int aspectDenominator = xml.attribute("force_aspect_den").toInt();
         if (aspectDenominator != 0 && width != 0)
-            producer->set("force_aspect_ratio", double(height) * aspectNumerator / aspectDenominator / width );
+            producer->set("force_aspect_ratio", double(height) * aspectNumerator / aspectDenominator / width);
     }
 
     if (xml.hasAttribute("force_fps")) {
@@ -1197,17 +1219,20 @@ void Render::pause()
 
 void Render::switchPlay()
 {
+    kDebug() << "// SWITCH PLAY";
     if (!m_mltProducer || !m_mltConsumer)
         return;
     if (m_isZoneMode) resetZoneMode();
     if (m_mltProducer->get_speed() == 0.0) {
         m_isBlocked = false;
+        kDebug() << "// SWITCH PLAY, set spped to 1";
         if (m_name == "clip" && m_framePosition == (int) m_mltProducer->get_out()) m_mltProducer->seek(0);
         m_mltProducer->set_speed(1.0);
         m_mltConsumer->set("refresh", 1);
     } else {
         m_isBlocked = true;
         m_mltConsumer->set("refresh", 0);
+        kDebug() << "// SWITCH PLAY, set spped to 0";
         m_mltProducer->set_speed(0.0);
         //emit rendererPosition(m_framePosition);
         m_mltProducer->seek(m_framePosition);

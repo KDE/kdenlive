@@ -187,6 +187,10 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent) :
     BMInterface::getBlackMagicDeviceList(m_configCapture.kcfg_hdmi_capturedevice, m_configCapture.kcfg_hdmi_capturemode);
     connect(m_configCapture.kcfg_hdmi_capturedevice, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateHDMIModes()));
 
+    if (BMInterface::getBlackMagicOutputDeviceList(m_configSdl.kcfg_blackmagic_output_device)) {
+        // Found blackmagic card
+    } else m_configSdl.kcfg_external_display->setEnabled(false);
+
     double dvgrabVersion = 0;
     if (!KdenliveSettings::dvgrab_path().isEmpty()) {
         QProcess *versionCheck = new QProcess;

@@ -142,3 +142,208 @@ bool BMInterface::getBlackMagicDeviceList(KComboBox *devicelist, KComboBox *mode
     }
     return found;
 }
+
+//static
+bool BMInterface::getBlackMagicOutputDeviceList(KComboBox *devicelist)
+{
+    IDeckLinkIterator* deckLinkIterator;
+    IDeckLink* deckLink;
+    int numDevices = 0;
+    HRESULT result;
+    bool found = false;
+
+    // Create an IDeckLinkIterator object to enumerate all DeckLink cards in the system
+    deckLinkIterator = CreateDeckLinkIteratorInstance();
+    if(deckLinkIterator == NULL) {
+        kDebug() << "A DeckLink iterator could not be created.  The DeckLink drivers may not be installed.";
+        return found;
+    }
+
+    // Enumerate all cards in this system
+    while(deckLinkIterator->Next(&deckLink) == S_OK) {
+        char *      deviceNameString = NULL;
+
+        // Increment the total number of DeckLink cards found
+        numDevices++;
+        //if (numDevices > 1)
+        kDebug() << "// FOUND a BM device\n\n+++++++++++++++++++++++++++++++++++++";
+
+        // *** Print the model name of the DeckLink card
+        result = deckLink->GetModelName((const char **) &deviceNameString);
+        if(result == S_OK) {
+            QString deviceName(deviceNameString);
+            free(deviceNameString);
+
+            IDeckLinkOutput*                 deckLinkOutput = NULL;
+            IDeckLinkDisplayModeIterator*       displayModeIterator = NULL;
+            IDeckLinkDisplayMode*               displayMode = NULL;
+            HRESULT                             result;
+
+            // Query the DeckLink for its configuration interface
+            result = deckLink->QueryInterface(IID_IDeckLinkInput, (void**)&deckLinkOutput);
+            if(result != S_OK) {
+                kDebug() << "Could not obtain the IDeckLinkInput interface - result = " << result;
+                return found;
+            }
+
+            // Obtain an IDeckLinkDisplayModeIterator to enumerate the display modes supported on output
+            result = deckLinkOutput->GetDisplayModeIterator(&displayModeIterator);
+            if(result != S_OK) {
+                kDebug() << "Could not obtain the video input display mode iterator - result = " << result;
+                return found;
+            }
+            /*QStringList availableModes;
+            // List all supported output display modes
+            while(displayModeIterator->Next(&displayMode) == S_OK) {
+                char *          displayModeString = NULL;
+
+                result = displayMode->GetName((const char **) &displayModeString);
+                if(result == S_OK) {
+                    //char                  modeName[64];
+                    int                     modeWidth;
+                    int                     modeHeight;
+                    BMDTimeValue            frameRateDuration;
+                    BMDTimeScale            frameRateScale;
+                    //int                       pixelFormatIndex = 0; // index into the gKnownPixelFormats / gKnownFormatNames arrays
+                    //BMDDisplayModeSupport displayModeSupport;
+
+
+                    // Obtain the display mode's properties
+                    modeWidth = displayMode->GetWidth();
+                    modeHeight = displayMode->GetHeight();
+                    displayMode->GetFrameRate(&frameRateDuration, &frameRateScale);
+                    QString description = QString(displayModeString) + " (" + QString::number(modeWidth) + "x" + QString::number(modeHeight) + " - " + QString::number((double)frameRateScale / (double)frameRateDuration) + i18n("fps") + ")";
+		    description.append(" " + QString::number(modeWidth) + ":" + QString::number(modeHeight) + ":" + QString::number(frameRateScale) + ":" + QString::number(frameRateDuration) + ":" + QString::number(displayMode->GetFieldDominance() == bmdProgressiveFrame));
+                    availableModes << description;
+                    free(displayModeString);
+                }
+
+                // Release the IDeckLinkDisplayMode object to prevent a leak
+                displayMode->Release();
+            }*/
+            devicelist->addItem(deviceName);
+            found = true;
+        }
+
+        // Release the IDeckLink instance when we've finished with it to prevent leaks
+        deckLink->Release();
+    }
+
+    deckLinkIterator->Release();
+    return found;
+}
+
+//static
+bool BMInterface::isSupportedProfile(int card, QMap< QString, QString > properties)
+{
+    IDeckLinkIterator* deckLinkIterator;
+    IDeckLink* deckLink;
+    HRESULT result;
+    bool found = false;
+
+    // Create an IDeckLinkIterator object to enumerate all DeckLink cards in the system
+    deckLinkIterator = CreateDeckLinkIteratorInstance();
+    if(deckLinkIterator == NULL) {
+        kDebug() << "A DeckLink iterator could not be created.  The DeckLink drivers may not be installed.";
+        return false;
+    }
+
+    while(card >= 0 && deckLinkIterator->Next(&deckLink) == S_OK) {
+	card --;
+    }
+
+    IDeckLinkOutput*                 deckLinkOutput = NULL;
+    IDeckLinkDisplayModeIterator*       displayModeIterator = NULL;
+    IDeckLinkDisplayMode*               displayMode = NULL;
+
+    // Query the DeckLink for its configuration interface
+    result = deckLink->QueryInterface(IID_IDeckLinkInput, (void**)&deckLinkOutput);
+    if(result != S_OK) {
+        kDebug() << "Could not obtain the IDeckLinkInput interface - result = " << result;
+        return false;
+    }
+
+    // Obtain an IDeckLinkDisplayModeIterator to enumerate the display modes supported on output
+    result = deckLinkOutput->GetDisplayModeIterator(&displayModeIterator);
+    if(result != S_OK) {
+	kDebug() << "Could not obtain the video input display mode iterator - result = " << result;
+        return false;
+    }
+    // List all supported output display modes
+    BMDTimeValue            frameRateDuration;
+    BMDTimeScale            frameRateScale;
+    
+    while(displayModeIterator->Next(&displayMode) == S_OK) {
+	if (displayMode->GetWidth() == properties.value("width").toInt() && displayMode->GetHeight() == properties.value("height").toInt()) {
+	    int progressive = displayMode->GetFieldDominance() == bmdProgressiveFrame;
+	    if (progressive == properties.value("progressive").toInt()) {
+		displayMode->GetFrameRate(&frameRateDuration, &frameRateScale);
+		if (frameRateScale / properties.value("frame_rate_num").toDouble() * properties.value("frame_rate_den").toDouble() == frameRateDuration) {
+		    found = true;
+		    break;
+		}
+	    }
+	}
+	displayMode->Release();
+    }
+
+    deckLink->Release();
+    deckLinkIterator->Release();
+    return found;
+}
+
+
+//static
+QStringList BMInterface::supportedModes(int card)
+{
+    IDeckLinkIterator* deckLinkIterator;
+    IDeckLink* deckLink;
+    HRESULT result;
+    QStringList modes;
+
+    // Create an IDeckLinkIterator object to enumerate all DeckLink cards in the system
+    deckLinkIterator = CreateDeckLinkIteratorInstance();
+    if(deckLinkIterator == NULL) {
+        kDebug() << "A DeckLink iterator could not be created.  The DeckLink drivers may not be installed.";
+        return modes;
+    }
+
+    while(card >= 0 && deckLinkIterator->Next(&deckLink) == S_OK) {
+	card --;
+    }
+
+    IDeckLinkOutput*                 deckLinkOutput = NULL;
+    IDeckLinkDisplayModeIterator*       displayModeIterator = NULL;
+    IDeckLinkDisplayMode*               displayMode = NULL;
+
+    // Query the DeckLink for its configuration interface
+    result = deckLink->QueryInterface(IID_IDeckLinkInput, (void**)&deckLinkOutput);
+    if(result != S_OK) {
+        kDebug() << "Could not obtain the IDeckLinkInput interface - result = " << result;
+        return modes;
+    }
+
+    // Obtain an IDeckLinkDisplayModeIterator to enumerate the display modes supported on output
+    result = deckLinkOutput->GetDisplayModeIterator(&displayModeIterator);
+    if(result != S_OK) {
+	kDebug() << "Could not obtain the video input display mode iterator - result = " << result;
+        return modes;
+    }
+
+    while(displayModeIterator->Next(&displayMode) == S_OK) {
+        char *          displayModeString = NULL;
+        result = displayMode->GetName((const char **) &displayModeString);
+	if(result == S_OK) {
+	    QString description = QString(displayModeString);
+	    modes.append(description);
+	    free(displayModeString);
+	}
+	// Release the IDeckLinkDisplayMode object to prevent a leak
+	displayMode->Release();
+    }
+
+    deckLink->Release();
+    deckLinkIterator->Release();
+    return modes;
+}
+
