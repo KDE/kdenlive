@@ -276,6 +276,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     m_audiosignalDock->setObjectName("audiosignal");
     m_audiosignalDock->setWidget(m_audiosignal);
     addDockWidget(Qt::TopDockWidgetArea, m_audiosignalDock);
+    connect(m_audiosignal, SIGNAL(updateAudioMonitoring()), m_monitorManager, SLOT(slotUpdateAudioMonitoring()));
     if (m_projectMonitor) {
         connect(m_projectMonitor->render, SIGNAL(showAudioSignal(const QByteArray&)), m_audiosignal, SLOT(showAudio(const QByteArray&)));
     }

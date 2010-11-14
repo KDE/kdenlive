@@ -252,6 +252,8 @@ Q_OBJECT public:
     void showFrame(Mlt::Frame&);
 
     void showAudio(Mlt::Frame&);
+    /** @brief This property is used to decide if the renderer should send audio data for monitoring. */
+    bool analyseAudio;
     /** @brief This property is used to decide if the renderer should convert it's frames to QImage for use in other Kdenlive widgets. */
     bool sendFrameForAnalysis;
     QList <int> checkTrackSequence(int);

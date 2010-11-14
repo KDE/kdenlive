@@ -19,6 +19,7 @@
 
 
 #include "monitormanager.h"
+#include "renderer.h"
 #include "kdenlivesettings.h"
 
 #include <mlt++/Mlt.h>
@@ -173,6 +174,12 @@ void MonitorManager::slotRefreshCurrentMonitor()
 {
     if (m_clipMonitor->isActive()) m_clipMonitor->refreshMonitor();
     else m_projectMonitor->refreshMonitor();
+}
+
+void MonitorManager::slotUpdateAudioMonitoring()
+{
+    m_clipMonitor->render->analyseAudio = KdenliveSettings::monitor_audio();
+    m_projectMonitor->render->analyseAudio = KdenliveSettings::monitor_audio();
 }
 
 #include "monitormanager.moc"

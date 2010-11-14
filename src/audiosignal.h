@@ -39,7 +39,10 @@ protected:
     void paintEvent(QPaintEvent*);
 public slots:
     void showAudio(const QByteArray);
-
+private slots:
+  void slotSwitchAudioMonitoring(bool isOn);
+signals:
+  void updateAudioMonitoring();
 
 };
 

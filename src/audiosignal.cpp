@@ -18,9 +18,13 @@
  ***************************************************************************/
 
 #include "audiosignal.h"
+#include "kdenlivesettings.h"
+
+#include <KLocale>
 
 #include <QVBoxLayout>
 #include <QLabel>
+#include <QAction>
 #include <QPainter>
 #include <QDebug>
 #include <QList>
@@ -37,6 +41,12 @@ AudioSignal::AudioSignal(QWidget *parent): QWidget(parent)
     col << Qt::yellow <<  Qt::yellow << Qt::yellow << Qt::yellow << Qt::yellow  ;
     col << Qt::darkYellow << Qt::darkYellow << Qt::darkYellow;
     col << Qt::red << Qt::red;
+    setContextMenuPolicy(Qt::ActionsContextMenu);
+    QAction *showSignal = new QAction(i18n("Monitor audio signal"), this);
+    showSignal->setCheckable(true);
+    showSignal->setChecked(KdenliveSettings::monitor_audio());
+    connect(showSignal, SIGNAL(toggled(bool)), this, SLOT(slotSwitchAudioMonitoring(bool)));
+    addAction(showSignal);
 }
 
 
@@ -86,4 +96,11 @@ void AudioSignal::paintEvent(QPaintEvent* /*e*/)
     }
     p.end();
 }
+
+void AudioSignal::slotSwitchAudioMonitoring(bool isOn)
+{
+    KdenliveSettings::setMonitor_audio(isOn);
+    emit updateAudioMonitoring();
+}
+
 #include "audiosignal.moc"

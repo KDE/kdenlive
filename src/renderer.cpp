@@ -48,7 +48,6 @@
 #include <cstdarg>
 
 
-
 static void kdenlive_callback(void* /*ptr*/, int level, const char* fmt, va_list vl)
 {
     if (level > MLT_LOG_ERROR) return;
@@ -68,7 +67,7 @@ static void consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr
     if (self->sendFrameForAnalysis && frame_ptr->convert_image) {
         self->emitFrameUpdated(frame);
     }
-    self->showAudio(frame);
+    if (self->analyseAudio) self->showAudio(frame);
     if (frame.get_double("_speed") == 0.0) {
         self->emitConsumerStopped();
     } else if (frame.get_double("_speed") < 0.0 && mlt_frame_get_position(frame_ptr) <= 0) {
@@ -95,6 +94,7 @@ Render::Render(const QString & rendererName, int winid, QString profile, QWidget
     QObject(parent),
     m_isBlocked(0),
     sendFrameForAnalysis(false),
+    analyseAudio(KdenliveSettings::monitor_audio()),
     m_name(rendererName),
     m_mltConsumer(NULL),
     m_mltProducer(NULL),
@@ -788,7 +788,6 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
             metadataPropertyMap[ name.section('.', 0, -2)] = value;
     }
     producer->seek(0);
-    kDebug() << "REquested fuile info for: " << url.path();
     emit replyGetFileProperties(clipId, producer, filePropertyMap, metadataPropertyMap, replaceProducer);
     // FIXME: should delete this to avoid a leak...
     //delete producer;
@@ -1219,20 +1218,17 @@ void Render::pause()
 
 void Render::switchPlay()
 {
-    kDebug() << "// SWITCH PLAY";
     if (!m_mltProducer || !m_mltConsumer)
         return;
     if (m_isZoneMode) resetZoneMode();
     if (m_mltProducer->get_speed() == 0.0) {
         m_isBlocked = false;
-        kDebug() << "// SWITCH PLAY, set spped to 1";
         if (m_name == "clip" && m_framePosition == (int) m_mltProducer->get_out()) m_mltProducer->seek(0);
         m_mltProducer->set_speed(1.0);
         m_mltConsumer->set("refresh", 1);
     } else {
         m_isBlocked = true;
         m_mltConsumer->set("refresh", 0);
-        kDebug() << "// SWITCH PLAY, set spped to 0";
         m_mltProducer->set_speed(0.0);
         //emit rendererPosition(m_framePosition);
         m_mltProducer->seek(m_framePosition);
@@ -1457,7 +1453,7 @@ void Render::showFrame(Mlt::Frame& frame)
     QImage qimage(width, height, QImage::Format_ARGB32_Premultiplied);
     memcpy(qimage.scanLine(0), image, width * height * 4);
     emit showImageSignal(qimage);
-    showAudio(frame);
+    if (analyseAudio) showAudio(frame);
     if (sendFrameForAnalysis && frame.get_frame()->convert_image) {
         emit frameUpdated(qimage.rgbSwapped());
     }

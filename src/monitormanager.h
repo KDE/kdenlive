@@ -62,6 +62,7 @@ public slots:
 
 private slots:
     void slotRefreshCurrentMonitor();
+    void slotUpdateAudioMonitoring();
 
 private:
     Monitor *m_clipMonitor;

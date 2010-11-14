@@ -668,6 +668,11 @@
       <default>false</default>
     </entry>
 
+    <entry name="monitor_audio" type="Bool">
+      <label>Display audio levels.</label>
+      <default>true</default>
+    </entry>
+
   </group>
 
 </kcfg>
