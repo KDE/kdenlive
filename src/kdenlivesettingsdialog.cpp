@@ -505,6 +505,11 @@ void KdenliveSettingsDialog::updateSettings()
         KdenliveSettings::setRmd_freq(value);
     }
 
+    if (m_configSdl.kcfg_external_display->isChecked() != KdenliveSettings::external_display()) {
+        KdenliveSettings::setExternal_display(m_configSdl.kcfg_external_display->isChecked());
+        resetProfile = true;
+    }
+
     value = m_configSdl.kcfg_audio_driver->itemData(m_configSdl.kcfg_audio_driver->currentIndex()).toString();
     if (value != KdenliveSettings::audiodrivername()) {
         KdenliveSettings::setAudiodrivername(value);

@@ -100,6 +100,7 @@ Render::Render(const QString & rendererName, int winid, QString profile, QWidget
     m_mltProducer(NULL),
     m_mltProfile(NULL),
     m_framePosition(0),
+    m_externalConsumer(false),
     m_isZoneMode(false),
     m_isLoopMode(false),
     m_isSplitView(false),
@@ -196,16 +197,15 @@ void Render::buildConsumer(const QString profileName)
             m_mltConsumer = new Mlt::Consumer(*m_mltProfile, tmp);
             delete[] tmp;
             if (m_mltConsumer) {
+                m_externalConsumer = true;
                 m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
                 m_mltConsumer->set("terminate_on_pause", 0);
-                m_mltConsumer->set("audio_buffer", 1024);
-                m_mltConsumer->set("frequency", 48000);
                 mlt_log_set_callback(kdenlive_callback);
             }
             if (m_mltConsumer && m_mltConsumer->is_valid()) return;
         } else KMessageBox::informationList(qApp->activeWindow(), i18n("Your project's profile %1 is not compatible with the blackmagic output card. Please see supported profiles below. Switching to normal video display.", m_mltProfile->description()), BMInterface::supportedModes(KdenliveSettings::blackmagic_output_device()));
     }
-
+    m_externalConsumer = false;
     QString videoDriver = KdenliveSettings::videodrivername();
     if (!videoDriver.isEmpty()) {
         if (videoDriver == "x11_noaccel") {
@@ -270,15 +270,17 @@ Mlt::Producer *Render::invalidProducer(const QString &id)
 int Render::resetProfile(const QString profileName)
 {
     if (m_mltConsumer) {
-        if (KdenliveSettings::external_display() && m_activeProfile == profileName) return 1;
-        QString videoDriver = KdenliveSettings::videodrivername();
-        QString currentDriver = m_mltConsumer->get("video_driver");
-        if (getenv("SDL_VIDEO_YUV_HWACCEL") != NULL && currentDriver == "x11") currentDriver = "x11_noaccel";
-        QString background = KdenliveSettings::window_background().name();
-        QString currentBackground = m_mltConsumer->get("window_background");
-        if (m_activeProfile == profileName && currentDriver == videoDriver && background == currentBackground) {
-            kDebug() << "reset to same profile, nothing to do";
-            return 1;
+        if (m_externalConsumer == KdenliveSettings::external_display()) {
+            if (KdenliveSettings::external_display() && m_activeProfile == profileName) return 1;
+            QString videoDriver = KdenliveSettings::videodrivername();
+            QString currentDriver = m_mltConsumer->get("video_driver");
+            if (getenv("SDL_VIDEO_YUV_HWACCEL") != NULL && currentDriver == "x11") currentDriver = "x11_noaccel";
+            QString background = KdenliveSettings::window_background().name();
+            QString currentBackground = m_mltConsumer->get("window_background");
+            if (m_activeProfile == profileName && currentDriver == videoDriver && background == currentBackground) {
+                kDebug() << "reset to same profile, nothing to do";
+                return 1;
+            }
         }
 
         if (m_isSplitView) slotSplitView(false);

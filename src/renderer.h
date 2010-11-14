@@ -271,6 +271,7 @@ private:
     Mlt::Profile *m_mltProfile;
     double m_framePosition;
     double m_fps;
+    bool m_externalConsumer;
 
     /** @brief True if we are playing a zone.
      *
