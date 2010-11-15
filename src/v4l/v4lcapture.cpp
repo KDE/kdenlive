@@ -183,6 +183,7 @@ QStringList V4lCaptureHandler::getDeviceName(QString input)
     uint height = 0;
     char *pixelformatdescription;
     QString deviceName(src_query(&v4lsrc, source, &width, &height, &pixelformatdescription));
+    free(config);
     QStringList result;
     result << (deviceName.isEmpty() ? input : deviceName) << (width == 0 ? QString() : QString("%1x%2").arg(width).arg(height)) << QString(pixelformatdescription);
     return result;
@@ -262,6 +263,7 @@ void V4lCaptureHandler::startPreview(int /*deviceId*/, int /*captureMode*/, bool
 
     if (src_open(&v4lsrc, source) != 0) return;
     m_update = true;
+    free(config);
     QTimer::singleShot(200, this, SLOT(slotUpdate()));
 }
 
