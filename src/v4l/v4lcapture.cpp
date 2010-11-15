@@ -329,6 +329,9 @@ void V4lCaptureHandler::slotUpdate()
         fswc_add_image_grey(&v4lsrc, qimg.bits());
         break;
     }
+    if (m_analyseFrame) {
+	emit gotFrame(qimg);
+    }
     if (!m_captureFramePath.isEmpty()) {
         qimg.save(m_captureFramePath);
         emit frameSaved(m_captureFramePath);

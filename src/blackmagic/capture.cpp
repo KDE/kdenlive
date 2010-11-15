@@ -338,6 +338,11 @@ void DeckLinkCaptureDelegate::slotProcessFrame()
     videoFrame->Release();
 }
 
+void DeckLinkCaptureDelegate::setAnalyse(bool isOn)
+{
+    m_analyseFrame = isOn;
+}
+
 HRESULT DeckLinkCaptureDelegate::VideoInputFrameArrived(IDeckLinkVideoInputFrame* videoFrame, IDeckLinkAudioInputPacket* audioFrame)
 {
     IDeckLinkVideoFrame*                    rightEyeFrame = NULL;
@@ -383,6 +388,12 @@ HRESULT DeckLinkCaptureDelegate::VideoInputFrameArrived(IDeckLinkVideoInputFrame
                 doCaptureFrame.clear();
                 QtConcurrent::run(this, &DeckLinkCaptureDelegate::slotProcessFrame);
             }
+            if (m_analyseFrame) {
+		QImage image(videoFrame->GetWidth(), videoFrame->GetHeight(), QImage::Format_ARGB32_Premultiplied);
+		//convert from uyvy422 to rgba
+		CaptureHandler::uyvy2rgb((uchar *)frameBytes, (uchar *)image.bits(), videoFrame->GetWidth(), videoFrame->GetHeight());
+		emit gotFrame(image);
+	    }
 
             if (videoOutputFile != -1) {
                 videoFrame->GetBytes(&frameBytes);
@@ -536,7 +547,9 @@ void BmdCaptureHandler::startPreview(int deviceId, int captureMode, bool audio)
     }
 
     delegate = new DeckLinkCaptureDelegate();
+    delegate->setAnalyse(m_analyseFrame);
     connect(delegate, SIGNAL(gotTimeCode(ulong)), this, SIGNAL(gotTimeCode(ulong)));
+    connect(delegate, SIGNAL(gotFrame(QImage)), this, SIGNAL(gotFrame(QImage)));
     connect(delegate, SIGNAL(gotMessage(const QString &)), this, SIGNAL(gotMessage(const QString &)));
     connect(delegate, SIGNAL(frameSaved(const QString)), this, SIGNAL(frameSaved(const QString)));
     deckLinkInput->SetCallback(delegate);

@@ -60,7 +60,7 @@ public:
      * @param projectFolder The current project folder, where captured files will be stored.
      * @param actions The actions for this widget that can have a keyboard shortcut.
      * @param parent (optional) parent widget */
-    StopmotionWidget(KUrl projectFolder, const QList< QAction * > actions, QWidget *parent = 0);
+    StopmotionWidget(KUrl projectFolder, QList< QAction * > actions, QWidget *parent = 0);
     virtual ~StopmotionWidget();
 
 protected:
@@ -196,12 +196,14 @@ private slots:
 
     /** @brief Delete current frame from disk. */
     void slotRemoveFrame();
-
+    /** @brief Enable / disable frame analysis (in color scopes). */
+    void slotSwitchAnalyse(bool isOn);
 signals:
     /** @brief Ask to add sequence to current project. */
     void addOrUpdateSequence(const QString);
 
     void doCreateThumbs(QImage, int);
+    void gotFrame(QImage);
 };
 
 #endif

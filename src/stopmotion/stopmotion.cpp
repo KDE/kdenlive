@@ -89,7 +89,7 @@ void MyLabel::paintEvent(QPaintEvent * event)
 }
 
 
-StopmotionWidget::StopmotionWidget(KUrl projectFolder, const QList< QAction * > actions, QWidget *parent) :
+StopmotionWidget::StopmotionWidget(KUrl projectFolder, QList< QAction * > actions, QWidget *parent) :
     QDialog(parent)
     , Ui::Stopmotion_UI()
     , m_projectFolder(projectFolder)
@@ -98,6 +98,10 @@ StopmotionWidget::StopmotionWidget(KUrl projectFolder, const QList< QAction * > 
     , m_animatedIndex(-1)
 {
     //setAttribute(Qt::WA_DeleteOnClose);
+    QAction *analyse = new QAction(i18n("Send frames to color scopes"), this);
+    analyse->setCheckable(true);
+    analyse->setChecked(KdenliveSettings::analyse_stopmotion());
+    connect(analyse, SIGNAL(triggered(bool)), this, SLOT(slotSwitchAnalyse(bool)));
     addActions(actions);
     setupUi(this);
     setWindowTitle(i18n("Stop Motion Capture"));
@@ -169,6 +173,7 @@ StopmotionWidget::StopmotionWidget(KUrl projectFolder, const QList< QAction * > 
     confMenu->addAction(showThumbs);
     confMenu->addAction(capInterval);
     confMenu->addAction(removeCurrent);
+    confMenu->addAction(analyse);
     config_button->setIcon(KIcon("configure"));
     config_button->setMenu(confMenu);
 
@@ -221,6 +226,7 @@ StopmotionWidget::StopmotionWidget(KUrl projectFolder, const QList< QAction * > 
     connect(capture_device, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateHandler()));
     if (m_bmCapture) {
         connect(m_bmCapture, SIGNAL(frameSaved(const QString)), this, SLOT(slotNewThumb(const QString)));
+	connect(m_bmCapture, SIGNAL(gotFrame(QImage)), this, SIGNAL(gotFrame(QImage)));
     } else live_button->setEnabled(false);
     m_frame_preview = new MyLabel(this);
     connect(m_frame_preview, SIGNAL(seek(bool)), this, SLOT(slotSeekFrame(bool)));
@@ -629,3 +635,11 @@ void StopmotionWidget::slotRemoveFrame()
         delete item;
     }
 }
+
+void StopmotionWidget::slotSwitchAnalyse(bool isOn)
+{
+    KdenliveSettings::setAnalyse_stopmotion(isOn);
+    m_bmCapture->setAnalyse(isOn);
+}
+
+

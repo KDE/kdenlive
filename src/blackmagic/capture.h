@@ -20,7 +20,7 @@ class DeckLinkCaptureDelegate : public QObject, public IDeckLinkInputCallback
 public:
     DeckLinkCaptureDelegate();
     virtual ~DeckLinkCaptureDelegate();
-
+    void setAnalyse(bool isOn);
     virtual HRESULT STDMETHODCALLTYPE QueryInterface(REFIID /*iid*/, LPVOID */*ppv*/) {
         return E_NOINTERFACE;
     }
@@ -34,6 +34,7 @@ private:
     pthread_mutex_t     m_mutex;
     QList <IDeckLinkVideoInputFrame*> m_framesList;
     QStringList m_framePath;
+    bool m_analyseFrame;
 
 private slots:
     void slotProcessFrame();
@@ -42,6 +43,7 @@ signals:
     void gotTimeCode(ulong);
     void gotMessage(const QString &);
     void frameSaved(const QString);
+    void gotFrame(QImage);
 };
 
 class BmdCaptureHandler : public CaptureHandler

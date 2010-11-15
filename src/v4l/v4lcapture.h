@@ -59,6 +59,7 @@ private:
 
 private slots:
     void slotUpdate();
+
 };
 
 

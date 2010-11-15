@@ -24,13 +24,19 @@
 
 CaptureHandler::CaptureHandler(QVBoxLayout *lay, QWidget *parent):
     m_layout(lay),
-    m_parent(parent)
+    m_parent(parent),
+    m_analyseFrame(KdenliveSettings::analyse_stopmotion())
 {
 }
 
 CaptureHandler::~CaptureHandler()
 {
     stopCapture();
+}
+
+void CaptureHandler::setAnalyse(bool isOn)
+{
+    m_analyseFrame = isOn;
 }
 
 void CaptureHandler::stopCapture()
