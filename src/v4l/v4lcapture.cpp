@@ -55,6 +55,7 @@ QImage add_image_jpeg(src_t *src)
     verify_jpeg_dht((uint8_t *) src->img, src->length, &himg, &hlength);
 
     im.loadFromData(himg, hlength, "JPG");
+    free(himg);
     return im;
 }
 
@@ -328,7 +329,6 @@ void V4lCaptureHandler::slotUpdate()
         fswc_add_image_grey(&v4lsrc, qimg.bits());
         break;
     }
-
     if (!m_captureFramePath.isEmpty()) {
         qimg.save(m_captureFramePath);
         emit frameSaved(m_captureFramePath);
@@ -342,7 +342,7 @@ void V4lCaptureHandler::slotUpdate()
         p.end();
     }
     m_display->setImage(qimg);
-    if (m_update) QTimer::singleShot(200, this, SLOT(slotUpdate()));
+    if (m_update) QTimer::singleShot(50, this, SLOT(slotUpdate()));
 }
 
 void V4lCaptureHandler::startCapture(const QString &/*path*/)
