@@ -40,11 +40,11 @@
 #include <QInputDialog>
 
 TrackView::TrackView(KdenliveDoc *doc, bool *ok, QWidget *parent) :
-        QWidget(parent),
-        m_scale(1.0),
-        m_projectTracks(0),
-        m_doc(doc),
-        m_verticalZoom(1)
+    QWidget(parent),
+    m_scale(1.0),
+    m_projectTracks(0),
+    m_doc(doc),
+    m_verticalZoom(1)
 {
 
     setupUi(this);
@@ -679,15 +679,16 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked)
 
 void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNode, ClipItem *clip, int trackIndex)
 {
+    int effectNb = 0;
     for (int ix = 0; ix < effects.count(); ix++) {
         bool disableeffect = false;
         QDomElement effect = effects.at(ix).toElement();
         if (effect.tagName() != "filter") continue;
-
+        effectNb++;
         // add effect to clip
         QString effecttag;
         QString effectid;
-        QString effectindex = QString::number(ix + 1);
+        QString effectindex = QString::number(effectNb);
         QString ladspaEffectFile;
         // Get effect tag & index
         for (QDomNode n3 = effect.firstChild(); !n3.isNull(); n3 = n3.nextSibling()) {
