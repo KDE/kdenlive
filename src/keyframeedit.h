@@ -127,7 +127,7 @@ private slots:
     void slotResetKeyframe();
 
     /** @brief Makes the parameter at column @param id the visible (in timeline) one. */
-    void slotUpdateVisibleParameter(int id);
+    void slotUpdateVisibleParameter(int id, bool update = true);
 
 signals:
     void parameterChanged();

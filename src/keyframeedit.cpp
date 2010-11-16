@@ -408,11 +408,11 @@ void KeyframeEdit::slotResetKeyframe()
     }
 }
 
-void KeyframeEdit::slotUpdateVisibleParameter(int id)
+void KeyframeEdit::slotUpdateVisibleParameter(int id, bool update)
 {
     for (int i = 0; i < m_params.count(); ++i)
         m_params[i].setAttribute("intimeline", (i == id ? "1" : "0"));
-    emit parameterChanged();
+    if (update) emit parameterChanged();
 }
 
 bool KeyframeEdit::isVisibleParam(const QString& name)
@@ -436,7 +436,7 @@ void KeyframeEdit::checkVisibleParam()
             return;
     }
 
-    slotUpdateVisibleParameter(0);
+    slotUpdateVisibleParameter(0, false);
     QRadioButton *radio = static_cast<QRadioButton*>(m_slidersLayout->itemAtPosition(0, 1)->widget());
     if (radio)
         radio->setChecked(true);
