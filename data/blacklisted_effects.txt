@@ -1,6 +1,7 @@
 # crashing effects
 frei0r.water
 frei0r.facedetect
+frei0r.transparency
 
 # duplicate effects
 frei0r.gamma
@@ -39,7 +40,6 @@ frei0r.alphaspot
 frei0r.pr0be
 frei0r.pr0file
 frei0r.select0r
-frei0r.transparency
 frei0r.hqdn3d
 
 #effects that have simplekeyframes

@@ -1,9 +1,0 @@
-<!DOCTYPE kpartgui>
-<effect tag="frei0r.transparency" id="frei0r.transparency">
-        <name>Transparency</name>
-        <description>Tunes the alpha channel.</description>
-        <author>Richard Spindler</author>
-        <parameter type="simplekeyframe" name="Transparency" default="255" min="0" max="255" factor="255">
-                <name>Transparency</name>
-        </parameter>
-</effect>
