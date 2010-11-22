@@ -426,7 +426,7 @@ void RecMonitor::slotStartCapture(bool play)
         case 3:
             // HDV CAPTURE
             m_captureArgs << "--format" << "hdv";
-            m_displayArgs << "-f" << KdenliveSettings::video4container();
+            m_displayArgs << "-f" << "mpegts";
             break;
         }
         if (KdenliveSettings::firewireautosplit()) m_captureArgs << "--autosplit";
