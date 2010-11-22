@@ -47,6 +47,8 @@
 #include <cstdlib>
 #include <cstdarg>
 
+#include <QDebug>
+
 
 static void kdenlive_callback(void* /*ptr*/, int level, const char* fmt, va_list vl)
 {
@@ -1471,9 +1473,18 @@ void Render::showAudio(Mlt::Frame& frame)
     int num_channels = 0;
     int samples = 0;
     int16_t* data = (int16_t*)frame.get_audio(audio_format, freq, num_channels, samples);
+
+    QVector<int16_t> sampleVector(samples);
+    memcpy(sampleVector.data(), data, samples*sizeof(int16_t));
+    qDebug() << samples << " samples. Freq=" << freq << ", channels=" << num_channels;
+    qDebug() << sizeof(char) << " (c) " << sizeof(int16_t) << " (int16_t)";
+    qDebug() << sampleVector.at(0);
+
     if (!data)
         return;
     int num_samples = samples > 200 ? 200 : samples;
+
+
     QByteArray channels;
     for (int i = 0; i < num_channels; i++) {
         long val = 0;
@@ -1483,11 +1494,13 @@ void Render::showAudio(Mlt::Frame& frame)
         channels.append(val / num_samples);
     }
 
-
-    if (samples > 0)
+    qDebug() << channels.size() <<  ": size.";
+    if (samples > 0) {
         emit showAudioSignal(channels);
-    else
+        emit audioSamplesSignal(sampleVector, freq, num_channels, samples);
+    } else {
         emit showAudioSignal(QByteArray());
+    }
 }
 
 /*

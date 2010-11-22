@@ -1080,9 +1080,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.061871844"
-     inkscape:cx="7437.5969"
-     inkscape:cy="3161.6811"
+     inkscape:zoom="0.49497475"
+     inkscape:cx="7848.5254"
+     inkscape:cy="5017.1078"
      inkscape:document-units="px"
      inkscape:current-layer="layer3"
      showgrid="false"
@@ -2041,6 +2041,17 @@
          x="-3421.3643"
          id="tspan13226-0-8"
          sodipodi:role="line">External programs</tspan></text>
+    <text
+       sodipodi:linespacing="125%"
+       id="text3284"
+       y="-171.68839"
+       x="899.27069"
+       style="font-size:144px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:125%;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;opacity:0.2017544;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans Bold"
+       xml:space="preserve"><tspan
+         y="-171.68839"
+         x="899.27069"
+         id="tspan3286"
+         sodipodi:role="line">Keyboard Shortcuts</tspan></text>
   </g>
   <g
      inkscape:groupmode="layer"
@@ -2396,5 +2407,27 @@
          id="tspan13264-5-65"
          x="4651.2607"
          y="-163.50342">Color Correction layout</tspan></text>
+    <text
+       sodipodi:linespacing="125%"
+       id="text3288"
+       y="-71.055161"
+       x="2257.0693"
+       style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:125%;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;color:#000000;fill:#eeeeee;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans"
+       xml:space="preserve"><tspan
+         y="-71.055161"
+         x="2257.0693"
+         id="tspan3290"
+         sodipodi:role="line">Make customizable</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:125%;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;color:#000000;fill:#eeeeee;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans"
+       x="1620.6732"
+       y="1.675822"
+       id="text3292"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3294"
+         x="1620.6732"
+         y="1.675822">Support workflow</tspan></text>
   </g>
 </svg>

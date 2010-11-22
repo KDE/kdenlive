@@ -69,6 +69,7 @@ class Waveform;
 class RGBParade;
 class KActionCollection;
 class AudioSignal;
+class AudioSpectrum;
 
 class MainWindow : public KXmlGuiWindow
 {
@@ -176,6 +177,9 @@ private:
 
     QDockWidget *m_audiosignalDock;
     AudioSignal *m_audiosignal;
+
+    QDockWidget *m_audioSpectrumDock;
+    AudioSpectrum *m_audioSpectrum;
 
     QDockWidget *m_undoViewDock;
     QUndoView *m_undoView;

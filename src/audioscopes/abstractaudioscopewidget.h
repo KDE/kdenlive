@@ -8,48 +8,9 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-/**
-  This abstract widget is a proof that abstract things sometimes *are* useful.
+#ifndef ABSTRACTAUDIOSCOPEWIDGET_H
+#define ABSTRACTAUDIOSCOPEWIDGET_H
 
-  The widget expects three layers which
-  * Will be painted on top of each other on each update
-  * Are rendered in a separate thread so that the UI is not blocked
-  * Are rendered only if necessary (e.g., if a layer does not depend
-    on input images, it will not be re-rendered for incoming frames)
-
-  The layer order is as follows:
-     _____________________
-    /                     \
-   /      HUD Layer        \
-  /                         \
-  ---------------------------
-     _____________________
-    /                     \
-   /     Scope Layer       \
-  /                         \
-  ---------------------------
-     _____________________
-    /                     \
-   /   Background Layer    \
-  /                         \
-  ---------------------------
-
-  Colors of Scope Widgets are defined in here (and thus don't need to be
-  re-defined in the implementation of the widget's .ui file).
-
-  The custom context menu already contains entries, like for enabling auto-
-  refresh. It can certainly be extended in the implementation of the widget.
-
-  Note: Widgets deriving from this class should connect slotActiveMonitorChanged
-  to the appropriate signal.
-
-  If you intend to write an own widget inheriting from this one, please read
-  the comments on the unimplemented methods carefully. They are not only here
-  for optical amusement, but also contain important information.
- */
-
-#ifndef ABSTRACTSCOPEWIDGET_H
-#define ABSTRACTSCOPEWIDGET_H
 
 #include <QtCore>
 #include <QWidget>
@@ -59,13 +20,12 @@ class QMenu;
 class Monitor;
 class Render;
 
-class AbstractScopeWidget : public QWidget
+class AbstractAudioScopeWidget : public QWidget
 {
     Q_OBJECT
-
 public:
-    AbstractScopeWidget(Monitor *projMonitor, Monitor *clipMonitor, bool trackMouse = false, QWidget *parent = 0);
-    virtual ~AbstractScopeWidget(); // Must be virtual because of inheritance, to avoid memory leaks
+    AbstractAudioScopeWidget(Monitor *projMonitor, Monitor *clipMonitor, bool trackMouse = false, QWidget *parent = 0);
+    virtual ~AbstractAudioScopeWidget(); // Must be virtual because of inheritance, to avoid memory leaks
     QPalette m_scopePalette;
 
     /** Initializes widget settings (reads configuration).
@@ -153,7 +113,8 @@ protected:
     /** @brief Scope renderer. Must emit signalScopeRenderingFinished()
         when calculation has finished, to allow multi-threading.
         accelerationFactor hints how much faster than usual the calculation should be accomplished, if possible. */
-    virtual QImage renderScope(uint accelerationFactor, const QImage) = 0;
+    virtual QImage renderScope(uint accelerationFactor,
+                               const QVector<int16_t> audioFrame, const int freq, const int num_channels, const int num_samples) = 0;
     /** @brief Background renderer. Must emit signalBackgroundRenderingFinished(). @see renderScope */
     virtual QImage renderBackground(uint accelerationFactor) = 0;
 
@@ -235,6 +196,10 @@ private:
     bool m_requestForcedUpdate;
 
     QImage m_scopeImage;
+    QVector<int16_t> m_audioFrame; //NEW
+    int m_freq;
+    int m_nChannels;
+    int m_nSamples;
 
     QString m_widgetName;
 
@@ -254,7 +219,8 @@ private slots:
       The scope then decides whether and when it wants to recalculate the scope, depending
       on whether it is currently visible and whether a calculation thread is already running. */
     void slotRenderZoneUpdated();
-    void slotRenderZoneUpdated(QImage);
+    void slotRenderZoneUpdated(QImage);//OLD
+    void slotReceiveAudio(const QVector<int16_t> sampleData, const int freq, const int num_channels, const int num_samples); // NEW, TODO comment
     /** The following slots are called when rendering of a component has finished. They e.g. update
       the widget and decide whether to immediately restart the calculation thread. */
     void slotHUDRenderingFinished(uint mseconds, uint accelerationFactor);
@@ -266,4 +232,4 @@ private slots:
 
 };
 
-#endif // ABSTRACTSCOPEWIDGET_H
+#endif // ABSTRACTAUDIOSCOPEWIDGET_H

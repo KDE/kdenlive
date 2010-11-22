@@ -1,5 +1,6 @@
 add_subdirectory(widgets)
 add_subdirectory(mimetypes)
+add_subdirectory(kiss_fft)
 
 macro_optional_find_package(Nepomuk)
 include(FindQImageBlitz)
@@ -16,7 +17,10 @@ include_directories(
   ${CMAKE_SOURCE_DIR}/src/widgets
   ${CMAKE_SOURCE_DIR}/src/colorcorrection
   ${CMAKE_SOURCE_DIR}/src/onmonitoritems
+  ${CMAKE_SOURCE_DIR}/src/kiss_fft
+  ${CMAKE_SOURCE_DIR}/src/audioscopes
 )
+
 
 if(Nepomuk_FOUND)
   include_directories(NEPOMUK_INCLUDES)
@@ -43,6 +47,7 @@ if(APPLE)
 else(APPLE)
   macro_optional_find_package(OpenGL)
 endif(APPLE)
+
 
 link_libraries(
   ${LIBMLT_LIBRARY}
@@ -111,9 +116,11 @@ kde4_add_ui_files(kdenlive_UI
   widgets/stopmotion_ui.ui
   widgets/monitorscenecontrolwidget_ui.ui
   widgets/cornerswidget_ui.ui
+  widgets/audiospectrum_ui.ui
 )
 
 set(kdenlive_SRCS
+  ${kdenlive_SRCS}
   addclipcommand.cpp
   main.cpp
   mainwindow.cpp
@@ -213,6 +220,8 @@ set(kdenlive_SRCS
   tracksconfigdialog.cpp
   configtrackscommand.cpp
   abstractscopewidget.cpp
+  audioscopes/abstractaudioscopewidget.cpp
+  audioscopes/audiospectrum.cpp
   rebuildgroupcommand.cpp
   histogram.cpp
   rgbparade.cpp
@@ -241,6 +250,9 @@ set(kdenlive_SRCS
   onmonitoritems/onmonitorcornersitem.cpp
   monitorscenecontrolwidget.cpp
   cornerswidget.cpp
+  kiss_fft/_kiss_fft_guts.h
+  kiss_fft/kiss_fft.c
+  kiss_fft/tools/kiss_fftr.c
 )
 
 add_subdirectory(${CMAKE_SOURCE_DIR}/src/colorcorrection)

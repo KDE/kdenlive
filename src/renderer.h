@@ -31,6 +31,7 @@
 
 #include "gentime.h"
 #include "definitions.h"
+#include "mlt/framework/mlt_types.h"
 
 #include <kurl.h>
 
@@ -353,6 +354,7 @@ signals:
     void showAudioSignal(const QByteArray);
     /** @brief The renderer refreshed the current frame, but no seeking was done. */
     void frameUpdated(QImage);
+    void audioSamplesSignal(const QVector<int16_t> data, const int freq, const int num_channels, const int num_samples);
 
 public slots:
 
