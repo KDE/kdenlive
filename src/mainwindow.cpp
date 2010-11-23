@@ -887,7 +887,7 @@ void MainWindow::setupActions()
 
     KActionCollection* collection = actionCollection();
     m_timecodeFormat = new KComboBox(this);
-    m_timecodeFormat->addItem(i18n("hh:mm:ss::ff"));
+    m_timecodeFormat->addItem(i18n("hh:mm:ss:ff"));
     m_timecodeFormat->addItem(i18n("Frames"));
     if (KdenliveSettings::frametimecode()) m_timecodeFormat->setCurrentIndex(1);
     connect(m_timecodeFormat, SIGNAL(activated(int)), this, SLOT(slotUpdateTimecodeFormat(int)));

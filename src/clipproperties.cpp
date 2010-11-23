@@ -289,7 +289,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
         }
         m_view.slide_duration->setText(tc.getTimecodeFromFrames(props.value("ttl").toInt()));
 
-        m_view.slide_duration_format->addItem(i18n("hh:mm:ss::ff"));
+        m_view.slide_duration_format->addItem(i18n("hh:mm:ss:ff"));
         m_view.slide_duration_format->addItem(i18n("Frames"));
         connect(m_view.slide_duration_format, SIGNAL(activated(int)), this, SLOT(slotUpdateDurationFormat(int)));
         m_view.slide_duration_frames->setHidden(true);

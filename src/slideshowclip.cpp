@@ -74,7 +74,7 @@ SlideshowClip::SlideshowClip(Timecode tc, QWidget * parent) :
     m_view.luma_duration->setText(m_timecode.getTimecodeFromFrames(int(ceil(m_timecode.fps()))));
     m_view.folder_url->setUrl(QDir::homePath());
 
-    m_view.clip_duration_format->addItem(i18n("hh:mm:ss::ff"));
+    m_view.clip_duration_format->addItem(i18n("hh:mm:ss:ff"));
     m_view.clip_duration_format->addItem(i18n("Frames"));
     connect(m_view.clip_duration_format, SIGNAL(activated(int)), this, SLOT(slotUpdateDurationFormat(int)));
     m_view.clip_duration_frames->setHidden(true);
