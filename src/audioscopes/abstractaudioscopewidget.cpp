@@ -433,13 +433,18 @@ void AbstractAudioScopeWidget::slotRenderZoneUpdated(QImage frame)
     slotRenderZoneUpdated();
 }
 
-void AbstractAudioScopeWidget::slotReceiveAudio(const QVector<int16_t> sampleData, const int freq, const int num_channels, const int num_samples)
+void AbstractAudioScopeWidget::slotReceiveAudio(const QVector<int16_t>& sampleData, int freq, int num_channels, int num_samples)
 {
     qDebug() << "Received audio. Size is " << (int) sampleData.size() << ".";
     if (sampleData.size() > 0) {
         qDebug() << sampleData.data()[0];
     }
     //TODO
+}
+
+void AbstractAudioScopeWidget::slotReceiveAudioTemp(const QByteArray arr)
+{
+    qDebug() << "Audio signal received";
 }
 
 void AbstractAudioScopeWidget::slotResetRealtimeFactor(bool realtimeChecked)

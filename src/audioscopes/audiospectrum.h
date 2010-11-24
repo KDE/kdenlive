@@ -5,6 +5,7 @@
 
 #include "abstractaudioscopewidget.h"
 #include "ui_audiospectrum_ui.h"
+#include "tools/kiss_fftr.h"
 
 class AudioSpectrum_UI;
 
@@ -13,6 +14,7 @@ class AudioSpectrum : public AbstractAudioScopeWidget {
 
 public:
     AudioSpectrum(Monitor *projMonitor, Monitor *clipMonitor, QWidget *parent = 0);
+    ~AudioSpectrum();
 
     // Implemented virtual methods
     QString widgetName() const;
@@ -30,6 +32,7 @@ protected:
 
 private:
     Ui::AudioSpectrum_UI *ui;
+    kiss_fftr_cfg m_cfg;
 };
 
 #endif // AUDIOSPECTRUM_H

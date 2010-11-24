@@ -284,22 +284,26 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     if (m_clipMonitor) {
         connect(m_clipMonitor->render, SIGNAL(showAudioSignal(const QByteArray&)), m_audiosignal, SLOT(showAudio(const QByteArray&)));
     }
-    //connect(m_histogramDock, SIGNAL(visibilityChanged(bool)), this, SLOT(slotUpdateScopeFrameRequest()));
-    //connect(m_histogram, SIGNAL(requestAutoRefresh(bool)), this, SLOT(slotUpdateScopeFrameRequest()));
 
     m_audioSpectrum = new AudioSpectrum(m_projectMonitor, m_clipMonitor);
     m_audioSpectrumDock = new QDockWidget(i18n("AudioSpectrum"), this);
     m_audioSpectrumDock->setObjectName(m_audioSpectrum->widgetName());
     m_audioSpectrumDock->setWidget(m_audioSpectrum);
     addDockWidget(Qt::TopDockWidgetArea, m_audioSpectrumDock);
+    bool b = true;
     if (m_projectMonitor) {
-        connect(m_projectMonitor->render, SIGNAL(audioSamplesSignal(QVector<int16_t>,int,int,int)),
-                m_audioSpectrum, SLOT(slotReceiveAudio(QVector<int16_t>,int,int,int)));
+        qDebug() << "project monitor connected";
+        b &= connect(m_projectMonitor->render, SIGNAL(audioSamplesSignal(const QVector<int16_t>&,const int&,const int&, const int&)),
+                m_audioSpectrum, SLOT(slotReceiveAudio(const QVector<int16_t>&,const int&,const int&,const int&)));
+        b &= connect(m_projectMonitor->render, SIGNAL(showAudioSignal(const QByteArray&)),
+                     m_audioSpectrum, SLOT(slotReceiveAudioTemp(const QByteArray&)));
     }
     if (m_clipMonitor) {
-        connect(m_clipMonitor->render, SIGNAL(audioSamplesSignal(QVector<int16_t>,int,int,int)),
-                m_audioSpectrum, SLOT(slotReceiveAudio(QVector<int16_t>,int,int,int)));
+        qDebug() << "clip monitor connected";
+        b &= connect(m_clipMonitor->render, SIGNAL(audioSamplesSignal(const QVector<int16_t>&,int,int,int)),
+                m_audioSpectrum, SLOT(slotReceiveAudio(const QVector<int16_t>&,int,int,int)));
     }
+    Q_ASSERT(b);
 
     m_undoViewDock = new QDockWidget(i18n("Undo History"), this);
     m_undoViewDock->setObjectName("undo_history");

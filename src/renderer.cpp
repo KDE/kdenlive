@@ -1477,8 +1477,6 @@ void Render::showAudio(Mlt::Frame& frame)
     QVector<int16_t> sampleVector(samples);
     memcpy(sampleVector.data(), data, samples*sizeof(int16_t));
     qDebug() << samples << " samples. Freq=" << freq << ", channels=" << num_channels;
-    qDebug() << sizeof(char) << " (c) " << sizeof(int16_t) << " (int16_t)";
-    qDebug() << sampleVector.at(0);
 
     if (!data)
         return;
@@ -1497,9 +1495,11 @@ void Render::showAudio(Mlt::Frame& frame)
     qDebug() << channels.size() <<  ": size.";
     if (samples > 0) {
         emit showAudioSignal(channels);
+        qDebug() << "Emitting audioSamplesSignal with " << samples << " samples.";
         emit audioSamplesSignal(sampleVector, freq, num_channels, samples);
     } else {
         emit showAudioSignal(QByteArray());
+        qDebug() << "Not emitting audioSamplesSignal.";
     }
 }
 

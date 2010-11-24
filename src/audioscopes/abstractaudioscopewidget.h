@@ -220,7 +220,8 @@ private slots:
       on whether it is currently visible and whether a calculation thread is already running. */
     void slotRenderZoneUpdated();
     void slotRenderZoneUpdated(QImage);//OLD
-    void slotReceiveAudio(const QVector<int16_t> sampleData, const int freq, const int num_channels, const int num_samples); // NEW, TODO comment
+    void slotReceiveAudio(const QVector<int16_t>& sampleData, int freq, int num_channels, int num_samples); // NEW, TODO comment
+    void slotReceiveAudioTemp(const QByteArray arr);
     /** The following slots are called when rendering of a component has finished. They e.g. update
       the widget and decide whether to immediately restart the calculation thread. */
     void slotHUDRenderingFinished(uint mseconds, uint accelerationFactor);
