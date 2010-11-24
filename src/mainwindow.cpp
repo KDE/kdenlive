@@ -112,11 +112,12 @@
 static const char version[] = VERSION;
 
 static const int ID_TIMELINE_POS = 0;
-
 namespace Mlt
 {
 class Producer;
 };
+
+Q_DECLARE_METATYPE(QVector<int16_t>)
 
 EffectsList MainWindow::videoEffects;
 EffectsList MainWindow::audioEffects;
@@ -134,7 +135,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     m_findActivated(false),
     m_stopmotion(NULL)
 {
-
+	qRegisterMetaType<QVector<int16_t> > ();
     // Create DBus interface
     new MainWindowAdaptor(this);
     QDBusConnection dbus = QDBusConnection::sessionBus();
@@ -278,12 +279,12 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     m_audiosignalDock->setWidget(m_audiosignal);
     addDockWidget(Qt::TopDockWidgetArea, m_audiosignalDock);
     connect(m_audiosignal, SIGNAL(updateAudioMonitoring()), m_monitorManager, SLOT(slotUpdateAudioMonitoring()));
-    if (m_projectMonitor) {
+    /*if (m_projectMonitor) {
         connect(m_projectMonitor->render, SIGNAL(showAudioSignal(const QByteArray&)), m_audiosignal, SLOT(showAudio(const QByteArray&)));
     }
     if (m_clipMonitor) {
         connect(m_clipMonitor->render, SIGNAL(showAudioSignal(const QByteArray&)), m_audiosignal, SLOT(showAudio(const QByteArray&)));
-    }
+    }*/
 
     m_audioSpectrum = new AudioSpectrum(m_projectMonitor, m_clipMonitor);
     m_audioSpectrumDock = new QDockWidget(i18n("AudioSpectrum"), this);
@@ -297,11 +298,15 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
                 m_audioSpectrum, SLOT(slotReceiveAudio(const QVector<int16_t>&,const int&,const int&,const int&)));
         b &= connect(m_projectMonitor->render, SIGNAL(showAudioSignal(const QByteArray&)),
                      m_audioSpectrum, SLOT(slotReceiveAudioTemp(const QByteArray&)));
+        connect(m_projectMonitor->render, SIGNAL(audioSamplesSignal(const QVector<int16_t>&,const int&,const int&, const int&)),
+                     m_audiosignal, SLOT(slotReceiveAudio(const QVector<int16_t>&,const int&,const int&,const int&)));
     }
     if (m_clipMonitor) {
         qDebug() << "clip monitor connected";
         b &= connect(m_clipMonitor->render, SIGNAL(audioSamplesSignal(const QVector<int16_t>&,int,int,int)),
                 m_audioSpectrum, SLOT(slotReceiveAudio(const QVector<int16_t>&,int,int,int)));
+        b &= connect(m_clipMonitor->render, SIGNAL(audioSamplesSignal(const QVector<int16_t>&,int,int,int)),
+                m_audiosignal, SLOT(slotReceiveAudio(const QVector<int16_t>&,int,int,int)));
     }
     Q_ASSERT(b);
 

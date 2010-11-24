@@ -49,7 +49,6 @@
 
 #include <QDebug>
 
-
 static void kdenlive_callback(void* /*ptr*/, int level, const char* fmt, va_list vl)
 {
     if (level > MLT_LOG_ERROR) return;
@@ -1476,11 +1475,11 @@ void Render::showAudio(Mlt::Frame& frame)
 
     QVector<int16_t> sampleVector(samples);
     memcpy(sampleVector.data(), data, samples*sizeof(int16_t));
-    qDebug() << samples << " samples. Freq=" << freq << ", channels=" << num_channels;
+    //qDebug() << samples << " samples. Freq=" << freq << ", channels=" << num_channels;
 
     if (!data)
         return;
-    int num_samples = samples > 200 ? 200 : samples;
+    /*int num_samples = samples > 200 ? 200 : samples;
 
 
     QByteArray channels;
@@ -1490,16 +1489,15 @@ void Render::showAudio(Mlt::Frame& frame)
             val += abs(data[i+s*num_channels] / 128);
         }
         channels.append(val / num_samples);
-    }
+    }*/
 
-    qDebug() << channels.size() <<  ": size.";
     if (samples > 0) {
-        emit showAudioSignal(channels);
-        qDebug() << "Emitting audioSamplesSignal with " << samples << " samples.";
+        //emit showAudioSignal(channels);
+        //qDebug() << "Emitting audioSamplesSignal with " << samples << " samples.";
         emit audioSamplesSignal(sampleVector, freq, num_channels, samples);
     } else {
-        emit showAudioSignal(QByteArray());
-        qDebug() << "Not emitting audioSamplesSignal.";
+        //emit showAudioSignal(QByteArray());
+        //qDebug() << "Not emitting audioSamplesSignal.";
     }
 }
 
