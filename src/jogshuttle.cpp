@@ -33,7 +33,6 @@
 #include <fcntl.h>
 #include <linux/input.h>
 
-
 #define DELAY 10
 
 #define KEY 1
@@ -53,19 +52,21 @@
 #define KEY14 269
 #define KEY15 270
 
+// Constants for the returned events when reading them from the device
 #define JOGSHUTTLE 2
 #define JOG 7
 #define SHUTTLE 8
 
+// Constants for the signals sent.
 #define JOG_BACK1 10001
 #define JOG_FWD1 10002
-#define JOG_FWD 10003
-#define JOG_FWD_SLOW 10004
-#define JOG_FWD_FAST 10005
-#define JOG_BACK 10006
-#define JOG_BACK_SLOW 10007
-#define JOG_BACK_FAST 10008
-#define JOG_STOP 10009
+
+// middle value for shuttle, will be +/-MAX_SHUTTLE_RANGE
+#define JOG_STOP 10010
+#define MAX_SHUTTLE_RANGE 7
+
+// TODO(fleury): this should probably be a user configuration parameter (at least the max speed).
+const double SPEEDS[MAX_SHUTTLE_RANGE + 1] = {0.0, 0.5, 1.0, 2.0, 4.0, 8.0, 16.0, 32.0};
 
 
 void ShuttleThread::init(QObject *parent, QString device)
@@ -75,6 +76,7 @@ void ShuttleThread::init(QObject *parent, QString device)
     stop_me = false;
     m_isWorking = false;
     shuttlevalue = 0xffff;
+    shuttlechange = false;
     jogvalue = 0xffff;
 }
 
@@ -99,9 +101,12 @@ void ShuttleThread::run()
         return;;
     }
 
+    int num_warnings = 0;
     while (!stop_me) {
         if (read(fd, &ev, sizeof(ev)) < 0) {
-            fprintf(stderr, "Failed to read event from Jog Shuttle FILE DESCRIPTOR\n");
+            if (num_warnings % 100 == 0)
+                fprintf(stderr, "Failed to read event from Jog Shuttle FILE DESCRIPTOR (repeated %d times)\n", num_warnings + 1);
+            num_warnings++;
         }
         handle_event(ev);
     }
@@ -116,7 +121,10 @@ void ShuttleThread::handle_event(EV ev)
         key(ev.code, ev.value);
         break;
     case JOGSHUTTLE :
-        jogshuttle(ev.code, ev.value);
+        if (ev.code == JOG)
+            jog(ev.value);
+        if (ev.code == SHUTTLE)
+            shuttle(ev.value);
         break;
     }
 }
@@ -128,9 +136,8 @@ void ShuttleThread::key(unsigned short code, unsigned int value)
         return;
     }
 
+    // Check key index
     code -= KEY1 - 1;
-
-    // Bound check!
     if (code > 16)
         return;
 
@@ -146,67 +153,47 @@ void ShuttleThread::shuttle(int value)
 
     if (value == shuttlevalue)
         return;
-    shuttlevalue = value;
-    switch (value) {
-    case - 7 :
-    case - 6 :
-    case - 5 :
-    case - 4 :
-    case - 3 :
-        QApplication::postEvent(m_parent, new QEvent((QEvent::Type) JOG_BACK_FAST));
-        break;  // Reverse fast
-    case - 2 :
-        QApplication::postEvent(m_parent, new QEvent((QEvent::Type) JOG_BACK));
-        break;  // Reverse
-    case - 1 :
-        QApplication::postEvent(m_parent, new QEvent((QEvent::Type) JOG_BACK_SLOW));
-        break;  // Reverse slow
-    case  0 :
-        QApplication::postEvent(m_parent, new QEvent((QEvent::Type) JOG_STOP));
-        break;  // Stop!
-    case  1 :
-        QApplication::postEvent(m_parent, new QEvent((QEvent::Type) JOG_FWD_SLOW));
-        break;  // Forward slow
-    case  2 :
-        QApplication::postEvent(m_parent, new QEvent((QEvent::Type) JOG_FWD));
-        break;  // Normal play
-    case  3 :
-    case  4 :
-    case  5 :
-    case  6 :
-    case  7 :
-        QApplication::postEvent(m_parent, new QEvent((QEvent::Type) JOG_FWD_FAST));
-        break; // Fast forward
-    }
 
+    if (value > MAX_SHUTTLE_RANGE || value < -MAX_SHUTTLE_RANGE) {
+        fprintf(stderr, "Jog Shuttle returned value of %d (should be between -%d ad +%d)", value, MAX_SHUTTLE_RANGE, MAX_SHUTTLE_RANGE);
+        return;
+    }
+    shuttlevalue = value;
+    shuttlechange = true;
+    QApplication::postEvent(m_parent, new QEvent((QEvent::Type)(JOG_STOP + value)));
 }
 
 void ShuttleThread::jog(unsigned int value)
 {
-    // We should generate a synthetic event for the shuttle going
-    // to the home position if we have not seen one recently
-    //check_synthetic();
+    // generate a synthetic event for the shuttle going
+    // to the home position if we have not seen one recently.
+    //if (shuttlevalue != 0) {
+    //  QApplication::postEvent(m_parent, new QEvent((QEvent::Type) JOG_STOP));
+    //  shuttlevalue = 0;
+    //}
 
+    // This code takes care of wrapping around the limits of the jog dial number (it is represented as a single byte, hence
+    // wraps at the 0/255 boundary). I used 25 as the difference to make sure that even in heavy load, with the jog dial
+    // turning fast and we miss some events that we do not mistakenly reverse the direction.
+    // Note also that at least the Contour ShuttlePRO v2 does not send an event for the value 0, so at the wrap it will
+    // need 2 events to go forward. But that is nothing we can do about...
     if (jogvalue != 0xffff) {
-        if (value < jogvalue)
+        //fprintf(stderr, "value=%d jogvalue=%d\n", value, jogvalue);
+        bool wrap = abs(value - jogvalue) > 25;
+        bool rewind = value < jogvalue;
+        bool forward = value > jogvalue;
+        if ((rewind && !wrap) || (forward && wrap))
             QApplication::postEvent(m_parent, new QEvent((QEvent::Type) JOG_BACK1));
-        else if (value > jogvalue)
+        else if ((forward && !wrap) || (rewind && wrap))
             QApplication::postEvent(m_parent, new QEvent((QEvent::Type) JOG_FWD1));
+        else if (!forward && !rewind && !shuttlechange)
+            // An event without changing the jog value is sent after each shuttle change.
+            // As the shuttle rest position does not get a shuttle event, only a non-position-changing jog event.
+            // Hence we stop on this when we see 2 non-position-changing jog events in a row.
+            QApplication::postEvent(m_parent, new QEvent((QEvent::Type) JOG_STOP));
     }
     jogvalue = value;
-}
-
-
-void ShuttleThread::jogshuttle(unsigned short code, unsigned int value)
-{
-    switch (code) {
-    case JOG :
-        jog(value);
-        break;
-    case SHUTTLE :
-        shuttle(value);
-        break;
-    }
+    shuttlechange = false;
 }
 
 
@@ -223,49 +210,55 @@ JogShuttle::~JogShuttle()
 
 void JogShuttle::initDevice(QString device)
 {
-    if (m_shuttleProcess.isRunning()) return;
+    if (m_shuttleProcess.isRunning()) {
+        if (device == m_shuttleProcess.m_device) return;
+        stopDevice();
+    }
     m_shuttleProcess.init(this, device);
     m_shuttleProcess.start(QThread::LowestPriority);
 }
 
 void JogShuttle::stopDevice()
 {
-    if (m_shuttleProcess.isRunning()) m_shuttleProcess.stop_me = true;
+    if (m_shuttleProcess.isRunning())
+        m_shuttleProcess.stop_me = true;
 }
 
 void JogShuttle::customEvent(QEvent* e)
 {
-    switch (e->type()) {
-    case JOG_BACK1:
+    int code = e->type();
+
+    // Handle the job events
+    if (code == JOG_BACK1) {
         emit rewind1();
-        break;
-    case JOG_FWD1:
-        emit forward1();
-        break;
-    case JOG_BACK:
-        emit rewind(-1);
-        break;
-    case JOG_FWD:
-        emit forward(1);
-        break;
-    case JOG_BACK_SLOW:
-        emit rewind(-0.5);
-        break;
-    case JOG_FWD_SLOW:
-        emit forward(0.5);
-        break;
-    case JOG_BACK_FAST:
-        emit rewind(-2);
-        break;
-    case JOG_FWD_FAST:
-        emit forward(2);
-        break;
-    case JOG_STOP:
-        emit stop();
-        break;
-    default:
-        emit button(e->type() - 20000);
+        return;
     }
+    if (code == JOG_FWD1) {
+        emit forward1();
+        return;
+    }
+
+    //handle the shuttle events
+    if (code == JOG_STOP) {
+        // TODO(fleury): to make sure stop() has an effect, as it doesn't when in rewind mode, we set it to forward with
+        // a value that will for sure not move to the next frame.
+        if (m_shuttleProcess.shuttlevalue < 0)
+            emit forward(0.01);
+        emit stop();
+        return;
+    }
+
+    int shuttle = code - JOG_STOP;
+    if (shuttle >= -MAX_SHUTTLE_RANGE && shuttle <= MAX_SHUTTLE_RANGE) {
+        if (shuttle < 0)
+            emit rewind(-SPEEDS[abs(shuttle)]);
+        else
+            emit forward(SPEEDS[abs(shuttle)]);
+        return;
+    }
+
+    // we've got a key event.
+    emit button(e->type() - 20000);
 }
 
 

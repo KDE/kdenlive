@@ -768,7 +768,6 @@ void MainWindow::activateShuttleDevice()
     connect(m_jogProcess, SIGNAL(forward1()), m_monitorManager, SLOT(slotForwardOneFrame()));
     connect(m_jogProcess, SIGNAL(rewind(double)), m_monitorManager, SLOT(slotRewind(double)));
     connect(m_jogProcess, SIGNAL(forward(double)), m_monitorManager, SLOT(slotForward(double)));
-    connect(m_jogProcess, SIGNAL(stop()), m_monitorManager, SLOT(slotPlay()));
     connect(m_jogProcess, SIGNAL(button(int)), this, SLOT(slotShuttleButton(int)));
 }
 

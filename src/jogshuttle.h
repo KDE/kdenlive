@@ -37,15 +37,15 @@ public:
     void init(QObject *parent, QString device);
     QObject *m_parent;
     int shuttlevalue;
+    bool shuttlechange;
     unsigned short jogvalue;
     bool isWorking();
     bool stop_me;
+    QString m_device;
 
 private:
-    QString m_device;
     bool m_isWorking;
     void handle_event(EV ev);
-    void jogshuttle(unsigned short code, unsigned int value);
     void jog(unsigned int value);
     void shuttle(int value);
     void key(unsigned short code, unsigned int value);
