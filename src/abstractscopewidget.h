@@ -194,7 +194,7 @@ protected slots:
 
 signals:
     /** mseconds represent the time taken for the calculation,
-        accelerationFactor is the acceleration factor that has been used. */
+        accelerationFactor is the acceleration factor that has been used for this calculation. */
     void signalHUDRenderingFinished(uint mseconds, uint accelerationFactor);
     void signalScopeRenderingFinished(uint mseconds, uint accelerationFactor);
     void signalBackgroundRenderingFinished(uint mseconds, uint accelerationFactor);

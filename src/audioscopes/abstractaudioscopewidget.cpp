@@ -77,7 +77,7 @@ AbstractAudioScopeWidget::AbstractAudioScopeWidget(Monitor *projMonitor, Monitor
     b &= connect(this, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(customContextMenuRequested(QPoint)));
 
     //b &= connect(m_activeRender, SIGNAL(rendererPosition(int)), this, SLOT(slotRenderZoneUpdated()));
-    b &= connect(m_activeRender, SIGNAL(frameUpdated(QImage)), this, SLOT(slotRenderZoneUpdated(QImage)));
+//    b &= connect(m_activeRender, SIGNAL(frameUpdated(QImage)), this, SLOT(slotRenderZoneUpdated(QImage)));
 
     b &= connect(this, SIGNAL(signalHUDRenderingFinished(uint, uint)), this, SLOT(slotHUDRenderingFinished(uint, uint)));
     b &= connect(this, SIGNAL(signalScopeRenderingFinished(uint, uint)), this, SLOT(slotScopeRenderingFinished(uint, uint)));
@@ -388,24 +388,24 @@ void AbstractAudioScopeWidget::slotBackgroundRenderingFinished(uint mseconds, ui
     }
 }
 
-void AbstractAudioScopeWidget::slotActiveMonitorChanged(bool isClipMonitor)
-{
-//    qDebug() << "Active monitor has changed in " << m_widgetName << ". Is the clip monitor active now? " << isClipMonitor;
+//void AbstractAudioScopeWidget::slotActiveMonitorChanged(bool isClipMonitor)
+//{
+////    qDebug() << "Active monitor has changed in " << m_widgetName << ". Is the clip monitor active now? " << isClipMonitor;
 
-    bool b = m_activeRender->disconnect(this);
-    Q_ASSERT(b);
+//    bool b = m_activeRender->disconnect(this);
+//    Q_ASSERT(b);
 
-    m_activeRender = (isClipMonitor) ? m_clipMonitor->render : m_projMonitor->render;
+//    m_activeRender = (isClipMonitor) ? m_clipMonitor->render : m_projMonitor->render;
 
-    //b &= connect(m_activeRender, SIGNAL(rendererPosition(int)), this, SLOT(slotRenderZoneUpdated()));
-    b &= connect(m_activeRender, SIGNAL(frameUpdated(QImage)), this, SLOT(slotRenderZoneUpdated(QImage)));
-    Q_ASSERT(b);
+//    //b &= connect(m_activeRender, SIGNAL(rendererPosition(int)), this, SLOT(slotRenderZoneUpdated()));
+//    b &= connect(m_activeRender, SIGNAL(frameUpdated(QImage)), this, SLOT(slotRenderZoneUpdated(QImage)));
+//    Q_ASSERT(b);
 
-    // Update the scope for the new monitor.
-    prodHUDThread();
-    prodScopeThread();
-    prodBackgroundThread();
-}
+//    // Update the scope for the new monitor.
+//    prodHUDThread();
+//    prodScopeThread();
+//    prodBackgroundThread();
+//}
 
 void AbstractAudioScopeWidget::slotRenderZoneUpdated()
 {
@@ -413,7 +413,7 @@ void AbstractAudioScopeWidget::slotRenderZoneUpdated()
     m_newScopeFrames.fetchAndAddRelaxed(1);
     m_newBackgroundFrames.fetchAndAddRelaxed(1);
 
-//    qDebug() << "Monitor incoming. New frames total HUD/Scope/Background: " << m_newHUDFrames
+//    qDebug() << "Audio incoming. New frames total HUD/Scope/Background: " << m_newHUDFrames
 //            << "/" << m_newScopeFrames << "/" << m_newBackgroundFrames;
 
     if (this->visibleRegion().isEmpty()) {
@@ -427,24 +427,18 @@ void AbstractAudioScopeWidget::slotRenderZoneUpdated()
     }
 }
 
-void AbstractAudioScopeWidget::slotRenderZoneUpdated(QImage frame)
-{
-    m_scopeImage = frame;
-    slotRenderZoneUpdated();
-}
-
 void AbstractAudioScopeWidget::slotReceiveAudio(const QVector<int16_t>& sampleData, int freq, int num_channels, int num_samples)
 {
-    qDebug() << "Received audio. Size is " << (int) sampleData.size() << ".";
+    //qDebug() << "Received audio. Size is " << (int) sampleData.size() << ".";
     if (sampleData.size() > 0) {
-        qDebug() << sampleData.data()[0];
+        //qDebug() << "Received: " << sampleData.data()[0] << ", " << sampleData.data()[1] << ", " << sampleData.data()[2];
     }
+    m_audioFrame = sampleData;
+    m_freq = freq;
+    m_nChannels = num_channels;
+    m_nSamples = num_samples;
+    slotRenderZoneUpdated();
     //TODO
-}
-
-void AbstractAudioScopeWidget::slotReceiveAudioTemp(const QByteArray arr)
-{
-    qDebug() << "Audio signal received";
 }
 
 void AbstractAudioScopeWidget::slotResetRealtimeFactor(bool realtimeChecked)

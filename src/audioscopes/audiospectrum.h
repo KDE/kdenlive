@@ -29,10 +29,16 @@ protected:
     bool isScopeDependingOnInput() const;
     bool isBackgroundDependingOnInput() const;
     virtual void readConfig();
+    void writeConfig();
 
 private:
     Ui::AudioSpectrum_UI *ui;
     kiss_fftr_cfg m_cfg;
+
+    QAction *m_aLin;
+    QAction *m_aLog;
+    QActionGroup *m_agScale;
+
 };
 
 #endif // AUDIOSPECTRUM_H

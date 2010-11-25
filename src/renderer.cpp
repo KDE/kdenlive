@@ -1473,31 +1473,17 @@ void Render::showAudio(Mlt::Frame& frame)
     int samples = 0;
     int16_t* data = (int16_t*)frame.get_audio(audio_format, freq, num_channels, samples);
 
-    QVector<int16_t> sampleVector(samples);
-    memcpy(sampleVector.data(), data, samples*sizeof(int16_t));
-    //qDebug() << samples << " samples. Freq=" << freq << ", channels=" << num_channels;
-
-    if (!data)
+    if (!data) {
         return;
-    /*int num_samples = samples > 200 ? 200 : samples;
+    }
 
-
-    QByteArray channels;
-    for (int i = 0; i < num_channels; i++) {
-        long val = 0;
-        for (int s = 0; s < num_samples; s ++) {
-            val += abs(data[i+s*num_channels] / 128);
-        }
-        channels.append(val / num_samples);
-    }*/
+    // Data format: [ c00 c10 c01 c11 c02 c12 c03 c13 ... c0{samples-1} c1{samples-1} for 2 channels.
+    // So the vector is of size samples*channels.
+    QVector<int16_t> sampleVector(samples*num_channels);
+    memcpy(sampleVector.data(), data, samples*num_channels*sizeof(int16_t));
 
     if (samples > 0) {
-        //emit showAudioSignal(channels);
-        //qDebug() << "Emitting audioSamplesSignal with " << samples << " samples.";
         emit audioSamplesSignal(sampleVector, freq, num_channels, samples);
-    } else {
-        //emit showAudioSignal(QByteArray());
-        //qDebug() << "Not emitting audioSamplesSignal.";
     }
 }
 

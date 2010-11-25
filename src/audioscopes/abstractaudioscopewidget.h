@@ -195,7 +195,7 @@ private:
     bool initialDimensionUpdateDone;
     bool m_requestForcedUpdate;
 
-    QImage m_scopeImage;
+//    QImage m_scopeImage;
     QVector<int16_t> m_audioFrame; //NEW
     int m_freq;
     int m_nChannels;
@@ -211,7 +211,7 @@ public slots:
     /** @brief Must be called when the active monitor has shown a new frame.
       This slot must be connected in the implementing class, it is *not*
       done in this abstract class. */
-    void slotActiveMonitorChanged(bool isClipMonitor);
+//    void slotActiveMonitorChanged(bool isClipMonitor);
 
 private slots:
     void customContextMenuRequested(const QPoint &pos);
@@ -219,9 +219,8 @@ private slots:
       The scope then decides whether and when it wants to recalculate the scope, depending
       on whether it is currently visible and whether a calculation thread is already running. */
     void slotRenderZoneUpdated();
-    void slotRenderZoneUpdated(QImage);//OLD
+//    void slotRenderZoneUpdated(QImage);//OLD
     void slotReceiveAudio(const QVector<int16_t>& sampleData, int freq, int num_channels, int num_samples); // NEW, TODO comment
-    void slotReceiveAudioTemp(const QByteArray arr);
     /** The following slots are called when rendering of a component has finished. They e.g. update
       the widget and decide whether to immediately restart the calculation thread. */
     void slotHUDRenderingFinished(uint mseconds, uint accelerationFactor);

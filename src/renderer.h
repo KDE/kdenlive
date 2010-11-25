@@ -354,6 +354,7 @@ signals:
     void showAudioSignal(const QByteArray);
     /** @brief The renderer refreshed the current frame, but no seeking was done. */
     void frameUpdated(QImage);
+    /** @brief This signal contains the audio of the current frame. */
     void audioSamplesSignal(const QVector<int16_t>&, int freq, int num_channels, int num_samples);
 
 public slots:

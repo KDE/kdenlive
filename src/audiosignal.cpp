@@ -52,8 +52,7 @@ AudioSignal::AudioSignal(QWidget *parent): QWidget(parent)
 
 void AudioSignal::slotReceiveAudio(const QVector<int16_t>& data, int freq ,int num_channels ,int samples){
 
-	int num_samples = samples > 200 ? 200 : samples;
-
+    int num_samples = samples > 200 ? 200 : samples;
 
     QByteArray channels;
     for (int i = 0; i < num_channels; i++) {
@@ -63,7 +62,7 @@ void AudioSignal::slotReceiveAudio(const QVector<int16_t>& data, int freq ,int n
         }
         channels.append(val / num_samples);
     }
-	showAudio(channels);
+    showAudio(channels);
 }
 void AudioSignal::showAudio(const QByteArray arr)
 {
