@@ -78,11 +78,13 @@ Vectorscope::Vectorscope(Monitor *projMonitor, Monitor *clipMonitor, QWidget *pa
 
     ///// Build context menu /////
 
-    m_menu->addSeparator();
+    m_menu->addSeparator()->setText(i18n("Tools"));;
 
     m_aExportBackground = new QAction(i18n("Export background"), this);
     m_menu->addAction(m_aExportBackground);
     b &= connect(m_aExportBackground, SIGNAL(triggered()), this, SLOT(slotExportBackground()));
+
+    m_menu->addSeparator()->setText(i18n("Drawing options"));
 
     m_a75PBox = new QAction(i18n("75% box"), this);
     m_a75PBox->setCheckable(true);
@@ -93,6 +95,11 @@ Vectorscope::Vectorscope(Monitor *projMonitor, Monitor *clipMonitor, QWidget *pa
     m_aAxisEnabled->setCheckable(true);
     m_menu->addAction(m_aAxisEnabled);
     b &= connect(m_aAxisEnabled, SIGNAL(changed()), this, SLOT(forceUpdateBackground()));
+
+    m_aIQLines = new QAction(i18n("Draw I/Q lines"), this);
+    m_aIQLines->setCheckable(true);
+    m_menu->addAction(m_aIQLines);
+    b &= connect(m_aIQLines, SIGNAL(changed()), this, SLOT(forceUpdateBackground()));
 
     m_menu->addSeparator()->setText(i18n("Color Space"));
     m_aColorSpace_YPbPr = new QAction(i18n("YPbPr"), this);
@@ -141,6 +148,7 @@ void Vectorscope::readConfig()
     KConfigGroup scopeConfig(config, configName());
     m_a75PBox->setChecked(scopeConfig.readEntry("75PBox", false));
     m_aAxisEnabled->setChecked(scopeConfig.readEntry("axis", false));
+    m_aIQLines->setChecked(scopeConfig.readEntry("iqlines", false));
     ui->backgroundMode->setCurrentIndex(scopeConfig.readEntry("backgroundmode").toInt());
     ui->paintMode->setCurrentIndex(scopeConfig.readEntry("paintmode").toInt());
     ui->sliderGain->setValue(scopeConfig.readEntry("gain", 1));
@@ -154,6 +162,7 @@ void Vectorscope::writeConfig()
     KConfigGroup scopeConfig(config, configName());
     scopeConfig.writeEntry("75PBox", m_a75PBox->isChecked());
     scopeConfig.writeEntry("axis", m_aAxisEnabled->isChecked());
+    scopeConfig.writeEntry("iqlines", m_aIQLines->isChecked());
     scopeConfig.writeEntry("backgroundmode", ui->backgroundMode->currentIndex());
     scopeConfig.writeEntry("paintmode", ui->paintMode->currentIndex());
     scopeConfig.writeEntry("gain", ui->sliderGain->value());
@@ -280,7 +289,7 @@ QImage Vectorscope::renderBackground(uint)
     QImage bg;
     switch (ui->backgroundMode->itemData(ui->backgroundMode->currentIndex()).toInt()) {
     case BG_YUV:
-        qDebug() << "YUV background.";
+//        qDebug() << "YUV background.";
         bg = m_colorTools->yuvColorWheel(m_scopeRect.size(), (unsigned char) 128, 1/VectorscopeGenerator::scaling, false, true);
         break;
     case BG_CHROMA:
@@ -290,7 +299,7 @@ QImage Vectorscope::renderBackground(uint)
         bg = m_colorTools->yPbPrColorWheel(m_scopeRect.size(), (unsigned char) 128, 1/VectorscopeGenerator::scaling, true);
         break;
     default:
-        qDebug() << "No background.";
+//        qDebug() << "No background.";
         bg = QImage(cw, cw, QImage::Format_ARGB32);
         bg.fill(qRgba(0,0,0,0));
         break;
@@ -300,10 +309,64 @@ QImage Vectorscope::renderBackground(uint)
     // Draw the vectorscope circle
     QPainter davinci(&bg);
     QPoint vinciPoint;
+    QPoint vinciPoint2;
 
 
     davinci.setRenderHint(QPainter::Antialiasing, true);
 
+
+    // Draw I/Q lines (from the YIQ color space; Skin tones lie on the I line)
+    // Positions are calculated by transforming YIQ:[0 1 0] or YIQ:[0 0 1] to YUV/YPbPr.
+    if (m_aIQLines->isChecked()) {
+
+        switch (ui->backgroundMode->itemData(ui->backgroundMode->currentIndex()).toInt()) {
+        case BG_NONE:
+            davinci.setPen(penLight);
+            break;
+        default:
+            davinci.setPen(penDark);
+            break;
+        }
+
+        if (m_aColorSpace_YUV->isChecked()) {
+            vinciPoint = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(-.544,.838));
+            vinciPoint2 = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(.544,-.838));
+        } else {
+            vinciPoint = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(-.675,.737));
+            vinciPoint2 = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(.624,-.682));
+        }
+
+        davinci.drawLine(vinciPoint, vinciPoint2);
+        davinci.setPen(penThick);
+        davinci.drawText(vinciPoint - QPoint(10, 10), "I");
+
+
+        switch (ui->backgroundMode->itemData(ui->backgroundMode->currentIndex()).toInt()) {
+        case BG_NONE:
+            davinci.setPen(penLight);
+            break;
+        default:
+            davinci.setPen(penDark);
+            break;
+        }
+
+        if (m_aColorSpace_YUV->isChecked()) {
+            vinciPoint = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(.838, .544));
+            vinciPoint2 = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(-.838,-.544));
+        } else {
+            vinciPoint = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(.908, .443));
+            vinciPoint2 = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(-.962,-.443));
+        }
+
+        davinci.drawLine(vinciPoint, vinciPoint2);
+        davinci.setPen(penThick);
+        davinci.drawText(vinciPoint - QPoint(-10, 10), "Q");
+
+
+
+    }
+
+    // Draw the main circle
     davinci.setPen(penThick);
     davinci.drawEllipse(0, 0, cw, cw);
 

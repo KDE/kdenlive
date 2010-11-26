@@ -59,6 +59,7 @@ private:
     QAction *m_aExportBackground;
     QAction *m_aAxisEnabled;
     QAction *m_a75PBox;
+    QAction *m_aIQLines;
 
     VectorscopeGenerator *m_vectorscopeGenerator;
 
