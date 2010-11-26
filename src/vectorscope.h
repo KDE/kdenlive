@@ -71,6 +71,9 @@ private:
 
     QPoint m_centerPoint, pR75, pG75, pB75, pCy75, pMg75, pYl75;
     QPoint qR75, qG75, qB75, qCy75, qMg75, qYl75;
+    /** Unlike the scopeRect, this rect represents the overall visible rectangle
+        and not only the square touching the Vectorscope's circle. */
+    QRect m_visibleRect;
 
     /** Updates the dimension. Only necessary when the widget has been resized. */
     void updateDimensions();

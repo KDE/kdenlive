@@ -83,7 +83,9 @@ public:
     static const QPen penThick;
     static const QPen penThin;
     static const QPen penLight;
+    static const QPen penLightDots;
     static const QPen penDark;
+    static const QPen penDarkDots;
 
 protected:
     ///// Variables /////

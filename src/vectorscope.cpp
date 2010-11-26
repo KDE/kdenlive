@@ -179,6 +179,8 @@ QRect Vectorscope::scopeRect()
     QPoint topleft(offset, ui->verticalSpacer->geometry().y()+offset);
     QPoint bottomright(ui->horizontalSpacer->geometry().right()-offset, this->size().height()-offset);
 
+    m_visibleRect = QRect(topleft, bottomright);
+
     QRect scopeRect(topleft, bottomright);
 
     // Circle Width: min of width and height
@@ -216,7 +218,7 @@ QImage Vectorscope::renderHUD(uint)
     if (m_mouseWithinWidget) {
         // Mouse moved: Draw a circle over the scope
 
-        hud = QImage(m_scopeRect.size(), QImage::Format_ARGB32);
+        hud = QImage(m_visibleRect.size(), QImage::Format_ARGB32);
         hud.fill(qRgba(0, 0, 0, 0));
 
         QPainter davinci(&hud);
@@ -286,33 +288,33 @@ QImage Vectorscope::renderBackground(uint)
     QTime start = QTime::currentTime();
     start.start();
 
-    QImage bg;
-    switch (ui->backgroundMode->itemData(ui->backgroundMode->currentIndex()).toInt()) {
-    case BG_YUV:
-//        qDebug() << "YUV background.";
-        bg = m_colorTools->yuvColorWheel(m_scopeRect.size(), (unsigned char) 128, 1/VectorscopeGenerator::scaling, false, true);
-        break;
-    case BG_CHROMA:
-        bg = m_colorTools->yuvColorWheel(m_scopeRect.size(), (unsigned char) 255, 1/VectorscopeGenerator::scaling, true, true);
-        break;
-    case BG_YPbPr:
-        bg = m_colorTools->yPbPrColorWheel(m_scopeRect.size(), (unsigned char) 128, 1/VectorscopeGenerator::scaling, true);
-        break;
-    default:
-//        qDebug() << "No background.";
-        bg = QImage(cw, cw, QImage::Format_ARGB32);
-        bg.fill(qRgba(0,0,0,0));
-        break;
-    }
+    QImage bg(m_visibleRect.size(), QImage::Format_ARGB32);
+    bg.fill(qRgba(0,0,0,0));
 
-
-    // Draw the vectorscope circle
+    // Set up tools
     QPainter davinci(&bg);
+    davinci.setRenderHint(QPainter::Antialiasing, true);
+
     QPoint vinciPoint;
     QPoint vinciPoint2;
 
+    // Draw the color plane (if selected)
+    QImage colorPlane;
+    switch (ui->backgroundMode->itemData(ui->backgroundMode->currentIndex()).toInt()) {
+    case BG_YUV:
+        colorPlane = m_colorTools->yuvColorWheel(m_scopeRect.size(), (unsigned char) 128, 1/VectorscopeGenerator::scaling, false, true);
+        davinci.drawImage(0, 0, colorPlane);
+        break;
+    case BG_CHROMA:
+        colorPlane = m_colorTools->yuvColorWheel(m_scopeRect.size(), (unsigned char) 255, 1/VectorscopeGenerator::scaling, true, true);
+        davinci.drawImage(0, 0, colorPlane);
+        break;
+    case BG_YPbPr:
+        colorPlane = m_colorTools->yPbPrColorWheel(m_scopeRect.size(), (unsigned char) 128, 1/VectorscopeGenerator::scaling, true);
+        davinci.drawImage(0, 0, colorPlane);
+        break;
+    }
 
-    davinci.setRenderHint(QPainter::Antialiasing, true);
 
 
     // Draw I/Q lines (from the YIQ color space; Skin tones lie on the I line)
@@ -321,10 +323,10 @@ QImage Vectorscope::renderBackground(uint)
 
         switch (ui->backgroundMode->itemData(ui->backgroundMode->currentIndex()).toInt()) {
         case BG_NONE:
-            davinci.setPen(penLight);
+            davinci.setPen(penLightDots);
             break;
         default:
-            davinci.setPen(penDark);
+            davinci.setPen(penDarkDots);
             break;
         }
 
@@ -333,20 +335,20 @@ QImage Vectorscope::renderBackground(uint)
             vinciPoint2 = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(.544,-.838));
         } else {
             vinciPoint = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(-.675,.737));
-            vinciPoint2 = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(.624,-.682));
+            vinciPoint2 = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(.675,-.737));
         }
 
         davinci.drawLine(vinciPoint, vinciPoint2);
         davinci.setPen(penThick);
-        davinci.drawText(vinciPoint - QPoint(10, 10), "I");
+        davinci.drawText(vinciPoint - QPoint(11, 5), "I");
 
 
         switch (ui->backgroundMode->itemData(ui->backgroundMode->currentIndex()).toInt()) {
         case BG_NONE:
-            davinci.setPen(penLight);
+            davinci.setPen(penLightDots);
             break;
         default:
-            davinci.setPen(penDark);
+            davinci.setPen(penDarkDots);
             break;
         }
 
@@ -355,18 +357,18 @@ QImage Vectorscope::renderBackground(uint)
             vinciPoint2 = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(-.838,-.544));
         } else {
             vinciPoint = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(.908, .443));
-            vinciPoint2 = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(-.962,-.443));
+            vinciPoint2 = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(-.908,-.443));
         }
 
         davinci.drawLine(vinciPoint, vinciPoint2);
         davinci.setPen(penThick);
-        davinci.drawText(vinciPoint - QPoint(-10, 10), "Q");
+        davinci.drawText(vinciPoint - QPoint(-7, 2), "Q");
 
 
 
     }
 
-    // Draw the main circle
+    // Draw the vectorscope circle
     davinci.setPen(penThick);
     davinci.drawEllipse(0, 0, cw, cw);
 

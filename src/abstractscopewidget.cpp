@@ -29,7 +29,9 @@ const QColor dark2(25,  25,  23, 255);
 const QPen AbstractScopeWidget::penThick(QBrush(QColor(250, 250, 250)),     2, Qt::SolidLine);
 const QPen AbstractScopeWidget::penThin(QBrush(QColor(250, 250, 250)),     1, Qt::SolidLine);
 const QPen AbstractScopeWidget::penLight(QBrush(QColor(200, 200, 250, 150)), 1, Qt::SolidLine);
+const QPen AbstractScopeWidget::penLightDots(QBrush(QColor(200, 200, 250, 150)), 1, Qt::DotLine);
 const QPen AbstractScopeWidget::penDark(QBrush(QColor(0, 0, 20, 250)),      1, Qt::SolidLine);
+const QPen AbstractScopeWidget::penDarkDots(QBrush(QColor(0, 0, 20, 250)),      1, Qt::DotLine);
 
 AbstractScopeWidget::AbstractScopeWidget(Monitor *projMonitor, Monitor *clipMonitor, bool trackMouse, QWidget *parent) :
         QWidget(parent),
