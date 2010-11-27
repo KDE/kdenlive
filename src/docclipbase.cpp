@@ -594,7 +594,7 @@ Mlt::Producer *DocClipBase::producer(int track)
             return NULL;
         }
         if (m_properties.contains("force_aspect_num") && m_properties.contains("force_aspect_den") && m_properties.contains("frame_size"))
-            m_baseTrackProducers[track]->set("force_aspect_raio", getPixelAspect(m_properties));
+            m_baseTrackProducers[track]->set("force_aspect_ratio", getPixelAspect(m_properties));
         if (m_properties.contains("force_fps")) m_baseTrackProducers[track]->set("force_fps", m_properties.value("force_fps").toDouble());
         if (m_properties.contains("force_progressive")) m_baseTrackProducers[track]->set("force_progressive", m_properties.value("force_progressive").toInt());
         if (m_properties.contains("force_tff")) m_baseTrackProducers[track]->set("force_tff", m_properties.value("force_tff").toInt());
