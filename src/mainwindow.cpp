@@ -135,7 +135,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     m_findActivated(false),
     m_stopmotion(NULL)
 {
-	qRegisterMetaType<QVector<int16_t> > ();
+    qRegisterMetaType<QVector<int16_t> > ();
     // Create DBus interface
     new MainWindowAdaptor(this);
     QDBusConnection dbus = QDBusConnection::sessionBus();
@@ -296,17 +296,17 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     bool b = true;
     if (m_projectMonitor) {
         qDebug() << "project monitor connected";
-        b &= connect(m_projectMonitor->render, SIGNAL(audioSamplesSignal(QVector<int16_t>,int,int,int)),
-                m_audioSpectrum, SLOT(slotReceiveAudio(QVector<int16_t>,int,int,int)));
-        b &= connect(m_projectMonitor->render, SIGNAL(audioSamplesSignal(const QVector<int16_t>&,const int&,const int&, const int&)),
-                     m_audiosignal, SLOT(slotReceiveAudio(const QVector<int16_t>&,const int&,const int&,const int&)));
+        b &= connect(m_projectMonitor->render, SIGNAL(audioSamplesSignal(QVector<int16_t>, int, int, int)),
+                     m_audioSpectrum, SLOT(slotReceiveAudio(QVector<int16_t>, int, int, int)));
+        b &= connect(m_projectMonitor->render, SIGNAL(audioSamplesSignal(const QVector<int16_t>&, const int&, const int&, const int&)),
+                     m_audiosignal, SLOT(slotReceiveAudio(const QVector<int16_t>&, const int&, const int&, const int&)));
     }
     if (m_clipMonitor) {
         qDebug() << "clip monitor connected";
-        b &= connect(m_clipMonitor->render, SIGNAL(audioSamplesSignal(QVector<int16_t>,int,int,int)),
-                m_audioSpectrum, SLOT(slotReceiveAudio(QVector<int16_t>,int,int,int)));
-        b &= connect(m_clipMonitor->render, SIGNAL(audioSamplesSignal(const QVector<int16_t>&,int,int,int)),
-                m_audiosignal, SLOT(slotReceiveAudio(const QVector<int16_t>&,int,int,int)));
+        b &= connect(m_clipMonitor->render, SIGNAL(audioSamplesSignal(QVector<int16_t>, int, int, int)),
+                     m_audioSpectrum, SLOT(slotReceiveAudio(QVector<int16_t>, int, int, int)));
+        b &= connect(m_clipMonitor->render, SIGNAL(audioSamplesSignal(const QVector<int16_t>&, int, int, int)),
+                     m_audiosignal, SLOT(slotReceiveAudio(const QVector<int16_t>&, int, int, int)));
     }
     // Ensure connection was set up correctly
     Q_ASSERT(b);
@@ -3099,6 +3099,13 @@ void MainWindow::slotShowClipProperties(DocClipBase *clip)
                 // duration changed, we need to update duration
                 newprops.insert("out", QString::number(dia_ui->outPoint()));
             }
+            if (!path.isEmpty()) {
+                // we are editing an external file, asked if we want to detach from that file or save the result to that title file.
+                if (KMessageBox::questionYesNo(this, i18n("You are editing an external title clip (%1). Do you want to save your changes to the title file or save the changes for this project only?", path), i18n("Save Title"), KGuiItem(i18n("Save to title file")), KGuiItem(i18n("Save in project only"))) == KMessageBox::Yes) {
+                    // save to external file
+                    dia_ui->saveTitle(path);
+                } else newprops.insert("resource", QString());
+            }
             EditClipCommand *command = new EditClipCommand(m_projectList, clip->getId(), clip->properties(), newprops, true);
             m_activeDocument->commandStack()->push(command);
             //m_activeTimeline->projectView()->slotUpdateClip(clip->getId());
@@ -4019,12 +4026,12 @@ void MainWindow::slotOpenStopmotion()
     if (m_stopmotion == NULL) {
         m_stopmotion = new StopmotionWidget(m_activeDocument->projectFolder(), m_stopmotion_actions->actions(), this);
         connect(m_stopmotion, SIGNAL(addOrUpdateSequence(const QString)), m_projectList, SLOT(slotAddOrUpdateSequence(const QString)));
-	for (int i = 0; i < m_scopesList.count(); i++) {
-	    // Check if we need the renderer to send a new frame for update
-	    /*if (!m_scopesList.at(i)->widget()->visibleRegion().isEmpty() && !(static_cast<AbstractScopeWidget *>(m_scopesList.at(i)->widget())->autoRefreshEnabled())) request = true;*/
-	    connect(m_stopmotion, SIGNAL(gotFrame(QImage)), static_cast<AbstractScopeWidget *>(m_scopesList.at(i)->widget()), SLOT(slotRenderZoneUpdated(QImage)));
-	    //static_cast<AbstractScopeWidget *>(m_scopesList.at(i)->widget())->slotMonitorCapture();
-	}
+        for (int i = 0; i < m_scopesList.count(); i++) {
+            // Check if we need the renderer to send a new frame for update
+            /*if (!m_scopesList.at(i)->widget()->visibleRegion().isEmpty() && !(static_cast<AbstractScopeWidget *>(m_scopesList.at(i)->widget())->autoRefreshEnabled())) request = true;*/
+            connect(m_stopmotion, SIGNAL(gotFrame(QImage)), static_cast<AbstractScopeWidget *>(m_scopesList.at(i)->widget()), SLOT(slotRenderZoneUpdated(QImage)));
+            //static_cast<AbstractScopeWidget *>(m_scopesList.at(i)->widget())->slotMonitorCapture();
+        }
     }
     m_stopmotion->show();
 }
