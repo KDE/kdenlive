@@ -56,21 +56,21 @@ ClipManager::ClipManager(KdenliveDoc *doc) :
 
 ClipManager::~ClipManager()
 {
-    qDeleteAll(m_clipList);
-    m_clipList.clear();
     m_audioThumbsQueue.clear();
     m_generatingAudioId.clear();
+    qDeleteAll(m_clipList);
+    m_clipList.clear();
 }
 
 void ClipManager::clear()
 {
+    m_folderList.clear();
+    m_audioThumbsQueue.clear();
+    m_modifiedClips.clear();
     qDeleteAll(m_clipList);
     m_clipList.clear();
     m_clipIdCounter = 1;
     m_folderIdCounter = 1;
-    m_folderList.clear();
-    m_audioThumbsQueue.clear();
-    m_modifiedClips.clear();
 }
 
 void ClipManager::checkAudioThumbs()
