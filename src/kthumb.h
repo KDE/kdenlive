@@ -106,9 +106,10 @@ public slots:
 private slots:
     void slotAudioThumbProgress(const int progress);
     void slotAudioThumbOver();
-
+    void slotCreateAudioThumbs();
 private:
-    MyThread m_audioThumbProducer;
+    //MyThread m_audioThumbProducer;
+    QFuture<void> m_audioThumbProducer;
     KUrl m_url;
     QString m_thumbFile;
     double m_dar;
@@ -117,6 +118,13 @@ private:
     QString m_id;
     QList <int> m_requestedThumbs;
     QFuture<void> m_future;
+    QFile m_audioThumbFile;
+    bool m_stopAudioThumbs;
+    double m_frame;
+    double m_frameLength;
+    int m_frequency;
+    int m_channels;
+    int m_arrayWidth;
     void doGetThumbs();
 
 signals:
