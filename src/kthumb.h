@@ -20,8 +20,6 @@
 
 #include <QPixmap>
 #include <QFile>
-#include <QThread>
-#include <QMutex>
 #include <QDomElement>
 #include <QFuture>
 
@@ -49,32 +47,6 @@ class Profile;
 };
 
 class ClipManager;
-
-
-
-class MyThread : public QThread
-{
-    Q_OBJECT
-public:
-    virtual void run();
-    void init(KUrl url, QString target, double frame, double frameLength, int frequency, int channels, int arrayWidth);
-    bool isWorking();
-    bool stop_me;
-
-private:
-    QFile f;
-    KUrl m_url;
-    double m_frame;
-    double m_frameLength;
-    int m_frequency;
-    int m_channels;
-    int m_arrayWidth;
-    bool m_isWorking;
-
-signals:
-    void audioThumbProgress(const int);
-    void audioThumbOver();
-};
 
 class KThumb: public QObject
 {
@@ -104,11 +76,10 @@ public slots:
     static QImage getFrame(Mlt::Producer *producer, int framepos, int width, int height);
 
 private slots:
-    void slotAudioThumbProgress(const int progress);
     void slotAudioThumbOver();
     void slotCreateAudioThumbs();
+
 private:
-    //MyThread m_audioThumbProducer;
     QFuture<void> m_audioThumbProducer;
     KUrl m_url;
     QString m_thumbFile;

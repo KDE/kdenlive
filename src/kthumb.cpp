@@ -39,83 +39,6 @@
 #include <QApplication>
 #include <QtConcurrentRun>
 
-void MyThread::init(KUrl url, QString target, double frame, double frameLength, int frequency, int channels, int arrayWidth)
-{
-    stop_me = false;
-    m_isWorking = false;
-    f.setFileName(target);
-    m_url = url;
-    m_frame = frame;
-    m_frameLength = frameLength;
-    m_frequency = frequency;
-    m_channels = channels;
-    m_arrayWidth = arrayWidth;
-}
-
-bool MyThread::isWorking()
-{
-    return m_isWorking;
-}
-
-void MyThread::run()
-{
-    if (!f.open(QIODevice::WriteOnly)) {
-        kDebug() << "++++++++  ERROR WRITING TO FILE: " << f.fileName() << endl;
-        kDebug() << "++++++++  DISABLING AUDIO THUMBS" << endl;
-        KdenliveSettings::setAudiothumbnails(false);
-        return;
-    }
-    m_isWorking = true;
-    Mlt::Profile prof((char*) KdenliveSettings::current_profile().toUtf8().data());
-    Mlt::Producer m_producer(prof, m_url.path().toUtf8().data());
-
-
-    if (KdenliveSettings::normaliseaudiothumbs()) {
-        Mlt::Filter m_convert(prof, "volume");
-        m_convert.set("gain", "normalise");
-        m_producer.attach(m_convert);
-    }
-
-    int last_val = 0;
-    int val = 0;
-    kDebug() << "for " << m_frame << " " << m_frameLength << " " << m_producer.is_valid();
-    for (int z = (int) m_frame; z < (int)(m_frame + m_frameLength) && m_producer.is_valid(); z++) {
-        if (stop_me) break;
-        val = (int)((z - m_frame) / (m_frame + m_frameLength) * 100.0);
-        if (last_val != val && val > 1) {
-            emit audioThumbProgress(val);
-            last_val = val;
-        }
-        m_producer.seek(z);
-        Mlt::Frame *mlt_frame = m_producer.get_frame();
-        if (mlt_frame && mlt_frame->is_valid()) {
-            double m_framesPerSecond = mlt_producer_get_fps(m_producer.get_producer());
-            int m_samples = mlt_sample_calculator(m_framesPerSecond, m_frequency, mlt_frame_get_position(mlt_frame->get_frame()));
-            mlt_audio_format m_audioFormat = mlt_audio_pcm;
-            qint16* m_pcm = static_cast<qint16*>(mlt_frame->get_audio(m_audioFormat, m_frequency, m_channels, m_samples));
-
-            for (int c = 0; c < m_channels; c++) {
-                QByteArray m_array;
-                m_array.resize(m_arrayWidth);
-                for (int i = 0; i < m_array.size(); i++) {
-                    m_array[i] = ((*(m_pcm + c + i * m_samples / m_array.size())) >> 9) + 127 / 2 ;
-                }
-                f.write(m_array);
-
-            }
-        } else {
-            f.write(QByteArray(m_arrayWidth, '\x00'));
-        }
-        delete mlt_frame;
-    }
-    //kDebug() << "done";
-    f.close();
-    m_isWorking = false;
-    if (stop_me) {
-        f.remove();
-    } else emit audioThumbOver();
-}
-
 
 KThumb::KThumb(ClipManager *clipManager, KUrl url, const QString &id, const QString &hash, QObject * parent, const char */*name*/) :
     QObject(parent),
@@ -129,8 +52,6 @@ KThumb::KThumb(ClipManager *clipManager, KUrl url, const QString &id, const QStr
     m_stopAudioThumbs(false)
 {
     m_thumbFile = clipManager->projectFolder() + "/thumbs/" + hash + ".thumb";
-    /*connect(&m_audioThumbProducer, SIGNAL(audioThumbProgress(const int)), this, SLOT(slotAudioThumbProgress(const int)));
-    connect(&m_audioThumbProducer, SIGNAL(audioThumbOver()), this, SLOT(slotAudioThumbOver()));*/
 }
 
 KThumb::~KThumb()
@@ -441,7 +362,7 @@ void KThumb::slotCreateAudioThumbs()
         if (m_stopAudioThumbs) break;
         val = (int)((z - m_frame) / (m_frame + m_frameLength) * 100.0);
         if (last_val != val && val > 1) {
-            slotAudioThumbProgress(val);
+            m_clipManager->setThumbsProgress(i18n("Creating thumbnail for %1", m_url.fileName()), val);
             last_val = val;
         }
         m_producer.seek(z);
@@ -472,11 +393,6 @@ void KThumb::slotCreateAudioThumbs()
     } else {
         slotAudioThumbOver();
     }
-}
-
-void KThumb::slotAudioThumbProgress(const int progress)
-{
-    m_clipManager->setThumbsProgress(i18n("Creating thumbnail for %1", m_url.fileName()), progress);
 }
 
 void KThumb::slotAudioThumbOver()
