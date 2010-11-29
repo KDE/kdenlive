@@ -65,12 +65,12 @@ class Urlval: public QWidget, public Ui::Urlval_UI
 QMap<QString, QImage> EffectStackEdit::iconCache;
 
 EffectStackEdit::EffectStackEdit(Monitor *monitor, QWidget *parent) :
-        QScrollArea(parent),
-        m_in(0),
-        m_out(0),
-        m_frameSize(QPoint()),
-        m_keyframeEditor(NULL),
-        m_monitor(monitor)
+    QScrollArea(parent),
+    m_in(0),
+    m_out(0),
+    m_frameSize(QPoint()),
+    m_keyframeEditor(NULL),
+    m_monitor(monitor)
 {
     m_baseWidget = new QWidget(this);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -160,6 +160,25 @@ void EffectStackEdit::updateProjectFormat(MltVideoProfile profile, Timecode t)
 void EffectStackEdit::updateParameter(const QString &name, const QString &value)
 {
     m_params.setAttribute(name, value);
+    if (name == "disable") {
+        // if effect is disabled, disable parameters widget
+        setEnabled(value.toInt() == 0);
+        if (KdenliveSettings::on_monitor_effects()) {
+            // effect disabled, hide monitor scene if any
+            QDomNodeList namenode = m_params.elementsByTagName("parameter");
+            for (int i = 0; i < namenode.count() ; i++) {
+                QDomNode pa = namenode.item(i);
+                QDomNode na = pa.firstChildElement("name");
+                QString type = pa.attributes().namedItem("type").nodeValue();
+                if (type == "geometry") {
+                    QString paramName = i18n(na.toElement().text().toUtf8().data());
+                    paramName.append("geometry");
+                    GeometryWidget *geometry = ((GeometryWidget*)m_valueItems.value(paramName));
+                    geometry->slotShowScene(value.toInt() == 0);
+                }
+            }
+        }
+    }
 }
 
 void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, int out, bool isEffect)
@@ -179,6 +198,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
     QDomElement e = m_params.toElement();
     const int minFrame = e.attribute("start").toInt();
     const int maxFrame = e.attribute("end").toInt();
+    bool disabled = d.attribute("disable") == "1";
 
 
     for (int i = 0; i < namenode.count() ; i++) {
@@ -260,7 +280,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
             connect(pl, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
         } else if (type == "geometry") {
             if (KdenliveSettings::on_monitor_effects()) {
-                GeometryWidget *geometry = new GeometryWidget(m_monitor, m_timecode, pos, isEffect, this);
+                GeometryWidget *geometry = new GeometryWidget(m_monitor, m_timecode, pos, isEffect, disabled, this);
                 // connect this before setupParam to make sure the monitor scene shows up at startup
                 connect(geometry, SIGNAL(checkMonitorPosition(int)), this, SIGNAL(checkMonitorPosition(int)));
                 connect(geometry, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
@@ -448,7 +468,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
     }
     m_vbox->addStretch();
 
-    if(m_keyframeEditor)
+    if (m_keyframeEditor)
         m_keyframeEditor->checkVisibleParam();
 }
 

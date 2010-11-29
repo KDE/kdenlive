@@ -46,7 +46,7 @@ public:
     * @param clipPos Position of the clip in timeline
     * @param isEffect true if used in an effect, false if used in a transition
     * @param parent (optional) Parent widget */
-    GeometryWidget(Monitor *monitor, Timecode timecode, int clipPos, bool isEffect, QWidget* parent = 0);
+    GeometryWidget(Monitor *monitor, Timecode timecode, int clipPos, bool isEffect, bool disabled, QWidget* parent = 0);
     virtual ~GeometryWidget();
     /** @brief Gets the geometry as a serialized string. */
     QString getValue() const;
@@ -61,6 +61,8 @@ public slots:
     void setupParam(const QDomElement elem, int minframe, int maxframe);
     /** @brief Updates position of the local timeline to @param relTimelinePos.  */
     void slotSyncPosition(int relTimelinePos);
+    /** @brief Switches from normal monitor to monitor scene according to @param show. */
+    void slotShowScene(bool show = true);
 
 private:
     Ui::GeometryWidget_UI m_ui;
@@ -143,8 +145,6 @@ private slots:
 
     /** @brief Enables/Disables syncing with the timeline according to @param sync. */
     void slotSetSynchronize(bool sync);
-    /** @brief Switches from normal monitor to monitor scene according to @param show. */
-    void slotShowScene(bool show = true);
 
 signals:
     void parameterChanged();

@@ -49,7 +49,7 @@ public:
     ~EffectStackEdit();
     void updateProjectFormat(MltVideoProfile profile, Timecode t);
     static QMap<QString, QImage> iconCache;
-    /** @brief Sets attribute @param name to @param value. 
+    /** @brief Sets attribute @param name to @param value.
     *
     * Used to disable the effect, by setting disabled="1" */
     void updateParameter(const QString &name, const QString &value);
