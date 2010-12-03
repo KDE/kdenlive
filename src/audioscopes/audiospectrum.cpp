@@ -2,7 +2,9 @@
 #include "tools/kiss_fftr.h"
 
 #include <QMenu>
+#include <QPainter>
 
+// Linear interpolation.
 //#include <iostream>
 //#include <fstream>
 
@@ -14,7 +16,11 @@ AudioSpectrum::AudioSpectrum(Monitor *projMonitor, Monitor *clipMonitor, QWidget
     ui = new Ui::AudioSpectrum_UI;
     ui->setupUi(this);
 
-    m_cfg = kiss_fftr_alloc(512, 0,0,0);
+    m_distance = QSize(65, 30);
+    m_dBmin = -120;
+    m_dBmax = 0;
+    m_freqMax = 10000;
+
 
     m_aLin = new QAction(i18n("Linear scale"), this);
     m_aLin->setCheckable(true);
@@ -28,6 +34,18 @@ AudioSpectrum::AudioSpectrum(Monitor *projMonitor, Monitor *clipMonitor, QWidget
     m_menu->addSeparator()->setText(i18n("Scale"));
     m_menu->addAction(m_aLin);
     m_menu->addAction(m_aLog);
+
+    ui->windowSize->addItem("256", QVariant(256));
+    ui->windowSize->addItem("512", QVariant(512));
+    ui->windowSize->addItem("1024", QVariant(1024));
+    ui->windowSize->addItem("2048", QVariant(2048));
+
+    m_cfg = kiss_fftr_alloc(ui->windowSize->itemData(ui->windowSize->currentIndex()).toInt(), 0,0,0);
+
+
+    bool b = true;
+    b &= connect(ui->windowSize, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateCfg()));
+    Q_ASSERT(b);
 
     init();
 }
@@ -51,6 +69,7 @@ void AudioSpectrum::readConfig()
     } else {
         m_aLog->setChecked(true);
     }
+    ui->windowSize->setCurrentIndex(scopeConfig.readEntry("windowSize", 0));
 
 }
 void AudioSpectrum::writeConfig()
@@ -64,6 +83,7 @@ void AudioSpectrum::writeConfig()
         scale = "log";
     }
     scopeConfig.writeEntry("scale", scale);
+    scopeConfig.writeEntry("windowSize", ui->windowSize->currentIndex());
     scopeConfig.sync();
 }
 
@@ -76,99 +96,181 @@ bool AudioSpectrum::isHUDDependingOnInput() const { return false; }
 QImage AudioSpectrum::renderBackground(uint) { return QImage(); }
 QImage AudioSpectrum::renderScope(uint, const QVector<int16_t> audioFrame, const int freq, const int num_channels, const int num_samples)
 {
-    QTime start = QTime::currentTime();
-    float data[512];
+    if (audioFrame.size() > 63) {
+        m_freqMax = freq / 2;
 
-    // The resulting FFT vector is only half as long
-    kiss_fft_cpx freqData[256];
+        QTime start = QTime::currentTime();
 
-    // Copy the first channel's audio into a vector for the FFT display
-    // (only one channel handled at the moment)
-    for (int i = 0; i < 512; i++) {
-        data[i] = (float) audioFrame.data()[i*num_channels];
-    }
-    // Calculate the Fast Fourier Transform for the input data
-    kiss_fftr(m_cfg, data, freqData);
-
-//    qDebug() << num_samples << " samples at " << freq << " Hz";
-//    qDebug() << "FFT Freq: " << freqData[0].r << " " << freqData[1].r << ", " << freqData[2].r;
-//    qDebug() << "FFT imag: " << freqData[0].i << " " << freqData[1].i << ", " << freqData[2].i;
-
-
-    float max = 0;
-    float maxSignal = 0;
-    float min = 1000;
-    float val;
-    // Get the minimum and the maximum value of the Fourier transformed (for scaling)
-    for (int i = 0; i < 256; i++) {
-        // sqrt(r² + i²)
-        val = pow(pow(fabs(freqData[i].r),2) + pow(fabs(freqData[i].i),2), .5);
-        if (maxSignal < val) { maxSignal = val; }
-        if (!m_aLin->isChecked()) {
-            // Logarithmic scale
-            val = log(pow(pow(fabs(freqData[i].r),2) + pow(fabs(freqData[i].i),2), .5)/512.0f);
+        bool customCfg = false;
+        kiss_fftr_cfg myCfg = m_cfg;
+        int fftWindow = ui->windowSize->itemData(ui->windowSize->currentIndex()).toInt();
+        if (fftWindow > num_samples) {
+            fftWindow = num_samples;
+            customCfg = true;
         }
-        max = (max > val) ? max : val;
-        min = (min < val) ? min : val;
-    }
-    qDebug() << "MAX: " << max << " (" << maxSignal << "), MIN: " << min;
-
-    // Scaling factor
-    float factor = 100./(max-min);
-
-    // Draw the spectrum
-    QImage spectrum(512, 100, QImage::Format_ARGB32);
-    spectrum.fill(qRgba(0,0,0,0));
-    for (int i = 0; i < 256; i++) {
-        if (m_aLin->isChecked()) {
-            val = pow(pow(fabs(freqData[i].r),2) + pow(fabs(freqData[i].i),2), .5);
-        } else {
-            val = log(pow(pow(fabs(freqData[i].r),2) + pow(fabs(freqData[i].i),2), .5)/512.0f);
+        if ((fftWindow & 1) == 1) {
+            fftWindow--;
+            customCfg = true;
         }
-        //val = val >> 16;
-        val = factor * (val-min);
-//        qDebug() << val;
-        for (int y = 0; y < val && y < 100; y++) {
-            spectrum.setPixel(2*i, 99-y, qRgba(225, 182, 255, 255));
-            spectrum.setPixel(2*i+1, 99-y, qRgba(225, 182, 255, 255));
+        if (customCfg) {
+            myCfg = kiss_fftr_alloc(fftWindow, 0,0,0);
         }
-    }
 
-    emit signalScopeRenderingFinished(start.elapsed(), 1);
+        float data[fftWindow];
+        float freqSpectrum[fftWindow/2];
 
-    /*
-    if (!fileWritten || true) {
-        std::ofstream mFile;
-        mFile.open("/tmp/freq.m");
-        if (!mFile) {
-            qDebug() << "Opening file failed.";
-        } else {
-            mFile << "val = [ ";
-
-            for (int sample = 0; sample < 256; sample++) {
-                mFile << data[sample] << " ";
+        int16_t maxSig = 0;
+        for (int i = 0; i < fftWindow; i++) {
+            if (audioFrame.data()[i*num_channels] > maxSig) {
+                maxSig = audioFrame.data()[i*num_channels];
             }
-            mFile << " ];\n";
-
-            mFile << "freq = [ ";
-            for (int sample = 0; sample < 256; sample++) {
-                mFile << freqData[sample].r << "+" << freqData[sample].i << "*i ";
-            }
-            mFile << " ];\n";
-
-            mFile.close();
-            fileWritten = true;
-            qDebug() << "File written.";
         }
+        qDebug() << "Max audio signal is " << maxSig;
+
+        // The resulting FFT vector is only half as long
+        kiss_fft_cpx freqData[fftWindow/2];
+
+        // Copy the first channel's audio into a vector for the FFT display
+        // (only one channel handled at the moment)
+        for (int i = 0; i < fftWindow; i++) {
+            // Normalize signals to [0,1] to get correct dB values later on
+            data[i] = (float) audioFrame.data()[i*num_channels] / 32767.0f;
+        }
+        // Calculate the Fast Fourier Transform for the input data
+        kiss_fftr(m_cfg, data, freqData);
+
+
+        float val;
+        // Get the minimum and the maximum value of the Fourier transformed (for scaling)
+        for (int i = 0; i < fftWindow/2; i++) {
+            if (m_aLog->isChecked()) {
+                // Logarithmic scale: 20 * log ( 2 * magnitude / N )
+                // with N = FFT size (after FFT, 1/2 window size)
+                val = 20*log(pow(pow(fabs(freqData[i].r),2) + pow(fabs(freqData[i].i),2), .5)/((float)fftWindow/2.0f))/log(10);
+            } else {
+                // sqrt(r² + i²)
+                val = pow(pow(fabs(freqData[i].r),2) + pow(fabs(freqData[i].i),2), .5);
+            }
+            freqSpectrum[i] = val;
+    //        qDebug() << val;
+        }
+
+
+
+        // Draw the spectrum
+        QImage spectrum(scopeRect().size(), QImage::Format_ARGB32);
+        spectrum.fill(qRgba(0,0,0,0));
+        uint w = scopeRect().size().width();
+        uint h = scopeRect().size().height();
+        float x;
+        for (uint i = 0; i < w; i++) {
+
+            x = i/((float) w) * fftWindow/2;
+
+            // Use linear interpolation in order to get smoother display
+            if (i == 0 || i == w-1) {
+                val = freqSpectrum[i];
+            } else {
+                // Use floor(x)+1 instead of ceil(x) as floor(x) == ceil(x) is possible.
+                val = (floor(x)+1 - x)*freqSpectrum[(int) floor(x)] + (x-floor(x))*freqSpectrum[(int) floor(x)+1];
+            }
+
+            // freqSpectrum values range from 0 to -inf as they are relative dB values.
+            qDebug() << val << "/" <<  (1 - (val - m_dBmax)/(m_dBmin-m_dBmax));
+            for (uint y = 0; y < h*(1 - (val - m_dBmax)/(m_dBmin-m_dBmax)) && y < h; y++) {
+                spectrum.setPixel(i, h-y-1, qRgba(225, 182, 255, 255));
+            }
+        }
+
+        emit signalScopeRenderingFinished(start.elapsed(), 1);
+
+        /*
+        if (!fileWritten || true) {
+            std::ofstream mFile;
+            mFile.open("/tmp/freq.m");
+            if (!mFile) {
+                qDebug() << "Opening file failed.";
+            } else {
+                mFile << "val = [ ";
+
+                for (int sample = 0; sample < 256; sample++) {
+                    mFile << data[sample] << " ";
+                }
+                mFile << " ];\n";
+
+                mFile << "freq = [ ";
+                for (int sample = 0; sample < 256; sample++) {
+                    mFile << freqData[sample].r << "+" << freqData[sample].i << "*i ";
+                }
+                mFile << " ];\n";
+
+                mFile.close();
+                fileWritten = true;
+                qDebug() << "File written.";
+            }
+        } else {
+            qDebug() << "File already written.";
+        }
+        */
+
+        if (customCfg) {
+            free(myCfg);
+        }
+
+        return spectrum;
     } else {
-        qDebug() << "File already written.";
+        emit signalScopeRenderingFinished(0, 1);
+        return QImage();
     }
-    */
-
-    return spectrum;
 }
-QImage AudioSpectrum::renderHUD(uint) { return QImage(); }
+QImage AudioSpectrum::renderHUD(uint)
+{
+    QTime start = QTime::currentTime();
+
+    const QRect rect = scopeRect();
+    // Minimum distance between two lines
+    const uint minDistY = 30;
+    const uint minDistX = 40;
+    const uint textDist = 5;
+    const uint dbDiff = ceil((float)minDistY/rect.height() * (m_dBmax-m_dBmin));
+
+    QImage hud(AbstractAudioScopeWidget::rect().size(), QImage::Format_ARGB32);
+    hud.fill(qRgba(0,0,0,0));
+
+    QPainter davinci(&hud);
+    davinci.setPen(AbstractAudioScopeWidget::penLight);
+
+    int y;
+    for (int db = -dbDiff; db > m_dBmin; db -= dbDiff) {
+        y = rect.height() * ((float)db)/(m_dBmin - m_dBmax);
+        davinci.drawLine(0, y, rect.width()-1, y);
+        davinci.drawText(rect.width() + textDist, y + 8, i18n("%1 dB", db));
+    }
+
+
+    qDebug() << "max freq: " << m_freqMax;
+    const uint hzDiff = ceil( ((float)minDistX)/rect.width() * m_freqMax / 1000 ) * 1000;
+    qDebug() << hzDiff;
+    int x;
+    for (int hz = hzDiff; hz < m_freqMax; hz += hzDiff) {
+        x = rect.width() * ((float)hz)/m_freqMax;
+        davinci.drawLine(x, 0, x, rect.height()+4);
+        davinci.drawText(x-4, rect.height() + 20, QVariant(hz/1000).toString());
+    }
+    davinci.drawText(rect.width(), rect.height() + 20, "[kHz]");
+
+
+    emit signalHUDRenderingFinished(start.elapsed(), 1);
+    return hud;
+}
 
 QRect AudioSpectrum::scopeRect() {
-    return QRect(0,0,40,40);
+    return QRect(QPoint(0, 0), AbstractAudioScopeWidget::rect().size() - m_distance);
+}
+
+
+void AudioSpectrum::slotUpdateCfg()
+{
+    free(m_cfg);
+    m_cfg = kiss_fftr_alloc(ui->windowSize->itemData(ui->windowSize->currentIndex()).toInt(), 0,0,0);
 }

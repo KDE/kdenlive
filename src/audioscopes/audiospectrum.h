@@ -39,6 +39,18 @@ private:
     QAction *m_aLog;
     QActionGroup *m_agScale;
 
+    QSize m_distance;
+
+    /** Lower bound for the dB value to display */
+    int m_dBmin;
+    /** Upper bound (max: 0) */
+    int m_dBmax;
+
+    uint m_freqMax;
+
+private slots:
+    void slotUpdateCfg();
+
 };
 
 #endif // AUDIOSPECTRUM_H
