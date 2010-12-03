@@ -8,44 +8,42 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-#ifndef RGBPARADE_H
-#define RGBPARADE_H
+#ifndef HISTOGRAM_H
+#define HISTOGRAM_H
 
-#include <QObject>
 #include "abstractgfxscopewidget.h"
-#include "ui_rgbparade_ui.h"
+#include "ui_histogram_ui.h"
 
-class Monitor;
-class QImage;
-class RGBParade_UI;
-class RGBParadeGenerator;
+class HistogramGenerator;
 
-class RGBParade : public AbstractGfxScopeWidget
-{
+class Histogram : public AbstractGfxScopeWidget {
+    Q_OBJECT
+
 public:
-    RGBParade(Monitor *projMonitor, Monitor *clipMonitor, QWidget *parent = 0);
-    ~RGBParade();
+    Histogram(Monitor *projMonitor, Monitor *clipMonitor, QWidget *parent = 0);
+    ~Histogram();
     QString widgetName() const;
 
 protected:
     virtual void readConfig();
     void writeConfig();
-    QRect scopeRect();
 
 private:
-    Ui::RGBParade_UI *ui;
-    RGBParadeGenerator *m_rgbParadeGenerator;
+    HistogramGenerator *m_histogramGenerator;
+    QAction *m_aUnscaled;
+    QAction *m_aRec601;
+    QAction *m_aRec709;
+    QActionGroup *m_agRec;
 
-    QAction *m_aAxis;
-    QAction *m_aGradRef;
-
+    QRect scopeRect();
     bool isHUDDependingOnInput() const;
     bool isScopeDependingOnInput() const;
     bool isBackgroundDependingOnInput() const;
-
     QImage renderHUD(uint accelerationFactor);
-    QImage renderScope(uint accelerationFactor, const QImage);
+    QImage renderGfxScope(uint accelerationFactor, const QImage);
     QImage renderBackground(uint accelerationFactor);
+    Ui::Histogram_UI *ui;
+
 };
 
-#endif // RGBPARADE_H
+#endif // HISTOGRAM_H

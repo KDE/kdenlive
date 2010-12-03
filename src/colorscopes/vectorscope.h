@@ -37,7 +37,7 @@ protected:
     ///// Implemented methods /////
     QRect scopeRect();
     QImage renderHUD(uint accelerationFactor);
-    QImage renderScope(uint accelerationFactor, const QImage);
+    QImage renderGfxScope(uint accelerationFactor, const QImage);
     QImage renderBackground(uint accelerationFactor);
     bool isHUDDependingOnInput() const;
     bool isScopeDependingOnInput() const;
@@ -78,18 +78,6 @@ private:
     /** Updates the dimension. Only necessary when the widget has been resized. */
     void updateDimensions();
     int cw;
-
-    /** Counts the number of frames that have been rendered in one of the monitors.
-      The frame number will be reset when the vectorscope starts calculating the
-      current frame. */
-//    QAtomicInt newFrames;
-    /** Counts the number of other changes that should cause the vectorscope to be
-      recalculated. This is for example a resizeEvent. In this case, no new frames
-      are generated, but the scope has to be updated in any case (also if auto-update
-      is not enabled). */
-//    QAtomicInt newChanges;
-    /** Counts the number of changes concerning the background wheel */
-//    QAtomicInt newWheelChanges;
 
 
 private slots:

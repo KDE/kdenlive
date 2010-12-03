@@ -21,8 +21,8 @@
 #include <QMouseEvent>
 #include <QPainter>
 
-AbstractAudioScopeWidget::AbstractAudioScopeWidget(Monitor *projMonitor, Monitor *clipMonitor, bool trackMouse, QWidget *parent) :
-        AbstractScopeWidget(projMonitor, clipMonitor, trackMouse, parent)
+AbstractAudioScopeWidget::AbstractAudioScopeWidget(bool trackMouse, QWidget *parent) :
+        AbstractScopeWidget(trackMouse, parent)
 {
 }
 
@@ -33,7 +33,6 @@ void AbstractAudioScopeWidget::slotReceiveAudio(const QVector<int16_t>& sampleDa
     m_nChannels = num_channels;
     m_nSamples = num_samples;
     AbstractScopeWidget::slotRenderZoneUpdated();
-    //TODO
 }
 
 AbstractAudioScopeWidget::~AbstractAudioScopeWidget() {}

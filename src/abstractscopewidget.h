@@ -40,9 +40,6 @@
   The custom context menu already contains entries, like for enabling auto-
   refresh. It can certainly be extended in the implementation of the widget.
 
-  Note: Widgets deriving from this class should connect slotActiveMonitorChanged
-  to the appropriate signal.
-
   If you intend to write an own widget inheriting from this one, please read
   the comments on the unimplemented methods carefully. They are not only here
   for optical amusement, but also contain important information.
@@ -56,21 +53,18 @@
 
 class QMenu;
 
-class Monitor;
-class Render;
-
 class AbstractScopeWidget : public QWidget
 {
     Q_OBJECT
 
 public:
-    AbstractScopeWidget(Monitor *projMonitor, Monitor *clipMonitor, bool trackMouse = false, QWidget *parent = 0);
+    AbstractScopeWidget(bool trackMouse = false, QWidget *parent = 0);
     virtual ~AbstractScopeWidget(); // Must be virtual because of inheritance, to avoid memory leaks
     QPalette m_scopePalette;
 
     /** Initializes widget settings (reads configuration).
       Has to be called in the implementing object. */
-    void init();
+    virtual void init();
 
     /** Does this scope have auto-refresh enabled */
     bool autoRefreshEnabled();
@@ -90,16 +84,11 @@ public:
 protected:
     ///// Variables /////
 
-    Monitor *m_projMonitor;
-    Monitor *m_clipMonitor;
-    Render *m_activeRender;
-
-
     /** The context menu. Feel free to add new entries in your implementation. */
     QMenu *m_menu;
 
     /** Enables auto refreshing of the scope.
-        This is when a new frame is shown on the active monitor.
+        This is when fresh data is incoming.
         Resize events always force a recalculation. */
     QAction *m_aAutoRefresh;
 
@@ -159,9 +148,9 @@ protected:
     /** @brief Background renderer. Must emit signalBackgroundRenderingFinished(). @see renderScope */
     virtual QImage renderBackground(uint accelerationFactor) = 0;
 
-    /** Must return true if the HUD layer depends on the input monitor.
+    /** Must return true if the HUD layer depends on the input data.
         If it does not, then it does not need to be re-calculated when
-        a new frame from the monitor is incoming. */
+        fresh data is incoming. */
     virtual bool isHUDDependingOnInput() const = 0;
     /** @see isHUDDependingOnInput() */
     virtual bool isScopeDependingOnInput() const = 0;
@@ -192,7 +181,7 @@ protected slots:
     void forceUpdateHUD();
     void forceUpdateScope();
     void forceUpdateBackground();
-    void slotAutoRefreshToggled(bool);
+    virtual void slotAutoRefreshToggled(bool);
 
 signals:
     /** mseconds represent the time taken for the calculation,
@@ -210,8 +199,8 @@ signals:
 
 private:
 
-    /** Counts the number of frames that have been rendered in the active monitor.
-      The frame number will be reset when the calculation starts for the current frame. */
+    /** Counts the number of data frames that have been rendered in the active monitor.
+      The frame number will be reset when the calculation starts for the current data set. */
     QAtomicInt m_newHUDFrames;
     QAtomicInt m_newScopeFrames;
     QAtomicInt m_newBackgroundFrames;
@@ -244,19 +233,13 @@ private:
     void prodScopeThread();
     void prodBackgroundThread();
 
-public slots:
-    /** @brief Must be called when the active monitor has shown a new frame.
-      This slot must be connected in the implementing class, it is *not*
-      done in this abstract class. */
-    void slotActiveMonitorChanged(bool isClipMonitor);
-
 protected slots:
     void customContextMenuRequested(const QPoint &pos);
     /** To be called when a new frame has been received.
       The scope then decides whether and when it wants to recalculate the scope, depending
       on whether it is currently visible and whether a calculation thread is already running. */
     void slotRenderZoneUpdated();
-    void slotRenderZoneUpdated(QImage);
+    void slotRenderZoneUpdated(QImage);//TODO remove
     /** The following slots are called when rendering of a component has finished. They e.g. update
       the widget and decide whether to immediately restart the calculation thread. */
     void slotHUDRenderingFinished(uint mseconds, uint accelerationFactor);

@@ -124,7 +124,7 @@ QImage RGBParade::renderHUD(uint)
     return hud;
 }
 
-QImage RGBParade::renderScope(uint accelerationFactor, const QImage qimage)
+QImage RGBParade::renderGfxScope(uint accelerationFactor, const QImage qimage)
 {
     QTime start = QTime::currentTime();
     start.start();

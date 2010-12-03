@@ -33,10 +33,8 @@ const QPen AbstractScopeWidget::penLightDots(QBrush(QColor(200, 200, 250, 150)),
 const QPen AbstractScopeWidget::penDark(QBrush(QColor(0, 0, 20, 250)),      1, Qt::SolidLine);
 const QPen AbstractScopeWidget::penDarkDots(QBrush(QColor(0, 0, 20, 250)),      1, Qt::DotLine);
 
-AbstractScopeWidget::AbstractScopeWidget(Monitor *projMonitor, Monitor *clipMonitor, bool trackMouse, QWidget *parent) :
+AbstractScopeWidget::AbstractScopeWidget(bool trackMouse, QWidget *parent) :
         QWidget(parent),
-        m_projMonitor(projMonitor),
-        m_clipMonitor(clipMonitor),
         m_mousePos(0, 0),
         m_mouseWithinWidget(false),
         offset(5),
@@ -72,13 +70,8 @@ AbstractScopeWidget::AbstractScopeWidget(Monitor *projMonitor, Monitor *clipMoni
 
     this->setContextMenuPolicy(Qt::CustomContextMenu);
 
-    m_activeRender = (m_clipMonitor->isActive()) ? m_clipMonitor->render : m_projMonitor->render;
-
     bool b = true;
     b &= connect(this, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(customContextMenuRequested(QPoint)));
-
-    //b &= connect(m_activeRender, SIGNAL(rendererPosition(int)), this, SLOT(slotRenderZoneUpdated()));
-    b &= connect(m_activeRender, SIGNAL(frameUpdated(QImage)), this, SLOT(slotRenderZoneUpdated(QImage)));
 
     b &= connect(this, SIGNAL(signalHUDRenderingFinished(uint, uint)), this, SLOT(slotHUDRenderingFinished(uint, uint)));
     b &= connect(this, SIGNAL(signalScopeRenderingFinished(uint, uint)), this, SLOT(slotScopeRenderingFinished(uint, uint)));
@@ -240,7 +233,6 @@ void AbstractScopeWidget::mouseReleaseEvent(QMouseEvent *event)
 {
     if (!m_aAutoRefresh->isChecked()) {
         m_requestForcedUpdate = true;
-        m_activeRender->sendFrameUpdate();
     }
     prodHUDThread();
     prodScopeThread();
@@ -388,25 +380,6 @@ void AbstractScopeWidget::slotBackgroundRenderingFinished(uint mseconds, uint ol
     }
 }
 
-void AbstractScopeWidget::slotActiveMonitorChanged(bool isClipMonitor)
-{
-//    qDebug() << "Active monitor has changed in " << m_widgetName << ". Is the clip monitor active now? " << isClipMonitor;
-
-    bool b = m_activeRender->disconnect(this);
-    Q_ASSERT(b);
-
-    m_activeRender = (isClipMonitor) ? m_clipMonitor->render : m_projMonitor->render;
-
-    //b &= connect(m_activeRender, SIGNAL(rendererPosition(int)), this, SLOT(slotRenderZoneUpdated()));
-    b &= connect(m_activeRender, SIGNAL(frameUpdated(QImage)), this, SLOT(slotRenderZoneUpdated(QImage)));
-    Q_ASSERT(b);
-
-    // Update the scope for the new monitor.
-    prodHUDThread();
-    prodScopeThread();
-    prodBackgroundThread();
-}
-
 void AbstractScopeWidget::slotRenderZoneUpdated()
 {
     m_newHUDFrames.fetchAndAddRelaxed(1);
@@ -449,11 +422,12 @@ bool AbstractScopeWidget::autoRefreshEnabled()
 
 void AbstractScopeWidget::slotAutoRefreshToggled(bool autoRefresh)
 {
-    if (isVisible()) emit requestAutoRefresh(autoRefresh);
+    if (isVisible()) {
+        emit requestAutoRefresh(autoRefresh);
+    }
     // TODO only if depends on input
     if (autoRefresh) {
         //forceUpdate();
         m_requestForcedUpdate = true;
-        m_activeRender->sendFrameUpdate();
     }
 }

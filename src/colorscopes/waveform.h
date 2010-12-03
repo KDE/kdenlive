@@ -8,42 +8,51 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-#ifndef HISTOGRAM_H
-#define HISTOGRAM_H
+#ifndef WAVEFORM_H
+#define WAVEFORM_H
 
 #include "abstractgfxscopewidget.h"
-#include "ui_histogram_ui.h"
 
-class HistogramGenerator;
+#include "ui_waveform_ui.h"
 
-class Histogram : public AbstractGfxScopeWidget {
+class Waveform_UI;
+class WaveformGenerator;
+
+class Waveform : public AbstractGfxScopeWidget {
     Q_OBJECT
 
 public:
-    Histogram(Monitor *projMonitor, Monitor *clipMonitor, QWidget *parent = 0);
-    ~Histogram();
-    QString widgetName() const;
+    Waveform(Monitor *projMonitor, Monitor *clipMonitor, QWidget *parent = 0);
+    ~Waveform();
+
+    virtual QString widgetName() const;
 
 protected:
     virtual void readConfig();
     void writeConfig();
 
 private:
-    HistogramGenerator *m_histogramGenerator;
-    QAction *m_aUnscaled;
+    Ui::Waveform_UI *ui;
+    WaveformGenerator *m_waveformGenerator;
+
     QAction *m_aRec601;
     QAction *m_aRec709;
     QActionGroup *m_agRec;
 
+    static const QSize m_textWidth;
+    static const int m_paddingBottom;
+
+    QImage m_waveform;
+
+    /// Implemented methods ///
     QRect scopeRect();
+    QImage renderHUD(uint);
+    QImage renderGfxScope(uint, const QImage);
+    QImage renderBackground(uint);
     bool isHUDDependingOnInput() const;
     bool isScopeDependingOnInput() const;
     bool isBackgroundDependingOnInput() const;
-    QImage renderHUD(uint accelerationFactor);
-    QImage renderScope(uint accelerationFactor, const QImage);
-    QImage renderBackground(uint accelerationFactor);
-    Ui::Histogram_UI *ui;
 
 };
 
-#endif // HISTOGRAM_H
+#endif // WAVEFORM_H

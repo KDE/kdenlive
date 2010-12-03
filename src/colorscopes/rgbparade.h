@@ -8,51 +8,44 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-#ifndef WAVEFORM_H
-#define WAVEFORM_H
+#ifndef RGBPARADE_H
+#define RGBPARADE_H
 
+#include <QObject>
 #include "abstractgfxscopewidget.h"
+#include "ui_rgbparade_ui.h"
 
-#include "ui_waveform_ui.h"
+class Monitor;
+class QImage;
+class RGBParade_UI;
+class RGBParadeGenerator;
 
-class Waveform_UI;
-class WaveformGenerator;
-
-class Waveform : public AbstractGfxScopeWidget {
-    Q_OBJECT
-
+class RGBParade : public AbstractGfxScopeWidget
+{
 public:
-    Waveform(Monitor *projMonitor, Monitor *clipMonitor, QWidget *parent = 0);
-    ~Waveform();
-
-    virtual QString widgetName() const;
+    RGBParade(Monitor *projMonitor, Monitor *clipMonitor, QWidget *parent = 0);
+    ~RGBParade();
+    QString widgetName() const;
 
 protected:
     virtual void readConfig();
     void writeConfig();
+    QRect scopeRect();
 
 private:
-    Ui::Waveform_UI *ui;
-    WaveformGenerator *m_waveformGenerator;
+    Ui::RGBParade_UI *ui;
+    RGBParadeGenerator *m_rgbParadeGenerator;
 
-    QAction *m_aRec601;
-    QAction *m_aRec709;
-    QActionGroup *m_agRec;
+    QAction *m_aAxis;
+    QAction *m_aGradRef;
 
-    static const QSize m_textWidth;
-    static const int m_paddingBottom;
-
-    QImage m_waveform;
-
-    /// Implemented methods ///
-    QRect scopeRect();
-    QImage renderHUD(uint);
-    QImage renderScope(uint, const QImage);
-    QImage renderBackground(uint);
     bool isHUDDependingOnInput() const;
     bool isScopeDependingOnInput() const;
     bool isBackgroundDependingOnInput() const;
 
+    QImage renderHUD(uint accelerationFactor);
+    QImage renderGfxScope(uint accelerationFactor, const QImage);
+    QImage renderBackground(uint accelerationFactor);
 };
 
-#endif // WAVEFORM_H
+#endif // RGBPARADE_H

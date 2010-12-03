@@ -20,8 +20,8 @@
 
 bool fileWritten = false;
 
-AudioSpectrum::AudioSpectrum(Monitor *projMonitor, Monitor *clipMonitor, QWidget *parent) :
-        AbstractAudioScopeWidget(projMonitor, clipMonitor, true, parent)
+AudioSpectrum::AudioSpectrum(QWidget *parent) :
+        AbstractAudioScopeWidget(true, parent)
 {
     ui = new Ui::AudioSpectrum_UI;
     ui->setupUi(this);

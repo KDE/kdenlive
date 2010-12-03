@@ -23,7 +23,7 @@ class AudioSpectrum : public AbstractAudioScopeWidget {
     Q_OBJECT
 
 public:
-    AudioSpectrum(Monitor *projMonitor, Monitor *clipMonitor, QWidget *parent = 0);
+    AudioSpectrum(QWidget *parent = 0);
     ~AudioSpectrum();
 
     // Implemented virtual methods

@@ -53,10 +53,10 @@
 #include "kdenlive-config.h"
 #include "cliptranscode.h"
 #include "ui_templateclip_ui.h"
-#include "vectorscope.h"
-#include "waveform.h"
-#include "rgbparade.h"
-#include "histogram.h"
+#include "colorscopes/vectorscope.h"
+#include "colorscopes/waveform.h"
+#include "colorscopes/rgbparade.h"
+#include "colorscopes/histogram.h"
 #include "audiospectrum.h"
 
 #include <KApplication>
@@ -286,7 +286,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
         connect(m_clipMonitor->render, SIGNAL(showAudioSignal(const QByteArray&)), m_audiosignal, SLOT(showAudio(const QByteArray&)));
     }*/
 
-    m_audioSpectrum = new AudioSpectrum(m_projectMonitor, m_clipMonitor);
+    m_audioSpectrum = new AudioSpectrum();
     m_audioSpectrumDock = new QDockWidget(i18n("AudioSpectrum"), this);
     m_audioSpectrumDock->setObjectName(m_audioSpectrum->widgetName());
     m_audioSpectrumDock->setWidget(m_audioSpectrum);

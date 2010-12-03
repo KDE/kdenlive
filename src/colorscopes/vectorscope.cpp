@@ -259,7 +259,7 @@ QImage Vectorscope::renderHUD(uint)
     return hud;
 }
 
-QImage Vectorscope::renderScope(uint accelerationFactor, const QImage qimage)
+QImage Vectorscope::renderGfxScope(uint accelerationFactor, const QImage qimage)
 {
     QTime start = QTime::currentTime();
     QImage scope;

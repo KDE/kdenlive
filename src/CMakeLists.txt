@@ -220,14 +220,14 @@ set(kdenlive_SRCS
   tracksconfigdialog.cpp
   configtrackscommand.cpp
   abstractscopewidget.cpp
-  abstractgfxscopewidget.cpp
   audioscopes/abstractaudioscopewidget.cpp
   audioscopes/audiospectrum.cpp
   rebuildgroupcommand.cpp
-  histogram.cpp
-  rgbparade.cpp
-  vectorscope.cpp
-  waveform.cpp
+  colorscopes/abstractgfxscopewidget.cpp
+  colorscopes/histogram.cpp
+  colorscopes/rgbparade.cpp
+  colorscopes/vectorscope.cpp
+  colorscopes/waveform.cpp
   colorplaneexport.cpp
   colortools.cpp
   colorcorrection/histogramgenerator.cpp

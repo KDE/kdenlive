@@ -8,8 +8,8 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-#ifndef ABSTRACTAUDIOSCOPEWIDGET_H
-#define ABSTRACTAUDIOSCOPEWIDGET_H
+#ifndef ABSTRACTGFXSCOPEWIDGET_H
+#define ABSTRACTGFXSCOPEWIDGET_H
 
 
 #include <QtCore>
@@ -22,33 +22,45 @@ class QMenu;
 class Monitor;
 class Render;
 
-class AbstractAudioScopeWidget : public AbstractScopeWidget
+class AbstractGfxScopeWidget : public AbstractScopeWidget
 {
     Q_OBJECT
+
 public:
-    AbstractAudioScopeWidget(bool trackMouse = false, QWidget *parent = 0);
-    virtual ~AbstractAudioScopeWidget();
+    AbstractGfxScopeWidget(Monitor *projMonitor, Monitor *clipMonitor, bool trackMouse = false, QWidget *parent = 0);
+    virtual ~AbstractGfxScopeWidget(); // Must be virtual because of inheritance, to avoid memory leaks
 
 protected:
-    /** @brief This is just a wrapper function, subclasses can use renderAudioScope. */
-    virtual QImage renderScope(uint accelerationFactor);
+    ///// Variables /////
 
-    ///// Unimplemented Methods /////
+    Monitor *m_projMonitor;
+    Monitor *m_clipMonitor;
+    Render *m_activeRender;
+
     /** @brief Scope renderer. Must emit signalScopeRenderingFinished()
         when calculation has finished, to allow multi-threading.
         accelerationFactor hints how much faster than usual the calculation should be accomplished, if possible. */
-    virtual QImage renderAudioScope(uint accelerationFactor,
-                               const QVector<int16_t> audioFrame, const int freq, const int num_channels, const int num_samples) = 0;
+    virtual QImage renderGfxScope(uint accelerationFactor, const QImage) = 0;
+
+    virtual QImage renderScope(uint accelerationFactor);
+
+    void mouseReleaseEvent(QMouseEvent *);
 
 private:
-    QVector<int16_t> m_audioFrame;
-    int m_freq;
-    int m_nChannels;
-    int m_nSamples;
+    QImage m_scopeImage;
+
+public slots:
+    /** @brief Must be called when the active monitor has shown a new frame.
+      This slot must be connected in the implementing class, it is *not*
+      done in this abstract class. */
+    void slotActiveMonitorChanged(bool isClipMonitor);
+
+protected slots:
+    virtual void slotAutoRefreshToggled(bool autoRefresh);
 
 private slots:
-    void slotReceiveAudio(const QVector<int16_t>& sampleData, int freq, int num_channels, int num_samples);
+    void slotRenderZoneUpdated(QImage);
 
 };
 
-#endif // ABSTRACTAUDIOSCOPEWIDGET_H
+#endif // ABSTRACTGFXSCOPEWIDGET_H
