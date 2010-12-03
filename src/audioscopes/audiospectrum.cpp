@@ -1,3 +1,13 @@
+/***************************************************************************
+ *   Copyright (C) 2010 by Simon Andreas Eugster (simon.eu@gmail.com)      *
+ *   This file is part of kdenlive. See www.kdenlive.org.                  *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ ***************************************************************************/
+
 #include "audiospectrum.h"
 #include "tools/kiss_fftr.h"
 
@@ -47,7 +57,7 @@ AudioSpectrum::AudioSpectrum(Monitor *projMonitor, Monitor *clipMonitor, QWidget
     b &= connect(ui->windowSize, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateCfg()));
     Q_ASSERT(b);
 
-    init();
+    AbstractScopeWidget::init();
 }
 AudioSpectrum::~AudioSpectrum()
 {
@@ -59,10 +69,10 @@ AudioSpectrum::~AudioSpectrum()
 
 void AudioSpectrum::readConfig()
 {
-    AbstractAudioScopeWidget::readConfig();
+    AbstractScopeWidget::readConfig();
 
     KSharedConfigPtr config = KGlobal::config();
-    KConfigGroup scopeConfig(config, configName());
+    KConfigGroup scopeConfig(config, AbstractScopeWidget::configName());
     QString scale = scopeConfig.readEntry("scale");
     if (scale == "lin") {
         m_aLin->setChecked(true);
@@ -75,7 +85,7 @@ void AudioSpectrum::readConfig()
 void AudioSpectrum::writeConfig()
 {
     KSharedConfigPtr config = KGlobal::config();
-    KConfigGroup scopeConfig(config, configName());
+    KConfigGroup scopeConfig(config, AbstractScopeWidget::configName());
     QString scale;
     if (m_aLin->isChecked()) {
         scale = "lin";
@@ -94,7 +104,7 @@ bool AudioSpectrum::isScopeDependingOnInput() const { return true; }
 bool AudioSpectrum::isHUDDependingOnInput() const { return false; }
 
 QImage AudioSpectrum::renderBackground(uint) { return QImage(); }
-QImage AudioSpectrum::renderScope(uint, const QVector<int16_t> audioFrame, const int freq, const int num_channels, const int num_samples)
+QImage AudioSpectrum::renderAudioScope(uint, const QVector<int16_t> audioFrame, const int freq, const int num_channels, const int num_samples)
 {
     if (audioFrame.size() > 63) {
         m_freqMax = freq / 2;
@@ -152,7 +162,6 @@ QImage AudioSpectrum::renderScope(uint, const QVector<int16_t> audioFrame, const
                 val = pow(pow(fabs(freqData[i].r),2) + pow(fabs(freqData[i].i),2), .5);
             }
             freqSpectrum[i] = val;
-    //        qDebug() << val;
         }
 
 
@@ -248,11 +257,9 @@ QImage AudioSpectrum::renderHUD(uint)
     }
 
 
-    qDebug() << "max freq: " << m_freqMax;
     const uint hzDiff = ceil( ((float)minDistX)/rect.width() * m_freqMax / 1000 ) * 1000;
-    qDebug() << hzDiff;
     int x;
-    for (int hz = hzDiff; hz < m_freqMax; hz += hzDiff) {
+    for (uint hz = hzDiff; hz < m_freqMax; hz += hzDiff) {
         x = rect.width() * ((float)hz)/m_freqMax;
         davinci.drawLine(x, 0, x, rect.height()+4);
         davinci.drawText(x-4, rect.height() + 20, QVariant(hz/1000).toString());

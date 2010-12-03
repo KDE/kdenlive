@@ -13,7 +13,7 @@
 
 #include <QtCore>
 #include "ui_vectorscope_ui.h"
-#include "abstractscopewidget.h"
+#include "abstractgfxscopewidget.h"
 
 class ColorPlaneExport;
 class ColorTools;
@@ -24,7 +24,7 @@ class VectorscopeGenerator;
 
 enum BACKGROUND_MODE { BG_NONE = 0, BG_YUV = 1, BG_CHROMA = 2, BG_YPbPr = 3 };
 
-class Vectorscope : public AbstractScopeWidget {
+class Vectorscope : public AbstractGfxScopeWidget {
     Q_OBJECT
 
 public:

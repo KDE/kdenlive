@@ -3969,7 +3969,7 @@ void MainWindow::slotMonitorRequestRenderFrame(bool request)
         return;
     } else {
         for (int i = 0; i < m_scopesList.count(); i++) {
-            if (m_scopesList.at(i)->isVisible() && tabifiedDockWidgets(m_scopesList.at(i)).isEmpty() && static_cast<AbstractScopeWidget *>(m_scopesList.at(i)->widget())->autoRefreshEnabled()) {
+            if (m_scopesList.at(i)->isVisible() && tabifiedDockWidgets(m_scopesList.at(i)).isEmpty() && static_cast<AbstractGfxScopeWidget *>(m_scopesList.at(i)->widget())->autoRefreshEnabled()) {
                 request = true;
                 break;
             }
@@ -3991,8 +3991,8 @@ void MainWindow::slotDoUpdateScopeFrameRequest()
     // Check scopes
     bool request = false;
     for (int i = 0; i < m_scopesList.count(); i++) {
-        if (!m_scopesList.at(i)->widget()->visibleRegion().isEmpty() && static_cast<AbstractScopeWidget *>(m_scopesList.at(i)->widget())->autoRefreshEnabled()) {
-            kDebug() << "SCOPE VISIBLE: " << static_cast<AbstractScopeWidget *>(m_scopesList.at(i)->widget())->widgetName();
+        if (!m_scopesList.at(i)->widget()->visibleRegion().isEmpty() && static_cast<AbstractGfxScopeWidget *>(m_scopesList.at(i)->widget())->autoRefreshEnabled()) {
+            kDebug() << "SCOPE VISIBLE: " << static_cast<AbstractGfxScopeWidget *>(m_scopesList.at(i)->widget())->widgetName();
             request = true;
             break;
         }
@@ -4012,8 +4012,8 @@ void MainWindow::slotUpdateColorScopes()
     bool request = false;
     for (int i = 0; i < m_scopesList.count(); i++) {
         // Check if we need the renderer to send a new frame for update
-        if (!m_scopesList.at(i)->widget()->visibleRegion().isEmpty() && !(static_cast<AbstractScopeWidget *>(m_scopesList.at(i)->widget())->autoRefreshEnabled())) request = true;
-        static_cast<AbstractScopeWidget *>(m_scopesList.at(i)->widget())->slotActiveMonitorChanged(m_clipMonitor->isActive());
+        if (!m_scopesList.at(i)->widget()->visibleRegion().isEmpty() && !(static_cast<AbstractGfxScopeWidget *>(m_scopesList.at(i)->widget())->autoRefreshEnabled())) request = true;
+        static_cast<AbstractGfxScopeWidget *>(m_scopesList.at(i)->widget())->slotActiveMonitorChanged(m_clipMonitor->isActive());
     }
     if (request) {
         if (m_clipMonitor->isActive()) m_clipMonitor->render->sendFrameUpdate();
@@ -4029,7 +4029,7 @@ void MainWindow::slotOpenStopmotion()
         for (int i = 0; i < m_scopesList.count(); i++) {
             // Check if we need the renderer to send a new frame for update
             /*if (!m_scopesList.at(i)->widget()->visibleRegion().isEmpty() && !(static_cast<AbstractScopeWidget *>(m_scopesList.at(i)->widget())->autoRefreshEnabled())) request = true;*/
-            connect(m_stopmotion, SIGNAL(gotFrame(QImage)), static_cast<AbstractScopeWidget *>(m_scopesList.at(i)->widget()), SLOT(slotRenderZoneUpdated(QImage)));
+            connect(m_stopmotion, SIGNAL(gotFrame(QImage)), static_cast<AbstractGfxScopeWidget *>(m_scopesList.at(i)->widget()), SLOT(slotRenderZoneUpdated(QImage)));
             //static_cast<AbstractScopeWidget *>(m_scopesList.at(i)->widget())->slotMonitorCapture();
         }
     }

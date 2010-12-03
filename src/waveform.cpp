@@ -26,7 +26,7 @@ const QSize Waveform::m_textWidth(35,0);
 const int Waveform::m_paddingBottom(20);
 
 Waveform::Waveform(Monitor *projMonitor, Monitor *clipMonitor, QWidget *parent) :
-    AbstractScopeWidget(projMonitor, clipMonitor, true, parent)
+    AbstractGfxScopeWidget(projMonitor, clipMonitor, true, parent)
 {
     ui = new Ui::Waveform_UI();
     ui->setupUi(this);
@@ -71,7 +71,7 @@ Waveform::~Waveform()
 
 void Waveform::readConfig()
 {
-    AbstractScopeWidget::readConfig();
+    AbstractGfxScopeWidget::readConfig();
 
     KSharedConfigPtr config = KGlobal::config();
     KConfigGroup scopeConfig(config, configName());

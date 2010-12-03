@@ -10,7 +10,7 @@
 
 #include "qtconcurrentrun.h"
 
-#include "abstractscopewidget.h"
+#include "abstractgfxscopewidget.h"
 #include "renderer.h"
 #include "monitor.h"
 
@@ -26,14 +26,14 @@ const QColor light(250, 238, 226, 255);
 const QColor dark(40,  40,  39, 255);
 const QColor dark2(25,  25,  23, 255);
 
-const QPen AbstractScopeWidget::penThick(QBrush(QColor(250, 250, 250)),     2, Qt::SolidLine);
-const QPen AbstractScopeWidget::penThin(QBrush(QColor(250, 250, 250)),     1, Qt::SolidLine);
-const QPen AbstractScopeWidget::penLight(QBrush(QColor(200, 200, 250, 150)), 1, Qt::SolidLine);
-const QPen AbstractScopeWidget::penLightDots(QBrush(QColor(200, 200, 250, 150)), 1, Qt::DotLine);
-const QPen AbstractScopeWidget::penDark(QBrush(QColor(0, 0, 20, 250)),      1, Qt::SolidLine);
-const QPen AbstractScopeWidget::penDarkDots(QBrush(QColor(0, 0, 20, 250)),      1, Qt::DotLine);
+const QPen AbstractGfxScopeWidget::penThick(QBrush(QColor(250, 250, 250)),     2, Qt::SolidLine);
+const QPen AbstractGfxScopeWidget::penThin(QBrush(QColor(250, 250, 250)),     1, Qt::SolidLine);
+const QPen AbstractGfxScopeWidget::penLight(QBrush(QColor(200, 200, 250, 150)), 1, Qt::SolidLine);
+const QPen AbstractGfxScopeWidget::penLightDots(QBrush(QColor(200, 200, 250, 150)), 1, Qt::DotLine);
+const QPen AbstractGfxScopeWidget::penDark(QBrush(QColor(0, 0, 20, 250)),      1, Qt::SolidLine);
+const QPen AbstractGfxScopeWidget::penDarkDots(QBrush(QColor(0, 0, 20, 250)),      1, Qt::DotLine);
 
-AbstractScopeWidget::AbstractScopeWidget(Monitor *projMonitor, Monitor *clipMonitor, bool trackMouse, QWidget *parent) :
+AbstractGfxScopeWidget::AbstractGfxScopeWidget(Monitor *projMonitor, Monitor *clipMonitor, bool trackMouse, QWidget *parent) :
         QWidget(parent),
         m_projMonitor(projMonitor),
         m_clipMonitor(clipMonitor),
@@ -93,7 +93,7 @@ AbstractScopeWidget::AbstractScopeWidget(Monitor *projMonitor, Monitor *clipMoni
     this->setMouseTracking(trackMouse);
 }
 
-AbstractScopeWidget::~AbstractScopeWidget()
+AbstractGfxScopeWidget::~AbstractGfxScopeWidget()
 {
     writeConfig();
 
@@ -102,13 +102,13 @@ AbstractScopeWidget::~AbstractScopeWidget()
     delete m_aRealtime;
 }
 
-void AbstractScopeWidget::init()
+void AbstractGfxScopeWidget::init()
 {
     m_widgetName = widgetName();
     readConfig();
 }
 
-void AbstractScopeWidget::readConfig()
+void AbstractGfxScopeWidget::readConfig()
 {
     KSharedConfigPtr config = KGlobal::config();
     KConfigGroup scopeConfig(config, configName());
@@ -117,7 +117,7 @@ void AbstractScopeWidget::readConfig()
     scopeConfig.sync();
 }
 
-void AbstractScopeWidget::writeConfig()
+void AbstractGfxScopeWidget::writeConfig()
 {
     KSharedConfigPtr config = KGlobal::config();
     KConfigGroup scopeConfig(config, configName());
@@ -126,12 +126,12 @@ void AbstractScopeWidget::writeConfig()
     scopeConfig.sync();
 }
 
-QString AbstractScopeWidget::configName()
+QString AbstractGfxScopeWidget::configName()
 {
     return "Scope_" + m_widgetName;
 }
 
-void AbstractScopeWidget::prodHUDThread()
+void AbstractGfxScopeWidget::prodHUDThread()
 {
     if (this->visibleRegion().isEmpty()) {
 //        qDebug() << "Scope " << m_widgetName << " is not visible. Not calculating HUD.";
@@ -141,7 +141,7 @@ void AbstractScopeWidget::prodHUDThread()
 
             m_newHUDFrames.fetchAndStoreRelaxed(0);
             m_newHUDUpdates.fetchAndStoreRelaxed(0);
-            m_threadHUD = QtConcurrent::run(this, &AbstractScopeWidget::renderHUD, m_accelFactorHUD);
+            m_threadHUD = QtConcurrent::run(this, &AbstractGfxScopeWidget::renderHUD, m_accelFactorHUD);
 //            qDebug() << "HUD thread started in " << m_widgetName;
 
         } else {
@@ -150,7 +150,7 @@ void AbstractScopeWidget::prodHUDThread()
     }
 }
 
-void AbstractScopeWidget::prodScopeThread()
+void AbstractGfxScopeWidget::prodScopeThread()
 {
     // Only start a new thread if the scope is actually visible
     // and not hidden by another widget on the stack and if user want the scope to update.
@@ -170,7 +170,7 @@ void AbstractScopeWidget::prodScopeThread()
 
             // See http://doc.qt.nokia.com/latest/qtconcurrentrun.html#run about
             // running member functions in a thread
-            m_threadScope = QtConcurrent::run(this, &AbstractScopeWidget::renderScope, m_accelFactorScope);
+            m_threadScope = QtConcurrent::run(this, &AbstractGfxScopeWidget::renderScope, m_accelFactorScope, m_scopeImage);
             m_requestForcedUpdate = false;
 
 //            qDebug() << "Scope thread started in " << m_widgetName;
@@ -180,7 +180,7 @@ void AbstractScopeWidget::prodScopeThread()
         }
     }
 }
-void AbstractScopeWidget::prodBackgroundThread()
+void AbstractGfxScopeWidget::prodBackgroundThread()
 {
     if (this->visibleRegion().isEmpty()) {
 //        qDebug() << "Scope " << m_widgetName << " is not visible. Not calculating background.";
@@ -190,7 +190,7 @@ void AbstractScopeWidget::prodBackgroundThread()
 
             m_newBackgroundFrames.fetchAndStoreRelaxed(0);
             m_newBackgroundUpdates.fetchAndStoreRelaxed(0);
-            m_threadBackground = QtConcurrent::run(this, &AbstractScopeWidget::renderBackground, m_accelFactorBackground);
+            m_threadBackground = QtConcurrent::run(this, &AbstractGfxScopeWidget::renderBackground, m_accelFactorBackground);
 //            qDebug() << "Background thread started in " << m_widgetName;
 
         } else {
@@ -199,7 +199,7 @@ void AbstractScopeWidget::prodBackgroundThread()
     }
 }
 
-void AbstractScopeWidget::forceUpdate(bool doUpdate)
+void AbstractGfxScopeWidget::forceUpdate(bool doUpdate)
 {
 //    qDebug() << "Force update called in " << widgetName() << ". Arg: " << doUpdate;
     if (!doUpdate) {
@@ -213,20 +213,20 @@ void AbstractScopeWidget::forceUpdate(bool doUpdate)
     prodScopeThread();
     prodBackgroundThread();
 }
-void AbstractScopeWidget::forceUpdateHUD()
+void AbstractGfxScopeWidget::forceUpdateHUD()
 {
     m_newHUDUpdates.fetchAndAddRelaxed(1);
     prodHUDThread();
 
 }
-void AbstractScopeWidget::forceUpdateScope()
+void AbstractGfxScopeWidget::forceUpdateScope()
 {
     m_newScopeUpdates.fetchAndAddRelaxed(1);
     m_requestForcedUpdate = true;
     prodScopeThread();
 
 }
-void AbstractScopeWidget::forceUpdateBackground()
+void AbstractGfxScopeWidget::forceUpdateBackground()
 {
     m_newBackgroundUpdates.fetchAndAddRelaxed(1);
     prodBackgroundThread();
@@ -236,7 +236,7 @@ void AbstractScopeWidget::forceUpdateBackground()
 
 ///// Events /////
 
-void AbstractScopeWidget::mouseReleaseEvent(QMouseEvent *event)
+void AbstractGfxScopeWidget::mouseReleaseEvent(QMouseEvent *event)
 {
     if (!m_aAutoRefresh->isChecked()) {
         m_requestForcedUpdate = true;
@@ -248,7 +248,7 @@ void AbstractScopeWidget::mouseReleaseEvent(QMouseEvent *event)
     QWidget::mouseReleaseEvent(event);
 }
 
-void AbstractScopeWidget::resizeEvent(QResizeEvent *event)
+void AbstractGfxScopeWidget::resizeEvent(QResizeEvent *event)
 {
     // Update the dimension of the available rect for painting
     m_scopeRect = scopeRect();
@@ -257,13 +257,13 @@ void AbstractScopeWidget::resizeEvent(QResizeEvent *event)
     QWidget::resizeEvent(event);
 }
 
-void AbstractScopeWidget::showEvent(QShowEvent *event)
+void AbstractGfxScopeWidget::showEvent(QShowEvent *event)
 {
     QWidget::showEvent(event);
     m_scopeRect = scopeRect();
 }
 
-void AbstractScopeWidget::paintEvent(QPaintEvent *)
+void AbstractGfxScopeWidget::paintEvent(QPaintEvent *)
 {
     QPainter davinci(this);
     davinci.drawImage(m_scopeRect.topLeft(), m_imgBackground);
@@ -271,32 +271,32 @@ void AbstractScopeWidget::paintEvent(QPaintEvent *)
     davinci.drawImage(m_scopeRect.topLeft(), m_imgHUD);
 }
 
-void AbstractScopeWidget::mouseMoveEvent(QMouseEvent *event)
+void AbstractGfxScopeWidget::mouseMoveEvent(QMouseEvent *event)
 {
     m_mousePos = event->pos();
     m_mouseWithinWidget = true;
     emit signalMousePositionChanged();
 }
-void AbstractScopeWidget::leaveEvent(QEvent *)
+void AbstractGfxScopeWidget::leaveEvent(QEvent *)
 {
     m_mouseWithinWidget = false;
     emit signalMousePositionChanged();
 }
 
-void AbstractScopeWidget::customContextMenuRequested(const QPoint &pos)
+void AbstractGfxScopeWidget::customContextMenuRequested(const QPoint &pos)
 {
     m_menu->exec(this->mapToGlobal(pos));
 }
 
-uint AbstractScopeWidget::calculateAccelFactorHUD(uint oldMseconds, uint)
+uint AbstractGfxScopeWidget::calculateAccelFactorHUD(uint oldMseconds, uint)
 {
     return ceil((float)oldMseconds*REALTIME_FPS / 1000);
 }
-uint AbstractScopeWidget::calculateAccelFactorScope(uint oldMseconds, uint)
+uint AbstractGfxScopeWidget::calculateAccelFactorScope(uint oldMseconds, uint)
 {
     return ceil((float)oldMseconds*REALTIME_FPS / 1000);
 }
-uint AbstractScopeWidget::calculateAccelFactorBackground(uint oldMseconds, uint)
+uint AbstractGfxScopeWidget::calculateAccelFactorBackground(uint oldMseconds, uint)
 {
     return ceil((float)oldMseconds*REALTIME_FPS / 1000);
 }
@@ -304,7 +304,7 @@ uint AbstractScopeWidget::calculateAccelFactorBackground(uint oldMseconds, uint)
 
 ///// Slots /////
 
-void AbstractScopeWidget::slotHUDRenderingFinished(uint mseconds, uint oldFactor)
+void AbstractGfxScopeWidget::slotHUDRenderingFinished(uint mseconds, uint oldFactor)
 {
 //    qDebug() << "HUD rendering has finished, waiting for termination in " << m_widgetName;
     m_threadHUD.waitForFinished();
@@ -329,7 +329,7 @@ void AbstractScopeWidget::slotHUDRenderingFinished(uint mseconds, uint oldFactor
     }
 }
 
-void AbstractScopeWidget::slotScopeRenderingFinished(uint mseconds, uint oldFactor)
+void AbstractGfxScopeWidget::slotScopeRenderingFinished(uint mseconds, uint oldFactor)
 {
     // The signal can be received before the thread has really finished. So we
     // need to wait until it has really finished before starting a new thread.
@@ -363,7 +363,7 @@ void AbstractScopeWidget::slotScopeRenderingFinished(uint mseconds, uint oldFact
     }
 }
 
-void AbstractScopeWidget::slotBackgroundRenderingFinished(uint mseconds, uint oldFactor)
+void AbstractGfxScopeWidget::slotBackgroundRenderingFinished(uint mseconds, uint oldFactor)
 {
 //    qDebug() << "Background rendering has finished, waiting for termination in " << m_widgetName;
     m_threadBackground.waitForFinished();
@@ -388,7 +388,7 @@ void AbstractScopeWidget::slotBackgroundRenderingFinished(uint mseconds, uint ol
     }
 }
 
-void AbstractScopeWidget::slotActiveMonitorChanged(bool isClipMonitor)
+void AbstractGfxScopeWidget::slotActiveMonitorChanged(bool isClipMonitor)
 {
 //    qDebug() << "Active monitor has changed in " << m_widgetName << ". Is the clip monitor active now? " << isClipMonitor;
 
@@ -407,7 +407,7 @@ void AbstractScopeWidget::slotActiveMonitorChanged(bool isClipMonitor)
     prodBackgroundThread();
 }
 
-void AbstractScopeWidget::slotRenderZoneUpdated()
+void AbstractGfxScopeWidget::slotRenderZoneUpdated()
 {
     m_newHUDFrames.fetchAndAddRelaxed(1);
     m_newScopeFrames.fetchAndAddRelaxed(1);
@@ -427,13 +427,13 @@ void AbstractScopeWidget::slotRenderZoneUpdated()
     }
 }
 
-void AbstractScopeWidget::slotRenderZoneUpdated(QImage frame)
+void AbstractGfxScopeWidget::slotRenderZoneUpdated(QImage frame)
 {
     m_scopeImage = frame;
     slotRenderZoneUpdated();
 }
 
-void AbstractScopeWidget::slotResetRealtimeFactor(bool realtimeChecked)
+void AbstractGfxScopeWidget::slotResetRealtimeFactor(bool realtimeChecked)
 {
     if (!realtimeChecked) {
         m_accelFactorHUD = 1;
@@ -442,12 +442,12 @@ void AbstractScopeWidget::slotResetRealtimeFactor(bool realtimeChecked)
     }
 }
 
-bool AbstractScopeWidget::autoRefreshEnabled()
+bool AbstractGfxScopeWidget::autoRefreshEnabled()
 {
     return m_aAutoRefresh->isChecked();
 }
 
-void AbstractScopeWidget::slotAutoRefreshToggled(bool autoRefresh)
+void AbstractGfxScopeWidget::slotAutoRefreshToggled(bool autoRefresh)
 {
     if (isVisible()) emit requestAutoRefresh(autoRefresh);
     // TODO only if depends on input

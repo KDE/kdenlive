@@ -11,12 +11,12 @@
 #ifndef HISTOGRAM_H
 #define HISTOGRAM_H
 
-#include "abstractscopewidget.h"
+#include "abstractgfxscopewidget.h"
 #include "ui_histogram_ui.h"
 
 class HistogramGenerator;
 
-class Histogram : public AbstractScopeWidget {
+class Histogram : public AbstractGfxScopeWidget {
     Q_OBJECT
 
 public:

@@ -15,7 +15,7 @@
 #include "renderer.h"
 
 Histogram::Histogram(Monitor *projMonitor, Monitor *clipMonitor, QWidget *parent) :
-    AbstractScopeWidget(projMonitor, clipMonitor, false, parent)
+    AbstractGfxScopeWidget(projMonitor, clipMonitor, false, parent)
 {
     ui = new Ui::Histogram_UI();
     ui->setupUi(this);
@@ -65,7 +65,7 @@ Histogram::~Histogram()
 
 void Histogram::readConfig()
 {
-    AbstractScopeWidget::readConfig();
+    AbstractGfxScopeWidget::readConfig();
 
     KSharedConfigPtr config = KGlobal::config();
     KConfigGroup scopeConfig(config, configName());

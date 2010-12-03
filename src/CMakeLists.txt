@@ -220,6 +220,7 @@ set(kdenlive_SRCS
   tracksconfigdialog.cpp
   configtrackscommand.cpp
   abstractscopewidget.cpp
+  abstractgfxscopewidget.cpp
   audioscopes/abstractaudioscopewidget.cpp
   audioscopes/audiospectrum.cpp
   rebuildgroupcommand.cpp

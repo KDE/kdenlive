@@ -17,7 +17,7 @@
 #include "rgbparadegenerator.h"
 
 RGBParade::RGBParade(Monitor *projMonitor, Monitor *clipMonitor, QWidget *parent) :
-        AbstractScopeWidget(projMonitor, clipMonitor, true, parent)
+        AbstractGfxScopeWidget(projMonitor, clipMonitor, true, parent)
 {
     ui = new Ui::RGBParade_UI();
     ui->setupUi(this);
@@ -58,7 +58,7 @@ RGBParade::~RGBParade()
 
 void RGBParade::readConfig()
 {
-    AbstractScopeWidget::readConfig();
+    AbstractGfxScopeWidget::readConfig();
 
     KSharedConfigPtr config = KGlobal::config();
     KConfigGroup scopeConfig(config, configName());

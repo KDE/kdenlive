@@ -12,7 +12,7 @@
 #define RGBPARADE_H
 
 #include <QObject>
-#include "abstractscopewidget.h"
+#include "abstractgfxscopewidget.h"
 #include "ui_rgbparade_ui.h"
 
 class Monitor;
@@ -20,7 +20,7 @@ class QImage;
 class RGBParade_UI;
 class RGBParadeGenerator;
 
-class RGBParade : public AbstractScopeWidget
+class RGBParade : public AbstractGfxScopeWidget
 {
 public:
     RGBParade(Monitor *projMonitor, Monitor *clipMonitor, QWidget *parent = 0);

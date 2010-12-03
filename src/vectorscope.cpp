@@ -43,7 +43,7 @@ const QPointF YPbPr_Yl(-.5, .081);
 
 
 Vectorscope::Vectorscope(Monitor *projMonitor, Monitor *clipMonitor, QWidget *parent) :
-    AbstractScopeWidget(projMonitor, clipMonitor, true, parent),
+    AbstractGfxScopeWidget(projMonitor, clipMonitor, true, parent),
     m_gain(1)
 {
     ui = new Ui::Vectorscope_UI();
@@ -142,7 +142,7 @@ QString Vectorscope::widgetName() const { return QString("Vectorscope"); }
 
 void Vectorscope::readConfig()
 {
-    AbstractScopeWidget::readConfig();
+    AbstractGfxScopeWidget::readConfig();
 
     KSharedConfigPtr config = KGlobal::config();
     KConfigGroup scopeConfig(config, configName());

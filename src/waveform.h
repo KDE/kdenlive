@@ -11,14 +11,14 @@
 #ifndef WAVEFORM_H
 #define WAVEFORM_H
 
-#include "abstractscopewidget.h"
+#include "abstractgfxscopewidget.h"
 
 #include "ui_waveform_ui.h"
 
 class Waveform_UI;
 class WaveformGenerator;
 
-class Waveform : public AbstractScopeWidget {
+class Waveform : public AbstractGfxScopeWidget {
     Q_OBJECT
 
 public:

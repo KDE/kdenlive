@@ -48,8 +48,9 @@
   for optical amusement, but also contain important information.
  */
 
-#ifndef ABSTRACTSCOPEWIDGET_H
-#define ABSTRACTSCOPEWIDGET_H
+#ifndef ABSTRACTGFXSCOPEWIDGET_H
+#define ABSTRACTGFXSCOPEWIDGET_H
+
 
 #include <QtCore>
 #include <QWidget>
@@ -59,13 +60,13 @@ class QMenu;
 class Monitor;
 class Render;
 
-class AbstractScopeWidget : public QWidget
+class AbstractGfxScopeWidget : public QWidget
 {
     Q_OBJECT
 
 public:
-    AbstractScopeWidget(Monitor *projMonitor, Monitor *clipMonitor, bool trackMouse = false, QWidget *parent = 0);
-    virtual ~AbstractScopeWidget(); // Must be virtual because of inheritance, to avoid memory leaks
+    AbstractGfxScopeWidget(Monitor *projMonitor, Monitor *clipMonitor, bool trackMouse = false, QWidget *parent = 0);
+    virtual ~AbstractGfxScopeWidget(); // Must be virtual because of inheritance, to avoid memory leaks
     QPalette m_scopePalette;
 
     /** Initializes widget settings (reads configuration).
@@ -155,7 +156,7 @@ protected:
     /** @brief Scope renderer. Must emit signalScopeRenderingFinished()
         when calculation has finished, to allow multi-threading.
         accelerationFactor hints how much faster than usual the calculation should be accomplished, if possible. */
-    virtual QImage renderScope(uint accelerationFactor) = 0;
+    virtual QImage renderScope(uint accelerationFactor, const QImage) = 0;
     /** @brief Background renderer. Must emit signalBackgroundRenderingFinished(). @see renderScope */
     virtual QImage renderBackground(uint accelerationFactor) = 0;
 
@@ -250,7 +251,7 @@ public slots:
       done in this abstract class. */
     void slotActiveMonitorChanged(bool isClipMonitor);
 
-protected slots:
+private slots:
     void customContextMenuRequested(const QPoint &pos);
     /** To be called when a new frame has been received.
       The scope then decides whether and when it wants to recalculate the scope, depending
@@ -268,4 +269,4 @@ protected slots:
 
 };
 
-#endif // ABSTRACTSCOPEWIDGET_H
+#endif // ABSTRACTGFXSCOPEWIDGET_H
