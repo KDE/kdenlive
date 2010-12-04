@@ -13,15 +13,22 @@
 
 #include <QMenu>
 #include <QPainter>
+#include <QMouseEvent>
 
-// Linear interpolation.
-//#include <iostream>
-//#include <fstream>
+#include <iostream>
+#include <fstream>
 
 bool fileWritten = false;
 
+const QString AudioSpectrum::directions[] =  {"North", "Northeast", "East", "Southeast"};
+
 AudioSpectrum::AudioSpectrum(QWidget *parent) :
-        AbstractAudioScopeWidget(true, parent)
+        AbstractAudioScopeWidget(false, parent),
+        m_rescaleMinDist(12),
+        m_rescaleVerticalThreshold(2.0f),
+        m_rescaleActive(false),
+        m_rescalePropertiesLocked(false),
+        m_rescaleScale(1)
 {
     ui = new Ui::AudioSpectrum_UI;
     ui->setupUi(this);
@@ -41,9 +48,17 @@ AudioSpectrum::AudioSpectrum(QWidget *parent) :
     m_agScale->addAction(m_aLin);
     m_agScale->addAction(m_aLog);
 
-    m_menu->addSeparator()->setText(i18n("Scale"));
-    m_menu->addAction(m_aLin);
-    m_menu->addAction(m_aLog);
+    m_aLockHz = new QAction(i18n("Lock maximum frequency"), this);
+    m_aLockHz->setCheckable(true);
+    m_aLockHz->setEnabled(false);
+
+
+//    m_menu->addSeparator()->setText(i18n("Scale"));
+//    m_menu->addAction(m_aLin);
+//    m_menu->addAction(m_aLog);
+    m_menu->addSeparator();
+    m_menu->addAction(m_aLockHz);
+
 
     ui->windowSize->addItem("256", QVariant(256));
     ui->windowSize->addItem("512", QVariant(512));
@@ -65,6 +80,7 @@ AudioSpectrum::~AudioSpectrum()
     delete m_agScale;
     delete m_aLin;
     delete m_aLog;
+    delete m_aLockHz;
 }
 
 void AudioSpectrum::readConfig()
@@ -79,6 +95,7 @@ void AudioSpectrum::readConfig()
     } else {
         m_aLog->setChecked(true);
     }
+    m_aLockHz->setChecked(scopeConfig.readEntry("lockHz", false));
     ui->windowSize->setCurrentIndex(scopeConfig.readEntry("windowSize", 0));
 
 }
@@ -94,6 +111,7 @@ void AudioSpectrum::writeConfig()
     }
     scopeConfig.writeEntry("scale", scale);
     scopeConfig.writeEntry("windowSize", ui->windowSize->currentIndex());
+    scopeConfig.writeEntry("lockHz", m_aLockHz->isChecked());
     scopeConfig.sync();
 }
 
@@ -185,7 +203,7 @@ QImage AudioSpectrum::renderAudioScope(uint, const QVector<int16_t> audioFrame, 
             }
 
             // freqSpectrum values range from 0 to -inf as they are relative dB values.
-            qDebug() << val << "/" <<  (1 - (val - m_dBmax)/(m_dBmin-m_dBmax));
+//            qDebug() << val << "/" <<  (1 - (val - m_dBmax)/(m_dBmin-m_dBmax));
             for (uint y = 0; y < h*(1 - (val - m_dBmax)/(m_dBmin-m_dBmax)) && y < h; y++) {
                 spectrum.setPixel(i, h-y-1, qRgba(225, 182, 255, 255));
             }
@@ -220,7 +238,7 @@ QImage AudioSpectrum::renderAudioScope(uint, const QVector<int16_t> audioFrame, 
         } else {
             qDebug() << "File already written.";
         }
-        */
+        //*/
 
         if (customCfg) {
             free(myCfg);
@@ -253,7 +271,7 @@ QImage AudioSpectrum::renderHUD(uint)
     for (int db = -dbDiff; db > m_dBmin; db -= dbDiff) {
         y = rect.height() * ((float)db)/(m_dBmin - m_dBmax);
         davinci.drawLine(0, y, rect.width()-1, y);
-        davinci.drawText(rect.width() + textDist, y + 8, i18n("%1 dB", db));
+        davinci.drawText(rect.width() + textDist, y + 8, i18n("%1 dB", m_dBmax + db));
     }
 
 
@@ -280,4 +298,133 @@ void AudioSpectrum::slotUpdateCfg()
 {
     free(m_cfg);
     m_cfg = kiss_fftr_alloc(ui->windowSize->itemData(ui->windowSize->currentIndex()).toInt(), 0,0,0);
+}
+
+
+///// EVENTS /////
+
+void AudioSpectrum::mouseMoveEvent(QMouseEvent *event)
+{
+//    qDebug() << "Mouse moved; Modifier: " << event->modifiers() << ", xy: " << event->x() << "/" << event->y()
+//            << ", Buttons: " << event->buttons();
+
+    QPoint movement = event->pos()-m_rescaleStartPoint;
+
+    if (m_rescaleActive) {
+        if (m_rescalePropertiesLocked) {
+            // Direction is known, now adjust parameters
+
+            // Reset the starting point to make the next moveEvent relative to the current one
+            m_rescaleStartPoint = event->pos();
+
+
+            if (!m_rescaleFirstRescaleDone) {
+                // We have just learned the desired direction; Normalize the movement to one pixel
+                // to avoid a jump by m_rescaleMinDist
+
+                if (movement.x() != 0) {
+                    movement.setX(movement.x() / abs(movement.x()));
+                }
+                if (movement.y() != 0) {
+                    movement.setY(movement.y() / abs(movement.y()));
+                }
+
+                m_rescaleFirstRescaleDone = true;
+            }
+
+            if (m_rescaleClockDirection == AudioSpectrum::North) {
+                // Nort-South direction: Adjust the dB scale
+
+                if ((m_rescaleModifiers & Qt::ShiftModifier) == 0) {
+
+                    // By default adjust the min dB value
+                    m_dBmin += movement.y();
+
+                } else {
+
+                    // Adjust max dB value if Shift is pressed.
+                    m_dBmax += movement.y();
+
+                }
+
+                // Ensure the dB values lie in [-100, 0]
+                // 0 is the upper bound, everything below -70 dB is most likely noise
+                if (m_dBmax > 0) {
+                    m_dBmax = 0;
+                }
+                if (m_dBmin < -100) {
+                    m_dBmin = -100;
+                }
+                // Ensure there is at least 6 dB between the minimum and the maximum value;
+                // lower values hardly make sense
+                if (m_dBmax - m_dBmin < 6) {
+                    if ((m_rescaleModifiers & Qt::ShiftModifier) == 0) {
+                        // min was adjusted; Try to adjust the max value to maintain the
+                        // minimum dB difference of 6 dB
+                        m_dBmax = m_dBmin + 6;
+                        if (m_dBmax > 0) {
+                            m_dBmax = 0;
+                            m_dBmin = -6;
+                        }
+                    } else {
+                        // max was adjusted, adjust min
+                        m_dBmin = m_dBmax - 6;
+                        if (m_dBmin < -100) {
+                            m_dBmin = -100;
+                            m_dBmax = -100+6;
+                        }
+                    }
+                }
+
+                forceUpdateHUD();
+                forceUpdateScope();
+
+            }
+
+
+        } else {
+            // Detect the movement direction here.
+            // This algorithm relies on the aspect ratio of dy/dx (size and signum).
+            if (movement.manhattanLength() > m_rescaleMinDist) {
+                float diff = ((float) movement.y())/movement.x();
+
+                if (abs(diff) > m_rescaleVerticalThreshold || movement.x() == 0) {
+                    m_rescaleClockDirection = AudioSpectrum::North;
+                } else if (abs(diff) < 1/m_rescaleVerticalThreshold) {
+                    m_rescaleClockDirection = AudioSpectrum::East;
+                } else if (diff < 0) {
+                    m_rescaleClockDirection = AudioSpectrum::Northeast;
+                } else {
+                    m_rescaleClockDirection = AudioSpectrum::Southeast;
+                }
+//                qDebug() << "Diff is " << diff << "; chose " << directions[m_rescaleClockDirection] << " as direction";
+                m_rescalePropertiesLocked = true;
+            }
+        }
+    } else {
+        AbstractAudioScopeWidget::mouseMoveEvent(event);
+    }
+}
+
+void AudioSpectrum::mousePressEvent(QMouseEvent *event)
+{
+    if (event->button() == Qt::LeftButton) {
+        // Rescaling mode starts
+        m_rescaleActive = true;
+        m_rescalePropertiesLocked = false;
+        m_rescaleFirstRescaleDone = false;
+        m_rescaleStartPoint = event->pos();
+        m_rescaleModifiers = event->modifiers();
+
+    } else {
+        AbstractAudioScopeWidget::mousePressEvent(event);
+    }
+}
+
+void AudioSpectrum::mouseReleaseEvent(QMouseEvent *event)
+{
+    m_rescaleActive = false;
+    m_rescalePropertiesLocked = false;
+
+    AbstractAudioScopeWidget::mouseReleaseEvent(event);
 }

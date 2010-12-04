@@ -24,8 +24,8 @@ const int REALTIME_FPS = 30;
 
 AbstractGfxScopeWidget::AbstractGfxScopeWidget(Monitor *projMonitor, Monitor *clipMonitor, bool trackMouse, QWidget *parent) :
         AbstractScopeWidget(trackMouse, parent),
-        m_clipMonitor(clipMonitor),
-        m_projMonitor(projMonitor)
+        m_projMonitor(projMonitor),
+        m_clipMonitor(clipMonitor)
 
 {
     m_activeRender = (m_clipMonitor->isActive()) ? m_clipMonitor->render : m_projMonitor->render;

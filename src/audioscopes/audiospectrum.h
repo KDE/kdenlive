@@ -29,6 +29,11 @@ public:
     // Implemented virtual methods
     QString widgetName() const;
 
+    static const QString directions[]; // Mainly for debug output
+    enum RescaleDirection { North, Northeast, East, Southeast };
+    enum RescaleDimension { Min_dB, Max_dB, Max_Hz };
+
+
 protected:
     ///// Implemented methods /////
     QRect scopeRect();
@@ -41,10 +46,15 @@ protected:
     virtual void readConfig();
     void writeConfig();
 
+    void mouseMoveEvent(QMouseEvent *event);
+    void mousePressEvent(QMouseEvent *event);
+    void mouseReleaseEvent(QMouseEvent *event);
+
 private:
     Ui::AudioSpectrum_UI *ui;
     kiss_fftr_cfg m_cfg;
 
+    QAction *m_aLockHz;
     QAction *m_aLin;
     QAction *m_aLog;
     QActionGroup *m_agScale;
@@ -56,7 +66,24 @@ private:
     /** Upper bound (max: 0) */
     int m_dBmax;
 
+    /** Maximum frequency (depends on the sampling rate)
+        Stored for the HUD painter */
     uint m_freqMax;
+
+
+    ///// Movement detection /////
+    const int m_rescaleMinDist;
+    const float m_rescaleVerticalThreshold;
+
+    bool m_rescaleActive;
+    bool m_rescalePropertiesLocked;
+    bool m_rescaleFirstRescaleDone;
+    short m_rescaleScale;
+    Qt::KeyboardModifiers m_rescaleModifiers;
+    AudioSpectrum::RescaleDirection m_rescaleClockDirection;
+    QPoint m_rescaleStartPoint;
+
+
 
 private slots:
     void slotUpdateCfg();
