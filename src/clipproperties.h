@@ -35,7 +35,7 @@ public:
     PropertiesViewDelegate(QWidget *parent) : QStyledItemDelegate(parent) {
         m_height = parent->fontMetrics().height() * 1.5;
     }
-    virtual QSize sizeHint(const QStyleOptionViewItem & option, const QModelIndex & index) const {
+    virtual QSize sizeHint(const QStyleOptionViewItem &, const QModelIndex &) const {
         return QSize(10, m_height);
     }
 private:
