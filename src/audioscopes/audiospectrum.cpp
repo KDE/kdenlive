@@ -16,15 +16,15 @@
 #include <QMouseEvent>
 
 #include <iostream>
-#include <fstream>
+//#include <fstream>
 
-bool fileWritten = false;
+//bool fileWritten = false;
 
 const QString AudioSpectrum::directions[] =  {"North", "Northeast", "East", "Southeast"};
 
 AudioSpectrum::AudioSpectrum(QWidget *parent) :
         AbstractAudioScopeWidget(false, parent),
-        m_rescaleMinDist(12),
+        m_rescaleMinDist(8),
         m_rescaleVerticalThreshold(2.0f),
         m_rescaleActive(false),
         m_rescalePropertiesLocked(false),
@@ -34,8 +34,6 @@ AudioSpectrum::AudioSpectrum(QWidget *parent) :
     ui->setupUi(this);
 
     m_distance = QSize(65, 30);
-    m_dBmin = -120;
-    m_dBmax = 0;
     m_freqMax = 10000;
 
 
@@ -76,6 +74,8 @@ AudioSpectrum::AudioSpectrum(QWidget *parent) :
 }
 AudioSpectrum::~AudioSpectrum()
 {
+    writeConfig();
+
     free(m_cfg);
     delete m_agScale;
     delete m_aLin;
@@ -97,6 +97,8 @@ void AudioSpectrum::readConfig()
     }
     m_aLockHz->setChecked(scopeConfig.readEntry("lockHz", false));
     ui->windowSize->setCurrentIndex(scopeConfig.readEntry("windowSize", 0));
+    m_dBmax = scopeConfig.readEntry("dBmax", 0);
+    m_dBmin = scopeConfig.readEntry("dBmin", -70);
 
 }
 void AudioSpectrum::writeConfig()
@@ -112,16 +114,18 @@ void AudioSpectrum::writeConfig()
     scopeConfig.writeEntry("scale", scale);
     scopeConfig.writeEntry("windowSize", ui->windowSize->currentIndex());
     scopeConfig.writeEntry("lockHz", m_aLockHz->isChecked());
+    scopeConfig.writeEntry("dBmax", m_dBmax);
+    scopeConfig.writeEntry("dBmin", m_dBmin);
     scopeConfig.sync();
 }
 
-QString AudioSpectrum::widgetName() const { return QString("audiospectrum"); }
-
+QString AudioSpectrum::widgetName() const { return QString("AudioSpectrum"); }
 bool AudioSpectrum::isBackgroundDependingOnInput() const { return false; }
 bool AudioSpectrum::isScopeDependingOnInput() const { return true; }
 bool AudioSpectrum::isHUDDependingOnInput() const { return false; }
 
 QImage AudioSpectrum::renderBackground(uint) { return QImage(); }
+
 QImage AudioSpectrum::renderAudioScope(uint, const QVector<int16_t> audioFrame, const int freq, const int num_channels, const int num_samples)
 {
     if (audioFrame.size() > 63) {
@@ -153,19 +157,23 @@ QImage AudioSpectrum::renderAudioScope(uint, const QVector<int16_t> audioFrame, 
                 maxSig = audioFrame.data()[i*num_channels];
             }
         }
-        qDebug() << "Max audio signal is " << maxSig;
 
         // The resulting FFT vector is only half as long
         kiss_fft_cpx freqData[fftWindow/2];
 
+
         // Copy the first channel's audio into a vector for the FFT display
         // (only one channel handled at the moment)
-        for (int i = 0; i < fftWindow; i++) {
+        if (num_samples < fftWindow) {
+            std::fill(&data[num_samples], &data[fftWindow-1], 0);
+        }
+        for (int i = 0; i < num_samples && i < fftWindow; i++) {
             // Normalize signals to [0,1] to get correct dB values later on
             data[i] = (float) audioFrame.data()[i*num_channels] / 32767.0f;
         }
+
         // Calculate the Fast Fourier Transform for the input data
-        kiss_fftr(m_cfg, data, freqData);
+        kiss_fftr(myCfg, data, freqData);
 
 
         float val;
@@ -203,7 +211,6 @@ QImage AudioSpectrum::renderAudioScope(uint, const QVector<int16_t> audioFrame, 
             }
 
             // freqSpectrum values range from 0 to -inf as they are relative dB values.
-//            qDebug() << val << "/" <<  (1 - (val - m_dBmax)/(m_dBmin-m_dBmax));
             for (uint y = 0; y < h*(1 - (val - m_dBmax)/(m_dBmin-m_dBmax)) && y < h; y++) {
                 spectrum.setPixel(i, h-y-1, qRgba(225, 182, 255, 255));
             }
@@ -305,9 +312,6 @@ void AudioSpectrum::slotUpdateCfg()
 
 void AudioSpectrum::mouseMoveEvent(QMouseEvent *event)
 {
-//    qDebug() << "Mouse moved; Modifier: " << event->modifiers() << ", xy: " << event->x() << "/" << event->y()
-//            << ", Buttons: " << event->buttons();
-
     QPoint movement = event->pos()-m_rescaleStartPoint;
 
     if (m_rescaleActive) {
