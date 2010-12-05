@@ -181,16 +181,13 @@ QImage AudioSpectrum::renderAudioScope(uint, const QVector<int16_t> audioFrame, 
         kiss_fftr(myCfg, data, freqData);
 
 
-        float max = -100;
         // Logarithmic scale: 20 * log ( 2 * magnitude / N ) with magnitude = sqrt(r² + i²)
         // with N = FFT size (after FFT, 1/2 window size)
         for (int i = 0; i < fftWindow/2; i++) {
             // Logarithmic scale: 20 * log ( 2 * magnitude / N ) with magnitude = sqrt(r² + i²)
             // with N = FFT size (after FFT, 1/2 window size)
             freqSpectrum[i] = 20*log(pow(pow(fabs(freqData[i].r * windowScaleFactor),2) + pow(fabs(freqData[i].i * windowScaleFactor),2), .5)/((float)fftWindow/2.0f))/log(10);;
-            if (freqSpectrum[i] > max) { max = freqSpectrum[i]; }
         }
-        qDebug() << "Maximum (dB) is " << max;
 
 
 
@@ -200,23 +197,43 @@ QImage AudioSpectrum::renderAudioScope(uint, const QVector<int16_t> audioFrame, 
         uint w = m_innerScopeRect.width();
         uint h = m_innerScopeRect.height();
         float x;
+        float x_prev = 0;
         float val;
+        int xi;
         for (uint i = 0; i < w; i++) {
 
+            // i:  Pixel coordinate
+            // x:  Frequency array index (float!) corresponding to the pixel
+            // xi: floor(x)
+
             x = i/((float) w) * fftWindow/2;
+            xi = (int) floor(x);
 
             // Use linear interpolation in order to get smoother display
             if (i == 0 || i == w-1) {
                 val = freqSpectrum[i];
             } else {
-                // Use floor(x)+1 instead of ceil(x) as floor(x) == ceil(x) is possible.
-                val = (floor(x)+1 - x)*freqSpectrum[(int) floor(x)] + (x-floor(x))*freqSpectrum[(int) floor(x)+1];
+
+                if (freqSpectrum[xi] > freqSpectrum[xi+1]
+                    && x_prev < xi) {
+                    // This is a hack to preserve peaks.
+                    // Consider f = {0, 100, 0}
+                    //          x = {0.5,  1.5}
+                    // Then x is 50 both times, and the 100 peak is lost.
+                    // Get it back here for the first x after the peak.
+                    val = freqSpectrum[xi];
+                } else {
+                    val =   (xi+1 - x) * freqSpectrum[xi]
+                          + (x - xi)   * freqSpectrum[xi+1];
+                }
             }
 
             // freqSpectrum values range from 0 to -inf as they are relative dB values.
             for (uint y = 0; y < h*(1 - (val - m_dBmax)/(m_dBmin-m_dBmax)) && y < h; y++) {
                 spectrum.setPixel(i, h-y-1, qRgba(225, 182, 255, 255));
             }
+
+            x_prev = x;
         }
 
         emit signalScopeRenderingFinished(start.elapsed(), 1);
@@ -276,7 +293,6 @@ QImage AudioSpectrum::renderHUD(uint)
     QPainter davinci(&hud);
     davinci.setPen(AbstractAudioScopeWidget::penLight);
 
-    // TODO lower boundary
     int y;
     for (int db = -dbDiff; db > m_dBmin; db -= dbDiff) {
         y = m_innerScopeRect.height() * ((float)db)/(m_dBmin - m_dBmax);
