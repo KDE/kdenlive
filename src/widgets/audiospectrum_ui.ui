@@ -43,6 +43,9 @@
      </property>
     </spacer>
    </item>
+   <item row="1" column="1">
+    <widget class="QComboBox" name="windowFunction"/>
+   </item>
   </layout>
  </widget>
  <resources/>

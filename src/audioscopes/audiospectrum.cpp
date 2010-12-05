@@ -8,7 +8,10 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
+
+
 #include "audiospectrum.h"
+#include "ffttools.h"
 #include "tools/kiss_fftr.h"
 
 #include <QMenu>
@@ -16,14 +19,21 @@
 #include <QMouseEvent>
 
 #include <iostream>
-//#include <fstream>
 
-//bool fileWritten = false;
+// Enables debugging, like writing a GNU Octave .m file to /tmp
+//#define DEBUG_AUDIOSPEC
+#ifdef DEBUG_AUDIOSPEC
+#include <fstream>
+bool fileWritten = false;
+#endif
+
+#define MIN_DB_VALUE -120
 
 const QString AudioSpectrum::directions[] =  {"North", "Northeast", "East", "Southeast"};
 
 AudioSpectrum::AudioSpectrum(QWidget *parent) :
         AbstractAudioScopeWidget(false, parent),
+        m_windowFunctions(),
         m_rescaleMinDist(8),
         m_rescaleVerticalThreshold(2.0f),
         m_rescaleActive(false),
@@ -37,23 +47,11 @@ AudioSpectrum::AudioSpectrum(QWidget *parent) :
     m_freqMax = 10000;
 
 
-    m_aLin = new QAction(i18n("Linear scale"), this);
-    m_aLin->setCheckable(true);
-    m_aLog = new QAction(i18n("Logarithmic scale"), this);
-    m_aLog->setCheckable(true);
-
-    m_agScale = new QActionGroup(this);
-    m_agScale->addAction(m_aLin);
-    m_agScale->addAction(m_aLog);
-
     m_aLockHz = new QAction(i18n("Lock maximum frequency"), this);
     m_aLockHz->setCheckable(true);
     m_aLockHz->setEnabled(false);
 
 
-//    m_menu->addSeparator()->setText(i18n("Scale"));
-//    m_menu->addAction(m_aLin);
-//    m_menu->addAction(m_aLog);
     m_menu->addSeparator();
     m_menu->addAction(m_aLockHz);
 
@@ -63,7 +61,14 @@ AudioSpectrum::AudioSpectrum(QWidget *parent) :
     ui->windowSize->addItem("1024", QVariant(1024));
     ui->windowSize->addItem("2048", QVariant(2048));
 
+    ui->windowFunction->addItem(i18n("Rectangular window"), FFTTools::Window_Rect);
+    ui->windowFunction->addItem(i18n("Triangular window"), FFTTools::Window_Triangle);
+    ui->windowFunction->addItem(i18n("Hamming window"), FFTTools::Window_Hamming);
+
+
     m_cfg = kiss_fftr_alloc(ui->windowSize->itemData(ui->windowSize->currentIndex()).toInt(), 0,0,0);
+    //m_windowFunctions.insert("tri512", FFTTools::window(FFTTools::Window_Hamming, 8, 0));
+    // TODO Window function cache
 
 
     bool b = true;
@@ -77,9 +82,6 @@ AudioSpectrum::~AudioSpectrum()
     writeConfig();
 
     free(m_cfg);
-    delete m_agScale;
-    delete m_aLin;
-    delete m_aLog;
     delete m_aLockHz;
 }
 
@@ -89,30 +91,18 @@ void AudioSpectrum::readConfig()
 
     KSharedConfigPtr config = KGlobal::config();
     KConfigGroup scopeConfig(config, AbstractScopeWidget::configName());
-    QString scale = scopeConfig.readEntry("scale");
-    if (scale == "lin") {
-        m_aLin->setChecked(true);
-    } else {
-        m_aLog->setChecked(true);
-    }
     m_aLockHz->setChecked(scopeConfig.readEntry("lockHz", false));
     ui->windowSize->setCurrentIndex(scopeConfig.readEntry("windowSize", 0));
     m_dBmax = scopeConfig.readEntry("dBmax", 0);
     m_dBmin = scopeConfig.readEntry("dBmin", -70);
-
+    ui->windowFunction->setCurrentIndex(scopeConfig.readEntry("windowFunction", 0));
 }
 void AudioSpectrum::writeConfig()
 {
     KSharedConfigPtr config = KGlobal::config();
     KConfigGroup scopeConfig(config, AbstractScopeWidget::configName());
-    QString scale;
-    if (m_aLin->isChecked()) {
-        scale = "lin";
-    } else {
-        scale = "log";
-    }
-    scopeConfig.writeEntry("scale", scale);
     scopeConfig.writeEntry("windowSize", ui->windowSize->currentIndex());
+    scopeConfig.writeEntry("windowFunction", ui->windowFunction->currentIndex());
     scopeConfig.writeEntry("lockHz", m_aLockHz->isChecked());
     scopeConfig.writeEntry("dBmax", m_dBmax);
     scopeConfig.writeEntry("dBmin", m_dBmin);
@@ -158,8 +148,9 @@ QImage AudioSpectrum::renderAudioScope(uint, const QVector<int16_t> audioFrame, 
             }
         }
 
-        // The resulting FFT vector is only half as long
+        // Prepare frequency space vector. The resulting FFT vector is only half as long.
         kiss_fft_cpx freqData[fftWindow/2];
+
 
 
         // Copy the first channel's audio into a vector for the FFT display
@@ -167,37 +158,49 @@ QImage AudioSpectrum::renderAudioScope(uint, const QVector<int16_t> audioFrame, 
         if (num_samples < fftWindow) {
             std::fill(&data[num_samples], &data[fftWindow-1], 0);
         }
+
+        FFTTools::WindowType windowType = (FFTTools::WindowType) ui->windowFunction->itemData(ui->windowFunction->currentIndex()).toInt();
+        QVector<float> window;
+        float windowScaleFactor = 1;
+        if (windowType != FFTTools::Window_Rect) {
+            window = FFTTools::window(windowType, fftWindow, 0);
+            windowScaleFactor = 1.0/window[fftWindow];
+            qDebug() << "Using a window scaling factor of " << windowScaleFactor;
+        }
+
+        // Normalize signals to [0,1] to get correct dB values later on
         for (int i = 0; i < num_samples && i < fftWindow; i++) {
-            // Normalize signals to [0,1] to get correct dB values later on
-            data[i] = (float) audioFrame.data()[i*num_channels] / 32767.0f;
+            if (windowType != FFTTools::Window_Rect) {
+                data[i] = (float) audioFrame.data()[i*num_channels] / 32767.0f * window[i];
+            } else {
+                data[i] = (float) audioFrame.data()[i*num_channels] / 32767.0f;
+            }
         }
 
         // Calculate the Fast Fourier Transform for the input data
         kiss_fftr(myCfg, data, freqData);
 
 
-        float val;
-        // Get the minimum and the maximum value of the Fourier transformed (for scaling)
+        float max = -100;
+        // Logarithmic scale: 20 * log ( 2 * magnitude / N ) with magnitude = sqrt(r² + i²)
+        // with N = FFT size (after FFT, 1/2 window size)
         for (int i = 0; i < fftWindow/2; i++) {
-            if (m_aLog->isChecked()) {
-                // Logarithmic scale: 20 * log ( 2 * magnitude / N )
-                // with N = FFT size (after FFT, 1/2 window size)
-                val = 20*log(pow(pow(fabs(freqData[i].r),2) + pow(fabs(freqData[i].i),2), .5)/((float)fftWindow/2.0f))/log(10);
-            } else {
-                // sqrt(r² + i²)
-                val = pow(pow(fabs(freqData[i].r),2) + pow(fabs(freqData[i].i),2), .5);
-            }
-            freqSpectrum[i] = val;
+            // Logarithmic scale: 20 * log ( 2 * magnitude / N ) with magnitude = sqrt(r² + i²)
+            // with N = FFT size (after FFT, 1/2 window size)
+            freqSpectrum[i] = 20*log(pow(pow(fabs(freqData[i].r * windowScaleFactor),2) + pow(fabs(freqData[i].i * windowScaleFactor),2), .5)/((float)fftWindow/2.0f))/log(10);;
+            if (freqSpectrum[i] > max) { max = freqSpectrum[i]; }
         }
+        qDebug() << "Maximum (dB) is " << max;
 
 
 
         // Draw the spectrum
-        QImage spectrum(scopeRect().size(), QImage::Format_ARGB32);
+        QImage spectrum(m_scopeRect.size(), QImage::Format_ARGB32);
         spectrum.fill(qRgba(0,0,0,0));
-        uint w = scopeRect().size().width();
-        uint h = scopeRect().size().height();
+        uint w = m_innerScopeRect.width();
+        uint h = m_innerScopeRect.height();
         float x;
+        float val;
         for (uint i = 0; i < w; i++) {
 
             x = i/((float) w) * fftWindow/2;
@@ -218,7 +221,7 @@ QImage AudioSpectrum::renderAudioScope(uint, const QVector<int16_t> audioFrame, 
 
         emit signalScopeRenderingFinished(start.elapsed(), 1);
 
-        /*
+#ifdef DEBUG_AUDIOSPEC
         if (!fileWritten || true) {
             std::ofstream mFile;
             mFile.open("/tmp/freq.m");
@@ -245,7 +248,7 @@ QImage AudioSpectrum::renderAudioScope(uint, const QVector<int16_t> audioFrame, 
         } else {
             qDebug() << "File already written.";
         }
-        //*/
+#endif
 
         if (customCfg) {
             free(myCfg);
@@ -261,12 +264,11 @@ QImage AudioSpectrum::renderHUD(uint)
 {
     QTime start = QTime::currentTime();
 
-    const QRect rect = scopeRect();
     // Minimum distance between two lines
     const uint minDistY = 30;
     const uint minDistX = 40;
     const uint textDist = 5;
-    const uint dbDiff = ceil((float)minDistY/rect.height() * (m_dBmax-m_dBmin));
+    const uint dbDiff = ceil((float)minDistY/m_innerScopeRect.height() * (m_dBmax-m_dBmin));
 
     QImage hud(AbstractAudioScopeWidget::rect().size(), QImage::Format_ARGB32);
     hud.fill(qRgba(0,0,0,0));
@@ -274,22 +276,24 @@ QImage AudioSpectrum::renderHUD(uint)
     QPainter davinci(&hud);
     davinci.setPen(AbstractAudioScopeWidget::penLight);
 
+    // TODO lower boundary
     int y;
     for (int db = -dbDiff; db > m_dBmin; db -= dbDiff) {
-        y = rect.height() * ((float)db)/(m_dBmin - m_dBmax);
-        davinci.drawLine(0, y, rect.width()-1, y);
-        davinci.drawText(rect.width() + textDist, y + 8, i18n("%1 dB", m_dBmax + db));
+        y = m_innerScopeRect.height() * ((float)db)/(m_dBmin - m_dBmax);
+        davinci.drawLine(0, y, m_innerScopeRect.width()-1, y);
+        davinci.drawText(m_innerScopeRect.width() + textDist, y + 6, i18n("%1 dB", m_dBmax + db));
     }
 
 
-    const uint hzDiff = ceil( ((float)minDistX)/rect.width() * m_freqMax / 1000 ) * 1000;
+    // TODO more vertical lines in-between
+    const uint hzDiff = ceil( ((float)minDistX)/m_innerScopeRect.width() * m_freqMax / 1000 ) * 1000;
     int x;
     for (uint hz = hzDiff; hz < m_freqMax; hz += hzDiff) {
-        x = rect.width() * ((float)hz)/m_freqMax;
-        davinci.drawLine(x, 0, x, rect.height()+4);
-        davinci.drawText(x-4, rect.height() + 20, QVariant(hz/1000).toString());
+        x = m_innerScopeRect.width() * ((float)hz)/m_freqMax;
+        davinci.drawLine(x, 0, x, m_innerScopeRect.height()+4);
+        davinci.drawText(x-4, m_innerScopeRect.height() + 20, QVariant(hz/1000).toString());
     }
-    davinci.drawText(rect.width(), rect.height() + 20, "[kHz]");
+    davinci.drawText(m_innerScopeRect.width(), m_innerScopeRect.height() + 20, "[kHz]");
 
 
     emit signalHUDRenderingFinished(start.elapsed(), 1);
@@ -297,7 +301,20 @@ QImage AudioSpectrum::renderHUD(uint)
 }
 
 QRect AudioSpectrum::scopeRect() {
-    return QRect(QPoint(0, 0), AbstractAudioScopeWidget::rect().size() - m_distance);
+    m_innerScopeRect = QRect(
+            QPoint(
+                    0,                                      // Left
+                    ui->verticalSpacer->geometry().top()    // Top
+            ), QPoint(
+                    ui->verticalSpacer->geometry().right()-70,
+                    ui->verticalSpacer->geometry().bottom()-40
+            )
+    );
+    m_scopeRect = QRect(
+            m_innerScopeRect.topLeft(),
+            AbstractAudioScopeWidget::rect().bottomRight()
+    );
+    return m_scopeRect;
 }
 
 
@@ -351,13 +368,13 @@ void AudioSpectrum::mouseMoveEvent(QMouseEvent *event)
 
                 }
 
-                // Ensure the dB values lie in [-100, 0]
+                // Ensure the dB values lie in [-100, 0] (or rather [MIN_DB_VALUE, 0])
                 // 0 is the upper bound, everything below -70 dB is most likely noise
                 if (m_dBmax > 0) {
                     m_dBmax = 0;
                 }
-                if (m_dBmin < -100) {
-                    m_dBmin = -100;
+                if (m_dBmin < MIN_DB_VALUE) {
+                    m_dBmin = MIN_DB_VALUE;
                 }
                 // Ensure there is at least 6 dB between the minimum and the maximum value;
                 // lower values hardly make sense
@@ -373,9 +390,9 @@ void AudioSpectrum::mouseMoveEvent(QMouseEvent *event)
                     } else {
                         // max was adjusted, adjust min
                         m_dBmin = m_dBmax - 6;
-                        if (m_dBmin < -100) {
-                            m_dBmin = -100;
-                            m_dBmax = -100+6;
+                        if (m_dBmin < MIN_DB_VALUE) {
+                            m_dBmin = MIN_DB_VALUE;
+                            m_dBmax = MIN_DB_VALUE+6;
                         }
                     }
                 }
@@ -401,7 +418,9 @@ void AudioSpectrum::mouseMoveEvent(QMouseEvent *event)
                 } else {
                     m_rescaleClockDirection = AudioSpectrum::Southeast;
                 }
-//                qDebug() << "Diff is " << diff << "; chose " << directions[m_rescaleClockDirection] << " as direction";
+#ifdef DEBUG_AUDIOSPEC
+                qDebug() << "Diff is " << diff << "; chose " << directions[m_rescaleClockDirection] << " as direction";
+#endif
                 m_rescalePropertiesLocked = true;
             }
         }
@@ -432,3 +451,8 @@ void AudioSpectrum::mouseReleaseEvent(QMouseEvent *event)
 
     AbstractAudioScopeWidget::mouseReleaseEvent(event);
 }
+
+
+#ifdef DEBUG_AUDIOSPEC
+#undef DEBUG_AUDIOSPEC
+#endif

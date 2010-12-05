@@ -222,6 +222,7 @@ set(kdenlive_SRCS
   abstractscopewidget.cpp
   audioscopes/abstractaudioscopewidget.cpp
   audioscopes/audiospectrum.cpp
+  audioscopes/ffttools.cpp
   rebuildgroupcommand.cpp
   colorscopes/abstractgfxscopewidget.cpp
   colorscopes/histogram.cpp

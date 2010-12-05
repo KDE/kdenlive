@@ -136,7 +136,8 @@ protected:
     ///// Unimplemented Methods /////
 
     /** Where on the widget we can paint in.
-        May also update other variables that depend on the widget's size.  */
+        May also update other variables, like m_scopeRect or custom ones,
+        that have to change together with the widget's size.  */
     virtual QRect scopeRect() = 0;
 
     /** @brief HUD renderer. Must emit signalHUDRenderingFinished(). @see renderScope */

@@ -12,13 +12,14 @@
 #define AUDIOSPECTRUM_H
 
 #include <QtCore>
+#include <QVector>
+#include <QHash>
 
 #include "abstractaudioscopewidget.h"
 #include "ui_audiospectrum_ui.h"
 #include "tools/kiss_fftr.h"
 
 class AudioSpectrum_UI;
-
 class AudioSpectrum : public AbstractAudioScopeWidget {
     Q_OBJECT
 
@@ -53,13 +54,14 @@ protected:
 private:
     Ui::AudioSpectrum_UI *ui;
     kiss_fftr_cfg m_cfg;
+    QHash<QString, QVector<float> > m_windowFunctions;
 
     QAction *m_aLockHz;
-    QAction *m_aLin;
-    QAction *m_aLog;
-    QActionGroup *m_agScale;
 
     QSize m_distance;
+
+    // Contains the plot only; m_scopeRect contains text and widgets as well
+    QRect m_innerScopeRect;
 
     /** Lower bound for the dB value to display */
     int m_dBmin;
