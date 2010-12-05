@@ -14,7 +14,6 @@
 #include "renderer.h"
 #include "monitor.h"
 
-#include <QDebug>
 #include <QFuture>
 #include <QColor>
 #include <QMenu>

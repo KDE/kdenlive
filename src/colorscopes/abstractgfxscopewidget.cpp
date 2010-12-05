@@ -20,6 +20,13 @@
 #include <QMouseEvent>
 #include <QPainter>
 
+// Uncomment for debugging.
+//#define DEBUG_AGSW
+
+#ifdef DEBUG_AGSW
+#include <QDebug>
+#endif
+
 const int REALTIME_FPS = 30;
 
 AbstractGfxScopeWidget::AbstractGfxScopeWidget(Monitor *projMonitor, Monitor *clipMonitor, bool trackMouse, QWidget *parent) :
@@ -54,7 +61,9 @@ void AbstractGfxScopeWidget::mouseReleaseEvent(QMouseEvent *event)
 
 void AbstractGfxScopeWidget::slotActiveMonitorChanged(bool isClipMonitor)
 {
-//    qDebug() << "Active monitor has changed in " << m_widgetName << ". Is the clip monitor active now? " << isClipMonitor;
+#ifdef DEBUG_AGSW
+    qDebug() << "Active monitor has changed in " << widgetName() << ". Is the clip monitor active now? " << isClipMonitor;
+#endif
 
     bool b = m_activeRender->disconnect(this);
     Q_ASSERT(b);
@@ -81,3 +90,8 @@ void AbstractGfxScopeWidget::slotAutoRefreshToggled(bool autoRefresh)
         m_activeRender->sendFrameUpdate();
     }
 }
+
+
+#ifdef DEBUG_AGSW
+#undef DEBUG_AGSW
+#endif
