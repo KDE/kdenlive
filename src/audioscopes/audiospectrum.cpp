@@ -194,8 +194,10 @@ QImage AudioSpectrum::renderAudioScope(uint, const QVector<int16_t> audioFrame, 
         // Draw the spectrum
         QImage spectrum(m_scopeRect.size(), QImage::Format_ARGB32);
         spectrum.fill(qRgba(0,0,0,0));
-        uint w = m_innerScopeRect.width();
-        uint h = m_innerScopeRect.height();
+        const uint w = m_innerScopeRect.width();
+        const uint h = m_innerScopeRect.height();
+        const uint leftDist = m_innerScopeRect.left() - m_scopeRect.left();
+        const uint topDist = m_innerScopeRect.top() - m_scopeRect.top();
         float x;
         float x_prev = 0;
         float val;
@@ -230,7 +232,7 @@ QImage AudioSpectrum::renderAudioScope(uint, const QVector<int16_t> audioFrame, 
 
             // freqSpectrum values range from 0 to -inf as they are relative dB values.
             for (uint y = 0; y < h*(1 - (val - m_dBmax)/(m_dBmin-m_dBmax)) && y < h; y++) {
-                spectrum.setPixel(i, h-y-1, qRgba(225, 182, 255, 255));
+                spectrum.setPixel(leftDist + i, topDist + h-y-1, qRgba(225, 182, 255, 255));
             }
 
             x_prev = x;
@@ -284,10 +286,13 @@ QImage AudioSpectrum::renderHUD(uint)
     // Minimum distance between two lines
     const uint minDistY = 30;
     const uint minDistX = 40;
-    const uint textDist = 5;
+    const uint textDistX = 10;
+    const uint textDistY = 25;
+    const uint topDist = m_innerScopeRect.top() - m_scopeRect.top();
+    const uint leftDist = m_innerScopeRect.left() - m_scopeRect.left();
     const uint dbDiff = ceil((float)minDistY/m_innerScopeRect.height() * (m_dBmax-m_dBmin));
 
-    QImage hud(AbstractAudioScopeWidget::rect().size(), QImage::Format_ARGB32);
+    QImage hud(m_scopeRect.size(), QImage::Format_ARGB32);
     hud.fill(qRgba(0,0,0,0));
 
     QPainter davinci(&hud);
@@ -295,21 +300,39 @@ QImage AudioSpectrum::renderHUD(uint)
 
     int y;
     for (int db = -dbDiff; db > m_dBmin; db -= dbDiff) {
-        y = m_innerScopeRect.height() * ((float)db)/(m_dBmin - m_dBmax);
-        davinci.drawLine(0, y, m_innerScopeRect.width()-1, y);
-        davinci.drawText(m_innerScopeRect.width() + textDist, y + 6, i18n("%1 dB", m_dBmax + db));
+        y = topDist + m_innerScopeRect.height() * ((float)db)/(m_dBmin - m_dBmax);
+        if (y-topDist > m_innerScopeRect.height()-minDistY+10) {
+            // Abort here, there is still a line left for min dB to paint which needs some room.
+            break;
+        }
+        davinci.drawLine(leftDist, y, leftDist + m_innerScopeRect.width()-1, y);
+        davinci.drawText(leftDist + m_innerScopeRect.width() + textDistX, y + 6, i18n("%1 dB", m_dBmax + db));
     }
+    davinci.drawLine(leftDist, topDist, leftDist + m_innerScopeRect.width()-1, topDist);
+    davinci.drawText(leftDist + m_innerScopeRect.width() + textDistX, topDist+6, i18n("%1 dB", m_dBmax));
+    davinci.drawLine(leftDist, topDist+m_innerScopeRect.height()-1, leftDist + m_innerScopeRect.width()-1, topDist+m_innerScopeRect.height()-1);
+    davinci.drawText(leftDist + m_innerScopeRect.width() + textDistX, topDist+m_innerScopeRect.height()+6, i18n("%1 dB", m_dBmin));
 
-
-    // TODO more vertical lines in-between
+    // TODO max Hz dynamically
     const uint hzDiff = ceil( ((float)minDistX)/m_innerScopeRect.width() * m_freqMax / 1000 ) * 1000;
     int x;
-    for (uint hz = hzDiff; hz < m_freqMax; hz += hzDiff) {
-        x = m_innerScopeRect.width() * ((float)hz)/m_freqMax;
-        davinci.drawLine(x, 0, x, m_innerScopeRect.height()+4);
-        davinci.drawText(x-4, m_innerScopeRect.height() + 20, QVariant(hz/1000).toString());
+    y = topDist + m_innerScopeRect.height() + textDistY;
+    for (uint hz = 0; hz <= m_freqMax; hz += hzDiff) {
+        x = leftDist + m_innerScopeRect.width() * ((float)hz)/m_freqMax;
+        davinci.drawLine(x, topDist, x, topDist + m_innerScopeRect.height()+6);
+        if (hz < m_freqMax) {
+            davinci.drawText(x-4, y, QVariant(hz/1000).toString());
+        } else {
+            davinci.drawText(x-10, y, i18n("%1 kHz",hz/1000));
+        }
+
+        if (hz > 0) {
+            for (uint dHz = 1; dHz < 4; dHz++) {
+                x = leftDist + m_innerScopeRect.width() * ((float)hz - dHz * hzDiff/4.0f)/m_freqMax;
+                davinci.drawLine(x, topDist, x, topDist + m_innerScopeRect.height()-1);
+            }
+        }
     }
-    davinci.drawText(m_innerScopeRect.width(), m_innerScopeRect.height() + 20, "[kHz]");
 
 
     emit signalHUDRenderingFinished(start.elapsed(), 1);
@@ -317,18 +340,21 @@ QImage AudioSpectrum::renderHUD(uint)
 }
 
 QRect AudioSpectrum::scopeRect() {
+    m_scopeRect = QRect(
+            QPoint(
+                    10,                                     // Left
+                    ui->verticalSpacer->geometry().top()+6  // Top
+            ),
+            AbstractAudioScopeWidget::rect().bottomRight()
+    );
     m_innerScopeRect = QRect(
             QPoint(
-                    0,                                      // Left
-                    ui->verticalSpacer->geometry().top()    // Top
+                    m_scopeRect.left()+6,                   // Left
+                    m_scopeRect.top()+6                     // Top
             ), QPoint(
                     ui->verticalSpacer->geometry().right()-70,
                     ui->verticalSpacer->geometry().bottom()-40
             )
-    );
-    m_scopeRect = QRect(
-            m_innerScopeRect.topLeft(),
-            AbstractAudioScopeWidget::rect().bottomRight()
     );
     return m_scopeRect;
 }
