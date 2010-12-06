@@ -8,6 +8,12 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
+/**
+   Displays a spectral power distribution of audio samples.
+   The frequency distribution is calculated by means of a Fast Fourier Transformation.
+   For more information see Wikipedia:FFT and the code comments.
+*/
+
 #ifndef AUDIOSPECTRUM_H
 #define AUDIOSPECTRUM_H
 
@@ -53,12 +59,12 @@ protected:
 
 private:
     Ui::AudioSpectrum_UI *ui;
-    kiss_fftr_cfg m_cfg;
-    QHash<QString, QVector<float> > m_windowFunctions;
+    QHash<QString, kiss_fftr_cfg> m_fftCfgs; // FFT cfg cache
+    QHash<QString, QVector<float> > m_windowFunctions; // Window function cache
 
     QAction *m_aResetHz;
 
-    // Contains the plot only; m_scopeRect contains text and widgets as well
+    /** Contains the plot only; m_scopeRect contains text and widgets as well */
     QRect m_innerScopeRect;
 
     /** Lower bound for the dB value to display */
@@ -66,11 +72,16 @@ private:
     /** Upper bound (max: 0) */
     int m_dBmax;
 
-    /** Maximum frequency (depends on the sampling rate)
-        Stored for the HUD painter */
+    /** Maximum frequency (limited by the sampling rate if determined automatically).
+        Stored for the painters. */
     uint m_freqMax;
     /** The user has chosen a custom frequency. */
     bool m_customFreq;
+
+
+    /** Returns a signature for a kiss_fft configuration
+        used as a hash in the cache */
+    static const QString cfgSignature(const int size);
 
 
     ///// Movement detection /////
@@ -88,7 +99,6 @@ private:
 
 
 private slots:
-    void slotUpdateCfg();
     void slotResetMaxFreq();
 
 };

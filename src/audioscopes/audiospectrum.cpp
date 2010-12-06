@@ -36,6 +36,7 @@ const QString AudioSpectrum::directions[] =  {"North", "Northeast", "East", "Sou
 
 AudioSpectrum::AudioSpectrum(QWidget *parent) :
         AbstractAudioScopeWidget(false, parent),
+        m_fftCfgs(),
         m_windowFunctions(),
         m_freqMax(10000),
         m_customFreq(false),
@@ -54,6 +55,7 @@ AudioSpectrum::AudioSpectrum(QWidget *parent) :
 
     m_menu->addSeparator();
     m_menu->addAction(m_aResetHz);
+    m_menu->removeAction(m_aRealtime);
 
 
     ui->windowSize->addItem("256", QVariant(256));
@@ -66,13 +68,14 @@ AudioSpectrum::AudioSpectrum(QWidget *parent) :
     ui->windowFunction->addItem(i18n("Hamming window"), FFTTools::Window_Hamming);
 
 
-    m_cfg = kiss_fftr_alloc(ui->windowSize->itemData(ui->windowSize->currentIndex()).toInt(), 0,0,0);
-
-
     bool b = true;
-    b &= connect(ui->windowSize, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateCfg()));
     b &= connect(m_aResetHz, SIGNAL(triggered()), this, SLOT(slotResetMaxFreq()));
     Q_ASSERT(b);
+
+
+    ui->labelFFTSize->setToolTip(i18n("The maximum window size is limited by the number of samples per frame."));
+    ui->windowSize->setToolTip(i18n("A bigger window improves the accuracy at the cost of computational power."));
+    ui->windowFunction->setToolTip(i18n("The rectangular window function is good for signals with equal signal strength (narrow peak), but creates more smearing. See Window function on Wikipedia."));
 
     AbstractScopeWidget::init();
 }
@@ -80,7 +83,10 @@ AudioSpectrum::~AudioSpectrum()
 {
     writeConfig();
 
-    free(m_cfg);
+    QHash<QString, kiss_fftr_cfg>::iterator i;
+    for (i = m_fftCfgs.begin(); i != m_fftCfgs.end(); i++) {
+        free(*i);
+    }
     delete m_aResetHz;
 }
 
@@ -138,30 +144,40 @@ QImage AudioSpectrum::renderAudioScope(uint, const QVector<int16_t> audioFrame, 
 
         QTime start = QTime::currentTime();
 
-        bool customCfg = false;
-        kiss_fftr_cfg myCfg = m_cfg;
+
+        // Determine the window size to use. It should be
+        // * not bigger than the number of samples actually available
+        // * divisible by 2
         int fftWindow = ui->windowSize->itemData(ui->windowSize->currentIndex()).toInt();
         if (fftWindow > num_samples) {
             fftWindow = num_samples;
-            customCfg = true;
         }
         if ((fftWindow & 1) == 1) {
             fftWindow--;
-            customCfg = true;
         }
-        if (customCfg) {
+
+        // Show the window size used, for information
+        ui->labelFFTSizeNumber->setText(QVariant(fftWindow).toString());
+
+        // Get the kiss_fft configuration from the config cache
+        // or build a new configuration if the requested one is not available.
+        kiss_fftr_cfg myCfg;
+        const QString signature = cfgSignature(fftWindow);
+        if (m_fftCfgs.contains(signature)) {
+#ifdef DEBUG_AUDIOSPEC
+            qDebug() << "Re-using FFT configuration with size " << fftWindow;
+#endif
+            myCfg = m_fftCfgs.value(signature);
+        } else {
+#ifdef DEBUG_AUDIOSPEC
+            qDebug() << "Creating FFT configuration with size " << fftWindow;
+#endif
             myCfg = kiss_fftr_alloc(fftWindow, 0,0,0);
+            m_fftCfgs.insert(signature, myCfg);
         }
 
         float data[fftWindow];
         float freqSpectrum[fftWindow/2];
-
-        int16_t maxSig = 0;
-        for (int i = 0; i < fftWindow; i++) {
-            if (audioFrame.data()[i*num_channels] > maxSig) {
-                maxSig = audioFrame.data()[i*num_channels];
-            }
-        }
 
         // Prepare frequency space vector. The resulting FFT vector is only half as long.
         kiss_fft_cpx freqData[fftWindow/2];
@@ -303,10 +319,6 @@ QImage AudioSpectrum::renderAudioScope(uint, const QVector<int16_t> audioFrame, 
         }
 #endif
 
-        if (customCfg) {
-            free(myCfg);
-        }
-
         return spectrum;
     } else {
         emit signalScopeRenderingFinished(0, 1);
@@ -390,13 +402,6 @@ QRect AudioSpectrum::scopeRect() {
             )
     );
     return m_scopeRect;
-}
-
-
-void AudioSpectrum::slotUpdateCfg()
-{
-    free(m_cfg);
-    m_cfg = kiss_fftr_alloc(ui->windowSize->itemData(ui->windowSize->currentIndex()).toInt(), 0,0,0);
 }
 
 void AudioSpectrum::slotResetMaxFreq()
@@ -545,6 +550,11 @@ void AudioSpectrum::mouseReleaseEvent(QMouseEvent *event)
     m_rescalePropertiesLocked = false;
 
     AbstractAudioScopeWidget::mouseReleaseEvent(event);
+}
+
+const QString AudioSpectrum::cfgSignature(const int size)
+{
+    return QString("s%1").arg(size);
 }
 
 
