@@ -10,6 +10,8 @@
 
 #include <math.h>
 
+#include <QString>
+
 #include "ffttools.h"
 
 //#define DEBUG_FFTTOOLS
@@ -21,8 +23,13 @@ FFTTools::FFTTools()
 {
 }
 
+const QString FFTTools::windowSignature(const WindowType windowType, const int size, const float param)
+{
+    return QString("s%1_t%2_p%3").arg(size).arg(windowType).arg(param, 0, 'f', 3);
+}
+
 // http://cplusplus.syntaxerrors.info/index.php?title=Cannot_declare_member_function_%E2%80%98static_int_Foo::bar%28%29%E2%80%99_to_have_static_linkage
-const QVector<float> FFTTools::window(WindowType windowType, const int size, const float param)
+const QVector<float> FFTTools::window(const WindowType windowType, const int size, const float param)
 {
     // Deliberately avoid converting size to a float
     // to keep mid an integer.

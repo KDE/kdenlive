@@ -24,6 +24,7 @@
 //#define DEBUG_AUDIOSPEC
 #ifdef DEBUG_AUDIOSPEC
 #include <fstream>
+#include <QDebug>
 bool fileWritten = false;
 #endif
 
@@ -66,8 +67,6 @@ AudioSpectrum::AudioSpectrum(QWidget *parent) :
 
 
     m_cfg = kiss_fftr_alloc(ui->windowSize->itemData(ui->windowSize->currentIndex()).toInt(), 0,0,0);
-    //m_windowFunctions.insert("tri512", FFTTools::window(FFTTools::Window_Hamming, 8, 0));
-    // TODO Window function cache
 
 
     bool b = true;
@@ -179,9 +178,20 @@ QImage AudioSpectrum::renderAudioScope(uint, const QVector<int16_t> audioFrame, 
         QVector<float> window;
         float windowScaleFactor = 1;
         if (windowType != FFTTools::Window_Rect) {
-            window = FFTTools::window(windowType, fftWindow, 0);
+            const QString signature = FFTTools::windowSignature(windowType, fftWindow, 0);
+            if (m_windowFunctions.contains(signature)) {
+#ifdef DEBUG_AUDIOSPEC
+                qDebug() << "Re-using window function with signature " << signature;
+#endif
+                window = m_windowFunctions.value(signature);
+            } else {
+#ifdef DEBUG_AUDIOSPEC
+                qDebug() << "Building new window function with signature " << signature;
+#endif
+                window = FFTTools::window(windowType, fftWindow, 0);
+                m_windowFunctions.insert(signature, window);
+            }
             windowScaleFactor = 1.0/window[fftWindow];
-            qDebug() << "Using a window scaling factor of " << windowScaleFactor;
         }
 
         // Normalize signals to [0,1] to get correct dB values later on

@@ -33,7 +33,9 @@ public:
           default is 0)
         * Nothing for the Hamming window
     */
-    static const QVector<float> window(WindowType windowType, const int size, const float param);
+    static const QVector<float> window(const WindowType windowType, const int size, const float param);
+
+    static const QString windowSignature(const WindowType windowType, const int size, const float param);
 
 };
 
