@@ -56,9 +56,7 @@ private:
     kiss_fftr_cfg m_cfg;
     QHash<QString, QVector<float> > m_windowFunctions;
 
-    QAction *m_aLockHz;
-
-    QSize m_distance;
+    QAction *m_aResetHz;
 
     // Contains the plot only; m_scopeRect contains text and widgets as well
     QRect m_innerScopeRect;
@@ -71,6 +69,8 @@ private:
     /** Maximum frequency (depends on the sampling rate)
         Stored for the HUD painter */
     uint m_freqMax;
+    /** The user has chosen a custom frequency. */
+    bool m_customFreq;
 
 
     ///// Movement detection /////
@@ -89,6 +89,7 @@ private:
 
 private slots:
     void slotUpdateCfg();
+    void slotResetMaxFreq();
 
 };
 

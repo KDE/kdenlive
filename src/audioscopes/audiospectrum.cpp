@@ -28,12 +28,16 @@ bool fileWritten = false;
 #endif
 
 #define MIN_DB_VALUE -120
+#define MAX_FREQ_VALUE 96000
+#define MIN_FREQ_VALUE 1000
 
 const QString AudioSpectrum::directions[] =  {"North", "Northeast", "East", "Southeast"};
 
 AudioSpectrum::AudioSpectrum(QWidget *parent) :
         AbstractAudioScopeWidget(false, parent),
         m_windowFunctions(),
+        m_freqMax(10000),
+        m_customFreq(false),
         m_rescaleMinDist(8),
         m_rescaleVerticalThreshold(2.0f),
         m_rescaleActive(false),
@@ -43,17 +47,12 @@ AudioSpectrum::AudioSpectrum(QWidget *parent) :
     ui = new Ui::AudioSpectrum_UI;
     ui->setupUi(this);
 
-    m_distance = QSize(65, 30);
-    m_freqMax = 10000;
 
-
-    m_aLockHz = new QAction(i18n("Lock maximum frequency"), this);
-    m_aLockHz->setCheckable(true);
-    m_aLockHz->setEnabled(false);
+    m_aResetHz = new QAction(i18n("Reset maximum frequency to sampling rate"), this);
 
 
     m_menu->addSeparator();
-    m_menu->addAction(m_aLockHz);
+    m_menu->addAction(m_aResetHz);
 
 
     ui->windowSize->addItem("256", QVariant(256));
@@ -73,6 +72,7 @@ AudioSpectrum::AudioSpectrum(QWidget *parent) :
 
     bool b = true;
     b &= connect(ui->windowSize, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateCfg()));
+    b &= connect(m_aResetHz, SIGNAL(triggered()), this, SLOT(slotResetMaxFreq()));
     Q_ASSERT(b);
 
     AbstractScopeWidget::init();
@@ -82,7 +82,7 @@ AudioSpectrum::~AudioSpectrum()
     writeConfig();
 
     free(m_cfg);
-    delete m_aLockHz;
+    delete m_aResetHz;
 }
 
 void AudioSpectrum::readConfig()
@@ -91,21 +91,35 @@ void AudioSpectrum::readConfig()
 
     KSharedConfigPtr config = KGlobal::config();
     KConfigGroup scopeConfig(config, AbstractScopeWidget::configName());
-    m_aLockHz->setChecked(scopeConfig.readEntry("lockHz", false));
+
     ui->windowSize->setCurrentIndex(scopeConfig.readEntry("windowSize", 0));
+    ui->windowFunction->setCurrentIndex(scopeConfig.readEntry("windowFunction", 0));
     m_dBmax = scopeConfig.readEntry("dBmax", 0);
     m_dBmin = scopeConfig.readEntry("dBmin", -70);
-    ui->windowFunction->setCurrentIndex(scopeConfig.readEntry("windowFunction", 0));
+    m_freqMax = scopeConfig.readEntry("freqMax", 0);
+
+    if (m_freqMax == 0) {
+        m_customFreq = false;
+        m_freqMax = 10000;
+    } else {
+        m_customFreq = true;
+    }
 }
 void AudioSpectrum::writeConfig()
 {
     KSharedConfigPtr config = KGlobal::config();
     KConfigGroup scopeConfig(config, AbstractScopeWidget::configName());
+
     scopeConfig.writeEntry("windowSize", ui->windowSize->currentIndex());
     scopeConfig.writeEntry("windowFunction", ui->windowFunction->currentIndex());
-    scopeConfig.writeEntry("lockHz", m_aLockHz->isChecked());
     scopeConfig.writeEntry("dBmax", m_dBmax);
     scopeConfig.writeEntry("dBmin", m_dBmin);
+    if (m_customFreq) {
+        scopeConfig.writeEntry("freqMax", m_freqMax);
+    } else {
+        scopeConfig.writeEntry("freqMax", 0);
+    }
+
     scopeConfig.sync();
 }
 
@@ -119,7 +133,9 @@ QImage AudioSpectrum::renderBackground(uint) { return QImage(); }
 QImage AudioSpectrum::renderAudioScope(uint, const QVector<int16_t> audioFrame, const int freq, const int num_channels, const int num_samples)
 {
     if (audioFrame.size() > 63) {
-        m_freqMax = freq / 2;
+        if (!m_customFreq) {
+            m_freqMax = freq / 2;
+        }
 
         QTime start = QTime::currentTime();
 
@@ -198,6 +214,7 @@ QImage AudioSpectrum::renderAudioScope(uint, const QVector<int16_t> audioFrame, 
         const uint h = m_innerScopeRect.height();
         const uint leftDist = m_innerScopeRect.left() - m_scopeRect.left();
         const uint topDist = m_innerScopeRect.top() - m_scopeRect.top();
+        float f;
         float x;
         float x_prev = 0;
         float val;
@@ -205,15 +222,22 @@ QImage AudioSpectrum::renderAudioScope(uint, const QVector<int16_t> audioFrame, 
         for (uint i = 0; i < w; i++) {
 
             // i:  Pixel coordinate
+            // f: Target frequency
             // x:  Frequency array index (float!) corresponding to the pixel
             // xi: floor(x)
 
-            x = i/((float) w) * fftWindow/2;
+            f = i/((float) w-1.0) * m_freqMax;
+            x = 2*f/freq * (fftWindow/2 - 1);
             xi = (int) floor(x);
 
+            if (x >= fftWindow/2) {
+                break;
+            }
+
             // Use linear interpolation in order to get smoother display
-            if (i == 0 || i == w-1) {
-                val = freqSpectrum[i];
+            if (i == 0 || xi == fftWindow/2-1) {
+                // ... except if we are at the left or right border of the display or the spectrum
+                val = freqSpectrum[xi];
             } else {
 
                 if (freqSpectrum[xi] > freqSpectrum[xi+1]
@@ -313,7 +337,6 @@ QImage AudioSpectrum::renderHUD(uint)
     davinci.drawLine(leftDist, topDist+m_innerScopeRect.height()-1, leftDist + m_innerScopeRect.width()-1, topDist+m_innerScopeRect.height()-1);
     davinci.drawText(leftDist + m_innerScopeRect.width() + textDistX, topDist+m_innerScopeRect.height()+6, i18n("%1 dB", m_dBmin));
 
-    // TODO max Hz dynamically
     const uint hzDiff = ceil( ((float)minDistX)/m_innerScopeRect.width() * m_freqMax / 1000 ) * 1000;
     int x;
     y = topDist + m_innerScopeRect.height() + textDistY;
@@ -364,6 +387,13 @@ void AudioSpectrum::slotUpdateCfg()
 {
     free(m_cfg);
     m_cfg = kiss_fftr_alloc(ui->windowSize->itemData(ui->windowSize->currentIndex()).toInt(), 0,0,0);
+}
+
+void AudioSpectrum::slotResetMaxFreq()
+{
+    m_customFreq = false;
+    forceUpdateHUD();
+    forceUpdateScope();
 }
 
 
@@ -442,6 +472,19 @@ void AudioSpectrum::mouseMoveEvent(QMouseEvent *event)
                 forceUpdateHUD();
                 forceUpdateScope();
 
+            } else if (m_rescaleClockDirection == AudioSpectrum::East) {
+                // East-West direction: Adjust the maximum frequency
+                m_freqMax -= 100*movement.x();
+                if (m_freqMax < MIN_FREQ_VALUE) {
+                    m_freqMax = MIN_FREQ_VALUE;
+                }
+                if (m_freqMax > MAX_FREQ_VALUE) {
+                    m_freqMax = MAX_FREQ_VALUE;
+                }
+                m_customFreq = true;
+
+                forceUpdateHUD();
+                forceUpdateScope();
             }
 
 
@@ -498,3 +541,7 @@ void AudioSpectrum::mouseReleaseEvent(QMouseEvent *event)
 #ifdef DEBUG_AUDIOSPEC
 #undef DEBUG_AUDIOSPEC
 #endif
+
+#undef MIN_DB_VALUE
+#undef MAX_FREQ_VALUE
+#undef MIN_FREQ_VALUE
