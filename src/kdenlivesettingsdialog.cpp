@@ -40,13 +40,17 @@
 #include <unistd.h>
 #include <fcntl.h>
 #ifndef NO_JOGSHUTTLE
+#include "jogaction.h"
+#include "jogshuttleconfig.h"
 #include <linux/input.h>
 #endif /* NO_JOGSHUTTLE */
 
 
-KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent) :
+KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& mappable_actions, QWidget * parent) :
     KConfigDialog(parent, "settings", KdenliveSettings::self()),
-    m_modified(false)
+    m_modified(false),
+    m_shuttleModified(false),
+    m_mappable_actions(mappable_actions)
 {
 
     QWidget *p1 = new QWidget;
@@ -108,14 +112,49 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent) :
 
     QWidget *p5 = new QWidget;
     m_configShuttle.setupUi(p5);
-#ifndef NO_JOGSHUTTLE
+#ifdef NO_JOGSHUTTLE
+    m_configShuttle.kcfg_enableshuttle->hide();
+    m_configShuttle.kcfg_enableshuttle->setDisabled(true);
+#else
     connect(m_configShuttle.kcfg_enableshuttle, SIGNAL(stateChanged(int)), this, SLOT(slotCheckShuttle(int)));
     connect(m_configShuttle.shuttledevicelist, SIGNAL(activated(int)), this, SLOT(slotUpdateShuttleDevice(int)));
     slotCheckShuttle(KdenliveSettings::enableshuttle());
     m_configShuttle.shuttledisabled->hide();
-#else
-    m_configShuttle.kcfg_enableshuttle->hide();
-    m_configShuttle.kcfg_enableshuttle->setDisabled(true);
+
+    // Store the button pointers into an array for easier handling them in the other functions.
+    m_shuttle_buttons.push_back(m_configShuttle.shuttle1);
+    m_shuttle_buttons.push_back(m_configShuttle.shuttle2);
+    m_shuttle_buttons.push_back(m_configShuttle.shuttle3);
+    m_shuttle_buttons.push_back(m_configShuttle.shuttle4);
+    m_shuttle_buttons.push_back(m_configShuttle.shuttle5);
+
+    // populate the buttons with the current configuration. The items are sorted
+    // according to the user-selected language, so they do not appear in random order.
+    QList<QString> action_names = mappable_actions.keys();
+    qSort(action_names);
+
+    // Here we need to compute the action_id -> index-in-action_names. We iterate over the
+    // action_names, as the sorting may depend on the user-language.
+    QStringList actions_map = JogShuttleConfig::actionMap(KdenliveSettings::shuttlebuttons());
+    QMap<QString, int> action_pos;
+    foreach (const QString& action_id, actions_map) {
+      // This loop find out at what index is the string that would map to the action_id.
+      for (int i = 0; i < action_names.size(); i++) {
+          if (mappable_actions[action_names[i]] == action_id) {
+              action_pos[action_id] = i;
+              break;
+          }
+      }
+    }
+
+    int i = 0;
+    foreach (KComboBox* button, m_shuttle_buttons) {
+      button->addItems(action_names);
+      connect(button, SIGNAL(activated(int)), this, SLOT(slotShuttleModified()));
+      ++i;
+      if (i < actions_map.size())
+        button->setCurrentIndex(action_pos[actions_map[i]]);
+    }
 #endif /* NO_JOGSHUTTLE */
     m_page5 = addPage(p5, i18n("JogShuttle"), "input-mouse");
 
@@ -134,17 +173,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent) :
     connect(m_configTranscode.button_add, SIGNAL(clicked()), this, SLOT(slotAddTranscode()));
     connect(m_configTranscode.button_delete, SIGNAL(clicked()), this, SLOT(slotDeleteTranscode()));
     connect(m_configTranscode.profiles_list, SIGNAL(itemChanged(QTreeWidgetItem *, int)), this, SLOT(slotDialogModified()));
-
-    QStringList actions;
-    actions << i18n("Do nothing");
-    actions << i18n("Play / Pause");
-    actions << i18n("Cut");
-    m_configShuttle.kcfg_shuttle1->addItems(actions);
-    m_configShuttle.kcfg_shuttle2->addItems(actions);
-    m_configShuttle.kcfg_shuttle3->addItems(actions);
-    m_configShuttle.kcfg_shuttle4->addItems(actions);
-    m_configShuttle.kcfg_shuttle5->addItems(actions);
-
+    
     connect(m_configCapture.kcfg_video4vdevice, SIGNAL(editingFinished()), this, SLOT(rebuildVideo4Commands()));
     connect(m_configCapture.kcfg_video4adevice, SIGNAL(editingFinished()), this, SLOT(rebuildVideo4Commands()));
     connect(m_configCapture.kcfg_video4vcodec, SIGNAL(editingFinished()), this, SLOT(rebuildVideo4Commands()));
@@ -449,6 +478,7 @@ void KdenliveSettingsDialog::slotUpdateShuttleDevice(int ix)
     //KdenliveSettings::setShuttledevice(device);
     m_configShuttle.kcfg_shuttledevice->setText(device);
 }
+
 #endif /* NO_JOGSHUTTLE */
 
 void KdenliveSettingsDialog::rebuildVideo4Commands()
@@ -459,17 +489,56 @@ void KdenliveSettingsDialog::rebuildVideo4Commands()
     captureCommand +=  " -f " + m_configCapture.kcfg_video4vformat->text() + " -s " + m_configCapture.kcfg_video4size->text() + " -r " + QString::number(m_configCapture.kcfg_video4rate->value()) + " -i " + m_configCapture.kcfg_video4vdevice->text() + " -vcodec " + m_configCapture.kcfg_video4vcodec->text();
     m_configCapture.kcfg_video4capture->setText(captureCommand);
 }
+void KdenliveSettingsDialog::updateWidgets()
+{
+    // Revert widgets to last saved state (for example when user pressed "Cancel")
+    // kDebug() << "// // // KCONFIG Revert called";
+    // revert jog shuttle device
+    if (m_configShuttle.shuttledevicelist->count() > 0) {
+	for (int i = 0; i < m_configShuttle.shuttledevicelist->count(); i++) {
+	    if (m_configShuttle.shuttledevicelist->itemData(i) == KdenliveSettings::shuttledevice()) {
+		m_configShuttle.shuttledevicelist->setCurrentIndex(i);
+		break;
+	    }
+	}
+    }
 
+    // Revert jog shuttle buttons
+    QList<QString> action_names = m_mappable_actions.keys();
+    qSort(action_names);
+    QStringList actions_map = JogShuttleConfig::actionMap(KdenliveSettings::shuttlebuttons());
+    QMap<QString, int> action_pos;
+    foreach (const QString& action_id, actions_map) {
+      // This loop find out at what index is the string that would map to the action_id.
+      for (int i = 0; i < action_names.size(); i++) {
+          if (m_mappable_actions[action_names[i]] == action_id) {
+              action_pos[action_id] = i;
+              break;
+          }
+      }
+    }
+    int i = 0;
+    foreach (KComboBox* button, m_shuttle_buttons) {
+      ++i;
+      if (i < actions_map.size())
+        button->setCurrentIndex(action_pos[actions_map[i]]);
+    }
+}
 
 void KdenliveSettingsDialog::updateSettings()
 {
-    //kDebug() << "// // // KCONFIG UPDATE called";
-
+    // Save changes to settings (for example when user pressed "Apply" or "Ok")
+    // kDebug() << "// // // KCONFIG UPDATE called";
     m_defaultProfile = m_configProject.kcfg_profiles_list->currentText();
     KdenliveSettings::setDefault_profile(m_defaultPath);
 
     bool resetProfile = false;
     bool updateCapturePath = false;
+    
+    /*if (m_configShuttle.shuttledevicelist->count() > 0) {
+	QString device = m_configShuttle.shuttledevicelist->itemData(m_configShuttle.shuttledevicelist->currentIndex()).toString();
+	if (device != KdenliveSettings::shuttledevice()) KdenliveSettings::setShuttledevice(device);
+    }*/
 
     if (m_configEnv.kcfg_capturetoprojectfolder->isChecked() != KdenliveSettings::capturetoprojectfolder()) {
         KdenliveSettings::setCapturetoprojectfolder(m_configEnv.kcfg_capturetoprojectfolder->isChecked());
@@ -550,6 +619,18 @@ void KdenliveSettingsDialog::updateSettings()
         saveTranscodeProfiles();
     }
 
+    m_shuttleModified = false;
+
+    QStringList actions;
+    actions << "monitor_pause";  // the Job rest position action.
+    foreach (KComboBox* button, m_shuttle_buttons) {
+        actions << m_mappable_actions[button->currentText()];
+    }
+    QString maps = JogShuttleConfig::actionMap(actions);
+    //fprintf(stderr, "Shuttle config: %s\n", JogShuttleConfig::actionMap(actions).toAscii().constData());
+    if (KdenliveSettings::shuttlebuttons() != maps)
+	KdenliveSettings::setShuttlebuttons(maps);
+
 #if KDE_IS_VERSION(4,3,0)
     KConfigDialog::settingsChangedSlot();
 #endif
@@ -628,6 +709,20 @@ void KdenliveSettingsDialog::slotDeleteTranscode()
     slotDialogModified();
 }
 
+void KdenliveSettingsDialog::slotShuttleModified()
+{
+    QStringList actions;
+    actions << "monitor_pause";  // the Job rest position action.
+    foreach (KComboBox* button, m_shuttle_buttons) {
+        actions << m_mappable_actions[button->currentText()];
+    }
+    QString maps = JogShuttleConfig::actionMap(actions);
+    m_shuttleModified = KdenliveSettings::shuttlebuttons() != maps;
+#if KDE_IS_VERSION(4,3,0)
+    KConfigDialog::updateButtons();
+#endif
+}
+
 void KdenliveSettingsDialog::slotDialogModified()
 {
     m_modified = true;
@@ -639,7 +734,7 @@ void KdenliveSettingsDialog::slotDialogModified()
 //virtual
 bool KdenliveSettingsDialog::hasChanged()
 {
-    if (m_modified) return true;
+    if (m_modified || m_shuttleModified) return true;
     return KConfigDialog::hasChanged();
 }
 

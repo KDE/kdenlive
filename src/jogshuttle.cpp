@@ -60,14 +60,11 @@
 // Constants for the signals sent.
 #define JOG_BACK1 10001
 #define JOG_FWD1 10002
+#define KEY_EVENT_OFFSET 20000
 
 // middle value for shuttle, will be +/-MAX_SHUTTLE_RANGE
-#define JOG_STOP 10010
+#define JOG_STOP 10020
 #define MAX_SHUTTLE_RANGE 7
-
-// TODO(fleury): this should probably be a user configuration parameter (at least the max speed).
-const double SPEEDS[MAX_SHUTTLE_RANGE + 1] = {0.0, 0.5, 1.0, 2.0, 4.0, 8.0, 16.0, 32.0};
-
 
 void ShuttleThread::init(QObject *parent, QString device)
 {
@@ -104,7 +101,7 @@ void ShuttleThread::run()
     int num_warnings = 0;
     while (!stop_me) {
         if (read(fd, &ev, sizeof(ev)) < 0) {
-            if (num_warnings % 100 == 0)
+            if (num_warnings % 10000 == 0)
                 fprintf(stderr, "Failed to read event from Jog Shuttle FILE DESCRIPTOR (repeated %d times)\n", num_warnings + 1);
             num_warnings++;
         }
@@ -142,7 +139,7 @@ void ShuttleThread::key(unsigned short code, unsigned int value)
         return;
 
     kDebug() << "Button PRESSED: " << code;
-    QApplication::postEvent(m_parent, new QEvent((QEvent::Type)(20000 + code)));
+    QApplication::postEvent(m_parent, new QEvent((QEvent::Type)(KEY_EVENT_OFFSET + code)));
 
 }
 
@@ -160,7 +157,7 @@ void ShuttleThread::shuttle(int value)
     }
     shuttlevalue = value;
     shuttlechange = true;
-    QApplication::postEvent(m_parent, new QEvent((QEvent::Type)(JOG_STOP + value)));
+    QApplication::postEvent(m_parent, new QEvent((QEvent::Type) (JOG_STOP + value)));
 }
 
 void ShuttleThread::jog(unsigned int value)
@@ -228,37 +225,25 @@ void JogShuttle::customEvent(QEvent* e)
 {
     int code = e->type();
 
-    // Handle the job events
-    if (code == JOG_BACK1) {
-        emit rewind1();
+    // Handle simple job events
+    switch (code) {
+    case JOG_BACK1:
+        emit jogBack();
         return;
-    }
-    if (code == JOG_FWD1) {
-        emit forward1();
-        return;
-    }
-
-    //handle the shuttle events
-    if (code == JOG_STOP) {
-        // TODO(fleury): to make sure stop() has an effect, as it doesn't when in rewind mode, we set it to forward with
-        // a value that will for sure not move to the next frame.
-        if (m_shuttleProcess.shuttlevalue < 0)
-            emit forward(0.01);
-        emit stop();
+    case JOG_FWD1:
+        emit jogForward();
         return;
     }
 
-    int shuttle = code - JOG_STOP;
-    if (shuttle >= -MAX_SHUTTLE_RANGE && shuttle <= MAX_SHUTTLE_RANGE) {
-        if (shuttle < 0)
-            emit rewind(-SPEEDS[abs(shuttle)]);
-        else
-            emit forward(SPEEDS[abs(shuttle)]);
+    int shuttle_pos = code - JOG_STOP;
+    if (shuttle_pos >= -MAX_SHUTTLE_RANGE && shuttle_pos <= MAX_SHUTTLE_RANGE) {
+        emit shuttlePos(shuttle_pos);
         return;
     }
 
     // we've got a key event.
-    emit button(e->type() - 20000);
+    //fprintf(stderr, "Firing button event for #%d\n", e->type() - KEY_EVENT_OFFSET); // DBG
+    emit button(e->type() - KEY_EVENT_OFFSET);
 }
 
 

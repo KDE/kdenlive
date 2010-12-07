@@ -478,29 +478,9 @@
       <default></default>
     </entry>
 
-    <entry name="shuttle1" type="UInt">
-      <label>Action for shuttle button 1.</label>
-      <default>1</default>
-    </entry>
-
-    <entry name="shuttle2" type="UInt">
-      <label>Action for shuttle button 2.</label>
-      <default>2</default>
-    </entry>
-
-    <entry name="shuttle3" type="UInt">
-      <label>Action for shuttle button 3.</label>
-      <default>0</default>
-    </entry>
-
-    <entry name="shuttle4" type="UInt">
-      <label>Action for shuttle button 4.</label>
-      <default>0</default>
-    </entry>
-
-    <entry name="shuttle5" type="UInt">
-      <label>Action for shuttle button 5.</label>
-      <default>0</default>
+    <entry name="shuttlebuttons" type="String">
+      <label>JogShuttle button to actions mappings.</label>
+      <default></default>
     </entry>
   </group>
 

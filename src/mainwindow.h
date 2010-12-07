@@ -59,6 +59,7 @@ class CustomTrackView;
 class RenderWidget;
 #ifndef NO_JOGSHUTTLE
 class JogShuttle;
+class JogShuttleAction;
 #endif /* NO_JOGSHUTTLE */
 class DocClipBase;
 class Render;
@@ -205,6 +206,10 @@ private:
 
     /** Actions used in the stopmotion widget */
     KActionCategory *m_stopmotion_actions;
+    
+    /** Action names that can be used in the slotDoAction() slot, with their i18n() names */
+    QStringList m_action_names;
+
 
     /** @brief Shortcut to remove the focus from any element.
      *
@@ -216,6 +221,7 @@ private:
 
 #ifndef NO_JOGSHUTTLE
     JogShuttle *m_jogProcess;
+    JogShuttleAction* m_jogShuttle;
 #endif /* NO_JOGSHUTTLE */
 
     KRecentFilesAction *m_fileOpenRecent;
@@ -259,7 +265,6 @@ private:
     void saveOptions();
 #ifndef NO_JOGSHUTTLE
     void activateShuttleDevice();
-    void slotShuttleAction(int code);
 #endif /* NO_JOGSHUTTLE */
     void connectDocumentInfo(KdenliveDoc *doc);
     void findAhead();
@@ -404,9 +409,6 @@ private slots:
     void slotAddCustomEffect(QAction *result);
     void slotAddTransition(QAction *result);
     void slotAddProjectClip(KUrl url);
-#ifndef NO_JOGSHUTTLE
-    void slotShuttleButton(int code);
-#endif /* NO_JOGSHUTTLE */
     void slotShowClipProperties(DocClipBase *clip);
     void slotShowClipProperties(QList <DocClipBase *>cliplist, QMap<QString, QString> commonproperties);
     void slotActivateEffectStackView();
@@ -525,7 +527,9 @@ private slots:
     void slotSwitchFullscreen();
     /** @brief Open the stopmotion dialog. */
     void slotOpenStopmotion();
-
+    /** @brief Implements all the actions that are int he ActionsCollection. */
+    void slotDoAction(const QString& action_name);
+ 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);
 };

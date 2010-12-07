@@ -1,6 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2008 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- *   Based on code by Arendt David <admin@prnet.org>                       *
+ *   Copyright (C) 2010 by Pascal Fleury (fleury@users.sourceforge.net)    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,59 +17,38 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#ifndef SHUTTLE_H
-#define SHUTTLE_H
+#ifndef JOG_SHUTTLE_ACTION_H
+#define JOG_SHUTTLE_ACTION_H
 
-#include <qthread.h>
 #include <QObject>
+#include <QStringList>
 
-#include <linux/input.h>
+#include "jogshuttle.h"
 
-
-typedef struct input_event EV;
-
-class ShuttleThread : public QThread
-{
-
-public:
-    virtual void run();
-    void init(QObject *parent, QString device);
-    QObject *m_parent;
-    int shuttlevalue;
-    bool shuttlechange;
-    unsigned short jogvalue;
-    bool isWorking();
-    bool stop_me;
-    QString m_device;
-
-private:
-    bool m_isWorking;
-    void handle_event(EV ev);
-    void jog(unsigned int value);
-    void shuttle(int value);
-    void key(unsigned short code, unsigned int value);
-};
-
-
-class JogShuttle: public QObject
+class JogShuttleAction: public QObject
 {
 Q_OBJECT public:
-    explicit JogShuttle(QString device, QObject * parent = 0);
-    ~JogShuttle();
-    void stopDevice();
-    void initDevice(QString device);
+    explicit JogShuttleAction(const JogShuttle* jogShuttle, const QStringList& actionMap, QObject * parent = 0);
+    ~JogShuttleAction();
 
-protected:
-    virtual void customEvent(QEvent * e);
 
 private:
-    ShuttleThread m_shuttleProcess;
+    const JogShuttle* m_jogShuttle;
+    // this is indexed by button ID, having QString() for any non-used ones.
+    QStringList m_actionMap;
+
+public slots:
+    void slotJogBack();
+    void slotJogForward();
+    void slotShuttlePos(int);
+    void slotButton(int);
 
 signals:
-    void jogBack();
-    void jogForward();
-    void shuttlePos(int);
-    void button(int);
+    void rewindOneFrame();
+    void forwardOneFrame();
+    void rewind(double);
+    void forward(double);
+    void action(const QString&);
 };
 
 #endif

@@ -43,6 +43,7 @@ public slots:
      * @param name name of the monitor to activate */
     void activateMonitor(QString name = QString());
     void slotPlay();
+    void slotPause();
     void slotPlayZone();
     void slotLoopZone();
     void slotRewind(double speed = 0);

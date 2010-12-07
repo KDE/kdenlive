@@ -23,6 +23,7 @@
 
 #include <QDialog>
 
+#include <QMap>
 #include <KConfigDialog>
 #include <KProcess>
 
@@ -40,13 +41,14 @@ class KdenliveSettingsDialog : public KConfigDialog
     Q_OBJECT
 
 public:
-    KdenliveSettingsDialog(QWidget * parent = 0);
+    KdenliveSettingsDialog(const QMap<QString, QString>& mappable_actions, QWidget * parent = 0);
     ~KdenliveSettingsDialog();
     void showPage(int page, int option);
     void checkProfile();
 
 protected slots:
     void updateSettings();
+    void updateWidgets();
     virtual bool hasChanged();
 
 private slots:
@@ -64,6 +66,7 @@ private slots:
     void slotCheckAlsaDriver();
     void slotAddTranscode();
     void slotDeleteTranscode();
+    void slotShuttleModified();
     void slotDialogModified();
     void slotEnableCaptureFolder();
     void slotUpdateHDMIModes();
@@ -90,6 +93,9 @@ private:
     QString m_defaultPath;
     KProcess m_readProcess;
     bool m_modified;
+    bool m_shuttleModified;
+    QMap<QString, QString> m_mappable_actions;
+    QVector<KComboBox*> m_shuttle_buttons;
     void initDevices();
     void loadTranscodeProfiles();
     void saveTranscodeProfiles();

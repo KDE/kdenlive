@@ -87,6 +87,11 @@ void MonitorManager::slotPlay()
     else m_projectMonitor->slotPlay();
 }
 
+void MonitorManager::slotPause()
+{
+  stopActiveMonitor();
+}
+
 void MonitorManager::slotPlayZone()
 {
     if (m_clipMonitor->isActive()) m_clipMonitor->slotPlayZone();
