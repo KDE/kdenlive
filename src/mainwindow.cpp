@@ -58,6 +58,7 @@
 #include "colorscopes/rgbparade.h"
 #include "colorscopes/histogram.h"
 #include "audiospectrum.h"
+#include "spectrogram.h"
 
 #include <KApplication>
 #include <KAction>
@@ -292,6 +293,12 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     m_audioSpectrumDock->setWidget(m_audioSpectrum);
     addDockWidget(Qt::TopDockWidgetArea, m_audioSpectrumDock);
 
+    m_spectrogram = new Spectrogram();
+    m_spectrogramDock = new QDockWidget(i18n("Spectrogram"), this);
+    m_spectrogramDock->setObjectName(m_spectrogram->widgetName());
+    m_spectrogramDock->setWidget(m_spectrogram);
+    addDockWidget(Qt::TopDockWidgetArea, m_spectrogramDock);
+
     // Connect the audio signal to the audio scope slots
     bool b = true;
     if (m_projectMonitor) {
@@ -300,6 +307,8 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
                      m_audioSpectrum, SLOT(slotReceiveAudio(QVector<int16_t>, int, int, int)));
         b &= connect(m_projectMonitor->render, SIGNAL(audioSamplesSignal(const QVector<int16_t>&, const int&, const int&, const int&)),
                      m_audiosignal, SLOT(slotReceiveAudio(const QVector<int16_t>&, const int&, const int&, const int&)));
+        b &= connect(m_projectMonitor->render, SIGNAL(audioSamplesSignal(QVector<int16_t>,int,int,int)),
+                     m_spectrogram, SLOT(slotReceiveAudio(QVector<int16_t>,int,int,int)));
     }
     if (m_clipMonitor) {
         qDebug() << "clip monitor connected";
@@ -307,8 +316,10 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
                      m_audioSpectrum, SLOT(slotReceiveAudio(QVector<int16_t>, int, int, int)));
         b &= connect(m_clipMonitor->render, SIGNAL(audioSamplesSignal(const QVector<int16_t>&, int, int, int)),
                      m_audiosignal, SLOT(slotReceiveAudio(const QVector<int16_t>&, int, int, int)));
+        b &= connect(m_clipMonitor->render, SIGNAL(audioSamplesSignal(QVector<int16_t>,int,int,int)),
+                     m_spectrogram, SLOT(slotReceiveAudio(QVector<int16_t>,int,int,int)));
     }
-    // Ensure connection was set up correctly
+    // Ensure connections were set up correctly
     Q_ASSERT(b);
 
     m_undoViewDock = new QDockWidget(i18n("Undo History"), this);

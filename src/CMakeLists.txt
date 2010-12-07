@@ -117,6 +117,7 @@ kde4_add_ui_files(kdenlive_UI
   widgets/monitorscenecontrolwidget_ui.ui
   widgets/cornerswidget_ui.ui
   widgets/audiospectrum_ui.ui
+  widgets/spectrogram_ui.ui
 )
 
 set(kdenlive_SRCS
@@ -222,6 +223,7 @@ set(kdenlive_SRCS
   abstractscopewidget.cpp
   audioscopes/abstractaudioscopewidget.cpp
   audioscopes/audiospectrum.cpp
+  audioscopes/spectrogram.cpp
   audioscopes/ffttools.cpp
   rebuildgroupcommand.cpp
   colorscopes/abstractgfxscopewidget.cpp

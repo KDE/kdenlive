@@ -70,6 +70,7 @@ class RGBParade;
 class KActionCollection;
 class AudioSignal;
 class AudioSpectrum;
+class Spectrogram;
 
 class MainWindow : public KXmlGuiWindow
 {
@@ -180,6 +181,9 @@ private:
 
     QDockWidget *m_audioSpectrumDock;
     AudioSpectrum *m_audioSpectrum;
+
+    QDockWidget *m_spectrogramDock;
+    Spectrogram *m_spectrogram;
 
     QDockWidget *m_undoViewDock;
     QUndoView *m_undoView;
