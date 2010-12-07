@@ -37,10 +37,6 @@ public:
     // Implemented virtual methods
     QString widgetName() const;
 
-    static const QString directions[]; // Mainly for debug output
-    enum RescaleDirection { North, Northeast, East, Southeast };
-    enum RescaleDimension { Min_dB, Max_dB, Max_Hz };
-
 
 protected:
     ///// Implemented methods /////
@@ -54,9 +50,7 @@ protected:
     virtual void readConfig();
     void writeConfig();
 
-    void mouseMoveEvent(QMouseEvent *event);
-    void mousePressEvent(QMouseEvent *event);
-    void mouseReleaseEvent(QMouseEvent *event);
+    virtual void handleMouseDrag(const QPoint movement, const RescaleDirection rescaleDirection, const Qt::KeyboardModifiers rescaleModifiers);
 
 private:
     Ui::AudioSpectrum_UI *ui;
@@ -78,24 +72,6 @@ private:
     uint m_freqMax;
     /** The user has chosen a custom frequency. */
     bool m_customFreq;
-
-
-    /** Returns a signature for a kiss_fft configuration
-        used as a hash in the cache */
-    static const QString cfgSignature(const int size);
-
-
-    ///// Movement detection /////
-    const int m_rescaleMinDist;
-    const float m_rescaleVerticalThreshold;
-
-    bool m_rescaleActive;
-    bool m_rescalePropertiesLocked;
-    bool m_rescaleFirstRescaleDone;
-    short m_rescaleScale;
-    Qt::KeyboardModifiers m_rescaleModifiers;
-    AudioSpectrum::RescaleDirection m_rescaleClockDirection;
-    QPoint m_rescaleStartPoint;
 
 
 

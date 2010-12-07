@@ -112,6 +112,11 @@
 
 #include <stdlib.h>
 
+//#define DEBUG_MAINW
+#ifdef DEBUG_MAINW
+#include <QDebug>
+#endif
+
 static const char version[] = VERSION;
 
 static const int ID_TIMELINE_POS = 0;
@@ -4003,6 +4008,9 @@ void MainWindow::slotMonitorRequestRenderFrame(bool request)
             }
         }
     }
+#ifdef DEBUG_MAINW
+    qDebug() << "Any scope accepting new frames? " << request;
+#endif
     if (!request) {
         m_projectMonitor->render->sendFrameForAnalysis = false;
     }
@@ -4026,8 +4034,9 @@ void MainWindow::slotDoUpdateScopeFrameRequest()
         }
     }
     if (!request) {
-        if (!m_projectMonitor->effectSceneDisplayed())
+        if (!m_projectMonitor->effectSceneDisplayed()) {
             m_projectMonitor->render->sendFrameForAnalysis = false;
+        }
         m_clipMonitor->render->sendFrameForAnalysis = false;
     } else {
         m_projectMonitor->render->sendFrameForAnalysis = true;
@@ -4075,3 +4084,6 @@ void MainWindow::slotDeleteClip(const QString &id)
 
 #include "mainwindow.moc"
 
+#ifdef DEBUG_MAINW
+#undef DEBUG_MAINW
+#endif

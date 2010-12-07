@@ -60,13 +60,19 @@ class AbstractScopeWidget : public QWidget
 public:
     AbstractScopeWidget(bool trackMouse = false, QWidget *parent = 0);
     virtual ~AbstractScopeWidget(); // Must be virtual because of inheritance, to avoid memory leaks
+
+
+    enum RescaleDirection { North, Northeast, East, Southeast };
+
+
     QPalette m_scopePalette;
 
     /** Initializes widget settings (reads configuration).
       Has to be called in the implementing object. */
     virtual void init();
 
-    /** Does this scope have auto-refresh enabled */
+    /** Tell whether this scope has auto-refresh enabled. Required for determining whether
+        new data (e.g. an image frame) has to be delivered to this widget. */
     bool autoRefreshEnabled();
 
     ///// Unimplemented /////
@@ -80,6 +86,8 @@ public:
     static const QPen penLightDots;
     static const QPen penDark;
     static const QPen penDarkDots;
+
+    static const QString directions[]; // Mainly for debug output
 
 protected:
     ///// Variables /////
@@ -165,11 +173,17 @@ protected:
     virtual uint calculateAccelFactorScope(uint oldMseconds, uint oldFactor);
     virtual uint calculateAccelFactorBackground(uint oldMseconds, uint oldFactor);
 
+    /** The Abstract Scope will try to detect the movement direction when dragging on the widget with the mouse.
+        As soon as the direction is determined it will execute this method. Can be used e.g. for re-scaling content.
+        This is just a dummy function, re-implement to add functionality. */
+    virtual void handleMouseDrag(const QPoint movement, const RescaleDirection rescaleDirection, const Qt::KeyboardModifiers rescaleModifiers);
+
     ///// Reimplemented /////
 
-    void mouseMoveEvent(QMouseEvent *);
+    void mouseMoveEvent(QMouseEvent *event);
+    void mousePressEvent(QMouseEvent *event);
+    void mouseReleaseEvent(QMouseEvent *event);
     void leaveEvent(QEvent *);
-    void mouseReleaseEvent(QMouseEvent *);
     void paintEvent(QPaintEvent *);
     void resizeEvent(QResizeEvent *);
     void showEvent(QShowEvent *); // Called when the widget is activated via the Menu entry
@@ -182,7 +196,7 @@ protected slots:
     void forceUpdateHUD();
     void forceUpdateScope();
     void forceUpdateBackground();
-    virtual void slotAutoRefreshToggled(bool);
+    void slotAutoRefreshToggled(bool);
 
 signals:
     /** mseconds represent the time taken for the calculation,
@@ -234,13 +248,25 @@ private:
     void prodScopeThread();
     void prodBackgroundThread();
 
+    ///// Movement detection /////
+    const int m_rescaleMinDist;
+    const float m_rescaleVerticalThreshold;
+
+    bool m_rescaleActive;
+    bool m_rescalePropertiesLocked;
+    bool m_rescaleFirstRescaleDone;
+    short m_rescaleScale;
+    Qt::KeyboardModifiers m_rescaleModifiers;
+    RescaleDirection m_rescaleDirection;
+    QPoint m_rescaleStartPoint;
+
+
 protected slots:
     void customContextMenuRequested(const QPoint &pos);
     /** To be called when a new frame has been received.
       The scope then decides whether and when it wants to recalculate the scope, depending
       on whether it is currently visible and whether a calculation thread is already running. */
     void slotRenderZoneUpdated();
-    void slotRenderZoneUpdated(QImage);//TODO remove
     /** The following slots are called when rendering of a component has finished. They e.g. update
       the widget and decide whether to immediately restart the calculation thread. */
     void slotHUDRenderingFinished(uint mseconds, uint accelerationFactor);

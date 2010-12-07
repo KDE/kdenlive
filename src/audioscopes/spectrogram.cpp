@@ -18,7 +18,7 @@
 // Can be less as a pre-rendered image is kept in space.
 #define SPECTROGRAM_HISTORY_SIZE 1000
 
-#define DEBUG_SPECTROGRAM
+//#define DEBUG_SPECTROGRAM
 #ifdef DEBUG_SPECTROGRAM
 #include <QDebug>
 #endif

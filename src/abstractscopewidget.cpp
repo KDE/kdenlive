@@ -40,6 +40,8 @@ const QPen AbstractScopeWidget::penLightDots(QBrush(QColor(200, 200, 250, 150)),
 const QPen AbstractScopeWidget::penDark(QBrush(QColor(0, 0, 20, 250)),      1, Qt::SolidLine);
 const QPen AbstractScopeWidget::penDarkDots(QBrush(QColor(0, 0, 20, 250)),      1, Qt::DotLine);
 
+const QString AbstractScopeWidget::directions[] =  {"North", "Northeast", "East", "Southeast"};
+
 AbstractScopeWidget::AbstractScopeWidget(bool trackMouse, QWidget *parent) :
         QWidget(parent),
         m_mousePos(0, 0),
@@ -52,7 +54,9 @@ AbstractScopeWidget::AbstractScopeWidget(bool trackMouse, QWidget *parent) :
         m_semaphoreScope(1),
         m_semaphoreBackground(1),
         initialDimensionUpdateDone(false),
-        m_requestForcedUpdate(false)
+        m_requestForcedUpdate(false),
+        m_rescaleMinDist(4),
+        m_rescaleVerticalThreshold(2.0f)
 
 {
     m_scopePalette = QPalette();
@@ -222,7 +226,7 @@ void AbstractScopeWidget::prodBackgroundThread()
 void AbstractScopeWidget::forceUpdate(bool doUpdate)
 {
 #ifdef DEBUG_ASW
-    qDebug() << "Force update called in " << widgetName() << ". Arg: " << doUpdate;
+    qDebug() << "Forced update called in " << widgetName() << ". Arg: " << doUpdate;
 #endif
 
     if (!doUpdate) {
@@ -259,16 +263,6 @@ void AbstractScopeWidget::forceUpdateBackground()
 
 ///// Events /////
 
-void AbstractScopeWidget::mouseReleaseEvent(QMouseEvent *event)
-{
-    if (!m_aAutoRefresh->isChecked()) {
-        m_requestForcedUpdate = true;
-    }
-    prodHUDThread();
-    prodScopeThread();
-    prodBackgroundThread();
-    QWidget::mouseReleaseEvent(event);
-}
 
 void AbstractScopeWidget::resizeEvent(QResizeEvent *event)
 {
@@ -293,12 +287,88 @@ void AbstractScopeWidget::paintEvent(QPaintEvent *)
     davinci.drawImage(m_scopeRect.topLeft(), m_imgHUD);
 }
 
+void AbstractScopeWidget::mousePressEvent(QMouseEvent *event)
+{
+    if (event->button() == Qt::LeftButton) {
+        // Rescaling mode starts
+        m_rescaleActive = true;
+        m_rescalePropertiesLocked = false;
+        m_rescaleFirstRescaleDone = false;
+        m_rescaleStartPoint = event->pos();
+        m_rescaleModifiers = event->modifiers();
+    }
+}
+void AbstractScopeWidget::mouseReleaseEvent(QMouseEvent *event)
+{
+    m_rescaleActive = false;
+    m_rescalePropertiesLocked = false;
+
+    if (!m_aAutoRefresh->isChecked()) {
+        m_requestForcedUpdate = true;
+    }
+    prodHUDThread();
+    prodScopeThread();
+    prodBackgroundThread();
+    QWidget::mouseReleaseEvent(event);
+}
 void AbstractScopeWidget::mouseMoveEvent(QMouseEvent *event)
 {
     m_mousePos = event->pos();
     m_mouseWithinWidget = true;
     emit signalMousePositionChanged();
+
+    QPoint movement = event->pos()-m_rescaleStartPoint;
+
+    if (m_rescaleActive) {
+        if (m_rescalePropertiesLocked) {
+            // Direction is known, now adjust parameters
+
+            // Reset the starting point to make the next moveEvent relative to the current one
+            m_rescaleStartPoint = event->pos();
+
+
+            if (!m_rescaleFirstRescaleDone) {
+                // We have just learned the desired direction; Normalize the movement to one pixel
+                // to avoid a jump by m_rescaleMinDist
+
+                if (movement.x() != 0) {
+                    movement.setX(movement.x() / abs(movement.x()));
+                }
+                if (movement.y() != 0) {
+                    movement.setY(movement.y() / abs(movement.y()));
+                }
+
+                m_rescaleFirstRescaleDone = true;
+            }
+
+            handleMouseDrag(movement, m_rescaleDirection, m_rescaleModifiers);
+
+
+
+        } else {
+            // Detect the movement direction here.
+            // This algorithm relies on the aspect ratio of dy/dx (size and signum).
+            if (movement.manhattanLength() > m_rescaleMinDist) {
+                float diff = ((float) movement.y())/movement.x();
+
+                if (abs(diff) > m_rescaleVerticalThreshold || movement.x() == 0) {
+                    m_rescaleDirection = North;
+                } else if (abs(diff) < 1/m_rescaleVerticalThreshold) {
+                    m_rescaleDirection = East;
+                } else if (diff < 0) {
+                    m_rescaleDirection = Northeast;
+                } else {
+                    m_rescaleDirection = Southeast;
+                }
+#ifdef DEBUG_ASW
+                qDebug() << "Diff is " << diff << "; chose " << directions[m_rescaleDirection] << " as direction";
+#endif
+                m_rescalePropertiesLocked = true;
+            }
+        }
+    }
 }
+
 void AbstractScopeWidget::leaveEvent(QEvent *)
 {
     m_mouseWithinWidget = false;
@@ -328,7 +398,9 @@ uint AbstractScopeWidget::calculateAccelFactorBackground(uint oldMseconds, uint)
 
 void AbstractScopeWidget::slotHUDRenderingFinished(uint mseconds, uint oldFactor)
 {
-//    qDebug() << "HUD rendering has finished, waiting for termination in " << m_widgetName;
+#ifdef DEBUG_ASW
+    qDebug() << "HUD rendering has finished in " << mseconds << " ms, waiting for termination in " << m_widgetName;
+#endif
     m_threadHUD.waitForFinished();
     m_imgHUD = m_threadHUD.result();
 
@@ -358,7 +430,7 @@ void AbstractScopeWidget::slotScopeRenderingFinished(uint mseconds, uint oldFact
     // The signal can be received before the thread has really finished. So we
     // need to wait until it has really finished before starting a new thread.
 #ifdef DEBUG_ASW
-    qDebug() << "Scope rendering has finished, waiting for termination in " << m_widgetName;
+    qDebug() << "Scope rendering has finished in " << mseconds << " ms, waiting for termination in " << m_widgetName;
 #endif
     m_threadScope.waitForFinished();
     m_imgScope = m_threadScope.result();
@@ -394,7 +466,7 @@ void AbstractScopeWidget::slotScopeRenderingFinished(uint mseconds, uint oldFact
 void AbstractScopeWidget::slotBackgroundRenderingFinished(uint mseconds, uint oldFactor)
 {
 #ifdef DEBUG_ASW
-    qDebug() << "Background rendering has finished, waiting for termination in " << m_widgetName;
+    qDebug() << "Background rendering has finished in " << mseconds << " ms, waiting for termination in " << m_widgetName;
 #endif
     m_threadBackground.waitForFinished();
     m_imgBackground = m_threadBackground.result();
@@ -427,7 +499,7 @@ void AbstractScopeWidget::slotRenderZoneUpdated()
     m_newBackgroundFrames.fetchAndAddRelaxed(1);
 
 #ifdef DEBUG_ASW
-    qDebug() << "Monitor incoming. New frames total HUD/Scope/Background: " << m_newHUDFrames
+    qDebug() << "Monitor incoming at " << widgetName() << ". New frames total HUD/Scope/Background: " << m_newHUDFrames
             << "/" << m_newScopeFrames << "/" << m_newBackgroundFrames;
 #endif
 
@@ -442,12 +514,6 @@ void AbstractScopeWidget::slotRenderZoneUpdated()
             prodBackgroundThread();
         }
     }
-}
-
-void AbstractScopeWidget::slotRenderZoneUpdated(QImage frame)
-{
-    m_scopeImage = frame;
-    slotRenderZoneUpdated();
 }
 
 void AbstractScopeWidget::slotResetRealtimeFactor(bool realtimeChecked)
@@ -466,7 +532,12 @@ bool AbstractScopeWidget::autoRefreshEnabled()
 
 void AbstractScopeWidget::slotAutoRefreshToggled(bool autoRefresh)
 {
+#ifdef DEBUG_ASW
+    qDebug() << "Auto-refresh switched to " << autoRefresh << " in " << widgetName()
+            << " (Visible: " << isVisible() << "/" << this->visibleRegion().isEmpty() << ")";
+#endif
     if (isVisible()) {
+        // Notify listeners whether we accept new frames now
         emit requestAutoRefresh(autoRefresh);
     }
     // TODO only if depends on input
@@ -475,6 +546,8 @@ void AbstractScopeWidget::slotAutoRefreshToggled(bool autoRefresh)
         m_requestForcedUpdate = true;
     }
 }
+
+void AbstractScopeWidget::handleMouseDrag(const QPoint, const RescaleDirection, const Qt::KeyboardModifiers) { }
 
 
 #ifdef DEBUG_ASW

@@ -32,16 +32,9 @@ bool fileWritten = false;
 #define MAX_FREQ_VALUE 96000
 #define MIN_FREQ_VALUE 1000
 
-const QString AudioSpectrum::directions[] =  {"North", "Northeast", "East", "Southeast"};
-
 AudioSpectrum::AudioSpectrum(QWidget *parent) :
         AbstractAudioScopeWidget(false, parent),
-        m_fftTools(),
-        m_rescaleMinDist(8),
-        m_rescaleVerticalThreshold(2.0f),
-        m_rescaleActive(false),
-        m_rescalePropertiesLocked(false),
-        m_rescaleScale(1)
+        m_fftTools()
 {
     ui = new Ui::AudioSpectrum_UI;
     ui->setupUi(this);
@@ -355,147 +348,69 @@ void AudioSpectrum::slotResetMaxFreq()
 
 ///// EVENTS /////
 
-void AudioSpectrum::mouseMoveEvent(QMouseEvent *event)
+void AudioSpectrum::handleMouseDrag(const QPoint movement, const RescaleDirection rescaleDirection, const Qt::KeyboardModifiers rescaleModifiers)
 {
-    QPoint movement = event->pos()-m_rescaleStartPoint;
+    if (rescaleDirection == AudioSpectrum::North) {
+        // Nort-South direction: Adjust the dB scale
 
-    if (m_rescaleActive) {
-        if (m_rescalePropertiesLocked) {
-            // Direction is known, now adjust parameters
+        if ((rescaleModifiers & Qt::ShiftModifier) == 0) {
 
-            // Reset the starting point to make the next moveEvent relative to the current one
-            m_rescaleStartPoint = event->pos();
-
-
-            if (!m_rescaleFirstRescaleDone) {
-                // We have just learned the desired direction; Normalize the movement to one pixel
-                // to avoid a jump by m_rescaleMinDist
-
-                if (movement.x() != 0) {
-                    movement.setX(movement.x() / abs(movement.x()));
-                }
-                if (movement.y() != 0) {
-                    movement.setY(movement.y() / abs(movement.y()));
-                }
-
-                m_rescaleFirstRescaleDone = true;
-            }
-
-            if (m_rescaleClockDirection == AudioSpectrum::North) {
-                // Nort-South direction: Adjust the dB scale
-
-                if ((m_rescaleModifiers & Qt::ShiftModifier) == 0) {
-
-                    // By default adjust the min dB value
-                    m_dBmin += movement.y();
-
-                } else {
-
-                    // Adjust max dB value if Shift is pressed.
-                    m_dBmax += movement.y();
-
-                }
-
-                // Ensure the dB values lie in [-100, 0] (or rather [MIN_DB_VALUE, 0])
-                // 0 is the upper bound, everything below -70 dB is most likely noise
-                if (m_dBmax > 0) {
-                    m_dBmax = 0;
-                }
-                if (m_dBmin < MIN_DB_VALUE) {
-                    m_dBmin = MIN_DB_VALUE;
-                }
-                // Ensure there is at least 6 dB between the minimum and the maximum value;
-                // lower values hardly make sense
-                if (m_dBmax - m_dBmin < 6) {
-                    if ((m_rescaleModifiers & Qt::ShiftModifier) == 0) {
-                        // min was adjusted; Try to adjust the max value to maintain the
-                        // minimum dB difference of 6 dB
-                        m_dBmax = m_dBmin + 6;
-                        if (m_dBmax > 0) {
-                            m_dBmax = 0;
-                            m_dBmin = -6;
-                        }
-                    } else {
-                        // max was adjusted, adjust min
-                        m_dBmin = m_dBmax - 6;
-                        if (m_dBmin < MIN_DB_VALUE) {
-                            m_dBmin = MIN_DB_VALUE;
-                            m_dBmax = MIN_DB_VALUE+6;
-                        }
-                    }
-                }
-
-                forceUpdateHUD();
-                forceUpdateScope();
-
-            } else if (m_rescaleClockDirection == AudioSpectrum::East) {
-                // East-West direction: Adjust the maximum frequency
-                m_freqMax -= 100*movement.x();
-                if (m_freqMax < MIN_FREQ_VALUE) {
-                    m_freqMax = MIN_FREQ_VALUE;
-                }
-                if (m_freqMax > MAX_FREQ_VALUE) {
-                    m_freqMax = MAX_FREQ_VALUE;
-                }
-                m_customFreq = true;
-
-                forceUpdateHUD();
-                forceUpdateScope();
-            }
-
+            // By default adjust the min dB value
+            m_dBmin += movement.y();
 
         } else {
-            // Detect the movement direction here.
-            // This algorithm relies on the aspect ratio of dy/dx (size and signum).
-            if (movement.manhattanLength() > m_rescaleMinDist) {
-                float diff = ((float) movement.y())/movement.x();
 
-                if (abs(diff) > m_rescaleVerticalThreshold || movement.x() == 0) {
-                    m_rescaleClockDirection = AudioSpectrum::North;
-                } else if (abs(diff) < 1/m_rescaleVerticalThreshold) {
-                    m_rescaleClockDirection = AudioSpectrum::East;
-                } else if (diff < 0) {
-                    m_rescaleClockDirection = AudioSpectrum::Northeast;
-                } else {
-                    m_rescaleClockDirection = AudioSpectrum::Southeast;
+            // Adjust max dB value if Shift is pressed.
+            m_dBmax += movement.y();
+
+        }
+
+        // Ensure the dB values lie in [-100, 0] (or rather [MIN_DB_VALUE, 0])
+        // 0 is the upper bound, everything below -70 dB is most likely noise
+        if (m_dBmax > 0) {
+            m_dBmax = 0;
+        }
+        if (m_dBmin < MIN_DB_VALUE) {
+            m_dBmin = MIN_DB_VALUE;
+        }
+        // Ensure there is at least 6 dB between the minimum and the maximum value;
+        // lower values hardly make sense
+        if (m_dBmax - m_dBmin < 6) {
+            if ((rescaleModifiers & Qt::ShiftModifier) == 0) {
+                // min was adjusted; Try to adjust the max value to maintain the
+                // minimum dB difference of 6 dB
+                m_dBmax = m_dBmin + 6;
+                if (m_dBmax > 0) {
+                    m_dBmax = 0;
+                    m_dBmin = -6;
                 }
-#ifdef DEBUG_AUDIOSPEC
-                qDebug() << "Diff is " << diff << "; chose " << directions[m_rescaleClockDirection] << " as direction";
-#endif
-                m_rescalePropertiesLocked = true;
+            } else {
+                // max was adjusted, adjust min
+                m_dBmin = m_dBmax - 6;
+                if (m_dBmin < MIN_DB_VALUE) {
+                    m_dBmin = MIN_DB_VALUE;
+                    m_dBmax = MIN_DB_VALUE+6;
+                }
             }
         }
-    } else {
-        AbstractAudioScopeWidget::mouseMoveEvent(event);
+
+        forceUpdateHUD();
+        forceUpdateScope();
+
+    } else if (rescaleDirection == AudioSpectrum::East) {
+        // East-West direction: Adjust the maximum frequency
+        m_freqMax -= 100*movement.x();
+        if (m_freqMax < MIN_FREQ_VALUE) {
+            m_freqMax = MIN_FREQ_VALUE;
+        }
+        if (m_freqMax > MAX_FREQ_VALUE) {
+            m_freqMax = MAX_FREQ_VALUE;
+        }
+        m_customFreq = true;
+
+        forceUpdateHUD();
+        forceUpdateScope();
     }
-}
-
-void AudioSpectrum::mousePressEvent(QMouseEvent *event)
-{
-    if (event->button() == Qt::LeftButton) {
-        // Rescaling mode starts
-        m_rescaleActive = true;
-        m_rescalePropertiesLocked = false;
-        m_rescaleFirstRescaleDone = false;
-        m_rescaleStartPoint = event->pos();
-        m_rescaleModifiers = event->modifiers();
-
-    } else {
-        AbstractAudioScopeWidget::mousePressEvent(event);
-    }
-}
-
-void AudioSpectrum::mouseReleaseEvent(QMouseEvent *event)
-{
-    m_rescaleActive = false;
-    m_rescalePropertiesLocked = false;
-
-    AbstractAudioScopeWidget::mouseReleaseEvent(event);
-}
-
-const QString AudioSpectrum::cfgSignature(const int size)
-{
-    return QString("s%1").arg(size);
 }
 
 
