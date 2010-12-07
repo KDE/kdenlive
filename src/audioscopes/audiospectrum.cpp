@@ -37,8 +37,6 @@ const QString AudioSpectrum::directions[] =  {"North", "Northeast", "East", "Sou
 AudioSpectrum::AudioSpectrum(QWidget *parent) :
         AbstractAudioScopeWidget(false, parent),
         m_fftTools(),
-        m_freqMax(10000),
-        m_customFreq(false),
         m_rescaleMinDist(8),
         m_rescaleVerticalThreshold(2.0f),
         m_rescaleActive(false),
@@ -326,7 +324,8 @@ QImage AudioSpectrum::renderHUD(uint)
     return hud;
 }
 
-QRect AudioSpectrum::scopeRect() {
+QRect AudioSpectrum::scopeRect()
+{
     m_scopeRect = QRect(
             QPoint(
                     10,                                     // Left

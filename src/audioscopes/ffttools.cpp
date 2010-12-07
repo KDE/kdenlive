@@ -15,7 +15,7 @@
 
 #include "ffttools.h"
 
-#define DEBUG_FFTTOOLS
+//#define DEBUG_FFTTOOLS
 #ifdef DEBUG_FFTTOOLS
 #include <QDebug>
 #include <QTime>
@@ -46,6 +46,8 @@ const QString FFTTools::cfgSignature(const int size)
 // http://cplusplus.syntaxerrors.info/index.php?title=Cannot_declare_member_function_%E2%80%98static_int_Foo::bar%28%29%E2%80%99_to_have_static_linkage
 const QVector<float> FFTTools::window(const WindowType windowType, const int size, const float param)
 {
+    Q_ASSERT(size > 0);
+
     // Deliberately avoid converting size to a float
     // to keep mid an integer.
     float mid = (size-1)/2;
@@ -116,6 +118,7 @@ void FFTTools::fftNormalized(const QVector<int16_t> audioFrame, const uint chann
     const uint numSamples = audioFrame.size()/numChannels;
 
     Q_ASSERT((windowSize & 1) == 0);
+    Q_ASSERT(windowSize > 0);
 
     const QString cfgSig = cfgSignature(windowSize);
     const QString winSig = windowSignature(windowType, windowSize, param);
@@ -174,9 +177,9 @@ void FFTTools::fftNormalized(const QVector<int16_t> audioFrame, const uint chann
         // does not do noticeable worse than keeping it outside (perhaps the branch predictor
         // is good enough), so it remains in there for better readability.
         if (windowType != FFTTools::Window_Rect) {
-            data[i] = (float) audioFrame.data()[i*numChannels] / 32767.0f * window[i];
+            data[i] = (float) audioFrame.data()[i*numChannels + channel] / 32767.0f * window[i];
         } else {
-            data[i] = (float) audioFrame.data()[i*numChannels] / 32767.0f;
+            data[i] = (float) audioFrame.data()[i*numChannels + channel] / 32767.0f;
         }
     }
 

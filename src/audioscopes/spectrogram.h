@@ -15,6 +15,7 @@
 
 #include "abstractaudioscopewidget.h"
 #include "ui_spectrogram_ui.h"
+#include "ffttools.h"
 
 class Spectrogram_UI;
 class Spectrogram : public AbstractAudioScopeWidget {
@@ -40,6 +41,17 @@ protected:
 
 private:
     Ui::Spectrogram_UI *ui;
+    FFTTools m_fftTools;
+
+    QList<QVector<float> > m_fftHistory;
+
+    int m_dBmin;
+    int m_dBmax;
+
+    uint m_freqMax;
+    bool m_customFreq;
+
+    QRect m_innerScopeRect;
 };
 
 #endif // SPECTROGRAM_H
