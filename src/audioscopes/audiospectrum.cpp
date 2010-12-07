@@ -36,8 +36,7 @@ const QString AudioSpectrum::directions[] =  {"North", "Northeast", "East", "Sou
 
 AudioSpectrum::AudioSpectrum(QWidget *parent) :
         AbstractAudioScopeWidget(false, parent),
-        m_fftCfgs(),
-        m_windowFunctions(),
+        m_fftTools(),
         m_freqMax(10000),
         m_customFreq(false),
         m_rescaleMinDist(8),
@@ -70,6 +69,7 @@ AudioSpectrum::AudioSpectrum(QWidget *parent) :
 
     bool b = true;
     b &= connect(m_aResetHz, SIGNAL(triggered()), this, SLOT(slotResetMaxFreq()));
+    b &= connect(ui->windowFunction, SIGNAL(currentIndexChanged(int)), this, SLOT(forceUpdate()));
     Q_ASSERT(b);
 
 
@@ -83,10 +83,6 @@ AudioSpectrum::~AudioSpectrum()
 {
     writeConfig();
 
-    QHash<QString, kiss_fftr_cfg>::iterator i;
-    for (i = m_fftCfgs.begin(); i != m_fftCfgs.end(); i++) {
-        free(*i);
-    }
     delete m_aResetHz;
 }
 
@@ -159,78 +155,12 @@ QImage AudioSpectrum::renderAudioScope(uint, const QVector<int16_t> audioFrame, 
         // Show the window size used, for information
         ui->labelFFTSizeNumber->setText(QVariant(fftWindow).toString());
 
-        // Get the kiss_fft configuration from the config cache
-        // or build a new configuration if the requested one is not available.
-        kiss_fftr_cfg myCfg;
-        const QString signature = cfgSignature(fftWindow);
-        if (m_fftCfgs.contains(signature)) {
-#ifdef DEBUG_AUDIOSPEC
-            qDebug() << "Re-using FFT configuration with size " << fftWindow;
-#endif
-            myCfg = m_fftCfgs.value(signature);
-        } else {
-#ifdef DEBUG_AUDIOSPEC
-            qDebug() << "Creating FFT configuration with size " << fftWindow;
-#endif
-            myCfg = kiss_fftr_alloc(fftWindow, 0,0,0);
-            m_fftCfgs.insert(signature, myCfg);
-        }
 
-        float data[fftWindow];
+        // Get the spectral power distribution of the input samples,
+        // using the given window size and function
         float freqSpectrum[fftWindow/2];
-
-        // Prepare frequency space vector. The resulting FFT vector is only half as long.
-        kiss_fft_cpx freqData[fftWindow/2];
-
-
-
-        // Copy the first channel's audio into a vector for the FFT display
-        // (only one channel handled at the moment)
-        if (num_samples < fftWindow) {
-            std::fill(&data[num_samples], &data[fftWindow-1], 0);
-        }
-
         FFTTools::WindowType windowType = (FFTTools::WindowType) ui->windowFunction->itemData(ui->windowFunction->currentIndex()).toInt();
-        QVector<float> window;
-        float windowScaleFactor = 1;
-        if (windowType != FFTTools::Window_Rect) {
-            const QString signature = FFTTools::windowSignature(windowType, fftWindow, 0);
-            if (m_windowFunctions.contains(signature)) {
-#ifdef DEBUG_AUDIOSPEC
-                qDebug() << "Re-using window function with signature " << signature;
-#endif
-                window = m_windowFunctions.value(signature);
-            } else {
-#ifdef DEBUG_AUDIOSPEC
-                qDebug() << "Building new window function with signature " << signature;
-#endif
-                window = FFTTools::window(windowType, fftWindow, 0);
-                m_windowFunctions.insert(signature, window);
-            }
-            windowScaleFactor = 1.0/window[fftWindow];
-        }
-
-        // Normalize signals to [0,1] to get correct dB values later on
-        for (int i = 0; i < num_samples && i < fftWindow; i++) {
-            if (windowType != FFTTools::Window_Rect) {
-                data[i] = (float) audioFrame.data()[i*num_channels] / 32767.0f * window[i];
-            } else {
-                data[i] = (float) audioFrame.data()[i*num_channels] / 32767.0f;
-            }
-        }
-
-        // Calculate the Fast Fourier Transform for the input data
-        kiss_fftr(myCfg, data, freqData);
-
-
-        // Logarithmic scale: 20 * log ( 2 * magnitude / N ) with magnitude = sqrt(r² + i²)
-        // with N = FFT size (after FFT, 1/2 window size)
-        for (int i = 0; i < fftWindow/2; i++) {
-            // Logarithmic scale: 20 * log ( 2 * magnitude / N ) with magnitude = sqrt(r² + i²)
-            // with N = FFT size (after FFT, 1/2 window size)
-            freqSpectrum[i] = 20*log(pow(pow(fabs(freqData[i].r * windowScaleFactor),2) + pow(fabs(freqData[i].i * windowScaleFactor),2), .5)/((float)fftWindow/2.0f))/log(10);;
-        }
-
+        m_fftTools.fftNormalized(audioFrame, 0, num_channels, freqSpectrum, windowType, fftWindow, 0);
 
 
         // Draw the spectrum

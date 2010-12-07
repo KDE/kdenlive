@@ -24,6 +24,7 @@
 #include "abstractaudioscopewidget.h"
 #include "ui_audiospectrum_ui.h"
 #include "tools/kiss_fftr.h"
+#include "ffttools.h"
 
 class AudioSpectrum_UI;
 class AudioSpectrum : public AbstractAudioScopeWidget {
@@ -59,10 +60,10 @@ protected:
 
 private:
     Ui::AudioSpectrum_UI *ui;
-    QHash<QString, kiss_fftr_cfg> m_fftCfgs; // FFT cfg cache
-    QHash<QString, QVector<float> > m_windowFunctions; // Window function cache
 
     QAction *m_aResetHz;
+
+    FFTTools m_fftTools;
 
     /** Contains the plot only; m_scopeRect contains text and widgets as well */
     QRect m_innerScopeRect;

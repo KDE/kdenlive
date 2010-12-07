@@ -12,11 +12,14 @@
 #define FFTTOOLS_H
 
 #include <QVector>
+#include <QHash>
+#include <tools/kiss_fftr.h>
 
 class FFTTools
 {
 public:
     FFTTools();
+    ~FFTTools();
 
     enum WindowType { Window_Rect, Window_Triangle, Window_Hamming };
 
@@ -33,9 +36,29 @@ public:
           default is 0)
         * Nothing for the Hamming window
     */
-    static const QVector<float> window(const WindowType windowType, const int size, const float param);
+    static const QVector<float> window(const WindowType windowType, const int size, const float param = 0);
 
-    static const QString windowSignature(const WindowType windowType, const int size, const float param);
+    static const QString windowSignature(const WindowType windowType, const int size, const float param = 0);
+
+    /** Returns a signature for a kiss_fft configuration
+        used as a hash in the cache */
+    static const QString cfgSignature(const int size);
+
+    /** Calculates the Fourier Tranformation of the input audio frame.
+        The resulting values will be given in relative dezibel: The maximum power is 0 dB, lower powers have
+        negative dB values.
+        * audioFrame: Interleaved format with #numChannels channels
+        * freqSpectrum: Array pointer to write the data into
+        * windowSize must be divisible by 2,
+        * freqSpectrum has to be of size windowSize/2
+        For windowType and param see the FFTTools::window() function above.
+    */
+    void fftNormalized(const QVector<int16_t> audioFrame, const uint channel, const uint numChannels, float *freqSpectrum,
+                       const WindowType windowType, const uint windowSize, const float param = 0);
+
+private:
+    QHash<QString, kiss_fftr_cfg> m_fftCfgs; // FFT cfg cache
+    QHash<QString, QVector<float> > m_windowFunctions; // Window function cache
 
 };
 

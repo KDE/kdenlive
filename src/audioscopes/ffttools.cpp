@@ -9,23 +9,38 @@
  ***************************************************************************/
 
 #include <math.h>
+#include <iostream>
 
 #include <QString>
 
 #include "ffttools.h"
 
-//#define DEBUG_FFTTOOLS
+#define DEBUG_FFTTOOLS
 #ifdef DEBUG_FFTTOOLS
 #include <QDebug>
+#include <QTime>
 #endif
 
-FFTTools::FFTTools()
+FFTTools::FFTTools() :
+        m_fftCfgs(),
+        m_windowFunctions()
 {
+}
+FFTTools::~FFTTools()
+{
+    QHash<QString, kiss_fftr_cfg>::iterator i;
+    for (i = m_fftCfgs.begin(); i != m_fftCfgs.end(); i++) {
+        free(*i);
+    }
 }
 
 const QString FFTTools::windowSignature(const WindowType windowType, const int size, const float param)
 {
     return QString("s%1_t%2_p%3").arg(size).arg(windowType).arg(param, 0, 'f', 3);
+}
+const QString FFTTools::cfgSignature(const int size)
+{
+    return QString("s%1").arg(size);
 }
 
 // http://cplusplus.syntaxerrors.info/index.php?title=Cannot_declare_member_function_%E2%80%98static_int_Foo::bar%28%29%E2%80%99_to_have_static_linkage
@@ -89,6 +104,97 @@ const QVector<float> FFTTools::window(const WindowType windowType, const int siz
     }
     Q_ASSERT(false);
     return QVector<float>();
+}
+
+void FFTTools::fftNormalized(const QVector<int16_t> audioFrame, const uint channel, const uint numChannels, float *freqSpectrum,
+                             const WindowType windowType, const uint windowSize, const float param)
+{
+#ifdef DEBUG_FFTTOOLS
+    QTime start = QTime::currentTime();
+#endif
+
+    const uint numSamples = audioFrame.size()/numChannels;
+
+    Q_ASSERT((windowSize & 1) == 0);
+
+    const QString cfgSig = cfgSignature(windowSize);
+    const QString winSig = windowSignature(windowType, windowSize, param);
+
+
+    // Get the kiss_fft configuration from the config cache
+    // or build a new configuration if the requested one is not available.
+    kiss_fftr_cfg myCfg;
+    if (m_fftCfgs.contains(cfgSig)) {
+#ifdef DEBUG_FFTTOOLS
+        qDebug() << "Re-using FFT configuration with size " << windowSize;
+#endif
+        myCfg = m_fftCfgs.value(cfgSig);
+    } else {
+#ifdef DEBUG_FFTTOOLS
+        qDebug() << "Creating FFT configuration with size " << windowSize;
+#endif
+        myCfg = kiss_fftr_alloc(windowSize, 0,0,0);
+        m_fftCfgs.insert(cfgSig, myCfg);
+    }
+
+    // Get the window function from the cache
+    // (except for a rectangular window; nothing to to there.
+    QVector<float> window;
+    float windowScaleFactor = 1;
+    if (windowType != FFTTools::Window_Rect) {
+
+        if (m_windowFunctions.contains(winSig)) {
+#ifdef DEBUG_FFTTOOLS
+            qDebug() << "Re-using window function with signature " << winSig;
+#endif
+            window = m_windowFunctions.value(winSig);
+        } else {
+#ifdef DEBUG_FFTTOOLS
+            qDebug() << "Building new window function with signature " << winSig;
+#endif
+            window = FFTTools::window(windowType, windowSize, 0);
+            m_windowFunctions.insert(winSig, window);
+        }
+        windowScaleFactor = 1.0/window[windowSize];
+    }
+
+
+    // Prepare frequency space vector. The resulting FFT vector is only half as long.
+    kiss_fft_cpx freqData[windowSize/2];
+    float data[windowSize];
+
+    // Copy the first channel's audio into a vector for the FFT display;
+    // Fill the data vector indices that cannot be covered with sample data with 0
+    if (numSamples < windowSize) {
+        std::fill(&data[numSamples], &data[windowSize-1], 0);
+    }
+    // Normalize signals to [0,1] to get correct dB values later on
+    for (int i = 0; i < numSamples && i < windowSize; i++) {
+        // Performance note: Benchmarking has shown that using the if/else inside the loop
+        // does not do noticeable worse than keeping it outside (perhaps the branch predictor
+        // is good enough), so it remains in there for better readability.
+        if (windowType != FFTTools::Window_Rect) {
+            data[i] = (float) audioFrame.data()[i*numChannels] / 32767.0f * window[i];
+        } else {
+            data[i] = (float) audioFrame.data()[i*numChannels] / 32767.0f;
+        }
+    }
+
+    // Calculate the Fast Fourier Transform for the input data
+    kiss_fftr(myCfg, data, freqData);
+
+
+    // Logarithmic scale: 20 * log ( 2 * magnitude / N ) with magnitude = sqrt(r² + i²)
+    // with N = FFT size (after FFT, 1/2 window size)
+    for (int i = 0; i < windowSize/2; i++) {
+        // Logarithmic scale: 20 * log ( 2 * magnitude / N ) with magnitude = sqrt(r² + i²)
+        // with N = FFT size (after FFT, 1/2 window size)
+        freqSpectrum[i] = 20*log(pow(pow(fabs(freqData[i].r * windowScaleFactor),2) + pow(fabs(freqData[i].i * windowScaleFactor),2), .5)/((float)windowSize/2.0f))/log(10);;
+    }
+
+#ifdef DEBUG_FFTTOOLS
+    qDebug() << "Calculated FFT in " << start.elapsed() << " ms.";
+#endif
 }
 
 #ifdef DEBUG_FFTTOOLS
