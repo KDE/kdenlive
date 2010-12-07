@@ -342,7 +342,7 @@ QImage AudioSpectrum::renderHUD(uint)
     hud.fill(qRgba(0,0,0,0));
 
     QPainter davinci(&hud);
-    davinci.setPen(AbstractAudioScopeWidget::penLight);
+    davinci.setPen(AbstractScopeWidget::penLight);
 
     int y;
     for (int db = -dbDiff; db > m_dBmin; db -= dbDiff) {
@@ -360,20 +360,32 @@ QImage AudioSpectrum::renderHUD(uint)
     davinci.drawText(leftDist + m_innerScopeRect.width() + textDistX, topDist+m_innerScopeRect.height()+6, i18n("%1 dB", m_dBmin));
 
     const uint hzDiff = ceil( ((float)minDistX)/m_innerScopeRect.width() * m_freqMax / 1000 ) * 1000;
-    int x;
+    int x = 0;
+    const int rightBorder = leftDist + m_innerScopeRect.width()-1;
     y = topDist + m_innerScopeRect.height() + textDistY;
-    for (uint hz = 0; hz <= m_freqMax; hz += hzDiff) {
+    for (uint hz = 0; x <= rightBorder; hz += hzDiff) {
+        davinci.setPen(AbstractScopeWidget::penLight);
         x = leftDist + m_innerScopeRect.width() * ((float)hz)/m_freqMax;
-        davinci.drawLine(x, topDist, x, topDist + m_innerScopeRect.height()+6);
-        if (hz < m_freqMax) {
+
+        if (x <= rightBorder) {
+            davinci.drawLine(x, topDist, x, topDist + m_innerScopeRect.height()+6);
+        }
+        if (hz < m_freqMax && x+textDistY < leftDist + m_innerScopeRect.width()) {
             davinci.drawText(x-4, y, QVariant(hz/1000).toString());
         } else {
-            davinci.drawText(x-10, y, i18n("%1 kHz",hz/1000));
+            x = leftDist + m_innerScopeRect.width();
+            davinci.drawLine(x, topDist, x, topDist + m_innerScopeRect.height()+6);
+            davinci.drawText(x-10, y, i18n("%1 kHz").arg((double)m_freqMax/1000, 0, 'f', 1));
         }
 
         if (hz > 0) {
-            for (uint dHz = 1; dHz < 4; dHz++) {
+            // Draw finer lines between the main lines
+            davinci.setPen(AbstractScopeWidget::penLightDots);
+            for (uint dHz = 3; dHz > 0; dHz--) {
                 x = leftDist + m_innerScopeRect.width() * ((float)hz - dHz * hzDiff/4.0f)/m_freqMax;
+                if (x > rightBorder) {
+                    break;
+                }
                 davinci.drawLine(x, topDist, x, topDist + m_innerScopeRect.height()-1);
             }
         }
