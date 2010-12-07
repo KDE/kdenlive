@@ -44,6 +44,7 @@ private:
     FFTTools m_fftTools;
 
     QList<QVector<float> > m_fftHistory;
+    QImage m_fftHistoryImg;
 
     int m_dBmin;
     int m_dBmax;

@@ -8,8 +8,14 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
+#include <QPainter>
+
 #include "spectrogram.h"
 
+// Defines the number of FFT samples to store.
+// Around 4 kB for a window size of 2000. Should be at least as large as the
+// highest vertical screen resolution available for complete reconstruction.
+// Can be less as a pre-rendered image is kept in space.
 #define SPECTROGRAM_HISTORY_SIZE 1000
 
 #define DEBUG_SPECTROGRAM
@@ -20,7 +26,8 @@
 Spectrogram::Spectrogram(QWidget *parent) :
         AbstractAudioScopeWidget(false, parent),
         m_fftTools(),
-        m_fftHistory()
+        m_fftHistory(),
+        m_fftHistoryImg()
 {
     ui = new Ui::Spectrogram_UI;
     ui->setupUi(this);
@@ -56,6 +63,8 @@ void Spectrogram::readConfig()
     KSharedConfigPtr config = KGlobal::config();
     KConfigGroup scopeConfig(config, AbstractScopeWidget::configName());
 
+    ui->windowSize->setCurrentIndex(scopeConfig.readEntry("windowSize", 0));
+    ui->windowFunction->setCurrentIndex(scopeConfig.readEntry("windowFunction", 0));
     m_dBmax = scopeConfig.readEntry("dBmax", 0);
     m_dBmin = scopeConfig.readEntry("dBmin", -70);
     m_freqMax = scopeConfig.readEntry("freqMax", 0);
@@ -72,6 +81,8 @@ void Spectrogram::writeConfig()
     KSharedConfigPtr config = KGlobal::config();
     KConfigGroup scopeConfig(config, AbstractScopeWidget::configName());
 
+    scopeConfig.writeEntry("windowSize", ui->windowSize->currentIndex());
+    scopeConfig.writeEntry("windowFunction", ui->windowFunction->currentIndex());
     scopeConfig.writeEntry("dBmax", m_dBmax);
     scopeConfig.writeEntry("dBmin", m_dBmin);
 
@@ -147,6 +158,7 @@ QImage Spectrogram::renderAudioScope(uint, const QVector<int16_t> audioFrame, co
         // Draw the spectrum
         QImage spectrum(m_scopeRect.size(), QImage::Format_ARGB32);
         spectrum.fill(qRgba(0,0,0,0));
+        QPainter davinci(&spectrum);
         const uint w = m_innerScopeRect.width();
         const uint h = m_innerScopeRect.height();
         const uint leftDist = m_innerScopeRect.left() - m_scopeRect.left();
@@ -158,6 +170,15 @@ QImage Spectrogram::renderAudioScope(uint, const QVector<int16_t> audioFrame, co
         uint windowSize;
         uint xi;
         uint y = topDist;
+        bool completeRedraw = true;
+
+        if (m_fftHistoryImg.size() == m_scopeRect.size()) {
+            // The size of the widget has not changed since last time, so we can re-use it,
+            // shift it by one pixel, and render the single remaining line. Usually about
+            // 10 times faster for a widget height of around 400 px.
+            davinci.drawImage(0, -1, m_fftHistoryImg);
+            completeRedraw = false;
+        }
 
         for (QList<QVector<float> >::iterator it = m_fftHistory.begin(); it != m_fftHistory.end(); it++) {
 
@@ -205,7 +226,7 @@ QImage Spectrogram::renderAudioScope(uint, const QVector<int16_t> audioFrame, co
                     val = 0;
                 }
 
-                spectrum.setPixel(leftDist + i, topDist + h-y-1, qRgba(225, 182, 255, val * 255));
+                spectrum.setPixel(leftDist + i, topDist + h-y-1, qRgba(255, 255, 255, val * 255));
 
                 x_prev = x;
             }
@@ -214,12 +235,22 @@ QImage Spectrogram::renderAudioScope(uint, const QVector<int16_t> audioFrame, co
             if (y >= topDist + m_innerScopeRect.height()) {
                 break;
             }
+            if (!completeRedraw) {
+                break;
+            }
         }
 
 #ifdef DEBUG_SPECTROGRAM
-        qDebug() << "Rendered " << y-topDist << "lines from " << m_fftHistory.size() << " available samples in " << start.elapsed() << " ms";
+        qDebug() << "Rendered " << y-topDist << "lines from " << m_fftHistory.size() << " available samples in " << start.elapsed() << " ms"
+                << (completeRedraw ? " (re-used old image)" : "");
+        uint storedBytes = 0;
+        for (QList< QVector<float> >::iterator it = m_fftHistory.begin(); it != m_fftHistory.end(); it++) {
+            storedBytes += (*it).size() * sizeof((*it)[0]);
+        }
+        qDebug() << QString("Total storage used: %1 kB").arg((double)storedBytes/1000, 0, 'f', 2);
 #endif
 
+        m_fftHistoryImg = spectrum;
 
         emit signalScopeRenderingFinished(start.elapsed(), 1);
         return spectrum;
