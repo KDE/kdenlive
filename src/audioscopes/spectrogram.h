@@ -8,6 +8,20 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
+/** This Spectrogram shows the spectral power distribution of incoming audio samples
+    over time. See http://en.wikipedia.org/wiki/Spectrogram.
+
+    The Spectrogram makes use of two caches:
+    * A cached image where only the most recent line needs to be appended instead of
+      having to recalculate the whole image. A typical speedup factor is 10x.
+    * A FFT cache storing a history of previous spectral power distributions (i.e.
+      the Fourier-transformed audio signals). This is used if the user adjusts parameters
+      like the maximum frequency to display or minimum/maximum signal strength in dB.
+      All required information is preserved in the FFT history, which would not be the
+      case for an image (consider re-sizing the widget to 100x100 px and then back to
+      800x400 px -- lost is lost).
+*/
+
 #ifndef SPECTROGRAM_H
 #define SPECTROGRAM_H
 
@@ -31,17 +45,19 @@ protected:
     ///// Implemented methods /////
     QRect scopeRect();
     QImage renderHUD(uint accelerationFactor);
-    QImage renderAudioScope(uint accelerationFactor, const QVector<int16_t> audioFrame, const int freq, const int num_channels, const int num_samples);
+    QImage renderAudioScope(uint accelerationFactor, const QVector<int16_t> audioFrame, const int freq, const int num_channels, const int num_samples, const int newData);
     QImage renderBackground(uint accelerationFactor);
     bool isHUDDependingOnInput() const;
     bool isScopeDependingOnInput() const;
     bool isBackgroundDependingOnInput() const;
     virtual void readConfig();
     void writeConfig();
+    void handleMouseDrag(const QPoint movement, const RescaleDirection rescaleDirection, const Qt::KeyboardModifiers rescaleModifiers);
 
 private:
     Ui::Spectrogram_UI *ui;
     FFTTools m_fftTools;
+    QAction *m_aResetHz;
 
     QList<QVector<float> > m_fftHistory;
     QImage m_fftHistoryImg;
@@ -52,7 +68,13 @@ private:
     uint m_freqMax;
     bool m_customFreq;
 
+    bool m_parameterChanged;
+
     QRect m_innerScopeRect;
+
+private slots:
+    void slotResetMaxFreq();
+
 };
 
 #endif // SPECTROGRAM_H

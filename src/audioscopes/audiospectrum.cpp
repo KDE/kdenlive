@@ -64,6 +64,7 @@ AudioSpectrum::AudioSpectrum(QWidget *parent) :
     Q_ASSERT(b);
 
 
+    // Note: These strings are used in both Spectogram and AudioSpectrum. Ideally change both (if necessary) to reduce workload on translators
     ui->labelFFTSize->setToolTip(i18n("The maximum window size is limited by the number of samples per frame."));
     ui->windowSize->setToolTip(i18n("A bigger window improves the accuracy at the cost of computational power."));
     ui->windowFunction->setToolTip(i18n("The rectangular window function is good for signals with equal signal strength (narrow peak), but creates more smearing. See Window function on Wikipedia."));
@@ -122,7 +123,8 @@ bool AudioSpectrum::isHUDDependingOnInput() const { return false; }
 
 QImage AudioSpectrum::renderBackground(uint) { return QImage(); }
 
-QImage AudioSpectrum::renderAudioScope(uint, const QVector<int16_t> audioFrame, const int freq, const int num_channels, const int num_samples)
+QImage AudioSpectrum::renderAudioScope(uint, const QVector<int16_t> audioFrame, const int freq, const int num_channels,
+                                       const int num_samples, const int)
 {
     if (audioFrame.size() > 63) {
         if (!m_customFreq) {
@@ -350,7 +352,7 @@ void AudioSpectrum::slotResetMaxFreq()
 
 void AudioSpectrum::handleMouseDrag(const QPoint movement, const RescaleDirection rescaleDirection, const Qt::KeyboardModifiers rescaleModifiers)
 {
-    if (rescaleDirection == AudioSpectrum::North) {
+    if (rescaleDirection == North) {
         // Nort-South direction: Adjust the dB scale
 
         if ((rescaleModifiers & Qt::ShiftModifier) == 0) {
@@ -397,7 +399,7 @@ void AudioSpectrum::handleMouseDrag(const QPoint movement, const RescaleDirectio
         forceUpdateHUD();
         forceUpdateScope();
 
-    } else if (rescaleDirection == AudioSpectrum::East) {
+    } else if (rescaleDirection == East) {
         // East-West direction: Adjust the maximum frequency
         m_freqMax -= 100*movement.x();
         if (m_freqMax < MIN_FREQ_VALUE) {

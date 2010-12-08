@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
+    <width>605</width>
     <height>300</height>
    </rect>
   </property>
@@ -29,19 +29,6 @@
       <size>
        <width>20</width>
        <height>40</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="0" column="3">
-    <spacer name="horizontalSpacer">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>40</width>
-       <height>20</height>
       </size>
      </property>
     </spacer>
@@ -72,9 +59,22 @@
    <item row="0" column="2">
     <widget class="QLabel" name="labelFFTSizeNumber">
      <property name="text">
-      <string/>
+      <string notr="true"/>
      </property>
     </widget>
+   </item>
+   <item row="0" column="3">
+    <spacer name="horizontalSpacer_3">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
    </item>
   </layout>
  </widget>
