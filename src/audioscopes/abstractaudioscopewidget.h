@@ -38,13 +38,15 @@ protected:
         when calculation has finished, to allow multi-threading.
         accelerationFactor hints how much faster than usual the calculation should be accomplished, if possible. */
     virtual QImage renderAudioScope(uint accelerationFactor,
-                               const QVector<int16_t> audioFrame, const int freq, const int num_channels, const int num_samples) = 0;
+                               const QVector<int16_t> audioFrame, const int freq, const int num_channels, const int num_samples,
+                               const int newData) = 0;
 
 private:
     QVector<int16_t> m_audioFrame;
     int m_freq;
     int m_nChannels;
     int m_nSamples;
+    QAtomicInt m_newData;
 
 private slots:
     void slotReceiveAudio(const QVector<int16_t>& sampleData, int freq, int num_channels, int num_samples);

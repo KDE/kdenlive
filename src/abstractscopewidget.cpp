@@ -33,12 +33,13 @@ const QColor light(250, 238, 226, 255);
 const QColor dark(40,  40,  39, 255);
 const QColor dark2(25,  25,  23, 255);
 
-const QPen AbstractScopeWidget::penThick(QBrush(QColor(250, 250, 250)),     2, Qt::SolidLine);
-const QPen AbstractScopeWidget::penThin(QBrush(QColor(250, 250, 250)),     1, Qt::SolidLine);
-const QPen AbstractScopeWidget::penLight(QBrush(QColor(200, 200, 250, 150)), 1, Qt::SolidLine);
+const QPen AbstractScopeWidget::penThick(QBrush(QColor(250, 250, 250)),          2, Qt::SolidLine);
+const QPen AbstractScopeWidget::penThin(QBrush(QColor(250, 250, 250)),           1, Qt::SolidLine);
+const QPen AbstractScopeWidget::penLight(QBrush(QColor(200, 200, 250, 150)),     1, Qt::SolidLine);
 const QPen AbstractScopeWidget::penLightDots(QBrush(QColor(200, 200, 250, 150)), 1, Qt::DotLine);
-const QPen AbstractScopeWidget::penDark(QBrush(QColor(0, 0, 20, 250)),      1, Qt::SolidLine);
-const QPen AbstractScopeWidget::penDarkDots(QBrush(QColor(0, 0, 20, 250)),      1, Qt::DotLine);
+const QPen AbstractScopeWidget::penLighter(QBrush(QColor(225, 225, 250, 225)),   1, Qt::SolidLine);
+const QPen AbstractScopeWidget::penDark(QBrush(QColor(0, 0, 20, 250)),           1, Qt::SolidLine);
+const QPen AbstractScopeWidget::penDarkDots(QBrush(QColor(0, 0, 20, 250)),       1, Qt::DotLine);
 
 const QString AbstractScopeWidget::directions[] =  {"North", "Northeast", "East", "Southeast"};
 
@@ -499,7 +500,7 @@ void AbstractScopeWidget::slotRenderZoneUpdated()
     m_newBackgroundFrames.fetchAndAddRelaxed(1);
 
 #ifdef DEBUG_ASW
-    qDebug() << "Monitor incoming at " << widgetName() << ". New frames total HUD/Scope/Background: " << m_newHUDFrames
+    qDebug() << "Data incoming at " << widgetName() << ". New frames total HUD/Scope/Background: " << m_newHUDFrames
             << "/" << m_newScopeFrames << "/" << m_newBackgroundFrames;
 #endif
 

@@ -58,6 +58,8 @@ class AbstractScopeWidget : public QWidget
     Q_OBJECT
 
 public:
+    /** trackMouse enables mouse tracking; The variables m_mousePos and m_mouseWithinWidget will be set
+            if mouse tracking is enabled. See also signalMousePositionChanged(). */
     AbstractScopeWidget(bool trackMouse = false, QWidget *parent = 0);
     virtual ~AbstractScopeWidget(); // Must be virtual because of inheritance, to avoid memory leaks
 
@@ -84,6 +86,7 @@ public:
     static const QPen penThin;
     static const QPen penLight;
     static const QPen penLightDots;
+    static const QPen penLighter;
     static const QPen penDark;
     static const QPen penDarkDots;
 
@@ -206,7 +209,8 @@ signals:
     void signalBackgroundRenderingFinished(uint mseconds, uint accelerationFactor);
 
     /** For the mouse position itself see m_mousePos.
-        To check whether the mouse has leaved the widget, see m_mouseWithinWidget. */
+        To check whether the mouse has leaved the widget, see m_mouseWithinWidget.
+        This signal is typically connected to forceUpdateHUD(). */
     void signalMousePositionChanged();
 
     /** Do we need the renderer to send its frames to us? */
