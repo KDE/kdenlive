@@ -22,10 +22,9 @@
 
 // Enables debugging, like writing a GNU Octave .m file to /tmp
 //#define DEBUG_AUDIOSPEC
+
 #ifdef DEBUG_AUDIOSPEC
-#include <fstream>
 #include <QDebug>
-bool fileWritten = false;
 #endif
 
 #define MIN_DB_VALUE -120
@@ -33,8 +32,10 @@ bool fileWritten = false;
 #define MIN_FREQ_VALUE 1000
 
 AudioSpectrum::AudioSpectrum(QWidget *parent) :
-        AbstractAudioScopeWidget(false, parent),
-        m_fftTools()
+        AbstractAudioScopeWidget(true, parent),
+        m_fftTools(),
+        m_lastFFT(),
+        m_lastFFTLock(1)
 {
     ui = new Ui::AudioSpectrum_UI;
     ui->setupUi(this);
@@ -61,6 +62,7 @@ AudioSpectrum::AudioSpectrum(QWidget *parent) :
     bool b = true;
     b &= connect(m_aResetHz, SIGNAL(triggered()), this, SLOT(slotResetMaxFreq()));
     b &= connect(ui->windowFunction, SIGNAL(currentIndexChanged(int)), this, SLOT(forceUpdate()));
+    b &= connect(this, SIGNAL(signalMousePositionChanged()), this, SLOT(forceUpdateHUD()));
     Q_ASSERT(b);
 
 
@@ -156,6 +158,18 @@ QImage AudioSpectrum::renderAudioScope(uint, const QVector<int16_t> audioFrame, 
         m_fftTools.fftNormalized(audioFrame, 0, num_channels, freqSpectrum, windowType, fftWindow, 0);
 
 
+        // Store the current FFT window (for the HUD) and run the interpolation
+        // for easy pixel-based dB value access
+        QVector<float> dbMap;
+        m_lastFFTLock.acquire();
+        m_lastFFT = QVector<float>(fftWindow/2);
+        memcpy(m_lastFFT.data(), &(freqSpectrum[0]), fftWindow/2 * sizeof(float));
+
+        uint right = ((float) m_freqMax)/(m_freq) * (m_lastFFT.size() - 1);
+        dbMap = interpolatePeakPreserving(m_lastFFT, m_innerScopeRect.width(), 0, right, -120);
+        m_lastFFTLock.release();
+
+
         // Draw the spectrum
         QImage spectrum(m_scopeRect.size(), QImage::Format_ARGB32);
         spectrum.fill(qRgba(0,0,0,0));
@@ -163,84 +177,22 @@ QImage AudioSpectrum::renderAudioScope(uint, const QVector<int16_t> audioFrame, 
         const uint h = m_innerScopeRect.height();
         const uint leftDist = m_innerScopeRect.left() - m_scopeRect.left();
         const uint topDist = m_innerScopeRect.top() - m_scopeRect.top();
-        float f;
-        float x;
-        float x_prev = 0;
-        float val;
-        int xi;
+        int yMax;
+
         for (uint i = 0; i < w; i++) {
-
-            // i:  Pixel coordinate
-            // f: Target frequency
-            // x:  Frequency array index (float!) corresponding to the pixel
-            // xi: floor(x)
-
-            f = i/((float) w-1.0) * m_freqMax;
-            x = 2*f/freq * (fftWindow/2 - 1);
-            xi = (int) floor(x);
-
-            if (x >= fftWindow/2) {
-                break;
+            yMax = (dbMap[i] - m_dBmin) / (m_dBmax-m_dBmin) * (h-1);
+            if (yMax < 0) {
+                yMax = 0;
+            } else if (yMax >= (int)h) {
+                yMax = h-1;
             }
-
-            // Use linear interpolation in order to get smoother display
-            if (i == 0 || xi == fftWindow/2-1) {
-                // ... except if we are at the left or right border of the display or the spectrum
-                val = freqSpectrum[xi];
-            } else {
-
-                if (freqSpectrum[xi] > freqSpectrum[xi+1]
-                    && x_prev < xi) {
-                    // This is a hack to preserve peaks.
-                    // Consider f = {0, 100, 0}
-                    //          x = {0.5,  1.5}
-                    // Then x is 50 both times, and the 100 peak is lost.
-                    // Get it back here for the first x after the peak.
-                    val = freqSpectrum[xi];
-                } else {
-                    val =   (xi+1 - x) * freqSpectrum[xi]
-                          + (x - xi)   * freqSpectrum[xi+1];
-                }
-            }
-
-            // freqSpectrum values range from 0 to -inf as they are relative dB values.
-            for (uint y = 0; y < h*(1 - (val - m_dBmax)/(m_dBmin-m_dBmax)) && y < h; y++) {
+            for (int y = 0; y < yMax && y < (int)h; y++) {
                 spectrum.setPixel(leftDist + i, topDist + h-y-1, qRgba(225, 182, 255, 255));
             }
-
-            x_prev = x;
         }
 
         emit signalScopeRenderingFinished(start.elapsed(), 1);
 
-#ifdef DEBUG_AUDIOSPEC
-        if (!fileWritten || true) {
-            std::ofstream mFile;
-            mFile.open("/tmp/freq.m");
-            if (!mFile) {
-                qDebug() << "Opening file failed.";
-            } else {
-                mFile << "val = [ ";
-
-                for (int sample = 0; sample < 256; sample++) {
-                    mFile << data[sample] << " ";
-                }
-                mFile << " ];\n";
-
-                mFile << "freq = [ ";
-                for (int sample = 0; sample < 256; sample++) {
-                    mFile << freqData[sample].r << "+" << freqData[sample].i << "*i ";
-                }
-                mFile << " ];\n";
-
-                mFile.close();
-                fileWritten = true;
-                qDebug() << "File written.";
-            }
-        } else {
-            qDebug() << "File already written.";
-        }
-#endif
 
         return spectrum;
     } else {
@@ -260,6 +212,8 @@ QImage AudioSpectrum::renderHUD(uint)
     const uint topDist = m_innerScopeRect.top() - m_scopeRect.top();
     const uint leftDist = m_innerScopeRect.left() - m_scopeRect.left();
     const uint dbDiff = ceil((float)minDistY/m_innerScopeRect.height() * (m_dBmax-m_dBmin));
+    const int mouseX = m_mousePos.x() - m_innerScopeRect.left();
+    const int mouseY = m_mousePos.y() - m_innerScopeRect.top();
 
     QImage hud(m_scopeRect.size(), QImage::Format_ARGB32);
     hud.fill(qRgba(0,0,0,0));
@@ -312,6 +266,68 @@ QImage AudioSpectrum::renderHUD(uint)
                 davinci.drawLine(x, topDist, x, topDist + m_innerScopeRect.height()-1);
             }
         }
+    }
+
+    if (m_mouseWithinWidget && mouseX < m_innerScopeRect.width()-1) {
+        davinci.setPen(AbstractScopeWidget::penThin);
+
+        x = leftDist + mouseX;
+
+        float db = 0;
+        float freq = ((float) mouseX)/(m_innerScopeRect.width()-1) * m_freqMax;
+        bool drawDb = false;
+
+        m_lastFFTLock.acquire();
+        if (m_lastFFT.size() > 0) {
+            uint right = ((float) m_freqMax)/(m_freq) * (m_lastFFT.size() - 1);
+            QVector<float> dbMap = AudioSpectrum::interpolatePeakPreserving(m_lastFFT, m_innerScopeRect.width(), 0, right, -120);
+
+            db = dbMap[mouseX];
+            y = topDist + m_innerScopeRect.height()-1 - (dbMap[mouseX] - m_dBmin) / (m_dBmax-m_dBmin) * (m_innerScopeRect.height()-1);
+
+            if (y < (int)topDist + m_innerScopeRect.height()-1) {
+                drawDb = true;
+                davinci.drawLine(x, y, leftDist + m_innerScopeRect.width()-1, y);
+            }
+        } else {
+            y = topDist + mouseY;
+        }
+        m_lastFFTLock.release();
+
+        if (y > (int)topDist + mouseY) {
+            y = topDist+ mouseY;
+        }
+        davinci.drawLine(x, y, x, topDist + m_innerScopeRect.height()-1);
+
+        if (drawDb) {
+            QPoint dist(20, -20);
+            QRect rect(
+                        leftDist + mouseX + dist.x(),
+                        topDist + mouseY + dist.y(),
+                        100,
+                        40
+                        );
+            if (rect.right() > (int)leftDist + m_innerScopeRect.width()-1) {
+                // Mirror the rectangle at the y axis to keep it inside the widget
+                rect = QRect(
+                            rect.topLeft() - QPoint(rect.width() + 2*dist.x(), 0),
+                            rect.size());
+            }
+
+            QRect textRect(
+                        rect.topLeft() + QPoint(12, 4),
+                        rect.size()
+                        );
+
+            davinci.fillRect(rect, AbstractScopeWidget::penBackground.brush());
+            davinci.setPen(AbstractScopeWidget::penLighter);
+            davinci.drawRect(rect);
+            davinci.drawText(textRect, QString(
+                                 i18n("%1 dB", QString("%1").arg(db, 0, 'f', 2))
+                                 + "\n"
+                                 + i18n("%1 kHz", QString("%1").arg(freq/1000, 0, 'f', 2))));
+        }
+
     }
 
 
@@ -413,6 +429,68 @@ void AudioSpectrum::handleMouseDrag(const QPoint movement, const RescaleDirectio
         forceUpdateHUD();
         forceUpdateScope();
     }
+}
+
+
+const QVector<float> AudioSpectrum::interpolatePeakPreserving(const QVector<float> in, const uint targetSize, uint left, uint right, float fill)
+{
+    if (right == 0) {
+        right = in.size()-1;
+    }
+    Q_ASSERT(targetSize > 0);
+    Q_ASSERT(left < right);
+
+    QVector<float> out(targetSize);
+
+
+    float x;
+    float x_prev = 0;
+    int xi;
+    uint i;
+    for (i = 0; i < targetSize; i++) {
+
+        // i:  Target index
+        // x:  Interpolated source index (float!)
+        // xi: floor(x)
+
+        // Transform [0,targetSize-1] to [left,right]
+        x = ((float) i) / (targetSize-1) * (right-left) + left;
+        xi = (int) floor(x);
+
+        if (x > in.size()-1) {
+            // This may happen if right > in.size()-1; Fill the rest of the vector
+            // with the default value now.
+            break;
+        }
+
+
+        // Use linear interpolation in order to get smoother display
+        if (i == 0 || i == targetSize-1) {
+            // ... except if we are at the left or right border of the display or the spectrum
+            out[i] = in[xi];
+        } else {
+            if (in[xi] > in[xi+1]
+                && x_prev < xi) {
+                // This is a hack to preserve peaks.
+                // Consider f = {0, 100, 0}
+                //          x = {0.5,  1.5}
+                // Then x is 50 both times, and the 100 peak is lost.
+                // Get it back here for the first x after the peak (which is at xi).
+                // (x is the first after the peak if the previous x was smaller than floor(x).)
+                out[i] = in[xi];
+            } else {
+                out[i] =   (xi+1 - x) * in[xi]
+                      + (x - xi)   * in[xi+1];
+            }
+        }
+        x_prev = x;
+    }
+    // Fill the rest of the vector if the right border exceeds the input vector.
+    for (; i < targetSize; i++) {
+        out[i] = fill;
+    }
+
+    return out;
 }
 
 

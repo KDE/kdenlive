@@ -41,11 +41,12 @@ protected:
                                const QVector<int16_t> audioFrame, const int freq, const int num_channels, const int num_samples,
                                const int newData) = 0;
 
-private:
-    QVector<int16_t> m_audioFrame;
     int m_freq;
     int m_nChannels;
     int m_nSamples;
+
+private:
+    QVector<int16_t> m_audioFrame;
     QAtomicInt m_newData;
 
 private slots:

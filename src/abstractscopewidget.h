@@ -89,6 +89,7 @@ public:
     static const QPen penLighter;
     static const QPen penDark;
     static const QPen penDarkDots;
+    static const QPen penBackground;
 
     static const QString directions[]; // Mainly for debug output
 

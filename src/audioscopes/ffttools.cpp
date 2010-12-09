@@ -15,10 +15,13 @@
 
 #include "ffttools.h"
 
+// Uncomment for debugging
 //#define DEBUG_FFTTOOLS
+
 #ifdef DEBUG_FFTTOOLS
 #include <QDebug>
 #include <QTime>
+#include <fstream>
 #endif
 
 FFTTools::FFTTools() :
@@ -172,7 +175,7 @@ void FFTTools::fftNormalized(const QVector<int16_t> audioFrame, const uint chann
         std::fill(&data[numSamples], &data[windowSize-1], 0);
     }
     // Normalize signals to [0,1] to get correct dB values later on
-    for (int i = 0; i < numSamples && i < windowSize; i++) {
+    for (uint i = 0; i < numSamples && i < windowSize; i++) {
         // Performance note: Benchmarking has shown that using the if/else inside the loop
         // does not do noticeable worse than keeping it outside (perhaps the branch predictor
         // is good enough), so it remains in there for better readability.
@@ -189,11 +192,36 @@ void FFTTools::fftNormalized(const QVector<int16_t> audioFrame, const uint chann
 
     // Logarithmic scale: 20 * log ( 2 * magnitude / N ) with magnitude = sqrt(r² + i²)
     // with N = FFT size (after FFT, 1/2 window size)
-    for (int i = 0; i < windowSize/2; i++) {
+    for (uint i = 0; i < windowSize/2; i++) {
         // Logarithmic scale: 20 * log ( 2 * magnitude / N ) with magnitude = sqrt(r² + i²)
         // with N = FFT size (after FFT, 1/2 window size)
         freqSpectrum[i] = 20*log(pow(pow(fabs(freqData[i].r * windowScaleFactor),2) + pow(fabs(freqData[i].i * windowScaleFactor),2), .5)/((float)windowSize/2.0f))/log(10);;
     }
+
+
+#ifdef DEBUG_FFTTOOLS
+    std::ofstream mFile;
+    mFile.open("/tmp/freq.m");
+    if (!mFile) {
+        qDebug() << "Opening file failed.";
+    } else {
+        mFile << "val = [ ";
+
+        for (int sample = 0; sample < 256; sample++) {
+            mFile << data[sample] << " ";
+        }
+        mFile << " ];\n";
+
+        mFile << "freq = [ ";
+        for (int sample = 0; sample < 256; sample++) {
+            mFile << freqData[sample].r << "+" << freqData[sample].i << "*i ";
+        }
+        mFile << " ];\n";
+
+        mFile.close();
+        qDebug() << "File written.";
+    }
+#endif
 
 #ifdef DEBUG_FFTTOOLS
     qDebug() << "Calculated FFT in " << start.elapsed() << " ms.";

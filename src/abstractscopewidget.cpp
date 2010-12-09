@@ -40,6 +40,7 @@ const QPen AbstractScopeWidget::penLightDots(QBrush(QColor(200, 200, 250, 150)),
 const QPen AbstractScopeWidget::penLighter(QBrush(QColor(225, 225, 250, 225)),   1, Qt::SolidLine);
 const QPen AbstractScopeWidget::penDark(QBrush(QColor(0, 0, 20, 250)),           1, Qt::SolidLine);
 const QPen AbstractScopeWidget::penDarkDots(QBrush(QColor(0, 0, 20, 250)),       1, Qt::DotLine);
+const QPen AbstractScopeWidget::penBackground(QBrush(dark2),                     1, Qt::SolidLine);
 
 const QString AbstractScopeWidget::directions[] =  {"North", "Northeast", "East", "Southeast"};
 

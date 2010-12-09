@@ -59,6 +59,7 @@ private:
     Ui::Spectrogram_UI *ui;
     FFTTools m_fftTools;
     QAction *m_aResetHz;
+    QAction *m_aGrid;
 
     QList<QVector<float> > m_fftHistory;
     QImage m_fftHistoryImg;

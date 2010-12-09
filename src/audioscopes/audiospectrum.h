@@ -58,6 +58,8 @@ private:
     QAction *m_aResetHz;
 
     FFTTools m_fftTools;
+    QVector<float> m_lastFFT;
+    QSemaphore m_lastFFTLock;
 
     /** Contains the plot only; m_scopeRect contains text and widgets as well */
     QRect m_innerScopeRect;
@@ -73,6 +75,20 @@ private:
     /** The user has chosen a custom frequency. */
     bool m_customFreq;
 
+    /** This is linear interpolation with the special property that it preserves peaks, which is required
+        for e.g. showing correct Decibel values (where the peak values are of interest).
+        Consider f = {0, 100, 0}
+                 x = {0.5,  1.5}: With default linear interpolation x0 and x1 would both be mapped to 50.
+        This function maps x1 (the first position after the peak) to 100.
+
+        @param in           The source vector containing the data
+        @param targetSize   Number of interpolation nodes between ...
+        @param left         the left array index in the in-vector and ...
+        @param right        the right array index (both inclusive).
+        @param fill         If right lies outside of the array bounds (which is perfectly fine here) then this value
+                            will be used for filling the missing information.
+        */
+    static const QVector<float> interpolatePeakPreserving(const QVector<float> in, const uint targetSize, uint left = 0, uint right = 0, float fill = 0.0);
 
 
 private slots:
