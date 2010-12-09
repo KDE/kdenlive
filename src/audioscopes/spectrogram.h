@@ -60,6 +60,7 @@ private:
     FFTTools m_fftTools;
     QAction *m_aResetHz;
     QAction *m_aGrid;
+    QAction *m_aTrackMouse;
 
     QList<QVector<float> > m_fftHistory;
     QImage m_fftHistoryImg;

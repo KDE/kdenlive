@@ -56,6 +56,7 @@ private:
     Ui::AudioSpectrum_UI *ui;
 
     QAction *m_aResetHz;
+    QAction *m_aTrackMouse;
 
     FFTTools m_fftTools;
     QVector<float> m_lastFFT;
