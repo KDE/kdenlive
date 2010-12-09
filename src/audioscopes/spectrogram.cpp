@@ -516,6 +516,12 @@ void Spectrogram::slotResetMaxFreq()
     forceUpdateScope();
 }
 
+void Spectrogram::resizeEvent(QResizeEvent *event)
+{
+    m_parameterChanged = true;
+    AbstractAudioScopeWidget::resizeEvent(event);
+}
+
 #undef SPECTROGRAM_HISTORY_SIZE
 #ifdef DEBUG_SPECTROGRAM
 #undef DEBUG_SPECTROGRAM
