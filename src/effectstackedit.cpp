@@ -160,6 +160,7 @@ void EffectStackEdit::updateProjectFormat(MltVideoProfile profile, Timecode t)
 void EffectStackEdit::updateParameter(const QString &name, const QString &value)
 {
     m_params.setAttribute(name, value);
+
     if (name == "disable") {
         // if effect is disabled, disable parameters widget
         setEnabled(value.toInt() == 0);
@@ -198,7 +199,9 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
     QDomElement e = m_params.toElement();
     const int minFrame = e.attribute("start").toInt();
     const int maxFrame = e.attribute("end").toInt();
+
     bool disabled = d.attribute("disable") == "1";
+    setEnabled(!disabled);
 
 
     for (int i = 0; i < namenode.count() ; i++) {
