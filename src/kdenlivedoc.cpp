@@ -108,6 +108,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                         QDomNodeList infoproducers = m_document.elementsByTagName("kdenlive_producer");
                         success = checkDocumentClips(infoproducers);
                         if (success) {
+                            if (m_document.documentElement().attribute("modified") == "1") setModified(true);
                             parent->slotGotProgressInfo(i18n("Loading"), 0);
                             QDomElement mlt = m_document.firstChildElement("mlt");
                             QDomElement infoXml = mlt.firstChildElement("kdenlivedoc");
@@ -216,7 +217,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                                 for (int i = 0; i < props.count(); i++)
                                     m_documentProperties.insert(props.item(i).nodeName(), props.item(i).nodeValue());
                                 setProfilePath(infoXml.attribute("profile"));
-                                setModified(validator.isModified());
+                                if (validator.isModified()) setModified(true);
                                 kDebug() << "Reading file: " << url.path() << ", found clips: " << producers.count();
                             }
                         }

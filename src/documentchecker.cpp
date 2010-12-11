@@ -59,7 +59,7 @@ const int LUMAPLACEHOLDER = 12;
 enum TITLECLIPTYPE { TITLE_IMAGE_ELEMENT = 20, TITLE_FONT_ELEMENT = 21 };
 
 DocumentChecker::DocumentChecker(QDomNodeList infoproducers, QDomDocument doc):
-        m_info(infoproducers), m_doc(doc), m_dialog(NULL)
+    m_info(infoproducers), m_doc(doc), m_dialog(NULL)
 {
 
 }
@@ -284,7 +284,7 @@ QString DocumentChecker::searchFileRecursively(const QDir &dir, const QString &m
                 * 1 MB = 1 second per 450 files (or faster)
                 * 10 MB = 9 seconds per 450 files (or faster)
                 */
-                if (file.size() > 1000000*2) {
+                if (file.size() > 1000000 * 2) {
                     fileData = file.read(1000000);
                     if (file.seek(file.size() - 1000000))
                         fileData.append(file.readAll());
@@ -342,6 +342,9 @@ void DocumentChecker::acceptDialog()
 
     // prepare transitions
     QDomNodeList trans = m_doc.elementsByTagName("transition");
+
+    // Mark document as modified
+    m_doc.documentElement().setAttribute("modified", 1);
 
     QTreeWidgetItem *child = m_ui.treeWidget->topLevelItem(ix);
     while (child) {
