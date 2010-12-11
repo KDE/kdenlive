@@ -40,6 +40,10 @@
 #include <KIO/NetAccess>
 #include <KIO/CopyJob>
 #include <KApplication>
+#include <KGlobal>
+#include <KBookmarkManager>
+#include <KBookmark>
+#include <KStandardDirs>
 
 #include <QCryptographicHash>
 #include <QFile>
@@ -259,6 +263,8 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
     KStandardDirs::makeDir(m_projectFolder.path(KUrl::AddTrailingSlash) + "titles/");
     KStandardDirs::makeDir(m_projectFolder.path(KUrl::AddTrailingSlash) + "thumbs/");
     KStandardDirs::makeDir(m_projectFolder.path(KUrl::AddTrailingSlash) + "ladspa/");
+
+    updateProjectFolderPlacesEntry();
 
     //kDebug() << "// SETTING SCENE LIST:\n\n" << m_document.toString();
     connect(m_autoSaveTimer, SIGNAL(timeout()), this, SLOT(slotAutoSave()));
@@ -670,6 +676,8 @@ void KdenliveDoc::setProjectFolder(KUrl url)
     KStandardDirs::makeDir(url.path(KUrl::AddTrailingSlash) + "thumbs/");
     if (KMessageBox::questionYesNo(kapp->activeWindow(), i18n("You have changed the project folder. Do you want to copy the cached data from %1 to the new folder %2?").arg(m_projectFolder.path(), url.path())) == KMessageBox::Yes) moveProjectData(url);
     m_projectFolder = url;
+
+    updateProjectFolderPlacesEntry();
 }
 
 void KdenliveDoc::moveProjectData(KUrl url)
@@ -1447,6 +1455,44 @@ bool KdenliveDoc::saveCustomEffects(QDomNodeList customeffects)
     }
     if (!importedEffects.isEmpty()) KMessageBox::informationList(kapp->activeWindow(), i18n("The following effects were imported from the project:"), importedEffects);
     return (!importedEffects.isEmpty());
+}
+
+void KdenliveDoc::updateProjectFolderPlacesEntry()
+{
+    const QString file = KStandardDirs::locateLocal("data", "kfileplaces/bookmarks.xml");
+    KBookmarkManager *bookmarkManager = KBookmarkManager::managerForFile(file, "kfilePlaces");
+    KBookmarkGroup root = bookmarkManager->root();
+    KBookmark bookmark = root.first();
+
+    QString kdenliveName = KGlobal::mainComponent().componentName();
+    KUrl documentLocation = m_projectFolder;
+
+    bool exists = false;
+
+    while (!bookmark.isNull()) {
+        // UDI not empty indicates a device
+        QString udi = bookmark.metaDataItem("UDI");
+        QString appName = bookmark.metaDataItem("OnlyInApp");
+
+        if (udi.isEmpty() && appName == kdenliveName && bookmark.text() == i18n("Project Folder")) {
+            if (bookmark.url() != documentLocation) {
+                bookmark.setUrl(documentLocation);
+                bookmarkManager->emitChanged(root);
+            }
+            exists = true;
+            break;
+        }
+
+        bookmark = root.next(bookmark);
+    }
+
+    // if entry does not exist yet (was not found), well, create it then
+    if (!exists) {
+        KBookmark newBookmark = root.addBookmark(i18n("Project Folder"), documentLocation, "folder-favorites");
+        // Make this user selectable ?
+        newBookmark.setMetaDataItem("OnlyInApp", kdenliveName);
+        bookmarkManager->emitChanged(root);
+    }
 }
 
 #include "kdenlivedoc.moc"

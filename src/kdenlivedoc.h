@@ -176,6 +176,9 @@ private:
     *   @return True if effects were imported.  */
     bool saveCustomEffects(QDomNodeList customeffects);
 
+    /** @brief Updates the project folder location entry in the kdenlive file dialogs to point to the current project folder. */
+    void updateProjectFolderPlacesEntry();
+
 public slots:
     void slotCreateXmlClip(const QString &name, const QDomElement xml, QString group, const QString &groupId);
     void slotCreateColorClip(const QString &name, const QString &color, const QString &duration, QString group, const QString &groupId);
