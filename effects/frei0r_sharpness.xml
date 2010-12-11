@@ -1,14 +1,14 @@
 <!DOCTYPE kpartgui>
 <effect tag="frei0r.sharpness" id="frei0r.sharpness">
-	<name>sharpness</name>
+	<name>Sharpen</name>
 	<description>Unsharp masking (port from Mplayer)</description>
 	<author>Marko Cebokli, Remi Guyomarch</author>
 
-	<parameter type="constant" name="Amount" default="300" min="0" max="1000" factor="1000">
+	<parameter type="simplekeyframe" name="Amount" default="300" min="0" max="1000" factor="1000">
 		<name>Amount</name>
 	</parameter>
 
-	<parameter type="constant" name="Size" default="0" min="0" max="1000" factor="1000">
+	<parameter type="simplekeyframe" name="Size" default="0" min="0" max="1000" factor="1000">
 		<name>Size</name>
 	</parameter>
 
