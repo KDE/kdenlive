@@ -1459,6 +1459,11 @@ bool KdenliveDoc::saveCustomEffects(QDomNodeList customeffects)
 
 void KdenliveDoc::updateProjectFolderPlacesEntry()
 {
+    /*
+     * For similar and more code have a look at kfileplacesmodel.cpp and the included files:
+     * http://websvn.kde.org/trunk/KDE/kdelibs/kfile/kfileplacesmodel.cpp?view=markup
+     */
+
     const QString file = KStandardDirs::locateLocal("data", "kfileplaces/bookmarks.xml");
     KBookmarkManager *bookmarkManager = KBookmarkManager::managerForFile(file, "kfilePlaces");
     KBookmarkGroup root = bookmarkManager->root();
