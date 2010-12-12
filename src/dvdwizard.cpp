@@ -485,6 +485,10 @@ void DvdWizard::generateDvd()
     }
     m_creationLog.clear();
     m_dvdauthor = new QProcess(this);
+    // Set VIDEO_FORMAT variable (required by dvdauthor 0.7)
+    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+    env.insert("VIDEO_FORMAT", m_pageVob->isPal() ? "PAL" : "NTSC"); 
+    m_dvdauthor->setProcessEnvironment(env);
     connect(m_dvdauthor, SIGNAL(finished(int , QProcess::ExitStatus)), this, SLOT(slotRenderFinished(int, QProcess::ExitStatus)));
     connect(m_dvdauthor, SIGNAL(readyReadStandardOutput()), this, SLOT(slotShowRenderInfo()));
     m_dvdauthor->setProcessChannelMode(QProcess::MergedChannels);
