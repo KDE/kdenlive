@@ -1493,9 +1493,9 @@ void KdenliveDoc::updateProjectFolderPlacesEntry()
 
     // if entry does not exist yet (was not found), well, create it then
     if (!exists) {
-        KBookmark newBookmark = root.addBookmark(i18n("Project Folder"), documentLocation, "folder-favorites");
+        bookmark = root.addBookmark(i18n("Project Folder"), documentLocation, "folder-favorites");
         // Make this user selectable ?
-        newBookmark.setMetaDataItem("OnlyInApp", kdenliveName);
+        bookmark.setMetaDataItem("OnlyInApp", kdenliveName);
         bookmarkManager->emitChanged(root);
     }
 }

@@ -119,7 +119,10 @@ Q_OBJECT public:
     void deleteTrack(int ix);
     void setTrackType(int ix, TrackInfo type);
     const QList <TrackInfo> tracksList() const;
+
+    /** @brief Gets the number of audio and video tracks and returns them as a QPoint with x = video, y = audio. */
     QPoint getTracksCount() const;
+
     void switchTrackVideo(int ix, bool hide);
     void switchTrackAudio(int ix, bool hide);
     void switchTrackLock(int ix, bool lock);
