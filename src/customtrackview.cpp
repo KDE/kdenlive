@@ -175,6 +175,9 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscen
     connect(&m_thumbsTimer, SIGNAL(timeout()), this, SLOT(slotFetchNextThumbs()));
     m_thumbsTimer.setInterval(500);
     m_thumbsTimer.setSingleShot(true);
+
+    // repaint guides when using vertical scroll
+    connect(verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(slotRefreshGuides()));
 }
 
 CustomTrackView::~CustomTrackView()
