@@ -163,7 +163,7 @@ void EffectStackEdit::updateParameter(const QString &name, const QString &value)
 
     if (name == "disable") {
         // if effect is disabled, disable parameters widget
-        setEnabled(value.toInt() == 0);
+        setEnabled(value.toInt() == 0 || !KdenliveSettings::disable_effect_parameters());
         if (KdenliveSettings::on_monitor_effects()) {
             // effect disabled, hide monitor scene if any
             QDomNodeList namenode = m_params.elementsByTagName("parameter");
@@ -175,7 +175,7 @@ void EffectStackEdit::updateParameter(const QString &name, const QString &value)
                     QString paramName = i18n(na.toElement().text().toUtf8().data());
                     paramName.append("geometry");
                     GeometryWidget *geometry = ((GeometryWidget*)m_valueItems.value(paramName));
-                    geometry->slotShowScene(value.toInt() == 0);
+                    geometry->slotShowScene(value.toInt() == 0 || !KdenliveSettings::disable_effect_parameters());
                 }
             }
         }
@@ -200,8 +200,8 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
     const int minFrame = e.attribute("start").toInt();
     const int maxFrame = e.attribute("end").toInt();
 
-    bool disabled = d.attribute("disable") == "1";
-    setEnabled(!disabled);
+    bool disable = d.attribute("disable") == "1" && KdenliveSettings::disable_effect_parameters();
+    setEnabled(!disable);
 
 
     for (int i = 0; i < namenode.count() ; i++) {
@@ -283,7 +283,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
             connect(pl, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
         } else if (type == "geometry") {
             if (KdenliveSettings::on_monitor_effects()) {
-                GeometryWidget *geometry = new GeometryWidget(m_monitor, m_timecode, pos, isEffect, disabled, this);
+                GeometryWidget *geometry = new GeometryWidget(m_monitor, m_timecode, pos, isEffect, disable, this);
                 // connect this before setupParam to make sure the monitor scene shows up at startup
                 connect(geometry, SIGNAL(checkMonitorPosition(int)), this, SIGNAL(checkMonitorPosition(int)));
                 connect(geometry, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));

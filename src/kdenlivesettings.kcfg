@@ -59,6 +59,11 @@
       <label>Use on-monitor effects.</label>
       <default>true</default>
     </entry>
+    
+    <entry name="disable_effect_parameters" type="Bool">
+      <label>Disable parameters when the effect is disabled.</label>
+      <default>true</default>
+    </entry>
   </group>
 
   <group name="project">
