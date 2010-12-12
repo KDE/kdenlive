@@ -129,7 +129,8 @@ QRectF Guide::boundingRect() const
     double width = m_pen.widthF() / scale * 2;
     QRectF rect(line().x1() - width / 2 , line().y1(), width, line().y2() - line().y1());
     if (KdenliveSettings::showmarkers()) {
-        rect.setWidth(width + m_width);
+        // +3 to cover the arc at the end of the comment
+        rect.setWidth(width + m_width + 3);
     }
     return rect;
 }
@@ -144,7 +145,7 @@ QPainterPath Guide::shape() const
     if (KdenliveSettings::showmarkers() && scene()->views().count()) {
         const QFontMetrics metric = m_view->fontMetrics();
         int offset = scene()->views()[0]->verticalScrollBar()->value();
-        QRectF txtBounding(line().x1(), line().y1() + 10 + offset, m_width, metric.height());
+        QRectF txtBounding(line().x1(), line().y1() + offset, m_width, metric.height());
         path.addRect(txtBounding);
     }
     return path;
@@ -155,18 +156,22 @@ void Guide::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
 {
     QGraphicsLineItem::paint(painter, option);
     if (KdenliveSettings::showmarkers() && scene() && scene()->views().count()) {
-        QPointF p1 = line().p1() + QPointF(1, 0);
+        QPointF p1 = line().p1();
         const QFontMetrics metric = m_view->fontMetrics();
 
         // makes sure the text stays visible when scrolling vertical
         int offset = scene()->views()[0]->verticalScrollBar()->value();
 
-        QRectF txtBounding = painter->boundingRect(p1.x(), p1.y() + 10 + offset, m_width, metric.height(), Qt::AlignLeft | Qt::AlignTop, ' ' + m_label + ' ');
+        QRectF txtBounding = painter->boundingRect(p1.x(), p1.y() + offset, m_width, metric.height(), Qt::AlignLeft | Qt::AlignTop, m_label);
+        // draw the text on a rect with a arc appended
         QPainterPath path;
-        path.addRoundedRect(txtBounding, 3, 3);
+        path.moveTo(txtBounding.bottomRight());
+        path.arcTo(txtBounding.right() - txtBounding.height() - 2, txtBounding.top() - txtBounding.height(), txtBounding.height() * 2, txtBounding.height() * 2, 270, 90);
+        path.lineTo(txtBounding.topLeft());
+        path.lineTo(txtBounding.bottomLeft());
         painter->fillPath(path, m_pen.color());
         painter->setPen(Qt::white);
-        painter->drawText(txtBounding, Qt::AlignCenter, m_label);
+        painter->drawText(txtBounding.adjusted(1, 0, 1, 0), Qt::AlignCenter, m_label);
     }
 }
 
