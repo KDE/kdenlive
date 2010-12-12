@@ -26,6 +26,8 @@
 #include <QPen>
 #include <QBrush>
 #include <QStyleOptionGraphicsItem>
+#include <QGraphicsView>
+#include <QScrollBar>
 
 Guide::Guide(CustomTrackView *view, GenTime pos, QString label, double height) :
         QGraphicsLineItem(),
@@ -139,9 +141,10 @@ QPainterPath Guide::shape() const
     if (!scene()) return path;
     double width = m_pen.widthF() * 2;
     path.addRect(line().x1() - width / 2 , line().y1(), width, line().y2() - line().y1());
-    if (KdenliveSettings::showmarkers()) {
+    if (KdenliveSettings::showmarkers() && scene()->views().count()) {
         const QFontMetrics metric = m_view->fontMetrics();
-        QRectF txtBounding(line().x1(), line().y1() + 10, m_width, metric.height());
+        int offset = scene()->views()[0]->verticalScrollBar()->value();
+        QRectF txtBounding(line().x1(), line().y1() + 10 + offset, m_width, metric.height());
         path.addRect(txtBounding);
     }
     return path;
@@ -151,10 +154,14 @@ QPainterPath Guide::shape() const
 void Guide::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget */*w*/)
 {
     QGraphicsLineItem::paint(painter, option);
-    if (KdenliveSettings::showmarkers()) {
+    if (KdenliveSettings::showmarkers() && scene() && scene()->views().count()) {
         QPointF p1 = line().p1() + QPointF(1, 0);
         const QFontMetrics metric = m_view->fontMetrics();
-        QRectF txtBounding = painter->boundingRect(p1.x(), p1.y() + 10, m_width, metric.height(), Qt::AlignLeft | Qt::AlignTop, ' ' + m_label + ' ');
+
+        // makes sure the text stays visible when scrolling vertical
+        int offset = scene()->views()[0]->verticalScrollBar()->value();
+
+        QRectF txtBounding = painter->boundingRect(p1.x(), p1.y() + 10 + offset, m_width, metric.height(), Qt::AlignLeft | Qt::AlignTop, ' ' + m_label + ' ');
         QPainterPath path;
         path.addRoundedRect(txtBounding, 3, 3);
         painter->fillPath(path, m_pen.color());
