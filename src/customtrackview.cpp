@@ -1565,6 +1565,7 @@ void CustomTrackView::addEffect(int track, GenTime pos, QDomElement effect)
 {
     if (pos < GenTime()) {
         // Add track effect
+        clearSelection();
         m_document->addTrackEffect(track - 1, effect);
         m_document->renderer()->mltAddTrackEffect(track, getEffectArgs(effect));
         emit updateTrackEffectState(track - 1);
@@ -1749,6 +1750,21 @@ void CustomTrackView::slotAddEffect(QDomElement effect, GenTime pos, int track)
     if (effectCommand->childCount() > 0) {
         m_commandStack->push(effectCommand);
         setDocumentModified();
+	if (effectCommand->childCount() == 1) {
+	    // Display newly added clip effect
+	    for (int i = 0; i < itemList.count(); i++) {
+		if (itemList.at(i)->type() == AVWIDGET) {
+		    ClipItem *clip = static_cast<ClipItem *>(itemList.at(i));
+		    if (!clip->isSelected()) {
+			clearSelection();
+			clip->setSelected(true);
+		    }
+		    clip->setSelectedEffect(clip->effectsCount() - 1);
+		    emit clipItemSelected(clip, clip->effectsCount() - 1);
+		    break;
+		}
+	    }
+	}
     } else delete effectCommand;
 }
 
