@@ -12,6 +12,7 @@
 #define VECTORSCOPEGENERATOR_H
 
 #include <QObject>
+#include <QtGui/QImage>
 
 class QImage;
 class QPoint;

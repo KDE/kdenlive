@@ -257,8 +257,6 @@ set(kdenlive_SRCS
   kiss_fft/_kiss_fft_guts.h
   kiss_fft/kiss_fft.c
   kiss_fft/tools/kiss_fftr.c
-  jogaction.cpp
-  jogshuttleconfig.cpp
 )
 
 add_subdirectory(${CMAKE_SOURCE_DIR}/src/colorcorrection)
@@ -269,7 +267,7 @@ add_definitions(${KDE4_DEFINITIONS})
 if(APPLE OR CMAKE_SYSTEM_NAME STREQUAL "FreeBSD" OR CMAKE_SYSTEM_NAME STREQUAL "NetBSD" OR NO_JOGSHUTTLE)
   add_definitions(-DNO_JOGSHUTTLE)
 else(APPLE OR CMAKE_SYSTEM_NAME STREQUAL "FreeBSD" OR CMAKE_SYSTEM_NAME STREQUAL "NetBSD" OR NO_JOGSHUTTLE)
-  set(kdenlive_SRCS jogshuttle.cpp ${kdenlive_SRCS})
+  set(kdenlive_SRCS jogshuttle.cpp jogaction.cpp jogshuttleconfig.cpp ${kdenlive_SRCS})
 endif(APPLE OR CMAKE_SYSTEM_NAME STREQUAL "FreeBSD" OR CMAKE_SYSTEM_NAME STREQUAL "NetBSD" OR NO_JOGSHUTTLE)
 
 if(APPLE OR OPENGL_FOUND)

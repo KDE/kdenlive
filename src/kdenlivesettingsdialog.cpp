@@ -493,6 +493,7 @@ void KdenliveSettingsDialog::updateWidgets()
 {
     // Revert widgets to last saved state (for example when user pressed "Cancel")
     // kDebug() << "// // // KCONFIG Revert called";
+#ifndef NO_JOGSHUTTLE
     // revert jog shuttle device
     if (m_configShuttle.shuttledevicelist->count() > 0) {
 	for (int i = 0; i < m_configShuttle.shuttledevicelist->count(); i++) {
@@ -523,6 +524,7 @@ void KdenliveSettingsDialog::updateWidgets()
       if (i < actions_map.size())
         button->setCurrentIndex(action_pos[actions_map[i]]);
     }
+#endif
 }
 
 void KdenliveSettingsDialog::updateSettings()
@@ -619,6 +621,7 @@ void KdenliveSettingsDialog::updateSettings()
         saveTranscodeProfiles();
     }
 
+#ifndef NO_JOGSHUTTLE
     m_shuttleModified = false;
 
     QStringList actions;
@@ -630,6 +633,7 @@ void KdenliveSettingsDialog::updateSettings()
     //fprintf(stderr, "Shuttle config: %s\n", JogShuttleConfig::actionMap(actions).toAscii().constData());
     if (KdenliveSettings::shuttlebuttons() != maps)
 	KdenliveSettings::setShuttlebuttons(maps);
+#endif
 
 #if KDE_IS_VERSION(4,3,0)
     KConfigDialog::settingsChangedSlot();
@@ -711,6 +715,7 @@ void KdenliveSettingsDialog::slotDeleteTranscode()
 
 void KdenliveSettingsDialog::slotShuttleModified()
 {
+#ifndef NO_JOGSHUTTLE
     QStringList actions;
     actions << "monitor_pause";  // the Job rest position action.
     foreach (KComboBox* button, m_shuttle_buttons) {
@@ -718,6 +723,7 @@ void KdenliveSettingsDialog::slotShuttleModified()
     }
     QString maps = JogShuttleConfig::actionMap(actions);
     m_shuttleModified = KdenliveSettings::shuttlebuttons() != maps;
+#endif
 #if KDE_IS_VERSION(4,3,0)
     KConfigDialog::updateButtons();
 #endif
