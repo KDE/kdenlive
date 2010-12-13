@@ -112,7 +112,9 @@
 
 #include <stdlib.h>
 
+// Uncomment for deeper debugging
 //#define DEBUG_MAINW
+
 #ifdef DEBUG_MAINW
 #include <QDebug>
 #endif
@@ -247,9 +249,9 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     m_vectorscopeDock->setWidget(m_vectorscope);
     addDockWidget(Qt::TopDockWidgetArea, m_vectorscopeDock);
     connect(m_vectorscopeDock, SIGNAL(visibilityChanged(bool)), m_vectorscope, SLOT(forceUpdate(bool)));
-    connect(m_vectorscopeDock, SIGNAL(visibilityChanged(bool)), this, SLOT(slotUpdateScopeFrameRequest()));
-    connect(m_vectorscope, SIGNAL(requestAutoRefresh(bool)), this, SLOT(slotUpdateScopeFrameRequest()));
-    m_scopesList.append(m_vectorscopeDock);
+    connect(m_vectorscopeDock, SIGNAL(visibilityChanged(bool)), this, SLOT(slotUpdateGfxScopeFrameRequest()));
+    connect(m_vectorscope, SIGNAL(requestAutoRefresh(bool)), this, SLOT(slotUpdateGfxScopeFrameRequest()));
+    m_gfxScopesList.append(m_vectorscopeDock);
 
     m_waveform = new Waveform(m_projectMonitor, m_clipMonitor);
     m_waveformDock = new QDockWidget(i18n("Waveform"), this);
@@ -257,9 +259,9 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     m_waveformDock->setWidget(m_waveform);
     addDockWidget(Qt::TopDockWidgetArea, m_waveformDock);
     connect(m_waveformDock, SIGNAL(visibilityChanged(bool)), m_waveform, SLOT(forceUpdate(bool)));
-    connect(m_waveformDock, SIGNAL(visibilityChanged(bool)), this, SLOT(slotUpdateScopeFrameRequest()));
-    connect(m_waveform, SIGNAL(requestAutoRefresh(bool)), this, SLOT(slotUpdateScopeFrameRequest()));
-    m_scopesList.append(m_waveformDock);
+    connect(m_waveformDock, SIGNAL(visibilityChanged(bool)), this, SLOT(slotUpdateGfxScopeFrameRequest()));
+    connect(m_waveform, SIGNAL(requestAutoRefresh(bool)), this, SLOT(slotUpdateGfxScopeFrameRequest()));
+    m_gfxScopesList.append(m_waveformDock);
 
     m_RGBParade = new RGBParade(m_projectMonitor, m_clipMonitor);
     m_RGBParadeDock = new QDockWidget(i18n("RGB Parade"), this);
@@ -267,9 +269,9 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     m_RGBParadeDock->setWidget(m_RGBParade);
     addDockWidget(Qt::TopDockWidgetArea, m_RGBParadeDock);
     connect(m_RGBParadeDock, SIGNAL(visibilityChanged(bool)), m_RGBParade, SLOT(forceUpdate(bool)));
-    connect(m_RGBParadeDock, SIGNAL(visibilityChanged(bool)), this, SLOT(slotUpdateScopeFrameRequest()));
-    connect(m_RGBParade, SIGNAL(requestAutoRefresh(bool)), this, SLOT(slotUpdateScopeFrameRequest()));
-    m_scopesList.append(m_RGBParadeDock);
+    connect(m_RGBParadeDock, SIGNAL(visibilityChanged(bool)), this, SLOT(slotUpdateGfxScopeFrameRequest()));
+    connect(m_RGBParade, SIGNAL(requestAutoRefresh(bool)), this, SLOT(slotUpdateGfxScopeFrameRequest()));
+    m_gfxScopesList.append(m_RGBParadeDock);
 
     m_histogram = new Histogram(m_projectMonitor, m_clipMonitor);
     m_histogramDock = new QDockWidget(i18n("Histogram"), this);
@@ -277,9 +279,9 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     m_histogramDock->setWidget(m_histogram);
     addDockWidget(Qt::TopDockWidgetArea, m_histogramDock);
     connect(m_histogramDock, SIGNAL(visibilityChanged(bool)), m_histogram, SLOT(forceUpdate(bool)));
-    connect(m_histogramDock, SIGNAL(visibilityChanged(bool)), this, SLOT(slotUpdateScopeFrameRequest()));
-    connect(m_histogram, SIGNAL(requestAutoRefresh(bool)), this, SLOT(slotUpdateScopeFrameRequest()));
-    m_scopesList.append(m_histogramDock);
+    connect(m_histogramDock, SIGNAL(visibilityChanged(bool)), this, SLOT(slotUpdateGfxScopeFrameRequest()));
+    connect(m_histogram, SIGNAL(requestAutoRefresh(bool)), this, SLOT(slotUpdateGfxScopeFrameRequest()));
+    m_gfxScopesList.append(m_histogramDock);
 
 
     m_audiosignal = new AudioSignal;
@@ -287,25 +289,27 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     m_audiosignalDock->setObjectName("audiosignal");
     m_audiosignalDock->setWidget(m_audiosignal);
     addDockWidget(Qt::TopDockWidgetArea, m_audiosignalDock);
-    connect(m_audiosignal, SIGNAL(updateAudioMonitoring()), m_monitorManager, SLOT(slotUpdateAudioMonitoring()));
-    /*if (m_projectMonitor) {
-        connect(m_projectMonitor->render, SIGNAL(showAudioSignal(const QByteArray&)), m_audiosignal, SLOT(showAudio(const QByteArray&)));
-    }
-    if (m_clipMonitor) {
-        connect(m_clipMonitor->render, SIGNAL(showAudioSignal(const QByteArray&)), m_audiosignal, SLOT(showAudio(const QByteArray&)));
-    }*/
+//    connect(m_audiosignal, SIGNAL(updateAudioMonitoring()), m_monitorManager, SLOT(slotUpdateAudioMonitoring()));
+    connect(m_audiosignalDock, SIGNAL(visibilityChanged(bool)), this, SLOT(slotUpdateAudioScopeFrameRequest()));
+    connect(m_audiosignal, SIGNAL(updateAudioMonitoring()), this, SLOT(slotUpdateAudioScopeFrameRequest()));
 
     m_audioSpectrum = new AudioSpectrum();
     m_audioSpectrumDock = new QDockWidget(i18n("AudioSpectrum"), this);
     m_audioSpectrumDock->setObjectName(m_audioSpectrum->widgetName());
     m_audioSpectrumDock->setWidget(m_audioSpectrum);
     addDockWidget(Qt::TopDockWidgetArea, m_audioSpectrumDock);
+    m_audioScopesList.append(m_audioSpectrum);
+    connect(m_audioSpectrumDock, SIGNAL(visibilityChanged(bool)), this, SLOT(slotUpdateAudioScopeFrameRequest()));
+    connect(m_audioSpectrum, SIGNAL(requestAutoRefresh(bool)), this, SLOT(slotUpdateAudioScopeFrameRequest()));
 
     m_spectrogram = new Spectrogram();
     m_spectrogramDock = new QDockWidget(i18n("Spectrogram"), this);
     m_spectrogramDock->setObjectName(m_spectrogram->widgetName());
     m_spectrogramDock->setWidget(m_spectrogram);
     addDockWidget(Qt::TopDockWidgetArea, m_spectrogramDock);
+    m_audioScopesList.append(m_spectrogram);
+    connect(m_audioSpectrumDock, SIGNAL(visibilityChanged(bool)), this, SLOT(slotUpdateAudioScopeFrameRequest()));
+    connect(m_audioSpectrum, SIGNAL(requestAutoRefresh(bool)), this, SLOT(slotUpdateAudioScopeFrameRequest()));
 
     // Connect the audio signal to the audio scope slots
     bool b = true;
@@ -4001,8 +4005,8 @@ void MainWindow::slotMonitorRequestRenderFrame(bool request)
         m_projectMonitor->render->sendFrameForAnalysis = true;
         return;
     } else {
-        for (int i = 0; i < m_scopesList.count(); i++) {
-            if (m_scopesList.at(i)->isVisible() && tabifiedDockWidgets(m_scopesList.at(i)).isEmpty() && static_cast<AbstractGfxScopeWidget *>(m_scopesList.at(i)->widget())->autoRefreshEnabled()) {
+        for (int i = 0; i < m_gfxScopesList.count(); i++) {
+            if (m_gfxScopesList.at(i)->isVisible() && tabifiedDockWidgets(m_gfxScopesList.at(i)).isEmpty() && static_cast<AbstractGfxScopeWidget *>(m_gfxScopesList.at(i)->widget())->autoRefreshEnabled()) {
                 request = true;
                 break;
             }
@@ -4016,19 +4020,19 @@ void MainWindow::slotMonitorRequestRenderFrame(bool request)
     }
 }
 
-void MainWindow::slotUpdateScopeFrameRequest()
+void MainWindow::slotUpdateGfxScopeFrameRequest()
 {
     // We need a delay to make sure widgets are hidden after a close event for example
-    QTimer::singleShot(500, this, SLOT(slotDoUpdateScopeFrameRequest()));
+    QTimer::singleShot(500, this, SLOT(slotDoUpdateGfxScopeFrameRequest()));
 }
 
-void MainWindow::slotDoUpdateScopeFrameRequest()
+void MainWindow::slotDoUpdateGfxScopeFrameRequest()
 {
     // Check scopes
     bool request = false;
-    for (int i = 0; i < m_scopesList.count(); i++) {
-        if (!m_scopesList.at(i)->widget()->visibleRegion().isEmpty() && static_cast<AbstractGfxScopeWidget *>(m_scopesList.at(i)->widget())->autoRefreshEnabled()) {
-            kDebug() << "SCOPE VISIBLE: " << static_cast<AbstractGfxScopeWidget *>(m_scopesList.at(i)->widget())->widgetName();
+    for (int i = 0; i < m_gfxScopesList.count(); i++) {
+        if (!m_gfxScopesList.at(i)->widget()->visibleRegion().isEmpty() && static_cast<AbstractGfxScopeWidget *>(m_gfxScopesList.at(i)->widget())->autoRefreshEnabled()) {
+            kDebug() << "SCOPE VISIBLE: " << static_cast<AbstractGfxScopeWidget *>(m_gfxScopesList.at(i)->widget())->widgetName();
             request = true;
             break;
         }
@@ -4044,13 +4048,40 @@ void MainWindow::slotDoUpdateScopeFrameRequest()
     }
 }
 
+void MainWindow::slotUpdateAudioScopeFrameRequest()
+{
+    QTimer::singleShot(500, this, SLOT(slotDoUpdateAudioScopeFrameRequest()));
+}
+
+void MainWindow::slotDoUpdateAudioScopeFrameRequest()
+{
+    bool request = false;
+    for (int i = 0; i < m_audioScopesList.count(); i++) {
+        if (!m_audioScopesList.at(i)->visibleRegion().isEmpty() && m_audioScopesList.at(i)->autoRefreshEnabled()) {
+            kDebug() << "AUDIO SCOPE VISIBLE: " << m_audioScopesList.at(i)->widgetName();
+            request = true;
+            break;
+        }
+    }
+    // Handle audio signal separately (no common interface)
+    if (!m_audiosignal->visibleRegion().isEmpty() && m_audiosignal->monitoringEnabled()) {
+        kDebug() << "AUDIO SCOPE VISIBLE: " << "audiosignal";
+        request = true;
+    }
+#ifdef DEBUG_MAINW
+    qDebug() << "Scopes Requesting Audio data: " << request;
+#endif
+    KdenliveSettings::setMonitor_audio(request);
+    m_monitorManager->slotUpdateAudioMonitoring();
+}
+
 void MainWindow::slotUpdateColorScopes()
 {
     bool request = false;
-    for (int i = 0; i < m_scopesList.count(); i++) {
+    for (int i = 0; i < m_gfxScopesList.count(); i++) {
         // Check if we need the renderer to send a new frame for update
-        if (!m_scopesList.at(i)->widget()->visibleRegion().isEmpty() && !(static_cast<AbstractGfxScopeWidget *>(m_scopesList.at(i)->widget())->autoRefreshEnabled())) request = true;
-        static_cast<AbstractGfxScopeWidget *>(m_scopesList.at(i)->widget())->slotActiveMonitorChanged(m_clipMonitor->isActive());
+        if (!m_gfxScopesList.at(i)->widget()->visibleRegion().isEmpty() && !(static_cast<AbstractGfxScopeWidget *>(m_gfxScopesList.at(i)->widget())->autoRefreshEnabled())) request = true;
+        static_cast<AbstractGfxScopeWidget *>(m_gfxScopesList.at(i)->widget())->slotActiveMonitorChanged(m_clipMonitor->isActive());
     }
     if (request) {
         if (m_clipMonitor->isActive()) m_clipMonitor->render->sendFrameUpdate();
@@ -4063,10 +4094,10 @@ void MainWindow::slotOpenStopmotion()
     if (m_stopmotion == NULL) {
         m_stopmotion = new StopmotionWidget(m_activeDocument->projectFolder(), m_stopmotion_actions->actions(), this);
         connect(m_stopmotion, SIGNAL(addOrUpdateSequence(const QString)), m_projectList, SLOT(slotAddOrUpdateSequence(const QString)));
-        for (int i = 0; i < m_scopesList.count(); i++) {
+        for (int i = 0; i < m_gfxScopesList.count(); i++) {
             // Check if we need the renderer to send a new frame for update
             /*if (!m_scopesList.at(i)->widget()->visibleRegion().isEmpty() && !(static_cast<AbstractScopeWidget *>(m_scopesList.at(i)->widget())->autoRefreshEnabled())) request = true;*/
-            connect(m_stopmotion, SIGNAL(gotFrame(QImage)), static_cast<AbstractGfxScopeWidget *>(m_scopesList.at(i)->widget()), SLOT(slotRenderZoneUpdated(QImage)));
+            connect(m_stopmotion, SIGNAL(gotFrame(QImage)), static_cast<AbstractGfxScopeWidget *>(m_gfxScopesList.at(i)->widget()), SLOT(slotRenderZoneUpdated(QImage)));
             //static_cast<AbstractScopeWidget *>(m_scopesList.at(i)->widget())->slotMonitorCapture();
         }
     }

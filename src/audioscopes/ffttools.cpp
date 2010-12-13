@@ -15,7 +15,7 @@
 
 #include "ffttools.h"
 
-// Uncomment for debugging
+// Uncomment for debugging, like writing a GNU Octave .m file to /tmp
 //#define DEBUG_FFTTOOLS
 
 #ifdef DEBUG_FFTTOOLS

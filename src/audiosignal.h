@@ -31,19 +31,27 @@ class AudioSignal : public QWidget
     Q_OBJECT
 public:
     AudioSignal(QWidget *parent = 0);
+    ~AudioSignal();
+    /** @brief Used for checking whether audio data needs to be delivered */
+    bool monitoringEnabled() const;
+
 private:
     QLabel* label;
     QByteArray channels,peeks,peekage;
     QList<QColor> col;
+    QAction *m_aMonitoringEnabled;
+
 protected:
     void paintEvent(QPaintEvent*);
+
 public slots:
     void showAudio(const QByteArray);
     void slotReceiveAudio(const QVector<int16_t>&,int,int,int);
 private slots:
-  void slotSwitchAudioMonitoring(bool isOn);
+     void slotSwitchAudioMonitoring(bool isOn);
+
 signals:
-  void updateAudioMonitoring();
+    void updateAudioMonitoring();
 
 };
 

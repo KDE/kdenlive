@@ -68,7 +68,9 @@ static void consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr
     if (self->sendFrameForAnalysis && frame_ptr->convert_image) {
         self->emitFrameUpdated(frame);
     }
-    if (self->analyseAudio) self->showAudio(frame);
+    if (self->analyseAudio) {
+        self->showAudio(frame);
+    }
     if (frame.get_double("_speed") == 0.0) {
         self->emitConsumerStopped();
     } else if (frame.get_double("_speed") < 0.0 && mlt_frame_get_position(frame_ptr) <= 0) {
@@ -1466,7 +1468,9 @@ void Render::showFrame(Mlt::Frame& frame)
 
 void Render::showAudio(Mlt::Frame& frame)
 {
-    if (!frame.is_valid() || frame.get_int("test_audio") != 0) return;
+    if (!frame.is_valid() || frame.get_int("test_audio") != 0) {
+        return;
+    }
     mlt_audio_format audio_format = mlt_audio_s16;
     int freq = 0;
     int num_channels = 0;

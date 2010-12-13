@@ -70,6 +70,7 @@ class Waveform;
 class RGBParade;
 class KActionCollection;
 class AudioSignal;
+class AbstractAudioScopeWidget;
 class AudioSpectrum;
 class Spectrogram;
 
@@ -193,7 +194,8 @@ private:
     KComboBox *m_timecodeFormat;
 
     /** This list holds all the scopes used in Kdenlive, allowing to manage some global settings */
-    QList <QDockWidget *> m_scopesList;
+    QList <QDockWidget *> m_gfxScopesList;
+    QList <AbstractAudioScopeWidget *> m_audioScopesList;
 
     QMenu *m_videoEffectsMenu;
     QMenu *m_audioEffectsMenu;
@@ -518,9 +520,11 @@ private slots:
     /** @brief The monitor informs that it needs (or not) to have frames sent by the renderer. */
     void slotMonitorRequestRenderFrame(bool request);
     /** @brief Check if someone needs the render frame sent. */
-    void slotUpdateScopeFrameRequest();
+    void slotUpdateGfxScopeFrameRequest();
     /** @brief Check if someone needs the render frame sent. */
-    void slotDoUpdateScopeFrameRequest();
+    void slotDoUpdateGfxScopeFrameRequest();
+    void slotUpdateAudioScopeFrameRequest();
+    void slotDoUpdateAudioScopeFrameRequest();
     /** @brief When switching between monitors, update the visible scopes. */
     void slotUpdateColorScopes();
     /** @brief Switch current monitor to fullscreen. */

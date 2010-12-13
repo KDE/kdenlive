@@ -18,7 +18,6 @@
  ***************************************************************************/
 
 #include "audiosignal.h"
-#include "kdenlivesettings.h"
 
 #include <KLocale>
 
@@ -42,15 +41,23 @@ AudioSignal::AudioSignal(QWidget *parent): QWidget(parent)
     col << Qt::darkYellow << Qt::darkYellow << Qt::darkYellow;
     col << Qt::red << Qt::red;
     setContextMenuPolicy(Qt::ActionsContextMenu);
-    QAction *showSignal = new QAction(i18n("Monitor audio signal"), this);
-    showSignal->setCheckable(true);
-    showSignal->setChecked(KdenliveSettings::monitor_audio());
-    connect(showSignal, SIGNAL(toggled(bool)), this, SLOT(slotSwitchAudioMonitoring(bool)));
-    addAction(showSignal);
+    m_aMonitoringEnabled = new QAction(i18n("Monitor audio signal"), this);
+    m_aMonitoringEnabled->setCheckable(true);
+    connect(m_aMonitoringEnabled, SIGNAL(toggled(bool)), this, SLOT(slotSwitchAudioMonitoring(bool)));
+    addAction(m_aMonitoringEnabled);
 }
 
+AudioSignal::~AudioSignal()
+{
+    delete m_aMonitoringEnabled;
+}
 
-void AudioSignal::slotReceiveAudio(const QVector<int16_t>& data, int freq ,int num_channels ,int samples){
+bool AudioSignal::monitoringEnabled() const
+{
+    return m_aMonitoringEnabled->isChecked();
+}
+
+void AudioSignal::slotReceiveAudio(const QVector<int16_t>& data, int, int num_channels, int samples){
 
     int num_samples = samples > 200 ? 200 : samples;
 
@@ -84,6 +91,9 @@ void AudioSignal::showAudio(const QByteArray arr)
 }
 void AudioSignal::paintEvent(QPaintEvent* /*e*/)
 {
+    if (!m_aMonitoringEnabled->isChecked()) {
+        return;
+    }
     QPainter p(this);
     //p.begin();
     //p.fillRect(0,0,(unsigned char)channels[0]*width()/255,height()/2,QBrush(Qt::SolidPattern));
@@ -111,9 +121,8 @@ void AudioSignal::paintEvent(QPaintEvent* /*e*/)
     p.end();
 }
 
-void AudioSignal::slotSwitchAudioMonitoring(bool isOn)
+void AudioSignal::slotSwitchAudioMonitoring(bool)
 {
-    KdenliveSettings::setMonitor_audio(isOn);
     emit updateAudioMonitoring();
 }
 
