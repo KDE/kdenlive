@@ -143,7 +143,7 @@ QRect Spectrogram::scopeRect()
     );
     m_innerScopeRect = QRect(
             QPoint(
-                    m_scopeRect.left()+56,                  // Left
+                    m_scopeRect.left()+66,                  // Left
                     m_scopeRect.top()+6                     // Top
             ), QPoint(
                     ui->verticalSpacer->geometry().right()-70,
@@ -180,7 +180,8 @@ QImage Spectrogram::renderHUD(uint)
     if (m_aGrid->isChecked()) {
         for (int frameNumber = 0; frameNumber < m_innerScopeRect.height(); frameNumber += minDistY) {
             y = topDist + m_innerScopeRect.height()-1 - frameNumber;
-            hideText = m_aTrackMouse->isChecked() && m_mouseWithinWidget && abs(y - mouseY) < (int)textDistY && mouseY < m_innerScopeRect.height() && mouseX < m_innerScopeRect.width();
+            hideText = m_aTrackMouse->isChecked() && m_mouseWithinWidget && abs(y - mouseY) < (int)textDistY && mouseY < m_innerScopeRect.height()
+                    && mouseX < m_innerScopeRect.width() && mouseX >= 0;
     
             davinci.drawLine(leftDist, y, leftDist + m_innerScopeRect.width()-1, y);
             if (!hideText) {
@@ -189,7 +190,8 @@ QImage Spectrogram::renderHUD(uint)
         }
     }
     // Draw a line through the mouse position with the correct Frame number
-    if (m_aTrackMouse->isChecked() && m_mouseWithinWidget && mouseY < m_innerScopeRect.height() && mouseX < m_innerScopeRect.width()) {
+    if (m_aTrackMouse->isChecked() && m_mouseWithinWidget && mouseY < m_innerScopeRect.height()
+            && mouseX < m_innerScopeRect.width() && mouseX >= 0) {
         davinci.setPen(AbstractScopeWidget::penLighter);
 
         x = leftDist + mouseX;
@@ -220,7 +222,8 @@ QImage Spectrogram::renderHUD(uint)
             x = leftDist + (m_innerScopeRect.width()-1) * ((float)hz)/m_freqMax;
 
             // Hide text if it would overlap with the text drawn at the mouse position
-            hideText = m_aTrackMouse->isChecked() && m_mouseWithinWidget && abs(x-(leftDist + mouseX + 20)) < (int) minDistX + 16 && mouseX < m_innerScopeRect.width();
+            hideText = m_aTrackMouse->isChecked() && m_mouseWithinWidget && abs(x-(leftDist + mouseX + 20)) < (int) minDistX + 16
+                    && mouseX < m_innerScopeRect.width() && mouseX >= 0;
 
             if (x <= rightBorder) {
                 davinci.drawLine(x, topDist, x, topDist + m_innerScopeRect.height()+6);
@@ -247,7 +250,8 @@ QImage Spectrogram::renderHUD(uint)
         }
         // Draw the line at the very right (maximum frequency)
         x = leftDist + m_innerScopeRect.width()-1;
-        hideText = m_aTrackMouse->isChecked() && m_mouseWithinWidget && abs(x-(leftDist + mouseX + 30)) < (int) minDistX && mouseX < m_innerScopeRect.width();
+        hideText = m_aTrackMouse->isChecked() && m_mouseWithinWidget && abs(x-(leftDist + mouseX + 30)) < (int) minDistX
+                && mouseX < m_innerScopeRect.width() && mouseX >= 0;
         davinci.drawLine(x, topDist, x, topDist + m_innerScopeRect.height()+6);
         if (!hideText) {
             davinci.drawText(x-10, y, i18n("%1 kHz").arg((double)m_freqMax/1000, 0, 'f', 1));
@@ -255,7 +259,7 @@ QImage Spectrogram::renderHUD(uint)
     }
 
     // Draw a line through the mouse position with the correct frequency label
-    if (m_aTrackMouse->isChecked() && m_mouseWithinWidget && mouseX < m_innerScopeRect.width()) {
+    if (m_aTrackMouse->isChecked() && m_mouseWithinWidget && mouseX < m_innerScopeRect.width() && mouseX >= 0) {
         davinci.setPen(AbstractScopeWidget::penThin);
         x = leftDist + mouseX;
         davinci.drawLine(x, topDist, x, topDist + m_innerScopeRect.height()+6);
