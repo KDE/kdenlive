@@ -20,7 +20,7 @@
 
 #include <iostream>
 
-// Enables debugging, like writing a GNU Octave .m file to /tmp
+// Enables debugging
 //#define DEBUG_AUDIOSPEC
 
 #ifdef DEBUG_AUDIOSPEC
@@ -284,7 +284,9 @@ QImage AudioSpectrum::renderHUD(uint)
         bool drawDb = false;
 
         m_lastFFTLock.acquire();
-        if (m_lastFFT.size() > 0) {
+        // We need to test whether the mouse is inside the widget
+        // because the position could already have changed in the meantime (-> crash)
+        if (m_lastFFT.size() > 0 && mouseX >= 0 && mouseX < m_innerScopeRect.width()) {
             uint right = ((float) m_freqMax)/(m_freq) * (m_lastFFT.size() - 1);
             QVector<float> dbMap = AudioSpectrum::interpolatePeakPreserving(m_lastFFT, m_innerScopeRect.width(), 0, right, -120);
 
