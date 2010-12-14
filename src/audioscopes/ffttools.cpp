@@ -228,6 +228,77 @@ void FFTTools::fftNormalized(const QVector<int16_t> audioFrame, const uint chann
 #endif
 }
 
+const QVector<float> FFTTools::interpolatePeakPreserving(const QVector<float> in, const uint targetSize, uint left, uint right, float fill)
+{
+#ifdef DEBUG_FFTTOOLS
+    QTime start = QTime::currentTime();
+#endif
+
+    if (right == 0) {
+        right = in.size()-1;
+    }
+    Q_ASSERT(targetSize > 0);
+    Q_ASSERT(left < right);
+
+    QVector<float> out(targetSize);
+
+
+    float x;
+    float x_prev = 0;
+    int xi;
+    uint i;
+    for (i = 0; i < targetSize; i++) {
+
+        // i:  Target index
+        // x:  Interpolated source index (float!)
+        // xi: floor(x)
+
+        // Transform [0,targetSize-1] to [left,right]
+        x = ((float) i) / (targetSize-1) * (right-left) + left;
+        xi = (int) floor(x);
+
+        if (x > in.size()-1) {
+            // This may happen if right > in.size()-1; Fill the rest of the vector
+            // with the default value now.
+            break;
+        }
+
+
+        // Use linear interpolation in order to get smoother display
+        if (xi == 0 || xi == in.size()-1) {
+            // ... except if we are at the left or right border of the input sigal.
+            // Special case here since we consider previous and future values as well for
+            // the actual interpolation (not possible here).
+            out[i] = in[xi];
+        } else {
+            if (in[xi] > in[xi+1]
+                && x_prev < xi) {
+                // This is a hack to preserve peaks.
+                // Consider f = {0, 100, 0}
+                //          x = {0.5,  1.5}
+                // Then x is 50 both times, and the 100 peak is lost.
+                // Get it back here for the first x after the peak (which is at xi).
+                // (x is the first after the peak if the previous x was smaller than floor(x).)
+                out[i] = in[xi];
+            } else {
+                out[i] =   (xi+1 - x) * in[xi]
+                      + (x - xi)   * in[xi+1];
+            }
+        }
+        x_prev = x;
+    }
+    // Fill the rest of the vector if the right border exceeds the input vector.
+    for (; i < targetSize; i++) {
+        out[i] = fill;
+    }
+
+#ifdef DEBUG_FFTTOOLS
+    qDebug() << "Interpolated " << targetSize << " nodes from " << in.size() << " input points in " << start.elapsed() << " ms";
+#endif
+
+    return out;
+}
+
 #ifdef DEBUG_FFTTOOLS
 #undef DEBUG_FFTTOOLS
 #endif

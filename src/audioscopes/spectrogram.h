@@ -68,7 +68,7 @@ private:
     int m_dBmin;
     int m_dBmax;
 
-    uint m_freqMax;
+    int m_freqMax;
     bool m_customFreq;
 
     bool m_parameterChanged;

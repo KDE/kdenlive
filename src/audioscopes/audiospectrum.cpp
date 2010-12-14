@@ -178,7 +178,7 @@ QImage AudioSpectrum::renderAudioScope(uint, const QVector<int16_t> audioFrame, 
         memcpy(m_lastFFT.data(), &(freqSpectrum[0]), fftWindow/2 * sizeof(float));
 
         uint right = ((float) m_freqMax)/(m_freq/2) * (m_lastFFT.size() - 1);
-        dbMap = interpolatePeakPreserving(m_lastFFT, m_innerScopeRect.width(), 0, right, -180);
+        dbMap = FFTTools::interpolatePeakPreserving(m_lastFFT, m_innerScopeRect.width(), 0, right, -180);
         m_lastFFTLock.release();
 
 
@@ -311,7 +311,7 @@ QImage AudioSpectrum::renderHUD(uint)
         // because the position could already have changed in the meantime (-> crash)
         if (m_lastFFT.size() > 0 && mouseX >= 0 && mouseX < m_innerScopeRect.width()) {
             uint right = ((float) m_freqMax)/(m_freq/2) * (m_lastFFT.size() - 1);
-            QVector<float> dbMap = AudioSpectrum::interpolatePeakPreserving(m_lastFFT, m_innerScopeRect.width(), 0, right, -120);
+            QVector<float> dbMap = FFTTools::interpolatePeakPreserving(m_lastFFT, m_innerScopeRect.width(), 0, right, -120);
 
             db = dbMap[mouseX];
             y = topDist + m_innerScopeRect.height()-1 - (dbMap[mouseX] - m_dBmin) / (m_dBmax-m_dBmin) * (m_innerScopeRect.height()-1);
@@ -460,78 +460,6 @@ void AudioSpectrum::handleMouseDrag(const QPoint movement, const RescaleDirectio
         forceUpdateHUD();
         forceUpdateScope();
     }
-}
-
-
-const QVector<float> AudioSpectrum::interpolatePeakPreserving(const QVector<float> in, const uint targetSize, uint left, uint right, float fill)
-{
-#ifdef DEBUG_AUDIOSPEC
-    QTime start = QTime::currentTime();
-#endif
-
-    if (right == 0) {
-        right = in.size()-1;
-    }
-    Q_ASSERT(targetSize > 0);
-    Q_ASSERT(left < right);
-
-    QVector<float> out(targetSize);
-
-
-    float x;
-    float x_prev = 0;
-    int xi;
-    uint i;
-    for (i = 0; i < targetSize; i++) {
-
-        // i:  Target index
-        // x:  Interpolated source index (float!)
-        // xi: floor(x)
-
-        // Transform [0,targetSize-1] to [left,right]
-        x = ((float) i) / (targetSize-1) * (right-left) + left;
-        xi = (int) floor(x);
-
-        if (x > in.size()-1) {
-            // This may happen if right > in.size()-1; Fill the rest of the vector
-            // with the default value now.
-            break;
-        }
-
-
-        // Use linear interpolation in order to get smoother display
-        if (xi == 0 || xi == in.size()-1) {
-            // ... except if we are at the left or right border of the input sigal.
-            // Special case here since we consider previous and future values as well for
-            // the actual interpolation (not possible here).
-            out[i] = in[xi];
-        } else {
-            if (in[xi] > in[xi+1]
-                && x_prev < xi) {
-                // This is a hack to preserve peaks.
-                // Consider f = {0, 100, 0}
-                //          x = {0.5,  1.5}
-                // Then x is 50 both times, and the 100 peak is lost.
-                // Get it back here for the first x after the peak (which is at xi).
-                // (x is the first after the peak if the previous x was smaller than floor(x).)
-                out[i] = in[xi];
-            } else {
-                out[i] =   (xi+1 - x) * in[xi]
-                      + (x - xi)   * in[xi+1];
-            }
-        }
-        x_prev = x;
-    }
-    // Fill the rest of the vector if the right border exceeds the input vector.
-    for (; i < targetSize; i++) {
-        out[i] = fill;
-    }
-
-#ifdef DEBUG_AUDIOSPEC
-    qDebug() << "Interpolated " << targetSize << " nodes from " << in.size() << " input points in " << start.elapsed() << " ms";
-#endif
-
-    return out;
 }
 
 

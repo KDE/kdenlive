@@ -342,16 +342,11 @@ QImage Spectrogram::renderAudioScope(uint, const QVector<int16_t> audioFrame, co
         QImage spectrum(m_scopeRect.size(), QImage::Format_ARGB32);
         spectrum.fill(qRgba(0,0,0,0));
         QPainter davinci(&spectrum);
-        const uint w = m_innerScopeRect.width();
         const uint h = m_innerScopeRect.height();
         const uint leftDist = m_innerScopeRect.left() - m_scopeRect.left();
         const uint topDist = m_innerScopeRect.top() - m_scopeRect.top();
-        float f;
-        float x;
-        float x_prev = 0;
         float val;
         uint windowSize;
-        uint xi;
         uint y;
         bool completeRedraw = true;
 
@@ -372,58 +367,27 @@ QImage Spectrogram::renderAudioScope(uint, const QVector<int16_t> audioFrame, co
         if (newData || m_parameterChanged) {
             m_parameterChanged = false;
 
+            QVector<float> dbMap;
+            uint right;
             for (QList<QVector<float> >::iterator it = m_fftHistory.begin(); it != m_fftHistory.end(); it++) {
 
                 windowSize = (*it).size();
 
-                // TODO use function
-                for (uint i = 0; i < w; i++) {
+                // Interpolate the frequency data to match the pixel coordinates
+                right = ((float) m_freqMax)/(m_freq/2) * (windowSize - 1);
+                dbMap = FFTTools::interpolatePeakPreserving((*it), m_innerScopeRect.width(), 0, right, -180);
 
-                    // i:   Pixel coordinate
-                    // f:   Target frequency
-                    // x:   Frequency array index (float!) corresponding to the pixel
-                    // xi:  floor(x)
-                    // val: dB value at position x (Range: [-inf,0])
+                for (int i = 0; i < dbMap.size(); i++) {
+                    val = dbMap[i];
 
-                    f = i/((float) w-1.0) * m_freqMax;
-                    x = 2*f/freq * (windowSize - 1);
-                    xi = (int) floor(x);
-
-                    if (x >= windowSize) {
-                        break;
-                    }
-
-                    // Use linear interpolation in order to get smoother display
-                    if (i == 0 || xi == windowSize-1) {
-                        // ... except if we are at the left or right border of the display or the spectrum
-                        val = (*it)[xi];
-                    } else {
-
-                        if ((*it)[xi] > (*it)[xi+1]
-                            && x_prev < xi) {
-                            // This is a hack to preserve peaks.
-                            // Consider f = {0, 100, 0}
-                            //          x = {0.5,  1.5}
-                            // Then x is 50 both times, and the 100 peak is lost.
-                            // Get it back here for the first x after the peak.
-                            val = (*it)[xi];
-                        } else {
-                            val =   (xi+1 - x) * (*it)[xi]
-                                  + (x - xi)   * (*it)[xi+1];
-                        }
-                    }
-
-                    // Normalize to [0 1], 1 corresponding to 0 dB and 0 to dbMin dB
+                    // Normalize dB value to [0 1], 1 corresponding to 0 dB and 0 to dbMin dB
                     val = (val-m_dBmax)/(m_dBmax-m_dBmin) + 1;
                     if (val < 0) {
                         val = 0;
                     } else if (val > 1) {
                         val = 1;
                     }
-
                     spectrum.setPixel(leftDist + i, topDist + h-1 - y, qRgba(255, 255, 255, val * 255));
-
-                    x_prev = x;
                 }
 
                 y++;
