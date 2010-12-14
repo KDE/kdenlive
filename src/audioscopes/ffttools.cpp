@@ -247,45 +247,77 @@ const QVector<float> FFTTools::interpolatePeakPreserving(const QVector<float> in
     float x_prev = 0;
     int xi;
     uint i;
-    for (i = 0; i < targetSize; i++) {
+    if (((float) (right-left))/targetSize < 2) {
+        for (i = 0; i < targetSize; i++) {
 
-        // i:  Target index
-        // x:  Interpolated source index (float!)
-        // xi: floor(x)
+            // i:  Target index
+            // x:  Interpolated source index (float!)
+            // xi: floor(x)
 
-        // Transform [0,targetSize-1] to [left,right]
-        x = ((float) i) / (targetSize-1) * (right-left) + left;
-        xi = (int) floor(x);
+            // Transform [0,targetSize-1] to [left,right]
+            x = ((float) i) / (targetSize-1) * (right-left) + left;
+            xi = (int) floor(x);
 
-        if (x > in.size()-1) {
-            // This may happen if right > in.size()-1; Fill the rest of the vector
-            // with the default value now.
-            break;
-        }
+            if (x > in.size()-1) {
+                // This may happen if right > in.size()-1; Fill the rest of the vector
+                // with the default value now.
+                break;
+            }
 
 
-        // Use linear interpolation in order to get smoother display
-        if (xi == 0 || xi == in.size()-1) {
-            // ... except if we are at the left or right border of the input sigal.
-            // Special case here since we consider previous and future values as well for
-            // the actual interpolation (not possible here).
-            out[i] = in[xi];
-        } else {
-            if (in[xi] > in[xi+1]
-                && x_prev < xi) {
-                // This is a hack to preserve peaks.
-                // Consider f = {0, 100, 0}
-                //          x = {0.5,  1.5}
-                // Then x is 50 both times, and the 100 peak is lost.
-                // Get it back here for the first x after the peak (which is at xi).
-                // (x is the first after the peak if the previous x was smaller than floor(x).)
+            // Use linear interpolation in order to get smoother display
+            if (xi == 0 || xi == in.size()-1) {
+                // ... except if we are at the left or right border of the input sigal.
+                // Special case here since we consider previous and future values as well for
+                // the actual interpolation (not possible here).
                 out[i] = in[xi];
             } else {
-                out[i] =   (xi+1 - x) * in[xi]
-                      + (x - xi)   * in[xi+1];
+                if (in[xi] > in[xi+1]
+                    && x_prev < xi) {
+                    // This is a hack to preserve peaks.
+                    // Consider f = {0, 100, 0}
+                    //          x = {0.5,  1.5}
+                    // Then x is 50 both times, and the 100 peak is lost.
+                    // Get it back here for the first x after the peak (which is at xi).
+                    // (x is the first after the peak if the previous x was smaller than floor(x).)
+                    out[i] = in[xi];
+                } else {
+                    out[i] =   (xi+1 - x) * in[xi]
+                          + (x - xi)   * in[xi+1];
+                }
             }
+            x_prev = x;
         }
-        x_prev = x;
+    } else {
+        // If there are more than 2 samples per pixel in average, then use the maximum of them
+        // since by only looking at the left sample we might miss some maxima.
+        uint src = left;
+        int xi_prev = 0;
+        int points;
+
+#ifdef DEBUG_FFTTOOLS
+        qDebug() << "Interpolation: Ratio over 2; using maximum interpolation";
+#endif
+
+        for (i = 0; i < targetSize; i++) {
+
+            // x:  right bound
+            // xi: floor(x)
+            x = ((float) (i+1)) / (targetSize-1) * (right-left) + left;
+            xi = (int) floor(x);
+            points = 0;
+
+            out[i] = fill;
+
+            for (; src < xi && src < in.size(); src++) {
+                if (out[i] < in[src]) {
+                    out[i] = in[src];
+                }
+                points++;
+            }
+
+            xi_prev = xi;
+        }
     }
     // Fill the rest of the vector if the right border exceeds the input vector.
     for (; i < targetSize; i++) {
