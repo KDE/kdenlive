@@ -376,6 +376,7 @@ QImage Spectrogram::renderAudioScope(uint, const QVector<int16_t> audioFrame, co
 
                 windowSize = (*it).size();
 
+                // TODO use function
                 for (uint i = 0; i < w; i++) {
 
                     // i:   Pixel coordinate

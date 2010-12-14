@@ -75,7 +75,7 @@ private:
 
     /** Maximum frequency (limited by the sampling rate if determined automatically).
         Stored for the painters. */
-    uint m_freqMax;
+    int m_freqMax;
     /** The user has chosen a custom frequency. */
     bool m_customFreq;
 

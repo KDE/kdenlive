@@ -177,8 +177,8 @@ QImage AudioSpectrum::renderAudioScope(uint, const QVector<int16_t> audioFrame, 
         m_lastFFT = QVector<float>(fftWindow/2);
         memcpy(m_lastFFT.data(), &(freqSpectrum[0]), fftWindow/2 * sizeof(float));
 
-        uint right = ((float) m_freqMax)/(m_freq) * (m_lastFFT.size() - 1);
-        dbMap = interpolatePeakPreserving(m_lastFFT, m_innerScopeRect.width(), 0, right, -120);
+        uint right = ((float) m_freqMax)/(m_freq/2) * (m_lastFFT.size() - 1);
+        dbMap = interpolatePeakPreserving(m_lastFFT, m_innerScopeRect.width(), 0, right, -180);
         m_lastFFTLock.release();
 
 
@@ -269,8 +269,8 @@ QImage AudioSpectrum::renderHUD(uint)
     int x = 0;
     const int rightBorder = leftDist + m_innerScopeRect.width()-1;
     y = topDist + m_innerScopeRect.height() + textDistY;
-    for (uint hz = 0; x <= rightBorder; hz += hzDiff) {
-        davinci.setPen(AbstractScopeWidget::penLight);
+    for (int hz = 0; x <= rightBorder; hz += hzDiff) {
+        davinci.setPen(AbstractScopeWidget::penLighter);
         x = leftDist + m_innerScopeRect.width() * ((float)hz)/m_freqMax;
 
         if (x <= rightBorder) {
@@ -310,7 +310,7 @@ QImage AudioSpectrum::renderHUD(uint)
         // We need to test whether the mouse is inside the widget
         // because the position could already have changed in the meantime (-> crash)
         if (m_lastFFT.size() > 0 && mouseX >= 0 && mouseX < m_innerScopeRect.width()) {
-            uint right = ((float) m_freqMax)/(m_freq) * (m_lastFFT.size() - 1);
+            uint right = ((float) m_freqMax)/(m_freq/2) * (m_lastFFT.size() - 1);
             QVector<float> dbMap = AudioSpectrum::interpolatePeakPreserving(m_lastFFT, m_innerScopeRect.width(), 0, right, -120);
 
             db = dbMap[mouseX];
@@ -500,8 +500,10 @@ const QVector<float> AudioSpectrum::interpolatePeakPreserving(const QVector<floa
 
 
         // Use linear interpolation in order to get smoother display
-        if (i == 0 || i == targetSize-1) {
-            // ... except if we are at the left or right border of the display or the spectrum
+        if (xi == 0 || xi == in.size()-1) {
+            // ... except if we are at the left or right border of the input sigal.
+            // Special case here since we consider previous and future values as well for
+            // the actual interpolation (not possible here).
             out[i] = in[xi];
         } else {
             if (in[xi] > in[xi+1]
