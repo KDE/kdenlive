@@ -411,7 +411,7 @@ bool ProfilesDialog::matchProfile(int width, int height, double fps, double par,
         // when using image, compare with display width
         profileWidth = profile.height * profile.display_aspect_num / profile.display_aspect_den + 0.5;
     } else profileWidth = profile.width;
-    if (width != profileWidth || height != profile.height || (fps > 0 && qAbs(profile.frame_rate_num / profile.frame_rate_den - fps) > 0.4) || (par > 0 && qAbs(profile.sample_aspect_num / profile.sample_aspect_den - par) > 0.1)) return false;
+    if (width != profileWidth || height != profile.height || (fps > 0 && qAbs((double) profile.frame_rate_num / profile.frame_rate_den - fps) > 0.4) || (par > 0 && qAbs((double) profile.sample_aspect_num / profile.sample_aspect_den - par) > 0.1)) return false;
     return true;
 }
 
@@ -453,7 +453,7 @@ QMap <QString, QString> ProfilesDialog::getProfilesFromProperties(int width, int
                 double profile_fps = values.value("frame_rate_num").toDouble() / values.value("frame_rate_den").toDouble();
                 double profile_par = values.value("sample_aspect_num").toDouble() / values.value("sample_aspect_den").toDouble();
                 if ((fps <= 0 || qAbs(profile_fps - fps) < 0.5) && (par <= 0 || qAbs(profile_par - par) < 0.1))
-                    result.insert(profiles.at(j), values.value("description"));
+                    result.insert(customProfiles.at(i) + profiles.at(j), values.value("description"));
             }
         }
     }
