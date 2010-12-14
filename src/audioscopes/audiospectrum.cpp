@@ -20,12 +20,14 @@
 
 #include <iostream>
 
-// Enables debugging
-//#define DEBUG_AUDIOSPEC
-
+// (defined in the header file)
 #ifdef DEBUG_AUDIOSPEC
 #include <QDebug>
 #endif
+
+// Draw lines instead of single pixels.
+// This is about 25 % faster, especially when enlarging the scope to e.g. 1680x1050 px.
+#define AUDIOSPEC_LINES
 
 #define MIN_DB_VALUE -120
 #define MAX_FREQ_VALUE 96000
@@ -36,6 +38,10 @@ AudioSpectrum::AudioSpectrum(QWidget *parent) :
         m_fftTools(),
         m_lastFFT(),
         m_lastFFTLock(1)
+  #ifdef DEBUG_AUDIOSPEC
+        ,m_timeTotal(0)
+        ,m_showTotal(0)
+  #endif
 {
     ui = new Ui::AudioSpectrum_UI;
     ui->setupUi(this);
@@ -176,6 +182,8 @@ QImage AudioSpectrum::renderAudioScope(uint, const QVector<int16_t> audioFrame, 
         m_lastFFTLock.release();
 
 
+        QTime drawTime = QTime::currentTime();
+
         // Draw the spectrum
         QImage spectrum(m_scopeRect.size(), QImage::Format_ARGB32);
         spectrum.fill(qRgba(0,0,0,0));
@@ -185,6 +193,11 @@ QImage AudioSpectrum::renderAudioScope(uint, const QVector<int16_t> audioFrame, 
         const uint topDist = m_innerScopeRect.top() - m_scopeRect.top();
         int yMax;
 
+#ifdef AUDIOSPEC_LINES
+        QPainter davinci(&spectrum);
+        davinci.setPen(AbstractScopeWidget::penThin);
+#endif
+
         for (uint i = 0; i < w; i++) {
             yMax = (dbMap[i] - m_dBmin) / (m_dBmax-m_dBmin) * (h-1);
             if (yMax < 0) {
@@ -192,10 +205,20 @@ QImage AudioSpectrum::renderAudioScope(uint, const QVector<int16_t> audioFrame, 
             } else if (yMax >= (int)h) {
                 yMax = h-1;
             }
+#ifdef AUDIOSPEC_LINES
+            davinci.drawLine(leftDist + i, topDist + h-1, leftDist + i, topDist + h-1 - yMax);
+#else
             for (int y = 0; y < yMax && y < (int)h; y++) {
                 spectrum.setPixel(leftDist + i, topDist + h-y-1, qRgba(225, 182, 255, 255));
             }
+#endif
         }
+
+#ifdef DEBUG_AUDIOSPEC
+        m_showTotal++;
+        m_timeTotal += drawTime.elapsed();
+        qDebug() << widgetName() << " took " << drawTime.elapsed() << " ms for drawing. Average: " << ((float)m_timeTotal/m_showTotal) ;
+#endif
 
         emit signalScopeRenderingFinished(start.elapsed(), 1);
 
@@ -442,6 +465,10 @@ void AudioSpectrum::handleMouseDrag(const QPoint movement, const RescaleDirectio
 
 const QVector<float> AudioSpectrum::interpolatePeakPreserving(const QVector<float> in, const uint targetSize, uint left, uint right, float fill)
 {
+#ifdef DEBUG_AUDIOSPEC
+    QTime start = QTime::currentTime();
+#endif
+
     if (right == 0) {
         right = in.size()-1;
     }
@@ -497,6 +524,10 @@ const QVector<float> AudioSpectrum::interpolatePeakPreserving(const QVector<floa
     for (; i < targetSize; i++) {
         out[i] = fill;
     }
+
+#ifdef DEBUG_AUDIOSPEC
+    qDebug() << "Interpolated " << targetSize << " nodes from " << in.size() << " input points in " << start.elapsed() << " ms";
+#endif
 
     return out;
 }

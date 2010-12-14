@@ -17,6 +17,9 @@
 #ifndef AUDIOSPECTRUM_H
 #define AUDIOSPECTRUM_H
 
+// Enables debugging
+//#define DEBUG_AUDIOSPEC
+
 #include <QtCore>
 #include <QVector>
 #include <QHash>
@@ -90,6 +93,11 @@ private:
                             will be used for filling the missing information.
         */
     static const QVector<float> interpolatePeakPreserving(const QVector<float> in, const uint targetSize, uint left = 0, uint right = 0, float fill = 0.0);
+
+#ifdef DEBUG_AUDIOSPEC
+    long m_timeTotal;
+    long m_showTotal;
+#endif
 
 
 private slots:
