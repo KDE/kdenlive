@@ -105,11 +105,11 @@ RenderWidget::RenderWidget(const QString &projectfolder, QWidget * parent) :
     m_view.size_list->setAlternatingRowColors(true);
 
     KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Window, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
-    QPalette p = m_view.errorLabel->palette();
-    p.setColor(QPalette::Background, scheme.background(KColorScheme::NegativeBackground).color());
-    m_view.errorLabel->setAutoFillBackground(true);
-    m_view.errorLabel->setPalette(p);
-    m_view.errorLabel->setHidden(true);
+    QColor bg = scheme.background(KColorScheme::NegativeBackground).color();
+    m_view.errorBox->setStyleSheet(QString("QGroupBox { background-color: rgb(%1, %2, %3); border-radius: 5px;}; ").arg(bg.red()).arg(bg.green()).arg(bg.blue()));
+    int height = QFontInfo(font()).pixelSize();
+    m_view.errorIcon->setPixmap(KIcon("dialog-warning").pixmap(height, height));
+    m_view.errorBox->setHidden(true);
 
     connect(m_view.export_audio, SIGNAL(stateChanged(int)), this, SLOT(slotUpdateAudioLabel(int)));
     m_view.export_audio->setCheckState(Qt::PartiallyChecked);
@@ -1850,8 +1850,8 @@ void RenderWidget::missingClips(bool hasMissing)
 {
     if (hasMissing) {
         m_view.errorLabel->setText(i18n("Check missing clips"));
-        m_view.errorLabel->setHidden(false);
-    } else m_view.errorLabel->setHidden(true);
+        m_view.errorBox->setHidden(false);
+    } else m_view.errorBox->setHidden(true);
 }
 
 void RenderWidget::slotUpdateRescaleWidth(int val)

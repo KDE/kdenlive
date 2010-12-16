@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>359</width>
-    <height>522</height>
+    <width>362</width>
+    <height>555</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -387,13 +387,6 @@
          </layout>
         </widget>
        </item>
-       <item row="12" column="0">
-        <widget class="QLabel" name="errorLabel">
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
        <item row="13" column="0" colspan="3">
         <widget class="QPushButton" name="buttonRender">
          <property name="text">
@@ -426,6 +419,35 @@
          <property name="text">
           <string>Close</string>
          </property>
+        </widget>
+       </item>
+       <item row="14" column="0" colspan="10">
+        <widget class="QGroupBox" name="errorBox">
+         <property name="title">
+          <string/>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_8">
+          <item row="0" column="0">
+           <widget class="QLabel" name="errorIcon">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLabel" name="errorLabel">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </item>
       </layout>
