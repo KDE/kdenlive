@@ -126,48 +126,48 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscen
         m_selectedTrack(0),
         m_controlModifier(false)
 {
-    if (doc) m_commandStack = doc->commandStack();
-    else m_commandStack = NULL;
+    if (doc)
+        m_commandStack = doc->commandStack();
+    else
+        m_commandStack = NULL;
+
     setMouseTracking(true);
     setAcceptDrops(true);
     setFrameShape(QFrame::NoFrame);
     setLineWidth(0);
     //setCacheMode(QGraphicsView::CacheBackground);
-    //setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
     setAutoFillBackground(false);
     setViewportUpdateMode(QGraphicsView::SmartViewportUpdate);
+    setContentsMargins(0, 0, 0, 0);
+
     m_activeTrackBrush = KStatefulBrush(KColorScheme::View, KColorScheme::ActiveBackground, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
+
     pixmapCache = new KPixmapCache("kdenlive-thumbs");
-    KdenliveSettings::setTrackheight(m_tracksHeight);
+
     m_animationTimer = new QTimeLine(800);
     m_animationTimer->setFrameRange(0, 5);
     m_animationTimer->setUpdateInterval(100);
     m_animationTimer->setLoopCount(0);
+
     m_tipColor = QColor(0, 192, 0, 200);
-    QColor border = QColor(255, 255, 255, 100);
-    m_tipPen.setColor(border);
+    m_tipPen.setColor(QColor(255, 255, 255, 100));
     m_tipPen.setWidth(3);
-    setContentsMargins(0, 0, 0, 0);
+
     const int maxHeight = m_tracksHeight * m_document->tracksCount();
     setSceneRect(0, 0, sceneRect().width(), maxHeight);
     verticalScrollBar()->setMaximum(maxHeight);
+    verticalScrollBar()->setTracking(true);
+    // repaint guides when using vertical scroll
+    connect(verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(slotRefreshGuides()));
+
     m_cursorLine = projectscene->addLine(0, 0, 0, maxHeight);
     m_cursorLine->setZValue(1000);
-
     QPen pen1 = QPen();
     pen1.setWidth(1);
     pen1.setColor(palette().text().color());
     m_cursorLine->setPen(pen1);
     m_cursorLine->setFlag(QGraphicsItem::ItemIgnoresTransformations, true);
 
-    KIcon razorIcon("edit-cut");
-    m_razorCursor = QCursor(razorIcon.pixmap(22, 22));
-
-    KIcon spacerIcon("kdenlive-spacer-tool");
-    m_spacerCursor = QCursor(spacerIcon.pixmap(22, 22));
-    verticalScrollBar()->setTracking(true);
-    // Line below was supposed to scroll guides label with scrollbar, not implemented yet
-    //connect(verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(slotRefreshGuides()));
     connect(&m_scrollTimer, SIGNAL(timeout()), this, SLOT(slotCheckMouseScrolling()));
     m_scrollTimer.setInterval(100);
     m_scrollTimer.setSingleShot(true);
@@ -176,8 +176,11 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscen
     m_thumbsTimer.setInterval(500);
     m_thumbsTimer.setSingleShot(true);
 
-    // repaint guides when using vertical scroll
-    connect(verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(slotRefreshGuides()));
+    KIcon razorIcon("edit-cut");
+    m_razorCursor = QCursor(razorIcon.pixmap(22, 22));
+
+    KIcon spacerIcon("kdenlive-spacer-tool");
+    m_spacerCursor = QCursor(spacerIcon.pixmap(22, 22));
 }
 
 CustomTrackView::~CustomTrackView()
