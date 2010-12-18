@@ -779,9 +779,11 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
         }
     }
 
-    if (resizeProfile) render_process_args << "consumer:" + playlistPath;
-    else render_process_args << playlistPath;
-    render_process_args << dest;
+    if (resizeProfile)
+        render_process_args << "consumer:" + (scriptExport ? "$SOURCE" : playlistPath);
+    else
+        render_process_args <<  (scriptExport ? "$SOURCE" : playlistPath);
+    render_process_args << (scriptExport ? "$TARGET" : dest);
     render_process_args << paramsList;
 
     QString group = m_view.size_list->currentItem()->data(MetaGroupRole).toString();
