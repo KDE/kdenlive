@@ -1611,16 +1611,17 @@ void RenderWidget::parseScriptFiles()
         QString melt;
         QFile file(scriptpath.path());
         if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-            while (!file.atEnd()) {
-                QByteArray line = file.readLine();
+            QTextStream stream(&file);
+            while (!stream.atEnd()) {
+                QString line = stream.readLine();
                 if (line.startsWith("TARGET=")) {
-                    target = QString(line).section("TARGET=", 1).simplified();
+                    target = line.section("TARGET=", 1).simplified();
                     target.remove(QChar('"'));
                 } else if (line.startsWith("RENDERER=")) {
-                    renderer = QString(line).section("RENDERER=", 1).simplified();
+                    renderer = line.section("RENDERER=", 1).simplified();
                     renderer.remove(QChar('"'));
                 } else if (line.startsWith("MELT=")) {
-                    melt = QString(line).section("MELT=", 1).simplified();
+                    melt = line.section("MELT=", 1).simplified();
                     melt.remove(QChar('"'));
                 }
             }
