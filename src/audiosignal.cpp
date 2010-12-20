@@ -18,6 +18,7 @@
  ***************************************************************************/
 
 #include "audiosignal.h"
+#include "math.h"
 
 #include <KLocale>
 
@@ -89,6 +90,20 @@ void AudioSignal::showAudio(const QByteArray arr)
     }
     update();
 }
+
+double AudioSignal::valueToPixel(double in,bool db)
+{
+    if (db)
+    {
+        // ratio db(in)/db(0.01) (means: min db value = -40.0 )
+        return 1.0- log10( in)/log10(0.01);
+    }
+    else
+    {
+        return in;
+    }
+}
+
 void AudioSignal::paintEvent(QPaintEvent* /*e*/)
 {
     if (!m_aMonitoringEnabled->isChecked()) {
@@ -99,9 +114,11 @@ void AudioSignal::paintEvent(QPaintEvent* /*e*/)
     //p.fillRect(0,0,(unsigned char)channels[0]*width()/255,height()/2,QBrush(Qt::SolidPattern));
     //p.fillRect(0,height()/2,(unsigned char)channels[1]*width()/255,height()/2,QBrush(Qt::SolidPattern));
     int numchan = channels.size();
+    bool db=true; // show values in db(i)
     bool horiz=width() > height();
     for (int i = 0; i < numchan; i++) {
-        int maxx= (unsigned char)channels[i] * (horiz ? width() : height() ) / 127;
+        //int maxx= (unsigned char)channels[i] * (horiz ? width() : height() ) / 127;
+        int maxx= (horiz ? width() : height() ) * valueToPixel((double)(unsigned char)channels[i]/127.0,db);
         int xdelta=(horiz ? width():height() )  /20 ;
         int _y2= (horiz ?  height() :width () ) / numchan - 1  ;
         int _y1=(horiz ? height():width() ) *i/numchan;
@@ -115,7 +132,7 @@ void AudioSignal::paintEvent(QPaintEvent* /*e*/)
                 maxx -= xdelta;
             }
         }
-        int xp=peeks.at(i)*(horiz?width():height())/127-2;
+        int xp=valueToPixel((double)peeks.at(i)/127.0,db)*(horiz?width():height())-2;
         p.fillRect(horiz?xp:_y1,horiz?_y1:height()-xdelta-xp,horiz?3:_y2,horiz?_y2:3,QBrush(Qt::black,Qt::SolidPattern));
     }
     p.end();

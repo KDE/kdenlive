@@ -36,6 +36,7 @@ public:
     bool monitoringEnabled() const;
 
 private:
+    double valueToPixel(double in,bool db);
     QLabel* label;
     QByteArray channels,peeks,peekage;
     QList<QColor> col;
