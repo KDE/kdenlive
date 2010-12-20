@@ -48,8 +48,13 @@ void VideoGLWidget::initializeGL()
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 }
 
+void VideoGLWidget::resizeEvent(QResizeEvent* event)
+{
+    resizeGL(event->size().width(),event->size().height());
+}
 void VideoGLWidget::resizeGL(int width, int height)
 {
+
     double this_aspect = (double) width / height;
 
     // Special case optimisation to negate odd effect of sample aspect ratio

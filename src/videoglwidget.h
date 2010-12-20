@@ -35,6 +35,7 @@ public slots:
 protected:
     void initializeGL();
     void resizeGL(int width, int height);
+    void resizeEvent(QResizeEvent* event);
     void paintGL();
     void mouseDoubleClickEvent(QMouseEvent * event);
 };
