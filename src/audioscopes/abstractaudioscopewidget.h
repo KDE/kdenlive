@@ -15,6 +15,8 @@
 #include <QtCore>
 #include <QWidget>
 
+#include <stdint.h>
+
 #include "abstractscopewidget.h"
 
 class QMenu;

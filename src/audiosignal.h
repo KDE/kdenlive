@@ -26,6 +26,9 @@
 class QLabel;
 
 #include  <QWidget>
+
+#include <stdint.h>
+
 class AudioSignal : public QWidget
 {
     Q_OBJECT
