@@ -426,6 +426,13 @@ private:
      * if the name is still the default one. */
     void updateTrackNames(int track, bool added);
 
+    /** @brief Updates the duration stored in a track's TrackInfo.
+     * @param track Number of track as used in ItemInfo (not the numbering used in KdenliveDoc) (negative for all tracks)
+     * @param command If effects need to be updated the commands to do this will be attached to this undo command
+     * 
+     * In addition to update the duration in TrackInfo it updates effects with keyframes on the track. */
+    void updateTrackDuration(int track, QUndoCommand *command);
+
 private slots:
     void slotRefreshGuides();
     void slotEnableRefresh();

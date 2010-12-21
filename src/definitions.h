@@ -65,6 +65,7 @@ struct TrackInfo {
     bool isBlind;
     bool isLocked;
     EffectsList effectsList;
+    int duration;
 };
 
 struct ItemInfo {

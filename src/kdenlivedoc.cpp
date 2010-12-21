@@ -311,6 +311,7 @@ QDomDocument KdenliveDoc::createEmptyDocument(int videotracks, int audiotracks)
         audioTrack.isBlind = true;
         audioTrack.isLocked = false;
         audioTrack.trackName = QString("Audio ") + QString::number(audiotracks - i);
+        audioTrack.duration = 0;
         m_tracksList.append(audioTrack);
 
     }
@@ -321,6 +322,7 @@ QDomDocument KdenliveDoc::createEmptyDocument(int videotracks, int audiotracks)
         videoTrack.isBlind = false;
         videoTrack.isLocked = false;
         videoTrack.trackName = QString("Video ") + QString::number(videotracks - i);
+        videoTrack.duration = 0;
         m_tracksList.append(videoTrack);
     }
     return createEmptyDocument(m_tracksList);
@@ -1217,6 +1219,16 @@ void KdenliveDoc::switchTrackVideo(int ix, bool hide)
         return;
     }
     m_tracksList[ix].isBlind = hide; // !m_tracksList.at(ix).isBlind;
+}
+
+int KdenliveDoc::trackDuration(int ix)
+{
+    return m_tracksList.at(ix).duration; 
+}
+
+void KdenliveDoc::setTrackDuration(int ix, int duration)
+{
+    m_tracksList[ix].duration = duration;
 }
 
 void KdenliveDoc::insertTrack(int ix, TrackInfo type)

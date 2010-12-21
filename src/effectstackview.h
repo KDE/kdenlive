@@ -74,6 +74,9 @@ private:
     /** @brief The track index of currently edited track. */
     int m_trackindex;
 
+    /** If in track mode: Info of the edited track to be able to access its duration. */
+    TrackInfo m_trackInfo;
+
     /** @brief Sets the list of effects according to the clip's effect list.
     * @param ix Number of the effect to preselect */
     void setupListView(int ix);

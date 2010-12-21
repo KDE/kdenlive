@@ -2306,7 +2306,7 @@ bool Render::mltAddTrackEffect(int track, EffectsParameterList params)
     Mlt::Producer trackProducer(tractor.track(track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
     Mlt::Service trackService(trackProducer.get_service()); //trackPlaylist
-    return mltAddEffect(trackService, params, 15000, true);
+    return mltAddEffect(trackService, params, trackProducer.get_playtime() - 1, true);
 }
 
 

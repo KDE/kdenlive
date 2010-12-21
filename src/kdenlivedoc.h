@@ -126,13 +126,24 @@ Q_OBJECT public:
     void switchTrackVideo(int ix, bool hide);
     void switchTrackAudio(int ix, bool hide);
     void switchTrackLock(int ix, bool lock);
+    bool isTrackLocked(int ix) const;
+
+    /** @brief Sets the duration of track @param ix to @param duration.
+     * This does not! influence the actual track but only the value in its TrackInfo. */
+    void setTrackDuration(int ix, int duration);
+
+    /** @brief Returns the duration of track @param ix.
+     *
+     * The returned duration might differ from the actual track duration!
+     * It is the one stored in the track's TrackInfo. */
+    int trackDuration(int ix);
+
     void cachePixmap(const QString &fileId, const QPixmap &pix) const;
     void setProjectFolder(KUrl url);
     QString getLadspaFile() const;
     void setZone(int start, int end);
     QPoint zone() const;
     int setSceneList();
-    bool isTrackLocked(int ix) const;
     void setDocumentProperty(const QString &name, const QString &value);
     const QString getDocumentProperty(const QString &name) const;
 

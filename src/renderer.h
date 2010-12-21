@@ -188,7 +188,10 @@ Q_OBJECT public:
     void mltCutClip(int track, GenTime position);
     void mltInsertSpace(QMap <int, int> trackClipStartList, QMap <int, int> trackTransitionStartList, int track, const GenTime duration, const GenTime timeOffset);
     int mltGetSpaceLength(const GenTime pos, int track, bool fromBlankStart);
+
+    /** @brief Returns the duration/length of @param track as reported by the track producer. */
     int mltTrackDuration(int track);
+
     bool mltResizeClipEnd(ItemInfo info, GenTime clipDuration);
     bool mltResizeClipStart(ItemInfo info, GenTime diff);
     bool mltResizeClipCrop(ItemInfo info, GenTime diff);

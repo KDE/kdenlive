@@ -208,6 +208,7 @@ void EffectStackView::slotTrackItemSelected(int ix, const TrackInfo info)
     m_clipref = NULL;
     m_trackMode = true;
     m_currentEffectList = info.effectsList;
+    m_trackInfo = info;
     kDebug() << "// TRACK; " << ix << ", EFFECTS: " << m_currentEffectList.count();
     setEnabled(true);
     m_ui.checkAll->setToolTip(QString());
@@ -283,8 +284,8 @@ void EffectStackView::setupListView(int ix)
         m_ui.buttonDown->setEnabled(false);
         m_ui.checkAll->setEnabled(false);
     } else {
-        if (ix < 0) ix = 0;
-        if (ix > m_ui.effectlist->count() - 1) ix = m_ui.effectlist->count() - 1;
+        qMin(ix, 0);
+        qMax(ix, m_ui.effectlist->count() - 1);
         m_ui.effectlist->setCurrentRow(ix);
         m_ui.checkAll->setEnabled(true);
     }
@@ -306,7 +307,7 @@ void EffectStackView::slotItemSelectionChanged(bool update)
         QDomElement eff = m_currentEffectList.at(activeRow);
         if (m_trackMode) {
             // showing track effects
-            m_effectedit->transferParamDesc(eff, 0, 0, -1);
+            m_effectedit->transferParamDesc(eff, 0, 0, m_trackInfo.duration);
         } else m_effectedit->transferParamDesc(eff,
                                                    0,
                                                    m_clipref->cropStart().frames(KdenliveSettings::project_fps()),
@@ -366,8 +367,8 @@ void EffectStackView::slotResetEffect()
         dom.setAttribute("kdenlive_ix", old.attribute("kdenlive_ix"));
         if (m_trackMode) {
             EffectsList::setParameter(dom, "in", QString::number(0));
-            EffectsList::setParameter(dom, "out", QString::number(0));
-            m_effectedit->transferParamDesc(dom, 0, 0, 0);//minx max frame
+            EffectsList::setParameter(dom, "out", QString::number(m_trackInfo.duration));
+            m_effectedit->transferParamDesc(dom, 0, 0, m_trackInfo.duration);//minx max frame
             emit updateEffect(NULL, m_trackindex, old, dom, activeRow);
         } else {
             m_clipref->initEffect(dom);
@@ -403,8 +404,11 @@ void EffectStackView::clear()
 
 void EffectStackView::slotSeekTimeline(int pos)
 {
-    if (!m_trackMode && m_clipref)
+    if (m_trackMode) {
+        emit seekTimeline(pos);
+    } else if (m_clipref) {
         emit seekTimeline(m_clipref->startPos().frames(KdenliveSettings::project_fps()) + pos);
+    }
 }
 
 void EffectStackView::slotUpdateCheckAllButton()
@@ -467,8 +471,13 @@ void EffectStackView::slotCheckMonitorPosition(int renderPos)
 
 void EffectStackView::slotRenderPos(int pos)
 {
-    if (m_clipref && m_effectedit && !m_trackMode)
-        m_effectedit->slotSyncEffectsPos(pos - m_clipref->startPos().frames(KdenliveSettings::project_fps()));
+    if (m_effectedit) {
+        if (m_trackMode) {
+            m_effectedit->slotSyncEffectsPos(pos);
+        } else if (m_clipref) {
+            m_effectedit->slotSyncEffectsPos(pos - m_clipref->startPos().frames(KdenliveSettings::project_fps()));
+        }
+    }
 }
 
 int EffectStackView::isTrackMode(bool *ok) const
