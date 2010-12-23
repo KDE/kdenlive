@@ -1,47 +1,48 @@
 # crashing effects
-frei0r.water
 frei0r.facedetect
 frei0r.transparency
+frei0r.water
 
 # duplicate effects
-frei0r.gamma
+frei0r.bluescreen0r
 frei0r.bw0r
 frei0r.flippo
+frei0r.gamma
 frei0r.invert0r
 frei0r.twolay0r
-frei0r.bluescreen0r
 
 # effects with XML UI
-frei0r.squareblur
-frei0r.distort0r
-frei0r.balanc0r
-frei0r.colordistance
-frei0r.scale0tilt
-frei0r.contrast0r
-frei0r.brightness
-frei0r.lenscorrection
-frei0r.saturat0r
-frei0r.sopsat
-frei0r.vertigo
-frei0r.curves
-frei0r.levels
-frei0r.three_point_balance
-frei0r.tint0r
-frei0r.threshold0r
-frei0r.c0rners
-frei0r.defish0r
-frei0r.pixeliz0r
-frei0r.glow
-frei0r.hueshift0r
-frei0r.coloradj_RGB
 frei0r.alpha0ps
 frei0r.alphagrad
 frei0r.alphaspot
+frei0r.balanc0r
+frei0r.brightness
+frei0r.c0rners
+frei0r.coloradj_RGB
+frei0r.colordistance
+frei0r.contrast0r
+frei0r.curves
+frei0r.defish0r
+frei0r.distort0r
+frei0r.glow
+frei0r.hqdn3d
+frei0r.hueshift0r
+frei0r.lenscorrection
+frei0r.levels
+frei0r.lightgraffiti
+frei0r.pixeliz0r
 frei0r.pr0be
 frei0r.pr0file
+frei0r.saturat0r
+frei0r.scale0tilt
 frei0r.select0r
-frei0r.hqdn3d
 frei0r.sharpness
+frei0r.sopsat
+frei0r.squareblur
+frei0r.three_point_balance
+frei0r.threshold0r
+frei0r.tint0r
+frei0r.vertigo
 
 #effects that have simplekeyframes
 vignette
