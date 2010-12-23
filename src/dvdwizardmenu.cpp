@@ -277,14 +277,11 @@ void DvdWizardMenu::changeProfile(bool isPal)
     if (isPal == false) {
         m_width = 720;
         m_height = 480;
-        m_isPal = false;
-        updatePreview();
     } else {
         m_width = 720;
         m_height = 576;
-        m_isPal = true;
-        updatePreview();
     }
+    updatePreview();
 }
 
 void DvdWizardMenu::updatePreview()

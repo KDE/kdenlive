@@ -456,7 +456,7 @@ void DvdWizard::generateDvd()
                 QDomText call;
                 if (i == voburls.count() - 1) call = dvddoc.createTextNode("{g1 = 0; call menu;}");
                 else {
-                    call = dvddoc.createTextNode("{if ( g1 eq 999 ) { call menu; } jump title " + QString::number(i + 2) + ";}");
+                    call = dvddoc.createTextNode("{if ( g1 eq 999 ) { call menu; } jump title " + QString::number(i + 2).rightJustified(2, '0') + ";}");
                 }
                 post.appendChild(call);
                 pgc2.appendChild(post);

@@ -207,10 +207,11 @@ QStringList DvdWizardChapters::selectedTargets() const
     QStringList result;
     int max = m_view.vob_list->count();
     for (int i = 0; i < max; i++) {
-        result.append("jump title " + QString::number(i + 1));
+        // rightJustified: fill with 0s to make menus with more than 9 buttons work (now up to 99 buttons possible)
+        result.append("jump title " + QString::number(i + 1).rightJustified(2, '0'));
         QStringList chapters = m_view.vob_list->itemData(i, Qt::UserRole + 1).toStringList();
         for (int j = 0; j < chapters.count(); j++) {
-            result.append("jump title " + QString::number(i + 1) + " chapter " + QString::number(j + 1));
+            result.append("jump title " + QString::number(i + 1).rightJustified(2, '0') + " chapter " + QString::number(j + 1).rightJustified(2, '0'));
         }
     }
     return result;
