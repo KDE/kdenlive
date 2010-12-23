@@ -100,15 +100,21 @@ void KeyframeEdit::addParameter(QDomElement e, int activeKeyframe)
 {
     keyframe_list->blockSignals(true);
     m_params.append(e.cloneNode().toElement());
+
     QDomNode na = e.firstChildElement("name");
     QString paramName = i18n(na.toElement().text().toUtf8().data());
+    QDomNode commentNode = e.firstChildElement("comment");
+    QString comment;
+    if (!commentNode.isNull())
+        comment = i18n(commentNode.toElement().text().toUtf8().data());
+
     int columnId = keyframe_list->columnCount();
     keyframe_list->insertColumn(columnId);
     keyframe_list->setHorizontalHeaderItem(columnId, new QTableWidgetItem(paramName));
 
     DoubleParameterWidget *doubleparam = new DoubleParameterWidget(paramName, 0,
             m_params.at(columnId).attribute("min").toInt(), m_params.at(columnId).attribute("max").toInt(),
-            m_params.at(columnId).attribute("default").toInt(), m_params.at(columnId).attribute("suffix"), this);
+            m_params.at(columnId).attribute("default").toInt(), comment, m_params.at(columnId).attribute("suffix"), this);
     connect(doubleparam, SIGNAL(valueChanged(int)), this, SLOT(slotAdjustKeyframeValue(int)));
     m_slidersLayout->addWidget(doubleparam, columnId, 0);
 

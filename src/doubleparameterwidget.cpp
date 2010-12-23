@@ -30,10 +30,12 @@
 #include <KLocalizedString>
 
 
-DoubleParameterWidget::DoubleParameterWidget(const QString &name, int value, int min, int max, int defaultValue, const QString suffix, QWidget *parent) :
+DoubleParameterWidget::DoubleParameterWidget(const QString &name, int value, int min, int max, int defaultValue, const QString &comment, const QString suffix, QWidget *parent) :
         QWidget(parent),
         m_default(defaultValue)
 {
+    setToolTip(comment);
+
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
 

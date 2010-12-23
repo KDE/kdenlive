@@ -6,9 +6,11 @@
         
         <parameter type="simplekeyframe" name="Spatial" default="40" min="0" max="1000" factor="1000">
             <name>Spatial</name>
+            <comment>Amount of spatial filtering</comment>
         </parameter>
         
         <parameter type="simplekeyframe" name="Temporal" default="60" min="0" max="1000" factor="1000">
             <name>Temporal</name>
+            <comment>Amount of temporal filtering</comment>
         </parameter>
 </effect>

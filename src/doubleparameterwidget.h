@@ -45,9 +45,10 @@ public:
     * @param min Minimum value
     * @param max maximum value
     * @param defaultValue Value used when using reset functionality
+    * @param comment A comment explaining the parameter. Will be shown for the tooltip.
     * @param suffix (optional) Suffix to display in spinbox
     * @param parent (optional) Parent Widget */
-    DoubleParameterWidget(const QString &name, int value, int min, int max, int defaultValue, const QString suffix = QString(), QWidget* parent = 0);
+    DoubleParameterWidget(const QString &name, int value, int min, int max, int defaultValue, const QString &comment, const QString suffix = QString(), QWidget* parent = 0);
     /** @brief Updates the label to display @param name. */
     void setName(const QString &name);
     /** @brief Gets the parameter's value. */

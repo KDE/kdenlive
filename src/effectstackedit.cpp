@@ -207,8 +207,12 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
     for (int i = 0; i < namenode.count() ; i++) {
         QDomElement pa = namenode.item(i).toElement();
         QDomNode na = pa.firstChildElement("name");
+        QDomNode commentNode = pa.firstChildElement("comment");
         QString type = pa.attribute("type");
         QString paramName = i18n(na.toElement().text().toUtf8().data());
+        QString comment;
+        if (!commentNode.isNull())
+            comment = i18n(commentNode.toElement().text().toUtf8().data());
         QWidget * toFillin = new QWidget(m_baseWidget);
         QString value = pa.attribute("value").isNull() ?
                         pa.attribute("default") : pa.attribute("value");
@@ -239,7 +243,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
                 max = pa.attribute("max").toInt();
 
             DoubleParameterWidget *doubleparam = new DoubleParameterWidget(paramName, (int)(value.toDouble() + 0.5), min, max,
-                    pa.attribute("default").toInt(), pa.attribute("suffix"), this);
+                    pa.attribute("default").toInt(), comment, pa.attribute("suffix"), this);
             m_vbox->addWidget(doubleparam);
             m_valueItems[paramName] = doubleparam;
             connect(doubleparam, SIGNAL(valueChanged(int)), this, SLOT(collectAllParameters()));
