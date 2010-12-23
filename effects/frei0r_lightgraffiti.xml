@@ -1,0 +1,9 @@
+<!DOCTYPE kpartgui>
+<effect tag="frei0r.lightgraffiti" id="frei0r.lightgraffiti">
+        <name>SOP/Sat</name>
+        <description>Light Graffiti effect.</description>
+        <author>Simon A. Eugster (Granjow)</author>
+        <parameter type="constant" name="longAlpha" default="2" min="0" max="256" factor="256">
+                <name>α for moving average</name>
+        </parameter>
+</effect>

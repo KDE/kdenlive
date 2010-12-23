@@ -16,7 +16,7 @@
   <group list="fade_from_black,fade_to_black,fadein,fadeout">
     <text>Fade</text>
   </group>
-  <group list="charcoal,oldfilm,dust,lines,grain,vignette,burningtv">
+  <group list="burningtv,charcoal,dust,grain,lines,lightgraffiti,oldfilm,vignette">
     <text>Fun</text>
   </group>
   <group list="boxblur,obscure,autotrack_rectangle,frei0r.squareblur,frei0r.glow">
