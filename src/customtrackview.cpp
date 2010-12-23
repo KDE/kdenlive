@@ -2338,7 +2338,7 @@ void CustomTrackView::dropEvent(QDropEvent * event)
             adjustTimelineClips(m_scene->editMode(), item, ItemInfo(), addCommand);
 
             new AddTimelineClipCommand(this, item->xml(), item->clipProducer(), item->info(), item->effectList(), m_scene->editMode() == OVERWRITEEDIT, m_scene->editMode() == INSERTEDIT, false, false, addCommand);
-            updateTrackDuration(clipInfo.track, addCommand);
+            updateTrackDuration(info.track, addCommand);
 
             if (item->baseClip()->isTransparent() && getTransitionItemAtStart(info.startPos, info.track) == NULL) {
                 // add transparency transition
