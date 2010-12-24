@@ -73,7 +73,6 @@ void EffectsListWidget::initList()
     QString current;
     QString currentFolder;
     QTreeWidgetItem *item = NULL;
-    QTreeWidgetItem *parentItem;
     bool found = false;
 
     if (currentItem()) {
@@ -194,6 +193,7 @@ void EffectsListWidget::loadEffects(const EffectsList *effectlist, KIcon icon, Q
             item->setIcon(0, icon);
             item->setData(0, TypeRole, type);
             item->setData(0, IdRole, effectInfo);
+            item->setToolTip(0, effectlist->getInfo(effectInfo.at(0), effectInfo.at(1)));
             if (item->text(0) == current) {
                 setCurrentItem(item);
                 *found = true;
