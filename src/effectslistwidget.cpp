@@ -78,15 +78,12 @@ void EffectsListWidget::initList()
 
     if (currentItem()) {
         current = currentItem()->text(0);
-        if (currentItem()->parent()) currentFolder = currentItem()->parent()->text(0);
-        else if (currentItem()->data(0, TypeRole) ==  EFFECT_FOLDER)  currentFolder = currentItem()->text(0);
+        if (currentItem()->parent())
+            currentFolder = currentItem()->parent()->text(0);
+        else if (currentItem()->data(0, TypeRole) ==  EFFECT_FOLDER)
+            currentFolder = currentItem()->text(0);
     }
 
-    QString effectName;
-    QStringList effectInfo;
-    KIcon videoIcon("kdenlive-show-video");
-    KIcon audioIcon("kdenlive-show-audio");
-    KIcon customIcon("kdenlive-custom-effect");
     KIcon folderIcon("folder");
 
     QString effectCategory = KStandardDirs::locate("config", "kdenliveeffectscategory.rc");
@@ -153,70 +150,10 @@ void EffectsListWidget::initList()
 
     //insertTopLevelItems(0, folders);
 
+    loadEffects(&MainWindow::videoEffects, KIcon("kdenlive-show-video"), misc, &folders, QString::number((int) EFFECT_VIDEO), current, &found);
+    loadEffects(&MainWindow::audioEffects, KIcon("kdenlive-show-audio"), audio, &folders, QString::number((int) EFFECT_AUDIO), current, &found);
+    loadEffects(&MainWindow::customEffects, KIcon("kdenlive-custom-effect"), custom, &QList<QTreeWidgetItem *>(), QString::number((int) EFFECT_CUSTOM), current, &found);
 
-    int ct = MainWindow::videoEffects.count();
-    for (int ix = 0; ix < ct; ix ++) {
-        effectInfo = MainWindow::videoEffects.effectIdInfo(ix);
-        parentItem = NULL;
-        for (int i = 0; i < folders.count(); i++) {
-            QStringList l = folders.at(i)->data(0, IdRole).toString().split(',', QString::SkipEmptyParts);
-            if (l.contains(effectInfo.at(2))) {
-                parentItem = folders.at(i);
-                break;
-            }
-        }
-        if (parentItem == NULL) parentItem = misc;
-        if (!effectInfo.isEmpty()) {
-            item = new QTreeWidgetItem(parentItem, QStringList(effectInfo.takeFirst()));
-            item->setIcon(0, videoIcon);
-            item->setData(0, TypeRole, QString::number((int) EFFECT_VIDEO));
-            item->setData(0, IdRole, effectInfo);
-            if (item->text(0) == current) {
-                setCurrentItem(item);
-                found = true;
-            }
-        }
-    }
-
-    ct = MainWindow::audioEffects.count();
-    for (int ix = 0; ix < ct; ix ++) {
-        effectInfo = MainWindow::audioEffects.effectIdInfo(ix);
-        parentItem = NULL;
-        for (int i = 0; i < folders.count(); i++) {
-            QStringList l = folders.at(i)->data(0, IdRole).toString().split(',', QString::SkipEmptyParts);
-            if (l.contains(effectInfo.at(2))) {
-                parentItem = folders.at(i);
-                break;
-            }
-        }
-        if (parentItem == NULL) parentItem = audio;
-        if (!effectInfo.isEmpty()) {
-            item = new QTreeWidgetItem(parentItem, QStringList(effectInfo.takeFirst()));
-            item->setIcon(0, audioIcon);
-            item->setData(0, TypeRole, QString::number((int) EFFECT_AUDIO));
-            item->setData(0, IdRole, effectInfo);
-            if (item->text(0) == current) {
-                setCurrentItem(item);
-                found = true;
-            }
-        }
-    }
-
-    ct = MainWindow::customEffects.count();
-    kDebug() << "--- REBUILDING;: " << ct;
-    for (int ix = 0; ix < ct; ix ++) {
-        effectInfo = MainWindow::customEffects.effectIdInfo(ix);
-        if (!effectInfo.isEmpty()) {
-            item = new QTreeWidgetItem(custom, QStringList(effectInfo.takeFirst()));
-            item->setIcon(0, customIcon);
-            item->setData(0, TypeRole, QString::number((int) EFFECT_CUSTOM));
-            item->setData(0, IdRole, effectInfo);
-            if (item->text(0) == current) {
-                setCurrentItem(item);
-                found = true;
-            }
-        }
-    }
     if (!found && !currentFolder.isEmpty()) {
         // previously selected effect was removed, focus on its parent folder
         for (int i = 0; i < topLevelItemCount(); i++) {
@@ -229,6 +166,40 @@ void EffectsListWidget::initList()
     }
     setSortingEnabled(true);
     sortByColumn(0, Qt::AscendingOrder);
+}
+
+void EffectsListWidget::loadEffects(const EffectsList *effectlist, KIcon icon, QTreeWidgetItem *defaultFolder, const QList<QTreeWidgetItem *> *folders, const QString type, const QString current, bool *found)
+{
+    QStringList effectInfo, l;
+    QTreeWidgetItem *parentItem;
+    QTreeWidgetItem *item;
+    int ct = effectlist->count();
+
+    for (int ix = 0; ix < ct; ix ++) {
+        effectInfo = effectlist->effectIdInfo(ix);
+        parentItem = NULL;
+
+        for (int i = 0; i < folders->count(); i++) {
+            l = folders->at(i)->data(0, IdRole).toString().split(',', QString::SkipEmptyParts);
+            if (l.contains(effectInfo.at(2))) {
+                parentItem = folders->at(i);
+                break;
+            }
+        }
+        if (parentItem == NULL)
+            parentItem = defaultFolder;
+
+        if (!effectInfo.isEmpty()) {
+            item = new QTreeWidgetItem(parentItem, QStringList(effectInfo.takeFirst()));
+            item->setIcon(0, icon);
+            item->setData(0, TypeRole, type);
+            item->setData(0, IdRole, effectInfo);
+            if (item->text(0) == current) {
+                setCurrentItem(item);
+                *found = true;
+            }
+        }
+    }
 }
 
 QTreeWidgetItem *EffectsListWidget::findFolder(const QString name)

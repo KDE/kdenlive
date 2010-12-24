@@ -25,6 +25,7 @@
 #include <QDomElement>
 
 class EffectsList;
+class KIcon;
 
 class EffectsListWidget : public QTreeWidget
 {
@@ -45,8 +46,19 @@ protected:
 
 private:
     QMenu *m_menu;
-    /** @brief Returns the folder item with name equal to passed parameter. */
+    /** @brief Returns the folder item whose name == @param name. */
     QTreeWidgetItem *findFolder(const QString name);
+
+    /** @brief Loads the effects from the given effectlist as item of this widget.
+     * @param effectlist effectlist containing the effects that should be loaded
+     * @param icon the icon to be used for the QTreeWidgetItems
+     * @param defaultFolder parent item which will be used by default 
+     * @param folders list of folders which might be used instead for specific effects
+     * @param type type of the effects
+     * @param current name of selected effect before reload; if an effect name matches this one it will become selected
+     * @param found will be set to true if an effect name matches current
+     */
+    void loadEffects(const EffectsList *effectlist, KIcon icon, QTreeWidgetItem *defaultFolder, const QList<QTreeWidgetItem *> *folders, const QString type, const QString current, bool *found);
 
 private slots:
     void slotExpandItem(const QModelIndex & index);
