@@ -49,8 +49,10 @@ public:
     * @param suffix (optional) Suffix to display in spinbox
     * @param parent (optional) Parent Widget */
     DoubleParameterWidget(const QString &name, int value, int min, int max, int defaultValue, const QString &comment, const QString suffix = QString(), QWidget* parent = 0);
+
     /** @brief Updates the label to display @param name. */
     void setName(const QString &name);
+
     /** @brief Gets the parameter's value. */
     int getValue();
 
@@ -61,14 +63,20 @@ public slots:
     /** @brief Sets value to m_default. */
     void slotReset();
 
+private slots:
+    /** @brief Emits showComment with m_comment. */
+    void slotShowComment();
+
 private:
     int m_default;
     QLabel *m_name;
     QSlider *m_slider;
     QSpinBox *m_spinBox;
+    QString m_comment;
     
 signals:
     void valueChanged(int);
+    void showComment(const QString&);
 };
 
 #endif

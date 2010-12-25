@@ -32,10 +32,9 @@
 
 DoubleParameterWidget::DoubleParameterWidget(const QString &name, int value, int min, int max, int defaultValue, const QString &comment, const QString suffix, QWidget *parent) :
         QWidget(parent),
-        m_default(defaultValue)
+        m_default(defaultValue),
+        m_comment(comment)
 {
-    setToolTip(comment);
-
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
 
@@ -59,6 +58,15 @@ DoubleParameterWidget::DoubleParameterWidget(const QString &name, int value, int
     reset->setIcon(KIcon("edit-undo"));
     reset->setToolTip(i18n("Reset to default value"));
     layout->addWidget(reset);
+
+    if (m_comment != QString()) {
+        QToolButton *showComment  = new QToolButton(this);
+        showComment->setAutoRaise(true);
+        showComment->setIcon(KIcon("help-about"));
+        layout->addWidget(showComment);
+
+        connect(showComment, SIGNAL(clicked(bool)), this, SLOT(slotShowComment()));
+    }
 
     connect(m_slider,  SIGNAL(valueChanged(int)), this, SLOT(setValue(int)));
     connect(m_spinBox, SIGNAL(valueChanged(int)), this, SLOT(setValue(int)));
@@ -94,6 +102,11 @@ void DoubleParameterWidget::setName(const QString& name)
 void DoubleParameterWidget::slotReset()
 {
     setValue(m_default);
+}
+
+void DoubleParameterWidget::slotShowComment()
+{
+    emit showComment(m_comment);
 }
 
 #include "doubleparameterwidget.moc"

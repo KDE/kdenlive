@@ -132,6 +132,7 @@ private slots:
 signals:
     void parameterChanged();
     void seekToPos(int);
+    void showComment(const QString&);
 };
 
 #endif

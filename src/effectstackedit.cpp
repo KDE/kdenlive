@@ -247,6 +247,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
             m_vbox->addWidget(doubleparam);
             m_valueItems[paramName] = doubleparam;
             connect(doubleparam, SIGNAL(valueChanged(int)), this, SLOT(collectAllParameters()));
+            connect(doubleparam, SIGNAL(showComment(const QString&)), this, SIGNAL(showComment(const QString&)));
         } else if (type == "list") {
             Listval *lsval = new Listval;
             lsval->setupUi(toFillin);
@@ -321,6 +322,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
                 m_keyframeEditor = geo;
                 connect(geo, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
                 connect(geo, SIGNAL(seekToPos(int)), this, SIGNAL(seekTimeline(int)));
+                connect(geo, SIGNAL(showComment(const QString&)), this, SIGNAL(showComment(const QString&)));
             } else {
                 // we already have a keyframe editor, so just add another column for the new param
                 m_keyframeEditor->addParameter(pa);

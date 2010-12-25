@@ -84,10 +84,12 @@ private:
 public slots:
     /** @brief Called when an effect is selected, builds the UI for this effect. */
     void transferParamDesc(const QDomElement d, int pos, int in, int out, bool isEffect = true);
+
     /** @brief Called whenever(?) some parameter is changed in the gui.
      *
      * Transfers all Dynamic gui parameter settings into m_params(??) */
     void collectAllParameters();
+
     /** @brief Pass position changes of the timeline cursor to the effects to keep their local timelines in sync. */
     void slotSyncEffectsPos(int pos);
 
@@ -97,6 +99,7 @@ signals:
     void displayMessage(const QString&, int);
     void checkMonitorPosition(int);
     void syncEffectsPos(int pos);
+    void showComment(const QString&);
 };
 
 #endif
