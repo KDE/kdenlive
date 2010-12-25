@@ -168,7 +168,12 @@ void KeyframeEdit::slotDeleteKeyframe()
     keyframe_list->setCurrentCell(row, col);
     keyframe_list->selectRow(row);
     generateAllParams();
-    button_delete->setEnabled(keyframe_list->rowCount() > 1);
+
+    bool disable = keyframe_list->rowCount() < 2;
+    button_delete->setEnabled(!disable);
+    disable &= getPos(0) == m_min;
+    widgetTable->setHidden(disable);
+    buttonKeyframes->setHidden(!disable);
 }
 
 void KeyframeEdit::slotAddKeyframe()
