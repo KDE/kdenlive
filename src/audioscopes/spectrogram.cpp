@@ -295,6 +295,8 @@ QImage Spectrogram::renderAudioScope(uint, const QVector<int16_t> audioFrame, co
         }
         bool newDataAvailable = newData > 0;
 
+        //TODO highlight data above certain limit (-6 dB)
+
 #ifdef DEBUG_SPECTROGRAM
         qDebug() << "New data for " << widgetName() << ": " << newDataAvailable << " (" << newData << " units)";
 #endif

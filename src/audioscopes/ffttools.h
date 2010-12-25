@@ -58,7 +58,8 @@ public:
 
 
     /** This is linear interpolation with the special property that it preserves peaks, which is required
-        for e.g. showing correct Decibel values (where the peak values are of interest).
+        for e.g. showing correct Decibel values (where the peak values are of interest because of clipping which
+        may occur for too strong frequencies; The lower values are smeared by the window function anyway).
         Consider f = {0, 100, 0}
                  x = {0.5,  1.5}: With default linear interpolation x0 and x1 would both be mapped to 50.
         This function maps x1 (the first position after the peak) to 100.

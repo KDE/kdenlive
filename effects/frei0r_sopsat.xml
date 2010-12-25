@@ -5,6 +5,7 @@
         <author>Simon A. Eugster (Granjow)</author>
         <parameter type="simplekeyframe" name="rSlope" default="100" min="0" max="1000" factor="100">
                 <name>Slope Red</name>
+                <comment>Changing the slope means multiplying the pixel value with a constant value.</comment>
         </parameter>
         <parameter type="simplekeyframe" name="gSlope" default="100" min="0" max="1000" factor="100">
                 <name>Slope Green</name>
@@ -18,6 +19,7 @@
 
         <parameter type="simplekeyframe" name="rOffset" default="0" min="-1024" max="1024" factor="256">
                 <name>Offset Red</name>
+                <comment>Changing the offset lifts (or lowers) the brightness of each pixel by the makes the given value.</comment>
         </parameter>
         <parameter type="simplekeyframe" name="gOffset" default="0" min="-1024" max="1024" factor="256">
                 <name>Offset Green</name>
@@ -30,20 +32,23 @@
         </parameter>
 
         <parameter type="simplekeyframe" name="rPower" default="100" min="1" max="1000" factor="100">
-                <name>Power (Gamma) Red</name>
+                <name>Power Red</name>
+                <comment><![CDATA[Changes the Gamma value for the selected channel. Black and white pixel values will not be affected, but everything between.<br/>
+                Mathematically, what happens is an exponentiation of the pixel brightness on <code>[0,1]</code> by the gamma value.]]></comment>
         </parameter>
         <parameter type="simplekeyframe" name="gPower" default="100" min="1" max="1000" factor="100">
-                <name>Power (Gamma) Green</name>
+                <name>Power Green</name>
         </parameter>
         <parameter type="simplekeyframe" name="bPower" default="100" min="1" max="1000" factor="100">
-                <name>Power (Gamma) Blue</name>
+                <name>Power Blue</name>
         </parameter>
         <parameter type="simplekeyframe" name="aPower" default="100" min="1" max="1000" factor="100">
-                <name>Power (Gamma) Alpha</name>
+                <name>Power Alpha</name>
         </parameter>
 
         <parameter type="simplekeyframe" name="saturation" default="100" min="0" max="500" factor="100" intimeline="1">
                 <name>Overall Saturation</name>
+                <comment>The overall saturation will be changed after all previous effects have been applied.</comment>
         </parameter>
 
 </effect>

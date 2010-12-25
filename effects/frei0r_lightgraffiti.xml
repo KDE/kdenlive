@@ -4,9 +4,11 @@
         <description>Light Graffiti effect.</description>
         <author>Simon A. Eugster (Granjow)</author>
         <parameter type="constant" name="longAlpha" default="2" min="0" max="256" factor="256">
-                <name>α for moving average</name>
+                <name>α</name>
+                <comment>Determines how the effect tries to adapt to background changes. If the background does not change, then try to use 0.</comment>
         </parameter>
 	<parameter type="constant" name="lightOpacity" default="40" min="0" max="100" factor="100">
-	  <name>Basic opacity for a light source. Added to sum in each frame.</name>
+          <name>Opacity</name>
+          <comment><![CDATA[Basic opacity for a light source.]]></comment>
 	</parameter>
 </effect>
