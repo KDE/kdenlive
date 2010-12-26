@@ -2899,7 +2899,7 @@ void CustomTrackView::slotInsertSpace()
     track = d.selectedTrack();
 
     QList<QGraphicsItem *> items;
-    if (track > 0) {
+    if (track >= 0) {
         if (m_document->isTrackLocked(m_document->tracksCount() - track - 1)) {
             emit displayMessage(i18n("Cannot insert space in a locked track"), ErrorMessage);
             return;
