@@ -420,6 +420,7 @@ int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsRectItem* startv, QGra
                         pix.loadFromData(QByteArray::fromBase64(base64.toAscii()));
                     }
                     QGraphicsPixmapItem *rec = m_scene->addPixmap(pix);
+                    rec->setShapeMode(QGraphicsPixmapItem::BoundingRectShape);
                     rec->setData(Qt::UserRole, url);
                     if (!base64.isEmpty()) {
                         rec->setData(Qt::UserRole + 1, base64);
