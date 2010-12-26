@@ -247,7 +247,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
             m_vbox->addWidget(doubleparam);
             m_valueItems[paramName] = doubleparam;
             connect(doubleparam, SIGNAL(valueChanged(int)), this, SLOT(collectAllParameters()));
-            connect(doubleparam, SIGNAL(showComment(const QString&)), this, SIGNAL(showComment(const QString&)));
+            connect(this, SIGNAL(showComments()), doubleparam, SLOT(slotShowComment()));
         } else if (type == "list") {
             Listval *lsval = new Listval;
             lsval->setupUi(toFillin);
@@ -314,7 +314,6 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
             }
         } else if (type == "keyframe" || type == "simplekeyframe") {
             // keyframe editor widget
-            kDebug() << "min: " << m_in << ", MAX: " << m_out;
             if (m_keyframeEditor == NULL) {
                 KeyframeEdit *geo = new KeyframeEdit(pa, m_in, m_in + m_out, m_timecode, e.attribute("active_keyframe", "-1").toInt());
                 m_vbox->addWidget(geo);
@@ -322,7 +321,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
                 m_keyframeEditor = geo;
                 connect(geo, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
                 connect(geo, SIGNAL(seekToPos(int)), this, SIGNAL(seekTimeline(int)));
-                connect(geo, SIGNAL(showComment(const QString&)), this, SIGNAL(showComment(const QString&)));
+                connect(this, SIGNAL(showComments()), geo, SIGNAL(showComments()));
             } else {
                 // we already have a keyframe editor, so just add another column for the new param
                 m_keyframeEditor->addParameter(pa);

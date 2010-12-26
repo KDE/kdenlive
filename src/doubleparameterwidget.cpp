@@ -20,7 +20,7 @@
 
 #include "doubleparameterwidget.h"
 
-#include <QHBoxLayout>
+#include <QGridLayout>
 #include <QLabel>
 #include <QSlider>
 #include <QSpinBox>
@@ -32,41 +32,40 @@
 
 DoubleParameterWidget::DoubleParameterWidget(const QString &name, int value, int min, int max, int defaultValue, const QString &comment, const QString suffix, QWidget *parent) :
         QWidget(parent),
-        m_default(defaultValue),
-        m_comment(comment)
+        m_default(defaultValue)
 {
-    QHBoxLayout *layout = new QHBoxLayout(this);
+    QGridLayout *layout = new QGridLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
 
     m_name = new QLabel(name, this);
-    layout->addWidget(m_name);
+    layout->addWidget(m_name, 0, 0);
 
     m_slider = new QSlider(Qt::Horizontal, this);
     m_slider->setRange(min, max);
     //m_slider->setPageStep((max - min) / 10);
-    layout->addWidget(m_slider);
+    layout->addWidget(m_slider, 0, 1);
 
     m_spinBox = new QSpinBox(this);
     m_spinBox->setRange(min, max);
     m_spinBox->setKeyboardTracking(false);
     if (!suffix.isEmpty())
         m_spinBox->setSuffix(suffix);
-    layout->addWidget(m_spinBox);
+    layout->addWidget(m_spinBox, 0, 2);
 
     QToolButton *reset = new QToolButton(this);
     reset->setAutoRaise(true);
     reset->setIcon(KIcon("edit-undo"));
     reset->setToolTip(i18n("Reset to default value"));
-    layout->addWidget(reset);
+    layout->addWidget(reset, 0, 3);
 
-    if (m_comment != QString()) {
-        QToolButton *showComment  = new QToolButton(this);
-        showComment->setAutoRaise(true);
-        showComment->setIcon(KIcon("help-about"));
-        layout->addWidget(showComment);
-
-        connect(showComment, SIGNAL(clicked(bool)), this, SLOT(slotShowComment()));
-    }
+    m_commentLabel = new QLabel(comment, this);
+    m_commentLabel->setWordWrap(true);
+    m_commentLabel->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+    m_commentLabel->setFrameShape(QFrame::StyledPanel);
+    m_commentLabel->setFrameShadow(QFrame::Raised);
+    m_commentLabel->setBackgroundRole(QPalette::AlternateBase);
+    m_commentLabel->setHidden(true);
+    layout->addWidget(m_commentLabel, 1, 0, 1, -1);
 
     connect(m_slider,  SIGNAL(valueChanged(int)), this, SLOT(setValue(int)));
     connect(m_spinBox, SIGNAL(valueChanged(int)), this, SLOT(setValue(int)));
@@ -106,7 +105,8 @@ void DoubleParameterWidget::slotReset()
 
 void DoubleParameterWidget::slotShowComment()
 {
-    emit showComment(m_comment);
+    if (m_commentLabel->text() != QString())
+        m_commentLabel->setHidden(!m_commentLabel->isHidden());
 }
 
 #include "doubleparameterwidget.moc"

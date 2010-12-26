@@ -64,7 +64,7 @@ public slots:
     void slotReset();
 
 private slots:
-    /** @brief Emits showComment with m_comment. */
+    /** @brief Shows/Hides the comment label. */
     void slotShowComment();
 
 private:
@@ -72,11 +72,10 @@ private:
     QLabel *m_name;
     QSlider *m_slider;
     QSpinBox *m_spinBox;
-    QString m_comment;
+    QLabel *m_commentLabel;
     
 signals:
     void valueChanged(int);
-    void showComment(const QString&);
 };
 
 #endif

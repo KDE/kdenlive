@@ -69,6 +69,8 @@ EffectStackView::EffectStackView(Monitor *monitor, QWidget *parent) :
     m_ui.buttonReset->setIcon(KIcon("view-refresh"));
     m_ui.buttonReset->setToolTip(i18n("Reset effect"));
     m_ui.checkAll->setToolTip(i18n("Enable/Disable all effects"));
+    m_ui.buttonShowComments->setIcon(KIcon("help-about"));
+    m_ui.buttonShowComments->setToolTip(i18n("Show additional information for the parameters"));
 
     m_ui.effectlist->setDragDropMode(QAbstractItemView::NoDragDrop); //use internal if drop is recognised right
 
@@ -82,19 +84,18 @@ EffectStackView::EffectStackView(Monitor *monitor, QWidget *parent) :
     connect(m_ui.buttonSave, SIGNAL(clicked()), this, SLOT(slotSaveEffect()));
     connect(m_ui.buttonReset, SIGNAL(clicked()), this, SLOT(slotResetEffect()));
     connect(m_ui.checkAll, SIGNAL(stateChanged(int)), this, SLOT(slotCheckAll(int)));
+    connect(m_ui.buttonShowComments, SIGNAL(clicked()), this, SIGNAL(showComments()));
     connect(m_effectedit, SIGNAL(parameterChanged(const QDomElement, const QDomElement)), this , SLOT(slotUpdateEffectParams(const QDomElement, const QDomElement)));
     connect(m_effectedit, SIGNAL(seekTimeline(int)), this , SLOT(slotSeekTimeline(int)));
     connect(m_effectedit, SIGNAL(displayMessage(const QString&, int)), this, SIGNAL(displayMessage(const QString&, int)));
     connect(m_effectedit, SIGNAL(checkMonitorPosition(int)), this, SLOT(slotCheckMonitorPosition(int)));
-    connect(m_effectedit, SIGNAL(showComment(const QString&)), this, SLOT(slotUpdateComment(const QString&)));
     connect(monitor, SIGNAL(renderPosition(int)), this, SLOT(slotRenderPos(int)));
+    connect(this, SIGNAL(showComments()), m_effectedit, SIGNAL(showComments()));
     m_effectLists["audio"] = &MainWindow::audioEffects;
     m_effectLists["video"] = &MainWindow::videoEffects;
     m_effectLists["custom"] = &MainWindow::customEffects;
     m_ui.splitter->setStretchFactor(1, 10);
     m_ui.splitter->setStretchFactor(0, 1);
-
-    m_ui.labelComment->setHidden(true);
 
     setEnabled(false);
 }
@@ -204,8 +205,6 @@ void EffectStackView::slotClipItemSelected(ClipItem* c, int ix)
     m_trackMode = false;
     m_currentEffectList = m_clipref->effectList();
     setupListView(ix);
-
-    slotUpdateComment();
 }
 
 void EffectStackView::slotTrackItemSelected(int ix, const TrackInfo info)
@@ -220,7 +219,6 @@ void EffectStackView::slotTrackItemSelected(int ix, const TrackInfo info)
     m_ui.checkAll->setText(i18n("Effects for track %1").arg(info.trackName.isEmpty() ? QString::number(ix) : info.trackName));
     m_trackindex = ix;
     setupListView(0);
-    slotUpdateComment();
 }
 
 void EffectStackView::slotItemChanged(QListWidgetItem *item)
@@ -327,7 +325,9 @@ void EffectStackView::slotItemSelectionChanged(bool update)
     m_ui.buttonUp->setEnabled(activeRow > 0);
     m_ui.buttonDown->setEnabled((activeRow < m_ui.effectlist->count() - 1) && hasItem);
     m_ui.frame->setEnabled(isChecked);
-    slotUpdateComment();
+
+    if (m_ui.buttonShowComments->isChecked())
+        emit showComments();
 }
 
 void EffectStackView::slotItemUp()
@@ -386,6 +386,9 @@ void EffectStackView::slotResetEffect()
             emit updateEffect(m_clipref, -1, old, dom, activeRow);
         }
     }
+
+    if (m_ui.buttonShowComments->isChecked())
+        emit showComments();
 }
 
 
@@ -493,16 +496,6 @@ int EffectStackView::isTrackMode(bool *ok) const
 {
     *ok = m_trackMode;
     return m_trackindex;
-}
-
-void EffectStackView::slotUpdateComment(const QString& comment)
-{
-    if (comment == m_ui.labelComment->text())
-        m_ui.labelComment->setText(QString());
-    else
-        m_ui.labelComment->setText(comment);
-
-    m_ui.labelComment->setHidden(m_ui.labelComment->text() == QString());
 }
 
 #include "effectstackview.moc"

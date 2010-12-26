@@ -139,9 +139,6 @@ private slots:
     /** @brief Pass position changes of the timeline cursor to the effects to keep their local timelines in sync. */
     void slotRenderPos(int pos);
 
-    /** @brief Sets the parameter explaining comment to @param comment. */
-    void slotUpdateComment(const QString &comment = QString());
-
 signals:
     void removeEffect(ClipItem*, int, QDomElement);
     /**  Parameters for an effect changed, update the filter in playlist */
@@ -160,6 +157,7 @@ signals:
     /** The region effect for current effect was changed */
     void updateClipRegion(ClipItem*, int, QString);
     void displayMessage(const QString&, int);
+    void showComments();
 };
 
 #endif
