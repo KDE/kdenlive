@@ -3,12 +3,32 @@
         <name>Light Graffiti</name>
         <description>Light Graffiti effect.</description>
         <author>Simon A. Eugster (Granjow)</author>
-        <parameter type="constant" name="longAlpha" default="2" min="0" max="256" factor="256">
+        <parameter type="constant" name="longAlpha" default="0" min="0" max="256" factor="256">
                 <name>α</name>
-                <comment>Determines how the effect tries to adapt to background changes. If the background does not change, then try to use 0.</comment>
+                <comment><![CDATA[Determines how the effect tries to adapt to background changes. <br/>
+                If the background does not change, then try to use 0 (requires the first frame to represent background only, without your light sources).]]></comment>
         </parameter>
 	<parameter type="constant" name="lightOpacity" default="40" min="0" max="100" factor="100">
-          <name>Opacity</name>
-          <comment><![CDATA[Basic opacity for a light source.]]></comment>
+            <name>Opacity</name>
+            <comment><![CDATA[Basic opacity for a light source.<br/>
+            For slowly moving light source try to use a lower opacity value to obtain smoother results.]]></comment>
 	</parameter>
+        <parameter type="constant" name="backgroundWeight" default="0" min="0" max="100" factor="100">
+            <name>Background Weight</name>
+            <comment>Strength of the (calculated) background image. Setting it to 100 paints the light mask directly over the background, without any person in the image if the video starts with a «clean» background image.</comment>
+        </parameter>
+        <parameter type="constant" name="thresholdBrightness" default="450" min="0" max="765" factor="1">
+            <name>Brightness Threshold</name>
+            <comment><![CDATA[Determines how bright (<code>R+G+B</code>) a light source needs to be in order to be recognized as light source.<br/>
+            Increasing this threshold requires brighter light sources (i.e. more white or less color, respectively) but prevents some «false alarms» where semi-bright parts, e.g. hands where colors can change quite a lot compared to the background, are incorrectly recognized as light source.]]></comment>
+        </parameter>
+        <parameter type="constant" name="thresholdDifference" default="80" min="0" max="255" factor="1">
+            <name>Difference Threshold</name>
+            <comment><![CDATA[Similar to the brightness threshold, but for the brightness difference (<code>max(dR, dG, dB)</code>) <em>relative to the calculated background.</em><br/>
+            Increasing this threshold makes it harder for light sources to be accepted on bright backgrounds, but decreases the danger of noise counting as light source.]]></comment>
+        </parameter>
+        <parameter type="constant" name="dim" default="0" min="0" max="100" factor="100">
+            <name>Dimming</name>
+            <comment>Dims the light mask. Lights will leave a fainting trail if it is set to a value > 0.</comment>
+        </parameter>
 </effect>
