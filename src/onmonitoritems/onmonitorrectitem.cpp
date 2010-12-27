@@ -25,9 +25,10 @@
 #include <QStyleOptionGraphicsItem>
 #include <QCursor>
 
-OnMonitorRectItem::OnMonitorRectItem(const QRectF &rect, MonitorScene *scene, QGraphicsItem* parent) :
+OnMonitorRectItem::OnMonitorRectItem(const QRectF &rect, double dar, MonitorScene *scene, QGraphicsItem* parent) :
         AbstractOnMonitorItem(scene),
-        QGraphicsRectItem(rect, parent)
+        QGraphicsRectItem(rect, parent),
+        m_dar(dar)
 {
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
 
@@ -90,8 +91,9 @@ void OnMonitorRectItem::slotMousePressed(QGraphicsSceneMouseEvent* event)
     if (!isEnabled())
         return;
 
-    m_clickPoint = event->scenePos();
-    m_mode = getMode(m_clickPoint.toPoint());
+    m_lastPoint = event->scenePos();
+    m_oldRect = rect().normalized();
+    m_mode = getMode(m_lastPoint.toPoint());
 }
 
 void OnMonitorRectItem::slotMouseMoved(QGraphicsSceneMouseEvent* event)
@@ -108,18 +110,18 @@ void OnMonitorRectItem::slotMouseMoved(QGraphicsSceneMouseEvent* event)
      *   return;
     }*/
 
-    QPointF mousePos = event->scenePos();
-
     if (event->buttons() & Qt::LeftButton) {
         QRectF r = rect().normalized();
         QPointF p = pos();
+        QPointF mousePos = event->scenePos();
         QPointF mousePosInRect = mapFromScene(mousePos);
-        QPointF diff = mousePos - m_clickPoint;
-        m_clickPoint = mousePos;
+        QPointF diff = mousePos - m_lastPoint;
+        m_lastPoint = mousePos;
+
         switch (m_mode) {
         case ResizeTopLeft:
             if (mousePos.x() < p.x() + r.height() && mousePos.y() < p.y() + r.height()) {
-                setRect(r.adjusted(0, 0, -mousePosInRect.x(), -mousePosInRect.y()));
+                r.adjust(0, 0, -mousePosInRect.x(), -mousePosInRect.y());
                 setPos(mousePos);
                 m_modified = true;
             }
@@ -127,7 +129,6 @@ void OnMonitorRectItem::slotMouseMoved(QGraphicsSceneMouseEvent* event)
         case ResizeTop:
             if (mousePos.y() < p.y() + r.height()) {
                 r.setBottom(r.height() - mousePosInRect.y());
-                setRect(r);
                 setPos(QPointF(p.x(), mousePos.y()));
                 m_modified = true;
             }
@@ -135,7 +136,6 @@ void OnMonitorRectItem::slotMouseMoved(QGraphicsSceneMouseEvent* event)
         case ResizeTopRight:
             if (mousePos.x() > p.x() && mousePos.y() < p.y() + r.height()) {
                 r.setBottomRight(QPointF(mousePosInRect.x(), r.bottom() - mousePosInRect.y()));
-                setRect(r);
                 setPos(QPointF(p.x(), mousePos.y()));
                 m_modified = true;
             }
@@ -143,7 +143,6 @@ void OnMonitorRectItem::slotMouseMoved(QGraphicsSceneMouseEvent* event)
         case ResizeLeft:
             if (mousePos.x() < p.x() + r.width()) {
                 r.setRight(r.width() - mousePosInRect.x());
-                setRect(r);
                 setPos(QPointF(mousePos.x(), p.y()));
                 m_modified = true;
             }
@@ -151,14 +150,12 @@ void OnMonitorRectItem::slotMouseMoved(QGraphicsSceneMouseEvent* event)
         case ResizeRight:
             if (mousePos.x() > p.x()) {
                 r.setRight(mousePosInRect.x());
-                setRect(r);
                 m_modified = true;
             }
             break;
         case ResizeBottomLeft:
             if (mousePos.x() < p.x() + r.width() && mousePos.y() > p.y()) {
                 r.setBottomRight(QPointF(r.width() - mousePosInRect.x(), mousePosInRect.y()));
-                setRect(r);
                 setPos(QPointF(mousePos.x(), p.y()));
                 m_modified = true;
             }
@@ -166,14 +163,12 @@ void OnMonitorRectItem::slotMouseMoved(QGraphicsSceneMouseEvent* event)
         case ResizeBottom:
             if (mousePos.y() > p.y()) {
                 r.setBottom(mousePosInRect.y());
-                setRect(r);
                 m_modified = true;
             }
             break;
         case ResizeBottomRight:
             if (mousePos.x() > p.x() && mousePos.y() > p.y()) {
                 r.setBottomRight(mousePosInRect);
-                setRect(r);
                 m_modified = true;
             }
             break;
@@ -184,6 +179,35 @@ void OnMonitorRectItem::slotMouseMoved(QGraphicsSceneMouseEvent* event)
         default:
             break;
         }
+
+        // Keep aspect ratio
+        if (event->modifiers() == Qt::ControlModifier) {
+            // compare to rect during mouse press: 
+            // if we subtract rect() we'll get a whole lot of flickering
+            // because of diffWidth > diffHeight changing all the time
+            int diffWidth = qAbs(r.width() - m_oldRect.width());
+            int diffHeight = qAbs(r.height() - m_oldRect.height());
+
+            if (diffHeight != 0 || diffWidth != 0) {
+                if (diffWidth > diffHeight)
+                    r.setBottom(r.width() / m_dar);
+                else
+                    r.setRight(r.height() * m_dar);
+
+                // the rect's position changed
+                if (p - pos() != QPointF()) {
+                    if (diffWidth > diffHeight) {
+                        if (m_mode != ResizeBottomLeft)
+                            setY(p.y() - r.height() + rect().normalized().height());
+                    } else {
+                        if (m_mode != ResizeTopRight)
+                            setX(p.x() - r.width() + rect().normalized().width());
+                    }
+                }
+            }
+        }
+
+        setRect(r);
     } else {
         switch (getMode(event->scenePos().toPoint())) {
         case ResizeTopLeft:
@@ -210,6 +234,7 @@ void OnMonitorRectItem::slotMouseMoved(QGraphicsSceneMouseEvent* event)
             break;
         }
     }
+
     if (m_modified && KdenliveSettings::monitorscene_directupdate()) {
         emit actionFinished();
         m_modified = false;

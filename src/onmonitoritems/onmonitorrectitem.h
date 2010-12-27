@@ -32,7 +32,7 @@ class OnMonitorRectItem : public AbstractOnMonitorItem, public QGraphicsRectItem
 {
     Q_OBJECT
 public:
-    OnMonitorRectItem(const QRectF &rect, MonitorScene *scene, QGraphicsItem *parent = 0);
+    OnMonitorRectItem(const QRectF &rect, double dar, MonitorScene *scene, QGraphicsItem *parent = 0);
 
     /** @brief Gets The action mode for the area @param pos +- 4.
      * e.g. pos(0,0) returns ResizeTopLeft */
@@ -52,8 +52,10 @@ public slots:
     void slotMouseMoved(QGraphicsSceneMouseEvent *event);
 
 private:
+    double m_dar;
     rectActions m_mode;
-    QPointF m_clickPoint;
+    QRectF m_oldRect;
+    QPointF m_lastPoint;
 };
 
 #endif
