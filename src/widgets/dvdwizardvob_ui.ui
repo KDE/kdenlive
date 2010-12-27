@@ -6,11 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>342</width>
-    <height>287</height>
+    <width>319</width>
+    <height>248</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
+   <property name="margin">
+    <number>0</number>
+   </property>
    <item row="1" column="0" colspan="2">
     <widget class="QCheckBox" name="use_intro">
      <property name="text">
