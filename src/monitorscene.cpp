@@ -183,11 +183,11 @@ void MonitorScene::wheelEvent(QGraphicsSceneWheelEvent* event)
             slotZoomIn(5);
         else
             slotZoomOut(5);
-
-        event->accept();
     } else {
         QGraphicsScene::wheelEvent(event);
     }
+
+    event->accept();
 }
 
 #include "monitorscene.moc"
