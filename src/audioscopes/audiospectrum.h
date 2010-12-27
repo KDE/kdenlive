@@ -60,10 +60,14 @@ private:
 
     QAction *m_aResetHz;
     QAction *m_aTrackMouse;
+    QAction *m_aShowMax;
 
     FFTTools m_fftTools;
     QVector<float> m_lastFFT;
     QSemaphore m_lastFFTLock;
+
+    QVector<float> m_peaks;
+    QVector<float> m_peakMap;
 
     /** Contains the plot only; m_scopeRect contains text and widgets as well */
     QRect m_innerScopeRect;

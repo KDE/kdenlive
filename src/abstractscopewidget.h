@@ -82,6 +82,10 @@ public:
     virtual QString widgetName() const = 0;
 
     ///// Variables /////
+    static const QColor colHighlightLight;
+    static const QColor colHighlightDark;
+    static const QColor colDarkWhite;
+
     static const QPen penThick;
     static const QPen penThin;
     static const QPen penLight;

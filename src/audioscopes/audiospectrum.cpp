@@ -32,15 +32,17 @@
 #define MIN_DB_VALUE -120
 #define MAX_FREQ_VALUE 96000
 #define MIN_FREQ_VALUE 1000
+#define ALPHA_MOVING_AVG 0.125
 
 AudioSpectrum::AudioSpectrum(QWidget *parent) :
-        AbstractAudioScopeWidget(true, parent),
-        m_fftTools(),
-        m_lastFFT(),
-        m_lastFFTLock(1)
+    AbstractAudioScopeWidget(true, parent),
+    m_fftTools(),
+    m_lastFFT(),
+    m_lastFFTLock(1),
+    m_peaks()
   #ifdef DEBUG_AUDIOSPEC
-        ,m_timeTotal(0)
-        ,m_showTotal(0)
+    ,m_timeTotal(0)
+    ,m_showTotal(0)
   #endif
 {
     ui = new Ui::AudioSpectrum_UI;
@@ -50,11 +52,14 @@ AudioSpectrum::AudioSpectrum(QWidget *parent) :
     m_aResetHz = new QAction(i18n("Reset maximum frequency to sampling rate"), this);
     m_aTrackMouse = new QAction(i18n("Track mouse"), this);
     m_aTrackMouse->setCheckable(true);
+    m_aShowMax = new QAction(i18n("Show maximum"), this);
+    m_aShowMax->setCheckable(true);
 
 
     m_menu->addSeparator();
     m_menu->addAction(m_aResetHz);
     m_menu->addAction(m_aTrackMouse);
+    m_menu->addAction(m_aShowMax);
     m_menu->removeAction(m_aRealtime);
 
 
@@ -100,6 +105,7 @@ void AudioSpectrum::readConfig()
     ui->windowSize->setCurrentIndex(scopeConfig.readEntry("windowSize", 0));
     ui->windowFunction->setCurrentIndex(scopeConfig.readEntry("windowFunction", 0));
     m_aTrackMouse->setChecked(scopeConfig.readEntry("trackMouse", true));
+    m_aShowMax->setChecked(scopeConfig.readEntry("showMax", true));
     m_dBmax = scopeConfig.readEntry("dBmax", 0);
     m_dBmin = scopeConfig.readEntry("dBmin", -70);
     m_freqMax = scopeConfig.readEntry("freqMax", 0);
@@ -119,6 +125,7 @@ void AudioSpectrum::writeConfig()
     scopeConfig.writeEntry("windowSize", ui->windowSize->currentIndex());
     scopeConfig.writeEntry("windowFunction", ui->windowFunction->currentIndex());
     scopeConfig.writeEntry("trackMouse", m_aTrackMouse->isChecked());
+    scopeConfig.writeEntry("showMax", m_aShowMax->isChecked());
     scopeConfig.writeEntry("dBmax", m_dBmax);
     scopeConfig.writeEntry("dBmin", m_dBmin);
     if (m_customFreq) {
@@ -182,7 +189,9 @@ QImage AudioSpectrum::renderAudioScope(uint, const QVector<int16_t> audioFrame, 
         m_lastFFTLock.release();
 
 
+#ifdef DEBUG_AUDIOSPEC
         QTime drawTime = QTime::currentTime();
+#endif
 
         // Draw the spectrum
         QImage spectrum(m_scopeRect.size(), QImage::Format_ARGB32);
@@ -212,6 +221,37 @@ QImage AudioSpectrum::renderAudioScope(uint, const QVector<int16_t> audioFrame, 
                 spectrum.setPixel(leftDist + i, topDist + h-y-1, qRgba(225, 182, 255, 255));
             }
 #endif
+        }
+
+        // Calculate the peak values. Use the new value if it is bigger, otherwise adapt to lower
+        // values using the Moving Average formula
+        if (m_aShowMax->isChecked()) {
+            davinci.setPen(QPen(QBrush(AbstractScopeWidget::colHighlightLight), 2));
+            if (m_peaks.size() != fftWindow/2) {
+                m_peaks = QVector<float>(m_lastFFT);
+            } else {
+                for (int i = 0; i < fftWindow/2; i++) {
+                    if (m_lastFFT[i] > m_peaks[i]) {
+                        m_peaks[i] = m_lastFFT[i];
+                    } else {
+                        m_peaks[i] = ALPHA_MOVING_AVG * m_lastFFT[i] + (1-ALPHA_MOVING_AVG) * m_peaks[i];
+                    }
+                }
+            }
+            int prev = 0;
+            m_peakMap = FFTTools::interpolatePeakPreserving(m_peaks, m_innerScopeRect.width(), 0, right, -180);
+            for (uint i = 0; i < w; i++) {
+                yMax = (m_peakMap[i] - m_dBmin) / (m_dBmax-m_dBmin) * (h-1);
+                if (yMax < 0) {
+                    yMax = 0;
+                } else if (yMax >= (int)h) {
+                    yMax = h-1;
+                }
+
+                davinci.drawLine(leftDist + i-1, topDist + h-prev-1, leftDist + i, topDist + h-yMax-1);
+                spectrum.setPixel(leftDist + i, topDist + h-yMax-1, AbstractScopeWidget::colHighlightLight.rgba());
+                prev = yMax;
+            }
         }
 
 #ifdef DEBUG_AUDIOSPEC
@@ -461,12 +501,3 @@ void AudioSpectrum::handleMouseDrag(const QPoint movement, const RescaleDirectio
         forceUpdateScope();
     }
 }
-
-
-#ifdef DEBUG_AUDIOSPEC
-#undef DEBUG_AUDIOSPEC
-#endif
-
-#undef MIN_DB_VALUE
-#undef MAX_FREQ_VALUE
-#undef MIN_FREQ_VALUE
