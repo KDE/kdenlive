@@ -61,6 +61,7 @@ private:
     QAction *m_aResetHz;
     QAction *m_aGrid;
     QAction *m_aTrackMouse;
+    QAction *m_aHighlightPeaks;
 
     QList<QVector<float> > m_fftHistory;
     QImage m_fftHistoryImg;

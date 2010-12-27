@@ -46,12 +46,15 @@ Spectrogram::Spectrogram(QWidget *parent) :
     m_aGrid->setCheckable(true);
     m_aTrackMouse = new QAction(i18n("Track mouse"), this);
     m_aTrackMouse->setCheckable(true);
+    m_aHighlightPeaks = new QAction(i18n("Highlight peaks"), this);
+    m_aHighlightPeaks->setCheckable(true);
 
 
     m_menu->addSeparator();
     m_menu->addAction(m_aResetHz);
     m_menu->addAction(m_aTrackMouse);
     m_menu->addAction(m_aGrid);
+    m_menu->addAction(m_aHighlightPeaks);
     m_menu->removeAction(m_aRealtime);
 
 
@@ -98,6 +101,7 @@ void Spectrogram::readConfig()
     ui->windowFunction->setCurrentIndex(scopeConfig.readEntry("windowFunction", 0));
     m_aTrackMouse->setChecked(scopeConfig.readEntry("trackMouse", true));
     m_aGrid->setChecked(scopeConfig.readEntry("drawGrid", true));
+    m_aHighlightPeaks->setChecked(scopeConfig.readEntry("highlightPeaks", true));
     m_dBmax = scopeConfig.readEntry("dBmax", 0);
     m_dBmin = scopeConfig.readEntry("dBmin", -70);
     m_freqMax = scopeConfig.readEntry("freqMax", 0);
@@ -118,6 +122,7 @@ void Spectrogram::writeConfig()
     scopeConfig.writeEntry("windowFunction", ui->windowFunction->currentIndex());
     scopeConfig.writeEntry("trackMouse", m_aTrackMouse->isChecked());
     scopeConfig.writeEntry("drawGrid", m_aGrid->isChecked());
+    scopeConfig.writeEntry("highlightPeaks", m_aHighlightPeaks->isChecked());
     scopeConfig.writeEntry("dBmax", m_dBmax);
     scopeConfig.writeEntry("dBmin", m_dBmin);
 
@@ -368,6 +373,7 @@ QImage Spectrogram::renderAudioScope(uint, const QVector<int16_t> audioFrame, co
         y = 0;
         if (newData || m_parameterChanged) {
             m_parameterChanged = false;
+            bool peak = false;
 
             QVector<float> dbMap;
             uint right;
@@ -381,15 +387,20 @@ QImage Spectrogram::renderAudioScope(uint, const QVector<int16_t> audioFrame, co
 
                 for (int i = 0; i < dbMap.size(); i++) {
                     val = dbMap[i];
+                    peak = val > m_dBmax;
 
-                    // Normalize dB value to [0 1], 1 corresponding to 0 dB and 0 to dbMin dB
+                    // Normalize dB value to [0 1], 1 corresponding to dbMax dB and 0 to dbMin dB
                     val = (val-m_dBmax)/(m_dBmax-m_dBmin) + 1;
                     if (val < 0) {
                         val = 0;
                     } else if (val > 1) {
                         val = 1;
                     }
-                    spectrum.setPixel(leftDist + i, topDist + h-1 - y, qRgba(255, 255, 255, val * 255));
+                    if (!peak || !m_aHighlightPeaks->isChecked()) {
+                        spectrum.setPixel(leftDist + i, topDist + h-1 - y, qRgba(255, 255, 255, val * 255));
+                    } else {
+                        spectrum.setPixel(leftDist + i, topDist + h-1 - y, AbstractScopeWidget::colHighlightDark.rgba());
+                    }
                 }
 
                 y++;
