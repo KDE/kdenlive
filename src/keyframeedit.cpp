@@ -123,7 +123,12 @@ void KeyframeEdit::addParameter(QDomElement e, int activeKeyframe)
     m_showButtons->addButton(radio, columnId);
     if (e.attribute("intimeline") == "1")
         radio->setChecked(true);
-    m_slidersLayout->addWidget(radio, columnId, 1);
+
+    // make the radiobutton stay at the top
+    QVBoxLayout *radioLayout = new QVBoxLayout(this);
+    radioLayout->addWidget(radio);
+    radioLayout->addStretch();
+    m_slidersLayout->addLayout(radioLayout, columnId, 1);
 
     QStringList frames = e.attribute("keyframes").split(";", QString::SkipEmptyParts);
     for (int i = 0; i < frames.count(); i++) {

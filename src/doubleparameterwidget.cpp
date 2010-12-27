@@ -36,6 +36,7 @@ DoubleParameterWidget::DoubleParameterWidget(const QString &name, int value, int
 {
     QGridLayout *layout = new QGridLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
+    layout->setSpacing(0);
 
     m_name = new QLabel(name, this);
     layout->addWidget(m_name, 0, 0);
@@ -60,6 +61,7 @@ DoubleParameterWidget::DoubleParameterWidget(const QString &name, int value, int
 
     m_commentLabel = new QLabel(comment, this);
     m_commentLabel->setWordWrap(true);
+    m_commentLabel->setTextFormat(Qt::RichText);
     m_commentLabel->setAlignment(Qt::AlignLeft | Qt::AlignTop);
     m_commentLabel->setFrameShape(QFrame::StyledPanel);
     m_commentLabel->setFrameShadow(QFrame::Raised);
@@ -105,8 +107,15 @@ void DoubleParameterWidget::slotReset()
 
 void DoubleParameterWidget::slotShowComment()
 {
-    if (m_commentLabel->text() != QString())
-        m_commentLabel->setHidden(!m_commentLabel->isHidden());
+    if (m_commentLabel->text() != QString()) {
+        if (m_commentLabel->isHidden()) {
+            m_commentLabel->setHidden(false);
+            layout()->setContentsMargins(0, 0, 0, 15);
+        } else {
+            m_commentLabel->setHidden(true);
+            layout()->setContentsMargins(0, 0, 0, 0);
+        }
+    }
 }
 
 #include "doubleparameterwidget.moc"
