@@ -6,11 +6,17 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>440</width>
-    <height>237</height>
+    <width>366</width>
+    <height>183</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
    <item row="0" column="0" colspan="3">
     <widget class="QTreeWidget" name="profiles_list">
      <property name="alternatingRowColors">

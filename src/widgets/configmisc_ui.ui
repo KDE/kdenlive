@@ -6,11 +6,17 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>394</width>
-    <height>321</height>
+    <width>374</width>
+    <height>320</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout_4">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
    <item row="0" column="0" colspan="3">
     <widget class="QCheckBox" name="kcfg_openlastproject">
      <property name="text">

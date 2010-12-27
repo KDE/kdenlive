@@ -6,14 +6,20 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>268</width>
-    <height>148</height>
+    <width>262</width>
+    <height>155</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
    <item row="0" column="0" colspan="5">
     <widget class="QGroupBox" name="properties">
      <property name="title">
