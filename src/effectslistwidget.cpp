@@ -151,7 +151,7 @@ void EffectsListWidget::initList()
 
     loadEffects(&MainWindow::videoEffects, KIcon("kdenlive-show-video"), misc, &folders, QString::number((int) EFFECT_VIDEO), current, &found);
     loadEffects(&MainWindow::audioEffects, KIcon("kdenlive-show-audio"), audio, &folders, QString::number((int) EFFECT_AUDIO), current, &found);
-    loadEffects(&MainWindow::customEffects, KIcon("kdenlive-custom-effect"), custom, &QList<QTreeWidgetItem *>(), QString::number((int) EFFECT_CUSTOM), current, &found);
+    loadEffects(&MainWindow::customEffects, KIcon("kdenlive-custom-effect"), custom, static_cast<QList<QTreeWidgetItem *> *>(0), QString::number((int) EFFECT_CUSTOM), current, &found);
 
     if (!found && !currentFolder.isEmpty()) {
         // previously selected effect was removed, focus on its parent folder
@@ -178,11 +178,13 @@ void EffectsListWidget::loadEffects(const EffectsList *effectlist, KIcon icon, Q
         effectInfo = effectlist->effectIdInfo(ix);
         parentItem = NULL;
 
-        for (int i = 0; i < folders->count(); i++) {
-            l = folders->at(i)->data(0, IdRole).toString().split(',', QString::SkipEmptyParts);
-            if (l.contains(effectInfo.at(2))) {
-                parentItem = folders->at(i);
-                break;
+        if (folders) {
+            for (int i = 0; i < folders->count(); i++) {
+                l = folders->at(i)->data(0, IdRole).toString().split(',', QString::SkipEmptyParts);
+                if (l.contains(effectInfo.at(2))) {
+                    parentItem = folders->at(i);
+                    break;
+                }
             }
         }
         if (parentItem == NULL)
