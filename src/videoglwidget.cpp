@@ -79,12 +79,15 @@ void VideoGLWidget::resizeGL(int width, int height)
     glLoadIdentity();
     gluOrtho2D(0, width, height, 0);
     glMatrixMode(GL_MODELVIEW);
-    glClear(GL_COLOR_BUFFER_BIT); // | GL_DEPTH_BUFFER_BIT // Depth is disabled, so shouldn'b be necessary to clear DEPTH_BUFFER
+    glClear(GL_COLOR_BUFFER_BIT);
 }
 
 void VideoGLWidget::paintGL()
 {
     if (m_texture) {
+#ifdef Q_WS_MAC
+		glClear(GL_COLOR_BUFFER_BIT);
+#endif
         glEnable(GL_TEXTURE_RECTANGLE_EXT);
         glBegin(GL_QUADS);
         glTexCoord2i(0, 0);
