@@ -8,11 +8,16 @@
                 <comment><![CDATA[Determines how the effect tries to adapt to background changes. <br/>
                 If the background does not change, then try to use 0 (requires the first frame to represent background only, without your light sources).]]></comment>
         </parameter>
-	<parameter type="constant" name="lightOpacity" default="40" min="0" max="100" factor="100">
+        <parameter type="constant" name="lightOpacity" default="60" min="0" max="100" factor="100">
             <name>Opacity</name>
             <comment><![CDATA[Basic opacity for a light source.<br/>
             For slowly moving light source try to use a lower opacity value to obtain smoother results.]]></comment>
 	</parameter>
+        <parameter type="constant" name="opacitySmoothing" default="30" min="1" max="100" factor="10">
+            <name>Smoothing</name>
+            <comment><![CDATA[Smoothing of the light map according to the light source. <br/>
+            A value of 1 results in absolutely smooth transitions from background to light source, but might result in too weak lights. The maximum value gives sharper edges and stronger lights.]]></comment>
+        </parameter>
         <parameter type="constant" name="backgroundWeight" default="0" min="0" max="100" factor="100">
             <name>Background Weight</name>
             <comment>Strength of the (calculated) background image. Setting it to 100 paints the light mask directly over the background, without any person in the image if the video starts with a «clean» background image.</comment>
@@ -27,7 +32,12 @@
             <comment><![CDATA[Similar to the brightness threshold, but for the brightness difference (<code>max(dR, dG, dB)</code>) <em>relative to the calculated background.</em><br/>
             Increasing this threshold makes it harder for light sources to be accepted on bright backgrounds, but decreases the danger of noise counting as light source.]]></comment>
         </parameter>
-        <parameter type="constant" name="dim" default="0" min="0" max="100" factor="100">
+        <parameter type="constant" name="thresholdDiffSum" default="0" min="0" max="765" factor="1">
+            <name>Difference Sum Threshold</name>
+            <comment><![CDATA[Threshold for the differences summed up (<code>dR + dG + dB</code>).<br/>
+            Raising this value might, in some cases, avoid that some light objects lit by the light source are added to the light mask.]]></comment>
+        </parameter>
+        <parameter type="constant" name="dim" default="0" min="0" max="255" factor="255">
             <name>Dimming</name>
             <comment>Dims the light mask. Lights will leave a fainting trail if it is set to a value > 0.</comment>
         </parameter>

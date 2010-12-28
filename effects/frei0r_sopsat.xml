@@ -20,7 +20,7 @@
 
         <parameter type="simplekeyframe" name="rOffset" default="0" min="-1024" max="1024" factor="256">
                 <name>Offset Red</name>
-                <comment>Changing the offset lifts (or lowers) the brightness of each pixel by the makes the given value.</comment>
+                <comment>Changing the offset lifts (or lowers) the brightness of each pixel by the given value.</comment>
         </parameter>
         <parameter type="simplekeyframe" name="gOffset" default="0" min="-1024" max="1024" factor="256">
                 <name>Offset Green</name>
