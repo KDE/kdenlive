@@ -199,10 +199,12 @@ void Render::buildConsumer(const QString profileName)
             tmp = qstrdup(decklink.toUtf8().constData());
             m_mltConsumer = new Mlt::Consumer(*m_mltProfile, tmp);
             delete[] tmp;
-            if (m_mltConsumer) {
+            if (m_mltConsumer->is_valid()) {
                 m_externalConsumer = true;
                 m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
                 m_mltConsumer->set("terminate_on_pause", 0);
+                m_mltConsumer->set("buffer", 12);
+                m_mltConsumer->set("deinterlace_method", "onefield");
                 mlt_log_set_callback(kdenlive_callback);
             }
             if (m_mltConsumer && m_mltConsumer->is_valid()) return;
