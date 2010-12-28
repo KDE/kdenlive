@@ -206,13 +206,13 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
 
     for (int i = 0; i < namenode.count() ; i++) {
         QDomElement pa = namenode.item(i).toElement();
-        QDomNode na = pa.firstChildElement("name");
-        QDomNode commentNode = pa.firstChildElement("comment");
+        QDomElement na = pa.firstChildElement("name");
+        QDomElement commentElem = pa.firstChildElement("comment");
         QString type = pa.attribute("type");
-        QString paramName = i18n(na.toElement().text().toUtf8().data());
+        QString paramName = i18n(na.text().toUtf8().data());
         QString comment;
-        if (!commentNode.isNull())
-            comment = i18n(commentNode.toElement().text().toUtf8().data());
+        if (!commentElem.isNull())
+            comment = i18n(commentElem.text().toUtf8().data());
         QWidget * toFillin = new QWidget(m_baseWidget);
         QString value = pa.attribute("value").isNull() ?
                         pa.attribute("default") : pa.attribute("value");

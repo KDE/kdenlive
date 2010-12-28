@@ -139,6 +139,9 @@ private slots:
     /** @brief Pass position changes of the timeline cursor to the effects to keep their local timelines in sync. */
     void slotRenderPos(int pos);
 
+    /** @brief Shows/Hides the comment box and emits showComments to notify the parameter widgets to do the same. */
+    void slotShowComments();
+
 signals:
     void removeEffect(ClipItem*, int, QDomElement);
     /**  Parameters for an effect changed, update the filter in playlist */

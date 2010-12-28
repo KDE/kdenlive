@@ -101,12 +101,12 @@ void KeyframeEdit::addParameter(QDomElement e, int activeKeyframe)
     keyframe_list->blockSignals(true);
     m_params.append(e.cloneNode().toElement());
 
-    QDomNode na = e.firstChildElement("name");
-    QString paramName = i18n(na.toElement().text().toUtf8().data());
-    QDomNode commentNode = e.firstChildElement("comment");
+    QDomElement na = e.firstChildElement("name");
+    QString paramName = i18n(na.text().toUtf8().data());
+    QDomElement commentElem = e.firstChildElement("comment");
     QString comment;
-    if (!commentNode.isNull())
-        comment = i18n(commentNode.toElement().text().toUtf8().data());
+    if (!commentElem.isNull())
+        comment = i18n(commentElem.text().toUtf8().data());
 
     int columnId = keyframe_list->columnCount();
     keyframe_list->insertColumn(columnId);

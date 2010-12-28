@@ -74,6 +74,8 @@ EffectStackView::EffectStackView(Monitor *monitor, QWidget *parent) :
 
     m_ui.effectlist->setDragDropMode(QAbstractItemView::NoDragDrop); //use internal if drop is recognised right
 
+    m_ui.labelComment->setHidden(true);
+
     //connect(m_ui.region_url, SIGNAL(urlSelected(const KUrl &)), this , SLOT(slotRegionChanged()));
     //connect(m_ui.region_url, SIGNAL(returnPressed()), this , SLOT(slotRegionChanged()));
     connect(m_ui.effectlist, SIGNAL(itemSelectionChanged()), this , SLOT(slotItemSelectionChanged()));
@@ -84,7 +86,7 @@ EffectStackView::EffectStackView(Monitor *monitor, QWidget *parent) :
     connect(m_ui.buttonSave, SIGNAL(clicked()), this, SLOT(slotSaveEffect()));
     connect(m_ui.buttonReset, SIGNAL(clicked()), this, SLOT(slotResetEffect()));
     connect(m_ui.checkAll, SIGNAL(stateChanged(int)), this, SLOT(slotCheckAll(int)));
-    connect(m_ui.buttonShowComments, SIGNAL(clicked()), this, SIGNAL(showComments()));
+    connect(m_ui.buttonShowComments, SIGNAL(clicked()), this, SLOT(slotShowComments()));
     connect(m_effectedit, SIGNAL(parameterChanged(const QDomElement, const QDomElement)), this , SLOT(slotUpdateEffectParams(const QDomElement, const QDomElement)));
     connect(m_effectedit, SIGNAL(seekTimeline(int)), this , SLOT(slotSeekTimeline(int)));
     connect(m_effectedit, SIGNAL(displayMessage(const QString&, int)), this, SIGNAL(displayMessage(const QString&, int)));
@@ -187,8 +189,9 @@ void EffectStackView::slotClipItemSelected(ClipItem* c, int ix)
             double factor = c->baseClip()->getProperty("aspect_ratio").toDouble();
             QPoint p((int)(size.section('x', 0, 0).toInt() * factor + 0.5), size.section('x', 1, 1).toInt());
             m_effectedit->setFrameSize(p);
-            m_effectedit->setFrameSize(p);
-        } else ix = 0;
+        } else {
+            ix = 0;
+        }
     }
     if (m_clipref == NULL) {
         m_ui.effectlist->blockSignals(true);
@@ -198,6 +201,7 @@ void EffectStackView::slotClipItemSelected(ClipItem* c, int ix)
         m_ui.effectlist->blockSignals(false);
         m_ui.checkAll->setToolTip(QString());
         m_ui.checkAll->setText(QString());
+        m_ui.labelComment->setText(QString());
         setEnabled(false);
         return;
     }
@@ -287,6 +291,8 @@ void EffectStackView::setupListView(int ix)
         m_ui.buttonUp->setEnabled(false);
         m_ui.buttonDown->setEnabled(false);
         m_ui.checkAll->setEnabled(false);
+        m_ui.buttonShowComments->setEnabled(false);
+        m_ui.labelComment->setHidden(true);
     } else {
         qMin(ix, 0);
         qMax(ix, m_ui.effectlist->count() - 1);
@@ -317,6 +323,7 @@ void EffectStackView::slotItemSelectionChanged(bool update)
                                                    m_clipref->cropStart().frames(KdenliveSettings::project_fps()),
                                                    (m_clipref->cropStart() + m_clipref->cropDuration()).frames(KdenliveSettings::project_fps()) - 1); //minx max frame
         //m_ui.region_url->setUrl(KUrl(eff.attribute("region")));
+        m_ui.labelComment->setText(i18n(eff.firstChildElement("description").firstChildElement("full").text().toUtf8().data()));
     }
     if (!m_trackMode && m_clipref && update) m_clipref->setSelectedEffect(activeRow);
     m_ui.buttonDel->setEnabled(hasItem);
@@ -325,9 +332,11 @@ void EffectStackView::slotItemSelectionChanged(bool update)
     m_ui.buttonUp->setEnabled(activeRow > 0);
     m_ui.buttonDown->setEnabled((activeRow < m_ui.effectlist->count() - 1) && hasItem);
     m_ui.frame->setEnabled(isChecked);
+    m_ui.buttonShowComments->setEnabled(hasItem);
 
     if (m_ui.buttonShowComments->isChecked())
         emit showComments();
+    m_ui.labelComment->setHidden(!m_ui.buttonShowComments->isChecked() || !m_ui.labelComment->text().count() || !hasItem);
 }
 
 void EffectStackView::slotItemUp()
@@ -389,6 +398,7 @@ void EffectStackView::slotResetEffect()
 
     if (m_ui.buttonShowComments->isChecked())
         emit showComments();
+    m_ui.labelComment->setHidden(!m_ui.buttonShowComments->isChecked() || !m_ui.labelComment->text().count());
 }
 
 
@@ -410,6 +420,8 @@ void EffectStackView::clear()
     m_ui.checkAll->setEnabled(false);
     m_effectedit->transferParamDesc(QDomElement(), 0, 0, 0);
     //m_ui.region_url->clear();
+    m_ui.buttonShowComments->setEnabled(false);
+    m_ui.labelComment->setText(QString());
     m_ui.effectlist->blockSignals(false);
 }
 
@@ -496,6 +508,12 @@ int EffectStackView::isTrackMode(bool *ok) const
 {
     *ok = m_trackMode;
     return m_trackindex;
+}
+
+void EffectStackView::slotShowComments()
+{
+    m_ui.labelComment->setHidden(!m_ui.buttonShowComments->isChecked() || !m_ui.labelComment->text().count());
+    emit showComments();
 }
 
 #include "effectstackview.moc"
