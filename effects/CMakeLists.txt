@@ -1,5 +1,6 @@
 INSTALL (FILES 
 
+audiowave.xml
 automask.xml
 boxblur.xml
 brightness.xml
