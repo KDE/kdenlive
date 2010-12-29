@@ -391,12 +391,13 @@ HRESULT DeckLinkCaptureDelegate::VideoInputFrameArrived(IDeckLinkVideoInputFrame
             if (m_analyseFrame) {
 		QImage image(videoFrame->GetWidth(), videoFrame->GetHeight(), QImage::Format_ARGB32_Premultiplied);
 		//convert from uyvy422 to rgba
+                videoFrame->GetBytes(&frameBytes);
 		CaptureHandler::uyvy2rgb((uchar *)frameBytes, (uchar *)image.bits(), videoFrame->GetWidth(), videoFrame->GetHeight());
 		emit gotFrame(image);
 	    }
 
             if (videoOutputFile != -1) {
-                videoFrame->GetBytes(&frameBytes);
+                if (!m_analyseFrame) videoFrame->GetBytes(&frameBytes);
                 write(videoOutputFile, frameBytes, videoFrame->GetRowBytes() * videoFrame->GetHeight());
 
                 if (rightEyeFrame) {
