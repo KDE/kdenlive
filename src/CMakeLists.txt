@@ -118,6 +118,7 @@ kde4_add_ui_files(kdenlive_UI
   widgets/cornerswidget_ui.ui
   widgets/audiospectrum_ui.ui
   widgets/spectrogram_ui.ui
+  widgets/smconfig_ui.ui
 )
 
 set(kdenlive_SRCS
