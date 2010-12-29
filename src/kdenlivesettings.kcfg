@@ -642,6 +642,21 @@
       <default>5</default>
     </entry> 
 
+    <entry name="sm_loop" type="Bool">
+      <label>Should we loop in stop motion playback.</label>
+      <default>false</default>
+    </entry>
+
+    <entry name="sm_playsound" type="Bool">
+      <label>Should we play a sound to notify of captured frame in stop motion.</label>
+      <default>false</default>
+    </entry>
+    
+    <entry name="sm_framesplayback" type="Int">
+      <label>Number of frames to play back in stop motion playback.</label>
+      <default>10</default>
+    </entry>
+    
     <entry name="blitzeffect" type="Int">
       <label>Effect applied to stopmotion frame overlay.</label>
       <default>0</default>
