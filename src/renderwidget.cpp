@@ -1647,8 +1647,8 @@ void RenderWidget::parseScriptFiles()
     bool activate = false;
     QTreeWidgetItem *script = m_view.scripts_list->topLevelItem(0);
     if (script) {
-        script->setSelected(true);
         m_view.scripts_list->setCurrentItem(script);
+        script->setSelected(true);
         activate = true;
     }
 //    m_view.start_script->setEnabled(activate);
