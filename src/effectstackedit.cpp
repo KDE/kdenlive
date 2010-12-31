@@ -205,6 +205,8 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
     bool disable = d.attribute("disable") == "1" && KdenliveSettings::disable_effect_parameters();
     setEnabled(!disable);
 
+    bool stretch = true;
+
 
     for (int i = 0; i < namenode.count() ; i++) {
         QDomElement pa = namenode.item(i).toElement();
@@ -386,6 +388,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
             CubicBezierSpline spline;
             spline.fromString(value);
             widget->setSpline(spline);
+            stretch = false;
             m_vbox->addWidget(widget);
             m_valueItems[paramName] = widget;
             connect(widget, SIGNAL(modified()), this, SLOT(collectAllParameters()));
@@ -484,7 +487,9 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
         if (toFillin)
             m_vbox->addWidget(toFillin);
     }
-    m_vbox->addStretch();
+
+    if (stretch)
+        m_vbox->addStretch();
 
     if (m_keyframeEditor)
         m_keyframeEditor->checkVisibleParam();
