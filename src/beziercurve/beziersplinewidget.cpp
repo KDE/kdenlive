@@ -122,19 +122,22 @@ void BezierSplineWidget::mousePressEvent(QMouseEvent* event)
     double y = 1.0 - event->pos().y() / (double)(height() - 1);
 
     point_types selectedPoint;
-    int closest_point_index = nearestPointInRange(QPointF(x, y), width(), height(), &selectedPoint);
+    int closestPointIndex = nearestPointInRange(QPointF(x, y), width(), height(), &selectedPoint);
 
-    /*if (event->button() == Qt::RightButton && closest_point_index > 0 && closest_point_index < d->m_curve.points().count() - 1) {
-        d->m_curve.removePoint(closest_point_index);
+    if (event->button() == Qt::RightButton && closestPointIndex > 0 && closestPointIndex < m_spline.points().count() - 1 && selectedPoint == PTypeP) {
+        m_spline.removePoint(closestPointIndex);
         setCursor(Qt::ArrowCursor);
-        d->setState(ST_NORMAL);
-        if (closest_point_index < d->m_grab_point_index)
-            --d->m_grab_point_index;
-        d->setCurveModified();
+        m_mode = ModeNormal;
+        if (closestPointIndex < m_currentPointIndex)
+            --m_currentPointIndex;
+        update();
+        emit modified();
         return;
-    } else*/ if (event->button() != Qt::LeftButton) return;
+    } else if (event->button() != Qt::LeftButton) {
+        return;
+    }
 
-    if (closest_point_index < 0) {
+    if (closestPointIndex < 0) {
         BPoint po;
         po.p = QPointF(x, y);
         po.h1 = QPointF(x-0.05, y-0.05);
@@ -145,7 +148,7 @@ void BezierSplineWidget::mousePressEvent(QMouseEvent* event)
             return;
         /*if (!d->jumpOverExistingPoints(newPoint, -1)) return;*/
     } else {
-        m_currentPointIndex = closest_point_index;
+        m_currentPointIndex = closestPointIndex;
         m_currentPointType = selectedPoint;
     }
 
