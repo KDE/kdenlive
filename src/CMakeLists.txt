@@ -1,6 +1,9 @@
-add_subdirectory(widgets)
-add_subdirectory(mimetypes)
+add_subdirectory(beziercurve)
+add_subdirectory(colorcorrection)
 add_subdirectory(kiss_fft)
+add_subdirectory(mimetypes)
+add_subdirectory(onmonitoritems)
+add_subdirectory(widgets)
 
 macro_optional_find_package(Nepomuk)
 include(FindQImageBlitz)
@@ -14,11 +17,12 @@ include_directories(
   ${QDBUS_INCLUDE_DIRS}
   ${CMAKE_SOURCE_DIR}
   ${CMAKE_BINARY_DIR}
-  ${CMAKE_SOURCE_DIR}/src/widgets
-  ${CMAKE_SOURCE_DIR}/src/colorcorrection
-  ${CMAKE_SOURCE_DIR}/src/onmonitoritems
-  ${CMAKE_SOURCE_DIR}/src/kiss_fft
   ${CMAKE_SOURCE_DIR}/src/audioscopes
+  ${CMAKE_SOURCE_DIR}/src/beziercurve
+  ${CMAKE_SOURCE_DIR}/src/colorcorrection
+  ${CMAKE_SOURCE_DIR}/src/kiss_fft
+  ${CMAKE_SOURCE_DIR}/src/onmonitoritems
+  ${CMAKE_SOURCE_DIR}/src/widgets
 )
 
 
@@ -258,10 +262,9 @@ set(kdenlive_SRCS
   kiss_fft/_kiss_fft_guts.h
   kiss_fft/kiss_fft.c
   kiss_fft/tools/kiss_fftr.c
+  beziercurve/cubicbezierspline.cpp
+  beziercurve/beziersplinewidget.cpp
 )
-
-add_subdirectory(${CMAKE_SOURCE_DIR}/src/colorcorrection)
-add_subdirectory(${CMAKE_SOURCE_DIR}/src/onmonitoritems)
 
 add_definitions(${KDE4_DEFINITIONS})
 

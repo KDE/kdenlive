@@ -1,0 +1,18 @@
+<!DOCTYPE kpartgui>
+<effect tag="frei0r.curves" id="frei0r.bezier_curves">
+        <name>Bézier Curves</name>
+        <description>Color curves adjustment</description>
+        <author>Maksim Golovkin, Till Theato</author>
+
+        <parameter type="list" name="Channel" default="0" paramlist="0,1,2,3" paramlistdisplay="Red,Green,Blue,Luma">
+                <name>Channel</name>
+        </parameter>
+
+        <parameter type="list" name="Luma formula" default="1" paramlist="0,1" paramlistdisplay="Rec. 601,Rec. 709">
+                <name>Luma formula</name>
+        </parameter>
+
+        <parameter type="bezier_spline" name="Bézier spline" depends="Channel" default="0;0#0;0#0;0.5|1;0.5#1;1#1;1">
+                <name>Bézier Curve(Spline) Widget</name>
+        </parameter>
+</effect>
