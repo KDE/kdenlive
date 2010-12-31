@@ -86,14 +86,24 @@ void BezierSplineWidget::paintEvent(QPaintEvent* event)
     // Drawing curve handles.
     p.setPen(QPen(Qt::red, 1, Qt::SolidLine));
     BPoint point;
+    QPolygon handle(4);
+    handle.setPoints(4,
+                     0,  0,
+                     3,  3,
+                     0,  6,
+                     -3, 3);
     for (int i = 0; i < m_spline.points().count(); ++i) {
         point = m_spline.points().at(i);
-        p.drawEllipse(QRectF(point.h1.x() * wWidth - 3,
-                            wHeight - 3 - point.h1.y() * wHeight, 6, 6));
+        if (i == m_currentPointIndex)
+            p.setBrush(QBrush(QColor(Qt::red), Qt::SolidPattern));
+
+        p.drawPolygon(handle.translated(point.h1.x() * wWidth, wHeight - point.h1.y() * wHeight));
         p.drawEllipse(QRectF(point.p.x() * wWidth - 3,
-                             wHeight - 3 - point.p.y() * wHeight, 6, 6));
-        p.drawEllipse(QRectF(point.h2.x() * wWidth - 3,
-                             wHeight - 3 - point.h2.y() * wHeight, 6, 6));
+                            wHeight - 3 - point.p.y() * wHeight, 6, 6));
+        p.drawPolygon(handle.translated(point.h2.x() * wWidth, wHeight - point.h2.y() * wHeight));
+
+        if ( i == m_currentPointIndex)
+            p.setBrush(QBrush(Qt::NoBrush));
     }
 }
 
