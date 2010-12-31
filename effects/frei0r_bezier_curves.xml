@@ -2,7 +2,7 @@
 <effect tag="frei0r.curves" id="frei0r.bezier_curves">
         <name>Bézier Curves</name>
         <description>Color curves adjustment</description>
-        <author>Maksim Golovkin, Till Theato</author>
+        <author>Till Theato, Maksim Golovkin</author>
 
         <parameter type="list" name="Channel" default="0" paramlist="0,1,2,3" paramlistdisplay="Red,Green,Blue,Luma">
                 <name>Channel</name>
@@ -12,7 +12,7 @@
                 <name>Luma formula</name>
         </parameter>
 
-        <parameter type="bezier_spline" name="Bézier spline" depends="Channel" default="0;0#0;0#0;0.5|1;0.5#1;1#1;1">
+        <parameter type="bezier_spline" name="Bézier spline" depends="Channel" default="-1;-1#0;0#0.1;0.1|0.9;0.9#1;1#2;2">
                 <name>Bézier Curve(Spline) Widget</name>
         </parameter>
 </effect>

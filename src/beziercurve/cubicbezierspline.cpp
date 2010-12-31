@@ -216,7 +216,7 @@ void CubicBezierSpline::update()
                 << m_points.at(i+1).h1
                 << m_points.at(i+1).p;
 
-        int numberOfValues = (int)((points[3].x() - points[0].x()) * m_precision);
+        int numberOfValues = (int)((points[3].x() - points[0].x()) * m_precision * 2);
         if (numberOfValues == 0)
             numberOfValues = 1;
         double step = 1 / (double)numberOfValues;

@@ -28,7 +28,6 @@ BezierSplineWidget::BezierSplineWidget(QWidget* parent) :
         m_mode(ModeNormal),
         m_currentPointIndex(-1)
 {
-    //m_spline.setPrecision(width());
     setMouseTracking(true);
     setAutoFillBackground(false);
     setAttribute(Qt::WA_OpaquePaintEvent);
@@ -58,7 +57,9 @@ void BezierSplineWidget::paintEvent(QPaintEvent* event)
     int    wWidth = width() - 1;
     int    wHeight = height() - 1;
 
-    // Draw curve.
+    /*
+     * Spline
+     */
     double prevY = wHeight - m_spline.value(0.) * wHeight;
     double prevX = 0.;
     double curY;
@@ -70,7 +71,7 @@ void BezierSplineWidget::paintEvent(QPaintEvent* event)
         normalizedX = x / (double)wWidth;
         curY = wHeight - m_spline.value(normalizedX, true) * wHeight;
         
-        /**
+        /*
          * Keep in mind that QLineF rounds doubles
          * to ints mathematically, not just rounds down
          * like in C
@@ -82,25 +83,27 @@ void BezierSplineWidget::paintEvent(QPaintEvent* event)
     }
     p.drawLine(QLineF(prevX, prevY ,
                       x, wHeight - m_spline.value(1.0, true) * wHeight));
-    
-    // Drawing curve handles.
+
+    /*
+     * Points + Handles
+     */
     p.setPen(QPen(Qt::red, 1, Qt::SolidLine));
     BPoint point;
     QPolygon handle(4);
     handle.setPoints(4,
-                     0,  0,
-                     3,  3,
-                     0,  6,
-                     -3, 3);
+                     1,  -2,
+                     4,  1,
+                     1,  4,
+                     -2, 1);
     for (int i = 0; i < m_spline.points().count(); ++i) {
         point = m_spline.points().at(i);
         if (i == m_currentPointIndex)
             p.setBrush(QBrush(QColor(Qt::red), Qt::SolidPattern));
 
-        p.drawPolygon(handle.translated(point.h1.x() * wWidth, wHeight - point.h1.y() * wHeight));
+        p.drawConvexPolygon(handle.translated(point.h1.x() * wWidth, wHeight - point.h1.y() * wHeight));
         p.drawEllipse(QRectF(point.p.x() * wWidth - 3,
                             wHeight - 3 - point.p.y() * wHeight, 6, 6));
-        p.drawPolygon(handle.translated(point.h2.x() * wWidth, wHeight - point.h2.y() * wHeight));
+        p.drawConvexPolygon(handle.translated(point.h2.x() * wWidth, wHeight - point.h2.y() * wHeight));
 
         if ( i == m_currentPointIndex)
             p.setBrush(QBrush(Qt::NoBrush));
