@@ -76,6 +76,12 @@ void BezierSplineEditor::paintEvent(QPaintEvent* event)
     int    wHeight = height() - 1;
 
     /*
+     * Standard line
+     */
+    /*p.setPen(QPen(Qt::gray, 1, Qt::SolidLine));
+    p.drawLine(QLineF(0, wHeight, wWidth, 0));*/
+
+    /*
      * Spline
      */
     double prevY = wHeight - m_spline.value(0.) * wHeight;
@@ -115,12 +121,15 @@ void BezierSplineEditor::paintEvent(QPaintEvent* event)
                      -2, 1);
     for (int i = 0; i < m_spline.points().count(); ++i) {
         point = m_spline.points().at(i);
-        if (i == m_currentPointIndex)
+        if (i == m_currentPointIndex) {
             p.setBrush(QBrush(QColor(Qt::red), Qt::SolidPattern));
+            p.drawLine(QLineF(point.h1.x() * wWidth, wHeight - point.h1.y() * wHeight, point.p.x() * wWidth, wHeight - point.p.y() * wHeight));
+            p.drawLine(QLineF(point.p.x() * wWidth, wHeight - point.p.y() * wHeight, point.h2.x() * wWidth, wHeight - point.h2.y() * wHeight));
+        }
 
-        p.drawConvexPolygon(handle.translated(point.h1.x() * wWidth, wHeight - point.h1.y() * wHeight));
         p.drawEllipse(QRectF(point.p.x() * wWidth - 3,
-                            wHeight - 3 - point.p.y() * wHeight, 6, 6));
+                     wHeight - 3 - point.p.y() * wHeight, 6, 6));
+        p.drawConvexPolygon(handle.translated(point.h1.x() * wWidth, wHeight - point.h1.y() * wHeight));
         p.drawConvexPolygon(handle.translated(point.h2.x() * wWidth, wHeight - point.h2.y() * wHeight));
 
         if ( i == m_currentPointIndex)
