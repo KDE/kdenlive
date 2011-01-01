@@ -128,7 +128,16 @@ int CubicBezierSpline::addPoint(const BPoint& point)
     keepSorted();
     validatePoints();
     m_validSpline = false;
-    return m_points.indexOf(point);
+    if (m_points.indexOf(point) == -1) {
+        // point changed during validation process
+        for (int i = 0; i < m_points.count(); ++i) {
+            // this condition should be sufficient, too
+            if (m_points.at(i).p == point.p)
+                return i;
+        }
+    } else {
+        return m_points.indexOf(point);
+    }
 }
 
 void CubicBezierSpline::setPrecision(int pre)

@@ -144,8 +144,6 @@ void BezierSplineWidget::mousePressEvent(QMouseEvent* event)
         po.h2 = QPointF(x+0.05, y+0.05);
         m_currentPointIndex = m_spline.addPoint(po);
         m_currentPointType = PTypeP;
-        if (m_currentPointIndex == -1) // x already in use
-            return;
         /*if (!d->jumpOverExistingPoints(newPoint, -1)) return;*/
     } else {
         m_currentPointIndex = closestPointIndex;
