@@ -33,6 +33,8 @@ BezierSplineWidget::BezierSplineWidget(const QString& spline, QWidget* parent) :
 
     m_ui.buttonLinkHandles->setIcon(KIcon("insert-link"));
     m_ui.buttonLinkHandles->setEnabled(false);
+    m_ui.buttonZoomIn->setIcon(KIcon("zoom-in"));
+    m_ui.buttonZoomOut->setIcon(KIcon("zoom-out"));
     m_ui.widgetPoint->setEnabled(false);
 
     CubicBezierSpline s;
@@ -48,6 +50,9 @@ BezierSplineWidget::BezierSplineWidget(const QString& spline, QWidget* parent) :
     connect(m_ui.spinH1Y, SIGNAL(editingFinished()), this, SLOT(slotUpdateSpline()));
     connect(m_ui.spinH2X, SIGNAL(editingFinished()), this, SLOT(slotUpdateSpline()));
     connect(m_ui.spinH2Y, SIGNAL(editingFinished()), this, SLOT(slotUpdateSpline()));
+
+    connect(m_ui.buttonZoomIn, SIGNAL(clicked()), &m_edit, SLOT(slotZoomIn()));
+    connect(m_ui.buttonZoomOut, SIGNAL(clicked()), &m_edit, SLOT(slotZoomOut()));
 }
 
 QString BezierSplineWidget::spline()

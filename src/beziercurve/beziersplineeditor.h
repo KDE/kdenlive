@@ -37,6 +37,10 @@ public:
     BPoint getCurrentPoint();
     void updateCurrentPoint(const BPoint &p);
 
+public slots:
+    void slotZoomIn();
+    void slotZoomOut();
+
 protected:
     //void keyPressEvent(QKeyEvent *event);
     void paintEvent(QPaintEvent *event);
@@ -51,6 +55,7 @@ private:
     enum modes { ModeDrag, ModeNormal };
     enum point_types { PTypeH1, PTypeP, PTypeH2 };
     modes m_mode;
+    int m_zoomLevel;
     int m_currentPointIndex;
     point_types m_currentPointType;
     double m_grabOffsetX;
