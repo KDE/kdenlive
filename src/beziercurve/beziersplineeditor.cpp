@@ -21,7 +21,6 @@
 #include <QPainter>
 #include <QMouseEvent>
 
-#include <KDebug>
 
 BezierSplineEditor::BezierSplineEditor(QWidget* parent) :
         QWidget(parent),
@@ -96,6 +95,14 @@ void BezierSplineEditor::paintEvent(QPaintEvent* event)
      */
     /*p.setPen(QPen(Qt::gray, 1, Qt::SolidLine));
     p.drawLine(QLineF(0, wHeight, wWidth, 0));*/
+
+    if (m_zoomLevel != 0) {
+        /*
+         * Borders
+         */
+        p.setPen(QPen(Qt::gray, 1, Qt::SolidLine));
+        p.drawRect(offset, offset, wWidth, wHeight);
+    }
 
     /*
      * Spline
