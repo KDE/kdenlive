@@ -16,56 +16,56 @@
  *   along with Kdenlive.  If not, see <http://www.gnu.org/licenses/>.     *
  ***************************************************************************/
 
-#ifndef CUBICBEZIERSPLINE_H
-#define CUBICBEZIERSPLINE_H
+#ifndef BEZIERSPLINEEDITOR_H
+#define BEZIERSPLINEEDITOR_H
 
+#include "cubicbezierspline.h"
 
 #include <QtCore>
+#include <QWidget>
 
-class BPoint
-{
-public:
-    QPointF h1;     // handle 1
-    QPointF p;      // point
-    QPointF h2;     // handle 2
-
-    BPoint() { p = QPointF(-1,-1); } // makes it illegal -> cannot be equal any point
-    bool operator==(const BPoint &point) const { return point.h1 == h1 && point.p == p && point.h2 == h2; }
-};
-
-class CubicBezierSpline : public QObject
+class BezierSplineEditor : public QWidget
 {
     Q_OBJECT
 
 public:
-    CubicBezierSpline(QObject* parent = 0);
-    CubicBezierSpline(const CubicBezierSpline &spline, QObject* parent = 0);
-    CubicBezierSpline& operator=(const CubicBezierSpline &spline);
+    BezierSplineEditor(QWidget* parent = 0);
 
-    void fromString(const QString &spline);
-    QString toString() const;
+    CubicBezierSpline spline();
+    void setSpline(const CubicBezierSpline &spline);
 
-    QList <BPoint> points();
-    qreal value(qreal x, bool cont = false);
+    BPoint getCurrentPoint();
+    void updateCurrentPoint(const BPoint &p);
 
-    int setPoint(int ix, const BPoint &point);
-    int addPoint(const BPoint &point);
-    void removePoint(int ix);
-    void setPrecision(int pre);
-    int getPrecision();
+protected:
+    //void keyPressEvent(QKeyEvent *event);
+    void paintEvent(QPaintEvent *event);
+    void mousePressEvent(QMouseEvent *event);
+    void mouseReleaseEvent(QMouseEvent * event);
+    void mouseMoveEvent(QMouseEvent * event);
+    void leaveEvent(QEvent *event);
+    void resizeEvent(QResizeEvent *event);
 
 private:
-    QPointF point(double t, const QList<QPointF> &points);
-    void validatePoints();
-    void keepSorted();
-    void update();
+    CubicBezierSpline m_spline;
+    enum modes { ModeDrag, ModeNormal };
+    enum point_types { PTypeH1, PTypeP, PTypeH2 };
+    modes m_mode;
+    int m_currentPointIndex;
+    point_types m_currentPointType;
+    double m_grabOffsetX;
+    double m_grabOffsetY;
+    double m_grabOriginalX;
+    double m_grabOriginalY;
+    //QPointF m_draggedAwayPoint;
+    //int m_draggedAwayPointIndex;
 
-    QList <BPoint> m_points;
-    QMap <double, double> m_spline;
-    QMap <double, double>::const_iterator m_i;
-    bool m_validSpline;
-    int m_precision;
-    
+    //inline void drawGrid(QPainter &p, int width, int height);
+    int nearestPointInRange(QPointF p, int wWidth, int wHeight, point_types *sel);
+
+signals:
+    void modified();
+    void currentPoint(const BPoint &p);
 };
 
 #endif

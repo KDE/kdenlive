@@ -35,7 +35,6 @@
 #include "doubleparameterwidget.h"
 #include "cornerswidget.h"
 #include "beziercurve/beziersplinewidget.h"
-#include "beziercurve/cubicbezierspline.h"
 
 #include <KDebug>
 #include <KLocale>
@@ -384,10 +383,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
             if (!depends.isEmpty())
                 meetDependency(paramName, type, EffectsList::parameter(e, depends));
         } else if (type == "bezier_spline") {
-            BezierSplineWidget *widget = new BezierSplineWidget(this);
-            CubicBezierSpline spline;
-            spline.fromString(value);
-            widget->setSpline(spline);
+            BezierSplineWidget *widget = new BezierSplineWidget(value, this);
             stretch = false;
             m_vbox->addWidget(widget);
             m_valueItems[paramName] = widget;
@@ -675,7 +671,7 @@ void EffectStackEdit::collectAllParameters()
                 meetDependency(paramName, type, EffectsList::parameter(newparam, depends));
         } else if (type == "bezier_spline") {
             BezierSplineWidget *widget = (BezierSplineWidget*)m_valueItems.value(paramName);
-            setValue = widget->spline().toString();
+            setValue = widget->spline();
         } else if (type == "corners") {
             CornersWidget *corners = ((CornersWidget*)m_valueItems.value(paramName));
             QString xName = pa.attributes().namedItem("xpoints").nodeValue();

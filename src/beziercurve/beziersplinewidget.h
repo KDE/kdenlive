@@ -20,6 +20,8 @@
 #define BEZIERSPLINEWIDGET_H
 
 #include "cubicbezierspline.h"
+#include "beziersplineeditor.h"
+#include "ui_bezierspline_ui.h"
 
 #include <QtCore>
 #include <QWidget>
@@ -27,38 +29,19 @@
 class BezierSplineWidget : public QWidget
 {
     Q_OBJECT
-
+    
 public:
-    BezierSplineWidget(QWidget* parent = 0);
+    BezierSplineWidget(const QString &spline, QWidget* parent = 0);
 
-    CubicBezierSpline spline();
-    void setSpline(const CubicBezierSpline &spline);
+    QString spline();
 
-protected:
-    //void keyPressEvent(QKeyEvent *event);
-    void paintEvent(QPaintEvent *event);
-    void mousePressEvent(QMouseEvent *event);
-    void mouseReleaseEvent(QMouseEvent * event);
-    void mouseMoveEvent(QMouseEvent * event);
-    void leaveEvent(QEvent *event);
-    void resizeEvent(QResizeEvent *event);
+private slots:
+    void slotUpdatePoint(const BPoint &p);
+    void slotUpdateSpline();
 
 private:
-    CubicBezierSpline m_spline;
-    enum modes { ModeDrag, ModeNormal };
-    enum point_types { PTypeH1, PTypeP, PTypeH2 };
-    modes m_mode;
-    int m_currentPointIndex;
-    point_types m_currentPointType;
-    double m_grabOffsetX;
-    double m_grabOffsetY;
-    double m_grabOriginalX;
-    double m_grabOriginalY;
-    //QPointF m_draggedAwayPoint;
-    //int m_draggedAwayPointIndex;
-
-    //inline void drawGrid(QPainter &p, int width, int height);
-    int nearestPointInRange(QPointF p, int wWidth, int wHeight, point_types *sel);
+    Ui::BezierSpline_UI m_ui;
+    BezierSplineEditor m_edit;
 
 signals:
     void modified();
