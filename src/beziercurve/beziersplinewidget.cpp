@@ -179,7 +179,7 @@ void BezierSplineWidget::mousePressEvent(QMouseEvent* event)
             point.h2 = QPointF(x + m_grabOffsetX, y + m_grabOffsetY);
     }
     m_spline.setPoint(m_currentPointIndex, point);
-    
+
     //d->m_draggedAwayPointIndex = -1;
 
     m_mode = ModeDrag;
@@ -266,6 +266,11 @@ void BezierSplineWidget::mouseMoveEvent(QMouseEvent* event)
             }
             x = qBound(leftX, x, rightX);
             y = qBound(0., y, 1.);
+
+            // move handles by same offset
+            point.h1 += QPointF(x, y) - point.p;
+            point.h2 += QPointF(x, y) - point.p;
+
             point.p = QPointF(x, y);
             break;
         case PTypeH2:
