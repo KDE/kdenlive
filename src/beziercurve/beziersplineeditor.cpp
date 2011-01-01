@@ -127,6 +127,7 @@ void BezierSplineEditor::paintEvent(QPaintEvent* event)
     /*
      * Points + Handles
      */
+    int max = m_spline.points().count() - 1;
     p.setPen(QPen(Qt::red, 1, Qt::SolidLine));
     BPoint point;
     QPolygon handle(4);
@@ -135,18 +136,22 @@ void BezierSplineEditor::paintEvent(QPaintEvent* event)
                      4,  1,
                      1,  4,
                      -2, 1);
-    for (int i = 0; i < m_spline.points().count(); ++i) {
+    for (int i = 0; i <= max; ++i) {
         point = m_spline.points().at(i);
         if (i == m_currentPointIndex) {
             p.setBrush(QBrush(QColor(Qt::red), Qt::SolidPattern));
-            p.drawLine(QLineF(point.h1.x() * wWidth, wHeight - point.h1.y() * wHeight, point.p.x() * wWidth, wHeight - point.p.y() * wHeight).translated(offset, offset));
-            p.drawLine(QLineF(point.p.x() * wWidth, wHeight - point.p.y() * wHeight, point.h2.x() * wWidth, wHeight - point.h2.y() * wHeight).translated(offset, offset));
+            if (i != 0)
+                p.drawLine(QLineF(point.h1.x() * wWidth, wHeight - point.h1.y() * wHeight, point.p.x() * wWidth, wHeight - point.p.y() * wHeight).translated(offset, offset));
+            if (i != max)
+                p.drawLine(QLineF(point.p.x() * wWidth, wHeight - point.p.y() * wHeight, point.h2.x() * wWidth, wHeight - point.h2.y() * wHeight).translated(offset, offset));
         }
 
         p.drawEllipse(QRectF(point.p.x() * wWidth - 3,
                              wHeight - 3 - point.p.y() * wHeight, 6, 6).translated(offset, offset));
-        p.drawConvexPolygon(handle.translated(point.h1.x() * wWidth, wHeight - point.h1.y() * wHeight).translated(offset, offset));
-        p.drawConvexPolygon(handle.translated(point.h2.x() * wWidth, wHeight - point.h2.y() * wHeight).translated(offset, offset));
+        if (i != 0)
+            p.drawConvexPolygon(handle.translated(point.h1.x() * wWidth, wHeight - point.h1.y() * wHeight).translated(offset, offset));
+        if (i != max)
+            p.drawConvexPolygon(handle.translated(point.h2.x() * wWidth, wHeight - point.h2.y() * wHeight).translated(offset, offset));
 
         if ( i == m_currentPointIndex)
             p.setBrush(QBrush(Qt::NoBrush));
