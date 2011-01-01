@@ -468,6 +468,25 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>spinX</tabstop>
+  <tabstop>spinY</tabstop>
+  <tabstop>spinWidth</tabstop>
+  <tabstop>spinHeight</tabstop>
+  <tabstop>spinSize</tabstop>
+  <tabstop>buttonMoveLeft</tabstop>
+  <tabstop>buttonCenterH</tabstop>
+  <tabstop>buttonMoveRight</tabstop>
+  <tabstop>buttonMoveTop</tabstop>
+  <tabstop>buttonCenterV</tabstop>
+  <tabstop>buttonMoveBottom</tabstop>
+  <tabstop>spinOpacity</tabstop>
+  <tabstop>sliderOpacity</tabstop>
+  <tabstop>buttonPrevious</tabstop>
+  <tabstop>buttonAddDelete</tabstop>
+  <tabstop>buttonNext</tabstop>
+  <tabstop>buttonSync</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
