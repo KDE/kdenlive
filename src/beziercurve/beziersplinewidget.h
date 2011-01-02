@@ -35,13 +35,20 @@ public:
 
     QString spline();
 
+    enum CurveModes { ModeRed, ModeGreen, ModeBlue, ModeLuma };
+    void setMode(CurveModes mode);
+
 private slots:
     void slotUpdatePoint(const BPoint &p);
     void slotUpdateSpline();
+    void slotGridChange();
+    void slotShowPixmap(bool show = true);
 
 private:
     Ui::BezierSpline_UI m_ui;
     BezierSplineEditor m_edit;
+    CurveModes m_mode;
+    bool m_showPixmap;
 
 signals:
     void modified();

@@ -24,9 +24,11 @@
 
 BezierSplineEditor::BezierSplineEditor(QWidget* parent) :
         QWidget(parent),
+        m_mode(ModeNormal),
         m_zoomLevel(0),
         m_gridLines(3),
-        m_mode(ModeNormal),
+        m_pixmapCache(NULL),
+        m_pixmapIsDirty(true),
         m_currentPointIndex(-1)
 {
     setMouseTracking(true);
@@ -34,6 +36,12 @@ BezierSplineEditor::BezierSplineEditor(QWidget* parent) :
     setAttribute(Qt::WA_OpaquePaintEvent);
     setMinimumSize(150, 150);
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+}
+
+BezierSplineEditor::~BezierSplineEditor()
+{
+    if (m_pixmapCache)
+        delete m_pixmapCache;
 }
 
 CubicBezierSpline BezierSplineEditor::spline()
@@ -65,21 +73,35 @@ void BezierSplineEditor::updateCurrentPoint(const BPoint& p)
     }
 }
 
+void BezierSplineEditor::setPixmap(const QPixmap& pixmap)
+{
+    m_pixmap = pixmap;
+    m_pixmapIsDirty = true;
+    update();
+}
+
 void BezierSplineEditor::slotZoomIn()
 {
     m_zoomLevel = qMax(m_zoomLevel-1, 0);
+    m_pixmapIsDirty = true;
     update();
 }
 
 void BezierSplineEditor::slotZoomOut()
 {
     m_zoomLevel = qMin(m_zoomLevel+1, 3);
+    m_pixmapIsDirty = true;
     update();
 }
 
-void BezierSplineEditor::slotGridChange()
+int BezierSplineEditor::gridLines()
 {
-    m_gridLines = (m_gridLines + 1) % 9;
+    return m_gridLines;
+}
+
+void BezierSplineEditor::setGridLines(int lines)
+{
+    m_gridLines = qBound(0, lines, 8);
     update();
 }
 
@@ -89,13 +111,29 @@ void BezierSplineEditor::paintEvent(QPaintEvent* event)
 
     QPainter p(this);
 
-    p.fillRect(rect(), palette().background());
-
     int wWidth = width() - 1;
     int wHeight = height() - 1;
     int offset = 1/8. * m_zoomLevel * (wWidth > wHeight ? wWidth : wHeight);
     wWidth -= 2 * offset;
     wHeight -= 2 * offset;
+
+    /*
+     * Background
+     */
+    p.fillRect(rect(), palette().background());
+    if (!m_pixmap.isNull()) {
+        if (m_pixmapIsDirty || !m_pixmapCache) {
+            if (m_pixmapCache)
+                delete m_pixmapCache;
+            m_pixmapCache = new QPixmap(wWidth + 1, wHeight + 1);
+            QPainter cachePainter(m_pixmapCache);
+
+            cachePainter.scale(1.0*(wWidth+1) / m_pixmap.width(), 1.0*(wHeight+1) / m_pixmap.height());
+            cachePainter.drawPixmap(0, 0, m_pixmap);
+            m_pixmapIsDirty = false;
+        }
+        p.drawPixmap(offset, offset, *m_pixmapCache);
+    }
 
     /*
      * Standard line
@@ -188,6 +226,7 @@ void BezierSplineEditor::paintEvent(QPaintEvent* event)
 void BezierSplineEditor::resizeEvent(QResizeEvent* event)
 {
     m_spline.setPrecision(width());
+    m_pixmapIsDirty = true;
     QWidget::resizeEvent(event);
 }
 

@@ -488,6 +488,18 @@
       <default></default>
     </entry>
   </group>
+  
+  <group name="bezier_spline">
+    <entry name="bezier_gridlines" type="Int">
+      <label>Number of lines to use for the grid.</label>
+      <default>3</default>
+    </entry>
+
+    <entry name="bezier_showpixmap" type="Bool">
+      <label>Should a background indicating the changes caused by curve manipulation be shown.</label>
+      <default>true</default>
+    </entry>
+  </group>
 
 
   <group name="unmanaged">

@@ -17,13 +17,16 @@
  ***************************************************************************/
 
 #include "beziersplinewidget.h"
+#include "colortools.h"
+#include "kdenlivesettings.h"
 
 #include <QVBoxLayout>
 
 #include <KIcon>
 
 BezierSplineWidget::BezierSplineWidget(const QString& spline, QWidget* parent) :
-        QWidget(parent)
+        QWidget(parent),
+        m_mode(ModeRed)
 {
     QVBoxLayout *layout = new QVBoxLayout(this);
     layout->addWidget(&m_edit);
@@ -36,6 +39,7 @@ BezierSplineWidget::BezierSplineWidget(const QString& spline, QWidget* parent) :
     m_ui.buttonZoomIn->setIcon(KIcon("zoom-in"));
     m_ui.buttonZoomOut->setIcon(KIcon("zoom-out"));
     m_ui.buttonGridChange->setIcon(KIcon("view-grid"));
+    m_ui.buttonShowPixmap->setIcon(QIcon(QPixmap::fromImage(ColorTools::rgbCurvePlane(QSize(16, 16), ColorTools::COL_Luma, 0.8))));
     m_ui.widgetPoint->setEnabled(false);
 
     CubicBezierSpline s;
@@ -54,12 +58,41 @@ BezierSplineWidget::BezierSplineWidget(const QString& spline, QWidget* parent) :
 
     connect(m_ui.buttonZoomIn, SIGNAL(clicked()), &m_edit, SLOT(slotZoomIn()));
     connect(m_ui.buttonZoomOut, SIGNAL(clicked()), &m_edit, SLOT(slotZoomOut()));
-    connect(m_ui.buttonGridChange, SIGNAL(clicked()), &m_edit, SLOT(slotGridChange()));
+    connect(m_ui.buttonGridChange, SIGNAL(clicked()), this, SLOT(slotGridChange()));
+    connect(m_ui.buttonShowPixmap, SIGNAL(toggled(bool)), this, SLOT(slotShowPixmap(bool)));
+
+    m_edit.setGridLines(KdenliveSettings::bezier_gridlines());
+    m_ui.buttonShowPixmap->setChecked(KdenliveSettings::bezier_showpixmap());
 }
 
 QString BezierSplineWidget::spline()
 {
     return m_edit.spline().toString();
+}
+
+void BezierSplineWidget::setMode(BezierSplineWidget::CurveModes mode)
+{
+    if (m_mode != mode) {
+        m_mode = mode;
+        if (m_showPixmap)
+            slotShowPixmap();
+    }
+}
+
+void BezierSplineWidget::slotGridChange()
+{
+    m_edit.setGridLines((m_edit.gridLines() + 1) % 9);
+    KdenliveSettings::setBezier_gridlines(m_edit.gridLines());
+}
+
+void BezierSplineWidget::slotShowPixmap(bool show)
+{
+    m_showPixmap = show;
+    KdenliveSettings::setBezier_showpixmap(show);
+    if (show)
+        m_edit.setPixmap(QPixmap::fromImage(ColorTools::rgbCurvePlane(m_edit.size(), (ColorTools::ColorsRGB)((int)m_mode), 0.8)));
+    else
+        m_edit.setPixmap(QPixmap());
 }
 
 void BezierSplineWidget::slotUpdatePoint(const BPoint &p)

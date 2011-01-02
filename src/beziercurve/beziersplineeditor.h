@@ -30,6 +30,7 @@ class BezierSplineEditor : public QWidget
 
 public:
     BezierSplineEditor(QWidget* parent = 0);
+    virtual ~BezierSplineEditor();
 
     CubicBezierSpline spline();
     void setSpline(const CubicBezierSpline &spline);
@@ -37,10 +38,14 @@ public:
     BPoint getCurrentPoint();
     void updateCurrentPoint(const BPoint &p);
 
+    int gridLines();
+    void setGridLines(int lines);
+
+    void setPixmap(const QPixmap &pixmap);
+
 public slots:
     void slotZoomIn();
     void slotZoomOut();
-    void slotGridChange();
 
 protected:
     //void keyPressEvent(QKeyEvent *event);
@@ -58,6 +63,10 @@ private:
     modes m_mode;
     int m_zoomLevel;
     int m_gridLines;
+    QPixmap m_pixmap;
+    QPixmap *m_pixmapCache;
+    bool m_pixmapIsDirty;
+
     int m_currentPointIndex;
     point_types m_currentPointType;
     double m_grabOffsetX;

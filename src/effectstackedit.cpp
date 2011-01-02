@@ -149,6 +149,11 @@ void EffectStackEdit::meetDependency(const QString& name, QString type, QString 
             int color = value.toInt();
             curve->setPixmap(QPixmap::fromImage(ColorTools::rgbCurvePlane(curve->size(), (ColorTools::ColorsRGB)color, 0.8)));
         }
+    } else if (type == "bezier_spline") {
+        BezierSplineWidget *widget = (BezierSplineWidget*)m_valueItems[name];
+        if (widget) {
+            widget->setMode((BezierSplineWidget::CurveModes)value.toInt());
+        }
     }
 }
 
@@ -388,6 +393,9 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
             m_vbox->addWidget(widget);
             m_valueItems[paramName] = widget;
             connect(widget, SIGNAL(modified()), this, SLOT(collectAllParameters()));
+            QString depends = pa.attribute("depends");
+            if (!depends.isEmpty())
+                meetDependency(paramName, type, EffectsList::parameter(e, depends));
         } else if (type == "corners") {
             CornersWidget *corners = new CornersWidget(m_monitor, pos, isEffect, pa.attribute("factor").toInt(), this);
             connect(corners, SIGNAL(checkMonitorPosition(int)), this, SIGNAL(checkMonitorPosition(int)));
@@ -672,6 +680,9 @@ void EffectStackEdit::collectAllParameters()
         } else if (type == "bezier_spline") {
             BezierSplineWidget *widget = (BezierSplineWidget*)m_valueItems.value(paramName);
             setValue = widget->spline();
+            QString depends = pa.attributes().namedItem("depends").nodeValue();
+            if (!depends.isEmpty())
+                meetDependency(paramName, type, EffectsList::parameter(newparam, depends));
         } else if (type == "corners") {
             CornersWidget *corners = ((CornersWidget*)m_valueItems.value(paramName));
             QString xName = pa.attributes().namedItem("xpoints").nodeValue();
