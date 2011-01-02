@@ -95,12 +95,14 @@ public:
      * @param videoEffectList list of video effects
      * @param name file name
      * @param filtersList list of filters in the MLT repository
-     * @param producersList list of producers in the MLT repository */
+     * @param producersList list of producers in the MLT repository
+     * @param repository MLT repository */
     static void parseEffectFile(EffectsList *customEffectList,
                                 EffectsList *audioEffectList,
                                 EffectsList *videoEffectList,
                                 QString name, QStringList filtersList,
-                                QStringList producersList);
+                                QStringList producersList,
+                                Mlt::Repository *repository);
 
     /** @brief Reloads information about custom effects. */
     static void parseCustomEffectsFile();

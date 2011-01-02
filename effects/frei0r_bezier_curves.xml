@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<effect tag="frei0r.curves" id="frei0r.bezier_curves">
+<effect tag="frei0r.curves" id="frei0r.bezier_curves" version="0.2">
         <name>Bézier Curves</name>
         <description>Color curves adjustment</description>
         <author>Till Theato, Maksim Golovkin</author>

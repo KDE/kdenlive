@@ -208,7 +208,7 @@ Mlt::Repository *initEffects::parseEffectFiles()
             parseEffectFile(&MainWindow::customEffects,
                             &MainWindow::audioEffects,
                             &MainWindow::videoEffects,
-                            itemName, filtersList, producersList);
+                            itemName, filtersList, producersList, repository);
         }
     }
 
@@ -317,7 +317,7 @@ void initEffects::parseCustomEffectsFile()
 }
 
 // static
-void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *audioEffectList, EffectsList *videoEffectList, QString name, QStringList filtersList, QStringList producersList)
+void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *audioEffectList, EffectsList *videoEffectList, QString name, QStringList filtersList, QStringList producersList, Mlt::Repository *repository)
 {
     QDomDocument doc;
     QFile file(name);
@@ -331,13 +331,21 @@ void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *au
         return;
     }
 
-    /*QString groupName;
-    if (doc.elementsByTagName("effectgroup").item(0).toElement().tagName() == "effectgroup")
-        groupName = documentElement.attribute("name", QString());*/
-
     for (int i = 0; !effects.item(i).isNull(); ++i) {
         documentElement = effects.item(i).toElement();
         QString tag = documentElement.attribute("tag", QString());
+
+        if (documentElement.hasAttribute("version")) {
+            // a specific version of the filter is required
+            Mlt::Properties *metadata = repository->metadata(filter_type, tag.toUtf8().data());
+            if (metadata && metadata->is_valid()) {
+                double version = atof(metadata->get("version"));
+                if (documentElement.attribute("version").toDouble() > version)
+                    return;
+            }
+            delete metadata;
+        }
+
         bool ladspaOk = true;
         if (tag == "ladspa") {
             QString library = documentElement.attribute("library", QString());
