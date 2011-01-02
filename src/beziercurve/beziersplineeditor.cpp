@@ -135,11 +135,6 @@ void BezierSplineEditor::paintEvent(QPaintEvent* event)
         p.drawPixmap(offset, offset, *m_pixmapCache);
     }
 
-    /*
-     * Standard line
-     */
-    /*p.setPen(QPen(Qt::gray, 1, Qt::SolidLine));
-    p.drawLine(QLineF(0, wHeight, wWidth, 0));*/
 
     p.setPen(QPen(Qt::gray, 1, Qt::SolidLine));
 
@@ -161,6 +156,13 @@ void BezierSplineEditor::paintEvent(QPaintEvent* event)
             p.drawLine(QLineF(0, i * stepV, wWidth, i * stepV).translated(offset, offset));
         }
     }
+
+    p.setRenderHint(QPainter::Antialiasing);
+
+    /*
+     * Standard line
+     */
+    p.drawLine(QLineF(0, wHeight, wWidth, 0).translated(offset, offset));
 
     /*
      * Spline
