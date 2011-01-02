@@ -181,10 +181,13 @@ Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget
         m_videoBox->setLayout(lay);
         render = new Render(m_name, (int) m_monitorRefresh->winId(), profile, this);
         m_monitorRefresh->setRenderer(render);
-    }else if (m_glWidget) {
+    }
+#if defined (USE_OPEN_GL)
+    else if (m_glWidget) {
         lay->addWidget(m_glWidget);
         m_videoBox->setLayout(lay);
     }
+#endif
 
     connect(m_audioSlider, SIGNAL(valueChanged(int)), this, SLOT(slotSetVolume(int)));
     connect(m_ruler, SIGNAL(seekRenderer(int)), this, SLOT(slotSeek(int)));
