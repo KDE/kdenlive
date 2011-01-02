@@ -40,6 +40,7 @@ public:
 public slots:
     void slotZoomIn();
     void slotZoomOut();
+    void slotGridChange();
 
 protected:
     //void keyPressEvent(QKeyEvent *event);
@@ -56,6 +57,7 @@ private:
     enum point_types { PTypeH1, PTypeP, PTypeH2 };
     modes m_mode;
     int m_zoomLevel;
+    int m_gridLines;
     int m_currentPointIndex;
     point_types m_currentPointType;
     double m_grabOffsetX;

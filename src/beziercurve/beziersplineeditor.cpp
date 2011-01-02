@@ -25,6 +25,7 @@
 BezierSplineEditor::BezierSplineEditor(QWidget* parent) :
         QWidget(parent),
         m_zoomLevel(0),
+        m_gridLines(3),
         m_mode(ModeNormal),
         m_currentPointIndex(-1)
 {
@@ -76,6 +77,12 @@ void BezierSplineEditor::slotZoomOut()
     update();
 }
 
+void BezierSplineEditor::slotGridChange()
+{
+    m_gridLines = (m_gridLines + 1) % 9;
+    update();
+}
+
 void BezierSplineEditor::paintEvent(QPaintEvent* event)
 {
     Q_UNUSED(event);
@@ -96,12 +103,25 @@ void BezierSplineEditor::paintEvent(QPaintEvent* event)
     /*p.setPen(QPen(Qt::gray, 1, Qt::SolidLine));
     p.drawLine(QLineF(0, wHeight, wWidth, 0));*/
 
+    p.setPen(QPen(Qt::gray, 1, Qt::SolidLine));
+
+    /*
+     * Borders
+     */
     if (m_zoomLevel != 0) {
-        /*
-         * Borders
-         */
-        p.setPen(QPen(Qt::gray, 1, Qt::SolidLine));
         p.drawRect(offset, offset, wWidth, wHeight);
+    }
+
+    /*
+     * Grid
+     */
+    if (m_gridLines != 0) {
+        double stepH = wWidth / (double)(m_gridLines + 1);
+        double stepV = wHeight / (double)(m_gridLines + 1);
+        for (int i = 1; i <= m_gridLines; ++i) {
+            p.drawLine(QLineF(i * stepH, 0, i * stepH, wHeight).translated(offset, offset));
+            p.drawLine(QLineF(0, i * stepV, wWidth, i * stepV).translated(offset, offset));
+        }
     }
 
     /*

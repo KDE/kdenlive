@@ -14,7 +14,7 @@
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="1" column="5" colspan="3">
+   <item row="1" column="5" colspan="4">
     <widget class="QWidget" name="widgetPoint" native="true">
      <layout class="QGridLayout" name="gridLayout_2">
       <item row="0" column="0" colspan="9">
@@ -199,7 +199,7 @@
      </layout>
     </widget>
    </item>
-   <item row="2" column="5">
+   <item row="2" column="6">
     <widget class="QToolButton" name="buttonZoomIn">
      <property name="text">
       <string>...</string>
@@ -209,7 +209,7 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="6">
+   <item row="2" column="7">
     <widget class="QToolButton" name="buttonZoomOut">
      <property name="text">
       <string>...</string>
@@ -219,7 +219,7 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="7">
+   <item row="2" column="8">
     <spacer name="spacer">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -231,6 +231,19 @@
       </size>
      </property>
     </spacer>
+   </item>
+   <item row="2" column="5">
+    <widget class="QToolButton" name="buttonGridChange">
+     <property name="toolTip">
+      <string>Increases the number of lines in the grid.&lt;br /&gt;After 8 lines it will begin from 0 again.</string>
+     </property>
+     <property name="text">
+      <string>...</string>
+     </property>
+     <property name="autoRaise">
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
