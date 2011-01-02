@@ -340,8 +340,10 @@ void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *au
             Mlt::Properties *metadata = repository->metadata(filter_type, tag.toUtf8().data());
             if (metadata && metadata->is_valid()) {
                 double version = atof(metadata->get("version"));
-                if (documentElement.attribute("version").toDouble() > version)
+                if (documentElement.attribute("version").toDouble() > version) {
+                    delete metadata;
                     return;
+                }
             }
             delete metadata;
         }
