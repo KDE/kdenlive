@@ -152,7 +152,7 @@ void EffectStackEdit::meetDependency(const QString& name, QString type, QString 
     } else if (type == "bezier_spline") {
         BezierSplineWidget *widget = (BezierSplineWidget*)m_valueItems[name];
         if (widget) {
-            widget->setMode((BezierSplineWidget::CurveModes)value.toInt());
+            widget->setMode((BezierSplineWidget::CurveModes)((int)(value.toDouble() * 10)));
         }
     }
 }

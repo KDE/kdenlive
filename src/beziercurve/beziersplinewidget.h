@@ -35,7 +35,7 @@ public:
 
     QString spline();
 
-    enum CurveModes { ModeRed, ModeGreen, ModeBlue, ModeLuma };
+    enum CurveModes { ModeRed, ModeGreen, ModeBlue, ModeAlpha, ModeLuma, ModeRGB };
     void setMode(CurveModes mode);
 
 private slots:

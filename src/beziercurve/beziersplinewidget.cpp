@@ -26,7 +26,7 @@
 
 BezierSplineWidget::BezierSplineWidget(const QString& spline, QWidget* parent) :
         QWidget(parent),
-        m_mode(ModeRed)
+        m_mode(ModeRGB)
 {
     QVBoxLayout *layout = new QVBoxLayout(this);
     layout->addWidget(&m_edit);
@@ -89,8 +89,8 @@ void BezierSplineWidget::slotShowPixmap(bool show)
 {
     m_showPixmap = show;
     KdenliveSettings::setBezier_showpixmap(show);
-    if (show)
-        m_edit.setPixmap(QPixmap::fromImage(ColorTools::rgbCurvePlane(m_edit.size(), (ColorTools::ColorsRGB)((int)m_mode), 0.8)));
+    if (show && m_mode != ModeAlpha && m_mode != ModeRGB)
+        m_edit.setPixmap(QPixmap::fromImage(ColorTools::rgbCurvePlane(m_edit.size(), (ColorTools::ColorsRGB)((int)(m_mode == ModeLuma ? 3 : m_mode)), 0.8)));
     else
         m_edit.setPixmap(QPixmap());
 }
