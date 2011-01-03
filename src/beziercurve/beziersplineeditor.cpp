@@ -270,7 +270,6 @@ void BezierSplineEditor::mousePressEvent(QMouseEvent* event)
         po.h2 = QPointF(x+0.05, y+0.05);
         m_currentPointIndex = m_spline.addPoint(po);
         m_currentPointType = PTypeP;
-        /*if (!d->jumpOverExistingPoints(newPoint, -1)) return;*/
     } else {
         m_currentPointIndex = closestPointIndex;
         m_currentPointType = selectedPoint;
@@ -289,8 +288,11 @@ void BezierSplineEditor::mousePressEvent(QMouseEvent* event)
         p = point.h2;
     }
 
-    m_grabOriginalX = p.x();
-    m_grabOriginalY = p.y();
+    m_grabPOriginal = point;
+    if (m_currentPointIndex > 0)
+        m_grabPPrevious = m_spline.points()[m_currentPointIndex - 1];
+    if (m_currentPointIndex < m_spline.points().count() - 1)
+        m_grabPNext = m_spline.points()[m_currentPointIndex + 1];
     m_grabOffsetX = p.x() - x;
     m_grabOffsetY = p.y() - y;
 
@@ -305,8 +307,6 @@ void BezierSplineEditor::mousePressEvent(QMouseEvent* event)
             point.h2 = QPointF(x + m_grabOffsetX, y + m_grabOffsetY);
     }
     m_spline.setPoint(m_currentPointIndex, point);
-
-    //d->m_draggedAwayPointIndex = -1;
 
     m_mode = ModeDrag;
 
@@ -336,40 +336,24 @@ void BezierSplineEditor::mouseMoveEvent(QMouseEvent* event)
     double x = (event->pos().x() - offset) / (double)(wWidth);
     double y = 1.0 - (event->pos().y() - offset) / (double)(wHeight);
     
-    if (m_mode == ModeNormal) { // If no point is selected set the the cursor shape if on top
+    if (m_mode == ModeNormal) {
+        // If no point is selected set the the cursor shape if on top
         point_types type;
         int nearestPointIndex = nearestPointInRange(QPointF(x, y), wWidth, wHeight, &type);
-        
+
         if (nearestPointIndex < 0)
             setCursor(Qt::ArrowCursor);
         else
             setCursor(Qt::CrossCursor);
-    } else { // Else, drag the selected point
-        /*bool crossedHoriz = event->pos().x() - width() > MOUSE_AWAY_THRES ||
-        event->pos().x() < -MOUSE_AWAY_THRES;
-        bool crossedVert =  event->pos().y() - height() > MOUSE_AWAY_THRES ||
-        event->pos().y() < -MOUSE_AWAY_THRES;
-        
-        bool removePoint = (crossedHoriz || crossedVert);
-        
-        if (!removePoint && d->m_draggedAwayPointIndex >= 0) {
-            // point is no longer dragged away so reinsert it
-            QPointF newPoint(d->m_draggedAwayPoint);
-            d->m_grab_point_index = d->m_curve.addPoint(newPoint);
-            d->m_draggedAwayPointIndex = -1;
-        }
-        
-        if (removePoint &&
-            (d->m_draggedAwayPointIndex >= 0))
-            return;
-        */
-        
+    } else {
+        // Else, drag the selected point
         setCursor(Qt::CrossCursor);
         
         x += m_grabOffsetX;
         y += m_grabOffsetY;
-        
-        double leftX, rightX;
+
+        double leftX = 0.;
+        double rightX = 1.;
         BPoint point = m_spline.points()[m_currentPointIndex];
         switch (m_currentPointType) {
         case PTypeH1:
@@ -378,54 +362,68 @@ void BezierSplineEditor::mouseMoveEvent(QMouseEvent* event)
                 leftX = -1000;
             else
                 leftX = m_spline.points()[m_currentPointIndex - 1].p.x();
+
             x = qBound(leftX, x, rightX);
             point.h1 = QPointF(x, y);
             break;
+
         case PTypeP:
-            if (m_currentPointIndex == 0) {
-                leftX = 0.0;
+            if (m_currentPointIndex == 0)
                 rightX = 0.0;
-                /*if (d->m_curve.points().count() > 1)
-                 *           rightX = d->m_curve.points()[d->m_grab_point_index + 1].x() - POINT_AREA;
-                 *       else
-                 *           rightX = 1.0;*/
-            } else if (m_currentPointIndex == m_spline.points().count() - 1) {
-                leftX = 1.0;//m_spline.points()[m_currentPointIndex - 1].p.x();
-                rightX = 1.0;
-            } else {
-                //// the 1E-4 addition so we can grab the dot later.
-                leftX = m_spline.points()[m_currentPointIndex - 1].p.x();// + POINT_AREA;
-                rightX = m_spline.points()[m_currentPointIndex + 1].p.x();// - POINT_AREA;
-            }
+            else if (m_currentPointIndex == m_spline.points().count() - 1)
+                leftX = 1.0;
+
             x = qBound(leftX, x, rightX);
             y = qBound(0., y, 1.);
 
-            // move handles by same offset
-            point.h1 += QPointF(x, y) - point.p;
-            point.h2 += QPointF(x, y) - point.p;
+            // handles might have changed because we neared another point
+            // try to restore
+            point.h1 = m_grabPOriginal.h1;
+            point.h2 = m_grabPOriginal.h2;
+            // and then move them by same offset
+            point.h1 += QPointF(x, y) - m_grabPOriginal.p;
+            point.h2 += QPointF(x, y) - m_grabPOriginal.p;
 
             point.p = QPointF(x, y);
             break;
+
         case PTypeH2:
             leftX = point.p.x();
             if (m_currentPointIndex == m_spline.points().count() - 1)
                 rightX = 1001;
             else
                 rightX = m_spline.points()[m_currentPointIndex + 1].p.x();
+
             x = qBound(leftX, x, rightX);
             point.h2 = QPointF(x, y);
         };
 
-        m_spline.setPoint(m_currentPointIndex, point);
-        
-        /*if (removePoint && d->m_curve.points().count() > 2) {
-            d->m_draggedAwayPoint = d->m_curve.points()[d->m_grab_point_index];
-            d->m_draggedAwayPointIndex = d->m_grab_point_index;
-            d->m_curve.removePoint(d->m_grab_point_index);
-            d->m_grab_point_index = bounds(d->m_grab_point_index, 0, d->m_curve.points().count() - 1);
+        int index = m_currentPointIndex;
+        m_currentPointIndex = m_spline.setPoint(m_currentPointIndex, point);
+
+        if (m_currentPointType == PTypeP) {
+            // we might have changed the handles of other points
+            // try to restore
+            if (index == m_currentPointIndex) {
+                if (m_currentPointIndex > 0)
+                    m_spline.setPoint(m_currentPointIndex - 1, m_grabPPrevious);
+                if (m_currentPointIndex < m_spline.points().count() -1)
+                    m_spline.setPoint(m_currentPointIndex + 1, m_grabPNext);
+            } else {
+                if (m_currentPointIndex < index) {
+                    m_spline.setPoint(index, m_grabPPrevious);
+                    m_grabPNext = m_grabPPrevious;
+                    if (m_currentPointIndex > 0)
+                        m_grabPPrevious = m_spline.points()[m_currentPointIndex - 1];
+                } else {
+                    m_spline.setPoint(index, m_grabPNext);
+                    m_grabPPrevious = m_grabPNext;
+                    if (m_currentPointIndex < m_spline.points().count() - 1)
+                        m_grabPNext = m_spline.points()[m_currentPointIndex + 1];
+                }
+            }
         }
-        
-        d->setCurveModified();*/
+
         emit currentPoint(point);
         update();
     }
@@ -444,6 +442,7 @@ int BezierSplineEditor::nearestPointInRange(QPointF p, int wWidth, int wHeight, 
     int i = 0;
 
     double distanceSquared;
+    // find out distance using the Pythagorean theorem
     foreach(const BPoint & point, m_spline.points()) {
         distanceSquared = pow(point.h1.x() - p.x(), 2) + pow(point.h1.y() - p.y(), 2);
         if (distanceSquared < nearestDistanceSquared) {

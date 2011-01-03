@@ -59,6 +59,7 @@ private:
     void validatePoints();
     void keepSorted();
     void update();
+    int indexOf(const BPoint &p);
 
     QList <BPoint> m_points;
     QMap <double, double> m_spline;

@@ -20,6 +20,7 @@
 
 #include <KDebug>
 
+/** @brief For sorting a Bezier spline. Whether a is before b. */
 static bool pointLessThan(const BPoint &a, const BPoint &b)
 {
     return a.p.x() < b.p.x();
@@ -108,7 +109,7 @@ int CubicBezierSpline::setPoint(int ix, const BPoint& point)
     keepSorted();
     validatePoints();
     m_validSpline = false;
-    return m_points.indexOf(point); // in case it changed
+    return indexOf(point); // in case it changed
 }
 
 QList <BPoint> CubicBezierSpline::points()
@@ -128,16 +129,7 @@ int CubicBezierSpline::addPoint(const BPoint& point)
     keepSorted();
     validatePoints();
     m_validSpline = false;
-    if (m_points.indexOf(point) == -1) {
-        // point changed during validation process
-        for (int i = 0; i < m_points.count(); ++i) {
-            // this condition should be sufficient, too
-            if (m_points.at(i).p == point.p)
-                return i;
-        }
-    } else {
-        return m_points.indexOf(point);
-    }
+    return indexOf(point);
 }
 
 void CubicBezierSpline::setPrecision(int pre)
@@ -156,9 +148,6 @@ int CubicBezierSpline::getPrecision()
 qreal CubicBezierSpline::value(qreal x, bool cont)
 {
     update();
-
-    //x = qBound(m_spline.constBegin().key(), x, m_spline.constEnd().key());
-    //kDebug() << "....x" << x<<"bounddown"<<m_spline.constBegin().key()<<"up"<<m_spline.constEnd().key();
 
     if (!cont)
         m_i = m_spline.constBegin();
@@ -236,13 +225,21 @@ void CubicBezierSpline::update()
             t += step;
         }
     }
-    /*QMap<double, double>::const_iterator i = m_spline.constBegin();
-    kDebug()<<"////////////spline/////////////";
-    while (i != m_spline.constEnd()) {
-        kDebug() << i.key() << i.value();
-        ++i;
+}
+
+int CubicBezierSpline::indexOf(const BPoint& p)
+{
+    if (m_points.indexOf(p) == -1) {
+        // point changed during validation process
+        for (int i = 0; i < m_points.count(); ++i) {
+            // this condition should be sufficient, too
+            if (m_points.at(i).p == p.p)
+                return i;
+        }
+    } else {
+        return m_points.indexOf(p);
     }
-    kDebug()<<"////////////spline/////////////end";*/
+    return -1;
 }
 
 #include "cubicbezierspline.moc"

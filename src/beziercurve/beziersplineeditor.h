@@ -71,8 +71,9 @@ private:
     point_types m_currentPointType;
     double m_grabOffsetX;
     double m_grabOffsetY;
-    double m_grabOriginalX;
-    double m_grabOriginalY;
+    BPoint m_grabPOriginal;
+    BPoint m_grabPNext;
+    BPoint m_grabPPrevious;
     //QPointF m_draggedAwayPoint;
     //int m_draggedAwayPointIndex;
 
