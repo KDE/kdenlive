@@ -117,10 +117,12 @@ void BezierSplineEditor::paintEvent(QPaintEvent* event)
     wWidth -= 2 * offset;
     wHeight -= 2 * offset;
 
+    p.translate(offset, offset);
+
     /*
      * Background
      */
-    p.fillRect(rect(), palette().background());
+    p.fillRect(rect().translated(-offset, -offset), palette().background());
     if (!m_pixmap.isNull()) {
         if (m_pixmapIsDirty || !m_pixmapCache) {
             if (m_pixmapCache)
@@ -132,7 +134,7 @@ void BezierSplineEditor::paintEvent(QPaintEvent* event)
             cachePainter.drawPixmap(0, 0, m_pixmap);
             m_pixmapIsDirty = false;
         }
-        p.drawPixmap(offset, offset, *m_pixmapCache);
+        p.drawPixmap(0, 0, *m_pixmapCache);
     }
 
 
@@ -142,7 +144,7 @@ void BezierSplineEditor::paintEvent(QPaintEvent* event)
      * Borders
      */
     if (m_zoomLevel != 0) {
-        p.drawRect(offset, offset, wWidth, wHeight);
+        p.drawRect(0, 0, wWidth, wHeight);
     }
 
     /*
@@ -152,8 +154,8 @@ void BezierSplineEditor::paintEvent(QPaintEvent* event)
         double stepH = wWidth / (double)(m_gridLines + 1);
         double stepV = wHeight / (double)(m_gridLines + 1);
         for (int i = 1; i <= m_gridLines; ++i) {
-            p.drawLine(QLineF(i * stepH, 0, i * stepH, wHeight).translated(offset, offset));
-            p.drawLine(QLineF(0, i * stepV, wWidth, i * stepV).translated(offset, offset));
+            p.drawLine(QLineF(i * stepH, 0, i * stepH, wHeight));
+            p.drawLine(QLineF(0, i * stepV, wWidth, i * stepV));
         }
     }
 
@@ -162,7 +164,7 @@ void BezierSplineEditor::paintEvent(QPaintEvent* event)
     /*
      * Standard line
      */
-    p.drawLine(QLineF(0, wHeight, wWidth, 0).translated(offset, offset));
+    p.drawLine(QLineF(0, wHeight, wWidth, 0));
 
     /*
      * Spline
@@ -183,13 +185,12 @@ void BezierSplineEditor::paintEvent(QPaintEvent* event)
          * to ints mathematically, not just rounds down
          * like in C
          */
-        p.drawLine(QLineF(prevX, prevY,
-                          x, curY).translated(offset, offset));
+        p.drawLine(QLineF(prevX, prevY, x, curY));
         prevX = x;
         prevY = curY;
     }
     p.drawLine(QLineF(prevX, prevY ,
-                      x, wHeight - m_spline.value(1.0, true) * wHeight).translated(offset, offset));
+                      x, wHeight - m_spline.value(1.0, true) * wHeight));
 
     /*
      * Points + Handles
@@ -208,17 +209,17 @@ void BezierSplineEditor::paintEvent(QPaintEvent* event)
         if (i == m_currentPointIndex) {
             p.setBrush(QBrush(QColor(Qt::red), Qt::SolidPattern));
             if (i != 0)
-                p.drawLine(QLineF(point.h1.x() * wWidth, wHeight - point.h1.y() * wHeight, point.p.x() * wWidth, wHeight - point.p.y() * wHeight).translated(offset, offset));
+                p.drawLine(QLineF(point.h1.x() * wWidth, wHeight - point.h1.y() * wHeight, point.p.x() * wWidth, wHeight - point.p.y() * wHeight));
             if (i != max)
-                p.drawLine(QLineF(point.p.x() * wWidth, wHeight - point.p.y() * wHeight, point.h2.x() * wWidth, wHeight - point.h2.y() * wHeight).translated(offset, offset));
+                p.drawLine(QLineF(point.p.x() * wWidth, wHeight - point.p.y() * wHeight, point.h2.x() * wWidth, wHeight - point.h2.y() * wHeight));
         }
 
         p.drawEllipse(QRectF(point.p.x() * wWidth - 3,
-                             wHeight - 3 - point.p.y() * wHeight, 6, 6).translated(offset, offset));
+                             wHeight - 3 - point.p.y() * wHeight, 6, 6));
         if (i != 0)
-            p.drawConvexPolygon(handle.translated(point.h1.x() * wWidth, wHeight - point.h1.y() * wHeight).translated(offset, offset));
+            p.drawConvexPolygon(handle.translated(point.h1.x() * wWidth, wHeight - point.h1.y() * wHeight));
         if (i != max)
-            p.drawConvexPolygon(handle.translated(point.h2.x() * wWidth, wHeight - point.h2.y() * wHeight).translated(offset, offset));
+            p.drawConvexPolygon(handle.translated(point.h2.x() * wWidth, wHeight - point.h2.y() * wHeight));
 
         if ( i == m_currentPointIndex)
             p.setBrush(QBrush(Qt::NoBrush));
