@@ -492,7 +492,7 @@ void DvdWizard::generateDvd()
     m_dvdauthor->setProcessEnvironment(env);
 #else
     QStringList env = QProcess::systemEnvironment();
-    env << "VIDEO_FORMAT=" + (m_pageVob->isPal() ? "PAL" : "NTSC");
+    env << QString("VIDEO_FORMAT=") + QString(m_pageVob->isPal() ? "PAL" : "NTSC");
     m_dvdauthor->setEnvironment(env);
 #endif
     connect(m_dvdauthor, SIGNAL(finished(int , QProcess::ExitStatus)), this, SLOT(slotRenderFinished(int, QProcess::ExitStatus)));
