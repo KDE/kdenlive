@@ -62,6 +62,7 @@ CubicBezierSpline& CubicBezierSpline::operator=(const CubicBezierSpline& spline)
 {
     m_precision = spline.m_precision;
     m_points = spline.m_points;
+    m_validSpline = false;
     return *this;
 }
 

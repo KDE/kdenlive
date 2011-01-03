@@ -51,8 +51,13 @@ CubicBezierSpline BezierSplineEditor::spline()
 
 void BezierSplineEditor::setSpline(const CubicBezierSpline& spline)
 {
-    // TODO: cleanup
-    m_spline.fromString(spline.toString());
+    int precision = m_spline.getPrecision();
+    m_spline = spline;
+    m_spline.setPrecision(precision);
+    m_currentPointIndex = -1;
+    m_mode = ModeNormal;
+    emit modified();
+    update();
 }
 
 BPoint BezierSplineEditor::getCurrentPoint()
@@ -228,7 +233,7 @@ void BezierSplineEditor::paintEvent(QPaintEvent* event)
 
 void BezierSplineEditor::resizeEvent(QResizeEvent* event)
 {
-    m_spline.setPrecision(width());
+    m_spline.setPrecision(width() > height() ? width() : height());
     m_pixmapIsDirty = true;
     QWidget::resizeEvent(event);
 }

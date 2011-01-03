@@ -40,6 +40,7 @@ BezierSplineWidget::BezierSplineWidget(const QString& spline, QWidget* parent) :
     m_ui.buttonZoomOut->setIcon(KIcon("zoom-out"));
     m_ui.buttonGridChange->setIcon(KIcon("view-grid"));
     m_ui.buttonShowPixmap->setIcon(QIcon(QPixmap::fromImage(ColorTools::rgbCurvePlane(QSize(16, 16), ColorTools::COL_Luma, 0.8))));
+    m_ui.buttonResetSpline->setIcon(KIcon("view-refresh"));
     m_ui.widgetPoint->setEnabled(false);
 
     CubicBezierSpline s;
@@ -60,6 +61,7 @@ BezierSplineWidget::BezierSplineWidget(const QString& spline, QWidget* parent) :
     connect(m_ui.buttonZoomOut, SIGNAL(clicked()), &m_edit, SLOT(slotZoomOut()));
     connect(m_ui.buttonGridChange, SIGNAL(clicked()), this, SLOT(slotGridChange()));
     connect(m_ui.buttonShowPixmap, SIGNAL(toggled(bool)), this, SLOT(slotShowPixmap(bool)));
+    connect(m_ui.buttonResetSpline, SIGNAL(clicked()), this, SLOT(slotResetSpline()));
 
     m_edit.setGridLines(KdenliveSettings::bezier_gridlines());
     m_ui.buttonShowPixmap->setChecked(KdenliveSettings::bezier_showpixmap());
@@ -90,7 +92,7 @@ void BezierSplineWidget::slotShowPixmap(bool show)
     m_showPixmap = show;
     KdenliveSettings::setBezier_showpixmap(show);
     if (show && m_mode != ModeAlpha && m_mode != ModeRGB)
-        m_edit.setPixmap(QPixmap::fromImage(ColorTools::rgbCurvePlane(m_edit.size(), (ColorTools::ColorsRGB)((int)(m_mode == ModeLuma ? 3 : m_mode)), 0.8)));
+        m_edit.setPixmap(QPixmap::fromImage(ColorTools::rgbCurvePlane(m_edit.size(), (ColorTools::ColorsRGB)((int)(m_mode)))));
     else
         m_edit.setPixmap(QPixmap());
 }
@@ -134,6 +136,11 @@ void BezierSplineWidget::slotUpdateSpline()
 
     m_edit.updateCurrentPoint(p);
     emit modified();
+}
+
+void BezierSplineWidget::slotResetSpline()
+{
+    m_edit.setSpline(CubicBezierSpline());
 }
 
 #include "beziersplinewidget.moc"

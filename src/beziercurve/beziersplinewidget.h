@@ -35,7 +35,7 @@ public:
 
     QString spline();
 
-    enum CurveModes { ModeRed, ModeGreen, ModeBlue, ModeAlpha, ModeLuma, ModeRGB };
+    enum CurveModes { ModeRed, ModeGreen, ModeBlue, ModeAlpha, ModeLuma, ModeRGB/*, ModeSaturation*/ };
     void setMode(CurveModes mode);
 
 private slots:
@@ -43,6 +43,7 @@ private slots:
     void slotUpdateSpline();
     void slotGridChange();
     void slotShowPixmap(bool show = true);
+    void slotResetSpline();
 
 private:
     Ui::BezierSpline_UI m_ui;
