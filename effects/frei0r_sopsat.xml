@@ -5,8 +5,8 @@
         <author>Simon A. Eugster (Granjow)</author>
         <parameter type="simplekeyframe" name="rSlope" default="100" min="0" max="1000" factor="100">
                 <name>Slope Red</name>
-                <comment>Changing the slope means multiplying the pixel value with a constant value. Black pixels will remain black, whileas brighter ones will be changed.<br/>
-                All effects can be observed well when applied on a greyscale gradient and looking at the RGB Parade monitor.</comment>
+                <comment><![CDATA[Changing the slope means multiplying the pixel value with a constant value. Black pixels will remain black, whileas brighter ones will be changed.<br/>
+                All effects can be observed well when applied on a greyscale gradient and looking at the RGB Parade monitor.]]></comment>
         </parameter>
         <parameter type="simplekeyframe" name="gSlope" default="100" min="0" max="1000" factor="100">
                 <name>Slope Green</name>
@@ -34,8 +34,8 @@
 
         <parameter type="simplekeyframe" name="rPower" default="100" min="1" max="1000" factor="100">
                 <name>Power Red</name>
-                <comment>Changes the Gamma value for the selected channel. Black and white pixel values will not be affected, but everything between.<br/>
-                Mathematically, what happens is an exponentiation of the pixel brightness on <code>[0,1]</code> by the gamma value.</comment>
+                <comment><![CDATA[Changes the Gamma value for the selected channel. Black and white pixel values will not be affected, but everything between.<br/>
+                Mathematically, what happens is an exponentiation of the pixel brightness on <code>[0,1]</code> by the gamma value.]]></comment>
         </parameter>
         <parameter type="simplekeyframe" name="gPower" default="100" min="1" max="1000" factor="100">
                 <name>Power Green</name>
