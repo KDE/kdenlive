@@ -1921,10 +1921,9 @@ void Render::mltInsertSpace(QMap <int, int> trackClipStartList, QMap <int, int> 
                 }
                 int position = trackPlaylist.clip_start(clipIndex);
                 int blankDuration = trackPlaylist.clip_length(clipIndex);
-                diff = -diff;
-                if (blankDuration - diff == 0) {
+                if (blankDuration + diff == 0) {
                     trackPlaylist.remove(clipIndex);
-                } else trackPlaylist.remove_region(position, diff);
+                } else trackPlaylist.remove_region(position, -diff);
             }
             trackPlaylist.consolidate_blanks(0);
         }
