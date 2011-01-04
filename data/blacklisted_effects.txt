@@ -23,6 +23,7 @@ frei0r.colordistance
 frei0r.contrast0r
 frei0r.curves
 frei0r.defish0r
+frei0r.d90stairsteppingfix
 frei0r.distort0r
 frei0r.glow
 frei0r.hqdn3d

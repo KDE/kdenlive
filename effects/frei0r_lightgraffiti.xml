@@ -1,7 +1,9 @@
 <!DOCTYPE kpartgui>
 <effect tag="frei0r.lightgraffiti" id="frei0r.lightgraffiti">
         <name>Light Graffiti</name>
-        <description>Light Graffiti effect.</description>
+        <description>Light Graffiti effect.
+        <full><![CDATA[This effect allows to do Light Painting (i.e. painting with light sources on a photo by keeping the shutter
+        opened for a while), but for video.]]></full></description>
         <author>Simon A. Eugster (Granjow)</author>
         <parameter type="constant" name="longAlpha" default="0" min="0" max="256" factor="256">
                 <name>α</name>
