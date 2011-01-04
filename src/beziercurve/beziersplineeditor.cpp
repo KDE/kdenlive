@@ -238,7 +238,7 @@ void BezierSplineEditor::paintEvent(QPaintEvent* event)
             p.drawConvexPolygon(handle.translated(point.h2.x() * wWidth, wHeight - point.h2.y() * wHeight));
 #else
             tmp = handle;
-            tmp.translate(handle.translated(point.h2.x() * wWidth, wHeight - point.h2.y() * wHeight);
+            tmp.translate(point.h2.x() * wWidth, wHeight - point.h2.y() * wHeight);
             p.drawConvexPolygon(tmp);
 #endif
         }
