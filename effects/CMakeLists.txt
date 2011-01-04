@@ -58,6 +58,7 @@ frei0r_colordistance.xml
 frei0r_contrast0r.xml
 frei0r_c0rners.xml
 frei0r_curves.xml
+frei0r_d90stairsteppingfix.xml
 frei0r_defish0r.xml
 frei0r_distort0r.xml
 frei0r_glow.xml
