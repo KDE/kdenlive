@@ -339,7 +339,7 @@ void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *au
             // a specific version of the filter is required
             Mlt::Properties *metadata = repository->metadata(filter_type, tag.toUtf8().data());
             if (metadata && metadata->is_valid()) {
-                double version = atof(metadata->get("version"));
+                double version = metadata->get_double("version");
                 if (documentElement.attribute("version").toDouble() > version) {
                     delete metadata;
                     return;
