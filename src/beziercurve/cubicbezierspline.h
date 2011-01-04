@@ -19,19 +19,10 @@
 #ifndef CUBICBEZIERSPLINE_H
 #define CUBICBEZIERSPLINE_H
 
+#include "bpoint.h"
 
 #include <QtCore>
 
-class BPoint
-{
-public:
-    QPointF h1;     // handle 1
-    QPointF p;      // point
-    QPointF h2;     // handle 2
-
-    BPoint() { p = QPointF(-1,-1); } // makes it illegal -> cannot be equal any point
-    bool operator==(const BPoint &point) const { return point.h1 == h1 && point.p == p && point.h2 == h2; }
-};
 
 class CubicBezierSpline : public QObject
 {

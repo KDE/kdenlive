@@ -74,6 +74,7 @@ void BezierSplineEditor::updateCurrentPoint(const BPoint& p)
         m_spline.setPoint(m_currentPointIndex, p);
         // during validation the point might have changed
         emit currentPoint(m_spline.points()[m_currentPointIndex]);
+        emit modified();
         update();
     }
 }
@@ -382,12 +383,12 @@ void BezierSplineEditor::mouseMoveEvent(QMouseEvent* event)
         case PTypeH1:
             rightX = point.p.x();
             if (m_currentPointIndex == 0)
-                leftX = -1000;
+                leftX = -4;
             else
                 leftX = m_spline.points()[m_currentPointIndex - 1].p.x();
 
             x = qBound(leftX, x, rightX);
-            point.h1 = QPointF(x, y);
+            point.setH1(QPointF(x, y));
             break;
 
         case PTypeP:
@@ -403,22 +404,23 @@ void BezierSplineEditor::mouseMoveEvent(QMouseEvent* event)
             // try to restore
             point.h1 = m_grabPOriginal.h1;
             point.h2 = m_grabPOriginal.h2;
-            // and then move them by same offset
+            // and move by same offset
+            // (using update handle in point.setP won't work because the offset between new and old point is very small)
             point.h1 += QPointF(x, y) - m_grabPOriginal.p;
             point.h2 += QPointF(x, y) - m_grabPOriginal.p;
 
-            point.p = QPointF(x, y);
+            point.setP(QPointF(x, y), false);
             break;
 
         case PTypeH2:
             leftX = point.p.x();
             if (m_currentPointIndex == m_spline.points().count() - 1)
-                rightX = 1001;
+                rightX = 5;
             else
                 rightX = m_spline.points()[m_currentPointIndex + 1].p.x();
 
             x = qBound(leftX, x, rightX);
-            point.h2 = QPointF(x, y);
+            point.setH2(QPointF(x, y));
         };
 
         int index = m_currentPointIndex;

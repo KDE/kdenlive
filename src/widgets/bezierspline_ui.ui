@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>315</width>
-    <height>83</height>
+    <width>351</width>
+    <height>78</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,6 +18,9 @@
     <widget class="QWidget" name="widgetPoint" native="true">
      <layout class="QGridLayout" name="gridLayout_2">
       <property name="margin">
+       <number>0</number>
+      </property>
+      <property name="spacing">
        <number>0</number>
       </property>
       <item row="0" column="0" colspan="9">
@@ -137,7 +140,7 @@
       <item row="1" column="4">
        <widget class="QToolButton" name="buttonLinkHandles">
         <property name="toolTip">
-         <string>Link the Handles' position so you draw a line through Handle -&gt; Point -&gt; Handle.&lt;br /&gt;Results in a natural spline.</string>
+         <string>Link the handles' position.&lt;br /&gt;Results in a natural spline.</string>
         </property>
         <property name="text">
          <string>...</string>

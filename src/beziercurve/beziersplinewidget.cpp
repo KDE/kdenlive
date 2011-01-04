@@ -35,7 +35,6 @@ BezierSplineWidget::BezierSplineWidget(const QString& spline, QWidget* parent) :
     layout->addWidget(widget);
 
     m_ui.buttonLinkHandles->setIcon(KIcon("insert-link"));
-    m_ui.buttonLinkHandles->setEnabled(false);
     m_ui.buttonZoomIn->setIcon(KIcon("zoom-in"));
     m_ui.buttonZoomOut->setIcon(KIcon("zoom-out"));
     m_ui.buttonGridChange->setIcon(KIcon("view-grid"));
@@ -50,13 +49,14 @@ BezierSplineWidget::BezierSplineWidget(const QString& spline, QWidget* parent) :
     connect(&m_edit, SIGNAL(modified()), this, SIGNAL(modified()));
     connect(&m_edit, SIGNAL(currentPoint(const BPoint&)), this, SLOT(slotUpdatePoint(const BPoint&)));
 
-    connect(m_ui.spinPX, SIGNAL(editingFinished()), this, SLOT(slotUpdateSpline()));
-    connect(m_ui.spinPY, SIGNAL(editingFinished()), this, SLOT(slotUpdateSpline()));
-    connect(m_ui.spinH1X, SIGNAL(editingFinished()), this, SLOT(slotUpdateSpline()));
-    connect(m_ui.spinH1Y, SIGNAL(editingFinished()), this, SLOT(slotUpdateSpline()));
-    connect(m_ui.spinH2X, SIGNAL(editingFinished()), this, SLOT(slotUpdateSpline()));
-    connect(m_ui.spinH2Y, SIGNAL(editingFinished()), this, SLOT(slotUpdateSpline()));
+    connect(m_ui.spinPX, SIGNAL(editingFinished()), this, SLOT(slotUpdatePointP()));
+    connect(m_ui.spinPY, SIGNAL(editingFinished()), this, SLOT(slotUpdatePointP()));
+    connect(m_ui.spinH1X, SIGNAL(editingFinished()), this, SLOT(slotUpdatePointH1()));
+    connect(m_ui.spinH1Y, SIGNAL(editingFinished()), this, SLOT(slotUpdatePointH1()));
+    connect(m_ui.spinH2X, SIGNAL(editingFinished()), this, SLOT(slotUpdatePointH2()));
+    connect(m_ui.spinH2Y, SIGNAL(editingFinished()), this, SLOT(slotUpdatePointH2()));
 
+    connect(m_ui.buttonLinkHandles, SIGNAL(toggled(bool)), this, SLOT(slotSetHandlesLinked(bool)));
     connect(m_ui.buttonZoomIn, SIGNAL(clicked()), &m_edit, SLOT(slotZoomIn()));
     connect(m_ui.buttonZoomOut, SIGNAL(clicked()), &m_edit, SLOT(slotZoomOut()));
     connect(m_ui.buttonGridChange, SIGNAL(clicked()), this, SLOT(slotGridChange()));
@@ -110,32 +110,43 @@ void BezierSplineWidget::slotUpdatePoint(const BPoint &p)
         m_ui.spinH1Y->setValue(qRound(p.h1.y() * 255));
         m_ui.spinH2X->setValue(qRound(p.h2.x() * 255));
         m_ui.spinH2Y->setValue(qRound(p.h2.y() * 255));
+        m_ui.buttonLinkHandles->setChecked(p.handlesLinked);
     }
     blockSignals(false);
 }
 
-void BezierSplineWidget::slotUpdateSpline()
+void BezierSplineWidget::slotUpdatePointP()
 {
     BPoint p = m_edit.getCurrentPoint();
 
-    // check for every value, so we do not lose too much info through rounding
-    if (m_ui.spinPX->value() != qRound(p.p.x() * 255))
-        p.p.setX(m_ui.spinPX->value() / 255.);
-    if (m_ui.spinPY->value() != qRound(p.p.y() * 255))
-        p.p.setY(m_ui.spinPY->value() / 255.);
-
-    if (m_ui.spinH1X->value() != qRound(p.h1.x() * 255))
-        p.h1.setX(m_ui.spinH1X->value() / 255.);
-    if (m_ui.spinH1Y->value() != qRound(p.h1.y() * 255))
-        p.h1.setY(m_ui.spinH1Y->value() / 255.);
-
-    if (m_ui.spinH2X->value() != qRound(p.h2.x() * 255))
-        p.h2.setX(m_ui.spinH2X->value() / 255.);
-    if (m_ui.spinH2Y->value() != qRound(p.h2.y() * 255))
-        p.h2.setY(m_ui.spinH2Y->value() / 255.);
+    p.setP(QPointF(m_ui.spinPX->value() / 255., m_ui.spinPY->value() / 255.));
 
     m_edit.updateCurrentPoint(p);
-    emit modified();
+}
+
+void BezierSplineWidget::slotUpdatePointH1()
+{
+    BPoint p = m_edit.getCurrentPoint();
+
+    p.setH1(QPointF(m_ui.spinH1X->value() / 255., m_ui.spinH1Y->value() / 255.));
+
+    m_edit.updateCurrentPoint(p);
+}
+
+void BezierSplineWidget::slotUpdatePointH2()
+{
+    BPoint p = m_edit.getCurrentPoint();
+
+    p.setH2(QPointF(m_ui.spinH2X->value() / 255., m_ui.spinH2Y->value() / 255.));
+
+    m_edit.updateCurrentPoint(p);
+}
+
+void BezierSplineWidget::slotSetHandlesLinked(bool linked)
+{
+    BPoint p = m_edit.getCurrentPoint();
+    p.handlesLinked = linked;
+    m_edit.updateCurrentPoint(p);
 }
 
 void BezierSplineWidget::slotResetSpline()

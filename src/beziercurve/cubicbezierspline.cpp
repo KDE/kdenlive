@@ -18,7 +18,6 @@
 
 #include "cubicbezierspline.h"
 
-#include <KDebug>
 
 /** @brief For sorting a Bezier spline. Whether a is before b. */
 static bool pointLessThan(const BPoint &a, const BPoint &b)
@@ -31,23 +30,8 @@ CubicBezierSpline::CubicBezierSpline(QObject* parent) :
         m_validSpline(false),
         m_precision(100)
 {
-    BPoint start;
-    start.p.setX(0);
-    start.p.setY(0);
-    start.h1.setX(0);
-    start.h1.setY(0);
-    start.h2.setX(0.1);
-    start.h2.setY(0.1);
-    m_points.append(start);
-
-    BPoint end;
-    end.p.setX(1);
-    end.p.setY(1);
-    end.h1.setX(0.9);
-    end.h1.setY(0.9);
-    end.h2.setX(1);
-    end.h2.setY(1);
-    m_points.append(end);
+    m_points.append(BPoint(QPointF(0, 0), QPointF(0, 0), QPointF(.1, .1)));
+    m_points.append(BPoint(QPointF(.9, .9), QPointF(1, 1), QPointF(1, 1)));
 }
 
 CubicBezierSpline::CubicBezierSpline(const CubicBezierSpline& spline, QObject* parent) :
@@ -81,11 +65,7 @@ void CubicBezierSpline::fromString(const QString& spline)
                 values.append(QPointF(xy.at(0).toDouble(), xy.at(1).toDouble()));
         }
         if (values.count() == 3) {
-            BPoint bp;
-            bp.h1 = values.at(0);
-            bp.p  = values.at(1);
-            bp.h2 = values.at(2);
-            m_points.append(bp);
+            m_points.append(BPoint(values.at(0), values.at(1), values.at(2)));
         }
     }
 

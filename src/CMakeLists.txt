@@ -263,9 +263,10 @@ set(kdenlive_SRCS
   kiss_fft/_kiss_fft_guts.h
   kiss_fft/kiss_fft.c
   kiss_fft/tools/kiss_fftr.c
-  beziercurve/cubicbezierspline.cpp
   beziercurve/beziersplineeditor.cpp
   beziercurve/beziersplinewidget.cpp
+  beziercurve/bpoint.cpp
+  beziercurve/cubicbezierspline.cpp
 )
 
 add_definitions(${KDE4_DEFINITIONS})

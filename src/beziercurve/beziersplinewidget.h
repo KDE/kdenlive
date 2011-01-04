@@ -40,10 +40,15 @@ public:
 
 private slots:
     void slotUpdatePoint(const BPoint &p);
-    void slotUpdateSpline();
+
+    void slotUpdatePointP();
+    void slotUpdatePointH1();
+    void slotUpdatePointH2();
+
     void slotGridChange();
     void slotShowPixmap(bool show = true);
     void slotResetSpline();
+    void slotSetHandlesLinked(bool linked);
 
 private:
     Ui::BezierSpline_UI m_ui;
