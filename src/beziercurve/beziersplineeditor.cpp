@@ -209,6 +209,9 @@ void BezierSplineEditor::paintEvent(QPaintEvent* event)
                      4,  1,
                      1,  4,
                      -2, 1);
+#if QT_VERSION < 0x040600
+    QPolygon tmp;
+#endif
     for (int i = 0; i <= max; ++i) {
         point = m_spline.points().at(i);
         if (i == m_currentPointIndex) {
@@ -221,10 +224,24 @@ void BezierSplineEditor::paintEvent(QPaintEvent* event)
 
         p.drawEllipse(QRectF(point.p.x() * wWidth - 3,
                              wHeight - 3 - point.p.y() * wHeight, 6, 6));
-        if (i != 0)
+        if (i != 0) {
+#if QT_VERSION >= 0x040600
             p.drawConvexPolygon(handle.translated(point.h1.x() * wWidth, wHeight - point.h1.y() * wHeight));
-        if (i != max)
+#else
+            tmp = handle;
+            tmp.translate(point.h1.x() * wWidth, wHeight - point.h1.y() * wHeight);
+            p.drawConvexPolygon(tmp);
+#endif
+        }
+        if (i != max) {
+#if QT_VERSION >= 0x040600
             p.drawConvexPolygon(handle.translated(point.h2.x() * wWidth, wHeight - point.h2.y() * wHeight));
+#else
+            tmp = handle;
+            tmp.translate(handle.translated(point.h2.x() * wWidth, wHeight - point.h2.y() * wHeight);
+            p.drawConvexPolygon(tmp);
+#endif
+        }
 
         if ( i == m_currentPointIndex)
             p.setBrush(QBrush(Qt::NoBrush));
