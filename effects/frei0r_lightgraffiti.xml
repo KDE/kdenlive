@@ -5,24 +5,10 @@
         <full><![CDATA[This effect allows to do Light Painting (i.e. painting with light sources on a photo by keeping the shutter
         opened for a while), but for video.]]></full></description>
         <author>Simon A. Eugster (Granjow)</author>
-        <parameter type="constant" name="longAlpha" default="0" min="0" max="256" factor="256">
-                <name>α</name>
-                <comment><![CDATA[Determines how the effect tries to adapt to background changes. <br/>
-                If the background does not change, then try to use 0 (requires the first frame to represent background only, without your light sources).]]></comment>
-        </parameter>
-        <parameter type="constant" name="lightOpacity" default="60" min="0" max="100" factor="100">
-            <name>Opacity</name>
-            <comment><![CDATA[Basic opacity for a light source.<br/>
-            For slowly moving light source try to use a lower opacity value to obtain smoother results.]]></comment>
-	</parameter>
-        <parameter type="constant" name="opacitySmoothing" default="30" min="1" max="100" factor="10">
-            <name>Smoothing</name>
-            <comment><![CDATA[Smoothing of the light map according to the light source. <br/>
-            A value of 1 results in absolutely smooth transitions from background to light source, but might result in too weak lights. The maximum value gives sharper edges and stronger lights.]]></comment>
-        </parameter>
-        <parameter type="constant" name="backgroundWeight" default="0" min="0" max="100" factor="100">
-            <name>Background Weight</name>
-            <comment>Strength of the (calculated) background image. Setting it to 100 paints the light mask directly over the background, without any person in the image if the video starts with a «clean» background image.</comment>
+        <parameter type="constant" name="sensitivity" default="100" min="0" max="500" factor="100">
+            <name>Sensitivity</name>
+            <comment><![CDATA[Light sensitivity.<br/>
+            For slowly moving light source try to use a higher sensitivity to obtain smoother results.]]></comment>
         </parameter>
         <parameter type="constant" name="thresholdBrightness" default="450" min="0" max="765" factor="1">
             <name>Brightness Threshold</name>
@@ -42,5 +28,26 @@
         <parameter type="constant" name="dim" default="0" min="0" max="255" factor="255">
             <name>Dimming</name>
             <comment>Dims the light mask. Lights will leave a fainting trail if it is set to a value > 0.</comment>
+        </parameter>
+        <parameter type="constant" name="backgroundWeight" default="0" min="0" max="100" factor="100">
+            <name>Background Weight</name>
+            <comment>Strength of the (calculated) background image. Setting it to 100 paints the light mask directly over the background, without any person in the image if the video starts with a «clean» background image.</comment>
+        </parameter>
+        <parameter type="constant" name="longAlpha" default="0" min="0" max="256" factor="256">
+                <name>α</name>
+                <comment><![CDATA[Determines how the effect tries to adapt to background changes. <br/>
+                If the background does not change, then try to use 0 (requires the first frame to represent background only, without your light sources).]]></comment>
+        </parameter>
+        <parameter type="bool" name="statsBrightness" default="0">
+            <name>Show brightness statistics</name>
+        </parameter>
+        <parameter type="bool" name="statsDifference" default="0">
+            <name>Show background difference statistics</name>
+        </parameter>
+        <parameter type="bool" name="transparentBackground" default="0">
+            <name>Transparent Background</name>
+        </parameter>
+        <parameter type="bool" name="reset" default="0">
+            <name>Reset the mask</name>
         </parameter>
 </effect>
