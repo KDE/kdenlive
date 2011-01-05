@@ -33,6 +33,10 @@ public:
     /** @brief Sets up according to the params. Linking detecting is done using autoSetLinked(). */
     BPoint(QPointF handle1, QPointF point, QPointF handle2);
 
+    /** @brief Returns h1 if i = 0, p if i = 1, h2 if i = 2. */
+    QPointF &operator[](int i);
+    /** @brief Returns h1 if i = 0, p if i = 1, h2 if i = 2. */
+    const QPointF &operator[](int i) const;
     bool operator==(const BPoint &point) const;
 
     /** @brief Sets p to @param point.

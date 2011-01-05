@@ -77,9 +77,9 @@ QString CubicBezierSpline::toString() const
 {
     QStringList spline;
     foreach(const BPoint &p, m_points) {
-        spline << (QString::number(p.h1.x()) + ";" + QString::number(p.h1.y())
-                        + "#" + QString::number(p.p.x())  + ";" + QString::number(p.p.y())
-                        + "#" + QString::number(p.h2.x()) + ";" + QString::number(p.h2.y()));
+        spline << QString("%1;%2#%3;%4#%5;%6").arg(p.h1.x()).arg(p.h1.y())
+                                              .arg(p.p.x()).arg(p.p.y())
+                                              .arg(p.h2.x()).arg(p.h2.y());
     }
     return spline.join("|");
 }

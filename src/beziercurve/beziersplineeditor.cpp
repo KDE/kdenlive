@@ -288,11 +288,9 @@ void BezierSplineEditor::mousePressEvent(QMouseEvent* event)
     }
 
     if (closestPointIndex < 0) {
-        BPoint po;
-        po.p = QPointF(x, y);
-        po.h1 = QPointF(x-0.05, y-0.05);
-        po.h2 = QPointF(x+0.05, y+0.05);
-        m_currentPointIndex = m_spline.addPoint(po);
+        m_currentPointIndex = m_spline.addPoint(BPoint(QPointF(x-0.05, y-0.05),
+                                                       QPointF(x, y),
+                                                       QPointF(x+0.05, y+0.05)));
         m_currentPointType = PTypeP;
     } else {
         m_currentPointIndex = closestPointIndex;
@@ -300,36 +298,17 @@ void BezierSplineEditor::mousePressEvent(QMouseEvent* event)
     }
 
     BPoint point = m_spline.points()[m_currentPointIndex];
-    QPointF p;
-    switch (m_currentPointType) {
-    case PTypeH1:
-        p = point.h1;
-        break;
-    case PTypeP:
-        p = point.p;
-        break;
-    case PTypeH2:
-        p = point.h2;
-    }
 
     m_grabPOriginal = point;
     if (m_currentPointIndex > 0)
         m_grabPPrevious = m_spline.points()[m_currentPointIndex - 1];
     if (m_currentPointIndex < m_spline.points().count() - 1)
         m_grabPNext = m_spline.points()[m_currentPointIndex + 1];
-    m_grabOffsetX = p.x() - x;
-    m_grabOffsetY = p.y() - y;
+    m_grabOffsetX = point[(int)m_currentPointType].x() - x;
+    m_grabOffsetY = point[(int)m_currentPointType].y() - y;
 
-    switch (m_currentPointType) {
-        case PTypeH1:
-            point.h1 = QPointF(x + m_grabOffsetX, y + m_grabOffsetY);
-            break;
-        case PTypeP:
-            point.p = QPointF(x + m_grabOffsetX, y + m_grabOffsetY);
-            break;
-        case PTypeH2:
-            point.h2 = QPointF(x + m_grabOffsetX, y + m_grabOffsetY);
-    }
+    point[(int)m_currentPointType] = QPointF(x + m_grabOffsetX, y + m_grabOffsetY);
+
     m_spline.setPoint(m_currentPointIndex, point);
 
     m_mode = ModeDrag;
@@ -372,7 +351,7 @@ void BezierSplineEditor::mouseMoveEvent(QMouseEvent* event)
     } else {
         // Else, drag the selected point
         setCursor(Qt::CrossCursor);
-        
+
         x += m_grabOffsetX;
         y += m_grabOffsetY;
 
@@ -469,41 +448,20 @@ int BezierSplineEditor::nearestPointInRange(QPointF p, int wWidth, int wHeight, 
     double distanceSquared;
     // find out distance using the Pythagorean theorem
     foreach(const BPoint & point, m_spline.points()) {
-        distanceSquared = pow(point.h1.x() - p.x(), 2) + pow(point.h1.y() - p.y(), 2);
-        if (distanceSquared < nearestDistanceSquared) {
-            nearestIndex = i;
-            nearestDistanceSquared = distanceSquared;
-            selectedPoint = PTypeH1;
-        }
-        distanceSquared = pow(point.p.x() - p.x(), 2) + pow(point.p.y() - p.y(), 2);
-        if (distanceSquared < nearestDistanceSquared) {
-            nearestIndex = i;
-            nearestDistanceSquared = distanceSquared;
-            selectedPoint = PTypeP;
-        }
-        distanceSquared = pow(point.h2.x() - p.x(), 2) + pow(point.h2.y() - p.y(), 2);
-        if (distanceSquared < nearestDistanceSquared) {
-            nearestIndex = i;
-            nearestDistanceSquared = distanceSquared;
-            selectedPoint = PTypeH2;
+        for (int j = 0; j < 3; ++j) {
+            distanceSquared = pow(point[j].x() - p.x(), 2) + pow(point[j].y() - p.y(), 2);
+            if (distanceSquared < nearestDistanceSquared) {
+                nearestIndex = i;
+                nearestDistanceSquared = distanceSquared;
+                selectedPoint = (point_types)j;
+            }
         }
         ++i;
     }
 
     if (nearestIndex >= 0) {
         BPoint point = m_spline.points()[nearestIndex];
-        QPointF p2;
-        switch (selectedPoint) {
-        case PTypeH1:
-            p2 = point.h1;
-            break;
-        case PTypeP:
-            p2 = point.p;
-            break;
-        case PTypeH2:
-            p2 = point.h2;
-        }
-        if (qAbs(p.x() - p2.x()) * wWidth < 5 && qAbs(p.y() - p2.y()) * wHeight < 5) {
+        if (qAbs(p.x() - point[(int)selectedPoint].x()) * wWidth < 5 && qAbs(p.y() - point[(int)selectedPoint].y()) * wHeight < 5) {
             *sel = selectedPoint;
             return nearestIndex;
         }

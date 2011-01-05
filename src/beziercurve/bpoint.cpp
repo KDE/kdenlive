@@ -35,6 +35,16 @@ BPoint::BPoint(QPointF handle1, QPointF point, QPointF handle2) :
     autoSetLinked();
 }
 
+QPointF &BPoint::operator[](int i)
+{
+    return i == 0 ? h1 : (i == 1 ? p : h2);
+}
+
+const QPointF &BPoint::operator[](int i) const
+{
+    return i == 0 ? h1 : (i == 1 ? p : h2);
+}
+
 bool BPoint::operator==(const BPoint& point) const
 {
     return      point.h1 == h1 &&
