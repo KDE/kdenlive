@@ -216,7 +216,9 @@ void BezierSplineEditor::paintEvent(QPaintEvent* event)
     for (int i = 0; i <= max; ++i) {
         point = m_spline.points().at(i);
         if (i == m_currentPointIndex) {
+            // selected point: fill p and handles
             p.setBrush(QBrush(QColor(Qt::red), Qt::SolidPattern));
+            // connect p and handles with lines
             if (i != 0)
                 p.drawLine(QLineF(point.h1.x() * wWidth, wHeight - point.h1.y() * wHeight, point.p.x() * wWidth, wHeight - point.p.y() * wHeight));
             if (i != max)

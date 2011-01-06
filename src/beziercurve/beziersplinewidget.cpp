@@ -47,7 +47,7 @@ BezierSplineWidget::BezierSplineWidget(const QString& spline, QWidget* parent) :
     m_edit.setSpline(s);
 
     connect(&m_edit, SIGNAL(modified()), this, SIGNAL(modified()));
-    connect(&m_edit, SIGNAL(currentPoint(const BPoint&)), this, SLOT(slotUpdatePoint(const BPoint&)));
+    connect(&m_edit, SIGNAL(currentPoint(const BPoint&)), this, SLOT(slotUpdatePointEntries(const BPoint&)));
 
     connect(m_ui.spinPX, SIGNAL(editingFinished()), this, SLOT(slotUpdatePointP()));
     connect(m_ui.spinPY, SIGNAL(editingFinished()), this, SLOT(slotUpdatePointP()));
@@ -91,13 +91,13 @@ void BezierSplineWidget::slotShowPixmap(bool show)
 {
     m_showPixmap = show;
     KdenliveSettings::setBezier_showpixmap(show);
-    if (show && m_mode != ModeAlpha && m_mode != ModeRGB)
-        m_edit.setPixmap(QPixmap::fromImage(ColorTools::rgbCurvePlane(m_edit.size(), (ColorTools::ColorsRGB)((int)(m_mode)))));
+    if (show && (m_mode == ModeRed || m_mode == ModeGreen || m_mode == ModeBlue || m_mode == ModeLuma ))
+        m_edit.setPixmap(QPixmap::fromImage(ColorTools::rgbCurvePlane(m_edit.size(), (ColorTools::ColorsRGB)((int)(m_mode == ModeLuma ? int(m_mode) - 1 : m_mode)))));
     else
         m_edit.setPixmap(QPixmap());
 }
 
-void BezierSplineWidget::slotUpdatePoint(const BPoint &p)
+void BezierSplineWidget::slotUpdatePointEntries(const BPoint &p)
 {
     blockSignals(true);
     if (p == BPoint()) {

@@ -48,7 +48,6 @@ public slots:
     void slotZoomOut();
 
 protected:
-    //void keyPressEvent(QKeyEvent *event);
     void paintEvent(QPaintEvent *event);
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent * event);
@@ -74,10 +73,7 @@ private:
     BPoint m_grabPOriginal;
     BPoint m_grabPNext;
     BPoint m_grabPPrevious;
-    //QPointF m_draggedAwayPoint;
-    //int m_draggedAwayPointIndex;
 
-    //inline void drawGrid(QPainter &p, int width, int height);
     int nearestPointInRange(QPointF p, int wWidth, int wHeight, point_types *sel);
 
 signals:

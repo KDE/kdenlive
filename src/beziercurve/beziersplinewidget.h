@@ -31,23 +31,37 @@ class BezierSplineWidget : public QWidget
     Q_OBJECT
     
 public:
+    /** @brief Sets up the UI and sets the spline to @param spline. */
     BezierSplineWidget(const QString &spline, QWidget* parent = 0);
 
+    /** @brief Returns the current spline. */
     QString spline();
 
-    enum CurveModes { ModeRed, ModeGreen, ModeBlue, ModeAlpha, ModeLuma, ModeRGB/*, ModeSaturation*/ };
+    /** The curvemodes refer to the usage of the spline.
+     * As this widget is currently only used for frei0r.curves the modes are the channels this filter accepts. */
+    enum CurveModes { ModeRed, ModeGreen, ModeBlue, ModeAlpha, ModeLuma, ModeRGB, ModeHue, ModeSaturation };
+
+    /** @brief Sets the mode to @param mode and updates the editors background pixmap if necessary. */
     void setMode(CurveModes mode);
 
 private slots:
-    void slotUpdatePoint(const BPoint &p);
+    /** @brief Sets the spinboxes for modifing the selected point to @param p. */
+    void slotUpdatePointEntries(const BPoint &p);
 
+    /** @brief Updates the editor and thus the spline if the current point's p was modified using the spinboxes. */
     void slotUpdatePointP();
+    /** @brief Updates the editor and thus the spline if the current point's h1 was modified using the spinboxes. */
     void slotUpdatePointH1();
+    /** @brief Updates the editor and thus the spline if the current point's h2 was modified using the spinboxes. */
     void slotUpdatePointH2();
 
+    /** @brief Increases the number of lines in the editor's grid. If there are already 8 lines the number is set to 0. */
     void slotGridChange();
+    /** @brief Turns showing the background pixmap in the editor on/off. */
     void slotShowPixmap(bool show = true);
+    /** @brief Resets the current spline. */
     void slotResetSpline();
+    /** @brief Linkes the handles. This will always make them stay in one line through p. */
     void slotSetHandlesLinked(bool linked);
 
 private:
