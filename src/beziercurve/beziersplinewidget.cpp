@@ -69,6 +69,7 @@ BezierSplineWidget::BezierSplineWidget(const QString& spline, QWidget* parent) :
 
     m_edit.setGridLines(KdenliveSettings::bezier_gridlines());
     m_ui.buttonShowPixmap->setChecked(KdenliveSettings::bezier_showpixmap());
+    slotShowPixmap(m_ui.buttonShowPixmap->isChecked());
     m_ui.buttonShowAllHandles->setChecked(KdenliveSettings::bezier_showallhandles());
 }
 
@@ -96,8 +97,8 @@ void BezierSplineWidget::slotShowPixmap(bool show)
 {
     m_showPixmap = show;
     KdenliveSettings::setBezier_showpixmap(show);
-    if (show && (m_mode == ModeRed || m_mode == ModeGreen || m_mode == ModeBlue || m_mode == ModeLuma ))
-        m_edit.setPixmap(QPixmap::fromImage(ColorTools::rgbCurvePlane(m_edit.size(), (ColorTools::ColorsRGB)((int)(m_mode == ModeLuma ? int(m_mode) - 1 : m_mode)))));
+    if (show && (int)m_mode < 6)
+        m_edit.setPixmap(QPixmap::fromImage(ColorTools::rgbCurvePlane(m_edit.size(), (ColorTools::ColorsRGB)((int)m_mode), 1, palette().background().color().rgb())));
     else
         m_edit.setPixmap(QPixmap());
 }

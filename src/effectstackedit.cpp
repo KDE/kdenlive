@@ -147,7 +147,7 @@ void EffectStackEdit::meetDependency(const QString& name, QString type, QString 
         KisCurveWidget *curve = (KisCurveWidget*)m_valueItems[name];
         if (curve) {
             int color = value.toInt();
-            curve->setPixmap(QPixmap::fromImage(ColorTools::rgbCurvePlane(curve->size(), (ColorTools::ColorsRGB)color, 0.8)));
+            curve->setPixmap(QPixmap::fromImage(ColorTools::rgbCurvePlane(curve->size(), (ColorTools::ColorsRGB)(color == 3 ? 4 : color), 0.8)));
         }
     } else if (type == "bezier_spline") {
         BezierSplineWidget *widget = (BezierSplineWidget*)m_valueItems[name];

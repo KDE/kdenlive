@@ -26,7 +26,7 @@ class ColorTools : public QObject
 public:
     ColorTools();
 
-    enum ColorsRGB { COL_R, COL_G, COL_B, COL_Luma };
+    enum ColorsRGB { COL_R, COL_G, COL_B, COL_A, COL_Luma, COL_RGB };
 
     /**
       @brief Draws a UV plane with given Y value.
@@ -54,7 +54,7 @@ public:
       simulates the case that the curves can adjust only +- scaling*255. This mainly delivers a more constant look
       when also using the Luma component for the curves display but might not represent the actual color change!
      */
-    static QImage rgbCurvePlane(const QSize &size, const ColorTools::ColorsRGB &color, float scaling = 1);
+    static QImage rgbCurvePlane(const QSize &size, const ColorTools::ColorsRGB &color, float scaling = 1, const QRgb &background = QRgb());
     /**
       @brief Draws a YPbPr plane with Pb on the x axis and Pr on the y axis.
       Y is the Y value to use.
