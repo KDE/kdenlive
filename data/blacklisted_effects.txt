@@ -60,5 +60,13 @@ frei0r.threshold0r
 frei0r.tint0r
 frei0r.vertigo
 
+#MLT effects with XML UI
+
+dust
+grain
+lines
+oldfilm
+tcolor
+
 #effects that have simplekeyframes
 vignette
