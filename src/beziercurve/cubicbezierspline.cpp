@@ -168,7 +168,11 @@ void CubicBezierSpline::keepSorted()
 
 QPointF CubicBezierSpline::point(double t, const QList< QPointF >& points)
 {
-    // coefficients from Bernstein basis polynomial of degree 3
+    /*
+     * Calculating a point on the bezier curve using the coefficients from Bernstein basis polynomial of degree 3.
+     * Using the De Casteljau algorithm would be slightly faster for when calculating a lot of values
+     * but the difference is far from noticable in this needcase
+     */
     double c1 = (1-t) * (1-t) * (1-t);
     double c2 = 3 * t * (1-t) * (1-t);
     double c3 = 3 * t * t * (1-t);
@@ -195,7 +199,7 @@ void CubicBezierSpline::update()
                 << m_points.at(i+1).h1
                 << m_points.at(i+1).p;
 
-        int numberOfValues = (int)((points[3].x() - points[0].x()) * m_precision * 5);
+        int numberOfValues = (int)((points[3].x() - points[0].x()) * m_precision * 10);
         if (numberOfValues == 0)
             numberOfValues = 1;
         double step = 1 / (double)numberOfValues;

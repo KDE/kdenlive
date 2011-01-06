@@ -74,18 +74,24 @@ private:
     modes m_mode;
     int m_zoomLevel;
     int m_gridLines;
-    /** Whether to show only handles for the selected point for all points. */
+    /** Whether to show handles for all points or only for the selected one. */
     bool m_showAllHandles;
+    /** Background */
     QPixmap m_pixmap;
+    /** A copy of m_pixmap but scaled to fit the size of the edit region */
     QPixmap *m_pixmapCache;
+    /** Whether we have to regenerate the pixmap cache because the pixmap or the size of the edit region changed. */
     bool m_pixmapIsDirty;
 
     int m_currentPointIndex;
     point_types m_currentPointType;
     double m_grabOffsetX;
     double m_grabOffsetY;
+    /** selected point before it was modified by dragging (at the time of the mouse press) */
     BPoint m_grabPOriginal;
+    /** point with the index currentPointIndex + 1 at the time of the mouse press */
     BPoint m_grabPNext;
+    /** point with the index currentPointIndex - 1 at the time of the mouse press */
     BPoint m_grabPPrevious;
 
     /** @brief Finds the point nearest to @param p and returns it's index.

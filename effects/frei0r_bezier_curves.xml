@@ -4,7 +4,7 @@
         <description>Color curves adjustment</description>
         <author>Till Theato, Maksim Golovkin</author>
 
-        <parameter type="list" name="Channel" default="0.5" paramlist="0.5,0,0.1,0.2,0.3,0.4" paramlistdisplay="RGB,Red,Green,Blue,Alpha,Luma">
+        <parameter type="list" name="Channel" default="0.5" paramlist="0.5,0,0.1,0.2,0.3,0.4,0.6,0.71" paramlistdisplay="RGB,Red,Green,Blue,Alpha,Luma,Hue,Saturation">
                 <name>Channel</name>
         </parameter>
 
@@ -13,6 +13,6 @@
         </parameter>
 
         <parameter type="bezier_spline" name="Bézier spline" depends="Channel" default="-1;-1#0;0#0.1;0.1|0.9;0.9#1;1#2;2">
-                <name>Bézier Curve(Spline) Widget</name>
+                <name>Bézier Spline Widget</name>
         </parameter>
 </effect>
