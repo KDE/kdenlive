@@ -14,7 +14,7 @@
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="1" column="0" colspan="7">
+   <item row="1" column="0" colspan="8">
     <widget class="QWidget" name="widgetPoint" native="true">
      <layout class="QGridLayout" name="gridLayout_2">
       <property name="margin">
@@ -216,6 +216,9 @@
      <property name="checkable">
       <bool>true</bool>
      </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
      <property name="autoRaise">
       <bool>true</bool>
      </property>
@@ -254,7 +257,7 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="6">
+   <item row="2" column="7">
     <spacer name="spacer">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -274,6 +277,25 @@
      </property>
      <property name="text">
       <string>...</string>
+     </property>
+     <property name="autoRaise">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="6">
+    <widget class="QToolButton" name="buttonShowAllHandles">
+     <property name="toolTip">
+      <string>Show handles for all points or only for the selected one</string>
+     </property>
+     <property name="text">
+      <string>...</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
      </property>
      <property name="autoRaise">
       <bool>true</bool>

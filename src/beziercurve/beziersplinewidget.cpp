@@ -24,9 +24,11 @@
 
 #include <KIcon>
 
+
 BezierSplineWidget::BezierSplineWidget(const QString& spline, QWidget* parent) :
         QWidget(parent),
-        m_mode(ModeRGB)
+        m_mode(ModeRGB),
+        m_showPixmap(true)
 {
     QVBoxLayout *layout = new QVBoxLayout(this);
     layout->addWidget(&m_edit);
@@ -40,6 +42,7 @@ BezierSplineWidget::BezierSplineWidget(const QString& spline, QWidget* parent) :
     m_ui.buttonGridChange->setIcon(KIcon("view-grid"));
     m_ui.buttonShowPixmap->setIcon(QIcon(QPixmap::fromImage(ColorTools::rgbCurvePlane(QSize(16, 16), ColorTools::COL_Luma, 0.8))));
     m_ui.buttonResetSpline->setIcon(KIcon("view-refresh"));
+    m_ui.buttonShowAllHandles->setIcon(KIcon("draw-bezier-curves"));
     m_ui.widgetPoint->setEnabled(false);
 
     CubicBezierSpline s;
@@ -62,9 +65,11 @@ BezierSplineWidget::BezierSplineWidget(const QString& spline, QWidget* parent) :
     connect(m_ui.buttonGridChange, SIGNAL(clicked()), this, SLOT(slotGridChange()));
     connect(m_ui.buttonShowPixmap, SIGNAL(toggled(bool)), this, SLOT(slotShowPixmap(bool)));
     connect(m_ui.buttonResetSpline, SIGNAL(clicked()), this, SLOT(slotResetSpline()));
+    connect(m_ui.buttonShowAllHandles, SIGNAL(toggled(bool)), this, SLOT(slotShowAllHandles(bool)));
 
     m_edit.setGridLines(KdenliveSettings::bezier_gridlines());
     m_ui.buttonShowPixmap->setChecked(KdenliveSettings::bezier_showpixmap());
+    m_ui.buttonShowAllHandles->setChecked(KdenliveSettings::bezier_showallhandles());
 }
 
 QString BezierSplineWidget::spline()
@@ -152,6 +157,12 @@ void BezierSplineWidget::slotSetHandlesLinked(bool linked)
 void BezierSplineWidget::slotResetSpline()
 {
     m_edit.setSpline(CubicBezierSpline());
+}
+
+void BezierSplineWidget::slotShowAllHandles(bool show)
+{
+    m_edit.setShowAllHandles(show);
+    KdenliveSettings::setBezier_showallhandles(show);
 }
 
 #include "beziersplinewidget.moc"

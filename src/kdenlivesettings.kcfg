@@ -499,6 +499,11 @@
       <label>Should a background indicating the changes caused by curve manipulation be shown.</label>
       <default>true</default>
     </entry>
+
+    <entry name="bezier_showallhandles" type="Bool">
+      <label>Show handles for all points or only for the selected one.</label>
+      <default>true</default>
+    </entry>
   </group>
 
 

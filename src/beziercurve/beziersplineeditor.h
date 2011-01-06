@@ -35,13 +35,25 @@ public:
     CubicBezierSpline spline();
     void setSpline(const CubicBezierSpline &spline);
 
+    /** @brief Returns the selected point or else BPoint. */
     BPoint getCurrentPoint();
+
+    /** @brief Replaces current point with @param p (index stays the same). */
     void updateCurrentPoint(const BPoint &p);
 
+    /** @brief Number of lines used in grid. */
     int gridLines();
+
+    /** @brief Sets the number of grid lines to draw (in one direction) to @param lines. */
     void setGridLines(int lines);
 
+    /** @brief Sets the background pixmap to @param pixmap. */
     void setPixmap(const QPixmap &pixmap);
+
+    /** @brief Sets the property showAllHandles to @param show.
+     *
+     * showAllHandles: Whether to show only handles for the selected point for all points. */
+    void setShowAllHandles(bool show);
 
 public slots:
     void slotZoomIn();
@@ -62,6 +74,8 @@ private:
     modes m_mode;
     int m_zoomLevel;
     int m_gridLines;
+    /** Whether to show only handles for the selected point for all points. */
+    bool m_showAllHandles;
     QPixmap m_pixmap;
     QPixmap *m_pixmapCache;
     bool m_pixmapIsDirty;
@@ -74,6 +88,10 @@ private:
     BPoint m_grabPNext;
     BPoint m_grabPPrevious;
 
+    /** @brief Finds the point nearest to @param p and returns it's index.
+     * @param sel Is filled with the type of the closest point (h1, p, h2)
+     *
+     * If no point is near enough -1 is returned. */
     int nearestPointInRange(QPointF p, int wWidth, int wHeight, point_types *sel);
 
 signals:

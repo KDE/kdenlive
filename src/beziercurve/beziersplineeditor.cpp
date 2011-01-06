@@ -27,6 +27,7 @@ BezierSplineEditor::BezierSplineEditor(QWidget* parent) :
         m_mode(ModeNormal),
         m_zoomLevel(0),
         m_gridLines(3),
+        m_showAllHandles(true),
         m_pixmapCache(NULL),
         m_pixmapIsDirty(true),
         m_currentPointIndex(-1)
@@ -98,6 +99,12 @@ void BezierSplineEditor::slotZoomOut()
 {
     m_zoomLevel = qMin(m_zoomLevel+1, 3);
     m_pixmapIsDirty = true;
+    update();
+}
+
+void BezierSplineEditor::setShowAllHandles(bool show)
+{
+    m_showAllHandles = show;
     update();
 }
 
@@ -228,7 +235,7 @@ void BezierSplineEditor::paintEvent(QPaintEvent* event)
 
         p.drawEllipse(QRectF(point.p.x() * wWidth - 3,
                              wHeight - 3 - point.p.y() * wHeight, 6, 6));
-        if (i != 0) {
+        if (i != 0 && (i == m_currentPointIndex || m_showAllHandles)) {
 #if QT_VERSION >= 0x040600
             p.drawConvexPolygon(handle.translated(point.h1.x() * wWidth, wHeight - point.h1.y() * wHeight));
 #else
@@ -237,7 +244,7 @@ void BezierSplineEditor::paintEvent(QPaintEvent* event)
             p.drawConvexPolygon(tmp);
 #endif
         }
-        if (i != max) {
+        if (i != max && (i == m_currentPointIndex || m_showAllHandles)) {
 #if QT_VERSION >= 0x040600
             p.drawConvexPolygon(handle.translated(point.h2.x() * wWidth, wHeight - point.h2.y() * wHeight));
 #else
@@ -462,7 +469,8 @@ int BezierSplineEditor::nearestPointInRange(QPointF p, int wWidth, int wHeight, 
         ++i;
     }
 
-    if (nearestIndex >= 0) {
+    if (nearestIndex >= 0 && (nearestIndex == m_currentPointIndex || selectedPoint == PTypeP || m_showAllHandles)) {
+        // a point was found and it is not a hidden handle
         BPoint point = m_spline.points()[nearestIndex];
         if (qAbs(p.x() - point[(int)selectedPoint].x()) * wWidth < 5 && qAbs(p.y() - point[(int)selectedPoint].y()) * wHeight < 5) {
             *sel = selectedPoint;

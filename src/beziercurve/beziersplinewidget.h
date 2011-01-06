@@ -64,6 +64,8 @@ private slots:
     /** @brief Linkes the handles. This will always make them stay in one line through p. */
     void slotSetHandlesLinked(bool linked);
 
+    void slotShowAllHandles(bool show);
+
 private:
     Ui::BezierSpline_UI m_ui;
     BezierSplineEditor m_edit;
