@@ -1,0 +1,18 @@
+<!DOCTYPE kpartgui>
+<effect tag="frei0r.Perspective" id="frei0r.Perspective" type="video" unique="1">
+	<name>Perspective</name>
+	<description>Distorts the image for a pseudo perspective</description>
+	<author>Richard Spindler</author>
+	<parameter type="integer" name="TopLeft" max="1000" min="0" default="0">
+		<name>Top Left</name>
+	</parameter>
+	<parameter type="integer" name="TopRight" max="1000" min="0" default="0">
+		<name>Top Right</name>
+	</parameter>
+	<parameter type="integer" name="BottomLeft" max="1000" min="0" default="0">
+		<name>Bottom Left</name>
+	</parameter>
+	<parameter type="integer" name="BottomRight" max="1000" min="0" default="0">
+		<name>Bottom Right</name>
+	</parameter>
+</effect>

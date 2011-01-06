@@ -1,0 +1,24 @@
+<!DOCTYPE kpartgui>
+<effect tag="frei0r.Mask0Mate" id="frei0r.Mask0Mate" type="video" unique="1">
+	<name>Mask0Mate</name>
+	<description>Creates an square alpha-channel mask</description>
+	<author>Richard Spindler</author>
+	<parameter type="integer" name="Left" max="1000" min="0" default="0">
+		<name>Left</name>
+	</parameter>
+	<parameter type="integer" name="Right" max="1000" min="0" default="0">
+		<name>Right</name>
+	</parameter>
+	<parameter type="integer" name="Top" max="1000" min="0" default="0">
+		<name>Top</name>
+	</parameter>
+	<parameter type="integer" name="Bottom" max="1000" min="0" default="0">
+		<name>Bottom</name>
+	</parameter>
+	<parameter type="bool" name="Invert" default="1">
+		<name>Invert</name>
+	</parameter>
+	<parameter type="integer" name="Blur" max="1000" min="0" default="0">
+		<name>Blur</name>
+	</parameter>
+</effect>
