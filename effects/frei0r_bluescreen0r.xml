@@ -3,10 +3,10 @@
 	<name>bluescreen0r</name>
 	<description>Color to alpha (blit SRCALPHA)</description>
 	<author>Hedde Bosman</author>
-	<parameter type="integer" name="Color" max="1000" min="0" default="0">
+	<parameter type="double" name="Color" max="1000" min="0" default="0">
 		<name>Color</name>
 	</parameter>
-	<parameter type="integer" name="Distance" max="1000" min="0" default="0">
+	<parameter type="double" name="Distance" max="1000" min="0" default="0">
 		<name>Distance</name>
 	</parameter>
 </effect>

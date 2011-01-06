@@ -3,28 +3,28 @@
 	<name>3dflippo</name>
 	<description>Frame rotation in 3D space</description>
 	<author>c.e. prelz AS FLUIDO</author>
-	<parameter type="integer" name="Xaxisrotation" max="1000" min="0" default="0">
+	<parameter type="double" name="Xaxisrotation" max="1000" min="0" default="0">
 		<name>X axis rotation</name>
 	</parameter>
-	<parameter type="integer" name="Yaxisrotation" max="1000" min="0" default="0">
+	<parameter type="double" name="Yaxisrotation" max="1000" min="0" default="0">
 		<name>Y axis rotation</name>
 	</parameter>
-	<parameter type="integer" name="Zaxisrotation" max="1000" min="0" default="0">
+	<parameter type="double" name="Zaxisrotation" max="1000" min="0" default="0">
 		<name>Z axis rotation</name>
 	</parameter>
-	<parameter type="integer" name="Xaxisrotationrate" max="1000" min="0" default="0">
+	<parameter type="double" name="Xaxisrotationrate" max="1000" min="0" default="0">
 		<name>X axis rotation rate</name>
 	</parameter>
-	<parameter type="integer" name="Yaxisrotationrate" max="1000" min="0" default="0">
+	<parameter type="double" name="Yaxisrotationrate" max="1000" min="0" default="0">
 		<name>Y axis rotation rate</name>
 	</parameter>
-	<parameter type="integer" name="Zaxisrotationrate" max="1000" min="0" default="0">
+	<parameter type="double" name="Zaxisrotationrate" max="1000" min="0" default="0">
 		<name>Z axis rotation rate</name>
 	</parameter>
-	<parameter type="integer" name="CenterpositionX" max="1000" min="0" default="0">
+	<parameter type="double" name="CenterpositionX" max="1000" min="0" default="0">
 		<name>Center position (X)</name>
 	</parameter>
-	<parameter type="integer" name="CenterpositionY" max="1000" min="0" default="0">
+	<parameter type="double" name="CenterpositionY" max="1000" min="0" default="0">
 		<name>Center position (Y)</name>
 	</parameter>
 	<parameter type="bool" name="Invertrotationassignment" default="1">

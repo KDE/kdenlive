@@ -3,7 +3,7 @@
 	<name>nosync0r</name>
 	<description>Broken TV</description>
 	<author>Martin Bayer</author>
-	<parameter type="integer" name="HSync" max="1000" min="0" default="0">
+	<parameter type="double" name="HSync" max="1000" min="0" default="0">
 		<name>HSync</name>
 	</parameter>
 </effect>

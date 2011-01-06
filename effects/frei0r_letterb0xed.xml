@@ -3,10 +3,10 @@
 	<name>LetterB0xed</name>
 	<description>Adds black borders at top and bottom for cinema look</description>
 	<author>Richard Spindler</author>
-	<parameter type="integer" name="BorderWidth" max="1000" min="0" default="0">
+	<parameter type="double" name="BorderWidth" max="1000" min="0" default="0">
 		<name>Border Width</name>
 	</parameter>
-	<parameter type="integer" name="Transparency" max="1000" min="0" default="0">
+	<parameter type="double" name="Transparency" max="1000" min="0" default="0">
 		<name>Transparency</name>
 	</parameter>
 </effect>
