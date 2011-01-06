@@ -56,6 +56,7 @@ void BezierSplineEditor::setSpline(const CubicBezierSpline& spline)
     m_spline.setPrecision(precision);
     m_currentPointIndex = -1;
     m_mode = ModeNormal;
+    emit currentPoint(BPoint());
     emit modified();
     update();
 }
