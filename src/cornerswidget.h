@@ -56,6 +56,10 @@ public:
      * @param maxframe Out point of the clip */
     void setRange(int minframe, int maxframe);
 
+public slots:
+    /** @brief Switches from normal monitor to monitor scene according to @param show. */
+    void slotShowScene(bool show = true);
+
 private:
     Ui::CornersWidget_UI m_ui;
     Monitor *m_monitor;
@@ -76,9 +80,6 @@ private slots:
     /** @brief Makes sure the monitor effect scene is only visible if the clip this geometry belongs to is visible.
     * @param renderPos Postion of the Monitor / Timeline cursor */
     void slotCheckMonitorPosition(int renderPos);
-
-    /** @brief Switches from normal monitor to monitor scene according to @param show. */
-    void slotShowScene(bool show = true);
 
     /** @brief Updates the on-monitor item according to the spinboxes. */
     void slotUpdateItem();

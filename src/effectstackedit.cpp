@@ -169,22 +169,9 @@ void EffectStackEdit::updateParameter(const QString &name, const QString &value)
 
     if (name == "disable") {
         // if effect is disabled, disable parameters widget
-        setEnabled(value.toInt() == 0 || !KdenliveSettings::disable_effect_parameters());
-        if (KdenliveSettings::on_monitor_effects()) {
-            // effect disabled, hide monitor scene if any
-            QDomNodeList namenode = m_params.elementsByTagName("parameter");
-            for (int i = 0; i < namenode.count() ; i++) {
-                QDomNode pa = namenode.item(i);
-                QDomNode na = pa.firstChildElement("name");
-                QString type = pa.attributes().namedItem("type").nodeValue();
-                if (type == "geometry") {
-                    QString paramName = i18n(na.toElement().text().toUtf8().data());
-                    paramName.append("geometry");
-                    GeometryWidget *geometry = ((GeometryWidget*)m_valueItems.value(paramName));
-                    geometry->slotShowScene(value.toInt() == 0 || !KdenliveSettings::disable_effect_parameters());
-                }
-            }
-        }
+        bool enabled = value.toInt() == 0 || !KdenliveSettings::disable_effect_parameters();
+        setEnabled(enabled);
+        emit effectStateChanged(enabled);
     }
 }
 
@@ -299,7 +286,8 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
             connect(pl, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
         } else if (type == "geometry") {
             if (KdenliveSettings::on_monitor_effects()) {
-                GeometryWidget *geometry = new GeometryWidget(m_monitor, m_timecode, pos, isEffect, disable, this);
+                GeometryWidget *geometry = new GeometryWidget(m_monitor, m_timecode, pos, isEffect, this);
+                geometry->slotShowScene(!disable);
                 // connect this before setupParam to make sure the monitor scene shows up at startup
                 connect(geometry, SIGNAL(checkMonitorPosition(int)), this, SIGNAL(checkMonitorPosition(int)));
                 connect(geometry, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
@@ -311,6 +299,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
                 m_valueItems[paramName+"geometry"] = geometry;
                 connect(geometry, SIGNAL(seekToPos(int)), this, SIGNAL(seekTimeline(int)));
                 connect(this, SIGNAL(syncEffectsPos(int)), geometry, SLOT(slotSyncPosition(int)));
+                connect(this, SIGNAL(effectStateChanged(bool)), geometry, SLOT(slotShowScene(bool)));
             } else {
                 Geometryval *geo = new Geometryval(m_profile, m_timecode, m_frameSize, pos);
                 if (minFrame == maxFrame)
@@ -401,6 +390,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
                 meetDependency(paramName, type, EffectsList::parameter(e, depends));
         } else if (type == "corners") {
             CornersWidget *corners = new CornersWidget(m_monitor, pos, isEffect, pa.attribute("factor").toInt(), this);
+            corners->slotShowScene(!disable);
             connect(corners, SIGNAL(checkMonitorPosition(int)), this, SIGNAL(checkMonitorPosition(int)));
             if (minFrame == maxFrame)
                 corners->setRange(m_in, m_out);
@@ -417,9 +407,9 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
                 points << QPoint(x, y);
             }
             corners->setValue(points);
-
             m_vbox->addWidget(corners);
             connect(corners, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
+            connect(this, SIGNAL(effectStateChanged(bool)), corners, SLOT(slotShowScene(bool)));
             m_valueItems[paramName] = corners;
         } else if (type == "wipe") {
             Wipeval *wpval = new Wipeval;

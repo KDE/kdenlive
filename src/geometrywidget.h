@@ -46,7 +46,7 @@ public:
     * @param clipPos Position of the clip in timeline
     * @param isEffect true if used in an effect, false if used in a transition
     * @param parent (optional) Parent widget */
-    GeometryWidget(Monitor *monitor, Timecode timecode, int clipPos, bool isEffect, bool disabled, QWidget* parent = 0);
+    GeometryWidget(Monitor *monitor, Timecode timecode, int clipPos, bool isEffect, QWidget* parent = 0);
     virtual ~GeometryWidget();
     /** @brief Gets the geometry as a serialized string. */
     QString getValue() const;

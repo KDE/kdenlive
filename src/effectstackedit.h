@@ -100,6 +100,7 @@ signals:
     void checkMonitorPosition(int);
     void syncEffectsPos(int pos);
     void showComments();
+    void effectStateChanged(bool enabled);
 };
 
 #endif

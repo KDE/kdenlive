@@ -35,7 +35,7 @@
 
 
 
-GeometryWidget::GeometryWidget(Monitor* monitor, Timecode timecode, int clipPos, bool isEffect, bool disabled, QWidget* parent):
+GeometryWidget::GeometryWidget(Monitor* monitor, Timecode timecode, int clipPos, bool isEffect, QWidget* parent):
     QWidget(parent),
     m_monitor(monitor),
     m_timePos(new TimecodeDisplay(timecode)),
@@ -129,8 +129,6 @@ GeometryWidget::GeometryWidget(Monitor* monitor, Timecode timecode, int clipPos,
     settingsLayout->setContentsMargins(0, 0, 0, 0);
     ((QGridLayout *)m_ui.widgetConfigButton->layout())->addWidget(m_config->getShowHideButton(), 1, 1);
     connect(m_config, SIGNAL(showScene(bool)), this, SLOT(slotShowScene(bool)));
-    slotShowScene(!disabled);
-
 
     connect(m_scene, SIGNAL(actionFinished()), this, SLOT(slotUpdateGeometry()));
     connect(m_scene, SIGNAL(addKeyframe()),    this, SLOT(slotAddKeyframe()));
