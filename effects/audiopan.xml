@@ -3,8 +3,8 @@
 	<name>Pan</name>
 	<description>Adjust the left/right spread of a channel</description>
 	<author>Dan Dennedy</author>
-        <parameter type="list" name="channel" default="0" paramlist="0,1"
-            paramlistdisplay="Left,Right">
+        <parameter type="list" name="channel" default="0" paramlist="0,1">
+                <paramlistdisplay>Left,Right</paramlistdisplay>
                 <name>Channel</name>
         </parameter>
 	<parameter type="keyframe" name="start" max="1000" min="0" default="500" factor="1000">

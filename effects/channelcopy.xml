@@ -3,10 +3,12 @@
          <name>Mono to stereo</name>
          <description>Copy one channel to another</description>
          <author>Dan Dennedy</author>
-         <parameter type="list" name="from" default="0" paramlist="0,1" paramlistdisplay="Left,Right">
+         <parameter type="list" name="from" default="0" paramlist="0,1">
+                 <paramlistdisplay>Left,Right</paramlistdisplay>
                  <name>From</name>
          </parameter>
-         <parameter type="list" name="to" default="1" paramlist="0,1" paramlistdisplay="Left,Right">
+         <parameter type="list" name="to" default="1" paramlist="0,1">
+                 <paramlistdisplay>Left,Right</paramlistdisplay>
                  <name>To</name>
          </parameter>
  </effect>

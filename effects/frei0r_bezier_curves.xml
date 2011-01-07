@@ -4,11 +4,13 @@
         <description>Color curves adjustment</description>
         <author>Till Theato, Maksim Golovkin</author>
 
-        <parameter type="list" name="Channel" default="0.5" paramlist="0.5,0,0.1,0.2,0.3,0.4,0.6,0.71" paramlistdisplay="RGB,Red,Green,Blue,Alpha,Luma,Hue,Saturation">
+        <parameter type="list" name="Channel" default="0.5" paramlist="0.5,0,0.1,0.2,0.3,0.4,0.6,0.71">
+                <paramlistdisplay>RGB,Red,Green,Blue,Alpha,Luma,Hue,Saturation</paramlistdisplay>
                 <name>Channel</name>
         </parameter>
 
-        <parameter type="list" name="Luma formula" default="1" paramlist="0,1" paramlistdisplay="Rec. 601,Rec. 709">
+        <parameter type="list" name="Luma formula" default="1" paramlist="0,1">
+                <paramlistdisplay>Rec. 601,Rec. 709</paramlistdisplay>
                 <name>Luma formula</name>
         </parameter>
 

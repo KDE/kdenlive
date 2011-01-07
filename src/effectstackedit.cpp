@@ -260,7 +260,10 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
             Listval *lsval = new Listval;
             lsval->setupUi(toFillin);
             QStringList listitems = pa.attribute("paramlist").split(',');
-            QStringList listitemsdisplay = pa.attribute("paramlistdisplay").split(',');
+            QDomElement list = pa.firstChildElement("paramlistdisplay");
+            QStringList listitemsdisplay;
+            if (!list.isNull()) listitemsdisplay = i18n(list.text().toUtf8().data()).split(',');
+            else listitemsdisplay = i18n(pa.attribute("paramlistdisplay").toUtf8().data()).split(',');
             if (listitemsdisplay.count() != listitems.count())
                 listitemsdisplay = listitems;
             lsval->list->setIconSize(QSize(30, 30));

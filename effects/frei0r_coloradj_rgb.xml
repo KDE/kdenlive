@@ -16,8 +16,8 @@
                 <name>B</name>
         </parameter>
         
-        <parameter type="list" name="Action" default="0.5" paramlist="0.0,0.5,1.0"
-                   paramlistdisplay="Add constant,Change gamma,Multiply">
+        <parameter type="list" name="Action" default="0.5" paramlist="0.0,0.5,1.0">
+                <paramlistdisplay>Add constant,Change gamma,Multiply</paramlistdisplay>
                 <name>Action</name>
         </parameter>
 
@@ -29,8 +29,8 @@
                 <name>Alpha controlled</name>
         </parameter>
         
-        <parameter type="list" name="Luma formula" default="1.0" paramlist="0.0,1.0"
-                   paramlistdisplay="rec 601,rec 709">
+        <parameter type="list" name="Luma formula" default="1.0" paramlist="0.0,1.0">
+                <paramlistdisplay>Rec. 601,Rec. 709</paramlistdisplay>
                 <name>Luma formula</name>
         </parameter>
         
