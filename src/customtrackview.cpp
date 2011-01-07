@@ -925,7 +925,6 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         } else resetSelectionGroup();
         dragGroup = NULL;
         if (m_dragItem->parentItem() && m_dragItem->parentItem()->type() == GROUPWIDGET) {
-            //kDebug()<<"// KLIK FOUND GRP: "<<m_dragItem->sceneBoundingRect();
             dragGroup = static_cast <AbstractGroupItem *>(m_dragItem->parentItem());
         }
         bool selected = !m_dragItem->isSelected();
@@ -4474,7 +4473,7 @@ void CustomTrackView::prepareResizeClipStart(AbstractClipItem* item, ItemInfo ol
             }
 
             /*
-                TODO: cleanup the effect update process
+             * TODO: cleanup the effect update process
              */
             ClipItem *clip = static_cast < ClipItem * >(item);
 

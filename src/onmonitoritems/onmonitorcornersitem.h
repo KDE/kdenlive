@@ -26,17 +26,16 @@
 #include <QtCore>
 #include <QGraphicsPolygonItem>
 
-enum cornersActions { Corner1, Corner2, Corner3, Corner4, NoAction };
-
 class OnMonitorCornersItem : public AbstractOnMonitorItem, public QGraphicsPolygonItem
 {
     Q_OBJECT
 public:
     OnMonitorCornersItem(MonitorScene *scene, QGraphicsItem *parent = 0);
 
+    enum cornersActions { Corner1, Corner2, Corner3, Corner4, Move, NoAction };
     /** @brief Gets The action mode for the area @param pos +- 4. */
-    cornersActions getMode(QPoint pos);
-    
+    cornersActions getMode(QPointF pos);
+
     /** @brief Reimplemented to draw the handles. */
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0 );
 
@@ -47,8 +46,14 @@ public slots:
     void slotMouseMoved(QGraphicsSceneMouseEvent *event);
 
 private:
+    /** @brief Returns the centroid (= 'center of mass') of this polygon. */
+    QPointF getCentroid();
+
+    /** @brief Returns the points of this polygon but sorted clockwise. */
+    QList <QPointF> sortedClockwise();
+
     cornersActions m_mode;
-    QPointF m_clickPoint;
+    QPointF m_lastPoint;
 };
 
 #endif

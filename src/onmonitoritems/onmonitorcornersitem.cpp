@@ -20,11 +20,14 @@
 #include "onmonitorcornersitem.h"
 #include "kdenlivesettings.h"
 
+#include <algorithm>
+
 #include <QGraphicsSceneMouseEvent>
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
 #include <QCursor>
 
+#include <KDebug>
 OnMonitorCornersItem::OnMonitorCornersItem(MonitorScene* scene, QGraphicsItem* parent) :
         AbstractOnMonitorItem(scene),
         QGraphicsPolygonItem(parent)
@@ -37,10 +40,10 @@ OnMonitorCornersItem::OnMonitorCornersItem(MonitorScene* scene, QGraphicsItem* p
     setBrush(Qt::NoBrush);
 }
 
-cornersActions OnMonitorCornersItem::getMode(QPoint pos)
+OnMonitorCornersItem::cornersActions OnMonitorCornersItem::getMode(QPointF pos)
 {
     QPainterPath mouseArea;
-    pos = mapFromScene(pos).toPoint();
+    pos = mapFromScene(pos);
     mouseArea.addRect(pos.x() - 6, pos.y() - 6, 12, 12);
     if (mouseArea.contains(polygon().at(0)))
         return Corner1;
@@ -50,6 +53,8 @@ cornersActions OnMonitorCornersItem::getMode(QPoint pos)
         return Corner3;
     else if (mouseArea.contains(polygon().at(3)))
         return Corner4;
+    else if (mouseArea.contains(getCentroid()))
+        return Move;
     else
         return NoAction;
 }
@@ -61,7 +66,8 @@ void OnMonitorCornersItem::slotMousePressed(QGraphicsSceneMouseEvent* event)
     if (!isEnabled())
         return;
 
-    m_mode = getMode(event->scenePos().toPoint());
+    m_mode = getMode(event->scenePos());
+    m_lastPoint = event->scenePos();
 }
 
 void OnMonitorCornersItem::slotMouseMoved(QGraphicsSceneMouseEvent* event)
@@ -79,8 +85,8 @@ void OnMonitorCornersItem::slotMouseMoved(QGraphicsSceneMouseEvent* event)
     }*/
 
     if (event->buttons() & Qt::LeftButton) {
-        QPoint mousePos = mapFromScene(event->scenePos()).toPoint();
-        QPolygon p = polygon().toPolygon();
+        QPointF mousePos = mapFromScene(event->scenePos());
+        QPolygonF p = polygon();
         switch (m_mode) {
         case Corner1:
             p.replace(0, mousePos);
@@ -98,12 +104,17 @@ void OnMonitorCornersItem::slotMouseMoved(QGraphicsSceneMouseEvent* event)
             p.replace(3, mousePos);
             m_modified = true;
             break;
+        case Move:
+            p.translate(mousePos - m_lastPoint);
+            m_modified = true;
+            break;
         default:
             break;
         }
+        m_lastPoint = mousePos;
         setPolygon(p);
     } else {
-        switch (getMode(event->scenePos().toPoint())) {
+        switch (getMode(event->scenePos())) {
         case NoAction:
             emit requestCursor(QCursor(Qt::ArrowCursor));
             break;
@@ -120,6 +131,8 @@ void OnMonitorCornersItem::slotMouseMoved(QGraphicsSceneMouseEvent* event)
 
 void OnMonitorCornersItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
+    painter->setPen(QPen(Qt::yellow, 1, Qt::SolidLine));
+
     if (KdenliveSettings::onmonitoreffects_cornersshowlines())
         QGraphicsPolygonItem::paint(painter, option, widget);
 
@@ -130,6 +143,84 @@ void OnMonitorCornersItem::paint(QPainter* painter, const QStyleOptionGraphicsIt
     painter->drawEllipse(polygon().at(1), handleSize, handleSize);
     painter->drawEllipse(polygon().at(2), handleSize, handleSize);
     painter->drawEllipse(polygon().at(3), handleSize, handleSize);
+
+    // TODO: allow to disable
+    if (1) {
+        painter->setPen(QPen(Qt::red, 2, Qt::SolidLine));
+        QPointF c = getCentroid();
+        handleSize *= 1.5;
+        painter->drawLine(QLineF(c - QPointF(handleSize, handleSize), c + QPointF(handleSize, handleSize)));
+        painter->drawLine(QLineF(c - QPointF(-handleSize, handleSize), c + QPointF(-handleSize, handleSize)));
+    }
+}
+
+QPointF OnMonitorCornersItem::getCentroid()
+{
+    QList <QPointF> p = sortedClockwise();
+
+    /*
+     * See: http://local.wasp.uwa.edu.au/~pbourke/geometry/polyarea/
+     */
+
+    double A = 0;
+    int i, j;
+    for (i = 0; i < 4; ++i) {
+        j = (i + 1) % 4;
+        A += p[j].x() * p[i].y() - p[i].x() * p[j].y();
+    }
+    A /= 2.;
+    A = qAbs(A);
+
+    double x = 0, y = 0, f;
+    for (i = 0; i < 4; ++i) {
+        j = (i + 1) % 4;
+        f = (p[i].x() * p[j].y() - p[j].x() * p[i].y());
+        x += f * (p[i].x() + p[j].x());
+        y += f * (p[i].y() + p[j].y());
+    }
+    x /= 6*A;
+    y /= 6*A;
+    return QPointF(x, y);
+}
+
+QList <QPointF> OnMonitorCornersItem::sortedClockwise()
+{
+    QList <QPointF> points = polygon().toList();
+    QPointF& a = points[0];
+    QPointF& b = points[1];
+    QPointF& c = points[2];
+    QPointF& d = points[3];
+
+    /*
+     * http://stackoverflow.com/questions/242404/sort-four-points-in-clockwise-order
+     */
+
+    double abc = a.x() * b.y() - a.y() * b.x() + b.x() * c.y() - b.y() * c.x() + c.x() * a.y() - c.y() * a.x();
+    if (abc > 0) {
+        double acd = a.x() * c.y() - a.y() * c.x() + c.x() * d.y() - c.y() * d.x() + d.x() * a.y() - d.y() * a.x();
+        if (acd > 0) {
+            ;
+        } else {
+            double abd = a.x() * b.y() - a.y() * b.x() + b.x() * d.y() - b.y() * d.x() + d.x() * a.y() - d.y() * a.x();
+            if (abd > 0) {
+                std::swap(d, c);
+            } else{
+                std::swap(a, d);
+            }
+        }
+    } else {
+        double acd = a.x() * c.y() - a.y() * c.x() + c.x() * d.y() - c.y() * d.x() + d.x() * a.y() - d.y() * a.x();
+        if (acd > 0) {
+            double abd = a.x() * b.y() - a.y() * b.x() + b.x() * d.y() - b.y() * d.x() + d.x() * a.y() - d.y() * a.x();
+            if (abd > 0) {
+                std::swap(b, c);
+            } else {
+                std::swap(a, b);
+            }
+        } else {
+            std::swap(a, c);
+        }
+    }
 }
 
 #include "onmonitorcornersitem.moc"
