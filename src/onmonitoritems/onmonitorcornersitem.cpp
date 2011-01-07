@@ -49,7 +49,7 @@ OnMonitorCornersItem::cornersActions OnMonitorCornersItem::getMode(QPointF pos, 
     mouseArea.addRect(pos.x() - 6, pos.y() - 6, 12, 12);
     for (int i = 0; i < 4; ++i) {
         if (mouseArea.contains(polygon().at(i))) {
-            *corner = 1;
+            *corner = i;
             return Corner;
         }
     }
