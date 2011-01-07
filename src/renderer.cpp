@@ -2989,6 +2989,12 @@ bool Render::mltResizeClipStart(ItemInfo info, GenTime diff)
     m_isBlocked = true;
     previousStart += moveFrame;
 
+    if (previousStart < 0) {
+        // this is possible for images and color clips
+        previousOut -= previousStart;
+        previousStart = 0;
+    }
+
     int length = previousOut + 1;
     if (length > clip->get_length()) {
         clip->parent().set("length", length + 1);
