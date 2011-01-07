@@ -1,0 +1,6 @@
+<!DOCTYPE kpartgui>
+<effect tag="frei0r.delaygrab" id="frei0r.delaygrab">
+	<name>Delay grab</name>
+	<description>Delayed frame blitting mapped on a time bitmap</description>
+	<author>Bill Spinhover, Andreas Schiffler, Jaromil</author>
+</effect>

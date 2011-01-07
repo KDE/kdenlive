@@ -1,0 +1,6 @@
+<!DOCTYPE kpartgui>
+<effect tag="frei0r.vectorscope" id="frei0r.vectorscope">
+	<name>Vectorscope</name>
+	<description>Display a vectorscope of the video data</description>
+	<author>Albert Frisch</author>
+</effect>

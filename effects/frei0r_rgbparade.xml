@@ -1,0 +1,6 @@
+<!DOCTYPE kpartgui>
+<effect tag="frei0r.rgbparade" id="frei0r.rgbparade">
+	<name>RGB Parade</name>
+	<description>Display a histogram of R, G and B components of the video data</description>
+	<author>Albert Frisch</author>
+</effect>
