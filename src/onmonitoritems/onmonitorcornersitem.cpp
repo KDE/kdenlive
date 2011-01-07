@@ -29,7 +29,8 @@
 
 OnMonitorCornersItem::OnMonitorCornersItem(MonitorScene* scene, QGraphicsItem* parent) :
         AbstractOnMonitorItem(scene),
-        QGraphicsPolygonItem(parent)
+        QGraphicsPolygonItem(parent),
+        m_selectedCorner(-1)
 {
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
 
@@ -39,23 +40,34 @@ OnMonitorCornersItem::OnMonitorCornersItem(MonitorScene* scene, QGraphicsItem* p
     setBrush(Qt::NoBrush);
 }
 
-OnMonitorCornersItem::cornersActions OnMonitorCornersItem::getMode(QPointF pos)
+OnMonitorCornersItem::cornersActions OnMonitorCornersItem::getMode(QPointF pos, int *corner)
 {
+    *corner = -1;
+
     QPainterPath mouseArea;
     pos = mapFromScene(pos);
     mouseArea.addRect(pos.x() - 6, pos.y() - 6, 12, 12);
-    if (mouseArea.contains(polygon().at(0)))
-        return Corner1;
-    else if (mouseArea.contains(polygon().at(1)))
-        return Corner2;
-    else if (mouseArea.contains(polygon().at(2)))
-        return Corner3;
-    else if (mouseArea.contains(polygon().at(3)))
-        return Corner4;
-    else if (KdenliveSettings::onmonitoreffects_cornersshowcontrols() && mouseArea.contains(getCentroid()))
-        return Move;
-    else
-        return NoAction;
+    for (int i = 0; i < 4; ++i) {
+        if (mouseArea.contains(polygon().at(i))) {
+            *corner = 1;
+            return Corner;
+        }
+    }
+    if (KdenliveSettings::onmonitoreffects_cornersshowcontrols()) {
+        if (mouseArea.contains(getCentroid()))
+            return Move;
+
+        int j;
+        for (int i = 0; i < 4; ++i) {
+            j = (i + 1) % 4;
+            if (mouseArea.contains(QLineF(polygon().at(i), polygon().at(j)).pointAt(.5))) {
+                *corner = i;
+                return MoveSide;
+            }
+        }
+    }
+
+    return NoAction;
 }
 
 void OnMonitorCornersItem::slotMousePressed(QGraphicsSceneMouseEvent* event)
@@ -65,7 +77,7 @@ void OnMonitorCornersItem::slotMousePressed(QGraphicsSceneMouseEvent* event)
     if (!isEnabled())
         return;
 
-    m_mode = getMode(event->scenePos());
+    m_mode = getMode(event->scenePos(), &m_selectedCorner);
     m_lastPoint = event->scenePos();
 }
 
@@ -87,24 +99,17 @@ void OnMonitorCornersItem::slotMouseMoved(QGraphicsSceneMouseEvent* event)
         QPointF mousePos = mapFromScene(event->scenePos());
         QPolygonF p = polygon();
         switch (m_mode) {
-        case Corner1:
-            p.replace(0, mousePos);
-            m_modified = true;
-            break;
-        case Corner2:
-            p.replace(1, mousePos);
-            m_modified = true;
-            break;
-        case Corner3:
-            p.replace(2, mousePos);
-            m_modified = true;
-            break;
-        case Corner4:
-            p.replace(3, mousePos);
+        case Corner:
+            p.replace(m_selectedCorner, mousePos);
             m_modified = true;
             break;
         case Move:
             p.translate(mousePos - m_lastPoint);
+            m_modified = true;
+            break;
+        case MoveSide:
+            p[m_selectedCorner] += mousePos - m_lastPoint;
+            p[(m_selectedCorner + 1) % 4] += mousePos - m_lastPoint;
             m_modified = true;
             break;
         default:
@@ -113,7 +118,8 @@ void OnMonitorCornersItem::slotMouseMoved(QGraphicsSceneMouseEvent* event)
         m_lastPoint = mousePos;
         setPolygon(p);
     } else {
-        switch (getMode(event->scenePos())) {
+        int corner;
+        switch (getMode(event->scenePos(), &corner)) {
         case NoAction:
             emit requestCursor(QCursor(Qt::ArrowCursor));
             break;
@@ -138,20 +144,28 @@ void OnMonitorCornersItem::paint(QPainter* painter, const QStyleOptionGraphicsIt
     if (KdenliveSettings::onmonitoreffects_cornersshowlines())
         QGraphicsPolygonItem::paint(painter, option, widget);
 
+    double baseSize = 1 / painter->matrix().m11();
     painter->setRenderHint(QPainter::Antialiasing);
     painter->setBrush(QBrush(Qt::yellow));
-    double handleSize = 4 / painter->matrix().m11();
-    painter->drawEllipse(polygon().at(0), handleSize, handleSize);
-    painter->drawEllipse(polygon().at(1), handleSize, handleSize);
-    painter->drawEllipse(polygon().at(2), handleSize, handleSize);
-    painter->drawEllipse(polygon().at(3), handleSize, handleSize);
+    double handleSize = 4  * baseSize;
+    for (int i = 0; i < 4; ++i)
+        painter->drawEllipse(polygon().at(i), handleSize, handleSize);
 
     if (KdenliveSettings::onmonitoreffects_cornersshowcontrols()) {
         painter->setPen(QPen(Qt::red, 2, Qt::SolidLine));
+        double toolSize = 6 * baseSize;
+        // move tool
         QPointF c = getCentroid();
-        handleSize *= 1.5;
-        painter->drawLine(QLineF(c - QPointF(handleSize, handleSize), c + QPointF(handleSize, handleSize)));
-        painter->drawLine(QLineF(c - QPointF(-handleSize, handleSize), c + QPointF(-handleSize, handleSize)));
+        painter->drawLine(QLineF(c - QPointF(toolSize, toolSize), c + QPointF(toolSize, toolSize)));
+        painter->drawLine(QLineF(c - QPointF(-toolSize, toolSize), c + QPointF(-toolSize, toolSize)));
+
+        // move side tools (2 corners at once)
+        int j;
+        for (int i = 0; i < 4; ++i) {
+            j = (i + 1) % 4;
+            QPointF m = QLineF(polygon().at(i), polygon().at(j)).pointAt(.5);
+            painter->drawRect(QRectF(-toolSize / 2., -toolSize / 2., toolSize, toolSize).translated(m));
+        }
     }
 }
 
