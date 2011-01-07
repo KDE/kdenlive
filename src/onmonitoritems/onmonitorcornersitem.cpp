@@ -27,7 +27,6 @@
 #include <QStyleOptionGraphicsItem>
 #include <QCursor>
 
-#include <KDebug>
 OnMonitorCornersItem::OnMonitorCornersItem(MonitorScene* scene, QGraphicsItem* parent) :
         AbstractOnMonitorItem(scene),
         QGraphicsPolygonItem(parent)
@@ -53,7 +52,7 @@ OnMonitorCornersItem::cornersActions OnMonitorCornersItem::getMode(QPointF pos)
         return Corner3;
     else if (mouseArea.contains(polygon().at(3)))
         return Corner4;
-    else if (mouseArea.contains(getCentroid()))
+    else if (KdenliveSettings::onmonitoreffects_cornersshowcontrols() && mouseArea.contains(getCentroid()))
         return Move;
     else
         return NoAction;
@@ -118,6 +117,9 @@ void OnMonitorCornersItem::slotMouseMoved(QGraphicsSceneMouseEvent* event)
         case NoAction:
             emit requestCursor(QCursor(Qt::ArrowCursor));
             break;
+        case Move:
+            emit requestCursor(QCursor(Qt::SizeAllCursor));
+            break;
         default:
             emit requestCursor(QCursor(Qt::OpenHandCursor));
             break;
@@ -144,8 +146,7 @@ void OnMonitorCornersItem::paint(QPainter* painter, const QStyleOptionGraphicsIt
     painter->drawEllipse(polygon().at(2), handleSize, handleSize);
     painter->drawEllipse(polygon().at(3), handleSize, handleSize);
 
-    // TODO: allow to disable
-    if (1) {
+    if (KdenliveSettings::onmonitoreffects_cornersshowcontrols()) {
         painter->setPen(QPen(Qt::red, 2, Qt::SolidLine));
         QPointF c = getCentroid();
         handleSize *= 1.5;
@@ -221,6 +222,7 @@ QList <QPointF> OnMonitorCornersItem::sortedClockwise()
             std::swap(a, c);
         }
     }
+    return points;
 }
 
 #include "onmonitorcornersitem.moc"

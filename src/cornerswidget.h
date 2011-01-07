@@ -89,6 +89,8 @@ private slots:
     /** @brief Shows/Hides the lines connecting the corners in the on-monitor item according to @param show. */
     void slotShowLines(bool show = true);
 
+    void slotShowControls(bool show = true);
+
     /*
      * These functions reset the positions of the corners.
      * The default values in the effect XML file are not considered, but

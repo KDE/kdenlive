@@ -56,12 +56,20 @@ CornersWidget::CornersWidget(Monitor* monitor, int clipPos, bool isEffect, int f
     layout2->addWidget(m_config->getShowHideButton());
 
     QToolButton *buttonShowLines = new QToolButton(m_config);
-    // TODO: Better Icon
+    // TODO: Better Icons
     buttonShowLines->setIcon(KIcon("insert-horizontal-rule"));
     buttonShowLines->setToolTip(i18n("Show/Hide the lines connecting the corners"));
     buttonShowLines->setCheckable(true);
+    buttonShowLines->setChecked(KdenliveSettings::onmonitoreffects_cornersshowlines());
     connect(buttonShowLines, SIGNAL(toggled(bool)), this, SLOT(slotShowLines(bool)));
     m_config->addWidget(buttonShowLines, 0, 2);
+    QToolButton *buttonShowControls = new QToolButton(m_config);
+    buttonShowControls->setIcon(KIcon("transform-move"));
+    buttonShowControls->setToolTip(i18n("Show additional controls"));
+    buttonShowControls->setCheckable(true);
+    buttonShowControls->setChecked(KdenliveSettings::onmonitoreffects_cornersshowcontrols());
+    connect(buttonShowControls, SIGNAL(toggled(bool)), this, SLOT(slotShowControls(bool)));
+    m_config->addWidget(buttonShowControls, 0, 3);
 
     int width = m_monitor->render->frameRenderWidth();
     int height = m_monitor->render->renderHeight();
@@ -215,6 +223,12 @@ void CornersWidget::slotShowScene(bool show)
 void CornersWidget::slotShowLines(bool show)
 {
     KdenliveSettings::setOnmonitoreffects_cornersshowlines(show);
+    m_item->update();
+}
+
+void CornersWidget::slotShowControls(bool show)
+{
+    KdenliveSettings::setOnmonitoreffects_cornersshowcontrols(show);
     m_item->update();
 }
 
