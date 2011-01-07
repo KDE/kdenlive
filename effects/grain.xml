@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<effect tag="oldfilm" id="grain" type="video" unique="1">
+<effect tag="grain" id="grain" type="video" unique="1">
 	<name>Grain</name>
 	<description>Grain over the image</description>
 	<author>Marco Gittler</author>
