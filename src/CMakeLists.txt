@@ -119,7 +119,6 @@ kde4_add_ui_files(kdenlive_UI
   widgets/geometrywidget_ui.ui
   widgets/stopmotion_ui.ui
   widgets/monitorscenecontrolwidget_ui.ui
-  widgets/cornerswidget_ui.ui
   widgets/audiospectrum_ui.ui
   widgets/spectrogram_ui.ui
   widgets/smconfig_ui.ui
