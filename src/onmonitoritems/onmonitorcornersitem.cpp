@@ -43,6 +43,8 @@ OnMonitorCornersItem::OnMonitorCornersItem(MonitorScene* scene, QGraphicsItem* p
 OnMonitorCornersItem::cornersActions OnMonitorCornersItem::getMode(QPointF pos, int *corner)
 {
     *corner = -1;
+    if (polygon().count() != 4)
+        return NoAction;
 
     QPainterPath mouseArea;
     pos = mapFromScene(pos);
@@ -143,6 +145,9 @@ void OnMonitorCornersItem::paint(QPainter* painter, const QStyleOptionGraphicsIt
 
     if (KdenliveSettings::onmonitoreffects_cornersshowlines())
         QGraphicsPolygonItem::paint(painter, option, widget);
+
+    if (polygon().count() != 4)
+        return;
 
     double baseSize = 1 / painter->matrix().m11();
     painter->setRenderHint(QPainter::Antialiasing);

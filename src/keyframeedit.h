@@ -94,6 +94,14 @@ public:
     /** @brief Makes the first parameter visible in timeline if no parameter is selected. */
     void checkVisibleParam();
 
+protected:
+    /** @brief Gets the position of a keyframe from the table.
+     * @param row Row of the keyframe in the table */
+    int getPos(int row);
+
+protected slots:
+    void slotAdjustKeyframeInfo(bool seek = true);
+
 private:
     QList <QDomElement> m_params;
     int m_min;
@@ -104,9 +112,6 @@ private:
     PositionEdit *m_position;
 
     void generateAllParams();
-    /** @brief Gets the position of a keyframe from the table.
-    * @param row Row of the keyframe in the table */
-    int getPos(int row);
     /** @brief Converts a frame value to timecode considering the frames vs. HH:MM:SS:FF setting.
     * @return timecode */
     QString getPosString(int pos);
@@ -115,7 +120,6 @@ private slots:
     void slotDeleteKeyframe();
     void slotAddKeyframe();
     void slotGenerateParams(int row, int column);
-    void slotAdjustKeyframeInfo(bool seek = true);
     void slotAdjustKeyframePos(int value);
     void slotAdjustKeyframeValue(int value);
     /** @brief Turns the seek to keyframe position setting on/off.

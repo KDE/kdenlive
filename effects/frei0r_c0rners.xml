@@ -4,56 +4,54 @@
 	<description>Four corners geometry engine</description>
 	<author>Marko Cebokli</author>
 
-        <!-- No actual parameter: Represents the corners widget (used to edit corners on the monitor) -->
-        <parameter type="corners" default="0" xpoints="Corner %i X" ypoints="Corner %i Y" factor="6000">
-                <name>Corners widget</name>
-        </parameter>
-
-	<parameter type="fixed" name="Corner 1 X" default="2000" min="0" max="6000" factor="6000">
+	<parameter type="simplekeyframe" widget="corners" name="Corner 1 X" default="2000" min="0" max="6000" factor="6000">
 		<name>Corner 1 X</name>
 	</parameter>
 	
-	<parameter type="fixed" name="Corner 1 Y" default="2000" min="0" max="6000" factor="6000">
+        <parameter type="simplekeyframe" widget="corners" name="Corner 1 Y" default="2000" min="0" max="6000" factor="6000">
 		<name>Corner 1 Y</name>
 	</parameter>
 	
-	<parameter type="fixed" name="Corner 2 X" default="4000" min="0" max="6000" factor="6000">
+        <parameter type="simplekeyframe" widget="corners" name="Corner 2 X" default="4000" min="0" max="6000" factor="6000">
 		<name>Corner 2 X</name>
 	</parameter>
 	
-        <parameter type="fixed" name="Corner 2 Y" default="2000" min="0" max="6000" factor="6000">
+        <parameter type="simplekeyframe" widget="corners" name="Corner 2 Y" default="2000" min="0" max="6000" factor="6000">
 		<name>Corner 2 Y</name>
 	</parameter>
 	
-        <parameter type="fixed" name="Corner 3 X" default="4000" min="0" max="6000" factor="6000">
+        <parameter type="simplekeyframe" widget="corners" name="Corner 3 X" default="4000" min="0" max="6000" factor="6000">
 		<name>Corner 3 X</name>
 	</parameter>
 	
-        <parameter type="fixed" name="Corner 3 Y" default="4000" min="0" max="6000" factor="6000">
+        <parameter type="simplekeyframe" widget="corners" name="Corner 3 Y" default="4000" min="0" max="6000" factor="6000">
 		<name>Corner 3 Y</name>
 	</parameter>
 	
-        <parameter type="fixed" name="Corner 4 X" default="2000" min="0" max="6000" factor="6000">
+        <parameter type="simplekeyframe" widget="corners" name="Corner 4 X" default="2000" min="0" max="6000" factor="6000">
 		<name>Corner 4 X</name>
 	</parameter>
 	
-        <parameter type="fixed" name="Corner 4 Y" default="4000" min="0" max="6000" factor="6000">
+        <parameter type="simplekeyframe" widget="corners" name="Corner 4 Y" default="4000" min="0" max="6000" factor="6000">
 		<name>Corner 4 Y</name>
 	</parameter>
+
+        <parameter type="simplekeyframe" widget="corners" name="Stretch X" default="1000" min="0" max="2000" factor="2000">
+            <name>Stretch X</name>
+        </parameter>
+        
+        <parameter type="simplekeyframe" widget="corners" name="Stretch Y" default="1000" min="0" max="2000" factor="2000">
+            <name>Stretch Y</name>
+        </parameter>
+
+        <parameter type="simplekeyframe" widget="corners" name="Feather Alpha" default="5" min="0" max="100" factor="100">
+            <name>Feather Alpha</name>
+        </parameter>
 	
 	<parameter type="bool" name="Enable Stretch" default="0">
 		<name>Enable Stretch</name>
 	</parameter>
 
-	
-	<parameter type="constant" name="Stretch X" default="1000" min="0" max="2000" factor="2000">
-		<name>Stretch X</name>
-	</parameter>
-	
-	<parameter type="constant" name="Stretch Y" default="1000" min="0" max="2000" factor="2000">
-		<name>Stretch Y</name>
-	</parameter>
-	
         <parameter type="list" name="Interpolator" default="0.166" paramlist="0,0.166,0.333,0.5,0.666,0.833,1.0">
                 <paramlistdisplay>Nearest neighbor,Bilinear,Bicubic smooth,Bicubic sharp,Spline 4x4,Spline 6x6,Lanczos</paramlistdisplay>
 		<name>Interpolator</name>
@@ -63,8 +61,6 @@
 		<name>Transparent Background</name>
 	</parameter>
 
-	<parameter type="constant" name="Feather Alpha" default="5" min="0" max="100" factor="100">
-		<name>Feather Alpha</name>
-	</parameter>
+        
 
 </effect>

@@ -315,7 +315,17 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
         } else if (type == "keyframe" || type == "simplekeyframe") {
             // keyframe editor widget
             if (m_keyframeEditor == NULL) {
-                KeyframeEdit *geo = new KeyframeEdit(pa, m_in, m_in + m_out, m_timecode, e.attribute("active_keyframe", "-1").toInt());
+                KeyframeEdit *geo;
+                if (pa.attribute("widget") == "corners") {
+                    // we want a corners-keyframe-widget
+                    CornersWidget *corners = new CornersWidget(m_monitor, pa, m_in, m_in + m_out, m_timecode, e.attribute("active_keyframe", "-1").toInt(), this);
+                    corners->slotShowScene(!disable);
+                    connect(corners, SIGNAL(checkMonitorPosition(int)), this, SIGNAL(checkMonitorPosition(int)));
+                    connect(this, SIGNAL(effectStateChanged(bool)), corners, SLOT(slotShowScene(bool)));
+                    geo = static_cast<KeyframeEdit *>(corners);
+                } else {
+                    geo = new KeyframeEdit(pa, m_in, m_in + m_out, m_timecode, e.attribute("active_keyframe", "-1").toInt());
+                }
                 m_vbox->addWidget(geo);
                 m_valueItems[paramName+"keyframe"] = geo;
                 m_keyframeEditor = geo;
@@ -388,29 +398,6 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
             QString depends = pa.attribute("depends");
             if (!depends.isEmpty())
                 meetDependency(paramName, type, EffectsList::parameter(e, depends));
-        } else if (type == "corners") {
-            CornersWidget *corners = new CornersWidget(m_monitor, pos, isEffect, pa.attribute("factor").toInt(), this);
-            corners->slotShowScene(!disable);
-            connect(corners, SIGNAL(checkMonitorPosition(int)), this, SIGNAL(checkMonitorPosition(int)));
-            if (minFrame == maxFrame)
-                corners->setRange(m_in, m_out);
-            else
-                corners->setRange(minFrame, maxFrame);
-
-            QString xName = pa.attribute("xpoints");
-            QString yName = pa.attribute("ypoints");
-            QPolygon points;
-            int x, y;
-            for (int j = 1; j <= 4; ++j) {
-                x = EffectsList::parameter(e, QString(xName).replace("%i", QString::number(j))).toInt();
-                y = EffectsList::parameter(e, QString(yName).replace("%i", QString::number(j))).toInt();
-                points << QPoint(x, y);
-            }
-            corners->setValue(points);
-            m_vbox->addWidget(corners);
-            connect(corners, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
-            connect(this, SIGNAL(effectStateChanged(bool)), corners, SLOT(slotShowScene(bool)));
-            m_valueItems[paramName] = corners;
         } else if (type == "wipe") {
             Wipeval *wpval = new Wipeval;
             wpval->setupUi(toFillin);
@@ -676,17 +663,6 @@ void EffectStackEdit::collectAllParameters()
             QString depends = pa.attributes().namedItem("depends").nodeValue();
             if (!depends.isEmpty())
                 meetDependency(paramName, type, EffectsList::parameter(newparam, depends));
-        } else if (type == "corners") {
-            CornersWidget *corners = ((CornersWidget*)m_valueItems.value(paramName));
-            QString xName = pa.attributes().namedItem("xpoints").nodeValue();
-            QString yName = pa.attributes().namedItem("ypoints").nodeValue();
-            QPolygon points = corners->getValue();
-            QPoint p;
-            for (int j = 1; j <= 4; ++j) {
-                p = points.at(j - 1);
-                EffectsList::setParameter(newparam, QString(xName).replace("%i", QString::number(j)), QString::number(p.x()));
-                EffectsList::setParameter(newparam, QString(yName).replace("%i", QString::number(j)), QString::number(p.y()));
-            }
         } else if (type == "wipe") {
             Wipeval *wp = (Wipeval*)m_valueItems.value(paramName);
             wipeInfo info;

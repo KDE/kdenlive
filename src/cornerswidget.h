@@ -21,9 +21,8 @@
 #ifndef CORNERSWIDGET_H
 #define CORNERSWIDGET_H
 
-#include "ui_cornerswidget_ui.h"
+#include "keyframeedit.h"
 
-#include <QWidget>
 
 class QDomElement;
 class Monitor;
@@ -32,7 +31,7 @@ class OnMonitorCornersItem;
 class MonitorSceneControlWidget;
 
 
-class CornersWidget : public QWidget
+class CornersWidget : public KeyframeEdit
 {
     Q_OBJECT
 public:
@@ -42,68 +41,37 @@ public:
      * @param isEffect true if used in an effect, false if used in a transition
      * @param factor Factor by which the parameters differ from the range 0-1
      * @param parent (optional) Parent widget */
-    CornersWidget(Monitor *monitor, int clipPos, bool isEffect, int factor, QWidget* parent = 0);
+    CornersWidget(Monitor *monitor, QDomElement e, int minFrame, int maxFrame, Timecode tc, int activeKeyframe, QWidget* parent = 0);
     virtual ~CornersWidget();
-
-    /** @brief Returns a polygon representing the corners in the range 0 - factor. */
-    QPolygon getValue();
-
-    /** @brief Takes a polygon @param points in the range 0 - factor and converts it into range (- frame width|height) - (2*frame width|height). */
-    void setValue(const QPolygon &points);
-
-    /** @brief Takes in and outpoint of the clip to know when to show the on-monitor scene.
-     * @param minframe In point of the clip
-     * @param maxframe Out point of the clip */
-    void setRange(int minframe, int maxframe);
 
 public slots:
     /** @brief Switches from normal monitor to monitor scene according to @param show. */
     void slotShowScene(bool show = true);
 
 private:
-    Ui::CornersWidget_UI m_ui;
     Monitor *m_monitor;
-    /** Position of the clip in timeline. */
-    int m_clipPos;
-    /** In point of the clip (crop from start). */
-    int m_inPoint;
-    /** Out point of the clip (crop from end). */
-    int m_outPoint;
-    bool m_isEffect;
     MonitorScene *m_scene;
     OnMonitorCornersItem *m_item;
     bool m_showScene;
     MonitorSceneControlWidget *m_config;
-    int m_factor;
 
 private slots:
     /** @brief Makes sure the monitor effect scene is only visible if the clip this geometry belongs to is visible.
     * @param renderPos Postion of the Monitor / Timeline cursor */
     void slotCheckMonitorPosition(int renderPos);
 
-    /** @brief Updates the on-monitor item according to the spinboxes. */
+    /** @brief Updates the on-monitor item according current values in the keyframe editor. */
     void slotUpdateItem();
-    /** @brief Updates the spinboxes according to the on-monitor item.
-     * @param changed (default = true) Whether to emit parameterChanged */
-    void slotUpdateProperties(bool changed = true);
+    /** @brief Updates the keyframe editor according to the on-monitor item. */
+    void slotUpdateProperties();
 
     /** @brief Shows/Hides the lines connecting the corners in the on-monitor item according to @param show. */
     void slotShowLines(bool show = true);
 
+    /** @brief Shows/Hides additional controls on the monitor according to @param show. */
     void slotShowControls(bool show = true);
 
-    /*
-     * These functions reset the positions of the corners.
-     * The default values in the effect XML file are not considered, but
-     * the position the corner would have without this effect applied. 
-     */
-    void slotResetCorner1();
-    void slotResetCorner2();
-    void slotResetCorner3();
-    void slotResetCorner4();
-
 signals:
-    void parameterChanged();
     void checkMonitorPosition(int);
 };
 

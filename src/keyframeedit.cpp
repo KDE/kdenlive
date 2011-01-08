@@ -53,7 +53,7 @@ KeyframeEdit::KeyframeEdit(QDomElement e, int minFrame, int maxFrame, Timecode t
     connect(keyframe_list, SIGNAL(cellChanged(int, int)), this, SLOT(slotGenerateParams(int, int)));
 
     m_position = new PositionEdit(i18n("Position"), 0, 0, 1, tc, widgetTable);
-    ((QGridLayout*)widgetTable->layout())->addWidget(m_position, 2, 0, 1, -1);
+    ((QGridLayout*)widgetTable->layout())->addWidget(m_position, 3, 0, 1, -1);
 
     m_showButtons = new QButtonGroup(this);
     m_slidersLayout = new QGridLayout(param_sliders);
@@ -127,7 +127,6 @@ void KeyframeEdit::addParameter(QDomElement e, int activeKeyframe)
     if (e.attribute("intimeline") == "1")
         radio->setChecked(true);
 
-    // make the radiobutton stay at the top
     QVBoxLayout *radioLayout = new QVBoxLayout(this);
     radioLayout->addWidget(radio, 0, Qt::AlignTop);
     m_slidersLayout->addLayout(radioLayout, columnId, 1);
