@@ -26,6 +26,7 @@
 #include <QSpinBox>
 
 class QButtonGroup;
+class PositionEdit;
 
 #include "ui_keyframeeditor_ui.h"
 #include "definitions.h"
@@ -100,6 +101,7 @@ private:
     Timecode m_timecode;
     QGridLayout *m_slidersLayout;
     QButtonGroup *m_showButtons;
+    PositionEdit *m_position;
 
     void generateAllParams();
     /** @brief Gets the position of a keyframe from the table.

@@ -44,7 +44,7 @@ PositionEdit::PositionEdit(const QString name, int pos, int min, int max, const 
     layout->addWidget(m_display);
 
     connect(m_slider, SIGNAL(valueChanged(int)), m_display, SLOT(setValue(int)));
-    connect(m_slider, SIGNAL(valueChanged(int)), this, SIGNAL(parameterChanged()));
+    connect(m_slider, SIGNAL(valueChanged(int)), this, SIGNAL(parameterChanged(int)));
     connect(m_display, SIGNAL(editingFinished()), this, SLOT(slotUpdatePosition()));
     m_slider->setValue(pos);
 }
@@ -77,7 +77,13 @@ void PositionEdit::slotUpdatePosition()
     m_slider->blockSignals(true);
     m_slider->setValue(m_display->getValue());
     m_slider->blockSignals(false);
-    emit parameterChanged();
+    emit parameterChanged(m_display->getValue());
+}
+
+void PositionEdit::setRange(int min, int max)
+{
+    m_slider->setRange(min, max);
+    m_display->setRange(min, max);
 }
 
 #include "positionedit.moc"

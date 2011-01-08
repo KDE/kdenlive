@@ -17,6 +17,7 @@
 
 #include "keyframeedit.h"
 #include "doubleparameterwidget.h"
+#include "positionedit.h"
 #include "kdenlivesettings.h"
 
 #include <KDebug>
@@ -51,6 +52,9 @@ KeyframeEdit::KeyframeEdit(QDomElement e, int minFrame, int maxFrame, Timecode t
     connect(keyframe_list, SIGNAL(itemSelectionChanged()), this, SLOT(slotAdjustKeyframeInfo()));
     connect(keyframe_list, SIGNAL(cellChanged(int, int)), this, SLOT(slotGenerateParams(int, int)));
 
+    m_position = new PositionEdit(i18n("Position"), 0, 0, 1, tc, widgetTable);
+    ((QGridLayout*)widgetTable->layout())->addWidget(m_position, 2, 0, 1, -1);
+
     m_showButtons = new QButtonGroup(this);
     m_slidersLayout = new QGridLayout(param_sliders);
     keyframe_list->setSelectionBehavior(QAbstractItemView::SelectRows);
@@ -63,12 +67,11 @@ KeyframeEdit::KeyframeEdit(QDomElement e, int minFrame, int maxFrame, Timecode t
     connect(button_add, SIGNAL(clicked()), this, SLOT(slotAddKeyframe()));
     connect(buttonKeyframes, SIGNAL(clicked()), this, SLOT(slotKeyframeMode()));
     connect(buttonResetKeyframe, SIGNAL(clicked()), this, SLOT(slotResetKeyframe()));
-    connect(keyframe_pos, SIGNAL(valueChanged(int)), this, SLOT(slotAdjustKeyframePos(int)));
+    connect(m_position, SIGNAL(parameterChanged(int)), this, SLOT(slotAdjustKeyframePos(int)));
     connect(m_showButtons, SIGNAL(buttonClicked(int)), this, SLOT(slotUpdateVisibleParameter(int)));
 
     //connect(keyframe_list, SIGNAL(itemDoubleClicked(QTreeWidgetItem *, int)), this, SLOT(slotSaveCurrentParam(QTreeWidgetItem *, int)));
 
-    keyframe_pos->setPageStep(1);
     if (!keyframe_list->currentItem()) {
         keyframe_list->setCurrentCell(0, 0);
         keyframe_list->selectRow(0);
@@ -329,10 +332,11 @@ void KeyframeEdit::slotAdjustKeyframeInfo(bool seek)
     if (below)
         max = getPos(below->row()) - 1;
 
-    keyframe_pos->blockSignals(true);
-    keyframe_pos->setRange(min, max);
-    keyframe_pos->setValue(getPos(item->row()));
-    keyframe_pos->blockSignals(false);
+    m_position->blockSignals(true);
+    m_position->setRange(min, max);
+    m_position->setPosition(getPos(item->row()));
+    m_position->blockSignals(false);
+
     for (int col = 0; col < keyframe_list->columnCount(); col++) {
         DoubleParameterWidget *doubleparam = static_cast <DoubleParameterWidget*>(m_slidersLayout->itemAtPosition(col, 0)->widget());
         if (!doubleparam)
@@ -346,7 +350,7 @@ void KeyframeEdit::slotAdjustKeyframeInfo(bool seek)
         doubleparam->blockSignals(false);
     }
     if (KdenliveSettings::keyframeseek() && seek)
-        emit seekToPos(keyframe_pos->value() - m_min);
+        emit seekToPos(m_position->getPosition() - m_min);
 }
 
 void KeyframeEdit::slotAdjustKeyframePos(int value)
@@ -406,6 +410,8 @@ void KeyframeEdit::updateTimecodeFormat()
         else
             keyframe_list->verticalHeaderItem(row)->setText(m_timecode.getTimecodeFromFrames(pos.toInt()));
     }
+
+    m_position->updateTimecodeFormat();
 }
 
 void KeyframeEdit::slotKeyframeMode()

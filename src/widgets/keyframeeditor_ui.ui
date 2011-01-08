@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>346</width>
-    <height>196</height>
+    <width>343</width>
+    <height>178</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
@@ -40,7 +40,7 @@
       <property name="margin">
        <number>0</number>
       </property>
-      <item row="3" column="0" colspan="5">
+      <item row="0" column="0" colspan="5">
        <widget class="QTableWidget" name="keyframe_list">
         <property name="alternatingRowColors">
          <bool>true</bool>
@@ -62,7 +62,7 @@
         </attribute>
        </widget>
       </item>
-      <item row="4" column="0">
+      <item row="1" column="0">
        <widget class="QToolButton" name="button_add">
         <property name="text">
          <string>A</string>
@@ -72,21 +72,7 @@
         </property>
        </widget>
       </item>
-      <item row="5" column="0" colspan="2">
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>Position</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="2" colspan="3">
-       <widget class="QSlider" name="keyframe_pos">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="1">
+      <item row="1" column="1">
        <widget class="QToolButton" name="button_delete">
         <property name="text">
          <string>D</string>
@@ -96,7 +82,7 @@
         </property>
        </widget>
       </item>
-      <item row="4" column="2">
+      <item row="1" column="2">
        <widget class="QToolButton" name="buttonResetKeyframe">
         <property name="toolTip">
          <string>Reset the parameters to their default values</string>
@@ -106,7 +92,7 @@
         </property>
        </widget>
       </item>
-      <item row="4" column="3">
+      <item row="1" column="3">
        <widget class="QToolButton" name="buttonSeek">
         <property name="toolTip">
          <string>Seek to active keyframe</string>
