@@ -1,6 +1,6 @@
 <!DOCTYPE kpartgui>
 <effect tag="frei0r.bw0r" id="frei0r.bw0r">
-	<name>bw0r</name>
+	<name>Black &amp; White</name>
 	<description>Turns image black/white</description>
 	<author>coma@gephex.org</author>
 </effect>
