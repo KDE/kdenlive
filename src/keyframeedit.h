@@ -83,7 +83,7 @@ class KeyframeEdit : public QWidget, public Ui::KeyframeEditor_UI
 public:
     explicit KeyframeEdit(QDomElement e, int minFrame, int maxFrame, Timecode tc, int activeKeyframe, QWidget* parent = 0);
     virtual ~KeyframeEdit();
-    void addParameter(QDomElement e, int activeKeyframe = -1);
+    virtual void addParameter(QDomElement e, int activeKeyframe = -1);
     const QString getValue(const QString &name);
     /** @brief Updates the timecode display according to settings (frame number or hh:mm:ss:ff) */
     void updateTimecodeFormat();

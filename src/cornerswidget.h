@@ -44,6 +44,8 @@ public:
     CornersWidget(Monitor *monitor, QDomElement e, int minFrame, int maxFrame, Timecode tc, int activeKeyframe, QWidget* parent = 0);
     virtual ~CornersWidget();
 
+    virtual void addParameter(QDomElement e, int activeKeyframe = -1);
+
 public slots:
     /** @brief Switches from normal monitor to monitor scene according to @param show. */
     void slotShowScene(bool show = true);

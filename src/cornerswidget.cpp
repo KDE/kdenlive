@@ -78,14 +78,24 @@ CornersWidget::~CornersWidget()
         m_monitor->slotEffectScene(false);
 }
 
+void CornersWidget::addParameter(QDomElement e, int activeKeyframe)
+{
+    KeyframeEdit::addParameter(e, activeKeyframe);
+
+    if (!m_item->polygon().count())
+        slotUpdateItem();
+}
+
 void CornersWidget::slotUpdateItem()
 {
-    QList<QPointF> points;
-
-    QTableWidgetItem *item = keyframe_list->currentItem();
-    if (!item || keyframe_list->columnCount() < 8)
+    if (keyframe_list->columnCount() < 8)
         return;
 
+    QTableWidgetItem *item = keyframe_list->currentItem();
+    if (!item)
+        return;
+
+    QList<QPointF> points;
     double val;
     for (int col = 0; col < 8; col++) {
         if (!keyframe_list->item(item->row(), col))
@@ -124,9 +134,6 @@ void CornersWidget::slotUpdateProperties()
     }
 
     slotAdjustKeyframeInfo(false);
-
-    if (changed)
-        emit parameterChanged();
 }
 
 void CornersWidget::slotCheckMonitorPosition(int renderPos)
