@@ -212,15 +212,12 @@ void BezierSplineEditor::paintEvent(QPaintEvent* event)
     int max = m_spline.points().count() - 1;
     p.setPen(QPen(Qt::red, 1, Qt::SolidLine));
     BPoint point;
-    QPolygon handle(4);
-    handle.setPoints(4,
-                     1,  -2,
-                     4,  1,
-                     1,  4,
-                     -2, 1);
+
+    QPolygonF handle = QPolygonF() << QPointF(0, -3) << QPointF(3, 0) << QPointF(0, 3) << QPointF(-3, 0);
 #if QT_VERSION < 0x040600
-    QPolygon tmp;
+    QPolygonF tmp;
 #endif
+
     for (int i = 0; i <= max; ++i) {
         point = m_spline.points().at(i);
         if (i == m_currentPointIndex) {
