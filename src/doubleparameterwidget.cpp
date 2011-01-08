@@ -105,16 +105,14 @@ void DoubleParameterWidget::slotReset()
     setValue(m_default);
 }
 
-void DoubleParameterWidget::slotShowComment()
+void DoubleParameterWidget::slotShowComment( bool show)
 {
     if (m_commentLabel->text() != QString()) {
-        if (m_commentLabel->isHidden()) {
-            m_commentLabel->setHidden(false);
+        m_commentLabel->setVisible(show);
+        if (show)
             layout()->setContentsMargins(0, 0, 0, 15);
-        } else {
-            m_commentLabel->setHidden(true);
+        else
             layout()->setContentsMargins(0, 0, 0, 0);
-        }
     }
 }
 

@@ -138,7 +138,7 @@ private slots:
 signals:
     void parameterChanged();
     void seekToPos(int);
-    void showComments();
+    void showComments(bool show);
 };
 
 #endif

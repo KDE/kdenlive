@@ -119,7 +119,7 @@ void KeyframeEdit::addParameter(QDomElement e, int activeKeyframe)
             m_params.at(columnId).attribute("min").toInt(), m_params.at(columnId).attribute("max").toInt(),
             m_params.at(columnId).attribute("default").toInt(), comment, m_params.at(columnId).attribute("suffix"), this);
     connect(doubleparam, SIGNAL(valueChanged(int)), this, SLOT(slotAdjustKeyframeValue(int)));
-    connect(this, SIGNAL(showComments()), doubleparam, SLOT(slotShowComment()));
+    connect(this, SIGNAL(showComments(bool)), doubleparam, SLOT(slotShowComment(bool)));
     m_slidersLayout->addWidget(doubleparam, columnId, 0);
 
     QRadioButton *radio = new QRadioButton(this);

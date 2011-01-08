@@ -160,7 +160,7 @@ signals:
     /** The region effect for current effect was changed */
     void updateClipRegion(ClipItem*, int, QString);
     void displayMessage(const QString&, int);
-    void showComments();
+    void showComments(bool show);
 };
 
 #endif

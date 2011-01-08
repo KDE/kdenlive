@@ -65,7 +65,7 @@ public slots:
 
 private slots:
     /** @brief Shows/Hides the comment label. */
-    void slotShowComment();
+    void slotShowComment(bool show);
 
 private:
     int m_default;

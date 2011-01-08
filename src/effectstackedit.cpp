@@ -242,7 +242,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
             m_vbox->addWidget(doubleparam);
             m_valueItems[paramName] = doubleparam;
             connect(doubleparam, SIGNAL(valueChanged(int)), this, SLOT(collectAllParameters()));
-            connect(this, SIGNAL(showComments()), doubleparam, SLOT(slotShowComment()));
+            connect(this, SIGNAL(showComments(bool)), doubleparam, SLOT(slotShowComment(bool)));
         } else if (type == "list") {
             Listval *lsval = new Listval;
             lsval->setupUi(toFillin);
@@ -275,8 +275,12 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
             bval->setupUi(toFillin);
             bval->checkBox->setCheckState(value == "0" ? Qt::Unchecked : Qt::Checked);
             bval->name->setText(paramName);
+            bval->labelComment->setText(comment);
+            bval->labelComment->setHidden(true);
             m_valueItems[paramName] = bval;
             connect(bval->checkBox, SIGNAL(stateChanged(int)) , this, SLOT(collectAllParameters()));
+            if (!comment.isEmpty())
+                connect(this, SIGNAL(showComments(bool)), bval->labelComment, SLOT(setVisible(bool)));
             m_uiItems.append(bval);
         } else if (type == "complex") {
             ComplexParameter *pl = new ComplexParameter;
@@ -331,7 +335,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
                 m_keyframeEditor = geo;
                 connect(geo, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
                 connect(geo, SIGNAL(seekToPos(int)), this, SIGNAL(seekTimeline(int)));
-                connect(this, SIGNAL(showComments()), geo, SIGNAL(showComments()));
+                connect(this, SIGNAL(showComments(bool)), geo, SIGNAL(showComments(bool)));
             } else {
                 // we already have a keyframe editor, so just add another column for the new param
                 m_keyframeEditor->addParameter(pa);

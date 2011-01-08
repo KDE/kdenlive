@@ -92,7 +92,7 @@ EffectStackView::EffectStackView(Monitor *monitor, QWidget *parent) :
     connect(m_effectedit, SIGNAL(displayMessage(const QString&, int)), this, SIGNAL(displayMessage(const QString&, int)));
     connect(m_effectedit, SIGNAL(checkMonitorPosition(int)), this, SLOT(slotCheckMonitorPosition(int)));
     connect(monitor, SIGNAL(renderPosition(int)), this, SLOT(slotRenderPos(int)));
-    connect(this, SIGNAL(showComments()), m_effectedit, SIGNAL(showComments()));
+    connect(this, SIGNAL(showComments(bool)), m_effectedit, SIGNAL(showComments(bool)));
     m_effectLists["audio"] = &MainWindow::audioEffects;
     m_effectLists["video"] = &MainWindow::videoEffects;
     m_effectLists["custom"] = &MainWindow::customEffects;
@@ -334,8 +334,7 @@ void EffectStackView::slotItemSelectionChanged(bool update)
     m_ui.frame->setEnabled(isChecked);
     m_ui.buttonShowComments->setEnabled(hasItem);
 
-    if (m_ui.buttonShowComments->isChecked())
-        emit showComments();
+    emit showComments(m_ui.buttonShowComments->isChecked());
     m_ui.labelComment->setHidden(!m_ui.buttonShowComments->isChecked() || !m_ui.labelComment->text().count() || !hasItem);
 }
 
@@ -396,8 +395,7 @@ void EffectStackView::slotResetEffect()
         }
     }
 
-    if (m_ui.buttonShowComments->isChecked())
-        emit showComments();
+    emit showComments(m_ui.buttonShowComments->isChecked());
     m_ui.labelComment->setHidden(!m_ui.buttonShowComments->isChecked() || !m_ui.labelComment->text().count());
 }
 
@@ -513,7 +511,7 @@ int EffectStackView::isTrackMode(bool *ok) const
 void EffectStackView::slotShowComments()
 {
     m_ui.labelComment->setHidden(!m_ui.buttonShowComments->isChecked() || !m_ui.labelComment->text().count());
-    emit showComments();
+    emit showComments(m_ui.buttonShowComments->isChecked());
 }
 
 #include "effectstackview.moc"

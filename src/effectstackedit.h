@@ -99,7 +99,7 @@ signals:
     void displayMessage(const QString&, int);
     void checkMonitorPosition(int);
     void syncEffectsPos(int pos);
-    void showComments();
+    void showComments(bool show);
     void effectStateChanged(bool enabled);
 };
 
