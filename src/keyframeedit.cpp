@@ -1,5 +1,5 @@
 /***************************************************************************
-                          geomeytrval.cpp  -  description
+                          keyframedit.cpp  -  description
                              -------------------
     begin                : 03 Aug 2008
     copyright            : (C) 2008 by Marco Gittler
@@ -41,7 +41,7 @@ KeyframeEdit::KeyframeEdit(QDomElement e, int minFrame, int maxFrame, Timecode t
     buttonSeek->setChecked(KdenliveSettings::keyframeseek());
     connect(buttonSeek, SIGNAL(toggled(bool)), this, SLOT(slotSetSeeking(bool)));
 
-    buttonKeyframes->setIcon(KIcon("list-add"));
+    buttonKeyframes->setIcon(KIcon("chronometer"));
     button_add->setIcon(KIcon("list-add"));
     button_add->setToolTip(i18n("Add keyframe"));
     button_delete->setIcon(KIcon("list-remove"));
@@ -126,8 +126,7 @@ void KeyframeEdit::addParameter(QDomElement e, int activeKeyframe)
 
     // make the radiobutton stay at the top
     QVBoxLayout *radioLayout = new QVBoxLayout(this);
-    radioLayout->addWidget(radio);
-    radioLayout->addStretch();
+    radioLayout->addWidget(radio, 0, Qt::AlignTop);
     m_slidersLayout->addLayout(radioLayout, columnId, 1);
 
     QStringList frames = e.attribute("keyframes").split(";", QString::SkipEmptyParts);

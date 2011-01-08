@@ -186,8 +186,6 @@ void KeyframeHelper::paintEvent(QPaintEvent *e)
     pa.setPoints(3, cursor - 5, 15, cursor + 5, 15, cursor, 10);
     p.setBrush(palette().dark().color());
     p.drawPolygon(pa);
-
-
 }
 
 int KeyframeHelper::value() const
