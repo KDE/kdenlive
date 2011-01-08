@@ -267,8 +267,12 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
             }
             if (!value.isEmpty()) lsval->list->setCurrentIndex(listitems.indexOf(value));
             lsval->name->setText(paramName);
+            lsval->labelComment->setText(comment);
+            lsval->widgetComment->setHidden(true);
             m_valueItems[paramName] = lsval;
             connect(lsval->list, SIGNAL(currentIndexChanged(int)) , this, SLOT(collectAllParameters()));
+            if (!comment.isEmpty())
+                connect(this, SIGNAL(showComments(bool)), lsval->widgetComment, SLOT(setVisible(bool)));
             m_uiItems.append(lsval);
         } else if (type == "bool") {
             Boolval *bval = new Boolval;
@@ -276,11 +280,11 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
             bval->checkBox->setCheckState(value == "0" ? Qt::Unchecked : Qt::Checked);
             bval->name->setText(paramName);
             bval->labelComment->setText(comment);
-            bval->labelComment->setHidden(true);
+            bval->widgetComment->setHidden(true);
             m_valueItems[paramName] = bval;
             connect(bval->checkBox, SIGNAL(stateChanged(int)) , this, SLOT(collectAllParameters()));
             if (!comment.isEmpty())
-                connect(this, SIGNAL(showComments(bool)), bval->labelComment, SLOT(setVisible(bool)));
+                connect(this, SIGNAL(showComments(bool)), bval->widgetComment, SLOT(setVisible(bool)));
             m_uiItems.append(bval);
         } else if (type == "complex") {
             ComplexParameter *pl = new ComplexParameter;
