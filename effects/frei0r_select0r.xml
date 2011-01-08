@@ -35,7 +35,7 @@
         </parameter>
         
         <parameter type="list" name="Edge mode" default="0.0" paramlist="0.0,0.35,0.60,1.0">
-                <paramlistdisplay>Hard,Fat,Normal,Skiny</paramlistdisplay>
+                <paramlistdisplay>Hard,Fat,Normal,Skinny</paramlistdisplay>
                 <name>Edge mode</name>
         </parameter>
         
