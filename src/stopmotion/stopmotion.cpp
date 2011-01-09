@@ -287,7 +287,7 @@ void StopmotionWidget::slotConfigure()
     ui.sm_interval->setSuffix(ki18np(" second", " seconds"));
     ui.sm_notifytime->setSuffix(ki18np(" second", " seconds"));
     ui.sm_notifytime->setValue(KdenliveSettings::sm_notifytime());
-    connect(ui.sm_prenotify, SIGNAL(checked(bool)), ui.sm_notifytime, SLOT(setEnabled(bool)));
+    connect(ui.sm_prenotify, SIGNAL(toggled(bool)), ui.sm_notifytime, SLOT(setEnabled(bool)));
     ui.sm_prenotify->setChecked(KdenliveSettings::sm_prenotify());
     ui.sm_loop->setChecked(KdenliveSettings::sm_loop());
     ui.sm_framesplayback->setValue(KdenliveSettings::sm_framesplayback());
