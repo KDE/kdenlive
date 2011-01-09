@@ -121,10 +121,9 @@ QString EffectsList::getInfo(const QString & tag, const QString & id) const
 {
     QString info;
     QDomElement effect = getEffectByTag(tag, id);
-
     QDomNode namenode = effect.elementsByTagName("description").item(0);
     if (!namenode.isNull())
-        info = i18n(namenode.toElement().text().toUtf8().data());
+        info = i18n(namenode.firstChild().nodeValue().simplified().toUtf8().data());
 
     namenode = effect.elementsByTagName("author").item(0);
     if (!namenode.isNull())
