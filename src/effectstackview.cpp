@@ -313,8 +313,9 @@ void EffectStackView::slotItemSelectionChanged(bool update)
     int activeRow = m_ui.effectlist->currentRow();
     bool isChecked = false;
     if (hasItem && m_ui.effectlist->currentItem()->checkState() == Qt::Checked) isChecked = true;
+    QDomElement eff;
     if (hasItem && m_ui.effectlist->currentItem()->isSelected()) {
-        QDomElement eff = m_currentEffectList.at(activeRow);
+        eff = m_currentEffectList.at(activeRow);
         if (m_trackMode) {
             // showing track effects
             m_effectedit->transferParamDesc(eff, 0, 0, m_trackInfo.duration);
@@ -335,7 +336,7 @@ void EffectStackView::slotItemSelectionChanged(bool update)
     m_ui.buttonShowComments->setEnabled(hasItem);
 
     emit showComments(m_ui.buttonShowComments->isChecked());
-    m_ui.labelComment->setHidden(!m_ui.buttonShowComments->isChecked() || !m_ui.labelComment->text().count() || !hasItem);
+    m_ui.labelComment->setVisible(hasItem && m_ui.labelComment->text().count() && (m_ui.buttonShowComments->isChecked() || !eff.elementsByTagName("parameter").count()));
 }
 
 void EffectStackView::slotItemUp()
