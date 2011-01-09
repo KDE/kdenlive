@@ -657,7 +657,17 @@
     <entry name="captureinterval" type="Int">
       <label>Interval between each capture (in seconds).</label>
       <default>5</default>
-    </entry> 
+    </entry>
+
+    <entry name="sm_notifytime" type="Int">
+      <label>Seconds before triggering a capture notification.</label>
+      <default>3</default>
+    </entry>
+
+    <entry name="sm_prenotify" type="Bool">
+      <label>Send a notification a few seconds before capture.</label>
+      <default>false</default>
+    </entry>
 
     <entry name="sm_loop" type="Bool">
       <label>Should we loop in stop motion playback.</label>

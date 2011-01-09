@@ -25,6 +25,7 @@
 #include <QLabel>
 #include <QFuture>
 #include <QVBoxLayout>
+#include <QTimer>
 
 class MyLabel : public QLabel
 {
@@ -106,9 +107,6 @@ private:
     /** @brief Get the frame number ix. */
     QListWidgetItem* getFrameFromIndex(int ix);
 
-    /** @brief The action triggering interval capture. */
-    QAction* m_intervalCapture;
-
     /** @brief The action triggering display of last frame over current live video feed. */
     QAction* m_showOverlay;
 
@@ -117,6 +115,9 @@ private:
     
     /** @brief Tells if we are in animation (playback) mode. */
     bool m_animate;
+    
+    /** @brief Timer for interval capture. */
+    QTimer m_intervalTimer;
 
 
 #ifdef QIMAGEBLITZ
@@ -182,9 +183,6 @@ private slots:
     /** @brief Show / hide sequence thumbnails. */
     void slotShowThumbs(bool show);
 
-    /** @brief Capture one frame every interval time. */
-    void slotIntervalCapture(bool capture);
-
     /** @brief Show the config dialog */
     void slotConfigure();
 
@@ -199,8 +197,13 @@ private slots:
 
     /** @brief Delete current frame from disk. */
     void slotRemoveFrame();
+    
     /** @brief Enable / disable frame analysis (in color scopes). */
     void slotSwitchAnalyse(bool isOn);
+    
+    /** @brief Send a notification a few seconds before capturing. */
+    void slotPreNotify();
+
 signals:
     /** @brief Ask to add sequence to current project. */
     void addOrUpdateSequence(const QString);

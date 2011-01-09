@@ -43,6 +43,11 @@ Name[ru]=Кадр снят
 Comment=A frame was captured to disk
 Comment[es]=Se ha capturado un fotograma al disco
 Comment[ru]=Кадр снят и сохранён на диск
+Sound=KDE-Sys-App-Message.ogg
+Action=Sound
+
+[Event/ReadyToCapture]
+Name=Ready to capture
 Sound=KDE-Sys-App-Positive.ogg
 Action=Sound
 

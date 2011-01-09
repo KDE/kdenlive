@@ -113,12 +113,21 @@ StopmotionWidget::StopmotionWidget(KUrl projectFolder, QList< QAction* > actions
 
     m_captureAction = actions.at(0);
     connect(m_captureAction, SIGNAL(triggered()), this, SLOT(slotCaptureFrame()));
+    m_captureAction->setCheckable(true);
+    m_captureAction->setChecked(false);
     capture_button->setDefaultAction(m_captureAction);
 
     connect(actions.at(1), SIGNAL(triggered()), this, SLOT(slotSwitchLive()));
 
+    QAction *intervalCapture = new QAction(i18n("Interval capture"), this);
+    intervalCapture->setIcon(KIcon("chronometer"));
+    intervalCapture->setCheckable(true);
+    intervalCapture->setChecked(false);
+    capture_interval->setDefaultAction(intervalCapture);
+        
     preview_button->setIcon(KIcon("media-playback-start"));
     capture_button->setEnabled(false);
+    
 
     // Build config menu
     QMenu* confMenu = new QMenu;
@@ -179,15 +188,6 @@ StopmotionWidget::StopmotionWidget(KUrl projectFolder, QList< QAction* > actions
     confMenu->addAction(conf);
     config_button->setIcon(KIcon("configure"));
     config_button->setMenu(confMenu);
-
-    // Build capture menu
-    QMenu* capMenu = new QMenu;
-    m_intervalCapture = new QAction(KIcon("edit-redo"), i18n("Interval capture"), this);
-    m_intervalCapture->setCheckable(true);
-    m_intervalCapture->setChecked(false);
-    connect(m_intervalCapture, SIGNAL(triggered(bool)), this, SLOT(slotIntervalCapture(bool)));
-    capMenu->addAction(m_intervalCapture);
-    capture_button->setMenu(capMenu);
 
     connect(sequence_name, SIGNAL(textChanged(const QString&)), this, SLOT(sequenceNameChanged(const QString&)));
     connect(sequence_name, SIGNAL(currentIndexChanged(int)), live_button, SLOT(setFocus()));
@@ -251,6 +251,9 @@ StopmotionWidget::StopmotionWidget(KUrl projectFolder, QList< QAction* > actions
     frame_list->setHidden(!KdenliveSettings::showstopmotionthumbs());
     parseExistingSequences();
     QTimer::singleShot(500, this, SLOT(slotLive()));
+    connect(&m_intervalTimer, SIGNAL(timeout()), this, SLOT(slotCaptureFrame()));
+    m_intervalTimer.setSingleShot(true);
+    m_intervalTimer.setInterval(KdenliveSettings::captureinterval() * 1000);
 }
 
 StopmotionWidget::~StopmotionWidget()
@@ -281,12 +284,21 @@ void StopmotionWidget::slotConfigure()
     ui.setupUi(&d);
     d.setWindowTitle(i18n("Configure Stop Motion"));
     ui.sm_interval->setValue(KdenliveSettings::captureinterval());
+    ui.sm_interval->setSuffix(ki18np(" second", " seconds"));
+    ui.sm_notifytime->setSuffix(ki18np(" second", " seconds"));
+    ui.sm_notifytime->setValue(KdenliveSettings::sm_notifytime());
+    connect(ui.sm_prenotify, SIGNAL(checked(bool)), ui.sm_notifytime, SLOT(setEnabled(bool)));
+    ui.sm_prenotify->setChecked(KdenliveSettings::sm_prenotify());
     ui.sm_loop->setChecked(KdenliveSettings::sm_loop());
     ui.sm_framesplayback->setValue(KdenliveSettings::sm_framesplayback());
+    
     if (d.exec() == QDialog::Accepted) {
         KdenliveSettings::setSm_loop(ui.sm_loop->isChecked());
         KdenliveSettings::setCaptureinterval(ui.sm_interval->value());
         KdenliveSettings::setSm_framesplayback(ui.sm_framesplayback->value());
+        KdenliveSettings::setSm_notifytime(ui.sm_notifytime->value());
+        KdenliveSettings::setSm_prenotify(ui.sm_prenotify->isChecked());
+        m_intervalTimer.setInterval(KdenliveSettings::captureinterval() * 1000);
     }
 }
 
@@ -301,11 +313,6 @@ void StopmotionWidget::slotShowThumbs(bool show)
         frame_list->clear();
     }
     frame_list->setHidden(!show);
-}
-
-void StopmotionWidget::slotIntervalCapture(bool capture)
-{
-    if (capture) slotCaptureFrame();
 }
 
 
@@ -463,7 +470,10 @@ void StopmotionWidget::slotCaptureFrame()
     if (m_bmCapture == NULL) return;
     if (sequence_name->currentText().isEmpty()) {
         QString seqName = QInputDialog::getText(this, i18n("Create New Sequence"), i18n("Enter sequence name"));
-        if (seqName.isEmpty()) return;
+        if (seqName.isEmpty()) {
+            m_captureAction->setChecked(false);
+            return;
+        }
         sequence_name->blockSignals(true);
         sequence_name->setItemText(sequence_name->currentIndex(), seqName);
         sequence_name->blockSignals(false);
@@ -473,12 +483,26 @@ void StopmotionWidget::slotCaptureFrame()
         m_sequenceFrame = 0;
     }
     //capture_button->setEnabled(false);
+    if (m_intervalTimer.isActive()) {
+        // stop interval capture
+        m_intervalTimer.stop();
+        return;
+    }
     QString currentPath = getPathForFrame(m_sequenceFrame);
     m_bmCapture->captureFrame(currentPath);
     KNotification::event("FrameCaptured", i18n("Frame Captured"), QPixmap(), this);
     m_sequenceFrame++;
     button_addsequence->setEnabled(true);
-    if (m_intervalCapture->isChecked()) QTimer::singleShot(KdenliveSettings::captureinterval() * 1000, this, SLOT(slotCaptureFrame()));
+    if (capture_interval->isChecked()) {
+        if (KdenliveSettings::sm_prenotify()) QTimer::singleShot((KdenliveSettings::captureinterval() - KdenliveSettings::sm_notifytime()) * 1000, this, SLOT(slotPreNotify()));
+        m_intervalTimer.start();
+    }
+    else m_captureAction->setChecked(false);
+}
+
+void StopmotionWidget::slotPreNotify()
+{
+    if (m_captureAction->isChecked()) KNotification::event("ReadyToCapture", i18n("Going to Capture Frame"), QPixmap(), this);
 }
 
 
