@@ -160,147 +160,152 @@ QRect Spectrogram::scopeRect()
 
 QImage Spectrogram::renderHUD(uint)
 {
+    if (m_innerScopeRect.width() > 0 && m_innerScopeRect.height() > 0) {
+        QTime start = QTime::currentTime();
 
-    QTime start = QTime::currentTime();
+        int x, y;
+        const uint minDistY = 30; // Minimum distance between two lines
+        const uint minDistX = 40;
+        const uint textDistX = 10;
+        const uint textDistY = 25;
+        const uint topDist = m_innerScopeRect.top() - m_scopeRect.top();
+        const uint leftDist = m_innerScopeRect.left() - m_scopeRect.left();
+        const int mouseX = m_mousePos.x() - m_innerScopeRect.left();
+        const int mouseY = m_mousePos.y() - m_innerScopeRect.top();
+        bool hideText;
 
-    int x, y;
-    const uint minDistY = 30; // Minimum distance between two lines
-    const uint minDistX = 40;
-    const uint textDistX = 10;
-    const uint textDistY = 25;
-    const uint topDist = m_innerScopeRect.top() - m_scopeRect.top();
-    const uint leftDist = m_innerScopeRect.left() - m_scopeRect.left();
-    const int mouseX = m_mousePos.x() - m_innerScopeRect.left();
-    const int mouseY = m_mousePos.y() - m_innerScopeRect.top();
-    bool hideText;
+        QImage hud(m_scopeRect.size(), QImage::Format_ARGB32);
+        hud.fill(qRgba(0,0,0,0));
 
-    QImage hud(m_scopeRect.size(), QImage::Format_ARGB32);
-    hud.fill(qRgba(0,0,0,0));
-
-    QPainter davinci(&hud);
-    davinci.setPen(AbstractScopeWidget::penLight);
+        QPainter davinci(&hud);
+        davinci.setPen(AbstractScopeWidget::penLight);
 
 
-    // Frame display
-    if (m_aGrid->isChecked()) {
-        for (int frameNumber = 0; frameNumber < m_innerScopeRect.height(); frameNumber += minDistY) {
-            y = topDist + m_innerScopeRect.height()-1 - frameNumber;
-            hideText = m_aTrackMouse->isChecked() && m_mouseWithinWidget && abs(y - mouseY) < (int)textDistY && mouseY < m_innerScopeRect.height()
-                    && mouseX < m_innerScopeRect.width() && mouseX >= 0;
-    
-            davinci.drawLine(leftDist, y, leftDist + m_innerScopeRect.width()-1, y);
-            if (!hideText) {
-                davinci.drawText(leftDist + m_innerScopeRect.width() + textDistX, y + 6, QVariant(frameNumber).toString());
-            }
-        }
-    }
-    // Draw a line through the mouse position with the correct Frame number
-    if (m_aTrackMouse->isChecked() && m_mouseWithinWidget && mouseY < m_innerScopeRect.height()
-            && mouseX < m_innerScopeRect.width() && mouseX >= 0) {
-        davinci.setPen(AbstractScopeWidget::penLighter);
+        // Frame display
+        if (m_aGrid->isChecked()) {
+            for (int frameNumber = 0; frameNumber < m_innerScopeRect.height(); frameNumber += minDistY) {
+                y = topDist + m_innerScopeRect.height()-1 - frameNumber;
+                hideText = m_aTrackMouse->isChecked() && m_mouseWithinWidget && abs(y - mouseY) < (int)textDistY && mouseY < m_innerScopeRect.height()
+                        && mouseX < m_innerScopeRect.width() && mouseX >= 0;
 
-        x = leftDist + mouseX;
-        y = topDist + mouseY - 20;
-        if (y < 0) {
-            y = 0;
-        }
-        if (y > (int)topDist + m_innerScopeRect.height()-1 - 30) {
-            y = topDist + m_innerScopeRect.height()-1 - 30;
-        }
-        davinci.drawLine(x, topDist + mouseY, leftDist + m_innerScopeRect.width()-1, topDist + mouseY);
-        davinci.drawText(leftDist + m_innerScopeRect.width() + textDistX,
-                         y,
-                         m_scopeRect.right()-m_innerScopeRect.right()-textDistX,
-                         40,
-                         Qt::AlignLeft,
-                         i18n("Frame\n%1", m_innerScopeRect.height()-1-mouseY));
-    }
-
-    // Frequency grid
-    const uint hzDiff = ceil( ((float)minDistX)/m_innerScopeRect.width() * m_freqMax / 1000 ) * 1000;
-    const int rightBorder = leftDist + m_innerScopeRect.width()-1;
-    x = 0;
-    y = topDist + m_innerScopeRect.height() + textDistY;
-    if (m_aGrid->isChecked()) {
-        for (uint hz = 0; x <= rightBorder; hz += hzDiff) {
-            davinci.setPen(AbstractScopeWidget::penLight);
-            x = leftDist + (m_innerScopeRect.width()-1) * ((float)hz)/m_freqMax;
-
-            // Hide text if it would overlap with the text drawn at the mouse position
-            hideText = m_aTrackMouse->isChecked() && m_mouseWithinWidget && abs(x-(leftDist + mouseX + 20)) < (int) minDistX + 16
-                    && mouseX < m_innerScopeRect.width() && mouseX >= 0;
-
-            if (x <= rightBorder) {
-                davinci.drawLine(x, topDist, x, topDist + m_innerScopeRect.height()+6);
-            }
-            if (x+textDistY < leftDist + m_innerScopeRect.width()) {
-                // Only draw the text label if there is still enough room for the final one at the right.
+                davinci.drawLine(leftDist, y, leftDist + m_innerScopeRect.width()-1, y);
                 if (!hideText) {
-                    davinci.drawText(x-4, y, QVariant(hz/1000).toString());
+                    davinci.drawText(leftDist + m_innerScopeRect.width() + textDistX, y + 6, QVariant(frameNumber).toString());
                 }
             }
+        }
+        // Draw a line through the mouse position with the correct Frame number
+        if (m_aTrackMouse->isChecked() && m_mouseWithinWidget && mouseY < m_innerScopeRect.height()
+                && mouseX < m_innerScopeRect.width() && mouseX >= 0) {
+            davinci.setPen(AbstractScopeWidget::penLighter);
 
+            x = leftDist + mouseX;
+            y = topDist + mouseY - 20;
+            if (y < 0) {
+                y = 0;
+            }
+            if (y > (int)topDist + m_innerScopeRect.height()-1 - 30) {
+                y = topDist + m_innerScopeRect.height()-1 - 30;
+            }
+            davinci.drawLine(x, topDist + mouseY, leftDist + m_innerScopeRect.width()-1, topDist + mouseY);
+            davinci.drawText(leftDist + m_innerScopeRect.width() + textDistX,
+                             y,
+                             m_scopeRect.right()-m_innerScopeRect.right()-textDistX,
+                             40,
+                             Qt::AlignLeft,
+                             i18n("Frame\n%1", m_innerScopeRect.height()-1-mouseY));
+        }
 
-            if (hz > 0) {
-                // Draw finer lines between the main lines
-                davinci.setPen(AbstractScopeWidget::penLightDots);
-                for (uint dHz = 3; dHz > 0; dHz--) {
-                    x = leftDist + m_innerScopeRect.width() * ((float)hz - dHz * hzDiff/4.0f)/m_freqMax;
-                    if (x > rightBorder) {
-                        break;
+        // Frequency grid
+        const uint hzDiff = ceil( ((float)minDistX)/m_innerScopeRect.width() * m_freqMax / 1000 ) * 1000;
+        const int rightBorder = leftDist + m_innerScopeRect.width()-1;
+        x = 0;
+        y = topDist + m_innerScopeRect.height() + textDistY;
+        if (m_aGrid->isChecked()) {
+            for (uint hz = 0; x <= rightBorder; hz += hzDiff) {
+                davinci.setPen(AbstractScopeWidget::penLight);
+                x = leftDist + (m_innerScopeRect.width()-1) * ((float)hz)/m_freqMax;
+
+                // Hide text if it would overlap with the text drawn at the mouse position
+                hideText = m_aTrackMouse->isChecked() && m_mouseWithinWidget && abs(x-(leftDist + mouseX + 20)) < (int) minDistX + 16
+                        && mouseX < m_innerScopeRect.width() && mouseX >= 0;
+
+                if (x <= rightBorder) {
+                    davinci.drawLine(x, topDist, x, topDist + m_innerScopeRect.height()+6);
+                }
+                if (x+textDistY < leftDist + m_innerScopeRect.width()) {
+                    // Only draw the text label if there is still enough room for the final one at the right.
+                    if (!hideText) {
+                        davinci.drawText(x-4, y, QVariant(hz/1000).toString());
                     }
-                    davinci.drawLine(x, topDist, x, topDist + m_innerScopeRect.height()-1);
+                }
+
+
+                if (hz > 0) {
+                    // Draw finer lines between the main lines
+                    davinci.setPen(AbstractScopeWidget::penLightDots);
+                    for (uint dHz = 3; dHz > 0; dHz--) {
+                        x = leftDist + m_innerScopeRect.width() * ((float)hz - dHz * hzDiff/4.0f)/m_freqMax;
+                        if (x > rightBorder) {
+                            break;
+                        }
+                        davinci.drawLine(x, topDist, x, topDist + m_innerScopeRect.height()-1);
+                    }
                 }
             }
+            // Draw the line at the very right (maximum frequency)
+            x = leftDist + m_innerScopeRect.width()-1;
+            hideText = m_aTrackMouse->isChecked() && m_mouseWithinWidget && abs(x-(leftDist + mouseX + 30)) < (int) minDistX
+                    && mouseX < m_innerScopeRect.width() && mouseX >= 0;
+            davinci.drawLine(x, topDist, x, topDist + m_innerScopeRect.height()+6);
+            if (!hideText) {
+                davinci.drawText(x-10, y, i18n("%1 kHz").arg((double)m_freqMax/1000, 0, 'f', 1));
+            }
         }
-        // Draw the line at the very right (maximum frequency)
-        x = leftDist + m_innerScopeRect.width()-1;
-        hideText = m_aTrackMouse->isChecked() && m_mouseWithinWidget && abs(x-(leftDist + mouseX + 30)) < (int) minDistX
-                && mouseX < m_innerScopeRect.width() && mouseX >= 0;
-        davinci.drawLine(x, topDist, x, topDist + m_innerScopeRect.height()+6);
-        if (!hideText) {
-            davinci.drawText(x-10, y, i18n("%1 kHz").arg((double)m_freqMax/1000, 0, 'f', 1));
+
+        // Draw a line through the mouse position with the correct frequency label
+        if (m_aTrackMouse->isChecked() && m_mouseWithinWidget && mouseX < m_innerScopeRect.width() && mouseX >= 0) {
+            davinci.setPen(AbstractScopeWidget::penThin);
+            x = leftDist + mouseX;
+            davinci.drawLine(x, topDist, x, topDist + m_innerScopeRect.height()+6);
+            davinci.drawText(x-10, y, i18n("%1 kHz")
+                             .arg((double)(m_mousePos.x()-m_innerScopeRect.left())/m_innerScopeRect.width() * m_freqMax/1000, 0, 'f', 2));
         }
-    }
 
-    // Draw a line through the mouse position with the correct frequency label
-    if (m_aTrackMouse->isChecked() && m_mouseWithinWidget && mouseX < m_innerScopeRect.width() && mouseX >= 0) {
-        davinci.setPen(AbstractScopeWidget::penThin);
-        x = leftDist + mouseX;
-        davinci.drawLine(x, topDist, x, topDist + m_innerScopeRect.height()+6);
-        davinci.drawText(x-10, y, i18n("%1 kHz")
-                         .arg((double)(m_mousePos.x()-m_innerScopeRect.left())/m_innerScopeRect.width() * m_freqMax/1000, 0, 'f', 2));
-    }
-
-    // Draw the dB brightness scale
-    float val;
-    davinci.setPen(AbstractScopeWidget::penLighter);
-    for (y = topDist; y < (int)topDist + m_innerScopeRect.height(); y++) {
-        val = 1-((float)y-topDist)/(m_innerScopeRect.height()-1);
-        int col = qRgba(255, 255, 255, 255.0 * val);
-        for (x = leftDist-6; x >= (int)leftDist-13; x--) {
-            hud.setPixel(x, y, col);
+        // Draw the dB brightness scale
+        float val;
+        davinci.setPen(AbstractScopeWidget::penLighter);
+        for (y = topDist; y < (int)topDist + m_innerScopeRect.height(); y++) {
+            val = 1-((float)y-topDist)/(m_innerScopeRect.height()-1);
+            int col = qRgba(255, 255, 255, 255.0 * val);
+            for (x = leftDist-6; x >= (int)leftDist-13; x--) {
+                hud.setPixel(x, y, col);
+            }
         }
+        const int rectWidth = leftDist-m_scopeRect.left()-22;
+        const int rectHeight = 50;
+        davinci.setFont(QFont(QFont().defaultFamily(), 10));
+        davinci.drawText(m_scopeRect.left(), topDist, rectWidth, rectHeight, Qt::AlignRight, i18n("%1\ndB", m_dBmax));
+        davinci.drawText(m_scopeRect.left(), topDist + m_innerScopeRect.height()-20, rectWidth, rectHeight, Qt::AlignRight, i18n("%1\ndB", m_dBmin));
+
+
+        emit signalHUDRenderingFinished(start.elapsed(), 1);
+        return hud;
+    } else {
+        emit signalHUDRenderingFinished(0, 1);
+        return QImage();
     }
-    const int rectWidth = leftDist-m_scopeRect.left()-22;
-    const int rectHeight = 50;
-    davinci.setFont(QFont(QFont().defaultFamily(), 10));
-    davinci.drawText(m_scopeRect.left(), topDist, rectWidth, rectHeight, Qt::AlignRight, i18n("%1\ndB", m_dBmax));
-    davinci.drawText(m_scopeRect.left(), topDist + m_innerScopeRect.height()-20, rectWidth, rectHeight, Qt::AlignRight, i18n("%1\ndB", m_dBmin));
-
-
-    emit signalHUDRenderingFinished(start.elapsed(), 1);
-    return hud;
 }
 QImage Spectrogram::renderAudioScope(uint, const QVector<int16_t> audioFrame, const int freq,
                                      const int num_channels, const int num_samples, const int newData) {
-    if (audioFrame.size() > 63) {
+    if (
+            audioFrame.size() > 63
+            && m_innerScopeRect.width() > 0 && m_innerScopeRect.height() > 0
+    ) {
         if (!m_customFreq) {
             m_freqMax = freq / 2;
         }
         bool newDataAvailable = newData > 0;
-
-        //TODO highlight data above certain limit (-6 dB)
 
 #ifdef DEBUG_SPECTROGRAM
         qDebug() << "New data for " << widgetName() << ": " << newDataAvailable << " (" << newData << " units)";

@@ -147,7 +147,10 @@ QImage AudioSpectrum::renderBackground(uint) { return QImage(); }
 QImage AudioSpectrum::renderAudioScope(uint, const QVector<int16_t> audioFrame, const int freq, const int num_channels,
                                        const int num_samples, const int)
 {
-    if (audioFrame.size() > 63) {
+    if (
+            audioFrame.size() > 63
+            && m_innerScopeRect.width() > 0 && m_innerScopeRect.height() > 0    // <= 0 if widget is too small (resized by user)
+    ) {
         if (!m_customFreq) {
             m_freqMax = freq / 2;
         }
@@ -273,137 +276,156 @@ QImage AudioSpectrum::renderHUD(uint)
 {
     QTime start = QTime::currentTime();
 
-    // Minimum distance between two lines
-    const uint minDistY = 30;
-    const uint minDistX = 40;
-    const uint textDistX = 10;
-    const uint textDistY = 25;
-    const uint topDist = m_innerScopeRect.top() - m_scopeRect.top();
-    const uint leftDist = m_innerScopeRect.left() - m_scopeRect.left();
-    const uint dbDiff = ceil((float)minDistY/m_innerScopeRect.height() * (m_dBmax-m_dBmin));
-    const int mouseX = m_mousePos.x() - m_innerScopeRect.left();
-    const int mouseY = m_mousePos.y() - m_innerScopeRect.top();
+    if (m_innerScopeRect.height() > 0 && m_innerScopeRect.width() > 0) { // May be below 0 if widget is too small
 
-    QImage hud(m_scopeRect.size(), QImage::Format_ARGB32);
-    hud.fill(qRgba(0,0,0,0));
+        // Minimum distance between two lines
+        const uint minDistY = 30;
+        const uint minDistX = 40;
+        const uint textDistX = 10;
+        const uint textDistY = 25;
+        const uint topDist = m_innerScopeRect.top() - m_scopeRect.top();
+        const uint leftDist = m_innerScopeRect.left() - m_scopeRect.left();
+        const uint dbDiff = ceil((float)minDistY/m_innerScopeRect.height() * (m_dBmax-m_dBmin));
+        const int mouseX = m_mousePos.x() - m_innerScopeRect.left();
+        const int mouseY = m_mousePos.y() - m_innerScopeRect.top();
 
-    QPainter davinci(&hud);
-    davinci.setPen(AbstractScopeWidget::penLight);
 
-    int y;
-    for (int db = -dbDiff; db > m_dBmin; db -= dbDiff) {
-        y = topDist + m_innerScopeRect.height() * ((float)db)/(m_dBmin - m_dBmax);
-        if (y-topDist > m_innerScopeRect.height()-minDistY+10) {
-            // Abort here, there is still a line left for min dB to paint which needs some room.
-            break;
-        }
-        davinci.drawLine(leftDist, y, leftDist + m_innerScopeRect.width()-1, y);
-        davinci.drawText(leftDist + m_innerScopeRect.width() + textDistX, y + 6, i18n("%1 dB", m_dBmax + db));
-    }
-    davinci.drawLine(leftDist, topDist, leftDist + m_innerScopeRect.width()-1, topDist);
-    davinci.drawText(leftDist + m_innerScopeRect.width() + textDistX, topDist+6, i18n("%1 dB", m_dBmax));
-    davinci.drawLine(leftDist, topDist+m_innerScopeRect.height()-1, leftDist + m_innerScopeRect.width()-1, topDist+m_innerScopeRect.height()-1);
-    davinci.drawText(leftDist + m_innerScopeRect.width() + textDistX, topDist+m_innerScopeRect.height()+6, i18n("%1 dB", m_dBmin));
+        QImage hud(m_scopeRect.size(), QImage::Format_ARGB32);
+        hud.fill(qRgba(0,0,0,0));
 
-    const uint hzDiff = ceil( ((float)minDistX)/m_innerScopeRect.width() * m_freqMax / 1000 ) * 1000;
-    int x = 0;
-    const int rightBorder = leftDist + m_innerScopeRect.width()-1;
-    y = topDist + m_innerScopeRect.height() + textDistY;
-    for (int hz = 0; x <= rightBorder; hz += hzDiff) {
-        davinci.setPen(AbstractScopeWidget::penLighter);
-        x = leftDist + m_innerScopeRect.width() * ((float)hz)/m_freqMax;
+        QPainter davinci(&hud);
+        davinci.setPen(AbstractScopeWidget::penLight);
 
-        if (x <= rightBorder) {
-            davinci.drawLine(x, topDist, x, topDist + m_innerScopeRect.height()+6);
-        }
-        if (hz < m_freqMax && x+textDistY < leftDist + m_innerScopeRect.width()) {
-            davinci.drawText(x-4, y, QVariant(hz/1000).toString());
-        } else {
-            x = leftDist + m_innerScopeRect.width();
-            davinci.drawLine(x, topDist, x, topDist + m_innerScopeRect.height()+6);
-            davinci.drawText(x-10, y, i18n("%1 kHz").arg((double)m_freqMax/1000, 0, 'f', 1));
-        }
+        int _dw = m_innerScopeRect.width();
+        int _dh = m_innerScopeRect.height();
+        int _dld = m_innerScopeRect.width() + leftDist + textDistX;
+        int _dtd = topDist+ m_innerScopeRect.height() + 6;
+        int _fw = AbstractScopeWidget::geometry().width();
+        int _fh = AbstractScopeWidget::geometry().height();
 
-        if (hz > 0) {
-            // Draw finer lines between the main lines
-            davinci.setPen(AbstractScopeWidget::penLightDots);
-            for (uint dHz = 3; dHz > 0; dHz--) {
-                x = leftDist + m_innerScopeRect.width() * ((float)hz - dHz * hzDiff/4.0f)/m_freqMax;
-                if (x > rightBorder) {
-                    break;
-                }
-                davinci.drawLine(x, topDist, x, topDist + m_innerScopeRect.height()-1);
+        int y;
+        for (int db = -dbDiff; db > m_dBmin; db -= dbDiff) {
+            y = topDist + m_innerScopeRect.height() * ((float)db)/(m_dBmin - m_dBmax);
+            if (y-topDist > m_innerScopeRect.height()-minDistY+10) {
+                // Abort here, there is still a line left for min dB to paint which needs some room.
+                break;
             }
+            davinci.drawLine(leftDist, y, leftDist + m_innerScopeRect.width()-1, y);
+            davinci.drawText(leftDist + m_innerScopeRect.width() + textDistX, y + 6, i18n("%1 dB", m_dBmax + db));
         }
-    }
+        davinci.drawLine(leftDist, topDist, leftDist + m_innerScopeRect.width()-1, topDist);
+        davinci.drawText(leftDist + m_innerScopeRect.width() + textDistX, topDist+6, i18n("%1 dB", m_dBmax));
+        davinci.drawLine(leftDist, topDist+m_innerScopeRect.height()-1, leftDist + m_innerScopeRect.width()-1, topDist+m_innerScopeRect.height()-1);
+        davinci.drawText(leftDist + m_innerScopeRect.width() + textDistX, topDist+m_innerScopeRect.height()+6, i18n("%1 dB", m_dBmin));
 
-    if (m_aTrackMouse->isChecked() && m_mouseWithinWidget && mouseX < m_innerScopeRect.width()-1) {
-        davinci.setPen(AbstractScopeWidget::penThin);
-
-        x = leftDist + mouseX;
-
-        float db = 0;
-        float freq = ((float) mouseX)/(m_innerScopeRect.width()-1) * m_freqMax;
-        bool drawDb = false;
-
-        m_lastFFTLock.acquire();
-        // We need to test whether the mouse is inside the widget
-        // because the position could already have changed in the meantime (-> crash)
-        if (m_lastFFT.size() > 0 && mouseX >= 0 && mouseX < m_innerScopeRect.width()) {
-            uint right = ((float) m_freqMax)/(m_freq/2) * (m_lastFFT.size() - 1);
-            QVector<float> dbMap = FFTTools::interpolatePeakPreserving(m_lastFFT, m_innerScopeRect.width(), 0, right, -120);
-
-            db = dbMap[mouseX];
-            y = topDist + m_innerScopeRect.height()-1 - (dbMap[mouseX] - m_dBmin) / (m_dBmax-m_dBmin) * (m_innerScopeRect.height()-1);
-
-            if (y < (int)topDist + m_innerScopeRect.height()-1) {
-                drawDb = true;
-                davinci.drawLine(x, y, leftDist + m_innerScopeRect.width()-1, y);
-            }
-        } else {
-            y = topDist + mouseY;
-        }
-        m_lastFFTLock.release();
-
-        if (y > (int)topDist + mouseY) {
-            y = topDist+ mouseY;
-        }
-        davinci.drawLine(x, y, x, topDist + m_innerScopeRect.height()-1);
-
-        if (drawDb) {
-            QPoint dist(20, -20);
-            QRect rect(
-                        leftDist + mouseX + dist.x(),
-                        topDist + mouseY + dist.y(),
-                        100,
-                        40
-                        );
-            if (rect.right() > (int)leftDist + m_innerScopeRect.width()-1) {
-                // Mirror the rectangle at the y axis to keep it inside the widget
-                rect = QRect(
-                            rect.topLeft() - QPoint(rect.width() + 2*dist.x(), 0),
-                            rect.size());
-            }
-
-            QRect textRect(
-                        rect.topLeft() + QPoint(12, 4),
-                        rect.size()
-                        );
-
-            davinci.fillRect(rect, AbstractScopeWidget::penBackground.brush());
+        const uint hzDiff = ceil( ((float)minDistX)/m_innerScopeRect.width() * m_freqMax / 1000 ) * 1000;
+        int x = 0;
+        const int rightBorder = leftDist + m_innerScopeRect.width()-1;
+        y = topDist + m_innerScopeRect.height() + textDistY;
+        for (int hz = 0; x <= rightBorder; hz += hzDiff) {
             davinci.setPen(AbstractScopeWidget::penLighter);
-            davinci.drawRect(rect);
-            davinci.drawText(textRect, QString(
-                                 i18n("%1 dB", QString("%1").arg(db, 0, 'f', 2))
-                                 + "\n"
-                                 + i18n("%1 kHz", QString("%1").arg(freq/1000, 0, 'f', 2))));
+            x = leftDist + m_innerScopeRect.width() * ((float)hz)/m_freqMax;
+
+            if (x <= rightBorder) {
+                davinci.drawLine(x, topDist, x, topDist + m_innerScopeRect.height()+6);
+            }
+            if (hz < m_freqMax && x+textDistY < leftDist + m_innerScopeRect.width()) {
+                davinci.drawText(x-4, y, QVariant(hz/1000).toString());
+            } else {
+                x = leftDist + m_innerScopeRect.width();
+                davinci.drawLine(x, topDist, x, topDist + m_innerScopeRect.height()+6);
+                davinci.drawText(x-10, y, i18n("%1 kHz").arg((double)m_freqMax/1000, 0, 'f', 1));
+            }
+
+            if (hz > 0) {
+                // Draw finer lines between the main lines
+                davinci.setPen(AbstractScopeWidget::penLightDots);
+                for (uint dHz = 3; dHz > 0; dHz--) {
+                    x = leftDist + m_innerScopeRect.width() * ((float)hz - dHz * hzDiff/4.0f)/m_freqMax;
+                    if (x > rightBorder) {
+                        break;
+                    }
+                    davinci.drawLine(x, topDist, x, topDist + m_innerScopeRect.height()-1);
+                }
+            }
         }
 
+        if (m_aTrackMouse->isChecked() && m_mouseWithinWidget && mouseX < m_innerScopeRect.width()-1) {
+            davinci.setPen(AbstractScopeWidget::penThin);
+
+            x = leftDist + mouseX;
+
+            float db = 0;
+            float freq = ((float) mouseX)/(m_innerScopeRect.width()-1) * m_freqMax;
+            bool drawDb = false;
+
+            m_lastFFTLock.acquire();
+            // We need to test whether the mouse is inside the widget
+            // because the position could already have changed in the meantime (-> crash)
+            if (m_lastFFT.size() > 0 && mouseX >= 0 && mouseX < m_innerScopeRect.width()) {
+                uint right = ((float) m_freqMax)/(m_freq/2) * (m_lastFFT.size() - 1);
+                QVector<float> dbMap = FFTTools::interpolatePeakPreserving(m_lastFFT, m_innerScopeRect.width(), 0, right, -120);
+
+                db = dbMap[mouseX];
+                y = topDist + m_innerScopeRect.height()-1 - (dbMap[mouseX] - m_dBmin) / (m_dBmax-m_dBmin) * (m_innerScopeRect.height()-1);
+
+                if (y < (int)topDist + m_innerScopeRect.height()-1) {
+                    drawDb = true;
+                    davinci.drawLine(x, y, leftDist + m_innerScopeRect.width()-1, y);
+                }
+            } else {
+                y = topDist + mouseY;
+            }
+            m_lastFFTLock.release();
+
+            if (y > (int)topDist + mouseY) {
+                y = topDist+ mouseY;
+            }
+            davinci.drawLine(x, y, x, topDist + m_innerScopeRect.height()-1);
+
+            if (drawDb) {
+                QPoint dist(20, -20);
+                QRect rect(
+                            leftDist + mouseX + dist.x(),
+                            topDist + mouseY + dist.y(),
+                            100,
+                            40
+                            );
+                if (rect.right() > (int)leftDist + m_innerScopeRect.width()-1) {
+                    // Mirror the rectangle at the y axis to keep it inside the widget
+                    rect = QRect(
+                                rect.topLeft() - QPoint(rect.width() + 2*dist.x(), 0),
+                                rect.size());
+                }
+
+                QRect textRect(
+                            rect.topLeft() + QPoint(12, 4),
+                            rect.size()
+                            );
+
+                davinci.fillRect(rect, AbstractScopeWidget::penBackground.brush());
+                davinci.setPen(AbstractScopeWidget::penLighter);
+                davinci.drawRect(rect);
+                davinci.drawText(textRect, QString(
+                                     i18n("%1 dB", QString("%1").arg(db, 0, 'f', 2))
+                                     + "\n"
+                                     + i18n("%1 kHz", QString("%1").arg(freq/1000, 0, 'f', 2))));
+            }
+
+        }
+
+        emit signalHUDRenderingFinished(start.elapsed(), 1);
+        return hud;
+
+    } else {
+#ifdef DEBUG_AUDIOSPEC
+        qDebug() << "Widget is too small for painting inside. Size of inner scope rect is "
+                 << m_innerScopeRect.width() << "x" << m_innerScopeRect.height() <<".";
+#endif
+        emit signalHUDRenderingFinished(0, 1);
+        return QImage();
     }
 
-
-    emit signalHUDRenderingFinished(start.elapsed(), 1);
-    return hud;
 }
 
 QRect AudioSpectrum::scopeRect()
