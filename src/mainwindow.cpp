@@ -381,14 +381,18 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
 
     // Prepare layout actions
     KActionCategory *layoutActions = new KActionCategory(i18n("Layouts"), actionCollection());
+    m_loadLayout = new KSelectAction(i18n("Load Layout"), actionCollection());
     for (int i = 1; i < 5; i++) {
-        KAction *load = new KAction(KIcon(), i18n("Load Layout %1").arg(i), this);
+        KAction *load = new KAction(KIcon(), i18n("Layout %1").arg(i), this);
         load->setData("_" + QString::number(i));
-        layoutActions->addAction("load_layout" + QString::number(i), load);
+        load->setCheckable(true);
+        m_loadLayout->addAction(load);
         KAction *save = new KAction(KIcon(), i18n("Save As Layout %1").arg(i), this);
         save->setData("_" + QString::number(i));
         layoutActions->addAction("save_layout" + QString::number(i), save);
     }
+    layoutActions->addAction("load_layouts", m_loadLayout);
+    connect(m_loadLayout, SIGNAL(triggered(QAction*)), this, SLOT(slotLoadLayout(QAction*)));
 
     KAction *action;
     // Stop motion actions. Beware of the order, we MUST use the same order in stopmotion/stopmotion.cpp
@@ -417,10 +421,6 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     /*ScriptingPart* sp = new ScriptingPart(this, QStringList());
     guiFactory()->addClient(sp);*/
 
-
-    QMenu *loadLayout = (QMenu*)(factory()->container("layout_load", this));
-    if (loadLayout)
-        connect(loadLayout, SIGNAL(triggered(QAction*)), this, SLOT(slotLoadLayout(QAction*)));
     QMenu *saveLayout = (QMenu*)(factory()->container("layout_save_as", this));
     if (saveLayout)
         connect(saveLayout, SIGNAL(triggered(QAction*)), this, SLOT(slotSaveLayout(QAction*)));
@@ -1676,12 +1676,11 @@ void MainWindow::slotDisplayActionMessage(QAction *a)
 void MainWindow::loadLayouts()
 {
     QMenu *saveLayout = (QMenu*)(factory()->container("layout_save_as", this));
-    QMenu *loadLayout = (QMenu*)(factory()->container("layout_load", this));
-    if (loadLayout == NULL || saveLayout == NULL) return;
+    if (m_loadLayout == NULL || saveLayout == NULL) return;
     KSharedConfigPtr config = KGlobal::config();
     KConfigGroup layoutGroup(config, "Layouts");
     QStringList entries = layoutGroup.keyList();
-    QList<QAction *> loadActions = loadLayout->actions();
+    QList<QAction *> loadActions = m_loadLayout->actions();
     QList<QAction *> saveActions = saveLayout->actions();
     for (int i = 1; i < 5; i++) {
         // Rename the layouts actions

@@ -255,6 +255,7 @@ private:
     KAction *m_loopZone;
     KAction *m_playZone;
     KAction *m_loopClip;
+    KSelectAction *m_loadLayout;
     StatusBarMessageLabel *m_messageLabel;
     QActionGroup *m_clipTypeGroup;
     KActionCollection *m_effectsActionCollection;
