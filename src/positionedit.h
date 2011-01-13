@@ -45,7 +45,7 @@ private slots:
     void slotUpdatePosition();
 
 signals:
-    void parameterChanged(int pos);
+    void parameterChanged(int pos = 0);
 };
 
 #endif
