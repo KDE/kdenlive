@@ -414,18 +414,28 @@ void ProjectList::slotReloadClip(const QString &id)
         }
         item = static_cast <ProjectItem *>(selected.at(i));
         if (item) {
-            if (item->clipType() == TEXT) {
+            CLIPTYPE t = item->clipType();
+            if (t == TEXT) {
                 if (!item->referencedClip()->getProperty("xmltemplate").isEmpty())
                     regenerateTemplate(item);
-            } else if (item->clipType() != COLOR && item->clipType() != SLIDESHOW && item->referencedClip() &&  item->referencedClip()->checkHash() == false) {
+            } else if (t != COLOR && t != SLIDESHOW && item->referencedClip() &&  item->referencedClip()->checkHash() == false) {
                 item->referencedClip()->setPlaceHolder(true);
                 item->setProperty("file_hash", QString());
-            } else if (item->clipType() == IMAGE) {
+            } else if (t == IMAGE) {
                 item->referencedClip()->producer()->set("force_reload", 1);
             }
-            //requestClipInfo(item->toXml(), item->clipId(), true);
-            // Clear the file_hash value, which will cause a complete reload of the clip
-            emit getFileProperties(item->toXml(), item->clipId(), m_listView->iconSize().height(), true);
+
+            QDomElement e = item->toXml();
+            // Make sure we get the correct producer length if it was adjusted in timeline
+            if (t == COLOR || t == IMAGE || t == SLIDESHOW || t == TEXT) {
+                int length = QString(item->referencedClip()->producerProperty("length")).toInt();
+                if (length > 0 && !e.hasAttribute("length")) {
+                    e.setAttribute("length", length);
+                    e.setAttribute("out", length - 1);
+                }
+            }
+            
+            emit getFileProperties(e, item->clipId(), m_listView->iconSize().height(), true);
         }
     }
 }

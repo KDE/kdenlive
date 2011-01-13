@@ -1766,7 +1766,8 @@ bool Render::mltUpdateClip(ItemInfo info, QDomElement element, Mlt::Producer *pr
         mlt_service_unlock(service.get_service());
         return false;
     }
-    Mlt::Producer *clip2 = prod->cut(info.cropStart.frames(m_fps), (info.cropDuration + info.cropStart).frames(m_fps));
+
+    Mlt::Producer *clip2 = prod->cut(info.cropStart.frames(m_fps), (info.cropDuration + info.cropStart).frames(m_fps) - 1);
     trackPlaylist.insert_at(info.startPos.frames(m_fps), clip2, 1);
     delete clip2;
 

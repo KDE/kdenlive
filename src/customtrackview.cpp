@@ -4044,7 +4044,7 @@ void CustomTrackView::slotUpdateClip(const QString &clipId, bool reload)
             if (clip->clipProducer() == clipId) {
                 ItemInfo info = clip->info();
                 info.track = m_document->tracksCount() - clip->track();
-                if (reload && !m_document->renderer()->mltUpdateClip(info, clip->xml(), clip->baseClip()->producer())) {
+                if (reload && !m_document->renderer()->mltUpdateClip(info, clip->xml(), clip->baseClip()->producer(info.track))) {
                     emit displayMessage(i18n("Cannot update clip (time: %1, track: %2)", info.startPos.frames(m_document->fps()), info.track), ErrorMessage);
                 }
                 clip->refreshClip(true);
