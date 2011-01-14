@@ -397,6 +397,7 @@ void ClipItem::setKeyframes(const int ix, const QStringList keyframes)
                 double max = e.attribute("max").toDouble();
                 double min = e.attribute("min").toDouble();
                 m_keyframeFactor = 100.0 / (max - min);
+                m_keyframeOffset = min;
                 m_keyframeDefault = e.attribute("default").toDouble();
                 m_selectedKeyframe = 0;
                 // parse keyframes
@@ -431,6 +432,7 @@ void ClipItem::setSelectedEffect(const int ix)
                     double max = e.attribute("max").toDouble();
                     double min = e.attribute("min").toDouble();
                     m_keyframeFactor = 100.0 / (max - min);
+                    m_keyframeOffset = min;
                     m_keyframeDefault = e.attribute("default").toDouble();
                     m_selectedKeyframe = 0;
 

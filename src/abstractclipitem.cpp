@@ -36,6 +36,7 @@ AbstractClipItem::AbstractClipItem(const ItemInfo info, const QRectF& rect, doub
         m_editedKeyframe(-1),
         m_selectedKeyframe(0),
         m_keyframeFactor(1),
+        m_keyframeOffset(0),
         m_fps(fps)
 #if QT_VERSION >= 0x040600
         , m_closeAnimation(NULL)
@@ -262,7 +263,7 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, QRectF /*exposedRect*/)
     if (active) {
         x1 = br.x();
         x2 = br.right();
-        y1 = br.bottom() - m_keyframeDefault * maxh;
+        y1 = br.bottom() - (m_keyframeDefault - m_keyframeOffset) * maxh;
         QLineF l(x1, y1, x2, y1);
         QLineF l2 = painter->matrix().map(l);
         painter->setPen(QColor(168, 168, 168, 180));
@@ -278,7 +279,7 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, QRectF /*exposedRect*/)
     QColor color(Qt::blue);
     QLineF l2;
     x1 = br.x() + maxw * (i.key() - start);
-    y1 = br.bottom() - i.value() * maxh;
+    y1 = br.bottom() - (i.value() - m_keyframeOffset) * maxh;
 
     // make sure line begins with clip beginning
     if (i.key() != start) {
@@ -300,7 +301,7 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, QRectF /*exposedRect*/)
             y2 = y1;
         } else {
             x2 = br.x() + maxw * (i.key() - start);
-            y2 = br.bottom() - i.value() * maxh;
+            y2 = br.bottom() - (i.value() - m_keyframeOffset) * maxh;
         }
         QLineF l(x1, y1, x2, y2);
         l2 = painter->matrix().map(l);
@@ -338,7 +339,7 @@ int AbstractClipItem::mouseOverKeyFrames(QPointF pos, double maxOffset)
         double y1;
         while (i != m_keyframes.constEnd()) {
             x1 = br.x() + maxw * (i.key() - cropStart().frames(m_fps));
-            y1 = br.bottom() - i.value() * maxh;
+            y1 = br.bottom() - (i.value() - m_keyframeOffset) * maxh;
             if (qAbs(pos.x() - x1) < maxOffset && qAbs(pos.y() - y1) < 10) {
                 setToolTip('[' + QString::number((GenTime(i.key(), m_fps) - cropStart()).seconds(), 'f', 2) + i18n("seconds") + ", " + QString::number(i.value(), 'f', 1) + "]");
                 return i.key();
@@ -359,9 +360,9 @@ void AbstractClipItem::updateSelectedKeyFrame()
     QRectF br = sceneBoundingRect();
     double maxw = br.width() / cropDuration().frames(m_fps);
     double maxh = br.height() / 100.0 * m_keyframeFactor;
-    update(br.x() + maxw *(m_selectedKeyframe - cropStart().frames(m_fps)) - 3, br.bottom() - m_keyframes.value(m_selectedKeyframe) * maxh - 3, 12, 12);
+    update(br.x() + maxw *(m_selectedKeyframe - cropStart().frames(m_fps)) - 3, br.bottom() - (m_keyframes.value(m_selectedKeyframe) - m_keyframeOffset) * maxh - 3, 12, 12);
     m_selectedKeyframe = m_editedKeyframe;
-    update(br.x() + maxw *(m_selectedKeyframe - cropStart().frames(m_fps)) - 3, br.bottom() - m_keyframes.value(m_selectedKeyframe) * maxh - 3, 12, 12);
+    update(br.x() + maxw *(m_selectedKeyframe - cropStart().frames(m_fps)) - 3, br.bottom() - (m_keyframes.value(m_selectedKeyframe) - m_keyframeOffset) * maxh - 3, 12, 12);
 }
 
 int AbstractClipItem::editedKeyFramePos() const
@@ -408,7 +409,7 @@ void AbstractClipItem::updateKeyFramePos(const GenTime pos, const double value)
 
     double newval = qMax(value, 0.0);
     newval = qMin(newval, 100.0);
-    newval = newval / m_keyframeFactor;
+    newval = newval / m_keyframeFactor + m_keyframeOffset;
     if (m_editedKeyframe != newpos)
         m_keyframes.remove(m_editedKeyframe);
     m_keyframes[newpos] = (int) newval;
@@ -430,7 +431,7 @@ int AbstractClipItem::addKeyFrame(const GenTime pos, const double value)
 {
     QRectF br = sceneBoundingRect();
     double maxh = 100.0 / br.height() / m_keyframeFactor;
-    int newval = (br.bottom() - value) * maxh;
+    int newval = (br.bottom() - value) * maxh + m_keyframeOffset;
     //kDebug() << "Rect: " << br << "/ SCENE: " << sceneBoundingRect() << ", VALUE: " << value << ", MAX: " << maxh << ", NEWVAL: " << newval;
     int newpos = (int) pos.frames(m_fps) ;
     m_keyframes[newpos] = newval;

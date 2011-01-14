@@ -101,7 +101,11 @@ protected:
         GenTime m_startPos;*/
     GenTime m_maxDuration;
     QMap <int, int> m_keyframes;
+    /** @brief Strech factor so that keyframes display on the full clip height. */
     double m_keyframeFactor;
+    /** @brief Offset factor so that keyframes minimum value are displaed at the bottom of the clip. */
+    double m_keyframeOffset;
+    /** @brief Default reset value for keyframe. */
     double m_keyframeDefault;
     /** The (keyframe) parameter that is visible and editable in timeline (on the clip) */
     int m_visibleParam;

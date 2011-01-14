@@ -123,11 +123,12 @@ void KeyframeEdit::addParameter(QDomElement e, int activeKeyframe)
     m_slidersLayout->addWidget(doubleparam, columnId, 0);
 
     QRadioButton *radio = new QRadioButton(this);
+    radio->setToolTip(i18n("Show %1 in timeline").arg(paramName));
     m_showButtons->addButton(radio, columnId);
     if (e.attribute("intimeline") == "1")
         radio->setChecked(true);
 
-    QVBoxLayout *radioLayout = new QVBoxLayout(this);
+    QVBoxLayout *radioLayout = new QVBoxLayout;
     radioLayout->addWidget(radio, 0, Qt::AlignTop);
     m_slidersLayout->addLayout(radioLayout, columnId, 1);
 
