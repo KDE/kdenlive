@@ -1,0 +1,17 @@
+<!DOCTYPE kpartgui>
+<effect tag="affine" id="affinerotate">
+	<name>Rotate (keyframable)</name>
+	<description>Rotate clip in any 3 directions</description>
+	<author>Charles Yates</author>
+	<parameter type="simplekeyframe" name="transition.rotate_x" max="1800" min="-1800" default="0" factor="10">
+		<name>Rotate X</name>
+	</parameter>
+	<parameter type="simplekeyframe" name="transition.rotate_y" max="1800" min="-1800" default="0" factor="10">
+		<name>Rotate Y</name>
+	</parameter>
+	<parameter type="simplekeyframe" name="transition.rotate_z" max="1800" min="-1800" default="0" factor="10">
+		<name>Rotate Z</name>
+	</parameter>
+        <parameter type="fixed" name="transition.keyed" max="1" min="1" default="1" />
+	<parameter type="fixed" name="transition.always_active" max="1" min="1" default="1" />
+</effect>

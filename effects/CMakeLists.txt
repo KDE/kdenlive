@@ -33,6 +33,7 @@ oldfilm.xml
 pan_zoom.xml
 obscure.xml
 rotation.xml
+rotation_keyframable.xml
 scratchlines.xml
 sepia.xml
 sox_bass.xml
