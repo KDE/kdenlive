@@ -48,6 +48,7 @@ Action=Sound
 
 [Event/ReadyToCapture]
 Name=Ready to capture
+Name[es]=Listo para capturar
 Sound=KDE-Sys-App-Positive.ogg
 Action=Sound
 

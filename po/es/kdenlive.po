@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-03 21:52+0200\n"
-"PO-Revision-Date: 2011-01-04 12:33-0200\n"
+"POT-Creation-Date: 2011-01-07 14:32+0200\n"
+"PO-Revision-Date: 2011-01-14 03:27-0200\n"
 "Last-Translator: Gabriel Gazzan <gabcorreo@gmail.com>\n"
 "Language-Team: Español <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -34,25 +34,25 @@ msgstr " Posición:"
 msgid " Selection duration:"
 msgstr " Duración de selección:"
 
-#: rc.cpp:1762
-#: rc.cpp:1768
-#: rc.cpp:3790
-#: rc.cpp:3796
+#: rc.cpp:2038
+#: rc.cpp:2044
+#: rc.cpp:4072
+#: rc.cpp:4078
 msgid " frames"
 msgstr " fotogramas"
 
 #: src/titlewidget.cpp:143
-#: rc.cpp:1603
-#: rc.cpp:2150
-#: rc.cpp:3094
-#: rc.cpp:3631
-#: rc.cpp:4178
-#: rc.cpp:5122
+#: rc.cpp:1879
+#: rc.cpp:2426
+#: rc.cpp:3370
+#: rc.cpp:3913
+#: rc.cpp:4460
+#: rc.cpp:5404
 #, no-c-format
 msgid "%"
 msgstr "%"
 
-#: rc.cpp:872
+#: rc.cpp:1134
 #, no-c-format
 msgid "% of picture have a delta"
 msgstr "% de la imagen tiene variaciones"
@@ -97,197 +97,199 @@ msgstr "%1 será reemplazado por %2"
 msgid "%1°"
 msgstr "%1°"
 
-#: rc.cpp:2575
-#: rc.cpp:4603
+#: rc.cpp:2851
+#: rc.cpp:4885
 msgid "(notr)"
 msgstr "(notr)"
 
-#: rc.cpp:3028
-#: rc.cpp:5056
+#: rc.cpp:3304
+#: rc.cpp:5338
 #, no-c-format
 msgid "(notranslate) % display"
 msgstr "(notranslate) % pantalla"
 
 #: src/titlewidget.cpp:1356
-#: rc.cpp:1618
-#: rc.cpp:3646
+#: rc.cpp:1894
+#: rc.cpp:3928
 msgid "+X"
 msgstr "+X"
 
 #: src/titlewidget.cpp:1381
-#: rc.cpp:1621
-#: rc.cpp:3649
+#: rc.cpp:1897
+#: rc.cpp:3931
 msgid "+Y"
 msgstr "+Y"
 
-#: rc.cpp:1123
-#: rc.cpp:1126
-#: rc.cpp:1467
-#: rc.cpp:1470
-#: rc.cpp:1506
-#: rc.cpp:1524
-#: rc.cpp:1527
-#: rc.cpp:1530
-#: rc.cpp:1536
-#: rc.cpp:1542
-#: rc.cpp:1660
-#: rc.cpp:1663
-#: rc.cpp:1669
-#: rc.cpp:1672
-#: rc.cpp:1675
-#: rc.cpp:1678
-#: rc.cpp:1681
-#: rc.cpp:1726
-#: rc.cpp:1729
-#: rc.cpp:1732
-#: rc.cpp:1735
-#: rc.cpp:1738
-#: rc.cpp:1741
-#: rc.cpp:1816
-#: rc.cpp:1819
-#: rc.cpp:1822
-#: rc.cpp:1825
-#: rc.cpp:1828
-#: rc.cpp:2156
-#: rc.cpp:2159
-#: rc.cpp:2162
-#: rc.cpp:2165
-#: rc.cpp:2168
-#: rc.cpp:2171
-#: rc.cpp:2189
-#: rc.cpp:2192
-#: rc.cpp:2198
-#: rc.cpp:2204
-#: rc.cpp:2210
-#: rc.cpp:2235
-#: rc.cpp:2238
-#: rc.cpp:2247
-#: rc.cpp:2250
-#: rc.cpp:2374
-#: rc.cpp:2407
-#: rc.cpp:2461
-#: rc.cpp:2509
-#: rc.cpp:2512
-#: rc.cpp:2515
-#: rc.cpp:2518
-#: rc.cpp:2848
-#: rc.cpp:2854
-#: rc.cpp:2860
-#: rc.cpp:2866
-#: rc.cpp:2875
-#: rc.cpp:2929
-#: rc.cpp:2935
-#: rc.cpp:3042
-#: rc.cpp:3045
-#: rc.cpp:3048
-#: rc.cpp:3051
-#: rc.cpp:3054
-#: rc.cpp:3057
-#: rc.cpp:3109
-#: rc.cpp:3112
-#: rc.cpp:3115
-#: rc.cpp:3118
-#: rc.cpp:3121
+#: rc.cpp:1393
+#: rc.cpp:1396
+#: rc.cpp:1737
+#: rc.cpp:1740
+#: rc.cpp:1776
+#: rc.cpp:1794
+#: rc.cpp:1797
+#: rc.cpp:1800
+#: rc.cpp:1806
+#: rc.cpp:1812
+#: rc.cpp:1818
+#: rc.cpp:1936
+#: rc.cpp:1939
+#: rc.cpp:1945
+#: rc.cpp:1948
+#: rc.cpp:1951
+#: rc.cpp:1954
+#: rc.cpp:1957
+#: rc.cpp:2002
+#: rc.cpp:2005
+#: rc.cpp:2008
+#: rc.cpp:2011
+#: rc.cpp:2014
+#: rc.cpp:2017
+#: rc.cpp:2092
+#: rc.cpp:2095
+#: rc.cpp:2098
+#: rc.cpp:2101
+#: rc.cpp:2104
+#: rc.cpp:2432
+#: rc.cpp:2435
+#: rc.cpp:2438
+#: rc.cpp:2441
+#: rc.cpp:2444
+#: rc.cpp:2447
+#: rc.cpp:2465
+#: rc.cpp:2468
+#: rc.cpp:2474
+#: rc.cpp:2480
+#: rc.cpp:2486
+#: rc.cpp:2511
+#: rc.cpp:2514
+#: rc.cpp:2523
+#: rc.cpp:2526
+#: rc.cpp:2650
+#: rc.cpp:2683
+#: rc.cpp:2737
+#: rc.cpp:2785
+#: rc.cpp:2788
+#: rc.cpp:2791
+#: rc.cpp:2794
 #: rc.cpp:3124
-#: rc.cpp:3127
 #: rc.cpp:3130
-#: rc.cpp:3133
 #: rc.cpp:3136
+#: rc.cpp:3142
 #: rc.cpp:3151
-#: rc.cpp:3154
-#: rc.cpp:3495
-#: rc.cpp:3498
-#: rc.cpp:3534
-#: rc.cpp:3552
-#: rc.cpp:3555
-#: rc.cpp:3558
-#: rc.cpp:3564
-#: rc.cpp:3570
-#: rc.cpp:3688
-#: rc.cpp:3691
-#: rc.cpp:3697
-#: rc.cpp:3700
-#: rc.cpp:3703
-#: rc.cpp:3706
-#: rc.cpp:3709
-#: rc.cpp:3754
-#: rc.cpp:3757
-#: rc.cpp:3760
-#: rc.cpp:3763
-#: rc.cpp:3766
-#: rc.cpp:3769
-#: rc.cpp:3844
-#: rc.cpp:3847
-#: rc.cpp:3850
-#: rc.cpp:3853
-#: rc.cpp:3856
-#: rc.cpp:4184
-#: rc.cpp:4187
-#: rc.cpp:4190
-#: rc.cpp:4193
-#: rc.cpp:4196
-#: rc.cpp:4199
-#: rc.cpp:4217
-#: rc.cpp:4220
-#: rc.cpp:4226
-#: rc.cpp:4232
-#: rc.cpp:4238
-#: rc.cpp:4263
-#: rc.cpp:4266
-#: rc.cpp:4275
-#: rc.cpp:4278
-#: rc.cpp:4402
-#: rc.cpp:4435
-#: rc.cpp:4489
-#: rc.cpp:4537
-#: rc.cpp:4540
-#: rc.cpp:4543
-#: rc.cpp:4546
-#: rc.cpp:4876
-#: rc.cpp:4882
-#: rc.cpp:4888
-#: rc.cpp:4894
-#: rc.cpp:4903
-#: rc.cpp:4957
-#: rc.cpp:4963
-#: rc.cpp:5070
-#: rc.cpp:5073
-#: rc.cpp:5076
-#: rc.cpp:5079
-#: rc.cpp:5082
-#: rc.cpp:5085
-#: rc.cpp:5137
-#: rc.cpp:5140
-#: rc.cpp:5143
-#: rc.cpp:5146
-#: rc.cpp:5149
-#: rc.cpp:5152
-#: rc.cpp:5155
+#: rc.cpp:3205
+#: rc.cpp:3211
+#: rc.cpp:3318
+#: rc.cpp:3321
+#: rc.cpp:3324
+#: rc.cpp:3327
+#: rc.cpp:3330
+#: rc.cpp:3333
+#: rc.cpp:3385
+#: rc.cpp:3388
+#: rc.cpp:3391
+#: rc.cpp:3394
+#: rc.cpp:3397
+#: rc.cpp:3400
+#: rc.cpp:3403
+#: rc.cpp:3406
+#: rc.cpp:3409
+#: rc.cpp:3412
+#: rc.cpp:3427
+#: rc.cpp:3430
+#: rc.cpp:3771
+#: rc.cpp:3774
+#: rc.cpp:3810
+#: rc.cpp:3828
+#: rc.cpp:3831
+#: rc.cpp:3834
+#: rc.cpp:3840
+#: rc.cpp:3846
+#: rc.cpp:3852
+#: rc.cpp:3970
+#: rc.cpp:3973
+#: rc.cpp:3979
+#: rc.cpp:3982
+#: rc.cpp:3985
+#: rc.cpp:3988
+#: rc.cpp:3991
+#: rc.cpp:4036
+#: rc.cpp:4039
+#: rc.cpp:4042
+#: rc.cpp:4045
+#: rc.cpp:4048
+#: rc.cpp:4051
+#: rc.cpp:4126
+#: rc.cpp:4129
+#: rc.cpp:4132
+#: rc.cpp:4135
+#: rc.cpp:4138
+#: rc.cpp:4466
+#: rc.cpp:4469
+#: rc.cpp:4472
+#: rc.cpp:4475
+#: rc.cpp:4478
+#: rc.cpp:4481
+#: rc.cpp:4499
+#: rc.cpp:4502
+#: rc.cpp:4508
+#: rc.cpp:4514
+#: rc.cpp:4520
+#: rc.cpp:4545
+#: rc.cpp:4548
+#: rc.cpp:4557
+#: rc.cpp:4560
+#: rc.cpp:4684
+#: rc.cpp:4717
+#: rc.cpp:4771
+#: rc.cpp:4819
+#: rc.cpp:4822
+#: rc.cpp:4825
+#: rc.cpp:4828
 #: rc.cpp:5158
-#: rc.cpp:5161
 #: rc.cpp:5164
+#: rc.cpp:5170
+#: rc.cpp:5176
+#: rc.cpp:5185
+#: rc.cpp:5239
+#: rc.cpp:5245
+#: rc.cpp:5352
+#: rc.cpp:5355
+#: rc.cpp:5358
+#: rc.cpp:5361
+#: rc.cpp:5364
+#: rc.cpp:5367
+#: rc.cpp:5419
+#: rc.cpp:5422
+#: rc.cpp:5425
+#: rc.cpp:5428
+#: rc.cpp:5431
+#: rc.cpp:5434
+#: rc.cpp:5437
+#: rc.cpp:5440
+#: rc.cpp:5443
+#: rc.cpp:5446
 msgid "..."
 msgstr "..."
 
-#: rc.cpp:1156
-#: rc.cpp:1162
-#: rc.cpp:1168
-#: rc.cpp:3184
-#: rc.cpp:3190
-#: rc.cpp:3196
+#: rc.cpp:1426
+#: rc.cpp:1432
+#: rc.cpp:1438
+#: rc.cpp:3460
+#: rc.cpp:3466
+#: rc.cpp:3472
 msgid "/"
 msgstr "/"
 
-#: rc.cpp:1220
-#: rc.cpp:1269
-#: rc.cpp:1278
-#: rc.cpp:1356
-#: rc.cpp:2497
-#: rc.cpp:3248
-#: rc.cpp:3297
-#: rc.cpp:3306
-#: rc.cpp:3384
-#: rc.cpp:4525
+#: rc.cpp:1490
+#: rc.cpp:1539
+#: rc.cpp:1548
+#: rc.cpp:1626
+#: rc.cpp:2773
+#: rc.cpp:3524
+#: rc.cpp:3573
+#: rc.cpp:3582
+#: rc.cpp:3660
+#: rc.cpp:4807
 msgid "1"
 msgstr "1"
 
@@ -300,168 +302,172 @@ msgid_plural "%1 images found"
 msgstr[0] "1 imagen encontrada"
 msgstr[1] "%1 imágenes encontradas"
 
-#: rc.cpp:1791
-#: rc.cpp:3819
+#: rc.cpp:2067
+#: rc.cpp:4101
 #, no-c-format
 msgid "100%"
 msgstr "100%"
 
-#: rc.cpp:749
+#: rc.cpp:1011
 msgid "10000Hz"
 msgstr "10.000 Hz"
 
-#: rc.cpp:725
+#: rc.cpp:987
 msgid "100Hz"
 msgstr "100 Hz"
 
-#: rc.cpp:1954
-#: rc.cpp:3982
+#: rc.cpp:2230
+#: rc.cpp:4264
 msgid "11250"
 msgstr "11.250"
 
-#: rc.cpp:739
+#: rc.cpp:1001
 msgid "1250Hz"
 msgstr "1.250 Hz"
 
-#: rc.cpp:719
+#: rc.cpp:981
 msgid "15 Band Equalizer"
 msgstr "Ecualizador de 15 bandas"
 
-#: rc.cpp:727
+#: rc.cpp:989
 msgid "156Hz"
 msgstr "156 Hz"
 
-#: rc.cpp:741
+#: rc.cpp:1003
 msgid "1750Hz"
 msgstr "1.750 Hz"
 
-#: rc.cpp:1272
-#: rc.cpp:1281
-#: rc.cpp:1359
-#: rc.cpp:2500
-#: rc.cpp:3300
-#: rc.cpp:3309
-#: rc.cpp:3387
-#: rc.cpp:4528
+#: rc.cpp:1542
+#: rc.cpp:1551
+#: rc.cpp:1629
+#: rc.cpp:2776
+#: rc.cpp:3576
+#: rc.cpp:3585
+#: rc.cpp:3663
+#: rc.cpp:4810
 msgid "2"
 msgstr "2"
 
-#: rc.cpp:1795
-#: rc.cpp:3823
+#: rc.cpp:2071
+#: rc.cpp:4105
 #, no-c-format
 msgid "200%"
 msgstr "200%"
 
-#: rc.cpp:751
+#: rc.cpp:1013
 msgid "20000Hz"
 msgstr "20.000 Hz"
 
-#: rc.cpp:729
+#: rc.cpp:991
 msgid "220Hz"
 msgstr "220 Hz"
 
-#: rc.cpp:1951
-#: rc.cpp:3979
+#: rc.cpp:2227
+#: rc.cpp:4261
 msgid "22500"
 msgstr "22.500"
 
-#: rc.cpp:2286
-#: rc.cpp:2542
-#: rc.cpp:4314
-#: rc.cpp:4570
+#: rc.cpp:2562
+#: rc.cpp:2818
+#: rc.cpp:4596
+#: rc.cpp:4852
 msgid "25/1"
 msgstr "25/1"
 
-#: rc.cpp:743
+#: rc.cpp:1005
 msgid "2500Hz"
 msgstr "2.500 Hz"
 
-#: rc.cpp:493
-#: rc.cpp:539
+#: rc.cpp:705
+#: rc.cpp:753
 msgid "256 scale"
 msgstr "Escala 256"
 
-#: rc.cpp:501
+#: rc.cpp:713
 msgid "2D video oscilloscope"
 msgstr "Osciloscopio de video 2D"
 
-#: rc.cpp:2503
-#: rc.cpp:4531
+#: rc.cpp:2779
+#: rc.cpp:4813
 msgid "3"
 msgstr "3"
 
-#: rc.cpp:647
+#: rc.cpp:901
 msgid "3 point balance"
 msgstr "Balance de 3 puntos"
 
-#: rc.cpp:731
+#: rc.cpp:993
 msgid "311Hz"
 msgstr "311 Hz"
 
-#: rc.cpp:1948
-#: rc.cpp:3976
+#: rc.cpp:2224
+#: rc.cpp:4258
 msgid "32000"
 msgstr "32.000"
 
-#: rc.cpp:745
+#: rc.cpp:1007
 msgid "3500Hz"
 msgstr "3.500 Hz"
 
-#: rc.cpp:2506
-#: rc.cpp:4534
+#: rc.cpp:170
+msgid "3dflippo"
+msgstr "3dflippo"
+
+#: rc.cpp:2782
+#: rc.cpp:4816
 msgid "4"
 msgstr "4"
 
-#: rc.cpp:2298
-#: rc.cpp:2554
-#: rc.cpp:4326
-#: rc.cpp:4582
+#: rc.cpp:2574
+#: rc.cpp:2830
+#: rc.cpp:4608
+#: rc.cpp:4864
 msgid "4/3"
 msgstr "4/3"
 
-#: rc.cpp:1945
-#: rc.cpp:3973
+#: rc.cpp:2221
+#: rc.cpp:4255
 msgid "41000"
 msgstr "41.000"
 
-#: rc.cpp:733
+#: rc.cpp:995
 msgid "440Hz"
 msgstr "440 Hz"
 
-#: rc.cpp:1942
-#: rc.cpp:3970
+#: rc.cpp:2218
+#: rc.cpp:4252
 msgid "48000"
 msgstr "48.000"
 
-#: rc.cpp:1787
-#: rc.cpp:3815
+#: rc.cpp:2063
+#: rc.cpp:4097
 #, no-c-format
 msgid "50%"
 msgstr "50%"
 
-#: rc.cpp:747
+#: rc.cpp:1009
 msgid "5000Hz"
 msgstr "5.000 Hz"
 
-#: rc.cpp:723
+#: rc.cpp:985
 msgid "50Hz"
 msgstr "50 Hz"
 
-#: rc.cpp:2292
-#: rc.cpp:2548
-#: rc.cpp:4320
-#: rc.cpp:4576
+#: rc.cpp:2568
+#: rc.cpp:2824
+#: rc.cpp:4602
+#: rc.cpp:4858
 msgid "59/54"
 msgstr "59/54"
 
-#: rc.cpp:735
+#: rc.cpp:997
 msgid "622Hz"
 msgstr "622 Hz"
 
-#: rc.cpp:2280
-#: rc.cpp:2536
-#: rc.cpp:4308
-#: rc.cpp:4564
+#: rc.cpp:2556
+#: rc.cpp:2812
+#: rc.cpp:4590
+#: rc.cpp:4846
 msgid "720x576"
 msgstr "720 x 576"
 
@@ -469,57 +475,49 @@ msgstr "720 x 576"
 msgid "75% box"
 msgstr "Marco en 75%"
 
-#: rc.cpp:737
+#: rc.cpp:999
 msgid "880Hz"
 msgstr "880 Hz"
 
-#: rc.cpp:1254
-#: rc.cpp:1299
-#: rc.cpp:1308
-#: rc.cpp:1386
-#: rc.cpp:1711
-#: rc.cpp:2686
-#: rc.cpp:2692
-#: rc.cpp:2698
-#: rc.cpp:2704
-#: rc.cpp:2779
-#: rc.cpp:2788
-#: rc.cpp:2884
-#: rc.cpp:3282
-#: rc.cpp:3327
-#: rc.cpp:3336
-#: rc.cpp:3414
-#: rc.cpp:3739
-#: rc.cpp:4714
-#: rc.cpp:4720
-#: rc.cpp:4726
-#: rc.cpp:4732
-#: rc.cpp:4807
-#: rc.cpp:4816
-#: rc.cpp:4912
+#: rc.cpp:1524
+#: rc.cpp:1569
+#: rc.cpp:1578
+#: rc.cpp:1656
+#: rc.cpp:1987
+#: rc.cpp:2962
+#: rc.cpp:2968
+#: rc.cpp:2974
+#: rc.cpp:2980
+#: rc.cpp:3055
+#: rc.cpp:3064
+#: rc.cpp:3160
+#: rc.cpp:3558
+#: rc.cpp:3603
+#: rc.cpp:3612
+#: rc.cpp:3690
+#: rc.cpp:4021
+#: rc.cpp:4996
+#: rc.cpp:5002
+#: rc.cpp:5008
+#: rc.cpp:5014
+#: rc.cpp:5089
+#: rc.cpp:5098
+#: rc.cpp:5194
 msgid "99:99:99:99; "
 msgstr "99:99:99:99; "
 
 #: src/customtrackview.cpp:601
-#: rc.cpp:1395
-#: rc.cpp:3423
+#: rc.cpp:1665
+#: rc.cpp:3699
 msgid ":"
 msgstr ":"
 
-#: rc.cpp:2707
-#: rc.cpp:4735
+#: rc.cpp:2983
+#: rc.cpp:5017
 msgid ":::"
 msgstr ":::"
 
-#: rc.cpp:440
-msgid ""
-"<![CDATA[Basic opacity for a light source.<br/>\n"
-"            For slowly moving light source try to use a lower opacity value to obtain smoother results.]]>"
-msgstr ""
-"<![CDATA[Opacidad de la fuente lumínica.<br/>\n"
-"            Al mover lentamente una fuente lumínica, usar un valor bajo de opacidad para obtener resultados más suaves.]]>"
-
-#: rc.cpp:628
+#: rc.cpp:872
 msgid ""
 "<![CDATA[Changes the Gamma value for the selected channel. Black and white pixel values will not be affected, but everything between.<br/>\n"
 "                Mathematically, what happens is an exponentiation of the pixel brightness on <code>[0,1]</code> by the gamma value.]]>"
@@ -527,7 +525,7 @@ msgstr ""
 "<![CDATA[Cambia el valor de gama para el canal seleccionado. Los extremos claros y oscuros no serán afectados, sino los tonos medios.<br/>\n"
 "                Lo que sucede, desde el punto de vista matemático, es la elevación del brillo del pixel en el intervalo <code>[0,1]</code> al valor de gama.]]>"
 
-#: rc.cpp:607
+#: rc.cpp:851
 msgid ""
 "<![CDATA[Changing the slope means multiplying the pixel value with a constant value. Black pixels will remain black, whileas brighter ones will be changed.<br/>\n"
 "                All effects can be observed well when applied on a greyscale gradient and looking at the RGB Parade monitor.]]>"
@@ -535,45 +533,57 @@ msgstr ""
 "<![CDATA[Cambiar la pendiente equivale a multiplicar el valor del pixel por un número constante. Los píxeles negros permanecerán negros, mientras los más claros cambiarán.<br/>\n"
 "                Su efecto puede ser visto al aplicarlo a un gradiente de grises y observar el monitor de Presentación RGB.]]>"
 
-#: rc.cpp:454
-msgid ""
-"<![CDATA[Determines how bright (<code>R+G+B</code>) a light source needs to be in order to be recognized as light source.<br/>\n"
-"            Increasing this threshold requires brighter light sources (i.e. more white or less color, respectively) but prevents some «false alarms» where semi-bright parts, e.g. hands where colors can change quite a lot compared to the background, are incorrectly recognized as light source.]]>"
-msgstr ""
-"<![CDATA[Determina qué tan intensa (<code>R+G+B</code>) tiene que ser una fuente lumínica para ser reconocida como tal.<br/>\n"
-"            Al aumentar este umbral se requerirán luces más intensas (más blancas o menos color, respectivamente) pero esto prevendrá algunos «falsos positivos» en donde partes semi-iluminadas (p.ej.: manos cuyos colores varíen mucho en comparación al fondo) puedan ser erróneamente reconocidas como fuentes lumínicas.]]>"
-
-#: rc.cpp:435
+#: rc.cpp:615
 msgid ""
 "<![CDATA[Determines how the effect tries to adapt to background changes. <br/>\n"
-"                If the background does not change, then try to use 0 (requires the first frame to represent background only, without your light sources).]]>"
+"            The Light Graffiti remembers the first frame of the clip it is applied to, so the clip should <em>always</em> start with the painter outside of the video. If the background constantly changes, e.g. on a street, try to set α > 0 to calculate an average background image.]]>"
 msgstr ""
 "<![CDATA[Determina cómo el efecto intenta adaptarse a los cambios en el fondo. <br/>\n"
-"                Si el fondo es estático, utilizar 0 (requiere que en el primer fotograma se muestre sólo el fondo, sin las fuentes lumínicas).]]>"
+"            Graffiti de luz recuerda el primer fotograma del clip al cual es aplicado, de forma que el clip <em>siempre</em> debería comenzar con el pintor fuera de pantalla. Si el fondo cambiara constantemente, p.ej.: en una calle, establecer un valor α > 0 para calcular una imagen de fondo promedio.]]>"
 
-#: rc.cpp:459
+#: rc.cpp:592
 msgid ""
-"<![CDATA[Similar to the brightness threshold, but for the brightness difference (<code>max(dR, dG, dB)</code>) <em>relative to the calculated background.</em><br/>\n"
-"            Increasing this threshold makes it harder for light sources to be accepted on bright backgrounds, but decreases the danger of noise counting as light source.]]>"
+"<![CDATA[How bright (<code>R+G+B</code>) does a pixel need to be in order to be recognized as a light source?<br/>\n"
+"            Increasing this threshold requires brighter light sources (i.e. more white or less color, respectively) but prevents some «false alarms» where semi-bright parts, e.g. hands where colors can change quite a lot compared to the background, are incorrectly recognized as light source.]]>"
 msgstr ""
-"<![CDATA[Similar al umbral de brillo, pero para la diferencia de brillo (<code>max(dR, dG, dB)</code>) <em>relativa al fondo calculado.</em><br/>\n"
-"            Aumentar este umbral hace que sea más difícil que una fuente lumínica sea aceptada sobre un fondo claro, pero disminuye el riesgo de que se tome al ruido como fuente lumínica.]]>"
+"<![CDATA[Determina qué tan intenso (<code>R+G+B</code>) tiene que ser un pixel para ser reconocido como una fuente lumínica.<br/>\n"
+"            Al aumentar este umbral se requerirán fuentes lumínicas más intensas, pero esto prevendrá algunos «falsos positivos» en donde partes semi-iluminadas (p.ej.: manos cuyos colores varíen mucho en comparación al fondo) puedan ser erróneamente reconocidas como fuentes lumínicas.]]>"
 
-#: rc.cpp:445
+#: rc.cpp:597
 msgid ""
-"<![CDATA[Smoothing of the light map according to the light source. <br/>\n"
-"            A value of 1 results in absolutely smooth transitions from background to light source, but might result in too weak lights. The maximum value gives sharper edges and stronger lights.]]>"
+"<![CDATA[How much does the strongest color channel of a pixel have to change, compared to the background image (<code>max(dR, dG, dB)</code>), in order to be recognized as light source? <br/>\n"
+"            Increasing this threshold makes it harder for light sources to be accepted on bright backgrounds, but decreases the danger of noise or generally bright spots counting as light source.]]>"
 msgstr ""
-"<![CDATA[Suavizado del mapa de luz con respecto a la fuente lumínica. <br/>\n"
-"            Un valor de 1 provoca transiciones absolutamente suaves entre el fondo y la fuente lumínica, pero puede atenuar mucho las luces. El valor máximo genera bordes más definidos y luces más potentes.]]>"
+"<![CDATA[Determina cuánto tiene que cambiar el canal de color más intenso de un pixel, comparado con el fondo (<code>max(dR, dG, dB)</code>) para ser reconocido como una fuente lumínica. <br/>\n"
+"            Aumentar este umbral hace que sea más difícil que una fuente lumínica sea aceptada sobre un fondo claro, pero disminuye el riesgo de que se tome al ruido o partes claras de la imagen como fuentes lumínicas.]]>"
 
-#: rc.cpp:464
+#: rc.cpp:602
 msgid ""
-"<![CDATA[Threshold for the differences summed up (<code>dR + dG + dB</code>).<br/>\n"
+"<![CDATA[How much does the sum of all color channels <em>relative to the background image</em> (<code>dR + dG + dB</code>) have to change until a pixel is recognized as a light source?.<br/>\n"
 "            Raising this value might, in some cases, avoid that some light objects lit by the light source are added to the light mask.]]>"
 msgstr ""
-"<![CDATA[Umbral para la suma de las diferencias (<code>dR + dG + dB</code>).<br/>\n"
+"<![CDATA[Determina cuánto tiene que cambiar la suma de todos los canales de color <em>relativa a la imagen de fondo</em> (<code>dR + dG + dB</code>) para que un pixel sea reconocido como una fuente lumínica.<br/>\n"
 "            Aumentar este valor puede, en ocasiones, evitar que algunos objetos iluminados por una fuente lumínica sean agregados a la máscara de luz.]]>"
+
+#: rc.cpp:767
+msgid "<![CDATA[Influence of mean px value, > 32 = 0]]>"
+msgstr "<![CDATA[Influencia del valor promedio de un pixel, > 32 = 0]]>"
+
+#: rc.cpp:587
+msgid ""
+"<![CDATA[Light sensitivity.<br/>\n"
+"            For slowly moving light source try to use a lower sensitivity to obtain a better exposure.]]>"
+msgstr ""
+"<![CDATA[Sensibilidad de la luz.<br/>\n"
+"            Al mover lentamente la fuente lumínica, usar una sensibilidad baja para obtener una mejor exposición.]]>"
+
+#: rc.cpp:620
+msgid ""
+"<![CDATA[The stats switches allow easy and accurate adjustment of the threshold parameters.<br/>\n"
+"            Example: To adjust the brightness threshold, check this box and adjust the threshold until the whole light source is highlighted. Repeat the same with the other parameters. Only parts that are highlighted in <em>all</em> thresholds will count as light source.]]>"
+msgstr ""
+"<![CDATA[Las opciones de estadísticas permiten un ajuste sencillo y preciso de los umbrales.<br/>\n"
+"            Por ejemplo: Para ajustar el umbral de brillo, tildar la casilla correspondiente y ajustar el umbral hasta que la fuente lumínica esté resaltada por completo. Repetir los mismo con los otros parámetros. Sólo las partes que se vean resaltadas en <em>todos</em> los umbrales se tomarán como fuentes lumínicas.]]>"
 
 #: src/unicodedialog.cpp:134
 msgid "<p><strong>&laquo;</strong> (u+00ab, <code>&amp;lfquo;</code> in HTML) and <strong>&raquo;</strong> (u+00bb, <code>&amp;rfquo;</code> in HTML) are called Guillemets or angle quotes. Usage in different countries: France (with non-breaking Space 0x00a0), Switzerland, Germany, Finland and Sweden.</p><p><strong>&lsaquo;</strong> and <strong>&rsaquo;</strong> (U+2039/203a, <code>&amp;lsaquo;/&amp;rsaquo;</code>) are their single quote equivalents.</p><p>See <a href=\"http://en.wikipedia.org/wiki/Guillemets\">Wikipedia:Guillemets</a></p>"
@@ -619,16 +629,16 @@ msgstr "<strong>Los programas %1 o %2 son necesarios para ejecutar el asistente 
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>Falló el procesamiento de %1</strong><br />"
 
-#: rc.cpp:1461
-#: rc.cpp:1693
-#: rc.cpp:2122
-#: rc.cpp:2917
-#: rc.cpp:2998
-#: rc.cpp:3489
-#: rc.cpp:3721
-#: rc.cpp:4150
-#: rc.cpp:4945
-#: rc.cpp:5026
+#: rc.cpp:1731
+#: rc.cpp:1969
+#: rc.cpp:2398
+#: rc.cpp:3193
+#: rc.cpp:3274
+#: rc.cpp:3765
+#: rc.cpp:4003
+#: rc.cpp:4432
+#: rc.cpp:5227
+#: rc.cpp:5308
 msgid "A"
 msgstr "A"
 
@@ -650,8 +660,8 @@ msgid "A profile with same name already exists in MLT's default profiles, please
 msgstr "Ya existe un perfil predefinido de MLT con el mismo nombre. Por favor, escoger una nueva descripción para el perfil personalizado."
 
 #: src/kdenlivesettingsdialog.cpp:299
-#: rc.cpp:1957
-#: rc.cpp:3985
+#: rc.cpp:2233
+#: rc.cpp:4267
 msgid "ALSA"
 msgstr "ALSA"
 
@@ -660,23 +670,23 @@ msgid "ARTS daemon"
 msgstr "Demonio ARTS"
 
 #: src/cliptranscode.cpp:127
-#: rc.cpp:2629
-#: rc.cpp:4657
+#: rc.cpp:2905
+#: rc.cpp:4939
 msgid "Abort"
 msgstr "Cancelar"
 
 #: src/renderwidget.cpp:1570
-#: rc.cpp:2452
-#: rc.cpp:4480
+#: rc.cpp:2728
+#: rc.cpp:4762
 msgid "Abort Job"
 msgstr "Cancelar tarea"
 
-#: rc.cpp:288
+#: rc.cpp:370
 msgid "Action"
 msgstr "Acción"
 
-#: rc.cpp:2959
-#: rc.cpp:4987
+#: rc.cpp:3235
+#: rc.cpp:5269
 msgid "Activate crash recovery (auto save)"
 msgstr "Activar recuperación de errores (auto-guardado)"
 
@@ -686,7 +696,7 @@ msgstr "Activar recuperación de errores (auto-guardado)"
 msgid "Add %1"
 msgstr "Agregar %1"
 
-#: rc.cpp:5224
+#: rc.cpp:5506
 msgid "Add Audio Effect"
 msgstr "Agregar efecto de audio"
 
@@ -702,7 +712,7 @@ msgstr "Agregar clip a la selección"
 msgid "Add Color Clip"
 msgstr "Agregar clip de color"
 
-#: rc.cpp:5227
+#: rc.cpp:5509
 msgid "Add Custom Effect"
 msgstr "Agregar efecto personalizado"
 
@@ -726,8 +736,8 @@ msgstr "Agregar marcador"
 msgid "Add Marker/Guide quickly"
 msgstr "Agregar marcador/guía rápidamente"
 
-#: rc.cpp:2896
-#: rc.cpp:4924
+#: rc.cpp:3172
+#: rc.cpp:5206
 msgid "Add Profile"
 msgstr "Agregar perfil"
 
@@ -764,7 +774,7 @@ msgstr "Agregar transición"
 msgid "Add Transition To Selection"
 msgstr "Agregar transición a la selección"
 
-#: rc.cpp:5221
+#: rc.cpp:5503
 msgid "Add Video Effect"
 msgstr "Agregar efecto de video"
 
@@ -773,8 +783,8 @@ msgstr "Agregar efecto de video"
 msgid "Add audio fade"
 msgstr "Agregar fundido de audio"
 
-#: rc.cpp:3004
-#: rc.cpp:5032
+#: rc.cpp:3280
+#: rc.cpp:5314
 msgid "Add chapter"
 msgstr "Agregar capítulo"
 
@@ -790,14 +800,18 @@ msgid "Add clip cut"
 msgstr "Agregar corte a clip"
 
 #: src/cliptranscode.cpp:36
-#: rc.cpp:1575
-#: rc.cpp:3603
+#: rc.cpp:1851
+#: rc.cpp:3885
 msgid "Add clip to project"
 msgid_plural "Add clips to project"
 msgstr[0] "Agregar clip al proyecto"
 msgstr[1] "Agregar clips al proyecto"
 
-#: rc.cpp:102
+#: rc.cpp:368
+msgid "Add constant,Change gamma,Multiply"
+msgstr "Agregar constante,Cambiar gama,Multiplicar"
+
+#: rc.cpp:108
 msgid "Add dust and specks to the video, as in old movies"
 msgstr "Agrega polvo y manchas al video, como en las películas antiguas"
 
@@ -818,8 +832,8 @@ msgstr "Agregar guía"
 msgid "Add keyframe"
 msgstr "Agregar fotograma clave"
 
-#: rc.cpp:2938
-#: rc.cpp:4966
+#: rc.cpp:3214
+#: rc.cpp:5248
 msgid "Add keyframes"
 msgstr "Agregar fotogramas clave"
 
@@ -828,8 +842,8 @@ msgstr "Agregar fotogramas clave"
 msgid "Add marker"
 msgstr "Agregar marcador"
 
-#: rc.cpp:1132
-#: rc.cpp:3160
+#: rc.cpp:1402
+#: rc.cpp:3436
 msgid "Add movie file"
 msgstr "Agregar archivo de película"
 
@@ -845,13 +859,13 @@ msgstr "Agregar nuevo efecto"
 msgid "Add new video file"
 msgstr "Agregar nuevo archivo de video"
 
-#: rc.cpp:1867
-#: rc.cpp:3895
+#: rc.cpp:2143
+#: rc.cpp:4177
 msgid "Add recording time to captured file name"
 msgstr "Agregar fecha de grabación al nombre del archivo capturado"
 
-#: rc.cpp:2253
-#: rc.cpp:4281
+#: rc.cpp:2529
+#: rc.cpp:4563
 msgid "Add space"
 msgstr "Agregar espacio"
 
@@ -860,8 +874,8 @@ msgstr "Agregar espacio"
 msgid "Add timeline clip"
 msgstr "Agregar clip de línea de tiempo"
 
-#: rc.cpp:2183
-#: rc.cpp:4211
+#: rc.cpp:2459
+#: rc.cpp:4493
 msgid "Add to project"
 msgstr "Agregar al proyecto"
 
@@ -883,8 +897,8 @@ msgstr "Agregar transición al clip"
 msgid "Adding clips"
 msgstr "Agregando clips"
 
-#: rc.cpp:2241
-#: rc.cpp:4269
+#: rc.cpp:2517
+#: rc.cpp:4551
 msgid "Additional Information"
 msgstr "Información adicional"
 
@@ -892,11 +906,15 @@ msgstr "Información adicional"
 msgid "Additional Settings"
 msgstr "Preferencias adicionales"
 
+#: rc.cpp:549
+msgid "Adds black borders at top and bottom for cinema look"
+msgstr "Agrega bordes negros arriba y abajo para una apariencia cinematográfica"
+
 #: src/mainwindow.cpp:1190
 msgid "Adjust Profile to Current Clip"
 msgstr "Ajustar perfil al clip actual"
 
-#: rc.cpp:1074
+#: rc.cpp:1344
 msgid "Adjust audio volume with keyframes"
 msgstr "Ajusta el volumen del audio (animable)"
 
@@ -904,15 +922,15 @@ msgstr "Ajusta el volumen del audio (animable)"
 msgid "Adjust clip length"
 msgstr "Ajusta la duración del clip"
 
-#: rc.cpp:411
+#: rc.cpp:557
 msgid "Adjust levels"
 msgstr "Ajusta los niveles"
 
-#: rc.cpp:888
+#: rc.cpp:1150
 msgid "Adjust size and position of clip"
 msgstr "Ajusta tamaño y posición del clip"
 
-#: rc.cpp:687
+#: rc.cpp:949
 msgid "Adjust the audio volume without keyframes"
 msgstr "Ajusta el volumen del audio (no animable)"
 
@@ -924,28 +942,28 @@ msgstr "Ajusta el balance izquierda/derecha"
 msgid "Adjust the left/right spread of a channel"
 msgstr "Ajusta la intensidad izquierda/derecha de un canal"
 
-#: rc.cpp:222
+#: rc.cpp:264
 msgid "Adjust the white balance / color temperature"
 msgstr "Ajusta el balance de blancos / temperatura de color"
 
-#: rc.cpp:1060
+#: rc.cpp:1330
 msgid "Adjustable Vignette"
 msgstr "Viñeta ajustable"
 
-#: rc.cpp:240
+#: rc.cpp:298
 msgid "Adjusts the brightness of a source image"
 msgstr "Ajusta el brillo de la imagen"
 
-#: rc.cpp:303
+#: rc.cpp:388
 msgid "Adjusts the contrast of a source image"
 msgstr "Ajusta el contraste de la imagen"
 
-#: rc.cpp:547
+#: rc.cpp:775
 msgid "Adjusts the saturation of a source image"
 msgstr "Ajusta la saturación de la imagen"
 
-#: rc.cpp:1362
-#: rc.cpp:3390
+#: rc.cpp:1632
+#: rc.cpp:3666
 msgid "Advanced"
 msgstr "Avanzado"
 
@@ -1005,8 +1023,8 @@ msgstr "Alineación a la izquierda"
 msgid "Align right"
 msgstr "Alineación a la derecha"
 
-#: rc.cpp:1801
-#: rc.cpp:3829
+#: rc.cpp:2077
+#: rc.cpp:4111
 msgid "All"
 msgstr "Todos"
 
@@ -1030,7 +1048,7 @@ msgstr "Permitir movimientos horizontales"
 msgid "Allow vertical moves"
 msgstr "Permitir movimientos verticales"
 
-#: rc.cpp:397
+#: rc.cpp:535
 msgid "Allows compensation of lens distortion"
 msgstr "Permite compensar la distorsión de la lente"
 
@@ -1039,54 +1057,58 @@ msgstr "Permite compensar la distorsión de la lente"
 msgid "Alpha Channel Operation"
 msgstr "Modo de operación del canal alfa"
 
-#: rc.cpp:679
+#: rc.cpp:941
 msgid "Alpha blending with zoomed and rotated images"
 msgstr "Mezcla por alfa con imágenes rotadas y escaladas"
 
-#: rc.cpp:292
+#: rc.cpp:374
 msgid "Alpha controlled"
 msgstr "Controlado por el alfa"
 
-#: rc.cpp:180
+#: rc.cpp:216
 msgid "Alpha gradient"
 msgstr "Gradiente alfa"
 
-#: rc.cpp:1106
+#: rc.cpp:1376
 msgid "Alpha manipulation"
 msgstr "Manipulación del canal alfa"
 
-#: rc.cpp:164
+#: rc.cpp:196
 msgid "Alpha operations"
 msgstr "Operaciones de canal alfa"
 
-#: rc.cpp:196
+#: rc.cpp:234
 msgid "Alpha shapes"
 msgstr "Figuras de alfa"
 
-#: rc.cpp:529
+#: rc.cpp:743
 msgid "Alpha trace"
 msgstr "Trazado alfa"
 
 #: src/renderwidget.cpp:857
 #: src/renderwidget.cpp:1685
 msgid "Already running"
-msgstr "Aún ejecutandose"
+msgstr "Ya se está ejecutando"
 
-#: rc.cpp:347
-#: rc.cpp:597
+#: rc.cpp:445
+#: rc.cpp:837
 msgid "Amount"
 msgstr "Cantidad"
 
-#: rc.cpp:383
+#: rc.cpp:354
+msgid "Amount of clusters"
+msgstr "Cantidad de agrupaciones"
+
+#: rc.cpp:521
 msgid "Amount of spatial filtering"
 msgstr "Cantidad de filtrado espacial"
 
-#: rc.cpp:387
+#: rc.cpp:525
 msgid "Amount of temporal filtering"
 msgstr "Cantidad de filtrado temporal"
 
-#: rc.cpp:367
-#: rc.cpp:1082
+#: rc.cpp:483
+#: rc.cpp:1352
 msgid "Amplitude"
 msgstr "Amplitud"
 
@@ -1098,32 +1120,32 @@ msgstr "Un editor de video de código abierto."
 msgid "Angle through the UV plane, with all possible Y values."
 msgstr "Ángulo a través del plano UV, con todos los valores Y posibles."
 
-#: rc.cpp:902
+#: rc.cpp:1164
 msgid "Animate Rotate X"
 msgstr "Animar Rotación X"
 
-#: rc.cpp:904
+#: rc.cpp:1166
 msgid "Animate Rotate Y"
 msgstr "Animar Rotación Y"
 
-#: rc.cpp:906
+#: rc.cpp:1168
 msgid "Animate Rotate Z"
 msgstr "Animar Rotación Z"
 
-#: rc.cpp:912
+#: rc.cpp:1174
 msgid "Animate Shear X"
 msgstr "Animar Inclinación X"
 
-#: rc.cpp:914
+#: rc.cpp:1176
 msgid "Animate Shear Y"
 msgstr "Animar Inclinación Y"
 
-#: rc.cpp:1323
-#: rc.cpp:1774
-#: rc.cpp:2806
-#: rc.cpp:3351
-#: rc.cpp:3802
-#: rc.cpp:4834
+#: rc.cpp:1593
+#: rc.cpp:2050
+#: rc.cpp:3082
+#: rc.cpp:3627
+#: rc.cpp:4084
+#: rc.cpp:5116
 msgid "Animation"
 msgstr "Animación"
 
@@ -1135,12 +1157,12 @@ msgstr "Aplica una transición estacionaria entre el fotograma actual y los sigu
 msgid "Ascii art library"
 msgstr "Biblioteca de arte Ascii"
 
-#: rc.cpp:2545
-#: rc.cpp:4573
+#: rc.cpp:2821
+#: rc.cpp:4855
 msgid "Aspect ratio:"
 msgstr "Proporción:"
 
-#: rc.cpp:359
+#: rc.cpp:465
 msgid "Aspect type"
 msgstr "Tipo de proporción:"
 
@@ -1151,21 +1173,21 @@ msgstr "Tipo de proporción:"
 #: src/tracksconfigdialog.cpp:112
 #: src/tracksconfigdialog.cpp:144
 #: src/tracksconfigdialog.cpp:178
-#: rc.cpp:1275
-#: rc.cpp:1807
-#: rc.cpp:1897
-#: rc.cpp:2319
-#: rc.cpp:2584
-#: rc.cpp:3303
-#: rc.cpp:3835
-#: rc.cpp:3925
-#: rc.cpp:4347
-#: rc.cpp:4612
+#: rc.cpp:1545
+#: rc.cpp:2083
+#: rc.cpp:2173
+#: rc.cpp:2595
+#: rc.cpp:2860
+#: rc.cpp:3579
+#: rc.cpp:4117
+#: rc.cpp:4207
+#: rc.cpp:4629
+#: rc.cpp:4894
 msgid "Audio"
 msgstr "Audio"
 
-#: rc.cpp:1233
-#: rc.cpp:3261
+#: rc.cpp:1503
+#: rc.cpp:3537
 msgid "Audio Codecs"
 msgstr "Compresores de audio"
 
@@ -1181,7 +1203,7 @@ msgstr "Sólo audio"
 msgid "Audio Signal"
 msgstr "Señal de audio"
 
-#: rc.cpp:16
+#: rc.cpp:18
 msgid "Audio Wave"
 msgstr "Onda de audio"
 
@@ -1190,8 +1212,8 @@ msgstr "Onda de audio"
 msgid "Audio and Video"
 msgstr "Audio y video"
 
-#: rc.cpp:1936
-#: rc.cpp:3964
+#: rc.cpp:2212
+#: rc.cpp:4246
 msgid "Audio channels"
 msgstr "Canales de audio"
 
@@ -1205,32 +1227,32 @@ msgid "Audio clips"
 msgstr "Clips de audio"
 
 #: src/clipproperties.cpp:197
-#: rc.cpp:1906
-#: rc.cpp:3934
+#: rc.cpp:2182
+#: rc.cpp:4216
 msgid "Audio codec"
 msgstr "Compresor de audio"
 
-#: rc.cpp:1094
+#: rc.cpp:1364
 msgid "Audio correction"
 msgstr "Corrección de audio"
 
-#: rc.cpp:1900
-#: rc.cpp:3928
+#: rc.cpp:2176
+#: rc.cpp:4210
 msgid "Audio device"
 msgstr "Dispositivo de audio"
 
-#: rc.cpp:1596
-#: rc.cpp:3624
+#: rc.cpp:1872
+#: rc.cpp:3906
 msgid "Audio device:"
 msgstr "Dispositivo de audio:"
 
-#: rc.cpp:1593
-#: rc.cpp:3621
+#: rc.cpp:1869
+#: rc.cpp:3903
 msgid "Audio driver:"
 msgstr "Controlador de audio:"
 
-#: rc.cpp:2101
-#: rc.cpp:4129
+#: rc.cpp:2377
+#: rc.cpp:4411
 msgid "Audio editing"
 msgstr "Edición de audio"
 
@@ -1240,13 +1262,13 @@ msgstr "Edición de audio"
 msgid "Audio fade duration: %1s"
 msgstr "Duración de fundido de audio: %1s"
 
-#: rc.cpp:1939
-#: rc.cpp:3967
+#: rc.cpp:2215
+#: rc.cpp:4249
 msgid "Audio frequency"
 msgstr "Frecuencia del audio"
 
-#: rc.cpp:1374
-#: rc.cpp:3402
+#: rc.cpp:1644
+#: rc.cpp:3678
 msgid "Audio index"
 msgstr "Índice de audio"
 
@@ -1255,15 +1277,15 @@ msgstr "Índice de audio"
 msgid "Audio only"
 msgstr "Sólo audio"
 
-#: rc.cpp:1419
-#: rc.cpp:3447
+#: rc.cpp:1689
+#: rc.cpp:3723
 msgid "Audio track"
 msgstr "Pista de audio"
 
-#: rc.cpp:2310
-#: rc.cpp:2563
-#: rc.cpp:4338
-#: rc.cpp:4591
+#: rc.cpp:2586
+#: rc.cpp:2839
+#: rc.cpp:4620
+#: rc.cpp:4873
 msgid "Audio tracks"
 msgstr "Pistas de audio"
 
@@ -1281,12 +1303,12 @@ msgid "Author:"
 msgstr "Autor:"
 
 #: src/transitionsettings.cpp:86
-#: rc.cpp:2389
-#: rc.cpp:4417
+#: rc.cpp:2665
+#: rc.cpp:4699
 msgid "Auto"
 msgstr "Auto"
 
-#: rc.cpp:20
+#: rc.cpp:22
 msgid "Auto Mask"
 msgstr "Auto máscara"
 
@@ -1294,8 +1316,8 @@ msgstr "Auto máscara"
 msgid "Auto Refresh"
 msgstr "Refrescar automáticamente"
 
-#: rc.cpp:2023
-#: rc.cpp:4051
+#: rc.cpp:2299
+#: rc.cpp:4333
 msgid "Auto add"
 msgstr "Agregar automáticamente"
 
@@ -1303,8 +1325,8 @@ msgstr "Agregar automáticamente"
 msgid "Auto-saved files exist. Do you want to recover them now?"
 msgstr "Existen archivos auto-guardados. ¿Recuperarlos ahora?"
 
-#: rc.cpp:2833
-#: rc.cpp:4861
+#: rc.cpp:3109
+#: rc.cpp:5143
 msgid "Autodetected capture devices"
 msgstr "Dispositivos de captura autodetectados"
 
@@ -1317,32 +1339,32 @@ msgstr "Automático"
 msgid "Automatic Transition"
 msgstr "Transición automática"
 
-#: rc.cpp:96
+#: rc.cpp:102
 msgid "Automatic center-crop"
 msgstr "Recorte y centrado automáticos"
 
-#: rc.cpp:2716
-#: rc.cpp:4744
+#: rc.cpp:2992
+#: rc.cpp:5026
 msgid "Automatically import image sequences"
 msgstr "Importar automáticamente secuencias de imágenes"
 
-#: rc.cpp:2602
-#: rc.cpp:4630
+#: rc.cpp:2878
+#: rc.cpp:4912
 msgid "Automatically split audio and video"
 msgstr "Separar automáticamente audio y video"
 
-#: rc.cpp:1864
-#: rc.cpp:3892
+#: rc.cpp:2140
+#: rc.cpp:4174
 msgid "Automatically start a new file on scene cut"
 msgstr "Comenzar automaticamente un nuevo archivo por cada corte de escena"
 
-#: rc.cpp:2593
-#: rc.cpp:4621
+#: rc.cpp:2869
+#: rc.cpp:4903
 msgid "Autoscroll while playing"
 msgstr "Desplazamiento automático durante la reproducción"
 
-#: rc.cpp:1224
-#: rc.cpp:3252
+#: rc.cpp:1494
+#: rc.cpp:3528
 msgid "Available Codecs (avformat)"
 msgstr "Compresores disponibles (avformat)"
 
@@ -1350,33 +1372,33 @@ msgstr "Compresores disponibles (avformat)"
 msgid "Avformat module (FFmpeg)"
 msgstr "Módulo avformat (FFmpeg)"
 
-#: rc.cpp:286
-#: rc.cpp:2053
-#: rc.cpp:4081
+#: rc.cpp:366
+#: rc.cpp:2329
+#: rc.cpp:4363
 msgid "B"
 msgstr "B"
 
-#: rc.cpp:521
+#: rc.cpp:735
 msgid "B trace"
 msgstr "Trazado B"
 
-#: rc.cpp:1440
-#: rc.cpp:3468
+#: rc.cpp:1710
+#: rc.cpp:3744
 msgid "Back to menu"
 msgstr "Volver al menú"
 
-#: rc.cpp:1443
-#: rc.cpp:1446
-#: rc.cpp:1771
-#: rc.cpp:2572
-#: rc.cpp:3471
-#: rc.cpp:3474
-#: rc.cpp:3799
-#: rc.cpp:4600
+#: rc.cpp:1713
+#: rc.cpp:1716
+#: rc.cpp:2047
+#: rc.cpp:2848
+#: rc.cpp:3747
+#: rc.cpp:3750
+#: rc.cpp:4081
+#: rc.cpp:4882
 msgid "Background"
 msgstr "Fondo"
 
-#: rc.cpp:448
+#: rc.cpp:609
 msgid "Background Weight"
 msgstr "Presencia del fondo"
 
@@ -1393,15 +1415,19 @@ msgstr "Opacidad del fondo"
 msgid "Balance"
 msgstr "Balance"
 
-#: rc.cpp:649
+#: rc.cpp:903
 msgid "Balances colors along with 3 points"
 msgstr "Balancea el color usando 3 puntos"
+
+#: rc.cpp:270
+msgid "Baltan"
+msgstr "Baltan"
 
 #: src/renderwidget.cpp:274
 msgid "Beginning"
 msgstr "Comienzo"
 
-#: rc.cpp:497
+#: rc.cpp:709
 msgid "Big window"
 msgstr "Ventana grande"
 
@@ -1409,8 +1435,8 @@ msgstr "Ventana grande"
 msgid "Bigger tracks"
 msgstr "Agrandar pistas"
 
-#: rc.cpp:1996
-#: rc.cpp:4024
+#: rc.cpp:2272
+#: rc.cpp:4306
 msgid "Bit rate"
 msgstr "Frecuencia de muestreo"
 
@@ -1424,31 +1450,31 @@ msgctxt "Font style"
 msgid "Black"
 msgstr "Negro"
 
-#: rc.cpp:651
+#: rc.cpp:905
 msgid "Black color"
 msgstr "Color negro"
 
-#: rc.cpp:421
+#: rc.cpp:569
 msgid "Black output"
 msgstr "Negro saliente"
 
-#: rc.cpp:2005
-#: rc.cpp:4033
+#: rc.cpp:2281
+#: rc.cpp:4315
 msgid "Blackmagic"
 msgstr "Blackmagic"
 
-#: rc.cpp:1843
-#: rc.cpp:2035
-#: rc.cpp:3871
-#: rc.cpp:4063
+#: rc.cpp:2119
+#: rc.cpp:2311
+#: rc.cpp:4153
+#: rc.cpp:4345
 msgid "Blackmagic card"
 msgstr "placa Blackmagic"
 
-#: rc.cpp:475
+#: rc.cpp:685
 msgid "Block Size X"
 msgstr "Tamaño X del bloque"
 
-#: rc.cpp:477
+#: rc.cpp:687
 msgid "Block Size Y"
 msgstr "Tamaño Y del bloque"
 
@@ -1457,24 +1483,29 @@ msgstr "Tamaño Y del bloque"
 msgid "Blue"
 msgstr "Azul"
 
-#: rc.cpp:76
+#: rc.cpp:82
 msgid "Blue Screen"
 msgstr "Recorte por croma"
 
+#: rc.cpp:1316
+msgid "Blue/Yellow axis"
+msgstr "Eje azul/amarillo"
+
 #: src/titlewidget.cpp:183
-#: rc.cpp:375
+#: rc.cpp:513
+#: rc.cpp:657
 msgid "Blur"
 msgstr "Desenfoque"
 
-#: rc.cpp:1100
+#: rc.cpp:1370
 msgid "Blur & hide"
 msgstr "Desenfocar y ocultar"
 
-#: rc.cpp:38
+#: rc.cpp:40
 msgid "Blur factor"
 msgstr "Factor de desenfoque"
 
-#: rc.cpp:32
+#: rc.cpp:34
 msgid "Blur image with keyframes"
 msgstr "Desenfoca la imagen (animable)"
 
@@ -1483,8 +1514,12 @@ msgctxt "Font style"
 msgid "Bold"
 msgstr "Negrita"
 
-#: rc.cpp:1651
-#: rc.cpp:3679
+#: rc.cpp:551
+msgid "Border Width"
+msgstr "Ancho del borde"
+
+#: rc.cpp:1927
+#: rc.cpp:3961
 msgid "Border color"
 msgstr "Color del borde"
 
@@ -1497,57 +1532,74 @@ msgstr "Opacidad del borde"
 msgid "Border width"
 msgstr "Ancho del borde"
 
-#: rc.cpp:92
+#: rc.cpp:98
+#: rc.cpp:653
 msgid "Bottom"
 msgstr "Abajo"
+
+#: rc.cpp:677
+msgid "Bottom Left"
+msgstr "Inferior izquierdo"
+
+#: rc.cpp:679
+msgid "Bottom Right"
+msgstr "Inferior derecho"
 
 #: src/clipproperties.cpp:116
 msgid "Bottom first"
 msgstr "Inferior primero"
 
-#: rc.cpp:30
+#: rc.cpp:32
 msgid "Box Blur"
 msgstr "Desenfoque rápido"
+
+#: rc.cpp:821
+msgid "Box,Ellipsoid,Diamond"
+msgstr "Caja,Elipsoide,Diamante"
 
 #: src/stopmotion/stopmotion.cpp:140
 msgid "Brighten"
 msgstr "Aclarar"
 
-#: rc.cpp:238
-#: rc.cpp:242
-#: rc.cpp:407
-#: rc.cpp:705
+#: rc.cpp:296
+#: rc.cpp:300
+#: rc.cpp:545
+#: rc.cpp:967
 msgid "Brightness"
 msgstr "Brillo"
 
-#: rc.cpp:40
+#: rc.cpp:42
 msgid "Brightness (keyframable)"
 msgstr "Brillo (animable)"
 
-#: rc.cpp:452
+#: rc.cpp:590
 msgid "Brightness Threshold"
 msgstr "Umbral de brillo"
 
-#: rc.cpp:876
+#: rc.cpp:1138
 msgid "Brightness down"
 msgstr "Reducir brillo"
 
-#: rc.cpp:878
+#: rc.cpp:1140
 msgid "Brightness every"
 msgstr "Frecuencia de brillo"
 
-#: rc.cpp:874
+#: rc.cpp:1136
 msgid "Brightness up"
 msgstr "Aumentar brillo"
+
+#: rc.cpp:665
+msgid "Broken TV"
+msgstr "TV defectuosa"
 
 #: src/trackview.cpp:637
 msgid "Broken clip producer %1"
 msgstr "Productor de clip %1 erroneo"
 
-#: rc.cpp:1960
-#: rc.cpp:1969
-#: rc.cpp:3988
-#: rc.cpp:3997
+#: rc.cpp:2236
+#: rc.cpp:2245
+#: rc.cpp:4270
+#: rc.cpp:4279
 msgid "Buffer"
 msgstr "Memoria intermedia"
 
@@ -1561,8 +1613,8 @@ msgstr "Corrección de errores, etc."
 msgid "Bug fixing, logo, etc."
 msgstr "Corrección de errores, logo, etc."
 
-#: rc.cpp:2641
-#: rc.cpp:4669
+#: rc.cpp:2917
+#: rc.cpp:4951
 msgid "Burn"
 msgstr "Grabar"
 
@@ -1571,38 +1623,38 @@ msgstr "Grabar"
 msgid "Burn with %1"
 msgstr "Grabar con %1"
 
-#: rc.cpp:1425
-#: rc.cpp:3453
+#: rc.cpp:1695
+#: rc.cpp:3729
 msgid "Button"
 msgstr "Botón"
 
-#: rc.cpp:2977
-#: rc.cpp:5005
+#: rc.cpp:3253
+#: rc.cpp:5287
 msgid "Button 1"
 msgstr "Botón 1"
 
-#: rc.cpp:2980
-#: rc.cpp:5008
+#: rc.cpp:3256
+#: rc.cpp:5290
 msgid "Button 2"
 msgstr "Botón 2"
 
-#: rc.cpp:2983
-#: rc.cpp:5011
+#: rc.cpp:3259
+#: rc.cpp:5293
 msgid "Button 3"
 msgstr "Botón 3"
 
-#: rc.cpp:2986
-#: rc.cpp:5014
+#: rc.cpp:3262
+#: rc.cpp:5296
 msgid "Button 4"
 msgstr "Botón 4"
 
-#: rc.cpp:2989
-#: rc.cpp:5017
+#: rc.cpp:3265
+#: rc.cpp:5299
 msgid "Button 5"
 msgstr "Botón 5"
 
-#: rc.cpp:1437
-#: rc.cpp:3465
+#: rc.cpp:1707
+#: rc.cpp:3741
 msgid "Button colors"
 msgstr "Colores de botones"
 
@@ -1610,22 +1662,30 @@ msgstr "Colores de botones"
 msgid "Buttons overlapping"
 msgstr "Botones solapándose"
 
-#: rc.cpp:236
-msgid "Bézier Curve(Spline) Widget"
-msgstr "Control de curvas Bézier (splines)"
-
-#: rc.cpp:228
+#: rc.cpp:274
 msgid "Bézier Curves"
 msgstr "Curvas Bézier"
 
-#: rc.cpp:1187
-#: rc.cpp:3215
+#: rc.cpp:286
+msgid "Bézier Spline Widget"
+msgstr "Control de curvas Bézier"
+
+#: rc.cpp:1457
+#: rc.cpp:3491
 msgid "C"
 msgstr "C"
+
+#: rc.cpp:755
+msgid "CCIR rec. 601,CCIR rec. 709"
+msgstr "CCIR rec. 601,CCIR rec. 709"
 
 #: src/colorpickerwidget.cpp:148
 msgid "Calculated average color for rectangle."
 msgstr "Color promedio calculado para el área."
+
+#: rc.cpp:382
+msgid "Calculates the distance between the selected color and the current pixel and uses that value as new pixel value"
+msgstr "Calcula la distancia entre el color seleccionado y el pixel actual y asigna ese valor al pixel"
 
 #: src/customtrackview.cpp:1730
 msgid "Cannot add a video effect to this clip"
@@ -1861,21 +1921,21 @@ msgstr "No se puede escribir en el archivo %1"
 msgid "Cannot write to file %1, scene list is corrupted."
 msgstr "No se puede escribir en el archivo %1, lista de escenas corrupta."
 
-#: rc.cpp:2842
-#: rc.cpp:4870
+#: rc.cpp:3118
+#: rc.cpp:5152
 msgid "Capacities"
 msgstr "Capacidades"
 
 #: src/kdenlivesettingsdialog.cpp:105
-#: rc.cpp:2225
-#: rc.cpp:4253
+#: rc.cpp:2501
+#: rc.cpp:4535
 msgid "Capture"
 msgstr "Capturar"
 
-#: rc.cpp:1933
-#: rc.cpp:2017
-#: rc.cpp:3961
-#: rc.cpp:4045
+#: rc.cpp:2209
+#: rc.cpp:2293
+#: rc.cpp:4243
+#: rc.cpp:4327
 msgid "Capture audio"
 msgstr "Capturar audio"
 
@@ -1891,8 +1951,8 @@ msgstr ""
 "Captura fallida, por favor verificar los parámetros\n"
 "Código de salida de RecordMyDesktop: %1"
 
-#: rc.cpp:2180
-#: rc.cpp:4208
+#: rc.cpp:2456
+#: rc.cpp:4490
 msgid "Capture device"
 msgstr "Dispositivo de captura"
 
@@ -1900,31 +1960,31 @@ msgstr "Dispositivo de captura"
 msgid "Capture failed"
 msgstr "Falló la captura"
 
-#: rc.cpp:1870
-#: rc.cpp:2014
-#: rc.cpp:3898
-#: rc.cpp:4042
+#: rc.cpp:2146
+#: rc.cpp:2290
+#: rc.cpp:4180
+#: rc.cpp:4324
 msgid "Capture file name"
 msgstr "Nombre del archivo de captura"
 
-#: rc.cpp:2086
-#: rc.cpp:4114
+#: rc.cpp:2362
+#: rc.cpp:4396
 msgid "Capture folder"
 msgstr "Carpeta de captura"
 
-#: rc.cpp:1849
-#: rc.cpp:3877
+#: rc.cpp:2125
+#: rc.cpp:4159
 msgid "Capture format"
 msgstr "Formato de captura"
 
 #: src/mainwindow.cpp:396
-#: rc.cpp:2201
-#: rc.cpp:4229
+#: rc.cpp:2477
+#: rc.cpp:4511
 msgid "Capture frame"
 msgstr "Capturar fotograma"
 
-#: rc.cpp:2228
-#: rc.cpp:4256
+#: rc.cpp:2504
+#: rc.cpp:4538
 msgid "Capture interval (seconds)"
 msgstr "Intervalo de captura (en segundos)"
 
@@ -1932,18 +1992,18 @@ msgstr "Intervalo de captura (en segundos)"
 msgid "Capture is not yet available on OS X."
 msgstr "Capturar no está disponible aún en OS X."
 
-#: rc.cpp:2011
-#: rc.cpp:4039
+#: rc.cpp:2287
+#: rc.cpp:4321
 msgid "Capture mode"
 msgstr "Modo de captura"
 
-#: rc.cpp:1918
-#: rc.cpp:3946
+#: rc.cpp:2194
+#: rc.cpp:4228
 msgid "Capture params"
 msgstr "Parámetros de captura"
 
-#: rc.cpp:2902
-#: rc.cpp:4930
+#: rc.cpp:3178
+#: rc.cpp:5212
 msgid "Captured files"
 msgstr "Archivos capturados"
 
@@ -1952,22 +2012,30 @@ msgstr "Archivos capturados"
 msgid "Capturing"
 msgstr "Capturando"
 
-#: rc.cpp:942
+#: rc.cpp:342
+msgid "Cartoon"
+msgstr "Dibujos animados"
+
+#: rc.cpp:344
+msgid "Cartoonify video, do a form of edge detect"
+msgstr "Asemeja el video a dibujos animados, detectando los bordes"
+
+#: rc.cpp:1204
 msgid "Center Frequency"
 msgstr "Frecuencia central"
 
-#: rc.cpp:98
+#: rc.cpp:104
 msgid "Center balance"
 msgstr "Balance centrado"
 
-#: rc.cpp:403
+#: rc.cpp:541
 msgid "Center correction"
 msgstr "Corrección central"
 
-#: rc.cpp:1320
-#: rc.cpp:2803
-#: rc.cpp:3348
-#: rc.cpp:4831
+#: rc.cpp:1590
+#: rc.cpp:3079
+#: rc.cpp:3624
+#: rc.cpp:5113
 msgid "Center crop"
 msgstr "Recorte centrado"
 
@@ -1975,16 +2043,24 @@ msgstr "Recorte centrado"
 msgid "Center horizontally"
 msgstr "Centrar horizontalmente"
 
+#: rc.cpp:186
+msgid "Center position (X)"
+msgstr "Centrar posición (X)"
+
+#: rc.cpp:188
+msgid "Center position (Y)"
+msgstr "Centrar posición (Y)"
+
 #: src/geometrywidget.cpp:100
 msgid "Center vertically"
 msgstr "Centrar verticalmente"
 
-#: rc.cpp:2098
-#: rc.cpp:2104
-#: rc.cpp:2110
-#: rc.cpp:4126
-#: rc.cpp:4132
-#: rc.cpp:4138
+#: rc.cpp:2374
+#: rc.cpp:2380
+#: rc.cpp:2386
+#: rc.cpp:4408
+#: rc.cpp:4414
+#: rc.cpp:4420
 msgid "Change"
 msgstr "Cambiar"
 
@@ -1992,11 +2068,11 @@ msgstr "Cambiar"
 msgid "Change clip type"
 msgstr "Cambiar tipo de clip"
 
-#: rc.cpp:693
+#: rc.cpp:955
 msgid "Change gamma color value"
 msgstr "Cambiar valor de gama del color"
 
-#: rc.cpp:42
+#: rc.cpp:44
 msgid "Change image brightness with keyframes"
 msgstr "Cambiar brillo de la imagen (animable)"
 
@@ -2004,11 +2080,11 @@ msgstr "Cambiar brillo de la imagen (animable)"
 msgid "Change project profile"
 msgstr "Cambiar perfil del proyecto"
 
-#: rc.cpp:603
+#: rc.cpp:847
 msgid "Changes Slope, Offset, and Power of the color components, and the overall Saturation, according to the ASC CDL (Color Decision List)."
 msgstr "Cambia la pendiente, desplazamiento y potencia de los componentes de color, así como la saturación global, de acuerdo a la LDC (lista de decisión de colores) ASC."
 
-#: rc.cpp:618
+#: rc.cpp:862
 msgid "Changing the offset lifts (or lowers) the brightness of each pixel by the given value."
 msgstr "Cambiar el desplazamiento aumenta o disminuye el brillo de cada pixel en la magnitud indicada."
 
@@ -2022,11 +2098,11 @@ msgstr ""
 "Se recomienda guardar el proyecto antes de intentar esta operación, que puede causar algunos defectos en las transiciones.\n"
 " ¿Seguir adelante?"
 
-#: rc.cpp:12
-#: rc.cpp:232
-#: rc.cpp:311
-#: rc.cpp:413
-#: rc.cpp:511
+#: rc.cpp:14
+#: rc.cpp:280
+#: rc.cpp:398
+#: rc.cpp:561
+#: rc.cpp:725
 msgid "Channel"
 msgstr "Canal"
 
@@ -2034,21 +2110,21 @@ msgstr "Canal"
 msgid "Channels"
 msgstr "Canales"
 
-#: rc.cpp:54
+#: rc.cpp:60
 msgid "Charcoal"
 msgstr "Carboncillo"
 
-#: rc.cpp:56
+#: rc.cpp:62
 msgid "Charcoal drawing effect"
 msgstr "Efecto de dibujo al carboncillo"
 
-#: rc.cpp:2836
-#: rc.cpp:4864
+#: rc.cpp:3112
+#: rc.cpp:5146
 msgid "Check"
 msgstr "Verificar"
 
-#: rc.cpp:2719
-#: rc.cpp:4747
+#: rc.cpp:2995
+#: rc.cpp:5029
 msgid "Check if first added clip matches project profile"
 msgstr "Verificar si el primer clip agregado concuerda con el perfil del proyecto"
 
@@ -2066,15 +2142,15 @@ msgstr "Verificando el motor MLT"
 msgid "Checking system"
 msgstr "Verificando el sistema"
 
-#: rc.cpp:68
+#: rc.cpp:74
 msgid "Chroma Hold"
 msgstr "Conservar color"
 
-#: rc.cpp:934
+#: rc.cpp:1196
 msgid "Chrominance U"
 msgstr "Crominancia U"
 
-#: rc.cpp:936
+#: rc.cpp:1198
 msgid "Chrominance V"
 msgstr "Crominancia V"
 
@@ -2086,8 +2162,8 @@ msgstr "Limpiar"
 msgid "Clean Project"
 msgstr "Limpiar proyecto"
 
-#: rc.cpp:2464
-#: rc.cpp:4492
+#: rc.cpp:2740
+#: rc.cpp:4774
 msgid "Clean Up"
 msgstr "Limpiar"
 
@@ -2096,8 +2172,8 @@ msgstr "Limpiar"
 msgid "Clean up project"
 msgstr "Limpiar proyecto"
 
-#: rc.cpp:2337
-#: rc.cpp:4365
+#: rc.cpp:2613
+#: rc.cpp:4647
 msgid "Clear cache"
 msgstr "Limpiar caché"
 
@@ -2110,7 +2186,7 @@ msgid "Click to add a transition."
 msgstr "Hacer clic para agregar una transición."
 
 #: src/projectlistview.cpp:50
-#: rc.cpp:5200
+#: rc.cpp:5482
 msgid "Clip"
 msgstr "Clip"
 
@@ -2135,8 +2211,8 @@ msgstr "El clip <b>%1</b><br />es inválido. Será eliminado del proyecto."
 msgid "Clip <b>%1</b><br />is missing or invalid. Remove it from project?"
 msgstr "El clip <b>%1</b><br />es inválido o no se encuentra. ¿Eliminarlo del proyecto?"
 
-#: rc.cpp:3066
-#: rc.cpp:5094
+#: rc.cpp:3342
+#: rc.cpp:5376
 msgid "Clip Color"
 msgstr "Color del clip"
 
@@ -2145,8 +2221,8 @@ msgid "Clip Monitor"
 msgstr "Monitor de clip"
 
 #: src/mainwindow.cpp:1581
-#: rc.cpp:1242
-#: rc.cpp:3270
+#: rc.cpp:1512
+#: rc.cpp:3546
 msgid "Clip Properties"
 msgstr "Propiedades del clip"
 
@@ -2154,7 +2230,7 @@ msgstr "Propiedades del clip"
 msgid "Clip already exists"
 msgstr "El clip ya existe"
 
-#: rc.cpp:561
+#: rc.cpp:789
 msgid "Clip bottom"
 msgstr "Clip abajo"
 
@@ -2171,19 +2247,19 @@ msgstr "El clip no tiene marcadores"
 msgid "Clip in Project Tree"
 msgstr "Clip en el árbol de proyecto"
 
-#: rc.cpp:5194
+#: rc.cpp:5476
 msgid "Clip in Timeline"
 msgstr "Clip en la línea de tiempo"
 
-#: rc.cpp:555
+#: rc.cpp:783
 msgid "Clip left"
 msgstr "Clip izquierda"
 
-#: rc.cpp:557
+#: rc.cpp:785
 msgid "Clip right"
 msgstr "Clip derecha"
 
-#: rc.cpp:559
+#: rc.cpp:787
 msgid "Clip top"
 msgstr "Clip arriba"
 
@@ -2191,8 +2267,8 @@ msgstr "Clip arriba"
 msgid "Clips folder"
 msgstr "Carpeta de clips"
 
-#: rc.cpp:2325
-#: rc.cpp:4353
+#: rc.cpp:2601
+#: rc.cpp:4635
 msgid "Clips used in project:"
 msgstr "Clips usados en el proyecto:"
 
@@ -2201,12 +2277,12 @@ msgid "Clone"
 msgstr "Clonar"
 
 #: src/cliptranscode.cpp:145
-#: rc.cpp:2446
-#: rc.cpp:2455
-#: rc.cpp:2482
-#: rc.cpp:4474
-#: rc.cpp:4483
-#: rc.cpp:4510
+#: rc.cpp:2722
+#: rc.cpp:2731
+#: rc.cpp:2758
+#: rc.cpp:4756
+#: rc.cpp:4765
+#: rc.cpp:4792
 msgid "Close"
 msgstr "Cerrar"
 
@@ -2215,8 +2291,8 @@ msgctxt "@action:button"
 msgid "Close"
 msgstr "Cerrar"
 
-#: rc.cpp:1578
-#: rc.cpp:3606
+#: rc.cpp:1854
+#: rc.cpp:3888
 msgid "Close after transcode"
 msgstr "Cerrar después de transcodificar"
 
@@ -2224,24 +2300,29 @@ msgstr "Cerrar después de transcodificar"
 msgid "Close the current tab"
 msgstr "Cerrar la pestaña actual"
 
-#: rc.cpp:789
+#: rc.cpp:352
+msgid "Clusters of a source image by color and spatial distance"
+msgstr "Agrupaciones de una imagen, tomadas por su color y distancia espacial"
+
+#: rc.cpp:1051
 msgid "Co-efficient"
 msgstr "Coeficiente"
 
-#: rc.cpp:1894
-#: rc.cpp:3922
+#: rc.cpp:2170
+#: rc.cpp:4204
 msgid "Codec"
 msgstr "Compresor"
 
-#: rc.cpp:541
-#: rc.cpp:1284
-#: rc.cpp:1287
-#: rc.cpp:1449
-#: rc.cpp:1753
-#: rc.cpp:3312
-#: rc.cpp:3315
-#: rc.cpp:3477
-#: rc.cpp:3781
+#: rc.cpp:292
+#: rc.cpp:757
+#: rc.cpp:1554
+#: rc.cpp:1557
+#: rc.cpp:1719
+#: rc.cpp:2029
+#: rc.cpp:3588
+#: rc.cpp:3591
+#: rc.cpp:3753
+#: rc.cpp:4063
 msgid "Color"
 msgstr "Color"
 
@@ -2250,11 +2331,11 @@ msgstr "Color"
 msgid "Color Clip"
 msgstr "Clip de color"
 
-#: rc.cpp:296
+#: rc.cpp:380
 msgid "Color Distance"
 msgstr "Distancia de color"
 
-#: rc.cpp:571
+#: rc.cpp:803
 msgid "Color Selection"
 msgstr "Selección de color"
 
@@ -2262,7 +2343,7 @@ msgstr "Selección de color"
 msgid "Color Space"
 msgstr "Espacio de color"
 
-#: rc.cpp:573
+#: rc.cpp:805
 msgid "Color based alpha selection"
 msgstr "Selección del alfa basado en el color"
 
@@ -2270,18 +2351,18 @@ msgstr "Selección del alfa basado en el color"
 msgid "Color clip"
 msgstr "Clip de color"
 
-#: rc.cpp:2683
-#: rc.cpp:4711
+#: rc.cpp:2959
+#: rc.cpp:4993
 msgid "Color clips"
 msgstr "Clips de color"
 
-#: rc.cpp:230
-#: rc.cpp:309
+#: rc.cpp:276
+#: rc.cpp:394
 msgid "Color curves adjustment"
 msgstr "Ajuste de curvas de color"
 
-#: rc.cpp:72
-#: rc.cpp:80
+#: rc.cpp:78
+#: rc.cpp:86
 msgid "Color key"
 msgstr "Color clave"
 
@@ -2293,28 +2374,32 @@ msgstr "Opacidad del color"
 msgid "Color scopes, bug fixing, etc."
 msgstr "Indicadores de color, corrección de errores, etc."
 
-#: rc.cpp:3013
-#: rc.cpp:5041
+#: rc.cpp:3289
+#: rc.cpp:5323
 msgid "Color space"
 msgstr "Espacio de color"
 
-#: rc.cpp:575
+#: rc.cpp:290
+msgid "Color to alpha (blit SRCALPHA)"
+msgstr "Color a alfa"
+
+#: rc.cpp:807
 msgid "Color to select"
 msgstr "Color a seleccionar"
 
 #: src/clipproperties.cpp:380
-#: rc.cpp:1178
-#: rc.cpp:2301
-#: rc.cpp:3206
-#: rc.cpp:4329
+#: rc.cpp:1448
+#: rc.cpp:2577
+#: rc.cpp:3482
+#: rc.cpp:4611
 msgid "Colorspace"
 msgstr "Espacio de color"
 
-#: rc.cpp:1090
+#: rc.cpp:1360
 msgid "Colour"
 msgstr "Color"
 
-#: rc.cpp:1088
+#: rc.cpp:1358
 msgid "Colour correction"
 msgstr "Corrección de color"
 
@@ -2327,15 +2412,15 @@ msgstr "Columnas"
 msgid "Comma separated list of clips to add"
 msgstr "Lista de clips a agregar (separados por comas)"
 
-#: rc.cpp:1341
-#: rc.cpp:1548
-#: rc.cpp:3369
-#: rc.cpp:3576
+#: rc.cpp:1611
+#: rc.cpp:1824
+#: rc.cpp:3645
+#: rc.cpp:3858
 msgid "Comment"
 msgstr "Comentario"
 
-#: rc.cpp:2056
-#: rc.cpp:4084
+#: rc.cpp:2332
+#: rc.cpp:4366
 msgid "Components"
 msgstr "Componentes"
 
@@ -2362,8 +2447,8 @@ msgstr "Configurar pista"
 
 #: src/mainwindow.cpp:1482
 #: src/configtrackscommand.cpp:31
-#: rc.cpp:1813
-#: rc.cpp:3841
+#: rc.cpp:2089
+#: rc.cpp:4123
 msgid "Configure Tracks"
 msgstr "Configurar pistas"
 
@@ -2376,15 +2461,15 @@ msgstr "Confirmar cambio de perfil"
 msgid "Connect"
 msgstr "Conectar"
 
-#: rc.cpp:1909
-#: rc.cpp:3937
+#: rc.cpp:2185
+#: rc.cpp:4219
 msgid "Container"
 msgstr "Contenedor"
 
 #: src/stopmotion/stopmotion.cpp:136
-#: rc.cpp:301
-#: rc.cpp:305
-#: rc.cpp:703
+#: rc.cpp:386
+#: rc.cpp:390
+#: rc.cpp:965
 msgid "Contrast"
 msgstr "Contraste"
 
@@ -2392,7 +2477,7 @@ msgstr "Contraste"
 msgid "Control character. Cannot be inserted/printed. See <a href=\"http://en.wikipedia.org/wiki/Control_character\">Wikipedia:Control_character</a>"
 msgstr "Caracter de control. No puede ser insertado o impreso. Ver <a href=\"http://es.wikipedia.org/wiki/Carácter_de_control\">Wikipedia:Caracter_de_control</a>"
 
-#: rc.cpp:48
+#: rc.cpp:50
 msgid "Copy one channel to another"
 msgstr "Copiar un canal en otro"
 
@@ -2404,48 +2489,48 @@ msgstr "Copiar perfil a favoritos"
 msgid "Copyright © 2007–2011 Kdenlive authors"
 msgstr "Copyright © 2007–2011 Los autores de Kdenlive"
 
-#: rc.cpp:2488
-#: rc.cpp:4516
+#: rc.cpp:2764
+#: rc.cpp:4798
 msgid "Corner"
 msgstr "Esquina"
 
-#: rc.cpp:250
+#: rc.cpp:312
 msgid "Corner 1 X"
 msgstr "Esquina 1 X"
 
-#: rc.cpp:252
+#: rc.cpp:314
 msgid "Corner 1 Y"
 msgstr "Esquina 1 Y"
 
-#: rc.cpp:254
+#: rc.cpp:316
 msgid "Corner 2 X"
 msgstr "Esquina 2 X"
 
-#: rc.cpp:256
+#: rc.cpp:318
 msgid "Corner 2 Y"
 msgstr "Esquina 2 Y"
 
-#: rc.cpp:258
+#: rc.cpp:320
 msgid "Corner 3 X"
 msgstr "Esquina 3 X"
 
-#: rc.cpp:260
+#: rc.cpp:322
 msgid "Corner 3 Y"
 msgstr "Esquina 3 Y"
 
-#: rc.cpp:262
+#: rc.cpp:324
 msgid "Corner 4 X"
 msgstr "Esquina 4 X"
 
-#: rc.cpp:264
+#: rc.cpp:326
 msgid "Corner 4 Y"
 msgstr "Esquina 4 Y"
 
-#: rc.cpp:244
+#: rc.cpp:306
 msgid "Corners"
 msgstr "Esquinas"
 
-#: rc.cpp:248
+#: rc.cpp:310
 msgid "Corners widget"
 msgstr "Control de esquinas"
 
@@ -2473,12 +2558,12 @@ msgstr "No se pudo abrir el archivo de salida de video %1"
 msgid "Countdown"
 msgstr "Cuenta regresiva"
 
-#: rc.cpp:831
+#: rc.cpp:1093
 msgid "Crackle"
 msgstr "Crepitación"
 
-#: rc.cpp:2674
-#: rc.cpp:4702
+#: rc.cpp:2950
+#: rc.cpp:4984
 msgid "Crash recovery (automatic backup)"
 msgstr "Recuperación de errores (auto-guardado)"
 
@@ -2490,8 +2575,8 @@ msgstr "Crear menú de DVD"
 msgid "Create Folder"
 msgstr "Crear carpeta"
 
-#: rc.cpp:2626
-#: rc.cpp:4654
+#: rc.cpp:2902
+#: rc.cpp:4936
 msgid "Create ISO image"
 msgstr "Crear imagen ISO"
 
@@ -2503,13 +2588,13 @@ msgstr "Crear nueva secuencia"
 msgid "Create Render Script"
 msgstr "Crear script de procesamiento"
 
-#: rc.cpp:1422
-#: rc.cpp:3450
+#: rc.cpp:1692
+#: rc.cpp:3726
 msgid "Create basic menu"
 msgstr "Crear menú básico"
 
-#: rc.cpp:2413
-#: rc.cpp:4441
+#: rc.cpp:2689
+#: rc.cpp:4723
 msgid "Create chapter file based on guides"
 msgstr "Crear capítulos a partir de guías"
 
@@ -2518,36 +2603,44 @@ msgstr "Crear capítulos a partir de guías"
 msgid "Create new profile"
 msgstr "Crear nuevo perfil"
 
-#: rc.cpp:373
+#: rc.cpp:511
 msgid "Creates a Glamorous Glow"
 msgstr "Crea un resplandor glamoroso"
+
+#: rc.cpp:641
+msgid "Creates a luminance map of the image"
+msgstr "Crea un mapa de luminancia de la imagen"
+
+#: rc.cpp:645
+msgid "Creates an square alpha-channel mask"
+msgstr "Crea una máscara rectangular en el canal alfa"
 
 #: src/dvdwizard.cpp:66
 msgid "Creating DVD Image"
 msgstr "Creando imagen de DVD"
 
-#: rc.cpp:2620
-#: rc.cpp:4648
+#: rc.cpp:2896
+#: rc.cpp:4930
 msgid "Creating dvd structure"
 msgstr "Creando estructura del DVD"
 
-#: rc.cpp:2623
-#: rc.cpp:4651
+#: rc.cpp:2899
+#: rc.cpp:4933
 msgid "Creating iso file"
 msgstr "Creando archivo iso"
 
-#: rc.cpp:2614
-#: rc.cpp:4642
+#: rc.cpp:2890
+#: rc.cpp:4924
 msgid "Creating menu background"
 msgstr "Creando fondo del menú"
 
-#: rc.cpp:2611
-#: rc.cpp:4639
+#: rc.cpp:2887
+#: rc.cpp:4921
 msgid "Creating menu images"
 msgstr "Creando imágenes del menú"
 
-#: rc.cpp:2617
-#: rc.cpp:4645
+#: rc.cpp:2893
+#: rc.cpp:4927
 msgid "Creating menu movie"
 msgstr "Creando película del menú"
 
@@ -2556,16 +2649,16 @@ msgstr "Creando película del menú"
 msgid "Creating thumbnail for %1"
 msgstr "Creando miniatura para %1"
 
-#: rc.cpp:84
+#: rc.cpp:90
 msgid "Crop"
 msgstr "Recortar"
 
-#: rc.cpp:1092
+#: rc.cpp:1362
 msgid "Crop & scale"
 msgstr "Recortar y redimensionar"
 
-#: rc.cpp:1208
-#: rc.cpp:3236
+#: rc.cpp:1478
+#: rc.cpp:3512
 msgid "Crop end"
 msgstr "Recortar fin"
 
@@ -2578,12 +2671,12 @@ msgstr "Recortar desde el principio:"
 msgid "Crop from start: %1s"
 msgstr "Recortar desde el principio: %1s"
 
-#: rc.cpp:1202
-#: rc.cpp:3230
+#: rc.cpp:1472
+#: rc.cpp:3506
 msgid "Crop start"
 msgstr "Recortar inicio"
 
-#: rc.cpp:543
+#: rc.cpp:759
 msgid "Crosshair color"
 msgstr "Color de la mirilla"
 
@@ -2591,11 +2684,11 @@ msgstr "Color de la mirilla"
 msgid "Ctrl + click to use spacer on current track only"
 msgstr "Ctrl + clic para usar el espaciador sólo en la pista actual"
 
-#: rc.cpp:315
+#: rc.cpp:404
 msgid "Curve Widget"
 msgstr "Control de curvas"
 
-#: rc.cpp:307
+#: rc.cpp:392
 msgid "Curves"
 msgstr "Curvas"
 
@@ -2626,8 +2719,8 @@ msgctxt "Folder Name"
 msgid "Custom"
 msgstr "Personalizado"
 
-#: rc.cpp:1810
-#: rc.cpp:3838
+#: rc.cpp:2086
+#: rc.cpp:4120
 msgid "Custom"
 msgstr "Personalizado"
 
@@ -2643,38 +2736,38 @@ msgstr "Cortar clip"
 msgid "Cut Group"
 msgstr "Cortar grupo"
 
-#: rc.cpp:1193
-#: rc.cpp:1350
-#: rc.cpp:1464
-#: rc.cpp:2125
-#: rc.cpp:2383
-#: rc.cpp:2923
-#: rc.cpp:3221
-#: rc.cpp:3378
-#: rc.cpp:3492
-#: rc.cpp:4153
-#: rc.cpp:4411
-#: rc.cpp:4951
+#: rc.cpp:1463
+#: rc.cpp:1620
+#: rc.cpp:1734
+#: rc.cpp:2401
+#: rc.cpp:2659
+#: rc.cpp:3199
+#: rc.cpp:3497
+#: rc.cpp:3654
+#: rc.cpp:3768
+#: rc.cpp:4435
+#: rc.cpp:4693
+#: rc.cpp:5233
 msgid "D"
 msgstr "D"
 
-#: rc.cpp:2815
-#: rc.cpp:4843
+#: rc.cpp:3091
+#: rc.cpp:5125
 msgid "DV"
 msgstr "DV"
 
-#: rc.cpp:1855
-#: rc.cpp:3883
+#: rc.cpp:2131
+#: rc.cpp:4165
 msgid "DV AVI type 1"
 msgstr "AVI DV tipo 1"
 
-#: rc.cpp:1858
-#: rc.cpp:3886
+#: rc.cpp:2134
+#: rc.cpp:4168
 msgid "DV AVI type 2"
 msgstr "AVI DV tipo 2"
 
-#: rc.cpp:1852
-#: rc.cpp:3880
+#: rc.cpp:2128
+#: rc.cpp:4162
 msgid "DV Raw"
 msgstr "DV Raw"
 
@@ -2690,8 +2783,8 @@ msgstr "DVD"
 msgid "DVD Chapters"
 msgstr "Capítulos de DVD"
 
-#: rc.cpp:2608
-#: rc.cpp:4636
+#: rc.cpp:2884
+#: rc.cpp:4918
 msgid "DVD ISO image"
 msgstr "Imagen ISO de DVD"
 
@@ -2708,8 +2801,8 @@ msgstr "Imagen ISO del DVD corrupta"
 msgid "DVD Wizard"
 msgstr "Asistente para DVDs"
 
-#: rc.cpp:1129
-#: rc.cpp:3157
+#: rc.cpp:1399
+#: rc.cpp:3433
 msgid "DVD format"
 msgstr "Formato de DVD"
 
@@ -2721,8 +2814,8 @@ msgstr "Estructura del DVD corrupta"
 msgid "DVDAuthor process crashed.</strong><br />"
 msgstr "Proceso de DVDAuthor falló.</strong><br />"
 
-#: rc.cpp:809
-#: rc.cpp:819
+#: rc.cpp:1071
+#: rc.cpp:1081
 msgid "Damping"
 msgstr "Atenuación"
 
@@ -2730,25 +2823,25 @@ msgstr "Atenuación"
 msgid "Dan Dennedy"
 msgstr "Dan Dennedy"
 
-#: rc.cpp:349
+#: rc.cpp:447
 msgid "DeFish"
 msgstr "Desdoblar"
 
-#: rc.cpp:26
+#: rc.cpp:28
 msgid "Debug"
 msgstr "Depurar"
 
-#: rc.cpp:964
-#: rc.cpp:1002
+#: rc.cpp:1226
+#: rc.cpp:1264
 msgid "Decay"
 msgstr "Decaimiento"
 
-#: rc.cpp:715
+#: rc.cpp:977
 msgid "Declipper"
 msgstr "Declipper"
 
-#: rc.cpp:1368
-#: rc.cpp:3396
+#: rc.cpp:1638
+#: rc.cpp:3672
 msgid "Decoding threads"
 msgstr "Vías de decodificación"
 
@@ -2758,51 +2851,69 @@ msgstr "Vías de decodificación"
 msgid "Default"
 msgstr "Predefinido"
 
-#: rc.cpp:2680
-#: rc.cpp:4708
+#: rc.cpp:2956
+#: rc.cpp:4990
 msgid "Default Durations"
 msgstr "Duraciones predefinidas"
 
-#: rc.cpp:2527
-#: rc.cpp:4555
+#: rc.cpp:2803
+#: rc.cpp:4837
 msgid "Default Profile"
 msgstr "Perfil predefinido"
 
-#: rc.cpp:2092
-#: rc.cpp:4120
+#: rc.cpp:2368
+#: rc.cpp:4402
 msgid "Default apps"
 msgstr "Aplicaciones predefinidas"
 
-#: rc.cpp:1831
-#: rc.cpp:3859
+#: rc.cpp:2107
+#: rc.cpp:4141
 msgid "Default capture device"
 msgstr "Dispositivo de captura predefinido"
 
-#: rc.cpp:2950
-#: rc.cpp:4978
+#: rc.cpp:3226
+#: rc.cpp:5260
 msgid "Default folder for project files"
 msgstr "Carpeta predefinida para archivos de proyecto"
 
-#: rc.cpp:2077
-#: rc.cpp:4105
+#: rc.cpp:2353
+#: rc.cpp:4387
 msgid "Default folders"
 msgstr "Carpetas predefinidas"
 
-#: rc.cpp:343
+#: rc.cpp:441
 msgid "Defish"
 msgstr "Corrección de lente 2"
 
-#: rc.cpp:962
-#: rc.cpp:970
-#: rc.cpp:1000
-#: rc.cpp:1759
-#: rc.cpp:3787
+#: rc.cpp:1224
+#: rc.cpp:1232
+#: rc.cpp:1262
+#: rc.cpp:2035
+#: rc.cpp:4069
 msgid "Delay"
 msgstr "Retardo"
 
-#: rc.cpp:817
+#: rc.cpp:1079
 msgid "Delay (s/10)"
 msgstr "Retardo (s/10)"
+
+#: rc.cpp:475
+msgid "Delay grab"
+msgstr "Retardar captura"
+
+#: rc.cpp:473
+msgid "Delay time"
+msgstr "Tiempo de retardo"
+
+#: rc.cpp:272
+#, fuzzy
+msgid "Delayed alpha smoothed blit of time"
+msgstr "Combinación de tiempos suavizada mediante alfa"
+
+#: rc.cpp:477
+#, fuzzy
+msgid "Delayed frame blitting mapped on a time bitmap"
+msgstr "Combinación de fotogramas mapeados en una imagen de tiempo"
 
 #: src/addeffectcommand.cpp:39
 #: src/customtrackview.cpp:1794
@@ -2846,13 +2957,13 @@ msgstr "Eliminar guía"
 msgid "Delete Marker"
 msgstr "Eliminar marcador"
 
-#: rc.cpp:2899
-#: rc.cpp:4927
+#: rc.cpp:3175
+#: rc.cpp:5209
 msgid "Delete Profile"
 msgstr "Eliminar perfil"
 
-#: rc.cpp:2479
-#: rc.cpp:4507
+#: rc.cpp:2755
+#: rc.cpp:4789
 msgid "Delete Script"
 msgstr "Eliminar script"
 
@@ -2884,8 +2995,8 @@ msgstr[1] "Eliminar clip <b>%2</b>?<br />Esto también eliminará sus %1 instanc
 msgid "Delete current button"
 msgstr "Eliminar botón actual"
 
-#: rc.cpp:2911
-#: rc.cpp:4939
+#: rc.cpp:3187
+#: rc.cpp:5221
 msgid "Delete current file"
 msgstr "Eliminar archivo actual"
 
@@ -2898,8 +3009,8 @@ msgstr "Eliminar fotograma actual"
 msgid "Delete effect"
 msgstr "Eliminar efecto"
 
-#: rc.cpp:2331
-#: rc.cpp:4359
+#: rc.cpp:2607
+#: rc.cpp:4641
 msgid "Delete files"
 msgstr "Eliminar archivos"
 
@@ -2984,15 +3095,15 @@ msgstr "Eliminar transición del clip"
 msgid "Delete unused clips"
 msgstr "Eliminar clips no usados"
 
-#: rc.cpp:583
+#: rc.cpp:815
 msgid "Delta B / I / I"
 msgstr "Variación B / I / I"
 
-#: rc.cpp:581
+#: rc.cpp:813
 msgid "Delta G / B / Chroma"
 msgstr "Variación G / B / Croma"
 
-#: rc.cpp:579
+#: rc.cpp:811
 msgid "Delta R / A / Hue"
 msgstr "Variación R / A / Tono"
 
@@ -3001,20 +3112,20 @@ msgctxt "Font style"
 msgid "Demi-Bold"
 msgstr "Semi negrita"
 
-#: rc.cpp:377
+#: rc.cpp:515
 msgid "Denoiser"
 msgstr "Supresor de ruidos"
 
-#: rc.cpp:779
-#: rc.cpp:972
+#: rc.cpp:1041
+#: rc.cpp:1234
 msgid "Depth"
 msgstr "Profundidad"
 
 #: src/projectlistview.cpp:50
-#: rc.cpp:1147
-#: rc.cpp:1248
-#: rc.cpp:3175
-#: rc.cpp:3276
+#: rc.cpp:1417
+#: rc.cpp:1518
+#: rc.cpp:3451
+#: rc.cpp:3552
 msgid "Description"
 msgstr "Descripción"
 
@@ -3030,17 +3141,17 @@ msgstr "Deseleccionar clip"
 msgid "Deselect Transition"
 msgstr "Deseleccionar transición"
 
-#: rc.cpp:2065
-#: rc.cpp:4093
+#: rc.cpp:2341
+#: rc.cpp:4375
 msgid "Desktop search integration"
 msgstr "Integración con la busqueda de escritorio"
 
-#: rc.cpp:1563
-#: rc.cpp:2356
-#: rc.cpp:2653
-#: rc.cpp:3591
-#: rc.cpp:4384
-#: rc.cpp:4681
+#: rc.cpp:1839
+#: rc.cpp:2632
+#: rc.cpp:2929
+#: rc.cpp:3873
+#: rc.cpp:4666
+#: rc.cpp:4963
 msgid "Destination"
 msgstr "Destino"
 
@@ -3048,59 +3159,63 @@ msgstr "Destino"
 msgid "Destination folder"
 msgstr "Carpeta de destino"
 
-#: rc.cpp:1927
-#: rc.cpp:2008
-#: rc.cpp:3955
-#: rc.cpp:4036
+#: rc.cpp:2203
+#: rc.cpp:2284
+#: rc.cpp:4237
+#: rc.cpp:4318
 msgid "Detected devices"
 msgstr "Dispositivos detectados"
 
-#: rc.cpp:1882
-#: rc.cpp:2974
-#: rc.cpp:3910
-#: rc.cpp:5002
+#: rc.cpp:2158
+#: rc.cpp:3250
+#: rc.cpp:4192
+#: rc.cpp:5284
 msgid "Device"
 msgstr "Dispositivo"
 
-#: rc.cpp:2839
-#: rc.cpp:4867
+#: rc.cpp:3115
+#: rc.cpp:5149
 msgid "Device Name"
 msgstr "Nombre del dispositivo"
 
-#: rc.cpp:2971
-#: rc.cpp:4999
+#: rc.cpp:3247
+#: rc.cpp:5281
 msgid "Device configuration"
 msgstr "Configuración del dispositivo"
 
-#: rc.cpp:1404
-#: rc.cpp:1557
-#: rc.cpp:2174
-#: rc.cpp:2213
-#: rc.cpp:2350
-#: rc.cpp:3060
-#: rc.cpp:3432
-#: rc.cpp:3585
-#: rc.cpp:4202
-#: rc.cpp:4241
-#: rc.cpp:4378
-#: rc.cpp:5088
-#: rc.cpp:5167
+#: rc.cpp:1674
+#: rc.cpp:1833
+#: rc.cpp:2450
+#: rc.cpp:2489
+#: rc.cpp:2626
+#: rc.cpp:3336
+#: rc.cpp:3708
+#: rc.cpp:3867
+#: rc.cpp:4484
+#: rc.cpp:4523
+#: rc.cpp:4660
+#: rc.cpp:5370
+#: rc.cpp:5449
 msgid "Dialog"
 msgstr "Diálogo"
 
-#: rc.cpp:462
+#: rc.cpp:600
 msgid "Difference Sum Threshold"
 msgstr "Umbral de suma de diferencias"
 
-#: rc.cpp:457
+#: rc.cpp:595
 msgid "Difference Threshold"
 msgstr "Umbral de diferencia"
 
-#: rc.cpp:467
+#: rc.cpp:348
+msgid "Difference space"
+msgstr "Espacio de diferencia"
+
+#: rc.cpp:605
 msgid "Dimming"
 msgstr "Atenuación"
 
-#: rc.cpp:469
+#: rc.cpp:607
 msgid "Dims the light mask. Lights will leave a fainting trail if it is set to a value > 0."
 msgstr "Atenúa la máscara de luz. Las luces dejarán una estela desvaneciente si se usa un valor mayor a 0."
 
@@ -3112,12 +3227,12 @@ msgstr "FB directo"
 msgid "Direction"
 msgstr "Dirección"
 
-#: rc.cpp:2725
-#: rc.cpp:4753
+#: rc.cpp:3001
+#: rc.cpp:5035
 msgid "Disable parameters when the effect is disabled"
 msgstr "Deshabilitar parámetros al deshabilitar el efecto"
 
-#: rc.cpp:709
+#: rc.cpp:971
 msgid "Discard color information"
 msgstr "Descartar información de color"
 
@@ -3129,76 +3244,92 @@ msgstr "Desconectar"
 msgid "Discover the features of this Kdenlive release"
 msgstr "Descubrir las características de esta versión de Kdenlive"
 
-#: rc.cpp:168
+#: rc.cpp:202
 msgid "Display"
 msgstr "Ver"
 
-#: rc.cpp:533
+#: rc.cpp:747
 msgid "Display RMS"
 msgstr "Ver RMS"
 
-#: rc.cpp:166
+#: rc.cpp:771
+msgid "Display a histogram of R, G and B components of the video data"
+msgstr "Muestra un histograma de los componentes R, G y B del video"
+
+#: rc.cpp:937
+msgid "Display a vectorscope of the video data"
+msgstr "Muestra un vectorscopio con información del video"
+
+#: rc.cpp:198
 msgid "Display and manipulation of the alpha channel"
 msgstr "Visualización y manipulación del canal alfa"
 
-#: rc.cpp:1165
-#: rc.cpp:3193
+#: rc.cpp:1435
+#: rc.cpp:3469
 msgid "Display aspect ratio"
 msgstr "Proporción de pantalla"
 
 #: src/wizard.cpp:555
-#: rc.cpp:2295
-#: rc.cpp:4323
+#: rc.cpp:2571
+#: rc.cpp:4605
 msgid "Display aspect ratio:"
 msgstr "Proporción de pantalla:"
 
-#: rc.cpp:531
+#: rc.cpp:745
 msgid "Display average"
 msgstr "Ver promedio"
 
-#: rc.cpp:2590
-#: rc.cpp:4618
+#: rc.cpp:2866
+#: rc.cpp:4900
 msgid "Display clip markers comments"
 msgstr "Ver comentarios de marcadores de clip"
 
-#: rc.cpp:170
+#: rc.cpp:204
 msgid "Display input alpha"
 msgstr "Ver alfa entrante"
 
-#: rc.cpp:537
+#: rc.cpp:751
 msgid "Display maximum"
 msgstr "Ver máximo"
 
-#: rc.cpp:535
+#: rc.cpp:749
 msgid "Display minimum"
 msgstr "Ver mínimo"
 
-#: rc.cpp:2551
-#: rc.cpp:4579
+#: rc.cpp:2827
+#: rc.cpp:4861
 msgid "Display ratio:"
 msgstr "Proporción de pantalla:"
 
-#: rc.cpp:18
+#: rc.cpp:20
 msgid "Display the audio waveform instead of the video"
 msgstr "Muestra la onda de audio en vez del video."
 
 #: src/initeffects.cpp:821
-#: rc.cpp:1305
-#: rc.cpp:2785
-#: rc.cpp:3333
-#: rc.cpp:4813
+#: rc.cpp:1575
+#: rc.cpp:3061
+#: rc.cpp:3609
+#: rc.cpp:5095
 msgid "Dissolve"
 msgstr "Disolver"
 
+#: rc.cpp:294
+msgid "Distance"
+msgstr "Distancia"
+
 #: src/initeffects.cpp:767
 #: src/initeffects.cpp:799
-#: rc.cpp:363
-#: rc.cpp:1104
+#: rc.cpp:479
+#: rc.cpp:1374
 msgid "Distort"
 msgstr "Distorsionar"
 
-#: rc.cpp:2722
-#: rc.cpp:4750
+#: rc.cpp:671
+msgid "Distorts the image for a pseudo perspective"
+msgstr "Distorsiona la imagen en una pseudo perspectiva"
+
+#: rc.cpp:2998
+#: rc.cpp:5032
 msgid "Do not validate the video files when loading a project (faster)"
 msgstr "No validar los archivos de video al cargar un proyecto (más rápido)"
 
@@ -3221,6 +3352,10 @@ msgstr "La carpeta de documentos del proyecto es inválida. Se la cambió por la
 #: src/main.cpp:56
 msgid "Document to open"
 msgstr "Documento a abrir"
+
+#: rc.cpp:192
+msgid "Don't blank mask"
+msgstr "No limpiar máscara"
 
 #: src/mainwindow.cpp:2009
 msgid "Don't recover"
@@ -3263,32 +3398,32 @@ msgstr "Mostrar cuadrícula"
 msgid "Drawing options"
 msgstr "Opciones de dibujo"
 
-#: rc.cpp:198
+#: rc.cpp:236
 msgid "Draws simple shapes into the alpha channel"
 msgstr "Dibuja figuras simples en el canal alfa"
 
-#: rc.cpp:112
-#: rc.cpp:125
-#: rc.cpp:135
-#: rc.cpp:146
-#: rc.cpp:1117
-#: rc.cpp:1196
-#: rc.cpp:1205
-#: rc.cpp:1251
-#: rc.cpp:1708
-#: rc.cpp:2256
-#: rc.cpp:3069
-#: rc.cpp:3145
-#: rc.cpp:3224
-#: rc.cpp:3233
-#: rc.cpp:3279
-#: rc.cpp:3736
-#: rc.cpp:4284
-#: rc.cpp:5097
+#: rc.cpp:118
+#: rc.cpp:131
+#: rc.cpp:141
+#: rc.cpp:152
+#: rc.cpp:1387
+#: rc.cpp:1466
+#: rc.cpp:1475
+#: rc.cpp:1521
+#: rc.cpp:1984
+#: rc.cpp:2532
+#: rc.cpp:3345
+#: rc.cpp:3421
+#: rc.cpp:3500
+#: rc.cpp:3509
+#: rc.cpp:3555
+#: rc.cpp:4018
+#: rc.cpp:4566
+#: rc.cpp:5379
 msgid "Duration"
 msgstr "Duración"
 
-#: rc.cpp:5173
+#: rc.cpp:5455
 msgid "Duration (seconds)"
 msgstr "Duración (segundos)"
 
@@ -3297,23 +3432,31 @@ msgstr "Duración (segundos)"
 msgid "Duration:"
 msgstr "Duración:"
 
-#: rc.cpp:100
+#: rc.cpp:106
 msgid "Dust"
 msgstr "Polvo"
 
-#: rc.cpp:2647
-#: rc.cpp:4675
+#: rc.cpp:2923
+#: rc.cpp:4957
 msgid "Dvdauthor File"
 msgstr "Archivo de Dvdauthor"
 
-#: rc.cpp:851
+#: rc.cpp:899
+msgid "Dynamic 3-level thresholding"
+msgstr "Umbral dinámico de 3 niveles"
+
+#: rc.cpp:933
+msgid "Dynamic thresholding"
+msgstr "Umbral dinámico"
+
+#: rc.cpp:1113
 msgid "Dynamically normalise the audio volume"
 msgstr "Normalizar dinámicamente el volumen del audio"
 
-#: rc.cpp:1347
-#: rc.cpp:2377
-#: rc.cpp:3375
-#: rc.cpp:4405
+#: rc.cpp:1617
+#: rc.cpp:2653
+#: rc.cpp:3651
+#: rc.cpp:4687
 msgid "E"
 msgstr "E"
 
@@ -3321,15 +3464,31 @@ msgstr "E"
 msgid "EMAIL OF TRANSLATORS"
 msgstr "gabcorreo@gmail.com, gellevi@inf.upv.es, carluti@users.sourceforge.net, herrej01@gmail.com"
 
+#: rc.cpp:493
+msgid "Edge brightness upscaling multiplier"
+msgstr "Realzador del brillo de los bordes"
+
 #: src/stopmotion/stopmotion.cpp:138
 msgid "Edge detect"
 msgstr "Detección de bordes"
 
-#: rc.cpp:589
+#: rc.cpp:487
+msgid "Edge glow"
+msgstr "Resplandor de bordes"
+
+#: rc.cpp:489
+msgid "Edge glow filter"
+msgstr "Efecto resplandor de bordes"
+
+#: rc.cpp:491
+msgid "Edge lightening threshold"
+msgstr "Umbral de afinamiento de bordes"
+
+#: rc.cpp:827
 msgid "Edge mode"
 msgstr "Modo de borde"
 
-#: rc.cpp:405
+#: rc.cpp:543
 msgid "Edges correction"
 msgstr "Corrección de bordes"
 
@@ -3353,8 +3512,8 @@ msgstr "Editar duración"
 msgid "Edit Guide"
 msgstr "Editar guía"
 
-#: rc.cpp:2878
-#: rc.cpp:4906
+#: rc.cpp:3154
+#: rc.cpp:5188
 msgid "Edit Keyframe"
 msgstr "Editar fotograma clave"
 
@@ -3385,8 +3544,8 @@ msgstr "Editar clips"
 msgid "Edit effect %1"
 msgstr "Editar efecto %1"
 
-#: rc.cpp:1780
-#: rc.cpp:3808
+#: rc.cpp:2056
+#: rc.cpp:4090
 msgid "Edit end"
 msgstr "Editar fin"
 
@@ -3407,8 +3566,8 @@ msgstr "Editar marcador"
 msgid "Edit profile"
 msgstr "Editar perfil"
 
-#: rc.cpp:1777
-#: rc.cpp:3805
+#: rc.cpp:2053
+#: rc.cpp:4087
 msgid "Edit start"
 msgstr "Editar inicio"
 
@@ -3416,8 +3575,8 @@ msgstr "Editar inicio"
 msgid "Edit transition %1"
 msgstr "Editar transición %1"
 
-#: rc.cpp:1744
-#: rc.cpp:3772
+#: rc.cpp:2020
+#: rc.cpp:4054
 msgid "Effect"
 msgstr "Efecto"
 
@@ -3469,12 +3628,12 @@ msgstr "Espacio largo. Del ancho de una letra <em>m</em>."
 msgid "En Space (width of an n)"
 msgstr "Espacio medio. Del ancho de una letra <em>n</em>."
 
-#: rc.cpp:2965
-#: rc.cpp:4993
+#: rc.cpp:3241
+#: rc.cpp:5275
 msgid "Enable Jog Shuttle device"
 msgstr "Activar dispositivo Jog Shuttle"
 
-#: rc.cpp:266
+#: rc.cpp:328
 msgid "Enable Stretch"
 msgstr "Habilitar estiramiento"
 
@@ -3486,26 +3645,26 @@ msgstr "Habilitar/Deshabilitar todos los efectos"
 msgid "Encoding captured video..."
 msgstr "Codificando el video capturado..."
 
-#: rc.cpp:1921
-#: rc.cpp:3949
+#: rc.cpp:2197
+#: rc.cpp:4231
 msgid "Encoding params"
 msgstr "Parámetros de codificación"
 
 #: src/renderwidget.cpp:292
 #: src/titlewidget.cpp:2060
-#: rc.cpp:118
-#: rc.cpp:152
-#: rc.cpp:3078
-#: rc.cpp:5106
+#: rc.cpp:124
+#: rc.cpp:158
+#: rc.cpp:3354
+#: rc.cpp:5388
 msgid "End"
 msgstr "Fin"
 
-#: rc.cpp:129
-#: rc.cpp:140
+#: rc.cpp:135
+#: rc.cpp:146
 msgid "End Gain"
 msgstr "Ganancia final"
 
-#: rc.cpp:1108
+#: rc.cpp:1378
 msgid "Enhancement"
 msgstr "Mejora"
 
@@ -3513,8 +3672,8 @@ msgstr "Mejora"
 msgid "Enter Template Path"
 msgstr "Ingresar ruta de plantilla"
 
-#: rc.cpp:2231
-#: rc.cpp:4259
+#: rc.cpp:2507
+#: rc.cpp:4541
 msgid "Enter Unicode value"
 msgstr "Ingresar valor Unicode"
 
@@ -3538,12 +3697,24 @@ msgstr "Ingresar las notas del proyecto aquí..."
 msgid "Environment"
 msgstr "Entorno"
 
-#: rc.cpp:753
+#: rc.cpp:497
+msgid "Equaliz0r"
+msgstr "Equaliz0r"
+
+#: rc.cpp:1015
 msgid "Equalizer"
 msgstr "Ecualizador"
 
-#: rc.cpp:2458
-#: rc.cpp:4486
+#: rc.cpp:499
+msgid "Equalizes the intensity histograms"
+msgstr "Ecualiza los histogramas de intensidad"
+
+#: rc.cpp:449
+msgid "Equidistant,Orthographic,Equiarea,Stereographic"
+msgstr "Equidistante,Ortográfico,Equiárea,Estereográfico"
+
+#: rc.cpp:2734
+#: rc.cpp:4768
 msgid "Error Log"
 msgstr "Registro de errores"
 
@@ -3582,8 +3753,8 @@ msgid "Existing Profile"
 msgstr "Perfil existente"
 
 #: src/renderwidget.cpp:1891
-#: rc.cpp:2398
-#: rc.cpp:4426
+#: rc.cpp:2674
+#: rc.cpp:4708
 msgid "Export audio"
 msgstr "Exportar audio"
 
@@ -3595,19 +3766,19 @@ msgstr "Exportar audio (automático)"
 msgid "Export background"
 msgstr "Exportar fondo"
 
-#: rc.cpp:3010
-#: rc.cpp:5038
+#: rc.cpp:3286
+#: rc.cpp:5320
 msgid "Export color plane to PNG"
 msgstr "Exportar plano de color a PNG"
 
-#: rc.cpp:1915
-#: rc.cpp:2662
-#: rc.cpp:3943
-#: rc.cpp:4690
+#: rc.cpp:2191
+#: rc.cpp:2938
+#: rc.cpp:4225
+#: rc.cpp:4972
 msgid "Extension"
 msgstr "Extensión"
 
-#: rc.cpp:5179
+#: rc.cpp:5461
 msgid "Extra Toolbar"
 msgstr "Barra de herramientas extra"
 
@@ -3619,35 +3790,36 @@ msgstr "Extraer fotograma"
 msgid "FFmpeg & ffplay"
 msgstr "FFmpeg y ffplay"
 
-#: rc.cpp:1566
-#: rc.cpp:2893
-#: rc.cpp:3594
-#: rc.cpp:4921
+#: rc.cpp:1842
+#: rc.cpp:3169
+#: rc.cpp:3876
+#: rc.cpp:5203
 msgid "FFmpeg parameters"
 msgstr "Parámetros de FFmpeg"
 
-#: rc.cpp:1034
+#: rc.cpp:765
+#: rc.cpp:1296
 msgid "Factor"
 msgstr "Factor"
 
-#: rc.cpp:1096
+#: rc.cpp:1366
 msgid "Fade"
 msgstr "Fundido"
 
-#: rc.cpp:108
+#: rc.cpp:114
 msgid "Fade from Black"
 msgstr "Fundido desde negro"
 
-#: rc.cpp:120
+#: rc.cpp:126
 msgid "Fade in"
 msgstr "Fundido entrante"
 
-#: rc.cpp:122
-#: rc.cpp:133
+#: rc.cpp:128
+#: rc.cpp:139
 msgid "Fade in audio track"
 msgstr "Fundido entrante de audio"
 
-#: rc.cpp:131
+#: rc.cpp:137
 msgid "Fade out"
 msgstr "Fundido saliente"
 
@@ -3655,15 +3827,15 @@ msgstr "Fundido saliente"
 msgid "Fade out one video while fading in the other video."
 msgstr "Fundido saliente de un video y entrante del otro."
 
-#: rc.cpp:142
+#: rc.cpp:148
 msgid "Fade to Black"
 msgstr "Fundido a negro"
 
-#: rc.cpp:110
+#: rc.cpp:116
 msgid "Fade video from black"
 msgstr "Funde el video desde negro"
 
-#: rc.cpp:144
+#: rc.cpp:150
 msgid "Fade video to black"
 msgstr "Funde el video a negro"
 
@@ -3679,16 +3851,16 @@ msgstr "Error fatal"
 msgid "Favorites"
 msgstr "Favoritos"
 
-#: rc.cpp:276
+#: rc.cpp:340
 msgid "Feather Alpha"
 msgstr "Suavizar alfa"
 
-#: rc.cpp:781
+#: rc.cpp:1043
 msgid "Feedback"
 msgstr "Retroalimentación"
 
-#: rc.cpp:1174
-#: rc.cpp:3202
+#: rc.cpp:1444
+#: rc.cpp:3478
 msgid "Fields per second"
 msgstr "Campos por segundo"
 
@@ -3697,8 +3869,8 @@ msgid "Figure space (non-breaking). Width of a digit if digits have fixed width 
 msgstr "Espacio duro numérico. Del ancho de un dígito, si los dígitos de la fuente son de ancho fijo."
 
 #: src/renderwidget.cpp:174
-#: rc.cpp:1114
-#: rc.cpp:3142
+#: rc.cpp:1384
+#: rc.cpp:3418
 msgid "File"
 msgstr "Archivo"
 
@@ -3729,8 +3901,8 @@ msgstr "Recuperación de archivo"
 msgid "File has no extension. Add extension (%1)?"
 msgstr "El archivo no tiene extensión. ¿Agregar extensión (%1)?"
 
-#: rc.cpp:2905
-#: rc.cpp:4933
+#: rc.cpp:3181
+#: rc.cpp:5215
 msgid "File name"
 msgstr "Nombre del archivo"
 
@@ -3744,18 +3916,18 @@ msgstr "Archivo no encontrado"
 msgid "File rendering"
 msgstr "Procesar a archivo"
 
-#: rc.cpp:1260
-#: rc.cpp:3288
+#: rc.cpp:1530
+#: rc.cpp:3564
 msgid "File size"
 msgstr "Tamaño del archivo"
 
-#: rc.cpp:3036
-#: rc.cpp:5064
+#: rc.cpp:3312
+#: rc.cpp:5346
 msgid "Filename"
 msgstr "Nombre de archivo"
 
-#: rc.cpp:2764
-#: rc.cpp:4792
+#: rc.cpp:3040
+#: rc.cpp:5074
 msgid "Filename pattern"
 msgstr "Patrón de nombre"
 
@@ -3764,8 +3936,8 @@ msgstr "Patrón de nombre"
 msgid "Fill"
 msgstr "Rellenar"
 
-#: rc.cpp:1648
-#: rc.cpp:3676
+#: rc.cpp:1924
+#: rc.cpp:3958
 msgid "Fill color"
 msgstr "Color de relleno"
 
@@ -3773,9 +3945,17 @@ msgstr "Color de relleno"
 msgid "Fill opacity"
 msgstr "Opacidad del relleno"
 
-#: rc.cpp:182
+#: rc.cpp:218
 msgid "Fill the alpha channel with a specified gradient"
 msgstr "Llena el canal alfa con un gradiente especificado"
+
+#: rc.cpp:194
+msgid "Fill with image or black"
+msgstr "Rellenar con una imagen o negro"
+
+#: rc.cpp:453
+msgid "Fill,Center,Fit,Manual"
+msgstr "Llenar,Centrar,Ajustar,Manual"
 
 #: src/mainwindow.cpp:1153
 msgid "Find"
@@ -3789,12 +3969,12 @@ msgstr "Buscar siguiente"
 msgid "Find stopped"
 msgstr "Búsqueda detenida"
 
-#: rc.cpp:1834
-#: rc.cpp:1846
-#: rc.cpp:2026
-#: rc.cpp:3862
-#: rc.cpp:3874
-#: rc.cpp:4054
+#: rc.cpp:2110
+#: rc.cpp:2122
+#: rc.cpp:2302
+#: rc.cpp:4144
+#: rc.cpp:4156
+#: rc.cpp:4336
 msgid "Firewire"
 msgstr "Firewire"
 
@@ -3842,15 +4022,28 @@ msgstr "Corregir inclinación Y"
 msgid "Fix Shear Z"
 msgstr "Corregir inclinación Z"
 
-#: rc.cpp:837
+#: rc.cpp:1099
 msgid "Flip your image in any direction"
 msgstr "Gira la imagen en cualquier dirección"
+
+#: rc.cpp:503
+msgid "Flipping in X and Y axis"
+msgstr "Invertir ejes X e Y"
+
+#: rc.cpp:501
+msgid "Flippo"
+msgstr "Flippo"
+
+#: rc.cpp:661
+#, fuzzy
+msgid "Flushes frames in time in a nervous way"
+msgstr "Agita los fotogramas en el tiempo"
 
 #: src/folderprojectitem.cpp:37
 #: src/projectlist.cpp:844
 #: src/projectlist.cpp:924
-#: rc.cpp:2767
-#: rc.cpp:4795
+#: rc.cpp:3043
+#: rc.cpp:5077
 msgid "Folder"
 msgstr "Carpeta"
 
@@ -3858,16 +4051,16 @@ msgstr "Carpeta"
 msgid "Folder %1 already exists. Overwrite?\n"
 msgstr "La carpeta %1 ya existe. ¿Sobrescribirla?\n"
 
-#: rc.cpp:1978
-#: rc.cpp:4006
+#: rc.cpp:2254
+#: rc.cpp:4288
 msgid "Follow mouse"
 msgstr "Seguir al ratón"
 
-#: rc.cpp:1434
-#: rc.cpp:1657
-#: rc.cpp:3462
-#: rc.cpp:3685
-#: rc.cpp:5176
+#: rc.cpp:1704
+#: rc.cpp:1933
+#: rc.cpp:3738
+#: rc.cpp:3967
+#: rc.cpp:5458
 msgid "Font"
 msgstr "Fuente"
 
@@ -3879,8 +4072,8 @@ msgstr "Opacidad del color de fuente"
 msgid "Font weight"
 msgstr "Tamaño de la fuente"
 
-#: rc.cpp:2343
-#: rc.cpp:4371
+#: rc.cpp:2619
+#: rc.cpp:4653
 msgid "Fonts"
 msgstr "Fuentes"
 
@@ -3890,13 +4083,13 @@ msgstr "Fuentes"
 msgid "Force Deinterlace Overlay"
 msgstr "Forzar superposición desentrelazada"
 
-#: rc.cpp:2395
-#: rc.cpp:4423
+#: rc.cpp:2671
+#: rc.cpp:4705
 msgid "Force Interlaced"
 msgstr "Forzar entrelazado"
 
-#: rc.cpp:2392
-#: rc.cpp:4420
+#: rc.cpp:2668
+#: rc.cpp:4702
 msgid "Force Progressive"
 msgstr "Forzar progresivo"
 
@@ -3906,76 +4099,76 @@ msgstr "Forzar progresivo"
 msgid "Force Progressive Rendering"
 msgstr "Forzar procesamiento progresivo"
 
-#: rc.cpp:1365
-#: rc.cpp:3393
+#: rc.cpp:1635
+#: rc.cpp:3669
 msgid "Force aspect ratio"
 msgstr "Forzar proporción de imagen"
 
-#: rc.cpp:1389
-#: rc.cpp:3417
+#: rc.cpp:1659
+#: rc.cpp:3693
 msgid "Force colorspace"
 msgstr "Forzar espacio de color"
 
-#: rc.cpp:1383
-#: rc.cpp:3411
+#: rc.cpp:1653
+#: rc.cpp:3687
 msgid "Force duration"
 msgstr "Forzar duración"
 
-#: rc.cpp:1398
-#: rc.cpp:3426
+#: rc.cpp:1668
+#: rc.cpp:3702
 msgid "Force field order"
 msgstr "Forzar orden de campos"
 
-#: rc.cpp:1380
-#: rc.cpp:3408
+#: rc.cpp:1650
+#: rc.cpp:3684
 msgid "Force frame rate"
 msgstr "Forzar velocidad de fotogramas"
 
-#: rc.cpp:1377
-#: rc.cpp:3405
+#: rc.cpp:1647
+#: rc.cpp:3681
 msgid "Force progressive"
 msgstr "Forzar progresivo"
 
-#: rc.cpp:1473
-#: rc.cpp:1479
-#: rc.cpp:2038
-#: rc.cpp:2244
-#: rc.cpp:2485
-#: rc.cpp:2524
-#: rc.cpp:2566
-#: rc.cpp:2824
-#: rc.cpp:2830
-#: rc.cpp:2944
-#: rc.cpp:3039
-#: rc.cpp:3084
-#: rc.cpp:3501
-#: rc.cpp:3507
-#: rc.cpp:4066
-#: rc.cpp:4272
-#: rc.cpp:4513
-#: rc.cpp:4552
-#: rc.cpp:4594
-#: rc.cpp:4852
-#: rc.cpp:4858
-#: rc.cpp:4972
-#: rc.cpp:5067
-#: rc.cpp:5112
+#: rc.cpp:1743
+#: rc.cpp:1749
+#: rc.cpp:2314
+#: rc.cpp:2520
+#: rc.cpp:2761
+#: rc.cpp:2800
+#: rc.cpp:2842
+#: rc.cpp:3100
+#: rc.cpp:3106
+#: rc.cpp:3220
+#: rc.cpp:3315
+#: rc.cpp:3360
+#: rc.cpp:3777
+#: rc.cpp:3783
+#: rc.cpp:4348
+#: rc.cpp:4554
+#: rc.cpp:4795
+#: rc.cpp:4834
+#: rc.cpp:4876
+#: rc.cpp:5134
+#: rc.cpp:5140
+#: rc.cpp:5254
+#: rc.cpp:5349
+#: rc.cpp:5394
 msgid "Form"
 msgstr "Forma"
 
-#: rc.cpp:1885
-#: rc.cpp:1903
-#: rc.cpp:1912
-#: rc.cpp:2365
-#: rc.cpp:3913
-#: rc.cpp:3931
-#: rc.cpp:3940
-#: rc.cpp:4393
+#: rc.cpp:2161
+#: rc.cpp:2179
+#: rc.cpp:2188
+#: rc.cpp:2641
+#: rc.cpp:4195
+#: rc.cpp:4213
+#: rc.cpp:4222
+#: rc.cpp:4675
 msgid "Format"
 msgstr "Formato"
 
-#: rc.cpp:1227
-#: rc.cpp:3255
+#: rc.cpp:1497
+#: rc.cpp:3531
 msgid "Formats"
 msgstr "Formatos"
 
@@ -3998,7 +4191,7 @@ msgstr "Avanzar 1 segundo"
 msgid "Found: %1"
 msgstr "Encontrado: %1"
 
-#: rc.cpp:246
+#: rc.cpp:308
 msgid "Four corners geometry engine"
 msgstr "Motor de geometría de cuatro esquinas"
 
@@ -4022,33 +4215,37 @@ msgstr "Fotograma (%1) - No hay señal entrante"
 msgid "Frame Captured"
 msgstr "Fotograma capturado"
 
-#: rc.cpp:2776
-#: rc.cpp:4804
+#: rc.cpp:3052
+#: rc.cpp:5086
 msgid "Frame Duration"
 msgstr "Duración del fotograma"
 
-#: rc.cpp:1296
-#: rc.cpp:3324
+#: rc.cpp:1566
+#: rc.cpp:3600
 msgid "Frame duration"
 msgstr "Duración del fotograma"
 
 #: src/clipproperties.cpp:370
-#: rc.cpp:1153
-#: rc.cpp:1891
-#: rc.cpp:1993
-#: rc.cpp:3181
-#: rc.cpp:3919
-#: rc.cpp:4021
+#: rc.cpp:1423
+#: rc.cpp:2167
+#: rc.cpp:2269
+#: rc.cpp:3457
+#: rc.cpp:4201
+#: rc.cpp:4303
 msgid "Frame rate"
 msgstr "Velocidad de fotogramas"
 
 #: src/wizard.cpp:555
-#: rc.cpp:2283
-#: rc.cpp:2539
-#: rc.cpp:4311
-#: rc.cpp:4567
+#: rc.cpp:2559
+#: rc.cpp:2815
+#: rc.cpp:4593
+#: rc.cpp:4849
 msgid "Frame rate:"
 msgstr "Velocidad de fotogramas:"
+
+#: rc.cpp:172
+msgid "Frame rotation in 3D space"
+msgstr "Rotación del fotograma en el espacio 3D"
 
 #: src/clipproperties.cpp:367
 msgid "Frame size"
@@ -4072,95 +4269,95 @@ msgstr "Fotogramas"
 msgid "Free space: %1"
 msgstr "Espacio libre: %1"
 
-#: rc.cpp:154
+#: rc.cpp:160
 msgid "Freeze"
 msgstr "Congelar"
 
-#: rc.cpp:162
+#: rc.cpp:168
 msgid "Freeze After"
 msgstr "Congelar después"
 
-#: rc.cpp:160
+#: rc.cpp:166
 msgid "Freeze Before"
 msgstr "Congelar antes"
 
-#: rc.cpp:158
+#: rc.cpp:164
 msgid "Freeze at"
 msgstr "Congelar en"
 
-#: rc.cpp:156
+#: rc.cpp:162
 msgid "Freeze video on a chosen frame"
 msgstr "Congelar video en el fotograma seleccionado"
 
 #: src/clipproperties.cpp:203
-#: rc.cpp:369
-#: rc.cpp:952
+#: rc.cpp:485
+#: rc.cpp:1214
 msgid "Frequency"
 msgstr "Frecuencia"
 
-#: rc.cpp:50
-#: rc.cpp:2434
-#: rc.cpp:4462
+#: rc.cpp:54
+#: rc.cpp:2710
+#: rc.cpp:4744
 msgid "From"
 msgstr "Desde"
 
-#: rc.cpp:1392
-#: rc.cpp:3420
+#: rc.cpp:1662
+#: rc.cpp:3696
 msgid "Full luma range"
 msgstr "Rango completo de luma"
 
-#: rc.cpp:2425
-#: rc.cpp:4453
+#: rc.cpp:2701
+#: rc.cpp:4735
 msgid "Full project"
 msgstr "Proyecto completo"
 
-#: rc.cpp:1972
-#: rc.cpp:4000
+#: rc.cpp:2248
+#: rc.cpp:4282
 msgid "Full screen capture"
 msgstr "Captura de pantalla completa"
 
-#: rc.cpp:2002
-#: rc.cpp:4030
+#: rc.cpp:2278
+#: rc.cpp:4312
 msgid "Full shots"
 msgstr "Tomas completas"
 
-#: rc.cpp:1098
+#: rc.cpp:1368
 msgid "Fun"
 msgstr "Divertidos"
 
-#: rc.cpp:284
-#: rc.cpp:2050
-#: rc.cpp:4078
+#: rc.cpp:364
+#: rc.cpp:2326
+#: rc.cpp:4360
 msgid "G"
 msgstr "G"
 
-#: rc.cpp:519
+#: rc.cpp:733
 msgid "G trace"
 msgstr "Trazado G"
 
-#: rc.cpp:685
-#: rc.cpp:689
-#: rc.cpp:847
-#: rc.cpp:853
-#: rc.cpp:950
-#: rc.cpp:990
-#: rc.cpp:1076
+#: rc.cpp:947
+#: rc.cpp:951
+#: rc.cpp:1109
+#: rc.cpp:1115
+#: rc.cpp:1212
+#: rc.cpp:1252
+#: rc.cpp:1346
 msgid "Gain"
 msgstr "Ganancia"
 
-#: rc.cpp:958
-#: rc.cpp:996
+#: rc.cpp:1220
+#: rc.cpp:1258
 msgid "Gain In"
 msgstr "Ganancia entrante"
 
-#: rc.cpp:960
-#: rc.cpp:998
+#: rc.cpp:1222
+#: rc.cpp:1260
 msgid "Gain Out"
 msgstr "Ganancia de salida"
 
-#: rc.cpp:419
-#: rc.cpp:691
-#: rc.cpp:695
+#: rc.cpp:567
+#: rc.cpp:953
+#: rc.cpp:957
 msgid "Gamma"
 msgstr "Gama"
 
@@ -4173,28 +4370,28 @@ msgstr "General"
 msgid "General graphics interface"
 msgstr "Interfaz gráfica general"
 
-#: rc.cpp:2443
-#: rc.cpp:4471
+#: rc.cpp:2719
+#: rc.cpp:4753
 msgid "Generate Script"
 msgstr "Generar script"
 
-#: rc.cpp:5188
+#: rc.cpp:5470
 msgid "Generators"
 msgstr "Generadores"
 
 #: src/initeffects.cpp:763
 #: src/initeffects.cpp:787
 #: src/initeffects.cpp:795
-#: rc.cpp:24
+#: rc.cpp:26
 msgid "Geometry"
 msgstr "Geometría"
 
-#: rc.cpp:371
+#: rc.cpp:509
 msgid "Glow"
 msgstr "Resplandor"
 
 #: src/customruler.cpp:86
-#: rc.cpp:5233
+#: rc.cpp:5515
 msgid "Go To"
 msgstr "Ir a"
 
@@ -4249,24 +4446,24 @@ msgstr "Ir al fotograma clave anterior"
 msgid "Gradient reference line"
 msgstr "Línea de referencia del gradiente"
 
-#: rc.cpp:697
+#: rc.cpp:959
 msgid "Grain"
 msgstr "Grano"
 
-#: rc.cpp:699
+#: rc.cpp:961
 msgid "Grain over the image"
 msgstr "Grano sobre la imagen"
 
-#: rc.cpp:341
+#: rc.cpp:432
 msgid "Graph position"
 msgstr "Posición de la gráfica"
 
-#: rc.cpp:2869
-#: rc.cpp:4897
+#: rc.cpp:3145
+#: rc.cpp:5179
 msgid "GraphView"
 msgstr "Vista de gráficas"
 
-#: rc.cpp:653
+#: rc.cpp:907
 msgid "Gray color"
 msgstr "Color gris"
 
@@ -4281,16 +4478,16 @@ msgstr "Verde"
 msgid "Green 2"
 msgstr "Verde 2"
 
-#: rc.cpp:226
+#: rc.cpp:268
 msgid "Green Tint"
 msgstr "Tinte verde"
 
-#: rc.cpp:707
+#: rc.cpp:969
 msgid "Greyscale"
 msgstr "Escala de grises"
 
-#: rc.cpp:2656
-#: rc.cpp:4684
+#: rc.cpp:2932
+#: rc.cpp:4966
 msgid "Group"
 msgstr "Grupo"
 
@@ -4306,36 +4503,40 @@ msgstr "Agrupar clips"
 msgid "Guide"
 msgstr "Guía"
 
-#: rc.cpp:2431
-#: rc.cpp:4459
+#: rc.cpp:2707
+#: rc.cpp:4741
 msgid "Guide zone"
 msgstr "Zona de guía"
 
-#: rc.cpp:5215
+#: rc.cpp:5497
 msgid "Guides"
 msgstr "Guías"
 
-#: rc.cpp:1627
-#: rc.cpp:3655
+#: rc.cpp:1903
+#: rc.cpp:3937
 msgid "H"
 msgstr "H"
 
-#: rc.cpp:1497
-#: rc.cpp:3525
+#: rc.cpp:1767
+#: rc.cpp:3801
 msgid "H1"
 msgstr "T1"
 
-#: rc.cpp:1515
-#: rc.cpp:3543
+#: rc.cpp:1785
+#: rc.cpp:3819
 msgid "H2"
 msgstr "T2"
 
-#: rc.cpp:1861
-#: rc.cpp:2818
-#: rc.cpp:3889
-#: rc.cpp:4846
+#: rc.cpp:2137
+#: rc.cpp:3094
+#: rc.cpp:4171
+#: rc.cpp:5128
 msgid "HDV"
 msgstr "HDV"
+
+#: rc.cpp:667
+msgid "HSync"
+msgstr "Sinc.H"
 
 #: src/unicodedialog.cpp:152
 msgid "Hair Space. Thinner than U+2009."
@@ -4346,44 +4547,48 @@ msgstr "Espacio de cabello. Más angosto que U+2009."
 msgid "Hamming window"
 msgstr "Ventana Hamming"
 
-#: rc.cpp:1494
-#: rc.cpp:3522
+#: rc.cpp:1764
+#: rc.cpp:3798
 msgid "Handle 1"
 msgstr "Tangente 1"
 
-#: rc.cpp:1491
-#: rc.cpp:3519
+#: rc.cpp:1761
+#: rc.cpp:3795
 msgid "Handle 1 X"
 msgstr "Tangente 1 X"
 
-#: rc.cpp:1500
-#: rc.cpp:3528
+#: rc.cpp:1770
+#: rc.cpp:3804
 msgid "Handle 1 Y"
 msgstr "Tangente 1 Y"
 
-#: rc.cpp:1512
-#: rc.cpp:3540
+#: rc.cpp:1782
+#: rc.cpp:3816
 msgid "Handle 2"
 msgstr "Tangente 2"
 
-#: rc.cpp:1509
-#: rc.cpp:3537
+#: rc.cpp:1779
+#: rc.cpp:3813
 msgid "Handle 2 X"
 msgstr "Tangente 2 X"
 
-#: rc.cpp:1518
-#: rc.cpp:3546
+#: rc.cpp:1788
+#: rc.cpp:3822
 msgid "Handle 2 Y"
 msgstr "Tangente 2 Y"
 
-#: rc.cpp:2143
-#: rc.cpp:3106
-#: rc.cpp:4171
-#: rc.cpp:5134
+#: rc.cpp:825
+msgid "Hard,Fat,Normal,Skiny"
+msgstr "Duro,Grueso,Normal,Delgado"
+
+#: rc.cpp:2419
+#: rc.cpp:3382
+#: rc.cpp:4453
+#: rc.cpp:5416
 msgid "Height"
 msgstr "Altura"
 
-#: rc.cpp:761
+#: rc.cpp:1023
 msgid "Hi gain"
 msgstr "Ganancia de altos"
 
@@ -4391,21 +4596,21 @@ msgstr "Ganancia de altos"
 msgid "Hidden"
 msgstr "Oculto"
 
-#: rc.cpp:861
+#: rc.cpp:1123
 msgid "Hide a region of the clip"
 msgstr "Oculta una región del clip"
 
-#: rc.cpp:22
+#: rc.cpp:24
 msgid "Hide a selected zone and follow its movements"
 msgstr "Oculta una zona seleccionada y sigue sus movimientos"
 
-#: rc.cpp:1984
-#: rc.cpp:4012
+#: rc.cpp:2260
+#: rc.cpp:4294
 msgid "Hide cursor"
 msgstr "Ocultar cursor"
 
-#: rc.cpp:1981
-#: rc.cpp:4009
+#: rc.cpp:2257
+#: rc.cpp:4291
 msgid "Hide frame"
 msgstr "Ocultar fotograma"
 
@@ -4413,11 +4618,11 @@ msgstr "Ocultar fotograma"
 msgid "Hide track"
 msgstr "Ocultar pista"
 
-#: rc.cpp:1020
+#: rc.cpp:1282
 msgid "High frequency damping"
 msgstr "Atenuación de frecuencias altas"
 
-#: rc.cpp:379
+#: rc.cpp:517
 msgid "High quality 3D denoiser"
 msgstr "Supresor de ruidos 3D de alta calidad"
 
@@ -4429,43 +4634,43 @@ msgstr "Destacar picos"
 msgid "Histogram"
 msgstr "Histograma"
 
-#: rc.cpp:427
+#: rc.cpp:577
 msgid "Histogram position"
 msgstr "Posición del histograma"
 
-#: rc.cpp:399
+#: rc.cpp:537
 msgid "Horizontal center"
 msgstr "Centro horizontal"
 
-#: rc.cpp:1084
+#: rc.cpp:1354
 msgid "Horizontal factor"
 msgstr "Factor horizontal"
 
-#: rc.cpp:34
+#: rc.cpp:36
 msgid "Horizontal multiplicator"
 msgstr "Multiplicador horizontal"
 
-#: rc.cpp:58
+#: rc.cpp:64
 msgid "Horizontal scatter"
 msgstr "Dispersión horizontal"
 
-#: rc.cpp:3024
-#: rc.cpp:5052
+#: rc.cpp:3300
+#: rc.cpp:5334
 msgid "How much to zoom in"
 msgstr "Qué tanto acercar el zoom"
 
-#: rc.cpp:393
+#: rc.cpp:531
 msgid "Hue"
 msgstr "Tono"
 
-#: rc.cpp:389
-msgid "Hueshift"
+#: rc.cpp:527
+msgid "Hue shift"
 msgstr "Desplazar tono"
 
-#: rc.cpp:1699
-#: rc.cpp:2362
-#: rc.cpp:3727
-#: rc.cpp:4390
+#: rc.cpp:1975
+#: rc.cpp:2638
+#: rc.cpp:4009
+#: rc.cpp:4672
 msgid "I"
 msgstr "I"
 
@@ -4473,10 +4678,14 @@ msgstr "I"
 msgid "ISO creation process crashed."
 msgstr "Proceso de creación del ISO falló."
 
-#: rc.cpp:1326
-#: rc.cpp:1452
-#: rc.cpp:3354
-#: rc.cpp:3480
+#: rc.cpp:633
+msgid "If normal dimming does not look natural enough, try this one."
+msgstr "Si la atenuación normal no luce suficientemente natural, intentar con esta."
+
+#: rc.cpp:1596
+#: rc.cpp:1722
+#: rc.cpp:3630
+#: rc.cpp:3756
 msgid "Image"
 msgstr "Imagen"
 
@@ -4484,8 +4693,8 @@ msgstr "Imagen"
 msgid "Image File"
 msgstr "Archivo de imagen"
 
-#: rc.cpp:2770
-#: rc.cpp:4798
+#: rc.cpp:3046
+#: rc.cpp:5080
 msgid "Image Type"
 msgstr "Tipo de imagen"
 
@@ -4495,13 +4704,13 @@ msgid "Image clip"
 msgstr "Clip de imagen"
 
 #: src/projectsettings.cpp:152
-#: rc.cpp:2689
-#: rc.cpp:4717
+#: rc.cpp:2965
+#: rc.cpp:4999
 msgid "Image clips"
 msgstr "Clips de imagen"
 
-#: rc.cpp:2095
-#: rc.cpp:4123
+#: rc.cpp:2371
+#: rc.cpp:4405
 msgid "Image editing"
 msgstr "Edición de imagenes"
 
@@ -4509,39 +4718,43 @@ msgstr "Edición de imagenes"
 msgid "Image file %1 already exists. Overwrite?"
 msgstr "El archivo de imagen %1 ya existe. ¿Sobrescribirlo?"
 
-#: rc.cpp:2773
-#: rc.cpp:4801
+#: rc.cpp:3049
+#: rc.cpp:5083
 msgid "Image name"
 msgstr "Nombre de imagen"
 
-#: rc.cpp:1263
-#: rc.cpp:1551
-#: rc.cpp:3291
-#: rc.cpp:3579
+#: rc.cpp:1533
+#: rc.cpp:1827
+#: rc.cpp:3567
+#: rc.cpp:3861
 msgid "Image preview"
 msgstr "Previsualización de imagen"
 
-#: rc.cpp:2758
-#: rc.cpp:4786
+#: rc.cpp:3034
+#: rc.cpp:5068
 msgid "Image selection method"
 msgstr "Método de selección de imagen"
 
-#: rc.cpp:2701
-#: rc.cpp:4729
+#: rc.cpp:2977
+#: rc.cpp:5011
 msgid "Image sequence"
 msgstr "Secuencia de imágenes"
 
-#: rc.cpp:1329
-#: rc.cpp:1888
-#: rc.cpp:3357
-#: rc.cpp:3916
+#: rc.cpp:1599
+#: rc.cpp:2164
+#: rc.cpp:3633
+#: rc.cpp:4198
 msgid "Image size"
 msgstr "Tamaño de imagen"
 
-#: rc.cpp:1293
-#: rc.cpp:3321
+#: rc.cpp:1563
+#: rc.cpp:3597
 msgid "Image type"
 msgstr "Tipo de imagen"
+
+#: rc.cpp:200
+msgid "Image,Alpha as gray,Gray + red,Selection on black,Selection on gray,Selection on white,Selection on checkers"
+msgstr "Imagen,Alfa como gris,Gris + rojo,Selección sobre negro,Selección sobre gris,Selección sobre blanco,Selección sobre damero"
 
 #: src/projectlist.cpp:1100
 msgid "Import image sequence"
@@ -4551,7 +4764,7 @@ msgstr "Importar secuencia de imágenes"
 msgid "Importing project effects"
 msgstr "Importando efectos del proyecto"
 
-#: rc.cpp:114
+#: rc.cpp:120
 msgid "In"
 msgstr "Entrada"
 
@@ -4559,8 +4772,8 @@ msgstr "Entrada"
 msgid "In Point"
 msgstr "Punto de entrada"
 
-#: rc.cpp:1533
-#: rc.cpp:3561
+#: rc.cpp:1803
+#: rc.cpp:3837
 msgid "Increases the number of lines in the grid.<br />After 8 lines it will begin from 0 again."
 msgstr "Aumenta la cantidad de líneas de la cuadrícula.<br />Luego de 8 líneas comienza de nuevamente desde 0."
 
@@ -4573,15 +4786,15 @@ msgstr "Información (en inglés) acerca de los caracteres Unicode: <a href=\"ht
 msgid "Initialising..."
 msgstr "Inicializando..."
 
-#: rc.cpp:415
+#: rc.cpp:563
 msgid "Input black level"
 msgstr "Nivel de negro entrante"
 
-#: rc.cpp:767
+#: rc.cpp:1029
 msgid "Input gain (dB)"
 msgstr "Ganancia de entrada (dB)"
 
-#: rc.cpp:417
+#: rc.cpp:565
 msgid "Input white level"
 msgstr "Nivel de blanco entrante"
 
@@ -4619,8 +4832,8 @@ msgid "Insert space"
 msgstr "Insertar espacio"
 
 #: src/customtrackview.cpp:5641
-#: rc.cpp:1407
-#: rc.cpp:3435
+#: rc.cpp:1677
+#: rc.cpp:3711
 msgid "Insert track"
 msgstr "Insertar pista"
 
@@ -4632,29 +4845,29 @@ msgstr "Insertar zona en árbol de proyecto"
 msgid "Insert zone in timeline"
 msgstr "Insertar zona en línea de tiempo"
 
-#: rc.cpp:5212
+#: rc.cpp:5494
 msgid "Insertion"
 msgstr "Inserción"
 
-#: rc.cpp:2962
-#: rc.cpp:4990
+#: rc.cpp:3238
+#: rc.cpp:5272
 msgid "Install extra video mimetypes"
 msgstr "Instalar tipos mime extra de video"
 
-#: rc.cpp:1217
-#: rc.cpp:3245
+#: rc.cpp:1487
+#: rc.cpp:3521
 msgid "Installed modules"
 msgstr "Módulos instalados"
 
-#: rc.cpp:44
+#: rc.cpp:46
 msgid "Intensity"
 msgstr "Intensidad"
 
 #: src/kdenlivesettingsdialog.cpp:655
-#: rc.cpp:2304
-#: rc.cpp:2557
-#: rc.cpp:4332
-#: rc.cpp:4585
+#: rc.cpp:2580
+#: rc.cpp:2833
+#: rc.cpp:4614
+#: rc.cpp:4867
 msgid "Interlaced"
 msgstr "Entrelazado"
 
@@ -4662,21 +4875,29 @@ msgstr "Entrelazado"
 msgid "Interlaced (%1 fields per second)"
 msgstr "Entrelazado (%1 campos por segundo)"
 
-#: rc.cpp:984
+#: rc.cpp:801
+msgid "Interlaced black lines"
+msgstr "Líneas negras entrelazadas"
+
+#: rc.cpp:1246
 msgid "Interpolation"
 msgstr "Interpolación"
 
-#: rc.cpp:272
-#: rc.cpp:357
+#: rc.cpp:336
+#: rc.cpp:461
 msgid "Interpolator"
 msgstr "Interpolador"
+
+#: rc.cpp:895
+msgid "Interval"
+msgstr "Intervalo"
 
 #: src/stopmotion/stopmotion.cpp:185
 msgid "Interval capture"
 msgstr "Captura de intervalo"
 
-#: rc.cpp:1111
-#: rc.cpp:3139
+#: rc.cpp:1381
+#: rc.cpp:3415
 msgid "Intro movie"
 msgstr "Película de introducción"
 
@@ -4709,18 +4930,23 @@ msgid "Invert"
 msgstr "Invertir"
 
 #: src/stopmotion/stopmotion.cpp:142
-#: rc.cpp:66
-#: rc.cpp:178
-#: rc.cpp:711
-#: rc.cpp:841
+#: rc.cpp:72
+#: rc.cpp:214
+#: rc.cpp:655
+#: rc.cpp:973
+#: rc.cpp:1103
 msgid "Invert"
 msgstr "Invertir"
 
-#: rc.cpp:713
+#: rc.cpp:975
 msgid "Invert colors"
 msgstr "Invertir colores"
 
-#: rc.cpp:577
+#: rc.cpp:190
+msgid "Invert rotation assignment"
+msgstr "Invertir asignación de rotaciones"
+
+#: rc.cpp:809
 msgid "Invert selection"
 msgstr "Invertir selección"
 
@@ -4732,8 +4958,8 @@ msgstr "Invertir eje X y cambiar punto 0"
 msgid "Invert y axis and change 0 point"
 msgstr "Invertir eje Y y cambiar punto 0"
 
-#: rc.cpp:1645
-#: rc.cpp:3673
+#: rc.cpp:1921
+#: rc.cpp:3955
 msgid "Item Properties"
 msgstr "Propiedades del elemento"
 
@@ -4741,8 +4967,8 @@ msgstr "Propiedades del elemento"
 msgid "Item is locked"
 msgstr "El elemento está bloqueado"
 
-#: rc.cpp:1963
-#: rc.cpp:3991
+#: rc.cpp:2239
+#: rc.cpp:4273
 msgid "Jack"
 msgstr "Jack"
 
@@ -4758,24 +4984,28 @@ msgstr "Jean-Baptiste Mardelle"
 msgid "Jean-Michel Poure"
 msgstr "Jean-Michel Poure"
 
-#: rc.cpp:2449
-#: rc.cpp:4477
+#: rc.cpp:2725
+#: rc.cpp:4759
 msgid "Job Queue"
 msgstr "Cola de tareas"
 
-#: rc.cpp:1569
-#: rc.cpp:3597
+#: rc.cpp:1845
+#: rc.cpp:3879
 msgid "Job status"
 msgstr "Estado de tarea"
 
-#: rc.cpp:2968
-#: rc.cpp:4996
+#: rc.cpp:3244
+#: rc.cpp:5278
 msgid "Jog Shuttle device disabled."
 msgstr "Dispositivo Jog Shuttle deshabilitado."
 
 #: src/kdenlivesettingsdialog.cpp:159
 msgid "JogShuttle"
 msgstr "JogShuttle"
+
+#: rc.cpp:350
+msgid "K-Means Clustering"
+msgstr "Algoritmo de agrupamiento k-medias"
 
 #: src/main.cpp:34
 msgid "Kdenlive"
@@ -4787,61 +5017,61 @@ msgstr "Kdenlive"
 msgid "Keep as placeholder"
 msgstr "Mantener como marcador de posición"
 
-#: rc.cpp:1798
-#: rc.cpp:3826
+#: rc.cpp:2074
+#: rc.cpp:4108
 msgid "Keep aspect ratio"
 msgstr "Mantener proporción"
 
-#: rc.cpp:290
+#: rc.cpp:372
 msgid "Keep luma"
 msgstr "Mantener luma"
 
-#: rc.cpp:645
+#: rc.cpp:889
 msgid "Kernel size"
 msgstr "Tamaño del núcleo"
 
-#: rc.cpp:2941
-#: rc.cpp:4969
+#: rc.cpp:3217
+#: rc.cpp:5251
 msgid "Keyframes"
 msgstr "Fotogramas"
 
-#: rc.cpp:793
+#: rc.cpp:1055
 msgid "LADSPA change pitch audio effect"
 msgstr "Cambiar timbre (efecto de audio LADSPA)"
 
-#: rc.cpp:717
+#: rc.cpp:979
 msgid "LADSPA declipper audio effect"
 msgstr "Declipper (efecto de audio LADSPA)"
 
-#: rc.cpp:755
+#: rc.cpp:1017
 msgid "LADSPA equalizer audio effect"
 msgstr "Ecualizador (efecto de audio LADSPA)"
 
-#: rc.cpp:721
+#: rc.cpp:983
 msgid "LADSPA equalizer audio effect (15 band)"
 msgstr "Ecualizador de 15 bandas (efecto de audio LADSPA)"
 
-#: rc.cpp:765
+#: rc.cpp:1027
 msgid "LADSPA limiter audio effect"
 msgstr "Limitador (efecto de audio LADSPA)"
 
-#: rc.cpp:775
+#: rc.cpp:1037
 msgid "LADSPA phaser audio effect"
 msgstr "Phaser (efecto de audio LADSPA)"
 
-#: rc.cpp:787
+#: rc.cpp:1049
 msgid "LADSPA pitch scale audio effect"
 msgstr "Redimensionar timbre (efecto de audio LADSPA)"
 
-#: rc.cpp:799
+#: rc.cpp:1061
 msgid "LADSPA rate scale audio effect"
 msgstr "Redimensionar frecuencia (efecto de audio LADSPA)"
 
-#: rc.cpp:805
+#: rc.cpp:1067
 msgid "LADSPA reverb audio effect"
 msgstr "Reverberación (efecto de audio LADSPA)"
 
-#: rc.cpp:813
+#: rc.cpp:1075
 msgid "LADSPA room reverb audio effect"
 msgstr "Reverberación de salón (efecto de audio LADSPA)"
 
@@ -4853,19 +5083,34 @@ msgstr "Nombre de la disposición:"
 msgid "Layouts"
 msgstr "Disposiciones"
 
-#: rc.cpp:90
+#: rc.cpp:96
+#: rc.cpp:647
 msgid "Left"
 msgstr "Izquierda"
 
-#: rc.cpp:509
+#: rc.cpp:12
+#: rc.cpp:52
+#: rc.cpp:56
+msgid "Left,Right"
+msgstr "Derecha,Izquierda"
+
+#: rc.cpp:721
 msgid "Length"
 msgstr "Longitud"
 
-#: rc.cpp:395
+#: rc.cpp:533
 msgid "Lens Correction"
 msgstr "Corrección de lente"
 
-#: rc.cpp:409
+#: rc.cpp:547
+msgid "LetterB0xed"
+msgstr "LetterB0xed"
+
+#: rc.cpp:346
+msgid "Level of trip"
+msgstr "Nivel de trayectoria"
+
+#: rc.cpp:555
 msgid "Levels"
 msgstr "Niveles"
 
@@ -4874,19 +5119,25 @@ msgctxt "Font style"
 msgid "Light"
 msgstr "Delgada"
 
-#: rc.cpp:429
+#: rc.cpp:579
 msgid "Light Graffiti"
 msgstr "Graffiti de luz"
 
-#: rc.cpp:431
-msgid "Light Graffiti effect."
-msgstr "Efecto graffiti de luz."
+#: rc.cpp:581
+msgid ""
+"Light Graffiti effect.\n"
+"        <full><![CDATA[This effect allows to do Light Painting (i.e. painting with light sources on a photo by keeping the shutter\n"
+"        opened for a while), but for video.]]></full>"
+msgstr ""
+"Efecto Graffiti de luz.\n"
+"        <full><![CDATA[Este efecto permite realizar una pintura lumínica sobre un video. Esto es, se pinta moviendo una fuente lumínica a través de la imagen, manteniendo el obturador\n"
+"        abierto un cierto tiempo).]]></full>"
 
-#: rc.cpp:769
+#: rc.cpp:1031
 msgid "Limit (dB)"
 msgstr "Límite (dB)"
 
-#: rc.cpp:763
+#: rc.cpp:1025
 msgid "Limiter"
 msgstr "Limitador"
 
@@ -4898,17 +5149,17 @@ msgstr ""
 "Nueva línea (caracter de nueva línea, \\\\n"
 ")"
 
-#: rc.cpp:1503
-#: rc.cpp:3531
-msgid "Link the Handles' position so you draw a line through Handle -> Point -> Handle.<br />Results in a natural spline."
-msgstr "Alinea las posiciones de las tangentes.<br />Se obtiene una curva más natural."
+#: rc.cpp:1773
+#: rc.cpp:3807
+msgid "Link the handles' position.<br />Results in a natural spline."
+msgstr "Alinea las posiciones de las tangentes.<br />Se obtiene una curva suave."
 
-#: rc.cpp:2195
-#: rc.cpp:4223
+#: rc.cpp:2471
+#: rc.cpp:4505
 msgid "Live view"
 msgstr "Vista en vivo"
 
-#: rc.cpp:757
+#: rc.cpp:1019
 msgid "Lo gain"
 msgstr "Ganancia de bajos"
 
@@ -4920,7 +5171,7 @@ msgstr "Cargar"
 msgid "Load Image"
 msgstr "Cargar imagen"
 
-#: rc.cpp:5242
+#: rc.cpp:5524
 msgid "Load Layout"
 msgstr "Cargar disposición"
 
@@ -4959,8 +5210,8 @@ msgstr "Bloquear pista"
 msgid "Locked"
 msgstr "Bloqueado"
 
-#: rc.cpp:2632
-#: rc.cpp:4660
+#: rc.cpp:2908
+#: rc.cpp:4942
 msgid "Log"
 msgstr "Registro"
 
@@ -4969,14 +5220,14 @@ msgstr "Registro"
 msgid "Looking for %1"
 msgstr "Buscando %1"
 
-#: rc.cpp:1302
-#: rc.cpp:1458
-#: rc.cpp:2219
-#: rc.cpp:2782
-#: rc.cpp:3330
-#: rc.cpp:3486
-#: rc.cpp:4247
-#: rc.cpp:4810
+#: rc.cpp:1572
+#: rc.cpp:1728
+#: rc.cpp:2495
+#: rc.cpp:3058
+#: rc.cpp:3606
+#: rc.cpp:3762
+#: rc.cpp:4529
+#: rc.cpp:5092
 msgid "Loop"
 msgstr "Repetir"
 
@@ -5009,9 +5260,9 @@ msgstr "Luma"
 msgid "Luma file"
 msgstr "Archivo de luma"
 
-#: rc.cpp:234
-#: rc.cpp:294
-#: rc.cpp:313
+#: rc.cpp:284
+#: rc.cpp:378
+#: rc.cpp:402
 msgid "Luma formula"
 msgstr "Método de luma"
 
@@ -5020,13 +5271,17 @@ msgstr "Método de luma"
 msgid "Luma mode"
 msgstr "Modo de luma"
 
-#: rc.cpp:2041
-#: rc.cpp:4069
+#: rc.cpp:2317
+#: rc.cpp:4351
 msgid "Luma value"
 msgstr "Valor de luma"
 
-#: rc.cpp:2113
-#: rc.cpp:4141
+#: rc.cpp:639
+msgid "Luminance"
+msgstr "Luminancia"
+
+#: rc.cpp:2389
+#: rc.cpp:4423
 msgid "M"
 msgstr "M"
 
@@ -5034,13 +5289,13 @@ msgstr "M"
 msgid "MLT and KDE SC 4 porting, main developer and maintainer"
 msgstr "Portabilidad a MLT y KDE SC 4, desarrollador principal y administrador"
 
-#: rc.cpp:2068
-#: rc.cpp:4096
+#: rc.cpp:2344
+#: rc.cpp:4378
 msgid "MLT environment"
 msgstr "Entorno MLT"
 
-#: rc.cpp:2071
-#: rc.cpp:4099
+#: rc.cpp:2347
+#: rc.cpp:4381
 msgid "MLT profiles folder"
 msgstr "Carpeta de perfiles de MLT"
 
@@ -5060,47 +5315,51 @@ msgstr "Versión de MLT: %1"
 msgid "MLT's SDL module not found. Please check your MLT install. Kdenlive will not work until this issue is fixed."
 msgstr "No se encuentra módulo SDL de MLT. Verificar la instalación de MLT. Kdenlive no funcionará hasta resolver esto."
 
-#: rc.cpp:1040
+#: rc.cpp:1302
 msgid "Make clip play faster or slower"
 msgstr "Hace el clip más rápido o más lento"
 
-#: rc.cpp:70
+#: rc.cpp:76
 msgid "Make image greyscale except for chosen color"
 msgstr "Convertir imagen a escala de grises, excepto el color elegido"
 
-#: rc.cpp:1052
+#: rc.cpp:1322
 msgid "Make monochrome clip"
 msgstr "Convertir clip a monocromo"
 
-#: rc.cpp:78
+#: rc.cpp:84
 msgid "Make selected color transparent"
 msgstr "Hacer transparente el color seleccionado"
 
-#: rc.cpp:1080
+#: rc.cpp:1350
 msgid "Make waves on your clip with keyframes"
 msgstr "Crea ondas en el clip (animable)"
+
+#: rc.cpp:629
+msgid "Makes the background transparent, allowing to apply a composite effect and paint the light mask over a completely different video."
+msgstr "Hace transparente el fondo, permitiendo componer la máscara de luz sobre un video completamente distinto."
 
 #: src/mainwindow.cpp:1164
 msgid "Manage Project Profiles"
 msgstr "Administrar perfiles de proyecto"
 
-#: rc.cpp:361
+#: rc.cpp:467
 msgid "Manual Aspect"
 msgstr "Proporción manual"
 
-#: rc.cpp:355
+#: rc.cpp:457
 msgid "Manual Scale"
 msgstr "Redimensionado manual"
 
-#: rc.cpp:671
+#: rc.cpp:925
 msgid "Map black to"
 msgstr "Mapear negro a"
 
-#: rc.cpp:673
+#: rc.cpp:927
 msgid "Map white to"
 msgstr "Mapear blanco a"
 
-#: rc.cpp:669
+#: rc.cpp:923
 msgid "Maps source image luminance between two colors specified"
 msgstr "Mapea la luminosidad de la imagen original entre dos colores seleccionados"
 
@@ -5112,59 +5371,63 @@ msgstr "Marco Gittler"
 #: src/definitions.h:157
 #: src/clipproperties.cpp:611
 #: src/docclipbase.cpp:364
-#: rc.cpp:1545
-#: rc.cpp:3573
+#: rc.cpp:1821
+#: rc.cpp:3855
 msgid "Marker"
 msgstr "Marcador"
 
-#: rc.cpp:513
+#: rc.cpp:727
 msgid "Marker 1"
 msgstr "Marcador 1"
 
-#: rc.cpp:515
+#: rc.cpp:729
 msgid "Marker 2"
 msgstr "Marcador 2"
 
-#: rc.cpp:1335
-#: rc.cpp:3363
-#: rc.cpp:5203
+#: rc.cpp:1605
+#: rc.cpp:3639
+#: rc.cpp:5485
 msgid "Markers"
 msgstr "Marcadores"
 
-#: rc.cpp:192
-#: rc.cpp:216
+#: rc.cpp:643
+msgid "Mask0Mate"
+msgstr "Mask0Mate"
+
+#: rc.cpp:228
+#: rc.cpp:256
 msgid "Max"
 msgstr "Máx."
 
-#: rc.cpp:926
+#: rc.cpp:1188
 msgid "Max darker"
 msgstr "Oscurecimiento máx."
 
-#: rc.cpp:928
+#: rc.cpp:1190
 msgid "Max lighter"
 msgstr "Aclaramiento máx."
 
-#: rc.cpp:924
+#: rc.cpp:1186
 msgid "Max number of lines"
 msgstr "Nº máximo de líneas"
 
-#: rc.cpp:104
+#: rc.cpp:110
 msgid "Maximal Diameter"
 msgstr "Diámetro máximo"
 
-#: rc.cpp:106
+#: rc.cpp:112
 msgid "Maximal number of dust"
 msgstr "Cantidad máxima de polvo"
 
-#: rc.cpp:855
+#: rc.cpp:1117
 msgid "Maximum gain"
 msgstr "Ganancia máxima"
 
-#: rc.cpp:481
+#: rc.cpp:691
 msgid "Measure video values"
 msgstr "Medir valores del video"
 
-#: rc.cpp:483
+#: rc.cpp:695
 msgid "Measurement"
 msgstr "Medidas"
 
@@ -5176,13 +5439,13 @@ msgstr "Reproductores de medios"
 msgid "Melt"
 msgstr "Melt"
 
-#: rc.cpp:2074
-#: rc.cpp:4102
+#: rc.cpp:2350
+#: rc.cpp:4384
 msgid "Melt path"
 msgstr "Ruta de Melt"
 
-#: rc.cpp:2644
-#: rc.cpp:4672
+#: rc.cpp:2920
+#: rc.cpp:4954
 msgid "Menu File"
 msgstr "Archivo de menú"
 
@@ -5190,22 +5453,22 @@ msgstr "Archivo de menú"
 msgid "Menu job timed out"
 msgstr "Tiempo de espera agotado en la tarea de menú"
 
-#: rc.cpp:1353
-#: rc.cpp:3381
+#: rc.cpp:1623
+#: rc.cpp:3657
 msgid "Metadata"
 msgstr "Metadatos"
 
-#: rc.cpp:759
+#: rc.cpp:1021
 msgid "Mid gain"
 msgstr "Ganancia de medios"
 
-#: rc.cpp:2761
-#: rc.cpp:4789
+#: rc.cpp:3037
+#: rc.cpp:5071
 msgid "Mimetype"
 msgstr "Tipo Mime"
 
-#: rc.cpp:190
-#: rc.cpp:214
+#: rc.cpp:226
+#: rc.cpp:254
 msgid "Min"
 msgstr "Mín."
 
@@ -5213,11 +5476,11 @@ msgstr "Mín."
 msgid "Minus sign. For numbers: &#x2212;42"
 msgstr "Signo de menos. Para números: &#x2212;42"
 
-#: rc.cpp:835
+#: rc.cpp:1097
 msgid "Mirror"
 msgstr "Espejar"
 
-#: rc.cpp:839
+#: rc.cpp:1101
 msgid "Mirroring direction"
 msgstr "Dirección del reflejo"
 
@@ -5247,13 +5510,13 @@ msgstr "Perfil no encontrado"
 msgid "Missing background image"
 msgstr "Imagen de fondo no encontrada"
 
-#: rc.cpp:2734
-#: rc.cpp:4762
+#: rc.cpp:3010
+#: rc.cpp:5044
 msgid "Missing clips"
 msgstr "Clips no encontrados"
 
 #: src/initeffects.cpp:789
-#: rc.cpp:64
+#: rc.cpp:70
 msgid "Mix"
 msgstr "Mezclar"
 
@@ -5267,7 +5530,7 @@ msgstr "Dispositivos móviles"
 msgid "Modified YUV (Chroma)"
 msgstr "YUV modificado (Croma)"
 
-#: rc.cpp:5230
+#: rc.cpp:5512
 msgid "Monitor"
 msgstr "Monitor"
 
@@ -5275,8 +5538,8 @@ msgstr "Monitor"
 msgid "Monitor audio signal"
 msgstr "Monitorear señal de audio"
 
-#: rc.cpp:1606
-#: rc.cpp:3634
+#: rc.cpp:1882
+#: rc.cpp:3916
 msgid "Monitor background color:"
 msgstr "Color de fondo del monitor:"
 
@@ -5284,11 +5547,11 @@ msgstr "Color de fondo del monitor:"
 msgid "Monitor overlay infos"
 msgstr "Información de superposición del monitor"
 
-#: rc.cpp:46
+#: rc.cpp:48
 msgid "Mono to stereo"
 msgstr "Mono a estéreo"
 
-#: rc.cpp:1102
+#: rc.cpp:1372
 msgid "Motion"
 msgstr "Movimiento"
 
@@ -5330,7 +5593,7 @@ msgstr "Mover guía"
 msgid "Move keyframe above or below clip to remove it, double click to add a new one."
 msgstr "Mover un fotograma clave fuera del clip para eliminarlo. Doble clic para agregar uno nuevo."
 
-#: rc.cpp:1048
+#: rc.cpp:1310
 msgid "Move the left channel to the right and right-to-left"
 msgstr "Intercambiar los canales izquierdo y derecho"
 
@@ -5355,20 +5618,20 @@ msgstr "Mover hacia arriba"
 msgid "Move transition"
 msgstr "Mover transición"
 
-#: rc.cpp:867
+#: rc.cpp:1129
 msgid "Moves the Picture up and down and random brightness change"
 msgstr "Mueve la imagen de arriba a abajo y cambia su brillo de forma aleatoria."
 
-#: rc.cpp:3001
-#: rc.cpp:5029
+#: rc.cpp:3277
+#: rc.cpp:5311
 msgid "Movie file"
 msgstr "Archivo de película"
 
-#: rc.cpp:843
+#: rc.cpp:1105
 msgid "Mute"
 msgstr "Silenciar"
 
-#: rc.cpp:845
+#: rc.cpp:1107
 msgid "Mute clip"
 msgstr "Silenciar clip"
 
@@ -5385,12 +5648,12 @@ msgstr "Silenciar clip de video"
 msgid "Muted"
 msgstr "Silenciado"
 
-#: rc.cpp:1344
-#: rc.cpp:1705
-#: rc.cpp:2119
-#: rc.cpp:3372
-#: rc.cpp:3733
-#: rc.cpp:4147
+#: rc.cpp:1614
+#: rc.cpp:1981
+#: rc.cpp:2395
+#: rc.cpp:3648
+#: rc.cpp:4015
+#: rc.cpp:4429
 msgid "N"
 msgstr "N"
 
@@ -5398,8 +5661,12 @@ msgstr "N"
 msgid "NAME OF TRANSLATORS"
 msgstr "Gabriel Gazzán, Gerard Lledó, Carlos Dávila, Juan M. Herrera"
 
-#: rc.cpp:2371
-#: rc.cpp:4399
+#: rc.cpp:206
+msgid "NO OP,Shave,Shrink hard,Shrink soft,Grow hard,Grow soft,Threshold"
+msgstr "Sin OP,Cercenar,Contracción definida,Contracción suave,Expansión definida,Expansión suave,Umbral"
+
+#: rc.cpp:2647
+#: rc.cpp:4681
 msgid "NTSC"
 msgstr "NTSC"
 
@@ -5413,12 +5680,12 @@ msgstr "NTSC 4:3"
 
 #: src/kdenlivesettingsdialog.cpp:701
 #: src/tracksconfigdialog.cpp:72
-#: rc.cpp:2755
-#: rc.cpp:2890
-#: rc.cpp:3063
-#: rc.cpp:4783
-#: rc.cpp:4918
-#: rc.cpp:5091
+#: rc.cpp:3031
+#: rc.cpp:3166
+#: rc.cpp:3339
+#: rc.cpp:5065
+#: rc.cpp:5200
+#: rc.cpp:5373
 msgid "Name"
 msgstr "Nombre"
 
@@ -5430,7 +5697,16 @@ msgstr "Nombre para el efecto guardado:"
 msgid "Nano X"
 msgstr "Nano X"
 
-#: rc.cpp:224
+#: rc.cpp:334
+#: rc.cpp:459
+msgid "Nearest neighbor,Bilinear,Bicubic smooth,Bicubic sharp,Spline 4x4,Spline 6x6,Lanczos"
+msgstr "Más próximo,Bilineal,Bicúbico suave,Bicúbico definido,Curva 4x4,Curva 6x6,Lanczos"
+
+#: rc.cpp:659
+msgid "Nervous"
+msgstr "Nervioso"
+
+#: rc.cpp:266
 msgid "Neutral Color"
 msgstr "Color neutro"
 
@@ -5441,6 +5717,10 @@ msgstr "Nueva velocidad (%)"
 #: src/unicodedialog.cpp:47
 msgid "Next Unicode character (Arrow Down)"
 msgstr "Siguiente caracter Unicode (flecha abajo)"
+
+#: rc.cpp:434
+msgid "Nikon D90 Stairstepping fix"
+msgstr "Corrección de escalonado para Nikon D90"
 
 #: src/blackmagic/capture.cpp:540
 msgid "No DeckLink PCI cards found."
@@ -5486,10 +5766,10 @@ msgid "No guide at cursor time"
 msgstr "No hay guía bajo el cursor"
 
 #: src/clipproperties.cpp:904
-#: rc.cpp:1317
-#: rc.cpp:2800
-#: rc.cpp:3345
-#: rc.cpp:4828
+#: rc.cpp:1587
+#: rc.cpp:3076
+#: rc.cpp:3621
+#: rc.cpp:5110
 msgid "No image found"
 msgstr "No se ha encontrado ninguna imagen"
 
@@ -5514,13 +5794,17 @@ msgstr "Espacio duro. &amp;nbsp; en HTML. Ver U+2009 y U+0020."
 #: plugins/sampleplugin/sampleplugin.cpp:45
 #: plugins/sampleplugin/sampleplugin.cpp:57
 #: plugins/sampleplugin/sampleplugin.cpp:75
-#: rc.cpp:701
+#: rc.cpp:963
 msgid "Noise"
 msgstr "Ruido"
 
-#: rc.cpp:345
+#: rc.cpp:443
 msgid "Non rectilinear lens mappings"
 msgstr "Mapas de lentes no rectilíneos"
+
+#: rc.cpp:495
+msgid "Non-edge brightness downscaling multiplier"
+msgstr "Reductor del brillo de lo que no es borde"
 
 #: src/slideshowclip.cpp:62
 #: src/colorscopes/vectorscope.cpp:63
@@ -5532,6 +5816,10 @@ msgstr "Mapas de lentes no rectilíneos"
 msgid "None"
 msgstr "Ninguno"
 
+#: rc.cpp:631
+msgid "Nonlinear dimming"
+msgstr "Atenuación no lineal"
+
 #: src/titlewidget.cpp:239
 msgctxt "Font style"
 msgid "Normal"
@@ -5541,18 +5829,18 @@ msgstr "Normal"
 msgid "Normal mode"
 msgstr "Modo normal"
 
-#: rc.cpp:849
+#: rc.cpp:1111
 msgid "Normalise"
 msgstr "Normalizar"
 
-#: rc.cpp:2587
-#: rc.cpp:4615
+#: rc.cpp:2863
+#: rc.cpp:4897
 msgid "Normalise audio for thumbnails"
 msgstr "Normalizar audio para miniaturas"
 
 #: src/recmonitor.cpp:675
-#: rc.cpp:2020
-#: rc.cpp:4048
+#: rc.cpp:2296
+#: rc.cpp:4330
 msgid "Not connected"
 msgstr "No conectado"
 
@@ -5565,12 +5853,12 @@ msgstr "No encontrado: %1"
 msgid "Not possible to resize"
 msgstr "Imposible redimensionar"
 
-#: rc.cpp:317
+#: rc.cpp:406
 msgid "Number of curve points"
 msgstr "Cantidad de puntos de la curva"
 
-#: rc.cpp:2222
-#: rc.cpp:4250
+#: rc.cpp:2498
+#: rc.cpp:4532
 msgid "Number of frames to play (0 to play all frames)"
 msgstr "Cantidad de fotogramas a reproducir (0 para reproducirlos todos)"
 
@@ -5582,31 +5870,31 @@ msgstr "OSS"
 msgid "OSS with DMA access"
 msgstr "OSS con acceso DMA"
 
-#: rc.cpp:28
-#: rc.cpp:859
+#: rc.cpp:30
+#: rc.cpp:1121
 msgid "Obscure"
 msgstr "Ocultar"
 
-#: rc.cpp:1756
-#: rc.cpp:1987
-#: rc.cpp:3784
-#: rc.cpp:4015
+#: rc.cpp:2032
+#: rc.cpp:2263
+#: rc.cpp:4066
+#: rc.cpp:4297
 msgid "Offset"
 msgstr "Desplazar"
 
-#: rc.cpp:624
+#: rc.cpp:868
 msgid "Offset Alpha"
 msgstr "Desplazamiento alfa"
 
-#: rc.cpp:622
+#: rc.cpp:866
 msgid "Offset Blue"
 msgstr "Desplazamiento azul"
 
-#: rc.cpp:620
+#: rc.cpp:864
 msgid "Offset Green"
 msgstr "Desplazamiento verde"
 
-#: rc.cpp:616
+#: rc.cpp:860
 msgid "Offset Red"
 msgstr "Desplazamiento rojo"
 
@@ -5615,15 +5903,14 @@ msgstr "Desplazamiento rojo"
 msgid "Offset:"
 msgstr "Desplazamiento:"
 
-#: rc.cpp:865
+#: rc.cpp:1127
 msgid "Oldfilm"
 msgstr "Película antigua"
 
-#: rc.cpp:438
-#: rc.cpp:2128
-#: rc.cpp:3097
-#: rc.cpp:4156
-#: rc.cpp:5125
+#: rc.cpp:2404
+#: rc.cpp:3373
+#: rc.cpp:4438
+#: rc.cpp:5407
 msgid "Opacity"
 msgstr "Opacidad"
 
@@ -5631,8 +5918,8 @@ msgstr "Opacidad"
 msgid "Open Document"
 msgstr "Abrir documento"
 
-#: rc.cpp:2410
-#: rc.cpp:4438
+#: rc.cpp:2686
+#: rc.cpp:4720
 msgid "Open Dvd wizard after rendering"
 msgstr "Abrir el asistente de DVD después de procesar"
 
@@ -5640,18 +5927,18 @@ msgstr "Abrir el asistente de DVD después de procesar"
 msgid "Open box; stands for a space."
 msgstr "Caja abierta; representa un espacio."
 
-#: rc.cpp:2416
-#: rc.cpp:4444
+#: rc.cpp:2692
+#: rc.cpp:4726
 msgid "Open browser window after export"
 msgstr "Abrir ventana de navegación después de la exportación"
 
-#: rc.cpp:2671
-#: rc.cpp:4699
+#: rc.cpp:2947
+#: rc.cpp:4981
 msgid "Open last project on startup"
 msgstr "Abrir el último proyecto al comienzo"
 
-#: rc.cpp:2677
-#: rc.cpp:4705
+#: rc.cpp:2953
+#: rc.cpp:4987
 msgid "Open projects in new tabs"
 msgstr "Abrir proyectos en nuevas pestañas"
 
@@ -5659,15 +5946,15 @@ msgstr "Abrir proyectos en nuevas pestañas"
 msgid "Opening file %1"
 msgstr "Abriendo archivo %1"
 
-#: rc.cpp:172
-#: rc.cpp:194
-#: rc.cpp:218
-#: rc.cpp:591
+#: rc.cpp:208
+#: rc.cpp:232
+#: rc.cpp:260
+#: rc.cpp:831
 msgid "Operation"
 msgstr "Operación"
 
-#: rc.cpp:2153
-#: rc.cpp:4181
+#: rc.cpp:2429
+#: rc.cpp:4463
 msgid "Original"
 msgstr "Original"
 
@@ -5691,7 +5978,7 @@ msgstr "Tamaño original (1:1)"
 msgid "Other clips"
 msgstr "Otros clips"
 
-#: rc.cpp:148
+#: rc.cpp:154
 msgid "Out"
 msgstr "Salida"
 
@@ -5699,8 +5986,8 @@ msgstr "Salida"
 msgid "Out Point"
 msgstr "Punto de salida"
 
-#: rc.cpp:1666
-#: rc.cpp:3694
+#: rc.cpp:1942
+#: rc.cpp:3976
 msgid "Outline"
 msgstr "Contorno"
 
@@ -5712,13 +5999,13 @@ msgstr "Opacidad del color del contorno"
 msgid "Outline width"
 msgstr "Ancho del contorno"
 
-#: rc.cpp:1612
-#: rc.cpp:3640
+#: rc.cpp:1888
+#: rc.cpp:3922
 msgid "Output device"
 msgstr "Dispositivo de salida"
 
-#: rc.cpp:2359
-#: rc.cpp:4387
+#: rc.cpp:2635
+#: rc.cpp:4669
 msgid "Output file"
 msgstr "Archivo de salida"
 
@@ -5726,7 +6013,7 @@ msgstr "Archivo de salida"
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "El archivo de salida ya existe. ¿Sobrescribirlo?"
 
-#: rc.cpp:637
+#: rc.cpp:881
 msgid "Overall Saturation"
 msgstr "Saturación global"
 
@@ -5734,17 +6021,21 @@ msgstr "Saturación global"
 msgid "Overlay effect"
 msgstr "Efecto de superposición"
 
+#: rc.cpp:1314
+msgid "Oversaturate the color in video, like in old Technicolor movies"
+msgstr "Sobresatura el color del video, como en las películas antiguas en Technicolor"
+
 #: src/mainwindow.cpp:952
 msgid "Overwrite mode"
 msgstr "Modo de superposición"
 
-#: rc.cpp:2116
-#: rc.cpp:4144
+#: rc.cpp:2392
+#: rc.cpp:4426
 msgid "P"
 msgstr "P"
 
-#: rc.cpp:2368
-#: rc.cpp:4396
+#: rc.cpp:2644
+#: rc.cpp:4678
 msgid "PAL"
 msgstr "PAL"
 
@@ -5756,24 +6047,24 @@ msgstr "PAL 16:9"
 msgid "PAL 4:3"
 msgstr "PAL 4:3"
 
-#: rc.cpp:1239
-#: rc.cpp:2569
-#: rc.cpp:2827
-#: rc.cpp:3267
-#: rc.cpp:4597
-#: rc.cpp:4855
+#: rc.cpp:1509
+#: rc.cpp:2845
+#: rc.cpp:3103
+#: rc.cpp:3543
+#: rc.cpp:4879
+#: rc.cpp:5137
 msgid "Paint mode"
 msgstr "Modo de pintura"
 
 #: src/slideshowclip.cpp:63
 #: src/clipproperties.cpp:267
 #: rc.cpp:8
-#: rc.cpp:14
+#: rc.cpp:16
 msgid "Pan"
 msgstr "Paneo"
 
-#: rc.cpp:886
-#: rc.cpp:916
+#: rc.cpp:1148
+#: rc.cpp:1178
 msgid "Pan and Zoom"
 msgstr "Paneo y zoom"
 
@@ -5792,8 +6083,8 @@ msgstr "Paneo y zoom, filtrado"
 msgid "Pan, low-pass"
 msgstr "Paneo, filtrado"
 
-#: rc.cpp:1401
-#: rc.cpp:3429
+#: rc.cpp:1671
+#: rc.cpp:3705
 msgid "Param"
 msgstr "Param"
 
@@ -5802,8 +6093,8 @@ msgid "Parameter info"
 msgstr "Información del parámetro"
 
 #: src/kdenlivesettingsdialog.cpp:701
-#: rc.cpp:2665
-#: rc.cpp:4693
+#: rc.cpp:2941
+#: rc.cpp:4975
 msgid "Parameters"
 msgstr "Parámetros"
 
@@ -5811,10 +6102,10 @@ msgstr "Parámetros"
 msgid "Paste Effects"
 msgstr "Pegar efectos"
 
-#: rc.cpp:1245
-#: rc.cpp:2740
-#: rc.cpp:3273
-#: rc.cpp:4768
+#: rc.cpp:1515
+#: rc.cpp:3016
+#: rc.cpp:3549
+#: rc.cpp:5050
 msgid "Path"
 msgstr "Ruta"
 
@@ -5822,19 +6113,23 @@ msgstr "Ruta"
 msgid "Pause"
 msgstr "Pausa"
 
-#: rc.cpp:527
+#: rc.cpp:741
 msgid "Pb trace"
 msgstr "Trazado Pb"
 
-#: rc.cpp:982
+#: rc.cpp:669
+msgid "Perspective"
+msgstr "Perspectiva"
+
+#: rc.cpp:1244
 msgid "Phase"
 msgstr "Fase"
 
-#: rc.cpp:681
+#: rc.cpp:943
 msgid "Phase Increment"
 msgstr "Incremento de fase"
 
-#: rc.cpp:773
+#: rc.cpp:1035
 msgid "Phaser"
 msgstr "Phaser"
 
@@ -5842,11 +6137,11 @@ msgstr "Phaser"
 msgid "Pick a color on the screen"
 msgstr "Escoger un color de la pantalla"
 
-#: rc.cpp:785
+#: rc.cpp:1047
 msgid "Pitch Scaler"
 msgstr "Redimensionar timbre"
 
-#: rc.cpp:791
+#: rc.cpp:1053
 msgid "Pitch Shift"
 msgstr "Desplazar timbre"
 
@@ -5855,14 +6150,14 @@ msgid "Pixbuf module"
 msgstr "Módulo Pixbuf"
 
 #: src/clipproperties.cpp:374
-#: rc.cpp:1159
-#: rc.cpp:3187
+#: rc.cpp:1429
+#: rc.cpp:3463
 msgid "Pixel aspect ratio"
 msgstr "Proporción de pixel"
 
 #: src/wizard.cpp:555
-#: rc.cpp:2289
-#: rc.cpp:4317
+#: rc.cpp:2565
+#: rc.cpp:4599
 msgid "Pixel aspect ratio:"
 msgstr "Proporción de pixel:"
 
@@ -5870,20 +6165,20 @@ msgstr "Proporción de pixel:"
 msgid "Pixel format"
 msgstr "Formato de pixel"
 
-#: rc.cpp:471
+#: rc.cpp:681
 msgid "Pixelize"
 msgstr "Pixelizar"
 
-#: rc.cpp:473
+#: rc.cpp:683
 msgid "Pixelize input image."
 msgstr "Pixeliza la imagen suministrada."
 
-#: rc.cpp:2347
-#: rc.cpp:4375
+#: rc.cpp:2623
+#: rc.cpp:4657
 msgid "Plain text export"
 msgstr "Exportar texto simple"
 
-#: rc.cpp:365
+#: rc.cpp:481
 msgid "Plasma"
 msgstr "Plasma"
 
@@ -5902,8 +6197,8 @@ msgstr "Reproducir todo"
 msgid "Play Zone"
 msgstr "Zona de reproducción"
 
-#: rc.cpp:2419
-#: rc.cpp:4447
+#: rc.cpp:2695
+#: rc.cpp:4729
 msgid "Play after render"
 msgstr "Reproducir después de procesar"
 
@@ -5912,8 +6207,8 @@ msgid "Play..."
 msgstr "Reproducir..."
 
 #: src/kdenlivesettingsdialog.cpp:168
-#: rc.cpp:2216
-#: rc.cpp:4244
+#: rc.cpp:2492
+#: rc.cpp:4526
 msgid "Playback"
 msgstr "Reproducción"
 
@@ -5938,8 +6233,8 @@ msgstr "Por favor, establecer la aplicación predefinida para abrir archivos de 
 msgid "Please set a default application to open images in the Settings dialog"
 msgstr "Por favor, establecer la aplicación predefinida para abrir imágenes en el diálogo de Preferencias."
 
-#: rc.cpp:2809
-#: rc.cpp:4837
+#: rc.cpp:3085
+#: rc.cpp:5119
 msgid "Please set your default video profile"
 msgstr "Por favor, establecer el perfil de video predefinido"
 
@@ -5975,88 +6270,88 @@ msgstr ""
 "Los archivos se guardarán en:\n"
 "%1"
 
-#: rc.cpp:1485
-#: rc.cpp:3513
+#: rc.cpp:1755
+#: rc.cpp:3789
 msgid "Point"
 msgstr "Punto"
 
-#: rc.cpp:319
+#: rc.cpp:408
 msgid "Point 1 input value"
 msgstr "Punto 1 valor entrante"
 
-#: rc.cpp:321
+#: rc.cpp:410
 msgid "Point 1 output value"
 msgstr "Punto 1 valor saliente"
 
-#: rc.cpp:323
+#: rc.cpp:412
 msgid "Point 2 input value"
 msgstr "Punto 2 valor entrante"
 
-#: rc.cpp:325
+#: rc.cpp:414
 msgid "Point 2 output value"
 msgstr "Punto 2 valor saliente"
 
-#: rc.cpp:327
+#: rc.cpp:416
 msgid "Point 3 input value"
 msgstr "Punto 3 valor entrante"
 
-#: rc.cpp:329
+#: rc.cpp:418
 msgid "Point 3 output value"
 msgstr "Punto 3 valor saliente"
 
-#: rc.cpp:331
+#: rc.cpp:420
 msgid "Point 4 input value"
 msgstr "Punto 4 valor entrante"
 
-#: rc.cpp:333
+#: rc.cpp:422
 msgid "Point 4 output value"
 msgstr "Punto 4 valor saliente"
 
-#: rc.cpp:335
+#: rc.cpp:424
 msgid "Point 5 input value"
 msgstr "Punto 5 valor entrante"
 
-#: rc.cpp:337
+#: rc.cpp:426
 msgid "Point 5 output value"
 msgstr "Punto 5 valor saliente"
 
-#: rc.cpp:1482
-#: rc.cpp:3510
+#: rc.cpp:1752
+#: rc.cpp:3786
 msgid "Point In"
 msgstr "Punto de entrada"
 
-#: rc.cpp:1488
-#: rc.cpp:3516
+#: rc.cpp:1758
+#: rc.cpp:3792
 msgid "Point Out"
 msgstr "Punto de salida"
 
-#: rc.cpp:1966
-#: rc.cpp:3994
+#: rc.cpp:2242
+#: rc.cpp:4276
 msgid "Ports:"
 msgstr "Puertos:"
 
-#: rc.cpp:2131
-#: rc.cpp:4159
+#: rc.cpp:2407
+#: rc.cpp:4441
 msgid "Pos"
 msgstr "Pos"
 
-#: rc.cpp:184
-#: rc.cpp:1199
-#: rc.cpp:1554
-#: rc.cpp:2881
-#: rc.cpp:2920
-#: rc.cpp:3227
-#: rc.cpp:3582
-#: rc.cpp:4909
-#: rc.cpp:4948
+#: rc.cpp:220
+#: rc.cpp:1469
+#: rc.cpp:1830
+#: rc.cpp:3157
+#: rc.cpp:3196
+#: rc.cpp:3503
+#: rc.cpp:3864
+#: rc.cpp:5191
+#: rc.cpp:5230
 msgid "Position"
 msgstr "Posición"
 
-#: rc.cpp:202
+#: rc.cpp:242
 msgid "Position X"
 msgstr "Posición X"
 
-#: rc.cpp:204
+#: rc.cpp:244
 msgid "Position Y"
 msgstr "Posición Y"
 
@@ -6066,33 +6361,33 @@ msgstr "Posición Y"
 msgid "Position: %1"
 msgstr "Posición: %1"
 
-#: rc.cpp:635
+#: rc.cpp:879
 msgid "Power Alpha"
 msgstr "Potencia del alfa"
 
-#: rc.cpp:633
+#: rc.cpp:877
 msgid "Power Blue"
 msgstr "Potencia del azul"
 
-#: rc.cpp:631
+#: rc.cpp:875
 msgid "Power Green"
 msgstr "Potencia del verde"
 
-#: rc.cpp:626
+#: rc.cpp:870
 msgid "Power Red"
 msgstr "Potencia del rojo"
 
-#: rc.cpp:525
+#: rc.cpp:739
 msgid "Pr trace"
 msgstr "Trazado Pr"
 
-#: rc.cpp:1026
+#: rc.cpp:1288
 msgid "Pre-delay"
 msgstr "Pre retardo"
 
 #: src/renderwidget.cpp:94
-#: rc.cpp:1684
-#: rc.cpp:3712
+#: rc.cpp:1960
+#: rc.cpp:3994
 msgid "Preserve aspect ratio"
 msgstr "Preserva la proporción"
 
@@ -6121,24 +6416,28 @@ msgstr ""
 "Los archivos se guardarán en:\n"
 "%1"
 
-#: rc.cpp:2638
-#: rc.cpp:4666
+#: rc.cpp:2914
+#: rc.cpp:4948
 msgid "Preview"
 msgstr "Previsualización"
 
-#: rc.cpp:2186
-#: rc.cpp:4214
+#: rc.cpp:2462
+#: rc.cpp:4496
 msgid "Preview sequence"
 msgstr "Previsualizar secuencia"
 
-#: rc.cpp:1599
-#: rc.cpp:3627
+#: rc.cpp:1875
+#: rc.cpp:3909
 msgid "Preview volume:"
 msgstr "Volumen de previsualización:"
 
 #: src/unicodedialog.cpp:46
 msgid "Previous Unicode character (Arrow Up)"
 msgstr "Caracter Unicode previo (flecha arriba)"
+
+#: rc.cpp:761
+msgid "Primaries"
+msgstr "Primarios"
 
 #: src/customtrackview.cpp:1566
 #: src/customtrackview.cpp:1586
@@ -6163,14 +6462,14 @@ msgstr "Problema al eliminar efecto"
 msgid "Problem editing effect"
 msgstr "Problema al editar efecto"
 
-#: rc.cpp:1141
-#: rc.cpp:1581
-#: rc.cpp:2274
-#: rc.cpp:2530
-#: rc.cpp:3169
-#: rc.cpp:3609
-#: rc.cpp:4302
-#: rc.cpp:4558
+#: rc.cpp:1411
+#: rc.cpp:1857
+#: rc.cpp:2550
+#: rc.cpp:2806
+#: rc.cpp:3445
+#: rc.cpp:3891
+#: rc.cpp:4584
+#: rc.cpp:4840
 msgid "Profile"
 msgstr "Perfil"
 
@@ -6179,13 +6478,13 @@ msgstr "Perfil"
 msgid "Profile already exists"
 msgstr "El perfil ya existe"
 
-#: rc.cpp:2659
-#: rc.cpp:4687
+#: rc.cpp:2935
+#: rc.cpp:4969
 msgid "Profile name"
 msgstr "Nombre del perfil"
 
-#: rc.cpp:1138
-#: rc.cpp:3166
+#: rc.cpp:1408
+#: rc.cpp:3442
 msgid "Profiles"
 msgstr "Perfiles"
 
@@ -6195,12 +6494,12 @@ msgstr "Progreso"
 
 #: src/kdenlivesettingsdialog.cpp:657
 #: src/projectsettings.cpp:265
-#: rc.cpp:1181
-#: rc.cpp:3209
+#: rc.cpp:1451
+#: rc.cpp:3485
 msgid "Progressive"
 msgstr "Progresivo"
 
-#: rc.cpp:5182
+#: rc.cpp:5464
 msgid "Project"
 msgstr "Proyecto"
 
@@ -6208,8 +6507,8 @@ msgstr "Proyecto"
 msgid "Project Defaults"
 msgstr "Opciones predefinidas del proyecto"
 
-#: rc.cpp:2322
-#: rc.cpp:4350
+#: rc.cpp:2598
+#: rc.cpp:4632
 msgid "Project Files"
 msgstr "Archivos de proyecto"
 
@@ -6227,8 +6526,8 @@ msgid "Project Notes"
 msgstr "Notas del proyecto"
 
 #: src/mainwindow.cpp:1177
-#: rc.cpp:2262
-#: rc.cpp:4290
+#: rc.cpp:2538
+#: rc.cpp:4572
 msgid "Project Settings"
 msgstr "Preferencias del proyecto"
 
@@ -6240,15 +6539,15 @@ msgstr "Árbol del proyecto"
 msgid "Project directory %1 does not exist. Create it?"
 msgstr "La carpeta de proyecto %1 no existe. ¿Crearla?"
 
-#: rc.cpp:2340
-#: rc.cpp:4368
+#: rc.cpp:2616
+#: rc.cpp:4650
 msgid "Project files"
 msgstr "Archivos de proyecto"
 
-#: rc.cpp:2080
-#: rc.cpp:2268
-#: rc.cpp:4108
-#: rc.cpp:4296
+#: rc.cpp:2356
+#: rc.cpp:2544
+#: rc.cpp:4390
+#: rc.cpp:4578
 msgid "Project folder"
 msgstr "Carpeta del proyecto"
 
@@ -6272,8 +6571,8 @@ msgstr "No se encontró el perfil de proyecto, se usará el perfil predefinido."
 msgid "Project profile: %1"
 msgstr "Perfil de proyecto: %1"
 
-#: rc.cpp:1144
-#: rc.cpp:3172
+#: rc.cpp:1414
+#: rc.cpp:3448
 msgid "Properties"
 msgstr "Propiedades"
 
@@ -6293,8 +6592,8 @@ msgstr "Espacio de puntuación. Del mismo ancho que existe entre un caracter de 
 msgid "QImage module"
 msgstr "Módulo QImage"
 
-#: rc.cpp:1999
-#: rc.cpp:4027
+#: rc.cpp:2275
+#: rc.cpp:4309
 msgid "Quality"
 msgstr "Calidad"
 
@@ -6302,29 +6601,34 @@ msgstr "Calidad"
 msgid "Quarter note (Am.) or crochet (Brit.). See <a href=\"http://en.wikipedia.org/wiki/Quarter_note\">Wikipedia:Quarter_note</a>"
 msgstr "Negra. Ver <a href=\"http://es.wikipedia.org/wiki/Negra\">Wikipedia:Negra</a>"
 
-#: rc.cpp:282
-#: rc.cpp:1702
-#: rc.cpp:2047
-#: rc.cpp:3730
-#: rc.cpp:4075
+#: rc.cpp:362
+#: rc.cpp:1978
+#: rc.cpp:2323
+#: rc.cpp:4012
+#: rc.cpp:4357
 msgid "R"
 msgstr "R"
 
-#: rc.cpp:517
+#: rc.cpp:731
 msgid "R trace"
 msgstr "Trazado R"
+
+#: rc.cpp:723
+msgid "R,G,B,Y',Pr,Pb,Alpha"
+msgstr "R,G,B,Y',Pr,Pb,Alfa"
 
 #: src/colorscopes/rgbparade.cpp:25
 msgid "RGB"
 msgstr "RGB"
 
 #: src/mainwindow.cpp:267
-#: rc.cpp:1236
-#: rc.cpp:3264
+#: rc.cpp:769
+#: rc.cpp:1506
+#: rc.cpp:3540
 msgid "RGB Parade"
 msgstr "Presentación RGB"
 
-#: rc.cpp:278
+#: rc.cpp:358
 msgid "RGB adjustment"
 msgstr "Ajustes RGB"
 
@@ -6332,19 +6636,31 @@ msgstr "Ajustes RGB"
 msgid "RGB plane, one component varying"
 msgstr "Plano RGB, un componente variando"
 
-#: rc.cpp:2059
-#: rc.cpp:4087
+#: rc.cpp:2335
+#: rc.cpp:4369
 msgid "RGB summed up"
 msgstr "Suma RGB"
 
-#: rc.cpp:827
+#: rc.cpp:817
+msgid "RGB,ABI,HCI"
+msgstr "RGB,ABI,HCI"
+
+#: rc.cpp:278
+msgid "RGB,Red,Green,Blue,Alpha,Luma,Hue,Saturation"
+msgstr "RGB,Rojo,Verde,Azul,Alfa,Luma,Tono,Saturación"
+
+#: rc.cpp:693
+msgid "RGB,Y'PbPr - rec. 601,Y'PbPr - rec. 709,HSV,HSL"
+msgstr "RGB,Y'PbPr - rec. 601,Y'PbPr - rec. 709,HSV,HSL"
+
+#: rc.cpp:1089
 msgid "RPM"
 msgstr "RPM"
 
-#: rc.cpp:1747
-#: rc.cpp:1750
-#: rc.cpp:3775
-#: rc.cpp:3778
+#: rc.cpp:2023
+#: rc.cpp:2026
+#: rc.cpp:4057
+#: rc.cpp:4060
 msgid "Radius"
 msgstr "Radio"
 
@@ -6356,15 +6672,15 @@ msgstr "Subir objeto"
 msgid "Raise object to top"
 msgstr "Enviar objeto al frente"
 
-#: rc.cpp:801
+#: rc.cpp:1063
 msgid "Rate"
 msgstr "Frecuencia"
 
-#: rc.cpp:777
+#: rc.cpp:1039
 msgid "Rate (Hz)"
 msgstr "Frecuencia (Hz)"
 
-#: rc.cpp:797
+#: rc.cpp:1059
 msgid "Rate Scaler"
 msgstr "Redimensionar frecuencia"
 
@@ -6405,6 +6721,12 @@ msgstr "Reconstruir grupo"
 msgid "Rec. 601"
 msgstr "Rec. 601"
 
+#: rc.cpp:282
+#: rc.cpp:376
+#: rc.cpp:400
+msgid "Rec. 601,Rec. 709"
+msgstr "Rec. 601,Rec. 709"
+
 #: src/colorscopes/histogram.cpp:29
 #: src/colorscopes/waveform.cpp:41
 msgid "Rec. 709"
@@ -6434,9 +6756,13 @@ msgstr ""
 msgid "Recover"
 msgstr "Recuperar"
 
-#: rc.cpp:890
+#: rc.cpp:1152
 msgid "Rectangle"
 msgstr "Rectángulo"
+
+#: rc.cpp:238
+msgid "Rectangle,Ellipse,Triangle,Diamond"
+msgstr "Rectángulo,Elipse,Triángulo,Diamante"
 
 #: src/audioscopes/audiospectrum.cpp:71
 #: src/audioscopes/spectrogram.cpp:66
@@ -6448,21 +6774,34 @@ msgstr "Ventana rectangular"
 msgid "Red"
 msgstr "Rojo"
 
-#: rc.cpp:974
+#: rc.cpp:396
+#: rc.cpp:559
+msgid "Red,Green,Blue,Luma"
+msgstr "Rojo,Verde,Azul,Luma"
+
+#: rc.cpp:1318
+msgid "Red/Green axis"
+msgstr "Eje rojo/verde"
+
+#: rc.cpp:763
+msgid "Reduce image to primary colors"
+msgstr "Reduce la imagen a colores primarios"
+
+#: rc.cpp:1236
 msgid "Regeneration"
 msgstr "Regeneración"
 
 #: src/initeffects.cpp:792
-#: rc.cpp:863
+#: rc.cpp:1125
 msgid "Region"
 msgstr "Región"
 
-#: rc.cpp:1975
-#: rc.cpp:4003
+#: rc.cpp:2251
+#: rc.cpp:4285
 msgid "Region capture"
 msgstr "Captura de región"
 
-#: rc.cpp:771
+#: rc.cpp:1033
 msgid "Release time (s)"
 msgstr "Tiempo de liberación (s)"
 
@@ -6479,8 +6818,8 @@ msgstr "Eliminar tarea"
 msgid "Remove Space"
 msgstr "Eliminar espacio"
 
-#: rc.cpp:3007
-#: rc.cpp:5035
+#: rc.cpp:3283
+#: rc.cpp:5317
 msgid "Remove chapter"
 msgstr "Eliminar capítulo"
 
@@ -6488,13 +6827,13 @@ msgstr "Eliminar capítulo"
 msgid "Remove clips"
 msgstr "Eliminar clips"
 
-#: rc.cpp:1135
-#: rc.cpp:3163
+#: rc.cpp:1405
+#: rc.cpp:3439
 msgid "Remove file"
 msgstr "Eliminar archivo"
 
-#: rc.cpp:2749
-#: rc.cpp:4777
+#: rc.cpp:3025
+#: rc.cpp:5059
 msgid "Remove selected clips"
 msgstr "Eliminar clips seleccionados"
 
@@ -6510,6 +6849,18 @@ msgstr "Transición inválida eliminada: %1"
 msgid "Removed invalid transition: (%1, %2, %3)"
 msgstr "Transición inválida eliminada: (%1, %2, %3)"
 
+#: rc.cpp:436
+msgid ""
+"Removes stairstepping artifacts from Nikon D90's 720p videos.\n"
+"        <full><![CDATA[Sharp lines in videos from the Nikon D90 show steps each 8th or 9th line, assumedly\n"
+"        due to poor downsampling. These can be smoothed out with this filter if they become too annoying.]]></full>\n"
+"        "
+msgstr ""
+"Elimina defectos de escalonado en videos 720p de Nikon D90.\n"
+"        <full><![CDATA[Las líneas definidas en videos de Nikon D90 presentan escalones cada 8 o 9 líneas, supuestamente\n"
+"        debidos a una pobre disminución del muestreo. Estos pueden ser suavizados mediante este filtro, si se tornaran muy molestos.]]></full>\n"
+"        "
+
 #: src/editfoldercommand.cpp:34
 msgid "Rename folder"
 msgstr "Renombrar carpeta"
@@ -6518,13 +6869,13 @@ msgstr "Renombrar carpeta"
 msgid "Render"
 msgstr "Procesar"
 
-#: rc.cpp:2353
-#: rc.cpp:4381
+#: rc.cpp:2629
+#: rc.cpp:4663
 msgid "Render Project"
 msgstr "Procesar el proyecto"
 
-#: rc.cpp:2440
-#: rc.cpp:4468
+#: rc.cpp:2716
+#: rc.cpp:4750
 msgid "Render to File"
 msgstr "Procesar a archivo"
 
@@ -6612,13 +6963,14 @@ msgstr "Requerido para trabajar con títulos"
 msgid "Required to work with various video formats (hdv, mpeg, flash, ...)"
 msgstr "Requerido para trabajar con varios formatos de vídeo (hdv, mpeg, flash, ...)"
 
-#: rc.cpp:2401
-#: rc.cpp:4429
+#: rc.cpp:2677
+#: rc.cpp:4711
 msgid "Rescale"
 msgstr "Redimensionar"
 
 #: src/tracksconfigdialog.cpp:82
 #: src/geometryval.cpp:94
+#: rc.cpp:635
 msgid "Reset"
 msgstr "Restablecer"
 
@@ -6647,13 +6999,13 @@ msgstr "Restablecer efecto"
 msgid "Reset maximum frequency to sampling rate"
 msgstr "Restablecer frecuencia máxima a frecuencia de muestreo"
 
-#: rc.cpp:2926
-#: rc.cpp:4954
+#: rc.cpp:3202
+#: rc.cpp:5236
 msgid "Reset the parameters to their default values"
 msgstr "Restablecer parámetros a valores predefinidos"
 
-#: rc.cpp:1539
-#: rc.cpp:3567
+#: rc.cpp:1809
+#: rc.cpp:3843
 msgid "Reset the selected spline"
 msgstr "Restablecer la curva seleccionada"
 
@@ -6661,8 +7013,12 @@ msgstr "Restablecer la curva seleccionada"
 msgid "Reset to default value"
 msgstr "Restablecer al valor predefinido"
 
-#: rc.cpp:1783
-#: rc.cpp:3811
+#: rc.cpp:637
+msgid "Resets the light mask and the background image. This is necessary e.g. if you apply this effect to a clip in the timeline and then move the timeline cursor from outside of the clip to the middle of it. The effect receives this frame in the middle as first frame and uses it as background image. For proper threshold adjusting move the timeline cursor to the beginning of the clip, check the Reset box and uncheck it again."
+msgstr "Restablece la máscara de luz y la imagen de fondo. Esto puede ser necesario p.ej.: si se aplica el efecto a un clip en la línea de tiempo y luego se mueve el cursor desde fuera del mismo hacia su centro. El efecto interpreta este cuadro del medio del clip como el cuadro inicial y lo usa como imagen de fondo. Para ajustar apropiadamente los umbrales, mover el cursor de la línea de tiempo hasta el inicio del clip, tildar la casilla Restablecer y luego destildarla."
+
+#: rc.cpp:2059
+#: rc.cpp:4093
 msgid "Resize"
 msgstr "Redimensionar"
 
@@ -6699,27 +7055,27 @@ msgstr "Redimensionar comienzo del clip"
 msgid "Resize group"
 msgstr "Redimensionar grupo"
 
-#: rc.cpp:2146
-#: rc.cpp:3090
-#: rc.cpp:4174
-#: rc.cpp:5118
+#: rc.cpp:2422
+#: rc.cpp:3366
+#: rc.cpp:4456
+#: rc.cpp:5400
 msgid "Resize:"
 msgstr "Redimensionar:"
 
-#: rc.cpp:3031
-#: rc.cpp:5059
+#: rc.cpp:3307
+#: rc.cpp:5341
 msgid "Resolution"
 msgstr "Resolución"
 
-#: rc.cpp:803
+#: rc.cpp:1065
 msgid "Reverb"
 msgstr "Reverberación"
 
-#: rc.cpp:807
+#: rc.cpp:1069
 msgid "Reverb time"
 msgstr "Tiempo de reverberación"
 
-#: rc.cpp:1018
+#: rc.cpp:1280
 msgid "Reverberance"
 msgstr "Reverberación"
 
@@ -6749,57 +7105,58 @@ msgstr "Rebobinar 1 fotograma"
 msgid "Rewind 1 Second"
 msgstr "Rebobinar 1 segundo"
 
-#: rc.cpp:94
+#: rc.cpp:100
+#: rc.cpp:649
 msgid "Right"
 msgstr "Derecha"
 
-#: rc.cpp:811
+#: rc.cpp:1073
 msgid "Room Reverb"
 msgstr "Reverberación de salón"
 
-#: rc.cpp:1022
+#: rc.cpp:1284
 msgid "Room scale"
 msgstr "Dimensión del salón"
 
-#: rc.cpp:815
+#: rc.cpp:1077
 msgid "Room size (m)"
 msgstr "Tamaño (m) del salón"
 
 #: src/initeffects.cpp:776
-#: rc.cpp:896
+#: rc.cpp:1158
 msgid "Rotate X"
 msgstr "Rotación X"
 
-#: rc.cpp:1717
-#: rc.cpp:3745
+#: rc.cpp:1993
+#: rc.cpp:4027
 msgid "Rotate X:"
 msgstr "Rotación X:"
 
 #: src/initeffects.cpp:775
-#: rc.cpp:898
+#: rc.cpp:1160
 msgid "Rotate Y"
 msgstr "Rotación Y"
 
-#: rc.cpp:1720
-#: rc.cpp:3748
+#: rc.cpp:1996
+#: rc.cpp:4030
 msgid "Rotate Y:"
 msgstr "Rotación Y:"
 
 #: src/initeffects.cpp:777
-#: rc.cpp:900
+#: rc.cpp:1162
 msgid "Rotate Z"
 msgstr "Rotación Z"
 
-#: rc.cpp:1723
-#: rc.cpp:3751
+#: rc.cpp:1999
+#: rc.cpp:4033
 msgid "Rotate Z:"
 msgstr "Rotación Z:"
 
-#: rc.cpp:892
+#: rc.cpp:1154
 msgid "Rotate and Shear"
 msgstr "Rotar e inclinar"
 
-#: rc.cpp:894
+#: rc.cpp:1156
 msgid "Rotate clip in any 3 directions"
 msgstr "Rota el clip en cualquiera de las 3 direcciones"
 
@@ -6819,14 +7176,14 @@ msgstr "Rota alrededor del eje Z"
 msgid "Run Config Wizard"
 msgstr "Ejecutar el asistente de configuración"
 
-#: rc.cpp:1190
-#: rc.cpp:2380
-#: rc.cpp:3218
-#: rc.cpp:4408
+#: rc.cpp:1460
+#: rc.cpp:2656
+#: rc.cpp:3494
+#: rc.cpp:4690
 msgid "S"
 msgstr "S"
 
-#: rc.cpp:601
+#: rc.cpp:845
 msgid "SOP/Sat"
 msgstr "PDP/Sat."
 
@@ -6834,8 +7191,8 @@ msgstr "PDP/Sat."
 msgid "SVGAlib"
 msgstr "SVGAlib"
 
-#: rc.cpp:545
-#: rc.cpp:549
+#: rc.cpp:773
+#: rc.cpp:777
 msgid "Saturation"
 msgstr "Saturación"
 
@@ -6863,12 +7220,12 @@ msgstr "Guardar efecto"
 msgid "Save Layout"
 msgstr "Guardar disposición"
 
-#: rc.cpp:5239
+#: rc.cpp:5521
 msgid "Save Layout As"
 msgstr "Guardar disposición como"
 
-#: rc.cpp:2650
-#: rc.cpp:4678
+#: rc.cpp:2926
+#: rc.cpp:4960
 msgid "Save Profile"
 msgstr "Guardar perfil"
 
@@ -6897,7 +7254,7 @@ msgstr "Guardar sólo en el proyecto"
 msgid "Save profile"
 msgstr "Guardar perfil"
 
-#: rc.cpp:5170
+#: rc.cpp:5452
 msgid "Save to"
 msgstr "Guardar en"
 
@@ -6909,54 +7266,54 @@ msgstr "Guardar en archivo de título"
 msgid "Save zone"
 msgstr "Guardar zona"
 
-#: rc.cpp:62
+#: rc.cpp:68
 msgid "Scale"
 msgstr "Dimensión"
 
-#: rc.cpp:563
+#: rc.cpp:791
 msgid "Scale X"
 msgstr "Dimensión X"
 
-#: rc.cpp:565
+#: rc.cpp:793
 msgid "Scale Y"
 msgstr "Dimensión Y"
 
-#: rc.cpp:551
+#: rc.cpp:779
 msgid "Scale and Tilt"
 msgstr "Redimensionar e inclinar"
 
-#: rc.cpp:553
+#: rc.cpp:781
 msgid "Scales, Tilts and Crops an Image"
 msgstr "Redimensiona, inclina y recorta una imagen"
 
-#: rc.cpp:353
-#: rc.cpp:3021
-#: rc.cpp:5049
+#: rc.cpp:455
+#: rc.cpp:3297
+#: rc.cpp:5331
 msgid "Scaling"
 msgstr "Redimensionando"
 
-#: rc.cpp:2386
-#: rc.cpp:4414
+#: rc.cpp:2662
+#: rc.cpp:4696
 msgid "Scanning"
 msgstr "Explorando"
 
-#: rc.cpp:918
+#: rc.cpp:1180
 msgid "Scratchlines"
 msgstr "Rayaduras"
 
-#: rc.cpp:920
+#: rc.cpp:1182
 msgid "Scratchlines over the picture"
 msgstr "Rayaduras sobre la imagen"
 
-#: rc.cpp:1930
-#: rc.cpp:3958
+#: rc.cpp:2206
+#: rc.cpp:4240
 msgid "Screen Grab"
 msgstr "Captura de pantalla"
 
-#: rc.cpp:1840
-#: rc.cpp:2032
-#: rc.cpp:3868
-#: rc.cpp:4060
+#: rc.cpp:2116
+#: rc.cpp:2308
+#: rc.cpp:4150
+#: rc.cpp:4342
 msgid "Screen grab"
 msgstr "Captura la pantalla"
 
@@ -6977,8 +7334,8 @@ msgstr "El archivo de script ya existe. ¿Sobrescribirlo?"
 msgid "Script name (will be saved in: %1)"
 msgstr "Nombre del script (se guardará en %1)"
 
-#: rc.cpp:2473
-#: rc.cpp:4501
+#: rc.cpp:2749
+#: rc.cpp:4783
 msgid "Scripts"
 msgstr "Scripts"
 
@@ -6995,13 +7352,13 @@ msgstr "Bucar en la lista de efectos"
 msgid "Search manually"
 msgstr "Buscar manualmente"
 
-#: rc.cpp:2743
-#: rc.cpp:4771
+#: rc.cpp:3019
+#: rc.cpp:5053
 msgid "Search recursively"
 msgstr "Buscar recursivamente"
 
-#: rc.cpp:2932
-#: rc.cpp:4960
+#: rc.cpp:3208
+#: rc.cpp:5242
 msgid "Seek to active keyframe"
 msgstr "Busca el fotograma clave activo"
 
@@ -7062,8 +7419,8 @@ msgstr "Seleccionar el editor de imágenes predefinido"
 msgid "Select default video player"
 msgstr "Seleccionar el reproductor de video predefinido"
 
-#: rc.cpp:1924
-#: rc.cpp:3952
+#: rc.cpp:2200
+#: rc.cpp:4234
 msgid "Select device in list"
 msgstr "Seleccionar un dispositivo de la lista"
 
@@ -7087,12 +7444,12 @@ msgstr "Seleccionar elementos de texto en la selección actual"
 msgid "Select your default video4linux device"
 msgstr "Seleccionar el dispositivo video4linux predefinido"
 
-#: rc.cpp:2428
-#: rc.cpp:4456
+#: rc.cpp:2704
+#: rc.cpp:4738
 msgid "Selected zone"
 msgstr "Zona seleccionada"
 
-#: rc.cpp:5209
+#: rc.cpp:5491
 msgid "Selection"
 msgstr "Selección"
 
@@ -7100,7 +7457,7 @@ msgstr "Selección"
 msgid "Selection Tool"
 msgstr "Herramienta de selección"
 
-#: rc.cpp:585
+#: rc.cpp:819
 msgid "Selection subspace"
 msgstr "Subespacio de selección"
 
@@ -7108,8 +7465,8 @@ msgstr "Subespacio de selección"
 msgid "Selection tool"
 msgstr "Herramienta de selección"
 
-#: rc.cpp:1690
-#: rc.cpp:3718
+#: rc.cpp:1966
+#: rc.cpp:4000
 msgid "Selects all items on the canvas."
 msgstr "Selecciona todos los elementos del lienzo."
 
@@ -7117,14 +7474,18 @@ msgstr "Selecciona todos los elementos del lienzo."
 msgid "Send frames to color scopes"
 msgstr "Enviar fotogramas a los indicadores de color"
 
-#: rc.cpp:930
+#: rc.cpp:585
+msgid "Sensitivity"
+msgstr "Sensibilidad"
+
+#: rc.cpp:1192
 msgid "Sepia"
 msgstr "Sepia"
 
-#: rc.cpp:2177
-#: rc.cpp:2207
-#: rc.cpp:4205
-#: rc.cpp:4235
+#: rc.cpp:2453
+#: rc.cpp:2483
+#: rc.cpp:4487
+#: rc.cpp:4517
 msgid "Sequence name"
 msgstr "Nombre de la secuencia"
 
@@ -7156,27 +7517,27 @@ msgstr "Define el fin de la zona"
 msgid "Set zone start"
 msgstr "Define el inicio de la zona"
 
-#: rc.cpp:2265
-#: rc.cpp:4293
+#: rc.cpp:2541
+#: rc.cpp:4575
 msgid "Settings"
 msgstr "Preferencias"
 
-#: rc.cpp:200
-#: rc.cpp:980
+#: rc.cpp:240
+#: rc.cpp:1242
 msgid "Shape"
 msgstr "Forma"
 
-#: rc.cpp:593
+#: rc.cpp:833
 msgid "Sharpen"
 msgstr "Enfocar"
 
 #: src/initeffects.cpp:782
-#: rc.cpp:908
+#: rc.cpp:1170
 msgid "Shear X"
 msgstr "Inclinación X"
 
 #: src/initeffects.cpp:781
-#: rc.cpp:910
+#: rc.cpp:1172
 msgid "Shear Y"
 msgstr "Inclinación Y"
 
@@ -7184,8 +7545,8 @@ msgstr "Inclinación Y"
 msgid "Shear Z"
 msgstr "Inclinación Z"
 
-#: rc.cpp:795
-#: rc.cpp:1010
+#: rc.cpp:1057
+#: rc.cpp:1272
 msgid "Shift"
 msgstr "Desplazar"
 
@@ -7193,12 +7554,12 @@ msgstr "Desplazar"
 msgid "Shift + click to create a selection rectangle, Ctrl + click to add an item to selection"
 msgstr "Mayús + clic para crear un rectángulo de selección, Ctrl + clic para agregar un elemento a la selección"
 
-#: rc.cpp:391
+#: rc.cpp:529
 msgid "Shifts the hue of a source image"
 msgstr "Desplaza el tono de una imagen"
 
-#: rc.cpp:2821
-#: rc.cpp:4849
+#: rc.cpp:3097
+#: rc.cpp:5131
 msgid "Show All"
 msgstr "Mostrar todo"
 
@@ -7214,31 +7575,48 @@ msgstr "Mostrar barras de título"
 msgid "Show additional information for the parameters"
 msgstr "Mostrar información adicional de los parámetros"
 
-#: rc.cpp:495
+#: rc.cpp:707
 msgid "Show alpha"
 msgstr "Mostrar alfa"
 
 #: src/mainwindow.cpp:1089
-#: rc.cpp:2956
-#: rc.cpp:4984
+#: rc.cpp:3232
+#: rc.cpp:5266
 msgid "Show audio thumbnails"
 msgstr "Mostrar gráficas de audio"
 
-#: rc.cpp:1642
-#: rc.cpp:3670
+#: rc.cpp:1918
+#: rc.cpp:3952
 msgid "Show background"
 msgstr "Mostrar el fondo"
 
-#: rc.cpp:1521
-#: rc.cpp:3549
+#: rc.cpp:623
+msgid "Show background difference statistics"
+msgstr "Mostrar estadísticas de diferencia del fondo"
+
+#: rc.cpp:625
+msgid "Show background difference sum statistics"
+msgstr "Mostrar estadísticas de la suma de diferencias del fondo"
+
+#: rc.cpp:1791
+#: rc.cpp:3825
 msgid "Show background indicating changes caused by modifying the curve."
 msgstr "Mostrar fondo indicando los cambios causados al modificar la curva."
 
-#: rc.cpp:339
+#: rc.cpp:618
+msgid "Show brightness statistics"
+msgstr "Muestra estadísticas de luminosidad"
+
+#: rc.cpp:428
 msgid "Show graph in picture"
 msgstr "Mostrar gráfica en la imagen"
 
-#: rc.cpp:425
+#: rc.cpp:1815
+#: rc.cpp:3849
+msgid "Show handles for all points or only for the selected one"
+msgstr "Mostrar las tangentes de todos los puntos o sólo del punto seleccionado"
+
+#: rc.cpp:573
 msgid "Show histogram"
 msgstr "Mostrar histograma"
 
@@ -7266,14 +7644,14 @@ msgstr "Mostrar escena en monitor"
 msgid "Show sequence thumbnails"
 msgstr "Mostrar miniaturas de la secuencia"
 
-#: rc.cpp:2797
-#: rc.cpp:4825
+#: rc.cpp:3073
+#: rc.cpp:5107
 msgid "Show thumbnails"
 msgstr "Mostrar miniaturas"
 
 #: src/mainwindow.cpp:1083
-#: rc.cpp:2953
-#: rc.cpp:4981
+#: rc.cpp:3229
+#: rc.cpp:5263
 msgid "Show video thumbnails"
 msgstr "Mostrar miniaturas de video"
 
@@ -7293,12 +7671,12 @@ msgstr "Mostrar/ocultar la descripción del efecto"
 msgid "Show/Hide the lines connecting the corners"
 msgstr "Mostrar/ocultar líneas conectando las esquinas"
 
-#: rc.cpp:176
+#: rc.cpp:212
 msgid "Shrink/grow amount"
 msgstr "Nivel de expansión/contracción"
 
-#: rc.cpp:2467
-#: rc.cpp:4495
+#: rc.cpp:2743
+#: rc.cpp:4777
 msgid "Shutdown computer after renderings"
 msgstr "Apagar el equipo luego de procesar todo"
 
@@ -7306,11 +7684,11 @@ msgstr "Apagar el equipo luego de procesar todo"
 msgid "Simon A. Eugster"
 msgstr "Simon A. Eugster"
 
-#: rc.cpp:280
+#: rc.cpp:360
 msgid "Simple color adjustment"
 msgstr "Ajuste simple de color"
 
-#: rc.cpp:823
+#: rc.cpp:1085
 msgid "Simulates a vinyl audio player - LADSPA audio effect"
 msgstr "Simula un tocadiscos de vinilo - efecto de audio LADSPA"
 
@@ -7322,32 +7700,32 @@ msgstr "Espacio de 'seis por eme'. Ancho: 1/6 de una letra <em>m</em>"
 msgid "Sixteenth note (Am.) or semiquaver (Brit.). Half as long as an eighth note (U+266a). See <a href=\"http://en.wikipedia.org/wiki/Sixteenth_note\">Wikipedia:Sixteenth_note</a>"
 msgstr "Semicorchea. Duración: mitad de una corchea (U+266a). Ver <a href=\"http://es.wikipedia.org/wiki/Semicorchea\">Wikipedia:Semicorchea</a>"
 
-#: rc.cpp:599
-#: rc.cpp:1120
-#: rc.cpp:1171
-#: rc.cpp:1990
-#: rc.cpp:2908
-#: rc.cpp:3148
-#: rc.cpp:3199
-#: rc.cpp:4018
-#: rc.cpp:4936
+#: rc.cpp:839
+#: rc.cpp:1390
+#: rc.cpp:1441
+#: rc.cpp:2266
+#: rc.cpp:3184
+#: rc.cpp:3424
+#: rc.cpp:3475
+#: rc.cpp:4300
+#: rc.cpp:5218
 msgid "Size"
 msgstr "Tamaño"
 
-#: rc.cpp:206
+#: rc.cpp:246
 msgid "Size X"
 msgstr "Tamaño X"
 
-#: rc.cpp:208
+#: rc.cpp:248
 msgid "Size Y"
 msgstr "Tamaño Y"
 
-#: rc.cpp:1257
-#: rc.cpp:2277
-#: rc.cpp:2533
-#: rc.cpp:3285
-#: rc.cpp:4305
-#: rc.cpp:4561
+#: rc.cpp:1527
+#: rc.cpp:2553
+#: rc.cpp:2809
+#: rc.cpp:3561
+#: rc.cpp:4587
+#: rc.cpp:4843
 msgid "Size:"
 msgstr "Tamaño:"
 
@@ -7359,14 +7737,14 @@ msgstr "Deslizar"
 msgid "Slide image from one side to another."
 msgstr "Desliza la imagen de un lado al otro."
 
-#: rc.cpp:1290
-#: rc.cpp:3318
+#: rc.cpp:1560
+#: rc.cpp:3594
 msgid "Slideshow"
 msgstr "Presentación"
 
 #: src/slideshowclip.cpp:39
-#: rc.cpp:2752
-#: rc.cpp:4780
+#: rc.cpp:3028
+#: rc.cpp:5062
 msgid "Slideshow Clip"
 msgstr "Clip de presentación"
 
@@ -7379,19 +7757,19 @@ msgstr "Clip de presentación"
 msgid "Slideshow clips"
 msgstr "Clips de presentación"
 
-#: rc.cpp:614
+#: rc.cpp:858
 msgid "Slope Alpha"
 msgstr "Pendiente alfa"
 
-#: rc.cpp:612
+#: rc.cpp:856
 msgid "Slope Blue"
 msgstr "Pendiente azul"
 
-#: rc.cpp:610
+#: rc.cpp:854
 msgid "Slope Green"
 msgstr "Pendiente verde"
 
-#: rc.cpp:605
+#: rc.cpp:849
 msgid "Slope Red"
 msgstr "Pendiente rojo"
 
@@ -7399,19 +7777,23 @@ msgstr "Pendiente rojo"
 msgid "Smaller tracks"
 msgstr "Achicar pistas"
 
-#: rc.cpp:443
-msgid "Smoothing"
-msgstr "Suavizado"
-
 #: src/mainwindow.cpp:1101
 msgid "Snap"
 msgstr "Ajustar"
 
+#: rc.cpp:841
+msgid "Sobel"
+msgstr "Sobel"
+
+#: rc.cpp:843
+msgid "Sobel filter"
+msgstr "Filtro Sobel"
+
 #: src/initeffects.cpp:754
-#: rc.cpp:1314
-#: rc.cpp:2794
-#: rc.cpp:3342
-#: rc.cpp:4822
+#: rc.cpp:1584
+#: rc.cpp:3070
+#: rc.cpp:3618
+#: rc.cpp:5104
 msgid "Softness"
 msgstr "Suavidad"
 
@@ -7423,92 +7805,96 @@ msgstr "Algunos de los clips de texto han sido guardados con su tamaño expresad
 msgid "Some of your text clips were saved with size in points, which means different sizes on different displays. They will be converted to pixel size, making them portable, but you could have to adjust their size."
 msgstr "Algunos de los clips de texto han sido guardados con su tamaño expresado en puntos, lo que produciría diferentes tamaños a distintas resoluciones. Se convertirán sus tamaños a pixels, haciendo que sean transportables, pero es posible que sea necesario ajustarlos luego."
 
-#: rc.cpp:1560
-#: rc.cpp:3588
+#: rc.cpp:893
+msgid "Something videowall-ish"
+msgstr "Algo similar a un video wall"
+
+#: rc.cpp:1836
+#: rc.cpp:3870
 msgid "Source"
 msgstr "Original"
 
-#: rc.cpp:299
+#: rc.cpp:384
 msgid "Source Color"
 msgstr "Color original"
 
-#: rc.cpp:659
+#: rc.cpp:913
 msgid "Source image on left side"
 msgstr "Imagen original a la izquierda"
 
-#: rc.cpp:938
+#: rc.cpp:1200
 msgid "Sox Band"
 msgstr "Sox Banda"
 
-#: rc.cpp:946
+#: rc.cpp:1208
 msgid "Sox Bass"
 msgstr "Sox Bajos"
 
-#: rc.cpp:954
+#: rc.cpp:1216
 msgid "Sox Echo"
 msgstr "Sox Eco"
 
-#: rc.cpp:966
+#: rc.cpp:1228
 msgid "Sox Flanger"
 msgstr "Sox Flanger"
 
-#: rc.cpp:986
+#: rc.cpp:1248
 msgid "Sox Gain"
 msgstr "Sox Ganancia"
 
-#: rc.cpp:992
+#: rc.cpp:1254
 msgid "Sox Phaser"
 msgstr "Sox Phaser"
 
-#: rc.cpp:1006
+#: rc.cpp:1268
 msgid "Sox Pitch Shift"
 msgstr "Sox Desplazar timbre"
 
-#: rc.cpp:1014
+#: rc.cpp:1276
 msgid "Sox Reverb"
 msgstr "Sox Reverberación"
 
-#: rc.cpp:1030
+#: rc.cpp:1292
 msgid "Sox Stretch"
 msgstr "Sox Estirar"
 
-#: rc.cpp:940
+#: rc.cpp:1202
 msgid "Sox band audio effect"
 msgstr "Banda (efecto de audio Sox)"
 
-#: rc.cpp:948
+#: rc.cpp:1210
 msgid "Sox bass audio effect"
 msgstr "Bajos (efecto de audio Sox)"
 
-#: rc.cpp:1008
+#: rc.cpp:1270
 msgid "Sox change pitch audio effect"
 msgstr "Cambiar timbre (efecto de audio Sox)"
 
-#: rc.cpp:956
+#: rc.cpp:1218
 msgid "Sox echo audio effect"
 msgstr "Eco (efecto de audio Sox)"
 
-#: rc.cpp:968
+#: rc.cpp:1230
 msgid "Sox flanger audio effect"
 msgstr "Flanger (efecto de audio Sox)"
 
-#: rc.cpp:988
+#: rc.cpp:1250
 msgid "Sox gain audio effect"
 msgstr "Ganancia (efecto de audio Sox)"
 
-#: rc.cpp:994
+#: rc.cpp:1256
 msgid "Sox phaser audio effect"
 msgstr "Phaser (efecto de audio Sox)"
 
-#: rc.cpp:1016
+#: rc.cpp:1278
 msgid "Sox reverb audio effect"
 msgstr "Reverberación (efecto de audio Sox)"
 
-#: rc.cpp:1032
+#: rc.cpp:1294
 msgid "Sox stretch audio effect"
 msgstr "Estirar (efecto de audio Sox)"
 
-#: rc.cpp:5218
+#: rc.cpp:5500
 msgid "Space"
 msgstr "Espacio"
 
@@ -7516,7 +7902,7 @@ msgstr "Espacio"
 msgid "Spacer tool"
 msgstr "Herramienta espaciadora"
 
-#: rc.cpp:381
+#: rc.cpp:519
 msgid "Spatial"
 msgstr "Espacial"
 
@@ -7524,10 +7910,10 @@ msgstr "Espacial"
 msgid "Spectrogram"
 msgstr "Espectrograma"
 
-#: rc.cpp:978
-#: rc.cpp:1004
-#: rc.cpp:1038
-#: rc.cpp:1042
+#: rc.cpp:1240
+#: rc.cpp:1266
+#: rc.cpp:1300
+#: rc.cpp:1304
 msgid "Speed"
 msgstr "Velocidad"
 
@@ -7544,7 +7930,7 @@ msgstr "Dividie el audio"
 msgid "Split audio and video automatically"
 msgstr "Divide el audio y el video automáticamente"
 
-#: rc.cpp:657
+#: rc.cpp:911
 msgid "Split screen preview"
 msgstr "Previsualización a pantalla dividida"
 
@@ -7552,13 +7938,17 @@ msgstr "Previsualización a pantalla dividida"
 msgid "Split view"
 msgstr "Dividir vista"
 
-#: rc.cpp:783
+#: rc.cpp:1045
 msgid "Spread"
 msgstr "Extender"
 
-#: rc.cpp:641
+#: rc.cpp:885
 msgid "Square Blur"
 msgstr "Desenfoque suave"
+
+#: rc.cpp:463
+msgid "Square,PAL DV,NTSC DV,HDV,Manual"
+msgstr "Cuadrado,PAL DV,NTSC DV,HDV,Manual"
 
 #: src/unicodedialog.cpp:130
 msgid "Standard space character. (Other space characters: U+00a0, U+2000&#x2013;200b, U+202f)"
@@ -7566,32 +7956,32 @@ msgstr "Espacio estándar. (Otros caracteres de espaciado: U+00a0, U+2000&#x2013
 
 #: src/mainwindow.cpp:3788
 #: src/titlewidget.cpp:2059
-#: rc.cpp:116
-#: rc.cpp:150
-#: rc.cpp:1572
-#: rc.cpp:3072
-#: rc.cpp:3600
-#: rc.cpp:5100
+#: rc.cpp:122
+#: rc.cpp:156
+#: rc.cpp:1848
+#: rc.cpp:3348
+#: rc.cpp:3882
+#: rc.cpp:5382
 msgid "Start"
 msgstr "Inicio"
 
-#: rc.cpp:127
-#: rc.cpp:138
+#: rc.cpp:133
+#: rc.cpp:144
 msgid "Start Gain"
 msgstr "Ganancia inicial"
 
-#: rc.cpp:2470
-#: rc.cpp:4498
+#: rc.cpp:2746
+#: rc.cpp:4780
 msgid "Start Job"
 msgstr "Iniciar tarea"
 
-#: rc.cpp:2476
-#: rc.cpp:4504
+#: rc.cpp:2752
+#: rc.cpp:4786
 msgid "Start Script"
 msgstr "Iniciar script"
 
-#: rc.cpp:1765
-#: rc.cpp:3793
+#: rc.cpp:2041
+#: rc.cpp:4075
 msgid "Start at"
 msgstr "Iniciar en"
 
@@ -7603,12 +7993,12 @@ msgstr "Iniciarlos ahora"
 msgid "Starting -- find text as you type"
 msgstr "Iniciando -- búsqueda instantánea de texto"
 
-#: rc.cpp:2635
-#: rc.cpp:4663
+#: rc.cpp:2911
+#: rc.cpp:4945
 msgid "Status"
 msgstr "Estado"
 
-#: rc.cpp:1024
+#: rc.cpp:1286
 msgid "Stereo depth"
 msgstr "Profundidad del estéreo"
 
@@ -7625,36 +8015,36 @@ msgstr "Stop motion"
 msgid "Stop Motion Capture"
 msgstr "Captura 'stop motion'"
 
-#: rc.cpp:450
-msgid "Strength of the (calculated) background image. Setting it to 100 paints the light mask directly over the background, without any person in the image if the video starts with a «clean» background image."
-msgstr "Presencia de la imagen de fondo (calculada). Si se establece en 100 se pinta la máscara de luz directamente sobre el fondo, sin personas en la imagen, si el video comienza con un fondo «limpio»."
+#: rc.cpp:611
+msgid "Strength of the (calculated) background image. Setting it to 100 paints the light mask directly over the background, without the painting person in the image if the video starts with a «clean» background image. (See the α parameter.)"
+msgstr "Presencia de la imagen de fondo (calculada). Si se establece en 100 se pinta la máscara de luz directamente sobre el fondo, sin que aparezca la persona que realiza la pintura en la imagen, siempre que el video comience con un fondo «limpio». (Ver el parámetro α.)"
 
-#: rc.cpp:268
+#: rc.cpp:330
 msgid "Stretch X"
 msgstr "Estirar X"
 
-#: rc.cpp:270
+#: rc.cpp:332
 msgid "Stretch Y"
 msgstr "Estirar Y"
 
-#: rc.cpp:1044
+#: rc.cpp:1306
 msgid "Stroboscope"
 msgstr "Estroboscopio"
 
-#: rc.cpp:587
+#: rc.cpp:823
 msgid "Subspace shape"
 msgstr "Forma del subespacio"
 
-#: rc.cpp:2062
-#: rc.cpp:4090
+#: rc.cpp:2338
+#: rc.cpp:4372
 msgid "Sum"
 msgstr "Suma"
 
-#: rc.cpp:829
+#: rc.cpp:1091
 msgid "Surface warping"
 msgstr "Deformación de superficie"
 
-#: rc.cpp:1046
+#: rc.cpp:1308
 msgid "Swap channels"
 msgstr "Intercambiar canales"
 
@@ -7678,8 +8068,8 @@ msgstr "Sincr. cursor línea de tiempo"
 msgid "Synchronize with timeline cursor"
 msgstr "Sincronizar con cursor de tiempo"
 
-#: rc.cpp:1696
-#: rc.cpp:3724
+#: rc.cpp:1972
+#: rc.cpp:4006
 msgid "T"
 msgstr "T"
 
@@ -7687,13 +8077,21 @@ msgstr "T"
 msgid "TRACTOR"
 msgstr "TRACTOR"
 
-#: rc.cpp:1431
-#: rc.cpp:3459
+#: rc.cpp:1701
+#: rc.cpp:3735
 msgid "Target"
 msgstr "Objetivo"
 
-#: rc.cpp:2728
-#: rc.cpp:4756
+#: rc.cpp:1312
+msgid "Technicolor"
+msgstr "Technicolor"
+
+#: rc.cpp:891
+msgid "TehRoxx0r"
+msgstr "TehRoxx0r"
+
+#: rc.cpp:3004
+#: rc.cpp:5038
 msgid "Template"
 msgstr "Plantilla"
 
@@ -7705,29 +8103,29 @@ msgstr "Plantilla de clip de texto"
 msgid "Template title clip"
 msgstr "Plantilla de clip de título"
 
-#: rc.cpp:1687
-#: rc.cpp:3715
+#: rc.cpp:1963
+#: rc.cpp:3997
 msgid "Template:"
 msgstr "Plantilla:"
 
-#: rc.cpp:385
+#: rc.cpp:523
 msgid "Temporal"
 msgstr "Temporal"
 
-#: rc.cpp:2605
-#: rc.cpp:4633
+#: rc.cpp:2881
+#: rc.cpp:4915
 msgid "Temporary data folder"
 msgstr "Carpeta de datos temporales"
 
-#: rc.cpp:2083
-#: rc.cpp:4111
+#: rc.cpp:2359
+#: rc.cpp:4393
 msgid "Temporary files"
 msgstr "Archivos temporales"
 
-#: rc.cpp:1428
-#: rc.cpp:2731
-#: rc.cpp:3456
-#: rc.cpp:4759
+#: rc.cpp:1698
+#: rc.cpp:3007
+#: rc.cpp:3732
+#: rc.cpp:5041
 msgid "Text"
 msgstr "Texto"
 
@@ -7743,10 +8141,10 @@ msgstr "Clip de texto"
 msgid "Text clips"
 msgstr "Clips de texto"
 
-#: rc.cpp:2521
-#: rc.cpp:2668
-#: rc.cpp:4549
-#: rc.cpp:4696
+#: rc.cpp:2797
+#: rc.cpp:2944
+#: rc.cpp:4831
+#: rc.cpp:4978
 msgid "TextLabel"
 msgstr "Etiqueta de texto"
 
@@ -7784,7 +8182,7 @@ msgstr "Los siguientes efectos fueron importados desde el proyecto:"
 msgid "The maximum window size is limited by the number of samples per frame."
 msgstr "El tamaño máximo de la ventana está limitado por la cantidad de muestras existentes por fotograma."
 
-#: rc.cpp:639
+#: rc.cpp:883
 msgid "The overall saturation will be changed after all previous effects have been applied."
 msgstr "La saturación global se modificará luego de que todos los efectos anteriores hayan sido procesados."
 
@@ -7802,7 +8200,7 @@ msgstr ""
 msgid "The rectangular window function is good for signals with equal signal strength (narrow peak), but creates more smearing. See Window function on Wikipedia."
 msgstr "La función ventana rectangular es apropiada para señales con una potencia pareja (picos leves), pero empasta más la señal. Ver 'Ventana (función)' en Wikipedia."
 
-#: rc.cpp:5245
+#: rc.cpp:5527
 msgid "Themes"
 msgstr "Temas"
 
@@ -7829,12 +8227,12 @@ msgstr "Esta aplicación necesita que los controladores de DeckLink estén insta
 
 #: src/wizard.cpp:54
 msgid "This is the first time you run Kdenlive. This wizard will let you adjust some basic settings, you will be ready to edit your first movie in a few seconds..."
-msgstr "Ésta es la primera vez que ejecutas Kdenlive. Este asistente te ayudará a ajustar algunos parámetros básicos. Estarás listo para editar tu primera película en breves segundos..."
+msgstr "Ésta es la primera vez que se ejecuta Kdenlive. Este asistente ayudará a ajustar algunas preferencias básicas. Estará listo para editar la primera película en pocos segundos..."
 
 #: src/renderwidget.cpp:411
 #: src/renderwidget.cpp:528
 msgid "This profile name already exists. Change the name if you don't want to overwrite it."
-msgstr "Este nombre del perfil ya existe. Cambie el nombre si no quiere sobreescribirlo."
+msgstr "Este nombre de perfil ya existe. Cambiar el nombre si no se desea sobreescribirlo."
 
 #: src/documentvalidator.cpp:173
 msgid "This project type is unsupported (version %1) and can't be loaded."
@@ -7882,36 +8280,36 @@ msgid "Three-Per-Em Space. Width: 1/3 of one <em>em</em>"
 msgstr "Espacio de 'tres por eme'. Ancho: 1/3 de una letra <em>m</em>"
 
 #: src/stopmotion/stopmotion.cpp:144
-#: rc.cpp:174
-#: rc.cpp:665
-#: rc.cpp:1050
+#: rc.cpp:210
+#: rc.cpp:919
+#: rc.cpp:1320
 msgid "Threshold"
 msgstr "Umbral"
 
-#: rc.cpp:1054
+#: rc.cpp:1324
 msgid "Threshold value"
 msgstr "Valor del umbral"
 
-#: rc.cpp:661
+#: rc.cpp:915
 msgid "Threshold0r"
 msgstr "Threshold0r"
 
-#: rc.cpp:663
+#: rc.cpp:917
 msgid "Thresholds a source image"
 msgstr "Impone un umbral a la imagen suministrada"
 
-#: rc.cpp:2578
-#: rc.cpp:4606
+#: rc.cpp:2854
+#: rc.cpp:4888
 msgid "Thumbnails"
 msgstr "Miniaturas"
 
-#: rc.cpp:2334
-#: rc.cpp:4362
+#: rc.cpp:2610
+#: rc.cpp:4644
 msgid "Thumbnails cache:"
 msgstr "Caché de miniaturas:"
 
-#: rc.cpp:2313
-#: rc.cpp:4341
+#: rc.cpp:2589
+#: rc.cpp:4623
 msgid "Thumbnails:"
 msgstr "Miniaturas:"
 
@@ -7919,44 +8317,44 @@ msgstr "Miniaturas:"
 msgid "Till Theato"
 msgstr "Till Theato"
 
-#: rc.cpp:188
-#: rc.cpp:210
-#: rc.cpp:507
+#: rc.cpp:224
+#: rc.cpp:250
+#: rc.cpp:719
 msgid "Tilt"
 msgstr "Inclinar"
 
-#: rc.cpp:567
+#: rc.cpp:795
 msgid "Tilt X"
 msgstr "Inclinación X"
 
-#: rc.cpp:569
+#: rc.cpp:797
 msgid "Tilt Y"
 msgstr "Inclinación Y"
 
-#: rc.cpp:1338
-#: rc.cpp:3366
+#: rc.cpp:1608
+#: rc.cpp:3642
 msgid "Time"
 msgstr "Tiempo"
 
-#: rc.cpp:1012
+#: rc.cpp:1274
 msgid "Time window (ms)"
 msgstr "Margen de tiempo (ms)"
 
-#: rc.cpp:2422
-#: rc.cpp:4450
+#: rc.cpp:2698
+#: rc.cpp:4732
 msgid "Timecode overlay"
 msgstr "Superponer código de tiempo"
 
 #: src/kdenlivesettingsdialog.cpp:69
-#: rc.cpp:5206
+#: rc.cpp:5488
 msgid "Timeline"
 msgstr "Línea de Tiempo"
 
-#: rc.cpp:667
+#: rc.cpp:921
 msgid "Tint"
 msgstr "Teñir"
 
-#: rc.cpp:675
+#: rc.cpp:929
 msgid "Tint amount"
 msgstr "Grado de tinción"
 
@@ -7964,8 +8362,8 @@ msgstr "Grado de tinción"
 msgid "Title"
 msgstr "Título"
 
-#: rc.cpp:1615
-#: rc.cpp:3643
+#: rc.cpp:1891
+#: rc.cpp:3925
 msgid "Title Clip"
 msgstr "Clip de título"
 
@@ -7985,8 +8383,8 @@ msgstr "Perfil de título"
 msgid "Title clip"
 msgstr "Clip de título"
 
-#: rc.cpp:2695
-#: rc.cpp:4723
+#: rc.cpp:2971
+#: rc.cpp:5005
 msgid "Title clips"
 msgstr "Clips de título"
 
@@ -7994,16 +8392,16 @@ msgstr "Clips de título"
 msgid "Title module"
 msgstr "Módulo de Titulación"
 
-#: rc.cpp:52
+#: rc.cpp:58
 msgid "To"
 msgstr "A"
 
-#: rc.cpp:2914
-#: rc.cpp:4942
+#: rc.cpp:3190
+#: rc.cpp:5224
 msgid "Toggle selection"
 msgstr "Conmutar selección"
 
-#: rc.cpp:5197
+#: rc.cpp:5479
 msgid "Tool"
 msgstr "Herramienta"
 
@@ -8011,9 +8409,23 @@ msgstr "Herramienta"
 msgid "Tools"
 msgstr "Herramientas"
 
-#: rc.cpp:88
+#: rc.cpp:94
+#: rc.cpp:651
 msgid "Top"
 msgstr "Arriba"
+
+#: rc.cpp:673
+msgid "Top Left"
+msgstr "Superior izquierdo"
+
+#: rc.cpp:430
+#: rc.cpp:575
+msgid "Top Left,Top Right,Bottom Left,Bottom Right"
+msgstr "Superior izquierdo,Superior derecho,Inferior izquierdo,Inferior derecho"
+
+#: rc.cpp:675
+msgid "Top Right"
+msgstr "Superior derecho"
 
 #: src/clipproperties.cpp:117
 msgid "Top first"
@@ -8024,13 +8436,13 @@ msgid "Total clips: %1 (%2 used in timeline)."
 msgstr "Nº total de clips: %1 (%2 usados en la línea de tiempo)."
 
 #: src/customtrackview.cpp:2831
-#: rc.cpp:2259
-#: rc.cpp:4287
+#: rc.cpp:2535
+#: rc.cpp:4569
 msgid "Track"
 msgstr "Pista"
 
-#: rc.cpp:2596
-#: rc.cpp:4624
+#: rc.cpp:2872
+#: rc.cpp:4906
 msgid "Track height"
 msgstr "Altura de pista"
 
@@ -8039,12 +8451,12 @@ msgstr "Altura de pista"
 msgid "Track mouse"
 msgstr "Seguir al ratón"
 
-#: rc.cpp:5191
+#: rc.cpp:5473
 msgid "Tracks"
 msgstr "Pistas"
 
 #: src/kdenlivesettingsdialog.cpp:172
-#: rc.cpp:5185
+#: rc.cpp:5467
 msgid "Transcode"
 msgstr "Transcodificar"
 
@@ -8073,8 +8485,8 @@ msgstr "Transición"
 msgid "Transition %1 had an invalid track: %2 > %3"
 msgstr "La transición %1 tenía una pista inválida: %2 > %3"
 
-#: rc.cpp:186
-#: rc.cpp:212
+#: rc.cpp:222
+#: rc.cpp:252
 msgid "Transition width"
 msgstr "Ancho de la transición"
 
@@ -8082,10 +8494,11 @@ msgstr "Ancho de la transición"
 msgid "Transitions"
 msgstr "Transiciones"
 
-#: rc.cpp:3075
-#: rc.cpp:3081
-#: rc.cpp:5103
-#: rc.cpp:5109
+#: rc.cpp:553
+#: rc.cpp:3351
+#: rc.cpp:3357
+#: rc.cpp:5385
+#: rc.cpp:5391
 msgid "Transparency"
 msgstr "Transparencia"
 
@@ -8093,12 +8506,13 @@ msgstr "Transparencia"
 msgid "Transparency clip"
 msgstr "Clip de transparencia"
 
-#: rc.cpp:274
+#: rc.cpp:338
+#: rc.cpp:627
 msgid "Transparent Background"
 msgstr "Fondo transparente"
 
-#: rc.cpp:1332
-#: rc.cpp:3360
+#: rc.cpp:1602
+#: rc.cpp:3636
 msgid "Transparent background"
 msgstr "Fondo transparente"
 
@@ -8107,30 +8521,34 @@ msgstr "Fondo transparente"
 msgid "Triangular window"
 msgstr "Ventana triangular"
 
-#: rc.cpp:86
+#: rc.cpp:92
 msgid "Trim the edges of a clip"
 msgstr "Recorta los bordes de un clip"
 
-#: rc.cpp:1476
-#: rc.cpp:3504
+#: rc.cpp:1746
+#: rc.cpp:3780
 msgid "True FFT size:"
 msgstr "Tamaño de la TRF:"
 
-#: rc.cpp:2947
-#: rc.cpp:4975
+#: rc.cpp:3223
+#: rc.cpp:5257
 msgid "True FFT size: "
 msgstr "Tamaño de la TRF: "
 
-#: rc.cpp:932
+#: rc.cpp:1194
 msgid "Turn clip colors to sepia"
 msgstr "Convierte los colores de un clip a sepia"
 
+#: rc.cpp:304
+msgid "Turns image black/white"
+msgstr "Convierte la imagen a blanco y negro"
+
 #: src/tracksconfigdialog.cpp:72
-#: rc.cpp:351
-#: rc.cpp:1211
-#: rc.cpp:2737
-#: rc.cpp:3239
-#: rc.cpp:4765
+#: rc.cpp:451
+#: rc.cpp:1481
+#: rc.cpp:3013
+#: rc.cpp:3515
+#: rc.cpp:5047
 msgid "Type"
 msgstr "Tipo"
 
@@ -8157,15 +8575,15 @@ msgstr "No se puede escribir en el archivo %1"
 msgid "Undo History"
 msgstr "Historial de deshacer"
 
-#: rc.cpp:884
+#: rc.cpp:1146
 msgid "Unevendevelop Duration"
 msgstr "Duración del revelado desigual"
 
-#: rc.cpp:882
+#: rc.cpp:1144
 msgid "Unevendevelop down"
 msgstr "Disminuir revelado desigual"
 
-#: rc.cpp:880
+#: rc.cpp:1142
 msgid "Unevendevelop up"
 msgstr "Aumentar revelado desigual"
 
@@ -8197,7 +8615,7 @@ msgstr "Tamaño original"
 msgid "Unselect all"
 msgstr "Deseleccionar todo"
 
-#: rc.cpp:595
+#: rc.cpp:835
 msgid "Unsharp masking (port from Mplayer)"
 msgstr "Máscara de enfoque (transportado de Mplayer)"
 
@@ -8217,8 +8635,8 @@ msgstr "Formato de video %1 no compatible"
 msgid "Untitled"
 msgstr "Sin nombre"
 
-#: rc.cpp:2328
-#: rc.cpp:4356
+#: rc.cpp:2604
+#: rc.cpp:4638
 msgid "Unused clips:"
 msgstr "Clips no usados:"
 
@@ -8239,13 +8657,13 @@ msgstr "Actualizar perfil"
 msgid "Use Ctrl to resize only current item, otherwise all items in this group will be resized at once."
 msgstr "Usar Ctrl para redimensionar sólo el elemento actual, de otro modo todos los elementos en el grupo lo serán."
 
-#: rc.cpp:2710
-#: rc.cpp:4738
+#: rc.cpp:2986
+#: rc.cpp:5020
 msgid "Use KDE job tracking for render jobs"
 msgstr "Usar seguimiento de tareas de KDE para tareas de procesamiento"
 
-#: rc.cpp:1587
-#: rc.cpp:3615
+#: rc.cpp:1863
+#: rc.cpp:3897
 msgid "Use OpenGL for video display (restart Kdenlive to apply)"
 msgstr "Usar OpenGL para ver el video (reiniciar Kdenlive para aplicar)"
 
@@ -8253,43 +8671,43 @@ msgstr "Usar OpenGL para ver el video (reiniciar Kdenlive para aplicar)"
 msgid "Use alpha channel of another clip to create a transition."
 msgstr "Usa el canal alfa de otro clip para crear una transición."
 
-#: rc.cpp:1184
-#: rc.cpp:3212
+#: rc.cpp:1454
+#: rc.cpp:3488
 msgid "Use as default"
 msgstr "Usar como predefinido"
 
-#: rc.cpp:1609
-#: rc.cpp:3637
+#: rc.cpp:1885
+#: rc.cpp:3919
 msgid "Use external display (Blackmagic card)"
 msgstr "Usar dispositivo externo (placa Blackmagic)"
 
-#: rc.cpp:2713
-#: rc.cpp:4741
+#: rc.cpp:2989
+#: rc.cpp:5023
 msgid "Use on-monitor effects"
 msgstr "Usar efectos en el monitor"
 
-#: rc.cpp:2746
-#: rc.cpp:4774
+#: rc.cpp:3022
+#: rc.cpp:5056
 msgid "Use placeholders for missing clips"
 msgstr "Usar marcadores de posición para los clips no encontrados"
 
-#: rc.cpp:2089
-#: rc.cpp:4117
+#: rc.cpp:2365
+#: rc.cpp:4399
 msgid "Use project folder"
 msgstr "Usar carpeta del proyecto"
 
-#: rc.cpp:1056
+#: rc.cpp:1326
 msgid "Use transparency"
 msgstr "Usar transparencia"
 
-#: rc.cpp:1633
-#: rc.cpp:1636
-#: rc.cpp:2992
-#: rc.cpp:2995
-#: rc.cpp:3661
-#: rc.cpp:3664
-#: rc.cpp:5020
-#: rc.cpp:5023
+#: rc.cpp:1909
+#: rc.cpp:1912
+#: rc.cpp:3268
+#: rc.cpp:3271
+#: rc.cpp:3943
+#: rc.cpp:3946
+#: rc.cpp:5302
+#: rc.cpp:5305
 msgid "V"
 msgstr "V"
 
@@ -8297,68 +8715,69 @@ msgstr "V"
 msgid "Validating"
 msgstr "Validando"
 
-#: rc.cpp:2887
-#: rc.cpp:4915
+#: rc.cpp:3163
+#: rc.cpp:5197
 msgid "Value"
 msgstr "Valor"
 
-#: rc.cpp:643
+#: rc.cpp:887
 msgid "Variable-size square blur (frei0r.squareblur)"
 msgstr "Desenfoque suave de tamaño variable (frei0r.squareblur)"
 
-#: rc.cpp:74
-#: rc.cpp:82
+#: rc.cpp:80
+#: rc.cpp:88
 msgid "Variance"
 msgstr "Tolerancia"
 
-#: rc.cpp:3016
-#: rc.cpp:5044
+#: rc.cpp:3292
+#: rc.cpp:5326
 msgid "Variant"
 msgstr "Variante"
 
 #: src/mainwindow.cpp:247
+#: rc.cpp:935
 msgid "Vectorscope"
 msgstr "Vectorscopio"
 
-#: rc.cpp:401
+#: rc.cpp:539
 msgid "Vertical center"
 msgstr "Centro vertical"
 
-#: rc.cpp:1086
+#: rc.cpp:1356
 msgid "Vertical factor"
 msgstr "Factor vertical"
 
-#: rc.cpp:36
+#: rc.cpp:38
 msgid "Vertical multiplicator"
 msgstr "Multiplicador vertical"
 
-#: rc.cpp:60
+#: rc.cpp:66
 msgid "Vertical scatter"
 msgstr "Dispersión vertical"
 
-#: rc.cpp:677
+#: rc.cpp:939
 msgid "Vertigo"
 msgstr "Vértigo"
 
 #: src/tracksconfigdialog.cpp:36
 #: src/tracksconfigdialog.cpp:142
-#: rc.cpp:1266
-#: rc.cpp:1455
-#: rc.cpp:1804
-#: rc.cpp:1879
-#: rc.cpp:2316
-#: rc.cpp:2581
-#: rc.cpp:3294
-#: rc.cpp:3483
-#: rc.cpp:3832
-#: rc.cpp:3907
-#: rc.cpp:4344
-#: rc.cpp:4609
+#: rc.cpp:1536
+#: rc.cpp:1725
+#: rc.cpp:2080
+#: rc.cpp:2155
+#: rc.cpp:2592
+#: rc.cpp:2857
+#: rc.cpp:3570
+#: rc.cpp:3759
+#: rc.cpp:4114
+#: rc.cpp:4189
+#: rc.cpp:4626
+#: rc.cpp:4891
 msgid "Video"
 msgstr "Video"
 
-#: rc.cpp:1230
-#: rc.cpp:3258
+#: rc.cpp:1500
+#: rc.cpp:3534
 msgid "Video Codecs"
 msgstr "Compresores de video"
 
@@ -8370,13 +8789,13 @@ msgstr "Efectos de video"
 msgid "Video Only"
 msgstr "Sólo video"
 
-#: rc.cpp:2271
-#: rc.cpp:4299
+#: rc.cpp:2547
+#: rc.cpp:4581
 msgid "Video Profile"
 msgstr "Perfil del video"
 
-#: rc.cpp:2812
-#: rc.cpp:4840
+#: rc.cpp:3088
+#: rc.cpp:5122
 msgid "Video Resolution"
 msgstr "Resolución del video"
 
@@ -8398,13 +8817,17 @@ msgstr "Clips de video"
 msgid "Video codec"
 msgstr "Compresor de video"
 
-#: rc.cpp:1590
-#: rc.cpp:3618
+#: rc.cpp:471
+msgid "Video delay"
+msgstr "Retardo de video"
+
+#: rc.cpp:1866
+#: rc.cpp:3900
 msgid "Video driver:"
 msgstr "Controlador de video:"
 
-#: rc.cpp:1371
-#: rc.cpp:3399
+#: rc.cpp:1641
+#: rc.cpp:3675
 msgid "Video index"
 msgstr "Índice de video"
 
@@ -8412,20 +8835,20 @@ msgstr "Índice de video"
 msgid "Video only"
 msgstr "Sólo video"
 
-#: rc.cpp:2107
-#: rc.cpp:4135
+#: rc.cpp:2383
+#: rc.cpp:4417
 msgid "Video player"
 msgstr "Reproductor de video"
 
-#: rc.cpp:1416
-#: rc.cpp:3444
+#: rc.cpp:1686
+#: rc.cpp:3720
 msgid "Video track"
 msgstr "Pista de video"
 
-#: rc.cpp:2307
-#: rc.cpp:2560
-#: rc.cpp:4335
-#: rc.cpp:4588
+#: rc.cpp:2583
+#: rc.cpp:2836
+#: rc.cpp:4617
+#: rc.cpp:4870
 msgid "Video tracks"
 msgstr "Pistas de video"
 
@@ -8433,24 +8856,24 @@ msgstr "Pistas de video"
 msgid "Video without audio track"
 msgstr "Video sin pista de audio"
 
-#: rc.cpp:1837
-#: rc.cpp:1876
-#: rc.cpp:2029
-#: rc.cpp:3865
-#: rc.cpp:3904
-#: rc.cpp:4057
+#: rc.cpp:2113
+#: rc.cpp:2152
+#: rc.cpp:2305
+#: rc.cpp:4147
+#: rc.cpp:4186
+#: rc.cpp:4339
 msgid "Video4Linux"
 msgstr "Video4Linux"
 
-#: rc.cpp:5236
+#: rc.cpp:5518
 msgid "View"
 msgstr "Ver"
 
-#: rc.cpp:1058
+#: rc.cpp:1328
 msgid "Vignette Effect"
 msgstr "Efecto viñeta"
 
-#: rc.cpp:821
+#: rc.cpp:1083
 msgid "Vinyl"
 msgstr "Vinilo"
 
@@ -8458,12 +8881,12 @@ msgstr "Vinilo"
 msgid "Virtual clip"
 msgstr "Clip virtual"
 
-#: rc.cpp:1072
+#: rc.cpp:1342
 msgid "Volume (keyframable)"
 msgstr "Volumen (animable)"
 
-#: rc.cpp:1624
-#: rc.cpp:3652
+#: rc.cpp:1900
+#: rc.cpp:3934
 msgid "W"
 msgstr "W"
 
@@ -8477,12 +8900,12 @@ msgstr "Esperando por el clip..."
 msgid "Waiting..."
 msgstr "Esperando..."
 
-#: rc.cpp:1584
-#: rc.cpp:3612
+#: rc.cpp:1860
+#: rc.cpp:3894
 msgid "Warning: changes to the drivers and devices can make Kdenlive unstable. Change only if you know what you do."
 msgstr "Atención: los cambios en los controladores o dispositivos pueden hacer inestable a Kdenlive. Cambiarlos sólo si se sabe lo que se hace."
 
-#: rc.cpp:1078
+#: rc.cpp:1348
 msgid "Wave"
 msgstr "Ondear"
 
@@ -8490,7 +8913,7 @@ msgstr "Ondear"
 msgid "Waveform"
 msgstr "Forma de onda"
 
-#: rc.cpp:833
+#: rc.cpp:1095
 msgid "Wear"
 msgstr "Gastar"
 
@@ -8502,11 +8925,16 @@ msgstr "Sitios web"
 msgid "Webcam"
 msgstr "Webcam"
 
+#: rc.cpp:356
+#, fuzzy
+msgid "Weight on distance"
+msgstr "Influencia de la distancia"
+
 #: src/wizard.cpp:49
 msgid "Welcome"
 msgstr "Bienvenido"
 
-#: rc.cpp:1028
+#: rc.cpp:1290
 msgid "Wet gain"
 msgstr "Ganancia del efecto"
 
@@ -8515,30 +8943,30 @@ msgstr "Ganancia del efecto"
 msgid "White"
 msgstr "Blanco"
 
-#: rc.cpp:220
+#: rc.cpp:262
 msgid "White Balance"
 msgstr "Balance de blancos"
 
-#: rc.cpp:655
+#: rc.cpp:909
 msgid "White color"
 msgstr "Color blanco"
 
-#: rc.cpp:423
+#: rc.cpp:571
 msgid "White output"
 msgstr "Blanco saliente"
 
-#: rc.cpp:944
-#: rc.cpp:976
-#: rc.cpp:1654
-#: rc.cpp:2140
-#: rc.cpp:3103
-#: rc.cpp:3682
-#: rc.cpp:4168
-#: rc.cpp:5131
+#: rc.cpp:1206
+#: rc.cpp:1238
+#: rc.cpp:1930
+#: rc.cpp:2416
+#: rc.cpp:3379
+#: rc.cpp:3964
+#: rc.cpp:4450
+#: rc.cpp:5413
 msgid "Width"
 msgstr "Ancho"
 
-#: rc.cpp:922
+#: rc.cpp:1184
 msgid "Width of line"
 msgstr "Ancho de la línea"
 
@@ -8546,16 +8974,16 @@ msgstr "Ancho de la línea"
 msgid "Width of square to pick color from:"
 msgstr "Ancho del área de donde tomar color:"
 
-#: rc.cpp:857
-#: rc.cpp:1036
+#: rc.cpp:1119
+#: rc.cpp:1298
 msgid "Window"
 msgstr "Ventana"
 
 #: src/initeffects.cpp:751
-#: rc.cpp:1311
-#: rc.cpp:2791
-#: rc.cpp:3339
-#: rc.cpp:4819
+#: rc.cpp:1581
+#: rc.cpp:3067
+#: rc.cpp:3615
+#: rc.cpp:5101
 msgid "Wipe"
 msgstr "Barrido"
 
@@ -8574,18 +9002,36 @@ msgstr "Invertir barrido"
 msgid "Wipe Softness"
 msgstr "Suavizado del barrido"
 
-#: rc.cpp:485
-#: rc.cpp:503
-#: rc.cpp:2134
-#: rc.cpp:2491
-#: rc.cpp:3087
-#: rc.cpp:4162
-#: rc.cpp:4519
-#: rc.cpp:5115
+#: rc.cpp:230
+#: rc.cpp:258
+#: rc.cpp:829
+msgid "Write on clear,Max,Min,Add,Subtract"
+msgstr "Dibujar en limpio,Máx,Min,Agregar,Sustraer"
+
+#: rc.cpp:697
+#: rc.cpp:715
+#: rc.cpp:2410
+#: rc.cpp:2767
+#: rc.cpp:3363
+#: rc.cpp:4444
+#: rc.cpp:4801
+#: rc.cpp:5397
 msgid "X"
 msgstr "X"
 
-#: rc.cpp:489
+#: rc.cpp:505
+msgid "X axis"
+msgstr "Eje X"
+
+#: rc.cpp:174
+msgid "X axis rotation"
+msgstr "Rotación eje X"
+
+#: rc.cpp:180
+msgid "X axis rotation rate"
+msgstr "Ritmo de rotación eje X"
+
+#: rc.cpp:701
 msgid "X size"
 msgstr "Tamaño X"
 
@@ -8601,24 +9047,36 @@ msgstr "XFree86 DGA 2.0"
 msgid "XVideo"
 msgstr "XVideo"
 
-#: rc.cpp:487
-#: rc.cpp:505
-#: rc.cpp:2044
-#: rc.cpp:2137
-#: rc.cpp:2494
-#: rc.cpp:3100
-#: rc.cpp:4072
-#: rc.cpp:4165
-#: rc.cpp:4522
-#: rc.cpp:5128
+#: rc.cpp:699
+#: rc.cpp:717
+#: rc.cpp:2320
+#: rc.cpp:2413
+#: rc.cpp:2770
+#: rc.cpp:3376
+#: rc.cpp:4354
+#: rc.cpp:4447
+#: rc.cpp:4804
+#: rc.cpp:5410
 msgid "Y"
 msgstr "Y"
 
-#: rc.cpp:491
+#: rc.cpp:507
+msgid "Y axis"
+msgstr "Eje Y"
+
+#: rc.cpp:176
+msgid "Y axis rotation"
+msgstr "Rotación eje Y"
+
+#: rc.cpp:182
+msgid "Y axis rotation rate"
+msgstr "Ritmo de rotación eje Y"
+
+#: rc.cpp:703
 msgid "Y size"
 msgstr "Tamaño Y"
 
-#: rc.cpp:523
+#: rc.cpp:737
 msgid "Y trace"
 msgstr "Trazado Y"
 
@@ -8626,7 +9084,7 @@ msgstr "Trazado Y"
 msgid "Y value"
 msgstr "Valor Y"
 
-#: rc.cpp:869
+#: rc.cpp:1131
 msgid "Y-Delta"
 msgstr "Variación Y"
 
@@ -8653,7 +9111,7 @@ msgstr "YUV, plano UV"
 msgid "YUV Y plane"
 msgstr "YUV, plano Y"
 
-#: rc.cpp:825
+#: rc.cpp:1087
 msgid "Year"
 msgstr "Año"
 
@@ -8782,8 +9240,16 @@ msgstr ""
 msgid "Your project's profile %1 is not compatible with the blackmagic output card. Please see supported profiles below. Switching to normal video display."
 msgstr "El perfil del proyecto %1 no es compatible con la placa de salida Blackmagic. Ver perfiles compatibles más abajo. Cambiando a visualización normal de video."
 
-#: rc.cpp:1630
-#: rc.cpp:3658
+#: rc.cpp:178
+msgid "Z axis rotation"
+msgstr "Rotación eje Z"
+
+#: rc.cpp:184
+msgid "Z axis rotation rate"
+msgstr "Ritmo de rotación eje Z"
+
+#: rc.cpp:1906
+#: rc.cpp:3940
 msgid "Z-Index:"
 msgstr "Profundidad:"
 
@@ -8823,7 +9289,7 @@ msgstr "Nivel de zoom: %1/13"
 msgid "Zoom Out"
 msgstr "Alejar"
 
-#: rc.cpp:683
+#: rc.cpp:945
 msgid "Zoom Rate"
 msgstr "Nivel de zoom"
 
@@ -8835,8 +9301,8 @@ msgstr "Acercar"
 msgid "Zoom out"
 msgstr "Alejar"
 
-#: rc.cpp:2599
-#: rc.cpp:4627
+#: rc.cpp:2875
+#: rc.cpp:4909
 msgid "Zoom using vertical drag in ruler"
 msgstr "Acercar o alejar arrastrando verticalmente en la regla"
 
@@ -8845,8 +9311,8 @@ msgstr "Acercar o alejar arrastrando verticalmente en la regla"
 msgid "Zoom, low-pass"
 msgstr "Zoom, filtrado"
 
-#: rc.cpp:1714
-#: rc.cpp:3742
+#: rc.cpp:1990
+#: rc.cpp:4024
 msgid "Zoom:"
 msgstr "Zoom:"
 
@@ -8858,20 +9324,32 @@ msgstr "\\u2212X"
 msgid "\\u2212Y"
 msgstr "\\u2212Y"
 
-#: rc.cpp:1413
-#: rc.cpp:3441
+#: rc.cpp:1683
+#: rc.cpp:3717
 msgid "after"
 msgstr "después"
 
-#: rc.cpp:1410
-#: rc.cpp:3438
+#: rc.cpp:1680
+#: rc.cpp:3714
 msgid "before"
 msgstr "antes"
 
-#: rc.cpp:2863
-#: rc.cpp:4891
+#: rc.cpp:288
+msgid "bluescreen0r"
+msgstr "bluescreen0r"
+
+#: rc.cpp:302
+msgid "bw0r"
+msgstr "bw0r"
+
+#: rc.cpp:3139
+#: rc.cpp:5173
 msgid "create new points"
 msgstr "crear nuevos puntos"
+
+#: rc.cpp:469
+msgid "delay0r"
+msgstr "delay0r"
 
 #: src/dvdwizardvob.cpp:55
 #: src/wizard.cpp:401
@@ -8882,8 +9360,8 @@ msgstr "dvdauthor"
 msgid "dvgrab"
 msgstr "dvgrab"
 
-#: rc.cpp:1873
-#: rc.cpp:3901
+#: rc.cpp:2149
+#: rc.cpp:4183
 msgid "dvgrab additional parameters"
 msgstr "parámetros adicionales de dvgrab"
 
@@ -8955,13 +9433,13 @@ msgstr "mín."
 msgid "mkisofs"
 msgstr "mkisofs"
 
-#: rc.cpp:2845
-#: rc.cpp:4873
+#: rc.cpp:3121
+#: rc.cpp:5155
 msgid "move on X axis"
 msgstr "mover en el eje X"
 
-#: rc.cpp:2851
-#: rc.cpp:4879
+#: rc.cpp:3127
+#: rc.cpp:5161
 msgid "move on Y axis"
 msgstr "mover en el eje Y"
 
@@ -8970,24 +9448,28 @@ msgctxt "Normal editing"
 msgid "n"
 msgstr "n"
 
-#: rc.cpp:1070
+#: rc.cpp:663
+msgid "nosync0r"
+msgstr "nosync0r"
+
+#: rc.cpp:1340
 msgid "opacity"
 msgstr "opacidad"
 
-#: rc.cpp:2872
-#: rc.cpp:4900
+#: rc.cpp:3148
+#: rc.cpp:5182
 msgid "parameter description"
 msgstr "descripción del parámetro"
 
-#: rc.cpp:479
+#: rc.cpp:689
 msgid "pr0be"
 msgstr "pr0be"
 
-#: rc.cpp:499
+#: rc.cpp:711
 msgid "pr0file"
 msgstr "pr0file"
 
-#: rc.cpp:1064
+#: rc.cpp:1334
 msgid "radius"
 msgstr "radio"
 
@@ -8999,6 +9481,10 @@ msgstr "recordmydesktop"
 msgctxt "Selection tool shortcut"
 msgid "s"
 msgstr "s"
+
+#: rc.cpp:799
+msgid "scanline0r"
+msgstr "scanline0r"
 
 #: src/renderwidget.cpp:1839
 msgid "script"
@@ -9012,26 +9498,34 @@ msgstr "seg."
 msgid "seconds"
 msgstr "segundos"
 
-#: rc.cpp:1062
+#: rc.cpp:1332
 msgid "smooth"
 msgstr "suavizar"
 
-#: rc.cpp:2437
-#: rc.cpp:4465
+#: rc.cpp:897
+msgid "threelay0r"
+msgstr "threelay0r"
+
+#: rc.cpp:2713
+#: rc.cpp:4747
 msgid "to"
 msgstr "a"
+
+#: rc.cpp:931
+msgid "twolay0r"
+msgstr "twolay0r"
 
 #: src/renderwidget.cpp:1133
 msgid "untitled"
 msgstr "sin nombre"
 
-#: rc.cpp:2857
-#: rc.cpp:4885
+#: rc.cpp:3133
+#: rc.cpp:5167
 msgid "update values in timeline"
 msgstr "actualizar valores en línea de tiempo"
 
-#: rc.cpp:1214
-#: rc.cpp:3242
+#: rc.cpp:1484
+#: rc.cpp:3518
 msgid "with track"
 msgstr "con pista"
 
@@ -9040,16 +9534,16 @@ msgctxt "Razor tool shortcut"
 msgid "x"
 msgstr "x"
 
-#: rc.cpp:1066
-#: rc.cpp:1150
-#: rc.cpp:2404
-#: rc.cpp:3178
-#: rc.cpp:4432
+#: rc.cpp:1336
+#: rc.cpp:1420
+#: rc.cpp:2680
+#: rc.cpp:3454
+#: rc.cpp:4714
 msgid "x"
 msgstr "x"
 
-#: rc.cpp:1639
-#: rc.cpp:3667
+#: rc.cpp:1915
+#: rc.cpp:3949
 msgid "x1"
 msgstr "x1"
 
@@ -9057,13 +9551,43 @@ msgstr "x1"
 msgid "xine"
 msgstr "xine"
 
-#: rc.cpp:1068
+#: rc.cpp:1338
 msgid "y"
 msgstr "y"
 
-#: rc.cpp:433
+#: rc.cpp:613
 msgid "α"
 msgstr "α"
+
+#~ msgid ""
+#~ "<![CDATA[Determines how the effect tries to adapt to background changes. "
+#~ "<br/>\n"
+#~ "                If the background does not change, then try to use 0 "
+#~ "(requires the first frame to represent background only, without your "
+#~ "light sources).]]>"
+#~ msgstr ""
+#~ "<![CDATA[Determina cómo el efecto intenta adaptarse a los cambios en el "
+#~ "fondo. <br/>\n"
+#~ "                Si el fondo es estático, utilizar 0 (requiere que en el "
+#~ "primer fotograma se muestre sólo el fondo, sin las fuentes lumínicas).]]>"
+
+#~ msgid ""
+#~ "<![CDATA[Smoothing of the light map according to the light source. <br/>\n"
+#~ "            A value of 1 results in absolutely smooth transitions from "
+#~ "background to light source, but might result in too weak lights. The "
+#~ "maximum value gives sharper edges and stronger lights.]]>"
+#~ msgstr ""
+#~ "<![CDATA[Suavizado del mapa de luz con respecto a la fuente lumínica. <br/"
+#~ ">\n"
+#~ "            Un valor de 1 provoca transiciones absolutamente suaves entre "
+#~ "el fondo y la fuente lumínica, pero puede atenuar mucho las luces. El "
+#~ "valor máximo genera bordes más definidos y luces más potentes.]]>"
+
+#~ msgid "Light Graffiti effect."
+#~ msgstr "Efecto graffiti de luz."
+
+#~ msgid "Smoothing"
+#~ msgstr "Suavizado"
 
 #~ msgid "Overlay last frame"
 #~ msgstr "Superponer el fotograma anterior"
