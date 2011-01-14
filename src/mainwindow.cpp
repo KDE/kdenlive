@@ -385,7 +385,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     for (int i = 1; i < 5; i++) {
         KAction *load = new KAction(KIcon(), i18n("Layout %1").arg(i), this);
         load->setData("_" + QString::number(i));
-        load->setCheckable(true);
+	layoutActions->addAction("load_layout" + QString::number(i), load);
         m_loadLayout->addAction(load);
         KAction *save = new KAction(KIcon(), i18n("Save As Layout %1").arg(i), this);
         save->setData("_" + QString::number(i));
@@ -1697,7 +1697,7 @@ void MainWindow::loadLayouts()
                 }
                 for (int j = 0; j < saveActions.count(); j++) {
                     if (saveActions.at(j)->data().toString().endsWith("_" + QString::number(i))) {
-                        saveActions[j]->setText(layoutName);
+                        saveActions[j]->setText(i18n("Save as %1").arg(layoutName));
                         saveActions[j]->setData(key);
                         break;
                     }
