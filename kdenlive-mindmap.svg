@@ -1072,6 +1072,13 @@
        inkscape:vp_y="0 : 1000 : 0"
        inkscape:vp_x="0 : 0.5 : 1"
        sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective3834"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -1080,9 +1087,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.49497475"
-     inkscape:cx="7848.5254"
-     inkscape:cy="5017.1078"
+     inkscape:zoom="0.7"
+     inkscape:cx="11758.763"
+     inkscape:cy="4407.2705"
      inkscape:document-units="px"
      inkscape:current-layer="layer3"
      showgrid="false"
@@ -1921,6 +1928,17 @@
          id="tspan11223-6"
          x="-4473.2314"
          y="-1229.5742">STABILITY</tspan></text>
+    <text
+       sodipodi:linespacing="100%"
+       id="text3868"
+       y="538.66272"
+       x="4985.834"
+       style="font-size:288px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:100%;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;opacity:0.2017544;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans Bold"
+       xml:space="preserve"><tspan
+         y="538.66272"
+         x="4985.834"
+         id="tspan3870"
+         sodipodi:role="line">GENERAL</tspan></text>
   </g>
   <g
      inkscape:groupmode="layer"
@@ -2052,6 +2070,17 @@
          x="899.27069"
          id="tspan3286"
          sodipodi:role="line">Keyboard Shortcuts</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:144px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:125%;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;opacity:0.2017544;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans Bold"
+       x="4260.4497"
+       y="-1274.8326"
+       id="text3852"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3854"
+         x="4260.4497"
+         y="-1274.8326">UI</tspan></text>
   </g>
   <g
      inkscape:groupmode="layer"
@@ -2286,7 +2315,7 @@
          sodipodi:role="line"
          id="tspan13417-2-7"
          x="-2251.8438"
-         y="2730.7996">Color safety (TV) tdisplay</tspan></text>
+         y="2730.7996">Color safety (TV) display</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:125%;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;color:#000000;fill:#eeeeee;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans"
@@ -2319,7 +2348,11 @@
          sodipodi:role="line"
          id="tspan13264-5-0-1-1-6"
          x="-1491.0187"
-         y="28.033258">Low-Resolution preview</tspan></text>
+         y="28.033258">Low-Resolution preview</tspan><tspan
+         sodipodi:role="line"
+         x="-1491.0187"
+         y="58.033257"
+         id="tspan3880">(Proxy Clips)</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:125%;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;color:#000000;fill:#eeeeee;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans"
@@ -2429,5 +2462,83 @@
          id="tspan3294"
          x="1620.6732"
          y="1.675822">Support workflow</tspan></text>
+    <use
+       height="6765.7144"
+       width="14148.571"
+       transform="translate(10772.758,-4844.9441)"
+       id="use4239-5"
+       xlink:href="#path3261"
+       y="0"
+       x="0" />
+    <text
+       sodipodi:linespacing="125%"
+       id="text3848"
+       y="-1475.5615"
+       x="2193.2241"
+       style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:125%;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;color:#000000;fill:#eeeeee;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans"
+       xml:space="preserve"><tspan
+         id="tspan3850"
+         y="-1475.5615"
+         x="2193.2241"
+         sodipodi:role="line">Display both monitors (clip/project) to compare results</tspan></text>
+    <text
+       sodipodi:linespacing="125%"
+       id="text3856"
+       y="-1203.4962"
+       x="4411.6221"
+       style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:125%;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;color:#000000;fill:#eeeeee;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans"
+       xml:space="preserve"><tspan
+         id="tspan3858"
+         y="-1203.4962"
+         x="4411.6221"
+         sodipodi:role="line">Hide clip names</tspan></text>
+    <text
+       sodipodi:linespacing="125%"
+       id="text3860"
+       y="4036.4453"
+       x="982.38702"
+       style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:125%;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;color:#000000;fill:#eeeeee;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans"
+       xml:space="preserve"><tspan
+         id="tspan3862"
+         y="4036.4453"
+         x="982.38702"
+         sodipodi:role="line">Set audio track to general sound level</tspan></text>
+    <text
+       sodipodi:linespacing="125%"
+       id="text3864"
+       y="4177.1982"
+       x="1280.7074"
+       style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:125%;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;color:#000000;fill:#eeeeee;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans"
+       xml:space="preserve"><tspan
+         id="tspan3866"
+         y="4177.1982"
+         x="1280.7074"
+         sodipodi:role="line">Split audio and video by default when adding a clip to the timeline</tspan></text>
+    <text
+       sodipodi:linespacing="125%"
+       id="text3874"
+       y="159.74539"
+       x="5255.332"
+       style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:125%;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;color:#000000;fill:#eeeeee;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans"
+       xml:space="preserve"><tspan
+         y="159.74539"
+         x="5255.332"
+         id="tspan3876"
+         sodipodi:role="line">Nested tracks</tspan><tspan
+         y="189.74539"
+         x="5255.332"
+         sodipodi:role="line"
+         id="tspan3878">(similar to adding a .kdenlive file as clip to the timeline)</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:125%;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;color:#000000;fill:#eeeeee;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans"
+       x="6559.6177"
+       y="268.31683"
+       id="text3882"
+       sodipodi:linespacing="125%"><tspan
+         id="tspan3886"
+         sodipodi:role="line"
+         x="6559.6177"
+         y="268.31683">EDL (Edit Decision List)</tspan></text>
   </g>
 </svg>

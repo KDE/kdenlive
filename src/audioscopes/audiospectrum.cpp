@@ -25,6 +25,12 @@
 #include <QDebug>
 #endif
 
+// (defined in the header file)
+#ifdef DETECT_OVERMODULATION
+#include <limits>
+#include <cmath>
+#endif
+
 // Draw lines instead of single pixels.
 // This is about 25 % faster, especially when enlarging the scope to e.g. 1680x1050 px.
 #define AUDIOSPEC_LINES
@@ -44,6 +50,7 @@ AudioSpectrum::AudioSpectrum(QWidget *parent) :
     ,m_timeTotal(0)
     ,m_showTotal(0)
   #endif
+  ,colorizeFactor(0)
 {
     ui = new Ui::AudioSpectrum_UI;
     ui->setupUi(this);
@@ -158,6 +165,34 @@ QImage AudioSpectrum::renderAudioScope(uint, const QVector<int16_t> audioFrame, 
         QTime start = QTime::currentTime();
 
 
+#ifdef DETECT_OVERMODULATION
+        bool overmodulated = false;
+        int overmodulateCount = 0;
+
+        for (int i = 0; i < audioFrame.size(); i++) {
+            if (
+                    audioFrame[i] == std::numeric_limits<int16_t>::max()
+                    || audioFrame[i] == std::numeric_limits<int16_t>::min()) {
+                overmodulateCount++;
+                if (overmodulateCount > 3) {
+                    overmodulated = true;
+                    break;
+                }
+            }
+        }
+        if (overmodulated) {
+            colorizeFactor = 1;
+        } else {
+            if (colorizeFactor > 0) {
+                colorizeFactor -= .08;
+                if (colorizeFactor < 0) {
+                    colorizeFactor = 0;
+                }
+            }
+        }
+#endif
+
+
         // Determine the window size to use. It should be
         // * not bigger than the number of samples actually available
         // * divisible by 2
@@ -203,11 +238,26 @@ QImage AudioSpectrum::renderAudioScope(uint, const QVector<int16_t> audioFrame, 
         const uint h = m_innerScopeRect.height();
         const uint leftDist = m_innerScopeRect.left() - m_scopeRect.left();
         const uint topDist = m_innerScopeRect.top() - m_scopeRect.top();
+        QColor spectrumColor(AbstractScopeWidget::colDarkWhite);
         int yMax;
+
+#ifdef DETECT_OVERMODULATION
+        if (colorizeFactor > 0) {
+            QColor col = AbstractScopeWidget::colHighlightDark;
+            QColor spec = spectrumColor;
+            float f = std::sin(M_PI_2 * colorizeFactor);
+            spectrumColor = QColor(
+                        (int) (f * col.red() + (1-f) * spec.red()),
+                        (int) (f * col.green() + (1-f) * spec.green()),
+                        (int) (f * col.blue() + (1-f) * spec.blue()),
+                        spec.alpha()
+                        );
+        }
+#endif
 
 #ifdef AUDIOSPEC_LINES
         QPainter davinci(&spectrum);
-        davinci.setPen(AbstractScopeWidget::penThin);
+        davinci.setPen(QPen(QBrush(spectrumColor.rgba()), 1, Qt::SolidLine));
 #endif
 
         for (uint i = 0; i < w; i++) {
@@ -221,7 +271,7 @@ QImage AudioSpectrum::renderAudioScope(uint, const QVector<int16_t> audioFrame, 
             davinci.drawLine(leftDist + i, topDist + h-1, leftDist + i, topDist + h-1 - yMax);
 #else
             for (int y = 0; y < yMax && y < (int)h; y++) {
-                spectrum.setPixel(leftDist + i, topDist + h-y-1, qRgba(225, 182, 255, 255));
+                spectrum.setPixel(leftDist + i, topDist + h-y-1, spectrumColor.rgba());
             }
 #endif
         }
@@ -295,13 +345,6 @@ QImage AudioSpectrum::renderHUD(uint)
 
         QPainter davinci(&hud);
         davinci.setPen(AbstractScopeWidget::penLight);
-
-        int _dw = m_innerScopeRect.width();
-        int _dh = m_innerScopeRect.height();
-        int _dld = m_innerScopeRect.width() + leftDist + textDistX;
-        int _dtd = topDist+ m_innerScopeRect.height() + 6;
-        int _fw = AbstractScopeWidget::geometry().width();
-        int _fh = AbstractScopeWidget::geometry().height();
 
         int y;
         for (int db = -dbDiff; db > m_dBmin; db -= dbDiff) {

@@ -20,6 +20,9 @@
 // Enables debugging
 //#define DEBUG_AUDIOSPEC
 
+// Show overmodulation
+#define DETECT_OVERMODULATION
+
 #include <QtCore>
 #include <QVector>
 #include <QHash>
@@ -82,6 +85,8 @@ private:
     int m_freqMax;
     /** The user has chosen a custom frequency. */
     bool m_customFreq;
+
+    float colorizeFactor;
 
 #ifdef DEBUG_AUDIOSPEC
     long m_timeTotal;
