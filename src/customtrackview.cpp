@@ -1429,6 +1429,10 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint pos)
             kDebug() << " WARNING))))))))) CLIP NOT FOUND : " << list.at(0);
             return false;
         }
+        if (clip->producer() == NULL) {
+            emit displayMessage(i18n("Clip not ready"), ErrorMessage);
+            return false;
+        }
         QPointF framePos = mapToScene(pos);
         ItemInfo info;
         info.startPos = GenTime();
@@ -1478,6 +1482,10 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint pos)
             DocClipBase *clip = m_document->getBaseClip(ids.at(i));
             if (clip == NULL) {
                 kDebug() << " WARNING))))))))) CLIP NOT FOUND : " << ids.at(i);
+                return false;
+            }
+            if (clip->producer() == NULL) {
+                emit displayMessage(i18n("Clip not ready"), ErrorMessage);
                 return false;
             }
             ItemInfo info;
