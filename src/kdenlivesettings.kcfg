@@ -78,9 +78,25 @@
     </entry>
 
     <entry name="profiles_list" type="UInt">
-      <label>active project format.</label>
+      <label>Active project format.</label>
       <default></default>
     </entry>
+
+    <entry name="enableproxy" type="Bool">
+      <label>Enable proxy clips.</label>
+      <default>false</default>
+    </entry>
+
+    <entry name="autoproxy" type="Bool">
+      <label>Automatically create proxy clips.</label>
+      <default>true</default>
+    </entry>
+    
+    <entry name="proxyparams" type="String">
+      <label>Proxy clips transcoding parameters.</label>
+      <default>-f avi -acodec libmp3lame -ac 2 -ab 92k -ar 48000 -vcodec mpeg2video -g 5 -deinterlace -s 480x270 -b 150k</default>
+    </entry>
+
   </group>
 
   <group name="timeline">

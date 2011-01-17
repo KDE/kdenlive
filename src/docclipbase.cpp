@@ -34,6 +34,7 @@
 #include <KDebug>
 
 #include <QCryptographicHash>
+#include <QtConcurrentRun>
 
 #include <cstdio>
 
@@ -1077,5 +1078,36 @@ bool DocClipBase::hasAudioCodec(const QString &codec) const
     char property[200];
     snprintf(property, sizeof(property), "meta.media.%d.codec.name", default_video);
     return prod->get(property) == codec;
+}
+
+void DocClipBase::generateProxy(KUrl proxyFolder)
+{
+    if (m_proxyThread.isRunning()) return;
+    QStringList parameters;
+    parameters << "-i" << m_properties.value("resource");
+    QString params = KdenliveSettings::proxyparams().simplified();
+    foreach(QString s, params.split(' '))
+    parameters << s;
+    // Make sure we don't block when proxy file already exists
+    parameters << "-y";
+    if (m_properties.value("file_hash").isEmpty()) getFileHash(m_properties.value("resource"));
+    QString path = proxyFolder.path(KUrl::AddTrailingSlash) + "proxy/" + m_properties.value("file_hash") + ".avi";
+    setProperty("proxy", path.toUtf8().data());
+    if (QFile::exists(path)) {
+        emit proxyReady(m_id, true);
+        return;
+    }
+    parameters << path;
+    m_proxyThread = QtConcurrent::run(this, &DocClipBase::slotGenerateProxy, parameters);
+}
+
+void DocClipBase::slotGenerateProxy(QStringList parameters)
+{
+    int result = QProcess::execute("ffmpeg", parameters);
+    if (result == 0) emit proxyReady(m_id, true);
+    else {
+        resetProducerProperty("proxy");
+        emit proxyReady(m_id, false);
+    }
 }
 

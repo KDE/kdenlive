@@ -522,10 +522,12 @@ void Render::slotSplitView(bool doit)
 
 void Render::getFileProperties(const QDomElement xml, const QString &clipId, int imageHeight, bool replaceProducer)
 {
-    KUrl url = KUrl(xml.attribute("resource", QString()));
+    QString path;
+    if (KdenliveSettings::enableproxy() && xml.hasAttribute("proxy")) path = xml.attribute("proxy");
+    else path = xml.attribute("resource");
+    KUrl url = KUrl(path);
     Mlt::Producer *producer = NULL;
     CLIPTYPE type = (CLIPTYPE)xml.attribute("type").toInt();
-
     //kDebug() << "PROFILE WIDT: "<< xml.attribute("mlt_service") << ": "<< m_mltProfile->width() << "\n...................\n\n";
     /*if (xml.attribute("type").toInt() == TEXT && !QFile::exists(url.path())) {
         emit replyGetFileProperties(clipId, producer, QMap < QString, QString >(), QMap < QString, QString >(), replaceProducer);

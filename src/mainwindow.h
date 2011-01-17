@@ -534,6 +534,8 @@ private slots:
     void slotOpenStopmotion();
     /** @brief Implements all the actions that are int he ActionsCollection. */
     void slotDoAction(const QString& action_name);
+    /** @brief Update project because the use of proxy clips was enabled / disabled. */
+    void slotUpdateProxySettings();
  
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

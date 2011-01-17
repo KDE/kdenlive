@@ -104,6 +104,7 @@ signals:
     void customChanged();
     void doResetProfile();
     void updateCaptureFolder();
+    void updateProxySettings();
 };
 
 

@@ -614,6 +614,10 @@ void KdenliveSettingsDialog::updateSettings()
         KdenliveSettings::setVolume(m_configSdl.kcfg_volume->value());
         resetProfile = true;
     }
+    
+    if (m_configProject.kcfg_enableproxy->isChecked() != KdenliveSettings::enableproxy()) {
+        emit updateProxySettings();
+    }
 
     if (m_modified) {
         // The transcoding profiles were modified, save.

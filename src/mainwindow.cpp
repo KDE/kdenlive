@@ -2572,7 +2572,7 @@ void MainWindow::slotPreferences(int page, int option)
     
     KdenliveSettingsDialog* dialog = new KdenliveSettingsDialog(actions, this);
     connect(dialog, SIGNAL(settingsChanged(const QString&)), this, SLOT(updateConfiguration()));
-    //connect(dialog, SIGNAL(doResetProfile()), this, SLOT(slotDetectAudioDriver()));
+    connect(dialog, SIGNAL(updateProxySettings()), this, SLOT(slotUpdateProxySettings()));
     connect(dialog, SIGNAL(doResetProfile()), m_monitorManager, SLOT(slotResetProfiles()));
 #ifndef Q_WS_MAC
     connect(dialog, SIGNAL(updateCaptureFolder()), this, SLOT(slotUpdateCaptureFolder()));
@@ -3740,16 +3740,14 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
                 return;
         }
         playlistPath = scriptPath + ".mlt";
-        m_projectMonitor->saveSceneList(playlistPath);
     } else {
         KTemporaryFile temp;
         temp.setAutoRemove(false);
         temp.setSuffix(".mlt");
         temp.open();
         playlistPath = temp.fileName();
-        m_projectMonitor->saveSceneList(playlistPath);
     }
-
+    QString playlistContent = m_projectMonitor->sceneList();
     if (!chapterFile.isEmpty()) {
         int in = 0;
         int out;
@@ -3804,6 +3802,32 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
     if (m_renderWidget->automaticAudioExport()) {
         exportAudio = m_activeTimeline->checkProjectAudio();
     } else exportAudio = m_renderWidget->selectedAudioExport();
+    
+    // Do we want proxy rendering
+    if (KdenliveSettings::enableproxy() && !m_renderWidget->proxyRendering()) {
+        // replace proxy clips with originals
+        QMap <QString, QString> proxies = m_projectList->getProxies();
+        QMapIterator<QString, QString> i(proxies);
+        while (i.hasNext()) {
+            i.next();
+            // Replace all keys with their values (proxy path with original path)
+            playlistContent.replace(i.key(), i.value());
+        }
+    }
+    
+    // Do save scenelist
+    QFile file(playlistPath);
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        m_messageLabel->setMessage(i18n("Cannot write to file %1").arg(playlistPath), ErrorMessage);
+        return;
+    }
+    file.write(playlistContent.toUtf8());
+    if (file.error() != QFile::NoError) {
+        m_messageLabel->setMessage(i18n("Cannot write to file %1").arg(playlistPath), ErrorMessage);
+        file.close();
+        return;
+    }
+    file.close();
     m_renderWidget->slotExport(scriptExport, m_activeTimeline->inPoint(), m_activeTimeline->outPoint(), playlistPath, scriptPath, exportAudio);
 }
 
@@ -4110,6 +4134,12 @@ void MainWindow::slotDeleteClip(const QString &id)
         list.at(i)->disableClipId(id);
     }
     m_projectList->slotDeleteClip(id);
+}
+
+void MainWindow::slotUpdateProxySettings()
+{
+    if (m_renderWidget) m_renderWidget->updateProxyConfig();
+    //TODO: update proxy in project tree
 }
 
 #include "mainwindow.moc"

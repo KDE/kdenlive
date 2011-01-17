@@ -24,6 +24,7 @@
 #include <QTreeWidgetItem>
 #include <QTreeWidget>
 #include <QDomElement>
+#include <QProcess>
 
 #include <KUrl>
 
@@ -62,6 +63,8 @@ public:
     QString getClipHash() const;
     static int itemDefaultHeight();
     void slotSetToolTip();
+    /** \brief Set the status of proxy clip creation. 0 = no proxy, 1 = creating proxy, 2 = proxy created. */
+    void setProxyStatus(int status);
 
     virtual bool operator<(const QTreeWidgetItem &other)const {
         int column = treeWidget()->sortColumn();
@@ -74,6 +77,7 @@ private:
     CLIPTYPE m_clipType;
     QString m_clipId;
     DocClipBase *m_clip;
+
 };
 
 #endif

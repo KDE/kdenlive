@@ -26,6 +26,8 @@
 #include <QPixmap>
 #include <QObject>
 #include <QTimer>
+#include <QProcess>
+#include <QFuture>
 
 #include <KUrl>
 
@@ -202,6 +204,8 @@ Q_OBJECT public:
     bool hasAudioCodec(const QString &codec) const;
     bool checkHash() const;
     void setPlaceHolder(bool place);
+    /** @brief Generate a proxy clip (lower resolution copy) named like the clip's hash. */
+    void generateProxy(KUrl proxyFolder);
 
 private:   // Private attributes
 
@@ -231,6 +235,8 @@ private:   // Private attributes
     bool m_placeHolder;
 
     QList <CutZoneInfo> m_cutZones;
+    
+    QFuture<void> m_proxyThread;
 
     void setAudioThumbCreated(bool isDone);
     /** Holds clip infos like fps, size,... */
@@ -263,9 +269,12 @@ public slots:
     QMap <QString, QString> properties() const;
     QMap <QString, QString> metadata() const;
 
+private slots:
+    void slotGenerateProxy(QStringList parameters);
 
 signals:
     void gotAudioData();
+    void proxyReady(const QString, bool success);
 };
 
 #endif

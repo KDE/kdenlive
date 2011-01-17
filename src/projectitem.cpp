@@ -28,6 +28,7 @@
 #include <KIcon>
 
 const int DurationRole = Qt::UserRole + 1;
+const int ProxyRole = Qt::UserRole + 5;
 const int itemHeight = 38;
 
 ProjectItem::ProjectItem(QTreeWidget * parent, DocClipBase *clip) :
@@ -236,5 +237,10 @@ void ProjectItem::setProperties(const QMap < QString, QString > &attributes, con
             setText(1, m_clip->description());
         }
     }
+}
+
+void ProjectItem::setProxyStatus(int status)
+{
+    setData(0, ProxyRole, status);
 }
 

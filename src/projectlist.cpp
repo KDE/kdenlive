@@ -913,16 +913,7 @@ void ProjectList::deleteProjectFolder(QMap <QString, QString> map)
 void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
 {
     m_listView->setEnabled(false);
-    if (getProperties) {
-        m_listView->blockSignals(true);
-        m_refreshed = false;
-        // remove file_hash so that we load all properties for the clip
-        QDomElement e = clip->toXML().cloneNode().toElement();
-        e.removeAttribute("file_hash");
-        m_infoQueue.insert(clip->getId(), e);
-        //m_render->getFileProperties(clip->toXML(), clip->getId(), true);
-    }
-    clip->askForAudioThumbs();
+    if (getProperties) m_listView->blockSignals(true);
     const QString parent = clip->getProperty("groupid");
     ProjectItem *item = NULL;
     if (!parent.isEmpty()) {
@@ -941,8 +932,40 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
     }
     if (item == NULL)
         item = new ProjectItem(m_listView, clip);
+    if (item->data(0, DurationRole).isNull()) item->setData(0, DurationRole, i18n("Loading"));
+    if (getProperties) {
+        m_listView->blockSignals(true);
+        m_refreshed = false;
+        
+        // Proxy clips
+        CLIPTYPE t = clip->clipType();
+        if ((t == VIDEO || t == AV || t == UNKNOWN) && KdenliveSettings::enableproxy()) {
+            if (clip->getProperty("proxy").isEmpty()) {
+                connect(clip, SIGNAL(proxyReady(const QString, bool)), this, SLOT(slotGotProxy(const QString, bool)));
+                item->setProxyStatus(1);
+                clip->generateProxy(m_doc->projectFolder());
+            }
+            else {
+                // Proxy clip already created
+                item->setProxyStatus(2);
+                QDomElement e = clip->toXML().cloneNode().toElement();
+                e.removeAttribute("file_hash");
+                m_infoQueue.insert(clip->getId(), e);
+                
+            }
+        }
+        else {
+            // We don't use proxies
+            // remove file_hash so that we load all properties for the clip
+            QDomElement e = clip->toXML().cloneNode().toElement();
+            e.removeAttribute("file_hash");
+            m_infoQueue.insert(clip->getId(), e);
+        }
+        //m_render->getFileProperties(clip->toXML(), clip->getId(), true);
+    }
+    clip->askForAudioThumbs();
+    
     KUrl url = clip->fileURL();
-
     if (getProperties == false && !clip->getClipHash().isEmpty()) {
         QString cachedPixmap = m_doc->projectFolder().path(KUrl::AddTrailingSlash) + "thumbs/" + clip->getClipHash() + ".png";
         if (QFile::exists(cachedPixmap)) {
@@ -982,8 +1005,28 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
         if (getProperties)
             m_listView->blockSignals(false);
     }
+    
     if (getProperties && !m_queueTimer.isActive())
         slotProcessNextClipInQueue();
+}
+
+void ProjectList::slotGotProxy(const QString id, bool success)
+{
+    ProjectItem *item = getItemById(id);
+    if (item) {
+        disconnect(m_listView, SIGNAL(itemChanged(QTreeWidgetItem *, int)), this, SLOT(slotItemEdited(QTreeWidgetItem *, int)));
+        if (success) {
+            // Proxy clip successfully created
+            item->setProxyStatus(2);
+            QDomElement e = item->referencedClip()->toXML().cloneNode().toElement();  
+            e.removeAttribute("file_hash");
+            m_infoQueue.insert(id, e);
+            if (!m_queueTimer.isActive()) slotProcessNextClipInQueue();
+        }
+        else item->setProxyStatus(0);
+        connect(m_listView, SIGNAL(itemChanged(QTreeWidgetItem *, int)), this, SLOT(slotItemEdited(QTreeWidgetItem *, int)));
+        update();
+    }
 }
 
 void ProjectList::slotResetProjectList()
@@ -1366,7 +1409,6 @@ void ProjectList::slotCheckForEmptyQueue()
 
 void ProjectList::reloadClipThumbnails()
 {
-    kDebug() << "//////////////  RELOAD CLIPS THUMBNAILS!!!";
     m_thumbnailQueue.clear();
     QTreeWidgetItemIterator it(m_listView);
     while (*it) {
@@ -1887,6 +1929,27 @@ void ProjectList::slotAddOrUpdateSequence(const QString frameName)
                                                QString(), groupInfo.at(0), groupInfo.at(1));
         }
     } else emit displayMessage(i18n("Sequence not found"), -2);
+}
+
+QMap <QString, QString> ProjectList::getProxies()
+{
+    QMap <QString, QString> list;
+    ProjectItem *item;
+    QTreeWidgetItemIterator it(m_listView);
+    while (*it) {
+        if ((*it)->type() != PROJECTCLIPTYPE) {
+            // subitem
+            ++it;
+            continue;
+        }
+        item = static_cast<ProjectItem *>(*it);
+        if (item && item->referencedClip() != NULL) {
+            QString proxy = item->referencedClip()->getProperty("proxy");
+            if (!proxy.isEmpty()) list.insert(proxy, item->clipUrl().path());
+        }
+        ++it;
+    }
+    return list;
 }
 
 #include "projectlist.moc"

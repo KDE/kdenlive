@@ -86,6 +86,8 @@ RenderWidget::RenderWidget(const QString &projectfolder, QWidget * parent) :
     if (KdenliveSettings::showrenderparams()) {
         m_view.buttonInfo->setDown(true);
     } else m_view.advanced_params->hide();
+    
+    m_view.proxy_render->setHidden(!KdenliveSettings::enableproxy());
 
     m_view.rescale_keep->setChecked(KdenliveSettings::rescalekeepratio());
     connect(m_view.rescale_width, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateRescaleWidth(int)));
@@ -1901,3 +1903,12 @@ bool RenderWidget::selectedAudioExport() const
     return (m_view.export_audio->checkState() != Qt::Unchecked);
 }
 
+void RenderWidget::updateProxyConfig()
+{
+    m_view.proxy_render->setHidden(!KdenliveSettings::enableproxy());
+}
+
+bool RenderWidget::proxyRendering()
+{
+    return m_view.proxy_render->isChecked();
+}

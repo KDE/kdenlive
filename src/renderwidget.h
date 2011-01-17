@@ -127,6 +127,10 @@ public:
     bool automaticAudioExport() const;
     /** @brief Returns true if user wants audio export. */
     bool selectedAudioExport() const;
+    /** @brief Show / hide proxy settings. */
+    void updateProxyConfig();
+    /** @brief Should we render using proxy clips. */
+    bool proxyRendering();
 
 public slots:
     void slotExport(bool scriptExport, int zoneIn, int zoneOut, const QString &playlistPath, const QString &scriptPath, bool exportAudio);

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>362</width>
-    <height>554</height>
+    <width>391</width>
+    <height>575</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -390,21 +390,21 @@
          </layout>
         </widget>
        </item>
-       <item row="13" column="0" colspan="3">
+       <item row="14" column="0" colspan="3">
         <widget class="QPushButton" name="buttonRender">
          <property name="text">
           <string>Render to File</string>
          </property>
         </widget>
        </item>
-       <item row="13" column="3" colspan="4">
+       <item row="14" column="3" colspan="4">
         <widget class="QPushButton" name="buttonGenerateScript">
          <property name="text">
           <string>Generate Script</string>
          </property>
         </widget>
        </item>
-       <item row="13" column="7" colspan="2">
+       <item row="14" column="7" colspan="2">
         <spacer name="horizontalSpacer">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -417,14 +417,14 @@
          </property>
         </spacer>
        </item>
-       <item row="13" column="9">
+       <item row="14" column="9">
         <widget class="KPushButton" name="buttonClose">
          <property name="text">
           <string>Close</string>
          </property>
         </widget>
        </item>
-       <item row="14" column="0" colspan="10">
+       <item row="15" column="0" colspan="10">
         <widget class="QGroupBox" name="errorBox">
          <property name="title">
           <string/>
@@ -451,6 +451,13 @@
            </widget>
           </item>
          </layout>
+        </widget>
+       </item>
+       <item row="13" column="0" colspan="10">
+        <widget class="QCheckBox" name="proxy_render">
+         <property name="text">
+          <string>Render using proxy clips</string>
+         </property>
         </widget>
        </item>
       </layout>

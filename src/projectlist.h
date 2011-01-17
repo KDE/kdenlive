@@ -107,7 +107,33 @@ public:
             int usage = index.data(UsageRole).toInt();
             if (usage != 0) subText.append(QString(" (%1)").arg(usage));
             if (option.state & (QStyle::State_Selected)) painter->setPen(option.palette.color(QPalette::Mid));
-            painter->drawText(r2, Qt::AlignLeft | Qt::AlignVCenter , subText);
+            QRectF bounding;
+            painter->drawText(r2, Qt::AlignLeft | Qt::AlignVCenter , subText, &bounding);
+            
+            int proxy = index.data(Qt::UserRole + 5).toInt();
+            if (proxy > 0) {
+                QRectF txtBounding;
+                QString proxyText;
+                QBrush brush;
+                QColor color;
+                if (proxy == 1) {
+                    proxyText = i18n("Generating proxy...");
+                    brush = option.palette.highlight();
+                    color = option.palette.color(QPalette::HighlightedText);
+                }
+                else {
+                    proxyText = i18n("Proxy");
+                    brush = option.palette.mid();
+                    color = option.palette.color(QPalette::WindowText);
+                }
+                txtBounding = painter->boundingRect(r2, Qt::AlignRight | Qt::AlignVCenter, " " + proxyText + " ");
+                painter->setPen(Qt::NoPen);
+                painter->setBrush(brush);
+                painter->drawRoundedRect(txtBounding, 2, 2);
+                painter->setPen(option.palette.highlightedText().color());
+                painter->drawText(txtBounding, Qt::AlignHCenter | Qt::AlignVCenter , proxyText);
+            }
+            
             painter->restore();
         } else if (index.column() == 2 && KdenliveSettings::activate_nepomuk()) {
             if (index.data().toString().isEmpty()) {
@@ -161,6 +187,8 @@ public:
 
     /** @brief Returns a string list of all supported mime extensions. */
     static QString getExtensions();
+    /** @brief Returns a list of urls containing original and proxy urls. */
+    QMap <QString, QString> getProxies();
 
 public slots:
     void setDocument(KdenliveDoc *doc);
@@ -264,7 +292,8 @@ private slots:
     bool adjustProjectProfileToItem(ProjectItem *item = NULL);
     /** @brief Add a sequence from the stopmotion widget. */
     void slotAddOrUpdateSequence(const QString frameName);
-    //void slotShowMenu(const QPoint &pos);
+    /** @brief A proxy clip was created, update display. */
+    void slotGotProxy(const QString id, bool success);
 
 signals:
     void clipSelected(DocClipBase *, QPoint zone = QPoint());
@@ -286,3 +315,4 @@ signals:
 };
 
 #endif
+
