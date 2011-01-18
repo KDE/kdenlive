@@ -4141,7 +4141,7 @@ void MainWindow::slotUpdateProxySettings()
     if (m_renderWidget) m_renderWidget->updateProxyConfig();
     if (KdenliveSettings::enableproxy())
         KStandardDirs::makeDir(m_activeDocument->projectFolder().path(KUrl::AddTrailingSlash) + "proxy/");
-    //TODO: update proxy in project tree
+    m_projectList->updateProxyConfig();
 }
 
 #include "mainwindow.moc"

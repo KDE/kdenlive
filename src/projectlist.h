@@ -189,6 +189,8 @@ public:
     static QString getExtensions();
     /** @brief Returns a list of urls containing original and proxy urls. */
     QMap <QString, QString> getProxies();
+    /** @brief Enable / disable proxies. */
+    void updateProxyConfig();
 
 public slots:
     void setDocument(KdenliveDoc *doc);

@@ -616,6 +616,7 @@ void KdenliveSettingsDialog::updateSettings()
     }
     
     if (m_configProject.kcfg_enableproxy->isChecked() != KdenliveSettings::enableproxy()) {
+        KdenliveSettings::setEnableproxy(m_configProject.kcfg_enableproxy->isChecked());
         emit updateProxySettings();
     }
 

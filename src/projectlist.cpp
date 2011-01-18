@@ -1020,6 +1020,7 @@ void ProjectList::slotGotProxy(const QString id, bool success)
             item->setProxyStatus(2);
             QDomElement e = item->referencedClip()->toXML().cloneNode().toElement();  
             e.removeAttribute("file_hash");
+            e.setAttribute("replace", 1);
             m_infoQueue.insert(id, e);
             if (!m_queueTimer.isActive()) slotProcessNextClipInQueue();
         }
@@ -1054,10 +1055,16 @@ void ProjectList::slotProcessNextClipInQueue()
 
     QMap<QString, QDomElement>::const_iterator j = m_infoQueue.constBegin();
     if (j != m_infoQueue.constEnd()) {
-        const QDomElement dom = j.value();
+        QDomElement dom = j.value();
         const QString id = j.key();
         m_infoQueue.remove(j.key());
-        emit getFileProperties(dom, id, m_listView->iconSize().height(), false);
+        bool replace;
+        if (dom.hasAttribute("replace")) {
+            dom.removeAttribute("replace");
+            replace = true;
+        }
+        else replace = false;
+        emit getFileProperties(dom, id, m_listView->iconSize().height(), replace);
     }
     if (!m_infoQueue.isEmpty()) m_queueTimer.start();
 }
@@ -1515,6 +1522,7 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
             item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsDropEnabled);
             toReload = clipId;
         }
+        if (item->referencedClip()->getProperty("proxy").isEmpty()) item->setProxyStatus(0);
         item->referencedClip()->setProducer(producer, replace);
         item->referencedClip()->askForAudioThumbs();
         if (!replace && item->data(0, Qt::DecorationRole).isNull())
@@ -1938,7 +1946,6 @@ QMap <QString, QString> ProjectList::getProxies()
     QTreeWidgetItemIterator it(m_listView);
     while (*it) {
         if ((*it)->type() != PROJECTCLIPTYPE) {
-            // subitem
             ++it;
             continue;
         }
@@ -1950,6 +1957,38 @@ QMap <QString, QString> ProjectList::getProxies()
         ++it;
     }
     return list;
+}
+
+void ProjectList::updateProxyConfig()
+{
+    ProjectItem *item;
+    QTreeWidgetItemIterator it(m_listView);
+    while (*it) {
+        if ((*it)->type() != PROJECTCLIPTYPE) {
+            ++it;
+            continue;
+        }
+        item = static_cast<ProjectItem *>(*it);
+        if (item && item->referencedClip() != NULL) {
+            if  (KdenliveSettings::enableproxy()) {
+                DocClipBase *clip = item->referencedClip();
+                connect(clip, SIGNAL(proxyReady(const QString, bool)), this, SLOT(slotGotProxy(const QString, bool)));
+                item->setProxyStatus(1);
+                clip->generateProxy(m_doc->projectFolder());
+            }
+            else if (!item->referencedClip()->getProperty("proxy").isEmpty()) {
+                // remove proxy
+                item->referencedClip()->clearProperty("proxy");
+                QDomElement e = item->toXml().cloneNode().toElement();
+                e.removeAttribute("file_hash");
+                e.setAttribute("replace", 1);
+                m_infoQueue.insert(item->clipId(), e);
+            }
+        }
+        ++it;
+    }
+    if (!m_infoQueue.isEmpty() && !m_queueTimer.isActive()) m_queueTimer.start();
+
 }
 
 #include "projectlist.moc"

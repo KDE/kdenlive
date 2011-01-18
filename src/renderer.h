@@ -373,7 +373,10 @@ public slots:
     bool isValid(KUrl url);
 
     /** @brief Requests the file properties for the specified URL.
-     *
+        @param xml The xml parameters for the clip
+        @param clipId The clip Id string
+        @param imageHeight The height (in pixels) of the returned thumbnail (height of a treewidgetitem in projectlist)
+        @param replaceProducer If true, the MLT producer will be recreated
      * Upon return, the result will be emitted via replyGetFileProperties().
      * Wraps the VEML command of the same name. */
     void getFileProperties(const QDomElement xml, const QString &clipId, int imageHeight, bool replaceProducer = true);
