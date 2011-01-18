@@ -111,6 +111,12 @@ ProjectList::ProjectList(QWidget *parent) :
     setLayout(layout);
     searchView->setTreeWidget(m_listView);
 
+    m_proxyAction = new QAction(i18n("Proxy clip"), this);
+    m_proxyAction->setCheckable(true);
+    m_proxyAction->setChecked(false);
+    connect(m_proxyAction, SIGNAL(toggled(bool)), this, SLOT(slotProxyCurrentItem(bool)));
+    
+    
     m_queueTimer.setInterval(100);
     connect(&m_queueTimer, SIGNAL(timeout()), this, SLOT(slotProcessNextClipInQueue()));
     m_queueTimer.setSingleShot(true);
@@ -200,6 +206,7 @@ void ProjectList::setupGeneratorMenu(QMenu *addMenu, QMenu *transcodeMenu, QMenu
         transcodeMenu->setEnabled(false);
     m_transcodeAction = transcodeMenu;
     m_menu->addAction(m_reloadAction);
+    m_menu->addAction(m_proxyAction);
     m_menu->addMenu(inTimelineMenu);
     inTimelineMenu->setEnabled(false);
     m_menu->addAction(m_editButton->defaultAction());
@@ -524,6 +531,7 @@ void ProjectList::slotClipSelected()
             m_openAction->setEnabled(false);
             m_reloadAction->setEnabled(false);
             m_transcodeAction->setEnabled(false);
+            m_proxyAction->setEnabled(false);
         } else {
             ProjectItem *clip;
             if (m_listView->currentItem()->type() == PROJECTSUBCLIPTYPE) {
@@ -565,6 +573,16 @@ void ProjectList::slotClipSelected()
         m_reloadAction->setEnabled(false);
         m_transcodeAction->setEnabled(false);
     }
+}
+
+void ProjectList::adjustProxyActions(ProjectItem *clip) const
+{
+    if (clip == NULL || clip->type() != PROJECTCLIPTYPE || clip->clipType() == COLOR || clip->clipType() == TEXT || clip->clipType() == PLAYLIST || clip->clipType() == SLIDESHOW || clip->clipType() == AUDIO) {
+        m_proxyAction->setEnabled(false);
+        return;
+    }
+    m_proxyAction->setEnabled(true);
+    m_proxyAction->setChecked(clip->hasProxy());
 }
 
 void ProjectList::adjustTranscodeActions(ProjectItem *clip) const
@@ -721,6 +739,7 @@ void ProjectList::slotContextMenu(const QPoint &pos, QTreeWidgetItem *item)
             clip = static_cast <ProjectItem*>(item);
             // Display relevant transcoding actions only
             adjustTranscodeActions(clip);
+            adjustProxyActions(clip);
             // Display uses in timeline
             emit findInTimeline(clip->clipId());
         } else {
@@ -1989,6 +2008,30 @@ void ProjectList::updateProxyConfig()
     }
     if (!m_infoQueue.isEmpty() && !m_queueTimer.isActive()) m_queueTimer.start();
 
+}
+
+void ProjectList::slotProxyCurrentItem(bool doProxy)
+{
+    if (m_listView->currentItem()->type() == PROJECTCLIPTYPE) {
+        ProjectItem *item = static_cast <ProjectItem*>(m_listView->currentItem());
+        if (item->referencedClip()) {
+            if (doProxy) {
+                DocClipBase *clip = item->referencedClip();
+                connect(clip, SIGNAL(proxyReady(const QString, bool)), this, SLOT(slotGotProxy(const QString, bool)));
+                item->setProxyStatus(1);
+                clip->generateProxy(m_doc->projectFolder());
+            }
+            else if (!item->referencedClip()->getProperty("proxy").isEmpty()) {
+                // remove proxy
+                item->referencedClip()->clearProperty("proxy");
+                QDomElement e = item->toXml().cloneNode().toElement();
+                e.removeAttribute("file_hash");
+                e.setAttribute("replace", 1);
+                m_infoQueue.insert(item->clipId(), e);
+            }
+        }
+        if (!m_infoQueue.isEmpty() && !m_queueTimer.isActive()) m_queueTimer.start();
+    }
 }
 
 #include "projectlist.moc"

@@ -523,7 +523,7 @@ void Render::slotSplitView(bool doit)
 void Render::getFileProperties(const QDomElement xml, const QString &clipId, int imageHeight, bool replaceProducer)
 {
     QString path;
-    if (KdenliveSettings::enableproxy() && xml.hasAttribute("proxy")) path = xml.attribute("proxy");
+    if (xml.hasAttribute("proxy")) path = xml.attribute("proxy");
     else path = xml.attribute("resource");
     KUrl url = KUrl(path);
     Mlt::Producer *producer = NULL;

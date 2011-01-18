@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>268</width>
-    <height>333</height>
+    <width>264</width>
+    <height>304</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -151,25 +151,18 @@
       <item row="0" column="0">
        <widget class="QCheckBox" name="kcfg_enableproxy">
         <property name="text">
-         <string>Enable proxy clips for HD</string>
+         <string>Generate proxy clips</string>
         </property>
        </widget>
       </item>
       <item row="1" column="0">
-       <widget class="QCheckBox" name="kcfg_autoproxy">
-        <property name="text">
-         <string>Generate automatically</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
        <widget class="QLabel" name="label">
         <property name="text">
          <string>Transcoding parameters</string>
         </property>
        </widget>
       </item>
-      <item row="3" column="0">
+      <item row="2" column="0">
        <widget class="QPlainTextEdit" name="kcfg_proxyparams">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">

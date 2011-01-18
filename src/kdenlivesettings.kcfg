@@ -86,11 +86,6 @@
       <label>Enable proxy clips.</label>
       <default>false</default>
     </entry>
-
-    <entry name="autoproxy" type="Bool">
-      <label>Automatically create proxy clips.</label>
-      <default>true</default>
-    </entry>
     
     <entry name="proxyparams" type="String">
       <label>Proxy clips transcoding parameters.</label>

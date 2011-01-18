@@ -249,6 +249,7 @@ private:
     QMap <QString, QDomElement> m_producerQueue;
     void requestClipInfo(const QDomElement xml, const QString id);
     QList <QString> m_thumbnailQueue;
+    QAction *m_proxyAction;
     void requestClipThumbnail(const QString id);
 
     /** @brief Creates an EditFolderCommand to change the name of an folder item. */
@@ -261,6 +262,8 @@ private:
 
     /** @brief Enables and disables transcode actions based on the selected clip's type. */
     void adjustTranscodeActions(ProjectItem *clip) const;
+    /** @brief Enables and disables proxy action based on the selected clip. */
+    void adjustProxyActions(ProjectItem *clip) const;
 
     /** @brief Sets the buttons enabled/disabled according to selected item. */
     void updateButtons() const;
@@ -296,6 +299,8 @@ private slots:
     void slotAddOrUpdateSequence(const QString frameName);
     /** @brief A proxy clip was created, update display. */
     void slotGotProxy(const QString id, bool success);
+    /** @brief Enable / disable proxy for current clip. */
+    void slotProxyCurrentItem(bool doProxy);
 
 signals:
     void clipSelected(DocClipBase *, QPoint zone = QPoint());

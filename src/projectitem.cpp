@@ -244,3 +244,7 @@ void ProjectItem::setProxyStatus(int status)
     setData(0, ProxyRole, status);
 }
 
+bool ProjectItem::hasProxy() const
+{
+    return data(0, ProxyRole).toInt() == 2;
+}
