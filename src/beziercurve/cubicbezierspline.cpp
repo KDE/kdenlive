@@ -26,9 +26,7 @@ static bool pointLessThan(const BPoint &a, const BPoint &b)
 }
 
 CubicBezierSpline::CubicBezierSpline(QObject* parent) :
-        QObject(parent),
-        m_validSpline(false),
-        m_precision(100)
+        QObject(parent)
 {
     m_points.append(BPoint(QPointF(0, 0), QPointF(0, 0), QPointF(.1, .1)));
     m_points.append(BPoint(QPointF(.9, .9), QPointF(1, 1), QPointF(1, 1)));
@@ -37,23 +35,18 @@ CubicBezierSpline::CubicBezierSpline(QObject* parent) :
 CubicBezierSpline::CubicBezierSpline(const CubicBezierSpline& spline, QObject* parent) :
         QObject(parent)
 {
-    m_precision = spline.m_precision;
     m_points = spline.m_points;
-    m_validSpline = false;
 }
 
 CubicBezierSpline& CubicBezierSpline::operator=(const CubicBezierSpline& spline)
 {
-    m_precision = spline.m_precision;
     m_points = spline.m_points;
-    m_validSpline = false;
     return *this;
 }
 
 void CubicBezierSpline::fromString(const QString& spline)
 {
     m_points.clear();
-    m_validSpline = false;
 
     QStringList bpoints = spline.split('|');
     foreach(const QString &bpoint, bpoints) {
@@ -89,7 +82,6 @@ int CubicBezierSpline::setPoint(int ix, const BPoint& point)
     m_points[ix] = point;
     keepSorted();
     validatePoints();
-    m_validSpline = false;
     return indexOf(point); // in case it changed
 }
 
@@ -101,7 +93,6 @@ QList <BPoint> CubicBezierSpline::points()
 void CubicBezierSpline::removePoint(int ix)
 {
     m_points.removeAt(ix);
-    m_validSpline = false;
 }
 
 int CubicBezierSpline::addPoint(const BPoint& point)
@@ -109,43 +100,19 @@ int CubicBezierSpline::addPoint(const BPoint& point)
     m_points.append(point);
     keepSorted();
     validatePoints();
-    m_validSpline = false;
     return indexOf(point);
 }
 
-void CubicBezierSpline::setPrecision(int pre)
+BPoint CubicBezierSpline::getPoint(int ix, int normalisedWidth, int normalisedHeight, bool invertHeight)
 {
-    if (pre != m_precision) {
-        m_precision = pre;
-        m_validSpline = false;
+    BPoint p = m_points.at(ix);
+    for (int i = 0; i < 3; ++i) {
+        p[i].rx() *= normalisedWidth;
+        p[i].ry() *= normalisedHeight;
+        if (invertHeight)
+            p[i].ry() = normalisedHeight - p[i].y();
     }
-}
-
-int CubicBezierSpline::getPrecision()
-{
-    return m_precision;
-}
-
-qreal CubicBezierSpline::value(qreal x, bool cont)
-{
-    update();
-
-    if (!cont)
-        m_i = m_spline.constBegin();
-    if (m_i != m_spline.constBegin())
-        --m_i;
-
-    double diff = qAbs(x - m_i.key());
-    double y = m_i.value();
-    while (m_i != m_spline.constEnd()) {
-        if (qAbs(x - m_i.key()) > diff)
-            break;
-
-        diff = qAbs(x - m_i.key());
-        y = m_i.value();
-        ++m_i;
-    }
-    return qBound((qreal)0.0, y, (qreal)1.0);
+    return p;
 }
 
 void CubicBezierSpline::validatePoints()
@@ -164,52 +131,6 @@ void CubicBezierSpline::validatePoints()
 void CubicBezierSpline::keepSorted()
 {
     qSort(m_points.begin(), m_points.end(), pointLessThan);
-}
-
-QPointF CubicBezierSpline::point(double t, const QList< QPointF >& points)
-{
-    /*
-     * Calculating a point on the bezier curve using the coefficients from Bernstein basis polynomial of degree 3.
-     * Using the De Casteljau algorithm would be slightly faster for when calculating a lot of values
-     * but the difference is far from noticable in this needcase
-     */
-    double c1 = (1-t) * (1-t) * (1-t);
-    double c2 = 3 * t * (1-t) * (1-t);
-    double c3 = 3 * t * t * (1-t);
-    double c4 = t * t * t;
-    
-    return QPointF(points[0].x()*c1 + points[1].x()*c2 + points[2].x()*c3 + points[3].x()*c4,
-                   points[0].y()*c1 + points[1].y()*c2 + points[2].y()*c3 + points[3].y()*c4);
-}
-
-void CubicBezierSpline::update()
-{
-    if (m_validSpline)
-        return;
-
-    m_validSpline = true;
-    m_spline.clear();
-
-    QList <QPointF> points;
-    QPointF p;
-    for (int i = 0; i < m_points.count() - 1; ++i) {
-        points.clear();
-        points << m_points.at(i).p
-                << m_points.at(i).h2
-                << m_points.at(i+1).h1
-                << m_points.at(i+1).p;
-
-        int numberOfValues = (int)((points[3].x() - points[0].x()) * m_precision * 10);
-        if (numberOfValues == 0)
-            numberOfValues = 1;
-        double step = 1 / (double)numberOfValues;
-        double t = 0;
-        while (t <= 1) {
-            p = point(t, points);
-            m_spline.insert(p.x(), p.y());
-            t += step;
-        }
-    }
 }
 
 int CubicBezierSpline::indexOf(const BPoint& p)

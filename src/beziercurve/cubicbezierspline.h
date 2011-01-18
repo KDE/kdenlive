@@ -50,11 +50,6 @@ public:
 
     /** @brief Returns a list of the points defining the spline. */
     QList <BPoint> points();
-    /** @brief Finds the closest point in the pre-calculated spline to @param x.
-     * @param x x value
-     * @param cont (default = false) Whether to start searching at the previously requested x and skip all values before it.
-                                     This makes requesting a lot of increasing x's faster. */
-    qreal value(qreal x, bool cont = false);
 
     /** @brief Sets the point at index @param ix to @param point and returns its index (it might have changed during validation). */
     int setPoint(int ix, const BPoint &point);
@@ -63,28 +58,22 @@ public:
     /** @brief Removes the point at @param ix. */
     void removePoint(int ix);
 
-    /** @brief Sets the precision to @param pre.
-     *
-     * The precision influences the number of points that are calculated for the spline:
-     * number of values = precision * 10 */
-    void setPrecision(int pre);
-    int getPrecision();
+    /** @brief Returns the point at @param ix.
+     * @param ix Index of the point
+     * @param normalisedWidth (default = 1) Will be multiplied will all x values to change the range from 0-1 into another one
+     * @param normalisedHeight (default = 1) Will be multiplied will all y values to change the range from 0-1 into another one
+     * @param invertHeight (default = false) true => y = 0 is at the very top
+     */
+    BPoint getPoint(int ix, int normalisedWidth = 1, int normalisedHeight = 1, bool invertHeight = false);
+
+
 
 private:
-    QPointF point(double t, const QList<QPointF> &points);
     void validatePoints();
     void keepSorted();
-    void update();
     int indexOf(const BPoint &p);
 
     QList <BPoint> m_points;
-    /** x, y pairs */
-    QMap <double, double> m_spline;
-    /** iterator used when searching for a value in in continue mode (see @function value). */
-    QMap <double, double>::const_iterator m_i;
-    /** Whether the spline represents the points and the precision. */
-    bool m_validSpline;
-    int m_precision;
 };
 
 #endif

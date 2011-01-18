@@ -52,9 +52,7 @@ CubicBezierSpline BezierSplineEditor::spline()
 
 void BezierSplineEditor::setSpline(const CubicBezierSpline& spline)
 {
-    int precision = m_spline.getPrecision();
     m_spline = spline;
-    m_spline.setPrecision(precision);
     m_currentPointIndex = -1;
     m_mode = ModeNormal;
     emit currentPoint(BPoint());
@@ -125,6 +123,9 @@ void BezierSplineEditor::paintEvent(QPaintEvent* event)
 
     QPainter p(this);
 
+    /*
+     * Zoom
+     */
     int wWidth = width() - 1;
     int wHeight = height() - 1;
     int offset = 1/8. * m_zoomLevel * (wWidth > wHeight ? wWidth : wHeight);
@@ -180,38 +181,34 @@ void BezierSplineEditor::paintEvent(QPaintEvent* event)
      */
     p.drawLine(QLineF(0, wHeight, wWidth, 0));
 
+
+    /*
+     * Prepare Spline, Points
+     */
+    int max = m_spline.points().count() - 1;
+    if (max < 1)
+        return;
+    BPoint point(m_spline.getPoint(0, wWidth, wHeight, true));
+
     /*
      * Spline
      */
-    double prevY = wHeight - m_spline.value(0.) * wHeight;
-    double prevX = 0.;
-    double curY;
-    double normalizedX = -1;
-    int x;
+    BPoint next;
     
-    p.setPen(QPen(Qt::black, 1, Qt::SolidLine));
-    for (x = 0 ; x < wWidth ; ++x) {
-        normalizedX = x / (double)wWidth;
-        curY = wHeight - m_spline.value(normalizedX, true) * wHeight;
-
-        /*
-         * Keep in mind that QLineF rounds doubles
-         * to ints mathematically, not just rounds down
-         * like in C
-         */
-        p.drawLine(QLineF(prevX, prevY, x, curY));
-        prevX = x;
-        prevY = curY;
+    QPainterPath splinePath(QPointF(point.p.x(), point.p.y()));
+    for (int i = 0; i < max; ++i) {
+        point = m_spline.getPoint(i, wWidth, wHeight, true);
+        next = m_spline.getPoint(i + 1, wWidth, wHeight, true);
+        splinePath.cubicTo(point.h2, next.h1, next.p);
     }
-    p.drawLine(QLineF(prevX, prevY ,
-                      x, wHeight - m_spline.value(1.0, true) * wHeight));
+    p.setPen(QPen(Qt::black, 1, Qt::SolidLine));
+    p.drawPath(splinePath);
+
 
     /*
      * Points + Handles
      */
-    int max = m_spline.points().count() - 1;
     p.setPen(QPen(Qt::red, 1, Qt::SolidLine));
-    BPoint point;
 
     QPolygonF handle = QPolygonF() << QPointF(0, -3) << QPointF(3, 0) << QPointF(0, 3) << QPointF(-3, 0);
 #if QT_VERSION < 0x040600
@@ -219,34 +216,35 @@ void BezierSplineEditor::paintEvent(QPaintEvent* event)
 #endif
 
     for (int i = 0; i <= max; ++i) {
-        point = m_spline.points().at(i);
+        point = m_spline.getPoint(i, wWidth, wHeight, true);
+
         if (i == m_currentPointIndex) {
             // selected point: fill p and handles
             p.setBrush(QBrush(QColor(Qt::red), Qt::SolidPattern));
             // connect p and handles with lines
             if (i != 0)
-                p.drawLine(QLineF(point.h1.x() * wWidth, wHeight - point.h1.y() * wHeight, point.p.x() * wWidth, wHeight - point.p.y() * wHeight));
+                p.drawLine(QLineF(point.h1.x(), point.h1.y(), point.p.x(),point.p.y()));
             if (i != max)
-                p.drawLine(QLineF(point.p.x() * wWidth, wHeight - point.p.y() * wHeight, point.h2.x() * wWidth, wHeight - point.h2.y() * wHeight));
+                p.drawLine(QLineF(point.p.x(), point.p.y(), point.h2.x(), point.h2.y()));
         }
 
-        p.drawEllipse(QRectF(point.p.x() * wWidth - 3,
-                             wHeight - 3 - point.p.y() * wHeight, 6, 6));
+        p.drawEllipse(QRectF(point.p.x() - 3,
+                             point.p.y() - 3, 6, 6));
         if (i != 0 && (i == m_currentPointIndex || m_showAllHandles)) {
 #if QT_VERSION >= 0x040600
-            p.drawConvexPolygon(handle.translated(point.h1.x() * wWidth, wHeight - point.h1.y() * wHeight));
+            p.drawConvexPolygon(handle.translated(point.h1.x(), point.h1.y()));
 #else
             tmp = handle;
-            tmp.translate(point.h1.x() * wWidth, wHeight - point.h1.y() * wHeight);
+            tmp.translate(point.h1.x(), point.h1.y());
             p.drawConvexPolygon(tmp);
 #endif
         }
         if (i != max && (i == m_currentPointIndex || m_showAllHandles)) {
 #if QT_VERSION >= 0x040600
-            p.drawConvexPolygon(handle.translated(point.h2.x() * wWidth, wHeight - point.h2.y() * wHeight));
+            p.drawConvexPolygon(handle.translated(point.h2.x(), point.h2.y()));
 #else
             tmp = handle;
-            tmp.translate(point.h2.x() * wWidth, wHeight - point.h2.y() * wHeight);
+            tmp.translate(point.h2.x(), point.h2.y());
             p.drawConvexPolygon(tmp);
 #endif
         }
@@ -258,7 +256,6 @@ void BezierSplineEditor::paintEvent(QPaintEvent* event)
 
 void BezierSplineEditor::resizeEvent(QResizeEvent* event)
 {
-    m_spline.setPrecision(width() > height() ? width() : height());
     m_pixmapIsDirty = true;
     QWidget::resizeEvent(event);
 }
