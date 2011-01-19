@@ -31,6 +31,7 @@
 #include "slideshowclip.h"
 
 #include <KIO/NetAccess>
+#include <KStandarddirs>
 #include <KDebug>
 
 #include <QCryptographicHash>
@@ -1091,7 +1092,9 @@ void DocClipBase::generateProxy(KUrl proxyFolder)
     // Make sure we don't block when proxy file already exists
     parameters << "-y";
     if (m_properties.value("file_hash").isEmpty()) getFileHash(m_properties.value("resource"));
-    QString path = proxyFolder.path(KUrl::AddTrailingSlash) + "proxy/" + m_properties.value("file_hash") + ".avi";
+    QString proxydir=proxyFolder.path( KUrl::AddTrailingSlash) + "proxy/";
+    KStandardDirs::makeDir(proxydir);
+    QString path = proxydir + m_properties.value("file_hash") + ".avi";
     setProperty("proxy", path.toUtf8().data());
     if (QFile::exists(path)) {
         emit proxyReady(m_id, true);
