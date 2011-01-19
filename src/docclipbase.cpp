@@ -31,7 +31,7 @@
 #include "slideshowclip.h"
 
 #include <KIO/NetAccess>
-#include <KStandarddirs>
+#include <KStandardDirs>
 #include <KDebug>
 
 #include <QCryptographicHash>
