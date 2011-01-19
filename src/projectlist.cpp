@@ -822,6 +822,7 @@ void ProjectList::updateButtons() const
             m_openAction->setEnabled(true);
             m_reloadAction->setEnabled(true);
             m_transcodeAction->setEnabled(true);
+            m_proxyAction->setEnabled(true);
             return;
         }
     }
@@ -830,6 +831,7 @@ void ProjectList::updateButtons() const
     m_openAction->setEnabled(false);
     m_reloadAction->setEnabled(false);
     m_transcodeAction->setEnabled(false);
+    m_proxyAction->setEnabled(false);
 }
 
 void ProjectList::selectItemById(const QString &clipId)
@@ -1740,6 +1742,7 @@ void ProjectList::slotSelectClip(const QString &ix)
         m_deleteButton->defaultAction()->setEnabled(true);
         m_reloadAction->setEnabled(true);
         m_transcodeAction->setEnabled(true);
+        m_proxyAction->setEnabled(true);
         if (clip->clipType() == IMAGE && !KdenliveSettings::defaultimageapp().isEmpty()) {
             m_openAction->setIcon(KIcon(KdenliveSettings::defaultimageapp()));
             m_openAction->setEnabled(true);
@@ -2014,25 +2017,27 @@ void ProjectList::updateProxyConfig()
 
 void ProjectList::slotProxyCurrentItem(bool doProxy)
 {
-    if (m_listView->currentItem()->type() == PROJECTCLIPTYPE) {
-        ProjectItem *item = static_cast <ProjectItem*>(m_listView->currentItem());
-        if (item->referencedClip()) {
-            if (doProxy) {
-                DocClipBase *clip = item->referencedClip();
-                connect(clip, SIGNAL(proxyReady(const QString, bool)), this, SLOT(slotGotProxy(const QString, bool)));
-                item->setProxyStatus(1);
-                clip->generateProxy(m_doc->projectFolder());
+    if (m_listView->currentItem()) {
+        if (m_listView->currentItem()->type() == PROJECTCLIPTYPE) {
+            ProjectItem *item = static_cast <ProjectItem*>(m_listView->currentItem());
+            if (item->referencedClip()) {
+                if (doProxy) {
+                    DocClipBase *clip = item->referencedClip();
+                    connect(clip, SIGNAL(proxyReady(const QString, bool)), this, SLOT(slotGotProxy(const QString, bool)));
+                    item->setProxyStatus(1);
+                    clip->generateProxy(m_doc->projectFolder());
+                }
+                else if (!item->referencedClip()->getProperty("proxy").isEmpty()) {
+                    // remove proxy
+                    item->referencedClip()->clearProperty("proxy");
+                    QDomElement e = item->toXml().cloneNode().toElement();
+                    e.removeAttribute("file_hash");
+                    e.setAttribute("replace", 1);
+                    m_infoQueue.insert(item->clipId(), e);
+                }
             }
-            else if (!item->referencedClip()->getProperty("proxy").isEmpty()) {
-                // remove proxy
-                item->referencedClip()->clearProperty("proxy");
-                QDomElement e = item->toXml().cloneNode().toElement();
-                e.removeAttribute("file_hash");
-                e.setAttribute("replace", 1);
-                m_infoQueue.insert(item->clipId(), e);
-            }
+            if (!m_infoQueue.isEmpty() && !m_queueTimer.isActive()) m_queueTimer.start();
         }
-        if (!m_infoQueue.isEmpty() && !m_queueTimer.isActive()) m_queueTimer.start();
     }
 }
 
