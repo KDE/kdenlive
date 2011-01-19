@@ -408,8 +408,10 @@ void ProjectList::slotReloadClip(const QString &id)
     QList<QTreeWidgetItem *> selected;
     if (id.isEmpty())
         selected = m_listView->selectedItems();
-    else
-        selected.append(getItemById(id));
+    else {
+        ProjectItem *itemToReLoad = getItemById(id);
+        if (itemToReLoad) selected.append(itemToReLoad);
+    }
     ProjectItem *item;
     for (int i = 0; i < selected.count(); i++) {
         if (selected.at(i)->type() != PROJECTCLIPTYPE) {
