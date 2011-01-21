@@ -1820,8 +1820,11 @@ void CustomTrackView::slotDeleteEffect(ClipItem *clip, int track, QDomElement ef
                 }
             }
         }
-        if (delCommand->childCount() > 0) m_commandStack->push(delCommand);
-        else delete delCommand;
+        if (delCommand->childCount() > 0)
+            m_commandStack->push(delCommand);
+        else
+            delete delCommand;
+        setDocumentModified();
         return;
     }
     AddEffectCommand *command = new AddEffectCommand(this, m_document->tracksCount() - clip->track(), clip->startPos(), effect, false);
@@ -3176,7 +3179,6 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
         resetSelectionGroup(false);
         m_operationMode = NONE;
     } else if (m_operationMode == RUBBERSELECTION) {
-        //kDebug() << "// END RUBBER SELECT";
         resetSelectionGroup();
         groupSelectedItems();
         m_operationMode = NONE;
