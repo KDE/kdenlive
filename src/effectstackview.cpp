@@ -294,8 +294,7 @@ void EffectStackView::setupListView(int ix)
         m_ui.buttonShowComments->setEnabled(false);
         m_ui.labelComment->setHidden(true);
     } else {
-        qMin(ix, 0);
-        qMax(ix, m_ui.effectlist->count() - 1);
+        ix = qBound(0, ix, m_ui.effectlist->count() - 1);
         m_ui.effectlist->setCurrentRow(ix);
         m_ui.checkAll->setEnabled(true);
     }
