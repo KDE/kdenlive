@@ -266,6 +266,7 @@ set(kdenlive_SRCS
   beziercurve/beziersplinewidget.cpp
   beziercurve/bpoint.cpp
   beziercurve/cubicbezierspline.cpp
+  dragvalue.cpp
 )
 
 add_definitions(${KDE4_DEFINITIONS})

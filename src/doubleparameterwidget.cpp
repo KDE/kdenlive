@@ -19,6 +19,7 @@
 
 
 #include "doubleparameterwidget.h"
+#include "dragvalue.h"
 
 #include <QGridLayout>
 #include <QLabel>
@@ -46,12 +47,18 @@ DoubleParameterWidget::DoubleParameterWidget(const QString &name, int value, int
     //m_slider->setPageStep((max - min) / 10);
     layout->addWidget(m_slider, 0, 1);
 
+    m_dragVal = new DragValue(this);
+    m_dragVal->setRange(min, max);
+    m_dragVal->setPrecision(0);
+    layout->addWidget(m_dragVal, 0, 2);
+
     m_spinBox = new QSpinBox(this);
     m_spinBox->setRange(min, max);
     m_spinBox->setKeyboardTracking(false);
     if (!suffix.isEmpty())
         m_spinBox->setSuffix(suffix);
-    layout->addWidget(m_spinBox, 0, 2);
+    //layout->addWidget(m_spinBox, 0, 2);
+    m_spinBox->setHidden(true);
 
     QToolButton *reset = new QToolButton(this);
     reset->setAutoRaise(true);
@@ -65,29 +72,39 @@ DoubleParameterWidget::DoubleParameterWidget(const QString &name, int value, int
     m_commentLabel->setAlignment(Qt::AlignLeft | Qt::AlignTop);
     m_commentLabel->setFrameShape(QFrame::StyledPanel);
     m_commentLabel->setFrameShadow(QFrame::Raised);
-    m_commentLabel->setBackgroundRole(QPalette::AlternateBase);
     m_commentLabel->setHidden(true);
     layout->addWidget(m_commentLabel, 1, 0, 1, -1);
 
     connect(m_slider,  SIGNAL(valueChanged(int)), this, SLOT(setValue(int)));
+    connect(m_dragVal, SIGNAL(valueChanged(qreal, bool)), this, SLOT(slotSetValue(qreal, bool)));
     connect(m_spinBox, SIGNAL(valueChanged(int)), this, SLOT(setValue(int)));
     connect(reset,     SIGNAL(clicked(bool)),     this, SLOT(slotReset()));
 
-    m_spinBox->setValue(value);
+    //m_spinBox->setValue(value);
+    m_dragVal->setValue(value);
 }
 
 void DoubleParameterWidget::setValue(int value)
 {
     m_slider->blockSignals(true);
     m_spinBox->blockSignals(true);
+    m_dragVal->blockSignals(true);
 
     m_slider->setValue(value);
     m_spinBox->setValue(value);
+    m_dragVal->setValue(value);
 
     m_slider->blockSignals(false);
     m_spinBox->blockSignals(false);
+    m_dragVal->blockSignals(false);
 
     emit valueChanged(value);
+}
+
+void DoubleParameterWidget::slotSetValue(qreal value, bool final)
+{
+    if (final)
+        setValue((int)value);
 }
 
 int DoubleParameterWidget::getValue()

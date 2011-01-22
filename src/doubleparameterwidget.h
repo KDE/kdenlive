@@ -26,6 +26,7 @@
 class QLabel;
 class QSlider;
 class QSpinBox;
+class DragValue;
 
 /**
  * @class DoubleParameterWidget
@@ -67,11 +68,14 @@ private slots:
     /** @brief Shows/Hides the comment label. */
     void slotShowComment(bool show);
 
+    void slotSetValue(qreal value, bool final);
+
 private:
     int m_default;
     QLabel *m_name;
     QSlider *m_slider;
     QSpinBox *m_spinBox;
+    DragValue *m_dragVal;
     QLabel *m_commentLabel;
     
 signals:
