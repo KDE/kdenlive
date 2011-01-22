@@ -99,13 +99,14 @@ protected:
      * @param row Row of the keyframe in the table */
     int getPos(int row);
 
+    int m_min;
+    int m_max;
+
 protected slots:
     void slotAdjustKeyframeInfo(bool seek = true);
 
 private:
     QList <QDomElement> m_params;
-    int m_min;
-    int m_max;
     Timecode m_timecode;
     QGridLayout *m_slidersLayout;
     QButtonGroup *m_showButtons;

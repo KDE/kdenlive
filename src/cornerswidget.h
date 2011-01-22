@@ -49,6 +49,8 @@ public:
 public slots:
     /** @brief Switches from normal monitor to monitor scene according to @param show. */
     void slotShowScene(bool show = true);
+    /** @brief Updates the on-monitor item.  */
+    void slotSyncPosition(int relTimelinePos);
 
 private:
     Monitor *m_monitor;
@@ -56,13 +58,17 @@ private:
     OnMonitorCornersItem *m_item;
     bool m_showScene;
     MonitorSceneControlWidget *m_config;
+    int m_pos;
+
+    /** @brief Returns the corner positions set in the row of @param keyframe. */
+    QList <QPointF> getPoints(QTableWidgetItem *keyframe);
 
 private slots:
     /** @brief Makes sure the monitor effect scene is only visible if the clip this geometry belongs to is visible.
     * @param renderPos Postion of the Monitor / Timeline cursor */
     void slotCheckMonitorPosition(int renderPos);
 
-    /** @brief Updates the on-monitor item according current values in the keyframe editor. */
+    /** @brief Updates the on-monitor item according to the current timeline position. */
     void slotUpdateItem();
     /** @brief Updates the keyframe editor according to the on-monitor item. */
     void slotUpdateProperties();

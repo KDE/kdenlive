@@ -330,6 +330,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
                     corners->slotShowScene(!disable);
                     connect(corners, SIGNAL(checkMonitorPosition(int)), this, SIGNAL(checkMonitorPosition(int)));
                     connect(this, SIGNAL(effectStateChanged(bool)), corners, SLOT(slotShowScene(bool)));
+                    connect(this, SIGNAL(syncEffectsPos(int)), corners, SLOT(slotSyncPosition(int)));
                     geo = static_cast<KeyframeEdit *>(corners);
                 } else {
                     geo = new KeyframeEdit(pa, m_in, m_in + m_out, m_timecode, e.attribute("active_keyframe", "-1").toInt());
