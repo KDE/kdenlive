@@ -65,6 +65,8 @@ CornersWidget::CornersWidget(Monitor *monitor, QDomElement e, int minFrame, int 
     connect(m_config, SIGNAL(showScene(bool)), this, SLOT(slotShowScene(bool)));
     connect(m_monitor, SIGNAL(renderPosition(int)), this, SLOT(slotCheckMonitorPosition(int)));
     connect(m_scene, SIGNAL(actionFinished()), this, SLOT(slotUpdateProperties()));
+
+    connect(keyframe_list, SIGNAL(cellChanged(int, int)), this, SLOT(slotUpdateItem()));
 }
 
 CornersWidget::~CornersWidget()
