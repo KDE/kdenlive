@@ -2404,11 +2404,12 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
             disconnect(m_projectList, SIGNAL(displayMessage(const QString&, int)), this, SLOT(slotGotProgressInfo(const QString&, int)));
             disconnect(m_projectList, SIGNAL(updateRenderStatus()), this, SLOT(slotCheckRenderStatus()));
             disconnect(m_projectList, SIGNAL(clipNeedsReload(const QString&, bool)), m_activeTimeline->projectView(), SLOT(slotUpdateClip(const QString &, bool)));
+            disconnect(m_projectList, SIGNAL(refreshClip(const QString &)), m_activeTimeline->projectView(), SLOT(slotRefreshThumbs(const QString &)));
             m_effectStack->clear();
         }
         //m_activeDocument->setRenderer(NULL);
         disconnect(m_projectList, SIGNAL(clipSelected(DocClipBase *)), m_clipMonitor, SLOT(slotSetXml(DocClipBase *)));
-        disconnect(m_projectList, SIGNAL(refreshClip()), m_monitorManager, SLOT(slotRefreshCurrentMonitor()));
+        disconnect(m_projectList, SIGNAL(refreshClip(const QString &)), m_monitorManager, SLOT(slotRefreshCurrentMonitor()));
         m_clipMonitor->stop();
     }
     KdenliveSettings::setCurrent_profile(doc->profilePath());
@@ -2418,7 +2419,8 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     m_transitionConfig->updateProjectFormat(doc->mltProfile(), doc->timecode(), doc->tracksList());
     m_effectStack->updateProjectFormat(doc->mltProfile(), doc->timecode());
     connect(m_projectList, SIGNAL(clipSelected(DocClipBase *, QPoint)), m_clipMonitor, SLOT(slotSetXml(DocClipBase *, QPoint)));
-    connect(m_projectList, SIGNAL(refreshClip()), m_monitorManager, SLOT(slotRefreshCurrentMonitor()));
+    connect(m_projectList, SIGNAL(refreshClip(const QString &)), m_monitorManager, SLOT(slotRefreshCurrentMonitor()));
+    connect(m_projectList, SIGNAL(refreshClip(const QString &)), trackView->projectView(), SLOT(slotRefreshThumbs(const QString &)));
     connect(m_projectList, SIGNAL(clipNeedsReload(const QString&, bool)), trackView->projectView(), SLOT(slotUpdateClip(const QString &, bool)));
 
     connect(m_projectList, SIGNAL(projectModified()), doc, SLOT(setModified()));

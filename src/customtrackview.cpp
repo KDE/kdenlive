@@ -4058,7 +4058,6 @@ void CustomTrackView::slotUpdateClip(const QString &clipId, bool reload)
                     emit displayMessage(i18n("Cannot update clip (time: %1, track: %2)", info.startPos.frames(m_document->fps()), info.track), ErrorMessage);
                 }
                 clip->refreshClip(true);
-                clip->update();
             }
         }
     }
@@ -6619,4 +6618,16 @@ void CustomTrackView::updateTrackDuration(int track, QUndoCommand *command)
     }
 }
 
-
+void CustomTrackView::slotRefreshThumbs(const QString &id)
+{
+    QList<QGraphicsItem *> list = scene()->items();
+    ClipItem *clip = NULL;
+    for (int i = 0; i < list.size(); ++i) {
+        if (list.at(i)->type() == AVWIDGET) {
+            clip = static_cast <ClipItem *>(list.at(i));
+            if (clip->clipProducer() == id) {
+                clip->refreshClip(true);
+            }
+        }
+    }
+}

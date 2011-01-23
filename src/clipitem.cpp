@@ -529,6 +529,7 @@ void ClipItem::refreshClip(bool checkDuration)
         QString colour = m_clip->getProperty("colour");
         colour = colour.replace(0, 2, "#");
         m_baseColor = QColor(colour.left(7));
+        update();
     } else resetThumbs(checkDuration);
 }
 

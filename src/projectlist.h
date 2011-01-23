@@ -313,7 +313,9 @@ signals:
     void displayMessage(const QString, int progress);
     void clipNameChanged(const QString, const QString);
     void clipNeedsReload(const QString&, bool);
-    void refreshClip();
+    /** @brief A property affecting display was changed, so we need to update monitors and thumbnails
+     *  @param id: The clip's id string */
+    void refreshClip(const QString &id);
     void updateRenderStatus();
     void deleteProjectClips(QStringList ids, QMap <QString, QString> folderids);
     void findInTimeline(const QString &clipId);

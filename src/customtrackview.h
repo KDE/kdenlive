@@ -444,6 +444,8 @@ private slots:
     void slotGoToMarker(QAction *action);
     void slotResetMenuPosition();
     void slotDoResetMenuPosition();
+    /** @brief Re-create the clip thumbnails. */
+    void slotRefreshThumbs(const QString &id);
 
 signals:
     void cursorMoved(int, int);
