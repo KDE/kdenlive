@@ -151,12 +151,12 @@ void OnMonitorCornersItem::paint(QPainter* painter, const QStyleOptionGraphicsIt
 
     double baseSize = 1 / painter->matrix().m11();
     painter->setRenderHint(QPainter::Antialiasing);
-    painter->setBrush(QBrush(Qt::yellow));
+    painter->setBrush(QBrush(isEnabled() ? Qt::yellow : Qt::red));
     double handleSize = 4  * baseSize;
     for (int i = 0; i < 4; ++i)
         painter->drawEllipse(polygon().at(i), handleSize, handleSize);
 
-    if (KdenliveSettings::onmonitoreffects_cornersshowcontrols()) {
+    if (KdenliveSettings::onmonitoreffects_cornersshowcontrols() && isEnabled()) {
         painter->setPen(QPen(Qt::red, 2, Qt::SolidLine));
         double toolSize = 6 * baseSize;
         // move tool

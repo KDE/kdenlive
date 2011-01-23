@@ -116,6 +116,8 @@ void CornersWidget::slotUpdateItem()
     m_scene->blockSignals(true);
     m_item->setPolygon(QPolygonF() << points.at(0) << points.at(1) << points.at(2) << points.at(3));
     m_scene->blockSignals(false);
+
+    m_item->setEnabled(getPos(keyframe->row()) == m_pos || keyframe_list->rowCount() == 1);
 }
 
 void CornersWidget::slotUpdateProperties()
