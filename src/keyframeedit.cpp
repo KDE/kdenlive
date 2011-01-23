@@ -373,7 +373,7 @@ void KeyframeEdit::slotAdjustKeyframeValue(int value)
             continue;
         int val = doubleparam->getValue();
         QTableWidgetItem *nitem = keyframe_list->item(item->row(), col);
-        if (nitem->text().toInt() != val)
+        if (nitem && nitem->text().toInt() != val)
             nitem->setText(QString::number(val));
     }
     //keyframe_list->item(item->row() - 1, item->column());
