@@ -226,9 +226,15 @@ void CornersWidget::slotInsertKeyframe()
             break;
     }
 
-    int pos2 = getPos(row);
-    if (pos2 == m_pos)
-        return;
+
+    int pos2;
+    if (row == keyframe_list->rowCount()) {
+        pos2 = m_max;
+    } else {
+        pos2 = getPos(row);
+        if (pos2 == m_pos)
+            return;
+    }
 
     int pos1 = 0;
     if (row > 0)
