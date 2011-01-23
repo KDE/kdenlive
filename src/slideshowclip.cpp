@@ -214,7 +214,7 @@ void SlideshowClip::parseFolder()
     } else {
         // find pattern
         filter = m_view.pattern_url->url().fileName();
-        QString ext = filter.section('.', -1);
+        QString ext = '.' + filter.section('.', -1);
         filter = filter.section('.', 0, -2);
         int fullSize = filter.size();
         while (filter.at(filter.size() - 1).isDigit()) {
@@ -287,11 +287,12 @@ void SlideshowClip::slotSetPixmap(const KFileItem &fileItem, const QPixmap &pix)
 QString SlideshowClip::selectedPath()
 {
     QStringList list;
-    QString path = selectedPath(m_view.folder_url->url(), m_view.method_mime->isChecked(), ".all." + m_view.image_type->itemData(m_view.image_type->currentIndex()).toString(), &list);
+    KUrl url;
+    if (m_view.method_mime->isChecked()) url = m_view.folder_url->url();
+    else url = m_view.pattern_url->url();
+    QString path = selectedPath(url, m_view.method_mime->isChecked(), ".all." + m_view.image_type->itemData(m_view.image_type->currentIndex()).toString(), &list);
     m_count = list.count();
     return path;
-
-
 }
 
 // static
