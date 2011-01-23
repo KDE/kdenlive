@@ -98,6 +98,11 @@ protected:
     /** @brief Gets the position of a keyframe from the table.
      * @param row Row of the keyframe in the table */
     int getPos(int row);
+    /** @brief Converts a frame value to timecode considering the frames vs. HH:MM:SS:FF setting.
+     * @return timecode */
+    QString getPosString(int pos);
+
+    void generateAllParams();
 
     int m_min;
     int m_max;
@@ -111,11 +116,6 @@ private:
     QGridLayout *m_slidersLayout;
     QButtonGroup *m_showButtons;
     PositionEdit *m_position;
-
-    void generateAllParams();
-    /** @brief Converts a frame value to timecode considering the frames vs. HH:MM:SS:FF setting.
-    * @return timecode */
-    QString getPosString(int pos);
 
 private slots:
     void slotDeleteKeyframe();

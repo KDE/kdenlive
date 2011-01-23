@@ -30,6 +30,11 @@
 
 #include <KIcon>
 
+inline int lerp( const int a, const int b, double t )
+{
+    return a + (b - a) * t;
+}
+
 CornersWidget::CornersWidget(Monitor *monitor, QDomElement e, int minFrame, int maxFrame, Timecode tc, int activeKeyframe, QWidget* parent) :
         KeyframeEdit(e, minFrame, maxFrame, tc, activeKeyframe, parent),
         m_monitor(monitor),
@@ -65,6 +70,7 @@ CornersWidget::CornersWidget(Monitor *monitor, QDomElement e, int minFrame, int 
     connect(m_config, SIGNAL(showScene(bool)), this, SLOT(slotShowScene(bool)));
     connect(m_monitor, SIGNAL(renderPosition(int)), this, SLOT(slotCheckMonitorPosition(int)));
     connect(m_scene, SIGNAL(actionFinished()), this, SLOT(slotUpdateProperties()));
+    connect(m_scene, SIGNAL(addKeyframe()), this, SLOT(slotInsertKeyframe()));
 
     connect(keyframe_list, SIGNAL(cellChanged(int, int)), this, SLOT(slotUpdateItem()));
 }
@@ -119,7 +125,9 @@ void CornersWidget::slotUpdateItem()
     m_item->setPolygon(QPolygonF() << points.at(0) << points.at(1) << points.at(2) << points.at(3));
     m_scene->blockSignals(false);
 
-    m_item->setEnabled(getPos(keyframe->row()) == m_pos || keyframe_list->rowCount() == 1);
+    bool enable = getPos(keyframe->row()) == m_pos || keyframe_list->rowCount() == 1;
+    m_item->setEnabled(enable);
+    m_scene->setEnabled(enable);
 }
 
 void CornersWidget::slotUpdateProperties()
@@ -202,6 +210,59 @@ void CornersWidget::slotSyncPosition(int relTimelinePos)
             slotUpdateItem();
         }
     }
+}
+
+void CornersWidget::slotInsertKeyframe()
+{
+    keyframe_list->blockSignals(true);
+
+    int row;
+    QTableWidgetItem *keyframe, *keyframeOld;
+    keyframe = keyframe_list->item(0, 0);
+    for (row = 0; row < keyframe_list->rowCount(); ++row) {
+        keyframeOld = keyframe;
+        keyframe = keyframe_list->item(row, 0);
+        if (getPos(row) >= m_pos)
+            break;
+    }
+
+    int pos2 = getPos(row);
+    if (pos2 == m_pos)
+        return;
+
+    int pos1 = 0;
+    if (row > 0)
+        pos1 = getPos(row - 1);
+
+    int col = keyframe_list->currentColumn();
+    double pos = (m_pos - pos1) / (double)(pos2 - pos1 + 1);
+
+    keyframe_list->insertRow(row);
+    keyframe_list->setVerticalHeaderItem(row, new QTableWidgetItem(getPosString(m_pos)));
+
+    QPolygonF pol = m_item->polygon();
+    double val;
+    for (int i = 0; i < keyframe_list->columnCount(); i++) {
+        if (i < 8) {
+            if (i % 2 == 0)
+                val = pol.at(i / 2).x() / (double)m_monitor->render->frameRenderWidth();
+            else
+                val = pol.at(i / 2).y() / (double)m_monitor->render->renderHeight();
+            val *= 2000;
+            val += 2000;
+            keyframe_list->setItem(row, i, new QTableWidgetItem(QString::number((int)val)));
+        } else {
+            keyframe_list->setItem(row, i, new QTableWidgetItem(QString::number(lerp(keyframe_list->item(keyframeOld->row(), i)->text().toInt(), keyframe_list->item(keyframe->row(), i)->text().toInt(), pos))));
+        }
+    }
+
+    keyframe_list->resizeRowsToContents();
+    slotAdjustKeyframeInfo();
+    keyframe_list->blockSignals(false);
+    generateAllParams();
+    button_delete->setEnabled(true);
+    keyframe_list->setCurrentCell(row, col);
+    keyframe_list->selectRow(row);
 }
 
 #include "cornerswidget.moc"

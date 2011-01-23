@@ -73,6 +73,9 @@ private slots:
     /** @brief Updates the keyframe editor according to the on-monitor item. */
     void slotUpdateProperties();
 
+    /** @brief Inserts a keyframe at the current (playback) position (m_pos). */
+    void slotInsertKeyframe();
+
     /** @brief Shows/Hides the lines connecting the corners in the on-monitor item according to @param show. */
     void slotShowLines(bool show = true);
 
