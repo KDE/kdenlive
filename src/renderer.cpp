@@ -3666,8 +3666,12 @@ bool Render::mltAddTransition(QString tag, int a_track, int b_track, GenTime in,
         //kDebug() << " ------  ADDING TRANS PARAM: " << key << ": " << it.value();
     }
     // attach transition
+    m_isBlocked++;
+    mlt_service_lock(service.get_service());
     mltPlantTransition(field, *transition, a_track, b_track);
     // field->plant_transition(*transition, a_track, b_track);
+    mlt_service_unlock(service.get_service());
+    m_isBlocked--;
     if (do_refresh) refresh();
     return true;
 }

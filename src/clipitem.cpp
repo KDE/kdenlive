@@ -508,7 +508,7 @@ void ClipItem::resetThumbs(bool clearExistingThumbs)
 }
 
 
-void ClipItem::refreshClip(bool checkDuration)
+void ClipItem::refreshClip(bool checkDuration, bool forceResetThumbs)
 {
     if (checkDuration && (m_maxDuration != m_clip->maxDuration())) {
         m_maxDuration = m_clip->maxDuration();
@@ -530,7 +530,7 @@ void ClipItem::refreshClip(bool checkDuration)
         colour = colour.replace(0, 2, "#");
         m_baseColor = QColor(colour.left(7));
         update();
-    } else resetThumbs(checkDuration);
+    } else resetThumbs(forceResetThumbs);
 }
 
 void ClipItem::slotFetchThumbs()

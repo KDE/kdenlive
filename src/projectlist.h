@@ -314,8 +314,9 @@ signals:
     void clipNameChanged(const QString, const QString);
     void clipNeedsReload(const QString&, bool);
     /** @brief A property affecting display was changed, so we need to update monitors and thumbnails
-     *  @param id: The clip's id string */
-    void refreshClip(const QString &id);
+     *  @param id: The clip's id string
+     *  @param resetThumbs Should we recreate the timeline thumbnails. */
+    void refreshClip(const QString &id, bool resetThumbs);
     void updateRenderStatus();
     void deleteProjectClips(QStringList ids, QMap <QString, QString> folderids);
     void findInTimeline(const QString &clipId);

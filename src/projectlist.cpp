@@ -629,9 +629,9 @@ void ProjectList::slotUpdateClipProperties(const QString &id, QMap <QString, QSt
                    properties.contains("force_aspect_den") ||
                    properties.contains("templatetext")) {
             slotRefreshClipThumbnail(item);
-            emit refreshClip(id);
-        } else if (properties.contains("full_luma") || properties.contains("force_colorspace")) {
-            emit refreshClip(id);
+            emit refreshClip(id, true);
+        } else if (properties.contains("full_luma") || properties.contains("force_colorspace") || properties.contains("loop")) {
+            emit refreshClip(id, false);
         }
     }
 }

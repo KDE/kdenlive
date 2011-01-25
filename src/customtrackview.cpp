@@ -4057,7 +4057,7 @@ void CustomTrackView::slotUpdateClip(const QString &clipId, bool reload)
                 if (reload && !m_document->renderer()->mltUpdateClip(info, clip->xml(), clip->baseClip()->producer(info.track))) {
                     emit displayMessage(i18n("Cannot update clip (time: %1, track: %2)", info.startPos.frames(m_document->fps()), info.track), ErrorMessage);
                 }
-                clip->refreshClip(true);
+                clip->refreshClip(true, true);
             }
         }
     }
@@ -5599,7 +5599,7 @@ void CustomTrackView::slotUpdateAllThumbs()
                         item->slotSetEndThumb(pix);
                     }
                 }
-                item->refreshClip(false);
+                item->refreshClip(false, false);
             }
         }
     }
@@ -6618,7 +6618,7 @@ void CustomTrackView::updateTrackDuration(int track, QUndoCommand *command)
     }
 }
 
-void CustomTrackView::slotRefreshThumbs(const QString &id)
+void CustomTrackView::slotRefreshThumbs(const QString &id, bool resetThumbs)
 {
     QList<QGraphicsItem *> list = scene()->items();
     ClipItem *clip = NULL;
@@ -6626,7 +6626,7 @@ void CustomTrackView::slotRefreshThumbs(const QString &id)
         if (list.at(i)->type() == AVWIDGET) {
             clip = static_cast <ClipItem *>(list.at(i));
             if (clip->clipProducer() == id) {
-                clip->refreshClip(true);
+                clip->refreshClip(true, resetThumbs);
             }
         }
     }

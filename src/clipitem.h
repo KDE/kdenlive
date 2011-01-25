@@ -107,8 +107,9 @@ public:
     void resetThumbs(bool clearExistingThumbs);
 
     /** @brief Updates clip properties from base clip.
-    * @param checkDuration whether or not to check for a valid duration. */
-    void refreshClip(bool checkDuration);
+    * @param checkDuration whether or not to check for a valid duration. 
+    * @param resetThumbs whether or not to recreate the image thumbnails. */
+    void refreshClip(bool checkDuration, bool resetThumbs);
 
     /** @brief Gets clip's marker times.
     * @return A list of the times. */
