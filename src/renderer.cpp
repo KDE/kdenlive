@@ -3328,12 +3328,11 @@ void Render::mltPlantTransition(Mlt::Field *field, Mlt::Transition &tr, int a_tr
         mlt_type = mlt_properties_get(properties, "mlt_type");
         resource = mlt_properties_get(properties, "mlt_service");
     }
-
     field->plant_transition(tr, a_track, b_track);
 
     // re-add upper transitions
-    for (int i = 0; i < trList.count(); i++) {
-        // kDebug()<< "REPLANT ON TK: "<<trList.at(i)->get_a_track()<<", "<<trList.at(i)->get_b_track();
+    for (int i = trList.count() - 1; i >= 0; i--) {
+        //kDebug()<< "REPLANT ON TK: "<<trList.at(i)->get_a_track()<<", "<<trList.at(i)->get_b_track();
         field->plant_transition(*trList.at(i), trList.at(i)->get_a_track(), trList.at(i)->get_b_track());
     }
 }
@@ -3342,6 +3341,7 @@ void Render::mltUpdateTransition(QString oldTag, QString tag, int a_track, int b
 {
     if (oldTag == tag && !force) mltUpdateTransitionParams(tag, a_track, b_track, in, out, xml);
     else {
+        kDebug()<<"// DELETING TRANS: "<<a_track<<"-"<<b_track;
         mltDeleteTransition(oldTag, a_track, b_track, in, out, xml, false);
         mltAddTransition(tag, a_track, b_track, in, out, xml, false);
     }
