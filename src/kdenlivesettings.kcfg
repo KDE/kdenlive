@@ -517,6 +517,17 @@
     </entry>
   </group>
 
+   <group name="drag_value">
+       <entry name="dragvalue_nonlinear" type="Bool">
+           <label>...</label>
+           <default>false</default>
+       </entry>
+       <entry name="dragvalue_directupdate" type="Bool">
+           <label>...</label>
+           <default>false</default>
+       </entry>
+   </group>
+
 
   <group name="unmanaged">
     <entry name="project_display_ratio" type="Double">

@@ -24,6 +24,8 @@
 class QValidator;
 class QToolButton;
 class QLineEdit;
+class QAction;
+class QMenu;
 
 /**
  * @brief A widget for modifing numbers by dragging, using the mouse wheel or entering them with the keyboard.
@@ -86,18 +88,23 @@ private slots:
     void slotValueDec();
     void slotEditingFinished();
 
+    void slotSetNonlinearScale(bool nonlinear);
+    void slotSetDirectUpdate(bool directUpdate);
+    void slotShowContextMenu(const QPoint &pos);
+
 private:
     qreal m_maximum;
     qreal m_minimum;
     int m_precision;
     qreal m_step;
     QLineEdit *m_edit;
-    /*QToolButton *m_buttonInc;
-    QToolButton *m_buttonDec;*/
     QPoint m_dragStartPosition;
     QPoint m_dragLastPosition;
     bool m_dragMode;
-    bool m_finalValue;
+
+    QMenu *m_menu;
+    QAction *m_nonlinearScale;
+    QAction *m_directUpdate;
 
     /** @brief Sets the maximum width of the widget so that there is enough space for the widest possible value. */
     void updateMaxWidth();

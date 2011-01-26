@@ -30,9 +30,11 @@
 #include <QFocusEvent>
 #include <QWheelEvent>
 #include <QApplication>
+#include <QMenu>
+#include <QAction>
 
 #include <KColorScheme>
-#include <KIcon>
+#include <KLocalizedString>
 
 DragValue::DragValue(QWidget* parent) :
         QWidget(parent),
@@ -40,21 +42,15 @@ DragValue::DragValue(QWidget* parent) :
         m_minimum(0),
         m_precision(2),
         m_step(1),
-        m_dragMode(false),
-        m_finalValue(true)
+        m_dragMode(false)
 {
     setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
     setFocusPolicy(Qt::StrongFocus);
+    setContextMenuPolicy(Qt::CustomContextMenu);
 
     QHBoxLayout *l = new QHBoxLayout(this);
     l->setSpacing(0);
     l->setMargin(0);
-
-    /*m_buttonDec = new QToolButton(this);
-    m_buttonDec->setIcon(KIcon("arrow-left"));
-    m_buttonDec->setIconSize(QSize(12, 12));
-    m_buttonDec->setObjectName("ButtonDec");
-    l->addWidget(m_buttonDec);*/
 
     m_edit = new QLineEdit(this);
     m_edit->setValidator(new QDoubleValidator(m_minimum, m_maximum, m_precision, this));
@@ -62,11 +58,17 @@ DragValue::DragValue(QWidget* parent) :
     m_edit->setEnabled(false);
     l->addWidget(m_edit);
 
-    /*m_buttonInc = new QToolButton(this);
-    m_buttonInc->setIcon(KIcon("arrow-right"));
-    m_buttonInc->setIconSize(QSize(12, 12));
-    m_buttonInc->setObjectName("ButtonInc");
-    l->addWidget(m_buttonInc);*/
+    m_menu = new QMenu(this);
+
+    m_nonlinearScale = new QAction(i18n("Nonlinear scale"), this);
+    m_nonlinearScale->setCheckable(true);
+    m_nonlinearScale->setChecked(KdenliveSettings::dragvalue_nonlinear());
+    m_menu->addAction(m_nonlinearScale);
+
+    m_directUpdate = new QAction(i18n("Direct update"), this);
+    m_directUpdate->setCheckable(true);
+    m_directUpdate->setChecked(KdenliveSettings::dragvalue_directupdate());
+    m_menu->addAction(m_directUpdate);
 
     QPalette p = palette();
     KColorScheme scheme(p.currentColorGroup(), KColorScheme::View, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
@@ -80,32 +82,23 @@ DragValue::DragValue(QWidget* parent) :
     stylesheet.append(QString("QLineEdit::focus, QLineEdit::enabled { background-color: rgb(%1, %2, %3); color: rgb(%4, %5, %6); }")
                         .arg(editbg.red()).arg(editbg.green()).arg(editbg.blue())
                         .arg(editfg.red()).arg(editfg.green()).arg(editfg.blue()));
-/*     QString stylesheet(QString("QLineEdit { background-color: rgb(%1, %2, %3); border: 1px solid rgb(%1, %2, %3); padding: 2px; padding-bottom: 0px; border-top-left-radius: 7px; border-top-right-radius: 7px; }")
-                         .arg(bg.red()).arg(bg.green()).arg(bg.blue()));
-     stylesheet.append(QString("QLineEdit::focus, QLineEdit::enabled { background-color: rgb(%1, %2, %3); color: rgb(%4, %5, %6); }")
-                         .arg(textbg.red()).arg(textbg.green()).arg(textbg.blue())
-                         .arg(textfg.red()).arg(textfg.green()).arg(textfg.blue()));
-    QString stylesheet(QString("* { background-color: rgb(%1, %2, %3); margin: 0px; }").arg(bg.red()).arg(bg.green()).arg(bg.blue()));
-    stylesheet.append(QString("QLineEdit { border: 0px; height: 100%; } QLineEdit::focus, QLineEdit::enabled { background-color: rgb(%1, %2, %3); color: rgb(%4, %5, %6); }")
-                         .arg(textbg.red()).arg(textbg.green()).arg(textbg.blue())
-                         .arg(textfg.red()).arg(textfg.green()).arg(textfg.blue()));
-    stylesheet.append(QString("QToolButton { border: 1px solid rgb(%1, %2, %3); }").arg(bg.red()).arg(bg.green()).arg(bg.blue()));
-    stylesheet.append(QString("QToolButton#ButtonDec { border-top-left-radius: 5px; border-bottom-left-radius: 5px; }"));
-    stylesheet.append(QString("QToolButton#ButtonInc { border-top-right-radius: 5px; border-bottom-right-radius: 5px; }"));*/
     setStyleSheet(stylesheet);
 
     updateMaxWidth();
 
-    /*connect(m_buttonDec, SIGNAL(clicked(bool)), this, SLOT(slotValueDec()));
-    connect(m_buttonInc, SIGNAL(clicked(bool)), this, SLOT(slotValueInc()));*/
+    connect(this, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(slotShowContextMenu(const QPoint&)));
+    connect(m_nonlinearScale, SIGNAL(triggered(bool)), this, SLOT(slotSetNonlinearScale(bool)));
+    connect(m_directUpdate, SIGNAL(triggered(bool)), this, SLOT(slotSetDirectUpdate(bool)));
+
     connect(m_edit, SIGNAL(editingFinished()), this, SLOT(slotEditingFinished()));
 }
 
 DragValue::~DragValue()
 {
     delete m_edit;
-    /*delete m_buttonInc;
-    delete m_buttonDec;*/
+    delete m_menu;
+    delete m_nonlinearScale;
+    delete m_directUpdate;
 }
 
 int DragValue::precision() const
@@ -163,7 +156,6 @@ void DragValue::setStep(qreal step)
 
 void DragValue::setValue(qreal value, bool final)
 {
-    m_finalValue = final;
     value = qBound(m_minimum, value, m_maximum);
 
     m_edit->setText(QString::number(value, 'f', m_precision));
@@ -183,9 +175,16 @@ void DragValue::mousePressEvent(QMouseEvent* e)
 void DragValue::mouseMoveEvent(QMouseEvent* e)
 {
     if (m_dragMode && (e->pos() - m_dragStartPosition).manhattanLength() >= QApplication::startDragDistance()) {
-        int diffDistance = e->x() - m_dragLastPosition.x();
-        int direction = diffDistance > 0 ? 1 : -1; // since pow loses this info
-        setValue(value() + direction * pow(e->x() - m_dragLastPosition.x(), 2) / m_step, false);
+        int diff = e->x() - m_dragLastPosition.x();
+
+        if (e->modifiers() == Qt::ControlModifier)
+            diff *= 2;
+        else if (e->modifiers() == Qt::ShiftModifier)
+            diff /= 2;
+        if (KdenliveSettings::dragvalue_nonlinear())
+            diff = (diff > 0 ? 1 : -1) * pow(diff, 2);
+
+        setValue(value() + diff / m_step, KdenliveSettings::dragvalue_directupdate());
         m_dragLastPosition = e->pos();
         e->accept();
     }
@@ -194,11 +193,13 @@ void DragValue::mouseMoveEvent(QMouseEvent* e)
 void DragValue::mouseReleaseEvent(QMouseEvent* e)
 {
     m_dragMode = false;
-    if (m_finalValue) {
+    if (m_dragLastPosition == m_dragStartPosition) {
+        // value was not changed through dragging (mouse position stayed the same since mousePressEvent)
         m_edit->setEnabled(true);
         m_edit->setFocus(Qt::MouseFocusReason);
     } else {
         setValue(value(), true);
+        m_dragLastPosition = m_dragStartPosition;
         e->accept();
     }
 }
@@ -233,7 +234,6 @@ void DragValue::slotValueDec()
 
 void DragValue::slotEditingFinished()
 {
-    m_finalValue = true;
     qreal value = m_edit->text().toDouble();
     m_edit->setEnabled(false);
     emit valueChanged(value, true);
@@ -249,6 +249,24 @@ void DragValue::updateMaxWidth()
         val += 1;
     QFontMetrics fm = m_edit->fontMetrics();
     m_edit->setMaximumWidth(fm.width(QString().rightJustified(val, '8')));
+}
+
+void DragValue::slotShowContextMenu(const QPoint& pos)
+{
+    // values might have been changed by another object of this class
+    m_nonlinearScale->setChecked(KdenliveSettings::dragvalue_nonlinear());
+    m_directUpdate->setChecked(KdenliveSettings::dragvalue_directupdate());
+    m_menu->exec(mapToGlobal(pos));
+}
+
+void DragValue::slotSetNonlinearScale(bool nonlinear)
+{
+    KdenliveSettings::setDragvalue_nonlinear(nonlinear);
+}
+
+void DragValue::slotSetDirectUpdate(bool directUpdate)
+{
+    KdenliveSettings::setDragvalue_directupdate(directUpdate);
 }
 
 #include "dragvalue.moc"
