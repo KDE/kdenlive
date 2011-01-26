@@ -81,8 +81,6 @@ private:
     bool m_clipNeedsRefresh;
     /** clip resource changed, reload it */
     bool m_clipNeedsReLoad;
-    /** Used to draw video / audio properties */
-    PropertiesViewDelegate *m_propsDelegate;
 
 signals:
     void addMarker(const QString &, GenTime, QString);

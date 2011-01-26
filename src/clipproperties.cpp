@@ -47,8 +47,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
     m_fps(fps),
     m_count(0),
     m_clipNeedsRefresh(false),
-    m_clipNeedsReLoad(false),
-    m_propsDelegate(NULL)
+    m_clipNeedsReLoad(false)
 {
     setAttribute(Qt::WA_DeleteOnClose, true);
     setFont(KGlobalSettings::toolBarFont());
@@ -352,11 +351,10 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
         m_view.tabWidget->removeTab(SLIDETAB);
         m_view.tabWidget->removeTab(COLORTAB);
 
-
-
-        m_propsDelegate = new PropertiesViewDelegate(this);
-        m_view.clip_vproperties->setItemDelegate(m_propsDelegate);
-        m_view.clip_aproperties->setItemDelegate(m_propsDelegate);
+        PropertiesViewDelegate *del1 = new PropertiesViewDelegate(this);
+        PropertiesViewDelegate *del2 = new PropertiesViewDelegate(this);
+        m_view.clip_vproperties->setItemDelegate(del1);
+        m_view.clip_aproperties->setItemDelegate(del2);
         m_view.clip_aproperties->setStyleSheet(QString("QTreeWidget { background-color: transparent;}"));
         m_view.clip_vproperties->setStyleSheet(QString("QTreeWidget { background-color: transparent;}"));
 
@@ -493,6 +491,10 @@ ClipProperties::ClipProperties(QList <DocClipBase *>cliplist, Timecode tc, QMap 
         m_view.clip_vindex->setMaximum(props.value("video_max").toInt());
     }
     
+    m_view.clip_colorspace->addItem(ProfilesDialog::getColorspaceDescription(601), 601);
+    m_view.clip_colorspace->addItem(ProfilesDialog::getColorspaceDescription(709), 709);
+    m_view.clip_colorspace->addItem(ProfilesDialog::getColorspaceDescription(240), 240);
+    
     if (commonproperties.contains("force_colorspace") && !commonproperties.value("force_colorspace").isEmpty() && commonproperties.value("force_colorspace").toInt() != 0) {
         m_view.clip_force_colorspace->setChecked(true);
         m_view.clip_colorspace->setEnabled(true);
@@ -545,7 +547,10 @@ ClipProperties::ClipProperties(QList <DocClipBase *>cliplist, Timecode tc, QMap 
 
 ClipProperties::~ClipProperties()
 {
-    if (m_propsDelegate) delete m_propsDelegate;
+    QAbstractItemDelegate *del1 = m_view.clip_vproperties->itemDelegate();
+    if (del1) delete del1;
+    QAbstractItemDelegate *del2 = m_view.clip_aproperties->itemDelegate();
+    if (del2) delete del2;
 }
 
 void ClipProperties::slotApplyProperties()
