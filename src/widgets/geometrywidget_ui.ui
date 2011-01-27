@@ -386,7 +386,7 @@
      </layout>
     </widget>
    </item>
-   <item row="3" column="0" colspan="4">
+   <item row="2" column="0" colspan="4">
     <spacer name="verticalSpacer_2">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -398,16 +398,6 @@
       </size>
      </property>
     </spacer>
-   </item>
-   <item row="2" column="0" colspan="2">
-    <widget class="QFrame" name="frameSettings">
-     <property name="frameShape">
-      <enum>QFrame::NoFrame</enum>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Plain</enum>
-     </property>
-    </widget>
    </item>
    <item row="1" column="2">
     <widget class="QWidget" name="widgetConfigButton" native="true">
