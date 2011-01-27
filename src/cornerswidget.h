@@ -28,7 +28,6 @@ class QDomElement;
 class Monitor;
 class MonitorScene;
 class OnMonitorCornersItem;
-class MonitorSceneControlWidget;
 
 
 class CornersWidget : public KeyframeEdit
@@ -57,7 +56,6 @@ private:
     MonitorScene *m_scene;
     OnMonitorCornersItem *m_item;
     bool m_showScene;
-    MonitorSceneControlWidget *m_config;
     int m_pos;
 
     /** @brief Returns the corner positions set in the row of @param keyframe. */

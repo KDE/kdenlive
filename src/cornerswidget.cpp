@@ -20,13 +20,14 @@
 #include "cornerswidget.h"
 #include "monitor.h"
 #include "monitorscene.h"
-#include "monitorscenecontrolwidget.h"
+#include "monitoreditwidget.h"
 #include "onmonitoritems/onmonitorcornersitem.h"
 #include "renderer.h"
 #include "kdenlivesettings.h"
 
 #include <QGraphicsView>
 #include <QGridLayout>
+#include <QToolButton>
 
 #include <KIcon>
 
@@ -41,33 +42,33 @@ CornersWidget::CornersWidget(Monitor *monitor, QDomElement e, int minFrame, int 
         m_showScene(true),
         m_pos(0)
 {
-    m_scene = monitor->getEffectScene();
+    MonitorEditWidget *edit = monitor->getEffectEdit();
+    edit->showVisibilityButton(true);
+    m_scene = edit->getScene();
 
     m_item = new OnMonitorCornersItem(m_scene);
     m_scene->addItem(m_item);
 
-    m_config = new MonitorSceneControlWidget(m_scene, this);
-    QGridLayout *l = static_cast<QGridLayout *>(layout());
-    l->addWidget(m_config->getShowHideButton(), 1, 1);
-    l->addWidget(m_config, 1, 2);
-
-    QToolButton *buttonShowLines = new QToolButton(m_config);
     // TODO: Better Icons
-    buttonShowLines->setIcon(KIcon("insert-horizontal-rule"));
-    buttonShowLines->setToolTip(i18n("Show/Hide the lines connecting the corners"));
-    buttonShowLines->setCheckable(true);
-    buttonShowLines->setChecked(KdenliveSettings::onmonitoreffects_cornersshowlines());
-    connect(buttonShowLines, SIGNAL(toggled(bool)), this, SLOT(slotShowLines(bool)));
-    m_config->addWidget(buttonShowLines, 0, 2);
-    QToolButton *buttonShowControls = new QToolButton(m_config);
+    QToolButton *buttonShowControls = new QToolButton();
     buttonShowControls->setIcon(KIcon("transform-move"));
     buttonShowControls->setToolTip(i18n("Show additional controls"));
     buttonShowControls->setCheckable(true);
+    buttonShowControls->setAutoRaise(true);
     buttonShowControls->setChecked(KdenliveSettings::onmonitoreffects_cornersshowcontrols());
     connect(buttonShowControls, SIGNAL(toggled(bool)), this, SLOT(slotShowControls(bool)));
-    m_config->addWidget(buttonShowControls, 0, 3);
+    edit->addCustomControl(buttonShowControls);
 
-    connect(m_config, SIGNAL(showScene(bool)), this, SLOT(slotShowScene(bool)));
+    QToolButton *buttonShowLines = new QToolButton();
+    buttonShowLines->setIcon(KIcon("insert-horizontal-rule"));
+    buttonShowLines->setToolTip(i18n("Show/Hide the lines connecting the corners"));
+    buttonShowLines->setCheckable(true);
+    buttonShowControls->setAutoRaise(true);
+    buttonShowLines->setChecked(KdenliveSettings::onmonitoreffects_cornersshowlines());
+    connect(buttonShowLines, SIGNAL(toggled(bool)), this, SLOT(slotShowLines(bool)));
+    edit->addCustomControl(buttonShowLines);
+
+    connect(edit, SIGNAL(showEdit(bool)), this, SLOT(slotShowScene(bool)));
     connect(m_monitor, SIGNAL(renderPosition(int)), this, SLOT(slotCheckMonitorPosition(int)));
     connect(m_scene, SIGNAL(actionFinished()), this, SLOT(slotUpdateProperties()));
     connect(m_scene, SIGNAL(addKeyframe()), this, SLOT(slotInsertKeyframe()));
@@ -77,11 +78,14 @@ CornersWidget::CornersWidget(Monitor *monitor, QDomElement e, int minFrame, int 
 
 CornersWidget::~CornersWidget()
 {
-    delete m_config;
     m_scene->removeItem(m_item);
     delete m_item;
-    if (m_monitor)
+    if (m_monitor) {
+        MonitorEditWidget *edit = m_monitor->getEffectEdit();
+        edit->showVisibilityButton(false);
+        edit->removeCustomControls();
         m_monitor->slotEffectScene(false);
+    }
 }
 
 void CornersWidget::addParameter(QDomElement e, int activeKeyframe)
@@ -98,7 +102,7 @@ void CornersWidget::slotUpdateItem()
         return;
 
     QTableWidgetItem *keyframe, *keyframeOld;
-    keyframe = keyframe_list->item(0, 0);
+    keyframe = keyframeOld = keyframe_list->item(0, 0);
     for (int row = 0; row < keyframe_list->rowCount(); ++row) {
         keyframeOld = keyframe;
         keyframe = keyframe_list->item(row, 0);
@@ -218,7 +222,7 @@ void CornersWidget::slotInsertKeyframe()
 
     int row;
     QTableWidgetItem *keyframe, *keyframeOld;
-    keyframe = keyframe_list->item(0, 0);
+    keyframe = keyframeOld = keyframe_list->item(0, 0);
     for (row = 0; row < keyframe_list->rowCount(); ++row) {
         keyframeOld = keyframe;
         keyframe = keyframe_list->item(row, 0);

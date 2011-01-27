@@ -123,6 +123,7 @@ kde4_add_ui_files(kdenlive_UI
   widgets/spectrogram_ui.ui
   widgets/smconfig_ui.ui
   widgets/bezierspline_ui.ui
+  widgets/monitoreditwidget_ui.ui
 )
 
 set(kdenlive_SRCS
@@ -267,6 +268,7 @@ set(kdenlive_SRCS
   beziercurve/bpoint.cpp
   beziercurve/cubicbezierspline.cpp
   dragvalue.cpp
+  monitoreditwidget.cpp
 )
 
 add_definitions(${KDE4_DEFINITIONS})

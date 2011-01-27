@@ -23,8 +23,9 @@
 #include "monitormanager.h"
 #include "smallruler.h"
 #include "docclipbase.h"
-#include "monitorscene.h"
 #include "abstractclipitem.h"
+#include "monitorscene.h"
+#include "monitoreditwidget.h"
 #include "kdenlivesettings.h"
 
 #include <KDebug>
@@ -42,7 +43,6 @@
 #include <QLabel>
 #include <QIntValidator>
 #include <QVBoxLayout>
-#include <QGraphicsView>
 
 
 Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget *parent) :
@@ -58,8 +58,7 @@ Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget
     m_length(0),
     m_dragStarted(false),
     m_monitorRefresh(NULL),
-    m_effectScene(NULL),
-    m_effectView(NULL),
+    m_effectWidget(NULL),
     m_selectedClip(NULL),
     m_loopClipTransition(true)
 
@@ -148,15 +147,6 @@ Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget
     m_volumePopup->show();
     m_volumePopup->hide();
 
-    QWidget *spacer = new QWidget(this);
-    spacer->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
-    m_toolbar->addWidget(spacer);
-    m_timePos = new TimecodeDisplay(m_monitorManager->timecode(), this);
-    m_toolbar->addWidget(m_timePos);
-    connect(m_timePos, SIGNAL(editingFinished()), this, SLOT(slotSeek()));
-    m_toolbar->setMaximumHeight(s * 1.5);
-    layout->addWidget(m_toolbar);
-
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     setLayout(layout);
     setMinimumHeight(200);
@@ -207,15 +197,20 @@ Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget
     if (m_monitorRefresh) m_monitorRefresh->show();
 
     if (name == "project") {
-        m_effectScene = new MonitorScene(render);
-        m_effectView = new QGraphicsView(m_effectScene, m_videoBox);
-        lay->addWidget(m_effectView);
-        m_effectView->setRenderHints(QFlags<QPainter::RenderHint>());
-        m_effectView->scale(((double) render->renderWidth()) / render->frameRenderWidth(), 1.0);
-        m_effectView->setMouseTracking(true);
-        m_effectScene->setUp();
-        m_effectView->hide();
+        m_effectWidget = new MonitorEditWidget(render, m_videoBox);
+        m_toolbar->addAction(m_effectWidget->getVisibilityAction());
+        lay->addWidget(m_effectWidget);
+        m_effectWidget->hide();
     }
+
+    QWidget *spacer = new QWidget(this);
+    spacer->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+    m_toolbar->addWidget(spacer);
+    m_timePos = new TimecodeDisplay(m_monitorManager->timecode(), this);
+    m_toolbar->addWidget(m_timePos);
+    connect(m_timePos, SIGNAL(editingFinished()), this, SLOT(slotSeek()));
+    m_toolbar->setMaximumHeight(s * 1.5);
+    layout->addWidget(m_toolbar);
 }
 
 Monitor::~Monitor()
@@ -223,10 +218,8 @@ Monitor::~Monitor()
     delete m_ruler;
     delete m_timePos;
     delete m_overlay;
-    if (m_name == "project") {
-        delete m_effectView;
-        delete m_effectScene;
-    }
+    if (m_effectWidget)
+        delete m_effectWidget;
     delete m_monitorRefresh;
     delete render;
 }
@@ -466,7 +459,7 @@ void Monitor::slotSwitchFullScreen()
 void Monitor::mouseReleaseEvent(QMouseEvent * event)
 {
     if (m_dragStarted) {
-        if (m_videoBox->underMouse() && (!m_effectView || !m_effectView->isVisible())) {
+        if (m_videoBox->underMouse() && (!m_effectWidget || !m_effectWidget->isVisible())) {
             if (isActive()) slotPlay();
             else activateMonitor();
         } else QWidget::mouseReleaseEvent(event);
@@ -858,10 +851,8 @@ void Monitor::resetProfile(const QString profile)
     m_timePos->updateTimeCode(m_monitorManager->timecode());
     if (render == NULL) return;
     render->resetProfile(profile);
-    if (m_effectScene) {
-        m_effectView->scale(((double) render->renderWidth()) / render->frameRenderWidth(), 1.0);
-        m_effectScene->resetProfile();
-    }
+    if (m_effectWidget)
+        m_effectWidget->resetProfile(render);
 }
 
 void Monitor::saveSceneList(QString path, QDomElement info)
@@ -960,23 +951,24 @@ void Monitor::slotEffectScene(bool show)
             m_glWidget->setVisible(!show);
 #endif
         }
-        m_effectView->setVisible(show);
+        m_effectWidget->setVisible(show);
+        m_effectWidget->getVisibilityAction()->setChecked(show);
         emit requestFrameForAnalysis(show);
         if (show) {
+            m_effectWidget->getScene()->slotZoomFit();
             render->doRefresh();
-            m_effectScene->slotZoomFit();
         }
     }
 }
 
-MonitorScene * Monitor::getEffectScene()
+MonitorEditWidget* Monitor::getEffectEdit()
 {
-    return m_effectScene;
+    return m_effectWidget;
 }
 
 bool Monitor::effectSceneDisplayed()
 {
-    return m_effectView->isVisible();
+    return m_effectWidget->isVisible();
 }
 
 void Monitor::slotSetVolume(int volume)

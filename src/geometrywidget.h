@@ -33,7 +33,6 @@ class MonitorScene;
 class KeyframeHelper;
 class TimecodeDisplay;
 class OnMonitorRectItem;
-class MonitorSceneControlWidget;
 
 
 class GeometryWidget : public QWidget
@@ -81,7 +80,6 @@ private:
     /** Stores the different settings in the MLT geometry format. */
     Mlt::Geometry *m_geometry;
     bool m_showScene;
-    MonitorSceneControlWidget *m_config;
 
 private slots:
     /** @brief Updates controls according to position.

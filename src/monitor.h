@@ -41,12 +41,10 @@ class MonitorManager;
 class Render;
 class SmallRuler;
 class DocClipBase;
-class MonitorScene;
 class AbstractClipItem;
 class Transition;
 class ClipItem;
-class QGraphicsView;
-class QGraphicsPixmapItem;
+class MonitorEditWidget;
 
 class Monitor;
 
@@ -120,7 +118,7 @@ public:
     void checkOverlay();
     void updateTimecodeFormat();
     void updateMarkers(DocClipBase *source);
-    MonitorScene *getEffectScene();
+    MonitorEditWidget *getEffectEdit();
     QWidget *container();
     QFrame *m_volumePopup;
 
@@ -164,8 +162,7 @@ private:
     QMenu *m_playMenu;
     QMenu *m_markerMenu;
     QPoint m_DragStartPosition;
-    MonitorScene *m_effectScene;
-    QGraphicsView *m_effectView;
+    MonitorEditWidget *m_effectWidget;
     VideoContainer *m_videoBox;
     /** Selected clip/transition in timeline. Used for looping it. */
     AbstractClipItem *m_selectedClip;

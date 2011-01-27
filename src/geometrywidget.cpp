@@ -24,7 +24,7 @@
 #include "keyframehelper.h"
 #include "timecodedisplay.h"
 #include "monitorscene.h"
-#include "monitorscenecontrolwidget.h"
+#include "monitoreditwidget.h"
 #include "onmonitoritems/onmonitorrectitem.h"
 #include "kdenlivesettings.h"
 
@@ -48,7 +48,10 @@ GeometryWidget::GeometryWidget(Monitor* monitor, Timecode timecode, int clipPos,
     m_showScene(true)
 {
     m_ui.setupUi(this);
-    m_scene = monitor->getEffectScene();
+
+    MonitorEditWidget *edit = monitor->getEffectEdit();
+    edit->showVisibilityButton(true);
+    m_scene = edit->getScene();
 
 
     /*
@@ -123,12 +126,7 @@ GeometryWidget::GeometryWidget(Monitor* monitor, Timecode timecode, int clipPos,
         Setup of configuration controls
     */
 
-    m_config = new MonitorSceneControlWidget(m_scene, m_ui.frameSettings);
-    QHBoxLayout *settingsLayout = new QHBoxLayout(m_ui.frameSettings);
-    settingsLayout->addWidget(m_config);
-    settingsLayout->setContentsMargins(0, 0, 0, 0);
-    ((QGridLayout *)m_ui.widgetConfigButton->layout())->addWidget(m_config->getShowHideButton(), 1, 1);
-    connect(m_config, SIGNAL(showScene(bool)), this, SLOT(slotShowScene(bool)));
+    connect(edit, SIGNAL(showEdit(bool)), this, SLOT(slotShowScene(bool)));
 
     connect(m_scene, SIGNAL(actionFinished()), this, SLOT(slotUpdateGeometry()));
     connect(m_scene, SIGNAL(addKeyframe()),    this, SLOT(slotAddKeyframe()));
@@ -143,9 +141,10 @@ GeometryWidget::~GeometryWidget()
     delete m_timeline;
     m_scene->removeItem(m_rect);
     delete m_geometry;
-    delete m_config;
-    if (m_monitor)
+    if (m_monitor) {
+        m_monitor->getEffectEdit()->showVisibilityButton(false);
         m_monitor->slotEffectScene(false);
+    }
 }
 
 void GeometryWidget::updateTimecodeFormat()
