@@ -118,7 +118,6 @@ kde4_add_ui_files(kdenlive_UI
   widgets/histogram_ui.ui
   widgets/geometrywidget_ui.ui
   widgets/stopmotion_ui.ui
-  widgets/monitorscenecontrolwidget_ui.ui
   widgets/audiospectrum_ui.ui
   widgets/spectrogram_ui.ui
   widgets/smconfig_ui.ui
@@ -258,7 +257,6 @@ set(kdenlive_SRCS
   onmonitoritems/abstractonmonitoritem.cpp
   onmonitoritems/onmonitorrectitem.cpp
   onmonitoritems/onmonitorcornersitem.cpp
-  monitorscenecontrolwidget.cpp
   cornerswidget.cpp
   kiss_fft/_kiss_fft_guts.h
   kiss_fft/kiss_fft.c
