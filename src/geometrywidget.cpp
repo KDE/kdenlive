@@ -128,7 +128,6 @@ GeometryWidget::GeometryWidget(Monitor* monitor, Timecode timecode, int clipPos,
 
     connect(edit, SIGNAL(showEdit(bool)), this, SLOT(slotShowScene(bool)));
 
-    connect(m_scene, SIGNAL(actionFinished()), this, SLOT(slotUpdateGeometry()));
     connect(m_scene, SIGNAL(addKeyframe()),    this, SLOT(slotAddKeyframe()));
     connect(m_monitor, SIGNAL(renderPosition(int)), this, SLOT(slotCheckMonitorPosition(int)));
     connect(this, SIGNAL(parameterChanged()), this, SLOT(slotUpdateProperties()));
@@ -185,10 +184,11 @@ void GeometryWidget::setupParam(const QDomElement elem, int minframe, int maxfra
 
     m_geometry->fetch(&item, 0);
     delete m_rect;
-    m_rect = new OnMonitorRectItem(QRectF(0, 0, item.w(), item.h()), m_monitor->render->dar(), m_scene);
+    m_rect = new OnMonitorRectItem(QRectF(0, 0, item.w(), item.h()), m_monitor->render->dar());
     m_rect->setPos(item.x(), item.y());
     m_rect->setZValue(0);
     m_scene->addItem(m_rect);
+    connect(m_rect, SIGNAL(changed()), this, SLOT(slotUpdateGeometry()));
 
     slotPositionChanged(0, false);
     slotCheckMonitorPosition(m_monitor->render->seekFramePosition());

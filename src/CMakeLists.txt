@@ -254,7 +254,6 @@ set(kdenlive_SRCS
   stopmotion/capturehandler.cpp
   blackmagic/capture.cpp
   blackmagic/devices.cpp
-  onmonitoritems/abstractonmonitoritem.cpp
   onmonitoritems/onmonitorrectitem.cpp
   onmonitoritems/onmonitorcornersitem.cpp
   cornerswidget.cpp

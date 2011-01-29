@@ -21,16 +21,15 @@
 #ifndef ONMONITORCORNERSITEM_H
 #define ONMONITORCORNERSITEM_H
 
-#include "abstractonmonitoritem.h"
 
 #include <QtCore>
 #include <QGraphicsPolygonItem>
 
-class OnMonitorCornersItem : public AbstractOnMonitorItem, public QGraphicsPolygonItem
+class OnMonitorCornersItem : public QObject, public QGraphicsPolygonItem
 {
     Q_OBJECT
 public:
-    OnMonitorCornersItem(MonitorScene *scene, QGraphicsItem *parent = 0);
+    OnMonitorCornersItem(QGraphicsItem *parent = 0);
 
     enum cornersActions { Corner, Move, MoveSide, NoAction };
     /** @brief Gets The action mode for the area @param pos +- 4. */
@@ -39,11 +38,11 @@ public:
     /** @brief Reimplemented to draw the handles. */
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0 );
 
-public slots:
-    /** @brief Saves current mouse position and mode. */
-    void slotMousePressed(QGraphicsSceneMouseEvent *event);
-    /** @brief Modifies item according to mouse position and mode. */
-    void slotMouseMoved(QGraphicsSceneMouseEvent *event);
+protected:
+    virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
+    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+    virtual void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
 
 private:
     /** @brief Returns the centroid (= 'center of mass') of this polygon. */
@@ -56,6 +55,10 @@ private:
     /** Number of the selected corner or if in MoveSide mode number of the first corner on this side */
     int m_selectedCorner;
     QPointF m_lastPoint;
+    bool m_modified;
+
+signals:
+    void changed();
 };
 
 #endif

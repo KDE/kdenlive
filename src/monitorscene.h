@@ -44,12 +44,7 @@ public:
     void resetProfile();
 
 protected:
-    /** @brief Emits signal mousePressed to be used in onmonitor items. */
-    virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);
-    /** @brief Emits signal mouseMoveEvent to be used in onmonitor items. */
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
-    /** @brief Emits signal mouseReleaseEvent to be used in onmonitor items. */
-    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     /** @brief Adds a keyframe if scene is disabled. */
     virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
     /** @brief Reimplemented to allow zooming using ctrl + mouse wheel. */
@@ -74,8 +69,6 @@ public slots:
 private slots:
     /** @brief Sets m_backgroundImage to @param image and requests updating the background item. */
     void slotSetBackgroundImage(const QImage &image);
-    /** @brief Sets the mouse curors to @param cursor for the scene. */
-    void slotSetCursor(const QCursor &cursor);
 
 private:
     Render *m_renderer;
@@ -88,12 +81,8 @@ private:
     qreal m_zoom;
 
 signals:
-    void actionFinished();
     void zoomChanged(int);
     void addKeyframe();
-    void mouseMoved(QGraphicsSceneMouseEvent *event);
-    void mousePressed(QGraphicsSceneMouseEvent *event);
-    void mouseReleased(QGraphicsSceneMouseEvent *event);
 };
 
 #endif

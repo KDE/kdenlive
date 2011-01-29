@@ -46,31 +46,18 @@ CornersWidget::CornersWidget(Monitor *monitor, QDomElement e, int minFrame, int 
     edit->showVisibilityButton(true);
     m_scene = edit->getScene();
 
-    m_item = new OnMonitorCornersItem(m_scene);
+    m_item = new OnMonitorCornersItem();
     m_scene->addItem(m_item);
 
     // TODO: Better Icons
-    QToolButton *buttonShowControls = new QToolButton();
-    buttonShowControls->setIcon(KIcon("transform-move"));
-    buttonShowControls->setToolTip(i18n("Show additional controls"));
-    buttonShowControls->setCheckable(true);
-    buttonShowControls->setAutoRaise(true);
-    buttonShowControls->setChecked(KdenliveSettings::onmonitoreffects_cornersshowcontrols());
-    connect(buttonShowControls, SIGNAL(toggled(bool)), this, SLOT(slotShowControls(bool)));
-    edit->addCustomControl(buttonShowControls);
-
-    QToolButton *buttonShowLines = new QToolButton();
-    buttonShowLines->setIcon(KIcon("insert-horizontal-rule"));
-    buttonShowLines->setToolTip(i18n("Show/Hide the lines connecting the corners"));
-    buttonShowLines->setCheckable(true);
-    buttonShowControls->setAutoRaise(true);
-    buttonShowLines->setChecked(KdenliveSettings::onmonitoreffects_cornersshowlines());
-    connect(buttonShowLines, SIGNAL(toggled(bool)), this, SLOT(slotShowLines(bool)));
-    edit->addCustomControl(buttonShowLines);
+    edit->addCustomButton(KIcon("transform-move"), i18n("Show additional controls"), this, SLOT(slotShowControls(bool)),
+                          true, KdenliveSettings::onmonitoreffects_cornersshowcontrols());
+    edit->addCustomButton(KIcon("insert-horizontal-rule"), i18n("Show/Hide the lines connecting the corners"), this, SLOT(slotShowLines(bool)),
+                          true, KdenliveSettings::onmonitoreffects_cornersshowlines());
 
     connect(edit, SIGNAL(showEdit(bool)), this, SLOT(slotShowScene(bool)));
     connect(m_monitor, SIGNAL(renderPosition(int)), this, SLOT(slotCheckMonitorPosition(int)));
-    connect(m_scene, SIGNAL(actionFinished()), this, SLOT(slotUpdateProperties()));
+    connect(m_item, SIGNAL(changed()), this, SLOT(slotUpdateProperties()));
     connect(m_scene, SIGNAL(addKeyframe()), this, SLOT(slotInsertKeyframe()));
 
     connect(keyframe_list, SIGNAL(cellChanged(int, int)), this, SLOT(slotUpdateItem()));

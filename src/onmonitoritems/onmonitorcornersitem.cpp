@@ -27,10 +27,10 @@
 #include <QStyleOptionGraphicsItem>
 #include <QCursor>
 
-OnMonitorCornersItem::OnMonitorCornersItem(MonitorScene* scene, QGraphicsItem* parent) :
-        AbstractOnMonitorItem(scene),
+OnMonitorCornersItem::OnMonitorCornersItem(QGraphicsItem* parent) :
         QGraphicsPolygonItem(parent),
-        m_selectedCorner(-1)
+        m_selectedCorner(-1),
+        m_modified(false)
 {
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
 
@@ -38,6 +38,7 @@ OnMonitorCornersItem::OnMonitorCornersItem(MonitorScene* scene, QGraphicsItem* p
     framepen.setColor(Qt::yellow);
     setPen(framepen);
     setBrush(Qt::NoBrush);
+    setAcceptHoverEvents(true);
 }
 
 OnMonitorCornersItem::cornersActions OnMonitorCornersItem::getMode(QPointF pos, int *corner)
@@ -47,7 +48,6 @@ OnMonitorCornersItem::cornersActions OnMonitorCornersItem::getMode(QPointF pos, 
         return NoAction;
 
     QPainterPath mouseArea;
-    pos = mapFromScene(pos);
     mouseArea.addRect(pos.x() - 6, pos.y() - 6, 12, 12);
     for (int i = 0; i < 4; ++i) {
         if (mouseArea.contains(polygon().at(i))) {
@@ -72,26 +72,17 @@ OnMonitorCornersItem::cornersActions OnMonitorCornersItem::getMode(QPointF pos, 
     return NoAction;
 }
 
-void OnMonitorCornersItem::slotMousePressed(QGraphicsSceneMouseEvent* event)
+void OnMonitorCornersItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
-    event->accept();
-
-    if (!isEnabled())
-        return;
-
-    m_mode = getMode(event->scenePos(), &m_selectedCorner);
+    m_mode = getMode(event->pos(), &m_selectedCorner);
     m_lastPoint = event->scenePos();
+
+    if (m_mode == NoAction)
+        event->ignore();
 }
 
-void OnMonitorCornersItem::slotMouseMoved(QGraphicsSceneMouseEvent* event)
+void OnMonitorCornersItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 {
-    event->accept();
-
-    if (!isEnabled()) {
-        emit requestCursor(QCursor(Qt::ArrowCursor));
-        return;
-    }
-
     /*if (event->buttons() != Qt::NoButton && (event->screenPos() - m_screenClickPoint).manhattanLength() < QApplication::startDragDistance()) {
      *   event->accept();
      *   return;
@@ -119,23 +110,41 @@ void OnMonitorCornersItem::slotMouseMoved(QGraphicsSceneMouseEvent* event)
         }
         m_lastPoint = mousePos;
         setPolygon(p);
-    } else {
-        int corner;
-        switch (getMode(event->scenePos(), &corner)) {
-        case NoAction:
-            emit requestCursor(QCursor(Qt::ArrowCursor));
-            break;
-        case Move:
-            emit requestCursor(QCursor(Qt::SizeAllCursor));
-            break;
-        default:
-            emit requestCursor(QCursor(Qt::OpenHandCursor));
-            break;
-        }
     }
-    if (m_modified && KdenliveSettings::monitorscene_directupdate()) {
-        emit actionFinished();
+
+    if (m_modified) {
+        event->accept();
+        if (KdenliveSettings::monitorscene_directupdate()) {
+            emit changed();
+            m_modified = false;
+        }
+    } else {
+        event->ignore();
+    }
+}
+
+void OnMonitorCornersItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
+{
+    if (m_modified) {
         m_modified = false;
+        emit changed();
+    }
+    event->accept();
+}
+
+void OnMonitorCornersItem::hoverMoveEvent(QGraphicsSceneHoverEvent* event)
+{
+    int corner;
+    switch (getMode(event->pos(), &corner)) {
+    case NoAction:
+        unsetCursor();
+        break;
+    case Move:
+        setCursor(QCursor(Qt::SizeAllCursor));
+        break;
+    default:
+        setCursor(QCursor(Qt::OpenHandCursor));
+        break;
     }
 }
 

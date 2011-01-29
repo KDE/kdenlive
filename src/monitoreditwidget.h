@@ -23,6 +23,7 @@
 
 #include <QWidget>
 
+class QIcon;
 class MonitorScene;
 class Render;
 class QGraphicsView;
@@ -52,6 +53,7 @@ public:
 
     /** @brief Adds a custom widget to the controls. */
     void addCustomControl(QWidget *widget);
+    void addCustomButton(const QIcon &icon, const QString &text, const QObject *receiver, const char *member, bool checkable = true, bool checked = true);
     /** @brief Empties the list of custom controls. */
     void removeCustomControls();
 

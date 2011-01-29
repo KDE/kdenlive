@@ -25,6 +25,7 @@
 #include <QGraphicsView>
 #include <QVBoxLayout>
 #include <QAction>
+#include <QToolButton>
 
 #include <KIcon>
 
@@ -42,7 +43,9 @@ MonitorEditWidget::MonitorEditWidget(Render* renderer, QWidget* parent) :
 
     ((QVBoxLayout*)m_ui.frameVideo->layout())->addWidget(m_view);
 
-    m_customControlsLayout = static_cast<QVBoxLayout *>(m_ui.frameCustomControls->layout());
+    m_customControlsLayout = new QVBoxLayout(m_ui.frameCustomControls);
+    m_customControlsLayout->setContentsMargins(0, 4, 0, 4);
+    m_customControlsLayout->setSpacing(0);
 
     m_visibilityAction = new QAction(KIcon("video-display"), i18n("Show/Hide edit mode"), this);
     m_visibilityAction->setCheckable(true);
@@ -98,6 +101,21 @@ void MonitorEditWidget::showVisibilityButton(bool show)
 void MonitorEditWidget::addCustomControl(QWidget* widget)
 {
     m_customControlsLayout->addWidget(widget);
+}
+
+void MonitorEditWidget::addCustomButton(const QIcon& icon, const QString& text, const QObject* receiver, const char* member, bool checkable, bool checked)
+{
+    QToolButton *button = new QToolButton(m_ui.frameCustomControls);
+    button->setIcon(icon);
+    button->setToolTip(text);
+    button->setCheckable(checkable);
+    button->setChecked(checked);
+    button->setAutoRaise(true);
+    if (checkable)
+        connect(button, SIGNAL(toggled(bool)), receiver, member);
+    else
+        connect(button, SIGNAL(clicked()), receiver, member);
+    m_customControlsLayout->addWidget(button);
 }
 
 void MonitorEditWidget::removeCustomControls()

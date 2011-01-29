@@ -20,7 +20,6 @@
 
 #include "monitorscene.h"
 #include "renderer.h"
-#include "onmonitoritems/onmonitorrectitem.h"
 #include "kdenlivesettings.h"
 
 #include <QGraphicsView>
@@ -85,7 +84,7 @@ void MonitorScene::setEnabled(bool enabled)
 void MonitorScene::slotUpdateBackground()
 {
     if (m_view && m_view->isVisible()) {
-        if (m_lastUpdate.msecsTo(QTime::currentTime()) > 100) {
+        if (m_lastUpdate.msecsTo(QTime::currentTime()) > 50) {
             m_background->setPixmap(QPixmap::fromImage(m_backgroundImage));
             m_lastUpdate = QTime::currentTime();
         }
@@ -137,35 +136,9 @@ void MonitorScene::slotZoomIn(int by)
     slotZoom(qMin(300, (int)(m_zoom * 100 + by + 0.5)));
 }
 
-void MonitorScene::slotSetCursor(const QCursor &cursor)
-{
-    if (m_view)
-        m_view->setCursor(cursor);
-}
-
-
-void MonitorScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
-{
-    emit mousePressed(event);
-
-    if (!event->isAccepted())
-        QGraphicsScene::mousePressEvent(event);
-}
-
 void MonitorScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
-    emit mouseMoved(event);
-
-    if (!event->isAccepted())
-        QGraphicsScene::mouseMoveEvent(event);
-}
-
-void MonitorScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
-{
-    emit mouseReleased(event);
-
-    if (!event->isAccepted())
-        QGraphicsScene::mouseReleaseEvent(event);
+    QGraphicsScene::mouseMoveEvent(event);
 }
 
 void MonitorScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event)
