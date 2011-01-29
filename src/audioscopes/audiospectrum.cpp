@@ -39,6 +39,7 @@
 #define MAX_FREQ_VALUE 96000
 #define MIN_FREQ_VALUE 1000
 #define ALPHA_MOVING_AVG 0.125
+#define MAX_OVM_COLOR 0.7
 
 AudioSpectrum::AudioSpectrum(QWidget *parent) :
     AbstractAudioScopeWidget(true, parent),
@@ -166,6 +167,7 @@ QImage AudioSpectrum::renderAudioScope(uint, const QVector<int16_t> audioFrame, 
 
 
 #ifdef DETECT_OVERMODULATION
+        // TODO Color: 1 if currently overmodulated, max 0.8 else
         bool overmodulated = false;
         int overmodulateCount = 0;
 
@@ -252,6 +254,11 @@ QImage AudioSpectrum::renderAudioScope(uint, const QVector<int16_t> audioFrame, 
                         (int) (f * col.blue() + (1-f) * spec.blue()),
                         spec.alpha()
                         );
+            // Limit the maximum colorization for non-overmodulated frames to better
+            // recognize consecutively overmodulated frames
+            if (colorizeFactor > MAX_OVM_COLOR) {
+                colorizeFactor = MAX_OVM_COLOR;
+            }
         }
 #endif
 
