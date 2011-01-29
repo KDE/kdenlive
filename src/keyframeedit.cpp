@@ -204,8 +204,14 @@ void KeyframeEdit::slotAddKeyframe()
             result = m_min;
         }
     } else {
-        int pos2 = getPos(row - 1);
-        result = pos2 + (pos1 - pos2) / 2;
+        if (pos1 < m_max - 1) {
+            // last keyframe selected and it is not at end of clip -> add keyframe at the end
+            result = m_max - 1;
+            newrow++;
+        } else {
+            int pos2 = getPos(row - 1);
+            result = pos2 + (pos1 - pos2) / 2;
+        }
     }
 
     keyframe_list->insertRow(newrow);
