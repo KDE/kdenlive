@@ -5,11 +5,6 @@
         <full><![CDATA[This effect allows to do Light Painting (i.e. painting with light sources on a photo by keeping the shutter
         opened for a while), but for video.]]></full></description>
         <author>Simon A. Eugster (Granjow)</author>
-        <parameter type="simplekeyframe" name="sensitivity" default="100" min="0" max="500" factor="100">
-            <name>Sensitivity</name>
-            <comment><![CDATA[Light sensitivity.<br/>
-            For slowly moving light source try to use a lower sensitivity to obtain a better exposure.]]></comment>
-        </parameter>
         <parameter type="simplekeyframe" name="thresholdBrightness" default="450" min="0" max="765" factor="1">
             <name>Brightness Threshold</name>
             <comment><![CDATA[How bright (<code>R+G+B</code>) does a pixel need to be in order to be recognized as a light source?<br/>
@@ -24,6 +19,16 @@
             <name>Difference Sum Threshold</name>
             <comment><![CDATA[How much does the sum of all color channels <em>relative to the background image</em> (<code>dR + dG + dB</code>) have to change until a pixel is recognized as a light source?.<br/>
             Raising this value might, in some cases, avoid that some light objects lit by the light source are added to the light mask.]]></comment>
+        </parameter>
+        <parameter type="simplekeyframe" name="sensitivity" default="100" min="0" max="500" factor="100">
+            <name>Sensitivity</name>
+            <comment><![CDATA[Light sensitivity.<br/>
+            For slowly moving light source try to use a lower sensitivity to obtain a better exposure.]]></comment>
+        </parameter>
+        <parameter type="simplekeyframe" name="lowerOverexposure" default="0" min="0" max="10" factor="1">
+            <name>Lower Overexposure</name>
+            <comment><![CDATA[Lowers overexposure.<br/>
+            The light mask does not get white immediately when moving slower or staying steady.]]></comment>
         </parameter>
         <parameter type="simplekeyframe" name="dim" default="0" min="0" max="255" factor="255">
             <name>Dimming</name>
