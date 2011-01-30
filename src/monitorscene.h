@@ -44,7 +44,9 @@ public:
     void resetProfile();
 
 protected:
+    virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
+    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     /** @brief Adds a keyframe if scene is disabled. */
     virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
     /** @brief Reimplemented to allow zooming using ctrl + mouse wheel. */

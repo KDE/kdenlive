@@ -26,6 +26,7 @@
 #include <QGraphicsPixmapItem>
 #include <QGraphicsSceneMouseEvent>
 
+
 MonitorScene::MonitorScene(Render *renderer, QObject* parent) :
         QGraphicsScene(parent),
         m_renderer(renderer),
@@ -136,11 +137,24 @@ void MonitorScene::slotZoomIn(int by)
     slotZoom(qMin(300, (int)(m_zoom * 100 + by + 0.5)));
 }
 
+void MonitorScene::mousePressEvent(QGraphicsSceneMouseEvent* event)
+{
+    QGraphicsScene::mousePressEvent(event);
+
+    if (!event->isAccepted() && event->buttons() & Qt::LeftButton && event->modifiers() == Qt::ControlModifier)
+        m_view->setDragMode(QGraphicsView::ScrollHandDrag);
+}
+
 void MonitorScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
     QGraphicsScene::mouseMoveEvent(event);
 }
 
+void MonitorScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
+{
+    QGraphicsScene::mouseReleaseEvent(event);
+    m_view->setDragMode(QGraphicsView::NoDrag);
+}
 void MonitorScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event)
 {
     Q_UNUSED(event);
