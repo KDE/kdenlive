@@ -436,6 +436,9 @@ ClipProperties::ClipProperties(QList <DocClipBase *>cliplist, Timecode tc, QMap 
 {
     setFont(KGlobalSettings::toolBarFont());
     m_view.setupUi(this);
+    QString title = windowTitle();
+    title.append(" " + i18np("(%1 clip)", "(%1 clips)", cliplist.count()).arg(cliplist.count()));
+    setWindowTitle(title);
     QMap <QString, QString> props = cliplist.at(0)->properties();
     m_old_props = commonproperties;
 

@@ -234,7 +234,8 @@ void ProjectList::updateProjectFormat(Timecode t)
 void ProjectList::slotEditClip()
 {
     QList<QTreeWidgetItem *> list = m_listView->selectedItems();
-    if (list.count() > 1) {
+    if (list.isEmpty()) return;
+    if (list.count() > 1 || list.at(0)->type() == PROJECTFOLDERTYPE) {
         editClipSelection(list);
         return;
     }
@@ -272,9 +273,15 @@ void ProjectList::editClipSelection(QList<QTreeWidgetItem *> list)
     ProjectItem *item;
     for (int i = 0; i < list.count(); i++) {
         item = NULL;
-        if (list.at(i)->type() == PROJECTFOLDERTYPE)
+        if (list.at(i)->type() == PROJECTFOLDERTYPE) {
+            // Add folder items to the list
+            int ct = list.at(i)->childCount();
+            for (int j = 0; j < ct; j++) {
+                list.append(list.at(i)->child(j));
+            }
             continue;
-        if (list.at(i)->type() == PROJECTSUBCLIPTYPE)
+        }
+        else if (list.at(i)->type() == PROJECTSUBCLIPTYPE)
             item = static_cast <ProjectItem*>(list.at(i)->parent());
         else
             item = static_cast <ProjectItem*>(list.at(i));
@@ -528,7 +535,7 @@ void ProjectList::slotClipSelected()
     if (m_listView->currentItem()) {
         if (m_listView->currentItem()->type() == PROJECTFOLDERTYPE) {
             emit clipSelected(NULL);
-            m_editButton->defaultAction()->setEnabled(false);
+            m_editButton->defaultAction()->setEnabled(m_listView->currentItem()->childCount() > 0);
             m_deleteButton->defaultAction()->setEnabled(true);
             m_openAction->setEnabled(false);
             m_reloadAction->setEnabled(false);
@@ -812,6 +819,7 @@ void ProjectList::updateButtons() const
 {
     if (m_listView->topLevelItemCount() == 0) {
         m_deleteButton->defaultAction()->setEnabled(false);
+        m_editButton->defaultAction()->setEnabled(false);
     } else {
         m_deleteButton->defaultAction()->setEnabled(true);
         if (!m_listView->currentItem())
@@ -825,9 +833,11 @@ void ProjectList::updateButtons() const
             m_proxyAction->setEnabled(true);
             return;
         }
+        else if (item && item->type() == PROJECTFOLDERTYPE && item->childCount() > 0) {
+            m_editButton->defaultAction()->setEnabled(true);
+        }
+        else m_editButton->defaultAction()->setEnabled(false);
     }
-
-    m_editButton->defaultAction()->setEnabled(false);
     m_openAction->setEnabled(false);
     m_reloadAction->setEnabled(false);
     m_transcodeAction->setEnabled(false);
