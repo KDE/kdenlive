@@ -35,6 +35,7 @@
 #include "doubleparameterwidget.h"
 #include "cornerswidget.h"
 #include "beziercurve/beziersplinewidget.h"
+#include "rotoscoping/rotowidget.h"
 
 #include <KDebug>
 #include <KLocale>
@@ -407,6 +408,15 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
             QString depends = pa.attribute("depends");
             if (!depends.isEmpty())
                 meetDependency(paramName, type, EffectsList::parameter(e, depends));
+        } else if (type == "roto-spline") {
+            RotoWidget *roto = new RotoWidget(value, m_monitor, m_in, m_out, this);
+            roto->slotShowScene(!disable);
+            connect(roto, SIGNAL(valueChanged()), this, SLOT(collectAllParameters()));
+            connect(roto, SIGNAL(checkMonitorPosition(int)), this, SIGNAL(checkMonitorPosition(int)));
+            connect(this, SIGNAL(syncEffectsPos(int)), roto, SLOT(slotSyncPosition(int)));
+            connect(this, SIGNAL(effectStateChanged(bool)), roto, SLOT(slotShowScene(bool)));
+            m_vbox->addWidget(roto);
+            m_valueItems[paramName] = roto;
         } else if (type == "wipe") {
             Wipeval *wpval = new Wipeval;
             wpval->setupUi(toFillin);
@@ -672,6 +682,9 @@ void EffectStackEdit::collectAllParameters()
             QString depends = pa.attributes().namedItem("depends").nodeValue();
             if (!depends.isEmpty())
                 meetDependency(paramName, type, EffectsList::parameter(newparam, depends));
+        } else if (type == "roto-spline") {
+            RotoWidget *widget = static_cast<RotoWidget *>(m_valueItems.value(paramName));
+            setValue = widget->getSpline();
         } else if (type == "wipe") {
             Wipeval *wp = (Wipeval*)m_valueItems.value(paramName);
             wipeInfo info;

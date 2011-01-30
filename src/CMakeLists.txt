@@ -3,10 +3,13 @@ add_subdirectory(colorcorrection)
 add_subdirectory(kiss_fft)
 add_subdirectory(mimetypes)
 add_subdirectory(onmonitoritems)
+add_subdirectory(rotoscoping)
 add_subdirectory(widgets)
 
 macro_optional_find_package(Nepomuk)
 include(FindQImageBlitz)
+
+find_package(QJSON)
 
 include_directories(
   ${KDE4_INCLUDE_DIR}
@@ -14,6 +17,7 @@ include_directories(
   ${QT_INCLUDES}
   ${LIBMLT_INCLUDE_DIR}
   ${LIBMLTPLUS_INCLUDE_DIR}
+  ${QJSON_INCLUDE_DIR}
   ${QDBUS_INCLUDE_DIRS}
   ${CMAKE_SOURCE_DIR}
   ${CMAKE_BINARY_DIR}
@@ -22,6 +26,7 @@ include_directories(
   ${CMAKE_SOURCE_DIR}/src/colorcorrection
   ${CMAKE_SOURCE_DIR}/src/kiss_fft
   ${CMAKE_SOURCE_DIR}/src/onmonitoritems
+  ${CMAKE_SOURCE_DIR}/src/onmonitoritems/rotoscoping
   ${CMAKE_SOURCE_DIR}/src/widgets
 )
 
@@ -256,6 +261,8 @@ set(kdenlive_SRCS
   blackmagic/devices.cpp
   onmonitoritems/onmonitorrectitem.cpp
   onmonitoritems/onmonitorcornersitem.cpp
+  onmonitoritems/rotoscoping/splineitem.cpp
+  onmonitoritems/rotoscoping/bpointitem.cpp
   cornerswidget.cpp
   kiss_fft/_kiss_fft_guts.h
   kiss_fft/kiss_fft.c
@@ -266,6 +273,7 @@ set(kdenlive_SRCS
   beziercurve/cubicbezierspline.cpp
   dragvalue.cpp
   monitoreditwidget.cpp
+  rotoscoping/rotowidget.cpp
 )
 
 add_definitions(${KDE4_DEFINITIONS})
@@ -321,6 +329,7 @@ target_link_libraries(kdenlive
   ${KDE4_KROSSUI_LIBS}
   ${CMAKE_DL_LIBS}
   ${CMAKE_THREAD_LIBS_INIT}
+  ${QJSON_LIBRARIES}
 )
 
 if(Q_WS_X11)

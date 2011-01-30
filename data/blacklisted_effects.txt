@@ -77,6 +77,7 @@ grain
 lines
 oldfilm
 tcolor
+rotoscoping
 
 #effects that have simplekeyframes
 vignette

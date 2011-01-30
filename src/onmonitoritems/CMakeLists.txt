@@ -1,1 +1,1 @@
-# Empty cmake file to satisfy CMake
+add_subdirectory(rotoscoping)

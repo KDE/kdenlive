@@ -1,0 +1,28 @@
+<!DOCTYPE kpartgui>
+<effect tag="rotoscoping" id="rotoscoping">
+        <name>Rotoscoping</name>
+        <description>Keyframable vector based rotoscoping</description>
+        <author>Till Theato</author>
+
+        <parameter type="list" name="mode" default="alpha" paramlist="alpha,matte,rgb">
+            <paramlistdisplay>Alpha,Matte,RGB</paramlistdisplay>
+            <name>Mode</name>
+        </parameter>
+
+        <parameter type="list" name="alpha_operation" default="clear" paramlist="clear,max,min,add,sub">
+            <paramlistdisplay>Write on clear,Maximum,Minimum,Add,Subtract</paramlistdisplay>
+            <name>Alpha Operation</name>
+        </parameter>
+
+        <parameter type="bool" name="invert" default="0">
+            <name>Invert</name>
+        </parameter>
+
+        <parameter type="constant" name="precision" max="500" min="1" default="1">
+            <name>Precision</name>
+        </parameter>
+
+        <parameter type="roto-spline" name="spline" default="[[[0,1],[0,0],[1,0]],[[1,0],[1,1],[0,1]]]"> <!-- TODO: set default to "" -->
+            <name>Rotoscopy Spline</name>
+        </parameter>
+</effect>
