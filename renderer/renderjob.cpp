@@ -40,12 +40,12 @@ public:
 
 static QDBusConnection connection(QLatin1String(""));
 
-RenderJob::RenderJob(bool erase, bool usekuiserver, const QString &renderer, const QString &profile, const QString &rendermodule, const QString &player, const QString &scenelist, const QString &dest, const QStringList &preargs, const QStringList &args, int in, int out) :
-        QObject(),
-        m_jobUiserver(NULL),
-        m_kdenliveinterface(NULL),
-        m_usekuiserver(usekuiserver),
-        m_enablelog(false)
+RenderJob::RenderJob(bool erase, bool usekuiserver, const QString& renderer, const QString& profile, const QString& rendermodule, const QString& player, const QString& scenelist, const QString& dest, const QStringList& preargs, const QStringList& args, int in, int out) :
+    QObject(),
+    m_jobUiserver(NULL),
+    m_kdenliveinterface(NULL),
+    m_usekuiserver(usekuiserver),
+    m_enablelog(false)
 {
     m_scenelist = scenelist;
     m_dest = dest;
@@ -53,7 +53,7 @@ RenderJob::RenderJob(bool erase, bool usekuiserver, const QString &renderer, con
     m_progress = 0;
     m_erase = erase;
     m_renderProcess = new QProcess;
-
+    
     // Disable VDPAU so that rendering will work even if there is a Kdenlive instance using VDPAU
 #if QT_VERSION >= 0x040600
     QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
@@ -82,7 +82,6 @@ RenderJob::RenderJob(bool erase, bool usekuiserver, const QString &renderer, con
     if (args.contains("pass=1")) m_dualpass = true;
 
     connect(m_renderProcess, SIGNAL(stateChanged(QProcess::ProcessState)), this, SLOT(slotCheckProcess(QProcess::ProcessState)));
-    //connect(m_renderProcess, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(slotIsOver(int, QProcess::ExitStatus)));
     m_renderProcess->setReadChannel(QProcess::StandardError);
 
     m_enablelog = (getenv("KDENLIVE_RENDER_LOG") != NULL);
@@ -230,6 +229,13 @@ void RenderJob::start()
     }
 
     initKdenliveDbusInterface();
+    
+    // Make sure the destination file is writable
+    QFile checkDestination(m_dest);
+    if (!checkDestination.open(QIODevice::WriteOnly)) {
+        slotIsOver(QProcess::NormalExit, false);
+    }
+    checkDestination.close();
 
     // Because of the logging, we connect to stderr in all cases.
     connect(m_renderProcess, SIGNAL(readyReadStandardError()), this, SLOT(receivedStderr()));
@@ -243,9 +249,9 @@ void RenderJob::initKdenliveDbusInterface()
 {
     QString kdenliveId;
     QDBusConnection connection = QDBusConnection::sessionBus();
-    QDBusConnectionInterface *ibus = connection.interface();
+    QDBusConnectionInterface* ibus = connection.interface();
     const QStringList services = ibus->registeredServiceNames();
-    foreach(const QString &service, services) {
+    foreach(const QString & service, services) {
         if (!service.startsWith("org.kde.kdenlive"))
             continue;
         kdenliveId = service;
@@ -263,7 +269,7 @@ void RenderJob::initKdenliveDbusInterface()
         m_dbusargs.append(m_dest);
         m_dbusargs.append((int) 0);
         m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, "setRenderingProgress", m_dbusargs);
-        connect(m_kdenliveinterface, SIGNAL(abortRenderJob(const QString &)),
+        connect(m_kdenliveinterface, SIGNAL(abortRenderJob(const QString&)),
                 this, SLOT(slotAbort(const QString&)));
     }
 }
@@ -276,9 +282,23 @@ void RenderJob::slotCheckProcess(QProcess::ProcessState state)
 
 
 
-void RenderJob::slotIsOver(QProcess::ExitStatus status)
+void RenderJob::slotIsOver(QProcess::ExitStatus status, bool isWritable)
 {
     if (m_jobUiserver) m_jobUiserver->call("terminate", QString());
+    if (!isWritable) {
+        QString error = tr("Cannot write to %1, check the permissions.").arg(m_dest);
+        if (m_kdenliveinterface) {
+            m_dbusargs[1] = (int) - 2;
+            m_dbusargs.append(error);
+            m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, "setRenderingFinished", m_dbusargs);
+        }
+        QStringList args;
+        args << "--error" << error;
+        if (m_enablelog) m_logstream << error << endl;
+        qDebug() << error;
+        QProcess::startDetached("kdialog", args);
+        qApp->quit();
+    }
     if (m_erase) {
         QFile f(m_scenelist);
         f.remove();
@@ -291,9 +311,10 @@ void RenderJob::slotIsOver(QProcess::ExitStatus status)
             m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, "setRenderingFinished", m_dbusargs);
         }
         QStringList args;
-        args << "--error" << tr("Rendering of %1 aborted, resulting video will probably be corrupted.").arg(m_dest);
-        if (m_enablelog) m_logstream << "Rendering of " << m_dest << " aborted, resulting video will probably be corrupted." << endl;
-        qDebug() << "Rendering of " << m_dest << " aborted, resulting video will probably be corrupted.";
+        QString error = tr("Rendering of %1 aborted, resulting video will probably be corrupted.").arg(m_dest);
+        args << "--error" << error;
+        if (m_enablelog) m_logstream << error << endl;
+        qDebug() << error;
         QProcess::startDetached("kdialog", args);
         qApp->quit();
     } else {

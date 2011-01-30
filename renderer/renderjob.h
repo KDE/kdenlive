@@ -34,14 +34,14 @@ class RenderJob : public QObject
     Q_OBJECT
 
 public:
-    RenderJob(bool erase, bool usekuiserver, const QString &renderer, const QString &profile, const QString &rendermodule, const QString &player, const QString &scenelist, const QString &dest, const QStringList &preargs, const QStringList &args, int in = -1, int out = -1);
+    RenderJob(bool erase, bool usekuiserver, const QString& renderer, const QString& profile, const QString& rendermodule, const QString& player, const QString& scenelist, const QString& dest, const QStringList& preargs, const QStringList& args, int in = -1, int out = -1);
     ~RenderJob();
 
 public slots:
     void start();
 
 private slots:
-    void slotIsOver(QProcess::ExitStatus status);
+    void slotIsOver(QProcess::ExitStatus status, bool isWritable = true);
     void receivedStderr();
     void slotAbort();
     void slotAbort(const QString& url);
@@ -51,15 +51,15 @@ private:
     QString m_scenelist;
     QString m_dest;
     int m_progress;
-    QProcess *m_renderProcess;
+    QProcess* m_renderProcess;
     QString m_errorMessage;
     QString m_prog;
     QString m_player;
     QStringList m_args;
     bool m_erase;
     bool m_dualpass;
-    QDBusInterface *m_jobUiserver;
-    QDBusInterface *m_kdenliveinterface;
+    QDBusInterface* m_jobUiserver;
+    QDBusInterface* m_kdenliveinterface;
     QList<QVariant> m_dbusargs;
     QTime m_startTime;
     void initKdenliveDbusInterface();
