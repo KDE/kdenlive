@@ -464,8 +464,8 @@ void KeyframeEdit::checkVisibleParam()
             return;
     }
 
-    slotUpdateVisibleParameter(0, false);
-    QRadioButton *radio = static_cast<QRadioButton*>(m_slidersLayout->itemAtPosition(0, 1)->widget());
+    slotUpdateVisibleParameter(0);
+    QRadioButton *radio = static_cast<QRadioButton*>(m_slidersLayout->itemAtPosition(0, 1)->layout()->itemAt(0)->widget());
     if (radio)
         radio->setChecked(true);
 }
