@@ -987,7 +987,6 @@ bool KdenliveDoc::addClip(QDomElement elem, QString clipId, bool createClipItem)
 
     if (createClipItem) {
         emit addProjectClip(clip);
-        //qApp->processEvents();
     }
 
     return true;

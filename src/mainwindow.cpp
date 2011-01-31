@@ -398,7 +398,6 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     // Stop motion actions. Beware of the order, we MUST use the same order in stopmotion/stopmotion.cpp
     m_stopmotion_actions = new KActionCategory(i18n("Stop Motion"), actionCollection());
     action = new KAction(KIcon("media-record"), i18n("Capture frame"), this);
-    action->setShortcut(Qt::Key_Space);
     //action->setShortcutContext(Qt::WidgetWithChildrenShortcut);
     m_stopmotion_actions->addAction("stopmotion_capture", action);
     action = new KAction(i18n("Switch live / captured frame"), this);
@@ -863,9 +862,9 @@ void MainWindow::slotConnectMonitors()
     connect(m_projectList, SIGNAL(deleteProjectClips(QStringList, QMap<QString, QString>)), this, SLOT(slotDeleteProjectClips(QStringList, QMap<QString, QString>)));
     connect(m_projectList, SIGNAL(showClipProperties(DocClipBase *)), this, SLOT(slotShowClipProperties(DocClipBase *)));
     connect(m_projectList, SIGNAL(showClipProperties(QList <DocClipBase *>, QMap<QString, QString>)), this, SLOT(slotShowClipProperties(QList <DocClipBase *>, QMap<QString, QString>)));
-    connect(m_projectList, SIGNAL(getFileProperties(const QDomElement, const QString &, int, bool)), m_projectMonitor->render, SLOT(getFileProperties(const QDomElement, const QString &, int, bool)));
+    connect(m_projectList, SIGNAL(getFileProperties(const QDomElement, const QString &, int, bool, bool)), m_projectMonitor->render, SLOT(getFileProperties(const QDomElement, const QString &, int, bool, bool)));
     connect(m_projectMonitor->render, SIGNAL(replyGetImage(const QString &, const QPixmap &)), m_projectList, SLOT(slotReplyGetImage(const QString &, const QPixmap &)));
-    connect(m_projectMonitor->render, SIGNAL(replyGetFileProperties(const QString &, Mlt::Producer*, const QMap < QString, QString > &, const QMap < QString, QString > &, bool)), m_projectList, SLOT(slotReplyGetFileProperties(const QString &, Mlt::Producer*, const QMap < QString, QString > &, const QMap < QString, QString > &, bool)));
+    connect(m_projectMonitor->render, SIGNAL(replyGetFileProperties(const QString &, Mlt::Producer*, const QMap < QString, QString > &, const QMap < QString, QString > &, bool, bool)), m_projectList, SLOT(slotReplyGetFileProperties(const QString &, Mlt::Producer*, const QMap < QString, QString > &, const QMap < QString, QString > &, bool, bool)));
 
     connect(m_projectMonitor->render, SIGNAL(removeInvalidClip(const QString &, bool)), m_projectList, SLOT(slotRemoveInvalidClip(const QString &, bool)));
 

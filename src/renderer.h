@@ -320,7 +320,7 @@ private slots:
 signals:
 
     /** @brief The renderer received a reply to a getFileProperties request. */
-    void replyGetFileProperties(const QString &clipId, Mlt::Producer*, const QMap < QString, QString > &, const QMap < QString, QString > &, bool);
+    void replyGetFileProperties(const QString &clipId, Mlt::Producer*, const QMap < QString, QString > &, const QMap < QString, QString > &, bool, bool);
 
     /** @brief The renderer received a reply to a getImage request. */
     void replyGetImage(const QString &, const QPixmap &);
@@ -377,9 +377,10 @@ public slots:
         @param clipId The clip Id string
         @param imageHeight The height (in pixels) of the returned thumbnail (height of a treewidgetitem in projectlist)
         @param replaceProducer If true, the MLT producer will be recreated
+        @param selectClip If true, clip item will be selected in project view
      * Upon return, the result will be emitted via replyGetFileProperties().
      * Wraps the VEML command of the same name. */
-    void getFileProperties(const QDomElement xml, const QString &clipId, int imageHeight, bool replaceProducer = true);
+    void getFileProperties(const QDomElement xml, const QString &clipId, int imageHeight, bool replaceProducer = true, bool selectClip = false);
 
     void exportFileToFirewire(QString srcFileName, int port, GenTime startTime, GenTime endTime);
     void mltSavePlaylist();

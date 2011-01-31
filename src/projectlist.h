@@ -30,6 +30,7 @@
 #include <QUndoStack>
 #include <QTimer>
 #include <QApplication>
+#include <QFuture>
 
 #include <KTreeWidgetSearchLine>
 #include <KUrl>
@@ -196,7 +197,7 @@ public slots:
     void setDocument(KdenliveDoc *doc);
     void updateAllClips();
     void slotReplyGetImage(const QString &clipId, const QPixmap &pix);
-    void slotReplyGetFileProperties(const QString &clipId, Mlt::Producer *producer, const QMap < QString, QString > &properties, const QMap < QString, QString > &metadata, bool replace);
+    void slotReplyGetFileProperties(const QString &clipId, Mlt::Producer *producer, const QMap < QString, QString > &properties, const QMap < QString, QString > &metadata, bool replace, bool selectClip);
     void slotAddClip(DocClipBase *clip, bool getProperties);
     void slotDeleteClip(const QString &clipId);
     void slotUpdateClip(const QString &id);
@@ -230,8 +231,8 @@ private:
     Render *m_render;
     Timecode m_timecode;
     double m_fps;
-    QTimer m_queueTimer;
     QMenu *m_menu;
+    QFuture<void> m_queueRunner;
     QUndoStack *m_commandStack;
     ProjectItem *getItemById(const QString &id);
     QTreeWidgetItem *getAnyItemById(const QString &id);
@@ -250,6 +251,7 @@ private:
     void requestClipInfo(const QDomElement xml, const QString id);
     QList <QString> m_thumbnailQueue;
     QAction *m_proxyAction;
+    QStringList m_processingClips;
     void requestClipThumbnail(const QString id);
 
     /** @brief Creates an EditFolderCommand to change the name of an folder item. */
@@ -267,6 +269,12 @@ private:
 
     /** @brief Sets the buttons enabled/disabled according to selected item. */
     void updateButtons() const;
+
+    /** @brief Set the Proxy status on a clip. 
+     * @param item The clip item to set status
+     * @param status The status (1 = creating proxy, 2 = proxy is ok) */
+    void setProxyStatus(ProjectItem *item, int status);
+    void monitorItemEditing(bool enable);
 
 private slots:
     void slotClipSelected();
@@ -304,7 +312,7 @@ private slots:
 
 signals:
     void clipSelected(DocClipBase *, QPoint zone = QPoint());
-    void getFileProperties(const QDomElement, const QString &, int pixHeight, bool);
+    void getFileProperties(const QDomElement, const QString &, int pixHeight, bool, bool);
     void receivedClipDuration(const QString &);
     void showClipProperties(DocClipBase *);
     void showClipProperties(QList <DocClipBase *>, QMap<QString, QString> commonproperties);
@@ -322,6 +330,7 @@ signals:
     void findInTimeline(const QString &clipId);
     /** @brief Request a profile change for current document. */
     void updateProfile(const QString &);
+    void processNextThumbnail();
 };
 
 #endif

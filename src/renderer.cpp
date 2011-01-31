@@ -520,7 +520,7 @@ void Render::slotSplitView(bool doit)
     }
 }
 
-void Render::getFileProperties(const QDomElement xml, const QString &clipId, int imageHeight, bool replaceProducer)
+void Render::getFileProperties(const QDomElement xml, const QString &clipId, int imageHeight, bool replaceProducer, bool selectClip)
 {
     QString path;
     if (xml.hasAttribute("proxy")) path = xml.attribute("proxy");
@@ -623,7 +623,7 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
 
     if (!replaceProducer && xml.hasAttribute("file_hash")) {
         // Clip  already has all properties
-        emit replyGetFileProperties(clipId, producer, QMap < QString, QString >(), QMap < QString, QString >(), replaceProducer);
+        emit replyGetFileProperties(clipId, producer, QMap < QString, QString >(), QMap < QString, QString >(), replaceProducer, selectClip);
         return;
     }
 
@@ -799,7 +799,7 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
             metadataPropertyMap[ name.section('.', 0, -2)] = value;
     }
     producer->seek(0);
-    emit replyGetFileProperties(clipId, producer, filePropertyMap, metadataPropertyMap, replaceProducer);
+    emit replyGetFileProperties(clipId, producer, filePropertyMap, metadataPropertyMap, replaceProducer, selectClip);
     // FIXME: should delete this to avoid a leak...
     //delete producer;
 }
