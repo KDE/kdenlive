@@ -2054,11 +2054,14 @@ void ProjectList::slotProxyCurrentItem(bool doProxy)
                 }
                 else if (!item->referencedClip()->getProperty("proxy").isEmpty()) {
                     // remove proxy
-                    item->referencedClip()->clearProperty("proxy");
-                    QDomElement e = item->toXml().cloneNode().toElement();
-                    e.removeAttribute("file_hash");
-                    e.setAttribute("replace", 1);
-                    m_infoQueue.insert(item->clipId(), e);
+                    if (!item->isProxyRunning()) {
+                        setProxyStatus(item, 0);
+                        QDomElement e = item->toXml().cloneNode().toElement();
+                        e.removeAttribute("file_hash");
+                        e.setAttribute("replace", 1);
+                        m_infoQueue.insert(item->clipId(), e);
+                    }
+                    else setProxyStatus(item, 0);
                 }
             }
         }

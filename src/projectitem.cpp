@@ -241,10 +241,19 @@ void ProjectItem::setProperties(const QMap < QString, QString > &attributes, con
 
 void ProjectItem::setProxyStatus(int status)
 {
+    if (status == data(0, ProxyRole).toInt()) return;
     setData(0, ProxyRole, status);
+    if (m_clip && status == 0) m_clip->abortProxy();
 }
 
 bool ProjectItem::hasProxy() const
 {
-    return data(0, ProxyRole).toInt() == 2;
+    if (m_clip == NULL) return false;
+    return !m_clip->getProperty("proxy").isEmpty();
 }
+
+bool ProjectItem::isProxyRunning() const
+{
+     return (data(0, ProxyRole).toInt() == 1);
+}
+

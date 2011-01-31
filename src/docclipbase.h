@@ -206,6 +206,8 @@ Q_OBJECT public:
     void setPlaceHolder(bool place);
     /** @brief Generate a proxy clip (lower resolution copy) named like the clip's hash. */
     void generateProxy(KUrl proxyFolder);
+    /** @brief Abort creation of the proxy clip (lower resolution copy). */
+    void abortProxy();
 
 private:   // Private attributes
 
@@ -235,14 +237,16 @@ private:   // Private attributes
     bool m_placeHolder;
 
     QList <CutZoneInfo> m_cutZones;
-    
-    QFuture<void> m_proxyThread;
 
     void setAudioThumbCreated(bool isDone);
     /** Holds clip infos like fps, size,... */
     QMap <QString, QString> m_properties;
     /** Holds clip metadata like author, copyright,... */
     QMap <QString, QString> m_metadata;
+
+    QFuture<void> m_proxyThread;
+    /** Used to kill the proxy thread */
+    bool m_abortProxy;
     /** Create connections for audio thumbnails */
     void slotCreateAudioTimer();
     void slotRefreshProducer();

@@ -65,8 +65,10 @@ public:
     void slotSetToolTip();
     /** \brief Set the status of proxy clip creation. 0 = no proxy, 1 = creating proxy, 2 = proxy created. */
     void setProxyStatus(int status);
-    /** \brief Returns the proxy status for this clip (true means there is a proxy clip. */
+    /** \brief Returns the proxy status for this clip (true means there is a proxy clip). */
     bool hasProxy() const;
+    /** \brief Returns true if we are currently creating the proxy for this clip. */
+    bool isProxyRunning() const;
 
     virtual bool operator<(const QTreeWidgetItem &other)const {
         int column = treeWidget()->sortColumn();

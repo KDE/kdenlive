@@ -53,7 +53,8 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QStrin
         m_audioThumbCreated(false),
         m_id(id),
         m_placeHolder(xml.hasAttribute("placeholder")),
-        m_properties()
+        m_properties(),
+        m_abortProxy(false)
 {
     int type = xml.attribute("type").toInt();
     m_clipType = (CLIPTYPE) type;
@@ -1106,10 +1107,39 @@ void DocClipBase::generateProxy(KUrl proxyFolder)
 
 void DocClipBase::slotGenerateProxy(QStringList parameters)
 {
-    int result = QProcess::execute("ffmpeg", parameters);
+    QProcess myProcess;
+    myProcess.start("ffmpeg", parameters);
+    myProcess.waitForStarted();
+    int result = -1;
+    while (myProcess.state() != QProcess::NotRunning) {
+        // building proxy file
+        if (m_abortProxy) {
+            QString path = getProperty("proxy");
+            myProcess.close();
+            myProcess.waitForFinished();
+            QFile::remove(path);
+            m_abortProxy = false;
+            result = 1;
+        }
+        myProcess.waitForFinished(500);
+    }
+    myProcess.waitForFinished();
+    if (result == -1) result = myProcess.exitStatus();
     if (result == 0) emit proxyReady(m_id, true);
     else {
-        resetProducerProperty("proxy");
+        clearProperty("proxy");
+        emit proxyReady(m_id, false);
+    }
+}
+
+void DocClipBase::abortProxy()
+{
+    if (m_proxyThread.isRunning()) {
+        // Proxy is being created, abort
+        m_abortProxy = true;
+    }
+    else {
+        clearProperty("proxy");
         emit proxyReady(m_id, false);
     }
 }
