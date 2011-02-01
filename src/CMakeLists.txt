@@ -7,9 +7,9 @@ add_subdirectory(rotoscoping)
 add_subdirectory(widgets)
 
 macro_optional_find_package(Nepomuk)
+macro_optional_find_package(QJSON)
 include(FindQImageBlitz)
 
-find_package(QJSON)
 
 include_directories(
   ${KDE4_INCLUDE_DIR}
@@ -17,7 +17,6 @@ include_directories(
   ${QT_INCLUDES}
   ${LIBMLT_INCLUDE_DIR}
   ${LIBMLTPLUS_INCLUDE_DIR}
-  ${QJSON_INCLUDE_DIR}
   ${QDBUS_INCLUDE_DIRS}
   ${CMAKE_SOURCE_DIR}
   ${CMAKE_BINARY_DIR}
@@ -45,6 +44,14 @@ if(QIMAGEBLITZ_FOUND)
 else(QIMAGEBLITZ_FOUND)
   message(STATUS "Install QImageBlitz devel package for improved stopmotion features")
 endif(QIMAGEBLITZ_FOUND)
+
+if(QJSON_FOUND)
+  include_directories(QJSON_INCLUDE_DIR)
+  set(optional_libs ${optional_libs} ${QJSON_LIBRARIES})
+  add_definitions(-DQJSON)
+else(QJSON_FOUND)
+  message(STATUS "Install QJson to use the rotoscoping filter")
+endif(QJSON_FOUND)
 
 if(Q_WS_X11)
   include_directories(${X11_Xlib_INCLUDE_PATH})
@@ -261,9 +268,6 @@ set(kdenlive_SRCS
   blackmagic/devices.cpp
   onmonitoritems/onmonitorrectitem.cpp
   onmonitoritems/onmonitorcornersitem.cpp
-  onmonitoritems/rotoscoping/bpointitem.cpp
-  onmonitoritems/rotoscoping/nearestpoint.cpp
-  onmonitoritems/rotoscoping/splineitem.cpp
   cornerswidget.cpp
   kiss_fft/_kiss_fft_guts.h
   kiss_fft/kiss_fft.c
@@ -274,7 +278,6 @@ set(kdenlive_SRCS
   beziercurve/cubicbezierspline.cpp
   dragvalue.cpp
   monitoreditwidget.cpp
-  rotoscoping/rotowidget.cpp
 )
 
 add_definitions(${KDE4_DEFINITIONS})
@@ -305,6 +308,16 @@ if(NOT APPLE AND NOT CMAKE_SYSTEM_NAME STREQUAL "FreeBSD")
   )
 endif(NOT APPLE AND NOT CMAKE_SYSTEM_NAME STREQUAL "FreeBSD")
 
+if(QJSON_FOUND)
+  set(kdenlive_SRCS
+    ${kdenlive_SRCS}
+    onmonitoritems/rotoscoping/bpointitem.cpp
+    onmonitoritems/rotoscoping/nearestpoint.cpp
+    onmonitoritems/rotoscoping/splineitem.cpp
+    rotoscoping/rotowidget.cpp
+  )
+endif(QJSON_FOUND)
+
 # Add libdl
 find_library(DL_LIB NAMES ${CMAKE_DL_LIBS})
 message(STATUS "using dl library: ${DL_LIB}")
@@ -330,7 +343,6 @@ target_link_libraries(kdenlive
   ${KDE4_KROSSUI_LIBS}
   ${CMAKE_DL_LIBS}
   ${CMAKE_THREAD_LIBS_INIT}
-  ${QJSON_LIBRARIES}
 )
 
 if(Q_WS_X11)
