@@ -111,7 +111,7 @@ void SplineItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
         QRectF r(event->scenePos() - QPointF(6, 6), QSizeF(12, 12));
         if (path().intersects(r) && !path().contains(r)) {
             double t = 0;
-            BPointItem *i, *i1, *i2;
+            BPointItem *i1, *i2;
             BPoint p, p1, p2;
             int ix = getClosestPointOnCurve(event->scenePos(), &t);
             i1 = qgraphicsitem_cast<BPointItem *>(childItems().at(ix));
@@ -124,11 +124,27 @@ void SplineItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
             i1->setPoint(p1);
             i2->setPoint(p2);
 
-            i = new BPointItem(p, this);
-            // TODO: make it work with Qt < 4.6
 #if QT_VERSION >= 0x040600
+            BPointItem *i = new BPointItem(p, this);
             i->stackBefore(i2);
+#else
+            QList <BPoint> points;
+            BPointItem *item;
+            while (childItems().count()) {
+                item = qgraphicsitem_cast<BPointItem *>(childItems().takeFirst());
+                points.append(item->getPoint());
+                delete item;
+            }
+            int j = 0;
+            for ( ; j < points.count(); ++j) {
+                if (j == ix + 1)
+                    new BPointItem(p, this);
+                new BPointItem(points.at(j), this);
+            }
+            if (j == ix + 1)
+                new BPointItem(p, this);
 #endif
+
         }
     }
 }
