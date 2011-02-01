@@ -38,6 +38,8 @@ public:
     void updateSpline();
     QList <BPoint> getPoints();
 
+    void removeChild(QGraphicsItem *child);
+
 protected:
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event);

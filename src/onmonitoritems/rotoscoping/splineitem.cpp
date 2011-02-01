@@ -103,6 +103,15 @@ QList <BPoint> SplineItem::getPoints()
     return points;
 }
 
+void SplineItem::removeChild(QGraphicsItem* child)
+{
+    if (childItems().count() > 2) {
+        scene()->removeItem(child);
+        delete child;
+        updateSpline();
+    }
+}
+
 void SplineItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
     QGraphicsItem::mousePressEvent(event);

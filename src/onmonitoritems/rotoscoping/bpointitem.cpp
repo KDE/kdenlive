@@ -123,6 +123,13 @@ void BPointItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
         event->ignore();
         setSelected(false);
     } else {
+        if (event->button() == Qt::RightButton && m_selection == 1) {
+            SplineItem *parent = qgraphicsitem_cast<SplineItem*>(parentItem());
+            if (parent) {
+                parent->removeChild(this);
+                return;
+            }
+        }
         setSelected(true);
     }
 }
