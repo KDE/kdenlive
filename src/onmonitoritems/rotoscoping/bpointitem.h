@@ -30,6 +30,7 @@ public:
     BPointItem(BPoint point, QGraphicsItem* parent = 0);
 
     BPoint getPoint();
+    void setPoint(BPoint point);
 
     enum { Type = UserType + 11 };
     virtual int type() const;

@@ -261,8 +261,9 @@ set(kdenlive_SRCS
   blackmagic/devices.cpp
   onmonitoritems/onmonitorrectitem.cpp
   onmonitoritems/onmonitorcornersitem.cpp
-  onmonitoritems/rotoscoping/splineitem.cpp
   onmonitoritems/rotoscoping/bpointitem.cpp
+  onmonitoritems/rotoscoping/nearestpoint.cpp
+  onmonitoritems/rotoscoping/splineitem.cpp
   cornerswidget.cpp
   kiss_fft/_kiss_fft_guts.h
   kiss_fft/kiss_fft.c

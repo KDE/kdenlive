@@ -48,6 +48,15 @@ BPoint BPointItem::getPoint()
     return BPoint(mapToScene(m_point.h1), mapToScene(m_point.p), mapToScene(m_point.h2));
 }
 
+void BPointItem::setPoint(BPoint point)
+{
+    setPos(point.p);
+    prepareGeometryChange();
+    m_point.h1 = mapFromScene(point.h1);
+    m_point.p = mapFromScene(point.p);
+    m_point.h2 = mapFromScene(point.h2);
+}
+
 int BPointItem::type() const
 {
     return Type;
@@ -96,10 +105,10 @@ int BPointItem::getSelection(QPointF pos)
     QPainterPath mouseArea;
     mouseArea.addRect(pos.x() - 6, pos.y() - 6, 12, 12);
 
-    if (mouseArea.contains(m_point.p))
-        return 1;
-    else if (mouseArea.contains(m_point.h1))
+    if (mouseArea.contains(m_point.h1))
         return 0;
+    else if (mouseArea.contains(m_point.p))
+        return 1;
     else if (mouseArea.contains(m_point.h2))
         return 2;
 
