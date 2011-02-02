@@ -54,7 +54,7 @@ RotoWidget::RotoWidget(QString data, Monitor *monitor, int in, int out, QWidget*
         QList <QVariant> l = bpoint.toList();
         BPoint p;
         p.h1 = QPointF(l.at(0).toList().at(0).toDouble() * width, l.at(0).toList().at(1).toDouble() * height);
-        p.p = QPointF(l.at(1).toList().at(0).toDouble() * width, l.at(2).toList().at(1).toDouble() * height);
+        p.p = QPointF(l.at(1).toList().at(0).toDouble() * width, l.at(1).toList().at(1).toDouble() * height);
         p.h2 = QPointF(l.at(2).toList().at(0).toDouble() * width, l.at(2).toList().at(1).toDouble() * height);
         points << p;
     }
