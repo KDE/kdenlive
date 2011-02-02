@@ -156,6 +156,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     if (!KdenliveSettings::colortheme().isEmpty()) slotChangePalette(NULL, KdenliveSettings::colortheme());
     setFont(KGlobalSettings::toolBarFont());
     parseProfiles(MltPath);
+    KdenliveSettings::setCurrent_profile(KdenliveSettings::default_profile());
     m_commandStack = new QUndoGroup;
     setDockNestingEnabled(true);
     m_timelineArea = new KTabWidget(this);
@@ -373,7 +374,6 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     setCentralWidget(m_timelineArea);
 
 
-    KdenliveSettings::setCurrent_profile(KdenliveSettings::default_profile());
     m_fileOpenRecent = KStandardAction::openRecent(this, SLOT(openFile(const KUrl &)), actionCollection());
     readOptions();
     m_fileRevert = KStandardAction::revert(this, SLOT(slotRevert()), actionCollection());

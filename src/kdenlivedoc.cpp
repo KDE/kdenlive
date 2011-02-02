@@ -726,7 +726,7 @@ bool KdenliveDoc::setProfilePath(QString path)
     if (path.isEmpty()) path = KdenliveSettings::default_profile();
     if (path.isEmpty()) path = "dv_pal";
     m_profile = ProfilesDialog::getVideoProfile(path);
-    bool current_fps = m_fps;
+    double current_fps = m_fps;
     if (m_profile.path.isEmpty()) {
         // Profile not found, use embedded profile
         QDomElement profileInfo = m_document.elementsByTagName("profileinfo").at(0).toElement();
