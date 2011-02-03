@@ -60,8 +60,12 @@ SplineItem::SplineItem(const QList< BPoint >& points, QGraphicsItem* parent, QGr
     setBrush(Qt::NoBrush);
     setAcceptHoverEvents(true);
 
-    if (points.isEmpty())
+    m_closed = true;
+    if (points.isEmpty()) {
+        m_closed = false;
+        grabMouse();
         return;
+    }
 
     QPainterPath path(points.at(0).p);
     int j;
@@ -84,7 +88,7 @@ void SplineItem::updateSpline()
 
     BPoint p1, p2;
     int j;
-    for (int i = 0; i < childItems().count(); ++i) {
+    for (int i = 0; i < childItems().count() - !m_closed; ++i) {
         j = (i + 1) % childItems().count();
         p1 = qgraphicsitem_cast<BPointItem *>(childItems().at(i))->getPoint();
         p2 = qgraphicsitem_cast<BPointItem *>(childItems().at(j))->getPoint();
@@ -92,7 +96,8 @@ void SplineItem::updateSpline()
     }
     setPath(path);
 
-    emit changed();
+    if (m_closed)
+        emit changed();
 }
 
 QList <BPoint> SplineItem::getPoints()
@@ -114,11 +119,15 @@ void SplineItem::removeChild(QGraphicsItem* child)
 
 void SplineItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
+    event->setAccepted(m_closed);
     QGraphicsItem::mousePressEvent(event);
 
-    if (!event->isAccepted()) {
+    if (event->isAccepted())
+        return;
+
+    if (m_closed) {
         QRectF r(event->scenePos() - QPointF(6, 6), QSizeF(12, 12));
-        if (path().intersects(r) && !path().contains(r)) {
+        if (event->button() == Qt::LeftButton && path().intersects(r) && !path().contains(r)) {
             double t = 0;
             BPointItem *i1, *i2;
             BPoint p, p1, p2;
@@ -153,7 +162,36 @@ void SplineItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
             if (j == ix + 1)
                 new BPointItem(p, this);
 #endif
-
+            updateSpline();
+        }
+    } else {
+        if (event->button() == Qt::RightButton) {
+            if (childItems().count() > 1) {
+                // close the spline
+                BPointItem *i1 = qgraphicsitem_cast<BPointItem *>(childItems().first());
+                BPointItem *i2 = qgraphicsitem_cast<BPointItem *>(childItems().last());
+                BPoint p1 = i1->getPoint();
+                BPoint p2 = i2->getPoint();
+                p1.h1 = QLineF(p1.p, p2.p).pointAt(.2);
+                p2.h2 = QLineF(p1.p, p2.p).pointAt(.8);
+                i1->setPoint(p1);
+                i2->setPoint(p2);
+                m_closed = true;
+                ungrabMouse();
+                updateSpline();
+            }
+        } else if (event->modifiers() == Qt::NoModifier) {
+            BPoint p;
+            p.p = p.h1 = p.h2 = event->scenePos();
+            if (childItems().count()) {
+                BPointItem *i = qgraphicsitem_cast<BPointItem *>(childItems().last());
+                BPoint prev = i->getPoint();
+                prev.h2 = QLineF(prev.p, p.p).pointAt(.2);
+                p.h1 = QLineF(prev.p, p.p).pointAt(.8);
+                i->setPoint(prev);
+            }
+            new BPointItem(p, this);
+            updateSpline();
         }
     }
 }

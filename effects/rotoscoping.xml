@@ -22,7 +22,7 @@
             <name>Precision</name>
         </parameter>
 
-        <parameter type="roto-spline" name="spline" default="[[[0,1],[0,0],[1,0]],[[1,0],[1,1],[0,1]]]"> <!-- TODO: set default to "" -->
+        <parameter type="roto-spline" name="spline" default="">
             <name>Rotoscopy Spline</name>
         </parameter>
 </effect>

@@ -49,6 +49,8 @@ protected:
 private:
     int getClosestPointOnCurve(QPointF point, double *tFinal);
 
+    bool m_closed;
+
 signals:
     void changed();
 };
