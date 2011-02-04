@@ -49,7 +49,7 @@
 
         <parameter type="simplekeyframe" name="saturation" default="100" min="0" max="500" factor="100" intimeline="1">
                 <name>Overall Saturation</name>
-                <comment>The overall saturation will be changed after all previous effects have been applied.</comment>
+                <comment>The overall saturation will be changed in the last step of this filter.</comment>
         </parameter>
 
 </effect>

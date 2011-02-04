@@ -17,7 +17,7 @@
         </parameter>
         <parameter type="simplekeyframe" name="thresholdDiffSum" default="0" min="0" max="765" factor="1">
             <name>Difference Sum Threshold</name>
-            <comment><![CDATA[How much does the sum of all color channels <em>relative to the background image</em> (<code>dR + dG + dB</code>) have to change until a pixel is recognized as a light source?.<br/>
+            <comment><![CDATA[How much does the sum of all color channels <em>relative to the background image</em> (<code>dR + dG + dB</code>) have to change until a pixel is recognized as a light source?<br/>
             Raising this value might, in some cases, avoid that some light objects lit by the light source are added to the light mask.]]></comment>
         </parameter>
         <parameter type="simplekeyframe" name="sensitivity" default="100" min="0" max="500" factor="100">
@@ -28,7 +28,7 @@
         <parameter type="simplekeyframe" name="lowerOverexposure" default="0" min="0" max="10" factor="1">
             <name>Lower Overexposure</name>
             <comment><![CDATA[Lowers overexposure.<br/>
-            The light mask does not get white immediately when moving slower or staying steady.]]></comment>
+            The light mask does not get white immediately when the light source is moving slowly or staying steady.]]></comment>
         </parameter>
         <parameter type="simplekeyframe" name="dim" default="0" min="0" max="255" factor="255">
             <name>Dimming</name>
@@ -41,7 +41,7 @@
         <parameter type="simplekeyframe" name="longAlpha" default="0" min="0" max="256" factor="256">
             <name>α</name>
             <comment><![CDATA[Determines how the effect tries to adapt to background changes. <br/>
-            The Light Graffiti remembers the first frame of the clip it is applied to, so the clip should <em>always</em> start with the painter outside of the video. If the background constantly changes, e.g. on a street, try to set α > 0 to calculate an average background image.]]></comment>
+            The Light Graffiti effect remembers the first frame of the clip it is applied to, so the clip should <em>always</em> start with the painter outside of the video. If the background constantly changes, e.g. on a street, try to set α > 0 to calculate an average background image.]]></comment>
         </parameter>
         <parameter type="simplekeyframe" name="saturation" default="150" min="0" max="400" factor="100">
             <name>Saturation</name>

@@ -4,49 +4,49 @@
         <description>LADSPA equalizer audio effect (15 band)</description>
         <author>http://www.ladspa.org</author>
         <parameter type="constant" name="1" max="12" min="-70" default="0">
-                <name>50Hz</name>
+                <name>50 Hz</name>
         </parameter>
         <parameter type="constant" name="2" max="12" min="-70" default="0">
-                <name>100Hz</name>
+                <name>100 Hz</name>
         </parameter>
         <parameter type="constant" name="3" max="12" min="-70" default="0">
-                <name>156Hz</name>
+                <name>156 Hz</name>
         </parameter>
         <parameter type="constant" name="4" max="12" min="-70" default="0">
-                <name>220Hz</name>
+                <name>220 Hz</name>
         </parameter>
         <parameter type="constant" name="5" max="12" min="-70" default="0">
-                <name>311Hz</name>
+                <name>311 Hz</name>
         </parameter>
         <parameter type="constant" name="6" max="12" min="-70" default="0">
-                <name>440Hz</name>
+                <name>440 Hz</name>
         </parameter>
         <parameter type="constant" name="7" max="12" min="-70" default="0">
-                <name>622Hz</name>
+                <name>622 Hz</name>
         </parameter>
         <parameter type="constant" name="8" max="12" min="-70" default="0">
-                <name>880Hz</name>
+                <name>880 Hz</name>
         </parameter>
         <parameter type="constant" name="9" max="12" min="-70" default="0">
-                <name>1250Hz</name>
+                <name>1250 Hz</name>
         </parameter>
         <parameter type="constant" name="10" max="12" min="-70" default="0">
-                <name>1750Hz</name>
+                <name>1750 Hz</name>
         </parameter>
         <parameter type="constant" name="11" max="12" min="-70" default="0">
-                <name>2500Hz</name>
+                <name>2500 Hz</name>
         </parameter>
         <parameter type="constant" name="12" max="12" min="-70" default="0">
-                <name>3500Hz</name>
+                <name>3500 Hz</name>
         </parameter>
         <parameter type="constant" name="13" max="12" min="-70" default="0">
-                <name>5000Hz</name>
+                <name>5000 Hz</name>
         </parameter>
         <parameter type="constant" name="14" max="12" min="-70" default="0">
-                <name>10000Hz</name>
+                <name>10000 Hz</name>
         </parameter>
         <parameter type="constant" name="15" max="12" min="-70" default="0">
-                <name>20000Hz</name>
+                <name>20000 Hz</name>
         </parameter>
         
 </effect>
