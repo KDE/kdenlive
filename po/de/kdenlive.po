@@ -6203,6 +6203,7 @@ msgstr ""
 "jede 8. oder 9. Linie eine Stufe auf, vermutlich aufgrund von schlechtem "
 "Downsampling. Die Stufen können mit diesem Filter geglättet werden, falls "
 "sie störend werden.]]></full>\n"
+"        "
 
 #: src/editfoldercommand.cpp:34
 msgid "Rename folder"
