@@ -49,6 +49,9 @@
 #include <QCheckBox>
 #include <QScrollArea>
 
+// For QDomNode debugging (output into files); leaving here as sample code.
+//#define DEBUG_ESE
+
 
 class Boolval: public QWidget, public Ui::Boolval_UI
 {
@@ -192,6 +195,19 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
     }
 
     QDomNodeList namenode = m_params.elementsByTagName("parameter");
+#ifdef DEBUG_ESE
+    QFile debugFile("/tmp/namenodes.txt");
+    if (debugFile.open(QFile::WriteOnly | QFile::Truncate)) {
+        QTextStream out(&debugFile);
+        QTextStream out2(stdout);
+        for (int i = 0; i < namenode.size(); i++) {
+            out << i << ": \n";
+            namenode.at(i).save(out, 2);
+            out2 << i << ": \n";
+            namenode.at(i).save(out2, 2);
+        }
+    }
+#endif
     QDomElement e = m_params.toElement();
     const int minFrame = e.attribute("start").toInt();
     const int maxFrame = e.attribute("end").toInt();

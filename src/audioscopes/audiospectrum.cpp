@@ -167,7 +167,6 @@ QImage AudioSpectrum::renderAudioScope(uint, const QVector<int16_t> audioFrame, 
 
 
 #ifdef DETECT_OVERMODULATION
-        // TODO Color: 1 if currently overmodulated, max 0.8 else
         bool overmodulated = false;
         int overmodulateCount = 0;
 

@@ -718,8 +718,12 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
         //kDebug() << "+ + CLIP EFF FND: " << effecttag << ", " << effectid << ", " << effectindex;
         // get effect standard tags
         QDomElement clipeffect = MainWindow::customEffects.getEffectByTag(QString(), effectid);
-        if (clipeffect.isNull()) clipeffect = MainWindow::videoEffects.getEffectByTag(effecttag, effectid);
-        if (clipeffect.isNull()) clipeffect = MainWindow::audioEffects.getEffectByTag(effecttag, effectid);
+        if (clipeffect.isNull()) {
+            clipeffect = MainWindow::videoEffects.getEffectByTag(effecttag, effectid);
+        }
+        if (clipeffect.isNull()) {
+            clipeffect = MainWindow::audioEffects.getEffectByTag(effecttag, effectid);
+        }
         if (clipeffect.isNull()) {
             kDebug() << "///  WARNING, EFFECT: " << effecttag << ": " << effectid << " not found, removing it from project";
             m_documentErrors.append(i18n("Effect %1:%2 not found in MLT, it was removed from this project\n", effecttag, effectid));
@@ -828,22 +832,24 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
                 for (int k = 0; k < clipeffectparams.count(); k++) {
                     e = clipeffectparams.item(k).toElement();
                     if (!e.isNull() && e.tagName() == "parameter" && e.attribute("name") == paramname) {
-                        if (e.attribute("factor", "1") != "1") {
-                            QString factor = e.attribute("factor", "1");
-                            double fact;
-                            if (factor.startsWith('%')) {
-                                fact = ProfilesDialog::getStringEval(m_doc->mltProfile(), factor);
-                            } else fact = factor.toDouble();
-                            if (e.attribute("type") == "simplekeyframe") {
-                                QStringList kfrs = paramvalue.split(";");
-                                for (int l = 0; l < kfrs.count(); l++) {
-                                    QString fr = kfrs.at(l).section('=', 0, 0);
-                                    double val = kfrs.at(l).section('=', 1, 1).toDouble();
-                                    kfrs[l] = fr + ":" + QString::number((int)(val * fact));
-                                }
-                                e.setAttribute("keyframes", kfrs.join(";"));
-                            } else e.setAttribute("value", paramvalue.toDouble() * fact);
-                        } else e.setAttribute("value", paramvalue);
+                        QString factor = e.attribute("factor", "1");
+                        double fact;
+                        if (factor.startsWith('%')) {
+                            fact = ProfilesDialog::getStringEval(m_doc->mltProfile(), factor);
+                        } else {
+                            fact = factor.toDouble();
+                        }
+                        if (e.attribute("type") == "simplekeyframe") {
+                            QStringList kfrs = paramvalue.split(";");
+                            for (int l = 0; l < kfrs.count(); l++) {
+                                QString fr = kfrs.at(l).section('=', 0, 0);
+                                double val = kfrs.at(l).section('=', 1, 1).toDouble();
+                                kfrs[l] = fr + ":" + QString::number((int)(val * fact));
+                            }
+                            e.setAttribute("keyframes", kfrs.join(";"));
+                        } else {
+                            e.setAttribute("value", paramvalue.toDouble() * fact);
+                        }
                         break;
                     }
                 }
