@@ -322,7 +322,7 @@ void CustomLabel::mouseReleaseEvent(QMouseEvent* e)
         e->accept();
     }
     else {
-        setNewValue((int) (minimum() + ((double)maximum() - minimum()) / width() * e->pos().x()), KdenliveSettings::dragvalue_directupdate());
+        setNewValue((int) (minimum() + ((double)maximum() - minimum()) / width() * e->pos().x()), true);
         m_dragLastPosition = m_dragStartPosition;
         e->accept();
     }
