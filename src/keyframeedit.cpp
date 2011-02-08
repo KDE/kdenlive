@@ -24,8 +24,6 @@
 #include <KGlobalSettings>
 
 #include <QHeaderView>
-#include <QButtonGroup>
-#include <QRadioButton>
 
 KeyframeEdit::KeyframeEdit(QDomElement e, int minFrame, int maxFrame, Timecode tc, int activeKeyframe, QWidget* parent) :
         QWidget(parent),
@@ -55,8 +53,11 @@ KeyframeEdit::KeyframeEdit(QDomElement e, int minFrame, int maxFrame, Timecode t
     m_position = new PositionEdit(i18n("Position"), 0, 0, 1, tc, widgetTable);
     ((QGridLayout*)widgetTable->layout())->addWidget(m_position, 3, 0, 1, -1);
 
-    m_showButtons = new QButtonGroup(this);
     m_slidersLayout = new QGridLayout(param_sliders);
+    //m_slidersLayout->setSpacing(0);
+    
+    m_slidersLayout->setContentsMargins(0, 0, 0, 0);
+    m_slidersLayout->setVerticalSpacing(2);
     keyframe_list->setSelectionBehavior(QAbstractItemView::SelectRows);
     keyframe_list->setSelectionMode(QAbstractItemView::SingleSelection);
     addParameter(e, activeKeyframe);
@@ -68,7 +69,6 @@ KeyframeEdit::KeyframeEdit(QDomElement e, int minFrame, int maxFrame, Timecode t
     connect(buttonKeyframes, SIGNAL(clicked()), this, SLOT(slotKeyframeMode()));
     connect(buttonResetKeyframe, SIGNAL(clicked()), this, SLOT(slotResetKeyframe()));
     connect(m_position, SIGNAL(parameterChanged(int)), this, SLOT(slotAdjustKeyframePos(int)));
-    connect(m_showButtons, SIGNAL(buttonClicked(int)), this, SLOT(slotUpdateVisibleParameter(int)));
 
     //connect(keyframe_list, SIGNAL(itemDoubleClicked(QTreeWidgetItem *, int)), this, SLOT(slotSaveCurrentParam(QTreeWidgetItem *, int)));
 
@@ -110,27 +110,21 @@ void KeyframeEdit::addParameter(QDomElement e, int activeKeyframe)
     QString comment;
     if (!commentElem.isNull())
         comment = i18n(commentElem.text().toUtf8().data());
-
+    
     int columnId = keyframe_list->columnCount();
     keyframe_list->insertColumn(columnId);
     keyframe_list->setHorizontalHeaderItem(columnId, new QTableWidgetItem(paramName));
 
     DoubleParameterWidget *doubleparam = new DoubleParameterWidget(paramName, 0,
             m_params.at(columnId).attribute("min").toInt(), m_params.at(columnId).attribute("max").toInt(),
-            m_params.at(columnId).attribute("default").toInt(), comment, m_params.at(columnId).attribute("suffix"), this);
+            m_params.at(columnId).attribute("default").toInt(), comment, columnId, m_params.at(columnId).attribute("suffix"), this);
     connect(doubleparam, SIGNAL(valueChanged(int)), this, SLOT(slotAdjustKeyframeValue(int)));
     connect(this, SIGNAL(showComments(bool)), doubleparam, SLOT(slotShowComment(bool)));
+    connect(doubleparam, SIGNAL(setInTimeline(int)), this, SLOT(slotUpdateVisibleParameter(int)));
     m_slidersLayout->addWidget(doubleparam, columnId, 0);
-
-    QRadioButton *radio = new QRadioButton(this);
-    radio->setToolTip(i18n("Show %1 in timeline").arg(paramName));
-    m_showButtons->addButton(radio, columnId);
-    if (e.attribute("intimeline") == "1")
-        radio->setChecked(true);
-
-    QVBoxLayout *radioLayout = new QVBoxLayout;
-    radioLayout->addWidget(radio, 0, Qt::AlignTop);
-    m_slidersLayout->addLayout(radioLayout, columnId, 1);
+    if (e.attribute("intimeline") == "1") {
+        doubleparam->setInTimelineProperty(true);
+    }
 
     QStringList frames = e.attribute("keyframes").split(";", QString::SkipEmptyParts);
     for (int i = 0; i < frames.count(); i++) {
@@ -438,8 +432,17 @@ void KeyframeEdit::slotResetKeyframe()
 
 void KeyframeEdit::slotUpdateVisibleParameter(int id, bool update)
 {
-    for (int i = 0; i < m_params.count(); ++i)
-        m_params[i].setAttribute("intimeline", (i == id ? "1" : "0"));
+    for (int i = 0; i < m_params.count(); ++i) {
+        m_params[i].setAttribute("intimeline", (i == id ? "1" : "0"));        
+    }
+    for (int col = 0; col < keyframe_list->columnCount(); col++) {
+        DoubleParameterWidget *doubleparam = static_cast <DoubleParameterWidget*>(m_slidersLayout->itemAtPosition(col, 0)->widget());
+        if (!doubleparam)
+            continue;
+        doubleparam->setInTimelineProperty(col == id);
+        //kDebug()<<"// PARAM: "<<col<<" Set TO: "<<(bool) (col == id);
+        
+    }
     if (update) emit parameterChanged();
 }
 
@@ -458,16 +461,13 @@ void KeyframeEdit::checkVisibleParam()
 {
     if (m_params.count() == 0)
         return;
-
+    
     foreach(QDomElement elem, m_params) {
         if (elem.attribute("intimeline") == "1")
             return;
     }
 
     slotUpdateVisibleParameter(0);
-    QRadioButton *radio = static_cast<QRadioButton*>(m_slidersLayout->itemAtPosition(0, 1)->layout()->itemAt(0)->widget());
-    if (radio)
-        radio->setChecked(true);
 }
 
 #include "keyframeedit.moc"

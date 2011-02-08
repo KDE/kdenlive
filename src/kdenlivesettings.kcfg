@@ -522,6 +522,10 @@
            <label>...</label>
            <default>false</default>
        </entry>
+       <entry name="dragvalue_mode" type="Int">
+           <label>...</label>
+           <default>0</default>
+       </entry>
        <entry name="dragvalue_directupdate" type="Bool">
            <label>...</label>
            <default>false</default>

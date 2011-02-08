@@ -42,6 +42,7 @@
 #include <KDebug>
 #include <KLocale>
 #include <KFileDialog>
+#include <KColorScheme>
 
 #include <QVBoxLayout>
 #include <QLabel>
@@ -84,13 +85,23 @@ EffectStackEdit::EffectStackEdit(Monitor *monitor, QWidget *parent) :
     setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     setFrameStyle(QFrame::NoFrame);
     setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::MinimumExpanding));
-
+    
+    QPalette p = palette();
+    KColorScheme scheme(p.currentColorGroup(), KColorScheme::View, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
+    QColor dark_bg = scheme.shade(KColorScheme::DarkShade);
+    QColor selected_bg = scheme.decoration(KColorScheme::FocusColor).color();
+    QColor hover_bg = scheme.decoration(KColorScheme::HoverColor).color();    
+    QColor light_bg = scheme.shade(KColorScheme::LightShade);
+    QColor mid_bg = scheme.shade(KColorScheme::DarkShade);
+    
+    QString stylesheet(QString("QProgressBar:horizontal {border: 1px solid %5;border-radius:0px;border-top-left-radius: 4px;border-bottom-left-radius: 4px;border-right: 0px;background:%4;padding: 0px;text-align:left center} QProgressBar:horizontal:hover {border: 1px solid %3;border-right: 0px;} QProgressBar::chunk:horizontal {background: %5;} QProgressBar::chunk:horizontal:hover {background: %3;} QProgressBar:horizontal[inTimeline=\"true\"] { border: 1px solid %2;border-right: 0px;background: %4;padding: 0px;text-align:left center } QProgressBar::chunk:horizontal[inTimeline=\"true\"] {background: %2;} QSpinBox {border: 1px solid %1;border-top-right-radius: 4px;border-bottom-right-radius: 4px;padding-right:0px;} QSpinBox::down-button {width:0px;padding:0px;} QSpinBox::up-button {width:0px;padding:0px;} QSpinBox[inTimeline=\"true\"]{ border: 1px solid %2;} QSpinBox:hover {border: 1px solid %3;} ").arg(dark_bg.name()).arg(selected_bg.name()).arg(hover_bg.name()).arg(light_bg.name()).arg(mid_bg.name()));
+    setStyleSheet(stylesheet);
+    
     setWidget(m_baseWidget);
     setWidgetResizable(true);
     m_vbox = new QVBoxLayout(m_baseWidget);
     m_vbox->setContentsMargins(0, 0, 0, 0);
-    m_vbox->setSpacing(0);
-    //wid->show();
+    m_vbox->setSpacing(2);
 }
 
 EffectStackEdit::~EffectStackEdit()
@@ -257,7 +268,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
                 max = pa.attribute("max").toInt();
 
             DoubleParameterWidget *doubleparam = new DoubleParameterWidget(paramName, (int)(value.toDouble() + 0.5), min, max,
-                    pa.attribute("default").toInt(), comment, pa.attribute("suffix"), this);
+                    pa.attribute("default").toInt(), comment, -1, pa.attribute("suffix"), this);
             m_vbox->addWidget(doubleparam);
             m_valueItems[paramName] = doubleparam;
             connect(doubleparam, SIGNAL(valueChanged(int)), this, SLOT(collectAllParameters()));
@@ -516,6 +527,16 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
 
     if (m_keyframeEditor)
         m_keyframeEditor->checkVisibleParam();
+    
+    // Make sure all doubleparam spinboxes have the same width, looks much better
+    QList<DoubleParameterWidget *> allWidgets = findChildren<DoubleParameterWidget *>();
+    int minSize = 0;
+    for (int i = 0; i < allWidgets.count(); i++) {
+        if (minSize < allWidgets.at(i)->spinSize()) minSize = allWidgets.at(i)->spinSize();
+    }
+    for (int i = 0; i < allWidgets.count(); i++) {
+        allWidgets.at(i)->setSpinSize(minSize);
+    }
 }
 
 wipeInfo EffectStackEdit::getWipeInfo(QString value)

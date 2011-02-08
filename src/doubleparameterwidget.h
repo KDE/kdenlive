@@ -23,6 +23,7 @@
 
 #include <QWidget>
 
+
 class QLabel;
 class QSlider;
 class QSpinBox;
@@ -49,13 +50,15 @@ public:
     * @param comment A comment explaining the parameter. Will be shown for the tooltip.
     * @param suffix (optional) Suffix to display in spinbox
     * @param parent (optional) Parent Widget */
-    DoubleParameterWidget(const QString &name, int value, int min, int max, int defaultValue, const QString &comment, const QString suffix = QString(), QWidget* parent = 0);
-
-    /** @brief Updates the label to display @param name. */
-    void setName(const QString &name);
+    DoubleParameterWidget(const QString &name, int value, int min, int max, int defaultValue, const QString &comment, int id, const QString suffix = QString(), QWidget* parent = 0);
 
     /** @brief Gets the parameter's value. */
     int getValue();
+    /** @brief Set the inTimeline property to paint widget with other colors. */
+    void setInTimelineProperty(bool intimeline);
+    /** @brief Returns minimum size for QSpinBox, used to set all spinboxes to the same width. */
+    int spinSize();
+    void setSpinSize(int width);
 
 public slots:
     /** @brief Sets the value to @param value. */
@@ -68,10 +71,9 @@ private slots:
     /** @brief Shows/Hides the comment label. */
     void slotShowComment(bool show);
 
-    void slotSetValue(qreal value, bool final);
+    void slotSetValue(int value, bool final);
 
 private:
-    int m_default;
     QLabel *m_name;
     QSlider *m_slider;
     QSpinBox *m_spinBox;
@@ -80,6 +82,8 @@ private:
     
 signals:
     void valueChanged(int);
+    /** @brief User wants to see this parameter in timeline. */
+    void setInTimeline(int);
 };
 
 #endif

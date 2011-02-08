@@ -49,9 +49,11 @@ EffectStackView::EffectStackView(Monitor *monitor, QWidget *parent) :
     m_ui.setupUi(this);
     QVBoxLayout *vbox1 = new QVBoxLayout(m_ui.frame);
     m_effectedit = new EffectStackEdit(monitor, m_ui.frame);
-    vbox1->setContentsMargins(0, 0, 0, 0);
+    vbox1->setContentsMargins(2, 0, 2, 0);
     vbox1->setSpacing(0);
     vbox1->addWidget(m_effectedit);
+    m_ui.splitter->setStretchFactor(0, 0);
+    m_ui.splitter->setStretchFactor(1, 200);
 
     //m_ui.region_url->fileDialog()->setFilter(ProjectList::getExtensions());
     //m_ui.effectlist->horizontalHeader()->setVisible(false);
@@ -177,9 +179,9 @@ void EffectStackView::slotClipItemSelected(ClipItem* c, int ix)
         m_clipref = c;
         if (c) {
             QString cname = m_clipref->clipName();
-            if (cname.length() > 20) {
+            if (cname.length() > 30) {
                 m_ui.checkAll->setToolTip(i18n("Effects for %1").arg(cname));
-                cname.truncate(17);
+                cname.truncate(27);
                 m_ui.checkAll->setText(i18n("Effects for %1").arg(cname) + "...");
             } else {
                 m_ui.checkAll->setToolTip(QString());

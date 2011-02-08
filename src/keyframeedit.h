@@ -114,7 +114,6 @@ private:
     QList <QDomElement> m_params;
     Timecode m_timecode;
     QGridLayout *m_slidersLayout;
-    QButtonGroup *m_showButtons;
     PositionEdit *m_position;
 
 private slots:

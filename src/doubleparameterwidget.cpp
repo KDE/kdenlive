@@ -1,4 +1,4 @@
-/***************************************************************************
+/**************************************************************************
  *   Copyright (C) 2010 by Till Theato (root@ttill.de)                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -23,7 +23,6 @@
 
 #include <QGridLayout>
 #include <QLabel>
-#include <QSlider>
 #include <QSpinBox>
 #include <QToolButton>
 
@@ -31,100 +30,78 @@
 #include <KLocalizedString>
 
 
-DoubleParameterWidget::DoubleParameterWidget(const QString &name, int value, int min, int max, int defaultValue, const QString &comment, const QString suffix, QWidget *parent) :
+DoubleParameterWidget::DoubleParameterWidget(const QString &name, int value, int min, int max, int defaultValue, const QString &comment, int id, const QString suffix, QWidget *parent) :
         QWidget(parent),
-        m_default(defaultValue)
+        m_commentLabel(NULL)
 {
+    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
     QGridLayout *layout = new QGridLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
-
-    m_name = new QLabel(name, this);
-    layout->addWidget(m_name, 0, 0);
-
-    m_slider = new QSlider(Qt::Horizontal, this);
-    m_slider->setRange(min, max);
-    //m_slider->setPageStep((max - min) / 10);
-    layout->addWidget(m_slider, 0, 1);
-
-    m_dragVal = new DragValue(this);
+    
+    m_dragVal = new DragValue(name, defaultValue, id, suffix, this);
     m_dragVal->setRange(min, max);
     m_dragVal->setPrecision(0);
-    layout->addWidget(m_dragVal, 0, 2);
+    layout->addWidget(m_dragVal, 0, 1);
 
-    m_spinBox = new QSpinBox(this);
-    m_spinBox->setRange(min, max);
-    m_spinBox->setKeyboardTracking(false);
-    if (!suffix.isEmpty())
-        m_spinBox->setSuffix(suffix);
-    //layout->addWidget(m_spinBox, 0, 2);
-    m_spinBox->setHidden(true);
-
-    QToolButton *reset = new QToolButton(this);
-    reset->setAutoRaise(true);
-    reset->setIcon(KIcon("edit-undo"));
-    reset->setToolTip(i18n("Reset to default value"));
-    layout->addWidget(reset, 0, 3);
-
-    m_commentLabel = new QLabel(comment, this);
-    m_commentLabel->setWordWrap(true);
-    m_commentLabel->setTextFormat(Qt::RichText);
-    m_commentLabel->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-    m_commentLabel->setFrameShape(QFrame::StyledPanel);
-    m_commentLabel->setFrameShadow(QFrame::Raised);
-    m_commentLabel->setHidden(true);
-    layout->addWidget(m_commentLabel, 1, 0, 1, -1);
-
-    connect(m_slider,  SIGNAL(valueChanged(int)), this, SLOT(setValue(int)));
-    connect(m_dragVal, SIGNAL(valueChanged(qreal, bool)), this, SLOT(slotSetValue(qreal, bool)));
-    connect(m_spinBox, SIGNAL(valueChanged(int)), this, SLOT(setValue(int)));
-    connect(reset,     SIGNAL(clicked(bool)),     this, SLOT(slotReset()));
-
-    //m_spinBox->setValue(value);
+    if (!comment.isEmpty()) {
+        m_commentLabel = new QLabel(comment, this);
+        m_commentLabel->setWordWrap(true);
+        m_commentLabel->setTextFormat(Qt::RichText);
+        m_commentLabel->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+        m_commentLabel->setFrameShape(QFrame::StyledPanel);
+        m_commentLabel->setFrameShadow(QFrame::Raised);
+        m_commentLabel->setHidden(true);
+        layout->addWidget(m_commentLabel, 1, 0, 1, -1);
+    }
+    connect(m_dragVal, SIGNAL(valueChanged(int, bool)), this, SLOT(slotSetValue(int, bool)));
+    connect(m_dragVal, SIGNAL(inTimeline(int)), this, SIGNAL(setInTimeline(int)));
     m_dragVal->setValue(value);
+}
+
+int DoubleParameterWidget::spinSize()
+{
+    return m_dragVal->spinSize();
+}
+
+void DoubleParameterWidget::setSpinSize(int width)
+{
+    m_dragVal->setSpinSize(width);
 }
 
 void DoubleParameterWidget::setValue(int value)
 {
-    m_slider->blockSignals(true);
-    m_spinBox->blockSignals(true);
     m_dragVal->blockSignals(true);
-
-    m_slider->setValue(value);
-    m_spinBox->setValue(value);
     m_dragVal->setValue(value);
-
-    m_slider->blockSignals(false);
-    m_spinBox->blockSignals(false);
     m_dragVal->blockSignals(false);
-
-    emit valueChanged(value);
+    //emit valueChanged(value);
 }
 
-void DoubleParameterWidget::slotSetValue(qreal value, bool final)
+void DoubleParameterWidget::slotSetValue(int value, bool final)
 {
-    if (final)
-        setValue((int)value);
+    if (final) {
+        emit valueChanged(value);
+    }
 }
 
 int DoubleParameterWidget::getValue()
 {
-    return m_spinBox->value();
-}
-
-void DoubleParameterWidget::setName(const QString& name)
-{
-    m_name->setText(name);
+    return m_dragVal->value();
 }
 
 void DoubleParameterWidget::slotReset()
 {
-    setValue(m_default);
+    m_dragVal->slotReset();
+}
+
+void DoubleParameterWidget::setInTimelineProperty(bool intimeline)
+{
+    m_dragVal->setInTimelineProperty(intimeline);
 }
 
 void DoubleParameterWidget::slotShowComment( bool show)
 {
-    if (m_commentLabel->text() != QString()) {
+    if (m_commentLabel) {
         m_commentLabel->setVisible(show);
         if (show)
             layout()->setContentsMargins(0, 0, 0, 15);

@@ -20,12 +20,47 @@
 #define DRAGVALUE_H_
 
 #include <QWidget>
+#include <kselectaction.h>
+#include <KIntSpinBox>
+#include <QLabel>
+#include <QProgressBar>
 
 class QValidator;
 class QToolButton;
 class QLineEdit;
 class QAction;
 class QMenu;
+class KSelectAction;
+
+
+class CustomLabel : public QProgressBar
+{
+    Q_OBJECT
+public:
+    CustomLabel(const QString &label, QWidget *parent = 0);
+    
+protected:
+    //virtual void mouseDoubleClickEvent(QMouseEvent * event);
+    virtual void mousePressEvent(QMouseEvent * event);
+    virtual void mouseReleaseEvent(QMouseEvent *event);
+    virtual void mouseMoveEvent(QMouseEvent *event);
+    //virtual void paintEvent(QPaintEvent *event);
+    virtual void wheelEvent(QWheelEvent * event);
+
+private:
+    QPoint m_dragStartPosition;
+    QPoint m_dragLastPosition;
+    bool m_dragMode;
+    double m_step;
+    //QStyleOptionProgressBarV2 m_progressOptions;
+    void slotValueInc(int factor = 1);
+    void slotValueDec(int factor = 1);
+    void setNewValue(int, bool);
+    
+signals:
+    void valueChanged(int, bool);
+    void setInTimeline();
+};
 
 /**
  * @brief A widget for modifing numbers by dragging, using the mouse wheel or entering them with the keyboard.
@@ -36,7 +71,7 @@ class DragValue : public QWidget
     Q_OBJECT
 
 public:
-    DragValue(QWidget* parent = 0);
+    DragValue(const QString &label, int defaultValue, int id, const QString suffix, QWidget* parent = 0);
     virtual ~DragValue();
 
     /** @brief Returns the precision = number of decimals */
@@ -59,14 +94,22 @@ public:
 
     /** @brief Returns the current value */
     qreal value() const;
-    
+    /** @brief Change the "inTimeline" property to paint the intimeline widget differently. */
+    void setInTimelineProperty(bool intimeline);
+    /** @brief Returns minimum size for QSpinBox, used to set all spinboxes to the same width. */
+    int spinSize();
+    /** @brief Sets the minimum size for QSpinBox, used to set all spinboxes to the same width. */
+    void setSpinSize(int width);
+       
 public slots:
     /** @brief Sets the value (forced to be in the valid range) and emits valueChanged. */
-    void setValue(qreal value, bool final = true);
+    void setValue(int value, bool final = true);
+    /** @brief Resets to default value */
+    void slotReset();
 
 signals:
-    void valueChanged(qreal value, bool final);
-
+    void valueChanged(int value, bool final = true);
+    void inTimeline(int);
 
 
 
@@ -75,39 +118,37 @@ signals:
      */
 
 protected:
-    virtual void mousePressEvent(QMouseEvent *e);
+    /*virtual void mousePressEvent(QMouseEvent *e);
     virtual void mouseMoveEvent(QMouseEvent *e);
-    virtual void mouseReleaseEvent(QMouseEvent *e);
+    virtual void mouseReleaseEvent(QMouseEvent *e);*/
     /** @brief Forwards tab focus to lineedit since it is disabled. */
     virtual void focusInEvent(QFocusEvent *e);
     //virtual void keyPressEvent(QKeyEvent *e);
-    virtual void wheelEvent(QWheelEvent *e);
+    //virtual void wheelEvent(QWheelEvent *e);
+    //virtual void paintEvent( QPaintEvent * event );
 
 private slots:
-    void slotValueInc();
-    void slotValueDec();
+
     void slotEditingFinished();
 
-    void slotSetNonlinearScale(bool nonlinear);
+    void slotSetScaleMode(int mode);
     void slotSetDirectUpdate(bool directUpdate);
     void slotShowContextMenu(const QPoint &pos);
+    void slotSetValue(int value);
+    void slotSetInTimeline();
 
 private:
-    qreal m_maximum;
-    qreal m_minimum;
+    int m_maximum;
+    int m_minimum;
     int m_precision;
-    qreal m_step;
-    QLineEdit *m_edit;
-    QPoint m_dragStartPosition;
-    QPoint m_dragLastPosition;
-    bool m_dragMode;
+    KIntSpinBox *m_edit;
+    int m_default;
 
     QMenu *m_menu;
-    QAction *m_nonlinearScale;
+    KSelectAction *m_scale;
     QAction *m_directUpdate;
-
-    /** @brief Sets the maximum width of the widget so that there is enough space for the widest possible value. */
-    void updateMaxWidth();
+    CustomLabel *m_label;
+    int m_id;
 };
 
 #endif
