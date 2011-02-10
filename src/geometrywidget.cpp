@@ -315,7 +315,7 @@ void GeometryWidget::slotAddKeyframe(int pos)
     item.y(rectpos.y());
     item.w(r.width());
     item.h(r.height());
-    //item.mix(m_ui.spinOpacity->value());
+    item.mix(m_opacity->value());
     m_geometry->insert(item);
 
     m_timeline->update();
