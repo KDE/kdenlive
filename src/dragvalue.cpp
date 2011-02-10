@@ -41,7 +41,7 @@
 #include <KLocalizedString>
 #include <KGlobalSettings>
 
-DragValue::DragValue(const QString &label, int defaultValue, int id, const QString suffix, QWidget* parent) :
+DragValue::DragValue(const QString &label, int defaultValue, int id, const QString suffix, bool showSlider, QWidget* parent) :
         QWidget(parent),
         m_maximum(100),
         m_minimum(0),
@@ -49,27 +49,30 @@ DragValue::DragValue(const QString &label, int defaultValue, int id, const QStri
         m_default(defaultValue),
         m_id(id)
 {
-    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+    if (showSlider) setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+    else setSizePolicy(QSizePolicy::Maximum, QSizePolicy::MinimumExpanding);
     setFocusPolicy(Qt::StrongFocus);
     setContextMenuPolicy(Qt::CustomContextMenu);
     
     QHBoxLayout *l = new QHBoxLayout;
     l->setSpacing(0);
     l->setContentsMargins(0, 0, 0, 0);
-    m_label = new CustomLabel(label, this);
+    m_label = new CustomLabel(label, showSlider, this);
     m_label->setCursor(Qt::PointingHandCursor);
     m_label->setRange(m_minimum, m_maximum);
     l->addWidget(m_label);
     m_edit = new KIntSpinBox(this);
+    m_edit->setObjectName("dragBox");
     if (!suffix.isEmpty()) m_edit->setSuffix(suffix);
 
     m_edit->setButtonSymbols(QAbstractSpinBox::NoButtons);
     m_edit->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    m_edit->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::MinimumExpanding);
+    m_edit->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
     m_edit->setRange(m_minimum, m_maximum);
     l->addWidget(m_edit);
     connect(m_edit, SIGNAL(valueChanged(int)), this, SLOT(slotSetValue(int)));
     connect(m_label, SIGNAL(valueChanged(int,bool)), this, SLOT(setValue(int,bool)));
+    connect(m_label, SIGNAL(resetValue()), this, SLOT(slotReset()));
     setLayout(l);
     m_label->setMaximumHeight(m_edit->sizeHint().height());
 
@@ -97,8 +100,6 @@ DragValue::DragValue(const QString &label, int defaultValue, int id, const QStri
         connect(m_label, SIGNAL(setInTimeline()), this, SLOT(slotSetInTimeline()));
         m_menu->addAction(timeline);
     }
-                        
-    m_label->setRange(m_minimum, m_maximum);
 
     connect(this, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(slotShowContextMenu(const QPoint&)));
     connect(m_scale, SIGNAL(triggered(int)), this, SLOT(slotSetScaleMode(int)));
@@ -259,18 +260,24 @@ void DragValue::setInTimelineProperty(bool intimeline)
     m_edit->update();
 }
 
-CustomLabel::CustomLabel(const QString &label, QWidget* parent) :
+CustomLabel::CustomLabel(const QString &label, bool showSlider, QWidget* parent) :
     QProgressBar(parent),
     m_dragMode(false),
-    m_step(1)
-
+    m_step(1),
+    m_showSlider(showSlider)
 {
+    setFont(KGlobalSettings::toolBarFont());
     setFormat(" " + label);
     setFocusPolicy(Qt::ClickFocus);
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
-    setRange(0, 100);
+    if (!showSlider) {
+        QSize sh;
+        const QFontMetrics &fm = fontMetrics();
+        sh.setWidth(fm.width(" " + label + " "));
+        setMaximumWidth(sh.width());
+        setObjectName("dragOnly");
+    }
     setValue(0);
-    setFont(KGlobalSettings::toolBarFont());
 }
 
 void CustomLabel::mousePressEvent(QMouseEvent* e)
@@ -279,38 +286,53 @@ void CustomLabel::mousePressEvent(QMouseEvent* e)
         m_dragStartPosition = m_dragLastPosition = e->pos();
         e->accept();
     }
+    else if (e->button() == Qt::MiddleButton) {
+        emit resetValue();
+        m_dragStartPosition = QPoint(-1, -1);
+    }
     else QWidget::mousePressEvent(e);
 }
 
 void CustomLabel::mouseMoveEvent(QMouseEvent* e)
 {
-    if ((e->pos() - m_dragStartPosition).manhattanLength() >= QApplication::startDragDistance()) {
-        m_dragMode = true;
-        if (KdenliveSettings::dragvalue_mode() > 0) {
-            int diff = e->x() - m_dragLastPosition.x();
-
-            if (e->modifiers() == Qt::ControlModifier)
-                diff *= 2;
-            else if (e->modifiers() == Qt::ShiftModifier)
-                diff /= 2;
-            if (KdenliveSettings::dragvalue_mode() == 2)
-                diff = (diff > 0 ? 1 : -1) * pow(diff, 2);
-
-            int nv = value() + diff / m_step;
-            if (nv != value()) setNewValue(nv, KdenliveSettings::dragvalue_directupdate());
+    if (m_dragStartPosition != QPoint(-1, -1)) {
+        if (!m_dragMode && (e->pos() - m_dragStartPosition).manhattanLength() >= QApplication::startDragDistance()) {
+            m_dragMode = true;
+            m_dragLastPosition = e->pos();
+            e->accept();
+            return;
         }
-        else {
-            int nv = minimum() + ((double) maximum() - minimum()) / width() * e->pos().x();
-            if (nv != value()) setNewValue(nv, KdenliveSettings::dragvalue_directupdate());
+        if (m_dragMode) {
+            if (KdenliveSettings::dragvalue_mode() > 0 || !m_showSlider) {
+                int diff = e->x() - m_dragLastPosition.x();
+
+                if (e->modifiers() == Qt::ControlModifier)
+                    diff *= 2;
+                else if (e->modifiers() == Qt::ShiftModifier)
+                    diff /= 2;
+                if (KdenliveSettings::dragvalue_mode() == 2)
+                    diff = (diff > 0 ? 1 : -1) * pow(diff, 2);
+
+                int nv = value() + diff / m_step;
+                if (nv != value()) setNewValue(nv, KdenliveSettings::dragvalue_directupdate());
+            }
+            else {
+                int nv = minimum() + ((double) maximum() - minimum()) / width() * e->pos().x();
+                if (nv != value()) setNewValue(nv, KdenliveSettings::dragvalue_directupdate());
+            }
+            m_dragLastPosition = e->pos();
+            e->accept();
         }
-        m_dragLastPosition = e->pos();
-        e->accept();
     }
     else QWidget::mouseMoveEvent(e);
 }
 
 void CustomLabel::mouseReleaseEvent(QMouseEvent* e)
 {
+    if (e->button() == Qt::MiddleButton) {
+        e->accept();
+        return;
+    }
     if (e->modifiers() == Qt::ControlModifier) {
         emit setInTimeline();
         e->accept();
@@ -321,7 +343,7 @@ void CustomLabel::mouseReleaseEvent(QMouseEvent* e)
         m_dragLastPosition = m_dragStartPosition;
         e->accept();
     }
-    else {
+    else if (m_showSlider) {
         setNewValue((int) (minimum() + ((double)maximum() - minimum()) / width() * e->pos().x()), true);
         m_dragLastPosition = m_dragStartPosition;
         e->accept();

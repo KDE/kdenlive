@@ -27,11 +27,13 @@
 #include "monitoreditwidget.h"
 #include "onmonitoritems/onmonitorrectitem.h"
 #include "kdenlivesettings.h"
+#include "dragvalue.h"
 
 #include <QtCore>
 #include <QGraphicsView>
 #include <QVBoxLayout>
 #include <QGridLayout>
+#include <QMenu>
 
 
 
@@ -48,7 +50,6 @@ GeometryWidget::GeometryWidget(Monitor* monitor, Timecode timecode, int clipPos,
     m_showScene(true)
 {
     m_ui.setupUi(this);
-
     MonitorEditWidget *edit = monitor->getEffectEdit();
     edit->showVisibilityButton(true);
     m_scene = edit->getScene();
@@ -86,40 +87,81 @@ GeometryWidget::GeometryWidget(Monitor* monitor, Timecode timecode, int clipPos,
     connect(m_ui.buttonAddDelete, SIGNAL(clicked()), this, SLOT(slotAddDeleteKeyframe()));
     connect(m_ui.buttonSync,      SIGNAL(toggled(bool)), this, SLOT(slotSetSynchronize(bool)));
 
-
+    m_spinX = new DragValue(i18n("X"), 0, -1, QString(), false, this);
+    m_spinX->setRange(-10000, 10000);
+    m_ui.horizontalLayout->addWidget(m_spinX);
+    
+    m_spinY = new DragValue(i18n("Y"), 0, -1, QString(), false, this);
+    m_spinY->setRange(-10000, 10000);
+    m_ui.horizontalLayout->addWidget(m_spinY);
+    
+    m_spinWidth = new DragValue(i18n("W"), m_monitor->render->frameRenderWidth(), -1, QString(), false, this);
+    m_spinWidth->setRange(1, 10000);
+    m_ui.horizontalLayout->addWidget(m_spinWidth);
+    
+    m_spinHeight = new DragValue(i18n("H"), m_monitor->render->renderHeight(), -1, QString(), false, this);
+    m_spinHeight->setRange(1, 10000);
+    m_ui.horizontalLayout->addWidget(m_spinHeight);
+    m_ui.horizontalLayout->addStretch(10);
+    
+    m_spinSize = new DragValue(i18n("Size"), 100, -1, i18n("%"), false, this);
+    m_spinSize->setRange(1, 10000);
+    m_ui.horizontalLayout2->addWidget(m_spinSize);
+    
+    m_opacity = new DragValue(i18n("Opacity"), 100, -1, i18n("%"), true, this);
+    m_ui.horizontalLayout2->addWidget(m_opacity);
+    
     /*
         Setup of geometry controls
     */
 
-    m_ui.buttonMoveLeft->setIcon(KIcon("kdenlive-align-left"));
-    m_ui.buttonMoveLeft->setToolTip(i18n("Move to left"));
-    m_ui.buttonCenterH->setIcon(KIcon("kdenlive-align-hor"));
-    m_ui.buttonCenterH->setToolTip(i18n("Center horizontally"));
-    m_ui.buttonMoveRight->setIcon(KIcon("kdenlive-align-right"));
-    m_ui.buttonMoveRight->setToolTip(i18n("Move to right"));
-    m_ui.buttonMoveTop->setIcon(KIcon("kdenlive-align-top"));
-    m_ui.buttonMoveTop->setToolTip(i18n("Move to top"));
-    m_ui.buttonCenterV->setIcon(KIcon("kdenlive-align-vert"));
-    m_ui.buttonCenterV->setToolTip(i18n("Center vertically"));
-    m_ui.buttonMoveBottom->setIcon(KIcon("kdenlive-align-bottom"));
-    m_ui.buttonMoveBottom->setToolTip(i18n("Move to bottom"));
+    connect(m_spinX,            SIGNAL(valueChanged(int)), this, SLOT(slotSetX(int)));
+    connect(m_spinY,            SIGNAL(valueChanged(int)), this, SLOT(slotSetY(int)));
+    connect(m_spinWidth,        SIGNAL(valueChanged(int)), this, SLOT(slotSetWidth(int)));
+    connect(m_spinHeight,       SIGNAL(valueChanged(int)), this, SLOT(slotSetHeight(int)));
 
-    connect(m_ui.spinX,            SIGNAL(valueChanged(int)), this, SLOT(slotSetX(int)));
-    connect(m_ui.spinY,            SIGNAL(valueChanged(int)), this, SLOT(slotSetY(int)));
-    connect(m_ui.spinWidth,        SIGNAL(valueChanged(int)), this, SLOT(slotSetWidth(int)));
-    connect(m_ui.spinHeight,       SIGNAL(valueChanged(int)), this, SLOT(slotSetHeight(int)));
+    connect(m_spinSize,         SIGNAL(valueChanged(int)), this, SLOT(slotResize(int)));
 
-    connect(m_ui.spinSize,         SIGNAL(valueChanged(int)), this, SLOT(slotResize(int)));
+    connect(m_opacity, SIGNAL(valueChanged(int)), this, SLOT(slotSetOpacity(int)));
+    
+    QMenu *menu = new QMenu(this);
+    QAction *adjustSize = new QAction(i18n("Adjust to original size"), this);
+    connect(adjustSize, SIGNAL(triggered()), this, SLOT(slotAdjustToFrameSize()));
+    menu->addAction(adjustSize);
+    QAction *fitToWidth = new QAction(i18n("Fit to width"), this);
+    connect(fitToWidth, SIGNAL(triggered()), this, SLOT(slotFitToWidth()));
+    menu->addAction(fitToWidth);
+    QAction *fitToHeight = new QAction(i18n("Fit to height"), this);
+    connect(fitToHeight, SIGNAL(triggered()), this, SLOT(slotFitToHeight()));
+    menu->addAction(fitToHeight);
+    menu->addSeparator();
 
-    connect(m_ui.spinOpacity,      SIGNAL(valueChanged(int)), this, SLOT(slotSetOpacity(int)));
-    connect(m_ui.sliderOpacity,    SIGNAL(valueChanged(int)), m_ui.spinOpacity, SLOT(setValue(int)));
+    QAction *alignleft = new QAction(KIcon("kdenlive-align-left"), i18n("Align left"), this);
+    connect(alignleft, SIGNAL(triggered()), this, SLOT(slotMoveLeft()));
+    menu->addAction(alignleft);
+    QAction *alignhcenter = new QAction(KIcon("kdenlive-align-hor"), i18n("Center horizontally"), this);
+    connect(alignhcenter, SIGNAL(triggered()), this, SLOT(slotCenterH()));
+    menu->addAction(alignhcenter);
+    QAction *alignright = new QAction(KIcon("kdenlive-align-right"), i18n("Align right"), this);
+    connect(alignright, SIGNAL(triggered()), this, SLOT(slotMoveRight()));
+    menu->addAction(alignright);
+    QAction *aligntop = new QAction(KIcon("kdenlive-align-top"), i18n("Align top"), this);
+    connect(aligntop, SIGNAL(triggered()), this, SLOT(slotMoveTop()));
+    menu->addAction(aligntop);    
+    QAction *alignvcenter = new QAction(KIcon("kdenlive-align-vert"), i18n("Center vertically"), this);
+    connect(alignvcenter, SIGNAL(triggered()), this, SLOT(slotCenterV()));
+    menu->addAction(alignvcenter);
+    QAction *alignbottom = new QAction(KIcon("kdenlive-align-bottom"), i18n("Align bottom"), this);
+    connect(alignbottom, SIGNAL(triggered()), this, SLOT(slotMoveBottom()));
+    menu->addAction(alignbottom);
+    m_ui.buttonOptions->setMenu(menu);
 
-    connect(m_ui.buttonMoveLeft,   SIGNAL(clicked()), this, SLOT(slotMoveLeft()));
+    /*connect(m_ui.buttonMoveLeft,   SIGNAL(clicked()), this, SLOT(slotMoveLeft()));
     connect(m_ui.buttonCenterH,    SIGNAL(clicked()), this, SLOT(slotCenterH()));
     connect(m_ui.buttonMoveRight,  SIGNAL(clicked()), this, SLOT(slotMoveRight()));
     connect(m_ui.buttonMoveTop,    SIGNAL(clicked()), this, SLOT(slotMoveTop()));
     connect(m_ui.buttonCenterV,    SIGNAL(clicked()), this, SLOT(slotCenterV()));
-    connect(m_ui.buttonMoveBottom, SIGNAL(clicked()), this, SLOT(slotMoveBottom()));
+    connect(m_ui.buttonMoveBottom, SIGNAL(clicked()), this, SLOT(slotMoveBottom()));*/
 
 
     /*
@@ -138,6 +180,11 @@ GeometryWidget::~GeometryWidget()
     m_scene->setEnabled(true);
     delete m_timePos;
     delete m_timeline;
+    delete m_spinX;
+    delete m_spinY;
+    delete m_spinWidth;
+    delete m_spinHeight;
+    delete m_opacity;
     m_scene->removeItem(m_rect);
     delete m_geometry;
     if (m_monitor) {
@@ -177,8 +224,10 @@ void GeometryWidget::setupParam(const QDomElement elem, int minframe, int maxfra
     }
 
     // no opacity
-    if (elem.attribute("opacity") == "false")
-        m_ui.widgetOpacity->setHidden(true);
+    if (elem.attribute("opacity") == "false") {
+        m_opacity->setHidden(true);
+        m_ui.horizontalLayout2->addStretch(2);
+    }
 
     Mlt::GeometryItem item;
 
@@ -237,12 +286,9 @@ void GeometryWidget::slotPositionChanged(int pos, bool seek)
     m_rect->setPos(item.x(), item.y());
     m_rect->setRect(0, 0, item.w(), item.h());
 
-    m_ui.spinOpacity->blockSignals(true);
-    m_ui.sliderOpacity->blockSignals(true);
-    m_ui.spinOpacity->setValue(item.mix());
-    m_ui.sliderOpacity->setValue(item.mix());
-    m_ui.spinOpacity->blockSignals(false);
-    m_ui.sliderOpacity->blockSignals(false);
+    m_opacity->blockSignals(true);
+    m_opacity->setValue(item.mix());
+    m_opacity->blockSignals(false);
 
     slotUpdateProperties();
 
@@ -269,7 +315,7 @@ void GeometryWidget::slotAddKeyframe(int pos)
     item.y(rectpos.y());
     item.w(r.width());
     item.h(r.height());
-    item.mix(m_ui.spinOpacity->value());
+    //item.mix(m_ui.spinOpacity->value());
     m_geometry->insert(item);
 
     m_timeline->update();
@@ -377,47 +423,47 @@ void GeometryWidget::slotUpdateProperties()
     else
         size = (int)((rectSize.height() * 100.0 / m_monitor->render->renderHeight()) + 0.5);
 
-    m_ui.spinX->blockSignals(true);
-    m_ui.spinY->blockSignals(true);
-    m_ui.spinWidth->blockSignals(true);
-    m_ui.spinHeight->blockSignals(true);
-    m_ui.spinSize->blockSignals(true);
+    m_spinX->blockSignals(true);
+    m_spinY->blockSignals(true);
+    m_spinWidth->blockSignals(true);
+    m_spinHeight->blockSignals(true);
+    m_spinSize->blockSignals(true);
 
-    m_ui.spinX->setValue(rectPos.x());
-    m_ui.spinY->setValue(rectPos.y());
-    m_ui.spinWidth->setValue(rectSize.width());
-    m_ui.spinHeight->setValue(rectSize.height());
-    m_ui.spinSize->setValue(size);
+    m_spinX->setValue(rectPos.x());
+    m_spinY->setValue(rectPos.y());
+    m_spinWidth->setValue(rectSize.width());
+    m_spinHeight->setValue(rectSize.height());
+    m_spinSize->setValue(size);
 
-    m_ui.spinX->blockSignals(false);
-    m_ui.spinY->blockSignals(false);
-    m_ui.spinWidth->blockSignals(false);
-    m_ui.spinHeight->blockSignals(false);
-    m_ui.spinSize->blockSignals(false);
+    m_spinX->blockSignals(false);
+    m_spinY->blockSignals(false);
+    m_spinWidth->blockSignals(false);
+    m_spinHeight->blockSignals(false);
+    m_spinSize->blockSignals(false);
 }
 
 
 void GeometryWidget::slotSetX(int value)
 {
-    m_rect->setPos(value, m_ui.spinY->value());
+    m_rect->setPos(value, m_spinY->value());
     slotUpdateGeometry();
 }
 
 void GeometryWidget::slotSetY(int value)
 {
-    m_rect->setPos(m_ui.spinX->value(), value);
+    m_rect->setPos(m_spinX->value(), value);
     slotUpdateGeometry();
 }
 
 void GeometryWidget::slotSetWidth(int value)
 {
-    m_rect->setRect(0, 0, value, m_ui.spinHeight->value());
+    m_rect->setRect(0, 0, value, m_spinHeight->value());
     slotUpdateGeometry();
 }
 
 void GeometryWidget::slotSetHeight(int value)
 {
-    m_rect->setRect(0, 0, m_ui.spinWidth->value(), value);
+    m_rect->setRect(0, 0, m_spinWidth->value(), value);
     slotUpdateGeometry();
 }
 
@@ -433,17 +479,12 @@ void GeometryWidget::slotResize(int value)
 
 void GeometryWidget::slotSetOpacity(int value)
 {
-    m_ui.sliderOpacity->blockSignals(true);
-    m_ui.sliderOpacity->setValue(value);
-    m_ui.sliderOpacity->blockSignals(false);
-
     int pos = m_timePos->getValue();
     Mlt::GeometryItem item;
     if (m_geometry->fetch(&item, pos) || item.key() == false)
         return;
     item.mix(value);
     m_geometry->insert(item);
-
     emit parameterChanged();
 }
 
@@ -499,6 +540,32 @@ void GeometryWidget::slotShowScene(bool show)
         m_monitor->slotEffectScene(false);
     else
         slotCheckMonitorPosition(m_monitor->render->seekFramePosition());
+}
+
+void GeometryWidget::setFrameSize(QPoint size)
+{
+    m_frameSize = size;
+}
+
+void GeometryWidget::slotAdjustToFrameSize()
+{
+    if (m_frameSize == QPoint()) m_frameSize = QPoint(m_monitor->render->frameRenderWidth(), m_monitor->render->renderHeight());
+    m_spinWidth->setValue(m_frameSize.x());
+    m_spinHeight->setValue(m_frameSize.y());
+}
+
+void GeometryWidget::slotFitToWidth()
+{
+    if (m_frameSize == QPoint()) m_frameSize = QPoint(m_monitor->render->frameRenderWidth(), m_monitor->render->renderHeight());
+    double factor = 100.0 * m_monitor->render->frameRenderWidth() / m_frameSize.x() + 0.5;
+    m_spinSize->setValue(factor);
+}
+
+void GeometryWidget::slotFitToHeight()
+{
+    if (m_frameSize == QPoint()) m_frameSize = QPoint(m_monitor->render->frameRenderWidth(), m_monitor->render->renderHeight());
+    double factor = 100.0 * m_monitor->render->renderHeight() / m_frameSize.y() + 0.5;
+    m_spinSize->setValue(factor);
 }
 
 #include "geometrywidget.moc"

@@ -65,7 +65,7 @@ Geometryval::Geometryval(const MltVideoProfile profile, Timecode t, QPoint frame
     m_sceneview->setScene(m_scene);
     m_dar = (m_profile.height * m_profile.display_aspect_num / (double) m_profile.display_aspect_den) / (double) m_profile.width;
 
-    m_realWidth = (int)(profile.height * profile.display_aspect_num / (double) profile.display_aspect_den);
+    m_realWidth = (int)(profile.height * profile.display_aspect_num / (double) profile.display_aspect_den + 0.5);
     QGraphicsRectItem *frameBorder = new QGraphicsRectItem(QRectF(0, 0, m_realWidth, profile.height));
     frameBorder->setZValue(-1100);
     frameBorder->setBrush(QColor(255, 255, 0, 30));

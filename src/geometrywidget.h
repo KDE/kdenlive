@@ -33,7 +33,7 @@ class MonitorScene;
 class KeyframeHelper;
 class TimecodeDisplay;
 class OnMonitorRectItem;
-
+class DragValue;
 
 class GeometryWidget : public QWidget
 {
@@ -51,6 +51,8 @@ public:
     QString getValue() const;
     /** @brief Updates the timecode display according to settings (frame number or hh:mm:ss:ff) */
     void updateTimecodeFormat();
+    /** @brief Sets the size of the original clip. */
+    void setFrameSize(QPoint size);
 
 public slots:
     /** @brief Sets up the rect and the geometry object.
@@ -80,6 +82,13 @@ private:
     /** Stores the different settings in the MLT geometry format. */
     Mlt::Geometry *m_geometry;
     bool m_showScene;
+    DragValue *m_spinX;
+    DragValue *m_spinY;
+    DragValue *m_spinWidth;
+    DragValue *m_spinHeight;
+    DragValue *m_spinSize;
+    DragValue *m_opacity;
+    QPoint m_frameSize;
 
 private slots:
     /** @brief Updates controls according to position.
@@ -143,6 +152,9 @@ private slots:
 
     /** @brief Enables/Disables syncing with the timeline according to @param sync. */
     void slotSetSynchronize(bool sync);
+    void slotAdjustToFrameSize();
+    void slotFitToWidth();
+    void slotFitToHeight();
 
 signals:
     void parameterChanged();

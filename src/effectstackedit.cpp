@@ -94,7 +94,7 @@ EffectStackEdit::EffectStackEdit(Monitor *monitor, QWidget *parent) :
     QColor light_bg = scheme.shade(KColorScheme::LightShade);
     QColor mid_bg = scheme.shade(KColorScheme::DarkShade);
     
-    QString stylesheet(QString("QProgressBar:horizontal {border: 1px solid %5;border-radius:0px;border-top-left-radius: 4px;border-bottom-left-radius: 4px;border-right: 0px;background:%4;padding: 0px;text-align:left center} QProgressBar:horizontal:hover {border: 1px solid %3;border-right: 0px;} QProgressBar::chunk:horizontal {background: %5;} QProgressBar::chunk:horizontal:hover {background: %3;} QProgressBar:horizontal[inTimeline=\"true\"] { border: 1px solid %2;border-right: 0px;background: %4;padding: 0px;text-align:left center } QProgressBar::chunk:horizontal[inTimeline=\"true\"] {background: %2;} QSpinBox {border: 1px solid %1;border-top-right-radius: 4px;border-bottom-right-radius: 4px;padding-right:0px;} QSpinBox::down-button {width:0px;padding:0px;} QSpinBox::up-button {width:0px;padding:0px;} QSpinBox[inTimeline=\"true\"]{ border: 1px solid %2;} QSpinBox:hover {border: 1px solid %3;} ").arg(dark_bg.name()).arg(selected_bg.name()).arg(hover_bg.name()).arg(light_bg.name()).arg(mid_bg.name()));
+    QString stylesheet(QString("QProgressBar:horizontal {border: 1px solid %5;border-radius:0px;border-top-left-radius: 4px;border-bottom-left-radius: 4px;border-right: 0px;background:%4;padding: 0px;text-align:left center} QProgressBar:horizontal#dragOnly {background: %5} QProgressBar:horizontal:hover#dragOnly {background: %3} QProgressBar:horizontal:hover {border: 1px solid %3;border-right: 0px;} QProgressBar::chunk:horizontal {background: %5;} QProgressBar::chunk:horizontal:hover {background: %3;} QProgressBar:horizontal[inTimeline=\"true\"] { border: 1px solid %2;border-right: 0px;background: %4;padding: 0px;text-align:left center } QProgressBar::chunk:horizontal[inTimeline=\"true\"] {background: %2;} QSpinBox#dragBox {border: 1px solid %1;border-top-right-radius: 4px;border-bottom-right-radius: 4px;padding-right:0px;} QSpinBox::down-button#dragBox {width:0px;padding:0px;} QSpinBox::up-button#dragBox {width:0px;padding:0px;} QSpinBox[inTimeline=\"true\"]#dragBox { border: 1px solid %2;} QSpinBox:hover#dragBox {border: 1px solid %3;} ").arg(dark_bg.name()).arg(selected_bg.name()).arg(hover_bg.name()).arg(light_bg.name()).arg(mid_bg.name()));
     setStyleSheet(stylesheet);
     
     setWidget(m_baseWidget);
@@ -120,10 +120,17 @@ void EffectStackEdit::setFrameSize(QPoint p)
         QString type = pa.attributes().namedItem("type").nodeValue();
         QString paramName = i18n(na.toElement().text().toUtf8().data());
 
-        if (type == "geometry" && !KdenliveSettings::on_monitor_effects()) {
-            Geometryval *geom = ((Geometryval*)m_valueItems[paramName+"geometry"]);
-            geom->setFrameSize(m_frameSize);
-            break;
+        if (type == "geometry") {
+            if (!KdenliveSettings::on_monitor_effects()) {
+                Geometryval *geom = ((Geometryval*)m_valueItems[paramName+"geometry"]);
+                geom->setFrameSize(m_frameSize);
+                break;
+            }
+            else {
+                GeometryWidget *geom = ((GeometryWidget*)m_valueItems[paramName+"geometry"]);
+                geom->setFrameSize(m_frameSize);
+                break;
+            }
         }
     }
 }
@@ -325,6 +332,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
         } else if (type == "geometry") {
             if (KdenliveSettings::on_monitor_effects()) {
                 GeometryWidget *geometry = new GeometryWidget(m_monitor, m_timecode, pos, isEffect, this);
+                geometry->setFrameSize(m_frameSize);
                 geometry->slotShowScene(!disable);
                 // connect this before setupParam to make sure the monitor scene shows up at startup
                 connect(geometry, SIGNAL(checkMonitorPosition(int)), this, SIGNAL(checkMonitorPosition(int)));

@@ -37,7 +37,7 @@ class CustomLabel : public QProgressBar
 {
     Q_OBJECT
 public:
-    CustomLabel(const QString &label, QWidget *parent = 0);
+    CustomLabel(const QString &label, bool showSlider = true, QWidget *parent = 0);
     
 protected:
     //virtual void mouseDoubleClickEvent(QMouseEvent * event);
@@ -52,6 +52,7 @@ private:
     QPoint m_dragLastPosition;
     bool m_dragMode;
     double m_step;
+    bool m_showSlider;
     //QStyleOptionProgressBarV2 m_progressOptions;
     void slotValueInc(int factor = 1);
     void slotValueDec(int factor = 1);
@@ -60,6 +61,7 @@ private:
 signals:
     void valueChanged(int, bool);
     void setInTimeline();
+    void resetValue();
 };
 
 /**
@@ -71,7 +73,7 @@ class DragValue : public QWidget
     Q_OBJECT
 
 public:
-    DragValue(const QString &label, int defaultValue, int id, const QString suffix, QWidget* parent = 0);
+    DragValue(const QString &label, int defaultValue, int id, const QString suffix, bool showSlider = true, QWidget* parent = 0);
     virtual ~DragValue();
 
     /** @brief Returns the precision = number of decimals */
@@ -100,7 +102,7 @@ public:
     int spinSize();
     /** @brief Sets the minimum size for QSpinBox, used to set all spinboxes to the same width. */
     void setSpinSize(int width);
-       
+    
 public slots:
     /** @brief Sets the value (forced to be in the valid range) and emits valueChanged. */
     void setValue(int value, bool final = true);
