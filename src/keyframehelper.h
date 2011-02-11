@@ -51,7 +51,12 @@ private:
     Mlt::GeometryItem m_movingItem;
     QPoint m_dragStart;
     int m_lineHeight;
-
+    bool m_drag;
+    int m_hoverKeyframe;
+    QColor m_selected;
+    QColor m_keyframe;
+    QColor m_keyframebg;
+        
 public slots:
     void setKeyGeometry(Mlt::Geometry *geom, const int length);
     void setValue(const int pos);

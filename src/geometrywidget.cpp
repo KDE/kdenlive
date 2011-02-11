@@ -50,6 +50,7 @@ GeometryWidget::GeometryWidget(Monitor* monitor, Timecode timecode, int clipPos,
     m_showScene(true)
 {
     m_ui.setupUi(this);
+    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
     MonitorEditWidget *edit = monitor->getEffectEdit();
     edit->showVisibilityButton(true);
     m_scene = edit->getScene();
