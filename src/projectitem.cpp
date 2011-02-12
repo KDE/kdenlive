@@ -32,33 +32,27 @@ const int ProxyRole = Qt::UserRole + 5;
 const int itemHeight = 38;
 
 ProjectItem::ProjectItem(QTreeWidget * parent, DocClipBase *clip) :
+        m_clip(clip),
+        m_clipId(clip->getId()),
         QTreeWidgetItem(parent, PROJECTCLIPTYPE)
 {
-    setSizeHint(0, QSize(itemHeight * 3, itemHeight));
-    if (clip->isPlaceHolder()) setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsDropEnabled);
-    else setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsDropEnabled);
-    m_clip = clip;
-    m_clipId = clip->getId();
-    QString name = m_clip->getProperty("name");
-    if (name.isEmpty()) name = KUrl(m_clip->getProperty("resource")).fileName();
-    m_clipType = (CLIPTYPE) m_clip->getProperty("type").toInt();
-    if (m_clipType != UNKNOWN) slotSetToolTip();
-    setText(0, name);
-    setText(1, m_clip->description());
-    GenTime duration = m_clip->duration();
-    if (duration != GenTime()) setData(0, DurationRole, Timecode::getEasyTimecode(duration, KdenliveSettings::project_fps()));
-    //setFlags(Qt::NoItemFlags);
-    //kDebug() << "Constructed with clipId: " << m_clipId;
+    buildItem();
 }
 
 ProjectItem::ProjectItem(QTreeWidgetItem * parent, DocClipBase *clip) :
+        m_clip(clip),
+        m_clipId(clip->getId()),
         QTreeWidgetItem(parent, PROJECTCLIPTYPE)
+        
+{
+    buildItem();
+}
+
+void ProjectItem::buildItem()
 {
     setSizeHint(0, QSize(itemHeight * 3, itemHeight));
-    if (clip->isPlaceHolder()) setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsDropEnabled);
+    if (m_clip->isPlaceHolder()) setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsDropEnabled);
     else setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsDropEnabled);
-    m_clip = clip;
-    m_clipId = clip->getId();
     QString name = m_clip->getProperty("name");
     if (name.isEmpty()) name = KUrl(m_clip->getProperty("resource")).fileName();
     m_clipType = (CLIPTYPE) m_clip->getProperty("type").toInt();
@@ -66,10 +60,7 @@ ProjectItem::ProjectItem(QTreeWidgetItem * parent, DocClipBase *clip) :
     setText(1, m_clip->description());
     GenTime duration = m_clip->duration();
     if (duration != GenTime()) setData(0, DurationRole, Timecode::getEasyTimecode(duration, KdenliveSettings::project_fps()));
-    //setFlags(Qt::NoItemFlags);
-    //kDebug() << "Constructed with clipId: " << m_clipId;
 }
-
 
 ProjectItem::~ProjectItem()
 {

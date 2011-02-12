@@ -82,6 +82,8 @@ private:
     QString m_clipId;
     DocClipBase *m_clip;
 
+    void buildItem();
+
 };
 
 #endif

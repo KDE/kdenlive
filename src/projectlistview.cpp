@@ -70,6 +70,11 @@ ProjectListView::~ProjectListView()
 {
 }
 
+void ProjectListView::processLayout()
+{
+    executeDelayedItemsLayout();
+}
+
 void ProjectListView::configureColumns(const QPoint& pos)
 {
     KMenu popup(this);

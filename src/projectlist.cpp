@@ -960,11 +960,12 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
         if (parentitem)
             item = new ProjectItem(parentitem, clip);
     }
-    if (item == NULL)
+    if (item == NULL) {
         item = new ProjectItem(m_listView, clip);
+    }
     if (item->data(0, DurationRole).isNull()) item->setData(0, DurationRole, i18n("Loading"));
     if (getProperties) {
-        qApp->processEvents();
+        m_listView->processLayout();
         m_refreshed = false;
         // Proxy clips
         CLIPTYPE t = clip->clipType();
@@ -1731,6 +1732,7 @@ ProjectItem *ProjectList::getItemById(const QString &id)
 {
     ProjectItem *item;
     QTreeWidgetItemIterator it(m_listView);
+    kDebug()<<"-----------------  GET IT BY ID: "<<id;
     while (*it) {
         if ((*it)->type() != PROJECTCLIPTYPE) {
             // subitem or folder
@@ -1738,6 +1740,7 @@ ProjectItem *ProjectList::getItemById(const QString &id)
             continue;
         }
         item = static_cast<ProjectItem *>(*it);
+        kDebug()<<"/// /// PARSING ITEM............."<<item->clipId()<<"-"<<item->text(0);
         if (item->clipId() == id)
             return item;
         ++it;

@@ -36,6 +36,7 @@ class ProjectListView : public QTreeWidget
 public:
     ProjectListView(QWidget *parent = 0);
     virtual ~ProjectListView();
+    void processLayout();
 
 protected:
     virtual void contextMenuEvent(QContextMenuEvent * event);
