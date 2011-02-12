@@ -1082,12 +1082,11 @@ bool DocClipBase::hasAudioCodec(const QString &codec) const
     return prod->get(property) == codec;
 }
 
-void DocClipBase::generateProxy(KUrl proxyFolder)
+void DocClipBase::generateProxy(KUrl proxyFolder, QString params)
 {
     if (m_proxyThread.isRunning()) return;
     QStringList parameters;
     parameters << "-i" << m_properties.value("resource");
-    QString params = KdenliveSettings::proxyparams().simplified();
     foreach(QString s, params.split(' '))
     parameters << s;
     // Make sure we don't block when proxy file already exists

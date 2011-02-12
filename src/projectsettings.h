@@ -38,6 +38,8 @@ public:
     QPoint tracks();
     bool enableVideoThumbs() const;
     bool enableAudioThumbs() const;
+    bool useProxy() const;
+    QString proxyParams() const;
     static QStringList extractPlaylistUrls(QString path);
     static QStringList extractSlideshowUrls(KUrl url);
 

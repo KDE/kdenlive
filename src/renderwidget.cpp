@@ -59,7 +59,7 @@ const int RUNNINGJOB = 1;
 const int FINISHEDJOB = 2;
 
 
-RenderWidget::RenderWidget(const QString &projectfolder, QWidget * parent) :
+RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, QWidget * parent) :
         QDialog(parent),
         m_projectFolder(projectfolder),
         m_blockProcessing(false)
@@ -87,7 +87,7 @@ RenderWidget::RenderWidget(const QString &projectfolder, QWidget * parent) :
         m_view.buttonInfo->setDown(true);
     } else m_view.advanced_params->hide();
     
-    m_view.proxy_render->setHidden(!KdenliveSettings::enableproxy());
+    m_view.proxy_render->setHidden(!enableProxy);
 
     m_view.rescale_keep->setChecked(KdenliveSettings::rescalekeepratio());
     connect(m_view.rescale_width, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateRescaleWidth(int)));
@@ -1903,9 +1903,9 @@ bool RenderWidget::selectedAudioExport() const
     return (m_view.export_audio->checkState() != Qt::Unchecked);
 }
 
-void RenderWidget::updateProxyConfig()
+void RenderWidget::updateProxyConfig(bool enable)
 {
-    m_view.proxy_render->setHidden(!KdenliveSettings::enableproxy());
+    m_view.proxy_render->setHidden(!enable);
 }
 
 bool RenderWidget::proxyRendering()

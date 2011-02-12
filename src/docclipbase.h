@@ -205,7 +205,7 @@ Q_OBJECT public:
     bool checkHash() const;
     void setPlaceHolder(bool place);
     /** @brief Generate a proxy clip (lower resolution copy) named like the clip's hash. */
-    void generateProxy(KUrl proxyFolder);
+    void generateProxy(KUrl proxyFolder, QString params);
     /** @brief Abort creation of the proxy clip (lower resolution copy). */
     void abortProxy();
 
@@ -278,7 +278,7 @@ private slots:
 
 signals:
     void gotAudioData();
-    void proxyReady(const QString, bool success);
+    void proxyReady(const QString &, bool success);
 };
 
 #endif

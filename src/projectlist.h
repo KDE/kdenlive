@@ -192,6 +192,10 @@ public:
     QMap <QString, QString> getProxies();
     /** @brief Enable / disable proxies. */
     void updateProxyConfig();
+    /** @brief Does this project automatically use proxies. */
+    bool useProxy() const;
+    /** @brief proxy parameters for this project. */
+    QString proxyParams() const;
 
 public slots:
     void setDocument(KdenliveDoc *doc);
@@ -306,7 +310,7 @@ private slots:
     /** @brief Add a sequence from the stopmotion widget. */
     void slotAddOrUpdateSequence(const QString frameName);
     /** @brief A proxy clip was created, update display. */
-    void slotGotProxy(const QString id, bool success);
+    void slotGotProxy(const QString &id, bool success);
     /** @brief Enable / disable proxy for current clip. */
     void slotProxyCurrentItem(bool doProxy);
 

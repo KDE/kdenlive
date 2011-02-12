@@ -1803,6 +1803,8 @@ void MainWindow::newFile(bool showProjectSettings, bool force)
     QString profileName = KdenliveSettings::default_profile();
     KUrl projectFolder = KdenliveSettings::defaultprojectfolder();
     QPoint projectTracks(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks());
+    bool useProxy = KdenliveSettings::enableproxy();
+    QString proxyParams = KdenliveSettings::proxyparams();
     if (!showProjectSettings) {
         if (!KdenliveSettings::activatetabs())
             if (!closeCurrentDocument())
@@ -1821,11 +1823,15 @@ void MainWindow::newFile(bool showProjectSettings, bool force)
         profileName = w->selectedProfile();
         projectFolder = w->selectedFolder();
         projectTracks = w->tracks();
+        useProxy = w->useProxy();
+        proxyParams = w->proxyParams();
         delete w;
     }
     m_timelineArea->setEnabled(true);
     m_projectList->setEnabled(true);
     KdenliveDoc *doc = new KdenliveDoc(KUrl(), projectFolder, m_commandStack, profileName, projectTracks, m_projectMonitor->render, m_notesWidget, this);
+    doc->setDocumentProperty("useproxy", QString::number((int) useProxy));
+    doc->setDocumentProperty("proxyparams", proxyParams);
     doc->m_autosave = new KAutoSaveFile(KUrl(), doc);
     bool ok;
     TrackView *trackView = new TrackView(doc, &ok, this);
@@ -2219,6 +2225,11 @@ void MainWindow::slotEditProjectSettings()
         if (KdenliveSettings::videothumbnails() != w->enableVideoThumbs()) slotSwitchVideoThumbs();
         if (KdenliveSettings::audiothumbnails() != w->enableAudioThumbs()) slotSwitchAudioThumbs();
         if (m_activeDocument->profilePath() != profile) slotUpdateProjectProfile(profile);
+        m_activeDocument->setDocumentProperty("proxyparams", w->proxyParams());
+        if (QString::number((int) w->useProxy()) != m_activeDocument->getDocumentProperty("enableproxy")) {
+            m_activeDocument->setDocumentProperty("enableproxy", QString::number((int) w->useProxy()));
+            slotUpdateProxySettings();
+        }
     }
     delete w;
 }
@@ -2265,7 +2276,7 @@ void MainWindow::slotRenderProject()
 {
     if (!m_renderWidget) {
         QString projectfolder = m_activeDocument ? m_activeDocument->projectFolder().path(KUrl::AddTrailingSlash) : KdenliveSettings::defaultprojectfolder();
-        m_renderWidget = new RenderWidget(projectfolder, this);
+        m_renderWidget = new RenderWidget(projectfolder, m_projectList->useProxy(), this);
         connect(m_renderWidget, SIGNAL(shutdown()), this, SLOT(slotShutdown()));
         connect(m_renderWidget, SIGNAL(selectedRenderProfile(QMap <QString, QString>)), this, SLOT(slotSetDocumentRenderProfile(QMap <QString, QString>)));
         connect(m_renderWidget, SIGNAL(prepareRenderingData(bool, bool, const QString&)), this, SLOT(slotPrepareRendering(bool, bool, const QString&)));
@@ -2573,7 +2584,6 @@ void MainWindow::slotPreferences(int page, int option)
     
     KdenliveSettingsDialog* dialog = new KdenliveSettingsDialog(actions, this);
     connect(dialog, SIGNAL(settingsChanged(const QString&)), this, SLOT(updateConfiguration()));
-    connect(dialog, SIGNAL(updateProxySettings()), this, SLOT(slotUpdateProxySettings()));
     connect(dialog, SIGNAL(doResetProfile()), m_monitorManager, SLOT(slotResetProfiles()));
 #ifndef Q_WS_MAC
     connect(dialog, SIGNAL(updateCaptureFolder()), this, SLOT(slotUpdateCaptureFolder()));
@@ -3805,7 +3815,7 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
     } else exportAudio = m_renderWidget->selectedAudioExport();
     
     // Do we want proxy rendering
-    if (KdenliveSettings::enableproxy() && !m_renderWidget->proxyRendering()) {
+    if (m_projectList->useProxy() && !m_renderWidget->proxyRendering()) {
         // replace proxy clips with originals
         QMap <QString, QString> proxies = m_projectList->getProxies();
         QMapIterator<QString, QString> i(proxies);
@@ -4139,7 +4149,7 @@ void MainWindow::slotDeleteClip(const QString &id)
 
 void MainWindow::slotUpdateProxySettings()
 {
-    if (m_renderWidget) m_renderWidget->updateProxyConfig();
+    if (m_renderWidget) m_renderWidget->updateProxyConfig(m_projectList->useProxy());
     if (KdenliveSettings::enableproxy())
         KStandardDirs::makeDir(m_activeDocument->projectFolder().path(KUrl::AddTrailingSlash) + "proxy/");
     m_projectList->updateProxyConfig();

@@ -74,7 +74,9 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
     m_documentProperties["verticalzoom"] = "1";
     m_documentProperties["zonein"] = "0";
     m_documentProperties["zoneout"] = "100";
-
+    m_documentProperties["enableproxy"] = QString::number((int) KdenliveSettings::enableproxy());
+    m_documentProperties["proxyparams"] = KdenliveSettings::proxyparams();
+    
     if (!url.isEmpty()) {
         QString tmpFile;
         success = KIO::NetAccess::download(url.path(), tmpFile, parent);

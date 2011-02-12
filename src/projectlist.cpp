@@ -964,14 +964,15 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
         item = new ProjectItem(m_listView, clip);
     if (item->data(0, DurationRole).isNull()) item->setData(0, DurationRole, i18n("Loading"));
     if (getProperties) {
+        qApp->processEvents();
         m_refreshed = false;
         // Proxy clips
         CLIPTYPE t = clip->clipType();
-        if ((t == VIDEO || t == AV || t == UNKNOWN) && KdenliveSettings::enableproxy()) {
+        if ((t == VIDEO || t == AV || t == UNKNOWN) && useProxy()) {
             if (clip->getProperty("proxy").isEmpty()) {
-                connect(clip, SIGNAL(proxyReady(const QString, bool)), this, SLOT(slotGotProxy(const QString, bool)));
+                connect(clip, SIGNAL(proxyReady(const QString&, bool)), this, SLOT(slotGotProxy(const QString&, bool)));
                 setProxyStatus(item, 1);
-                clip->generateProxy(m_doc->projectFolder());
+                clip->generateProxy(m_doc->projectFolder(), proxyParams());
             }
             else {
                 // Proxy clip already created
@@ -991,9 +992,9 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
         //m_render->getFileProperties(clip->toXML(), clip->getId(), true);
     }
     else if (!clip->getProperty("proxy").isEmpty()) {
-        connect(clip, SIGNAL(proxyReady(const QString, bool)), this, SLOT(slotGotProxy(const QString, bool)));
+        connect(clip, SIGNAL(proxyReady(const QString&, bool)), this, SLOT(slotGotProxy(const QString&, bool)));
         setProxyStatus(item, 1);
-        clip->generateProxy(m_doc->projectFolder());
+        clip->generateProxy(m_doc->projectFolder(), proxyParams());
     }
     clip->askForAudioThumbs();
     
@@ -1041,7 +1042,7 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
         m_queueRunner = QtConcurrent::run(this, &ProjectList::slotProcessNextClipInQueue);
 }
 
-void ProjectList::slotGotProxy(const QString id, bool success)
+void ProjectList::slotGotProxy(const QString &id, bool success)
 {
     ProjectItem *item = getItemById(id);
     if (item) {
@@ -1668,6 +1669,16 @@ bool ProjectList::adjustProjectProfileToItem(ProjectItem *item)
     return profileUpdated;
 }
 
+bool ProjectList::useProxy() const
+{
+    return m_doc->getDocumentProperty("enableproxy").toInt();
+}
+
+QString ProjectList::proxyParams() const
+{
+    return m_doc->getDocumentProperty("proxyparams").simplified();
+}
+
 void ProjectList::slotReplyGetImage(const QString &clipId, const QPixmap &pix)
 {
     ProjectItem *item = getItemById(clipId);
@@ -1722,7 +1733,7 @@ ProjectItem *ProjectList::getItemById(const QString &id)
     QTreeWidgetItemIterator it(m_listView);
     while (*it) {
         if ((*it)->type() != PROJECTCLIPTYPE) {
-            // subitem
+            // subitem or folder
             ++it;
             continue;
         }
@@ -2010,12 +2021,17 @@ void ProjectList::updateProxyConfig()
             continue;
         }
         item = static_cast<ProjectItem *>(*it);
-        if (item && item->referencedClip() != NULL) {
-            if  (KdenliveSettings::enableproxy()) {
+        if (item == NULL) {
+            ++it;
+            continue;
+        }
+        CLIPTYPE t = item->clipType();
+        if ((t == VIDEO || t == AV || t == UNKNOWN) && item->referencedClip() != NULL) {
+            if  (useProxy()) {
                 DocClipBase *clip = item->referencedClip();
-                connect(clip, SIGNAL(proxyReady(const QString, bool)), this, SLOT(slotGotProxy(const QString, bool)));
+                connect(clip, SIGNAL(proxyReady(const QString &, bool)), this, SLOT(slotGotProxy(const QString &, bool)));
                 setProxyStatus(item, 1);
-                clip->generateProxy(m_doc->projectFolder());
+                clip->generateProxy(m_doc->projectFolder(), proxyParams());
             }
             else if (!item->referencedClip()->getProperty("proxy").isEmpty()) {
                 // remove proxy
@@ -2045,12 +2061,13 @@ void ProjectList::slotProxyCurrentItem(bool doProxy)
         }
         if (listItem->type() == PROJECTCLIPTYPE) {
             ProjectItem *item = static_cast <ProjectItem*>(listItem);
-            if (item->referencedClip()) {
+            CLIPTYPE t = item->clipType();
+            if ((t == VIDEO || t == AV || t == UNKNOWN) && item->referencedClip()) {
                 if (doProxy) {
                     DocClipBase *clip = item->referencedClip();
-                    connect(clip, SIGNAL(proxyReady(const QString, bool)), this, SLOT(slotGotProxy(const QString, bool)));
+                    connect(clip, SIGNAL(proxyReady(const QString&, bool)), this, SLOT(slotGotProxy(const QString&, bool)));
                     setProxyStatus(item, 1);
-                    clip->generateProxy(m_doc->projectFolder());
+                    clip->generateProxy(m_doc->projectFolder(), proxyParams());
                 }
                 else if (!item->referencedClip()->getProperty("proxy").isEmpty()) {
                     // remove proxy

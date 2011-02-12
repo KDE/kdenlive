@@ -109,7 +109,7 @@ class RenderWidget : public QDialog
     Q_OBJECT
 
 public:
-    explicit RenderWidget(const QString &projectfolder, QWidget * parent = 0);
+    explicit RenderWidget(const QString &projectfolder, bool enableProxy, QWidget * parent = 0);
     virtual ~RenderWidget();
     void setGuides(QDomElement guidesxml, double duration);
     void focusFirstVisibleItem();
@@ -128,7 +128,7 @@ public:
     /** @brief Returns true if user wants audio export. */
     bool selectedAudioExport() const;
     /** @brief Show / hide proxy settings. */
-    void updateProxyConfig();
+    void updateProxyConfig(bool enable);
     /** @brief Should we render using proxy clips. */
     bool proxyRendering();
 

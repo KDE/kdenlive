@@ -518,10 +518,6 @@
   </group>
 
    <group name="drag_value">
-       <entry name="dragvalue_nonlinear" type="Bool">
-           <label>...</label>
-           <default>false</default>
-       </entry>
        <entry name="dragvalue_mode" type="Int">
            <label>...</label>
            <default>0</default>

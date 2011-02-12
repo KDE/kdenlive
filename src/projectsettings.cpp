@@ -65,7 +65,18 @@ ProjectSettings::ProjectSettings(ProjectList *projectlist, QStringList lumas, in
     video_thumbs->setChecked(KdenliveSettings::videothumbnails());
     audio_tracks->setValue(audiotracks);
     video_tracks->setValue(videotracks);
-
+    connect(enable_proxy, SIGNAL(toggled(bool)), proxy_params, SLOT(setVisible(bool)));
+    if (projectlist) {
+        enable_proxy->setChecked(projectlist->useProxy());
+        proxy_params->setText(projectlist->proxyParams());
+        proxy_params->setVisible(projectlist->useProxy());
+    }
+    else {
+        enable_proxy->setChecked(KdenliveSettings::enableproxy());
+        proxy_params->setText(KdenliveSettings::proxyparams());
+        proxy_params->setVisible(KdenliveSettings::enableproxy());
+    }
+    
     if (readOnlyTracks) {
         video_tracks->setEnabled(false);
         audio_tracks->setEnabled(false);
@@ -304,6 +315,15 @@ bool ProjectSettings::enableAudioThumbs() const
     return audio_thumbs->isChecked();
 }
 
+bool ProjectSettings::useProxy() const
+{
+    return enable_proxy->isChecked();
+}
+
+QString ProjectSettings::proxyParams() const
+{
+    return proxy_params->toPlainText();
+}
 
 //static
 QStringList ProjectSettings::extractPlaylistUrls(QString path)
