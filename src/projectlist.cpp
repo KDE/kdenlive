@@ -1732,7 +1732,6 @@ ProjectItem *ProjectList::getItemById(const QString &id)
 {
     ProjectItem *item;
     QTreeWidgetItemIterator it(m_listView);
-    kDebug()<<"-----------------  GET IT BY ID: "<<id;
     while (*it) {
         if ((*it)->type() != PROJECTCLIPTYPE) {
             // subitem or folder
@@ -1740,7 +1739,6 @@ ProjectItem *ProjectList::getItemById(const QString &id)
             continue;
         }
         item = static_cast<ProjectItem *>(*it);
-        kDebug()<<"/// /// PARSING ITEM............."<<item->clipId()<<"-"<<item->text(0);
         if (item->clipId() == id)
             return item;
         ++it;
