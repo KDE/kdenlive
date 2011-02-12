@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>285</width>
-    <height>433</height>
+    <width>321</width>
+    <height>462</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -57,7 +57,7 @@
       <attribute name="title">
        <string>Settings</string>
       </attribute>
-      <layout class="QGridLayout" name="gridLayout_2">
+      <layout class="QGridLayout" name="gridLayout_6">
        <item row="0" column="0">
         <widget class="QLabel" name="label_4">
          <property name="text">
@@ -65,10 +65,10 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="1" colspan="4">
+       <item row="0" column="1" colspan="3">
         <widget class="KUrlRequester" name="project_folder"/>
        </item>
-       <item row="1" column="0" colspan="6">
+       <item row="1" column="0" colspan="4">
         <widget class="QGroupBox" name="properties">
          <property name="title">
           <string>Video Profile</string>
@@ -164,38 +164,42 @@
          </layout>
         </widget>
        </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="label_7">
-         <property name="text">
-          <string>Video tracks</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QSpinBox" name="video_tracks"/>
-       </item>
-       <item row="2" column="2" colspan="2">
-        <widget class="QLabel" name="label_8">
-         <property name="text">
-          <string>Audio tracks</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="4">
-        <widget class="QSpinBox" name="audio_tracks"/>
-       </item>
-       <item row="2" column="5">
-        <spacer name="horizontalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>67</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
+       <item row="2" column="0" colspan="4">
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <widget class="QLabel" name="label_7">
+           <property name="text">
+            <string>Video tracks</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="video_tracks"/>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_8">
+           <property name="text">
+            <string>Audio tracks</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="audio_tracks"/>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>67</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
        </item>
        <item row="3" column="0">
         <widget class="QLabel" name="label_2">
@@ -218,7 +222,7 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="3" colspan="3">
+       <item row="3" column="3">
         <spacer name="horizontalSpacer">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -230,6 +234,51 @@
           </size>
          </property>
         </spacer>
+       </item>
+       <item row="4" column="0" colspan="4">
+        <widget class="QCheckBox" name="enable_proxy">
+         <property name="text">
+          <string>Enable proxy clips</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0" colspan="4">
+        <widget class="QFrame" name="proxy_box">
+         <property name="frameShape">
+          <enum>QFrame::NoFrame</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_2">
+          <property name="margin">
+           <number>0</number>
+          </property>
+          <item row="0" column="0">
+           <widget class="QCheckBox" name="generate_proxy">
+            <property name="text">
+             <string>Generate proxy if clip  larger than</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="KIntSpinBox" name="proxy_minsize">
+            <property name="suffix">
+             <string>pixels</string>
+            </property>
+            <property name="maximum">
+             <number>10000</number>
+            </property>
+            <property name="value">
+             <number>1000</number>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0" colspan="2">
+           <widget class="QTextEdit" name="proxy_params"/>
+          </item>
+         </layout>
+        </widget>
        </item>
        <item row="6" column="0" colspan="2">
         <spacer name="verticalSpacer">
@@ -243,16 +292,6 @@
           </size>
          </property>
         </spacer>
-       </item>
-       <item row="4" column="0" colspan="5">
-        <widget class="QCheckBox" name="enable_proxy">
-         <property name="text">
-          <string>Enable proxy clips</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0" colspan="6">
-        <widget class="QTextEdit" name="proxy_params"/>
        </item>
       </layout>
      </widget>
@@ -407,6 +446,11 @@
   </layout>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>KIntSpinBox</class>
+   <extends>QSpinBox</extends>
+   <header>knuminput.h</header>
+  </customwidget>
   <customwidget>
    <class>KUrlRequester</class>
    <extends>QFrame</extends>

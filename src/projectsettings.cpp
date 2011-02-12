@@ -65,16 +65,22 @@ ProjectSettings::ProjectSettings(ProjectList *projectlist, QStringList lumas, in
     video_thumbs->setChecked(KdenliveSettings::videothumbnails());
     audio_tracks->setValue(audiotracks);
     video_tracks->setValue(videotracks);
-    connect(enable_proxy, SIGNAL(toggled(bool)), proxy_params, SLOT(setVisible(bool)));
+    connect(enable_proxy, SIGNAL(toggled(bool)), proxy_box, SLOT(setEnabled(bool)));
+    connect(generate_proxy, SIGNAL(toggled(bool)), proxy_minsize, SLOT(setEnabled(bool)));
+    
     if (projectlist) {
         enable_proxy->setChecked(projectlist->useProxy());
+        generate_proxy->setChecked(projectlist->generateProxy());
+        proxy_minsize->setValue(projectlist->proxyMinSize());
         proxy_params->setText(projectlist->proxyParams());
-        proxy_params->setVisible(projectlist->useProxy());
+        proxy_box->setEnabled(projectlist->useProxy());
     }
     else {
         enable_proxy->setChecked(KdenliveSettings::enableproxy());
+        generate_proxy->setChecked(KdenliveSettings::enableproxy());
+        proxy_minsize->setValue(1000);
         proxy_params->setText(KdenliveSettings::proxyparams());
-        proxy_params->setVisible(KdenliveSettings::enableproxy());
+        proxy_box->setEnabled(KdenliveSettings::enableproxy());
     }
     
     if (readOnlyTracks) {
@@ -318,6 +324,16 @@ bool ProjectSettings::enableAudioThumbs() const
 bool ProjectSettings::useProxy() const
 {
     return enable_proxy->isChecked();
+}
+
+bool ProjectSettings::generateProxy() const
+{
+    return generate_proxy->isChecked();
+}
+
+int ProjectSettings::proxyMinSize() const
+{
+    return proxy_minsize->value();
 }
 
 QString ProjectSettings::proxyParams() const

@@ -39,6 +39,8 @@ public:
     bool enableVideoThumbs() const;
     bool enableAudioThumbs() const;
     bool useProxy() const;
+    bool generateProxy() const;
+    int proxyMinSize() const;
     QString proxyParams() const;
     static QStringList extractPlaylistUrls(QString path);
     static QStringList extractSlideshowUrls(KUrl url);

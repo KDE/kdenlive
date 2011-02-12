@@ -1805,6 +1805,8 @@ void MainWindow::newFile(bool showProjectSettings, bool force)
     QPoint projectTracks(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks());
     bool useProxy = KdenliveSettings::enableproxy();
     QString proxyParams = KdenliveSettings::proxyparams();
+    bool generateProxy = KdenliveSettings::enableproxy();
+    int proxyMinSize = 1000;
     if (!showProjectSettings) {
         if (!KdenliveSettings::activatetabs())
             if (!closeCurrentDocument())
@@ -1825,6 +1827,8 @@ void MainWindow::newFile(bool showProjectSettings, bool force)
         projectTracks = w->tracks();
         useProxy = w->useProxy();
         proxyParams = w->proxyParams();
+        generateProxy = w->generateProxy();
+        proxyMinSize = w->proxyMinSize();
         delete w;
     }
     m_timelineArea->setEnabled(true);
@@ -1832,6 +1836,8 @@ void MainWindow::newFile(bool showProjectSettings, bool force)
     KdenliveDoc *doc = new KdenliveDoc(KUrl(), projectFolder, m_commandStack, profileName, projectTracks, m_projectMonitor->render, m_notesWidget, this);
     doc->setDocumentProperty("useproxy", QString::number((int) useProxy));
     doc->setDocumentProperty("proxyparams", proxyParams);
+    doc->setDocumentProperty("generateproxy", QString::number((int) generateProxy));
+    doc->setDocumentProperty("proxyminsize", QString::number(proxyMinSize));
     doc->m_autosave = new KAutoSaveFile(KUrl(), doc);
     bool ok;
     TrackView *trackView = new TrackView(doc, &ok, this);
@@ -2226,6 +2232,8 @@ void MainWindow::slotEditProjectSettings()
         if (KdenliveSettings::audiothumbnails() != w->enableAudioThumbs()) slotSwitchAudioThumbs();
         if (m_activeDocument->profilePath() != profile) slotUpdateProjectProfile(profile);
         m_activeDocument->setDocumentProperty("proxyparams", w->proxyParams());
+        m_activeDocument->setDocumentProperty("generateproxy", QString::number((int) w->generateProxy()));
+        m_activeDocument->setDocumentProperty("proxyminsize", QString::number(w->proxyMinSize()));
         if (QString::number((int) w->useProxy()) != m_activeDocument->getDocumentProperty("enableproxy")) {
             m_activeDocument->setDocumentProperty("enableproxy", QString::number((int) w->useProxy()));
             slotUpdateProxySettings();

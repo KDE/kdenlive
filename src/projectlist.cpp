@@ -585,7 +585,7 @@ void ProjectList::adjustProxyActions(ProjectItem *clip) const
         m_proxyAction->setEnabled(false);
         return;
     }
-    m_proxyAction->setEnabled(true);
+    m_proxyAction->setEnabled(useProxy());
     m_proxyAction->blockSignals(true);
     m_proxyAction->setChecked(clip->hasProxy());
     m_proxyAction->blockSignals(false);
@@ -827,7 +827,7 @@ void ProjectList::updateButtons() const
             m_openAction->setEnabled(true);
             m_reloadAction->setEnabled(true);
             m_transcodeAction->setEnabled(true);
-            m_proxyAction->setEnabled(true);
+            m_proxyAction->setEnabled(useProxy());
             return;
         }
         else if (item && item->type() == PROJECTFOLDERTYPE && item->childCount() > 0) {
@@ -971,9 +971,10 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
         CLIPTYPE t = clip->clipType();
         if ((t == VIDEO || t == AV || t == UNKNOWN) && useProxy()) {
             if (clip->getProperty("proxy").isEmpty()) {
-                connect(clip, SIGNAL(proxyReady(const QString&, bool)), this, SLOT(slotGotProxy(const QString&, bool)));
-                setProxyStatus(item, 1);
-                clip->generateProxy(m_doc->projectFolder(), proxyParams());
+                
+                //connect(clip, SIGNAL(proxyReady(const QString&, bool)), this, SLOT(slotGotProxy(const QString&, bool)));
+                //setProxyStatus(item, 1);
+                //clip->generateProxy(m_doc->projectFolder(), proxyParams());
             }
             else {
                 // Proxy clip already created
@@ -983,13 +984,13 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
                 m_infoQueue.insert(clip->getId(), e);
             }
         }
-        else {
+        //else {
             // We don't use proxies
             // remove file_hash so that we load all properties for the clip
             QDomElement e = clip->toXML().cloneNode().toElement();
             e.removeAttribute("file_hash");
             m_infoQueue.insert(clip->getId(), e);
-        }
+        //}
         //m_render->getFileProperties(clip->toXML(), clip->getId(), true);
     }
     else if (!clip->getProperty("proxy").isEmpty()) {
@@ -1562,9 +1563,20 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
             item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsDropEnabled);
             toReload = clipId;
         }
-        if (item->referencedClip()->getProperty("proxy").isEmpty()) setProxyStatus(item, 0);
-        item->referencedClip()->setProducer(producer, replace);
-        item->referencedClip()->askForAudioThumbs();
+        if (!useProxy() && item->referencedClip()->getProperty("proxy").isEmpty()) setProxyStatus(item, 0);
+        QString type = properties.value("type");
+        QString size = properties.value("frame_size");
+        DocClipBase *clip = item->referencedClip();
+        if (useProxy() && (type == "video" || type == "av") && generateProxy() && size.section('x', 0, 0).toInt() > proxyMinSize()) {
+            if (clip->getProperty("proxy").isEmpty()) {
+                connect(clip, SIGNAL(proxyReady(const QString&, bool)), this, SLOT(slotGotProxy(const QString&, bool)));
+                setProxyStatus(item, 1);
+                clip->generateProxy(m_doc->projectFolder(), proxyParams());
+                
+            }
+        }
+        clip->setProducer(producer, replace);
+        clip->askForAudioThumbs();
         if (!replace && item->data(0, Qt::DecorationRole).isNull())
             requestClipThumbnail(clipId);
         if (!toReload.isEmpty())
@@ -1573,7 +1585,7 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
         if (m_listView->isEnabled() && replace) {
             // update clip in clip monitor
             emit clipSelected(NULL);
-            emit clipSelected(item->referencedClip());
+            emit clipSelected(clip);
             //TODO: Make sure the line below has no side effect
             toReload = clipId;
         }
@@ -1675,6 +1687,16 @@ bool ProjectList::useProxy() const
     return m_doc->getDocumentProperty("enableproxy").toInt();
 }
 
+bool ProjectList::generateProxy() const
+{
+    return m_doc->getDocumentProperty("generateproxy").toInt();
+}
+
+int ProjectList::proxyMinSize() const
+{
+    return m_doc->getDocumentProperty("proxyminsize").toInt();
+}
+
 QString ProjectList::proxyParams() const
 {
     return m_doc->getDocumentProperty("proxyparams").simplified();
@@ -1771,7 +1793,7 @@ void ProjectList::slotSelectClip(const QString &ix)
         m_deleteButton->defaultAction()->setEnabled(true);
         m_reloadAction->setEnabled(true);
         m_transcodeAction->setEnabled(true);
-        m_proxyAction->setEnabled(true);
+        m_proxyAction->setEnabled(useProxy());
         if (clip->clipType() == IMAGE && !KdenliveSettings::defaultimageapp().isEmpty()) {
             m_openAction->setIcon(KIcon(KdenliveSettings::defaultimageapp()));
             m_openAction->setEnabled(true);
@@ -2028,11 +2050,13 @@ void ProjectList::updateProxyConfig()
         }
         CLIPTYPE t = item->clipType();
         if ((t == VIDEO || t == AV || t == UNKNOWN) && item->referencedClip() != NULL) {
-            if  (useProxy()) {
+            if  (generateProxy() && useProxy()) {
                 DocClipBase *clip = item->referencedClip();
-                connect(clip, SIGNAL(proxyReady(const QString &, bool)), this, SLOT(slotGotProxy(const QString &, bool)));
-                setProxyStatus(item, 1);
-                clip->generateProxy(m_doc->projectFolder(), proxyParams());
+                if (clip->getProperty("frame_size").section('x', 0, 0).toInt() > proxyMinSize()) {
+                    connect(clip, SIGNAL(proxyReady(const QString &, bool)), this, SLOT(slotGotProxy(const QString &, bool)));
+                    setProxyStatus(item, 1);
+                    clip->generateProxy(m_doc->projectFolder(), proxyParams());
+                }
             }
             else if (!item->referencedClip()->getProperty("proxy").isEmpty()) {
                 // remove proxy

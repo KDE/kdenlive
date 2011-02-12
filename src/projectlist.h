@@ -196,6 +196,10 @@ public:
     bool useProxy() const;
     /** @brief proxy parameters for this project. */
     QString proxyParams() const;
+    /** @brief Should we automatically create proxy clips for newly added clips. */
+    bool generateProxy() const;
+    /** @brief Minimum clip width to create proxy. */
+    int proxyMinSize() const;
 
 public slots:
     void setDocument(KdenliveDoc *doc);
