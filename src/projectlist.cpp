@@ -1564,15 +1564,13 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
             toReload = clipId;
         }
         if (!useProxy() && item->referencedClip()->getProperty("proxy").isEmpty()) setProxyStatus(item, 0);
-        QString type = properties.value("type");
         QString size = properties.value("frame_size");
         DocClipBase *clip = item->referencedClip();
-        if (useProxy() && (type == "video" || type == "av") && generateProxy() && size.section('x', 0, 0).toInt() > proxyMinSize()) {
+        if (useProxy() && (item->clipType() == AV || item->clipType() == VIDEO) && generateProxy() && size.section('x', 0, 0).toInt() > proxyMinSize()) {
             if (clip->getProperty("proxy").isEmpty()) {
                 connect(clip, SIGNAL(proxyReady(const QString&, bool)), this, SLOT(slotGotProxy(const QString&, bool)));
                 setProxyStatus(item, 1);
                 clip->generateProxy(m_doc->projectFolder(), proxyParams());
-                
             }
         }
         clip->setProducer(producer, replace);
