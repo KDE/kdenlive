@@ -40,6 +40,7 @@ SimpleTimelineWidget::SimpleTimelineWidget(QWidget* parent) :
 void SimpleTimelineWidget::setKeyframes(QList <int> keyframes)
 {
     m_keyframes = keyframes;
+    qSort(m_keyframes);
     m_currentKeyframe = m_currentKeyframeOriginal = -1;
     update();
 }
@@ -56,6 +57,7 @@ void SimpleTimelineWidget::slotAddKeyframe(int pos, int select)
         pos = m_position;
 
     m_keyframes.append(pos);
+    qSort(m_keyframes);
     if (select)
         m_currentKeyframe = m_currentKeyframeOriginal = pos;
     update();

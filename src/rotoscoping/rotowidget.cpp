@@ -26,12 +26,12 @@
 #include "simplekeyframes/simplekeyframewidget.h"
 #include "kdenlivesettings.h"
 
+#include <math.h>
+
 #include <qjson/parser.h>
 #include <qjson/serializer.h>
 
 #include <QVBoxLayout>
-
-#include <KDebug>
 
 
 RotoWidget::RotoWidget(QString data, Monitor *monitor, int in, int out, Timecode t, QWidget* parent) :
@@ -67,6 +67,15 @@ RotoWidget::RotoWidget(QString data, Monitor *monitor, int in, int out, Timecode
             ++i;
         }
         m_keyframeWidget->setKeyframes(keyframes);
+
+        for (int j = 0; j < keyframes.count(); ++j) {
+            // key might already be justified
+            if (map.contains(QString::number(keyframes.at(j)))) {
+                QVariant value = map.take(QString::number(keyframes.at(j)));
+                map[QString::number(keyframes.at(j)).rightJustified(qRound(log10((double)m_out)), '0')] = value;
+            }
+        }
+        m_data = QVariant(map);
     } else {
         m_keyframeWidget->setKeyframes(QList <int>() << 0);
     }
@@ -139,7 +148,7 @@ void RotoWidget::slotUpdateData(int pos, bool editing)
 
     if (m_data.canConvert(QVariant::Map)) {
         QMap <QString, QVariant> map = m_data.toMap();
-        map[QString::number(pos < 0 ? m_keyframeWidget->getPosition() : pos)] = QVariant(vlist);
+        map[QString::number(pos < 0 ? m_keyframeWidget->getPosition() : pos).rightJustified(qRound(log10((double)m_out)), '0')] = QVariant(vlist);
         m_data = QVariant(map);
     } else {
         m_data = QVariant(vlist);
@@ -218,7 +227,7 @@ QList <BPoint> RotoWidget::getPoints(int keyframe)
     QList <BPoint> points;
     QList <QVariant> data;
     if (keyframe >= 0)
-        data = m_data.toMap()[QString::number(keyframe)].toList();
+        data = m_data.toMap()[QString::number(keyframe).rightJustified(qRound(log10((double)m_out)), '0')].toList();
     else
         data = m_data.toList();
     foreach (const QVariant &bpoint, data) {
@@ -237,7 +246,7 @@ void RotoWidget::slotAddKeyframe(int pos)
     if (!m_data.canConvert(QVariant::Map)) {
         QVariant data = m_data;
         QMap<QString, QVariant> map;
-        map[QString::number(m_in)] = data;
+        map[QString::number(m_in).rightJustified(qRound(log10((double)m_out)), '0')] = data;
         m_data = QVariant(map);
     }
 
@@ -257,7 +266,7 @@ void RotoWidget::slotRemoveKeyframe(int pos)
     if (!m_data.canConvert(QVariant::Map) || m_data.toMap().count() < 2)
         return;
 
-    m_data.toMap().remove(QString::number(pos));
+    m_data.toMap().remove(QString::number(pos).rightJustified(qRound(log10((double)m_out)), '0'));
 
     if (m_data.toMap().count() == 1)
         m_data = m_data.toMap().begin().value();
