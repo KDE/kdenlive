@@ -16,47 +16,47 @@
  *   along with Kdenlive.  If not, see <http://www.gnu.org/licenses/>.     *
  ***************************************************************************/
 
-#ifndef SPLINEITEM_H
-#define SPLINEITEM_H
+#ifndef SIMPLEKEYFRAMEWIDGET_H
+#define SIMPLEKEYFRAMEWIDGET_H
+
+#include "timecode.h"
 
 #include <QtCore>
-#include <QGraphicsPathItem>
+#include <QWidget>
 
-class BPoint;
+class SimpleTimelineWidget;
+class TimecodeDisplay;
+class QToolButton;
 
-class SplineItem : public QObject, public QGraphicsPathItem
+
+class SimpleKeyframeWidget : public QWidget
 {
     Q_OBJECT
 
 public:
-    SplineItem(const QList <BPoint> &points, QGraphicsItem* parent = 0, QGraphicsScene *scene = 0);
+    SimpleKeyframeWidget(Timecode t, int in, int out, QWidget* parent = 0);
+    virtual ~SimpleKeyframeWidget();
 
-    enum { Type = UserType + 10 };
+    int getPosition();
+    void setKeyframes(const QList <int> &keyframes);
+    void addKeyframe(int pos = -1);
 
-    virtual int type() const;
-
-    bool editing();
-
-    void updateSpline(bool editing = false);
-    QList <BPoint> getPoints();
-    void setPoints(const QList <BPoint> &points);
-
-    void removeChild(QGraphicsItem *child);
-
-protected:
-    virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);
-    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
-    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
-    virtual void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
-
-private:
-    int getClosestPointOnCurve(QPointF point, double *tFinal);
-
-    bool m_closed;
-    bool m_editing;
+public slots:
+    void slotSetPosition(int pos = -1, bool update = true);
 
 signals:
-    void changed(bool editing);
+    void positionChanged(int pos);
+    void keyframeAdded(int pos);
+    void keyframeRemoved(int pos);
+
+private:
+    SimpleTimelineWidget *m_timeline;
+    QToolButton *m_buttonAddDelete;
+    QToolButton *m_buttonPrevious;
+    QToolButton *m_buttonNext;
+    //QToolButton *m_buttonSync;
+    TimecodeDisplay *m_time;
 };
+
 
 #endif

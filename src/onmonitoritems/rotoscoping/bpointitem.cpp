@@ -73,8 +73,13 @@ void BPointItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
     Q_UNUSED(option);
     Q_UNUSED(widget);
 
-    painter->setPen(QPen(Qt::yellow, 1, Qt::SolidLine));
-    painter->setBrush(QBrush(isSelected() ? Qt::red : Qt::yellow));
+    if (isEnabled()) {
+        painter->setPen(QPen(Qt::yellow, 1, Qt::SolidLine));
+        painter->setBrush(QBrush(isSelected() ? Qt::red : Qt::yellow));
+    } else {
+        painter->setPen(QPen(Qt::gray, 1, Qt::SolidLine));
+        painter->setBrush(QBrush(Qt::gray));
+    }
     painter->setRenderHint(QPainter::Antialiasing);
 
     double handleSize = 6 / painter->matrix().m11();
@@ -152,13 +157,18 @@ void BPointItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
     if (parentItem()) {
         SplineItem *parent = qgraphicsitem_cast<SplineItem*>(parentItem());
         if (parent)
-            parent->updateSpline();
+            parent->updateSpline(true);
     }
 }
 
 void BPointItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 {
-QGraphicsItem::mouseReleaseEvent(event);
+    if (parentItem()) {
+        SplineItem *parent = qgraphicsitem_cast<SplineItem*>(parentItem());
+        if (parent)
+            parent->updateSpline(false);
+    }
+    QGraphicsItem::mouseReleaseEvent(event);
 }
 
 void BPointItem::hoverMoveEvent(QGraphicsSceneHoverEvent* event)

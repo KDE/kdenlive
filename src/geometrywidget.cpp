@@ -248,8 +248,7 @@ void GeometryWidget::slotSyncPosition(int relTimelinePos)
 {
     // do only sync if this effect is keyframable
     if (m_timePos->maximum() > 0 && KdenliveSettings::transitionfollowcursor()) {
-        relTimelinePos = qMax(0, relTimelinePos);
-        relTimelinePos = qMin(relTimelinePos, m_timePos->maximum());
+        relTimelinePos = qBound(0, relTimelinePos, m_timePos->maximum());
         if (relTimelinePos != m_timePos->getValue())
             slotPositionChanged(relTimelinePos, false);
     }

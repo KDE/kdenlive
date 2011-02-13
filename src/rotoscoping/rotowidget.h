@@ -20,19 +20,21 @@
 #define ROTOWIDGET_H
 
 #include "bpoint.h"
+#include "timecode.h"
 
 #include <QWidget>
 
 class Monitor;
 class MonitorScene;
 class SplineItem;
+class SimpleKeyframeWidget;
 
 class RotoWidget : public QWidget
 {
     Q_OBJECT
 
 public:
-    RotoWidget(QString data, Monitor *monitor, int in, int out, QWidget* parent = 0);
+    RotoWidget(QString data, Monitor *monitor, int in, int out, Timecode t, QWidget* parent = 0);
     virtual ~RotoWidget();
 
     QString getSpline();
@@ -46,9 +48,11 @@ public slots:
 signals:
     void valueChanged();
     void checkMonitorPosition(int);
+    void seekToPos(int pos);
 
 
 private:
+    SimpleKeyframeWidget *m_keyframeWidget;
     Monitor *m_monitor;
     MonitorScene *m_scene;
     bool m_showScene;
@@ -58,12 +62,20 @@ private:
     int m_out;
     int m_pos;
 
+    QList <BPoint> getPoints(int keyframe);
+
 private slots:
     /** @brief Makes sure the monitor effect scene is only visible if the clip this geometry belongs to is visible.
     * @param renderPos Postion of the Monitor / Timeline cursor */
     void slotCheckMonitorPosition(int renderPos);
 
-    void slotUpdateData();
+    void slotUpdateData(int pos = -1, bool editing = false);
+    void slotUpdateData(bool editing);
+
+    void slotPositionChanged(int pos, bool seek = true);
+
+    void slotAddKeyframe(int pos = -1);
+    void slotRemoveKeyframe(int pos = -1);
 };
 
 #endif

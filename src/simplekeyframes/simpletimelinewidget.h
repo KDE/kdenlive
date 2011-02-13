@@ -16,47 +16,54 @@
  *   along with Kdenlive.  If not, see <http://www.gnu.org/licenses/>.     *
  ***************************************************************************/
 
-#ifndef SPLINEITEM_H
-#define SPLINEITEM_H
+#ifndef SIMPLETIMELINEWIDGET_H
+#define SIMPLETIMELINEWIDGET_H
 
 #include <QtCore>
-#include <QGraphicsPathItem>
+#include <QWidget>
 
-class BPoint;
-
-class SplineItem : public QObject, public QGraphicsPathItem
+class SimpleTimelineWidget : public QWidget
 {
     Q_OBJECT
 
 public:
-    SplineItem(const QList <BPoint> &points, QGraphicsItem* parent = 0, QGraphicsScene *scene = 0);
+    SimpleTimelineWidget(QWidget* parent = 0);
+    void setKeyframes(QList <int> keyframes);
+    void setRange(int min, int max);
 
-    enum { Type = UserType + 10 };
-
-    virtual int type() const;
-
-    bool editing();
-
-    void updateSpline(bool editing = false);
-    QList <BPoint> getPoints();
-    void setPoints(const QList <BPoint> &points);
-
-    void removeChild(QGraphicsItem *child);
+public slots:
+    void slotSetPosition(int pos);
+    void slotRemoveKeyframe(int pos);
+    void slotAddKeyframe(int pos = - 1, int select = false);
+    void slotAddRemove();
+    void slotGoToNext();
+    void slotGoToPrev();
 
 protected:
-    virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);
-    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
-    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
-    virtual void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
+    void paintEvent(QPaintEvent *event);
+    void mousePressEvent(QMouseEvent *event);
+    void mouseReleaseEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
+    void wheelEvent(QWheelEvent *event);
 
 private:
-    int getClosestPointOnCurve(QPointF point, double *tFinal);
-
-    bool m_closed;
-    bool m_editing;
+    int m_min;
+    int m_max;
+    int m_position;
+    int m_currentKeyframe;
+    int m_currentKeyframeOriginal;
+    QList <int> m_keyframes;
+    int m_lineHeight;
+    double m_scale;
 
 signals:
-    void changed(bool editing);
+    void positionChanged(int pos);
+
+    void keyframeSelected();
+    void keyframeMoving(int oldPos, int currentPos);
+    void keyframeMoved(int oldPos, int newPos);
+    void keyframeAdded(int pos);
+    void keyframeRemoved(int pos);
 };
 
 #endif

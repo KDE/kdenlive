@@ -19,6 +19,7 @@
 #include "splineitem.h"
 #include "bpointitem.h"
 #include "nearestpoint.h"
+#include "kdenlivesettings.h"
 
 #include <QGraphicsScene>
 #include <QCursor>
@@ -52,7 +53,9 @@ void deCasteljau(BPoint *p1, BPoint *p2, BPoint *res, double t)
 
 
 SplineItem::SplineItem(const QList< BPoint >& points, QGraphicsItem* parent, QGraphicsScene *scene) :
-    QGraphicsPathItem(parent, scene)
+    QGraphicsPathItem(parent, scene),
+    m_closed(false),
+    m_editing(false)
 {
     QPen framepen(Qt::SolidLine);
     framepen.setColor(Qt::yellow);
@@ -60,21 +63,7 @@ SplineItem::SplineItem(const QList< BPoint >& points, QGraphicsItem* parent, QGr
     setBrush(Qt::NoBrush);
     setAcceptHoverEvents(true);
 
-    m_closed = true;
-    if (points.isEmpty()) {
-        m_closed = false;
-        grabMouse();
-        return;
-    }
-
-    QPainterPath path(points.at(0).p);
-    int j;
-    for (int i = 0; i < points.count(); ++i) {
-        new BPointItem(points.at(i), this);
-        j = (i + 1) % points.count();
-        path.cubicTo(points.at(i).h2, points.at(j).h1, points.at(j).p);
-    }
-    setPath(path);
+    setPoints(points);
 }
 
 int SplineItem::type() const
@@ -82,7 +71,12 @@ int SplineItem::type() const
     return Type;
 }
 
-void SplineItem::updateSpline()
+bool SplineItem::editing()
+{
+    return m_editing;
+}
+
+void SplineItem::updateSpline(bool editing)
 {
     QPainterPath path(qgraphicsitem_cast<BPointItem *>(childItems().at(0))->getPoint().p);
 
@@ -96,8 +90,10 @@ void SplineItem::updateSpline()
     }
     setPath(path);
 
-    if (m_closed)
-        emit changed();
+    m_editing = editing;
+
+    if (m_closed && (!editing || KdenliveSettings::monitorscene_directupdate()))
+        emit changed(editing);
 }
 
 QList <BPoint> SplineItem::getPoints()
@@ -106,6 +102,29 @@ QList <BPoint> SplineItem::getPoints()
     foreach (QGraphicsItem *child, childItems())
         points << qgraphicsitem_cast<BPointItem *>(child)->getPoint();
     return points;
+}
+
+void SplineItem::setPoints(const QList< BPoint >& points)
+{
+    if (points.count() < 2) {
+        m_closed = false;
+        grabMouse();
+        return;
+    } else {
+        m_closed = true;
+    }
+
+    qDeleteAll(childItems());
+    childItems().clear();
+
+    QPainterPath path(points.at(0).p);
+    int j;
+    for (int i = 0; i < points.count(); ++i) {
+        new BPointItem(points.at(i), this);
+        j = (i + 1) % points.count();
+        path.cubicTo(points.at(i).h2, points.at(j).h1, points.at(j).p);
+    }
+    setPath(path);
 }
 
 void SplineItem::removeChild(QGraphicsItem* child)

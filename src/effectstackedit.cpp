@@ -447,10 +447,11 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
                 meetDependency(paramName, type, EffectsList::parameter(e, depends));
 #ifdef QJSON
         } else if (type == "roto-spline") {
-            RotoWidget *roto = new RotoWidget(value, m_monitor, m_in, m_out, this);
+            RotoWidget *roto = new RotoWidget(value, m_monitor, m_in, m_out, m_timecode, this);
             roto->slotShowScene(!disable);
             connect(roto, SIGNAL(valueChanged()), this, SLOT(collectAllParameters()));
             connect(roto, SIGNAL(checkMonitorPosition(int)), this, SIGNAL(checkMonitorPosition(int)));
+            connect(roto, SIGNAL(seekToPos(int)), this, SIGNAL(seekTimeline(int)));
             connect(this, SIGNAL(syncEffectsPos(int)), roto, SLOT(slotSyncPosition(int)));
             connect(this, SIGNAL(effectStateChanged(bool)), roto, SLOT(slotShowScene(bool)));
             m_vbox->addWidget(roto);

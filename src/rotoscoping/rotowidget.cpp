@@ -23,12 +23,18 @@
 #include "monitoreditwidget.h"
 #include "onmonitoritems/rotoscoping/bpointitem.h"
 #include "onmonitoritems/rotoscoping/splineitem.h"
+#include "simplekeyframes/simplekeyframewidget.h"
+#include "kdenlivesettings.h"
 
 #include <qjson/parser.h>
 #include <qjson/serializer.h>
 
+#include <QVBoxLayout>
 
-RotoWidget::RotoWidget(QString data, Monitor *monitor, int in, int out, QWidget* parent) :
+#include <KDebug>
+
+
+RotoWidget::RotoWidget(QString data, Monitor *monitor, int in, int out, Timecode t, QWidget* parent) :
         QWidget(parent),
         m_monitor(monitor),
         m_showScene(true),
@@ -36,6 +42,10 @@ RotoWidget::RotoWidget(QString data, Monitor *monitor, int in, int out, QWidget*
         m_out(out),
         m_pos(0)
 {
+    QVBoxLayout *l = new QVBoxLayout(this);
+    m_keyframeWidget = new SimpleKeyframeWidget(t, in, out, this);
+    l->addWidget(m_keyframeWidget);
+
     MonitorEditWidget *edit = monitor->getEffectEdit();
     edit->showVisibilityButton(true);
     m_scene = edit->getScene();
@@ -47,27 +57,37 @@ RotoWidget::RotoWidget(QString data, Monitor *monitor, int in, int out, QWidget*
         // :(
     }
 
-    int width = m_monitor->render->frameRenderWidth();
-    int height = m_monitor->render->renderHeight();
-    QList <BPoint> points;
-    foreach (const QVariant &bpoint, m_data.toList()) {
-        QList <QVariant> l = bpoint.toList();
-        BPoint p;
-        p.h1 = QPointF(l.at(0).toList().at(0).toDouble() * width, l.at(0).toList().at(1).toDouble() * height);
-        p.p = QPointF(l.at(1).toList().at(0).toDouble() * width, l.at(1).toList().at(1).toDouble() * height);
-        p.h2 = QPointF(l.at(2).toList().at(0).toDouble() * width, l.at(2).toList().at(1).toDouble() * height);
-        points << p;
+    
+    if (m_data.canConvert(QVariant::Map)) {
+        QList <int> keyframes;
+        QMap <QString, QVariant> map = m_data.toMap();
+        QMap <QString, QVariant>::const_iterator i = map.constBegin();
+        while (i != map.constEnd()) {
+            keyframes.append(i.key().toInt());
+            ++i;
+        }
+        m_keyframeWidget->setKeyframes(keyframes);
+    } else {
+        m_keyframeWidget->setKeyframes(QList <int>() << 0);
     }
 
-    m_item = new SplineItem(points, NULL, m_scene);
+    m_item = new SplineItem(QList <BPoint>(), NULL, m_scene);
 
-    connect(m_item, SIGNAL(changed()), this, SLOT(slotUpdateData()));
+    connect(m_item, SIGNAL(changed(bool)), this, SLOT(slotUpdateData(bool)));
     connect(edit, SIGNAL(showEdit(bool)), this, SLOT(slotShowScene(bool)));
     connect(m_monitor, SIGNAL(renderPosition(int)), this, SLOT(slotCheckMonitorPosition(int)));
+    connect(m_keyframeWidget, SIGNAL(positionChanged(int)), this, SLOT(slotPositionChanged(int)));
+    connect(m_keyframeWidget, SIGNAL(keyframeAdded(int)), this, SLOT(slotAddKeyframe(int)));
+    connect(m_keyframeWidget, SIGNAL(keyframeRemoved(int)), this, SLOT(slotRemoveKeyframe(int)));
+    connect(m_scene, SIGNAL(addKeyframe()), this, SLOT(slotAddKeyframe()));
+
+    slotPositionChanged(0, false);
 }
 
 RotoWidget::~RotoWidget()
 {
+    delete m_keyframeWidget;
+
     m_scene->removeItem(m_item);
     delete m_item;
 
@@ -87,7 +107,9 @@ void RotoWidget::slotCheckMonitorPosition(int renderPos)
 
 void RotoWidget::slotSyncPosition(int relTimelinePos)
 {
-    Q_UNUSED(relTimelinePos);
+    relTimelinePos = qBound(0, relTimelinePos, m_out);
+    m_keyframeWidget->slotSetPosition(relTimelinePos, false);
+    slotPositionChanged(relTimelinePos, false);
 }
 
 void RotoWidget::slotShowScene(bool show)
@@ -99,8 +121,10 @@ void RotoWidget::slotShowScene(bool show)
         slotCheckMonitorPosition(m_monitor->render->seekFramePosition());
 }
 
-void RotoWidget::slotUpdateData()
+void RotoWidget::slotUpdateData(int pos, bool editing)
 {
+    Q_UNUSED(editing)
+
     int width = m_monitor->render->frameRenderWidth();
     int height = m_monitor->render->renderHeight();
 
@@ -112,15 +136,133 @@ void RotoWidget::slotUpdateData()
             pl << QVariant(QList <QVariant>() << QVariant(point[i].x() / width) << QVariant(point[i].y() / height));
         vlist << QVariant(pl);
     }
-    m_data = QVariant(vlist);
+
+    if (m_data.canConvert(QVariant::Map)) {
+        QMap <QString, QVariant> map = m_data.toMap();
+        map[QString::number(pos < 0 ? m_keyframeWidget->getPosition() : pos)] = QVariant(vlist);
+        m_data = QVariant(map);
+    } else {
+        m_data = QVariant(vlist);
+    }
 
     emit valueChanged();
+}
+
+void RotoWidget::slotUpdateData(bool editing)
+{
+    slotUpdateData(-1, editing);
 }
 
 QString RotoWidget::getSpline()
 {
     QJson::Serializer serializer;
     return QString(serializer.serialize(m_data));
+}
+
+void RotoWidget::slotPositionChanged(int pos, bool seek)
+{
+    if (m_item->editing())
+        return;
+
+    m_keyframeWidget->slotSetPosition(pos, false);
+
+    if (m_data.canConvert(QVariant::Map)) {
+        QMap <QString, QVariant> map = m_data.toMap();
+        QMap <QString, QVariant>::const_iterator i = map.constBegin();
+        int keyframe1, keyframe2;
+        keyframe1 = keyframe2 = i.key().toInt();
+        while (i.key().toInt() < pos && ++i != map.constEnd()) {
+            keyframe1 = keyframe2;
+            keyframe2 = i.key().toInt();
+        }
+
+        if (keyframe1 != keyframe2 && pos < keyframe2) {
+            QList <BPoint> p1 = getPoints(keyframe1);
+            QList <BPoint> p2 = getPoints(keyframe2);
+            QList <BPoint> p;
+            qreal relPos = (pos - keyframe1) / (qreal)(keyframe2 - keyframe1 + 1);
+
+            for (int i = 0; i < p1.count(); ++i) {
+                BPoint bp;
+                for (int j = 0; j < 3; ++j) {
+                    if (p1.at(i)[j] != p2.at(i)[j])
+                        bp[j] = QLineF(p1.at(i)[j], p2.at(i)[j]).pointAt(relPos);
+                    else
+                        bp[j] = p1.at(i)[j];
+                }
+                p.append(bp);
+            }
+
+            m_item->setPoints(p);
+            m_item->setEnabled(false);
+            m_scene->setEnabled(false);
+        } else {
+            m_item->setPoints(getPoints(keyframe2));
+            m_item->setEnabled(pos == keyframe2);
+            m_scene->setEnabled(pos == keyframe2);
+        }
+    } else {
+        m_item->setPoints(getPoints(-1));
+        m_item->setEnabled(true);
+        m_scene->setEnabled(true);
+    }
+
+    if (seek)
+        emit seekToPos(pos);
+}
+
+QList <BPoint> RotoWidget::getPoints(int keyframe)
+{
+    int width = m_monitor->render->frameRenderWidth();
+    int height = m_monitor->render->renderHeight();
+    QList <BPoint> points;
+    QList <QVariant> data;
+    if (keyframe >= 0)
+        data = m_data.toMap()[QString::number(keyframe)].toList();
+    else
+        data = m_data.toList();
+    foreach (const QVariant &bpoint, data) {
+        QList <QVariant> l = bpoint.toList();
+        BPoint p;
+        p.h1 = QPointF(l.at(0).toList().at(0).toDouble() * width, l.at(0).toList().at(1).toDouble() * height);
+        p.p = QPointF(l.at(1).toList().at(0).toDouble() * width, l.at(1).toList().at(1).toDouble() * height);
+        p.h2 = QPointF(l.at(2).toList().at(0).toDouble() * width, l.at(2).toList().at(1).toDouble() * height);
+        points << p;
+    }
+    return points;
+}
+
+void RotoWidget::slotAddKeyframe(int pos)
+{
+    if (!m_data.canConvert(QVariant::Map)) {
+        QVariant data = m_data;
+        QMap<QString, QVariant> map;
+        map[QString::number(m_in)] = data;
+        m_data = QVariant(map);
+    }
+
+    if (pos < 0)
+        m_keyframeWidget->addKeyframe();
+
+    slotUpdateData(pos);
+    m_item->setEnabled(true);
+    m_scene->setEnabled(true);
+}
+
+void RotoWidget::slotRemoveKeyframe(int pos)
+{
+    if (pos < 0)
+        pos = m_keyframeWidget->getPosition();
+
+    if (!m_data.canConvert(QVariant::Map) || m_data.toMap().count() < 2)
+        return;
+
+    m_data.toMap().remove(QString::number(pos));
+
+    if (m_data.toMap().count() == 1)
+        m_data = m_data.toMap().begin().value();
+
+    slotPositionChanged(m_keyframeWidget->getPosition(), false);
 }
 
 #include "rotowidget.moc"

@@ -278,6 +278,8 @@ set(kdenlive_SRCS
   beziercurve/cubicbezierspline.cpp
   dragvalue.cpp
   monitoreditwidget.cpp
+  simplekeyframes/simpletimelinewidget.cpp
+  simplekeyframes/simplekeyframewidget.cpp
 )
 
 add_definitions(${KDE4_DEFINITIONS})
