@@ -848,7 +848,10 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
                             }
                             e.setAttribute("keyframes", kfrs.join(";"));
                         } else {
-                            e.setAttribute("value", paramvalue.toDouble() * fact);
+                            bool ok;
+                            e.setAttribute("value", paramvalue.toDouble(&ok) * fact);
+                            if (!ok)
+                                e.setAttribute("value", paramvalue);
                         }
                         break;
                     }
