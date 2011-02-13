@@ -617,13 +617,6 @@ MainWindow::~MainWindow()
     Mlt::Factory::close();
 }
 
-void MainWindow::queryQuit()
-{
-    if (queryClose()) {
-        close();
-    }
-}
-
 //virtual
 bool MainWindow::queryClose()
 {
@@ -1526,7 +1519,7 @@ void MainWindow::setupActions()
     connect(maxCurrent, SIGNAL(triggered(bool)), this, SLOT(slotMaximizeCurrent(bool)));*/
 
     m_closeAction = KStandardAction::close(this,  SLOT(closeCurrentDocument()),   collection);
-    KStandardAction::quit(this,                   SLOT(queryQuit()),              collection);
+    KStandardAction::quit(this,                   SLOT(close()),              collection);
     KStandardAction::open(this,                   SLOT(openFile()),               collection);
     m_saveAction = KStandardAction::save(this,    SLOT(saveFile()),               collection);
     KStandardAction::saveAs(this,                 SLOT(saveFileAs()),             collection);

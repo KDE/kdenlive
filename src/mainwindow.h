@@ -317,7 +317,6 @@ public slots:
 
 private slots:
     void newFile(bool showProjectSettings = true, bool force = false);
-    void queryQuit();
     void activateDocument();
     void connectDocument(TrackView*, KdenliveDoc*);
 
