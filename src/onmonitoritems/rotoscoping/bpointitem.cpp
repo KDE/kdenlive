@@ -30,10 +30,6 @@ BPointItem::BPointItem(BPoint point, QGraphicsItem* parent) :
 {
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
 
-    QPen framepen(Qt::SolidLine);
-    framepen.setColor(Qt::yellow);
-    setPen(framepen);
-    setBrush(Qt::NoBrush);
     setAcceptHoverEvents(true);
 
     setPos(point.p);
@@ -107,8 +103,7 @@ void BPointItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
 
 int BPointItem::getSelection(QPointF pos)
 {
-    QPainterPath mouseArea;
-    mouseArea.addRect(pos.x() - 6, pos.y() - 6, 12, 12);
+    QRectF mouseArea(pos.x() - 6, pos.y() - 6, 12, 12);
 
     if (mouseArea.contains(m_point.h1))
         return 0;

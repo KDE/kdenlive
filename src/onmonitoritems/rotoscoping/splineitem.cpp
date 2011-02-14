@@ -111,6 +111,7 @@ void SplineItem::setPoints(const QList< BPoint >& points)
         grabMouse();
         return;
     } else {
+        ungrabMouse();
         m_closed = true;
     }
 
