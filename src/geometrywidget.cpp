@@ -46,12 +46,15 @@ GeometryWidget::GeometryWidget(Monitor* monitor, Timecode timecode, int clipPos,
     m_outPoint(1),
     m_isEffect(isEffect),
     m_rect(NULL),
+    m_previous(NULL),
     m_geometry(NULL),
     m_showScene(true)
 {
     m_ui.setupUi(this);
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
     MonitorEditWidget *edit = monitor->getEffectEdit();
+    edit->removeCustomControls();
+    edit->addCustomButton(KIcon("transform-crop"), i18n("Show previous keyframe"), this, SLOT(slotShowPreviousKeyFrame(bool)), true, KdenliveSettings::onmonitoreffects_geometryshowprevious());
     edit->showVisibilityButton(true);
     m_scene = edit->getScene();
 
@@ -187,11 +190,19 @@ GeometryWidget::~GeometryWidget()
     delete m_spinHeight;
     delete m_opacity;
     m_scene->removeItem(m_rect);
+    if (m_rect) delete m_rect;
+    if (m_previous) delete m_previous;
     delete m_geometry;
     if (m_monitor) {
         m_monitor->getEffectEdit()->showVisibilityButton(false);
         m_monitor->slotEffectScene(false);
     }
+}
+
+void GeometryWidget::slotShowPreviousKeyFrame(bool show)
+{
+    KdenliveSettings::setOnmonitoreffects_geometryshowprevious(show);
+    slotPositionChanged(-1, false);
 }
 
 void GeometryWidget::updateTimecodeFormat()
@@ -267,6 +278,7 @@ void GeometryWidget::slotPositionChanged(int pos, bool seek)
     m_timeline->blockSignals(false);
 
     Mlt::GeometryItem item;
+    Mlt::GeometryItem previousItem;
     if (m_geometry->fetch(&item, pos) || item.key() == false) {
         // no keyframe
         m_rect->setEnabled(false);
@@ -281,6 +293,28 @@ void GeometryWidget::slotPositionChanged(int pos, bool seek)
         m_ui.widgetGeometry->setEnabled(true);
         m_ui.buttonAddDelete->setIcon(KIcon("edit-delete"));
         m_ui.buttonAddDelete->setToolTip(i18n("Delete keyframe"));
+    }
+    
+    if (KdenliveSettings::onmonitoreffects_geometryshowprevious() == false || m_geometry->prev_key(&previousItem, pos - 1) || previousItem.frame() == item.frame()) {
+        if (m_previous) {
+            m_scene->removeItem(m_previous);
+        }
+    }
+    else {
+        if (m_previous == NULL) {
+            m_previous = new QGraphicsRectItem(0, 0, previousItem.w(), previousItem.h());
+            m_previous->setBrush(QColor(200, 200, 0, 20));
+            m_previous->setPen(QPen(Qt::white, 0, Qt::DotLine));
+            
+            m_previous->setPos(previousItem.x(), previousItem.y());
+            m_previous->setZValue(-1);
+            m_previous->setEnabled(false);
+        }
+        else {
+            m_previous->setPos(previousItem.x(), previousItem.y());
+            m_previous->setRect(0, 0, previousItem.w(), previousItem.h());
+        }
+        m_scene->addItem(m_previous);
     }
 
     m_rect->setPos(item.x(), item.y());

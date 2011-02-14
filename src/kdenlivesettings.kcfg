@@ -716,6 +716,11 @@
       <default>false</default>
     </entry>
 
+    <entry name="onmonitoreffects_geometryshowprevious" type="Bool">
+      <label>Show previous keyframe in monitor.</label>
+      <default>false</default>
+    </entry>
+
     <entry name="onmonitoreffects_cornersshowcontrols" type="Bool">
       <label>Show additional controls in the c0rners on-monitor widget.</label>
       <default>false</default>

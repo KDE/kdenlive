@@ -121,8 +121,10 @@ void MonitorEditWidget::addCustomButton(const QIcon& icon, const QString& text, 
 void MonitorEditWidget::removeCustomControls()
 {
     QLayoutItem *child;
-    while ((child = m_customControlsLayout->takeAt(0)) != 0)
+    while ((child = m_customControlsLayout->takeAt(0)) != 0) {
+        if (child->widget()) delete child->widget();
         delete child;
+    }
 }
 
 void MonitorEditWidget::slotSetDirectUpdate(bool directUpdate)

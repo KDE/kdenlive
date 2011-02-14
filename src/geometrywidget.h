@@ -33,6 +33,7 @@ class MonitorScene;
 class KeyframeHelper;
 class TimecodeDisplay;
 class OnMonitorRectItem;
+class QGraphicsRectItem;
 class DragValue;
 
 class GeometryWidget : public QWidget
@@ -78,6 +79,7 @@ private:
     bool m_isEffect;
     MonitorScene *m_scene;
     OnMonitorRectItem *m_rect;
+    QGraphicsRectItem *m_previous;
     KeyframeHelper *m_timeline;
     /** Stores the different settings in the MLT geometry format. */
     Mlt::Geometry *m_geometry;
@@ -155,6 +157,8 @@ private slots:
     void slotAdjustToFrameSize();
     void slotFitToWidth();
     void slotFitToHeight();
+    /** @brief Show / hide previous keyframe in monitor scene. */
+    void slotShowPreviousKeyFrame(bool show);
 
 signals:
     void parameterChanged();

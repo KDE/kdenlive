@@ -50,6 +50,7 @@ CornersWidget::CornersWidget(Monitor *monitor, QDomElement e, int minFrame, int 
     m_scene->addItem(m_item);
 
     // TODO: Better Icons
+    edit->removeCustomControls();
     edit->addCustomButton(KIcon("transform-move"), i18n("Show additional controls"), this, SLOT(slotShowControls(bool)),
                           true, KdenliveSettings::onmonitoreffects_cornersshowcontrols());
     edit->addCustomButton(KIcon("insert-horizontal-rule"), i18n("Show/Hide the lines connecting the corners"), this, SLOT(slotShowLines(bool)),
