@@ -53,10 +53,10 @@ private:
     QPoint m_dragStartPosition;
     QPoint m_dragLastPosition;
     bool m_dragMode;
-    double m_value;
     double m_step;
-    double m_precision;
     bool m_showSlider;
+    double m_precision;
+    double m_value;
     void slotValueInc(double factor = 1);
     void slotValueDec(double factor = 1);
     void setNewValue(double, bool);
@@ -148,15 +148,15 @@ private:
     double m_maximum;
     double m_minimum;
     int m_decimals;
+    double m_default;
+    int m_id;
     QSpinBox *m_intEdit;
     QDoubleSpinBox *m_doubleEdit;
-    double m_default;
 
     QMenu *m_menu;
     KSelectAction *m_scale;
     QAction *m_directUpdate;
     CustomLabel *m_label;
-    int m_id;
 };
 
 #endif
