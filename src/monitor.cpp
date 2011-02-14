@@ -817,10 +817,10 @@ void Monitor::slotSetXml(DocClipBase *clip, QPoint zone, const int position)
             // MLT CONSUMER is broken
             kDebug(QtWarningMsg) << "ERROR, Cannot start monitor";
         }
-    } else if (position != -1) render->seek(GenTime(position, m_monitorManager->timecode().fps()));
+    } else if (position != -1) render->seek(position);
     if (!zone.isNull()) {
         m_ruler->setZone(zone.x(), zone.y());
-        render->seek(GenTime(zone.x(), m_monitorManager->timecode().fps()));
+        render->seek(zone.x());
     }
 }
 

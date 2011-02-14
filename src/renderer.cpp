@@ -96,8 +96,8 @@ static void consumer_gl_frame_show(mlt_consumer, Render * self, mlt_frame frame_
 Render::Render(const QString & rendererName, int winid, QString profile, QWidget *parent) :
     QObject(parent),
     m_isBlocked(0),
-    sendFrameForAnalysis(false),
     analyseAudio(KdenliveSettings::monitor_audio()),
+    sendFrameForAnalysis(false),
     m_name(rendererName),
     m_mltConsumer(NULL),
     m_mltProducer(NULL),
@@ -352,6 +352,15 @@ void Render::seek(GenTime time)
         return;
     m_isBlocked = false;
     m_mltProducer->seek((int)(time.frames(m_fps)));
+    refresh();
+}
+
+void Render::seek(int time)
+{
+    if (!m_mltProducer)
+        return;
+    m_isBlocked = false;
+    m_mltProducer->seek(time);
     refresh();
 }
 
@@ -893,6 +902,13 @@ int Render::setSceneList(QString playlist, int position)
 
     //kDebug() << "//////  RENDER, SET SCENE LIST: " << playlist;
 
+    // Remove previous profile info
+    QDomDocument doc;
+    doc.setContent(playlist);
+    QDomElement profile = doc.documentElement().firstChildElement("profile");
+    doc.documentElement().removeChild(profile);
+    playlist = doc.toString();
+
     if (m_mltConsumer) {
         if (!m_mltConsumer->is_stopped()) {
             m_mltConsumer->stop();
@@ -906,7 +922,6 @@ int Render::setSceneList(QString playlist, int position)
     if (m_mltProducer) {
         m_mltProducer->set_speed(0);
         //if (KdenliveSettings::osdtimecode() && m_osdInfo) m_mltProducer->detach(*m_osdInfo);
-
 
         Mlt::Service service(m_mltProducer->parent().get_service());
         mlt_service_lock(service.get_service());
@@ -948,7 +963,6 @@ int Render::setSceneList(QString playlist, int position)
     }
 
     blockSignals(true);
-
     // TODO: Better way to do this
     if (KdenliveSettings::projectloading_avformatnovalidate())
         playlist.replace(">avformat</property>", ">avformat-novalidate</property>");
@@ -956,7 +970,6 @@ int Render::setSceneList(QString playlist, int position)
         playlist.replace(">avformat-novalidate</property>", ">avformat</property>");
 
     m_mltProducer = new Mlt::Producer(*m_mltProfile, "xml-string", playlist.toUtf8().constData());
-
     if (!m_mltProducer || !m_mltProducer->is_valid()) {
         kDebug() << " WARNING - - - - -INVALID PLAYLIST: " << playlist.toUtf8().constData();
         m_mltProducer = m_blackClip->cut(0, 50);

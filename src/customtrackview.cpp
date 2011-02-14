@@ -373,6 +373,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
 {
     int pos = event->x();
     int mappedXPos = qMax((int)(mapToScene(event->pos()).x() + 0.5), 0);
+   
     double snappedPos = getSnapPointForPos(mappedXPos);
     emit mousePosition(mappedXPos);
 
@@ -3056,7 +3057,7 @@ void CustomTrackView::setCursorPos(int pos, bool seek)
     if (pos == m_cursorPos) return;
     emit cursorMoved((int)(m_cursorPos), (int)(pos));
     m_cursorPos = pos;
-    if (seek) m_document->renderer()->seek(GenTime(m_cursorPos, m_document->fps()));
+    if (seek) m_document->renderer()->seek(m_cursorPos);
     else if (m_autoScroll) checkScrolling();
     m_cursorLine->setPos(m_cursorPos, 0);
 }
@@ -3077,7 +3078,7 @@ void CustomTrackView::moveCursorPos(int delta)
     emit cursorMoved((int)(m_cursorPos), (int)((m_cursorPos + delta)));
     m_cursorPos += delta;
     m_cursorLine->setPos(m_cursorPos, 0);
-    m_document->renderer()->seek(GenTime(m_cursorPos, m_document->fps()));
+    m_document->renderer()->seek(m_cursorPos);
 }
 
 void CustomTrackView::initCursorPos(int pos)
