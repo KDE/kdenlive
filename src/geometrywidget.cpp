@@ -88,28 +88,28 @@ GeometryWidget::GeometryWidget(Monitor* monitor, Timecode timecode, int clipPos,
     connect(m_ui.buttonAddDelete, SIGNAL(clicked()), this, SLOT(slotAddDeleteKeyframe()));
     connect(m_ui.buttonSync,      SIGNAL(toggled(bool)), this, SLOT(slotSetSynchronize(bool)));
 
-    m_spinX = new DragValue(i18n("X"), 0, -1, QString(), false, this);
+    m_spinX = new DragValue(i18n("X"), 0, 0, -1, QString(), false, this);
     m_spinX->setRange(-10000, 10000);
     m_ui.horizontalLayout->addWidget(m_spinX);
     
-    m_spinY = new DragValue(i18n("Y"), 0, -1, QString(), false, this);
+    m_spinY = new DragValue(i18n("Y"), 0, 0, -1, QString(), false, this);
     m_spinY->setRange(-10000, 10000);
     m_ui.horizontalLayout->addWidget(m_spinY);
     
-    m_spinWidth = new DragValue(i18n("W"), m_monitor->render->frameRenderWidth(), -1, QString(), false, this);
+    m_spinWidth = new DragValue(i18n("W"), m_monitor->render->frameRenderWidth(), 0, -1, QString(), false, this);
     m_spinWidth->setRange(1, 10000);
     m_ui.horizontalLayout->addWidget(m_spinWidth);
     
-    m_spinHeight = new DragValue(i18n("H"), m_monitor->render->renderHeight(), -1, QString(), false, this);
+    m_spinHeight = new DragValue(i18n("H"), m_monitor->render->renderHeight(), 0, -1, QString(), false, this);
     m_spinHeight->setRange(1, 10000);
     m_ui.horizontalLayout->addWidget(m_spinHeight);
     m_ui.horizontalLayout->addStretch(10);
     
-    m_spinSize = new DragValue(i18n("Size"), 100, -1, i18n("%"), false, this);
+    m_spinSize = new DragValue(i18n("Size"), 100, 2, -1, i18n("%"), false, this);
     m_spinSize->setRange(1, 10000);
     m_ui.horizontalLayout2->addWidget(m_spinSize);
     
-    m_opacity = new DragValue(i18n("Opacity"), 100, -1, i18n("%"), true, this);
+    m_opacity = new DragValue(i18n("Opacity"), 100, 0, -1, i18n("%"), true, this);
     m_ui.horizontalLayout2->addWidget(m_opacity);
     
     /*
@@ -121,7 +121,7 @@ GeometryWidget::GeometryWidget(Monitor* monitor, Timecode timecode, int clipPos,
     connect(m_spinWidth,        SIGNAL(valueChanged(int)), this, SLOT(slotSetWidth(int)));
     connect(m_spinHeight,       SIGNAL(valueChanged(int)), this, SLOT(slotSetHeight(int)));
 
-    connect(m_spinSize,         SIGNAL(valueChanged(int)), this, SLOT(slotResize(int)));
+    connect(m_spinSize,         SIGNAL(valueChanged(double)), this, SLOT(slotResize(double)));
 
     connect(m_opacity, SIGNAL(valueChanged(int)), this, SLOT(slotSetOpacity(int)));
     
@@ -417,11 +417,11 @@ void GeometryWidget::slotUpdateProperties()
 {
     QRectF rectSize = m_rect->rect().normalized();
     QPointF rectPos = m_rect->pos();
-    int size;
-    if (rectSize.width() / m_monitor->render->dar() < rectSize.height())
-        size = (int)((rectSize.width() * 100.0 / m_monitor->render->frameRenderWidth()) + 0.5);
+    double size;
+    if (rectSize.width() / m_monitor->render->dar() > rectSize.height())
+        size = rectSize.width() * 100.0 / m_monitor->render->frameRenderWidth();
     else
-        size = (int)((rectSize.height() * 100.0 / m_monitor->render->renderHeight()) + 0.5);
+        size = rectSize.height() * 100.0 / m_monitor->render->renderHeight();
 
     m_spinX->blockSignals(true);
     m_spinY->blockSignals(true);
@@ -468,7 +468,7 @@ void GeometryWidget::slotSetHeight(int value)
 }
 
 
-void GeometryWidget::slotResize(int value)
+void GeometryWidget::slotResize(double value)
 {
     m_rect->setRect(0, 0,
                     (int)((m_monitor->render->frameRenderWidth() * value / 100.0) + 0.5),
@@ -557,15 +557,17 @@ void GeometryWidget::slotAdjustToFrameSize()
 void GeometryWidget::slotFitToWidth()
 {
     if (m_frameSize == QPoint()) m_frameSize = QPoint(m_monitor->render->frameRenderWidth(), m_monitor->render->renderHeight());
-    double factor = 100.0 * m_monitor->render->frameRenderWidth() / m_frameSize.x() + 0.5;
-    m_spinSize->setValue(factor);
+    double factor = (double) m_monitor->render->frameRenderWidth() / m_frameSize.x();
+    m_spinHeight->setValue(m_frameSize.y() * factor);
+    m_spinWidth->setValue(m_monitor->render->frameRenderWidth());
 }
 
 void GeometryWidget::slotFitToHeight()
 {
     if (m_frameSize == QPoint()) m_frameSize = QPoint(m_monitor->render->frameRenderWidth(), m_monitor->render->renderHeight());
-    double factor = 100.0 * m_monitor->render->renderHeight() / m_frameSize.y() + 0.5;
-    m_spinSize->setValue(factor);
+    double factor = m_monitor->render->renderHeight() / m_frameSize.y();
+    m_spinHeight->setValue(m_monitor->render->renderHeight());
+    m_spinWidth->setValue(m_frameSize.x() * factor);
 }
 
 #include "geometrywidget.moc"

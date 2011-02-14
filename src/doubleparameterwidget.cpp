@@ -39,7 +39,7 @@ DoubleParameterWidget::DoubleParameterWidget(const QString &name, int value, int
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
     
-    m_dragVal = new DragValue(name, defaultValue, id, suffix, this);
+    m_dragVal = new DragValue(name, defaultValue, 0, id, suffix, this);
     m_dragVal->setRange(min, max);
     m_dragVal->setPrecision(0);
     layout->addWidget(m_dragVal, 0, 1);

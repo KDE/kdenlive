@@ -21,7 +21,8 @@
 
 #include <QWidget>
 #include <kselectaction.h>
-#include <KIntSpinBox>
+#include <QSpinBox>
+#include <QDoubleSpinBox>
 #include <QLabel>
 #include <QProgressBar>
 
@@ -37,7 +38,8 @@ class CustomLabel : public QProgressBar
 {
     Q_OBJECT
 public:
-    CustomLabel(const QString &label, bool showSlider = true, QWidget *parent = 0);
+    CustomLabel(const QString &label, bool showSlider = true, int precision = 0, QWidget *parent = 0);
+    void setProgressValue(double value);
     
 protected:
     //virtual void mouseDoubleClickEvent(QMouseEvent * event);
@@ -51,15 +53,16 @@ private:
     QPoint m_dragStartPosition;
     QPoint m_dragLastPosition;
     bool m_dragMode;
+    double m_value;
     double m_step;
+    double m_precision;
     bool m_showSlider;
-    //QStyleOptionProgressBarV2 m_progressOptions;
-    void slotValueInc(int factor = 1);
-    void slotValueDec(int factor = 1);
-    void setNewValue(int, bool);
+    void slotValueInc(double factor = 1);
+    void slotValueDec(double factor = 1);
+    void setNewValue(double, bool);
     
 signals:
-    void valueChanged(int, bool);
+    void valueChanged(double, bool);
     void setInTimeline();
     void resetValue();
 };
@@ -73,7 +76,7 @@ class DragValue : public QWidget
     Q_OBJECT
 
 public:
-    DragValue(const QString &label, int defaultValue, int id, const QString suffix, bool showSlider = true, QWidget* parent = 0);
+    DragValue(const QString &label, double defaultValue, int decimals, int id, const QString suffix, bool showSlider = true, QWidget* parent = 0);
     virtual ~DragValue();
 
     /** @brief Returns the precision = number of decimals */
@@ -105,12 +108,13 @@ public:
     
 public slots:
     /** @brief Sets the value (forced to be in the valid range) and emits valueChanged. */
-    void setValue(int value, bool final = true);
+    void setValue(double value, bool final = true);
     /** @brief Resets to default value */
     void slotReset();
 
 signals:
     void valueChanged(int value, bool final = true);
+    void valueChanged(double value, bool final = true);
     void inTimeline(int);
 
 
@@ -137,14 +141,16 @@ private slots:
     void slotSetDirectUpdate(bool directUpdate);
     void slotShowContextMenu(const QPoint &pos);
     void slotSetValue(int value);
+    void slotSetValue(double value);
     void slotSetInTimeline();
 
 private:
-    int m_maximum;
-    int m_minimum;
-    int m_precision;
-    KIntSpinBox *m_edit;
-    int m_default;
+    double m_maximum;
+    double m_minimum;
+    int m_decimals;
+    QSpinBox *m_intEdit;
+    QDoubleSpinBox *m_doubleEdit;
+    double m_default;
 
     QMenu *m_menu;
     KSelectAction *m_scale;

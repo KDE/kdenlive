@@ -41,13 +41,15 @@
 #include <KLocalizedString>
 #include <KGlobalSettings>
 
-DragValue::DragValue(const QString &label, int defaultValue, int id, const QString suffix, bool showSlider, QWidget* parent) :
+DragValue::DragValue(const QString &label, double defaultValue, int decimals, int id, const QString suffix, bool showSlider, QWidget* parent) :
         QWidget(parent),
         m_maximum(100),
         m_minimum(0),
-        m_precision(2),
+        m_decimals(decimals),
         m_default(defaultValue),
-        m_id(id)
+        m_id(id),
+        m_intEdit(NULL),
+        m_doubleEdit(NULL)
 {
     if (showSlider) setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     else setSizePolicy(QSizePolicy::Maximum, QSizePolicy::MinimumExpanding);
@@ -57,24 +59,43 @@ DragValue::DragValue(const QString &label, int defaultValue, int id, const QStri
     QHBoxLayout *l = new QHBoxLayout;
     l->setSpacing(0);
     l->setContentsMargins(0, 0, 0, 0);
-    m_label = new CustomLabel(label, showSlider, this);
+    m_label = new CustomLabel(label, showSlider, decimals, this);
     m_label->setCursor(Qt::PointingHandCursor);
     m_label->setRange(m_minimum, m_maximum);
     l->addWidget(m_label);
-    m_edit = new KIntSpinBox(this);
-    m_edit->setObjectName("dragBox");
-    if (!suffix.isEmpty()) m_edit->setSuffix(suffix);
-
-    m_edit->setButtonSymbols(QAbstractSpinBox::NoButtons);
-    m_edit->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    m_edit->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
-    m_edit->setRange(m_minimum, m_maximum);
-    l->addWidget(m_edit);
-    connect(m_edit, SIGNAL(valueChanged(int)), this, SLOT(slotSetValue(int)));
-    connect(m_label, SIGNAL(valueChanged(int,bool)), this, SLOT(setValue(int,bool)));
+    if (decimals == 0) {
+        m_intEdit = new QSpinBox(this);
+        m_intEdit->setObjectName("dragBox");
+        if (!suffix.isEmpty()) m_intEdit->setSuffix(suffix);
+        m_intEdit->setKeyboardTracking(false);
+        m_intEdit->setButtonSymbols(QAbstractSpinBox::NoButtons);
+        m_intEdit->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+        m_intEdit->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+        m_intEdit->setRange((int) m_minimum, (int)m_maximum);
+        l->addWidget(m_intEdit);
+        connect(m_intEdit, SIGNAL(valueChanged(int)), this, SLOT(slotSetValue(int)));
+        connect(m_intEdit, SIGNAL(editingFinished()), this, SLOT(slotEditingFinished()));
+    }
+    else {
+        m_doubleEdit = new QDoubleSpinBox(this);
+        m_doubleEdit->setDecimals(decimals);
+        m_doubleEdit->setObjectName("dragBox");
+        if (!suffix.isEmpty()) m_doubleEdit->setSuffix(suffix);
+        m_doubleEdit->setKeyboardTracking(false);
+        m_doubleEdit->setButtonSymbols(QAbstractSpinBox::NoButtons);
+        m_doubleEdit->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+        m_doubleEdit->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+        m_doubleEdit->setRange(m_minimum, m_maximum);
+        l->addWidget(m_doubleEdit);
+        connect(m_doubleEdit, SIGNAL(valueChanged(double)), this, SLOT(slotSetValue(double)));
+        connect(m_doubleEdit, SIGNAL(editingFinished()), this, SLOT(slotEditingFinished()));
+    }
+    
+    connect(m_label, SIGNAL(valueChanged(double,bool)), this, SLOT(setValue(double,bool)));
     connect(m_label, SIGNAL(resetValue()), this, SLOT(slotReset()));
     setLayout(l);
-    m_label->setMaximumHeight(m_edit->sizeHint().height());
+    if (m_intEdit) m_label->setMaximumHeight(m_intEdit->sizeHint().height());
+    else m_label->setMaximumHeight(m_doubleEdit->sizeHint().height());
 
     m_menu = new QMenu(this);
   
@@ -104,13 +125,13 @@ DragValue::DragValue(const QString &label, int defaultValue, int id, const QStri
     connect(this, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(slotShowContextMenu(const QPoint&)));
     connect(m_scale, SIGNAL(triggered(int)), this, SLOT(slotSetScaleMode(int)));
     connect(m_directUpdate, SIGNAL(triggered(bool)), this, SLOT(slotSetDirectUpdate(bool)));
-
-    connect(m_edit, SIGNAL(editingFinished()), this, SLOT(slotEditingFinished()));
 }
+
 
 DragValue::~DragValue()
 {
-    delete m_edit;
+    if (m_intEdit) delete m_intEdit;
+    if (m_doubleEdit) delete m_doubleEdit;
     delete m_menu;
     delete m_scale;
     delete m_directUpdate;
@@ -118,12 +139,14 @@ DragValue::~DragValue()
 
 int DragValue::spinSize()
 {
-    return m_edit->sizeHint().width();
+    if (m_intEdit) return m_intEdit->sizeHint().width();
+    else return m_doubleEdit->sizeHint().width();
 }
 
 void DragValue::setSpinSize(int width)
 {
-    m_edit->setMinimumWidth(width);
+    if (m_intEdit) m_intEdit->setMinimumWidth(width);
+    else m_doubleEdit->setMinimumWidth(width);
 }
 
 void DragValue::slotSetInTimeline()
@@ -133,7 +156,7 @@ void DragValue::slotSetInTimeline()
 
 int DragValue::precision() const
 {
-    return m_precision;
+    return m_decimals;
 }
 
 qreal DragValue::maximum() const
@@ -148,21 +171,24 @@ qreal DragValue::minimum() const
 
 qreal DragValue::value() const
 {
-    return m_edit->value();
+    if (m_intEdit) return m_intEdit->value();
+    else return m_doubleEdit->value();
 }
 
 void DragValue::setMaximum(qreal max)
 {
     m_maximum = max;
     m_label->setRange(m_minimum, m_maximum);
-    m_edit->setRange(m_minimum, m_maximum);
+    if (m_intEdit) m_intEdit->setRange(m_minimum, m_maximum);
+    else m_doubleEdit->setRange(m_minimum, m_maximum);
 }
 
 void DragValue::setMinimum(qreal min)
 {
     m_minimum = min;
     m_label->setRange(m_minimum, m_maximum);
-    m_edit->setRange(m_minimum, m_maximum);
+    if (m_intEdit) m_intEdit->setRange(m_minimum, m_maximum);
+    else m_doubleEdit->setRange(m_minimum, m_maximum);
 }
 
 void DragValue::setRange(qreal min, qreal max)
@@ -170,7 +196,8 @@ void DragValue::setRange(qreal min, qreal max)
     m_maximum = max;
     m_minimum = min;
     m_label->setRange(m_minimum, m_maximum);
-    m_edit->setRange(m_minimum, m_maximum);
+    if (m_intEdit) m_intEdit->setRange(m_minimum, m_maximum);
+    else m_doubleEdit->setRange(m_minimum, m_maximum);
 }
 
 void DragValue::setPrecision(int /*precision*/)
@@ -190,11 +217,19 @@ void DragValue::setStep(qreal /*step*/)
 
 void DragValue::slotReset()
 {
-    m_edit->blockSignals(true);
-    m_edit->setValue(m_default);
-    m_label->setValue(m_default);
-    m_edit->blockSignals(false);
-    emit valueChanged(m_default, true);
+    if (m_intEdit) {
+        m_intEdit->blockSignals(true);
+        m_intEdit->setValue(m_default);
+        m_intEdit->blockSignals(false);
+        emit valueChanged((int) m_default, true);
+    }
+    else {
+        m_doubleEdit->blockSignals(true);
+        m_doubleEdit->setValue(m_default);
+        m_doubleEdit->blockSignals(false);
+        emit valueChanged(m_default, true);
+    }
+    m_label->setProgressValue(m_default);
 }
 
 void DragValue::slotSetValue(int value)
@@ -202,21 +237,34 @@ void DragValue::slotSetValue(int value)
     setValue(value, KdenliveSettings::dragvalue_directupdate());
 }
 
-void DragValue::setValue(int value, bool final)
+void DragValue::slotSetValue(double value)
+{
+    setValue(value, KdenliveSettings::dragvalue_directupdate());
+}
+
+void DragValue::setValue(double value, bool final)
 {
     value = qBound(m_minimum, value, m_maximum);
-    m_edit->blockSignals(true);
-    m_edit->setValue(value);
-    m_edit->blockSignals(false);
-    m_label->setValue(value);
-    emit valueChanged(value, final);
+    if (m_intEdit) {
+        m_intEdit->blockSignals(true);
+        m_intEdit->setValue((int) value);
+        m_intEdit->blockSignals(false);
+        emit valueChanged((int) value, final);
+    }
+    else {
+        m_doubleEdit->blockSignals(true);
+        m_doubleEdit->setValue(value);
+        m_doubleEdit->blockSignals(false);
+        emit valueChanged(value, final);
+    }
+    m_label->setProgressValue(value);
 }
 
 void DragValue::focusInEvent(QFocusEvent* e)
 {
     if (e->reason() == Qt::TabFocusReason || e->reason() == Qt::BacktabFocusReason) {
-        //m_edit->setEnabled(true);
-        m_edit->setFocus(e->reason());
+        if (m_intEdit) m_intEdit->setFocus(e->reason());
+        else m_doubleEdit->setFocus(e->reason());
     } else {
         QWidget::focusInEvent(e);
     }
@@ -224,8 +272,15 @@ void DragValue::focusInEvent(QFocusEvent* e)
 
 void DragValue::slotEditingFinished()
 {
-    qreal value = m_edit->value();
-    m_edit->clearFocus();
+    qreal value;
+    if (m_intEdit) {
+        value = m_intEdit->value();
+        m_intEdit->clearFocus();
+    }
+    else {
+        value = m_doubleEdit->value();
+        m_doubleEdit->clearFocus();
+    }
     emit valueChanged(value, true);
 }
 
@@ -251,20 +306,31 @@ void DragValue::setInTimelineProperty(bool intimeline)
 {
     if (m_label->property("inTimeline").toBool() == intimeline) return;
     m_label->setProperty("inTimeline", intimeline);
-    m_edit->setProperty("inTimeline", intimeline);
     style()->unpolish(m_label);
     style()->polish(m_label);
     m_label->update();
-    style()->unpolish(m_edit);
-    style()->polish(m_edit);
-    m_edit->update();
+    if (m_intEdit) {
+        m_intEdit->setProperty("inTimeline", intimeline);
+        style()->unpolish(m_intEdit);
+        style()->polish(m_intEdit);
+        m_intEdit->update();
+    }
+    else {
+        m_doubleEdit->setProperty("inTimeline", intimeline);
+        style()->unpolish(m_doubleEdit);
+        style()->polish(m_doubleEdit);
+        m_doubleEdit->update();
+    }
+    
 }
 
-CustomLabel::CustomLabel(const QString &label, bool showSlider, QWidget* parent) :
+CustomLabel::CustomLabel(const QString &label, bool showSlider, int precision, QWidget* parent) :
     QProgressBar(parent),
     m_dragMode(false),
-    m_step(1),
-    m_showSlider(showSlider)
+    m_step(1.0),
+    m_showSlider(showSlider),
+    m_precision(pow(10, precision)),
+    m_value(0)
 {
     setFont(KGlobalSettings::toolBarFont());
     setFormat(" " + label);
@@ -313,12 +379,12 @@ void CustomLabel::mouseMoveEvent(QMouseEvent* e)
                 if (KdenliveSettings::dragvalue_mode() == 2)
                     diff = (diff > 0 ? 1 : -1) * pow(diff, 2);
 
-                int nv = value() + diff / m_step;
-                if (nv != value()) setNewValue(nv, KdenliveSettings::dragvalue_directupdate());
+                int nv = m_value + diff / m_step;
+                if (nv != m_value) setNewValue(nv, KdenliveSettings::dragvalue_directupdate());
             }
             else {
-                int nv = minimum() + ((double) maximum() - minimum()) / width() * e->pos().x();
-                if (nv != value()) setNewValue(nv, KdenliveSettings::dragvalue_directupdate());
+                double nv = minimum() + ((double) maximum() - minimum()) / width() * e->pos().x();
+                if (nv != m_value) setNewValue(nv, KdenliveSettings::dragvalue_directupdate());
             }
             m_dragLastPosition = e->pos();
             e->accept();
@@ -339,12 +405,12 @@ void CustomLabel::mouseReleaseEvent(QMouseEvent* e)
         return;
     }
     if (m_dragMode) {
-        setNewValue(value(), true);
+        setNewValue(m_value, true);
         m_dragLastPosition = m_dragStartPosition;
         e->accept();
     }
     else if (m_showSlider) {
-        setNewValue((int) (minimum() + ((double)maximum() - minimum()) / width() * e->pos().x()), true);
+        setNewValue((minimum() + ((double)maximum() - minimum()) / width() * e->pos().x()), true);
         m_dragLastPosition = m_dragStartPosition;
         e->accept();
     }
@@ -355,27 +421,36 @@ void CustomLabel::wheelEvent(QWheelEvent* e)
 {
     if (e->delta() > 0) {
         if (e->modifiers() == Qt::ControlModifier) slotValueInc(10);
+        else if (e->modifiers() == Qt::AltModifier) slotValueInc(1.0 / m_precision);
         else slotValueInc();
     }
     else {
         if (e->modifiers() == Qt::ControlModifier) slotValueDec(10);
+        else if (e->modifiers() == Qt::AltModifier) slotValueDec(1.0 / m_precision);
         else slotValueDec();
     }
     e->accept();
 }
 
-void CustomLabel::slotValueInc(int factor)
+void CustomLabel::slotValueInc(double factor)
 {
-    setNewValue((int) (value() + m_step * factor), true);
+    setNewValue(m_value + m_step * factor, true);
 }
 
-void CustomLabel::slotValueDec(int factor)
+void CustomLabel::slotValueDec(double factor)
 {
-    setNewValue((int) (value() - m_step * factor), true);
+    setNewValue(m_value - m_step * factor, true);
 }
 
-void CustomLabel::setNewValue(int value, bool update)
+void CustomLabel::setProgressValue(double value)
 {
+    m_value = value;
+    setValue((int) value);
+}
+
+void CustomLabel::setNewValue(double value, bool update)
+{
+    m_value = value;
     setValue(value);
     emit valueChanged(value, update);
 }

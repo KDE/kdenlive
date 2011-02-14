@@ -132,7 +132,7 @@ private slots:
     void slotSetHeight(int value);
 
     /** @brief Resizes the rect by @param value (in perecent) compared to the frame size. */
-    void slotResize(int value);
+    void slotResize(double value);
 
     /** @brief Sets the opacity to @param value. */
     void slotSetOpacity(int value);
