@@ -550,24 +550,24 @@ void GeometryWidget::setFrameSize(QPoint size)
 void GeometryWidget::slotAdjustToFrameSize()
 {
     if (m_frameSize == QPoint()) m_frameSize = QPoint(m_monitor->render->frameRenderWidth(), m_monitor->render->renderHeight());
-    m_spinWidth->setValue(m_frameSize.x());
+    m_spinWidth->setValue((int) (m_frameSize.x() / m_monitor->render->sar() + 0.5));
     m_spinHeight->setValue(m_frameSize.y());
 }
 
 void GeometryWidget::slotFitToWidth()
 {
     if (m_frameSize == QPoint()) m_frameSize = QPoint(m_monitor->render->frameRenderWidth(), m_monitor->render->renderHeight());
-    double factor = (double) m_monitor->render->frameRenderWidth() / m_frameSize.x();
-    m_spinHeight->setValue(m_frameSize.y() * factor);
+    double factor = (double) m_monitor->render->frameRenderWidth() / m_frameSize.x() * m_monitor->render->sar();
+    m_spinHeight->setValue((int) (m_frameSize.y() * factor + 0.5));
     m_spinWidth->setValue(m_monitor->render->frameRenderWidth());
 }
 
 void GeometryWidget::slotFitToHeight()
 {
     if (m_frameSize == QPoint()) m_frameSize = QPoint(m_monitor->render->frameRenderWidth(), m_monitor->render->renderHeight());
-    double factor = m_monitor->render->renderHeight() / m_frameSize.y();
+    double factor = (double) m_monitor->render->renderHeight() / m_frameSize.y();
     m_spinHeight->setValue(m_monitor->render->renderHeight());
-    m_spinWidth->setValue(m_frameSize.x() * factor);
+    m_spinWidth->setValue((int) (m_frameSize.x() / m_monitor->render->sar() * factor + 0.5));
 }
 
 #include "geometrywidget.moc"

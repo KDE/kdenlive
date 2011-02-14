@@ -179,6 +179,8 @@ Q_OBJECT public:
 
     /** @brief Returns display aspect ratio. */
     double dar() const;
+    /** @brief Returns sample aspect ratio. */
+    double sar() const;
 
     /*
      * Playlist manipulation.

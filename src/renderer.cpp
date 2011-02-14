@@ -463,6 +463,10 @@ double Render::dar() const
     return m_mltProfile->dar();
 }
 
+double Render::sar() const
+{
+    return m_mltProfile->sar();
+}
 
 void Render::slotSplitView(bool doit)
 {
@@ -630,7 +634,7 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
     if (xml.hasAttribute("templatetext"))
         producer->set("templatetext", xml.attribute("templatetext").toUtf8().constData());
 
-    if (!replaceProducer && xml.hasAttribute("file_hash")) {
+    if ((!replaceProducer && xml.hasAttribute("file_hash")) || xml.hasAttribute("proxy")) {
         // Clip  already has all properties
         emit replyGetFileProperties(clipId, producer, QMap < QString, QString >(), QMap < QString, QString >(), replaceProducer, selectClip);
         return;
