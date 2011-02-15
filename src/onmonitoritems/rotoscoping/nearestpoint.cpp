@@ -9,7 +9,7 @@ from "Graphics Gems", Academic Press, 1990
  /*     point_on_curve.c        */              
                                                                         
 #include <stdio.h>
-#include <malloc.h>
+#include <stdlib.h>
 #include <math.h>
 
 #include "nearestpoint.h"
