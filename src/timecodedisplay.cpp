@@ -27,43 +27,44 @@
 #include <kglobal.h>
 #include <klocale.h>
 #include <kdebug.h>
-
+#include <krestrictedline.h>
+#include <KColorScheme>
+#include <KRestrictedLine>
 
 TimecodeDisplay::TimecodeDisplay(Timecode t, QWidget *parent)
-        : QWidget(parent),
+        : QAbstractSpinBox(parent),
         m_timecode(t),
         m_minimum(0),
         m_maximum(-1)
 {
-    setupUi(this);
-    lineedit->setFont(KGlobalSettings::toolBarFont());
-    QFontMetrics fm = lineedit->fontMetrics();
-    lineedit->setMaximumWidth(fm.width("88:88:88:888"));
-    setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
+    lineEdit()->setFont(KGlobalSettings::toolBarFont());
+    lineEdit()->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+    QFontMetrics fm = lineEdit()->fontMetrics();
+    setMinimumWidth(fm.width("88:88:88:88888888") + contentsMargins().right() + contentsMargins().right());
+    setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
+    setAccelerated(true);
 
     setTimeCodeFormat(KdenliveSettings::frametimecode(), true);
 
-    connect(uparrow, SIGNAL(clicked()), this, SLOT(slotValueUp()));
-    connect(downarrow, SIGNAL(clicked()), this, SLOT(slotValueDown()));
-    connect(lineedit, SIGNAL(editingFinished()), this, SIGNAL(editingFinished()));
-    connect(lineedit, SIGNAL(cursorPositionChanged(int, int)), this, SLOT(slotCursorPositionChanged(int, int)));
+    connect(lineEdit(), SIGNAL(returnPressed()), this, SLOT(slotEditingFinished()));
+    connect(lineEdit(), SIGNAL(cursorPositionChanged(int, int)), this, SLOT(slotCursorPositionChanged(int, int)));
 }
 
-void TimecodeDisplay::slotValueUp()
+// virtual protected
+QAbstractSpinBox::StepEnabled TimecodeDisplay::stepEnabled () const
 {
-    int val = getValue();
-    val++;
-    setValue(val);
-    lineedit->clearFocus();
-    emit editingFinished();
+    QAbstractSpinBox::StepEnabled result = QAbstractSpinBox::StepNone;
+    if (getValue() > m_minimum) result |= QAbstractSpinBox::StepDownEnabled;
+    if (m_maximum == -1 || getValue() < m_maximum) result |= QAbstractSpinBox::StepUpEnabled;
+    return result;
 }
 
-void TimecodeDisplay::slotValueDown()
+// virtual
+void TimecodeDisplay::stepBy(int steps)
 {
     int val = getValue();
-    val--;
+    val += steps;
     setValue(val);
-    lineedit->clearFocus();
     emit editingFinished();
 }
 
@@ -73,11 +74,11 @@ void TimecodeDisplay::setTimeCodeFormat(bool frametimecode, bool init)
     int val = getValue();
     m_frametimecode = frametimecode;
     if (m_frametimecode) {
-        QIntValidator *valid = new QIntValidator(lineedit);
+        QIntValidator *valid = new QIntValidator(lineEdit());
         valid->setBottom(0);
-        lineedit->setValidator(valid);
+        lineEdit()->setValidator(valid);
     } else {
-        lineedit->setValidator(m_timecode.validator());
+        lineEdit()->setValidator(m_timecode.validator());
     }
     setValue(val);
 }
@@ -95,21 +96,28 @@ void TimecodeDisplay::updateTimeCode(Timecode t)
 
 void TimecodeDisplay::keyPressEvent(QKeyEvent *e)
 {
-    if (e->key() == Qt::Key_Up)
-        slotValueUp();
-    else if (e->key() == Qt::Key_Down)
-        slotValueDown();
+    if (e->key() == Qt::Key_Return)
+        slotEditingFinished();
     else
-        QWidget::keyPressEvent(e);
+        QAbstractSpinBox::keyPressEvent(e);
 }
 
+void TimecodeDisplay::mouseReleaseEvent(QMouseEvent *e)
+{
+    QAbstractSpinBox::mouseReleaseEvent(e);
+    if (!lineEdit()->underMouse()) {
+        clearFocus();
+    }
+}
+
+/*
 void TimecodeDisplay::wheelEvent(QWheelEvent *e)
 {
     if (e->delta() > 0)
         slotValueUp();
     else
         slotValueDown();
-}
+}*/
 
 
 int TimecodeDisplay::maximum() const
@@ -124,8 +132,8 @@ int TimecodeDisplay::minimum() const
 
 int TimecodeDisplay::getValue() const
 {
-    if (m_frametimecode) return lineedit->text().toInt();
-    else return m_timecode.getFrameCount(lineedit->text());
+    if (m_frametimecode) return lineEdit()->text().toInt();
+    else return m_timecode.getFrameCount(lineEdit()->text());
 }
 
 GenTime TimecodeDisplay::gentime() const
@@ -156,15 +164,15 @@ void TimecodeDisplay::setValue(int value)
     if (m_maximum > m_minimum && value > m_maximum)
         value = m_maximum;
 
-    if (value == getValue() && !lineedit->text().isEmpty()) return;
-    downarrow->setEnabled(value > m_minimum);
-    uparrow->setEnabled(m_maximum < m_minimum || value < m_maximum);
+    if (value == getValue() && !lineEdit()->text().isEmpty()) return;
+    //downarrow->setEnabled(value > m_minimum);
+    //uparrow->setEnabled(m_maximum < m_minimum || value < m_maximum);
 
     if (m_frametimecode)
-        lineedit->setText(QString::number(value));
+        lineEdit()->setText(QString::number(value));
     else {
         QString v = m_timecode.getTimecodeFromFrames(value);
-        lineedit->setText(v);
+        lineEdit()->setText(v);
     }
 }
 
@@ -175,24 +183,32 @@ void TimecodeDisplay::setValue(GenTime value)
 
 void TimecodeDisplay::slotCursorPositionChanged(int oldPos, int newPos)
 {
-    lineedit->blockSignals(true);
-    QString text = lineedit->text();
+    if (!lineEdit()->hasFocus()) return;
+    lineEdit()->blockSignals(true);
+    QString text = lineEdit()->text();
 
     if (newPos < text.size() && !text.at(newPos).isDigit()) {
         // char at newPos is a separator (':' or ';')
 
         // make it possible move the cursor backwards at separators
         if (newPos == oldPos - 1)
-            lineedit->setSelection(newPos, -1);
+            lineEdit()->setSelection(newPos, -1);
         else
-            lineedit->setSelection(newPos + 2, -1);
+            lineEdit()->setSelection(newPos + 2, -1);
     } else if (newPos < text.size()) {
-        lineedit->setSelection(newPos + 1, -1);
+        lineEdit()->setSelection(newPos + 1, -1);
     } else {
-        lineedit->setSelection(newPos, -1);
+        lineEdit()->setSelection(newPos, -1);
     }
 
-    lineedit->blockSignals(false);
+    lineEdit()->blockSignals(false);
+}
+
+void TimecodeDisplay::slotEditingFinished()
+{
+    clearFocus();
+    lineEdit()->deselect();
+    emit editingFinished();
 }
 
 #include <timecodedisplay.moc>

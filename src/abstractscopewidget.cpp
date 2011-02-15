@@ -20,6 +20,8 @@
 #include <QMouseEvent>
 #include <QPainter>
 
+#include <KConfigGroup>
+
 // Uncomment for Scope debugging.
 //#define DEBUG_ASW
 

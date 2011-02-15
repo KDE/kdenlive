@@ -4997,7 +4997,8 @@ void CustomTrackView::slotAddGuide(bool dialog)
     if (dialog) {
         MarkerDialog d(NULL, marker, m_document->timecode(), i18n("Add Guide"), this);
         if (d.exec() != QDialog::Accepted) return;
-        marker.setComment(d.newMarker().comment());
+        marker = d.newMarker();
+        
     } else {
         marker.setComment(m_document->timecode().getDisplayTimecodeFromFrames(m_cursorPos, false));
     }

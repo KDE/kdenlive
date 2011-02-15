@@ -23,6 +23,7 @@
 
 #include <KDebug>
 #include <KMessageBox>
+#include <KGlobalSettings>
 
 #include <QWheelEvent>
 

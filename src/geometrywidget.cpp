@@ -300,12 +300,14 @@ void GeometryWidget::slotPositionChanged(int pos, bool seek)
             m_scene->removeItem(m_previous);
         }
     }
+    else if (m_previous && m_previous->scene() && m_previous->data(Qt::UserRole).toInt() == previousItem.frame()) {
+        // previous frame already here, do nothing
+    }
     else {
         if (m_previous == NULL) {
             m_previous = new QGraphicsRectItem(0, 0, previousItem.w(), previousItem.h());
             m_previous->setBrush(QColor(200, 200, 0, 20));
             m_previous->setPen(QPen(Qt::white, 0, Qt::DotLine));
-            
             m_previous->setPos(previousItem.x(), previousItem.y());
             m_previous->setZValue(-1);
             m_previous->setEnabled(false);
@@ -314,7 +316,8 @@ void GeometryWidget::slotPositionChanged(int pos, bool seek)
             m_previous->setPos(previousItem.x(), previousItem.y());
             m_previous->setRect(0, 0, previousItem.w(), previousItem.h());
         }
-        m_scene->addItem(m_previous);
+        m_previous->setData(Qt::UserRole, previousItem.frame());
+        if (m_previous->scene() == 0) m_scene->addItem(m_previous);
     }
 
     m_rect->setPos(item.x(), item.y());

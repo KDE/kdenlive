@@ -23,6 +23,7 @@
 
 #include <QLabel>
 #include <QSlider>
+#include <QHBoxLayout>
 
 PositionEdit::PositionEdit(const QString name, int pos, int min, int max, const Timecode tc, QWidget* parent) :
         QWidget(parent)

@@ -20,10 +20,10 @@
 #ifndef TIMECODEDISPLAY_H_
 #define TIMECODEDISPLAY_H_
 
-#include "ui_timecodedisplay_ui.h"
 #include "timecode.h"
 #include "gentime.h"
 
+#include <QAbstractSpinBox>
 
 /**
  * @class TimecodeDisplay
@@ -33,7 +33,7 @@
  * TimecodeDisplay can be used to insert eigther frames
  * or a timecode in the format HH:MM:SS:FF
  */
-class TimecodeDisplay : public QWidget, public Ui::TimecodeDisplay_UI
+class TimecodeDisplay : public QAbstractSpinBox
 {
     Q_OBJECT
 
@@ -74,6 +74,8 @@ public:
      * @param t the new timecode */
     void updateTimeCode(Timecode t);
 
+    virtual void stepBy(int steps);
+
 private:
     /** timecode for widget */
     Timecode m_timecode;
@@ -95,8 +97,7 @@ public slots:
     void slotUpdateTimeCodeFormat();
 
 private slots:
-    void slotValueUp();
-    void slotValueDown();
+    void slotEditingFinished();
 
     /** @brief Updates the selection when the cursor position changed.
      * The digit after the cursor will be selected.
@@ -115,7 +116,9 @@ signals:
 
 protected:
     virtual void keyPressEvent(QKeyEvent *e);
-    virtual void wheelEvent(QWheelEvent *e);
+    virtual void mouseReleaseEvent(QMouseEvent *);
+//    virtual void wheelEvent(QWheelEvent *e);
+    virtual QAbstractSpinBox::StepEnabled stepEnabled () const;
 
 };
 

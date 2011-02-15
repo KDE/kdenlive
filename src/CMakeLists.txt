@@ -120,7 +120,6 @@ kde4_add_ui_files(kdenlive_UI
   widgets/cliptranscode_ui.ui
   widgets/templateclip_ui.ui
   widgets/keyframeeditor_ui.ui
-  widgets/timecodedisplay_ui.ui
   widgets/tracksconfigdialog_ui.ui
   widgets/urlval_ui.ui
   widgets/vectorscope_ui.ui
