@@ -1154,8 +1154,7 @@ void ProjectList::updateAllClips()
         //qApp->processEvents();
         ++it;
     }
-    /*if (!m_queueTimer.isActive())
-        m_queueTimer.start();*/
+
     if (!m_queueRunner.isRunning() && m_processingClips.isEmpty()) m_queueRunner = QtConcurrent::run(this, &ProjectList::slotProcessNextClipInQueue);
     if (m_listView->isEnabled())
         monitorItemEditing(true);
@@ -1195,10 +1194,21 @@ void ProjectList::slotAddClip(const QList <QUrl> givenList, const QString &group
         const QString dialogFilter = allExtensions + ' ' + QLatin1Char('|') + i18n("All Supported Files") + "\n* " + QLatin1Char('|') + i18n("All Files");
         QCheckBox *b = new QCheckBox(i18n("Import image sequence"));
         b->setChecked(KdenliveSettings::autoimagesequence());
-        KFileDialog *d = new KFileDialog(KUrl("kfiledialog:///clipfolder"), dialogFilter, kapp->activeWindow(), b);
+        QCheckBox *c = new QCheckBox(i18n("Transparent background for images"));
+        c->setChecked(KdenliveSettings::autoimagetransparency());
+        QFrame *f = new QFrame;
+        f->setFrameShape(QFrame::NoFrame);
+        QHBoxLayout *l = new QHBoxLayout;
+        l->addWidget(b);
+        l->addWidget(c);
+        l->addStretch(5);
+        f->setLayout(l);
+        KFileDialog *d = new KFileDialog(KUrl("kfiledialog:///clipfolder"), dialogFilter, kapp->activeWindow(), f);
         d->setOperationMode(KFileDialog::Opening);
         d->setMode(KFile::Files);
-        d->exec();
+        if (d->exec() == QDialog::Accepted) {
+            KdenliveSettings::setAutoimagetransparency(c->isChecked());
+        }
         list = d->selectedUrls();
         if (b->isChecked() && list.count() == 1) {
             // Check for image sequence

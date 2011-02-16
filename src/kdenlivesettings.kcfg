@@ -49,6 +49,11 @@
       <label>Automatically import image sequences.</label>
       <default>false</default>
     </entry>
+    
+    <entry name="autoimagetransparency" type="Bool">
+      <label>Automatically add transparency transition to added images.</label>
+      <default>false</default>
+    </entry>
 
     <entry name="title_duration" type="String">
       <label>Default title clip duration.</label>
