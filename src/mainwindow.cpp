@@ -3192,10 +3192,17 @@ void MainWindow::slotShowClipProperties(QList <DocClipBase *> cliplist, QMap<QSt
     ClipProperties dia(cliplist, m_activeDocument->timecode(), commonproperties, this);
     if (dia.exec() == QDialog::Accepted) {
         QUndoCommand *command = new QUndoCommand();
+        QMap <QString, QString> newImageProps = dia.properties();
+        // Transparency setting applies only for images
+        QMap <QString, QString> newProps = newImageProps;
+        newProps.remove("transparency");
         command->setText(i18n("Edit clips"));
         for (int i = 0; i < cliplist.count(); i++) {
             DocClipBase *clip = cliplist.at(i);
-            new EditClipCommand(m_projectList, clip->getId(), clip->properties(), dia.properties(), true, command);
+            if (clip->clipType() == IMAGE)
+                new EditClipCommand(m_projectList, clip->getId(), clip->properties(), newImageProps, true, command);
+            else 
+                new EditClipCommand(m_projectList, clip->getId(), clip->properties(), newProps, true, command);
         }
         m_activeDocument->commandStack()->push(command);
         for (int i = 0; i < cliplist.count(); i++)

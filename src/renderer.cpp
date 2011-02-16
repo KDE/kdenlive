@@ -623,8 +623,12 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
     }
 
     // setup length here as otherwise default length (currently 15000 frames in MLT) will be taken even if outpoint is larger
-    if (type == COLOR || type == TEXT || type == IMAGE || type == SLIDESHOW)
-        producer->set("length", xml.attribute("out").toInt() - xml.attribute("in").toInt() + 1);
+    if (type == COLOR || type == TEXT || type == IMAGE || type == SLIDESHOW) {
+        int length;
+        if (xml.hasAttribute("length")) length = xml.attribute("length").toInt();
+        else length = xml.attribute("out").toInt() - xml.attribute("in").toInt();
+        producer->set("length", length);
+    }
 
     if (xml.hasAttribute("out"))
         producer->set_in_and_out(xml.attribute("in").toInt(), xml.attribute("out").toInt());

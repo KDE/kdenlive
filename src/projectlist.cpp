@@ -262,9 +262,11 @@ void ProjectList::editClipSelection(QList<QTreeWidgetItem *> list)
     commonproperties.insert("audio_index", "-");
     commonproperties.insert("force_colorspace", "-");
     commonproperties.insert("full_luma", "-");
+    QString transparency = "-";
 
     bool allowDurationChange = true;
     int commonDuration = -1;
+    bool hasImages = false;;
     ProjectItem *item;
     for (int i = 0; i < list.count(); i++) {
         item = NULL;
@@ -286,6 +288,29 @@ void ProjectList::editClipSelection(QList<QTreeWidgetItem *> list)
             // check properties
             DocClipBase *clip = item->referencedClip();
             if (clipList.contains(clip)) continue;
+            if (clip->clipType() == IMAGE) {
+                hasImages = true;
+                if (clip->getProperty("transparency").isEmpty() || clip->getProperty("transparency").toInt() == 0) {
+                    if (transparency == "-") {
+                        // first non transparent image
+                        transparency = "0";
+                    }
+                    else if (transparency == "1") {
+                        // we have transparent and non transparent clips
+                        transparency = "-1";
+                    }
+                }
+                else {
+                    if (transparency == "-") {
+                        // first transparent image
+                        transparency = "1";
+                    }
+                    else if (transparency == "0") {
+                        // we have transparent and non transparent clips
+                        transparency = "-1";
+                    }
+                }
+            }
             if (clip->clipType() != COLOR && clip->clipType() != IMAGE && clip->clipType() != TEXT)
                 allowDurationChange = false;
             if (allowDurationChange && commonDuration != 0) {
@@ -313,6 +338,8 @@ void ProjectList::editClipSelection(QList<QTreeWidgetItem *> list)
     }
     if (allowDurationChange)
         commonproperties.insert("out", QString::number(commonDuration));
+    if (hasImages)
+        commonproperties.insert("transparency", transparency);
     /*QMapIterator<QString, QString> p(commonproperties);
     while (p.hasNext()) {
         p.next();
@@ -442,10 +469,8 @@ void ProjectList::slotReloadClip(const QString &id)
                 int length = QString(item->referencedClip()->producerProperty("length")).toInt();
                 if (length > 0 && !e.hasAttribute("length")) {
                     e.setAttribute("length", length);
-                    e.setAttribute("out", length - 1);
                 }
-            }
-            
+            }            
             emit getFileProperties(e, item->clipId(), m_listView->iconSize().height(), true, false);
         }
     }

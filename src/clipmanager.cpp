@@ -278,7 +278,7 @@ void ClipManager::slotAddClipList(const KUrl::List urls, const QString group, co
             if (type->name().startsWith("image/")) {
                 prod.setAttribute("type", (int) IMAGE);
                 prod.setAttribute("in", 0);
-                prod.setAttribute("out", m_doc->getFramePos(KdenliveSettings::image_duration()) - 1);
+                prod.setAttribute("out", m_doc->getFramePos(KdenliveSettings::image_duration()));
                 if (KdenliveSettings::autoimagetransparency()) prod.setAttribute("transparency", 1);
                 // Read EXIF metadata for JPEG
                 if (type->is("image/jpeg")) {
@@ -316,7 +316,7 @@ void ClipManager::slotAddClipList(const KUrl::List urls, const QString group, co
                     if (out > 0)
                         prod.setAttribute("out", out);
                     else
-                        prod.setAttribute("out", m_doc->getFramePos(KdenliveSettings::title_duration()) - 1);
+                        prod.setAttribute("out", m_doc->getFramePos(KdenliveSettings::title_duration()));
                 } else
                     txtfile.close();
             }
@@ -362,7 +362,7 @@ void ClipManager::slotAddColorClipFile(const QString name, const QString color, 
     uint id = m_clipIdCounter++;
     prod.setAttribute("id", QString::number(id));
     prod.setAttribute("in", "0");
-    prod.setAttribute("out", m_doc->getFramePos(duration) - 1);
+    prod.setAttribute("out", m_doc->getFramePos(duration));
     prod.setAttribute("name", name);
     if (!group.isEmpty()) {
         prod.setAttribute("groupname", group);
@@ -385,7 +385,7 @@ void ClipManager::slotAddSlideshowClipFile(const QString name, const QString pat
     uint id = m_clipIdCounter++;
     prod.setAttribute("id", QString::number(id));
     prod.setAttribute("in", "0");
-    prod.setAttribute("out", m_doc->getFramePos(duration) * count - 1);
+    prod.setAttribute("out", m_doc->getFramePos(duration) * count);
     prod.setAttribute("ttl", m_doc->getFramePos(duration));
     prod.setAttribute("luma_duration", m_doc->getFramePos(luma_duration));
     prod.setAttribute("name", name);
@@ -452,7 +452,7 @@ void ClipManager::slotAddTextTemplateClip(QString titleName, const KUrl path, co
         out = titledoc.documentElement().attribute("out").toInt();
     } else txtfile.close();
 
-    if (out == 0) out = m_doc->getFramePos(KdenliveSettings::image_duration()) - 1;
+    if (out == 0) out = m_doc->getFramePos(KdenliveSettings::image_duration());
     prod.setAttribute("out", out);
 
     AddClipCommand *command = new AddClipCommand(m_doc, doc.documentElement(), QString::number(id), true);

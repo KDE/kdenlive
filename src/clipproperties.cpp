@@ -52,6 +52,11 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
     setAttribute(Qt::WA_DeleteOnClose, true);
     setFont(KGlobalSettings::toolBarFont());
     m_view.setupUi(this);
+    
+    // force transparency is only for group properties, so hide it
+    m_view.clip_force_transparency->setHidden(true);
+    m_view.clip_transparency->setHidden(true);
+    
     KUrl url = m_clip->fileURL();
     m_view.clip_path->setText(url.path());
     m_view.clip_description->setText(m_clip->description());
@@ -401,7 +406,10 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
     m_view.clip_duration->setValidator(tc.validator());
     m_view.clip_duration->setText(tc.getTimecode(m_clip->duration()));
     if (t != IMAGE && t != COLOR && t != TEXT) m_view.clip_duration->setReadOnly(true);
-    else connect(m_view.clip_duration, SIGNAL(editingFinished()), this, SLOT(slotCheckMaxLength()));
+    else {
+        connect(m_view.clip_duration, SIGNAL(editingFinished()), this, SLOT(slotCheckMaxLength()));
+        connect(m_view.clip_duration, SIGNAL(textChanged(QString)), this, SLOT(slotModified()));
+    }
 
     // markers
     m_view.marker_new->setIcon(KIcon("document-new"));
@@ -437,7 +445,7 @@ ClipProperties::ClipProperties(QList <DocClipBase *>cliplist, Timecode tc, QMap 
     setFont(KGlobalSettings::toolBarFont());
     m_view.setupUi(this);
     QString title = windowTitle();
-    title.append(" " + i18np("(%1 clip)", "(%1 clips)", cliplist.count()).arg(cliplist.count()));
+    title.append(" " + i18np("(%1 clip)", "(%1 clips)", cliplist.count()));
     setWindowTitle(title);
     QMap <QString, QString> props = cliplist.at(0)->properties();
     m_old_props = commonproperties;
@@ -507,7 +515,25 @@ ClipProperties::ClipProperties(QList <DocClipBase *>cliplist, Timecode tc, QMap 
     if (commonproperties.contains("full_luma") && !commonproperties.value("full_luma").isEmpty()) {
         m_view.clip_full_luma->setChecked(true);
     }
+    
+    if (commonproperties.contains("transparency")) {
+        // image transparency checkbox
+        int transparency = commonproperties.value("transparency").toInt();
+        if (transparency == 0) {
+            m_view.clip_force_transparency->setChecked(true);
+        }
+        else if (transparency == 1) {
+            m_view.clip_force_transparency->setChecked(true);
+            m_view.clip_transparency->setCurrentIndex(1);
+        }
+    }
+    else {
+        m_view.clip_force_transparency->setHidden(true);
+        m_view.clip_transparency->setHidden(true);
+    }
+    
 
+    connect(m_view.clip_force_transparency, SIGNAL(toggled(bool)), m_view.clip_transparency, SLOT(setEnabled(bool)));
     connect(m_view.clip_force_ar, SIGNAL(toggled(bool)), m_view.clip_ar_num, SLOT(setEnabled(bool)));
     connect(m_view.clip_force_ar, SIGNAL(toggled(bool)), m_view.clip_ar_den, SLOT(setEnabled(bool)));
     connect(m_view.clip_force_progressive, SIGNAL(toggled(bool)), m_view.clip_progressive, SLOT(setEnabled(bool)));
@@ -672,11 +698,11 @@ QMap <QString, QString> ClipProperties::properties()
             m_clipNeedsRefresh = true;
         }
     } else {
-        if (m_old_props.contains("force_aspect_num")) {
+        if (m_old_props.contains("force_aspect_num") && !m_old_props.value("force_aspect_num").isEmpty()) {
             props["force_aspect_num"].clear();
             m_clipNeedsRefresh = true;
         }
-        if (m_old_props.contains("force_aspect_den")) {
+        if (m_old_props.contains("force_aspect_den") && !m_old_props.value("force_aspect_den").isEmpty()) {
             props["force_aspect_den"].clear();
             m_clipNeedsRefresh = true;
         }
@@ -688,7 +714,7 @@ QMap <QString, QString> ClipProperties::properties()
             props["force_fps"] = QString::number(fps);
             m_clipNeedsRefresh = true;
         }
-    } else if (m_old_props.contains("force_fps")) {
+    } else if (m_old_props.contains("force_fps") && !m_old_props.value("force_fps").isEmpty()) {
         props["force_fps"].clear();
         m_clipNeedsRefresh = true;
     }
@@ -698,7 +724,7 @@ QMap <QString, QString> ClipProperties::properties()
         if (progressive != m_old_props.value("force_progressive").toInt()) {
             props["force_progressive"] = QString::number(progressive);
         }
-    } else if (m_old_props.contains("force_progressive")) {
+    } else if (m_old_props.contains("force_progressive") && !m_old_props.value("force_progressive").isEmpty()) {
         props["force_progressive"].clear();
     }
 
@@ -707,7 +733,7 @@ QMap <QString, QString> ClipProperties::properties()
         if (fieldOrder != m_old_props.value("force_tff").toInt()) {
             props["force_tff"] = QString::number(fieldOrder);
         }
-    } else if (m_old_props.contains("force_tff")) {
+    } else if (m_old_props.contains("force_tff") && !m_old_props.value("force_tff").isEmpty()) {
         props["force_tff"].clear();
     }
 
@@ -716,7 +742,7 @@ QMap <QString, QString> ClipProperties::properties()
         if (threads != m_old_props.value("threads").toInt()) {
             props["threads"] = QString::number(threads);
         }
-    } else if (m_old_props.contains("threads")) {
+    } else if (m_old_props.contains("threads") && !m_old_props.value("threads").isEmpty()) {
         props["threads"].clear();
     }
 
@@ -725,7 +751,7 @@ QMap <QString, QString> ClipProperties::properties()
         if (vindex != m_old_props.value("video_index").toInt()) {
             props["video_index"] = QString::number(vindex);
         }
-    } else if (m_old_props.contains("video_index")) {
+    } else if (m_old_props.contains("video_index") && !m_old_props.value("video_index").isEmpty()) {
         props["video_index"].clear();
     }
 
@@ -734,7 +760,7 @@ QMap <QString, QString> ClipProperties::properties()
         if (aindex != m_old_props.value("audio_index").toInt()) {
             props["audio_index"] = QString::number(aindex);
         }
-    } else if (m_old_props.contains("audio_index")) {
+    } else if (m_old_props.contains("audio_index") && !m_old_props.value("audio_index").isEmpty()) {
         props["audio_index"].clear();
     }
     
@@ -744,7 +770,7 @@ QMap <QString, QString> ClipProperties::properties()
             props["force_colorspace"] = QString::number(colorspace);
             m_clipNeedsRefresh = true;
         }
-    } else if (m_old_props.contains("force_colorspace")) {
+    } else if (m_old_props.contains("force_colorspace") && !m_old_props.value("force_colorspace").isEmpty()) {
         props["force_colorspace"].clear();
         m_clipNeedsRefresh = true;
     }
@@ -752,9 +778,14 @@ QMap <QString, QString> ClipProperties::properties()
     if (m_view.clip_full_luma->isChecked()) {
         props["full_luma"] = QString::number(1);
         m_clipNeedsRefresh = true;
-    } else if (m_old_props.contains("full_luma")) {
+    } else if (m_old_props.contains("full_luma") && !m_old_props.value("full_luma").isEmpty()) {
         props["full_luma"].clear();
         m_clipNeedsRefresh = true;
+    }
+    
+    if (m_view.clip_force_transparency->isChecked()) {
+        QString transp = QString::number(m_view.clip_transparency->currentIndex());
+        if (transp != m_old_props.value("transparency")) props["transparency"] = transp;
     }
 
     // If we adjust several clips, return now
@@ -959,5 +990,6 @@ void ClipProperties::slotUpdateDurationFormat(int ix)
 }
 
 #include "clipproperties.moc"
+
 
 

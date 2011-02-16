@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>308</width>
-    <height>507</height>
+    <width>280</width>
+    <height>520</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -556,7 +556,7 @@
        <string>Advanced</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_3">
-       <item row="11" column="2">
+       <item row="12" column="2">
         <spacer name="verticalSpacer">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -701,7 +701,7 @@
          </property>
         </widget>
        </item>
-       <item row="9" column="1">
+       <item row="9" column="1" colspan="2">
         <widget class="QCheckBox" name="clip_full_luma">
          <property name="text">
           <string>Full luma range</string>
@@ -763,6 +763,27 @@
          <property name="enabled">
           <bool>false</bool>
          </property>
+        </widget>
+       </item>
+       <item row="10" column="1">
+        <widget class="QCheckBox" name="clip_force_transparency">
+         <property name="text">
+          <string>Image background</string>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="2">
+        <widget class="KComboBox" name="clip_transparency">
+         <item>
+          <property name="text">
+           <string>Normal</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Transparent</string>
+          </property>
+         </item>
         </widget>
        </item>
       </layout>

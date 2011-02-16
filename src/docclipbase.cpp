@@ -658,7 +658,6 @@ const char *DocClipBase::producerProperty(const char *name) const
 void DocClipBase::slotRefreshProducer()
 {
     if (m_baseTrackProducers.count() == 0) return;
-    kDebug() << "////////////   REFRESH CLIP !!!!!!!!!!!!!!!!";
     if (m_clipType == SLIDESHOW) {
         /*Mlt::Producer producer(*(m_clipProducer->profile()), getProperty("resource").toUtf8().data());
         delete m_clipProducer;
