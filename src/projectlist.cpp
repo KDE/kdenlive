@@ -966,7 +966,8 @@ void ProjectList::deleteProjectFolder(QMap <QString, QString> map)
         i.next();
         new AddFolderCommand(this, i.key(), i.value(), false, delCommand);
     }
-    m_commandStack->push(delCommand);
+    if (delCommand->childCount() > 0) m_commandStack->push(delCommand);
+    else delete delCommand;
 }
 
 void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
@@ -1602,7 +1603,12 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
         else if (useProxy() && !item->isProxyRunning() && (item->clipType() == AV || item->clipType() == VIDEO) && generateProxy() && size.section('x', 0, 0).toInt() > proxyMinSize()) {
             if (clip->getProperty("proxy").isEmpty()) {
                 QString proxydir = m_doc->projectFolder().path( KUrl::AddTrailingSlash) + "proxy/";
-                clip->setProperty("proxy", proxydir + item->referencedClip()->getClipHash() + ".avi");
+                QMap <QString, QString> newProps;
+                newProps.insert("proxy", proxydir + item->referencedClip()->getClipHash() + ".avi");
+                QMap <QString, QString> oldProps = clip->properties();
+                oldProps.insert("proxy", QString());
+                EditClipCommand *command = new EditClipCommand(this, clipId, oldProps, newProps, true);
+                m_doc->commandStack()->push(command);
             }
         }
         
@@ -2160,6 +2166,9 @@ void ProjectList::updateProxyConfig()
 {
     ProjectItem *item;
     QTreeWidgetItemIterator it(m_listView);
+    QUndoCommand *command = new QUndoCommand();
+    command->setText(i18n("Update proxy settings"));
+    QString proxydir = m_doc->projectFolder().path( KUrl::AddTrailingSlash) + "proxy/";
     while (*it) {
         if ((*it)->type() != PROJECTCLIPTYPE) {
             ++it;
@@ -2176,22 +2185,32 @@ void ProjectList::updateProxyConfig()
                 DocClipBase *clip = item->referencedClip();
                 if (clip->getProperty("frame_size").section('x', 0, 0).toInt() > proxyMinSize()) {
                     if (clip->getProperty("proxy").isEmpty()) {
-                        QString proxydir = m_doc->projectFolder().path( KUrl::AddTrailingSlash) + "proxy/";
-                        clip->setProperty("proxy", proxydir + item->referencedClip()->getClipHash() + ".avi");
+                        // We need to insert empty proxy in old properties so that undo will work
+                        QMap <QString, QString> oldProps = clip->properties();
+                        oldProps.insert("proxy", QString());
+                        QMap <QString, QString> newProps;
+                        newProps.insert("proxy", proxydir + item->referencedClip()->getClipHash() + ".avi");
+                        new EditClipCommand(this, clip->getId(), oldProps, newProps, true, command);
                     }
                 }
             }
             else if (item->hasProxy()) {
                 // remove proxy
-                item->referencedClip()->clearProperty("proxy");
+                QMap <QString, QString> newProps;
+                newProps.insert("proxy", QString());
+                newProps.insert("replace", "1");
+                new EditClipCommand(this, item->clipId(), item->referencedClip()->properties(), newProps, true, command);
+                /*item->referencedClip()->clearProperty("proxy");
                 QDomElement e = item->toXml().cloneNode().toElement();
                 e.removeAttribute("file_hash");
                 e.setAttribute("replace", 1);
-                m_infoQueue.insert(item->clipId(), e);
+                m_infoQueue.insert(item->clipId(), e);*/
             }
         }
         ++it;
     }
+    if (command->childCount() > 0) m_doc->commandStack()->push(command);
+    else delete command;
     if (!m_infoQueue.isEmpty() && !m_queueRunner.isRunning() && m_processingClips.isEmpty()) m_queueRunner = QtConcurrent::run(this, &ProjectList::slotProcessNextClipInQueue);
 }
 
@@ -2200,13 +2219,15 @@ void ProjectList::slotProxyCurrentItem(bool doProxy)
     QList<QTreeWidgetItem *> list = m_listView->selectedItems();
     QTreeWidgetItem *listItem;
     QUndoCommand *command = new QUndoCommand();
-    command->setText(i18np("Edit clip", "Edit clips", list.count()));
+    if (doProxy) command->setText(i18np("Add proxy clip", "Add proxy clips", list.count()));
+    else command->setText(i18np("Remove proxy clip", "Remove proxy clips", list.count()));
     
     // Make sure the proxy folder exists
     QString proxydir = m_doc->projectFolder().path( KUrl::AddTrailingSlash) + "proxy/";
     KStandardDirs::makeDir(proxydir);
                 
     QMap <QString, QString> newProps;
+    QMap <QString, QString> oldProps;
     if (!doProxy) newProps.insert("proxy", "-");
     for (int i = 0; i < list.count(); i++) {
         listItem = list.at(i);
@@ -2220,16 +2241,23 @@ void ProjectList::slotProxyCurrentItem(bool doProxy)
             ProjectItem *item = static_cast <ProjectItem*>(listItem);
             CLIPTYPE t = item->clipType();
             if ((t == VIDEO || t == AV || t == UNKNOWN) && item->referencedClip()) {
+                oldProps = item->referencedClip()->properties();
                 if (doProxy) {
                     newProps.clear();
                     QString path = proxydir + item->referencedClip()->getClipHash() + ".avi";                
                     newProps.insert("proxy", path);
+                    // We need to insert empty proxy so that undo will work
+                    oldProps.insert("proxy", QString());
                 }
-                new EditClipCommand(this, item->clipId(), item->referencedClip()->properties(), newProps, true, command);
+                new EditClipCommand(this, item->clipId(), oldProps, newProps, true, command);
             }
         }
     }
-    m_doc->commandStack()->push(command);
+    if (command->childCount() > 0) {
+        emit projectModified();
+        m_doc->commandStack()->push(command);
+    }
+    else delete command;
     //if (!m_infoQueue.isEmpty() && !m_queueRunner.isRunning() && m_processingClips.isEmpty()) m_queueRunner = QtConcurrent::run(this, &ProjectList::slotProcessNextClipInQueue);
 }
 
