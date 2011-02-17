@@ -205,6 +205,7 @@ void Render::buildConsumer(const QString profileName)
                 m_mltConsumer->set("terminate_on_pause", 0);
                 m_mltConsumer->set("buffer", 12);
                 m_mltConsumer->set("deinterlace_method", "onefield");
+                m_mltConsumer->set("real_time", KdenliveSettings::mltthreads());
                 mlt_log_set_callback(kdenlive_callback);
             }
             if (m_mltConsumer && m_mltConsumer->is_valid()) return;
@@ -262,6 +263,7 @@ void Render::buildConsumer(const QString profileName)
     m_mltConsumer->set("progressive", 1);
     m_mltConsumer->set("audio_buffer", 1024);
     m_mltConsumer->set("frequency", 48000);
+    m_mltConsumer->set("real_time", KdenliveSettings::mltthreads());
 }
 
 Mlt::Producer *Render::invalidProducer(const QString &id)
@@ -1376,8 +1378,8 @@ void Render::refresh()
 void Render::setDropFrames(bool show)
 {
     if (m_mltConsumer) {
-        int dropFrames = 1;
-        if (show == false) dropFrames = 0;
+        int dropFrames = KdenliveSettings::mltthreads();
+        if (show == false) dropFrames = -dropFrames;
         m_mltConsumer->stop();
         if (m_winid == 0)
             m_mltConsumer->set("real_time", dropFrames);

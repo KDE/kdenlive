@@ -213,6 +213,16 @@
       <default></default>
     </entry>
 
+    <entry name="mltthreads" type="Int">
+      <label>Mlt processing thread count.</label>
+      <default>1</default>
+    </entry>
+
+    <entry name="encodethreads" type="Int">
+      <label>FFmpeg encoding thread count.</label>
+      <default>1</default>
+    </entry>
+
     <entry name="currenttmpfolder" type="Path">
       <label>Default folder for tmp files.</label>
       <default>/tmp/</default>

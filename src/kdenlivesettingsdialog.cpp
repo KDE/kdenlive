@@ -34,6 +34,7 @@
 #include <QDir>
 #include <QTimer>
 #include <QTreeWidgetItem>
+#include <QThread>
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -73,6 +74,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     m_configEnv.mltpathurl->setMode(KFile::Directory);
     m_configEnv.mltpathurl->lineEdit()->setObjectName("kcfg_mltpath");
     m_configEnv.rendererpathurl->lineEdit()->setObjectName("kcfg_rendererpath");
+    m_configEnv.kcfg_mltthreads->setMaximum(QThread::idealThreadCount());
     m_configEnv.tmppathurl->setMode(KFile::Directory);
     m_configEnv.tmppathurl->lineEdit()->setObjectName("kcfg_currenttmpfolder");
     m_configEnv.projecturl->setMode(KFile::Directory);
