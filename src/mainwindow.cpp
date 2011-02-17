@@ -1796,12 +1796,14 @@ void MainWindow::newFile(bool showProjectSettings, bool force)
     m_fileRevert->setEnabled(false);
     QString profileName = KdenliveSettings::default_profile();
     KUrl projectFolder = KdenliveSettings::defaultprojectfolder();
+    QMap <QString, QString> documentProperties;
     QPoint projectTracks(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks());
-    bool useProxy = KdenliveSettings::enableproxy();
-    QString proxyParams = KdenliveSettings::proxyparams();
-    bool generateProxy = KdenliveSettings::generateproxy();
-    int proxyMinSize = KdenliveSettings::proxyminsize();
     if (!showProjectSettings) {
+        // set up default properties
+        documentProperties.insert("enableproxy", QString::number((int) KdenliveSettings::enableproxy()));
+        documentProperties.insert("generateproxy", QString::number((int) KdenliveSettings::generateproxy()));
+        documentProperties.insert("proxyparams", KdenliveSettings::proxyparams());
+        documentProperties.insert("proxyminsize", QString::number(KdenliveSettings::proxyminsize()));
         if (!KdenliveSettings::activatetabs())
             if (!closeCurrentDocument())
                 return;
@@ -1819,19 +1821,16 @@ void MainWindow::newFile(bool showProjectSettings, bool force)
         profileName = w->selectedProfile();
         projectFolder = w->selectedFolder();
         projectTracks = w->tracks();
-        useProxy = w->useProxy();
-        proxyParams = w->proxyParams();
-        generateProxy = w->generateProxy();
-        proxyMinSize = w->proxyMinSize();
+        documentProperties.insert("enableproxy", QString::number((int) w->useProxy()));
+        documentProperties.insert("generateproxy", QString::number((int) w->generateProxy()));
+        documentProperties.insert("proxyparams", w->proxyParams());
+        documentProperties.insert("proxyminsize", QString::number(w->proxyMinSize()));
         delete w;
     }
     m_timelineArea->setEnabled(true);
     m_projectList->setEnabled(true);
-    KdenliveDoc *doc = new KdenliveDoc(KUrl(), projectFolder, m_commandStack, profileName, projectTracks, m_projectMonitor->render, m_notesWidget, this);
-    doc->setDocumentProperty("useproxy", QString::number((int) useProxy));
-    doc->setDocumentProperty("proxyparams", proxyParams);
-    doc->setDocumentProperty("generateproxy", QString::number((int) generateProxy));
-    doc->setDocumentProperty("proxyminsize", QString::number(proxyMinSize));
+    
+    KdenliveDoc *doc = new KdenliveDoc(KUrl(), projectFolder, m_commandStack, profileName, documentProperties, projectTracks, m_projectMonitor->render, m_notesWidget, this);
     doc->m_autosave = new KAutoSaveFile(KUrl(), doc);
     bool ok;
     TrackView *trackView = new TrackView(doc, &ok, this);
@@ -2044,7 +2043,7 @@ void MainWindow::doOpenFile(const KUrl &url, KAutoSaveFile *stale)
     progressDialog.progressBar()->setValue(0);
     qApp->processEvents();
 
-    KdenliveDoc *doc = new KdenliveDoc(url, KdenliveSettings::defaultprojectfolder(), m_commandStack, KdenliveSettings::default_profile(), QPoint(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks()), m_projectMonitor->render, m_notesWidget, this, &progressDialog);
+    KdenliveDoc *doc = new KdenliveDoc(url, KdenliveSettings::defaultprojectfolder(), m_commandStack, KdenliveSettings::default_profile(), QMap <QString, QString> (), QPoint(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks()), m_projectMonitor->render, m_notesWidget, this, &progressDialog);
 
     progressDialog.progressBar()->setValue(1);
     progressDialog.progressBar()->setMaximum(4);

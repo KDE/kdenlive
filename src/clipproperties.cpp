@@ -65,7 +65,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
     QMap <QString, QString> props = m_clip->properties();
     m_view.clip_force_out->setHidden(true);
     m_view.clip_out->setHidden(true);
-
+    
     // New display aspect ratio support
     if (props.contains("force_aspect_num") && props.value("force_aspect_num").toInt() > 0 &&
         props.contains("force_aspect_den") && props.value("force_aspect_den").toInt() > 0) {
@@ -198,13 +198,13 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
     connect(m_view.clip_force_colorspace, SIGNAL(toggled(bool)), m_view.clip_colorspace, SLOT(setEnabled(bool)));
 
     if (props.contains("audiocodec"))
-        QTreeWidgetItem *item = new QTreeWidgetItem(m_view.clip_aproperties, QStringList() << i18n("Audio codec") << props.value("audiocodec"));
+        new QTreeWidgetItem(m_view.clip_aproperties, QStringList() << i18n("Audio codec") << props.value("audiocodec"));
 
     if (props.contains("channels"))
-        QTreeWidgetItem *item = new QTreeWidgetItem(m_view.clip_aproperties, QStringList() << i18n("Channels") << props.value("channels"));
+        new QTreeWidgetItem(m_view.clip_aproperties, QStringList() << i18n("Channels") << props.value("channels"));
 
     if (props.contains("frequency"))
-        QTreeWidgetItem *item = new QTreeWidgetItem(m_view.clip_aproperties, QStringList() << i18n("Frequency") << props.value("frequency"));
+        new QTreeWidgetItem(m_view.clip_aproperties, QStringList() << i18n("Frequency") << props.value("frequency"));
     
 
     CLIPTYPE t = m_clip->clipType();
@@ -390,7 +390,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
         m_view.clip_vproperties->setStyleSheet(QString("QTreeWidget { background-color: transparent;}"));
 
         if (props.contains("videocodec"))
-            QTreeWidgetItem *item = new QTreeWidgetItem(m_view.clip_vproperties, QStringList() << i18n("Video codec") << props.value("videocodec"));
+            new QTreeWidgetItem(m_view.clip_vproperties, QStringList() << i18n("Video codec") << props.value("videocodec"));
 
         if (props.contains("frame_size"))
             new QTreeWidgetItem(m_view.clip_vproperties, QStringList() << i18n("Frame size") << props.value("frame_size"));

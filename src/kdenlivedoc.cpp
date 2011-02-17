@@ -54,7 +54,7 @@
 
 const double DOCUMENTVERSION = 0.85;
 
-KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, QString profileName, const QPoint tracks, Render *render, KTextEdit *notes, MainWindow *parent, KProgressDialog *progressDialog) :
+KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, QString profileName, QMap <QString, QString> properties, const QPoint tracks, Render *render, KTextEdit *notes, MainWindow *parent, KProgressDialog *progressDialog) :
     QObject(parent),
     m_autosave(NULL),
     m_url(url),
@@ -78,6 +78,13 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
     m_documentProperties["proxyparams"] = KdenliveSettings::proxyparams();
     m_documentProperties["generateproxy"] = QString::number((int) KdenliveSettings::generateproxy());
     m_documentProperties["proxyminsize"] = QString::number(KdenliveSettings::proxyminsize());
+    
+    // Load properties
+    QMapIterator<QString, QString> i(properties);
+    while (i.hasNext()) {
+        i.next();
+        m_documentProperties[i.key()] = i.value();
+    }
     
     if (!url.isEmpty()) {
         QString tmpFile;
