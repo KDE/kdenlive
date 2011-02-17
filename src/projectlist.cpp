@@ -49,6 +49,8 @@
 #include <KIO/NetAccess>
 #include <KFileItem>
 #include <KApplication>
+#include <KStandardDirs>
+
 #ifdef NEPOMUK
 #include <nepomuk/global.h>
 #include <nepomuk/resourcemanager.h>
@@ -745,11 +747,13 @@ void ProjectList::slotItemEdited(QTreeWidgetItem *item, int column)
             QMap <QString, QString> oldprops;
             QMap <QString, QString> newprops;
             oldprops["name"] = clip->referencedClip()->getProperty("name");
-            newprops["name"] = item->text(0);
-            slotUpdateClipProperties(clip, newprops);
-            emit projectModified();
-            EditClipCommand *command = new EditClipCommand(this, clip->clipId(), oldprops, newprops, false);
-            m_commandStack->push(command);
+            if (oldprops.value("name") != item->text(0)) {
+                newprops["name"] = item->text(0);
+                slotUpdateClipProperties(clip, newprops);
+                emit projectModified();
+                EditClipCommand *command = new EditClipCommand(this, clip->clipId(), oldprops, newprops, false);
+                m_commandStack->push(command);
+            }
         }
     }
 }
@@ -989,39 +993,17 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
         item = new ProjectItem(m_listView, clip);
     }
     if (item->data(0, DurationRole).isNull()) item->setData(0, DurationRole, i18n("Loading"));
+    connect(clip, SIGNAL(createProxy(const QString)), this, SLOT(slotCreateProxy(const QString)));
+    connect(clip, SIGNAL(abortProxy(const QString)), this, SLOT(slotAbortProxy(const QString)));
     if (getProperties) {
         m_listView->processLayout();
         m_refreshed = false;
-        // Proxy clips
-        CLIPTYPE t = clip->clipType();
-        if ((t == VIDEO || t == AV || t == UNKNOWN) && useProxy()) {
-            if (clip->getProperty("proxy").isEmpty()) {
-                
-                //connect(clip, SIGNAL(proxyReady(const QString&, bool)), this, SLOT(slotGotProxy(const QString&, bool)));
-                //setProxyStatus(item, 1);
-                //clip->generateProxy(m_doc->projectFolder(), proxyParams());
-            }
-            else {
-                // Proxy clip already created
-                setProxyStatus(item, 2);
-                QDomElement e = clip->toXML().cloneNode().toElement();
-                e.removeAttribute("file_hash");
-                m_infoQueue.insert(clip->getId(), e);
-            }
-        }
-        //else {
-            // We don't use proxies
-            // remove file_hash so that we load all properties for the clip
-            QDomElement e = clip->toXML().cloneNode().toElement();
-            e.removeAttribute("file_hash");
-            m_infoQueue.insert(clip->getId(), e);
-        //}
-        //m_render->getFileProperties(clip->toXML(), clip->getId(), true);
+        QDomElement e = clip->toXML().cloneNode().toElement();
+        e.removeAttribute("file_hash");
+        m_infoQueue.insert(clip->getId(), e);
     }
-    else if (!clip->getProperty("proxy").isEmpty()) {
-        connect(clip, SIGNAL(proxyReady(const QString&, bool)), this, SLOT(slotGotProxy(const QString&, bool)));
-        setProxyStatus(item, 1);
-        clip->generateProxy(m_doc->projectFolder(), proxyParams());
+    else if (item->hasProxy() && !item->isProxyRunning()) {
+        slotCreateProxy(clip->getId());
     }
     clip->askForAudioThumbs();
     
@@ -1069,21 +1051,16 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
         m_queueRunner = QtConcurrent::run(this, &ProjectList::slotProcessNextClipInQueue);
 }
 
-void ProjectList::slotGotProxy(const QString &id, bool success)
+void ProjectList::slotGotProxy(const QString &id)
 {
     ProjectItem *item = getItemById(id);
     if (item) {
-        if (success) {
-            // Proxy clip successfully created
-            setProxyStatus(item, 2);
-            QDomElement e = item->referencedClip()->toXML().cloneNode().toElement();  
-            e.removeAttribute("file_hash");
-            e.setAttribute("replace", 1);
-            m_infoQueue.insert(id, e);
-            if (!m_queueRunner.isRunning() && m_processingClips.isEmpty()) m_queueRunner = QtConcurrent::run(this, &ProjectList::slotProcessNextClipInQueue);
-        }
-        else setProxyStatus(item, 0);
-        update();
+        // Proxy clip successfully created
+        QDomElement e = item->referencedClip()->toXML().cloneNode().toElement();  
+        //e.removeAttribute("file_hash");
+        e.setAttribute("replace", 1);
+        m_infoQueue.insert(id, e);
+        if (!m_queueRunner.isRunning() && m_processingClips.isEmpty()) m_queueRunner = QtConcurrent::run(this, &ProjectList::slotProcessNextClipInQueue);
     }
 }
 
@@ -1309,6 +1286,23 @@ void ProjectList::slotRemoveInvalidClip(const QString &id, bool replace)
     }
 }
 
+void ProjectList::slotRemoveInvalidProxy(const QString &id)
+{
+    ProjectItem *item = getItemById(id);
+    if (item) {
+        item->setProxyStatus(PROXYCRASHED);
+        QString path = item->referencedClip()->getProperty("proxy");
+        KUrl proxyFolder(m_doc->projectFolder().path( KUrl::AddTrailingSlash) + "proxy/");
+
+        //Security check: make sure the invalid proxy file is in the proxy folder
+        if (proxyFolder.isParentOf(KUrl(path))) {
+            QFile::remove(path);
+        }
+    }
+    m_processingClips.removeAll(id);
+    if (!m_queueRunner.isRunning() && m_processingClips.isEmpty()) m_queueRunner = QtConcurrent::run(this, &ProjectList::slotProcessNextClipInQueue);
+}
+
 void ProjectList::slotAddColorClip()
 {
     if (!m_commandStack)
@@ -1426,6 +1420,7 @@ void ProjectList::setDocument(KdenliveDoc *doc)
     m_timecode = doc->timecode();
     m_commandStack = doc->commandStack();
     m_doc = doc;
+    m_proxyList.clear();
 
     QMap <QString, QString> flist = doc->clipManager()->documentFolderList();
     QMapIterator<QString, QString> f(flist);
@@ -1598,16 +1593,19 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
             item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsDropEnabled);
             toReload = clipId;
         }
-        if (!useProxy() && item->referencedClip()->getProperty("proxy").isEmpty()) setProxyStatus(item, 0);
+        
+        // Proxy stuff
         QString size = properties.value("frame_size");
         DocClipBase *clip = item->referencedClip();
-        if (useProxy() && (item->clipType() == AV || item->clipType() == VIDEO) && generateProxy() && size.section('x', 0, 0).toInt() > proxyMinSize()) {
+        if (!useProxy() && item->referencedClip()->getProperty("proxy").isEmpty()) setProxyStatus(item, NOPROXY);
+        if (useProxy() && generateProxy() && item->referencedClip()->getProperty("proxy") == "-") setProxyStatus(item, NOPROXY);
+        else if (useProxy() && !item->isProxyRunning() && (item->clipType() == AV || item->clipType() == VIDEO) && generateProxy() && size.section('x', 0, 0).toInt() > proxyMinSize()) {
             if (clip->getProperty("proxy").isEmpty()) {
-                connect(clip, SIGNAL(proxyReady(const QString&, bool)), this, SLOT(slotGotProxy(const QString&, bool)));
-                setProxyStatus(item, 1);
-                clip->generateProxy(m_doc->projectFolder(), proxyParams());
+                QString proxydir = m_doc->projectFolder().path( KUrl::AddTrailingSlash) + "proxy/";
+                clip->setProperty("proxy", proxydir + item->referencedClip()->getClipHash() + ".avi");
             }
         }
+        
         clip->setProducer(producer, replace);
         clip->askForAudioThumbs();
         if (!replace && item->data(0, Qt::DecorationRole).isNull())
@@ -2059,12 +2057,103 @@ QMap <QString, QString> ProjectList::getProxies()
         }
         item = static_cast<ProjectItem *>(*it);
         if (item && item->referencedClip() != NULL) {
-            QString proxy = item->referencedClip()->getProperty("proxy");
-            if (!proxy.isEmpty()) list.insert(proxy, item->clipUrl().path());
+            if (item->hasProxy()) {
+                QString proxy = item->referencedClip()->getProperty("proxy");
+                list.insert(proxy, item->clipUrl().path());
+            }
         }
         ++it;
     }
     return list;
+}
+
+void ProjectList::slotCreateProxy(const QString id)
+{
+    ProjectItem *item = getItemById(id);
+    if (!item || item->isProxyRunning()) return;
+    setProxyStatus(id, PROXYWAITING);
+    if (m_abortProxyId.contains(id)) m_abortProxyId.removeAll(id);
+    QtConcurrent::run(this, &ProjectList::slotGenerateProxy, id);
+}
+
+void ProjectList::slotAbortProxy(const QString id)
+{
+    if (m_proxyList.contains(id)) m_proxyList.removeAll(id);
+    ProjectItem *item = getItemById(id);
+    if (item) {
+      if (item->isProxyReady()) slotGotProxy(id);
+      else if (item->isProxyRunning()) m_abortProxyId << id;
+      setProxyStatus(id, NOPROXY);
+    }
+}
+
+void ProjectList::slotGenerateProxy(const QString id)
+{
+    setProxyStatus(id, CREATINGPROXY);
+    ProjectItem *item = getItemById(id);
+    if (item == NULL) return;
+    QString path = item->referencedClip()->getProperty("proxy");
+    if (path.isEmpty()) {
+        setProxyStatus(id, PROXYCRASHED);
+        return;
+    }
+
+    QString url = item->clipUrl().path();
+    
+    if (QFile::exists(path)) {
+        setProxyStatus(id, PROXYDONE);
+        slotGotProxy(id);
+        return;
+    }
+    else {
+        // Make sure proxy path is writable
+        QFile file(path);
+        if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+            setProxyStatus(id, PROXYCRASHED);
+            return;
+        }
+        file.close();
+        QFile::remove(path);
+    }
+
+    QStringList parameters;
+    parameters << "-i" << url;
+    QString params = proxyParams();
+    foreach(QString s, params.split(' '))
+    parameters << s;
+
+    // Make sure we don't block when proxy file already exists
+    parameters << "-y";
+    parameters << path;
+    QProcess myProcess;
+    myProcess.start("ffmpeg", parameters);
+    myProcess.waitForStarted();
+    int result = -1;
+    while (myProcess.state() != QProcess::NotRunning) {
+        // building proxy file
+        if (m_abortProxyId.contains(id)) {
+            myProcess.close();
+            myProcess.waitForFinished();
+            m_abortProxyId.removeAll(id);
+            QFile::remove(path);
+            setProxyStatus(id, NOPROXY);
+            result = -2;
+            
+        }
+        myProcess.waitForFinished(500);
+    }
+    myProcess.waitForFinished();
+    if (result == -1) result = myProcess.exitStatus();
+    if (result == 0) {
+        // proxy successfully created
+        setProxyStatus(id, PROXYDONE);
+        slotGotProxy(id);
+    }
+    else if (result == 1) {
+        // Proxy process crashed
+        QFile::remove(path);
+        setProxyStatus(id, PROXYCRASHED);
+    }
 }
 
 void ProjectList::updateProxyConfig()
@@ -2086,12 +2175,12 @@ void ProjectList::updateProxyConfig()
             if  (generateProxy() && useProxy()) {
                 DocClipBase *clip = item->referencedClip();
                 if (clip->getProperty("frame_size").section('x', 0, 0).toInt() > proxyMinSize()) {
-                    connect(clip, SIGNAL(proxyReady(const QString &, bool)), this, SLOT(slotGotProxy(const QString &, bool)));
-                    setProxyStatus(item, 1);
-                    clip->generateProxy(m_doc->projectFolder(), proxyParams());
+                    kDebug()<<"// UPDATE ST PROXY";
+                    slotCreateProxy(clip->getId());
+                    setProxyStatus(item, PROXYWAITING);
                 }
             }
-            else if (!item->referencedClip()->getProperty("proxy").isEmpty()) {
+            else if (!item->hasProxy()) {
                 // remove proxy
                 item->referencedClip()->clearProperty("proxy");
                 QDomElement e = item->toXml().cloneNode().toElement();
@@ -2109,6 +2198,15 @@ void ProjectList::slotProxyCurrentItem(bool doProxy)
 {
     QList<QTreeWidgetItem *> list = m_listView->selectedItems();
     QTreeWidgetItem *listItem;
+    QUndoCommand *command = new QUndoCommand();
+    command->setText(i18np("Edit clip", "Edit clips", list.count()));
+    
+    // Make sure the proxy folder exists
+    QString proxydir = m_doc->projectFolder().path( KUrl::AddTrailingSlash) + "proxy/";
+    KStandardDirs::makeDir(proxydir);
+                
+    QMap <QString, QString> newProps;
+    if (!doProxy) newProps.insert("proxy", "-");
     for (int i = 0; i < list.count(); i++) {
         listItem = list.at(i);
         if (listItem->type() == PROJECTFOLDERTYPE) {
@@ -2122,30 +2220,27 @@ void ProjectList::slotProxyCurrentItem(bool doProxy)
             CLIPTYPE t = item->clipType();
             if ((t == VIDEO || t == AV || t == UNKNOWN) && item->referencedClip()) {
                 if (doProxy) {
-                    DocClipBase *clip = item->referencedClip();
-                    connect(clip, SIGNAL(proxyReady(const QString&, bool)), this, SLOT(slotGotProxy(const QString&, bool)));
-                    setProxyStatus(item, 1);
-                    clip->generateProxy(m_doc->projectFolder(), proxyParams());
+                    newProps.clear();
+                    QString path = proxydir + item->referencedClip()->getClipHash() + ".avi";                
+                    newProps.insert("proxy", path);
                 }
-                else if (!item->referencedClip()->getProperty("proxy").isEmpty()) {
-                    // remove proxy
-                    if (!item->isProxyRunning()) {
-                        setProxyStatus(item, 0);
-                        QDomElement e = item->toXml().cloneNode().toElement();
-                        e.removeAttribute("file_hash");
-                        e.setAttribute("replace", 1);
-                        m_infoQueue.insert(item->clipId(), e);
-                    }
-                    else setProxyStatus(item, 0);
-                }
+                new EditClipCommand(this, item->clipId(), item->referencedClip()->properties(), newProps, true, command);
             }
         }
     }
-    if (!m_infoQueue.isEmpty() && !m_queueRunner.isRunning() && m_processingClips.isEmpty()) m_queueRunner = QtConcurrent::run(this, &ProjectList::slotProcessNextClipInQueue);
+    m_doc->commandStack()->push(command);
+    //if (!m_infoQueue.isEmpty() && !m_queueRunner.isRunning() && m_processingClips.isEmpty()) m_queueRunner = QtConcurrent::run(this, &ProjectList::slotProcessNextClipInQueue);
 }
 
-void ProjectList::setProxyStatus(ProjectItem *item, int status)
+void ProjectList::setProxyStatus(const QString id, PROXYSTATUS status)
 {
+    ProjectItem *item = getItemById(id);
+    setProxyStatus(item, status);
+}
+
+void ProjectList::setProxyStatus(ProjectItem *item, PROXYSTATUS status)
+{
+    if (item == NULL) return;
     monitorItemEditing(false);
     item->setProxyStatus(status);
     monitorItemEditing(true);

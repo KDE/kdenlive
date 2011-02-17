@@ -32,17 +32,17 @@ const int ProxyRole = Qt::UserRole + 5;
 const int itemHeight = 38;
 
 ProjectItem::ProjectItem(QTreeWidget * parent, DocClipBase *clip) :
+        QTreeWidgetItem(parent, PROJECTCLIPTYPE),
         m_clip(clip),
-        m_clipId(clip->getId()),
-        QTreeWidgetItem(parent, PROJECTCLIPTYPE)
+        m_clipId(clip->getId())
 {
     buildItem();
 }
 
 ProjectItem::ProjectItem(QTreeWidgetItem * parent, DocClipBase *clip) :
+        QTreeWidgetItem(parent, PROJECTCLIPTYPE),
         m_clip(clip),
-        m_clipId(clip->getId()),
-        QTreeWidgetItem(parent, PROJECTCLIPTYPE)
+        m_clipId(clip->getId())
         
 {
     buildItem();
@@ -230,21 +230,27 @@ void ProjectItem::setProperties(const QMap < QString, QString > &attributes, con
     }
 }
 
-void ProjectItem::setProxyStatus(int status)
+void ProjectItem::setProxyStatus(PROXYSTATUS status)
 {
-    if (status == data(0, ProxyRole).toInt()) return;
     setData(0, ProxyRole, status);
-    if (m_clip && status == 0) m_clip->abortProxy();
 }
 
 bool ProjectItem::hasProxy() const
 {
     if (m_clip == NULL) return false;
-    return !m_clip->getProperty("proxy").isEmpty();
+    if (m_clip->getProperty("proxy").isEmpty() || m_clip->getProperty("proxy") == "-" || data(0, ProxyRole).toInt() == PROXYCRASHED) return false;
+    return true;
+}
+
+bool ProjectItem::isProxyReady() const
+{
+     return (data(0, ProxyRole).toInt() == PROXYDONE);
 }
 
 bool ProjectItem::isProxyRunning() const
 {
-     return (data(0, ProxyRole).toInt() == 1);
+    PROXYSTATUS s = (PROXYSTATUS) data(0, ProxyRole).toInt();
+    if (s == PROXYWAITING || s == CREATINGPROXY) return true;
+    return false;
 }
 

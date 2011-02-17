@@ -53,8 +53,7 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QStrin
         m_audioThumbCreated(false),
         m_id(id),
         m_placeHolder(xml.hasAttribute("placeholder")),
-        m_properties(),
-        m_abortProxy(false)
+        m_properties()
 {
     int type = xml.attribute("type").toInt();
     m_clipType = (CLIPTYPE) type;
@@ -863,7 +862,11 @@ QString DocClipBase::getClipHash() const
     if (m_clipType == SLIDESHOW) hash = QCryptographicHash::hash(m_properties.value("resource").toAscii().data(), QCryptographicHash::Md5).toHex();
     else if (m_clipType == COLOR) hash = QCryptographicHash::hash(m_properties.value("colour").toAscii().data(), QCryptographicHash::Md5).toHex();
     else if (m_clipType == TEXT) hash = QCryptographicHash::hash(QString("title" + getId() + m_properties.value("xmldata")).toUtf8().data(), QCryptographicHash::Md5).toHex();
-    else hash = m_properties.value("file_hash");
+    else {
+        if (m_properties.contains("file_hash")) hash = m_properties.value("file_hash");
+        else hash = getHash(fileURL().path());
+        
+    }
     return hash;
 }
 
@@ -966,6 +969,16 @@ void DocClipBase::setProperty(const QString &key, const QString &value)
             m_properties.remove("full_luma");
             resetProducerProperty("set.force_full_luma");
         } else setProducerProperty("set.force_full_luma", value.toInt());
+    }
+    else if (key == "proxy") {
+        // If value is "-", that means user manually disabled proxy on this clip
+        if (value.isEmpty() || value == "-") {
+            // reset proxy
+            emit abortProxy(m_id);
+        }
+        else {
+            emit createProxy(m_id);
+        }
     }
 }
 
@@ -1081,64 +1094,5 @@ bool DocClipBase::hasAudioCodec(const QString &codec) const
     return prod->get(property) == codec;
 }
 
-void DocClipBase::generateProxy(KUrl proxyFolder, QString params)
-{
-    if (m_proxyThread.isRunning()) return;
-    QStringList parameters;
-    parameters << "-i" << m_properties.value("resource");
-    foreach(QString s, params.split(' '))
-    parameters << s;
-    // Make sure we don't block when proxy file already exists
-    parameters << "-y";
-    if (m_properties.value("file_hash").isEmpty()) getFileHash(m_properties.value("resource"));
-    QString proxydir=proxyFolder.path( KUrl::AddTrailingSlash) + "proxy/";
-    KStandardDirs::makeDir(proxydir);
-    QString path = proxydir + m_properties.value("file_hash") + ".avi";
-    setProperty("proxy", path.toUtf8().data());
-    if (QFile::exists(path)) {
-        emit proxyReady(m_id, true);
-        return;
-    }
-    parameters << path;
-    m_proxyThread = QtConcurrent::run(this, &DocClipBase::slotGenerateProxy, parameters);
-}
 
-void DocClipBase::slotGenerateProxy(QStringList parameters)
-{
-    QProcess myProcess;
-    myProcess.start("ffmpeg", parameters);
-    myProcess.waitForStarted();
-    int result = -1;
-    while (myProcess.state() != QProcess::NotRunning) {
-        // building proxy file
-        if (m_abortProxy) {
-            QString path = getProperty("proxy");
-            myProcess.close();
-            myProcess.waitForFinished();
-            QFile::remove(path);
-            m_abortProxy = false;
-            result = 1;
-        }
-        myProcess.waitForFinished(500);
-    }
-    myProcess.waitForFinished();
-    if (result == -1) result = myProcess.exitStatus();
-    if (result == 0) emit proxyReady(m_id, true);
-    else {
-        clearProperty("proxy");
-        emit proxyReady(m_id, false);
-    }
-}
-
-void DocClipBase::abortProxy()
-{
-    if (m_proxyThread.isRunning()) {
-        // Proxy is being created, abort
-        m_abortProxy = true;
-    }
-    else {
-        clearProperty("proxy");
-        emit proxyReady(m_id, false);
-    }
-}
 

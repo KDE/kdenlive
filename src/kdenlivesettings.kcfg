@@ -92,6 +92,16 @@
       <default>false</default>
     </entry>
     
+    <entry name="generateproxy" type="Bool">
+      <label>Auto generate proxy for new clips.</label>
+      <default>false</default>
+    </entry>
+    
+    <entry name="proxyminsize" type="Int">
+      <label>Minimum source size for proxy creation.</label>
+      <default>1000</default>
+    </entry>
+    
     <entry name="proxyparams" type="String">
       <label>Proxy clips transcoding parameters.</label>
       <default>-f avi -acodec libmp3lame -ac 2 -ab 92k -ar 48000 -vcodec mpeg2video -g 5 -deinterlace -s 480x270 -b 150k</default>

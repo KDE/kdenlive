@@ -68,6 +68,7 @@ private slots:
     void slotUpdateDurationFormat(int ix);
     void slotApplyProperties();
     void slotModified();
+    void slotDeleteProxy();
 
 private:
     Ui::ClipProperties_UI m_view;
@@ -81,6 +82,8 @@ private:
     bool m_clipNeedsRefresh;
     /** clip resource changed, reload it */
     bool m_clipNeedsReLoad;
+    /** Frame with proxy info / delete button */
+    QFrame* m_proxyContainer;
 
 signals:
     void addMarker(const QString &, GenTime, QString);

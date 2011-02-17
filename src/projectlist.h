@@ -117,16 +117,19 @@ public:
                 QString proxyText;
                 QBrush brush;
                 QColor color;
-                if (proxy == 1) {
-                    proxyText = i18n("Generating proxy...");
-                    brush = option.palette.highlight();
-                    color = option.palette.color(QPalette::HighlightedText);
-                }
-                else {
+                if (proxy == PROXYDONE) {
                     proxyText = i18n("Proxy");
                     brush = option.palette.mid();
                     color = option.palette.color(QPalette::WindowText);
                 }
+                else {
+                    if (proxy == CREATINGPROXY) proxyText = i18n("Generating proxy...");
+                    else if (proxy == PROXYWAITING) proxyText = i18n("Waiting proxy...");
+                    else if (proxy == PROXYCRASHED) proxyText = i18n("proxy crashed");
+                    brush = option.palette.highlight();
+                    color = option.palette.color(QPalette::HighlightedText);
+                }
+               
                 txtBounding = painter->boundingRect(r2, Qt::AlignRight | Qt::AlignVCenter, " " + proxyText + " ");
                 painter->setPen(Qt::NoPen);
                 painter->setBrush(brush);
@@ -212,6 +215,7 @@ public slots:
     void slotRefreshClipThumbnail(const QString &clipId, bool update = true);
     void slotRefreshClipThumbnail(QTreeWidgetItem *item, bool update = true);
     void slotRemoveInvalidClip(const QString &id, bool replace);
+    void slotRemoveInvalidProxy(const QString &id);
     void slotSelectClip(const QString &ix);
 
     /** @brief Prepares removing the selected items. */
@@ -260,6 +264,11 @@ private:
     QList <QString> m_thumbnailQueue;
     QAction *m_proxyAction;
     QStringList m_processingClips;
+    /** @brief Holds a list of ids for the clips that need to be proxied. */
+    QStringList m_proxyList;
+    /** @brief Holds a list of proxy clip that should be aborted. */
+    QStringList m_abortProxyId;
+    
     void requestClipThumbnail(const QString id);
 
     /** @brief Creates an EditFolderCommand to change the name of an folder item. */
@@ -280,8 +289,10 @@ private:
 
     /** @brief Set the Proxy status on a clip. 
      * @param item The clip item to set status
-     * @param status The status (1 = creating proxy, 2 = proxy is ok) */
-    void setProxyStatus(ProjectItem *item, int status);
+     * @param status The proxy status (see definitions.h) */
+    void setProxyStatus(const QString id, PROXYSTATUS status);
+    void setProxyStatus(ProjectItem *item, PROXYSTATUS status);
+
     void monitorItemEditing(bool enable);
 
 private slots:
@@ -314,9 +325,15 @@ private slots:
     /** @brief Add a sequence from the stopmotion widget. */
     void slotAddOrUpdateSequence(const QString frameName);
     /** @brief A proxy clip was created, update display. */
-    void slotGotProxy(const QString &id, bool success);
+    void slotGotProxy(const QString &id);
     /** @brief Enable / disable proxy for current clip. */
     void slotProxyCurrentItem(bool doProxy);
+    /** @brief Put clip in the proxy waiting list. */
+    void slotCreateProxy(const QString id);
+    /** @brief Stop creation of this clip's proxy. */
+    void slotAbortProxy(const QString id);
+    /** @brief Start creation of proxy clip. */
+    void slotGenerateProxy(const QString id);
 
 signals:
     void clipSelected(DocClipBase *, QPoint zone = QPoint());

@@ -860,6 +860,7 @@ void MainWindow::slotConnectMonitors()
     connect(m_projectMonitor->render, SIGNAL(replyGetFileProperties(const QString &, Mlt::Producer*, const QMap < QString, QString > &, const QMap < QString, QString > &, bool, bool)), m_projectList, SLOT(slotReplyGetFileProperties(const QString &, Mlt::Producer*, const QMap < QString, QString > &, const QMap < QString, QString > &, bool, bool)));
 
     connect(m_projectMonitor->render, SIGNAL(removeInvalidClip(const QString &, bool)), m_projectList, SLOT(slotRemoveInvalidClip(const QString &, bool)));
+    connect(m_projectMonitor->render, SIGNAL(removeInvalidProxy(const QString &)), m_projectList, SLOT(slotRemoveInvalidProxy(const QString &)));
 
     connect(m_clipMonitor, SIGNAL(refreshClipThumbnail(const QString &, bool)), m_projectList, SLOT(slotRefreshClipThumbnail(const QString &, bool)));
 
@@ -1798,8 +1799,8 @@ void MainWindow::newFile(bool showProjectSettings, bool force)
     QPoint projectTracks(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks());
     bool useProxy = KdenliveSettings::enableproxy();
     QString proxyParams = KdenliveSettings::proxyparams();
-    bool generateProxy = KdenliveSettings::enableproxy();
-    int proxyMinSize = 1000;
+    bool generateProxy = KdenliveSettings::generateproxy();
+    int proxyMinSize = KdenliveSettings::proxyminsize();
     if (!showProjectSettings) {
         if (!KdenliveSettings::activatetabs())
             if (!closeCurrentDocument())
@@ -2224,11 +2225,25 @@ void MainWindow::slotEditProjectSettings()
         if (KdenliveSettings::videothumbnails() != w->enableVideoThumbs()) slotSwitchVideoThumbs();
         if (KdenliveSettings::audiothumbnails() != w->enableAudioThumbs()) slotSwitchAudioThumbs();
         if (m_activeDocument->profilePath() != profile) slotUpdateProjectProfile(profile);
-        m_activeDocument->setDocumentProperty("proxyparams", w->proxyParams());
-        m_activeDocument->setDocumentProperty("generateproxy", QString::number((int) w->generateProxy()));
-        m_activeDocument->setDocumentProperty("proxyminsize", QString::number(w->proxyMinSize()));
+        if (m_activeDocument->getDocumentProperty("proxyparams") != w->proxyParams()) {
+            m_activeDocument->setModified();
+            m_activeDocument->setDocumentProperty("proxyparams", w->proxyParams());
+            if (m_activeDocument->clipManager()->clipsCount() > 0 && KMessageBox::questionYesNo(this, i18n("You have changed the proxy parameters. Do you want to recreate all proxy clips for this project?")) == KMessageBox::Yes) {
+                //TODO: rebuild all proxies
+                //m_activeDocument->rebuildAllProxies();
+            }
+        }
+        if (m_activeDocument->getDocumentProperty("generateproxy") != QString::number((int) w->generateProxy())) {
+            m_activeDocument->setModified();
+            m_activeDocument->setDocumentProperty("generateproxy", QString::number((int) w->generateProxy()));
+        }
+        if (m_activeDocument->getDocumentProperty("proxyminsize") != QString::number(w->proxyMinSize())) {
+            m_activeDocument->setModified();
+            m_activeDocument->setDocumentProperty("proxyminsize", QString::number(w->proxyMinSize()));
+        }
         if (QString::number((int) w->useProxy()) != m_activeDocument->getDocumentProperty("enableproxy")) {
             m_activeDocument->setDocumentProperty("enableproxy", QString::number((int) w->useProxy()));
+            m_activeDocument->setModified();
             slotUpdateProxySettings();
         }
     }
@@ -3192,11 +3207,12 @@ void MainWindow::slotShowClipProperties(QList <DocClipBase *> cliplist, QMap<QSt
     ClipProperties dia(cliplist, m_activeDocument->timecode(), commonproperties, this);
     if (dia.exec() == QDialog::Accepted) {
         QUndoCommand *command = new QUndoCommand();
+        command->setText(i18n("Edit clips"));
         QMap <QString, QString> newImageProps = dia.properties();
         // Transparency setting applies only for images
         QMap <QString, QString> newProps = newImageProps;
         newProps.remove("transparency");
-        command->setText(i18n("Edit clips"));
+
         for (int i = 0; i < cliplist.count(); i++) {
             DocClipBase *clip = cliplist.at(i);
             if (clip->clipType() == IMAGE)

@@ -76,8 +76,8 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
     m_documentProperties["zoneout"] = "100";
     m_documentProperties["enableproxy"] = QString::number((int) KdenliveSettings::enableproxy());
     m_documentProperties["proxyparams"] = KdenliveSettings::proxyparams();
-    m_documentProperties["generateproxy"] = QString::number((int) KdenliveSettings::enableproxy());
-    m_documentProperties["proxyminsize"] = "1000";
+    m_documentProperties["generateproxy"] = QString::number((int) KdenliveSettings::generateproxy());
+    m_documentProperties["proxyminsize"] = QString::number(KdenliveSettings::proxyminsize());
     
     if (!url.isEmpty()) {
         QString tmpFile;

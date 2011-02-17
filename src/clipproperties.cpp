@@ -205,8 +205,34 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
 
     if (props.contains("frequency"))
         QTreeWidgetItem *item = new QTreeWidgetItem(m_view.clip_aproperties, QStringList() << i18n("Frequency") << props.value("frequency"));
+    
 
     CLIPTYPE t = m_clip->clipType();
+    
+    if (props.contains("proxy") && props.value("proxy") != "-") {
+        KFileItem f(KFileItem::Unknown, KFileItem::Unknown, KUrl(props.value("proxy")), true);
+        QFrame* line = new QFrame();
+        line->setFrameShape(QFrame::HLine);
+        line->setFrameShadow(QFrame::Sunken);
+        m_proxyContainer = new QFrame();
+        m_proxyContainer->setFrameShape(QFrame::NoFrame);
+        QHBoxLayout *l = new QHBoxLayout;
+        l->addWidget(new QLabel(i18n("Proxy clip: %1").arg(KIO::convertSize(f.size()))));
+        l->addStretch(5);
+        QPushButton *pb = new QPushButton(i18n("Delete proxy"));
+        l->addWidget(pb);
+        connect(pb, SIGNAL(clicked()), this, SLOT(slotDeleteProxy()));
+        m_proxyContainer->setLayout(l);
+        if (t == AUDIO) {
+            m_view.tab_audio->layout()->addWidget(line);
+            m_view.tab_audio->layout()->addWidget(m_proxyContainer);
+        }
+        else {
+            m_view.tab_video->layout()->addWidget(line);
+            m_view.tab_video->layout()->addWidget(m_proxyContainer);
+        }
+    }
+    
     if (t != AUDIO && t != AV) {
         m_view.clip_force_aindex->setEnabled(false);
     }
@@ -987,6 +1013,16 @@ void ClipProperties::slotUpdateDurationFormat(int ix)
         m_view.slide_duration->setHidden(false);
         m_view.luma_duration->setHidden(false);
     }
+}
+
+void ClipProperties::slotDeleteProxy()
+{
+      QString proxy = m_clip->getProperty("proxy");
+      QFile::remove(proxy);
+      QMap <QString, QString> props;
+      props.insert("proxy", QString());
+      emit applyNewClipProperties(m_clip->getId(), m_clip->properties(), props, false, true);
+      if (m_proxyContainer) delete m_proxyContainer;
 }
 
 #include "clipproperties.moc"

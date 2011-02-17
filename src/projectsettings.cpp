@@ -77,8 +77,8 @@ ProjectSettings::ProjectSettings(ProjectList *projectlist, QStringList lumas, in
     }
     else {
         enable_proxy->setChecked(KdenliveSettings::enableproxy());
-        generate_proxy->setChecked(KdenliveSettings::enableproxy());
-        proxy_minsize->setValue(1000);
+        generate_proxy->setChecked(KdenliveSettings::generateproxy());
+        proxy_minsize->setValue(KdenliveSettings::proxyminsize());
         proxy_params->setText(KdenliveSettings::proxyparams());
         proxy_box->setEnabled(KdenliveSettings::enableproxy());
     }

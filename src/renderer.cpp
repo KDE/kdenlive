@@ -538,7 +538,7 @@ void Render::slotSplitView(bool doit)
 void Render::getFileProperties(const QDomElement xml, const QString &clipId, int imageHeight, bool replaceProducer, bool selectClip)
 {
     QString path;
-    if (xml.hasAttribute("proxy")) path = xml.attribute("proxy");
+    if (xml.hasAttribute("proxy") && xml.attribute("proxy") != "-") path = xml.attribute("proxy");
     else path = xml.attribute("resource");
     KUrl url = KUrl(path);
     Mlt::Producer *producer = NULL;
@@ -569,7 +569,11 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
 
     if (producer == NULL || producer->is_blank() || !producer->is_valid()) {
         kDebug() << " / / / / / / / / ERROR / / / / // CANNOT LOAD PRODUCER: ";
-        emit removeInvalidClip(clipId, replaceProducer);
+        if (xml.hasAttribute("proxy") && xml.attribute("proxy") != "-") {
+            // Proxy file is corrupted
+            emit removeInvalidProxy(clipId);
+        }
+        else emit removeInvalidClip(clipId, replaceProducer);
         delete producer;
         return;
     }

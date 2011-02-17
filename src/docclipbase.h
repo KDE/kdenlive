@@ -204,10 +204,6 @@ Q_OBJECT public:
     bool hasAudioCodec(const QString &codec) const;
     bool checkHash() const;
     void setPlaceHolder(bool place);
-    /** @brief Generate a proxy clip (lower resolution copy) named like the clip's hash. */
-    void generateProxy(KUrl proxyFolder, QString params);
-    /** @brief Abort creation of the proxy clip (lower resolution copy). */
-    void abortProxy();
 
 private:   // Private attributes
 
@@ -244,9 +240,6 @@ private:   // Private attributes
     /** Holds clip metadata like author, copyright,... */
     QMap <QString, QString> m_metadata;
 
-    QFuture<void> m_proxyThread;
-    /** Used to kill the proxy thread */
-    bool m_abortProxy;
     /** Create connections for audio thumbnails */
     void slotCreateAudioTimer();
     void slotRefreshProducer();
@@ -273,12 +266,13 @@ public slots:
     QMap <QString, QString> properties() const;
     QMap <QString, QString> metadata() const;
 
-private slots:
-    void slotGenerateProxy(QStringList parameters);
 
 signals:
     void gotAudioData();
-    void proxyReady(const QString &, bool success);
+    /** @brief Generate a proxy clip (lower resolution copy) named like the clip's hash. */
+    void createProxy(const QString id);
+    /** @brief Abort creation of the proxy clip (lower resolution copy). */
+    void abortProxy(const QString id);
 };
 
 #endif
