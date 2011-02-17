@@ -2172,15 +2172,16 @@ void ProjectList::updateProxyConfig()
         }
         CLIPTYPE t = item->clipType();
         if ((t == VIDEO || t == AV || t == UNKNOWN) && item->referencedClip() != NULL) {
-            if  (generateProxy() && useProxy()) {
+            if  (generateProxy() && useProxy() && !item->isProxyRunning()) {
                 DocClipBase *clip = item->referencedClip();
                 if (clip->getProperty("frame_size").section('x', 0, 0).toInt() > proxyMinSize()) {
-                    kDebug()<<"// UPDATE ST PROXY";
-                    slotCreateProxy(clip->getId());
-                    setProxyStatus(item, PROXYWAITING);
+                    if (clip->getProperty("proxy").isEmpty()) {
+                        QString proxydir = m_doc->projectFolder().path( KUrl::AddTrailingSlash) + "proxy/";
+                        clip->setProperty("proxy", proxydir + item->referencedClip()->getClipHash() + ".avi");
+                    }
                 }
             }
-            else if (!item->hasProxy()) {
+            else if (item->hasProxy()) {
                 // remove proxy
                 item->referencedClip()->clearProperty("proxy");
                 QDomElement e = item->toXml().cloneNode().toElement();
