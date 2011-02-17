@@ -2079,6 +2079,7 @@ void ProjectList::slotCreateProxy(const QString id)
     if (!item || item->isProxyRunning()) return;
     setProxyStatus(id, PROXYWAITING);
     if (m_abortProxyId.contains(id)) m_abortProxyId.removeAll(id);
+    emit projectModified();
     QtConcurrent::run(this, &ProjectList::slotGenerateProxy, id);
 }
 
@@ -2087,6 +2088,7 @@ void ProjectList::slotAbortProxy(const QString id)
     if (m_proxyList.contains(id)) m_proxyList.removeAll(id);
     ProjectItem *item = getItemById(id);
     if (item) {
+      emit projectModified();
       if (item->isProxyReady()) slotGotProxy(id);
       else if (item->isProxyRunning()) m_abortProxyId << id;
       setProxyStatus(id, NOPROXY);
@@ -2254,7 +2256,6 @@ void ProjectList::slotProxyCurrentItem(bool doProxy)
         }
     }
     if (command->childCount() > 0) {
-        emit projectModified();
         m_doc->commandStack()->push(command);
     }
     else delete command;
