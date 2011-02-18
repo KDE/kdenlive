@@ -43,6 +43,7 @@
 #include <QProcess>
 #include <QDBusConnectionInterface>
 #include <QDBusInterface>
+#include <QThread>
 
 const int GroupRole = Qt::UserRole;
 const int ExtensionRole = GroupRole + 1;
@@ -89,6 +90,10 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, QWidg
     
     m_view.proxy_render->setHidden(!enableProxy);
 
+	m_view.encoder_threads->setMaximum(QThread::idealThreadCount());
+	m_view.encoder_threads->setValue(KdenliveSettings::encodethreads());
+	connect(m_view.encoder_threads, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateEncodeThreads(int)));
+	
     m_view.rescale_keep->setChecked(KdenliveSettings::rescalekeepratio());
     connect(m_view.rescale_width, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateRescaleWidth(int)));
     connect(m_view.rescale_height, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateRescaleHeight(int)));
@@ -755,6 +760,10 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
     // disable audio if requested
     if (!exportAudio) renderArgs.append(" an=1 ");
 
+	// Set the thread counts
+	renderArgs.append(QString(" threads=%1").arg(KdenliveSettings::encodethreads()));
+	renderArgs.append(QString(" real_time=-%1").arg(KdenliveSettings::mltthreads()));
+
     // Check if the rendering profile is different from project profile,
     // in which case we need to use the producer_comsumer from MLT
     QString std = renderArgs;
@@ -780,7 +789,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
             break;
         }
     }
-
+	
     if (resizeProfile)
         render_process_args << "consumer:" + (scriptExport ? "$SOURCE" : playlistPath);
     else
@@ -1857,6 +1866,11 @@ void RenderWidget::missingClips(bool hasMissing)
         m_view.errorLabel->setText(i18n("Check missing clips"));
         m_view.errorBox->setHidden(false);
     } else m_view.errorBox->setHidden(true);
+}
+
+void RenderWidget::slotUpdateEncodeThreads(int val)
+{
+	KdenliveSettings::setEncodethreads(val);
 }
 
 void RenderWidget::slotUpdateRescaleWidth(int val)

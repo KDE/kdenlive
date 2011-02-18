@@ -164,6 +164,7 @@ private slots:
     void slotPlayRendering(QTreeWidgetItem *item, int);
     void slotStartCurrentJob();
     void slotCopyToFavorites();
+    void slotUpdateEncodeThreads(int);
     void slotUpdateRescaleHeight(int);
     void slotUpdateRescaleWidth(int);
     void slotSwitchAspectRatio();
