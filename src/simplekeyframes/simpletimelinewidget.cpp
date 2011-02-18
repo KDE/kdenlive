@@ -24,8 +24,7 @@
 
 SimpleTimelineWidget::SimpleTimelineWidget(QWidget* parent) :
         QWidget(parent),
-        m_min(0),
-        m_max(1),
+        m_duration(1),
         m_position(0),
         m_currentKeyframe(-1),
         m_currentKeyframeOriginal(-1),
@@ -82,10 +81,9 @@ void SimpleTimelineWidget::slotRemoveKeyframe(int pos)
     emit keyframeRemoved(pos);
 }
 
-void SimpleTimelineWidget::setRange(int min, int max)
+void SimpleTimelineWidget::setDuration(int dur)
 {
-    m_min = min;
-    m_max = max;
+    m_duration = dur;
 }
 
 void SimpleTimelineWidget::slotGoToNext()
@@ -99,8 +97,8 @@ void SimpleTimelineWidget::slotGoToNext()
     }
 
     // no keyframe after current position
-    slotSetPosition(m_max);
-    emit positionChanged(m_max);
+    slotSetPosition(m_duration);
+    emit positionChanged(m_duration);
 }
 
 void SimpleTimelineWidget::slotGoToPrev()
@@ -114,14 +112,14 @@ void SimpleTimelineWidget::slotGoToPrev()
     }
 
     // no keyframe before current position
-    slotSetPosition(m_min);
-    emit positionChanged(m_min);
+    slotSetPosition(0);
+    emit positionChanged(0);
 }
 
 void SimpleTimelineWidget::mousePressEvent(QMouseEvent* event)
 {
+    int pos = (event->x() - 5) / m_scale;
     if (qAbs(event->y() - m_lineHeight) < m_lineHeight / 5. && event->button() == Qt::LeftButton)  {
-        int pos = (event->x() - 5) / m_scale;
         foreach(const int &keyframe, m_keyframes) {
             if (qAbs(keyframe - pos) < 5) {
                 m_currentKeyframeOriginal = keyframe;
@@ -134,15 +132,15 @@ void SimpleTimelineWidget::mousePressEvent(QMouseEvent* event)
 
     // no keyframe next to mouse
     m_currentKeyframe = m_currentKeyframeOriginal = -1;
-    m_position = (event->x() - 5) / m_scale;
-    emit positionChanged(m_position);
+    m_position = pos;
+    emit positionChanged(pos);
     update();
 }
 
 void SimpleTimelineWidget::mouseMoveEvent(QMouseEvent* event)
 {
     if (event->buttons() & Qt::LeftButton) {
-        int pos = qBound(m_min, (int)((event->x() - 5) / m_scale), m_max);
+        int pos = qBound(0, (int)((event->x() - 5) / m_scale), m_duration);
         if (m_currentKeyframe >= 0) {
             m_currentKeyframe = pos;
             emit keyframeMoving(m_currentKeyframeOriginal, m_currentKeyframe);
@@ -168,10 +166,10 @@ void SimpleTimelineWidget::wheelEvent(QWheelEvent* event)
 {
     int change = event->delta() < 0 ? -1 : 1;
     if (m_currentKeyframe > 0) {
-        m_currentKeyframe = qBound(m_min, m_currentKeyframe + change, m_max);
+        m_currentKeyframe = qBound(0, m_currentKeyframe + change, m_duration);
         emit keyframeMoved(m_currentKeyframeOriginal, m_currentKeyframe);
     } else {
-        m_position = qBound(m_min, m_position + change, m_max);
+        m_position = qBound(0, m_position + change, m_duration);
         emit positionChanged(m_position);
     }
     update();
@@ -182,7 +180,7 @@ void SimpleTimelineWidget::paintEvent(QPaintEvent* event)
     QPainter p(this);
     int min = 5;
     int max = width() - 6;
-    m_scale = (max - min) / (double)(m_max - m_min);
+    m_scale = (max - min) / (double)(m_duration);
     p.translate(min, m_lineHeight);
 
     p.setPen(QPen(palette().foreground().color(), 1, Qt::SolidLine));

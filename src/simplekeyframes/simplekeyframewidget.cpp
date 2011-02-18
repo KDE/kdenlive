@@ -26,7 +26,7 @@
 #include <KIcon>
 #include <KLocale>
 
-SimpleKeyframeWidget::SimpleKeyframeWidget(Timecode t, int in, int out, QWidget *parent) :
+SimpleKeyframeWidget::SimpleKeyframeWidget(Timecode t, int duration, QWidget *parent) :
         QWidget(parent)
 {
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
@@ -34,7 +34,7 @@ SimpleKeyframeWidget::SimpleKeyframeWidget(Timecode t, int in, int out, QWidget 
     QGridLayout *l = new QGridLayout(this);
 
     m_timeline = new SimpleTimelineWidget(this);
-    m_timeline->setRange(in ,out);
+    m_timeline->setDuration(duration);
 
     m_buttonAddDelete = new QToolButton(this);
     m_buttonAddDelete->setAutoRaise(true);
@@ -52,7 +52,7 @@ SimpleKeyframeWidget::SimpleKeyframeWidget(Timecode t, int in, int out, QWidget 
     m_buttonNext->setToolTip(i18n("Go to next keyframe"));
 
     m_time = new TimecodeDisplay(t, this);
-    m_time->setRange(in, out);
+    m_time->setRange(0, duration);
 
     l->addWidget(m_timeline, 0, 0, 1, -1);
     l->addWidget(m_buttonPrevious, 1, 0);

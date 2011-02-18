@@ -29,7 +29,7 @@ class SimpleTimelineWidget : public QWidget
 public:
     SimpleTimelineWidget(QWidget* parent = 0);
     void setKeyframes(QList <int> keyframes);
-    void setRange(int min, int max);
+    void setDuration(int dur);
 
 public slots:
     void slotSetPosition(int pos);
@@ -47,8 +47,7 @@ protected:
     void wheelEvent(QWheelEvent *event);
 
 private:
-    int m_min;
-    int m_max;
+    int m_duration;
     int m_position;
     int m_currentKeyframe;
     int m_currentKeyframeOriginal;
