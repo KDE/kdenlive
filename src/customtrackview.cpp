@@ -5823,8 +5823,7 @@ void CustomTrackView::loadGroups(const QDomNodeList groups)
         QDomNodeList children = groups.at(i).childNodes();
         scene()->clearSelection();
         for (int nodeindex = 0; nodeindex < children.count(); nodeindex++) {
-            QDomNode n = children.item(nodeindex);
-            QDomElement elem = n.toElement();
+            QDomElement elem = children.item(nodeindex).toElement();
             int pos = elem.attribute("position").toInt();
             int track = elem.attribute("track").toInt();
             if (elem.tagName() == "clipitem") {
@@ -6162,6 +6161,7 @@ void CustomTrackView::updateProjectFps()
             m_document->clipManager()->removeGroup(grp);
             m_scene->addItem(grp);
             scene()->destroyItemGroup(grp);
+            scene()->clearSelection();
             for (int j = 0; j < children.count(); j++) {
                 if (children.at(j)->type() == AVWIDGET || children.at(j)->type() == TRANSITIONWIDGET) {
                     //children.at(j)->setParentItem(0);
