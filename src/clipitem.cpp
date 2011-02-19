@@ -946,36 +946,19 @@ OPERATIONTYPE ClipItem::operationMode(QPointF pos)
     if (rect.height() < 30) addtransitionOffset = 0;
 
     if (qAbs((int)(pos.x() - (rect.x() + m_startFade))) < maximumOffset  && qAbs((int)(pos.y() - rect.y())) < 6) {
-        if (m_startFade == 0) setToolTip(i18n("Add audio fade"));
-        // xgettext:no-c-format
-        else setToolTip(i18n("Audio fade duration: %1s", GenTime(m_startFade, m_fps).seconds()));
         return FADEIN;
     } else if (pos.x() - rect.x() < maximumOffset && (rect.bottom() - pos.y() > addtransitionOffset)) {
-        // xgettext:no-c-format
-        setToolTip(i18n("Crop from start: %1s", cropStart().seconds()));
         return RESIZESTART;
     } else if (qAbs((int)(pos.x() - (rect.x() + rect.width() - m_endFade))) < maximumOffset && qAbs((int)(pos.y() - rect.y())) < 6) {
-        if (m_endFade == 0) setToolTip(i18n("Add audio fade"));
-        // xgettext:no-c-format
-        else setToolTip(i18n("Audio fade duration: %1s", GenTime(m_endFade, m_fps).seconds()));
         return FADEOUT;
     } else if ((rect.right() - pos.x() < maximumOffset) && (rect.bottom() - pos.y() > addtransitionOffset)) {
-        // xgettext:no-c-format
-        setToolTip(i18n("Clip duration: %1s", cropDuration().seconds()));
         return RESIZEEND;
     } else if ((pos.x() - rect.x() < 16 / scale) && (rect.bottom() - pos.y() <= addtransitionOffset)) {
-        setToolTip(i18n("Add transition"));
         return TRANSITIONSTART;
     } else if ((rect.right() - pos.x() < 16 / scale) && (rect.bottom() - pos.y() <= addtransitionOffset)) {
-        setToolTip(i18n("Add transition"));
         return TRANSITIONEND;
     }
-    QString tooltip = "<b>" + m_clipName + "</b>";
-    if (!baseClip()->fileURL().isEmpty())
-        tooltip.append("<br />" + baseClip()->fileURL().path());
-    if (!baseClip()->description().isEmpty())
-        tooltip.append("<br />" + baseClip()->description());
-    setToolTip(tooltip);
+
     return MOVE;
 }
 

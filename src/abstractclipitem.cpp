@@ -130,7 +130,6 @@ void AbstractClipItem::resizeStart(int posx, bool hasSizeLimit)
 {
     GenTime durationDiff = GenTime(posx, m_fps) - m_info.startPos;
     if (durationDiff == GenTime()) return;
-    //kDebug() << "-- RESCALE DIFF=" << durationDiff.frames(25) << ", CLIP: " << startPos().frames(25) << "-" << endPos().frames(25);
 
     if (type() == AVWIDGET && hasSizeLimit && (cropStart() + durationDiff < GenTime())) {
         durationDiff = GenTime() - cropStart();

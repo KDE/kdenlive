@@ -595,11 +595,14 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
         }
         m_moveOpMode = opMode;
         setTipAnimation(clip, opMode, size);
+        ClipItem *ci;
+        if (item->type() == AVWIDGET)
+            ci = static_cast <ClipItem *>(item);
+        QString message;
         if (opMode == MOVE) {
             setCursor(Qt::OpenHandCursor);
-            if (item->type() == AVWIDGET) {
-                ClipItem *ci = static_cast <ClipItem *>(item);
-                QString message = ci->clipName() + i18n(":");
+            if (ci) {
+                message = ci->clipName() + i18n(":");
                 message.append(i18n(" Position:") + m_document->timecode().getDisplayTimecode(ci->info().startPos, KdenliveSettings::frametimecode()));
                 message.append(i18n(" Duration:") + m_document->timecode().getDisplayTimecode(ci->cropDuration(),  KdenliveSettings::frametimecode()));
                 if (clip->parentItem() && clip->parentItem()->type() == GROUPWIDGET) {
@@ -614,26 +617,40 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
                         message.append(i18n(" Selection duration:") + m_document->timecode().getDisplayTimecode(parent2->duration(), KdenliveSettings::frametimecode()));
                     }
                 }
-                emit displayMessage(message, InformationMessage);
             }
         } else if (opMode == RESIZESTART) {
             setCursor(KCursor("left_side", Qt::SizeHorCursor));
+            if (ci)
+                message = i18n("Crop from start: ") + m_document->timecode().getDisplayTimecode(ci->cropStart(), KdenliveSettings::frametimecode());
             if (item->type() == AVWIDGET && item->parentItem() && item->parentItem() != m_selectionGroup)
-                emit displayMessage(i18n("Use Ctrl to resize only current item, otherwise all items in this group will be resized at once."), InformationMessage);
+                message.append(i18n("Use Ctrl to resize only current item, otherwise all items in this group will be resized at once."));
         } else if (opMode == RESIZEEND) {
             setCursor(KCursor("right_side", Qt::SizeHorCursor));
+            if (ci)
+                message = i18n("Duration: ") + m_document->timecode().getDisplayTimecode(ci->cropDuration(), KdenliveSettings::frametimecode());
             if (item->type() == AVWIDGET && item->parentItem() && item->parentItem() != m_selectionGroup)
-                emit displayMessage(i18n("Use Ctrl to resize only current item, otherwise all items in this group will be resized at once."), InformationMessage);
+                message.append(i18n("Use Ctrl to resize only current item, otherwise all items in this group will be resized at once."));
         } else if (opMode == FADEIN || opMode == FADEOUT) {
             setCursor(Qt::PointingHandCursor);
-            emit displayMessage(i18n("Drag to add or resize a fade effect."), InformationMessage);
+            if (ci && opMode == FADEIN && ci->fadeIn()) {
+                message = i18n("Fade in duration: ");
+                message.append(m_document->timecode().getDisplayTimecodeFromFrames(ci->fadeIn(), KdenliveSettings::frametimecode()));
+            } else if (ci && opMode == FADEOUT && ci->fadeOut()) {
+                message = i18n("Fade out duration: ");
+                message.append(m_document->timecode().getDisplayTimecodeFromFrames(ci->fadeOut(), KdenliveSettings::frametimecode()));
+            } else {
+                message = i18n("Drag to add or resize a fade effect.");
+            }
         } else if (opMode == TRANSITIONSTART || opMode == TRANSITIONEND) {
             setCursor(Qt::PointingHandCursor);
-            emit displayMessage(i18n("Click to add a transition."), InformationMessage);
+            message = i18n("Click to add a transition.");
         } else if (opMode == KEYFRAME) {
             setCursor(Qt::PointingHandCursor);
             emit displayMessage(i18n("Move keyframe above or below clip to remove it, double click to add a new one."), InformationMessage);
         }
+
+        if (!message.isEmpty())
+            emit displayMessage(message, InformationMessage);
     } // no clip under mouse
     else if (m_tool == RAZORTOOL) {
         event->accept();
