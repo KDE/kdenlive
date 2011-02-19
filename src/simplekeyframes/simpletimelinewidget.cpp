@@ -17,9 +17,13 @@
  ***************************************************************************/
 
 #include "simpletimelinewidget.h"
+#include "kdenlivesettings.h"
 
-#include <QPainter>
+#include <QStylePainter>
 #include <QMouseEvent>
+
+#include <KGlobalSettings>
+#include <KColorScheme>
 
 
 SimpleTimelineWidget::SimpleTimelineWidget(QWidget* parent) :
@@ -34,6 +38,12 @@ SimpleTimelineWidget::SimpleTimelineWidget(QWidget* parent) :
     setMouseTracking(true);
     setMinimumSize(QSize(150, 20));
     setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum));
+    setFont(KGlobalSettings::toolBarFont());
+    QPalette p = palette();
+    KColorScheme scheme(p.currentColorGroup(), KColorScheme::Window, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
+    m_colSelected = scheme.decoration(KColorScheme::HoverColor).color();
+    m_colKeyframe = scheme.foreground(KColorScheme::LinkText).color();
+    m_colKeyframeBg = scheme.shade(KColorScheme::MidShade);
 }
 
 void SimpleTimelineWidget::setKeyframes(QList <int> keyframes)
@@ -118,8 +128,8 @@ void SimpleTimelineWidget::slotGoToPrev()
 
 void SimpleTimelineWidget::mousePressEvent(QMouseEvent* event)
 {
-    int pos = (event->x() - 5) / m_scale;
-    if (qAbs(event->y() - m_lineHeight) < m_lineHeight / 5. && event->button() == Qt::LeftButton)  {
+    int pos = event->x() / m_scale;
+    if (event->y() < m_lineHeight && event->button() == Qt::LeftButton)  {
         foreach(const int &keyframe, m_keyframes) {
             if (qAbs(keyframe - pos) < 5) {
                 m_currentKeyframeOriginal = keyframe;
@@ -140,7 +150,7 @@ void SimpleTimelineWidget::mousePressEvent(QMouseEvent* event)
 void SimpleTimelineWidget::mouseMoveEvent(QMouseEvent* event)
 {
     if (event->buttons() & Qt::LeftButton) {
-        int pos = qBound(0, (int)((event->x() - 5) / m_scale), m_duration);
+        int pos = qBound(0, (int)(event->x() / m_scale), m_duration);
         if (m_currentKeyframe >= 0) {
             m_currentKeyframe = pos;
             emit keyframeMoving(m_currentKeyframeOriginal, m_currentKeyframe);
@@ -157,6 +167,8 @@ void SimpleTimelineWidget::mouseMoveEvent(QMouseEvent* event)
 
 void SimpleTimelineWidget::mouseReleaseEvent(QMouseEvent* event)
 {
+    Q_UNUSED(event)
+
     if (m_currentKeyframe > 0) {
         emit keyframeMoved(m_currentKeyframeOriginal, m_currentKeyframe);
     }
@@ -177,42 +189,48 @@ void SimpleTimelineWidget::wheelEvent(QWheelEvent* event)
 
 void SimpleTimelineWidget::paintEvent(QPaintEvent* event)
 {
-    QPainter p(this);
-    int min = 5;
-    int max = width() - 6;
-    m_scale = (max - min) / (double)(m_duration);
-    p.translate(min, m_lineHeight);
+    Q_UNUSED(event)
 
-    p.setPen(QPen(palette().foreground().color(), 1, Qt::SolidLine));
+    QStylePainter p(this);
+    m_scale = width() / (double)(m_duration);
+    p.translate(0, m_lineHeight);
 
-    /*
-     * Time-"line"
-     */
-    p.drawLine(0, 0, max, 0);
-
-    /*
-     * current position
-     */
-    p.fillRect(QRectF(-1, -10, 3, 20).translated(m_position * m_scale, 0), QBrush(palette().foreground().color(), Qt::SolidPattern));
+    p.setPen(m_colKeyframe);
+    p.setBrush(m_colKeyframeBg);
 
     /*
      * keyframes
      */
-    p.setPen(QPen(palette().highlight().color(), 1, Qt::SolidLine));
-    p.setBrush(Qt::NoBrush);
-    QPolygonF keyframe = QPolygonF() << QPointF(0, -4) << QPointF(-4, 0) << QPointF(0, 4) << QPointF(4, 0);
+    QPolygonF keyframe = QPolygonF() << QPointF(0, -10) << QPointF(-4, -6) << QPointF(0, -2) << QPointF(4, -6);
     QPolygonF tmp;
     foreach (const int &pos, m_keyframes) {
         tmp = keyframe;
         tmp.translate(pos * m_scale, 0);
         if (pos == m_currentKeyframe)
-            p.setBrush(QBrush(palette().highlight().color(), Qt::SolidPattern));
+            p.setBrush(m_colSelected);
 
         p.drawConvexPolygon(tmp);
+        p.drawLine(QLineF(0, -1, 0, 5).translated(pos * m_scale, 0));
 
         if (pos == m_currentKeyframe)
-            p.setBrush(Qt::NoBrush);
+            p.setBrush(m_colKeyframeBg);
     }
+
+
+    p.setPen(palette().dark().color());
+
+    /*
+     * Time-"line"
+     */
+    p.drawLine(0, 0, width(), 0);
+
+    /*
+     * current position
+     */
+    QPolygonF position = QPolygonF() << QPointF(0, 1) << QPointF(5, 6) << QPointF(-5, 6);
+    position.translate(m_position * m_scale, 0);
+    p.setBrush(palette().dark().color());
+    p.drawConvexPolygon(position);
 }
 
 #include "simpletimelinewidget.moc"

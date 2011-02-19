@@ -55,6 +55,10 @@ private:
     int m_lineHeight;
     double m_scale;
 
+    QColor m_colSelected;
+    QColor m_colKeyframe;
+    QColor m_colKeyframeBg;
+
 signals:
     void positionChanged(int pos);
 
