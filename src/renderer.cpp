@@ -631,12 +631,14 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
     }
     
     int clipOut = 0;
+    int duration = 0;
     if (xml.hasAttribute("out")) clipOut = xml.attribute("out").toInt();
     
     // setup length here as otherwise default length (currently 15000 frames in MLT) will be taken even if outpoint is larger
     if (type == COLOR || type == TEXT || type == IMAGE || type == SLIDESHOW) {
         int length;
         if (xml.hasAttribute("length")) {
+            if (clipOut > 0) duration = clipOut + 1;
             length = xml.attribute("length").toInt();
             clipOut = length - 1;
         }
@@ -664,8 +666,8 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
     int frameNumber = xml.attribute("thumbnail", "0").toInt();
     if (frameNumber != 0) producer->seek(frameNumber);
 
-    filePropertyMap["duration"] = QString::number(producer->get_playtime());
-    //kDebug() << "///////  PRODUCER: " << url.path() << " IS: " << producer.get_playtime();
+    filePropertyMap["duration"] = QString::number(duration > 0 ? duration : producer->get_playtime());
+    //kDebug() << "///////  PRODUCER: " << url.path() << " IS: " << producer->get_playtime();
 
     Mlt::Frame *frame = producer->get_frame();
 

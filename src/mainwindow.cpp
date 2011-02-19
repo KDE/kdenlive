@@ -3178,6 +3178,10 @@ void MainWindow::slotShowClipProperties(DocClipBase *clip)
             if (dia_ui->outPoint() != clip->duration().frames(m_activeDocument->fps()) - 1) {
                 // duration changed, we need to update duration
                 newprops.insert("out", QString::number(dia_ui->outPoint()));
+                int currentLength = QString(clip->producerProperty("length")).toInt();
+                if (currentLength <= dia_ui->outPoint())
+                        newprops.insert("length", QString::number(dia_ui->outPoint() + 1));
+                else newprops.insert("length", clip->producerProperty("length"));
             }
             if (!path.isEmpty()) {
                 // we are editing an external file, asked if we want to detach from that file or save the result to that title file.
