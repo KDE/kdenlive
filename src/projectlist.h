@@ -195,14 +195,15 @@ public:
     QMap <QString, QString> getProxies();
     /** @brief Enable / disable proxies. */
     void updateProxyConfig();
-    /** @brief Does this project automatically use proxies. */
+    /** @brief Get a property from the document. */
+    QString getDocumentProperty(const QString &key) const;
+    
+    /** @brief Does this project allow proxies. */
     bool useProxy() const;
-    /** @brief proxy parameters for this project. */
-    QString proxyParams() const;
     /** @brief Should we automatically create proxy clips for newly added clips. */
     bool generateProxy() const;
-    /** @brief Minimum clip width to create proxy. */
-    int proxyMinSize() const;
+    /** @brief Should we automatically create proxy clips for newly added clips. */
+    bool generateImageProxy() const;
 
 public slots:
     void setDocument(KdenliveDoc *doc);
@@ -329,7 +330,7 @@ private slots:
     /** @brief Enable / disable proxy for current clip. */
     void slotProxyCurrentItem(bool doProxy);
     /** @brief Put clip in the proxy waiting list. */
-    void slotCreateProxy(const QString id);
+    void slotCreateProxy(const QString id, bool createProducer = true);
     /** @brief Stop creation of this clip's proxy. */
     void slotAbortProxy(const QString id);
     /** @brief Start creation of proxy clip. */

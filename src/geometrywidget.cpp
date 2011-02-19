@@ -92,24 +92,24 @@ GeometryWidget::GeometryWidget(Monitor* monitor, Timecode timecode, int clipPos,
     connect(m_ui.buttonSync,      SIGNAL(toggled(bool)), this, SLOT(slotSetSynchronize(bool)));
 
     m_spinX = new DragValue(i18n("X"), 0, 0, -1, QString(), false, this);
-    m_spinX->setRange(-10000, 10000);
+    m_spinX->setRange(-99000, 99000);
     m_ui.horizontalLayout->addWidget(m_spinX);
     
     m_spinY = new DragValue(i18n("Y"), 0, 0, -1, QString(), false, this);
-    m_spinY->setRange(-10000, 10000);
+    m_spinY->setRange(-99000, 99000);
     m_ui.horizontalLayout->addWidget(m_spinY);
     
     m_spinWidth = new DragValue(i18n("W"), m_monitor->render->frameRenderWidth(), 0, -1, QString(), false, this);
-    m_spinWidth->setRange(1, 10000);
+    m_spinWidth->setRange(1, 99000);
     m_ui.horizontalLayout->addWidget(m_spinWidth);
     
     m_spinHeight = new DragValue(i18n("H"), m_monitor->render->renderHeight(), 0, -1, QString(), false, this);
-    m_spinHeight->setRange(1, 10000);
+    m_spinHeight->setRange(1, 99000);
     m_ui.horizontalLayout->addWidget(m_spinHeight);
     m_ui.horizontalLayout->addStretch(10);
     
     m_spinSize = new DragValue(i18n("Size"), 100, 2, -1, i18n("%"), false, this);
-    m_spinSize->setRange(1, 10000);
+    m_spinSize->setRange(1, 99000);
     m_ui.horizontalLayout2->addWidget(m_spinSize);
     
     m_opacity = new DragValue(i18n("Opacity"), 100, 0, -1, i18n("%"), true, this);

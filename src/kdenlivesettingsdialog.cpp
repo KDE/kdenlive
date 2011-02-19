@@ -64,8 +64,9 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     QWidget *p8 = new QWidget;
     m_configProject.setupUi(p8);
     m_page8 = addPage(p8, i18n("Project Defaults"), "document-new");
-    connect(m_configProject.kcfg_enableproxy, SIGNAL(toggled(bool)), m_configProject.proxy_frame, SLOT(setEnabled(bool)));
-    m_configProject.proxy_frame->setEnabled(KdenliveSettings::enableproxy());
+    connect(m_configProject.kcfg_generateproxy, SIGNAL(toggled(bool)), m_configProject.kcfg_proxyminsize, SLOT(setEnabled(bool)));
+    m_configProject.kcfg_proxyminsize->setEnabled(KdenliveSettings::generateproxy());
+    m_configProject.kcfg_proxyparams->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 5);
 
     QWidget *p3 = new QWidget;
     m_configTimeline.setupUi(p3);

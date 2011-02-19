@@ -1802,8 +1802,11 @@ void MainWindow::newFile(bool showProjectSettings, bool force)
         // set up default properties
         documentProperties.insert("enableproxy", QString::number((int) KdenliveSettings::enableproxy()));
         documentProperties.insert("generateproxy", QString::number((int) KdenliveSettings::generateproxy()));
-        documentProperties.insert("proxyparams", KdenliveSettings::proxyparams());
         documentProperties.insert("proxyminsize", QString::number(KdenliveSettings::proxyminsize()));
+        documentProperties.insert("proxyparams", KdenliveSettings::proxyparams());
+        documentProperties.insert("proxyextension", KdenliveSettings::proxyextension());
+        documentProperties.insert("generateimageproxy", QString::number((int) KdenliveSettings::generateimageproxy()));
+        documentProperties.insert("proxyimageminsize", QString::number(KdenliveSettings::proxyimageminsize()));
         if (!KdenliveSettings::activatetabs())
             if (!closeCurrentDocument())
                 return;
@@ -1823,8 +1826,11 @@ void MainWindow::newFile(bool showProjectSettings, bool force)
         projectTracks = w->tracks();
         documentProperties.insert("enableproxy", QString::number((int) w->useProxy()));
         documentProperties.insert("generateproxy", QString::number((int) w->generateProxy()));
-        documentProperties.insert("proxyparams", w->proxyParams());
         documentProperties.insert("proxyminsize", QString::number(w->proxyMinSize()));
+        documentProperties.insert("proxyparams", w->proxyParams());
+        documentProperties.insert("proxyextension", w->proxyExtension());
+        documentProperties.insert("generateimageproxy", QString::number((int) w->generateImageProxy()));
+        documentProperties.insert("proxyimageminsize", QString::number(w->proxyImageMinSize()));
         delete w;
     }
     m_timelineArea->setEnabled(true);
@@ -2232,6 +2238,10 @@ void MainWindow::slotEditProjectSettings()
                 //m_activeDocument->rebuildAllProxies();
             }
         }
+        if (m_activeDocument->getDocumentProperty("proxyextension") != w->proxyExtension()) {
+            m_activeDocument->setModified();
+            m_activeDocument->setDocumentProperty("proxyextension", w->proxyExtension());
+        }
         if (m_activeDocument->getDocumentProperty("generateproxy") != QString::number((int) w->generateProxy())) {
             m_activeDocument->setModified();
             m_activeDocument->setDocumentProperty("generateproxy", QString::number((int) w->generateProxy()));
@@ -2239,6 +2249,14 @@ void MainWindow::slotEditProjectSettings()
         if (m_activeDocument->getDocumentProperty("proxyminsize") != QString::number(w->proxyMinSize())) {
             m_activeDocument->setModified();
             m_activeDocument->setDocumentProperty("proxyminsize", QString::number(w->proxyMinSize()));
+        }
+        if (m_activeDocument->getDocumentProperty("generateimageproxy") != QString::number((int) w->generateImageProxy())) {
+            m_activeDocument->setModified();
+            m_activeDocument->setDocumentProperty("generateimageproxy", QString::number((int) w->generateImageProxy()));
+        }
+        if (m_activeDocument->getDocumentProperty("proxyimageminsize") != QString::number(w->proxyImageMinSize())) {
+            m_activeDocument->setModified();
+            m_activeDocument->setDocumentProperty("proxyimageminsize", QString::number(w->proxyImageMinSize()));
         }
         if (QString::number((int) w->useProxy()) != m_activeDocument->getDocumentProperty("enableproxy")) {
             m_activeDocument->setDocumentProperty("enableproxy", QString::number((int) w->useProxy()));

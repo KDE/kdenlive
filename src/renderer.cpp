@@ -540,6 +540,8 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
     QString path;
     if (xml.hasAttribute("proxy") && xml.attribute("proxy") != "-") path = xml.attribute("proxy");
     else path = xml.attribute("resource");
+    
+    
     KUrl url = KUrl(path);
     Mlt::Producer *producer = NULL;
     CLIPTYPE type = (CLIPTYPE)xml.attribute("type").toInt();
@@ -627,17 +629,22 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
         int full_luma = xml.attribute("full_luma").toInt();
         if (full_luma != 0) producer->set("set.force_full_luma", full_luma);
     }
-
+    
+    int clipOut = 0;
+    if (xml.hasAttribute("out")) clipOut = xml.attribute("out").toInt();
+    
     // setup length here as otherwise default length (currently 15000 frames in MLT) will be taken even if outpoint is larger
     if (type == COLOR || type == TEXT || type == IMAGE || type == SLIDESHOW) {
         int length;
-        if (xml.hasAttribute("length")) length = xml.attribute("length").toInt();
+        if (xml.hasAttribute("length")) {
+            length = xml.attribute("length").toInt();
+            clipOut = length - 1;
+        }
         else length = xml.attribute("out").toInt() - xml.attribute("in").toInt();
         producer->set("length", length);
     }
 
-    if (xml.hasAttribute("out"))
-        producer->set_in_and_out(xml.attribute("in").toInt(), xml.attribute("out").toInt());
+    if (clipOut > 0) producer->set_in_and_out(xml.attribute("in").toInt(), clipOut);
 
     producer->set("id", clipId.toUtf8().constData());
 

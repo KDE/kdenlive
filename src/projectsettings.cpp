@@ -65,22 +65,28 @@ ProjectSettings::ProjectSettings(ProjectList *projectlist, QStringList lumas, in
     video_thumbs->setChecked(KdenliveSettings::videothumbnails());
     audio_tracks->setValue(audiotracks);
     video_tracks->setValue(videotracks);
-    connect(enable_proxy, SIGNAL(toggled(bool)), proxy_box, SLOT(setEnabled(bool)));
+    proxy_params->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 5);
     connect(generate_proxy, SIGNAL(toggled(bool)), proxy_minsize, SLOT(setEnabled(bool)));
+    connect(generate_imageproxy, SIGNAL(toggled(bool)), proxy_imageminsize, SLOT(setEnabled(bool)));
     
     if (projectlist) {
-        enable_proxy->setChecked(projectlist->useProxy());
-        generate_proxy->setChecked(projectlist->generateProxy());
-        proxy_minsize->setValue(projectlist->proxyMinSize());
-        proxy_params->setText(projectlist->proxyParams());
-        proxy_box->setEnabled(projectlist->useProxy());
+        enable_proxy->setChecked(projectlist->getDocumentProperty("enableproxy").toInt());
+        generate_proxy->setChecked(projectlist->getDocumentProperty("generateproxy").toInt());
+        proxy_minsize->setValue(projectlist->getDocumentProperty("proxyminsize").toInt());
+        proxy_params->setPlainText(projectlist->getDocumentProperty("proxyparams"));
+        generate_imageproxy->setChecked(projectlist->getDocumentProperty("generateimageproxy").toInt());
+        proxy_imageminsize->setValue(projectlist->getDocumentProperty("proxyimageminsize").toInt());
+        proxy_extension->setText(projectlist->getDocumentProperty("proxyextension"));
     }
     else {
         enable_proxy->setChecked(KdenliveSettings::enableproxy());
         generate_proxy->setChecked(KdenliveSettings::generateproxy());
         proxy_minsize->setValue(KdenliveSettings::proxyminsize());
-        proxy_params->setText(KdenliveSettings::proxyparams());
-        proxy_box->setEnabled(KdenliveSettings::enableproxy());
+        proxy_params->setPlainText(KdenliveSettings::proxyparams());
+        generate_imageproxy->setChecked(KdenliveSettings::generateimageproxy());
+        proxy_imageminsize->setValue(KdenliveSettings::proxyimageminsize());
+        proxy_extension->setText(KdenliveSettings::proxyextension());
+      
     }
     
     if (readOnlyTracks) {
@@ -92,6 +98,7 @@ ProjectSettings::ProjectSettings(ProjectList *projectlist, QStringList lumas, in
         slotUpdateFiles();
         connect(clear_cache, SIGNAL(clicked()), this, SLOT(slotClearCache()));
         connect(delete_unused, SIGNAL(clicked()), this, SLOT(slotDeleteUnused()));
+        connect(delete_proxies, SIGNAL(clicked()), this, SLOT(slotDeleteProxies()));
     } else tabWidget->widget(1)->setEnabled(false);
     connect(profiles_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateDisplay()));
     connect(project_folder, SIGNAL(textChanged(const QString &)), this, SLOT(slotUpdateButton(const QString &)));
@@ -140,12 +147,26 @@ void ProjectSettings::slotClearCache()
     slotUpdateFiles(true);
 }
 
+void ProjectSettings::slotDeleteProxies()
+{
+    buttonBox->setEnabled(false);
+    
+    KIO::NetAccess::del(KUrl(project_folder->url().path(KUrl::AddTrailingSlash) + "proxy/"), this);
+    KStandardDirs::makeDir(project_folder->url().path(KUrl::AddTrailingSlash) + "proxy/");
+    buttonBox->setEnabled(true);
+    slotUpdateFiles(true);
+}
+
 void ProjectSettings::slotUpdateFiles(bool cacheOnly)
 {
-    KIO::DirectorySizeJob * job = KIO::directorySize(project_folder->url().path(KUrl::AddTrailingSlash) + "thumbs/");
+    KIO::DirectorySizeJob *job = KIO::directorySize(project_folder->url().path(KUrl::AddTrailingSlash) + "thumbs/");
     job->exec();
     thumbs_count->setText(QString::number(job->totalFiles()));
     thumbs_size->setText(KIO::convertSize(job->totalSize()));
+    job = KIO::directorySize(project_folder->url().path(KUrl::AddTrailingSlash) + "proxy/");
+    job->exec();
+    proxy_count->setText(QString::number(job->totalFiles()));
+    proxy_size->setText(KIO::convertSize(job->totalSize()));
     delete job;
     if (cacheOnly) return;
     int unused = 0;
@@ -331,14 +352,29 @@ bool ProjectSettings::generateProxy() const
     return generate_proxy->isChecked();
 }
 
+bool ProjectSettings::generateImageProxy() const
+{
+    return generate_imageproxy->isChecked();
+}
+
 int ProjectSettings::proxyMinSize() const
 {
     return proxy_minsize->value();
 }
 
+int ProjectSettings::proxyImageMinSize() const
+{
+    return proxy_imageminsize->value();
+}
+
 QString ProjectSettings::proxyParams() const
 {
     return proxy_params->toPlainText();
+}
+
+QString ProjectSettings::proxyExtension() const
+{
+    return proxy_extension->text();
 }
 
 //static

@@ -223,7 +223,11 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
         l->addWidget(pb);
         connect(pb, SIGNAL(clicked()), this, SLOT(slotDeleteProxy()));
         m_proxyContainer->setLayout(l);
-        if (t == AUDIO) {
+        if (t == IMAGE) {
+            m_view.tab_image->layout()->addWidget(line);
+            m_view.tab_image->layout()->addWidget(m_proxyContainer);
+        }
+        else if (t == AUDIO) {
             m_view.tab_audio->layout()->addWidget(line);
             m_view.tab_audio->layout()->addWidget(m_proxyContainer);
         }

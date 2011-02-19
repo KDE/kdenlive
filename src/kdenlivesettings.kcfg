@@ -97,9 +97,24 @@
       <default>false</default>
     </entry>
     
+    <entry name="generateimageproxy" type="Bool">
+      <label>Auto generate proxy for new image clips.</label>
+      <default>false</default>
+    </entry>
+    
     <entry name="proxyminsize" type="Int">
       <label>Minimum source size for proxy creation.</label>
       <default>1000</default>
+    </entry>
+    
+    <entry name="proxyimageminsize" type="Int">
+      <label>Minimum source size for proxy creation.</label>
+      <default>2000</default>
+    </entry>
+    
+    <entry name="proxyextension" type="String">
+      <label>File extension for proxy clips.</label>
+      <default>avi</default>
     </entry>
     
     <entry name="proxyparams" type="String">

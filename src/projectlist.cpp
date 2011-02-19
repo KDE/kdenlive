@@ -1004,7 +1004,7 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
         m_infoQueue.insert(clip->getId(), e);
     }
     else if (item->hasProxy() && !item->isProxyRunning()) {
-        slotCreateProxy(clip->getId());
+        slotCreateProxy(clip->getId(), false);
     }
     clip->askForAudioThumbs();
     
@@ -1059,6 +1059,15 @@ void ProjectList::slotGotProxy(const QString &id)
         // Proxy clip successfully created
         QDomElement e = item->referencedClip()->toXML().cloneNode().toElement();  
         //e.removeAttribute("file_hash");
+
+        // Make sure we get the correct producer length if it was adjusted in timeline
+        CLIPTYPE t = item->clipType();
+        if (t == COLOR || t == IMAGE || t == SLIDESHOW || t == TEXT) {
+            int length = QString(item->referencedClip()->producerProperty("length")).toInt();
+            if (length > 0 && !e.hasAttribute("length")) {
+                e.setAttribute("length", length);
+            }
+        }
         e.setAttribute("replace", 1);
         m_infoQueue.insert(id, e);
         if (!m_queueRunner.isRunning() && m_processingClips.isEmpty()) m_queueRunner = QtConcurrent::run(this, &ProjectList::slotProcessNextClipInQueue);
@@ -1149,8 +1158,9 @@ void ProjectList::updateAllClips()
             } else {
                 if (item->data(0, Qt::DecorationRole).isNull())
                     requestClipThumbnail(clip->getId());
-                if (item->data(0, DurationRole).toString().isEmpty())
+                if (item->data(0, DurationRole).toString().isEmpty()) {
                     item->changeDuration(item->referencedClip()->producer()->get_playtime());
+                }
             }
             item->setData(0, UsageRole, QString::number(item->numReferences()));
         }
@@ -1600,11 +1610,11 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
         DocClipBase *clip = item->referencedClip();
         if (!useProxy() && item->referencedClip()->getProperty("proxy").isEmpty()) setProxyStatus(item, NOPROXY);
         if (useProxy() && generateProxy() && item->referencedClip()->getProperty("proxy") == "-") setProxyStatus(item, NOPROXY);
-        else if (useProxy() && !item->isProxyRunning() && (item->clipType() == AV || item->clipType() == VIDEO) && generateProxy() && size.section('x', 0, 0).toInt() > proxyMinSize()) {
+        else if (useProxy() && !item->isProxyRunning() && (item->clipType() == AV || item->clipType() == VIDEO) && generateProxy() && size.section('x', 0, 0).toInt() > m_doc->getDocumentProperty("proxyminsize").toInt()) {
             if (clip->getProperty("proxy").isEmpty()) {
                 QString proxydir = m_doc->projectFolder().path( KUrl::AddTrailingSlash) + "proxy/";
                 QMap <QString, QString> newProps;
-                newProps.insert("proxy", proxydir + item->referencedClip()->getClipHash() + ".avi");
+                newProps.insert("proxy", proxydir + item->referencedClip()->getClipHash() + "." + m_doc->getDocumentProperty("proxyextension"));
                 QMap <QString, QString> oldProps = clip->properties();
                 oldProps.insert("proxy", QString());
                 EditClipCommand *command = new EditClipCommand(this, clipId, oldProps, newProps, true);
@@ -1719,6 +1729,11 @@ bool ProjectList::adjustProjectProfileToItem(ProjectItem *item)
     return profileUpdated;
 }
 
+QString ProjectList::getDocumentProperty(const QString &key) const
+{
+    return m_doc->getDocumentProperty(key);
+}
+
 bool ProjectList::useProxy() const
 {
     return m_doc->getDocumentProperty("enableproxy").toInt();
@@ -1729,14 +1744,9 @@ bool ProjectList::generateProxy() const
     return m_doc->getDocumentProperty("generateproxy").toInt();
 }
 
-int ProjectList::proxyMinSize() const
+bool ProjectList::generateImageProxy() const
 {
-    return m_doc->getDocumentProperty("proxyminsize").toInt();
-}
-
-QString ProjectList::proxyParams() const
-{
-    return m_doc->getDocumentProperty("proxyparams").simplified();
+    return m_doc->getDocumentProperty("generateimageproxy").toInt();
 }
 
 void ProjectList::slotReplyGetImage(const QString &clipId, const QPixmap &pix)
@@ -2073,10 +2083,16 @@ QMap <QString, QString> ProjectList::getProxies()
     return list;
 }
 
-void ProjectList::slotCreateProxy(const QString id)
+void ProjectList::slotCreateProxy(const QString id, bool createProducer)
 {
     ProjectItem *item = getItemById(id);
     if (!item || item->isProxyRunning()) return;
+    
+    // If proxy producer already exists, skip creation
+    if (!createProducer) {
+        setProxyStatus(id, PROXYDONE);
+        return;
+    }
     setProxyStatus(id, PROXYWAITING);
     if (m_abortProxyId.contains(id)) m_abortProxyId.removeAll(id);
     emit projectModified();
@@ -2123,10 +2139,62 @@ void ProjectList::slotGenerateProxy(const QString id)
         file.close();
         QFile::remove(path);
     }
+    if (item->clipType() == IMAGE) {
+        // Image proxy
+        QImage i(url);
+        if (i.isNull()) {
+            // Cannot load image
+            setProxyStatus(id, PROXYCRASHED);
+            return;
+        }
+        QImage proxy;
+        // Images are scaled to profile size. 
+        //TODO: Make it be configurable?
+        if (i.width() > i.height()) proxy = i.scaledToWidth(m_render->frameRenderWidth());
+        else proxy = i.scaledToHeight(m_render->renderHeight());
+        int exif_orientation = QString(item->referencedClip()->producerProperty("_exif_orientation")).toInt();
+        if (exif_orientation > 1) {
+            // Rotate image according to exif data
+            QImage processed;
+            QMatrix matrix;
+
+            switch ( exif_orientation ) {
+                case 2:
+                  matrix.scale( -1, 1 );
+                  break;
+                case 3:
+                  matrix.rotate( 180 );
+                  break;
+                case 4:
+                  matrix.scale( 1, -1 );
+                  break;
+                case 5:
+                  matrix.rotate( 270 );
+                  matrix.scale( -1, 1 );
+                  break;
+                case 6:
+                  matrix.rotate( 90 );
+                  break;
+                case 7:
+                  matrix.rotate( 90 );
+                  matrix.scale( -1, 1 );
+                  break;
+                case 8:
+                  matrix.rotate( 270 );
+                  break;
+              }
+              processed = proxy.transformed( matrix );
+              processed.save(path);
+        }
+        else proxy.save(path);
+        setProxyStatus(id, PROXYDONE);
+        slotGotProxy(id);
+        return;
+    }
 
     QStringList parameters;
     parameters << "-i" << url;
-    QString params = proxyParams();
+    QString params = m_doc->getDocumentProperty("proxyparams").simplified();
     foreach(QString s, params.split(' '))
     parameters << s;
 
@@ -2185,13 +2253,13 @@ void ProjectList::updateProxyConfig()
         if ((t == VIDEO || t == AV || t == UNKNOWN) && item->referencedClip() != NULL) {
             if  (generateProxy() && useProxy() && !item->isProxyRunning()) {
                 DocClipBase *clip = item->referencedClip();
-                if (clip->getProperty("frame_size").section('x', 0, 0).toInt() > proxyMinSize()) {
+                if (clip->getProperty("frame_size").section('x', 0, 0).toInt() > m_doc->getDocumentProperty("proxyminsize").toInt()) {
                     if (clip->getProperty("proxy").isEmpty()) {
                         // We need to insert empty proxy in old properties so that undo will work
                         QMap <QString, QString> oldProps = clip->properties();
                         oldProps.insert("proxy", QString());
                         QMap <QString, QString> newProps;
-                        newProps.insert("proxy", proxydir + item->referencedClip()->getClipHash() + ".avi");
+                        newProps.insert("proxy", proxydir + item->referencedClip()->getClipHash() + "." + m_doc->getDocumentProperty("proxyextension"));
                         new EditClipCommand(this, clip->getId(), oldProps, newProps, true, command);
                     }
                 }
@@ -2202,11 +2270,29 @@ void ProjectList::updateProxyConfig()
                 newProps.insert("proxy", QString());
                 newProps.insert("replace", "1");
                 new EditClipCommand(this, item->clipId(), item->referencedClip()->properties(), newProps, true, command);
-                /*item->referencedClip()->clearProperty("proxy");
-                QDomElement e = item->toXml().cloneNode().toElement();
-                e.removeAttribute("file_hash");
-                e.setAttribute("replace", 1);
-                m_infoQueue.insert(item->clipId(), e);*/
+            }
+        }
+        else if (t == IMAGE && item->referencedClip() != NULL) {
+            if  (generateImageProxy() && useProxy()) {
+                DocClipBase *clip = item->referencedClip();
+                int maxImageSize = m_doc->getDocumentProperty("proxyimageminsize").toInt();
+                if (clip->getProperty("frame_size").section('x', 0, 0).toInt() > maxImageSize || clip->getProperty("frame_size").section('x', 1, 1).toInt() > maxImageSize) {
+                    if (clip->getProperty("proxy").isEmpty()) {
+                        // We need to insert empty proxy in old properties so that undo will work
+                        QMap <QString, QString> oldProps = clip->properties();
+                        oldProps.insert("proxy", QString());
+                        QMap <QString, QString> newProps;
+                        newProps.insert("proxy", proxydir + item->referencedClip()->getClipHash() + ".png");
+                        new EditClipCommand(this, clip->getId(), oldProps, newProps, true, command);
+                    }
+                }
+            }
+            else if (item->hasProxy()) {
+                // remove proxy
+                QMap <QString, QString> newProps;
+                newProps.insert("proxy", QString());
+                newProps.insert("replace", "1");
+                new EditClipCommand(this, item->clipId(), item->referencedClip()->properties(), newProps, true, command);
             }
         }
         ++it;
@@ -2242,11 +2328,11 @@ void ProjectList::slotProxyCurrentItem(bool doProxy)
         if (listItem->type() == PROJECTCLIPTYPE) {
             ProjectItem *item = static_cast <ProjectItem*>(listItem);
             CLIPTYPE t = item->clipType();
-            if ((t == VIDEO || t == AV || t == UNKNOWN) && item->referencedClip()) {
+            if ((t == VIDEO || t == AV || t == UNKNOWN || t == IMAGE) && item->referencedClip()) {
                 oldProps = item->referencedClip()->properties();
                 if (doProxy) {
                     newProps.clear();
-                    QString path = proxydir + item->referencedClip()->getClipHash() + ".avi";                
+                    QString path = proxydir + item->referencedClip()->getClipHash() + "." + (t == IMAGE ? "png" : m_doc->getDocumentProperty("proxyextension"));
                     newProps.insert("proxy", path);
                     // We need to insert empty proxy so that undo will work
                     oldProps.insert("proxy", QString());

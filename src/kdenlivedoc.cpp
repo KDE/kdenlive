@@ -76,8 +76,11 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
     m_documentProperties["zoneout"] = "100";
     m_documentProperties["enableproxy"] = QString::number((int) KdenliveSettings::enableproxy());
     m_documentProperties["proxyparams"] = KdenliveSettings::proxyparams();
+    m_documentProperties["proxyextension"] = KdenliveSettings::proxyextension();
     m_documentProperties["generateproxy"] = QString::number((int) KdenliveSettings::generateproxy());
     m_documentProperties["proxyminsize"] = QString::number(KdenliveSettings::proxyminsize());
+    m_documentProperties["generateimageproxy"] = QString::number((int) KdenliveSettings::generateimageproxy());
+    m_documentProperties["proxyimageminsize"] = QString::number(KdenliveSettings::proxyimageminsize());
     
     // Load properties
     QMapIterator<QString, QString> i(properties);

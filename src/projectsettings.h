@@ -41,7 +41,10 @@ public:
     bool useProxy() const;
     bool generateProxy() const;
     int proxyMinSize() const;
+    bool generateImageProxy() const;
+    int proxyImageMinSize() const;
     QString proxyParams() const;
+    QString proxyExtension() const;
     static QStringList extractPlaylistUrls(QString path);
     static QStringList extractSlideshowUrls(KUrl url);
 
@@ -53,6 +56,7 @@ private slots:
     void slotUpdateButton(const QString &path);
     void slotUpdateFiles(bool cacheOnly = false);
     void slotClearCache();
+    void slotDeleteProxies();
     void slotDeleteUnused();
     /** @brief Export project data to text file. */
     void slotExportToText();
