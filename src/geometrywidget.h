@@ -91,6 +91,8 @@ private:
     DragValue *m_spinSize;
     DragValue *m_opacity;
     QPoint m_frameSize;
+    /** @brief Update monitor rect with current width / height values. */
+    void updateMonitorGeometry();
 
 private slots:
     /** @brief Updates controls according to position.

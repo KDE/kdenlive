@@ -504,6 +504,12 @@ void GeometryWidget::slotSetHeight(int value)
     slotUpdateGeometry();
 }
 
+void GeometryWidget::updateMonitorGeometry()
+{
+    m_rect->setRect(0, 0, m_spinWidth->value(), m_spinHeight->value());
+    slotUpdateGeometry();
+}
+
 
 void GeometryWidget::slotResize(double value)
 {
@@ -587,24 +593,39 @@ void GeometryWidget::setFrameSize(QPoint size)
 void GeometryWidget::slotAdjustToFrameSize()
 {
     if (m_frameSize == QPoint()) m_frameSize = QPoint(m_monitor->render->frameRenderWidth(), m_monitor->render->renderHeight());
+    m_spinWidth->blockSignals(true);
+    m_spinHeight->blockSignals(true);
     m_spinWidth->setValue((int) (m_frameSize.x() / m_monitor->render->sar() + 0.5));
     m_spinHeight->setValue(m_frameSize.y());
+    m_spinWidth->blockSignals(false);
+    m_spinHeight->blockSignals(false);
+    updateMonitorGeometry();
 }
 
 void GeometryWidget::slotFitToWidth()
 {
     if (m_frameSize == QPoint()) m_frameSize = QPoint(m_monitor->render->frameRenderWidth(), m_monitor->render->renderHeight());
     double factor = (double) m_monitor->render->frameRenderWidth() / m_frameSize.x() * m_monitor->render->sar();
+    m_spinWidth->blockSignals(true);
+    m_spinHeight->blockSignals(true);
     m_spinHeight->setValue((int) (m_frameSize.y() * factor + 0.5));
     m_spinWidth->setValue(m_monitor->render->frameRenderWidth());
+    m_spinWidth->blockSignals(false);
+    m_spinHeight->blockSignals(false);
+    updateMonitorGeometry();
 }
 
 void GeometryWidget::slotFitToHeight()
 {
     if (m_frameSize == QPoint()) m_frameSize = QPoint(m_monitor->render->frameRenderWidth(), m_monitor->render->renderHeight());
     double factor = (double) m_monitor->render->renderHeight() / m_frameSize.y();
+    m_spinWidth->blockSignals(true);
+    m_spinHeight->blockSignals(true);
     m_spinHeight->setValue(m_monitor->render->renderHeight());
     m_spinWidth->setValue((int) (m_frameSize.x() / m_monitor->render->sar() * factor + 0.5));
+    m_spinWidth->blockSignals(false);
+    m_spinHeight->blockSignals(false);
+    updateMonitorGeometry();
 }
 
 #include "geometrywidget.moc"
