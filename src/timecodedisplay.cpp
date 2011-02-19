@@ -40,7 +40,13 @@ TimecodeDisplay::TimecodeDisplay(Timecode t, QWidget *parent)
     lineEdit()->setFont(KGlobalSettings::toolBarFont());
     lineEdit()->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
     QFontMetrics fm = lineEdit()->fontMetrics();
+#if QT_VERSION >= 0x040600
     setMinimumWidth(fm.width("88:88:88:88888888") + contentsMargins().right() + contentsMargins().right());
+#else
+    int left, top, right, bottom;
+    getContentsMargins(&left, &top, &right, &bottom);
+    setMinimumWidth(fm.width("88:88:88:88888888") + left + right);
+#endif
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
     setAccelerated(true);
 
