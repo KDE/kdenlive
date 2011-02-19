@@ -133,6 +133,7 @@ void SimpleTimelineWidget::mousePressEvent(QMouseEvent* event)
         foreach(const int &keyframe, m_keyframes) {
             if (qAbs(keyframe - pos) < 5) {
                 m_currentKeyframeOriginal = keyframe;
+                m_keyframes[m_keyframes.indexOf(keyframe)] = pos;
                 m_currentKeyframe = pos;
                 update();
                 return;
@@ -152,6 +153,8 @@ void SimpleTimelineWidget::mouseMoveEvent(QMouseEvent* event)
     if (event->buttons() & Qt::LeftButton) {
         int pos = qBound(0, (int)(event->x() / m_scale), m_duration);
         if (m_currentKeyframe >= 0) {
+            // should we maybe sort here?
+            m_keyframes[m_keyframes.indexOf(m_currentKeyframe)] = pos;
             m_currentKeyframe = pos;
             emit keyframeMoving(m_currentKeyframeOriginal, m_currentKeyframe);
         } else {
@@ -169,7 +172,8 @@ void SimpleTimelineWidget::mouseReleaseEvent(QMouseEvent* event)
 {
     Q_UNUSED(event)
 
-    if (m_currentKeyframe > 0) {
+    if (m_currentKeyframe >= 0) {
+        qSort(m_keyframes);
         emit keyframeMoved(m_currentKeyframeOriginal, m_currentKeyframe);
     }
 }
@@ -215,7 +219,6 @@ void SimpleTimelineWidget::paintEvent(QPaintEvent* event)
         if (pos == m_currentKeyframe)
             p.setBrush(m_colKeyframeBg);
     }
-
 
     p.setPen(palette().dark().color());
 

@@ -76,6 +76,7 @@ private slots:
 
     void slotAddKeyframe(int pos = -1);
     void slotRemoveKeyframe(int pos = -1);
+    void slotMoveKeyframe(int oldPos, int newPos);
 };
 
 #endif

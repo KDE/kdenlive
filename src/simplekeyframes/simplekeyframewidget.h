@@ -48,6 +48,7 @@ signals:
     void positionChanged(int pos);
     void keyframeAdded(int pos);
     void keyframeRemoved(int pos);
+    void keyframeMoved(int oldPos, int newPos);
 
 private:
     SimpleTimelineWidget *m_timeline;

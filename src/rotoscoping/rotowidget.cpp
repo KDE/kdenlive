@@ -88,6 +88,7 @@ RotoWidget::RotoWidget(QString data, Monitor *monitor, int in, int out, Timecode
     connect(m_keyframeWidget, SIGNAL(positionChanged(int)), this, SLOT(slotPositionChanged(int)));
     connect(m_keyframeWidget, SIGNAL(keyframeAdded(int)), this, SLOT(slotAddKeyframe(int)));
     connect(m_keyframeWidget, SIGNAL(keyframeRemoved(int)), this, SLOT(slotRemoveKeyframe(int)));
+    connect(m_keyframeWidget, SIGNAL(keyframeMoved(int,int)), this, SLOT(slotMoveKeyframe(int,int)));
     connect(m_scene, SIGNAL(addKeyframe()), this, SLOT(slotAddKeyframe()));
 
     slotPositionChanged(0, false);
@@ -274,6 +275,18 @@ void RotoWidget::slotRemoveKeyframe(int pos)
         m_data = m_data.toMap().begin().value();
 
     slotPositionChanged(m_keyframeWidget->getPosition(), false);
+}
+
+void RotoWidget::slotMoveKeyframe(int oldPos, int newPos)
+{
+    if (m_data.canConvert(QVariant::Map)) {
+        QMap<QString, QVariant> map = m_data.toMap();
+        map[QString::number(newPos + m_in).rightJustified(qRound(log10((double)m_out)), '0')] = map.take(QString::number(oldPos + m_in).rightJustified(qRound(log10((double)m_out)), '0'));
+        m_data = QVariant(map);
+    }
+
+    slotPositionChanged(m_keyframeWidget->getPosition(), false);
+    emit valueChanged();
 }
 
 #include "rotowidget.moc"
