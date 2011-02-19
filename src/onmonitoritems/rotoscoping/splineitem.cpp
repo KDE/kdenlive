@@ -249,7 +249,11 @@ int SplineItem::getClosestPointOnCurve(QPointF point, double *tFinal)
         p2 = qgraphicsitem_cast<BPointItem *>(childItems().at(j))->getPoint();
         QPolygonF bounding = QPolygonF() << p1.p << p1.h2 << p2.h1 << p2.p;
         QPointF cl = closestPointInRect(point, bounding.boundingRect());
+#if QT_VERSION >= 0x040600
         qreal d = (point - cl).manhattanLength();
+#else
+        qreal d = qAbs((point - cl).x()) + qAbs((point - cl).y());
+#endif
 
         if (d > diff)
             continue;
@@ -273,7 +277,11 @@ int SplineItem::getClosestPointOnCurve(QPointF point, double *tFinal)
         cl.setX(n.x);
         cl.setY(n.y);
 
+#if QT_VERSION >= 0x040600
         d = (point - cl).manhattanLength();
+#else
+        d = qAbs((point - cl).x()) + qAbs((point - cl).y());
+#endif
         if (d < diff) {
             diff = d;
             param = t;
