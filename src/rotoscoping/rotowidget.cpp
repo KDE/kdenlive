@@ -194,7 +194,8 @@ void RotoWidget::slotPositionChanged(int pos, bool seek)
             QList <BPoint> p;
             qreal relPos = (pos - keyframe1) / (qreal)(keyframe2 - keyframe1 + 1);
 
-            for (int i = 0; i < p1.count(); ++i) {
+            int count = qMin(p1.count(), p2.count());
+            for (int i = 0; i < count; ++i) {
                 BPoint bp;
                 for (int j = 0; j < 3; ++j) {
                     if (p1.at(i)[j] != p2.at(i)[j])

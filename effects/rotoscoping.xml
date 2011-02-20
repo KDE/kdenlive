@@ -4,8 +4,8 @@
         <description>Keyframable vector based rotoscoping</description>
         <author>Till Theato</author>
 
-        <parameter type="list" name="mode" default="alpha" paramlist="alpha,matte,rgb">
-            <paramlistdisplay>Alpha,Matte,RGB</paramlistdisplay>
+        <parameter type="list" name="mode" default="alpha" paramlist="alpha,luma,rgb">
+            <paramlistdisplay>Alpha,Luma,RGB</paramlistdisplay>
             <name>Mode</name>
         </parameter>
 
