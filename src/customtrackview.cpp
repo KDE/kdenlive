@@ -595,7 +595,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
         }
         m_moveOpMode = opMode;
         setTipAnimation(clip, opMode, size);
-        ClipItem *ci;
+        ClipItem *ci = NULL;
         if (item->type() == AVWIDGET)
             ci = static_cast <ClipItem *>(item);
         QString message;
