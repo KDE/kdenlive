@@ -272,16 +272,20 @@ void DragValue::focusInEvent(QFocusEvent* e)
 
 void DragValue::slotEditingFinished()
 {
-    qreal value;
     if (m_intEdit) {
-        value = m_intEdit->value();
+        int value = m_intEdit->value();
+        m_intEdit->blockSignals(true);
         m_intEdit->clearFocus();
+        m_intEdit->blockSignals(false);
+        if (!KdenliveSettings::dragvalue_directupdate()) emit valueChanged(value, true);
     }
     else {
-        value = m_doubleEdit->value();
+        double value = m_doubleEdit->value();
+        m_doubleEdit->blockSignals(true);
         m_doubleEdit->clearFocus();
+        m_doubleEdit->blockSignals(false);
+        if (!KdenliveSettings::dragvalue_directupdate()) emit valueChanged(value, true);
     }
-    emit valueChanged(value, true);
 }
 
 void DragValue::slotShowContextMenu(const QPoint& pos)
