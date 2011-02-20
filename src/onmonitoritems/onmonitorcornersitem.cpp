@@ -26,11 +26,13 @@
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
 #include <QCursor>
+#include <QGraphicsView>
 
 OnMonitorCornersItem::OnMonitorCornersItem(QGraphicsItem* parent) :
         QGraphicsPolygonItem(parent),
         m_selectedCorner(-1),
-        m_modified(false)
+        m_modified(false),
+        m_view(NULL)
 {
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
 
@@ -48,7 +50,10 @@ OnMonitorCornersItem::cornersActions OnMonitorCornersItem::getMode(QPointF pos, 
         return NoAction;
 
     QPainterPath mouseArea;
-    mouseArea.addRect(pos.x() - 6, pos.y() - 6, 12, 12);
+    qreal size = 12;
+    if (getView())
+        size /= m_view->matrix().m11();
+    mouseArea.addRect(pos.x() - size / 2, pos.y() - size / 2, size, size);
     for (int i = 0; i < 4; ++i) {
         if (mouseArea.contains(polygon().at(i))) {
             *corner = i;
@@ -251,6 +256,19 @@ QList <QPointF> OnMonitorCornersItem::sortedClockwise()
         }
     }
     return points;
+}
+
+bool OnMonitorCornersItem::getView()
+{
+    if (m_view)
+        return true;
+
+    if (scene() && scene()->views().count()) {
+        m_view = scene()->views()[0];
+        return true;
+    } else {
+        return false;
+    }
 }
 
 #include "onmonitorcornersitem.moc"

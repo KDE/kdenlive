@@ -25,6 +25,8 @@
 #include <QtCore>
 #include <QGraphicsPolygonItem>
 
+class QGraphicsView;
+
 class OnMonitorCornersItem : public QObject, public QGraphicsPolygonItem
 {
     Q_OBJECT
@@ -51,11 +53,16 @@ private:
     /** @brief Returns the points of this polygon but sorted clockwise. */
     QList <QPointF> sortedClockwise();
 
+    /** @brief Tries to get the view of the scene. */
+    bool getView();
+
     cornersActions m_mode;
     /** Number of the selected corner or if in MoveSide mode number of the first corner on this side */
     int m_selectedCorner;
     QPointF m_lastPoint;
     bool m_modified;
+
+    QGraphicsView *m_view;
 
 signals:
     void changed();

@@ -24,11 +24,13 @@
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
 #include <QCursor>
+#include <QGraphicsView>
 
 OnMonitorRectItem::OnMonitorRectItem(const QRectF &rect, double dar, QGraphicsItem* parent) :
         QGraphicsRectItem(rect, parent),
         m_dar(dar),
-        m_modified(false)
+        m_modified(false),
+        m_view(NULL)
 {
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
 
@@ -54,7 +56,10 @@ rectActions OnMonitorRectItem::getMode(QPointF pos)
     right.lineTo(pol.at(2));
 
     QPainterPath mouseArea;
-    mouseArea.addRect(pos.x() - 4, pos.y() - 4, 8, 8);
+    qreal size = 8;
+    if (getView())
+        size /= m_view->matrix().m11();
+    mouseArea.addRect(pos.x() - size / 2, pos.y() - size / 2, size, size);
 
     // Check for collisions between the mouse and the borders
     if (mouseArea.contains(pol.at(0)))
@@ -265,6 +270,19 @@ void OnMonitorRectItem::paint(QPainter* painter, const QStyleOptionGraphicsItem*
         painter->fillRect(option->rect.width() - halfHandleSize, -halfHandleSize, handleSize, handleSize, QColor(Qt::yellow));
         painter->fillRect(option->rect.width() - halfHandleSize, option->rect.height() - halfHandleSize, handleSize, handleSize, QColor(Qt::yellow));
         painter->fillRect(-halfHandleSize, option->rect.height() - halfHandleSize, handleSize, handleSize, QColor(Qt::yellow));
+    }
+}
+
+bool OnMonitorRectItem::getView()
+{
+    if (m_view)
+        return true;
+
+    if (scene() && scene()->views().count()) {
+        m_view = scene()->views()[0];
+        return true;
+    } else {
+        return false;
     }
 }
 

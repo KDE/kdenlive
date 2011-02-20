@@ -25,6 +25,8 @@
 #include <QtCore>
 #include <QGraphicsRectItem>
 
+class QGraphicsView;
+
 enum rectActions { Move, ResizeTopLeft, ResizeBottomLeft, ResizeTopRight, ResizeBottomRight, ResizeLeft, ResizeRight, ResizeTop, ResizeBottom, NoAction };
 
 class OnMonitorRectItem : public QObject, public QGraphicsRectItem
@@ -52,6 +54,11 @@ private:
     QRectF m_oldRect;
     QPointF m_lastPoint;
     bool m_modified;
+
+    QGraphicsView *m_view;
+
+    /** @brief Tries to get the view of the scene. */
+    bool getView();
 
 signals:
     void changed();
