@@ -91,7 +91,7 @@ class Overlay : public QLabel
 {
     Q_OBJECT
 public:
-    Overlay(QWidget* parent);
+    Overlay(QWidget* parent = 0);
     void setOverlayText(const QString &, bool isZone = true);
 
 private:

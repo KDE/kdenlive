@@ -204,7 +204,7 @@ Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget
     }
 
     QWidget *spacer = new QWidget(this);
-    spacer->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+    spacer->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     m_toolbar->addWidget(spacer);
     m_timePos = new TimecodeDisplay(m_monitorManager->timecode(), this);
     m_toolbar->addWidget(m_timePos);
@@ -886,13 +886,24 @@ void Monitor::slotSwitchMonitorInfo(bool show)
         if (m_monitorRefresh == NULL) {
             // Using OpenGL display
 #if defined(Q_WS_MAC) || defined(USE_OPEN_GL)
-            m_overlay = new Overlay(m_glWidget);
+            if (m_glWidget->layout()) delete m_glWidget->layout();
+            m_overlay = new Overlay();
+            QVBoxLayout *layout = new QVBoxLayout;
+            layout->addStretch(10);
+            layout->addWidget(m_overlay);
+            m_glWidget->setLayout(layout);
 #endif
         } else {
-            m_overlay = new Overlay(m_monitorRefresh);
+            if (m_monitorRefresh->layout()) delete m_monitorRefresh->layout();
+            m_overlay = new Overlay();
+            QVBoxLayout *layout = new QVBoxLayout;
+            layout->addStretch(10);
+            layout->addWidget(m_overlay);
+            m_monitorRefresh->setLayout(layout);
             m_overlay->raise();
             m_overlay->setHidden(true);
         }
+        checkOverlay();
     } else {
         delete m_overlay;
         m_overlay = NULL;
@@ -1000,6 +1011,7 @@ MonitorRefresh::MonitorRefresh(QWidget* parent) :
     // MonitorRefresh is used as container for the SDL display (it's window id is passed to SDL)
     setAttribute(Qt::WA_PaintOnScreen);
     setAttribute(Qt::WA_OpaquePaintEvent);
+    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     //setAttribute(Qt::WA_NoSystemBackground);
 }
 
@@ -1018,11 +1030,11 @@ Overlay::Overlay(QWidget* parent) :
     QLabel(parent)
 {
     setAttribute(Qt::WA_TransparentForMouseEvents);
-    //setAttribute(Qt::WA_OpaquePaintEvent);
-    //setAttribute(Qt::WA_NoSystemBackground);
     setAutoFillBackground(true);
     setBackgroundRole(QPalette::Base);
+    setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 }
+
 
 void Overlay::setOverlayText(const QString &text, bool isZone)
 {
