@@ -14,6 +14,13 @@ include(MacroLibrary)
 include(FindGettext)
 include(MacroOptionalAddSubdirectory)
 set(catalogname kdenlive)
+find_package(Qt COMPONENTS QtOpenGL)
+if ( NOT QT_QTOPENGL_FOUND )
+  message(FATAL_ERROR "QtOpenGL (most likely called libqt4-opengl-dev) not found.")
+else ( NOT QT_QTOPENGL_FOUND )
+  message(-- " Found QtOpenGL.")
+endif ( NOT QT_QTOPENGL_FOUND )
+find_library(Qt COMPONENTS QtOpenGL REQUIRED)
 add_definitions(${QT_DEFINITIONS})
 
 # Search MLT package.
