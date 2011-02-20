@@ -23,6 +23,7 @@
 #include <QGraphicsPathItem>
 
 class BPoint;
+class QGraphicsView;
 
 class SplineItem : public QObject, public QGraphicsPathItem
 {
@@ -54,6 +55,7 @@ private:
 
     bool m_closed;
     bool m_editing;
+    QGraphicsView *m_view;
 
 signals:
     void changed(bool editing);

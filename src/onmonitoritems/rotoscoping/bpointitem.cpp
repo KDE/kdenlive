@@ -22,6 +22,8 @@
 #include <QPainter>
 #include <QGraphicsSceneMouseEvent>
 #include <QCursor>
+#include <QGraphicsScene>
+#include <QGraphicsView>
 
 
 BPointItem::BPointItem(BPoint point, QGraphicsItem* parent) :
@@ -37,6 +39,8 @@ BPointItem::BPointItem(BPoint point, QGraphicsItem* parent) :
     m_point.p = mapFromScene(point.p);
     m_point.h2 = mapFromScene(point.h2);
     m_point.handlesLinked = false;
+
+    m_view = scene()->views()[0];
 }
 
 BPoint BPointItem::getPoint()
@@ -105,14 +109,13 @@ void BPointItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
 
 int BPointItem::getSelection(QPointF pos)
 {
-    QRectF mouseArea(pos.x() - 6, pos.y() - 6, 12, 12);
+    QList <qreal> d;
+    d << QLineF(pos, m_point.h1).length() << QLineF(pos, m_point.p).length() << QLineF(pos, m_point.h2).length();
+    // index of point nearest to pos
+    int i = ( d[1] < d[0] && d[1] < d[2]) ? 1 : (d[0] < d[2] ? 0 : 2);
 
-    if (mouseArea.contains(m_point.h1))
-        return 0;
-    else if (mouseArea.contains(m_point.p))
-        return 1;
-    else if (mouseArea.contains(m_point.h2))
-        return 2;
+    if (d[i] < 6 / m_view->matrix().m11())
+        return i;
 
     return -1;
 }

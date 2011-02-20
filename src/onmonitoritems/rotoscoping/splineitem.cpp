@@ -24,6 +24,7 @@
 #include <QGraphicsScene>
 #include <QCursor>
 #include <QGraphicsSceneMouseEvent>
+#include <QGraphicsView>
 
 
 inline QPointF closestPointInRect(QPointF point, QRectF rect)
@@ -62,6 +63,8 @@ SplineItem::SplineItem(const QList< BPoint >& points, QGraphicsItem* parent, QGr
     setPen(framepen);
     setBrush(Qt::NoBrush);
     setAcceptHoverEvents(true);
+
+    m_view = scene->views()[0];
 
     setPoints(points);
 }
@@ -146,7 +149,8 @@ void SplineItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
         return;
 
     if (m_closed) {
-        QRectF r(event->scenePos() - QPointF(6, 6), QSizeF(12, 12));
+        qreal size = 12 / m_view->matrix().m11();
+        QRectF r(event->scenePos() - QPointF(size / 2, size / 2), QSizeF(size, size));
         if (event->button() == Qt::LeftButton && path().intersects(r) && !path().contains(r)) {
             double t = 0;
             BPointItem *i1, *i2;
@@ -230,7 +234,8 @@ void SplineItem::hoverMoveEvent(QGraphicsSceneHoverEvent* event)
 {
     QGraphicsItem::hoverMoveEvent(event);
 
-    QRectF r(event->scenePos() - QPointF(6, 6), QSizeF(12, 12));
+    qreal size = 12 / m_view->matrix().m11();
+    QRectF r(event->scenePos() - QPointF(size / 2, size / 2), QSizeF(size, size));
     if (path().intersects(r) && !path().contains(r))
         setCursor(QCursor(Qt::PointingHandCursor));
     else

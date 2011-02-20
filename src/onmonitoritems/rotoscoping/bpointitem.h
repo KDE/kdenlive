@@ -24,6 +24,8 @@
 #include <QtCore>
 #include <QAbstractGraphicsShapeItem>
 
+class QGraphicsView;
+
 class BPointItem : public QAbstractGraphicsShapeItem
 {
 public:
@@ -47,6 +49,7 @@ protected:
 private:
     BPoint m_point;
     int m_selection;
+    QGraphicsView *m_view;
 
     /** @brief Gets The action mode for the area @param pos +- 4. */
     int getSelection(QPointF pos);
