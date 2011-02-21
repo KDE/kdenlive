@@ -199,6 +199,29 @@ void SimpleTimelineWidget::mouseReleaseEvent(QMouseEvent* event)
     }
 }
 
+void SimpleTimelineWidget::mouseDoubleClickEvent(QMouseEvent* event)
+{
+    if (event->button() == Qt::LeftButton && event->y() < m_lineHeight) {
+        int pos = qBound(0, (int)(event->x() / m_scale), m_duration);
+        foreach(const int &keyframe, m_keyframes) {
+            if (qAbs(keyframe - pos) < 5) {
+                m_keyframes.removeAll(keyframe);
+                if (keyframe == m_currentKeyframe)
+                    m_currentKeyframe = m_currentKeyframeOriginal = -1;
+                emit keyframeRemoved(keyframe);
+                return;
+            }
+        }
+
+        // add new keyframe
+        m_keyframes.append(pos);
+        qSort(m_keyframes);
+        emit keyframeAdded(pos);
+    } else {
+        QWidget::mouseDoubleClickEvent(event);
+    }
+}
+
 void SimpleTimelineWidget::wheelEvent(QWheelEvent* event)
 {
     int change = event->delta() < 0 ? -1 : 1;

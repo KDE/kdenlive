@@ -270,12 +270,15 @@ void RotoWidget::slotRemoveKeyframe(int pos)
     if (!m_data.canConvert(QVariant::Map) || m_data.toMap().count() < 2)
         return;
 
-    m_data.toMap().remove(QString::number(pos - m_in).rightJustified(qRound(log10((double)m_out)), '0'));
+    QMap<QString, QVariant> map = m_data.toMap();
+    map.remove(QString::number(pos + m_in).rightJustified(qRound(log10((double)m_out)), '0'));
+    m_data = QVariant(map);
 
     if (m_data.toMap().count() == 1)
         m_data = m_data.toMap().begin().value();
 
     slotPositionChanged(m_keyframeWidget->getPosition(), false);
+    emit valueChanged();
 }
 
 void RotoWidget::slotMoveKeyframe(int oldPos, int newPos)

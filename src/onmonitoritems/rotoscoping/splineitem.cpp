@@ -55,7 +55,7 @@ void deCasteljau(BPoint *p1, BPoint *p2, BPoint *res, double t)
 
 SplineItem::SplineItem(const QList< BPoint >& points, QGraphicsItem* parent, QGraphicsScene *scene) :
     QGraphicsPathItem(parent, scene),
-    m_closed(false),
+    m_closed(true),
     m_editing(false)
 {
     QPen framepen(Qt::SolidLine);
@@ -113,7 +113,7 @@ void SplineItem::setPoints(const QList< BPoint >& points)
         m_closed = false;
         grabMouse();
         return;
-    } else {
+    } else if (!m_closed) {
         ungrabMouse();
         m_closed = true;
     }
