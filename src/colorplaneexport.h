@@ -28,7 +28,7 @@ public:
     ColorPlaneExport(QWidget *parent = 0);
     ~ColorPlaneExport();
 
-    enum COLOR_EXPORT_MODE { CPE_YUV, CPE_YUV_Y, CPE_YUV_MOD, CPE_RGB_CURVE, CPE_YPbPr };
+    enum COLOR_EXPORT_MODE { CPE_YUV, CPE_YUV_Y, CPE_YUV_MOD, CPE_RGB_CURVE, CPE_YPbPr, CPE_HSV_HUESHIFT };
 
 private:
     ColorTools *m_colorTools;

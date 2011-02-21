@@ -18,7 +18,6 @@
 #include <QImage>
 
 
-
 class ColorTools : public QObject
 {
     Q_OBJECT
@@ -62,6 +61,13 @@ public:
       See also: http://de.wikipedia.org/wiki/YPbPr-Farbmodell and http://www.poynton.com/ColorFAQ.html
      */
     QImage yPbPrColorWheel(const QSize &size, const unsigned char &Y, const float &scaling, const bool &circleOnly);
+    /**
+     @brief Draws a HSV plane with Hue on the x axis and hue difference on the y axis.
+     This is for the Bézier Curves widget which allows to change the hue (y) of a certain hue.
+     For the value ranges see:
+     http://doc.qt.nokia.com/latest/qcolor.html#the-hsv-color-model
+     */
+    static QImage hsvHueShiftPlane(const QSize &size, const uint &S, const uint &V, const int &MIN, const int &MAX);
 
 signals:
     void signalYuvWheelCalculationFinished();

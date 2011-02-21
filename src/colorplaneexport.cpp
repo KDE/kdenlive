@@ -9,8 +9,12 @@
  ***************************************************************************/
 
 #include "colorplaneexport.h"
-#include <QDebug>
 #include <KMessageBox>
+
+//#define DEBUG_CTE
+#ifdef DEBUG_CTE
+#include <QDebug>
+#endif
 
 const QString EXTENSION_PNG = ".png";
 const int SCALE_RANGE = 80;
@@ -30,6 +34,7 @@ ColorPlaneExport::ColorPlaneExport(QWidget *parent) :
     cbColorspace->addItem(i18n("Modified YUV (Chroma)"), QVariant(ColorPlaneExport::CPE_YUV_MOD));
     cbColorspace->addItem(i18n("YCbCr CbCr plane"), QVariant(ColorPlaneExport::CPE_YPbPr));
     cbColorspace->addItem(i18n("RGB plane, one component varying"), QVariant(ColorPlaneExport::CPE_RGB_CURVE));
+    cbColorspace->addItem(i18n("HSV Hue Shift"), QVariant(ColorPlaneExport::CPE_HSV_HUESHIFT));
 
     sliderColor->setSliderPosition(128);
 
@@ -100,6 +105,9 @@ void ColorPlaneExport::slotUpdateDisplays()
     case CPE_RGB_CURVE:
         lblScaleNr->setText(QChar(0xb1) + QString::number(sliderScaling->value(), 'f', 2));;
         break;
+    case CPE_HSV_HUESHIFT:
+        lblScaleNr->setText(QString::number(sliderScaling->value()));
+        break;
     default:
         lblScaleNr->setText("0..." + QString::number(m_scaling, 'f', 2));
         break;
@@ -130,7 +138,9 @@ void ColorPlaneExport::slotValidate()
     }
     if (ok) {
         ok = kurlrequester->text().trimmed().length() > 0;
+#ifdef DEBUG_CPE
         qDebug() << "File given: " << ok;
+#endif
     }
 
     if (ok) {
@@ -144,9 +154,13 @@ void ColorPlaneExport::slotValidate()
 
 void ColorPlaneExport::slotExportPlane()
 {
+#ifdef DEBUG_CPE
     qDebug() << "Exporting plane now to " <<  kurlrequester->text();
+#endif
     QString lower = kurlrequester->text().toLower();
+#ifdef DEBUG_CPE
     qDebug() << "Lower: " << lower;
+#endif
     if (!lower.endsWith(".png") && !lower.endsWith(".jpg") && !lower.endsWith(".tif") && !lower.endsWith(".tiff")) {
         if (KMessageBox::questionYesNo(this, i18n("File has no extension. Add extension (%1)?", EXTENSION_PNG)) == KMessageBox::Yes) {
             kurlrequester->setUrl(KUrl(kurlrequester->text() + ".png"));
@@ -171,13 +185,20 @@ void ColorPlaneExport::slotExportPlane()
     case CPE_YPbPr:
         img = m_colorTools->yPbPrColorWheel(size, sliderColor->value(), m_scaling, false);
         break;
+    case CPE_HSV_HUESHIFT:
+        img = m_colorTools->hsvHueShiftPlane(size, sliderColor->value(), sliderScaling->value(), -180, 180);
+        break;
     }
     img.save(kurlrequester->text());
 }
 
 void ColorPlaneExport::slotColormodeChanged()
 {
+#ifdef DEBUG_CPE
     qDebug() << "Color mode changed to " << cbColorspace->itemData(cbColorspace->currentIndex()).toInt();
+#endif
+    lblScaling->setText(i18n("Scaling"));
+    sliderScaling->setInvertedAppearance(true);
     switch (cbColorspace->itemData(cbColorspace->currentIndex()).toInt()) {
     case CPE_YUV:
     case CPE_YUV_MOD:
@@ -191,7 +212,9 @@ void ColorPlaneExport::slotColormodeChanged()
         lblSliderName->setToolTip(i18n("The Y value describes the brightness of the colors."));
         break;
     case CPE_YUV_Y:
+#ifdef DEBUG_CPE
         qDebug() << "Changing slider range.";
+#endif
         enableSliderScaling(true);
         enableSliderColor(true);
         enableCbVariant(false);
@@ -211,6 +234,18 @@ void ColorPlaneExport::slotColormodeChanged()
         cbVariant->addItem(i18n("Green"), QVariant(ColorTools::COL_G));
         cbVariant->addItem(i18n("Blue"), QVariant(ColorTools::COL_B));
         cbVariant->addItem(i18n("Luma"), QVariant(ColorTools::COL_Luma));
+        break;
+    case CPE_HSV_HUESHIFT:
+        enableSliderScaling(true);
+        enableSliderColor(true);
+        enableCbVariant(false);
+        sliderScaling->setRange(0,255);
+        sliderScaling->setValue(200);
+        sliderScaling->setInvertedAppearance(false);
+        sliderColor->setRange(0,255);
+        sliderColor->setValue(200);
+        lblSliderName->setText(i18n("HSV Saturation"));
+        lblScaling->setText(i18n("HSV Value"));
         break;
     default:
         enableSliderScaling(false);

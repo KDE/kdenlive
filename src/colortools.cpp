@@ -10,6 +10,12 @@
 
 #include <math.h>
 #include "colortools.h"
+#include <QColor>
+
+//#define DEBUG_CT
+#ifdef DEBUG_CT
+#include <QDebug>
+#endif
 
 ColorTools::ColorTools()
 {
@@ -239,6 +245,44 @@ QImage ColorTools::yPbPrColorWheel(const QSize &size, const unsigned char &Y, co
     }
 
     return wheel;
+}
+
+QImage ColorTools::hsvHueShiftPlane(const QSize &size, const uint &S, const uint &V, const int &MIN, const int &MAX)
+{
+    Q_ASSERT(size.width() > 0);
+    Q_ASSERT(size.height() > 0);
+    Q_ASSERT(MAX > MIN);
+
+    QImage plane(size, QImage::Format_ARGB32);
+
+#ifdef DEBUG_CT
+    qDebug() << "Requested: Saturation " << S << ", Value " << V;
+    QColor colTest(-1, 256, 257);
+    qDebug() << "-1 mapped to " << colTest.red() << ", 256 to " << colTest.green() << ", 257 to " << colTest.blue();
+#endif
+
+    QColor col(0, 0, 0);
+
+    const int hueValues = MAX-MIN;
+
+    float hue, huediff;
+    int newhue;
+    for (int x = 0; x < size.width(); x++) {
+        for (int y = 0; y < size.height(); y++) {
+            hue = x/(size.width() - 1.0) * 359;
+            huediff = (1.0f - y/(size.height() - 1.0)) * hueValues + MIN;
+//            qDebug() << "hue: " << hue << ", huediff: " << huediff;
+
+            newhue = hue + huediff + 360; // Avoid negative numbers. Rest (>360) will be mapped correctly.
+
+            col.setHsv(newhue, S, V);
+            plane.setPixel(x, y, col.rgba());
+
+        }
+    }
+
+    return plane;
+
 }
 
 
