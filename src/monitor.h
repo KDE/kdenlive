@@ -96,6 +96,14 @@ public:
 
 private:
     bool m_isZone;
+
+protected:
+    virtual void mouseDoubleClickEvent ( QMouseEvent * event );
+    virtual void mousePressEvent ( QMouseEvent * event );
+    virtual void mouseReleaseEvent ( QMouseEvent * event );
+    
+signals:
+    void editMarker();
 };
 
 class Monitor : public QWidget
@@ -179,6 +187,7 @@ private:
     QToolBar *m_toolbar;
     QWidget *m_volumeWidget;
     QSlider *m_audioSlider;
+    QAction *m_editMarker;
 
 private slots:
     void seekCursor(int pos);
@@ -195,6 +204,7 @@ private slots:
     void slotGoToMarker(QAction *action);
     void slotSetVolume(int volume);
     void slotShowVolume();
+    void slotEditMarker();
 
 public slots:
     void slotOpenFile(const QString &);

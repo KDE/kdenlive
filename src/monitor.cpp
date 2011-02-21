@@ -60,7 +60,8 @@ Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget
     m_monitorRefresh(NULL),
     m_effectWidget(NULL),
     m_selectedClip(NULL),
-    m_loopClipTransition(true)
+    m_loopClipTransition(true),
+    m_editMarker(NULL)
 
 {
     QVBoxLayout *layout = new QVBoxLayout;
@@ -256,8 +257,16 @@ void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMe
     m_contextMenu->addMenu(m_playMenu);
     if (goMenu)
         m_contextMenu->addMenu(goMenu);
-    if (markerMenu)
+    if (markerMenu) {
         m_contextMenu->addMenu(markerMenu);
+        QList <QAction *>list = markerMenu->actions();
+        for (int i = 0; i < list.count(); i++) {
+            if (list.at(i)->data().toString() == "edit_marker") {
+                m_editMarker = list.at(i);
+                break;
+            }
+        }
+    }
 
     m_playMenu->addAction(playZone);
     m_playMenu->addAction(loopZone);
@@ -443,7 +452,7 @@ void Monitor::slotSetZoneEnd()
 void Monitor::mousePressEvent(QMouseEvent * event)
 {
     if (event->button() != Qt::RightButton) {
-        if (m_videoBox->underMouse()) {
+        if (m_videoBox->underMouse() && (!m_overlay || !m_overlay->underMouse())) {
             m_dragStarted = true;
             m_DragStartPosition = event->pos();
         }
@@ -888,6 +897,7 @@ void Monitor::slotSwitchMonitorInfo(bool show)
 #if defined(Q_WS_MAC) || defined(USE_OPEN_GL)
             if (m_glWidget->layout()) delete m_glWidget->layout();
             m_overlay = new Overlay();
+            connect(m_overlay, SIGNAL(editMarker()), this, SLOT(slotEditMarker()));
             QVBoxLayout *layout = new QVBoxLayout;
             layout->addStretch(10);
             layout->addWidget(m_overlay);
@@ -896,6 +906,7 @@ void Monitor::slotSwitchMonitorInfo(bool show)
         } else {
             if (m_monitorRefresh->layout()) delete m_monitorRefresh->layout();
             m_overlay = new Overlay();
+            connect(m_overlay, SIGNAL(editMarker()), this, SLOT(slotEditMarker()));
             QVBoxLayout *layout = new QVBoxLayout;
             layout->addStretch(10);
             layout->addWidget(m_overlay);
@@ -908,6 +919,11 @@ void Monitor::slotSwitchMonitorInfo(bool show)
         delete m_overlay;
         m_overlay = NULL;
     }
+}
+
+void Monitor::slotEditMarker()
+{
+    if (m_editMarker) m_editMarker->trigger();
 }
 
 void Monitor::updateTimecodeFormat()
@@ -1029,12 +1045,31 @@ void MonitorRefresh::paintEvent(QPaintEvent *event)
 Overlay::Overlay(QWidget* parent) :
     QLabel(parent)
 {
-    setAttribute(Qt::WA_TransparentForMouseEvents);
+    //setAttribute(Qt::WA_TransparentForMouseEvents);
     setAutoFillBackground(true);
     setBackgroundRole(QPalette::Base);
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    setCursor(Qt::PointingHandCursor);
 }
 
+// virtual
+void Overlay::mouseReleaseEvent ( QMouseEvent * event )
+{
+    event->accept();
+}
+
+// virtual
+void Overlay::mousePressEvent( QMouseEvent * event )
+{
+    event->accept();
+}
+
+// virtual
+void Overlay::mouseDoubleClickEvent ( QMouseEvent * event )
+{
+    emit editMarker();
+    event->accept();
+}
 
 void Overlay::setOverlayText(const QString &text, bool isZone)
 {

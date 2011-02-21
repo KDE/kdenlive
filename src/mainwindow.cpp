@@ -1422,6 +1422,7 @@ void MainWindow::setupActions()
     connect(deleteAllClipMarkers, SIGNAL(triggered(bool)), this, SLOT(slotDeleteAllClipMarkers()));
 
     KAction* editClipMarker = new KAction(KIcon("document-properties"), i18n("Edit Marker"), this);
+    editClipMarker->setData(QString("edit_marker"));
     collection.addAction("edit_clip_marker", editClipMarker);
     connect(editClipMarker, SIGNAL(triggered(bool)), this, SLOT(slotEditClipMarker()));
 
