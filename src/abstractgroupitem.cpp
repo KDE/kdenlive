@@ -355,7 +355,7 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
 //virtual
 void AbstractGroupItem::dropEvent(QGraphicsSceneDragDropEvent * event)
 {
-    QString effects = QString(event->mimeData()->data("kdenlive/effectslist"));
+    QString effects = QString::fromUtf8(event->mimeData()->data("kdenlive/effectslist"));
     QDomDocument doc;
     doc.setContent(effects, true);
     QDomElement e = doc.documentElement();

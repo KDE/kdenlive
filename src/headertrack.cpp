@@ -165,7 +165,7 @@ void HeaderTrack::mouseDoubleClickEvent(QMouseEvent* event)
 //virtual
 void HeaderTrack::dropEvent(QDropEvent * event)
 {
-    const QString effects = QString(event->mimeData()->data("kdenlive/effectslist"));
+    const QString effects = QString::fromUtf8(event->mimeData()->data("kdenlive/effectslist"));
     QDomDocument doc;
     doc.setContent(effects, true);
     const QDomElement e = doc.documentElement();
