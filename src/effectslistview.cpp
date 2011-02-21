@@ -35,8 +35,8 @@ EffectsListView::EffectsListView(QWidget *parent) :
 {
     setupUi(this);
 
-    QMenu *menu = new QMenu(this);
-    m_effectsList = new EffectsListWidget(menu);
+    QMenu *contextMenu = new QMenu(this);
+    m_effectsList = new EffectsListWidget(contextMenu);
     QVBoxLayout *lyr = new QVBoxLayout(effectlistframe);
     lyr->addWidget(m_effectsList);
     lyr->setContentsMargins(0, 0, 0, 0);
@@ -53,7 +53,7 @@ EffectsListView::EffectsListView(QWidget *parent) :
     else
         infopanel->hide();
 
-    menu->addAction(KIcon("edit-delete"), i18n("Delete effect"), this, SLOT(slotRemoveEffect()));
+    contextMenu->addAction(KIcon("edit-delete"), i18n("Delete effect"), this, SLOT(slotRemoveEffect()));
 
     connect(type_combo, SIGNAL(currentIndexChanged(int)), this, SLOT(filterList(int)));
     connect(buttonInfo, SIGNAL(clicked()), this, SLOT(showInfoPanel()));
@@ -121,9 +121,9 @@ void EffectsListView::slotUpdateInfo()
     infopanel->setText(m_effectsList->currentInfo());
 }
 
-void EffectsListView::reloadEffectList()
+void EffectsListView::reloadEffectList(QMenu *effectsMenu, KActionCategory *effectActions)
 {
-    m_effectsList->initList();
+    m_effectsList->initList(effectsMenu, effectActions);
 }
 
 void EffectsListView::slotRemoveEffect()

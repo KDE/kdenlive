@@ -197,9 +197,8 @@ private:
     QList <QDockWidget *> m_gfxScopesList;
     QList <AbstractAudioScopeWidget *> m_audioScopesList;
 
-    QMenu *m_videoEffectsMenu;
-    QMenu *m_audioEffectsMenu;
-    QMenu *m_customEffectsMenu;
+    KActionCategory *m_effectActions;
+    QMenu *m_effectsMenu;
     QMenu *m_transitionsMenu;
     QMenu *m_timelineContextMenu;
     QMenu *m_timelineContextClipMenu;

@@ -32,6 +32,7 @@
 class EffectsList;
 class EffectsListWidget;
 class QTreeWidget;
+class KActionCategory;
 
 /**
  * @class EffectsListView
@@ -47,7 +48,8 @@ public:
     EffectsListView(QWidget *parent = 0);
 
     /** @brief Re-initializes the list of effects. */
-    void reloadEffectList();
+    void reloadEffectList(QMenu *effectsMenu, KActionCategory *effectActions);
+    QMenu* getEffectsMenu();
     //void slotAddEffect(GenTime pos, int track, QString name);
 
 private:

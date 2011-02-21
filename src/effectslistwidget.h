@@ -24,6 +24,8 @@
 #include <QTreeWidget>
 #include <QDomElement>
 
+#include <KActionCategory>
+
 class EffectsList;
 class KIcon;
 
@@ -32,12 +34,12 @@ class EffectsListWidget : public QTreeWidget
     Q_OBJECT
 
 public:
-    explicit EffectsListWidget(QMenu *menu, QWidget *parent = 0);
+    explicit EffectsListWidget(QMenu *contextMenu, QWidget *parent = 0);
     virtual ~EffectsListWidget();
     const QDomElement currentEffect() const;
     QString currentInfo();
     const QDomElement itemEffect(QTreeWidgetItem *item) const;
-    void initList();
+    void initList(QMenu *effectsMenu, KActionCategory *effectActions);
 
 protected:
     virtual void dragMoveEvent(QDragMoveEvent *event);

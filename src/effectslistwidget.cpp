@@ -24,6 +24,7 @@
 
 #include <KDebug>
 #include <KStandardDirs>
+#include <KAction>
 
 #include <QApplication>
 #include <QMouseEvent>
@@ -39,9 +40,9 @@ const int TypeRole = Qt::UserRole;
 const int IdRole = TypeRole + 1;
 
 
-EffectsListWidget::EffectsListWidget(QMenu *menu, QWidget *parent) :
+EffectsListWidget::EffectsListWidget(QMenu *contextMenu, QWidget *parent) :
         QTreeWidget(parent),
-        m_menu(menu)
+        m_menu(contextMenu)
 {
     setColumnCount(1);
     setDragEnabled(true);
@@ -55,7 +56,6 @@ EffectsListWidget::EffectsListWidget(QMenu *menu, QWidget *parent) :
     QPalette p = palette();
     p.setBrush(QPalette::Base, Qt::NoBrush);
     setPalette(p);
-    initList();
     connect(this, SIGNAL(activated(const QModelIndex &)), this, SLOT(slotExpandItem(const QModelIndex &)));
 }
 
@@ -68,13 +68,14 @@ void EffectsListWidget::slotExpandItem(const QModelIndex & index)
     setExpanded(index, !isExpanded(index));
 }
 
-void EffectsListWidget::initList()
+void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActions)
 {
     QString current;
     QString currentFolder;
     QTreeWidgetItem *item = NULL;
     bool found = false;
-
+    effectsMenu->clear();
+    
     if (currentItem()) {
         current = currentItem()->text(0);
         if (currentItem()->parent())
@@ -94,7 +95,7 @@ void EffectsListWidget::initList()
     QStringList folderNames;
     QDomNodeList groups = doc.documentElement().elementsByTagName("group");
     for (int i = 0; i < groups.count(); i++) {
-        folderNames << groups.at(i).firstChild().firstChild().nodeValue();
+        folderNames << i18n(groups.at(i).firstChild().firstChild().nodeValue().toUtf8().constData());
     }
     for (int i = 0; i < topLevelItemCount(); i++) {
         topLevelItem(i)->takeChildren();
@@ -165,6 +166,20 @@ void EffectsListWidget::initList()
     }
     setSortingEnabled(true);
     sortByColumn(0, Qt::AscendingOrder);
+
+    // populate effects menu
+    for (int i = 0; i < topLevelItemCount(); i++) {
+        QMenu *sub = new QMenu(topLevelItem(i)->text(0), effectsMenu);
+        effectsMenu->addMenu(sub);
+        for (int j = 0; j < topLevelItem(i)->childCount(); j++) {
+                QTreeWidgetItem *item = topLevelItem(i)->child(j);
+                KAction *a = new KAction(KIcon(item->icon(0)), item->text(0), sub);
+                a->setData(item->data(0, IdRole));
+                a->setIconVisibleInMenu(false);
+                sub->addAction(a);
+                effectActions->addAction("video_effect_" + item->text(0), a);
+        }
+    }
 }
 
 void EffectsListWidget::loadEffects(const EffectsList *effectlist, KIcon icon, QTreeWidgetItem *defaultFolder, const QList<QTreeWidgetItem *> *folders, const QString type, const QString current, bool *found)
@@ -176,6 +191,7 @@ void EffectsListWidget::loadEffects(const EffectsList *effectlist, KIcon icon, Q
 
     for (int ix = 0; ix < ct; ix ++) {
         effectInfo = effectlist->effectIdInfo(ix);
+        effectInfo.append(type);
         parentItem = NULL;
 
         if (folders) {

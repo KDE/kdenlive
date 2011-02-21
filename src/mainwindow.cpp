@@ -485,33 +485,18 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     connect(themesMenu, SIGNAL(triggered(QAction *)), this, SLOT(slotChangePalette(QAction*)));
 
     // Setup and fill effects and transitions menus.
-    m_videoEffectsMenu = static_cast<QMenu*>(factory()->container("video_effects_menu", this));
-    for (int i = 0; i < videoEffects.count(); ++i)
-        m_videoEffectsMenu->addAction(m_videoEffects[i]);
-    m_audioEffectsMenu = static_cast<QMenu*>(factory()->container("audio_effects_menu", this));
-    for (int i = 0; i < audioEffects.count(); ++i)
-        m_audioEffectsMenu->addAction(m_audioEffects[i]);
-    m_customEffectsMenu = static_cast<QMenu*>(factory()->container("custom_effects_menu", this));
-    if (customEffects.isEmpty())
-        m_customEffectsMenu->setEnabled(false);
-    else
-        m_customEffectsMenu->setEnabled(true);
-    for (int i = 0; i < customEffects.count(); ++i)
-        m_customEffectsMenu->addAction(m_customEffects[i]);
+    m_effectsMenu = static_cast<QMenu*>(factory()->container("video_effects_menu", this));
+    m_effectActions = new KActionCategory(i18n("Effects"), actionCollection());
+    m_effectList->reloadEffectList(m_effectsMenu, m_effectActions);
+
     m_transitionsMenu = new QMenu(i18n("Add Transition"), this);
     for (int i = 0; i < transitions.count(); ++i)
         m_transitionsMenu->addAction(m_transitions[i]);
 
-    connect(m_videoEffectsMenu, SIGNAL(triggered(QAction *)), this, SLOT(slotAddVideoEffect(QAction *)));
-    connect(m_audioEffectsMenu, SIGNAL(triggered(QAction *)), this, SLOT(slotAddAudioEffect(QAction *)));
-    connect(m_customEffectsMenu, SIGNAL(triggered(QAction *)), this, SLOT(slotAddCustomEffect(QAction *)));
+    connect(m_effectsMenu, SIGNAL(triggered(QAction *)), this, SLOT(slotAddVideoEffect(QAction *)));
     connect(m_transitionsMenu, SIGNAL(triggered(QAction *)), this, SLOT(slotAddTransition(QAction *)));
 
-    QMenu *newEffect = new QMenu(this);
-    newEffect->addMenu(m_videoEffectsMenu);
-    newEffect->addMenu(m_audioEffectsMenu);
-    newEffect->addMenu(m_customEffectsMenu);
-    m_effectStack->setMenu(newEffect);
+    m_effectStack->setMenu(m_effectsMenu);
 
     QMenu *viewMenu = static_cast<QMenu*>(factory()->container("dockwindows", this));
     const QList<QAction *> viewActions = createPopupMenu()->actions();
@@ -543,9 +528,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     m_timelineContextClipMenu->addMenu(markersMenu);
     m_timelineContextClipMenu->addSeparator();
     m_timelineContextClipMenu->addMenu(m_transitionsMenu);
-    m_timelineContextClipMenu->addMenu(m_videoEffectsMenu);
-    m_timelineContextClipMenu->addMenu(m_audioEffectsMenu);
-    m_timelineContextClipMenu->addMenu(m_customEffectsMenu);
+    m_timelineContextClipMenu->addMenu(m_effectsMenu);
 
     m_timelineContextTransitionMenu->addAction(actionCollection()->action("edit_item_duration"));
     m_timelineContextTransitionMenu->addAction(actionCollection()->action("delete_item"));
@@ -760,26 +743,8 @@ void MainWindow::readProperties(const KConfigGroup &config)
 
 void MainWindow::slotReloadEffects()
 {
-    m_customEffectsMenu->clear();
     initEffects::parseCustomEffectsFile();
-    QAction *action;
-    QStringList effectInfo;
-    QMap<QString, QStringList> effectsList;
-    for (int ix = 0; ix < customEffects.count(); ix++) {
-        effectInfo = customEffects.effectIdInfo(ix);
-        effectsList.insert(effectInfo.at(0).toLower(), effectInfo);
-    }
-    if (effectsList.isEmpty())
-        m_customEffectsMenu->setEnabled(false);
-    else
-        m_customEffectsMenu->setEnabled(true);
-
-    foreach(const QStringList & value, effectsList) {
-        action = new QAction(value.at(0), this);
-        action->setData(value);
-        m_customEffectsMenu->addAction(action);
-    }
-    m_effectList->reloadEffectList();
+    m_effectList->reloadEffectList(m_effectsMenu, m_effectActions);
 }
 
 #ifndef NO_JOGSHUTTLE
@@ -1616,36 +1581,6 @@ void MainWindow::setupActions()
 
     // Setup effects and transitions actions.
     m_effectsActionCollection = new KActionCollection(this, KGlobal::mainComponent());
-    //KActionCategory *videoEffectActions = new KActionCategory(i18n("Video Effects"), m_effectsActionCollection);
-    KActionCategory *videoEffectActions = new KActionCategory(i18n("Video Effects"), collection);
-    m_videoEffects = new KAction*[videoEffects.count()];
-    for (int i = 0; i < videoEffects.count(); ++i) {
-        QStringList effectInfo = videoEffects.effectIdInfo(i);
-        m_videoEffects[i] = new KAction(KIcon("kdenlive-show-video"), effectInfo.at(0), this);
-        m_videoEffects[i]->setData(effectInfo);
-        m_videoEffects[i]->setIconVisibleInMenu(false);
-        videoEffectActions->addAction("video_effect_" + effectInfo.at(0), m_videoEffects[i]);
-    }
-    //KActionCategory *audioEffectActions = new KActionCategory(i18n("Audio Effects"), m_effectsActionCollection);
-    KActionCategory *audioEffectActions = new KActionCategory(i18n("Audio Effects"), collection);
-    m_audioEffects = new KAction*[audioEffects.count()];
-    for (int i = 0; i < audioEffects.count(); ++i) {
-        QStringList effectInfo = audioEffects.effectIdInfo(i);
-        m_audioEffects[i] = new KAction(KIcon("kdenlive-show-audio"), effectInfo.at(0), this);
-        m_audioEffects[i]->setData(effectInfo);
-        m_audioEffects[i]->setIconVisibleInMenu(false);
-        audioEffectActions->addAction("audio_effect_" + effectInfo.at(0), m_audioEffects[i]);
-    }
-    //KActionCategory *customEffectActions = new KActionCategory(i18n("Custom Effects"), m_effectsActionCollection);
-    KActionCategory *customEffectActions = new KActionCategory(i18n("Custom Effects"), collection);
-    m_customEffects = new KAction*[customEffects.count()];
-    for (int i = 0; i < customEffects.count(); ++i) {
-        QStringList effectInfo = customEffects.effectIdInfo(i);
-        m_customEffects[i] = new KAction(KIcon("kdenlive-custom-effect"), effectInfo.at(0), this);
-        m_customEffects[i]->setData(effectInfo);
-        m_customEffects[i]->setIconVisibleInMenu(false);
-        customEffectActions->addAction("custom_effect_" + effectInfo.at(0), m_customEffects[i]);
-    }
     //KActionCategory *transitionActions = new KActionCategory(i18n("Transitions"), m_effectsActionCollection);
     KActionCategory *transitionActions = new KActionCategory(i18n("Transitions"), collection);
     m_transitions = new KAction*[transitions.count()];
@@ -3017,10 +2952,19 @@ void MainWindow::slotAddTransition(QAction *result)
 void MainWindow::slotAddVideoEffect(QAction *result)
 {
     if (!result) return;
+    const int EFFECT_VIDEO = 1;
+    const int EFFECT_AUDIO = 2;
     QStringList info = result->data().toStringList();
-    if (info.isEmpty()) return;
-    QDomElement effect = videoEffects.getEffectByTag(info.at(1), info.at(2));
-    slotAddEffect(effect);
+    if (info.isEmpty() || info.size() < 3) return;
+    QDomElement effect ;
+    if (info.at(2) == QString::number((int) EFFECT_VIDEO))
+            effect = videoEffects.getEffectByTag(info.at(0), info.at(1));
+    else if (info.at(2) == QString::number((int) EFFECT_AUDIO))
+            effect = audioEffects.getEffectByTag(info.at(0), info.at(1));
+    else
+            effect = customEffects.getEffectByTag(info.at(0), info.at(1));
+    if (!effect.isNull()) slotAddEffect(effect);
+    else m_messageLabel->setMessage(i18n("Cannot find effect %1 / %2").arg(info.at(0)).arg(info.at(1)), ErrorMessage);
 }
 
 void MainWindow::slotAddAudioEffect(QAction *result)
