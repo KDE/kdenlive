@@ -45,15 +45,19 @@ public:
     * @param timecode Timecode needed by timecode display widget
     * @param clipPos Position of the clip in timeline
     * @param isEffect true if used in an effect, false if used in a transition
+    * @param showRotation Should we show or hide the rotation sliders
     * @param parent (optional) Parent widget */
-    GeometryWidget(Monitor *monitor, Timecode timecode, int clipPos, bool isEffect, QWidget* parent = 0);
+    GeometryWidget(Monitor *monitor, Timecode timecode, int clipPos, bool isEffect, bool showRotation, QWidget* parent = 0);
     virtual ~GeometryWidget();
     /** @brief Gets the geometry as a serialized string. */
     QString getValue() const;
+    QString getExtraValue(const QString &name) const;
     /** @brief Updates the timecode display according to settings (frame number or hh:mm:ss:ff) */
     void updateTimecodeFormat();
     /** @brief Sets the size of the original clip. */
     void setFrameSize(QPoint size);
+
+    void addParameter(const QDomElement elem);
 
 public slots:
     /** @brief Sets up the rect and the geometry object.
@@ -83,6 +87,9 @@ private:
     KeyframeHelper *m_timeline;
     /** Stores the different settings in the MLT geometry format. */
     Mlt::Geometry *m_geometry;
+    QStringList m_extraGeometryNames;
+    QStringList m_extraFactors;
+    QList <Mlt::Geometry *>m_extraGeometries;
     bool m_showScene;
     DragValue *m_spinX;
     DragValue *m_spinY;
@@ -90,7 +97,11 @@ private:
     DragValue *m_spinHeight;
     DragValue *m_spinSize;
     DragValue *m_opacity;
+    DragValue *m_rotateX;
+    DragValue *m_rotateY;
+    DragValue *m_rotateZ;
     QPoint m_frameSize;
+    bool m_showRotation;
     /** @brief Update monitor rect with current width / height values. */
     void updateMonitorGeometry();
 

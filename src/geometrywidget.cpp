@@ -37,7 +37,7 @@
 
 
 
-GeometryWidget::GeometryWidget(Monitor* monitor, Timecode timecode, int clipPos, bool isEffect, QWidget* parent):
+GeometryWidget::GeometryWidget(Monitor* monitor, Timecode timecode, int clipPos, bool isEffect, bool showRotation, QWidget* parent):
     QWidget(parent),
     m_monitor(monitor),
     m_timePos(new TimecodeDisplay(timecode)),
@@ -48,7 +48,8 @@ GeometryWidget::GeometryWidget(Monitor* monitor, Timecode timecode, int clipPos,
     m_rect(NULL),
     m_previous(NULL),
     m_geometry(NULL),
-    m_showScene(true)
+    m_showScene(true),
+    m_showRotation(showRotation)
 {
     m_ui.setupUi(this);
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
@@ -91,43 +92,22 @@ GeometryWidget::GeometryWidget(Monitor* monitor, Timecode timecode, int clipPos,
     connect(m_ui.buttonAddDelete, SIGNAL(clicked()), this, SLOT(slotAddDeleteKeyframe()));
     connect(m_ui.buttonSync,      SIGNAL(toggled(bool)), this, SLOT(slotSetSynchronize(bool)));
 
-    m_spinX = new DragValue(i18n("X"), 0, 0, -1, QString(), false, this);
+    m_spinX = new DragValue(i18nc("x axis position", "X"), 0, 0, -1, QString(), false, this);
     m_spinX->setRange(-99000, 99000);
     m_ui.horizontalLayout->addWidget(m_spinX);
     
-    m_spinY = new DragValue(i18n("Y"), 0, 0, -1, QString(), false, this);
+    m_spinY = new DragValue(i18nc("y axis position", "Y"), 0, 0, -1, QString(), false, this);
     m_spinY->setRange(-99000, 99000);
     m_ui.horizontalLayout->addWidget(m_spinY);
     
-    m_spinWidth = new DragValue(i18n("W"), m_monitor->render->frameRenderWidth(), 0, -1, QString(), false, this);
+    m_spinWidth = new DragValue(i18nc("Frame width", "W"), m_monitor->render->frameRenderWidth(), 0, -1, QString(), false, this);
     m_spinWidth->setRange(1, 99000);
     m_ui.horizontalLayout->addWidget(m_spinWidth);
     
-    m_spinHeight = new DragValue(i18n("H"), m_monitor->render->renderHeight(), 0, -1, QString(), false, this);
+    m_spinHeight = new DragValue(i18nc("Frame height", "H"), m_monitor->render->renderHeight(), 0, -1, QString(), false, this);
     m_spinHeight->setRange(1, 99000);
     m_ui.horizontalLayout->addWidget(m_spinHeight);
-    m_ui.horizontalLayout->addStretch(10);
-    
-    m_spinSize = new DragValue(i18n("Size"), 100, 2, -1, i18n("%"), false, this);
-    m_spinSize->setRange(1, 99000);
-    m_ui.horizontalLayout2->addWidget(m_spinSize);
-    
-    m_opacity = new DragValue(i18n("Opacity"), 100, 0, -1, i18n("%"), true, this);
-    m_ui.horizontalLayout2->addWidget(m_opacity);
-    
-    /*
-        Setup of geometry controls
-    */
 
-    connect(m_spinX,            SIGNAL(valueChanged(int)), this, SLOT(slotSetX(int)));
-    connect(m_spinY,            SIGNAL(valueChanged(int)), this, SLOT(slotSetY(int)));
-    connect(m_spinWidth,        SIGNAL(valueChanged(int)), this, SLOT(slotSetWidth(int)));
-    connect(m_spinHeight,       SIGNAL(valueChanged(int)), this, SLOT(slotSetHeight(int)));
-
-    connect(m_spinSize,         SIGNAL(valueChanged(double)), this, SLOT(slotResize(double)));
-
-    connect(m_opacity, SIGNAL(valueChanged(int)), this, SLOT(slotSetOpacity(int)));
-    
     QMenu *menu = new QMenu(this);
     QAction *adjustSize = new QAction(i18n("Adjust to original size"), this);
     connect(adjustSize, SIGNAL(triggered()), this, SLOT(slotAdjustToFrameSize()));
@@ -151,7 +131,7 @@ GeometryWidget::GeometryWidget(Monitor* monitor, Timecode timecode, int clipPos,
     menu->addAction(alignright);
     QAction *aligntop = new QAction(KIcon("kdenlive-align-top"), i18n("Align top"), this);
     connect(aligntop, SIGNAL(triggered()), this, SLOT(slotMoveTop()));
-    menu->addAction(aligntop);    
+    menu->addAction(aligntop);
     QAction *alignvcenter = new QAction(KIcon("kdenlive-align-vert"), i18n("Center vertically"), this);
     connect(alignvcenter, SIGNAL(triggered()), this, SLOT(slotCenterV()));
     menu->addAction(alignvcenter);
@@ -160,6 +140,80 @@ GeometryWidget::GeometryWidget(Monitor* monitor, Timecode timecode, int clipPos,
     menu->addAction(alignbottom);
     m_ui.buttonOptions->setMenu(menu);
 
+    QHBoxLayout *alignLayout = new QHBoxLayout;
+    alignLayout->setSpacing(0);
+    QToolButton *alignButton = new QToolButton;
+    alignButton->setDefaultAction(alignleft);
+    alignButton->setAutoRaise(true);
+    alignLayout->addWidget(alignButton);
+
+    alignButton = new QToolButton;
+    alignButton->setDefaultAction(alignhcenter);
+    alignButton->setAutoRaise(true);
+    alignLayout->addWidget(alignButton);
+
+    alignButton = new QToolButton;
+    alignButton->setDefaultAction(alignright);
+    alignButton->setAutoRaise(true);
+    alignLayout->addWidget(alignButton);
+
+    alignButton = new QToolButton;
+    alignButton->setDefaultAction(aligntop);
+    alignButton->setAutoRaise(true);
+    alignLayout->addWidget(alignButton);
+
+    alignButton = new QToolButton;
+    alignButton->setDefaultAction(alignvcenter);
+    alignButton->setAutoRaise(true);
+    alignLayout->addWidget(alignButton);
+
+    alignButton = new QToolButton;
+    alignButton->setDefaultAction(alignbottom);
+    alignButton->setAutoRaise(true);
+    alignLayout->addWidget(alignButton);
+
+    m_ui.horizontalLayout->addLayout(alignLayout);
+    m_ui.horizontalLayout->addStretch(10);
+    
+    m_spinSize = new DragValue(i18n("Size"), 100, 2, -1, i18n("%"), false, this);
+    m_spinSize->setRange(1, 99000);
+    m_ui.horizontalLayout2->addWidget(m_spinSize);
+    
+    m_opacity = new DragValue(i18n("Opacity"), 100, 0, -1, i18n("%"), true, this);
+    m_ui.horizontalLayout2->addWidget(m_opacity);
+
+
+    if (showRotation) {
+        m_rotateX = new DragValue(i18n("Rotate X"), 0, 0, -1, QString(), true, this);
+        m_rotateX->setRange(-1800, 1800);
+        m_rotateX->setObjectName("rotate_x");
+        m_ui.horizontalLayout3->addWidget(m_rotateX);
+        m_rotateY = new DragValue(i18n("Rotate Y"), 0, 0, -1, QString(), true, this);
+        m_rotateY->setRange(-1800, 1800);
+        m_rotateY->setObjectName("rotate_y");
+        m_ui.horizontalLayout3->addWidget(m_rotateY);
+        m_rotateZ = new DragValue(i18n("Rotate Z"), 0, 0, -1, QString(), true, this);
+        m_rotateZ->setRange(-1800, 1800);
+        m_rotateZ->setObjectName("rotate_z");
+        m_ui.horizontalLayout3->addWidget(m_rotateZ);
+        connect(m_rotateX,            SIGNAL(valueChanged(int)), this, SLOT(slotUpdateGeometry()));
+        connect(m_rotateY,            SIGNAL(valueChanged(int)), this, SLOT(slotUpdateGeometry()));
+        connect(m_rotateZ,            SIGNAL(valueChanged(int)), this, SLOT(slotUpdateGeometry()));
+    }
+    
+    /*
+        Setup of geometry controls
+    */
+
+    connect(m_spinX,            SIGNAL(valueChanged(int)), this, SLOT(slotSetX(int)));
+    connect(m_spinY,            SIGNAL(valueChanged(int)), this, SLOT(slotSetY(int)));
+    connect(m_spinWidth,        SIGNAL(valueChanged(int)), this, SLOT(slotSetWidth(int)));
+    connect(m_spinHeight,       SIGNAL(valueChanged(int)), this, SLOT(slotSetHeight(int)));
+
+    connect(m_spinSize,         SIGNAL(valueChanged(double)), this, SLOT(slotResize(double)));
+
+    connect(m_opacity, SIGNAL(valueChanged(int)), this, SLOT(slotSetOpacity(int)));
+    
     /*connect(m_ui.buttonMoveLeft,   SIGNAL(clicked()), this, SLOT(slotMoveLeft()));
     connect(m_ui.buttonCenterH,    SIGNAL(clicked()), this, SLOT(slotCenterH()));
     connect(m_ui.buttonMoveRight,  SIGNAL(clicked()), this, SLOT(slotMoveRight()));
@@ -193,6 +247,12 @@ GeometryWidget::~GeometryWidget()
     if (m_rect) delete m_rect;
     if (m_previous) delete m_previous;
     delete m_geometry;
+    m_extraGeometryNames.clear();
+    m_extraFactors.clear();
+    while (!m_extraGeometries.isEmpty()) {
+        Mlt::Geometry *g = m_extraGeometries.takeFirst();
+        delete g;
+    }
     if (m_monitor) {
         m_monitor->getEffectEdit()->showVisibilityButton(false);
         m_monitor->slotEffectScene(false);
@@ -213,6 +273,21 @@ void GeometryWidget::updateTimecodeFormat()
 QString GeometryWidget::getValue() const
 {
     return m_geometry->serialise();
+}
+
+QString GeometryWidget::getExtraValue(const QString &name) const
+{
+    int ix = m_extraGeometryNames.indexOf(name);
+    QString val = m_extraGeometries.at(ix)->serialise();
+    if (!val.contains("=")) val = val.section(',', 0, 0);
+    else {
+        QStringList list = val.split(';');
+        val.clear();
+        foreach (const QString value, list) {
+            val.append(value.section(',', 0, 0) + ';');
+        }
+    }
+    return val;
 }
 
 void GeometryWidget::setupParam(const QDomElement elem, int minframe, int maxframe)
@@ -253,6 +328,16 @@ void GeometryWidget::setupParam(const QDomElement elem, int minframe, int maxfra
 
     slotPositionChanged(0, false);
     slotCheckMonitorPosition(m_monitor->render->seekFramePosition());
+}
+
+void GeometryWidget::addParameter(const QDomElement elem)
+{
+    Mlt::Geometry *geometry = new Mlt::Geometry(elem.attribute("value").toUtf8().data(), m_outPoint - m_inPoint, m_monitor->render->frameRenderWidth(), m_monitor->render->renderHeight());
+    m_extraGeometries.append(geometry);
+    m_timeline->addGeometry(geometry);
+    m_extraFactors.append(elem.attribute("factor", "1"));
+    m_extraGeometryNames.append(elem.attribute("name"));
+    //kDebug()<<"ADDED PARAM: "<<elem.attribute("value");
 }
 
 void GeometryWidget::slotSyncPosition(int relTimelinePos)
@@ -327,6 +412,19 @@ void GeometryWidget::slotPositionChanged(int pos, bool seek)
     m_opacity->setValue(item.mix());
     m_opacity->blockSignals(false);
 
+    for (int i = 0; i < m_extraGeometries.count(); i++) {
+        Mlt::Geometry *geom = m_extraGeometries.at(i);
+        QString name = m_extraGeometryNames.at(i);
+        if (!geom->fetch(&item, pos)) {
+            DragValue *widget = findChild<DragValue *>(name);
+            if (widget) {
+                widget->blockSignals(true);
+                widget->setValue(item.x() * m_extraFactors.at(i).toInt());
+                widget->blockSignals(false);
+            }
+        }
+    }
+
     slotUpdateProperties();
 
     if (seek && KdenliveSettings::transitionfollowcursor())
@@ -355,6 +453,18 @@ void GeometryWidget::slotAddKeyframe(int pos)
     item.mix(m_opacity->value());
     m_geometry->insert(item);
 
+    for (int i = 0; i < m_extraGeometries.count(); i++) {
+        Mlt::Geometry *geom = m_extraGeometries.at(i);
+        QString name = m_extraGeometryNames.at(i);
+        DragValue *widget = findChild<DragValue *>(name);
+        if (widget) {
+            Mlt::GeometryItem item2;
+            item2.frame(pos);
+            item2.x((double) widget->value() / m_extraFactors.at(i).toInt());
+            geom->insert(item2);
+        }
+    }
+    
     m_timeline->update();
     slotPositionChanged(pos, false);
     emit parameterChanged();
@@ -371,6 +481,11 @@ void GeometryWidget::slotDeleteKeyframe(int pos)
             return;
     }
     m_geometry->remove(pos);
+
+    for (int i = 0; i < m_extraGeometries.count(); i++) {
+        Mlt::Geometry *geom = m_extraGeometries.at(i);
+        geom->remove(pos);
+    }
 
     m_timeline->update();
     slotPositionChanged(pos, false);
@@ -447,6 +562,18 @@ void GeometryWidget::slotUpdateGeometry()
     item.w(rectSize.width());
     item.h(rectSize.height());
     m_geometry->insert(item);
+
+    for (int i = 0; i < m_extraGeometries.count(); i++) {
+        Mlt::Geometry *geom = m_extraGeometries.at(i);
+        QString name = m_extraGeometryNames.at(i);
+        Mlt::GeometryItem item2;
+        DragValue *widget = findChild<DragValue *>(name);
+        if (widget && !geom->next_key(&item2, pos) && item2.frame() == pos) {
+            item2.x((double) widget->value() / m_extraFactors.at(i).toInt());
+            geom->insert(item2);
+        }
+    }
+    
     emit parameterChanged();
 }
 

@@ -40,6 +40,7 @@ struct wipeInfo {
 
 class QFrame;
 class Monitor;
+class GeometryWidget;
 
 class EffectStackEdit : public QScrollArea
 {
@@ -80,6 +81,7 @@ private:
     QPoint m_frameSize;
     KeyframeEdit *m_keyframeEditor;
     Monitor *m_monitor;
+    GeometryWidget *m_geometryWidget;
 
 public slots:
     /** @brief Called when an effect is selected, builds the UI for this effect. */

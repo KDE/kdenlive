@@ -71,6 +71,20 @@ void KeyframeHelper::mousePressEvent(QMouseEvent * event)
                 m_movingItem.h(item.h());
                 m_movingItem.mix(item.mix());
                 m_movingItem.frame(item.frame());
+
+                while (!m_extraMovingItems.isEmpty()) {
+                    Mlt::GeometryItem *gitem = m_extraMovingItems.takeFirst();
+                    delete gitem;
+                }
+                for (int i = 0; i < m_extraGeometries.count(); i++) {
+                    Mlt::GeometryItem *item2 = new Mlt::GeometryItem();
+                    if (m_extraGeometries.at(i)->next_key(item, mousePos) == 0) {
+                        item2->x(item.x());
+                        item2->frame(item.frame());
+                        m_extraMovingItems.append(item2);
+                    }
+                }
+                
                 m_dragStart = event->pos();
                 m_movingKeyframe = true;
                 return;
@@ -114,10 +128,15 @@ void KeyframeHelper::mouseMoveEvent(QMouseEvent * event)
             if ((event->pos() - m_dragStart).manhattanLength() < QApplication::startDragDistance()) return;
             m_dragStart = QPoint();
             m_geom->remove(m_movingItem.frame());
+            for (int i = 0; i < m_extraGeometries.count(); i++)
+                m_extraGeometries[i]->remove(m_movingItem.frame());
         }
         int pos = qBound(0, (int)(event->x() / m_scale), frameLength);
         if (KdenliveSettings::snaptopoints() && qAbs(pos - m_position) < 5) pos = m_position;
         m_movingItem.frame(pos);
+        for (int i = 0; i < m_extraMovingItems.count(); i++) {
+            m_extraMovingItems[i]->frame(pos);
+        }
         update();
         return;
     }
@@ -153,6 +172,11 @@ void KeyframeHelper::mouseReleaseEvent(QMouseEvent * event)
     if (m_movingKeyframe) {
         m_geom->insert(m_movingItem);
         m_movingKeyframe = false;
+
+        for (int i = 0; i < m_extraGeometries.count(); i++) {
+            m_extraGeometries[i]->insert(m_extraMovingItems.at(i));
+        }
+        
         emit keyframeMoved(m_position);
         return;
     }
@@ -257,7 +281,16 @@ void KeyframeHelper::setKeyGeometry(Mlt::Geometry *geom, const int length)
 {
     m_geom = geom;
     frameLength = length;
+    while (!m_extraGeometries.isEmpty()) {
+        Mlt::Geometry *geom = m_extraGeometries.takeFirst();
+        delete geom;
+    }
     update();
+}
+
+void KeyframeHelper::addGeometry(Mlt::Geometry *geom)
+{
+    m_extraGeometries.append(geom);
 }
 
 #include "keyframehelper.moc"

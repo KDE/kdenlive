@@ -3573,8 +3573,8 @@ QMap<QString, QString> Render::mltGetTransitionParamsFromXml(QDomElement xml)
         if (!e.attribute("value").isEmpty()) {
             map[name] = e.attribute("value");
         }
-        if (!e.attribute("factor").isEmpty() && e.attribute("factor").toDouble() > 0) {
-            map[name] = QString::number(map[name].toDouble() / e.attribute("factor").toDouble());
+        if (e.attribute("type") != "addedgeometry" && !e.attribute("factor").isEmpty() && e.attribute("factor").toDouble() > 0) {
+            map[name] = QString::number(map.value(name).toDouble() / e.attribute("factor").toDouble());
             //map[name]=map[name].replace(".",","); //FIXME how to solve locale conversion of . ,
         }
 

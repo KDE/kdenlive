@@ -78,7 +78,8 @@ EffectStackEdit::EffectStackEdit(Monitor *monitor, QWidget *parent) :
     m_out(0),
     m_frameSize(QPoint()),
     m_keyframeEditor(NULL),
-    m_monitor(monitor)
+    m_monitor(monitor),
+    m_geometryWidget(NULL)
 {
     m_baseWidget = new QWidget(this);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -126,8 +127,7 @@ void EffectStackEdit::setFrameSize(QPoint p)
                 break;
             }
             else {
-                GeometryWidget *geom = ((GeometryWidget*)m_valueItems[paramName+"geometry"]);
-                geom->setFrameSize(m_frameSize);
+                if (m_geometryWidget) m_geometryWidget->setFrameSize(m_frameSize);
                 break;
             }
         }
@@ -148,8 +148,7 @@ void EffectStackEdit::updateTimecodeFormat()
 
         if (type == "geometry") {
             if (KdenliveSettings::on_monitor_effects()) {
-                GeometryWidget *geom = (GeometryWidget*)m_valueItems[paramName+"geometry"];
-                geom->updateTimecodeFormat();
+                if (m_geometryWidget) m_geometryWidget->updateTimecodeFormat();
             } else {
                 Geometryval *geom = ((Geometryval*)m_valueItems[paramName+"geometry"]);
                 geom->updateTimecodeFormat();
@@ -330,21 +329,21 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
             connect(pl, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
         } else if (type == "geometry") {
             if (KdenliveSettings::on_monitor_effects()) {
-                GeometryWidget *geometry = new GeometryWidget(m_monitor, m_timecode, pos, isEffect, this);
-                geometry->setFrameSize(m_frameSize);
-                geometry->slotShowScene(!disable);
+                m_geometryWidget = new GeometryWidget(m_monitor, m_timecode, pos, isEffect, m_params.hasAttribute("showrotation"), this);
+                m_geometryWidget->setFrameSize(m_frameSize);
+                m_geometryWidget->slotShowScene(!disable);
                 // connect this before setupParam to make sure the monitor scene shows up at startup
-                connect(geometry, SIGNAL(checkMonitorPosition(int)), this, SIGNAL(checkMonitorPosition(int)));
-                connect(geometry, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
+                connect(m_geometryWidget, SIGNAL(checkMonitorPosition(int)), this, SIGNAL(checkMonitorPosition(int)));
+                connect(m_geometryWidget, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
                 if (minFrame == maxFrame)
-                    geometry->setupParam(pa, m_in, m_out);
+                    m_geometryWidget->setupParam(pa, m_in, m_out);
                 else
-                    geometry->setupParam(pa, minFrame, maxFrame);
-                m_vbox->addWidget(geometry);
-                m_valueItems[paramName+"geometry"] = geometry;
-                connect(geometry, SIGNAL(seekToPos(int)), this, SIGNAL(seekTimeline(int)));
-                connect(this, SIGNAL(syncEffectsPos(int)), geometry, SLOT(slotSyncPosition(int)));
-                connect(this, SIGNAL(effectStateChanged(bool)), geometry, SLOT(slotShowScene(bool)));
+                    m_geometryWidget->setupParam(pa, minFrame, maxFrame);
+                m_vbox->addWidget(m_geometryWidget);
+                m_valueItems[paramName+"geometry"] = m_geometryWidget;
+                connect(m_geometryWidget, SIGNAL(seekToPos(int)), this, SIGNAL(seekTimeline(int)));
+                connect(this, SIGNAL(syncEffectsPos(int)), m_geometryWidget, SLOT(slotSyncPosition(int)));
+                connect(this, SIGNAL(effectStateChanged(bool)), m_geometryWidget, SLOT(slotShowScene(bool)));
             } else {
                 Geometryval *geo = new Geometryval(m_profile, m_timecode, m_frameSize, pos);
                 if (minFrame == maxFrame)
@@ -357,6 +356,9 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
                 connect(geo, SIGNAL(seekToPos(int)), this, SIGNAL(seekTimeline(int)));
                 connect(this, SIGNAL(syncEffectsPos(int)), geo, SLOT(slotSyncPosition(int)));
             }
+        } else if (type == "addedgeometry") {
+            // this is a parameter that should be linked to the geometry widget, for example rotation, shear, ...
+            if (m_geometryWidget) m_geometryWidget->addParameter(pa);
         } else if (type == "keyframe" || type == "simplekeyframe") {
             // keyframe editor widget
             if (m_keyframeEditor == NULL) {
@@ -653,7 +655,7 @@ void EffectStackEdit::collectAllParameters()
             paramName.append("geometry");
         else if (type == "keyframe")
             paramName.append("keyframe");
-        if (type != "simplekeyframe" && !m_valueItems.contains(paramName)) {
+        if (type != "simplekeyframe" && type != "fixed" && type != "addedgeometry" && !m_valueItems.contains(paramName)) {
             kDebug() << "// Param: " << paramName << " NOT FOUND";
             continue;
         }
@@ -676,12 +678,13 @@ void EffectStackEdit::collectAllParameters()
             namenode.item(i) = complex->getParamDesc();
         } else if (type == "geometry") {
             if (KdenliveSettings::on_monitor_effects()) {
-                GeometryWidget *geometry = ((GeometryWidget*)m_valueItems.value(paramName));
-                namenode.item(i).toElement().setAttribute("value", geometry->getValue());
+                if (m_geometryWidget) namenode.item(i).toElement().setAttribute("value", m_geometryWidget->getValue());
             } else {
                 Geometryval *geom = ((Geometryval*)m_valueItems.value(paramName));
                 namenode.item(i).toElement().setAttribute("value", geom->getValue());
             }
+        } else if (type == "addedgeometry") {
+            namenode.item(i).toElement().setAttribute("value", m_geometryWidget->getExtraValue(namenode.item(i).toElement().attribute("name")));
         } else if (type == "position") {
             PositionEdit *pedit = ((PositionEdit*)m_valueItems.value(paramName));
             int pos = pedit->getPosition();
@@ -808,6 +811,7 @@ void EffectStackEdit::clearAllItems()
         if (wid) delete wid;
     }
     m_keyframeEditor = NULL;
+    m_geometryWidget = NULL;
     blockSignals(false);
 }
 
