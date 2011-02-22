@@ -3028,7 +3028,7 @@ void Render::fixAudioMixing(Mlt::Tractor tractor)
         Mlt::Transition *transition = new Mlt::Transition(*m_mltProfile, "mix");
         transition->set("always_active", 1);
         transition->set("combine", 1);
-        transition->set("internal_added", 238);
+        transition->set("internal_added", 237);
         field->plant_transition(*transition, lowestTrack, i);
     }
     mlt_service_unlock(serv);
