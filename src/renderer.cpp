@@ -145,7 +145,6 @@ void Render::closeMlt()
                 nextservicetodisconnect = nextservice;
                 nextservice = mlt_service_producer(nextservice);
                 mlt_field_disconnect_service(field->get_field(), nextservicetodisconnect);
-                nextservice = mlt_service_producer(nextservice);
                 if (nextservice == NULL) break;
                 properties = MLT_SERVICE_PROPERTIES(nextservice);
                 mlt_type = mlt_properties_get(properties, "mlt_type");
@@ -3000,6 +2999,7 @@ void Render::fixAudioMixing(Mlt::Tractor tractor)
     int lowestTrack = getLowestNonMutedAudioTrack(tractor);
 
     mlt_service serv = m_mltProducer->parent().get_service();
+    Mlt::Field *field = tractor.field();
     mlt_service_lock(serv);
     m_isBlocked++;
 
@@ -3008,17 +3008,28 @@ void Render::fixAudioMixing(Mlt::Tractor tractor)
     QString mlt_type = mlt_properties_get(properties, "mlt_type");
     QString resource = mlt_properties_get(properties, "mlt_service");
 
+    mlt_service nextservicetodisconnect;
+     // Delete all audio mixing transitions
     while (mlt_type == "transition") {
-        mlt_transition tr = (mlt_transition) nextservice;
         if (resource == "mix") {
-            mlt_properties transproperties = MLT_TRANSITION_PROPERTIES(tr);
-            mlt_properties_set_int(transproperties, "a_track", lowestTrack);
+            nextservicetodisconnect = nextservice;
+            nextservice = mlt_service_producer(nextservice);
+            mlt_field_disconnect_service(field->get_field(), nextservicetodisconnect);
         }
-        nextservice = mlt_service_producer(nextservice);
+        else nextservice = mlt_service_producer(nextservice);
         if (nextservice == NULL) break;
         properties = MLT_SERVICE_PROPERTIES(nextservice);
         mlt_type = mlt_properties_get(properties, "mlt_type");
         resource = mlt_properties_get(properties, "mlt_service");
+    }
+
+    // Re-add correct audio transitions
+    for (int i = lowestTrack + 1; i < tractor.count(); i++) {
+        Mlt::Transition *transition = new Mlt::Transition(*m_mltProfile, "mix");
+        transition->set("always_active", 1);
+        transition->set("combine", 1);
+        transition->set("internal_added", 238);
+        field->plant_transition(*transition, lowestTrack, i);
     }
     mlt_service_unlock(serv);
     m_isBlocked--;    
