@@ -35,6 +35,7 @@ ColorPlaneExport::ColorPlaneExport(QWidget *parent) :
     cbColorspace->addItem(i18n("YCbCr CbCr plane"), QVariant(ColorPlaneExport::CPE_YPbPr));
     cbColorspace->addItem(i18n("RGB plane, one component varying"), QVariant(ColorPlaneExport::CPE_RGB_CURVE));
     cbColorspace->addItem(i18n("HSV Hue Shift"), QVariant(ColorPlaneExport::CPE_HSV_HUESHIFT));
+    cbColorspace->addItem(i18n("HSV Saturation"), QVariant(ColorPlaneExport::CPE_HSV_SATURATION));
 
     sliderColor->setSliderPosition(128);
 
@@ -188,6 +189,11 @@ void ColorPlaneExport::slotExportPlane()
     case CPE_HSV_HUESHIFT:
         img = m_colorTools->hsvHueShiftPlane(size, sliderColor->value(), sliderScaling->value(), -180, 180);
         break;
+    case CPE_HSV_SATURATION:
+        img = m_colorTools->hsvSaturationPlane(size, sliderColor->value(), 0, 255);
+        break;
+    default:
+        Q_ASSERT(false);
     }
     img.save(kurlrequester->text());
 }
@@ -246,6 +252,13 @@ void ColorPlaneExport::slotColormodeChanged()
         sliderColor->setValue(200);
         lblSliderName->setText(i18n("HSV Saturation"));
         lblScaling->setText(i18n("HSV Value"));
+        break;
+    case CPE_HSV_SATURATION:
+        enableSliderScaling(false);
+        enableSliderColor(true);
+        sliderColor->setRange(0, 255);
+        sliderColor->setValue(200);
+        lblSliderName->setText(i18n("HSV Value"));
         break;
     default:
         enableSliderScaling(false);

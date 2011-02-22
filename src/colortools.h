@@ -64,10 +64,17 @@ public:
     /**
      @brief Draws a HSV plane with Hue on the x axis and hue difference on the y axis.
      This is for the Bézier Curves widget which allows to change the hue (y) of a certain hue.
+     MIN/MAX give the minimum/maximum hue difference, e.g. -128,+128.
      For the value ranges see:
      http://doc.qt.nokia.com/latest/qcolor.html#the-hsv-color-model
      */
     static QImage hsvHueShiftPlane(const QSize &size, const uint &S, const uint &V, const int &MIN, const int &MAX);
+
+    /**
+      Basic HSV saturation plane.
+      MIN/MAX give the minimum/maximum saturation, usually 0..255.
+      */
+    static QImage hsvSaturationPlane(const QSize &size, const uint &V, const int &MIN, const int &MAX);
 
 signals:
     void signalYuvWheelCalculationFinished();

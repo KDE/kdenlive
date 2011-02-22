@@ -268,8 +268,8 @@ QImage ColorTools::hsvHueShiftPlane(const QSize &size, const uint &S, const uint
     float hue, huediff;
     int newhue;
     for (int x = 0; x < size.width(); x++) {
+        hue = x/(size.width() - 1.0) * 359;
         for (int y = 0; y < size.height(); y++) {
-            hue = x/(size.width() - 1.0) * 359;
             huediff = (1.0f - y/(size.height() - 1.0)) * hueValues + MIN;
 //            qDebug() << "hue: " << hue << ", huediff: " << huediff;
 
@@ -283,6 +283,33 @@ QImage ColorTools::hsvHueShiftPlane(const QSize &size, const uint &S, const uint
 
     return plane;
 
+}
+
+QImage ColorTools::hsvSaturationPlane(const QSize &size, const uint &V, const int &MIN, const int &MAX)
+{
+    Q_ASSERT(size.width() > 0);
+    Q_ASSERT(size.height() > 0);
+    Q_ASSERT(MAX > MIN);
+    Q_ASSERT(MIN >= 0);
+
+    QImage plane(size, QImage::Format_ARGB32);
+
+    QColor col(0, 0, 0);
+
+    float hue, sat;
+
+    for (int x = 0; x < size.width(); x++) {
+        hue = 359 * x / (size.width()-1.0);
+        for (int y = 0; y < size.height(); y++) {
+            sat = (1 - y/(size.height()-1.0)) * (MAX-MIN) + MIN;
+
+            col.setHsv(hue, sat, V);
+
+            plane.setPixel(x, y, col.rgba());
+        }
+    }
+
+    return plane;
 }
 
 
