@@ -2958,6 +2958,18 @@ void Render::mltChangeTrackState(int track, bool mute, bool blind)
     Mlt::Tractor tractor(service);
     Mlt::Producer trackProducer(tractor.track(track));
 
+    // Make sure muting will not produce problems with our audio mixing transition,
+    // because audio mixing is done between each track and the lowest one
+    bool audioMixingBroken = false;
+    if (mute && trackProducer.get_int("hide") < 2 ) {
+            // We mute a track with sound
+            if (track == getLowestNonMutedAudioTrack(tractor)) audioMixingBroken = true;
+    }
+    else if (!mute && trackProducer.get_int("hide") > 1 ) {
+            // We un-mute a previously muted track
+            if (track < getLowestNonMutedAudioTrack(tractor)) audioMixingBroken = true;
+    }
+
     if (mute) {
         if (blind) trackProducer.set("hide", 3);
         else trackProducer.set("hide", 2);
@@ -2966,11 +2978,51 @@ void Render::mltChangeTrackState(int track, bool mute, bool blind)
     } else {
         trackProducer.set("hide", 0);
     }
+    if (audioMixingBroken) fixAudioMixing(tractor);
+    
     tractor.multitrack()->refresh();
     tractor.refresh();
     refresh();
 }
 
+int Render::getLowestNonMutedAudioTrack(Mlt::Tractor tractor)
+{
+    for (int i = 1; i < tractor.count(); i++) {
+        Mlt::Producer trackProducer(tractor.track(i));
+        if (trackProducer.get_int("hide") < 2) return i;
+    }
+    return tractor.count() - 1;
+}
+
+void Render::fixAudioMixing(Mlt::Tractor tractor)
+{
+    // Make sure the audio mixing transitions are applied to the lowest audible (non muted) track
+    int lowestTrack = getLowestNonMutedAudioTrack(tractor);
+
+    mlt_service serv = m_mltProducer->parent().get_service();
+    mlt_service_lock(serv);
+    m_isBlocked++;
+
+    mlt_service nextservice = mlt_service_get_producer(serv);
+    mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
+    QString mlt_type = mlt_properties_get(properties, "mlt_type");
+    QString resource = mlt_properties_get(properties, "mlt_service");
+
+    while (mlt_type == "transition") {
+        mlt_transition tr = (mlt_transition) nextservice;
+        if (resource == "mix") {
+            mlt_properties transproperties = MLT_TRANSITION_PROPERTIES(tr);
+            mlt_properties_set_int(transproperties, "a_track", lowestTrack);
+        }
+        nextservice = mlt_service_producer(nextservice);
+        if (nextservice == NULL) break;
+        properties = MLT_SERVICE_PROPERTIES(nextservice);
+        mlt_type = mlt_properties_get(properties, "mlt_type");
+        resource = mlt_properties_get(properties, "mlt_service");
+    }
+    mlt_service_unlock(serv);
+    m_isBlocked--;    
+}
 
 bool Render::mltResizeClipCrop(ItemInfo info, GenTime diff)
 {

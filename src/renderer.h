@@ -311,6 +311,12 @@ private:
     void buildConsumer(const QString profileName);
     void resetZoneMode();
     void fillSlowMotionProducers();
+    /** @brief Get the track number of the lowest audible (non muted) audio track
+     *  @param return The track number */
+    int getLowestNonMutedAudioTrack(Mlt::Tractor tractor);
+
+    /** @brief Make sure our audio mixing transitions are applied to the lowest track */
+    void fixAudioMixing(Mlt::Tractor tractor);
 
 private slots:
 
