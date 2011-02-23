@@ -998,7 +998,6 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
     connect(clip, SIGNAL(abortProxy(const QString)), this, SLOT(slotAbortProxy(const QString)));
     if (getProperties) {
         m_listView->processLayout();
-        m_refreshed = false;
         QDomElement e = clip->toXML().cloneNode().toElement();
         e.removeAttribute("file_hash");
         m_infoQueue.insert(clip->getId(), e);
@@ -1085,7 +1084,6 @@ void ProjectList::slotResetProjectList()
 
 void ProjectList::requestClipInfo(const QDomElement xml, const QString id)
 {
-    m_refreshed = false;
     m_infoQueue.insert(id, xml);
     //if (m_infoQueue.count() == 1 || ) QTimer::singleShot(300, this, SLOT(slotProcessNextClipInQueue()));
 }
@@ -1434,10 +1432,12 @@ void ProjectList::setDocument(KdenliveDoc *doc)
     m_proxyList.clear();
 
     QMap <QString, QString> flist = doc->clipManager()->documentFolderList();
+    QStringList openedFolders = doc->getExpandedFolders();
     QMapIterator<QString, QString> f(flist);
     while (f.hasNext()) {
         f.next();
-        (void) new FolderProjectItem(m_listView, QStringList() << f.value(), f.key());
+        FolderProjectItem *folder = new FolderProjectItem(m_listView, QStringList() << f.value(), f.key());
+        folder->setExpanded(openedFolders.contains(f.key()));
     }
 
     QList <DocClipBase*> list = doc->clipManager()->documentClipList();
@@ -1481,7 +1481,7 @@ QDomElement ProjectList::producersList()
 
 void ProjectList::slotCheckForEmptyQueue()
 {
-    if (!m_refreshed && m_thumbnailQueue.isEmpty() && m_infoQueue.isEmpty()) {
+    if (!m_refreshed && m_processingClips.isEmpty() && m_thumbnailQueue.isEmpty() && m_infoQueue.isEmpty()) {
         m_refreshed = true;
         emit loadingIsOver();
         emit displayMessage(QString(), -1);
@@ -1593,6 +1593,10 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
 {
     QString toReload;
     ProjectItem *item = getItemById(clipId);
+    if (!m_refreshed) {
+        // we are still finishing to load the document
+        selectClip = false;
+    }
     m_processingClips.removeAll(clipId);
     if (m_infoQueue.isEmpty() && m_processingClips.isEmpty()) m_listView->setEnabled(true);
     if (item && producer) {
@@ -2366,6 +2370,25 @@ void ProjectList::monitorItemEditing(bool enable)
 {
     if (enable) connect(m_listView, SIGNAL(itemChanged(QTreeWidgetItem *, int)), this, SLOT(slotItemEdited(QTreeWidgetItem *, int)));     
     else disconnect(m_listView, SIGNAL(itemChanged(QTreeWidgetItem *, int)), this, SLOT(slotItemEdited(QTreeWidgetItem *, int)));     
+}
+
+QStringList ProjectList::expandedFolders() const
+{
+    QStringList result;
+    FolderProjectItem *item;
+    QTreeWidgetItemIterator it(m_listView);
+    while (*it) {
+        if ((*it)->type() != PROJECTFOLDERTYPE) {
+            ++it;
+            continue;
+        }
+        if ((*it)->isExpanded()) {
+            item = static_cast<FolderProjectItem *>(*it);
+            result.append(item->clipId());
+        }
+        ++it;
+    }
+    return result;
 }
 
 #include "projectlist.moc"

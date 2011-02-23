@@ -112,7 +112,7 @@ Q_OBJECT public:
     QPoint zoom() const;
     double dar() const;
     double projectDuration() const;
-    bool saveSceneList(const QString &path, const QString &scene);
+    bool saveSceneList(const QString &path, const QString &scene, const QStringList expandedFolders);
     int tracksCount() const;
     TrackInfo trackInfoAt(int ix) const;
     void insertTrack(int ix, TrackInfo type);
@@ -154,7 +154,9 @@ Q_OBJECT public:
     void setTrackEffect(int trackIndex, int effectIndex, QDomElement effect);
     const EffectsList getTrackEffects(int ix);
     QDomElement getTrackEffect(int trackIndex, int effectIndex) const;
-
+    /** @brief Get a list of folder id's that were opened on last save. */
+    QStringList getExpandedFolders();
+    
 private:
     KUrl m_url;
     QDomDocument m_document;

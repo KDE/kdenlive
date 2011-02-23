@@ -166,12 +166,14 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                                 }
                                 mlt.removeChild(tracksinfo);
                             }
-
+                            QStringList expandedFolders;
                             QDomNodeList folders = m_document.elementsByTagName("folder");
                             for (int i = 0; i < folders.count(); i++) {
                                 e = folders.item(i).cloneNode().toElement();
+                                if (e.hasAttribute("opened")) expandedFolders.append(e.attribute("id"));
                                 m_clipManager->addFolder(e.attribute("id"), e.attribute("name"));
                             }
+                            m_documentProperties["expandedfolders"] = expandedFolders.join(";");
 
                             const int infomax = infoproducers.count();
                             QDomNodeList producers = m_document.elementsByTagName("producer");
@@ -507,7 +509,7 @@ void KdenliveDoc::slotAutoSave()
             kDebug() << "ERROR; CANNOT CREATE AUTOSAVE FILE";
         }
         kDebug() << "// AUTOSAVE FILE: " << m_autosave->fileName();
-        saveSceneList(m_autosave->fileName(), m_render->sceneList());
+        saveSceneList(m_autosave->fileName(), m_render->sceneList(), QStringList());
     }
 }
 
@@ -533,7 +535,7 @@ QPoint KdenliveDoc::zone() const
     return QPoint(m_documentProperties.value("zonein").toInt(), m_documentProperties.value("zoneout").toInt());
 }
 
-bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene)
+bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene, const QStringList expandedFolders)
 {
     QDomDocument sceneList;
     sceneList.setContent(scene, true);
@@ -627,6 +629,7 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene)
         QDomElement folder = sceneList.createElement("folder");
         folder.setAttribute("id", f.key());
         folder.setAttribute("name", f.value());
+        if (expandedFolders.contains(f.key())) folder.setAttribute("opened", "1");
         addedXml.appendChild(folder);
     }
 
@@ -1524,6 +1527,14 @@ void KdenliveDoc::updateProjectFolderPlacesEntry()
         bookmark.setMetaDataItem("OnlyInApp", kdenliveName);
         bookmarkManager->emitChanged(root);
     }
+}
+
+QStringList KdenliveDoc::getExpandedFolders()
+{
+    QStringList result = m_documentProperties.value("expandedfolders").split(';');
+    // this property is only needed once when opening project, so clear it now
+    m_documentProperties.remove("expandedfolders");
+    return result;
 }
 
 #include "kdenlivedoc.moc"

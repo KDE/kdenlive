@@ -1858,7 +1858,7 @@ bool MainWindow::saveFileAs(const QString &outputFileName)
     QString currentSceneList;
     m_monitorManager->stopActiveMonitor();
 
-    if (m_activeDocument->saveSceneList(outputFileName, m_projectMonitor->sceneList()) == false)
+    if (m_activeDocument->saveSceneList(outputFileName, m_projectMonitor->sceneList(), m_projectList->expandedFolders()) == false)
         return false;
 
     // Save timeline thumbnails
