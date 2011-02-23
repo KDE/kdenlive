@@ -88,6 +88,9 @@ ProjectSettings::ProjectSettings(ProjectList *projectlist, QStringList lumas, in
         proxy_extension->setText(KdenliveSettings::proxyextension());
       
     }
+
+    proxy_minsize->setEnabled(generate_proxy->isChecked());
+    proxy_imageminsize->setEnabled(generate_imageproxy->isChecked());
     
     if (readOnlyTracks) {
         video_tracks->setEnabled(false);
