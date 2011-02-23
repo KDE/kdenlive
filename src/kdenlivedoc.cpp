@@ -277,6 +277,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
     KStandardDirs::makeDir(m_projectFolder.path(KUrl::AddTrailingSlash) + "titles/");
     KStandardDirs::makeDir(m_projectFolder.path(KUrl::AddTrailingSlash) + "thumbs/");
     KStandardDirs::makeDir(m_projectFolder.path(KUrl::AddTrailingSlash) + "ladspa/");
+    KStandardDirs::makeDir(m_projectFolder.path(KUrl::AddTrailingSlash) + "proxy/");
 
     updateProjectFolderPlacesEntry();
 
