@@ -174,10 +174,13 @@ void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActi
         for (int j = 0; j < topLevelItem(i)->childCount(); j++) {
                 QTreeWidgetItem *item = topLevelItem(i)->child(j);
                 KAction *a = new KAction(KIcon(item->icon(0)), item->text(0), sub);
-                a->setData(item->data(0, IdRole));
+                QStringList data = item->data(0, IdRole).toStringList();
+                QString id = data.at(1);
+                if (id.isEmpty()) id = data.at(0);
+                a->setData(data);
                 a->setIconVisibleInMenu(false);
                 sub->addAction(a);
-                effectActions->addAction("video_effect_" + item->text(0), a);
+                effectActions->addAction("video_effect_" + id, a);
         }
     }
 }

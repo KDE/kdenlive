@@ -407,6 +407,13 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     action->setCheckable(true);
     action->setChecked(false);
     m_stopmotion_actions->addAction("stopmotion_overlay", action);
+
+    // Build effects menu
+    m_effectsMenu = new QMenu();
+    m_effectActions = new KActionCategory(i18n("Effects"), actionCollection());
+    m_effectList->reloadEffectList(m_effectsMenu, m_effectActions);
+    m_effectsActionCollection->readSettings();
+    
     setupGUI();
 
 
@@ -485,9 +492,11 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     connect(themesMenu, SIGNAL(triggered(QAction *)), this, SLOT(slotChangePalette(QAction*)));
 
     // Setup and fill effects and transitions menus.
-    m_effectsMenu = static_cast<QMenu*>(factory()->container("video_effects_menu", this));
-    m_effectActions = new KActionCategory(i18n("Effects"), actionCollection());
-    m_effectList->reloadEffectList(m_effectsMenu, m_effectActions);
+
+
+    QMenu *m = static_cast<QMenu*>(factory()->container("video_effects_menu", this));
+    m = m_effectsMenu;
+
 
     m_transitionsMenu = new QMenu(i18n("Add Transition"), this);
     for (int i = 0; i < transitions.count(); ++i)
@@ -1589,9 +1598,11 @@ void MainWindow::setupActions()
         m_transitions[i] = new KAction(effectInfo.at(0), this);
         m_transitions[i]->setData(effectInfo);
         m_transitions[i]->setIconVisibleInMenu(false);
-        transitionActions->addAction("transition_" + effectInfo.at(0), m_transitions[i]);
+        QString id = effectInfo.at(2);
+        if (id.isEmpty()) id = effectInfo.at(1);
+        transitionActions->addAction("transition_" + id, m_transitions[i]);
     }
-    m_effectsActionCollection->readSettings();
+    //m_effectsActionCollection->readSettings();
 
     //connect(collection, SIGNAL( clearStatusText() ),
     //statusBar(), SLOT( clear() ) );
@@ -2955,6 +2966,7 @@ void MainWindow::slotAddVideoEffect(QAction *result)
     const int EFFECT_VIDEO = 1;
     const int EFFECT_AUDIO = 2;
     QStringList info = result->data().toStringList();
+
     if (info.isEmpty() || info.size() < 3) return;
     QDomElement effect ;
     if (info.at(2) == QString::number((int) EFFECT_VIDEO))
