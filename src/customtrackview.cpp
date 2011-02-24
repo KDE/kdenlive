@@ -1135,6 +1135,7 @@ void CustomTrackView::resetSelectionGroup(bool selectItems)
                 children.at(i)->setSelected(selectItems);
             }
         }
+
         m_selectionGroup = NULL;
         KdenliveSettings::setSnaptopoints(snap);
     }
@@ -2273,6 +2274,7 @@ void CustomTrackView::updateTransition(int track, GenTime pos, QDomElement oldTr
         kWarning() << "Unable to find transition at pos :" << pos.frames(m_document->fps()) << ", ON track: " << track;
         return;
     }
+    
     bool force = false;
     if (oldTransition.attribute("transition_atrack") != transition.attribute("transition_atrack") || oldTransition.attribute("transition_btrack") != transition.attribute("transition_btrack"))
         force = true;
@@ -3465,6 +3467,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                                 items.at(i)->parentItem()->setSelected(true);
                         }
                     }
+                    resetSelectionGroup();
                     groupSelectedItems();
                 } else {
                     rebuildGroup((AbstractGroupItem *)group);
@@ -4004,7 +4007,6 @@ void CustomTrackView::doGroupClips(QList <ItemInfo> clipInfos, QList <ItemInfo> 
             clip->setSelected(true);
         }
     }
-
     groupSelectedItems(false, true);
     setDocumentModified();
 }
