@@ -346,3 +346,64 @@ int Transition::defaultZValue() const
     return 3;
 }
 
+bool Transition::updateKeyframes()
+{
+    QString keyframes;
+    QDomElement pa;
+    bool modified = false;
+    QDomNodeList namenode = m_parameters.elementsByTagName("parameter");
+    for (int i = 0; i < namenode.count() ; i++) {
+        pa = namenode.item(i).toElement();
+        if (pa.attribute("type") == "geometry") {
+            keyframes = pa.attribute("value");
+            break;
+        }
+    }
+    if (keyframes.isEmpty()) return false;
+    int duration = cropDuration().frames(m_fps) - 1;
+    QStringList values = keyframes.split(";");
+    int frame;
+    int i = 0;
+    foreach(const QString &pos, values) {
+        if (!pos.contains('=')) {
+            i++;
+            continue;
+        }
+        frame = pos.section('=', 0, 0).toInt();
+        if (frame > duration) {
+            modified = true;
+            break;
+        }
+        i++;
+    }
+    if (modified) {
+        if (i > 0) {
+            // Check if there is a keyframe at transition end
+            QString prev = values.at(i-1);
+            bool done = false;
+            if (prev.contains('=')) {
+                int previousKeyframe = prev.section('=', 0, 0).toInt();
+                if (previousKeyframe == duration) {
+                    // Remove the last keyframes
+                    while (values.count() > i) {
+                        values.removeLast();
+                    }
+                    done = true;
+                }
+            }
+            if (!done) {
+                // Add new keyframe at end and remove last keyframes
+                QString last = values.at(i);
+                last = QString::number(duration) + '=' + last.section('=', 1);
+                values[i] = last;
+                while (values.count() > (i + 1)) {
+                    values.removeLast();
+                }
+            }
+        }
+        pa.setAttribute("value", values.join(";"));
+    }
+    
+    return true;
+}
+

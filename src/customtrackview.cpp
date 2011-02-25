@@ -4593,7 +4593,6 @@ void CustomTrackView::prepareResizeClipEnd(AbstractClipItem* item, ItemInfo oldI
         hasParentCommand = true;
     } else {
         command = new QUndoCommand();
-        command->setText(i18n("Resize clip end"));
     }
 
     // do this here, too, because otherwise undo won't update the group
@@ -4602,6 +4601,7 @@ void CustomTrackView::prepareResizeClipEnd(AbstractClipItem* item, ItemInfo oldI
 
     ItemInfo info = item->info();
     if (item->type() == AVWIDGET) {
+        if (!hasParentCommand) command->setText(i18n("Resize clip end"));
         ItemInfo resizeinfo = info;
         resizeinfo.track = m_document->tracksCount() - resizeinfo.track;
         bool success = m_document->renderer()->mltResizeClipEnd(resizeinfo, resizeinfo.cropDuration);
@@ -4670,6 +4670,7 @@ void CustomTrackView::prepareResizeClipEnd(AbstractClipItem* item, ItemInfo oldI
             emit displayMessage(i18n("Error when resizing clip"), ErrorMessage);
         }
     } else if (item->type() == TRANSITIONWIDGET) {
+        if (!hasParentCommand) command->setText(i18n("Resize transition end"));
         Transition *transition = static_cast <Transition *>(item);
         if (!m_document->renderer()->mltMoveTransition(transition->transitionTag(), (int)(m_document->tracksCount() - oldInfo.track), (int)(m_document->tracksCount() - oldInfo.track), transition->transitionEndTrack(), oldInfo.startPos, oldInfo.endPos, info.startPos, info.endPos)) {
             // Cannot resize transition
@@ -4678,9 +4679,14 @@ void CustomTrackView::prepareResizeClipEnd(AbstractClipItem* item, ItemInfo oldI
             KdenliveSettings::setSnaptopoints(true);
             emit displayMessage(i18n("Cannot resize transition"), ErrorMessage);
         } else {
-            MoveTransitionCommand *moveCommand = new MoveTransitionCommand(this, oldInfo, info, false, command);
-            if (command == NULL)
-                m_commandStack->push(moveCommand);
+            // Check transition keyframes
+            QDomElement old = transition->toXML();
+            if (transition->updateKeyframes()) {
+                QDomElement xml = transition->toXML();
+                m_document->renderer()->mltUpdateTransition(xml.attribute("tag"), xml.attribute("tag"), xml.attribute("transition_btrack").toInt(), m_document->tracksCount() - xml.attribute("transition_atrack").toInt(), transition->startPos(), transition->endPos(), xml);
+                new EditTransitionCommand(this, transition->track(), transition->startPos(), old, xml, false, command);
+            }
+            new MoveTransitionCommand(this, oldInfo, info, false, command);
         }
     }
     if (item->parentItem() && item->parentItem() != m_selectionGroup)

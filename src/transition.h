@@ -78,6 +78,8 @@ public:
     void setAutomatic(bool automatic);
     bool hasGeometry();
     int defaultZValue() const;
+    /** @brief When a transition is resized, check if keyframes are out of the transition and fix if necessary. */
+    bool updateKeyframes();
 
 protected:
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
