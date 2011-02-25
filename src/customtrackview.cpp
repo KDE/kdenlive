@@ -334,7 +334,7 @@ void CustomTrackView::slotFetchNextThumbs()
 {
     if (!m_waitingThumbs.isEmpty()) {
         ClipItem *item = m_waitingThumbs.takeFirst();
-        while ((item == NULL) && !m_waitingThumbs.isEmpty()) {
+        while (item == NULL && !m_waitingThumbs.isEmpty()) {
             item = m_waitingThumbs.takeFirst();
         }
         if (item) item->slotFetchThumbs();
@@ -2090,12 +2090,13 @@ ClipItem *CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut, boo
 
         bool snap = KdenliveSettings::snaptopoints();
         KdenliveSettings::setSnaptopoints(false);
-
+        m_waitingThumbs.removeAll(dup);
         if (dup->isSelected()) emit clipItemSelected(NULL);
         dup->baseClip()->removeReference();
         m_document->updateClip(dup->baseClip()->getId());
         scene()->removeItem(dup);
         delete dup;
+        dup = NULL;
 
         ItemInfo clipinfo = item->info();
         clipinfo.track = m_document->tracksCount() - clipinfo.track;
@@ -2459,6 +2460,7 @@ void CustomTrackView::adjustTimelineClips(EDITMODE mode, ClipItem *item, ItemInf
                     }
                 } else if (clip->endPos() <= info.endPos) {
                     new AddTimelineClipCommand(this, clip->xml(), clip->clipProducer(), clip->info(), clip->effectList(), false, false, false, true, command);
+                    m_waitingThumbs.removeAll(clip);
                     scene()->removeItem(clip);
                     delete clip;
                     clip = NULL;
@@ -3669,6 +3671,7 @@ void CustomTrackView::deleteClip(ItemInfo info, bool refresh)
         emit displayMessage(i18n("Error removing clip at %1 on track %2", m_document->timecode().getTimecodeFromFrames(info.startPos.frames(m_document->fps())), info.track), ErrorMessage);
         return;
     }
+    m_waitingThumbs.removeAll(item);
     if (item->isSelected()) emit clipItemSelected(NULL);
     item->baseClip()->removeReference();
     m_document->updateClip(item->baseClip()->getId());
@@ -3682,8 +3685,9 @@ void CustomTrackView::deleteClip(ItemInfo info, bool refresh)
             delete tr;
         }
     }*/
-    m_waitingThumbs.removeAll(item);
+
     if (m_dragItem == item) m_dragItem = NULL;
+
 #if QT_VERSION >= 0x040600
     // animate item deletion
     item->closeAnimation();
@@ -5740,6 +5744,7 @@ void CustomTrackView::deleteTimelineTrack(int ix, TrackInfo trackinfo)
         if (selection.at(i)->type() == AVWIDGET) {
             ClipItem *item =  static_cast <ClipItem *>(selection.at(i));
             new AddTimelineClipCommand(this, item->xml(), item->clipProducer(), item->info(), item->effectList(), false, false, false, true, deleteTrack);
+            m_waitingThumbs.removeAll(item);
             m_scene->removeItem(item);
             delete item;
             item = NULL;
