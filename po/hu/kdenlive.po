@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-09-27 20:00+0300\n"
-"PO-Revision-Date: 2010-10-02 09:06+0100\n"
+"PO-Revision-Date: 2011-02-27 10:25+0100\n"
 "Last-Translator: KAMI <kami911@gmail.com>\n"
 "Language-Team:  <hu@li.org>\n"
 "Language: \n"
@@ -68,7 +68,7 @@ msgstr "%1°"
 #: rc.cpp:2193
 #: rc.cpp:3977
 msgid "(notr)"
-msgstr ""
+msgstr "(notr)"
 
 #: rc.cpp:2604
 #: rc.cpp:4388
@@ -264,14 +264,12 @@ msgstr "25/1"
 
 #: rc.cpp:413
 #: rc.cpp:459
-#, fuzzy
 msgid "256 scale"
-msgstr "Kép átméretezése"
+msgstr "256-os méretezés"
 
 #: rc.cpp:421
-#, fuzzy
 msgid "2D video oscilloscope"
-msgstr "Videó effektus hozzáadása"
+msgstr "2D videó oszcilloszkóp"
 
 #: rc.cpp:549
 msgid "3 point balance"
@@ -649,9 +647,8 @@ msgid "Additional Settings"
 msgstr "További beállítások"
 
 #: src/mainwindow.cpp:1106
-#, fuzzy
 msgid "Adjust Profile to Current Clip"
-msgstr "Klip elejének átméretezése az aktuális időhöz"
+msgstr "Profil szabályzása az aktuális kliphez"
 
 #: rc.cpp:897
 msgid "Adjust audio volume with keyframes"
@@ -674,14 +671,12 @@ msgid "Adjust the audio volume without keyframes"
 msgstr "Hangerőszabályzás kulcskockák nélkül"
 
 #: rc.cpp:4
-#, fuzzy
 msgid "Adjust the left/right balance"
-msgstr "Bal csatorna átmásolása a jobb csatornára"
+msgstr "Bal-jobb egyensúly szabályzása"
 
 #: rc.cpp:10
-#, fuzzy
 msgid "Adjust the left/right spread of a channel"
-msgstr "Bal csatorna átmásolása a jobb csatornára"
+msgstr "A csatorna bal-jobb terjedésének szabályzása"
 
 #: rc.cpp:210
 msgid "Adjust the white balance / color temperature"
@@ -1045,15 +1040,13 @@ msgstr "Automatikusan középre és vágva"
 
 #: rc.cpp:2334
 #: rc.cpp:4118
-#, fuzzy
 msgid "Automatically import image sequences"
-msgstr "Kép hisztogramjának automatikus kiegyenlítése"
+msgstr "Képsorozatok automatikus importja"
 
 #: rc.cpp:2220
 #: rc.cpp:4004
-#, fuzzy
 msgid "Automatically split audio and video"
-msgstr "Hangsáv szétvágása a kiválasztott klipből"
+msgstr "Hang- és képanyag automatikus szétválasztása"
 
 #: rc.cpp:1603
 #: rc.cpp:3387
@@ -1303,9 +1296,8 @@ msgid "C0rners"
 msgstr "Sarkok"
 
 #: src/colorpickerwidget.cpp:148
-#, fuzzy
 msgid "Calculated average color for rectangle."
-msgstr "Téglalap átméretezés kitöltő színe"
+msgstr "Téglalap átlagos színének meghatározása"
 
 #: src/customtrackview.cpp:1716
 msgid "Cannot add a video effect to this clip"
@@ -1339,9 +1331,8 @@ msgid "Cannot edit an item in a group"
 msgstr "Csoportban lévő klip nem szerkeszthető"
 
 #: src/customtrackview.cpp:1261
-#, fuzzy
 msgid "Cannot edit the duration of multiple items"
-msgstr "A csatolt naptár több elemet tartalmaz"
+msgstr "Több elem időtartama nem szerkeszthető"
 
 #: src/customtrackview.cpp:3738
 msgid "Cannot find clip for speed change"
@@ -1400,9 +1391,8 @@ msgid "Cannot insert clip..."
 msgstr "Nem illeszthető be klip…"
 
 #: src/customtrackview.cpp:2872
-#, fuzzy
 msgid "Cannot insert space in a locked track"
-msgstr "Üres hely nem illeszthető bele csoportban lévő sávokba"
+msgstr "Üres hely nem illeszthető zárolt sávokba"
 
 #: src/customtrackview.cpp:2885
 msgid "Cannot insert space in a track with a group"
@@ -1476,9 +1466,8 @@ msgstr ""
 "Kérem ellenőrizze az eszközöket és hozzáférési jogosultságokat."
 
 #: src/customtrackview.cpp:2808
-#, fuzzy
 msgid "Cannot remove space in a locked track"
-msgstr "Üres hely nem távolítható el csoportban lévő sávokból"
+msgstr "Üres hely nem távolítható el zárolt sávokból"
 
 #: src/customtrackview.cpp:2831
 msgid "Cannot remove space in a track with a group"
@@ -1538,11 +1527,10 @@ msgid "Cannot write to file %1"
 msgstr "A(z) %1 fájlba nem lehet írni."
 
 #: src/kdenlivedoc.cpp:510
-#, fuzzy
 msgid "Cannot write to file %1, scene list is corrupted."
 msgstr ""
-"%1 fájl nem nyitható meg.\n"
-"A projekt hibás."
+"„%1” fájl nem írható.\n"
+"A helyszínek listája hibás."
 
 #: src/kdenlivesettingsdialog.cpp:82
 msgid "Capture"
@@ -1558,11 +1546,12 @@ msgid "Capture crashed, please check your parameters"
 msgstr "A felvétel hibát okozott. Legyen szíves ellenőrizze a beállításokat."
 
 #: src/recmonitor.cpp:599
-#, fuzzy
 msgid ""
 "Capture crashed, please check your parameters\n"
 "RecordMyDesktop exit code: %1"
-msgstr "A felvétel hibát okozott. Legyen szíves ellenőrizze a beállításokat."
+msgstr ""
+"A felvétel hibát okozott. Legyen szíves ellenőrizze a beállításokat.\n"
+"A RecordMyDesktop kilépési kódja: %1"
 
 #: rc.cpp:1609
 #: rc.cpp:3393
@@ -1603,9 +1592,8 @@ msgid "Center Frequency"
 msgstr "Középső frekvencia"
 
 #: rc.cpp:94
-#, fuzzy
 msgid "Center balance"
-msgstr "Fehéregyensúly"
+msgstr "Középre egyensúlyozott"
 
 #: rc.cpp:365
 msgid "Center correction"
@@ -1615,19 +1603,16 @@ msgstr "Középpont-korrekció"
 #: rc.cpp:2415
 #: rc.cpp:2933
 #: rc.cpp:4199
-#, fuzzy
 msgid "Center crop"
-msgstr "Automatikusan középre és vágva"
+msgstr "Levágás középen"
 
 #: src/geometrywidget.cpp:93
-#, fuzzy
 msgid "Center horizontally"
-msgstr "Darabolás vízszintesen"
+msgstr "Középre igazítás vízszintesen"
 
 #: src/geometrywidget.cpp:99
-#, fuzzy
 msgid "Center vertically"
-msgstr "Darabolás függőlegesen"
+msgstr "Középre igazítás függőlegesen"
 
 #: rc.cpp:1813
 #: rc.cpp:1819
@@ -1651,13 +1636,12 @@ msgid "Change image brightness with keyframes"
 msgstr "Fényerő megváltoztatása kulcskockáknál"
 
 #: src/projectlist.cpp:1523
-#, fuzzy
 msgid "Change project profile"
-msgstr "Profilváltoztatás jóváhagyása"
+msgstr "Projek profiljának megváltoztatása"
 
 #: rc.cpp:515
 msgid "Changes Slope, Offset, and Power of the color components, and the overall Saturation, according to the ASC CDL (Color Decision List)."
-msgstr ""
+msgstr "Megváltoztatja a színösszetevők és a telítettség a csatolását, az eltolását és az erősítését az ASC CDL (Színmeghatározási Lista) értékének megfelelően."
 
 #: src/projectsettings.cpp:187
 msgid ""
@@ -1692,7 +1676,7 @@ msgstr "Szénrajz effektus"
 #: rc.cpp:2337
 #: rc.cpp:4121
 msgid "Check if first added clip matches project profile"
-msgstr ""
+msgstr "Ellenőrzi, hogy az első klip egyezik-e a projekt profiljával"
 
 #: src/renderwidget.cpp:1853
 #: src/kdenlivedoc.cpp:104
@@ -1902,14 +1886,12 @@ msgid "Color Distance"
 msgstr "Színtávolság"
 
 #: src/vectorscope.cpp:97
-#, fuzzy
 msgid "Color Space"
-msgstr "Szóköz karakter"
+msgstr "Színtér"
 
 #: rc.cpp:493
-#, fuzzy
 msgid "Color based alpha selection"
-msgstr "A kiválasztó téglalap kitöltőszíne"
+msgstr "Szín alapú alfa kiválasztás"
 
 #: src/projectitem.cpp:174
 msgid "Color clip"
@@ -1934,9 +1916,8 @@ msgid "Color opacity"
 msgstr "Szín átlátszatlansága"
 
 #: src/main.cpp:41
-#, fuzzy
 msgid "Color scopes, bug fixing, etc."
-msgstr "Hibajavítások, stb."
+msgstr "Szynfigyelők, hibajavítások, stb."
 
 #: rc.cpp:2589
 #: rc.cpp:4373
@@ -1962,7 +1943,7 @@ msgstr "Hasábok"
 
 #: src/main.cpp:57
 msgid "Comma separated list of clips to add"
-msgstr ""
+msgstr "A hozzáadandó klippek vesszővel elválasztott listája"
 
 #: rc.cpp:1170
 #: rc.cpp:1293
@@ -2026,9 +2007,8 @@ msgid "Control character. Cannot be inserted/printed. See <a href=\"http://en.wi
 msgstr "Vezérlőkarakter. Nem szórható be és nem nyomtatható. Lásd: <a href=\"http://hu.wikipedia.org/wiki/Vez%C3%A9rl%C5%91karakterek\">Wikipedia: Vezérlőkarakterek</a>"
 
 #: rc.cpp:44
-#, fuzzy
 msgid "Copy one channel to another"
-msgstr "Bal csatorna átmásolása a jobb csatornára"
+msgstr "Csatorna másolása"
 
 #: src/renderwidget.cpp:84
 msgid "Copy profile to favorites"
@@ -2120,9 +2100,8 @@ msgid "Create new profile"
 msgstr "Új profil létrehozása "
 
 #: rc.cpp:347
-#, fuzzy
 msgid "Creates a Glamorous Glow"
-msgstr "Ragyogás színváltás"
+msgstr "Elbűvölő ragyogás létrehozása"
 
 #: src/dvdwizard.cpp:66
 msgid "Creating DVD Image"
@@ -2172,9 +2151,8 @@ msgid "Crop end"
 msgstr "Vágás vége"
 
 #: src/customtrackview.cpp:408
-#, fuzzy
 msgid "Crop from start:"
-msgstr "Levágás innentől: %1s"
+msgstr "Levágás a kezdéstől:"
 
 #: src/clipitem.cpp:954
 #, no-c-format
@@ -2195,9 +2173,8 @@ msgid "Ctrl + click to use spacer on current track only"
 msgstr "Ctrl + kattintás: üres hely eszköz alkalmazása csak az aktuális sávon"
 
 #: rc.cpp:289
-#, fuzzy
 msgid "Curve Widget"
-msgstr "Szerkentyű réteg"
+msgstr "Görbe szerkentyű"
 
 #: rc.cpp:283
 msgid "Curves"
@@ -2324,7 +2301,7 @@ msgstr "Dan Dennedy"
 
 #: rc.cpp:323
 msgid "DeFish"
-msgstr ""
+msgstr "DeFish"
 
 #: rc.cpp:22
 msgid "Debug"
@@ -2677,7 +2654,7 @@ msgstr "Négyzetes középérték megjelnítése"
 
 #: rc.cpp:154
 msgid "Display and manipulation of the alpha channel"
-msgstr ""
+msgstr "Alfa-csatorna megjelenítése és megváltoztatása"
 
 #: rc.cpp:988
 #: rc.cpp:2772
@@ -2702,7 +2679,7 @@ msgstr "Klipjelölők megjegyzéseinek megjelenítése"
 #: rc.cpp:158
 #, fuzzy
 msgid "Display input alpha"
-msgstr "Beviteli/kijelzési kódlap:"
+msgstr "Ablakok elmosása"
 
 #: rc.cpp:457
 msgid "Display maximum"
@@ -2741,7 +2718,7 @@ msgstr "Figyelmen kívül hagy"
 
 #: src/titlewidget.cpp:600
 msgid "Do you really want to load a new template? Changes in this title will be lost!"
-msgstr ""
+msgstr "Valóban be kívánja tölteni az új sablont? A címben végzett változtatások el fognak veszni."
 
 #: src/titlewidget.cpp:1791
 msgid ""
@@ -2789,7 +2766,7 @@ msgstr "Tengely rajzolása"
 
 #: rc.cpp:186
 msgid "Draws simple shapes into the alpha channel"
-msgstr ""
+msgstr "Egyszerű alakzatok rajzolása az alfacsatornába"
 
 #: rc.cpp:1344
 #: rc.cpp:3128
@@ -2923,7 +2900,7 @@ msgstr "Profil szerkesztés"
 #: rc.cpp:1519
 #: rc.cpp:3303
 msgid "Edit start"
-msgstr "Vég szerkesztése"
+msgstr "Kezdet szerkesztése"
 
 #: src/edittransitioncommand.cpp:36
 msgid "Edit transition %1"
@@ -3097,19 +3074,17 @@ msgid "Export audio"
 msgstr "Hang exportálása"
 
 #: src/renderwidget.cpp:1887
-#, fuzzy
 msgid "Export audio (automatic)"
-msgstr "Automatikusan középre és vágva"
+msgstr "Hang exportálása (automatikus)"
 
 #: src/vectorscope.cpp:83
-#, fuzzy
 msgid "Export background"
-msgstr "háttér"
+msgstr "Háttér exportálása"
 
 #: rc.cpp:2586
 #: rc.cpp:4370
 msgid "Export color plane to PNG"
-msgstr ""
+msgstr "Színtér PNG fájlba exportálása"
 
 #: rc.cpp:1654
 #: rc.cpp:2280
@@ -3164,7 +3139,7 @@ msgstr "Fokozatos elrejtés"
 
 #: src/initeffects.cpp:804
 msgid "Fade out one video while fading in the other video."
-msgstr ""
+msgstr "Videó fokozatos elrejtése, miközben egy másik videó fokozatosan megjelenik."
 
 #: rc.cpp:130
 msgid "Fade to Black"
@@ -3189,7 +3164,7 @@ msgstr "Kedvencek"
 #: rc.cpp:252
 #, fuzzy
 msgid "Feather Alpha"
-msgstr "alfa csatorna"
+msgstr "Alfa elmosás"
 
 #: rc.cpp:641
 msgid "Feedback"
@@ -3197,9 +3172,8 @@ msgstr "Visszajelzés"
 
 #: rc.cpp:1000
 #: rc.cpp:2784
-#, fuzzy
 msgid "Fields per second"
-msgstr "Képkocka per Másodperc"
+msgstr "Másodpercenkénti mezők"
 
 #: src/unicodedialog.cpp:146
 msgid "Figure space (non-breaking). Width of a digit if digits have fixed width in this font."
@@ -3265,9 +3239,8 @@ msgstr "Fájlnév"
 
 #: rc.cpp:2376
 #: rc.cpp:4160
-#, fuzzy
 msgid "Filename pattern"
-msgstr "Fájlnév felvétele"
+msgstr "Fájnév-minta"
 
 #: src/initeffects.cpp:749
 #: src/initeffects.cpp:781
@@ -3285,7 +3258,7 @@ msgstr "Kitöltés átlátszatlansága"
 
 #: rc.cpp:170
 msgid "Fill the alpha channel with a specified gradient"
-msgstr ""
+msgstr "Alfacsatorna kitöltése a megadott színátmenettel"
 
 #: src/mainwindow.cpp:1069
 msgid "Find"
@@ -3321,9 +3294,8 @@ msgid "Fit zoom"
 msgstr "Kitöltő nagyítás"
 
 #: src/geometrywidget.cpp:136
-#, fuzzy
 msgid "Fit zoom to monitor size"
-msgstr "Ablak kitöltése a nagyítás mértékéhez"
+msgstr "Monitort kitöltő nagyitási érték"
 
 #: src/mainwindow.cpp:948
 msgid "Fit zoom to project"
@@ -3399,7 +3371,7 @@ msgstr "Betűkészletek"
 #: src/initeffects.cpp:799
 #, fuzzy
 msgid "Force Deinterlace Overlay"
-msgstr "Rátét információk figyelése"
+msgstr "Ablakelhelyezés erőltetése"
 
 #: rc.cpp:2049
 #: rc.cpp:3833
@@ -3488,9 +3460,8 @@ msgid "Found: %1"
 msgstr "Találat: %1"
 
 #: rc.cpp:224
-#, fuzzy
 msgid "Four corners geometry engine"
-msgstr "A(z) %s motor nem található"
+msgstr ""
 
 #: src/unicodedialog.cpp:142
 msgid "Four-Per-Em Space. Width: 1/4 of one <em>em</em>"
@@ -3597,7 +3568,6 @@ msgid "Full shots"
 msgstr "Teljes mentés"
 
 #: rc.cpp:921
-#, fuzzy
 msgid "Fun"
 msgstr "Fun"
 
@@ -3719,9 +3689,8 @@ msgid "Go to previous keyframe"
 msgstr "Ugrás az előző kulcsképre"
 
 #: src/rgbparade.cpp:36
-#, fuzzy
 msgid "Gradient reference line"
-msgstr "Parancssori opciók"
+msgstr "Átmenet referencia vonal"
 
 #: rc.cpp:315
 msgid "Graph position"
@@ -3840,9 +3809,8 @@ msgid "Hide track"
 msgstr "Sáv elrejtése"
 
 #: rc.cpp:843
-#, fuzzy
 msgid "High frequency damping"
-msgstr "Vízhullámok frekvenciája."
+msgstr "Nagyfrekvenciás csillapítás"
 
 #: src/mainwindow.cpp:260
 msgid "Histogram"
@@ -3870,9 +3838,8 @@ msgstr "Vízszintes szórás"
 
 #: rc.cpp:2600
 #: rc.cpp:4384
-#, fuzzy
 msgid "How much to zoom in"
-msgstr "Mennyi ideig jelenjen meg az indítóképernyő (másodpercben megadva)"
+msgstr "Nagyítás mértékének megadása"
 
 #: rc.cpp:355
 msgid "Hue"
@@ -4076,18 +4043,16 @@ msgstr "Váltottsoros"
 
 #: src/projectsettings.cpp:200
 msgid "Interlaced (%1 fields per second)"
-msgstr ""
+msgstr "Váltottsoros (%1 mező másodpercenként)"
 
 #: rc.cpp:807
-#, fuzzy
 msgid "Interpolation"
-msgstr "Színek megfordítása"
+msgstr "Interpolálás"
 
 #: rc.cpp:248
 #: rc.cpp:331
-#, fuzzy
 msgid "Interpolator"
-msgstr "Színek megfordítása"
+msgstr "Interpoláció"
 
 #: rc.cpp:934
 #: rc.cpp:2718
@@ -4126,7 +4091,6 @@ msgid "Invert colors"
 msgstr "Színek megfordítása"
 
 #: rc.cpp:497
-#, fuzzy
 msgid "Invert selection"
 msgstr "Kijelölés megfordítása"
 
@@ -4199,9 +4163,8 @@ msgid "Keep aspect ratio"
 msgstr "Képarány megtartása"
 
 #: rc.cpp:266
-#, fuzzy
 msgid "Keep luma"
-msgstr "Luma fájl használata"
+msgstr "Luma megtartása"
 
 #: rc.cpp:547
 msgid "Kernel size"
@@ -4244,9 +4207,8 @@ msgid "LADSPA room reverb audio effect"
 msgstr "LADSPA szobai visszhang hangeffektus"
 
 #: src/mainwindow.cpp:1627
-#, fuzzy
 msgid "Layout name:"
-msgstr "_Fájlnév"
+msgstr "Elrendezés neve:"
 
 #: src/mainwindow.cpp:316
 msgid "Layouts"
@@ -4302,14 +4264,12 @@ msgid "Load Image"
 msgstr "Kép betöltése"
 
 #: rc.cpp:4565
-#, fuzzy
 msgid "Load Layout"
-msgstr "Elrendezés &1 betöltése"
+msgstr "Elrendezés betöltése"
 
 #: src/mainwindow.cpp:318
-#, fuzzy
 msgid "Load Layout %1"
-msgstr "Elrendezés &1 betöltése"
+msgstr "„%1” elrendezés betöltése"
 
 #: src/titlewidget.cpp:1748
 msgid "Load Title"
@@ -4360,9 +4320,8 @@ msgid "Loop Zone"
 msgstr "Kiválasztott zóna ismétlése"
 
 #: src/mainwindow.cpp:1128
-#, fuzzy
 msgid "Loop selected clip"
-msgstr "Kiválasztott klip törlése"
+msgstr "Kiválasztott klip ismétlése"
 
 #: src/renderwidget.cpp:1214
 msgid "Lossless / HQ"
@@ -4386,21 +4345,18 @@ msgid "Luma file"
 msgstr "Luma fájl használata"
 
 #: rc.cpp:270
-#, fuzzy
 msgid "Luma formula"
-msgstr "Luma fájl használata"
+msgstr "Luma formula"
 
 #: src/histogram.cpp:37
 #: src/waveform.cpp:46
-#, fuzzy
 msgid "Luma mode"
-msgstr "Részletes mód"
+msgstr "Luma mód"
 
 #: rc.cpp:1756
 #: rc.cpp:3540
-#, fuzzy
 msgid "Luma value"
-msgstr "Alapérték"
+msgstr "Luma érték"
 
 #: rc.cpp:1828
 #: rc.cpp:3612
@@ -4635,9 +4591,8 @@ msgstr "Monitor gyorsított előnézet beállítások"
 
 #: rc.cpp:1347
 #: rc.cpp:3131
-#, fuzzy
 msgid "Monitor background color:"
-msgstr "Háttérszín figyelése (újraindítást igényel)"
+msgstr "Monitor háttérszíne:"
 
 #: src/monitor.cpp:240
 msgid "Monitor overlay infos"
@@ -4690,9 +4645,8 @@ msgid "Move keyframe above or below clip to remove it, double click to add a new
 msgstr ""
 
 #: rc.cpp:871
-#, fuzzy
 msgid "Move the left channel to the right and right-to-left"
-msgstr "Bal csatorna átmásolása a jobb csatornára"
+msgstr "Bal csatorna áthelyezése a jobb csatornára és viszont"
 
 #: src/geometrywidget.cpp:101
 msgid "Move to bottom"
@@ -4851,9 +4805,8 @@ msgid "No-break space. &amp;nbsp; in HTML. See U+2009 and U+0020."
 msgstr "Nem törő szóköz. &amp;nbsp; HTML-ben. Lásd: U+2009 és U+0020."
 
 #: rc.cpp:319
-#, fuzzy
 msgid "Non rectilinear lens mappings"
-msgstr "Megosztott programkönyvtárak térképeinek mutatása"
+msgstr "Nem téglalap alakú lencseleképzés"
 
 #: src/vectorscope.cpp:63
 #: src/slideshowclip.cpp:61
@@ -4903,9 +4856,8 @@ msgid "Not possible to resize"
 msgstr "Az átméretezés nem lehetséges"
 
 #: rc.cpp:291
-#, fuzzy
 msgid "Number of curve points"
-msgstr "Görbe pontjainak száma"
+msgstr "Görbepontok száma"
 
 #: src/kdenlivesettingsdialog.cpp:235
 msgid "OSS"
@@ -4928,30 +4880,25 @@ msgid "Offset"
 msgstr "Eltolás"
 
 #: rc.cpp:531
-#, fuzzy
 msgid "Offset Alpha"
-msgstr "alfa csatorna"
+msgstr "Alfa eltolás"
 
 #: rc.cpp:529
-#, fuzzy
 msgid "Offset Blue"
-msgstr "Kék háttér"
+msgstr "Kék eltolás"
 
 #: rc.cpp:527
-#, fuzzy
 msgid "Offset Green"
-msgstr "Zöld tinta"
+msgstr "Zöld eltolás"
 
 #: rc.cpp:525
-#, fuzzy
 msgid "Offset Red"
-msgstr "Ciánkék – _Vörös:"
+msgstr "Vörös eltolás"
 
 #: src/customtrackview.cpp:408
 #: src/customtrackview.cpp:420
-#, fuzzy
 msgid "Offset:"
-msgstr "eltolás"
+msgstr "Eltolás"
 
 #: rc.cpp:1843
 #: rc.cpp:2652
@@ -4996,7 +4943,6 @@ msgstr "A(z) %1 fájl megnyitása"
 #: rc.cpp:182
 #: rc.cpp:206
 #: rc.cpp:511
-#, fuzzy
 msgid "Operation"
 msgstr "Művelet"
 
@@ -5006,16 +4952,14 @@ msgid "Original"
 msgstr "Eredeti"
 
 #: src/vectorscope.cpp:61
-#, fuzzy
 msgid "Original Color"
-msgstr "Színkezelés"
+msgstr "Eredeti szín"
 
 #: src/main.cpp:46
 msgid "Original KDE 3 version author (not active anymore)"
 msgstr "Az eredeti KDE3 verzió szerzője (nem dolgozik már velünk)"
 
 #: src/geometrywidget.cpp:138
-#, fuzzy
 msgid "Original size"
 msgstr "Eredeti méret"
 
@@ -5054,9 +4998,8 @@ msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "A fájl már létezik. Felül kívánja írni a fájlt?"
 
 #: rc.cpp:541
-#, fuzzy
 msgid "Overall Saturation"
-msgstr "A háttér telítettsége."
+msgstr "Összesített telítettség"
 
 #: src/mainwindow.cpp:868
 msgid "Overwrite mode"
@@ -5086,17 +5029,15 @@ msgstr "PAL 4:3"
 #: rc.cpp:2843
 #: rc.cpp:3971
 #: rc.cpp:4223
-#, fuzzy
 msgid "Paint mode"
-msgstr "Részletes mód"
+msgstr "Festés mód"
 
 #: src/slideshowclip.cpp:62
 #: src/clipproperties.cpp:187
 #: rc.cpp:8
 #: rc.cpp:12
-#, fuzzy
 msgid "Pan"
-msgstr "Követési lépték"
+msgstr "Görgetés"
 
 #: rc.cpp:721
 #: rc.cpp:751
@@ -5105,21 +5046,18 @@ msgstr "Görgetés és nagyítás"
 
 #: src/slideshowclip.cpp:64
 #: src/clipproperties.cpp:189
-#, fuzzy
 msgid "Pan and zoom"
 msgstr "Görgetés és nagyítás"
 
 #: src/slideshowclip.cpp:65
 #: src/clipproperties.cpp:190
-#, fuzzy
 msgid "Pan and zoom, low-pass"
-msgstr "Görgetés és nagyítás"
+msgstr "Görgetés és nagyítás, aluláteresztő"
 
 #: src/slideshowclip.cpp:63
 #: src/clipproperties.cpp:188
-#, fuzzy
 msgid "Pan, low-pass"
-msgstr "alsónémet; alsószász"
+msgstr "Görgetés, aluláteresztő"
 
 #: rc.cpp:1218
 #: rc.cpp:3002
@@ -5164,9 +5102,8 @@ msgid "Phaser"
 msgstr "Fáziseltoló"
 
 #: src/colorpickerwidget.cpp:69
-#, fuzzy
 msgid "Pick a color on the screen"
-msgstr "On screen időkód megjelenítés"
+msgstr "Válasszon ki egy színt a képernyőn"
 
 #: rc.cpp:645
 msgid "Pitch Scaler"
@@ -5194,9 +5131,8 @@ msgid "Pixel aspect ratio:"
 msgstr "Képarány:"
 
 #: rc.cpp:393
-#, fuzzy
 msgid "Pixelize input image."
-msgstr "E-mail kép átnevezése"
+msgstr "Bemeneti kép pixelesítése."
 
 #: rc.cpp:339
 msgid "Plasma"
@@ -5355,24 +5291,20 @@ msgid "Position: %1"
 msgstr "Pozíció: %1"
 
 #: rc.cpp:539
-#, fuzzy
 msgid "Power (Gamma) Alpha"
-msgstr "Alfa-függés határértéke"
+msgstr "Alfa (Gamma) erősítése"
 
 #: rc.cpp:537
-#, fuzzy
 msgid "Power (Gamma) Blue"
-msgstr "Kék gamma előnézete:"
+msgstr "Kék (Gamma) erősítése"
 
 #: rc.cpp:535
-#, fuzzy
 msgid "Power (Gamma) Green"
-msgstr "Zöld gamma előnézete:"
+msgstr "Zöld (Gamma) erősítése"
 
 #: rc.cpp:533
-#, fuzzy
 msgid "Power (Gamma) Red"
-msgstr "Vörös gamma előnézete:"
+msgstr "Vörös (Gamma) erősítése"
 
 #: rc.cpp:445
 msgid "Pr trace"
@@ -5520,7 +5452,7 @@ msgstr "Projekt Fastruktúra"
 
 #: src/kdenlivedoc.cpp:224
 msgid "Project directory %1 does not exist. Create it?"
-msgstr ""
+msgstr "A(z) „%1” projektmappa nem létezik. Létre kívánja hozni a mappát?"
 
 #: rc.cpp:1995
 #: rc.cpp:3779
@@ -5604,13 +5536,12 @@ msgstr "RGB színbeállítás"
 
 #: src/colorplaneexport.cpp:32
 msgid "RGB plane, one component varying"
-msgstr ""
+msgstr "RGB színtér, egy összetevő változtatásával"
 
 #: rc.cpp:1774
 #: rc.cpp:3558
-#, fuzzy
 msgid "RGB summed up"
-msgstr "Elem mozgatása fel"
+msgstr "RGB összegzés"
 
 #: rc.cpp:687
 msgid "RPM"
@@ -5669,24 +5600,21 @@ msgstr "Valósidejű (képkockák eldobással)"
 
 #: src/abstractscopewidget.cpp:63
 msgid "Realtime (with precision loss)"
-msgstr ""
+msgstr "Valósidejű (csökkenő pontossággal)"
 
 #: src/rebuildgroupcommand.cpp:30
-#, fuzzy
 msgid "Rebuild Group"
-msgstr "Klipek csoportosítása"
+msgstr "Csoport újraépítése"
 
 #: src/histogram.cpp:27
 #: src/waveform.cpp:39
-#, fuzzy
 msgid "Rec. 601"
-msgstr "Felvétel vége"
+msgstr "Felv. 601"
 
 #: src/histogram.cpp:29
 #: src/waveform.cpp:41
-#, fuzzy
 msgid "Rec. 709"
-msgstr "Felvétel vége"
+msgstr "Felv. 709"
 
 #: src/recmonitor.cpp:84
 msgid "Record"
@@ -5722,9 +5650,8 @@ msgid "Red"
 msgstr "Vörös"
 
 #: rc.cpp:797
-#, fuzzy
 msgid "Regeneration"
-msgstr "Beszúrási pont"
+msgstr "Újragenerálás"
 
 #: src/initeffects.cpp:775
 #: rc.cpp:719
@@ -5838,9 +5765,8 @@ msgstr "A hibás klipkészítő kicserélése erről: %1, erre:%2"
 
 #: src/colorpickerwidget.cpp:114
 #: src/colorpickerwidget.cpp:139
-#, fuzzy
 msgid "Requesting color information..."
-msgstr "Színinformációk figyelmen kívül hagyása"
+msgstr "Színinformációk lekérdezése…"
 
 #: src/wizard.cpp:346
 msgid "Required for creation of DVD"
@@ -5898,7 +5824,6 @@ msgid "Reset effect"
 msgstr "Effektus eltávolítás"
 
 #: src/doubleparameterwidget.cpp:57
-#, fuzzy
 msgid "Reset to default value"
 msgstr "Alapértelmezett beállítás visszaállítása"
 
@@ -5928,20 +5853,17 @@ msgid "Resize clip"
 msgstr "Klip átméretezése"
 
 #: src/customtrackview.cpp:4520
-#, fuzzy
 msgid "Resize clip end"
-msgstr "Elem átméretezése befejeződik"
+msgstr "Klip végének átméretezése"
 
 #: src/customtrackview.cpp:4399
-#, fuzzy
 msgid "Resize clip start"
-msgstr "Elem átméretezése kezdődik"
+msgstr "Klip elejének átméretezése"
 
 #: src/customtrackview.cpp:3410
 #: src/customtrackview.cpp:3434
-#, fuzzy
 msgid "Resize group"
-msgstr "Klipek csoportosítása"
+msgstr "Csoport átméretezése"
 
 #: rc.cpp:1861
 #: rc.cpp:2645
@@ -5964,9 +5886,8 @@ msgid "Reverb time"
 msgstr "Visszhang idő"
 
 #: rc.cpp:841
-#, fuzzy
 msgid "Reverberance"
-msgstr "Visszhangosítás (Reverb)"
+msgstr "Visszhangosító"
 
 #: src/initeffects.cpp:804
 msgid "Reverse"
@@ -6003,9 +5924,8 @@ msgid "Room Reverb"
 msgstr "Terem visszhangosítás (Room reverb)"
 
 #: rc.cpp:845
-#, fuzzy
 msgid "Room scale"
-msgstr "Kép átméretezése"
+msgstr "Hely átméretezése"
 
 #: rc.cpp:675
 msgid "Room size (m)"
@@ -6074,7 +5994,7 @@ msgstr "S"
 
 #: rc.cpp:513
 msgid "SOP/Sat"
-msgstr ""
+msgstr "SOP/Sat"
 
 #: src/kdenlivesettingsdialog.cpp:260
 msgid "SVGAlib"
@@ -6097,9 +6017,8 @@ msgid "Save As"
 msgstr "Mentés másként…"
 
 #: src/mainwindow.cpp:321
-#, fuzzy
 msgid "Save As Layout %1"
-msgstr "Üzenet mentése mint"
+msgstr "Elrendezés mentése mint %1"
 
 #: src/dvdwizard.cpp:697
 msgid "Save DVD Project"
@@ -6110,14 +6029,12 @@ msgid "Save Effect"
 msgstr "Effektus mentése"
 
 #: src/mainwindow.cpp:1627
-#, fuzzy
 msgid "Save Layout"
-msgstr "Elrendezés &1 mentése"
+msgstr "Elrendezés mentése"
 
 #: rc.cpp:4562
-#, fuzzy
 msgid "Save Layout As"
-msgstr "Üzenet mentése mint"
+msgstr "Elrendezés mentése mint"
 
 #: rc.cpp:2268
 #: rc.cpp:4052
@@ -6312,9 +6229,8 @@ msgid "Select text items in current selection"
 msgstr "Szövegek kiválasztása az aktuális kijelölésben"
 
 #: rc.cpp:491
-#, fuzzy
 msgid "Select0r"
-msgstr "Kijelölés"
+msgstr "Kiválasztó (Select0r)"
 
 #: rc.cpp:2082
 #: rc.cpp:3866
@@ -6330,9 +6246,8 @@ msgid "Selection Tool"
 msgstr "Kiválasztó eszköz"
 
 #: rc.cpp:505
-#, fuzzy
 msgid "Selection subspace"
-msgstr "Eszköz kiválasztása"
+msgstr "Altér kiválasztása"
 
 #: src/mainwindow.cpp:893
 msgid "Selection tool"
@@ -6407,9 +6322,8 @@ msgid "Shift + click to create a selection rectangle, Ctrl + click to add an ite
 msgstr "Shift + kattintás: négyzet-alakú kiválasztás, Ctrl + kattintás: elem hozzáadása a kiválasztáshoz"
 
 #: rc.cpp:353
-#, fuzzy
 msgid "Shifts the hue of a source image"
-msgstr "Fényerő megváltoztatása a forrásképnél"
+msgstr "Fényerő eltolása a forrásképnél"
 
 #: rc.cpp:2433
 #: rc.cpp:4217
@@ -6425,9 +6339,8 @@ msgid "Show Title Bars"
 msgstr "Címsáfok megjelenítése"
 
 #: rc.cpp:415
-#, fuzzy
 msgid "Show alpha"
-msgstr "alfa csatorna"
+msgstr "Alfa megjelenítése"
 
 #: src/mainwindow.cpp:1005
 #: rc.cpp:2532
@@ -6441,9 +6354,8 @@ msgid "Show background"
 msgstr "Háttér megjelenítése"
 
 #: rc.cpp:313
-#, fuzzy
 msgid "Show graph in picture"
-msgstr "Jelölő beállítása az idővonalon"
+msgstr "Grafikon megjelenítése a képen"
 
 #: rc.cpp:387
 msgid "Show histogram"
@@ -6458,9 +6370,8 @@ msgid "Show markers comments"
 msgstr "Jelölők megjegyzéseinek megjelenítése"
 
 #: src/geometrywidget.cpp:130
-#, fuzzy
 msgid "Show monitor scene"
-msgstr "Automatikus jelenet érzékelés"
+msgstr "Helyszínmonitor megjelenítése"
 
 #: rc.cpp:2409
 #: rc.cpp:4193
@@ -6478,18 +6389,16 @@ msgid "Show/Hide options"
 msgstr "Beállítások megjelenítése vagy elrejtése"
 
 #: src/geometrywidget.cpp:126
-#, fuzzy
 msgid "Show/Hide settings"
-msgstr "Szerkentyű ablakok megjelenítése és elrejtése"
+msgstr "Beállítások megjelenítése/elrejtése"
 
 #: src/effectslistview.cpp:46
 msgid "Show/Hide the effect description"
 msgstr "Effektusleírások megjelenítése vagy elrejtése"
 
 #: rc.cpp:164
-#, fuzzy
 msgid "Shrink/grow amount"
-msgstr "Helykitöltés"
+msgstr "Kicsinyítés/nagyítás mértéke"
 
 #: rc.cpp:2121
 #: rc.cpp:3905
@@ -6549,9 +6458,8 @@ msgid "Slide"
 msgstr "Dia"
 
 #: src/initeffects.cpp:799
-#, fuzzy
 msgid "Slide image from one side to another."
-msgstr "Megadott fájlok kódolásának átalakítása"
+msgstr "Kép átalakítása az egyikből a másikba."
 
 #: rc.cpp:1119
 #: rc.cpp:2903
@@ -6570,24 +6478,20 @@ msgid "Slideshow clip"
 msgstr "Diavetítés klip"
 
 #: rc.cpp:523
-#, fuzzy
 msgid "Slope Alpha"
-msgstr "alfa csatorna"
+msgstr "Alfa csatolása"
 
 #: rc.cpp:521
-#, fuzzy
 msgid "Slope Blue"
-msgstr "Kék háttér"
+msgstr "Kék csatolása"
 
 #: rc.cpp:519
-#, fuzzy
 msgid "Slope Green"
-msgstr "Zöld tinta"
+msgstr "Zöld csatolása"
 
 #: rc.cpp:517
-#, fuzzy
 msgid "Slope Red"
-msgstr "Ciánkék – _Vörös:"
+msgstr "Vörös csatolása"
 
 #: src/trackview.cpp:74
 msgid "Smaller tracks"
@@ -6723,9 +6627,8 @@ msgid "Split audio"
 msgstr "Hang felosztása"
 
 #: src/mainwindow.cpp:993
-#, fuzzy
 msgid "Split audio and video automatically"
-msgstr "Videó, hang és kép előnézetének megjelenítése"
+msgstr "Hang- és képanyag automatikus szétválasztása"
 
 #: rc.cpp:559
 msgid "Split screen preview"
@@ -6813,7 +6716,7 @@ msgstr "Stroboszkóp"
 
 #: rc.cpp:507
 msgid "Subspace shape"
-msgstr ""
+msgstr "Altér alakzata"
 
 #: rc.cpp:1777
 #: rc.cpp:3561
@@ -6837,9 +6740,8 @@ msgid "Sync timeline cursor"
 msgstr "Idővonal kurzor szinkronizálása"
 
 #: src/geometrywidget.cpp:72
-#, fuzzy
 msgid "Synchronize with timeline cursor"
-msgstr "Katalógus frissítése - szinkronizálás a forrásokhoz"
+msgstr "Szinkronizálás az idővonal kurzorral"
 
 #: rc.cpp:1438
 #: rc.cpp:3222
@@ -6900,7 +6802,7 @@ msgstr "Szöveg klip"
 
 #: src/colorplaneexport.cpp:191
 msgid "The Y value describes the brightness of the colors."
-msgstr ""
+msgstr "Az Y érték megadja a szín fényességét"
 
 #: src/profilesdialog.cpp:114
 msgid "The custom profile was modified, do you want to save it?"
@@ -6912,17 +6814,19 @@ msgid ""
 "The directory %1, could not be created.\n"
 "Please make sure you have the required permissions."
 msgstr ""
+"A(z) „%1” mappa nem hozható létre.\n"
+"Bizonosodjon meg róla, hogy rendelkezik a szükséges hogosultságokkal."
 
 #: src/kdenlivedoc.cpp:1448
 msgid "The following effects were imported from the project:"
-msgstr ""
+msgstr "A következő effektusok kerültek importálásra a projektből:"
 
 #: src/mainwindow.cpp:576
 #: src/mainwindow.cpp:1773
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
 "Do you want to save your changes?"
-msgstr ""
+msgstr "A(z)  <b>„%1”</b> projekt megváltozott. El kívánja menteni a változásokat? "
 
 #: rc.cpp:4568
 msgid "Themes"
@@ -7039,9 +6943,8 @@ msgstr ""
 #: rc.cpp:176
 #: rc.cpp:198
 #: rc.cpp:427
-#, fuzzy
 msgid "Tilt"
-msgstr "Csempe"
+msgstr "Döntés"
 
 #: rc.cpp:487
 msgid "Tilt X"
@@ -7113,9 +7016,8 @@ msgid "Title module"
 msgstr "Cím modul"
 
 #: rc.cpp:48
-#, fuzzy
 msgid "To"
-msgstr "Címzett"
+msgstr "Ide:"
 
 #: rc.cpp:2511
 #: rc.cpp:4295
@@ -7295,7 +7197,7 @@ msgstr "Szövegklip frissítése"
 
 #: src/geometrywidget.cpp:132
 msgid "Update parameters while monitor scene changes"
-msgstr ""
+msgstr "Paraméterek megváltoztatása a helyszín változások figyelése közben"
 
 #: src/projectlist.cpp:1542
 msgid "Update profile"
@@ -7304,7 +7206,7 @@ msgstr "Profil frissítése"
 #: src/customtrackview.cpp:613
 #: src/customtrackview.cpp:617
 msgid "Use Ctrl to resize only current item, otherwise all items in this group will be resized at once."
-msgstr ""
+msgstr "Az aktuális elem átméretezéséhez nyomja le a Ctrl gombot. Egyébként az csoport összes eleme át lesz méretezve."
 
 #: rc.cpp:2328
 #: rc.cpp:4112
@@ -7313,7 +7215,7 @@ msgstr "A KDE munkakövető rendszerének használata a leképzési feladatokhoz
 
 #: src/initeffects.cpp:776
 msgid "Use alpha channel of another clip to create a transition."
-msgstr ""
+msgstr "Másik klip alfacsatornájának használata átmenet készítéséhez."
 
 #: rc.cpp:1004
 #: rc.cpp:2788
@@ -7322,9 +7224,8 @@ msgstr "Alapértelmezett"
 
 #: rc.cpp:2331
 #: rc.cpp:4115
-#, fuzzy
 msgid "Use on-monitor effects"
-msgstr "A konzolon használandó kódolás:"
+msgstr "Monitor effektusok alkalmazása"
 
 #: rc.cpp:2358
 #: rc.cpp:4142
@@ -7773,6 +7674,10 @@ msgid ""
 "\n"
 "The following profiles match the clip (size: %1, fps: %2)"
 msgstr ""
+"Ez a klip nem egyeztethető össze a projekt profiljával.\n"
+"Meg kívánja változtatni a projekt profilját?\n"
+"\n"
+"A következő profil egyeztethető a klippel (méret: %1, FPS: %2)"
 
 #: src/projectlist.cpp:1552
 msgid ""
@@ -7781,6 +7686,10 @@ msgid ""
 "Clip size: %1\n"
 "Fps: %2\n"
 msgstr ""
+"Ez a klip nem egyeztethető össze a projekt profiljával.\n"
+"Nem található a klip tulajdonságaival összeegyeztethető profil.\n"
+"Klip méret: %1\n"
+"FPS: %2\n"
 
 #: src/trackview.cpp:460
 msgid "Your project file was upgraded to the latest Kdenlive document version, but it was not possible to create a backup copy."
