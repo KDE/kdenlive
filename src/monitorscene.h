@@ -81,6 +81,8 @@ private:
     QImage m_backgroundImage;
     bool m_enabled;
     qreal m_zoom;
+    bool m_groupMove;
+    QPointF m_lastPos;
 
 signals:
     void zoomChanged(int);

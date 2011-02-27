@@ -20,6 +20,8 @@
 
 #include "monitorscene.h"
 #include "renderer.h"
+#include "onmonitoritems/rotoscoping/bpointitem.h"
+#include "onmonitoritems/rotoscoping/splineitem.h"
 #include "kdenlivesettings.h"
 
 #include <QGraphicsView>
@@ -33,7 +35,8 @@ MonitorScene::MonitorScene(Render *renderer, QObject* parent) :
         m_view(NULL),
         m_backgroundImage(QImage()),
         m_enabled(true),
-        m_zoom(1.0)
+        m_zoom(1.0),
+        m_groupMove(false)
 {
     setBackgroundBrush(QBrush(QColor(KdenliveSettings::window_background().name())));
 
@@ -141,17 +144,79 @@ void MonitorScene::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
     QGraphicsScene::mousePressEvent(event);
 
-    if (!event->isAccepted() && event->buttons() & Qt::LeftButton && event->modifiers() == Qt::ControlModifier)
-        m_view->setDragMode(QGraphicsView::ScrollHandDrag);
+    if (event->isAccepted() && selectedItems().count() > 1) {
+        // multiple items selected + mouse pressed on an item
+        QList <QGraphicsItem *> selected = selectedItems();
+        foreach (QGraphicsItem *item, selected) {
+            if (qgraphicsitem_cast<BPointItem*>(item)) {
+                // works with rotoscoping only for now
+                m_groupMove = true;
+                m_lastPos = event->scenePos();
+                return;
+            }
+        }
+    }
+
+    if (!event->isAccepted() && event->buttons() & Qt::LeftButton) {
+        if (event->modifiers() == Qt::ControlModifier)
+            m_view->setDragMode(QGraphicsView::ScrollHandDrag);
+        else if (event->modifiers() == Qt::ShiftModifier)
+            m_view->setDragMode(QGraphicsView::RubberBandDrag);
+    }
 }
 
 void MonitorScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
-    QGraphicsScene::mouseMoveEvent(event);
+    if (m_groupMove) {
+        // we want to move multiple items
+        // rotoscoping only for now
+        QPointF diff =  event->scenePos() - m_lastPos;
+        if (diff != QPointF(0, 0)) {
+            m_lastPos = event->scenePos();
+            QList <QGraphicsItem *> selected = selectedItems();
+            int first = -1;
+            int i = 0;
+            foreach (QGraphicsItem *item, selected) {
+                BPointItem *bpoint = qgraphicsitem_cast<BPointItem *>(item);
+                if (bpoint) {
+                    if (first < 0)
+                        first = i;
+                    BPoint p = bpoint->getPoint();
+                    p.setP(p.p + diff);
+                    bpoint->setPoint(p);
+                }
+                ++i;
+            }
+
+            if (first >= 0) {
+                QGraphicsItem *item = selected.at(first);
+                if (item->parentItem()) {
+                    SplineItem *parent = qgraphicsitem_cast<SplineItem*>(item->parentItem());
+                    if (parent)
+                        parent->updateSpline(true);
+                }
+            }
+        }
+    } else {
+        QGraphicsScene::mouseMoveEvent(event);
+    }
 }
 
 void MonitorScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 {
+    if (m_groupMove) {
+        QList <QGraphicsItem *> selected = selectedItems();
+        foreach (QGraphicsItem *item, selected) {
+            if (qgraphicsitem_cast<BPointItem*>(item) && item->parentItem()) {
+                SplineItem *parent = qgraphicsitem_cast<SplineItem*>(item->parentItem());
+                if (parent) {
+                    parent->updateSpline(false);
+                    break;
+                }
+            }
+        }
+        m_groupMove = false;
+    }
     QGraphicsScene::mouseReleaseEvent(event);
     m_view->setDragMode(QGraphicsView::NoDrag);
 }
