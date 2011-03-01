@@ -39,8 +39,7 @@ RotoWidget::RotoWidget(QString data, Monitor *monitor, int in, int out, Timecode
         m_monitor(monitor),
         m_showScene(true),
         m_in(in),
-        m_out(out),
-        m_pos(0)
+        m_out(out)
 {
     QVBoxLayout *l = new QVBoxLayout(this);
     m_keyframeWidget = new SimpleKeyframeWidget(t, m_out - m_in - 1, this);
@@ -178,6 +177,8 @@ void RotoWidget::slotPositionChanged(int pos, bool seek)
 
     pos += m_in;
 
+    QList <BPoint> p;
+
     if (m_data.canConvert(QVariant::Map)) {
         QMap <QString, QVariant> map = m_data.toMap();
         QMap <QString, QVariant>::const_iterator i = map.constBegin();
@@ -191,7 +192,6 @@ void RotoWidget::slotPositionChanged(int pos, bool seek)
         if (keyframe1 != keyframe2 && pos < keyframe2) {
             QList <BPoint> p1 = getPoints(keyframe1);
             QList <BPoint> p2 = getPoints(keyframe2);
-            QList <BPoint> p;
             qreal relPos = (pos - keyframe1) / (qreal)(keyframe2 - keyframe1 + 1);
 
             int count = qMin(p1.count(), p2.count());
@@ -210,12 +210,18 @@ void RotoWidget::slotPositionChanged(int pos, bool seek)
             m_item->setEnabled(false);
             m_scene->setEnabled(false);
         } else {
-            m_item->setPoints(getPoints(keyframe2));
+            p = getPoints(keyframe2);
+            // only update if necessary to preserve the current point selection
+            if (p != m_item->getPoints())
+                m_item->setPoints(p);
             m_item->setEnabled(pos == keyframe2);
             m_scene->setEnabled(pos == keyframe2);
         }
     } else {
-        m_item->setPoints(getPoints(-1));
+        p = getPoints(-1);
+        // only update if necessary to preserve the current point selection
+        if (p != m_item->getPoints())
+            m_item->setPoints(p);
         m_item->setEnabled(true);
         m_scene->setEnabled(true);
     }

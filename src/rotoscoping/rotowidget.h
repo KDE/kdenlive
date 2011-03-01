@@ -60,7 +60,6 @@ private:
     SplineItem *m_item;
     int m_in;
     int m_out;
-    int m_pos;
 
     QList <BPoint> getPoints(int keyframe);
 

@@ -142,11 +142,20 @@ void MonitorScene::slotZoomIn(int by)
 
 void MonitorScene::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
+    QList <QGraphicsItem *> selected = selectedItems();
+
     QGraphicsScene::mousePressEvent(event);
+
+    if (selected.count() != selectedItems().count()) {
+        // mouse click on item not in selection group
+        // -> select only this item
+        foreach (QGraphicsItem *item, selected)
+            item->setSelected(false);
+    }
 
     if (event->isAccepted() && selectedItems().count() > 1) {
         // multiple items selected + mouse pressed on an item
-        QList <QGraphicsItem *> selected = selectedItems();
+        selected = selectedItems();
         foreach (QGraphicsItem *item, selected) {
             if (qgraphicsitem_cast<BPointItem*>(item)) {
                 // works with rotoscoping only for now
