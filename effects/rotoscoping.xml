@@ -18,8 +18,12 @@
             <name>Invert</name>
         </parameter>
 
-        <parameter type="constant" name="precision" max="500" min="1" default="1">
-            <name>Precision</name>
+        <parameter type="constant" name="feather" max="500" min="0" default="0">
+            <name>Feather width</name>
+        </parameter>
+        
+        <parameter type="constant" name="feather_passes" max="20" min="1" default="1">
+            <name>Feathering passes</name>
         </parameter>
 
         <parameter type="roto-spline" name="spline" default="">
