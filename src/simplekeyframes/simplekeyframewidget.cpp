@@ -112,5 +112,9 @@ void SimpleKeyframeWidget::addKeyframe(int pos)
     blockSignals(false);
 }
 
+void SimpleKeyframeWidget::updateTimecodeFormat()
+{
+    m_time->slotUpdateTimeCodeFormat();
+}
 
 #include "simplekeyframewidget.moc"

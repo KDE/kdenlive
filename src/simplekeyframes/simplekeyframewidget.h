@@ -41,6 +41,8 @@ public:
     void setKeyframes(const QList <int> &keyframes);
     void addKeyframe(int pos = -1);
 
+    void updateTimecodeFormat();
+
 public slots:
     void slotSetPosition(int pos = -1, bool update = true);
 

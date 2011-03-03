@@ -160,11 +160,13 @@ void EffectStackEdit::updateTimecodeFormat()
                 geom->updateTimecodeFormat();
             }
             break;
-        }
-        if (type == "position") {
+        } else if (type == "position") {
             PositionEdit *posi = ((PositionEdit*)m_valueItems[paramName+"position"]);
             posi->updateTimecodeFormat();
             break;
+        } else if (type == "roto-spline") {
+            RotoWidget *widget = static_cast<RotoWidget *>(m_valueItems[paramName]);
+            widget->updateTimecodeFormat();
         }
     }
 }

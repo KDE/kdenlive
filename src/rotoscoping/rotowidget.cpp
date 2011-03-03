@@ -299,4 +299,9 @@ void RotoWidget::slotMoveKeyframe(int oldPos, int newPos)
     emit valueChanged();
 }
 
+void RotoWidget::updateTimecodeFormat()
+{
+    m_keyframeWidget->updateTimecodeFormat();
+}
+
 #include "rotowidget.moc"

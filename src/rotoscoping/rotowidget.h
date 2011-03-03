@@ -38,6 +38,7 @@ public:
     virtual ~RotoWidget();
 
     QString getSpline();
+    void updateTimecodeFormat();
 
 public slots:
     /** @brief Switches from normal monitor to monitor scene according to @param show. */
