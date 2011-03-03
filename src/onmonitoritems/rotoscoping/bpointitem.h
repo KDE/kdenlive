@@ -40,6 +40,9 @@ public:
     virtual QRectF boundingRect() const;
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
+    /** @brief Gets The action mode for the area @param pos +- 4. */
+    int getSelection(QPointF pos);
+
 protected:
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
@@ -50,9 +53,6 @@ private:
     BPoint m_point;
     int m_selection;
     QGraphicsView *m_view;
-
-    /** @brief Gets The action mode for the area @param pos +- 4. */
-    int getSelection(QPointF pos);
 };
 
 #endif

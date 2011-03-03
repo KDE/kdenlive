@@ -189,11 +189,21 @@ void SplineItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
             updateSpline();
         }
     } else {
-        if (event->button() == Qt::RightButton) {
-            if (childItems().count() > 1) {
+        bool close = false;
+        QList <QGraphicsItem *> items = childItems();
+        if (items.count() > 1) {
+            BPointItem *bp = qgraphicsitem_cast<BPointItem *>(items.at(0));
+            int selectionType = bp->getSelection(mapToItem(bp, event->pos()));
+            // since h1 == p we need to check for both
+            if (selectionType == 0 || selectionType == 1)
+                close = true;
+        }
+
+        if (close || event->button() == Qt::RightButton) {
+            if (items.count() > 1) {
                 // close the spline
-                BPointItem *i1 = qgraphicsitem_cast<BPointItem *>(childItems().first());
-                BPointItem *i2 = qgraphicsitem_cast<BPointItem *>(childItems().last());
+                BPointItem *i1 = qgraphicsitem_cast<BPointItem *>(items.first());
+                BPointItem *i2 = qgraphicsitem_cast<BPointItem *>(items.last());
                 BPoint p1 = i1->getPoint();
                 BPoint p2 = i2->getPoint();
                 p1.h1 = QLineF(p1.p, p2.p).pointAt(.2);
@@ -207,8 +217,8 @@ void SplineItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
         } else if (event->modifiers() == Qt::NoModifier) {
             BPoint p;
             p.p = p.h1 = p.h2 = event->scenePos();
-            if (childItems().count()) {
-                BPointItem *i = qgraphicsitem_cast<BPointItem *>(childItems().last());
+            if (items.count()) {
+                BPointItem *i = qgraphicsitem_cast<BPointItem *>(items.last());
                 BPoint prev = i->getPoint();
                 prev.h2 = QLineF(prev.p, p.p).pointAt(.2);
                 p.h1 = QLineF(prev.p, p.p).pointAt(.8);
