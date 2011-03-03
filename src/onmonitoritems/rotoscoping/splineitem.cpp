@@ -258,10 +258,11 @@ int SplineItem::getClosestPointOnCurve(QPointF point, double *tFinal)
     qreal diff = 10000, param = 0;
     BPoint p1, p2;
     int curveSegment = 0, j;
-    for (int i = 0; i < childItems().count(); ++i) {
-        j = (i + 1) % childItems().count();
-        p1 = qgraphicsitem_cast<BPointItem *>(childItems().at(i))->getPoint();
-        p2 = qgraphicsitem_cast<BPointItem *>(childItems().at(j))->getPoint();
+    QList <QGraphicsItem *> items = childItems();
+    for (int i = 0; i < items.count(); ++i) {
+        j = (i + 1) % items.count();
+        p1 = qgraphicsitem_cast<BPointItem *>(items.at(i))->getPoint();
+        p2 = qgraphicsitem_cast<BPointItem *>(items.at(j))->getPoint();
         QPolygonF bounding = QPolygonF() << p1.p << p1.h2 << p2.h1 << p2.p;
         QPointF cl = closestPointInRect(point, bounding.boundingRect());
 #if QT_VERSION >= 0x040600

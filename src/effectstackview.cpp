@@ -232,7 +232,6 @@ void EffectStackView::slotItemChanged(QListWidgetItem *item)
 {
     bool disable = true;
     if (item->checkState() == Qt::Checked) disable = false;
-    m_ui.frame->setEnabled(!disable);
     m_ui.buttonReset->setEnabled(!disable);
     int activeRow = m_ui.effectlist->currentRow();
     if (activeRow >= 0) {
@@ -486,7 +485,7 @@ void EffectStackView::slotCheckAll(int state)
 
 void EffectStackView::slotCheckMonitorPosition(int renderPos)
 {
-    if (m_trackMode || (renderPos >= m_clipref->startPos().frames(KdenliveSettings::project_fps()) && renderPos <= m_clipref->endPos().frames(KdenliveSettings::project_fps()))) {
+    if (m_trackMode || (m_clipref && renderPos >= m_clipref->startPos().frames(KdenliveSettings::project_fps()) && renderPos <= m_clipref->endPos().frames(KdenliveSettings::project_fps()))) {
         if (!m_monitor->getEffectEdit()->getScene()->views().at(0)->isVisible())
             m_monitor->slotEffectScene(true);
     } else {
