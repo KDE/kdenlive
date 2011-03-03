@@ -146,11 +146,13 @@ void MonitorScene::mousePressEvent(QGraphicsSceneMouseEvent* event)
 
     QGraphicsScene::mousePressEvent(event);
 
-    if (selected.count() != selectedItems().count()) {
+    if (selected.count() < selectedItems().count()) {
         // mouse click on item not in selection group
         // -> select only this item
-        foreach (QGraphicsItem *item, selected)
-            item->setSelected(false);
+        foreach (QGraphicsItem *item, selected) {
+            if (item)
+                item->setSelected(false);
+        }
     }
 
     if (event->isAccepted() && selectedItems().count() > 1) {
