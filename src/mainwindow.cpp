@@ -409,7 +409,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     m_stopmotion_actions->addAction("stopmotion_overlay", action);
 
     // Build effects menu
-    m_effectsMenu = new QMenu();
+    m_effectsMenu = new QMenu(i18n("Add Effect"));
     m_effectActions = new KActionCategory(i18n("Effects"), actionCollection());
     m_effectList->reloadEffectList(m_effectsMenu, m_effectActions);
     m_effectsActionCollection->readSettings();
@@ -3899,9 +3899,9 @@ void MainWindow::slotChangePalette(QAction *action, const QString &themename)
     KdenliveSettings::setColortheme(theme);
     // Make palette for all widgets.
     QPalette plt;
-    if (theme.isEmpty())
+    if (theme.isEmpty()) {
         plt = QApplication::desktop()->palette();
-    else {
+    } else {
         KSharedConfigPtr config = KSharedConfig::openConfig(theme);
         plt = KGlobalSettings::createApplicationPalette(config);
     }
