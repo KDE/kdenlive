@@ -169,6 +169,8 @@ void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActi
 
     // populate effects menu
     for (int i = 0; i < topLevelItemCount(); i++) {
+        if (!topLevelItem(i)->childCount())
+            continue;
         QMenu *sub = new QMenu(topLevelItem(i)->text(0), effectsMenu);
         effectsMenu->addMenu(sub);
         for (int j = 0; j < topLevelItem(i)->childCount(); j++) {
