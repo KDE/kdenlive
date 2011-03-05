@@ -52,13 +52,17 @@ void SimpleTimelineWidget::setKeyframes(QList <int> keyframes)
     m_keyframes = keyframes;
     qSort(m_keyframes);
     m_currentKeyframe = m_currentKeyframeOriginal = -1;
+    emit atKeyframe(m_keyframes.contains(m_position));
     update();
 }
 
 void SimpleTimelineWidget::slotSetPosition(int pos)
 {
-    m_position = pos;
-    update();
+    if (pos != m_position) {
+        m_position = pos;
+        emit atKeyframe(m_keyframes.contains(m_position));
+        update();
+    }
 }
 
 void SimpleTimelineWidget::slotAddKeyframe(int pos, int select)
@@ -73,6 +77,8 @@ void SimpleTimelineWidget::slotAddKeyframe(int pos, int select)
     update();
 
     emit keyframeAdded(pos);
+    if (pos == m_position)
+        emit atKeyframe(true);
 }
 
 void SimpleTimelineWidget::slotAddRemove()
@@ -90,6 +96,8 @@ void SimpleTimelineWidget::slotRemoveKeyframe(int pos)
         m_currentKeyframe = m_currentKeyframeOriginal = -1;
     update();
     emit keyframeRemoved(pos);
+    if (pos == m_position)
+        emit atKeyframe(false);
 }
 
 void SimpleTimelineWidget::setDuration(int dur)
@@ -103,6 +111,7 @@ void SimpleTimelineWidget::slotGoToNext()
         if (keyframe > m_position) {
             slotSetPosition(keyframe);
             emit positionChanged(keyframe);
+            emit atKeyframe(true);
             return;
         }
     }
@@ -110,6 +119,7 @@ void SimpleTimelineWidget::slotGoToNext()
     // no keyframe after current position
     slotSetPosition(m_duration);
     emit positionChanged(m_duration);
+    emit atKeyframe(false);
 }
 
 void SimpleTimelineWidget::slotGoToPrev()
@@ -118,6 +128,7 @@ void SimpleTimelineWidget::slotGoToPrev()
         if (m_keyframes.at(i) < m_position) {
             slotSetPosition(m_keyframes.at(i));
             emit positionChanged(m_keyframes.at(i));
+            emit atKeyframe(true);
             return;
         }
     }
@@ -125,6 +136,7 @@ void SimpleTimelineWidget::slotGoToPrev()
     // no keyframe before current position
     slotSetPosition(0);
     emit positionChanged(0);
+    emit atKeyframe(false);
 }
 
 void SimpleTimelineWidget::mousePressEvent(QMouseEvent* event)
@@ -146,6 +158,7 @@ void SimpleTimelineWidget::mousePressEvent(QMouseEvent* event)
     m_currentKeyframe = m_currentKeyframeOriginal = -1;
     m_position = pos;
     emit positionChanged(pos);
+    emit atKeyframe(m_keyframes.contains(pos));
     update();
 }
 
@@ -162,10 +175,12 @@ void SimpleTimelineWidget::mouseMoveEvent(QMouseEvent* event)
                 m_keyframes[m_keyframes.indexOf(m_currentKeyframe)] = pos;
                 m_currentKeyframe = pos;
                 emit keyframeMoving(m_currentKeyframeOriginal, m_currentKeyframe);
+                emit atKeyframe(m_keyframes.contains(m_position));
             }
         } else {
             m_position = pos;
             emit positionChanged(pos);
+            emit atKeyframe(m_keyframes.contains(pos));
         }
         update();
         return;
@@ -209,6 +224,8 @@ void SimpleTimelineWidget::mouseDoubleClickEvent(QMouseEvent* event)
                 if (keyframe == m_currentKeyframe)
                     m_currentKeyframe = m_currentKeyframeOriginal = -1;
                 emit keyframeRemoved(keyframe);
+                if (keyframe == m_position)
+                    emit atKeyframe(false);
                 return;
             }
         }
@@ -217,6 +234,8 @@ void SimpleTimelineWidget::mouseDoubleClickEvent(QMouseEvent* event)
         m_keyframes.append(pos);
         qSort(m_keyframes);
         emit keyframeAdded(pos);
+        if (pos == m_position)
+            emit atKeyframe(true);
     } else {
         QWidget::mouseDoubleClickEvent(event);
     }
@@ -232,6 +251,7 @@ void SimpleTimelineWidget::wheelEvent(QWheelEvent* event)
         m_position = qBound(0, m_position + change, m_duration);
         emit positionChanged(m_position);
     }
+    emit atKeyframe(m_keyframes.contains(m_position));
     update();
 }
 

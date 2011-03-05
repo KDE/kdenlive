@@ -62,6 +62,7 @@ SimpleKeyframeWidget::SimpleKeyframeWidget(Timecode t, int duration, QWidget *pa
 
     connect(m_time, SIGNAL(editingFinished()), this, SLOT(slotSetPosition()));
     connect(m_timeline, SIGNAL(positionChanged(int)), this, SLOT(slotSetPosition(int)));
+    connect(m_timeline, SIGNAL(atKeyframe(bool)), this, SLOT(slotAtKeyframe(bool)));
     connect(m_timeline, SIGNAL(keyframeAdded(int)), this, SIGNAL(keyframeAdded(int)));
     connect(m_timeline, SIGNAL(keyframeRemoved(int)), this, SIGNAL(keyframeRemoved(int)));
     connect(m_timeline, SIGNAL(keyframeMoved(int,int)), this, SIGNAL(keyframeMoved(int,int)));
@@ -115,6 +116,17 @@ void SimpleKeyframeWidget::addKeyframe(int pos)
 void SimpleKeyframeWidget::updateTimecodeFormat()
 {
     m_time->slotUpdateTimeCodeFormat();
+}
+
+void SimpleKeyframeWidget::slotAtKeyframe(bool atKeyframe)
+{
+    if (atKeyframe) {
+        m_buttonAddDelete->setIcon(KIcon("edit-delete"));
+        m_buttonAddDelete->setToolTip(i18n("Delete keyframe"));
+    } else {
+        m_buttonAddDelete->setIcon(KIcon("document-new"));
+        m_buttonAddDelete->setToolTip(i18n("Add keyframe"));
+    }
 }
 
 #include "simplekeyframewidget.moc"

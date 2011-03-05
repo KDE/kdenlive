@@ -63,6 +63,7 @@ private:
 
 signals:
     void positionChanged(int pos);
+    void atKeyframe(bool);
 
     void keyframeSelected();
     void keyframeMoving(int oldPos, int currentPos);

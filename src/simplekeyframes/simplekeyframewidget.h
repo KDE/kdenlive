@@ -46,6 +46,9 @@ public:
 public slots:
     void slotSetPosition(int pos = -1, bool update = true);
 
+private slots:
+    void slotAtKeyframe(bool atKeyframe);
+
 signals:
     void positionChanged(int pos);
     void keyframeAdded(int pos);
