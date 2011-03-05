@@ -26,6 +26,8 @@
 #include <QtCore>
 #include <QWidget>
 
+class DragValue;
+
 class BezierSplineWidget : public QWidget
 {
     Q_OBJECT
@@ -68,6 +70,12 @@ private slots:
 
 private:
     Ui::BezierSpline_UI m_ui;
+    DragValue *m_pX;
+    DragValue *m_pY;
+    DragValue *m_h1X;
+    DragValue *m_h1Y;
+    DragValue *m_h2X;
+    DragValue *m_h2Y;
     BezierSplineEditor m_edit;
     CurveModes m_mode;
     bool m_showPixmap;

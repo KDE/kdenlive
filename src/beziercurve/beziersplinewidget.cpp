@@ -18,11 +18,13 @@
 
 #include "beziersplinewidget.h"
 #include "colortools.h"
+#include "dragvalue.h"
 #include "kdenlivesettings.h"
 
 #include <QVBoxLayout>
 
 #include <KIcon>
+#include <KLocale>
 
 
 BezierSplineWidget::BezierSplineWidget(const QString& spline, QWidget* parent) :
@@ -45,6 +47,34 @@ BezierSplineWidget::BezierSplineWidget(const QString& spline, QWidget* parent) :
     m_ui.buttonShowAllHandles->setIcon(KIcon("draw-bezier-curves"));
     m_ui.widgetPoint->setEnabled(false);
 
+    m_pX = new DragValue(i18n("In"), 0, 3, -1, QString(), false, this);
+    m_pX->setRange(0, 1);
+    m_pX->setStep(0.001);
+    m_pY = new DragValue(i18n("Out"), 0, 3, -1, QString(), false, this);
+    m_pY->setRange(0, 1);
+    m_pY->setStep(0.001);
+    m_h1X = new DragValue(i18n("X"), 0, 3, -1, QString(), false, this);
+    m_h1X->setRange(-2, 2);
+    m_h1X->setStep(0.001);
+    m_h1Y = new DragValue(i18n("Y"), 0, 3, -1, QString(), false, this);
+    m_h1Y->setRange(-2, 2);
+    m_h1Y->setStep(0.001);
+    m_h2X = new DragValue(i18n("X"), 0, 3, -1, QString(), false, this);
+    m_h2X->setRange(-2, 2);
+    m_h2X->setStep(0.001);
+    m_h2Y = new DragValue(i18n("Y"), 0, 3, -1, QString(), false, this);
+    m_h2Y->setRange(-2, 2);
+    m_h2Y->setStep(0.001);
+
+    m_ui.layoutP->addWidget(m_pX);
+    m_ui.layoutP->addWidget(m_pY);
+    m_ui.layoutH1->addWidget(new QLabel(i18n("Handle 1:")));
+    m_ui.layoutH1->addWidget(m_h1X);
+    m_ui.layoutH1->addWidget(m_h1Y);
+    m_ui.layoutH2->addWidget(new QLabel(i18n("Handle 2:")));
+    m_ui.layoutH2->addWidget(m_h2X);
+    m_ui.layoutH2->addWidget(m_h2Y);
+
     CubicBezierSpline s;
     s.fromString(spline);
     m_edit.setSpline(s);
@@ -52,12 +82,12 @@ BezierSplineWidget::BezierSplineWidget(const QString& spline, QWidget* parent) :
     connect(&m_edit, SIGNAL(modified()), this, SIGNAL(modified()));
     connect(&m_edit, SIGNAL(currentPoint(const BPoint&)), this, SLOT(slotUpdatePointEntries(const BPoint&)));
 
-    connect(m_ui.spinPX, SIGNAL(editingFinished()), this, SLOT(slotUpdatePointP()));
-    connect(m_ui.spinPY, SIGNAL(editingFinished()), this, SLOT(slotUpdatePointP()));
-    connect(m_ui.spinH1X, SIGNAL(editingFinished()), this, SLOT(slotUpdatePointH1()));
-    connect(m_ui.spinH1Y, SIGNAL(editingFinished()), this, SLOT(slotUpdatePointH1()));
-    connect(m_ui.spinH2X, SIGNAL(editingFinished()), this, SLOT(slotUpdatePointH2()));
-    connect(m_ui.spinH2Y, SIGNAL(editingFinished()), this, SLOT(slotUpdatePointH2()));
+    connect(m_pX, SIGNAL(valueChanged(double, bool)), this, SLOT(slotUpdatePointP()));
+    connect(m_pY, SIGNAL(valueChanged(double,bool)), this, SLOT(slotUpdatePointP()));
+    connect(m_h1X, SIGNAL(valueChanged(double,bool)), this, SLOT(slotUpdatePointH1()));
+    connect(m_h1Y, SIGNAL(valueChanged(double,bool)), this, SLOT(slotUpdatePointH1()));
+    connect(m_h2X, SIGNAL(valueChanged(double,bool)), this, SLOT(slotUpdatePointH2()));
+    connect(m_h2Y, SIGNAL(valueChanged(double,bool)), this, SLOT(slotUpdatePointH2()));
 
     connect(m_ui.buttonLinkHandles, SIGNAL(toggled(bool)), this, SLOT(slotSetHandlesLinked(bool)));
     connect(m_ui.buttonZoomIn, SIGNAL(clicked()), &m_edit, SLOT(slotZoomIn()));
@@ -99,6 +129,8 @@ void BezierSplineWidget::slotShowPixmap(bool show)
     KdenliveSettings::setBezier_showpixmap(show);
     if (show && (int)m_mode < 6)
         m_edit.setPixmap(QPixmap::fromImage(ColorTools::rgbCurvePlane(m_edit.size(), (ColorTools::ColorsRGB)((int)m_mode), 1, palette().background().color().rgb())));
+//     else if (show && m_mode == ModeHue)
+//         m_edit.setPixmap(QPixmap::fromImage(ColorTools::hsvHueShiftPlane(m_edit.size(), 200, 200, 0, 360)));
     else
         m_edit.setPixmap(QPixmap());
 }
@@ -110,12 +142,24 @@ void BezierSplineWidget::slotUpdatePointEntries(const BPoint &p)
         m_ui.widgetPoint->setEnabled(false);
     } else {
         m_ui.widgetPoint->setEnabled(true);
-        m_ui.spinPX->setValue(qRound(p.p.x() * 255));
-        m_ui.spinPY->setValue(qRound(p.p.y() * 255));
-        m_ui.spinH1X->setValue(qRound(p.h1.x() * 255));
-        m_ui.spinH1Y->setValue(qRound(p.h1.y() * 255));
-        m_ui.spinH2X->setValue(qRound(p.h2.x() * 255));
-        m_ui.spinH2Y->setValue(qRound(p.h2.y() * 255));
+        m_pX->blockSignals(true);
+        m_pY->blockSignals(true);
+        m_h1X->blockSignals(true);
+        m_h1Y->blockSignals(true);
+        m_h2X->blockSignals(true);
+        m_h2Y->blockSignals(true);
+        m_pX->setValue(p.p.x());
+        m_pY->setValue(p.p.y());
+        m_h1X->setValue(p.h1.x());
+        m_h1Y->setValue(p.h1.y());
+        m_h2X->setValue(p.h2.x());
+        m_h2Y->setValue(p.h2.y());
+        m_pX->blockSignals(false);
+        m_pY->blockSignals(false);
+        m_h1X->blockSignals(false);
+        m_h1Y->blockSignals(false);
+        m_h2X->blockSignals(false);
+        m_h2Y->blockSignals(false);
         m_ui.buttonLinkHandles->setChecked(p.handlesLinked);
     }
     blockSignals(false);
@@ -125,7 +169,7 @@ void BezierSplineWidget::slotUpdatePointP()
 {
     BPoint p = m_edit.getCurrentPoint();
 
-    p.setP(QPointF(m_ui.spinPX->value() / 255., m_ui.spinPY->value() / 255.));
+    p.setP(QPointF(m_pX->value(), m_pY->value()));
 
     m_edit.updateCurrentPoint(p);
 }
@@ -134,7 +178,7 @@ void BezierSplineWidget::slotUpdatePointH1()
 {
     BPoint p = m_edit.getCurrentPoint();
 
-    p.setH1(QPointF(m_ui.spinH1X->value() / 255., m_ui.spinH1Y->value() / 255.));
+    p.setH1(QPointF(m_h1X->value(), m_h1Y->value()));
 
     m_edit.updateCurrentPoint(p);
 }
@@ -143,7 +187,7 @@ void BezierSplineWidget::slotUpdatePointH2()
 {
     BPoint p = m_edit.getCurrentPoint();
 
-    p.setH2(QPointF(m_ui.spinH2X->value() / 255., m_ui.spinH2Y->value() / 255.));
+    p.setH2(QPointF(m_h2X->value(), m_h2Y->value()));
 
     m_edit.updateCurrentPoint(p);
 }

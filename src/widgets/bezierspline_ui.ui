@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>345</width>
-    <height>67</height>
+    <height>75</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -22,6 +22,12 @@
    </property>
    <item row="1" column="0" colspan="9">
     <widget class="QWidget" name="widgetPoint" native="true">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <layout class="QGridLayout" name="gridLayout_2">
       <property name="margin">
        <number>0</number>
@@ -29,7 +35,7 @@
       <property name="spacing">
        <number>0</number>
       </property>
-      <item row="0" column="0" colspan="9">
+      <item row="0" column="0" colspan="7">
        <widget class="QWidget" name="widget" native="true">
         <layout class="QHBoxLayout" name="horizontalLayout">
          <property name="margin">
@@ -49,31 +55,7 @@
           </spacer>
          </item>
          <item>
-          <widget class="QSpinBox" name="spinPX">
-           <property name="toolTip">
-            <string>Point In</string>
-           </property>
-           <property name="maximum">
-            <number>255</number>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="label">
-           <property name="text">
-            <string>Point</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QSpinBox" name="spinPY">
-           <property name="toolTip">
-            <string>Point Out</string>
-           </property>
-           <property name="maximum">
-            <number>255</number>
-           </property>
-          </widget>
+          <layout class="QHBoxLayout" name="layoutP"/>
          </item>
          <item>
           <spacer name="horizontalSpacer_2">
@@ -91,46 +73,7 @@
         </layout>
        </widget>
       </item>
-      <item row="1" column="0">
-       <widget class="QSpinBox" name="spinH1X">
-        <property name="toolTip">
-         <string>Handle 1 X</string>
-        </property>
-        <property name="minimum">
-         <number>-100</number>
-        </property>
-        <property name="maximum">
-         <number>400</number>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QLabel" name="label_2">
-        <property name="toolTip">
-         <string>Handle 1</string>
-        </property>
-        <property name="text">
-         <string>H1</string>
-        </property>
-       </widget>
-      </item>
       <item row="1" column="2">
-       <widget class="QSpinBox" name="spinH1Y">
-        <property name="toolTip">
-         <string>Handle 1 Y</string>
-        </property>
-        <property name="minimum">
-         <number>-100</number>
-        </property>
-        <property name="maximum">
-         <number>400</number>
-        </property>
-        <property name="value">
-         <number>0</number>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="3">
        <spacer name="horizontalSpacer_3">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -143,7 +86,7 @@
         </property>
        </spacer>
       </item>
-      <item row="1" column="4">
+      <item row="1" column="3">
        <widget class="QToolButton" name="buttonLinkHandles">
         <property name="toolTip">
          <string>Link the handles' position.&lt;br /&gt;Results in a natural spline.</string>
@@ -159,7 +102,7 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="5">
+      <item row="1" column="4">
        <spacer name="horizontalSpacer_4">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -172,41 +115,11 @@
         </property>
        </spacer>
       </item>
-      <item row="1" column="6">
-       <widget class="QSpinBox" name="spinH2X">
-        <property name="toolTip">
-         <string>Handle 2 X</string>
-        </property>
-        <property name="minimum">
-         <number>-100</number>
-        </property>
-        <property name="maximum">
-         <number>400</number>
-        </property>
-       </widget>
+      <item row="1" column="1">
+       <layout class="QHBoxLayout" name="layoutH1"/>
       </item>
-      <item row="1" column="7">
-       <widget class="QLabel" name="label_3">
-        <property name="toolTip">
-         <string>Handle 2</string>
-        </property>
-        <property name="text">
-         <string>H2</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="8">
-       <widget class="QSpinBox" name="spinH2Y">
-        <property name="toolTip">
-         <string>Handle 2 Y</string>
-        </property>
-        <property name="minimum">
-         <number>-100</number>
-        </property>
-        <property name="maximum">
-         <number>400</number>
-        </property>
-       </widget>
+      <item row="1" column="5">
+       <layout class="QHBoxLayout" name="layoutH2"/>
       </item>
      </layout>
     </widget>

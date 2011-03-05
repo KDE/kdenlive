@@ -40,6 +40,7 @@ class CustomLabel : public QProgressBar
 public:
     CustomLabel(const QString &label, bool showSlider = true, int precision = 0, QWidget *parent = 0);
     void setProgressValue(double value);
+    void setStep(double step);
     
 protected:
     //virtual void mouseDoubleClickEvent(QMouseEvent * event);

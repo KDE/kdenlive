@@ -41,6 +41,7 @@
 #include <KLocalizedString>
 #include <KGlobalSettings>
 
+
 DragValue::DragValue(const QString &label, double defaultValue, int decimals, int id, const QString suffix, bool showSlider, QWidget* parent) :
         QWidget(parent),
         m_maximum(100),
@@ -210,9 +211,13 @@ void DragValue::setPrecision(int /*precision*/)
         m_edit->setValidator(new QDoubleValidator(m_minimum, m_maximum, precision, this));*/
 }
 
-void DragValue::setStep(qreal /*step*/)
+void DragValue::setStep(qreal step)
 {
-    //m_step = step;
+    m_label->setStep(step);
+    if (m_intEdit)
+        m_intEdit->setSingleStep(step);
+    else
+        m_doubleEdit->setSingleStep(step);
 }
 
 void DragValue::slotReset()
@@ -383,7 +388,7 @@ void CustomLabel::mouseMoveEvent(QMouseEvent* e)
                 if (KdenliveSettings::dragvalue_mode() == 2)
                     diff = (diff > 0 ? 1 : -1) * pow(diff, 2);
 
-                int nv = m_value + diff / m_step;
+                double nv = m_value + diff * m_step;
                 if (nv != m_value) setNewValue(nv, KdenliveSettings::dragvalue_directupdate());
             }
             else {
@@ -424,13 +429,13 @@ void CustomLabel::mouseReleaseEvent(QMouseEvent* e)
 void CustomLabel::wheelEvent(QWheelEvent* e)
 {
     if (e->delta() > 0) {
-        if (e->modifiers() == Qt::ControlModifier) slotValueInc(10);
-        else if (e->modifiers() == Qt::AltModifier) slotValueInc(1.0 / m_precision);
+        if (e->modifiers() == Qt::ControlModifier) slotValueInc(m_step * 10);
+        else if (e->modifiers() == Qt::AltModifier) slotValueInc(m_step / m_precision);
         else slotValueInc();
     }
     else {
-        if (e->modifiers() == Qt::ControlModifier) slotValueDec(10);
-        else if (e->modifiers() == Qt::AltModifier) slotValueDec(1.0 / m_precision);
+        if (e->modifiers() == Qt::ControlModifier) slotValueDec(m_step * 10);
+        else if (e->modifiers() == Qt::AltModifier) slotValueDec(m_step / m_precision);
         else slotValueDec();
     }
     e->accept();
@@ -457,6 +462,11 @@ void CustomLabel::setNewValue(double value, bool update)
     m_value = value;
     setValue(value);
     emit valueChanged(value, update);
+}
+
+void CustomLabel::setStep(double step)
+{
+    m_step = step;
 }
 
 #include "dragvalue.moc"
