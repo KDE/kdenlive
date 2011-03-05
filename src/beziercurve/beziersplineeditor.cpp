@@ -265,12 +265,13 @@ void BezierSplineEditor::mousePressEvent(QMouseEvent* event)
 {
     int wWidth = width() - 1;
     int wHeight = height() - 1;
-    int offset = 1/8. * m_zoomLevel * (wWidth > wHeight ? wWidth : wHeight);
-    wWidth -= 2 * offset;
-    wHeight -= 2 * offset;
+    int offsetX = 1/8. * m_zoomLevel * wWidth;
+    int offsetY = 1/8. * m_zoomLevel * wHeight;
+    wWidth -= 2 * offsetX;
+    wHeight -= 2 * offsetY;
 
-    double x = (event->pos().x() - offset) / (double)(wWidth);
-    double y = 1.0 - (event->pos().y() - offset) / (double)(wHeight);
+    double x = (event->pos().x() - offsetX) / (double)(wWidth);
+    double y = 1.0 - (event->pos().y() - offsetY) / (double)(wHeight);
 
     point_types selectedPoint;
     int closestPointIndex = nearestPointInRange(QPointF(x, y), wWidth, wHeight, &selectedPoint);
@@ -337,12 +338,13 @@ void BezierSplineEditor::mouseMoveEvent(QMouseEvent* event)
 {
     int wWidth = width() - 1;
     int wHeight = height() - 1;
-    int offset = 1/8. * m_zoomLevel * (wWidth > wHeight ? wWidth : wHeight);
-    wWidth -= 2 * offset;
-    wHeight -= 2 * offset;
+    int offsetX = 1/8. * m_zoomLevel * wWidth;
+    int offsetY = 1/8. * m_zoomLevel * wHeight;
+    wWidth -= 2 * offsetX;
+    wHeight -= 2 * offsetY;
 
-    double x = (event->pos().x() - offset) / (double)(wWidth);
-    double y = 1.0 - (event->pos().y() - offset) / (double)(wHeight);
+    double x = (event->pos().x() - offsetX) / (double)(wWidth);
+    double y = 1.0 - (event->pos().y() - offsetY) / (double)(wHeight);
     
     if (m_mode == ModeNormal) {
         // If no point is selected set the the cursor shape if on top
