@@ -123,9 +123,9 @@ public:
                     color = option.palette.color(QPalette::WindowText);
                 }
                 else {
-                    if (proxy == CREATINGPROXY) proxyText = i18n("Generating proxy...");
-                    else if (proxy == PROXYWAITING) proxyText = i18n("Waiting proxy...");
-                    else if (proxy == PROXYCRASHED) proxyText = i18n("proxy crashed");
+                    if (proxy == CREATINGPROXY) proxyText = i18n("Generating proxy ...");
+                    else if (proxy == PROXYWAITING) proxyText = i18n("Waiting proxy ...");
+                    else if (proxy == PROXYCRASHED) proxyText = i18n("Proxy crashed");
                     brush = option.palette.highlight();
                     color = option.palette.color(QPalette::HighlightedText);
                 }
