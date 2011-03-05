@@ -128,16 +128,17 @@ void BezierSplineEditor::paintEvent(QPaintEvent* event)
      */
     int wWidth = width() - 1;
     int wHeight = height() - 1;
-    int offset = 1/8. * m_zoomLevel * (wWidth > wHeight ? wWidth : wHeight);
-    wWidth -= 2 * offset;
-    wHeight -= 2 * offset;
+    int offsetX = 1/8. * m_zoomLevel * wWidth;
+    int offsetY = 1/8. * m_zoomLevel * wHeight;
+    wWidth -= 2 * offsetX;
+    wHeight -= 2 * offsetY;
 
-    p.translate(offset, offset);
+    p.translate(offsetX, offsetY);
 
     /*
      * Background
      */
-    p.fillRect(rect().translated(-offset, -offset), palette().background());
+    p.fillRect(rect().translated(-offsetX, -offsetY), palette().background());
     if (!m_pixmap.isNull()) {
         if (m_pixmapIsDirty || !m_pixmapCache) {
             if (m_pixmapCache)
