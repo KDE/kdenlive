@@ -456,7 +456,9 @@ void Monitor::mousePressEvent(QMouseEvent * event)
             m_dragStarted = true;
             m_DragStartPosition = event->pos();
         }
-    } else m_contextMenu->popup(event->globalPos());
+    } else if (!m_effectWidget || !m_effectWidget->isVisible()) {
+        m_contextMenu->popup(event->globalPos());
+    }
 }
 
 void Monitor::slotSwitchFullScreen()
