@@ -63,7 +63,7 @@ void BezierSplineEditor::setSpline(const CubicBezierSpline& spline)
 BPoint BezierSplineEditor::getCurrentPoint()
 {
     if (m_currentPointIndex >= 0)
-        return m_spline.points()[m_currentPointIndex];
+        return m_spline.getPoint(m_currentPointIndex);
     else
         return BPoint();
 }
@@ -73,7 +73,7 @@ void BezierSplineEditor::updateCurrentPoint(const BPoint& p)
     if (m_currentPointIndex >= 0) {
         m_spline.setPoint(m_currentPointIndex, p);
         // during validation the point might have changed
-        emit currentPoint(m_spline.points()[m_currentPointIndex]);
+        emit currentPoint(m_spline.getPoint(m_currentPointIndex));
         emit modified();
         update();
     }
@@ -284,7 +284,7 @@ void BezierSplineEditor::mousePressEvent(QMouseEvent* event)
             --m_currentPointIndex;
         update();
         if (m_currentPointIndex >= 0)
-            emit currentPoint(m_spline.points()[m_currentPointIndex]);
+            emit currentPoint(m_spline.getPoint(m_currentPointIndex));
         else
             emit currentPoint(BPoint());
         emit modified();
@@ -303,13 +303,13 @@ void BezierSplineEditor::mousePressEvent(QMouseEvent* event)
         m_currentPointType = selectedPoint;
     }
 
-    BPoint point = m_spline.points()[m_currentPointIndex];
+    BPoint point = m_spline.getPoint(m_currentPointIndex);
 
     m_grabPOriginal = point;
     if (m_currentPointIndex > 0)
-        m_grabPPrevious = m_spline.points()[m_currentPointIndex - 1];
+        m_grabPPrevious = m_spline.getPoint(m_currentPointIndex - 1);
     if (m_currentPointIndex < m_spline.points().count() - 1)
-        m_grabPNext = m_spline.points()[m_currentPointIndex + 1];
+        m_grabPNext = m_spline.getPoint(m_currentPointIndex + 1);
     m_grabOffsetX = point[(int)m_currentPointType].x() - x;
     m_grabOffsetY = point[(int)m_currentPointType].y() - y;
 
@@ -364,14 +364,14 @@ void BezierSplineEditor::mouseMoveEvent(QMouseEvent* event)
 
         double leftX = 0.;
         double rightX = 1.;
-        BPoint point = m_spline.points()[m_currentPointIndex];
+        BPoint point = m_spline.getPoint(m_currentPointIndex);
         switch (m_currentPointType) {
         case PTypeH1:
             rightX = point.p.x();
             if (m_currentPointIndex == 0)
                 leftX = -4;
             else
-                leftX = m_spline.points()[m_currentPointIndex - 1].p.x();
+                leftX = m_spline.getPoint(m_currentPointIndex - 1).p.x();
 
             x = qBound(leftX, x, rightX);
             point.setH1(QPointF(x, y));
@@ -403,7 +403,7 @@ void BezierSplineEditor::mouseMoveEvent(QMouseEvent* event)
             if (m_currentPointIndex == m_spline.points().count() - 1)
                 rightX = 5;
             else
-                rightX = m_spline.points()[m_currentPointIndex + 1].p.x();
+                rightX = m_spline.getPoint(m_currentPointIndex + 1).p.x();
 
             x = qBound(leftX, x, rightX);
             point.setH2(QPointF(x, y));
@@ -425,18 +425,28 @@ void BezierSplineEditor::mouseMoveEvent(QMouseEvent* event)
                     m_spline.setPoint(index, m_grabPPrevious);
                     m_grabPNext = m_grabPPrevious;
                     if (m_currentPointIndex > 0)
-                        m_grabPPrevious = m_spline.points()[m_currentPointIndex - 1];
+                        m_grabPPrevious = m_spline.getPoint(m_currentPointIndex - 1);
                 } else {
                     m_spline.setPoint(index, m_grabPNext);
                     m_grabPPrevious = m_grabPNext;
                     if (m_currentPointIndex < m_spline.points().count() - 1)
-                        m_grabPNext = m_spline.points()[m_currentPointIndex + 1];
+                        m_grabPNext = m_spline.getPoint(m_currentPointIndex + 1);
                 }
             }
         }
 
         emit currentPoint(point);
         update();
+    }
+}
+
+void BezierSplineEditor::mouseDoubleClickEvent(QMouseEvent* event)
+{
+    if (m_currentPointIndex >= 0) {
+        BPoint p = m_spline.getPoint(m_currentPointIndex);
+        p.handlesLinked = !p.handlesLinked;
+        m_spline.setPoint(m_currentPointIndex, p);
+        emit currentPoint(p);
     }
 }
 
@@ -468,7 +478,7 @@ int BezierSplineEditor::nearestPointInRange(QPointF p, int wWidth, int wHeight, 
 
     if (nearestIndex >= 0 && (nearestIndex == m_currentPointIndex || selectedPoint == PTypeP || m_showAllHandles)) {
         // a point was found and it is not a hidden handle
-        BPoint point = m_spline.points()[nearestIndex];
+        BPoint point = m_spline.getPoint(nearestIndex);
         if (qAbs(p.x() - point[(int)selectedPoint].x()) * wWidth < 5 && qAbs(p.y() - point[(int)selectedPoint].y()) * wHeight < 5) {
             *sel = selectedPoint;
             return nearestIndex;
