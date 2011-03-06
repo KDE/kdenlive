@@ -370,6 +370,9 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     tabifyDockWidget(m_vectorscopeDock, m_undoViewDock);
     tabifyDockWidget(m_vectorscopeDock, m_effectListDock);
 
+    tabifyDockWidget(m_vectorscopeDock, m_spectrogramDock);
+    tabifyDockWidget(m_vectorscopeDock, m_audioSpectrumDock);
+
 
     setCentralWidget(m_timelineArea);
 
