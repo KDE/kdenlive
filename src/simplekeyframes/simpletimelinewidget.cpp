@@ -244,13 +244,13 @@ void SimpleTimelineWidget::mouseDoubleClickEvent(QMouseEvent* event)
 void SimpleTimelineWidget::wheelEvent(QWheelEvent* event)
 {
     int change = event->delta() < 0 ? -1 : 1;
-    if (m_currentKeyframe > 0) {
+    /*if (m_currentKeyframe > 0) {
         m_currentKeyframe = qBound(0, m_currentKeyframe + change, m_duration);
         emit keyframeMoved(m_currentKeyframeOriginal, m_currentKeyframe);
-    } else {
+    } else { */
         m_position = qBound(0, m_position + change, m_duration);
         emit positionChanged(m_position);
-    }
+//     }
     emit atKeyframe(m_keyframes.contains(m_position));
     update();
 }
