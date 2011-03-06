@@ -340,14 +340,18 @@ void KThumb::getAudioThumbs(int channel, double frame, double frameLength, int a
 
 void KThumb::slotCreateAudioThumbs()
 {
+    Mlt::Profile prof((char*) KdenliveSettings::current_profile().toUtf8().data());
+    Mlt::Producer m_producer(prof, m_url.path().toUtf8().data());
+    if (!m_producer.is_valid()) {
+        kDebug() << "++++++++  INVALID CLIP: " << m_url.path();
+        return;
+    }
     if (!m_audioThumbFile.open(QIODevice::WriteOnly)) {
         kDebug() << "++++++++  ERROR WRITING TO FILE: " << m_audioThumbFile.fileName();
         kDebug() << "++++++++  DISABLING AUDIO THUMBS";
         KdenliveSettings::setAudiothumbnails(false);
         return;
     }
-    Mlt::Profile prof((char*) KdenliveSettings::current_profile().toUtf8().data());
-    Mlt::Producer m_producer(prof, m_url.path().toUtf8().data());
 
     if (KdenliveSettings::normaliseaudiothumbs()) {
         Mlt::Filter m_convert(prof, "volume");
@@ -357,7 +361,7 @@ void KThumb::slotCreateAudioThumbs()
 
     int last_val = 0;
     int val = 0;
-    kDebug() << "for " << m_frame << " " << m_frameLength << " " << m_producer.is_valid();
+    //kDebug() << "for " << m_frame << " " << m_frameLength << " " << m_producer.is_valid();
     for (int z = (int) m_frame; z < (int)(m_frame + m_frameLength) && m_producer.is_valid(); z++) {
         if (m_stopAudioThumbs) break;
         val = (int)((z - m_frame) / (m_frame + m_frameLength) * 100.0);
