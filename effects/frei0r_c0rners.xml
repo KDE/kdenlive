@@ -44,7 +44,7 @@
             <name>Stretch Y</name>
         </parameter>
 
-        <parameter type="simplekeyframe" widget="corners" name="Feather Alpha" default="5" min="0" max="100" factor="100">
+        <parameter type="simplekeyframe" widget="corners" name="Feather Alpha" default="5" min="0" max="100" factor="100" intimeline="1">
             <name>Feather Alpha</name>
         </parameter>
 	
@@ -60,6 +60,11 @@
 	<parameter type="bool" name="Transparent Background" default="1">
 		<name>Transparent Background</name>
 	</parameter>
+        
+        <parameter type="list" name="Alpha operation" default="0.0" paramlist="0.0,0.3,0.5,0.7,1.0">
+                <paramlistdisplay>Write on clear,Maximum,Minimum,Add,Subtract</paramlistdisplay>
+                <name>Alpha operation</name>
+        </parameter>
 
         
 
