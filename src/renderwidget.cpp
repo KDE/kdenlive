@@ -163,6 +163,7 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, QWidg
     connect(m_view.guide_start, SIGNAL(activated(int)), this, SLOT(slotCheckEndGuidePosition()));
 
     connect(m_view.format_selection, SIGNAL(activated(int)), this, SLOT(refreshView()));
+    connect(m_view.tc_overlay, SIGNAL(toggled(bool)), m_view.tc_type, SLOT(setEnabled(bool)));
 
     m_view.buttonRender->setEnabled(false);
     m_view.buttonGenerateScript->setEnabled(false);
@@ -172,6 +173,7 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, QWidg
     m_view.create_chapter->setVisible(false);
     m_view.open_browser->setVisible(false);
     m_view.error_box->setVisible(false);
+    m_view.tc_type->setEnabled(false);
 
     m_view.splitter->setStretchFactor(1, 5);
     m_view.splitter->setStretchFactor(0, 2);
@@ -712,7 +714,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
     QStringList overlayargs;
     if (m_view.tc_overlay->isChecked()) {
         QString filterFile = KStandardDirs::locate("appdata", "metadata.properties");
-        overlayargs << "meta.attr.timecode=1" << "meta.attr.timecode.markup=#timecode";
+        overlayargs << "meta.attr.timecode=1" << "meta.attr.timecode.markup=#" + QString(m_view.tc_type->currentIndex() ? "frame" : "timecode");
         overlayargs << "-attach" << "data_feed:attr_check" << "-attach";
         overlayargs << "data_show:" + filterFile << "_loader=1" << "dynamic=1";
     }
@@ -854,6 +856,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
     renderProps.insert("renderrescalewidth", QString::number(m_view.rescale_width->value()));
     renderProps.insert("renderrescaleheight", QString::number(m_view.rescale_height->value()));
     renderProps.insert("rendertcoverlay", QString::number(m_view.tc_overlay->isChecked()));
+    renderProps.insert("rendertctype", QString::number(m_view.tc_type->currentIndex()));
     renderProps.insert("renderratio", QString::number(m_view.rescale_keep->isChecked()));
     renderProps.insert("renderplay", QString::number(m_view.play_after->isChecked()));
 
@@ -1239,7 +1242,7 @@ void RenderWidget::parseProfiles(QString meta, QString group, QString profile)
     // can also override profiles installed by KNewStuff
     fileList.removeAll("customprofiles.xml");
     foreach(const QString &filename, fileList)
-    parseFile(exportFolder + filename, true);
+        parseFile(exportFolder + filename, true);
     if (QFile::exists(exportFolder + "customprofiles.xml")) parseFile(exportFolder + "customprofiles.xml", true);
 
     if (!meta.isEmpty()) {
@@ -1752,6 +1755,7 @@ void RenderWidget::setRenderProfile(QMap <QString, QString> props)
     if (props.contains("renderrescalewidth")) m_view.rescale_width->setValue(props.value("renderrescalewidth").toInt());
     if (props.contains("renderrescaleheight")) m_view.rescale_height->setValue(props.value("renderrescaleheight").toInt());
     if (props.contains("rendertcoverlay")) m_view.tc_overlay->setChecked(props.value("rendertcoverlay").toInt());
+    if (props.contains("rendertctype")) m_view.tc_type->setCurrentIndex(props.value("rendertctype").toInt());
     if (props.contains("renderratio")) m_view.rescale_keep->setChecked(props.value("renderratio").toInt());
     if (props.contains("renderplay")) m_view.play_after->setChecked(props.value("renderplay").toInt());
 
