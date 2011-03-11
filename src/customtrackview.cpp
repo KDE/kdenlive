@@ -2026,8 +2026,6 @@ ClipItem *CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut, boo
             return NULL;
         }
 
-        kDebug() << "/////////  CUTTING CLIP : (" << item->startPos().frames(25) << "-" << item->endPos().frames(25) << "), INFO: (" << info.startPos.frames(25) << "-" << info.endPos.frames(25) << ")" << ", CUT: " << cutTime.frames(25);
-
         if (execute) m_document->renderer()->mltCutClip(m_document->tracksCount() - info.track, cutTime);
         int cutPos = (int) cutTime.frames(m_document->fps());
         ItemInfo newPos;
@@ -2040,17 +2038,32 @@ ClipItem *CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut, boo
         bool snap = KdenliveSettings::snaptopoints();
         KdenliveSettings::setSnaptopoints(false);
         ClipItem *dup = item->clone(newPos);
-        // remove unwanted effects (fade in) from 2nd part of cutted clip
+
+        // remove unwanted effects
+        // fade in from 2nd part of the clip
         int ix = dup->hasEffect(QString(), "fadein");
         if (ix != -1) {
-            QDomElement oldeffect = item->effectAt(ix);
+            QDomElement oldeffect = dup->effectAt(ix);
             dup->deleteEffect(oldeffect.attribute("kdenlive_ix"));
         }
         ix = dup->hasEffect(QString(), "fade_from_black");
         if (ix != -1) {
-            QDomElement oldeffect = item->effectAt(ix);
+            QDomElement oldeffect = dup->effectAt(ix);
             dup->deleteEffect(oldeffect.attribute("kdenlive_ix"));
         }
+        // fade out from 1st part of the clip
+        ix = item->hasEffect(QString(), "fadeout");
+        if (ix != -1) {
+            QDomElement oldeffect = item->effectAt(ix);
+            item->deleteEffect(oldeffect.attribute("kdenlive_ix"));
+        }
+        ix = item->hasEffect(QString(), "fade_to_black");
+        if (ix != -1) {
+            QDomElement oldeffect = item->effectAt(ix);
+            item->deleteEffect(oldeffect.attribute("kdenlive_ix"));
+        }
+
+
         item->resizeEnd(cutPos);
         scene()->addItem(dup);
         if (item->checkKeyFrames())
@@ -2065,8 +2078,9 @@ ClipItem *CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut, boo
         m_document->updateClip(item->baseClip()->getId());
         setDocumentModified();
         KdenliveSettings::setSnaptopoints(snap);
+        if (execute && item->isSelected())
+            emit clipItemSelected(item);
         return dup;
-        //kDebug() << "/////////  CUTTING CLIP RESULT: (" << item->startPos().frames(25) << "-" << item->endPos().frames(25) << "), DUP: (" << dup->startPos().frames(25) << "-" << dup->endPos().frames(25) << ")" << ", CUT: " << cutTime.frames(25);
     } else {
         // uncut clip
 
@@ -2083,15 +2097,28 @@ ClipItem *CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut, boo
             return NULL;
         }
 
-        /*kDebug() << "// UNCUTTING CLIPS: ITEM 1 (" << item->startPos().frames(25) << "x" << item->endPos().frames(25) << ")";
-        kDebug() << "// UNCUTTING CLIPS: ITEM 2 (" << dup->startPos().frames(25) << "x" << dup->endPos().frames(25) << ")";
-        kDebug() << "// UNCUTTING CLIPS, INFO (" << info.startPos.frames(25) << "x" << info.endPos.frames(25) << ") , CUT: " << cutTime.frames(25);;*/
-        //deleteClip(dup->info());
-
         bool snap = KdenliveSettings::snaptopoints();
         KdenliveSettings::setSnaptopoints(false);
+
+        // join fade effects again
+        int ix = dup->hasEffect(QString(), "fadeout");
+        if (ix != -1) {
+            QDomElement effect = dup->effectAt(ix);
+            item->addEffect(effect);
+        }
+        ix = dup->hasEffect(QString(), "fade_to_black");
+        if (ix != -1) {
+            QDomElement effect = dup->effectAt(ix);
+            item->addEffect(effect);
+        }
+
         m_waitingThumbs.removeAll(dup);
-        if (dup->isSelected()) emit clipItemSelected(NULL);
+        bool selected = item->isSelected();
+        if (dup->isSelected()) {
+            selected = true;
+            item->setSelected(true);
+            emit clipItemSelected(NULL);
+        }
         dup->baseClip()->removeReference();
         m_document->updateClip(dup->baseClip()->getId());
         scene()->removeItem(dup);
@@ -2111,6 +2138,8 @@ ClipItem *CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut, boo
             emit displayMessage(i18n("Error when resizing clip"), ErrorMessage);
         }
         KdenliveSettings::setSnaptopoints(snap);
+        if (execute && selected)
+            emit clipItemSelected(item);
         return item;
     }
     //QTimer::singleShot(3000, this, SLOT(slotEnableRefresh()));
