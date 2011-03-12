@@ -14,7 +14,7 @@
    height="6765.7144"
    id="svg2"
    version="1.1"
-   inkscape:version="0.47 r22583"
+   inkscape:version="0.48+devel r"
    sodipodi:docname="kdenlive-mindmap.svg"
    inkscape:export-filename="/data/cworkspace/kdenlive.git/kdenlive/kdenlive-mindmap.png"
    inkscape:export-xdpi="90.003799"
@@ -1087,9 +1087,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.7"
-     inkscape:cx="11758.763"
-     inkscape:cy="4407.2705"
+     inkscape:zoom="0.0875"
+     inkscape:cx="9315.434"
+     inkscape:cy="2634.062"
      inkscape:document-units="px"
      inkscape:current-layer="layer3"
      showgrid="false"
@@ -2081,6 +2081,17 @@
          id="tspan3854"
          x="4260.4497"
          y="-1274.8326">UI</tspan></text>
+    <text
+       sodipodi:linespacing="100%"
+       id="text531"
+       y="3173.6824"
+       x="-3539.5745"
+       style="font-size:144px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:100%;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;opacity:0.2017544;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans Bold"
+       xml:space="preserve"><tspan
+         y="3173.6824"
+         x="-3539.5745"
+         id="tspan533"
+         sodipodi:role="line">Monitors</tspan></text>
   </g>
   <g
      inkscape:groupmode="layer"
@@ -2540,5 +2551,20 @@
          sodipodi:role="line"
          x="6559.6177"
          y="268.31683">EDL (Edit Decision List)</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:125%;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#eeeeee;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans"
+       x="-3640.9109"
+       y="2943.2024"
+       id="text506"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan508"
+         x="-3640.9109"
+         y="2943.2024">Safe Areas</tspan><tspan
+         sodipodi:role="line"
+         x="-3640.9109"
+         y="2973.2024"
+         id="tspan529">http://en.wikipedia.org/wiki/Safe_area</tspan></text>
   </g>
 </svg>
