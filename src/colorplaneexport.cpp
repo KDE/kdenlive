@@ -168,6 +168,7 @@ void ColorPlaneExport::slotExportPlane()
         }
     }
     QImage img;
+    QColor col;
     QSize size(QVariant(tResX->text()).toInt(), QVariant(tResY->text()).toInt());
     switch (cbColorspace->itemData(cbColorspace->currentIndex()).toInt()) {
     case CPE_YUV:
@@ -190,7 +191,8 @@ void ColorPlaneExport::slotExportPlane()
         img = m_colorTools->hsvHueShiftPlane(size, sliderColor->value(), sliderScaling->value(), -180, 180);
         break;
     case CPE_HSV_SATURATION:
-        img = m_colorTools->hsvSaturationPlane(size, sliderColor->value(), 0, 255);
+        col.setHsv(0, 0, sliderColor->value());
+        img = m_colorTools->hsvCurvePlane(size, col, ColorTools::COM_H, ColorTools::COM_S);
         break;
     default:
         Q_ASSERT(false);

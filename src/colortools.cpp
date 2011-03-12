@@ -285,31 +285,76 @@ QImage ColorTools::hsvHueShiftPlane(const QSize &size, const uint &S, const uint
 
 }
 
-QImage ColorTools::hsvSaturationPlane(const QSize &size, const uint &V, const int &MIN, const int &MAX)
+QImage ColorTools::hsvCurvePlane(const QSize &size, const QColor &baseColor, const ComponentsHSV &xVariant, const ComponentsHSV &yVariant)
 {
     Q_ASSERT(size.width() > 0);
     Q_ASSERT(size.height() > 0);
-    Q_ASSERT(MAX > MIN);
-    Q_ASSERT(MIN >= 0);
+
+    int xMax, yMax;
+
+    switch(xVariant) {
+    case COM_H:
+        xMax = 360;
+        break;
+    case COM_S:
+    case COM_V:
+        xMax = 256;
+        break;
+    }
+
+    switch (yVariant) {
+    case COM_H:
+        yMax = 360;
+        break;
+    case COM_S:
+    case COM_V:
+        yMax = 256;
+        break;
+    }
+
 
     QImage plane(size, QImage::Format_ARGB32);
 
     QColor col(0, 0, 0);
 
-    float hue, sat;
+    float hue, sat, val;
+    hue = baseColor.hueF();
+    sat = baseColor.saturationF();
+    val = baseColor.valueF();
 
     for (int x = 0; x < size.width(); x++) {
-        hue = 359 * x / (size.width()-1.0);
+        switch (xVariant) {
+        case COM_H:
+            hue = x / (size.width()-1.0);
+            break;
+        case COM_S:
+            sat = x / (size.width()-1.0);
+            break;
+        case COM_V:
+            val = x / (size.width()-1.0);
+            break;
+        }
         for (int y = 0; y < size.height(); y++) {
-            sat = (1 - y/(size.height()-1.0)) * (MAX-MIN) + MIN;
+            switch (yVariant) {
+            case COM_H:
+                hue = 1.0 - y / (size.height()-1.0);
+                break;
+            case COM_S:
+                sat = 1.0 - y / (size.height()-1.0);
+                break;
+            case COM_V:
+                val = 1.0 - y / (size.height()-1.0);
+                break;
+            }
 
-            col.setHsv(hue, sat, V);
+            col.setHsvF(hue, sat, val);
 
             plane.setPixel(x, y, col.rgba());
         }
     }
 
     return plane;
+
 }
 
 

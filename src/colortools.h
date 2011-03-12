@@ -27,6 +27,8 @@ public:
 
     enum ColorsRGB { COL_R, COL_G, COL_B, COL_A, COL_Luma, COL_RGB };
 
+    enum ComponentsHSV { COM_H, COM_S, COM_V };
+
     /**
       @brief Draws a UV plane with given Y value.
       scaling defines how far to zoom in (or out). Lower value = zoom in.
@@ -71,10 +73,11 @@ public:
     static QImage hsvHueShiftPlane(const QSize &size, const uint &S, const uint &V, const int &MIN, const int &MAX);
 
     /**
-      Basic HSV saturation plane.
+      Basic HSV plane with two components varying on the x and y axis.
+      If both components are the same, then the y axis will be considered.
       MIN/MAX give the minimum/maximum saturation, usually 0..255.
       */
-    static QImage hsvSaturationPlane(const QSize &size, const uint &V, const int &MIN, const int &MAX);
+    static QImage hsvCurvePlane(const QSize &size, const QColor &baseColor, const ComponentsHSV &xVariant, const ComponentsHSV &yVariant);
 
 signals:
     void signalYuvWheelCalculationFinished();
