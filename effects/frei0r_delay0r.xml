@@ -3,7 +3,7 @@
 	<name>delay0r</name>
 	<description>Video delay</description>
 	<author>Martin Bayer</author>
-	<parameter type="double" name="DelayTime" max="1000" min="0" default="0">
+	<parameter type="constant" name="DelayTime" max="1000" min="0" default="0" factor="1000">
 		<name>Delay time</name>
 	</parameter>
 </effect>

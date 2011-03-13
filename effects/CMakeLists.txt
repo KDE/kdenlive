@@ -48,16 +48,13 @@ volume.xml
 wave.xml
 fadein.xml
 fadeout.xml
-frei0r_3dflippo.xml
 frei0r_alpha0ps.xml
 frei0r_alphagrad.xml
 frei0r_alphaspot.xml
 frei0r_balanc0r.xml
 frei0r_baltan.xml
 frei0r_bezier_curves.xml
-frei0r_bluescreen0r.xml
 frei0r_brightness.xml
-frei0r_bw0r.xml
 frei0r_cartoon.xml
 frei0r_cluster.xml
 frei0r_coloradj_rgb.xml
@@ -84,7 +81,6 @@ frei0r_luminance.xml
 frei0r_mask0mate.xml
 frei0r_nervous.xml
 frei0r_nosync0r.xml
-frei0r_perspective.xml
 frei0r_pixeliz0r.xml
 frei0r_pr0be.xml
 frei0r_pr0file.xml

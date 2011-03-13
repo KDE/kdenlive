@@ -1,12 +1,12 @@
 <!DOCTYPE kpartgui>
-<effect tag="frei0r.Cartoon" id="frei0r.Cartoon" type="video" unique="1">
+<effect tag="frei0r.cartoon" id="frei0r.cartoon" type="video" unique="1">
 	<name>Cartoon</name>
 	<description>Cartoonify video, do a form of edge detect</description>
 	<author>Dries Pruimboom, Jaromil</author>
-	<parameter type="double" name="triplevel" max="1000" min="0" default="0">
+	<parameter type="constant" name="triplevel" max="1000" min="0" default="500">
 		<name>Level of trip</name>
 	</parameter>
-	<parameter type="double" name="diffspace" max="256" min="0" default="0">
+	<parameter type="constant" name="diffspace" max="256" min="0" default="1">
 		<name>Difference space</name>
 	</parameter>
 </effect>

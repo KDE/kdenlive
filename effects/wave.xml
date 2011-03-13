@@ -6,10 +6,10 @@
 	<parameter type="keyframe" name="start" max="100" min="0" default="5">
 		<name>Amplitude</name>
 	</parameter>
-	<parameter type="constant" name="deformX" max="100" min="0" default="1">
-		<name>Horizontal factor</name>
+	<parameter type="bool" name="deformX" default="1">
+		<name>Horizontal</name>
 	</parameter>
-	<parameter type="constant" name="deformY" max="100" min="0" default="1">
-		<name>Vertical factor</name>
+	<parameter type="bool" name="deformY" default="0">
+		<name>Vertical</name>
 	</parameter>
 </effect>
