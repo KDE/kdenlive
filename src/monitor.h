@@ -250,7 +250,7 @@ public slots:
 signals:
     void renderPosition(int);
     void durationChanged(int);
-    void refreshClipThumbnail(const QString &);
+    void refreshClipThumbnail(const QString &, bool);
     void adjustMonitorSize();
     void zoneUpdated(QPoint);
     void saveZone(Render *, QPoint);

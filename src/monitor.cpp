@@ -561,7 +561,7 @@ void Monitor::slotSetThumbFrame()
         return;
     }
     m_currentClip->setClipThumbFrame((uint) render->seekFramePosition());
-    emit refreshClipThumbnail(m_currentClip->getId());
+    emit refreshClipThumbnail(m_currentClip->getId(), true);
 }
 
 void Monitor::slotExtractCurrentFrame()
