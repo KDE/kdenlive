@@ -1,5 +1,5 @@
-# crashing transitions
-
+# redundant transitions
 frei0r.composition
+
+# unusable transitions
 frei0r.alphainjection
-frei0r.uvmap
