@@ -735,22 +735,35 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
             else
                 filePropertyMap["type"] = "video";
 
+            int variance;
             mlt_image_format format = mlt_image_rgb24a;
             int frame_width = width;
             int frame_height = imageHeight;
-            uint8_t *data = frame->get_image(format, frame_width, frame_height, 0);
-            QImage image((uchar *)data, frame_width, frame_height, QImage::Format_ARGB32_Premultiplied);
             QPixmap pix;
+            do {
+                variance = 100;
+                uint8_t *data = frame->get_image(format, frame_width, frame_height, 0);
+                QImage image((uchar *)data, frame_width, frame_height, QImage::Format_ARGB32_Premultiplied);
 
-            if (!image.isNull()) {
-                if (frame_width > (2 * width)) {
-                    // there was a scaling problem, do it manually
-                    QImage scaled = image.scaled(width, imageHeight);
-                    pix = QPixmap::fromImage(scaled.rgbSwapped());
-                } else pix = QPixmap::fromImage(image.rgbSwapped());
-            } else
-                pix.fill(Qt::black);
-
+                if (!image.isNull()) {
+                    if (frame_width > (2 * width)) {
+                        // there was a scaling problem, do it manually
+                        QImage scaled = image.scaled(width, imageHeight);
+                        pix = QPixmap::fromImage(scaled.rgbSwapped());
+                    } else pix = QPixmap::fromImage(image.rgbSwapped());
+                    variance = KThumb::imageVariance(image);
+                } else
+                    pix.fill(Qt::black);
+                
+                if (frameNumber == 0 && variance < 6) {
+                    // Thumbnail is not interesting (for example all black, seek to fetch better thumb
+                    frameNumber = 100;
+                    producer->seek(frameNumber);
+                    delete frame;
+                    frame = producer->get_frame();
+                    variance = -1;
+                }
+            } while (variance == -1);
             emit replyGetImage(clipId, pix);
 
         } else if (frame->get_int("test_audio") == 0) {

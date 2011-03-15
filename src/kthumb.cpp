@@ -38,7 +38,7 @@
 #include <QImage>
 #include <QApplication>
 #include <QtConcurrentRun>
-
+#include <QVarLengthArray>
 
 KThumb::KThumb(ClipManager *clipManager, KUrl url, const QString &id, const QString &hash, QObject * parent, const char */*name*/) :
     QObject(parent),
@@ -193,6 +193,32 @@ QImage KThumb::getFrame(Mlt::Producer *producer, int framepos, int width, int he
     delete frame;
     return p;
 }
+
+
+//static
+uint KThumb::imageVariance(QImage image )
+{
+    uint delta=0;
+    uint avg=0;
+    uint bytes=image.numBytes();
+    uint STEPS=bytes/2;
+    QVarLengthArray<uchar> pivot(STEPS);
+    uchar *bits=image.bits();
+    // First pass: get pivots and taking average
+    for( uint i=0; i<STEPS ; i++ ){
+        pivot[i]=bits[i*(bytes/STEPS)];
+        avg+=pivot[i];
+    }
+    avg=avg/STEPS;
+    // Second Step: calculate delta (average?)
+    for (uint i=0; i<STEPS; i++)
+    {
+        int curdelta=abs(int(avg-pivot[i]));
+        delta+=curdelta;
+    }
+    return delta/STEPS;
+}
+
 /*
 void KThumb::getImage(KUrl url, int frame, int width, int height)
 {
