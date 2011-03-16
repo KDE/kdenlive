@@ -24,11 +24,6 @@
         <comment>How often to detect a face. In between checks, it does object motion tracking.</comment>
     </parameter>
     
-    <parameter type="constant" name="Scale" default="67" min="1" max="100" factor="100" suffix="%">
-        <name>Image scale</name>
-        <comment>Image down-scaling factor to improve performance.</comment>
-    </parameter>
-    
     <parameter type="list" name="Shape" default="0.0" paramlist="0.0,0.1,0.2,1.0">
         <paramlistdisplay>circle,ellipse,rectangle,random</paramlistdisplay>
         <name>Shape</name>
