@@ -1402,7 +1402,7 @@ EffectsParameterList ClipItem::addEffect(const QDomElement effect, bool /*animat
     if (effectId.isEmpty()) effectId = effect.attribute("tag");
     parameters.addParam("id", effectId);
 
-    // special case: the affine effect needs in / out points
+    // special case: the affine effect needs in / out points
     if (effectId == "pan_zoom") {
         parameters.addParam("in", QString::number(cropStart().frames(m_fps)));
         parameters.addParam("out", QString::number((cropStart() + cropDuration()).frames(m_fps)));
@@ -1762,9 +1762,9 @@ void ClipItem::doGetIntraThumbs(QPainter *painter, const QPointF startPos, int o
     }
     QPixmap p;
     for (int i = start; i <= end; i++) {
-        if (!view->pixmapCache->find(m_clip->fileURL().path() + "%" + QString::number(i), p)) {
+        if (!view->m_pixmapCache->find(m_clip->fileURL().path() + "%" + QString::number(i), p)) {
             p = m_clip->thumbProducer()->extractImage(i, twidth, theight);
-            view->pixmapCache->insert(m_clip->fileURL().path() + "%" + QString::number(i), p);
+            view->m_pixmapCache->insert(m_clip->fileURL().path() + "%" + QString::number(i), p);
         }
         painter->drawPixmap(startPos + QPointF(twidth *(i - offset), 0), p);
     }

@@ -136,6 +136,7 @@ Vectorscope::~Vectorscope()
     delete m_aAxisEnabled;
     delete m_a75PBox;
     delete m_agColorSpace;
+    delete ui;
 }
 
 QString Vectorscope::widgetName() const { return QString("Vectorscope"); }

@@ -616,6 +616,7 @@ MainWindow::~MainWindow()
     delete m_projectMonitor;
     delete m_clipMonitor;
     delete m_shortcutRemoveFocus;
+    delete[] m_transitions;
     Mlt::Factory::close();
 }
 

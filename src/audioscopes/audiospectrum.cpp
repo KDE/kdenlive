@@ -101,6 +101,7 @@ AudioSpectrum::~AudioSpectrum()
 
     delete m_aResetHz;
     delete m_aTrackMouse;
+    delete ui;
 }
 
 void AudioSpectrum::readConfig()

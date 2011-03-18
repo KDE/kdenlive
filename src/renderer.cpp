@@ -122,6 +122,7 @@ Render::~Render()
 {
     m_isBlocked = 1;
     closeMlt();
+    delete m_mltProfile;
 }
 
 
@@ -156,6 +157,8 @@ void Render::closeMlt()
                 Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
                 if (trackPlaylist.type() == playlist_type) trackPlaylist.clear();
             }
+            delete field;
+            field = NULL;
         }
         mlt_service_unlock(service.get_service());
     }
@@ -181,7 +184,9 @@ void Render::buildConsumer(const QString profileName)
     m_blackClip = NULL;
 
     //TODO: uncomment following line when everything is clean
-    //if (m_mltProfile) delete m_mltProfile;
+    // uncommented Feb 2011 --Granjow
+    if (m_mltProfile) delete m_mltProfile;
+
     m_mltProfile = new Mlt::Profile(tmp);
     m_mltProfile->get_profile()->is_explicit = 1;
     delete[] tmp;

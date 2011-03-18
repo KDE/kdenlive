@@ -88,6 +88,7 @@ Spectrogram::~Spectrogram()
     delete m_aResetHz;
     delete m_aTrackMouse;
     delete m_aGrid;
+    delete ui;
 }
 
 void Spectrogram::readConfig()

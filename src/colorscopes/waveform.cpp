@@ -27,6 +27,7 @@ const int Waveform::m_paddingBottom(20);
 
 Waveform::Waveform(Monitor *projMonitor, Monitor *clipMonitor, QWidget *parent) :
     AbstractGfxScopeWidget(projMonitor, clipMonitor, true, parent)
+  ,ui(NULL)
 {
     ui = new Ui::Waveform_UI();
     ui->setupUi(this);
@@ -67,6 +68,7 @@ Waveform::~Waveform()
     delete m_aRec601;
     delete m_aRec709;
     delete m_agRec;
+    delete ui;
 }
 
 void Waveform::readConfig()

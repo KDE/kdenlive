@@ -30,10 +30,11 @@
 
 
 SmallRuler::SmallRuler(MonitorManager *manager, QWidget *parent) :
-        QWidget(parent),
-        m_scale(1),
-        m_maxval(25),
-        m_manager(manager)
+        QWidget(parent)
+        ,m_cursorFramePosition(0)
+        ,m_scale(1)
+        ,m_maxval(25)
+        ,m_manager(manager)
 {
     m_zoneStart = 10;
     m_zoneEnd = 60;

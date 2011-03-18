@@ -34,6 +34,7 @@
 TimecodeDisplay::TimecodeDisplay(Timecode t, QWidget *parent)
         : QAbstractSpinBox(parent),
         m_timecode(t),
+        m_frametimecode(false),
         m_minimum(0),
         m_maximum(-1)
 {

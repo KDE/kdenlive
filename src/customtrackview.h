@@ -177,7 +177,7 @@ public:
     void clearSelection();
     void editItemDuration();
     void buildGuidesMenu(QMenu *goMenu) const;
-    KPixmapCache* pixmapCache;
+    KPixmapCache* m_pixmapCache;
     /** update the timeline objects when palette changes */
     void updatePalette();
     /** @brief Returns true if a track has audio data on it.
