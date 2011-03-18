@@ -183,8 +183,13 @@ void MonitorManager::slotRefreshCurrentMonitor()
 
 void MonitorManager::slotUpdateAudioMonitoring()
 {
-    m_clipMonitor->render->analyseAudio = KdenliveSettings::monitor_audio();
-    m_projectMonitor->render->analyseAudio = KdenliveSettings::monitor_audio();
+    // if(...) added since they are 0x0 when the config wizard is running! --Granjow
+    if (m_clipMonitor) {
+        m_clipMonitor->render->analyseAudio = KdenliveSettings::monitor_audio();
+    }
+    if (m_projectMonitor) {
+        m_projectMonitor->render->analyseAudio = KdenliveSettings::monitor_audio();
+    }
 }
 
 #include "monitormanager.moc"
