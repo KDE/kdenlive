@@ -21,4 +21,7 @@
 	<parameter type="constant" name="center_bias" max="5000" min="-5000" default="0">
 		<name>Center balance</name>
 	</parameter>
+        <parameter type="bool" name="use_profile" default="0">
+            <name>Use project resolution</name>
+        </parameter>
 </effect>
