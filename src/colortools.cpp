@@ -285,7 +285,8 @@ QImage ColorTools::hsvHueShiftPlane(const QSize &size, const uint &S, const uint
 
 }
 
-QImage ColorTools::hsvCurvePlane(const QSize &size, const QColor &baseColor, const ComponentsHSV &xVariant, const ComponentsHSV &yVariant)
+QImage ColorTools::hsvCurvePlane(const QSize &size, const QColor &baseColor,
+                                 const ComponentsHSV &xVariant, const ComponentsHSV &yVariant, const bool &shear, const float offsetY)
 {
     Q_ASSERT(size.width() > 0);
     Q_ASSERT(size.height() > 0);
@@ -349,7 +350,11 @@ QImage ColorTools::hsvCurvePlane(const QSize &size, const QColor &baseColor, con
 
             col.setHsvF(hue, sat, val);
 
-            plane.setPixel(x, y, col.rgba());
+            if (!shear) {
+                plane.setPixel(x, y, col.rgba());
+            } else {
+                plane.setPixel(x, int(2*size.height() + y - x*size.width()/size.height() - offsetY * size.height()) % size.height(), col.rgba());
+            }
         }
     }
 
