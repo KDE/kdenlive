@@ -198,20 +198,17 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     m_clipMonitorDock->setObjectName("clip_monitor");
     m_clipMonitor = new Monitor("clip", m_monitorManager, QString(), m_timelineArea);
     m_clipMonitorDock->setWidget(m_clipMonitor);
-    addDockWidget(Qt::TopDockWidgetArea, m_clipMonitorDock);
 
     m_projectMonitorDock = new QDockWidget(i18n("Project Monitor"), this);
     m_projectMonitorDock->setObjectName("project_monitor");
     m_projectMonitor = new Monitor("project", m_monitorManager, QString());
     m_projectMonitorDock->setWidget(m_projectMonitor);
-    addDockWidget(Qt::TopDockWidgetArea, m_projectMonitorDock);
 
 #ifndef Q_WS_MAC
     m_recMonitorDock = new QDockWidget(i18n("Record Monitor"), this);
     m_recMonitorDock->setObjectName("record_monitor");
     m_recMonitor = new RecMonitor("record");
     m_recMonitorDock->setWidget(m_recMonitor);
-    addDockWidget(Qt::TopDockWidgetArea, m_recMonitorDock);
     connect(m_recMonitor, SIGNAL(addProjectClip(KUrl)), this, SLOT(slotAddProjectClip(KUrl)));
     connect(m_recMonitor, SIGNAL(showConfigDialog(int, int)), this, SLOT(slotPreferences(int, int)));
 #endif
@@ -290,7 +287,6 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     m_audiosignalDock->setObjectName("audiosignal");
     m_audiosignalDock->setWidget(m_audiosignal);
     addDockWidget(Qt::TopDockWidgetArea, m_audiosignalDock);
-//    connect(m_audiosignal, SIGNAL(updateAudioMonitoring()), m_monitorManager, SLOT(slotUpdateAudioMonitoring()));
     connect(m_audiosignalDock, SIGNAL(visibilityChanged(bool)), this, SLOT(slotUpdateAudioScopeFrameRequest()));
     connect(m_audiosignal, SIGNAL(updateAudioMonitoring()), this, SLOT(slotUpdateAudioScopeFrameRequest()));
 
@@ -335,6 +331,15 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     // Ensure connections were set up correctly
     Q_ASSERT(b);
 
+
+
+    // Add monitors here to keep them at the right of the window
+    addDockWidget(Qt::TopDockWidgetArea, m_clipMonitorDock);
+    addDockWidget(Qt::TopDockWidgetArea, m_projectMonitorDock);
+#ifndef Q_WS_MAC
+    addDockWidget(Qt::TopDockWidgetArea, m_recMonitorDock);
+#endif
+
     m_undoViewDock = new QDockWidget(i18n("Undo History"), this);
     m_undoViewDock->setObjectName("undo_history");
     m_undoView = new QUndoView();
@@ -344,34 +349,36 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     m_undoView->setGroup(m_commandStack);
     addDockWidget(Qt::TopDockWidgetArea, m_undoViewDock);
 
-    //overviewDock = new QDockWidget(i18n("Project Overview"), this);
-    //overviewDock->setObjectName("project_overview");
-    //m_overView = new CustomTrackView(NULL, NULL, this);
-    //overviewDock->setWidget(m_overView);
-    //addDockWidget(Qt::TopDockWidgetArea, overviewDock);
-
 
     setupActions();
 
-    /// Tabify Widgets ///
-    tabifyDockWidget(m_projectListDock, m_effectStackDock);
-    tabifyDockWidget(m_projectListDock, m_transitionConfigDock);
-    tabifyDockWidget(m_projectListDock, m_notesDock);
 
+    // Close non-general docks for the initial layout
+    // only show important ones
+    m_histogramDock->close();
+    m_RGBParadeDock->close();
+    m_waveformDock->close();
+    m_vectorscopeDock->close();
+
+    m_audioSpectrumDock->close();
+    m_spectrogramDock->close();
+    m_audiosignalDock->close();
+
+    m_undoViewDock->close();
+
+
+
+    /// Tabify Widgets ///
+    tabifyDockWidget(m_effectListDock, m_effectStackDock);
+    tabifyDockWidget(m_effectListDock, m_transitionConfigDock);
+    tabifyDockWidget(m_projectListDock, m_notesDock);
 
     tabifyDockWidget(m_clipMonitorDock, m_projectMonitorDock);
 #ifndef Q_WS_MAC
     tabifyDockWidget(m_clipMonitorDock, m_recMonitorDock);
 #endif
 
-    tabifyDockWidget(m_vectorscopeDock, m_waveformDock);
-    tabifyDockWidget(m_vectorscopeDock, m_RGBParadeDock);
-    tabifyDockWidget(m_vectorscopeDock, m_histogramDock);
-    tabifyDockWidget(m_vectorscopeDock, m_undoViewDock);
-    tabifyDockWidget(m_vectorscopeDock, m_effectListDock);
 
-    tabifyDockWidget(m_vectorscopeDock, m_spectrogramDock);
-    tabifyDockWidget(m_vectorscopeDock, m_audioSpectrumDock);
 
 
     setCentralWidget(m_timelineArea);
@@ -1498,7 +1505,7 @@ void MainWindow::setupActions()
     connect(maxCurrent, SIGNAL(triggered(bool)), this, SLOT(slotMaximizeCurrent(bool)));*/
 
     m_closeAction = KStandardAction::close(this,  SLOT(closeCurrentDocument()),   collection);
-    KStandardAction::quit(this,                   SLOT(close()),              collection);
+    KStandardAction::quit(this,                   SLOT(close()),                  collection);
     KStandardAction::open(this,                   SLOT(openFile()),               collection);
     m_saveAction = KStandardAction::save(this,    SLOT(saveFile()),               collection);
     KStandardAction::saveAs(this,                 SLOT(saveFileAs()),             collection);
