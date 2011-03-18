@@ -38,8 +38,9 @@ public:
     /** @brief Returns the selected point or else BPoint. */
     BPoint getCurrentPoint();
 
-    /** @brief Replaces current point with @param p (index stays the same). */
-    void updateCurrentPoint(const BPoint &p);
+    /** @brief Replaces current point with @param p (index stays the same).
+     * @param final (default = true) emit signal modified? */
+    void updateCurrentPoint(const BPoint &p, bool final = true);
 
     /** @brief Number of lines used in grid. */
     int gridLines();

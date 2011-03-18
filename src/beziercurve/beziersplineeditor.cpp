@@ -17,6 +17,7 @@
  ***************************************************************************/
 
 #include "beziersplineeditor.h"
+#include "kdenlivesettings.h"
 
 #include <QPainter>
 #include <QMouseEvent>
@@ -68,13 +69,14 @@ BPoint BezierSplineEditor::getCurrentPoint()
         return BPoint();
 }
 
-void BezierSplineEditor::updateCurrentPoint(const BPoint& p)
+void BezierSplineEditor::updateCurrentPoint(const BPoint& p, bool final)
 {
     if (m_currentPointIndex >= 0) {
         m_spline.setPoint(m_currentPointIndex, p);
         // during validation the point might have changed
         emit currentPoint(m_spline.getPoint(m_currentPointIndex));
-        emit modified();
+        if (final)
+            emit modified();
         update();
     }
 }
@@ -436,6 +438,8 @@ void BezierSplineEditor::mouseMoveEvent(QMouseEvent* event)
         }
 
         emit currentPoint(point);
+        if (KdenliveSettings::dragvalue_directupdate())
+            emit modified();
         update();
     }
 }

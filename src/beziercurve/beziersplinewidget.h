@@ -50,12 +50,18 @@ private slots:
     /** @brief Sets the spinboxes for modifing the selected point to @param p. */
     void slotUpdatePointEntries(const BPoint &p);
 
-    /** @brief Updates the editor and thus the spline if the current point's p was modified using the spinboxes. */
-    void slotUpdatePointP();
-    /** @brief Updates the editor and thus the spline if the current point's h1 was modified using the spinboxes. */
-    void slotUpdatePointH1();
-    /** @brief Updates the editor and thus the spline if the current point's h2 was modified using the spinboxes. */
-    void slotUpdatePointH2();
+    /** @brief Updates the spline if the current point's p was modified using the spinboxes.
+     * @param value (optional) not used, neccessary to be able to connect to DragValue's valueChanged.
+     * @param final (default = true) emit signal modified? */
+    void slotUpdatePointP(double value = 1, bool final = true);
+    /** @brief Updates the spline if the current point's h1 was modified using the spinboxes.
+     * @param value (optional) not used, neccessary to be able to connect to DragValue's valueChanged.
+     * @param final (default = true) emit signal modified? */
+    void slotUpdatePointH1(double value = 1, bool final = true);
+    /** @brief Updates the spline if the current point's h2 was modified using the spinboxes.
+     * @param value (optional) not used, neccessary to be able to connect to DragValue's valueChanged.
+     * @param final (default = true) emit signal modified? */
+    void slotUpdatePointH2(double value = 1, bool final = true);
 
     /** @brief Increases the number of lines in the editor's grid. If there are already 8 lines the number is set to 0. */
     void slotGridChange();

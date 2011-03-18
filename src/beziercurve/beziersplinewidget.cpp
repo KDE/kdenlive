@@ -82,12 +82,12 @@ BezierSplineWidget::BezierSplineWidget(const QString& spline, QWidget* parent) :
     connect(&m_edit, SIGNAL(modified()), this, SIGNAL(modified()));
     connect(&m_edit, SIGNAL(currentPoint(const BPoint&)), this, SLOT(slotUpdatePointEntries(const BPoint&)));
 
-    connect(m_pX, SIGNAL(valueChanged(double, bool)), this, SLOT(slotUpdatePointP()));
-    connect(m_pY, SIGNAL(valueChanged(double,bool)), this, SLOT(slotUpdatePointP()));
-    connect(m_h1X, SIGNAL(valueChanged(double,bool)), this, SLOT(slotUpdatePointH1()));
-    connect(m_h1Y, SIGNAL(valueChanged(double,bool)), this, SLOT(slotUpdatePointH1()));
-    connect(m_h2X, SIGNAL(valueChanged(double,bool)), this, SLOT(slotUpdatePointH2()));
-    connect(m_h2Y, SIGNAL(valueChanged(double,bool)), this, SLOT(slotUpdatePointH2()));
+    connect(m_pX, SIGNAL(valueChanged(double, bool)), this, SLOT(slotUpdatePointP(double, bool)));
+    connect(m_pY, SIGNAL(valueChanged(double,bool)), this, SLOT(slotUpdatePointP(double, bool)));
+    connect(m_h1X, SIGNAL(valueChanged(double,bool)), this, SLOT(slotUpdatePointH1(double, bool)));
+    connect(m_h1Y, SIGNAL(valueChanged(double,bool)), this, SLOT(slotUpdatePointH1(double, bool)));
+    connect(m_h2X, SIGNAL(valueChanged(double,bool)), this, SLOT(slotUpdatePointH2(double, bool)));
+    connect(m_h2Y, SIGNAL(valueChanged(double,bool)), this, SLOT(slotUpdatePointH2(double, bool)));
 
     connect(m_ui.buttonLinkHandles, SIGNAL(toggled(bool)), this, SLOT(slotSetHandlesLinked(bool)));
     connect(m_ui.buttonZoomIn, SIGNAL(clicked()), &m_edit, SLOT(slotZoomIn()));
@@ -165,31 +165,37 @@ void BezierSplineWidget::slotUpdatePointEntries(const BPoint &p)
     blockSignals(false);
 }
 
-void BezierSplineWidget::slotUpdatePointP()
+void BezierSplineWidget::slotUpdatePointP(double value, bool final)
 {
+    Q_UNUSED(value)
+
     BPoint p = m_edit.getCurrentPoint();
 
     p.setP(QPointF(m_pX->value(), m_pY->value()));
 
-    m_edit.updateCurrentPoint(p);
+    m_edit.updateCurrentPoint(p, final);
 }
 
-void BezierSplineWidget::slotUpdatePointH1()
+void BezierSplineWidget::slotUpdatePointH1(double value, bool final)
 {
+    Q_UNUSED(value)
+
     BPoint p = m_edit.getCurrentPoint();
 
     p.setH1(QPointF(m_h1X->value(), m_h1Y->value()));
 
-    m_edit.updateCurrentPoint(p);
+    m_edit.updateCurrentPoint(p, final);
 }
 
-void BezierSplineWidget::slotUpdatePointH2()
+void BezierSplineWidget::slotUpdatePointH2(double value, bool final)
 {
+    Q_UNUSED(value)
+
     BPoint p = m_edit.getCurrentPoint();
 
     p.setH2(QPointF(m_h2X->value(), m_h2Y->value()));
 
-    m_edit.updateCurrentPoint(p);
+    m_edit.updateCurrentPoint(p, final);
 }
 
 void BezierSplineWidget::slotSetHandlesLinked(bool linked)
