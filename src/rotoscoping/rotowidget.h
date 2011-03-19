@@ -37,7 +37,10 @@ public:
     RotoWidget(QString data, Monitor *monitor, int in, int out, Timecode t, QWidget* parent = 0);
     virtual ~RotoWidget();
 
+    /** @brief Returns the spline(s) in the JSON format used by filter_rotoscoping (MLT). */
     QString getSpline();
+
+    /** @brief Passed on to the keyframe timeline. Switches between frames and hh:mm:ss:ff timecode. */
     void updateTimecodeFormat();
 
 public slots:
@@ -62,6 +65,10 @@ private:
     int m_in;
     int m_out;
 
+    /** @brief Returns the list of cubic Bézier points that form the spline at position @param keyframe.
+     * The points are brought from the range [0, 1] into project resolution space.
+     * This function does not do any interpolation and therfore will only return a list when a keyframe at the given postion exists.
+     * Set @param keyframe to -1 if only one keyframe currently exists. */
     QList <BPoint> getPoints(int keyframe);
 
 private slots:
@@ -69,9 +76,12 @@ private slots:
     * @param renderPos Postion of the Monitor / Timeline cursor */
     void slotCheckMonitorPosition(int renderPos);
 
+    /** @brief Updates/Creates the spline at @param pos based on the on-monitor items. */
     void slotUpdateData(int pos = -1, bool editing = false);
+    /** @brief Updates/Creates the spline at the current timeline position based on the on-monitor items. */
     void slotUpdateData(bool editing);
 
+    /** @brief Updates the on-monitor items to fit the spline at position @param pos. */
     void slotPositionChanged(int pos, bool seek = true);
 
     void slotAddKeyframe(int pos = -1);

@@ -58,6 +58,9 @@ RotoWidget::RotoWidget(QString data, Monitor *monitor, int in, int out, Timecode
 
     
     if (m_data.canConvert(QVariant::Map)) {
+        /*
+         * pass keyframe data to keyframe timeline
+         */
         QList <int> keyframes;
         QMap <QString, QVariant> map = m_data.toMap();
         QMap <QString, QVariant>::const_iterator i = map.constBegin();
@@ -76,6 +79,7 @@ RotoWidget::RotoWidget(QString data, Monitor *monitor, int in, int out, Timecode
         }
         m_data = QVariant(map);
     } else {
+        // static (only one keyframe)
         m_keyframeWidget->setKeyframes(QList <int>() << 0);
     }
 
@@ -137,6 +141,9 @@ void RotoWidget::slotUpdateData(int pos, bool editing)
     int width = m_monitor->render->frameRenderWidth();
     int height = m_monitor->render->renderHeight();
 
+    /*
+     * use the position of the on-monitor points to create a storable list
+     */
     QList <BPoint> spline = m_item->getPoints();
     QList <QVariant> vlist;
     foreach (const BPoint &point, spline) {
@@ -148,6 +155,8 @@ void RotoWidget::slotUpdateData(int pos, bool editing)
 
     if (m_data.canConvert(QVariant::Map)) {
         QMap <QString, QVariant> map = m_data.toMap();
+        // replace or insert at position
+        // we have to fill with 0s to maintain the correct order
         map[QString::number((pos < 0 ? m_keyframeWidget->getPosition() : pos) + m_in).rightJustified(qRound(log10((double)m_out)), '0')] = QVariant(vlist);
         m_data = QVariant(map);
     } else {
@@ -170,6 +179,7 @@ QString RotoWidget::getSpline()
 
 void RotoWidget::slotPositionChanged(int pos, bool seek)
 {
+    // do not update while the spline is being edited (points are being dragged)
     if (m_item->editing())
         return;
 
@@ -184,16 +194,22 @@ void RotoWidget::slotPositionChanged(int pos, bool seek)
         QMap <QString, QVariant>::const_iterator i = map.constBegin();
         int keyframe1, keyframe2;
         keyframe1 = keyframe2 = i.key().toInt();
+        // find keyframes next to pos
         while (i.key().toInt() < pos && ++i != map.constEnd()) {
             keyframe1 = keyframe2;
             keyframe2 = i.key().toInt();
         }
 
         if (keyframe1 != keyframe2 && pos < keyframe2) {
+            /*
+             * in between two keyframes
+             * -> interpolate
+             */
             QList <BPoint> p1 = getPoints(keyframe1);
             QList <BPoint> p2 = getPoints(keyframe2);
             qreal relPos = (pos - keyframe1) / (qreal)(keyframe2 - keyframe1 + 1);
 
+            // additionaly points are ignored (same behavior as MLT filter)
             int count = qMin(p1.count(), p2.count());
             for (int i = 0; i < count; ++i) {
                 BPoint bp;
@@ -280,8 +296,10 @@ void RotoWidget::slotRemoveKeyframe(int pos)
     map.remove(QString::number(pos + m_in).rightJustified(qRound(log10((double)m_out)), '0'));
     m_data = QVariant(map);
 
-    if (m_data.toMap().count() == 1)
+    if (m_data.toMap().count() == 1) {
+        // only one keyframe -> switch from map to list again
         m_data = m_data.toMap().begin().value();
+    }
 
     slotPositionChanged(m_keyframeWidget->getPosition(), false);
     emit valueChanged();

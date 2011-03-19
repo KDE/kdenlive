@@ -29,7 +29,7 @@ The basic structure of a XML filter description:
 --------------------------------------------------------------------------------------
 
 Line 1:
-    - required to make strings in the effect translatable
+    - required to make strings used in the effect translatable
 Line 2:
     - tag: MLT ("mlt_service") name of the effect
     - id: internal kdenlive id, can be anything, but must be unique for each effect
