@@ -2193,7 +2193,7 @@ void MainWindow::slotEditProjectSettings()
             m_activeDocument->setDocumentProperty("proxyparams", w->proxyParams());
             if (m_activeDocument->clipManager()->clipsCount() > 0 && KMessageBox::questionYesNo(this, i18n("You have changed the proxy parameters. Do you want to recreate all proxy clips for this project?")) == KMessageBox::Yes) {
                 //TODO: rebuild all proxies
-                //m_activeDocument->rebuildAllProxies();
+                //m_projectList->rebuildProxies();
             }
         }
         if (m_activeDocument->getDocumentProperty("proxyextension") != w->proxyExtension()) {
@@ -3829,13 +3829,23 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
     
     // Do we want proxy rendering
     if (m_projectList->useProxy() && !m_renderWidget->proxyRendering()) {
+        QDomDocument doc;
+        doc.setContent(playlistContent);
+        QString root = doc.documentElement().attribute("root");
+
         // replace proxy clips with originals
         QMap <QString, QString> proxies = m_projectList->getProxies();
         QMapIterator<QString, QString> i(proxies);
         while (i.hasNext()) {
             i.next();
             // Replace all keys with their values (proxy path with original path)
-            playlistContent.replace(i.key(), i.value());
+            QString key = i.key();
+            playlistContent.replace(key, i.value());
+            if (!root.isEmpty() && key.startsWith(root)) {
+                // in case ther resource path in MLT playlist is relative
+                key.remove(0, root.count() + 1);
+                playlistContent.replace(key, i.value());
+            }
         }
     }
     
