@@ -121,7 +121,7 @@ void BezierSplineEditor::setGridLines(int lines)
 
 void BezierSplineEditor::paintEvent(QPaintEvent* event)
 {
-    Q_UNUSED(event);
+    Q_UNUSED(event)
 
     QPainter p(this);
 

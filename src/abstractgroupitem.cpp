@@ -371,7 +371,7 @@ void AbstractGroupItem::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
 
 void AbstractGroupItem::dragLeaveEvent(QGraphicsSceneDragDropEvent *event)
 {
-    Q_UNUSED(event);
+    Q_UNUSED(event)
 }
 
 // virtual

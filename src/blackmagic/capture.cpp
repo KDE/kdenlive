@@ -244,7 +244,7 @@ void    CDeckLinkGLWidget::resizeGL(int width, int height)
 
 HRESULT     CDeckLinkGLWidget::QueryInterface(REFIID iid, LPVOID *ppv)
 {
-    Q_UNUSED(iid);
+    Q_UNUSED(iid)
     *ppv = NULL;
     return E_NOINTERFACE;
 }
@@ -425,8 +425,8 @@ HRESULT DeckLinkCaptureDelegate::VideoInputFrameArrived(IDeckLinkVideoInputFrame
 
 HRESULT DeckLinkCaptureDelegate::VideoInputFormatChanged(BMDVideoInputFormatChangedEvents events, IDeckLinkDisplayMode *mode, BMDDetectedVideoInputFormatFlags)
 {
-    Q_UNUSED(events);
-    Q_UNUSED(mode);
+    Q_UNUSED(events)
+    Q_UNUSED(mode)
     return S_OK;
 }
 

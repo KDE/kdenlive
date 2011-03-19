@@ -1040,7 +1040,7 @@ void MonitorRefresh::setRenderer(Render* render)
 
 void MonitorRefresh::paintEvent(QPaintEvent *event)
 {
-    Q_UNUSED(event);
+    Q_UNUSED(event)
     if (m_renderer) m_renderer->doRefresh();
 }
 
@@ -1142,7 +1142,7 @@ void VideoContainer::wheelEvent(QWheelEvent * event)
 
 void VideoContainer::mouseDoubleClickEvent(QMouseEvent * event)
 {
-    Q_UNUSED(event);
+    Q_UNUSED(event)
 
     if (!KdenliveSettings::openglmonitors())
         switchFullScreen();

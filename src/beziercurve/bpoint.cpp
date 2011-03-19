@@ -86,8 +86,8 @@ void BPoint::setH2(QPointF handle2)
 
 void BPoint::keepInRange(qreal xMin, qreal xMax)
 {
-    Q_UNUSED(xMin);
-    Q_UNUSED(xMax);
+    Q_UNUSED(xMin)
+    Q_UNUSED(xMax)
 }
 
 void BPoint::autoSetLinked()

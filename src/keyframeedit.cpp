@@ -364,7 +364,7 @@ void KeyframeEdit::slotAdjustKeyframePos(int value)
 
 void KeyframeEdit::slotAdjustKeyframeValue(int value)
 {
-    Q_UNUSED(value);
+    Q_UNUSED(value)
 
     QTableWidgetItem *item = keyframe_list->currentItem();
     for (int col = 0; col < keyframe_list->columnCount(); col++) {

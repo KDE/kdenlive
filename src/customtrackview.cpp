@@ -3841,7 +3841,7 @@ void CustomTrackView::changeClipSpeed()
 
 void CustomTrackView::doChangeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, const double speed, const double oldspeed, int strobe, const QString &id)
 {
-    Q_UNUSED(id);
+    Q_UNUSED(id)
     //DocClipBase *baseclip = m_document->clipManager()->getClipById(id);
 
     ClipItem *item = getClipItemAt((int) info.startPos.frames(m_document->fps()), info.track);
@@ -6651,7 +6651,7 @@ void CustomTrackView::updateTrackNames(int track, bool added)
 
 void CustomTrackView::updateTrackDuration(int track, QUndoCommand *command)
 {
-    Q_UNUSED(command);
+    Q_UNUSED(command)
 
     QList<int> tracks;
     if (track >= 0) {

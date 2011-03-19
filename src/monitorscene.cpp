@@ -233,7 +233,7 @@ void MonitorScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 }
 void MonitorScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event)
 {
-    Q_UNUSED(event);
+    Q_UNUSED(event)
 
     if (!m_enabled)
         emit addKeyframe();

@@ -78,7 +78,7 @@ void RegionGrabber::displayHelp()
 
 void RegionGrabber::paintEvent(QPaintEvent* e)
 {
-    Q_UNUSED(e);
+    Q_UNUSED(e)
     if (grabbing)   // grabWindow() should just get the background
         return;
 
@@ -169,7 +169,7 @@ void RegionGrabber::paintEvent(QPaintEvent* e)
 
 void RegionGrabber::resizeEvent(QResizeEvent* e)
 {
-    Q_UNUSED(e);
+    Q_UNUSED(e)
     if (selection.isNull())
         return;
     QRect r = selection;
