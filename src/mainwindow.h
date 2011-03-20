@@ -406,8 +406,6 @@ private slots:
     void slotSelectAddTimelineClip();
     void slotSelectAddTimelineTransition();
     void slotAddVideoEffect(QAction *result);
-    void slotAddAudioEffect(QAction *result);
-    void slotAddCustomEffect(QAction *result);
     void slotAddTransition(QAction *result);
     void slotAddProjectClip(KUrl url);
     void slotShowClipProperties(DocClipBase *clip);

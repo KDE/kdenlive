@@ -426,7 +426,6 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     
     setupGUI();
 
-
     // Find QDockWidget tab bars and show / hide widget title bars on right click
     QList <QTabBar *> tabs = findChildren<QTabBar *>();
     for (int i = 0; i < tabs.count(); i++) {
@@ -447,7 +446,6 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
 
     loadPlugins();
     loadTranscoders();
-    //kDebug() << factory() << " " << factory()->container("video_effects_menu", this);
 
     m_projectMonitor->setupMenu(static_cast<QMenu*>(factory()->container("monitor_go", this)), m_playZone, m_loopZone, NULL, m_loopClip);
     m_clipMonitor->setupMenu(static_cast<QMenu*>(factory()->container("monitor_go", this)), m_playZone, m_loopZone, static_cast<QMenu*>(factory()->container("marker_menu", this)));
@@ -505,13 +503,14 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
 
 
     QMenu *m = static_cast<QMenu*>(factory()->container("video_effects_menu", this));
-    m = m_effectsMenu;
+    m->addActions(m_effectsMenu->actions());
 
 
     m_transitionsMenu = new QMenu(i18n("Add Transition"), this);
     for (int i = 0; i < transitions.count(); ++i)
         m_transitionsMenu->addAction(m_transitions[i]);
 
+    connect(m, SIGNAL(triggered(QAction *)), this, SLOT(slotAddVideoEffect(QAction *)));
     connect(m_effectsMenu, SIGNAL(triggered(QAction *)), this, SLOT(slotAddVideoEffect(QAction *)));
     connect(m_transitionsMenu, SIGNAL(triggered(QAction *)), this, SLOT(slotAddTransition(QAction *)));
 
@@ -2990,23 +2989,6 @@ void MainWindow::slotAddVideoEffect(QAction *result)
     else m_messageLabel->setMessage(i18n("Cannot find effect %1 / %2").arg(info.at(0)).arg(info.at(1)), ErrorMessage);
 }
 
-void MainWindow::slotAddAudioEffect(QAction *result)
-{
-    if (!result) return;
-    QStringList info = result->data().toStringList();
-    if (info.isEmpty()) return;
-    QDomElement effect = audioEffects.getEffectByTag(info.at(1), info.at(2));
-    slotAddEffect(effect);
-}
-
-void MainWindow::slotAddCustomEffect(QAction *result)
-{
-    if (!result) return;
-    QStringList info = result->data().toStringList();
-    if (info.isEmpty()) return;
-    QDomElement effect = customEffects.getEffectByTag(info.at(1), info.at(2));
-    slotAddEffect(effect);
-}
 
 void MainWindow::slotZoomIn()
 {
