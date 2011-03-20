@@ -2376,9 +2376,9 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
             disconnect(m_activeDocument, SIGNAL(updateClipDisplay(const QString &)), m_projectList, SLOT(slotUpdateClip(const QString &)));
             disconnect(m_activeDocument, SIGNAL(selectLastAddedClip(const QString &)), m_projectList, SLOT(slotSelectClip(const QString &)));
             disconnect(m_activeDocument, SIGNAL(deleteTimelineClip(const QString &)), m_activeTimeline, SLOT(slotDeleteClip(const QString &)));
-            disconnect(m_activeTimeline->projectView(), SIGNAL(clipItemSelected(ClipItem*, int)), m_effectStack, SLOT(slotClipItemSelected(ClipItem*, int)));
-            disconnect(m_activeTimeline->projectView(), SIGNAL(clipItemSelected(ClipItem*, int)), this, SLOT(slotActivateEffectStackView()));
-            disconnect(m_activeTimeline->projectView(), SIGNAL(clipItemSelected(ClipItem*, int)), m_projectMonitor, SLOT(slotSetSelectedClip(ClipItem*)));
+            disconnect(m_activeTimeline->projectView(), SIGNAL(clipItemSelected(ClipItem*, int, bool)), m_effectStack, SLOT(slotClipItemSelected(ClipItem*, int)));
+            disconnect(m_activeTimeline->projectView(), SIGNAL(clipItemSelected(ClipItem*, int, bool)), this, SLOT(slotActivateEffectStackView(ClipItem*, int, bool)));
+            disconnect(m_activeTimeline->projectView(), SIGNAL(clipItemSelected(ClipItem*, int, bool)), m_projectMonitor, SLOT(slotSetSelectedClip(ClipItem*)));
             disconnect(m_activeTimeline->projectView(), SIGNAL(transitionItemSelected(Transition*, int, QPoint, bool)), m_transitionConfig, SLOT(slotTransitionItemSelected(Transition*, int, QPoint, bool)));
             disconnect(m_activeTimeline->projectView(), SIGNAL(transitionItemSelected(Transition*, int, QPoint, bool)), this, SLOT(slotActivateTransitionView(Transition *)));
             disconnect(m_activeTimeline->projectView(), SIGNAL(transitionItemSelected(Transition*, int, QPoint, bool)), m_projectMonitor, SLOT(slotSetSelectedClip(Transition*)));
@@ -2457,12 +2457,12 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     connect(doc, SIGNAL(guidesUpdated()), this, SLOT(slotGuidesUpdated()));
     connect(m_notesWidget, SIGNAL(textChanged()), doc, SLOT(setModified()));
 
-    connect(trackView->projectView(), SIGNAL(clipItemSelected(ClipItem*, int)), m_effectStack, SLOT(slotClipItemSelected(ClipItem*, int)));
+    connect(trackView->projectView(), SIGNAL(clipItemSelected(ClipItem*, int, bool)), m_effectStack, SLOT(slotClipItemSelected(ClipItem*, int)));
     connect(trackView->projectView(), SIGNAL(updateClipMarkers(DocClipBase *)), this, SLOT(slotUpdateClipMarkers(DocClipBase*)));
     connect(trackView, SIGNAL(showTrackEffects(int, TrackInfo)), m_effectStack, SLOT(slotTrackItemSelected(int, TrackInfo)));
     connect(trackView, SIGNAL(showTrackEffects(int, TrackInfo)), this, SLOT(slotActivateEffectStackView()));
 
-    connect(trackView->projectView(), SIGNAL(clipItemSelected(ClipItem*, int)), this, SLOT(slotActivateEffectStackView()));
+    connect(trackView->projectView(), SIGNAL(clipItemSelected(ClipItem*, int, bool)), this, SLOT(slotActivateEffectStackView(ClipItem*, int, bool)));
     connect(trackView->projectView(), SIGNAL(transitionItemSelected(Transition*, int, QPoint, bool)), m_transitionConfig, SLOT(slotTransitionItemSelected(Transition*, int, QPoint, bool)));
     connect(trackView->projectView(), SIGNAL(transitionItemSelected(Transition*, int, QPoint, bool)), this, SLOT(slotActivateTransitionView(Transition *)));
     m_zoomSlider->setValue(doc->zoom().x());
@@ -2474,7 +2474,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     connect(trackView->projectView(), SIGNAL(showClipFrame(DocClipBase *, QPoint, const int)), m_clipMonitor, SLOT(slotSetXml(DocClipBase *, QPoint, const int)));
     connect(trackView->projectView(), SIGNAL(playMonitor()), m_projectMonitor, SLOT(slotPlay()));
 
-    connect(trackView->projectView(), SIGNAL(clipItemSelected(ClipItem*, int)), m_projectMonitor, SLOT(slotSetSelectedClip(ClipItem*)));
+    connect(trackView->projectView(), SIGNAL(clipItemSelected(ClipItem*, int, bool)), m_projectMonitor, SLOT(slotSetSelectedClip(ClipItem*)));
     connect(trackView->projectView(), SIGNAL(transitionItemSelected(Transition*, int, QPoint, bool)), m_projectMonitor, SLOT(slotSetSelectedClip(Transition*)));
 
     connect(m_effectStack, SIGNAL(updateEffect(ClipItem*, int, QDomElement, QDomElement, int)), trackView->projectView(), SLOT(slotUpdateClipEffect(ClipItem*, int, QDomElement, QDomElement, int)));
@@ -3220,9 +3220,9 @@ void MainWindow::customEvent(QEvent* e)
     if (e->type() == QEvent::User)
         m_messageLabel->setMessage(static_cast <MltErrorEvent *>(e)->message(), MltError);
 }
-void MainWindow::slotActivateEffectStackView()
+void MainWindow::slotActivateEffectStackView(ClipItem*, int, bool raise)
 {
-    m_effectStack->raiseWindow(m_effectStackDock);
+    if (raise) m_effectStack->raiseWindow(m_effectStackDock);
 }
 
 void MainWindow::slotActivateTransitionView(Transition *t)
