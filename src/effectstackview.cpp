@@ -232,7 +232,7 @@ void EffectStackView::slotItemChanged(QListWidgetItem *item)
 {
     bool disable = true;
     if (item->checkState() == Qt::Checked) disable = false;
-    m_ui.buttonReset->setEnabled(!disable);
+    m_ui.buttonReset->setEnabled(!disable || !KdenliveSettings::disable_effect_parameters());
     int activeRow = m_ui.effectlist->currentRow();
     if (activeRow >= 0) {
         m_effectedit->updateParameter("disable", QString::number((int) disable));
@@ -330,10 +330,9 @@ void EffectStackView::slotItemSelectionChanged(bool update)
     if (!m_trackMode && m_clipref && update) m_clipref->setSelectedEffect(activeRow);
     m_ui.buttonDel->setEnabled(hasItem);
     m_ui.buttonSave->setEnabled(hasItem);
-    m_ui.buttonReset->setEnabled(hasItem && isChecked);
+    m_ui.buttonReset->setEnabled(hasItem && (isChecked || !KdenliveSettings::disable_effect_parameters()));
     m_ui.buttonUp->setEnabled(activeRow > 0);
     m_ui.buttonDown->setEnabled((activeRow < m_ui.effectlist->count() - 1) && hasItem);
-    m_ui.frame->setEnabled(isChecked);
     m_ui.buttonShowComments->setEnabled(hasItem);
 
     emit showComments(m_ui.buttonShowComments->isChecked());
