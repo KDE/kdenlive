@@ -83,6 +83,8 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, QWidg
 
     m_view.buttonFavorite->setIcon(KIcon("favorites"));
     m_view.buttonFavorite->setToolTip(i18n("Copy profile to favorites"));
+    
+    m_view.advanced_params->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 5);
 
     if (KdenliveSettings::showrenderparams()) {
         m_view.buttonInfo->setDown(true);
@@ -754,6 +756,8 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
         height = m_profile.height;
     }
     renderArgs.replace("%dar", '@' + QString::number(m_profile.display_aspect_num) + '/' + QString::number(m_profile.display_aspect_den));
+    //renderArgs.replace("%width", QString::number((int)(m_profile.height * m_profile.display_aspect_num / (double) m_profile.display_aspect_den + 0.5)));
+    //renderArgs.replace("%height", QString::number((int)m_profile.height));
 
     // Adjust scanning
     if (m_view.scanning_list->currentIndex() == 1) renderArgs.append(" progressive=1");
@@ -1859,9 +1863,9 @@ QString RenderWidget::getFreeScriptName(const QString &prefix)
 void RenderWidget::slotPlayRendering(QTreeWidgetItem *item, int)
 {
     if (KdenliveSettings::defaultplayerapp().isEmpty() || item->data(1, Qt::UserRole + 2).toInt() != FINISHEDJOB) return;
-    const QByteArray startId = KStartupInfo::createNewStartupId();
-    const QString command = KdenliveSettings::defaultplayerapp() + ' ' + item->text(1);
-    KRun::runCommand(command, KdenliveSettings::defaultplayerapp(), KdenliveSettings::defaultplayerapp(), this, startId);
+    KUrl::List urls;
+    urls.append(KUrl(item->text(1)));
+    KRun::run(KdenliveSettings::defaultplayerapp(), urls, this);
 }
 
 void RenderWidget::missingClips(bool hasMissing)
