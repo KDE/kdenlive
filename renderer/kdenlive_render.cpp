@@ -21,6 +21,7 @@
 #include <QCoreApplication>
 #include <QStringList>
 #include <QString>
+#include <QUrl>
 #include <QtDebug>
 
 #include "renderjob.h"
@@ -35,7 +36,7 @@ int main(int argc, char **argv)
     if (args.count() >= 7) {
         // Remove program name
         args.removeFirst();
-        
+
         bool erase = false;
         if (args.at(0) == "-erase") {
             erase = true;
@@ -58,7 +59,7 @@ int main(int argc, char **argv)
         QString rendermodule = args.takeFirst();
         QString player = args.takeFirst();
         QString src = args.takeFirst();
-        QString dest = args.takeFirst();
+        QString dest = QUrl(args.takeFirst()).path();
         bool dualpass = false;
         bool doerase;
         if (args.contains("pass=2")) {
