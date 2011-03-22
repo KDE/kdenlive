@@ -3901,14 +3901,50 @@ void MainWindow::slotChangePalette(QAction *action, const QString &themename)
     else theme = action->data().toString();
     KdenliveSettings::setColortheme(theme);
     // Make palette for all widgets.
-    QPalette plt;
+    QPalette plt = kapp->palette();
     if (theme.isEmpty()) {
         plt = QApplication::desktop()->palette();
     } else {
         KSharedConfigPtr config = KSharedConfig::openConfig(theme);
-        plt = KGlobalSettings::createApplicationPalette(config);
+        
+        // Since there currently is a bug (or feature change) in KGlobalSettings::createApplicationPalette, we need
+        // to do the palette loading stuff ourselves...
+        //plt = KGlobalSettings::createApplicationPalette(config);
+ 
+        QPalette::ColorGroup states[3] = { QPalette::Active, QPalette::Inactive,
+                                            QPalette::Disabled };
+        // TT thinks tooltips shouldn't use active, so we use our active colors for all states
+        KColorScheme schemeTooltip(QPalette::Active, KColorScheme::Tooltip, config);
+ 
+        for ( int i = 0; i < 3 ; i++ ) {
+            QPalette::ColorGroup state = states[i];
+            KColorScheme schemeView(state, KColorScheme::View, config);
+            KColorScheme schemeWindow(state, KColorScheme::Window, config);
+            KColorScheme schemeButton(state, KColorScheme::Button, config);
+            KColorScheme schemeSelection(state, KColorScheme::Selection, config);
+ 
+            plt.setBrush( state, QPalette::WindowText, schemeWindow.foreground() );
+            plt.setBrush( state, QPalette::Window, schemeWindow.background() );
+            plt.setBrush( state, QPalette::Base, schemeView.background() );
+            plt.setBrush( state, QPalette::Text, schemeView.foreground() );
+            plt.setBrush( state, QPalette::Button, schemeButton.background() );
+            plt.setBrush( state, QPalette::ButtonText, schemeButton.foreground() );
+            plt.setBrush( state, QPalette::Highlight, schemeSelection.background() );
+            plt.setBrush( state, QPalette::HighlightedText, schemeSelection.foreground() );
+            plt.setBrush( state, QPalette::ToolTipBase, schemeTooltip.background() );
+            plt.setBrush( state, QPalette::ToolTipText, schemeTooltip.foreground() );
+ 
+            plt.setColor( state, QPalette::Light, schemeWindow.shade( KColorScheme::LightShade ) );
+            plt.setColor( state, QPalette::Midlight, schemeWindow.shade( KColorScheme::MidlightShade ) );
+            plt.setColor( state, QPalette::Mid, schemeWindow.shade( KColorScheme::MidShade ) );
+            plt.setColor( state, QPalette::Dark, schemeWindow.shade( KColorScheme::DarkShade ) );
+            plt.setColor( state, QPalette::Shadow, schemeWindow.shade( KColorScheme::ShadowShade ) );
+ 
+            plt.setBrush( state, QPalette::AlternateBase, schemeView.background( KColorScheme::AlternateBackground) );
+            plt.setBrush( state, QPalette::Link, schemeView.foreground( KColorScheme::LinkText ) );
+            plt.setBrush( state, QPalette::LinkVisited, schemeView.foreground( KColorScheme::VisitedText ) );
+        }
     }
-
     kapp->setPalette(plt);
     const QObjectList children = statusBar()->children();
 
