@@ -198,22 +198,25 @@ void Render::buildConsumer(const QString profileName)
     if (KdenliveSettings::external_display() && m_name != "clip") {
         // Use blackmagic card for video output
         QMap< QString, QString > profileProperties = ProfilesDialog::getSettingsFromFile(profileName);
-        if (BMInterface::isSupportedProfile(KdenliveSettings::blackmagic_output_device(), profileProperties)) {
-            QString decklink = "decklink:" + QString::number(KdenliveSettings::blackmagic_output_device());
-            tmp = qstrdup(decklink.toUtf8().constData());
-            m_mltConsumer = new Mlt::Consumer(*m_mltProfile, tmp);
-            delete[] tmp;
-            if (m_mltConsumer->is_valid()) {
-                m_externalConsumer = true;
-                m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
-                m_mltConsumer->set("terminate_on_pause", 0);
-                m_mltConsumer->set("buffer", 12);
-                m_mltConsumer->set("deinterlace_method", "onefield");
-                m_mltConsumer->set("real_time", KdenliveSettings::mltthreads());
-                mlt_log_set_callback(kdenlive_callback);
-            }
-            if (m_mltConsumer && m_mltConsumer->is_valid()) return;
-        } else KMessageBox::informationList(qApp->activeWindow(), i18n("Your project's profile %1 is not compatible with the blackmagic output card. Please see supported profiles below. Switching to normal video display.", m_mltProfile->description()), BMInterface::supportedModes(KdenliveSettings::blackmagic_output_device()));
+        int device = KdenliveSettings::blackmagic_output_device();
+        if (device >= 0) {
+            if (BMInterface::isSupportedProfile(device, profileProperties)) {
+                QString decklink = "decklink:" + QString::number(KdenliveSettings::blackmagic_output_device());
+                tmp = qstrdup(decklink.toUtf8().constData());
+                m_mltConsumer = new Mlt::Consumer(*m_mltProfile, tmp);
+                delete[] tmp;
+                if (m_mltConsumer->is_valid()) {
+                    m_externalConsumer = true;
+                    m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
+                    m_mltConsumer->set("terminate_on_pause", 0);
+                    m_mltConsumer->set("buffer", 12);
+                    m_mltConsumer->set("deinterlace_method", "onefield");
+                    m_mltConsumer->set("real_time", KdenliveSettings::mltthreads());
+                    mlt_log_set_callback(kdenlive_callback);
+                }
+                if (m_mltConsumer && m_mltConsumer->is_valid()) return;
+            } else KMessageBox::informationList(qApp->activeWindow(), i18n("Your project's profile %1 is not compatible with the blackmagic output card. Please see supported profiles below. Switching to normal video display.", m_mltProfile->description()), BMInterface::supportedModes(KdenliveSettings::blackmagic_output_device()));
+        }
     }
     m_externalConsumer = false;
     QString videoDriver = KdenliveSettings::videodrivername();

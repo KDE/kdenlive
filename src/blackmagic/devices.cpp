@@ -163,9 +163,6 @@ bool BMInterface::getBlackMagicOutputDeviceList(KComboBox *devicelist)
     while(deckLinkIterator->Next(&deckLink) == S_OK) {
         char *      deviceNameString = NULL;
 
-        // Increment the total number of DeckLink cards found
-        numDevices++;
-        //if (numDevices > 1)
         kDebug() << "// FOUND a BM device\n\n+++++++++++++++++++++++++++++++++++++";
 
         // *** Print the model name of the DeckLink card
@@ -221,7 +218,7 @@ bool BMInterface::getBlackMagicOutputDeviceList(KComboBox *devicelist)
                 // Release the IDeckLinkDisplayMode object to prevent a leak
                 displayMode->Release();
             }*/
-            devicelist->addItem(deviceName);
+            devicelist->addItem(deviceName, numDevices++);
             found = true;
         }
 
