@@ -74,7 +74,7 @@ RotoWidget::RotoWidget(QString data, Monitor *monitor, int in, int out, Timecode
             // key might already be justified
             if (map.contains(QString::number(keyframes.at(j) + m_in))) {
                 QVariant value = map.take(QString::number(keyframes.at(j) + m_in));
-                map[QString::number(keyframes.at(j) + m_in).rightJustified(qRound(log10((double)m_out)), '0')] = value;
+                map[QString::number(keyframes.at(j) + m_in).rightJustified(log10((double)m_out) + 1, '0')] = value;
             }
         }
         m_data = QVariant(map);
@@ -157,7 +157,7 @@ void RotoWidget::slotUpdateData(int pos, bool editing)
         QMap <QString, QVariant> map = m_data.toMap();
         // replace or insert at position
         // we have to fill with 0s to maintain the correct order
-        map[QString::number((pos < 0 ? m_keyframeWidget->getPosition() : pos) + m_in).rightJustified(qRound(log10((double)m_out)), '0')] = QVariant(vlist);
+        map[QString::number((pos < 0 ? m_keyframeWidget->getPosition() : pos) + m_in).rightJustified(log10((double)m_out) + 1, '0')] = QVariant(vlist);
         m_data = QVariant(map);
     } else {
         m_data = QVariant(vlist);
@@ -253,7 +253,7 @@ QList <BPoint> RotoWidget::getPoints(int keyframe)
     QList <BPoint> points;
     QList <QVariant> data;
     if (keyframe >= 0)
-        data = m_data.toMap()[QString::number(keyframe).rightJustified(qRound(log10((double)m_out)), '0')].toList();
+        data = m_data.toMap()[QString::number(keyframe).rightJustified(log10((double)m_out) + 1, '0')].toList();
     else
         data = m_data.toList();
     foreach (const QVariant &bpoint, data) {
@@ -272,7 +272,7 @@ void RotoWidget::slotAddKeyframe(int pos)
     if (!m_data.canConvert(QVariant::Map)) {
         QVariant data = m_data;
         QMap<QString, QVariant> map;
-        map[QString::number(m_in).rightJustified(qRound(log10((double)m_out)), '0')] = data;
+        map[QString::number(m_in).rightJustified(log10((double)m_out) + 1, '0')] = data;
         m_data = QVariant(map);
     }
 
@@ -293,7 +293,7 @@ void RotoWidget::slotRemoveKeyframe(int pos)
         return;
 
     QMap<QString, QVariant> map = m_data.toMap();
-    map.remove(QString::number(pos + m_in).rightJustified(qRound(log10((double)m_out)), '0'));
+    map.remove(QString::number(pos + m_in).rightJustified(log10((double)m_out) + 1, '0'));
     m_data = QVariant(map);
 
     if (m_data.toMap().count() == 1) {
@@ -309,7 +309,7 @@ void RotoWidget::slotMoveKeyframe(int oldPos, int newPos)
 {
     if (m_data.canConvert(QVariant::Map)) {
         QMap<QString, QVariant> map = m_data.toMap();
-        map[QString::number(newPos + m_in).rightJustified(qRound(log10((double)m_out)), '0')] = map.take(QString::number(oldPos + m_in).rightJustified(qRound(log10((double)m_out)), '0'));
+        map[QString::number(newPos + m_in).rightJustified(log10((double)m_out) + 1, '0')] = map.take(QString::number(oldPos + m_in).rightJustified(log10((double)m_out) + 1, '0'));
         m_data = QVariant(map);
     }
 
