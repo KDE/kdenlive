@@ -114,12 +114,12 @@
     
     <entry name="proxyextension" type="String">
       <label>File extension for proxy clips.</label>
-      <default>avi</default>
+      <default>ts</default>
     </entry>
     
     <entry name="proxyparams" type="String">
       <label>Proxy clips transcoding parameters.</label>
-      <default>-f avi -acodec libmp3lame -ac 2 -ab 92k -ar 48000 -vcodec mpeg2video -g 5 -deinterlace -s 480x270 -b 150k</default>
+      <default>-f mpegts -acodec libmp3lame -ac 2 -ab 92k -ar 48000 -vcodec mpeg2video -g 5 -deinterlace -s 480x270 -b 150k</default>
     </entry>
 
   </group>
