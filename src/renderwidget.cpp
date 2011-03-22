@@ -821,7 +821,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
         QTextStream outStream(&file);
         outStream << "#! /bin/sh" << "\n" << "\n";
         outStream << "SOURCE=" << "\"" + playlistPath + "\"" << "\n";
-        outStream << "TARGET=" << "\"" + dest + "\"" << "\n";
+        outStream << "TARGET=" << "\"" + KUrl(dest).url() + "\"" << "\n";
         outStream << "RENDERER=" << "\"" + m_renderer + "\"" << "\n";
         outStream << "MELT=" << "\"" + render_process_args.takeFirst() + "\"" << "\n";
         outStream << "PARAMETERS=" << "\"" + render_process_args.join(" ") + "\"" << "\n";
@@ -1635,14 +1635,14 @@ void RenderWidget::parseScriptFiles()
             while (!stream.atEnd()) {
                 QString line = stream.readLine();
                 if (line.startsWith("TARGET=")) {
-                    target = line.section("TARGET=", 1).simplified();
-                    target.remove(QChar('"'));
-                } else if (line.startsWith("RENDERER=")) {
-                    renderer = line.section("RENDERER=", 1).simplified();
-                    renderer.remove(QChar('"'));
-                } else if (line.startsWith("MELT=")) {
-                    melt = line.section("MELT=", 1).simplified();
-                    melt.remove(QChar('"'));
+                    target = line.section("TARGET=\"", 1);
+                    target = target.section('"', 0, 0);
+                } else if (line.startsWith("RENDERER=\"")) {
+                    renderer = line.section("RENDERER=", 1);
+                    renderer = renderer.section('"', 0, 0);
+                } else if (line.startsWith("MELT=\"")) {
+                    melt = line.section("MELT=", 1);
+                    melt = melt.section('"', 0, 0);
                 }
             }
             file.close();
@@ -1659,7 +1659,7 @@ void RenderWidget::parseScriptFiles()
             item->setData(0, Qt::UserRole, '1');
         } else item->setIcon(0, KIcon("application-x-executable-script"));
         item->setSizeHint(0, QSize(m_view.scripts_list->columnWidth(0), fontMetrics().height() * 2));
-        item->setData(1, Qt::UserRole, target.simplified());
+        item->setData(1, Qt::UserRole, KUrl(target).path());
         item->setData(1, Qt::UserRole + 1, scriptpath.path());
     }
     bool activate = false;
