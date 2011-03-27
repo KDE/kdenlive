@@ -410,7 +410,7 @@ private slots:
     void slotAddProjectClip(KUrl url);
     void slotShowClipProperties(DocClipBase *clip);
     void slotShowClipProperties(QList <DocClipBase *>cliplist, QMap<QString, QString> commonproperties);
-    void slotActivateEffectStackView(ClipItem*, int, bool raise = true);
+    void slotActivateEffectStackView(ClipItem* item = NULL, int ix = -1, bool raise = true);
     void slotActivateTransitionView(Transition *);
     void slotChangeTool(QAction * action);
     void slotChangeEdit(QAction * action);

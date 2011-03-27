@@ -3202,9 +3202,13 @@ void MainWindow::customEvent(QEvent* e)
     if (e->type() == QEvent::User)
         m_messageLabel->setMessage(static_cast <MltErrorEvent *>(e)->message(), MltError);
 }
-void MainWindow::slotActivateEffectStackView(ClipItem*, int, bool raise)
+void MainWindow::slotActivateEffectStackView(ClipItem* item, int ix, bool raise)
 {
-    if (raise) m_effectStack->raiseWindow(m_effectStackDock);
+    Q_UNUSED(item)
+    Q_UNUSED(ix)
+
+    if (raise)
+        m_effectStack->raiseWindow(m_effectStackDock);
 }
 
 void MainWindow::slotActivateTransitionView(Transition *t)
