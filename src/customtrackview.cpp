@@ -1869,10 +1869,10 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedE
             initEffects::ladspaEffectFile(effect.attribute("src"), effect.attribute("ladspaid").toInt(), getLadspaParams(effect));
         }
         // check if we are trying to reset a keyframe effect
-        if (effectParams.hasParam("keyframes") && effectParams.paramValue("keyframes").isEmpty()) {
-            //clip->initEffect(effect);
+        /*if (effectParams.hasParam("keyframes") && effectParams.paramValue("keyframes").isEmpty()) {
+            clip->initEffect(effect);
             effectParams = getEffectArgs(effect);
-        }
+        }*/
         if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - track, pos, effectParams))
             emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
         m_document->setTrackEffect(m_document->tracksCount() - track - 1, ix, effect);
@@ -1885,8 +1885,9 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedE
     if (clip) {
         // Special case: speed effect
         if (effect.attribute("id") == "speed") {
-            if (effect.attribute("disable") == "1") doChangeClipSpeed(clip->info(), clip->speedIndependantInfo(), 1.0, clip->speed(), 1, clip->baseClip()->getId());
-            else {
+            if (effect.attribute("disable") == "1") {
+                doChangeClipSpeed(clip->info(), clip->speedIndependantInfo(), 1.0, clip->speed(), 1, clip->baseClip()->getId());
+            } else {
                 double speed = EffectsList::parameter(effect, "speed").toDouble() / 100.0;
                 int strobe = EffectsList::parameter(effect, "strobe").toInt();
                 if (strobe == 0) strobe = 1;
@@ -1895,7 +1896,8 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedE
             clip->setEffectAt(ix, effect);
             if (ix == clip->selectedEffectIndex()) {
                 clip->setSelectedEffect(ix);
-                if (!triggeredByUser) emit clipItemSelected(clip, ix);
+                if (!triggeredByUser)
+                    emit clipItemSelected(clip, ix);
             }
             return;
         }
@@ -1910,14 +1912,7 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedE
             clip->initEffect(effect);
             effectParams = getEffectArgs(effect);
         }
-        if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - clip->track(), clip->startPos(), effectParams))
-            emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
 
-        clip->setEffectAt(ix, effect);
-        if (ix == clip->selectedEffectIndex()) {
-            clip->setSelectedEffect(ix);
-            if (!triggeredByUser) emit clipItemSelected(clip, ix);
-        }
         if (effect.attribute("tag") == "volume" || effect.attribute("tag") == "brightness") {
             // A fade effect was modified, update the clip
             if (effect.attribute("id") == "fadein" || effect.attribute("id") == "fade_from_black") {
@@ -1928,6 +1923,16 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedE
                 int pos = effectParams.paramValue("out").toInt() - effectParams.paramValue("in").toInt();
                 clip->setFadeOut(pos);
             }
+        }
+
+        if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - clip->track(), clip->startPos(), effectParams))
+            emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
+
+        clip->setEffectAt(ix, effect);
+        if (ix == clip->selectedEffectIndex()) {
+            clip->setSelectedEffect(ix);
+            if (!triggeredByUser)
+                emit clipItemSelected(clip, ix);
         }
     }
     setDocumentModified();
@@ -4455,7 +4460,7 @@ void CustomTrackView::resizeClip(const ItemInfo start, const ItemInfo end, bool 
         if (success) {
             kDebug() << "RESIZE CLP STRAT TO:" << end.startPos.frames(m_document->fps()) << ", OLD ST: " << start.startPos.frames(25);
             item->resizeStart((int) end.startPos.frames(m_document->fps()));
-            updatePositionEffects(item, clipinfo);
+//             updatePositionEffects(item, clipinfo);
         } else emit displayMessage(i18n("Error when resizing clip"), ErrorMessage);
     } else {
         ItemInfo clipinfo = item->info();
@@ -4463,7 +4468,7 @@ void CustomTrackView::resizeClip(const ItemInfo start, const ItemInfo end, bool 
         bool success = m_document->renderer()->mltResizeClipEnd(clipinfo, end.endPos - clipinfo.startPos);
         if (success) {
             item->resizeEnd((int) end.endPos.frames(m_document->fps()));
-            updatePositionEffects(item, clipinfo);
+//             updatePositionEffects(item, clipinfo);
         } else emit displayMessage(i18n("Error when resizing clip"), ErrorMessage);
     }
     if (!resizeClipStart && end.cropStart != start.cropStart) {
@@ -4536,44 +4541,16 @@ void CustomTrackView::prepareResizeClipStart(AbstractClipItem* item, ItemInfo ol
                     new MoveTransitionCommand(this, trInfo, newTrInfo, true, command);
             }
 
-            /*
-             * TODO: cleanup the effect update process
-             */
             ClipItem *clip = static_cast < ClipItem * >(item);
 
-            updatePositionEffects(clip, oldInfo);
-
-            // check keyframes
-            QDomDocument doc;
-            QDomElement root = doc.createElement("list");
-            doc.appendChild(root);
-            QList <int> indexes;
-            for (int i = 0; i < clip->effectsCount(); i++) {
-                QDomElement effect = clip->effectAt(i);
-                if (EffectsList::hasKeyFrames(effect)) {
-                    doc.appendChild(doc.importNode(effect, true));
-                    indexes.append(i);
-                }
-            }
-
-            if (clip->checkEffectsKeyframesPos(oldInfo.cropStart.frames(m_document->fps()), clip->cropStart().frames(m_document->fps()), true)) {
-                // Keyframes were modified, updateClip
-                QDomNodeList effs = doc.elementsByTagName("effect");
-                // Hack:
-                // Since we must always resize clip before updating the keyframes, we
-                // put a resize command before & after checking keyframes so that
-                // we are sure the resize is performed before whenever we do or undo the action
-
-                new ResizeClipCommand(this, oldInfo, info, false, true, command);
-                for (int i = 0; i < indexes.count(); i++) {
-                    new EditEffectCommand(this, m_document->tracksCount() - clip->track(), clip->startPos(), effs.at(i).cloneNode().toElement(), clip->effectAt(indexes.at(i)), indexes.at(i), false, command);
-                    updateEffect(m_document->tracksCount() - clip->track(), clip->startPos(), clip->effectAt(indexes.at(i)), indexes.at(i));
-                }
-                new ResizeClipCommand(this, oldInfo, info, false, true, command);
-                emit clipItemSelected(clip);
-            } else {
-                new ResizeClipCommand(this, oldInfo, info, false, false, command);
-            }
+            // Hack:
+            // Since we must always resize clip before updating the keyframes, we
+            // put a resize command before & after checking keyframes so that
+            // we are sure the resize is performed before whenever we do or undo the action
+            new ResizeClipCommand(this, oldInfo, info, false, true, command);
+            adjustEffects(clip, oldInfo, true, command);
+            new ResizeClipCommand(this, oldInfo, info, false, true, command);
+            emit clipItemSelected(clip);
         } else {
             KdenliveSettings::setSnaptopoints(false);
             item->resizeStart((int) oldInfo.startPos.frames(m_document->fps()));
@@ -4661,39 +4638,14 @@ void CustomTrackView::prepareResizeClipEnd(AbstractClipItem* item, ItemInfo oldI
 
             ClipItem *clip = static_cast < ClipItem * >(item);
 
-            updatePositionEffects(clip, oldInfo);
-
-            // check keyframes
-            QDomDocument doc;
-            QDomElement root = doc.createElement("list");
-            doc.appendChild(root);
-            QList <int> indexes;
-            for (int i = 0; i < clip->effectsCount(); i++) {
-                QDomElement effect = clip->effectAt(i);
-                if (EffectsList::hasKeyFrames(effect)) {
-                    doc.appendChild(doc.importNode(effect, true));
-                    indexes.append(i);
-                }
-            }
-
-            if (clip->checkEffectsKeyframesPos((oldInfo.cropStart + oldInfo.endPos - oldInfo.startPos).frames(m_document->fps()) - 1, (clip->cropStart() + clip->cropDuration()).frames(m_document->fps()) - 1, false)) {
-                // Keyframes were modified, updateClip
-                QDomNodeList effs = doc.elementsByTagName("effect");
-                // Hack:
-                // Since we must always resize clip before updating the keyframes, we
-                // put a resize command before & after checking keyframes so that
-                // we are sure the resize is performed before whenever we do or undo the action
-
-                new ResizeClipCommand(this, oldInfo, info, false, true, command);
-                for (int i = 0; i < indexes.count(); i++) {
-                    new EditEffectCommand(this, m_document->tracksCount() - clip->track(), clip->startPos(), effs.at(i).cloneNode().toElement(), clip->effectAt(indexes.at(i)), indexes.at(i), false, command);
-                    updateEffect(m_document->tracksCount() - clip->track(), clip->startPos(), clip->effectAt(indexes.at(i)), indexes.at(i));
-                }
-                new ResizeClipCommand(this, oldInfo, info, false, true, command);
-                emit clipItemSelected(clip);
-            } else {
-                new ResizeClipCommand(this, oldInfo, info, false, false, command);
-            }
+            // Hack:
+            // Since we must always resize clip before updating the keyframes, we
+            // put a resize command before & after checking keyframes so that
+            // we are sure the resize is performed before whenever we do or undo the action
+            new ResizeClipCommand(this, oldInfo, info, false, true, command);
+            adjustEffects(clip, oldInfo, false, command);
+            new ResizeClipCommand(this, oldInfo, info, false, true, command);
+            emit clipItemSelected(clip);
         } else {
             KdenliveSettings::setSnaptopoints(false);
             item->resizeEnd((int) oldInfo.endPos.frames(m_document->fps()));
@@ -4729,7 +4681,7 @@ void CustomTrackView::prepareResizeClipEnd(AbstractClipItem* item, ItemInfo oldI
     }
 }
 
-void CustomTrackView::updatePositionEffects(ClipItem * item, ItemInfo info)
+void CustomTrackView::updatePositionEffects(ClipItem* item, ItemInfo info, bool standalone)
 {
     int end = item->fadeIn();
     if (end != 0) {
@@ -4747,10 +4699,13 @@ void CustomTrackView::updatePositionEffects(ClipItem * item, ItemInfo info)
             end += start;
             EffectsList::setParameter(oldeffect, "in", QString::number(start));
             EffectsList::setParameter(oldeffect, "out", QString::number(end));
-            if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - item->track(), item->startPos(), getEffectArgs(oldeffect)))
-                emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
-            // if fade effect is displayed, update the effect edit widget with new clip duration
-            if (item->isSelected() && effectPos == item->selectedEffectIndex()) emit clipItemSelected(item, effectPos);
+            if (standalone) {
+                if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - item->track(), item->startPos(), getEffectArgs(oldeffect)))
+                    emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
+                // if fade effect is displayed, update the effect edit widget with new clip duration
+                if (item->isSelected() && effectPos == item->selectedEffectIndex())
+                    emit clipItemSelected(item, effectPos);
+            }
         }
         effectPos = item->hasEffect("brightness", "fade_from_black");
         if (effectPos != -1) {
@@ -4765,12 +4720,16 @@ void CustomTrackView::updatePositionEffects(ClipItem * item, ItemInfo info)
             end += start;
             EffectsList::setParameter(oldeffect, "in", QString::number(start));
             EffectsList::setParameter(oldeffect, "out", QString::number(end));
-            if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - item->track(), item->startPos(), getEffectArgs(oldeffect)))
-                emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
-            // if fade effect is displayed, update the effect edit widget with new clip duration
-            if (item->isSelected() && effectPos == item->selectedEffectIndex()) emit clipItemSelected(item, effectPos);
+            if (standalone) {
+                if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - item->track(), item->startPos(), getEffectArgs(oldeffect)))
+                    emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
+                // if fade effect is displayed, update the effect edit widget with new clip duration
+                if (item->isSelected() && effectPos == item->selectedEffectIndex())
+                    emit clipItemSelected(item, effectPos);
+            }
         }
     }
+
     int start = item->fadeOut();
     if (start != 0) {
         // there is a fade out effect
@@ -4787,10 +4746,13 @@ void CustomTrackView::updatePositionEffects(ClipItem * item, ItemInfo info)
             start = end - start;
             EffectsList::setParameter(oldeffect, "in", QString::number(start));
             EffectsList::setParameter(oldeffect, "out", QString::number(end));
-            if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - item->track(), item->startPos(), getEffectArgs(oldeffect)))
-                emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
-            // if fade effect is displayed, update the effect edit widget with new clip duration
-            if (item->isSelected() && effectPos == item->selectedEffectIndex()) emit clipItemSelected(item, effectPos);
+            if (standalone) {
+                if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - item->track(), item->startPos(), getEffectArgs(oldeffect)))
+                    emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
+                // if fade effect is displayed, update the effect edit widget with new clip duration
+                if (item->isSelected() && effectPos == item->selectedEffectIndex())
+                    emit clipItemSelected(item, effectPos);
+            }
         }
         effectPos = item->hasEffect("brightness", "fade_to_black");
         if (effectPos != -1) {
@@ -4805,10 +4767,13 @@ void CustomTrackView::updatePositionEffects(ClipItem * item, ItemInfo info)
             start = end - start;
             EffectsList::setParameter(oldeffect, "in", QString::number(start));
             EffectsList::setParameter(oldeffect, "out", QString::number(end));
-            if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - item->track(), item->startPos(), getEffectArgs(oldeffect)))
-                emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
-            // if fade effect is displayed, update the effect edit widget with new clip duration
-            if (item->isSelected() && effectPos == item->selectedEffectIndex()) emit clipItemSelected(item, effectPos);
+            if (standalone) {
+                if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - item->track(), item->startPos(), getEffectArgs(oldeffect)))
+                    emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
+                // if fade effect is displayed, update the effect edit widget with new clip duration
+                if (item->isSelected() && effectPos == item->selectedEffectIndex())
+                    emit clipItemSelected(item, effectPos);
+            }
         }
     }
 
@@ -4820,13 +4785,13 @@ void CustomTrackView::updatePositionEffects(ClipItem * item, ItemInfo info)
         if (!eff.isNull() && diff != 0) {
             int freeze_pos = EffectsList::parameter(eff, "frame").toInt() + diff;
             EffectsList::setParameter(eff, "frame", QString::number(freeze_pos));
-            if (item->isSelected() && item->selectedEffect().attribute("id") == "freeze") {
-                emit clipItemSelected(item, item->selectedEffectIndex());
+            if (standalone) {
+                if (item->isSelected() && item->selectedEffect().attribute("id") == "freeze") {
+                    emit clipItemSelected(item, item->selectedEffectIndex());
+                }
             }
         }
     }
-
-    updatePanZoom(item);
 }
 
 double CustomTrackView::getSnapPointForPos(double pos)
@@ -6600,6 +6565,7 @@ EffectsParameterList CustomTrackView::getEffectArgs(const QDomElement effect)
 void CustomTrackView::updatePanZoom(ClipItem* item, GenTime cutPos)
 {
     QList <int> effects = item->updatePanZoom(m_document->width(), m_document->height(), cutPos.frames(m_document->fps()));
+
     for (int i = 0; i < effects.count(); ++i) {
         if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - item->track(), item->startPos(), getEffectArgs(item->effectAt(effects.at(i)))))
             emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
@@ -6609,7 +6575,7 @@ void CustomTrackView::updatePanZoom(ClipItem* item, GenTime cutPos)
             emit clipItemSelected(item, effects.at(i));*/
     }
     // update always, otherwise there might problems when resizing groups
-    if (effects.count() > 0)
+    if (effects.count())
         emit clipItemSelected(item, item->selectedEffectIndex());
 }
 
@@ -6691,6 +6657,40 @@ void CustomTrackView::slotRefreshThumbs(const QString &id, bool resetThumbs)
             if (clip->clipProducer() == id) {
                 clip->refreshClip(true, resetThumbs);
             }
+        }
+    }
+}
+
+void CustomTrackView::adjustEffects(ClipItem* item, ItemInfo oldInfo, bool fromStart, QUndoCommand* command)
+{
+    bool update = false;
+
+    QMap<int, QDomElement> effects;
+    for (int i = 0; i < item->effectsCount(); ++i) {
+        QDomElement effect = item->getEffectAt(i);
+        bool nonStdKeyframeUpdate = effect.attribute("id").startsWith("fade") || effect.attribute("id") == "freeze" || EffectsList::hasGeometryKeyFrames(effect);
+        if (nonStdKeyframeUpdate)
+            update = true;
+        if (nonStdKeyframeUpdate || EffectsList::hasKeyFrames(effect) || EffectsList::hasSimpleKeyFrames(effect))
+            effects.insert(i, effect.cloneNode().toElement());
+    }
+
+    if(effects.isEmpty())
+        return;
+
+    if (fromStart)
+        update |= item->checkEffectsKeyframesPos(oldInfo.cropStart.frames(m_document->fps()), item->cropStart().frames(m_document->fps()), true);
+    else
+        update |= item->checkEffectsKeyframesPos((oldInfo.cropStart + oldInfo.endPos - oldInfo.startPos).frames(m_document->fps()) - 1, (item->cropStart() + item->cropDuration()).frames(m_document->fps()) - 1, false);
+
+    update |= item->updatePanZoom(m_document->width(), m_document->height(), 0).count() > 0;
+    updatePositionEffects(item, oldInfo, false);
+
+    if (update) {
+        QMap<int, QDomElement>::const_iterator i = effects.constBegin();
+        while (i != effects.constEnd()) {
+            new EditEffectCommand(this, m_document->tracksCount() - item->track(), item->startPos(), i.value(), item->effectAt(i.key()), i.key(), false, command);
+            ++i;
         }
     }
 }

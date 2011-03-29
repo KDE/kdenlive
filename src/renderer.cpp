@@ -2697,6 +2697,12 @@ bool Render::mltEditEffect(int track, GenTime position, EffectsParameterList par
     for (int j = 0; j < params.count(); j++) {
         filter->set((prefix + params.at(j).name()).toUtf8().constData(), params.at(j).value().toUtf8().constData());
     }
+
+    // Pan and Zoom will be updated upon clip duration change
+    if (params.paramValue("id") == "pan_zoom") {
+        filter->set_in_and_out(service.get_int("in"), service.get_int("out") + 1);
+    }
+
     mlt_service_unlock(service.get_service());
 
     m_isBlocked = false;

@@ -165,6 +165,18 @@ bool EffectsList::hasSimpleKeyFrames(QDomElement effect)
     return false;
 }
 
+// static
+bool EffectsList::hasGeometryKeyFrames(QDomElement effect)
+{
+    QDomNodeList params = effect.elementsByTagName("parameter");
+    for (int i = 0; i < params.count(); ++i) {
+        QDomElement param = params.item(i).toElement();
+        if (param.attribute("type") == "geometry" && !param.hasAttribute("fixed"))
+            return true;
+    }
+    return false;
+}
+
 void EffectsList::clone(const EffectsList original)
 {
     setContent(original.toString());

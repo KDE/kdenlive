@@ -232,7 +232,9 @@ void ClipItem::initEffect(QDomElement effect, int diff)
     QDomNodeList params = effect.elementsByTagName("parameter");
     for (int i = 0; i < params.count(); i++) {
         QDomElement e = params.item(i).toElement();
-        kDebug() << "// init eff: " << e.attribute("name");
+
+        if (e.isNull())
+            continue;
 
         // Check if this effect has a variable parameter
         if (e.attribute("default").startsWith('%')) {
@@ -243,14 +245,9 @@ void ClipItem::initEffect(QDomElement effect, int diff)
             }
         }
 
-        if (!e.isNull() && (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe")) {
-            QString def = e.attribute("default");
+        if ((e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe") && e.attribute("keyframes").isEmpty()) {
             // Effect has a keyframe type parameter, we need to set the values
-            if (e.attribute("keyframes").isEmpty()) {
-                e.setAttribute("keyframes", QString::number(cropStart().frames(m_fps)) + ':' + def);
-                kDebug() << "///// EFFECT KEYFRAMES INITED: " << e.attribute("keyframes");
-                //break;
-            }
+            e.setAttribute("keyframes", QString::number(cropStart().frames(m_fps)) + ':' + e.attribute("default"));
         }
     }
     if (effect.attribute("tag") == "volume" || effect.attribute("tag") == "brightness") {
@@ -421,34 +418,35 @@ void ClipItem::setSelectedEffect(const int ix)
 {
     m_selectedEffect = ix;
     QDomElement effect = effectAt(m_selectedEffect);
-    if (effect.isNull() == false) {
+    if (!effect.isNull() && effect.attribute("disable") != "1") {
         QDomNodeList params = effect.elementsByTagName("parameter");
-        if (effect.attribute("disable") != "1")
-            for (int i = 0; i < params.count(); i++) {
-                QDomElement e = params.item(i).toElement();
-                if (!e.isNull() && (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe") && e.attribute("intimeline") == "1") {
-                    m_keyframes.clear();
-                    m_visibleParam = i;
-                    double max = e.attribute("max").toDouble();
-                    double min = e.attribute("min").toDouble();
-                    m_keyframeFactor = 100.0 / (max - min);
-                    m_keyframeOffset = min;
-                    m_keyframeDefault = e.attribute("default").toDouble();
-                    m_selectedKeyframe = 0;
+        for (int i = 0; i < params.count(); i++) {
+            QDomElement e = params.item(i).toElement();
+            if (!e.isNull() && (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe") && e.attribute("intimeline") == "1") {
+                m_keyframes.clear();
+                m_visibleParam = i;
+                double max = e.attribute("max").toDouble();
+                double min = e.attribute("min").toDouble();
+                m_keyframeFactor = 100.0 / (max - min);
+                m_keyframeOffset = min;
+                m_keyframeDefault = e.attribute("default").toDouble();
+                m_selectedKeyframe = 0;
 
-                    // parse keyframes
-                    const QStringList keyframes = e.attribute("keyframes").split(';', QString::SkipEmptyParts);
-                    foreach(const QString &str, keyframes) {
-                        int pos = str.section(':', 0, 0).toInt();
-                        double val = str.section(':', 1, 1).toDouble();
-                        m_keyframes[pos] = val;
-                    }
-                    if (m_keyframes.find(m_editedKeyframe) == m_keyframes.end()) m_editedKeyframe = -1;
-                    update();
-                    return;
+                // parse keyframes
+                const QStringList keyframes = e.attribute("keyframes").split(';', QString::SkipEmptyParts);
+                foreach(const QString &str, keyframes) {
+                    int pos = str.section(':', 0, 0).toInt();
+                    double val = str.section(':', 1, 1).toDouble();
+                    m_keyframes[pos] = val;
                 }
+                if (m_keyframes.find(m_editedKeyframe) == m_keyframes.end())
+                    m_editedKeyframe = -1;
+                update();
+                return;
             }
+        }
     }
+
     if (!m_keyframes.isEmpty()) {
         m_keyframes.clear();
         update();
@@ -1094,22 +1092,18 @@ void ClipItem::setFadeIn(int pos)
 {
     if (pos == m_startFade) return;
     int oldIn = m_startFade;
-    if (pos < 0) pos = 0;
-    if (pos > cropDuration().frames(m_fps)) pos = (int)(cropDuration().frames(m_fps));
-    m_startFade = pos;
+    m_startFade = qBound(0, pos, (int)cropDuration().frames(m_fps));
     QRectF rect = boundingRect();
-    update(rect.x(), rect.y(), qMax(oldIn, pos), rect.height());
+    update(rect.x(), rect.y(), qMax(oldIn, m_startFade), rect.height());
 }
 
 void ClipItem::setFadeOut(int pos)
 {
     if (pos == m_endFade) return;
     int oldOut = m_endFade;
-    if (pos < 0) pos = 0;
-    if (pos > cropDuration().frames(m_fps)) pos = (int)(cropDuration().frames(m_fps));
-    m_endFade = pos;
+    m_endFade = qBound(0, pos, (int)cropDuration().frames(m_fps));
     QRectF rect = boundingRect();
-    update(rect.x() + rect.width() - qMax(oldOut, pos), rect.y(), qMax(oldOut, pos), rect.height());
+    update(rect.x() + rect.width() - qMax(oldOut, m_endFade), rect.y(), qMax(oldOut, m_endFade), rect.height());
 
 }
 

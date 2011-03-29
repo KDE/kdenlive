@@ -356,7 +356,7 @@ private:
 
     /** Get the index of the video track that is just below current track */
     int getPreviousVideoTrack(int track);
-    void updatePositionEffects(ClipItem * item, ItemInfo info);
+    void updatePositionEffects(ClipItem * item, ItemInfo info, bool standalone = true);
     bool insertDropClips(const QMimeData *data, const QPoint pos);
     bool canBePastedTo(ItemInfo info, int type) const;
     bool canBePastedTo(QList <ItemInfo> infoList, int type) const;
@@ -432,6 +432,13 @@ private:
      * 
      * In addition to update the duration in TrackInfo it updates effects with keyframes on the track. */
     void updateTrackDuration(int track, QUndoCommand *command);
+
+    /** @brief Adjusts effects after a clip resize.
+     * @param item The item that was resized
+     * @param oldInfo pre resize info
+     * @param fromStart false = resize from end
+     * @param command Used as a parent for EditEffectCommand */
+    void adjustEffects(ClipItem *item, ItemInfo oldInfo, bool fromStart, QUndoCommand *command);
 
 private slots:
     void slotRefreshGuides();

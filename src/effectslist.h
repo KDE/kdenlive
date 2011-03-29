@@ -69,6 +69,7 @@ public:
     void replace(int ix, QDomElement effect);
     static bool hasKeyFrames(QDomElement effect);
     static bool hasSimpleKeyFrames(QDomElement effect);
+    static bool hasGeometryKeyFrames(QDomElement effect);
     static void setParameter(QDomElement effect, const QString &name, const QString &value);
     static QString parameter(QDomElement effect, const QString &name);
     static void setProperty(QDomElement effect, const QString &name, const QString &value);
