@@ -13,5 +13,5 @@ This file is intended to contain tips and Q/A for translating.
   As above: Bug report or CORRECT_THESE file.
 
 * There is HTML and some CDATA tags in a string to translate.
-  Yes. This is not a mistake but intended, for formatting. Plese keep these tags :)
+  Yes. This is not a mistake but intended, for formatting. Please keep these tags :)
   
