@@ -34,6 +34,8 @@ frei0r.d90stairsteppingfix
 frei0r.distort0r
 frei0r.edgeglow
 frei0r.equaliz0r
+frei0r.facedetect
+frei0r.facebl0r
 frei0r.flippo
 frei0r.glow
 frei0r.hqdn3d
