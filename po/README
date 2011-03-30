@@ -1,0 +1,17 @@
+This file is intended to contain tips and Q/A for translating.
+
+* What is String Freeze?
+  Some weeks (usually 2) before a new release, string freeze is declared. From then it is guaranteed that 
+  no strings in the source code will be changed anymore so that translators can work without constantly
+  having to update again and again.
+
+* There is a duplicate string (like «Clip:» and «Clip: » or «Audio device» and «Audio Device»). What to do?
+  Either file a bug report on mantis, or add the strings to the CORRECT_THESE file in this directory so that
+  they can be corrected for the next release. 
+
+* There is some other weird thing (singular form has to be translated both separately and together with its plural form, etc.)
+  As above: Bug report or CORRECT_THESE file.
+
+* There is HTML and some CDATA tags in a string to translate.
+  Yes. This is not a mistake but intended, for formatting. Plese keep these tags :)
+  
