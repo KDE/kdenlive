@@ -1,12 +1,12 @@
 # translation of kdenlive.po to Deutsch
-# Copyright (C) 2008-2009 THE PACKAGE'S COPYRIGHT HOLDER
+# Copyright (C) 2008-2011 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Marco Gittler <g.marco@freenet.de>, 2008.
 # Felix Hammer <f.hammer@gmx.de>, 2008.
 # Thomas Holzmann <holzi1@gmx.at>, 2008.
 # Simon Eugster <simon.eu@gmail.com>, 2009, 2010, 2011.
-# Markus Slopianka <kamikazow@web.de>, 2009, 2010.
+# Markus Slopianka <markus.s@kdemail.net>, 2009, 2010, 2011.
 # Lukas Lacheta <joshlukas@aryuna.de>, 2009.
 # Till Theato <root@ttill.de>, 2009, 2010.
 msgid ""
@@ -14,14 +14,14 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-03-25 19:01+0100\n"
-"PO-Revision-Date: 2011-03-25 19:12+0100\n"
-"Last-Translator: simon\n"
-"Language-Team: American English <kde-i18n-de@kde.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2011-04-04 02:41+0200\n"
+"Last-Translator: Markus Slopianka <markus.s@kdemail.net>\n"
+"Language-Team: German <kde-i18n-de@kde.org>\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.0\n"
+"X-Generator: Lokalize 1.2\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
 
 #: src/customtrackview.cpp:609
@@ -1334,15 +1334,15 @@ msgstr "Verwischen"
 
 #: rc.cpp:1479
 msgid "Blur & hide"
-msgstr ""
+msgstr "Verwischen und verstecken"
 
 #: rc.cpp:40
 msgid "Blur factor"
-msgstr "Unschärfe Faktor"
+msgstr "Verwischfaktor"
 
 #: rc.cpp:34
 msgid "Blur image with keyframes"
-msgstr "Bild mit Keyframes unschärfen"
+msgstr "Bild mit Keyframes verwischen"
 
 #: src/titlewidget.cpp:241
 msgctxt "Font style"
@@ -1375,7 +1375,7 @@ msgstr "Unten zuerst"
 
 #: rc.cpp:32
 msgid "Box Blur"
-msgstr "Kasten-Unschärfe"
+msgstr "Kasten-Verwischen"
 
 #: rc.cpp:896
 msgid "Box,Ellipsoid,Diamond"
@@ -1398,9 +1398,8 @@ msgid "Brightness Threshold"
 msgstr "Helligkeits-Schwelle"
 
 #: rc.cpp:1213
-#, fuzzy
 msgid "Brightness down"
-msgstr "Helligkeit"
+msgstr "Helligkeit verringern"
 
 #: rc.cpp:1215
 #, fuzzy
@@ -1408,9 +1407,8 @@ msgid "Brightness every"
 msgstr "Helligkeit"
 
 #: rc.cpp:1211
-#, fuzzy
 msgid "Brightness up"
-msgstr "Helligkeit"
+msgstr "Helligkeit erhöhen"
 
 #: rc.cpp:752
 msgid "Broken TV"
@@ -1792,11 +1790,11 @@ msgstr "Aufnahme"
 
 #: rc.cpp:334
 msgid "Cartoon"
-msgstr ""
+msgstr "Zeichentrick"
 
 #: rc.cpp:336
 msgid "Cartoonify video, do a form of edge detect"
-msgstr ""
+msgstr "Ein Video durch einen Kanteneffekt wie Zeichentrick aussehen lassen"
 
 #: rc.cpp:1313
 msgid "Center Frequency"
@@ -3076,7 +3074,6 @@ msgid "Duration:"
 msgstr "Länge:"
 
 #: src/customtrackview.cpp:632
-#, fuzzy
 msgid "Duration: "
 msgstr "Länge:"
 
@@ -3108,7 +3105,7 @@ msgstr "E"
 msgid "EMAIL OF TRANSLATORS"
 msgstr ""
 "g.marco@freenet.de, f.hammer@gmx.de, holzi1@gmx.at, simon.eu@gmail.com, "
-"kamikazow@web.de, root@ttill.de"
+"markus.s@kdemail.net, root@ttill.de"
 
 #: rc.cpp:485
 msgid "Edge brightness upscaling multiplier"
@@ -3438,7 +3435,7 @@ msgstr "Kodier-Parameter"
 
 #: rc.cpp:493
 msgid "Face blur"
-msgstr ""
+msgstr "Gechicht verwischen"
 
 #: rc.cpp:522
 #, fuzzy
@@ -6744,13 +6741,12 @@ msgid "Scale Y"
 msgstr "Skalieren Y"
 
 #: rc.cpp:854
-#, fuzzy
 msgid "Scale and Tilt"
-msgstr "Scale0tilt"
+msgstr "Skalieren und neigen"
 
 #: rc.cpp:856
 msgid "Scales, Tilts and Crops an Image"
-msgstr "Skaliert, kippt und schneidet Bilder"
+msgstr "Skaliert, neigt und schneidet Bilder"
 
 #: src/dragvalue.cpp:103 src/colorplaneexport.cpp:208 rc.cpp:447 rc.cpp:1990
 #: rc.cpp:3984
@@ -7432,7 +7428,7 @@ msgstr "Streubreite"
 
 #: rc.cpp:960
 msgid "Square Blur"
-msgstr "Unschärfe"
+msgstr "Quadrat-Verwischen"
 
 #: rc.cpp:455
 msgid "Square,PAL DV,NTSC DV,HDV,Manual"
@@ -7569,7 +7565,7 @@ msgstr "T"
 
 #: src/customtrackview.cpp:6377
 msgid "TRACTOR"
-msgstr ""
+msgstr "TRACTOR"
 
 #: rc.cpp:3400 rc.cpp:5394
 msgid "Target"
@@ -7582,7 +7578,7 @@ msgstr "Weisse Farbe"
 
 #: rc.cpp:966
 msgid "TehRoxx0r"
-msgstr ""
+msgstr "TehRoxx0r"
 
 #: rc.cpp:2976 rc.cpp:4970
 msgid "Template"
@@ -7844,15 +7840,15 @@ msgstr "Till Theato"
 
 #: rc.cpp:226 rc.cpp:252 rc.cpp:794
 msgid "Tilt"
-msgstr ""
+msgstr "Neigung"
 
 #: rc.cpp:870
 msgid "Tilt X"
-msgstr "Kippen X"
+msgstr "X neigen"
 
 #: rc.cpp:872
 msgid "Tilt Y"
-msgstr "Kippen Y"
+msgstr "Y neigen"
 
 #: rc.cpp:1625 rc.cpp:3619
 msgid "Time"
@@ -8215,7 +8211,7 @@ msgstr "Wert"
 
 #: rc.cpp:962
 msgid "Variable-size square blur (frei0r.squareblur)"
-msgstr "Unschärfe, variable Breite (frei0r.squareblur)"
+msgstr "Verwischen, variable Breite (frei0r.squareblur)"
 
 #: rc.cpp:80 rc.cpp:88
 msgid "Variance"
@@ -8791,7 +8787,7 @@ msgstr "danach"
 
 #: rc.cpp:3088 rc.cpp:3185 rc.cpp:5082 rc.cpp:5179
 msgid "avi"
-msgstr ""
+msgstr "avi"
 
 #: rc.cpp:2964 rc.cpp:4958
 msgid "before"
@@ -8901,7 +8897,7 @@ msgstr "n"
 
 #: rc.cpp:750
 msgid "nosync0r"
-msgstr ""
+msgstr "nosync0r"
 
 #: rc.cpp:1449
 msgid "opacity"
@@ -8914,7 +8910,7 @@ msgstr "Parameterbeschreibung"
 #: rc.cpp:3073 rc.cpp:3079 rc.cpp:3170 rc.cpp:3176 rc.cpp:5067 rc.cpp:5073
 #: rc.cpp:5164 rc.cpp:5170
 msgid "pixels"
-msgstr ""
+msgstr "Pixel"
 
 #: rc.cpp:764
 msgid "pr0be"
@@ -8939,7 +8935,7 @@ msgstr "Sek"
 
 #: rc.cpp:874
 msgid "scanline0r"
-msgstr ""
+msgstr "scanline0r"
 
 #: src/renderwidget.cpp:1858
 msgid "script"
@@ -8959,7 +8955,7 @@ msgstr "Glätten"
 
 #: rc.cpp:986
 msgid "threelay0r"
-msgstr ""
+msgstr "threelay0r"
 
 #: rc.cpp:1856 rc.cpp:3850
 msgid "to"
@@ -8967,7 +8963,7 @@ msgstr "nach"
 
 #: rc.cpp:1006
 msgid "twolay0r"
-msgstr ""
+msgstr "twolay0r"
 
 #: src/renderwidget.cpp:1151
 msgid "untitled"
@@ -8996,7 +8992,7 @@ msgstr "x1"
 
 #: src/wizard.cpp:418
 msgid "xine"
-msgstr ""
+msgstr "xine"
 
 #: rc.cpp:1447
 msgid "y"
