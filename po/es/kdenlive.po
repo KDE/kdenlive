@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-03-22 19:39+0200\n"
-"PO-Revision-Date: 2011-03-23 02:27-0200\n"
+"PO-Revision-Date: 2011-04-03 23:13-0200\n"
 "Last-Translator: Gabriel Gazzan <gabcorreo@gmail.com>\n"
 "Language-Team: Español <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -45,8 +45,8 @@ msgstr " fotogramas"
 #: src/stopmotion/stopmotion.cpp:288
 msgid " second"
 msgid_plural " seconds"
-msgstr[0] "segundo"
-msgstr[1] "segundos"
+msgstr[0] " segundo"
+msgstr[1] " segundos"
 
 #: src/titlewidget.cpp:143
 #: src/geometrywidget.cpp:178
