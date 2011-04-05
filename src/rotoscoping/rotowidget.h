@@ -29,6 +29,9 @@ class MonitorScene;
 class SplineItem;
 class SimpleKeyframeWidget;
 
+/** @brief Adjusts keyframes after resizing a clip. */
+bool adjustRotoDuration(QString *data, int in, int out, bool cut = false);
+
 class RotoWidget : public QWidget
 {
     Q_OBJECT

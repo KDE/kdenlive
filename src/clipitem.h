@@ -156,12 +156,6 @@ public:
     bool isVideoOnly() const;
     bool isAudioOnly() const;
 
-    /** @brief Adjusts the keyframe values to fit a clip resizement.
-    * @param previous Old crop value
-    * @param current New crop value
-    * @param fromStart true = crop from start, false = crop from end
-    * @return true if anything was modified */
-    bool checkEffectsKeyframesPos(const int previous, const int current, bool fromStart);
     void insertKeyframe(QDomElement effect, int pos, int val);
     void movedKeyframe(QDomElement effect, int oldpos, int newpos, double value);
     void updateKeyframes(QDomElement effect);
@@ -173,6 +167,9 @@ public:
      * 
      * Can be used for all effects using mlt_geometry with keyframes, but at the moment Pan & Zoom is the only one. */
     QList <int> updatePanZoom(int width, int height, int cut = 0);
+    void updateGeometryKeyframes(QDomElement effect, int paramIndex, int width, int height, int cut = 0);
+    bool updateNormalKeyframes(QDomElement parameter, const int previous, const int current, bool fromStart);
+    QMap<int, QDomElement> adjustEffectsToDuration(int width, int height, int previous, int current,  bool fromStart);
 
     /** Returns the necessary (audio, video, general) producer.
      * @param track Track of the requested producer

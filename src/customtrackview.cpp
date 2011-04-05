@@ -6663,30 +6663,14 @@ void CustomTrackView::slotRefreshThumbs(const QString &id, bool resetThumbs)
 
 void CustomTrackView::adjustEffects(ClipItem* item, ItemInfo oldInfo, bool fromStart, QUndoCommand* command)
 {
-    bool update = false;
-
     QMap<int, QDomElement> effects;
-    for (int i = 0; i < item->effectsCount(); ++i) {
-        QDomElement effect = item->getEffectAt(i);
-        bool nonStdKeyframeUpdate = effect.attribute("id").startsWith("fade") || effect.attribute("id") == "freeze" || EffectsList::hasGeometryKeyFrames(effect);
-        if (nonStdKeyframeUpdate)
-            update = true;
-        if (nonStdKeyframeUpdate || EffectsList::hasKeyFrames(effect) || EffectsList::hasSimpleKeyFrames(effect))
-            effects.insert(i, effect.cloneNode().toElement());
-    }
-
-    if(effects.isEmpty())
-        return;
-
     if (fromStart)
-        update |= item->checkEffectsKeyframesPos(oldInfo.cropStart.frames(m_document->fps()), item->cropStart().frames(m_document->fps()), true);
+        effects = item->adjustEffectsToDuration(0, 0, oldInfo.cropStart.frames(m_document->fps()), item->cropStart().frames(m_document->fps()), true);
     else
-        update |= item->checkEffectsKeyframesPos((oldInfo.cropStart + oldInfo.endPos - oldInfo.startPos).frames(m_document->fps()) - 1, (item->cropStart() + item->cropDuration()).frames(m_document->fps()) - 1, false);
+        effects = item->adjustEffectsToDuration(0, 0, (oldInfo.cropStart +  oldInfo.cropDuration).frames(m_document->fps()) - 1,
+                                                (item->cropStart() + item->cropDuration()).frames(m_document->fps()) - 1, false);
 
-    update |= item->updatePanZoom(m_document->width(), m_document->height(), 0).count() > 0;
-    updatePositionEffects(item, oldInfo, false);
-
-    if (update) {
+    if (effects.count()) {
         QMap<int, QDomElement>::const_iterator i = effects.constBegin();
         while (i != effects.constEnd()) {
             new EditEffectCommand(this, m_document->tracksCount() - item->track(), item->startPos(), i.value(), item->effectAt(i.key()), i.key(), false, command);

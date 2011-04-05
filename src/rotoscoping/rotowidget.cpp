@@ -42,7 +42,7 @@ RotoWidget::RotoWidget(QString data, Monitor *monitor, int in, int out, Timecode
         m_out(out)
 {
     QVBoxLayout *l = new QVBoxLayout(this);
-    m_keyframeWidget = new SimpleKeyframeWidget(t, m_out - m_in - 1, this);
+    m_keyframeWidget = new SimpleKeyframeWidget(t, m_out - m_in, this);
     l->addWidget(m_keyframeWidget);
 
     MonitorEditWidget *edit = monitor->getEffectEdit();
@@ -259,9 +259,8 @@ QList <BPoint> RotoWidget::getPoints(int keyframe)
     foreach (const QVariant &bpoint, data) {
         QList <QVariant> l = bpoint.toList();
         BPoint p;
-        p.h1 = QPointF(l.at(0).toList().at(0).toDouble() * width, l.at(0).toList().at(1).toDouble() * height);
-        p.p = QPointF(l.at(1).toList().at(0).toDouble() * width, l.at(1).toList().at(1).toDouble() * height);
-        p.h2 = QPointF(l.at(2).toList().at(0).toDouble() * width, l.at(2).toList().at(1).toDouble() * height);
+        for (int i = 0; i < 3; ++i)
+            p[i] = QPointF(l.at(i).toList().at(0).toDouble() * width, l.at(i).toList().at(1).toDouble() * height);
         points << p;
     }
     return points;
@@ -320,6 +319,101 @@ void RotoWidget::slotMoveKeyframe(int oldPos, int newPos)
 void RotoWidget::updateTimecodeFormat()
 {
     m_keyframeWidget->updateTimecodeFormat();
+}
+
+
+
+static QVariant interpolate(int position, int in, int out, QVariant *splineIn, QVariant *splineOut)
+{
+    qreal relPos = (position - in) / (qreal)(out - in + 1);
+    QList<QVariant> keyframe1 = splineIn->toList();
+    QList<QVariant> keyframe2 = splineOut->toList();
+    QList<QVariant> keyframe;
+    int max = qMin(keyframe1.count(), keyframe2.count());
+    for (int i = 0; i < max; ++i) {
+        QList<QVariant> p1 = keyframe1.at(i).toList();
+        QList<QVariant> p2 = keyframe2.at(i).toList();
+        QList<QVariant> p;
+        for (int j = 0; j < 3; ++j) {
+            QPointF middle = QLineF(QPointF(p1.at(j).toList().at(0).toDouble(), p1.at(j).toList().at(1).toDouble()),
+                                    QPointF(p2.at(j).toList().at(0).toDouble(), p2.at(j).toList().at(1).toDouble())).pointAt(relPos);
+            p.append(QVariant(QList<QVariant>() << QVariant(middle.x()) << QVariant(middle.y())));
+        }
+        keyframe.append(QVariant(p));
+    }
+    return QVariant(keyframe);
+}
+
+bool adjustRotoDuration(QString* data, int in, int out, bool cut)
+{
+    Q_UNUSED(cut)
+
+    QJson::Parser parser;
+    bool ok;
+    QVariant splines = parser.parse(data->toUtf8(), &ok);
+    if (!ok) {
+        *data = QString();
+        return true;
+    }
+
+    if (!splines.canConvert(QVariant::Map))
+        return false;
+
+    QMap<QString, QVariant> map = splines.toMap();
+    QMap<QString, QVariant>::iterator i = map.end();
+    int lastPos = -1;
+    QVariant last;
+
+    /*
+     * Take care of resize from start
+     */
+    bool startFound = false;
+    while (i-- != map.begin()) {
+        if (i.key().toInt() < in) {
+            if (!startFound) {
+                startFound = true;
+                if (lastPos < 0)
+                    map[QString::number(in).rightJustified(log10((double)out) + 1, '0')] = i.value();
+                else
+                    map[QString::number(in).rightJustified(log10((double)out) + 1, '0')] = interpolate(in, i.key().toInt(), lastPos, &i.value(), &last);
+            }
+        }
+        lastPos = i.key().toInt();
+        last = i.value();
+        if (startFound)
+            i = map.erase(i);
+    }
+
+    /*
+     * Take care of resize from end
+     */
+    i = map.begin();
+    lastPos = -1;
+    bool endFound = false;
+    while (i != map.end()) {
+        if (i.key().toInt() > out) {
+            if (!endFound) {
+                endFound = true;
+                if (lastPos < 0)
+                    map[QString::number(out)] = i.value();
+                else
+                    map[QString::number(out)] = interpolate(out, lastPos, i.key().toInt(), &last, &i.value());
+            }
+        }
+        lastPos = i.key().toInt();
+        last = i.value();
+        if (endFound)
+            i = map.erase(i);
+        else
+            ++i;
+    }
+
+    QJson::Serializer serializer;
+    *data = QString(serializer.serialize(QVariant(map)));
+
+    if (startFound || endFound)
+        return true;
+    return false;
 }
 
 #include "rotowidget.moc"

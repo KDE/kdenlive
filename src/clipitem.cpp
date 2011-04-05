@@ -27,6 +27,9 @@
 #include "kdenlivesettings.h"
 #include "kthumb.h"
 #include "profilesdialog.h"
+#ifdef QJSON
+#include "rotoscoping/rotowidget.h"
+#endif
 
 #include <KDebug>
 #include <KIcon>
@@ -1189,54 +1192,6 @@ void ClipItem::resizeEnd(int posx)
     }
 }
 
-
-bool ClipItem::checkEffectsKeyframesPos(const int previous, const int current, bool fromStart)
-{
-    bool effModified = false;
-    for (int i = 0; i < m_effectList.count(); i++) {
-        QDomElement effect = m_effectList.at(i);
-        QDomNodeList params = effect.elementsByTagName("parameter");
-        for (int j = 0; j < params.count(); j++) {
-            bool modified = false;
-            QDomElement e = params.item(j).toElement();
-            if (!e.isNull() && (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe")) {
-                // parse keyframes and adjust values
-                const QStringList keyframes = e.attribute("keyframes").split(';', QString::SkipEmptyParts);
-                QMap <int, double> kfr;
-                int pos;
-                double val;
-                foreach(const QString &str, keyframes) {
-                    pos = str.section(':', 0, 0).toInt();
-                    val = str.section(':', 1, 1).toDouble();
-                    if (pos == previous) {
-                        // first or last keyframe
-                        kfr[current] = val;
-                        modified = true;
-                    } else {
-                        if ((fromStart && pos >= current) || (!fromStart && pos <= current)) {
-                            // only keyframes in range
-                            kfr[pos] = val;
-                            modified = true;
-                        }
-                    }
-                }
-                if (modified) {
-                    effModified = true;
-                    QString newkfr;
-                    QMap<int, double>::const_iterator k = kfr.constBegin();
-                    while (k != kfr.constEnd()) {
-                        newkfr.append(QString::number(k.key()) + ':' + QString::number(k.value()) + ';');
-                        ++k;
-                    }
-                    e.setAttribute("keyframes", newkfr);
-                }
-            }
-        }
-    }
-    if (effModified && m_selectedEffect >= 0) setSelectedEffect(m_selectedEffect);
-    return effModified;
-}
-
 //virtual
 QVariant ClipItem::itemChange(GraphicsItemChange change, const QVariant &value)
 {
@@ -1776,60 +1731,7 @@ QList <int> ClipItem::updatePanZoom(int width, int height, int cut)
                 continue;
             if (e.attribute("type") == "geometry" && !e.hasAttribute("fixed")) {
                 effectPositions << i;
-
-                int in = cropStart().frames(fps());
-                int out = in + cropDuration().frames(fps());
-                int dur = out - in - 1;
-
-                effect.setAttribute("in", in);
-                effect.setAttribute("out", out);
-
-                Mlt::Geometry geometry(e.attribute("value").toUtf8().data(), dur, width, height);
-                Mlt::GeometryItem item;
-                bool endFrameAdded = false;
-                if (cut == 0) {
-                    while (!geometry.next_key(&item, dur)) {
-                        if (!endFrameAdded) {
-                            // add keyframe at the end with interpolated value
-
-                            // but only once ;)
-                            endFrameAdded = true;
-
-                            Mlt::GeometryItem endItem;
-                            Mlt::GeometryItem interp;
-                            geometry.fetch(&interp, dur - 1);
-                            endItem.frame(dur - 1);
-                            endItem.x(interp.x());
-                            endItem.y(interp.y());
-                            endItem.w(interp.w());
-                            endItem.h(interp.h());
-                            endItem.mix(interp.mix());
-                            geometry.insert(&endItem);
-                        }
-                        geometry.remove(item.frame());
-                    }
-                } else {
-                    Mlt::Geometry origGeometry(e.attribute("value").toUtf8().data(), dur, width, height);
-                    // remove keyframes before cut point
-                    while (!geometry.prev_key(&item, cut - 1) && item.frame() < cut)
-                        geometry.remove(item.frame());
-
-                    // add a keyframe at new pos 0
-                    origGeometry.fetch(&item, cut);
-                    item.frame(0);
-                    geometry.insert(&item);
-
-                    // move exisiting keyframes by -cut
-                    while (!origGeometry.next_key(&item, cut)) {
-                        geometry.remove(item.frame());
-                        origGeometry.remove(item.frame());
-                        item.frame(item.frame() - cut);
-                        geometry.insert(&item);
-                    }
-                    
-                }
-
-                e.setAttribute("value", geometry.serialise());
+                updateGeometryKeyframes(effect, j, width, height, cut);
             }
         }
     }
@@ -1845,6 +1747,186 @@ Mlt::Producer *ClipItem::getProducer(int track, bool trackSpecific)
         return m_clip->videoProducer();
     else
         return m_clip->producer(trackSpecific ? track : -1);
+}
+
+QMap<int, QDomElement> ClipItem::adjustEffectsToDuration(int width, int height, int previous, int current, bool fromStart)
+{
+    QMap<int, QDomElement> effects;
+    for (int i = 0; i < m_effectList.count(); i++) {
+        QDomElement effect = m_effectList.at(i);
+
+        if (effect.attribute("id").startsWith("fade")) {
+            QString id = effect.attribute("id");
+            int in = EffectsList::parameter(effect, "in").toInt();
+            int out = EffectsList::parameter(effect, "out").toInt();
+            int clipEnd = (cropStart() + cropDuration()).frames(m_fps);
+            if (id == "fade_from_black" || id == "fadein") {
+                if (in != cropStart().frames(m_fps)) {
+                    effects[i] = effect.cloneNode().toElement();
+                    int diff = in - cropStart().frames(m_fps);
+                    in -= diff;
+                    out -= diff;
+                    EffectsList::setParameter(effect, "in", QString::number(in));
+                    EffectsList::setParameter(effect, "out", QString::number(out));
+                }
+                if (out > clipEnd) {
+                    if (!effects.contains(i))
+                        effects[i] = effect.cloneNode().toElement();
+                    EffectsList::setParameter(effect, "out", QString::number(clipEnd));
+                }
+                if (effects.contains(i))
+                    setFadeIn(out - in);
+            } else {
+                if (out != clipEnd) {
+                    effects[i] = effect.cloneNode().toElement();
+                    int diff = out - clipEnd;
+                    in -= diff;
+                    out -= diff;
+                    EffectsList::setParameter(effect, "in", QString::number(in));
+                    EffectsList::setParameter(effect, "out", QString::number(out));
+                }
+                if (in < cropStart().frames(m_fps)) {
+                    if (!effects.contains(i))
+                        effects[i] = effect.cloneNode().toElement();
+                    EffectsList::setParameter(effect, "in", QString::number(cropStart().frames(m_fps)));
+                }
+                if (effects.contains(i))
+                    setFadeOut(out - in);
+            }
+            continue;
+        } else if (fromStart && effect.attribute("id") == "freeze") {
+            effects[i] = effect.cloneNode().toElement();
+            int diff = previous - current;
+            int frame = EffectsList::parameter(effect, "frame").toInt();
+            EffectsList::setParameter(effect, "frame", QString::number(frame - diff));
+            continue;
+        }
+
+        QDomNodeList params = effect.elementsByTagName("parameter");
+        for (int j = 0; j < params.count(); j++) {
+            QDomElement param = params.item(j).toElement();
+
+            QString type = param.attribute("type");
+            if (type == "geometry" && !param.hasAttribute("fixed")) {
+                if (!effects.contains(i))
+                    effects[i] = effect.cloneNode().toElement();
+                updateGeometryKeyframes(effect, j, width, height, 0);
+            } else if (type == "simplekeyframe" || type == "keyframe") {
+                if (!effects.contains(i))
+                    effects[i] = effect.cloneNode().toElement();
+                updateNormalKeyframes(param, previous, current, fromStart);
+#ifdef QJSON
+            } else if (type == "roto-spline") {
+                if (!effects.contains(i))
+                    effects[i] = effect.cloneNode().toElement();
+                QString value = param.attribute("value");
+                if (adjustRotoDuration(&value, cropStart().frames(m_fps), (cropStart() + cropDuration()).frames(m_fps) - 1))
+                    param.setAttribute("value", value);
+#endif    
+            }
+        }
+    }
+    return effects;
+}
+
+bool ClipItem::updateNormalKeyframes(QDomElement parameter, const int previous, const int current, bool fromStart)
+{
+    // TODO: add interpolated keyframes at clip in/out point
+
+    bool modified = false;
+
+    // parse keyframes and adjust values
+    const QStringList keyframes = parameter.attribute("keyframes").split(';', QString::SkipEmptyParts);
+    QMap <int, double> kfr;
+    int pos;
+    double val;
+    foreach(const QString &str, keyframes) {
+        pos = str.section(':', 0, 0).toInt();
+        val = str.section(':', 1, 1).toDouble();
+        if (pos == previous) {
+            // first or last keyframe
+            kfr[current] = val;
+            modified = true;
+        } else {
+            if ((fromStart && pos >= current) || (!fromStart && pos <= current)) {
+                // only keyframes in range
+                kfr[pos] = val;
+                modified = true;
+            }
+        }
+    }
+
+    if (modified) {
+        QString newkfr;
+        QMap<int, double>::const_iterator k = kfr.constBegin();
+        while (k != kfr.constEnd()) {
+            newkfr.append(QString::number(k.key()) + ':' + QString::number(k.value()) + ';');
+            ++k;
+        }
+        parameter.setAttribute("keyframes", newkfr);
+    }
+
+    return modified;
+}
+
+void ClipItem::updateGeometryKeyframes(QDomElement effect, int paramIndex, int width, int height, int cut)
+{
+    // TODO: properly update when clip resized from start
+
+    QDomElement param = effect.elementsByTagName("parameter").item(paramIndex).toElement();
+
+    int in = cropStart().frames(fps());
+    int out = in + cropDuration().frames(fps());
+    int dur = out - in - 1;
+
+    effect.setAttribute("in", in);
+    effect.setAttribute("out", out);
+
+    Mlt::Geometry geometry(param.attribute("value").toUtf8().data(), dur, width, height);
+    Mlt::GeometryItem item;
+    bool endFrameAdded = false;
+    if (cut == 0) {
+        while (!geometry.next_key(&item, dur)) {
+            if (!endFrameAdded) {
+                // add keyframe at the end with interpolated value
+
+                // but only once ;)
+                endFrameAdded = true;
+
+                Mlt::GeometryItem endItem;
+                Mlt::GeometryItem interp;
+                geometry.fetch(&interp, dur - 1);
+                endItem.frame(dur - 1);
+                endItem.x(interp.x());
+                endItem.y(interp.y());
+                endItem.w(interp.w());
+                endItem.h(interp.h());
+                endItem.mix(interp.mix());
+                geometry.insert(&endItem);
+            }
+            geometry.remove(item.frame());
+        }
+    } else {
+        Mlt::Geometry origGeometry(param.attribute("value").toUtf8().data(), dur, width, height);
+        // remove keyframes before cut point
+        while (!geometry.prev_key(&item, cut - 1) && item.frame() < cut)
+            geometry.remove(item.frame());
+
+        // add a keyframe at new pos 0
+        origGeometry.fetch(&item, cut);
+        item.frame(0);
+        geometry.insert(&item);
+
+        // move exisiting keyframes by -cut
+        while (!origGeometry.next_key(&item, cut)) {
+            geometry.remove(item.frame());
+            origGeometry.remove(item.frame());
+            item.frame(item.frame() - cut);
+            geometry.insert(&item);
+        }
+    }
+
+    param.setAttribute("value", geometry.serialise());
 }
 
 #include "clipitem.moc"
