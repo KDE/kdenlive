@@ -107,6 +107,9 @@ void SimpleTimelineWidget::setDuration(int dur)
 
 void SimpleTimelineWidget::slotGoToNext()
 {
+    if (m_position == m_duration)
+        return;
+
     foreach (const int &keyframe, m_keyframes) {
         if (keyframe > m_position) {
             slotSetPosition(keyframe);
@@ -124,6 +127,9 @@ void SimpleTimelineWidget::slotGoToNext()
 
 void SimpleTimelineWidget::slotGoToPrev()
 {
+    if (m_position == 0)
+        return;
+
     for (int i = m_keyframes.count() - 1; i >= 0; --i) {
         if (m_keyframes.at(i) < m_position) {
             slotSetPosition(m_keyframes.at(i));
