@@ -8,14 +8,14 @@
 # Simon Eugster <simon.eu@gmail.com>, 2009, 2010, 2011.
 # Markus Slopianka <markus.s@kdemail.net>, 2009, 2010, 2011.
 # Lukas Lacheta <joshlukas@aryuna.de>, 2009.
-# Till Theato <root@ttill.de>, 2009, 2010.
+# Till Theato <root@ttill.de>, 2009, 2010, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-03-25 19:01+0100\n"
-"PO-Revision-Date: 2011-04-04 02:41+0200\n"
-"Last-Translator: Markus Slopianka <markus.s@kdemail.net>\n"
+"PO-Revision-Date: 2011-04-05 16:19+0200\n"
+"Last-Translator: Till Theato <root@ttill.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -57,9 +57,9 @@ msgid "%"
 msgstr "%"
 
 #: rc.cpp:1209
-#, no-c-format
+#, fuzzy, no-c-format
 msgid "% of picture have a delta"
-msgstr ""
+msgstr "% der Bilder haben ein Delta"
 
 #: src/audioscopes/spectrogram.cpp:289 src/audioscopes/spectrogram.cpp:290
 msgid ""
@@ -255,7 +255,7 @@ msgstr "3500 Hz"
 
 #: rc.cpp:172
 msgid "3dflippo"
-msgstr ""
+msgstr "3dflippo"
 
 #: rc.cpp:3055 rc.cpp:3140 rc.cpp:5049 rc.cpp:5134
 msgid "4/3"
@@ -983,7 +983,7 @@ msgstr "Alpha Spur"
 
 #: rc.cpp:1273
 msgid "Alpha,Luma,RGB"
-msgstr ""
+msgstr "Alpha,Luma,RGB"
 
 #: src/renderwidget.cpp:875 src/renderwidget.cpp:1703
 msgid "Already running"
@@ -1148,9 +1148,8 @@ msgid "Audio tracks"
 msgstr "Audiospuren"
 
 #: src/monitor.cpp:145
-#, fuzzy
 msgid "Audio volume"
-msgstr "Nur Audio"
+msgstr "Lautstärke"
 
 #: src/mainwindow.cpp:294
 msgid "AudioSpectrum"
@@ -1379,7 +1378,7 @@ msgstr "Kasten-Verwischen"
 
 #: rc.cpp:896
 msgid "Box,Ellipsoid,Diamond"
-msgstr ""
+msgstr "Box,Ellipsoid,Raute"
 
 #: src/stopmotion/stopmotion.cpp:149
 msgid "Brighten"
@@ -1484,7 +1483,7 @@ msgstr "C"
 
 #: rc.cpp:830
 msgid "CCIR rec. 601,CCIR rec. 709"
-msgstr ""
+msgstr "CCIR rec. 601,CCIR rec. 709"
 
 #: src/colorpickerwidget.cpp:148
 msgid "Calculated average color for rectangle."
@@ -2790,7 +2789,7 @@ msgstr "Delta G / B / Chroma"
 
 #: rc.cpp:886
 msgid "Delta R / A / Hue"
-msgstr "Delta R / A / Hue"
+msgstr "Delta R / A / Farbton"
 
 #: src/titlewidget.cpp:240
 msgctxt "Font style"
@@ -3341,9 +3340,8 @@ msgid "Environment"
 msgstr "Umgebung"
 
 #: rc.cpp:489
-#, fuzzy
 msgid "Equaliz0r"
-msgstr "Equalizer"
+msgstr "Equaliz0r"
 
 #: rc.cpp:1056
 msgid "Equalizer"
@@ -3438,9 +3436,8 @@ msgid "Face blur"
 msgstr "Gechicht verwischen"
 
 #: rc.cpp:522
-#, fuzzy
 msgid "Face detect"
-msgstr "Kantenerkennung"
+msgstr "Gesicht-Erkennung"
 
 #: rc.cpp:840 rc.cpp:1405
 msgid "Factor"
@@ -3830,9 +3827,8 @@ msgid "Frame rate:"
 msgstr "Bildwiederholfrequenz:"
 
 #: rc.cpp:174
-#, fuzzy
 msgid "Frame rotation in 3D space"
-msgstr "Frame-Dauer"
+msgstr "Bild Rotation im 3D Raum"
 
 #: src/clipproperties.cpp:400
 msgid "Frame size"
@@ -4093,7 +4089,6 @@ msgid "H"
 msgstr "H"
 
 #: src/geometrywidget.cpp:107
-#, fuzzy
 msgctxt "Frame height"
 msgid "H"
 msgstr "H"
@@ -4103,9 +4098,8 @@ msgid "HDV"
 msgstr "HDV"
 
 #: src/colorplaneexport.cpp:37
-#, fuzzy
 msgid "HSV Hue Shift"
-msgstr "Hueshift0r"
+msgstr "HSV Farbtonverschiebung"
 
 #: src/colorplaneexport.cpp:38 src/colorplaneexport.cpp:255
 msgid "HSV Saturation"
@@ -4225,9 +4219,8 @@ msgid "Hue"
 msgstr "Farbton"
 
 #: rc.cpp:605
-#, fuzzy
 msgid "Hue shift"
-msgstr "Hueshift0r"
+msgstr "Farbtonverschiebung"
 
 #: rc.cpp:1784 rc.cpp:2636 rc.cpp:3778 rc.cpp:4630
 msgid "I"
@@ -4649,7 +4642,7 @@ msgstr "Linsenkorrektur"
 
 #: rc.cpp:625
 msgid "LetterB0xed"
-msgstr ""
+msgstr "LetterB0xed"
 
 #: rc.cpp:338
 msgid "Level of trip"
@@ -4699,9 +4692,8 @@ msgid "Link the handles' position.<br />Results in a natural spline."
 msgstr ""
 
 #: rc.cpp:2029 rc.cpp:4023
-#, fuzzy
 msgid "Live view"
-msgstr "Geteilte Ansicht"
+msgstr "Echtzeit Ansicht"
 
 #: rc.cpp:1060
 msgid "Lo gain"
@@ -4815,7 +4807,7 @@ msgstr "M"
 
 #: src/main.cpp:38
 msgid "MLT and KDE SC 4 porting, main developer and maintainer"
-msgstr ""
+msgstr "Portierung nach MLT und KDE SC 4, Hauptentwickler und Koordinator"
 
 #: rc.cpp:2907 rc.cpp:4901
 msgid "MLT environment"
@@ -4921,7 +4913,7 @@ msgstr "Marker"
 
 #: rc.cpp:730
 msgid "Mask0Mate"
-msgstr ""
+msgstr "Mask0Mate"
 
 #: rc.cpp:230 rc.cpp:258
 msgid "Max"
@@ -5224,7 +5216,7 @@ msgstr "Nikon D90 Stairstepping-Fix"
 
 #: src/blackmagic/capture.cpp:540
 msgid "No DeckLink PCI cards found."
-msgstr ""
+msgstr "Keine DeckLink PCI Karte gefunden."
 
 #: src/stopmotion/stopmotion.cpp:143
 msgid "No Effect"
@@ -5450,9 +5442,8 @@ msgid "Operation"
 msgstr "Operation"
 
 #: rc.cpp:3264 rc.cpp:5258
-#, fuzzy
 msgid "Options"
-msgstr "Operation"
+msgstr "Optionen"
 
 #: rc.cpp:2802 rc.cpp:4796
 msgid "Original"
@@ -5645,9 +5636,8 @@ msgid "Pixel format"
 msgstr "Pixelformat"
 
 #: src/dragvalue.cpp:105
-#, fuzzy
 msgid "Pixel scale"
-msgstr "Skalieren"
+msgstr "Pixel Skalierung"
 
 #: rc.cpp:756
 #, fuzzy
@@ -5893,7 +5883,7 @@ msgstr "Vorheriges Unicode-Zeichen (Pfeil Auf)"
 
 #: rc.cpp:836
 msgid "Primaries"
-msgstr ""
+msgstr "Primärfarben"
 
 #: src/customtrackview.cpp:1594 src/customtrackview.cpp:1614
 #: src/customtrackview.cpp:1628
@@ -6080,7 +6070,7 @@ msgstr "R Spur"
 
 #: rc.cpp:798
 msgid "R,G,B,Y',Pr,Pb,Alpha"
-msgstr ""
+msgstr "R,G,B,Y',Pr,Pb,Alpha"
 
 #: src/colorscopes/rgbparade.cpp:25
 msgid "RGB"
@@ -6104,15 +6094,15 @@ msgstr "RGB summiert"
 
 #: rc.cpp:892
 msgid "RGB,ABI,HCI"
-msgstr ""
+msgstr "RGB,ABI,HCI"
 
 #: rc.cpp:280
 msgid "RGB,Red,Green,Blue,Alpha,Luma,Hue,Saturation"
-msgstr ""
+msgstr "RGB,Rot,Grün,Blau,Alpha,Luma,Farbton,Sättigung"
 
 #: rc.cpp:768
 msgid "RGB,Y'PbPr - rec. 601,Y'PbPr - rec. 709,HSV,HSL"
-msgstr ""
+msgstr "RGB,Y'PbPr - rec. 601,Y'PbPr - rec. 709,HSV,HSL"
 
 #: rc.cpp:1164
 msgid "RPM"
@@ -6221,7 +6211,7 @@ msgstr "Rechteck"
 
 #: rc.cpp:240
 msgid "Rectangle,Ellipse,Triangle,Diamond"
-msgstr ""
+msgstr "Rechteck,Ellipse,Dreieck,Raute"
 
 #: src/audioscopes/audiospectrum.cpp:79 src/audioscopes/spectrogram.cpp:66
 msgid "Rectangular window"
@@ -6233,7 +6223,7 @@ msgstr "Rot"
 
 #: rc.cpp:388 rc.cpp:637
 msgid "Red,Green,Blue,Luma"
-msgstr ""
+msgstr "Rot,Grün,Blau,Luma"
 
 #: rc.cpp:1427
 msgid "Red/Green axis"
@@ -6241,7 +6231,7 @@ msgstr "Rot/Grün-Achse"
 
 #: rc.cpp:838
 msgid "Reduce image to primary colors"
-msgstr ""
+msgstr "Bild zu Primärfarben reduzieren"
 
 #: rc.cpp:1345
 #, fuzzy
@@ -6578,9 +6568,8 @@ msgid "Room size (m)"
 msgstr "Raumgröße (m)"
 
 #: rc.cpp:1255
-#, fuzzy
 msgid "Rotate (keyframable)"
-msgstr "Lautstärke (Keyframe-fähig)"
+msgstr "Rotieren (Keyframe-fähig)"
 
 #: src/geometrywidget.cpp:187 src/initeffects.cpp:792 rc.cpp:1233 rc.cpp:1259
 msgid "Rotate X"
@@ -6628,11 +6617,11 @@ msgstr "Rotieren um z-Achse"
 
 #: rc.cpp:1269
 msgid "Rotoscoping"
-msgstr ""
+msgstr "Rotoskopie"
 
 #: rc.cpp:1287
 msgid "Rotoscopy Spline"
-msgstr ""
+msgstr "Rotoskopie Spline"
 
 #: src/mainwindow.cpp:1150
 msgid "Run Config Wizard"
@@ -6715,9 +6704,8 @@ msgid "Save profile"
 msgstr "Profil speichern"
 
 #: rc.cpp:5481
-#, fuzzy
 msgid "Save to"
-msgstr "Bereich speichern"
+msgstr "Speichern unter"
 
 #: src/mainwindow.cpp:3138
 #, fuzzy
@@ -7031,7 +7019,7 @@ msgstr ""
 
 #: rc.cpp:607
 msgid "Shifts the hue of a source image"
-msgstr "Verschiebt die Farbart eines Bildes"
+msgstr "Verschiebt den Farbton eines Bildes"
 
 #: src/dragvalue.cpp:120
 msgid "Show %1 in timeline"
@@ -7432,7 +7420,7 @@ msgstr "Quadrat-Verwischen"
 
 #: rc.cpp:455
 msgid "Square,PAL DV,NTSC DV,HDV,Manual"
-msgstr ""
+msgstr "Quadratisch,PAL DV,NTSC DV,HDV,Manuell"
 
 #: src/unicodedialog.cpp:130
 msgid ""
@@ -7572,9 +7560,8 @@ msgid "Target"
 msgstr "Ziel"
 
 #: rc.cpp:1421
-#, fuzzy
 msgid "Technicolor"
-msgstr "Weisse Farbe"
+msgstr "Technicolor"
 
 #: rc.cpp:966
 msgid "TehRoxx0r"
@@ -7863,14 +7850,12 @@ msgid "Timeline"
 msgstr "Zeitleiste"
 
 #: rc.cpp:996
-#, fuzzy
 msgid "Tint"
-msgstr "Tint0r"
+msgstr "Farbstich"
 
 #: rc.cpp:1004
-#, fuzzy
 msgid "Tint amount"
-msgstr "Sättigung des Farbtons"
+msgstr "Sättigung des Farbstichs"
 
 #: src/titlewidget.cpp:529
 msgid "Title"
@@ -7917,9 +7902,8 @@ msgid "Tool"
 msgstr "Werkzeug"
 
 #: src/colorscopes/vectorscope.cpp:81
-#, fuzzy
 msgid "Tools"
-msgstr "Werkzeug"
+msgstr "Werkzeuge"
 
 #: rc.cpp:94 rc.cpp:738
 msgid "Top"
@@ -8001,7 +7985,7 @@ msgstr "Transparenter Clip"
 #: rc.cpp:1694 rc.cpp:3688
 #, fuzzy
 msgid "Transparent"
-msgstr "Transparenz"
+msgstr "Transparent"
 
 #: rc.cpp:328 rc.cpp:714
 msgid "Transparent Background"
@@ -8087,9 +8071,8 @@ msgid "Ungroup clips"
 msgstr "Clip-Gruppierung auflösen"
 
 #: src/profilesdialog.cpp:568
-#, fuzzy
 msgid "Unknown"
-msgstr "Unbekannter Clip"
+msgstr "Unbekannt"
 
 #: src/projectitem.cpp:185
 msgid "Unknown clip"
@@ -8348,7 +8331,6 @@ msgid "W"
 msgstr "W"
 
 #: src/geometrywidget.cpp:103
-#, fuzzy
 msgctxt "Frame width"
 msgid "W"
 msgstr "W"
@@ -8393,7 +8375,7 @@ msgstr "Internetseiten"
 
 #: src/wizard.cpp:128
 msgid "Webcam"
-msgstr ""
+msgstr "Webcam"
 
 #: rc.cpp:348
 msgid "Weight on distance"
@@ -8471,15 +8453,13 @@ msgid "X"
 msgstr "X"
 
 #: src/geometrywidget.cpp:95
-#, fuzzy
 msgctxt "x axis position"
 msgid "X"
 msgstr "X"
 
 #: rc.cpp:583
-#, fuzzy
 msgid "X axis"
-msgstr "Achse zeichnen"
+msgstr "X Achse"
 
 #: rc.cpp:176
 msgid "X axis rotation"
@@ -8512,15 +8492,13 @@ msgid "Y"
 msgstr "Y"
 
 #: src/geometrywidget.cpp:99
-#, fuzzy
 msgctxt "y axis position"
 msgid "Y"
 msgstr "Y"
 
 #: rc.cpp:585
-#, fuzzy
 msgid "Y axis"
-msgstr "Achse zeichnen"
+msgstr "Y Achse"
 
 #: rc.cpp:178
 msgid "Y axis rotation"
@@ -8544,7 +8522,7 @@ msgstr "Y Wert"
 
 #: rc.cpp:1206
 msgid "Y-Delta"
-msgstr ""
+msgstr "Y-Delta"
 
 #: src/colorplaneexport.cpp:35
 msgid "YCbCr CbCr plane"
@@ -8795,16 +8773,15 @@ msgstr "davor"
 
 #: rc.cpp:543
 msgid "circle,ellipse,rectangle,random"
-msgstr ""
+msgstr "Kreis,Ellipse,Rechteck,Zufällig"
 
 #: rc.cpp:2420 rc.cpp:4414
 msgid "create new points"
 msgstr "neue Punkte erstellen"
 
 #: rc.cpp:461
-#, fuzzy
 msgid "delay0r"
-msgstr "Verzögerung"
+msgstr "delay0r"
 
 #: src/dvdwizardvob.cpp:55 src/wizard.cpp:401
 msgid "dvdauthor"
