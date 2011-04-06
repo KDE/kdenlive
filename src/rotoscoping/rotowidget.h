@@ -30,7 +30,7 @@ class SplineItem;
 class SimpleKeyframeWidget;
 
 /** @brief Adjusts keyframes after resizing a clip. */
-bool adjustRotoDuration(QString *data, int in, int out, bool cut = false);
+bool adjustRotoDuration(QString *data, int in, int out);
 
 class RotoWidget : public QWidget
 {

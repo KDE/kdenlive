@@ -344,10 +344,8 @@ static QVariant interpolate(int position, int in, int out, QVariant *splineIn, Q
     return QVariant(keyframe);
 }
 
-bool adjustRotoDuration(QString* data, int in, int out, bool cut)
+bool adjustRotoDuration(QString* data, int in, int out)
 {
-    Q_UNUSED(cut)
-
     QJson::Parser parser;
     bool ok;
     QVariant splines = parser.parse(data->toUtf8(), &ok);
@@ -362,7 +360,7 @@ bool adjustRotoDuration(QString* data, int in, int out, bool cut)
     QMap<QString, QVariant> map = splines.toMap();
     QMap<QString, QVariant>::iterator i = map.end();
     int lastPos = -1;
-    QVariant last;
+    QVariant last = QVariant();
 
     /*
      * Take care of resize from start
