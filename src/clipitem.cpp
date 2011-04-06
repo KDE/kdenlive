@@ -1814,7 +1814,7 @@ QMap<int, QDomElement> ClipItem::adjustEffectsToDuration(int width, int height, 
             } else if (type == "simplekeyframe" || type == "keyframe") {
                 if (!effects.contains(i))
                     effects[i] = effect.cloneNode().toElement();
-                updateNormalKeyframes(param, previous, current, fromStart);
+                updateNormalKeyframes(param);
 #ifdef QJSON
             } else if (type == "roto-spline") {
                 if (!effects.contains(i))
@@ -1829,44 +1829,78 @@ QMap<int, QDomElement> ClipItem::adjustEffectsToDuration(int width, int height, 
     return effects;
 }
 
-bool ClipItem::updateNormalKeyframes(QDomElement parameter, const int previous, const int current, bool fromStart)
+bool ClipItem::updateNormalKeyframes(QDomElement parameter)
 {
-    // TODO: add interpolated keyframes at clip in/out point
+    int in = cropStart().frames(m_fps);
+    int out = (cropStart() + cropDuration()).frames(m_fps) - 1;
 
-    bool modified = false;
+    const QStringList data = parameter.attribute("keyframes").split(';', QString::SkipEmptyParts);
+    QMap <int, double> keyframes;
+    foreach (QString keyframe, data)
+        keyframes[keyframe.section(':', 0, 0).toInt()] = keyframe.section(':', 1, 1).toDouble();
 
-    // parse keyframes and adjust values
-    const QStringList keyframes = parameter.attribute("keyframes").split(';', QString::SkipEmptyParts);
-    QMap <int, double> kfr;
-    int pos;
-    double val;
-    foreach(const QString &str, keyframes) {
-        pos = str.section(':', 0, 0).toInt();
-        val = str.section(':', 1, 1).toDouble();
-        if (pos == previous) {
-            // first or last keyframe
-            kfr[current] = val;
-            modified = true;
-        } else {
-            if ((fromStart && pos >= current) || (!fromStart && pos <= current)) {
-                // only keyframes in range
-                kfr[pos] = val;
-                modified = true;
+
+    QMap<int, double>::iterator i = keyframes.end();
+    int lastPos = -1;
+    double lastValue = 0;
+    qreal relPos;
+
+    /*
+     * Take care of resize from start
+     */
+    bool startFound = false;
+    while (i-- != keyframes.begin()) {
+        if (i.key() < in && !startFound) {
+            startFound = true;
+            if (lastPos < 0) {
+                keyframes[in] = i.value();
+            } else {
+                relPos = (in - i.key()) / (qreal)(lastPos - i.key() + 1);
+                keyframes[in] = i.value() + (lastValue - i.value()) * relPos;
             }
         }
+        lastPos = i.key();
+        lastValue = i.value();
+        if (startFound)
+            i = keyframes.erase(i);
     }
 
-    if (modified) {
+    /*
+     * Take care of resize from end
+     */
+    i = keyframes.begin();
+    lastPos = -1;
+    bool endFound = false;
+    while (i != keyframes.end()) {
+        if (i.key() > out && !endFound) {
+            endFound = true;
+            if (lastPos < 0) {
+                keyframes[out] = i.value();
+            } else {
+                relPos = (out - lastPos) / (qreal)(i.key() - lastPos + 1);
+                keyframes[out] = lastValue + (i.value() - lastValue) * relPos;
+            }
+         }
+        lastPos = i.key();
+        lastValue = i.value();
+        if (endFound)
+            i = keyframes.erase(i);
+        else
+            ++i;
+    }
+
+    if (startFound || endFound) {
         QString newkfr;
-        QMap<int, double>::const_iterator k = kfr.constBegin();
-        while (k != kfr.constEnd()) {
-            newkfr.append(QString::number(k.key()) + ':' + QString::number(k.value()) + ';');
+        QMap<int, double>::const_iterator k = keyframes.constBegin();
+        while (k != keyframes.constEnd()) {
+            newkfr.append(QString::number(k.key()) + ':' + QString::number(qRound(k.value())) + ';');
             ++k;
         }
         parameter.setAttribute("keyframes", newkfr);
+        return true;
     }
 
-    return modified;
+    return false;
 }
 
 void ClipItem::updateGeometryKeyframes(QDomElement effect, int paramIndex, int width, int height, int cut)
