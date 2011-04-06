@@ -6665,9 +6665,9 @@ void CustomTrackView::adjustEffects(ClipItem* item, ItemInfo oldInfo, bool fromS
 {
     QMap<int, QDomElement> effects;
     if (fromStart)
-        effects = item->adjustEffectsToDuration(0, 0, oldInfo.cropStart.frames(m_document->fps()), item->cropStart().frames(m_document->fps()), true);
+        effects = item->adjustEffectsToDuration(m_document->width(), m_document->height(), oldInfo.cropStart.frames(m_document->fps()), item->cropStart().frames(m_document->fps()), true);
     else
-        effects = item->adjustEffectsToDuration(0, 0, (oldInfo.cropStart +  oldInfo.cropDuration).frames(m_document->fps()) - 1,
+        effects = item->adjustEffectsToDuration(m_document->width(), m_document->height(), (oldInfo.cropStart +  oldInfo.cropDuration).frames(m_document->fps()) - 1,
                                                 (item->cropStart() + item->cropDuration()).frames(m_document->fps()) - 1, false);
 
     if (effects.count()) {
