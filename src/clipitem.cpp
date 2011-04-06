@@ -1749,7 +1749,7 @@ Mlt::Producer *ClipItem::getProducer(int track, bool trackSpecific)
         return m_clip->producer(trackSpecific ? track : -1);
 }
 
-QMap<int, QDomElement> ClipItem::adjustEffectsToDuration(int width, int height, int previous, int current, bool fromStart)
+QMap<int, QDomElement> ClipItem::adjustEffectsToDuration(int width, int height, ItemInfo oldInfo)
 {
     QMap<int, QDomElement> effects;
     for (int i = 0; i < m_effectList.count(); i++) {
@@ -1794,9 +1794,9 @@ QMap<int, QDomElement> ClipItem::adjustEffectsToDuration(int width, int height, 
                     setFadeOut(out - in);
             }
             continue;
-        } else if (fromStart && effect.attribute("id") == "freeze") {
+        } else if (effect.attribute("id") == "freeze" && cropStart() != oldInfo.cropStart) {
             effects[i] = effect.cloneNode().toElement();
-            int diff = previous - current;
+            int diff = (oldInfo.cropStart - cropStart()).frames(m_fps);
             int frame = EffectsList::parameter(effect, "frame").toInt();
             EffectsList::setParameter(effect, "frame", QString::number(frame - diff));
             continue;

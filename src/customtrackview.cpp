@@ -4548,7 +4548,7 @@ void CustomTrackView::prepareResizeClipStart(AbstractClipItem* item, ItemInfo ol
             // put a resize command before & after checking keyframes so that
             // we are sure the resize is performed before whenever we do or undo the action
             new ResizeClipCommand(this, oldInfo, info, false, true, command);
-            adjustEffects(clip, oldInfo, true, command);
+            adjustEffects(clip, oldInfo, command);
             new ResizeClipCommand(this, oldInfo, info, false, true, command);
             emit clipItemSelected(clip);
         } else {
@@ -4643,7 +4643,7 @@ void CustomTrackView::prepareResizeClipEnd(AbstractClipItem* item, ItemInfo oldI
             // put a resize command before & after checking keyframes so that
             // we are sure the resize is performed before whenever we do or undo the action
             new ResizeClipCommand(this, oldInfo, info, false, true, command);
-            adjustEffects(clip, oldInfo, false, command);
+            adjustEffects(clip, oldInfo, command);
             new ResizeClipCommand(this, oldInfo, info, false, true, command);
             emit clipItemSelected(clip);
         } else {
@@ -6661,14 +6661,10 @@ void CustomTrackView::slotRefreshThumbs(const QString &id, bool resetThumbs)
     }
 }
 
-void CustomTrackView::adjustEffects(ClipItem* item, ItemInfo oldInfo, bool fromStart, QUndoCommand* command)
+void CustomTrackView::adjustEffects(ClipItem* item, ItemInfo oldInfo, QUndoCommand* command)
 {
     QMap<int, QDomElement> effects;
-    if (fromStart)
-        effects = item->adjustEffectsToDuration(m_document->width(), m_document->height(), oldInfo.cropStart.frames(m_document->fps()), item->cropStart().frames(m_document->fps()), true);
-    else
-        effects = item->adjustEffectsToDuration(m_document->width(), m_document->height(), (oldInfo.cropStart +  oldInfo.cropDuration).frames(m_document->fps()) - 1,
-                                                (item->cropStart() + item->cropDuration()).frames(m_document->fps()) - 1, false);
+    item->adjustEffectsToDuration(m_document->width(), m_document->height(), oldInfo);
 
     if (effects.count()) {
         QMap<int, QDomElement>::const_iterator i = effects.constBegin();

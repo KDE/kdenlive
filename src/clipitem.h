@@ -171,7 +171,7 @@ public:
     bool updateNormalKeyframes(QDomElement parameter);
 
     /** @brief Adjusts effects after a clip duration change. */
-    QMap<int, QDomElement> adjustEffectsToDuration(int width, int height, int previous, int current, bool fromStart);
+    QMap<int, QDomElement> adjustEffectsToDuration(int width, int height, ItemInfo oldInfo);
 
     /** Returns the necessary (audio, video, general) producer.
      * @param track Track of the requested producer

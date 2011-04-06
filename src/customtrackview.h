@@ -438,7 +438,7 @@ private:
      * @param oldInfo pre resize info
      * @param fromStart false = resize from end
      * @param command Used as a parent for EditEffectCommand */
-    void adjustEffects(ClipItem *item, ItemInfo oldInfo, bool fromStart, QUndoCommand *command);
+    void adjustEffects(ClipItem *item, ItemInfo oldInfo, QUndoCommand *command);
 
 private slots:
     void slotRefreshGuides();
