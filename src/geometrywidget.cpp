@@ -305,9 +305,9 @@ void GeometryWidget::setupParam(const QDomElement elem, int minframe, int maxfra
         m_ui.widgetTimeWrapper->setHidden(true);
     } else {
         m_ui.widgetTimeWrapper->setHidden(false);
-        m_timeline->setKeyGeometry(m_geometry, m_outPoint - m_inPoint - 1);
+        m_timeline->setKeyGeometry(m_geometry, m_outPoint - m_inPoint);
         m_timeline->update();
-        m_timePos->setRange(0, m_outPoint - m_inPoint - 1);
+        m_timePos->setRange(0, m_outPoint - m_inPoint);
     }
 
     // no opacity
