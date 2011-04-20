@@ -248,6 +248,12 @@ void ClipItem::initEffect(QDomElement effect, int diff)
             }
         }
 
+        if (effect.attribute("id") == "crop") {
+            // default use_profile to 1 for clips with proxies to avoid problems when rendering
+            if (e.attribute("name") == "use_profile" && !(m_clip->getProperty("proxy").isEmpty() || m_clip->getProperty("proxy") == "-"))
+                e.setAttribute("value", "1");
+        }
+
         if ((e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe") && e.attribute("keyframes").isEmpty()) {
             // Effect has a keyframe type parameter, we need to set the values
             e.setAttribute("keyframes", QString::number(cropStart().frames(m_fps)) + ':' + e.attribute("default"));
