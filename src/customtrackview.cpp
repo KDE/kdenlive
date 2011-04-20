@@ -6663,8 +6663,7 @@ void CustomTrackView::slotRefreshThumbs(const QString &id, bool resetThumbs)
 
 void CustomTrackView::adjustEffects(ClipItem* item, ItemInfo oldInfo, QUndoCommand* command)
 {
-    QMap<int, QDomElement> effects;
-    item->adjustEffectsToDuration(m_document->width(), m_document->height(), oldInfo);
+    QMap<int, QDomElement> effects = item->adjustEffectsToDuration(m_document->width(), m_document->height(), oldInfo);
 
     if (effects.count()) {
         QMap<int, QDomElement>::const_iterator i = effects.constBegin();

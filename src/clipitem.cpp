@@ -1731,7 +1731,7 @@ QList <int> ClipItem::updatePanZoom(int width, int height, int cut)
                 continue;
             if (e.attribute("type") == "geometry" && !e.hasAttribute("fixed")) {
                 effectPositions << i;
-                updateGeometryKeyframes(effect, j, width, height, cut);
+//                 updateGeometryKeyframes(effect, j, width, height, cut);
             }
         }
     }
@@ -1810,7 +1810,7 @@ QMap<int, QDomElement> ClipItem::adjustEffectsToDuration(int width, int height, 
             if (type == "geometry" && !param.hasAttribute("fixed")) {
                 if (!effects.contains(i))
                     effects[i] = effect.cloneNode().toElement();
-                updateGeometryKeyframes(effect, j, width, height, 0);
+                updateGeometryKeyframes(effect, j, width, height, oldInfo);
             } else if (type == "simplekeyframe" || type == "keyframe") {
                 if (!effects.contains(i))
                     effects[i] = effect.cloneNode().toElement();
@@ -1903,64 +1903,13 @@ bool ClipItem::updateNormalKeyframes(QDomElement parameter)
     return false;
 }
 
-void ClipItem::updateGeometryKeyframes(QDomElement effect, int paramIndex, int width, int height, int cut)
+void ClipItem::updateGeometryKeyframes(QDomElement effect, int paramIndex, int width, int height, ItemInfo oldInfo)
 {
-    // TODO: properly update when clip resized from start
-
     QDomElement param = effect.elementsByTagName("parameter").item(paramIndex).toElement();
 
-    int in = cropStart().frames(fps());
-    int out = in + cropDuration().frames(fps());
-    int dur = out - in - 1;
+    Mlt::Geometry geometry(param.attribute("value").toUtf8().data(), oldInfo.cropDuration.frames(m_fps), width, height);
 
-    effect.setAttribute("in", in);
-    effect.setAttribute("out", out);
-
-    Mlt::Geometry geometry(param.attribute("value").toUtf8().data(), dur, width, height);
-    Mlt::GeometryItem item;
-    bool endFrameAdded = false;
-    if (cut == 0) {
-        while (!geometry.next_key(&item, dur)) {
-            if (!endFrameAdded) {
-                // add keyframe at the end with interpolated value
-
-                // but only once ;)
-                endFrameAdded = true;
-
-                Mlt::GeometryItem endItem;
-                Mlt::GeometryItem interp;
-                geometry.fetch(&interp, dur - 1);
-                endItem.frame(dur - 1);
-                endItem.x(interp.x());
-                endItem.y(interp.y());
-                endItem.w(interp.w());
-                endItem.h(interp.h());
-                endItem.mix(interp.mix());
-                geometry.insert(&endItem);
-            }
-            geometry.remove(item.frame());
-        }
-    } else {
-        Mlt::Geometry origGeometry(param.attribute("value").toUtf8().data(), dur, width, height);
-        // remove keyframes before cut point
-        while (!geometry.prev_key(&item, cut - 1) && item.frame() < cut)
-            geometry.remove(item.frame());
-
-        // add a keyframe at new pos 0
-        origGeometry.fetch(&item, cut);
-        item.frame(0);
-        geometry.insert(&item);
-
-        // move exisiting keyframes by -cut
-        while (!origGeometry.next_key(&item, cut)) {
-            geometry.remove(item.frame());
-            origGeometry.remove(item.frame());
-            item.frame(item.frame() - cut);
-            geometry.insert(&item);
-        }
-    }
-
-    param.setAttribute("value", geometry.serialise());
+    param.setAttribute("value", geometry.serialise(cropStart().frames(m_fps), (cropStart() + cropDuration()).frames(m_fps) - 1));
 }
 
 #include "clipitem.moc"

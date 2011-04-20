@@ -2631,10 +2631,12 @@ bool Render::mltEditEffect(int track, GenTime position, EffectsParameterList par
     if (!params.paramValue("keyframes").isEmpty() || /*it.key().startsWith("#") || */tag.startsWith("ladspa") || tag == "sox" || tag == "autotrack_rectangle" || params.hasParam("region")) {
         // This is a keyframe effect, to edit it, we remove it and re-add it.
         bool success = mltRemoveEffect(track, position, index, false);
-        if (!success) kDebug() << "// ERROR Removing effect : " << index;
-        if (position < GenTime()) success = mltAddTrackEffect(track, params);
-        else success = mltAddEffect(track, position, params);
-        if (!success) kDebug() << "// ERROR Adding effect : " << index;
+//         if (!success) kDebug() << "// ERROR Removing effect : " << index;
+        if (position < GenTime())
+            success = mltAddTrackEffect(track, params);
+        else
+            success = mltAddEffect(track, position, params);
+//         if (!success) kDebug() << "// ERROR Adding effect : " << index;
         return success;
     }
     if (position < GenTime()) {
@@ -2653,33 +2655,22 @@ bool Render::mltEditEffect(int track, GenTime position, EffectsParameterList par
         return false;
     }
 
-    Mlt::Service clipService(clip->get_service());
     int duration = clip->get_playtime();
     bool doRefresh = true;
     // Check if clip is visible in monitor
     int diff = trackPlaylist.clip_start(clipIndex) + duration - m_mltProducer->position();
-    if (diff < 0 || diff > duration) doRefresh = false;
-    delete clip;
+    if (diff < 0 || diff > duration)
+        doRefresh = false;
     m_isBlocked = true;
     int ct = 0;
-    /* kDebug() << "EDITING FILTER: "<<index <<", "<<tag;
-    kDebug() << "EFFect stack: ++++++++++++++++++++++++++";
-    while (filter) {
-        kDebug() << "Filter: "<< filter->get("kdenlive_id") <<", IX: "<<filter->get("kdenlive_ix");
-        ct++;
-        filter = clipService.filter(ct);
-    }
-    kDebug() << "++++++++++++++++++++++++++";
-    ct = 0;
-    filter = clipService.filter(ct); */
 
-    Mlt::Filter *filter = clipService.filter(ct);
+    Mlt::Filter *filter = clip->filter(ct);
     while (filter) {
         if (filter->get_int("kdenlive_ix") == index.toInt()) {
             break;
         }
         ct++;
-        filter = clipService.filter(ct);
+        filter = clip->filter(ct);
     }
 
     if (!filter) {
@@ -2698,11 +2689,10 @@ bool Render::mltEditEffect(int track, GenTime position, EffectsParameterList par
         filter->set((prefix + params.at(j).name()).toUtf8().constData(), params.at(j).value().toUtf8().constData());
     }
 
-    // Pan and Zoom will be updated upon clip duration change
-    if (params.paramValue("id") == "pan_zoom") {
-        filter->set_in_and_out(service.get_int("in"), service.get_int("out") + 1);
-    }
+    if (params.paramValue("id") == "pan_zoom")
+        filter->set_in_and_out(clip->get_in(), clip->get_out() + 1);
 
+    delete clip;
     mlt_service_unlock(service.get_service());
 
     m_isBlocked = false;

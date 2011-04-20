@@ -167,7 +167,7 @@ public:
      * 
      * Can be used for all effects using mlt_geometry with keyframes, but at the moment Pan & Zoom is the only one. */
     QList <int> updatePanZoom(int width, int height, int cut = 0);
-    void updateGeometryKeyframes(QDomElement effect, int paramIndex, int width, int height, int cut = 0);
+    void updateGeometryKeyframes(QDomElement effect, int paramIndex, int width, int height, ItemInfo oldInfo);
     bool updateNormalKeyframes(QDomElement parameter);
 
     /** @brief Adjusts effects after a clip duration change. */
