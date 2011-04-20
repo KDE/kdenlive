@@ -1397,6 +1397,12 @@ void KdenliveDoc::addTrackEffect(int ix, QDomElement effect)
                 //break;
             }
         }
+
+        if (effect.attribute("id") == "crop") {
+            // default use_profile to 1 for clips with proxies to avoid problems when rendering
+            if (e.attribute("name") == "use_profile" && getDocumentProperty("enableproxy") == "1")
+                e.setAttribute("value", "1");
+        }
     }
 
     m_tracksList[ix].effectsList.append(effect);
