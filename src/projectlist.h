@@ -123,9 +123,17 @@ public:
                     color = option.palette.color(QPalette::WindowText);
                 }
                 else {
-                    if (proxy == CREATINGPROXY) proxyText = i18n("Generating proxy ...");
-                    else if (proxy == PROXYWAITING) proxyText = i18n("Waiting proxy ...");
-                    else if (proxy == PROXYCRASHED) proxyText = i18n("Proxy crashed");
+                    switch (proxy)  {
+                        case CREATINGPROXY:
+                            proxyText = i18n("Generating proxy ...");
+                            break;
+                        case PROXYWAITING:
+                            proxyText = i18n("Waiting proxy ...");
+                            break;
+                        case PROXYCRASHED:
+                        default:
+                            proxyText = i18n("Proxy crashed");
+                    }
                     brush = option.palette.highlight();
                     color = option.palette.color(QPalette::HighlightedText);
                 }
@@ -218,7 +226,7 @@ public slots:
     void slotRefreshClipThumbnail(const QString &clipId, bool update = true);
     void slotRefreshClipThumbnail(QTreeWidgetItem *item, bool update = true);
     void slotRemoveInvalidClip(const QString &id, bool replace);
-    void slotRemoveInvalidProxy(const QString &id);
+    void slotRemoveInvalidProxy(const QString &id, bool durationError);
     void slotSelectClip(const QString &ix);
 
     /** @brief Prepares removing the selected items. */

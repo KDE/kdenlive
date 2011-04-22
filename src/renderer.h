@@ -358,8 +358,11 @@ signals:
     void rendererStopped(int);
     /** @brief The clip is not valid, should be removed from project. */
     void removeInvalidClip(const QString &, bool replaceProducer);
-    /** @brief The proxy is not valid, should be deleted. */
-    void removeInvalidProxy(const QString &);
+    /** @brief The proxy is not valid, should be deleted.
+     *  @param id The original clip's id
+     *  @param durationError Should be set to true if the proxy failed because it has not same length as original clip
+     */
+    void removeInvalidProxy(const QString &id, bool durationError);
     void refreshDocumentProducers();
 
     /** @brief A frame's image has to be shown.

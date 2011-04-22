@@ -545,10 +545,17 @@ void Render::slotSplitView(bool doit)
 void Render::getFileProperties(const QDomElement xml, const QString &clipId, int imageHeight, bool replaceProducer, bool selectClip)
 {
     QString path;
-    if (xml.hasAttribute("proxy") && xml.attribute("proxy") != "-") path = xml.attribute("proxy");
-    else path = xml.attribute("resource");
-    
-    
+    bool proxyProducer;
+    if (xml.hasAttribute("proxy") && xml.attribute("proxy") != "-") {
+        path = xml.attribute("proxy");
+        proxyProducer = true;
+    }
+    else {
+        path = xml.attribute("resource");
+        proxyProducer = false;
+    }
+
+
     KUrl url = KUrl(path);
     Mlt::Producer *producer = NULL;
     CLIPTYPE type = (CLIPTYPE)xml.attribute("type").toInt();
@@ -576,15 +583,21 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
         producer = new Mlt::Producer(*m_mltProfile, url.path().toUtf8().constData());
     }
 
+
     if (producer == NULL || producer->is_blank() || !producer->is_valid()) {
         kDebug() << " / / / / / / / / ERROR / / / / // CANNOT LOAD PRODUCER: ";
-        if (xml.hasAttribute("proxy") && xml.attribute("proxy") != "-") {
+        if (proxyProducer) {
             // Proxy file is corrupted
-            emit removeInvalidProxy(clipId);
+            emit removeInvalidProxy(clipId, false);
         }
         else emit removeInvalidClip(clipId, replaceProducer);
         delete producer;
         return;
+    }
+
+    if (proxyProducer && xml.hasAttribute("proxy_out") && producer->get_out() != xml.attribute("proxy_out").toInt()) {
+        // Proxy file length is different than original clip length, this will corrupt project so disable this proxy clip
+        emit removeInvalidProxy(clipId, true);
     }
 
     if (xml.hasAttribute("force_aspect_ratio")) {
@@ -636,11 +649,11 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
         int full_luma = xml.attribute("full_luma").toInt();
         if (full_luma != 0) producer->set("set.force_full_luma", full_luma);
     }
-    
+
     int clipOut = 0;
     int duration = 0;
     if (xml.hasAttribute("out")) clipOut = xml.attribute("out").toInt();
-    
+
     // setup length here as otherwise default length (currently 15000 frames in MLT) will be taken even if outpoint is larger
     if (type == COLOR || type == TEXT || type == IMAGE || type == SLIDESHOW) {
         int length;
@@ -762,7 +775,7 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
                     variance = KThumb::imageVariance(image);
                 } else
                     pix.fill(Qt::black);
-                
+
                 if (frameNumber == 0 && variance < 6) {
                     // Thumbnail is not interesting (for example all black, seek to fetch better thumb
                     frameNumber = 100;

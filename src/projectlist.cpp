@@ -1295,10 +1295,12 @@ void ProjectList::slotRemoveInvalidClip(const QString &id, bool replace)
     }
 }
 
-void ProjectList::slotRemoveInvalidProxy(const QString &id)
+void ProjectList::slotRemoveInvalidProxy(const QString &id, bool durationError)
 {
     ProjectItem *item = getItemById(id);
     if (item) {
+        //TODO: use durationError to display correct message to user after 0.8 release
+        if (durationError) kDebug() << "Proxy duration is wrong, try changing transcoding parameters.";
         item->setProxyStatus(PROXYCRASHED);
         QString path = item->referencedClip()->getProperty("proxy");
         KUrl proxyFolder(m_doc->projectFolder().path( KUrl::AddTrailingSlash) + "proxy/");
@@ -1619,6 +1621,8 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
                 QString proxydir = m_doc->projectFolder().path( KUrl::AddTrailingSlash) + "proxy/";
                 QMap <QString, QString> newProps;
                 newProps.insert("proxy", proxydir + item->referencedClip()->getClipHash() + "." + m_doc->getDocumentProperty("proxyextension"));
+                // insert required duration for proxy
+                newProps.insert("proxy_out", item->referencedClip()->producerProperty("out"));
                 QMap <QString, QString> oldProps = clip->properties();
                 oldProps.insert("proxy", QString());
                 EditClipCommand *command = new EditClipCommand(this, clipId, oldProps, newProps, true);
@@ -2273,6 +2277,8 @@ void ProjectList::updateProxyConfig()
                 QMap <QString, QString> newProps;
                 newProps.insert("proxy", QString());
                 newProps.insert("replace", "1");
+                // insert required duration for proxy
+                newProps.insert("proxy_out", item->referencedClip()->producerProperty("out"));
                 new EditClipCommand(this, item->clipId(), item->referencedClip()->properties(), newProps, true, command);
             }
         }
@@ -2338,6 +2344,8 @@ void ProjectList::slotProxyCurrentItem(bool doProxy)
                     newProps.clear();
                     QString path = proxydir + item->referencedClip()->getClipHash() + "." + (t == IMAGE ? "png" : m_doc->getDocumentProperty("proxyextension"));
                     newProps.insert("proxy", path);
+                    // insert required duration for proxy
+                    newProps.insert("proxy_out", item->referencedClip()->producerProperty("out"));
                     // We need to insert empty proxy so that undo will work
                     oldProps.insert("proxy", QString());
                 }
