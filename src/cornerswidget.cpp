@@ -197,8 +197,8 @@ void CornersWidget::slotSyncPosition(int relTimelinePos)
 {
     if (keyframe_list->rowCount()) {
         relTimelinePos = qBound(0, relTimelinePos, m_max);
-        if (relTimelinePos != m_pos) {
-            m_pos = relTimelinePos;
+        if (relTimelinePos != m_pos - m_min) {
+            m_pos = relTimelinePos + m_min;
             slotUpdateItem();
         }
     }
