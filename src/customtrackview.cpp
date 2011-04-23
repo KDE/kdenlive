@@ -1323,26 +1323,37 @@ void CustomTrackView::editItemDuration()
                 m_commandStack->push(command);
             } else {
                 // move and resize clip
+                ClipItem *clip = static_cast<ClipItem *>(item);
                 QUndoCommand *moveCommand = new QUndoCommand();
                 moveCommand->setText(i18n("Edit clip"));
                 if (d.duration() < item->cropDuration() || d.cropStart() != clipInfo.cropStart) {
                     // duration was reduced, so process it first
                     clipInfo.endPos = clipInfo.startPos + d.duration();
                     clipInfo.cropStart = d.cropStart();
-                    new ResizeClipCommand(this, startInfo, clipInfo, true, false, moveCommand);
+
+                    resizeClip(startInfo, clipInfo);
+                    new ResizeClipCommand(this, startInfo, clipInfo, false, true, moveCommand);
+                    adjustEffects(clip, startInfo, moveCommand);
+                    new ResizeClipCommand(this, startInfo, clipInfo, false, true, moveCommand);
                 }
+
                 if (d.startPos() != clipInfo.startPos) {
                     startInfo = clipInfo;
                     clipInfo.startPos = d.startPos();
                     clipInfo.endPos = item->endPos() + (clipInfo.startPos - startInfo.startPos);
                     new MoveClipCommand(this, startInfo, clipInfo, true, moveCommand);
                 }
+
                 if (d.duration() > item->cropDuration()) {
                     // duration was increased, so process it after move
                     startInfo = clipInfo;
                     clipInfo.endPos = clipInfo.startPos + d.duration();
                     clipInfo.cropStart = d.cropStart();
-                    new ResizeClipCommand(this, startInfo, clipInfo, true, false, moveCommand);
+
+                    resizeClip(startInfo, clipInfo);
+                    new ResizeClipCommand(this, startInfo, clipInfo, false, true, moveCommand);
+                    adjustEffects(clip, startInfo, moveCommand);
+                    new ResizeClipCommand(this, startInfo, clipInfo, false, true, moveCommand);
                 }
                 updateTrackDuration(clipInfo.track, moveCommand);
                 m_commandStack->push(moveCommand);
@@ -4457,19 +4468,18 @@ void CustomTrackView::resizeClip(const ItemInfo start, const ItemInfo end, bool 
         ItemInfo clipinfo = item->info();
         clipinfo.track = m_document->tracksCount() - clipinfo.track;
         bool success = m_document->renderer()->mltResizeClipStart(clipinfo, end.startPos - clipinfo.startPos);
-        if (success) {
-            kDebug() << "RESIZE CLP STRAT TO:" << end.startPos.frames(m_document->fps()) << ", OLD ST: " << start.startPos.frames(25);
+        if (success)
             item->resizeStart((int) end.startPos.frames(m_document->fps()));
-//             updatePositionEffects(item, clipinfo);
-        } else emit displayMessage(i18n("Error when resizing clip"), ErrorMessage);
+        else
+            emit displayMessage(i18n("Error when resizing clip"), ErrorMessage);
     } else {
         ItemInfo clipinfo = item->info();
         clipinfo.track = m_document->tracksCount() - clipinfo.track;
         bool success = m_document->renderer()->mltResizeClipEnd(clipinfo, end.endPos - clipinfo.startPos);
-        if (success) {
+        if (success)
             item->resizeEnd((int) end.endPos.frames(m_document->fps()));
-//             updatePositionEffects(item, clipinfo);
-        } else emit displayMessage(i18n("Error when resizing clip"), ErrorMessage);
+        else
+            emit displayMessage(i18n("Error when resizing clip"), ErrorMessage);
     }
     if (!resizeClipStart && end.cropStart != start.cropStart) {
         kDebug() << "// RESIZE CROP, DIFF: " << (end.cropStart - start.cropStart).frames(25);
