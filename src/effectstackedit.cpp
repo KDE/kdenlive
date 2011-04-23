@@ -363,14 +363,14 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
                 KeyframeEdit *geo;
                 if (pa.attribute("widget") == "corners") {
                     // we want a corners-keyframe-widget
-                    CornersWidget *corners = new CornersWidget(m_monitor, pa, m_in, m_in + m_out, m_timecode, e.attribute("active_keyframe", "-1").toInt(), this);
+                    CornersWidget *corners = new CornersWidget(m_monitor, pa, m_in, m_out, m_timecode, e.attribute("active_keyframe", "-1").toInt(), this);
                     corners->slotShowScene(!disable);
                     connect(corners, SIGNAL(checkMonitorPosition(int)), this, SIGNAL(checkMonitorPosition(int)));
                     connect(this, SIGNAL(effectStateChanged(bool)), corners, SLOT(slotShowScene(bool)));
                     connect(this, SIGNAL(syncEffectsPos(int)), corners, SLOT(slotSyncPosition(int)));
                     geo = static_cast<KeyframeEdit *>(corners);
                 } else {
-                    geo = new KeyframeEdit(pa, m_in, m_in + m_out, m_timecode, e.attribute("active_keyframe", "-1").toInt());
+                    geo = new KeyframeEdit(pa, m_in, m_out, m_timecode, e.attribute("active_keyframe", "-1").toInt());
                 }
                 m_vbox->addWidget(geo);
                 m_valueItems[paramName+"keyframe"] = geo;
