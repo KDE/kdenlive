@@ -357,6 +357,7 @@ bool adjustRotoDuration(QString* data, int in, int out)
     if (!splines.canConvert(QVariant::Map))
         return false;
 
+    QMap<QString, QVariant> newMap;
     QMap<QString, QVariant> map = splines.toMap();
     QMap<QString, QVariant>::iterator i = map.end();
     int lastPos = -1;
@@ -367,14 +368,12 @@ bool adjustRotoDuration(QString* data, int in, int out)
      */
     bool startFound = false;
     while (i-- != map.begin()) {
-        if (i.key().toInt() < in) {
-            if (!startFound) {
-                startFound = true;
-                if (lastPos < 0)
-                    map[QString::number(in).rightJustified(log10((double)out) + 1, '0')] = i.value();
-                else
-                    map[QString::number(in).rightJustified(log10((double)out) + 1, '0')] = interpolate(in, i.key().toInt(), lastPos, &i.value(), &last);
-            }
+        if (!startFound && i.key().toInt() < in) {
+            startFound = true;
+            if (lastPos < 0)
+                newMap[QString::number(in).rightJustified(log10((double)out) + 1, '0')] = i.value();
+            else
+                newMap[QString::number(in).rightJustified(log10((double)out) + 1, '0')] = interpolate(in, i.key().toInt(), lastPos, &i.value(), &last);
         }
         lastPos = i.key().toInt();
         last = i.value();
@@ -389,14 +388,12 @@ bool adjustRotoDuration(QString* data, int in, int out)
     lastPos = -1;
     bool endFound = false;
     while (i != map.end()) {
-        if (i.key().toInt() > out) {
-            if (!endFound) {
-                endFound = true;
-                if (lastPos < 0)
-                    map[QString::number(out)] = i.value();
-                else
-                    map[QString::number(out)] = interpolate(out, lastPos, i.key().toInt(), &last, &i.value());
-            }
+        if (!endFound && i.key().toInt() > out) {
+            endFound = true;
+            if (lastPos < 0)
+                newMap[QString::number(out)] = i.value();
+            else
+                newMap[QString::number(out)] = interpolate(out, lastPos, i.key().toInt(), &last, &i.value());
         }
         lastPos = i.key().toInt();
         last = i.value();
@@ -406,8 +403,17 @@ bool adjustRotoDuration(QString* data, int in, int out)
             ++i;
     }
 
+    /*
+     * Update key lengths to prevent sorting issues
+     */
+    i = map.begin();
+    while (i != map.end()) {
+        newMap[i.key().rightJustified(log10((double)out) + 1, '0', true)] = i.value();
+        ++i;
+    }
+
     QJson::Serializer serializer;
-    *data = QString(serializer.serialize(QVariant(map)));
+    *data = QString(serializer.serialize(QVariant(newMap)));
 
     if (startFound || endFound)
         return true;
