@@ -782,7 +782,7 @@ void TitleWidget::displayBackgroundFrame()
         p.end();
         m_frameImage->setPixmap(bg);
     } else {
-        m_frameImage->setPixmap(QPixmap::fromImage(m_render->extractFrame((int) m_render->seekPosition().frames(m_render->fps()), m_frameWidth / 2, m_frameHeight / 2)));
+        m_frameImage->setPixmap(QPixmap::fromImage(m_render->extractFrame((int) m_render->seekPosition().frames(m_render->fps()), QString(), m_frameWidth / 2, m_frameHeight / 2)));
     }
 }
 

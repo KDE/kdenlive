@@ -566,7 +566,13 @@ void Monitor::slotSetThumbFrame()
 
 void Monitor::slotExtractCurrentFrame()
 {
-    QImage frame = render->extractFrame(render->seekFramePosition());
+    QImage frame;
+    // check if we are using a proxy
+    if (m_currentClip && !m_currentClip->getProperty("proxy").isEmpty() && m_currentClip->getProperty("proxy") != "-") {
+        // using proxy, use original clip url to get frame
+        frame = render->extractFrame(render->seekFramePosition(), m_currentClip->fileURL().path());
+    }
+    else frame = render->extractFrame(render->seekFramePosition());
     KFileDialog *fs = new KFileDialog(KUrl(), "image/png", this);
     fs->setOperationMode(KFileDialog::Saving);
     fs->setMode(KFile::File);

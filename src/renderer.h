@@ -131,7 +131,7 @@ Q_OBJECT public:
     void stop(const GenTime & startTime);
     int volume() const;
 
-    QImage extractFrame(int frame_position, int width = -1, int height = -1);
+    QImage extractFrame(int frame_position, QString path = QString(), int width = -1, int height = -1);
 
     /** @brief Plays the scene starting from a specific time.
      * @param startTime time to start playing the scene from */

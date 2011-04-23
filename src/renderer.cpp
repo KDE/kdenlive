@@ -406,14 +406,26 @@ int Render::renderHeight() const
     return m_mltProfile->height();
 }
 
-QImage Render::extractFrame(int frame_position, int width, int height)
+QImage Render::extractFrame(int frame_position, QString path, int width, int height)
 {
     if (width == -1) {
         width = renderWidth();
         height = renderHeight();
     } else if (width % 2 == 1) width++;
 
-    if (!m_mltProducer) {
+    if (!path.isEmpty()) {
+        Mlt::Producer *producer = new Mlt::Producer(*m_mltProfile, path.toUtf8().constData());
+        if (producer) {
+            if (producer->is_valid()) {
+                QImage img = KThumb::getFrame(producer, frame_position, width, height);
+                delete producer;
+                return img;
+            }
+            else delete producer;
+        }
+    }
+    
+    if (!m_mltProducer || !path.isEmpty()) {
         QImage pix(width, height, QImage::Format_RGB32);
         pix.fill(Qt::black);
         return pix;
