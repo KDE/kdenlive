@@ -610,6 +610,8 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
     if (proxyProducer && xml.hasAttribute("proxy_out") && producer->get_out() != xml.attribute("proxy_out").toInt()) {
         // Proxy file length is different than original clip length, this will corrupt project so disable this proxy clip
         emit removeInvalidProxy(clipId, true);
+        delete producer;
+        return;
     }
 
     if (xml.hasAttribute("force_aspect_ratio")) {
@@ -1645,7 +1647,7 @@ Mlt::Producer *Render::checkSlowMotionProducer(Mlt::Producer *prod, QDomElement 
     if (strobe > 1) url.append("&strobe=" + QString::number(strobe));
     Mlt::Producer *slowprod = m_slowmotionProducers.value(url);
     if (!slowprod || slowprod->get_producer() == NULL) {
-        slowprod = new Mlt::Producer(*m_mltProfile, "framebuffer", url.toUtf8().constData());
+        slowprod = new Mlt::Producer(*m_mltProfile, 0, ("framebuffer:" + url).toUtf8().constData());
         if (strobe > 1) slowprod->set("strobe", strobe);
         QString id = prod->get("id");
         if (id.contains('_')) id = id.section('_', 0, 0);
