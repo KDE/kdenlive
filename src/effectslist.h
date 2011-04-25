@@ -72,8 +72,12 @@ public:
     static bool hasGeometryKeyFrames(QDomElement effect);
     static void setParameter(QDomElement effect, const QString &name, const QString &value);
     static QString parameter(QDomElement effect, const QString &name);
+    /** @brief Change the value of a 'property' element from the effect node. */
     static void setProperty(QDomElement effect, const QString &name, const QString &value);
+    /** @brief Get the value of a 'property' element from the effect node. */
     static QString property(QDomElement effect, const QString &name);
+    /** @brief Delete a 'property' element from the effect node. */
+    static void removeProperty(QDomElement effect, const QString &name);
     void clearList();
 
 private:

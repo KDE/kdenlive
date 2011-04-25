@@ -3821,18 +3821,48 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
 
         // replace proxy clips with originals
         QMap <QString, QString> proxies = m_projectList->getProxies();
-        QMapIterator<QString, QString> i(proxies);
+
+
+        QDomNodeList producers = doc.elementsByTagName("producer");
+        QString producerResource;
+        QString suffix;
+        for (uint n = 0; n < producers.length(); n++) {
+            QDomElement e = producers.item(n).toElement();
+            producerResource = EffectsList::property(e, "resource");
+            if (producerResource.contains('?')) {
+                suffix = "?" + producerResource.section('?', 1);
+                producerResource = producerResource.section('?', 0, 0);
+            }
+            else suffix.clear();
+            if (!producerResource.isEmpty()) {
+                if (proxies.contains(producerResource)) {
+                    EffectsList::setProperty(e, "resource", proxies.value(producerResource) + suffix);
+                    // We need to delete the "aspect_ratio" property because proxy clips
+                    // sometimes have different ratio than original clips
+                    EffectsList::removeProperty(e, "aspect_ratio");
+                }
+                else if (!root.isEmpty() && producerResource.startsWith(root) && proxies.contains(producerResource.remove(0, root.count() + 1))) {
+                    EffectsList::setProperty(e, "resource", proxies.value(producerResource.remove(0, root.count() + 1)) + suffix);
+                    // We need to delete the "aspect_ratio" property because proxy clips
+                    // sometimes have different ratio than original clips
+                    EffectsList::removeProperty(e, "aspect_ratio");
+                }
+            }
+        }
+        
+        /*QMapIterator<QString, QString> i(proxies);
         while (i.hasNext()) {
             i.next();
             // Replace all keys with their values (proxy path with original path)
             QString key = i.key();
             playlistContent.replace(key, i.value());
             if (!root.isEmpty() && key.startsWith(root)) {
-                // in case ther resource path in MLT playlist is relative
+                // in case the resource path in MLT playlist is relative
                 key.remove(0, root.count() + 1);
                 playlistContent.replace(key, i.value());
             }
-        }
+        }*/
+        playlistContent = doc.toString();
     }
     
     // Do save scenelist

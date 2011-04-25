@@ -241,6 +241,19 @@ QString EffectsList::property(QDomElement effect, const QString &name)
     return QString();
 }
 
+// static
+void EffectsList::removeProperty(QDomElement effect, const QString &name)
+{
+    QDomNodeList params = effect.elementsByTagName("property");
+    for (int i = 0; i < params.count(); i++) {
+        QDomElement e = params.item(i).toElement();
+        if (e.attribute("name") == name) {
+            effect.removeChild(params.item(i));
+            break;
+        }
+    }
+}
+
 void EffectsList::append(QDomElement e)
 {
     m_baseElement.appendChild(importNode(e, true));
