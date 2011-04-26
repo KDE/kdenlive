@@ -1604,29 +1604,37 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
     if (item && producer) {
         //m_listView->blockSignals(true);
         monitorItemEditing(false);
+        DocClipBase *clip = item->referencedClip();
         item->setProperties(properties, metadata);
-        if (item->referencedClip()->isPlaceHolder() && producer->is_valid()) {
-            item->referencedClip()->setValid();
+        if (clip->isPlaceHolder() && producer->is_valid()) {
+            clip->setValid();
             item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsDropEnabled);
             toReload = clipId;
         }
-        
+
         // Proxy stuff
         QString size = properties.value("frame_size");
-        DocClipBase *clip = item->referencedClip();
-        if (!useProxy() && item->referencedClip()->getProperty("proxy").isEmpty()) setProxyStatus(item, NOPROXY);
-        if (useProxy() && generateProxy() && item->referencedClip()->getProperty("proxy") == "-") setProxyStatus(item, NOPROXY);
-        else if (useProxy() && !item->isProxyRunning() && (item->clipType() == AV || item->clipType() == VIDEO) && generateProxy() && size.section('x', 0, 0).toInt() > m_doc->getDocumentProperty("proxyminsize").toInt()) {
-            if (clip->getProperty("proxy").isEmpty()) {
-                QString proxydir = m_doc->projectFolder().path( KUrl::AddTrailingSlash) + "proxy/";
-                QMap <QString, QString> newProps;
-                newProps.insert("proxy", proxydir + item->referencedClip()->getClipHash() + "." + m_doc->getDocumentProperty("proxyextension"));
-                // insert required duration for proxy
-                newProps.insert("proxy_out", item->referencedClip()->producerProperty("out"));
-                QMap <QString, QString> oldProps = clip->properties();
-                oldProps.insert("proxy", QString());
-                EditClipCommand *command = new EditClipCommand(this, clipId, oldProps, newProps, true);
-                m_doc->commandStack()->push(command);
+        if (!useProxy() && clip->getProperty("proxy").isEmpty()) setProxyStatus(item, NOPROXY);
+        if (useProxy() && generateProxy() && clip->getProperty("proxy") == "-") setProxyStatus(item, NOPROXY);
+        else if (useProxy() && !item->isProxyRunning()) {
+            // proxy video and image clips
+            int maxSize;
+            CLIPTYPE t = item->clipType();
+            if (t == IMAGE) maxSize = m_doc->getDocumentProperty("proxyimageminsize").toInt();
+            else maxSize = m_doc->getDocumentProperty("proxyminsize").toInt();
+            if (((t == AV || t == VIDEO) && generateProxy() && size.section('x', 0, 0).toInt() > maxSize) || (t == IMAGE && generateImageProxy() && (size.section('x', 0, 0).toInt() > maxSize || size.section('x', 1, 1).toInt() > maxSize))) {
+                if (clip->getProperty("proxy").isEmpty()) {
+                    QString proxydir = m_doc->projectFolder().path( KUrl::AddTrailingSlash) + "proxy/";
+                    QMap <QString, QString> newProps;
+                    QString path = proxydir + clip->getClipHash() + "." + (t == IMAGE ? "png" : m_doc->getDocumentProperty("proxyextension"));
+                    newProps.insert("proxy", path);
+                    // insert required duration for proxy
+                    if (t != IMAGE) newProps.insert("proxy_out", clip->producerProperty("out"));
+                    QMap <QString, QString> oldProps = clip->properties();
+                    oldProps.insert("proxy", QString());
+                    EditClipCommand *command = new EditClipCommand(this, clipId, oldProps, newProps, true);
+                    m_doc->commandStack()->push(command);
+                }
             }
         }
         
