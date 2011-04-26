@@ -245,7 +245,7 @@ const QVector<float> FFTTools::interpolatePeakPreserving(const QVector<float> in
 
     float x;
     float x_prev = 0;
-    int xi;
+    uint xi;
     uint i;
     if (((float) (right-left))/targetSize < 2) {
         for (i = 0; i < targetSize; i++) {
@@ -266,7 +266,7 @@ const QVector<float> FFTTools::interpolatePeakPreserving(const QVector<float> in
 
 
             // Use linear interpolation in order to get smoother display
-            if (xi == 0 || xi == in.size()-1) {
+            if (xi == 0 || xi == (uint) in.size()-1) {
                 // ... except if we are at the left or right border of the input sigal.
                 // Special case here since we consider previous and future values as well for
                 // the actual interpolation (not possible here).
@@ -309,7 +309,7 @@ const QVector<float> FFTTools::interpolatePeakPreserving(const QVector<float> in
 
             out[i] = fill;
 
-            for (; src < xi && src < in.size(); src++) {
+            for (; src < xi && src < (uint) in.size(); src++) {
                 if (out[i] < in[src]) {
                     out[i] = in[src];
                 }

@@ -444,7 +444,7 @@ void BezierSplineEditor::mouseMoveEvent(QMouseEvent* event)
     }
 }
 
-void BezierSplineEditor::mouseDoubleClickEvent(QMouseEvent* event)
+void BezierSplineEditor::mouseDoubleClickEvent(QMouseEvent* /*event*/)
 {
     if (m_currentPointIndex >= 0) {
         BPoint p = m_spline.getPoint(m_currentPointIndex);
@@ -462,7 +462,7 @@ void BezierSplineEditor::leaveEvent(QEvent* event)
 int BezierSplineEditor::nearestPointInRange(QPointF p, int wWidth, int wHeight, BezierSplineEditor::point_types* sel)
 {
     double nearestDistanceSquared = 1000;
-    point_types selectedPoint;
+    point_types selectedPoint = PTypeP;
     int nearestIndex = -1;
     int i = 0;
 
