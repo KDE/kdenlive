@@ -315,6 +315,18 @@ ULONG DeckLinkCaptureDelegate::Release(void)
     return (ULONG)m_refCount;
 }
 
+
+inline bool safe_write(int fd, const void* bytes, size_t length) {
+  int rc = 0;
+  size_t written = 0;
+  const char* buf = static_cast<const char*>(bytes);
+  while (rc != -1 && written < length) {
+    rc = write(fd, &(buf[written]), length - written);
+    written += (rc >= 0 ? rc : 0);
+  }
+  return rc != -1;
+}
+
 void DeckLinkCaptureDelegate::slotProcessFrame()
 {
     if (m_framesList.isEmpty()) return;
@@ -325,7 +337,7 @@ void DeckLinkCaptureDelegate::slotProcessFrame()
     if (capturePath.endsWith("raw")) {
         // Save as raw uyvy422 imgage
         videoOutputFile = open(capturePath.toUtf8().constData(), O_WRONLY | O_CREAT/*|O_TRUNC*/, 0664);
-        write(videoOutputFile, frameBytes, videoFrame->GetRowBytes() * videoFrame->GetHeight());
+        safe_write(videoOutputFile, frameBytes, videoFrame->GetRowBytes() * videoFrame->GetHeight());
         close(videoOutputFile);
         emit frameSaved(capturePath);
     } else {
@@ -398,17 +410,17 @@ HRESULT DeckLinkCaptureDelegate::VideoInputFrameArrived(IDeckLinkVideoInputFrame
 
             if (videoOutputFile != -1) {
                 if (!m_analyseFrame) videoFrame->GetBytes(&frameBytes);
-                write(videoOutputFile, frameBytes, videoFrame->GetRowBytes() * videoFrame->GetHeight());
+                safe_write(videoOutputFile, frameBytes, videoFrame->GetRowBytes() * videoFrame->GetHeight());
 
                 if (rightEyeFrame) {
                     rightEyeFrame->GetBytes(&frameBytes);
-                    write(videoOutputFile, frameBytes, videoFrame->GetRowBytes() * videoFrame->GetHeight());
+                    safe_write(videoOutputFile, frameBytes, videoFrame->GetRowBytes() * videoFrame->GetHeight());
                 }
             }
         }
         frameCount++;
 
-        if (g_maxFrames > 0 && frameCount >= g_maxFrames) {
+        if (g_maxFrames > 0 && frameCount >= (uint) g_maxFrames) {
             pthread_cond_signal(&sleepCond);
         }
     }
@@ -417,7 +429,7 @@ HRESULT DeckLinkCaptureDelegate::VideoInputFrameArrived(IDeckLinkVideoInputFrame
     if (audioFrame) {
         if (audioOutputFile != -1) {
             audioFrame->GetBytes(&audioFrameBytes);
-            write(audioOutputFile, audioFrameBytes, audioFrame->GetSampleFrameCount() * g_audioChannels *(g_audioSampleDepth / 8));
+            safe_write(audioOutputFile, audioFrameBytes, audioFrame->GetSampleFrameCount() * g_audioChannels *(g_audioSampleDepth / 8));
         }
     }
     return S_OK;

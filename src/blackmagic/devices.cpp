@@ -173,7 +173,7 @@ bool BMInterface::getBlackMagicOutputDeviceList(KComboBox *devicelist)
 
             IDeckLinkOutput*                 deckLinkOutput = NULL;
             IDeckLinkDisplayModeIterator*       displayModeIterator = NULL;
-            IDeckLinkDisplayMode*               displayMode = NULL;
+            //IDeckLinkDisplayMode*               displayMode = NULL;
             HRESULT                             result;
 
             // Query the DeckLink for its configuration interface
