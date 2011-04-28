@@ -1299,8 +1299,10 @@ void ProjectList::slotRemoveInvalidProxy(const QString &id, bool durationError)
 {
     ProjectItem *item = getItemById(id);
     if (item) {
-        //TODO: use durationError to display correct message to user after 0.8 release
-        if (durationError) kDebug() << "Proxy duration is wrong, try changing transcoding parameters.";
+        if (durationError) {
+            kDebug() << "Proxy duration is wrong, try changing transcoding parameters.";
+            emit displayMessage(i18n("Proxy clip unusable (duration is different from original)."), -2);
+        }
         item->setProxyStatus(PROXYCRASHED);
         QString path = item->referencedClip()->getProperty("proxy");
         KUrl proxyFolder(m_doc->projectFolder().path( KUrl::AddTrailingSlash) + "proxy/");
