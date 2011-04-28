@@ -92,7 +92,6 @@ Q_OBJECT public:
     /** @brief Seeks the renderer clip to the given time. */
     void seek(GenTime time);
     void seek(int time);
-    void seekToFrame(int pos);
     void seekToFrameDiff(int diff);
     int m_isBlocked;
 
@@ -394,6 +393,7 @@ public slots:
     void slotSplitView(bool doit);
     void slotSwitchFullscreen();
     void slotSetVolume(int volume);
+    void seekToFrame(int pos);
 };
 
 #endif

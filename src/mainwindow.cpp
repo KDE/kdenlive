@@ -215,7 +215,10 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
 
     m_notesDock = new QDockWidget(i18n("Project Notes"), this);
     m_notesDock->setObjectName("notes_widget");
-    m_notesWidget = new KTextEdit();
+    m_notesWidget = new NotesWidget();
+    connect(m_notesWidget, SIGNAL(insertNotesTimecode()), this, SLOT(slotInsertNotesTimecode()));
+    connect(m_notesWidget, SIGNAL(seekProject(int)), m_projectMonitor->render, SLOT(seekToFrame(int)));
+    
     m_notesWidget->setTabChangesFocus(true);
 #if KDE_IS_VERSION(4,4,0)
     m_notesWidget->setClickMessage(i18n("Enter your project notes here ..."));
@@ -4228,6 +4231,13 @@ void MainWindow::slotUpdateProxySettings()
     if (KdenliveSettings::enableproxy())
         KStandardDirs::makeDir(m_activeDocument->projectFolder().path(KUrl::AddTrailingSlash) + "proxy/");
     m_projectList->updateProxyConfig();
+}
+
+void MainWindow::slotInsertNotesTimecode()
+{
+    int frames = m_projectMonitor->render->seekPosition().frames(m_activeDocument->fps());
+    QString position = m_activeDocument->timecode().getTimecodeFromFrames(frames);
+    m_notesWidget->insertHtml("<a href=\"" + QString::number(frames) + "\">" + position + "</a> ");
 }
 
 #include "mainwindow.moc"

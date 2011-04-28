@@ -279,6 +279,7 @@ set(kdenlive_SRCS
   monitoreditwidget.cpp
   simplekeyframes/simpletimelinewidget.cpp
   simplekeyframes/simplekeyframewidget.cpp
+  noteswidget.cpp
 )
 
 add_definitions(${KDE4_DEFINITIONS})

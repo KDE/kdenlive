@@ -589,7 +589,7 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene, const
     addedXml.appendChild(docproperties);
 
     QDomElement docnotes = sceneList.createElement("documentnotes");
-    QDomText value = sceneList.createTextNode(m_notesWidget->toPlainText());
+    QDomText value = sceneList.createTextNode(m_notesWidget->toHtml());
     docnotes.appendChild(value);
     addedXml.appendChild(docnotes);
 

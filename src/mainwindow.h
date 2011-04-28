@@ -45,6 +45,7 @@
 #include "statusbarmessagelabel.h"
 #include "dvdwizard.h"
 #include "stopmotion/stopmotion.h"
+#include "noteswidget.h"
 
 class KdenliveDoc;
 class TrackView;
@@ -149,7 +150,7 @@ private:
     //KListWidget *m_effectList;
 
     QDockWidget *m_notesDock;
-    KTextEdit *m_notesWidget;
+    NotesWidget *m_notesWidget;
 
     QDockWidget *m_effectStackDock;
     EffectStackView *m_effectStack;
@@ -532,7 +533,8 @@ private slots:
     void slotDoAction(const QString& action_name);
     /** @brief Update project because the use of proxy clips was enabled / disabled. */
     void slotUpdateProxySettings();
- 
+    /** @brief Insert current project's timecode into the notes widget. */
+    void slotInsertNotesTimecode();
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);
 };
