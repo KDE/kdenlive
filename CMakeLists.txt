@@ -8,7 +8,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)
 
 # Search packages used by KDE.
 find_package(KDE4 REQUIRED)
-set(CMAKE_C_FLAGS " --std=c99") # To compile kiss_fft
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} --std=c99") # To compile kiss_fft
 include(KDE4Defaults)
 include(MacroLibrary)
 include(FindGettext)
