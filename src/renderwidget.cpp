@@ -800,15 +800,10 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
         render_process_args << "consumer:" + (scriptExport ? "$SOURCE" : playlistPath);
     else
         render_process_args <<  (scriptExport ? "$SOURCE" : playlistPath);
-    render_process_args << (scriptExport ? "$TARGET" : dest);
+    render_process_args << (scriptExport ? "$TARGET" : KUrl(dest).url());
     render_process_args << paramsList;
 
     QString group = m_view.size_list->currentItem()->data(MetaGroupRole).toString();
-
-    QStringList renderParameters;
-    renderParameters << dest << item->data(RenderRole).toString() << renderArgs.simplified();
-    renderParameters << QString::number(zoneIn) << QString::number(zoneOut) << QString::number(m_view.play_after->isChecked());
-    renderParameters << QString::number(guideStart) << QString::number(guideEnd) << QString::number(resizeProfile);
 
     QString scriptName;
     if (scriptExport) {
@@ -838,7 +833,6 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
         m_view.tabWidget->setCurrentIndex(2);
         return;
     }
-    renderParameters << scriptName;
 
     // Save rendering profile to document
     QMap <QString, QString> renderProps;
