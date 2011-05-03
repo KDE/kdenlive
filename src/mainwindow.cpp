@@ -61,6 +61,7 @@
 #include "colorscopes/histogram.h"
 #include "audiospectrum.h"
 #include "spectrogram.h"
+#include "archivewidget.h"
 
 #include <KApplication>
 #include <KAction>
@@ -1205,6 +1206,11 @@ void MainWindow::setupActions()
     KAction *transcodeClip =  new KAction(KIcon("edit-copy"), i18n("Transcode Clips"), this);
     collection.addAction("transcode_clip", transcodeClip);
     connect(transcodeClip, SIGNAL(triggered(bool)), this, SLOT(slotTranscodeClip()));
+
+    KAction *archiveProject =  new KAction(KIcon("file-save"), i18n("Archive Project"), this);
+    collection.addAction("archive_project", archiveProject);
+    connect(archiveProject, SIGNAL(triggered(bool)), this, SLOT(slotArchiveProject()));
+    
 
     KAction *markIn = collection.addAction("mark_in");
     markIn->setText(i18n("Set Zone In"));
@@ -4239,6 +4245,14 @@ void MainWindow::slotInsertNotesTimecode()
     QString position = m_activeDocument->timecode().getTimecodeFromFrames(frames);
     m_notesWidget->insertHtml("<a href=\"" + QString::number(frames) + "\">" + position + "</a> ");
 }
+
+void MainWindow::slotArchiveProject()
+{
+    QList <DocClipBase*> list = m_projectList->documentClipList();
+    ArchiveWidget *d = new ArchiveWidget(list, m_activeTimeline->projectView()->extractTransitionsLumas(), this);
+    d->exec();
+}
+
 
 #include "mainwindow.moc"
 

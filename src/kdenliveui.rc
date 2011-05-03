@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<gui name="kdenlive" version="60">
+<gui name="kdenlive" version="61">
   <ToolBar name="extraToolBar" >
     <text>Extra Toolbar</text>
 	<Action name="project_render" />
@@ -10,6 +10,7 @@
     <Menu name="file" >
       <Action name="dvd_wizard" />
       <Action name="transcode_clip" />
+      <Action name="archive_project" />
     </Menu>
   
     <Menu name="edit" >

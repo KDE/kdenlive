@@ -474,6 +474,8 @@ private slots:
     void slotMaximizeCurrent(bool show);
     void slotTranscode(KUrl::List urls = KUrl::List());
     void slotTranscodeClip();
+    /** @brief Archive project: creates a copy of the project file with all clips in a new folder. */
+    void slotArchiveProject();
     void slotSetDocumentRenderProfile(QMap <QString, QString> props);
     void slotPrepareRendering(bool scriptExport, bool zoneOnly, const QString &chapterFile);
 

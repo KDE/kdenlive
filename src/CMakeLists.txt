@@ -134,6 +134,7 @@ kde4_add_ui_files(kdenlive_UI
   widgets/smconfig_ui.ui
   widgets/bezierspline_ui.ui
   widgets/monitoreditwidget_ui.ui
+  widgets/archivewidget_ui.ui
 )
 
 set(kdenlive_SRCS
@@ -280,6 +281,7 @@ set(kdenlive_SRCS
   simplekeyframes/simpletimelinewidget.cpp
   simplekeyframes/simplekeyframewidget.cpp
   noteswidget.cpp
+  archivewidget.cpp
 )
 
 add_definitions(${KDE4_DEFINITIONS})
