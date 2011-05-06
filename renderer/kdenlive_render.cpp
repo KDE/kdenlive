@@ -63,6 +63,10 @@ int main(int argc, char **argv)
         QString dest = desturl.path();
         bool dualpass = false;
         bool doerase;
+        QString vpre=args.at(args.indexOf(QRegExp("vpre=.*")));
+        QStringList vprelist=vpre.replace("vpre=","").split(",");
+        if (vprelist.size()>0)
+            args.replaceInStrings(QRegExp("^vpre=.*"),QString("vpre=").append(vprelist.at(0)));
         if (args.contains("pass=2")) {
             // dual pass encoding
             dualpass = true;
@@ -73,6 +77,9 @@ int main(int argc, char **argv)
         RenderJob *job = new RenderJob(doerase, usekuiserver, render, profile, rendermodule, player, src, dest, preargs, args, in, out);
         job->start();
         if (dualpass) {
+            if (vprelist.size()>1)
+                args.replaceInStrings(QRegExp("^vpre=.*"),QString("vpre=").append(vprelist.at(1)));
+            args.replace(args.indexOf("pass=1"), "pass=2");
             args.replace(args.indexOf("pass=1"), "pass=2");
             RenderJob *dualjob = new RenderJob(erase, usekuiserver, render, profile, rendermodule, player, src, dest, preargs, args, in, out);
             QObject::connect(job, SIGNAL(renderingFinished()), dualjob, SLOT(start()));
