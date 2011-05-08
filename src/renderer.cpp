@@ -4162,6 +4162,11 @@ void Render::sendFrameUpdate()
     }
 }
 
+Mlt::Producer* Render::getProducer()
+{
+    return m_mltProducer;
+}
+
 
 #include "renderer.moc"
 

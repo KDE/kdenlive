@@ -85,7 +85,7 @@ private:
 
 public slots:
     /** @brief Called when an effect is selected, builds the UI for this effect. */
-    void transferParamDesc(const QDomElement d, int pos, int in, int out, bool isEffect = true);
+    void transferParamDesc(const QDomElement d, ItemInfo info, bool isEffect = true);
 
     /** @brief Called whenever(?) some parameter is changed in the gui.
      *

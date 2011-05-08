@@ -199,7 +199,8 @@ void EffectStackView::slotClipItemSelected(ClipItem* c, int ix)
     if (m_clipref == NULL) {
         m_ui.effectlist->blockSignals(true);
         m_ui.effectlist->clear();
-        m_effectedit->transferParamDesc(QDomElement(), 0, 0, 0);
+        ItemInfo info;
+        m_effectedit->transferParamDesc(QDomElement(), info);
         //m_ui.region_url->clear();
         m_ui.effectlist->blockSignals(false);
         m_ui.checkAll->setToolTip(QString());
@@ -302,7 +303,8 @@ void EffectStackView::setupListView(int ix)
     }
     m_ui.effectlist->blockSignals(false);
     if (m_ui.effectlist->count() == 0) {
-        m_effectedit->transferParamDesc(QDomElement(), 0, 0, 0);
+        ItemInfo info;
+        m_effectedit->transferParamDesc(QDomElement(), info);
         //m_ui.region_url->clear();
     } else slotItemSelectionChanged(false);
     slotUpdateCheckAllButton();
@@ -319,11 +321,16 @@ void EffectStackView::slotItemSelectionChanged(bool update)
         eff = m_currentEffectList.at(activeRow);
         if (m_trackMode) {
             // showing track effects
-            m_effectedit->transferParamDesc(eff, 0, 0, m_trackInfo.duration);
-        } else m_effectedit->transferParamDesc(eff,
-                                                   0,
-                                                   m_clipref->cropStart().frames(KdenliveSettings::project_fps()),
-                                                   (m_clipref->cropStart() + m_clipref->cropDuration()).frames(KdenliveSettings::project_fps()) - 1); //minx max frame
+            ItemInfo info;
+            info.track = m_trackInfo.type;
+            info.cropDuration = GenTime(m_trackInfo.duration, KdenliveSettings::project_fps());
+            info.cropStart = GenTime(0);
+            info.startPos = GenTime(-1);
+            info.track = 0;
+            m_effectedit->transferParamDesc(eff, info);
+        } else {
+            m_effectedit->transferParamDesc(eff, m_clipref->info());
+        }
         //m_ui.region_url->setUrl(KUrl(eff.attribute("region")));
         m_ui.labelComment->setText(i18n(eff.firstChildElement("description").firstChildElement("full").text().toUtf8().data()));
     }
@@ -386,11 +393,17 @@ void EffectStackView::slotResetEffect()
         if (m_trackMode) {
             EffectsList::setParameter(dom, "in", QString::number(0));
             EffectsList::setParameter(dom, "out", QString::number(m_trackInfo.duration));
-            m_effectedit->transferParamDesc(dom, 0, 0, m_trackInfo.duration);//minx max frame
+            ItemInfo info;
+            info.track = m_trackInfo.type;
+            info.cropDuration = GenTime(m_trackInfo.duration, KdenliveSettings::project_fps());
+            info.cropStart = GenTime(0);
+            info.startPos = GenTime(-1);
+            info.track = 0;
+            m_effectedit->transferParamDesc(dom, info);
             emit updateEffect(NULL, m_trackindex, old, dom, activeRow);
         } else {
             m_clipref->initEffect(dom);
-            m_effectedit->transferParamDesc(dom, 0, m_clipref->cropStart().frames(KdenliveSettings::project_fps()), (m_clipref->cropStart() + m_clipref->cropDuration()).frames(KdenliveSettings::project_fps()));//minx max frame
+            m_effectedit->transferParamDesc(dom, m_clipref->info());
             //m_ui.region_url->setUrl(KUrl(dom.attribute("region")));
             emit updateEffect(m_clipref, -1, old, dom, activeRow);
         }
@@ -417,7 +430,8 @@ void EffectStackView::clear()
     m_ui.buttonUp->setEnabled(false);
     m_ui.buttonDown->setEnabled(false);
     m_ui.checkAll->setEnabled(false);
-    m_effectedit->transferParamDesc(QDomElement(), 0, 0, 0);
+    ItemInfo info;
+    m_effectedit->transferParamDesc(QDomElement(), info);
     //m_ui.region_url->clear();
     m_ui.buttonShowComments->setEnabled(false);
     m_ui.labelComment->setText(QString());

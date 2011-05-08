@@ -265,6 +265,9 @@ Q_OBJECT public:
     QList <int> checkTrackSequence(int);
     void sendFrameUpdate();
 
+    /** @brief Returns a pointer to the main producer. */
+    Mlt::Producer *getProducer();
+
 private:
 
     /** @brief The name of this renderer.

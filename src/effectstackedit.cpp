@@ -205,14 +205,14 @@ void EffectStackEdit::updateParameter(const QString &name, const QString &value)
     }
 }
 
-void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, int out, bool isEffect)
+void EffectStackEdit::transferParamDesc(const QDomElement d, ItemInfo info, bool isEffect)
 {
     clearAllItems();
     if (m_keyframeEditor) delete m_keyframeEditor;
     m_keyframeEditor = NULL;
     m_params = d;
-    m_in = in;
-    m_out = out;
+    m_in = isEffect ? info.cropStart.frames(KdenliveSettings::project_fps()) : info.startPos.frames(KdenliveSettings::project_fps());
+    m_out = isEffect ? (info.cropStart + info.cropDuration).frames(KdenliveSettings::project_fps()) - 1 : info.endPos.frames(KdenliveSettings::project_fps());
     if (m_params.isNull()) {
 //         kDebug() << "// EMPTY EFFECT STACK";
         return;
@@ -327,7 +327,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
             connect(pl, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
         } else if (type == "geometry") {
             if (KdenliveSettings::on_monitor_effects()) {
-                m_geometryWidget = new GeometryWidget(m_monitor, m_timecode, pos, isEffect, m_params.hasAttribute("showrotation"), this);
+                m_geometryWidget = new GeometryWidget(m_monitor, m_timecode, isEffect ? 0 : qMax(0, (int)info.startPos.frames(KdenliveSettings::project_fps())), isEffect, m_params.hasAttribute("showrotation"), this);
                 m_geometryWidget->setFrameSize(m_frameSize);
                 m_geometryWidget->slotShowScene(!disable);
                 // connect this before setupParam to make sure the monitor scene shows up at startup
@@ -343,7 +343,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
                 connect(this, SIGNAL(syncEffectsPos(int)), m_geometryWidget, SLOT(slotSyncPosition(int)));
                 connect(this, SIGNAL(effectStateChanged(bool)), m_geometryWidget, SLOT(slotShowScene(bool)));
             } else {
-                Geometryval *geo = new Geometryval(m_profile, m_timecode, m_frameSize, pos);
+                Geometryval *geo = new Geometryval(m_profile, m_timecode, m_frameSize, isEffect ? 0 : qMax(0, (int)info.startPos.frames(KdenliveSettings::project_fps())));
                 if (minFrame == maxFrame)
                     geo->setupParam(pa, m_in, m_out);
                 else
@@ -446,7 +446,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, int pos, int in, in
                 meetDependency(paramName, type, EffectsList::parameter(e, depends));
 #ifdef QJSON
         } else if (type == "roto-spline") {
-            RotoWidget *roto = new RotoWidget(value, m_monitor, m_in, m_out, m_timecode, this);
+            RotoWidget *roto = new RotoWidget(value, m_monitor, info, m_timecode, this);
             roto->slotShowScene(!disable);
             connect(roto, SIGNAL(valueChanged()), this, SLOT(collectAllParameters()));
             connect(roto, SIGNAL(checkMonitorPosition(int)), this, SIGNAL(checkMonitorPosition(int)));

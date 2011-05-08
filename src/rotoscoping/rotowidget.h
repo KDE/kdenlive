@@ -19,6 +19,7 @@
 #ifndef ROTOWIDGET_H
 #define ROTOWIDGET_H
 
+#include "definitions.h"
 #include "bpoint.h"
 #include "timecode.h"
 
@@ -28,6 +29,10 @@ class Monitor;
 class MonitorScene;
 class SplineItem;
 class SimpleKeyframeWidget;
+namespace Mlt
+{
+class Filter;
+}
 
 /** @brief Adjusts keyframes after resizing a clip. */
 bool adjustRotoDuration(QString *data, int in, int out);
@@ -37,11 +42,14 @@ class RotoWidget : public QWidget
     Q_OBJECT
 
 public:
-    RotoWidget(QString data, Monitor *monitor, int in, int out, Timecode t, QWidget* parent = 0);
+    RotoWidget(QString data, Monitor *monitor, ItemInfo info, Timecode t, QWidget* parent = 0);
     virtual ~RotoWidget();
 
     /** @brief Returns the spline(s) in the JSON format used by filter_rotoscoping (MLT). */
     QString getSpline();
+
+    /** @brief Replaces current data with \param spline (JSON). */
+    void setSpline(QString spline, bool notify = true);
 
     /** @brief Passed on to the keyframe timeline. Switches between frames and hh:mm:ss:ff timecode. */
     void updateTimecodeFormat();
@@ -67,12 +75,19 @@ private:
     SplineItem *m_item;
     int m_in;
     int m_out;
+    Mlt::Filter *m_filter;
 
     /** @brief Returns the list of cubic Bézier points that form the spline at position @param keyframe.
      * The points are brought from the range [0, 1] into project resolution space.
      * This function does not do any interpolation and therfore will only return a list when a keyframe at the given postion exists.
      * Set @param keyframe to -1 if only one keyframe currently exists. */
     QList <BPoint> getPoints(int keyframe);
+
+    /** @brief Adds tracking_finished as listener for "tracking-finished" event in MLT rotoscoping filter. */
+    void setupTrackingListen(ItemInfo info);
+
+    /** @brief Passes list of keyframe positions to keyframe timeline widget. */
+    void keyframeTimelineFullUpdate();
 
 private slots:
     /** @brief Makes sure the monitor effect scene is only visible if the clip this geometry belongs to is visible.

@@ -26,6 +26,8 @@
 #include "simplekeyframes/simplekeyframewidget.h"
 #include "kdenlivesettings.h"
 
+#include <mlt++/Mlt.h>
+
 #include <math.h>
 
 #include <qjson/parser.h>
@@ -33,13 +35,22 @@
 
 #include <QVBoxLayout>
 
+/** @brief Listener for "tracking-finished" event in MLT rotoscoping filter. */
+void tracking_finished(mlt_service *owner, RotoWidget *self, char *data)
+{
+    Q_UNUSED(owner)
 
-RotoWidget::RotoWidget(QString data, Monitor *monitor, int in, int out, Timecode t, QWidget* parent) :
+    if (self)
+        self->setSpline(QString(data));
+}
+
+RotoWidget::RotoWidget(QString data, Monitor *monitor, ItemInfo info, Timecode t, QWidget* parent) :
         QWidget(parent),
         m_monitor(monitor),
         m_showScene(true),
-        m_in(in),
-        m_out(out)
+        m_in(info.cropStart.frames(KdenliveSettings::project_fps())),
+        m_out((info.cropStart + info.cropDuration).frames(KdenliveSettings::project_fps()) - 1),
+        m_filter(NULL)
 {
     QVBoxLayout *l = new QVBoxLayout(this);
     m_keyframeWidget = new SimpleKeyframeWidget(t, m_out - m_in, this);
@@ -48,40 +59,6 @@ RotoWidget::RotoWidget(QString data, Monitor *monitor, int in, int out, Timecode
     MonitorEditWidget *edit = monitor->getEffectEdit();
     edit->showVisibilityButton(true);
     m_scene = edit->getScene();
-
-    QJson::Parser parser;
-    bool ok;
-    m_data = parser.parse(data.toUtf8(), &ok);
-    if (!ok) {
-        // :(
-    }
-
-    
-    if (m_data.canConvert(QVariant::Map)) {
-        /*
-         * pass keyframe data to keyframe timeline
-         */
-        QList <int> keyframes;
-        QMap <QString, QVariant> map = m_data.toMap();
-        QMap <QString, QVariant>::const_iterator i = map.constBegin();
-        while (i != map.constEnd()) {
-            keyframes.append(i.key().toInt() - m_in);
-            ++i;
-        }
-        m_keyframeWidget->setKeyframes(keyframes);
-
-        for (int j = 0; j < keyframes.count(); ++j) {
-            // key might already be justified
-            if (map.contains(QString::number(keyframes.at(j) + m_in))) {
-                QVariant value = map.take(QString::number(keyframes.at(j) + m_in));
-                map[QString::number(keyframes.at(j) + m_in).rightJustified(log10((double)m_out) + 1, '0')] = value;
-            }
-        }
-        m_data = QVariant(map);
-    } else {
-        // static (only one keyframe)
-        m_keyframeWidget->setKeyframes(QList <int>() << 0);
-    }
 
     m_item = new SplineItem(QList <BPoint>(), NULL, m_scene);
 
@@ -94,11 +71,15 @@ RotoWidget::RotoWidget(QString data, Monitor *monitor, int in, int out, Timecode
     connect(m_keyframeWidget, SIGNAL(keyframeMoved(int,int)), this, SLOT(slotMoveKeyframe(int,int)));
     connect(m_scene, SIGNAL(addKeyframe()), this, SLOT(slotAddKeyframe()));
 
-    slotPositionChanged(0, false);
+    setSpline(data, false);
+    setupTrackingListen(info);
 }
 
 RotoWidget::~RotoWidget()
 {
+    if (m_filter)
+        mlt_events_disconnect(m_filter->get_properties(), this);
+
     delete m_keyframeWidget;
 
     m_scene->removeItem(m_item);
@@ -256,6 +237,11 @@ QList <BPoint> RotoWidget::getPoints(int keyframe)
         data = m_data.toMap()[QString::number(keyframe).rightJustified(log10((double)m_out) + 1, '0')].toList();
     else
         data = m_data.toList();
+
+    // skip tracking flag
+    if (data.count() && data.at(0).canConvert(QVariant::String))
+        data.removeFirst();
+
     foreach (const QVariant &bpoint, data) {
         QList <QVariant> l = bpoint.toList();
         BPoint p;
@@ -321,6 +307,76 @@ void RotoWidget::updateTimecodeFormat()
     m_keyframeWidget->updateTimecodeFormat();
 }
 
+void RotoWidget::keyframeTimelineFullUpdate()
+{
+    if (m_data.canConvert(QVariant::Map)) {
+        QList <int> keyframes;
+        QMap <QString, QVariant> map = m_data.toMap();
+        QMap <QString, QVariant>::const_iterator i = map.constBegin();
+        while (i != map.constEnd()) {
+            keyframes.append(i.key().toInt() - m_in);
+            ++i;
+        }
+        m_keyframeWidget->setKeyframes(keyframes);
+
+        /*for (int j = 0; j < keyframes.count(); ++j) {
+            // key might already be justified
+            if (map.contains(QString::number(keyframes.at(j) + m_in))) {
+                QVariant value = map.take(QString::number(keyframes.at(j) + m_in));
+                map[QString::number(keyframes.at(j) + m_in).rightJustified(log10((double)m_out) + 1, '0')] = value;
+            }
+        }
+        m_data = QVariant(map);*/
+    } else {
+        // static (only one keyframe)
+        m_keyframeWidget->setKeyframes(QList <int>() << 0);
+    }
+}
+
+void RotoWidget::setupTrackingListen(ItemInfo info)
+{
+    if (info.startPos < GenTime()) {
+        // TODO: track effects
+        return;
+    }
+
+    Mlt::Service service(m_monitor->render->getProducer()->parent().get_service());
+    Mlt::Tractor tractor(service);
+    Mlt::Producer trackProducer(tractor.track(tractor.count() - info.track - 1));
+    Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
+
+    Mlt::Producer *clip = trackPlaylist.get_clip_at((int)info.startPos.frames(KdenliveSettings::project_fps()));
+    if (!clip) {
+        return;
+    }
+
+    int i = 0;
+    Mlt::Filter *filter = clip->filter(0);
+    while (filter) {
+        if (strcmp(filter->get("kdenlive_id"), "rotoscoping") == 0) {
+            m_filter = filter;
+            filter->listen("tracking-finished", this, (mlt_listener)tracking_finished);
+            break;
+        }
+        filter = clip->filter(++i);
+    }
+
+    delete clip;
+}
+
+void RotoWidget::setSpline(QString spline, bool notify)
+{
+    QJson::Parser parser;
+    bool ok;
+    m_data = parser.parse(spline.simplified().toUtf8(), &ok);
+    if (!ok) {
+        // :(
+    }
+    keyframeTimelineFullUpdate();
+    slotPositionChanged(m_keyframeWidget->getPosition(), false);
+    if (notify)
+        emit valueChanged();
+}
 
 
 static QVariant interpolate(int position, int in, int out, QVariant *splineIn, QVariant *splineOut)
@@ -329,7 +385,12 @@ static QVariant interpolate(int position, int in, int out, QVariant *splineIn, Q
     QList<QVariant> keyframe1 = splineIn->toList();
     QList<QVariant> keyframe2 = splineOut->toList();
     QList<QVariant> keyframe;
+    if (keyframe1.count() && keyframe1.at(0).canConvert(QVariant::String))
+        keyframe1.removeFirst();
+    if (keyframe2.count() && keyframe2.at(0).canConvert(QVariant::String))
+        keyframe2.removeFirst();
     int max = qMin(keyframe1.count(), keyframe2.count());
+        
     for (int i = 0; i < max; ++i) {
         QList<QVariant> p1 = keyframe1.at(i).toList();
         QList<QVariant> p2 = keyframe2.at(i).toList();
