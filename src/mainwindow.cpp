@@ -4249,7 +4249,8 @@ void MainWindow::slotInsertNotesTimecode()
 void MainWindow::slotArchiveProject()
 {
     QList <DocClipBase*> list = m_projectList->documentClipList();
-    ArchiveWidget *d = new ArchiveWidget(list, m_activeTimeline->projectView()->extractTransitionsLumas(), this);
+    QDomDocument doc = m_activeDocument->xmlSceneList(m_projectMonitor->sceneList(), m_projectList->expandedFolders());
+    ArchiveWidget *d = new ArchiveWidget(doc, list, m_activeTimeline->projectView()->extractTransitionsLumas(), this);
     d->exec();
 }
 

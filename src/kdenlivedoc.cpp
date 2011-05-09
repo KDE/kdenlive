@@ -535,15 +535,14 @@ QPoint KdenliveDoc::zone() const
     return QPoint(m_documentProperties.value("zonein").toInt(), m_documentProperties.value("zoneout").toInt());
 }
 
-bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene, const QStringList expandedFolders)
+QDomDocument KdenliveDoc::xmlSceneList(const QString &scene, const QStringList expandedFolders)
 {
     QDomDocument sceneList;
     sceneList.setContent(scene, true);
     QDomElement mlt = sceneList.firstChildElement("mlt");
     if (mlt.isNull() || !mlt.hasChildNodes()) {
-        //Make sure we don't save if scenelist is corrupted
-        KMessageBox::error(kapp->activeWindow(), i18n("Cannot write to file %1, scene list is corrupted.", path));
-        return false;
+        //scenelist is corrupted
+        return sceneList;
     }
 
     QDomElement addedXml = sceneList.createElement("kdenlivedoc");
@@ -658,6 +657,17 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene, const
     addedXml.appendChild(sceneList.importNode(m_clipManager->groupsXml(), true));
 
     //wes.appendChild(doc.importNode(kdenliveData, true));
+    return sceneList;
+}
+
+bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene, const QStringList expandedFolders)
+{
+    QDomDocument sceneList = xmlSceneList(scene, expandedFolders);
+    if (sceneList.isNull()) {
+        //Make sure we don't save if scenelist is corrupted
+        KMessageBox::error(kapp->activeWindow(), i18n("Cannot write to file %1, scene list is corrupted.", path));
+        return false;
+    }
 
     QFile file(path);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {

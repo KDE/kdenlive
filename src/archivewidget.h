@@ -45,18 +45,26 @@ class ArchiveWidget : public QDialog, public Ui::ArchiveWidget_UI
     Q_OBJECT
 
 public:
-    ArchiveWidget(QList <DocClipBase*> list, QStringList lumas, QWidget * parent = 0);
+    ArchiveWidget(QDomDocument doc, QList <DocClipBase*> list, QStringList luma_list, QWidget * parent = 0);
     ~ArchiveWidget();
     
 private slots:
     void slotCheckSpace();
-    void slotStartArchiving();
+    bool slotStartArchiving(bool firstPass = true);
     void slotArchivingFinished(KJob *job);
     void slotArchivingProgress(KJob *, qulonglong);
 
 private:
     KIO::filesize_t m_requestedSize;
     KIO::CopyJob *m_copyJob;
+    QMap <KUrl, KUrl> m_duplicateFiles;
+    QMap <KUrl, KUrl> m_replacementList;
+    QDomDocument m_doc;
+
+    /** @brief Generate tree widget subitems from a string list of urls. */
+    void generateItems(QTreeWidgetItem *parentItem, QStringList items);
+    /** @brief Replace urls in project file. */
+    bool processProjectFile();
 
 signals:
 

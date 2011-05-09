@@ -112,6 +112,9 @@ Q_OBJECT public:
     QPoint zoom() const;
     double dar() const;
     double projectDuration() const;
+    /** @brief Returns the project file xml. */
+    QDomDocument xmlSceneList(const QString &scene, const QStringList expandedFolders);
+    /** @brief Saves the project file xml to a file. */
     bool saveSceneList(const QString &path, const QString &scene, const QStringList expandedFolders);
     int tracksCount() const;
     TrackInfo trackInfoAt(int ix) const;
