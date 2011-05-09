@@ -63,7 +63,10 @@ int main(int argc, char **argv)
         QString dest = desturl.path();
         bool dualpass = false;
         bool doerase;
-        QString vpre=args.at(args.indexOf(QRegExp("vpre=.*")));
+        QString vpre;
+		int vprepos=args.indexOf(QRegExp("vpre=.*"));
+		if (vprepos>=0)
+			vpre=args.at(vprepos);
         QStringList vprelist=vpre.replace("vpre=","").split(",");
         if (vprelist.size()>0)
             args.replaceInStrings(QRegExp("^vpre=.*"),QString("vpre=").append(vprelist.at(0)));
