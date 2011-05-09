@@ -97,12 +97,9 @@ ArchiveWidget::ArchiveWidget(QDomDocument doc, QList <DocClipBase*> list, QStrin
         DocClipBase *clip = list.at(i);
         CLIPTYPE t = clip->clipType();
         if (t == SLIDESHOW) {
-            QStringList subfiles = ProjectSettings::extractSlideshowUrls(clip->fileURL());
-            foreach(const QString & file, subfiles) {
-                kDebug()<<"SLIDE: "<<file;
-                new QTreeWidgetItem(slideshows, QStringList() << file);
-                m_requestedSize += QFileInfo(file).size();
-            }
+            KUrl slideUrl = clip->fileURL();
+            //TODO: Slideshow files
+            slideUrls << slideUrl.path();
         }
         else if (t == IMAGE) imageUrls << clip->fileURL().path();
         else if (t == TEXT) {
@@ -128,7 +125,7 @@ ArchiveWidget::ArchiveWidget(QDomDocument doc, QList <DocClipBase*> list, QStrin
     generateItems(sounds, audioUrls);
     generateItems(videos, videoUrls);
     generateItems(images, imageUrls);
-    //generateItems(slideshows, slideUrls);
+    generateItems(slideshows, slideUrls);
     generateItems(others, otherUrls);
     generateItems(proxies, proxyUrls);
     
@@ -147,7 +144,7 @@ ArchiveWidget::ArchiveWidget(QDomDocument doc, QList <DocClipBase*> list, QStrin
         }
         else {
             total += items;
-            files_list->topLevelItem(i)->setText(0, files_list->topLevelItem(i)->text(0) + " " + i18n("(%1 items)", items));
+            files_list->topLevelItem(i)->setText(0, files_list->topLevelItem(i)->text(0) + " " + i18np("(%1 item)", "(%1 items)", items));
         }
     }
     
@@ -167,10 +164,53 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, QStringList items
 {
     QStringList filesList;
     QString fileName;
+    int ix = 0;
+    bool isSlideshow = parentItem->data(0, Qt::UserRole).toString() == "slideshows";
     foreach(const QString & file, items) {
         QTreeWidgetItem *item = new QTreeWidgetItem(parentItem, QStringList() << file);
         fileName = KUrl(file).fileName();
-        if (filesList.contains(fileName)) {
+        if (isSlideshow) {
+            // we store each slideshow in a separate subdirectory
+            item->setData(0, Qt::UserRole, ix);
+            ix++;
+            KUrl slideUrl(file);
+            QDir dir(slideUrl.directory(KUrl::AppendTrailingSlash));
+            if (slideUrl.fileName().startsWith(".all.")) {
+                // mimetype slideshow (for example *.png)
+                    QStringList filters;
+                    QString extension;
+                    // TODO: improve jpeg image detection with extension like jpeg, requires change in MLT image producers
+                    filters << "*." + slideUrl.fileName().section('.', -1);
+                    dir.setNameFilters(filters);
+                    QFileInfoList resultList = dir.entryInfoList(QDir::Files);
+                    QStringList slideImages;
+                    for (int i = 0; i < resultList.count(); i++) {
+                        m_requestedSize += resultList.at(i).size();
+                        slideImages << resultList.at(i).absoluteFilePath();
+                    }
+                    item->setData(0, Qt::UserRole + 1, slideImages);
+            }
+            else {
+                // pattern url (like clip%.3d.png)
+                QStringList result = dir.entryList(QDir::Files);
+                QString filter = slideUrl.fileName();
+                QString ext = filter.section('.', -1);
+                filter = filter.section('%', 0, -2);
+                QString regexp = "^" + filter + "\\d+\\." + ext + "$";
+                QRegExp rx(regexp);
+                QStringList slideImages;
+                QString directory = dir.absolutePath();
+                if (!directory.endsWith('/')) directory.append('/');
+                foreach(const QString & path, result) {
+                    if (rx.exactMatch(path)) {
+                        m_requestedSize += QFileInfo(directory + path).size();
+                        slideImages <<  directory + path;
+                    }
+                }
+                item->setData(0, Qt::UserRole + 1, slideImages);
+            }                    
+        }
+        else if (filesList.contains(fileName)) {
             // we have 2 files with same name
             int ix = 0;
             QString newFileName = fileName.section('.', 0, -2) + "_" + QString::number(ix) + "." + fileName.section('.', -1);
@@ -181,8 +221,10 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, QStringList items
             fileName = newFileName;
             item->setData(0, Qt::UserRole, fileName);
         }
-        filesList << fileName;
-        m_requestedSize += QFileInfo(file).size();
+        if (!isSlideshow) {
+            m_requestedSize += QFileInfo(file).size();
+            filesList << fileName;
+        }
     }
 }
 
@@ -218,16 +260,39 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
     }
     KUrl::List files;
     KUrl destUrl;
+    QTreeWidgetItem *parentItem;
+    bool isSlideshow = false;
     for (int i = 0; i < files_list->topLevelItemCount(); i++) {
-        if (files_list->topLevelItem(i)->childCount() > 0 && !files_list->topLevelItem(i)->isDisabled()) {
-            files_list->setCurrentItem(files_list->topLevelItem(i));
-            files_list->topLevelItem(i)->setDisabled(true);
-            destUrl = KUrl(archive_url->url().path(KUrl::AddTrailingSlash) + files_list->topLevelItem(i)->data(0, Qt::UserRole).toString());
-            KIO::NetAccess::mkdir(destUrl, this);
+        parentItem = files_list->topLevelItem(i);
+        if (parentItem->data(0, Qt::UserRole).toString() == "slideshows") {
+            KIO::NetAccess::mkdir(KUrl(archive_url->url().path(KUrl::AddTrailingSlash) + "slideshows"), this);
+            isSlideshow = true;
+        }
+        if (parentItem->childCount() > 0 && !parentItem->isDisabled()) {
+            files_list->setCurrentItem(parentItem);
+            if (!isSlideshow) parentItem->setDisabled(true);
+            destUrl = KUrl(archive_url->url().path(KUrl::AddTrailingSlash) + parentItem->data(0, Qt::UserRole).toString());
             QTreeWidgetItem *item;
-            for (int j = 0; j < files_list->topLevelItem(i)->childCount(); j++) {
-                item = files_list->topLevelItem(i)->child(j);
-                if (item->data(0, Qt::UserRole).isNull()) {
+            for (int j = 0; j < parentItem->childCount(); j++) {
+                item = parentItem->child(j);
+                // Special case: slideshows
+                if (isSlideshow) {
+                    if (item->isDisabled()) {
+                        continue;
+                    }
+                    destUrl = KUrl(destUrl.path(KUrl::AddTrailingSlash) + item->data(0, Qt::UserRole).toString() + "/");
+                    QStringList srcFiles = item->data(0, Qt::UserRole + 1).toStringList();
+                    for (int k = 0; k < srcFiles.count(); k++) {
+                        files << KUrl(srcFiles.at(k));
+                    }
+                    item->setDisabled(true);
+                    if (parentItem->indexOfChild(item) == parentItem->childCount() - 1) {
+                        // We have processed all slideshows
+                        parentItem->setDisabled(true);
+                    }
+                    break;
+                }
+                else if (item->data(0, Qt::UserRole).isNull()) {
                     files << KUrl(item->text(0));
                 }
                 else {
@@ -255,6 +320,9 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
         return true;
     }
 
+    if (files.isEmpty()) slotStartArchiving(false);
+
+    KIO::NetAccess::mkdir(destUrl, this);
     m_copyJob = KIO::copy (files, destUrl, KIO::HideProgressInfo);
     connect(m_copyJob, SIGNAL(result(KJob *)), this, SLOT(slotArchivingFinished(KJob *)));
     connect(m_copyJob, SIGNAL(processedSize(KJob *, qulonglong)), this, SLOT(slotArchivingProgress(KJob *, qulonglong)));
@@ -308,19 +376,25 @@ bool ArchiveWidget::processProjectFile()
     KUrl destUrl;
     QTreeWidgetItem *item;
     for (int i = 0; i < files_list->topLevelItemCount(); i++) {
-        if (files_list->topLevelItem(i)->childCount() > 0) {
-            destUrl = KUrl(archive_url->url().path(KUrl::AddTrailingSlash) + files_list->topLevelItem(i)->data(0, Qt::UserRole).toString());
-            for (int j = 0; j < files_list->topLevelItem(i)->childCount(); j++) {
-                item = files_list->topLevelItem(i)->child(j);
+        QTreeWidgetItem *parentItem = files_list->topLevelItem(i);
+        if (parentItem->childCount() > 0) {
+            destUrl = KUrl(archive_url->url().path(KUrl::AddTrailingSlash) + parentItem->data(0, Qt::UserRole).toString());
+            bool isSlideshow = parentItem->data(0, Qt::UserRole).toString() == "slideshows";
+            for (int j = 0; j < parentItem->childCount(); j++) {
+                item = parentItem->child(j);
                 KUrl src(item->text(0));
                 KUrl dest = destUrl;
-                if (item->data(0, Qt::UserRole).isNull()) {
+                if (isSlideshow) {
+                    dest = KUrl(destUrl.path(KUrl::AddTrailingSlash) + item->data(0, Qt::UserRole).toString() + "/" + src.fileName());
+                }
+                else if (item->data(0, Qt::UserRole).isNull()) {
                     dest.addPath(src.fileName());
                 }
                 else {
                     dest.addPath(item->data(0, Qt::UserRole).toString());
                 }
                 m_replacementList.insert(src, dest);
+                kDebug()<<"___ PROCESS ITEM :"<<src << "="<<dest;
             }
         }
     }
