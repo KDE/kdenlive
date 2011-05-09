@@ -31,6 +31,7 @@
 #include <QList>
 #include <KIO/Job>
 #include <KIO/CopyJob>
+#include <KTemporaryFile>
 
 class KJob;
 
@@ -45,16 +46,19 @@ class ArchiveWidget : public QDialog, public Ui::ArchiveWidget_UI
     Q_OBJECT
 
 public:
-    ArchiveWidget(QDomDocument doc, QList <DocClipBase*> list, QStringList luma_list, QWidget * parent = 0);
+    ArchiveWidget(QString projectName, QDomDocument doc, QList <DocClipBase*> list, QStringList luma_list, QWidget * parent = 0);
     ~ArchiveWidget();
     
 private slots:
     void slotCheckSpace();
     bool slotStartArchiving(bool firstPass = true);
-    void slotArchivingFinished(KJob *job);
+    void slotArchivingFinished(KJob *job = NULL);
     void slotArchivingProgress(KJob *, qulonglong);
     virtual void done ( int r );
     bool closeAccepted();
+    void createArchive();
+    void updateProgress();
+    void slotArchivingFinished(bool result);
 
 protected:
     virtual void closeEvent ( QCloseEvent * e );
@@ -64,7 +68,14 @@ private:
     KIO::CopyJob *m_copyJob;
     QMap <KUrl, KUrl> m_duplicateFiles;
     QMap <KUrl, KUrl> m_replacementList;
+    QString m_name;
     QDomDocument m_doc;
+    KTemporaryFile *m_temp;
+    bool m_abortArchive;
+    QFuture<void> m_archiveThread;
+    QStringList m_foldersList;
+    QMap <QString, QString> m_filesList;
+    QTimer *m_progressTimer;
 
     /** @brief Generate tree widget subitems from a string list of urls. */
     void generateItems(QTreeWidgetItem *parentItem, QStringList items);
@@ -72,6 +83,7 @@ private:
     bool processProjectFile();
 
 signals:
+    void archivingFinished(bool);
 
 };
 

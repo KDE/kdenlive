@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>320</width>
-    <height>220</height>
+    <width>263</width>
+    <height>210</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -32,7 +32,7 @@
      </item>
     </layout>
    </item>
-   <item row="1" column="0" colspan="2">
+   <item row="2" column="0" colspan="2">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QLabel" name="icon_info">
@@ -56,21 +56,21 @@
      </item>
     </layout>
    </item>
-   <item row="2" column="0" colspan="2">
+   <item row="3" column="0" colspan="2">
     <widget class="QLabel" name="project_files">
      <property name="text">
       <string/>
      </property>
     </widget>
    </item>
-   <item row="4" column="0">
+   <item row="5" column="0">
     <widget class="QProgressBar" name="progressBar">
      <property name="value">
       <number>0</number>
      </property>
     </widget>
    </item>
-   <item row="4" column="1">
+   <item row="5" column="1">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -80,7 +80,7 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="0" colspan="2">
+   <item row="4" column="0" colspan="2">
     <widget class="QTreeWidget" name="files_list">
      <property name="alternatingRowColors">
       <bool>true</bool>
@@ -96,6 +96,13 @@
        <string notr="true">1</string>
       </property>
      </column>
+    </widget>
+   </item>
+   <item row="1" column="0" colspan="2">
+    <widget class="QCheckBox" name="compressed_archive">
+     <property name="text">
+      <string>Compressed archive</string>
+     </property>
     </widget>
    </item>
   </layout>

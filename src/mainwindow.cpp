@@ -4253,7 +4253,7 @@ void MainWindow::slotArchiveProject()
 {
     QList <DocClipBase*> list = m_projectList->documentClipList();
     QDomDocument doc = m_activeDocument->xmlSceneList(m_projectMonitor->sceneList(), m_projectList->expandedFolders());
-    ArchiveWidget *d = new ArchiveWidget(doc, list, m_activeTimeline->projectView()->extractTransitionsLumas(), this);
+    ArchiveWidget *d = new ArchiveWidget(m_activeDocument->url().fileName(), doc, list, m_activeTimeline->projectView()->extractTransitionsLumas(), this);
     d->exec();
 }
 
