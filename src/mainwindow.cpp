@@ -3949,11 +3949,12 @@ void MainWindow::slotChangePalette(QAction *action, const QString &themename)
         plt = QApplication::desktop()->palette();
     } else {
         KSharedConfigPtr config = KSharedConfig::openConfig(theme);
-        
-        // Since there currently is a bug (or feature change) in KGlobalSettings::createApplicationPalette, we need
-        // to do the palette loading stuff ourselves...
-        //plt = KGlobalSettings::createApplicationPalette(config);
- 
+
+#if KDE_IS_VERSION(4,6,3)
+        plt = KGlobalSettings::createNewApplicationPalette(config);
+#else
+        // Since there was a bug in createApplicationPalette in KDE < 4.6.3 we need
+        // to do the palette loading stuff ourselves. (https://bugs.kde.org/show_bug.cgi?id=263497)     
         QPalette::ColorGroup states[3] = { QPalette::Active, QPalette::Inactive,
                                             QPalette::Disabled };
         // TT thinks tooltips shouldn't use active, so we use our active colors for all states
@@ -3987,7 +3988,9 @@ void MainWindow::slotChangePalette(QAction *action, const QString &themename)
             plt.setBrush( state, QPalette::Link, schemeView.foreground( KColorScheme::LinkText ) );
             plt.setBrush( state, QPalette::LinkVisited, schemeView.foreground( KColorScheme::VisitedText ) );
         }
+#endif
     }
+
     kapp->setPalette(plt);
     const QObjectList children = statusBar()->children();
 
