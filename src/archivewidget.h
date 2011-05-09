@@ -25,9 +25,9 @@
 #include "ui_archivewidget_ui.h"
 #include "docclipbase.h"
 
-#include <KDialog>
 #include <kio/global.h>
 #include <QLabel>
+#include <QDialog>
 #include <QList>
 #include <KIO/Job>
 #include <KIO/CopyJob>
@@ -53,7 +53,12 @@ private slots:
     bool slotStartArchiving(bool firstPass = true);
     void slotArchivingFinished(KJob *job);
     void slotArchivingProgress(KJob *, qulonglong);
+    virtual void done ( int r );
+    bool closeAccepted();
 
+protected:
+    virtual void closeEvent ( QCloseEvent * e );
+    
 private:
     KIO::filesize_t m_requestedSize;
     KIO::CopyJob *m_copyJob;

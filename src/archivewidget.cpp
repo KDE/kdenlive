@@ -26,7 +26,7 @@
 #include <KUrlRequester>
 #include <KFileDialog>
 #include <KMessageBox>
-#include <KApplication>
+#include <KGuiItem>
 #include <KIO/NetAccess>
 
 #include <KDebug>
@@ -40,6 +40,7 @@ ArchiveWidget::ArchiveWidget(QDomDocument doc, QList <DocClipBase*> list, QStrin
         m_copyJob(NULL),
         m_doc(doc)
 {
+    setAttribute(Qt::WA_DeleteOnClose);
     setupUi(this);
     setWindowTitle(i18n("Archive Project"));
     archive_url->setUrl(KUrl(QDir::homePath()));
@@ -138,17 +139,25 @@ ArchiveWidget::ArchiveWidget(QDomDocument doc, QList <DocClipBase*> list, QStrin
     // Hide unused categories, add item count
     int total = 0;
     for (int i = 0; i < files_list->topLevelItemCount(); i++) {
-        int items = files_list->topLevelItem(i)->childCount();
+        QTreeWidgetItem *parentItem = files_list->topLevelItem(i);
+        int items = parentItem->childCount();
         if (items == 0) {
             files_list->topLevelItem(i)->setHidden(true);
         }
         else {
-            total += items;
-            files_list->topLevelItem(i)->setText(0, files_list->topLevelItem(i)->text(0) + " " + i18np("(%1 item)", "(%1 items)", items));
+            if (parentItem->data(0, Qt::UserRole).toString() == "slideshows")
+            {
+                // Special case: slideshows contain several files
+                for (int j = 0; j < items; j++) {
+                    total += parentItem->child(j)->data(0, Qt::UserRole + 1).toStringList().count();
+                }
+            }
+            else total += items;
+            parentItem->setText(0, files_list->topLevelItem(i)->text(0) + " " + i18np("(%1 item)", "(%1 items)", items));
         }
     }
     
-    project_files->setText(i18n("%1 files to archive, requires %2", total, KIO::convertSize(m_requestedSize)));
+    project_files->setText(i18np("%1 file to archive, requires %2", "%1 files to archive, requires %2", total, KIO::convertSize(m_requestedSize)));
     buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Archive"));
     connect(buttonBox->button(QDialogButtonBox::Apply), SIGNAL(clicked()), this, SLOT(slotStartArchiving()));
     buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
@@ -159,6 +168,32 @@ ArchiveWidget::ArchiveWidget(QDomDocument doc, QList <DocClipBase*> list, QStrin
 ArchiveWidget::~ArchiveWidget()
 {
 }
+
+void ArchiveWidget::done ( int r )
+{
+    if (closeAccepted()) QDialog::done(r);
+}
+
+void ArchiveWidget::closeEvent ( QCloseEvent * e )
+{
+
+    if (closeAccepted()) e->accept();
+    else e->ignore();
+}
+
+
+bool ArchiveWidget::closeAccepted()
+{
+    if (!archive_url->isEnabled()) {
+        // Archiving in progress, should we stop?
+        if (KMessageBox::warningContinueCancel(this, i18n("Archiving in progress, do you want to stop it?"), i18n("Stop Archiving"), KGuiItem(i18n("Stop Archiving"))) != KMessageBox::Continue) {
+            return false;
+        }
+        if (m_copyJob) m_copyJob->kill();
+    }
+    return true;
+}
+
 
 void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, QStringList items)
 {
@@ -257,6 +292,7 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
         //starting archiving
         m_duplicateFiles.clear();
         m_replacementList.clear();
+        archive_url->setEnabled(false);
     }
     KUrl::List files;
     KUrl destUrl;
@@ -264,11 +300,11 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
     bool isSlideshow = false;
     for (int i = 0; i < files_list->topLevelItemCount(); i++) {
         parentItem = files_list->topLevelItem(i);
-        if (parentItem->data(0, Qt::UserRole).toString() == "slideshows") {
-            KIO::NetAccess::mkdir(KUrl(archive_url->url().path(KUrl::AddTrailingSlash) + "slideshows"), this);
-            isSlideshow = true;
-        }
         if (parentItem->childCount() > 0 && !parentItem->isDisabled()) {
+            if (parentItem->data(0, Qt::UserRole).toString() == "slideshows") {
+                KIO::NetAccess::mkdir(KUrl(archive_url->url().path(KUrl::AddTrailingSlash) + "slideshows"), this);
+                isSlideshow = true;
+            }
             files_list->setCurrentItem(parentItem);
             if (!isSlideshow) parentItem->setDisabled(true);
             destUrl = KUrl(archive_url->url().path(KUrl::AddTrailingSlash) + parentItem->data(0, Qt::UserRole).toString());
@@ -308,20 +344,19 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
     if (destUrl.isEmpty()) {
         if (m_duplicateFiles.isEmpty()) return false;        
         QMapIterator<KUrl, KUrl> i(m_duplicateFiles);
-        KUrl startJob;
         if (i.hasNext()) {
             i.next();
-            startJob = i.key();
-            KIO::CopyJob *job = KIO::copyAs(startJob, i.value(), KIO::HideProgressInfo);
+            KUrl startJobSrc = i.key();
+            KUrl startJobDst = i.value();
+            m_duplicateFiles.remove(startJobSrc);
+            KIO::CopyJob *job = KIO::copyAs(startJobSrc, startJobDst, KIO::HideProgressInfo);
             connect(job, SIGNAL(result(KJob *)), this, SLOT(slotArchivingFinished(KJob *)));
             connect(job, SIGNAL(processedSize(KJob *, qulonglong)), this, SLOT(slotArchivingProgress(KJob *, qulonglong)));
-            m_duplicateFiles.remove(startJob);
         }
         return true;
     }
 
     if (files.isEmpty()) slotStartArchiving(false);
-
     KIO::NetAccess::mkdir(destUrl, this);
     m_copyJob = KIO::copy (files, destUrl, KIO::HideProgressInfo);
     connect(m_copyJob, SIGNAL(result(KJob *)), this, SLOT(slotArchivingFinished(KJob *)));
@@ -360,8 +395,12 @@ void ArchiveWidget::slotArchivingFinished(KJob *job)
         text_info->setText(i18n("There was an error while copying the files: %1", job->errorString()));
     }
     buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Archive"));
+    archive_url->setEnabled(true);
     for (int i = 0; i < files_list->topLevelItemCount(); i++) {
         files_list->topLevelItem(i)->setDisabled(false);
+        for (int j = 0; j < files_list->topLevelItem(i)->childCount(); j++)
+            files_list->topLevelItem(i)->child(j)->setDisabled(false);
+        
     }
 }
 
@@ -402,7 +441,7 @@ bool ArchiveWidget::processProjectFile()
     // process kdenlive producers           
     QDomElement mlt = m_doc.documentElement();
     QString root = mlt.attribute("root") + "/";
-    
+    mlt.setAttribute("root", archive_url->url().path(KUrl::RemoveTrailingSlash));
     QDomNodeList prods = mlt.elementsByTagName("kdenlive_producer");
     for (int i = 0; i < prods.count(); i++) {
         QDomElement e = prods.item(i).toElement();
@@ -455,13 +494,13 @@ bool ArchiveWidget::processProjectFile()
     QFile file(path);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         kWarning() << "//////  ERROR writing to file: " << path;
-        KMessageBox::error(kapp->activeWindow(), i18n("Cannot write to file %1", path));
+        KMessageBox::error(this, i18n("Cannot write to file %1", path));
         return false;
     }
 
     file.write(m_doc.toString().toUtf8());
     if (file.error() != QFile::NoError) {
-        KMessageBox::error(kapp->activeWindow(), i18n("Cannot write to file %1", path));
+        KMessageBox::error(this, i18n("Cannot write to file %1", path));
         file.close();
         return false;
     }
