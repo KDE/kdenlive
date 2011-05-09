@@ -45,37 +45,41 @@ ArchiveWidget::ArchiveWidget(QDomDocument doc, QList <DocClipBase*> list, QStrin
     archive_url->setUrl(KUrl(QDir::homePath()));
     connect(archive_url, SIGNAL(textChanged (const QString &)), this, SLOT(slotCheckSpace()));
 
-
     // Setup categories
     QTreeWidgetItem *videos = new QTreeWidgetItem(files_list, QStringList() << i18n("Video clips"));
     videos->setIcon(0, KIcon("video-x-generic"));
-    videos->setData(0, Qt::UserRole, i18n("videos"));
+    videos->setData(0, Qt::UserRole, "videos");
     videos->setExpanded(false);
     QTreeWidgetItem *sounds = new QTreeWidgetItem(files_list, QStringList() << i18n("Audio clips"));
     sounds->setIcon(0, KIcon("audio-x-generic"));
-    sounds->setData(0, Qt::UserRole, i18n("sounds"));
+    sounds->setData(0, Qt::UserRole, "sounds");
     sounds->setExpanded(false);
     QTreeWidgetItem *images = new QTreeWidgetItem(files_list, QStringList() << i18n("Image clips"));
     images->setIcon(0, KIcon("image-x-generic"));
-    images->setData(0, Qt::UserRole, i18n("images"));
+    images->setData(0, Qt::UserRole, "images");
     images->setExpanded(false);
     QTreeWidgetItem *slideshows = new QTreeWidgetItem(files_list, QStringList() << i18n("Slideshow clips"));
     slideshows->setIcon(0, KIcon("image-x-generic"));
-    slideshows->setData(0, Qt::UserRole, i18n("slideshows"));
+    slideshows->setData(0, Qt::UserRole, "slideshows");
     slideshows->setExpanded(false);
     QTreeWidgetItem *texts = new QTreeWidgetItem(files_list, QStringList() << i18n("Text clips"));
     texts->setIcon(0, KIcon("text-plain"));
-    texts->setData(0, Qt::UserRole, i18n("texts"));
+    texts->setData(0, Qt::UserRole, "texts");
     texts->setExpanded(false);
     QTreeWidgetItem *others = new QTreeWidgetItem(files_list, QStringList() << i18n("Other clips"));
     others->setIcon(0, KIcon("unknown"));
-    others->setData(0, Qt::UserRole, i18n("others"));
+    others->setData(0, Qt::UserRole, "others");
     others->setExpanded(false);
     QTreeWidgetItem *lumas = new QTreeWidgetItem(files_list, QStringList() << i18n("Luma files"));
     lumas->setIcon(0, KIcon("image-x-generic"));
-    lumas->setData(0, Qt::UserRole, i18n("lumas"));
+    lumas->setData(0, Qt::UserRole, "lumas");
     lumas->setExpanded(false);
-
+    
+    QTreeWidgetItem *proxies = new QTreeWidgetItem(files_list, QStringList() << i18n("Proxy clips"));
+    proxies->setIcon(0, KIcon("video-x-generic"));
+    proxies->setData(0, Qt::UserRole, "proxy");
+    proxies->setExpanded(false);
+    
     // process all files
     QStringList allFonts;
     KUrl::List fileUrls;
@@ -87,28 +91,37 @@ ArchiveWidget::ArchiveWidget(QDomDocument doc, QList <DocClipBase*> list, QStrin
     QStringList videoUrls;
     QStringList imageUrls;
     QStringList otherUrls;
+    QStringList proxyUrls;
 
     for (int i = 0; i < list.count(); i++) {
         DocClipBase *clip = list.at(i);
-        if (clip->clipType() == SLIDESHOW) {    
+        CLIPTYPE t = clip->clipType();
+        if (t == SLIDESHOW) {
             QStringList subfiles = ProjectSettings::extractSlideshowUrls(clip->fileURL());
             foreach(const QString & file, subfiles) {
                 kDebug()<<"SLIDE: "<<file;
                 new QTreeWidgetItem(slideshows, QStringList() << file);
                 m_requestedSize += QFileInfo(file).size();
             }
-        } else if (!clip->fileURL().isEmpty()) {
-            if (clip->clipType() == AUDIO) audioUrls << clip->fileURL().path();
-            else videoUrls << clip->fileURL().path();
         }
-        if (clip->clipType() == TEXT) {
+        else if (t == IMAGE) imageUrls << clip->fileURL().path();
+        else if (t == TEXT) {
             QStringList imagefiles = TitleWidget::extractImageList(clip->getProperty("xmldata"));
             QStringList fonts = TitleWidget::extractFontList(clip->getProperty("xmldata"));
             imageUrls << imagefiles;
             allFonts << fonts;
-        } else if (clip->clipType() == PLAYLIST) {
+        } else if (t == PLAYLIST) {
             QStringList files = ProjectSettings::extractPlaylistUrls(clip->fileURL().path());
             otherUrls << files;
+        }
+        else if (!clip->fileURL().isEmpty()) {
+            if (t == AUDIO) audioUrls << clip->fileURL().path();
+            else {
+                videoUrls << clip->fileURL().path();
+                // Check if we have a proxy
+                QString proxy = clip->getProperty("proxy");
+                if (!proxy.isEmpty() && proxy != "-" && QFile::exists(proxy)) proxyUrls << proxy;
+            }
         }
     }
 
@@ -117,6 +130,7 @@ ArchiveWidget::ArchiveWidget(QDomDocument doc, QList <DocClipBase*> list, QStrin
     generateItems(images, imageUrls);
     //generateItems(slideshows, slideUrls);
     generateItems(others, otherUrls);
+    generateItems(proxies, proxyUrls);
     
 #if QT_VERSION >= 0x040500
     allFonts.removeDuplicates();
@@ -310,9 +324,11 @@ bool ArchiveWidget::processProjectFile()
             }
         }
     }
-    // process kdenlive producers
-            
+    
+    // process kdenlive producers           
     QDomElement mlt = m_doc.documentElement();
+    QString root = mlt.attribute("root") + "/";
+    
     QDomNodeList prods = mlt.elementsByTagName("kdenlive_producer");
     for (int i = 0; i < prods.count(); i++) {
         QDomElement e = prods.item(i).toElement();
@@ -321,6 +337,43 @@ bool ArchiveWidget::processProjectFile()
             KUrl src(e.attribute("resource"));
             KUrl dest = m_replacementList.value(src);
             if (!dest.isEmpty()) e.setAttribute("resource", dest.path());
+        }
+        if (e.hasAttribute("proxy") && e.attribute("proxy") != "-") {
+            KUrl src(e.attribute("proxy"));
+            KUrl dest = m_replacementList.value(src);
+            if (!dest.isEmpty()) e.setAttribute("proxy", dest.path());
+        }
+    }
+
+    // process mlt producers
+    prods = mlt.elementsByTagName("producer");
+    for (int i = 0; i < prods.count(); i++) {
+        QDomElement e = prods.item(i).toElement();
+        if (e.isNull()) continue;
+        QString src = EffectsList::property(e, "resource");
+        if (!src.isEmpty()) {
+            if (!src.startsWith('/')) src.prepend(root);
+            KUrl srcUrl(src);
+            KUrl dest = m_replacementList.value(src);
+            if (!dest.isEmpty()) EffectsList::setProperty(e, "resource", dest.path());
+        }
+    }
+
+    // process mlt transitions (for luma files)
+    prods = mlt.elementsByTagName("transition");
+    QString attribute;
+    for (int i = 0; i < prods.count(); i++) {
+        QDomElement e = prods.item(i).toElement();
+        if (e.isNull()) continue;
+        attribute = "resource";
+        QString src = EffectsList::property(e, attribute);
+        if (src.isEmpty()) attribute = "luma";
+        src = EffectsList::property(e, attribute);
+        if (!src.isEmpty()) {
+            if (!src.startsWith('/')) src.prepend(root);
+            KUrl srcUrl(src);
+            KUrl dest = m_replacementList.value(src);
+            if (!dest.isEmpty()) EffectsList::setProperty(e, attribute, dest.path());
         }
     }
 
