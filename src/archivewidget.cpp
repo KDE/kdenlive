@@ -50,6 +50,7 @@ ArchiveWidget::ArchiveWidget(QString projectName, QDomDocument doc, QList <DocCl
     archive_url->setUrl(KUrl(QDir::homePath()));
     connect(archive_url, SIGNAL(textChanged (const QString &)), this, SLOT(slotCheckSpace()));
     connect(this, SIGNAL(archivingFinished(bool)), this, SLOT(slotArchivingFinished(bool)));
+    connect(this, SIGNAL(archiveProgress(int)), this, SLOT(slotArchivingProgress(int)));
 
     // Setup categories
     QTreeWidgetItem *videos = new QTreeWidgetItem(files_list, QStringList() << i18n("Video clips"));
@@ -308,10 +309,6 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
         repaint();
         archive_url->setEnabled(false);
         compressed_archive->setEnabled(false);
-        m_progressTimer = new QTimer(this);
-        connect(m_progressTimer, SIGNAL(timeout()), this, SLOT(updateProgress()));
-        m_progressTimer->setSingleShot(false);
-        m_progressTimer->setInterval(700);
     }
     KUrl::List files;
     KUrl destUrl;
@@ -535,7 +532,6 @@ bool ArchiveWidget::processProjectFile()
         m_temp->write(m_doc.toString().toUtf8());
         m_temp->close();
         m_archiveThread = QtConcurrent::run(this, &ArchiveWidget::createArchive);
-        m_progressTimer->start();
         return true;
     }
     
@@ -562,19 +558,22 @@ void ArchiveWidget::createArchive()
     QFileInfo dirInfo(archive_url->url().path());
     QString user = dirInfo.owner();
     QString group = dirInfo.group();
-    KTar archive(archive_url->url().path(KUrl::AddTrailingSlash) + m_name + ".tar.gz");
+    KTar archive(archive_url->url().path(KUrl::AddTrailingSlash) + m_name + ".tar.gz", "application/x-gzip");
     archive.open( QIODevice::WriteOnly );
-    kDebug()<<"ARCHIVE: "<<archive.device();
+
     // Create folders
     foreach(const QString &path, m_foldersList) {
         archive.writeDir(path, user, group);
     }
 
     // Add files
+    int ix = 0;
     QMapIterator<QString, QString> i(m_filesList);
     while (i.hasNext()) {
         i.next();
         archive.addLocalFile(i.key(), i.value());
+        emit archiveProgress((int) 100 * ix / m_filesList.count());
+        ix++;
     }
 
     // Add project file
@@ -594,6 +593,7 @@ void ArchiveWidget::slotArchivingFinished(bool result)
         icon_info->setPixmap(KIcon("dialog-close").pixmap(16, 16));
         text_info->setText(i18n("There was an error processing project file"));
     }
+    progressBar->setValue(100);
     buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Archive"));
     archive_url->setEnabled(true);
     compressed_archive->setEnabled(true);
@@ -602,10 +602,9 @@ void ArchiveWidget::slotArchivingFinished(bool result)
         for (int j = 0; j < files_list->topLevelItem(i)->childCount(); j++)
             files_list->topLevelItem(i)->child(j)->setDisabled(false);
     }
-    m_progressTimer->stop();
 }
 
-void ArchiveWidget::updateProgress()
+void ArchiveWidget::slotArchivingProgress(int p)
 {
-    int process = 100;
+    progressBar->setValue(p);
 }

@@ -57,7 +57,7 @@ private slots:
     virtual void done ( int r );
     bool closeAccepted();
     void createArchive();
-    void updateProgress();
+    void slotArchivingProgress(int);
     void slotArchivingFinished(bool result);
 
 protected:
@@ -75,7 +75,6 @@ private:
     QFuture<void> m_archiveThread;
     QStringList m_foldersList;
     QMap <QString, QString> m_filesList;
-    QTimer *m_progressTimer;
 
     /** @brief Generate tree widget subitems from a string list of urls. */
     void generateItems(QTreeWidgetItem *parentItem, QStringList items);
@@ -84,6 +83,7 @@ private:
 
 signals:
     void archivingFinished(bool);
+    void archiveProgress(int);
 
 };
 
