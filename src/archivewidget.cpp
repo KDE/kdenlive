@@ -677,7 +677,14 @@ void ArchiveWidget::slotArchivingProgress(int p)
 
 void ArchiveWidget::slotStartExtracting()
 {
+    if (m_archiveThread.isRunning()) {
+        //TODO: abort extracting
+        return;
+    }
     KIO::NetAccess::mkdir(archive_url->url().path(KUrl::RemoveTrailingSlash), this);
+    icon_info->setPixmap(KIcon("system-run").pixmap(16, 16));
+    text_info->setText(i18n("Extracting..."));
+    buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Abort"));
     m_archiveThread = QtConcurrent::run(this, &ArchiveWidget::doExtracting);
 }
 
