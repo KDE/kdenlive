@@ -29,11 +29,11 @@
 #include <QLabel>
 #include <QDialog>
 #include <QList>
-#include <KIO/Job>
 #include <KIO/CopyJob>
 #include <KTemporaryFile>
 
 class KJob;
+class KTar;
 
 /**
  * @class ArchiveWidget
@@ -66,6 +66,8 @@ private slots:
     void slotStartExtracting();
     void doExtracting();
     void slotExtractingFinished();
+    void slotExtractProgress();
+    void slotGotProgress(KJob*);
 
 protected:
     virtual void closeEvent ( QCloseEvent * e );
@@ -85,6 +87,8 @@ private:
     bool m_extractMode;
     KUrl m_extractUrl;
     QString m_projectName;
+    QTimer *m_progressTimer;
+    KTar *m_extractArchive;
 
     /** @brief Generate tree widget subitems from a string list of urls. */
     void generateItems(QTreeWidgetItem *parentItem, QStringList items);
@@ -95,7 +99,6 @@ signals:
     void archivingFinished(bool);
     void archiveProgress(int);
     void extractingFinished();
-
 };
 
 

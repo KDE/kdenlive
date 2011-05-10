@@ -31,6 +31,7 @@
 #include <KTar>
 #include <KDebug>
 #include <KApplication>
+#include <kio/directorysizejob.h>
 
 #include <QTreeWidget>
 #include <QtConcurrentRun>
@@ -44,7 +45,8 @@ ArchiveWidget::ArchiveWidget(QString projectName, QDomDocument doc, QList <DocCl
         m_name(projectName.section('.', 0, -2)),
         m_doc(doc),
         m_abortArchive(false),
-        m_extractMode(false)
+        m_extractMode(false),
+        m_extractArchive(NULL)
 {
     setAttribute(Qt::WA_DeleteOnClose);
     setupUi(this);
@@ -181,12 +183,12 @@ ArchiveWidget::ArchiveWidget(const KUrl &url, QWidget * parent):
     m_extractUrl(url)
 {
     //setAttribute(Qt::WA_DeleteOnClose);
-    KTar archive(url.path());
-    archive.open( QIODevice::ReadOnly );
+    m_extractArchive = new KTar(url.path());
+    m_extractArchive->open( QIODevice::ReadOnly );
 
     // Check that it is a kdenlive project archive
     bool isProjectArchive = false;
-    QStringList files = archive.directory()->entries();
+    QStringList files = m_extractArchive->directory()->entries();
     for (int i = 0; i < files.count(); i++) {
         if (files.at(i).endsWith(".kdenlive")) {
             m_projectName = files.at(i);
@@ -194,10 +196,10 @@ ArchiveWidget::ArchiveWidget(const KUrl &url, QWidget * parent):
             break;
         }
     }
-    archive.close();
 
     if (!isProjectArchive) {
         KMessageBox::sorry(kapp->activeWindow(), i18n("%1 is not an archived Kdenlive project", url.path(), i18n("Cannot open file")));
+        m_extractArchive->close();
         hide();
         //HACK: find a better way to terminate the dialog
         QTimer::singleShot(50, this, SLOT(reject()));
@@ -219,6 +221,7 @@ ArchiveWidget::ArchiveWidget(const KUrl &url, QWidget * parent):
 
 ArchiveWidget::~ArchiveWidget()
 {
+    if (m_extractArchive) delete m_extractArchive;
 }
 
 void ArchiveWidget::done ( int r )
@@ -681,19 +684,39 @@ void ArchiveWidget::slotStartExtracting()
         //TODO: abort extracting
         return;
     }
+    QFileInfo f(m_extractUrl.path());
+    m_requestedSize = f.size();
     KIO::NetAccess::mkdir(archive_url->url().path(KUrl::RemoveTrailingSlash), this);
     icon_info->setPixmap(KIcon("system-run").pixmap(16, 16));
     text_info->setText(i18n("Extracting..."));
     buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Abort"));
+    m_progressTimer = new QTimer;
+    m_progressTimer->setInterval(800);
+    m_progressTimer->setSingleShot(false);
+    connect(m_progressTimer, SIGNAL(timeout()), this, SLOT(slotExtractProgress()));
     m_archiveThread = QtConcurrent::run(this, &ArchiveWidget::doExtracting);
+    m_progressTimer->start();
+}
+
+void ArchiveWidget::slotExtractProgress()
+{
+    KIO::DirectorySizeJob *job = KIO::directorySize(archive_url->url());
+    connect(job, SIGNAL(result(KJob*)), this, SLOT(slotGotProgress(KJob*)));
+}
+
+void ArchiveWidget::slotGotProgress(KJob* job)
+{
+    if (!job->error()) {
+        KIO::DirectorySizeJob *j = static_cast <KIO::DirectorySizeJob *>(job);
+        progressBar->setValue((int) 100 * j->totalSize() / m_requestedSize);
+    }
+    job->deleteLater();
 }
 
 void ArchiveWidget::doExtracting()
 {
-    KTar archive(m_extractUrl.path());
-    archive.open( QIODevice::ReadOnly );
-    archive.directory()->copyTo(archive_url->url().path(KUrl::AddTrailingSlash));
-    archive.close();
+    m_extractArchive->directory()->copyTo(archive_url->url().path(KUrl::AddTrailingSlash));
+    m_extractArchive->close();
     emit extractingFinished();    
 }
 
@@ -704,6 +727,8 @@ QString ArchiveWidget::extractedProjectFile()
 
 void ArchiveWidget::slotExtractingFinished()
 {
+    m_progressTimer->stop();
+    delete m_progressTimer;
     // Process project file
     QFile file(extractedProjectFile());
     bool error = false;
