@@ -33,7 +33,7 @@
 #include <KTemporaryFile>
 
 class KJob;
-class KTar;
+class KArchive;
 
 /**
  * @class ArchiveWidget
@@ -68,6 +68,8 @@ private slots:
     void slotExtractingFinished();
     void slotExtractProgress();
     void slotGotProgress(KJob*);
+    void openArchiveForExtraction();
+    void slotDisplayMessage(const QString &icon, const QString &text);
 
 protected:
     virtual void closeEvent ( QCloseEvent * e );
@@ -88,7 +90,7 @@ private:
     KUrl m_extractUrl;
     QString m_projectName;
     QTimer *m_progressTimer;
-    KTar *m_extractArchive;
+    KArchive *m_extractArchive;
 
     /** @brief Generate tree widget subitems from a string list of urls. */
     void generateItems(QTreeWidgetItem *parentItem, QStringList items);
@@ -99,6 +101,7 @@ signals:
     void archivingFinished(bool);
     void archiveProgress(int);
     void extractingFinished();
+    void showMessage(const QString &, const QString &);
 };
 
 

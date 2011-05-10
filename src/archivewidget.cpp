@@ -183,8 +183,45 @@ ArchiveWidget::ArchiveWidget(const KUrl &url, QWidget * parent):
     m_extractUrl(url)
 {
     //setAttribute(Qt::WA_DeleteOnClose);
-    m_extractArchive = new KTar(url.path());
-    m_extractArchive->open( QIODevice::ReadOnly );
+
+    setupUi(this);
+    connect(this, SIGNAL(extractingFinished()), this, SLOT(slotExtractingFinished()));
+    connect(this, SIGNAL(showMessage(const QString &, const QString &)), this, SLOT(slotDisplayMessage(const QString &, const QString &)));
+    
+    compressed_archive->setHidden(true);
+    project_files->setHidden(true);
+    files_list->setHidden(true);
+    label->setText(i18n("Extract to"));
+    setWindowTitle(i18n("Open Archived Project"));
+    archive_url->setUrl(KUrl(QDir::homePath()));
+    buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Extract"));
+    connect(buttonBox->button(QDialogButtonBox::Apply), SIGNAL(clicked()), this, SLOT(slotStartExtracting()));
+    buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
+    adjustSize();
+    m_archiveThread = QtConcurrent::run(this, &ArchiveWidget::openArchiveForExtraction);
+}
+
+
+ArchiveWidget::~ArchiveWidget()
+{
+    if (m_extractArchive) delete m_extractArchive;
+}
+
+void ArchiveWidget::slotDisplayMessage(const QString &icon, const QString &text)
+{
+    icon_info->setPixmap(KIcon(icon).pixmap(16, 16));
+    text_info->setText(text);
+}
+
+void ArchiveWidget::openArchiveForExtraction()
+{
+    emit showMessage("system-run", i18n("Opening archive..."));
+    m_extractArchive = new KTar(m_extractUrl.path());
+    if (!m_extractArchive->isOpen() && !m_extractArchive->open( QIODevice::ReadOnly )) {
+        emit showMessage("dialog-close", i18n("Cannot open archive file:\n %1", m_extractUrl.path()));
+        groupBox->setEnabled(false);
+        return;
+    }
 
     // Check that it is a kdenlive project archive
     bool isProjectArchive = false;
@@ -198,30 +235,12 @@ ArchiveWidget::ArchiveWidget(const KUrl &url, QWidget * parent):
     }
 
     if (!isProjectArchive) {
-        KMessageBox::sorry(kapp->activeWindow(), i18n("%1 is not an archived Kdenlive project", url.path(), i18n("Cannot open file")));
-        m_extractArchive->close();
-        hide();
-        //HACK: find a better way to terminate the dialog
-        QTimer::singleShot(50, this, SLOT(reject()));
+        emit showMessage("dialog-close", i18n("File %1\n is not an archived Kdenlive project", m_extractUrl.path()));
+        groupBox->setEnabled(false);
         return;
     }
-    setupUi(this);
-    connect(this, SIGNAL(extractingFinished()), this, SLOT(slotExtractingFinished()));
-    
-    compressed_archive->setHidden(true);
-    project_files->setHidden(true);
-    files_list->setHidden(true);
-    label->setText(i18n("Extract to"));
-    setWindowTitle(i18n("Open Archived Project"));
-    archive_url->setUrl(KUrl(QDir::homePath()));
-    buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Extract"));
-    connect(buttonBox->button(QDialogButtonBox::Apply), SIGNAL(clicked()), this, SLOT(slotStartExtracting()));
-}
-
-
-ArchiveWidget::~ArchiveWidget()
-{
-    if (m_extractArchive) delete m_extractArchive;
+    buttonBox->button(QDialogButtonBox::Apply)->setEnabled(true);
+    emit showMessage("dialog-ok", i18n("Ready"));
 }
 
 void ArchiveWidget::done ( int r )
@@ -325,13 +344,11 @@ void ArchiveWidget::slotCheckSpace()
     if (freeSize > m_requestedSize) {
         // everything is ok
         buttonBox->button(QDialogButtonBox::Apply)->setEnabled(true);
-        icon_info->setPixmap(KIcon("dialog-ok").pixmap(16, 16));
-        text_info->setText(i18n("Available space on drive: %1", KIO::convertSize(freeSize)));
+        slotDisplayMessage("dialog-ok", i18n("Available space on drive: %1", KIO::convertSize(freeSize)));
     }
     else {
         buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
-        icon_info->setPixmap(KIcon("dialog-close").pixmap(16, 16));
-        text_info->setText(i18n("Not enough space on drive, free space: %1", KIO::convertSize(freeSize)));
+        slotDisplayMessage("dialog-close", i18n("Not enough space on drive, free space: %1", KIO::convertSize(freeSize)));
     }
 }
 
@@ -352,8 +369,7 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
         m_replacementList.clear();
         m_foldersList.clear();
         m_filesList.clear();
-        icon_info->setPixmap(KIcon("system-run").pixmap(16, 16));
-        text_info->setText(i18n("Archiving..."));
+        slotDisplayMessage("system-run", i18n("Archiving..."));
         repaint();
         archive_url->setEnabled(false);
         compressed_archive->setEnabled(false);
@@ -462,19 +478,16 @@ void ArchiveWidget::slotArchivingFinished(KJob *job)
             // Archiving finished
             progressBar->setValue(100);
             if (processProjectFile()) {
-                icon_info->setPixmap(KIcon("dialog-ok").pixmap(16, 16));
-                text_info->setText(i18n("Project was successfully archived."));
+                slotDisplayMessage("dialog-ok", i18n("Project was successfully archived."));
             }
             else {
-                icon_info->setPixmap(KIcon("dialog-close").pixmap(16, 16));
-                text_info->setText(i18n("There was an error processing project file"));
+                slotDisplayMessage("dialog-close", i18n("There was an error processing project file"));
             }
         } else processProjectFile();
     }
     else {
         m_copyJob = NULL;
-        icon_info->setPixmap(KIcon("dialog-close").pixmap(16, 16));
-        text_info->setText(i18n("There was an error while copying the files: %1", job->errorString()));
+        slotDisplayMessage("dialog-close", i18n("There was an error while copying the files: %1", job->errorString()));
     }
     if (!compressed_archive->isChecked()) {
         buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Archive"));
@@ -655,12 +668,10 @@ void ArchiveWidget::createArchive()
 void ArchiveWidget::slotArchivingFinished(bool result)
 {
     if (result) {
-        icon_info->setPixmap(KIcon("dialog-ok").pixmap(16, 16));
-        text_info->setText(i18n("Project was successfully archived."));
+        slotDisplayMessage("dialog-ok", i18n("Project was successfully archived."));
     }
     else {
-        icon_info->setPixmap(KIcon("dialog-close").pixmap(16, 16));
-        text_info->setText(i18n("There was an error processing project file"));
+        slotDisplayMessage("dialog-close", i18n("There was an error processing project file"));
     }
     progressBar->setValue(100);
     buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Archive"));
@@ -687,8 +698,7 @@ void ArchiveWidget::slotStartExtracting()
     QFileInfo f(m_extractUrl.path());
     m_requestedSize = f.size();
     KIO::NetAccess::mkdir(archive_url->url().path(KUrl::RemoveTrailingSlash), this);
-    icon_info->setPixmap(KIcon("system-run").pixmap(16, 16));
-    text_info->setText(i18n("Extracting..."));
+    slotDisplayMessage("system-run", i18n("Extracting..."));
     buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Abort"));
     m_progressTimer = new QTimer;
     m_progressTimer->setInterval(800);
