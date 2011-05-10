@@ -607,11 +607,14 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
         return;
     }
 
-    if (proxyProducer && xml.hasAttribute("proxy_out") && producer->get_out() != xml.attribute("proxy_out").toInt()) {
-        // Proxy file length is different than original clip length, this will corrupt project so disable this proxy clip
-        emit removeInvalidProxy(clipId, true);
-        delete producer;
-        return;
+    if (proxyProducer && xml.hasAttribute("proxy_out")) {
+        producer->set("out", xml.attribute("proxy_out").toInt());
+        if (producer->get_out() != xml.attribute("proxy_out").toInt()) {
+            // Proxy file length is different than original clip length, this will corrupt project so disable this proxy clip
+            emit removeInvalidProxy(clipId, true);
+            delete producer;
+            return;
+        }
     }
 
     if (xml.hasAttribute("force_aspect_ratio")) {
