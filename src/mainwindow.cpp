@@ -1908,7 +1908,7 @@ bool MainWindow::saveFileAs(const QString &outputFileName)
 
 bool MainWindow::saveFileAs()
 {
-    QString outputFile = KFileDialog::getSaveFileName(m_activeDocument->projectFolder(), getMimeType());
+    QString outputFile = KFileDialog::getSaveFileName(m_activeDocument->projectFolder(), getMimeType(false));
     if (outputFile.isEmpty()) {
         return false;
     }
@@ -1956,6 +1956,17 @@ void MainWindow::openLastFile()
 
 void MainWindow::openFile(const KUrl &url)
 {
+    // Make sure the url is a Kdenlive project file
+    KMimeType::Ptr mime = KMimeType::findByUrl(url);
+    if (mime.data()->is("application/x-compressed-tar")) {
+        // Opening a compressed project file, we need to process it
+        kDebug()<<"Opening archive, processing";
+        ArchiveWidget *ar = new ArchiveWidget(url);
+        if (ar->exec() == QDialog::Accepted) openFile(KUrl(ar->extractedProjectFile()));
+        delete ar;
+        return;
+    }
+    
     // Check if the document is already opened
     const int ct = m_timelineArea->count();
     bool isOpened = false;
@@ -4112,11 +4123,12 @@ void MainWindow::slotSwitchTitles()
     slotShowTitleBars(!KdenliveSettings::showtitlebars());
 }
 
-QString MainWindow::getMimeType()
+QString MainWindow::getMimeType(bool open)
 {
     QString mimetype = "application/x-kdenlive";
     KMimeType::Ptr mime = KMimeType::mimeType(mimetype);
     if (!mime) mimetype = "*.kdenlive";
+    if (open) mimetype.append(" application/x-compressed-tar");
     return mimetype;
 }
 

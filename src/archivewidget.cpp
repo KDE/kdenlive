@@ -29,8 +29,9 @@
 #include <KGuiItem>
 #include <KIO/NetAccess>
 #include <KTar>
-
 #include <KDebug>
+#include <KApplication>
+
 #include <QTreeWidget>
 #include <QtConcurrentRun>
 #include "projectsettings.h"
@@ -42,7 +43,8 @@ ArchiveWidget::ArchiveWidget(QString projectName, QDomDocument doc, QList <DocCl
         m_copyJob(NULL),
         m_name(projectName.section('.', 0, -2)),
         m_doc(doc),
-        m_abortArchive(false)
+        m_abortArchive(false),
+        m_extractMode(false)
 {
     setAttribute(Qt::WA_DeleteOnClose);
     setupUi(this);
@@ -172,6 +174,49 @@ ArchiveWidget::ArchiveWidget(QString projectName, QDomDocument doc, QList <DocCl
     slotCheckSpace();
 }
 
+// Constructor for extract widget
+ArchiveWidget::ArchiveWidget(const KUrl &url, QWidget * parent):
+    QDialog(parent),
+    m_extractMode(true),
+    m_extractUrl(url)
+{
+    //setAttribute(Qt::WA_DeleteOnClose);
+    KTar archive(url.path());
+    archive.open( QIODevice::ReadOnly );
+
+    // Check that it is a kdenlive project archive
+    bool isProjectArchive = false;
+    QStringList files = archive.directory()->entries();
+    for (int i = 0; i < files.count(); i++) {
+        if (files.at(i).endsWith(".kdenlive")) {
+            m_projectName = files.at(i);
+            isProjectArchive = true;
+            break;
+        }
+    }
+    archive.close();
+
+    if (!isProjectArchive) {
+        KMessageBox::sorry(kapp->activeWindow(), i18n("%1 is not an archived Kdenlive project", url.path(), i18n("Cannot open file")));
+        hide();
+        //HACK: find a better way to terminate the dialog
+        QTimer::singleShot(50, this, SLOT(reject()));
+        return;
+    }
+    setupUi(this);
+    connect(this, SIGNAL(extractingFinished()), this, SLOT(slotExtractingFinished()));
+    
+    compressed_archive->setHidden(true);
+    project_files->setHidden(true);
+    files_list->setHidden(true);
+    label->setText(i18n("Extract to"));
+    setWindowTitle(i18n("Open Archived Project"));
+    archive_url->setUrl(KUrl(QDir::homePath()));
+    buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Extract"));
+    connect(buttonBox->button(QDialogButtonBox::Apply), SIGNAL(clicked()), this, SLOT(slotStartExtracting()));
+}
+
+
 ArchiveWidget::~ArchiveWidget()
 {
 }
@@ -191,7 +236,7 @@ void ArchiveWidget::closeEvent ( QCloseEvent * e )
 
 bool ArchiveWidget::closeAccepted()
 {
-    if (!archive_url->isEnabled()) {
+    if (!m_extractMode && !archive_url->isEnabled()) {
         // Archiving in progress, should we stop?
         if (KMessageBox::warningContinueCancel(this, i18n("Archiving in progress, do you want to stop it?"), i18n("Stop Archiving"), KGuiItem(i18n("Stop Archiving"))) != KMessageBox::Continue) {
             return false;
@@ -450,6 +495,8 @@ bool ArchiveWidget::processProjectFile()
 {
     KUrl destUrl;
     QTreeWidgetItem *item;
+    bool isArchive = compressed_archive->isChecked();
+
     for (int i = 0; i < files_list->topLevelItemCount(); i++) {
         QTreeWidgetItem *parentItem = files_list->topLevelItem(i);
         if (parentItem->childCount() > 0) {
@@ -473,10 +520,18 @@ bool ArchiveWidget::processProjectFile()
         }
     }
     
-    // process kdenlive producers           
     QDomElement mlt = m_doc.documentElement();
     QString root = mlt.attribute("root") + "/";
-    mlt.setAttribute("root", archive_url->url().path(KUrl::RemoveTrailingSlash));
+
+    // Adjust global settings
+    QString basePath;
+    if (isArchive) basePath = "$CURRENTPATH";
+    else basePath = archive_url->url().path(KUrl::RemoveTrailingSlash);
+    mlt.setAttribute("root", basePath);
+    QDomElement project = mlt.elementsByTagName("kdenlivedoc").at(0).toElement();
+    project.setAttribute("projectfolder", basePath);
+
+    // process kdenlive producers
     QDomNodeList prods = mlt.elementsByTagName("kdenlive_producer");
     for (int i = 0; i < prods.count(); i++) {
         QDomElement e = prods.item(i).toElement();
@@ -525,11 +580,22 @@ bool ArchiveWidget::processProjectFile()
         }
     }
 
-    bool isArchive = compressed_archive->isChecked();
+    QString playList = m_doc.toString();
+    if (isArchive) {
+        QString startString("\"");
+        startString.append(archive_url->url().path(KUrl::RemoveTrailingSlash));
+        QString endString("\"");
+        endString.append(basePath);
+        playList.replace(startString, endString);
+        startString = ">" + archive_url->url().path(KUrl::RemoveTrailingSlash);
+        endString = ">" + basePath;
+        playList.replace(startString, endString);
+    }
+
     if (isArchive) {
         m_temp = new KTemporaryFile;
         if (!m_temp->open()) KMessageBox::error(this, i18n("Cannot create temporary file"));
-        m_temp->write(m_doc.toString().toUtf8());
+        m_temp->write(playList.toUtf8());
         m_temp->close();
         m_archiveThread = QtConcurrent::run(this, &ArchiveWidget::createArchive);
         return true;
@@ -607,4 +673,60 @@ void ArchiveWidget::slotArchivingFinished(bool result)
 void ArchiveWidget::slotArchivingProgress(int p)
 {
     progressBar->setValue(p);
+}
+
+void ArchiveWidget::slotStartExtracting()
+{
+    KIO::NetAccess::mkdir(archive_url->url().path(KUrl::RemoveTrailingSlash), this);
+    m_archiveThread = QtConcurrent::run(this, &ArchiveWidget::doExtracting);
+}
+
+void ArchiveWidget::doExtracting()
+{
+    KTar archive(m_extractUrl.path());
+    archive.open( QIODevice::ReadOnly );
+    archive.directory()->copyTo(archive_url->url().path(KUrl::AddTrailingSlash));
+    archive.close();
+    emit extractingFinished();    
+}
+
+QString ArchiveWidget::extractedProjectFile()
+{
+    return archive_url->url().path(KUrl::AddTrailingSlash) + m_projectName;
+}
+
+void ArchiveWidget::slotExtractingFinished()
+{
+    // Process project file
+    QFile file(extractedProjectFile());
+    bool error = false;
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        error = true;
+    }
+    else {
+        QString playList = file.readAll();
+        file.close();
+        if (playList.isEmpty()) {
+            error = true;
+        }
+        else {
+            playList.replace("$CURRENTPATH", archive_url->url().path(KUrl::RemoveTrailingSlash));
+            if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+                kWarning() << "//////  ERROR writing to file: ";
+                error = true;
+            }
+            else {
+                file.write(playList.toUtf8());
+                if (file.error() != QFile::NoError) {
+                    error = true;
+                }
+                file.close();
+            }
+        }
+    }
+    if (error) {
+        KMessageBox::sorry(kapp->activeWindow(), i18n("Cannot open project file %1", extractedProjectFile()), i18n("Cannot open file"));
+        reject();
+    }
+    else accept();
 }

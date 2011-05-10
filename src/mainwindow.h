@@ -296,8 +296,9 @@ private:
     QPixmap createSchemePreviewIcon(const KSharedConfigPtr &config);
 
     /** @brief Checks that the Kdenlive mime type is correctly installed.
+    * @param open If set to true, this will return the mimetype allowed for file opening (adds .tar.gz format)
     * @return The mimetype */
-    QString getMimeType();
+    QString getMimeType(bool open = true);
 
     /** @brief Populates the "load layout" menu. */
     void loadLayouts();

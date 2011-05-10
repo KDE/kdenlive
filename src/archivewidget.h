@@ -47,7 +47,11 @@ class ArchiveWidget : public QDialog, public Ui::ArchiveWidget_UI
 
 public:
     ArchiveWidget(QString projectName, QDomDocument doc, QList <DocClipBase*> list, QStringList luma_list, QWidget * parent = 0);
+    // Constructor for extracting widget
+    ArchiveWidget(const KUrl &url, QWidget * parent = 0);
     ~ArchiveWidget();
+
+    QString extractedProjectFile();
     
 private slots:
     void slotCheckSpace();
@@ -59,6 +63,9 @@ private slots:
     void createArchive();
     void slotArchivingProgress(int);
     void slotArchivingFinished(bool result);
+    void slotStartExtracting();
+    void doExtracting();
+    void slotExtractingFinished();
 
 protected:
     virtual void closeEvent ( QCloseEvent * e );
@@ -75,6 +82,9 @@ private:
     QFuture<void> m_archiveThread;
     QStringList m_foldersList;
     QMap <QString, QString> m_filesList;
+    bool m_extractMode;
+    KUrl m_extractUrl;
+    QString m_projectName;
 
     /** @brief Generate tree widget subitems from a string list of urls. */
     void generateItems(QTreeWidgetItem *parentItem, QStringList items);
@@ -84,6 +94,7 @@ private:
 signals:
     void archivingFinished(bool);
     void archiveProgress(int);
+    void extractingFinished();
 
 };
 
