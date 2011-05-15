@@ -264,15 +264,19 @@ Mlt::Repository *initEffects::parseEffectFiles()
         effectInfo = MainWindow::videoEffects.at(i);
         effectsMap.insert(effectInfo.elementsByTagName("name").item(0).toElement().text().toLower().toUtf8().data(), effectInfo);
     }
-    // Add remaining filters to the list of video effects.
+    // Add remaining filters
     foreach(const QString & filtername, filtersList) {
         QDomDocument doc = createDescriptionFromMlt(repository, "filters", filtername);
         if (!doc.isNull())
             effectsMap.insert(doc.documentElement().elementsByTagName("name").item(0).toElement().text().toLower().toUtf8().data(), doc.documentElement());
     }
     MainWindow::videoEffects.clearList();
-    foreach(const QDomElement & effect, effectsMap)
-    MainWindow::videoEffects.append(effect);
+    foreach(const QDomElement & effect, effectsMap) {
+        if (effect.attribute("type") == "audio")
+            MainWindow::audioEffects.append(effect);
+        else
+            MainWindow::videoEffects.append(effect);
+    }
 
     return repository;
 }
@@ -580,8 +584,10 @@ QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, 
     if (metadata && metadata->is_valid()) {
         if (metadata->get("title") && metadata->get("identifier")) {
             QDomElement eff = ret.createElement("effect");
-            eff.setAttribute("tag", metadata->get("identifier"));
-            eff.setAttribute("id", metadata->get("identifier"));
+            QString id = metadata->get("identifier");
+            eff.setAttribute("tag", id);
+            eff.setAttribute("id", id);
+            if (id.startsWith("ladspa")) eff.setAttribute("type", "audio");
 
             QDomElement name = ret.createElement("name");
             name.appendChild(ret.createTextNode(metadata->get("title")));
