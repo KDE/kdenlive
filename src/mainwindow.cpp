@@ -3849,6 +3849,9 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
         for (uint n = 0; n < producers.length(); n++) {
             QDomElement e = producers.item(n).toElement();
             producerResource = EffectsList::property(e, "resource");
+            if (!producerResource.startsWith("/") && !producerResource.isEmpty() ){
+                producerResource=root+"/"+producerResource;
+            }
             if (producerResource.contains('?')) {
                 suffix = "?" + producerResource.section('?', 1);
                 producerResource = producerResource.section('?', 0, 0);
