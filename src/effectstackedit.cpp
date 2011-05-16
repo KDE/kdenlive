@@ -259,19 +259,19 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, ItemInfo info, bool
         /** See effects/README for info on the different types */
 
         if (type == "double" || type == "constant") {
-            int min;
-            int max;
+            double min;
+            double max;
             if (pa.attribute("min").startsWith('%'))
-                min = (int) ProfilesDialog::getStringEval(m_profile, pa.attribute("min"));
+                min = ProfilesDialog::getStringEval(m_profile, pa.attribute("min"));
             else
-                min = pa.attribute("min").toInt();
+                min = pa.attribute("min").toDouble();
             if (pa.attribute("max").startsWith('%'))
-                max = (int) ProfilesDialog::getStringEval(m_profile, pa.attribute("max"));
+                max = ProfilesDialog::getStringEval(m_profile, pa.attribute("max"));
             else
-                max = pa.attribute("max").toInt();
+                max = pa.attribute("max").toDouble();
 
-            DoubleParameterWidget *doubleparam = new DoubleParameterWidget(paramName, (int)(value.toDouble() + 0.5), min, max,
-                    pa.attribute("default").toInt(), comment, -1, pa.attribute("suffix"), this);
+            DoubleParameterWidget *doubleparam = new DoubleParameterWidget(paramName, value.toDouble(), min, max,
+                    pa.attribute("default").toDouble(), comment, -1, pa.attribute("suffix"), pa.attribute("decimals").toInt(), this);
             m_vbox->addWidget(doubleparam);
             m_valueItems[paramName] = doubleparam;
             connect(doubleparam, SIGNAL(valueChanged(int)), this, SLOT(collectAllParameters()));

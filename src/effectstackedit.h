@@ -57,6 +57,8 @@ public:
     void setFrameSize(QPoint p);
     /** @brief Tells the parameters to update their timecode format according to KdenliveSettings. */
     void updateTimecodeFormat();
+    /** @brief Returns true if this effect wants to keep track of current position in clip. */
+    bool effectNeedsSyncPosition() const;
 
 private:
     /** @brief Deletes all parameter widgets. */

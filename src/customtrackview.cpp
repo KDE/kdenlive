@@ -6318,10 +6318,15 @@ QStringList CustomTrackView::extractTransitionsLumas()
         if (itemList.at(i)->type() == TRANSITIONWIDGET) {
             transitionitem = static_cast <Transition*>(itemList.at(i));
             transitionXml = transitionitem->toXML();
+            // luma files in transitions can be in "resource" or "luma" property
             QString luma = EffectsList::parameter(transitionXml, "luma");
-            if (!luma.isEmpty()) urls << luma;
+            if (luma.isEmpty()) luma = EffectsList::parameter(transitionXml, "resource");
+            if (!luma.isEmpty()) urls << KUrl(luma).path();
         }
     }
+#if QT_VERSION >= 0x040500
+    urls.removeDuplicates();
+#endif
     return urls;
 }
 

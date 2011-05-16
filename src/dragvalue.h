@@ -38,7 +38,7 @@ class CustomLabel : public QProgressBar
 {
     Q_OBJECT
 public:
-    CustomLabel(const QString &label, bool showSlider = true, int precision = 0, QWidget *parent = 0);
+    CustomLabel(const QString &label, bool showSlider = true, QWidget *parent = 0);
     void setProgressValue(double value);
     void setStep(double step);
     
@@ -54,10 +54,8 @@ private:
     QPoint m_dragStartPosition;
     QPoint m_dragLastPosition;
     bool m_dragMode;
-    double m_step;
     bool m_showSlider;
-    double m_precision;
-    double m_value;
+    double m_step;
     void slotValueInc(double factor = 1);
     void slotValueDec(double factor = 1);
     void setNewValue(double, bool);
@@ -77,7 +75,18 @@ class DragValue : public QWidget
     Q_OBJECT
 
 public:
-    DragValue(const QString &label, double defaultValue, int decimals, int id, const QString suffix, bool showSlider = true, QWidget* parent = 0);
+    /**
+    * @brief Default constructor.
+    * @param label The label that will be displayed in the progress bar
+    * @param defaultValue The default value
+    * @param decimals The number of decimals for the parameter. 0 means it is an integer
+    * @param min The minimum value
+    * @param max The maximum value
+    * @param id Used to identify this widget. If this parameter is set, "Show in Timeline" will be available in context menu.
+    * @param suffix The suffix that will be displayed in the spinbox (for example '%')
+    * @param showSlider If disabled, user can still drag on the label but no progress bar is shown
+    */    
+    DragValue(const QString &label, double defaultValue, int decimals, double min = 0, double max = 100, int id = -1, const QString suffix = QString(), bool showSlider = true, QWidget* parent = 0);
     virtual ~DragValue();
 
     /** @brief Returns the precision = number of decimals */
@@ -110,6 +119,7 @@ public:
 public slots:
     /** @brief Sets the value (forced to be in the valid range) and emits valueChanged. */
     void setValue(double value, bool final = true);
+    void setValueFromProgress(double value, bool final);
     /** @brief Resets to default value */
     void slotReset();
 

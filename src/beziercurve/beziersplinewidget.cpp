@@ -47,23 +47,17 @@ BezierSplineWidget::BezierSplineWidget(const QString& spline, QWidget* parent) :
     m_ui.buttonShowAllHandles->setIcon(KIcon("draw-bezier-curves"));
     m_ui.widgetPoint->setEnabled(false);
 
-    m_pX = new DragValue(i18n("In"), 0, 3, -1, QString(), false, this);
-    m_pX->setRange(0, 1);
+    m_pX = new DragValue(i18n("In"), 0, 3, 0, 1, -1, QString(), false, this);
     m_pX->setStep(0.001);
-    m_pY = new DragValue(i18n("Out"), 0, 3, -1, QString(), false, this);
-    m_pY->setRange(0, 1);
+    m_pY = new DragValue(i18n("Out"), 0, 3, 0, 1, -1, QString(), false, this);
     m_pY->setStep(0.001);
-    m_h1X = new DragValue(i18n("X"), 0, 3, -1, QString(), false, this);
-    m_h1X->setRange(-2, 2);
+    m_h1X = new DragValue(i18n("X"), 0, 3, -2, 2, -1, QString(), false, this);
     m_h1X->setStep(0.001);
-    m_h1Y = new DragValue(i18n("Y"), 0, 3, -1, QString(), false, this);
-    m_h1Y->setRange(-2, 2);
+    m_h1Y = new DragValue(i18n("Y"), 0, 3, -2, 2, -1, QString(), false, this);
     m_h1Y->setStep(0.001);
-    m_h2X = new DragValue(i18n("X"), 0, 3, -1, QString(), false, this);
-    m_h2X->setRange(-2, 2);
+    m_h2X = new DragValue(i18n("X"), 0, 3, -2, 2, -1, QString(), false, this);
     m_h2X->setStep(0.001);
-    m_h2Y = new DragValue(i18n("Y"), 0, 3, -1, QString(), false, this);
-    m_h2Y->setRange(-2, 2);
+    m_h2Y = new DragValue(i18n("Y"), 0, 3, -2, 2, -1, QString(), false, this);
     m_h2Y->setStep(0.001);
 
     m_ui.layoutP->addWidget(m_pX);

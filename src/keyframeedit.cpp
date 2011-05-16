@@ -116,8 +116,8 @@ void KeyframeEdit::addParameter(QDomElement e, int activeKeyframe)
     keyframe_list->setHorizontalHeaderItem(columnId, new QTableWidgetItem(paramName));
 
     DoubleParameterWidget *doubleparam = new DoubleParameterWidget(paramName, 0,
-            m_params.at(columnId).attribute("min").toInt(), m_params.at(columnId).attribute("max").toInt(),
-            m_params.at(columnId).attribute("default").toInt(), comment, columnId, m_params.at(columnId).attribute("suffix"), this);
+            m_params.at(columnId).attribute("min").toDouble(), m_params.at(columnId).attribute("max").toDouble(),
+            m_params.at(columnId).attribute("default").toDouble(), comment, columnId, m_params.at(columnId).attribute("suffix"), m_params.at(columnId).attribute("decimals").toInt(), this);
     connect(doubleparam, SIGNAL(valueChanged(int)), this, SLOT(slotAdjustKeyframeValue(int)));
     connect(this, SIGNAL(showComments(bool)), doubleparam, SLOT(slotShowComment(bool)));
     connect(doubleparam, SIGNAL(setInTimeline(int)), this, SLOT(slotUpdateVisibleParameter(int)));

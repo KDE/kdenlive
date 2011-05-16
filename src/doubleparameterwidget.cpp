@@ -26,11 +26,12 @@
 #include <QSpinBox>
 #include <QToolButton>
 
+#include <KDebug>
 #include <KIcon>
 #include <KLocalizedString>
 
 
-DoubleParameterWidget::DoubleParameterWidget(const QString &name, int value, int min, int max, int defaultValue, const QString &comment, int id, const QString suffix, QWidget *parent) :
+DoubleParameterWidget::DoubleParameterWidget(const QString &name, double value, double min, double max, double defaultValue, const QString &comment, int id, const QString suffix, int decimals, QWidget *parent) :
         QWidget(parent),
         m_commentLabel(NULL)
 {
@@ -39,9 +40,7 @@ DoubleParameterWidget::DoubleParameterWidget(const QString &name, int value, int
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
     
-    m_dragVal = new DragValue(name, defaultValue, 0, id, suffix, this);
-    m_dragVal->setRange(min, max);
-    m_dragVal->setPrecision(0);
+    m_dragVal = new DragValue(name, defaultValue, decimals, min, max, id, suffix, this);
     layout->addWidget(m_dragVal, 0, 1);
 
     if (!comment.isEmpty()) {
