@@ -121,7 +121,7 @@ private slots:
     void slotAddKeyframe();
     void slotGenerateParams(int row, int column);
     void slotAdjustKeyframePos(int value);
-    void slotAdjustKeyframeValue(int value);
+    void slotAdjustKeyframeValue(double value);
     /** @brief Turns the seek to keyframe position setting on/off.
     * @param seek true = seeking on */
     void slotSetSeeking(bool seek);

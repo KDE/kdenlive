@@ -2479,7 +2479,6 @@ bool Render::mltAddEffect(Mlt::Service service, EffectsParameterList params, int
     // create filter
     QString tag =  params.paramValue("tag");
     kDebug() << " / / INSERTING EFFECT: " << tag << ", REGI: " << region;
-    if (tag.startsWith("ladspa")) tag = "ladspa";
     char *filterTag = qstrdup(tag.toUtf8().constData());
     char *filterId = qstrdup(params.paramValue("id").toUtf8().constData());
     QHash<QString, QString>::Iterator it;

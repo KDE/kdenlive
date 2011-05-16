@@ -118,7 +118,7 @@ void KeyframeEdit::addParameter(QDomElement e, int activeKeyframe)
     DoubleParameterWidget *doubleparam = new DoubleParameterWidget(paramName, 0,
             m_params.at(columnId).attribute("min").toDouble(), m_params.at(columnId).attribute("max").toDouble(),
             m_params.at(columnId).attribute("default").toDouble(), comment, columnId, m_params.at(columnId).attribute("suffix"), m_params.at(columnId).attribute("decimals").toInt(), this);
-    connect(doubleparam, SIGNAL(valueChanged(int)), this, SLOT(slotAdjustKeyframeValue(int)));
+    connect(doubleparam, SIGNAL(valueChanged(double)), this, SLOT(slotAdjustKeyframeValue(double)));
     connect(this, SIGNAL(showComments(bool)), doubleparam, SLOT(slotShowComment(bool)));
     connect(doubleparam, SIGNAL(setInTimeline(int)), this, SLOT(slotUpdateVisibleParameter(int)));
     m_slidersLayout->addWidget(doubleparam, columnId, 0);
@@ -343,7 +343,7 @@ void KeyframeEdit::slotAdjustKeyframeInfo(bool seek)
             continue;
         doubleparam->blockSignals(true);
         if (keyframe_list->item(item->row(), col)) {
-            doubleparam->setValue(keyframe_list->item(item->row(), col)->text().toInt());
+            doubleparam->setValue(keyframe_list->item(item->row(), col)->text().toDouble());
         } else {
             kDebug() << "Null pointer exception caught: http://www.kdenlive.org/mantis/view.php?id=1771";
         }
@@ -362,7 +362,7 @@ void KeyframeEdit::slotAdjustKeyframePos(int value)
         emit seekToPos(value - m_min);
 }
 
-void KeyframeEdit::slotAdjustKeyframeValue(int value)
+void KeyframeEdit::slotAdjustKeyframeValue(double value)
 {
     Q_UNUSED(value)
 
@@ -371,9 +371,9 @@ void KeyframeEdit::slotAdjustKeyframeValue(int value)
         DoubleParameterWidget *doubleparam = static_cast <DoubleParameterWidget*>(m_slidersLayout->itemAtPosition(col, 0)->widget());
         if (!doubleparam)
             continue;
-        int val = doubleparam->getValue();
+        double val = doubleparam->getValue();
         QTableWidgetItem *nitem = keyframe_list->item(item->row(), col);
-        if (nitem && nitem->text().toInt() != val)
+        if (nitem && nitem->text().toDouble() != val)
             nitem->setText(QString::number(val));
     }
     //keyframe_list->item(item->row() - 1, item->column());

@@ -54,7 +54,7 @@ DoubleParameterWidget::DoubleParameterWidget(const QString &name, double value, 
         layout->addWidget(m_commentLabel, 1, 0, 1, -1);
     }
     m_dragVal->setValue(value);
-    connect(m_dragVal, SIGNAL(valueChanged(int, bool)), this, SLOT(slotSetValue(int, bool)));
+    connect(m_dragVal, SIGNAL(valueChanged(double, bool)), this, SLOT(slotSetValue(double, bool)));
     connect(m_dragVal, SIGNAL(inTimeline(int)), this, SIGNAL(setInTimeline(int)));
 }
 
@@ -68,21 +68,22 @@ void DoubleParameterWidget::setSpinSize(int width)
     m_dragVal->setSpinSize(width);
 }
 
-void DoubleParameterWidget::setValue(int value)
+void DoubleParameterWidget::setValue(double value)
 {
     m_dragVal->blockSignals(true);
     m_dragVal->setValue(value);
     m_dragVal->blockSignals(false);
 }
 
-void DoubleParameterWidget::slotSetValue(int value, bool final)
+void DoubleParameterWidget::slotSetValue(double value, bool final)
 {
+    kDebug()<<"VALUE CHANGED: "<<value;
     if (final) {
         emit valueChanged(value);
     }
 }
 
-int DoubleParameterWidget::getValue()
+double DoubleParameterWidget::getValue()
 {
     return m_dragVal->value();
 }

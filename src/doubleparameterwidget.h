@@ -53,7 +53,7 @@ public:
     DoubleParameterWidget(const QString &name, double value, double min, double max, double defaultValue, const QString &comment, int id, const QString suffix = QString(), int decimals = 0, QWidget* parent = 0);
 
     /** @brief Gets the parameter's value. */
-    int getValue();
+    double getValue();
     /** @brief Set the inTimeline property to paint widget with other colors. */
     void setInTimelineProperty(bool intimeline);
     /** @brief Returns minimum size for QSpinBox, used to set all spinboxes to the same width. */
@@ -62,7 +62,7 @@ public:
 
 public slots:
     /** @brief Sets the value to @param value. */
-    void setValue(int value);
+    void setValue(double value);
 
     /** @brief Sets value to m_default. */
     void slotReset();
@@ -71,7 +71,7 @@ private slots:
     /** @brief Shows/Hides the comment label. */
     void slotShowComment(bool show);
 
-    void slotSetValue(int value, bool final);
+    void slotSetValue(double value, bool final);
 
 private:
     QLabel *m_name;
@@ -81,7 +81,7 @@ private:
     QLabel *m_commentLabel;
     
 signals:
-    void valueChanged(int);
+    void valueChanged(double);
     /** @brief User wants to see this parameter in timeline. */
     void setInTimeline(int);
 };

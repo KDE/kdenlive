@@ -274,7 +274,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, ItemInfo info, bool
                     pa.attribute("default").toDouble(), comment, -1, pa.attribute("suffix"), pa.attribute("decimals").toInt(), this);
             m_vbox->addWidget(doubleparam);
             m_valueItems[paramName] = doubleparam;
-            connect(doubleparam, SIGNAL(valueChanged(int)), this, SLOT(collectAllParameters()));
+            connect(doubleparam, SIGNAL(valueChanged(double)), this, SLOT(collectAllParameters()));
             connect(this, SIGNAL(showComments(bool)), doubleparam, SLOT(slotShowComment(bool)));
         } else if (type == "list") {
             Listval *lsval = new Listval;

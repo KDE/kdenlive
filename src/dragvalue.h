@@ -124,7 +124,6 @@ public slots:
     void slotReset();
 
 signals:
-    void valueChanged(int value, bool final = true);
     void valueChanged(double value, bool final = true);
     void inTimeline(int);
 
