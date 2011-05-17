@@ -37,6 +37,7 @@ private:
     QDomDocument m_doc;
     bool m_modified;
     bool upgrade(double version, const double currentVersion);
+    QStringList getInfoFromEffectName(const QString oldName);
     QString colorToString(const QColor& c);
 };
 

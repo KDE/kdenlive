@@ -811,12 +811,114 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             }
         }
     }
+    if (version <= 0.85) {
+        // update the LADSPA effects to use the new ladspa.id format instead of external xml file
+        QDomNodeList effectNodes = m_doc.elementsByTagName("filter");
+        for (int i = 0; i < effectNodes.count(); ++i) {
+            QDomElement effect = effectNodes.at(i).toElement();
+            if (EffectsList::property(effect, "mlt_service") == "ladspa") {
+                // Needs to be converted
+                QStringList info = getInfoFromEffectName(EffectsList::property(effect, "kdenlive_id"));
+                if (info.isEmpty()) continue;
+                // info contains the correct ladspa.id from kdenlive effect name, and a list of parameter's old and new names
+                EffectsList::setProperty(effect, "kdenlive_id", info.at(0));
+                EffectsList::setProperty(effect, "tag", info.at(0));
+                EffectsList::setProperty(effect, "mlt_service", info.at(0));
+                EffectsList::removeProperty(effect, "src");
+                for (int j = 1; j < info.size(); j++) {
+                    QString value = EffectsList::property(effect, info.at(j).section('=', 0, 0));
+                    if (!value.isEmpty()) {
+                        // update parameter name
+                        EffectsList::renameProperty(effect, info.at(j).section('=', 0, 0), info.at(j).section('=', 1, 1));
+                    }
+                }
+            }
+        }
+    }
 
 
     // The document has been converted: mark it as modified
     infoXml.setAttribute("version", currentVersion);
     m_modified = true;
     return true;
+}
+
+QStringList DocumentValidator::getInfoFromEffectName(const QString oldName)
+{
+    QStringList info;
+    // Returns a list to convert old Kdenlive ladspa effects
+    if (oldName == "pitch_shift") {
+        info << "ladspa.1433";
+        info << "pitch=0";
+    }
+    else if (oldName == "vinyl") {
+        info << "ladspa.1905";
+        info << "year=0";
+        info << "rpm=1";
+        info << "warping=2";
+        info << "crackle=3";
+        info << "wear=4";
+    }
+    else if (oldName == "room_reverb") {
+        info << "ladspa.1216";
+        info << "room=0";
+        info << "delay=1";
+        info << "damp=2";
+    }
+    else if (oldName == "reverb") {
+        info << "ladspa.1423";
+        info << "room=0";
+        info << "damp=1";
+    }
+    else if (oldName == "rate_scale") {
+        info << "ladspa.1417";
+        info << "rate=0";
+    }
+    else if (oldName == "pitch_scale") {
+        info << "ladspa.1193";
+        info << "coef=0";
+    }
+    else if (oldName == "phaser") {
+        info << "ladspa.1217";
+        info << "rate=0";
+        info << "depth=1";
+        info << "feedback=2";
+        info << "spread=3";
+    }
+    else if (oldName == "limiter") {
+        info << "ladspa.1913";
+        info << "gain=0";
+        info << "limit=1";
+        info << "release=2";
+    }
+    else if (oldName == "equalizer_15") {
+        info << "ladspa.1197";
+        info << "1=0";
+        info << "2=1";
+        info << "3=2";
+        info << "4=3";
+        info << "5=4";
+        info << "6=5";
+        info << "7=6";
+        info << "8=7";
+        info << "9=8";
+        info << "10=9";
+        info << "11=10";
+        info << "12=11";
+        info << "13=12";
+        info << "14=13";
+        info << "15=14";
+    }
+    else if (oldName == "equalizer") {
+        info << "ladspa.1901";
+        info << "logain=0";
+        info << "midgain=1";
+        info << "higain=2";
+    }
+    else if (oldName == "declipper") {
+        info << "ladspa.1195";
+    }
+    return info;
 }
 
 QString DocumentValidator::colorToString(const QColor& c)

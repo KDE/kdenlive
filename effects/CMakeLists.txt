@@ -15,17 +15,6 @@ gamma.xml
 grain.xml
 greyscale.xml
 invert.xml
-ladspa_declipper.xml
-ladspa_equalizer.xml
-ladspa_equalizer_15.xml
-ladspa_limiter.xml
-ladspa_phaser.xml
-ladspa_pitch_scale.xml
-ladspa_pitch.xml
-ladspa_rate_scale.xml
-ladspa_reverb.xml
-ladspa_room_reverb.xml
-ladspa_vinyl.xml
 mirror.xml
 mute.xml
 normalise.xml

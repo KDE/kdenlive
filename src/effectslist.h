@@ -74,6 +74,8 @@ public:
     static QString parameter(QDomElement effect, const QString &name);
     /** @brief Change the value of a 'property' element from the effect node. */
     static void setProperty(QDomElement effect, const QString &name, const QString &value);
+    /** @brief Rename a 'property' element from the effect node. */
+    static void renameProperty(QDomElement effect, const QString &oldName, const QString &newName);
     /** @brief Get the value of a 'property' element from the effect node. */
     static QString property(QDomElement effect, const QString &name);
     /** @brief Delete a 'property' element from the effect node. */
