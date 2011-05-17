@@ -857,7 +857,8 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
                     }
                 }
             }
-            if (effecttag == "ladspa") {
+            // Old LADSPA filter, deprecated
+            /*if (effecttag == "ladspa") {
                 //QString ladspaEffectFile = EffectsList::parameter(effect, "src", "property");
 
                 if (!QFile::exists(ladspaEffectFile)) {
@@ -865,7 +866,8 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
                     initEffects::ladspaEffectFile(ladspaEffectFile, currenteffect.attribute("ladspaid").toInt(), m_trackview->getLadspaParams(currenteffect));
                 }
                 currenteffect.setAttribute("src", ladspaEffectFile);
-            }
+            }*/
+            
             if (disableeffect) currenteffect.setAttribute("disable", "1");
             if (clip)
                 clip->addEffect(currenteffect, false);

@@ -185,6 +185,8 @@ Mlt::Repository *initEffects::parseEffectFiles()
     // Fill transitions list.
     fillTransitionsList(repository, &MainWindow::transitions, transitionsItemList);
 
+    //WARNING: deprecated, we now use MLT to detect LADSPA filters
+    /*
     // Set the directories to look into for ladspa plugins.
     KGlobal::dirs()->addResourceType("ladspa_plugin", 0, "lib/ladspa");
     KGlobal::dirs()->addResourceDir("ladspa_plugin", "/usr/lib/ladspa");
@@ -192,7 +194,7 @@ Mlt::Repository *initEffects::parseEffectFiles()
     KGlobal::dirs()->addResourceDir("ladspa_plugin", "/opt/lib/ladspa");
     KGlobal::dirs()->addResourceDir("ladspa_plugin", "/opt/local/lib/ladspa");
     KGlobal::dirs()->addResourceDir("ladspa_plugin", "/usr/lib64/ladspa");
-    KGlobal::dirs()->addResourceDir("ladspa_plugin", "/usr/local/lib64/ladspa");
+    KGlobal::dirs()->addResourceDir("ladspa_plugin", "/usr/local/lib64/ladspa");*/
 
     // Set the directories to look into for effects.
     QStringList direc = KGlobal::dirs()->findDirs("appdata", "effects");
@@ -354,8 +356,10 @@ void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *au
 
         bool ladspaOk = true;
         if (tag == "ladspa") {
-            QString library = documentElement.attribute("library", QString());
-            if (KStandardDirs::locate("ladspa_plugin", library).isEmpty()) ladspaOk = false;
+            //WARNING: old LADSPA xml effects are deprecated, so hide them
+            /*QString library = documentElement.attribute("library", QString());
+            if (KStandardDirs::locate("ladspa_plugin", library).isEmpty()) ladspaOk = false;*/
+            ladspaOk = false;
         }
 
         // Parse effect information.

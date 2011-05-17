@@ -1706,11 +1706,14 @@ void CustomTrackView::slotAddGroupEffect(QDomElement effect, AbstractGroupItem *
                 continue;
             }
             item->initEffect(effect);
+
+            // Old LADSPA filter, deprecated
+            /*
             if (effect.attribute("tag") == "ladspa") {
                 QString ladpsaFile = m_document->getLadspaFile();
                 initEffects::ladspaEffectFile(ladpsaFile, effect.attribute("ladspaid").toInt(), getLadspaParams(effect));
                 effect.setAttribute("src", ladpsaFile);
-            }
+            }*/
             new AddEffectCommand(this, m_document->tracksCount() - item->track(), item->startPos(), effect, true, effectCommand);
             count++;
         }
@@ -1783,12 +1786,13 @@ void CustomTrackView::slotAddEffect(QDomElement effect, GenTime pos, int track)
             } else {
                 item->initEffect(effect);
             }
-
-            if (effect.attribute("tag") == "ladspa") {
+            // Old LADSPA filter, deprecated
+            /* if (effect.attribute("tag") == "ladspa") {
                 QString ladpsaFile = m_document->getLadspaFile();
                 initEffects::ladspaEffectFile(ladpsaFile, effect.attribute("ladspaid").toInt(), getLadspaParams(effect));
                 effect.setAttribute("src", ladpsaFile);
             }
+            */
             new AddEffectCommand(this, m_document->tracksCount() - item->track(), item->startPos(), effect, true, effectCommand);
         }
     }
@@ -1875,10 +1879,11 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedE
     if (pos < GenTime()) {
         // editing a track effect
         EffectsParameterList effectParams = getEffectArgs(effect);
-        if (effect.attribute("tag") == "ladspa") {
+        // Old LADSPA filter, deprecated
+        /*if (effect.attribute("tag") == "ladspa") {
             // Update the ladspa affect file
             initEffects::ladspaEffectFile(effect.attribute("src"), effect.attribute("ladspaid").toInt(), getLadspaParams(effect));
-        }
+        }*/
         // check if we are trying to reset a keyframe effect
         /*if (effectParams.hasParam("keyframes") && effectParams.paramValue("keyframes").isEmpty()) {
             clip->initEffect(effect);
@@ -1914,10 +1919,11 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedE
         }
 
         EffectsParameterList effectParams = getEffectArgs(effect);
-        if (effect.attribute("tag") == "ladspa") {
+        // Old LADSPA filter, deprecated
+        /*if (effect.attribute("tag") == "ladspa") {
             // Update the ladspa affect file
             initEffects::ladspaEffectFile(effect.attribute("src"), effect.attribute("ladspaid").toInt(), getLadspaParams(effect));
-        }
+        }*/
         // check if we are trying to reset a keyframe effect
         if (effectParams.hasParam("keyframes") && effectParams.paramValue("keyframes").isEmpty()) {
             clip->initEffect(effect);
