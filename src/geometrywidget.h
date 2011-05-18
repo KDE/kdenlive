@@ -138,19 +138,19 @@ private slots:
     void slotUpdateProperties();
 
     /** @brief Sets the rect's x position to @param value. */
-    void slotSetX(int value);
+    void slotSetX(double value);
     /** @brief Sets the rect's y position to @param value. */
-    void slotSetY(int value);
+    void slotSetY(double value);
     /** @brief Sets the rect's width to @param value. */
-    void slotSetWidth(int value);
+    void slotSetWidth(double value);
     /** @brief Sets the rect's height to @param value. */
-    void slotSetHeight(int value);
+    void slotSetHeight(double value);
 
     /** @brief Resizes the rect by @param value (in perecent) compared to the frame size. */
     void slotResize(double value);
 
     /** @brief Sets the opacity to @param value. */
-    void slotSetOpacity(int value);
+    void slotSetOpacity(double value);
 
     /** @brief Moves the rect to the left frame border (x position = 0). */
     void slotMoveLeft();

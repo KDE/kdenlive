@@ -188,23 +188,23 @@ GeometryWidget::GeometryWidget(Monitor* monitor, Timecode timecode, int clipPos,
         m_rotateZ = new DragValue(i18n("Rotate Z"), 0, 0, -1800, 1800,  -1, QString(), true, this);
         m_rotateZ->setObjectName("rotate_z");
         m_ui.horizontalLayout3->addWidget(m_rotateZ);
-        connect(m_rotateX,            SIGNAL(valueChanged(int)), this, SLOT(slotUpdateGeometry()));
-        connect(m_rotateY,            SIGNAL(valueChanged(int)), this, SLOT(slotUpdateGeometry()));
-        connect(m_rotateZ,            SIGNAL(valueChanged(int)), this, SLOT(slotUpdateGeometry()));
+        connect(m_rotateX,            SIGNAL(valueChanged(double)), this, SLOT(slotUpdateGeometry()));
+        connect(m_rotateY,            SIGNAL(valueChanged(double)), this, SLOT(slotUpdateGeometry()));
+        connect(m_rotateZ,            SIGNAL(valueChanged(double)), this, SLOT(slotUpdateGeometry()));
     }
     
     /*
         Setup of geometry controls
     */
 
-    connect(m_spinX,            SIGNAL(valueChanged(int)), this, SLOT(slotSetX(int)));
-    connect(m_spinY,            SIGNAL(valueChanged(int)), this, SLOT(slotSetY(int)));
-    connect(m_spinWidth,        SIGNAL(valueChanged(int)), this, SLOT(slotSetWidth(int)));
-    connect(m_spinHeight,       SIGNAL(valueChanged(int)), this, SLOT(slotSetHeight(int)));
+    connect(m_spinX,            SIGNAL(valueChanged(double)), this, SLOT(slotSetX(double)));
+    connect(m_spinY,            SIGNAL(valueChanged(double)), this, SLOT(slotSetY(double)));
+    connect(m_spinWidth,        SIGNAL(valueChanged(double)), this, SLOT(slotSetWidth(double)));
+    connect(m_spinHeight,       SIGNAL(valueChanged(double)), this, SLOT(slotSetHeight(double)));
 
     connect(m_spinSize,         SIGNAL(valueChanged(double)), this, SLOT(slotResize(double)));
 
-    connect(m_opacity, SIGNAL(valueChanged(int)), this, SLOT(slotSetOpacity(int)));
+    connect(m_opacity, SIGNAL(valueChanged(double)), this, SLOT(slotSetOpacity(double)));
     
     /*connect(m_ui.buttonMoveLeft,   SIGNAL(clicked()), this, SLOT(slotMoveLeft()));
     connect(m_ui.buttonCenterH,    SIGNAL(clicked()), this, SLOT(slotCenterH()));
@@ -599,25 +599,25 @@ void GeometryWidget::slotUpdateProperties()
 }
 
 
-void GeometryWidget::slotSetX(int value)
+void GeometryWidget::slotSetX(double value)
 {
     m_rect->setPos(value, m_spinY->value());
     slotUpdateGeometry();
 }
 
-void GeometryWidget::slotSetY(int value)
+void GeometryWidget::slotSetY(double value)
 {
     m_rect->setPos(m_spinX->value(), value);
     slotUpdateGeometry();
 }
 
-void GeometryWidget::slotSetWidth(int value)
+void GeometryWidget::slotSetWidth(double value)
 {
     m_rect->setRect(0, 0, value, m_spinHeight->value());
     slotUpdateGeometry();
 }
 
-void GeometryWidget::slotSetHeight(int value)
+void GeometryWidget::slotSetHeight(double value)
 {
     m_rect->setRect(0, 0, m_spinWidth->value(), value);
     slotUpdateGeometry();
@@ -639,7 +639,7 @@ void GeometryWidget::slotResize(double value)
 }
 
 
-void GeometryWidget::slotSetOpacity(int value)
+void GeometryWidget::slotSetOpacity(double value)
 {
     int pos = m_timePos->getValue();
     Mlt::GeometryItem item;
