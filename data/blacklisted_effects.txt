@@ -82,3 +82,9 @@ wave
 
 #effects that have simplekeyframes
 vignette
+
+#Effects not usable with a simple GUI
+
+sox
+ladspa
+jackrack

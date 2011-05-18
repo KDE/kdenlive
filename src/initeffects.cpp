@@ -591,7 +591,7 @@ QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, 
             QString id = metadata->get("identifier");
             eff.setAttribute("tag", id);
             eff.setAttribute("id", id);
-            if (id.startsWith("ladspa")) eff.setAttribute("type", "audio");
+            //kDebug()<<"Effect: "<<id;
 
             QDomElement name = ret.createElement("name");
             name.appendChild(ret.createTextNode(metadata->get("title")));
@@ -605,6 +605,11 @@ QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, 
             eff.appendChild(name);
             eff.appendChild(author);
             eff.appendChild(desc);
+
+            Mlt::Properties tags((mlt_properties) metadata->get_data("tags"));
+            if (QString(tags.get(0)) == "Audio") eff.setAttribute("type", "audio");
+            /*for (int i = 0; i < tags.count(); i++)
+                kDebug()<<tags.get_name(i)<<"="<<tags.get(i);*/
 
             Mlt::Properties param_props((mlt_properties) metadata->get_data("parameters"));
             for (int j = 0; param_props.is_valid() && j < param_props.count(); j++) {
