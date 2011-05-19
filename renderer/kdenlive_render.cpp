@@ -83,7 +83,6 @@ int main(int argc, char **argv)
             if (vprelist.size()>1)
                 args.replaceInStrings(QRegExp("^vpre=.*"),QString("vpre=").append(vprelist.at(1)));
             args.replace(args.indexOf("pass=1"), "pass=2");
-            args.replace(args.indexOf("pass=1"), "pass=2");
             RenderJob *dualjob = new RenderJob(erase, usekuiserver, render, profile, rendermodule, player, src, dest, preargs, args, in, out);
             QObject::connect(job, SIGNAL(renderingFinished()), dualjob, SLOT(start()));
         }
