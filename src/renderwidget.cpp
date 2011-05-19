@@ -54,6 +54,8 @@ const int EditableRole = GroupRole + 5;
 const int MetaGroupRole = GroupRole + 6;
 const int ExtraRole = GroupRole + 7;
 const int TwoPassRole = GroupRole + 8;
+const int BitratesRole = GroupRole + 9;
+const int DefaultBitrateRole = GroupRole + 10;
 
 // Running job status
 const int WAITINGJOB = 0;
@@ -776,6 +778,10 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
     if (m_view.checkTwoPass->isEnabled() && m_view.checkTwoPass->isChecked())
         renderArgs.append(" pass=2");
 
+    // bitrate
+    if (m_view.comboBitrates->isEnabled())
+        renderArgs.replace("%bitrate", m_view.comboBitrates->currentText());
+
     // Check if the rendering profile is different from project profile,
     // in which case we need to use the producer_comsumer from MLT
     QString std = renderArgs;
@@ -1212,6 +1218,19 @@ void RenderWidget::refreshParams()
         m_view.buttonEdit->setEnabled(true);
     }
 
+    // setup comboBox with bitrates
+    if (item->data(BitratesRole).canConvert(QVariant::StringList)) {
+        m_view.comboBitrates->setEnabled(true);
+        m_view.comboBitrates->clear();
+        QStringList bitrates = item->data(BitratesRole).toStringList();
+        foreach (QString bitrate, bitrates)
+            m_view.comboBitrates->addItem(bitrate);
+        if (item->data(DefaultBitrateRole).canConvert(QVariant::String))
+            m_view.comboBitrates->setCurrentIndex(bitrates.indexOf(item->data(DefaultBitrateRole).toString()));
+    } else {
+        m_view.comboBitrates->setEnabled(false);
+    }
+
     m_view.buttonRender->setEnabled(m_view.size_list->currentItem()->toolTip().isEmpty());
     m_view.buttonGenerateScript->setEnabled(m_view.size_list->currentItem()->toolTip().isEmpty());
 }
@@ -1416,6 +1435,7 @@ void RenderWidget::parseFile(QString exportFile, bool editable)
     QString params;
     QString standard;
     QString twoPass;
+    QString bitrates, defaultBitrate;
     KIcon icon;
 
     while (!groups.item(i).isNull()) {
@@ -1464,6 +1484,8 @@ void RenderWidget::parseFile(QString exportFile, bool editable)
             profileElement = n.toElement();
             profileName = profileElement.attribute("name");
             standard = profileElement.attribute("standard");
+            bitrates = profileElement.attribute("bitrates");
+            defaultBitrate = profileElement.attribute("defaultbitrate");
             params = profileElement.attribute("args");
 
             if (replaceVorbisCodec && params.contains("acodec=vorbis")) {
@@ -1484,6 +1506,8 @@ void RenderWidget::parseFile(QString exportFile, bool editable)
             item->setData(RenderRole, renderer);
             item->setData(StandardRole, standard);
             item->setData(ParamsRole, params);
+            item->setData(BitratesRole, bitrates.split(','));
+            item->setData(DefaultBitrateRole, defaultBitrate);
             if (profileElement.hasAttribute("url")) item->setData(ExtraRole, profileElement.attribute("url"));
             if (editable) item->setData(EditableRole, exportFile);
             m_renderItems.append(item);

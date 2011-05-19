@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>391</width>
-    <height>652</height>
+    <width>461</width>
+    <height>686</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -159,14 +159,14 @@
          </widget>
         </widget>
        </item>
-       <item row="4" column="0" colspan="2">
+       <item row="4" column="0" colspan="3">
         <widget class="QLabel" name="label_5">
          <property name="text">
           <string>Scanning</string>
          </property>
         </widget>
        </item>
-       <item row="4" column="2" colspan="4">
+       <item row="4" column="3" colspan="3">
         <widget class="KComboBox" name="scanning_list">
          <item>
           <property name="text">
@@ -185,7 +185,7 @@
          </item>
         </widget>
        </item>
-       <item row="4" column="6" colspan="4">
+       <item row="4" column="7" colspan="3">
         <widget class="QCheckBox" name="export_audio">
          <property name="text">
           <string>Export audio</string>
@@ -483,7 +483,7 @@
          </property>
         </widget>
        </item>
-       <item row="12" column="3" colspan="5">
+       <item row="12" column="4" colspan="4">
         <widget class="KComboBox" name="tc_type">
          <item>
           <property name="text">
@@ -497,7 +497,24 @@
          </item>
         </widget>
        </item>
-       <item row="5" column="0" colspan="4">
+       <item row="5" column="3" colspan="3">
+        <widget class="QComboBox" name="comboBitrates">
+         <property name="editable">
+          <bool>true</bool>
+         </property>
+         <property name="frame">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0" colspan="3">
+        <widget class="QLabel" name="label_10">
+         <property name="text">
+          <string>Bitrate</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="7" colspan="3">
         <widget class="QCheckBox" name="checkTwoPass">
          <property name="text">
           <string>2 pass</string>
