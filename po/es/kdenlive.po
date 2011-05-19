@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-05-10 16:39+0300\n"
-"PO-Revision-Date: 2011-05-11 23:15-0300\n"
+"PO-Revision-Date: 2011-05-19 09:30-0300\n"
 "Last-Translator: Gabriel Gazzan <gabcorreo@gmail.com>\n"
 "Language-Team: Español <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -32,7 +32,7 @@ msgstr " Posición:"
 #: src/customtrackview.cpp:613
 #: src/customtrackview.cpp:619
 msgid " Selection duration:"
-msgstr " Duración de selección:"
+msgstr " Duración de la selección:"
 
 #: rc.cpp:2134
 #: rc.cpp:2140
