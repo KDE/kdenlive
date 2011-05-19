@@ -53,6 +53,7 @@ const int ParamsRole = GroupRole + 4;
 const int EditableRole = GroupRole + 5;
 const int MetaGroupRole = GroupRole + 6;
 const int ExtraRole = GroupRole + 7;
+const int TwoPassRole = GroupRole + 8;
 
 // Running job status
 const int WAITINGJOB = 0;
@@ -176,6 +177,7 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, QWidg
     m_view.open_browser->setVisible(false);
     m_view.error_box->setVisible(false);
     m_view.tc_type->setEnabled(false);
+    m_view.checkTwoPass->setEnabled(false);
 
     m_view.splitter->setStretchFactor(1, 5);
     m_view.splitter->setStretchFactor(0, 2);
@@ -766,9 +768,13 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
     // disable audio if requested
     if (!exportAudio) renderArgs.append(" an=1 ");
 
-	// Set the thread counts
-	renderArgs.append(QString(" threads=%1").arg(KdenliveSettings::encodethreads()));
-	renderArgs.append(QString(" real_time=-%1").arg(KdenliveSettings::mltthreads()));
+    // Set the thread counts
+    renderArgs.append(QString(" threads=%1").arg(KdenliveSettings::encodethreads()));
+    renderArgs.append(QString(" real_time=-%1").arg(KdenliveSettings::mltthreads()));
+
+    // 2 pass
+    if (m_view.checkTwoPass->isEnabled() && m_view.checkTwoPass->isChecked())
+        renderArgs.append(" pass=2");
 
     // Check if the rendering profile is different from project profile,
     // in which case we need to use the producer_comsumer from MLT
@@ -857,6 +863,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
     renderProps.insert("rendertctype", QString::number(m_view.tc_type->currentIndex()));
     renderProps.insert("renderratio", QString::number(m_view.rescale_keep->isChecked()));
     renderProps.insert("renderplay", QString::number(m_view.play_after->isChecked()));
+    renderProps.insert("rendertwopass", QString::number(m_view.checkTwoPass->isChecked()));
 
     emit selectedRenderProfile(renderProps);
 
@@ -966,8 +973,10 @@ void RenderWidget::setProfile(MltVideoProfile profile)
 {
     m_profile = profile;
     //WARNING: this way to tell the video standard is a bit hackish...
-    if (m_profile.description.contains("pal", Qt::CaseInsensitive) || m_profile.description.contains("25", Qt::CaseInsensitive) || m_profile.description.contains("50", Qt::CaseInsensitive)) m_view.format_selection->setCurrentIndex(0);
-    else m_view.format_selection->setCurrentIndex(1);
+    if (m_profile.description.contains("pal", Qt::CaseInsensitive) || m_profile.description.contains("25", Qt::CaseInsensitive) || m_profile.description.contains("50", Qt::CaseInsensitive))
+        m_view.format_selection->setCurrentIndex(0);
+    else
+        m_view.format_selection->setCurrentIndex(1);
     m_view.scanning_list->setCurrentIndex(0);
     m_view.rescale_width->setValue(KdenliveSettings::defaultrescalewidth());
     if (!m_view.rescale_keep->isChecked()) {
@@ -1047,6 +1056,8 @@ void RenderWidget::refreshView()
     if (m_view.destination_list->currentIndex() > 0)
         destination = m_view.destination_list->itemData(m_view.destination_list->currentIndex()).toString();
     KIcon brokenIcon("dialog-close");
+
+    m_view.checkTwoPass->setEnabled(m_view.format_list->currentItem()->data(TwoPassRole).toBool());
 
     const QStringList formatsList = KdenliveSettings::supportedformats();
     const QStringList vcodecsList = KdenliveSettings::videocodecs();
@@ -1401,6 +1412,7 @@ void RenderWidget::parseFile(QString exportFile, bool editable)
     QString renderer;
     QString params;
     QString standard;
+    QString twoPass;
     KIcon icon;
 
     while (!groups.item(i).isNull()) {
@@ -1425,6 +1437,7 @@ void RenderWidget::parseFile(QString exportFile, bool editable)
         groupName = documentElement.attribute("name", i18nc("Attribute Name", "Custom"));
         extension = documentElement.attribute("extension", QString());
         renderer = documentElement.attribute("renderer", QString());
+        twoPass = documentElement.attribute("twopass", "true");
         bool exists = false;
         for (int j = 0; j < m_renderCategory.count(); j++) {
             if (m_renderCategory.at(j)->text() == groupName && m_renderCategory.at(j)->data(MetaGroupRole) == metagroupId) {
@@ -1435,6 +1448,7 @@ void RenderWidget::parseFile(QString exportFile, bool editable)
         if (!exists) {
             QListWidgetItem *itemcat = new QListWidgetItem(groupName); //, m_view.format_list);
             itemcat->setData(MetaGroupRole, metagroupId);
+            itemcat->setData(TwoPassRole, twoPass == "false" ? false : true);
             m_renderCategory.append(itemcat);
         }
 
@@ -1756,6 +1770,7 @@ void RenderWidget::setRenderProfile(QMap <QString, QString> props)
     if (props.contains("rendertctype")) m_view.tc_type->setCurrentIndex(props.value("rendertctype").toInt());
     if (props.contains("renderratio")) m_view.rescale_keep->setChecked(props.value("renderratio").toInt());
     if (props.contains("renderplay")) m_view.play_after->setChecked(props.value("renderplay").toInt());
+    if (props.contains("rendertwopass")) m_view.checkTwoPass->setChecked(props.value("rendertwopass").toInt());
 
     if (props.value("renderzone") == "1") m_view.render_zone->setChecked(true);
     else if (props.value("renderguide") == "1") {
