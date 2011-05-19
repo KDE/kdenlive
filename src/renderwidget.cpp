@@ -1057,7 +1057,10 @@ void RenderWidget::refreshView()
         destination = m_view.destination_list->itemData(m_view.destination_list->currentIndex()).toString();
     KIcon brokenIcon("dialog-close");
 
-    m_view.checkTwoPass->setEnabled(m_view.format_list->currentItem()->data(TwoPassRole).toBool());
+    if (m_view.format_list->currentItem()->data(TwoPassRole).canConvert(QVariant::Bool))
+        m_view.checkTwoPass->setEnabled(m_view.format_list->currentItem()->data(TwoPassRole).toBool());
+    else
+        m_view.checkTwoPass->setEnabled(true);
 
     const QStringList formatsList = KdenliveSettings::supportedformats();
     const QStringList vcodecsList = KdenliveSettings::videocodecs();
