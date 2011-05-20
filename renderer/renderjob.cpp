@@ -166,13 +166,15 @@ void RenderJob::receivedStderr()
         if (pro < 0 || pro > 100) return;
         if (pro > m_progress) {
             m_progress = pro;
+            if (m_args.contains("pass=1")) { m_progress=m_progress/2.0 ;}
+            if (m_args.contains("pass=2")) { m_progress=50+m_progress/2.0 ;}
             if (m_kdenliveinterface) {
                 if (!m_kdenliveinterface->isValid()) {
                     delete m_kdenliveinterface;
                     m_kdenliveinterface = NULL;
                     // qDebug() << "BROKEN COMMUNICATION WITH KDENLIVE";
                 } else {
-                    m_dbusargs[1] = pro;
+                    m_dbusargs[1] = m_progress;
                     m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, "setRenderingProgress", m_dbusargs);
                 }
             } else if (pro % 5 == 0) {
@@ -220,7 +222,8 @@ void RenderJob::start()
             m_jobUiserver = new QDBusInterface("org.kde.JobViewServer", reply, "org.kde.JobView");
             if (m_jobUiserver) {
                 m_startTime = QTime::currentTime();
-                m_jobUiserver->call("setPercent", (uint) 0);
+                if (!m_args.contains("pass=2"))
+                    m_jobUiserver->call("setPercent", (uint) 0);
                 m_jobUiserver->call("setInfoMessage", tr("Rendering %1").arg(QFileInfo(m_dest).fileName()));
                 //m_jobUiserver->call("setDescriptionField", (uint) 0, tr("Rendering to"), m_dest);
                 QDBusConnection::sessionBus().connect("org.kde.JobViewServer", reply, "org.kde.JobView", "cancelRequested", this, SLOT(slotAbort()));
@@ -268,7 +271,8 @@ void RenderJob::initKdenliveDbusInterface()
     if (m_kdenliveinterface) {
         m_dbusargs.append(m_dest);
         m_dbusargs.append((int) 0);
-        m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, "setRenderingProgress", m_dbusargs);
+        if (!m_args.contains("pass=2"))
+            m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, "setRenderingProgress", m_dbusargs);
         connect(m_kdenliveinterface, SIGNAL(abortRenderJob(const QString&)),
                 this, SLOT(slotAbort(const QString&)));
     }
