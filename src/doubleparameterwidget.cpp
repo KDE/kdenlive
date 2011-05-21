@@ -77,7 +77,6 @@ void DoubleParameterWidget::setValue(double value)
 
 void DoubleParameterWidget::slotSetValue(double value, bool final)
 {
-    kDebug()<<"VALUE CHANGED: "<<value;
     if (final) {
         emit valueChanged(value);
     }
