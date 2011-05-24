@@ -1219,9 +1219,9 @@ void RenderWidget::refreshParams()
     }
 
     // setup comboBox with bitrates
-    if (item->data(BitratesRole).canConvert(QVariant::StringList)) {
+    m_view.comboBitrates->clear();
+    if (item->data(BitratesRole).canConvert(QVariant::StringList) && item->data(BitratesRole).toStringList().count()) {
         m_view.comboBitrates->setEnabled(true);
-        m_view.comboBitrates->clear();
         QStringList bitrates = item->data(BitratesRole).toStringList();
         foreach (QString bitrate, bitrates)
             m_view.comboBitrates->addItem(bitrate);
@@ -1506,7 +1506,7 @@ void RenderWidget::parseFile(QString exportFile, bool editable)
             item->setData(RenderRole, renderer);
             item->setData(StandardRole, standard);
             item->setData(ParamsRole, params);
-            item->setData(BitratesRole, bitrates.split(','));
+            item->setData(BitratesRole, bitrates.split(',', QString::SkipEmptyParts));
             item->setData(DefaultBitrateRole, defaultBitrate);
             if (profileElement.hasAttribute("url")) item->setData(ExtraRole, profileElement.attribute("url"));
             if (editable) item->setData(EditableRole, exportFile);
