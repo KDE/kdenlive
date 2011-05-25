@@ -282,6 +282,8 @@ set(kdenlive_SRCS
   simplekeyframes/simplekeyframewidget.cpp
   noteswidget.cpp
   archivewidget.cpp
+  mltdevicecapture.cpp
+  abstractmonitor.cpp
 )
 
 add_definitions(${KDE4_DEFINITIONS})
@@ -302,13 +304,6 @@ if(NOT APPLE AND NOT CMAKE_SYSTEM_NAME STREQUAL "FreeBSD")
     ${kdenlive_SRCS}
     v4l/v4lcapture.cpp
     v4l/src.c
-    v4l/src_v4l2.c
-    v4l/dec_bayer.c
-    v4l/dec_grey.c
-    v4l/dec_jpeg.c
-    v4l/dec_rgb.c
-    v4l/dec_s561.c
-    v4l/dec_yuv.c
   )
 endif(NOT APPLE AND NOT CMAKE_SYSTEM_NAME STREQUAL "FreeBSD")
 

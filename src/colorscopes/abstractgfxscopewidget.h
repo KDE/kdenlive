@@ -11,31 +11,29 @@
 #ifndef ABSTRACTGFXSCOPEWIDGET_H
 #define ABSTRACTGFXSCOPEWIDGET_H
 
-
 #include <QtCore>
 #include <QWidget>
 
 #include "abstractscopewidget.h"
+#include "renderer.h"
 
 class QMenu;
 
-class Monitor;
-class Render;
+class MonitorManager;
 
 class AbstractGfxScopeWidget : public AbstractScopeWidget
 {
     Q_OBJECT
 
 public:
-    AbstractGfxScopeWidget(Monitor *projMonitor, Monitor *clipMonitor, bool trackMouse = false, QWidget *parent = 0);
+    AbstractGfxScopeWidget(MonitorManager *manager, bool trackMouse = false, QWidget *parent = 0);
     virtual ~AbstractGfxScopeWidget(); // Must be virtual because of inheritance, to avoid memory leaks
 
 protected:
     ///// Variables /////
 
-    Monitor *m_projMonitor;
-    Monitor *m_clipMonitor;
-    Render *m_activeRender;
+    MonitorManager *m_manager;
+    AbstractRender *m_activeRender;
 
     /** @brief Scope renderer. Must emit signalScopeRenderingFinished()
         when calculation has finished, to allow multi-threading.
@@ -53,7 +51,7 @@ public slots:
     /** @brief Must be called when the active monitor has shown a new frame.
       This slot must be connected in the implementing class, it is *not*
       done in this abstract class. */
-    void slotActiveMonitorChanged(bool isClipMonitor);
+    void slotActiveMonitorChanged();
 
 protected slots:
     virtual void slotAutoRefreshToggled(bool autoRefresh);

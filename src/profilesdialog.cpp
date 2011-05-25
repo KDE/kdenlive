@@ -490,15 +490,17 @@ QString ProfilesDialog::getPathFromDescription(const QString profileDesc)
 }
 
 // static
-void ProfilesDialog::saveProfile(MltVideoProfile &profile)
+void ProfilesDialog::saveProfile(MltVideoProfile &profile, QString profilePath)
 {
-    int i = 0;
-    QString customName = "profiles/customprofile";
-    QString profilePath = KStandardDirs::locateLocal("appdata", customName + QString::number(i));
-    kDebug() << " TYING PROFILE FILE: " << profilePath;
-    while (KIO::NetAccess::exists(KUrl(profilePath), KIO::NetAccess::SourceSide, 0)) {
-        i++;
+    if (profilePath.isEmpty()) {
+        int i = 0;
+        QString customName = "profiles/customprofile";
         profilePath = KStandardDirs::locateLocal("appdata", customName + QString::number(i));
+        kDebug() << " TYING PROFILE FILE: " << profilePath;
+        while (KIO::NetAccess::exists(KUrl(profilePath), KIO::NetAccess::SourceSide, 0)) {
+            i++;
+            profilePath = KStandardDirs::locateLocal("appdata", customName + QString::number(i));
+        }
     }
     QFile file(profilePath);
     if (!file.open(QIODevice::WriteOnly)) {
@@ -567,6 +569,15 @@ QString ProfilesDialog::getColorspaceDescription(int colorspace)
     default:
         return i18n("Unknown");
     }
+}
+
+//static
+int ProfilesDialog::getColorspaceFromDescription(const QString &description)
+{
+    //TODO: should the descriptions be translated?
+    if (description == "SMPTE240M") return 240;
+    if (description == "ITU-R 709") return 709;
+    return 601;
 }
 
 #include "profilesdialog.moc"

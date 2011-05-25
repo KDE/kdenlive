@@ -19,8 +19,6 @@
 
 
 #include "monitor.h"
-#include "renderer.h"
-#include "monitormanager.h"
 #include "smallruler.h"
 #include "docclipbase.h"
 #include "abstractclipitem.h"
@@ -46,14 +44,13 @@
 
 
 Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget *parent) :
-    QWidget(parent),
+    AbstractMonitor(parent),
     render(NULL),
     m_name(name),
     m_monitorManager(manager),
     m_currentClip(NULL),
     m_ruler(new SmallRuler(m_monitorManager)),
     m_overlay(NULL),
-    m_isActive(false),
     m_scale(1),
     m_length(0),
     m_dragStarted(false),
@@ -185,8 +182,6 @@ Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget
     connect(render, SIGNAL(durationChanged(int)), this, SLOT(adjustRulerSize(int)));
     connect(render, SIGNAL(rendererStopped(int)), this, SLOT(rendererStopped(int)));
 
-    //render->createVideoXWindow(m_ui.video_frame->winId(), -1);
-
     if (name != "clip") {
         connect(render, SIGNAL(rendererPosition(int)), this, SIGNAL(renderPosition(int)));
         connect(render, SIGNAL(durationChanged(int)), this, SIGNAL(durationChanged(int)));
@@ -230,7 +225,7 @@ QWidget *Monitor::container()
     return m_videoBox;
 }
 
-QString Monitor::name() const
+const QString Monitor::name() const
 {
     return m_name;
 }
@@ -590,14 +585,12 @@ void Monitor::slotExtractCurrentFrame()
 
 bool Monitor::isActive() const
 {
-    return m_isActive;
+    return m_monitorManager->isActive(m_name);
 }
 
 void Monitor::activateMonitor()
 {
-    if (!m_isActive) {
-        m_monitorManager->slotSwitchMonitors(m_name == "clip");
-    }
+    m_monitorManager->activateMonitor(m_name);
 }
 
 void Monitor::setTimePos(const QString &pos)
@@ -613,7 +606,7 @@ void Monitor::slotSeek()
 
 void Monitor::slotSeek(int pos)
 {
-    activateMonitor();
+    //activateMonitor();
     if (render == NULL) return;
     render->seekToFrame(pos);
 }
@@ -706,7 +699,7 @@ void Monitor::slotForwardOneFrame(int diff)
 
 void Monitor::seekCursor(int pos)
 {
-    activateMonitor();
+    //activateMonitor();
     if (m_ruler->slotNewValue(pos)) {
         checkOverlay();
         m_timePos->setValue(pos);
@@ -737,21 +730,19 @@ void Monitor::adjustRulerSize(int length)
 
 void Monitor::stop()
 {
-    m_isActive = false;
     disconnect(render, SIGNAL(rendererPosition(int)), this, SLOT(seekCursor(int)));
     if (render) render->stop();
 }
 
 void Monitor::start()
 {
-    m_isActive = true;
     if (render) render->start();
     connect(render, SIGNAL(rendererPosition(int)), this, SLOT(seekCursor(int)));
 }
 
 void Monitor::refreshMonitor(bool visible)
 {
-    if (visible && render && !m_isActive) {
+    if (visible && render) {
         activateMonitor();
         render->doRefresh(); //askForRefresh();
     }
@@ -759,7 +750,7 @@ void Monitor::refreshMonitor(bool visible)
 
 void Monitor::refreshMonitor()
 {
-    if (m_isActive) {
+    if (isActive()) {
         render->doRefresh();
     }
 }
@@ -1026,6 +1017,11 @@ void Monitor::slotShowVolume()
     m_audioSlider->setValue(vol);
     m_audioSlider->blockSignals(false);
     m_volumePopup->show();
+}
+
+AbstractRender *Monitor::abstractRender()
+{
+    return render;
 }
 
 MonitorRefresh::MonitorRefresh(QWidget* parent) :

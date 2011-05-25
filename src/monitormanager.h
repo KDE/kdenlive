@@ -22,9 +22,9 @@
 #define MONITORMANAGER_H
 
 #include "monitor.h"
+#include "recmonitor.h"
 #include "timecode.h"
 
-class Monitor;
 
 class MonitorManager : public QObject
 {
@@ -32,16 +32,21 @@ class MonitorManager : public QObject
 
 public:
     MonitorManager(QWidget *parent = 0);
-    void initMonitors(Monitor *clipMonitor, Monitor *projectMonitor);
+    void initMonitors(Monitor *clipMonitor, Monitor *projectMonitor, RecMonitor *recMonitor);
+    void appendMonitor(AbstractMonitor *monitor);
+    void removeMonitor(AbstractMonitor *monitor);
     Timecode timecode();
     void resetProfiles(Timecode tc);
     void stopActiveMonitor();
+    AbstractRender *activeRenderer();
+    void updateScopeSource();
 
 public slots:
 
     /** @brief Activates a monitor.
      * @param name name of the monitor to activate */
     void activateMonitor(QString name = QString());
+    bool isActive(const QString name) const;
     void slotPlay();
     void slotPause();
     void slotPlayZone();
@@ -68,13 +73,14 @@ private slots:
 private:
     Monitor *m_clipMonitor;
     Monitor *m_projectMonitor;
-    QString m_activeMonitor;
     Timecode m_timecode;
+    AbstractMonitor *m_activeMonitor;
     bool m_blocked;
+    QList <AbstractMonitor *>m_monitorsList;
 
 signals:
     /** @brief Emitted when the active monitor changes */
-    void raiseClipMonitor(bool);
+    void raiseMonitor(AbstractMonitor *);
     /** @brief When the monitor changed, update the visible color scopes */
     void checkColorScopes();
 

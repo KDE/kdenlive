@@ -53,7 +53,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     m_shuttleModified(false),
     m_mappable_actions(mappable_actions)
 {
-
+    KdenliveSettings::setV4l_format(0);
     QWidget *p1 = new QWidget;
     m_configMisc.setupUi(p1);
     m_page1 = addPage(p1, i18n("Misc"), "configure");
@@ -94,12 +94,13 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     m_configCapture.setupUi(p4);
 
 #if !defined(Q_WS_MAC) && !defined(Q_OS_FREEBSD)
-    V4lCaptureHandler v4l(NULL);
+    m_configCapture.kcfg_v4l_parameters->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 4);
+
     // Video 4 Linux device detection
     for (int i = 0; i < 10; i++) {
         QString path = "/dev/video" + QString::number(i);
         if (QFile::exists(path)) {
-            QStringList deviceInfo = v4l.getDeviceName(path);
+            QStringList deviceInfo = V4lCaptureHandler::getDeviceName(path.toUtf8().constData());
             if (!deviceInfo.isEmpty()) {
                 m_configCapture.kcfg_detectedv4ldevices->addItem(deviceInfo.at(0), path);
                 m_configCapture.kcfg_detectedv4ldevices->setItemData(m_configCapture.kcfg_detectedv4ldevices->count() - 1, deviceInfo.at(1), Qt::UserRole + 1);
@@ -107,6 +108,10 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
         }
     }
     connect(m_configCapture.kcfg_detectedv4ldevices, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdatev4lDevice()));
+    connect(m_configCapture.kcfg_v4l_format, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdatev4lCaptureProfile()));
+    connect(m_configCapture.kcfg_v4l_captureaudio, SIGNAL(toggled(bool)), m_configCapture.kcfg_v4l_alsadevice, SLOT(setEnabled(bool)));
+
+    slotUpdatev4lDevice();
 #endif
 
     m_page4 = addPage(p4, i18n("Capture"), "media-record");
@@ -181,15 +186,6 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     connect(m_configTranscode.button_delete, SIGNAL(clicked()), this, SLOT(slotDeleteTranscode()));
     connect(m_configTranscode.profiles_list, SIGNAL(itemChanged(QTreeWidgetItem *, int)), this, SLOT(slotDialogModified()));
     
-    connect(m_configCapture.kcfg_video4vdevice, SIGNAL(editingFinished()), this, SLOT(rebuildVideo4Commands()));
-    connect(m_configCapture.kcfg_video4adevice, SIGNAL(editingFinished()), this, SLOT(rebuildVideo4Commands()));
-    connect(m_configCapture.kcfg_video4vcodec, SIGNAL(editingFinished()), this, SLOT(rebuildVideo4Commands()));
-    connect(m_configCapture.kcfg_video4acodec, SIGNAL(editingFinished()), this, SLOT(rebuildVideo4Commands()));
-    connect(m_configCapture.kcfg_video4vformat, SIGNAL(editingFinished()), this, SLOT(rebuildVideo4Commands()));
-    connect(m_configCapture.kcfg_video4aformat, SIGNAL(editingFinished()), this, SLOT(rebuildVideo4Commands()));
-    connect(m_configCapture.kcfg_video4size, SIGNAL(editingFinished()), this, SLOT(rebuildVideo4Commands()));
-    connect(m_configCapture.kcfg_video4rate, SIGNAL(editingFinished()), this, SLOT(rebuildVideo4Commands()));
-
     connect(m_configCapture.kcfg_rmd_capture_audio, SIGNAL(clicked(bool)), m_configCapture.audio_group, SLOT(setVisible(bool)));
 
     m_configCapture.audio_group->setVisible(KdenliveSettings::rmd_capture_audio());
@@ -356,6 +352,7 @@ void KdenliveSettingsDialog::initDevices()
                 if (line.contains("capture")) {
                     deviceId = line.section(':', 0, 0);
                     m_configCapture.kcfg_rmd_alsa_device->addItem(line.section(':', 1, 1), "plughw:" + QString::number(deviceId.section('-', 0, 0).toInt()) + ',' + QString::number(deviceId.section('-', 1, 1).toInt()));
+                    m_configCapture.kcfg_v4l_alsadevice->addItem(line.section(':', 1, 1), "hw:" + QString::number(deviceId.section('-', 0, 0).toInt()) + ',' + QString::number(deviceId.section('-', 1, 1).toInt()));
                 }
             }
             file.close();
@@ -367,12 +364,22 @@ void KdenliveSettingsDialog::initDevices()
         m_configSdl.kcfg_audio_device->setCurrentIndex(ix);
         KdenliveSettings::setAudio_device(ix);
     }
+    
     if (!KdenliveSettings::rmd_alsadevicename().isEmpty()) {
         // Select correct alsa device
         int ix = m_configCapture.kcfg_rmd_alsa_device->findData(KdenliveSettings::rmd_alsadevicename());
         m_configCapture.kcfg_rmd_alsa_device->setCurrentIndex(ix);
         KdenliveSettings::setRmd_alsa_device(ix);
     }
+
+    if (!KdenliveSettings::v4l_alsadevicename().isEmpty()) {
+        // Select correct alsa device
+        int ix = m_configCapture.kcfg_v4l_alsadevice->findData(KdenliveSettings::v4l_alsadevicename());
+        m_configCapture.kcfg_v4l_alsadevice->setCurrentIndex(ix);
+        KdenliveSettings::setV4l_alsadevice(ix);
+    }
+
+    loadCurrentV4lProfileInfo();
 }
 
 
@@ -389,6 +396,7 @@ void KdenliveSettingsDialog::slotReadAudioDevices()
             QString device = data.section(':', 1, 1).section(' ', -1);
             m_configSdl.kcfg_audio_device->addItem(data.section(':', -1), "plughw:" + card + ',' + device);
             m_configCapture.kcfg_rmd_alsa_device->addItem(data.section(':', -1), "plughw:" + card + ',' + device);
+            m_configCapture.kcfg_v4l_alsadevice->addItem(data.section(':', -1), "hw:" + card + ',' + device);
         }
     }
 }
@@ -488,14 +496,6 @@ void KdenliveSettingsDialog::slotUpdateShuttleDevice(int ix)
 
 #endif /* NO_JOGSHUTTLE */
 
-void KdenliveSettingsDialog::rebuildVideo4Commands()
-{
-    QString captureCommand;
-    if (!m_configCapture.kcfg_video4adevice->text().isEmpty()) captureCommand = "-f " + m_configCapture.kcfg_video4aformat->text() + " -i " + m_configCapture.kcfg_video4adevice->text() + " -acodec " + m_configCapture.kcfg_video4acodec->text();
-
-    captureCommand +=  " -f " + m_configCapture.kcfg_video4vformat->text() + " -s " + m_configCapture.kcfg_video4size->text() + " -r " + QString::number(m_configCapture.kcfg_video4rate->value()) + " -i " + m_configCapture.kcfg_video4vdevice->text() + " -vcodec " + m_configCapture.kcfg_video4vcodec->text();
-    m_configCapture.kcfg_video4capture->setText(captureCommand);
-}
 void KdenliveSettingsDialog::updateWidgets()
 {
     // Revert widgets to last saved state (for example when user pressed "Cancel")
@@ -569,11 +569,22 @@ void KdenliveSettingsDialog::updateSettings()
         updateCapturePath = true;
     }
 
+    if ((uint) m_configCapture.kcfg_v4l_format->currentIndex() != KdenliveSettings::v4l_format()) {
+        saveCurrentV4lProfile();
+        KdenliveSettings::setV4l_format(0);
+    }
+    
+
     if (updateCapturePath) emit updateCaptureFolder();
 
     QString value = m_configCapture.kcfg_rmd_alsa_device->itemData(m_configCapture.kcfg_rmd_alsa_device->currentIndex()).toString();
     if (value != KdenliveSettings::rmd_alsadevicename()) {
         KdenliveSettings::setRmd_alsadevicename(value);
+    }
+
+    value = m_configCapture.kcfg_v4l_alsadevice->itemData(m_configCapture.kcfg_v4l_alsadevice->currentIndex()).toString();
+    if (value != KdenliveSettings::v4l_alsadevicename()) {
+        KdenliveSettings::setV4l_alsadevicename(value);
     }
 
     value = m_configCapture.kcfg_rmd_audio_freq->itemText(m_configCapture.kcfg_rmd_audio_freq->currentIndex());
@@ -767,11 +778,97 @@ void KdenliveSettingsDialog::slotUpdatev4lDevice()
 {
     QString device = m_configCapture.kcfg_detectedv4ldevices->itemData(m_configCapture.kcfg_detectedv4ldevices->currentIndex()).toString();
     if (!device.isEmpty()) m_configCapture.kcfg_video4vdevice->setText(device);
-    QString size = m_configCapture.kcfg_detectedv4ldevices->itemData(m_configCapture.kcfg_detectedv4ldevices->currentIndex(), Qt::UserRole + 1).toString();
-    if (!size.isEmpty()) m_configCapture.kcfg_video4size->setText(size);
-    rebuildVideo4Commands();
+    QString info = m_configCapture.kcfg_detectedv4ldevices->itemData(m_configCapture.kcfg_detectedv4ldevices->currentIndex(), Qt::UserRole + 1).toString();
+
+    m_configCapture.kcfg_v4l_format->blockSignals(true);
+    m_configCapture.kcfg_v4l_format->clear();
+
+    QString vl4ProfilePath = KStandardDirs::locateLocal("appdata", "profiles/video4linux");
+    if (QFile::exists(vl4ProfilePath)) m_configCapture.kcfg_v4l_format->addItem(i18n("Current settings"));
+    
+    QStringList pixelformats = info.split(">", QString::SkipEmptyParts);
+    QString itemSize;
+    QString pixelFormat;
+    QStringList itemRates;
+    for (int i = 0; i < pixelformats.count(); i++) {
+        QString format = pixelformats.at(i).section(':', 0, 0);
+        QStringList sizes = pixelformats.at(i).split(":", QString::SkipEmptyParts);
+        pixelFormat = sizes.takeFirst();
+        for (int j = 0; j < sizes.count(); j++) {
+            itemSize = sizes.at(j).section("=", 0, 0);
+            itemRates = sizes.at(j).section("=", 1, 1).split(",", QString::SkipEmptyParts);
+            for (int k = 0; k < itemRates.count(); k++) {
+                m_configCapture.kcfg_v4l_format->addItem("[" + format + "] " + itemSize + " (" + itemRates.at(k) + ")", QStringList() << format << itemSize.section('x', 0, 0) << itemSize.section('x', 1, 1) << itemRates.at(k).section('/', 0, 0) << itemRates.at(k).section('/', 1, 1));
+            }
+        }
+    }
+    m_configCapture.kcfg_v4l_format->blockSignals(false);
+    slotUpdatev4lCaptureProfile();
 }
 
+void KdenliveSettingsDialog::slotUpdatev4lCaptureProfile()
+{
+    QStringList info = m_configCapture.kcfg_v4l_format->itemData(m_configCapture.kcfg_v4l_format->currentIndex(), Qt::UserRole).toStringList();
+    if (info.isEmpty()) {
+        // No auto info, display the current ones
+        loadCurrentV4lProfileInfo();
+        return;
+    }
+    m_configCapture.p_size->setText(info.at(1) + 'x' + info.at(2));
+    m_configCapture.p_fps->setText(info.at(3) + '/' + info.at(4));
+    m_configCapture.p_aspect->setText("1/1");
+    m_configCapture.p_display->setText(info.at(1) + '/' + info.at(2));
+    m_configCapture.p_colorspace->setText(ProfilesDialog::getColorspaceDescription(601));
+    m_configCapture.p_progressive->setText(i18n("Progressive"));
+
+    QString vl4ProfilePath = KStandardDirs::locateLocal("appdata", "profiles/video4linux");
+    if (!QFile::exists(vl4ProfilePath)) saveCurrentV4lProfile();
+}
+
+void KdenliveSettingsDialog::loadCurrentV4lProfileInfo()
+{
+    QString vl4ProfilePath = KStandardDirs::locateLocal("appdata", "profiles/video4linux");
+    MltVideoProfile prof;
+    if (!QFile::exists(vl4ProfilePath)) {
+        // No default formats found, build one
+        prof.width = 320;
+        prof.height = 200;
+        prof.frame_rate_num = 15;
+        prof.frame_rate_den = 1;
+        prof.display_aspect_num = 4;
+        prof.display_aspect_den = 3;
+        prof.sample_aspect_num = 1;
+        prof.sample_aspect_den = 1;
+        prof.progressive = 1;
+        prof.colorspace = 601;
+        ProfilesDialog::saveProfile(prof, vl4ProfilePath);
+    }
+    else prof = ProfilesDialog::getVideoProfile(vl4ProfilePath);
+    m_configCapture.p_size->setText(QString::number(prof.width) + 'x' + QString::number(prof.height));
+    m_configCapture.p_fps->setText(QString::number(prof.frame_rate_num) + '/' + QString::number(prof.frame_rate_den));
+    m_configCapture.p_aspect->setText(QString::number(prof.sample_aspect_num) + '/' + QString::number(prof.sample_aspect_den));
+    m_configCapture.p_display->setText(QString::number(prof.display_aspect_num) + '/' + QString::number(prof.display_aspect_den));
+    m_configCapture.p_colorspace->setText(ProfilesDialog::getColorspaceDescription(prof.colorspace));
+    if (prof.progressive) m_configCapture.p_progressive->setText(i18n("Progressive"));
+}
+
+void KdenliveSettingsDialog::saveCurrentV4lProfile()
+{
+    MltVideoProfile profile;
+    profile.description = "Video4Linux capture";
+    profile.colorspace = ProfilesDialog::getColorspaceFromDescription(m_configCapture.p_colorspace->text());
+    profile.width = m_configCapture.p_size->text().section('x', 0, 0).toInt();
+    profile.height = m_configCapture.p_size->text().section('x', 1, 1).toInt();
+    profile.sample_aspect_num = m_configCapture.p_aspect->text().section('/', 0, 0).toInt();
+    profile.sample_aspect_den = m_configCapture.p_aspect->text().section('/', 1, 1).toInt();
+    profile.display_aspect_num = m_configCapture.p_display->text().section('/', 0, 0).toInt();
+    profile.display_aspect_den = m_configCapture.p_display->text().section('/', 1, 1).toInt();
+    profile.frame_rate_num = m_configCapture.p_fps->text().section('/', 0, 0).toInt();
+    profile.frame_rate_den = m_configCapture.p_fps->text().section('/', 1, 1).toInt();
+    profile.progressive = m_configCapture.p_progressive->text() == i18n("Progressive");
+    QString vl4ProfilePath = KStandardDirs::locateLocal("appdata", "profiles/video4linux");
+    ProfilesDialog::saveProfile(profile, vl4ProfilePath);
+}
 
 #include "kdenlivesettingsdialog.moc"
 

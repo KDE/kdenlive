@@ -139,6 +139,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     KXmlGuiWindow(parent),
     m_activeDocument(NULL),
     m_activeTimeline(NULL),
+    m_recMonitor(NULL),
     m_renderWidget(NULL),
 #ifndef NO_JOGSHUTTLE
     m_jogProcess(NULL),
@@ -208,11 +209,12 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
 #ifndef Q_WS_MAC
     m_recMonitorDock = new QDockWidget(i18n("Record Monitor"), this);
     m_recMonitorDock->setObjectName("record_monitor");
-    m_recMonitor = new RecMonitor("record");
+    m_recMonitor = new RecMonitor("record", m_monitorManager);
     m_recMonitorDock->setWidget(m_recMonitor);
     connect(m_recMonitor, SIGNAL(addProjectClip(KUrl)), this, SLOT(slotAddProjectClip(KUrl)));
     connect(m_recMonitor, SIGNAL(showConfigDialog(int, int)), this, SLOT(slotPreferences(int, int)));
 #endif
+    m_monitorManager->initMonitors(m_clipMonitor, m_projectMonitor, m_recMonitor);
 
     m_notesDock = new QDockWidget(i18n("Project Notes"), this);
     m_notesDock->setObjectName("notes_widget");
@@ -245,7 +247,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     m_effectListDock->setWidget(m_effectList);
     addDockWidget(Qt::TopDockWidgetArea, m_effectListDock);
 
-    m_vectorscope = new Vectorscope(m_projectMonitor, m_clipMonitor);
+    m_vectorscope = new Vectorscope(m_monitorManager);
     m_vectorscopeDock = new QDockWidget(i18n("Vectorscope"), this);
     m_vectorscopeDock->setObjectName(m_vectorscope->widgetName());
     m_vectorscopeDock->setWidget(m_vectorscope);
@@ -255,7 +257,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     connect(m_vectorscope, SIGNAL(requestAutoRefresh(bool)), this, SLOT(slotUpdateGfxScopeFrameRequest()));
     m_gfxScopesList.append(m_vectorscopeDock);
 
-    m_waveform = new Waveform(m_projectMonitor, m_clipMonitor);
+    m_waveform = new Waveform(m_monitorManager);
     m_waveformDock = new QDockWidget(i18n("Waveform"), this);
     m_waveformDock->setObjectName(m_waveform->widgetName());
     m_waveformDock->setWidget(m_waveform);
@@ -265,7 +267,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     connect(m_waveform, SIGNAL(requestAutoRefresh(bool)), this, SLOT(slotUpdateGfxScopeFrameRequest()));
     m_gfxScopesList.append(m_waveformDock);
 
-    m_RGBParade = new RGBParade(m_projectMonitor, m_clipMonitor);
+    m_RGBParade = new RGBParade(m_monitorManager);
     m_RGBParadeDock = new QDockWidget(i18n("RGB Parade"), this);
     m_RGBParadeDock->setObjectName(m_RGBParade->widgetName());
     m_RGBParadeDock->setWidget(m_RGBParade);
@@ -275,7 +277,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     connect(m_RGBParade, SIGNAL(requestAutoRefresh(bool)), this, SLOT(slotUpdateGfxScopeFrameRequest()));
     m_gfxScopesList.append(m_RGBParadeDock);
 
-    m_histogram = new Histogram(m_projectMonitor, m_clipMonitor);
+    m_histogram = new Histogram(m_monitorManager);
     m_histogramDock = new QDockWidget(i18n("Histogram"), this);
     m_histogramDock->setObjectName(m_histogram->widgetName());
     m_histogramDock->setWidget(m_histogram);
@@ -561,12 +563,11 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     connect(m_projectMonitorDock, SIGNAL(visibilityChanged(bool)), m_projectMonitor, SLOT(refreshMonitor(bool)));
     connect(m_clipMonitorDock, SIGNAL(visibilityChanged(bool)), m_clipMonitor, SLOT(refreshMonitor(bool)));
     //connect(m_monitorManager, SIGNAL(connectMonitors()), this, SLOT(slotConnectMonitors()));
-    connect(m_monitorManager, SIGNAL(raiseClipMonitor(bool)), this, SLOT(slotRaiseMonitor(bool)));
+    connect(m_monitorManager, SIGNAL(raiseMonitor(AbstractMonitor *)), this, SLOT(slotRaiseMonitor(AbstractMonitor *)));
     connect(m_monitorManager, SIGNAL(checkColorScopes()), this, SLOT(slotUpdateColorScopes()));
     connect(m_effectList, SIGNAL(addEffect(const QDomElement)), this, SLOT(slotAddEffect(const QDomElement)));
     connect(m_effectList, SIGNAL(reloadEffects()), this, SLOT(slotReloadEffects()));
 
-    m_monitorManager->initMonitors(m_clipMonitor, m_projectMonitor);
     slotConnectMonitors();
 
     // Open or create a file.  Command line argument passed in Url has
@@ -824,10 +825,10 @@ void MainWindow::slotAddEffect(const QDomElement effect)
     else m_activeTimeline->projectView()->slotAddEffect(effectToAdd, GenTime(), -1);
 }
 
-void MainWindow::slotRaiseMonitor(bool clipMonitor)
+void MainWindow::slotRaiseMonitor(AbstractMonitor *monitor)
 {
-    if (clipMonitor) m_clipMonitorDock->raise();
-    else m_projectMonitorDock->raise();
+    if (monitor == m_clipMonitor) m_clipMonitorDock->raise();
+    else if (monitor == m_projectMonitor) m_projectMonitorDock->raise();
 }
 
 void MainWindow::slotUpdateClip(const QString &id)
@@ -2394,7 +2395,6 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
             disconnect(m_activeDocument, SIGNAL(signalDeleteProjectClip(const QString &)), this, SLOT(slotDeleteClip(const QString &)));
             disconnect(m_activeDocument, SIGNAL(updateClipDisplay(const QString &)), m_projectList, SLOT(slotUpdateClip(const QString &)));
             disconnect(m_activeDocument, SIGNAL(selectLastAddedClip(const QString &)), m_projectList, SLOT(slotSelectClip(const QString &)));
-            disconnect(m_activeDocument, SIGNAL(deleteTimelineClip(const QString &)), m_activeTimeline, SLOT(slotDeleteClip(const QString &)));
             disconnect(m_activeTimeline->projectView(), SIGNAL(clipItemSelected(ClipItem*, int, bool)), m_effectStack, SLOT(slotClipItemSelected(ClipItem*, int)));
             disconnect(m_activeTimeline->projectView(), SIGNAL(clipItemSelected(ClipItem*, int, bool)), this, SLOT(slotActivateEffectStackView(ClipItem*, int, bool)));
             disconnect(m_activeTimeline->projectView(), SIGNAL(clipItemSelected(ClipItem*, int, bool)), m_projectMonitor, SLOT(slotSetSelectedClip(ClipItem*)));
@@ -2450,7 +2450,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     connect(m_projectList, SIGNAL(findInTimeline(const QString&)), this, SLOT(slotClipInTimeline(const QString&)));
 
 
-    connect(trackView, SIGNAL(cursorMoved()), m_projectMonitor, SLOT(activateMonitor()));
+    //connect(trackView, SIGNAL(cursorMoved()), m_projectMonitor, SLOT(activateMonitor()));
     connect(trackView, SIGNAL(insertTrack(int)), this, SLOT(slotInsertTrack(int)));
     connect(trackView, SIGNAL(deleteTrack(int)), this, SLOT(slotDeleteTrack(int)));
     connect(trackView, SIGNAL(configTrack(int)), this, SLOT(slotConfigTrack(int)));
@@ -2471,7 +2471,6 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     connect(doc, SIGNAL(updateClipDisplay(const QString &)), m_projectList, SLOT(slotUpdateClip(const QString &)));
     connect(doc, SIGNAL(selectLastAddedClip(const QString &)), m_projectList, SLOT(slotSelectClip(const QString &)));
 
-    connect(doc, SIGNAL(deleteTimelineClip(const QString &)), trackView, SLOT(slotDeleteClip(const QString &)));
     connect(doc, SIGNAL(docModified(bool)), this, SLOT(slotUpdateDocumentState(bool)));
     connect(doc, SIGNAL(guidesUpdated()), this, SLOT(slotGuidesUpdated()));
     connect(m_notesWidget, SIGNAL(textChanged()), doc, SLOT(setModified()));
@@ -4178,9 +4177,11 @@ void MainWindow::slotDoUpdateGfxScopeFrameRequest()
             m_projectMonitor->render->sendFrameForAnalysis = false;
         }
         m_clipMonitor->render->sendFrameForAnalysis = false;
+        m_recMonitor->analyseFrames(false);
     } else {
         m_projectMonitor->render->sendFrameForAnalysis = true;
         m_clipMonitor->render->sendFrameForAnalysis = true;
+        m_recMonitor->analyseFrames(true);
     }
 }
 
@@ -4214,28 +4215,28 @@ void MainWindow::slotDoUpdateAudioScopeFrameRequest()
 void MainWindow::slotUpdateColorScopes()
 {
     bool request = false;
+    kDebug()<<"// UPDATE SCOPES";
     for (int i = 0; i < m_gfxScopesList.count(); i++) {
         // Check if we need the renderer to send a new frame for update
         if (!m_gfxScopesList.at(i)->widget()->visibleRegion().isEmpty() && !(static_cast<AbstractGfxScopeWidget *>(m_gfxScopesList.at(i)->widget())->autoRefreshEnabled())) request = true;
-        static_cast<AbstractGfxScopeWidget *>(m_gfxScopesList.at(i)->widget())->slotActiveMonitorChanged(m_clipMonitor->isActive());
+        static_cast<AbstractGfxScopeWidget *>(m_gfxScopesList.at(i)->widget())->slotActiveMonitorChanged();
     }
     if (request) {
-        if (m_clipMonitor->isActive()) m_clipMonitor->render->sendFrameUpdate();
-        else m_projectMonitor->render->sendFrameUpdate();
+        m_monitorManager->activeRenderer()->sendFrameUpdate();
     }
 }
 
 void MainWindow::slotOpenStopmotion()
 {
     if (m_stopmotion == NULL) {
-        m_stopmotion = new StopmotionWidget(m_activeDocument->projectFolder(), m_stopmotion_actions->actions(), this);
+        m_stopmotion = new StopmotionWidget(m_monitorManager, m_activeDocument->projectFolder(), m_stopmotion_actions->actions(), this);
         connect(m_stopmotion, SIGNAL(addOrUpdateSequence(const QString)), m_projectList, SLOT(slotAddOrUpdateSequence(const QString)));
-        for (int i = 0; i < m_gfxScopesList.count(); i++) {
+        //for (int i = 0; i < m_gfxScopesList.count(); i++) {
             // Check if we need the renderer to send a new frame for update
             /*if (!m_scopesList.at(i)->widget()->visibleRegion().isEmpty() && !(static_cast<AbstractScopeWidget *>(m_scopesList.at(i)->widget())->autoRefreshEnabled())) request = true;*/
-            connect(m_stopmotion, SIGNAL(gotFrame(QImage)), static_cast<AbstractGfxScopeWidget *>(m_gfxScopesList.at(i)->widget()), SLOT(slotRenderZoneUpdated(QImage)));
+            //connect(m_stopmotion, SIGNAL(gotFrame(QImage)), static_cast<AbstractGfxScopeWidget *>(m_gfxScopesList.at(i)->widget()), SLOT(slotRenderZoneUpdated(QImage)));
             //static_cast<AbstractScopeWidget *>(m_scopesList.at(i)->widget())->slotMonitorCapture();
-        }
+        //}
     }
     m_stopmotion->show();
 }

@@ -312,64 +312,39 @@
       <default>0</default>
     </entry>
 
-    <entry name="video4vformat" type="String">
-      <label>Default video4linux capture format.</label>
-      <default>video4linux2</default>
-    </entry>
-
     <entry name="video4vdevice" type="String">
       <label>Default video4linux capture format.</label>
       <default>/dev/video0</default>
     </entry>
 
-    <entry name="video4vcodec" type="String">
-      <label>Default video4linux video codec.</label>
-      <default>mjpeg</default>
-    </entry>
-
-    <entry name="video4acodec" type="String">
-      <label>Default video4linux audio codec.</label>
-      <default>mp2</default>
-    </entry>
-
-    <entry name="video4container" type="String">
-      <label>Default video4linux format.</label>
-      <default>avi</default>
-    </entry>
-
-    <entry name="video4extension" type="String">
-      <label>Default video4linux file extension.</label>
-      <default>avi</default>
-    </entry>
-
-    <entry name="video4aformat" type="String">
-      <label>Default video4linux capture format.</label>
-      <default>oss</default>
-    </entry>
-
-    <entry name="video4adevice" type="String">
-      <label>Default video4linux capture format.</label>
-      <default>/dev/dsp</default>
-    </entry>
-
-    <entry name="video4size" type="String">
-      <label>Default video4linux capture format.</label>
-      <default>320x240</default>
-    </entry>
-
-    <entry name="video4rate" type="Int">
-      <label>Default video4linux capture format.</label>
-      <default>15</default>
-    </entry>
-
-    <entry name="video4capture" type="String">
-      <label>ffmpeg arguments for video capture.</label>
+    <entry name="v4l_alsadevice" type="UInt">
+      <label>Audio device for v4l capture.</label>
       <default></default>
     </entry>
 
-    <entry name="video4encoding" type="String">
-      <label>ffmpeg encoding arguments.</label>
-      <default>-qscale 1 -ab 224k</default>
+    <entry name="v4l_alsadevicename" type="String">
+      <label>Audio device for v4l capture.</label>
+      <default>hw:0,0</default>
+    </entry>
+
+    <entry name="v4l_parameters" type="String">
+      <label>Default video4linux format.</label>
+      <default>f=mpeg acodec=mp2 ab=128k ar=48000 vcodec=mpeg2video minrate=0 b=4000k bf=2 b_strategy=1 trellis=1</default>
+    </entry>
+
+    <entry name="v4l_extension" type="String">
+      <label>Default video4linux file extension.</label>
+      <default>mpeg</default>
+    </entry>
+
+    <entry name="v4l_format" type="UInt">
+      <label>Selected capture format.</label>
+      <default>0</default>
+    </entry>
+
+    <entry name="v4l_captureaudio" type="Bool">
+      <label>Should we also capture audio.</label>
+      <default>false</default>
     </entry>
 
     <entry name="rmd_capture_audio" type="Bool">

@@ -224,7 +224,6 @@ signals:
     void addProjectClip(DocClipBase *, bool getInfo = true);
     void signalDeleteProjectClip(const QString &);
     void updateClipDisplay(const QString&);
-    void deleteTimelineClip(const QString&);
     void progressInfo(const QString &, int);
 
     /** @brief Informs that the document status has been changed.

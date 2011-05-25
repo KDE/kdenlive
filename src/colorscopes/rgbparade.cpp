@@ -16,8 +16,8 @@
 #include "rgbparade.h"
 #include "rgbparadegenerator.h"
 
-RGBParade::RGBParade(Monitor *projMonitor, Monitor *clipMonitor, QWidget *parent) :
-        AbstractGfxScopeWidget(projMonitor, clipMonitor, true, parent)
+RGBParade::RGBParade(MonitorManager *manager, QWidget *parent) :
+        AbstractGfxScopeWidget(manager, true, parent)
 {
     ui = new Ui::RGBParade_UI();
     ui->setupUi(this);

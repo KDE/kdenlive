@@ -106,6 +106,7 @@ private slots:
     void slotShowWebInfos();
     void slotDetectWebcam();
     void slotUpdateCaptureParameters();
+    void slotSaveCaptureFormat();
 };
 
 #endif

@@ -38,7 +38,7 @@ public:
     static QString getPathFromDescription(const QString profileDesc);
     static MltVideoProfile getVideoProfile(QString name);
     static QMap <QString, QString> getProfilesInfo();
-    static void saveProfile(MltVideoProfile &profile);
+    static void saveProfile(MltVideoProfile &profile, QString profilePath = QString());
     static QString existingProfile(MltVideoProfile profile);
     static bool existingProfileDescription(const QString &desc);
 
@@ -71,6 +71,11 @@ public:
      *  @param colorspace An int as defined in mlt_profile.h
      *  @return The string description */
     static QString getColorspaceDescription(int colorspace);
+
+    /** @brief Get the colorspace code (defined by MLT) from a descriptive text
+     *  @param desctiption A string description as defined in getColorspaceDescription(int colorspace)
+     *  @return The int code */
+    static int getColorspaceFromDescription(const QString &description);
 
 protected:
     virtual void closeEvent(QCloseEvent *event);

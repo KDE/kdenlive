@@ -22,7 +22,7 @@ class Waveform : public AbstractGfxScopeWidget {
     Q_OBJECT
 
 public:
-    Waveform(Monitor *projMonitor, Monitor *clipMonitor, QWidget *parent = 0);
+    Waveform(MonitorManager *manager, QWidget *parent = 0);
     ~Waveform();
 
     virtual QString widgetName() const;

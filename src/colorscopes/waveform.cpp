@@ -25,8 +25,8 @@
 const QSize Waveform::m_textWidth(35,0);
 const int Waveform::m_paddingBottom(20);
 
-Waveform::Waveform(Monitor *projMonitor, Monitor *clipMonitor, QWidget *parent) :
-    AbstractGfxScopeWidget(projMonitor, clipMonitor, true, parent)
+Waveform::Waveform(MonitorManager *manager, QWidget *parent) :
+    AbstractGfxScopeWidget(manager, true, parent)
   ,ui(NULL)
 {
     ui = new Ui::Waveform_UI();

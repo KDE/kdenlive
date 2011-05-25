@@ -11,6 +11,9 @@
 extern "C" {
  #endif
 
+#ifndef INC_SRC_H
+#define INC_SRC_H
+
 #include <stdint.h>
 #include <sys/time.h>
 #include <stdio.h>
@@ -20,8 +23,9 @@ extern "C" {
 #include <unistd.h>
 #include <fcntl.h>
 
-#ifndef INC_SRC_H
-#define INC_SRC_H
+#include "videodev2.h"
+
+
 
 typedef unsigned char avgbmp_t;
 
@@ -117,19 +121,6 @@ typedef struct {
 
 typedef struct {
 	
-	char *name;
-	
-	uint8_t flags;
-	
-	int (*open)(src_t *);
-	int (*close)(src_t *);
-	int (*grab)(src_t *);
-	const char *(*query)(src_t *, uint*, uint*, char **);
-	
-} src_mod_t;
-
-typedef struct {
-	
 	/* List of options. */
 	char *opts;
 	const struct option *long_opts;
@@ -209,15 +200,31 @@ typedef struct {
 
 } fswebcam_config_t;
 
-extern int src_open(src_t *src, char *source);
-extern int src_close(src_t *src);
-extern int src_grab(src_t *src);
-extern const char *src_query(src_t *src, char *source, uint *width, uint *height, char **pixelformatdescription);
 
-extern int src_set_option(src_option_t ***options, char *name, char *value);
-extern int src_get_option_by_number(src_option_t **opt, int number, char **name, char **value);
-extern int src_get_option_by_name(src_option_t **opt, char *name, char **value);
-extern int src_free_options(src_option_t ***options);
+
+typedef struct {
+        void *start;
+        size_t length;
+} v4l2_buffer_t;
+
+typedef struct {
+
+        int fd;
+        char map;
+
+        struct v4l2_capability cap;
+        struct v4l2_format fmt;
+        struct v4l2_requestbuffers req;
+        struct v4l2_buffer buf;
+
+        v4l2_buffer_t *buffer;
+
+        int pframe;
+
+} src_v4l2_t;
+
+
+const char *query_v4ldevice(src_t *src, char **pixelformatdescription);
 
 #endif
 

@@ -12,7 +12,7 @@
 
 #include "abstractgfxscopewidget.h"
 #include "renderer.h"
-#include "monitor.h"
+#include "monitormanager.h"
 
 #include <QFuture>
 #include <QColor>
@@ -29,18 +29,18 @@
 
 const int REALTIME_FPS = 30;
 
-AbstractGfxScopeWidget::AbstractGfxScopeWidget(Monitor *projMonitor, Monitor *clipMonitor, bool trackMouse, QWidget *parent) :
+AbstractGfxScopeWidget::AbstractGfxScopeWidget(MonitorManager *manager, bool trackMouse, QWidget *parent) :
         AbstractScopeWidget(trackMouse, parent),
-        m_projMonitor(projMonitor),
-        m_clipMonitor(clipMonitor)
-
+        m_manager(manager)
 {
-    m_activeRender = (m_clipMonitor->isActive()) ? m_clipMonitor->render : m_projMonitor->render;
+    m_activeRender = m_manager->activeRenderer();
 
     bool b = true;
-    b &= connect(m_activeRender, SIGNAL(frameUpdated(QImage)), this, SLOT(slotRenderZoneUpdated(QImage)));
+    if (m_activeRender != NULL)
+        b &= connect(m_activeRender, SIGNAL(frameUpdated(QImage)), this, SLOT(slotRenderZoneUpdated(QImage)));
     Q_ASSERT(b);
 }
+
 AbstractGfxScopeWidget::~AbstractGfxScopeWidget() { }
 
 QImage AbstractGfxScopeWidget::renderScope(uint accelerationFactor)
@@ -50,7 +50,7 @@ QImage AbstractGfxScopeWidget::renderScope(uint accelerationFactor)
 
 void AbstractGfxScopeWidget::mouseReleaseEvent(QMouseEvent *event)
 {
-    if (!m_aAutoRefresh->isChecked()) {
+    if (!m_aAutoRefresh->isChecked() && m_activeRender) {
         m_activeRender->sendFrameUpdate();
     }
     AbstractScopeWidget::mouseReleaseEvent(event);
@@ -59,20 +59,23 @@ void AbstractGfxScopeWidget::mouseReleaseEvent(QMouseEvent *event)
 
 ///// Slots /////
 
-void AbstractGfxScopeWidget::slotActiveMonitorChanged(bool isClipMonitor)
+void AbstractGfxScopeWidget::slotActiveMonitorChanged()
 {
+    if (m_activeRender) {
+        bool b = m_activeRender->disconnect(this);
+        Q_ASSERT(b);
+    }
+
+    m_activeRender = m_manager->activeRenderer();
 #ifdef DEBUG_AGSW
-    qDebug() << "Active monitor has changed in " << widgetName() << ". Is the clip monitor active now? " << isClipMonitor;
+    qDebug() << "Active monitor has changed in " << widgetName() << ". Is the clip monitor active now? " << m_activeRender->name();
 #endif
 
-    bool b = m_activeRender->disconnect(this);
-    Q_ASSERT(b);
-
-    m_activeRender = (isClipMonitor) ? m_clipMonitor->render : m_projMonitor->render;
-
     //b &= connect(m_activeRender, SIGNAL(rendererPosition(int)), this, SLOT(slotRenderZoneUpdated()));
-    b &= connect(m_activeRender, SIGNAL(frameUpdated(QImage)), this, SLOT(slotRenderZoneUpdated(QImage)));
-    Q_ASSERT(b);
+    if (m_activeRender) {
+        bool b = connect(m_activeRender, SIGNAL(frameUpdated(QImage)), this, SLOT(slotRenderZoneUpdated(QImage)));
+        Q_ASSERT(b);
+    }
 
     // Update the scope for the new monitor.
     forceUpdate(true);
@@ -86,7 +89,7 @@ void AbstractGfxScopeWidget::slotRenderZoneUpdated(QImage frame)
 
 void AbstractGfxScopeWidget::slotAutoRefreshToggled(bool autoRefresh)
 {
-    if (autoRefresh) {
+    if (autoRefresh && m_activeRender) {
         m_activeRender->sendFrameUpdate();
     }
 }

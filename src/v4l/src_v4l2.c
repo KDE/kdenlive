@@ -24,55 +24,6 @@
 
 #ifdef HAVE_V4L2
 
-typedef struct {
-	void *start;
-	size_t length;
-} v4l2_buffer_t;
-
-typedef struct {
-	
-	int fd;
-	char map;
-	
-	struct v4l2_capability cap;
-	struct v4l2_format fmt;
-	struct v4l2_requestbuffers req;
-	struct v4l2_buffer buf;
-	
-	v4l2_buffer_t *buffer;
-	
-	int pframe;
-	
-} src_v4l2_t;
-
-static int src_v4l2_close(src_t *src);
-
-typedef struct {
-	uint16_t src;
-	uint32_t v4l2;
-} v4l2_palette_t;
-
-v4l2_palette_t v4l2_palette[] = {
-	{ SRC_PAL_JPEG,    V4L2_PIX_FMT_JPEG   },
-	{ SRC_PAL_MJPEG,   V4L2_PIX_FMT_MJPEG  },
-	{ SRC_PAL_S561,    V4L2_PIX_FMT_SPCA561 },
-	{ SRC_PAL_RGB24,   V4L2_PIX_FMT_RGB24  },
-	{ SRC_PAL_BGR24,   V4L2_PIX_FMT_BGR24  },
-	{ SRC_PAL_RGB32,   V4L2_PIX_FMT_RGB32  },
-	{ SRC_PAL_BGR32,   V4L2_PIX_FMT_BGR32  },
-	{ SRC_PAL_YUYV,    V4L2_PIX_FMT_YUYV   },
-	{ SRC_PAL_UYVY,    V4L2_PIX_FMT_UYVY   },
-	{ SRC_PAL_YUV420P, V4L2_PIX_FMT_YUV420 },
-	{ SRC_PAL_BAYER,   V4L2_PIX_FMT_SBGGR8 },
-	{ SRC_PAL_SGBRG8,  V4L2_PIX_FMT_SGBRG8 },
-	{ SRC_PAL_SGRBG8,  V4L2_PIX_FMT_SGRBG8 },
-	{ SRC_PAL_RGB565,  V4L2_PIX_FMT_RGB565 },
-	{ SRC_PAL_RGB555,  V4L2_PIX_FMT_RGB555 },
-	{ SRC_PAL_Y16,     V4L2_PIX_FMT_Y16    },
-	{ SRC_PAL_GREY,    V4L2_PIX_FMT_GREY   },
-	{ 0, 0 }
-};
-
 int src_v4l2_get_capability(src_t *src)
 {
 	src_v4l2_t *s = (src_v4l2_t *) src->state;
@@ -857,15 +808,57 @@ static const char *src_v4l2_query(src_t *src, uint *width, uint *height, char **
 	    memset(&fmt,0,sizeof(fmt));
 	    fmt.index = 0;
 	    fmt.type  = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-	    if (ioctl(s->fd, VIDIOC_ENUM_FMT, &fmt) != -1)
+
+            struct v4l2_frmsizeenum sizes;
+            memset(&sizes,0,sizeof(sizes));
+
+            struct v4l2_frmivalenum rates;
+            memset(&rates,0,sizeof(rates));
+            char value[200];
+            *pixelformatdescription = strdup((char *) "result:");
+
+	    while (ioctl(s->fd, VIDIOC_ENUM_FMT, &fmt) != -1)
 	    {
 		/*strcpy(*pixelformatdescription, (char *) fmt.description);*/
-		*pixelformatdescription = strdup((char*)fmt.description);
-		fprintf(stderr, "format: %s", fmt.description);
+		//*pixelformatdescription = strdup((char*)fmt.description);
+                snprintf( value, sizeof(value), "%c%c%c%c:", fmt.pixelformat >> 0,  fmt.pixelformat >> 8, fmt.pixelformat >> 16, fmt.pixelformat >> 24 );
+                strcat(*pixelformatdescription, strdup((char *) value));
+		fprintf(stderr, "detected format: %s: %c%c%c%c\n", fmt.description, fmt.pixelformat >> 0,  fmt.pixelformat >> 8,
+                      fmt.pixelformat >> 16, fmt.pixelformat >> 24);
+
+                sizes.pixel_format = fmt.pixelformat;
+                sizes.index = 0;
+                // Query supported frame size
+                while (ioctl(s->fd, VIDIOC_ENUM_FRAMESIZES, &sizes) != -1) {
+                    struct v4l2_frmsize_discrete image_size = sizes.un.discrete;
+                    // Query supported frame rates
+                    rates.index = 0;
+                    rates.pixel_format = fmt.pixelformat;
+                    rates.width = image_size.width;
+                    rates.height = image_size.height;
+                    snprintf( value, sizeof(value), "%dx%d,", image_size.width, image_size.height );
+                    strcat(*pixelformatdescription, strdup((char *) value));
+                    fprintf(stderr, "Size: %dx%d: ", image_size.width, image_size.height);
+                    while (ioctl(s->fd, VIDIOC_ENUM_FRAMEINTERVALS, &rates) != -1) {
+                        snprintf( value, sizeof(value), "%d/%d,", rates.un.discrete.numerator, rates.un.discrete.denominator );
+                        strcat(*pixelformatdescription, strdup((char *) value));
+                        fprintf(stderr, "%d/%d, ", rates.un.discrete.numerator, rates.un.discrete.denominator);
+                        rates.index ++;
+                    }
+                    fprintf(stderr, "\n");
+                    sizes.index++;
+                }
+                
+
+                /*[0x%08X] '%c%c%c%c' (%s)", v4l2_pal,
+                      fmt.pixelformat,
+                      fmt.pixelformat >> 0,  fmt.pixelformat >> 8,
+                      fmt.pixelformat >> 16, fmt.pixelformat >> 24*/
+                fmt.index++;
 	    }
-	    else {
+	    /*else {
 		*pixelformatdescription = '\0';
-	    }
+	    }*/
 	}
 	src_v4l2_close(src);
 	return res;

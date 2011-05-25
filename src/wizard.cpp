@@ -128,7 +128,8 @@ Wizard::Wizard(bool upgrade, QWidget *parent) :
     page6->setTitle(i18n("Webcam"));
     m_capture.setupUi(page6);
     connect(m_capture.button_reload, SIGNAL(clicked()), this, SLOT(slotDetectWebcam()));
-    connect(m_capture.device_list, SIGNAL(itemSelectionChanged()), this, SLOT(slotUpdateCaptureParameters()));
+    connect(m_capture.v4l_devices, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateCaptureParameters()));
+    connect(m_capture.v4l_formats, SIGNAL(currentIndexChanged(int)), this, SLOT(slotSaveCaptureFormat()));
     m_capture.button_reload->setIcon(KIcon("view-refresh"));
 
     addPage(page6);
@@ -148,47 +149,90 @@ Wizard::Wizard(bool upgrade, QWidget *parent) :
 void Wizard::slotDetectWebcam()
 {
 #if !defined(Q_WS_MAC) && !defined(Q_OS_FREEBSD)
-    m_capture.device_list->clear();
+    m_capture.v4l_devices->blockSignals(true);
+    m_capture.v4l_devices->clear();
 
     // Video 4 Linux device detection
-    V4lCaptureHandler v4l(NULL);
     for (int i = 0; i < 10; i++) {
         QString path = "/dev/video" + QString::number(i);
         if (QFile::exists(path)) {
-            QStringList deviceInfo = v4l.getDeviceName(path.toUtf8().constData());
+            QStringList deviceInfo = V4lCaptureHandler::getDeviceName(path.toUtf8().constData());
             if (!deviceInfo.isEmpty()) {
-                QTreeWidgetItem *item = new QTreeWidgetItem(m_capture.device_list, QStringList() << deviceInfo.at(0) << "(" + deviceInfo.at(1) + ") " + deviceInfo.at(2));
-                item->setData(0, Qt::UserRole, path);
-                item->setData(0, Qt::UserRole + 1, deviceInfo.at(1));
+                m_capture.v4l_devices->addItem(deviceInfo.at(0), path);
+                m_capture.v4l_devices->setItemData(m_capture.v4l_devices->count() - 1, deviceInfo.at(1), Qt::UserRole + 1);
             }
         }
     }
-    if (m_capture.device_list->topLevelItemCount() > 0) {
+    if (m_capture.v4l_devices->count() > 0) {
         m_capture.v4l_status->setText(i18n("Select your default video4linux device"));
         // select default device
         bool found = false;
-        for (int i = 0; i < m_capture.device_list->topLevelItemCount(); i++) {
-            QTreeWidgetItem * item = m_capture.device_list->topLevelItem(i);
-            if (item && item->data(0, Qt::UserRole).toString() == KdenliveSettings::video4vdevice()) {
-                m_capture.device_list->setCurrentItem(item);
+        for (int i = 0; i < m_capture.v4l_devices->count(); i++) {
+            QString device = m_capture.v4l_devices->itemData(i).toString();
+            if (device == KdenliveSettings::video4vdevice()) {
+                m_capture.v4l_devices->setCurrentIndex(i);
                 found = true;
                 break;
             }
         }
-        if (!found) m_capture.device_list->setCurrentItem(m_capture.device_list->topLevelItem(0));
+        slotUpdateCaptureParameters();
+        if (!found) m_capture.v4l_devices->setCurrentIndex(0);
     } else m_capture.v4l_status->setText(i18n("No device found, plug your webcam and refresh."));
+    m_capture.v4l_devices->blockSignals(false);
 #endif
 }
 
 void Wizard::slotUpdateCaptureParameters()
 {
-    QTreeWidgetItem * item = m_capture.device_list->currentItem();
-    if (!item) return;
-    QString device = item->data(0, Qt::UserRole).toString();
+    QString device = m_capture.v4l_devices->itemData(m_capture.v4l_devices->currentIndex()).toString();
     if (!device.isEmpty()) KdenliveSettings::setVideo4vdevice(device);
 
-    QString size = item->data(0, Qt::UserRole + 1).toString();
-    if (!size.isEmpty()) KdenliveSettings::setVideo4size(size);
+    QString formats = m_capture.v4l_devices->itemData(m_capture.v4l_devices->currentIndex(), Qt::UserRole + 1).toString();
+
+    m_capture.v4l_formats->blockSignals(true);
+    m_capture.v4l_formats->clear();
+
+    QString vl4ProfilePath = KStandardDirs::locateLocal("appdata", "profiles/video4linux");
+    if (QFile::exists(vl4ProfilePath)) {
+        MltVideoProfile profileInfo = ProfilesDialog::getVideoProfile(vl4ProfilePath);
+        m_capture.v4l_formats->addItem(i18n("Current settings (%1x%2, %3/%4fps)", profileInfo.width, profileInfo.height, profileInfo.frame_rate_num, profileInfo.frame_rate_den), QStringList() << QString("unknown") <<QString::number(profileInfo.width)<<QString::number(profileInfo.height)<<QString::number(profileInfo.frame_rate_num)<<QString::number(profileInfo.frame_rate_den));
+    }
+    QStringList pixelformats = formats.split(">", QString::SkipEmptyParts);
+    QString itemSize;
+    QString pixelFormat;
+    QStringList itemRates;
+    for (int i = 0; i < pixelformats.count(); i++) {
+        QString format = pixelformats.at(i).section(':', 0, 0);
+        QStringList sizes = pixelformats.at(i).split(":", QString::SkipEmptyParts);
+        pixelFormat = sizes.takeFirst();
+        for (int j = 0; j < sizes.count(); j++) {
+            itemSize = sizes.at(j).section("=", 0, 0);
+            itemRates = sizes.at(j).section("=", 1, 1).split(",", QString::SkipEmptyParts);
+            for (int k = 0; k < itemRates.count(); k++) {
+                m_capture.v4l_formats->addItem("[" + format + "] " + itemSize + " (" + itemRates.at(k) + ")", QStringList() << format << itemSize.section('x', 0, 0) << itemSize.section('x', 1, 1) << itemRates.at(k).section('/', 0, 0) << itemRates.at(k).section('/', 1, 1));
+            }
+        }
+    }
+    if (!QFile::exists(vl4ProfilePath)) {
+        if (m_capture.v4l_formats->count() > 9) slotSaveCaptureFormat();
+        else {
+            // No existing profile and no autodetected profiles
+            MltVideoProfile profileInfo;
+            profileInfo.width = 320;
+            profileInfo.height = 200;
+            profileInfo.frame_rate_num = 15;
+            profileInfo.frame_rate_den = 1;
+            profileInfo.display_aspect_num = 4;
+            profileInfo.display_aspect_den = 3;
+            profileInfo.sample_aspect_num = 1;
+            profileInfo.sample_aspect_den = 1;
+            profileInfo.progressive = 1;
+            profileInfo.colorspace = 601;
+            ProfilesDialog::saveProfile(profileInfo, vl4ProfilePath);
+            m_capture.v4l_formats->addItem(i18n("Default settings (%1x%2, %3/%4fps)", profileInfo.width, profileInfo.height, profileInfo.frame_rate_num, profileInfo.frame_rate_den), QStringList() << QString("unknown") <<QString::number(profileInfo.width)<<QString::number(profileInfo.height)<<QString::number(profileInfo.frame_rate_num)<<QString::number(profileInfo.frame_rate_den));
+        }
+    }
+    m_capture.v4l_formats->blockSignals(false);
 }
 
 void Wizard::checkMltComponents()
@@ -644,6 +688,26 @@ bool Wizard::isOk() const
 void Wizard::slotShowWebInfos()
 {
     KRun::runUrl(KUrl("http://kdenlive.org/discover/" + QString(kdenlive_version).section(' ', 0, 0)), "text/html", this);
+}
+
+void Wizard::slotSaveCaptureFormat()
+{
+    QStringList format = m_capture.v4l_formats->itemData(m_capture.v4l_formats->currentIndex()).toStringList();
+    if (format.isEmpty()) return;
+    MltVideoProfile profile;
+    profile.description = "Video4Linux capture";
+    profile.colorspace = 601;
+    profile.width = format.at(1).toInt();
+    profile.height = format.at(2).toInt();
+    profile.sample_aspect_num = 1;
+    profile.sample_aspect_den = 1;
+    profile.display_aspect_num = format.at(1).toInt();
+    profile.display_aspect_den = format.at(2).toInt();
+    profile.frame_rate_num = format.at(3).toInt();
+    profile.frame_rate_den = format.at(4).toInt();
+    profile.progressive = 1;
+    QString vl4ProfilePath = KStandardDirs::locateLocal("appdata", "profiles/video4linux");
+    ProfilesDialog::saveProfile(profile, vl4ProfilePath);
 }
 
 #include "wizard.moc"

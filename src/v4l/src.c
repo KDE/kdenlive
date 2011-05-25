@@ -16,14 +16,11 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <errno.h>
+#include <sys/mman.h>
 #include "src.h"
 
-#ifdef HAVE_V4L2
-extern src_mod_t src_v4l2;
-#endif
-#ifdef HAVE_V4L1
-extern src_mod_t src_v4l1;
-#endif
+#include <sys/ioctl.h>
+
 
 /* Supported palette types. */
 src_palette_t src_palette[] = {
@@ -50,223 +47,141 @@ src_palette_t src_palette[] = {
 };
 
 
-int src_open(src_t *src, char *source)
+
+int v4l2_free_mmap(src_t *src)
 {
-	int i = 0;
-	struct stat st;
-	
-	if(!source)
-	{
-		fprintf(stderr, "No source was specified.......");
-		return(-1);
-	}
-	src->source = source;
-	
-	i = 0;
-	int r = src_v4l2.flags;
-	if(S_ISCHR(st.st_mode) && r & SRC_TYPE_DEVICE) r = -1;
-	else if(!S_ISCHR(st.st_mode) && r & SRC_TYPE_FILE) r = -1;
-	else r = 0;
-	src->type = 0;
-	r = src_v4l2.open(src);
-	if(r == -2) return(-1);
+        src_v4l2_t *s = (src_v4l2_t *) src->state;
+        int i;
 
-	/*
-	int frame;
-	for(frame = 0; frame < config->skipframes; frame++)
-	    if(src_grab(src) == -1) break;*/
+        for(i = 0; i < s->req.count; i++)
+                munmap(s->buffer[i].start, s->buffer[i].length);
 
-	return 0;
+        return(0);
 }
 
-const char *src_query(src_t *src, char *source, uint *width, uint *height, char **pixelformatdescription)
+static int close_v4l2(src_t *src)
 {
-    src->source = source;
-    return src_v4l2.query(src, width, height, pixelformatdescription);
+        src_v4l2_t *s = (src_v4l2_t *) src->state;
+
+        if(s->buffer)
+        {
+                if(!s->map) free(s->buffer[0].start);
+                else v4l2_free_mmap(src);
+                free(s->buffer);
+        }
+        if(s->fd >= 0) close(s->fd);
+        free(s);
+
+        return(0);
 }
 
-int src_close(src_t *src)
+//static
+const char *query_v4ldevice(src_t *src, char **pixelformatdescription)
 {
-	int r;
-	
-	if(src->captured_frames)
-	{
-		double seconds =
-		   (src->tv_last.tv_sec  + src->tv_last.tv_usec  / 1000000.0) -
-		   (src->tv_first.tv_sec + src->tv_first.tv_usec / 1000000.0);
-		
-		/* Display FPS if enough frames where captured. */
-		if(src->captured_frames == 1)
-		{
-			/*MSG("Captured frame in %0.2f seconds.", seconds);*/
-		}
-		else if(src->captured_frames < 3)
-		{
-			/*MSG("Captured %i frames in %0.2f seconds.",
-			    src->captured_frames, seconds);*/
-		}
-		else
-		{
-			/*MSG("Captured %i frames in %0.2f seconds. (%i fps)",
-			    src->captured_frames, seconds,
-			    (int) (src->captured_frames / seconds));*/
-		}
-	}
-	
-	r = src_v4l2.close(src);
-	
-	if(src->source) free(src->source);
-	
-	return(r);
+        if(!src->source)
+        {
+                /*ERROR("No device name specified.");*/
+                fprintf(stderr, "No device name specified.");
+                return NULL;
+        }
+        src_v4l2_t *s;
+
+        /* Allocate memory for the state structure. */
+        s = calloc(sizeof(src_v4l2_t), 1);
+        if(!s)
+        {
+                fprintf(stderr, "Out of memory.");
+                return NULL;
+        }
+
+        src->state = (void *) s;
+        char value[200];
+        //snprintf( value, sizeof(value), '\0' );
+        //strcpy(*pixelformatdescription, (char*) value);
+        /* Open the device. */
+        s->fd = open(src->source, O_RDWR | O_NONBLOCK);
+        if(s->fd < 0)
+        {
+                fprintf(stderr, "Cannot open device.");
+                free(s);
+                return NULL;
+        }
+
+        if(ioctl(s->fd, VIDIOC_QUERYCAP, &s->cap) < 0) {
+            close_v4l2(src);
+            fprintf(stderr, "Cannot get capabilities.");
+            return NULL;
+        }
+        char *res = strdup((char*) s->cap.card);
+        /*strcpy(res, (char*) s->cap.card);*/
+        if(!s->cap.capabilities & V4L2_CAP_VIDEO_CAPTURE) {
+            // Device cannot capture
+        }
+        else {
+            struct v4l2_format format;
+            memset(&format,0,sizeof(format));
+            format.type  = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+            if (ioctl(s->fd,VIDIOC_G_FMT,&format) < 0) {
+                fprintf(stderr, "Cannot get format.");
+                // Cannot query
+            }
+            struct v4l2_fmtdesc fmt;
+            memset(&fmt,0,sizeof(fmt));
+            fmt.index = 0;
+            fmt.type  = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+
+            struct v4l2_frmsizeenum sizes;
+            memset(&sizes,0,sizeof(sizes));
+
+            struct v4l2_frmivalenum rates;
+            memset(&rates,0,sizeof(rates));
+
+            while (ioctl(s->fd, VIDIOC_ENUM_FMT, &fmt) != -1)
+            {
+                /*strcpy(*pixelformatdescription, (char *) fmt.description);*/
+                //*pixelformatdescription = strdup((char*)fmt.description);
+                snprintf( value, sizeof(value), ">%c%c%c%c", fmt.pixelformat >> 0,  fmt.pixelformat >> 8, fmt.pixelformat >> 16, fmt.pixelformat >> 24 );
+                strcat(*pixelformatdescription, (char *) value);
+                fprintf(stderr, "detected format: %s: %c%c%c%c\n", fmt.description, fmt.pixelformat >> 0,  fmt.pixelformat >> 8,
+                      fmt.pixelformat >> 16, fmt.pixelformat >> 24);
+
+                sizes.pixel_format = fmt.pixelformat;
+                sizes.index = 0;
+                // Query supported frame size
+                while (ioctl(s->fd, VIDIOC_ENUM_FRAMESIZES, &sizes) != -1) {
+                    struct v4l2_frmsize_discrete image_size = sizes.un.discrete;
+                    // Query supported frame rates
+                    rates.index = 0;
+                    rates.pixel_format = fmt.pixelformat;
+                    rates.width = image_size.width;
+                    rates.height = image_size.height;
+                    snprintf( value, sizeof(value), ":%dx%d=", image_size.width, image_size.height );
+                    strcat(*pixelformatdescription, (char *) value);
+                    fprintf(stderr, "Size: %dx%d: ", image_size.width, image_size.height);
+                    while (ioctl(s->fd, VIDIOC_ENUM_FRAMEINTERVALS, &rates) != -1) {
+                        snprintf( value, sizeof(value), "%d/%d,", rates.un.discrete.denominator, rates.un.discrete.numerator );
+                        strcat(*pixelformatdescription, (char *) value);
+                        fprintf(stderr, "%d/%d, ", rates.un.discrete.numerator, rates.un.discrete.denominator);
+                        rates.index ++;
+                    }
+                    fprintf(stderr, "\n");
+                    sizes.index++;
+                }
+
+
+                /*[0x%08X] '%c%c%c%c' (%s)", v4l2_pal,
+                      fmt.pixelformat,
+                      fmt.pixelformat >> 0,  fmt.pixelformat >> 8,
+                      fmt.pixelformat >> 16, fmt.pixelformat >> 24*/
+                fmt.index++;
+            }
+            /*else {
+                *pixelformatdescription = '\0';
+            }*/
+        }
+        close_v4l2(src);
+        return res;
 }
 
-int src_grab(src_t *src)
-{
-	int r = src_v4l2.grab(src);
-	
-	if(!r)
-	{
-		if(!src->captured_frames) gettimeofday(&src->tv_first, NULL);
-		gettimeofday(&src->tv_last, NULL);
-		
-		src->captured_frames++;
-	}
-	
-	return(r);
-}
 
-/* Pointers are great things. Terrible things yes, but great. */
-/* These work but are very ugly and will be re-written soon. */
-
-int src_set_option(src_option_t ***options, char *name, char *value)
-{
-	src_option_t **opts, *opt;
-	int count;
-	
-	if(!options) return(-1);
-	if(!*options)
-	{
-		*options = malloc(sizeof(src_option_t *));
-		if(!*options)
-		{
-			/*ERROR("Out of memory.");*/
-			return(-1);
-		}
-		
-		*options[0] = NULL;
-	}
-	
-	count = 0;
-	opts = *options;
-	while(*opts)
-	{
-		if((*opts)->name) if(!strcasecmp(name, (*opts)->name)) break;
-		opts++;
-		count++;
-	}
-	
-	if(!*opts)
-	{
-		void *new;
-		
-		opt = (src_option_t *) malloc(sizeof(src_option_t));
-		if(!opt)
-		{
-			/*ERROR("Out of memory.");*/
-			return(-1);
-		}
-		
-		new = realloc(*options, sizeof(src_option_t *) * (count + 2));
-		if(!new)
-		{
-			free(opt);
-			/*ERROR("Out of memory.");*/
-			return(-1);
-		}
-		
-		*options = (src_option_t **) new;
-		(*options)[count++] = opt;
-		(*options)[count++] = NULL;
-		
-		opt->name = strdup(name);
-		opt->value = NULL;
-	}
-	else opt = *opts;
-	
-	if(opt->value)
-	{
-		free(opt->value);
-		opt->value = NULL;
-	}
-	if(value) opt->value = strdup(value);
-	
-	return(0);
-}
-
-int src_get_option_by_number(src_option_t **opt, int number,
-                             char **name, char **value)
-{
-	int i;
-	
-	if(!opt || !name || !value) return(-1);
-	
-	i = 0;
-	while(*opt)
-	{
-		if(i == number)
-		{
-			*name  = (*opt)->name;
-			*value = (*opt)->value;
-			return(0);
-		}
-		
-		i++;
-	}
-	
-	return(-1);
-}
-
-int src_get_option_by_name(src_option_t **opt, char *name, char **value)
-{
-	if(!opt || !name || !value) return(-1);
-	
-	while(*opt)
-	{
-		if((*opt)->name)
-		{
-			if(!strcasecmp(name, (*opt)->name))
-			{
-				*value = (*opt)->value;
-				return(0);
-			}
-		}
-		
-		opt++;
-	}
-	
-	return(-1);
-}
-
-int src_free_options(src_option_t ***options)
-{
-	src_option_t **opts;
-	
-	if(!options || !*options) return(-1);
-	
-	opts = *options;
-        while(*opts)
-	{
-		if((*opts)->name)  free((*opts)->name);
-		if((*opts)->value) free((*opts)->value);
-		
-		free(*opts);
-		
-		opts++;
-	}
-	
-	free(*options);
-	*options = NULL;
-	
-	return(0);
-}
 

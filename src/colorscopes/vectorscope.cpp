@@ -42,8 +42,8 @@ const QPointF YPbPr_Mg(.331, .419);
 const QPointF YPbPr_Yl(-.5, .081);
 
 
-Vectorscope::Vectorscope(Monitor *projMonitor, Monitor *clipMonitor, QWidget *parent) :
-    AbstractGfxScopeWidget(projMonitor, clipMonitor, true, parent),
+Vectorscope::Vectorscope(MonitorManager *manager, QWidget *parent) :
+    AbstractGfxScopeWidget(manager, true, parent),
     m_gain(1)
 {
     ui = new Ui::Vectorscope_UI();

@@ -94,10 +94,9 @@ static void consumer_gl_frame_show(mlt_consumer, Render * self, mlt_frame frame_
 }
 
 Render::Render(const QString & rendererName, int winid, QString profile, QWidget *parent) :
-    QObject(parent),
+    AbstractRender(parent),
     m_isBlocked(0),
     analyseAudio(KdenliveSettings::monitor_audio()),
-    sendFrameForAnalysis(false),
     m_name(rendererName),
     m_mltConsumer(NULL),
     m_mltProducer(NULL),
@@ -1267,7 +1266,6 @@ void Render::stop()
     if (m_mltProducer == NULL) return;
     if (m_mltConsumer && !m_mltConsumer->is_stopped()) {
         kDebug() << "/////////////   RENDER STOPPED: " << m_name;
-        m_isBlocked = true;
         //m_mltConsumer->set("refresh", 0);
         m_mltConsumer->stop();
         // delete m_mltConsumer;

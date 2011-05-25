@@ -26,6 +26,7 @@
 #ifndef RECMONITOR_H
 #define RECMONITOR_H
 
+#include "abstractmonitor.h"
 #include "blackmagic/capture.h"
 #include "ui_recmonitor_ui.h"
 
@@ -45,16 +46,21 @@
 #include <kcapacitybar.h>
 #endif
 
-class RecMonitor : public QWidget, public Ui::RecMonitor_UI
+class MonitorManager;
+class MltDeviceCapture;
+class AbstractRender;
+
+class RecMonitor : public AbstractMonitor, public Ui::RecMonitor_UI
 {
     Q_OBJECT
 
 public:
-    explicit RecMonitor(QString name, QWidget *parent = 0);
+    explicit RecMonitor(QString name, MonitorManager *manager, QWidget *parent = 0);
     virtual ~RecMonitor();
 
-    QString name() const;
-
+    const QString name() const;
+    AbstractRender *abstractRender();
+    void analyseFrames(bool analyse);
     enum CAPTUREDEVICE {FIREWIRE = 0, VIDEO4LINUX = 1, SCREENGRAB = 2, BLACKMAGIC = 3};
 
 protected:
@@ -62,7 +68,6 @@ protected:
 
 private:
     QString m_name;
-    bool m_isActive;
     KDateTime m_captureTime;
     /** @brief Provide feedback about dvgrab operations */
     QLabel m_dvinfo;
@@ -95,17 +100,22 @@ private:
     QAction *m_rewAction;
     QAction *m_stopAction;
     QAction *m_discAction;
-    void checkDeviceAvailability();
-    QPixmap mergeSideBySide(const QPixmap& pix, const QString txt);
-    void manageCapturedFiles();
+
+
     CaptureHandler *m_bmCapture;
     /** @brief Indicates whether we are currently capturing from BLACKMAGIC. */
     bool m_blackmagicCapturing;
+    MonitorManager *m_manager;
+    MltDeviceCapture *m_captureDevice;
+    VideoPreviewContainer *m_videoBox;
+    bool m_analyse;
+    void checkDeviceAvailability();
+    QPixmap mergeSideBySide(const QPixmap& pix, const QString txt);
+    void manageCapturedFiles();
     void createBlackmagicDevice();
 
 private slots:
     void slotStartCapture(bool play = true);
-    void slotStopCapture();
     void slotRecord();
     void slotProcessStatus(QProcess::ProcessState status);
     void slotVideoDeviceChanged(int ix);
@@ -121,10 +131,10 @@ private slots:
 
 public slots:
     void refreshRecMonitor(bool visible);
+    void slotPlay();
     void stop();
     void start();
-    void activateRecMonitor();
-    void slotPlay();
+    void slotStopCapture();
     void slotUpdateCaptureFolder(const QString currentProjectFolder);
 
 signals:

@@ -26,6 +26,11 @@
 #include <QFuture>
 #include <QVBoxLayout>
 #include <QTimer>
+#include <abstractmonitor.h>
+
+class MltDeviceCapture;
+class MonitorManager;
+class VideoPreviewContainer;
 
 class MyLabel : public QLabel
 {
@@ -51,7 +56,30 @@ signals:
     void switchToLive();
 };
 
-class StopmotionWidget : public QDialog , public Ui::Stopmotion_UI
+
+class StopmotionMonitor : public AbstractMonitor
+{
+    Q_OBJECT
+public:
+    StopmotionMonitor(QWidget *parent);
+    ~StopmotionMonitor();
+    AbstractRender *abstractRender();
+    const QString name() const;
+    void setRender(MltDeviceCapture *render);
+
+private:
+    MltDeviceCapture *m_captureDevice;
+
+public slots:
+    virtual void stop();
+    virtual void start();
+
+signals:
+    void stopCapture();
+};
+
+
+class StopmotionWidget : public QDialog, public Ui::Stopmotion_UI
 {
     Q_OBJECT
 
@@ -61,21 +89,22 @@ public:
      * @param projectFolder The current project folder, where captured files will be stored.
      * @param actions The actions for this widget that can have a keyboard shortcut.
      * @param parent (optional) parent widget */
-    StopmotionWidget(KUrl projectFolder, QList< QAction* > actions, QWidget* parent = 0);
+    StopmotionWidget(MonitorManager *manager, KUrl projectFolder, QList< QAction* > actions, QWidget* parent = 0);
     virtual ~StopmotionWidget();
 
 protected:
     virtual void closeEvent(QCloseEvent* e);
 
 private:
-    /** @brief Widget layout holding video and frame preview. */
-    QVBoxLayout* m_layout;
-
     /** @brief Current project folder (where the captured frames will be saved). */
     KUrl m_projectFolder;
 
     /** @brief Capture holder that will handle all video operation. */
-    CaptureHandler* m_bmCapture;
+    MltDeviceCapture *m_captureDevice;
+
+    VideoPreviewContainer *m_videoBox;
+    
+    //CaptureHandler* m_bmCapture;
 
     /** @brief Holds the name of the current sequence.
      * Files will be saved in project folder with name: sequence001.png */
@@ -119,6 +148,10 @@ private:
     /** @brief Timer for interval capture. */
     QTimer m_intervalTimer;
 
+    MonitorManager *m_manager;
+
+    StopmotionMonitor *m_monitor;
+
 
 #ifdef QIMAGEBLITZ
     int m_effectIndex;
@@ -128,6 +161,7 @@ public slots:
     /** @brief Display the live feed from capture device.
      @param isOn enable or disable the feature */
     void slotLive(bool isOn = true);
+    void slotStopCapture();
 
 private slots:
 

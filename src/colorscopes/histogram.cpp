@@ -14,8 +14,8 @@
 #include "histogram.h"
 #include "renderer.h"
 
-Histogram::Histogram(Monitor *projMonitor, Monitor *clipMonitor, QWidget *parent) :
-    AbstractGfxScopeWidget(projMonitor, clipMonitor, false, parent)
+Histogram::Histogram(MonitorManager *manager, QWidget *parent) :
+    AbstractGfxScopeWidget(manager, false, parent)
 {
     ui = new Ui::Histogram_UI();
     ui->setupUi(this);

@@ -28,7 +28,7 @@ class Vectorscope : public AbstractGfxScopeWidget {
     Q_OBJECT
 
 public:
-    Vectorscope(Monitor *projMonitor, Monitor *clipMonitor, QWidget *parent = 0);
+    Vectorscope(MonitorManager *manager, QWidget *parent = 0);
     ~Vectorscope();
 
     QString widgetName() const;

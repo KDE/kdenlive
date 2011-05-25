@@ -20,7 +20,7 @@ class Histogram : public AbstractGfxScopeWidget {
     Q_OBJECT
 
 public:
-    Histogram(Monitor *projMonitor, Monitor *clipMonitor, QWidget *parent = 0);
+    Histogram(MonitorManager *manager, QWidget *parent = 0);
     ~Histogram();
     QString widgetName() const;
 

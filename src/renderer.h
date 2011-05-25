@@ -31,6 +31,7 @@
 
 #include "gentime.h"
 #include "definitions.h"
+#include "abstractmonitor.h"
 #include "mlt/framework/mlt_types.h"
 
 #include <kurl.h>
@@ -41,8 +42,6 @@
 #include <QList>
 #include <QEvent>
 
-
-class Render;
 
 class QTimer;
 class QPixmap;
@@ -73,7 +72,8 @@ private:
     QString m_message;
 };
 
-class Render: public QObject
+
+class Render: public AbstractRender
 {
 Q_OBJECT public:
 
@@ -87,7 +87,7 @@ Q_OBJECT public:
     Render(const QString & rendererName, int winid, QString profile = QString(), QWidget *parent = 0);
 
     /** @brief Destroy the MLT Renderer. */
-    ~Render();
+    virtual ~Render();
 
     /** @brief Seeks the renderer clip to the given time. */
     void seek(GenTime time);
@@ -260,8 +260,7 @@ Q_OBJECT public:
     void showAudio(Mlt::Frame&);
     /** @brief This property is used to decide if the renderer should send audio data for monitoring. */
     bool analyseAudio;
-    /** @brief This property is used to decide if the renderer should convert it's frames to QImage for use in other Kdenlive widgets. */
-    bool sendFrameForAnalysis;
+    
     QList <int> checkTrackSequence(int);
     void sendFrameUpdate();
 
@@ -364,10 +363,6 @@ signals:
      * Used in Mac OS X. */
     void showImageSignal(QImage);
     void showAudioSignal(const QByteArray);
-    /** @brief The renderer refreshed the current frame, but no seeking was done. */
-    void frameUpdated(QImage);
-    /** @brief This signal contains the audio of the current frame. */
-    void audioSamplesSignal(const QVector<int16_t>&, int freq, int num_channels, int num_samples);
 
 public slots:
 

@@ -53,7 +53,6 @@ protected slots:
 
 private slots:
     void slotUpdateDisplay();
-    void rebuildVideo4Commands();
 #ifndef NO_JOGSHUTTLE
     void slotCheckShuttle(int state = 0);
     void slotUpdateShuttleDevice(int ix = 0);
@@ -71,6 +70,7 @@ private slots:
     void slotEnableCaptureFolder();
     void slotUpdateHDMIModes();
     void slotUpdatev4lDevice();
+    void slotUpdatev4lCaptureProfile();
 
 private:
     KPageWidgetItem *m_page1;
@@ -99,6 +99,8 @@ private:
     void initDevices();
     void loadTranscodeProfiles();
     void saveTranscodeProfiles();
+    void loadCurrentV4lProfileInfo();
+    void saveCurrentV4lProfile();
 
 signals:
     void customChanged();

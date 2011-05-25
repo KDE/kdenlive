@@ -22,7 +22,9 @@
 
 
 #include "gentime.h"
+#include "renderer.h"
 #include "timecodedisplay.h"
+#include "abstractmonitor.h"
 #if defined(Q_WS_MAC) || defined(USE_OPEN_GL)
 #include "videoglwidget.h"
 #endif
@@ -36,17 +38,14 @@
 #include <KAction>
 #include <KRestrictedLine>
 
-
-class MonitorManager;
-class Render;
 class SmallRuler;
 class DocClipBase;
 class AbstractClipItem;
 class Transition;
 class ClipItem;
 class MonitorEditWidget;
-
 class Monitor;
+class MonitorManager;
 
 class VideoContainer : public QFrame
 {
@@ -106,16 +105,17 @@ signals:
     void editMarker();
 };
 
-class Monitor : public QWidget
+class Monitor : public AbstractMonitor
 {
     Q_OBJECT
 
 public:
     Monitor(QString name, MonitorManager *manager, QString profile = QString(), QWidget *parent = 0);
-    virtual ~Monitor();
+    ~Monitor();
     Render *render;
+    AbstractRender *abstractRender();
     void resetProfile(const QString profile);
-    QString name() const;
+    const QString name() const;
     void resetSize();
     bool isActive() const;
     void pause();
@@ -154,7 +154,6 @@ private:
     DocClipBase *m_currentClip;
     SmallRuler *m_ruler;
     Overlay *m_overlay;
-    bool m_isActive;
     double m_scale;
     int m_length;
     bool m_dragStarted;
