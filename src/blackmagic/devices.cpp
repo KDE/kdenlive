@@ -48,8 +48,6 @@ bool BMInterface::getBlackMagicDeviceList(KComboBox *devicelist, KComboBox *mode
     while(deckLinkIterator->Next(&deckLink) == S_OK) {
         char *      deviceNameString = NULL;
 
-        // Increment the total number of DeckLink cards found
-        numDevices++;
         //if (numDevices > 1)
         kDebug() << "// FOUND a BM device\n\n+++++++++++++++++++++++++++++++++++++";
 
@@ -119,6 +117,7 @@ bool BMInterface::getBlackMagicDeviceList(KComboBox *devicelist, KComboBox *mode
                 displayMode->Release();
             }
             devicelist->addItem(deviceName, availableModes);
+            devicelist->setItemData(devicelist->count() - 1, numDevices, Qt::UserRole + 1);
             found = true;
         }
 
@@ -133,6 +132,9 @@ bool BMInterface::getBlackMagicDeviceList(KComboBox *devicelist, KComboBox *mode
 
         // Release the IDeckLink instance when we've finished with it to prevent leaks
         deckLink->Release();
+        
+        // Increment the total number of DeckLink cards found
+        numDevices++;
     }
 
     deckLinkIterator->Release();

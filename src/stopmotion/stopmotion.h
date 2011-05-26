@@ -31,6 +31,7 @@
 class MltDeviceCapture;
 class MonitorManager;
 class VideoPreviewContainer;
+class MltVideoProfile;
 
 class MyLabel : public QLabel
 {
@@ -103,8 +104,6 @@ private:
     MltDeviceCapture *m_captureDevice;
 
     VideoPreviewContainer *m_videoBox;
-    
-    //CaptureHandler* m_bmCapture;
 
     /** @brief Holds the name of the current sequence.
      * Files will be saved in project folder with name: sequence001.png */
@@ -150,7 +149,14 @@ private:
 
     MonitorManager *m_manager;
 
+    /** @brief The monitor is used to control the v4l capture device from the monitormanager class. */
     StopmotionMonitor *m_monitor;
+
+    /** @brief Create the XML playlist. */
+    const QString createProducer(MltVideoProfile profile, const QString service, const QString resource);
+
+    /** @brief A new frame arrived, reload overlay. */
+    void reloadOverlay();
 
 
 #ifdef QIMAGEBLITZ
@@ -212,7 +218,7 @@ private slots:
     void slotPrepareThumbs();
 
     /** @brief Called when user switches the video capture backend. */
-    void slotUpdateHandler();
+    void slotUpdateDeviceHandler();
 
     /** @brief Show / hide sequence thumbnails. */
     void slotShowThumbs(bool show);
@@ -234,6 +240,9 @@ private slots:
     
     /** @brief Enable / disable frame analysis (in color scopes). */
     void slotSwitchAnalyse(bool isOn);
+
+    /** @brief Enable / disable horizontal mirror effect. */
+    void slotSwitchMirror(bool isOn);
     
     /** @brief Send a notification a few seconds before capturing. */
     void slotPreNotify();

@@ -64,9 +64,9 @@ static void rec_consumer_frame_preview(mlt_consumer, MltDeviceCapture * self, ml
     if (self->sendFrameForAnalysis && frame_ptr->convert_image) {
         self->emitFrameUpdated(frame);
     }
-    if (self->doCapture) {
-        self->doCapture = false;
-        self->saveFrame(frame);
+    if (self->doCapture > 0) {
+        self->doCapture --;
+        if (self->doCapture == 0) self->saveFrame(frame);
     }
 
 /*    if (self->analyseAudio) {
@@ -83,7 +83,7 @@ static void rec_consumer_frame_preview(mlt_consumer, MltDeviceCapture * self, ml
 
 MltDeviceCapture::MltDeviceCapture(QString profile, VideoPreviewContainer *surface, QWidget *parent) :
     AbstractRender(parent),
-    doCapture(false),
+    doCapture(0),
     sendFrameForAnalysis(false),
     m_mltConsumer(NULL),
     m_mltProducer(NULL),
@@ -162,20 +162,18 @@ void MltDeviceCapture::buildConsumer(const QString &profileName)
 
 void MltDeviceCapture::stop()
 {
+    bool isPlaylist = false;
     if (m_mltConsumer) {
+        m_mltConsumer->set("refresh", 0);
         m_mltConsumer->stop();
         //if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
-        delete m_mltConsumer;
-        m_mltConsumer = NULL;
     }
-    kDebug()<<"STOPPING cap";
     if (m_mltProducer) {
         QList <Mlt::Producer *> prods;
         Mlt::Service service(m_mltProducer->parent().get_service());
         mlt_service_lock(service.get_service());
-kDebug()<<"STOPPING cap 2";
         if (service.type() == tractor_type) {
-            kDebug()<<"STOPPING cap 3";
+            isPlaylist = true;
             Mlt::Tractor tractor(service);
             mlt_tractor_close(tractor.get_tractor());
             Mlt::Field *field = tractor.field();
@@ -203,7 +201,7 @@ kDebug()<<"STOPPING cap 2";
                         // the video4linux device stays open, seems like a bug in MLT that is not cleaning properly
                         mlt_properties props = MLT_PRODUCER_PROPERTIES(trackPlaylist.get_clip(i)->get_parent());
                         while (mlt_properties_ref_count(props) > 0) mlt_properties_dec_ref(props);
-                        mlt_producer_close(trackPlaylist.get_clip(i)->get_parent());
+                        if (trackPlaylist.get_clip(i)) mlt_producer_close(trackPlaylist.get_clip(i)->get_parent());
                     }
                     mlt_playlist_close(trackPlaylist.get_playlist());
                     //trackPlaylist.clear();
@@ -214,9 +212,11 @@ kDebug()<<"STOPPING cap 2";
         }
         mlt_service_unlock(service.get_service());
         delete m_mltProducer;
-        kDebug()<<"/// STOP REC PROD";
         m_mltProducer = NULL;
     }
+    // For some reason, the consumer seems to be deleted by previous stuff when in playlist mode
+    if (!isPlaylist) delete m_mltConsumer;
+    m_mltConsumer = NULL;
 }
 
 
@@ -277,35 +277,14 @@ void MltDeviceCapture::showAudio(Mlt::Frame& frame)
     }
 }
 
-bool MltDeviceCapture::slotStartPreview(const QString &producer)
+bool MltDeviceCapture::slotStartPreview(const QString &producer, bool xmlFormat)
 {
-    //stop();
     if (m_mltConsumer == NULL) buildConsumer();
-    /*if (m_mltConsumer) delete m_mltConsumer;
-    if (m_mltProducer) delete m_mltProducer;
-    if (m_mltProfile) delete m_mltProfile;
-    
-    char *tmp = qstrdup(m_activeProfile.toUtf8().constData());
-    setenv("MLT_PROFILE", tmp, 1);
-    m_mltProfile = new Mlt::Profile(tmp);
-    delete[] tmp;
-    m_mltProfile->get_profile()->is_explicit = 1;
-
-    m_mltConsumer = new Mlt::Consumer(*m_mltProfile, "sdl_preview");
-
-    m_mltConsumer->set("window_id", m_winid);
-    m_mltConsumer->set("real_time", 0);
-//    m_mltConsumer->set("buffer", 1);
-    m_mltConsumer->set("resize", 1);
-    m_mltConsumer->set("progressive", 1);
-    m_mltConsumer->set("rescale", "nearest");*/
-    
-    //char *tmp = qstrdup(QString("avformat-novalidate:video4linux2:%1?frame_rate:%2&width:%3&height:%4").arg(KdenliveSettings::video4vdevice()).arg(m_mltProfile->fps()).arg(m_mltProfile->width()).arg(m_mltProfile->height()).toUtf8().constData());
-
     char *tmp = qstrdup(producer.toUtf8().constData());
-    
-    m_mltProducer = new Mlt::Producer(*m_mltProfile, tmp);
+    if (xmlFormat) m_mltProducer = new Mlt::Producer(*m_mltProfile, "xml-string", tmp);
+    else m_mltProducer = new Mlt::Producer(*m_mltProfile, tmp);
     delete[] tmp;
+
     if (m_mltProducer == NULL || !m_mltProducer->is_valid()) {
         kDebug()<<"//// ERROR CREATRING PROD";
         return false;
@@ -338,6 +317,13 @@ void MltDeviceCapture::saveFrame(Mlt::Frame& frame)
     const uchar* image = frame.get_image(format, width, height);
     QImage qimage(width, height, QImage::Format_ARGB32);
     memcpy(qimage.bits(), image, width * height * 4);
+
+    // Re-enable overlay
+    Mlt::Service service(m_mltProducer->parent().get_service());
+    Mlt::Tractor tractor(service);
+    Mlt::Producer trackProducer(tractor.track(0));
+    trackProducer.set("hide", 0);
+    
     qimage.rgbSwapped().save(m_capturePath);
     emit frameSaved(m_capturePath);
     m_capturePath.clear();
@@ -345,8 +331,19 @@ void MltDeviceCapture::saveFrame(Mlt::Frame& frame)
 
 void MltDeviceCapture::captureFrame(const QString &path)
 {
+    if (m_mltProducer == NULL || !m_mltProducer->is_valid()) return;
+
+    // Hide overlay track before doing the capture
+    Mlt::Service service(m_mltProducer->parent().get_service());
+    Mlt::Tractor tractor(service);
+    Mlt::Producer trackProducer(tractor.track(0));
+    mlt_service_lock(service.get_service());
+    trackProducer.set("hide", 1);
+    m_mltConsumer->purge();
+    mlt_service_unlock(service.get_service());
     m_capturePath = path;
-    doCapture = true;
+    // Wait for 5 frames before capture to make sure overlay is gone
+    doCapture = 5;
 }
 
 bool MltDeviceCapture::slotStartCapture(const QString &params, const QString &path, const QString &playlist)
@@ -383,8 +380,6 @@ bool MltDeviceCapture::slotStartCapture(const QString &params, const QString &pa
     
     // FIXME: the event object returned by the listen gets leaked...
     m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) rec_consumer_frame_show);
-
-    //tmp = qstrdup(QString("avformat-novalidate:video4linux2:%1?frame_rate:%2&width:%3&height:%4").arg(KdenliveSettings::video4vdevice()).arg(m_mltProfile->fps()).arg(m_mltProfile->width()).arg(m_mltProfile->height()).toUtf8().constData());
     tmp = qstrdup(playlist.toUtf8().constData());
     m_mltProducer = new Mlt::Producer(*m_mltProfile, "xml-string", tmp);
     delete[] tmp;
@@ -403,4 +398,139 @@ bool MltDeviceCapture::slotStartCapture(const QString &params, const QString &pa
     return 1;
 }
 
+
+void MltDeviceCapture::setOverlay(const QString &path)
+{
+    if (m_mltProducer == NULL || !m_mltProducer->is_valid()) return;
+    Mlt::Producer parentProd(m_mltProducer->parent());
+    if (parentProd.get_producer() == NULL) {
+        kDebug() << "PLAYLIST BROKEN, CANNOT INSERT CLIP //////";
+        return;
+    }
+
+    Mlt::Service service(parentProd.get_service());
+    if (service.type() != tractor_type) {
+        kWarning() << "// TRACTOR PROBLEM";
+        return;
+    }
+    Mlt::Tractor tractor(service);
+    if ( tractor.count() < 2) {
+        kWarning() << "// TRACTOR PROBLEM";
+        return;
+    }
+    mlt_service_lock(service.get_service());
+    Mlt::Producer trackProducer(tractor.track(0));
+    Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
+
+    trackPlaylist.remove(0);
+    if (path.isEmpty()) {
+        mlt_service_unlock(service.get_service());
+        return;
+    }
+
+    // Add overlay clip
+    char *tmp = qstrdup(path.toUtf8().constData());
+    Mlt::Producer *clip = new Mlt::Producer (*m_mltProfile, "loader", tmp);
+    delete[] tmp;
+    clip->set_in_and_out(0, 99999);
+    trackPlaylist.insert_at(0, clip, 1);
+
+    // Add transition
+    mlt_service serv = m_mltProducer->parent().get_service();
+    mlt_service nextservice = mlt_service_get_producer(serv);
+    mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
+    QString mlt_type = mlt_properties_get(properties, "mlt_type");
+    if (mlt_type != "transition") {
+        // transition does not exist, add it
+        Mlt::Field *field = tractor.field();
+        Mlt::Transition *transition = new Mlt::Transition(*m_mltProfile, "composite");
+        transition->set_in_and_out(0, 0);
+        transition->set("geometry", "0,0:100%x100%:70");
+        transition->set("fill", 1);
+        transition->set("operator", "and");
+        transition->set("a_track", 0);
+        transition->set("b_track", 1);
+        field->plant_transition(*transition, 0, 1);
+    }
+    mlt_service_unlock(service.get_service());
+    //delete clip;
+}
+
+void MltDeviceCapture::setOverlayEffect(const QString tag, QStringList parameters)
+{
+    if (m_mltProducer == NULL || !m_mltProducer->is_valid()) return;
+    Mlt::Service service(m_mltProducer->parent().get_service());
+    Mlt::Tractor tractor(service);
+    Mlt::Producer trackProducer(tractor.track(0));
+    Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
+    Mlt::Service trackService(trackProducer.get_service());
+
+    mlt_service_lock(service.get_service());
+
+    // delete previous effects
+    Mlt::Filter *filter;
+    filter = trackService.filter(0);
+    if (filter && !tag.isEmpty()) {
+        QString currentService = filter->get("mlt_service");
+        if (currentService == tag) {
+            // Effect is already there
+            mlt_service_unlock(service.get_service());
+            return;
+        }
+    }
+    while (filter) {
+        trackService.detach(*filter);
+        delete filter;
+        filter = trackService.filter(0);
+    }
+    
+    if (tag.isEmpty()) {
+        mlt_service_unlock(service.get_service());
+        return;
+    }
+    
+    char *tmp = qstrdup(tag.toUtf8().constData());
+    filter = new Mlt::Filter(*m_mltProfile, tmp);
+    delete[] tmp;
+    if (filter && filter->is_valid()) {
+        for (int j = 0; j < parameters.count(); j++) {
+            filter->set(parameters.at(j).section("=", 0, 0).toUtf8().constData(), parameters.at(j).section("=", 1, 1).toUtf8().constData());
+        }
+        trackService.attach(*filter);
+    }
+    mlt_service_unlock(service.get_service());
+}
+
+void MltDeviceCapture::mirror(bool activate)
+{
+    if (m_mltProducer == NULL || !m_mltProducer->is_valid()) return;
+    Mlt::Service service(m_mltProducer->parent().get_service());
+    Mlt::Tractor tractor(service);
+    Mlt::Producer trackProducer(tractor.track(1));
+    Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
+    Mlt::Service trackService(trackProducer.get_service());
+
+    mlt_service_lock(service.get_service());
+
+    // delete previous effects
+    Mlt::Filter *filter;
+    filter = trackService.filter(0);
+    while (filter) {
+        trackService.detach(*filter);
+        delete filter;
+        filter = trackService.filter(0);
+    }
+
+    if (!activate) {
+        mlt_service_unlock(service.get_service());
+        return;
+    }
+
+    filter = new Mlt::Filter(*m_mltProfile, "mirror");
+    if (filter && filter->is_valid()) {
+        filter->set("mirror", "flip");
+        trackService.attach(*filter);
+    }
+    mlt_service_unlock(service.get_service());
+}
 

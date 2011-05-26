@@ -57,7 +57,7 @@ Q_OBJECT public:
     /** @brief Destroy the MLT Renderer. */
     ~MltDeviceCapture();
 
-    bool doCapture;
+    int doCapture;
 
     /** @brief This property is used to decide if the renderer should convert it's frames to QImage for use in other Kdenlive widgets. */
     bool sendFrameForAnalysis;
@@ -77,12 +77,20 @@ Q_OBJECT public:
      * @param surface The widget onto which the frame should be painted
      */
     bool slotStartCapture(const QString &params, const QString &path, const QString &playlist);
-    bool slotStartPreview(const QString &producer);
+    bool slotStartPreview(const QString &producer, bool xmlFormat = false);
     /** @brief A frame arrived from the MLT Video4Linux process. */
     void gotCapturedFrame(Mlt::Frame& frame);
     /** @brief Save current frame to file. */
     void captureFrame(const QString &path);
     void doRefresh();
+    /** @brief This will add the video clip from path and add it in the overlay track. */
+    void setOverlay(const QString &path);
+
+    /** @brief This will add an MLT video effect to the overlay track. */
+    void setOverlayEffect(const QString tag, QStringList parameters);
+
+    /** @brief This will add a horizontal flip effect, easier to work when filming yourself. */
+    void mirror(bool activate);
 
 private:
     Mlt::Consumer * m_mltConsumer;

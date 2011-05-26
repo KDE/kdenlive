@@ -35,10 +35,6 @@
 #include <kdeversion.h>
 #include <KNotification>
 
-#ifdef QIMAGEBLITZ
-#include <qimageblitz/qimageblitz.h>
-#endif
-
 #include <QtConcurrentRun>
 #include <QInputDialog>
 #include <QComboBox>
@@ -150,6 +146,12 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, KUrl projectFolder, 
     analyse->setCheckable(true);
     analyse->setChecked(KdenliveSettings::analyse_stopmotion());
     connect(analyse, SIGNAL(triggered(bool)), this, SLOT(slotSwitchAnalyse(bool)));
+
+    QAction* mirror = new QAction(i18n("Mirror display"), this);
+    mirror->setCheckable(true);
+    //mirror->setChecked(KdenliveSettings::analyse_stopmotion());
+    connect(mirror, SIGNAL(triggered(bool)), this, SLOT(slotSwitchMirror(bool)));
+
     addActions(actions);
     setupUi(this);
     setWindowTitle(i18n("Stop Motion Capture"));
@@ -182,22 +184,21 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, KUrl projectFolder, 
     overlay_button->setDefaultAction(m_showOverlay);
     //confMenu->addAction(m_showOverlay);
 
-#ifdef QIMAGEBLITZ
-    m_effectIndex = KdenliveSettings::blitzeffect();
+    m_effectIndex = KdenliveSettings::stopmotioneffect();    
     QMenu* effectsMenu = new QMenu(i18n("Overlay effect"));
     QActionGroup* effectGroup = new QActionGroup(this);
     QAction* noEffect = new QAction(i18n("No Effect"), effectGroup);
-    noEffect->setData(1);
+    noEffect->setData(0);
     QAction* contrastEffect = new QAction(i18n("Contrast"), effectGroup);
-    contrastEffect->setData(2);
+    contrastEffect->setData(1);
     QAction* edgeEffect = new QAction(i18n("Edge detect"), effectGroup);
-    edgeEffect->setData(3);
+    edgeEffect->setData(2);
     QAction* brightEffect = new QAction(i18n("Brighten"), effectGroup);
-    brightEffect->setData(4);
+    brightEffect->setData(3);
     QAction* invertEffect = new QAction(i18n("Invert"), effectGroup);
-    invertEffect->setData(5);
+    invertEffect->setData(4);
     QAction* thresEffect = new QAction(i18n("Threshold"), effectGroup);
-    thresEffect->setData(6);
+    thresEffect->setData(5);
 
     effectsMenu->addAction(noEffect);
     effectsMenu->addAction(contrastEffect);
@@ -214,7 +215,6 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, KUrl projectFolder, 
     }
     connect(effectsMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotUpdateOverlayEffect(QAction*)));
     confMenu->addMenu(effectsMenu);
-#endif
 
     QAction* showThumbs = new QAction(KIcon("image-x-generic"), i18n("Show sequence thumbnails"), this);
     showThumbs->setCheckable(true);
@@ -231,6 +231,7 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, KUrl projectFolder, 
     confMenu->addAction(showThumbs);
     confMenu->addAction(removeCurrent);
     confMenu->addAction(analyse);
+    confMenu->addAction(mirror);
     confMenu->addAction(conf);
     config_button->setIcon(KIcon("configure"));
     config_button->setMenu(confMenu);
@@ -252,8 +253,6 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, KUrl projectFolder, 
     
     if (BMInterface::getBlackMagicDeviceList(capture_device, NULL)) {
         // Found a BlackMagic device
-        //m_bmCapture = new BmdCaptureHandler(m_layout);
-        //connect(m_bmCapture, SIGNAL(gotMessage(const QString&)), this, SLOT(slotGotHDMIMessage(const QString&)));
     }
     if (QFile::exists(KdenliveSettings::video4vdevice())) {
 #if !defined(Q_WS_MAC) && !defined(Q_OS_FREEBSD)
@@ -270,17 +269,10 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, KUrl projectFolder, 
                 }
             }
         }
-
-        //if (m_bmCapture == NULL) {
-            
-            //m_captureDevice->sendFrameForAnalysis = m_analyse;
-            /*m_bmCapture = new V4lCaptureHandler(m_layout);
-            m_bmCapture->setDevice(capture_device->itemData(capture_device->currentIndex(), Qt::UserRole + 1).toString(), capture_device->itemData(capture_device->currentIndex(), Qt::UserRole + 2).toString());*/
-        //}
 #endif
     }
 
-    connect(capture_device, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateHandler()));
+    connect(capture_device, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateDeviceHandler()));
     /*if (m_bmCapture) {
         connect(m_bmCapture, SIGNAL(frameSaved(const QString)), this, SLOT(slotNewThumb(const QString)));
         connect(m_bmCapture, SIGNAL(gotFrame(QImage)), this, SIGNAL(gotFrame(QImage)));
@@ -294,9 +286,19 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, KUrl projectFolder, 
     video_preview->setLayout(layout);
 
     //kDebug()<<video_preview->winId();
+
+    QString profilePath;
+    // Create MLT producer data
+    if (capture_device->itemData(capture_device->currentIndex()) == "v4l") {
+        // Capture using a video4linux device
+        profilePath = KStandardDirs::locateLocal("appdata", "profiles/video4linux");
+    }
+    else {
+        // Decklink capture
+        profilePath = KdenliveSettings::current_profile();
+    }
     
-    QString path = KStandardDirs::locateLocal("appdata", "profiles/video4linux");
-    m_captureDevice = new MltDeviceCapture(path, m_videoBox, this);
+    m_captureDevice = new MltDeviceCapture(profilePath, m_videoBox, this);
     m_captureDevice->sendFrameForAnalysis = KdenliveSettings::analyse_stopmotion();
     m_monitor->setRender(m_captureDevice);
     connect(m_captureDevice, SIGNAL(frameSaved(const QString)), this, SLOT(slotNewThumb(const QString)));
@@ -335,11 +337,9 @@ StopmotionWidget::~StopmotionWidget()
 
 void StopmotionWidget::slotUpdateOverlayEffect(QAction* act)
 {
-#ifdef QIMAGEBLITZ
     if (act) m_effectIndex = act->data().toInt();
-    KdenliveSettings::setBlitzeffect(m_effectIndex);
-    if (m_showOverlay->isChecked()) slotUpdateOverlay();
-#endif
+    KdenliveSettings::setStopmotioneffect(m_effectIndex);
+    slotUpdateOverlay();
 }
 
 void StopmotionWidget::closeEvent(QCloseEvent* e)
@@ -387,8 +387,11 @@ void StopmotionWidget::slotShowThumbs(bool show)
 }
 
 
-void StopmotionWidget::slotUpdateHandler()
+void StopmotionWidget::slotUpdateDeviceHandler()
 {
+    slotLive(false);
+    delete m_captureDevice;
+    m_captureDevice = NULL;
     /*QString data = capture_device->itemData(capture_device->currentIndex()).toString();
     slotLive(false);
     if (m_bmCapture) {
@@ -457,21 +460,42 @@ void StopmotionWidget::slotLive(bool isOn)
     if (isOn) {
         m_frame_preview->setHidden(true);
         m_videoBox->setHidden(false);
-        QString path = KStandardDirs::locateLocal("appdata", "profiles/video4linux");
 
-        kDebug()<<"SURFACE; "<<m_videoBox->width()<<"x"<<m_videoBox->height();
+        MltVideoProfile profile;
+        QString resource;
+        QString service;
+        QString profilePath;
+        // Create MLT producer data
+        if (capture_device->itemData(capture_device->currentIndex()) == "v4l") {
+            // Capture using a video4linux device
+            profilePath = KStandardDirs::locateLocal("appdata", "profiles/video4linux");
+            profile = ProfilesDialog::getVideoProfile(profilePath);
+            service = "avformat-novalidate";
+            QString devicePath = capture_device->itemData(capture_device->currentIndex(), Qt::UserRole + 1).toString();
+            resource = QString("video4linux2:%1?width:%2&amp;height:%3&amp;frame_rate:%4").arg(devicePath).arg(profile.width).arg(profile.height).arg((double) profile.frame_rate_num / profile.frame_rate_den);
+        }
+        else {
+            // Decklink capture
+            profilePath = KdenliveSettings::current_profile();
+            profile = ProfilesDialog::getVideoProfile(profilePath);
+            service = "decklink";
+            resource = capture_device->itemData(capture_device->currentIndex(), Qt::UserRole + 1).toString();
+        }
+
         if (m_captureDevice == NULL) {
-            m_captureDevice = new MltDeviceCapture(path, m_videoBox, this);
+            m_captureDevice = new MltDeviceCapture(profilePath, m_videoBox, this);
             m_captureDevice->sendFrameForAnalysis = KdenliveSettings::analyse_stopmotion();
             m_monitor->setRender(m_captureDevice);
             connect(m_captureDevice, SIGNAL(frameSaved(const QString)), this, SLOT(slotNewThumb(const QString)));
         }
-
-        MltVideoProfile profile = ProfilesDialog::getVideoProfile(path);
+        
         m_manager->activateMonitor("stopmotion");
-        QString producer = QString("avformat-novalidate:video4linux2:%1?width:%2&height:%3&frame_rate:%4").arg(KdenliveSettings::video4vdevice()).arg(profile.width).arg(profile.height).arg((double) profile.frame_rate_num / profile.frame_rate_den);
-        if (m_captureDevice->slotStartPreview(producer)) {
-            kDebug()<<"// STARt CAPTURE GO";
+        QString producer = createProducer(profile, service, resource);
+        if (m_captureDevice->slotStartPreview(producer, true)) {
+            if (m_showOverlay->isChecked()) {
+                reloadOverlay();
+                slotUpdateOverlay();
+            }
             capture_button->setEnabled(true);
             live_button->setChecked(true);
             log_box->insertItem(-1, i18n("Playing %1x%2 (%3 fps)", profile.width, profile.height, QString::number((double)profile.frame_rate_num/profile.frame_rate_den).rightJustified(2, '0')));
@@ -512,53 +536,62 @@ void StopmotionWidget::slotLive(bool isOn)
     live_button->blockSignals(false);
 }
 
-void StopmotionWidget::slotShowOverlay(bool /*isOn*/)
+void StopmotionWidget::slotShowOverlay(bool isOn)
 {
-/*    if (isOn) {
-        if (live_button->isChecked() && m_sequenceFrame > 0) {
-            slotUpdateOverlay();
-        }
-    } else if (m_bmCapture) {
-        m_bmCapture->hideOverlay();
-    }*/
+    if (isOn) {
+        // Overlay last frame of the sequence
+        reloadOverlay();
+        slotUpdateOverlay();
+    }
+    else {
+        // Remove overlay
+        m_captureDevice->setOverlay(QString());
+    }
+}
+
+void StopmotionWidget::reloadOverlay()
+{
+    QString path = getPathForFrame(m_sequenceFrame - 1);
+    if (!QFile::exists(path)) {
+        log_box->insertItem(-1, i18n("No previous frame found"));
+        log_box->setCurrentIndex(0);
+        return;
+    }
+    m_captureDevice->setOverlay(path);
 }
 
 void StopmotionWidget::slotUpdateOverlay()
 {
     if (m_captureDevice == NULL) return;
-    QString path = getPathForFrame(m_sequenceFrame - 1);
-    if (!QFile::exists(path)) return;
-    QImage img(path);
-    if (img.isNull()) {
-        QTimer::singleShot(1000, this, SLOT(slotUpdateOverlay()));
-        return;
-    }
 
-#ifdef QIMAGEBLITZ
-    //img = Blitz::convolveEdge(img, 0, Blitz::Low);
+    QString tag;
+    QStringList params;
+
     switch (m_effectIndex) {
+    case 1:
+        tag = "frei0r.contrast0r";
+        params << "Contrast=1.2";
+        break;
     case 2:
-        img = Blitz::contrast(img, true, 6);
+        tag = "charcoal";
+        params << "x_scatter=4" << "y_scatter=4" << "scale=1" << "mix=0";
         break;
     case 3:
-        img = Blitz::edge(img);
+        tag = "frei0r.brightness";
+        params << "Brightness=0.7";
         break;
     case 4:
-        img = Blitz::intensity(img, 0.5);
+        tag = "invert";
         break;
     case 5:
-        Blitz::invert(img);
-        break;
-    case 6:
-        img = Blitz::threshold(img, 120, Blitz::Grayscale, qRgba(0, 0, 0, 0), qRgba(255, 0, 0, 255));
-        //img = Blitz::flatten(img, QColor(255, 0, 0, 255), QColor(0, 0, 0, 0));
+        tag = "threshold";
+        params << "midpoint=125";
         break;
     default:
         break;
 
     }
-#endif
-    //m_bmCapture->showOverlay(img);
+    m_captureDevice->setOverlayEffect(tag, params);
 }
 
 void StopmotionWidget::sequenceNameChanged(const QString& name)
@@ -633,8 +666,9 @@ void StopmotionWidget::slotNewThumb(const QString path)
 {
     if (!KdenliveSettings::showstopmotionthumbs()) return;
     m_filesList.append(path);
-    if (m_showOverlay->isChecked()) slotUpdateOverlay();
+    if (m_showOverlay->isChecked()) reloadOverlay();
     if (!m_future.isRunning()) m_future = QtConcurrent::run(this, &StopmotionWidget::slotPrepareThumbs);
+    
 }
 
 void StopmotionWidget::slotPrepareThumbs()
@@ -839,7 +873,33 @@ void StopmotionWidget::slotSwitchAnalyse(bool isOn)
 {
     KdenliveSettings::setAnalyse_stopmotion(isOn);
     if (m_captureDevice) m_captureDevice->sendFrameForAnalysis = isOn;
-    //m_bmCapture->setAnalyse(isOn);
 }
+
+void StopmotionWidget::slotSwitchMirror(bool isOn)
+{
+    //KdenliveSettings::setAnalyse_stopmotion(isOn);
+    if (m_captureDevice) m_captureDevice->mirror(isOn);
+}
+
+const QString StopmotionWidget::createProducer(MltVideoProfile profile, const QString service, const QString resource)
+{   
+    
+    QString playlist = "<mlt title=\"capture\"><producer id=\"producer0\" in=\"0\" out=\"99999\"><property name=\"mlt_type\">producer</property><property name=\"length\">100000</property><property name=\"eof\">pause</property><property name=\"resource\">" + resource + "</property><property name=\"mlt_service\">" + service + "</property></producer>";
+
+    // overlay track
+    playlist.append("<playlist id=\"playlist0\"></playlist>");
+
+    // video4linux track
+    playlist.append("<playlist id=\"playlist1\"><entry producer=\"producer0\" in=\"0\" out=\"99999\"/></playlist>");
+
+    playlist.append("<tractor id=\"tractor0\" title=\"video0\" global_feed=\"1\" in=\"0\" out=\"99999\">");
+    playlist.append("<track producer=\"playlist0\"/>");
+    playlist.append("<track producer=\"playlist1\"/>");
+    playlist.append("</tractor></mlt>");
+
+    
+    return playlist;
+}
+
 
 

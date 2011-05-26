@@ -211,8 +211,8 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
     if (m_captureDevice) {
         // MLT capture still running, abort
         m_captureDevice->stop();
-        //delete m_captureDevice;
-        //m_captureDevice = NULL;
+        delete m_captureDevice;
+        m_captureDevice = NULL;
     }
     switch (ix) {
     case SCREENGRAB:
@@ -240,8 +240,8 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
         checkDeviceAvailability();
         break;
     case BLACKMAGIC:
-        createBlackmagicDevice();
-        m_recAction->setEnabled(false);
+        //createBlackmagicDevice();
+        m_recAction->setEnabled(true);
         m_stopAction->setEnabled(false);
         m_playAction->setEnabled(true);
 
@@ -399,10 +399,13 @@ void RecMonitor::slotStopCapture()
         QTimer::singleShot(1000, m_captureProcess, SLOT(kill()));
         break;
     case BLACKMAGIC:
-        m_bmCapture->stopPreview();
+        if (m_captureDevice) {
+            m_captureDevice->stop();
+        }
+        //m_bmCapture->stopPreview();
         m_playAction->setEnabled(true);
         m_stopAction->setEnabled(false);
-        m_recAction->setEnabled(false);
+        m_recAction->setEnabled(true);
         break;
     default:
         break;
@@ -434,8 +437,8 @@ void RecMonitor::slotStartCapture(bool play)
     MltVideoProfile profile;
     QString producer;
     QStringList dvargs = KdenliveSettings::dvgrabextra().simplified().split(" ", QString::SkipEmptyParts);
-    video_capture->setVisible(device_selector->currentIndex() == BLACKMAGIC);
-    video_frame->setHidden(device_selector->currentIndex() == BLACKMAGIC);
+    //video_capture->setVisible(device_selector->currentIndex() == BLACKMAGIC);
+    //video_frame->setHidden(device_selector->currentIndex() == BLACKMAGIC);
 
     switch (device_selector->currentIndex()) {
     case FIREWIRE:
@@ -509,7 +512,26 @@ void RecMonitor::slotStartCapture(bool play)
         m_captureProcess->start("ffmpeg", m_captureArgs);*/
         break;
     case BLACKMAGIC:
-        m_bmCapture->startPreview(KdenliveSettings::hdmi_capturedevice(), KdenliveSettings::hdmi_capturemode());
+        path = KdenliveSettings::current_profile();
+        m_manager->activateMonitor("record");
+        if (m_captureDevice == NULL) {
+            m_captureDevice = new MltDeviceCapture(path, m_videoBox, this);
+            m_captureDevice->sendFrameForAnalysis = m_analyse;
+            m_manager->updateScopeSource();
+        }
+        profile = ProfilesDialog::getVideoProfile(path);
+        producer = QString("decklink:%1").arg(KdenliveSettings::hdmi_capturedevice());
+        if (!m_captureDevice->slotStartPreview(producer)) {
+            // v4l capture failed to start
+            video_frame->setText(i18n("Failed to start Decklink,\ncheck your parameters..."));
+            m_videoBox->setHidden(true);
+            
+        } else {
+            m_videoBox->setHidden(false);
+            m_playAction->setEnabled(false);
+            m_stopAction->setEnabled(true);
+        }
+        //m_bmCapture->startPreview(KdenliveSettings::hdmi_capturedevice(), KdenliveSettings::hdmi_capturemode());
         m_playAction->setEnabled(false);
         m_stopAction->setEnabled(true);
         m_recAction->setEnabled(true);
@@ -529,7 +551,7 @@ void RecMonitor::slotStartCapture(bool play)
 
 void RecMonitor::slotRecord()
 {
-    if (device_selector->currentIndex() == BLACKMAGIC) {
+    /*if (device_selector->currentIndex() == BLACKMAGIC) {
         if (m_blackmagicCapturing) {
             // We are capturing, stop it
             m_bmCapture->stopCapture();
@@ -543,7 +565,7 @@ void RecMonitor::slotRecord()
             m_blackmagicCapturing = true;
         }
         return;
-    }
+    }*/
 
     if (m_captureProcess->state() == QProcess::NotRunning && device_selector->currentIndex() == FIREWIRE) {
         slotStartCapture();
@@ -651,6 +673,30 @@ void RecMonitor::slotRecord()
             kDebug() << "Capture: Running ffmpeg " << m_captureArgs.join(" ");
             m_captureProcess->start("ffmpeg", m_captureArgs);*/
             break;
+            
+        case BLACKMAGIC:
+            path = KdenliveSettings::current_profile();
+            profile = ProfilesDialog::getVideoProfile(path);
+            if (m_captureDevice == NULL) {
+                m_captureDevice = new MltDeviceCapture(path, m_videoBox, this);
+                m_captureDevice->sendFrameForAnalysis = m_analyse;
+                m_manager->updateScopeSource();
+            }
+               
+            playlist = QString("<producer id=\"producer0\" in=\"0\" out=\"99999\"><property name=\"mlt_type\">producer</property><property name=\"length\">100000</property><property name=\"eof\">pause</property><property name=\"resource\">%1</property><property name=\"mlt_service\">decklink</property></producer>").arg(KdenliveSettings::hdmi_capturedevice());
+
+            if (m_captureDevice->slotStartCapture(KdenliveSettings::v4l_parameters(), m_captureFile.path(), playlist)) {
+                m_videoBox->setHidden(false);
+                m_isCapturing = true;
+            }
+            else {
+                video_frame->setText(i18n("Failed to start Decklink,\ncheck your parameters..."));                
+                m_videoBox->setHidden(true);
+                m_isCapturing = false;
+                m_recAction->setChecked(false);
+            }
+            break;
+            
         case SCREENGRAB:
             switch (KdenliveSettings::rmd_capture_type()) {
             case 0:
