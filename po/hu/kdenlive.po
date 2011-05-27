@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-05-23 19:13+0300\n"
-"PO-Revision-Date: 2011-05-27 04:29+0100\n"
+"PO-Revision-Date: 2011-05-27 04:47+0100\n"
 "Last-Translator: KAMI <kami911@gmail.com>\n"
 "Language-Team:  <hu@li.org>\n"
 "Language: \n"
@@ -66,6 +66,8 @@ msgid ""
 "%1\n"
 "dB"
 msgstr ""
+"%1\n"
+"dB"
 
 #: src/colorscopes/vectorscope.cpp:250
 msgid "%1 \\%"
@@ -80,18 +82,17 @@ msgid "%1 dB"
 msgstr "Határ (db)"
 
 #: src/archivewidget.cpp:171
-#, fuzzy
 msgid "%1 file to archive, requires %2"
 msgid_plural "%1 files to archive, requires %2"
-msgstr[0] "Nem sikerölt a fájlt létrehozni:"
-msgstr[1] ""
+msgstr[0] "%1 fájl archíválásához %2 szükséges"
+msgstr[1] "%1 fájl archíválásához %2 szükséges"
 
 #: src/audioscopes/audiospectrum.cpp:387
 #: src/audioscopes/audiospectrum.cpp:462
 #: src/audioscopes/spectrogram.cpp:263
 #: src/audioscopes/spectrogram.cpp:272
 msgid "%1 kHz"
-msgstr ""
+msgstr "%1 kHz"
 
 #: src/colorplaneexport.cpp:126
 msgid "%1 px"
@@ -114,11 +115,10 @@ msgstr[0] "Klip"
 msgstr[1] "%1 klip"
 
 #: src/archivewidget.cpp:166
-#, fuzzy
 msgid "(%1 item)"
 msgid_plural "(%1 items)"
-msgstr[0] "Elem átnevezése"
-msgstr[1] ""
+msgstr[0] "(%1 elem)"
+msgstr[1] "(%1 elem)"
 
 #: rc.cpp:2452
 #: rc.cpp:4461
@@ -329,9 +329,8 @@ msgid "1250 Hz"
 msgstr "1250 Hz"
 
 #: rc.cpp:1056
-#, fuzzy
 msgid "15 Band Equalizer"
-msgstr "15 perccel előtte"
+msgstr "15 utas equalizer"
 
 #: rc.cpp:1064
 msgid "156 Hz"
@@ -353,7 +352,7 @@ msgstr "2"
 #: rc.cpp:2872
 #: rc.cpp:4881
 msgid "2 pass"
-msgstr ""
+msgstr "2 menetes"
 
 #: rc.cpp:2167
 #: rc.cpp:4176
@@ -413,7 +412,7 @@ msgstr "3500 Hz"
 
 #: rc.cpp:172
 msgid "3dflippo"
-msgstr ""
+msgstr "3dflippo"
 
 #: rc.cpp:2676
 #: rc.cpp:2944
@@ -878,7 +877,6 @@ msgstr "Átmenet hozzáadása a kliphez"
 
 #: src/kdenlivedoc.cpp:183
 #: src/kdenlivedoc.cpp:186
-#, fuzzy
 msgid "Adding clips"
 msgstr "Klipek hozzáadása"
 
@@ -1064,9 +1062,8 @@ msgid "Alpha Channel Operation"
 msgstr "Alfa-csatorna művelet"
 
 #: rc.cpp:1279
-#, fuzzy
 msgid "Alpha Operation"
-msgstr "Sikertelen művelet: %1$S"
+msgstr "Alfa művelet"
 
 #: rc.cpp:1016
 msgid "Alpha blending with zoomed and rotated images"
@@ -1085,14 +1082,12 @@ msgid "Alpha manipulation"
 msgstr "Alfa módosítás"
 
 #: rc.cpp:332
-#, fuzzy
 msgid "Alpha operation"
-msgstr "Sikertelen művelet: %1$S"
+msgstr "Alfa művelet"
 
 #: rc.cpp:198
-#, fuzzy
 msgid "Alpha operations"
-msgstr "Műveleti hiba"
+msgstr "Alfa műveletek"
 
 #: rc.cpp:236
 msgid "Alpha shapes"
@@ -1103,9 +1098,8 @@ msgid "Alpha trace"
 msgstr "Alfa követés"
 
 #: rc.cpp:1273
-#, fuzzy
 msgid "Alpha,Luma,RGB"
-msgstr "Ablakok elmosása"
+msgstr "Alfa,Luma,RGB"
 
 #: src/renderwidget.cpp:882
 #: src/renderwidget.cpp:1738
@@ -1185,30 +1179,26 @@ msgstr ""
 #: src/archivewidget.cpp:172
 #: src/archivewidget.cpp:493
 #: src/archivewidget.cpp:677
-#, fuzzy
 msgid "Archive"
 msgstr "Archívum"
 
 #: src/archivewidget.cpp:53
 #: src/mainwindow.cpp:1210
-#, fuzzy
 msgid "Archive Project"
-msgstr "faxprojekt"
+msgstr "Archív projekt"
 
 #: rc.cpp:3322
 #: rc.cpp:5331
-#, fuzzy
 msgid "Archive folder"
-msgstr "&Mappa ellenőrzése:"
+msgstr "Archív mappa"
 
 #: src/archivewidget.cpp:263
 msgid "Archiving in progress, do you want to stop it?"
 msgstr ""
 
 #: src/archivewidget.cpp:372
-#, fuzzy
 msgid "Archiving..."
-msgstr "Archiválás:"
+msgstr "Archiválás..."
 
 #: src/kdenlivesettingsdialog.cpp:332
 msgid "Ascii art library"
@@ -1253,14 +1243,12 @@ msgid "Audio Only"
 msgstr "Csak hang"
 
 #: src/mainwindow.cpp:290
-#, fuzzy
 msgid "Audio Signal"
-msgstr "Szignál: %s."
+msgstr "Hangjel"
 
 #: rc.cpp:18
-#, fuzzy
 msgid "Audio Wave"
-msgstr "Címhullám"
+msgstr "Hanghullám"
 
 #: src/mainwindow.cpp:1441
 #: src/customtrackview.cpp:6048
@@ -1279,9 +1267,8 @@ msgstr "Hang klip"
 
 #: src/archivewidget.cpp:64
 #: src/projectsettings.cpp:190
-#, fuzzy
 msgid "Audio clips"
-msgstr "Klip hozzáadása"
+msgstr "Hangklip"
 
 #: src/clipproperties.cpp:201
 #: rc.cpp:2278
@@ -1341,14 +1328,12 @@ msgid "Audio tracks"
 msgstr "Hang sáv"
 
 #: src/monitor.cpp:145
-#, fuzzy
 msgid "Audio volume"
-msgstr "Hangerő normalizálása"
+msgstr "Hangerő"
 
 #: src/mainwindow.cpp:298
-#, fuzzy
 msgid "AudioSpectrum"
-msgstr "Hang stream"
+msgstr "Hangspektrum"
 
 #: src/effectslist.cpp:130
 #: src/effectslist.cpp:142
@@ -1641,24 +1626,20 @@ msgid "Brightness (keyframable)"
 msgstr "Fényerő (kulcskockázható)"
 
 #: rc.cpp:663
-#, fuzzy
 msgid "Brightness Threshold"
-msgstr "Telítettség lehetősége:"
+msgstr "Telítettség tűréshatár:"
 
 #: rc.cpp:1213
-#, fuzzy
 msgid "Brightness down"
-msgstr "Lefelé"
+msgstr "Telítettség csökkentése"
 
 #: rc.cpp:1215
-#, fuzzy
 msgid "Brightness every"
-msgstr "Minden hétköznap"
+msgstr "Telítettség"
 
 #: rc.cpp:1211
-#, fuzzy
 msgid "Brightness up"
-msgstr "Felfelé"
+msgstr "Telítettség növelése"
 
 #: rc.cpp:752
 #, fuzzy
@@ -2233,9 +2214,8 @@ msgstr "Szénrajz effektus"
 
 #: rc.cpp:3253
 #: rc.cpp:5262
-#, fuzzy
 msgid "Check"
-msgstr "Jelölje be"
+msgstr "Ellenőrzés"
 
 #: rc.cpp:3133
 #: rc.cpp:5142
@@ -2366,9 +2346,8 @@ msgstr "Levágás balra"
 
 #: src/customtrackview.cpp:1465
 #: src/customtrackview.cpp:1520
-#, fuzzy
 msgid "Clip not ready"
-msgstr "Beküldésre kész"
+msgstr "Klip nincs kész"
 
 #: rc.cpp:860
 msgid "Clip right"
@@ -2561,9 +2540,8 @@ msgstr "Kompozit"
 
 #: rc.cpp:3325
 #: rc.cpp:5334
-#, fuzzy
 msgid "Compressed archive"
-msgstr "ACE archívum kicsomagoló"
+msgstr "Tömörített archívum"
 
 #: src/wizard.cpp:45
 msgid "Config Wizard"
@@ -2660,7 +2638,6 @@ msgid "Corner 4 Y"
 msgstr "4. sarok Y"
 
 #: rc.cpp:296
-#, fuzzy
 msgid "Corners"
 msgstr "Sarkok"
 
@@ -2802,9 +2779,8 @@ msgid "Crop from start:"
 msgstr "Levágás a kezdéstől:"
 
 #: src/customtrackview.cpp:626
-#, fuzzy
 msgid "Crop from start: "
-msgstr "Levágás innentől: %1s"
+msgstr "Levágás innentől:"
 
 #: rc.cpp:1583
 #: rc.cpp:3592
@@ -2831,7 +2807,6 @@ msgstr "Görbék"
 #: src/renderwidget.cpp:373
 #: src/renderwidget.cpp:496
 #: src/renderwidget.cpp:532
-#, fuzzy
 msgctxt "Group Name"
 msgid "Custom"
 msgstr "Egyéni"
@@ -2839,13 +2814,11 @@ msgstr "Egyéni"
 #: src/renderwidget.cpp:466
 #: src/renderwidget.cpp:1333
 #: src/renderwidget.cpp:1378
-#, fuzzy
 msgctxt "Category Name"
 msgid "Custom"
 msgstr "Egyéni"
 
 #: src/renderwidget.cpp:1460
-#, fuzzy
 msgctxt "Attribute Name"
 msgid "Custom"
 msgstr "Egyéni"
@@ -2853,7 +2826,6 @@ msgstr "Egyéni"
 #: src/effectslistwidget.cpp:103
 #: src/effectslistwidget.cpp:142
 #: src/effectslistwidget.cpp:144
-#, fuzzy
 msgctxt "Folder Name"
 msgid "Custom"
 msgstr "Egyéni"
@@ -3017,9 +2989,8 @@ msgid "Default folders"
 msgstr "Alapértelmezett mappák"
 
 #: rc.cpp:433
-#, fuzzy
 msgid "Defish"
-msgstr "Defish0r"
+msgstr "Halszem korrekció"
 
 #: rc.cpp:1335
 #: rc.cpp:1343
@@ -3265,7 +3236,7 @@ msgstr "Félkövér Dőlt"
 
 #: rc.cpp:593
 msgid "Denoiser"
-msgstr ""
+msgstr "Zajcsökkentés"
 
 #: rc.cpp:1116
 #: rc.cpp:1345
@@ -3331,9 +3302,8 @@ msgstr "Eszköz"
 
 #: rc.cpp:3256
 #: rc.cpp:5265
-#, fuzzy
 msgid "Device Name"
-msgstr "Média neve:"
+msgstr "Eszköznév"
 
 #: rc.cpp:3391
 #: rc.cpp:5400
@@ -3375,7 +3345,7 @@ msgstr "Kitöltő hozzáadása"
 
 #: rc.cpp:688
 msgid "Dimming"
-msgstr ""
+msgstr "Szabályzás"
 
 #: rc.cpp:690
 msgid "Dims the light mask. Lights will leave a fainting trail if it is set to a value > 0."
@@ -3606,9 +3576,8 @@ msgid "Duration:"
 msgstr "Időtartam:"
 
 #: src/customtrackview.cpp:632
-#, fuzzy
 msgid "Duration: "
-msgstr "Időtartam"
+msgstr "Időtartam:"
 
 #: rc.cpp:108
 #, fuzzy
@@ -3784,7 +3753,6 @@ msgid "Effect already present in clip"
 msgstr "AZ effektus már szerepel a klipben"
 
 #: src/mainwindow.cpp:427
-#, fuzzy
 msgid "Effects"
 msgstr "Effektusok"
 
@@ -3897,9 +3865,8 @@ msgid "Environment"
 msgstr "Környezet"
 
 #: rc.cpp:489
-#, fuzzy
 msgid "Equaliz0r"
-msgstr "Equalizer"
+msgstr "Equalizer (Equaliz0r)"
 
 #: rc.cpp:1090
 msgid "Equalizer"
@@ -5211,9 +5178,8 @@ msgid "Interpolator"
 msgstr "Interpoláció"
 
 #: rc.cpp:970
-#, fuzzy
 msgid "Interval"
-msgstr "Méretezés lépésköze"
+msgstr "Lépésköz"
 
 #: rc.cpp:2609
 #: rc.cpp:4618
@@ -5258,7 +5224,6 @@ msgstr "Érvénytelen átmenet"
 
 #: src/initeffects.cpp:774
 #: src/initeffects.cpp:848
-#, fuzzy
 msgctxt "@property: means that the image is inverted"
 msgid "Invert"
 msgstr "Invertálás"
@@ -6065,7 +6030,7 @@ msgstr ""
 
 #: rc.cpp:746
 msgid "Nervous"
-msgstr ""
+msgstr "Ideges"
 
 #: rc.cpp:268
 msgid "Neutral Color"
@@ -6159,7 +6124,7 @@ msgstr "Nem törő szóköz. &amp;nbsp; HTML-ben. Lásd: U+2009 és U+0020."
 #: plugins/sampleplugin/sampleplugin.cpp:75
 #: rc.cpp:1038
 msgid "Noise"
-msgstr ""
+msgstr "Zaj"
 
 #: rc.cpp:435
 msgid "Non rectilinear lens mappings"
@@ -6196,7 +6161,6 @@ msgstr "Normál"
 
 #: rc.cpp:1794
 #: rc.cpp:3803
-#, fuzzy
 msgid "Normal"
 msgstr "Normál"
 
@@ -6290,14 +6254,12 @@ msgid "Offset Red"
 msgstr "Vörös eltolás"
 
 #: rc.cpp:1239
-#, fuzzy
 msgid "Offset X"
-msgstr "Eltolás"
+msgstr "Eltolás X"
 
 #: rc.cpp:1241
-#, fuzzy
 msgid "Offset Y"
-msgstr "Eltolás"
+msgstr "Eltolás Y"
 
 #: src/customtrackview.cpp:417
 #: src/customtrackview.cpp:429
@@ -6306,7 +6268,7 @@ msgstr "Eltolás"
 
 #: rc.cpp:1202
 msgid "Oldfilm"
-msgstr ""
+msgstr "Régi film"
 
 #: src/geometrywidget.cpp:177
 #: rc.cpp:2506
@@ -6365,7 +6327,6 @@ msgstr "Művelet"
 
 #: rc.cpp:3498
 #: rc.cpp:5507
-#, fuzzy
 msgid "Options"
 msgstr "Beállítások"
 
@@ -6543,7 +6504,6 @@ msgid "Path"
 msgstr "Elérési út"
 
 #: src/mainwindow.cpp:1183
-#, fuzzy
 msgid "Pause"
 msgstr "Szünet"
 
@@ -7021,7 +6981,6 @@ msgid "Properties"
 msgstr "Tulajdonságok"
 
 #: src/projectlist.h:121
-#, fuzzy
 msgid "Proxy"
 msgstr "Proxy"
 
@@ -8094,7 +8053,7 @@ msgstr "Alakzat"
 
 #: rc.cpp:908
 msgid "Sharpen"
-msgstr ""
+msgstr "Élesítés"
 
 #: rc.cpp:1259
 msgid "Shear X"
@@ -8950,7 +8909,7 @@ msgstr "Előnézet:"
 
 #: src/main.cpp:42
 msgid "Till Theato"
-msgstr ""
+msgstr "Till Theato"
 
 #: rc.cpp:226
 #: rc.cpp:252
@@ -9037,7 +8996,6 @@ msgid "Tool"
 msgstr "Eszköz"
 
 #: src/colorscopes/vectorscope.cpp:81
-#, fuzzy
 msgid "Tools"
 msgstr "Eszközök"
 
@@ -9592,7 +9550,7 @@ msgstr "Weboldalak"
 
 #: src/wizard.cpp:128
 msgid "Webcam"
-msgstr ""
+msgstr "Webkamera"
 
 #: rc.cpp:348
 #, fuzzy
@@ -9682,7 +9640,6 @@ msgid "Write on clear,Maximum,Minimum,Add,Subtract"
 msgstr ""
 
 #: src/geometrywidget.cpp:95
-#, fuzzy
 msgctxt "x axis position"
 msgid "X"
 msgstr "X"
@@ -9728,7 +9685,6 @@ msgid "XVideo"
 msgstr "XVideo"
 
 #: src/geometrywidget.cpp:98
-#, fuzzy
 msgctxt "y axis position"
 msgid "Y"
 msgstr "Y"
@@ -10023,9 +9979,8 @@ msgstr "utána"
 #: rc.cpp:2977
 #: rc.cpp:4730
 #: rc.cpp:4986
-#, fuzzy
 msgid "avi"
-msgstr "Videófájlok (mpeg, avi, ...)"
+msgstr "avi"
 
 #: rc.cpp:1809
 #: rc.cpp:3818
@@ -10042,9 +9997,8 @@ msgid "create new points"
 msgstr "Új pontok létrehozása "
 
 #: rc.cpp:461
-#, fuzzy
 msgid "delay0r"
-msgstr "Szünet"
+msgstr "Szünet (delay0r)"
 
 #: src/dvdwizardvob.cpp:55
 #: src/wizard.cpp:401
@@ -10086,9 +10040,8 @@ msgid "error"
 msgstr "hiba"
 
 #: src/blackmagic/devices.cpp:100
-#, fuzzy
 msgid "fps"
-msgstr "Fps: "
+msgstr "FPS"
 
 #: src/timecode.cpp:292
 msgid "frames"
@@ -10107,7 +10060,6 @@ msgstr "genisoimage vagy mkisofs"
 #: src/clipproperties.cpp:326
 #: rc.cpp:2863
 #: rc.cpp:4872
-#, fuzzy
 msgid "hh:mm:ss:ff"
 msgstr "hh:mm:ss::ff"
 
@@ -10168,7 +10120,6 @@ msgstr "Leírás"
 #: rc.cpp:4721
 #: rc.cpp:4971
 #: rc.cpp:4977
-#, fuzzy
 msgid "pixels"
 msgstr "képpont"
 
@@ -10214,9 +10165,8 @@ msgid "smooth"
 msgstr "finomított"
 
 #: rc.cpp:972
-#, fuzzy
 msgid "threelay0r"
-msgstr "Előkésleltetés"
+msgstr "Három réteg (threelay0r)"
 
 #: rc.cpp:2842
 #: rc.cpp:4851
@@ -10260,9 +10210,8 @@ msgid "x1"
 msgstr "x1"
 
 #: src/wizard.cpp:418
-#, fuzzy
 msgid "xine"
-msgstr "Választható Xine pluginok"
+msgstr "xine"
 
 #: rc.cpp:1449
 msgid "y"
