@@ -610,7 +610,8 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked)
                 speed = idString.section(':', 2, 2).toDouble();
                 strobe = idString.section(':', 3, 3).toInt();
                 if (strobe == 0) strobe = 1;
-            } else id = id.section('_', 0, 0);
+            }
+            id = id.section('_', 0, 0);
             DocClipBase *clip = m_doc->clipManager()->getClipById(id);
             if (clip == NULL) {
                 // The clip in playlist was not listed in the kdenlive producers,
@@ -632,6 +633,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked)
                     producerXml.setAttribute("id", id);
                     clip = new DocClipBase(m_doc->clipManager(), doc.documentElement(), id);
                     xml.insertBefore(producerXml, QDomNode());
+                    nodeindex++;
                     m_doc->clipManager()->addClip(clip);
 
                     m_documentErrors.append(i18n("Broken clip producer %1", id) + '\n');
@@ -886,9 +888,15 @@ DocClipBase *TrackView::getMissingProducer(const QString id) const
     if (!docRoot.endsWith('/')) docRoot.append('/');
     QDomNodeList prods = doc.elementsByTagName("producer");
     int maxprod = prods.count();
+    bool slowmotionClip = false;
     for (int i = 0; i < maxprod; i++) {
         QDomNode m = prods.at(i);
         QString prodId = m.toElement().attribute("id");
+        if (prodId.startsWith("slowmotion")) {
+            slowmotionClip = true;
+            prodId = prodId.section(':', 1, 1);
+        }
+        prodId = prodId.section('_', 0, 0);
         if (prodId == id) {
             missingXml =  m.toElement();
             break;
@@ -905,6 +913,7 @@ DocClipBase *TrackView::getMissingProducer(const QString id) const
             break;
         }
     }
+    if (slowmotionClip) resource = resource.section('?', 0, 0);
     // prepend MLT XML document root if no path in clip resource and not a color clip
     if (!resource.startsWith('/') && !resource.startsWith("0x")) resource.prepend(docRoot);
     DocClipBase *missingClip = NULL;
