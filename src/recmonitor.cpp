@@ -240,7 +240,6 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
         checkDeviceAvailability();
         break;
     case BLACKMAGIC:
-        //createBlackmagicDevice();
         m_recAction->setEnabled(true);
         m_stopAction->setEnabled(false);
         m_playAction->setEnabled(true);
@@ -292,24 +291,12 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
     }
 }
 
-void RecMonitor::createBlackmagicDevice()
-{
-    //video_capture->setVisible(true);
-    if (m_bmCapture == NULL) {
-        QVBoxLayout *lay = new QVBoxLayout;
-        m_bmCapture = new BmdCaptureHandler(lay);
-        connect(m_bmCapture, SIGNAL(gotTimeCode(ulong)), this, SLOT(slotGotBlackMagicFrameNumber(ulong)));
-        connect(m_bmCapture, SIGNAL(gotMessage(const QString &)), this, SLOT(slotGotBlackmagicMessage(const QString &)));
-        video_capture->setLayout(lay);
-    }
-}
-
 void RecMonitor::slotGotBlackmagicFrameNumber(ulong ix)
 {
     m_dvinfo.setText(QString::number(ix));
 }
 
-void RecMonitor::slotGotBlackmagicMessage(const QString &message)
+void RecMonitor::slotSetInfoMessage(const QString &message)
 {
     m_logger.insertItem(0, message);
 }
@@ -488,6 +475,7 @@ void RecMonitor::slotStartCapture(bool play)
         m_manager->activateMonitor("record");
         if (m_captureDevice == NULL) {
             m_captureDevice = new MltDeviceCapture(path, m_videoBox, this);
+            connect(m_captureDevice, SIGNAL(droppedFrames(int)), this, SLOT(slotDroppedFrames(int)));
             m_captureDevice->sendFrameForAnalysis = m_analyse;
             m_manager->updateScopeSource();
         }
@@ -551,26 +539,11 @@ void RecMonitor::slotStartCapture(bool play)
 
 void RecMonitor::slotRecord()
 {
-    /*if (device_selector->currentIndex() == BLACKMAGIC) {
-        if (m_blackmagicCapturing) {
-            // We are capturing, stop it
-            m_bmCapture->stopCapture();
-            m_blackmagicCapturing = false;
-        } else {
-            // Start capture, get capture filename first
-            QString path = m_capturePath;
-            if (!path.endsWith("/")) path.append("/");
-            path.append(KdenliveSettings::hdmifilename());
-            m_bmCapture->startCapture(path);
-            m_blackmagicCapturing = true;
-        }
-        return;
-    }*/
-
     if (m_captureProcess->state() == QProcess::NotRunning && device_selector->currentIndex() == FIREWIRE) {
         slotStartCapture();
     }
     if (m_isCapturing) {
+        // User stopped capture
         switch (device_selector->currentIndex()) {
         case FIREWIRE:
             m_captureProcess->write("\e", 2);
@@ -582,6 +555,7 @@ void RecMonitor::slotRecord()
         case VIDEO4LINUX:
         case BLACKMAGIC:
             slotStopCapture();
+            slotSetInfoMessage(i18n("Capture stopped"));
             m_isCapturing = false;
             m_recAction->setChecked(false);
             if (autoaddbox->isChecked() && QFile::exists(m_captureFile.path())) emit addProjectClip(m_captureFile);
@@ -657,7 +631,7 @@ void RecMonitor::slotRecord()
 
             playlist.append("</tractor></mlt>");
 
-            if (m_captureDevice->slotStartCapture(KdenliveSettings::v4l_parameters(), m_captureFile.path(), playlist)) {
+            if (m_captureDevice->slotStartCapture(KdenliveSettings::v4l_parameters(), m_captureFile.path(), playlist, enable_preview->isChecked())) {
                 m_videoBox->setHidden(false);
                 m_isCapturing = true;
             }
@@ -681,18 +655,21 @@ void RecMonitor::slotRecord()
             profile = ProfilesDialog::getVideoProfile(path);
             if (m_captureDevice == NULL) {
                 m_captureDevice = new MltDeviceCapture(path, m_videoBox, this);
+                connect(m_captureDevice, SIGNAL(droppedFrames(int)), this, SLOT(slotDroppedFrames(int)));
                 m_captureDevice->sendFrameForAnalysis = m_analyse;
                 m_manager->updateScopeSource();
             }
                
             playlist = QString("<producer id=\"producer0\" in=\"0\" out=\"99999\"><property name=\"mlt_type\">producer</property><property name=\"length\">100000</property><property name=\"eof\">pause</property><property name=\"resource\">%1</property><property name=\"mlt_service\">decklink</property></producer>").arg(KdenliveSettings::decklink_capturedevice());
 
-            if (m_captureDevice->slotStartCapture(KdenliveSettings::decklink_parameters(), m_captureFile.path(), QString("decklink:%1").arg(KdenliveSettings::decklink_capturedevice()), false)) {
+            if (m_captureDevice->slotStartCapture(KdenliveSettings::decklink_parameters(), m_captureFile.path(), QString("decklink:%1").arg(KdenliveSettings::decklink_capturedevice()), enable_preview->isChecked(), false)) {
                 m_videoBox->setHidden(false);
                 m_isCapturing = true;
+                slotSetInfoMessage(i18n("Capturing to %1", m_captureFile.fileName()));
             }
             else {
-                video_frame->setText(i18n("Failed to start Decklink,\ncheck your parameters..."));                
+                video_frame->setText(i18n("Failed to start Decklink,\ncheck your parameters..."));
+                slotSetInfoMessage(i18n("Failed to start capture"));
                 m_videoBox->setHidden(true);
                 m_isCapturing = false;
                 m_recAction->setChecked(false);
@@ -937,6 +914,10 @@ void RecMonitor::analyseFrames(bool analyse)
     if (m_captureDevice) m_captureDevice->sendFrameForAnalysis = analyse;
 }
 
+void RecMonitor::slotDroppedFrames(int dropped)
+{
+    slotSetInfoMessage(i18n("%1 dropped frames", dropped));
+}
 
 #include "recmonitor.moc"
 

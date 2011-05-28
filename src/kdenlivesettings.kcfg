@@ -504,7 +504,7 @@
   
   <entry name="decklink_parameters" type="String">
       <label>Default Decklink encoding parameters.</label>
-      <default>vcodec=mpeg2video minrate=0 b=12000k acodec=mp2 ab=128k ar=48000 threads=2</default>
+      <default>vcodec=mpeg2video b=12000k minrate=0 pix_fmt=yuv420p g=15 acodec=mp2 ac=2 ab=128k ar=48000 threads=%threads</default>
   </entry>
 
   <entry name="decklink_extension" type="String">

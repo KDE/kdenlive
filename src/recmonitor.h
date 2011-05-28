@@ -112,7 +112,6 @@ private:
     void checkDeviceAvailability();
     QPixmap mergeSideBySide(const QPixmap& pix, const QString txt);
     void manageCapturedFiles();
-    void createBlackmagicDevice();
 
 private slots:
     void slotStartCapture(bool play = true);
@@ -127,7 +126,8 @@ private slots:
     void slotReadDvgrabInfo();
     void slotUpdateFreeSpace();
     void slotGotBlackmagicFrameNumber(ulong ix);
-    void slotGotBlackmagicMessage(const QString &message);
+    void slotSetInfoMessage(const QString &message);
+    void slotDroppedFrames(int dropped);
 
 public slots:
     void refreshRecMonitor(bool visible);

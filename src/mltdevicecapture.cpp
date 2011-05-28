@@ -35,6 +35,7 @@
 #include <QDir>
 #include <QString>
 #include <QApplication>
+#include <QThread>
 
 #include <cstdlib>
 #include <cstdarg>
@@ -88,6 +89,8 @@ MltDeviceCapture::MltDeviceCapture(QString profile, VideoPreviewContainer *surfa
     m_mltConsumer(NULL),
     m_mltProducer(NULL),
     m_mltProfile(NULL),
+    m_droppedFrames(0),
+    m_livePreview(true),
     m_captureDisplayWidget(surface),
     m_winid((int) surface->winId()),
     m_analyseAudio(KdenliveSettings::monitor_audio())
@@ -301,6 +304,14 @@ bool MltDeviceCapture::slotStartPreview(const QString &producer, bool xmlFormat)
 
 void MltDeviceCapture::gotCapturedFrame(Mlt::Frame& frame)
 {
+    if (m_mltProducer) {
+        int dropped = m_mltProducer->get_int("dropped");
+        if (dropped != m_droppedFrames) {
+            m_droppedFrames = dropped;
+            emit droppedFrames(m_droppedFrames);
+        }
+    }
+    if (!m_livePreview) return;
     mlt_image_format format = mlt_image_rgb24a;
     int width = 0;
     int height = 0;
@@ -347,9 +358,11 @@ void MltDeviceCapture::captureFrame(const QString &path)
     doCapture = 5;
 }
 
-bool MltDeviceCapture::slotStartCapture(const QString &params, const QString &path, const QString &playlist, bool xmlPlaylist)
+bool MltDeviceCapture::slotStartCapture(const QString &params, const QString &path, const QString &playlist, bool livePreview, bool xmlPlaylist)
 {
     stop();
+    m_livePreview = livePreview;
+    m_droppedFrames = 0;
     if (m_mltProfile) delete m_mltProfile;
     char *tmp = qstrdup(m_activeProfile.toUtf8().constData());
     m_mltProfile = new Mlt::Profile(tmp);
@@ -365,7 +378,9 @@ bool MltDeviceCapture::slotStartCapture(const QString &params, const QString &pa
     char *tmp2;
     for (int i = 0; i < paramList.count(); i++) {
         tmp = qstrdup(paramList.at(i).section("=", 0, 0).toUtf8().constData());
-        tmp2 = qstrdup(paramList.at(i).section("=", 1, 1).toUtf8().constData());
+        QString value = paramList.at(i).section("=", 1, 1);
+        if (value == "%threads") value = QString::number(QThread::idealThreadCount());
+        tmp2 = qstrdup(value.toUtf8().constData());
         m_mltConsumer->set(tmp, tmp2);
         delete[] tmp;
         delete[] tmp2;

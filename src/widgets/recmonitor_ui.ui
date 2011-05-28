@@ -6,15 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>210</width>
-    <height>152</height>
+    <width>371</width>
+    <height>186</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <property name="margin">
     <number>0</number>
    </property>
-   <item row="0" column="0" colspan="3">
+   <item row="0" column="0" colspan="4">
     <widget class="QFrame" name="video_capture">
      <property name="frameShape">
       <enum>QFrame::NoFrame</enum>
@@ -27,7 +27,7 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="0" colspan="3">
+   <item row="1" column="0" colspan="4">
     <widget class="QLabel" name="video_frame">
      <property name="text">
       <string>Not connected</string>
@@ -37,7 +37,7 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="0" colspan="3">
+   <item row="2" column="0" colspan="4">
     <widget class="QFrame" name="control_frame_firewire">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
@@ -69,7 +69,7 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="2">
+   <item row="3" column="3">
     <widget class="KComboBox" name="device_selector">
      <item>
       <property name="text">
@@ -92,6 +92,29 @@
       </property>
      </item>
     </widget>
+   </item>
+   <item row="3" column="1">
+    <widget class="QCheckBox" name="enable_preview">
+     <property name="text">
+      <string>Preview while capturing</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="2">
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
    </item>
   </layout>
  </widget>

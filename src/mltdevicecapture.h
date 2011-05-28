@@ -76,7 +76,7 @@ Q_OBJECT public:
     /** @brief Starts the MLT Video4Linux process.
      * @param surface The widget onto which the frame should be painted
      */
-    bool slotStartCapture(const QString &params, const QString &path, const QString &playlist, bool xmlPlaylist = true);
+    bool slotStartCapture(const QString &params, const QString &path, const QString &playlist, bool livePreview, bool xmlPlaylist = true);
     bool slotStartPreview(const QString &producer, bool xmlFormat = false);
     /** @brief A frame arrived from the MLT Video4Linux process. */
     void gotCapturedFrame(Mlt::Frame& frame);
@@ -97,6 +97,8 @@ private:
     Mlt::Producer * m_mltProducer;
     Mlt::Profile *m_mltProfile;
     QString m_activeProfile;
+    int m_droppedFrames;
+    bool m_livePreview;
 
     /** @brief The surface onto which the captured frames should be painted. */
     VideoPreviewContainer *m_captureDisplayWidget;
@@ -125,6 +127,8 @@ signals:
     void audioSamplesSignal(const QVector<int16_t>&, int freq, int num_channels, int num_samples);
 
     void frameSaved(const QString);
+    
+    void droppedFrames(int);
 
 public slots:
 
