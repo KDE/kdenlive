@@ -29,7 +29,7 @@ BMInterface::BMInterface()
 }
 
 //static
-bool BMInterface::getBlackMagicDeviceList(KComboBox *devicelist, KComboBox *modelist)
+bool BMInterface::getBlackMagicDeviceList(KComboBox *devicelist)
 {
     IDeckLinkIterator* deckLinkIterator;
     IDeckLink* deckLink;
@@ -138,10 +138,6 @@ bool BMInterface::getBlackMagicDeviceList(KComboBox *devicelist, KComboBox *mode
     }
 
     deckLinkIterator->Release();
-    if(modelist != NULL && devicelist->count() > 0) {
-        QStringList modes = devicelist->itemData(devicelist->currentIndex()).toStringList();
-        modelist->insertItems(0, modes);
-    }
     return found;
 }
 

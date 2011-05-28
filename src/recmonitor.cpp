@@ -247,7 +247,7 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
 
         capturefile = m_capturePath;
         if (!capturefile.endsWith("/")) capturefile.append("/");
-        capturename = KdenliveSettings::hdmifilename();
+        capturename = KdenliveSettings::decklink_filename();
         capturename.append("xxx.raw");
         capturefile.append(capturename);
         video_frame->setPixmap(mergeSideBySide(KIcon("camera-photo").pixmap(QSize(50, 50)), i18n("Plug your camcorder and\npress play button\nto start preview.\nFiles will be saved in:\n%1", capturefile)));
@@ -520,7 +520,7 @@ void RecMonitor::slotStartCapture(bool play)
             m_manager->updateScopeSource();
         }
         profile = ProfilesDialog::getVideoProfile(path);
-        producer = QString("decklink:%1").arg(KdenliveSettings::hdmi_capturedevice());
+        producer = QString("decklink:%1").arg(KdenliveSettings::decklink_capturedevice());
         if (!m_captureDevice->slotStartPreview(producer)) {
             // v4l capture failed to start
             video_frame->setText(i18n("Failed to start Decklink,\ncheck your parameters..."));
@@ -531,7 +531,7 @@ void RecMonitor::slotStartCapture(bool play)
             m_playAction->setEnabled(false);
             m_stopAction->setEnabled(true);
         }
-        //m_bmCapture->startPreview(KdenliveSettings::hdmi_capturedevice(), KdenliveSettings::hdmi_capturemode());
+        //m_bmCapture->startPreview(KdenliveSettings::decklink_capturedevice(), KdenliveSettings::hdmi_capturemode());
         m_playAction->setEnabled(false);
         m_stopAction->setEnabled(true);
         m_recAction->setEnabled(true);
@@ -580,6 +580,7 @@ void RecMonitor::slotRecord()
             m_recAction->setChecked(false);
             break;
         case VIDEO4LINUX:
+        case BLACKMAGIC:
             slotStopCapture();
             m_isCapturing = false;
             m_recAction->setChecked(false);
@@ -606,9 +607,10 @@ void RecMonitor::slotRecord()
     }
     if (m_captureProcess->state() == QProcess::NotRunning) {
         m_recAction->setChecked(true);
-        QString extension = "mp4";
+        QString extension = "mpg";
         if (device_selector->currentIndex() == SCREENGRAB) extension = "ogv"; //KdenliveSettings::screengrabextension();
         else if (device_selector->currentIndex() == VIDEO4LINUX) extension = KdenliveSettings::v4l_extension();
+        else if (device_selector->currentIndex() == BLACKMAGIC) extension = KdenliveSettings::decklink_extension();
         QString path = KUrl(m_capturePath).path(KUrl::AddTrailingSlash) + "capture0000." + extension;
         int i = 1;
         while (QFile::exists(path)) {
@@ -683,9 +685,9 @@ void RecMonitor::slotRecord()
                 m_manager->updateScopeSource();
             }
                
-            playlist = QString("<producer id=\"producer0\" in=\"0\" out=\"99999\"><property name=\"mlt_type\">producer</property><property name=\"length\">100000</property><property name=\"eof\">pause</property><property name=\"resource\">%1</property><property name=\"mlt_service\">decklink</property></producer>").arg(KdenliveSettings::hdmi_capturedevice());
+            playlist = QString("<producer id=\"producer0\" in=\"0\" out=\"99999\"><property name=\"mlt_type\">producer</property><property name=\"length\">100000</property><property name=\"eof\">pause</property><property name=\"resource\">%1</property><property name=\"mlt_service\">decklink</property></producer>").arg(KdenliveSettings::decklink_capturedevice());
 
-            if (m_captureDevice->slotStartCapture(KdenliveSettings::v4l_parameters(), m_captureFile.path(), playlist)) {
+            if (m_captureDevice->slotStartCapture(KdenliveSettings::decklink_parameters(), m_captureFile.path(), QString("decklink:%1").arg(KdenliveSettings::decklink_capturedevice()), false)) {
                 m_videoBox->setHidden(false);
                 m_isCapturing = true;
             }

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>333</width>
-    <height>353</height>
+    <width>329</width>
+    <height>332</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -151,14 +151,14 @@
       <bool>false</bool>
      </property>
      <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="0">
+      <item row="0" column="0" colspan="2">
        <widget class="QCheckBox" name="kcfg_generateproxy">
         <property name="text">
          <string>Generate for videos larger than</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="1">
+      <item row="0" column="2" colspan="3">
        <widget class="KIntSpinBox" name="kcfg_proxyminsize">
         <property name="suffix">
          <string>pixels</string>
@@ -171,14 +171,14 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="0">
+      <item row="1" column="0" colspan="2">
        <widget class="QCheckBox" name="kcfg_generateimageproxy">
         <property name="text">
          <string>Generate for images larger than</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="1">
+      <item row="1" column="2" colspan="3">
        <widget class="KIntSpinBox" name="kcfg_proxyimageminsize">
         <property name="suffix">
          <string>pixels</string>
@@ -194,34 +194,56 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="0" colspan="2">
-       <widget class="QLabel" name="label">
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_24">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="text">
-         <string>FFmpeg video transcoding parameters</string>
+         <string>Encoding profile</string>
         </property>
        </widget>
       </item>
-      <item row="3" column="0" colspan="2">
-       <widget class="QPlainTextEdit" name="kcfg_proxyparams">
+      <item row="2" column="1" colspan="2">
+       <widget class="KComboBox" name="kcfg_proxy_profile">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
        </widget>
       </item>
-      <item row="4" column="0">
-       <widget class="QLabel" name="label_2">
+      <item row="2" column="3">
+       <widget class="QToolButton" name="proxy_showprofileinfo">
         <property name="text">
-         <string>File extension</string>
+         <string>...</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
-      <item row="4" column="1">
-       <widget class="KLineEdit" name="kcfg_proxyextension">
+      <item row="2" column="4">
+       <widget class="QToolButton" name="proxy_manageprofile">
         <property name="text">
-         <string>avi</string>
+         <string>...</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0" colspan="5">
+       <widget class="QPlainTextEdit" name="proxyparams">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="readOnly">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -248,11 +270,6 @@
    <class>KIntSpinBox</class>
    <extends>QSpinBox</extends>
    <header>knuminput.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
   </customwidget>
   <customwidget>
    <class>KComboBox</class>

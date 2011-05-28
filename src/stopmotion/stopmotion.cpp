@@ -251,7 +251,7 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, KUrl projectFolder, 
     layout->addWidget(m_videoBox);
     
     
-    if (BMInterface::getBlackMagicDeviceList(capture_device, NULL)) {
+    if (BMInterface::getBlackMagicDeviceList(capture_device)) {
         // Found a BlackMagic device
     }
     if (QFile::exists(KdenliveSettings::video4vdevice())) {

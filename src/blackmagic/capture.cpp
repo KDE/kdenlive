@@ -805,14 +805,14 @@ void BmdCaptureHandler::startCapture(const QString &path)
         fprintf(stderr, "Could not open video output file \"%s\"\n", videopath.toUtf8().constData());
         return;
     }
-    if (KdenliveSettings::hdmicaptureaudio()) {
+    /*if (KdenliveSettings::hdmicaptureaudio()) {
         audioOutputFile = open(audiopath.toUtf8().constData(), O_WRONLY | O_CREAT | O_TRUNC, 0664);
         if (audioOutputFile < 0) {
             emit gotMessage(i18n("Could not open audio output file %1", audiopath));
             fprintf(stderr, "Could not open video output file \"%s\"\n", audiopath.toUtf8().constData());
             return;
         }
-    }
+    }*/
 }
 
 void BmdCaptureHandler::stopCapture()

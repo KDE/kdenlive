@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>405</width>
-    <height>563</height>
+    <height>532</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout_8">
@@ -181,29 +181,39 @@
        <string>Video4Linux</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout">
-       <item row="0" column="0">
+       <item row="0" column="0" colspan="2">
         <widget class="QLabel" name="label_30">
          <property name="text">
           <string>Detected devices</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="1" colspan="4">
+       <item row="0" column="4" colspan="4">
         <widget class="KComboBox" name="kcfg_detectedv4ldevices"/>
        </item>
-       <item row="1" column="0">
+       <item row="1" column="0" colspan="2">
         <widget class="QLabel" name="label_14">
          <property name="text">
           <string>Video device</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="1" colspan="4">
+       <item row="1" column="4" colspan="4">
         <widget class="KLineEdit" name="kcfg_video4vdevice">
          <property name="text">
           <string/>
          </property>
         </widget>
+       </item>
+       <item row="2" column="0" colspan="2">
+        <widget class="QLabel" name="label_9">
+         <property name="text">
+          <string>Capture format</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="4" colspan="4">
+        <widget class="KComboBox" name="kcfg_v4l_format"/>
        </item>
        <item row="3" column="0">
         <widget class="QLabel" name="label_6">
@@ -212,70 +222,77 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="1" colspan="4">
+       <item row="3" column="4" colspan="4">
         <widget class="QLabel" name="p_size">
          <property name="text">
           <string>720x576</string>
          </property>
         </widget>
        </item>
-       <item row="4" column="1" colspan="4">
+       <item row="4" column="0" colspan="2">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>Frame rate:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="4" colspan="4">
         <widget class="QLabel" name="p_fps">
          <property name="text">
           <string>25/1</string>
          </property>
         </widget>
        </item>
-       <item row="5" column="0">
+       <item row="5" column="0" colspan="2">
         <widget class="QLabel" name="label_23">
          <property name="text">
           <string>Pixel aspect ratio:</string>
          </property>
         </widget>
        </item>
-       <item row="5" column="1" colspan="4">
+       <item row="5" column="4" colspan="4">
         <widget class="QLabel" name="p_aspect">
          <property name="text">
           <string>59/54</string>
          </property>
         </widget>
        </item>
-       <item row="6" column="0">
+       <item row="6" column="0" colspan="3">
         <widget class="QLabel" name="label_31">
          <property name="text">
           <string>Display aspect ratio:</string>
          </property>
         </widget>
        </item>
-       <item row="6" column="1" colspan="4">
+       <item row="6" column="4" colspan="4">
         <widget class="QLabel" name="p_display">
          <property name="text">
           <string>4/3</string>
          </property>
         </widget>
        </item>
-       <item row="7" column="0">
+       <item row="7" column="0" colspan="2">
         <widget class="QLabel" name="label_32">
          <property name="text">
           <string>Colorspace</string>
          </property>
         </widget>
        </item>
-       <item row="7" column="1" colspan="4">
+       <item row="7" column="4" colspan="4">
         <widget class="QLabel" name="p_colorspace">
          <property name="text">
           <string/>
          </property>
         </widget>
        </item>
-       <item row="8" column="0">
+       <item row="8" column="0" colspan="2">
         <widget class="QLabel" name="p_progressive">
          <property name="text">
           <string>Interlaced</string>
          </property>
         </widget>
        </item>
-       <item row="8" column="1" colspan="3">
+       <item row="8" column="4" colspan="2">
         <spacer name="horizontalSpacer_5">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -288,29 +305,36 @@
          </property>
         </spacer>
        </item>
-       <item row="8" column="4">
+       <item row="8" column="6" colspan="2">
         <widget class="QPushButton" name="pushButton">
          <property name="text">
           <string>Edit</string>
          </property>
         </widget>
        </item>
-       <item row="9" column="0" colspan="4">
+       <item row="9" column="0" rowspan="4" colspan="8">
         <widget class="Line" name="line">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
         </widget>
        </item>
-       <item row="12" column="0" colspan="4">
+       <item row="13" column="0" colspan="4">
+        <widget class="QCheckBox" name="kcfg_v4l_captureaudio">
+         <property name="text">
+          <string>Capture audio (ALSA)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="14" column="0" colspan="8">
         <widget class="Line" name="line_2">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
         </widget>
        </item>
-       <item row="13" column="0">
-        <widget class="QLabel" name="label_12">
+       <item row="15" column="0" colspan="2">
+        <widget class="QLabel" name="label_24">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
            <horstretch>0</horstretch>
@@ -318,21 +342,34 @@
           </sizepolicy>
          </property>
          <property name="text">
-          <string>Encoding parameters</string>
+          <string>Encoding profile</string>
          </property>
         </widget>
        </item>
-       <item row="14" column="0" colspan="5">
-        <widget class="QPlainTextEdit" name="kcfg_v4l_parameters">
+       <item row="15" column="4">
+        <widget class="KComboBox" name="kcfg_v4l_profile">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
+          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
         </widget>
        </item>
-       <item row="16" column="0">
+       <item row="17" column="0" colspan="8">
+        <widget class="QPlainTextEdit" name="v4l_parameters">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="18" column="1" colspan="4">
         <spacer name="verticalSpacer">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -345,54 +382,33 @@
          </property>
         </spacer>
        </item>
-       <item row="15" column="0">
-        <widget class="QLabel" name="label_3">
-         <property name="text">
-          <string>File extension</string>
-         </property>
-        </widget>
-       </item>
-       <item row="15" column="1" colspan="4">
-        <widget class="QLineEdit" name="kcfg_v4l_extension">
-         <property name="maxLength">
-          <number>5</number>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="label_9">
-         <property name="text">
-          <string>Capture format</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1" colspan="4">
-        <widget class="KComboBox" name="kcfg_v4l_format"/>
-       </item>
-       <item row="4" column="0">
-        <widget class="QLabel" name="label_4">
-         <property name="text">
-          <string>Frame rate:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="10" column="0">
-        <widget class="QCheckBox" name="kcfg_v4l_captureaudio">
-         <property name="text">
-          <string>Capture audio (ALSA)</string>
-         </property>
-        </widget>
-       </item>
-       <item row="10" column="1" colspan="4">
+       <item row="13" column="4" colspan="4">
         <widget class="KComboBox" name="kcfg_v4l_alsadevice">
          <property name="enabled">
           <bool>false</bool>
          </property>
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
+         </property>
+        </widget>
+       </item>
+       <item row="15" column="7">
+        <widget class="QToolButton" name="v4l_manageprofile">
+         <property name="text">
+          <string>...</string>
+         </property>
+        </widget>
+       </item>
+       <item row="15" column="6">
+        <widget class="QToolButton" name="v4l_showprofileinfo">
+         <property name="text">
+          <string>...</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -789,7 +805,7 @@
       <attribute name="title">
        <string>Blackmagic</string>
       </attribute>
-      <layout class="QGridLayout" name="gridLayout_10">
+      <layout class="QGridLayout" name="gridLayout_6">
        <item row="0" column="0">
         <widget class="QLabel" name="label_27">
          <property name="text">
@@ -797,8 +813,8 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="1">
-        <widget class="KComboBox" name="kcfg_hdmi_capturedevice">
+       <item row="0" column="1" colspan="8">
+        <widget class="KComboBox" name="kcfg_decklink_capturedevice">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -807,27 +823,30 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_28">
-         <property name="text">
-          <string>Capture mode</string>
+       <item row="5" column="0" colspan="9">
+        <widget class="QPlainTextEdit" name="decklink_parameters">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
-       <item row="1" column="1">
-        <widget class="KComboBox" name="kcfg_hdmi_capturemode"/>
-       </item>
-       <item row="2" column="0">
+       <item row="6" column="0">
         <widget class="QLabel" name="label_29">
          <property name="text">
           <string>Capture file name</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="1">
-        <widget class="QLineEdit" name="kcfg_hdmifilename"/>
+       <item row="6" column="1" colspan="8">
+        <widget class="QLineEdit" name="kcfg_decklink_filename"/>
        </item>
-       <item row="4" column="1">
+       <item row="7" column="8">
         <spacer name="verticalSpacer_4">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -840,10 +859,43 @@
          </property>
         </spacer>
        </item>
-       <item row="3" column="0" colspan="2">
-        <widget class="QCheckBox" name="kcfg_hdmicaptureaudio">
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_16">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="text">
-          <string>Capture audio</string>
+          <string>Encoding profile</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1" colspan="6">
+        <widget class="KComboBox" name="kcfg_decklink_profile">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="8">
+        <widget class="QToolButton" name="decklink_manageprofile">
+         <property name="text">
+          <string>...</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="7">
+        <widget class="QToolButton" name="decklink_showprofileinfo">
+         <property name="text">
+          <string>...</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
          </property>
         </widget>
        </item>

@@ -20,30 +20,52 @@
 
 #include "abstractmonitor.h"
 
+#include <KDebug>
 
 VideoPreviewContainer::VideoPreviewContainer(QWidget *parent) :
-    QFrame(parent),
-    m_image(new QImage())
+    QFrame(parent)
 {
     setFrameShape(QFrame::NoFrame);
     setFocusPolicy(Qt::ClickFocus);
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+    connect(&m_refreshTimer, SIGNAL(timeout()), this, SLOT(update()));
+    m_refreshTimer.setSingleShot(false);
+    m_refreshTimer.setInterval(200);
+}
+
+VideoPreviewContainer::~VideoPreviewContainer()
+{
+    qDeleteAll(m_imageQueue);
 }
 
 
 void VideoPreviewContainer::setImage(QImage img)
 {
-        if (m_image) delete m_image;
-        m_image = new QImage(img);
-        update();
+    if (m_imageQueue.count() > 2) {
+        delete m_imageQueue.takeLast();//replace(10, new QImage(img));
+    }
+    m_imageQueue.prepend(new QImage(img));
+}
+
+void VideoPreviewContainer::stop()
+{
+    m_refreshTimer.stop();
+    qDeleteAll(m_imageQueue);
+    m_imageQueue.clear();
+}
+
+void VideoPreviewContainer::start()
+{
+    m_refreshTimer.start();
 }
 
 // virtual
 void VideoPreviewContainer::paintEvent(QPaintEvent */*event*/)
 {
-        if (m_image->isNull()) return;
+        if (m_imageQueue.isEmpty()) return;
+        QImage *img = m_imageQueue.takeFirst();
         QPainter painter(this);
-        double ar = (double) m_image->width() / m_image->height();
+        double ar = (double) img->width() / img->height();
         QRect rect = this->frameRect();
         int paintW = rect.height() * ar + 0.5;
         if (paintW > rect.width()) {
@@ -58,7 +80,8 @@ void VideoPreviewContainer::paintEvent(QPaintEvent */*event*/)
             rect.setWidth(paintW);
         }
 
-        painter.drawImage(rect, *m_image);
+        painter.drawImage(rect, *img);
+        delete img;
 }
 
 

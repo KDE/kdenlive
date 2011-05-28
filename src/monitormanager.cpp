@@ -64,14 +64,12 @@ void MonitorManager::removeMonitor(AbstractMonitor *monitor)
 
 void MonitorManager::activateMonitor(QString name)
 {
-    kDebug()<<"//ACTIVATING MON: "<<name;
     if (m_blocked || m_clipMonitor == NULL || m_projectMonitor == NULL)
         return;
     if (m_activeMonitor && m_activeMonitor->name() == name)
         return;
     m_activeMonitor = NULL;
     for (int i = 0; i < m_monitorsList.count(); i++) {
-        kDebug()<<"PARSING: "<<m_monitorsList.at(i)->name();
         if (m_monitorsList.at(i)->name() == name) {
             m_activeMonitor = m_monitorsList.at(i);
             emit raiseMonitor(m_activeMonitor);

@@ -163,6 +163,7 @@ void MltDeviceCapture::buildConsumer(const QString &profileName)
 void MltDeviceCapture::stop()
 {
     bool isPlaylist = false;
+    m_captureDisplayWidget->stop();
     if (m_mltConsumer) {
         m_mltConsumer->set("refresh", 0);
         m_mltConsumer->stop();
@@ -346,7 +347,7 @@ void MltDeviceCapture::captureFrame(const QString &path)
     doCapture = 5;
 }
 
-bool MltDeviceCapture::slotStartCapture(const QString &params, const QString &path, const QString &playlist)
+bool MltDeviceCapture::slotStartCapture(const QString &params, const QString &path, const QString &playlist, bool xmlPlaylist)
 {
     stop();
     if (m_mltProfile) delete m_mltProfile;
@@ -381,7 +382,14 @@ bool MltDeviceCapture::slotStartCapture(const QString &params, const QString &pa
     // FIXME: the event object returned by the listen gets leaked...
     m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) rec_consumer_frame_show);
     tmp = qstrdup(playlist.toUtf8().constData());
-    m_mltProducer = new Mlt::Producer(*m_mltProfile, "xml-string", tmp);
+    if (xmlPlaylist) {
+        // create an xml producer
+        m_mltProducer = new Mlt::Producer(*m_mltProfile, "xml-string", tmp);
+    }
+    else {
+        // create a producer based on mltproducer parameter
+        m_mltProducer = new Mlt::Producer(*m_mltProfile, tmp);
+    }
     delete[] tmp;
 
     if (m_mltProducer == NULL || !m_mltProducer->is_valid()) {
@@ -395,6 +403,7 @@ bool MltDeviceCapture::slotStartCapture(const QString &params, const QString &pa
         m_mltConsumer = NULL;
         return 0;
     }
+    m_captureDisplayWidget->start();
     return 1;
 }
 

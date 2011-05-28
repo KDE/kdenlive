@@ -76,7 +76,7 @@ Q_OBJECT public:
     /** @brief Starts the MLT Video4Linux process.
      * @param surface The widget onto which the frame should be painted
      */
-    bool slotStartCapture(const QString &params, const QString &path, const QString &playlist);
+    bool slotStartCapture(const QString &params, const QString &path, const QString &playlist, bool xmlPlaylist = true);
     bool slotStartPreview(const QString &producer, bool xmlFormat = false);
     /** @brief A frame arrived from the MLT Video4Linux process. */
     void gotCapturedFrame(Mlt::Frame& frame);

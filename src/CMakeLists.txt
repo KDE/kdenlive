@@ -135,6 +135,7 @@ kde4_add_ui_files(kdenlive_UI
   widgets/bezierspline_ui.ui
   widgets/monitoreditwidget_ui.ui
   widgets/archivewidget_ui.ui
+  widgets/manageencodingprofile_ui.ui
 )
 
 set(kdenlive_SRCS
@@ -284,6 +285,7 @@ set(kdenlive_SRCS
   archivewidget.cpp
   mltdevicecapture.cpp
   abstractmonitor.cpp
+  encodingprofilesdialog.cpp
 )
 
 add_definitions(${KDE4_DEFINITIONS})

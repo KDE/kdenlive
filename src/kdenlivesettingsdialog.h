@@ -71,6 +71,10 @@ private slots:
     void slotUpdateHDMIModes();
     void slotUpdatev4lDevice();
     void slotUpdatev4lCaptureProfile();
+    void slotManageEncodingProfile();
+    void slotUpdateDecklinkProfile(int ix = 0);
+    void slotUpdateProxyProfile(int ix = 0);
+    void slotUpdateV4lProfile(int ix = 0);
 
 private:
     KPageWidgetItem *m_page1;
@@ -101,6 +105,7 @@ private:
     void saveTranscodeProfiles();
     void loadCurrentV4lProfileInfo();
     void saveCurrentV4lProfile();
+    void loadEncodingProfiles();
 
 signals:
     void customChanged();

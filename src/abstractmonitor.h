@@ -26,20 +26,24 @@
 #include <QImage>
 #include <QPainter>
 #include <QFrame>
+#include <QTimer>
 
 class VideoPreviewContainer : public QFrame
 {
     Q_OBJECT
 public:
     VideoPreviewContainer(QWidget *parent = 0);
-    
+    ~VideoPreviewContainer();
     void setImage(QImage img);
+    void start();
+    void stop();
 
 protected:
     virtual void paintEvent(QPaintEvent */*event*/);
 
 private:
-    QImage *m_image;
+    QList <QImage *> m_imageQueue;
+    QTimer m_refreshTimer;
 };
 
 
