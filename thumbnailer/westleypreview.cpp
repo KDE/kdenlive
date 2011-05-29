@@ -126,17 +126,18 @@ uint MltPreview::imageVariance(QImage image)
     uint STEPS = bytes / 2;
     QVarLengthArray<uchar> pivot(STEPS);
     kDebug(DBG_AREA) << "Using " << STEPS << " steps\n";
-    uchar *bits = image.bits();
+    const uchar *bits=image.bits();
     // First pass: get pivots and taking average
-    for (uint i = 0; i < STEPS ; i++) {
-        pivot[i] = bits[i*(bytes/STEPS)];
-        avg += pivot[i];
+    for( uint i=0; i<STEPS ; i++ ){
+        pivot[i] = bits[2 * i];
+        avg+=pivot.at(i);
     }
-    avg = avg / STEPS;
+    avg=avg/STEPS;
     // Second Step: calculate delta (average?)
-    for (uint i = 0; i < STEPS; i++) {
-        int curdelta = abs(int(avg - pivot[i]));
-        delta += curdelta;
+    for (uint i=0; i<STEPS; i++)
+    {
+        int curdelta=abs(int(avg - pivot.at(i)));
+        delta+=curdelta;
     }
     return delta / STEPS;
 }

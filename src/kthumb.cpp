@@ -203,7 +203,7 @@ uint KThumb::imageVariance(QImage image )
     uint bytes = image.numBytes();
     uint STEPS = bytes/2;
     QVarLengthArray<uchar> pivot(STEPS);
-    uchar *bits=image.bits();
+    const uchar *bits=image.bits();
     // First pass: get pivots and taking average
     for( uint i=0; i<STEPS ; i++ ){
         pivot[i] = bits[2 * i];
