@@ -158,10 +158,9 @@ private:
     /** @brief A new frame arrived, reload overlay. */
     void reloadOverlay();
 
-
-#ifdef QIMAGEBLITZ
+    /** @brief Holds the index of the effect to be applied to the video feed. */
     int m_effectIndex;
-#endif
+
 
 public slots:
     /** @brief Display the live feed from capture device.
