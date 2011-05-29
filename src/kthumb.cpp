@@ -324,7 +324,7 @@ void KThumb::getAudioThumbs(int channel, double frame, double frameLength, int a
 
     QFile f(m_thumbFile);
     if (f.open(QIODevice::ReadOnly)) {
-        QByteArray channelarray = f.readAll();
+        const QByteArray channelarray = f.readAll();
         f.close();
         if (channelarray.size() != arrayWidth*(frame + frameLength)*m_channels) {
             kDebug() << "--- BROKEN THUMB FOR: " << m_url.fileName() << " ---------------------- " << endl;
@@ -339,15 +339,16 @@ void KThumb::getAudioThumbs(int channel, double frame, double frameLength, int a
         int h2 = (int) frame * h1;
         int h3;
         for (int z = (int) frame; z < (int)(frame + frameLength); z++) {
-            h2 += h1;
             h3 = 0;
             for (int c = 0; c < m_channels; c++) {
-                h3 += arrayWidth;
                 QByteArray m_array(arrayWidth, '\x00');
-                for (int i = 0; i < arrayWidth; i++)
-                    m_array[i] = channelarray[h2 + h3 + i];
+                for (int i = 0; i < arrayWidth; i++) {
+                    m_array[i] = channelarray.at(h2 + h3 + i);
+                }
+                h3 += arrayWidth;
                 storeIn[z][c] = m_array;
             }
+            h2 += h1;
         }
         emit audioThumbReady(storeIn);
         slotAudioThumbOver();
