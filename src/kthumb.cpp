@@ -198,22 +198,22 @@ QImage KThumb::getFrame(Mlt::Producer *producer, int framepos, int width, int he
 //static
 uint KThumb::imageVariance(QImage image )
 {
-    uint delta=0;
-    uint avg=0;
-    uint bytes=image.numBytes();
-    uint STEPS=bytes/2;
+    uint delta = 0;
+    uint avg = 0;
+    uint bytes = image.numBytes();
+    uint STEPS = bytes/2;
     QVarLengthArray<uchar> pivot(STEPS);
     uchar *bits=image.bits();
     // First pass: get pivots and taking average
     for( uint i=0; i<STEPS ; i++ ){
-        pivot[i]=bits[i*(bytes/STEPS)];
-        avg+=pivot[i];
+        pivot[i] = bits[2 * i];
+        avg+=pivot.at(i);
     }
     avg=avg/STEPS;
     // Second Step: calculate delta (average?)
     for (uint i=0; i<STEPS; i++)
     {
-        int curdelta=abs(int(avg-pivot[i]));
+        int curdelta=abs(int(avg - pivot.at(i)));
         delta+=curdelta;
     }
     return delta/STEPS;
