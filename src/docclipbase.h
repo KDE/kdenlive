@@ -181,7 +181,6 @@ Q_OBJECT public:
     const char *producerProperty(const char *name) const;
     void setProducerProperty(const char *name, const char *data);
     void resetProducerProperty(const char *name);
-    void clearProducers();
     void deleteProducers(bool clearThumbCreator = true);
 
     /** Set default play zone for clip monitor */

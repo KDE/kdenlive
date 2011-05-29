@@ -429,14 +429,8 @@ QString DocClipBase::markerComment(GenTime t)
     return QString();
 }
 
-void DocClipBase::clearProducers()
-{
-    m_baseTrackProducers.clear();
-}
-
 void DocClipBase::deleteProducers(bool clearThumbCreator)
 {
-    kDebug() << "// CLIP KILL PRODS ct: " << m_baseTrackProducers.count();
     if (clearThumbCreator && m_thumbProd) m_thumbProd->clearProducer();
     /*kDebug()<<"// CLIP KILL PRODS ct: "<<m_baseTrackProducers.count();
     int max = m_baseTrackProducers.count();

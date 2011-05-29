@@ -356,7 +356,7 @@ signals:
      *  @param durationError Should be set to true if the proxy failed because it has not same length as original clip
      */
     void removeInvalidProxy(const QString &id, bool durationError);
-    void refreshDocumentProducers();
+    void refreshDocumentProducers(bool displayRatioChanged);
 
     /** @brief A frame's image has to be shown.
      *

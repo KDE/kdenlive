@@ -95,7 +95,7 @@ Q_OBJECT public:
     void askForAudioThumb(const QString &id);
     QString projectFolder() const;
     void clearUnusedProducers();
-    void resetProducersList(const QList <Mlt::Producer *> prods);
+    void resetProducersList(const QList <Mlt::Producer *> prods, bool displayRatioChanged);
     void addFolder(const QString&, const QString&);
     void deleteFolder(const QString&);
     void clear();
@@ -135,7 +135,7 @@ signals:
     void modifiedClip(const QString &);
     void missingClip(const QString &);
     void availableClip(const QString &);
-    void checkAllClips();
+    void checkAllClips(bool displayRatioChanged);
 };
 
 #endif

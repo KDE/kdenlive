@@ -2247,8 +2247,6 @@ void MainWindow::slotEditProjectSettings()
 
 void MainWindow::slotUpdateProjectProfile(const QString &profile)
 {
-    double dar = m_activeDocument->dar();
-
     // Recreate the stopmotion widget if profile changes
     if (m_stopmotion) {
         delete m_stopmotion;
@@ -2271,8 +2269,6 @@ void MainWindow::slotUpdateProjectProfile(const QString &profile)
     m_projectList->updateProjectFormat(m_activeDocument->timecode());
     if (m_renderWidget) m_renderWidget->setProfile(m_activeDocument->mltProfile());
     m_timelineArea->setTabText(m_timelineArea->currentIndex(), m_activeDocument->description());
-    //m_activeDocument->clipManager()->resetProducersList(m_projectMonitor->render->producersList());
-    if (dar != m_activeDocument->dar()) m_projectList->reloadClipThumbnails();
     if (updateFps) m_activeTimeline->updateProjectFps();
     m_activeDocument->setModified(true);
     m_commandStack->activeStack()->clear();
@@ -2387,7 +2383,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
             disconnect(m_projectList, SIGNAL(projectModified()), m_activeDocument, SLOT(setModified()));
             disconnect(m_projectList, SIGNAL(updateProfile(const QString &)), this, SLOT(slotUpdateProjectProfile(const QString &)));
 
-            disconnect(m_projectMonitor->render, SIGNAL(refreshDocumentProducers()), m_activeDocument, SLOT(checkProjectClips()));
+            disconnect(m_projectMonitor->render, SIGNAL(refreshDocumentProducers(bool)), m_activeDocument, SLOT(checkProjectClips(bool)));
 
             disconnect(m_activeDocument, SIGNAL(guidesUpdated()), this, SLOT(slotGuidesUpdated()));
             disconnect(m_activeDocument, SIGNAL(addProjectClip(DocClipBase *, bool)), m_projectList, SLOT(slotAddClip(DocClipBase *, bool)));
@@ -2463,7 +2459,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     connect(m_projectMonitor, SIGNAL(zoneUpdated(QPoint)), doc, SLOT(setModified()));
     connect(m_clipMonitor, SIGNAL(zoneUpdated(QPoint)), doc, SLOT(setModified()));
     connect(m_projectMonitor, SIGNAL(durationChanged(int)), trackView, SLOT(setDuration(int)));
-    connect(m_projectMonitor->render, SIGNAL(refreshDocumentProducers()), doc, SLOT(checkProjectClips()));
+    connect(m_projectMonitor->render, SIGNAL(refreshDocumentProducers(bool)), doc, SLOT(checkProjectClips(bool)));
 
     connect(doc, SIGNAL(addProjectClip(DocClipBase *, bool)), m_projectList, SLOT(slotAddClip(DocClipBase *, bool)));
     connect(doc, SIGNAL(resetProjectList()), m_projectList, SLOT(slotResetProjectList()));

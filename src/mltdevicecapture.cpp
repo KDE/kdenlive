@@ -208,7 +208,6 @@ void MltDeviceCapture::stop()
                         if (trackPlaylist.get_clip(i)) mlt_producer_close(trackPlaylist.get_clip(i)->get_parent());
                     }
                     mlt_playlist_close(trackPlaylist.get_playlist());
-                    //trackPlaylist.clear();
                 }
             }
             delete field;

@@ -1122,10 +1122,9 @@ void ProjectList::slotUpdateClip(const QString &id)
     monitorItemEditing(true);
 }
 
-void ProjectList::updateAllClips()
+void ProjectList::updateAllClips(bool displayRatioChanged)
 {
     m_listView->setSortingEnabled(false);
-    kDebug() << "// UPDATE ALL CLPY";
 
     QTreeWidgetItemIterator it(m_listView);
     DocClipBase *clip;
@@ -1135,7 +1134,7 @@ void ProjectList::updateAllClips()
         if ((*it)->type() == PROJECTSUBCLIPTYPE) {
             // subitem
             SubProjectItem *sub = static_cast <SubProjectItem *>(*it);
-            if (sub->data(0, Qt::DecorationRole).isNull()) {
+            if (displayRatioChanged || sub->data(0, Qt::DecorationRole).isNull()) {
                 item = static_cast <ProjectItem *>((*it)->parent());
                 requestClipThumbnail(item->clipId() + '#' + QString::number(sub->zone().x()));
             }
@@ -1154,7 +1153,7 @@ void ProjectList::updateAllClips()
                 else if (!clip->isPlaceHolder())
                     item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsDropEnabled);
             } else {
-                if (item->data(0, Qt::DecorationRole).isNull())
+                if (displayRatioChanged || item->data(0, Qt::DecorationRole).isNull())
                     requestClipThumbnail(clip->getId());
                 if (item->data(0, DurationRole).toString().isEmpty()) {
                     item->changeDuration(item->referencedClip()->producer()->get_playtime());
@@ -1170,8 +1169,9 @@ void ProjectList::updateAllClips()
     if (m_listView->isEnabled())
         monitorItemEditing(true);
     m_listView->setSortingEnabled(true);
-    if (m_infoQueue.isEmpty())
-        slotProcessNextThumbnail();
+    if (m_infoQueue.isEmpty()) {
+       slotProcessNextThumbnail();
+    }
 }
 
 // static
@@ -1453,7 +1453,7 @@ void ProjectList::setDocument(KdenliveDoc *doc)
     connect(m_doc->clipManager(), SIGNAL(modifiedClip(const QString &)), this, SLOT(slotModifiedClip(const QString &)));
     connect(m_doc->clipManager(), SIGNAL(missingClip(const QString &)), this, SLOT(slotMissingClip(const QString &)));
     connect(m_doc->clipManager(), SIGNAL(availableClip(const QString &)), this, SLOT(slotAvailableClip(const QString &)));
-    connect(m_doc->clipManager(), SIGNAL(checkAllClips()), this, SLOT(updateAllClips()));
+    connect(m_doc->clipManager(), SIGNAL(checkAllClips(bool)), this, SLOT(updateAllClips(bool)));
 }
 
 QList <DocClipBase*> ProjectList::documentClipList() const
@@ -1497,21 +1497,6 @@ void ProjectList::slotCheckForEmptyQueue()
     }
 }
 
-void ProjectList::reloadClipThumbnails()
-{
-    m_thumbnailQueue.clear();
-    QTreeWidgetItemIterator it(m_listView);
-    while (*it) {
-        if ((*it)->type() != PROJECTCLIPTYPE) {
-            // subitem
-            ++it;
-            continue;
-        }
-        m_thumbnailQueue << ((ProjectItem *)(*it))->clipId();
-        ++it;
-    }
-    QTimer::singleShot(300, this, SLOT(slotProcessNextThumbnail()));
-}
 
 void ProjectList::requestClipThumbnail(const QString id)
 {
@@ -1540,8 +1525,9 @@ void ProjectList::slotRefreshClipThumbnail(const QString &clipId, bool update)
     QTreeWidgetItem *item = getAnyItemById(clipId);
     if (item)
         slotRefreshClipThumbnail(item, update);
-    else
+    else {
         slotProcessNextThumbnail();
+    }
 }
 
 void ProjectList::slotRefreshClipThumbnail(QTreeWidgetItem *it, bool update)
@@ -1588,7 +1574,6 @@ void ProjectList::slotRefreshClipThumbnail(QTreeWidgetItem *it, bool update)
         }
         if (update)
             emit projectModified();
-
         slotProcessNextThumbnail();
     }
 }

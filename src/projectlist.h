@@ -183,7 +183,6 @@ public:
     void setupGeneratorMenu(QMenu *addMenu, QMenu *transcodeMenu, QMenu *inTimelineMenu);
     QString currentClipUrl() const;
     KUrl::List getConditionalUrls(const QString &condition) const;
-    void reloadClipThumbnails();
     QDomDocument generateTemplateXml(QString data, const QString &replaceString);
     void cleanup();
     void trashUnusedClips();
@@ -217,7 +216,7 @@ public:
 
 public slots:
     void setDocument(KdenliveDoc *doc);
-    void updateAllClips();
+    void updateAllClips(bool displayRatioChanged);
     void slotReplyGetImage(const QString &clipId, const QPixmap &pix);
     void slotReplyGetFileProperties(const QString &clipId, Mlt::Producer *producer, const QMap < QString, QString > &properties, const QMap < QString, QString > &metadata, bool replace, bool selectClip);
     void slotAddClip(DocClipBase *clip, bool getProperties);

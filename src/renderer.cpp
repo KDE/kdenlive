@@ -282,6 +282,7 @@ Mlt::Producer *Render::invalidProducer(const QString &id)
 
 int Render::resetProfile(const QString profileName)
 {
+    QString scene = sceneList();
     if (m_mltConsumer) {
         if (m_externalConsumer == KdenliveSettings::external_display()) {
             if (KdenliveSettings::external_display() && m_activeProfile == profileName) return 1;
@@ -302,9 +303,9 @@ int Render::resetProfile(const QString profileName)
         delete m_mltConsumer;
         m_mltConsumer = NULL;
     }
-    QString scene = sceneList();
     int pos = 0;
     double current_fps = m_mltProfile->fps();
+    double current_dar = m_mltProfile->dar();
     delete m_blackClip;
     m_blackClip = NULL;
 
@@ -326,6 +327,7 @@ int Render::resetProfile(const QString profileName)
     m_mltProducer = NULL;
     buildConsumer(profileName);
     double new_fps = m_mltProfile->fps();
+    double new_dar = m_mltProfile->dar();
     if (current_fps != new_fps) {
         // fps changed, we must update the scenelist positions
         scene = updateSceneListFps(current_fps, new_fps, scene);
@@ -333,7 +335,7 @@ int Render::resetProfile(const QString profileName)
     //kDebug() << "//RESET WITHSCENE: " << scene;
     setSceneList(scene, pos);
     // producers have changed (different profile), so reset them...
-    emit refreshDocumentProducers();
+    emit refreshDocumentProducers(new_dar != current_dar);
     /*Mlt::Producer *producer = new Mlt::Producer(*m_mltProfile , "xml-string", scene.toUtf8().constData());
     m_mltProducer = producer;
     m_blackClip = new Mlt::Producer(*m_mltProfile , "colour", "black");
@@ -1016,6 +1018,7 @@ int Render::setSceneList(QString playlist, int position)
                 mlt_type = mlt_properties_get(properties, "mlt_type");
                 resource = mlt_properties_get(properties, "mlt_service");
             }
+
 
             for (int trackNb = tractor.count() - 1; trackNb >= 0; --trackNb) {
                 Mlt::Producer trackProducer(tractor.track(trackNb));
@@ -3847,12 +3850,12 @@ const QList <Mlt::Producer *> Render::producersList()
         delete tt;
         Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
         int clipNb = trackPlaylist.count();
-        //kDebug() << "// PARSING SCENE TRACK: " << t << ", CLIPS: " << clipNb;
         for (int i = 0; i < clipNb; i++) {
             Mlt::Producer *c = trackPlaylist.get_clip(i);
             Mlt::Producer *nprod = new Mlt::Producer(c->get_parent());
             if (nprod) {
-                if (!nprod->is_blank() && !ids.contains(nprod->get("id"))) {
+                QString prodId = nprod->get("id");
+                if (!prodId.startsWith("slowmotion") && !prodId.isEmpty() && !nprod->is_blank() && !ids.contains(prodId)) {
                     ids.append(nprod->get("id"));
                     prods.append(nprod);
                 } else delete nprod;
