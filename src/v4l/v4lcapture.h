@@ -19,8 +19,9 @@
 
 #ifndef __V4LCAPTUREHANDLER_H__
 #define __V4LCAPTUREHANDLER_H__
-
+#ifndef __APPLE__
 #include "src.h"
+#endif
 
 #include <QWidget>
 #include <QObject>
