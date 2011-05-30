@@ -301,11 +301,13 @@ void DvdWizard::generateDvd()
             //int target = it.key();
             // TODO: solve play all button
             //if (target == 0) target = 1;
+
+            // We need to make sure that the y coordinate is a multiple of 2, otherwise button may not be displayed
             buttonsTarget.append(it.key());
             but.setAttribute("x0", QString::number(r.x()));
-            but.setAttribute("y0", QString::number(r.y()));
+            but.setAttribute("y0", QString::number(2 * (r.y() / 2)));
             but.setAttribute("x1", QString::number(r.right()));
-            but.setAttribute("y1", QString::number(r.bottom()));
+            but.setAttribute("y1", QString::number(2 * (r.bottom() / 2)));
             spu.appendChild(but);
             i++;
         }
@@ -324,6 +326,16 @@ void DvdWizard::generateDvd()
 
         QProcess spumux;
 
+#if QT_VERSION >= 0x040600
+        QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+        env.insert("VIDEO_FORMAT", m_pageVob->isPal() ? "PAL" : "NTSC");
+        spumux.setProcessEnvironment(env);
+#else
+        QStringList env = QProcess::systemEnvironment();
+        env << QString("VIDEO_FORMAT=") + QString(m_pageVob->isPal() ? "PAL" : "NTSC");
+        spumux.setEnvironment(env);
+#endif
+    
         if (m_pageMenu->menuMovie()) spumux.setStandardInputFile(m_pageMenu->menuMoviePath());
         else spumux.setStandardInputFile(temp5.fileName());
         spumux.setStandardOutputFile(m_menuFile.fileName());
