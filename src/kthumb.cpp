@@ -153,7 +153,7 @@ QPixmap KThumb::getImage(KUrl url, int frame, int width, int height)
 QImage KThumb::getFrame(Mlt::Producer *producer, int framepos, int width, int height)
 {
     QImage p(width, height, QImage::Format_ARGB32_Premultiplied);
-    if (producer == NULL) {
+    if (producer == NULL || !producer->is_valid()) {
         p.fill(Qt::red);
         return p;
     }
@@ -207,13 +207,21 @@ uint KThumb::imageVariance(QImage image )
     // First pass: get pivots and taking average
     for( uint i=0; i<STEPS ; i++ ){
         pivot[i] = bits[2 * i];
+#if QT_VERSION >= 0x040700
         avg+=pivot.at(i);
+#else
+        avg+=pivot[i];
+#endif
     }
     avg=avg/STEPS;
     // Second Step: calculate delta (average?)
     for (uint i=0; i<STEPS; i++)
     {
+#if QT_VERSION >= 0x040700
         int curdelta=abs(int(avg - pivot.at(i)));
+#else
+        int curdelta=abs(int(avg - pivot[i]));
+#endif
         delta+=curdelta;
     }
     return delta/STEPS;
