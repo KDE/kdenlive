@@ -1824,7 +1824,7 @@ bool Render::mltUpdateClip(ItemInfo info, QDomElement element, Mlt::Producer *pr
         return false;
     }
     Mlt::Tractor tractor(service);
-    Mlt::Producer trackProducer(tractor.track(info.track));
+    Mlt::Producer trackProducer(tractor.track(tractor.count() - 1 - info.track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
     int startPos = info.startPos.frames(m_fps);
     int clipIndex = trackPlaylist.get_clip_index_at(startPos);
