@@ -106,25 +106,25 @@ const char *query_v4ldevice(src_t *src, char **pixelformatdescription)
                 free(s);
                 return NULL;
         }
-
+        char *res = NULL;
+        int captureEnabled = 1;
         if(ioctl(s->fd, VIDIOC_QUERYCAP, &s->cap) < 0) {
-            close_v4l2(src);
             fprintf(stderr, "Cannot get capabilities.");
-            return NULL;
-        }
-        char *res = strdup((char*) s->cap.card);
-        /*strcpy(res, (char*) s->cap.card);*/
-        if(!s->cap.capabilities & V4L2_CAP_VIDEO_CAPTURE) {
-            // Device cannot capture
+            //return NULL;
         }
         else {
+            res = strdup((char*) s->cap.card);
+            if(!s->cap.capabilities & V4L2_CAP_VIDEO_CAPTURE) {
+                // Device cannot capture
+                captureEnabled = 0;
+            }
+        }
+        
+        if (captureEnabled) {
             struct v4l2_format format;
             memset(&format,0,sizeof(format));
             format.type  = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-            if (ioctl(s->fd,VIDIOC_G_FMT,&format) < 0) {
-                fprintf(stderr, "Cannot get format.");
-                // Cannot query
-            }
+
             struct v4l2_fmtdesc fmt;
             memset(&fmt,0,sizeof(fmt));
             fmt.index = 0;
@@ -138,8 +138,6 @@ const char *query_v4ldevice(src_t *src, char **pixelformatdescription)
 
             while (ioctl(s->fd, VIDIOC_ENUM_FMT, &fmt) != -1)
             {
-                /*strcpy(*pixelformatdescription, (char *) fmt.description);*/
-                //*pixelformatdescription = strdup((char*)fmt.description);
                 snprintf( value, sizeof(value), ">%c%c%c%c", fmt.pixelformat >> 0,  fmt.pixelformat >> 8, fmt.pixelformat >> 16, fmt.pixelformat >> 24 );
                 strcat(*pixelformatdescription, (char *) value);
                 fprintf(stderr, "detected format: %s: %c%c%c%c\n", fmt.description, fmt.pixelformat >> 0,  fmt.pixelformat >> 8,

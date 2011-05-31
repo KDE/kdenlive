@@ -63,10 +63,12 @@ QStringList V4lCaptureHandler::getDeviceName(QString input)
     v4lsrc.source     = strdup(input.toUtf8().constData());
     char *pixelformatdescription;
     pixelformatdescription = (char *) calloc(2048, sizeof(char));
-    QString deviceName(query_v4ldevice(&v4lsrc, &pixelformatdescription));
+    QStringList result;
+    const char *devName = query_v4ldevice(&v4lsrc, &pixelformatdescription);
+    if (devName == NULL) return result; 
+    QString deviceName(devName);
     QString info(pixelformatdescription);
     free (pixelformatdescription);
-    QStringList result;
     result << (deviceName.isEmpty() ? input : deviceName) << info;
     return result;
 }
