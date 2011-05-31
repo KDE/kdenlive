@@ -4173,11 +4173,13 @@ void MainWindow::slotDoUpdateGfxScopeFrameRequest()
             m_projectMonitor->render->sendFrameForAnalysis = false;
         }
         m_clipMonitor->render->sendFrameForAnalysis = false;
-        m_recMonitor->analyseFrames(false);
+        if (m_recMonitor)
+            m_recMonitor->analyseFrames(false);
     } else {
         m_projectMonitor->render->sendFrameForAnalysis = true;
         m_clipMonitor->render->sendFrameForAnalysis = true;
-        m_recMonitor->analyseFrames(true);
+        if (m_recMonitor)
+            m_recMonitor->analyseFrames(true);
     }
 }
 

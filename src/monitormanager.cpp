@@ -49,7 +49,8 @@ void MonitorManager::initMonitors(Monitor *clipMonitor, Monitor *projectMonitor,
 
     m_monitorsList.append(clipMonitor);
     m_monitorsList.append(projectMonitor);
-    m_monitorsList.append(recMonitor);
+    if (recMonitor)
+        m_monitorsList.append(recMonitor);
 }
 
 void MonitorManager::appendMonitor(AbstractMonitor *monitor)
