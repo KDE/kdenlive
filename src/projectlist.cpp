@@ -1611,10 +1611,11 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
             else maxSize = m_doc->getDocumentProperty("proxyminsize").toInt();
             if (((t == AV || t == VIDEO) && generateProxy() && size.section('x', 0, 0).toInt() > maxSize) || (t == IMAGE && generateImageProxy() && (size.section('x', 0, 0).toInt() > maxSize || size.section('x', 1, 1).toInt() > maxSize))) {
                 if (clip->getProperty("proxy").isEmpty()) {
-                    QString proxydir = m_doc->projectFolder().path( KUrl::AddTrailingSlash) + "proxy/";
+                    KUrl proxyPath = m_doc->projectFolder();
+                    proxyPath.addPath("proxy/");
+                    proxyPath.addPath(clip->getClipHash() + "." + (t == IMAGE ? "png" : m_doc->getDocumentProperty("proxyextension")));
                     QMap <QString, QString> newProps;
-                    QString path = proxydir + clip->getClipHash() + "." + (t == IMAGE ? "png" : m_doc->getDocumentProperty("proxyextension"));
-                    newProps.insert("proxy", path);
+                    newProps.insert("proxy", proxyPath.path());
                     // insert required duration for proxy
                     if (t != IMAGE) newProps.insert("proxy_out", clip->producerProperty("out"));
                     QMap <QString, QString> oldProps = clip->properties();

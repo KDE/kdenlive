@@ -3837,7 +3837,6 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
         // replace proxy clips with originals
         QMap <QString, QString> proxies = m_projectList->getProxies();
 
-
         QDomNodeList producers = doc.elementsByTagName("producer");
         QString producerResource;
         QString suffix;
@@ -3846,7 +3845,7 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
             producerResource = EffectsList::property(e, "resource");
             if (producerResource.isEmpty()) continue;
             if (!producerResource.startsWith("/")) {
-                producerResource = root + "/" + producerResource;
+                producerResource.prepend(root + "/");
             }
             if (producerResource.contains('?')) {
                 // slowmotion producer
@@ -3856,12 +3855,6 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
             else suffix.clear();
             if (!producerResource.isEmpty()) {
                 if (proxies.contains(producerResource)) {
-                    EffectsList::setProperty(e, "resource", proxies.value(producerResource) + suffix);
-                    // We need to delete the "aspect_ratio" property because proxy clips
-                    // sometimes have different ratio than original clips
-                    EffectsList::removeProperty(e, "aspect_ratio");
-                }
-                else if (!root.isEmpty() && producerResource.startsWith(root) && proxies.contains(producerResource.remove(0, root.count() + 1))) {
                     EffectsList::setProperty(e, "resource", proxies.value(producerResource) + suffix);
                     // We need to delete the "aspect_ratio" property because proxy clips
                     // sometimes have different ratio than original clips
