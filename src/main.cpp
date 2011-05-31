@@ -86,10 +86,6 @@ int main(int argc, char *argv[])
 
         args->clear();
     }
-
     int result = app.exec();
-#ifdef Q_WS_MAC
-    delete window;
-#endif
     return result;
 }
