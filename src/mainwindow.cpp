@@ -3844,10 +3844,12 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
         for (uint n = 0; n < producers.length(); n++) {
             QDomElement e = producers.item(n).toElement();
             producerResource = EffectsList::property(e, "resource");
-            if (!producerResource.startsWith("/") && !producerResource.isEmpty() ){
-                producerResource=root+"/"+producerResource;
+            if (producerResource.isEmpty()) continue;
+            if (!producerResource.startsWith("/")) {
+                producerResource = root + "/" + producerResource;
             }
             if (producerResource.contains('?')) {
+                // slowmotion producer
                 suffix = "?" + producerResource.section('?', 1);
                 producerResource = producerResource.section('?', 0, 0);
             }
@@ -3860,7 +3862,7 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
                     EffectsList::removeProperty(e, "aspect_ratio");
                 }
                 else if (!root.isEmpty() && producerResource.startsWith(root) && proxies.contains(producerResource.remove(0, root.count() + 1))) {
-                    EffectsList::setProperty(e, "resource", proxies.value(producerResource.remove(0, root.count() + 1)) + suffix);
+                    EffectsList::setProperty(e, "resource", proxies.value(producerResource) + suffix);
                     // We need to delete the "aspect_ratio" property because proxy clips
                     // sometimes have different ratio than original clips
                     EffectsList::removeProperty(e, "aspect_ratio");
@@ -4125,8 +4127,11 @@ QString MainWindow::getMimeType(bool open)
 {
     QString mimetype = "application/x-kdenlive";
     KMimeType::Ptr mime = KMimeType::mimeType(mimetype);
-    if (!mime) mimetype = "*.kdenlive";
-    if (open) mimetype.append(" application/x-compressed-tar");
+    if (!mime) {
+        mimetype = "*.kdenlive";
+        if (open) mimetype.append(" *.tar.gz");
+    }
+    else if (open) mimetype.append(" application/x-compressed-tar");
     return mimetype;
 }
 
