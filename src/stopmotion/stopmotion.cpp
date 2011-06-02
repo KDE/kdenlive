@@ -17,7 +17,9 @@
 
 #include "stopmotion.h"
 #include "../blackmagic/devices.h"
+#if !defined(Q_OS_FREEBSD)
 #include "../v4l/v4lcapture.h"
+#endif
 #include "../slideshowclip.h"
 #include "../profilesdialog.h"
 #include "../mltdevicecapture.h"
@@ -172,10 +174,10 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, KUrl projectFolder, 
     intervalCapture->setCheckable(true);
     intervalCapture->setChecked(false);
     capture_interval->setDefaultAction(intervalCapture);
-        
+
     preview_button->setIcon(KIcon("media-playback-start"));
     capture_button->setEnabled(false);
-    
+
 
     // Build config menu
     QMenu* confMenu = new QMenu;
@@ -184,7 +186,7 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, KUrl projectFolder, 
     overlay_button->setDefaultAction(m_showOverlay);
     //confMenu->addAction(m_showOverlay);
 
-    m_effectIndex = KdenliveSettings::stopmotioneffect();    
+    m_effectIndex = KdenliveSettings::stopmotioneffect();
     QMenu* effectsMenu = new QMenu(i18n("Overlay effect"));
     QActionGroup* effectGroup = new QActionGroup(this);
     QAction* noEffect = new QAction(i18n("No Effect"), effectGroup);
@@ -249,8 +251,8 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, KUrl projectFolder, 
     //m_videoBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     m_videoBox->setLineWidth(4);
     layout->addWidget(m_videoBox);
-    
-    
+
+
     if (BMInterface::getBlackMagicDeviceList(capture_device)) {
         // Found a BlackMagic device
     }
@@ -277,7 +279,7 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, KUrl projectFolder, 
         connect(m_bmCapture, SIGNAL(frameSaved(const QString)), this, SLOT(slotNewThumb(const QString)));
         connect(m_bmCapture, SIGNAL(gotFrame(QImage)), this, SIGNAL(gotFrame(QImage)));
     } else live_button->setEnabled(false);*/
-    
+
     m_frame_preview = new MyLabel(this);
     connect(m_frame_preview, SIGNAL(seek(bool)), this, SLOT(slotSeekFrame(bool)));
     connect(m_frame_preview, SIGNAL(switchToLive()), this, SLOT(slotSwitchLive()));
@@ -297,12 +299,12 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, KUrl projectFolder, 
         // Decklink capture
         profilePath = KdenliveSettings::current_profile();
     }
-    
+
     m_captureDevice = new MltDeviceCapture(profilePath, m_videoBox, this);
     m_captureDevice->sendFrameForAnalysis = KdenliveSettings::analyse_stopmotion();
     m_monitor->setRender(m_captureDevice);
     connect(m_captureDevice, SIGNAL(frameSaved(const QString)), this, SLOT(slotNewThumb(const QString)));
-    
+
     live_button->setChecked(false);
     button_addsequence->setEnabled(false);
     connect(live_button, SIGNAL(toggled(bool)), this, SLOT(slotLive(bool)));
@@ -361,7 +363,7 @@ void StopmotionWidget::slotConfigure()
     ui.sm_prenotify->setChecked(KdenliveSettings::sm_prenotify());
     ui.sm_loop->setChecked(KdenliveSettings::sm_loop());
     ui.sm_framesplayback->setValue(KdenliveSettings::sm_framesplayback());
-    
+
     if (d.exec() == QDialog::Accepted) {
         KdenliveSettings::setSm_loop(ui.sm_loop->isChecked());
         KdenliveSettings::setCaptureinterval(ui.sm_interval->value());
@@ -487,7 +489,7 @@ void StopmotionWidget::slotLive(bool isOn)
             m_monitor->setRender(m_captureDevice);
             connect(m_captureDevice, SIGNAL(frameSaved(const QString)), this, SLOT(slotNewThumb(const QString)));
         }
-        
+
         m_manager->activateMonitor("stopmotion");
         QString producer = createProducer(profile, service, resource);
         if (m_captureDevice->slotStartPreview(producer, true)) {
@@ -518,7 +520,7 @@ void StopmotionWidget::slotLive(bool isOn)
             //m_captureDevice = NULL;
         }
     }
-            
+
     /*
     if (isOn && m_bmCapture) {
         //m_frame_preview->setImage(QImage());
@@ -667,7 +669,7 @@ void StopmotionWidget::slotNewThumb(const QString path)
     m_filesList.append(path);
     if (m_showOverlay->isChecked()) reloadOverlay();
     if (!m_future.isRunning()) m_future = QtConcurrent::run(this, &StopmotionWidget::slotPrepareThumbs);
-    
+
 }
 
 void StopmotionWidget::slotPrepareThumbs()
@@ -719,7 +721,7 @@ void StopmotionWidget::slotShowFrame(const QString& path)
     slotLive(false);
     if (!img.isNull()) {
         //m_videoBox->setHidden(true);
-        
+
         m_frame_preview->setImage(img);
         m_frame_preview->setHidden(false);
         m_frame_preview->update();
@@ -881,8 +883,8 @@ void StopmotionWidget::slotSwitchMirror(bool isOn)
 }
 
 const QString StopmotionWidget::createProducer(MltVideoProfile profile, const QString service, const QString resource)
-{   
-    
+{
+
     QString playlist = "<mlt title=\"capture\"><producer id=\"producer0\" in=\"0\" out=\"99999\"><property name=\"mlt_type\">producer</property><property name=\"length\">100000</property><property name=\"eof\">pause</property><property name=\"resource\">" + resource + "</property><property name=\"mlt_service\">" + service + "</property></producer>";
 
     // overlay track
@@ -896,7 +898,7 @@ const QString StopmotionWidget::createProducer(MltVideoProfile profile, const QS
     playlist.append("<track producer=\"playlist1\"/>");
     playlist.append("</tractor></mlt>");
 
-    
+
     return playlist;
 }
 

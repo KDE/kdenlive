@@ -19,7 +19,9 @@
 
 #include "kdenlivesettingsdialog.h"
 #include "profilesdialog.h"
+#if !defined(Q_OS_FREEBSD)
 #include "v4l/v4lcapture.h"
+#endif
 #include "blackmagic/devices.h"
 #include "encodingprofilesdialog.h"
 #include "kdenlivesettings.h"
@@ -184,7 +186,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     connect(m_configTranscode.button_add, SIGNAL(clicked()), this, SLOT(slotAddTranscode()));
     connect(m_configTranscode.button_delete, SIGNAL(clicked()), this, SLOT(slotDeleteTranscode()));
     connect(m_configTranscode.profiles_list, SIGNAL(itemChanged(QTreeWidgetItem *, int)), this, SLOT(slotDialogModified()));
-    
+
     connect(m_configCapture.kcfg_rmd_capture_audio, SIGNAL(clicked(bool)), m_configCapture.audio_group, SLOT(setVisible(bool)));
 
     m_configCapture.audio_group->setVisible(KdenliveSettings::rmd_capture_audio());
@@ -234,7 +236,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     connect(m_configCapture.v4l_manageprofile, SIGNAL(clicked(bool)), this, SLOT(slotManageEncodingProfile()));
     connect(m_configCapture.kcfg_v4l_profile, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateV4lProfile()));
     connect(m_configCapture.v4l_showprofileinfo, SIGNAL(clicked(bool)), m_configCapture.v4l_parameters, SLOT(setVisible(bool)));
-    
+
     // proxy profile stuff
     m_configProject.proxy_showprofileinfo->setIcon(KIcon("help-about"));
     m_configProject.proxy_manageprofile->setIcon(KIcon("configure"));
@@ -249,7 +251,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     slotUpdateProxyProfile(-1);
     slotUpdateV4lProfile(-1);
     slotUpdateDecklinkProfile(-1);
-    
+
     BMInterface::getBlackMagicDeviceList(m_configCapture.kcfg_decklink_capturedevice);
     if (m_configCapture.kcfg_decklink_capturedevice->count() > 0) {
         QStringList modes = m_configCapture.kcfg_decklink_capturedevice->itemData(m_configCapture.kcfg_decklink_capturedevice->currentIndex()).toStringList();
@@ -401,7 +403,7 @@ void KdenliveSettingsDialog::initDevices()
         m_configSdl.kcfg_audio_device->setCurrentIndex(ix);
         KdenliveSettings::setAudio_device(ix);
     }
-    
+
     if (!KdenliveSettings::rmd_alsadevicename().isEmpty()) {
         // Select correct alsa device
         int ix = m_configCapture.kcfg_rmd_alsa_device->findData(KdenliveSettings::rmd_alsadevicename());
@@ -580,7 +582,7 @@ void KdenliveSettingsDialog::updateSettings()
 
     bool resetProfile = false;
     bool updateCapturePath = false;
-    
+
     /*if (m_configShuttle.shuttledevicelist->count() > 0) {
 	QString device = m_configShuttle.shuttledevicelist->itemData(m_configShuttle.shuttledevicelist->currentIndex()).toString();
 	if (device != KdenliveSettings::shuttledevice()) KdenliveSettings::setShuttledevice(device);
@@ -610,7 +612,7 @@ void KdenliveSettingsDialog::updateSettings()
         saveCurrentV4lProfile();
         KdenliveSettings::setV4l_format(0);
     }
-    
+
     // Check encoding profiles
     QString data = m_configCapture.kcfg_v4l_profile->itemData(m_configCapture.kcfg_v4l_profile->currentIndex()).toString();
     if (!data.isEmpty() && data.section(";", 0, 0) != KdenliveSettings::v4l_parameters()) {
@@ -627,7 +629,7 @@ void KdenliveSettingsDialog::updateSettings()
         KdenliveSettings::setProxyparams(data.section(";", 0, 0));
         KdenliveSettings::setProxyextension(data.section(";", 1, 1));
     }
-    
+
 
     if (updateCapturePath) emit updateCaptureFolder();
 
@@ -686,7 +688,7 @@ void KdenliveSettingsDialog::updateSettings()
         KdenliveSettings::setVolume(m_configSdl.kcfg_volume->value());
         resetProfile = true;
     }
-    
+
     if (m_modified) {
         // The transcoding profiles were modified, save.
         m_modified = false;
@@ -827,7 +829,7 @@ void KdenliveSettingsDialog::slotUpdatev4lDevice()
 
     QString vl4ProfilePath = KStandardDirs::locateLocal("appdata", "profiles/video4linux");
     if (QFile::exists(vl4ProfilePath)) m_configCapture.kcfg_v4l_format->addItem(i18n("Current settings"));
-    
+
     QStringList pixelformats = info.split(">", QString::SkipEmptyParts);
     QString itemSize;
     QString pixelFormat;
@@ -951,7 +953,7 @@ void KdenliveSettingsDialog::loadEncodingProfiles()
     }
     m_configCapture.kcfg_v4l_profile->blockSignals(false);
     if (!currentItem.isEmpty()) m_configCapture.kcfg_v4l_profile->setCurrentIndex(m_configCapture.kcfg_v4l_profile->findText(currentItem));
-    
+
     // Load Decklink profiles
     m_configCapture.kcfg_decklink_profile->blockSignals(true);
     currentItem = m_configCapture.kcfg_decklink_profile->currentText();
@@ -965,7 +967,7 @@ void KdenliveSettingsDialog::loadEncodingProfiles()
     }
     m_configCapture.kcfg_decklink_profile->blockSignals(false);
     if (!currentItem.isEmpty()) m_configCapture.kcfg_decklink_profile->setCurrentIndex(m_configCapture.kcfg_decklink_profile->findText(currentItem));
-    
+
     // Load Proxy profiles
     m_configProject.kcfg_proxy_profile->blockSignals(true);
     currentItem = m_configProject.kcfg_proxy_profile->currentText();

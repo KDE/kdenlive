@@ -28,6 +28,8 @@
 #include <QFrame>
 #include <QTimer>
 
+#include <stdint.h>
+
 class VideoPreviewContainer : public QFrame
 {
     Q_OBJECT

@@ -20,7 +20,9 @@
 #include "wizard.h"
 #include "kdenlivesettings.h"
 #include "profilesdialog.h"
+#if !defined(Q_OS_FREEBSD)
 #include "v4l/v4lcapture.h"
+#endif
 #include "kdenlive-config.h"
 
 #include <KStandardDirs>
@@ -458,13 +460,13 @@ void Wizard::slotCheckPrograms()
             item->setIcon(0, m_okIcon);
         } else item->setIcon(0, m_badIcon);
     } else item->setIcon(0, m_okIcon);
-    
+
     item = new QTreeWidgetItem(m_check.programList, QStringList() << QString() << i18n("xine"));
     item->setData(1, Qt::UserRole, i18n("Required to preview your DVD"));
     item->setSizeHint(0, itemSize);
     if (KStandardDirs::findExe("xine").isEmpty()) item->setIcon(0, m_badIcon);
-    else item->setIcon(0, m_okIcon); 
-    
+    else item->setIcon(0, m_okIcon);
+
     // set up some default applications
     QString program;
     if (KdenliveSettings::defaultimageapp().isEmpty()) {
