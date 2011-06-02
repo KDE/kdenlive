@@ -114,7 +114,7 @@ private:
     void manageCapturedFiles();
 
 private slots:
-    void slotStartCapture(bool play = true);
+    void slotStartPreview(bool play = true);
     void slotRecord();
     void slotProcessStatus(QProcess::ProcessState status);
     void slotVideoDeviceChanged(int ix);

@@ -88,7 +88,7 @@ RecMonitor::RecMonitor(QString name, MonitorManager *manager, QWidget *parent) :
     connect(m_rewAction, SIGNAL(triggered()), this, SLOT(slotRewind()));
 
     m_playAction = toolbar->addAction(m_playIcon, i18n("Play"));
-    connect(m_playAction, SIGNAL(triggered()), this, SLOT(slotStartCapture()));
+    connect(m_playAction, SIGNAL(triggered()), this, SLOT(slotStartPreview()));
 
     m_stopAction = toolbar->addAction(KIcon("media-playback-stop"), i18n("Stop"));
     connect(m_stopAction, SIGNAL(triggered()), this, SLOT(slotStopCapture()));
@@ -98,6 +98,7 @@ RecMonitor::RecMonitor(QString name, MonitorManager *manager, QWidget *parent) :
 
     m_recAction = toolbar->addAction(KIcon("media-record"), i18n("Record"));
     connect(m_recAction, SIGNAL(triggered()), this, SLOT(slotRecord()));
+    m_recAction->setCheckable(true);
 
     toolbar->addSeparator();
 
@@ -134,19 +135,30 @@ RecMonitor::RecMonitor(QString name, MonitorManager *manager, QWidget *parent) :
     connect(m_captureProcess, SIGNAL(stateChanged(QProcess::ProcessState)), this, SLOT(slotProcessStatus(QProcess::ProcessState)));
     connect(m_captureProcess, SIGNAL(readyReadStandardError()), this, SLOT(slotReadDvgrabInfo()));
 
+    
+    QString videoDriver = KdenliveSettings::videodrivername();
+#if QT_VERSION >= 0x040600
+    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+    env.insert("SDL_WINDOWID", QString::number(video_frame->winId()));
+    if (!videoDriver.isEmpty()) {
+        if (videoDriver == "x11_noaccel") {
+            env.insert("SDL_VIDEO_YUV_HWACCEL", "0");
+            env.insert("SDL_VIDEODRIVER", "x11");
+        } else env.insert("SDL_VIDEODRIVER", videoDriver);
+    }
+    m_displayProcess->setProcessEnvironment(env);
+#else
     QStringList env = QProcess::systemEnvironment();
     env << "SDL_WINDOWID=" + QString::number(video_frame->winId());
-
-    QString videoDriver = KdenliveSettings::videodrivername();
     if (!videoDriver.isEmpty()) {
         if (videoDriver == "x11_noaccel") {
             env << "SDL_VIDEO_YUV_HWACCEL=0";
             env << "SDL_VIDEODRIVER=x11";
         } else env << "SDL_VIDEODRIVER=" + videoDriver;
     }
-    setenv("SDL_VIDEO_ALLOW_SCREENSAVER", "1", 1);
-
     m_displayProcess->setEnvironment(env);
+#endif
+    setenv("SDL_VIDEO_ALLOW_SCREENSAVER", "1", 1);
 
     kDebug() << "/////// BUILDING MONITOR, ID: " << video_frame->winId();
 }
@@ -203,6 +215,8 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
     QString capturename;
     video_capture->setHidden(true);
     video_frame->setHidden(false);
+    m_videoBox->setHidden(true);
+    enable_preview->setHidden(ix != VIDEO4LINUX && ix != BLACKMAGIC);
     m_fwdAction->setVisible(ix == FIREWIRE);
     m_discAction->setVisible(ix == FIREWIRE);
     m_rewAction->setVisible(ix == FIREWIRE);
@@ -241,7 +255,8 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
         capturefile = m_capturePath;
         if (!capturefile.endsWith("/")) capturefile.append("/");
         capturename = KdenliveSettings::decklink_filename();
-        capturename.append("xxx.raw");
+        capturename.append("xxx.");
+        capturename.append(KdenliveSettings::decklink_extension());
         capturefile.append(capturename);
         video_frame->setPixmap(mergeSideBySide(KIcon("camera-photo").pixmap(QSize(50, 50)), i18n("Plug your camcorder and\npress play button\nto start preview.\nFiles will be saved in:\n%1", capturefile)));
         break;
@@ -330,7 +345,7 @@ void RecMonitor::slotDisconnect()
         m_captureTime = KDateTime::currentLocalDateTime();
         kDebug() << "CURRENT TIME: " << m_captureTime.toString();
         m_didCapture = false;
-        slotStartCapture(false);
+        slotStartPreview(false);
         m_discAction->setIcon(KIcon("network-disconnect"));
         m_discAction->setText(i18n("Disconnect"));
         m_recAction->setEnabled(true);
@@ -359,8 +374,10 @@ void RecMonitor::slotForward()
 void RecMonitor::slotStopCapture()
 {
     // stop capture
+    if (!m_isCapturing && !m_isPlaying) return;
     video_capture->setHidden(true);
     video_frame->setHidden(false);
+    m_videoBox->setHidden(true);
     switch (device_selector->currentIndex()) {
     case FIREWIRE:
         m_captureProcess->write("\e", 2);
@@ -369,6 +386,8 @@ void RecMonitor::slotStopCapture()
         break;
     case SCREENGRAB:
         m_captureProcess->write("q\n", 3);
+        m_captureProcess->terminate();
+        video_frame->setText(i18n("Encoding captured video..."));
         QTimer::singleShot(1000, m_captureProcess, SLOT(kill()));
         break;
     case VIDEO4LINUX:
@@ -376,16 +395,25 @@ void RecMonitor::slotStopCapture()
         if (m_captureDevice) {
             m_captureDevice->stop();
         }
+        m_isCapturing = false;
+        m_isPlaying = false;
         m_playAction->setEnabled(true);
         m_stopAction->setEnabled(false);
         m_recAction->setEnabled(true);
+        slotSetInfoMessage(i18n("Capture stopped"));
+        m_isCapturing = false;
+        m_recAction->setChecked(false);
+        if (autoaddbox->isChecked() && !m_captureFile.isEmpty() && QFile::exists(m_captureFile.path())) {
+            emit addProjectClip(m_captureFile);
+            m_captureFile.clear();
+        }
         break;
     default:
         break;
     }
 }
 
-void RecMonitor::slotStartCapture(bool play)
+void RecMonitor::slotStartPreview(bool play)
 {
     if (m_captureProcess->state() != QProcess::NotRunning) {
         if (device_selector->currentIndex() == FIREWIRE) {
@@ -412,8 +440,9 @@ void RecMonitor::slotStartCapture(bool play)
     QStringList dvargs = KdenliveSettings::dvgrabextra().simplified().split(" ", QString::SkipEmptyParts);
     //video_capture->setVisible(device_selector->currentIndex() == BLACKMAGIC);
     //video_frame->setHidden(device_selector->currentIndex() == BLACKMAGIC);
-
-    switch (device_selector->currentIndex()) {
+    int ix = device_selector->currentIndex();
+    m_videoBox->setHidden(ix != VIDEO4LINUX && ix != BLACKMAGIC);
+    switch (ix) {
     case FIREWIRE:
         switch (KdenliveSettings::firewireformat()) {
         case 0:
@@ -477,6 +506,7 @@ void RecMonitor::slotStartCapture(bool play)
             m_videoBox->setHidden(false);
             m_playAction->setEnabled(false);
             m_stopAction->setEnabled(true);
+            m_isPlaying = true;
         }
         
         break;
@@ -499,6 +529,7 @@ void RecMonitor::slotStartCapture(bool play)
             m_videoBox->setHidden(false);
             m_playAction->setEnabled(false);
             m_stopAction->setEnabled(true);
+            m_isPlaying = true;
         }
         break;
     default:
@@ -517,36 +548,11 @@ void RecMonitor::slotStartCapture(bool play)
 void RecMonitor::slotRecord()
 {
     if (m_captureProcess->state() == QProcess::NotRunning && device_selector->currentIndex() == FIREWIRE) {
-        slotStartCapture();
+        slotStartPreview();
     }
     if (m_isCapturing) {
         // User stopped capture
-        switch (device_selector->currentIndex()) {
-        case FIREWIRE:
-            m_captureProcess->write("\e", 2);
-            m_playAction->setIcon(m_playIcon);
-            m_isCapturing = false;
-            m_isPlaying = false;
-            m_recAction->setChecked(false);
-            break;
-        case VIDEO4LINUX:
-        case BLACKMAGIC:
-            slotStopCapture();
-            slotSetInfoMessage(i18n("Capture stopped"));
-            m_isCapturing = false;
-            m_recAction->setEnabled(true);
-            m_stopAction->setEnabled(false);
-            if (autoaddbox->isChecked() && QFile::exists(m_captureFile.path())) emit addProjectClip(m_captureFile);
-            //QTimer::singleShot(1000, this, SLOT(slotStartCapture()));
-            break;
-        case SCREENGRAB:
-            //captureProcess->write("q\n", 3);
-            m_captureProcess->terminate();
-            video_frame->setText(i18n("Encoding captured video..."));
-            // in case ffmpeg doesn't exit with the 'q' command, kill it one second later
-            //QTimer::singleShot(1000, captureProcess, SLOT(kill()));
-            break;
-        }
+        slotStopCapture();
         return;
     } else if (device_selector->currentIndex() == FIREWIRE) {
         m_isCapturing = true;
@@ -754,7 +760,10 @@ void RecMonitor::slotProcessStatus(QProcess::ProcessState status)
     if (status == QProcess::NotRunning) {
         m_displayProcess->kill();
         if (m_isCapturing && device_selector->currentIndex() != FIREWIRE)
-            if (autoaddbox->isChecked() && QFile::exists(m_captureFile.path())) emit addProjectClip(m_captureFile);
+            if (autoaddbox->isChecked() && !m_captureFile.isEmpty() && QFile::exists(m_captureFile.path())) {
+                emit addProjectClip(m_captureFile);
+                m_captureFile.clear();
+            }
         if (device_selector->currentIndex() == FIREWIRE) {
             m_discAction->setIcon(KIcon("network-connect"));
             m_discAction->setText(i18n("Connect"));
