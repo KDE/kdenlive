@@ -703,6 +703,10 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
         path.addPath(fname);
         imagefiles.append(path.toLocalFile());
     }
+    
+    //WARNING: this is a hack to get around temporary invalid metadata in MLT, 2nd of june 2011 JBM
+    QStringList customTransitions;
+    customTransitions << "composite" << "luma" << "affine" << "mix" << "region";
 
     foreach(const QString & name, names) {
         QDomDocument ret;
@@ -715,7 +719,7 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
         ktrans.appendChild(tname);
         ktrans.appendChild(desc);
         Mlt::Properties *metadata = repository->metadata(transition_type, name.toUtf8().data());
-        if (metadata && metadata->is_valid()) {
+        if (!customTransitions.contains(name) && metadata && metadata->is_valid()) {
             // If possible, set name and description.
             if (metadata->get("title") && metadata->get("identifier"))
                 tname.appendChild(ret.createTextNode(metadata->get("title")));
