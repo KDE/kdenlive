@@ -289,6 +289,10 @@ bool MltDeviceCapture::slotStartPreview(const QString &producer, bool xmlFormat)
     delete[] tmp;
 
     if (m_mltProducer == NULL || !m_mltProducer->is_valid()) {
+        if (m_mltProducer) {
+            delete m_mltProducer;
+            m_mltProducer = NULL;
+        }
         kDebug()<<"//// ERROR CREATRING PROD";
         return false;
     }
