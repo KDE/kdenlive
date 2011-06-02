@@ -98,7 +98,6 @@ RecMonitor::RecMonitor(QString name, MonitorManager *manager, QWidget *parent) :
 
     m_recAction = toolbar->addAction(KIcon("media-record"), i18n("Record"));
     connect(m_recAction, SIGNAL(triggered()), this, SLOT(slotRecord()));
-    m_recAction->setCheckable(true);
 
     toolbar->addSeparator();
 
@@ -207,19 +206,20 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
     m_fwdAction->setVisible(ix == FIREWIRE);
     m_discAction->setVisible(ix == FIREWIRE);
     m_rewAction->setVisible(ix == FIREWIRE);
+    m_recAction->setEnabled(ix != FIREWIRE);
     m_logger.setVisible(ix == BLACKMAGIC);
     if (m_captureDevice) {
         // MLT capture still running, abort
         m_captureDevice->stop();
         delete m_captureDevice;
         m_captureDevice = NULL;
+        m_manager->clearScopeSource();
     }
     switch (ix) {
     case SCREENGRAB:
         m_discAction->setEnabled(false);
         m_rewAction->setEnabled(false);
         m_fwdAction->setEnabled(false);
-        m_recAction->setEnabled(true);
         m_stopAction->setEnabled(false);
         m_playAction->setEnabled(false);
         if (KdenliveSettings::rmd_path().isEmpty()) {
@@ -231,19 +231,13 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
         //video_frame->setText(i18n("Press record button\nto start screen capture"));
         break;
     case VIDEO4LINUX:
-        m_discAction->setEnabled(false);
-        m_rewAction->setEnabled(false);
-        m_fwdAction->setEnabled(false);
-        m_recAction->setEnabled(true);
         m_stopAction->setEnabled(false);
         m_playAction->setEnabled(true);
         checkDeviceAvailability();
         break;
     case BLACKMAGIC:
-        m_recAction->setEnabled(true);
         m_stopAction->setEnabled(false);
         m_playAction->setEnabled(true);
-
         capturefile = m_capturePath;
         if (!capturefile.endsWith("/")) capturefile.append("/");
         capturename = KdenliveSettings::decklink_filename();
@@ -253,7 +247,6 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
         break;
     default: // FIREWIRE
         m_discAction->setEnabled(true);
-        m_recAction->setEnabled(false);
         m_stopAction->setEnabled(false);
         m_playAction->setEnabled(false);
         m_rewAction->setEnabled(false);
@@ -374,22 +367,15 @@ void RecMonitor::slotStopCapture()
         m_playAction->setIcon(m_playIcon);
         m_isPlaying = false;
         break;
-    case VIDEO4LINUX:
-        if (m_captureDevice) {
-            m_captureDevice->stop();
-        }
-        m_playAction->setEnabled(true);
-        m_stopAction->setEnabled(false);
-        break;
     case SCREENGRAB:
         m_captureProcess->write("q\n", 3);
         QTimer::singleShot(1000, m_captureProcess, SLOT(kill()));
         break;
+    case VIDEO4LINUX:
     case BLACKMAGIC:
         if (m_captureDevice) {
             m_captureDevice->stop();
         }
-        //m_bmCapture->stopPreview();
         m_playAction->setEnabled(true);
         m_stopAction->setEnabled(false);
         m_recAction->setEnabled(true);
@@ -493,11 +479,6 @@ void RecMonitor::slotStartCapture(bool play)
             m_stopAction->setEnabled(true);
         }
         
-        /*m_captureArgs << KdenliveSettings::video4capture().simplified().split(' ') << KdenliveSettings::video4encoding().simplified().split(' ') << "-f" << KdenliveSettings::video4container() << "-";
-        m_displayArgs << "-f" << KdenliveSettings::video4container() << "-x" << QString::number(video_frame->width()) << "-y" << QString::number(video_frame->height()) << "-";
-        m_captureProcess->setStandardOutputProcess(m_displayProcess);
-        kDebug() << "Capture: Running ffmpeg " << m_captureArgs.join(" ");
-        m_captureProcess->start("ffmpeg", m_captureArgs);*/
         break;
     case BLACKMAGIC:
         path = KdenliveSettings::current_profile();
@@ -519,10 +500,6 @@ void RecMonitor::slotStartCapture(bool play)
             m_playAction->setEnabled(false);
             m_stopAction->setEnabled(true);
         }
-        //m_bmCapture->startPreview(KdenliveSettings::decklink_capturedevice(), KdenliveSettings::hdmi_capturemode());
-        m_playAction->setEnabled(false);
-        m_stopAction->setEnabled(true);
-        m_recAction->setEnabled(true);
         break;
     default:
         break;
@@ -557,7 +534,8 @@ void RecMonitor::slotRecord()
             slotStopCapture();
             slotSetInfoMessage(i18n("Capture stopped"));
             m_isCapturing = false;
-            m_recAction->setChecked(false);
+            m_recAction->setEnabled(true);
+            m_stopAction->setEnabled(false);
             if (autoaddbox->isChecked() && QFile::exists(m_captureFile.path())) emit addProjectClip(m_captureFile);
             //QTimer::singleShot(1000, this, SLOT(slotStartCapture()));
             break;
@@ -634,12 +612,13 @@ void RecMonitor::slotRecord()
             if (m_captureDevice->slotStartCapture(KdenliveSettings::v4l_parameters(), m_captureFile.path(), playlist, enable_preview->isChecked())) {
                 m_videoBox->setHidden(false);
                 m_isCapturing = true;
+                m_recAction->setEnabled(false);
+                m_stopAction->setEnabled(true);
             }
             else {
                 video_frame->setText(i18n("Failed to start Video4Linux,\ncheck your parameters..."));                
                 m_videoBox->setHidden(true);
                 m_isCapturing = false;
-                m_recAction->setChecked(false);
             }
 
             /*
@@ -666,13 +645,14 @@ void RecMonitor::slotRecord()
                 m_videoBox->setHidden(false);
                 m_isCapturing = true;
                 slotSetInfoMessage(i18n("Capturing to %1", m_captureFile.fileName()));
+                m_recAction->setEnabled(false);
+                m_stopAction->setEnabled(true);
             }
             else {
                 video_frame->setText(i18n("Failed to start Decklink,\ncheck your parameters..."));
                 slotSetInfoMessage(i18n("Failed to start capture"));
                 m_videoBox->setHidden(true);
                 m_isCapturing = false;
-                m_recAction->setChecked(false);
             }
             break;
             

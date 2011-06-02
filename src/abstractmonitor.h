@@ -53,20 +53,25 @@ class AbstractRender: public QObject
 Q_OBJECT public:
 
     /** @brief Build an abstract MLT Renderer
-     *  @param rendererName A unique identifier for this renderer
+     *  @param name A unique identifier for this renderer
      *  @param winid The parent widget identifier (required for SDL display). Set to 0 for OpenGL rendering
      *  @param profile The MLT profile used for the renderer (default one will be used if empty). */
-    AbstractRender(QWidget *parent = 0):QObject(parent),sendFrameForAnalysis(false) {};
+    AbstractRender(const QString &name, QWidget *parent = 0):QObject(parent), m_name(name), sendFrameForAnalysis(false) {};
 
     /** @brief Destroy the MLT Renderer. */
     virtual ~AbstractRender() {};
 
     /** @brief This property is used to decide if the renderer should convert it's frames to QImage for use in other Kdenlive widgets. */
     bool sendFrameForAnalysis;
+    
+    const QString &name() const {return m_name;};
 
     /** @brief Someone needs us to send again a frame. */
     virtual void sendFrameUpdate() = 0;
 
+private:
+    QString m_name;
+    
 signals:
     /** @brief The renderer refreshed the current frame. */
     void frameUpdated(QImage);

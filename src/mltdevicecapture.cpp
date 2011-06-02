@@ -83,7 +83,7 @@ static void rec_consumer_frame_preview(mlt_consumer, MltDeviceCapture * self, ml
 
 
 MltDeviceCapture::MltDeviceCapture(QString profile, VideoPreviewContainer *surface, QWidget *parent) :
-    AbstractRender(parent),
+    AbstractRender("capture", parent),
     doCapture(0),
     sendFrameForAnalysis(false),
     m_mltConsumer(NULL),

@@ -40,6 +40,7 @@ public:
     void stopActiveMonitor();
     AbstractRender *activeRenderer();
     void updateScopeSource();
+    void clearScopeSource();
 
 public slots:
 
@@ -83,6 +84,8 @@ signals:
     void raiseMonitor(AbstractMonitor *);
     /** @brief When the monitor changed, update the visible color scopes */
     void checkColorScopes();
+    /** @brief When the active monitor renderer was deleted, reset color scopes */
+    void clearScopes();
 
 };
 

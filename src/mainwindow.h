@@ -528,6 +528,8 @@ private slots:
     void slotDoUpdateAudioScopeFrameRequest();
     /** @brief When switching between monitors, update the visible scopes. */
     void slotUpdateColorScopes();
+    /** @brief Active monitor deleted, clear scopes. */
+    void slotClearColorScopes();
     /** @brief Switch current monitor to fullscreen. */
     void slotSwitchFullscreen();
     /** @brief Open the stopmotion dialog. */

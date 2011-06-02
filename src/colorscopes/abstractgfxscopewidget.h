@@ -52,6 +52,7 @@ public slots:
       This slot must be connected in the implementing class, it is *not*
       done in this abstract class. */
     void slotActiveMonitorChanged();
+    void slotClearMonitor();
 
 protected slots:
     virtual void slotAutoRefreshToggled(bool autoRefresh);

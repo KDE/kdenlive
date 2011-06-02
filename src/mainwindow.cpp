@@ -565,6 +565,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     //connect(m_monitorManager, SIGNAL(connectMonitors()), this, SLOT(slotConnectMonitors()));
     connect(m_monitorManager, SIGNAL(raiseMonitor(AbstractMonitor *)), this, SLOT(slotRaiseMonitor(AbstractMonitor *)));
     connect(m_monitorManager, SIGNAL(checkColorScopes()), this, SLOT(slotUpdateColorScopes()));
+    connect(m_monitorManager, SIGNAL(clearScopes()), this, SLOT(slotClearColorScopes()));
     connect(m_effectList, SIGNAL(addEffect(const QDomElement)), this, SLOT(slotAddEffect(const QDomElement)));
     connect(m_effectList, SIGNAL(reloadEffects()), this, SLOT(slotReloadEffects()));
 
@@ -4219,6 +4220,13 @@ void MainWindow::slotUpdateColorScopes()
     }
     if (request) {
         m_monitorManager->activeRenderer()->sendFrameUpdate();
+    }
+}
+
+void MainWindow::slotClearColorScopes()
+{
+    for (int i = 0; i < m_gfxScopesList.count(); i++) {
+        static_cast<AbstractGfxScopeWidget *>(m_gfxScopesList.at(i)->widget())->slotClearMonitor();
     }
 }
 

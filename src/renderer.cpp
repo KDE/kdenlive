@@ -94,7 +94,7 @@ static void consumer_gl_frame_show(mlt_consumer, Render * self, mlt_frame frame_
 }
 
 Render::Render(const QString & rendererName, int winid, QString profile, QWidget *parent) :
-    AbstractRender(parent),
+    AbstractRender(rendererName, parent),
     m_isBlocked(0),
     analyseAudio(KdenliveSettings::monitor_audio()),
     m_name(rendererName),

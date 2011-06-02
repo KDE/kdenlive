@@ -324,8 +324,7 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, KUrl projectFolder, 
 
 StopmotionWidget::~StopmotionWidget()
 {
-    /*if (m_bmCapture)
-        m_bmCapture->stopPreview();*/
+    m_manager->removeMonitor(m_monitor);
     if (m_captureDevice) {
         m_captureDevice->stop();
         delete m_captureDevice;

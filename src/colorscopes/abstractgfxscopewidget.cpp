@@ -62,23 +62,27 @@ void AbstractGfxScopeWidget::mouseReleaseEvent(QMouseEvent *event)
 void AbstractGfxScopeWidget::slotActiveMonitorChanged()
 {
     if (m_activeRender) {
+        if (m_activeRender == m_manager->activeRenderer()) return;
         bool b = m_activeRender->disconnect(this);
         Q_ASSERT(b);
     }
-
     m_activeRender = m_manager->activeRenderer();
+
+    if (m_activeRender) {
 #ifdef DEBUG_AGSW
     qDebug() << "Active monitor has changed in " << widgetName() << ". Is the clip monitor active now? " << m_activeRender->name();
 #endif
-
-    //b &= connect(m_activeRender, SIGNAL(rendererPosition(int)), this, SLOT(slotRenderZoneUpdated()));
-    if (m_activeRender) {
         bool b = connect(m_activeRender, SIGNAL(frameUpdated(QImage)), this, SLOT(slotRenderZoneUpdated(QImage)));
         Q_ASSERT(b);
     }
 
     // Update the scope for the new monitor.
     forceUpdate(true);
+}
+
+void AbstractGfxScopeWidget::slotClearMonitor()
+{
+    m_activeRender = NULL;
 }
 
 void AbstractGfxScopeWidget::slotRenderZoneUpdated(QImage frame)
