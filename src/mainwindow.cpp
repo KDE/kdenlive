@@ -1506,15 +1506,6 @@ void MainWindow::setupActions()
     showTitleBar->setChecked(KdenliveSettings::showtitlebars());
     slotShowTitleBars(KdenliveSettings::showtitlebars());
 
-
-    //const QByteArray state = layoutGroup.readEntry("layout1", QByteArray());
-
-    /*QAction *maxCurrent = new KAction(i18n("Maximize Current Widget"), this);
-    collection.addAction("maximize_current", maxCurrent);
-    maxCurrent->setCheckable(true);
-    maxCurrent->setChecked(false);
-    connect(maxCurrent, SIGNAL(triggered(bool)), this, SLOT(slotMaximizeCurrent(bool)));*/
-
     m_closeAction = KStandardAction::close(this,  SLOT(closeCurrentDocument()),   collection);
     KStandardAction::quit(this,                   SLOT(close()),                  collection);
     KStandardAction::open(this,                   SLOT(openFile()),               collection);
@@ -1625,8 +1616,6 @@ void MainWindow::setupActions()
     }
     //m_effectsActionCollection->readSettings();
 
-    //connect(collection, SIGNAL( clearStatusText() ),
-    //statusBar(), SLOT( clear() ) );
 }
 
 void MainWindow::slotDisplayActionMessage(QAction *a)
@@ -1675,9 +1664,7 @@ void MainWindow::slotLoadLayout(QAction *action)
     if (layoutId.isEmpty()) return;
     KSharedConfigPtr config = KGlobal::config();
     KConfigGroup layouts(config, "Layouts");
-    //QByteArray geom = QByteArray::fromBase64(layouts.readEntry(layoutId).toAscii());
     QByteArray state = QByteArray::fromBase64(layouts.readEntry(layoutId).toAscii());
-    //restoreGeometry(geom);
     restoreState(state);
 }
 
@@ -3543,20 +3530,20 @@ void MainWindow::slotSaveZone(Render *render, QPoint zone)
 
 void MainWindow::slotSetInPoint()
 {
-    if (m_clipMonitor->isActive())
+    if (m_clipMonitor->isActive()) {
         m_clipMonitor->slotSetZoneStart();
-    else
+    } else {
         m_projectMonitor->slotSetZoneStart();
-    //else m_activeTimeline->projectView()->setInPoint();
+    }
 }
 
 void MainWindow::slotSetOutPoint()
 {
-    if (m_clipMonitor->isActive())
+    if (m_clipMonitor->isActive()) {
         m_clipMonitor->slotSetZoneEnd();
-    else
+    } else {
         m_projectMonitor->slotSetZoneEnd();
-    // else m_activeTimeline->projectView()->setOutPoint();
+    }
 }
 
 void MainWindow::slotResizeItemStart()
@@ -3667,21 +3654,15 @@ void MainWindow::slotShowTimeline(bool show)
     }
 }
 
-void MainWindow::slotMaximizeCurrent(bool /*show*/)
+void MainWindow::slotMaximizeCurrent(bool)
 {
     //TODO: is there a way to maximize current widget?
-    //if (show == true)
-    {
-        m_timelineState = saveState();
-        QWidget *par = focusWidget()->parentWidget();
-        while (par->parentWidget() && par->parentWidget() != this)
-            par = par->parentWidget();
-        kDebug() << "CURRENT WIDGET: " << par->objectName();
-    }
-    /*else {
-    //centralWidget()->setHidden(false);
-    //restoreState(m_timelineState);
-    }*/
+
+    m_timelineState = saveState();
+    QWidget *par = focusWidget()->parentWidget();
+    while (par->parentWidget() && par->parentWidget() != this)
+        par = par->parentWidget();
+    kDebug() << "CURRENT WIDGET: " << par->objectName();
 }
 
 void MainWindow::loadTranscoders()
