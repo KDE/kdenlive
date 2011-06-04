@@ -218,7 +218,7 @@ void MltDeviceCapture::stop()
         m_mltProducer = NULL;
     }
     // For some reason, the consumer seems to be deleted by previous stuff when in playlist mode
-    if (!isPlaylist) delete m_mltConsumer;
+    if (!isPlaylist && m_mltConsumer) delete m_mltConsumer;
     m_mltConsumer = NULL;
 }
 
@@ -282,7 +282,9 @@ void MltDeviceCapture::showAudio(Mlt::Frame& frame)
 
 bool MltDeviceCapture::slotStartPreview(const QString &producer, bool xmlFormat)
 {
-    if (m_mltConsumer == NULL) buildConsumer();
+    if (m_mltConsumer == NULL) {
+        buildConsumer();
+    }
     char *tmp = qstrdup(producer.toUtf8().constData());
     if (xmlFormat) m_mltProducer = new Mlt::Producer(*m_mltProfile, "xml-string", tmp);
     else m_mltProducer = new Mlt::Producer(*m_mltProfile, tmp);

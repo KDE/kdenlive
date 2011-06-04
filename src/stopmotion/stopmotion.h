@@ -19,7 +19,6 @@
 #define STOPMOTION_H
 
 #include "ui_stopmotion_ui.h"
-#include "../blackmagic/capture.h"
 
 #include <KUrl>
 #include <QLabel>

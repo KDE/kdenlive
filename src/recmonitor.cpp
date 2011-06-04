@@ -53,7 +53,6 @@ RecMonitor::RecMonitor(QString name, MonitorManager *manager, QWidget *parent) :
     m_isCapturing(false),
     m_didCapture(false),
     m_isPlaying(false),
-    m_blackmagicCapturing(false),
     m_manager(manager),
     m_captureDevice(NULL),
     m_analyse(false)
@@ -126,8 +125,6 @@ RecMonitor::RecMonitor(QString name, MonitorManager *manager, QWidget *parent) :
 #endif
 
     control_frame_firewire->setLayout(layout);
-
-    slotVideoDeviceChanged(device_selector->currentIndex());
     m_displayProcess = new QProcess;
     m_captureProcess = new QProcess;
 
@@ -160,6 +157,7 @@ RecMonitor::RecMonitor(QString name, MonitorManager *manager, QWidget *parent) :
     setenv("SDL_VIDEO_ALLOW_SCREENSAVER", "1", 1);
 
     kDebug() << "/////// BUILDING MONITOR, ID: " << video_frame->winId();
+    slotVideoDeviceChanged(device_selector->currentIndex());
 }
 
 RecMonitor::~RecMonitor()
@@ -212,8 +210,6 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
 {
     QString capturefile;
     QString capturename;
-    QString path;
-    m_videoBox->setHidden(true);
     enable_preview->setHidden(ix != VIDEO4LINUX && ix != BLACKMAGIC);
     m_fwdAction->setVisible(ix == FIREWIRE);
     m_discAction->setVisible(ix == FIREWIRE);
@@ -227,6 +223,10 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
         m_captureDevice = NULL;
         m_manager->clearScopeSource();
     }
+
+    // The m_videoBox container has to be shown once before the MLT consumer is build, or preview will fail
+    m_videoBox->setHidden(ix != VIDEO4LINUX && ix != BLACKMAGIC);
+    m_videoBox->setHidden(true);
     switch (ix) {
     case SCREENGRAB:
         m_discAction->setEnabled(false);
@@ -245,8 +245,7 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
     case VIDEO4LINUX:
         m_stopAction->setEnabled(false);
         m_playAction->setEnabled(true);
-        path = KStandardDirs::locateLocal("appdata", "profiles/video4linux");
-        if (checkDeviceAvailability()) buildMltDevice(path);
+        checkDeviceAvailability();
         break;
     case BLACKMAGIC:
         m_stopAction->setEnabled(false);
@@ -258,8 +257,6 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
         capturename.append(KdenliveSettings::decklink_extension());
         capturefile.append(capturename);
         video_frame->setPixmap(mergeSideBySide(KIcon("camera-photo").pixmap(QSize(50, 50)), i18n("Plug your camcorder and\npress play button\nto start preview.\nFiles will be saved in:\n%1", capturefile)));
-        path = KdenliveSettings::current_profile();
-        buildMltDevice(path);
         break;
     default: // FIREWIRE
         m_discAction->setEnabled(true);
@@ -300,11 +297,6 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
     }
 }
 
-void RecMonitor::slotGotBlackmagicFrameNumber(ulong ix)
-{
-    m_dvinfo.setText(QString::number(ix));
-}
-
 void RecMonitor::slotSetInfoMessage(const QString &message)
 {
     m_logger.insertItem(0, message);
@@ -329,16 +321,14 @@ QPixmap RecMonitor::mergeSideBySide(const QPixmap& pix, const QString txt)
 }
 
 
-bool RecMonitor::checkDeviceAvailability()
+void RecMonitor::checkDeviceAvailability()
 {
     if (!KIO::NetAccess::exists(KUrl(KdenliveSettings::video4vdevice()), KIO::NetAccess::SourceSide , this)) {
         m_playAction->setEnabled(false);
         m_recAction->setEnabled(false);
         video_frame->setPixmap(mergeSideBySide(KIcon("camera-web").pixmap(QSize(50, 50)), i18n("Cannot read from device %1\nPlease check drivers and access rights.", KdenliveSettings::video4vdevice())));
-        return false;
     } else {
         video_frame->setPixmap(mergeSideBySide(KIcon("camera-web").pixmap(QSize(50, 50)), i18n("Press play or record button\nto start video capture\nFiles will be saved in:\n%1", m_capturePath)));
-        return true;
     }
 }
 

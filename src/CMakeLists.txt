@@ -264,8 +264,6 @@ set(kdenlive_SRCS
   audiosignal.cpp
   blackmagic/include/DeckLinkAPIDispatch.cpp
   stopmotion/stopmotion.cpp
-  stopmotion/capturehandler.cpp
-  blackmagic/capture.cpp
   blackmagic/devices.cpp
   onmonitoritems/onmonitorrectitem.cpp
   onmonitoritems/onmonitorcornersitem.cpp

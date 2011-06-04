@@ -100,14 +100,11 @@ private:
     QAction *m_stopAction;
     QAction *m_discAction;
 
-
-    /** @brief Indicates whether we are currently capturing from BLACKMAGIC. */
-    bool m_blackmagicCapturing;
     MonitorManager *m_manager;
     MltDeviceCapture *m_captureDevice;
     VideoPreviewContainer *m_videoBox;
     bool m_analyse;
-    bool checkDeviceAvailability();
+    void checkDeviceAvailability();
     QPixmap mergeSideBySide(const QPixmap& pix, const QString txt);
     void manageCapturedFiles();
     /** @brief Build MLT producer for device, using path as profile. */
@@ -125,7 +122,6 @@ private slots:
     void slotConfigure();
     void slotReadDvgrabInfo();
     void slotUpdateFreeSpace();
-    void slotGotBlackmagicFrameNumber(ulong ix);
     void slotSetInfoMessage(const QString &message);
     void slotDroppedFrames(int dropped);
 
