@@ -15,19 +15,6 @@
     <number>0</number>
    </property>
    <item row="0" column="0" colspan="4">
-    <widget class="QFrame" name="video_capture">
-     <property name="frameShape">
-      <enum>QFrame::NoFrame</enum>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Plain</enum>
-     </property>
-     <property name="lineWidth">
-      <number>0</number>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0" colspan="4">
     <widget class="QLabel" name="video_frame">
      <property name="text">
       <string>Not connected</string>
@@ -37,7 +24,7 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="0" colspan="4">
+   <item row="1" column="0" colspan="4">
     <widget class="QFrame" name="control_frame_firewire">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
@@ -59,7 +46,7 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="0">
+   <item row="2" column="0">
     <widget class="QCheckBox" name="autoaddbox">
      <property name="text">
       <string>Auto add</string>
@@ -69,7 +56,7 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="3">
+   <item row="2" column="3">
     <widget class="KComboBox" name="device_selector">
      <item>
       <property name="text">
@@ -93,7 +80,7 @@
      </item>
     </widget>
    </item>
-   <item row="3" column="1">
+   <item row="2" column="1">
     <widget class="QCheckBox" name="enable_preview">
      <property name="text">
       <string>Preview while capturing</string>
@@ -103,7 +90,7 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="2">
+   <item row="2" column="2">
     <spacer name="horizontalSpacer">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>

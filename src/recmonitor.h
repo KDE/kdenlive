@@ -27,7 +27,6 @@
 #define RECMONITOR_H
 
 #include "abstractmonitor.h"
-#include "blackmagic/capture.h"
 #include "ui_recmonitor_ui.h"
 
 #include <QToolBar>
@@ -102,16 +101,17 @@ private:
     QAction *m_discAction;
 
 
-    CaptureHandler *m_bmCapture;
     /** @brief Indicates whether we are currently capturing from BLACKMAGIC. */
     bool m_blackmagicCapturing;
     MonitorManager *m_manager;
     MltDeviceCapture *m_captureDevice;
     VideoPreviewContainer *m_videoBox;
     bool m_analyse;
-    void checkDeviceAvailability();
+    bool checkDeviceAvailability();
     QPixmap mergeSideBySide(const QPixmap& pix, const QString txt);
     void manageCapturedFiles();
+    /** @brief Build MLT producer for device, using path as profile. */
+    void buildMltDevice(const QString &path);
 
 private slots:
     void slotStartPreview(bool play = true);
