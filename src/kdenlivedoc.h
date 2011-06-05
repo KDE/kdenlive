@@ -159,6 +159,8 @@ Q_OBJECT public:
     QDomElement getTrackEffect(int trackIndex, int effectIndex) const;
     /** @brief Get a list of folder id's that were opened on last save. */
     QStringList getExpandedFolders();
+    /** @brief Read the display ratio from an xml project file. */
+    static double getDisplayRatio(const QString &path);
     
 private:
     KUrl m_url;

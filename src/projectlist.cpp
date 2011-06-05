@@ -608,7 +608,7 @@ void ProjectList::slotClipSelected()
 
 void ProjectList::adjustProxyActions(ProjectItem *clip) const
 {
-    if (clip == NULL || clip->type() != PROJECTCLIPTYPE || clip->clipType() == COLOR || clip->clipType() == TEXT || clip->clipType() == PLAYLIST || clip->clipType() == SLIDESHOW || clip->clipType() == AUDIO) {
+    if (clip == NULL || clip->type() != PROJECTCLIPTYPE || clip->clipType() == COLOR || clip->clipType() == TEXT || clip->clipType() == SLIDESHOW || clip->clipType() == AUDIO) {
         m_proxyAction->setEnabled(false);
         return;
     }
@@ -1609,7 +1609,7 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
             CLIPTYPE t = item->clipType();
             if (t == IMAGE) maxSize = m_doc->getDocumentProperty("proxyimageminsize").toInt();
             else maxSize = m_doc->getDocumentProperty("proxyminsize").toInt();
-            if (((t == AV || t == VIDEO) && generateProxy() && size.section('x', 0, 0).toInt() > maxSize) || (t == IMAGE && generateImageProxy() && (size.section('x', 0, 0).toInt() > maxSize || size.section('x', 1, 1).toInt() > maxSize))) {
+            if ((size.section('x', 0, 0).toInt() > maxSize || size.section('x', 1, 1).toInt() > maxSize) && (((t == AV || t == VIDEO || t == PLAYLIST) && generateProxy()) || (t == IMAGE && generateImageProxy()))) {
                 if (clip->getProperty("proxy").isEmpty()) {
                     KUrl proxyPath = m_doc->projectFolder();
                     proxyPath.addPath("proxy/");
@@ -2126,8 +2126,6 @@ void ProjectList::slotGenerateProxy(const QString id)
         return;
     }
 
-    QString url = item->clipUrl().path();
-    
     if (QFile::exists(path)) {
         setProxyStatus(id, PROXYDONE);
         slotGotProxy(id);
@@ -2143,6 +2141,63 @@ void ProjectList::slotGenerateProxy(const QString id)
         file.close();
         QFile::remove(path);
     }
+
+    QString url = item->clipUrl().path();
+
+    // Special case: playlist clips (.mlt or .kdenlive project files)
+    if (item->clipType() == PLAYLIST) {
+        // change FFmpeg params to MLT format
+        QStringList parameters;
+        parameters << url;
+        parameters << "-consumer" << "avformat:" + path;
+        QStringList params = m_doc->getDocumentProperty("proxyparams").simplified().split('-', QString::SkipEmptyParts);
+        
+        foreach(QString s, params) {
+            s = s.simplified();
+            if (s.count(' ') == 0) {
+                s.append("=1");
+            }
+            else s.replace(' ', '=');
+            parameters << s;
+        }
+
+        // currently, when rendering an xml file through melt, the display ration is lost, so we enforce it manualy
+        double display_ratio = KdenliveDoc::getDisplayRatio(url);
+        parameters << "aspect=" + QString::number(display_ratio);
+
+        //kDebug()<<"TRANSCOD: "<<parameters;
+        QProcess myProcess;
+        myProcess.start(KdenliveSettings::rendererpath(), parameters);
+        myProcess.waitForStarted();
+        int result = -1;
+        while (myProcess.state() != QProcess::NotRunning) {
+            // building proxy file
+            if (m_abortProxyId.contains(id)) {
+                myProcess.close();
+                myProcess.waitForFinished();
+                m_abortProxyId.removeAll(id);
+                QFile::remove(path);
+                setProxyStatus(id, NOPROXY);
+                result = -2;
+
+            }
+            myProcess.waitForFinished(500);
+        }
+        myProcess.waitForFinished();
+        if (result == -1) result = myProcess.exitStatus();
+        if (result == 0) {
+            // proxy successfully created
+            setProxyStatus(id, PROXYDONE);
+            slotGotProxy(id);
+        }
+        else if (result == 1) {
+            // Proxy process crashed
+            QFile::remove(path);
+            setProxyStatus(id, PROXYCRASHED);
+        }   
+
+    }
+    
     if (item->clipType() == IMAGE) {
         // Image proxy
         QImage i(url);
@@ -2334,7 +2389,7 @@ void ProjectList::slotProxyCurrentItem(bool doProxy)
         if (listItem->type() == PROJECTCLIPTYPE) {
             ProjectItem *item = static_cast <ProjectItem*>(listItem);
             CLIPTYPE t = item->clipType();
-            if ((t == VIDEO || t == AV || t == UNKNOWN || t == IMAGE) && item->referencedClip()) {
+            if ((t == VIDEO || t == AV || t == UNKNOWN || t == IMAGE || t == PLAYLIST) && item->referencedClip()) {
                 oldProps = item->referencedClip()->properties();
                 if (doProxy) {
                     newProps.clear();

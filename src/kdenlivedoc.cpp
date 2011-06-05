@@ -1553,5 +1553,28 @@ QStringList KdenliveDoc::getExpandedFolders()
     return result;
 }
 
+// static
+double KdenliveDoc::getDisplayRatio(const QString &path)
+{
+    QFile file(path);
+    QDomDocument doc;
+    if (!file.open(QIODevice::ReadOnly)) {
+        kWarning() << "ERROR, CANNOT READ: " << path;
+        return 0;
+    }
+    if (!doc.setContent(&file)) {
+        kWarning() << "ERROR, CANNOT READ: " << path;
+        file.close();
+        return 0;
+    }
+    file.close();
+    QDomNodeList list = doc.elementsByTagName("profile");
+    if (list.isEmpty()) return 0;
+    QDomElement profile = list.at(0).toElement();
+    double den = profile.attribute("display_aspect_den").toDouble();
+    if (den > 0) return profile.attribute("display_aspect_num").toDouble() / den;
+    return 0;
+}
+
 #include "kdenlivedoc.moc"
 
