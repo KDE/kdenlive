@@ -509,7 +509,7 @@ void KdenliveDoc::slotAutoSave()
             kDebug() << "ERROR; CANNOT CREATE AUTOSAVE FILE";
         }
         kDebug() << "// AUTOSAVE FILE: " << m_autosave->fileName();
-        saveSceneList(m_autosave->fileName(), m_render->sceneList(), QStringList());
+        saveSceneList(m_autosave->fileName(), m_render->sceneList(), QStringList(), true);
     }
 }
 
@@ -660,7 +660,7 @@ QDomDocument KdenliveDoc::xmlSceneList(const QString &scene, const QStringList e
     return sceneList;
 }
 
-bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene, const QStringList expandedFolders)
+bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene, const QStringList expandedFolders, bool autosave)
 {
     QDomDocument sceneList = xmlSceneList(scene, expandedFolders);
     if (sceneList.isNull()) {
@@ -668,8 +668,11 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene, const
         KMessageBox::error(kapp->activeWindow(), i18n("Cannot write to file %1, scene list is corrupted.", path));
         return false;
     }
-
+    
+    // Backup current version
+    if (!autosave) backupLastSavedVersion(path);
     QFile file(path);
+    
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         kWarning() << "//////  ERROR writing to file: " << path;
         KMessageBox::error(kapp->activeWindow(), i18n("Cannot write to file %1", path));
@@ -683,6 +686,9 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene, const
         return false;
     }
     file.close();
+    if (!autosave) {
+        cleanupBackupFiles();
+    }
     return true;
 }
 
@@ -1574,6 +1580,125 @@ double KdenliveDoc::getDisplayRatio(const QString &path)
     double den = profile.attribute("display_aspect_den").toDouble();
     if (den > 0) return profile.attribute("display_aspect_num").toDouble() / den;
     return 0;
+}
+
+void KdenliveDoc::backupLastSavedVersion(const QString &path)
+{
+    // Ensure backup folder exists
+    QFile file(path);
+    KUrl backupFile = m_projectFolder;
+    backupFile.addPath(".backup/");
+    KIO::NetAccess::mkdir(backupFile, kapp->activeWindow());
+    QString fileName = KUrl(path).fileName().section('.', 0, -2);
+    QFileInfo info(file);
+    fileName.append(info.lastModified().toString("-yyyy-MM-dd-hh-mm"));
+    fileName.append(".kdenlive");
+    backupFile.addPath(fileName);
+
+    emit saveTimelinePreview(backupFile.path() + ".png");
+
+    if (file.exists()) {
+        // delete previous backup if it was done less than 60 seconds ago
+        QFile::remove(backupFile.path());
+        if (!QFile::copy(path, backupFile.path())) {
+            KMessageBox::information(kapp->activeWindow(), i18n("Cannot create backup copy:\n%1", backupFile.path()));
+        }
+    }    
+}
+
+void KdenliveDoc::cleanupBackupFiles()
+{
+    KUrl backupFile = m_projectFolder;
+    backupFile.addPath(".backup/");
+    QDir dir(backupFile.path());
+    QString projectFile = url().fileName().section('.', 0, -2);
+    projectFile.append("-??");
+    projectFile.append("??");
+    projectFile.append("-??");
+    projectFile.append("-??");
+    projectFile.append("-??");
+    projectFile.append("-??.kdenlive");
+
+    QStringList filter;
+    backupFile.addPath(projectFile);
+    filter << projectFile;
+    dir.setNameFilters(filter);
+    QFileInfoList resultList = dir.entryInfoList(QDir::Files, QDir::Time);
+
+    QDateTime d = QDateTime::currentDateTime();
+    QStringList hourList;
+    QStringList dayList;
+    QStringList weekList;
+    QStringList oldList;
+    for (int i = 0; i < resultList.count(); i++) {
+        if (d.secsTo(resultList.at(i).lastModified()) < 3600) {
+            // files created in the last hour
+            hourList.append(resultList.at(i).absoluteFilePath());
+        }
+        else if (d.secsTo(resultList.at(i).lastModified()) < 43200) {
+            // files created in the day
+            dayList.append(resultList.at(i).absoluteFilePath());
+        }
+        else if (d.daysTo(resultList.at(i).lastModified()) < 8) {
+            // files created in the week
+            weekList.append(resultList.at(i).absoluteFilePath());
+        }
+        else {
+            // older files
+            oldList.append(resultList.at(i).absoluteFilePath());
+        }
+    }
+    if (hourList.count() > 20) {
+        int step = hourList.count() / 10;
+        for (int i = 0; i < hourList.count(); i += step) {
+            kDebug()<<"REMOVE AT: "<<i<<", COUNT: "<<hourList.count();
+            hourList.removeAt(i);
+            i--;
+        }
+    } else hourList.clear();
+    if (dayList.count() > 20) {
+        int step = dayList.count() / 10;
+        for (int i = 0; i < dayList.count(); i += step) {
+            dayList.removeAt(i);
+            i--;
+        }
+    } else dayList.clear();
+    if (weekList.count() > 20) {
+        int step = weekList.count() / 10;
+        for (int i = 0; i < weekList.count(); i += step) {
+            weekList.removeAt(i);
+            i--;
+        }
+    } else weekList.clear();
+    if (oldList.count() > 20) {
+        int step = oldList.count() / 10;
+        for (int i = 0; i < oldList.count(); i += step) {
+            oldList.removeAt(i);
+            i--;
+        }
+    } else oldList.clear();
+    
+    QString f;
+    while (hourList.count() > 0) {
+        f = hourList.takeFirst();
+        QFile::remove(f);
+        QFile::remove(f + ".png");
+    }
+    while (dayList.count() > 0) {
+        f = dayList.takeFirst();
+        QFile::remove(f);
+        QFile::remove(f + ".png");
+    }
+    while (weekList.count() > 0) {
+        f = weekList.takeFirst();
+        QFile::remove(f);
+        QFile::remove(f + ".png");
+    }
+    while (oldList.count() > 0) {
+        f = oldList.takeFirst();
+        QFile::remove(f);
+        QFile::remove(f + ".png");
+    }
 }
 
 #include "kdenlivedoc.moc"

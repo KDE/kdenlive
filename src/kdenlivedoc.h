@@ -115,7 +115,7 @@ Q_OBJECT public:
     /** @brief Returns the project file xml. */
     QDomDocument xmlSceneList(const QString &scene, const QStringList expandedFolders);
     /** @brief Saves the project file xml to a file. */
-    bool saveSceneList(const QString &path, const QString &scene, const QStringList expandedFolders);
+    bool saveSceneList(const QString &path, const QString &scene, const QStringList expandedFolders, bool autosave = false);
     int tracksCount() const;
     TrackInfo trackInfoAt(int ix) const;
     void insertTrack(int ix, TrackInfo type);
@@ -161,6 +161,8 @@ Q_OBJECT public:
     QStringList getExpandedFolders();
     /** @brief Read the display ratio from an xml project file. */
     static double getDisplayRatio(const QString &path);
+    /** @brief Backup the project file */
+    void backupLastSavedVersion(const QString &path);
     
 private:
     KUrl m_url;
@@ -199,6 +201,8 @@ private:
 
     /** @brief Updates the project folder location entry in the kdenlive file dialogs to point to the current project folder. */
     void updateProjectFolderPlacesEntry();
+    /** @brief Only keep some backup files, delete some */
+    void cleanupBackupFiles();
 
 public slots:
     void slotCreateXmlClip(const QString &name, const QDomElement xml, QString group, const QString &groupId);
@@ -234,6 +238,8 @@ signals:
     void docModified(bool);
     void selectLastAddedClip(const QString &);
     void guidesUpdated();
+    /** @brief When creating a backup file, also save a thumbnail of current timeline */
+    void saveTimelinePreview(const QString path);
 };
 
 #endif

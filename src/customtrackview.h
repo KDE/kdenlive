@@ -267,6 +267,8 @@ public slots:
     * @param offsetList The list of points that should also snap (for example when movin a clip, start and end points should snap
     * @param skipSelectedItems if true, the selected item start and end points will not be added to snap list */
     void updateSnapPoints(AbstractClipItem *selected, QList <GenTime> offsetList = QList <GenTime> (), bool skipSelectedItems = false);
+    /** @brief Save a snapshot image of current timeline view */
+    void saveTimelinePreview(const QString path);
 
 protected:
     virtual void drawBackground(QPainter * painter, const QRectF & rect);

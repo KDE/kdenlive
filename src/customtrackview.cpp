@@ -6693,3 +6693,17 @@ void CustomTrackView::adjustEffects(ClipItem* item, ItemInfo oldInfo, QUndoComma
         }
     }
 }
+
+
+void CustomTrackView::saveTimelinePreview(const QString path)
+{
+    QRect viewrect = viewport()->rect();
+    QImage img(viewrect.width(), viewrect.height(), QImage::Format_ARGB32_Premultiplied);
+    img.fill(palette().base().color().rgb());
+    QPainter painter(&img);
+    render(&painter);
+    painter.end();
+    img = img.scaledToWidth(600, Qt::SmoothTransformation);
+    img.save(path);
+}
+

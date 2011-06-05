@@ -136,6 +136,7 @@ kde4_add_ui_files(kdenlive_UI
   widgets/monitoreditwidget_ui.ui
   widgets/archivewidget_ui.ui
   widgets/manageencodingprofile_ui.ui
+  widgets/backupdialog_ui.ui
 )
 
 set(kdenlive_SRCS

@@ -146,7 +146,8 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     m_jogShuttle(NULL),
 #endif /* NO_JOGSHUTTLE */
     m_findActivated(false),
-    m_stopmotion(NULL)
+    m_stopmotion(NULL),
+    m_backup_ui(NULL)
 {
     qRegisterMetaType<QVector<int16_t> > ();
     // Create DBus interface
@@ -1160,6 +1161,10 @@ void MainWindow::setupActions()
     KAction* projectAction = new KAction(KIcon("configure"), i18n("Project Settings"), this);
     collection.addAction("project_settings", projectAction);
     connect(projectAction, SIGNAL(triggered(bool)), this, SLOT(slotEditProjectSettings()));
+
+    KAction* backupAction = new KAction(KIcon("edit-undo"), i18n("Open Backup File"), this);
+    collection.addAction("open_backup", backupAction);
+    connect(backupAction, SIGNAL(triggered(bool)), this, SLOT(slotOpenBackupDialog()));
 
     KAction* projectRender = new KAction(KIcon("media-record"), i18n("Render"), this);
     collection.addAction("project_render", projectRender);
@@ -2457,6 +2462,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
 
     connect(doc, SIGNAL(docModified(bool)), this, SLOT(slotUpdateDocumentState(bool)));
     connect(doc, SIGNAL(guidesUpdated()), this, SLOT(slotGuidesUpdated()));
+    connect(doc, SIGNAL(saveTimelinePreview(const QString)), trackView->projectView(), SLOT(saveTimelinePreview(const QString)));
     connect(m_notesWidget, SIGNAL(textChanged()), doc, SLOT(setModified()));
 
     connect(trackView->projectView(), SIGNAL(clipItemSelected(ClipItem*, int, bool)), m_effectStack, SLOT(slotClipItemSelected(ClipItem*, int)));
@@ -4256,6 +4262,59 @@ void MainWindow::slotArchiveProject()
     QDomDocument doc = m_activeDocument->xmlSceneList(m_projectMonitor->sceneList(), m_projectList->expandedFolders());
     ArchiveWidget *d = new ArchiveWidget(m_activeDocument->url().fileName(), doc, list, m_activeTimeline->projectView()->extractTransitionsLumas(), this);
     d->exec();
+}
+
+
+void MainWindow::slotOpenBackupDialog()
+{
+    QDialog *dia = new QDialog(this);
+    m_backup_ui = new Ui::BackupDialog_UI;
+    m_backup_ui->setupUi(dia);
+    dia->setWindowTitle(i18n("Backup Files"));
+    KUrl backupFile = m_activeDocument->projectFolder();
+    backupFile.addPath(".backup/");
+    QDir dir(backupFile.path());
+    QString projectFile = m_activeDocument->url().fileName().section('.', 0, -2);
+    projectFile.append("-??");
+    projectFile.append("??");
+    projectFile.append("-??");
+    projectFile.append("-??");
+    projectFile.append("-??");
+    projectFile.append("-??.kdenlive");
+
+    QStringList filter;
+    backupFile.addPath(projectFile);
+    filter << projectFile;
+    dir.setNameFilters(filter);
+    QFileInfoList resultList = dir.entryInfoList(QDir::Files, QDir::Time);
+    QStringList results;
+    QListWidgetItem *item;
+    for (int i = 0; i < resultList.count(); i++) {
+        item = new QListWidgetItem(resultList.at(i).lastModified().toString(Qt::DefaultLocaleLongDate), m_backup_ui->backup_list);
+        item->setData(Qt::UserRole, resultList.at(i).absoluteFilePath());
+    }
+    connect(m_backup_ui->backup_list, SIGNAL(currentRowChanged(int)), this, SLOT(slotDisplayBackupPreview()));
+    m_backup_ui->backup_list->setCurrentRow(0);
+    m_backup_ui->backup_list->setMinimumHeight(QFontMetrics(font()).lineSpacing() * 12);
+    if (dia->exec() == QDialog::Accepted) {
+        QString requestedBackup = m_backup_ui->backup_list->currentItem()->data(Qt::UserRole).toString();
+        KUrl currentUrl = m_activeDocument->url();
+        m_activeDocument->backupLastSavedVersion(currentUrl.path());
+        closeCurrentDocument(false);
+        doOpenFile(KUrl(requestedBackup), NULL);
+        m_activeDocument->setUrl(currentUrl);
+        setCaption(m_activeDocument->description());
+    }
+    delete dia;
+    delete m_backup_ui;
+    m_backup_ui = NULL;
+}
+
+void MainWindow::slotDisplayBackupPreview()
+{
+    QString path = m_backup_ui->backup_list->currentItem()->data(Qt::UserRole).toString();
+    QPixmap pix(path + ".png");
+    m_backup_ui->backup_preview->setPixmap(pix);
 }
 
 

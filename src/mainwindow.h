@@ -46,6 +46,7 @@
 #include "dvdwizard.h"
 #include "stopmotion/stopmotion.h"
 #include "noteswidget.h"
+#include "ui_backupdialog_ui.h"
 
 class KdenliveDoc;
 class TrackView;
@@ -305,6 +306,9 @@ private:
 
     StopmotionWidget *m_stopmotion;
 
+    /** @brief UI for backup dialog. */
+    Ui::BackupDialog_UI *m_backup_ui;
+
 public slots:
     /** @brief Prepares opening @param url.
     *
@@ -540,6 +544,10 @@ private slots:
     void slotUpdateProxySettings();
     /** @brief Insert current project's timecode into the notes widget. */
     void slotInsertNotesTimecode();
+    /** @brief Open the project's backupdialog. */
+    void slotOpenBackupDialog();
+    /** @brief Display chosen backup thumbnail. */
+    void slotDisplayBackupPreview();
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);
 };
