@@ -71,12 +71,6 @@ typedef unsigned char avgbmp_t;
 #define SCALE(df, dr, sf, sr, sv) (((sv - sf) * (dr - df) / (sr - sf)) + df)
 
 typedef struct {
-        char    *name;
-} src_palette_t;
-
-extern src_palette_t src_palette[];
-
-typedef struct {
 	char *name;
 	char *value;
 } src_option_t;

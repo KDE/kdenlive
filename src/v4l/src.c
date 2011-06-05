@@ -22,32 +22,6 @@
 #include <sys/ioctl.h>
 
 
-/* Supported palette types. */
-src_palette_t src_palette[] = {
-	{ "PNG" },
-	{ "JPEG" },
-	{ "MJPEG" },
-	{ "S561" },
-	{ "RGB32" },
-	{ "BGR32" },
-	{ "RGB24" },
-	{ "BGR24" },
-	{ "YUYV" },
-	{ "UYVY" },
-	{ "YUV420P" },
-	{ "NV12MB" },
-	{ "BAYER" },
-	{ "SGBRG8" },
-	{ "SGRBG8" },
-	{ "RGB565" },
-	{ "RGB555" },
-	{ "Y16" },
-	{ "GREY" },
-	{ NULL }
-};
-
-
-
 int v4l2_free_mmap(src_t *src)
 {
         src_v4l2_t *s = (src_v4l2_t *) src->state;
