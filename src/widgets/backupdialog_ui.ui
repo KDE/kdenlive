@@ -14,7 +14,7 @@
    <string>Dialog</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="2" column="0">
+   <item row="3" column="1">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -24,14 +24,14 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="0">
+   <item row="1" column="0" colspan="2">
     <widget class="KListWidget" name="backup_list">
      <property name="alternatingRowColors">
       <bool>true</bool>
      </property>
     </widget>
    </item>
-   <item row="1" column="0">
+   <item row="2" column="0" colspan="2">
     <widget class="QLabel" name="backup_preview">
      <property name="frameShape">
       <enum>QFrame::Box</enum>
@@ -41,9 +41,28 @@
      </property>
     </widget>
    </item>
+   <item row="0" column="1">
+    <widget class="KUrlRequester" name="project_url">
+     <property name="mode">
+      <set>KFile::Directory|KFile::ExistingOnly|KFile::LocalOnly</set>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>Project Folder</string>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>KUrlRequester</class>
+   <extends>QFrame</extends>
+   <header>kurlrequester.h</header>
+  </customwidget>
   <customwidget>
    <class>KListWidget</class>
    <extends>QListWidget</extends>

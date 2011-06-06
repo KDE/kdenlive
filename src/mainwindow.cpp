@@ -62,6 +62,7 @@
 #include "audiospectrum.h"
 #include "spectrogram.h"
 #include "archivewidget.h"
+#include "databackup/backupwidget.h"
 
 #include <KApplication>
 #include <KAction>
@@ -146,8 +147,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     m_jogShuttle(NULL),
 #endif /* NO_JOGSHUTTLE */
     m_findActivated(false),
-    m_stopmotion(NULL),
-    m_backup_ui(NULL)
+    m_stopmotion(NULL)
 {
     qRegisterMetaType<QVector<int16_t> > ();
     // Create DBus interface
@@ -1795,8 +1795,8 @@ void MainWindow::newFile(bool showProjectSettings, bool force)
     }
     m_timelineArea->setEnabled(true);
     m_projectList->setEnabled(true);
-    
-    KdenliveDoc *doc = new KdenliveDoc(KUrl(), projectFolder, m_commandStack, profileName, documentProperties, projectTracks, m_projectMonitor->render, m_notesWidget, this);
+    bool openBackup;
+    KdenliveDoc *doc = new KdenliveDoc(KUrl(), projectFolder, m_commandStack, profileName, documentProperties, projectTracks, m_projectMonitor->render, m_notesWidget, &openBackup, this);
     doc->m_autosave = new KAutoSaveFile(KUrl(), doc);
     bool ok;
     TrackView *trackView = new TrackView(doc, &ok, this);
@@ -2020,7 +2020,8 @@ void MainWindow::doOpenFile(const KUrl &url, KAutoSaveFile *stale)
     progressDialog.progressBar()->setValue(0);
     qApp->processEvents();
 
-    KdenliveDoc *doc = new KdenliveDoc(url, KdenliveSettings::defaultprojectfolder(), m_commandStack, KdenliveSettings::default_profile(), QMap <QString, QString> (), QPoint(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks()), m_projectMonitor->render, m_notesWidget, this, &progressDialog);
+    bool openBackup;
+    KdenliveDoc *doc = new KdenliveDoc(url, KdenliveSettings::defaultprojectfolder(), m_commandStack, KdenliveSettings::default_profile(), QMap <QString, QString> (), QPoint(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks()), m_projectMonitor->render, m_notesWidget, &openBackup, this, &progressDialog);
 
     progressDialog.progressBar()->setValue(1);
     progressDialog.progressBar()->setMaximum(4);
@@ -2067,6 +2068,7 @@ void MainWindow::doOpenFile(const KUrl &url, KAutoSaveFile *stale)
     m_clipMonitor->refreshMonitor(true);
 
     progressDialog.progressBar()->setValue(4);
+    if (openBackup) slotOpenBackupDialog(url);
 }
 
 void MainWindow::recoverFiles(QList<KAutoSaveFile *> staleFiles)
@@ -2463,6 +2465,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     connect(doc, SIGNAL(docModified(bool)), this, SLOT(slotUpdateDocumentState(bool)));
     connect(doc, SIGNAL(guidesUpdated()), this, SLOT(slotGuidesUpdated()));
     connect(doc, SIGNAL(saveTimelinePreview(const QString)), trackView->projectView(), SLOT(saveTimelinePreview(const QString)));
+    
     connect(m_notesWidget, SIGNAL(textChanged()), doc, SLOT(setModified()));
 
     connect(trackView->projectView(), SIGNAL(clipItemSelected(ClipItem*, int, bool)), m_effectStack, SLOT(slotClipItemSelected(ClipItem*, int)));
@@ -4265,57 +4268,35 @@ void MainWindow::slotArchiveProject()
 }
 
 
-void MainWindow::slotOpenBackupDialog()
+void MainWindow::slotOpenBackupDialog(const KUrl url)
 {
-    QDialog *dia = new QDialog(this);
-    m_backup_ui = new Ui::BackupDialog_UI;
-    m_backup_ui->setupUi(dia);
-    dia->setWindowTitle(i18n("Backup Files"));
-    KUrl backupFile = m_activeDocument->projectFolder();
-    backupFile.addPath(".backup/");
-    QDir dir(backupFile.path());
-    QString projectFile = m_activeDocument->url().fileName().section('.', 0, -2);
-    projectFile.append("-??");
-    projectFile.append("??");
-    projectFile.append("-??");
-    projectFile.append("-??");
-    projectFile.append("-??");
-    projectFile.append("-??.kdenlive");
-
-    QStringList filter;
-    backupFile.addPath(projectFile);
-    filter << projectFile;
-    dir.setNameFilters(filter);
-    QFileInfoList resultList = dir.entryInfoList(QDir::Files, QDir::Time);
-    QStringList results;
-    QListWidgetItem *item;
-    for (int i = 0; i < resultList.count(); i++) {
-        item = new QListWidgetItem(resultList.at(i).lastModified().toString(Qt::DefaultLocaleLongDate), m_backup_ui->backup_list);
-        item->setData(Qt::UserRole, resultList.at(i).absoluteFilePath());
+    KUrl projectFile;
+    KUrl projectFolder;
+    kDebug()<<"// BACKUP URL: "<<url.path();
+    if (!url.isEmpty()) {
+        // we could not open the project file, guess where the backups are
+        projectFolder = KUrl(KdenliveSettings::defaultprojectfolder());
+        projectFile = url;
     }
-    connect(m_backup_ui->backup_list, SIGNAL(currentRowChanged(int)), this, SLOT(slotDisplayBackupPreview()));
-    m_backup_ui->backup_list->setCurrentRow(0);
-    m_backup_ui->backup_list->setMinimumHeight(QFontMetrics(font()).lineSpacing() * 12);
+    else {
+        projectFolder = m_activeDocument->projectFolder();
+        projectFile = m_activeDocument->url();
+    }
+
+    BackupWidget *dia = new BackupWidget(projectFile, projectFolder, this);
     if (dia->exec() == QDialog::Accepted) {
-        QString requestedBackup = m_backup_ui->backup_list->currentItem()->data(Qt::UserRole).toString();
-        KUrl currentUrl = m_activeDocument->url();
-        m_activeDocument->backupLastSavedVersion(currentUrl.path());
+        QString requestedBackup = dia->selectedFile();
+        m_activeDocument->backupLastSavedVersion(projectFile.path());
         closeCurrentDocument(false);
         doOpenFile(KUrl(requestedBackup), NULL);
-        m_activeDocument->setUrl(currentUrl);
+        m_activeDocument->setUrl(projectFile);
         setCaption(m_activeDocument->description());
     }
     delete dia;
-    delete m_backup_ui;
-    m_backup_ui = NULL;
 }
 
-void MainWindow::slotDisplayBackupPreview()
-{
-    QString path = m_backup_ui->backup_list->currentItem()->data(Qt::UserRole).toString();
-    QPixmap pix(path + ".png");
-    m_backup_ui->backup_preview->setPixmap(pix);
-}
+
+
 
 
 #include "mainwindow.moc"

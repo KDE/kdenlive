@@ -54,7 +54,7 @@
 
 const double DOCUMENTVERSION = 0.86;
 
-KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, QString profileName, QMap <QString, QString> properties, const QPoint tracks, Render *render, KTextEdit *notes, MainWindow *parent, KProgressDialog *progressDialog) :
+KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, QString profileName, QMap <QString, QString> properties, const QPoint tracks, Render *render, KTextEdit *notes, bool *openBackup, MainWindow *parent, KProgressDialog *progressDialog) :
     QObject(parent),
     m_autosave(NULL),
     m_url(url),
@@ -88,12 +88,19 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
         i.next();
         m_documentProperties[i.key()] = i.value();
     }
+
+    *openBackup = false;
     
     if (!url.isEmpty()) {
         QString tmpFile;
         success = KIO::NetAccess::download(url.path(), tmpFile, parent);
-        if (!success) // The file cannot be opened
-            KMessageBox::error(parent, KIO::NetAccess::lastErrorString());
+        if (!success) {
+            // The file cannot be opened
+            if (KMessageBox::warningContinueCancel(parent, i18n("Cannot open the project file, error is:\n%1\nDo you want to open a backup file?", KIO::NetAccess::lastErrorString()), i18n("Error opening file"), KGuiItem(i18n("Open Backup"))) == KMessageBox::Continue) {
+                *openBackup = true;
+            }
+            //KMessageBox::error(parent, KIO::NetAccess::lastErrorString());
+        }
         else {
             QFile file(tmpFile);
             QString errorMsg;
@@ -103,8 +110,13 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
             file.close();
             KIO::NetAccess::removeTempFile(tmpFile);
 
-            if (!success) // It is corrupted
-                KMessageBox::error(parent, errorMsg);
+            if (!success) {
+                // It is corrupted
+                if (KMessageBox::warningContinueCancel(parent, i18n("Cannot open the project file, error is:\n%1\nDo you want to open a backup file?", errorMsg), i18n("Error opening file"), KGuiItem(i18n("Open Backup"))) == KMessageBox::Continue) {
+                *openBackup = true;
+            }
+                //KMessageBox::error(parent, errorMsg);
+            }
             else {
                 parent->slotGotProgressInfo(i18n("Validating"), 0);
                 qApp->processEvents();
@@ -113,6 +125,9 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                 if (!success) {
                     // It is not a project file
                     parent->slotGotProgressInfo(i18n("File %1 is not a Kdenlive project file", m_url.path()), 100);
+                    if (KMessageBox::warningContinueCancel(parent, i18n("File %1 is not a valid project file.\nDo you want to open a backup file?", m_url.path()), i18n("Error opening file"), KGuiItem(i18n("Open Backup"))) == KMessageBox::Continue) {
+                        *openBackup = true;
+                    }
                 } else {
                     /*
                      * Validate the file against the current version (upgrade
@@ -249,7 +264,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
 
     // Something went wrong, or a new file was requested: create a new project
     if (!success) {
-        m_url = KUrl();
+        m_url.clear();
         setProfilePath(profileName);
         m_document = createEmptyDocument(tracks.x(), tracks.y());
     }

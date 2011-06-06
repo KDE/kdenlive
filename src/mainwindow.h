@@ -306,9 +306,6 @@ private:
 
     StopmotionWidget *m_stopmotion;
 
-    /** @brief UI for backup dialog. */
-    Ui::BackupDialog_UI *m_backup_ui;
-
 public slots:
     /** @brief Prepares opening @param url.
     *
@@ -545,9 +542,8 @@ private slots:
     /** @brief Insert current project's timecode into the notes widget. */
     void slotInsertNotesTimecode();
     /** @brief Open the project's backupdialog. */
-    void slotOpenBackupDialog();
-    /** @brief Display chosen backup thumbnail. */
-    void slotDisplayBackupPreview();
+    void slotOpenBackupDialog(const KUrl url = KUrl());
+
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);
 };

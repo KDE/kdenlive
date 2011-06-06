@@ -5,6 +5,7 @@ add_subdirectory(mimetypes)
 add_subdirectory(onmonitoritems)
 add_subdirectory(rotoscoping)
 add_subdirectory(widgets)
+add_subdirectory(databackup)
 
 macro_optional_find_package(Nepomuk)
 macro_optional_find_package(QJSON)
