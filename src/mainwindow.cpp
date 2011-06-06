@@ -1960,6 +1960,11 @@ void MainWindow::openFile(const KUrl &url)
         delete ar;
         return;
     }
+    if (!url.fileName().endsWith(".kdenlive")) {
+        // This is not a Kdenlive project file, abort loading
+        KMessageBox::sorry(this, i18n("File %1 is not a Kdenlive project file", url.path()));
+        return;
+    }
     
     // Check if the document is already opened
     const int ct = m_timelineArea->count();

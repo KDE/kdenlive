@@ -68,6 +68,7 @@ void BackupWidget::slotParseBackupFiles()
     dir.setNameFilters(filter);
     QFileInfoList resultList = dir.entryInfoList(QDir::Files, QDir::Time);
     QStringList results;
+    backup_list->clear();
     QListWidgetItem *item;
     for (int i = 0; i < resultList.count(); i++) {
         item = new QListWidgetItem(resultList.at(i).lastModified().toString(Qt::DefaultLocaleLongDate), backup_list);
@@ -77,6 +78,10 @@ void BackupWidget::slotParseBackupFiles()
 
 void BackupWidget::slotDisplayBackupPreview()
 {
+    if (!backup_list->currentItem()) {
+        backup_preview->setPixmap(QPixmap());
+        return;
+    }
     QString path = backup_list->currentItem()->data(Qt::UserRole).toString();
     QPixmap pix(path + ".png");
     backup_preview->setPixmap(pix);
