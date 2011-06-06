@@ -166,7 +166,7 @@ ArchiveWidget::ArchiveWidget(QString projectName, QDomDocument doc, QList <DocCl
             parentItem->setText(0, files_list->topLevelItem(i)->text(0) + " " + i18np("(%1 item)", "(%1 items)", items));
         }
     }
-
+    if (m_name.isEmpty()) m_name = i18n("Untitled");
     compressed_archive->setText(compressed_archive->text() + " (" + m_name + ".tar.gz)");
     project_files->setText(i18np("%1 file to archive, requires %2", "%1 files to archive, requires %2", total, KIO::convertSize(m_requestedSize)));
     buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Archive"));
