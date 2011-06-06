@@ -22,6 +22,7 @@
 #include "kdenlivesettings.h"
 #include "ui_saveprofile_ui.h"
 #include "timecode.h"
+#include "profilesdialog.h"
 
 #include <KStandardDirs>
 #include <KDebug>
@@ -219,6 +220,9 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, QWidg
     if (!interface || (!interface->isServiceRegistered("org.kde.ksmserver") && !interface->isServiceRegistered("org.gnome.SessionManager")))
         m_view.shutdown->setEnabled(false);
 
+    // Hide the PAl / NTSC combobox since it's not working
+    m_view.label_3->setHidden(true);
+    m_view.format_selection->setHidden(true);
     focusFirstVisibleItem();
 }
 
@@ -1076,7 +1080,7 @@ void RenderWidget::refreshView()
     const QColor disabled = scheme.foreground(KColorScheme::InactiveText).color();
     const QColor disabledbg = scheme.background(KColorScheme::NegativeBackground).color();
 
-
+    double project_framerate = (double) m_profile.frame_rate_num / m_profile.frame_rate_den;
     for (int i = 0; i < m_renderItems.count(); i++) {
         sizeItem = m_renderItems.at(i);
         QListWidgetItem *dupItem = NULL;
@@ -1091,8 +1095,19 @@ void RenderWidget::refreshView()
 
             if (dupItem) {
                 m_view.size_list->addItem(dupItem);
-                // Make sure the selected profile uses an installed avformat codec / format
                 std = dupItem->data(ParamsRole).toString();
+                // Make sure the selected profile uses the same frame rate as project profile
+                if (std.contains("profile=")) {
+                    QString profile = std.section("profile=", 1, 1).section(' ', 0, 0);
+                    MltVideoProfile p = ProfilesDialog::getVideoProfile(profile);
+                    if (p.frame_rate_den > 0 && ((double) p.frame_rate_num / p.frame_rate_den != project_framerate)) {
+                        dupItem->setToolTip(i18n("Frame rate not compatible with project profile"));
+                        dupItem->setIcon(brokenIcon);
+                        dupItem->setForeground(disabled);
+                    }
+                }
+                
+                // Make sure the selected profile uses an installed avformat codec / format
                 if (!formatsList.isEmpty()) {
                     QString format;
                     if (std.startsWith("f=")) format = std.section("f=", 1, 1);
@@ -1102,7 +1117,7 @@ void RenderWidget::refreshView()
                         if (!formatsList.contains(format)) {
                             kDebug() << "***** UNSUPPORTED F: " << format;
                             //sizeItem->setHidden(true);
-                            //sizeItem->setFlags(Qt::ItemIsSelectable);
+                            //sizeItem-item>setFlags(Qt::ItemIsSelectable);
                             dupItem->setToolTip(i18n("Unsupported video format: %1", format));
                             dupItem->setIcon(brokenIcon);
                             dupItem->setForeground(disabled);
