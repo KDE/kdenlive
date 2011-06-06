@@ -709,6 +709,15 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene, const
     file.close();
     if (!autosave) {
         cleanupBackupFiles();
+        QFileInfo info(file);
+        QString fileName = KUrl(path).fileName().section('.', 0, -2);   
+        fileName.append("-" + m_documentProperties.value("documentid"));
+        fileName.append(info.lastModified().toString("-yyyy-MM-dd-hh-mm"));
+        fileName.append(".kdenlive.png");
+        KUrl backupFile = m_projectFolder;
+        backupFile.addPath(".backup/");
+        backupFile.addPath(fileName);
+        emit saveTimelinePreview(backupFile.path());
     }
     return true;
 }
@@ -1616,8 +1625,6 @@ void KdenliveDoc::backupLastSavedVersion(const QString &path)
     fileName.append(info.lastModified().toString("-yyyy-MM-dd-hh-mm"));
     fileName.append(".kdenlive");
     backupFile.addPath(fileName);
-
-    emit saveTimelinePreview(backupFile.path() + ".png");
 
     if (file.exists()) {
         // delete previous backup if it was done less than 60 seconds ago
