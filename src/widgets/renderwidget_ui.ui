@@ -57,28 +57,7 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="1">
-        <widget class="QLabel" name="label_3">
-         <property name="text">
-          <string>Format</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="2" colspan="3">
-        <widget class="KComboBox" name="format_selection">
-         <item>
-          <property name="text">
-           <string>PAL</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>NTSC</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="2" column="5" colspan="3">
+       <item row="2" column="1" colspan="7">
         <spacer name="horizontalSpacer_2">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>

@@ -67,7 +67,8 @@ const int FINISHEDJOB = 2;
 RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, QWidget * parent) :
         QDialog(parent),
         m_projectFolder(projectfolder),
-        m_blockProcessing(false)
+        m_blockProcessing(false),
+        m_isPal(true)
 {
     m_view.setupUi(this);
     setWindowTitle(i18n("Rendering"));
@@ -168,7 +169,6 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, QWidg
     connect(m_view.guide_end, SIGNAL(activated(int)), this, SLOT(slotCheckStartGuidePosition()));
     connect(m_view.guide_start, SIGNAL(activated(int)), this, SLOT(slotCheckEndGuidePosition()));
 
-    connect(m_view.format_selection, SIGNAL(activated(int)), this, SLOT(refreshView()));
     connect(m_view.tc_overlay, SIGNAL(toggled(bool)), m_view.tc_type, SLOT(setEnabled(bool)));
 
     m_view.buttonRender->setEnabled(false);
@@ -220,9 +220,6 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, QWidg
     if (!interface || (!interface->isServiceRegistered("org.kde.ksmserver") && !interface->isServiceRegistered("org.gnome.SessionManager")))
         m_view.shutdown->setEnabled(false);
 
-    // Hide the PAl / NTSC combobox since it's not working
-    m_view.label_3->setHidden(true);
-    m_view.format_selection->setHidden(true);
     focusFirstVisibleItem();
 }
 
@@ -984,9 +981,9 @@ void RenderWidget::setProfile(MltVideoProfile profile)
     m_profile = profile;
     //WARNING: this way to tell the video standard is a bit hackish...
     if (m_profile.description.contains("pal", Qt::CaseInsensitive) || m_profile.description.contains("25", Qt::CaseInsensitive) || m_profile.description.contains("50", Qt::CaseInsensitive))
-        m_view.format_selection->setCurrentIndex(0);
+        m_isPal = true;
     else
-        m_view.format_selection->setCurrentIndex(1);
+        m_isPal = false;
     m_view.scanning_list->setCurrentIndex(0);
     m_view.rescale_width->setValue(KdenliveSettings::defaultrescalewidth());
     if (!m_view.rescale_keep->isChecked()) {
@@ -1087,8 +1084,8 @@ void RenderWidget::refreshView()
         if ((sizeItem->data(GroupRole).toString() == group || sizeItem->data(GroupRole).toString().isEmpty()) && sizeItem->data(MetaGroupRole).toString() == destination) {
             std = sizeItem->data(StandardRole).toString();
             if (!std.isEmpty()) {
-                if (std.contains("PAL", Qt::CaseInsensitive) && m_view.format_selection->currentIndex() == 0) dupItem = sizeItem->clone();
-                else if (std.contains("NTSC", Qt::CaseInsensitive) && m_view.format_selection->currentIndex() == 1)  dupItem = sizeItem->clone();
+                if (std.contains("PAL", Qt::CaseInsensitive) && m_isPal) dupItem = sizeItem->clone();
+                else if (std.contains("NTSC", Qt::CaseInsensitive) && !m_isPal)  dupItem = sizeItem->clone();
             } else {
                 dupItem = sizeItem->clone();
             }
@@ -1100,10 +1097,13 @@ void RenderWidget::refreshView()
                 if (std.contains("profile=")) {
                     QString profile = std.section("profile=", 1, 1).section(' ', 0, 0);
                     MltVideoProfile p = ProfilesDialog::getVideoProfile(profile);
-                    if (p.frame_rate_den > 0 && ((double) p.frame_rate_num / p.frame_rate_den != project_framerate)) {
-                        dupItem->setToolTip(i18n("Frame rate not compatible with project profile"));
-                        dupItem->setIcon(brokenIcon);
-                        dupItem->setForeground(disabled);
+                    if (p.frame_rate_den > 0) {
+                        double profile_rate = (double) p.frame_rate_num / p.frame_rate_den;
+                        if ((int) (1000.0 * profile_rate) != (int) (1000.0 * project_framerate)) {
+                            dupItem->setToolTip(i18n("Frame rate (%1) not compatible with project profile (%2)", profile_rate, project_framerate));
+                            dupItem->setIcon(brokenIcon);
+                            dupItem->setForeground(disabled);
+                        }
                     }
                 }
                 
@@ -1194,6 +1194,7 @@ void RenderWidget::refreshParams()
 {
     // Format not available (e.g. codec not installed); Disable start button
     QListWidgetItem *item = m_view.size_list->currentItem();
+    errorMessage(item->toolTip());
     if (!item || item->isHidden()) {
         m_view.advanced_params->clear();
         m_view.buttonRender->setEnabled(false);
@@ -1926,6 +1927,19 @@ void RenderWidget::missingClips(bool hasMissing)
         m_view.errorBox->setHidden(false);
     } else m_view.errorBox->setHidden(true);
 }
+
+void RenderWidget::errorMessage(const QString &message)
+{
+    if (!message.isEmpty()) {
+        m_view.errorLabel->setText(message);
+        m_view.errorBox->setHidden(false);
+    }
+    else {
+        m_view.errorBox->setHidden(true);
+        m_view.errorLabel->setText(QString());
+    }
+}
+
 
 void RenderWidget::slotUpdateEncodeThreads(int val)
 {

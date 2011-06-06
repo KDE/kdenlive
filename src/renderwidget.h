@@ -179,6 +179,7 @@ private:
     RenderViewDelegate *m_jobsDelegate;
     bool m_blockProcessing;
     QString m_renderer;
+    bool m_isPal;
     void parseProfiles(QString meta = QString(), QString group = QString(), QString profile = QString());
     void parseFile(QString exportFile, bool editable);
     void updateButtons();
@@ -188,6 +189,7 @@ private:
     void saveProfile(QDomElement newprofile);
     QList <QListWidgetItem *> m_renderItems;
     QList <QListWidgetItem *> m_renderCategory;
+    void errorMessage(const QString &message);
 
 signals:
     void abortProcess(const QString &url);
