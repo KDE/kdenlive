@@ -24,7 +24,7 @@
 #include <KUrl>
 
 
-BackupWidget::BackupWidget(KUrl projectUrl, KUrl projectFolder, QWidget * parent) :
+BackupWidget::BackupWidget(KUrl projectUrl, KUrl projectFolder, const QString projectId, QWidget * parent) :
         QDialog(parent),
         m_url(projectUrl)
 {
@@ -34,7 +34,11 @@ BackupWidget::BackupWidget(KUrl projectUrl, KUrl projectFolder, QWidget * parent
     KUrl backupFile;
     m_projectWildcard = projectUrl.fileName().section('.', 0, -2);
     project_url->setUrl(projectFolder);
-    
+    if (!projectId.isEmpty()) m_projectWildcard.append("-" + projectId);
+    else {
+        // No project id, it was lost, add wildcard
+        m_projectWildcard.append("*");
+    }
     m_projectWildcard.append("-??");
     m_projectWildcard.append("??");
     m_projectWildcard.append("-??");

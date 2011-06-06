@@ -81,7 +81,13 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
     m_documentProperties["proxyminsize"] = QString::number(KdenliveSettings::proxyminsize());
     m_documentProperties["generateimageproxy"] = QString::number((int) KdenliveSettings::generateimageproxy());
     m_documentProperties["proxyimageminsize"] = QString::number(KdenliveSettings::proxyimageminsize());
-    
+#if QT_VERSION >= 0x040700
+    m_documentProperties["documentid"] = QString::number(QDateTime::currentMSecsSinceEpoch());
+#else
+    QDateTime date = QDateTime::currentDateTime();
+    m_documentProperties["documentid"] = QString::number(date.toTime_t());
+#endif
+
     // Load properties
     QMapIterator<QString, QString> i(properties);
     while (i.hasNext()) {
@@ -1606,6 +1612,7 @@ void KdenliveDoc::backupLastSavedVersion(const QString &path)
     KIO::NetAccess::mkdir(backupFile, kapp->activeWindow());
     QString fileName = KUrl(path).fileName().section('.', 0, -2);
     QFileInfo info(file);
+    fileName.append("-" + m_documentProperties.value("documentid"));
     fileName.append(info.lastModified().toString("-yyyy-MM-dd-hh-mm"));
     fileName.append(".kdenlive");
     backupFile.addPath(fileName);
@@ -1627,6 +1634,7 @@ void KdenliveDoc::cleanupBackupFiles()
     backupFile.addPath(".backup/");
     QDir dir(backupFile.path());
     QString projectFile = url().fileName().section('.', 0, -2);
+    projectFile.append("-" + m_documentProperties.value("documentid"));
     projectFile.append("-??");
     projectFile.append("??");
     projectFile.append("-??");

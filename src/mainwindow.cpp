@@ -4277,6 +4277,7 @@ void MainWindow::slotOpenBackupDialog(const KUrl url)
 {
     KUrl projectFile;
     KUrl projectFolder;
+    QString projectId;
     kDebug()<<"// BACKUP URL: "<<url.path();
     if (!url.isEmpty()) {
         // we could not open the project file, guess where the backups are
@@ -4286,15 +4287,17 @@ void MainWindow::slotOpenBackupDialog(const KUrl url)
     else {
         projectFolder = m_activeDocument->projectFolder();
         projectFile = m_activeDocument->url();
+        projectId = m_activeDocument->getDocumentProperty("documentid");
     }
 
-    BackupWidget *dia = new BackupWidget(projectFile, projectFolder, this);
+    BackupWidget *dia = new BackupWidget(projectFile, projectFolder, projectId, this);
     if (dia->exec() == QDialog::Accepted) {
         QString requestedBackup = dia->selectedFile();
         m_activeDocument->backupLastSavedVersion(projectFile.path());
         closeCurrentDocument(false);
         doOpenFile(KUrl(requestedBackup), NULL);
         m_activeDocument->setUrl(projectFile);
+        m_activeDocument->setModified(true);
         setCaption(m_activeDocument->description());
     }
     delete dia;
