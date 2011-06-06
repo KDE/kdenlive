@@ -45,6 +45,7 @@ void NotesWidget::mouseMoveEvent( QMouseEvent * e )
     QString anchor = anchorAt(e->pos());
     if (anchor.isEmpty()) viewport()->setCursor(Qt::IBeamCursor);
     else viewport()->setCursor(Qt::PointingHandCursor);
+    KTextEdit::mouseMoveEvent(e);
 }
 
 void NotesWidget::mousePressEvent( QMouseEvent * e )
