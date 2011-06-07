@@ -25,6 +25,9 @@
 #endif
 #include "kdenlive-config.h"
 
+#include <mlt++/Mlt.h>
+#include <framework/mlt_version.h>
+
 #include <KStandardDirs>
 #include <KLocale>
 #include <KProcess>
@@ -38,11 +41,16 @@
 #include <QXmlStreamWriter>
 #include <QTimer>
 
-const double recommendedMltVersion = 510;
+// Recommanded MLT version
+const int mltVersionMajor = 0;
+const int mltVersionMinor = 7;
+const int mltVersionRevision = 2;
+
 static const char kdenlive_version[] = VERSION;
 
 Wizard::Wizard(bool upgrade, QWidget *parent) :
-    QWizard(parent)
+    QWizard(parent),
+    m_systemCheckIsOk(false)
 {
     setWindowTitle(i18n("Config Wizard"));
     setPixmap(QWizard::WatermarkPixmap, QPixmap(KStandardDirs::locate("appdata", "banner.png")));
@@ -251,168 +259,140 @@ void Wizard::checkMltComponents()
     meltitem->setSizeHint(0, itemSize);
     meltitem->setIcon(0, m_okIcon);
 
-    // Check MLT's installed producers
-    QProcess checkProcess;
-    checkProcess.start(KdenliveSettings::rendererpath(), QStringList() << "-query" << "producer");
-    if (!checkProcess.waitForStarted()) {
-        meltitem->setIcon(0, m_badIcon);
-        meltitem->setData(1, Qt::UserRole, i18n("Error starting MLT's command line player (melt)"));
-        button(QWizard::NextButton)->setEnabled(false);
-    } else {
-        checkProcess.waitForFinished();
-        QByteArray result = checkProcess.readAllStandardError();
 
-        // Check MLT avformat module
+    Mlt::Repository *repository = Mlt::Factory::init();
+    if (!repository) {
+        mltitem->setData(1, Qt::UserRole, i18n("Cannot start the MLT video backend!"));
+        mltitem->setIcon(0, m_badIcon);
+        m_systemCheckIsOk = false;
+        button(QWizard::NextButton)->setEnabled(false);
+    }
+    else {
+        int mltVersion = (mltVersionMajor << 16) + (mltVersionMinor << 8) + mltVersionRevision;
+        mltitem->setText(1, i18n("MLT version: %1", mlt_version_get_string()));
+        mltitem->setSizeHint(0, itemSize);
+        if (mlt_version_get_int() < 1792) {
+            mltitem->setData(1, Qt::UserRole, i18n("Your MLT version is unsupported!!!"));
+            mltitem->setIcon(0, m_badIcon);
+            m_systemCheckIsOk = false;
+            button(QWizard::NextButton)->setEnabled(false);
+        }
+        else if (mlt_version_get_int() < mltVersion) {
+            mltitem->setData(1, Qt::UserRole, i18n("Please upgrade to MLT %1.%2.%3", mltVersionMajor, mltVersionMinor, mltVersionRevision));
+            mltitem->setIcon(0, m_badIcon);
+        }
+        else {
+            mltitem->setData(1, Qt::UserRole, i18n("MLT video backend!"));
+            mltitem->setIcon(0, m_okIcon);
+        }
+
+        // Retrieve the list of available transitions.
+        Mlt::Properties *producers = repository->producers();
+        QStringList producersItemList;
+        for (int i = 0; i < producers->count(); ++i)
+            producersItemList << producers->get_name(i);
+        delete producers;
+
+        Mlt::Properties *consumers = repository->consumers();
+        QStringList consumersItemList;
+        for (int i = 0; i < consumers->count(); ++i)
+            consumersItemList << consumers->get_name(i);
+        delete consumers;
+
+        // SDL module
+        QTreeWidgetItem *sdlItem = new QTreeWidgetItem(m_mltCheck.programList, QStringList() << QString() << i18n("SDL module"));
+        sdlItem->setData(1, Qt::UserRole, i18n("Required for Kdenlive"));
+        sdlItem->setSizeHint(0, itemSize);
+        
+        if (!consumersItemList.contains("sdl")) {
+            sdlItem->setIcon(0, m_badIcon);
+            m_systemCheckIsOk = false;
+            button(QWizard::NextButton)->setEnabled(false);
+        }
+        else {
+            sdlItem->setIcon(0, m_okIcon);
+        }
+
+        // AVformat module
         QTreeWidgetItem *avformatItem = new QTreeWidgetItem(m_mltCheck.programList, QStringList() << QString() << i18n("Avformat module (FFmpeg)"));
         avformatItem->setData(1, Qt::UserRole, i18n("Required to work with various video formats (hdv, mpeg, flash, ...)"));
         avformatItem->setSizeHint(0, itemSize);
-        if (!result.contains("- avformat")) {
+        Mlt::Consumer *consumer = NULL;
+        Mlt::Profile p;
+        if (consumersItemList.contains("avformat"))
+            consumer = new Mlt::Consumer(p, "avformat");
+        if (consumer == NULL || !consumer->is_valid()) {
             avformatItem->setIcon(0, m_badIcon);
             m_mltCheck.tabWidget->setTabEnabled(1, false);
-        } else {
+        }
+        else {
             avformatItem->setIcon(0, m_okIcon);
-            // Make sure we have MLT > 0.3.4
-            int version = 0;
-            QString mltVersion;
-            QString exepath = KStandardDirs::findExe("pkg-config");
-            if (!exepath.isEmpty()) {
-                checkProcess.start(exepath, QStringList() << "--variable=version" << "mlt++");
-                if (!checkProcess.waitForStarted()) {
-                    kDebug() << "// Error querying MLT's version";
-                } else {
-                    checkProcess.waitForFinished();
-                    mltVersion = checkProcess.readAllStandardOutput();
-                    version = 1000 * mltVersion.section('.', 0, 0).toInt() + 100 * mltVersion.section('.', 1, 1).toInt() + mltVersion.section('.', 2, 2).toInt();
-                    kDebug() << "// FOUND MLT's pkgconfig version: " << version;
-                }
-            }
-            if (version == 0) {
-                checkProcess.start(KdenliveSettings::rendererpath(), QStringList() << "--version");
-                if (!checkProcess.waitForStarted()) {
-                    kDebug() << "// Error querying MLT's version";
-                } else {
-                    checkProcess.waitForFinished();
-                    mltVersion = checkProcess.readAllStandardError();
-                    mltVersion = mltVersion.section('\n', 0, 0).simplified();
-                    mltVersion = mltVersion.section(' ', -1).simplified();
-                    version = 1000 * mltVersion.section('.', 0, 0).toInt() + 100 * mltVersion.section('.', 1, 1).toInt() + mltVersion.section('.', 2, 2).toInt();
-                    kDebug() << "// FOUND MLT version: " << version;
-                }
-            }
-
-            mltitem->setText(1, i18n("MLT version: %1", mltVersion.simplified()));
-            mltitem->setSizeHint(0, itemSize);
-            if (version < 506) {
-                mltitem->setData(1, Qt::UserRole, i18n("Your MLT version is unsupported!!!"));
-                mltitem->setIcon(0, m_badIcon);
-            } else {
-                if (version < recommendedMltVersion) {
-                    mltitem->setData(1, Qt::UserRole, i18n("Please upgrade to the latest MLT version"));
-                    mltitem->setIcon(0, m_badIcon);
-                } else {
-                    mltitem->setData(1, Qt::UserRole, i18n("MLT version is correct"));
-                    mltitem->setIcon(0, m_okIcon);
-                }
-                // Check installed audio codecs
-                QProcess checkProcess2;
-                checkProcess2.start(KdenliveSettings::rendererpath(), QStringList() << "noise:" << "-consumer" << "avformat" << "acodec=list");
-                if (!checkProcess2.waitForStarted()) {
-                    m_mltCheck.tabWidget->setTabEnabled(1, false);
-                    kDebug() << "// Error parsing MLT's avformat codecs";
-                } else {
-                    checkProcess2.waitForFinished();
-                    QByteArray codecList = checkProcess2.readAllStandardError();
-                    QString acodecList(codecList);
-                    QStringList result;
-                    QStringList alist = acodecList.split('\n', QString::SkipEmptyParts);
-                    for (int i = 0; i < alist.count(); i++) {
-                        if (alist.at(i).contains("- ")) result.append(alist.at(i).section("- ", 1).simplified().toLower());
-                    }
-                    m_mltCheck.acodecs_list->addItems(result);
-                    KdenliveSettings::setAudiocodecs(result);
-                    //kDebug()<<"// FOUND LIST:\n\n"<<m_audioCodecs<<"\n\n++++++++++++++++++++";
-                }
-                // Check video codecs
-                checkProcess2.start(KdenliveSettings::rendererpath(), QStringList() << "noise:" << "-consumer" << "avformat" << "vcodec=list");
-                if (!checkProcess2.waitForStarted()) {
-                    kDebug() << "// Error parsing MLT's avformat codecs";
-                } else {
-                    checkProcess2.waitForFinished();
-                    QByteArray codecList = checkProcess2.readAllStandardError();
-                    QString vcodecList(codecList);
-                    QStringList result;
-                    QStringList vlist = vcodecList.split('\n', QString::SkipEmptyParts);
-                    for (int i = 0; i < vlist.count(); i++) {
-                        if (vlist.at(i).contains("- ")) result.append(vlist.at(i).section("- ", 1).simplified().toLower());
-                    }
-                    m_mltCheck.vcodecs_list->addItems(result);
-                    KdenliveSettings::setVideocodecs(result);
-                    //kDebug()<<"// FOUND LIST:\n\n"<<m_videoCodecs<<"\n\n++++++++++++++++++++";
-                }
-                // Check formats
-                checkProcess2.start(KdenliveSettings::rendererpath(), QStringList() << "noise:" << "-consumer" << "avformat" << "f=list");
-                if (!checkProcess2.waitForStarted()) {
-                    kDebug() << "// Error parsing MLT's avformat codecs";
-                } else {
-                    checkProcess2.waitForFinished();
-                    QByteArray codecList = checkProcess2.readAllStandardError();
-                    QString vcodecList(codecList);
-                    QStringList result;
-                    QStringList vlist = vcodecList.split('\n', QString::SkipEmptyParts);
-                    for (int i = 0; i < vlist.count(); i++) {
-                        if (vlist.at(i).contains("- ")) {
-                            QString format = vlist.at(i).section("- ", 1).simplified().toLower();
-                            if (format.contains(',')) {
-                                QStringList sub = format.split(',', QString::SkipEmptyParts);
-                                for (int j = 0; j < sub.count(); j++)
-                                    result.append(sub.at(j));
-                            } else result.append(format);
-                        }
-                    }
-                    m_mltCheck.formats_list->addItems(result);
-                    KdenliveSettings::setSupportedformats(result);
-                    //kDebug()<<"// FOUND LIST:\n\n"<<m_videoCodecs<<"\n\n++++++++++++++++++++";
-                }
-            }
-
+            consumer->set("vcodec", "list");
+            consumer->set("acodec", "list");
+            consumer->set("f", "list");
+            consumer->start();
+            QStringList result;
+            Mlt::Properties vcodecs((mlt_properties) consumer->get_data("vcodec"));
+            for (int i = 0; i < vcodecs.count(); i++)
+                result << QString(vcodecs.get(i));
+            m_mltCheck.vcodecs_list->addItems(result);
+            result.clear();
+            Mlt::Properties acodecs((mlt_properties) consumer->get_data("acodec"));
+            for (int i = 0; i < acodecs.count(); i++)
+                result << QString(acodecs.get(i));
+            m_mltCheck.acodecs_list->addItems(result);
+            result.clear();
+            Mlt::Properties formats((mlt_properties) consumer->get_data("f"));
+            for (int i = 0; i < formats.count(); i++)
+                result << QString(formats.get(i));
+            m_mltCheck.formats_list->addItems(result);
+            delete consumer;
         }
 
-        // Check MLT dv module
+        // DV module
         QTreeWidgetItem *dvItem = new QTreeWidgetItem(m_mltCheck.programList, QStringList() << QString() << i18n("DV module (libdv)"));
         dvItem->setData(1, Qt::UserRole, i18n("Required to work with dv files if avformat module is not installed"));
         dvItem->setSizeHint(0, itemSize);
-        if (!result.contains("- libdv")) {
+        if (!producersItemList.contains("libdv")) {
             dvItem->setIcon(0, m_badIcon);
-        } else {
+        }
+        else {
             dvItem->setIcon(0, m_okIcon);
         }
 
-        // Check MLT image format module
+        // Image module
         QTreeWidgetItem *imageItem = new QTreeWidgetItem(m_mltCheck.programList, QStringList() << QString() << i18n("QImage module"));
         imageItem->setData(1, Qt::UserRole, i18n("Required to work with images"));
         imageItem->setSizeHint(0, itemSize);
-        if (!result.contains("- qimage")) {
+        if (!producersItemList.contains("qimage")) {
             imageItem->setIcon(0, m_badIcon);
             imageItem = new QTreeWidgetItem(m_mltCheck.programList, QStringList() << QString() << i18n("Pixbuf module"));
             imageItem->setData(1, Qt::UserRole, i18n("Required to work with images"));
             imageItem->setSizeHint(0, itemSize);
-            if (!result.contains("- pixbuf")) imageItem->setIcon(0, m_badIcon);
-            else imageItem->setIcon(0, m_okIcon);
-        } else {
+            if (producersItemList.contains("pixbuf")) {
+                imageItem->setIcon(0, m_badIcon);
+            }
+            else {
+                imageItem->setIcon(0, m_okIcon);
+            }
+        }
+        else {
             imageItem->setIcon(0, m_okIcon);
         }
 
-        // Check MLT title module
+        // Titler module
         QTreeWidgetItem *titleItem = new QTreeWidgetItem(m_mltCheck.programList, QStringList() << QString() << i18n("Title module"));
         titleItem->setData(1, Qt::UserRole, i18n("Required to work with titles"));
         titleItem->setSizeHint(0, itemSize);
-        if (!result.contains("- kdenlivetitle")) {
+        if (!producersItemList.contains("kdenlivetitle")) {
             KdenliveSettings::setHastitleproducer(false);
             titleItem->setIcon(0, m_badIcon);
         } else {
             titleItem->setIcon(0, m_okIcon);
             KdenliveSettings::setHastitleproducer(true);
         }
+        
+        Mlt::Factory::close();
     }
 }
 
@@ -645,25 +625,6 @@ void Wizard::slotCheckMlt()
     if (KdenliveSettings::rendererpath().isEmpty()) {
         errorMessage.append(i18n("Your MLT installation cannot be found. Install MLT and restart Kdenlive.\n"));
     }
-    /*QProcess checkProcess;
-    checkProcess.start(KdenliveSettings::rendererpath(), QStringList() << "-query" << "producer");
-    if (!checkProcess.waitForStarted())
-        errorMessage.append(i18n("Error starting MLT's command line player (melt)") + ".\n");
-
-    checkProcess.waitForFinished();
-
-    QByteArray result = checkProcess.readAllStandardError();
-    if (!result.contains("- avformat")) errorMessage.append(i18n("MLT's avformat (FFMPEG) module not found. Please check your FFMPEG and MLT install. Kdenlive will not work until this issue is fixed.") + "\n");*/
-
-    QProcess checkProcess2;
-    checkProcess2.start(KdenliveSettings::rendererpath(), QStringList() << "-query" << "consumer");
-    if (!checkProcess2.waitForStarted())
-        errorMessage.append(i18n("Error starting MLT's command line player (melt).") + '\n');
-
-    checkProcess2.waitForFinished();
-
-    QByteArray result = checkProcess2.readAllStandardError();
-    if (!result.contains("sdl") || !result.contains("sdl_preview")) errorMessage.append(i18n("MLT's SDL module not found. Please check your MLT install. Kdenlive will not work until this issue is fixed.") + '\n');
 
     if (!errorMessage.isEmpty()) {
         errorMessage.prepend(QString("<b>%1</b><br />").arg(i18n("Fatal Error")));
