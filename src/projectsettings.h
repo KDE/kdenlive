@@ -47,6 +47,8 @@ public:
     QString proxyExtension() const;
     static QStringList extractPlaylistUrls(QString path);
     static QStringList extractSlideshowUrls(KUrl url);
+    /** @brief Update the displayed proxy parameters when user changes selection. */
+    void slotUpdateProxyParams();
 
 public slots:
     virtual void accept();

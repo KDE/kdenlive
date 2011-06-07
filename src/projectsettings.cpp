@@ -65,32 +65,67 @@ ProjectSettings::ProjectSettings(ProjectList *projectlist, QStringList lumas, in
     video_thumbs->setChecked(KdenliveSettings::videothumbnails());
     audio_tracks->setValue(audiotracks);
     video_tracks->setValue(videotracks);
-    proxy_params->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 5);
     connect(generate_proxy, SIGNAL(toggled(bool)), proxy_minsize, SLOT(setEnabled(bool)));
     connect(generate_imageproxy, SIGNAL(toggled(bool)), proxy_imageminsize, SLOT(setEnabled(bool)));
-    
+    QString proxyparameters;
+    QString proxyextension;
     if (projectlist) {
         enable_proxy->setChecked(projectlist->getDocumentProperty("enableproxy").toInt());
         generate_proxy->setChecked(projectlist->getDocumentProperty("generateproxy").toInt());
         proxy_minsize->setValue(projectlist->getDocumentProperty("proxyminsize").toInt());
-        proxy_params->setPlainText(projectlist->getDocumentProperty("proxyparams"));
+        proxyparameters = projectlist->getDocumentProperty("proxyparams");
         generate_imageproxy->setChecked(projectlist->getDocumentProperty("generateimageproxy").toInt());
         proxy_imageminsize->setValue(projectlist->getDocumentProperty("proxyimageminsize").toInt());
-        proxy_extension->setText(projectlist->getDocumentProperty("proxyextension"));
+        proxyextension = projectlist->getDocumentProperty("proxyextension");
     }
     else {
         enable_proxy->setChecked(KdenliveSettings::enableproxy());
         generate_proxy->setChecked(KdenliveSettings::generateproxy());
         proxy_minsize->setValue(KdenliveSettings::proxyminsize());
-        proxy_params->setPlainText(KdenliveSettings::proxyparams());
+        proxyparameters = KdenliveSettings::proxyparams();
         generate_imageproxy->setChecked(KdenliveSettings::generateimageproxy());
         proxy_imageminsize->setValue(KdenliveSettings::proxyimageminsize());
-        proxy_extension->setText(KdenliveSettings::proxyextension());
+        proxyextension = KdenliveSettings::proxyextension();
       
     }
 
     proxy_minsize->setEnabled(generate_proxy->isChecked());
     proxy_imageminsize->setEnabled(generate_imageproxy->isChecked());
+
+
+    // load proxy profiles
+    QString profileFile = KStandardDirs::locateLocal("appdata", "encodingprofiles.rc");
+    KConfig conf(profileFile, KConfig::SimpleConfig);
+    KConfigGroup group(&conf, "proxy");
+    QMap <QString, QString> values = group.entryMap();
+    QMapIterator<QString, QString> k(values);
+    int ix = -1;
+    while (k.hasNext()) {
+        k.next();
+        if (!k.key().isEmpty()) {
+            QString params = k.value().section(';', 0, 0);
+            QString extension = k.value().section(';', 1, 1);
+            if (params == proxyparameters && extension == proxyextension) {
+                // this is the current profile
+                ix = proxy_profile->count();
+            }
+            proxy_profile->addItem(k.key(), k.value());
+        }
+    }
+    if (ix == -1) {
+        // Current project proxy settings not found
+        ix = proxy_profile->count();
+        proxy_profile->addItem(i18n("Current Settings"), QString(proxyparameters + ';' + proxyextension));
+    }
+    proxy_profile->setCurrentIndex(ix);
+    slotUpdateProxyParams();
+
+    // Proxy GUI stuff
+    proxy_showprofileinfo->setIcon(KIcon("help-about"));
+    connect(proxy_profile, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateProxyParams()));
+    proxyparams->setVisible(false);
+    proxyparams->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 5);
+    connect(proxy_showprofileinfo, SIGNAL(clicked(bool)), proxyparams, SLOT(setVisible(bool)));
     
     if (readOnlyTracks) {
         video_tracks->setEnabled(false);
@@ -372,12 +407,14 @@ int ProjectSettings::proxyImageMinSize() const
 
 QString ProjectSettings::proxyParams() const
 {
-    return proxy_params->toPlainText();
+    QString params = proxy_profile->itemData(proxy_profile->currentIndex()).toString();
+    return params.section(';', 0, 0);
 }
 
 QString ProjectSettings::proxyExtension() const
 {
-    return proxy_extension->text();
+    QString params = proxy_profile->itemData(proxy_profile->currentIndex()).toString();
+    return params.section(';', 1, 1);
 }
 
 //static
@@ -493,7 +530,11 @@ void ProjectSettings::slotExportToText()
     KIO::NetAccess::upload(tmpfile.fileName(), savePath, 0);
 }
 
-
+void ProjectSettings::slotUpdateProxyParams()
+{
+    QString params = proxy_profile->itemData(proxy_profile->currentIndex()).toString();
+    proxyparams->setPlainText(params.section(';', 0, 0));
+}
 
 #include "projectsettings.moc"
 
