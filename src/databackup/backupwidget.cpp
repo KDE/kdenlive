@@ -25,20 +25,28 @@
 
 
 BackupWidget::BackupWidget(KUrl projectUrl, KUrl projectFolder, const QString projectId, QWidget * parent) :
-        QDialog(parent),
-        m_url(projectUrl)
+        QDialog(parent)
 {
     setupUi(this);
     setWindowTitle(i18n("Restore Backup File"));
 
     KUrl backupFile;
-    m_projectWildcard = projectUrl.fileName().section('.', 0, -2);
-    project_url->setUrl(projectFolder);
-    if (!projectId.isEmpty()) m_projectWildcard.append("-" + projectId);
-    else {
-        // No project id, it was lost, add wildcard
-        m_projectWildcard.append("*");
+
+    if (projectUrl.isEmpty()) {
+        // No url, means we opened the backup dialog from an empty project
+        info_label->setText(i18n("Showing all backup files in folder"));
+        m_projectWildcard = "*";
     }
+    else {
+        info_label->setText(i18n("Showing backup files for %1", projectUrl.fileName()));
+        m_projectWildcard = projectUrl.fileName().section('.', 0, -2);
+        if (!projectId.isEmpty()) m_projectWildcard.append("-" + projectId);
+        else {
+            // No project id, it was lost, add wildcard
+            m_projectWildcard.append("*");
+        }
+    }
+    project_url->setUrl(projectFolder);
     m_projectWildcard.append("-??");
     m_projectWildcard.append("??");
     m_projectWildcard.append("-??");
@@ -74,10 +82,17 @@ void BackupWidget::slotParseBackupFiles()
     QStringList results;
     backup_list->clear();
     QListWidgetItem *item;
+    QString label;
     for (int i = 0; i < resultList.count(); i++) {
-        item = new QListWidgetItem(resultList.at(i).lastModified().toString(Qt::DefaultLocaleLongDate), backup_list);
+        label = resultList.at(i).lastModified().toString(Qt::SystemLocaleLongDate);
+        if (m_projectWildcard.startsWith("*")) {
+            // Displaying all backup files, so add project name in the entries
+            label.prepend(resultList.at(i).fileName().section("-", 0, -7) + ".kdenlive - ");
+        }
+        item = new QListWidgetItem(label, backup_list);
         item->setData(Qt::UserRole, resultList.at(i).absoluteFilePath());
     }
+    buttonBox->button(QDialogButtonBox::Open)->setEnabled(backup_list->count() > 0);
 }
 
 void BackupWidget::slotDisplayBackupPreview()

@@ -1615,6 +1615,7 @@ double KdenliveDoc::getDisplayRatio(const QString &path)
 void KdenliveDoc::backupLastSavedVersion(const QString &path)
 {
     // Ensure backup folder exists
+    if (path.isEmpty()) return;
     QFile file(path);
     KUrl backupFile = m_projectFolder;
     backupFile.addPath(".backup/");

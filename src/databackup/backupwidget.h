@@ -50,7 +50,6 @@ private slots:
     void slotDisplayBackupPreview();
 
 private:
-    KUrl m_url;
     QString m_projectWildcard;
     
 signals:
