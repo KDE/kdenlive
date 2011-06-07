@@ -391,8 +391,6 @@ void Wizard::checkMltComponents()
             titleItem->setIcon(0, m_okIcon);
             KdenliveSettings::setHastitleproducer(true);
         }
-        
-        Mlt::Factory::close();
     }
 }
 
