@@ -47,8 +47,6 @@ public:
     QString proxyExtension() const;
     static QStringList extractPlaylistUrls(QString path);
     static QStringList extractSlideshowUrls(KUrl url);
-    /** @brief Update the displayed proxy parameters when user changes selection. */
-    void slotUpdateProxyParams();
 
 public slots:
     virtual void accept();
@@ -62,6 +60,8 @@ private slots:
     void slotDeleteUnused();
     /** @brief Export project data to text file. */
     void slotExportToText();
+    /** @brief Update the displayed proxy parameters when user changes selection. */
+    void slotUpdateProxyParams();
 
 private:
     QPushButton *m_buttonOk;
