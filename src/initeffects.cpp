@@ -239,7 +239,14 @@ Mlt::Repository *initEffects::parseEffectFiles()
         //WARNING: TEMPORARY FIX for empty MLT effects descriptions - disable effects without parameters - jbm 09-06-2011
         if (!doc.isNull() && doc.elementsByTagName("parameter").count() > 0) {
             if (doc.documentElement().attribute("type") == "audio") {
-                audioEffectsMap.insert(doc.documentElement().elementsByTagName("name").item(0).toElement().text().toLower().toUtf8().data(), doc.documentElement());
+                if (doc.elementsByTagName("description").count() > 0) {
+                    QString desc = doc.documentElement().elementsByTagName("description").item(0).toElement().text();
+                    //WARNING: TEMPORARY FIX for unusable MLT SOX parameters description
+                    if (desc.startsWith("Process audio using a SoX")) {
+                        // Remove MLT's SOX generated effects since the parameters properties are unusable for us
+                    }
+                    else audioEffectsMap.insert(doc.documentElement().elementsByTagName("name").item(0).toElement().text().toLower().toUtf8().data(), doc.documentElement());
+                }
             }
             else
                 videoEffectsMap.insert(doc.documentElement().elementsByTagName("name").item(0).toElement().text().toLower().toUtf8().data(), doc.documentElement());
