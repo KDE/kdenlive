@@ -3478,9 +3478,10 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
 
                     if (item->type() == AVWIDGET) {
                         ClipItem *clip = static_cast <ClipItem*>(item);
+                        int trackProducer = info.track;
                         info.track = m_document->tracksCount() - info.track;
                         adjustTimelineClips(m_scene->editMode(), clip, ItemInfo(), moveGroup);
-                        m_document->renderer()->mltInsertClip(info, clip->xml(), clip->getProducer(info.track), m_scene->editMode() == OVERWRITEEDIT, m_scene->editMode() == INSERTEDIT);
+                        m_document->renderer()->mltInsertClip(info, clip->xml(), clip->getProducer(trackProducer), m_scene->editMode() == OVERWRITEEDIT, m_scene->editMode() == INSERTEDIT);
                         for (int i = 0; i < clip->effectsCount(); i++) {
                             m_document->renderer()->mltAddEffect(info.track, info.startPos, getEffectArgs(clip->effectAt(i)), false);
                         }
@@ -4372,8 +4373,9 @@ void CustomTrackView::moveGroup(QList <ItemInfo> startClip, QList <ItemInfo> sta
 
             if (item->type() == AVWIDGET) {
                 ClipItem *clip = static_cast <ClipItem*>(item);
+                int trackProducer = info.track;
                 info.track = m_document->tracksCount() - info.track;
-                m_document->renderer()->mltInsertClip(info, clip->xml(), clip->getProducer(info.track));
+                m_document->renderer()->mltInsertClip(info, clip->xml(), clip->getProducer(trackProducer));
                 for (int i = 0; i < clip->effectsCount(); i++) {
                     m_document->renderer()->mltAddEffect(info.track, info.startPos, getEffectArgs(clip->effectAt(i)), false);
                 }
