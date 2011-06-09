@@ -1,5 +1,5 @@
 
-This file contains a to-do-list for releases.
+This file contains a to-do-list for releases. In braces the responsible person; none given means everybody.
 
 All time
     Community
@@ -13,8 +13,12 @@ Before the release
         Add blog entries to the discover page (http://kdenlive.org/discover/0.8 but with updated version number).
         Add the changelog as well.
 
-    The dot
+    The dot (jb?)
         Prepare an article for http://dot.kde.org/ (may take some days until it is accepted) (they say)
+
+    Notifications (jb?)
+        * Notify devs, testers, and translators of the String/Feature Freeze
+        * Notify packagers about the new release when it's done
 
     Freeze
         About two weeks before a new release feature and string freeze will be introduced. This allows:
@@ -25,6 +29,11 @@ Before the release
 
     Testers
         Ideally mobilize as many testers as possible to find remaining bugs before the version is released!
+
+    Manual (Granjow)
+        Update the manual (push to git) from the Userbase
+        http://userbase.kde.org/Kdenlive
+        http://userbase.kde.org/How_To_Convert_a_UserBase_Manual_to_Docbook
 
 After the release
     Mantis
