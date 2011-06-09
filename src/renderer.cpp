@@ -4026,17 +4026,7 @@ void Render::mltDeleteTrack(int ix)
     tractor.removeChild(track);
     //kDebug() << "/////////// RESULT SCENE: \n" << doc.toString();
     setSceneList(doc.toString(), m_framePosition);
-
-    /*    if (m_mltProducer != NULL) {
-            Mlt::Producer parentProd(m_mltProducer->parent());
-            if (parentProd.get_producer() != NULL) {
-                Mlt::Service service(parentProd.get_service());
-                if (service.type() == tractor_type) {
-                    Mlt::Tractor tractor(service);
-                    mltCheckLength(&tractor);
-                }
-            }
-        }*/
+    emit refreshDocumentProducers(false);
 }
 
 
