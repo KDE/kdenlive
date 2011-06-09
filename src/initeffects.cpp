@@ -196,24 +196,6 @@ Mlt::Repository *initEffects::parseEffectFiles()
     KGlobal::dirs()->addResourceDir("ladspa_plugin", "/usr/lib64/ladspa");
     KGlobal::dirs()->addResourceDir("ladspa_plugin", "/usr/local/lib64/ladspa");*/
 
-    // Set the directories to look into for effects.
-    QStringList direc = KGlobal::dirs()->findDirs("appdata", "effects");
-
-    // Iterate through effects directories to parse all XML files.
-    for (more = direc.begin(); more != direc.end(); ++more) {
-        QDir directory(*more);
-        QStringList filter;
-        filter << "*.xml";
-        fileList = directory.entryList(filter, QDir::Files);
-        for (it = fileList.begin(); it != fileList.end(); ++it) {
-            itemName = KUrl(*more + *it).path();
-            parseEffectFile(&MainWindow::customEffects,
-                            &MainWindow::audioEffects,
-                            &MainWindow::videoEffects,
-                            itemName, filtersList, producersList, repository);
-        }
-    }
-
     // Remove blacklisted effects from the filters list.
     QFile file2(KStandardDirs::locate("appdata", "blacklisted_effects.txt"));
     if (file2.open(QIODevice::ReadOnly)) {
@@ -251,6 +233,36 @@ Mlt::Repository *initEffects::parseEffectFiles()
         MainWindow::transitions.append(effect);
     effectsMap.clear();
 
+    // Create effects from MLT
+    foreach(const QString & filtername, filtersList) {
+        QDomDocument doc = createDescriptionFromMlt(repository, "filters", filtername);
+        //WARNING: TEMPORARY FIX for empty MLT effects descriptions - disable effects without parameters - jbm 09-06-2011
+        if (!doc.isNull() && doc.elementsByTagName("parameter").count() > 0) {
+            if (doc.documentElement().attribute("type") == "audio") {
+                audioEffectsMap.insert(doc.documentElement().elementsByTagName("name").item(0).toElement().text().toLower().toUtf8().data(), doc.documentElement());
+            }
+            else
+                videoEffectsMap.insert(doc.documentElement().elementsByTagName("name").item(0).toElement().text().toLower().toUtf8().data(), doc.documentElement());
+        }
+    }
+
+    // Set the directories to look into for effects.
+    QStringList direc = KGlobal::dirs()->findDirs("appdata", "effects");
+    // Iterate through effects directories to parse all XML files.
+    for (more = direc.begin(); more != direc.end(); ++more) {
+        QDir directory(*more);
+        QStringList filter;
+        filter << "*.xml";
+        fileList = directory.entryList(filter, QDir::Files);
+        for (it = fileList.begin(); it != fileList.end(); ++it) {
+            itemName = KUrl(*more + *it).path();
+            parseEffectFile(&MainWindow::customEffects,
+                            &MainWindow::audioEffects,
+                            &MainWindow::videoEffects,
+                            itemName, filtersList, producersList, repository);
+        }
+    }
+
     // Create custom effects
     for (int i = 0; i < MainWindow::customEffects.count(); ++i) {
         effectInfo = MainWindow::customEffects.at(i);
@@ -260,19 +272,6 @@ Mlt::Repository *initEffects::parseEffectFiles()
     foreach(const QDomElement & effect, effectsMap)
         MainWindow::customEffects.append(effect);
     effectsMap.clear();
-
-    // Create effects from MLT
-    foreach(const QString & filtername, filtersList) {
-        QDomDocument doc = createDescriptionFromMlt(repository, "filters", filtername);
-        if (!doc.isNull()) {
-            //kDebug()<<"ADDING: "<<doc.documentElement().elementsByTagName("name").item(0).toElement().text().toLower().toUtf8().data();
-            if (doc.documentElement().attribute("type") == "audio") {
-                audioEffectsMap.insert(doc.documentElement().elementsByTagName("name").item(0).toElement().text().toLower().toUtf8().data(), doc.documentElement());
-            }
-            else
-                videoEffectsMap.insert(doc.documentElement().elementsByTagName("name").item(0).toElement().text().toLower().toUtf8().data(), doc.documentElement());
-        }
-    }
 
     // Create audio effects
     for (int i = 0; i < MainWindow::audioEffects.count(); ++i) {
