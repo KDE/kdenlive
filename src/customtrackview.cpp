@@ -4102,6 +4102,7 @@ void CustomTrackView::addClip(QDomElement xml, const QString &clipId, ItemInfo i
     else if (xml.hasAttribute("video_only")) item->setVideoOnly(true);
     scene()->addItem(item);
 
+    int producerTrack = info.track;
     int tracknumber = m_document->tracksCount() - info.track - 1;
     bool isLocked = m_document->trackInfoAt(tracknumber).isLocked;
     if (isLocked) item->setItemLocked(true);
@@ -4109,7 +4110,7 @@ void CustomTrackView::addClip(QDomElement xml, const QString &clipId, ItemInfo i
     baseclip->addReference();
     m_document->updateClip(baseclip->getId());
     info.track = m_document->tracksCount() - info.track;
-    m_document->renderer()->mltInsertClip(info, xml, item->getProducer(info.track), overwrite, push);
+    m_document->renderer()->mltInsertClip(info, xml, item->getProducer(producerTrack), overwrite, push);
     for (int i = 0; i < item->effectsCount(); i++) {
         m_document->renderer()->mltAddEffect(info.track, info.startPos, getEffectArgs(item->effectAt(i)), false);
     }
