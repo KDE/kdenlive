@@ -50,12 +50,13 @@ Histogram::Histogram(MonitorManager *manager, QWidget *parent) :
     Q_ASSERT(b);
 
     init();
+    m_histogramGenerator = new HistogramGenerator();
 }
 
 Histogram::~Histogram()
 {
     writeConfig();
-
+    delete m_histogramGenerator;
     delete ui;
     delete m_aUnscaled;
     delete m_aRec601;
