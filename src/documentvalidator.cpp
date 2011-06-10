@@ -28,7 +28,6 @@
 
 #include <QFile>
 #include <QColor>
-#include <QBitmap>
 
 
 DocumentValidator::DocumentValidator(QDomDocument doc):
