@@ -231,34 +231,56 @@ QVariant Transition::itemChange(GraphicsItemChange change, const QVariant &value
         QRectF sceneShape = rect();
         sceneShape.translate(newPos);
         QList<QGraphicsItem*> items;
-        if (projectScene()->editMode() == NORMALEDIT)
-            items = scene()->items(sceneShape, Qt::IntersectsItemShape);
+        // TODO: manage transitions in OVERWRITE MODE
+        //if (projectScene()->editMode() == NORMALEDIT)
+        items = scene()->items(sceneShape, Qt::IntersectsItemShape);
         items.removeAll(this);
 
+        bool forwardMove = newPos.x() > pos().x();
+        int offset = 0;
         if (!items.isEmpty()) {
             for (int i = 0; i < items.count(); i++) {
                 if (!items.at(i)->isEnabled()) continue;
                 if (items.at(i)->type() == type()) {
-                    // Collision! Don't move.
-                    //kDebug()<<"/// COLLISION WITH ITEM: "<<items.at(i)->boundingRect()<<", POS: "<<items.at(i)->pos()<<", ME: "<<newPos;
+                    // Collision!
                     QPointF otherPos = items.at(i)->pos();
-                    if ((int) otherPos.y() != (int) pos().y()) return pos();
-                    //kDebug()<<"////  CURRENT Y: "<<pos().y()<<", COLLIDING Y: "<<otherPos.y();
-                    if (pos().x() < otherPos.x()) {
-                        int npos = (static_cast < AbstractClipItem* >(items.at(i))->startPos() - m_info.cropDuration).frames(m_fps);
-                        newPos.setX(npos);
-                    } else {
-                        // get pos just after colliding clip
-                        int npos = static_cast < AbstractClipItem* >(items.at(i))->endPos().frames(m_fps);
-                        newPos.setX(npos);
+                    if ((int) otherPos.y() != (int) pos().y()) {
+                        return pos();
                     }
+                    if (forwardMove) {
+                        offset = qMax(offset, (int)(newPos.x() - (static_cast < AbstractClipItem* >(items.at(i))->startPos() - cropDuration()).frames(m_fps)));
+                    } else {
+                        offset = qMax(offset, (int)((static_cast < AbstractClipItem* >(items.at(i))->endPos().frames(m_fps)) - newPos.x()));
+                    }
+
+                    if (offset > 0) {
+                        if (forwardMove) {
+                            sceneShape.translate(QPointF(-offset, 0));
+                            newPos.setX(newPos.x() - offset);
+                        } else {
+                            sceneShape.translate(QPointF(offset, 0));
+                            newPos.setX(newPos.x() + offset);
+                        }
+                        QList<QGraphicsItem*> subitems = scene()->items(sceneShape, Qt::IntersectsItemShape);
+                        subitems.removeAll(this);
+                        for (int j = 0; j < subitems.count(); j++) {
+                            if (!subitems.at(j)->isEnabled()) continue;
+                            if (subitems.at(j)->type() == type()) {
+                                // move was not successful, revert to previous pos
+                                m_info.startPos = GenTime((int) pos().x(), m_fps);
+                                return pos();
+                            }
+                        }
+                    }
+
                     m_info.track = newTrack;
-                    //kDebug()<<"// ITEM NEW POS: "<<newPos.x()<<", mapped: "<<mapToScene(newPos.x(), 0).x();
                     m_info.startPos = GenTime((int) newPos.x(), m_fps);
+
                     return newPos;
                 }
             }
         }
+       
         m_info.track = newTrack;
         m_info.startPos = GenTime((int) newPos.x(), m_fps);
         //kDebug()<<"// ITEM NEW POS: "<<newPos.x()<<", mapped: "<<mapToScene(newPos.x(), 0).x();
