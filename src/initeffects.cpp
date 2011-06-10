@@ -197,14 +197,15 @@ Mlt::Repository *initEffects::parseEffectFiles()
     KGlobal::dirs()->addResourceDir("ladspa_plugin", "/usr/local/lib64/ladspa");*/
 
     // Remove blacklisted effects from the filters list.
+    QStringList mltFiltersList = filtersList;
     QFile file2(KStandardDirs::locate("appdata", "blacklisted_effects.txt"));
     if (file2.open(QIODevice::ReadOnly)) {
         QTextStream in(&file2);
         while (!in.atEnd()) {
             QString black = in.readLine().simplified();
             if (!black.isEmpty() && !black.startsWith('#') &&
-                    filtersList.contains(black))
-                filtersList.removeAll(black);
+                    mltFiltersList.contains(black))
+                mltFiltersList.removeAll(black);
         }
         file2.close();
     }
@@ -234,7 +235,7 @@ Mlt::Repository *initEffects::parseEffectFiles()
     effectsMap.clear();
 
     // Create effects from MLT
-    foreach(const QString & filtername, filtersList) {
+    foreach(const QString & filtername, mltFiltersList) {
         QDomDocument doc = createDescriptionFromMlt(repository, "filters", filtername);
         //WARNING: TEMPORARY FIX for empty MLT effects descriptions - disable effects without parameters - jbm 09-06-2011
         if (!doc.isNull() && doc.elementsByTagName("parameter").count() > 0) {
