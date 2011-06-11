@@ -84,13 +84,6 @@ public:
             }
             const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
             QPixmap pixmap = qVariantValue<QPixmap>(index.data(Qt::DecorationRole));
-            if ((index.flags() & (Qt::ItemIsDragEnabled)) == false) {
-                KIcon icon("dialog-close");
-                QPainter p(&pixmap);
-                p.drawPixmap(1, 1, icon.pixmap(16, 16));
-                p.end();
-            }
-
             painter->drawPixmap(r1.left() + textMargin, r1.top() + (r1.height() - pixmap.height()) / 2, pixmap);
             int decoWidth = pixmap.width() + 2 * textMargin;
 

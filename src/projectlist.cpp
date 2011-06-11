@@ -500,6 +500,15 @@ void ProjectList::slotMissingClip(const QString &id)
     ProjectItem *item = getItemById(id);
     if (item) {
         item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsDropEnabled);
+        int height = m_listView->iconSize().height();
+        int width = (int)(height  * m_render->dar());
+        QPixmap pixmap = QPixmap(width, height);
+        pixmap.fill(Qt::transparent);
+        KIcon icon("dialog-close");
+        QPainter p(&pixmap);
+        p.drawPixmap(3, 3, icon.pixmap(width - 6, height - 6));
+        p.end();
+        item->setData(0, Qt::DecorationRole, pixmap);
         if (item->referencedClip()) {
             item->referencedClip()->setPlaceHolder(true);
             if (m_render == NULL) kDebug() << "*********  ERROR, NULL RENDR";
@@ -1130,6 +1139,15 @@ void ProjectList::updateAllClips(bool displayRatioChanged)
     DocClipBase *clip;
     ProjectItem *item;
     monitorItemEditing(false);
+    int height = m_listView->iconSize().height();
+    int width = (int)(height  * m_render->dar());
+    QPixmap missingPixmap = QPixmap(width, height);
+    missingPixmap.fill(Qt::transparent);
+    KIcon icon("dialog-close");
+    QPainter p(&missingPixmap);
+    p.drawPixmap(3, 3, icon.pixmap(width - 6, height - 6));
+    p.end();
+                        
     while (*it) {
         if ((*it)->type() == PROJECTSUBCLIPTYPE) {
             // subitem
@@ -1150,8 +1168,12 @@ void ProjectList::updateAllClips(bool displayRatioChanged)
             if (item->referencedClip()->producer() == NULL) {
                 if (clip->isPlaceHolder() == false)
                     requestClipInfo(clip->toXML(), clip->getId());
-                else if (!clip->isPlaceHolder())
+                else {
                     item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsDropEnabled);
+                    if (item->data(0, Qt::DecorationRole).isNull()) {
+                        item->setData(0, Qt::DecorationRole, missingPixmap);
+                    }
+                }
             } else {
                 if (displayRatioChanged || item->data(0, Qt::DecorationRole).isNull())
                     requestClipThumbnail(clip->getId());
