@@ -413,13 +413,18 @@ void TrackView::parseDocument(QDomDocument doc)
                 kDebug() << "///// REMOVED INVALID TRANSITION: " << e.attribute("id");
                 tractor.removeChild(transitions.item(i));
                 i--;
-            } else {
+            } else if (m_trackview->canBePastedTo(transitionInfo, TRANSITIONWIDGET)) {
                 Transition *tr = new Transition(transitionInfo, a_track, m_doc->fps(), base, isAutomatic);
                 if (forceTrack) tr->setForcedTrack(true, a_track);
                 m_scene->addItem(tr);
                 if (b_track > 0 && m_doc->isTrackLocked(b_track - 1)) {
                     tr->setItemLocked(true);
                 }
+            }
+            else {
+                m_documentErrors.append(i18n("Removed overlapping transition: (%1, %2, %3)", e.attribute("id"), mlt_service, transitionId) + '\n');
+                tractor.removeChild(transitions.item(i));
+                i--;
             }
         }
     }

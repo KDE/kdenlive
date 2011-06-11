@@ -156,6 +156,8 @@ public:
     int selectedTrack() const;
     QStringList selectedClips() const;
     QList<ClipItem *> selectedClipItems() const;
+    /** @brief Checks wheter an item can be inserted (make sure it does not overlap another item) */
+    bool canBePastedTo(ItemInfo info, int type) const;
 
     /** @brief Selects a clip.
     * @param add Whether to select or deselect
@@ -360,7 +362,6 @@ private:
     int getPreviousVideoTrack(int track);
     void updatePositionEffects(ClipItem * item, ItemInfo info, bool standalone = true);
     bool insertDropClips(const QMimeData *data, const QPoint pos);
-    bool canBePastedTo(ItemInfo info, int type) const;
     bool canBePastedTo(QList <ItemInfo> infoList, int type) const;
     bool canBePasted(QList<AbstractClipItem *> items, GenTime offset, int trackOffset) const;
     bool canBeMoved(QList<AbstractClipItem *> items, GenTime offset, int trackOffset) const;

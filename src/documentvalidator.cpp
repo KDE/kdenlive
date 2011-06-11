@@ -143,41 +143,7 @@ bool DocumentValidator::validate(const double currentVersion)
                     tracksinfoElm.appendChild(trackinfo);
                 }
             }
-        }
-        
-        // Make sure transitions do not overlap
-        QDomNodeList transitions = m_doc.elementsByTagName("transition");
-        QPolygon scenelist;
-        QStringList overlappingTransitions;
-        for (int i = 0; i < transitions.count(); i++) {
-            QDomElement t = transitions.at(i).toElement();
-            QDomNodeList props = t.elementsByTagName("property");
-            bool testTransition = true;
-            int track = -1;
-            for (int k = 0; k < props.count(); k++) {
-                QDomElement p = props.at(k).toElement();
-                QString name = p.attribute("name");
-                if (name == "mlt_service" && p.firstChild().nodeValue() == "mix") testTransition = false;
-                else if (name == "b_track") track = p.firstChild().nodeValue().toInt();
-            }
-            if (testTransition) {
-                QRect r(t.attribute("in").toInt(), 3 * track, t.attribute("out").toInt() - t.attribute("in").toInt(), 1);
-                QPolygon p(r);
-                if (scenelist.intersected(p).isEmpty()) {
-                    scenelist = scenelist.united(p);
-                }
-                else {
-                    // Transition is overlapping, should be removed
-                    overlappingTransitions << t.attribute("id");
-                    tractor.removeChild(t);
-                    i--;
-                }
-            }
-        }
-        if (!overlappingTransitions.isEmpty()) {
-            KMessageBox::informationList(kapp->activeWindow(), i18n("The following transitions were corrupted (overlapping)\n and removed from project."), overlappingTransitions, i18n("Invalid Transitions"));
-            m_modified = true;
-        }
+        }        
 
         // TODO: check the tracks references
         // TODO: check internal mix transitions
