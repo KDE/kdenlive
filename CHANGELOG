@@ -1,7 +1,31 @@
 
 HEAD
-    * Kdenlive creates automatic backups of the project file; they can be restored in a recovery dialog.
+    * Automatically create backups of the project file; they can be restored in a recovery dialog.
+    * Allow to manually edit video4linux capture profile.
+    * Allow to store presets for proxy creation parameters.
+    * Enable proxies for playlist clips (*.mlt, *.kdenlive).
+    * Directly encode capture from Decklink card to make it usable in Kdenlive.
+    * Allow to use bitrate different from presets in render dialog.
     * Whole projects (including all necessary files) can be archieved into a directory or file.
+    * Allow use of different ffmpeg preset for 1st and 2nd render pass.
+    * Notes widget: context menu now allows to insert clickable timecode to make easy reference to some place in the project.
+
+    * Check document for invalid (overlapping) transitions.
+    * Do not allow to create overlapping transitions that could corrupt timeline. (http://kdenlive.org/mantis/view.php?id=1901)
+    * Fix sometimes effects were missing. (http://kdenlive.org/mantis/view.php?id=2152)
+    * Fix crash in histogram scope.
+    * Fix multiple possible timeline corruptions. (http://kdenlive.org/mantis/view.php?id=2157)
+    * Do not allow rendering to a frame rate different than current project's profile. (http://kdenlive.org/mantis/view.php?id=2138)
+    * Fix DVD menu entries hidden under some circumstances.
+    * Fix channels in audio thumbnails being displaced by one frame. (http://kdenlive.org/mantis/view.php?id=1976)
+    * Fix possible crash caused by audio thumbnails. (http://kdenlive.org/mantis/view.php?id=2147)
+    * Fix possible freeze and error on project opening. (http://kdenlive.org/mantis/view.php?id=2144)
+    * Fix progress bar running twice on 2pass render.
+    * Fix proxy file path issue on system installation.
+    * Use luma as default channel for levels effect.
+    * Fix handling of proxies when duration != duration of original clip.
+    * Fix filename encoding problem in renderer. (http://kdenlive.org/mantis/view.php?id=2110)
+    * Fix user specified CFLAGS ignored. (http://kdenlive.org/mantis/view.php?id=2108)
 
 0.8
     See http://kdenlive.org/discover/0.8
