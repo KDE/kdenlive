@@ -71,6 +71,47 @@ ProfilesDialog::ProfilesDialog(QWidget * parent) :
     connect(m_view.size_w, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
 }
 
+
+ProfilesDialog::ProfilesDialog(QString profilePath, QWidget * parent) :
+    QDialog(parent),
+    m_profileIsModified(false),
+    m_isCustomProfile(true),
+    m_customProfilePath(profilePath)
+{
+    m_view.setupUi(this);
+
+    // Fill colorspace list (see mlt_profile.h)
+    m_view.colorspace->addItem(getColorspaceDescription(601), 601);
+    m_view.colorspace->addItem(getColorspaceDescription(709), 709);
+    m_view.colorspace->addItem(getColorspaceDescription(240), 240);
+    m_view.colorspace->addItem(getColorspaceDescription(0), 0);
+
+    QStringList profilesFilter;
+    profilesFilter << "*";
+
+    m_view.button_save->setIcon(KIcon("document-save"));
+    m_view.button_save->setToolTip(i18n("Save profile"));
+    m_view.button_create->setHidden(true);
+    m_view.profiles_list->setHidden(true);
+    m_view.button_delete->setHidden(true);
+    m_view.button_default->setHidden(true);
+    m_view.description->setEnabled(false);
+
+    slotUpdateDisplay(profilePath);
+    connect(m_view.button_save, SIGNAL(clicked()), this, SLOT(slotSaveProfile()));
+
+    connect(m_view.description, SIGNAL(textChanged(const QString &)), this, SLOT(slotProfileEdited()));
+    connect(m_view.frame_num, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
+    connect(m_view.frame_den, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
+    connect(m_view.aspect_num, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
+    connect(m_view.aspect_den, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
+    connect(m_view.display_num, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
+    connect(m_view.display_den, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
+    connect(m_view.progressive, SIGNAL(stateChanged(int)), this, SLOT(slotProfileEdited()));
+    connect(m_view.size_h, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
+    connect(m_view.size_w, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
+}
+
 void ProfilesDialog::slotProfileEdited()
 {
     m_profileIsModified = true;
@@ -138,6 +179,10 @@ void ProfilesDialog::slotSetDefaultProfile()
 
 bool ProfilesDialog::slotSaveProfile()
 {
+    if (!m_customProfilePath.isEmpty()) {
+        saveProfile(m_customProfilePath);
+        return true;
+    }
     const QString profileDesc = m_view.description->text();
     int ix = m_view.profiles_list->findText(profileDesc);
     if (ix != -1) {
@@ -517,7 +562,7 @@ void ProfilesDialog::saveProfile(MltVideoProfile &profile, QString profilePath)
 }
 
 
-void ProfilesDialog::slotUpdateDisplay()
+void ProfilesDialog::slotUpdateDisplay(QString currentProfile)
 {
     if (askForSave() == false) {
         m_view.profiles_list->blockSignals(true);
@@ -527,7 +572,7 @@ void ProfilesDialog::slotUpdateDisplay()
     }
 
     m_selectedProfileIndex = m_view.profiles_list->currentIndex();
-    QString currentProfile = m_view.profiles_list->itemData(m_view.profiles_list->currentIndex()).toString();
+    if (currentProfile.isEmpty()) currentProfile = m_view.profiles_list->itemData(m_view.profiles_list->currentIndex()).toString();
     m_isCustomProfile = currentProfile.contains('/');
     m_view.button_create->setEnabled(true);
     m_view.button_delete->setEnabled(m_isCustomProfile);

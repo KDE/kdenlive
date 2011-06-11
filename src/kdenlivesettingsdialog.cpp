@@ -111,6 +111,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     connect(m_configCapture.kcfg_detectedv4ldevices, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdatev4lDevice()));
     connect(m_configCapture.kcfg_v4l_format, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdatev4lCaptureProfile()));
     connect(m_configCapture.kcfg_v4l_captureaudio, SIGNAL(toggled(bool)), m_configCapture.kcfg_v4l_alsadevice, SLOT(setEnabled(bool)));
+    connect(m_configCapture.config_v4l, SIGNAL(clicked()), this, SLOT(slotEditVideo4LinuxProfile()));
 
     slotUpdatev4lDevice();
 #endif
@@ -828,7 +829,9 @@ void KdenliveSettingsDialog::slotUpdatev4lDevice()
     m_configCapture.kcfg_v4l_format->clear();
 
     QString vl4ProfilePath = KStandardDirs::locateLocal("appdata", "profiles/video4linux");
-    if (QFile::exists(vl4ProfilePath)) m_configCapture.kcfg_v4l_format->addItem(i18n("Current settings"));
+    if (QFile::exists(vl4ProfilePath)) {
+        m_configCapture.kcfg_v4l_format->addItem(i18n("Current settings"));
+    }
 
     QStringList pixelformats = info.split(">", QString::SkipEmptyParts);
     QString itemSize;
@@ -1011,6 +1014,17 @@ void KdenliveSettingsDialog::slotUpdateProxyProfile(int ix)
     if (data.isEmpty()) return;
     m_configProject.proxyparams->setPlainText(data.section(";", 0, 0));
     //
+}
+
+void KdenliveSettingsDialog::slotEditVideo4LinuxProfile()
+{
+    QString vl4ProfilePath = KStandardDirs::locateLocal("appdata", "profiles/video4linux");
+    ProfilesDialog *w = new ProfilesDialog(vl4ProfilePath);
+    if (w->exec() == QDialog::Accepted) {
+        // save and update profile
+        loadCurrentV4lProfileInfo();
+    }
+    delete w;
 }
 
 #include "kdenlivesettingsdialog.moc"

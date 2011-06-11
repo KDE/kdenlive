@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>405</width>
-    <height>532</height>
+    <height>545</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout_8">
@@ -306,7 +306,7 @@
         </spacer>
        </item>
        <item row="8" column="6" colspan="2">
-        <widget class="QPushButton" name="pushButton">
+        <widget class="QPushButton" name="config_v4l">
          <property name="text">
           <string>Edit</string>
          </property>

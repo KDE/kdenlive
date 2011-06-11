@@ -31,6 +31,8 @@ class ProfilesDialog : public QDialog
 
 public:
     ProfilesDialog(QWidget * parent = 0);
+    /** @brief Using this constructor, the dialog only allows editing one profile. */
+    ProfilesDialog(QString profilePath, QWidget * parent = 0);
 
     void fillList(const QString selectedProfile = QString());
     static QMap< QString, QString > getSettingsForProfile(const QString profileName);
@@ -81,7 +83,7 @@ protected:
     virtual void closeEvent(QCloseEvent *event);
 
 private slots:
-    void slotUpdateDisplay();
+    void slotUpdateDisplay(QString currentProfile = QString());
     void slotCreateProfile();
     bool slotSaveProfile();
     void slotDeleteProfile();
@@ -94,6 +96,8 @@ private:
     int m_selectedProfileIndex;
     bool m_profileIsModified;
     bool m_isCustomProfile;
+    /** @brief If we are in single profile editing, should contain the path for this profile. */
+    QString m_customProfilePath;
     void saveProfile(const QString path);
     bool askForSave();
 };
