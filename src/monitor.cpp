@@ -771,11 +771,12 @@ void Monitor::slotPlay()
     if (render->playSpeed() == 0) {
         //m_playAction->setChecked(true);
         m_playAction->setIcon(m_pauseIcon);
+        render->switchPlay(true);
     } else {
         //m_playAction->setChecked(false);
         m_playAction->setIcon(m_playIcon);
+        render->switchPlay(false);
     }
-    render->switchPlay();
 }
 
 void Monitor::slotPlayZone()

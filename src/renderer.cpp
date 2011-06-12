@@ -71,13 +71,20 @@ static void consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr
     if (self->analyseAudio) {
         self->showAudio(frame);
     }
-    if (frame.get_double("_speed") == 0.0) {
-        self->emitConsumerStopped();
-    } else if (frame.get_double("_speed") < 0.0 && mlt_frame_get_position(frame_ptr) <= 0) {
+    if (frame.get_double("_speed") < 0.0 && mlt_frame_get_position(frame_ptr) <= 0) {
         self->pause();
         self->emitConsumerStopped();
     }
 }
+
+
+static void consumer_paused(mlt_consumer, Render * self, mlt_frame /*frame_ptr*/)
+{
+    // detect if the producer has finished playing. Is there a better way to do it?
+    if (self->m_isBlocked) return;
+    self->emitConsumerStopped();
+}
+
 
 static void consumer_gl_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr)
 {
@@ -240,6 +247,7 @@ void Render::buildConsumer(const QString profileName)
         m_mltConsumer = new Mlt::Consumer(*m_mltProfile, "sdl_preview");
         // FIXME: the event object returned by the listen gets leaked...
         m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
+        m_mltConsumer->listen("consumer-sdl-paused", this, (mlt_listener) consumer_paused);
         m_mltConsumer->set("window_id", m_winid);
     }
     m_mltConsumer->set("resize", 1);
@@ -1314,36 +1322,24 @@ void Render::pause()
     m_mltConsumer->purge();
 }
 
-void Render::switchPlay()
+void Render::switchPlay(bool play)
 {
     if (!m_mltProducer || !m_mltConsumer)
         return;
     if (m_isZoneMode) resetZoneMode();
-    if (m_mltProducer->get_speed() == 0.0) {
+    if (play && m_mltProducer->get_speed() == 0.0) {
         m_isBlocked = false;
         if (m_name == "clip" && m_framePosition == (int) m_mltProducer->get_out()) m_mltProducer->seek(0);
         m_mltProducer->set_speed(1.0);
         m_mltConsumer->set("refresh", 1);
-    } else {
+    } else if (!play) {
         m_isBlocked = true;
         m_mltConsumer->set("refresh", 0);
         m_mltProducer->set_speed(0.0);
         //emit rendererPosition(m_framePosition);
         m_mltProducer->seek(m_framePosition);
-        m_mltConsumer->purge();
-        //kDebug()<<" *********  RENDER PAUSE: "<<m_mltProducer->get_speed();
-        //m_mltConsumer->set("refresh", 0);
-        /*mlt_position position = mlt_producer_position( m_mltProducer->get_producer() );
-        m_mltProducer->set_speed(0);
-        m_mltProducer->seek( position );
-               //m_mltProducer->seek((int) m_framePosition);
-               m_isBlocked = false;*/
+        //m_mltConsumer->purge();
     }
-    /*if (speed == 0.0) {
-    m_mltProducer->seek((int) m_framePosition + 1);
-        m_mltConsumer->purge();
-    }*/
-    //refresh();
 }
 
 void Render::play(double speed)
