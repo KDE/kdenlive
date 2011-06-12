@@ -9,8 +9,6 @@ add_subdirectory(databackup)
 
 macro_optional_find_package(Nepomuk)
 macro_optional_find_package(QJSON)
-include(FindQImageBlitz)
-
 
 include_directories(
   ${KDE4_INCLUDE_DIR}
@@ -36,15 +34,6 @@ if(Nepomuk_FOUND)
   set(optional_libs ${NEPOMUK_LIBRARIES})
   add_definitions(-DNEPOMUK)
 endif(Nepomuk_FOUND)
-
-if(QIMAGEBLITZ_FOUND)
-  include_directories(QIMAGEBLITZ_INCLUDES)
-  set(optional_libs ${optional_libs} ${QIMAGEBLITZ_LIBRARIES})
-  add_definitions(-DQIMAGEBLITZ)
-  message(STATUS "Found QImageBlitz: ${QIMAGEBLITZ_LIBRARIES}")
-else(QIMAGEBLITZ_FOUND)
-  message(STATUS "Install QImageBlitz devel package for improved stopmotion features")
-endif(QIMAGEBLITZ_FOUND)
 
 if(QJSON_FOUND)
   include_directories(QJSON_INCLUDE_DIR)
