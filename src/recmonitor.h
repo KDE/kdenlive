@@ -124,6 +124,8 @@ private slots:
     void slotUpdateFreeSpace();
     void slotSetInfoMessage(const QString &message);
     void slotDroppedFrames(int dropped);
+    /** @brief Change setting for preview while recording. */
+    void slotChangeRecordingPreview(int ix);
 
 public slots:
     void refreshRecMonitor(bool visible);

@@ -504,7 +504,7 @@
   
   <entry name="decklink_parameters" type="String">
       <label>Default Decklink encoding parameters.</label>
-      <default>vcodec=mpeg2video b=12000k minrate=0 pix_fmt=yuv420p g=15 acodec=mp2 ac=2 ab=128k ar=48000 threads=%threads</default>
+      <default>vcodec=mpeg2video qscale=10 acodec=mp2 ac=2 ab=128k ar=48000 threads=%threads</default>
   </entry>
 
   <entry name="decklink_extension" type="String">
@@ -764,6 +764,11 @@
     <entry name="monitor_audio" type="Bool">
       <label>Display audio levels.</label>
       <default>true</default>
+    </entry>
+    
+    <entry name="recording_preview" type="UInt">
+      <label>Should we display video frames while capturing.</label>
+      <default>0</default>
     </entry>
 
   </group>

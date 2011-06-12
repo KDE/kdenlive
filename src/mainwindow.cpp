@@ -4213,7 +4213,7 @@ void MainWindow::slotUpdateColorScopes()
         if (!m_gfxScopesList.at(i)->widget()->visibleRegion().isEmpty() && !(static_cast<AbstractGfxScopeWidget *>(m_gfxScopesList.at(i)->widget())->autoRefreshEnabled())) request = true;
         static_cast<AbstractGfxScopeWidget *>(m_gfxScopesList.at(i)->widget())->slotActiveMonitorChanged();
     }
-    if (request) {
+    if (request && m_monitorManager->activeRenderer()) {
         m_monitorManager->activeRenderer()->sendFrameUpdate();
     }
 }

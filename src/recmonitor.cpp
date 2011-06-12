@@ -158,6 +158,9 @@ RecMonitor::RecMonitor(QString name, MonitorManager *manager, QWidget *parent) :
 
     kDebug() << "/////// BUILDING MONITOR, ID: " << video_frame->winId();
     slotVideoDeviceChanged(device_selector->currentIndex());
+    recording_preview->setToolTip(i18n("Capture preview settings"));
+    recording_preview->setCurrentIndex(KdenliveSettings::recording_preview());
+    connect(recording_preview, SIGNAL(currentIndexChanged(int)), this, SLOT(slotChangeRecordingPreview(int)));
 }
 
 RecMonitor::~RecMonitor()
@@ -210,7 +213,7 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
 {
     QString capturefile;
     QString capturename;
-    enable_preview->setHidden(ix != VIDEO4LINUX && ix != BLACKMAGIC);
+    recording_preview->setHidden(ix != VIDEO4LINUX && ix != BLACKMAGIC);
     m_fwdAction->setVisible(ix == FIREWIRE);
     m_discAction->setVisible(ix == FIREWIRE);
     m_rewAction->setVisible(ix == FIREWIRE);
@@ -386,6 +389,7 @@ void RecMonitor::slotStopCapture()
         if (m_captureDevice) {
             m_captureDevice->stop();
         }
+        recording_preview->setEnabled(true);
         m_isCapturing = false;
         m_isPlaying = false;
         m_playAction->setEnabled(true);
@@ -542,6 +546,7 @@ void RecMonitor::slotRecord()
         return;
     }
     if (m_captureProcess->state() == QProcess::NotRunning) {
+        m_logger.clear();
         m_recAction->setChecked(true);
         QString extension = "mpg";
         if (device_selector->currentIndex() == SCREENGRAB) extension = "ogv"; //KdenliveSettings::screengrabextension();
@@ -568,6 +573,7 @@ void RecMonitor::slotRecord()
         case VIDEO4LINUX:
             path = KStandardDirs::locateLocal("appdata", "profiles/video4linux");
             profile = ProfilesDialog::getVideoProfile(path);
+            m_videoBox->setRatio((double) profile.display_aspect_num / profile.display_aspect_den);
             buildMltDevice(path);
             playlist = QString("<mlt title=\"capture\"><producer id=\"producer0\" in=\"0\" out=\"99999\"><property name=\"mlt_type\">producer</property><property name=\"length\">100000</property><property name=\"eof\">pause</property><property name=\"resource\">video4linux2:%1?width:%2&amp;height:%3&amp;frame_rate:%4</property><property name=\"mlt_service\">avformat-novalidate</property></producer><playlist id=\"playlist0\"><entry producer=\"producer0\" in=\"0\" out=\"99999\"/></playlist>").arg(KdenliveSettings::video4vdevice()).arg(profile.width).arg(profile.height).arg((double) profile.frame_rate_num / profile.frame_rate_den);
 
@@ -589,11 +595,12 @@ void RecMonitor::slotRecord()
 
             playlist.append("</tractor></mlt>");
 
-            if (m_captureDevice->slotStartCapture(KdenliveSettings::v4l_parameters(), m_captureFile.path(), playlist, enable_preview->isChecked())) {
+            if (m_captureDevice->slotStartCapture(KdenliveSettings::v4l_parameters(), m_captureFile.path(), playlist, recording_preview->currentIndex())) {
                 m_videoBox->setHidden(false);
                 m_isCapturing = true;
                 m_recAction->setEnabled(false);
                 m_stopAction->setEnabled(true);
+                recording_preview->setEnabled(false);
             }
             else {
                 video_frame->setText(i18n("Failed to start Video4Linux,\ncheck your parameters..."));                
@@ -605,16 +612,18 @@ void RecMonitor::slotRecord()
         case BLACKMAGIC:
             path = KdenliveSettings::current_profile();
             profile = ProfilesDialog::getVideoProfile(path);
+            m_videoBox->setRatio((double) profile.display_aspect_num / profile.display_aspect_den);
             buildMltDevice(path);
                
             playlist = QString("<producer id=\"producer0\" in=\"0\" out=\"99999\"><property name=\"mlt_type\">producer</property><property name=\"length\">100000</property><property name=\"eof\">pause</property><property name=\"resource\">%1</property><property name=\"mlt_service\">decklink</property></producer>").arg(KdenliveSettings::decklink_capturedevice());
 
-            if (m_captureDevice->slotStartCapture(KdenliveSettings::decklink_parameters(), m_captureFile.path(), QString("decklink:%1").arg(KdenliveSettings::decklink_capturedevice()), enable_preview->isChecked(), false)) {
+            if (m_captureDevice->slotStartCapture(KdenliveSettings::decklink_parameters(), m_captureFile.path(), QString("decklink:%1").arg(KdenliveSettings::decklink_capturedevice()), recording_preview->currentIndex(), false)) {
                 m_videoBox->setHidden(false);
                 m_isCapturing = true;
                 slotSetInfoMessage(i18n("Capturing to %1", m_captureFile.fileName()));
                 m_recAction->setEnabled(false);
                 m_stopAction->setEnabled(true);
+                recording_preview->setEnabled(false);
             }
             else {
                 video_frame->setText(i18n("Failed to start Decklink,\ncheck your parameters..."));
@@ -880,6 +889,10 @@ void RecMonitor::buildMltDevice(const QString &path)
     }
 }
 
+void RecMonitor::slotChangeRecordingPreview(int ix)
+{
+    KdenliveSettings::setRecording_preview(ix);
+}
 
 #include "recmonitor.moc"
 

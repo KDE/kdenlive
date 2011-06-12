@@ -36,16 +36,32 @@ class VideoPreviewContainer : public QFrame
 public:
     VideoPreviewContainer(QWidget *parent = 0);
     ~VideoPreviewContainer();
+    /** @brief Set the image to be displayed, will be put in the queue. */
     void setImage(QImage img);
+    /** @brief Start the display refresh timer. */
     void start();
+    /** @brief Stop the display refresh timer. */
     void stop();
+    /** @brief Set the display ratio for this display. */
+    void setRatio(double ratio);
 
 protected:
     virtual void paintEvent(QPaintEvent */*event*/);
+    virtual void resizeEvent(QResizeEvent * event);
 
 private:
+    /** @brief The display aspect ratio for profile. */
+    double m_dar;
+    /** @brief When true, the whole widget surface will be repainted, useful when resizing widget. */
+    bool m_refresh;
+    /** @brief The rectangle defining the area for painting our image. */
+    QRect m_displayRect;
+    /** @brief The queue of images to be displayed. */
     QList <QImage *> m_imageQueue;
+    /** @brief We refresh the image with a timer, since this widget is only for preview during capture. */
     QTimer m_refreshTimer;
+    /** @brief Re-calculate the display zone after a resize or aspect ratio change. */
+    void updateDisplayZone();
 };
 
 

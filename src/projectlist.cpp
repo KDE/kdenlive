@@ -2182,6 +2182,8 @@ void ProjectList::slotGenerateProxy(const QString id)
             else s.replace(' ', '=');
             parameters << s;
         }
+        
+        parameters.append(QString("real_time=-%1").arg(KdenliveSettings::mltthreads()));
 
         // currently, when rendering an xml file through melt, the display ration is lost, so we enforce it manualy
         double display_ratio = KdenliveDoc::getDisplayRatio(url);

@@ -19,11 +19,16 @@
 
 
 #include "abstractmonitor.h"
+#include "kdenlivesettings.h"
 
 #include <KDebug>
 
+#include <QPaintEvent>
+
 VideoPreviewContainer::VideoPreviewContainer(QWidget *parent) :
-    QFrame(parent)
+    QFrame(parent),
+    m_dar(1.0),
+    m_refresh(false)
 {
     setFrameShape(QFrame::NoFrame);
     setFocusPolicy(Qt::ClickFocus);
@@ -38,50 +43,71 @@ VideoPreviewContainer::~VideoPreviewContainer()
     qDeleteAll(m_imageQueue);
 }
 
+//virtual
+void VideoPreviewContainer::resizeEvent( QResizeEvent * /*event*/ )
+{
+    updateDisplayZone();
+}
+
+void VideoPreviewContainer::setRatio(double ratio)
+{
+    m_dar = ratio;
+    updateDisplayZone();
+}
+
+
+void VideoPreviewContainer::updateDisplayZone()
+{
+    QRect rect = this->frameRect();
+    int paintW = rect.height() * m_dar + 0.5;
+    if (paintW > rect.width()) {
+        int paintH = rect.width() / m_dar + 0.5;
+        int diff = (rect.height() - paintH)  / 2;
+        rect.adjust(0, diff, 0, 0);
+        rect.setHeight(paintH);
+    }
+    else {
+        int diff = (rect.width() - paintW)  / 2;
+        rect.adjust(diff, 0, 0, 0);
+        rect.setWidth(paintW);
+    }
+    m_displayRect = rect;
+    m_refresh = true;
+}
 
 void VideoPreviewContainer::setImage(QImage img)
 {
     if (m_imageQueue.count() > 2) {
-        delete m_imageQueue.takeLast();//replace(10, new QImage(img));
+        delete m_imageQueue.takeLast();
     }
     m_imageQueue.prepend(new QImage(img));
+    update();
 }
 
 void VideoPreviewContainer::stop()
 {
-    m_refreshTimer.stop();
+    //m_refreshTimer.stop();
     qDeleteAll(m_imageQueue);
     m_imageQueue.clear();
 }
 
 void VideoPreviewContainer::start()
 {
-    m_refreshTimer.start();
+    //m_refreshTimer.start();
 }
 
 // virtual
-void VideoPreviewContainer::paintEvent(QPaintEvent */*event*/)
+void VideoPreviewContainer::paintEvent(QPaintEvent *event)
 {
-        if (m_imageQueue.isEmpty()) return;
-        QImage *img = m_imageQueue.takeFirst();
-        QPainter painter(this);
-        double ar = (double) img->width() / img->height();
-        QRect rect = this->frameRect();
-        int paintW = rect.height() * ar + 0.5;
-        if (paintW > rect.width()) {
-            paintW = rect.width() / ar + 0.5;
-            int diff = (rect.height() - paintW)  / 2;
-            rect.adjust(0, diff, 0, 0);
-            rect.setHeight(paintW);
-        }
-        else {
-            int diff = (rect.width() - paintW)  / 2;
-            rect.adjust(diff, 0, 0, 0);
-            rect.setWidth(paintW);
-        }
-
-        painter.drawImage(rect, *img);
-        delete img;
+    if (m_imageQueue.isEmpty()) return;
+    QImage *img = m_imageQueue.takeFirst();
+    QPainter painter(this);
+    if (m_refresh) {
+        painter.fillRect(event->rect(), QColor(KdenliveSettings::window_background()));
+        m_refresh = false;
+    }
+    painter.drawImage(m_displayRect, *img);
+    delete img;
 }
 
 

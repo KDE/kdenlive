@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>371</width>
-    <height>186</height>
+    <width>291</width>
+    <height>184</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
@@ -80,16 +80,6 @@
      </item>
     </widget>
    </item>
-   <item row="2" column="1">
-    <widget class="QCheckBox" name="enable_preview">
-     <property name="text">
-      <string>Preview while capturing</string>
-     </property>
-     <property name="checked">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
    <item row="2" column="2">
     <spacer name="horizontalSpacer">
      <property name="orientation">
@@ -102,6 +92,25 @@
       </size>
      </property>
     </spacer>
+   </item>
+   <item row="2" column="1">
+    <widget class="QComboBox" name="recording_preview">
+     <item>
+      <property name="text">
+       <string>Quick preview</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Full preview</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>No preview</string>
+      </property>
+     </item>
+    </widget>
    </item>
   </layout>
  </widget>

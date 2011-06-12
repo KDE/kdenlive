@@ -28,6 +28,8 @@
 #include "abstractmonitor.h"
 #include "mlt/framework/mlt_types.h"
 
+#include <QtConcurrentRun>
+
 namespace Mlt
 {
 class Consumer;
@@ -76,7 +78,7 @@ Q_OBJECT public:
     /** @brief Starts the MLT Video4Linux process.
      * @param surface The widget onto which the frame should be painted
      */
-    bool slotStartCapture(const QString &params, const QString &path, const QString &playlist, bool livePreview, bool xmlPlaylist = true);
+    bool slotStartCapture(const QString &params, const QString &path, const QString &playlist, int livePreview, bool xmlPlaylist = true);
     bool slotStartPreview(const QString &producer, bool xmlFormat = false);
     /** @brief A frame arrived from the MLT Video4Linux process. */
     void gotCapturedFrame(Mlt::Frame& frame);
@@ -92,13 +94,22 @@ Q_OBJECT public:
     /** @brief This will add a horizontal flip effect, easier to work when filming yourself. */
     void mirror(bool activate);
 
+    /** @brief This property is used to decide if the renderer should send audio data for monitoring. */
+    bool analyseAudio;
+    
+    /** @brief True if we are processing an image (yuv > rgb) when recording. */
+    bool processingImage;
+
 private:
     Mlt::Consumer * m_mltConsumer;
     Mlt::Producer * m_mltProducer;
     Mlt::Profile *m_mltProfile;
     QString m_activeProfile;
     int m_droppedFrames;
-    bool m_livePreview;
+    /** @brief When true, images will be displayed on monitor while capturing. */
+    int m_livePreview;
+    /** @brief Count captured frames, used to display only one in ten images while capturing. */
+    int m_frameCount;
 
     /** @brief The surface onto which the captured frames should be painted. */
     VideoPreviewContainer *m_captureDisplayWidget;
@@ -106,8 +117,7 @@ private:
     /** @brief A human-readable description of this renderer. */
     int m_winid;
 
-    /** @brief This property is used to decide if the renderer should send audio data for monitoring. */
-    bool m_analyseAudio;
+    void uyvy2rgb(unsigned char *yuv_buffer, int width, int height);
 
     QString m_capturePath;
 
@@ -115,8 +125,11 @@ private:
      *  @param profileName The MLT profile to use for the consumer */
     void buildConsumer(const QString &profileName = QString());
 
-private slots:
 
+private slots:
+    void slotPreparePreview();
+    void slotAllowPreview();
+  
 signals:
     /** @brief A frame's image has to be shown.
      *
@@ -129,6 +142,10 @@ signals:
     void frameSaved(const QString);
     
     void droppedFrames(int);
+    
+    void unblockPreview();
+    void imageReady(QImage);
+
 
 public slots:
 
