@@ -331,16 +331,15 @@ void MltDeviceCapture::gotCapturedFrame(Mlt::Frame& frame)
     m_frameCount++;
     if (m_livePreview == 2) return;
     if (m_livePreview == 0 && (m_frameCount % 10 > 0)) return;
-    mlt_image_format format = mlt_image_rgb24a;
+    mlt_image_format format = mlt_image_rgb24;
     int width = 0;
     int height = 0;
-    //QImage image(width, height, QImage::Format_ARGB32_Premultiplied);
     uint8_t *data = frame.get_image(format, width, height, 0);
-    QImage image((uchar *)data, width, height, QImage::Format_ARGB32_Premultiplied);
-    
-    /*uchar *buffer = frame.get_image(format, width, height);
-    memcpy(image.bits(), buffer, width * height * 4);*/
-    m_captureDisplayWidget->setImage(image.rgbSwapped());
+    //QImage image(width, height, QImage::Format_RGB888);
+    //memcpy(image.bits(), data, width * height * 3);
+    QImage image((uchar *)data, width, height, QImage::Format_RGB888);
+
+    m_captureDisplayWidget->setImage(image);
 
     //TEST: is it better to process frame conversion ouside MLT???
     /*
