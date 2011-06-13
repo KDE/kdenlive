@@ -874,10 +874,10 @@ void KdenliveDoc::setRenderer(Render *render) {
     emit progressInfo(QString(), -1);
 }*/
 
-void KdenliveDoc::checkProjectClips(bool displayRatioChanged)
+void KdenliveDoc::checkProjectClips(bool displayRatioChanged, bool fpsChanged)
 {
     if (m_render == NULL) return;
-    m_clipManager->resetProducersList(m_render->producersList(), displayRatioChanged);
+    m_clipManager->resetProducersList(m_render->producersList(), displayRatioChanged, fpsChanged);
 }
 
 Render *KdenliveDoc::renderer()

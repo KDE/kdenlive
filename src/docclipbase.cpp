@@ -458,7 +458,7 @@ void DocClipBase::setValid()
     m_placeHolder = false;
 }
 
-void DocClipBase::setProducer(Mlt::Producer *producer, bool reset)
+void DocClipBase::setProducer(Mlt::Producer *producer, bool reset, bool readPropertiesFromProducer)
 {
     if (producer == NULL || (m_placeHolder && !reset)) return;
     if (m_thumbProd && (reset || !m_thumbProd->hasProducer())) m_thumbProd->setProducer(producer);
@@ -468,6 +468,7 @@ void DocClipBase::setProducer(Mlt::Producer *producer, bool reset)
         deleteProducers(false);
     }
     QString id = producer->get("id");
+    bool updated = false;
     if (id.contains('_')) {
         // this is a subtrack producer, insert it at correct place
         id = id.section('_', 1);
@@ -478,10 +479,16 @@ void DocClipBase::setProducer(Mlt::Producer *producer, bool reset)
                     m_audioTrackProducers.append(NULL);
                 }
             }
-            if (m_audioTrackProducers.at(pos) == NULL) m_audioTrackProducers[pos] = producer;
+            if (m_audioTrackProducers.at(pos) == NULL) {
+                m_audioTrackProducers[pos] = producer;
+                updated = true;
+            }
             return;
         } else if (id.endsWith("video")) {
-            m_videoOnlyProducer = producer;
+            if (m_videoOnlyProducer == NULL) {
+                m_videoOnlyProducer = producer;
+                updated = true;
+            }
             return;
         }
         int pos = id.toInt();
@@ -490,11 +497,22 @@ void DocClipBase::setProducer(Mlt::Producer *producer, bool reset)
                 m_baseTrackProducers.append(NULL);
             }
         }
-        if (m_baseTrackProducers.at(pos) == NULL) m_baseTrackProducers[pos] = producer;
+        if (m_baseTrackProducers.at(pos) == NULL) {
+            m_baseTrackProducers[pos] = producer;
+            updated = true;
+        }
     } else {
-        if (m_baseTrackProducers.isEmpty()) m_baseTrackProducers.append(producer);
-        else if (m_baseTrackProducers.at(0) == NULL) m_baseTrackProducers[0] = producer;
+        if (m_baseTrackProducers.isEmpty()) {
+            m_baseTrackProducers.append(producer);
+            updated = true;
+        }
+        else if (m_baseTrackProducers.at(0) == NULL) {
+            m_baseTrackProducers[0] = producer;
+            updated = true;
+        }
     }
+    if (updated && readPropertiesFromProducer)
+                    setDuration(GenTime(producer->get_length(), KdenliveSettings::project_fps()));
     //m_clipProducer = producer;
     //m_clipProducer->set("transparency", m_properties.value("transparency").toInt());
 }

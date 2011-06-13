@@ -209,7 +209,7 @@ public:
 
 public slots:
     void setDocument(KdenliveDoc *doc);
-    void updateAllClips(bool displayRatioChanged);
+    void updateAllClips(bool displayRatioChanged, bool fpsChanged);
     void slotReplyGetImage(const QString &clipId, const QPixmap &pix);
     void slotReplyGetFileProperties(const QString &clipId, Mlt::Producer *producer, const QMap < QString, QString > &properties, const QMap < QString, QString > &metadata, bool replace, bool selectClip);
     void slotAddClip(DocClipBase *clip, bool getProperties);

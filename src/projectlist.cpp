@@ -1131,7 +1131,7 @@ void ProjectList::slotUpdateClip(const QString &id)
     monitorItemEditing(true);
 }
 
-void ProjectList::updateAllClips(bool displayRatioChanged)
+void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged)
 {
     m_listView->setSortingEnabled(false);
 
@@ -1166,8 +1166,15 @@ void ProjectList::updateAllClips(bool displayRatioChanged)
             item = static_cast <ProjectItem *>(*it);
             clip = item->referencedClip();
             if (item->referencedClip()->producer() == NULL) {
-                if (clip->isPlaceHolder() == false)
-                    requestClipInfo(clip->toXML(), clip->getId());
+                if (clip->isPlaceHolder() == false) {
+                    QDomElement xml = clip->toXML();
+                    if (fpsChanged) {
+                        xml.removeAttribute("out");
+                        xml.removeAttribute("file_hash");
+                        xml.removeAttribute("proxy_out");
+                    }
+                    requestClipInfo(xml, clip->getId());
+                }
                 else {
                     item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsDropEnabled);
                     if (item->data(0, Qt::DecorationRole).isNull()) {
@@ -1475,7 +1482,7 @@ void ProjectList::setDocument(KdenliveDoc *doc)
     connect(m_doc->clipManager(), SIGNAL(modifiedClip(const QString &)), this, SLOT(slotModifiedClip(const QString &)));
     connect(m_doc->clipManager(), SIGNAL(missingClip(const QString &)), this, SLOT(slotMissingClip(const QString &)));
     connect(m_doc->clipManager(), SIGNAL(availableClip(const QString &)), this, SLOT(slotAvailableClip(const QString &)));
-    connect(m_doc->clipManager(), SIGNAL(checkAllClips(bool)), this, SLOT(updateAllClips(bool)));
+    connect(m_doc->clipManager(), SIGNAL(checkAllClips(bool, bool)), this, SLOT(updateAllClips(bool, bool)));
 }
 
 QList <DocClipBase*> ProjectList::documentClipList() const

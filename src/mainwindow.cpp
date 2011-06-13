@@ -2383,7 +2383,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
             disconnect(m_projectList, SIGNAL(projectModified()), m_activeDocument, SLOT(setModified()));
             disconnect(m_projectList, SIGNAL(updateProfile(const QString &)), this, SLOT(slotUpdateProjectProfile(const QString &)));
 
-            disconnect(m_projectMonitor->render, SIGNAL(refreshDocumentProducers(bool)), m_activeDocument, SLOT(checkProjectClips(bool)));
+            disconnect(m_projectMonitor->render, SIGNAL(refreshDocumentProducers(bool, bool)), m_activeDocument, SLOT(checkProjectClips(bool, bool)));
 
             disconnect(m_activeDocument, SIGNAL(guidesUpdated()), this, SLOT(slotGuidesUpdated()));
             disconnect(m_activeDocument, SIGNAL(addProjectClip(DocClipBase *, bool)), m_projectList, SLOT(slotAddClip(DocClipBase *, bool)));
@@ -2459,7 +2459,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     connect(m_projectMonitor, SIGNAL(zoneUpdated(QPoint)), doc, SLOT(setModified()));
     connect(m_clipMonitor, SIGNAL(zoneUpdated(QPoint)), doc, SLOT(setModified()));
     connect(m_projectMonitor, SIGNAL(durationChanged(int)), trackView, SLOT(setDuration(int)));
-    connect(m_projectMonitor->render, SIGNAL(refreshDocumentProducers(bool)), doc, SLOT(checkProjectClips(bool)));
+    connect(m_projectMonitor->render, SIGNAL(refreshDocumentProducers(bool, bool)), doc, SLOT(checkProjectClips(bool, bool)));
 
     connect(doc, SIGNAL(addProjectClip(DocClipBase *, bool)), m_projectList, SLOT(slotAddClip(DocClipBase *, bool)));
     connect(doc, SIGNAL(resetProjectList()), m_projectList, SLOT(slotResetProjectList()));

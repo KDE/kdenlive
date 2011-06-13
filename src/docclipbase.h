@@ -117,7 +117,7 @@ Q_OBJECT public:
     }
 
     /** Sets producers for the current clip (one for each track due to a limitation in MLT's track mixing */
-    void setProducer(Mlt::Producer *producer, bool reset = false);
+    void setProducer(Mlt::Producer *producer, bool reset = false, bool readPropertiesFromProducer = false);
     /** Retrieve a producer for a track */
     Mlt::Producer *producer(int track = -1);
     /** Retrieve the producer that shows only video */

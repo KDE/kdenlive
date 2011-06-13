@@ -220,7 +220,7 @@ public slots:
     /** @brief Sets the document as modified or up to date.
      * @param mod (optional) true if the document has to be saved */
     void setModified(bool mod = true);
-    void checkProjectClips(bool displayRatioChanged = false);
+    void checkProjectClips(bool displayRatioChanged = false, bool fpsChanged = false);
 
 private slots:
     void slotAutoSave();

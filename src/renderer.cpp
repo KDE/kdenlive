@@ -343,7 +343,7 @@ int Render::resetProfile(const QString profileName)
     //kDebug() << "//RESET WITHSCENE: " << scene;
     setSceneList(scene, pos);
     // producers have changed (different profile), so reset them...
-    emit refreshDocumentProducers(new_dar != current_dar);
+    emit refreshDocumentProducers(new_dar != current_dar, current_fps != new_fps);
     /*Mlt::Producer *producer = new Mlt::Producer(*m_mltProfile , "xml-string", scene.toUtf8().constData());
     m_mltProducer = producer;
     m_blackClip = new Mlt::Producer(*m_mltProfile , "colour", "black");
@@ -575,7 +575,6 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
         path = xml.attribute("resource");
         proxyProducer = false;
     }
-
 
     KUrl url = KUrl(path);
     Mlt::Producer *producer = NULL;
@@ -4022,7 +4021,7 @@ void Render::mltDeleteTrack(int ix)
     tractor.removeChild(track);
     //kDebug() << "/////////// RESULT SCENE: \n" << doc.toString();
     setSceneList(doc.toString(), m_framePosition);
-    emit refreshDocumentProducers(false);
+    emit refreshDocumentProducers(false, false);
 }
 
 
