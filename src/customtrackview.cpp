@@ -5309,10 +5309,22 @@ bool CustomTrackView::canBePastedTo(ItemInfo info, int type) const
         // If we are in overwrite mode, always allow the move
         return true;
     }
-    QRectF rect((double) info.startPos.frames(m_document->fps()), (double)(info.track * m_tracksHeight + 1), (double)(info.endPos - info.startPos).frames(m_document->fps()), (double)(m_tracksHeight - 1));
+    int height;
+    int offset = 0;
+    if (type == TRANSITIONWIDGET) {
+        height = Transition::itemHeight();
+        offset = Transition::itemOffset();
+    }
+    else if (type == AVWIDGET) {
+        height = ClipItem::itemHeight();
+        offset = ClipItem::itemOffset();
+    }
+    QRectF rect((double) info.startPos.frames(m_document->fps()), (double)(info.track * m_tracksHeight + 1 + offset), (double)(info.endPos - info.startPos).frames(m_document->fps()), (double) height);
     QList<QGraphicsItem *> collisions = scene()->items(rect, Qt::IntersectsItemBoundingRect);
     for (int i = 0; i < collisions.count(); i++) {
-        if (collisions.at(i)->type() == type) return false;
+        if (collisions.at(i)->type() == type) {
+            return false;
+        }
     }
     return true;
 }

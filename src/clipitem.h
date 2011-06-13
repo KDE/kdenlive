@@ -55,6 +55,7 @@ public:
     void resizeStart(int posx, bool size = true);
     void resizeEnd(int posx);
     OPERATIONTYPE operationMode(QPointF pos);
+    static int itemHeight();
     const QString clipProducer() const;
     int clipType() const;
     DocClipBase *baseClip() const;

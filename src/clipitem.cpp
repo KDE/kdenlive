@@ -60,8 +60,8 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, i
         m_framePixelWidth(0)
 {
     setZValue(2);
-    setRect(0, 0, (info.endPos - info.startPos).frames(fps) - 0.02, (double)(KdenliveSettings::trackheight() - 2));
-    setPos(info.startPos.frames(fps), (double)(info.track * KdenliveSettings::trackheight()) + 1);
+    setRect(0, 0, (info.endPos - info.startPos).frames(fps) - 0.02, (double) itemHeight());
+    setPos(info.startPos.frames(fps), (double)(info.track * KdenliveSettings::trackheight()) + 1 + itemOffset());
 
     // set speed independant info
     if (m_speed <= 0 && m_speed > -1)
@@ -967,6 +967,11 @@ OPERATIONTYPE ClipItem::operationMode(QPointF pos)
     }
 
     return MOVE;
+}
+
+int ClipItem::itemHeight()
+{
+    return KdenliveSettings::trackheight() - 2;
 }
 
 QList <GenTime> ClipItem::snapMarkers() const

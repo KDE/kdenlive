@@ -75,6 +75,11 @@ public:
     virtual int track() const ;
     virtual GenTime cropStart() const ;
     virtual GenTime cropDuration() const ;
+    /** @brief Return the current item's height */
+    static int itemHeight();
+    /** @brief Return the current item's vertical offset
+     *         For example transitions are drawn at 1/3 of track height */
+    static int itemOffset();
 
     /** @brief Resizes the clip from the start.
     * @param posx Absolute position of new in point

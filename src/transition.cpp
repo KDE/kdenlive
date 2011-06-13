@@ -40,19 +40,19 @@ Transition::Transition(const ItemInfo info, int transitiontrack, double fps, QDo
 {
     setZValue(3);
     m_info.cropDuration = info.endPos - info.startPos;
-    setPos(info.startPos.frames(fps), (qreal)(info.track * KdenliveSettings::trackheight() + KdenliveSettings::trackheight() / 3 * 2));
+    setPos(info.startPos.frames(fps), (qreal)(info.track * KdenliveSettings::trackheight() + itemOffset() + 1));
 
 #if QT_VERSION >= 0x040600
     m_startAnimation = new QPropertyAnimation(this, "rect");
     m_startAnimation->setDuration(200);
-    QRectF r(0, 0, m_info.cropDuration.frames(fps) - 0.02, (qreal)(KdenliveSettings::trackheight() / 3 + 5));
-    QRectF r2(0, 0, m_info.cropDuration.frames(fps) - 0.02, (qreal)(KdenliveSettings::trackheight() / 3 * 2 - 1));
+    QRectF r(0, 0, m_info.cropDuration.frames(fps) - 0.02, (qreal) itemHeight() / 2);
+    QRectF r2(0, 0, m_info.cropDuration.frames(fps) - 0.02, (qreal)itemHeight());
     m_startAnimation->setStartValue(r);
     m_startAnimation->setEndValue(r2);
     m_startAnimation->setEasingCurve(QEasingCurve::OutQuad);
     m_startAnimation->start();
 #else
-    setRect(0, 0, m_info.cropDuration.frames(fps) - 0.02, (qreal)(KdenliveSettings::trackheight() / 3 * 2 - 1));
+    setRect(0, 0, m_info.cropDuration.frames(fps) - 0.02, (qreal) itemHeight());
 #endif
 
     m_info.cropStart = GenTime();
@@ -301,6 +301,16 @@ OPERATIONTYPE Transition::operationMode(QPointF pos)
     if (qAbs((int)(pos.x() - rect.x())) < maximumOffset) return RESIZESTART;
     else if (qAbs((int)(pos.x() - (rect.right()))) < maximumOffset) return RESIZEEND;
     return MOVE;
+}
+
+int Transition::itemHeight()
+{
+    return (int) (KdenliveSettings::trackheight() / 3 * 2 - 1);
+}
+
+int Transition::itemOffset()
+{
+    return (int) (KdenliveSettings::trackheight() / 3 * 2);
 }
 
 bool Transition::hasClip(const ClipItem * clip) const

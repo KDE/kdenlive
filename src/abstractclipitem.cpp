@@ -487,3 +487,14 @@ void AbstractClipItem::mousePressEvent(QGraphicsSceneMouseEvent * event)
     }
 }
 
+int AbstractClipItem::itemHeight()
+{
+    return 0;
+}
+
+int AbstractClipItem::itemOffset()
+{
+    return 0;
+}
+
+
