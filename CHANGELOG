@@ -1,5 +1,6 @@
 
 HEAD
+    * Check for duration mismatch in clip producers when opening a document (can cause corruption)
     * Automatically create backups of the project file; they can be restored in a recovery dialog.
     * Allow to manually edit video4linux capture profile.
     * Allow to store presets for proxy creation parameters.
