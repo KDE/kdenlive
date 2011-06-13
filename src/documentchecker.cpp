@@ -52,6 +52,8 @@ const int typeOriginalResource = Qt::UserRole + 5;
 const int CLIPMISSING = 0;
 const int CLIPOK = 1;
 const int CLIPPLACEHOLDER = 2;
+const int CLIPWRONGDURATION = 3;
+
 const int LUMAMISSING = 10;
 const int LUMAOK = 11;
 const int LUMAPLACEHOLDER = 12;
@@ -65,17 +67,39 @@ DocumentChecker::DocumentChecker(QDomNodeList infoproducers, QDomDocument doc):
 }
 
 
-bool DocumentChecker::hasMissingClips()
+bool DocumentChecker::hasErrorInClips()
 {
     int clipType;
     QDomElement e;
-    QString id;
     QString resource;
+    QDomNodeList documentProducers = m_doc.elementsByTagName("producer");
+    QList <QDomElement> wrongDurationClips;
     QList <QDomElement> missingClips;
     for (int i = 0; i < m_info.count(); i++) {
         e = m_info.item(i).toElement();
         clipType = e.attribute("type").toInt();
         if (clipType == COLOR) continue;
+        if (clipType != TEXT && clipType != IMAGE) {
+            QString id = e.attribute("id");
+            int duration = e.attribute("duration").toInt();
+            // Check that the duration is in sync between Kdenlive's info and MLT's playlist
+            for (int j = 0; j < documentProducers.count(); j++) {
+                QDomElement mltProd = documentProducers.at(j).toElement();
+                QString prodId = mltProd.attribute("id");
+                // Don't check slowmotion clips for now... (TODO?)
+                if (prodId.startsWith("slowmotion")) continue;
+                if (prodId.contains("_")) prodId = prodId.section("_", 0, 0);
+                if (prodId != id) continue;
+                int mltDuration = mltProd.attribute("out").toInt() + 1;
+                if (mltDuration != duration && !e.hasAttribute("_mismatch")) {
+                    // Duration mismatch
+                    e.setAttribute("_mismatch", mltDuration);
+                    if (!wrongDurationClips.contains(e)) wrongDurationClips.append(e);
+                    kDebug() << "WRONG DURTAION: "<<id<<", TYPE: "<<clipType;
+                }
+            }
+        }
+        
         if (clipType == TEXT) {
             //TODO: Check is clip template is missing (xmltemplate) or hash changed
             QStringList images = TitleWidget::extractImageList(e.attribute("xmldata"));
@@ -83,7 +107,6 @@ bool DocumentChecker::hasMissingClips()
             checkMissingImages(missingClips, images, fonts, e.attribute("id"), e.attribute("name"));
             continue;
         }
-        id = e.attribute("id");
         resource = e.attribute("resource");
         if (clipType == SLIDESHOW) resource = KUrl(resource).directory();
         if (!KIO::NetAccess::exists(KUrl(resource), KIO::NetAccess::SourceSide, 0)) {
@@ -112,7 +135,7 @@ bool DocumentChecker::hasMissingClips()
         }
     }
 
-    if (missingClips.isEmpty() && missingLumas.isEmpty())
+    if (missingClips.isEmpty() && missingLumas.isEmpty() && wrongDurationClips.isEmpty())
         return false;
 
     m_dialog = new QDialog();
@@ -182,10 +205,67 @@ bool DocumentChecker::hasMissingClips()
         }
         item->setData(0, typeRole, t);
         item->setData(0, idRole, e.attribute("id"));
+        item->setToolTip(0, i18n("Missing item"));
     }
+
+    if (missingClips.count() > 0) {
+        if (wrongDurationClips.count() > 0) {
+            m_ui.infoLabel->setText(i18n("The project file contains missing clips or files and clip duration mismatch"));
+        }
+        else {
+            m_ui.infoLabel->setText(i18n("The project file contains missing clips or files"));
+        }
+    }
+    else if (wrongDurationClips.count() > 0) {
+        m_ui.infoLabel->setText(i18n("The project file contains clips with duration mismatch"));
+    }
+    m_ui.removeSelected->setEnabled(!missingClips.isEmpty());
+    m_ui.recursiveSearch->setEnabled(!missingClips.isEmpty());
+    m_ui.usePlaceholders->setEnabled(!missingClips.isEmpty());
+    m_ui.fixDuration->setEnabled(!wrongDurationClips.isEmpty());
+        
+    for (int i = 0; i < wrongDurationClips.count(); i++) {
+        e = wrongDurationClips.at(i).toElement();
+        QString clipType;
+        int t = e.attribute("type").toInt();
+        switch (t) {
+        case AV:
+            clipType = i18n("Video clip");
+            break;
+        case VIDEO:
+            clipType = i18n("Mute video clip");
+            break;
+        case AUDIO:
+            clipType = i18n("Audio clip");
+            break;
+        case PLAYLIST:
+            clipType = i18n("Playlist clip");
+            break;
+        case IMAGE:
+            clipType = i18n("Image clip");
+            break;
+        case SLIDESHOW:
+            clipType = i18n("Slideshow clip");
+            break;
+        default:
+            clipType = i18n("Video clip");
+        }
+        QTreeWidgetItem *item = new QTreeWidgetItem(m_ui.treeWidget, QStringList() << clipType);
+        item->setIcon(0, KIcon("timeadjust"));
+        item->setText(1, e.attribute("resource"));
+        item->setData(0, hashRole, e.attribute("file_hash"));
+        item->setData(0, sizeRole, e.attribute("_mismatch"));
+        e.removeAttribute("_mismatch");
+        item->setData(0, statusRole, CLIPWRONGDURATION);
+        item->setData(0, typeRole, t);
+        item->setData(0, idRole, e.attribute("id"));
+        item->setToolTip(0, i18n("Duration mismatch"));
+    }
+    
     connect(m_ui.recursiveSearch, SIGNAL(pressed()), this, SLOT(slotSearchClips()));
     connect(m_ui.usePlaceholders, SIGNAL(pressed()), this, SLOT(slotPlaceholders()));
     connect(m_ui.removeSelected, SIGNAL(pressed()), this, SLOT(slotDeleteSelected()));
+    connect(m_ui.fixDuration, SIGNAL(pressed()), this, SLOT(slotFixDuration()));
     connect(m_ui.treeWidget, SIGNAL(itemDoubleClicked(QTreeWidgetItem *, int)), this, SLOT(slotEditItem(QTreeWidgetItem *, int)));
     connect(m_ui.treeWidget, SIGNAL(itemSelectionChanged()), this, SLOT(slotCheckButtons()));
     //adjustSize();
@@ -230,12 +310,14 @@ void DocumentChecker::slotSearchClips()
     QString newpath = KFileDialog::getExistingDirectory(KUrl("kfiledialog:///clipfolder"), kapp->activeWindow(), i18n("Clips folder"));
     if (newpath.isEmpty()) return;
     int ix = 0;
+    bool fixed = false;
     m_ui.recursiveSearch->setEnabled(false);
     QTreeWidgetItem *child = m_ui.treeWidget->topLevelItem(ix);
     while (child) {
         if (child->data(0, statusRole).toInt() == CLIPMISSING) {
             QString clipPath = searchFileRecursively(QDir(newpath), child->data(0, sizeRole).toString(), child->data(0, hashRole).toString());
             if (!clipPath.isEmpty()) {
+                fixed = true;
                 child->setText(1, clipPath);
                 child->setIcon(0, KIcon("dialog-ok"));
                 child->setData(0, statusRole, CLIPOK);
@@ -243,6 +325,7 @@ void DocumentChecker::slotSearchClips()
         } else if (child->data(0, statusRole).toInt() == LUMAMISSING) {
             QString fileName = searchLuma(child->data(0, idRole).toString());
             if (!fileName.isEmpty()) {
+                fixed = true;
                 child->setText(1, fileName);
                 child->setIcon(0, KIcon("dialog-ok"));
                 child->setData(0, statusRole, LUMAOK);
@@ -252,6 +335,12 @@ void DocumentChecker::slotSearchClips()
         child = m_ui.treeWidget->topLevelItem(ix);
     }
     m_ui.recursiveSearch->setEnabled(true);
+    if (fixed) {
+        // original doc was modified
+        QDomNode infoXmlNode = m_doc.elementsByTagName("kdenlivedoc").at(0);
+        QDomElement infoXml = infoXmlNode.toElement();
+        infoXml.setAttribute("modified", "1");
+    }
     checkStatus();
 }
 
@@ -460,6 +549,33 @@ void DocumentChecker::slotPlaceholders()
     checkStatus();
 }
 
+void DocumentChecker::slotFixDuration()
+{
+    int ix = 0;
+    QTreeWidgetItem *child = m_ui.treeWidget->topLevelItem(ix);
+    while (child) {
+        if (child->data(0, statusRole).toInt() == CLIPWRONGDURATION) {
+            child->setData(0, statusRole, CLIPOK);
+            child->setIcon(0, KIcon("dialog-ok"));
+            QString id = child->data(0, idRole).toString();
+            for (int i = 0; i < m_info.count(); i++) {
+                QDomElement e = m_info.at(i).toElement();
+                if (e.attribute("id") == id) {
+                    e.setAttribute("duration", child->data(0, sizeRole).toString());
+                    break;
+                }
+            }
+        }
+        ix++;
+        child = m_ui.treeWidget->topLevelItem(ix);
+    }
+    QDomNode infoXmlNode = m_doc.elementsByTagName("kdenlivedoc").at(0);
+    QDomElement infoXml = infoXmlNode.toElement();
+    infoXml.setAttribute("modified", "1");
+    m_ui.fixDuration->setEnabled(false);
+    checkStatus();
+}
+
 
 void DocumentChecker::checkStatus()
 {
@@ -467,7 +583,8 @@ void DocumentChecker::checkStatus()
     int ix = 0;
     QTreeWidgetItem *child = m_ui.treeWidget->topLevelItem(ix);
     while (child) {
-        if (child->data(0, statusRole).toInt() == CLIPMISSING || child->data(0, statusRole).toInt() == LUMAMISSING) {
+        int status = child->data(0, statusRole).toInt();
+        if (status == CLIPMISSING || status == LUMAMISSING || status == CLIPWRONGDURATION) {
             status = false;
             break;
         }
@@ -536,6 +653,9 @@ void DocumentChecker::slotDeleteSelected()
                 }
             }
         }
+        QDomNode infoXmlNode = m_doc.elementsByTagName("kdenlivedoc").at(0);
+        QDomElement infoXml = infoXmlNode.toElement();
+        infoXml.setAttribute("modified", "1");
         checkStatus();
     }
 }

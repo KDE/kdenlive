@@ -1357,7 +1357,7 @@ QString KdenliveDoc::getLadspaFile() const
 bool KdenliveDoc::checkDocumentClips(QDomNodeList infoproducers)
 {
     DocumentChecker d(infoproducers, m_document);
-    return (d.hasMissingClips() == false);
+    return (d.hasErrorInClips() == false);
 
     /*    int clipType;
         QDomElement e;

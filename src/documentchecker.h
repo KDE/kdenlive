@@ -36,7 +36,7 @@ class DocumentChecker: public QObject
 public:
     explicit DocumentChecker(QDomNodeList infoproducers, QDomDocument doc);
     ~DocumentChecker();
-    bool hasMissingClips();
+    bool hasErrorInClips();
 
 private slots:
     void acceptDialog();
@@ -49,6 +49,8 @@ private slots:
     QString searchLuma(QString file) const;
     void checkMissingImages(QList <QDomElement>&missingClips, QStringList images, QStringList fonts, QString id, QString baseClip);
     void slotCheckButtons();
+    /** @brief Fix duration mismatch issues. */
+    void slotFixDuration();
 
 private:
     QDomNodeList m_info;

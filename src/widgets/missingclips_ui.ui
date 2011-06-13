@@ -6,18 +6,28 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>762</width>
-    <height>270</height>
+    <width>800</width>
+    <height>265</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Missing clips</string>
+   <string> Clip Problems</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0" colspan="4">
+   <item row="0" column="0" colspan="5">
+    <widget class="QLabel" name="infoLabel">
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0" colspan="5">
     <widget class="QTreeWidget" name="treeWidget">
      <property name="alternatingRowColors">
       <bool>true</bool>
+     </property>
+     <property name="selectionMode">
+      <enum>QAbstractItemView::ExtendedSelection</enum>
      </property>
      <property name="rootIsDecorated">
       <bool>false</bool>
@@ -57,20 +67,27 @@
      </property>
     </widget>
    </item>
+   <item row="2" column="2">
+    <widget class="QPushButton" name="removeSelected">
+     <property name="text">
+      <string>Remove selected clips</string>
+     </property>
+    </widget>
+   </item>
    <item row="2" column="3">
+    <widget class="QPushButton" name="fixDuration">
+     <property name="text">
+      <string>Fix duration mismatch</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="4">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
      <property name="standardButtons">
       <set>QDialogButtonBox::Abort|QDialogButtonBox::Ok</set>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="2">
-    <widget class="QPushButton" name="removeSelected">
-     <property name="text">
-      <string>Remove selected clips</string>
      </property>
     </widget>
    </item>

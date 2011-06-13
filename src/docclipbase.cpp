@@ -511,8 +511,8 @@ void DocClipBase::setProducer(Mlt::Producer *producer, bool reset, bool readProp
             updated = true;
         }
     }
-    if (updated && readPropertiesFromProducer)
-                    setDuration(GenTime(producer->get_length(), KdenliveSettings::project_fps()));
+    if (updated && readPropertiesFromProducer && (m_clipType != COLOR && m_clipType != IMAGE && m_clipType != TEXT))
+        setDuration(GenTime(producer->get_length(), KdenliveSettings::project_fps()));
     //m_clipProducer = producer;
     //m_clipProducer->set("transparency", m_properties.value("transparency").toInt());
 }

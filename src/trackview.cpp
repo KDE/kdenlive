@@ -452,7 +452,7 @@ void TrackView::parseDocument(QDomDocument doc)
 
     slotRebuildTrackHeaders();
     if (!m_documentErrors.isNull()) KMessageBox::sorry(this, m_documentErrors);
-    if (infoXml.hasAttribute("upgraded")) {
+    if (infoXml.hasAttribute("upgraded") || infoXml.hasAttribute("modified")) {
         // Our document was upgraded, create a backup copy just in case
         QString baseFile = m_doc->url().path().section(".kdenlive", 0, 0);
         int ct = 0;
@@ -461,8 +461,13 @@ void TrackView::parseDocument(QDomDocument doc)
             ct++;
             backupFile = baseFile + "_backup" + QString::number(ct) + ".kdenlive";
         }
+        QString message;
+        if (infoXml.hasAttribute("upgraded"))
+            message = i18n("Your project file was upgraded to the latest Kdenlive document version.\nTo make sure you don't lose data, a backup copy called %1 was created.", backupFile);
+        else
+            message = i18n("Your project file was modified by Kdenlive.\nTo make sure you don't lose data, a backup copy called %1 was created.", backupFile);
         if (KIO::NetAccess::file_copy(m_doc->url(), KUrl(backupFile), this))
-            KMessageBox::information(this, i18n("Your project file was upgraded to the latest Kdenlive document version.\nTo make sure you don't lose data, a backup copy called %1 was created.", backupFile));
+            KMessageBox::information(this, message);
         else
             KMessageBox::information(this, i18n("Your project file was upgraded to the latest Kdenlive document version, but it was not possible to create a backup copy.", backupFile));
     }
