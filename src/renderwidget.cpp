@@ -97,10 +97,10 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, QWidg
     
     m_view.proxy_render->setHidden(!enableProxy);
 
-	m_view.encoder_threads->setMaximum(QThread::idealThreadCount());
-	m_view.encoder_threads->setValue(KdenliveSettings::encodethreads());
-	connect(m_view.encoder_threads, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateEncodeThreads(int)));
-	
+    m_view.encoder_threads->setMaximum(QThread::idealThreadCount());
+    m_view.encoder_threads->setValue(KdenliveSettings::encodethreads());
+    connect(m_view.encoder_threads, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateEncodeThreads(int)));
+
     m_view.rescale_keep->setChecked(KdenliveSettings::rescalekeepratio());
     connect(m_view.rescale_width, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateRescaleWidth(int)));
     connect(m_view.rescale_height, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateRescaleHeight(int)));
@@ -803,7 +803,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
     bool resizeProfile = (subsize != currentSize);
     QStringList paramsList = renderArgs.split(" ", QString::SkipEmptyParts);
     for (int i = 0; i < paramsList.count(); i++) {
-        if (paramsList.at(i).startsWith("profile=")) {
+        if (paramsList.at(i).startsWith("mlt_profile=")) {
             if (paramsList.at(i).section('=', 1) != m_profile.path) resizeProfile = true;
             break;
         }
@@ -897,9 +897,9 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
     if (group == "dvd") {
         if (m_view.open_dvd->isChecked()) {
             renderItem->setData(0, Qt::UserRole, group);
-            if (renderArgs.contains("profile=")) {
+            if (renderArgs.contains("mlt_profile=")) {
                 // rendering profile contains an MLT profile, so pass it to the running jog item, useful for dvd
-                QString prof = renderArgs.section("profile=", 1, 1);
+                QString prof = renderArgs.section("mlt_profile=", 1, 1);
                 prof = prof.section(' ', 0, 0);
                 kDebug() << "// render profile: " << prof;
                 renderItem->setData(0, Qt::UserRole + 1, prof);
@@ -1063,6 +1063,7 @@ void RenderWidget::refreshView()
     if (m_view.destination_list->currentIndex() > 0)
         destination = m_view.destination_list->itemData(m_view.destination_list->currentIndex()).toString();
     KIcon brokenIcon("dialog-close");
+    KIcon warningIcon("dialog-warning");
 
     if (m_view.format_list->currentItem()->data(TwoPassRole).canConvert(QVariant::Bool))
         m_view.checkTwoPass->setEnabled(m_view.format_list->currentItem()->data(TwoPassRole).toBool());
@@ -1094,8 +1095,8 @@ void RenderWidget::refreshView()
                 m_view.size_list->addItem(dupItem);
                 std = dupItem->data(ParamsRole).toString();
                 // Make sure the selected profile uses the same frame rate as project profile
-                if (std.contains("profile=")) {
-                    QString profile = std.section("profile=", 1, 1).section(' ', 0, 0);
+                if (std.contains("mlt_profile=")) {
+                    QString profile = std.section("mlt_profile=", 1, 1).section(' ', 0, 0);
                     MltVideoProfile p = ProfilesDialog::getVideoProfile(profile);
                     if (p.frame_rate_den > 0) {
                         double profile_rate = (double) p.frame_rate_num / p.frame_rate_den;
@@ -1156,6 +1157,12 @@ void RenderWidget::refreshView()
                             dupItem->setForeground(disabled);
                         }
                     }
+                }
+                if (std.contains(" profile=") || std.startsWith("profile=")) {
+                    // changed in MLT commit d8a3a5c9190646aae72048f71a39ee7446a3bd45
+                    // (http://www.mltframework.org/gitweb/mlt.git?p=mltframework.org/mlt.git;a=commit;h=d8a3a5c9190646aae72048f71a39ee7446a3bd45)
+                    dupItem->setToolTip(i18n("This render profile uses a 'profile' parameter.<br />Unless you know what you are doing you will probably have to change it to 'mlt_profile'."));
+                    dupItem->setIcon(warningIcon);
                 }
             }
         }
