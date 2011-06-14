@@ -536,6 +536,14 @@ Mlt::Producer *DocClipBase::audioProducer(int track)
         }
     }
     if (m_audioTrackProducers.at(track) == NULL) {
+        int i;
+        for (i = 0; i < m_audioTrackProducers.count(); i++)
+            if (m_audioTrackProducers.at(i) != NULL) break;
+        if (i < m_audioTrackProducers.count()) {
+            // Could not find a valid producer for that clip, check in 
+            return m_audioTrackProducers.at(i);
+        }
+            
         Mlt::Producer *base = producer();
         m_audioTrackProducers[track] = new Mlt::Producer(*(base->profile()), base->get("resource"));
         if (m_properties.contains("force_aspect_num") && m_properties.contains("force_aspect_den") && m_properties.contains("frame_size"))
@@ -581,7 +589,7 @@ Mlt::Producer *DocClipBase::producer(int track)
     /*for (int i = 0; i < m_baseTrackProducers.count(); i++) {
         if (m_baseTrackProducers.at(i)) kDebug() << "// PROD: " << i << ", ID: " << m_baseTrackProducers.at(i)->get("id");
     }*/
-    if (track == -1 || (m_clipType != AUDIO && m_clipType != AV)) {
+    if (track == -1 || (m_clipType != AUDIO && m_clipType != AV && m_clipType != PLAYLIST)) {
         if (m_baseTrackProducers.count() == 0) return NULL;
         for (int i = 0; i < m_baseTrackProducers.count(); i++) {
             if (m_baseTrackProducers.at(i) != NULL)
@@ -599,7 +607,10 @@ Mlt::Producer *DocClipBase::producer(int track)
         for (i = 0; i < m_baseTrackProducers.count(); i++)
             if (m_baseTrackProducers.at(i) != NULL) break;
 
-        if (i >= m_baseTrackProducers.count()) return NULL;
+        if (i >= m_baseTrackProducers.count()) {
+            // Could not find a valid producer for that clip, check in 
+            return NULL;
+        }
 
         if (KIO::NetAccess::exists(KUrl(m_baseTrackProducers.at(i)->get("resource")), KIO::NetAccess::SourceSide, 0))
             m_baseTrackProducers[track] = new Mlt::Producer(*m_baseTrackProducers.at(i)->profile(), m_baseTrackProducers.at(i)->get("resource"));

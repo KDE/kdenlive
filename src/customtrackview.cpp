@@ -2743,9 +2743,9 @@ void CustomTrackView::removeTrack(int ix)
             clip->updateItem();
             ItemInfo clipinfo = clip->info();
             // We add a move clip command so that we get the correct producer for new track number
-            if (clip->clipType() == AV || clip->clipType() == AUDIO) {
+            if (clip->clipType() == AV || clip->clipType() == AUDIO || clip->clipType() == PLAYLIST) {
                 Mlt::Producer *prod = clip->getProducer(clipinfo.track);
-                if (!m_document->renderer()->mltUpdateClipProducer((int)(m_document->tracksCount() - clipinfo.track), clipinfo.startPos.frames(m_document->fps()), prod)) {
+                if (prod == NULL || !m_document->renderer()->mltUpdateClipProducer((int)(m_document->tracksCount() - clipinfo.track), clipinfo.startPos.frames(m_document->fps()), prod)) {
                     emit displayMessage(i18n("Cannot update clip (time: %1, track: %2)", clipinfo.startPos.frames(m_document->fps()), clipinfo.track), ErrorMessage);
                 }
             }
@@ -5309,7 +5309,7 @@ bool CustomTrackView::canBePastedTo(ItemInfo info, int type) const
         // If we are in overwrite mode, always allow the move
         return true;
     }
-    int height;
+    int height = m_tracksHeight - 2;
     int offset = 0;
     if (type == TRANSITIONWIDGET) {
         height = Transition::itemHeight();
