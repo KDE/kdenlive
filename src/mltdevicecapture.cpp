@@ -408,7 +408,7 @@ bool MltDeviceCapture::slotStartCapture(const QString &params, const QString &pa
     kDebug()<<"-- CREATING CAP: "<<params<<", PATH: "<<path;
     tmp = qstrdup(QString("avformat:" + path).toUtf8().constData());
     m_mltConsumer = new Mlt::Consumer(*m_mltProfile, tmp);
-    m_mltConsumer->set("real_time", KdenliveSettings::mltthreads());
+    m_mltConsumer->set("real_time", -KdenliveSettings::mltthreads());
     delete[] tmp;
 
     QStringList paramList = params.split(" ", QString::SkipEmptyParts);
