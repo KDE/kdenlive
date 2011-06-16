@@ -2469,7 +2469,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
 
     connect(doc, SIGNAL(docModified(bool)), this, SLOT(slotUpdateDocumentState(bool)));
     connect(doc, SIGNAL(guidesUpdated()), this, SLOT(slotGuidesUpdated()));
-    connect(doc, SIGNAL(saveTimelinePreview(const QString)), trackView->projectView(), SLOT(saveTimelinePreview(const QString)));
+    connect(doc, SIGNAL(saveTimelinePreview(const QString)), trackView, SLOT(slotSaveTimelinePreview(const QString)));
     
     connect(m_notesWidget, SIGNAL(textChanged()), doc, SLOT(setModified()));
 

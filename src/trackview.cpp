@@ -1031,4 +1031,19 @@ void TrackView::slotUpdateTrackEffectState(int ix)
     widgets.at(m_doc->tracksCount() - ix - 1)->updateEffectLabel(m_doc->trackInfoAt(ix).effectsList.effectNames());
 }
 
+void TrackView::slotSaveTimelinePreview(const QString path)
+{
+    QImage img(width(), height(), QImage::Format_ARGB32_Premultiplied);
+    img.fill(palette().base().color().rgb());
+    QPainter painter(&img);
+    render(&painter);
+    painter.end();
+    img = img.scaledToWidth(600, Qt::SmoothTransformation);
+    img.save(path);
+}
+
+
 #include "trackview.moc"
+
+
+

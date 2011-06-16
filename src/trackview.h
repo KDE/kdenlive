@@ -84,7 +84,8 @@ public slots:
     void slotChangeZoom(int horizontal, int vertical = -1);
     void setDuration(int dur);
     void slotSetZone(QPoint p, bool updateDocumentProperties = true);
-
+    /** @brief Save a snapshot image of current timeline view */
+    void slotSaveTimelinePreview(const QString path);
 private:
     CustomRuler *m_ruler;
     CustomTrackView *m_trackview;

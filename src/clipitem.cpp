@@ -1722,9 +1722,9 @@ void ClipItem::doGetIntraThumbs(QPainter *painter, const QPointF startPos, int o
     }
     QPixmap p;
     for (int i = start; i <= end; i++) {
-        if (!view->m_pixmapCache->find(m_clip->fileURL().path() + "%" + QString::number(i), p)) {
+        if (!view->m_pixmapCache->findPixmap(m_clip->fileURL().path() + "%" + QString::number(i), &p)) {
             p = m_clip->thumbProducer()->extractImage(i, twidth, theight);
-            view->m_pixmapCache->insert(m_clip->fileURL().path() + "%" + QString::number(i), p);
+            view->m_pixmapCache->insertPixmap(m_clip->fileURL().path() + "%" + QString::number(i), p);
         }
         painter->drawPixmap(startPos + QPointF(twidth *(i - offset), 0), p);
     }
