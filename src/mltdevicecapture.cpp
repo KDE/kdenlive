@@ -166,6 +166,7 @@ void MltDeviceCapture::stop()
     bool isPlaylist = false;
     disconnect(this, SIGNAL(imageReady(QImage)), this, SIGNAL(frameUpdated(QImage)));
     m_captureDisplayWidget->stop();
+    
     if (m_mltConsumer) {
         m_mltConsumer->set("refresh", 0);
         m_mltConsumer->stop();
@@ -372,7 +373,7 @@ void MltDeviceCapture::saveFrame(Mlt::Frame& frame)
     Mlt::Producer trackProducer(tractor.track(0));
     trackProducer.set("hide", 0);
     
-    qimage.rgbSwapped().save(m_capturePath);
+    qimage.save(m_capturePath);
     emit frameSaved(m_capturePath);
     m_capturePath.clear();
 }
