@@ -484,7 +484,6 @@ void RecMonitor::slotStartPreview(bool play)
         buildMltDevice(path);
         profile = ProfilesDialog::getVideoProfile(path);
         producer = QString("avformat-novalidate:video4linux2:%1?width:%2&height:%3&frame_rate:%4").arg(KdenliveSettings::video4vdevice()).arg(profile.width).arg(profile.height).arg((double) profile.frame_rate_num / profile.frame_rate_den);
-        kDebug()<< "PROD: "<<producer;
         if (!m_captureDevice->slotStartPreview(producer)) {
             // v4l capture failed to start
             video_frame->setText(i18n("Failed to start Video4Linux,\ncheck your parameters..."));
@@ -565,6 +564,7 @@ void RecMonitor::slotRecord()
         m_displayArgs.clear();
         QString args;
         QString playlist;
+        QString v4lparameters;
         MltVideoProfile profile;
         QString capturename = KdenliveSettings::dvgrabfilename();
         if (capturename.isEmpty()) capturename = "capture";
@@ -577,9 +577,38 @@ void RecMonitor::slotRecord()
             buildMltDevice(path);
             playlist = QString("<mlt title=\"capture\"><producer id=\"producer0\" in=\"0\" out=\"99999\"><property name=\"mlt_type\">producer</property><property name=\"length\">100000</property><property name=\"eof\">pause</property><property name=\"resource\">video4linux2:%1?width:%2&amp;height:%3&amp;frame_rate:%4</property><property name=\"mlt_service\">avformat-novalidate</property></producer><playlist id=\"playlist0\"><entry producer=\"producer0\" in=\"0\" out=\"99999\"/></playlist>").arg(KdenliveSettings::video4vdevice()).arg(profile.width).arg(profile.height).arg((double) profile.frame_rate_num / profile.frame_rate_den);
 
+            v4lparameters = KdenliveSettings::v4l_parameters();
+
             // Add alsa audio capture
             if (KdenliveSettings::v4l_captureaudio()) {
                 playlist.append(QString("<producer id=\"producer1\" in=\"0\" out=\"99999\"><property name=\"mlt_type\">producer</property><property name=\"length\">100000</property><property name=\"eof\">pause</property><property name=\"resource\">alsa:%5</property><property name=\"audio_index\">0</property><property name=\"video_index\">-1</property><property name=\"mlt_service\">avformat</property></producer><playlist id=\"playlist1\"><entry producer=\"producer1\" in=\"0\" out=\"99999\"/></playlist>").arg(KdenliveSettings::v4l_alsadevicename()));
+            }
+            else {
+                // if we do not want audio, make sure that we don't have audio encoding parameters
+                // this is required otherwise the MLT avformat consumer will not close properly
+                if (v4lparameters.contains("acodec")) {
+                    QString endParam = v4lparameters.section("acodec", 1);
+                    int vcodec = endParam.indexOf(" vcodec");
+                    int format = endParam.indexOf(" f=");
+                    int cutPosition = -1;
+                    if (vcodec > -1) {
+                        if (format  > -1) {
+                            cutPosition = qMin(vcodec, format);
+                        }
+                        else cutPosition = vcodec;
+                    }
+                    else if (format  > -1) {
+                        cutPosition = format;
+                    }
+                    else {
+                        // nothing interesting in end params
+                        endParam.clear();
+                    }
+                    if (cutPosition > -1) {
+                        endParam.remove(0, cutPosition);
+                    }
+                    v4lparameters = QString(v4lparameters.section("acodec", 0, 0) + "an=1 " + endParam).simplified();
+                }
             }
             
 
@@ -595,7 +624,7 @@ void RecMonitor::slotRecord()
 
             playlist.append("</tractor></mlt>");
 
-            if (m_captureDevice->slotStartCapture(KdenliveSettings::v4l_parameters(), m_captureFile.path(), playlist, recording_preview->currentIndex())) {
+            if (m_captureDevice->slotStartCapture(v4lparameters, m_captureFile.path(), playlist, recording_preview->currentIndex())) {
                 m_videoBox->setHidden(false);
                 m_isCapturing = true;
                 m_recAction->setEnabled(false);
