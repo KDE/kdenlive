@@ -546,19 +546,33 @@ Mlt::Producer *DocClipBase::audioProducer(int track)
             
         Mlt::Producer *base = producer();
         m_audioTrackProducers[track] = new Mlt::Producer(*(base->profile()), base->get("resource"));
-        if (m_properties.contains("force_aspect_num") && m_properties.contains("force_aspect_den") && m_properties.contains("frame_size"))
-            m_audioTrackProducers.at(track)->set("force_aspect_ratio", getPixelAspect(m_properties));
-        if (m_properties.contains("force_fps")) m_audioTrackProducers.at(track)->set("force_fps", m_properties.value("force_fps").toDouble());
-        if (m_properties.contains("force_progressive")) m_audioTrackProducers.at(track)->set("force_progressive", m_properties.value("force_progressive").toInt());
-        if (m_properties.contains("force_tff")) m_audioTrackProducers.at(track)->set("force_tff", m_properties.value("force_tff").toInt());
-        if (m_properties.contains("threads")) m_audioTrackProducers.at(track)->set("threads", m_properties.value("threads").toInt());
-        m_audioTrackProducers.at(track)->set("video_index", -1);
-        if (m_properties.contains("audio_index")) m_audioTrackProducers.at(track)->set("audio_index", m_properties.value("audio_index").toInt());
-        m_audioTrackProducers.at(track)->set("id", QString(getId() + '_' + QString::number(track) + "_audio").toUtf8().data());
-        if (m_properties.contains("force_colorspace")) m_audioTrackProducers.at(track)->set("force_colorspace", m_properties.value("force_colorspace").toInt());
-        if (m_properties.contains("full_luma")) m_audioTrackProducers.at(track)->set("set.force_full_luma", m_properties.value("full_luma").toInt());
+        adjustProducerProperties(m_audioTrackProducers.at(track), QString(getId() + '_' + QString::number(track) + "_audio"), false, true);
     }
     return m_audioTrackProducers.at(track);
+}
+
+
+void DocClipBase::adjustProducerProperties(Mlt::Producer *prod, const QString &id, bool mute, bool blind)
+{
+        if (m_properties.contains("force_aspect_num") && m_properties.contains("force_aspect_den") && m_properties.contains("frame_size"))
+            prod->set("force_aspect_ratio", getPixelAspect(m_properties));
+        if (m_properties.contains("force_fps")) prod->set("force_fps", m_properties.value("force_fps").toDouble());
+        if (m_properties.contains("force_progressive")) prod->set("force_progressive", m_properties.value("force_progressive").toInt());
+        if (m_properties.contains("force_tff")) prod->set("force_tff", m_properties.value("force_tff").toInt());
+        if (m_properties.contains("threads")) prod->set("threads", m_properties.value("threads").toInt());
+        if (mute) prod->set("audio_index", -1);
+        else if (m_properties.contains("audio_index")) prod->set("audio_index", m_properties.value("audio_index").toInt());
+        if (blind) prod->set("video_index", -1);
+        else if (m_properties.contains("video_index")) prod->set("video_index", m_properties.value("video_index").toInt());
+        prod->set("id", id.toUtf8().data());
+        if (m_properties.contains("force_colorspace")) prod->set("force_colorspace", m_properties.value("force_colorspace").toInt());
+        if (m_properties.contains("full_luma")) prod->set("set.force_full_luma", m_properties.value("full_luma").toInt());
+        if (m_properties.contains("proxy_out")) {
+            // We have a proxy clip, make sure the proxy has same duration as original
+            prod->set("length", m_properties.value("duration").toInt());
+            prod->set("out", m_properties.value("proxy_out").toInt());
+        }
+
 }
 
 Mlt::Producer *DocClipBase::videoProducer()
@@ -569,17 +583,7 @@ Mlt::Producer *DocClipBase::videoProducer()
             if (m_baseTrackProducers.at(i) != NULL) break;
         if (i >= m_baseTrackProducers.count()) return NULL;
         m_videoOnlyProducer = new Mlt::Producer(*m_baseTrackProducers.at(i)->profile(), m_baseTrackProducers.at(i)->get("resource"));
-        if (m_properties.contains("force_aspect_num") && m_properties.contains("force_aspect_den") && m_properties.contains("frame_size"))
-            m_videoOnlyProducer->set("force_aspect_ratio", getPixelAspect(m_properties));
-        if (m_properties.contains("force_fps")) m_videoOnlyProducer->set("force_fps", m_properties.value("force_fps").toDouble());
-        if (m_properties.contains("force_progressive")) m_videoOnlyProducer->set("force_progressive", m_properties.value("force_progressive").toInt());
-        if (m_properties.contains("force_tff")) m_videoOnlyProducer->set("force_tff", m_properties.value("force_tff").toInt());
-        if (m_properties.contains("threads")) m_videoOnlyProducer->set("threads", m_properties.value("threads").toInt());
-        m_videoOnlyProducer->set("audio_index", -1);
-        if (m_properties.contains("video_index")) m_videoOnlyProducer->set("video_index", m_properties.value("video_index").toInt());
-        m_videoOnlyProducer->set("id", QString(getId() + "_video").toUtf8().data());
-        if (m_properties.contains("force_colorspace")) m_videoOnlyProducer->set("force_colorspace", m_properties.value("force_colorspace").toInt());
-        if (m_properties.contains("full_luma")) m_videoOnlyProducer->set("set.force_full_luma", m_properties.value("full_luma").toInt());
+        adjustProducerProperties(m_videoOnlyProducer, QString(getId() + "_video"), true, false);
     }
     return m_videoOnlyProducer;
 }
@@ -618,18 +622,7 @@ Mlt::Producer *DocClipBase::producer(int track)
             m_baseTrackProducers[track] = NULL;
             return NULL;
         }
-        if (m_properties.contains("force_aspect_num") && m_properties.contains("force_aspect_den") && m_properties.contains("frame_size"))
-            m_baseTrackProducers[track]->set("force_aspect_ratio", getPixelAspect(m_properties));
-        if (m_properties.contains("force_fps")) m_baseTrackProducers[track]->set("force_fps", m_properties.value("force_fps").toDouble());
-        if (m_properties.contains("force_progressive")) m_baseTrackProducers[track]->set("force_progressive", m_properties.value("force_progressive").toInt());
-        if (m_properties.contains("force_tff")) m_baseTrackProducers[track]->set("force_tff", m_properties.value("force_tff").toInt());
-        if (m_properties.contains("threads")) m_baseTrackProducers[track]->set("threads", m_properties.value("threads").toInt());
-        if (m_properties.contains("video_index")) m_baseTrackProducers[track]->set("video_index", m_properties.value("video_index").toInt());
-        if (m_properties.contains("audio_index")) m_baseTrackProducers[track]->set("audio_index", m_properties.value("audio_index").toInt());
-        m_baseTrackProducers[track]->set("id", QString(getId() + '_' + QString::number(track)).toUtf8().data());
-
-        if (m_properties.contains("force_colorspace")) m_baseTrackProducers[track]->set("force_colorspace", m_properties.value("force_colorspace").toInt());
-        if (m_properties.contains("full_luma")) m_baseTrackProducers[track]->set("set.force_full_luma", m_properties.value("full_luma").toInt());
+        adjustProducerProperties(m_baseTrackProducers.at(track), QString(getId() + '_' + QString::number(track)), false, false);
     }
     return m_baseTrackProducers.at(track);
 }
