@@ -152,6 +152,9 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                             QDomElement mlt = m_document.firstChildElement("mlt");
                             QDomElement infoXml = mlt.firstChildElement("kdenlivedoc");
 
+                            // Set profile, fps, etc for the document
+                            setProfilePath(infoXml.attribute("profile"));
+
                             // Check embedded effects
                             QDomElement customeffects = infoXml.firstChildElement("customeffects");
                             if (!customeffects.isNull() && customeffects.hasChildNodes()) {
@@ -257,7 +260,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                                 QDomNamedNodeMap props = docproperties.attributes();
                                 for (int i = 0; i < props.count(); i++)
                                     m_documentProperties.insert(props.item(i).nodeName(), props.item(i).nodeValue());
-                                setProfilePath(infoXml.attribute("profile"));
+
                                 if (validator.isModified()) setModified(true);
                                 kDebug() << "Reading file: " << url.path() << ", found clips: " << producers.count();
                             }
