@@ -616,6 +616,7 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
     }
 
     if (proxyProducer && xml.hasAttribute("proxy_out")) {
+        producer->set("length", xml.attribute("proxy_out").toInt() + 1);
         producer->set("out", xml.attribute("proxy_out").toInt());
         if (producer->get_out() != xml.attribute("proxy_out").toInt()) {
             // Proxy file length is different than original clip length, this will corrupt project so disable this proxy clip
