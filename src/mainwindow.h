@@ -444,7 +444,7 @@ private slots:
 
     void slotAdjustClipMonitor();
     void slotAdjustProjectMonitor();
-    void slotSaveZone(Render *render, QPoint zone);
+    void slotSaveZone(Render *render, QPoint zone, DocClipBase *baseClip = NULL, KUrl path = KUrl());
 
     void slotSetInPoint();
     void slotSetOutPoint();

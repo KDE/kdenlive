@@ -185,7 +185,6 @@ void Render::buildConsumer(const QString profileName)
 {
     m_activeProfile = profileName;
     char *tmp = qstrdup(m_activeProfile.toUtf8().constData());
-    setenv("MLT_PROFILE", tmp, 1);
     delete m_blackClip;
     m_blackClip = NULL;
 
@@ -194,7 +193,7 @@ void Render::buildConsumer(const QString profileName)
     if (m_mltProfile) delete m_mltProfile;
 
     m_mltProfile = new Mlt::Profile(tmp);
-    m_mltProfile->get_profile()->is_explicit = 1;
+    m_mltProfile->set_explicit(true);
     delete[] tmp;
 
     m_blackClip = new Mlt::Producer(*m_mltProfile, "colour", "black");

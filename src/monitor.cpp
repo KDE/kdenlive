@@ -850,7 +850,7 @@ void Monitor::slotOpenFile(const QString &file)
 void Monitor::slotSaveZone()
 {
     if (render == NULL) return;
-    emit saveZone(render, m_ruler->zone());
+    emit saveZone(render, m_ruler->zone(), m_currentClip);
 
     //render->setSceneList(doc, 0);
 }

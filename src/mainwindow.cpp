@@ -860,8 +860,8 @@ void MainWindow::slotConnectMonitors()
 
     connect(m_projectMonitor, SIGNAL(requestFrameForAnalysis(bool)), this, SLOT(slotMonitorRequestRenderFrame(bool)));
 
-    connect(m_clipMonitor, SIGNAL(saveZone(Render *, QPoint)), this, SLOT(slotSaveZone(Render *, QPoint)));
-    connect(m_projectMonitor, SIGNAL(saveZone(Render *, QPoint)), this, SLOT(slotSaveZone(Render *, QPoint)));
+    connect(m_clipMonitor, SIGNAL(saveZone(Render *, QPoint, DocClipBase *)), this, SLOT(slotSaveZone(Render *, QPoint, DocClipBase *)));
+    connect(m_projectMonitor, SIGNAL(saveZone(Render *, QPoint, DocClipBase *)), this, SLOT(slotSaveZone(Render *, QPoint, DocClipBase *)));
 }
 
 void MainWindow::slotAdjustClipMonitor()
@@ -3516,7 +3516,7 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
 }
 
 
-void MainWindow::slotSaveZone(Render *render, QPoint zone)
+void MainWindow::slotSaveZone(Render *render, QPoint zone, DocClipBase *baseClip, KUrl path)
 {
     KDialog *dialog = new KDialog(this);
     dialog->setCaption("Save clip zone");
@@ -3527,9 +3527,15 @@ void MainWindow::slotSaveZone(Render *render, QPoint zone)
 
     QVBoxLayout *vbox = new QVBoxLayout(widget);
     QLabel *label1 = new QLabel(i18n("Save clip zone as:"), this);
-    QString path = m_activeDocument->projectFolder().path(KUrl::AddTrailingSlash);
-    path.append("untitled.mlt");
-    KUrlRequester *url = new KUrlRequester(KUrl(path), this);
+    if (path.isEmpty()) {
+        QString tmppath = m_activeDocument->projectFolder().path(KUrl::AddTrailingSlash);
+        if (baseClip == NULL) tmppath.append("untitled.mlt");
+        else {
+            tmppath.append((baseClip->name().isEmpty() ? baseClip->fileURL().fileName() : baseClip->name()) + "-" + QString::number(zone.x()).rightJustified(4, '0') + ".mlt");
+        }
+        path = KUrl(tmppath);
+    }
+    KUrlRequester *url = new KUrlRequester(path, this);
     url->setFilter("video/mlt-playlist");
     QLabel *label2 = new QLabel(i18n("Description:"), this);
     KLineEdit *edit = new KLineEdit(this);
@@ -3537,8 +3543,19 @@ void MainWindow::slotSaveZone(Render *render, QPoint zone)
     vbox->addWidget(url);
     vbox->addWidget(label2);
     vbox->addWidget(edit);
-    if (dialog->exec() == QDialog::Accepted)
-        render->saveZone(url->url(), edit->text(), zone);
+    if (dialog->exec() == QDialog::Accepted) {
+        if (QFile::exists(url->url().path())) {
+            if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", url->url().path())) == KMessageBox::No) {
+                slotSaveZone(render, zone, baseClip, url->url());
+                return;
+            }
+        }
+        if (baseClip && !baseClip->fileURL().isEmpty()) {
+            // create zone from clip url, so that we don't have problems with proxy clips
+            QProcess::startDetached(KdenliveSettings::rendererpath(), QStringList() << baseClip->fileURL().path() << "in=" + QString::number(zone.x()) << "out=" + QString::number(zone.y()) << "-consumer" << "xml:" + url->url().path());
+        }
+        else render->saveZone(url->url(), edit->text(), zone);
+    }
 
 }
 

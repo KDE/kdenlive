@@ -252,7 +252,7 @@ signals:
     void refreshClipThumbnail(const QString &, bool);
     void adjustMonitorSize();
     void zoneUpdated(QPoint);
-    void saveZone(Render *, QPoint);
+    void saveZone(Render *, QPoint, DocClipBase *);
     /** @brief  Editing transitions / effects over the monitor requires the renderer to send frames as QImage.
      *      This causes a major slowdown, so we only enable it if required */
     void requestFrameForAnalysis(bool);
