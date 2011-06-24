@@ -3511,7 +3511,6 @@ void Render::mltUpdateTransitionParams(QString type, int a_track, int b_track, G
         int currentOut = (int) mlt_transition_get_out(tr);
 
         // kDebug()<<"Looking for transition : " << currentIn <<'x'<<currentOut<< ", OLD oNE: "<<in_pos<<'x'<<out_pos;
-
         if (resource == type && b_track == currentTrack && currentIn == in_pos && currentOut == out_pos) {
             QMap<QString, QString> map = mltGetTransitionParamsFromXml(xml);
             QMap<QString, QString>::Iterator it;
@@ -3799,6 +3798,8 @@ bool Render::mltAddTransition(QString tag, int a_track, int b_track, GenTime in,
     //kDebug() << " ------  ADDING TRANSITION PARAMs: " << args.count();
     if (xml.hasAttribute("id"))
         transition->set("kdenlive_id", xml.attribute("id").toUtf8().constData());
+    if (xml.hasAttribute("force_track"))
+        transition->set("force_track", xml.attribute("force_track").toInt());
 
     for (it = args.begin(); it != args.end(); ++it) {
         key = it.key();
