@@ -114,7 +114,7 @@ void MltDeviceCapture::buildConsumer(const QString &profileName)
     char *tmp = qstrdup(m_activeProfile.toUtf8().constData());
     setenv("MLT_PROFILE", tmp, 1);
     m_mltProfile = new Mlt::Profile(tmp);
-    m_mltProfile->get_profile()->is_explicit = 1;
+    m_mltProfile->set_explicit(true);
     delete[] tmp;
 
     QString videoDriver = KdenliveSettings::videodrivername();

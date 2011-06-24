@@ -166,7 +166,11 @@ Q_OBJECT public:
 
     /** @brief Turns on or off on screen display. */
     void refreshDisplay();
-    int resetProfile(const QString profileName);
+    /** @brief Change the Mlt PROFILE
+     * @param profileName The MLT profile name
+     * @param dropSceneList If true, the current playlist will be deleted
+     * . */
+    int resetProfile(const QString profileName, bool dropSceneList = false);
     double fps() const;
 
     /** @brief Returns the width of a frame for this profile. */

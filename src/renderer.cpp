@@ -183,15 +183,15 @@ void Render::slotSwitchFullscreen()
 
 void Render::buildConsumer(const QString profileName)
 {
-    m_activeProfile = profileName;
-    char *tmp = qstrdup(m_activeProfile.toUtf8().constData());
     delete m_blackClip;
     m_blackClip = NULL;
 
     //TODO: uncomment following line when everything is clean
     // uncommented Feb 2011 --Granjow
     if (m_mltProfile) delete m_mltProfile;
-
+    m_activeProfile = profileName;
+    char *tmp = qstrdup(m_activeProfile.toUtf8().constData());
+    setenv("MLT_PROFILE", tmp, 1);
     m_mltProfile = new Mlt::Profile(tmp);
     m_mltProfile->set_explicit(true);
     delete[] tmp;
@@ -287,9 +287,10 @@ Mlt::Producer *Render::invalidProducer(const QString &id)
     return clip;
 }
 
-int Render::resetProfile(const QString profileName)
+int Render::resetProfile(const QString profileName, bool dropSceneList)
 {
-    QString scene = sceneList();
+    QString scene;
+    if (!dropSceneList) scene = sceneList();
     if (m_mltConsumer) {
         if (m_externalConsumer == KdenliveSettings::external_display()) {
             if (KdenliveSettings::external_display() && m_activeProfile == profileName) return 1;
@@ -335,31 +336,17 @@ int Render::resetProfile(const QString profileName)
     buildConsumer(profileName);
     double new_fps = m_mltProfile->fps();
     double new_dar = m_mltProfile->dar();
-    if (current_fps != new_fps) {
-        // fps changed, we must update the scenelist positions
-        scene = updateSceneListFps(current_fps, new_fps, scene);
+    
+    if (!dropSceneList) {
+        // We need to recover our playlist
+        if (current_fps != new_fps) {
+            // fps changed, we must update the scenelist positions
+            scene = updateSceneListFps(current_fps, new_fps, scene);
+        }
+        setSceneList(scene, pos);
+        // producers have changed (different profile), so reset them...
+        emit refreshDocumentProducers(new_dar != current_dar, current_fps != new_fps);
     }
-    //kDebug() << "//RESET WITHSCENE: " << scene;
-    setSceneList(scene, pos);
-    // producers have changed (different profile), so reset them...
-    emit refreshDocumentProducers(new_dar != current_dar, current_fps != new_fps);
-    /*Mlt::Producer *producer = new Mlt::Producer(*m_mltProfile , "xml-string", scene.toUtf8().constData());
-    m_mltProducer = producer;
-    m_blackClip = new Mlt::Producer(*m_mltProfile , "colour", "black");
-    m_mltProducer->optimise();
-    m_mltProducer->set_speed(0);
-    connectPlaylist();*/
-
-    //delete m_mltProfile;
-    // mlt_properties properties = MLT_CONSUMER_PROPERTIES(m_mltConsumer->get_consumer());
-    //mlt_profile prof = m_mltProfile->get_profile();
-    //mlt_properties_set_data(properties, "_profile", prof, 0, (mlt_destructor)mlt_profile_close, NULL);
-    //mlt_properties_set(properties, "profile", "hdv_1080_50i");
-    //m_mltConsumer->set("profile", (char *) profile.toUtf8().data());
-    //m_mltProfile = new Mlt::Profile((char*) profile.toUtf8().data());
-
-    //apply_profile_properties( m_mltProfile, m_mltConsumer->get_consumer(), properties );
-    //refresh();
     return 1;
 }
 
@@ -1050,7 +1037,6 @@ int Render::setSceneList(QString playlist, int position)
         playlist.replace(">avformat</property>", ">avformat-novalidate</property>");
     else
         playlist.replace(">avformat-novalidate</property>", ">avformat</property>");
-
     m_mltProducer = new Mlt::Producer(*m_mltProfile, "xml-string", playlist.toUtf8().constData());
     if (!m_mltProducer || !m_mltProducer->is_valid()) {
         kDebug() << " WARNING - - - - -INVALID PLAYLIST: " << playlist.toUtf8().constData();

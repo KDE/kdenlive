@@ -270,16 +270,13 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
             }
         }
     }
-
+    
     // Something went wrong, or a new file was requested: create a new project
     if (!success) {
         m_url.clear();
         setProfilePath(profileName);
         m_document = createEmptyDocument(tracks.x(), tracks.y());
     }
-
-    // Set the video profile (empty == default)
-    KdenliveSettings::setCurrent_profile(profilePath());
 
     // Ask to create the project directory if it does not exist
     if (!QFile::exists(m_projectFolder.path())) {
@@ -327,7 +324,7 @@ KdenliveDoc::~KdenliveDoc()
 
 int KdenliveDoc::setSceneList()
 {
-    m_render->resetProfile(KdenliveSettings::current_profile());
+    m_render->resetProfile(KdenliveSettings::current_profile(), true);
     if (m_render->setSceneList(m_document.toString(), m_documentProperties.value("position").toInt()) == -1) {
         // INVALID MLT Consumer, something is wrong
         return -1;
@@ -375,8 +372,7 @@ QDomDocument KdenliveDoc::createEmptyDocument(QList <TrackInfo> tracks)
     QDomDocument doc;
     QDomElement mlt = doc.createElement("mlt");
     doc.appendChild(mlt);
-
-
+    
     // Create black producer
     // For some unknown reason, we have to build the black producer here and not in renderer.cpp, otherwise
     // the composite transitions with the black track are corrupted.
@@ -845,6 +841,7 @@ bool KdenliveDoc::setProfilePath(QString path)
     m_height = m_profile.height;
     kDebug() << "Kdenlive document, init timecode from path: " << path << ",  " << m_fps;
     m_timecode.setFormat(m_fps);
+    KdenliveSettings::setCurrent_profile(m_profile.path);
     return (current_fps != m_fps);
 }
 

@@ -3552,7 +3552,23 @@ void MainWindow::slotSaveZone(Render *render, QPoint zone, DocClipBase *baseClip
         }
         if (baseClip && !baseClip->fileURL().isEmpty()) {
             // create zone from clip url, so that we don't have problems with proxy clips
-            QProcess::startDetached(KdenliveSettings::rendererpath(), QStringList() << baseClip->fileURL().path() << "in=" + QString::number(zone.x()) << "out=" + QString::number(zone.y()) << "-consumer" << "xml:" + url->url().path());
+            QProcess p;
+#if QT_VERSION >= 0x040600
+            QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+            env.remove("MLT_PROFILE");
+            p.setProcessEnvironment(env);
+#else
+            QStringList env = QProcess::systemEnvironment();
+            env << "MLT_PROFILE='\0'";
+            p.setEnvironment(env);
+#endif
+            p.start(KdenliveSettings::rendererpath(), QStringList() << baseClip->fileURL().path() << "in=" + QString::number(zone.x()) << "out=" + QString::number(zone.y()) << "-consumer" << "xml:" + url->url().path());
+            if (!p.waitForStarted(3000)) {
+                KMessageBox::sorry(this, i18n("Cannot start MLT's renderer:\n%1", KdenliveSettings::rendererpath()));
+            }
+            else if (!p.waitForFinished(5000)) {
+                KMessageBox::sorry(this, i18n("Timeout while creating xml output"));
+            }
         }
         else render->saveZone(url->url(), edit->text(), zone);
     }
