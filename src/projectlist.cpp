@@ -502,8 +502,11 @@ void ProjectList::slotMissingClip(const QString &id)
         item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsDropEnabled);
         int height = m_listView->iconSize().height();
         int width = (int)(height  * m_render->dar());
-        QPixmap pixmap = QPixmap(width, height);
-        pixmap.fill(Qt::transparent);
+        QPixmap pixmap = qVariantValue<QPixmap>(item->data(0, Qt::DecorationRole));
+        if (pixmap.isNull()) {
+            pixmap = QPixmap(width, height);
+            pixmap.fill(Qt::transparent);
+        }
         KIcon icon("dialog-close");
         QPainter p(&pixmap);
         p.drawPixmap(3, 3, icon.pixmap(width - 6, height - 6));
@@ -511,8 +514,17 @@ void ProjectList::slotMissingClip(const QString &id)
         item->setData(0, Qt::DecorationRole, pixmap);
         if (item->referencedClip()) {
             item->referencedClip()->setPlaceHolder(true);
-            if (m_render == NULL) kDebug() << "*********  ERROR, NULL RENDR";
-            item->referencedClip()->setProducer(m_render->invalidProducer(id), true);
+            if (m_render == NULL) {
+                kDebug() << "*********  ERROR, NULL RENDR";
+                return;
+            }
+            Mlt::Producer *newProd = m_render->invalidProducer(id);
+            if (item->referencedClip()->producer()) {
+                Mlt::Properties props(newProd->get_properties());
+                Mlt::Properties src_props(item->referencedClip()->producer()->get_properties());
+                props.inherit(src_props);
+            }
+            item->referencedClip()->setProducer(newProd, true);
             item->slotSetToolTip();
             emit clipNeedsReload(id, true);
         }
@@ -1180,12 +1192,30 @@ void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged)
                     if (item->data(0, Qt::DecorationRole).isNull()) {
                         item->setData(0, Qt::DecorationRole, missingPixmap);
                     }
+                    else {
+                        QPixmap pixmap = qVariantValue<QPixmap>(item->data(0, Qt::DecorationRole));
+                        QPainter p(&pixmap);
+                        p.drawPixmap(3, 3, KIcon("dialog-close").pixmap(pixmap.width() - 6, pixmap.height() - 6));
+                        p.end();
+                        item->setData(0, Qt::DecorationRole, pixmap);
+                    }
                 }
             } else {
                 if (displayRatioChanged || item->data(0, Qt::DecorationRole).isNull())
                     requestClipThumbnail(clip->getId());
                 if (item->data(0, DurationRole).toString().isEmpty()) {
                     item->changeDuration(item->referencedClip()->producer()->get_playtime());
+                }
+                if (clip->isPlaceHolder()) {
+                    QPixmap pixmap = qVariantValue<QPixmap>(item->data(0, Qt::DecorationRole));
+                    if (pixmap.isNull()) {
+                        pixmap = QPixmap(width, height);
+                        pixmap.fill(Qt::transparent);
+                    }
+                    QPainter p(&pixmap);
+                    p.drawPixmap(3, 3, KIcon("dialog-close").pixmap(pixmap.width() - 6, pixmap.height() - 6));
+                    p.end();
+                    item->setData(0, Qt::DecorationRole, pixmap);
                 }
             }
             item->setData(0, UsageRole, QString::number(item->numReferences()));

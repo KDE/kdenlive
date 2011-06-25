@@ -281,7 +281,16 @@ void Render::buildConsumer(const QString profileName)
 
 Mlt::Producer *Render::invalidProducer(const QString &id)
 {
-    Mlt::Producer *clip = new Mlt::Producer(*m_mltProfile, "colour", "red");
+    Mlt::Producer *clip;
+    QString txt = "+" + i18n("Missing clip") + ".txt";
+    char *tmp = qstrdup(txt.toUtf8().constData());
+    clip = new Mlt::Producer(*m_mltProfile, tmp);
+    delete[] tmp;
+    if (clip == NULL) clip = new Mlt::Producer(*m_mltProfile, "colour", "red");
+    else {
+        clip->set("bgcolour", "0xff0000ff");
+        clip->set("pad", "10");
+    }
     clip->set("id", id.toUtf8().constData());
     clip->set("mlt_type", "producer");
     return clip;

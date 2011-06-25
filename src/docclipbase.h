@@ -247,6 +247,8 @@ private:   // Private attributes
     void getFileHash(const QString url);
     /** @brief When duplicating a producer, make sure all manually set properties are passed to it. */
     void adjustProducerProperties(Mlt::Producer *prod, const QString &id, bool mute, bool blind);
+    /** @brief Create another instance of a producer. */
+    Mlt::Producer *cloneProducer(Mlt::Producer *source);
 
 public slots:
     void updateAudioThumbnail(QMap<int, QMap<int, QByteArray> > data);

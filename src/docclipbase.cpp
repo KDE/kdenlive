@@ -460,7 +460,14 @@ void DocClipBase::setValid()
 
 void DocClipBase::setProducer(Mlt::Producer *producer, bool reset, bool readPropertiesFromProducer)
 {
-    if (producer == NULL || (m_placeHolder && !reset)) return;
+    if (m_placeHolder && producer) {
+        char *tmp = qstrdup(i18n("Missing clip").toUtf8().constData());
+        producer->set("markup", tmp);
+        producer->set("bgcolour", "0xff0000ff");
+        producer->set("pad", "10");
+        delete[] tmp;
+    }
+    if (producer == NULL /*|| (m_placeHolder && !reset)*/) return;
     if (m_thumbProd && (reset || !m_thumbProd->hasProducer())) m_thumbProd->setProducer(producer);
     if (reset) {
         // Clear all previous producers
@@ -545,7 +552,7 @@ Mlt::Producer *DocClipBase::audioProducer(int track)
         }
             
         Mlt::Producer *base = producer();
-        m_audioTrackProducers[track] = new Mlt::Producer(*(base->profile()), base->get("resource"));
+        m_audioTrackProducers[track] = cloneProducer(base);
         adjustProducerProperties(m_audioTrackProducers.at(track), QString(getId() + '_' + QString::number(track) + "_audio"), false, true);
     }
     return m_audioTrackProducers.at(track);
@@ -582,7 +589,7 @@ Mlt::Producer *DocClipBase::videoProducer()
         for (i = 0; i < m_baseTrackProducers.count(); i++)
             if (m_baseTrackProducers.at(i) != NULL) break;
         if (i >= m_baseTrackProducers.count()) return NULL;
-        m_videoOnlyProducer = new Mlt::Producer(*m_baseTrackProducers.at(i)->profile(), m_baseTrackProducers.at(i)->get("resource"));
+        m_videoOnlyProducer = cloneProducer(m_baseTrackProducers.at(i));
         adjustProducerProperties(m_videoOnlyProducer, QString(getId() + "_video"), true, false);
     }
     return m_videoOnlyProducer;
@@ -615,16 +622,37 @@ Mlt::Producer *DocClipBase::producer(int track)
             // Could not find a valid producer for that clip, check in 
             return NULL;
         }
-
-        if (KIO::NetAccess::exists(KUrl(m_baseTrackProducers.at(i)->get("resource")), KIO::NetAccess::SourceSide, 0))
-            m_baseTrackProducers[track] = new Mlt::Producer(*m_baseTrackProducers.at(i)->profile(), m_baseTrackProducers.at(i)->get("resource"));
-        else { // special case for placeholder clips
-            m_baseTrackProducers[track] = NULL;
-            return NULL;
-        }
+        
+        m_baseTrackProducers[track] = cloneProducer(m_baseTrackProducers.at(i));
         adjustProducerProperties(m_baseTrackProducers.at(track), QString(getId() + '_' + QString::number(track)), false, false);
     }
     return m_baseTrackProducers.at(track);
+}
+
+
+Mlt::Producer *DocClipBase::cloneProducer(Mlt::Producer *source)
+{
+    Mlt::Producer *result;
+    if (KIO::NetAccess::exists(KUrl(source->get("resource")), KIO::NetAccess::SourceSide, 0)) {
+        result = new Mlt::Producer(*source->profile(), source->get("resource"));
+    }
+    else {
+        // placeholder clip
+        QString txt = "+" + i18n("Missing clip") + ".txt";
+        char *tmp = qstrdup(txt.toUtf8().constData());
+        result = new Mlt::Producer(*source->profile(), tmp);
+        delete[] tmp;
+        if (result == NULL)
+            result = new Mlt::Producer(*source->profile(), "colour:red");
+        else {
+            result->set("bgcolour", "0xff0000ff");
+            result->set("pad", "10");
+        }
+    }
+    Mlt::Properties props(result->get_properties());
+    Mlt::Properties src_props(source->get_properties());
+    props.inherit(src_props);
+    return result;
 }
 
 void DocClipBase::setProducerProperty(const char *name, int data)
