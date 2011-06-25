@@ -333,7 +333,7 @@ private slots:
     /** @brief Enable / disable proxy for current clip. */
     void slotProxyCurrentItem(bool doProxy);
     /** @brief Put clip in the proxy waiting list. */
-    void slotCreateProxy(const QString id, bool createProducer = true);
+    void slotCreateProxy(const QString id);
     /** @brief Stop creation of this clip's proxy. */
     void slotAbortProxy(const QString id);
     /** @brief Start creation of proxy clip. */

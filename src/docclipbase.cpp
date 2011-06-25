@@ -432,17 +432,6 @@ QString DocClipBase::markerComment(GenTime t)
 void DocClipBase::deleteProducers(bool clearThumbCreator)
 {
     if (clearThumbCreator && m_thumbProd) m_thumbProd->clearProducer();
-    /*kDebug()<<"// CLIP KILL PRODS ct: "<<m_baseTrackProducers.count();
-    int max = m_baseTrackProducers.count();
-    for (int i = 0; i < max; i++) {
-        kDebug()<<"// CLIP KILL PROD "<<i;
-    Mlt::Producer *p = m_baseTrackProducers.takeAt(i);
-    if (p != NULL) {
-     delete p;
-     p = NULL;
-    }
-    m_baseTrackProducers.insert(i, NULL);
-    }*/
 
     delete m_videoOnlyProducer;
     m_videoOnlyProducer = NULL;
@@ -520,8 +509,6 @@ void DocClipBase::setProducer(Mlt::Producer *producer, bool reset, bool readProp
     }
     if (updated && readPropertiesFromProducer && (m_clipType != COLOR && m_clipType != IMAGE && m_clipType != TEXT))
         setDuration(GenTime(producer->get_length(), KdenliveSettings::project_fps()));
-    //m_clipProducer = producer;
-    //m_clipProducer->set("transparency", m_properties.value("transparency").toInt());
 }
 
 static double getPixelAspect(QMap<QString, QString>& props) {
@@ -597,9 +584,6 @@ Mlt::Producer *DocClipBase::videoProducer()
 
 Mlt::Producer *DocClipBase::producer(int track)
 {
-    /*for (int i = 0; i < m_baseTrackProducers.count(); i++) {
-        if (m_baseTrackProducers.at(i)) kDebug() << "// PROD: " << i << ", ID: " << m_baseTrackProducers.at(i)->get("id");
-    }*/
     if (track == -1 || (m_clipType != AUDIO && m_clipType != AV && m_clipType != PLAYLIST)) {
         if (m_baseTrackProducers.count() == 0) return NULL;
         for (int i = 0; i < m_baseTrackProducers.count(); i++) {
@@ -622,7 +606,6 @@ Mlt::Producer *DocClipBase::producer(int track)
             // Could not find a valid producer for that clip, check in 
             return NULL;
         }
-        
         m_baseTrackProducers[track] = cloneProducer(m_baseTrackProducers.at(i));
         adjustProducerProperties(m_baseTrackProducers.at(track), QString(getId() + '_' + QString::number(track)), false, false);
     }
@@ -632,11 +615,11 @@ Mlt::Producer *DocClipBase::producer(int track)
 
 Mlt::Producer *DocClipBase::cloneProducer(Mlt::Producer *source)
 {
-    Mlt::Producer *result;
+    Mlt::Producer *result = NULL;
     if (KIO::NetAccess::exists(KUrl(source->get("resource")), KIO::NetAccess::SourceSide, 0)) {
         result = new Mlt::Producer(*source->profile(), source->get("resource"));
     }
-    else {
+    if (result == NULL) {
         // placeholder clip
         QString txt = "+" + i18n("Missing clip") + ".txt";
         char *tmp = qstrdup(txt.toUtf8().constData());

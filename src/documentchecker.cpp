@@ -53,6 +53,7 @@ const int CLIPMISSING = 0;
 const int CLIPOK = 1;
 const int CLIPPLACEHOLDER = 2;
 const int CLIPWRONGDURATION = 3;
+const int PROXYMISSING = 4;
 
 const int LUMAMISSING = 10;
 const int LUMAOK = 11;
@@ -75,6 +76,7 @@ bool DocumentChecker::hasErrorInClips()
     QDomNodeList documentProducers = m_doc.elementsByTagName("producer");
     QList <QDomElement> wrongDurationClips;
     QList <QDomElement> missingClips;
+    QList <QDomElement> missingProxies;
     for (int i = 0; i < m_info.count(); i++) {
         e = m_info.item(i).toElement();
         clipType = e.attribute("type").toInt();
@@ -108,6 +110,13 @@ bool DocumentChecker::hasErrorInClips()
             continue;
         }
         resource = e.attribute("resource");
+        if (e.hasAttribute("proxy")) {
+            QString proxyresource = e.attribute("proxy");
+            if (!KIO::NetAccess::exists(KUrl(proxyresource), KIO::NetAccess::SourceSide, 0)) {
+                // Missing clip found
+                missingProxies.append(e);
+            }
+        }
         if (clipType == SLIDESHOW) resource = KUrl(resource).directory();
         if (!KIO::NetAccess::exists(KUrl(resource), KIO::NetAccess::SourceSide, 0)) {
             // Missing clip found
@@ -135,7 +144,7 @@ bool DocumentChecker::hasErrorInClips()
         }
     }
 
-    if (missingClips.isEmpty() && missingLumas.isEmpty() && wrongDurationClips.isEmpty())
+    if (missingClips.isEmpty() && missingLumas.isEmpty() && wrongDurationClips.isEmpty() && missingProxies.isEmpty())
         return false;
 
     m_dialog = new QDialog();
@@ -219,6 +228,11 @@ bool DocumentChecker::hasErrorInClips()
     else if (wrongDurationClips.count() > 0) {
         m_ui.infoLabel->setText(i18n("The project file contains clips with duration mismatch"));
     }
+    if (missingProxies.count() > 0) {
+        if (!m_ui.infoLabel->text().isEmpty()) m_ui.infoLabel->setText(m_ui.infoLabel->text() + ". ");
+        m_ui.infoLabel->setText(m_ui.infoLabel->text() + i18n("Missing proxies will be recreated after opening."));
+    }
+
     m_ui.removeSelected->setEnabled(!missingClips.isEmpty());
     m_ui.recursiveSearch->setEnabled(!missingClips.isEmpty());
     m_ui.usePlaceholders->setEnabled(!missingClips.isEmpty());
@@ -260,6 +274,21 @@ bool DocumentChecker::hasErrorInClips()
         item->setData(0, typeRole, t);
         item->setData(0, idRole, e.attribute("id"));
         item->setToolTip(0, i18n("Duration mismatch"));
+    }
+
+
+    for (int i = 0; i < missingProxies.count(); i++) {
+        e = missingProxies.at(i).toElement();
+        QString clipType;
+        int t = e.attribute("type").toInt();
+        QTreeWidgetItem *item = new QTreeWidgetItem(m_ui.treeWidget, QStringList() << i18n("Proxy clip"));
+        item->setIcon(0, KIcon("dialog-close"));
+        item->setText(1, e.attribute("proxy"));
+        item->setData(0, hashRole, e.attribute("file_hash"));
+        item->setData(0, statusRole, PROXYMISSING);
+        item->setData(0, typeRole, t);
+        item->setData(0, idRole, e.attribute("id"));
+        item->setToolTip(0, i18n("Missing proxy"));
     }
     
     connect(m_ui.recursiveSearch, SIGNAL(pressed()), this, SLOT(slotSearchClips()));

@@ -1024,7 +1024,7 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
         m_infoQueue.insert(clip->getId(), e);
     }
     else if (item->hasProxy() && !item->isProxyRunning()) {
-        slotCreateProxy(clip->getId(), false);
+        slotCreateProxy(clip->getId());
     }
     clip->askForAudioThumbs();
     
@@ -2146,19 +2146,12 @@ QMap <QString, QString> ProjectList::getProxies()
     return list;
 }
 
-void ProjectList::slotCreateProxy(const QString id, bool createProducer)
+void ProjectList::slotCreateProxy(const QString id)
 {
     ProjectItem *item = getItemById(id);
-    if (!item || item->isProxyRunning()) return;
-    
-    // If proxy producer already exists, skip creation
-    if (!createProducer) {
-        setProxyStatus(id, PROXYDONE);
-        return;
-    }
+    if (!item || item->isProxyRunning() || item->referencedClip()->isPlaceHolder()) return;
     setProxyStatus(id, PROXYWAITING);
     if (m_abortProxyId.contains(id)) m_abortProxyId.removeAll(id);
-    emit projectModified();
     QtConcurrent::run(this, &ProjectList::slotGenerateProxy, id);
 }
 
@@ -2191,6 +2184,7 @@ void ProjectList::slotGenerateProxy(const QString id)
         return;
     }
     else {
+        emit projectModified();
         // Make sure proxy path is writable
         QFile file(path);
         if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
