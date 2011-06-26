@@ -281,14 +281,51 @@ bool DocumentChecker::hasErrorInClips()
         e = missingProxies.at(i).toElement();
         QString clipType;
         int t = e.attribute("type").toInt();
+        QString realPath = e.attribute("resource");
+        QString id = e.attribute("id");
         QTreeWidgetItem *item = new QTreeWidgetItem(m_ui.treeWidget, QStringList() << i18n("Proxy clip"));
         item->setIcon(0, KIcon("dialog-close"));
         item->setText(1, e.attribute("proxy"));
         item->setData(0, hashRole, e.attribute("file_hash"));
         item->setData(0, statusRole, PROXYMISSING);
         item->setData(0, typeRole, t);
-        item->setData(0, idRole, e.attribute("id"));
+        item->setData(0, idRole, id);
         item->setToolTip(0, i18n("Missing proxy"));
+        // Replace proxy url with real clip in MLT producers
+        QDomNodeList properties;
+        QDomElement mltProd;
+        QDomElement property;
+        for (int j = 0; j < documentProducers.count(); j++) {
+            mltProd = documentProducers.at(j).toElement();
+            QString prodId = mltProd.attribute("id");
+            bool slowmotion = false;
+            if (prodId.startsWith("slowmotion")) {
+                slowmotion = true;
+                prodId = prodId.section(':', 1, 1);
+            }
+            if (prodId.contains('_')) prodId = prodId.section('_', 0, 0);
+            if (prodId == id) {
+                // Hit, we must replace url
+                properties = mltProd.childNodes();
+                for (int k = 0; k < properties.count(); ++k) {
+                    property = properties.item(k).toElement();
+                    if (property.attribute("name") == "resource") {
+                        QString resource = property.firstChild().nodeValue();                    
+                        QString suffix;
+                        if (slowmotion) suffix = "?" + resource.section('?', -1);
+                        property.firstChild().setNodeValue(realPath + suffix);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    
+    if (missingProxies.count() > 0) {
+        // original doc was modified
+        QDomNode infoXmlNode = m_doc.elementsByTagName("kdenlivedoc").at(0);
+        QDomElement infoXml = infoXmlNode.toElement();
+        infoXml.setAttribute("modified", "1");
     }
     
     connect(m_ui.recursiveSearch, SIGNAL(pressed()), this, SLOT(slotSearchClips()));
