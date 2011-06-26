@@ -96,7 +96,7 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, i
             m_endThumbTimer.setSingleShot(true);
             connect(&m_endThumbTimer, SIGNAL(timeout()), this, SLOT(slotGetEndThumb()));
 
-            connect(this, SIGNAL(getThumb(int, int)), m_clip->thumbProducer(), SLOT(extractImage(int, int)));
+            connect(this, SIGNAL(getThumb(int, int)), m_clip, SLOT(slotExtractImage(int, int)));
 
             connect(m_clip->thumbProducer(), SIGNAL(thumbReady(int, QImage)), this, SLOT(slotThumbReady(int, QImage)));
             connect(m_clip, SIGNAL(gotAudioData()), this, SLOT(slotGotAudioData()));
@@ -110,7 +110,7 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, i
     } else if (m_clipType == IMAGE || m_clipType == TEXT) {
         m_baseColor = QColor(141, 166, 215);
         if (m_clipType == TEXT) {
-            connect(this, SIGNAL(getThumb(int, int)), m_clip->thumbProducer(), SLOT(extractImage(int, int)));
+            connect(this, SIGNAL(getThumb(int, int)), m_clip, SLOT(slotExtractImage(int, int)));
             connect(m_clip->thumbProducer(), SIGNAL(thumbReady(int, QImage)), this, SLOT(slotThumbReady(int, QImage)));
         }
         //m_startPix = KThumb::getImage(KUrl(clip->getProperty("resource")), (int)(KdenliveSettings::trackheight() * KdenliveSettings::project_display_ratio()), KdenliveSettings::trackheight());
@@ -1724,12 +1724,12 @@ void ClipItem::doGetIntraThumbs(QPainter *painter, const QPointF startPos, int o
     for (int i = start; i <= end; i++) {
 #if KDE_IS_VERSION(4,5,0)
         if (!view->m_pixmapCache->findPixmap(m_clip->fileURL().path() + "%" + QString::number(i), &p)) {
-            p = m_clip->thumbProducer()->extractImage(i, twidth, theight);
+            p = m_clip->extractImage(i, twidth, theight);
             view->m_pixmapCache->insertPixmap(m_clip->fileURL().path() + "%" + QString::number(i), p);
         }
 #else
         if (!view->m_pixmapCache->find(m_clip->fileURL().path() + "%" + QString::number(i), p)) {
-            p = m_clip->thumbProducer()->extractImage(i, twidth, theight);
+            p = m_clip->extractImage(i, twidth, theight);
             view->m_pixmapCache->insert(m_clip->fileURL().path() + "%" + QString::number(i), p);
         }
 #endif

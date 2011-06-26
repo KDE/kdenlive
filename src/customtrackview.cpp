@@ -4130,6 +4130,7 @@ void CustomTrackView::addClip(QDomElement xml, const QString &clipId, ItemInfo i
 void CustomTrackView::slotUpdateClip(const QString &clipId, bool reload)
 {
     QList<QGraphicsItem *> list = scene()->items();
+    QList <ClipItem *>clipList;
     ClipItem *clip = NULL;
     for (int i = 0; i < list.size(); ++i) {
         if (list.at(i)->type() == AVWIDGET) {
@@ -4139,10 +4140,12 @@ void CustomTrackView::slotUpdateClip(const QString &clipId, bool reload)
                 if (reload && !m_document->renderer()->mltUpdateClip(info, clip->xml(), clip->baseClip()->producer(info.track))) {
                     emit displayMessage(i18n("Cannot update clip (time: %1, track: %2)", info.startPos.frames(m_document->fps()), info.track), ErrorMessage);
                 }
-                clip->refreshClip(true, true);
+                else clipList.append(clip);
             }
         }
     }
+    for (int i = 0; i < clipList.count(); i++)
+        clipList.at(i)->refreshClip(true, true);
 }
 
 ClipItem *CustomTrackView::getClipItemAtEnd(GenTime pos, int track)

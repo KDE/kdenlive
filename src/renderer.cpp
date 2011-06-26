@@ -696,6 +696,7 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
 
     if ((!replaceProducer && xml.hasAttribute("file_hash")) || xml.hasAttribute("proxy")) {
         // Clip  already has all properties
+        if (replaceProducer) emit blockClipMonitor(clipId);
         emit replyGetFileProperties(clipId, producer, QMap < QString, QString >(), QMap < QString, QString >(), replaceProducer, selectClip);
         return;
     }
@@ -885,6 +886,7 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
             metadataPropertyMap[ name.section('.', 0, -2)] = value;
     }
     producer->seek(0);
+    if (replaceProducer) emit blockClipMonitor(clipId);
     emit replyGetFileProperties(clipId, producer, filePropertyMap, metadataPropertyMap, replaceProducer, selectClip);
     // FIXME: should delete this to avoid a leak...
     //delete producer;
@@ -934,10 +936,13 @@ int Render::setProducer(Mlt::Producer *producer, int position)
     if (m_winid == -1) return -1;
 
     if (m_mltConsumer) {
-        m_mltConsumer->stop();
-    } else return -1;
+        if (!m_mltConsumer->is_stopped()) {
+            m_mltConsumer->stop();
+        }
+        m_mltConsumer->set("refresh", 0);
+    }
+    else return -1;
 
-    m_mltConsumer->purge();
     m_isBlocked = true;
     if (m_mltProducer) {
         m_mltProducer->set_speed(0);
@@ -945,6 +950,7 @@ int Render::setProducer(Mlt::Producer *producer, int position)
         m_mltProducer = NULL;
         emit stopped();
     }
+    blockSignals(true);
     if (producer) {
         m_mltProducer = new Mlt::Producer(producer->get_producer());
     } else m_mltProducer = m_blackClip->cut(0, 50);
@@ -956,6 +962,7 @@ int Render::setProducer(Mlt::Producer *producer, int position)
     int volume = KdenliveSettings::volume();
     m_mltProducer->set("meta.volume", (double)volume / 100);
     m_fps = m_mltProducer->get_fps();
+    blockSignals(false);
     int error = connectPlaylist();
 
     if (position != -1) {

@@ -736,7 +736,7 @@ void Monitor::stop()
 
 void Monitor::start()
 {
-    if (render) render->start();
+    if (render && (m_name != "clip" || m_currentClip != NULL)) render->start();
     connect(render, SIGNAL(rendererPosition(int)), this, SLOT(seekCursor(int)));
 }
 
@@ -826,7 +826,9 @@ void Monitor::slotSetXml(DocClipBase *clip, QPoint zone, const int position)
             // MLT CONSUMER is broken
             kDebug(QtWarningMsg) << "ERROR, Cannot start monitor";
         }
-    } else if (position != -1) render->seek(position);
+    } else {
+        if (position != -1) render->seek(position);
+    }
     if (!zone.isNull()) {
         m_ruler->setZone(zone.x(), zone.y());
         render->seek(zone.x());

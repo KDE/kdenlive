@@ -203,6 +203,7 @@ Q_OBJECT public:
     bool hasAudioCodec(const QString &codec) const;
     bool checkHash() const;
     void setPlaceHolder(bool place);
+    QPixmap extractImage(int frame, int width, int height);
 
 private:   // Private attributes
 
@@ -238,6 +239,9 @@ private:   // Private attributes
     QMap <QString, QString> m_properties;
     /** Holds clip metadata like author, copyright,... */
     QMap <QString, QString> m_metadata;
+    
+    /** Try to make sure we don't delete a producer while using it */
+    QMutex m_producerMutex;
 
     /** Create connections for audio thumbnails */
     void slotCreateAudioTimer();
@@ -250,6 +254,7 @@ private:   // Private attributes
     /** @brief Create another instance of a producer. */
     Mlt::Producer *cloneProducer(Mlt::Producer *source);
 
+   
 public slots:
     void updateAudioThumbnail(QMap<int, QMap<int, QByteArray> > data);
     bool slotGetAudioThumbs();
@@ -268,14 +273,18 @@ public slots:
     void setMetadata(QMap <QString, QString> properties);
     QMap <QString, QString> properties() const;
     QMap <QString, QString> metadata() const;
-
+    void slotExtractImage(int frame, int frame2);
+    /** @brief Lock mutex to prevent changing producers while operation. */
+    void slotBlock();
+    /** @brief Release mutex preventing a change in producers. */
+    void slotRelease();
 
 signals:
     void gotAudioData();
     /** @brief Generate a proxy clip (lower resolution copy) named like the clip's hash. */
     void createProxy(const QString id);
     /** @brief Abort creation of the proxy clip (lower resolution copy). */
-    void abortProxy(const QString id);
+    void abortProxy(const QString id, const QString proxyPath);
 };
 
 #endif

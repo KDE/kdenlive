@@ -240,6 +240,8 @@ public slots:
     void slotUpdateClipCut(QPoint p);
     void slotAddClipCut(const QString &id, int in, int out);
     void slotForceProcessing(const QString &id);
+    /** @brief Remove all instances of a proxy and delete the file. */
+    void slotDeleteProxy(const QString proxyPath);
 
 private:
     ProjectListView *m_listView;
@@ -268,10 +270,10 @@ private:
     QList <QString> m_thumbnailQueue;
     QAction *m_proxyAction;
     QStringList m_processingClips;
-    /** @brief Holds a list of ids for the clips that need to be proxied. */
-    QStringList m_proxyList;
-    /** @brief Holds a list of proxy clip that should be aborted. */
-    QStringList m_abortProxyId;
+    /** @brief Holds a list of proxy urls that should be aborted. */
+    QStringList m_abortProxy;
+    /** @brief Holds a list of proxy urls that are currently being created. */
+    QStringList m_processingProxy;
     
     void requestClipThumbnail(const QString id);
 
@@ -294,7 +296,7 @@ private:
     /** @brief Set the Proxy status on a clip. 
      * @param item The clip item to set status
      * @param status The proxy status (see definitions.h) */
-    void setProxyStatus(const QString id, PROXYSTATUS status);
+    void setProxyStatus(const QString proxyPath, PROXYSTATUS status);
     void setProxyStatus(ProjectItem *item, PROXYSTATUS status);
 
     void monitorItemEditing(bool enable);
@@ -329,15 +331,16 @@ private slots:
     /** @brief Add a sequence from the stopmotion widget. */
     void slotAddOrUpdateSequence(const QString frameName);
     /** @brief A proxy clip was created, update display. */
-    void slotGotProxy(const QString &id);
+    void slotGotProxy(const QString &proxyPath);
+    void slotGotProxy(ProjectItem *item);
     /** @brief Enable / disable proxy for current clip. */
     void slotProxyCurrentItem(bool doProxy);
     /** @brief Put clip in the proxy waiting list. */
     void slotCreateProxy(const QString id);
     /** @brief Stop creation of this clip's proxy. */
-    void slotAbortProxy(const QString id);
+    void slotAbortProxy(const QString id, const QString path);
     /** @brief Start creation of proxy clip. */
-    void slotGenerateProxy(const QString id);
+    void slotGenerateProxy(const QString destPath, const QString sourcePath, int clipType, int exif);
 
 signals:
     void clipSelected(DocClipBase *, QPoint zone = QPoint());

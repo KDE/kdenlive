@@ -449,14 +449,15 @@ void DocClipBase::setValid()
 
 void DocClipBase::setProducer(Mlt::Producer *producer, bool reset, bool readPropertiesFromProducer)
 {
-    if (m_placeHolder && producer) {
+    if (producer == NULL || !producer->is_valid()) return;
+    if (reset) m_producerMutex.lock();
+    if (m_placeHolder) {
         char *tmp = qstrdup(i18n("Missing clip").toUtf8().constData());
         producer->set("markup", tmp);
         producer->set("bgcolour", "0xff0000ff");
         producer->set("pad", "10");
         delete[] tmp;
     }
-    if (producer == NULL /*|| (m_placeHolder && !reset)*/) return;
     if (m_thumbProd && (reset || !m_thumbProd->hasProducer())) m_thumbProd->setProducer(producer);
     if (reset) {
         // Clear all previous producers
@@ -479,12 +480,14 @@ void DocClipBase::setProducer(Mlt::Producer *producer, bool reset, bool readProp
                 m_audioTrackProducers[pos] = producer;
                 updated = true;
             }
+            if (reset) m_producerMutex.unlock();
             return;
         } else if (id.endsWith("video")) {
             if (m_videoOnlyProducer == NULL) {
                 m_videoOnlyProducer = producer;
                 updated = true;
             }
+            if (reset) m_producerMutex.unlock();
             return;
         }
         int pos = id.toInt();
@@ -509,6 +512,7 @@ void DocClipBase::setProducer(Mlt::Producer *producer, bool reset, bool readProp
     }
     if (updated && readPropertiesFromProducer && (m_clipType != COLOR && m_clipType != IMAGE && m_clipType != TEXT))
         setDuration(GenTime(producer->get_length(), KdenliveSettings::project_fps()));
+    if (reset) m_producerMutex.unlock();
 }
 
 static double getPixelAspect(QMap<QString, QString>& props) {
@@ -524,6 +528,7 @@ static double getPixelAspect(QMap<QString, QString>& props) {
 
 Mlt::Producer *DocClipBase::audioProducer(int track)
 {
+    m_producerMutex.lock();
     if (m_audioTrackProducers.count() <= track) {
         while (m_audioTrackProducers.count() - 1 < track) {
             m_audioTrackProducers.append(NULL);
@@ -535,13 +540,16 @@ Mlt::Producer *DocClipBase::audioProducer(int track)
             if (m_audioTrackProducers.at(i) != NULL) break;
         if (i < m_audioTrackProducers.count()) {
             // Could not find a valid producer for that clip, check in 
+            m_producerMutex.unlock();
             return m_audioTrackProducers.at(i);
         }
-            
+        m_producerMutex.unlock();
         Mlt::Producer *base = producer();
+        m_producerMutex.lock();
         m_audioTrackProducers[track] = cloneProducer(base);
         adjustProducerProperties(m_audioTrackProducers.at(track), QString(getId() + '_' + QString::number(track) + "_audio"), false, true);
     }
+    m_producerMutex.unlock();
     return m_audioTrackProducers.at(track);
 }
 
@@ -571,6 +579,7 @@ void DocClipBase::adjustProducerProperties(Mlt::Producer *prod, const QString &i
 
 Mlt::Producer *DocClipBase::videoProducer()
 {
+    m_producerMutex.lock();
     if (m_videoOnlyProducer == NULL) {
         int i;
         for (i = 0; i < m_baseTrackProducers.count(); i++)
@@ -579,17 +588,22 @@ Mlt::Producer *DocClipBase::videoProducer()
         m_videoOnlyProducer = cloneProducer(m_baseTrackProducers.at(i));
         adjustProducerProperties(m_videoOnlyProducer, QString(getId() + "_video"), true, false);
     }
+    m_producerMutex.unlock();
     return m_videoOnlyProducer;
 }
 
 Mlt::Producer *DocClipBase::producer(int track)
 {
+    m_producerMutex.lock();
     if (track == -1 || (m_clipType != AUDIO && m_clipType != AV && m_clipType != PLAYLIST)) {
         if (m_baseTrackProducers.count() == 0) return NULL;
         for (int i = 0; i < m_baseTrackProducers.count(); i++) {
-            if (m_baseTrackProducers.at(i) != NULL)
+            if (m_baseTrackProducers.at(i) != NULL) {
+                m_producerMutex.unlock();
                 return m_baseTrackProducers.at(i);
+            }
         }
+        m_producerMutex.unlock();
         return NULL;
     }
     if (track >= m_baseTrackProducers.count()) {
@@ -604,11 +618,13 @@ Mlt::Producer *DocClipBase::producer(int track)
 
         if (i >= m_baseTrackProducers.count()) {
             // Could not find a valid producer for that clip, check in 
+            m_producerMutex.unlock();
             return NULL;
         }
         m_baseTrackProducers[track] = cloneProducer(m_baseTrackProducers.at(i));
         adjustProducerProperties(m_baseTrackProducers.at(track), QString(getId() + '_' + QString::number(track)), false, false);
     }
+    m_producerMutex.unlock();
     return m_baseTrackProducers.at(track);
 }
 
@@ -616,16 +632,19 @@ Mlt::Producer *DocClipBase::producer(int track)
 Mlt::Producer *DocClipBase::cloneProducer(Mlt::Producer *source)
 {
     Mlt::Producer *result = NULL;
-    if (KIO::NetAccess::exists(KUrl(source->get("resource")), KIO::NetAccess::SourceSide, 0)) {
-        result = new Mlt::Producer(*source->profile(), source->get("resource"));
+    QString url = source->get("resource");
+    if (KIO::NetAccess::exists(KUrl(url), KIO::NetAccess::SourceSide, 0)) {
+        char *tmp = qstrdup(url.toUtf8().constData());
+        result = new Mlt::Producer(*source->profile(), tmp);
+        delete[] tmp;
     }
-    if (result == NULL) {
+    if (result == NULL || !result->is_valid()) {
         // placeholder clip
         QString txt = "+" + i18n("Missing clip") + ".txt";
         char *tmp = qstrdup(txt.toUtf8().constData());
         result = new Mlt::Producer(*source->profile(), tmp);
         delete[] tmp;
-        if (result == NULL)
+        if (result == NULL || !result->is_valid())
             result = new Mlt::Producer(*source->profile(), "colour:red");
         else {
             result->set("bgcolour", "0xff0000ff");
@@ -932,6 +951,7 @@ void DocClipBase::refreshThumbUrl()
 
 void DocClipBase::setProperty(const QString &key, const QString &value)
 {
+    QString oldProxy = m_properties.value("proxy");
     m_properties.insert(key, value);
     if (key == "resource") {
         getFileHash(value);
@@ -1001,7 +1021,7 @@ void DocClipBase::setProperty(const QString &key, const QString &value)
         // If value is "-", that means user manually disabled proxy on this clip
         if (value.isEmpty() || value == "-") {
             // reset proxy
-            emit abortProxy(m_id);
+            emit abortProxy(m_id, oldProxy);
         }
         else {
             emit createProxy(m_id);
@@ -1122,4 +1142,28 @@ bool DocClipBase::hasAudioCodec(const QString &codec) const
 }
 
 
+void DocClipBase::slotExtractImage(int frame, int frame2)
+{
+    if (m_thumbProd == NULL) return;
+    m_thumbProd->extractImage(frame, frame2);
+}
+
+void DocClipBase::slotBlock()
+{
+    m_producerMutex.lock();
+}
+
+void DocClipBase::slotRelease()
+{
+    m_producerMutex.unlock();
+}
+
+QPixmap DocClipBase::extractImage(int frame, int width, int height)
+{
+    if (m_thumbProd == NULL) return QPixmap(width, height);
+    m_producerMutex.lock();
+    QPixmap p = m_thumbProd->extractImage(frame, width, height);
+    m_producerMutex.unlock();
+    return p;
+}
 

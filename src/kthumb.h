@@ -60,10 +60,10 @@ Q_OBJECT public:
     bool hasProducer() const;
     void clearProducer();
     void updateThumbUrl(const QString &hash);
-
-public slots:
     void extractImage(int frame, int frame2);
     QPixmap extractImage(int frame, int width, int height);
+
+public slots:
     void updateClipUrl(KUrl url, const QString &hash);
     static QPixmap getImage(KUrl url, int width, int height);
 //    static QPixmap getImage(QDomElement xml, int frame, int width, int height);

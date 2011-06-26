@@ -1022,10 +1022,8 @@ void ClipProperties::slotUpdateDurationFormat(int ix)
 void ClipProperties::slotDeleteProxy()
 {
       QString proxy = m_clip->getProperty("proxy");
-      QFile::remove(proxy);
-      QMap <QString, QString> props;
-      props.insert("proxy", QString());
-      emit applyNewClipProperties(m_clip->getId(), m_clip->properties(), props, false, true);
+      if (proxy.isEmpty()) return;
+      emit deleteProxy(proxy);
       if (m_proxyContainer) delete m_proxyContainer;
 }
 

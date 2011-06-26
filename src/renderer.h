@@ -361,6 +361,9 @@ signals:
      */
     void removeInvalidProxy(const QString &id, bool durationError);
     void refreshDocumentProducers(bool displayRatioChanged, bool fpsChanged);
+    
+    /** @brief If we will delete the producer, make sure to oause the monitor */
+    void blockClipMonitor(const QString);
 
     /** @brief A frame's image has to be shown.
      *

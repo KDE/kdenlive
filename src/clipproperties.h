@@ -87,6 +87,7 @@ private:
 
 signals:
     void addMarker(const QString &, GenTime, QString);
+    void deleteProxy(const QString);
     void applyNewClipProperties(const QString, QMap <QString, QString> , QMap <QString, QString> , bool, bool);
 };
 
