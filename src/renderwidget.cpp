@@ -45,6 +45,7 @@
 #include <QDBusConnectionInterface>
 #include <QDBusInterface>
 #include <QThread>
+#include <QScriptEngine>
 
 const int GroupRole = Qt::UserRole;
 const int ExtensionRole = GroupRole + 1;
@@ -760,7 +761,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
         width = m_profile.width;
         height = m_profile.height;
     }
-    renderArgs.replace("%dar", '@' + QString::number(m_profile.display_aspect_num) + '/' + QString::number(m_profile.display_aspect_den));
+
     //renderArgs.replace("%width", QString::number((int)(m_profile.height * m_profile.display_aspect_num / (double) m_profile.display_aspect_den + 0.5)));
     //renderArgs.replace("%height", QString::number((int)m_profile.height));
 
@@ -778,10 +779,6 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
     // 2 pass
     if (m_view.checkTwoPass->isEnabled() && m_view.checkTwoPass->isChecked())
         renderArgs.append(" pass=2");
-
-    // bitrate
-    if (m_view.comboBitrates->isEnabled())
-        renderArgs.replace("%bitrate", m_view.comboBitrates->currentText());
 
     // Check if the rendering profile is different from project profile,
     // in which case we need to use the producer_comsumer from MLT
@@ -802,13 +799,26 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
     }
     bool resizeProfile = (subsize != currentSize);
     QStringList paramsList = renderArgs.split(" ", QString::SkipEmptyParts);
-    for (int i = 0; i < paramsList.count(); i++) {
-        if (paramsList.at(i).startsWith("mlt_profile=")) {
-            if (paramsList.at(i).section('=', 1) != m_profile.path) resizeProfile = true;
-            break;
+
+    QScriptEngine sEngine;
+    sEngine.globalObject().setProperty("bitrate", m_view.comboBitrates->currentText());
+    sEngine.globalObject().setProperty("dar", '@' + QString::number(m_profile.display_aspect_num) + '/' + QString::number(m_profile.display_aspect_den));
+
+    for (int i = 0; i < paramsList.count(); ++i) {
+        QString paramName = paramsList.at(i).section('=', 0, 0);
+        QString paramValue = paramsList.at(i).section('=', 1, 1);
+        // If the profiles do not match we need to use the consumer tag
+        if (paramName == "mlt_profile=" && paramValue != m_profile.path) {
+            resizeProfile = true;
         }
+        // evaluate expression
+        if (paramValue.startsWith('%')) {
+            paramValue = sEngine.evaluate(paramValue.remove(0, 1)).toString();
+            paramsList[i] = paramName + '=' + paramValue;
+        }
+        sEngine.globalObject().setProperty(paramName.toUtf8().constData(), paramValue);
     }
-	
+
     if (resizeProfile)
         render_process_args << "consumer:" + (scriptExport ? "$SOURCE" : playlistPath);
     else
