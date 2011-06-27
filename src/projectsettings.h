@@ -68,6 +68,10 @@ private:
     bool m_savedProject;
     ProjectList *m_projectList;
     QStringList m_lumas;
+
+signals:
+    /** @brief User deleted proxies, so disable them in project. */
+    void disableProxies();
 };
 
 

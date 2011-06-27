@@ -839,10 +839,22 @@ void DocClipBase::setProperties(QMap <QString, QString> properties)
     bool refreshProducer = false;
     QStringList keys;
     keys << "luma_duration" << "luma_file" << "fade" << "ttl" << "softness" << "crop" << "animation";
+    QString oldProxy = m_properties.value("proxy");
     while (i.hasNext()) {
         i.next();
         setProperty(i.key(), i.value());
         if (m_clipType == SLIDESHOW && keys.contains(i.key())) refreshProducer = true;
+    }
+    if (properties.contains("proxy")) {
+        QString value = properties.value("proxy");
+        // If value is "-", that means user manually disabled proxy on this clip
+        if (value.isEmpty() || value == "-") {
+            // reset proxy
+            emit abortProxy(m_id, oldProxy);
+        }
+        else {
+            emit createProxy(m_id);
+        }
     }
     if (refreshProducer) slotRefreshProducer();
 }
@@ -951,7 +963,6 @@ void DocClipBase::refreshThumbUrl()
 
 void DocClipBase::setProperty(const QString &key, const QString &value)
 {
-    QString oldProxy = m_properties.value("proxy");
     m_properties.insert(key, value);
     if (key == "resource") {
         getFileHash(value);
@@ -1016,16 +1027,6 @@ void DocClipBase::setProperty(const QString &key, const QString &value)
             m_properties.remove("full_luma");
             resetProducerProperty("set.force_full_luma");
         } else setProducerProperty("set.force_full_luma", value.toInt());
-    }
-    else if (key == "proxy") {
-        // If value is "-", that means user manually disabled proxy on this clip
-        if (value.isEmpty() || value == "-") {
-            // reset proxy
-            emit abortProxy(m_id, oldProxy);
-        }
-        else {
-            emit createProxy(m_id);
-        }
     }
 }
 

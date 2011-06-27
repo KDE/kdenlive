@@ -1093,7 +1093,8 @@ void ProjectList::slotGotProxy(ProjectItem *item)
     if (item == NULL) return;
     DocClipBase *clip = item->referencedClip();
     // Proxy clip successfully created
-    QDomElement e = clip->toXML().cloneNode().toElement();  
+    QDomElement e = clip->toXML().cloneNode().toElement();
+    kDebug()<<"// QUERYING CLIP, proxy: "<<e.attribute("proxy")<<", OUT: "<<e.attribute("proxy_out");
 
     // Make sure we get the correct producer length if it was adjusted in timeline
     CLIPTYPE t = item->clipType();
@@ -1686,9 +1687,9 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
                     proxyPath.addPath("proxy/");
                     proxyPath.addPath(clip->getClipHash() + "." + (t == IMAGE ? "png" : m_doc->getDocumentProperty("proxyextension")));
                     QMap <QString, QString> newProps;
-                    newProps.insert("proxy", proxyPath.path());
                     // insert required duration for proxy
                     if (t != IMAGE) newProps.insert("proxy_out", clip->producerProperty("out"));
+                    newProps.insert("proxy", proxyPath.path());
                     QMap <QString, QString> oldProps = clip->properties();
                     oldProps.insert("proxy", QString());
                     EditClipCommand *command = new EditClipCommand(this, clipId, oldProps, newProps, true);
@@ -2459,9 +2460,9 @@ void ProjectList::slotProxyCurrentItem(bool doProxy)
                 if (doProxy) {
                     newProps.clear();
                     QString path = proxydir + item->referencedClip()->getClipHash() + "." + (t == IMAGE ? "png" : m_doc->getDocumentProperty("proxyextension"));
-                    newProps.insert("proxy", path);
                     // insert required duration for proxy
                     newProps.insert("proxy_out", item->referencedClip()->producerProperty("out"));
+                    newProps.insert("proxy", path);
                     // We need to insert empty proxy so that undo will work
                     oldProps.insert("proxy", QString());
                 }

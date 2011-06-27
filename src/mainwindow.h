@@ -545,6 +545,8 @@ private slots:
     void slotOpenBackupDialog(const KUrl url = KUrl());
     /** @brief Make sure to block clip monitor before deleting a clip's producer. */
     void slotBlockClipMonitor(const QString id);
+    /** @brief Disable proxies for this project. */
+    void slotDisableProxies();
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

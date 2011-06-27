@@ -187,8 +187,10 @@ void ProjectSettings::slotClearCache()
 
 void ProjectSettings::slotDeleteProxies()
 {
+    if (KMessageBox::warningContinueCancel(this, i18n("Deleting proxy clips will disable proxies for this project.")) != KMessageBox::Continue) return;
     buttonBox->setEnabled(false);
-    
+    enable_proxy->setChecked(false);
+    emit disableProxies();
     KIO::NetAccess::del(KUrl(project_folder->url().path(KUrl::AddTrailingSlash) + "proxy/"), this);
     KStandardDirs::makeDir(project_folder->url().path(KUrl::AddTrailingSlash) + "proxy/");
     buttonBox->setEnabled(true);

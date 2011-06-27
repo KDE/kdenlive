@@ -2200,6 +2200,7 @@ void MainWindow::slotEditProjectSettings()
 {
     QPoint p = m_activeDocument->getTracksCount();
     ProjectSettings *w = new ProjectSettings(m_projectList, m_activeTimeline->projectView()->extractTransitionsLumas(), p.x(), p.y(), m_activeDocument->projectFolder().path(), true, !m_activeDocument->isModified(), this);
+    connect(w, SIGNAL(disableProxies()), this, SLOT(slotDisableProxies()));
 
     if (w->exec() == QDialog::Accepted) {
         QString profile = w->selectedProfile();
@@ -2246,6 +2247,13 @@ void MainWindow::slotEditProjectSettings()
         }
     }
     delete w;
+}
+
+void MainWindow::slotDisableProxies()
+{
+    m_activeDocument->setDocumentProperty("enableproxy", QString::number((int) false));
+    m_activeDocument->setModified();
+    slotUpdateProxySettings();
 }
 
 void MainWindow::slotUpdateProjectProfile(const QString &profile)
