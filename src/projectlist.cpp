@@ -1094,7 +1094,6 @@ void ProjectList::slotGotProxy(ProjectItem *item)
     DocClipBase *clip = item->referencedClip();
     // Proxy clip successfully created
     QDomElement e = clip->toXML().cloneNode().toElement();
-    kDebug()<<"// QUERYING CLIP, proxy: "<<e.attribute("proxy")<<", OUT: "<<e.attribute("proxy_out");
 
     // Make sure we get the correct producer length if it was adjusted in timeline
     CLIPTYPE t = item->clipType();

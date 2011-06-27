@@ -599,7 +599,10 @@ Mlt::Producer *DocClipBase::producer(int track)
 {
     m_producerMutex.lock();
     if (track == -1 || (m_clipType != AUDIO && m_clipType != AV && m_clipType != PLAYLIST)) {
-        if (m_baseTrackProducers.count() == 0) return NULL;
+        if (m_baseTrackProducers.count() == 0) {
+            m_producerMutex.unlock();
+            return NULL;
+        }
         for (int i = 0; i < m_baseTrackProducers.count(); i++) {
             if (m_baseTrackProducers.at(i) != NULL) {
                 m_producerMutex.unlock();
