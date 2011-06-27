@@ -538,14 +538,17 @@ Mlt::Producer *DocClipBase::audioProducer(int track)
         int i;
         for (i = 0; i < m_audioTrackProducers.count(); i++)
             if (m_audioTrackProducers.at(i) != NULL) break;
-        if (i < m_audioTrackProducers.count()) {
-            // Could not find a valid producer for that clip, check in 
+        Mlt::Producer *base;
+        if (i >= m_audioTrackProducers.count()) {
+            // Could not find a valid producer for that clip
             m_producerMutex.unlock();
-            return m_audioTrackProducers.at(i);
+            base = producer();
+            if (base == NULL) {
+                return NULL;
+            }
+            m_producerMutex.lock();
         }
-        m_producerMutex.unlock();
-        Mlt::Producer *base = producer();
-        m_producerMutex.lock();
+        else base = m_audioTrackProducers.at(i);
         m_audioTrackProducers[track] = cloneProducer(base);
         adjustProducerProperties(m_audioTrackProducers.at(track), QString(getId() + '_' + QString::number(track) + "_audio"), false, true);
     }
