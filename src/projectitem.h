@@ -83,9 +83,10 @@ private:
     CLIPTYPE m_clipType;
     DocClipBase *m_clip;
     QString m_clipId;
-
+    /** @brief Setup basic properties */
     void buildItem();
-
+    /** @brief Check if an xml project file has proxies */
+    bool playlistHasProxies(const QString path);
 };
 
 #endif

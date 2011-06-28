@@ -87,35 +87,17 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QStrin
 
     if (!m_properties.contains("name")) m_properties.insert("name", url.fileName());
 
-    //if (!url.isEmpty() && QFile::exists(url.path()))
-    {
-        m_thumbProd = new KThumb(clipManager, url, m_id, m_properties.value("file_hash"));
-        if (m_clipType == AV || m_clipType == AUDIO || m_clipType == PLAYLIST) slotCreateAudioTimer();
-    }
-    //kDebug() << "type is video" << (m_clipType == AV) << " " << m_clipType;
+    m_thumbProd = new KThumb(clipManager, url, m_id, m_properties.value("file_hash"));
+    if (m_clipType == AV || m_clipType == AUDIO || m_clipType == PLAYLIST) slotCreateAudioTimer();
 }
-
-/*DocClipBase & DocClipBase::operator=(const DocClipBase & clip) {
-    DocClipBase::operator=(clip);
-    m_id = clip.getId();
-    m_clipType = clip.clipType();
-    m_name = clip.name();
-    m_duration = clip.duration();
-    m_audioThumbCreated = clip.audioThumbCreated();
-    m_properties = clip.properties();
-    return *this;
-}*/
 
 DocClipBase::~DocClipBase()
 {
-    kDebug() << "CLIP " << m_id << " DELETED******************************";
     delete m_thumbProd;
     if (m_audioTimer) {
         m_audioTimer->stop();
         delete m_audioTimer;
     }
-    /*kDebug() <<" * * *CNT "<<m_baseTrackProducers.count();
-    if (m_baseTrackProducers.count() > 0) kDebug()<<"YOYO: "<<m_baseTrackProducers.at(0)->get_out()<<", CUT: "<<m_baseTrackProducers.at(0)->is_cut();*/
     qDeleteAll(m_baseTrackProducers);
     m_baseTrackProducers.clear();
     qDeleteAll(m_audioTrackProducers);
@@ -1161,6 +1143,5 @@ QPixmap DocClipBase::extractImage(int frame, int width, int height)
     QPixmap p = m_thumbProd->extractImage(frame, width, height);
     return p;
 }
-
 
 

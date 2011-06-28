@@ -27,6 +27,8 @@
 #include <KLocale>
 #include <KIcon>
 
+#include <QFile>
+
 const int DurationRole = Qt::UserRole + 1;
 const int ProxyRole = Qt::UserRole + 5;
 const int itemHeight = 38;
@@ -59,7 +61,17 @@ void ProjectItem::buildItem()
     setText(0, name);
     setText(1, m_clip->description());
     GenTime duration = m_clip->duration();
-    if (duration != GenTime()) setData(0, DurationRole, Timecode::getEasyTimecode(duration, KdenliveSettings::project_fps()));
+    QString durationText;
+    if (duration != GenTime()) {
+        durationText = Timecode::getEasyTimecode(duration, KdenliveSettings::project_fps());
+    }
+    if (m_clipType == PLAYLIST) {
+        // Check if the playlist xml contains a proxy inside, and inform user
+        if (playlistHasProxies(m_clip->fileURL().path())) {
+            durationText.prepend(i18n("Contains proxies") + " / ");
+        }
+    }
+    if (!durationText.isEmpty()) setData(0, DurationRole, durationText);
 }
 
 ProjectItem::~ProjectItem()
@@ -116,7 +128,10 @@ const KUrl ProjectItem::clipUrl() const
 
 void ProjectItem::changeDuration(int frames)
 {
-    setData(0, DurationRole, Timecode::getEasyTimecode(GenTime(frames, KdenliveSettings::project_fps()), KdenliveSettings::project_fps()));
+    QString itemdata = data(0, DurationRole).toString();
+    if (itemdata.contains('/')) itemdata = itemdata.section('/', 0, 0) + "/ ";
+    else itemdata.clear();
+    setData(0, DurationRole, itemdata + Timecode::getEasyTimecode(GenTime(frames, KdenliveSettings::project_fps()), KdenliveSettings::project_fps()));
 }
 
 void ProjectItem::setProperties(QMap <QString, QString> props)
@@ -193,18 +208,8 @@ void ProjectItem::slotSetToolTip()
 void ProjectItem::setProperties(const QMap < QString, QString > &attributes, const QMap < QString, QString > &metadata)
 {
     if (m_clip == NULL) return;
-    //setFlags(Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled);
-    if (attributes.contains("duration")) {
-        GenTime duration = GenTime(attributes.value("duration").toInt(), KdenliveSettings::project_fps());
-        setData(0, DurationRole, Timecode::getEasyTimecode(duration, KdenliveSettings::project_fps()));
-        m_clip->setDuration(duration);
-    } else  {
-        // No duration known, use an arbitrary one until it is.
-    }
 
-
-    //extend attributes -reh
-
+    QString prefix;
     if (m_clipType == UNKNOWN) {
         QString cliptype = attributes.value("type");
         if (cliptype == "audio") m_clipType = AUDIO;
@@ -215,7 +220,25 @@ void ProjectItem::setProperties(const QMap < QString, QString > &attributes, con
 
         m_clip->setClipType(m_clipType);
         slotSetToolTip();
+        if (m_clipType == PLAYLIST) {
+            // Check if the playlist xml contains a proxy inside, and inform user
+            if (playlistHasProxies(m_clip->fileURL().path())) {
+                prefix = i18n("Contains proxies") + " / ";
+            }
+        }
     }
+    if (attributes.contains("duration")) {
+        GenTime duration = GenTime(attributes.value("duration").toInt(), KdenliveSettings::project_fps());
+        QString itemdata = data(0, DurationRole).toString();
+        if (itemdata.contains('/')) itemdata = itemdata.section('/', 0, 0) + "/ ";
+        else itemdata.clear();
+        if (prefix.isEmpty()) prefix = itemdata;
+        setData(0, DurationRole, prefix + Timecode::getEasyTimecode(duration, KdenliveSettings::project_fps()));
+        m_clip->setDuration(duration);
+    } else  {
+        // No duration known, use an arbitrary one until it is.
+    }
+
     m_clip->setProperties(attributes);
     m_clip->setMetadata(metadata);
 
@@ -253,4 +276,27 @@ bool ProjectItem::isProxyRunning() const
     if (s == PROXYWAITING || s == CREATINGPROXY) return true;
     return false;
 }
+
+bool ProjectItem::playlistHasProxies(const QString path)
+{
+    kDebug()<<"// CHECKING FOR PROXIES";
+    QFile file(path);
+    QDomDocument doc;
+    if (!file.open(QIODevice::ReadOnly))
+    return false;
+    if (!doc.setContent(&file)) {
+        file.close();
+        return false;
+    }
+    file.close();
+    QString root = doc.documentElement().attribute("root");
+    QDomNodeList kdenliveProducers = doc.elementsByTagName("kdenlive_producer");
+    for (int i = 0; i < kdenliveProducers.count(); i++) {
+        QString proxy = kdenliveProducers.at(i).toElement().attribute("proxy");
+        if (!proxy.isEmpty() && proxy != "-") return true;
+    }
+    return false;
+}
+
+
 
