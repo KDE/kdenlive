@@ -97,8 +97,8 @@ void KThumb::updateThumbUrl(const QString &hash)
 void KThumb::updateClipUrl(KUrl url, const QString &hash)
 {
     m_url = url;
-    if (m_producer)
-        m_producer->set("resource", url.path().toUtf8().constData());
+    //if (m_producer)
+        //m_producer->set("resource", url.path().toUtf8().constData());
     m_thumbFile = m_clipManager->projectFolder() + "/thumbs/" + hash + ".thumb";
 }
 

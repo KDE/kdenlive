@@ -571,7 +571,7 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
         proxyProducer = false;
     }
 
-    KUrl url = KUrl(path);
+    KUrl url(path);
     Mlt::Producer *producer = NULL;
     CLIPTYPE type = (CLIPTYPE)xml.attribute("type").toInt();
     //kDebug() << "PROFILE WIDT: "<< xml.attribute("mlt_service") << ": "<< m_mltProfile->width() << "\n...................\n\n";
@@ -595,12 +595,12 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
         play.appendChild(doc.importNode(xml, true));
         producer = new Mlt::Producer(*m_mltProfile, "xml-string", doc.toString().toUtf8().constData());
     } else {
-        producer = new Mlt::Producer(*m_mltProfile, url.path().toUtf8().constData());
+        producer = new Mlt::Producer(*m_mltProfile, path.toUtf8().constData());
     }
 
 
     if (producer == NULL || producer->is_blank() || !producer->is_valid()) {
-        kDebug() << " / / / / / / / / ERROR / / / / // CANNOT LOAD PRODUCER: ";
+        kDebug() << " / / / / / / / / ERROR / / / / // CANNOT LOAD PRODUCER: "<<path;
         if (proxyProducer) {
             // Proxy file is corrupted
             emit removeInvalidProxy(clipId, false);
@@ -697,6 +697,9 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
     if ((!replaceProducer && xml.hasAttribute("file_hash")) || xml.hasAttribute("proxy")) {
         // Clip  already has all properties
         if (replaceProducer) emit blockClipMonitor(clipId);
+        // Querying a frame is required by MLT, otherwise the producer is not correctly initialised
+        Mlt::Frame *frame = producer->get_frame();
+        delete frame;
         emit replyGetFileProperties(clipId, producer, QMap < QString, QString >(), QMap < QString, QString >(), replaceProducer, selectClip);
         return;
     }
@@ -933,15 +936,17 @@ void Render::initSceneList()
 
 int Render::setProducer(Mlt::Producer *producer, int position)
 {
+    QMutexLocker locker(&m_mutex);
     if (m_winid == -1) return -1;
-
     if (m_mltConsumer) {
         if (!m_mltConsumer->is_stopped()) {
             m_mltConsumer->stop();
         }
         m_mltConsumer->set("refresh", 0);
     }
-    else return -1;
+    else {
+        return -1;
+    }
 
     m_isBlocked = true;
     if (m_mltProducer) {
@@ -951,7 +956,7 @@ int Render::setProducer(Mlt::Producer *producer, int position)
         emit stopped();
     }
     blockSignals(true);
-    if (producer) {
+    if (producer && producer->is_valid()) {
         m_mltProducer = new Mlt::Producer(producer->get_producer());
     } else m_mltProducer = m_blackClip->cut(0, 50);
 

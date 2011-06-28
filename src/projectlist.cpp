@@ -114,10 +114,6 @@ ProjectList::ProjectList(QWidget *parent) :
     setLayout(layout);
     searchView->setTreeWidget(m_listView);
 
-    m_proxyAction = new QAction(i18n("Proxy clip"), this);
-    m_proxyAction->setCheckable(true);
-    m_proxyAction->setChecked(false);
-    connect(m_proxyAction, SIGNAL(toggled(bool)), this, SLOT(slotProxyCurrentItem(bool)));
     connect(this, SIGNAL(processNextThumbnail()), this, SLOT(slotProcessNextThumbnail()));
     connect(m_listView, SIGNAL(projectModified()), this, SIGNAL(projectModified()));
     connect(m_listView, SIGNAL(itemSelectionChanged()), this, SLOT(slotClipSelected()));
@@ -174,6 +170,10 @@ void ProjectList::setupMenu(QMenu *addMenu, QAction *defaultAction)
             i--;
         } else if (actions.at(i)->data().toString() == "reload_clip") {
             m_reloadAction = actions.at(i);
+            actions.removeAt(i);
+            i--;
+        } else if (actions.at(i)->data().toString() == "proxy_clip") {
+            m_proxyAction = actions.at(i);
             actions.removeAt(i);
             i--;
         }
@@ -1132,7 +1132,7 @@ void ProjectList::slotProcessNextClipInQueue()
 
     QMap<QString, QDomElement>::const_iterator j = m_infoQueue.constBegin();
     if (j != m_infoQueue.constEnd()) {
-        QDomElement dom = j.value();
+        QDomElement dom = j.value().cloneNode().toElement();
         const QString id = j.key();
         m_infoQueue.remove(id);
         m_processingClips.append(id);
@@ -1661,7 +1661,6 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
     }
     m_processingClips.removeAll(clipId);
     if (m_infoQueue.isEmpty() && m_processingClips.isEmpty()) m_listView->setEnabled(true);
-
     if (item && producer) {
         //m_listView->blockSignals(true);
         monitorItemEditing(false);
@@ -2383,7 +2382,7 @@ void ProjectList::updateProxyConfig()
                 if (clip->getProperty("frame_size").section('x', 0, 0).toInt() > m_doc->getDocumentProperty("proxyminsize").toInt()) {
                     if (clip->getProperty("proxy").isEmpty()) {
                         // We need to insert empty proxy in old properties so that undo will work
-                        QMap <QString, QString> oldProps = clip->properties();
+                        QMap <QString, QString> oldProps;// = clip->properties();
                         oldProps.insert("proxy", QString());
                         QMap <QString, QString> newProps;
                         newProps.insert("proxy", proxydir + item->referencedClip()->getClipHash() + "." + m_doc->getDocumentProperty("proxyextension"));

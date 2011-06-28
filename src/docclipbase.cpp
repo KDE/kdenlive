@@ -450,7 +450,7 @@ void DocClipBase::setValid()
 void DocClipBase::setProducer(Mlt::Producer *producer, bool reset, bool readPropertiesFromProducer)
 {
     if (producer == NULL || !producer->is_valid()) return;
-    if (reset) m_producerMutex.lock();
+    if (reset) QMutexLocker locker(&m_producerMutex);
     if (m_placeHolder) {
         char *tmp = qstrdup(i18n("Missing clip").toUtf8().constData());
         producer->set("markup", tmp);
@@ -489,14 +489,12 @@ void DocClipBase::setProducer(Mlt::Producer *producer, bool reset, bool readProp
                 m_audioTrackProducers[pos] = producer;
                 updated = true;
             }
-            if (reset) m_producerMutex.unlock();
             return;
         } else if (id.endsWith("video")) {
             if (m_videoOnlyProducer == NULL) {
                 m_videoOnlyProducer = producer;
                 updated = true;
             }
-            if (reset) m_producerMutex.unlock();
             return;
         }
         int pos = id.toInt();
@@ -521,7 +519,6 @@ void DocClipBase::setProducer(Mlt::Producer *producer, bool reset, bool readProp
     }
     if (updated && readPropertiesFromProducer && (m_clipType != COLOR && m_clipType != IMAGE && m_clipType != TEXT))
         setDuration(GenTime(producer->get_length(), KdenliveSettings::project_fps()));
-    if (reset) m_producerMutex.unlock();
 }
 
 static double getPixelAspect(QMap<QString, QString>& props) {
@@ -537,7 +534,7 @@ static double getPixelAspect(QMap<QString, QString>& props) {
 
 Mlt::Producer *DocClipBase::audioProducer(int track)
 {
-    m_producerMutex.lock();
+    QMutexLocker locker(&m_producerMutex);
     if (m_audioTrackProducers.count() <= track) {
         while (m_audioTrackProducers.count() - 1 < track) {
             m_audioTrackProducers.append(NULL);
@@ -550,18 +547,17 @@ Mlt::Producer *DocClipBase::audioProducer(int track)
         Mlt::Producer *base;
         if (i >= m_audioTrackProducers.count()) {
             // Could not find a valid producer for that clip
-            m_producerMutex.unlock();
+            locker.unlock();
             base = producer();
             if (base == NULL) {
                 return NULL;
             }
-            m_producerMutex.lock();
+            locker.relock();
         }
         else base = m_audioTrackProducers.at(i);
         m_audioTrackProducers[track] = cloneProducer(base);
         adjustProducerProperties(m_audioTrackProducers.at(track), QString(getId() + '_' + QString::number(track) + "_audio"), false, true);
     }
-    m_producerMutex.unlock();
     return m_audioTrackProducers.at(track);
 }
 
@@ -591,7 +587,7 @@ void DocClipBase::adjustProducerProperties(Mlt::Producer *prod, const QString &i
 
 Mlt::Producer *DocClipBase::videoProducer()
 {
-    m_producerMutex.lock();
+    QMutexLocker locker(&m_producerMutex);
     if (m_videoOnlyProducer == NULL) {
         int i;
         for (i = 0; i < m_baseTrackProducers.count(); i++)
@@ -600,25 +596,21 @@ Mlt::Producer *DocClipBase::videoProducer()
         m_videoOnlyProducer = cloneProducer(m_baseTrackProducers.at(i));
         adjustProducerProperties(m_videoOnlyProducer, QString(getId() + "_video"), true, false);
     }
-    m_producerMutex.unlock();
     return m_videoOnlyProducer;
 }
 
 Mlt::Producer *DocClipBase::producer(int track)
 {
-    m_producerMutex.lock();
+    QMutexLocker locker(&m_producerMutex);
     if (track == -1 || (m_clipType != AUDIO && m_clipType != AV && m_clipType != PLAYLIST)) {
         if (m_baseTrackProducers.count() == 0) {
-            m_producerMutex.unlock();
             return NULL;
         }
         for (int i = 0; i < m_baseTrackProducers.count(); i++) {
             if (m_baseTrackProducers.at(i) != NULL) {
-                m_producerMutex.unlock();
                 return m_baseTrackProducers.at(i);
             }
         }
-        m_producerMutex.unlock();
         return NULL;
     }
     if (track >= m_baseTrackProducers.count()) {
@@ -633,13 +625,11 @@ Mlt::Producer *DocClipBase::producer(int track)
 
         if (i >= m_baseTrackProducers.count()) {
             // Could not find a valid producer for that clip, check in 
-            m_producerMutex.unlock();
             return NULL;
         }
         m_baseTrackProducers[track] = cloneProducer(m_baseTrackProducers.at(i));
         adjustProducerProperties(m_baseTrackProducers.at(track), QString(getId() + '_' + QString::number(track)), false, false);
     }
-    m_producerMutex.unlock();
     return m_baseTrackProducers.at(track);
 }
 
@@ -1164,22 +1154,11 @@ void DocClipBase::slotExtractImage(int frame, int frame2)
     m_thumbProd->extractImage(frame, frame2);
 }
 
-void DocClipBase::slotBlock()
-{
-    m_producerMutex.lock();
-}
-
-void DocClipBase::slotRelease()
-{
-    m_producerMutex.unlock();
-}
-
 QPixmap DocClipBase::extractImage(int frame, int width, int height)
 {
     if (m_thumbProd == NULL) return QPixmap(width, height);
-    m_producerMutex.lock();
+    QMutexLocker locker(&m_producerMutex);
     QPixmap p = m_thumbProd->extractImage(frame, width, height);
-    m_producerMutex.unlock();
     return p;
 }
 

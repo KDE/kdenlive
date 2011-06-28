@@ -41,7 +41,7 @@
 #include <qmap.h>
 #include <QList>
 #include <QEvent>
-
+#include <QMutex>
 
 class QTimer;
 class QPixmap;
@@ -301,6 +301,7 @@ private:
     QString m_activeProfile;
 
     QTimer *m_osdTimer;
+    QMutex m_mutex;
 
     /** @brief A human-readable description of this renderer. */
     int m_winid;
@@ -362,7 +363,7 @@ signals:
     void removeInvalidProxy(const QString &id, bool durationError);
     void refreshDocumentProducers(bool displayRatioChanged, bool fpsChanged);
     
-    /** @brief If we will delete the producer, make sure to oause the monitor */
+    /** @brief If we will delete the producer, make sure to pause the monitor */
     void blockClipMonitor(const QString);
 
     /** @brief A frame's image has to be shown.

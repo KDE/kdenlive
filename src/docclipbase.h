@@ -274,10 +274,6 @@ public slots:
     QMap <QString, QString> properties() const;
     QMap <QString, QString> metadata() const;
     void slotExtractImage(int frame, int frame2);
-    /** @brief Lock mutex to prevent changing producers while operation. */
-    void slotBlock();
-    /** @brief Release mutex preventing a change in producers. */
-    void slotRelease();
 
 signals:
     void gotAudioData();

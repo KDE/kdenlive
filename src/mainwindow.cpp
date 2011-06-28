@@ -1590,6 +1590,13 @@ void MainWindow::setupActions()
     connect(reloadClip , SIGNAL(triggered()), m_projectList, SLOT(slotReloadClip()));
     reloadClip->setEnabled(false);
 
+    QAction *proxyClip = new KAction(i18n("Proxy Clip"), this);
+    collection.addAction("proxy_clip", proxyClip);
+    proxyClip->setData("proxy_clip");
+    proxyClip->setCheckable(true);
+    proxyClip->setChecked(false);
+    connect(proxyClip, SIGNAL(toggled(bool)), m_projectList, SLOT(slotProxyCurrentItem(bool)));
+    
     QAction *stopMotion = new KAction(KIcon("image-x-generic"), i18n("Stop Motion Capture"), this);
     collection.addAction("stopmotion", stopMotion);
     connect(stopMotion , SIGNAL(triggered()), this, SLOT(slotOpenStopmotion()));
@@ -1603,6 +1610,7 @@ void MainWindow::setupActions()
     addClips->addAction(addFolderButton);
 
     addClips->addAction(reloadClip);
+    addClips->addAction(proxyClip);
     addClips->addAction(clipProperties);
     addClips->addAction(openClip);
     addClips->addAction(deleteClip);
