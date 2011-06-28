@@ -112,7 +112,7 @@ bool DocumentChecker::hasErrorInClips()
         resource = e.attribute("resource");
         if (e.hasAttribute("proxy")) {
             QString proxyresource = e.attribute("proxy");
-            if (!KIO::NetAccess::exists(KUrl(proxyresource), KIO::NetAccess::SourceSide, 0)) {
+            if (!proxyresource.isEmpty() && proxyresource != "-" && !KIO::NetAccess::exists(KUrl(proxyresource), KIO::NetAccess::SourceSide, 0)) {
                 // Missing clip found
                 missingProxies.append(e);
             }
