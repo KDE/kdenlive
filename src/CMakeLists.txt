@@ -333,6 +333,7 @@ target_link_libraries(kdenlive
   ${KDE4_KROSSUI_LIBS}
   ${CMAKE_DL_LIBS}
   ${CMAKE_THREAD_LIBS_INIT}
+  ${QT_QTSCRIPT_LIBRARY}
 )
 
 if(Q_WS_X11)

@@ -21,6 +21,9 @@ else ( NOT QT_QTOPENGL_FOUND )
   message(-- " Found QtOpenGL.")
 endif ( NOT QT_QTOPENGL_FOUND )
 find_library(Qt COMPONENTS QtOpenGL REQUIRED)
+
+find_library(Qt COMPONENTS QtScript REQUIRED)
+
 add_definitions(${QT_DEFINITIONS})
 
 # Search MLT package.
