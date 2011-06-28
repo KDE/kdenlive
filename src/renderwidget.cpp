@@ -55,9 +55,8 @@ const int ParamsRole = GroupRole + 4;
 const int EditableRole = GroupRole + 5;
 const int MetaGroupRole = GroupRole + 6;
 const int ExtraRole = GroupRole + 7;
-const int TwoPassRole = GroupRole + 8;
-const int BitratesRole = GroupRole + 9;
-const int DefaultBitrateRole = GroupRole + 10;
+const int BitratesRole = GroupRole + 8;
+const int DefaultBitrateRole = GroupRole + 9;
 
 // Running job status
 const int WAITINGJOB = 0;
@@ -776,10 +775,6 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
     renderArgs.append(QString(" threads=%1").arg(KdenliveSettings::encodethreads()));
     renderArgs.append(QString(" real_time=-%1").arg(KdenliveSettings::mltthreads()));
 
-    // 2 pass
-    if (m_view.checkTwoPass->isEnabled() && m_view.checkTwoPass->isChecked())
-        renderArgs.append(" pass=2");
-
     // Check if the rendering profile is different from project profile,
     // in which case we need to use the producer_comsumer from MLT
     QString std = renderArgs;
@@ -803,6 +798,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
     QScriptEngine sEngine;
     sEngine.globalObject().setProperty("bitrate", m_view.comboBitrates->currentText());
     sEngine.globalObject().setProperty("dar", '@' + QString::number(m_profile.display_aspect_num) + '/' + QString::number(m_profile.display_aspect_den));
+    sEngine.globalObject().setProperty("passes", static_cast<int>(m_view.checkTwoPass->isChecked()) + 1);
 
     for (int i = 0; i < paramsList.count(); ++i) {
         QString paramName = paramsList.at(i).section('=', 0, 0);
@@ -1075,11 +1071,6 @@ void RenderWidget::refreshView()
     KIcon brokenIcon("dialog-close");
     KIcon warningIcon("dialog-warning");
 
-    if (m_view.format_list->currentItem()->data(TwoPassRole).canConvert(QVariant::Bool))
-        m_view.checkTwoPass->setEnabled(m_view.format_list->currentItem()->data(TwoPassRole).toBool());
-    else
-        m_view.checkTwoPass->setEnabled(true);
-
     const QStringList formatsList = KdenliveSettings::supportedformats();
     const QStringList vcodecsList = KdenliveSettings::videocodecs();
     const QStringList acodecsList = KdenliveSettings::audiocodecs();
@@ -1263,6 +1254,8 @@ void RenderWidget::refreshParams()
     } else {
         m_view.comboBitrates->setEnabled(false);
     }
+
+    m_view.checkTwoPass->setEnabled(params.contains("passes"));
 
     m_view.buttonRender->setEnabled(m_view.size_list->currentItem()->toolTip().isEmpty());
     m_view.buttonGenerateScript->setEnabled(m_view.size_list->currentItem()->toolTip().isEmpty());
@@ -1467,7 +1460,6 @@ void RenderWidget::parseFile(QString exportFile, bool editable)
     QString renderer;
     QString params;
     QString standard;
-    QString twoPass;
     QString bitrates, defaultBitrate;
     KIcon icon;
 
@@ -1493,7 +1485,6 @@ void RenderWidget::parseFile(QString exportFile, bool editable)
         groupName = documentElement.attribute("name", i18nc("Attribute Name", "Custom"));
         extension = documentElement.attribute("extension", QString());
         renderer = documentElement.attribute("renderer", QString());
-        twoPass = documentElement.attribute("twopass", "true");
         bool exists = false;
         for (int j = 0; j < m_renderCategory.count(); j++) {
             if (m_renderCategory.at(j)->text() == groupName && m_renderCategory.at(j)->data(MetaGroupRole) == metagroupId) {
@@ -1504,7 +1495,6 @@ void RenderWidget::parseFile(QString exportFile, bool editable)
         if (!exists) {
             QListWidgetItem *itemcat = new QListWidgetItem(groupName); //, m_view.format_list);
             itemcat->setData(MetaGroupRole, metagroupId);
-            itemcat->setData(TwoPassRole, twoPass == "false" ? false : true);
             m_renderCategory.append(itemcat);
         }
 

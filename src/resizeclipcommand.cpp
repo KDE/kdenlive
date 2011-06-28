@@ -37,14 +37,11 @@ ResizeClipCommand::ResizeClipCommand(CustomTrackView *view, const ItemInfo start
 // virtual
 void ResizeClipCommand::undo()
 {
-// kDebug()<<"----  undoing action";
-    m_doIt = true;
-    if (m_doIt) m_view->resizeClip(m_endPos, m_startPos, m_dontWorry);
+    m_view->resizeClip(m_endPos, m_startPos, m_dontWorry);
 }
 // virtual
 void ResizeClipCommand::redo()
 {
-    kDebug() << "----  redoing action";
     if (m_doIt) m_view->resizeClip(m_startPos, m_endPos, m_dontWorry);
     m_doIt = true;
 }

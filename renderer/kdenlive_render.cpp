@@ -64,18 +64,26 @@ int main(int argc, char **argv)
         bool dualpass = false;
         bool doerase;
         QString vpre;
-		int vprepos=args.indexOf(QRegExp("vpre=.*"));
-		if (vprepos>=0)
-			vpre=args.at(vprepos);
-        QStringList vprelist=vpre.replace("vpre=","").split(",");
-        if (vprelist.size()>0)
-            args.replaceInStrings(QRegExp("^vpre=.*"),QString("vpre=").append(vprelist.at(0)));
+
+        int vprepos = args.indexOf(QRegExp("vpre=.*"));
+        if (vprepos >= 0) {
+            vpre=args.at(vprepos);
+        }
+        QStringList vprelist = vpre.replace("vpre=", "").split(",");
+        if (vprelist.size() > 0) {
+            args.replaceInStrings(QRegExp("^vpre=.*"), QString("vpre=").append(vprelist.at(0)));
+        }
+
         if (args.contains("pass=2")) {
             // dual pass encoding
             dualpass = true;
             doerase = false;
             args.replace(args.indexOf("pass=2"), "pass=1");
-        } else doerase = erase;
+        } else {
+            args.removeAll("pass=1");
+            doerase = erase;
+        }
+
         qDebug() << "//STARTING RENDERING: " << erase << "," << usekuiserver << "," << render << "," << profile << "," << rendermodule << "," << player << "," << src << "," << dest << "," << preargs << "," << args << "," << in << "," << out ;
         RenderJob *job = new RenderJob(doerase, usekuiserver, render, profile, rendermodule, player, src, dest, preargs, args, in, out);
         job->start();

@@ -166,8 +166,11 @@ void RenderJob::receivedStderr()
         if (pro < 0 || pro > 100) return;
         if (pro > m_progress) {
             m_progress = pro;
-            if (m_args.contains("pass=1")) { m_progress=m_progress/2.0 ;}
-            if (m_args.contains("pass=2")) { m_progress=50+m_progress/2.0 ;}
+            if (m_args.contains("pass=1")) {
+                m_progress /= 2.0;
+            } else if (m_args.contains("pass=2")) {
+                m_progress = 50 + m_progress / 2.0;
+            }
             if (m_kdenliveinterface) {
                 if (!m_kdenliveinterface->isValid()) {
                     delete m_kdenliveinterface;
