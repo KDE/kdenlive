@@ -458,13 +458,22 @@ void DocClipBase::setProducer(Mlt::Producer *producer, bool reset, bool readProp
         producer->set("pad", "10");
         delete[] tmp;
     }
-    if (m_thumbProd && (reset || !m_thumbProd->hasProducer())) m_thumbProd->setProducer(producer);
+    QString id = producer->get("id");
+    if (m_thumbProd) {
+        if (reset) m_thumbProd->setProducer(NULL);
+        if (!m_thumbProd->hasProducer()) {
+            if (m_clipType != AUDIO) {
+                if (!id.endsWith("_audio"))
+                    m_thumbProd->setProducer(producer);
+            }
+            else m_thumbProd->setProducer(producer);
+        }
+    }
     if (reset) {
         // Clear all previous producers
         kDebug() << "/+++++++++++++++   DELETE ALL PRODS " << producer->get("id");
         deleteProducers(false);
     }
-    QString id = producer->get("id");
     bool updated = false;
     if (id.contains('_')) {
         // this is a subtrack producer, insert it at correct place
@@ -928,7 +937,7 @@ QString DocClipBase::getClipHash() const
     else if (m_clipType == TEXT) hash = QCryptographicHash::hash(QString("title" + getId() + m_properties.value("xmldata")).toUtf8().data(), QCryptographicHash::Md5).toHex();
     else {
         if (m_properties.contains("file_hash")) hash = m_properties.value("file_hash");
-        else hash = getHash(fileURL().path());
+        if (hash.isEmpty()) hash = getHash(fileURL().path());
         
     }
     return hash;

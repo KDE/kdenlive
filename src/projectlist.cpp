@@ -1352,6 +1352,7 @@ void ProjectList::slotRemoveInvalidClip(const QString &id, bool replace)
 {
     ProjectItem *item = getItemById(id);
     m_processingClips.removeAll(id);
+    m_thumbnailQueue.removeAll(id);
     if (!m_queueRunner.isRunning() && m_processingClips.isEmpty()) m_queueRunner = QtConcurrent::run(this, &ProjectList::slotProcessNextClipInQueue);
     if (item) {
         const QString path = item->referencedClip()->fileURL().path();
@@ -1385,6 +1386,7 @@ void ProjectList::slotRemoveInvalidProxy(const QString &id, bool durationError)
         }
     }
     m_processingClips.removeAll(id);
+    m_thumbnailQueue.removeAll(id);
     if (!m_queueRunner.isRunning() && m_processingClips.isEmpty()) m_queueRunner = QtConcurrent::run(this, &ProjectList::slotProcessNextClipInQueue);
 }
 
@@ -1726,7 +1728,8 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
     }
     if (item && m_listView->isEnabled() && replace) {
             // update clip in clip monitor
-            emit clipSelected(item->referencedClip());
+            if (item->isSelected() && m_listView->selectedItems().count() == 1)
+                emit clipSelected(item->referencedClip());
             //TODO: Make sure the line below has no side effect
             toReload = clipId;
         }

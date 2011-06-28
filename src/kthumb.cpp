@@ -72,12 +72,12 @@ void KThumb::setProducer(Mlt::Producer *producer)
     m_producer = producer;
     // FIXME: the profile() call leaks an object, but trying to free
     // it leads to a double-free in Profile::~Profile()
-    m_dar = producer->profile()->dar();
+    if (producer) m_dar = producer->profile()->dar();
 }
 
 void KThumb::clearProducer()
 {
-    m_producer = NULL;
+    setProducer(NULL);
 }
 
 bool KThumb::hasProducer() const
@@ -376,8 +376,8 @@ void KThumb::getAudioThumbs(int channel, double frame, double frameLength, int a
 void KThumb::slotCreateAudioThumbs()
 {
     Mlt::Profile prof((char*) KdenliveSettings::current_profile().toUtf8().data());
-    Mlt::Producer m_producer(prof, m_url.path().toUtf8().data());
-    if (!m_producer.is_valid()) {
+    Mlt::Producer producer(prof, m_url.path().toUtf8().data());
+    if (!producer.is_valid()) {
         kDebug() << "++++++++  INVALID CLIP: " << m_url.path();
         return;
     }
@@ -391,23 +391,23 @@ void KThumb::slotCreateAudioThumbs()
     if (KdenliveSettings::normaliseaudiothumbs()) {
         Mlt::Filter m_convert(prof, "volume");
         m_convert.set("gain", "normalise");
-        m_producer.attach(m_convert);
+        producer.attach(m_convert);
     }
 
     int last_val = 0;
     int val = 0;
     //kDebug() << "for " << m_frame << " " << m_frameLength << " " << m_producer.is_valid();
-    for (int z = (int) m_frame; z < (int)(m_frame + m_frameLength) && m_producer.is_valid(); z++) {
+    for (int z = (int) m_frame; z < (int)(m_frame + m_frameLength) && producer.is_valid(); z++) {
         if (m_stopAudioThumbs) break;
         val = (int)((z - m_frame) / (m_frame + m_frameLength) * 100.0);
         if (last_val != val && val > 1) {
             m_clipManager->setThumbsProgress(i18n("Creating thumbnail for %1", m_url.fileName()), val);
             last_val = val;
         }
-        m_producer.seek(z);
-        Mlt::Frame *mlt_frame = m_producer.get_frame();
+        producer.seek(z);
+        Mlt::Frame *mlt_frame = producer.get_frame();
         if (mlt_frame && mlt_frame->is_valid()) {
-            double m_framesPerSecond = mlt_producer_get_fps(m_producer.get_producer());
+            double m_framesPerSecond = mlt_producer_get_fps(producer.get_producer());
             int m_samples = mlt_sample_calculator(m_framesPerSecond, m_frequency, mlt_frame_get_position(mlt_frame->get_frame()));
             mlt_audio_format m_audioFormat = mlt_audio_pcm;
             qint16* m_pcm = static_cast<qint16*>(mlt_frame->get_audio(m_audioFormat, m_frequency, m_channels, m_samples));
