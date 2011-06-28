@@ -226,7 +226,6 @@ private:
 
     QPixmap m_videoPix;
     QPixmap m_audioPix;
-    void doGetIntraThumbs(QPainter *painter, const QPointF startPos, int offset, int start, int end);
 
 private slots:
     void slotGetStartThumb();
@@ -237,6 +236,8 @@ private slots:
     void slotSetStartThumb(QImage img);
     void slotSetEndThumb(QImage img);
     void slotThumbReady(int frame, QImage img);
+    /** @brief The thumbnailer has finished to cache all required thumbs. */
+    void slotGotThumbsCache();
 
 public slots:
     void slotFetchThumbs();

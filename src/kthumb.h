@@ -24,6 +24,7 @@
 #include <QFuture>
 
 #include <KUrl>
+#include <kdeversion.h>
 
 #include <mlt++/Mlt.h>
 
@@ -62,6 +63,12 @@ Q_OBJECT public:
     void updateThumbUrl(const QString &hash);
     void extractImage(int frame, int frame2);
     QPixmap extractImage(int frame, int width, int height);
+#if KDE_IS_VERSION(4,5,0)
+    /** @brief Request thumbnails for the frame range. */
+    void queryIntraThumbs(int start, int end);
+    /** @brief Query cached thumbnail. */
+    QImage findCachedThumb(const QString path);
+#endif
 
 public slots:
     void updateClipUrl(KUrl url, const QString &hash);
@@ -82,6 +89,10 @@ public slots:
 private slots:
     void slotAudioThumbOver();
     void slotCreateAudioThumbs();
+#if KDE_IS_VERSION(4,5,0)
+    /** @brief Fetch all requested frames. */ 
+    void slotGetIntraThumbs();
+#endif
 
 private:
     QFuture<void> m_audioThumbProducer;
@@ -92,7 +103,10 @@ private:
     ClipManager *m_clipManager;
     QString m_id;
     QList <int> m_requestedThumbs;
+    /** @brief Controls the thumbnails process. */
     QFuture<void> m_future;
+    /** @brief Controls the intra frames thumbnails process (cached thumbnails). */
+    QFuture<void> m_intra;
     QFile m_audioThumbFile;
     bool m_stopAudioThumbs;
     double m_frame;
@@ -100,12 +114,16 @@ private:
     int m_frequency;
     int m_channels;
     int m_arrayWidth;
+    /** @brief List of frame numbers from which we want to extract thumbnails. */
+    QList <int> m_intraFramesQueue;
     void doGetThumbs();
 
 signals:
     void thumbReady(int, QImage);
     void mainThumbReady(const QString &, QPixmap);
     void audioThumbReady(QMap <int, QMap <int, QByteArray> >);
+    /** @brief We have finished caching all requested thumbs. */
+    void thumbsCached();
 };
 
 #endif

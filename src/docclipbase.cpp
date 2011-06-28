@@ -1183,3 +1183,5 @@ QPixmap DocClipBase::extractImage(int frame, int width, int height)
     return p;
 }
 
+
+

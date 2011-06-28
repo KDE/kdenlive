@@ -22,12 +22,6 @@
 #define CUSTOMTRACKVIEW_H
 
 #include <kdeversion.h>
-#if KDE_IS_VERSION(4,5,0)
-#include <KImageCache>
-#else
-#include <KPixmapCache>
-#endif
-
 #include <KColorScheme>
 
 #include <QGraphicsView>
@@ -184,11 +178,6 @@ public:
     void clearSelection();
     void editItemDuration();
     void buildGuidesMenu(QMenu *goMenu) const;
-#if KDE_IS_VERSION(4,5,0)
-    KImageCache* m_pixmapCache;
-#else
-    KPixmapCache* m_pixmapCache;
-#endif
     /** update the timeline objects when palette changes */
     void updatePalette();
     /** @brief Returns true if a track has audio data on it.

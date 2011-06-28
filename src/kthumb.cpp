@@ -57,18 +57,22 @@ KThumb::KThumb(ClipManager *clipManager, KUrl url, const QString &id, const QStr
 KThumb::~KThumb()
 {
     m_requestedThumbs.clear();
+    m_intraFramesQueue.clear();
     if (m_audioThumbProducer.isRunning()) {
         m_stopAudioThumbs = true;
         m_audioThumbProducer.waitForFinished();
         slotAudioThumbOver();
     }
     m_future.waitForFinished();
+    m_intra.waitForFinished();
 }
 
 void KThumb::setProducer(Mlt::Producer *producer)
 {
     m_requestedThumbs.clear();
+    m_intraFramesQueue.clear();
     m_future.waitForFinished();
+    m_intra.waitForFinished();
     m_producer = producer;
     // FIXME: the profile() call leaks an object, but trying to free
     // it leads to a double-free in Profile::~Profile()
@@ -147,7 +151,6 @@ QPixmap KThumb::getImage(KUrl url, int frame, int width, int height)
     delete producer;
     return pix;
 }
-
 
 //static
 QImage KThumb::getFrame(Mlt::Producer *producer, int framepos, int width, int height)
@@ -445,6 +448,40 @@ void KThumb::askForAudioThumbs(const QString &id)
     m_clipManager->askForAudioThumb(id);
 }
 
+#if KDE_IS_VERSION(4,5,0)
+void KThumb::queryIntraThumbs(int start, int end)
+{
+    for (int i = start; i <= end; i++) {
+        if (!m_intraFramesQueue.contains(i)) m_intraFramesQueue.append(i);
+    }
+    qSort(m_intraFramesQueue);
+    if (!m_intra.isRunning()) m_intra = QtConcurrent::run(this, &KThumb::slotGetIntraThumbs);
+}
+
+void KThumb::slotGetIntraThumbs()
+{
+    int theight = KdenliveSettings::trackheight();
+    int twidth = FRAME_SIZE;
+    QString path = m_url.path() + "%";
+    QImage img;
+
+    while (!m_intraFramesQueue.isEmpty()) {
+        int pos = m_intraFramesQueue.takeFirst();
+        if (!m_clipManager->pixmapCache->contains(path + QString::number(pos))) {
+            m_clipManager->pixmapCache->insertImage(path + QString::number(pos), getFrame(m_producer, pos, twidth, theight));
+        }
+        m_intraFramesQueue.removeAll(pos);
+    }
+    emit thumbsCached();
+}
+
+QImage KThumb::findCachedThumb(const QString path)
+{
+    QImage img;
+    m_clipManager->pixmapCache->findImage(path, &img);
+    return img;
+}
+#endif
 
 #include "kthumb.moc"
 

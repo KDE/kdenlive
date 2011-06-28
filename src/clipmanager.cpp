@@ -52,6 +52,10 @@ ClipManager::ClipManager(KdenliveDoc *doc) :
     connect(&m_fileWatcher, SIGNAL(deleted(const QString &)), this, SLOT(slotClipMissing(const QString &)));
     connect(&m_fileWatcher, SIGNAL(created(const QString &)), this, SLOT(slotClipAvailable(const QString &)));
     connect(&m_modifiedTimer, SIGNAL(timeout()), this, SLOT(slotProcessModifiedClips()));
+
+#if KDE_IS_VERSION(4,5,0)
+    pixmapCache = new KImageCache("kdenlive-thumbs", 1000000);
+#endif
 }
 
 ClipManager::~ClipManager()
@@ -60,6 +64,9 @@ ClipManager::~ClipManager()
     m_generatingAudioId.clear();
     qDeleteAll(m_clipList);
     m_clipList.clear();
+#if KDE_IS_VERSION(4,5,0)
+    delete pixmapCache;
+#endif
 }
 
 void ClipManager::clear()
@@ -71,6 +78,9 @@ void ClipManager::clear()
     m_clipList.clear();
     m_clipIdCounter = 1;
     m_folderIdCounter = 1;
+#if KDE_IS_VERSION(4,5,0)
+    pixmapCache->clear();
+#endif
 }
 
 void ClipManager::checkAudioThumbs()

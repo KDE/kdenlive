@@ -756,11 +756,28 @@ void ClipItem::paint(QPainter *painter,
             QLineF l2(mapped.left() + m_startPix.width(), mapped.top(), mapped.left() + m_startPix.width(), mapped.bottom());
             painter->drawLine(l2);
         }
-        if (painter->matrix().m11() == FRAME_SIZE) {
+        if (painter->matrix().m11() == FRAME_SIZE && m_clip->thumbProducer() && clipType() != COLOR && clipType() != AUDIO && !m_audioOnly) {
             int offset = (m_info.startPos - m_info.cropStart).frames(m_fps);
-            int left = qMax((int) m_info.startPos.frames(m_fps) + 1, (int) mapToScene(exposed.left(), 0).x());
-            int right = qMin((int)(m_info.startPos + m_info.cropDuration).frames(m_fps) - 1, (int) mapToScene(exposed.right(), 0).x());
-            doGetIntraThumbs(painter, mapped.topLeft(), m_info.cropStart.frames(m_fps), left - offset, right - offset);
+            int left = qMax((int) m_info.startPos.frames(m_fps) + 1, (int) mapToScene(exposed.left(), 0).x()) - offset;
+            int right = qMin((int)(m_info.startPos + m_info.cropDuration).frames(m_fps) - 1, (int) mapToScene(exposed.right(), 0).x()) - offset;
+            QPointF startPos = mapped.topLeft();
+            int twidth = FRAME_SIZE;
+            int startOffset = m_info.cropStart.frames(m_fps);
+            if (clipType() == IMAGE || clipType() == TEXT) {
+                for (int i = left; i <= right; i++) {
+                    painter->drawPixmap(startPos + QPointF(twidth *(i - startOffset), 0), m_startPix);
+                }
+            }
+            else {
+#if KDE_IS_VERSION(4,5,0)
+                m_clip->thumbProducer()->queryIntraThumbs(left, right);
+                connect(m_clip->thumbProducer(), SIGNAL(thumbsCached()), this, SLOT(slotGotThumbsCache()));
+                QString path = m_clip->fileURL().path() + "%";
+                for (int i = left; i <= right; i++) {
+                    painter->drawImage(startPos + QPointF(twidth *(i - startOffset), 0), m_clip->thumbProducer()->findCachedThumb(path + QString::number(i)));
+                }
+#endif
+            }
         }
         painter->setPen(Qt::black);
     }
@@ -1707,35 +1724,27 @@ void ClipItem::updateKeyframes(QDomElement effect)
     if (!m_keyframes.contains(m_selectedKeyframe)) m_selectedKeyframe = -1;
 }
 
-void ClipItem::doGetIntraThumbs(QPainter *painter, const QPointF startPos, int offset, int start, int end)
+/*void ClipItem::slotGetIntraThumbs(CustomTrackView *view, int start, int end)
 {
-    if (!m_clip->thumbProducer() || clipType() == COLOR) return;
-    if (scene() && scene()->views().isEmpty()) return;
-    CustomTrackView *view = (CustomTrackView *) scene()->views()[0];
-    if (view == NULL) return;
     const int theight = KdenliveSettings::trackheight();
     const int twidth = FRAME_SIZE;
-
-    if (clipType() == IMAGE || clipType() == TEXT) {
-        for (int i = start; i <= end; i++)
-            painter->drawPixmap(startPos + QPointF(twidth *(i - offset), 0), m_startPix);
-    }
+    QString path = m_clip->fileURL().path() + "%";
     QPixmap p;
     for (int i = start; i <= end; i++) {
 #if KDE_IS_VERSION(4,5,0)
-        if (!view->m_pixmapCache->findPixmap(m_clip->fileURL().path() + "%" + QString::number(i), &p)) {
+        if (!view->m_pixmapCache->contains(path + QString::number(i))) {
             p = m_clip->extractImage(i, twidth, theight);
-            view->m_pixmapCache->insertPixmap(m_clip->fileURL().path() + "%" + QString::number(i), p);
+            view->m_pixmapCache->insertPixmap(path + QString::number(i), p);
         }
 #else
-        if (!view->m_pixmapCache->find(m_clip->fileURL().path() + "%" + QString::number(i), p)) {
+        if (!view->m_pixmapCache->find(path + QString::number(i), p)) {
             p = m_clip->extractImage(i, twidth, theight);
-            view->m_pixmapCache->insert(m_clip->fileURL().path() + "%" + QString::number(i), p);
+            view->m_pixmapCache->insert(path + QString::number(i), p);
         }
 #endif
-        painter->drawPixmap(startPos + QPointF(twidth *(i - offset), 0), p);
     }
-}
+    update();
+}*/
 
 QList <int> ClipItem::updatePanZoom(int width, int height, int cut)
 {
@@ -1928,6 +1937,12 @@ void ClipItem::updateGeometryKeyframes(QDomElement effect, int paramIndex, int w
     Mlt::Geometry geometry(param.attribute("value").toUtf8().data(), oldInfo.cropDuration.frames(m_fps), width, height);
 
     param.setAttribute("value", geometry.serialise(cropStart().frames(m_fps), (cropStart() + cropDuration()).frames(m_fps) - 1));
+}
+
+void ClipItem::slotGotThumbsCache()
+{
+    disconnect(m_clip->thumbProducer(), SIGNAL(thumbsCached()), this, SLOT(slotGotThumbsCache()));
+    update();
 }
 
 #include "clipitem.moc"

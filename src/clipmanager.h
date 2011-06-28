@@ -35,6 +35,12 @@
 #include <KUndoStack>
 #include <KDirWatch>
 #include <klocale.h>
+#include <kdeversion.h>
+
+#if KDE_IS_VERSION(4,5,0)
+#include <KImageCache>
+#endif
+
 
 #include "gentime.h"
 #include "definitions.h"
@@ -103,6 +109,10 @@ Q_OBJECT public:
     void removeGroup(AbstractGroupItem *group);
     QDomElement groupsXml() const;
     int clipsCount() const;
+
+#if KDE_IS_VERSION(4,5,0)
+    KImageCache* pixmapCache;
+#endif
 
 private slots:
     /** A clip was externally modified, monitor for more changes and prepare for reload */

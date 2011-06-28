@@ -142,12 +142,6 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscen
 
     m_activeTrackBrush = KStatefulBrush(KColorScheme::View, KColorScheme::ActiveBackground, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
 
-#if KDE_IS_VERSION(4,5,0)
-    m_pixmapCache = new KImageCache("kdenlive-thumbs", 1000000);
-#else
-    m_pixmapCache = new KPixmapCache("kdenlive-thumbs");
-#endif
-
     m_animationTimer = new QTimeLine(800);
     m_animationTimer->setFrameRange(0, 5);
     m_animationTimer->setUpdateInterval(100);
@@ -192,7 +186,6 @@ CustomTrackView::~CustomTrackView()
     qDeleteAll(m_guides);
     m_guides.clear();
     m_waitingThumbs.clear();
-    delete m_pixmapCache;
     delete m_animationTimer;
 }
 
