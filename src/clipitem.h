@@ -226,6 +226,9 @@ private:
 
     QPixmap m_videoPix;
     QPixmap m_audioPix;
+    /** @brief Keyframes type can be "keyframe" or "simplekeyframe" which have to be painted differently.
+     * True if keyframe type is "keyframe" */
+    bool m_limitedKeyFrames;
 
 private slots:
     void slotGetStartThumb();

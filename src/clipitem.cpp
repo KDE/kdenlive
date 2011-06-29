@@ -57,7 +57,8 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, i
         //m_hover(false),
         m_speed(speed),
         m_strobe(strobe),
-        m_framePixelWidth(0)
+        m_framePixelWidth(0),
+        m_limitedKeyFrames(false)
 {
     setZValue(2);
     setRect(0, 0, (info.endPos - info.startPos).frames(fps) - 0.02, (double) itemHeight());
@@ -433,6 +434,7 @@ void ClipItem::setSelectedEffect(const int ix)
             QDomElement e = params.item(i).toElement();
             if (!e.isNull() && (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe") && e.attribute("intimeline") == "1") {
                 m_keyframes.clear();
+                m_limitedKeyFrames = e.attribute("type") == "keyframe";
                 m_visibleParam = i;
                 double max = e.attribute("max").toDouble();
                 double min = e.attribute("min").toDouble();
@@ -940,7 +942,7 @@ void ClipItem::paint(QPainter *painter,
 
     painter->setPen(QPen(Qt::lightGray));
     // draw effect or transition keyframes
-    if (mapped.width() > 20) drawKeyFrames(painter, exposed);
+    if (mapped.width() > 20) drawKeyFrames(painter, m_limitedKeyFrames);
 
     //painter->setMatrixEnabled(true);
 
@@ -1716,6 +1718,7 @@ void ClipItem::updateKeyframes(QDomElement effect)
         setSelectedEffect(m_selectedEffect);
         return;
     }
+    m_limitedKeyFrames = e.attribute("type") == "keyframe";
     const QStringList keyframes = e.attribute("keyframes").split(';', QString::SkipEmptyParts);
     foreach(const QString &str, keyframes) {
         int pos = str.section(':', 0, 0).toInt();

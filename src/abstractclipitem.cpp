@@ -246,7 +246,7 @@ GenTime AbstractClipItem::maxDuration() const
     return m_maxDuration;
 }
 
-void AbstractClipItem::drawKeyFrames(QPainter *painter, QRectF /*exposedRect*/)
+void AbstractClipItem::drawKeyFrames(QPainter *painter, bool limitedKeyFrames)
 {
     if (m_keyframes.count() < 1)
         return;
@@ -262,6 +262,12 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, QRectF /*exposedRect*/)
     if (active) {
         x1 = br.x();
         x2 = br.right();
+        if (limitedKeyFrames) {
+            QMap<int, int>::const_iterator end = m_keyframes.constEnd();
+            end--;
+            x2 = x1 + maxw * (end.key() - start);
+            x1 += maxw * (m_keyframes.constBegin().key() - start);
+        }
         y1 = br.bottom() - (m_keyframeDefault - m_keyframeOffset) * maxh;
         QLineF l(x1, y1, x2, y1);
         QLineF l2 = painter->matrix().map(l);
@@ -280,8 +286,10 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, QRectF /*exposedRect*/)
     x1 = br.x() + maxw * (i.key() - start);
     y1 = br.bottom() - (i.value() - m_keyframeOffset) * maxh;
 
+
+
     // make sure line begins with clip beginning
-    if (i.key() != start) {
+    if (!limitedKeyFrames && i.key() != start) {
         QLineF l(br.x(), y1, x1, y1);
         l2 = painter->matrix().map(l);
         painter->drawLine(l2);
@@ -314,7 +322,7 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, QRectF /*exposedRect*/)
     }
 
     // make sure line ends at clip end
-    if (x1 != br.right()) {
+    if (!limitedKeyFrames && x1 != br.right()) {
         QLineF l(x1, y1, br.right(), y1);
         painter->drawLine(painter->matrix().map(l));
     }

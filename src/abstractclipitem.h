@@ -115,8 +115,13 @@ protected:
     /** The (keyframe) parameter that is visible and editable in timeline (on the clip) */
     int m_visibleParam;
     double m_fps;
-    //QRect visibleRect();
-    void drawKeyFrames(QPainter *painter, QRectF exposedRect);
+    /** @brief Draw the keyframes of a clip
+      * @param painter The painter device for the clip
+      * @param limitedKeyFrames The keyframes can be of type "keyframe" or "simplekeyframe". In the
+      *        "simplekeyframe" type, the effect always starts on clip start and ends on clip end. With the
+      *        "keyframe" type, the effect starts on the first keyframe and ends on the last keyframe
+      */
+    void drawKeyFrames(QPainter *painter, bool limitedKeyFrames);
     int mouseOverKeyFrames(QPointF pos, double maxOffset);
     virtual void mousePressEvent(QGraphicsSceneMouseEvent * event);
 
