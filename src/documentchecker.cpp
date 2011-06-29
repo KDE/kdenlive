@@ -276,21 +276,20 @@ bool DocumentChecker::hasErrorInClips()
         item->setToolTip(0, i18n("Duration mismatch"));
     }
 
+    if (missingProxies.count() > 0) {
+        QTreeWidgetItem *item = new QTreeWidgetItem(m_ui.treeWidget, QStringList() << i18n("Proxy clip"));
+        item->setIcon(0, KIcon("dialog-warning"));
+        item->setText(1, i18n("%1 missing proxy clips, will be recreated on project opening", missingProxies.count()));
+        item->setData(0, hashRole, e.attribute("file_hash"));
+        item->setData(0, statusRole, PROXYMISSING);
+        item->setToolTip(0, i18n("Missing proxy"));
+    }
 
     for (int i = 0; i < missingProxies.count(); i++) {
         e = missingProxies.at(i).toElement();
         QString clipType;
-        int t = e.attribute("type").toInt();
         QString realPath = e.attribute("resource");
         QString id = e.attribute("id");
-        QTreeWidgetItem *item = new QTreeWidgetItem(m_ui.treeWidget, QStringList() << i18n("Proxy clip"));
-        item->setIcon(0, KIcon("dialog-close"));
-        item->setText(1, e.attribute("proxy"));
-        item->setData(0, hashRole, e.attribute("file_hash"));
-        item->setData(0, statusRole, PROXYMISSING);
-        item->setData(0, typeRole, t);
-        item->setData(0, idRole, id);
-        item->setToolTip(0, i18n("Missing proxy"));
         // Replace proxy url with real clip in MLT producers
         QDomNodeList properties;
         QDomElement mltProd;
@@ -760,7 +759,8 @@ void DocumentChecker::slotCheckButtons()
     if (m_ui.treeWidget->currentItem()) {
         QTreeWidgetItem *item = m_ui.treeWidget->currentItem();
         int t = item->data(0, typeRole).toInt();
-        if (t == TITLE_FONT_ELEMENT || t == TITLE_IMAGE_ELEMENT) {
+        int s = item->data(0, statusRole).toInt();
+        if (t == TITLE_FONT_ELEMENT || t == TITLE_IMAGE_ELEMENT || s == PROXYMISSING) {
             m_ui.removeSelected->setEnabled(false);
         } else m_ui.removeSelected->setEnabled(true);
     }
