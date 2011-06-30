@@ -49,11 +49,12 @@ EffectStackView::EffectStackView(Monitor *monitor, QWidget *parent) :
     m_ui.setupUi(this);
     QVBoxLayout *vbox1 = new QVBoxLayout(m_ui.frame);
     m_effectedit = new EffectStackEdit(monitor, m_ui.frame);
+    m_ui.frame->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     vbox1->setContentsMargins(2, 0, 2, 0);
     vbox1->setSpacing(0);
     vbox1->addWidget(m_effectedit);
-    m_ui.splitter->setStretchFactor(0, 0);
-    m_ui.splitter->setStretchFactor(1, 200);
+    m_ui.splitter->setStretchFactor(0, 1);
+    m_ui.splitter->setStretchFactor(1, 20);
 
     //m_ui.region_url->fileDialog()->setFilter(ProjectList::getExtensions());
     //m_ui.effectlist->horizontalHeader()->setVisible(false);
@@ -99,9 +100,6 @@ EffectStackView::EffectStackView(Monitor *monitor, QWidget *parent) :
     m_effectLists["audio"] = &MainWindow::audioEffects;
     m_effectLists["video"] = &MainWindow::videoEffects;
     m_effectLists["custom"] = &MainWindow::customEffects;
-    m_ui.splitter->setStretchFactor(1, 10);
-    m_ui.splitter->setStretchFactor(0, 1);
-
     setEnabled(false);
 }
 
