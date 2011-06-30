@@ -1671,6 +1671,8 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
             item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsDropEnabled);
             toReload = clipId;
         }
+        clip->setProducer(producer, replace);
+        clip->askForAudioThumbs();
         // Proxy stuff
         QString size = properties.value("frame_size");
         if (!useProxy() && clip->getProperty("proxy").isEmpty()) setProxyStatus(item, NOPROXY);
@@ -1697,8 +1699,6 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
                 }
             }
         }
-        clip->setProducer(producer, replace);
-        clip->askForAudioThumbs();
 
         if (!replace && item->data(0, Qt::DecorationRole).isNull())
             requestClipThumbnail(clipId);
