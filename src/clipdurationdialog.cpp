@@ -37,13 +37,13 @@ ClipDurationDialog::ClipDurationDialog(AbstractClipItem *clip, Timecode tc, GenT
     setupUi(this);
 
     m_pos = new TimecodeDisplay(tc);
-    m_dur = new TimecodeDisplay(tc);
     m_cropStart = new TimecodeDisplay(tc);
+    m_dur = new TimecodeDisplay(tc);
     m_cropEnd = new TimecodeDisplay(tc);
     
     clip_position_box->addWidget(m_pos);
+    crop_start_box->addWidget(m_cropStart);
     clip_duration_box->addWidget(m_dur);
-    crop_start_box->addWidget(m_cropStart),
     crop_end_box->addWidget(m_cropEnd);
 
     bool allowCrop = true;
