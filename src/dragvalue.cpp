@@ -64,7 +64,8 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
     m_label = new CustomLabel(label, showSlider, this);
     l->addWidget(m_label);
     if (decimals == 0) {
-        m_label->setStep(m_label->maximum() / (max - min));
+        m_label->setMaximum(max - min);
+        m_label->setStep(1);
         m_intEdit = new QSpinBox(this);
         m_intEdit->setObjectName("dragBox");
         if (!suffix.isEmpty()) m_intEdit->setSuffix(suffix);
@@ -247,7 +248,7 @@ void DragValue::slotSetValue(double value)
 void DragValue::setValueFromProgress(double value, bool final)
 {
     value = m_minimum + value * (m_maximum - m_minimum) / m_label->maximum();
-    if (m_decimals == 0) setValue((int) (value + 0.5), final);
+    if (m_decimals == 0) setValue(qRound(value), final);
     else setValue(value, final);
 }
 
@@ -460,13 +461,13 @@ void CustomLabel::slotValueDec(double factor)
 
 void CustomLabel::setProgressValue(double value)
 {
-    setValue((int) (value + 0.5));
+    setValue(qRound(value));
 }
 
 void CustomLabel::setNewValue(double value, bool update)
 {
-    setValue((int) (value + 0.5));
-    emit valueChanged((int) (value + 0.5), update);
+    setValue(qRound(value));
+    emit valueChanged(qRound(value), update);
 }
 
 void CustomLabel::setStep(double step)
@@ -475,4 +476,3 @@ void CustomLabel::setStep(double step)
 }
 
 #include "dragvalue.moc"
-
