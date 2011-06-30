@@ -844,6 +844,7 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
                 for (int k = 0; k < clipeffectparams.count(); k++) {
                     e = clipeffectparams.item(k).toElement();
                     if (!e.isNull() && e.tagName() == "parameter" && e.attribute("name") == paramname) {
+                        QString type = e.attribute("type");
                         QString factor = e.attribute("factor", "1");
                         double fact;
                         if (factor.startsWith('%')) {
@@ -851,7 +852,7 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
                         } else {
                             fact = factor.toDouble();
                         }
-                        if (e.attribute("type") == "simplekeyframe") {
+                        if (type == "simplekeyframe") {
                             QStringList kfrs = paramvalue.split(";");
                             for (int l = 0; l < kfrs.count(); l++) {
                                 QString fr = kfrs.at(l).section('=', 0, 0);
@@ -859,11 +860,13 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
                                 kfrs[l] = fr + ":" + QString::number((int)(val * fact));
                             }
                             e.setAttribute("keyframes", kfrs.join(";"));
-                        } else {
+                        } else if (type == "double" || type == "constant") {
                             bool ok;
                             e.setAttribute("value", paramvalue.toDouble(&ok) * fact);
                             if (!ok)
                                 e.setAttribute("value", paramvalue);
+                        } else {
+                            e.setAttribute("value", paramvalue);
                         }
                         break;
                     }
