@@ -53,7 +53,7 @@ TimecodeDisplay::TimecodeDisplay(Timecode t, QWidget *parent)
 
     setTimeCodeFormat(KdenliveSettings::frametimecode(), true);
 
-    connect(lineEdit(), SIGNAL(returnPressed()), this, SLOT(slotEditingFinished()));
+    connect(lineEdit(), SIGNAL(editingFinished()), this, SLOT(slotEditingFinished()));
     connect(lineEdit(), SIGNAL(cursorPositionChanged(int, int)), this, SLOT(slotCursorPositionChanged(int, int)));
 }
 
