@@ -122,9 +122,9 @@ void EffectStackEdit::setFrameSize(QPoint p)
     QDomNodeList namenode = m_params.elementsByTagName("parameter");
     for (int i = 0; i < namenode.count() ; i++) {
         QDomNode pa = namenode.item(i);
-        QDomNode na = pa.firstChildElement("name");
+        QDomElement na = pa.firstChildElement("name");
         QString type = pa.attributes().namedItem("type").nodeValue();
-        QString paramName = i18n(na.toElement().text().toUtf8().data());
+        QString paramName = na.isNull() ? pa.attributes().namedItem("name").nodeValue() : i18n(na.text().toUtf8().data());
 
         if (type == "geometry") {
             if (!KdenliveSettings::on_monitor_effects()) {
@@ -148,9 +148,9 @@ void EffectStackEdit::updateTimecodeFormat()
     QDomNodeList namenode = m_params.elementsByTagName("parameter");
     for (int i = 0; i < namenode.count() ; i++) {
         QDomNode pa = namenode.item(i);
-        QDomNode na = pa.firstChildElement("name");
+        QDomElement na = pa.firstChildElement("name");
         QString type = pa.attributes().namedItem("type").nodeValue();
-        QString paramName = i18n(na.toElement().text().toUtf8().data());
+        QString paramName = na.isNull() ? pa.attributes().namedItem("name").nodeValue() : i18n(na.text().toUtf8().data());
 
         if (type == "geometry") {
             if (KdenliveSettings::on_monitor_effects()) {
@@ -247,7 +247,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, ItemInfo info, bool
         QDomElement na = pa.firstChildElement("name");
         QDomElement commentElem = pa.firstChildElement("comment");
         QString type = pa.attribute("type");
-        QString paramName = i18n(na.text().toUtf8().data());
+        QString paramName = na.isNull() ? pa.attribute("name") : i18n(na.text().toUtf8().data());
         QString comment;
         if (!commentElem.isNull())
             comment = i18n(commentElem.text().toUtf8().data());
@@ -642,9 +642,9 @@ void EffectStackEdit::collectAllParameters()
 
     for (int i = 0; i < namenode.count() ; i++) {
         QDomNode pa = namenode.item(i);
-        QDomNode na = pa.firstChildElement("name");
+        QDomElement na = pa.firstChildElement("name");
         QString type = pa.attributes().namedItem("type").nodeValue();
-        QString paramName = i18n(na.toElement().text().toUtf8().data());
+        QString paramName = na.isNull() ? pa.attributes().namedItem("name").nodeValue() : i18n(na.text().toUtf8().data());
         if (type == "complex")
             paramName.append("complex");
         else if (type == "position")

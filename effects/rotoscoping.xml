@@ -30,7 +30,5 @@
             <name>Feathering passes</name>
         </parameter>
 
-        <parameter type="roto-spline" name="spline" default="">
-            <name>Rotoscopy Spline</name>
-        </parameter>
+        <parameter type="roto-spline" name="spline" default="" />
 </effect>

@@ -14,7 +14,5 @@
                 <name>Luma formula</name>
         </parameter>
 
-        <parameter type="bezier_spline" name="Bézier spline" depends="Channel" default="-1;-1#0;0#0.1;0.1|0.9;0.9#1;1#2;2">
-                <name>Bézier Spline Widget</name>
-        </parameter>
+        <parameter type="bezier_spline" name="Bézier spline" depends="Channel" default="-1;-1#0;0#0.1;0.1|0.9;0.9#1;1#2;2" />
 </effect>
