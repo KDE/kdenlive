@@ -384,7 +384,7 @@ void TrackView::parseDocument(QDomDocument doc)
                                         QString factor = e.attribute("factor", "1");
                                         if (factor != "1") {
                                             double fact;
-                                            if (factor.startsWith('%')) {
+                                            if (factor.contains('%')) {
                                                 fact = ProfilesDialog::getStringEval(m_doc->mltProfile(), factor);
                                             } else fact = factor.toDouble();
                                             double val = paramValue.toDouble() * fact;
@@ -769,7 +769,7 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
                 double endvalue = 0;
                 double fact;
                 if (factor.isEmpty()) fact = 1;
-                else if (factor.startsWith('%')) {
+                else if (factor.contains('%')) {
                     fact = ProfilesDialog::getStringEval(m_doc->mltProfile(), factor);
                 } else fact = factor.toDouble();
                 for (QDomNode n3 = effect.firstChild(); !n3.isNull(); n3 = n3.nextSibling()) {
@@ -847,7 +847,7 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
                         QString type = e.attribute("type");
                         QString factor = e.attribute("factor", "1");
                         double fact;
-                        if (factor.startsWith('%')) {
+                        if (factor.contains('%')) {
                             fact = ProfilesDialog::getStringEval(m_doc->mltProfile(), factor);
                         } else {
                             fact = factor.toDouble();

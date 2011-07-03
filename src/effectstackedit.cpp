@@ -261,12 +261,12 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, ItemInfo info, bool
         if (type == "double" || type == "constant") {
             double min;
             double max;
-            if (pa.attribute("min").startsWith('%'))
-                min = ProfilesDialog::getStringEval(m_profile, pa.attribute("min"));
+            if (pa.attribute("min").contains('%'))
+                min = ProfilesDialog::getStringEval(m_profile, pa.attribute("min"), m_frameSize);
             else
                 min = pa.attribute("min").toDouble();
-            if (pa.attribute("max").startsWith('%'))
-                max = ProfilesDialog::getStringEval(m_profile, pa.attribute("max"));
+            if (pa.attribute("max").contains('%'))
+                max = ProfilesDialog::getStringEval(m_profile, pa.attribute("max"), m_frameSize);
             else
                 max = pa.attribute("max").toDouble();
 

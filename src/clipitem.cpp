@@ -241,7 +241,7 @@ void ClipItem::initEffect(QDomElement effect, int diff)
             continue;
 
         // Check if this effect has a variable parameter
-        if (e.attribute("default").startsWith('%')) {
+        if (e.attribute("default").contains('%')) {
             double evaluatedValue = ProfilesDialog::getStringEval(projectScene()->profile(), e.attribute("default"));
             e.setAttribute("default", evaluatedValue);
             if (e.hasAttribute("value") && e.attribute("value").startsWith('%')) {
@@ -1461,7 +1461,7 @@ EffectsParameterList ClipItem::addEffect(const QDomElement effect, bool /*animat
                 }
             } else {
                 double fact;
-                if (e.attribute("factor").startsWith('%')) {
+                if (e.attribute("factor").contains('%')) {
                     fact = ProfilesDialog::getStringEval(projectScene()->profile(), e.attribute("factor"));
                 } else fact = e.attribute("factor", "1").toDouble();
                 parameters.addParam(e.attribute("name"), QString::number(e.attribute("value").toDouble() / fact));

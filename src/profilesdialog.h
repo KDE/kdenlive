@@ -67,7 +67,7 @@ public:
      *  @param profile The profile that gives width & height
      *  @param eval The string to be evaluated, for example: "%width / 2"
      *  @return the evaluated value */
-    static double getStringEval(const MltVideoProfile &profile, QString eval);
+    static double getStringEval(const MltVideoProfile &profile, QString eval, QPoint frameSize = QPoint());
 
     /** @brief Get the descriptive text for given colorspace code (defined by MLT)
      *  @param colorspace An int as defined in mlt_profile.h

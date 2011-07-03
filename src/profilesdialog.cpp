@@ -26,7 +26,9 @@
 #include <KIO/NetAccess>
 
 #include <QDir>
+#include <qscriptengine.h>
 #include <QCloseEvent>
+#include <QScriptEngine>
 
 ProfilesDialog::ProfilesDialog(QWidget * parent) :
     QDialog(parent),
@@ -281,17 +283,14 @@ MltVideoProfile ProfilesDialog::getVideoProfile(QString name)
 }
 
 // static
-double ProfilesDialog::getStringEval(const MltVideoProfile &profile, QString eval)
+double ProfilesDialog::getStringEval(const MltVideoProfile &profile, QString eval, QPoint frameSize)
 {
-    double result;
-    eval.replace("%width", QString::number(profile.width));
-    eval.replace("%height", QString::number(profile.height));
-    if (eval.contains('/')) result = (double) eval.section('/', 0, 0).toInt() / eval.section('/', 1, 1).toInt();
-    else if (eval.contains('*')) result = (double) eval.section('*', 0, 0).toInt() * eval.section('*', 1, 1).toInt();
-    else if (eval.contains('+')) result = (double) eval.section('+', 0, 0).toInt() + eval.section('+', 1, 1).toInt();
-    else if (eval.contains('-')) result = (double) eval.section('-', 0, 0).toInt() - eval.section('-', 1, 1).toInt();
-    else result = eval.toDouble();
-    return result;
+    QScriptEngine sEngine;
+    sEngine.globalObject().setProperty("maxWidth", profile.width > frameSize.x() ? profile.width : frameSize.x());
+    sEngine.globalObject().setProperty("maxHeight", profile.height > frameSize.y() ? profile.height : frameSize.y());
+    sEngine.globalObject().setProperty("width", profile.width);
+    sEngine.globalObject().setProperty("height", profile.height);
+    return sEngine.evaluate(eval.remove('%')).toNumber();
 }
 
 

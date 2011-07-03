@@ -6589,7 +6589,7 @@ EffectsParameterList CustomTrackView::getEffectArgs(const QDomElement effect)
         } else {
             if (e.attribute("factor", "1") != "1") {
                 double fact;
-                if (e.attribute("factor").startsWith('%')) {
+                if (e.attribute("factor").contains('%')) {
                     fact = ProfilesDialog::getStringEval(m_document->mltProfile(), e.attribute("factor"));
                 } else fact = e.attribute("factor", "1").toDouble();
                 parameters.addParam(e.attribute("name"), QString::number(e.attribute("value").toDouble() / fact));

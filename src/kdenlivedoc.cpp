@@ -1426,7 +1426,7 @@ void KdenliveDoc::addTrackEffect(int ix, QDomElement effect)
         QDomElement e = params.item(i).toElement();
 
         // Check if this effect has a variable parameter
-        if (e.attribute("default").startsWith('%')) {
+        if (e.attribute("default").contains('%')) {
             double evaluatedValue = ProfilesDialog::getStringEval(m_profile, e.attribute("default"));
             e.setAttribute("default", evaluatedValue);
             if (e.hasAttribute("value") && e.attribute("value").startsWith('%')) {
