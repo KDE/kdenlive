@@ -61,7 +61,7 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
     QHBoxLayout *l = new QHBoxLayout;
     l->setSpacing(0);
     l->setContentsMargins(0, 0, 0, 0);
-    m_label = new CustomLabel(label, showSlider, this);
+    m_label = new CustomLabel(label, showSlider, m_maximum - m_minimum, this);
     l->addWidget(m_label);
     if (decimals == 0) {
         m_label->setMaximum(max - min);
@@ -88,7 +88,10 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         m_doubleEdit->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
         m_doubleEdit->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
         m_doubleEdit->setRange(m_minimum, m_maximum);
-        m_doubleEdit->setSingleStep((m_maximum - m_minimum) / 100.0);
+        double factor = 100;
+        if (m_maximum - m_minimum > 10000) factor = 1000;
+        m_label->setStep(1);
+        m_doubleEdit->setSingleStep((m_maximum - m_minimum) / factor);
         l->addWidget(m_doubleEdit);
         connect(m_doubleEdit, SIGNAL(valueChanged(double)), this, SLOT(slotSetValue(double)));
         connect(m_doubleEdit, SIGNAL(editingFinished()), this, SLOT(slotEditingFinished()));
@@ -339,7 +342,7 @@ void DragValue::setInTimelineProperty(bool intimeline)
     
 }
 
-CustomLabel::CustomLabel(const QString &label, bool showSlider, QWidget* parent) :
+CustomLabel::CustomLabel(const QString &label, bool showSlider, int range, QWidget* parent) :
     QProgressBar(parent),
     m_dragMode(false),
     m_showSlider(showSlider),
@@ -351,9 +354,9 @@ CustomLabel::CustomLabel(const QString &label, bool showSlider, QWidget* parent)
     setFocusPolicy(Qt::ClickFocus);
     setCursor(Qt::PointingHandCursor);
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
-    setRange(0, 1000);
-    
-    if (!showSlider) {
+    if (showSlider) setRange(0, 1000);
+    else {
+        setRange(0, range);
         QSize sh;
         const QFontMetrics &fm = fontMetrics();
         sh.setWidth(fm.width(" " + label + " "));
