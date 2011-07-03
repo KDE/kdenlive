@@ -82,7 +82,7 @@ EffectStackEdit::EffectStackEdit(Monitor *monitor, QWidget *parent) :
     m_geometryWidget(NULL)
 {
     m_baseWidget = new QWidget(this);
-    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     setFrameStyle(QFrame::NoFrame);
     setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::MinimumExpanding));
