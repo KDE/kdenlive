@@ -431,9 +431,9 @@ void DocClipBase::setValid()
 
 void DocClipBase::setProducer(Mlt::Producer *producer, bool reset, bool readPropertiesFromProducer)
 {
-    if (producer == NULL || !producer->is_valid()) return;
+    if (producer == NULL) return;
     if (reset) QMutexLocker locker(&m_producerMutex);
-    if (m_placeHolder) {
+    if (m_placeHolder || !producer->is_valid()) {
         char *tmp = qstrdup(i18n("Missing clip").toUtf8().constData());
         producer->set("markup", tmp);
         producer->set("bgcolour", "0xff0000ff");

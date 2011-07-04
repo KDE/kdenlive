@@ -838,6 +838,16 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         }
     }
 
+    if (version <= 0.86) {
+        // Make sure we don't have avformat-novalidate producers, since it caused crashes
+        QDomNodeList producers = m_doc.elementsByTagName("producer");
+        int max = producers.count();
+        for (int i = 0; i < max; i++) {
+            QDomElement prod = producers.at(i).toElement();
+            if (EffectsList::property(prod, "mlt_service") == "avformat-novalidate")
+                EffectsList::setProperty(prod, "mlt_service", "avformat");
+        }
+    }
 
     // The document has been converted: mark it as modified
     infoXml.setAttribute("version", currentVersion);

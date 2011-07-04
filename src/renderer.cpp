@@ -133,9 +133,11 @@ Render::~Render()
 
 
 void Render::closeMlt()
-{
+{       
     //delete m_osdTimer;
-    if (m_mltProducer) {
+    if (m_mltConsumer) delete m_mltConsumer;
+    if (m_mltProducer) delete m_mltProducer;
+    /*if (m_mltProducer) {
         Mlt::Service service(m_mltProducer->parent().get_service());
         mlt_service_lock(service.get_service());
 
@@ -158,21 +160,14 @@ void Render::closeMlt()
                 resource = mlt_properties_get(properties, "mlt_service");
             }
 
-            for (int trackNb = tractor.count() - 1; trackNb >= 0; --trackNb) {
-                Mlt::Producer trackProducer(tractor.track(trackNb));
-                Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
-                if (trackPlaylist.type() == playlist_type) trackPlaylist.clear();
-            }
             delete field;
             field = NULL;
         }
         mlt_service_unlock(service.get_service());
-    }
+    }*/
 
     kDebug() << "// // // CLOSE RENDERER " << m_name;
-    delete m_mltConsumer;
-    delete m_mltProducer;
-    delete m_blackClip;
+    if (m_blackClip) delete m_blackClip;
     //delete m_osdInfo;
 }
 
@@ -989,7 +984,7 @@ int Render::setSceneList(QString playlist, int position)
     m_isBlocked = true;
     int error = 0;
 
-    //kDebug() << "//////  RENDER, SET SCENE LIST: " << playlist;
+    //kDebug() << "//////  RENDER, SET SCENE LIST:\n" << playlist <<"\n..........:::.";
 
     // Remove previous profile info
     QDomDocument doc;
@@ -1012,7 +1007,7 @@ int Render::setSceneList(QString playlist, int position)
         m_mltProducer->set_speed(0);
         //if (KdenliveSettings::osdtimecode() && m_osdInfo) m_mltProducer->detach(*m_osdInfo);
 
-        Mlt::Service service(m_mltProducer->parent().get_service());
+        /*Mlt::Service service(m_mltProducer->parent().get_service());
         mlt_service_lock(service.get_service());
 
         if (service.type() == tractor_type) {
@@ -1042,7 +1037,7 @@ int Render::setSceneList(QString playlist, int position)
             }
             delete field;
         }
-        mlt_service_unlock(service.get_service());
+        mlt_service_unlock(service.get_service());*/
 
         qDeleteAll(m_slowmotionProducers.values());
         m_slowmotionProducers.clear();
@@ -1053,11 +1048,11 @@ int Render::setSceneList(QString playlist, int position)
     }
 
     blockSignals(true);
-    // TODO: Better way to do this
-    if (KdenliveSettings::projectloading_avformatnovalidate())
+    // WARNING: disabled because it caused crashes (see Kdenlive bug #2205 and #2206) - jbm
+    /*if (KdenliveSettings::projectloading_avformatnovalidate())
         playlist.replace(">avformat</property>", ">avformat-novalidate</property>");
     else
-        playlist.replace(">avformat-novalidate</property>", ">avformat</property>");
+        playlist.replace(">avformat-novalidate</property>", ">avformat</property>");*/
     m_mltProducer = new Mlt::Producer(*m_mltProfile, "xml-string", playlist.toUtf8().constData());
     if (!m_mltProducer || !m_mltProducer->is_valid()) {
         kDebug() << " WARNING - - - - -INVALID PLAYLIST: " << playlist.toUtf8().constData();
@@ -3859,7 +3854,7 @@ const QList <Mlt::Producer *> Render::producersList()
             if (nprod) {
                 QString prodId = nprod->get("id");
                 if (!prodId.startsWith("slowmotion") && !prodId.isEmpty() && !nprod->is_blank() && !ids.contains(prodId)) {
-                    ids.append(nprod->get("id"));
+                    ids.append(prodId);
                     prods.append(nprod);
                 } else delete nprod;
             }

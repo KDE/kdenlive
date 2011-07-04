@@ -52,7 +52,7 @@
 
 #include <mlt++/Mlt.h>
 
-const double DOCUMENTVERSION = 0.86;
+const double DOCUMENTVERSION = 0.87;
 
 KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, QString profileName, QMap <QString, QString> properties, const QPoint tracks, Render *render, KTextEdit *notes, bool *openBackup, MainWindow *parent, KProgressDialog *progressDialog) :
     QObject(parent),
