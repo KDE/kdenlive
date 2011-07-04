@@ -1558,10 +1558,12 @@ QDomElement ProjectList::producersList()
 
 void ProjectList::slotCheckForEmptyQueue()
 {
-    if (!m_refreshed && m_processingClips.isEmpty() && m_thumbnailQueue.isEmpty() && m_infoQueue.isEmpty()) {
+    if (m_processingClips.isEmpty() && m_thumbnailQueue.isEmpty() && m_infoQueue.isEmpty()) {
+        if (!m_refreshed) {
+            emit loadingIsOver();
+            emit displayMessage(QString(), -1);
+        }
         m_refreshed = true;
-        emit loadingIsOver();
-        emit displayMessage(QString(), -1);
         m_listView->blockSignals(false);
         m_listView->setEnabled(true);
         updateButtons();
