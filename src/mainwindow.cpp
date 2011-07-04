@@ -359,6 +359,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
 
 
     setupActions();
+    connect(m_commandStack, SIGNAL(cleanChanged(bool)), m_saveAction, SLOT(setDisabled(bool)));
 
 
     // Close non-general docks for the initial layout
@@ -1908,6 +1909,7 @@ bool MainWindow::saveFileAs(const QString &outputFileName)
     m_activeDocument->setModified(false);
     m_fileOpenRecent->addUrl(KUrl(outputFileName));
     m_fileRevert->setEnabled(true);
+    m_undoView->stack()->setClean();
     return true;
 }
 
@@ -4358,7 +4360,6 @@ void MainWindow::slotBlockClipMonitor(const QString id)
 {
     if (m_clipMonitor->activeClip() && m_clipMonitor->activeClip()->getId() == id) m_clipMonitor->slotSetXml(NULL);
 }
-
 
 
 #include "mainwindow.moc"
