@@ -1750,26 +1750,6 @@ void ClipItem::updateKeyframes(QDomElement effect)
     update();
 }*/
 
-QList <int> ClipItem::updatePanZoom(int width, int height, int cut)
-{
-    QList <int> effectPositions;
-    for (int i = 0; i < m_effectList.count(); i++) {
-        QDomElement effect = m_effectList.at(i);
-        QDomNodeList params = effect.elementsByTagName("parameter");
-        for (int j = 0; j < params.count(); j++) {
-            QDomElement e = params.item(j).toElement();
-            if (e.isNull())
-                continue;
-            if (e.attribute("type") == "geometry" && !e.hasAttribute("fixed")) {
-                effectPositions << i;
-//                 updateGeometryKeyframes(effect, j, width, height, cut);
-            }
-        }
-    }
-
-    return effectPositions;
-}
-
 Mlt::Producer *ClipItem::getProducer(int track, bool trackSpecific)
 {
     if (isAudioOnly())
@@ -1936,10 +1916,23 @@ bool ClipItem::updateNormalKeyframes(QDomElement parameter)
 
 void ClipItem::updateGeometryKeyframes(QDomElement effect, int paramIndex, int width, int height, ItemInfo oldInfo)
 {
+
     QDomElement param = effect.elementsByTagName("parameter").item(paramIndex).toElement();
-
-    Mlt::Geometry geometry(param.attribute("value").toUtf8().data(), oldInfo.cropDuration.frames(m_fps), width, height);
-
+    int offset = oldInfo.cropStart.frames(m_fps);
+    QString data = param.attribute("value");
+    if (offset > 0) {
+        QStringList kfrs = data.split(';');
+        data.clear();
+        foreach (QString keyframe, kfrs) {
+            if (keyframe.contains('=')) {
+                int pos = keyframe.section('=', 0, 0).toInt();
+                pos += offset;
+                data.append(QString::number(pos) + "=" + keyframe.section('=', 1) + ";");
+            }
+            else data.append(keyframe + ";");
+        }
+    }
+    Mlt::Geometry geometry(data.toUtf8().data(), oldInfo.cropDuration.frames(m_fps), width, height);
     param.setAttribute("value", geometry.serialise(cropStart().frames(m_fps), (cropStart() + cropDuration()).frames(m_fps) - 1));
 }
 

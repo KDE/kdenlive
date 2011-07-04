@@ -160,14 +160,6 @@ public:
     void insertKeyframe(QDomElement effect, int pos, int val);
     void movedKeyframe(QDomElement effect, int oldpos, int newpos, double value);
     void updateKeyframes(QDomElement effect);
-    /** @brief Updates the keyframes in the pan and zoom effect to fit the clips cropDuration.
-     * @param width Render width
-     * @param height Render height
-     * @param cut (optional) if clip was cut, cut position relative to the original's clip position
-     * @return List of the pan and zoom effects indexes
-     * 
-     * Can be used for all effects using mlt_geometry with keyframes, but at the moment Pan & Zoom is the only one. */
-    QList <int> updatePanZoom(int width, int height, int cut = 0);
     void updateGeometryKeyframes(QDomElement effect, int paramIndex, int width, int height, ItemInfo oldInfo);
     bool updateNormalKeyframes(QDomElement parameter);
 

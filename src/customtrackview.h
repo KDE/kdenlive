@@ -412,11 +412,6 @@ private:
     /** @brief Gets the effect parameters that will be passed to Mlt. */
     EffectsParameterList getEffectArgs(const QDomElement effect);
 
-    /** @brief Updates @param item's pan and zoom effect after resize or cut.
-     * @param item clip whose pan and zoom effect should be updated
-     * @param cutPos (optional) if clip was cut, cut position relative to the original's clip position */
-    void updatePanZoom(ClipItem *item, GenTime cutPos = GenTime());
-
     /** @brief Update Tracknames to fit again after track was added/deleted.
      * @param track Number of track which was added/deleted
      * @param added true = track added, false = track deleted
