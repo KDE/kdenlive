@@ -627,7 +627,8 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked, QDomNod
                 // The clip in playlist was not listed in the kdenlive producers,
                 // something went wrong, repair required.
                 kWarning() << "CANNOT INSERT CLIP " << id;
-
+                QString docRoot = m_doc->toXml().documentElement().attribute("root");
+                if (!docRoot.endsWith('/')) docRoot.append('/');
                 clip = getMissingProducer(id);
                 if (!clip) {
                     // We cannot find the producer, something is really wrong, add
@@ -642,6 +643,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked, QDomNod
                             QString service = EffectsList::property(prod, "mlt_service");
                             QString type = EffectsList::property(prod, "mlt_type");
                             QString resource = EffectsList::property(prod, "resource");
+                            if (!resource.startsWith('/') && service != "colour") resource.prepend(docRoot);
                             QString length = EffectsList::property(prod, "length");
                             producerXml.setAttribute("mlt_service", service);
                             producerXml.setAttribute("mlt_type", type);
@@ -935,19 +937,12 @@ DocClipBase *TrackView::getMissingProducer(const QString id) const
         }
     }
     if (missingXml == QDomElement()) return NULL;
+    QString resource = EffectsList::property(missingXml, "resource");
+    QString service = EffectsList::property(missingXml, "mlt_service");
 
-    QDomNodeList params = missingXml.childNodes();
-    QString resource;
-    for (int j = 0; j < params.count(); j++) {
-        QDomElement e = params.item(j).toElement();
-        if (e.attribute("name") == "resource") {
-            resource = e.firstChild().nodeValue();
-            break;
-        }
-    }
     if (slowmotionClip) resource = resource.section('?', 0, 0);
     // prepend MLT XML document root if no path in clip resource and not a color clip
-    if (!resource.startsWith('/') && !resource.startsWith("0x")) resource.prepend(docRoot);
+    if (!resource.startsWith('/') && service != "colour") resource.prepend(docRoot);
     DocClipBase *missingClip = NULL;
     if (!resource.isEmpty()) {
         QList <DocClipBase *> list = m_doc->clipManager()->getClipByResource(resource);
