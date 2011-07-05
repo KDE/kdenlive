@@ -225,10 +225,12 @@ const QList <DocClipBase *> ClipManager::getClipByResource(QString resource)
 {
     QList <DocClipBase *> list;
     QString clipResource;
+    QString proxyResource;
     for (int i = 0; i < m_clipList.count(); i++) {
         clipResource = m_clipList.at(i)->getProperty("resource");
+        proxyResource = m_clipList.at(i)->getProperty("proxy");
         if (clipResource.isEmpty()) clipResource = m_clipList.at(i)->getProperty("colour");
-        if (clipResource == resource) {
+        if (clipResource == resource || proxyResource == resource) {
             list.append(m_clipList.at(i));
         }
     }

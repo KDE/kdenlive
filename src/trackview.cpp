@@ -271,7 +271,7 @@ void TrackView::parseDocument(QDomDocument doc)
                 m_doc->switchTrackAudio(i - 1, true);
             }
 
-            trackduration = slotAddProjectTrack(pos, p, m_doc->isTrackLocked(i - 1));
+            trackduration = slotAddProjectTrack(pos, p, m_doc->isTrackLocked(i - 1), producers);
             pos--;
             //kDebug() << " PRO DUR: " << trackduration << ", TRACK DUR: " << duration;
             if (trackduration > duration) duration = trackduration;
@@ -591,7 +591,7 @@ void TrackView::adjustTrackHeaders()
     }
 }
 
-int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked)
+int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked, QDomNodeList producers)
 {
     // parse track
     int position = 0;
@@ -635,18 +635,37 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked)
                     QDomDocument doc;
                     QDomElement producerXml = doc.createElement("producer");
                     doc.appendChild(producerXml);
-                    producerXml.setAttribute("colour", "0xff0000ff");
-                    producerXml.setAttribute("mlt_service", "colour");
-                    producerXml.setAttribute("length", "15000");
-                    producerXml.setAttribute("name", "INVALID");
-                    producerXml.setAttribute("type", COLOR);
-                    producerXml.setAttribute("id", id);
-                    clip = new DocClipBase(m_doc->clipManager(), doc.documentElement(), id);
-                    xml.insertBefore(producerXml, QDomNode());
-                    nodeindex++;
-                    m_doc->clipManager()->addClip(clip);
+                    bool foundMltProd = false;
+                    for (int i = 0; i < producers.count(); i++) {
+                        QDomElement prod = producers.at(i).toElement();
+                        if (prod.attribute("id") == id) {
+                            QString service = EffectsList::property(prod, "mlt_service");
+                            QString type = EffectsList::property(prod, "mlt_type");
+                            QString resource = EffectsList::property(prod, "resource");
+                            QString length = EffectsList::property(prod, "length");
+                            producerXml.setAttribute("mlt_service", service);
+                            producerXml.setAttribute("mlt_type", type);
+                            producerXml.setAttribute("resource", resource);
+                            producerXml.setAttribute("duration", length);
+                            if (service == "colour") producerXml.setAttribute("type", COLOR);
+                            else if (service == "qimage" || service == "pixbuf") producerXml.setAttribute("type", IMAGE);
+                            else if (service == "kdenlivetitle") producerXml.setAttribute("type", TEXT);
+                            else producerXml.setAttribute("type", AV);
+                            clip = new DocClipBase(m_doc->clipManager(), doc.documentElement(), id);
+                            m_doc->clipManager()->addClip(clip);
+                            m_documentErrors.append(i18n("Broken clip producer %1, recreated base clip: %2", id, resource) + '\n');
+                            foundMltProd = true;
+                            break;
+                        }
+                    }
+                    if (!foundMltProd) {
+                        // Cannot recover, replace with blank
+                        int duration = elem.attribute("out").toInt() - elem.attribute("in").toInt();
+                        elem.setAttribute("length", duration);
+                        elem.setTagName("blank");
+                        m_documentErrors.append(i18n("Broken clip producer %1, removed from project", id) + '\n');
+                    }
 
-                    m_documentErrors.append(i18n("Broken clip producer %1", id) + '\n');
                 } else {
                     // Found correct producer
                     m_documentErrors.append(i18n("Replaced wrong clip producer %1 with %2", id, clip->getId()) + '\n');

@@ -99,7 +99,7 @@ private:
     int m_verticalZoom;
     QString m_documentErrors;
     void parseDocument(QDomDocument doc);
-    int slotAddProjectTrack(int ix, QDomElement xml, bool locked);
+    int slotAddProjectTrack(int ix, QDomElement xml, bool locked, QDomNodeList producers);
     DocClipBase *getMissingProducer(const QString id) const;
     void adjustTrackHeaders();
     void slotAddProjectEffects(QDomNodeList effects, QDomElement parentNode, ClipItem *clip, int trackIndex);
