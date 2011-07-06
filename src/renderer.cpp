@@ -1650,7 +1650,7 @@ Mlt::Producer *Render::checkSlowMotionProducer(Mlt::Producer *prod, QDomElement 
     if (!slowprod || slowprod->get_producer() == NULL) {
         slowprod = new Mlt::Producer(*m_mltProfile, 0, ("framebuffer:" + url).toUtf8().constData());
         if (strobe > 1) slowprod->set("strobe", strobe);
-        QString id = prod->get("id");
+        QString id = prod->parent().get("id");
         if (id.contains('_')) id = id.section('_', 0, 0);
         QString producerid = "slowmotion:" + id + ':' + QString::number(speed);
         if (strobe > 1) producerid.append(':' + QString::number(strobe));
@@ -2562,6 +2562,11 @@ bool Render::mltAddEffect(Mlt::Service service, EffectsParameterList params, int
             return false;
         }
         params.removeParam("kdenlive_id");
+        if (params.hasParam("_sync_in_out")) {
+            // This effect must sync in / out with parent clip
+            params.removeParam("_sync_in_out");
+            filter->set_in_and_out(service.get_int("in"), service.get_int("out"));
+        }
 
         for (int j = 0; j < params.count(); j++) {
             filter->set((prefix + params.at(j).name()).toUtf8().constData(), params.at(j).value().toUtf8().constData());
@@ -2581,10 +2586,6 @@ bool Render::mltAddEffect(Mlt::Service service, EffectsParameterList params, int
             }
             //kDebug() << "SOX EFFECTS: " << effectArgs.simplified();
             filter->set("effect", effectArgs.simplified().toUtf8().constData());
-        }
-
-        if (params.paramValue("id") == "pan_zoom") {
-            filter->set_in_and_out(service.get_int("in"), service.get_int("out") + 1);
         }
 
         // attach filter to the clip
@@ -2711,13 +2712,15 @@ bool Render::mltEditEffect(int track, GenTime position, EffectsParameterList par
     QString prefix;
     QString ser = filter->get("mlt_service");
     if (ser == "region") prefix = "filter0.";
+    if (params.hasParam("_sync_in_out")) {
+        // This effect must sync in / out with parent clip
+        params.removeParam("_sync_in_out");
+        filter->set_in_and_out(clip->get_in(), clip->get_out());
+    }
     mlt_service_lock(service.get_service());
     for (int j = 0; j < params.count(); j++) {
         filter->set((prefix + params.at(j).name()).toUtf8().constData(), params.at(j).value().toUtf8().constData());
-    }
-
-    if (params.paramValue("id") == "pan_zoom")
-        filter->set_in_and_out(clip->get_in(), clip->get_out() + 1);
+    }   
 
     delete clip;
     mlt_service_unlock(service.get_service());
@@ -3195,7 +3198,6 @@ bool Render::mltUpdateClipProducer(int track, int pos, Mlt::Producer *prod)
         kDebug() << "// Warning, CLIP on track " << track << ", at: " << pos << " is invalid, cannot update it!!!";
         return false;
     }
-    kDebug() << "NEW PROD ID: " << prod->get("id");
     m_isBlocked++;
     kDebug() << "// TRYING TO UPDATE CLIP at: " << pos << ", TK: " << track;
     Mlt::Service service(m_mltProducer->parent().get_service());
@@ -3850,13 +3852,14 @@ const QList <Mlt::Producer *> Render::producersList()
         int clipNb = trackPlaylist.count();
         for (int i = 0; i < clipNb; i++) {
             Mlt::Producer *c = trackPlaylist.get_clip(i);
-            Mlt::Producer *nprod = new Mlt::Producer(c->get_parent());
-            if (nprod) {
-                QString prodId = nprod->get("id");
-                if (!prodId.startsWith("slowmotion") && !prodId.isEmpty() && !nprod->is_blank() && !ids.contains(prodId)) {
+            if (c == NULL) continue;
+            QString prodId = c->parent().get("id");
+            if (!c->is_blank() && !ids.contains(prodId) && !prodId.startsWith("slowmotion") && !prodId.isEmpty()) {
+                Mlt::Producer *nprod = new Mlt::Producer(c->get_parent());
+                if (nprod) {
                     ids.append(prodId);
                     prods.append(nprod);
-                } else delete nprod;
+                }
             }
             delete c;
         }
@@ -3883,7 +3886,7 @@ void Render::fillSlowMotionProducers()
             Mlt::Producer *c = trackPlaylist.get_clip(i);
             Mlt::Producer *nprod = new Mlt::Producer(c->get_parent());
             if (nprod) {
-                QString id = nprod->get("id");
+                QString id = nprod->parent().get("id");
                 if (id.startsWith("slowmotion:") && !nprod->is_blank()) {
                     // this is a slowmotion producer, add it to the list
                     QString url = QString::fromUtf8(nprod->get("resource"));

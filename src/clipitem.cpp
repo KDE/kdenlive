@@ -1383,16 +1383,17 @@ EffectsParameterList ClipItem::addEffect(const QDomElement effect, bool /*animat
     parameters.addParam("id", effectId);
 
     // special case: the affine effect needs in / out points
-    if (effectId == "pan_zoom") {
-        parameters.addParam("in", QString::number(cropStart().frames(m_fps)));
-        parameters.addParam("out", QString::number((cropStart() + cropDuration()).frames(m_fps)));
-    }
 
     QDomNodeList params = effect.elementsByTagName("parameter");
     int fade = 0;
+    bool needInOutSync = false;
     for (int i = 0; i < params.count(); i++) {
         QDomElement e = params.item(i).toElement();
         if (!e.isNull()) {
+            if (e.attribute("type") == "geometry" && !e.hasAttribute("fixed")) {
+                // Effects with a geometry parameter need to sync in / out with parent clip
+                needInOutSync = true;
+            }
             if (e.attribute("type") == "simplekeyframe") {
                 QStringList values = e.attribute("keyframes").split(";", QString::SkipEmptyParts);
                 double factor = e.attribute("factor", "1").toDouble();
@@ -1467,6 +1468,11 @@ EffectsParameterList ClipItem::addEffect(const QDomElement effect, bool /*animat
                 parameters.addParam(e.attribute("name"), QString::number(e.attribute("value").toDouble() / fact));
             }
         }
+    }
+    if (needInOutSync) {
+        parameters.addParam("in", QString::number(cropStart().frames(m_fps)));
+        parameters.addParam("out", QString::number((cropStart() + cropDuration()).frames(m_fps) - 1));
+        parameters.addParam("_sync_in_out", "1");
     }
     m_effectNames = m_effectList.effectNames().join(" / ");
     if (fade > 0) m_startFade = fade;
@@ -1770,7 +1776,7 @@ QMap<int, QDomElement> ClipItem::adjustEffectsToDuration(int width, int height, 
             QString id = effect.attribute("id");
             int in = EffectsList::parameter(effect, "in").toInt();
             int out = EffectsList::parameter(effect, "out").toInt();
-            int clipEnd = (cropStart() + cropDuration()).frames(m_fps);
+            int clipEnd = (cropStart() + cropDuration()).frames(m_fps) - 1;
             if (id == "fade_from_black" || id == "fadein") {
                 if (in != cropStart().frames(m_fps)) {
                     effects[i] = effect.cloneNode().toElement();
@@ -1791,7 +1797,7 @@ QMap<int, QDomElement> ClipItem::adjustEffectsToDuration(int width, int height, 
                 if (out != clipEnd) {
                     effects[i] = effect.cloneNode().toElement();
                     int diff = out - clipEnd;
-                    in -= diff;
+                    in = qMax(in - diff, (int) cropStart().frames(m_fps));
                     out -= diff;
                     EffectsList::setParameter(effect, "in", QString::number(in));
                     EffectsList::setParameter(effect, "out", QString::number(out));

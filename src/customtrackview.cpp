@@ -6543,7 +6543,10 @@ EffectsParameterList CustomTrackView::getEffectArgs(const QDomElement effect)
     QDomNodeList params = effect.elementsByTagName("parameter");
     for (int i = 0; i < params.count(); i++) {
         QDomElement e = params.item(i).toElement();
-        //kDebug() << "/ / / /SENDING EFFECT PARAM: " << e.attribute("type") << ", NAME_ " << e.attribute("tag");
+        if (e.attribute("type") == "geometry" && !e.hasAttribute("fixed")) {
+            // effects with geometry param need in / out synced with the clip, request it...
+            parameters.addParam("_sync_in_out", "1");
+        }
         if (e.attribute("type") == "simplekeyframe") {
 
             QStringList values = e.attribute("keyframes").split(";", QString::SkipEmptyParts);
