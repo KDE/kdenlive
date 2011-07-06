@@ -137,8 +137,9 @@ bool DocumentChecker::hasErrorInClips()
     for (int i = 0; i < trans.count(); i++) {
         QString luma = getProperty(trans.at(i).toElement(), "luma");
         if (!luma.isEmpty()) {
-            if (!luma.startsWith('/')) luma.prepend(root);
-            if (!QFile::exists(luma) && !missingLumas.contains(luma)) {
+            QString lumaPath = luma;
+            if (!lumaPath.startsWith('/')) lumaPath.prepend(root);
+            if (!QFile::exists(lumaPath) && !missingLumas.contains(luma)) {
                 missingLumas.append(luma);
             }
         }
@@ -420,6 +421,13 @@ QString DocumentChecker::searchLuma(QString file) const
     QString result = searchPath.path(KUrl::AddTrailingSlash) + KUrl(file).fileName();
     if (QFile::exists(result))
         return result;
+    // try to find luma in application path
+    searchPath.clear();
+    searchPath = KUrl(QCoreApplication::applicationDirPath());
+    searchPath.cd("../share/apps/kdenlive/lumas");
+    result = searchPath.path(KUrl::AddTrailingSlash) + KUrl(file).fileName();
+    if (QFile::exists(result))
+        return result;
     return QString();
 }
 
@@ -576,6 +584,7 @@ void DocumentChecker::acceptDialog()
         } else if (child->data(0, statusRole).toInt() == LUMAOK) {
             for (int i = 0; i < trans.count(); i++) {
                 QString luma = getProperty(trans.at(i).toElement(), "luma");
+                
                 kDebug() << "luma: " << luma;
                 if (!luma.isEmpty() && luma == child->data(0, idRole).toString()) {
                     setProperty(trans.at(i).toElement(), "luma", child->text(1));
@@ -665,15 +674,32 @@ void DocumentChecker::slotDeleteSelected()
     if (KMessageBox::warningContinueCancel(m_dialog, i18np("This will remove the selected clip from this project", "This will remove the selected clips from this project", m_ui.treeWidget->selectedItems().count()), i18n("Remove clips")) == KMessageBox::Cancel)
         return;
     QStringList deletedIds;
+    QStringList deletedLumas;
     QDomNodeList playlists = m_doc.elementsByTagName("playlist");
 
     foreach(QTreeWidgetItem *child, m_ui.treeWidget->selectedItems()) {
-        if (child->data(0, statusRole).toInt() < 10) {
+        int id = child->data(0, statusRole).toInt();
+        if (id == CLIPMISSING) {
             deletedIds.append(child->data(0, idRole).toString());
             delete child;
         }
+        else if (id == LUMAMISSING) {
+            deletedLumas.append(child->data(0, idRole).toString());
+            delete child;
+        }
     }
-    kDebug() << "// Clips to delete: " << deletedIds;
+
+    if (!deletedLumas.isEmpty()) {
+        QDomElement e;
+        QDomNodeList transitions = m_doc.elementsByTagName("transition");
+        foreach (QString lumaPath, deletedLumas) {
+            for (int i = 0; i < transitions.count(); i++) {
+                e = transitions.item(i).toElement();
+                QString resource = EffectsList::property(e, "luma");
+                if (resource == lumaPath) EffectsList::removeProperty(e, "luma");
+            }
+        }
+    }
 
     if (!deletedIds.isEmpty()) {
         QDomElement e;
