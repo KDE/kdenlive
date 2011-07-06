@@ -773,11 +773,13 @@ void ClipItem::paint(QPainter *painter,
             }
             else {
 #if KDE_IS_VERSION(4,5,0)
-                m_clip->thumbProducer()->queryIntraThumbs(left, right);
-                connect(m_clip->thumbProducer(), SIGNAL(thumbsCached()), this, SLOT(slotGotThumbsCache()));
-                QString path = m_clip->fileURL().path() + "%";
-                for (int i = left; i <= right; i++) {
-                    painter->drawImage(startPos + QPointF(twidth *(i - startOffset), 0), m_clip->thumbProducer()->findCachedThumb(path + QString::number(i)));
+                if (m_clip && m_clip->thumbProducer()) {
+                    m_clip->thumbProducer()->queryIntraThumbs(left, right);
+                    connect(m_clip->thumbProducer(), SIGNAL(thumbsCached()), this, SLOT(slotGotThumbsCache()));
+                    QString path = m_clip->fileURL().path() + "_";
+                    for (int i = left; i <= right; i++) {
+                        painter->drawImage(startPos + QPointF(twidth *(i - startOffset), 0), m_clip->thumbProducer()->findCachedThumb(path + QString::number(i)));
+                    }
                 }
 #endif
             }
@@ -1733,28 +1735,6 @@ void ClipItem::updateKeyframes(QDomElement effect)
     }
     if (!m_keyframes.contains(m_selectedKeyframe)) m_selectedKeyframe = -1;
 }
-
-/*void ClipItem::slotGetIntraThumbs(CustomTrackView *view, int start, int end)
-{
-    const int theight = KdenliveSettings::trackheight();
-    const int twidth = FRAME_SIZE;
-    QString path = m_clip->fileURL().path() + "%";
-    QPixmap p;
-    for (int i = start; i <= end; i++) {
-#if KDE_IS_VERSION(4,5,0)
-        if (!view->m_pixmapCache->contains(path + QString::number(i))) {
-            p = m_clip->extractImage(i, twidth, theight);
-            view->m_pixmapCache->insertPixmap(path + QString::number(i), p);
-        }
-#else
-        if (!view->m_pixmapCache->find(path + QString::number(i), p)) {
-            p = m_clip->extractImage(i, twidth, theight);
-            view->m_pixmapCache->insert(path + QString::number(i), p);
-        }
-#endif
-    }
-    update();
-}*/
 
 Mlt::Producer *ClipItem::getProducer(int track, bool trackSpecific)
 {

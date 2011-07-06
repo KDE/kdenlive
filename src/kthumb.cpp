@@ -462,7 +462,7 @@ void KThumb::slotGetIntraThumbs()
 {
     int theight = KdenliveSettings::trackheight();
     int twidth = FRAME_SIZE;
-    QString path = m_url.path() + "%";
+    QString path = m_url.path() + "_";
     QImage img;
 
     while (!m_intraFramesQueue.isEmpty()) {

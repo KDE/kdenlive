@@ -911,6 +911,8 @@ void ProjectList::slotDeleteClip(const QString &clipId)
     if (!newSelectedItem)
         newSelectedItem = m_listView->itemBelow(item);
     delete item;
+    // Pause playing to prevent crash while deleting clip
+    slotPauseMonitor();
     m_doc->clipManager()->deleteClip(clipId);
     m_listView->blockSignals(false);
     if (newSelectedItem) {
