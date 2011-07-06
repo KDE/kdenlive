@@ -259,7 +259,7 @@ private:
     QMenu *m_transcodeAction;
     KdenliveDoc *m_doc;
     ItemDelegate *m_listViewDelegate;
-    /** @brief True if we have not yet finished opening the document. */
+    /** @brief False if we have not yet finished opening the document. */
     bool m_refreshed;
     QToolButton *m_addButton;
     QToolButton *m_deleteButton;

@@ -1074,7 +1074,7 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
 
 void ProjectList::slotGotProxy(const QString &proxyPath)
 {
-    if (proxyPath.isEmpty()) return;
+    if (proxyPath.isEmpty() || !m_refreshed) return;
     QTreeWidgetItemIterator it(m_listView);
     ProjectItem *item;
 
@@ -1090,7 +1090,7 @@ void ProjectList::slotGotProxy(const QString &proxyPath)
 
 void ProjectList::slotGotProxy(ProjectItem *item)
 {
-    if (item == NULL) return;
+    if (item == NULL || !m_refreshed) return;
     DocClipBase *clip = item->referencedClip();
     // Proxy clip successfully created
     QDomElement e = clip->toXML().cloneNode().toElement();
