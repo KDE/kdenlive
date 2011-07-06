@@ -907,7 +907,6 @@ void ProjectList::slotDeleteClip(const QString &clipId)
         return;
     }
     if (item->isProxyRunning()) m_abortProxy.append(item->referencedClip()->getProperty("proxy"));
-    kDebug()<<"ABORT PX: "<<m_abortProxy;
     m_listView->blockSignals(true);
     QTreeWidgetItem *newSelectedItem = m_listView->itemAbove(item);
     if (!newSelectedItem)
@@ -2161,16 +2160,12 @@ QMap <QString, QString> ProjectList::getProxies()
 void ProjectList::slotCreateProxy(const QString id)
 {
     ProjectItem *item = getItemById(id);
-    kDebug()<<"// CREATE PXY FOR: "<<id;
     if (!item || item->isProxyRunning() || item->referencedClip()->isPlaceHolder()) return;
-    kDebug()<<"// CREATE PXY FOR....2";
     QString path = item->referencedClip()->getProperty("proxy");
     if (path.isEmpty()) {
-        kDebug()<<"// CREATE PXY FOR....3";
         setProxyStatus(path, PROXYCRASHED);
         return;
     }
-    kDebug()<<"// CREATE PXY FOR....4";
     setProxyStatus(path, PROXYWAITING);
     if (m_abortProxy.contains(path)) m_abortProxy.removeAll(path);
     if (m_processingProxy.contains(path)) {
@@ -2183,7 +2178,6 @@ void ProjectList::slotCreateProxy(const QString id)
         slotGotProxy(path);
         return;
     }
-    kDebug()<<"// CREATE PXY FOR....5";
     m_processingProxy.append(path);
     QtConcurrent::run(this, &ProjectList::slotGenerateProxy, path, item->clipUrl().path(), item->clipType(), QString(item->referencedClip()->producerProperty("_exif_orientation")).toInt());
 }
@@ -2204,7 +2198,6 @@ void ProjectList::slotGenerateProxy(const QString destPath, const QString source
 {
     emit projectModified();
     // Make sure proxy path is writable
-    kDebug()<<"// RDY FR PXY: "<<destPath;
     QFile file(destPath);
     if (!file.open(QIODevice::WriteOnly)) {
         setProxyStatus(destPath, PROXYCRASHED);
