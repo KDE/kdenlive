@@ -619,7 +619,7 @@ Mlt::Producer *DocClipBase::producer(int track)
 Mlt::Producer *DocClipBase::cloneProducer(Mlt::Producer *source)
 {
     Mlt::Producer *result = NULL;
-    QString url = source->get("resource");
+    QString url = QString::fromUtf8(source->get("resource"));
     if (KIO::NetAccess::exists(KUrl(url), KIO::NetAccess::SourceSide, 0)) {
         char *tmp = qstrdup(url.toUtf8().constData());
         result = new Mlt::Producer(*source->profile(), tmp);
@@ -637,6 +637,7 @@ Mlt::Producer *DocClipBase::cloneProducer(Mlt::Producer *source)
             result->set("bgcolour", "0xff0000ff");
             result->set("pad", "10");
         }
+        return result;
     }
     Mlt::Properties props(result->get_properties());
     Mlt::Properties src_props(source->get_properties());

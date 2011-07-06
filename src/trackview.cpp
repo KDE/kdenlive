@@ -189,6 +189,7 @@ void TrackView::parseDocument(QDomDocument doc)
 {
     //int cursorPos = 0;
     m_documentErrors.clear();
+    m_replacementProducerIds.clear();
 
     //kDebug() << "//// DOCUMENT: " << doc.toString();
     /*QDomNode props = doc.elementsByTagName("properties").item(0);
@@ -595,6 +596,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked, QDomNod
 {
     // parse track
     int position = 0;
+    QMap <QString, QString> producerReplacementIds;
     QDomNodeList children = xml.childNodes();
     for (int nodeindex = 0; nodeindex < children.count(); nodeindex++) {
         QDomNode n = children.item(nodeindex);
@@ -612,6 +614,11 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked, QDomNod
                 continue;
             }
             QString idString = elem.attribute("producer");
+            if (producerReplacementIds.contains(idString)) {
+                // replace id
+                elem.setAttribute("producer", producerReplacementIds.value(idString));
+                idString = elem.attribute("producer");
+            }
             QString id = idString;
             double speed = 1.0;
             int strobe = 1;
@@ -629,8 +636,55 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked, QDomNod
                 kWarning() << "CANNOT INSERT CLIP " << id;
                 QString docRoot = m_doc->toXml().documentElement().attribute("root");
                 if (!docRoot.endsWith('/')) docRoot.append('/');
-                clip = getMissingProducer(id);
-                if (!clip) {
+                clip = getMissingProducer(idString);
+                if (clip) {
+                    // We found the original producer in Kdenlive's producers
+                    // Found correct producer
+                    m_documentErrors.append(i18n("Replaced wrong clip producer %1 with %2", id, clip->getId()) + '\n');
+                    QString prodId = clip->getId();
+                    if (clip->clipType() == PLAYLIST || clip->clipType() == AV || clip->clipType() == AUDIO) {
+                        // We need producer for the track
+                        prodId.append("_" + QString::number(ix));
+                    }
+                    elem.setAttribute("producer", prodId);
+                    producerReplacementIds.insert(idString, prodId);
+                    // now adjust the mlt producer
+                    bool found = false;
+                    for (int i = 0; i < producers.count(); i++) {
+                        QDomElement prod = producers.at(i).toElement();
+                        if (prod.attribute("id") == prodId) {
+                            // ok, producer already exists
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) {
+                        for (int i = 0; i < producers.count(); i++) {
+                            QDomElement prod = producers.at(i).toElement();
+                            if (prod.attribute("id") == idString) {
+                                prod.setAttribute("id", prodId);
+                                m_replacementProducerIds.insert(idString, prodId);
+                                found = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (!found) {
+                        // We didn't find the producer for this track, find producer for another track and duplicate
+                        for (int i = 0; i < producers.count(); i++) {
+                            QDomElement prod = producers.at(i).toElement();
+                            QString mltProdId = prod.attribute("id");
+                            if (mltProdId == prodId || mltProdId.startsWith(prodId + "_")) {
+                                // Found parent producer, clone it
+                                QDomElement clone = prod.cloneNode().toElement();
+                                clone.setAttribute("id", prodId);
+                                m_doc->toXml().documentElement().insertBefore(clone, xml);
+                                break;
+                            }
+                        }
+                    }                    
+                }
+                else {
                     // We cannot find the producer, something is really wrong, add
                     // placeholder color clip
                     QDomDocument doc;
@@ -667,11 +721,6 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked, QDomNod
                         elem.setTagName("blank");
                         m_documentErrors.append(i18n("Broken clip producer %1, removed from project", id) + '\n');
                     }
-
-                } else {
-                    // Found correct producer
-                    m_documentErrors.append(i18n("Replaced wrong clip producer %1 with %2", id, clip->getId()) + '\n');
-                    elem.setAttribute("producer", clip->getId());
                 }
                 m_doc->setModified(true);
             }
@@ -934,6 +983,26 @@ DocClipBase *TrackView::getMissingProducer(const QString id) const
         if (prodId == id) {
             missingXml =  m.toElement();
             break;
+        }
+    }
+    if (missingXml == QDomElement()) {
+        // Check if producer id was replaced in another track
+        if (m_replacementProducerIds.contains(id)) {
+            QString newId = m_replacementProducerIds.value(id);
+            slowmotionClip = false;
+            for (int i = 0; i < maxprod; i++) {
+                QDomNode m = prods.at(i);
+                QString prodId = m.toElement().attribute("id");
+                if (prodId.startsWith("slowmotion")) {
+                    slowmotionClip = true;
+                    prodId = prodId.section(':', 1, 1);
+                }
+                prodId = prodId.section('_', 0, 0);
+                if (prodId == id) {
+                    missingXml =  m.toElement();
+                    break;
+                }
+            }       
         }
     }
     if (missingXml == QDomElement()) return NULL;

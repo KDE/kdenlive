@@ -94,6 +94,8 @@ private:
     int m_projectTracks;
     QString m_editMode;
     CustomTrackScene *m_scene;
+    /** @brief A list of producer ids to be replaced when opening a corrupted document*/
+    QMap <QString, QString> m_replacementProducerIds;
 
     KdenliveDoc *m_doc;
     int m_verticalZoom;
