@@ -203,19 +203,22 @@ void AbstractClipItem::resizeEnd(int posx)
     setRect(0, 0, cropDuration().frames(m_fps) - 0.02, rect().height());
     if (durationDiff > GenTime()) {
         QList <QGraphicsItem *> collisionList = collidingItems(Qt::IntersectsItemBoundingRect);
+        bool fixItem = false;
         for (int i = 0; i < collisionList.size(); ++i) {
             if (!collisionList.at(i)->isEnabled()) continue;
             QGraphicsItem *item = collisionList.at(i);
             if (item->type() == type() && item->pos().x() > pos().x()) {
-                kDebug() << "/////////  COLLISION DETECTED!!!!!!!!!";
-                kDebug() << "/////////  CURRENT: " << startPos().frames(25) << "x" << endPos().frames(25) << ", RECT: " << rect() << "-" << pos();
-                kDebug() << "/////////  COLLISION: " << ((AbstractClipItem *)item)->startPos().frames(25) << "x" << ((AbstractClipItem *)item)->endPos().frames(25) << ", RECT: " << ((AbstractClipItem *)item)->rect() << "-" << item->pos();
+                //kDebug() << "/////////  COLLISION DETECTED!!!!!!!!!";
+                //kDebug() << "/////////  CURRENT: " << startPos().frames(25) << "x" << endPos().frames(25) << ", RECT: " << rect() << "-" << pos();
+                //kDebug() << "/////////  COLLISION: " << ((AbstractClipItem *)item)->startPos().frames(25) << "x" << ((AbstractClipItem *)item)->endPos().frames(25) << ", RECT: " << ((AbstractClipItem *)item)->rect() << "-" << item->pos();
                 GenTime diff = ((AbstractClipItem *)item)->startPos() - startPos();
-                m_info.cropDuration = diff;
-                setRect(0, 0, cropDuration().frames(m_fps) - 0.02, rect().height());
-                break;
+                if (fixItem == false || diff < m_info.cropDuration) {
+                    fixItem = true;
+                    m_info.cropDuration = diff;
+                }
             }
         }
+        if (fixItem) setRect(0, 0, cropDuration().frames(m_fps) - 0.02, rect().height());
     }
 }
 
