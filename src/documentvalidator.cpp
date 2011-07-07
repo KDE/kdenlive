@@ -29,6 +29,8 @@
 #include <QFile>
 #include <QColor>
 
+#include <mlt++/Mlt.h>
+
 
 DocumentValidator::DocumentValidator(QDomDocument doc):
         m_doc(doc),
@@ -846,6 +848,43 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             QDomElement prod = producers.at(i).toElement();
             if (EffectsList::property(prod, "mlt_service") == "avformat-novalidate")
                 EffectsList::setProperty(prod, "mlt_service", "avformat");
+        }
+
+        // There was a mistake in Geometry transitions where the last keyframe was created one frame after the end of transition, so fix it and move last keyframe to real end of transition
+
+        // Get profile info (width / height)
+        int profileWidth;
+        int profileHeight;
+        QDomElement profile = m_doc.firstChildElement("profile");
+        if (profile.isNull()) profile = infoXml.firstChildElement("profileinfo");
+        if (profile.isNull()) {
+            // could not find profile info, set PAL
+            profileWidth = 720;
+            profileHeight = 576;
+        }
+        else {
+            profileWidth = profile.attribute("width").toInt();
+            profileHeight = profile.attribute("height").toInt();
+        }
+        QDomNodeList transitions = m_doc.elementsByTagName("transition");
+        max = transitions.count();
+        int out;
+        for (int i = 0; i < max; i++) {
+            QDomElement trans = transitions.at(i).toElement();
+            out = trans.attribute("out").toInt() - trans.attribute("in").toInt();
+            QString geom = EffectsList::property(trans, "geometry");
+            Mlt::Geometry *g = new Mlt::Geometry(geom.toUtf8().data(), out, profileWidth, profileHeight);
+            Mlt::GeometryItem item;
+            if (g->next_key(&item, out) == 0) {
+                // We have a keyframe just after last frame, try to move it to last frame
+                if (item.frame() == out + 1) {
+                    item.frame(out);
+                    g->insert(item);
+                    g->remove(out + 1);
+                    EffectsList::setProperty(trans, "geometry", g->serialise());
+                }
+            }
+            delete g;
         }
     }
 

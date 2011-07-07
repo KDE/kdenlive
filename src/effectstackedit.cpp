@@ -233,8 +233,10 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, ItemInfo info, bool
     }
 #endif
     QDomElement e = m_params.toElement();
-    const int minFrame = e.attribute("start").toInt();
-    const int maxFrame = e.attribute("end").toInt();
+    int minFrame = e.attribute("start").toInt();
+    int maxFrame = e.attribute("end").toInt();
+    // In transitions, maxFrame is in fact one frame after the end of transition
+    if (maxFrame > 0) maxFrame --;
 
     bool disable = d.attribute("disable") == "1" && KdenliveSettings::disable_effect_parameters();
     setEnabled(!disable);
