@@ -235,7 +235,7 @@ bool DocumentChecker::hasErrorInClips()
     }
 
     m_ui.removeSelected->setEnabled(!missingClips.isEmpty());
-    m_ui.recursiveSearch->setEnabled(!missingClips.isEmpty());
+    m_ui.recursiveSearch->setEnabled(!missingClips.isEmpty() || !missingLumas.isEmpty());
     m_ui.usePlaceholders->setEnabled(!missingClips.isEmpty());
     m_ui.fixDuration->setEnabled(!wrongDurationClips.isEmpty());
         
