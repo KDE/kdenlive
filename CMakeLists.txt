@@ -70,6 +70,7 @@ add_subdirectory(lumas)
 add_subdirectory(titles)
 add_subdirectory(po)
 add_subdirectory(man)
+add_subdirectory(doc)
 
 configure_file(${CMAKE_SOURCE_DIR}/kdenlive-config.h.cmake kdenlive-config.h @ONLY)
 
