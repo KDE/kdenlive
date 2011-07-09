@@ -6,6 +6,13 @@ podir=`pwd`/po
 kdenlive_subdirs="src src/widgets renderer plugins"
 
 
+if [ $(expr length "${EXTRACTRC}") -eq 0 ]
+then
+    echo "extractrc not found. Please install it (it is maybe in the kdesdk-scripts package)."
+    exit 1
+fi
+
+
 kde_inc=${includedir:-${KDEDIR:-@CMAKE_INSTALL_PREFIX@}/include/kde}/kde.pot
 
 if [ -f ${kde_inc} ]; then
