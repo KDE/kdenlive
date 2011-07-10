@@ -507,7 +507,7 @@ void MltDeviceCapture::setOverlay(const QString &path)
         Mlt::Field *field = tractor.field();
         Mlt::Transition *transition = new Mlt::Transition(*m_mltProfile, "composite");
         transition->set_in_and_out(0, 0);
-        transition->set("geometry", "0,0:100%x100%:70");
+        transition->set("geometry", "0/0:100%x100%:70");
         transition->set("fill", 1);
         transition->set("operator", "and");
         transition->set("a_track", 0);

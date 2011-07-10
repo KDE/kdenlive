@@ -790,7 +790,7 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
                 ktrans.setAttribute("id", name);
                 tname.appendChild(ret.createTextNode(i18n("Composite")));
                 desc.appendChild(ret.createTextNode(i18n("A key-framable alpha-channel compositor for two frames.")));
-                paramList.append(quickParameterFill(ret, i18n("Geometry"), "geometry", "geometry", "0%,0%:100%x100%:100", "-500;-500;-500;-500;0", "500;500;500;500;100"));
+                paramList.append(quickParameterFill(ret, i18n("Geometry"), "geometry", "geometry", "0%/0%:100%x100%:100", "-500;-500;-500;-500;0", "500;500;500;500;100"));
                 paramList.append(quickParameterFill(ret, i18n("Alpha Channel Operation"), "operator", "list", "over", "", "", "over,and,or,xor", i18n("Over,And,Or,Xor")));
                 paramList.append(quickParameterFill(ret, i18n("Align"), "aligned", "bool", "1", "0", "1"));
                 paramList.append(quickParameterFill(ret, i18n("Fill"), "fill", "bool", "1", "0", "1"));
@@ -817,7 +817,7 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
                 paramList.append(quickParameterFill(ret, i18n("Fix Shear Z"), "fix_shear_z", "double", "0", "0", "360"));*/
 
                 paramList.append(quickParameterFill(ret, "keyed", "keyed", "fixed", "1", "1", "1"));
-                paramList.append(quickParameterFill(ret, i18n("Geometry"), "geometry", "geometry",  "0,0,100%,100%,100%", "0,0,100%,100%,100%", "0,0,100%,100%,100%", "", "", "", "", "", "true"));
+                paramList.append(quickParameterFill(ret, i18n("Geometry"), "geometry", "geometry",  "0/0:100%x100%:100%", "0/0:100%x100%:100%", "0/0:100%x100%:100%", "", "", "", "", "", "true"));
 
                 paramList.append(quickParameterFill(ret, i18n("Rotate X"), "rotate_x", "addedgeometry", "0", "-1800", "1800", QString(), QString(), "10"));
                 paramList.append(quickParameterFill(ret, i18n("Rotate Y"), "rotate_y", "addedgeometry", "0", "-1800", "1800", QString(), QString(), "10"));
@@ -835,7 +835,7 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
                 tname.appendChild(ret.createTextNode(i18n("Region")));
                 desc.appendChild(ret.createTextNode(i18n("Use alpha channel of another clip to create a transition.")));
                 paramList.append(quickParameterFill(ret, i18n("Transparency clip"), "resource", "url", "", "", "", "", "", ""));
-                paramList.append(quickParameterFill(ret, i18n("Geometry"), "composite.geometry", "geometry", "0%,0%:100%x100%:100", "-500;-500;-500;-500;0", "500;500;500;500;100"));
+                paramList.append(quickParameterFill(ret, i18n("Geometry"), "composite.geometry", "geometry", "0%/0%:100%x100%:100", "-500;-500;-500;-500;0", "500;500;500;500;100"));
                 paramList.append(quickParameterFill(ret, i18n("Alpha Channel Operation"), "composite.operator", "list", "over", "", "", "over,and,or,xor", i18n("Over,And,Or,Xor")));
                 paramList.append(quickParameterFill(ret, i18n("Align"), "composite.aligned", "bool", "1", "0", "1"));
                 paramList.append(quickParameterFill(ret, i18n("Fill"), "composite.fill", "bool", "1", "0", "1"));
