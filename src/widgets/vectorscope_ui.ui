@@ -89,7 +89,7 @@
    <item row="1" column="4" colspan="2">
     <widget class="QLabel" name="lblGain">
      <property name="text">
-      <string>(notr)</string>
+      <string comment="KDE::DoNotExtract">(notr)</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
