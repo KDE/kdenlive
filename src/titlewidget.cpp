@@ -418,6 +418,16 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     gradient->setSpread(QGradient::ReflectSpread);
     scene->setBackgroundBrush(*gradient);*/
 
+    QPen framepen(Qt::DotLine);
+    framepen.setColor(Qt::red);
+
+    m_frameBorder = new QGraphicsRectItem(QRectF(0, 0, m_frameWidth, m_frameHeight));
+    m_frameBorder->setPen(framepen);
+    m_frameBorder->setZValue(-1100);
+    m_frameBorder->setBrush(Qt::transparent);
+    m_frameBorder->setFlags(0);
+    graphicsView->scene()->addItem(m_frameBorder);
+    
     m_frameImage = new QGraphicsPixmapItem();
     QTransform qtrans;
     qtrans.scale(2.0, 2.0);
@@ -436,15 +446,6 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     connect(m_scene, SIGNAL(newText(QGraphicsTextItem *)), this , SLOT(slotNewText(QGraphicsTextItem *)));
     connect(zoom_slider, SIGNAL(valueChanged(int)), this , SLOT(slotUpdateZoom(int)));
 
-    QPen framepen(Qt::DotLine);
-    framepen.setColor(Qt::red);
-
-    m_frameBorder = new QGraphicsRectItem(QRectF(0, 0, m_frameWidth, m_frameHeight));
-    m_frameBorder->setPen(framepen);
-    m_frameBorder->setZValue(-1100);
-    m_frameBorder->setBrush(Qt::transparent);
-    m_frameBorder->setFlags(0);
-    graphicsView->scene()->addItem(m_frameBorder);
 
     // mbd: load saved settings
     readChoices();
@@ -765,24 +766,24 @@ void TitleWidget::checkButton(TITLETOOL toolType)
 
 void TitleWidget::displayBackgroundFrame()
 {
+    QRectF r = m_frameBorder->sceneBoundingRect();
     if (!displayBg->isChecked()) {
-        QPixmap bg(m_frameWidth / 2, m_frameHeight / 2);
         QPixmap pattern(20, 20);
         pattern.fill();
         QColor bgcolor(210, 210, 210);
-        QPainter p;
-        p.begin(&pattern);
+        QPainter p(&pattern);
         p.fillRect(QRect(0, 0, 10, 10), bgcolor);
         p.fillRect(QRect(10, 10, 20, 20), bgcolor);
         p.end();
         QBrush br(pattern);
-
-        p.begin(&bg);
-        p.fillRect(bg.rect(), br);
-        p.end();
+        QPixmap bg((int) (r.width() / 2), (int) (r.height()/ 2));
+        QPainter p2(&bg);
+        p2.fillRect(bg.rect(), br);
+        p2.end();
         m_frameImage->setPixmap(bg);
     } else {
-        m_frameImage->setPixmap(QPixmap::fromImage(m_render->extractFrame((int) m_render->seekPosition().frames(m_render->fps()), QString(), m_frameWidth / 2, m_frameHeight / 2)));
+        QImage img = m_render->extractFrame((int) m_render->seekPosition().frames(m_render->fps()), QString(), m_render->frameRenderWidth() / 2, m_render->renderHeight() / 2);
+        m_frameImage->setPixmap(QPixmap::fromImage(img.scaled(r.width() / 2, r.height() / 2)));
     }
 }
 
