@@ -1548,6 +1548,7 @@ void TitleWidget::slotUpdateText()
 //  item->setTextCursor(cur);
         cur.clearSelection();
         item->setTextCursor(cur);
+        item->setDefaultTextColor(color);
     }
 }
 
