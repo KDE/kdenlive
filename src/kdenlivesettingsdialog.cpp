@@ -19,7 +19,7 @@
 
 #include "kdenlivesettingsdialog.h"
 #include "profilesdialog.h"
-#if !defined(Q_OS_FREEBSD)
+#if !defined(Q_OS_FREEBSD) && !defined(Q_OS_KFREEBSD)
 #include "v4l/v4lcapture.h"
 #endif
 #include "blackmagic/devices.h"
@@ -97,7 +97,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     QWidget *p4 = new QWidget;
     m_configCapture.setupUi(p4);
 
-#if !defined(Q_WS_MAC) && !defined(Q_OS_FREEBSD)
+#if !defined(Q_WS_MAC) && !defined(Q_OS_FREEBSD) && !defined(Q_OS_KFREEBSD)
 
     // Video 4 Linux device detection
     for (int i = 0; i < 10; i++) {
