@@ -48,6 +48,7 @@ const int idRole = Qt::UserRole + 2;
 const int statusRole = Qt::UserRole + 3;
 const int typeRole = Qt::UserRole + 4;
 const int typeOriginalResource = Qt::UserRole + 5;
+const int resetDurationRole = Qt::UserRole + 6;
 
 const int CLIPMISSING = 0;
 const int CLIPOK = 1;
@@ -75,7 +76,6 @@ bool DocumentChecker::hasErrorInClips()
     QString resource;
     QDomNodeList documentProducers = m_doc.elementsByTagName("producer");
     QList <QDomElement> wrongDurationClips;
-    QList <QDomElement> missingClips;
     QList <QDomElement> missingProxies;
     for (int i = 0; i < m_info.count(); i++) {
         e = m_info.item(i).toElement();
@@ -84,6 +84,7 @@ bool DocumentChecker::hasErrorInClips()
         if (clipType != TEXT && clipType != IMAGE) {
             QString id = e.attribute("id");
             int duration = e.attribute("duration").toInt();
+            int mltDuration = -1;
             // Check that the duration is in sync between Kdenlive's info and MLT's playlist
             for (int j = 0; j < documentProducers.count(); j++) {
                 QDomElement mltProd = documentProducers.at(j).toElement();
@@ -92,12 +93,23 @@ bool DocumentChecker::hasErrorInClips()
                 if (prodId.startsWith("slowmotion")) continue;
                 if (prodId.contains("_")) prodId = prodId.section("_", 0, 0);
                 if (prodId != id) continue;
-                int mltDuration = mltProd.attribute("out").toInt() + 1;
-                if (mltDuration != duration && !e.hasAttribute("_mismatch")) {
+                if (mltDuration > 0 ) {
+                    // We have several MLT producers for the same clip (probably track producers)
+                    int newLength = EffectsList::property(mltProd, "length").toInt();
+                    if (newLength != mltDuration) {
+                        // we have a different duration for the same clip, that is not safe
+                        e.setAttribute("_resetDuration", 1);
+                    }
+                }
+                mltDuration = EffectsList::property(mltProd, "length").toInt();
+                if (mltDuration != duration) {
                     // Duration mismatch
                     e.setAttribute("_mismatch", mltDuration);
+                    if (mltDuration == 15000) {
+                        // a length of 15000 might indicate a wrong clip length since it is a default length
+                        e.setAttribute("_resetDuration", 1);
+                    }
                     if (!wrongDurationClips.contains(e)) wrongDurationClips.append(e);
-                    kDebug() << "WRONG DURTAION: "<<id<<", TYPE: "<<clipType;
                 }
             }
         }
@@ -106,7 +118,7 @@ bool DocumentChecker::hasErrorInClips()
             //TODO: Check is clip template is missing (xmltemplate) or hash changed
             QStringList images = TitleWidget::extractImageList(e.attribute("xmldata"));
             QStringList fonts = TitleWidget::extractFontList(e.attribute("xmldata"));
-            checkMissingImages(missingClips, images, fonts, e.attribute("id"), e.attribute("name"));
+            checkMissingImages(images, fonts, e.attribute("id"), e.attribute("name"));
             continue;
         }
         resource = e.attribute("resource");
@@ -120,7 +132,7 @@ bool DocumentChecker::hasErrorInClips()
         if (clipType == SLIDESHOW) resource = KUrl(resource).directory();
         if (!KIO::NetAccess::exists(KUrl(resource), KIO::NetAccess::SourceSide, 0)) {
             // Missing clip found
-            missingClips.append(e);
+            m_missingClips.append(e);
         } else {
             // Check if the clip has changed
             if (clipType != SLIDESHOW && e.hasAttribute("file_hash")) {
@@ -145,7 +157,7 @@ bool DocumentChecker::hasErrorInClips()
         }
     }
 
-    if (missingClips.isEmpty() && missingLumas.isEmpty() && wrongDurationClips.isEmpty() && missingProxies.isEmpty())
+    if (m_missingClips.isEmpty() && missingLumas.isEmpty() && wrongDurationClips.isEmpty() && missingProxies.isEmpty())
         return false;
 
     m_dialog = new QDialog();
@@ -160,8 +172,8 @@ bool DocumentChecker::hasErrorInClips()
     }
 
     m_ui.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
-    for (int i = 0; i < missingClips.count(); i++) {
-        e = missingClips.at(i).toElement();
+    for (int i = 0; i < m_missingClips.count(); i++) {
+        e = m_missingClips.at(i).toElement();
         QString clipType;
         int t = e.attribute("type").toInt();
         switch (t) {
@@ -218,7 +230,7 @@ bool DocumentChecker::hasErrorInClips()
         item->setToolTip(0, i18n("Missing item"));
     }
 
-    if (missingClips.count() > 0) {
+    if (m_missingClips.count() > 0) {
         if (wrongDurationClips.count() > 0) {
             m_ui.infoLabel->setText(i18n("The project file contains missing clips or files and clip duration mismatch"));
         }
@@ -234,9 +246,9 @@ bool DocumentChecker::hasErrorInClips()
         m_ui.infoLabel->setText(m_ui.infoLabel->text() + i18n("Missing proxies will be recreated after opening."));
     }
 
-    m_ui.removeSelected->setEnabled(!missingClips.isEmpty());
-    m_ui.recursiveSearch->setEnabled(!missingClips.isEmpty() || !missingLumas.isEmpty());
-    m_ui.usePlaceholders->setEnabled(!missingClips.isEmpty());
+    m_ui.removeSelected->setEnabled(!m_missingClips.isEmpty());
+    m_ui.recursiveSearch->setEnabled(!m_missingClips.isEmpty() || !missingLumas.isEmpty());
+    m_ui.usePlaceholders->setEnabled(!m_missingClips.isEmpty());
     m_ui.fixDuration->setEnabled(!wrongDurationClips.isEmpty());
         
     for (int i = 0; i < wrongDurationClips.count(); i++) {
@@ -271,6 +283,8 @@ bool DocumentChecker::hasErrorInClips()
         item->setData(0, hashRole, e.attribute("file_hash"));
         item->setData(0, sizeRole, e.attribute("_mismatch"));
         e.removeAttribute("_mismatch");
+        item->setData(0, resetDurationRole, (int) e.hasAttribute("_resetDuration"));
+        e.removeAttribute("_resetDuration");
         item->setData(0, statusRole, CLIPWRONGDURATION);
         item->setData(0, typeRole, t);
         item->setData(0, idRole, e.attribute("id"));
@@ -627,16 +641,36 @@ void DocumentChecker::slotFixDuration()
 {
     int ix = 0;
     QTreeWidgetItem *child = m_ui.treeWidget->topLevelItem(ix);
+    QDomNodeList documentProducers = m_doc.elementsByTagName("producer");
     while (child) {
         if (child->data(0, statusRole).toInt() == CLIPWRONGDURATION) {
-            child->setData(0, statusRole, CLIPOK);
-            child->setIcon(0, KIcon("dialog-ok"));
             QString id = child->data(0, idRole).toString();
+            bool resetDuration = child->data(0, resetDurationRole).toInt();
+
             for (int i = 0; i < m_info.count(); i++) {
                 QDomElement e = m_info.at(i).toElement();
                 if (e.attribute("id") == id) {
-                    e.setAttribute("duration", child->data(0, sizeRole).toString());
+                    if (m_missingClips.contains(e)) {
+                        // we cannot fix duration of missing clips
+                        resetDuration = false;
+                    }
+                    else {
+                        if (resetDuration) e.removeAttribute("duration");
+                        else e.setAttribute("duration", child->data(0, sizeRole).toString());
+                        child->setData(0, statusRole, CLIPOK);
+                        child->setIcon(0, KIcon("dialog-ok"));
+                    }
                     break;
+                }
+            }
+            if (resetDuration) {
+                // something is wrong in clip durations, so remove them so mlt fetches them again
+                for (int j = 0; j < documentProducers.count(); j++) {
+                    QDomElement mltProd = documentProducers.at(j).toElement();
+                    QString prodId = mltProd.attribute("id");
+                    if (prodId == id || prodId.startsWith(id + "_")) {
+                        EffectsList::removeProperty(mltProd, "length");
+                    }
                 }
             }
         }
@@ -751,7 +785,7 @@ void DocumentChecker::slotDeleteSelected()
     }
 }
 
-void DocumentChecker::checkMissingImages(QList <QDomElement>&missingClips, QStringList images, QStringList fonts, QString id, QString baseClip)
+void DocumentChecker::checkMissingImages(QStringList images, QStringList fonts, QString id, QString baseClip)
 {
     QDomDocument doc;
     foreach(const QString &img, images) {
@@ -761,7 +795,7 @@ void DocumentChecker::checkMissingImages(QList <QDomElement>&missingClips, QStri
             e.setAttribute("resource", img);
             e.setAttribute("id", id);
             e.setAttribute("name", baseClip);
-            missingClips.append(e);
+            m_missingClips.append(e);
         }
     }
     kDebug() << "/ / / CHK FONTS: " << fonts;
@@ -774,7 +808,7 @@ void DocumentChecker::checkMissingImages(QList <QDomElement>&missingClips, QStri
             e.setAttribute("resource", fontelement);
             e.setAttribute("id", id);
             e.setAttribute("name", baseClip);
-            missingClips.append(e);
+            m_missingClips.append(e);
         }
     }
 }
