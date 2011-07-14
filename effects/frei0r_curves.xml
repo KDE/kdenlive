@@ -3,7 +3,7 @@
 	<name>Curves</name>
 	<description>Color curves adjustment</description>
 	<author>Maksim Golovkin</author>
-        <parameter type="list" name="Channel" default="0" paramlist="0,1,2,3">
+        <parameter type="list" name="Channel" default="0" paramlist="0;1;2;3">
                 <paramlistdisplay>Red,Green,Blue,Luma</paramlistdisplay>
 		<name>Channel</name>
 	</parameter>
@@ -51,7 +51,7 @@
 	<parameter type="bool" name="Show curves" default="0">
                 <name>Show graph in picture</name>
         </parameter>
-        <parameter type="list" name="Graph position" default="3" paramlist="0,1,2,3">
+        <parameter type="list" name="Graph position" default="3" paramlist="0;1;2;3">
                 <paramlistdisplay>Top Left,Top Right,Bottom Left,Bottom Right</paramlistdisplay>
                 <name>Graph position</name>
         </parameter>

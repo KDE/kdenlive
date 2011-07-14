@@ -8,7 +8,7 @@
     <text>Colour</text>
   </group>
   <group list="frei0r.letterb0xed,pan_zoom,frei0r.scale0tilt,crop,affine,affinerotate">
-    <text>Crop &amp; transform</text>
+    <text>Crop and transform</text>
   </group>
   <group list="volume,normalise,gain,ladspa.1049,ladspa.1048,ladspa.1413,mute">
     <text>Audio correction</text>
@@ -22,8 +22,8 @@
   <group list="burningtv,charcoal,dust,grain,lines,lightgraffiti,oldfilm,vignette">
     <text>Fun</text>
   </group>
-  <group list="boxblur,obscure,autotrack_rectangle,frei0r.squareblur,frei0r.glow">
-    <text>Blur &amp; hide</text>
+  <group list="boxblur,obscure,autotrack_rectangle,frei0r.squareblur,frei0r.glow,frei0r.IIRblur">
+    <text>Blur and hide</text>
   </group>
   <group list="speed,freeze">
     <text>Motion</text>

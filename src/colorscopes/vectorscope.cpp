@@ -215,7 +215,7 @@ QImage Vectorscope::renderHUD(uint)
 {
 
     QImage hud;
-
+    QLocale locale;
     if (m_mouseWithinWidget) {
         // Mouse moved: Draw a circle over the scope
 
@@ -247,10 +247,10 @@ QImage Vectorscope::renderHUD(uint)
         }
         davinci.drawEllipse(m_centerPoint, (int)r, (int)r);
         davinci.setPen(penThin);
-        davinci.drawText(QPoint(m_scopeRect.width()-40, m_scopeRect.height()), i18n("%1 \%", QString::number(percent, 'f', 0)));
+        davinci.drawText(QPoint(m_scopeRect.width()-40, m_scopeRect.height()), i18n("%1 \%", locale.toString(percent, 'f', 0)));
 
         float angle = copysign(acos(dx/r)*180/M_PI, dy);
-        davinci.drawText(QPoint(10, m_scopeRect.height()), i18n("%1°", QString::number(angle, 'f', 1)));
+        davinci.drawText(QPoint(10, m_scopeRect.height()), i18n("%1°", locale.toString(angle, 'f', 1)));
 
 //        m_circleEnabled = false;
     } else {
@@ -505,8 +505,9 @@ QImage Vectorscope::renderBackground(uint)
 
 void Vectorscope::slotGainChanged(int newval)
 {
+    QLocale locale;
     m_gain = 1 + (float)newval/10;
-    ui->lblGain->setText(QString::number(m_gain, 'f', 1) + "x");
+    ui->lblGain->setText(locale.toString(m_gain, 'f', 1) + "x");
     forceUpdateScope();
 }
 

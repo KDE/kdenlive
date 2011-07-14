@@ -130,7 +130,7 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscen
         m_commandStack = doc->commandStack();
     else
         m_commandStack = NULL;
-
+    m_ct = 0;
     setMouseTracking(true);
     setAcceptDrops(true);
     setFrameShape(QFrame::NoFrame);
@@ -3711,9 +3711,15 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
 void CustomTrackView::deleteClip(ItemInfo info, bool refresh)
 {
     ClipItem *item = getClipItemAt((int) info.startPos.frames(m_document->fps()), info.track);
-
+    m_ct++;
+    if (!item) kDebug()<<"// PROBLEM FINDING CLIP ITEM TO REMOVVE!!!!!!!!!";
+    else kDebug()<<"// deleting CLIP: "<<info.startPos.frames(m_document->fps())<<", "<<item->baseClip()->fileURL();
+    //m_document->renderer()->saveSceneList(QString("/tmp/error%1.mlt").arg(m_ct), QDomElement());
     if (!item || m_document->renderer()->mltRemoveClip(m_document->tracksCount() - info.track, info.startPos) == false) {
         emit displayMessage(i18n("Error removing clip at %1 on track %2", m_document->timecode().getTimecodeFromFrames(info.startPos.frames(m_document->fps())), info.track), ErrorMessage);
+        kDebug()<<"CANNOT REMOVE: "<<info.startPos.frames(m_document->fps())<<", TK: "<<info.track;
+        //m_document->renderer()->saveSceneList(QString("/tmp/error%1.mlt").arg(m_ct), QDomElement());
+        exit(1);
         return;
     }
     m_waitingThumbs.removeAll(item);
@@ -5514,6 +5520,7 @@ void CustomTrackView::adjustKeyfames(GenTime oldstart, GenTime newstart, GenTime
     // parse parameters to check if we need to adjust to the new crop start
     int diff = (newstart - oldstart).frames(m_document->fps());
     int max = (newstart + duration).frames(m_document->fps());
+    QLocale locale;
     QDomNodeList params = xml.elementsByTagName("parameter");
     for (int i = 0; i < params.count(); i++) {
         QDomElement e = params.item(i).toElement();
@@ -5527,9 +5534,9 @@ void CustomTrackView::adjustKeyfames(GenTime oldstart, GenTime newstart, GenTime
                 double val = str.section(':', 1, 1).toDouble();
                 pos += diff;
                 if (pos > max) {
-                    newKeyFrames.append(QString::number(max) + ':' + QString::number(val));
+                    newKeyFrames.append(QString::number(max) + ':' + locale.toString(val));
                     break;
-                } else newKeyFrames.append(QString::number(pos) + ':' + QString::number(val));
+                } else newKeyFrames.append(QString::number(pos) + ':' + locale.toString(val));
             }
             //kDebug()<<"ORIGIN: "<<keys<<", FIXED: "<<newKeyFrames;
             e.setAttribute("keyframes", newKeyFrames.join(";"));
@@ -5641,8 +5648,8 @@ void CustomTrackView::slotUpdateAllThumbs()
                 } else {
                     QString startThumb = thumbBase + item->baseClip()->getClipHash() + '_';
                     QString endThumb = startThumb;
-                    startThumb.append(QString::number(item->speedIndependantCropStart().frames(m_document->fps())) + ".png");
-                    endThumb.append(QString::number((item->speedIndependantCropStart() + item->speedIndependantCropDuration()).frames(m_document->fps()) - 1) + ".png");
+                    startThumb.append(QString::number((int) item->speedIndependantCropStart().frames(m_document->fps())) + ".png");
+                    endThumb.append(QString::number((int) (item->speedIndependantCropStart() + item->speedIndependantCropDuration()).frames(m_document->fps()) - 1) + ".png");
                     if (QFile::exists(startThumb)) {
                         QPixmap pix(startThumb);
                         if (pix.isNull()) KIO::NetAccess::del(KUrl(startThumb), this);
@@ -5680,8 +5687,8 @@ void CustomTrackView::saveThumbnails()
                 } else {
                     QString startThumb = thumbBase + item->baseClip()->getClipHash() + '_';
                     QString endThumb = startThumb;
-                    startThumb.append(QString::number(item->speedIndependantCropStart().frames(m_document->fps())) + ".png");
-                    endThumb.append(QString::number((item->speedIndependantCropStart() + item->speedIndependantCropDuration()).frames(m_document->fps()) - 1) + ".png");
+                    startThumb.append(QString::number((int) item->speedIndependantCropStart().frames(m_document->fps())) + ".png");
+                    endThumb.append(QString::number((int) (item->speedIndependantCropStart() + item->speedIndependantCropDuration()).frames(m_document->fps()) - 1) + ".png");
                     if (!QFile::exists(startThumb)) {
                         QPixmap pix(item->startThumb());
                         pix.save(startThumb);
@@ -5809,6 +5816,7 @@ void CustomTrackView::autoTransition()
 QStringList CustomTrackView::getLadspaParams(QDomElement effect) const
 {
     QStringList result;
+    QLocale locale;
     QDomNodeList params = effect.elementsByTagName("parameter");
     for (int i = 0; i < params.count(); i++) {
         QDomElement e = params.item(i).toElement();
@@ -5817,7 +5825,7 @@ QStringList CustomTrackView::getLadspaParams(QDomElement effect) const
                 double factor = e.attribute("factor").toDouble();
                 double value = e.attribute("value").toDouble();
                 value = value / factor;
-                result.append(QString::number(value));
+                result.append(locale.toString(value));
             } else result.append(e.attribute("value"));
         }
     }
@@ -6531,6 +6539,7 @@ void CustomTrackView::slotAddTrackEffect(const QDomElement effect, int ix)
 EffectsParameterList CustomTrackView::getEffectArgs(const QDomElement effect)
 {
     EffectsParameterList parameters;
+    QLocale locale;
     parameters.addParam("tag", effect.attribute("tag"));
     if (effect.hasAttribute("region")) parameters.addParam("region", effect.attribute("region"));
     parameters.addParam("kdenlive_ix", effect.attribute("kdenlive_ix"));
@@ -6554,7 +6563,7 @@ EffectsParameterList CustomTrackView::getEffectArgs(const QDomElement effect)
             for (int j = 0; j < values.count(); j++) {
                 QString pos = values.at(j).section(':', 0, 0);
                 double val = values.at(j).section(':', 1, 1).toDouble() / factor;
-                values[j] = pos + "=" + QString::number(val);
+                values[j] = pos + "=" + locale.toString(val);
             }
             // kDebug() << "/ / / /SENDING KEYFR:" << values;
             parameters.addParam(e.attribute("name"), values.join(";"));
@@ -6589,7 +6598,7 @@ EffectsParameterList CustomTrackView::getEffectArgs(const QDomElement effect)
                 if (e.attribute("factor").contains('%')) {
                     fact = ProfilesDialog::getStringEval(m_document->mltProfile(), e.attribute("factor"));
                 } else fact = e.attribute("factor", "1").toDouble();
-                parameters.addParam(e.attribute("name"), QString::number(e.attribute("value").toDouble() / fact));
+                parameters.addParam(e.attribute("name"), locale.toString(e.attribute("value").toDouble() / fact));
             } else {
                 parameters.addParam(e.attribute("name"), e.attribute("value"));
             }

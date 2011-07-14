@@ -17,7 +17,7 @@
  ***************************************************************************/
 
 #include "cubicbezierspline.h"
-
+#include <KDebug>
 
 /** @brief For sorting a Bezier spline. Whether a is before b. */
 static bool pointLessThan(const BPoint &a, const BPoint &b)
@@ -69,10 +69,11 @@ void CubicBezierSpline::fromString(const QString& spline)
 QString CubicBezierSpline::toString() const
 {
     QStringList spline;
+    QLocale locale;
     foreach(const BPoint &p, m_points) {
-        spline << QString("%1;%2#%3;%4#%5;%6").arg(p.h1.x()).arg(p.h1.y())
-                                              .arg(p.p.x()).arg(p.p.y())
-                                              .arg(p.h2.x()).arg(p.h2.y());
+        spline << QString("%1;%2#%3;%4#%5;%6").arg(locale.toString(p.h1.x())).arg(locale.toString(p.h1.y()))
+                                              .arg(locale.toString(p.p.x())).arg(locale.toString(p.p.y()))
+                                              .arg(locale.toString(p.h2.x())).arg(locale.toString(p.h2.y()));
     }
     return spline.join("|");
 }

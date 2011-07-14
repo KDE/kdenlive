@@ -174,9 +174,6 @@ QImage KThumb::getFrame(Mlt::Producer *producer, int framepos, int width, int he
         return p;
     }
 
-    /*Mlt::Producer parentProd(producer->parent());
-    Mlt::Service service(parentProd.get_service());
-    mlt_service_lock(service.get_service());*/
     int ow = width;
     int oh = height;
     mlt_image_format format = mlt_image_rgb24a;

@@ -3,7 +3,7 @@
 	<name>Mirror</name>
 	<description>Flip your image in any direction</description>
 	<author>Charles Yates</author>
-	<parameter type="list" name="mirror" default="horizontal" paramlist="horizontal,vertical,diagonal,xdiagonal,flip,flop">
+	<parameter type="list" name="mirror" default="horizontal" paramlist="horizontal;vertical;diagonal;xdiagonal;flip;flop">
 		<name>Mirroring direction</name>
 	</parameter>
 	<parameter type="bool" name="reverse" default="0">

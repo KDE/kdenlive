@@ -1024,7 +1024,9 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
         m_listView->processLayout();
         QDomElement e = clip->toXML().cloneNode().toElement();
         e.removeAttribute("file_hash");
+        m_mutex.lock();
         m_infoQueue.insert(clip->getId(), e);
+        m_mutex.unlock();
     }
     else if (item->hasProxy() && !item->isProxyRunning()) {
         slotCreateProxy(clip->getId());
@@ -1071,8 +1073,10 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
         updateButtons();
     }
     
-    if (getProperties && m_processingClips.isEmpty())
-        m_queueRunner = QtConcurrent::run(this, &ProjectList::slotProcessNextClipInQueue);
+    //if (getProperties && m_processingClips.isEmpty())
+        //m_queueRunner = QtConcurrent::run(this, &ProjectList::slotProcessNextClipInQueue);
+    if (getProperties)
+        QtConcurrent::run(this, &ProjectList::slotProcessNextClipInQueue);
 }
 
 void ProjectList::slotGotProxy(const QString &proxyPath)
@@ -1107,8 +1111,11 @@ void ProjectList::slotGotProxy(ProjectItem *item)
         }
     }
     e.setAttribute("replace", 1);
+    m_mutex.lock();
     m_infoQueue.insert(clip->getId(), e);
-    if (!m_queueRunner.isRunning() && m_processingClips.isEmpty()) m_queueRunner = QtConcurrent::run(this, &ProjectList::slotProcessNextClipInQueue);   
+    m_mutex.unlock();
+    //if (!m_queueRunner.isRunning() && m_processingClips.isEmpty()) m_queueRunner = QtConcurrent::run(this, &ProjectList::slotProcessNextClipInQueue);
+    QtConcurrent::run(this, &ProjectList::slotProcessNextClipInQueue);
 }
 
 void ProjectList::slotResetProjectList()
@@ -1120,25 +1127,20 @@ void ProjectList::slotResetProjectList()
     m_refreshed = false;
 }
 
-void ProjectList::requestClipInfo(const QDomElement xml, const QString id)
-{
-    m_infoQueue.insert(id, xml);
-    //if (m_infoQueue.count() == 1 || ) QTimer::singleShot(300, this, SLOT(slotProcessNextClipInQueue()));
-}
-
 void ProjectList::slotProcessNextClipInQueue()
 {
     if (m_infoQueue.isEmpty()) {
         emit processNextThumbnail();
         return;
     }
-
+    QMutexLocker locker(&m_mutex);
     QMap<QString, QDomElement>::const_iterator j = m_infoQueue.constBegin();
     if (j != m_infoQueue.constEnd()) {
         QDomElement dom = j.value().cloneNode().toElement();
         const QString id = j.key();
         m_infoQueue.remove(id);
         m_processingClips.append(id);
+        locker.unlock();
         bool replace;
         if (dom.hasAttribute("replace")) {
             // Proxy action was enabled / disabled and we want to replace current producer
@@ -1176,7 +1178,7 @@ void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged)
     QPainter p(&missingPixmap);
     p.drawPixmap(3, 3, icon.pixmap(width - 6, height - 6));
     p.end();
-                        
+    kDebug()<<"//////////////7  UPDATE ALL CLPS";
     while (*it) {
         if ((*it)->type() == PROJECTSUBCLIPTYPE) {
             // subitem
@@ -1202,7 +1204,10 @@ void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged)
                         xml.removeAttribute("file_hash");
                         xml.removeAttribute("proxy_out");
                     }
-                    requestClipInfo(xml, clip->getId());
+                    m_mutex.lock();
+                    m_infoQueue.insert(clip->getId(), xml);
+                    m_mutex.unlock();
+                    QtConcurrent::run(this, &ProjectList::slotProcessNextClipInQueue);
                 }
                 else {
                     item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsDropEnabled);
@@ -1240,7 +1245,12 @@ void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged)
         ++it;
     }
 
-    if (!m_queueRunner.isRunning() && m_processingClips.isEmpty()) m_queueRunner = QtConcurrent::run(this, &ProjectList::slotProcessNextClipInQueue);
+    //if (!m_queueRunner.isRunning() && m_processingClips.isEmpty()) m_queueRunner = QtConcurrent::run(this, &ProjectList::slotProcessNextClipInQueue);
+    //QtConcurrent::run(this, &ProjectList::slotProcessNextClipInQueue);
+    /*while (!m_infoQueue.isEmpty()) {
+        QtConcurrent::run(this, &ProjectList::slotProcessNextClipInQueue);
+    }*/
+    
     if (m_listView->isEnabled())
         monitorItemEditing(true);
     m_listView->setSortingEnabled(true);
@@ -1356,7 +1366,8 @@ void ProjectList::slotRemoveInvalidClip(const QString &id, bool replace)
     ProjectItem *item = getItemById(id);
     m_processingClips.removeAll(id);
     m_thumbnailQueue.removeAll(id);
-    if (!m_queueRunner.isRunning() && m_processingClips.isEmpty()) m_queueRunner = QtConcurrent::run(this, &ProjectList::slotProcessNextClipInQueue);
+    //if (!m_queueRunner.isRunning() && m_processingClips.isEmpty()) m_queueRunner = QtConcurrent::run(this, &ProjectList::slotProcessNextClipInQueue);
+    QtConcurrent::run(this, &ProjectList::slotProcessNextClipInQueue);   
     if (item) {
         const QString path = item->referencedClip()->fileURL().path();
         if (item->referencedClip()->isPlaceHolder()) replace = false;
@@ -1390,7 +1401,8 @@ void ProjectList::slotRemoveInvalidProxy(const QString &id, bool durationError)
     }
     m_processingClips.removeAll(id);
     m_thumbnailQueue.removeAll(id);
-    if (!m_queueRunner.isRunning() && m_processingClips.isEmpty()) m_queueRunner = QtConcurrent::run(this, &ProjectList::slotProcessNextClipInQueue);
+    //if (!m_queueRunner.isRunning() && m_processingClips.isEmpty()) m_queueRunner = QtConcurrent::run(this, &ProjectList::slotProcessNextClipInQueue);
+    QtConcurrent::run(this, &ProjectList::slotProcessNextClipInQueue);
 }
 
 void ProjectList::slotAddColorClip()
@@ -1510,6 +1522,7 @@ void ProjectList::setDocument(KdenliveDoc *doc)
     m_timecode = doc->timecode();
     m_commandStack = doc->commandStack();
     m_doc = doc;
+    setEnabled(!m_doc->isReadOnly());
 
     QMap <QString, QString> flist = doc->clipManager()->documentFolderList();
     QStringList openedFolders = doc->getExpandedFolders();
@@ -1566,8 +1579,8 @@ void ProjectList::slotCheckForEmptyQueue()
         if (!m_refreshed) {
             emit loadingIsOver();
             emit displayMessage(QString(), -1);
+            m_refreshed = true;
         }
-        m_refreshed = true;
         m_listView->blockSignals(false);
         m_listView->setEnabled(true);
         updateButtons();
@@ -1741,7 +1754,8 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
     if (!toReload.isEmpty())
         emit clipNeedsReload(toReload, true);
 
-    if (!m_queueRunner.isRunning() && m_processingClips.isEmpty()) m_queueRunner = QtConcurrent::run(this, &ProjectList::slotProcessNextClipInQueue);
+    //if (!m_queueRunner.isRunning() && m_processingClips.isEmpty()) m_queueRunner = QtConcurrent::run(this, &ProjectList::slotProcessNextClipInQueue);
+    QtConcurrent::run(this, &ProjectList::slotProcessNextClipInQueue);
 }
 
 bool ProjectList::adjustProjectProfileToItem(ProjectItem *item)
@@ -2434,7 +2448,8 @@ void ProjectList::updateProxyConfig()
     }
     if (command->childCount() > 0) m_doc->commandStack()->push(command);
     else delete command;
-    if (!m_infoQueue.isEmpty() && !m_queueRunner.isRunning() && m_processingClips.isEmpty()) m_queueRunner = QtConcurrent::run(this, &ProjectList::slotProcessNextClipInQueue);
+    //if (!m_infoQueue.isEmpty() && !m_queueRunner.isRunning() && m_processingClips.isEmpty()) m_queueRunner = QtConcurrent::run(this, &ProjectList::slotProcessNextClipInQueue);
+    QtConcurrent::run(this, &ProjectList::slotProcessNextClipInQueue);
 }
 
 void ProjectList::slotProxyCurrentItem(bool doProxy)
@@ -2483,6 +2498,7 @@ void ProjectList::slotProxyCurrentItem(bool doProxy)
     }
     else delete command;
     //if (!m_infoQueue.isEmpty() && !m_queueRunner.isRunning() && m_processingClips.isEmpty()) m_queueRunner = QtConcurrent::run(this, &ProjectList::slotProcessNextClipInQueue);
+    if (!m_infoQueue.isEmpty()) QtConcurrent::run(this, &ProjectList::slotProcessNextClipInQueue);
 }
 
 

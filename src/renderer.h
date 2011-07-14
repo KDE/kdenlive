@@ -306,6 +306,8 @@ private:
     /** @brief A human-readable description of this renderer. */
     int m_winid;
 
+    QLocale m_locale;
+
     void closeMlt();
     void mltCheckLength(Mlt::Tractor *tractor);
     void mltPasteEffects(Mlt::Producer *source, Mlt::Producer *dest);

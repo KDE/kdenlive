@@ -461,6 +461,7 @@ void StopmotionWidget::slotLive(bool isOn)
     if (isOn) {
         m_frame_preview->setHidden(true);
         m_videoBox->setHidden(false);
+        QLocale locale;
 
         MltVideoProfile profile;
         QString resource;
@@ -499,7 +500,7 @@ void StopmotionWidget::slotLive(bool isOn)
             }
             capture_button->setEnabled(true);
             live_button->setChecked(true);
-            log_box->insertItem(-1, i18n("Playing %1x%2 (%3 fps)", profile.width, profile.height, QString::number((double)profile.frame_rate_num/profile.frame_rate_den).rightJustified(2, '0')));
+            log_box->insertItem(-1, i18n("Playing %1x%2 (%3 fps)", profile.width, profile.height, locale.toString((double)profile.frame_rate_num/profile.frame_rate_den).rightJustified(2, '0')));
             log_box->setCurrentIndex(0);
         }
         else {

@@ -97,7 +97,7 @@ void initEffects::refreshLumas()
         QDomElement e = params.item(i).toElement();
         if (e.attribute("tag") == "resource") {
             e.setAttribute("paramlistdisplay", imagenamelist.join(","));
-            e.setAttribute("paramlist", imagefiles.join(","));
+            e.setAttribute("paramlist", imagefiles.join(";"));
             break;
         }
     }
@@ -108,7 +108,7 @@ void initEffects::refreshLumas()
         QDomElement e = params.item(i).toElement();
         if (e.attribute("tag") == "luma") {
             e.setAttribute("paramlistdisplay", imagenamelist.join(","));
-            e.setAttribute("paramlist", imagefiles.join(","));
+            e.setAttribute("paramlist", imagefiles.join(";"));
             break;
         }
     }
@@ -355,22 +355,49 @@ void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *au
         kDebug() << "Effect broken: " << name;
         return;
     }
-
+    QLocale locale;
+    bool needsLocaleConversion = false;
     for (int i = 0; !effects.item(i).isNull(); ++i) {
         documentElement = effects.item(i).toElement();
         QString tag = documentElement.attribute("tag", QString());
-
+        if (documentElement.hasAttribute("LC_NUMERIC")) {
+            // set a locale for that file
+            locale = QLocale(documentElement.attribute("LC_NUMERIC"));
+            if (locale.decimalPoint() != QLocale().decimalPoint()) {
+                needsLocaleConversion = true;
+            }
+        }
         if (documentElement.hasAttribute("version")) {
             // a specific version of the filter is required
             Mlt::Properties *metadata = repository->metadata(filter_type, tag.toUtf8().data());
             if (metadata && metadata->is_valid()) {
                 double version = metadata->get_double("version");
-                if (documentElement.attribute("version").toDouble() > version) {
+                if (locale.toDouble(documentElement.attribute("version")) > version) {
                     delete metadata;
                     return;
                 }
             }
             delete metadata;
+        }
+
+        if (needsLocaleConversion) {
+            // we need to convert all numbers to the system's locale (for example 0.5 -> 0,5)
+            QChar separator = QLocale().decimalPoint();
+            QChar oldSeparator = locale.decimalPoint();
+            QDomNodeList params = documentElement.elementsByTagName("parameter");
+            for (int j = 0; j < params.count(); j++) {
+                QDomNamedNodeMap attrs = params.at(j).attributes();
+                for (int k = 0; k < attrs.count(); k++) {
+                    QString name = attrs.item(k).nodeName();
+                    if (name != "type" && name != "name") {
+                            QString val = attrs.item(k).nodeValue();
+                            if (val.contains(oldSeparator)) {
+                                QString newVal = val.replace(oldSeparator, separator);
+                                attrs.item(k).setNodeValue(newVal);
+                            }
+                    }
+                }
+            }
         }
 
         // Parse effect information.
@@ -783,7 +810,7 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
 
                 paramList.append(quickParameterFill(ret, i18n("Softness"), "softness", "double", "0", "0", "100", "", "", "100"));
                 paramList.append(quickParameterFill(ret, i18nc("@property: means that the image is inverted", "Invert"), "invert", "bool", "0", "0", "1"));
-                paramList.append(quickParameterFill(ret, i18n("Image File"), "resource", "list", "", "", "", imagefiles.join(","), imagenamelist.join(",")));
+                paramList.append(quickParameterFill(ret, i18n("Image File"), "resource", "list", "", "", "", imagefiles.join(";"), imagenamelist.join(",")));
                 paramList.append(quickParameterFill(ret, i18n("Reverse Transition"), "reverse", "bool", "0", "0", "1"));
                 //thumbnailer.prepareThumbnailsCall(imagelist);
             } else if (name == "composite") {
@@ -795,7 +822,7 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
                 paramList.append(quickParameterFill(ret, i18n("Align"), "aligned", "bool", "1", "0", "1"));
                 paramList.append(quickParameterFill(ret, i18n("Fill"), "fill", "bool", "1", "0", "1"));
                 paramList.append(quickParameterFill(ret, i18n("Distort"), "distort", "bool", "0", "0", "1"));
-                paramList.append(quickParameterFill(ret, i18n("Wipe File"), "luma", "list", "", "", "", imagefiles.join(","), imagenamelist.join(",")));
+                paramList.append(quickParameterFill(ret, i18n("Wipe File"), "luma", "list", "", "", "", imagefiles.join(";"), imagenamelist.join(",")));
                 paramList.append(quickParameterFill(ret, i18n("Wipe Softness"), "softness", "double", "0", "0", "100", "", "", "100"));
                 paramList.append(quickParameterFill(ret, i18n("Wipe Invert"), "luma_invert", "bool", "0", "0", "1"));
                 paramList.append(quickParameterFill(ret, i18n("Force Progressive Rendering"), "progressive", "bool", "1", "0", "1"));
@@ -840,7 +867,7 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
                 paramList.append(quickParameterFill(ret, i18n("Align"), "composite.aligned", "bool", "1", "0", "1"));
                 paramList.append(quickParameterFill(ret, i18n("Fill"), "composite.fill", "bool", "1", "0", "1"));
                 paramList.append(quickParameterFill(ret, i18n("Distort"), "composite.distort", "bool", "0", "0", "1"));
-                paramList.append(quickParameterFill(ret, i18n("Wipe File"), "composite.luma", "list", "", "", "", imagefiles.join(","), imagenamelist.join(",")));
+                paramList.append(quickParameterFill(ret, i18n("Wipe File"), "composite.luma", "list", "", "", "", imagefiles.join(";"), imagenamelist.join(",")));
                 paramList.append(quickParameterFill(ret, i18n("Wipe Softness"), "composite.softness", "double", "0", "0", "100", "", "", "100"));
                 paramList.append(quickParameterFill(ret, i18n("Wipe Invert"), "composite.luma_invert", "bool", "0", "0", "1"));
                 paramList.append(quickParameterFill(ret, i18n("Force Progressive Rendering"), "composite.progressive", "bool", "1", "0", "1"));

@@ -330,6 +330,7 @@ void ProjectSettings::accept()
 
 void ProjectSettings::slotUpdateDisplay()
 {
+    QLocale locale;
     QString currentProfile = profiles_list->itemData(profiles_list->currentIndex()).toString();
     QMap< QString, QString > values = ProfilesDialog::getSettingsFromFile(currentProfile);
     p_size->setText(values.value("width") + 'x' + values.value("height"));
@@ -338,7 +339,7 @@ void ProjectSettings::slotUpdateDisplay()
     p_display->setText(values.value("display_aspect_num") + '/' + values.value("display_aspect_den"));
     if (values.value("progressive").toInt() == 0) {
         p_progressive->setText(i18n("Interlaced (%1 fields per second)",
-                                    QString::number((double)2 * values.value("frame_rate_num").toInt() / values.value("frame_rate_den").toInt(), 'f', 2)));
+                                    locale.toString((double)2 * values.value("frame_rate_num").toInt() / values.value("frame_rate_den").toInt(), 'f', 2)));
     } else {
         p_progressive->setText(i18n("Progressive"));
     }

@@ -711,6 +711,7 @@ const QString &ClipProperties::clipId() const
 QMap <QString, QString> ClipProperties::properties()
 {
     QMap <QString, QString> props;
+    QLocale locale;
     CLIPTYPE t = UNKNOWN;
     if (m_clip != NULL) {
         t = m_clip->clipType();
@@ -741,7 +742,7 @@ QMap <QString, QString> ClipProperties::properties()
     double fps = m_view.clip_framerate->value();
     if (m_view.clip_force_framerate->isChecked()) {
         if (fps != m_old_props.value("force_fps").toDouble()) {
-            props["force_fps"] = QString::number(fps);
+            props["force_fps"] = locale.toString(fps);
             m_clipNeedsRefresh = true;
         }
     } else if (m_old_props.contains("force_fps") && !m_old_props.value("force_fps").isEmpty()) {

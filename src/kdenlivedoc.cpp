@@ -389,7 +389,7 @@ QDomDocument KdenliveDoc::createEmptyDocument(QList <TrackInfo> tracks)
 
     property = doc.createElement("property");
     property.setAttribute("name", "aspect_ratio");
-    value = doc.createTextNode(QString::number(0.0));
+    value = doc.createTextNode(QString::number(0));
     property.appendChild(value);
     blk.appendChild(property);
 
@@ -961,6 +961,7 @@ void KdenliveDoc::setUrl(KUrl url)
 
 void KdenliveDoc::setModified(bool mod)
 {
+    if (isReadOnly()) return;
     if (!m_url.isEmpty() && mod && KdenliveSettings::crashrecovery()) {
         m_autoSaveTimer->start(3000);
     }
@@ -1634,6 +1635,11 @@ void KdenliveDoc::backupLastSavedVersion(const QString &path)
             KMessageBox::information(kapp->activeWindow(), i18n("Cannot create backup copy:\n%1", backupFile.path()));
         }
     }    
+}
+
+bool KdenliveDoc::isReadOnly() const
+{
+    return m_documentProperties.contains("readonly");
 }
 
 void KdenliveDoc::cleanupBackupFiles()

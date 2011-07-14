@@ -266,7 +266,6 @@ private:
     QToolButton *m_editButton;
     QMap <QString, QDomElement> m_infoQueue;
     QMap <QString, QDomElement> m_producerQueue;
-    void requestClipInfo(const QDomElement xml, const QString id);
     QList <QString> m_thumbnailQueue;
     QAction *m_proxyAction;
     QStringList m_processingClips;
@@ -274,6 +273,7 @@ private:
     QStringList m_abortProxy;
     /** @brief Holds a list of proxy urls that are currently being created. */
     QStringList m_processingProxy;
+    QMutex m_mutex;
     
     void requestClipThumbnail(const QString id);
 

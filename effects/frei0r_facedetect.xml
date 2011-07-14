@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<effect tag="frei0r.facedetect" id="frei0r.facedetect">
+<effect LC_NUMERIC="C" tag="frei0r.facedetect" id="frei0r.facedetect">
     <name>Face detect</name>
     <description>Detect faces and draw shapes on them using OpenCV</description>
     <author>binarymillenium, Dan Dennedy</author>
@@ -24,7 +24,7 @@
         <comment>How often to detect a face. In between checks, it does object motion tracking.</comment>
     </parameter>
     
-    <parameter type="list" name="Shape" default="0.0" paramlist="0.0,0.1,0.2,1.0">
+    <parameter type="list" name="Shape" default="0.0" paramlist="0.0;0.1;0.2;1.0">
         <paramlistdisplay>circle,ellipse,rectangle,random</paramlistdisplay>
         <name>Shape</name>
     </parameter>

@@ -3,7 +3,7 @@
 	<name>Pan</name>
 	<description>Adjust the left/right spread of a channel</description>
 	<author>Dan Dennedy</author>
-        <parameter type="list" name="channel" default="0" paramlist="0,1">
+        <parameter type="list" name="channel" default="0" paramlist="0;1">
                 <paramlistdisplay>Left,Right</paramlistdisplay>
                 <name>Channel</name>
         </parameter>

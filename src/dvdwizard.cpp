@@ -305,9 +305,9 @@ void DvdWizard::generateDvd()
             // We need to make sure that the y coordinate is a multiple of 2, otherwise button may not be displayed
             buttonsTarget.append(it.key());
             but.setAttribute("x0", QString::number(r.x()));
-            but.setAttribute("y0", QString::number(2 * (r.y() / 2)));
+            but.setAttribute("y0", QString::number((int) 2 * (r.y() / 2)));
             but.setAttribute("x1", QString::number(r.right()));
-            but.setAttribute("y1", QString::number(2 * (r.bottom() / 2)));
+            but.setAttribute("y1", QString::number((int) 2 * (r.bottom() / 2)));
             spu.appendChild(but);
             i++;
         }

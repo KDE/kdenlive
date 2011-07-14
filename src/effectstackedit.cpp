@@ -281,7 +281,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, ItemInfo info, bool
         } else if (type == "list") {
             Listval *lsval = new Listval;
             lsval->setupUi(toFillin);
-            QStringList listitems = pa.attribute("paramlist").split(',');
+            QStringList listitems = pa.attribute("paramlist").split(';');
             QDomElement list = pa.firstChildElement("paramlistdisplay");
             QStringList listitemsdisplay;
             if (!list.isNull()) listitemsdisplay = i18n(list.text().toUtf8().data()).split(',');
@@ -552,16 +552,17 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, ItemInfo info, bool
 wipeInfo EffectStackEdit::getWipeInfo(QString value)
 {
     wipeInfo info;
+    // Convert old geometry values that used a comma as separator
+    if (value.contains(',')) value.replace(',','/');
     QString start = value.section(';', 0, 0);
     QString end = value.section(';', 1, 1).section('=', 1, 1);
-
-    if (start.startsWith("-100%,0"))
+    if (start.startsWith("-100%/0"))
         info.start = LEFT;
-    else if (start.startsWith("100%,0"))
+    else if (start.startsWith("100%/0"))
         info.start = RIGHT;
-    else if (start.startsWith("0%,100%"))
+    else if (start.startsWith("0%/100%"))
         info.start = DOWN;
-    else if (start.startsWith("0%,-100%"))
+    else if (start.startsWith("0%/-100%"))
         info.start = UP;
     else
         info.start = CENTER;
@@ -571,13 +572,13 @@ wipeInfo EffectStackEdit::getWipeInfo(QString value)
     else
         info.startTransparency = 100;
 
-    if (end.startsWith("-100%,0"))
+    if (end.startsWith("-100%/0"))
         info.end = LEFT;
-    else if (end.startsWith("100%,0"))
+    else if (end.startsWith("100%/0"))
         info.end = RIGHT;
-    else if (end.startsWith("0%,100%"))
+    else if (end.startsWith("0%/100%"))
         info.end = DOWN;
-    else if (end.startsWith("0%,-100%"))
+    else if (end.startsWith("0%/-100%"))
         info.end = UP;
     else
         info.end = CENTER;
@@ -597,38 +598,38 @@ QString EffectStackEdit::getWipeString(wipeInfo info)
     QString end;
     switch (info.start) {
     case LEFT:
-        start = "-100%,0%:100%x100%";
+        start = "-100%/0%:100%x100%";
         break;
     case RIGHT:
-        start = "100%,0%:100%x100%";
+        start = "100%/0%:100%x100%";
         break;
     case DOWN:
-        start = "0%,100%:100%x100%";
+        start = "0%/100%:100%x100%";
         break;
     case UP:
-        start = "0%,-100%:100%x100%";
+        start = "0%/-100%:100%x100%";
         break;
     default:
-        start = "0%,0%:100%x100%";
+        start = "0%/0%:100%x100%";
         break;
     }
     start.append(':' + QString::number(info.startTransparency));
 
     switch (info.end) {
     case LEFT:
-        end = "-100%,0%:100%x100%";
+        end = "-100%/0%:100%x100%";
         break;
     case RIGHT:
-        end = "100%,0%:100%x100%";
+        end = "100%/0%:100%x100%";
         break;
     case DOWN:
-        end = "0%,100%:100%x100%";
+        end = "0%/100%:100%x100%";
         break;
     case UP:
-        end = "0%,-100%:100%x100%";
+        end = "0%/-100%:100%x100%";
         break;
     default:
-        end = "0%,0%:100%x100%";
+        end = "0%/0%:100%x100%";
         break;
     }
     end.append(':' + QString::number(info.endTransparency));
@@ -638,6 +639,7 @@ QString EffectStackEdit::getWipeString(wipeInfo info)
 void EffectStackEdit::collectAllParameters()
 {
     if (m_valueItems.isEmpty() || m_params.isNull()) return;
+    QLocale locale;
     const QDomElement oldparam = m_params.cloneNode().toElement();
     QDomElement newparam = oldparam.cloneNode().toElement();
     QDomNodeList namenode = newparam.elementsByTagName("parameter");
@@ -663,7 +665,7 @@ void EffectStackEdit::collectAllParameters()
         QString setValue;
         if (type == "double" || type == "constant") {
             DoubleParameterWidget *doubleparam = (DoubleParameterWidget*)m_valueItems.value(paramName);
-            setValue = QString::number(doubleparam->getValue());
+            setValue = locale.toString(doubleparam->getValue());
         } else if (type == "list") {
             KComboBox *box = ((Listval*)m_valueItems.value(paramName))->list;
             setValue = box->itemData(box->currentIndex()).toString();
@@ -722,8 +724,8 @@ void EffectStackEdit::collectAllParameters()
                 in.replace("%i", QString::number(j + off));
                 QString out = outName;
                 out.replace("%i", QString::number(j + off));
-                EffectsList::setParameter(newparam, in, QString::number(points.at(j).x()));
-                EffectsList::setParameter(newparam, out, QString::number(points.at(j).y()));
+                EffectsList::setParameter(newparam, in, locale.toString(points.at(j).x()));
+                EffectsList::setParameter(newparam, out, locale.toString(points.at(j).y()));
             }
             QString depends = pa.attributes().namedItem("depends").nodeValue();
             if (!depends.isEmpty())

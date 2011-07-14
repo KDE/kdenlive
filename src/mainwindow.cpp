@@ -154,8 +154,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     new MainWindowAdaptor(this);
     QDBusConnection dbus = QDBusConnection::sessionBus();
     dbus.registerObject("/MainWindow", this);
-
-    setlocale(LC_NUMERIC, "POSIX");
+    //setlocale(LC_NUMERIC, "POSIX");
     if (!KdenliveSettings::colortheme().isEmpty()) slotChangePalette(NULL, KdenliveSettings::colortheme());
     setFont(KGlobalSettings::toolBarFont());
     parseProfiles(MltPath);
@@ -2030,7 +2029,8 @@ void MainWindow::doOpenFile(const KUrl &url, KAutoSaveFile *stale)
         delete m_stopmotion;
         m_stopmotion = NULL;
     }
-
+    
+    m_timer.start();
     KProgressDialog progressDialog(this, i18n("Loading project"), i18n("Loading project"));
     progressDialog.setAllowCancel(false);
     progressDialog.progressBar()->setMaximum(4);
@@ -2086,6 +2086,13 @@ void MainWindow::doOpenFile(const KUrl &url, KAutoSaveFile *stale)
     m_clipMonitor->refreshMonitor(true);
 
     progressDialog.progressBar()->setValue(4);
+    bool readOnly = !doc->isReadOnly();
+    factory()->container("edit", this)->setEnabled(readOnly);
+    factory()->container("project", this)->setEnabled(readOnly);
+    factory()->container("tool", this)->setEnabled(readOnly);
+    factory()->container("clip", this)->setEnabled(readOnly);
+    factory()->container("timeline", this)->setEnabled(readOnly);
+    factory()->container("monitor", this)->setEnabled(readOnly);
     if (openBackup) slotOpenBackupDialog(url);
 }
 
@@ -2366,7 +2373,7 @@ void MainWindow::slotUpdateMousePosition(int pos)
 
 void MainWindow::slotUpdateDocumentState(bool modified)
 {
-    if (!m_activeDocument) return;
+    if (!m_activeDocument || m_activeDocument->isReadOnly()) return;
     setCaption(m_activeDocument->description(), modified);
     m_saveAction->setEnabled(modified);
     if (modified) {
@@ -2527,6 +2534,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     connect(trackView->projectView(), SIGNAL(activateDocumentMonitor()), m_projectMonitor, SLOT(activateMonitor()));
     connect(trackView, SIGNAL(zoneMoved(int, int)), this, SLOT(slotZoneMoved(int, int)));
     connect(m_projectList, SIGNAL(loadingIsOver()), trackView->projectView(), SLOT(slotUpdateAllThumbs()));
+    connect(m_projectList, SIGNAL(loadingIsOver()), this, SLOT(slotElapsedTime()));
     connect(m_projectList, SIGNAL(displayMessage(const QString&, int)), this, SLOT(slotGotProgressInfo(const QString&, int)));
     connect(m_projectList, SIGNAL(updateRenderStatus()), this, SLOT(slotCheckRenderStatus()));
 
@@ -4361,6 +4369,11 @@ void MainWindow::slotBlockClipMonitor(const QString id)
     if (m_clipMonitor->activeClip() && m_clipMonitor->activeClip()->getId() == id) m_clipMonitor->slotSetXml(NULL);
 }
 
+
+void MainWindow::slotElapsedTime()
+{
+    kDebug()<<"-----------------------------------------\n"<<"Time elapsed: "<<m_timer.elapsed()<<"\n-------------------------";
+}
 
 #include "mainwindow.moc"
 

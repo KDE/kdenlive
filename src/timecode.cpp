@@ -374,12 +374,13 @@ const QString Timecode::getTimecodeHH_MM_SS_HH(const GenTime & time) const
 
 const QString Timecode::getTimecodeFrames(const GenTime & time) const
 {
-    return QString::number(time.frames(m_realFps));
+    return QString::number((int) time.frames(m_realFps));
 }
 
 const QString Timecode::getTimecodeSeconds(const GenTime & time) const
 {
-    return QString::number(time.seconds());
+    QLocale locale;
+    return locale.toString(time.seconds());
 }
 
 const QString Timecode::getTimecodeDropFrame(const GenTime & time) const

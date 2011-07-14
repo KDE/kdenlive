@@ -556,6 +556,7 @@ void Render::slotSplitView(bool doit)
 void Render::getFileProperties(const QDomElement xml, const QString &clipId, int imageHeight, bool replaceProducer, bool selectClip)
 {
     QString path;
+    QLocale locale;
     bool proxyProducer;
     if (xml.hasAttribute("proxy") && xml.attribute("proxy") != "-") {
         path = xml.attribute("proxy");
@@ -590,7 +591,9 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
         play.appendChild(doc.importNode(xml, true));
         producer = new Mlt::Producer(*m_mltProfile, "xml-string", doc.toString().toUtf8().constData());
     } else {
+        char *resTag = qstrdup(QString("nocache:" + path).toUtf8().constData());
         producer = new Mlt::Producer(*m_mltProfile, path.toUtf8().constData());
+        delete[] resTag;
     }
 
 
@@ -693,8 +696,8 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
         // Clip  already has all properties
         if (replaceProducer) emit blockClipMonitor(clipId);
         // Querying a frame is required by MLT, otherwise the producer is not correctly initialised
-        Mlt::Frame *frame = producer->get_frame();
-        delete frame;
+        //Mlt::Frame *frame = producer->get_frame();
+        //delete frame;
         emit replyGetFileProperties(clipId, producer, QMap < QString, QString >(), QMap < QString, QString >(), replaceProducer, selectClip);
         return;
     }
@@ -758,7 +761,7 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
     }
 
     if (producer->get_double("meta.media.frame_rate_den") > 0) {
-        filePropertyMap["fps"] = QString::number(producer->get_double("meta.media.frame_rate_num") / producer->get_double("meta.media.frame_rate_den"));
+        filePropertyMap["fps"] = locale.toString(producer->get_double("meta.media.frame_rate_num") / producer->get_double("meta.media.frame_rate_den"));
     } else filePropertyMap["fps"] = producer->get("source_fps");
 
     if (frame && frame->is_valid()) {
@@ -796,7 +799,7 @@ void Render::getFileProperties(const QDomElement xml, const QString &clipId, int
                 } else
                     pix.fill(Qt::black);
 
-                if (frameNumber == 0 && variance < 6) {
+                if (frameNumber == 0 && variance< 6) {
                     // Thumbnail is not interesting (for example all black, seek to fetch better thumb
                     frameNumber = 100;
                     producer->seek(frameNumber);
@@ -1146,7 +1149,6 @@ bool Render::saveSceneList(QString path, QDomElement kdenliveData)
 
 void Render::saveZone(KUrl url, QString desc, QPoint zone)
 {
-    kDebug() << "// SAVING CLIP ZONE, RENDER: " << m_name;
     Mlt::Consumer xmlConsumer(*m_mltProfile, ("xml:" + url.path()).toUtf8().constData());
     m_mltProducer->optimise();
     xmlConsumer.set("terminate_on_pause", 1);
@@ -1254,18 +1256,15 @@ void Render::slotOsdTimeout()
 
 void Render::start()
 {
-    kDebug() << "-----  STARTING MONITOR: " << m_name;
     if (m_winid == -1) {
         kDebug() << "-----  BROKEN MONITOR: " << m_name << ", RESTART";
         return;
     }
     if (m_mltConsumer && m_mltConsumer->is_stopped()) {
-        kDebug() << "-----  MONITOR: " << m_name << " WAS STOPPED";
         if (m_mltConsumer->start() == -1) {
             //KMessageBox::error(qApp->activeWindow(), i18n("Could not create the video preview window.\nThere is something wrong with your Kdenlive install or your driver settings, please fix it."));
             kDebug(QtWarningMsg) << "/ / / / CANNOT START MONITOR";
         } else {
-            kDebug() << "-----  MONITOR: " << m_name << " REFRESH";
             m_isBlocked = false;
             refresh();
         }
@@ -1277,13 +1276,12 @@ void Render::stop()
 {
     if (m_mltProducer == NULL) return;
     if (m_mltConsumer && !m_mltConsumer->is_stopped()) {
-        kDebug() << "/////////////   RENDER STOPPED: " << m_name;
+        //kDebug() << "/////////////   RENDER STOPPED: " << m_name;
         //m_mltConsumer->set("refresh", 0);
         m_mltConsumer->stop();
         // delete m_mltConsumer;
         // m_mltConsumer = NULL;
     }
-    kDebug() << "/////////////   RENDER STOP2-------";
     m_isBlocked = true;
 
     if (m_mltProducer) {
@@ -1292,13 +1290,10 @@ void Render::stop()
         //m_mltProducer->set("out", m_mltProducer->get_length() - 1);
         //kDebug() << m_mltProducer->get_length();
     }
-    kDebug() << "/////////////   RENDER STOP3-------";
 }
 
 void Render::stop(const GenTime & startTime)
 {
-
-    kDebug() << "/////////////   RENDER STOP-------2";
     if (m_mltProducer) {
         if (m_isZoneMode) resetZoneMode();
         m_mltProducer->set_speed(0.0);
@@ -1639,12 +1634,12 @@ void Render::mltCheckLength(Mlt::Tractor *tractor)
 Mlt::Producer *Render::checkSlowMotionProducer(Mlt::Producer *prod, QDomElement element)
 {
     if (element.attribute("speed", "1.0").toDouble() == 1.0 && element.attribute("strobe", "1").toInt() == 1) return prod;
-
+    QLocale locale;
     // We want a slowmotion producer
     double speed = element.attribute("speed", "1.0").toDouble();
     int strobe = element.attribute("strobe", "1").toInt();
     QString url = QString::fromUtf8(prod->get("resource"));
-    url.append('?' + QString::number(speed));
+    url.append('?' + locale.toString(speed));
     if (strobe > 1) url.append("&strobe=" + QString::number(strobe));
     Mlt::Producer *slowprod = m_slowmotionProducers.value(url);
     if (!slowprod || slowprod->get_producer() == NULL) {
@@ -1652,7 +1647,7 @@ Mlt::Producer *Render::checkSlowMotionProducer(Mlt::Producer *prod, QDomElement 
         if (strobe > 1) slowprod->set("strobe", strobe);
         QString id = prod->parent().get("id");
         if (id.contains('_')) id = id.section('_', 0, 0);
-        QString producerid = "slowmotion:" + id + ':' + QString::number(speed);
+        QString producerid = "slowmotion:" + id + ':' + locale.toString(speed);
         if (strobe > 1) producerid.append(':' + QString::number(strobe));
         slowprod->set("id", producerid.toUtf8().constData());
         m_slowmotionProducers.insert(url, slowprod);
@@ -1879,34 +1874,21 @@ bool Render::mltRemoveClip(int track, GenTime position)
         kWarning() << "// TRACTOR PROBLEM";
         return false;
     }
-
+    //service.lock();
     Mlt::Tractor tractor(service);
-    mlt_service_lock(service.get_service());
     Mlt::Producer trackProducer(tractor.track(track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
     int clipIndex = trackPlaylist.get_clip_index_at((int) position.frames(m_fps));
 
-    // Display playlist info
-    //kDebug() << "////  BEFORE -( " << position.frames(m_fps) << " )-------------------------------";
-    /*for (int i = 0; i < trackPlaylist.count(); i++) {
-    int blankStart = trackPlaylist.clip_start(i);
-    int blankDuration = trackPlaylist.clip_length(i) - 1;
-    QString blk;
-    if (trackPlaylist.is_blank(i)) blk = "(blank)";
-    kDebug()<<"CLIP "<<i<<": ("<<blankStart<<'x'<<blankStart + blankDuration<<")"<<blk;
-    }*/
     if (trackPlaylist.is_blank(clipIndex)) {
-        kDebug() << "// WARNING, TRYING TO REMOVE A BLANK: " << position.frames(25);
-        mlt_service_unlock(service.get_service());
+        kDebug() << "// WARNING, TRYING TO REMOVE A BLANK: " << position.frames(m_fps);
+        //mlt_service_unlock(service.get_service());
         return false;
     }
-    //kDebug()<<"////  Deleting at: "<< (int) position.frames(m_fps) <<" --------------------------------------";
     m_isBlocked = true;
     Mlt::Producer *clip = trackPlaylist.replace_with_blank(clipIndex);
     if (clip) delete clip;
     trackPlaylist.consolidate_blanks(0);
-    /*if (QString(clip.parent().get("transparency")).toInt() == 1)
-        mltDeleteTransparency((int) position.frames(m_fps), track, QString(clip.parent().get("id")).toInt());*/
 
     /* // Display playlist info
     kDebug()<<"////  AFTER";
@@ -1917,7 +1899,7 @@ bool Render::mltRemoveClip(int track, GenTime position)
     if (trackPlaylist.is_blank(i)) blk = "(blank)";
     kDebug()<<"CLIP "<<i<<": ("<<blankStart<<'x'<<blankStart + blankDuration<<")"<<blk;
     }*/
-    mlt_service_unlock(service.get_service());
+    //service.unlock();
     if (track != 0 && trackPlaylist.count() <= clipIndex) mltCheckLength(&tractor);
     m_isBlocked = false;
     return true;
@@ -2137,6 +2119,7 @@ int Render::mltChangeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, dou
         kWarning() << "// TRACTOR PROBLEM";
         return -1;
     }
+    
     //kDebug() << "Changing clip speed, set in and out: " << info.cropStart.frames(m_fps) << " to " << (info.endPos - info.startPos).frames(m_fps) - 1;
     Mlt::Tractor tractor(service);
     Mlt::Producer trackProducer(tractor.track(info.track));
@@ -2168,13 +2151,13 @@ int Render::mltChangeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, dou
     if ((serv == "avformat" || serv == "avformat-novalidate") && (speed != 1.0 || strobe > 1)) {
         mlt_service_lock(service.get_service());
         QString url = QString::fromUtf8(clipparent.get("resource"));
-        url.append('?' + QString::number(speed));
+        url.append('?' + m_locale.toString(speed));
         if (strobe > 1) url.append("&strobe=" + QString::number(strobe));
         Mlt::Producer *slowprod = m_slowmotionProducers.value(url);
         if (!slowprod || slowprod->get_producer() == NULL) {
             slowprod = new Mlt::Producer(*m_mltProfile, 0, ("framebuffer:" + url).toUtf8().constData());
             if (strobe > 1) slowprod->set("strobe", strobe);
-            QString producerid = "slowmotion:" + id + ':' + QString::number(speed);
+            QString producerid = "slowmotion:" + id + ':' + m_locale.toString(speed);
             if (strobe > 1) producerid.append(':' + QString::number(strobe));
             slowprod->set("id", producerid.toUtf8().constData());
             // copy producer props
@@ -2247,13 +2230,13 @@ int Render::mltChangeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, dou
         mlt_service_lock(service.get_service());
         QString url = QString::fromUtf8(clipparent.get("resource"));
         url = url.section('?', 0, 0);
-        url.append('?' + QString::number(speed));
+        url.append('?' + m_locale.toString(speed));
         if (strobe > 1) url.append("&strobe=" + QString::number(strobe));
         Mlt::Producer *slowprod = m_slowmotionProducers.value(url);
         if (!slowprod || slowprod->get_producer() == NULL) {
             slowprod = new Mlt::Producer(*m_mltProfile, 0, ("framebuffer:" + url).toUtf8().constData());
             slowprod->set("strobe", strobe);
-            QString producerid = "slowmotion:" + id.section(':', 1, 1) + ':' + QString::number(speed);
+            QString producerid = "slowmotion:" + id.section(':', 1, 1) + ':' + m_locale.toString(speed);
             if (strobe > 1) producerid.append(':' + QString::number(strobe));
             slowprod->set("id", producerid.toUtf8().constData());
             // copy producer props
@@ -2476,7 +2459,7 @@ bool Render::mltAddEffect(Mlt::Service service, EffectsParameterList params, int
 
     // create filter
     QString tag =  params.paramValue("tag");
-    kDebug() << " / / INSERTING EFFECT: " << tag << ", REGI: " << region;
+    //kDebug() << " / / INSERTING EFFECT: " << tag << ", REGI: " << region;
     char *filterTag = qstrdup(tag.toUtf8().constData());
     char *filterId = qstrdup(params.paramValue("id").toUtf8().constData());
     QHash<QString, QString>::Iterator it;
@@ -2484,10 +2467,10 @@ bool Render::mltAddEffect(Mlt::Service service, EffectsParameterList params, int
 
     if (!kfr.isEmpty()) {
         QStringList keyFrames = kfr.split(';', QString::SkipEmptyParts);
-        kDebug() << "// ADDING KEYFRAME EFFECT: " << params.paramValue("keyframes");
+        //kDebug() << "// ADDING KEYFRAME EFFECT: " << params.paramValue("keyframes");
         char *starttag = qstrdup(params.paramValue("starttag", "start").toUtf8().constData());
         char *endtag = qstrdup(params.paramValue("endtag", "end").toUtf8().constData());
-        kDebug() << "// ADDING KEYFRAME TAGS: " << starttag << ", " << endtag;
+        //kDebug() << "// ADDING KEYFRAME TAGS: " << starttag << ", " << endtag;
         //double max = params.paramValue("max").toDouble();
         double min = params.paramValue("min").toDouble();
         double factor = params.paramValue("factor", "1").toDouble();
@@ -2510,7 +2493,7 @@ bool Render::mltAddEffect(Mlt::Service service, EffectsParameterList params, int
                 }
                 filter->set("in", x1);
                 //kDebug() << "// ADDING KEYFRAME vals: " << min<<" / "<<max<<", "<<y1<<", factor: "<<factor;
-                filter->set(starttag, QString::number((min + y1) / factor).toUtf8().data());
+                filter->set(starttag, m_locale.toString((min + y1) / factor).toUtf8().data());
                 service.attach(*filter);
             }
         } else for (int i = 0; i < keyFrames.size() - 1; ++i) {
@@ -2530,8 +2513,8 @@ bool Render::mltAddEffect(Mlt::Service service, EffectsParameterList params, int
                     filter->set("in", x1);
                     filter->set("out", x2);
                     //kDebug() << "// ADDING KEYFRAME vals: " << min<<" / "<<max<<", "<<y1<<", factor: "<<factor;
-                    filter->set(starttag, QString::number((min + y1) / factor).toUtf8().data());
-                    filter->set(endtag, QString::number((min + y2) / factor).toUtf8().data());
+                    filter->set(starttag, m_locale.toString((min + y1) / factor).toUtf8().data());
+                    filter->set(endtag, m_locale.toString((min + y2) / factor).toUtf8().data());
                     service.attach(*filter);
                     offset = 1;
                 }
@@ -3199,7 +3182,7 @@ bool Render::mltUpdateClipProducer(int track, int pos, Mlt::Producer *prod)
         return false;
     }
     m_isBlocked++;
-    kDebug() << "// TRYING TO UPDATE CLIP at: " << pos << ", TK: " << track;
+    //kDebug() << "// TRYING TO UPDATE CLIP at: " << pos << ", TK: " << track;
     Mlt::Service service(m_mltProducer->parent().get_service());
     if (service.type() != tractor_type) {
         kWarning() << "// TRACTOR PROBLEM";
@@ -3251,7 +3234,7 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
     Mlt::Producer trackProducer(tractor.track(startTrack));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
     int clipIndex = trackPlaylist.get_clip_index_at(moveStart);
-    kDebug() << "//////  LOOKING FOR CLIP TO MOVE, INDEX: " << clipIndex;
+    //kDebug() << "//////  LOOKING FOR CLIP TO MOVE, INDEX: " << clipIndex;
     bool checkLength = false;
     if (endTrack == startTrack) {
         Mlt::Producer *clipProducer = trackPlaylist.replace_with_blank(clipIndex);
@@ -3486,7 +3469,7 @@ void Render::mltUpdateTransition(QString oldTag, QString tag, int a_track, int b
 {
     if (oldTag == tag && !force) mltUpdateTransitionParams(tag, a_track, b_track, in, out, xml);
     else {
-        kDebug()<<"// DELETING TRANS: "<<a_track<<"-"<<b_track;
+        //kDebug()<<"// DELETING TRANS: "<<a_track<<"-"<<b_track;
         mltDeleteTransition(oldTag, a_track, b_track, in, out, xml, false);
         mltAddTransition(tag, a_track, b_track, in, out, xml, false);
     }
@@ -3581,7 +3564,7 @@ void Render::mltDeleteTransition(QString tag, int /*a_track*/, int b_track, GenT
     QString resource = mlt_properties_get(properties, "mlt_service");
 
     const int old_pos = (int)((in + out).frames(m_fps) / 2);
-    kDebug() << " del trans pos: " << in.frames(25) << "-" << out.frames(25);
+    //kDebug() << " del trans pos: " << in.frames(25) << "-" << out.frames(25);
 
     while (mlt_type == "transition") {
         mlt_transition tr = (mlt_transition) nextservice;
@@ -3619,7 +3602,7 @@ QMap<QString, QString> Render::mltGetTransitionParamsFromXml(QDomElement xml)
             map[name] = e.attribute("value");
         }
         if (e.attribute("type") != "addedgeometry" && !e.attribute("factor").isEmpty() && e.attribute("factor").toDouble() > 0) {
-            map[name] = QString::number(map.value(name).toDouble() / e.attribute("factor").toDouble());
+            map[name] = m_locale.toString(map.value(name).toDouble() / e.attribute("factor").toDouble());
             //map[name]=map[name].replace(".",","); //FIXME how to solve locale conversion of . ,
         }
 

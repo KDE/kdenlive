@@ -100,6 +100,7 @@ private:
     KdenliveDoc *m_doc;
     int m_verticalZoom;
     QString m_documentErrors;
+    QLocale m_locale;
     void parseDocument(QDomDocument doc);
     int slotAddProjectTrack(int ix, QDomElement xml, bool locked, QDomNodeList producers);
     DocClipBase *getMissingProducer(const QString id) const;

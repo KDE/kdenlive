@@ -569,7 +569,7 @@ void ProfilesDialog::slotUpdateDisplay(QString currentProfile)
         m_view.profiles_list->blockSignals(false);
         return;
     }
-
+    QLocale locale;
     m_selectedProfileIndex = m_view.profiles_list->currentIndex();
     if (currentProfile.isEmpty()) currentProfile = m_view.profiles_list->itemData(m_view.profiles_list->currentIndex()).toString();
     m_isCustomProfile = currentProfile.contains('/');
@@ -589,9 +589,9 @@ void ProfilesDialog::slotUpdateDisplay(QString currentProfile)
     m_view.frame_den->setValue(values.value("frame_rate_den").toInt());
     m_view.progressive->setChecked(values.value("progressive").toInt());
     if (values.value("progressive").toInt()) {
-        m_view.fields->setText(QString::number((double) values.value("frame_rate_num").toInt() / values.value("frame_rate_den").toInt(), 'f', 2));
+        m_view.fields->setText(locale.toString((double) values.value("frame_rate_num").toInt() / values.value("frame_rate_den").toInt(), 'f', 2));
     } else {
-        m_view.fields->setText(QString::number((double) 2 * values.value("frame_rate_num").toInt() / values.value("frame_rate_den").toInt(), 'f', 2));
+        m_view.fields->setText(locale.toString((double) 2 * values.value("frame_rate_num").toInt() / values.value("frame_rate_den").toInt(), 'f', 2));
     }
 
     int colorix = m_view.colorspace->findData(values.value("colorspace").toInt());

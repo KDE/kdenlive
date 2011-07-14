@@ -83,15 +83,15 @@ MltDeviceCapture::MltDeviceCapture(QString profile, VideoPreviewContainer *surfa
     AbstractRender("capture", parent),
     doCapture(0),
     sendFrameForAnalysis(false),
+    analyseAudio(KdenliveSettings::monitor_audio()),
+    processingImage(false),
     m_mltConsumer(NULL),
     m_mltProducer(NULL),
     m_mltProfile(NULL),
     m_droppedFrames(0),
     m_livePreview(KdenliveSettings::recording_preview()),
     m_captureDisplayWidget(surface),
-    m_winid((int) surface->winId()),
-    analyseAudio(KdenliveSettings::monitor_audio()),
-    processingImage(false)
+    m_winid((int) surface->winId())
 {
     if (profile.isEmpty()) profile = KdenliveSettings::current_profile();
     buildConsumer(profile);
@@ -195,20 +195,6 @@ void MltDeviceCapture::stop()
                 properties = MLT_SERVICE_PROPERTIES(nextservice);
                 mlt_type = mlt_properties_get(properties, "mlt_type");
                 resource = mlt_properties_get(properties, "mlt_service");
-            }
-            for (int trackNb = tractor.count() - 1; trackNb >= 0; --trackNb) {
-                Mlt::Producer trackProducer(tractor.track(trackNb));
-                Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
-                if (trackPlaylist.type() == playlist_type) {
-                    for (int i = 0; i < trackPlaylist.count();i++) {
-                        // We need to manually decrease the ref count and close the producer, otherwise
-                        // the video4linux device stays open, seems like a bug in MLT that is not cleaning properly
-                        mlt_properties props = MLT_PRODUCER_PROPERTIES(trackPlaylist.get_clip(i)->get_parent());
-                        while (mlt_properties_ref_count(props) > 0) mlt_properties_dec_ref(props);
-                        if (trackPlaylist.get_clip(i)) mlt_producer_close(trackPlaylist.get_clip(i)->get_parent());
-                    }
-                    mlt_playlist_close(trackPlaylist.get_playlist());
-                }
             }
             delete field;
             field = NULL;

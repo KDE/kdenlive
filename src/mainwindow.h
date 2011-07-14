@@ -305,6 +305,7 @@ private:
     void loadLayouts();
 
     StopmotionWidget *m_stopmotion;
+    QTime m_timer;
 
 public slots:
     /** @brief Prepares opening @param url.
@@ -547,6 +548,8 @@ private slots:
     void slotBlockClipMonitor(const QString id);
     /** @brief Disable proxies for this project. */
     void slotDisableProxies();
+
+    void slotElapsedTime();
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

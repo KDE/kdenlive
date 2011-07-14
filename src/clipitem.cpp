@@ -320,6 +320,7 @@ void ClipItem::initEffect(QDomElement effect, int diff)
 bool ClipItem::checkKeyFrames()
 {
     bool clipEffectsModified = false;
+    QLocale locale;
     // go through all effects this clip has
     for (int ix = 0; ix < m_effectList.count(); ++ix) {
         QStringList keyframeParams = keyframes(ix);
@@ -340,7 +341,7 @@ bool ClipItem::checkKeyFrames()
             // go through all keyframes for one param
             foreach(const QString &str, keyframes) {
                 int pos = str.section(':', 0, 0).toInt();
-                double val = str.section(':', 1, 1).toDouble();
+                double val = locale.toDouble(str.section(':', 1, 1));
                 if (pos - start < 0) {
                     // a keyframe is defined before the start of the clip
                     cutKeyFrame = true;
@@ -350,7 +351,7 @@ bool ClipItem::checkKeyFrames()
                         int diff = pos - lastPos;
                         double ratio = (double)(start - lastPos) / diff;
                         double newValue = lastValue + (val - lastValue) * ratio;
-                        newKeyFrames.append(QString::number(start) + ':' + QString::number(newValue));
+                        newKeyFrames.append(QString::number(start) + ':' + locale.toString(newValue));
                         modified = true;
                     }
                     cutKeyFrame = false;
@@ -362,12 +363,12 @@ bool ClipItem::checkKeyFrames()
                         if (diff != 0) {
                             double ratio = (double)(end - lastPos) / diff;
                             double newValue = lastValue + (val - lastValue) * ratio;
-                            newKeyFrames.append(QString::number(end) + ':' + QString::number(newValue));
+                            newKeyFrames.append(QString::number(end) + ':' + locale.toString(newValue));
                             modified = true;
                         }
                         break;
                     } else {
-                        newKeyFrames.append(QString::number(pos) + ':' + QString::number(val));
+                        newKeyFrames.append(QString::number(pos) + ':' + locale.toString(val));
                     }
                 }
                 lastPos = pos;
@@ -392,6 +393,7 @@ void ClipItem::setKeyframes(const int ix, const QStringList keyframes)
 {
     QDomElement effect = getEffectAt(ix);
     if (effect.attribute("disable") == "1") return;
+    QLocale locale;
     QDomNodeList params = effect.elementsByTagName("parameter");
     int keyframeParams = 0;
     for (int i = 0; i < params.count(); i++) {
@@ -401,17 +403,17 @@ void ClipItem::setKeyframes(const int ix, const QStringList keyframes)
             if (ix == m_selectedEffect && keyframeParams == 0) {
                 m_keyframes.clear();
                 m_visibleParam = i;
-                double max = e.attribute("max").toDouble();
-                double min = e.attribute("min").toDouble();
+                double max = locale.toDouble(e.attribute("max"));
+                double min = locale.toDouble(e.attribute("min"));
                 m_keyframeFactor = 100.0 / (max - min);
                 m_keyframeOffset = min;
-                m_keyframeDefault = e.attribute("default").toDouble();
+                m_keyframeDefault = locale.toDouble(e.attribute("default"));
                 m_selectedKeyframe = 0;
                 // parse keyframes
                 const QStringList keyframes = e.attribute("keyframes").split(';', QString::SkipEmptyParts);
                 foreach(const QString &str, keyframes) {
                     int pos = str.section(':', 0, 0).toInt();
-                    double val = str.section(':', 1, 1).toDouble();
+                    double val = locale.toDouble(str.section(':', 1, 1));
                     m_keyframes[pos] = val;
                 }
                 if (m_keyframes.find(m_editedKeyframe) == m_keyframes.end()) m_editedKeyframe = -1;
@@ -427,6 +429,7 @@ void ClipItem::setKeyframes(const int ix, const QStringList keyframes)
 void ClipItem::setSelectedEffect(const int ix)
 {
     m_selectedEffect = ix;
+    QLocale locale;
     QDomElement effect = effectAt(m_selectedEffect);
     if (!effect.isNull() && effect.attribute("disable") != "1") {
         QDomNodeList params = effect.elementsByTagName("parameter");
@@ -436,18 +439,18 @@ void ClipItem::setSelectedEffect(const int ix)
                 m_keyframes.clear();
                 m_limitedKeyFrames = e.attribute("type") == "keyframe";
                 m_visibleParam = i;
-                double max = e.attribute("max").toDouble();
-                double min = e.attribute("min").toDouble();
+                double max = locale.toDouble(e.attribute("max"));
+                double min = locale.toDouble(e.attribute("min"));
                 m_keyframeFactor = 100.0 / (max - min);
                 m_keyframeOffset = min;
-                m_keyframeDefault = e.attribute("default").toDouble();
+                m_keyframeDefault = locale.toDouble(e.attribute("default"));
                 m_selectedKeyframe = 0;
 
                 // parse keyframes
                 const QStringList keyframes = e.attribute("keyframes").split(';', QString::SkipEmptyParts);
                 foreach(const QString &str, keyframes) {
                     int pos = str.section(':', 0, 0).toInt();
-                    double val = str.section(':', 1, 1).toDouble();
+                    double val = locale.toDouble(str.section(':', 1, 1));
                     m_keyframes[pos] = val;
                 }
                 if (m_keyframes.find(m_editedKeyframe) == m_keyframes.end())
@@ -1362,6 +1365,7 @@ void ClipItem::setEffectAt(int ix, QDomElement effect)
 EffectsParameterList ClipItem::addEffect(const QDomElement effect, bool /*animate*/)
 {
     bool needRepaint = false;
+    QLocale locale;
     int ix;
     if (!effect.hasAttribute("kdenlive_ix")) {
         ix = effectsCounter();
@@ -1398,12 +1402,12 @@ EffectsParameterList ClipItem::addEffect(const QDomElement effect, bool /*animat
             }
             if (e.attribute("type") == "simplekeyframe") {
                 QStringList values = e.attribute("keyframes").split(";", QString::SkipEmptyParts);
-                double factor = e.attribute("factor", "1").toDouble();
+                double factor = locale.toDouble(e.attribute("factor", "1"));
                 if (factor != 1) {
                     for (int j = 0; j < values.count(); j++) {
                         QString pos = values.at(j).section(':', 0, 0);
-                        double val = values.at(j).section(':', 1, 1).toDouble() / factor;
-                        values[j] = pos + "=" + QString::number(val);
+                        double val = locale.toDouble(values.at(j).section(':', 1, 1)) / factor;
+                        values[j] = pos + "=" + locale.toString(val);
                     }
                 }
                 parameters.addParam(e.attribute("name"), values.join(";"));
@@ -1466,8 +1470,8 @@ EffectsParameterList ClipItem::addEffect(const QDomElement effect, bool /*animat
                 double fact;
                 if (e.attribute("factor").contains('%')) {
                     fact = ProfilesDialog::getStringEval(projectScene()->profile(), e.attribute("factor"));
-                } else fact = e.attribute("factor", "1").toDouble();
-                parameters.addParam(e.attribute("name"), QString::number(e.attribute("value").toDouble() / fact));
+                } else fact = locale.toDouble(e.attribute("factor", "1"));
+                parameters.addParam(e.attribute("name"), locale.toString(locale.toDouble(e.attribute("value")) / fact));
             }
         }
     }
@@ -1648,6 +1652,7 @@ bool ClipItem::isVideoOnly() const
 void ClipItem::insertKeyframe(QDomElement effect, int pos, int val)
 {
     if (effect.attribute("disable") == "1") return;
+    QLocale locale;
     effect.setAttribute("active_keyframe", pos);
     m_editedKeyframe = pos;
     QDomNodeList params = effect.elementsByTagName("parameter");
@@ -1660,14 +1665,14 @@ void ClipItem::insertKeyframe(QDomElement effect, int pos, int val)
             bool added = false;
             foreach(const QString &str, keyframes) {
                 int kpos = str.section(':', 0, 0).toInt();
-                double newval = str.section(':', 1, 1).toDouble();
+                double newval = locale.toDouble(str.section(':', 1, 1));
                 if (kpos < pos) {
                     newkfr.append(str);
                 } else if (!added) {
                     if (i == m_visibleParam)
                         newkfr.append(QString::number(pos) + ":" + QString::number(val));
                     else
-                        newkfr.append(QString::number(pos) + ":" + QString::number(newval));
+                        newkfr.append(QString::number(pos) + ":" + locale.toString(newval));
                     if (kpos > pos) newkfr.append(str);
                     added = true;
                 } else newkfr.append(str);
@@ -1686,6 +1691,7 @@ void ClipItem::insertKeyframe(QDomElement effect, int pos, int val)
 void ClipItem::movedKeyframe(QDomElement effect, int oldpos, int newpos, double value)
 {
     if (effect.attribute("disable") == "1") return;
+    QLocale locale;
     effect.setAttribute("active_keyframe", newpos);
     QDomNodeList params = effect.elementsByTagName("parameter");
     int start = cropStart().frames(m_fps);
@@ -1703,7 +1709,7 @@ void ClipItem::movedKeyframe(QDomElement effect, int oldpos, int newpos, double 
                     newpos = qMax(newpos, start);
                     newpos = qMin(newpos, end);
                     if (i == m_visibleParam)
-                        newkfr.append(QString::number(newpos) + ":" + QString::number(value));
+                        newkfr.append(QString::number(newpos) + ":" + locale.toString(value));
                     else
                         newkfr.append(QString::number(newpos) + ":" + str.section(':', 1, 1));
                 }
@@ -1719,6 +1725,7 @@ void ClipItem::movedKeyframe(QDomElement effect, int oldpos, int newpos, double 
 void ClipItem::updateKeyframes(QDomElement effect)
 {
     m_keyframes.clear();
+    QLocale locale;
     // parse keyframes
     QDomNodeList params = effect.elementsByTagName("parameter");
     QDomElement e = params.item(m_visibleParam).toElement();
@@ -1730,7 +1737,7 @@ void ClipItem::updateKeyframes(QDomElement effect)
     const QStringList keyframes = e.attribute("keyframes").split(';', QString::SkipEmptyParts);
     foreach(const QString &str, keyframes) {
         int pos = str.section(':', 0, 0).toInt();
-        double val = str.section(':', 1, 1).toDouble();
+        double val = locale.toDouble(str.section(':', 1, 1));
         m_keyframes[pos] = val;
     }
     if (!m_keyframes.contains(m_selectedKeyframe)) m_selectedKeyframe = -1;
@@ -1830,11 +1837,12 @@ bool ClipItem::updateNormalKeyframes(QDomElement parameter)
 {
     int in = cropStart().frames(m_fps);
     int out = (cropStart() + cropDuration()).frames(m_fps) - 1;
+    QLocale locale;
 
     const QStringList data = parameter.attribute("keyframes").split(';', QString::SkipEmptyParts);
     QMap <int, double> keyframes;
     foreach (QString keyframe, data)
-        keyframes[keyframe.section(':', 0, 0).toInt()] = keyframe.section(':', 1, 1).toDouble();
+        keyframes[keyframe.section(':', 0, 0).toInt()] = locale.toDouble(keyframe.section(':', 1, 1));
 
 
     QMap<int, double>::iterator i = keyframes.end();
@@ -1929,3 +1937,4 @@ void ClipItem::slotGotThumbsCache()
 }
 
 #include "clipitem.moc"
+

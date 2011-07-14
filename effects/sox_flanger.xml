@@ -18,13 +18,13 @@
 	<parameter type="constant" name="speed" max="100" min="0" default="5" factor="10" suffix="Hz">
 		<name>Speed</name>
 	</parameter>
-	<parameter type="list" name="shape" default="sine" paramlist="sine,triangle">
+	<parameter type="list" name="shape" default="sine" paramlist="sine;triangle">
 		<name>Shape</name>
 	</parameter>
 	<parameter type="constant" name="phase" max="100" min="0" default="25" suffix="%">
 		<name>Phase</name>
 	</parameter>
-	<parameter type="list" name="interp" default="linear" paramlist="linear,quadratic">
+	<parameter type="list" name="interp" default="linear" paramlist="linear;quadratic">
 		<name>Interpolation</name>
 	</parameter>
 </effect>

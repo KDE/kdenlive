@@ -118,6 +118,7 @@ TrackView::TrackView(KdenliveDoc *doc, bool *ok, QWidget *parent) :
 
     slotChangeZoom(m_doc->zoom().x(), m_doc->zoom().y());
     slotSetZone(m_doc->zone(), false);
+    setEnabled(!doc->isReadOnly());
 }
 
 TrackView::~TrackView()
@@ -199,6 +200,7 @@ void TrackView::parseDocument(QDomDocument doc)
 
     // parse project tracks
     QDomElement mlt = doc.firstChildElement("mlt");
+    if (mlt.hasAttribute("LC_NUMERIC")) m_locale = QLocale(mlt.attribute("LC_NUMERIC"));
     QDomElement tractor = mlt.firstChildElement("tractor");
     QDomNodeList tracks = tractor.elementsByTagName("track");
     QDomNodeList playlists = doc.elementsByTagName("playlist");
@@ -215,21 +217,6 @@ void TrackView::parseDocument(QDomDocument doc)
         // Check for invalid producers
         QDomNode n = producers.item(i);
         e = n.toElement();
-
-        /*
-        // Check for invalid markup
-        QDomNodeList params = e.elementsByTagName("property");
-        for (int j = 0; j < params.count(); j++) {
-            QDomElement p = params.item(j).toElement();
-            if (p.attribute("name") == "markup") {
-         QString val = p.text().toUtf8().data();
-         kDebug()<<"//FOUND MARKUP, VAL: "<<val;
-         //e.setAttribute("value", value);
-         n.removeChild(params.item(j));
-         break;
-            }
-        }
-        */
 
         if (e.hasAttribute("in") == false && e.hasAttribute("out") == false) continue;
         int in = e.attribute("in").toInt();
@@ -347,15 +334,13 @@ void TrackView::parseDocument(QDomDocument doc)
                 // When adding composite transition, check if it is a wipe transition
                 if (mlt_geometry.count(';') == 1) {
                     mlt_geometry.remove(QChar('%'), Qt::CaseInsensitive);
-                    mlt_geometry.replace(QChar('x'), QChar(','), Qt::CaseInsensitive);
-                    QString start = mlt_geometry.section(';', 0, 0);
-                    start = start.section(':', 0, 1);
-                    start.replace(QChar(':'), QChar(','), Qt::CaseInsensitive);
-                    QString end = mlt_geometry.section('=', 1, 1);
-                    end = end.section(':', 0, 1);
-                    end.replace(QChar(':'), QChar(','), Qt::CaseInsensitive);
-                    start.append(',' + end);
-                    QStringList numbers = start.split(',', QString::SkipEmptyParts);
+                    mlt_geometry.replace(QChar('x'), QChar(':'), Qt::CaseInsensitive);
+                    mlt_geometry.replace(QChar(','), QChar(':'), Qt::CaseInsensitive);
+                    mlt_geometry.replace(QChar('/'), QChar(':'), Qt::CaseInsensitive);
+                    
+                    QString start = mlt_geometry.section('=', 0, 0).section(':', 0, -2) + ':';
+                    start.append(mlt_geometry.section('=', 1, 1).section(':', 0, -2));
+                    QStringList numbers = start.split(':', QString::SkipEmptyParts);
                     bool isWipeTransition = true;
                     int checkNumber;
                     for (int i = 0; i < numbers.size(); ++i) {
@@ -697,7 +682,10 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked, QDomNod
                             QString service = EffectsList::property(prod, "mlt_service");
                             QString type = EffectsList::property(prod, "mlt_type");
                             QString resource = EffectsList::property(prod, "resource");
-                            if (!resource.startsWith('/') && service != "colour") resource.prepend(docRoot);
+                            if (!resource.startsWith('/') && service != "colour") {
+                                resource.prepend(docRoot);
+                                kDebug()<<"******************\nADJUSTED 1\n*************************";
+                            }
                             QString length = EffectsList::property(prod, "length");
                             producerXml.setAttribute("mlt_service", service);
                             producerXml.setAttribute("mlt_type", type);
@@ -853,8 +841,8 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
                 // add first keyframe
                 if (effectout <= effectin) {
                     // there is only one keyframe
-                    keyframes.append(QString::number(effectin) + ':' + QString::number(startvalue) + ';');
-                } else keyframes.append(QString::number(effectin) + ':' + QString::number(startvalue) + ';' + QString::number(effectout) + ':' + QString::number(endvalue) + ';');
+                    keyframes.append(QString::number(effectin) + ':' + m_locale.toString(startvalue) + ';');
+                } else keyframes.append(QString::number(effectin) + ':' + m_locale.toString(startvalue) + ';' + QString::number(effectout) + ':' + QString::number(endvalue) + ';');
                 QDomNode lastParsedEffect;
                 ix++;
                 QDomNode n2 = effects.at(ix);
@@ -879,7 +867,7 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
                         }
                     }
                     if (continueParsing) {
-                        keyframes.append(QString::number(effectout) + ':' + QString::number(endvalue) + ';');
+                        keyframes.append(QString::number(effectout) + ':' + m_locale.toString(endvalue) + ';');
                         ix++;
                     }
                 }
@@ -926,13 +914,14 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
                             QStringList kfrs = paramvalue.split(";");
                             for (int l = 0; l < kfrs.count(); l++) {
                                 QString fr = kfrs.at(l).section('=', 0, 0);
-                                double val = kfrs.at(l).section('=', 1, 1).toDouble();
-                                kfrs[l] = fr + ":" + QString::number((int)(val * fact));
+                                double val = m_locale.toDouble(kfrs.at(l).section('=', 1, 1));
+                                //kfrs[l] = fr + ":" + m_locale.toString((int)(val * fact));
+                                kfrs[l] = fr + ":" + QString::number((int) (val * fact));
                             }
                             e.setAttribute("keyframes", kfrs.join(";"));
                         } else if (type == "double" || type == "constant") {
                             bool ok;
-                            e.setAttribute("value", paramvalue.toDouble(&ok) * fact);
+                            e.setAttribute("value", m_locale.toDouble(paramvalue, &ok) * fact);
                             if (!ok)
                                 e.setAttribute("value", paramvalue);
                         } else {
@@ -1011,7 +1000,10 @@ DocClipBase *TrackView::getMissingProducer(const QString id) const
 
     if (slowmotionClip) resource = resource.section('?', 0, 0);
     // prepend MLT XML document root if no path in clip resource and not a color clip
-    if (!resource.startsWith('/') && service != "colour") resource.prepend(docRoot);
+    if (!resource.startsWith('/') && service != "colour") {
+        resource.prepend(docRoot);
+        kDebug()<<"******************\nADJUSTED 2\n*************************";
+    }
     DocClipBase *missingClip = NULL;
     if (!resource.isEmpty()) {
         QList <DocClipBase *> list = m_doc->clipManager()->getClipByResource(resource);
