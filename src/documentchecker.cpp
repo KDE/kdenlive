@@ -81,7 +81,7 @@ bool DocumentChecker::hasErrorInClips()
         e = m_info.item(i).toElement();
         clipType = e.attribute("type").toInt();
         if (clipType == COLOR) continue;
-        if (clipType != TEXT && clipType != IMAGE) {
+        if (clipType != TEXT && clipType != IMAGE && clipType != SLIDESHOW) {
             QString id = e.attribute("id");
             int duration = e.attribute("duration").toInt();
             int mltDuration = -1;
