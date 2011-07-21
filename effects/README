@@ -5,7 +5,7 @@
 ==========
 Kdenlive uses MLT for all video/audio effects/filters.
 For filters that provide metadata the GUI can be generated automatically.
-If the generated GUI is not sufficient a cusom one can be build using a XML
+If the generated GUI is not sufficient a custom one can be build using a XML
 file describing the effect and its parameters.
 ==========
 
@@ -41,13 +41,13 @@ Line 3:
 Line 4:
     - Short description of the effect to be shown in the effect list
     - Additionally a <full> part can be added inside. It's content will be available in the effect stack (see frei0r_lightgraffiti.xml for an example):
-        - supports HTML formatting (requires the of CDATA)
+        - supports HTML formatting (requires the use of CDATA)
 Line 5:
     - name of the author(s) of the filter (not of the XML file ;))
 The rest:
     - list of effect parameters:
         - tag "name": visible name of the parameter (depending on the GUI this parameter uses)
-        - tag "comment": (optional) description of the parameter (support HTML formatting) (not yet support by all widgets)
+        - tag "comment": (optional) description of the parameter (support HTML formatting) (not yet supported by all widgets)
         - attribute "name": MLT filter parameter name
         - attribute "default": initial value, format depends on parameter type
         - attribute "type": widget (GUI) to use
@@ -77,14 +77,14 @@ The rest:
                 - time stored as frame number
                 - represented by a slider
             - "color":
-                - color value in similar to HTML ("#rrggbb" or "0xrrggbb")
+                - color value, similar to representation HTML ("#rrggbb" or "0xrrggbb")
                 - represented by a button opening the KDE color dialog + a color picker button
             - "keyframe":
                 - keyframable number
                 - keyframes are opt-in (only one keyframe by default -> should be prefered over "constant" whenever possible)
                 - works with MLT filters that utilize start/end values
                 - same attributes as "constant"
-                - additional attribute:
+                - additional attributes:
                     - "intimeline": (default = "0") parameter to preselect for editing in the timeline (only one parameter can have "1")
                     - "widget": (optional) GUI based on the standard keyframe GUI (possible values: "corners")
             - "simplekeyframe":
@@ -120,5 +120,5 @@ All effects with a custom XML GUI need to be blacklisted.
 
 ==========
 Kdenlive parses the effect folder at each startup, so that if you have an XML file describing a new effect,
-just copy it in your ~/.kde/share/apps/kdenlive/effects/ folder and restart Kdenlive to enable the new effect.
+just copy it to your ~/.kde/share/apps/kdenlive/effects/ folder and restart Kdenlive to enable the new effect.
 ==========
