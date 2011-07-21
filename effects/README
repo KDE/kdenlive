@@ -119,6 +119,10 @@ All effects with a custom XML GUI need to be blacklisted.
 ==========
 
 ==========
+Effects can be assigned to an effect category in kdenlive/data/kdenliveeffectscategory.rc.
+==========
+
+==========
 Kdenlive parses the effect folder at each startup, so that if you have an XML file describing a new effect,
 just copy it to your ~/.kde/share/apps/kdenlive/effects/ folder and restart Kdenlive to enable the new effect.
 ==========

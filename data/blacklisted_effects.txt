@@ -69,6 +69,7 @@ frei0r.tint0r
 frei0r.twolay0r
 frei0r.vectorscope
 frei0r.vertigo
+frei0r.vignette
 
 #MLT effects with XML UI
 

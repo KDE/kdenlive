@@ -91,6 +91,7 @@ frei0r_tint0r.xml
 frei0r_twolay0r.xml
 frei0r_vectorscope.xml
 frei0r_vertigo.xml
+frei0r_vignette.xml
 frei0r_facebl0r.xml
 frei0r_facedetect.xml
 gain.xml
