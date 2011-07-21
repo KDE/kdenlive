@@ -1,7 +1,16 @@
 
 HEAD
-    * Fix crash when deleting a track and having an audio clip on last track (http://kdenlive.org/mantis/view.php?id=2168)
-    * Check for duration mismatch in clip producers when opening a document (can cause corruption)
+    * Open documents using a locale different to the system as read only.
+    * Replace locale-dependent comma with slash in geometry value.
+    * Add Kdenlive manual converted from UserBase QuickStart page.
+    * Improve handling of missing luma files. (http://kdenlive.org/mantis/view.php?id=2216)
+    * Remove the "avformat-novalidate" trick for faster loading, caused crash. (http://kdenlive.org/mantis/view.php?id=2205)
+    * Allow to assign a shortcut to usage of proxies in project.
+    * Use separate thread for generation of timeline thumbnails when zoom is at frame level to keep UI responsive.
+    * Allow to use JScript in render profile parameter values. Values that need evalutation need to be indicated by '%'. 
+    * Check for missing proxies on document opening.
+    * Check document for invalid (overlapping) transitions.
+    * Check for duration mismatch in clip producers when opening a document (can cause corruption).
     * Automatically create backups of the project file; they can be restored in a recovery dialog.
     * Allow to manually edit video4linux capture profile.
     * Allow to store presets for proxy creation parameters.
@@ -12,7 +21,24 @@ HEAD
     * Allow use of different ffmpeg preset for 1st and 2nd render pass.
     * Notes widget: context menu now allows to insert clickable timecode to make easy reference to some place in the project.
 
-    * Check document for invalid (overlapping) transitions.
+    * Fix issues related to the usage of comma as numeric separator in some locales.
+    * Fix build on GNU/kFreeBSD.
+    * Fix cursor not visible in title widget. (http://kdenlive.org/mantis/view.php?id=2231)
+    * Fix aspect ratio in title widget background image. (http://kdenlive.org/mantis/view.php?id=2225)
+    * Fix layout in save profile dialog. (http://kdenlive.org/mantis/view.php?id=2224)
+    * Fix timeline corruption because resizing a clip end could overlap another clip in some cases.
+    * Fix last keyframe for composite transition (and other geometry effects) inserted one frame after the end of the transition.
+    * Prevent crash when deleting a clip while playing. (http://kdenlive.org/mantis/view.php?id=2200)
+    * Disable save action if we are in the same state as last save.
+    * Fix pan and zoom keyframes lost after clip resize. (http://kdenlive.org/mantis/view.php?id=2210)
+    * Fix mouse wheel in slider section of (effect) parameters with a large range (> 1000).
+    * Fix GUI setup issues with some list parameters (for effects).
+    * Fix timecode widget not communicating changes upon focus leave.
+    * Fix list of effects in effect stack taking up to much space by default.
+    * Fix transition track not correctly saved. (http://kdenlive.org/mantis/view.php?id=2187)
+    * Fix "save zone" saving proxy instead of real clip. (http://kdenlive.org/mantis/view.php?id=2184)
+    * Fix freeze when saving while timeline is at maximum zoom. (http://www.kdenlive.org/mantis/view.php?id=2174)
+    * Fix crash when deleting a track and having an audio clip on last track. (http://kdenlive.org/mantis/view.php?id=2168)
     * Do not allow to create overlapping transitions that could corrupt timeline. (http://kdenlive.org/mantis/view.php?id=1901)
     * Fix sometimes effects were missing. (http://kdenlive.org/mantis/view.php?id=2152)
     * Fix crash in histogram scope.
