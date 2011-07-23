@@ -143,7 +143,7 @@ public:
     * @param pos Position of the clip to split
     * @param track Track of the clip
     * @param split Split or unsplit */
-    void doSplitAudio(const GenTime &pos, int track, bool split);
+    void doSplitAudio(const GenTime &pos, int track, EffectsList effects, bool split);
     void setVideoOnly();
     void setAudioOnly();
     void setAudioAndVideo();

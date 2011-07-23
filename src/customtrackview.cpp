@@ -5917,7 +5917,9 @@ void CustomTrackView::splitAudio()
                 if (clip->parentItem()) {
                     emit displayMessage(i18n("Cannot split audio of grouped clips"), ErrorMessage);
                 } else {
-                    new SplitAudioCommand(this, clip->track(), clip->startPos(), splitCommand);
+                    EffectsList effects;
+                    effects.clone(clip->effectList());
+                    new SplitAudioCommand(this, clip->track(), clip->startPos(), effects, splitCommand);
                 }
             }
         }
@@ -5928,7 +5930,7 @@ void CustomTrackView::splitAudio()
     }
 }
 
-void CustomTrackView::doSplitAudio(const GenTime &pos, int track, bool split)
+void CustomTrackView::doSplitAudio(const GenTime &pos, int track, EffectsList effects, bool split)
 {
     ClipItem *clip = getClipItemAt(pos, track);
     if (clip == NULL) {
@@ -5973,6 +5975,20 @@ void CustomTrackView::doSplitAudio(const GenTime &pos, int track, bool split)
                 }
                 audioClip->setSelected(true);
                 audioClip->setAudioOnly(true);
+
+                // keep video effects, move audio effects to audio clip
+                int videoIx = 0;
+                int audioIx = 0;
+                for (int i = 0; i < effects.count(); ++i) {
+                    if (effects.at(i).attribute("type") == "audio") {
+                        deleteEffect(m_document->tracksCount() - track, pos, clip->effectAt(videoIx));
+                        audioIx++;
+                    } else {
+                        deleteEffect(freetrack, pos, audioClip->effectAt(audioIx));
+                        videoIx++;
+                    }
+                }
+
                 groupSelectedItems(false, true);
             }
         }
@@ -5994,9 +6010,18 @@ void CustomTrackView::doSplitAudio(const GenTime &pos, int track, bool split)
                 ItemInfo info = clip->info();
                 deleteClip(clp->info());
                 clip->setVideoOnly(false);
+
                 if (!m_document->renderer()->mltUpdateClipProducer(m_document->tracksCount() - info.track, info.startPos.frames(m_document->fps()), clip->baseClip()->producer(info.track))) {
                     emit displayMessage(i18n("Cannot update clip (time: %1, track: %2)", info.startPos.frames(m_document->fps()), info.track), ErrorMessage);
                 }
+
+                // re-add audio effects
+                for (int i = 0; i < effects.count(); ++i) {
+                    if (effects.at(i).attribute("type") == "audio") {
+                        addEffect(m_document->tracksCount() - track, pos, effects.at(i));
+                    }
+                }
+
                 break;
             }
         }
