@@ -154,14 +154,12 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e)
     m_resizeMode = NoResize;
     const QList <QGraphicsItem *> list = items(QRectF(p , QSizeF(4, 4)).toRect());
     QGraphicsItem *item = NULL;
-    bool hasSelected = false;
 
     if (m_tool == TITLE_SELECT) {
         foreach(QGraphicsItem *g, list) {
             kDebug() << " - - CHECKING ITEM Z:" << g->zValue() << ", TYPE: " << g->type();
             // check is there is a selected item in list
             if (g->zValue() > -1000 && g->isSelected()) {
-                hasSelected = true;
                 item = g;
                 break;
             }

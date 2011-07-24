@@ -640,7 +640,6 @@ void DvdWizardMenu::loadXml(QDomElement xml)
         button->setBackMenu(e.attribute("backtomenu").toInt());
         button->setDefaultTextColor(m_view.text_color->color());
         button->setZValue(4);
-        QRectF r = button->sceneBoundingRect();
         m_scene->addItem(button);
         button->setPos(e.attribute("posx").toDouble(), e.attribute("posy").toDouble());
 

@@ -25,7 +25,7 @@
 int v4l2_free_mmap(src_t *src)
 {
         src_v4l2_t *s = (src_v4l2_t *) src->state;
-        int i;
+        uint i;
 
         for(i = 0; i < s->req.count; i++)
                 munmap(s->buffer[i].start, s->buffer[i].length);

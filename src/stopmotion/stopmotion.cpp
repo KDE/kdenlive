@@ -885,6 +885,7 @@ void StopmotionWidget::slotSwitchMirror(bool isOn)
 
 const QString StopmotionWidget::createProducer(MltVideoProfile profile, const QString service, const QString resource)
 {
+    Q_UNUSED(profile)
 
     QString playlist = "<mlt title=\"capture\"><producer id=\"producer0\" in=\"0\" out=\"99999\"><property name=\"mlt_type\">producer</property><property name=\"length\">100000</property><property name=\"eof\">pause</property><property name=\"resource\">" + resource + "</property><property name=\"mlt_service\">" + service + "</property></producer>";
 

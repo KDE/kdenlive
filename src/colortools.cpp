@@ -291,7 +291,7 @@ QImage ColorTools::hsvCurvePlane(const QSize &size, const QColor &baseColor,
     Q_ASSERT(size.width() > 0);
     Q_ASSERT(size.height() > 0);
 
-    int xMax, yMax;
+    /*int xMax, yMax;
 
     switch(xVariant) {
     case COM_H:
@@ -311,7 +311,7 @@ QImage ColorTools::hsvCurvePlane(const QSize &size, const QColor &baseColor,
     case COM_V:
         yMax = 256;
         break;
-    }
+    }*/
 
 
     QImage plane(size, QImage::Format_ARGB32);

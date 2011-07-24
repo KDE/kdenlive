@@ -134,7 +134,7 @@ QImage VectorscopeGenerator::calculateVectorscope(const QSize &vectorscopeSize, 
 
     int r,g,b;
     double dy, dr, dg, db, dmax;
-    double y,u,v;
+    double /*y,*/ u, v;
     QPoint pt;
     QRgb px;
 
@@ -153,12 +153,13 @@ QImage VectorscopeGenerator::calculateVectorscope(const QSize &vectorscopeSize, 
 
         switch (colorSpace) {
         case VectorscopeGenerator::ColorSpace_YUV:
-            y = (double)  0.001173 * r +0.002302 * g +0.0004471* b;
+//             y = (double)  0.001173 * r +0.002302 * g +0.0004471* b;
             u = (double) -0.0005781* r -0.001135 * g +0.001713 * b;
             v = (double)  0.002411 * r -0.002019 * g -0.0003921* b;
             break;
         case VectorscopeGenerator::ColorSpace_YPbPr:
-            y = (double)  0.001173 * r +0.002302 * g +0.0004471* b;
+        default:
+//             y = (double)  0.001173 * r +0.002302 * g +0.0004471* b;
             u = (double) -0.0006671* r -0.001299 * g +0.0019608* b;
             v = (double)  0.001961 * r -0.001642 * g -0.0003189* b;
             break;
@@ -187,6 +188,7 @@ QImage VectorscopeGenerator::calculateVectorscope(const QSize &vectorscopeSize, 
                     db = dy + 517.2*u;
                     break;
                 case VectorscopeGenerator::ColorSpace_YPbPr:
+                default:
                     dr = dy + 357.5*v;
                     dg = dy - 87.75*u - 182*v;
                     db = dy + 451.9*u;
@@ -215,6 +217,7 @@ QImage VectorscopeGenerator::calculateVectorscope(const QSize &vectorscopeSize, 
                     db = dy + 517.2*u;
                     break;
                 case VectorscopeGenerator::ColorSpace_YPbPr:
+                default:
                     dr = dy + 357.5*v;
                     dg = dy - 87.75*u - 182*v;
                     db = dy + 451.9*u;

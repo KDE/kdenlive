@@ -701,7 +701,6 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
 
     m_blockRefresh = true;
     m_dragGuide = NULL;
-    bool collision = false;
 
     if (m_tool != RAZORTOOL) activateMonitor();
     else if (m_document->renderer()->playSpeed() != 0.0) {
@@ -729,7 +728,6 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
             m_dragGuide = (Guide *) collisionList.at(i);
             if (event->button() == Qt::LeftButton) { // move it
                 m_dragGuide->setFlag(QGraphicsItem::ItemIsMovable, true);
-                collision = true;
                 m_operationMode = MOVEGUIDE;
                 // deselect all clips so that only the guide will move
                 m_scene->clearSelection();
@@ -3769,7 +3767,6 @@ void CustomTrackView::deleteSelectedClips()
     scene()->clearSelection();
     QUndoCommand *deleteSelected = new QUndoCommand();
 
-    bool resetGroup = false;
     int groupCount = 0;
     int clipCount = 0;
     int transitionCount = 0;
@@ -3780,7 +3777,6 @@ void CustomTrackView::deleteSelectedClips()
             QList<QGraphicsItem *> children = itemList.at(i)->childItems();
             QList <ItemInfo> clipInfos;
             QList <ItemInfo> transitionInfos;
-            GenTime currentPos = GenTime(m_cursorPos, m_document->fps());
             for (int j = 0; j < children.count(); j++) {
                 if (children.at(j)->type() == AVWIDGET) {
                     AbstractClipItem *clip = static_cast <AbstractClipItem *>(children.at(j));
@@ -3806,7 +3802,6 @@ void CustomTrackView::deleteSelectedClips()
         if (itemList.at(i)->type() == AVWIDGET) {
             clipCount++;
             ClipItem *item = static_cast <ClipItem *>(itemList.at(i));
-            if (item->parentItem()) resetGroup = true;
             //kDebug()<<"// DELETE CLP AT: "<<item->info().startPos.frames(25);
             new AddTimelineClipCommand(this, item->xml(), item->clipProducer(), item->info(), item->effectList(), false, false, true, true, deleteSelected);
             emit clipItemSelected(NULL);
@@ -3814,7 +3809,6 @@ void CustomTrackView::deleteSelectedClips()
             transitionCount++;
             Transition *item = static_cast <Transition *>(itemList.at(i));
             //kDebug()<<"// DELETE TRANS AT: "<<item->info().startPos.frames(25);
-            if (item->parentItem()) resetGroup = true;
             new AddTransitionCommand(this, item->info(), item->transitionEndTrack(), item->toXML(), true, true, deleteSelected);
             emit transitionItemSelected(NULL);
         }
@@ -3845,7 +3839,6 @@ void CustomTrackView::changeClipSpeed()
     for (int i = 0; i < itemList.count(); i++) {
         if (itemList.at(i)->type() == AVWIDGET) {
             ClipItem *item = static_cast <ClipItem *>(itemList.at(i));
-            ItemInfo info = item->info();
             if (percent == -1) percent = QInputDialog::getInteger(this, i18n("Edit Clip Speed"), i18n("New speed (percents)"), item->speed() * 100, 1, 10000, 1, &ok);
             if (!ok) break;
             double speed = (double) percent / 100.0;
@@ -3995,7 +3988,6 @@ void CustomTrackView::groupClips(bool group)
     QList<QGraphicsItem *> itemList = scene()->selectedItems();
     QList <ItemInfo> clipInfos;
     QList <ItemInfo> transitionInfos;
-    GenTime currentPos = GenTime(m_cursorPos, m_document->fps());
 
     // Expand groups
     int max = itemList.count();

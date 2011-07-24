@@ -120,7 +120,6 @@ HeaderTrack::HeaderTrack(int index, TrackInfo info, int height, QWidget *parent)
 
 void HeaderTrack::updateEffectLabel(QStringList effects)
 {
-    QColor col = track_number->palette().color(QPalette::Base);
     if (!effects.isEmpty()) {
         effect_label->setHidden(false);
         effect_label->setToolTip(effects.join("/"));

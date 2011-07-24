@@ -292,7 +292,7 @@ const QVector<float> FFTTools::interpolatePeakPreserving(const QVector<float> in
         // If there are more than 2 samples per pixel in average, then use the maximum of them
         // since by only looking at the left sample we might miss some maxima.
         uint src = left;
-        int xi_prev = 0;
+//         int xi_prev = 0;
         int points;
 
 #ifdef DEBUG_FFTTOOLS
@@ -316,7 +316,7 @@ const QVector<float> FFTTools::interpolatePeakPreserving(const QVector<float> in
                 points++;
             }
 
-            xi_prev = xi;
+//             xi_prev = xi;
         }
     }
     // Fill the rest of the vector if the right border exceeds the input vector.

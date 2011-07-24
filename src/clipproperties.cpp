@@ -269,7 +269,6 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
         m_view.clip_color->setColor(QColor('#' + props.value("colour").right(8).left(6)));
         connect(m_view.clip_color, SIGNAL(changed(QColor)), this, SLOT(slotModified()));
     } else if (t == SLIDESHOW) {
-        bool isMime = true;
         if (url.fileName().startsWith(".all.")) {
             // the image sequence is defined by mimetype
             m_view.clip_path->setText(url.directory());
@@ -278,7 +277,6 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
             m_view.slide_type_label->setHidden(true);
             m_view.image_type->setHidden(true);
             m_view.clip_path->setText(url.path());
-            isMime = false;
         }
 
         m_view.tabWidget->removeTab(METATAB);

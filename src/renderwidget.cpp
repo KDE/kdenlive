@@ -1720,12 +1720,12 @@ void RenderWidget::parseScriptFiles()
         item->setData(1, Qt::UserRole, KUrl(target).path());
         item->setData(1, Qt::UserRole + 1, scriptpath.path());
     }
-    bool activate = false;
+//     bool activate = false;
     QTreeWidgetItem *script = m_view.scripts_list->topLevelItem(0);
     if (script) {
         m_view.scripts_list->setCurrentItem(script);
         script->setSelected(true);
-        activate = true;
+//         activate = true;
     }
 //    m_view.start_script->setEnabled(activate);
 //    m_view.delete_script->setEnabled(activate);
