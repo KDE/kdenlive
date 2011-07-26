@@ -41,10 +41,10 @@
 #include <QXmlStreamWriter>
 #include <QTimer>
 
-// Recommanded MLT version
+// Recommended MLT version
 const int mltVersionMajor = 0;
 const int mltVersionMinor = 7;
-const int mltVersionRevision = 2;
+const int mltVersionRevision = 4;
 
 static const char kdenlive_version[] = VERSION;
 
