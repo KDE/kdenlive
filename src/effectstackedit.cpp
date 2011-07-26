@@ -282,10 +282,17 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, ItemInfo info, bool
             Listval *lsval = new Listval;
             lsval->setupUi(toFillin);
             QStringList listitems = pa.attribute("paramlist").split(';');
+            if (listitems.count() == 1) {
+                // probably custom effect created before change to ';' as separator
+                listitems = pa.attribute("paramlist").split(",");
+            }
             QDomElement list = pa.firstChildElement("paramlistdisplay");
             QStringList listitemsdisplay;
-            if (!list.isNull()) listitemsdisplay = i18n(list.text().toUtf8().data()).split(',');
-            else listitemsdisplay = i18n(pa.attribute("paramlistdisplay").toUtf8().data()).split(',');
+            if (!list.isNull()) {
+                listitemsdisplay = i18n(list.text().toUtf8().data()).split(',');
+            } else {
+                listitemsdisplay = i18n(pa.attribute("paramlistdisplay").toUtf8().data()).split(',');
+            }
             if (listitemsdisplay.count() != listitems.count())
                 listitemsdisplay = listitems;
             lsval->list->setIconSize(QSize(30, 30));
