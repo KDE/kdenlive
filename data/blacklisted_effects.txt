@@ -80,6 +80,7 @@ oldfilm
 tcolor
 rotoscoping
 wave
+volume
 
 #effects that have simplekeyframes
 vignette
