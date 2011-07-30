@@ -371,6 +371,7 @@ QDomDocument KdenliveDoc::createEmptyDocument(QList <TrackInfo> tracks)
     // Creating new document
     QDomDocument doc;
     QDomElement mlt = doc.createElement("mlt");
+    mlt.setAttribute("LC_NUMERIC", "");
     doc.appendChild(mlt);
     
     // Create black producer
