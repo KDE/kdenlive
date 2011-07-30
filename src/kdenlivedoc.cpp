@@ -566,6 +566,18 @@ QDomDocument KdenliveDoc::xmlSceneList(const QString &scene, const QStringList e
         return sceneList;
     }
 
+    // Set playlist audio volume to 100%
+    QDomElement tractor = mlt.firstChildElement("tractor");
+    if (!tractor.isNull()) {
+        QDomNodeList props = tractor.elementsByTagName("property");
+        for (int i = 0; i < props.count(); i++) {
+            if (props.at(i).toElement().attribute("name") == "meta.volume") {
+                props.at(i).firstChild().setNodeValue("1");
+                break;
+            }
+        }
+    }
+
     QDomElement addedXml = sceneList.createElement("kdenlivedoc");
     mlt.appendChild(addedXml);
 

@@ -3884,11 +3884,23 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
     if (m_renderWidget->automaticAudioExport()) {
         exportAudio = m_activeTimeline->checkProjectAudio();
     } else exportAudio = m_renderWidget->selectedAudioExport();
+
+    // Set playlist audio volume to 100%
+    QDomDocument doc;
+    doc.setContent(playlistContent);
+    QDomElement tractor = doc.documentElement().firstChildElement("tractor");
+    if (!tractor.isNull()) {
+        QDomNodeList props = tractor.elementsByTagName("property");
+        for (int i = 0; i < props.count(); i++) {
+            if (props.at(i).toElement().attribute("name") == "meta.volume") {
+                props.at(i).firstChild().setNodeValue("1");
+                break;
+            }
+        }
+    }
     
     // Do we want proxy rendering
     if (m_projectList->useProxy() && !m_renderWidget->proxyRendering()) {
-        QDomDocument doc;
-        doc.setContent(playlistContent);
         QString root = doc.documentElement().attribute("root");
 
         // replace proxy clips with originals
@@ -3932,8 +3944,8 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
                 playlistContent.replace(key, i.value());
             }
         }*/
-        playlistContent = doc.toString();
     }
+    playlistContent = doc.toString();
     
     // Do save scenelist
     QFile file(playlistPath);
