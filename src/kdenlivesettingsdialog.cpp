@@ -432,8 +432,8 @@ void KdenliveSettingsDialog::slotReadAudioDevices()
     kDebug() << result;
     QStringList lines = result.split('\n');
     foreach(const QString & data, lines) {
-        kDebug() << "// READING LINE: " << data;
-        if (data.simplified().startsWith("card")) {
+        //kDebug() << "// READING LINE: " << data;
+        if (!data.startsWith(" ") && data.count(':') > 1) {
             QString card = data.section(':', 0, 0).section(' ', -1);
             QString device = data.section(':', 1, 1).section(' ', -1);
             m_configSdl.kcfg_audio_device->addItem(data.section(':', -1), "plughw:" + card + ',' + device);
