@@ -206,8 +206,8 @@ Q_OBJECT public:
     bool mltRemoveClip(int track, GenTime position);
 
     /** @brief Deletes an effect from a clip in MLT's playlist. */
-    bool mltRemoveEffect(int track, GenTime position, QString index, bool updateIndex, bool doRefresh = true);
-    bool mltRemoveTrackEffect(int track, QString index, bool updateIndex);
+    bool mltRemoveEffect(int track, GenTime position, int index, bool updateIndex, bool doRefresh = true);
+    bool mltRemoveTrackEffect(int track, int index, bool updateIndex);
 
     /** @brief Adds an effect to a clip in MLT's playlist. */
     bool mltAddEffect(int track, GenTime position, EffectsParameterList params, bool doRefresh = true);

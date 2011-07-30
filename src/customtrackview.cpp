@@ -1589,7 +1589,7 @@ void CustomTrackView::slotRefreshEffects(ClipItem *clip)
 {
     int track = m_document->tracksCount() - clip->track();
     GenTime pos = clip->startPos();
-    if (!m_document->renderer()->mltRemoveEffect(track, pos, "-1", false, false)) {
+    if (!m_document->renderer()->mltRemoveEffect(track, pos, -1, false, false)) {
         emit displayMessage(i18n("Problem deleting effect"), ErrorMessage);
         return;
     }
@@ -1641,7 +1641,7 @@ void CustomTrackView::deleteEffect(int track, GenTime pos, QDomElement effect)
     QString index = effect.attribute("kdenlive_ix");
     if (pos < GenTime()) {
         // Delete track effect
-        if (m_document->renderer()->mltRemoveTrackEffect(track, index, true)) {
+        if (m_document->renderer()->mltRemoveTrackEffect(track, index.toInt(), true)) {
 	    m_document->removeTrackEffect(track - 1, effect);
 	}
 	else emit displayMessage(i18n("Problem deleting effect"), ErrorMessage);
@@ -1656,11 +1656,11 @@ void CustomTrackView::deleteEffect(int track, GenTime pos, QDomElement effect)
             doChangeClipSpeed(clip->info(), clip->speedIndependantInfo(), 1.0, clip->speed(), 1, clip->baseClip()->getId());
             clip->deleteEffect(index);
             emit clipItemSelected(clip);
-            m_document->renderer()->mltRemoveEffect(track, pos, index, true);
+            m_document->renderer()->mltRemoveEffect(track, pos, index.toInt(), true);
             return;
         }
     }
-    if (!m_document->renderer()->mltRemoveEffect(track, pos, index, true)) {
+    if (!m_document->renderer()->mltRemoveEffect(track, pos, index.toInt(), true)) {
         kDebug() << "// ERROR REMOV EFFECT: " << index << ", DISABLE: " << effect.attribute("disable");
         emit displayMessage(i18n("Problem deleting effect"), ErrorMessage);
         return;
