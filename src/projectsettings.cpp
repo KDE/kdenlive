@@ -218,7 +218,7 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
 
     // List all files that are used in the project. That also means:
     // images included in slideshow and titles, files in playlist clips
-    // TODO: images used in luma transitions, files used for LADSPA effects?
+    // TODO: images used in luma transitions?
 
     // Setup categories
     QTreeWidgetItem *videos = new QTreeWidgetItem(files_list, QStringList() << i18n("Video clips"));

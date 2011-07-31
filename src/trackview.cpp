@@ -759,7 +759,6 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
         QString effecttag;
         QString effectid;
         QString effectindex = QString::number(effectNb);
-        QString ladspaEffectFile;
         // Get effect tag & index
         for (QDomNode n3 = effect.firstChild(); !n3.isNull(); n3 = n3.nextSibling()) {
             // parse effect parameters
@@ -774,15 +773,6 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
             } else if (effectparam.attribute("name") == "kdenlive_ix") {
                 // Fix effects index
                 effectparam.firstChild().setNodeValue(effectindex);
-            } else if (effectparam.attribute("name") == "src") {
-                ladspaEffectFile = effectparam.text();
-                if (!QFile::exists(ladspaEffectFile)) {
-                    // If the ladspa effect file is missing, recreate it
-                    kDebug() << "// MISSING LADSPA FILE: " << ladspaEffectFile;
-                    ladspaEffectFile = m_doc->getLadspaFile();
-                    effectparam.firstChild().setNodeValue(ladspaEffectFile);
-                    kDebug() << "// ... REPLACED WITH: " << ladspaEffectFile;
-                }
             }
         }
         //kDebug() << "+ + CLIP EFF FND: " << effecttag << ", " << effectid << ", " << effectindex;
@@ -931,16 +921,6 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
                     }
                 }
             }
-            // Old LADSPA filter, deprecated
-            /*if (effecttag == "ladspa") {
-                //QString ladspaEffectFile = EffectsList::parameter(effect, "src", "property");
-
-                if (!QFile::exists(ladspaEffectFile)) {
-                    // If the ladspa effect file is missing, recreate it
-                    initEffects::ladspaEffectFile(ladspaEffectFile, currenteffect.attribute("ladspaid").toInt(), m_trackview->getLadspaParams(currenteffect));
-                }
-                currenteffect.setAttribute("src", ladspaEffectFile);
-            }*/
             
             if (disableeffect) currenteffect.setAttribute("disable", "1");
             if (clip)

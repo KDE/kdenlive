@@ -122,7 +122,6 @@ public:
     void deleteTimelineTrack(int ix, TrackInfo trackinfo);
     void saveThumbnails();
     void autoTransition();
-    QStringList getLadspaParams(QDomElement effect) const;
     void initCursorPos(int pos);
 
     /** @brief Locks or unlocks a track.

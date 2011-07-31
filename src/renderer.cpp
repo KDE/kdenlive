@@ -2348,7 +2348,6 @@ bool Render::mltRemoveEffect(int track, GenTime position, int index, bool update
     }
     delete clip;
 
-//    if (tag.startsWith("ladspa")) tag = "ladspa";
     m_isBlocked = true;
     mlt_service_lock(service.get_service());
     int ct = 0;

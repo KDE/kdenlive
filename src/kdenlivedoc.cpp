@@ -299,7 +299,6 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
     // Make sure that the necessary folders exist
     KStandardDirs::makeDir(m_projectFolder.path(KUrl::AddTrailingSlash) + "titles/");
     KStandardDirs::makeDir(m_projectFolder.path(KUrl::AddTrailingSlash) + "thumbs/");
-    KStandardDirs::makeDir(m_projectFolder.path(KUrl::AddTrailingSlash) + "ladspa/");
     KStandardDirs::makeDir(m_projectFolder.path(KUrl::AddTrailingSlash) + "proxy/");
 
     updateProjectFolderPlacesEntry();
@@ -761,7 +760,6 @@ void KdenliveDoc::setProjectFolder(KUrl url)
 void KdenliveDoc::moveProjectData(KUrl url)
 {
     QList <DocClipBase*> list = m_clipManager->documentClipList();
-    //TODO: Also move ladspa effects files
     for (int i = 0; i < list.count(); i++) {
         DocClipBase *clip = list.at(i);
         if (clip->clipType() == TEXT) {
@@ -1355,17 +1353,6 @@ QPoint KdenliveDoc::getTracksCount() const
 void KdenliveDoc::cachePixmap(const QString &fileId, const QPixmap &pix) const
 {
     pix.save(m_projectFolder.path(KUrl::AddTrailingSlash) + "thumbs/" + fileId + ".png");
-}
-
-QString KdenliveDoc::getLadspaFile() const
-{
-    int ct = 0;
-    QString counter = QString::number(ct).rightJustified(5, '0', false);
-    while (QFile::exists(m_projectFolder.path(KUrl::AddTrailingSlash) + "ladspa/" + counter + ".ladspa")) {
-        ct++;
-        counter = QString::number(ct).rightJustified(5, '0', false);
-    }
-    return m_projectFolder.path(KUrl::AddTrailingSlash) + "ladspa/" + counter + ".ladspa";
 }
 
 bool KdenliveDoc::checkDocumentClips(QDomNodeList infoproducers)

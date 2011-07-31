@@ -106,20 +106,6 @@ public:
 
     /** @brief Reloads information about custom effects. */
     static void parseCustomEffectsFile();
-    static const char* ladspaEffectString(int ladspaId, QStringList params);
-    static void ladspaEffectFile(const QString & fname, int ladspaId, QStringList params);
-
-    static const char* ladspaPitchEffectString(QStringList params);
-    static const char* ladspaReverbEffectString(QStringList params);
-    static const char* ladspaRoomReverbEffectString(QStringList params);
-    static const char* ladspaEqualizerEffectString(QStringList params);
-    static const char* ladspaDeclipEffectString(QStringList);
-    static const char* ladspaVinylEffectString(QStringList params);
-    static const char* ladspaLimiterEffectString(QStringList params);
-    static const char* ladspaPitchShifterEffectString(QStringList params);
-    static const char* ladspaPhaserEffectString(QStringList params);
-    static const char* ladspaRateScalerEffectString(QStringList params);
-    static const char* ladspaEqualizer15EffectString(QStringList params);
 
 private:
     initEffects(); // disable the constructor

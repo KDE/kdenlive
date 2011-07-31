@@ -143,7 +143,6 @@ Q_OBJECT public:
 
     void cachePixmap(const QString &fileId, const QPixmap &pix) const;
     void setProjectFolder(KUrl url);
-    QString getLadspaFile() const;
     void setZone(int start, int end);
     QPoint zone() const;
     int setSceneList();
