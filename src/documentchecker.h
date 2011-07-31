@@ -57,6 +57,7 @@ private:
     QDomDocument m_doc;
     Ui::MissingClips_UI m_ui;
     QDialog *m_dialog;
+    QString searchPathRecursively(const QDir &dir, const QString &fileName) const;
     QString searchFileRecursively(const QDir &dir, const QString &matchSize, const QString &matchHash) const;
     void checkStatus();
     QMap <QString, QString> m_missingTitleImages;

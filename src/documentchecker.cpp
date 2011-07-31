@@ -393,9 +393,10 @@ void DocumentChecker::slotSearchClips()
     bool fixed = false;
     m_ui.recursiveSearch->setEnabled(false);
     QTreeWidgetItem *child = m_ui.treeWidget->topLevelItem(ix);
+    QDir searchDir(newpath);
     while (child) {
         if (child->data(0, statusRole).toInt() == CLIPMISSING) {
-            QString clipPath = searchFileRecursively(QDir(newpath), child->data(0, sizeRole).toString(), child->data(0, hashRole).toString());
+            QString clipPath = searchFileRecursively(searchDir, child->data(0, sizeRole).toString(), child->data(0, hashRole).toString());
             if (!clipPath.isEmpty()) {
                 fixed = true;
                 child->setText(1, clipPath);
@@ -409,6 +410,18 @@ void DocumentChecker::slotSearchClips()
                 child->setText(1, fileName);
                 child->setIcon(0, KIcon("dialog-ok"));
                 child->setData(0, statusRole, LUMAOK);
+            }
+        }
+        else if (child->data(0, typeRole).toInt() == TITLE_IMAGE_ELEMENT && child->data(0, statusRole).toInt() == CLIPPLACEHOLDER) {
+            // Search missing title images
+            QString missingFileName = KUrl(child->text(1)).fileName();
+            QString newPath = searchPathRecursively(searchDir, missingFileName);
+            if (!newPath.isEmpty()) {
+                // File found
+                fixed = true;
+                child->setText(1, newPath);
+                child->setIcon(0, KIcon("dialog-ok"));
+                child->setData(0, statusRole, CLIPOK);
             }
         }
         ix++;
@@ -445,6 +458,24 @@ QString DocumentChecker::searchLuma(QString file) const
     return QString();
 }
 
+QString DocumentChecker::searchPathRecursively(const QDir &dir, const QString &fileName) const
+{
+    QString foundFileName;
+    QStringList filters;
+    filters << fileName;
+    QDir searchDir(dir);
+    searchDir.setNameFilters(filters);
+    QStringList filesAndDirs = searchDir.entryList(QDir::Files | QDir::Readable);
+    if (!filesAndDirs.isEmpty()) return searchDir.absoluteFilePath(filesAndDirs.at(0));
+    searchDir.setNameFilters(QStringList());
+    filesAndDirs = searchDir.entryList(QDir::Dirs | QDir::Readable | QDir::Executable | QDir::NoDotAndDotDot);
+    for (int i = 0; i < filesAndDirs.size() && foundFileName.isEmpty(); i++) {
+        foundFileName = searchPathRecursively(searchDir.absoluteFilePath(filesAndDirs.at(i)), fileName);
+        if (!foundFileName.isEmpty())
+            break;
+    }
+    return foundFileName;
+}
 
 QString DocumentChecker::searchFileRecursively(const QDir &dir, const QString &matchSize, const QString &matchHash) const
 {
