@@ -48,8 +48,9 @@ bool DocumentValidator::validate(const double currentVersion)
     // Check if we're validating a Kdenlive project
     if (kdenliveDoc.isNull())
         return false;
-    
-    QLocale documentLocale;
+
+    // Previous MLT / Kdenlive versions used C locale by default
+    QLocale documentLocale("C");
     
     if (mlt.hasAttribute("LC_NUMERIC")) {
         // Set locale for the document
