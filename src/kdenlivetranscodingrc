@@ -18,3 +18,4 @@ Fix Ogg Theora=-sameq -vcodec libtheora -acodec copy %1.ogv;Fix unplayable OGG T
 Remux MPEG-2 PS/VOB=-vcodec copy -acodec copy %1.mpg;Fix audio sync in MPEG-2 vob files;vcodec=mpeg2video
 Lossless Matroska=-sn -vcodec huffyuv -acodec flac %1.mkv;High quality lossless encoding
 Wav 48000Hz=-vn -ar 48000 %1.wav;Extract audio as WAV file
+Remux with MKV=-vcodec copy -acodec copy -sn %1.mkv
