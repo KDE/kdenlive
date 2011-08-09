@@ -84,14 +84,14 @@
 
 <group name="Theora" renderer="avformat" extension="ogv" type="av">
   <profile name="Theora" bitrates="200,400,600,800,1000,2000,4000,6000,8000,10000,12000" defaultbitrate="8000"
-           args="acodec=vorbis ab=128k ar=44100 vcodec=libtheora minrate=0 b=%bitrate+'k' aspect=%dar pass=%passes" />
+           args="acodec=vorbis ab=128k ar=44100 aq=50 vcodec=libtheora minrate=0 b=%bitrate+'k' aspect=%dar pass=%passes" />
   <profile name="Theora 720x576" standard="PAL" args="acodec=vorbis ab=384k aq=30 ar=44100 vcodec=libtheora minrate=0 b=12000k s=720x576 aspect=%dar pass=%passes" />
   <profile name="Theora 720x480" standard="NTSC" args="acodec=vorbis ab=384k aq=30 ar=44100 vcodec=libtheora minrate=0 b=12000k s=720x480 aspect=%dar pass=%passes" />
 </group>
 
 <group name="WebM" renderer="avformat" extension="webm" type="av">
   <profile name="WebM" bitrates="200,400,600,800,1000,2000,4000,6000,8000,10000,12000" defaultbitrate="8000"
-          args="acodec=vorbis ab=128k ar=44100 vcodec=libvpx minrate=0 b=%bitrate+'k' aspect=%dar maxrate=%bitrate*2+'k' g=120 qmax=42 qmin=10" />
+          args="acodec=vorbis ab=128k ar=44100 aq=50 vcodec=libvpx minrate=0 b=%bitrate+'k' aspect=%dar maxrate=%bitrate*2+'k' g=120 qmax=42 qmin=10" />
 </group>
 
 <group name="Media players" renderer="avformat" type="av">
