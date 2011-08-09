@@ -141,7 +141,12 @@ void RotoWidget::slotUpdateData(int pos, bool editing)
         map[QString::number((pos < 0 ? m_keyframeWidget->getPosition() : pos) + m_in).rightJustified(log10((double)m_out) + 1, '0')] = QVariant(vlist);
         m_data = QVariant(map);
     } else {
+        // timeline update is only required if the first keyframe did not exist yet
+        bool update = m_data.isNull();
         m_data = QVariant(vlist);
+        if (update) {
+            keyframeTimelineFullUpdate();
+        }
     }
 
     emit valueChanged();
@@ -329,7 +334,10 @@ void RotoWidget::keyframeTimelineFullUpdate()
         m_data = QVariant(map);*/
     } else {
         // static (only one keyframe)
-        m_keyframeWidget->setKeyframes(QList <int>() << 0);
+        // make sure the first keyframe was already created
+        if (m_data.isValid()) {
+            m_keyframeWidget->setKeyframes(QList <int>() << 0);
+        }
     }
 }
 

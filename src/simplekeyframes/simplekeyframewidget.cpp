@@ -70,6 +70,9 @@ SimpleKeyframeWidget::SimpleKeyframeWidget(Timecode t, int duration, QWidget *pa
     connect(m_buttonAddDelete, SIGNAL(pressed()), m_timeline, SLOT(slotAddRemove()));
     connect(m_buttonPrevious, SIGNAL(pressed()), m_timeline, SLOT(slotGoToPrev()));
     connect(m_buttonNext, SIGNAL(pressed()), m_timeline, SLOT(slotGoToNext()));
+
+    // no keyframes yet
+    setEnabled(false);
 }
 
 SimpleKeyframeWidget::~SimpleKeyframeWidget()
@@ -78,7 +81,6 @@ SimpleKeyframeWidget::~SimpleKeyframeWidget()
     delete m_buttonAddDelete;
     delete m_buttonPrevious;
     delete m_buttonNext;
-    //delete m_buttonSync;
     delete m_time;
 }
 
@@ -104,6 +106,7 @@ int SimpleKeyframeWidget::getPosition()
 void SimpleKeyframeWidget::setKeyframes(const QList< int >& keyframes)
 {
     m_timeline->setKeyframes(keyframes);
+    setEnabled(true);
 }
 
 void SimpleKeyframeWidget::addKeyframe(int pos)
@@ -111,6 +114,7 @@ void SimpleKeyframeWidget::addKeyframe(int pos)
     blockSignals(true);
     m_timeline->slotAddKeyframe(pos);
     blockSignals(false);
+    setEnabled(true);
 }
 
 void SimpleKeyframeWidget::updateTimecodeFormat()
