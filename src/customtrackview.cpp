@@ -1620,7 +1620,8 @@ void CustomTrackView::addEffect(int track, GenTime pos, QDomElement effect)
                 emit displayMessage(i18n("Problem adding effect to clip"), ErrorMessage);
                 return;
             }
-            double speed = EffectsList::parameter(effect, "speed").toDouble() / 100.0;
+            QLocale locale;
+            double speed = locale.toDouble(EffectsList::parameter(effect, "speed")) / 100.0;
             int strobe = EffectsList::parameter(effect, "strobe").toInt();
             if (strobe == 0) strobe = 1;
             doChangeClipSpeed(clip->info(), clip->speedIndependantInfo(), speed, 1.0, strobe, clip->baseClip()->getId());
@@ -1880,7 +1881,8 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedE
             if (effect.attribute("disable") == "1") {
                 doChangeClipSpeed(clip->info(), clip->speedIndependantInfo(), 1.0, clip->speed(), 1, clip->baseClip()->getId());
             } else {
-                double speed = EffectsList::parameter(effect, "speed").toDouble() / 100.0;
+                QLocale locale;
+                double speed = locale.toDouble(EffectsList::parameter(effect, "speed")) / 100.0;
                 int strobe = EffectsList::parameter(effect, "strobe").toInt();
                 if (strobe == 0) strobe = 1;
                 doChangeClipSpeed(clip->info(), clip->speedIndependantInfo(), speed, clip->speed(), strobe, clip->baseClip()->getId());
@@ -3802,6 +3804,7 @@ void CustomTrackView::deleteSelectedClips()
 
 void CustomTrackView::changeClipSpeed()
 {
+  // TODO: remove after string freeze
     QList<QGraphicsItem *> itemList = scene()->selectedItems();
     if (itemList.count() == 0) {
         emit displayMessage(i18n("Select clip to change speed"), ErrorMessage);

@@ -609,7 +609,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked, QDomNod
             int strobe = 1;
             if (idString.startsWith("slowmotion")) {
                 id = idString.section(':', 1, 1);
-                speed = idString.section(':', 2, 2).toDouble();
+                speed = m_locale.toDouble(idString.section(':', 2, 2));
                 strobe = idString.section(':', 3, 3).toInt();
                 if (strobe == 0) strobe = 1;
             }

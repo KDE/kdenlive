@@ -2119,7 +2119,7 @@ int Render::mltChangeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, dou
         kWarning() << "// TRACTOR PROBLEM";
         return -1;
     }
-    
+
     //kDebug() << "Changing clip speed, set in and out: " << info.cropStart.frames(m_fps) << " to " << (info.endPos - info.startPos).frames(m_fps) - 1;
     Mlt::Tractor tractor(service);
     Mlt::Producer trackProducer(tractor.track(info.track));
