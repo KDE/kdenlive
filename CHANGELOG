@@ -1,5 +1,7 @@
 
 HEAD
+    * Add remux with MKV transcode preset.
+    * Make audio only render profiles faster by telling ffmpeg to skip video.
     * Open documents using a locale different to the system as read only.
     * Replace locale-dependent comma with slash in geometry value.
     * Add Kdenlive manual converted from UserBase QuickStart page.
@@ -22,6 +24,8 @@ HEAD
     * Notes widget: context menu now allows to insert clickable timecode to make easy reference to some place in the project.
 
     * Fix 'adjust to original size' and 'fit to width/height' for title and color clips in geometry widget (pan and zoom, composite, affine).
+    * Fix vorbis rendering by setting the audio quality (aq).
+    * Rotoscoping: do not allow to add keyframes until initial spline is created to avoid corruptions.
     * Fix possible crash in DVD wizard chapters. (http://kdenlive.org/mantis/view.php?id=2264)
     * Do not duplicate effect stack after split audio but move audio effects only.
     * Fix issues related to the usage of comma as numeric separator in some locales.
