@@ -1244,13 +1244,15 @@ void RenderWidget::refreshParams()
 
     // setup comboBox with bitrates
     m_view.comboBitrates->clear();
-    if (item->data(BitratesRole).canConvert(QVariant::StringList) && item->data(BitratesRole).toStringList().count()) {
+    if (params.contains("bitrate")) {
         m_view.comboBitrates->setEnabled(true);
-        QStringList bitrates = item->data(BitratesRole).toStringList();
-        foreach (QString bitrate, bitrates)
-            m_view.comboBitrates->addItem(bitrate);
-        if (item->data(DefaultBitrateRole).canConvert(QVariant::String))
-            m_view.comboBitrates->setCurrentIndex(bitrates.indexOf(item->data(DefaultBitrateRole).toString()));
+        if ( item->data(BitratesRole).canConvert(QVariant::StringList) && item->data(BitratesRole).toStringList().count()) {
+            QStringList bitrates = item->data(BitratesRole).toStringList();
+            foreach (QString bitrate, bitrates)
+                m_view.comboBitrates->addItem(bitrate);
+            if (item->data(DefaultBitrateRole).canConvert(QVariant::String))
+                m_view.comboBitrates->setCurrentIndex(bitrates.indexOf(item->data(DefaultBitrateRole).toString()));
+        }
     } else {
         m_view.comboBitrates->setEnabled(false);
     }
