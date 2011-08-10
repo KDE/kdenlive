@@ -1,5 +1,6 @@
 
 HEAD
+    * When multiple clips are selected do not allow resizing, but moving only. (http://kdenlive.org/mantis/view.php?id=2257)
     * Add remux with MKV transcode preset.
     * Make audio only render profiles faster by telling ffmpeg to skip video.
     * Open documents using a locale different to the system as read only.

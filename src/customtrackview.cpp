@@ -584,7 +584,14 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
             event->accept();
             return;
         }
-        opMode = clip->operationMode(mapToScene(event->pos()));
+
+        if (m_selectionGroup && clip->parentItem() == m_selectionGroup) {
+            // all other modes break the selection, so the user probably wants to move it
+            opMode = MOVE;
+        } else {
+            opMode = clip->operationMode(mapToScene(event->pos()));
+        }
+
         const double size = 5;
         if (opMode == m_moveOpMode) {
             QGraphicsView::mouseMoveEvent(event);
@@ -967,7 +974,12 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
     if (event->modifiers() != Qt::ControlModifier && m_operationMode == NONE) QGraphicsView::mousePressEvent(event);
 
     m_clickPoint = QPoint((int)(mapToScene(event->pos()).x() - m_dragItem->startPos().frames(m_document->fps())), (int)(event->pos().y() - m_dragItem->pos().y()));
-    m_operationMode = m_dragItem->operationMode(mapToScene(event->pos()));
+    if (m_selectionGroup && m_dragItem->parentItem() == m_selectionGroup) {
+        // all other modes break the selection, so the user probably wants to move it
+        m_operationMode = MOVE;
+    } else {
+        m_operationMode = m_dragItem->operationMode(mapToScene(event->pos()));
+    }
     m_controlModifier = (event->modifiers() == Qt::ControlModifier);
 
     // Update snap points
