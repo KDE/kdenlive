@@ -711,7 +711,9 @@ void GeometryWidget::setFrameSize(QPoint size)
 
 void GeometryWidget::slotAdjustToFrameSize()
 {
-    if (m_frameSize == QPoint()) m_frameSize = QPoint(m_monitor->render->frameRenderWidth(), m_monitor->render->renderHeight());
+    if (m_frameSize == QPoint() || m_frameSize.x() == 0 || m_frameSize.y() == 0) {
+        m_frameSize = QPoint(m_monitor->render->frameRenderWidth(), m_monitor->render->renderHeight());
+    }
     m_spinWidth->blockSignals(true);
     m_spinHeight->blockSignals(true);
     m_spinWidth->setValue((int) (m_frameSize.x() / m_monitor->render->sar() + 0.5));
@@ -723,7 +725,9 @@ void GeometryWidget::slotAdjustToFrameSize()
 
 void GeometryWidget::slotFitToWidth()
 {
-    if (m_frameSize == QPoint()) m_frameSize = QPoint(m_monitor->render->frameRenderWidth(), m_monitor->render->renderHeight());
+    if (m_frameSize == QPoint() || m_frameSize.x() == 0 || m_frameSize.y() == 0) {
+        m_frameSize = QPoint(m_monitor->render->frameRenderWidth(), m_monitor->render->renderHeight());
+    }
     double factor = (double) m_monitor->render->frameRenderWidth() / m_frameSize.x() * m_monitor->render->sar();
     m_spinWidth->blockSignals(true);
     m_spinHeight->blockSignals(true);
@@ -736,7 +740,9 @@ void GeometryWidget::slotFitToWidth()
 
 void GeometryWidget::slotFitToHeight()
 {
-    if (m_frameSize == QPoint()) m_frameSize = QPoint(m_monitor->render->frameRenderWidth(), m_monitor->render->renderHeight());
+    if (m_frameSize == QPoint() || m_frameSize.x() == 0 || m_frameSize.y() == 0) {
+        m_frameSize = QPoint(m_monitor->render->frameRenderWidth(), m_monitor->render->renderHeight());
+    }
     double factor = (double) m_monitor->render->renderHeight() / m_frameSize.y();
     m_spinWidth->blockSignals(true);
     m_spinHeight->blockSignals(true);

@@ -21,6 +21,7 @@ HEAD
     * Allow use of different ffmpeg preset for 1st and 2nd render pass.
     * Notes widget: context menu now allows to insert clickable timecode to make easy reference to some place in the project.
 
+    * Fix 'adjust to original size' and 'fit to width/height' for title and color clips in geometry widget (pan and zoom, composite, affine).
     * Fix possible crash in DVD wizard chapters. (http://kdenlive.org/mantis/view.php?id=2264)
     * Do not duplicate effect stack after split audio but move audio effects only.
     * Fix issues related to the usage of comma as numeric separator in some locales.
