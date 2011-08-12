@@ -71,8 +71,8 @@ frei0r.vectorscope
 frei0r.vertigo
 frei0r.vignette
 
-#MLT effects with XML UI
 
+#MLT effects with XML UI
 dust
 grain
 lines
@@ -81,12 +81,18 @@ tcolor
 rotoscoping
 wave
 volume
-
-#effects that have simplekeyframes
 vignette
 
-#Effects not usable with a simple GUI
 
+#Effects not usable with a simple GUI
 sox
 ladspa
 jackrack
+luma
+data_show
+gtkrescale
+watermark
+region
+resize
+resample
+mono
