@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-07-16 14:01+0300\n"
-"PO-Revision-Date: 2011-08-01 22:06+0200\n"
+"PO-Revision-Date: 2011-08-16 15:08+0200\n"
 "Last-Translator: Tore Brigaglia <opensourcecat@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -5672,11 +5672,12 @@ msgstr ""
 
 #: src/stopmotion/stopmotion.cpp:190
 msgid "Overlay effect"
-msgstr ""
+msgstr "Effetto sovrapposizione"
 
 #: rc.cpp:1419
 msgid "Oversaturate the color in video, like in old Technicolor movies"
 msgstr ""
+"Sovrasaturazione dei colori nel video, come i vecchi film in Technicolor"
 
 #: src/mainwindow.cpp:939
 msgid "Overwrite mode"
@@ -5731,9 +5732,8 @@ msgid "Parameters"
 msgstr "Parametri"
 
 #: src/encodingprofilesdialog.cpp:129 src/encodingprofilesdialog.cpp:161
-#, fuzzy
 msgid "Parameters:"
-msgstr "Parametri"
+msgstr "Parametri:"
 
 #: src/mainwindow.cpp:1499
 msgid "Paste Effects"
@@ -5752,9 +5752,8 @@ msgid "Pb trace"
 msgstr ""
 
 #: rc.cpp:1349
-#, fuzzy
 msgid "Phase"
-msgstr "Phaser"
+msgstr "Fase"
 
 #: rc.cpp:1014
 msgid "Phase Increment"
@@ -5789,19 +5788,16 @@ msgid "Pixel aspect ratio:"
 msgstr "Proporzioni dei pixel:"
 
 #: src/clipproperties.cpp:410
-#, fuzzy
 msgid "Pixel format"
-msgstr "Formato DVD"
+msgstr "Formato dei pixel"
 
 #: src/dragvalue.cpp:110
-#, fuzzy
 msgid "Pixel scale"
-msgstr "Rescale"
+msgstr "Scala dei pixel"
 
 #: rc.cpp:752
-#, fuzzy
 msgid "Pixelize"
-msgstr "pixeliz0r"
+msgstr "pixelatura"
 
 #: rc.cpp:754
 msgid "Pixelize input image."
@@ -5880,9 +5876,8 @@ msgid "Please set your default video profile"
 msgstr "Impostare il formato video preferito"
 
 #: src/wizard.cpp:281
-#, fuzzy
 msgid "Please upgrade to MLT %1.%2.%3"
-msgstr "Aggiornare MLT all'ultima versione disponibile"
+msgstr "Aggiornare MLT alla versione %1.%2.%3"
 
 #: src/recmonitor.cpp:297
 msgid ""
@@ -5899,7 +5894,6 @@ msgstr ""
 " %1"
 
 #: src/recmonitor.cpp:262
-#, fuzzy
 msgid ""
 "Plug your camcorder and\n"
 "press play button\n"
@@ -5979,18 +5973,16 @@ msgid "Position: %1"
 msgstr "Posizione: 1%"
 
 #: rc.cpp:950
-#, fuzzy
 msgid "Power Alpha"
-msgstr "Mostra il canale alpha"
+msgstr ""
 
 #: rc.cpp:948
 msgid "Power Blue"
 msgstr ""
 
 #: rc.cpp:946
-#, fuzzy
 msgid "Power Green"
-msgstr "Verde"
+msgstr ""
 
 #: rc.cpp:941
 msgid "Power Red"
@@ -6037,9 +6029,8 @@ msgid "Preview"
 msgstr "Anteprima"
 
 #: rc.cpp:2590 rc.cpp:4620
-#, fuzzy
 msgid "Preview sequence"
-msgstr "Sequenza di immagini"
+msgstr "Sequenza di anteprima"
 
 #: rc.cpp:1967 rc.cpp:3997
 msgid "Preview volume:"
@@ -6071,7 +6062,6 @@ msgid "Problem editing effect"
 msgstr "Si è verificato un problema nella modifica dell'effetto"
 
 #: rc.cpp:2460 rc.cpp:4490
-#, fuzzy
 msgid "Processing threads"
 msgstr "Processi di codifica"
 
@@ -6089,9 +6079,8 @@ msgid "Profile name"
 msgstr "Nome profilo"
 
 #: src/encodingprofilesdialog.cpp:126 src/encodingprofilesdialog.cpp:158
-#, fuzzy
 msgid "Profile name:"
-msgstr "Nome profilo"
+msgstr "Nome profilo:"
 
 #: rc.cpp:1515 rc.cpp:3545
 msgid "Profiles"
@@ -6120,7 +6109,6 @@ msgid "Project Files"
 msgstr "File del progetto"
 
 #: src/kdenlivedoc.cpp:1564 src/kdenlivedoc.cpp:1578 rc.cpp:3381 rc.cpp:5411
-#, fuzzy
 msgid "Project Folder"
 msgstr "Cartella del progetto"
 
@@ -6129,9 +6117,8 @@ msgid "Project Monitor"
 msgstr "Monitor progetto"
 
 #: src/mainwindow.cpp:220
-#, fuzzy
 msgid "Project Notes"
-msgstr "File del progetto"
+msgstr "Note sul progetto"
 
 #: src/mainwindow.cpp:1164 rc.cpp:2669 rc.cpp:4699
 msgid "Project Settings"
@@ -6154,9 +6141,8 @@ msgid "Project folder"
 msgstr "Cartella del progetto"
 
 #: src/projectsettings.cpp:509
-#, fuzzy
 msgid "Project folder: %1"
-msgstr "Cartella del progetto"
+msgstr "Cartella del progetto: %1"
 
 #: src/kdenlivedoc.cpp:813
 msgid "Project profile not found, replacing with existing one: %1"
@@ -6172,9 +6158,8 @@ msgid "Project profile was not found, using default profile."
 msgstr "Profilo di progetto non trovato, utilizzo il profilo predefinito."
 
 #: src/projectsettings.cpp:510
-#, fuzzy
 msgid "Project profile: %1"
-msgstr "File del progetto"
+msgstr "Profilo del progetto: %1"
 
 #: src/archivewidget.cpp:481 src/archivewidget.cpp:671
 msgid "Project was successfully archived."
@@ -6189,18 +6174,17 @@ msgid "Proxy"
 msgstr ""
 
 #: src/mainwindow.cpp:1593
-#, fuzzy
 msgid "Proxy Clip"
-msgstr "Raggruppa clip"
+msgstr "Clip Rappresentativa"
 
 #: src/documentchecker.cpp:295
-#, fuzzy
 msgid "Proxy clip"
-msgstr "Raggruppa clip"
+msgstr "Clip rappresentativa"
 
 #: src/projectlist.cpp:1391
 msgid "Proxy clip unusable (duration is different from original)."
 msgstr ""
+"Clip rappresentativa inutilizzabile (la durata è differente dall'originale)."
 
 #: src/clipproperties.cpp:220
 msgid "Proxy clip: %1"
@@ -6208,14 +6192,12 @@ msgstr ""
 
 #: src/archivewidget.cpp:89 src/encodingprofilesdialog.cpp:40 rc.cpp:2729
 #: rc.cpp:2768 rc.cpp:2973 rc.cpp:4759 rc.cpp:4798 rc.cpp:5003
-#, fuzzy
 msgid "Proxy clips"
-msgstr "Raggruppa clip"
+msgstr "Clip rappresentativa"
 
 #: src/projectlist.h:128
-#, fuzzy
 msgid "Proxy crashed"
-msgstr "Il processo di esportazione è andato in crash"
+msgstr "Creazione della clip rappresentativa non riuscito"
 
 #: src/kdenlivesettingsdialog.cpp:345
 msgid "PulseAudio"
@@ -6254,9 +6236,8 @@ msgstr ""
 "wiki/Semiminima\">Wikipedia: Semiminima</>"
 
 #: rc.cpp:2412 rc.cpp:4442
-#, fuzzy
 msgid "Quick preview"
-msgstr "Anteprima delle immagini"
+msgstr "Anteprima veloce"
 
 #: rc.cpp:352 rc.cpp:2070 rc.cpp:2430 rc.cpp:4100 rc.cpp:4460
 msgid "R"
@@ -6351,9 +6332,8 @@ msgid "Reached end of project"
 msgstr "Raggiunta la fine del progetto"
 
 #: src/documentvalidator.cpp:64
-#, fuzzy
 msgid "Read only project"
-msgstr "Raggiunta la fine del progetto"
+msgstr "Progetto in sola lettura"
 
 #: src/archivewidget.cpp:243
 msgid "Ready"
@@ -6376,9 +6356,8 @@ msgid "Rec. 601"
 msgstr "Rec. 601"
 
 #: rc.cpp:284 rc.cpp:366 rc.cpp:390
-#, fuzzy
 msgid "Rec. 601,Rec. 709"
-msgstr "Rec. 601"
+msgstr "Rec. 601,Rec. 709"
 
 #: src/colorscopes/histogram.cpp:29 src/colorscopes/waveform.cpp:42
 msgid "Rec. 709"
@@ -6386,7 +6365,7 @@ msgstr "Rec. 709"
 
 #: rc.cpp:510 rc.cpp:535
 msgid "Recheck"
-msgstr ""
+msgstr "Controlla nuovamente"
 
 #: src/recmonitor.cpp:97
 msgid "Record"
@@ -6419,11 +6398,11 @@ msgstr "Rettangolo "
 
 #: rc.cpp:240
 msgid "Rectangle,Ellipse,Triangle,Diamond"
-msgstr ""
+msgstr "Rettangolo,Ellisse,Triangolo,Diamante"
 
 #: src/audioscopes/audiospectrum.cpp:79 src/audioscopes/spectrogram.cpp:66
 msgid "Rectangular window"
-msgstr ""
+msgstr "Finestra rettangolare"
 
 #: src/colorplaneexport.cpp:241 src/colorplaneexport.cpp:269
 msgid "Red"
@@ -6431,20 +6410,19 @@ msgstr "Rosso"
 
 #: rc.cpp:386 rc.cpp:633
 msgid "Red,Green,Blue,Luma"
-msgstr ""
+msgstr "Rosso,Verde,Blu,Luma"
 
 #: rc.cpp:1423
 msgid "Red/Green axis"
-msgstr ""
+msgstr "Asse Rosso/Verde"
 
 #: rc.cpp:834
 msgid "Reduce image to primary colors"
-msgstr ""
+msgstr "RIduci l'immagine a colori primari"
 
 #: rc.cpp:1341
-#, fuzzy
 msgid "Regeneration"
-msgstr "Operazione"
+msgstr "Rigenerazione"
 
 #: src/initeffects.cpp:862 rc.cpp:1196
 msgid "Region"
@@ -6467,9 +6445,8 @@ msgid "Remove Job"
 msgstr "Elimina il lavoro"
 
 #: src/projectlist.cpp:2509
-#, fuzzy
 msgid "Remove Proxy"
-msgstr "Elimina il lavoro"
+msgstr "Elimina la clip rappresentativa"
 
 #: src/mainwindow.cpp:1467 src/customtrackview.cpp:2907
 msgid "Remove Space"
@@ -6488,11 +6465,10 @@ msgid "Remove file"
 msgstr "Elimina il file"
 
 #: src/projectlist.cpp:2461
-#, fuzzy
 msgid "Remove proxy clip"
 msgid_plural "Remove proxy clips"
-msgstr[0] "Elimina clip"
-msgstr[1] "Elimina clip"
+msgstr[0] "Elimina clip rappresentativa"
+msgstr[1] "Elimina clip rappresentative"
 
 #: rc.cpp:3180 rc.cpp:5210
 msgid "Remove selected clips"
@@ -6511,9 +6487,8 @@ msgid "Removed invalid transition: (%1, %2, %3)"
 msgstr "Rimossa transizione non valida: (%1, %2, %3)"
 
 #: src/trackview.cpp:411
-#, fuzzy
 msgid "Removed overlapping transition: (%1, %2, %3)"
-msgstr "Rimossa transizione non valida: (%1, %2, %3)"
+msgstr "Rimossa transizione sovrapposta: (%1, %2, %3)"
 
 #: rc.cpp:424
 msgid ""
@@ -6524,6 +6499,12 @@ msgid ""
 "if they become too annoying.]]></full>\n"
 "        "
 msgstr ""
+"Rimuove difetti di scalettatura da clip ottenute con una Nikon D90 a 720p.\n"
+"        <full><![CDATA[Delle linee chiare nei video girati con una Nikon D90 "
+"creano degli artifatti ogni otto o nove linee\n"
+"        a causa di un cattivo downsampling. Questo difetto può essere "
+"parzialmente eliminato utilizzando questo effetto.]]></full>\n"
+"        "
 
 #: src/editfoldercommand.cpp:34
 msgid "Rename folder"
@@ -6543,7 +6524,7 @@ msgstr "Esporta file"
 
 #: rc.cpp:2871 rc.cpp:4901
 msgid "Render using proxy clips"
-msgstr ""
+msgstr "sporta utilizzando clip rappresentative"
 
 #: src/renderwidget.cpp:74
 msgid "Rendering"
@@ -6583,9 +6564,8 @@ msgid "Requesting color information..."
 msgstr "Richiesta informazioni sul colore..."
 
 #: src/wizard.cpp:304
-#, fuzzy
 msgid "Required for Kdenlive"
-msgstr "Richiesto per la registrazione dello schermo"
+msgstr "Richiesto per l'esecuzione di Kdenlive"
 
 #: src/wizard.cpp:426
 msgid "Required for creation of DVD"
@@ -6612,9 +6592,8 @@ msgid "Required for webcam capture"
 msgstr "Richiesto per la registrazione da webcam"
 
 #: src/wizard.cpp:443
-#, fuzzy
 msgid "Required to preview your DVD"
-msgstr "Richiesto per la creazione dei DVD"
+msgstr "Richiesto per l'anteprima dei DVD"
 
 #: src/wizard.cpp:354
 msgid "Required to work with dv files if avformat module is not installed"
@@ -6651,9 +6630,8 @@ msgid "Reset maximum frequency to sampling rate"
 msgstr ""
 
 #: rc.cpp:3363 rc.cpp:5393
-#, fuzzy
 msgid "Reset the parameters to their default values"
-msgstr "Ripristina valori predefiniti"
+msgstr "Ripristina ai valori predefiniti"
 
 #: rc.cpp:1901 rc.cpp:3931
 #, fuzzy
