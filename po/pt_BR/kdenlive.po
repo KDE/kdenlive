@@ -3847,9 +3847,7 @@ msgstr "Pasta"
 
 #: src/dvdwizard.cpp:696
 msgid "Folder %1 already exists. Overwrite?\n"
-msgstr ""
-"Pasta %1 já existe.\n"
-"Você deseja sobrescrevê-lo?"
+msgstr "Pasta %1 já existe. Você deseja sobrescrevê-lo?\n"
 
 #: rc.cpp:2359 rc.cpp:4389
 msgid "Follow mouse"
@@ -7740,7 +7738,7 @@ msgid "Sum"
 msgstr "Soma"
 
 #: src/kdenlivesettingsdialog.cpp:261 src/kdenlivesettingsdialog.cpp:304
-msgid "Supported capture modes:\n"
+msgid "Supported capture modes: %1"
 msgstr "Modo de Captura suportado: %1"
 
 #: rc.cpp:1172
