@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-07-16 14:01+0300\n"
-"PO-Revision-Date: 2011-08-16 15:08+0200\n"
+"PO-Revision-Date: 2011-08-26 15:53+0200\n"
 "Last-Translator: Tore Brigaglia <opensourcecat@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -6634,14 +6634,12 @@ msgid "Reset the parameters to their default values"
 msgstr "Ripristina ai valori predefiniti"
 
 #: rc.cpp:1901 rc.cpp:3931
-#, fuzzy
 msgid "Reset the selected spline"
-msgstr "Cancella la clip selezionata"
+msgstr "Reimposta la spline selezionata"
 
 #: src/dragvalue.cpp:120
-#, fuzzy
 msgid "Reset value"
-msgstr "Ripristina valori predefiniti"
+msgstr "Ripristina valore"
 
 #: rc.cpp:720
 msgid ""
@@ -6652,6 +6650,14 @@ msgid ""
 "proper threshold adjusting move the timeline cursor to the beginning of the "
 "clip, check the Reset box and uncheck it again."
 msgstr ""
+"Reimposta la maschera di luce e l'immagine sullo sfondo. Questo è necessario "
+"per esempio se "
+"si applica questo effetto ad una clip nella timeline e ci si sposta con il "
+"cursore dall'esterno della clip al suo interno . "
+"Questo effetto considera il primo fotogramma selezionato come sfondo. Per un "
+"miglioramento dei livelli di resa "
+"dell'effetto spostarsi all'inizio della clip e selezionare il comando reset, "
+"quindi deselezionarlo nuovamente."
 
 #: rc.cpp:2151 rc.cpp:4181
 msgid "Resize"
@@ -6690,9 +6696,8 @@ msgid "Resize group"
 msgstr "Ridimensiona gruppo"
 
 #: src/customtrackview.cpp:4678
-#, fuzzy
 msgid "Resize transition end"
-msgstr "Transizione invertita"
+msgstr "Ridimensiona la fine della transizione"
 
 #: rc.cpp:2535 rc.cpp:4565
 msgid "Resize:"
@@ -6704,7 +6709,7 @@ msgstr "Risoluzione"
 
 #: src/databackup/backupwidget.cpp:31
 msgid "Restore Backup File"
-msgstr ""
+msgstr "Recupera da un salvataggio"
 
 #: rc.cpp:1136
 msgid "Reverb"
@@ -6715,9 +6720,8 @@ msgid "Reverb time"
 msgstr "Tempo di riverbero"
 
 #: rc.cpp:1385
-#, fuzzy
 msgid "Reverberance"
-msgstr "Reverb"
+msgstr "Riverbero"
 
 #: src/initeffects.cpp:891
 msgid "Reverse"
@@ -6752,18 +6756,16 @@ msgid "Room Reverb"
 msgstr "Room Reverb"
 
 #: rc.cpp:1389
-#, fuzzy
 msgid "Room scale"
-msgstr "Rescale"
+msgstr ""
 
 #: rc.cpp:1148
 msgid "Room size (m)"
 msgstr "Room size (m)"
 
 #: rc.cpp:1225
-#, fuzzy
 msgid "Rotate (keyframable)"
-msgstr "Volume (con fotogramma chiave)"
+msgstr "Rotazione (con fotogramma chiave)"
 
 #: src/initeffects.cpp:849 src/geometrywidget.cpp:182 rc.cpp:1229 rc.cpp:1243
 msgid "Rotate X"
@@ -6822,9 +6824,8 @@ msgid "S"
 msgstr "S"
 
 #: src/wizard.cpp:303
-#, fuzzy
 msgid "SDL module"
-msgstr "Titolatrice"
+msgstr "Modulo SDL"
 
 #: rc.cpp:916
 msgid "SOP/Sat"
@@ -6848,7 +6849,7 @@ msgstr "Salva con nome"
 
 #: src/mainwindow.cpp:408
 msgid "Save As Layout %1"
-msgstr ""
+msgstr "Salva come disposizione dell'interfaccia %1"
 
 #: src/dvdwizard.cpp:719
 msgid "Save DVD Project"
@@ -6859,14 +6860,12 @@ msgid "Save Effect"
 msgstr "Salva effetto"
 
 #: src/mainwindow.cpp:1692
-#, fuzzy
 msgid "Save Layout"
-msgstr "Salva selezione"
+msgstr "Salva disposizione interfaccia"
 
 #: rc.cpp:5614
-#, fuzzy
 msgid "Save Layout As"
-msgstr "Salva con nome"
+msgstr "Salva la disposizione dell'interfaccia come..."
 
 #: rc.cpp:3078 rc.cpp:5108
 msgid "Save Profile"
@@ -6877,9 +6876,8 @@ msgid "Save Title"
 msgstr "Salva titolo"
 
 #: src/mainwindow.cpp:1666
-#, fuzzy
 msgid "Save as %1"
-msgstr "Salva con nome"
+msgstr "Salva come %1"
 
 #: src/mainwindow.cpp:659 src/mainwindow.cpp:1853
 msgid "Save changes to document?"
@@ -6894,23 +6892,20 @@ msgid "Save effect"
 msgstr "Salva effetto"
 
 #: src/mainwindow.cpp:3182
-#, fuzzy
 msgid "Save in project only"
-msgstr "Salva il progetto DVD"
+msgstr "Salva solamente nel progetto"
 
 #: src/profilesdialog.cpp:52 src/profilesdialog.cpp:95
 msgid "Save profile"
 msgstr "Salva profilo"
 
 #: rc.cpp:5551
-#, fuzzy
 msgid "Save to"
-msgstr "Salva selezione"
+msgstr "Salva su"
 
 #: src/mainwindow.cpp:3182
-#, fuzzy
 msgid "Save to title file"
-msgstr "Salva profilo"
+msgstr "Salva titolo come"
 
 #: src/monitor.cpp:276
 msgid "Save zone"
@@ -6929,9 +6924,8 @@ msgid "Scale Y"
 msgstr "Riscala Y"
 
 #: rc.cpp:850
-#, fuzzy
 msgid "Scale and Tilt"
-msgstr "Scale0tilt"
+msgstr "Riscalatura e inclinazione"
 
 #: rc.cpp:852
 msgid "Scales, Tilts and Crops an Image"
@@ -6948,11 +6942,11 @@ msgstr "Scansione"
 
 #: rc.cpp:1285
 msgid "Scratchlines"
-msgstr ""
+msgstr "Graffi"
 
 #: rc.cpp:1287
 msgid "Scratchlines over the picture"
-msgstr ""
+msgstr "Graffi sull'immagine"
 
 #: rc.cpp:2301 rc.cpp:4331
 msgid "Screen Grab"
@@ -6999,9 +6993,8 @@ msgid "Search recursively"
 msgstr "Cerca ricorsivamente"
 
 #: rc.cpp:493 rc.cpp:522
-#, fuzzy
 msgid "Search scale"
-msgstr "Cerca manualmente"
+msgstr ""
 
 #: rc.cpp:3369 rc.cpp:5399
 msgid "Seek to active keyframe"
@@ -7048,9 +7041,8 @@ msgid "Select border color"
 msgstr "Selezione colore del bordo"
 
 #: rc.cpp:3273 rc.cpp:5303
-#, fuzzy
 msgid "Select capture format"
-msgstr "Formato di registrazione"
+msgstr "Seleziona formato di registrazione"
 
 #: src/customtrackview.cpp:3837
 msgid "Select clip to change speed"
@@ -7089,9 +7081,8 @@ msgid "Select text items in current selection"
 msgstr "Seleziona gli elementi testuali della selezione attuale"
 
 #: src/wizard.cpp:177
-#, fuzzy
 msgid "Select your default video4linux device"
-msgstr "Seleziona il programma per eseguire i video"
+msgstr "Seleziona il dispositivo video4linux predefinito"
 
 #: rc.cpp:2850 rc.cpp:4880
 msgid "Selected zone"
@@ -7119,12 +7110,11 @@ msgstr "Seleziona tutti gli elementi sul livello"
 
 #: src/stopmotion/stopmotion.cpp:147
 msgid "Send frames to color scopes"
-msgstr ""
+msgstr "Invia i fotogrammi ai diagrammi di colore"
 
 #: rc.cpp:674
-#, fuzzy
 msgid "Sensitivity"
-msgstr "Intensità"
+msgstr "Sensibilità"
 
 #: rc.cpp:1297
 msgid "Sepia"
@@ -7132,12 +7122,11 @@ msgstr "Sepia"
 
 #: rc.cpp:2596 rc.cpp:2599 rc.cpp:4626 rc.cpp:4629
 msgid "Sequence name"
-msgstr ""
+msgstr "Nome della sequenza"
 
 #: src/projectlist.cpp:2149
-#, fuzzy
 msgid "Sequence not found"
-msgstr "File non trovato"
+msgstr "Sequenza non trovata"
 
 #: src/mainwindow.cpp:1226
 msgid "Set Zone In"
@@ -7225,9 +7214,8 @@ msgid "Shifts the hue of a source image"
 msgstr "Aumenta la luminosità di un'immagine sorgente"
 
 #: src/dragvalue.cpp:125
-#, fuzzy
 msgid "Show %1 in timeline"
-msgstr "Mostra i fotogrammi chiave nella timeline"
+msgstr "Mostra %1 nella timeline"
 
 #: rc.cpp:3255 rc.cpp:5285
 msgid "Show All"
@@ -7246,11 +7234,8 @@ msgid "Show additional controls"
 msgstr ""
 
 #: src/effectstackview.cpp:77
-#, fuzzy
 msgid "Show additional information for the parameters"
-msgstr ""
-"<small>Nessuna informazione aggiuntiva disponibile per questo carattere.</"
-"small>"
+msgstr "Mostra informazioni aggiuntive dei parametri"
 
 #: rc.cpp:778
 msgid "Show alpha"
@@ -7281,9 +7266,8 @@ msgid "Show brightness statistics"
 msgstr ""
 
 #: rc.cpp:514
-#, fuzzy
 msgid "Show ellipse"
-msgstr "Mostra la Timeline"
+msgstr "Mostra ellissi"
 
 #: rc.cpp:416
 msgid "Show graph in picture"
@@ -7314,14 +7298,12 @@ msgid "Show maximum"
 msgstr ""
 
 #: src/geometrywidget.cpp:58
-#, fuzzy
 msgid "Show previous keyframe"
-msgstr "Vai al fotogramma chiave precedente"
+msgstr "Mostra il fotogramma chiave precedente"
 
 #: src/stopmotion/stopmotion.cpp:221
-#, fuzzy
 msgid "Show sequence thumbnails"
-msgstr "Mostra le anteprime"
+msgstr "Mostra le anteprime della sequenza"
 
 #: rc.cpp:3231 rc.cpp:5261
 msgid "Show thumbnails"
@@ -7332,9 +7314,8 @@ msgid "Show video thumbnails"
 msgstr "Mostra l'anteprima video"
 
 #: src/monitoreditwidget.cpp:50
-#, fuzzy
 msgid "Show/Hide edit mode"
-msgstr "Mostra/nascondi le opzioni"
+msgstr "Mostra/Nascondi modalità di modifica"
 
 #: src/geometryval.cpp:88
 msgid "Show/Hide options"
@@ -7345,9 +7326,8 @@ msgid "Show/Hide the effect description"
 msgstr "Mostra/nascondi la descrizione dell'effetto"
 
 #: src/cornerswidget.cpp:56
-#, fuzzy
 msgid "Show/Hide the lines connecting the corners"
-msgstr "Mostra/nascondi la descrizione dell'effetto"
+msgstr "Mostra/nascondi le linee di collegamento degli angoli"
 
 #: src/databackup/backupwidget.cpp:37
 msgid "Showing all backup files in folder"
@@ -7432,7 +7412,6 @@ msgid "Slideshow clip"
 msgstr "Clip presentazione"
 
 #: src/archivewidget.cpp:72 src/projectsettings.cpp:233
-#, fuzzy
 msgid "Slideshow clips"
 msgstr "Clip presentazione"
 
@@ -7457,9 +7436,8 @@ msgid "Smaller tracks"
 msgstr "Traccie più piccole"
 
 #: rc.cpp:502 rc.cpp:531
-#, fuzzy
 msgid "Smallest"
-msgstr "Traccie più piccole"
+msgstr "Più piccolo"
 
 #: src/mainwindow.cpp:1088
 msgid "Snap"
@@ -7470,9 +7448,8 @@ msgid "Sobel"
 msgstr ""
 
 #: rc.cpp:914
-#, fuzzy
 msgid "Sobel filter"
-msgstr "File filmato"
+msgstr "Filtro Sobel"
 
 #: src/initeffects.cpp:811 rc.cpp:1700 rc.cpp:3228 rc.cpp:3730 rc.cpp:5258
 msgid "Softness"
@@ -7604,9 +7581,8 @@ msgid "Spatial"
 msgstr ""
 
 #: src/mainwindow.cpp:310
-#, fuzzy
 msgid "Spectrogram"
-msgstr "Istogramma"
+msgstr "Spettrogramma"
 
 #: rc.cpp:1345 rc.cpp:1371 rc.cpp:1405 rc.cpp:1409
 msgid "Speed"
@@ -7696,19 +7672,16 @@ msgid "Stop Archiving"
 msgstr ""
 
 #: src/mainwindow.cpp:417
-#, fuzzy
 msgid "Stop Motion"
-msgstr "Movimento"
+msgstr "Stop Motion"
 
 #: src/mainwindow.cpp:1600 src/stopmotion/stopmotion.cpp:159
-#, fuzzy
 msgid "Stop Motion Capture"
-msgstr "Area da registrate"
+msgstr "Registrazione Stop Motion"
 
 #: src/stopmotion/stopmotion.cpp:518
-#, fuzzy
 msgid "Stopped"
-msgstr "Interrompi"
+msgstr "Interrotto"
 
 #: rc.cpp:690
 msgid ""
@@ -7731,9 +7704,8 @@ msgid "Stroboscope"
 msgstr "Stroboscopico"
 
 #: rc.cpp:543
-#, fuzzy
 msgid "Stroke width"
-msgstr "Larghezza del bordo"
+msgstr ""
 
 #: rc.cpp:894
 msgid "Subspace shape"
@@ -7744,9 +7716,8 @@ msgid "Sum"
 msgstr "Somma"
 
 #: src/kdenlivesettingsdialog.cpp:261 src/kdenlivesettingsdialog.cpp:304
-#, fuzzy
 msgid "Supported capture modes:\n"
-msgstr "Codec audio non supportato: %1"
+msgstr "Modalità di registrazione supportate:\n"
 
 #: rc.cpp:1162
 msgid "Surface warping"
@@ -7765,9 +7736,8 @@ msgid "Switch monitor"
 msgstr "Cambio monitor"
 
 #: src/mainwindow.cpp:1241
-#, fuzzy
 msgid "Switch monitor fullscreen"
-msgstr "Cambio monitor"
+msgstr "Visualizza a schermo intero"
 
 #: src/geometryval.cpp:96
 msgid "Sync timeline cursor"
@@ -7790,9 +7760,8 @@ msgid "Target"
 msgstr "Destinazione"
 
 #: rc.cpp:1417
-#, fuzzy
 msgid "Technicolor"
-msgstr "Colore bianco"
+msgstr "Technicolor"
 
 #: rc.cpp:962
 msgid "TehRoxx0r"
@@ -7815,9 +7784,8 @@ msgid "Template:"
 msgstr "Modelli:"
 
 #: rc.cpp:597
-#, fuzzy
 msgid "Temporal"
-msgstr "File temporanei"
+msgstr ""
 
 #: rc.cpp:3033 rc.cpp:5063
 msgid "Temporary data folder"
@@ -7840,7 +7808,6 @@ msgid "Text clip"
 msgstr "Clip di testo"
 
 #: src/archivewidget.cpp:76 src/projectsettings.cpp:236
-#, fuzzy
 msgid "Text clips"
 msgstr "Clip di testo"
 
@@ -8113,9 +8080,8 @@ msgid "Timeout while creating xml output"
 msgstr ""
 
 #: rc.cpp:992
-#, fuzzy
 msgid "Tint"
-msgstr "Tint0r"
+msgstr ""
 
 #: rc.cpp:1000
 msgid "Tint amount"
@@ -8166,7 +8132,6 @@ msgid "Tool"
 msgstr "Strumenti"
 
 #: src/colorscopes/vectorscope.cpp:81
-#, fuzzy
 msgid "Tools"
 msgstr "Strumenti"
 
@@ -8195,9 +8160,8 @@ msgid "Track height"
 msgstr "Altezza della traccia"
 
 #: src/audioscopes/audiospectrum.cpp:61 src/audioscopes/spectrogram.cpp:47
-#, fuzzy
 msgid "Track mouse"
-msgstr "Traccie"
+msgstr "Traccia il mouse"
 
 #: rc.cpp:5572
 msgid "Tracks"
