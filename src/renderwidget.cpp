@@ -67,8 +67,7 @@ const int FINISHEDJOB = 2;
 RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, QWidget * parent) :
         QDialog(parent),
         m_projectFolder(projectfolder),
-        m_blockProcessing(false),
-        m_isPal(true)
+        m_blockProcessing(false)
 {
     m_view.setupUi(this);
     setWindowTitle(i18n("Rendering"));
@@ -985,11 +984,6 @@ int RenderWidget::waitingJobsCount() const
 void RenderWidget::setProfile(MltVideoProfile profile)
 {
     m_profile = profile;
-    //WARNING: this way to tell the video standard is a bit hackish...
-    if (m_profile.description.contains("pal", Qt::CaseInsensitive) || m_profile.description.contains("25", Qt::CaseInsensitive) || m_profile.description.contains("50", Qt::CaseInsensitive))
-        m_isPal = true;
-    else
-        m_isPal = false;
     m_view.scanning_list->setCurrentIndex(0);
     m_view.rescale_width->setValue(KdenliveSettings::defaultrescalewidth());
     if (!m_view.rescale_keep->isChecked()) {
@@ -1086,8 +1080,9 @@ void RenderWidget::refreshView()
         if ((sizeItem->data(GroupRole).toString() == group || sizeItem->data(GroupRole).toString().isEmpty()) && sizeItem->data(MetaGroupRole).toString() == destination) {
             std = sizeItem->data(StandardRole).toString();
             if (!std.isEmpty()) {
-                if (std.contains("PAL", Qt::CaseInsensitive) && m_isPal) dupItem = sizeItem->clone();
-                else if (std.contains("NTSC", Qt::CaseInsensitive) && !m_isPal)  dupItem = sizeItem->clone();
+                if ((std.contains("PAL", Qt::CaseInsensitive) && m_profile.frame_rate_num == 25 && m_profile.frame_rate_den == 1) ||
+                    (std.contains("NTSC", Qt::CaseInsensitive) && m_profile.frame_rate_num == 30000 && m_profile.frame_rate_den == 1001))
+                    dupItem = sizeItem->clone();
             } else {
                 dupItem = sizeItem->clone();
             }
@@ -1172,7 +1167,10 @@ void RenderWidget::refreshView()
     focusFirstVisibleItem();
     m_view.size_list->blockSignals(false);
     m_view.format_list->blockSignals(false);
-    refreshParams();
+    if (m_view.size_list->count() > 0)
+        refreshParams();
+    else
+        m_view.advanced_params->clear();
 }
 
 KUrl RenderWidget::filenameWithExtension(KUrl url, QString extension)

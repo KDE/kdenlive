@@ -179,7 +179,6 @@ private:
     RenderViewDelegate *m_jobsDelegate;
     bool m_blockProcessing;
     QString m_renderer;
-    bool m_isPal;
     void parseProfiles(QString meta = QString(), QString group = QString(), QString profile = QString());
     void parseFile(QString exportFile, bool editable);
     void updateButtons();
