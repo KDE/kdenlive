@@ -2891,9 +2891,16 @@ void CustomTrackView::slotRemoveSpace()
     int track = 0;
     if (m_menuPosition.isNull()) {
         pos = GenTime(cursorPos(), m_document->fps());
-        bool ok;
-        track = QInputDialog::getInteger(this, i18n("Remove Space"), i18n("Track"), 0, 0, m_document->tracksCount() - 1, 1, &ok);
-        if (!ok) return;
+
+        TrackDialog d(m_document, parentWidget());
+        d.comboTracks->setCurrentIndex(m_selectedTrack);
+        d.label->setText(i18n("Track"));
+        d.before_select->setHidden(true);
+        d.setWindowTitle(i18n("Remove Space"));
+        d.video_track->setHidden(true);
+        d.audio_track->setHidden(true);
+        if (d.exec() != QDialog::Accepted) return;
+        track = d.comboTracks->currentIndex();
     } else {
         pos = GenTime((int)(mapToScene(m_menuPosition).x()), m_document->fps());
         track = (int)(mapToScene(m_menuPosition).y() / m_tracksHeight);
@@ -2910,7 +2917,6 @@ void CustomTrackView::slotRemoveSpace()
         return;
     }
     int length = m_document->renderer()->mltGetSpaceLength(pos, m_document->tracksCount() - track, true);
-    //kDebug() << "// GOT LENGT; " << length;
     if (length <= 0) {
         emit displayMessage(i18n("You must be in an empty space to remove space (time: %1, track: %2)", m_document->timecode().getTimecodeFromFrames(mapToScene(m_menuPosition).x()), track), ErrorMessage);
         return;
@@ -2940,6 +2946,38 @@ void CustomTrackView::slotRemoveSpace()
                 transitionsToMove.append(info);
             }
         }
+    }
+
+    if (!transitionsToMove.isEmpty()) {
+        // Make sure that by moving the items, we don't get a transition collision
+        // Find first transition
+        ItemInfo info = transitionsToMove.at(0);
+        for (int i = 1; i < transitionsToMove.count(); i++)
+            if (transitionsToMove.at(i).startPos < info.startPos) info = transitionsToMove.at(i);
+
+        // make sure there are no transitions on the way
+        QRectF rect(info.startPos.frames(m_document->fps()) - length, track * m_tracksHeight + m_tracksHeight / 2, length - 1, m_tracksHeight / 2 - 2);
+        items = scene()->items(rect);
+        int transitionCorrection = -1;
+        for (int i = 0; i < items.count(); i++) {
+            if (items.at(i)->type() == TRANSITIONWIDGET) {
+                // There is a transition on the way
+                AbstractClipItem *item = static_cast <AbstractClipItem *>(items.at(i));
+                int transitionEnd = item->endPos().frames(m_document->fps());
+                if (transitionEnd > transitionCorrection) transitionCorrection = transitionEnd;
+            }
+        }
+
+        if (transitionCorrection > 0) {
+            // We need to fix the move length
+            length = info.startPos.frames(m_document->fps()) - transitionCorrection;
+        }
+            
+        // Make sure we don't send transition before 0
+        if (info.startPos.frames(m_document->fps()) < length) {
+            // reduce length to maximum possible
+            length = info.startPos.frames(m_document->fps());
+        }           
     }
 
     InsertSpaceCommand *command = new InsertSpaceCommand(this, clipsToMove, transitionsToMove, track, GenTime(-length, m_document->fps()), true);
