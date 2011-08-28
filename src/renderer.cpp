@@ -51,6 +51,7 @@
 
 static void kdenlive_callback(void* /*ptr*/, int level, const char* fmt, va_list vl)
 {
+//     kDebug() << "log level" << level << QString().vsprintf(fmt, vl).simplified();
     if (level > MLT_LOG_ERROR) return;
     QString error;
     QApplication::postEvent(qApp->activeWindow(), new MltErrorEvent(error.vsprintf(fmt, vl).simplified()));
@@ -1051,11 +1052,9 @@ int Render::setSceneList(QString playlist, int position)
     }
 
     blockSignals(true);
-    // WARNING: disabled because it caused crashes (see Kdenlive bug #2205 and #2206) - jbm
-    /*if (KdenliveSettings::projectloading_avformatnovalidate())
-        playlist.replace(">avformat</property>", ">avformat-novalidate</property>");
-    else
-        playlist.replace(">avformat-novalidate</property>", ">avformat</property>");*/
+
+    m_locale = QLocale();
+
     m_mltProducer = new Mlt::Producer(*m_mltProfile, "xml-string", playlist.toUtf8().constData());
     if (!m_mltProducer || !m_mltProducer->is_valid()) {
         kDebug() << " WARNING - - - - -INVALID PLAYLIST: " << playlist.toUtf8().constData();

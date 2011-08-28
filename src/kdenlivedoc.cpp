@@ -52,7 +52,7 @@
 
 #include <mlt++/Mlt.h>
 
-const double DOCUMENTVERSION = 0.87;
+const double DOCUMENTVERSION = 0.88;
 
 KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, QString profileName, QMap <QString, QString> properties, const QPoint tracks, Render *render, KTextEdit *notes, bool *openBackup, MainWindow *parent, KProgressDialog *progressDialog) :
     QObject(parent),
@@ -93,6 +93,12 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
     while (i.hasNext()) {
         i.next();
         m_documentProperties[i.key()] = i.value();
+    }
+
+    if (QLocale() != QLocale::system()) {
+        QLocale::setDefault(QLocale::system());
+        // locale conversion might need to be redone
+        initEffects::parseEffectFiles();
     }
 
     *openBackup = false;
@@ -972,7 +978,6 @@ void KdenliveDoc::setUrl(KUrl url)
 
 void KdenliveDoc::setModified(bool mod)
 {
-    if (isReadOnly()) return;
     if (!m_url.isEmpty() && mod && KdenliveSettings::crashrecovery()) {
         m_autoSaveTimer->start(3000);
     }
@@ -1635,11 +1640,6 @@ void KdenliveDoc::backupLastSavedVersion(const QString &path)
             KMessageBox::information(kapp->activeWindow(), i18n("Cannot create backup copy:\n%1", backupFile.path()));
         }
     }    
-}
-
-bool KdenliveDoc::isReadOnly() const
-{
-    return m_documentProperties.contains("readonly");
 }
 
 void KdenliveDoc::cleanupBackupFiles()

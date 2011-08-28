@@ -2086,13 +2086,6 @@ void MainWindow::doOpenFile(const KUrl &url, KAutoSaveFile *stale)
     m_clipMonitor->refreshMonitor(true);
 
     progressDialog.progressBar()->setValue(4);
-    bool readOnly = !doc->isReadOnly();
-    factory()->container("edit", this)->setEnabled(readOnly);
-    factory()->container("project", this)->setEnabled(readOnly);
-    factory()->container("tool", this)->setEnabled(readOnly);
-    factory()->container("clip", this)->setEnabled(readOnly);
-    factory()->container("timeline", this)->setEnabled(readOnly);
-    factory()->container("monitor", this)->setEnabled(readOnly);
     if (openBackup) slotOpenBackupDialog(url);
 }
 
@@ -2373,7 +2366,7 @@ void MainWindow::slotUpdateMousePosition(int pos)
 
 void MainWindow::slotUpdateDocumentState(bool modified)
 {
-    if (!m_activeDocument || m_activeDocument->isReadOnly()) return;
+    if (!m_activeDocument) return;
     setCaption(m_activeDocument->description(), modified);
     m_saveAction->setEnabled(modified);
     if (modified) {

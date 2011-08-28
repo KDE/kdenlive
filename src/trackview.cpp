@@ -118,7 +118,6 @@ TrackView::TrackView(KdenliveDoc *doc, bool *ok, QWidget *parent) :
 
     slotChangeZoom(m_doc->zoom().x(), m_doc->zoom().y());
     slotSetZone(m_doc->zone(), false);
-    setEnabled(!doc->isReadOnly());
 }
 
 TrackView::~TrackView()
@@ -200,7 +199,6 @@ void TrackView::parseDocument(QDomDocument doc)
 
     // parse project tracks
     QDomElement mlt = doc.firstChildElement("mlt");
-    if (mlt.hasAttribute("LC_NUMERIC")) m_locale = QLocale(mlt.attribute("LC_NUMERIC"));
     QDomElement tractor = mlt.firstChildElement("tractor");
     QDomNodeList tracks = tractor.elementsByTagName("track");
     QDomNodeList playlists = doc.elementsByTagName("playlist");

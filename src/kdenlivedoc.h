@@ -162,8 +162,6 @@ Q_OBJECT public:
     static double getDisplayRatio(const QString &path);
     /** @brief Backup the project file */
     void backupLastSavedVersion(const QString &path);
-    /** @brief True if the document was opened in read only mode. */
-    bool isReadOnly() const;
     
 private:
     KUrl m_url;

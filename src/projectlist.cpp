@@ -1522,7 +1522,6 @@ void ProjectList::setDocument(KdenliveDoc *doc)
     m_timecode = doc->timecode();
     m_commandStack = doc->commandStack();
     m_doc = doc;
-    setEnabled(!m_doc->isReadOnly());
 
     QMap <QString, QString> flist = doc->clipManager()->documentFolderList();
     QStringList openedFolders = doc->getExpandedFolders();

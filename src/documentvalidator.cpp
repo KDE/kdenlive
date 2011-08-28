@@ -20,6 +20,7 @@
 
 #include "documentvalidator.h"
 #include "definitions.h"
+#include "initeffects.h"
 
 #include <KDebug>
 #include <KMessageBox>
@@ -55,16 +56,17 @@ bool DocumentValidator::validate(const double currentVersion)
     if (mlt.hasAttribute("LC_NUMERIC")) {
         // Set locale for the document
         documentLocale = QLocale(mlt.attribute("LC_NUMERIC"));
-        if (documentLocale.decimalPoint() != QLocale().decimalPoint()) {
-            QDomElement docProperties = kdenliveDoc.firstChildElement("documentproperties");
-            if (docProperties.isNull()) {
-                docProperties = m_doc.createElement("documentproperties");
-                kdenliveDoc.appendChild(docProperties);
-            }
-            docProperties.setAttribute("readonly", 1);
-            KMessageBox::sorry(kapp->activeWindow(), i18n("The document you are opening uses a different locale (%1) than your system. You can only open and render it, no editing is supported unless you change your system's locale.", mlt.attribute("LC_NUMERIC")), i18n("Read only project"));
-        }
     }
+
+    if (documentLocale != QLocale()) {
+        QLocale::setDefault(documentLocale);
+        // locale conversion might need to be redone
+        initEffects::parseEffectFiles();
+    }
+
+    // TODO: remove after string freeze
+    if (0)
+        KMessageBox::sorry(kapp->activeWindow(), i18n("The document you are opening uses a different locale (%1) than your system. You can only open and render it, no editing is supported unless you change your system's locale.", mlt.attribute("LC_NUMERIC")), i18n("Read only project"));
 
     // Upgrade the document to the latest version
     if (!upgrade(documentLocale.toDouble(kdenliveDoc.attribute("version")), currentVersion))
@@ -903,6 +905,12 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 }
             }
             delete g;
+        }
+    }
+
+    if (version <= 0.87) {
+        if (!m_doc.firstChildElement("mlt").hasAttribute("LC_NUMERIC")) {
+            m_doc.firstChildElement("mlt").setAttribute("LC_NUMERIC", "C");
         }
     }
 
