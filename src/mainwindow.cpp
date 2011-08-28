@@ -154,7 +154,6 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     new MainWindowAdaptor(this);
     QDBusConnection dbus = QDBusConnection::sessionBus();
     dbus.registerObject("/MainWindow", this);
-    //setlocale(LC_NUMERIC, "POSIX");
     if (!KdenliveSettings::colortheme().isEmpty()) slotChangePalette(NULL, KdenliveSettings::colortheme());
     setFont(KGlobalSettings::toolBarFont());
     parseProfiles(MltPath);

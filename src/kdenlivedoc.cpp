@@ -53,6 +53,9 @@
 
 #include <mlt++/Mlt.h>
 
+#include "locale.h"
+
+
 const double DOCUMENTVERSION = 0.88;
 
 KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, QString profileName, QMap <QString, QString> properties, const QPoint tracks, Render *render, KTextEdit *notes, bool *openBackup, MainWindow *parent, KProgressDialog *progressDialog) :
@@ -96,7 +99,10 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
         m_documentProperties[i.key()] = i.value();
     }
 
-    if (QLocale() != QLocale::system()) {
+    QLocale locale = QLocale::system();
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
+    if (QLocale() != locale) {
+        setlocale(LC_NUMERIC, "");
         QLocale::setDefault(QLocale::system());
         // locale conversion might need to be redone
         initEffects::parseEffectFiles();

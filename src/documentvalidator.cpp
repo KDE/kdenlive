@@ -29,8 +29,11 @@
 
 #include <QFile>
 #include <QColor>
+#include <QString>
 
 #include <mlt++/Mlt.h>
+
+#include "locale.h"
 
 
 DocumentValidator::DocumentValidator(QDomDocument doc):
@@ -51,12 +54,16 @@ bool DocumentValidator::validate(const double currentVersion)
         return false;
 
     // Previous MLT / Kdenlive versions used C locale by default
-    QLocale documentLocale("C");
+    QLocale documentLocale = QLocale::c();
     
     if (mlt.hasAttribute("LC_NUMERIC")) {
         // Set locale for the document
+        // WARNING: what should be done in case the locale does not exist on the system?
+        setlocale(LC_NUMERIC, mlt.attribute("LC_NUMERIC").toUtf8().constData());
         documentLocale = QLocale(mlt.attribute("LC_NUMERIC"));
     }
+
+    documentLocale.setNumberOptions(QLocale::OmitGroupSeparator);
 
     if (documentLocale != QLocale()) {
         QLocale::setDefault(documentLocale);
