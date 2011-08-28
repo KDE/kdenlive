@@ -39,6 +39,7 @@
 #include <KFileDialog>
 #include <KIO/NetAccess>
 #include <KIO/CopyJob>
+#include <KIO/JobUiDelegate>
 #include <KApplication>
 #include <KGlobal>
 #include <KBookmarkManager>
@@ -766,6 +767,7 @@ void KdenliveDoc::setProjectFolder(KUrl url)
 void KdenliveDoc::moveProjectData(KUrl url)
 {
     QList <DocClipBase*> list = m_clipManager->documentClipList();
+    KUrl::List cacheUrls;
     for (int i = 0; i < list.count(); i++) {
         DocClipBase *clip = list.at(i);
         if (clip->clipType() == TEXT) {
@@ -779,15 +781,16 @@ void KdenliveDoc::moveProjectData(KUrl url)
         KUrl oldVideoThumbUrl = KUrl(m_projectFolder.path(KUrl::AddTrailingSlash) + "thumbs/" + hash + ".png");
         KUrl oldAudioThumbUrl = KUrl(m_projectFolder.path(KUrl::AddTrailingSlash) + "thumbs/" + hash + ".thumb");
         if (KIO::NetAccess::exists(oldVideoThumbUrl, KIO::NetAccess::SourceSide, 0)) {
-            KUrl newUrl = KUrl(url.path(KUrl::AddTrailingSlash) + "thumbs/" + hash + ".png");
-            KIO::Job *job = KIO::copy(oldVideoThumbUrl, newUrl);
-            KIO::NetAccess::synchronousRun(job, 0);
+            cacheUrls << oldVideoThumbUrl;
         }
         if (KIO::NetAccess::exists(oldAudioThumbUrl, KIO::NetAccess::SourceSide, 0)) {
-            KUrl newUrl = KUrl(url.path(KUrl::AddTrailingSlash) + "thumbs/" + hash + ".thumb");
-            KIO::Job *job = KIO::copy(oldAudioThumbUrl, newUrl);
-            if (KIO::NetAccess::synchronousRun(job, 0)) clip->refreshThumbUrl();
+            cacheUrls << oldAudioThumbUrl;
         }
+    }
+    if (!cacheUrls.isEmpty()) {
+        KIO::Job *job = KIO::copy(cacheUrls, KUrl(url.path(KUrl::AddTrailingSlash) + "thumbs/"));
+        job->ui()->setWindow(kapp->activeWindow());
+        KIO::NetAccess::synchronousRun(job, 0);
     }
 }
 
