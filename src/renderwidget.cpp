@@ -791,7 +791,6 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
         // Add current size parameter
         renderArgs.append(subsize);
     }
-    bool resizeProfile = (subsize != currentSize);
     QStringList paramsList = renderArgs.split(" ", QString::SkipEmptyParts);
 
     QScriptEngine sEngine;
@@ -802,10 +801,6 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
     for (int i = 0; i < paramsList.count(); ++i) {
         QString paramName = paramsList.at(i).section('=', 0, 0);
         QString paramValue = paramsList.at(i).section('=', 1, 1);
-        // If the profiles do not match we need to use the consumer tag
-        if (paramName == "mlt_profile=" && paramValue != m_profile.path) {
-            resizeProfile = true;
-        }
         // evaluate expression
         if (paramValue.startsWith('%')) {
             paramValue = sEngine.evaluate(paramValue.remove(0, 1)).toString();
@@ -814,10 +809,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
         sEngine.globalObject().setProperty(paramName.toUtf8().constData(), paramValue);
     }
 
-    if (resizeProfile)
-        render_process_args << "consumer:" + (scriptExport ? "$SOURCE" : playlistPath);
-    else
-        render_process_args <<  (scriptExport ? "$SOURCE" : playlistPath);
+    render_process_args <<  (scriptExport ? "$SOURCE" : playlistPath);
     render_process_args << (scriptExport ? "$TARGET" : KUrl(dest).url());
     render_process_args << paramsList;
 
