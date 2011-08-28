@@ -72,7 +72,10 @@ RenderJob::RenderJob(bool erase, bool usekuiserver, const QString& renderer, con
 
     m_args << preargs;
     //qDebug()<<"PRE ARGS: "<<preargs;
-    m_args << "-profile" << profile;
+    if (scenelist.startsWith("consumer:")) {
+        // Use MLT's producer_consumer, needs a different syntax for profile:
+        m_args << "profile=" + profile;
+    } else m_args << "-profile" << profile;
     m_args << "-consumer" << rendermodule + ':' + m_dest << "progress=1" << args;
 
     m_dualpass = false;
