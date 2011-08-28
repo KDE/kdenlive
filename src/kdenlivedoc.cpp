@@ -99,9 +99,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
         m_documentProperties[i.key()] = i.value();
     }
 
-    QLocale locale = QLocale::system();
-    locale.setNumberOptions(QLocale::OmitGroupSeparator);
-    if (QLocale() != locale) {
+    if (QLocale() != QLocale::system()) {
         setlocale(LC_NUMERIC, "");
         QLocale::setDefault(QLocale::system());
         // locale conversion might need to be redone

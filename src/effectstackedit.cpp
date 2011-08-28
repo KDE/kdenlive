@@ -647,6 +647,7 @@ void EffectStackEdit::collectAllParameters()
 {
     if (m_valueItems.isEmpty() || m_params.isNull()) return;
     QLocale locale;
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     const QDomElement oldparam = m_params.cloneNode().toElement();
     QDomElement newparam = oldparam.cloneNode().toElement();
     QDomNodeList namenode = newparam.elementsByTagName("parameter");

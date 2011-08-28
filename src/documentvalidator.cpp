@@ -63,8 +63,6 @@ bool DocumentValidator::validate(const double currentVersion)
         documentLocale = QLocale(mlt.attribute("LC_NUMERIC"));
     }
 
-    documentLocale.setNumberOptions(QLocale::OmitGroupSeparator);
-
     if (documentLocale != QLocale()) {
         QLocale::setDefault(documentLocale);
         // locale conversion might need to be redone
