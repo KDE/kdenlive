@@ -1473,13 +1473,13 @@ const QString & Render::rendererName() const
 
 void Render::emitFrameUpdated(Mlt::Frame& frame)
 {
-    mlt_image_format format = mlt_image_rgb24a;
+    mlt_image_format format = mlt_image_rgb24;
     int width = 0;
     int height = 0;
     const uchar* image = frame.get_image(format, width, height);
-    QImage qimage(width, height, QImage::Format_ARGB32);
-    memcpy(qimage.bits(), image, width * height * 4);
-    emit frameUpdated(qimage.rgbSwapped());
+    QImage qimage(width, height, QImage::Format_RGB888);
+    memcpy(qimage.bits(), image, width * height * 3);
+    emit frameUpdated(qimage);
 }
 
 void Render::emitFrameNumber(double position)
