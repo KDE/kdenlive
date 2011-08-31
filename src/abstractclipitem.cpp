@@ -29,7 +29,7 @@
 #include <QToolTip>
 #include <QGraphicsSceneMouseEvent>
 
-AbstractClipItem::AbstractClipItem(const ItemInfo info, const QRectF& rect, double fps) :
+AbstractClipItem::AbstractClipItem(const ItemInfo &info, const QRectF& rect, double fps) :
         QObject(),
         QGraphicsRectItem(rect),
         m_info(info),
@@ -395,7 +395,7 @@ double AbstractClipItem::selectedKeyFrameValue() const
     return m_keyframes.value(m_selectedKeyframe);
 }
 
-void AbstractClipItem::updateKeyFramePos(const GenTime pos, const double value)
+void AbstractClipItem::updateKeyFramePos(const GenTime &pos, const double value)
 {
     if (!m_keyframes.contains(m_editedKeyframe))
         return;
@@ -437,7 +437,7 @@ int AbstractClipItem::keyFrameNumber() const
     return m_keyframes.count();
 }
 
-int AbstractClipItem::addKeyFrame(const GenTime pos, const double value)
+int AbstractClipItem::addKeyFrame(const GenTime &pos, const double value)
 {
     QRectF br = sceneBoundingRect();
     double maxh = 100.0 / br.height() / m_keyframeFactor;
