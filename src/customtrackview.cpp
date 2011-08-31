@@ -1371,7 +1371,7 @@ void CustomTrackView::editItemDuration()
     }
 }
 
-void CustomTrackView::editKeyFrame(const GenTime /*pos*/, const int /*track*/, const int /*index*/, const QString /*keyframes*/)
+void CustomTrackView::editKeyFrame(const GenTime & /*pos*/, const int /*track*/, const int /*index*/, const QString & /*keyframes*/)
 {
     /*ClipItem *clip = getClipItemAt((int)pos.frames(m_document->fps()), track);
     if (clip) {
@@ -1456,7 +1456,7 @@ void CustomTrackView::insertClipCut(DocClipBase *clip, int in, int out)
         splitAudio();
 }
 
-bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint pos)
+bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
 {
     if (data->hasFormat("kdenlive/clip")) {
         m_clipDrag = true;
@@ -3045,7 +3045,7 @@ void CustomTrackView::slotInsertSpace()
     }
 }
 
-void CustomTrackView::insertSpace(QList<ItemInfo> clipsToMove, QList<ItemInfo> transToMove, int track, const GenTime duration, const GenTime offset)
+void CustomTrackView::insertSpace(QList<ItemInfo> clipsToMove, QList<ItemInfo> transToMove, int track, const GenTime &duration, const GenTime &offset)
 {
     int diff = duration.frames(m_document->fps());
     resetSelectionGroup();
@@ -4270,7 +4270,7 @@ Transition *CustomTrackView::getTransitionItemAtStart(GenTime pos, int track)
     return clip;
 }
 
-void CustomTrackView::moveClip(const ItemInfo start, const ItemInfo end, bool refresh)
+void CustomTrackView::moveClip(const ItemInfo &start, const ItemInfo &end, bool refresh)
 {
     if (m_selectionGroup) resetSelectionGroup(false);
     ClipItem *item = getClipItemAt((int) start.startPos.frames(m_document->fps()), start.track);
@@ -4313,7 +4313,7 @@ void CustomTrackView::moveClip(const ItemInfo start, const ItemInfo end, bool re
     if (refresh) m_document->renderer()->doRefresh();
 }
 
-void CustomTrackView::moveGroup(QList <ItemInfo> startClip, QList <ItemInfo> startTransition, const GenTime offset, const int trackOffset, bool reverseMove)
+void CustomTrackView::moveGroup(QList <ItemInfo> startClip, QList <ItemInfo> startTransition, const GenTime &offset, const int trackOffset, bool reverseMove)
 {
     // Group Items
     resetSelectionGroup();
@@ -4431,7 +4431,7 @@ void CustomTrackView::moveGroup(QList <ItemInfo> startClip, QList <ItemInfo> sta
     } else kDebug() << "///////// WARNING; NO GROUP TO MOVE";
 }
 
-void CustomTrackView::moveTransition(const ItemInfo start, const ItemInfo end, bool m_refresh)
+void CustomTrackView::moveTransition(const ItemInfo &start, const ItemInfo &end, bool m_refresh)
 {
     Transition *item = getTransitionItemAt(start.startPos, start.track);
     if (!item) {
@@ -4479,7 +4479,7 @@ void CustomTrackView::moveTransition(const ItemInfo start, const ItemInfo end, b
     setDocumentModified();
 }
 
-void CustomTrackView::resizeClip(const ItemInfo start, const ItemInfo end, bool dontWorry)
+void CustomTrackView::resizeClip(const ItemInfo &start, const ItemInfo &end, bool dontWorry)
 {
     bool resizeClipStart = (start.startPos != end.startPos);
     ClipItem *item = getClipItemAtStart(start.startPos, start.track);
@@ -4983,7 +4983,7 @@ void CustomTrackView::slotDeleteAllClipMarkers(const QString &id)
     m_commandStack->push(deleteMarkers);
 }
 
-void CustomTrackView::addMarker(const QString &id, const GenTime &pos, const QString comment)
+void CustomTrackView::addMarker(const QString &id, const GenTime &pos, const QString &comment)
 {
     DocClipBase *base = m_document->clipManager()->getClipById(id);
     if (!comment.isEmpty()) base->addSnapMarker(pos, comment);
@@ -5015,7 +5015,7 @@ void CustomTrackView::buildGuidesMenu(QMenu *goMenu) const
     goMenu->setEnabled(!m_guides.isEmpty());
 }
 
-void CustomTrackView::editGuide(const GenTime oldPos, const GenTime pos, const QString &comment)
+void CustomTrackView::editGuide(const GenTime &oldPos, const GenTime &pos, const QString &comment)
 {
     if (oldPos > GenTime() && pos > GenTime()) {
         // move guide
@@ -5043,7 +5043,7 @@ void CustomTrackView::editGuide(const GenTime oldPos, const GenTime pos, const Q
     m_document->syncGuides(m_guides);
 }
 
-bool CustomTrackView::addGuide(const GenTime pos, const QString &comment)
+bool CustomTrackView::addGuide(const GenTime &pos, const QString &comment)
 {
     for (int i = 0; i < m_guides.count(); i++) {
         if (m_guides.at(i)->position() == pos) {
@@ -5833,7 +5833,7 @@ void CustomTrackView::autoTransition()
     setDocumentModified();
 }
 
-void CustomTrackView::clipNameChanged(const QString id, const QString name)
+void CustomTrackView::clipNameChanged(const QString &id, const QString &name)
 {
     QList<QGraphicsItem *> list = scene()->items();
     ClipItem *clip = NULL;
@@ -5880,7 +5880,7 @@ void CustomTrackView::getTransitionAvailableSpace(AbstractClipItem *item, GenTim
     }
 }
 
-void CustomTrackView::loadGroups(const QDomNodeList groups)
+void CustomTrackView::loadGroups(const QDomNodeList &groups)
 {
     for (int i = 0; i < groups.count(); i++) {
         QDomNodeList children = groups.at(i).childNodes();
@@ -6554,7 +6554,7 @@ bool CustomTrackView::hasAudio(int track) const
     return false;
 }
 
-void CustomTrackView::slotAddTrackEffect(const QDomElement effect, int ix)
+void CustomTrackView::slotAddTrackEffect(const QDomElement &effect, int ix)
 {
     AddEffectCommand *command = new AddEffectCommand(this, m_document->tracksCount() - ix, GenTime(-1), effect, true);
     m_commandStack->push(command);
@@ -6562,7 +6562,7 @@ void CustomTrackView::slotAddTrackEffect(const QDomElement effect, int ix)
 }
 
 
-EffectsParameterList CustomTrackView::getEffectArgs(const QDomElement effect)
+EffectsParameterList CustomTrackView::getEffectArgs(const QDomElement &effect)
 {
     EffectsParameterList parameters;
     QLocale locale;

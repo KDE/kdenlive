@@ -60,16 +60,16 @@ public:
     void configTracks(QList <TrackInfo> trackInfos);
     int cursorPos();
     void checkAutoScroll();
-    void moveClip(const ItemInfo start, const ItemInfo end, bool refresh);
-    void moveGroup(QList <ItemInfo> startClip, QList <ItemInfo> startTransition, const GenTime offset, const int trackOffset, bool reverseMove = false);
+    void moveClip(const ItemInfo &start, const ItemInfo &end, bool refresh);
+    void moveGroup(QList <ItemInfo> startClip, QList <ItemInfo> startTransition, const GenTime &offset, const int trackOffset, bool reverseMove = false);
     /** move transition, startPos = (old start, old end), endPos = (new start, new end) */
-    void moveTransition(const ItemInfo start, const ItemInfo end, bool m_refresh);
-    void resizeClip(const ItemInfo start, const ItemInfo end, bool dontWorry = false);
+    void moveTransition(const ItemInfo &start, const ItemInfo &end, bool m_refresh);
+    void resizeClip(const ItemInfo &start, const ItemInfo &end, bool dontWorry = false);
     void addClip(QDomElement xml, const QString &clipId, ItemInfo info, EffectsList list = EffectsList(), bool overwrite = false, bool push = false, bool refresh = true);
     void deleteClip(ItemInfo info, bool refresh = true);
     void slotDeleteClipMarker(const QString &comment, const QString &id, const GenTime &position);
     void slotDeleteAllClipMarkers(const QString &id);
-    void addMarker(const QString &id, const GenTime &pos, const QString comment);
+    void addMarker(const QString &id, const GenTime &pos, const QString &comment);
     void setScale(double scaleFactor, double verticalScale);
     void deleteClip(const QString &clipId);
     void slotAddEffect(QDomElement effect, GenTime pos, int track);
@@ -95,7 +95,7 @@ public:
     void slotSeekToPreviousSnap();
     void slotSeekToNextSnap();
     double getSnapPointForPos(double pos);
-    void editKeyFrame(const GenTime pos, const int track, const int index, const QString keyframes);
+    void editKeyFrame(const GenTime &pos, const int track, const int index, const QString &keyframes);
     bool findString(const QString &text);
     void selectFound(QString track, QString pos);
     bool findNextString(const QString &text);
@@ -117,7 +117,7 @@ public:
     void slotInsertSpace();
     /** @brief Prepares removing space. */
     void slotRemoveSpace();
-    void insertSpace(QList<ItemInfo> clipsToMove, QList<ItemInfo> transToMove, int track, const GenTime duration, const GenTime offset);
+    void insertSpace(QList<ItemInfo> clipsToMove, QList<ItemInfo> transToMove, int track, const GenTime &duration, const GenTime &offset);
     ClipItem *getActiveClipUnderCursor(bool allowOutsideCursor = false) const;
     void deleteTimelineTrack(int ix, TrackInfo trackinfo);
     void saveThumbnails();
@@ -133,7 +133,7 @@ public:
     void lockTrack(int ix, bool lock, bool requestUpdate = true);
     void groupClips(bool group = true);
     void doGroupClips(QList <ItemInfo> clipInfos, QList <ItemInfo> transitionInfos, bool group);
-    void loadGroups(const QDomNodeList groups);
+    void loadGroups(const QDomNodeList &groups);
 
     /** @brief Creates SplitAudioCommands for selected clips. */
     void splitAudio();
@@ -209,7 +209,7 @@ public slots:
      * @param t Position of the marker
      * @param c Comment of the marker */
     void slotAddClipMarker(const QString &id, GenTime t, QString c);
-    bool addGuide(const GenTime pos, const QString &comment);
+    bool addGuide(const GenTime &pos, const QString &comment);
 
     /** @brief Shows a dialog for adding a guide.
      * @param dialog (default = true) false = do not show the dialog but use current position as position and comment */
@@ -218,7 +218,7 @@ public slots:
     void slotEditGuide(int guidePos = -1);
     void slotDeleteGuide(int guidePos = -1);
     void slotDeleteAllGuides();
-    void editGuide(const GenTime oldPos, const GenTime pos, const QString &comment);
+    void editGuide(const GenTime &oldPos, const GenTime &pos, const QString &comment);
     void copyClip();
     void pasteClip();
     void pasteClipEffects();
@@ -231,7 +231,7 @@ public slots:
     void slotDeleteTrack(int ix);
     /** @brief Shows the configure tracks dialog. */
     void slotConfigTracks(int ix);
-    void clipNameChanged(const QString id, const QString name);
+    void clipNameChanged(const QString &id, const QString &name);
     void slotTrackUp();
     void slotTrackDown();
     void slotSelectTrack(int ix);
@@ -259,7 +259,7 @@ public slots:
     /** @brief Add en effect to a track.
     * @param effect The new effect xml
     * @param ix The track index */
-    void slotAddTrackEffect(const QDomElement effect, int ix);
+    void slotAddTrackEffect(const QDomElement &effect, int ix);
 
     /** @brief Update the list of snap points (sticky timeline hotspots).
     * @param selected The currently selected clip if any
@@ -357,7 +357,7 @@ private:
     /** Get the index of the video track that is just below current track */
     int getPreviousVideoTrack(int track);
     void updatePositionEffects(ClipItem * item, ItemInfo info, bool standalone = true);
-    bool insertDropClips(const QMimeData *data, const QPoint pos);
+    bool insertDropClips(const QMimeData *data, const QPoint &pos);
     bool canBePastedTo(QList <ItemInfo> infoList, int type) const;
     bool canBePasted(QList<AbstractClipItem *> items, GenTime offset, int trackOffset) const;
     bool canBeMoved(QList<AbstractClipItem *> items, GenTime offset, int trackOffset) const;
@@ -410,7 +410,7 @@ private:
     void razorGroup(AbstractGroupItem *group, GenTime cutPos);
 
     /** @brief Gets the effect parameters that will be passed to Mlt. */
-    EffectsParameterList getEffectArgs(const QDomElement effect);
+    EffectsParameterList getEffectArgs(const QDomElement &effect);
 
     /** @brief Update Tracknames to fit again after track was added/deleted.
      * @param track Number of track which was added/deleted
@@ -464,7 +464,7 @@ signals:
     void activateDocumentMonitor();
     void trackHeightChanged();
     void tracksChanged();
-    void displayMessage(const QString, MessageType);
+    void displayMessage(const QString &, MessageType);
     void showClipFrame(DocClipBase *, QPoint, const int);
     void doTrackLock(int, bool);
     void updateClipMarkers(DocClipBase *);
