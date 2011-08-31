@@ -509,7 +509,7 @@ void AudioSpectrum::slotResetMaxFreq()
 
 ///// EVENTS /////
 
-void AudioSpectrum::handleMouseDrag(const QPoint movement, const RescaleDirection rescaleDirection, const Qt::KeyboardModifiers rescaleModifiers)
+void AudioSpectrum::handleMouseDrag(const QPoint &movement, const RescaleDirection rescaleDirection, const Qt::KeyboardModifiers rescaleModifiers)
 {
     if (rescaleDirection == North) {
         // Nort-South direction: Adjust the dB scale

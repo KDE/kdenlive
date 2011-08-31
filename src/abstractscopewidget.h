@@ -184,7 +184,7 @@ protected:
     /** The Abstract Scope will try to detect the movement direction when dragging on the widget with the mouse.
         As soon as the direction is determined it will execute this method. Can be used e.g. for re-scaling content.
         This is just a dummy function, re-implement to add functionality. */
-    virtual void handleMouseDrag(const QPoint movement, const RescaleDirection rescaleDirection, const Qt::KeyboardModifiers rescaleModifiers);
+    virtual void handleMouseDrag(const QPoint &movement, const RescaleDirection rescaleDirection, const Qt::KeyboardModifiers rescaleModifiers);
 
     ///// Reimplemented /////
 

@@ -52,7 +52,7 @@ protected:
     bool isBackgroundDependingOnInput() const;
     virtual void readConfig();
     void writeConfig();
-    void handleMouseDrag(const QPoint movement, const RescaleDirection rescaleDirection, const Qt::KeyboardModifiers rescaleModifiers);
+    void handleMouseDrag(const QPoint &movement, const RescaleDirection rescaleDirection, const Qt::KeyboardModifiers rescaleModifiers);
     void resizeEvent(QResizeEvent *event);
 
 private:

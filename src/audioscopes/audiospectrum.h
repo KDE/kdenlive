@@ -56,7 +56,7 @@ protected:
     virtual void readConfig();
     void writeConfig();
 
-    virtual void handleMouseDrag(const QPoint movement, const RescaleDirection rescaleDirection, const Qt::KeyboardModifiers rescaleModifiers);
+    virtual void handleMouseDrag(const QPoint &movement, const RescaleDirection rescaleDirection, const Qt::KeyboardModifiers rescaleModifiers);
 
 private:
     Ui::AudioSpectrum_UI *ui;

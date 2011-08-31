@@ -444,7 +444,7 @@ bool Spectrogram::isHUDDependingOnInput() const { return false; }
 bool Spectrogram::isScopeDependingOnInput() const { return true; }
 bool Spectrogram::isBackgroundDependingOnInput() const { return false; }
 
-void Spectrogram::handleMouseDrag(const QPoint movement, const RescaleDirection rescaleDirection, const Qt::KeyboardModifiers rescaleModifiers)
+void Spectrogram::handleMouseDrag(const QPoint &movement, const RescaleDirection rescaleDirection, const Qt::KeyboardModifiers rescaleModifiers)
 {
     if (rescaleDirection == North) {
         // Nort-South direction: Adjust the dB scale
