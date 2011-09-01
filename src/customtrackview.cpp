@@ -1690,8 +1690,8 @@ void CustomTrackView::slotAddGroupEffect(QDomElement effect, AbstractGroupItem *
     QList<QGraphicsItem *> itemList = group->childItems();
     QUndoCommand *effectCommand = new QUndoCommand();
     QString effectName;
-    QDomNode namenode = effect.elementsByTagName("name").item(0);
-    if (!namenode.isNull()) effectName = i18n(namenode.toElement().text().toUtf8().data());
+    QDomElement namenode = effect.firstChildElement("name");
+    if (!namenode.isNull()) effectName = i18n(namenode.text().toUtf8().data());
     else effectName = i18n("effect");
     effectCommand->setText(i18n("Add %1", effectName));
     int count = 0;
@@ -1730,8 +1730,8 @@ void CustomTrackView::slotAddEffect(QDomElement effect, GenTime pos, int track)
     QList<QGraphicsItem *> itemList;
     QUndoCommand *effectCommand = new QUndoCommand();
     QString effectName;
-    QDomNode namenode = effect.elementsByTagName("name").item(0);
-    if (!namenode.isNull()) effectName = i18n(namenode.toElement().text().toUtf8().data());
+    QDomElement namenode = effect.firstChildElement("name");
+    if (!namenode.isNull()) effectName = i18n(namenode.text().toUtf8().data());
     else effectName = i18n("effect");
     effectCommand->setText(i18n("Add %1", effectName));
 
@@ -1825,8 +1825,8 @@ void CustomTrackView::slotDeleteEffect(ClipItem *clip, int track, QDomElement ef
         QList<QGraphicsItem *> items = m_selectionGroup->childItems();
         QUndoCommand *delCommand = new QUndoCommand();
         QString effectName;
-        QDomNode namenode = effect.elementsByTagName("name").item(0);
-        if (!namenode.isNull()) effectName = i18n(namenode.toElement().text().toUtf8().data());
+        QDomElement namenode = effect.firstChildElement("name");
+        if (!namenode.isNull()) effectName = i18n(namenode.text().toUtf8().data());
         else effectName = i18n("effect");
         delCommand->setText(i18n("Delete %1", effectName));
 

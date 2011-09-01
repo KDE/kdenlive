@@ -266,17 +266,17 @@ void EffectStackView::setupListView(int ix)
         doc.appendChild(doc.importNode(d, true));
         kDebug() << "IMPORTED STK: " << doc.toString();*/
 
-        QDomNode namenode = d.elementsByTagName("name").item(0);
+        QDomElement namenode = d.firstChildElement("name");
         if (!namenode.isNull()) {
             // Issue 238: Add icons for effect type in effectstack.
             // Logic more or less copied from initeffects.cpp
             QString type = d.attribute("type", QString());
             if ("audio" == type) {
-                item = new QListWidgetItem(audioIcon, i18n(namenode.toElement().text().toUtf8().data()), m_ui.effectlist);
+                item = new QListWidgetItem(audioIcon, i18n(namenode.text().toUtf8().data()), m_ui.effectlist);
             } else if ("custom" == type) {
-                item = new QListWidgetItem(customIcon, i18n(namenode.toElement().text().toUtf8().data()), m_ui.effectlist);
+                item = new QListWidgetItem(customIcon, i18n(namenode.text().toUtf8().data()), m_ui.effectlist);
             } else {
-                item = new QListWidgetItem(videoIcon, i18n(namenode.toElement().text().toUtf8().data()), m_ui.effectlist);
+                item = new QListWidgetItem(videoIcon, i18n(namenode.text().toUtf8().data()), m_ui.effectlist);
             }
             item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
             if (d.attribute("disable") == "1")

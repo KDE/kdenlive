@@ -30,8 +30,8 @@ EditTransitionCommand::EditTransitionCommand(CustomTrackView *view, const int tr
 {
     m_effect = effect.cloneNode().toElement();
     QString effectName;
-    QDomNode namenode = effect.elementsByTagName("name").item(0);
-    if (!namenode.isNull()) effectName = i18n(namenode.toElement().text().toUtf8().data());
+    QDomElement namenode = effect.firstChildElement("name");
+    if (!namenode.isNull()) effectName = i18n(namenode.text().toUtf8().data());
     else effectName = i18n("effect");
     setText(i18n("Edit transition %1", effectName));
 }

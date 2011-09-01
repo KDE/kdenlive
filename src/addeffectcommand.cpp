@@ -32,8 +32,8 @@ AddEffectCommand::AddEffectCommand(CustomTrackView *view, const int track, GenTi
         m_doIt(doIt)
 {
     QString effectName;
-    QDomNode namenode = m_effect.elementsByTagName("name").item(0);
-    if (!namenode.isNull()) effectName = i18n(namenode.toElement().text().toUtf8().data());
+    QDomElement namenode = m_effect.firstChildElement("name");
+    if (!namenode.isNull()) effectName = i18n(namenode.text().toUtf8().data());
     else effectName = i18n("effect");
     if (doIt) setText(i18n("Add %1", effectName));
     else setText(i18n("Delete %1", effectName));

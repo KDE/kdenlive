@@ -38,8 +38,8 @@ QDomElement EffectsList::getEffectByName(const QString & name) const
     QDomNodeList effects = m_baseElement.childNodes();
     for (int i = 0; i < effects.count(); i++) {
         QDomElement effect =  effects.at(i).toElement();
-        QDomNode namenode = effect.firstChildElement("name");
-        if (!namenode.isNull()) effectName = i18n(namenode.toElement().text().toUtf8().data());
+        QDomElement namenode = effect.firstChildElement("name");
+        if (!namenode.isNull()) effectName = i18n(namenode.text().toUtf8().data());
         if (name == effectName) {
             QDomNodeList params = effect.elementsByTagName("parameter");
             for (int i = 0; i < params.count(); i++) {
@@ -100,8 +100,8 @@ QStringList EffectsList::effectIdInfo(const int ix) const
 {
     QStringList info;
     QDomElement effect = m_baseElement.childNodes().at(ix).toElement();
-    QDomNode namenode = effect.firstChildElement("name");
-    info << i18n(namenode.toElement().text().toUtf8().data()) << effect.attribute("tag") << effect.attribute("id");
+    QDomElement namenode = effect.firstChildElement("name");
+    info << i18n(namenode.text().toUtf8().data()) << effect.attribute("tag") << effect.attribute("id");
     return info;
 }
 
@@ -111,8 +111,8 @@ QStringList EffectsList::effectNames()
     QDomNodeList effects = m_baseElement.childNodes();
     for (int i = 0; i < effects.count(); i++) {
         QDomElement effect =  effects.at(i).toElement();
-        QDomNode namenode = effect.firstChildElement("name");
-        if (!namenode.isNull()) list.append(i18n(namenode.toElement().text().toUtf8().data()));
+        QDomElement namenode = effect.firstChildElement("name");
+        if (!namenode.isNull()) list.append(i18n(namenode.text().toUtf8().data()));
     }
     return list;
 }
@@ -132,17 +132,17 @@ QString EffectsList::getInfoFromIndex(const int ix) const
 QString EffectsList::getEffectInfo(const QDomElement effect) const
 {
     QString info;
-    QDomNode namenode = effect.firstChildElement("description");
+    QDomElement namenode = effect.firstChildElement("description");
     if (!namenode.isNull())
         info = i18n(namenode.firstChild().nodeValue().simplified().toUtf8().data());
 
     namenode = effect.firstChildElement("author");
     if (!namenode.isNull())
-        info.append("<br /><strong>" + i18n("Author:") + " </strong>" + i18n(namenode.toElement().text().toUtf8().data()));
+        info.append("<br /><strong>" + i18n("Author:") + " </strong>" + i18n(namenode.text().toUtf8().data()));
 
     namenode = effect.firstChildElement("version");
     if (!namenode.isNull())
-        info.append(QString(" (%1)").arg(namenode.toElement().text()));
+        info.append(QString(" (%1)").arg(namenode.text()));
 
     return info;
 }

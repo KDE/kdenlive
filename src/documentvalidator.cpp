@@ -116,7 +116,7 @@ bool DocumentValidator::validate(const double currentVersion)
                 // Looks like one MLT track is missing, remove the extra Kdenlive track if there is one.
                 if (tracksinfo.count() != tracks.count() - 1) {
                     // The Kdenlive tracks are not ok, clear and rebuild them
-                    QDomNode tinfo = kdenliveDoc.elementsByTagName("tracksinfo").at(0);
+                    QDomNode tinfo = kdenliveDoc.firstChildElement("tracksinfo");
                     QDomNode tnode = tinfo.firstChild();
                     while (!tnode.isNull()) {
                         tinfo.removeChild(tnode);

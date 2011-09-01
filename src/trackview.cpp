@@ -191,12 +191,6 @@ void TrackView::parseDocument(QDomDocument doc)
     m_documentErrors.clear();
     m_replacementProducerIds.clear();
 
-    //kDebug() << "//// DOCUMENT: " << doc.toString();
-    /*QDomNode props = doc.elementsByTagName("properties").item(0);
-    if (!props.isNull()) {
-        cursorPos = props.toElement().attribute("timeline_position").toInt();
-    }*/
-
     // parse project tracks
     QDomElement mlt = doc.firstChildElement("mlt");
     QDomElement tractor = mlt.firstChildElement("tractor");

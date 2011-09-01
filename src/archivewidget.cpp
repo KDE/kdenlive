@@ -544,7 +544,7 @@ bool ArchiveWidget::processProjectFile()
     if (isArchive) basePath = "$CURRENTPATH";
     else basePath = archive_url->url().path(KUrl::RemoveTrailingSlash);
     mlt.setAttribute("root", basePath);
-    QDomElement project = mlt.elementsByTagName("kdenlivedoc").at(0).toElement();
+    QDomElement project = mlt.firstChildElement("kdenlivedoc");
     project.setAttribute("projectfolder", basePath);
 
     // process kdenlive producers

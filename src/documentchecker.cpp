@@ -337,8 +337,7 @@ bool DocumentChecker::hasErrorInClips()
     
     if (missingProxies.count() > 0) {
         // original doc was modified
-        QDomNode infoXmlNode = m_doc.elementsByTagName("kdenlivedoc").at(0);
-        QDomElement infoXml = infoXmlNode.toElement();
+        QDomElement infoXml = m_doc.elementsByTagName("kdenlivedoc").at(0).toElement();
         infoXml.setAttribute("modified", "1");
     }
     
@@ -430,8 +429,7 @@ void DocumentChecker::slotSearchClips()
     m_ui.recursiveSearch->setEnabled(true);
     if (fixed) {
         // original doc was modified
-        QDomNode infoXmlNode = m_doc.elementsByTagName("kdenlivedoc").at(0);
-        QDomElement infoXml = infoXmlNode.toElement();
+        QDomElement infoXml = m_doc.elementsByTagName("kdenlivedoc").at(0).toElement();
         infoXml.setAttribute("modified", "1");
     }
     checkStatus();
@@ -708,8 +706,7 @@ void DocumentChecker::slotFixDuration()
         ix++;
         child = m_ui.treeWidget->topLevelItem(ix);
     }
-    QDomNode infoXmlNode = m_doc.elementsByTagName("kdenlivedoc").at(0);
-    QDomElement infoXml = infoXmlNode.toElement();
+    QDomElement infoXml = m_doc.elementsByTagName("kdenlivedoc").at(0).toElement();
     infoXml.setAttribute("modified", "1");
     m_ui.fixDuration->setEnabled(false);
     checkStatus();
@@ -771,8 +768,8 @@ void DocumentChecker::slotDeleteSelected()
         QDomNodeList producers = m_doc.elementsByTagName("producer");
         QDomNodeList infoproducers = m_doc.elementsByTagName("kdenlive_producer");
 
-        QDomElement mlt = m_doc.firstChildElement("mlt");
-        QDomElement kdenlivedoc = mlt.firstChildElement("kdenlivedoc");
+        QDomNode mlt = m_doc.elementsByTagName("mlt").at(0);
+        QDomNode kdenlivedoc = m_doc.elementsByTagName("kdenlivedoc").at(0);
 
         for (int i = 0, j = 0; i < infoproducers.count() && j < deletedIds.count(); i++) {
             e = infoproducers.item(i).toElement();
@@ -809,8 +806,7 @@ void DocumentChecker::slotDeleteSelected()
                 }
             }
         }
-        QDomNode infoXmlNode = m_doc.elementsByTagName("kdenlivedoc").at(0);
-        QDomElement infoXml = infoXmlNode.toElement();
+        QDomElement infoXml = m_doc.elementsByTagName("kdenlivedoc").at(0).toElement();
         infoXml.setAttribute("modified", "1");
         checkStatus();
     }

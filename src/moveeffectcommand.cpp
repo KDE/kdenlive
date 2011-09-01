@@ -32,8 +32,8 @@ MoveEffectCommand::MoveEffectCommand(CustomTrackView *view, const int track, Gen
         m_pos(pos)
 {
     /*    QString effectName;
-        QDomNode namenode = effect.elementsByTagName("name").item(0);
-        if (!namenode.isNull()) effectName = i18n(namenode.toElement().text().toUtf8().data());
+        QDomElement namenode = effect.firstChildElement("name");
+        if (!namenode.isNull()) effectName = i18n(namenode.text().toUtf8().data());
         else effectName = i18n("effect");
         setText(i18n("Move effect %1", effectName));*/
     setText(i18n("Move effect"));
