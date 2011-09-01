@@ -356,18 +356,6 @@ void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *au
                 needsLocaleConversion = true;
             }
         }
-        if (documentElement.hasAttribute("version")) {
-            // a specific version of the filter is required
-            Mlt::Properties *metadata = repository->metadata(filter_type, tag.toUtf8().data());
-            if (metadata && metadata->is_valid()) {
-                double version = metadata->get_double("version");
-                if (locale.toDouble(documentElement.attribute("version")) > version) {
-                    delete metadata;
-                    return;
-                }
-            }
-            delete metadata;
-        }
 
         if (needsLocaleConversion) {
             // we need to convert all numbers to the system's locale (for example 0.5 -> 0,5)
@@ -387,6 +375,25 @@ void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *au
                     }
                 }
             }
+        }
+
+        double version = -1;
+        Mlt::Properties *metadata = repository->metadata(filter_type, tag.toUtf8().data());
+        if (metadata && metadata->is_valid()) {
+            version = metadata->get_double("version");
+        }
+        if (metadata) delete metadata;
+        if (documentElement.hasAttribute("version")) {
+            // a specific version of the filter is required
+            if (locale.toDouble(documentElement.attribute("version")) > version) {
+                return;
+            }
+        }
+        if (version > -1) {
+            // Add version info to XML
+            QDomNode versionNode = doc.createElement("version");
+            versionNode.appendChild(doc.createTextNode(QLocale().toString(version)));
+            documentElement.appendChild(versionNode);
         }
 
         // Parse effect information.
@@ -495,9 +502,13 @@ QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, 
             QDomElement author = ret.createElement("author");
             author.appendChild(ret.createTextNode(metadata->get("creator")));
 
+            QDomElement version = ret.createElement("version");
+            version.appendChild(ret.createTextNode(metadata->get("version")));
+
             eff.appendChild(name);
             eff.appendChild(author);
             eff.appendChild(desc);
+            eff.appendChild(version);
 
             Mlt::Properties tags((mlt_properties) metadata->get_data("tags"));
             if (QString(tags.get(0)) == "Audio") eff.setAttribute("type", "audio");
