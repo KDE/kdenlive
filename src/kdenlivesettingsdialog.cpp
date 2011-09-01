@@ -984,8 +984,10 @@ void KdenliveSettingsDialog::loadEncodingProfiles()
         k.next();
         if (!k.key().isEmpty()) m_configProject.kcfg_proxy_profile->addItem(k.key(), k.value());
     }
-    m_configProject.kcfg_proxy_profile->blockSignals(false);
     if (!currentItem.isEmpty()) m_configProject.kcfg_proxy_profile->setCurrentIndex(m_configProject.kcfg_proxy_profile->findText(currentItem));
+    m_configProject.kcfg_proxy_profile->blockSignals(false);
+    slotUpdateProxyProfile();
+    
 }
 
 void KdenliveSettingsDialog::slotUpdateDecklinkProfile(int ix)
