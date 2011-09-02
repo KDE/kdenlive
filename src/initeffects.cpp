@@ -337,7 +337,7 @@ void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *au
     QFile file(name);
     doc.setContent(&file, false);
     file.close();
-    QDomElement documentElement = doc.documentElement();
+    QDomElement documentElement;
     QDomNodeList effects = doc.elementsByTagName("effect");
 
     if (effects.count() == 0) {
