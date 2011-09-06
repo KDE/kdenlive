@@ -106,3 +106,5 @@ audiopan.xml
 rotoscoping.xml
 
 DESTINATION ${DATA_INSTALL_DIR}/kdenlive/effects)
+
+add_subdirectory(update)

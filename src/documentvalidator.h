@@ -39,6 +39,7 @@ private:
     bool upgrade(double version, const double currentVersion);
     QStringList getInfoFromEffectName(const QString oldName);
     QString colorToString(const QColor& c);
+    void updateEffects();
 };
 
 #endif

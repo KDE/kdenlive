@@ -21,15 +21,20 @@
 #include "documentvalidator.h"
 #include "definitions.h"
 #include "initeffects.h"
+#include "mainwindow.h"
 
 #include <KDebug>
 #include <KMessageBox>
 #include <KApplication>
 #include <KLocale>
+#include <KUrl>
+#include <KStandardDirs>
 
 #include <QFile>
 #include <QColor>
 #include <QString>
+#include <QDir>
+#include <QScriptEngine>
 
 #include <mlt++/Mlt.h>
 
@@ -177,6 +182,8 @@ bool DocumentValidator::validate(const double currentVersion)
         // TODO: check internal mix transitions
         
     }
+
+    updateEffects();
 
     return true;
 }
@@ -1021,3 +1028,75 @@ bool DocumentValidator::isModified() const
 {
     return m_modified;
 }
+
+void DocumentValidator::updateEffects()
+{
+    // WARNING: order by findDirs will determine which js file to use (in case multiple for the same filter exist)
+    QMap <QString, KUrl> paths;
+    QMap <QString, QScriptProgram> scripts;
+    QStringList directories = KGlobal::dirs()->findDirs("appdata", "effects/update");
+    foreach (const QString &directoryName, directories) {
+        QDir directory(directoryName);
+        QStringList fileList = directory.entryList(QStringList() << "*.js", QDir::Files);
+        foreach (const QString &fileName, fileList) {
+            QString identifier = fileName;
+            identifier.chop(3);
+            identifier.replace('_', '.');
+            paths.insert(identifier, KUrl(directoryName + fileName));
+        }
+    }
+
+    QDomNodeList effects = m_doc.elementsByTagName("filter");
+
+    for(int i = 0; i < effects.count(); ++i) {
+        QDomElement effect = effects.at(i).toElement();
+        QString effectId = EffectsList::property(effect, "kdenlive_id");
+        QString effectTag = EffectsList::property(effect, "tag");
+        QString effectVersionStr = EffectsList::property(effect, "version");
+        double effectVersion = effectVersionStr.isNull() ? -1 : effectVersionStr.toDouble();
+
+        QDomElement effectDescr = MainWindow::customEffects.getEffectByTag(QString(), effectId);
+        if (effectDescr.isNull()) {
+            effectDescr = MainWindow::videoEffects.getEffectByTag(effectTag, effectId);
+        }
+        if (effectDescr.isNull()) {
+            effectDescr = MainWindow::audioEffects.getEffectByTag(effectTag, effectId);
+        }
+        if (!effectDescr.isNull()) {
+            double serviceVersion = -1;
+            QDomElement serviceVersionElem = effectDescr.firstChildElement("version");
+            if (!serviceVersionElem.isNull()) {
+                serviceVersion = serviceVersionElem.text().toDouble();
+            }
+            if (serviceVersion != effectVersion && paths.contains(effectId)) {
+                if (!scripts.contains(effectId)) {
+                    QFile scriptFile(paths.value(effectId).path());
+                    if (!scriptFile.open(QIODevice::ReadOnly)) {
+                        continue;
+                    }
+                    QScriptProgram scriptProgram(scriptFile.readAll());
+                    scriptFile.close();
+                    scripts.insert(effectId, scriptProgram);
+                }
+
+                QDomDocument scriptDoc;
+                scriptDoc.appendChild(scriptDoc.importNode(effect, true));
+
+                QScriptEngine scriptEngine;
+                scriptEngine.importExtension("qt.core");
+                scriptEngine.importExtension("qt.xml");
+                scriptEngine.evaluate(scripts.value(effectId));
+                QString effectString = scriptEngine.globalObject().property("update").call(QScriptValue(), QScriptValueList()  << serviceVersion << effectVersion << scriptDoc.toString()).toString();
+
+                if (!effectString.isEmpty()) {
+                    scriptDoc.setContent(effectString);
+                    QDomNode updatedEffect = effect.ownerDocument().importNode(scriptDoc.documentElement(), true);
+                    effect.parentNode().replaceChild(updatedEffect, effect);
+                    // TODO: set version to avoid dependency on latest MLT
+                    m_modified = true;
+                }
+            }
+        }
+    }
+}
+
