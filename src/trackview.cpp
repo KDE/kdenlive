@@ -406,8 +406,6 @@ void TrackView::parseDocument(QDomDocument doc)
             }
         }
     }
-
-
     QDomElement infoXml = mlt.firstChildElement("kdenlivedoc");
 
     // Add guides
@@ -600,8 +598,9 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked, QDomNod
             double speed = 1.0;
             int strobe = 1;
             if (idString.startsWith("slowmotion")) {
+                QLocale locale;
                 id = idString.section(':', 1, 1);
-                speed = m_locale.toDouble(idString.section(':', 2, 2));
+                speed = locale.toDouble(idString.section(':', 2, 2));
                 strobe = idString.section(':', 3, 3).toInt();
                 if (strobe == 0) strobe = 1;
             }
@@ -742,6 +741,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked, QDomNod
 void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNode, ClipItem *clip, int trackIndex)
 {
     int effectNb = 0;
+    QLocale locale;
     for (int ix = 0; ix < effects.count(); ix++) {
         bool disableeffect = false;
         QDomElement effect = effects.at(ix).toElement();
@@ -823,8 +823,8 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
                 // add first keyframe
                 if (effectout <= effectin) {
                     // there is only one keyframe
-                    keyframes.append(QString::number(effectin) + ':' + m_locale.toString(startvalue) + ';');
-                } else keyframes.append(QString::number(effectin) + ':' + m_locale.toString(startvalue) + ';' + QString::number(effectout) + ':' + QString::number(endvalue) + ';');
+                    keyframes.append(QString::number(effectin) + ':' + locale.toString(startvalue) + ';');
+                } else keyframes.append(QString::number(effectin) + ':' + locale.toString(startvalue) + ';' + QString::number(effectout) + ':' + QString::number(endvalue) + ';');
                 QDomNode lastParsedEffect;
                 ix++;
                 QDomNode n2 = effects.at(ix);
@@ -849,7 +849,7 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
                         }
                     }
                     if (continueParsing) {
-                        keyframes.append(QString::number(effectout) + ':' + m_locale.toString(endvalue) + ';');
+                        keyframes.append(QString::number(effectout) + ':' + locale.toString(endvalue) + ';');
                         ix++;
                     }
                 }
@@ -896,14 +896,14 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
                             QStringList kfrs = paramvalue.split(";");
                             for (int l = 0; l < kfrs.count(); l++) {
                                 QString fr = kfrs.at(l).section('=', 0, 0);
-                                double val = m_locale.toDouble(kfrs.at(l).section('=', 1, 1));
-                                //kfrs[l] = fr + ":" + m_locale.toString((int)(val * fact));
+                                double val = locale.toDouble(kfrs.at(l).section('=', 1, 1));
+                                //kfrs[l] = fr + ":" + locale.toString((int)(val * fact));
                                 kfrs[l] = fr + ":" + QString::number((int) (val * fact));
                             }
                             e.setAttribute("keyframes", kfrs.join(";"));
                         } else if (type == "double" || type == "constant") {
                             bool ok;
-                            e.setAttribute("value", m_locale.toDouble(paramvalue, &ok) * fact);
+                            e.setAttribute("value", locale.toDouble(paramvalue, &ok) * fact);
                             if (!ok)
                                 e.setAttribute("value", paramvalue);
                         } else {

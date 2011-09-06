@@ -87,7 +87,6 @@
 #include <KProcess>
 #include <KActionMenu>
 #include <KMenu>
-#include <locale.h>
 #include <ktogglefullscreenaction.h>
 #include <KFileItem>
 #include <KNotification>
@@ -148,12 +147,19 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
 #endif /* NO_JOGSHUTTLE */
     m_findActivated(false),
     m_stopmotion(NULL)
-{
+{   
     qRegisterMetaType<QVector<int16_t> > ();
+
+    // Init locale
+    QLocale systemLocale = QLocale();
+    systemLocale.setNumberOptions(QLocale::OmitGroupSeparator);
+    QLocale::setDefault(systemLocale);
+
     // Create DBus interface
     new MainWindowAdaptor(this);
     QDBusConnection dbus = QDBusConnection::sessionBus();
     dbus.registerObject("/MainWindow", this);
+
     if (!KdenliveSettings::colortheme().isEmpty()) slotChangePalette(NULL, KdenliveSettings::colortheme());
     setFont(KGlobalSettings::toolBarFont());
     parseProfiles(MltPath);

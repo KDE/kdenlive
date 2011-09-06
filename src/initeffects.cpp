@@ -344,9 +344,10 @@ void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *au
         kDebug() << "Effect broken: " << name;
         return;
     }
-    QLocale locale;
+
     bool needsLocaleConversion = false;
     for (int i = 0; !effects.item(i).isNull(); ++i) {
+        QLocale locale;
         documentElement = effects.item(i).toElement();
         QString tag = documentElement.attribute("tag", QString());
         if (documentElement.hasAttribute("LC_NUMERIC")) {
@@ -356,6 +357,7 @@ void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *au
                 needsLocaleConversion = true;
             }
         }
+        locale.setNumberOptions(QLocale::OmitGroupSeparator);
 
         if (needsLocaleConversion) {
             // we need to convert all numbers to the system's locale (for example 0.5 -> 0,5)

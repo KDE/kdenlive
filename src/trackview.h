@@ -100,11 +100,11 @@ private:
     KdenliveDoc *m_doc;
     int m_verticalZoom;
     QString m_documentErrors;
-    QLocale m_locale;
     void parseDocument(QDomDocument doc);
     int slotAddProjectTrack(int ix, QDomElement xml, bool locked, QDomNodeList producers);
     DocClipBase *getMissingProducer(const QString id) const;
     void adjustTrackHeaders();
+    /** @brief Add effects from the xml. Returns true if some effect was upgraded, false if everything went fine.*/
     void slotAddProjectEffects(QDomNodeList effects, QDomElement parentNode, ClipItem *clip, int trackIndex);
 
 private slots:
