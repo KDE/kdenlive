@@ -62,6 +62,7 @@ HEAD
     * Fix handling of proxies when duration != duration of original clip.
     * Fix filename encoding problem in renderer. (http://kdenlive.org/mantis/view.php?id=2110)
     * Fix user specified CFLAGS ignored. (http://kdenlive.org/mantis/view.php?id=2108)
+    * Fix timeline corruption when using 'Remove space' tool (transitions could overlap)
 
 0.8
     See http://kdenlive.org/discover/0.8
