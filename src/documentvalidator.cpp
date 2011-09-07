@@ -1033,7 +1033,11 @@ void DocumentValidator::updateEffects()
 {
     // WARNING: order by findDirs will determine which js file to use (in case multiple for the same filter exist)
     QMap <QString, KUrl> paths;
+#if QT_VERSION >= 0x040700
     QMap <QString, QScriptProgram> scripts;
+#else
+    QMap <QString, QString> scripts;
+#endif
     QStringList directories = KGlobal::dirs()->findDirs("appdata", "effects/update");
     foreach (const QString &directoryName, directories) {
         QDir directory(directoryName);
@@ -1074,7 +1078,11 @@ void DocumentValidator::updateEffects()
                     if (!scriptFile.open(QIODevice::ReadOnly)) {
                         continue;
                     }
+#if QT_VERSION >= 0x040700
                     QScriptProgram scriptProgram(scriptFile.readAll());
+#else
+                    QString scriptProgram = scriptFile.readAll();
+#endif
                     scriptFile.close();
                     scripts.insert(effectId, scriptProgram);
                 }
