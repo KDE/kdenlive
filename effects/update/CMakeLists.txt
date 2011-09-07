@@ -1,4 +1,4 @@
 INSTALL(FILES
 
-frei0r_levels.js
+frei0r.levels.js
 DESTINATION ${DATA_INSTALL_DIR}/kdenlive/effects/update)

@@ -1044,8 +1044,8 @@ void DocumentValidator::updateEffects()
         QStringList fileList = directory.entryList(QStringList() << "*.js", QDir::Files);
         foreach (const QString &fileName, fileList) {
             QString identifier = fileName;
+            // remove extension (".js")
             identifier.chop(3);
-            identifier.replace('_', '.');
             paths.insert(identifier, KUrl(directoryName + fileName));
         }
     }
@@ -1107,4 +1107,5 @@ void DocumentValidator::updateEffects()
         }
     }
 }
+
 
