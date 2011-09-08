@@ -37,6 +37,8 @@
 #include <QFile>
 #include <QTextCursor>
 
+#include <locale.h>
+
 #if QT_VERSION >= 0x040600
 #include <QGraphicsEffect>
 #include <QGraphicsBlurEffect>
@@ -121,6 +123,9 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
     QDomElement main = doc.createElement("kdenlivetitle");
     main.setAttribute("width", m_width);
     main.setAttribute("height", m_height);
+    // Save locale
+    const char *locale = setlocale(LC_NUMERIC, NULL);
+    main.setAttribute("LC_NUMERIC", locale);
     doc.appendChild(main);
 
     foreach(QGraphicsItem * item, m_scene->items()) {
