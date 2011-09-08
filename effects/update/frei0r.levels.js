@@ -1,23 +1,12 @@
 
-function update(serviceVersion, effectVersion, effectString) {
-    var locale = new QLocale();
-    var doc = new QDomDocument();
-    doc.setContent(effectString);
-    for (var node = doc.documentElement().firstChild(); !node.isNull(); node = node.nextSibling()) {
-        var effectparam = node.toElement();
-        if (effectparam.attribute("name") == "Channel" || effectparam.attribute("name") == "Histogram position") {
-            if (serviceVersion < effectVersion) {
-                // downgrade
-                if (effectVersion > 0.1) {
-                    effectparam.firstChild().toText().setData(locale.toString(effectparam.text() * 10));
-                }
-            } else {
-                // upgrade
-                if (effectVersion < 0.2) { 
-                    effectparam.firstChild().toText().setData(locale.toString(effectparam.text() / 10.));
-                }
-            }
-        }
-    }
-    return doc.toString();
+var update = new Object();
+
+update["Channel"] = new Array(new Array(0.2, function(v, d) { return this.upd1(v, d); }));
+update["Histogram position"] = update["Channel"];
+
+function upd1(value, isDowngrade) {
+    if (isDowngrade)
+        return value * 10;
+    else
+        return value / 10.;
 }

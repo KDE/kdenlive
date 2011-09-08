@@ -1031,7 +1031,7 @@ bool DocumentValidator::isModified() const
 
 void DocumentValidator::updateEffects()
 {
-    // WARNING: order by findDirs will determine which js file to use (in case multiple for the same filter exist)
+    // WARNING: order by findDirs will determine which js file to use (in case multiple scripts for the same filter exist)
     QMap <QString, KUrl> paths;
 #if QT_VERSION >= 0x040700
     QMap <QString, QScriptProgram> scripts;
@@ -1087,25 +1087,61 @@ void DocumentValidator::updateEffects()
                     scripts.insert(effectId, scriptProgram);
                 }
 
-                QDomDocument scriptDoc;
-                scriptDoc.appendChild(scriptDoc.importNode(effect, true));
-
                 QScriptEngine scriptEngine;
                 scriptEngine.importExtension("qt.core");
                 scriptEngine.importExtension("qt.xml");
                 scriptEngine.evaluate(scripts.value(effectId));
-                QString effectString = scriptEngine.globalObject().property("update").call(QScriptValue(), QScriptValueList()  << serviceVersion << effectVersion << scriptDoc.toString()).toString();
+                QScriptValue updateRules = scriptEngine.globalObject().property("update");
+                if (!updateRules.isValid())
+                    continue;
+                if (updateRules.isFunction()) {
+                    QDomDocument scriptDoc;
+                    scriptDoc.appendChild(scriptDoc.importNode(effect, true));
 
-                if (!effectString.isEmpty()) {
-                    scriptDoc.setContent(effectString);
-                    QDomNode updatedEffect = effect.ownerDocument().importNode(scriptDoc.documentElement(), true);
-                    effect.parentNode().replaceChild(updatedEffect, effect);
-                    // TODO: set version to avoid dependency on latest MLT
-                    m_modified = true;
+                    QString effectString = updateRules.call(QScriptValue(), QScriptValueList()  << serviceVersion << effectVersion << scriptDoc.toString()).toString();
+
+                    if (!effectString.isEmpty()) {
+                        scriptDoc.setContent(effectString);
+                        QDomNode updatedEffect = effect.ownerDocument().importNode(scriptDoc.documentElement(), true);
+                        effect.parentNode().replaceChild(updatedEffect, effect);
+                        m_modified = true;
+                    }
+                } else {
+                    m_modified = updateEffectParameters(effect.childNodes(), &updateRules, serviceVersion, effectVersion);
                 }
             }
         }
     }
 }
 
-
+bool DocumentValidator::updateEffectParameters(QDomNodeList parameters, const QScriptValue* updateRules, const double serviceVersion, const double effectVersion)
+{
+    bool updated = false;
+    bool isDowngrade = serviceVersion < effectVersion;
+    for (int i = 0; i < parameters.count(); ++i) {
+        QDomElement parameter = parameters.at(i).toElement();
+        QScriptValue rules = updateRules->property(parameter.attribute("name"));
+        if (rules.isValid() && rules.isArray()) {
+            int rulesCount = rules.property("length").toInt32();
+            if (isDowngrade) {
+                // start with the highest version and downgrade step by step
+                for (int j = rulesCount - 1; j >= 0; --j) {
+                    double version = rules.property(j).property(0).toNumber();
+                    if (version <= effectVersion && version > serviceVersion) {
+                        parameter.firstChild().setNodeValue(rules.property(j).property(1).call(QScriptValue(), QScriptValueList() << parameter.text() << isDowngrade).toString());
+                        updated = true;
+                    }
+                }
+            } else {
+                for (int j = 0; j < rulesCount; ++j) {
+                    double version = rules.property(j).property(0).toNumber();
+                    if (version > effectVersion && version <= serviceVersion) {
+                        parameter.firstChild().setNodeValue(rules.property(j).property(1).call(QScriptValue(), QScriptValueList() << parameter.text() << isDowngrade).toString());
+                        updated = true;
+                    }
+                }
+            }
+        }
+    }
+    return updated;
+}
