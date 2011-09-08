@@ -144,6 +144,7 @@ void DvdWizard::slotPageChanged(int page)
         m_pageChapters->setVobFiles(m_pageVob->isPal(), m_pageVob->isWide(), m_pageVob->selectedUrls(), m_pageVob->durations(), m_pageVob->chapters());
     } else if (page == 2) {
         m_pageChapters->stopMonitor();
+        m_pageVob->updateChapters(m_pageChapters->chaptersData());
         m_pageMenu->setTargets(m_pageChapters->selectedTitles(), m_pageChapters->selectedTargets());
         m_pageMenu->changeProfile(m_pageVob->isPal());
     }
