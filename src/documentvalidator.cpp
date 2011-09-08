@@ -1100,7 +1100,7 @@ void DocumentValidator::updateEffects()
 
                     QString effectString = updateRules.call(QScriptValue(), QScriptValueList()  << serviceVersion << effectVersion << scriptDoc.toString()).toString();
 
-                    if (!effectString.isEmpty()) {
+                    if (!effectString.isEmpty() && !scriptEngine.hasUncaughtException()) {
                         scriptDoc.setContent(effectString);
                         QDomNode updatedEffect = effect.ownerDocument().importNode(scriptDoc.documentElement(), true);
                         effect.parentNode().replaceChild(updatedEffect, effect);
