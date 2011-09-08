@@ -1,7 +1,7 @@
 
 var update = new Object();
 
-update["Graph position"] = new Array(new Array(0.2, function(v, d) { return this.upd1(v, d); }));
+update["Graph position"] = new Array(new Array(0.3, function(v, d) { return this.upd1(v, d); }));
 update["Curve point number"] = update["Graph position"];
 
 function upd1(value, isDowngrade) {
