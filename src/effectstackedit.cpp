@@ -232,9 +232,8 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, ItemInfo info, bool
         }
     }
 #endif
-    QDomElement e = m_params.toElement();
-    int minFrame = e.attribute("start").toInt();
-    int maxFrame = e.attribute("end").toInt();
+    int minFrame = d.attribute("start").toInt();
+    int maxFrame = d.attribute("end").toInt();
     // In transitions, maxFrame is in fact one frame after the end of transition
     if (maxFrame > 0) maxFrame --;
 
@@ -372,14 +371,14 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, ItemInfo info, bool
                 KeyframeEdit *geo;
                 if (pa.attribute("widget") == "corners") {
                     // we want a corners-keyframe-widget
-                    CornersWidget *corners = new CornersWidget(m_monitor, pa, m_in, m_out, m_timecode, e.attribute("active_keyframe", "-1").toInt(), this);
+                    CornersWidget *corners = new CornersWidget(m_monitor, pa, m_in, m_out, m_timecode, d.attribute("active_keyframe", "-1").toInt(), this);
                     corners->slotShowScene(!disable);
                     connect(corners, SIGNAL(checkMonitorPosition(int)), this, SIGNAL(checkMonitorPosition(int)));
                     connect(this, SIGNAL(effectStateChanged(bool)), corners, SLOT(slotShowScene(bool)));
                     connect(this, SIGNAL(syncEffectsPos(int)), corners, SLOT(slotSyncPosition(int)));
                     geo = static_cast<KeyframeEdit *>(corners);
                 } else {
-                    geo = new KeyframeEdit(pa, m_in, m_out, m_timecode, e.attribute("active_keyframe", "-1").toInt());
+                    geo = new KeyframeEdit(pa, m_in, m_out, m_timecode, d.attribute("active_keyframe", "-1").toInt());
                 }
                 m_vbox->addWidget(geo);
                 m_valueItems[paramName+"keyframe"] = geo;
@@ -416,7 +415,12 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, ItemInfo info, bool
             KisCurveWidget *curve = new KisCurveWidget(this);
             curve->setMaxPoints(pa.attribute("max").toInt());
             QList<QPointF> points;
-            int number = EffectsList::parameter(e, pa.attribute("number")).toInt();
+            int number;
+            if (d.attribute("version").toDouble() > 0.2) {
+                number = EffectsList::parameter(d, pa.attribute("number")).toDouble() * 10;
+            } else {
+                number = EffectsList::parameter(d, pa.attribute("number")).toInt();
+            }
             QString inName = pa.attribute("inpoints");
             QString outName = pa.attribute("outpoints");
             int start = pa.attribute("min").toInt();
@@ -425,7 +429,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, ItemInfo info, bool
                 in.replace("%i", QString::number(j));
                 QString out = outName;
                 out.replace("%i", QString::number(j));
-                points << QPointF(EffectsList::parameter(e, in).toDouble(), EffectsList::parameter(e, out).toDouble());
+                points << QPointF(EffectsList::parameter(d, in).toDouble(), EffectsList::parameter(d, out).toDouble());
             }
             if (!points.isEmpty())
                 curve->setCurve(KisCubicCurve(points));
@@ -443,7 +447,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, ItemInfo info, bool
 
             QString depends = pa.attribute("depends");
             if (!depends.isEmpty())
-                meetDependency(paramName, type, EffectsList::parameter(e, depends));
+                meetDependency(paramName, type, EffectsList::parameter(d, depends));
         } else if (type == "bezier_spline") {
             BezierSplineWidget *widget = new BezierSplineWidget(value, this);
             stretch = false;
@@ -452,7 +456,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement d, ItemInfo info, bool
             connect(widget, SIGNAL(modified()), this, SLOT(collectAllParameters()));
             QString depends = pa.attribute("depends");
             if (!depends.isEmpty())
-                meetDependency(paramName, type, EffectsList::parameter(e, depends));
+                meetDependency(paramName, type, EffectsList::parameter(d, depends));
 #ifdef QJSON
         } else if (type == "roto-spline") {
             RotoWidget *roto = new RotoWidget(value, m_monitor, info, m_timecode, this);
@@ -725,7 +729,11 @@ void EffectStackEdit::collectAllParameters()
             QString outName = pa.attributes().namedItem("outpoints").nodeValue();
             int off = pa.attributes().namedItem("min").nodeValue().toInt();
             int end = pa.attributes().namedItem("max").nodeValue().toInt();
-            EffectsList::setParameter(newparam, number, QString::number(points.count()));
+            if (oldparam.attribute("version").toDouble() > 0.2) {
+                EffectsList::setParameter(newparam, number, locale.toString(points.count() / 10.));
+            } else {
+                EffectsList::setParameter(newparam, number, QString::number(points.count()));
+            }
             for (int j = 0; (j < points.count() && j + off <= end); j++) {
                 QString in = inName;
                 in.replace("%i", QString::number(j + off));
