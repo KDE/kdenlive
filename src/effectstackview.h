@@ -94,7 +94,7 @@ public slots:
     * @param e New effect information
     *
     * Connected to a parameter change in the editor */
-    void slotUpdateEffectParams(const QDomElement old, const QDomElement e);
+    void slotUpdateEffectParams(const QDomElement &old, const QDomElement &e);
 
     /** @brief Removes the selected effect. */
     void slotItemDel();

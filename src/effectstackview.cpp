@@ -159,7 +159,7 @@ void EffectStackView::slotSaveEffect()
     emit reloadEffects();
 }
 
-void EffectStackView::slotUpdateEffectParams(const QDomElement old, const QDomElement e)
+void EffectStackView::slotUpdateEffectParams(const QDomElement &old, const QDomElement &e)
 {
     if (m_trackMode)
         emit updateEffect(NULL, m_trackindex, old, e, m_ui.effectlist->currentRow());
