@@ -59,7 +59,7 @@ public:
     QString getInfo(const QString & tag, const QString & id) const;
     QString getInfoFromIndex(const int ix) const;
     QString getEffectInfo(const QDomElement effect) const;
-    void clone(const EffectsList original);
+    void clone(const EffectsList &original);
     void append(QDomElement e);
     bool isEmpty() const;
     int count() const;

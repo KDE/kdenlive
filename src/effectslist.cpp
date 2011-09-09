@@ -181,7 +181,7 @@ bool EffectsList::hasGeometryKeyFrames(QDomElement effect)
     return false;
 }
 
-void EffectsList::clone(const EffectsList original)
+void EffectsList::clone(const EffectsList &original)
 {
     setContent(original.toString());
     m_baseElement = documentElement();
