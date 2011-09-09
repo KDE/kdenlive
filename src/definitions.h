@@ -101,14 +101,14 @@ struct MltVideoProfile {
 class EffectParameter
 {
 public:
-    EffectParameter(const QString name, const QString value): m_name(name), m_value(value) {}
+    EffectParameter(const QString &name, const QString &value): m_name(name), m_value(value) {}
     QString name()   const          {
         return m_name;
     }
     QString value() const          {
         return m_value;
     }
-    void setValue(const QString value) {
+    void setValue(const QString &value) {
         m_value = value;
     }
 
@@ -124,12 +124,12 @@ class EffectsParameterList: public QList < EffectParameter >
 {
 public:
     EffectsParameterList(): QList < EffectParameter >() {}
-    bool hasParam(const QString name) const {
+    bool hasParam(const QString &name) const {
         for (int i = 0; i < size(); i++)
             if (at(i).name() == name) return true;
         return false;
     }
-    QString paramValue(const QString name, QString defaultValue = QString()) const {
+    QString paramValue(const QString &name, QString defaultValue = QString()) const {
         for (int i = 0; i < size(); i++) {
             if (at(i).name() == name) return at(i).value();
         }
@@ -139,7 +139,7 @@ public:
         if (name.isEmpty()) return;
         append(EffectParameter(name, value));
     }
-    void removeParam(const QString name) {
+    void removeParam(const QString &name) {
         for (int i = 0; i < size(); i++)
             if (at(i).name() == name) {
                 removeAt(i);
@@ -152,7 +152,7 @@ class CommentedTime
 {
 public:
     CommentedTime(): t(GenTime(0)) {}
-    CommentedTime(const GenTime time, QString comment)
+    CommentedTime(const GenTime &time, QString comment)
         : t(time), c(comment) { }
 
     QString comment()   const          {
