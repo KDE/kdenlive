@@ -4300,7 +4300,7 @@ void MainWindow::slotOpenStopmotion()
 {
     if (m_stopmotion == NULL) {
         m_stopmotion = new StopmotionWidget(m_monitorManager, m_activeDocument->projectFolder(), m_stopmotion_actions->actions(), this);
-        connect(m_stopmotion, SIGNAL(addOrUpdateSequence(const QString)), m_projectList, SLOT(slotAddOrUpdateSequence(const QString)));
+        connect(m_stopmotion, SIGNAL(addOrUpdateSequence(const QString &)), m_projectList, SLOT(slotAddOrUpdateSequence(const QString)));
         //for (int i = 0; i < m_gfxScopesList.count(); i++) {
             // Check if we need the renderer to send a new frame for update
             /*if (!m_scopesList.at(i)->widget()->visibleRegion().isEmpty() && !(static_cast<AbstractScopeWidget *>(m_scopesList.at(i)->widget())->autoRefreshEnabled())) request = true;*/
