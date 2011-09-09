@@ -49,10 +49,10 @@ public:
     int duration(int ix) const;
     QStringList durations() const;
     QStringList chapters() const;
-    void setProfile(const QString profile);
+    void setProfile(const QString& profile);
     void clear();
     void updateChapters(QMap <QString, QString> chaptersdata);
-    void setIntroMovie(const QString path);
+    void setIntroMovie(const QString& path);
 
 private:
     Ui::DvdWizardVob_UI m_view;

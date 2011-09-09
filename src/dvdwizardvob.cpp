@@ -276,7 +276,7 @@ QString DvdWizardVob::introMovie() const
     return m_view.intro_vob->url().path();
 }
 
-void DvdWizardVob::setIntroMovie(const QString path)
+void DvdWizardVob::setIntroMovie(const QString& path)
 {
     m_view.intro_vob->setUrl(KUrl(path));
     m_view.use_intro->setChecked(path.isEmpty() == false);
@@ -338,7 +338,7 @@ bool DvdWizardVob::isWide() const
     return (m_view.dvd_profile->currentIndex() == 1 || m_view.dvd_profile->currentIndex() == 3);
 }
 
-void DvdWizardVob::setProfile(const QString profile)
+void DvdWizardVob::setProfile(const QString& profile)
 {
     if (profile == "dv_pal") m_view.dvd_profile->setCurrentIndex(0);
     else if (profile == "dv_pal_wide") m_view.dvd_profile->setCurrentIndex(1);
