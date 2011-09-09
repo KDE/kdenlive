@@ -124,6 +124,19 @@ RenderJob::~RenderJob()
     }
 }
 
+void RenderJob::setLocale(const QString &locale)
+{
+#if QT_VERSION >= 0x040600
+    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+    env.insert("LC_NUMERIC", locale);
+    m_renderProcess->setProcessEnvironment(env);
+#else
+    QStringList env = QProcess::systemEnvironment();
+    env << QString("LC_NUMERIC=%1").arg(locale);
+    m_renderProcess->setEnvironment(env);
+#endif
+}
+
 void RenderJob::slotAbort(const QString& url)
 {
     if (m_dest == url) slotAbort();

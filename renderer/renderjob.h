@@ -36,6 +36,7 @@ class RenderJob : public QObject
 public:
     RenderJob(bool erase, bool usekuiserver, const QString& renderer, const QString& profile, const QString& rendermodule, const QString& player, const QString& scenelist, const QString& dest, const QStringList& preargs, const QStringList& args, int in = -1, int out = -1);
     ~RenderJob();
+    void setLocale(const QString &locale);
 
 public slots:
     void start();

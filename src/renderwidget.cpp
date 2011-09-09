@@ -730,6 +730,11 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
     if (!scriptExport) render_process_args << "-erase";
     if (KdenliveSettings::usekuiserver()) render_process_args << "-kuiserver";
 
+    // Set locale for render process if required
+    if (QLocale().decimalPoint() != QLocale::system().decimalPoint()) {
+        render_process_args << QString("-locale:%1").arg(QLocale().name());
+    }
+
     double guideStart = 0;
     double guideEnd = 0;
 
@@ -743,7 +748,11 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
 
     if (!overlayargs.isEmpty()) render_process_args << "preargs=" + overlayargs.join(" ");
 
-    render_process_args << KdenliveSettings::rendererpath() << m_profile.path << item->data(RenderRole).toString();
+    if (scriptExport)
+        render_process_args << "$MELT";
+    else
+        render_process_args << KdenliveSettings::rendererpath();
+    render_process_args << m_profile.path << item->data(RenderRole).toString();
     if (m_view.play_after->isChecked()) render_process_args << KdenliveSettings::KdenliveSettings::defaultplayerapp();
     else render_process_args << "-";
 
@@ -836,9 +845,9 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
         outStream << "SOURCE=" << "\"" + playlistPath + "\"" << "\n";
         outStream << "TARGET=" << "\"" + KUrl(dest).url() + "\"" << "\n";
         outStream << "RENDERER=" << "\"" + m_renderer + "\"" << "\n";
-        outStream << "MELT=" << "\"" + render_process_args.takeFirst() + "\"" << "\n";
+        outStream << "MELT=" << "\"" + KdenliveSettings::rendererpath() + "\"" << "\n";
         outStream << "PARAMETERS=" << "\"" + render_process_args.join(" ") + "\"" << "\n";
-        outStream << "$RENDERER $MELT $PARAMETERS" << "\n" << "\n";
+        outStream << "$RENDERER $PARAMETERS" << "\n" << "\n";
         if (file.error() != QFile::NoError) {
             KMessageBox::error(this, i18n("Cannot write to file %1", scriptPath));
             file.close();

@@ -31,6 +31,7 @@ int main(int argc, char **argv)
     QCoreApplication app(argc, argv);
     QStringList args = app.arguments();
     QStringList preargs;
+    QString locale;
     int in = -1;
     int out = -1;
     if (args.count() >= 7) {
@@ -45,6 +46,10 @@ int main(int argc, char **argv)
         bool usekuiserver = false;
         if (args.at(0) == "-kuiserver") {
             usekuiserver = true;
+            args.removeFirst();
+        }
+        if (QString(args.at(0)).startsWith("-locale:")) {
+            locale = QString(args.at(0)).section(':', 1);
             args.removeFirst();
         }
         if (args.at(0).startsWith("in="))
@@ -86,6 +91,7 @@ int main(int argc, char **argv)
 
         qDebug() << "//STARTING RENDERING: " << erase << "," << usekuiserver << "," << render << "," << profile << "," << rendermodule << "," << player << "," << src << "," << dest << "," << preargs << "," << args << "," << in << "," << out ;
         RenderJob *job = new RenderJob(doerase, usekuiserver, render, profile, rendermodule, player, src, dest, preargs, args, in, out);
+        if (!locale.isEmpty()) job->setLocale(locale);
         job->start();
         if (dualpass) {
             if (vprelist.size()>1)
@@ -97,9 +103,10 @@ int main(int argc, char **argv)
         app.exec();
     } else {
         fprintf(stderr, "Kdenlive video renderer for MLT.\nUsage: "
-                "kdenlive_render [-erase] [-kuiserver] [in=pos] [out=pos] [render] [profile] [rendermodule] [player] [src] [dest] [[arg1] [arg2] ...]\n"
+                "kdenlive_render [-erase] [-kuiserver] [-locale:LOCALE] [in=pos] [out=pos] [render] [profile] [rendermodule] [player] [src] [dest] [[arg1] [arg2] ...]\n"
                 "  -erase: if that parameter is present, src file will be erased at the end\n"
                 "  -kuiserver: if that parameter is present, use KDE job tracker\n"
+                "  -locale:LOCALE : set a locale for rendering. For example, -locale:fr_FR.UTF-8 will use a french locale (comma as numeric separator)\n"
                 "  in=pos: start rendering at frame pos\n"
                 "  out=pos: end rendering at frame pos\n"
                 "  render: path to MLT melt renderer\n"
