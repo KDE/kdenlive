@@ -36,7 +36,7 @@ class Guide : public QGraphicsLineItem
 public:
     Guide(CustomTrackView *view, GenTime pos, QString label, double height);
     GenTime position() const;
-    void updateGuide(const GenTime newPos, const QString &comment = QString());
+    void updateGuide(const GenTime &newPos, const QString &comment = QString());
     QString label() const;
     CommentedTime info() const;
     void updatePos();

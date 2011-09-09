@@ -70,7 +70,7 @@ CommentedTime Guide::info() const
     return CommentedTime(m_position, m_label);
 }
 
-void Guide::updateGuide(const GenTime newPos, const QString &comment)
+void Guide::updateGuide(const GenTime &newPos, const QString &comment)
 {
     m_position = newPos;
     setPos(m_position.frames(m_view->fps()), 0);
