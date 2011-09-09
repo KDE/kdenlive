@@ -1018,8 +1018,8 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
         item = new ProjectItem(m_listView, clip);
     }
     if (item->data(0, DurationRole).isNull()) item->setData(0, DurationRole, i18n("Loading"));
-    connect(clip, SIGNAL(createProxy(const QString)), this, SLOT(slotCreateProxy(const QString)));
-    connect(clip, SIGNAL(abortProxy(const QString, const QString)), this, SLOT(slotAbortProxy(const QString, const QString)));
+    connect(clip, SIGNAL(createProxy(const QString &)), this, SLOT(slotCreateProxy(const QString &)));
+    connect(clip, SIGNAL(abortProxy(const QString &, const QString &)), this, SLOT(slotAbortProxy(const QString, const QString)));
     if (getProperties) {
         m_listView->processLayout();
         QDomElement e = clip->toXML().cloneNode().toElement();
