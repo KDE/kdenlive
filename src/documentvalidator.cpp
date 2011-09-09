@@ -1109,6 +1109,17 @@ void DocumentValidator::updateEffects()
                 } else {
                     m_modified = updateEffectParameters(effect.childNodes(), &updateRules, serviceVersion, effectVersion);
                 }
+
+                // set version number since MLT won't change it (only initially set it)
+                QDomElement versionElem = effect.firstChildElement("version");
+                if (EffectsList::property(effect, "version").isNull()) {
+                    versionElem = effect.ownerDocument().createTextNode(QLocale().toString(serviceVersion)).toElement();
+                    versionElem.setTagName("property");
+                    versionElem.setAttribute("name", "version");
+                    effect.appendChild(versionElem);
+                } else {
+                    EffectsList::setProperty(effect, "version", QLocale().toString(serviceVersion));
+                }
             }
         }
     }
