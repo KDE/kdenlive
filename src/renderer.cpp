@@ -292,7 +292,7 @@ Mlt::Producer *Render::invalidProducer(const QString &id)
     return clip;
 }
 
-int Render::resetProfile(const QString profileName, bool dropSceneList)
+int Render::resetProfile(const QString &profileName, bool dropSceneList)
 {
     QString scene;
     if (!dropSceneList) scene = sceneList();

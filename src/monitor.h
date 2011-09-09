@@ -114,7 +114,7 @@ public:
     ~Monitor();
     Render *render;
     AbstractRender *abstractRender();
-    void resetProfile(const QString profile);
+    void resetProfile(const QString &profile);
     const QString name() const;
     void resetSize();
     bool isActive() const;
