@@ -278,9 +278,9 @@ public slots:
 signals:
     void gotAudioData();
     /** @brief Generate a proxy clip (lower resolution copy) named like the clip's hash. */
-    void createProxy(const QString id);
+    void createProxy(const QString &id);
     /** @brief Abort creation of the proxy clip (lower resolution copy). */
-    void abortProxy(const QString id, const QString proxyPath);
+    void abortProxy(const QString &id, const QString &proxyPath);
 };
 
 #endif
