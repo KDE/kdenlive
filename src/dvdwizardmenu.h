@@ -36,7 +36,9 @@ class DvdScene : public QGraphicsScene
 {
 
 public:
-    DvdScene(QObject * parent = 0): QGraphicsScene(parent) {}
+    DvdScene(QObject * parent = 0): QGraphicsScene(parent) {
+        m_width = 0; m_height = 0;
+    }
     void setProfile(int width, int height) {
         m_width = width;
         m_height = height;
