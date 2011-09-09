@@ -209,7 +209,7 @@ bool DocClipBase::isTransparent() const
     return (m_properties.value("transparency") == "1");
 }
 
-const QString DocClipBase::getProperty(const QString prop) const
+const QString DocClipBase::getProperty(const QString &prop) const
 {
     return m_properties.value(prop);
 }
@@ -870,7 +870,7 @@ void DocClipBase::clearProperty(const QString &key)
     m_properties.remove(key);
 }
 
-void DocClipBase::getFileHash(const QString url)
+void DocClipBase::getFileHash(const QString &url)
 {
     if (m_clipType == SLIDESHOW) return;
     QFile file(url);

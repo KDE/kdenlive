@@ -76,7 +76,7 @@ Q_OBJECT public:
     bool isTransparent() const;
 
     /** Returns any property of this clip. */
-    const QString getProperty(const QString prop) const;
+    const QString getProperty(const QString &prop) const;
     void setProperty(const QString &key, const QString &value);
     void clearProperty(const QString &key);
 
@@ -248,7 +248,7 @@ private:   // Private attributes
     void slotRefreshProducer();
     void setProducerProperty(const char *name, int data);
     void setProducerProperty(const char *name, double data);
-    void getFileHash(const QString url);
+    void getFileHash(const QString &url);
     /** @brief When duplicating a producer, make sure all manually set properties are passed to it. */
     void adjustProducerProperties(Mlt::Producer *prod, const QString &id, bool mute, bool blind);
     /** @brief Create another instance of a producer. */
