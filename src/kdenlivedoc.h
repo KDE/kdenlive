@@ -52,7 +52,7 @@ class KdenliveDoc: public QObject
 {
 Q_OBJECT public:
 
-    KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, QString profileName, QMap <QString, QString> properties, const QPoint tracks, Render *render, KTextEdit *notes, bool *openBackup, MainWindow *parent = 0, KProgressDialog *progressDialog = 0);
+    KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, QString profileName, QMap <QString, QString> properties, const QPoint &tracks, Render *render, KTextEdit *notes, bool *openBackup, MainWindow *parent = 0, KProgressDialog *progressDialog = 0);
     ~KdenliveDoc();
     QDomNodeList producersList();
     double fps() const;
@@ -83,12 +83,12 @@ Q_OBJECT public:
      *
      * If the clip wasn't added before, it tries to add it to the project. */
     bool addClipInfo(QDomElement elem, QDomElement orig, QString clipId);
-    void slotAddClipFile(const KUrl url, const QString group, const QString &groupId = QString());
-    void slotAddClipList(const KUrl::List urls, const QString group, const QString &groupId = QString());
+    void slotAddClipFile(const KUrl &url, const QString &group, const QString &groupId = QString());
+    void slotAddClipList(const KUrl::List urls, const QString &group, const QString &groupId = QString());
     void deleteClip(const QString &clipId);
     int getFramePos(QString duration);
     DocClipBase *getBaseClip(const QString &clipId);
-    void updateClip(const QString id);
+    void updateClip(const QString &id);
 
     /** @brief Informs Kdenlive of the audio thumbnails generation progress. */
     void setThumbsProgress(const QString &message, int progress);
@@ -113,9 +113,9 @@ Q_OBJECT public:
     double dar() const;
     double projectDuration() const;
     /** @brief Returns the project file xml. */
-    QDomDocument xmlSceneList(const QString &scene, const QStringList expandedFolders);
+    QDomDocument xmlSceneList(const QString &scene, const QStringList &expandedFolders);
     /** @brief Saves the project file xml to a file. */
-    bool saveSceneList(const QString &path, const QString &scene, const QStringList expandedFolders, bool autosave = false);
+    bool saveSceneList(const QString &path, const QString &scene, const QStringList &expandedFolders, bool autosave = false);
     int tracksCount() const;
     TrackInfo trackInfoAt(int ix) const;
     void insertTrack(int ix, TrackInfo type);
@@ -206,8 +206,8 @@ private:
 public slots:
     void slotCreateXmlClip(const QString &name, const QDomElement xml, QString group, const QString &groupId);
     void slotCreateColorClip(const QString &name, const QString &color, const QString &duration, QString group, const QString &groupId);
-    void slotCreateSlideshowClipFile(const QString name, const QString path,
-                                     int count, const QString duration,
+    void slotCreateSlideshowClipFile(const QString &name, const QString &path,
+                                     int count, const QString &duration,
                                      const bool loop, const bool crop,
                                      const bool fade, const QString &luma_duration,
                                      const QString &luma_file, const int softness,
@@ -238,7 +238,7 @@ signals:
     void selectLastAddedClip(const QString &);
     void guidesUpdated();
     /** @brief When creating a backup file, also save a thumbnail of current timeline */
-    void saveTimelinePreview(const QString path);
+    void saveTimelinePreview(const QString &path);
 };
 
 #endif

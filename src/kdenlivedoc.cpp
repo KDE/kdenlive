@@ -58,7 +58,7 @@
 
 const double DOCUMENTVERSION = 0.88;
 
-KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, QString profileName, QMap <QString, QString> properties, const QPoint tracks, Render *render, KTextEdit *notes, bool *openBackup, MainWindow *parent, KProgressDialog *progressDialog) :
+KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, QString profileName, QMap <QString, QString> properties, const QPoint &tracks, Render *render, KTextEdit *notes, bool *openBackup, MainWindow *parent, KProgressDialog *progressDialog) :
     QObject(parent),
     m_autosave(NULL),
     m_url(url),
@@ -568,7 +568,7 @@ QPoint KdenliveDoc::zone() const
     return QPoint(m_documentProperties.value("zonein").toInt(), m_documentProperties.value("zoneout").toInt());
 }
 
-QDomDocument KdenliveDoc::xmlSceneList(const QString &scene, const QStringList expandedFolders)
+QDomDocument KdenliveDoc::xmlSceneList(const QString &scene, const QStringList &expandedFolders)
 {
     QDomDocument sceneList;
     sceneList.setContent(scene, true);
@@ -705,7 +705,7 @@ QDomDocument KdenliveDoc::xmlSceneList(const QString &scene, const QStringList e
     return sceneList;
 }
 
-bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene, const QStringList expandedFolders, bool autosave)
+bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene, const QStringList &expandedFolders, bool autosave)
 {
     QDomDocument sceneList = xmlSceneList(scene, expandedFolders);
     if (sceneList.isNull()) {
@@ -911,7 +911,7 @@ Render *KdenliveDoc::renderer()
     return m_render;
 }
 
-void KdenliveDoc::updateClip(const QString id)
+void KdenliveDoc::updateClip(const QString &id)
 {
     emit updateClipDisplay(id);
 }
@@ -1180,7 +1180,7 @@ void KdenliveDoc::deleteClip(const QString &clipId)
     emit signalDeleteProjectClip(clipId);
 }
 
-void KdenliveDoc::slotAddClipList(const KUrl::List urls, const QString group, const QString &groupId)
+void KdenliveDoc::slotAddClipList(const KUrl::List urls, const QString &group, const QString &groupId)
 {
     m_clipManager->slotAddClipList(urls, group, groupId);
     //emit selectLastAddedClip(QString::number(m_clipManager->lastClipId()));
@@ -1188,7 +1188,7 @@ void KdenliveDoc::slotAddClipList(const KUrl::List urls, const QString group, co
 }
 
 
-void KdenliveDoc::slotAddClipFile(const KUrl url, const QString group, const QString &groupId)
+void KdenliveDoc::slotAddClipFile(const KUrl &url, const QString &group, const QString &groupId)
 {
     m_clipManager->slotAddClipFile(url, group, groupId);
     emit selectLastAddedClip(QString::number(m_clipManager->lastClipId()));
@@ -1219,7 +1219,7 @@ void KdenliveDoc::slotCreateColorClip(const QString &name, const QString &color,
     emit selectLastAddedClip(QString::number(m_clipManager->lastClipId()));
 }
 
-void KdenliveDoc::slotCreateSlideshowClipFile(const QString name, const QString path, int count, const QString duration,
+void KdenliveDoc::slotCreateSlideshowClipFile(const QString &name, const QString &path, int count, const QString &duration,
         const bool loop, const bool crop, const bool fade,
         const QString &luma_duration, const QString &luma_file, const int softness,
         const QString &animation, QString group, const QString &groupId)
