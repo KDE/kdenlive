@@ -134,7 +134,7 @@ void DvdWizardChapters::slotGoToChapter()
     if (m_view.chapters_list->currentItem()) m_monitor->setTimePos(m_tc.reformatSeparators(m_view.chapters_list->currentItem()->text() + ":00"));
 }
 
-void DvdWizardChapters::setVobFiles(bool isPal, bool isWide, const QStringList movies, const QStringList durations, const QStringList chapters)
+void DvdWizardChapters::setVobFiles(bool isPal, bool isWide, const QStringList &movies, const QStringList &durations, const QStringList &chapters)
 {
     m_isPal = isPal;
     QString profile;

@@ -39,7 +39,7 @@ public:
     virtual bool isComplete() const;
     void changeProfile(bool isPal);
     void setPal(bool isPal);
-    void setVobFiles(bool isPal, bool isWide, const QStringList movies, const QStringList durations, const QStringList chapters);
+    void setVobFiles(bool isPal, bool isWide, const QStringList &movies, const QStringList &durations, const QStringList &chapters);
     QStringList selectedTitles() const;
     QStringList selectedTargets() const;
     QStringList chapters(int ix) const;
