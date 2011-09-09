@@ -264,7 +264,7 @@ void ClipManager::resetProducersList(const QList <Mlt::Producer *> prods, bool d
     emit checkAllClips(displayRatioChanged, fpsChanged);
 }
 
-void ClipManager::slotAddClipList(const KUrl::List urls, const QString group, const QString &groupId)
+void ClipManager::slotAddClipList(const KUrl::List urls, const QString &group, const QString &groupId)
 {
     QUndoCommand *addClips = new QUndoCommand();
 
@@ -340,12 +340,12 @@ void ClipManager::slotAddClipList(const KUrl::List urls, const QString group, co
     }
 }
 
-void ClipManager::slotAddClipFile(const KUrl url, const QString group, const QString &groupId)
+void ClipManager::slotAddClipFile(const KUrl &url, const QString &group, const QString &groupId)
 {
     slotAddClipList(KUrl::List(url), group, groupId);
 }
 
-void ClipManager::slotAddXmlClipFile(const QString name, const QDomElement xml, const QString group, const QString &groupId)
+void ClipManager::slotAddXmlClipFile(const QString &name, const QDomElement &xml, const QString &group, const QString &groupId)
 {
     QDomDocument doc;
     doc.appendChild(doc.importNode(xml, true));
@@ -362,7 +362,7 @@ void ClipManager::slotAddXmlClipFile(const QString name, const QDomElement xml, 
     m_doc->commandStack()->push(command);
 }
 
-void ClipManager::slotAddColorClipFile(const QString name, const QString color, QString duration, const QString group, const QString &groupId)
+void ClipManager::slotAddColorClipFile(const QString &name, const QString &color, QString duration, const QString &group, const QString &groupId)
 {
     QDomDocument doc;
     QDomElement prod = doc.createElement("producer");
@@ -383,10 +383,10 @@ void ClipManager::slotAddColorClipFile(const QString name, const QString color, 
     m_doc->commandStack()->push(command);
 }
 
-void ClipManager::slotAddSlideshowClipFile(const QString name, const QString path, int count, const QString duration,
+void ClipManager::slotAddSlideshowClipFile(const QString &name, const QString &path, int count, const QString &duration,
         const bool loop, const bool crop, const bool fade,
         const QString &luma_duration, const QString &luma_file, const int softness,
-        const QString &animation, QString group, const QString &groupId)
+        const QString &animation, const QString &group, const QString &groupId)
 {
     QDomDocument doc;
     QDomElement prod = doc.createElement("producer");
@@ -416,7 +416,7 @@ void ClipManager::slotAddSlideshowClipFile(const QString name, const QString pat
 
 
 
-void ClipManager::slotAddTextClipFile(const QString titleName, int out, const QString xml, const QString group, const QString &groupId)
+void ClipManager::slotAddTextClipFile(const QString &titleName, int out, const QString &xml, const QString &group, const QString &groupId)
 {
     QDomDocument doc;
     QDomElement prod = doc.createElement("producer");
@@ -438,7 +438,7 @@ void ClipManager::slotAddTextClipFile(const QString titleName, int out, const QS
     m_doc->commandStack()->push(command);
 }
 
-void ClipManager::slotAddTextTemplateClip(QString titleName, const KUrl path, const QString group, const QString &groupId)
+void ClipManager::slotAddTextTemplateClip(QString titleName, const KUrl &path, const QString &group, const QString &groupId)
 {
     QDomDocument doc;
     QDomElement prod = doc.createElement("producer");
