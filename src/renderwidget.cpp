@@ -1044,7 +1044,9 @@ void RenderWidget::refreshCategory()
     }
     if (!item) {
         m_view.format_list->setEnabled(false);
+        m_view.format_list->clear();
         m_view.size_list->setEnabled(false);
+        m_view.size_list->clear();
         m_view.size_list->blockSignals(false);
         m_view.format_list->blockSignals(false);
         return;
@@ -1174,6 +1176,7 @@ void RenderWidget::refreshView()
     }
     // m_view.size_list->sortItems();
     focusFirstVisibleItem();
+    m_view.size_list->setVisible(m_view.size_list->count() > 1 || m_view.format_list->count() <= 1);
     m_view.size_list->blockSignals(false);
     m_view.format_list->blockSignals(false);
     if (m_view.size_list->count() > 0)
@@ -1209,13 +1212,13 @@ void RenderWidget::refreshParams()
 {
     // Format not available (e.g. codec not installed); Disable start button
     QListWidgetItem *item = m_view.size_list->currentItem();
-    errorMessage(item->toolTip());
     if (!item || item->isHidden()) {
         m_view.advanced_params->clear();
         m_view.buttonRender->setEnabled(false);
         m_view.buttonGenerateScript->setEnabled(false);
         return;
     }
+    errorMessage(item->toolTip());
     QString params = item->data(ParamsRole).toString();
     QString extension = item->data(ExtensionRole).toString();
     m_view.advanced_params->setPlainText(params);
