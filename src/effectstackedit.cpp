@@ -205,7 +205,7 @@ void EffectStackEdit::updateParameter(const QString &name, const QString &value)
     }
 }
 
-void EffectStackEdit::transferParamDesc(const QDomElement d, ItemInfo info, bool isEffect)
+void EffectStackEdit::transferParamDesc(const QDomElement &d, ItemInfo info, bool isEffect)
 {
     clearAllItems();
     if (m_keyframeEditor) delete m_keyframeEditor;
