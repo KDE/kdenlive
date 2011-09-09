@@ -81,7 +81,7 @@ void MonitorManager::activateMonitor(QString name)
     emit checkColorScopes();
 }
 
-bool MonitorManager::isActive(const QString name) const
+bool MonitorManager::isActive(const QString &name) const
 {
     return m_activeMonitor ? m_activeMonitor->name() == name: false;
 }

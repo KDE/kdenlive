@@ -47,7 +47,7 @@ public slots:
     /** @brief Activates a monitor.
      * @param name name of the monitor to activate */
     void activateMonitor(QString name = QString());
-    bool isActive(const QString name) const;
+    bool isActive(const QString &name) const;
     void slotPlay();
     void slotPause();
     void slotPlayZone();
