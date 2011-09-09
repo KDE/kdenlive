@@ -52,7 +52,7 @@ protected:
 signals:
     void gotTimeCode(ulong);
     void gotMessage(const QString &);
-    void frameSaved(const QString);
+    void frameSaved(const QString &);
     void gotFrame(QImage);
 };
 

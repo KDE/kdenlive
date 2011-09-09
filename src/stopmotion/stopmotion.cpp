@@ -276,7 +276,7 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, KUrl projectFolder, 
 
     connect(capture_device, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateDeviceHandler()));
     /*if (m_bmCapture) {
-        connect(m_bmCapture, SIGNAL(frameSaved(const QString)), this, SLOT(slotNewThumb(const QString)));
+        connect(m_bmCapture, SIGNAL(frameSaved(const QString &)), this, SLOT(slotNewThumb(const QString &)));
         connect(m_bmCapture, SIGNAL(gotFrame(QImage)), this, SIGNAL(gotFrame(QImage)));
     } else live_button->setEnabled(false);*/
 
@@ -303,7 +303,7 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, KUrl projectFolder, 
     m_captureDevice = new MltDeviceCapture(profilePath, m_videoBox, this);
     m_captureDevice->sendFrameForAnalysis = KdenliveSettings::analyse_stopmotion();
     m_monitor->setRender(m_captureDevice);
-    connect(m_captureDevice, SIGNAL(frameSaved(const QString)), this, SLOT(slotNewThumb(const QString)));
+    connect(m_captureDevice, SIGNAL(frameSaved(const QString &)), this, SLOT(slotNewThumb(const QString &)));
 
     live_button->setChecked(false);
     button_addsequence->setEnabled(false);
@@ -488,7 +488,7 @@ void StopmotionWidget::slotLive(bool isOn)
             m_captureDevice = new MltDeviceCapture(profilePath, m_videoBox, this);
             m_captureDevice->sendFrameForAnalysis = KdenliveSettings::analyse_stopmotion();
             m_monitor->setRender(m_captureDevice);
-            connect(m_captureDevice, SIGNAL(frameSaved(const QString)), this, SLOT(slotNewThumb(const QString)));
+            connect(m_captureDevice, SIGNAL(frameSaved(const QString &)), this, SLOT(slotNewThumb(const QString &)));
         }
 
         m_manager->activateMonitor("stopmotion");
@@ -664,7 +664,7 @@ void StopmotionWidget::slotPreNotify()
 }
 
 
-void StopmotionWidget::slotNewThumb(const QString path)
+void StopmotionWidget::slotNewThumb(const QString &path)
 {
     if (!KdenliveSettings::showstopmotionthumbs()) return;
     m_filesList.append(path);
@@ -883,7 +883,7 @@ void StopmotionWidget::slotSwitchMirror(bool isOn)
     if (m_captureDevice) m_captureDevice->mirror(isOn);
 }
 
-const QString StopmotionWidget::createProducer(MltVideoProfile profile, const QString service, const QString resource)
+const QString StopmotionWidget::createProducer(MltVideoProfile profile, const QString &service, const QString &resource)
 {
     Q_UNUSED(profile)
 

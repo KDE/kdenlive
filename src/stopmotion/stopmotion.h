@@ -152,7 +152,7 @@ private:
     StopmotionMonitor *m_monitor;
 
     /** @brief Create the XML playlist. */
-    const QString createProducer(MltVideoProfile profile, const QString service, const QString resource);
+    const QString createProducer(MltVideoProfile profile, const QString &service, const QString &resource);
 
     /** @brief A new frame arrived, reload overlay. */
     void reloadOverlay();
@@ -225,7 +225,7 @@ private slots:
     void slotConfigure();
 
     /** @brief Prepare to crete thumb for newly captured frame. */
-    void slotNewThumb(const QString path);
+    void slotNewThumb(const QString &path);
 
     /** @brief Set the effect to be applied to overlay frame. */
     void slotUpdateOverlayEffect(QAction* act);
@@ -247,7 +247,7 @@ private slots:
 
 signals:
     /** @brief Ask to add sequence to current project. */
-    void addOrUpdateSequence(const QString);
+    void addOrUpdateSequence(const QString &);
 
     void doCreateThumbs(QImage, int);
     void gotFrame(QImage);
