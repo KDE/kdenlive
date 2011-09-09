@@ -192,7 +192,7 @@ void RecMonitor::slotConfigure()
     emit showConfigDialog(4, device_selector->currentIndex());
 }
 
-void RecMonitor::slotUpdateCaptureFolder(const QString currentProjectFolder)
+void RecMonitor::slotUpdateCaptureFolder(const QString &currentProjectFolder)
 {
     if (KdenliveSettings::capturetoprojectfolder()) m_capturePath = currentProjectFolder;
     else m_capturePath = KdenliveSettings::capturefolder();
@@ -305,7 +305,7 @@ void RecMonitor::slotSetInfoMessage(const QString &message)
     m_logger.insertItem(0, message);
 }
 
-QPixmap RecMonitor::mergeSideBySide(const QPixmap& pix, const QString txt)
+QPixmap RecMonitor::mergeSideBySide(const QPixmap& pix, const QString &txt)
 {
     QPainter p;
     QRect r = QApplication::fontMetrics().boundingRect(QRect(0, 0, video_frame->width(), video_frame->height()), Qt::AlignLeft, txt);

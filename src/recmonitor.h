@@ -105,7 +105,7 @@ private:
     VideoPreviewContainer *m_videoBox;
     bool m_analyse;
     void checkDeviceAvailability();
-    QPixmap mergeSideBySide(const QPixmap& pix, const QString txt);
+    QPixmap mergeSideBySide(const QPixmap& pix, const QString &txt);
     void manageCapturedFiles();
     /** @brief Build MLT producer for device, using path as profile. */
     void buildMltDevice(const QString &path);
@@ -133,7 +133,7 @@ public slots:
     void stop();
     void start();
     void slotStopCapture();
-    void slotUpdateCaptureFolder(const QString currentProjectFolder);
+    void slotUpdateCaptureFolder(const QString &currentProjectFolder);
 
 signals:
     void renderPosition(int);
