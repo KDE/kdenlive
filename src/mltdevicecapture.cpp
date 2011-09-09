@@ -504,7 +504,7 @@ void MltDeviceCapture::setOverlay(const QString &path)
     //delete clip;
 }
 
-void MltDeviceCapture::setOverlayEffect(const QString tag, QStringList parameters)
+void MltDeviceCapture::setOverlayEffect(const QString &tag, QStringList parameters)
 {
     if (m_mltProducer == NULL || !m_mltProducer->is_valid()) return;
     Mlt::Service service(m_mltProducer->parent().get_service());
