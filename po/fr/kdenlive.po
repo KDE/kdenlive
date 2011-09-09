@@ -6928,7 +6928,7 @@ msgstr "Redimensionnement"
 
 #: rc.cpp:2821 rc.cpp:4851
 msgid "Scanning"
-msgstr "Analyse en cours..."
+msgstr "Balayage"
 
 #: rc.cpp:1295
 msgid "Scratchlines"
