@@ -24,7 +24,7 @@
 #include <KUrl>
 
 
-BackupWidget::BackupWidget(KUrl projectUrl, KUrl projectFolder, const QString projectId, QWidget * parent) :
+BackupWidget::BackupWidget(KUrl projectUrl, KUrl projectFolder, const QString &projectId, QWidget * parent) :
         QDialog(parent)
 {
     setupUi(this);
@@ -111,3 +111,4 @@ QString BackupWidget::selectedFile()
     if (!backup_list->currentItem()) return QString();
     return backup_list->currentItem()->data(Qt::UserRole).toString();
 }
+
