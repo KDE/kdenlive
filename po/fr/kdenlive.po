@@ -1946,7 +1946,7 @@ msgstr "Valider"
 
 #: rc.cpp:3157 rc.cpp:5187
 msgid "Check if first added clip matches project profile"
-msgstr "Verifier si la première clip ajoutée est pareil au profile du projet"
+msgstr "Verifier si le premier clip ajouté est compatible avec le profil du projet"
 
 #: src/renderwidget.cpp:1933 src/kdenlivedoc.cpp:145 src/projectlist.cpp:533
 msgid "Check missing clips"
@@ -2468,7 +2468,7 @@ msgstr "Courbes"
 
 #: rc.cpp:2188 rc.cpp:4218
 msgid "Custom"
-msgstr "Personnaliser"
+msgstr "Personnalisé"
 
 #: src/renderwidget.cpp:1485
 msgctxt "Attribute Name"
@@ -7637,7 +7637,7 @@ msgstr "Démarre le Job"
 
 #: rc.cpp:2929 rc.cpp:4959
 msgid "Start Script"
-msgstr "Script de début"
+msgstr "Exécuter le script"
 
 #: rc.cpp:2143 rc.cpp:4173
 msgid "Start at"
@@ -8372,7 +8372,7 @@ msgstr ""
 
 #: rc.cpp:3148 rc.cpp:5178
 msgid "Use KDE job tracking for render jobs"
-msgstr "Utiliser le créateur de travaux KDE pour lancer le rendu des travaux"
+msgstr "Utiliser le moniteur de travaux KDE pour suivre le rendu des travaux"
 
 #: rc.cpp:1965 rc.cpp:3995
 msgid "Use OpenGL for video display (restart Kdenlive to apply)"
