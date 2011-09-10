@@ -283,7 +283,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement &d, ItemInfo info, boo
             QStringList listitems = pa.attribute("paramlist").split(';');
             if (listitems.count() == 1) {
                 // probably custom effect created before change to ';' as separator
-                listitems = pa.attribute("paramlist").split(",");
+                listitems = pa.attribute("paramlist").split(',');
             }
             QDomElement list = pa.firstChildElement("paramlistdisplay");
             QStringList listitemsdisplay;

@@ -271,12 +271,13 @@ QString GeometryWidget::getExtraValue(const QString &name) const
 {
     int ix = m_extraGeometryNames.indexOf(name);
     QString val = m_extraGeometries.at(ix)->serialise();
-    if (!val.contains("=")) val = val.section(',', 0, 0);
+    if (!val.contains("=")) val = val.section('/', 0, 0);
     else {
-        QStringList list = val.split(';');
+        QStringList list = val.split(';', QString::SkipEmptyParts);
         val.clear();
+        val.append(list.takeFirst().section('/', 0, 0));
         foreach (const QString value, list) {
-            val.append(value.section(',', 0, 0) + ';');
+            val.append(';' + value.section('/', 0, 0));
         }
     }
     return val;
