@@ -650,9 +650,9 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
                 /*paramList.append(quickParameterFill(ret, i18n("Rotate Y"), "rotate_y", "simplekeyframe", "0", "-1800", "1800", QString(), QString(), "10"));
                 paramList.append(quickParameterFill(ret, i18n("Rotate Z"), "rotate_z", "simplekeyframe", "0", "-1800", "1800", QString(), QString(), "10"));*/
                 
-                paramList.append(quickParameterFill(ret, i18n("Fix Shear Y"), "fix_shear_y", "double", "0", "0", "360"));
-                paramList.append(quickParameterFill(ret, i18n("Fix Shear X"), "fix_shear_x", "double", "0", "0", "360"));
-                paramList.append(quickParameterFill(ret, i18n("Fix Shear Z"), "fix_shear_z", "double", "0", "0", "360"));
+                paramList.append(quickParameterFill(ret, i18n("Fix Shear Y"), "shear_y", "double", "0", "0", "360"));
+                paramList.append(quickParameterFill(ret, i18n("Fix Shear X"), "shear_x", "double", "0", "0", "360"));
+                paramList.append(quickParameterFill(ret, i18n("Fix Shear Z"), "shear_z", "double", "0", "0", "360"));
             } else if (name == "mix") {
                 tname.appendChild(ret.createTextNode(i18n("Mix")));
             } else if (name == "region") {
