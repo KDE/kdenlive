@@ -224,7 +224,7 @@ private:
     void selectItems(int itemType);
 
     /** @brief Appends the shortcut of a QAction to a tooltip text */
-    QString getTooltipWithShortcut(const QString text, QAction *button);
+    QString getTooltipWithShortcut(const QString& text, QAction *button);
 
 public slots:
     void slotNewText(QGraphicsTextItem *tt);

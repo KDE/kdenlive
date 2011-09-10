@@ -2399,7 +2399,7 @@ void TitleWidget::slotSelectNone()
     selectionChanged();
 }
 
-QString TitleWidget::getTooltipWithShortcut(const QString text, QAction *button)
+QString TitleWidget::getTooltipWithShortcut(const QString &text, QAction *button)
 {
     return text + "  <b>" + button->shortcut().toString() + "</b>";
 }
