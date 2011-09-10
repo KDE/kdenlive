@@ -827,7 +827,7 @@ msgstr "Expert"
 
 #: src/initeffects.cpp:831
 msgid "Affine"
-msgstr "Affiner"
+msgstr "Affine"
 
 #: src/main.cpp:43
 msgid "Alberto Villa"
