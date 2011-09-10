@@ -31,7 +31,7 @@
 #include <QStyleOptionGraphicsItem>
 
 
-Transition::Transition(const ItemInfo info, int transitiontrack, double fps, QDomElement params, bool automaticTransition) :
+Transition::Transition(const ItemInfo &info, int transitiontrack, double fps, QDomElement params, bool automaticTransition) :
         AbstractClipItem(info, QRectF(), fps),
         m_forceTransitionTrack(false),
         m_automaticTransition(automaticTransition),
