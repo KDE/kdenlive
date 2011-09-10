@@ -252,7 +252,7 @@ void RenderWidget::showInfoPanel()
     }
 }
 
-void RenderWidget::setDocumentPath(const QString path)
+void RenderWidget::setDocumentPath(const QString &path)
 {
     if (m_view.out_file->url().directory() == KUrl(m_projectFolder).directory()) {
         const QString fileName = m_view.out_file->url().fileName();
