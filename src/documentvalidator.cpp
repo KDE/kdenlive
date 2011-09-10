@@ -69,7 +69,10 @@ bool DocumentValidator::validate(const double currentVersion)
     }
     
     documentLocale.setNumberOptions(QLocale::OmitGroupSeparator);
-    if (documentLocale != QLocale()) {
+    if (documentLocale.decimalPoint() != QLocale().decimalPoint()) {
+        // If loading an older MLT file without LC_NUMERIC, set locale to C which was previously the default
+        if (!mlt.hasAttribute("LC_NUMERIC")) setlocale(LC_NUMERIC, "C");
+
         QLocale::setDefault(documentLocale);
         // locale conversion might need to be redone
         initEffects::parseEffectFiles();
