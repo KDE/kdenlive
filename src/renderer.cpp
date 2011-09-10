@@ -177,7 +177,7 @@ void Render::slotSwitchFullscreen()
     if (m_mltConsumer) m_mltConsumer->set("full_screen", 1);
 }
 
-void Render::buildConsumer(const QString profileName)
+void Render::buildConsumer(const QString &profileName)
 {
     delete m_blackClip;
     m_blackClip = NULL;
@@ -554,7 +554,7 @@ void Render::slotSplitView(bool doit)
     }
 }
 
-void Render::getFileProperties(const QDomElement xml, const QString &clipId, int imageHeight, bool replaceProducer, bool selectClip)
+void Render::getFileProperties(const QDomElement &xml, const QString &clipId, int imageHeight, bool replaceProducer, bool selectClip)
 {
     QString path;
     QLocale locale;
@@ -1904,7 +1904,7 @@ bool Render::mltRemoveClip(int track, GenTime position)
     return true;
 }
 
-int Render::mltGetSpaceLength(const GenTime pos, int track, bool fromBlankStart)
+int Render::mltGetSpaceLength(const GenTime &pos, int track, bool fromBlankStart)
 {
     if (!m_mltProducer) {
         kDebug() << "PLAYLIST NOT INITIALISED //////";
@@ -1951,7 +1951,7 @@ int Render::mltTrackDuration(int track)
     return trackProducer.get_playtime() - 1;
 }
 
-void Render::mltInsertSpace(QMap <int, int> trackClipStartList, QMap <int, int> trackTransitionStartList, int track, const GenTime duration, const GenTime timeOffset)
+void Render::mltInsertSpace(QMap <int, int> trackClipStartList, QMap <int, int> trackTransitionStartList, int track, const GenTime &duration, const GenTime &timeOffset)
 {
     if (!m_mltProducer) {
         kDebug() << "PLAYLIST NOT INITIALISED //////";

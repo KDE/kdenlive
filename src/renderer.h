@@ -84,7 +84,7 @@ Q_OBJECT public:
      *  @param rendererName A unique identifier for this renderer
      *  @param winid The parent widget identifier (required for SDL display). Set to 0 for OpenGL rendering
      *  @param profile The MLT profile used for the renderer (default one will be used if empty). */
-    Render(const QString & rendererName, int winid, QString profile = QString(), QWidget *parent = 0);
+    Render(const QString &rendererName, int winid, QString profile = QString(), QWidget *parent = 0);
 
     /** @brief Destroy the MLT Renderer. */
     virtual ~Render();
@@ -127,7 +127,7 @@ Q_OBJECT public:
 
     /** @brief Stops playing.
      * @param startTime time to seek to */
-    void stop(const GenTime & startTime);
+    void stop(const GenTime &startTime);
     int volume() const;
 
     QImage extractFrame(int frame_position, QString path = QString(), int width = -1, int height = -1);
@@ -170,7 +170,7 @@ Q_OBJECT public:
      * @param profileName The MLT profile name
      * @param dropSceneList If true, the current playlist will be deleted
      * . */
-    int resetProfile(const QString profileName, bool dropSceneList = false);
+    int resetProfile(const QString& profileName, bool dropSceneList = false);
     double fps() const;
 
     /** @brief Returns the width of a frame for this profile. */
@@ -192,8 +192,8 @@ Q_OBJECT public:
     int mltInsertClip(ItemInfo info, QDomElement element, Mlt::Producer *prod, bool overwrite = false, bool push = false);
     bool mltUpdateClip(ItemInfo info, QDomElement element, Mlt::Producer *prod);
     void mltCutClip(int track, GenTime position);
-    void mltInsertSpace(QMap <int, int> trackClipStartList, QMap <int, int> trackTransitionStartList, int track, const GenTime duration, const GenTime timeOffset);
-    int mltGetSpaceLength(const GenTime pos, int track, bool fromBlankStart);
+    void mltInsertSpace(QMap <int, int> trackClipStartList, QMap <int, int> trackTransitionStartList, int track, const GenTime &duration, const GenTime &timeOffset);
+    int mltGetSpaceLength(const GenTime &pos, int track, bool fromBlankStart);
 
     /** @brief Returns the duration/length of @param track as reported by the track producer. */
     int mltTrackDuration(int track);
@@ -316,7 +316,7 @@ private:
 
     /** @brief Build the MLT Consumer object with initial settings.
      *  @param profileName The MLT profile to use for the consumer */
-    void buildConsumer(const QString profileName);
+    void buildConsumer(const QString& profileName);
     void resetZoneMode();
     void fillSlowMotionProducers();
     /** @brief Get the track number of the lowest audible (non muted) audio track
@@ -366,13 +366,13 @@ signals:
     void refreshDocumentProducers(bool displayRatioChanged, bool fpsChanged);
     
     /** @brief If we will delete the producer, make sure to pause the monitor */
-    void blockClipMonitor(const QString);
+    void blockClipMonitor(const QString &);
 
     /** @brief A frame's image has to be shown.
      *
      * Used in Mac OS X. */
     void showImageSignal(QImage);
-    void showAudioSignal(const QByteArray);
+    void showAudioSignal(const QByteArray &);
 
 public slots:
 
@@ -394,7 +394,7 @@ public slots:
         @param selectClip If true, clip item will be selected in project view
      * Upon return, the result will be emitted via replyGetFileProperties().
      * Wraps the VEML command of the same name. */
-    void getFileProperties(const QDomElement xml, const QString &clipId, int imageHeight, bool replaceProducer = true, bool selectClip = false);
+    void getFileProperties(const QDomElement &xml, const QString &clipId, int imageHeight, bool replaceProducer = true, bool selectClip = false);
 
     void exportFileToFirewire(QString srcFileName, int port, GenTime startTime, GenTime endTime);
     void mltSavePlaylist();
