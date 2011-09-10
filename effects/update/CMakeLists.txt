@@ -1,5 +1,6 @@
 INSTALL(FILES
 
+frei0r.balanc0r.js
 frei0r.cartoon.js
 frei0r.curves.js
 frei0r.levels.js
