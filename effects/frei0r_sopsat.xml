@@ -1,5 +1,6 @@
 <!DOCTYPE kpartgui>
-<effect tag="frei0r.sopsat" id="frei0r.sopsat">
+<group>
+    <effect tag="frei0r.sopsat" id="frei0r.sopsat">
         <name>SOP/Sat</name>
         <description>Changes Slope, Offset, and Power of the color components, and the overall Saturation, according to the ASC CDL (Color Decision List).</description>
         <author>Simon A. Eugster (Granjow)</author>
@@ -52,4 +53,60 @@
                 <comment>The overall saturation will be changed in the last step of this filter.</comment>
         </parameter>
 
-</effect>
+    </effect>
+
+    <effect LC_NUMERIC="C" tag="frei0r.sopsat" id="frei0r.sopsat" version="0.2">
+        <name>SOP/Sat</name>
+        <description>Changes Slope, Offset, and Power of the color components, and the overall Saturation, according to the ASC CDL (Color Decision List).</description>
+        <author>Simon A. Eugster (Granjow)</author>
+        <parameter type="simplekeyframe" name="rSlope" default="100" min="0" max="1000" factor="2000">
+                <name>Slope Red</name>
+                <comment><![CDATA[Changing the slope means multiplying the pixel value with a constant value. Black pixels will remain black, whileas brighter ones will be changed.<br/>
+                All effects can be observed well when applied on a greyscale gradient and looking at the RGB Parade monitor.]]></comment>
+        </parameter>
+        <parameter type="simplekeyframe" name="gSlope" default="100" min="0" max="1000" factor="2000">
+                <name>Slope Green</name>
+        </parameter>
+        <parameter type="simplekeyframe" name="bSlope" default="100" min="0" max="1000" factor="2000">
+                <name>Slope Blue</name>
+        </parameter>
+        <parameter type="simplekeyframe" name="aSlope" default="100" min="0" max="1000" factor="2000">
+                <name>Slope Alpha</name>
+        </parameter>
+
+        <parameter type="simplekeyframe" name="rOffset" default="0" min="-1024" max="1024" factor="2048" offset="-1024">
+                <name>Offset Red</name>
+                <comment>Changing the offset lifts (or lowers) the brightness of each pixel by the given value.</comment>
+        </parameter>
+        <parameter type="simplekeyframe" name="gOffset" default="0" min="-1024" max="1024" factor="2048" offset="-1024">
+                <name>Offset Green</name>
+        </parameter>
+        <parameter type="simplekeyframe" name="bOffset" default="0" min="-1024" max="1024" factor="2048" offset="-1024">
+                <name>Offset Blue</name>
+        </parameter>
+        <parameter type="simplekeyframe" name="aOffset" default="0" min="-1024" max="1024" factor="2048" offset="-1024">
+                <name>Offset Alpha</name>
+        </parameter>
+
+        <parameter type="simplekeyframe" name="rPower" default="100" min="1" max="1000" factor="2000">
+                <name>Power Red</name>
+                <comment><![CDATA[Changes the Gamma value for the selected channel. Black and white pixel values will not be affected, but everything between.<br/>
+                Mathematically, what happens is an exponentiation of the pixel brightness on <code>[0,1]</code> by the gamma value.]]></comment>
+        </parameter>
+        <parameter type="simplekeyframe" name="gPower" default="100" min="1" max="1000" factor="2000">
+                <name>Power Green</name>
+        </parameter>
+        <parameter type="simplekeyframe" name="bPower" default="100" min="1" max="1000" factor="2000">
+                <name>Power Blue</name>
+        </parameter>
+        <parameter type="simplekeyframe" name="aPower" default="100" min="1" max="1000" factor="2000">
+                <name>Power Alpha</name>
+        </parameter>
+
+        <parameter type="simplekeyframe" name="saturation" default="100" min="0" max="500" factor="1000">
+                <name>Overall Saturation</name>
+                <comment>The overall saturation will be changed in the last step of this filter.</comment>
+        </parameter>
+
+    </effect>
+</group>
