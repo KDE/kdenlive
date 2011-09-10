@@ -57,7 +57,8 @@ The rest:
                 - number
                 - represented by a slider
                 - additional parameter attributes:
-                    - "factor": (optional) values coming from MLT will be multiplied with factor, values from the GUI divided by factor
+                    - "factor": (optional) values coming from MLT will be multiplied with factor
+                    - "offset": (optional) will be added to values coming from MLT after "factor" is applied
                     - "min": smallest value possible (after multiplying with "factor")
                     - "max": largest value possible (after multiplying with "factor")
                     - "suffix": (optional) displayed unit of the values

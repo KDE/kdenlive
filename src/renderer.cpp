@@ -2472,12 +2472,14 @@ bool Render::mltAddEffect(Mlt::Service service, EffectsParameterList params, int
         //double max = params.paramValue("max").toDouble();
         double min = params.paramValue("min").toDouble();
         double factor = params.paramValue("factor", "1").toDouble();
+        double paramOffset = params.paramValue("offset", "0").toDouble();
         params.removeParam("starttag");
         params.removeParam("endtag");
         params.removeParam("keyframes");
         params.removeParam("min");
         params.removeParam("max");
         params.removeParam("factor");
+        params.removeParam("offset");
         int offset = 0;
         // Special case, only one keyframe, means we want a constant value
         if (keyFrames.count() == 1) {
@@ -2491,7 +2493,7 @@ bool Render::mltAddEffect(Mlt::Service service, EffectsParameterList params, int
                 }
                 filter->set("in", x1);
                 //kDebug() << "// ADDING KEYFRAME vals: " << min<<" / "<<max<<", "<<y1<<", factor: "<<factor;
-                filter->set(starttag, m_locale.toString((min + y1) / factor).toUtf8().data());
+                filter->set(starttag, m_locale.toString(((min + y1) - paramOffset) / factor).toUtf8().data());
                 service.attach(*filter);
             }
         } else for (int i = 0; i < keyFrames.size() - 1; ++i) {
@@ -2511,8 +2513,8 @@ bool Render::mltAddEffect(Mlt::Service service, EffectsParameterList params, int
                     filter->set("in", x1);
                     filter->set("out", x2);
                     //kDebug() << "// ADDING KEYFRAME vals: " << min<<" / "<<max<<", "<<y1<<", factor: "<<factor;
-                    filter->set(starttag, m_locale.toString((min + y1) / factor).toUtf8().data());
-                    filter->set(endtag, m_locale.toString((min + y2) / factor).toUtf8().data());
+                    filter->set(starttag, m_locale.toString(((min + y1) - paramOffset) / factor).toUtf8().data());
+                    filter->set(endtag, m_locale.toString(((min + y2) - paramOffset) / factor).toUtf8().data());
                     service.attach(*filter);
                     offset = 1;
                 }
@@ -3599,8 +3601,8 @@ QMap<QString, QString> Render::mltGetTransitionParamsFromXml(QDomElement xml)
         if (!e.attribute("value").isEmpty()) {
             map[name] = e.attribute("value");
         }
-        if (e.attribute("type") != "addedgeometry" && !e.attribute("factor").isEmpty() && e.attribute("factor").toDouble() > 0) {
-            map[name] = m_locale.toString(map.value(name).toDouble() / e.attribute("factor").toDouble());
+        if (e.attribute("type") != "addedgeometry" && (e.attribute("factor", "1") != "1" || e.attribute("offset", "0") != "0")) {
+            map[name] = m_locale.toString((map.value(name).toDouble() - e.attribute("offset", "0").toDouble()) / e.attribute("factor", "1").toDouble());
             //map[name]=map[name].replace(".",","); //FIXME how to solve locale conversion of . ,
         }
 

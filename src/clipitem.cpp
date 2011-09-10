@@ -1403,10 +1403,11 @@ EffectsParameterList ClipItem::addEffect(const QDomElement effect, bool /*animat
             if (e.attribute("type") == "simplekeyframe") {
                 QStringList values = e.attribute("keyframes").split(";", QString::SkipEmptyParts);
                 double factor = locale.toDouble(e.attribute("factor", "1"));
-                if (factor != 1) {
+                double offset = e.attribute("offset", "0").toDouble();
+                if (factor != 1 || offset != 0) {
                     for (int j = 0; j < values.count(); j++) {
                         QString pos = values.at(j).section(':', 0, 0);
-                        double val = locale.toDouble(values.at(j).section(':', 1, 1)) / factor;
+                        double val = (locale.toDouble(values.at(j).section(':', 1, 1)) - offset) / factor;
                         values[j] = pos + "=" + locale.toString(val);
                     }
                 }
@@ -1419,9 +1420,10 @@ EffectsParameterList ClipItem::addEffect(const QDomElement effect, bool /*animat
                 parameters.addParam("max", e.attribute("max"));
                 parameters.addParam("min", e.attribute("min"));
                 parameters.addParam("factor", e.attribute("factor", "1"));
+                parameters.addParam("offset", e.attribute("offset", "0"));
                 parameters.addParam("starttag", e.attribute("starttag", "start"));
                 parameters.addParam("endtag", e.attribute("endtag", "end"));
-            } else if (e.attribute("factor", "1") == "1") {
+            } else if (e.attribute("factor", "1") == "1" && e.attribute("offset", "0") == "0") {
                 parameters.addParam(e.attribute("name"), e.attribute("value"));
 
                 // check if it is a fade effect
@@ -1470,8 +1472,11 @@ EffectsParameterList ClipItem::addEffect(const QDomElement effect, bool /*animat
                 double fact;
                 if (e.attribute("factor").contains('%')) {
                     fact = ProfilesDialog::getStringEval(projectScene()->profile(), e.attribute("factor"));
-                } else fact = locale.toDouble(e.attribute("factor", "1"));
-                parameters.addParam(e.attribute("name"), locale.toString(locale.toDouble(e.attribute("value")) / fact));
+                } else {
+                    fact = locale.toDouble(e.attribute("factor", "1"));
+                }
+                double offset = e.attribute("offset", "0").toDouble();
+                parameters.addParam(e.attribute("name"), locale.toString((locale.toDouble(e.attribute("value")) - offset) / fact));
             }
         }
     }

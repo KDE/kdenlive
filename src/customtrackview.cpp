@@ -6586,9 +6586,10 @@ EffectsParameterList CustomTrackView::getEffectArgs(const QDomElement &effect)
 
             QStringList values = e.attribute("keyframes").split(";", QString::SkipEmptyParts);
             double factor = e.attribute("factor", "1").toDouble();
+            double offset = e.attribute("offset", "0").toDouble();
             for (int j = 0; j < values.count(); j++) {
                 QString pos = values.at(j).section(':', 0, 0);
-                double val = values.at(j).section(':', 1, 1).toDouble() / factor;
+                double val = (values.at(j).section(':', 1, 1).toDouble() - offset) / factor;
                 values[j] = pos + "=" + locale.toString(val);
             }
             // kDebug() << "/ / / /SENDING KEYFR:" << values;
@@ -6603,6 +6604,7 @@ EffectsParameterList CustomTrackView::getEffectArgs(const QDomElement &effect)
             parameters.addParam("max", e.attribute("max"));
             parameters.addParam("min", e.attribute("min"));
             parameters.addParam("factor", e.attribute("factor", "1"));
+            parameters.addParam("offset", e.attribute("offset", "0"));
             parameters.addParam("starttag", e.attribute("starttag", "start"));
             parameters.addParam("endtag", e.attribute("endtag", "end"));
         } else if (e.attribute("namedesc").contains(';')) {
@@ -6619,12 +6621,15 @@ EffectsParameterList CustomTrackView::getEffectArgs(const QDomElement &effect)
             }
             parameters.addParam("start", neu);
         } else {
-            if (e.attribute("factor", "1") != "1") {
+            if (e.attribute("factor", "1") != "1" || e.attribute("offset", "0") != "0") {
                 double fact;
                 if (e.attribute("factor").contains('%')) {
                     fact = ProfilesDialog::getStringEval(m_document->mltProfile(), e.attribute("factor"));
-                } else fact = e.attribute("factor", "1").toDouble();
-                parameters.addParam(e.attribute("name"), locale.toString(e.attribute("value").toDouble() / fact));
+                } else {
+                    fact = e.attribute("factor", "1").toDouble();
+                }
+                double offset = e.attribute("offset", "0").toDouble();
+                parameters.addParam(e.attribute("name"), locale.toString((e.attribute("value").toDouble() - offset) / fact));
             } else {
                 parameters.addParam(e.attribute("name"), e.attribute("value"));
             }
