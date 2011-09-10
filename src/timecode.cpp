@@ -137,13 +137,13 @@ QString Timecode::reformatSeparators(QString duration) const
     return duration.replace(8, 1, ':');
 }
 
-int Timecode::getDisplayFrameCount(const QString duration, bool frameDisplay) const
+int Timecode::getDisplayFrameCount(const QString &duration, bool frameDisplay) const
 {
     if (frameDisplay) return duration.toInt();
     return getFrameCount(duration);
 }
 
-int Timecode::getFrameCount(const QString duration) const
+int Timecode::getFrameCount(const QString &duration) const
 {
     if (m_dropFrameTimecode) {
 
