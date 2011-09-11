@@ -1,5 +1,8 @@
 
 HEAD
+    * Add support for handling different versions of filters and add rules to convert between them.
+    * Move all cached data in one operation, so that user does not get one dialog box for each file in case of duplicates. (http://kdenlive.org/mantis/view.php?id=2297)
+    * Show filter version in filter info box.
     * When multiple clips are selected do not allow resizing, but moving only. (http://kdenlive.org/mantis/view.php?id=2257)
     * Add remux with MKV transcode preset.
     * Make audio only render profiles faster by telling ffmpeg to skip video.
@@ -24,6 +27,9 @@ HEAD
     * Allow use of different ffmpeg preset for 1st and 2nd render pass.
     * Notes widget: context menu now allows to insert clickable timecode to make easy reference to some place in the project.
 
+    * Fix DVD wizard losing chapters data when switching to menu page.
+    * Fix previewing of affine transitions with transparent png.
+    * Fix timeline corruption when using 'Remove space' tool (transitions could overlap).
     * Fix 'adjust to original size' and 'fit to width/height' for title and color clips in geometry widget (pan and zoom, composite, affine).
     * Fix vorbis rendering by setting the audio quality (aq).
     * Rotoscoping: do not allow to add keyframes until initial spline is created to avoid corruptions.
@@ -45,7 +51,7 @@ HEAD
     * Fix list of effects in effect stack taking up to much space by default.
     * Fix transition track not correctly saved. (http://kdenlive.org/mantis/view.php?id=2187)
     * Fix "save zone" saving proxy instead of real clip. (http://kdenlive.org/mantis/view.php?id=2184)
-    * Fix freeze when saving while timeline is at maximum zoom. (http://www.kdenlive.org/mantis/view.php?id=2174)
+    * Fix freeze when saving while timeline is at maximum zoom. (http://kdenlive.org/mantis/view.php?id=2174)
     * Fix crash when deleting a track and having an audio clip on last track. (http://kdenlive.org/mantis/view.php?id=2168)
     * Do not allow to create overlapping transitions that could corrupt timeline. (http://kdenlive.org/mantis/view.php?id=1901)
     * Fix sometimes effects were missing. (http://kdenlive.org/mantis/view.php?id=2152)
@@ -62,7 +68,6 @@ HEAD
     * Fix handling of proxies when duration != duration of original clip.
     * Fix filename encoding problem in renderer. (http://kdenlive.org/mantis/view.php?id=2110)
     * Fix user specified CFLAGS ignored. (http://kdenlive.org/mantis/view.php?id=2108)
-    * Fix timeline corruption when using 'Remove space' tool (transitions could overlap)
 
 0.8
     See http://kdenlive.org/discover/0.8
