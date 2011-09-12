@@ -54,7 +54,7 @@ public:
      * It checks for all available effects and transitions, removes blacklisted
      * ones, calls fillTransitionsList() and parseEffectFile() to fill the lists
      * (with sorted, unique items) and then fills the global lists. */
-    static Mlt::Repository *parseEffectFiles();
+    static void parseEffectFiles();
     static void refreshLumas();
     static QDomDocument createDescriptionFromMlt(Mlt::Repository* repository, const QString& type, const QString& name);
     static QDomDocument getUsedCustomEffects(QMap <QString, QString> effectids);

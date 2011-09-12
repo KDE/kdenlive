@@ -134,7 +134,7 @@ QDomDocument initEffects::getUsedCustomEffects(QMap <QString, QString> effectids
 }
 
 //static
-Mlt::Repository *initEffects::parseEffectFiles()
+void initEffects::parseEffectFiles()
 {
     QStringList::Iterator more;
     QStringList::Iterator it;
@@ -144,7 +144,7 @@ Mlt::Repository *initEffects::parseEffectFiles()
     Mlt::Repository *repository = Mlt::Factory::init();
     if (!repository) {
         kDebug() << "Repository didn't finish initialisation" ;
-        return NULL;
+        return;
     }
 
     // Retrieve the list of MLT's available effects.
@@ -287,8 +287,6 @@ Mlt::Repository *initEffects::parseEffectFiles()
     MainWindow::videoEffects.clearList();
     foreach(const QDomElement & effect, videoEffectsMap)
         MainWindow::videoEffects.append(effect);
-
-    return repository;
 }
 
 // static
@@ -550,8 +548,9 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
         QDomElement desc = ret.createElement("description");
         ktrans.appendChild(tname);
         ktrans.appendChild(desc);
-        Mlt::Properties *metadata = repository->metadata(transition_type, name.toUtf8().data());
-        if (!customTransitions.contains(name) && metadata && metadata->is_valid()) {
+        Mlt::Properties *metadata = NULL;
+        if (!customTransitions.contains(name)) metadata = repository->metadata(transition_type, name.toUtf8().data());
+        if (metadata && metadata->is_valid()) {
             // If possible, set name and description.
             if (metadata->get("title") && metadata->get("identifier"))
                 tname.appendChild(ret.createTextNode(metadata->get("title")));
@@ -591,8 +590,6 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
                 params.appendChild(pname);
                 ktrans.appendChild(params);
             }
-            delete metadata;
-            metadata = 0;
         } else {
             /*
              * Check for Kdenlive installed luma files, add empty string at
@@ -674,7 +671,8 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
             foreach(const QDomElement & e, paramList)
             ktrans.appendChild(e);
         }
-
+        delete metadata;
+        metadata = 0;
         // Add the transition to the global list.
         transitions->append(ret.documentElement());
         //kDebug() << ret.toString();
