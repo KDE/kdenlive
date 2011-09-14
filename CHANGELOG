@@ -27,6 +27,7 @@ HEAD
     * Allow use of different ffmpeg preset for 1st and 2nd render pass.
     * Notes widget: context menu now allows to insert clickable timecode to make easy reference to some place in the project.
 
+    * Fix rendering to Flash could be broken by setting the number of encoder threads. (http://www.kdenlive.org/mantis/view.php?id=2312)
     * Fix DVD wizard losing chapters data when switching to menu page.
     * Fix previewing of affine transitions with transparent png.
     * Fix timeline corruption when using 'Remove space' tool (transitions could overlap).

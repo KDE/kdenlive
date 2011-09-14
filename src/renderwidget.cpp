@@ -780,7 +780,9 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
     if (!exportAudio) renderArgs.append(" an=1 ");
 
     // Set the thread counts
-    renderArgs.append(QString(" threads=%1").arg(KdenliveSettings::encodethreads()));
+    if (!renderArgs.contains("threads=")) {
+        renderArgs.append(QString(" threads=%1").arg(KdenliveSettings::encodethreads()));
+    }
     renderArgs.append(QString(" real_time=-%1").arg(KdenliveSettings::mltthreads()));
 
     // Check if the rendering profile is different from project profile,
@@ -1268,6 +1270,8 @@ void RenderWidget::refreshParams()
     }
 
     m_view.checkTwoPass->setEnabled(params.contains("passes"));
+
+    m_view.encoder_threads->setEnabled(!params.contains("threads="));
 
     m_view.buttonRender->setEnabled(m_view.size_list->currentItem()->toolTip().isEmpty());
     m_view.buttonGenerateScript->setEnabled(m_view.size_list->currentItem()->toolTip().isEmpty());

@@ -70,9 +70,9 @@
 
 <group name="Flash" renderer="avformat" extension="flv" type="av">
   <profile name="Flash" bitrates="200,400,600,800,1000,2000,4000,6000,8000,10000,12000" defaultbitrate="8000"
-           args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=%bitrate+'k' progressive=1 pass=%passes" />
-  <profile name="Flash 720x576" standard="PAL" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=12000k s=720x576 progressive=1 pass=%passes" />
-  <profile name="Flash 720x480" standard="NTSC" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=12000k s=720x480 progressive=1 pass=%passes" />
+           args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=%bitrate+'k' progressive=1 pass=%passes threads=1" />
+  <profile name="Flash 720x576" standard="PAL" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=12000k s=720x576 progressive=1 pass=%passes threads=1" />
+  <profile name="Flash 720x480" standard="NTSC" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=12000k s=720x480 progressive=1 pass=%passes threads=1" />
 </group>
 
 <group name="RealVideo" renderer="avformat" extension="rm" type="av">
