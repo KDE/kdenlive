@@ -124,6 +124,7 @@ TrackView::~TrackView()
 {
     delete m_ruler;
     delete m_trackview;
+    delete m_scene;
 }
 
 //virtual
@@ -533,6 +534,16 @@ void TrackView::slotRebuildTrackHeaders()
     int height = KdenliveSettings::trackheight() * m_scene->scale().y() - 1;
     HeaderTrack *header = NULL;
     QFrame *frame = NULL;
+
+    QPalette p = palette();
+    KColorScheme scheme(p.currentColorGroup(), KColorScheme::View, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
+    QColor norm = scheme.shade(scheme.background(KColorScheme::ActiveBackground).color(), KColorScheme::MidShade);
+    p.setColor(QPalette::Button, norm);
+
+    QColor col = scheme.background().color();
+    QColor col2 = scheme.foreground().color();
+    headers_container->setStyleSheet(QString("QLineEdit { background-color: transparent;color: rgb(%4, %5, %6);} QLineEdit:hover{ background-color: rgb(%1, %2, %3);} QLineEdit:focus { background-color: rgb(%1, %2, %3);}").arg(col.red()).arg(col.green()).arg(col.blue()).arg(col2.red()).arg(col2.green()).arg(col2.blue()));
+    
     for (int i = 0; i < max; i++) {
         frame = new QFrame(headers_container);
         frame->setFrameStyle(QFrame::HLine);
@@ -540,6 +551,7 @@ void TrackView::slotRebuildTrackHeaders()
         headers_container->layout()->addWidget(frame);
         TrackInfo info = list.at(max - i - 1);
         header = new HeaderTrack(i, info, height, headers_container);
+        header->setPalette(p);
         header->setSelectedIndex(m_trackview->selectedTrack());
         connect(header, SIGNAL(switchTrackVideo(int)), m_trackview, SLOT(slotSwitchTrackVideo(int)));
         connect(header, SIGNAL(switchTrackAudio(int)), m_trackview, SLOT(slotSwitchTrackAudio(int)));

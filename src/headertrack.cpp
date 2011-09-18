@@ -25,14 +25,12 @@
 #include <KIcon>
 #include <KLocale>
 #include <KDebug>
-#include <KColorScheme>
 
 #include <QMouseEvent>
 #include <QWidget>
 #include <QPainter>
 #include <QAction>
 #include <QTimer>
-#include <QColor>
 #include <QDomDocument>
 
 HeaderTrack::HeaderTrack(int index, TrackInfo info, int height, QWidget *parent) :
@@ -43,16 +41,6 @@ HeaderTrack::HeaderTrack(int index, TrackInfo info, int height, QWidget *parent)
 {
     setFixedHeight(height);
     setupUi(this);
-
-    QPalette p = palette();
-    KColorScheme scheme(p.currentColorGroup(), KColorScheme::View, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
-    QColor norm = scheme.shade(scheme.background(KColorScheme::ActiveBackground).color(), KColorScheme::MidShade);
-    p.setColor(QPalette::Button, norm);
-    setPalette(p);
-
-    QColor col = scheme.background().color();
-    QColor col2 = scheme.foreground().color();
-    track_number->setStyleSheet(QString("QLineEdit { background-color: transparent;color: rgb(%4, %5, %6);} QLineEdit:hover{ background-color: rgb(%1, %2, %3);} QLineEdit:focus { background-color: rgb(%1, %2, %3);}").arg(col.red()).arg(col.green()).arg(col.blue()).arg(col2.red()).arg(col2.green()).arg(col2.blue()));
 
     m_name = info.trackName.isEmpty() ? QString::number(m_index) : info.trackName;
     track_number->setText(m_name);
