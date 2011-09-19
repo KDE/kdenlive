@@ -285,7 +285,7 @@ int EffectsList::count() const
 
 bool EffectsList::isEmpty() const
 {
-    return m_baseElement.childNodes().count() == 0;
+    return !m_baseElement.hasChildNodes();
 }
 
 const QDomElement EffectsList::at(int ix) const

@@ -150,14 +150,16 @@ void initEffects::parseEffectFiles()
     // Retrieve the list of MLT's available effects.
     Mlt::Properties *filters = repository->filters();
     QStringList filtersList;
-    for (int i = 0; i < filters->count(); ++i)
+    int max = filters->count();
+    for (int i = 0; i < max; ++i)
         filtersList << filters->get_name(i);
     delete filters;
 
     // Retrieve the list of available producers.
     Mlt::Properties *producers = repository->producers();
     QStringList producersList;
-    for (int i = 0; i < producers->count(); ++i)
+    max = producers->count();
+    for (int i = 0; i < max; ++i)
         producersList << producers->get_name(i);
     KdenliveSettings::setProducerslist(producersList);
     delete producers;
@@ -165,7 +167,8 @@ void initEffects::parseEffectFiles()
     // Retrieve the list of available transitions.
     Mlt::Properties *transitions = repository->transitions();
     QStringList transitionsItemList;
-    for (int i = 0; i < transitions->count(); ++i)
+    max = transitions->count();
+    for (int i = 0; i < max; ++i)
         transitionsItemList << transitions->get_name(i);
     delete transitions;
 
@@ -214,7 +217,8 @@ void initEffects::parseEffectFiles()
     QMap<QString, QDomElement> audioEffectsMap;
 
     // Create transitions
-    for (int i = 0; i < MainWindow::transitions.count(); ++i) {
+    max = MainWindow::transitions.count();
+    for (int i = 0; i < max; ++i) {
         effectInfo = MainWindow::transitions.at(i);
         effectsMap.insert(effectInfo.firstChildElement("name").text().toLower().toUtf8().data(), effectInfo);
     }
@@ -261,7 +265,8 @@ void initEffects::parseEffectFiles()
     }
 
     // Create custom effects
-    for (int i = 0; i < MainWindow::customEffects.count(); ++i) {
+    max = MainWindow::customEffects.count();
+    for (int i = 0; i < max; ++i) {
         effectInfo = MainWindow::customEffects.at(i);
         effectsMap.insert(effectInfo.firstChildElement("name").text().toLower().toUtf8().data(), effectInfo);
     }
@@ -271,7 +276,8 @@ void initEffects::parseEffectFiles()
     effectsMap.clear();
 
     // Create audio effects
-    for (int i = 0; i < MainWindow::audioEffects.count(); ++i) {
+    max = MainWindow::audioEffects.count();
+    for (int i = 0; i < max; ++i) {
         effectInfo = MainWindow::audioEffects.at(i);
         audioEffectsMap.insert(effectInfo.firstChildElement("name").text().toLower().toUtf8().data(), effectInfo);
     }
@@ -280,7 +286,8 @@ void initEffects::parseEffectFiles()
         MainWindow::audioEffects.append(effect);
 
     // Create video effects
-    for (int i = 0; i < MainWindow::videoEffects.count(); ++i) {
+    max = MainWindow::videoEffects.count();
+    for (int i = 0; i < max; ++i) {
         effectInfo = MainWindow::videoEffects.at(i);
         videoEffectsMap.insert(effectInfo.firstChildElement("name").text().toLower().toUtf8().data(), effectInfo);
     }
@@ -325,7 +332,7 @@ void initEffects::parseCustomEffectsFile()
         }
     }
     foreach(const QDomElement & effect, effectsMap)
-    MainWindow::customEffects.append(effect);
+        MainWindow::customEffects.append(effect);
 }
 
 // static
