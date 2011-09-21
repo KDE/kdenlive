@@ -57,6 +57,8 @@ const int MetaGroupRole = GroupRole + 6;
 const int ExtraRole = GroupRole + 7;
 const int BitratesRole = GroupRole + 8;
 const int DefaultBitrateRole = GroupRole + 9;
+const int AudioBitratesRole = GroupRole + 10;
+const int DefaultAudioBitrateRole = GroupRole + 11;
 
 // Running job status
 const int WAITINGJOB = 0;
@@ -363,7 +365,24 @@ void RenderWidget::slotSaveProfile()
     if (customGroup.isEmpty()) customGroup = i18nc("Group Name", "Custom");
     ui.group_name->setText(customGroup);
 
-    ui.parameters->setText(m_view.advanced_params->toPlainText());
+    QStringList arguments = m_view.advanced_params->toPlainText().split(" ", QString::SkipEmptyParts);
+
+    QScriptEngine sEngine;
+    sEngine.globalObject().setProperty("bitrate", m_view.comboBitrates->currentText());
+    sEngine.globalObject().setProperty("audiobitrate", m_view.comboAudioBitrates->currentText());
+
+    for (int i = 0; i < arguments.count(); ++i) {
+        QString paramName = arguments.at(i).section('=', 0, 0);
+        QString paramValue = arguments.at(i).section('=', 1, 1);
+        // evaluate expression
+        if (paramValue.startsWith('%')) {
+            paramValue = sEngine.evaluate(paramValue.remove(0, 1)).toString();
+            if (!sEngine.hasUncaughtException()) arguments[i] = paramName + '=' + paramValue;
+        }
+    }
+    
+    
+    ui.parameters->setText(arguments.join(" "));
     ui.extension->setText(m_view.size_list->currentItem()->data(ExtensionRole).toString());
     ui.profile_name->setFocus();
 
@@ -807,6 +826,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
 
     QScriptEngine sEngine;
     sEngine.globalObject().setProperty("bitrate", m_view.comboBitrates->currentText());
+    sEngine.globalObject().setProperty("audiobitrate", m_view.comboAudioBitrates->currentText());
     sEngine.globalObject().setProperty("dar", '@' + QString::number(m_profile.display_aspect_num) + '/' + QString::number(m_profile.display_aspect_den));
     sEngine.globalObject().setProperty("passes", static_cast<int>(m_view.checkTwoPass->isChecked()) + 1);
 
@@ -969,7 +989,9 @@ void RenderWidget::startRendering(QTreeWidgetItem *item)
             item->setData(1, Qt::UserRole, i18n("Rendering crashed"));
             item->setIcon(0, KIcon("dialog-close"));
             item->setData(2, Qt::UserRole, 100);
-        } else KNotification::event("RenderStarted", i18n("Rendering <i>%1</i> started", item->text(1)), QPixmap(), this);
+        } else {
+            KNotification::event("RenderStarted", i18n("Rendering <i>%1</i> started", item->text(1)), QPixmap(), this);
+        }
     } else {
         // Script item
         if (QProcess::startDetached(item->data(1, Qt::UserRole + 3).toString()) == false) {
@@ -1258,6 +1280,7 @@ void RenderWidget::refreshParams()
     m_view.comboBitrates->clear();
     if (params.contains("bitrate")) {
         m_view.comboBitrates->setEnabled(true);
+        m_view.bitrateLabel->setEnabled(true);
         if ( item->data(BitratesRole).canConvert(QVariant::StringList) && item->data(BitratesRole).toStringList().count()) {
             QStringList bitrates = item->data(BitratesRole).toStringList();
             foreach (QString bitrate, bitrates)
@@ -1267,8 +1290,26 @@ void RenderWidget::refreshParams()
         }
     } else {
         m_view.comboBitrates->setEnabled(false);
+        m_view.bitrateLabel->setEnabled(false);
     }
 
+    // setup comboBox with audiobitrates
+    m_view.comboAudioBitrates->clear();
+    if (params.contains("audiobitrate")) {
+        m_view.comboAudioBitrates->setEnabled(true);
+        m_view.audiobitrateLabel->setEnabled(true);
+        if ( item->data(AudioBitratesRole).canConvert(QVariant::StringList) && item->data(AudioBitratesRole).toStringList().count()) {
+            QStringList audiobitrates = item->data(AudioBitratesRole).toStringList();
+            foreach (QString bitrate, audiobitrates)
+                m_view.comboAudioBitrates->addItem(bitrate);
+            if (item->data(DefaultAudioBitrateRole).canConvert(QVariant::String))
+                m_view.comboAudioBitrates->setCurrentIndex(audiobitrates.indexOf(item->data(DefaultAudioBitrateRole).toString()));
+        }
+    } else {
+        m_view.comboAudioBitrates->setEnabled(false);
+        m_view.audiobitrateLabel->setEnabled(false);
+    }
+    
     m_view.checkTwoPass->setEnabled(params.contains("passes"));
 
     m_view.encoder_threads->setEnabled(!params.contains("threads="));
@@ -1476,7 +1517,7 @@ void RenderWidget::parseFile(QString exportFile, bool editable)
     QString renderer;
     QString params;
     QString standard;
-    QString bitrates, defaultBitrate;
+    QString bitrates, defaultBitrate, audioBitrates, defaultAudioBitrate;
     KIcon icon;
 
     while (!groups.item(i).isNull()) {
@@ -1525,6 +1566,8 @@ void RenderWidget::parseFile(QString exportFile, bool editable)
             standard = profileElement.attribute("standard");
             bitrates = profileElement.attribute("bitrates");
             defaultBitrate = profileElement.attribute("defaultbitrate");
+            audioBitrates = profileElement.attribute("audiobitrates");
+            defaultAudioBitrate = profileElement.attribute("defaultaudiobitrate");
             params = profileElement.attribute("args");
 
             if (replaceVorbisCodec && params.contains("acodec=vorbis")) {
@@ -1547,6 +1590,8 @@ void RenderWidget::parseFile(QString exportFile, bool editable)
             item->setData(ParamsRole, params);
             item->setData(BitratesRole, bitrates.split(',', QString::SkipEmptyParts));
             item->setData(DefaultBitrateRole, defaultBitrate);
+            item->setData(AudioBitratesRole, audioBitrates.split(',', QString::SkipEmptyParts));
+            item->setData(DefaultAudioBitrateRole, defaultAudioBitrate);
             if (profileElement.hasAttribute("url")) item->setData(ExtraRole, profileElement.attribute("url"));
             if (editable) item->setData(EditableRole, exportFile);
             m_renderItems.append(item);

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>461</width>
-    <height>686</height>
+    <width>382</width>
+    <height>682</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -487,16 +487,30 @@
         </widget>
        </item>
        <item row="5" column="0" colspan="3">
-        <widget class="QLabel" name="label_10">
+        <widget class="QLabel" name="bitrateLabel">
          <property name="text">
           <string>Bitrate</string>
          </property>
         </widget>
        </item>
-       <item row="5" column="8" colspan="2">
+       <item row="6" column="8" colspan="2">
         <widget class="QCheckBox" name="checkTwoPass">
          <property name="text">
           <string>2 pass</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="9">
+        <widget class="QComboBox" name="comboAudioBitrates">
+         <property name="editable">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="8">
+        <widget class="QLabel" name="audiobitrateLabel">
+         <property name="text">
+          <string>Audio</string>
          </property>
         </widget>
        </item>
