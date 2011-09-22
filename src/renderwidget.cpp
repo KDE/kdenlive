@@ -222,6 +222,7 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, QWidg
         m_view.shutdown->setEnabled(false);
 
     focusFirstVisibleItem();
+    adjustSize();
 }
 
 RenderWidget::~RenderWidget()
