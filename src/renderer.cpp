@@ -51,7 +51,7 @@
 
 static void kdenlive_callback(void* /*ptr*/, int level, const char* fmt, va_list vl)
 {
-    kDebug() << "log level" << level << QString().vsprintf(fmt, vl).simplified();
+//     kDebug() << "log level" << level << QString().vsprintf(fmt, vl).simplified();
     if (level > MLT_LOG_ERROR) return;
     QString error;
     QApplication::postEvent(qApp->activeWindow(), new MltErrorEvent(error.vsprintf(fmt, vl).simplified()));
@@ -1331,9 +1331,9 @@ void Render::switchPlay(bool play)
         m_isBlocked = true;
         m_mltConsumer->set("refresh", 0);
         m_mltProducer->set_speed(0.0);
-        m_mltConsumer->purge();
         //emit rendererPosition(m_framePosition);
         m_mltProducer->seek(m_framePosition);
+        //m_mltConsumer->purge();
     }
 }
 
