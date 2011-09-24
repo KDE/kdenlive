@@ -96,3 +96,5 @@ region
 resize
 resample
 mono
+
+dynamictext
