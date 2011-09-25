@@ -367,22 +367,6 @@ void RenderWidget::slotSaveProfile()
     ui.group_name->setText(customGroup);
 
     QStringList arguments = m_view.advanced_params->toPlainText().split(" ", QString::SkipEmptyParts);
-
-    QScriptEngine sEngine;
-    sEngine.globalObject().setProperty("bitrate", m_view.comboBitrates->currentText());
-    sEngine.globalObject().setProperty("audiobitrate", m_view.comboAudioBitrates->currentText());
-
-    for (int i = 0; i < arguments.count(); ++i) {
-        QString paramName = arguments.at(i).section('=', 0, 0);
-        QString paramValue = arguments.at(i).section('=', 1, 1);
-        // evaluate expression
-        if (paramValue.startsWith('%')) {
-            paramValue = sEngine.evaluate(paramValue.remove(0, 1)).toString();
-            if (!sEngine.hasUncaughtException()) arguments[i] = paramName + '=' + paramValue;
-        }
-    }
-    
-    
     ui.parameters->setText(arguments.join(" "));
     ui.extension->setText(m_view.size_list->currentItem()->data(ExtensionRole).toString());
     ui.profile_name->setFocus();
@@ -399,7 +383,24 @@ void RenderWidget::slotSaveProfile()
         profileElement.setAttribute("category", newGroupName);
         profileElement.setAttribute("destinationid", newMetaGroupId);
         profileElement.setAttribute("extension", ui.extension->text().simplified());
-        profileElement.setAttribute("args", ui.parameters->toPlainText().simplified());
+        QString args = ui.parameters->toPlainText().simplified();
+        profileElement.setAttribute("args", args);
+        if (args.contains("%bitrate")) {
+            // profile has a variable bitrate
+            profileElement.setAttribute("defaultbitrate", m_view.comboBitrates->currentText());
+            QStringList bitrateValues;
+            for (int i = 0; i < m_view.comboBitrates->count(); i++)
+                bitrateValues << m_view.comboBitrates->itemText(i);
+            profileElement.setAttribute("bitrates", bitrateValues.join(","));
+        }
+        if (args.contains("%audiobitrate")) {
+            // profile has a variable bitrate
+            profileElement.setAttribute("defaultaudiobitrate", m_view.comboAudioBitrates->currentText());
+            QStringList bitrateValues;
+            for (int i = 0; i < m_view.comboAudioBitrates->count(); i++)
+                bitrateValues << m_view.comboAudioBitrates->itemText(i);
+            profileElement.setAttribute("audiobitrates", bitrateValues.join(","));
+        }
         doc.appendChild(profileElement);
         saveProfile(doc.documentElement());
 
@@ -487,6 +488,10 @@ void RenderWidget::slotCopyToFavorites()
     profileElement.setAttribute("destinationid", "favorites");
     profileElement.setAttribute("extension", extension);
     profileElement.setAttribute("args", params);
+    profileElement.setAttribute("bitrates", item->data(BitratesRole).toStringList().join(","));
+    profileElement.setAttribute("defaultbitrate", item->data(DefaultBitrateRole).toString());
+    profileElement.setAttribute("audiobitrates", item->data(AudioBitratesRole).toStringList().join(","));
+    profileElement.setAttribute("defaultaudiobitrate", item->data(DefaultAudioBitrateRole).toString());
     doc.appendChild(profileElement);
     saveProfile(doc.documentElement());
     parseProfiles(m_view.destination_list->itemData(m_view.destination_list->currentIndex(), Qt::UserRole).toString(), currentGroup, currentProfile);
@@ -575,7 +580,25 @@ void RenderWidget::slotEditProfile()
         profileElement.setAttribute("category", newGroupName);
         profileElement.setAttribute("destinationid", newMetaGroupId);
         profileElement.setAttribute("extension", ui.extension->text().simplified());
-        profileElement.setAttribute("args", ui.parameters->toPlainText().simplified());
+        QString args = ui.parameters->toPlainText().simplified();
+        profileElement.setAttribute("args", args);
+        if (args.contains("%bitrate")) {
+            // profile has a variable bitrate
+            profileElement.setAttribute("defaultbitrate", m_view.comboBitrates->currentText());
+            QStringList bitrateValues;
+            for (int i = 0; i < m_view.comboBitrates->count(); i++)
+                bitrateValues << m_view.comboBitrates->itemText(i);
+            profileElement.setAttribute("bitrates", bitrateValues.join(","));
+        }
+        if (args.contains("%audiobitrate")) {
+            // profile has a variable bitrate
+            profileElement.setAttribute("defaultaudiobitrate", m_view.comboAudioBitrates->currentText());
+            QStringList bitrateValues;
+            for (int i = 0; i < m_view.comboAudioBitrates->count(); i++)
+                bitrateValues << m_view.comboAudioBitrates->itemText(i);
+            profileElement.setAttribute("audiobitrates", bitrateValues.join(","));
+        }
+
         profiles.appendChild(profileElement);
 
         //QCString save = doc.toString().utf8();
@@ -1497,6 +1520,10 @@ void RenderWidget::parseFile(QString exportFile, bool editable)
             item->setData(RenderRole, "avformat");
             item->setData(StandardRole, standard);
             item->setData(ParamsRole, params);
+            item->setData(BitratesRole, profile.attribute("bitrates").split(',', QString::SkipEmptyParts));
+            item->setData(DefaultBitrateRole, profile.attribute("defaultbitrate"));
+            item->setData(AudioBitratesRole, profile.attribute("audiobitrates").split(',', QString::SkipEmptyParts));
+            item->setData(DefaultAudioBitrateRole, profile.attribute("defaultaudiobitrate"));
             if (profile.hasAttribute("url")) item->setData(ExtraRole, profile.attribute("url"));
             if (editable) {
                 item->setData(EditableRole, exportFile);
