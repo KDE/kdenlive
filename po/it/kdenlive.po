@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-07-16 14:01+0300\n"
-"PO-Revision-Date: 2011-08-26 15:53+0200\n"
+"PO-Revision-Date: 2011-09-26 23:27+0200\n"
 "Last-Translator: Tore Brigaglia <opensourcecat@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -22,9 +22,8 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: rc.cpp:3165 rc.cpp:5195
-#, fuzzy
 msgid " Clip Problems"
-msgstr "Proprietà della clip"
+msgstr "Problemi con la clip"
 
 #: src/customtrackview.cpp:606
 msgid " Duration:"
@@ -349,6 +348,11 @@ msgid ""
 "                Mathematically, what happens is an exponentiation of the "
 "pixel brightness on <code>[0,1]</code> by the gamma value.]]>"
 msgstr ""
+"<![CDATA[Cambia il valore gamma oer il canale selezionato. I valori dei pixel "
+"bianchi e neri non saranno interessati alla modifica.<br/>\n"
+"                Matematicamente parlando, quello che accade è "
+"l'esponenzializzazione della "
+"luminosità del pixel su <code>[0,1]</code> per il valore gamma.]]>"
 
 #: rc.cpp:922
 msgid ""
@@ -2498,7 +2502,6 @@ msgstr "Personalizzato"
 
 #: src/renderwidget.cpp:364 src/renderwidget.cpp:374 src/renderwidget.cpp:497
 #: src/renderwidget.cpp:533
-#, fuzzy
 msgctxt "Group Name"
 msgid "Custom"
 msgstr "Personalizzato"
@@ -2935,9 +2938,8 @@ msgid "Difference Threshold"
 msgstr "Limiti delle differenze"
 
 #: rc.cpp:338
-#, fuzzy
 msgid "Difference space"
-msgstr "Spazio libero: %1"
+msgstr ""
 
 #: rc.cpp:684
 msgid "Dimming"
@@ -2954,9 +2956,8 @@ msgid "Direct FB"
 msgstr "DirectFB"
 
 #: src/dragvalue.cpp:115
-#, fuzzy
 msgid "Direct update"
-msgstr "DirectFB"
+msgstr "Aggiornamento diretto"
 
 #: src/initeffects.cpp:886
 msgid "Direction"
@@ -3098,9 +3099,8 @@ msgid "Drag to add or resize a fade effect."
 msgstr "Trascinare per aggiungere o ridimensionare una dissolvenza."
 
 #: src/colorscopes/vectorscope.cpp:99
-#, fuzzy
 msgid "Draw I/Q lines"
-msgstr "Disegna assi"
+msgstr "Disegna linee I/Q"
 
 #: rc.cpp:516
 msgid "Draw a blue ellipse around the face area?"
@@ -3111,18 +3111,16 @@ msgid "Draw axis"
 msgstr "Disegna assi"
 
 #: src/audioscopes/spectrogram.cpp:45
-#, fuzzy
 msgid "Draw grid"
-msgstr "Disegna assi"
+msgstr "Disegna griglia"
 
 #: rc.cpp:553
 msgid "Draw with anti-aliasing?"
 msgstr ""
 
 #: src/colorscopes/vectorscope.cpp:87
-#, fuzzy
 msgid "Drawing options"
-msgstr "Mostra/nascondi le opzioni"
+msgstr "Opzioni di disegno"
 
 #: rc.cpp:238
 msgid "Draws simple shapes into the alpha channel"
@@ -3135,24 +3133,20 @@ msgid "Duration"
 msgstr "Durata"
 
 #: rc.cpp:5554
-#, fuzzy
 msgid "Duration (seconds)"
-msgstr "Durata"
+msgstr "Durata (secondi)"
 
 #: src/documentchecker.cpp:291
-#, fuzzy
 msgid "Duration mismatch"
-msgstr "Durata"
+msgstr "Errore nella durata"
 
 #: src/customtrackview.cpp:414 src/customtrackview.cpp:426
-#, fuzzy
 msgid "Duration:"
-msgstr " Durata:"
+msgstr "Durata:"
 
 #: src/customtrackview.cpp:629
-#, fuzzy
 msgid "Duration: "
-msgstr " Durata:"
+msgstr "Durata:"
 
 #: rc.cpp:108
 msgid "Dust"
@@ -3171,9 +3165,8 @@ msgid "Dynamic thresholding"
 msgstr ""
 
 #: rc.cpp:1184
-#, fuzzy
 msgid "Dynamically normalise the audio volume"
-msgstr "Normalizzazione audio"
+msgstr "Normalizza dinamicamente il volume"
 
 #: rc.cpp:1733 rc.cpp:2802 rc.cpp:3763 rc.cpp:4832
 msgid "E"
@@ -3188,14 +3181,12 @@ msgid "Edge brightness upscaling multiplier"
 msgstr ""
 
 #: src/stopmotion/stopmotion.cpp:196
-#, fuzzy
 msgid "Edge detect"
-msgstr "Modalità bordo"
+msgstr "Riconoscimento del bordo"
 
 #: rc.cpp:475
-#, fuzzy
 msgid "Edge glow"
-msgstr "Modalità bordo"
+msgstr "Sfumatura del boro"
 
 #: rc.cpp:477
 msgid "Edge glow filter"
@@ -3214,9 +3205,8 @@ msgid "Edges correction"
 msgstr "Correzione dei bordi"
 
 #: rc.cpp:2286 rc.cpp:4316
-#, fuzzy
 msgid "Edit"
-msgstr "Modifica fine"
+msgstr "Modifica"
 
 #: src/mainwindow.cpp:1575
 msgid "Edit Clip"
@@ -3292,9 +3282,8 @@ msgid "Edit transition %1"
 msgstr "Modifica la transizione %1"
 
 #: rc.cpp:2632 rc.cpp:4662
-#, fuzzy
 msgid "Editing profiles for"
-msgstr "Modifica profilo"
+msgstr "Modifica profili per"
 
 #: rc.cpp:2112 rc.cpp:4142
 msgid "Effect"
@@ -3318,9 +3307,8 @@ msgid "Effect already present in clip"
 msgstr "Effetto già presente della clip"
 
 #: src/mainwindow.cpp:431
-#, fuzzy
 msgid "Effects"
-msgstr "Effetto"
+msgstr "Effetti"
 
 #: src/mainwindow.cpp:2591
 msgctxt "effects and transitions keyboard shortcuts"
@@ -3374,7 +3362,6 @@ msgid "Enable/Disable all effects"
 msgstr "Abilita/disabilita tutti gli effetti"
 
 #: rc.cpp:2874 rc.cpp:4904
-#, fuzzy
 msgid "Encoder threads"
 msgstr "Processi di codifica"
 
@@ -3384,9 +3371,8 @@ msgstr "Codifica del video catturato..."
 
 #: rc.cpp:2292 rc.cpp:2385 rc.cpp:2744 rc.cpp:2988 rc.cpp:4322 rc.cpp:4415
 #: rc.cpp:4774 rc.cpp:5018
-#, fuzzy
 msgid "Encoding profile"
-msgstr "Modifica profilo"
+msgstr "Profilo di codifica"
 
 #: src/renderwidget.cpp:308 src/titlewidget.cpp:2062 rc.cpp:126 rc.cpp:160
 #: rc.cpp:3494 rc.cpp:5524
@@ -3414,9 +3400,8 @@ msgid "Enter new location for file"
 msgstr "Impostare una nuova collocazione per il file"
 
 #: src/stopmotion/stopmotion.cpp:630
-#, fuzzy
 msgid "Enter sequence name"
-msgstr "Inserire un nuovo nome"
+msgstr "Immettere il nome della sequenza"
 
 #: src/unicodedialog.cpp:48
 msgid "Enter your Unicode number here. Allowed characters: [0-9] and [a-f]."
@@ -3432,9 +3417,8 @@ msgid "Environment"
 msgstr "Ambiente"
 
 #: rc.cpp:485
-#, fuzzy
 msgid "Equaliz0r"
-msgstr "Equalizzatore"
+msgstr ""
 
 #: rc.cpp:1086
 msgid "Equalizer"
@@ -3454,9 +3438,8 @@ msgstr "Registro degli errori"
 
 # , kde-format, kde-format
 #: src/kdenlivedoc.cpp:105 src/kdenlivedoc.cpp:121 src/kdenlivedoc.cpp:134
-#, fuzzy
 msgid "Error opening file"
-msgstr "Apertura del file %1"
+msgstr "Errore nell'apertura del file"
 
 # , kde-format
 #: src/customtrackview.cpp:2114 src/customtrackview.cpp:3446
@@ -3509,23 +3492,20 @@ msgid "Extra Toolbar"
 msgstr "Barra degli strumenti extra"
 
 #: src/archivewidget.cpp:197
-#, fuzzy
 msgid "Extract"
-msgstr "Estrai fotogramma"
+msgstr "Estrai"
 
 #: src/monitor.cpp:278
 msgid "Extract frame"
 msgstr "Estrai fotogramma"
 
 #: src/archivewidget.cpp:194
-#, fuzzy
 msgid "Extract to"
-msgstr "Estrai fotogramma"
+msgstr "Estrai in"
 
 #: src/archivewidget.cpp:701
-#, fuzzy
 msgid "Extracting..."
-msgstr "Attendere..."
+msgstr "Estrazione..."
 
 #: src/wizard.cpp:403
 msgid "FFmpeg & ffplay"
@@ -3561,21 +3541,19 @@ msgstr "Dissolvenza in entrata"
 
 #: rc.cpp:130 rc.cpp:141
 msgid "Fade in audio track"
-msgstr "Dissolvenza in entrata"
+msgstr "Dissolvenza in entrata della traccia audio"
 
 #: src/customtrackview.cpp:635
-#, fuzzy
 msgid "Fade in duration: "
-msgstr "Durata dei fotogrammi"
+msgstr "Durata della dissolvenza in entrata:"
 
 #: rc.cpp:139
 msgid "Fade out"
 msgstr "Dissolvenza in uscita"
 
 #: src/customtrackview.cpp:638
-#, fuzzy
 msgid "Fade out duration: "
-msgstr " Durata del gruppo:"
+msgstr "Durata della dissolvenza in uscita:"
 
 #: src/initeffects.cpp:891
 msgid "Fade out one video while fading in the other video."
@@ -3606,14 +3584,12 @@ msgid ""
 msgstr ""
 
 #: src/recmonitor.cpp:659
-#, fuzzy
 msgid "Failed to start capture"
-msgstr "Richiesto per la registrazione dello schermo"
+msgstr "Avvio della registrazione non riuscito"
 
 #: src/stopmotion/stopmotion.cpp:508
-#, fuzzy
 msgid "Failed to start device"
-msgstr "Abilita un dispositivo jog/shuttle"
+msgstr "Avvio del dispositivo non riuscito"
 
 #: src/wizard.cpp:628
 msgid "Fatal Error"
@@ -3628,9 +3604,8 @@ msgid "Feather Alpha"
 msgstr ""
 
 #: rc.cpp:1281
-#, fuzzy
 msgid "Feather width"
-msgstr "Larghezza del bordo"
+msgstr ""
 
 #: rc.cpp:1283
 msgid "Feathering passes"
@@ -3657,11 +3632,12 @@ msgid "File"
 msgstr "File"
 
 #: src/archivewidget.cpp:238
-#, fuzzy
 msgid ""
 "File %1\n"
 " is not an archived Kdenlive project"
-msgstr "Il file %1 non è un progetto valido per Kdenlive."
+msgstr ""
+"Il file %1\n"
+"non è un progetto valido di Kdenlive."
 
 #: src/effectstackview.cpp:133 src/cliptranscode.cpp:122
 #: src/mainwindow.cpp:1923 src/mainwindow.cpp:3576
@@ -3681,20 +3657,20 @@ msgid "File %1 is not a Kdenlive project file."
 msgstr "Il file %1 non è un progetto valido per Kdenlive."
 
 #: src/kdenlivedoc.cpp:134
-#, fuzzy
 msgid ""
 "File %1 is not a valid project file.\n"
 "Do you want to open a backup file?"
-msgstr "Il file %1 non è un progetto valido per Kdenlive."
+msgstr ""
+"Il file %1 non è un progetto valido.\n"
+"Desideri aprire un salvataggio?"
 
 #: src/mainwindow.cpp:2005
 msgid "File Recovery"
 msgstr "Ripristino file"
 
 #: src/encodingprofilesdialog.cpp:132 src/encodingprofilesdialog.cpp:164
-#, fuzzy
 msgid "File extension:"
-msgstr "Estensione del file"
+msgstr "Estensione del file:"
 
 #: src/renderwidget.cpp:710 src/colorplaneexport.cpp:166
 msgid "File has no extension. Add extension (%1)?"
@@ -3773,14 +3749,12 @@ msgstr ""
 "Installare la libreria Libiec61883 e ricompilare Kdenlive"
 
 #: src/geometrywidget.cpp:114
-#, fuzzy
 msgid "Fit to height"
-msgstr "Larghezza font"
+msgstr "Adatta all'altezza"
 
 #: src/geometrywidget.cpp:111
-#, fuzzy
 msgid "Fit to width"
-msgstr "Altezza della transizione"
+msgstr "Adatta alla larghezza"
 
 #: src/titlewidget.cpp:338
 msgid "Fit zoom"
@@ -3807,9 +3781,8 @@ msgid "Fix Shear Z"
 msgstr "Correggi il ritaglio sull'asse z"
 
 #: rc.cpp:3183 rc.cpp:5213
-#, fuzzy
 msgid "Fix duration mismatch"
-msgstr "Durata della clip: %1"
+msgstr "Correggi errori della durata"
 
 #: rc.cpp:1170
 msgid "Flip your image in any direction"
@@ -3873,23 +3846,20 @@ msgid "Force Progressive Rendering"
 msgstr "Forza fotogrammi Progressivi"
 
 #: rc.cpp:1751 rc.cpp:3781
-#, fuzzy
 msgid "Force aspect ratio"
-msgstr "Forza le proporzioni dei pixel"
+msgstr "Forza le proporzioni"
 
 #: rc.cpp:1775 rc.cpp:3805
-#, fuzzy
 msgid "Force colorspace"
-msgstr "Spazio di colore"
+msgstr "Forza lo spazio di colore"
 
 #: rc.cpp:1769 rc.cpp:3799
 msgid "Force duration"
 msgstr "Forza durata dei fotogrammi"
 
 #: rc.cpp:1784 rc.cpp:3814
-#, fuzzy
 msgid "Force field order"
-msgstr "Forza velocità dei fotogrammi"
+msgstr "Forza l'ordine del campi"
 
 #: rc.cpp:1766 rc.cpp:3796
 msgid "Force frame rate"
@@ -4459,9 +4429,8 @@ msgid ""
 msgstr ""
 
 #: rc.cpp:699
-#, fuzzy
 msgid "Increases the saturation of lights."
-msgstr "Aggiusta la saturazione di una immagine sorgente"
+msgstr "Aumenta la saturazione delle luci"
 
 #: src/unicodedialog.cpp:45
 msgid ""
@@ -4512,9 +4481,8 @@ msgid "Insert clip"
 msgstr "Inserisci clip"
 
 #: src/noteswidget.cpp:38
-#, fuzzy
 msgid "Insert current timecode"
-msgstr "Inserisci la selezione della timeline"
+msgstr "Inserire il timecode corrente"
 
 #: src/mainwindow.cpp:945
 msgid "Insert mode"
@@ -8213,9 +8181,8 @@ msgid "Transparency clip"
 msgstr "Clip di trasparenza"
 
 #: rc.cpp:1793 rc.cpp:3823
-#, fuzzy
 msgid "Transparent"
-msgstr "Trasparenza"
+msgstr "Trasparente"
 
 #: rc.cpp:326 rc.cpp:710
 msgid "Transparent Background"
@@ -8226,32 +8193,28 @@ msgid "Transparent background"
 msgstr "Sfondo trasparente"
 
 #: src/projectlist.cpp:1293
-#, fuzzy
 msgid "Transparent background for images"
-msgstr "Sfondo trasparente"
+msgstr "Sfondo trasparente per le immagini"
 
 #: rc.cpp:3156 rc.cpp:5186
-#, fuzzy
 msgid "Transparent background for imported images"
-msgstr "Sfondo trasparente"
+msgstr "Sfondo trasparente per le immagini importate"
 
 #: src/audioscopes/audiospectrum.cpp:80 src/audioscopes/spectrogram.cpp:67
 msgid "Triangular window"
-msgstr ""
+msgstr "Finestra triangolare"
 
 #: rc.cpp:92
 msgid "Trim the edges of a clip"
 msgstr "Aggiusta i bordi di una clip"
 
 #: rc.cpp:1871 rc.cpp:3901
-#, fuzzy
 msgid "True FFT size:"
-msgstr "Dimensione dei fotogrammi:"
+msgstr ""
 
 #: rc.cpp:3387 rc.cpp:5417
-#, fuzzy
 msgid "True FFT size: "
-msgstr "Dimensione dei fotogrammi:"
+msgstr ""
 
 #: rc.cpp:1299
 msgid "Turn clip colors to sepia"
@@ -8303,9 +8266,8 @@ msgid "Ungroup clips"
 msgstr "Separa un gruppo di clip"
 
 #: src/profilesdialog.cpp:614
-#, fuzzy
 msgid "Unknown"
-msgstr "Clip sconosciuta"
+msgstr "Sconosciuto"
 
 #: src/projectitem.cpp:200
 msgid "Unknown clip"
@@ -8356,9 +8318,8 @@ msgid "Update parameters while monitor scene changes"
 msgstr ""
 
 #: src/projectlist.cpp:1802
-#, fuzzy
 msgid "Update profile"
-msgstr "Salva profilo"
+msgstr "Aggiorna profilo"
 
 #: src/projectlist.cpp:2387
 msgid "Update proxy settings"
@@ -8402,14 +8363,12 @@ msgid "Use placeholders for missing clips"
 msgstr "Usa segnaposto per le clip mancanti"
 
 #: rc.cpp:2478 rc.cpp:4508
-#, fuzzy
 msgid "Use project folder"
-msgstr "Cartella del progetto"
+msgstr "Utilizza cartella del progetto"
 
 #: rc.cpp:106
-#, fuzzy
 msgid "Use project resolution"
-msgstr "Risoluzione Video"
+msgstr "Utilizza la risoluzione del progetto"
 
 #: rc.cpp:1431
 msgid "Use transparency"
@@ -8445,9 +8404,8 @@ msgid "Vectorscope"
 msgstr ""
 
 #: rc.cpp:1461
-#, fuzzy
 msgid "Vertical"
-msgstr "Centratura in verticale"
+msgstr "Verticale"
 
 #: rc.cpp:613
 msgid "Vertical center"
@@ -8498,7 +8456,6 @@ msgid "Video clip"
 msgstr "Clip video"
 
 #: src/archivewidget.cpp:60 src/projectsettings.cpp:224
-#, fuzzy
 msgid "Video clips"
 msgstr "Clip video"
 
@@ -8507,9 +8464,8 @@ msgid "Video codec"
 msgstr "Formato video"
 
 #: rc.cpp:459
-#, fuzzy
 msgid "Video delay"
-msgstr "Riproduttore video"
+msgstr "Ritardo video"
 
 #: rc.cpp:2250 rc.cpp:4280
 msgid "Video device"
@@ -8548,9 +8504,8 @@ msgid "Video4Linux"
 msgstr "Video4Linux"
 
 #: src/encodingprofilesdialog.cpp:41
-#, fuzzy
 msgid "Video4Linux capture"
-msgstr "Video4Linux"
+msgstr "Cattura Video4Linux"
 
 #: rc.cpp:5611
 msgid "View"
@@ -8577,7 +8532,6 @@ msgid "W"
 msgstr "L"
 
 #: src/geometrywidget.cpp:101
-#, fuzzy
 msgctxt "Frame width"
 msgid "W"
 msgstr "L"
@@ -8587,9 +8541,8 @@ msgid "Waiting for clip..."
 msgstr "In attesa della clip..."
 
 #: src/projectlist.h:124
-#, fuzzy
 msgid "Waiting proxy ..."
-msgstr "Attendere..."
+msgstr "Attesa della clip rappresentativa..."
 
 #: src/renderwidget.cpp:898 src/renderwidget.cpp:1555
 #: src/renderwidget.cpp:1769
@@ -8634,9 +8587,8 @@ msgid "Welcome"
 msgstr "Benvenuto"
 
 #: rc.cpp:1395
-#, fuzzy
 msgid "Wet gain"
-msgstr "Guadagno massimo"
+msgstr ""
 
 #: src/colorscopes/waveform.cpp:36 src/colorscopes/rgbparade.cpp:26
 msgid "White"
@@ -8701,15 +8653,13 @@ msgid "X"
 msgstr "X"
 
 #: src/geometrywidget.cpp:95
-#, fuzzy
 msgctxt "x axis position"
 msgid "X"
 msgstr "X"
 
 #: rc.cpp:579
-#, fuzzy
 msgid "X axis"
-msgstr "Disegna assi"
+msgstr "Asse delle X"
 
 #: rc.cpp:176
 msgid "X axis rotation"
@@ -8742,15 +8692,13 @@ msgid "Y"
 msgstr "Y"
 
 #: src/geometrywidget.cpp:98
-#, fuzzy
 msgctxt "y axis position"
 msgid "Y"
 msgstr "Y"
 
 #: rc.cpp:581
-#, fuzzy
 msgid "Y axis"
-msgstr "Disegna assi"
+msgstr "Asse delle Y"
 
 #: rc.cpp:178
 msgid "Y axis rotation"
@@ -8834,13 +8782,12 @@ msgstr ""
 "copiare i file temporanei da %1 alla nuova cartella %2?"
 
 #: src/mainwindow.cpp:2235
-#, fuzzy
 msgid ""
 "You have changed the proxy parameters. Do you want to recreate all proxy "
 "clips for this project?"
 msgstr ""
-"È stata modificata la posizione della cartella del progetto. Si desidera "
-"copiare i file temporanei da %1 alla nuova cartella %2?"
+"Sono stati modificati i parametri per la generazione delle "
+" clip rappresentative, si desidera ricrearle per l'intero progetto?"
 
 #: src/customtrackview.cpp:2921 src/customtrackview.cpp:2927
 msgid "You must be in an empty space to remove space (time: %1, track: %2)"
@@ -8920,14 +8867,13 @@ msgid ""
 msgstr ""
 
 #: src/trackview.cpp:454
-#, fuzzy
 msgid ""
 "Your project file was modified by Kdenlive.\n"
 "To make sure you don't lose data, a backup copy called %1 was created."
 msgstr ""
-"Il progetto è stato aggiornato alla più recente versione di file di "
-"Kdenlive. Per essere sicuri di non perdere dati è stata creata una copia di "
-"sicurezza sul file: %1."
+"Il il file di progetto è stato modificato da Kdenlive.\n"
+"Per essere sicuri di non perdere dati è stata creata una copia di sicurezza "
+"sul file: %1."
 
 #: src/trackview.cpp:458
 msgid ""
@@ -9043,9 +8989,8 @@ msgid "create new points"
 msgstr "crea nuovi punti"
 
 #: rc.cpp:457
-#, fuzzy
 msgid "delay0r"
-msgstr "Ritardo"
+msgstr ""
 
 #: src/dvdwizardvob.cpp:55 src/wizard.cpp:425
 msgid "dvdauthor"
@@ -9099,7 +9044,6 @@ msgstr "genisoimage oppure mkisofs"
 
 #: src/slideshowclip.cpp:77 src/mainwindow.cpp:911 src/clipproperties.cpp:326
 #: rc.cpp:2880 rc.cpp:4910
-#, fuzzy
 msgid "hh:mm:ss:ff"
 msgstr "hh:mm:ss::ff"
 
@@ -9151,9 +9095,8 @@ msgstr "Descrizione dei parametri"
 
 #: rc.cpp:2735 rc.cpp:2741 rc.cpp:2979 rc.cpp:2985 rc.cpp:4765 rc.cpp:4771
 #: rc.cpp:5009 rc.cpp:5015
-#, fuzzy
 msgid "pixels"
-msgstr "pixeliz0r"
+msgstr "pixels"
 
 #: rc.cpp:760
 msgid "pr0be"
