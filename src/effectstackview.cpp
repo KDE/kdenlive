@@ -431,6 +431,7 @@ void EffectStackView::clear()
     ItemInfo info;
     m_effectedit->transferParamDesc(QDomElement(), info);
     //m_ui.region_url->clear();
+    m_clipref = NULL;
     m_ui.buttonShowComments->setEnabled(false);
     m_ui.labelComment->setText(QString());
     m_ui.effectlist->blockSignals(false);

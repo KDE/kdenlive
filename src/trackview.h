@@ -76,6 +76,9 @@ public:
     * Parses all tracks to check if there is audio data. */
     bool checkProjectAudio() const;
 
+    void checkTrackHeight();
+    void updateProfile();
+
 protected:
     virtual void keyPressEvent(QKeyEvent * event);
 

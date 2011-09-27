@@ -46,7 +46,7 @@ class ClipItem : public AbstractClipItem
     Q_OBJECT
 
 public:
-    ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, int strobe, bool generateThumbs = true);
+    ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, int strobe, int frame_width, bool generateThumbs = true);
     virtual ~ ClipItem();
     virtual void paint(QPainter *painter,
                        const QStyleOptionGraphicsItem *option,
@@ -172,6 +172,7 @@ public:
      * @return Fitting producer
      * Which producer is returned depends on the type of this clip (audioonly, videoonly, normal) */
     Mlt::Producer *getProducer(int track, bool trackSpecific = true);
+    void resetFrameWidth(int width);
 
 protected:
     //virtual void mouseMoveEvent(QGraphicsSceneMouseEvent * event);

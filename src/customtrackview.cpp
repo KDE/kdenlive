@@ -262,14 +262,35 @@ void CustomTrackView::checkAutoScroll()
     return m_scene->m_tracksList;
 }*/
 
-void CustomTrackView::checkTrackHeight()
+
+int CustomTrackView::getFrameWidth()
 {
-    if (m_tracksHeight == KdenliveSettings::trackheight()) return;
+    return (int) (m_tracksHeight * m_document->mltProfile().display_aspect_num / m_document->mltProfile().display_aspect_den + 0.5);
+}
+
+void CustomTrackView::updateSceneFrameWidth()
+{
+    int frameWidth = getFrameWidth();
+    QList<QGraphicsItem *> itemList = items();
+    ClipItem *item;
+    for (int i = 0; i < itemList.count(); i++) {
+        if (itemList.at(i)->type() == AVWIDGET) {
+            item = (ClipItem*) itemList.at(i);
+            item->resetFrameWidth(frameWidth);
+            item->resetThumbs(true);
+        }
+    }
+}
+
+bool CustomTrackView::checkTrackHeight()
+{
+    if (m_tracksHeight == KdenliveSettings::trackheight()) return false;
     m_tracksHeight = KdenliveSettings::trackheight();
     emit trackHeightChanged();
     QList<QGraphicsItem *> itemList = items();
     ClipItem *item;
     Transition *transitionitem;
+    int frameWidth = getFrameWidth();
     bool snap = KdenliveSettings::snaptopoints();
     KdenliveSettings::setSnaptopoints(false);
     for (int i = 0; i < itemList.count(); i++) {
@@ -277,6 +298,7 @@ void CustomTrackView::checkTrackHeight()
             item = (ClipItem*) itemList.at(i);
             item->setRect(0, 0, item->rect().width(), m_tracksHeight - 1);
             item->setPos((qreal) item->startPos().frames(m_document->fps()), (qreal) item->track() * m_tracksHeight + 1);
+            item->resetFrameWidth(frameWidth);
             item->resetThumbs(true);
         } else if (itemList.at(i)->type() == TRANSITIONWIDGET) {
             transitionitem = (Transition*) itemList.at(i);
@@ -297,6 +319,7 @@ void CustomTrackView::checkTrackHeight()
 //     verticalScrollBar()->setMaximum(m_tracksHeight * m_document->tracksCount());
     KdenliveSettings::setSnaptopoints(snap);
     viewport()->update();
+    return true;
 }
 
 /** Zoom or move viewport on mousewheel
@@ -718,7 +741,6 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
 
     // check item under mouse
     QList<QGraphicsItem *> collisionList = items(m_clickEvent);
-
     if (event->modifiers() == Qt::ControlModifier && m_tool != SPACERTOOL && collisionList.count() == 0) {
         // Pressing Ctrl + left mouse button in an empty area scrolls the timeline
         setDragMode(QGraphicsView::ScrollHandDrag);
@@ -905,7 +927,8 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         } else {
             setCursorPos((int)(mapToScene(event->x(), 0).x()));
         }
-        QGraphicsView::mousePressEvent(event);
+        //QGraphicsView::mousePressEvent(event);
+        event->ignore();
         return;
     }
 
@@ -1491,7 +1514,7 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
             return true;
         }
         m_selectionGroup = new AbstractGroupItem(m_document->fps());
-        ClipItem *item = new ClipItem(clip, info, m_document->fps(), 1.0, 1);
+        ClipItem *item = new ClipItem(clip, info, m_document->fps(), 1.0, 1, getFrameWidth());
         m_selectionGroup->addToGroup(item);
         item->setFlag(QGraphicsItem::ItemIsMovable, false);
 
@@ -1549,7 +1572,7 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
             info.track = 0;
             start += info.cropDuration;
             offsetList.append(start);
-            ClipItem *item = new ClipItem(clip, info, m_document->fps(), 1.0, 1, false);
+            ClipItem *item = new ClipItem(clip, info, m_document->fps(), 1.0, 1, getFrameWidth(), false);
             item->setFlag(QGraphicsItem::ItemIsMovable, false);
             m_selectionGroup->addToGroup(item);
             if (!clip->isPlaceHolder()) m_waitingThumbs.append(item);
@@ -4115,7 +4138,7 @@ void CustomTrackView::addClip(QDomElement xml, const QString &clipId, ItemInfo i
         m_mutex.unlock();
     }
 
-    ClipItem *item = new ClipItem(baseclip, info, m_document->fps(), xml.attribute("speed", "1").toDouble(), xml.attribute("strobe", "1").toInt());
+    ClipItem *item = new ClipItem(baseclip, info, m_document->fps(), xml.attribute("speed", "1").toDouble(), xml.attribute("strobe", "1").toInt(), getFrameWidth());
     item->setEffectList(effects);
     if (xml.hasAttribute("audio_only")) item->setAudioOnly(true);
     else if (xml.hasAttribute("video_only")) item->setVideoOnly(true);

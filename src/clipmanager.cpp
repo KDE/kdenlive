@@ -54,7 +54,9 @@ ClipManager::ClipManager(KdenliveDoc *doc) :
     connect(&m_modifiedTimer, SIGNAL(timeout()), this, SLOT(slotProcessModifiedClips()));
 
 #if KDE_IS_VERSION(4,5,0)
+    KImageCache::deleteCache("kdenlive-thumbs");
     pixmapCache = new KImageCache("kdenlive-thumbs", 1000000);
+    pixmapCache->setEvictionPolicy(KSharedDataCache::EvictOldest);
 #endif
 }
 
@@ -78,6 +80,13 @@ void ClipManager::clear()
     m_clipList.clear();
     m_clipIdCounter = 1;
     m_folderIdCounter = 1;
+#if KDE_IS_VERSION(4,5,0)
+    pixmapCache->clear();
+#endif
+}
+
+void ClipManager::clearCache()
+{
 #if KDE_IS_VERSION(4,5,0)
     pixmapCache->clear();
 #endif

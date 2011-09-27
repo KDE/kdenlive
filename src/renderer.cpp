@@ -190,6 +190,7 @@ void Render::buildConsumer(const QString &profileName)
     setenv("MLT_PROFILE", tmp, 1);
     m_mltProfile = new Mlt::Profile(tmp);
     m_mltProfile->set_explicit(true);
+    kDebug()<<"// *********  PROFILE AR: "<<m_mltProfile->dar();
     delete[] tmp;
 
     m_blackClip = new Mlt::Producer(*m_mltProfile, "colour", "black");
@@ -409,15 +410,15 @@ int Render::renderHeight() const
 QImage Render::extractFrame(int frame_position, QString path, int width, int height)
 {
     if (width == -1) {
-        width = renderWidth();
+        width = frameRenderWidth();
         height = renderHeight();
     } else if (width % 2 == 1) width++;
-
+    int dwidth = height * frameRenderWidth() / renderHeight();
     if (!path.isEmpty()) {
         Mlt::Producer *producer = new Mlt::Producer(*m_mltProfile, path.toUtf8().constData());
         if (producer) {
             if (producer->is_valid()) {
-                QImage img = KThumb::getFrame(producer, frame_position, width, height);
+                QImage img = KThumb::getFrame(producer, frame_position, dwidth, width, height);
                 delete producer;
                 return img;
             }
@@ -430,7 +431,7 @@ QImage Render::extractFrame(int frame_position, QString path, int width, int hei
         pix.fill(Qt::black);
         return pix;
     }
-    return KThumb::getFrame(m_mltProducer, frame_position, width, height);
+    return KThumb::getFrame(m_mltProducer, frame_position, dwidth, width, height);
 }
 
 QPixmap Render::getImageThumbnail(KUrl url, int /*width*/, int /*height*/)
@@ -703,7 +704,8 @@ void Render::getFileProperties(const QDomElement &xml, const QString &clipId, in
         return;
     }
 
-    int width = (int)(imageHeight * m_mltProfile->dar() + 0.5);
+    int imageWidth = (int)((double) imageHeight * m_mltProfile->width() / m_mltProfile->height() + 0.5);
+    int fullWidth = (int)((double) imageHeight * m_mltProfile->dar() + 0.5);
     QMap < QString, QString > filePropertyMap;
     QMap < QString, QString > metadataPropertyMap;
 
@@ -782,24 +784,13 @@ void Render::getFileProperties(const QDomElement &xml, const QString &clipId, in
 
             int variance;
             mlt_image_format format = mlt_image_rgb24a;
-            int frame_width = width;
+            int frame_width = imageWidth;
             int frame_height = imageHeight;
-            QPixmap pix;
+            QImage img;
             do {
                 variance = 100;
-                uint8_t *data = frame->get_image(format, frame_width, frame_height, 0);
-                QImage image((uchar *)data, frame_width, frame_height, QImage::Format_ARGB32_Premultiplied);
-
-                if (!image.isNull()) {
-                    if (frame_width > (2 * width)) {
-                        // there was a scaling problem, do it manually
-                        QImage scaled = image.scaled(width, imageHeight);
-                        pix = QPixmap::fromImage(scaled.rgbSwapped());
-                    } else pix = QPixmap::fromImage(image.rgbSwapped());
-                    variance = KThumb::imageVariance(image);
-                } else
-                    pix.fill(Qt::black);
-
+                img = KThumb::getFrame(frame, imageWidth, fullWidth, imageHeight);
+                variance = KThumb::imageVariance(img);
                 if (frameNumber == 0 && variance< 6) {
                     // Thumbnail is not interesting (for example all black, seek to fetch better thumb
                     frameNumber = 100;
@@ -809,10 +800,11 @@ void Render::getFileProperties(const QDomElement &xml, const QString &clipId, in
                     variance = -1;
                 }
             } while (variance == -1);
+            QPixmap pix = QPixmap::fromImage(img);
             emit replyGetImage(clipId, pix);
 
         } else if (frame->get_int("test_audio") == 0) {
-            QPixmap pixmap = KIcon("audio-x-generic").pixmap(QSize(width, imageHeight));
+            QPixmap pixmap = KIcon("audio-x-generic").pixmap(QSize(fullWidth, imageHeight));
             emit replyGetImage(clipId, pixmap);
             filePropertyMap["type"] = "audio";
         }
@@ -2993,6 +2985,7 @@ void Render::mltChangeTrackState(int track, bool mute, bool blind)
     if (mute && trackProducer.get_int("hide") < 2 ) {
             // We mute a track with sound
             if (track == getLowestNonMutedAudioTrack(tractor)) audioMixingBroken = true;
+            kDebug()<<"Muting track: "<<track <<" / "<<getLowestNonMutedAudioTrack(tractor);
     }
     else if (!mute && trackProducer.get_int("hide") > 1 ) {
             // We un-mute a previously muted track

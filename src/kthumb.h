@@ -65,7 +65,7 @@ Q_OBJECT public:
     QPixmap extractImage(int frame, int width, int height);
 #if KDE_IS_VERSION(4,5,0)
     /** @brief Request thumbnails for the frame range. */
-    void queryIntraThumbs(int start, int end);
+    void queryIntraThumbs(QList <int> missingFrames);
     /** @brief Query cached thumbnail. */
     QImage findCachedThumb(const QString path);
 #endif
@@ -80,7 +80,8 @@ public slots:
     void removeAudioThumb();
     void getAudioThumbs(int channel, double frame, double frameLength, int arrayWidth);
     static QPixmap getImage(KUrl url, int frame, int width, int height);
-    static QImage getFrame(Mlt::Producer *producer, int framepos, int width, int height);
+    static QImage getFrame(Mlt::Producer *producer, int framepos, int frameWidth, int displayWidth, int height);
+    static QImage getFrame(Mlt::Frame *frame, int frameWidth, int displayWidth, int height);
     /** @brief Calculates image variance, useful to know if a thumbnail is interesting. 
      *  @return an integer between 0 and 100. 0 means no variance, eg. black image while bigger values mean contrasted image
      * */
@@ -99,6 +100,7 @@ private:
     KUrl m_url;
     QString m_thumbFile;
     double m_dar;
+    double m_ratio;
     Mlt::Producer *m_producer;
     ClipManager *m_clipManager;
     QString m_id;

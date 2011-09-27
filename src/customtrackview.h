@@ -88,7 +88,8 @@ public:
     /** @brief Cuts all clips that are selected at the timeline cursor position. */
     void cutSelectedClips();
     void setContextMenu(QMenu *timeline, QMenu *clip, QMenu *transition, QActionGroup *clipTypeGroup, QMenu *markermenu);
-    void checkTrackHeight();
+    bool checkTrackHeight();
+    void updateSceneFrameWidth();
     //QList <TrackInfo> tracksList() const;
     void setTool(PROJECTTOOL tool);
     ClipItem *cutClip(ItemInfo info, GenTime cutTime, bool cut, bool execute = true);
@@ -185,6 +186,8 @@ public:
     * Check whether given track has a clip with audio in it. */
     bool hasAudio(int track) const;
 
+    int getFrameWidth();
+    
 public slots:
     void setCursorPos(int pos, bool seek = true);
     void moveCursorPos(int delta);

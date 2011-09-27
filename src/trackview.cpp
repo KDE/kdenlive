@@ -472,7 +472,7 @@ void TrackView::moveCursorPos(int pos)
 void TrackView::slotChangeZoom(int horizontal, int vertical)
 {
     m_ruler->setPixelPerMark(horizontal);
-    m_scale = (double) FRAME_SIZE / m_ruler->comboScale[horizontal];
+    m_scale = (double) m_trackview->getFrameWidth() / m_ruler->comboScale[horizontal];
 
     if (vertical == -1) {
         // user called zoom
@@ -490,7 +490,7 @@ void TrackView::slotChangeZoom(int horizontal, int vertical)
 
 int TrackView::fitZoom() const
 {
-    int zoom = (int)((duration() + 20 / m_scale) * FRAME_SIZE / m_trackview->width());
+    int zoom = (int)((duration() + 20 / m_scale) * m_trackview->getFrameWidth() / m_trackview->width());
     int i;
     for (i = 0; i < 13; i++)
         if (m_ruler->comboScale[i] > zoom) break;
@@ -586,6 +586,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked, QDomNod
     // parse track
     int position = 0;
     QMap <QString, QString> producerReplacementIds;
+    int frame_width = m_trackview->getFrameWidth();
     QDomNodeList children = xml.childNodes();
     for (int nodeindex = 0; nodeindex < children.count(); nodeindex++) {
         QDomNode n = children.item(nodeindex);
@@ -727,7 +728,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked, QDomNod
 
                 clipinfo.track = ix;
                 //kDebug() << "// INSERTING CLIP: " << in << "x" << out << ", track: " << ix << ", ID: " << id << ", SCALE: " << m_scale << ", FPS: " << m_doc->fps();
-                ClipItem *item = new ClipItem(clip, clipinfo, m_doc->fps(), speed, strobe, false);
+                ClipItem *item = new ClipItem(clip, clipinfo, m_doc->fps(), speed, strobe, frame_width, false);
                 if (idString.endsWith("_video")) item->setVideoOnly(true);
                 else if (idString.endsWith("_audio")) item->setAudioOnly(true);
                 m_scene->addItem(item);
@@ -1110,6 +1111,24 @@ void TrackView::slotSaveTimelinePreview(const QString path)
     img.save(path);
 }
 
+void TrackView::updateProfile()
+{
+    m_ruler->updateFrameSize();
+    m_trackview->updateSceneFrameWidth();
+    slotChangeZoom(m_doc->zoom().x(), m_doc->zoom().y());
+    slotSetZone(m_doc->zone(), false);
+}
+
+void TrackView::checkTrackHeight()
+{
+    if (m_trackview->checkTrackHeight()) {
+        m_doc->clipManager()->clearCache();
+        m_ruler->updateFrameSize();
+        m_trackview->updateSceneFrameWidth();
+        slotChangeZoom(m_doc->zoom().x(), m_doc->zoom().y());
+        slotSetZone(m_doc->zone(), false);
+    }
+}
 
 #include "trackview.moc"
 

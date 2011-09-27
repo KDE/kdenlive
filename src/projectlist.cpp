@@ -1645,13 +1645,14 @@ void ProjectList::slotRefreshClipThumbnail(QTreeWidgetItem *it, bool update)
         }
         QPixmap pix;
         int height = m_listView->iconSize().height();
-        int width = (int)(height  * m_render->dar());
+        int swidth = (int)(height  * m_render->frameRenderWidth() / m_render->renderHeight()+ 0.5);
+        int dwidth = (int)(height  * m_render->dar() + 0.5);
         if (clip->clipType() == AUDIO)
-            pix = KIcon("audio-x-generic").pixmap(QSize(width, height));
+            pix = KIcon("audio-x-generic").pixmap(QSize(dwidth, height));
         else if (clip->clipType() == IMAGE)
-            pix = QPixmap::fromImage(KThumb::getFrame(item->referencedClip()->producer(), 0, width, height));
+            pix = QPixmap::fromImage(KThumb::getFrame(item->referencedClip()->producer(), 0, swidth, dwidth, height));
         else
-            pix = item->referencedClip()->extractImage(frame, width, height);
+            pix = item->referencedClip()->extractImage(frame, dwidth, height);
 
         if (!pix.isNull()) {
             monitorItemEditing(false);

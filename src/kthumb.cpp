@@ -46,6 +46,7 @@ KThumb::KThumb(ClipManager *clipManager, KUrl url, const QString &id, const QStr
     m_url(url),
     m_thumbFile(),
     m_dar(1),
+    m_ratio(1),
     m_producer(NULL),
     m_clipManager(clipManager),
     m_id(id),
@@ -76,7 +77,11 @@ void KThumb::setProducer(Mlt::Producer *producer)
     m_producer = producer;
     // FIXME: the profile() call leaks an object, but trying to free
     // it leads to a double-free in Profile::~Profile()
-    if (producer) m_dar = producer->profile()->dar();
+    if (producer) {
+        m_dar = producer->profile()->dar();
+        m_ratio = (double) producer->profile()->width() / producer->profile()->height();
+    }
+        
 }
 
 void KThumb::clearProducer()
@@ -120,12 +125,13 @@ void KThumb::extractImage(int frame, int frame2)
 void KThumb::doGetThumbs()
 {
     const int theight = KdenliveSettings::trackheight();
-    const int twidth = FRAME_SIZE;//(int)(theight * m_dar + 0.5);
+    const int swidth = (int)(theight * m_ratio + 0.5);
+    const int dwidth = (int)(theight * m_dar + 0.5);
 
     while (!m_requestedThumbs.isEmpty()) {
         int frame = m_requestedThumbs.takeFirst();
         if (frame != -1) {
-            QImage img = getFrame(m_producer, frame, twidth, theight);
+            QImage img = getFrame(m_producer, frame, swidth, dwidth, theight);
             emit thumbReady(frame, img);
         }
     }
@@ -133,7 +139,7 @@ void KThumb::doGetThumbs()
 
 QPixmap KThumb::extractImage(int frame, int width, int height)
 {
-    return QPixmap::fromImage(getFrame(m_producer, frame, width, height));
+    return QPixmap::fromImage(getFrame(m_producer, frame, (int) (height * m_ratio + 0.5), width, height));
 }
 
 //static
@@ -146,16 +152,16 @@ QPixmap KThumb::getImage(KUrl url, int frame, int width, int height)
     //"<mlt><playlist><producer resource=\"" + url.path() + "\" /></playlist></mlt>");
     //Mlt::Producer producer(profile, "xml-string", tmp);
     Mlt::Producer *producer = new Mlt::Producer(profile, url.path().toUtf8().constData());
-
-    pix = QPixmap::fromImage(getFrame(producer, frame, width, height));
+    double swidth = (double) profile.width() / profile.height();
+    pix = QPixmap::fromImage(getFrame(producer, frame, (int) (height * swidth + 0.5), width, height));
     delete producer;
     return pix;
 }
 
 //static
-QImage KThumb::getFrame(Mlt::Producer *producer, int framepos, int width, int height)
+QImage KThumb::getFrame(Mlt::Producer *producer, int framepos, int frameWidth, int displayWidth, int height)
 {
-    QImage p(width, height, QImage::Format_ARGB32_Premultiplied);
+    QImage p(displayWidth, height, QImage::Format_ARGB32_Premultiplied);
     if (producer == NULL || !producer->is_valid()) {
         p.fill(Qt::red);
         return p;
@@ -168,32 +174,43 @@ QImage KThumb::getFrame(Mlt::Producer *producer, int framepos, int width, int he
 
     producer->seek(framepos);
     Mlt::Frame *frame = producer->get_frame();
-    if (!frame) {
-        kDebug() << "///// BROKEN FRAME";
-        p.fill(Qt::red);
-        return p;
-    }
-
-    int ow = width;
-    int oh = height;
-    mlt_image_format format = mlt_image_rgb24a;
-    uint8_t *data = frame->get_image(format, ow, oh, 0);
-    QImage image((uchar *)data, ow, oh, QImage::Format_ARGB32_Premultiplied);
-    //mlt_service_unlock(service.get_service());
-
-    if (!image.isNull()) {
-        if (ow > (2 * width)) {
-            // there was a scaling problem, do it manually
-            QImage scaled = image.scaled(width, height);
-            p = scaled.rgbSwapped();
-        } else p = image.rgbSwapped();
-    } else
-        p.fill(Qt::red);
-
+    p = getFrame(frame, frameWidth, displayWidth, height);
     delete frame;
     return p;
 }
 
+
+//static
+QImage KThumb::getFrame(Mlt::Frame *frame, int frameWidth, int displayWidth, int height)
+{
+    QImage p(displayWidth, height, QImage::Format_ARGB32_Premultiplied);
+    if (frame == NULL || !frame->is_valid()) {
+        p.fill(Qt::red);
+        return p;
+    }
+
+    int ow = frameWidth;
+    int oh = height;
+    mlt_image_format format = mlt_image_rgb24a;
+    uint8_t *data = frame->get_image(format, ow, oh, 0);
+    QImage image((uchar *)data, ow, oh, QImage::Format_ARGB32_Premultiplied);
+    if (!image.isNull()) {
+        if (ow > (2 * displayWidth)) {
+            // there was a scaling problem, do it manually
+            QImage scaled = image.scaled(displayWidth, height);
+            image = scaled.rgbSwapped();
+        } else {
+            image = image.scaled(displayWidth, height, Qt::IgnoreAspectRatio).rgbSwapped();
+        }
+        QPainter painter(&p);
+        painter.fillRect(p.rect(), Qt::black);
+        painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+        painter.drawImage(p.rect(), image);
+        painter.end();
+    } else
+        p.fill(Qt::red);
+    return p;
+}
 
 //static
 uint KThumb::imageVariance(QImage image )
@@ -446,9 +463,9 @@ void KThumb::askForAudioThumbs(const QString &id)
 }
 
 #if KDE_IS_VERSION(4,5,0)
-void KThumb::queryIntraThumbs(int start, int end)
+void KThumb::queryIntraThumbs(QList <int> missingFrames)
 {
-    for (int i = start; i <= end; i++) {
+    foreach (int i, missingFrames) {
         if (!m_intraFramesQueue.contains(i)) m_intraFramesQueue.append(i);
     }
     qSort(m_intraFramesQueue);
@@ -457,19 +474,23 @@ void KThumb::queryIntraThumbs(int start, int end)
 
 void KThumb::slotGetIntraThumbs()
 {
-    int theight = KdenliveSettings::trackheight();
-    int twidth = FRAME_SIZE;
+    const int theight = KdenliveSettings::trackheight();
+    const int frameWidth = (int)(theight * m_ratio + 0.5);
+    const int displayWidth = (int)(theight * m_dar + 0.5);
     QString path = m_url.path() + "_";
-    QImage img;
+    bool addedThumbs = false;
 
     while (!m_intraFramesQueue.isEmpty()) {
         int pos = m_intraFramesQueue.takeFirst();
         if (!m_clipManager->pixmapCache->contains(path + QString::number(pos))) {
-            m_clipManager->pixmapCache->insertImage(path + QString::number(pos), getFrame(m_producer, pos, twidth, theight));
+            if (m_clipManager->pixmapCache->insertImage(path + QString::number(pos), getFrame(m_producer, pos, frameWidth, displayWidth, theight))) {
+                addedThumbs = true;
+            }
+            else kDebug()<<"// INSERT FAILD FOR: "<<pos;
         }
         m_intraFramesQueue.removeAll(pos);
     }
-    emit thumbsCached();
+    if (addedThumbs) emit thumbsCached();
 }
 
 QImage KThumb::findCachedThumb(const QString path)

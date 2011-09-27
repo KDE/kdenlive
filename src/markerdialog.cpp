@@ -61,6 +61,7 @@ MarkerDialog::MarkerDialog(DocClipBase *clip, CommentedTime t, Timecode tc, cons
         if (width % 2 == 1) width++;
         QPixmap p(width, 100);
         QString colour = clip->getProperty("colour");
+        int swidth = (int) (100.0 * m_profile->width() / m_profile->height() + 0.5);
 
         switch (m_clip->clipType()) {
         case VIDEO:
@@ -70,7 +71,7 @@ MarkerDialog::MarkerDialog(DocClipBase *clip, CommentedTime t, Timecode tc, cons
             connect(this, SIGNAL(updateThumb()), m_previewTimer, SLOT(start()));
         case IMAGE:
         case TEXT:
-            p = QPixmap::fromImage(KThumb::getFrame(m_producer, m_in->getValue(), width, 100));
+            p = QPixmap::fromImage(KThumb::getFrame(m_producer, m_in->getValue(), swidth, width, 100));
             break;
         case COLOR:
             colour = colour.replace(0, 2, "#");
@@ -109,8 +110,9 @@ void MarkerDialog::slotUpdateThumb()
     m_previewTimer->stop();
     int pos = m_in->getValue();
     int width = 100.0 * m_dar;
+    int swidth = (int) (100.0 * m_profile->width() / m_profile->height() + 0.5);
     if (width % 2 == 1) width++;
-    QPixmap p = QPixmap::fromImage(KThumb::getFrame(m_producer, pos, width, 100));
+    QPixmap p = QPixmap::fromImage(KThumb::getFrame(m_producer, pos, swidth, width, 100));
     if (!p.isNull())
         clip_thumb->setPixmap(p);
     else

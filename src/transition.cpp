@@ -40,7 +40,7 @@ Transition::Transition(const ItemInfo &info, int transitiontrack, double fps, QD
 {
     setZValue(3);
     m_info.cropDuration = info.endPos - info.startPos;
-    setPos(info.startPos.frames(fps), (qreal)(info.track * KdenliveSettings::trackheight() + itemOffset() + 1));
+    setPos(info.startPos.frames(fps), (int)(info.track * KdenliveSettings::trackheight() + itemOffset() + 1));
 
 #if QT_VERSION >= 0x040600
     m_startAnimation = new QPropertyAnimation(this, "rect");
@@ -170,26 +170,26 @@ void Transition::paint(QPainter *painter,
     const QRectF exposed = option->exposedRect;
     painter->setClipRect(exposed);
     const QRectF br = rect();
+    QPen framePen;
     const QRectF mapped = painter->matrix().mapRect(br);
 
     painter->fillRect(exposed, brush());
 
-    //int top = (int)(br.y() + br.height() / 2 - 7);
     QPointF p1(br.x(), br.y() + br.height() / 2 - 7);
     painter->setMatrixEnabled(false);
-    //painter->drawPixmap(painter->matrix().map(p1) + QPointF(5, 0), transitionPixmap());
     const QString text = m_name + (m_forceTransitionTrack ? "|>" : QString());
 
     // Draw clip name
-    QColor frameColor(brush().color().darker());
     if (isSelected() || (parentItem() && parentItem()->isSelected())) {
-        frameColor = QColor(Qt::red);
+        framePen.setColor(Qt::red);
+        framePen.setWidthF(2.0);
     }
-    frameColor.setAlpha(160);
+    else {
+        framePen.setColor(brush().color().darker());
+    }
 
     const QRectF txtBounding = painter->boundingRect(mapped, Qt::AlignHCenter | Qt::AlignVCenter, ' ' + text + ' ');
-    //painter->fillRect(txtBounding2, frameColor);
-    painter->setBrush(frameColor);
+    painter->setBrush(framePen.color());
     painter->setPen(Qt::NoPen);
     painter->drawRoundedRect(txtBounding, 3, 3);
     painter->setBrush(QBrush(Qt::NoBrush));
@@ -198,11 +198,9 @@ void Transition::paint(QPainter *painter,
     painter->drawText(txtBounding, Qt::AlignCenter, text);
 
     // Draw frame
-    QPen pen = painter->pen();
-    pen.setColor(frameColor);
-    painter->setPen(pen);
+    painter->setPen(framePen);
     painter->setClipping(false);
-    painter->drawRect(painter->matrix().mapRect(rect()));
+    painter->drawRect(mapped.adjusted(1.0, 0, -1.0, 0));
 }
 
 int Transition::type() const
@@ -226,7 +224,7 @@ QVariant Transition::itemChange(GraphicsItemChange change, const QVariant &value
         int newTrack = newPos.y() / KdenliveSettings::trackheight();
         newTrack = qMin(newTrack, projectScene()->tracksCount() - 1);
         newTrack = qMax(newTrack, 0);
-        newPos.setY((int)(newTrack * KdenliveSettings::trackheight() + KdenliveSettings::trackheight() / 3 * 2));
+        newPos.setY((int)(newTrack * KdenliveSettings::trackheight() + itemOffset() + 1));
         // Only one clip is moving
         QRectF sceneShape = rect();
         sceneShape.translate(newPos);

@@ -2296,6 +2296,8 @@ void MainWindow::slotUpdateProjectProfile(const QString &profile)
     if (m_renderWidget) m_renderWidget->setProfile(m_activeDocument->mltProfile());
     m_timelineArea->setTabText(m_timelineArea->currentIndex(), m_activeDocument->description());
     if (updateFps) m_activeTimeline->updateProjectFps();
+    m_activeDocument->clipManager()->clearCache();
+    m_activeTimeline->updateProfile();
     m_activeDocument->setModified(true);
     m_commandStack->activeStack()->clear();
     //Update the mouse position display so it will display in DF/NDF format by default based on the project setting.
@@ -2639,7 +2641,7 @@ void MainWindow::updateConfiguration()
     if (m_activeTimeline) {
         m_activeTimeline->refresh();
         m_activeTimeline->projectView()->checkAutoScroll();
-        m_activeTimeline->projectView()->checkTrackHeight();
+        m_activeTimeline->checkTrackHeight();
         if (m_activeDocument)
             m_activeDocument->clipManager()->checkAudioThumbs();
     }

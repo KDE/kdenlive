@@ -40,7 +40,9 @@
 #include <QGraphicsScene>
 #include <QMimeData>
 
-ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, int strobe, bool generateThumbs) :
+static int FRAME_SIZE;
+
+ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, int strobe, int frame_width, bool generateThumbs) :
         AbstractClipItem(info, QRectF(), fps),
         m_clip(clip),
         m_startFade(0),
@@ -61,6 +63,7 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, i
         m_limitedKeyFrames(false)
 {
     setZValue(2);
+    FRAME_SIZE = frame_width;
     setRect(0, 0, (info.endPos - info.startPos).frames(fps) - 0.02, (double) itemHeight());
     setPos(info.startPos.frames(fps), (double)(info.track * KdenliveSettings::trackheight()) + 1 + itemOffset());
 
@@ -135,7 +138,7 @@ ClipItem::~ClipItem()
 
 ClipItem *ClipItem::clone(ItemInfo info) const
 {
-    ClipItem *duplicate = new ClipItem(m_clip, info, m_fps, m_speed, m_strobe);
+    ClipItem *duplicate = new ClipItem(m_clip, info, m_fps, m_speed, m_strobe, FRAME_SIZE);
     if (m_clipType == IMAGE || m_clipType == TEXT) duplicate->slotSetStartThumb(m_startPix);
     else if (m_clipType != COLOR) {
         if (info.cropStart == m_info.cropStart) duplicate->slotSetStartThumb(m_startPix);
@@ -731,16 +734,23 @@ void ClipItem::paint(QPainter *painter,
                      QWidget *)
 {
     QColor paintColor;
+    QPen framePen;
     if (parentItem()) paintColor = QColor(255, 248, 149);
     else paintColor = m_baseColor;
-    if (isSelected() || (parentItem() && parentItem()->isSelected())) paintColor = paintColor.darker();
+    if (isSelected() || (parentItem() && parentItem()->isSelected())) {
+        paintColor = paintColor.darker();
+        framePen.setColor(Qt::red);
+        framePen.setWidth(2);
+    }
+    else {
+        framePen.setColor(paintColor.darker());
+    }
 
-    painter->setMatrixEnabled(false);
-    const QRectF mapped = painter->matrix().mapRect(rect()).adjusted(0.5, 0, 0.5, 0);
     const QRectF exposed = option->exposedRect;
-    painter->setClipRect(mapped);
-    painter->fillRect(mapped, paintColor);
-
+    painter->fillRect(exposed, paintColor);
+    painter->setClipRect(exposed);
+    painter->setMatrixEnabled(false);
+    const QRectF mapped = painter->matrix().mapRect(rect()).adjusted(0, 0, 1.0, 0.5);
     // draw thumbnails
     if (KdenliveSettings::videothumbnails() && !isAudioOnly()) {
         QPen pen = painter->pen();
@@ -762,26 +772,38 @@ void ClipItem::paint(QPainter *painter,
             QLineF l2(mapped.left() + m_startPix.width(), mapped.top(), mapped.left() + m_startPix.width(), mapped.bottom());
             painter->drawLine(l2);
         }
-        if (painter->matrix().m11() == FRAME_SIZE && m_clip->thumbProducer() && clipType() != COLOR && clipType() != AUDIO && !m_audioOnly) {
+
+        // if we are in full zoom, paint thumbnail for every frame
+        if (m_clip->thumbProducer() && clipType() != COLOR && clipType() != AUDIO && !m_audioOnly && painter->matrix().m11() == FRAME_SIZE) {
             int offset = (m_info.startPos - m_info.cropStart).frames(m_fps);
-            int left = qMax((int) m_info.startPos.frames(m_fps) + 1, (int) mapToScene(exposed.left(), 0).x()) - offset;
-            int right = qMin((int)(m_info.startPos + m_info.cropDuration).frames(m_fps) - 1, (int) mapToScene(exposed.right(), 0).x()) - offset;
+            int left = qMax((int) m_info.cropStart.frames(m_fps) + 1, (int) mapToScene(exposed.left(), 0).x() - offset);
+            int right = qMin((int)(m_info.cropStart + m_info.cropDuration).frames(m_fps) - 1, (int) mapToScene(exposed.right(), 0).x() - offset);
             QPointF startPos = mapped.topLeft();
-            int twidth = FRAME_SIZE;
             int startOffset = m_info.cropStart.frames(m_fps);
             if (clipType() == IMAGE || clipType() == TEXT) {
                 for (int i = left; i <= right; i++) {
-                    painter->drawPixmap(startPos + QPointF(twidth *(i - startOffset), 0), m_startPix);
+                    painter->drawPixmap(startPos + QPointF(FRAME_SIZE *(i - startOffset), 0), m_startPix);
                 }
             }
             else {
 #if KDE_IS_VERSION(4,5,0)
                 if (m_clip && m_clip->thumbProducer()) {
-                    m_clip->thumbProducer()->queryIntraThumbs(left, right);
-                    connect(m_clip->thumbProducer(), SIGNAL(thumbsCached()), this, SLOT(slotGotThumbsCache()));
                     QString path = m_clip->fileURL().path() + "_";
+                    QImage img;
+                    QPen pen(Qt::white);
+                    pen.setStyle(Qt::DotLine);
+                    painter->setPen(pen);
+                    QList <int> missing;
                     for (int i = left; i <= right; i++) {
-                        painter->drawImage(startPos + QPointF(twidth *(i - startOffset), 0), m_clip->thumbProducer()->findCachedThumb(path + QString::number(i)));
+                        img = m_clip->thumbProducer()->findCachedThumb(path + QString::number(i));
+                        QPointF xpos = startPos + QPointF(FRAME_SIZE *(i - startOffset), 0);
+                        if (img.isNull()) missing << i;
+                        else painter->drawImage(xpos, img);
+                        painter->drawLine(xpos, xpos + QPointF(0, mapped.height()));
+                    }
+                    if (!missing.isEmpty()) {
+                        m_clip->thumbProducer()->queryIntraThumbs(missing);
+                        connect(m_clip->thumbProducer(), SIGNAL(thumbsCached()), this, SLOT(slotGotThumbsCache()));
                     }
                 }
 #endif
@@ -819,7 +841,6 @@ void ClipItem::paint(QPainter *painter,
         const int mappedEndPixel =  painter->matrix().map(QPointF(endpixel + cropLeft, 0)).x() - clipStart;
         cropLeft = cropLeft * scale;
 
-
         if (channels >= 1) {
             emit prepareAudioThumb(scale, mappedStartPixel, mappedEndPixel, channels);
         }
@@ -830,133 +851,129 @@ void ClipItem::paint(QPainter *painter,
         }
     }
 
-    // Draw effects names
-    if (!m_effectNames.isEmpty() && mapped.width() > 40) {
-        QRectF txtBounding = painter->boundingRect(mapped, Qt::AlignLeft | Qt::AlignTop, m_effectNames);
-        QColor bgColor;
-        if (m_timeLine && m_timeLine->state() == QTimeLine::Running) {
-            qreal value = m_timeLine->currentValue();
-            txtBounding.setWidth(txtBounding.width() * value);
-            bgColor.setRgb(50 + 200 *(1.0 - value), 50, 50, 100 + 50 * value);
-        } else bgColor.setRgb(50, 50, 90, 180);
+    // only paint details if clip is big enough
+    if (mapped.width() > 20) {
 
-        QPainterPath rounded;
-        rounded.moveTo(txtBounding.bottomRight());
-        rounded.arcTo(txtBounding.right() - txtBounding.height() - 2, txtBounding.top() - txtBounding.height(), txtBounding.height() * 2, txtBounding.height() * 2, 270, 90);
-        rounded.lineTo(txtBounding.topLeft());
-        rounded.lineTo(txtBounding.bottomLeft());
-        painter->fillPath(rounded, bgColor);
-        painter->setPen(Qt::lightGray);
-        painter->drawText(txtBounding.adjusted(1, 0, 1, 0), Qt::AlignCenter, m_effectNames);
-    }
+        // Draw effects names
+        if (!m_effectNames.isEmpty() && mapped.width() > 40) {
+            QRectF txtBounding = painter->boundingRect(mapped, Qt::AlignLeft | Qt::AlignTop, m_effectNames);
+            QColor bgColor;
+            if (m_timeLine && m_timeLine->state() == QTimeLine::Running) {
+                qreal value = m_timeLine->currentValue();
+                txtBounding.setWidth(txtBounding.width() * value);
+                bgColor.setRgb(50 + 200 *(1.0 - value), 50, 50, 100 + 50 * value);
+            } else bgColor.setRgb(50, 50, 90, 180);
 
-    // Draw clip name
-    QColor frameColor(paintColor.darker());
-    if (isSelected() || (parentItem() && parentItem()->isSelected())) {
-        frameColor = QColor(Qt::red);
-    }
-    frameColor.setAlpha(160);
+            QPainterPath rounded;
+            rounded.moveTo(txtBounding.bottomRight());
+            rounded.arcTo(txtBounding.right() - txtBounding.height() - 2, txtBounding.top() - txtBounding.height(), txtBounding.height() * 2, txtBounding.height() * 2, 270, 90);
+            rounded.lineTo(txtBounding.topLeft());
+            rounded.lineTo(txtBounding.bottomLeft());
+            painter->fillPath(rounded, bgColor);
+            painter->setPen(Qt::lightGray);
+            painter->drawText(txtBounding.adjusted(1, 0, 1, 0), Qt::AlignCenter, m_effectNames);
+        }
 
-    const QRectF txtBounding2 = painter->boundingRect(mapped, Qt::AlignHCenter | Qt::AlignVCenter, ' ' + m_clipName + ' ');
-    //painter->fillRect(txtBounding2, frameColor);
-    painter->setBrush(frameColor);
-    painter->setPen(Qt::NoPen);
-    painter->drawRoundedRect(txtBounding2, 3, 3);
-    painter->setBrush(QBrush(Qt::NoBrush));
+        const QRectF txtBounding2 = painter->boundingRect(mapped, Qt::AlignHCenter | Qt::AlignVCenter, ' ' + m_clipName + ' ');
+        painter->setBrush(framePen.color());
+        painter->setPen(Qt::NoPen);
+        painter->drawRoundedRect(txtBounding2, 3, 3);
+        painter->setBrush(QBrush(Qt::NoBrush));
 
-    //painter->setPen(QColor(0, 0, 0, 180));
-    //painter->drawText(txtBounding, Qt::AlignCenter, m_clipName);
-    if (m_videoOnly) {
-        painter->drawPixmap(txtBounding2.topLeft() - QPointF(17, -1), m_videoPix);
-    } else if (m_audioOnly) {
-        painter->drawPixmap(txtBounding2.topLeft() - QPointF(17, -1), m_audioPix);
-    }
-    painter->setPen(Qt::white);
-    painter->drawText(txtBounding2, Qt::AlignCenter, m_clipName);
+        if (m_videoOnly) {
+            painter->drawPixmap(txtBounding2.topLeft() - QPointF(17, -1), m_videoPix);
+        } else if (m_audioOnly) {
+            painter->drawPixmap(txtBounding2.topLeft() - QPointF(17, -1), m_audioPix);
+        }
+        painter->setPen(Qt::white);
+        painter->drawText(txtBounding2, Qt::AlignCenter, m_clipName);
 
 
-    // draw markers
-    if (isEnabled() && m_clip) {
-        QList < CommentedTime > markers = m_clip->commentedSnapMarkers();
-        QList < CommentedTime >::Iterator it = markers.begin();
-        GenTime pos;
-        double framepos;
-        QBrush markerBrush(QColor(120, 120, 0, 140));
-        QPen pen = painter->pen();
-        pen.setColor(QColor(255, 255, 255, 200));
-        pen.setStyle(Qt::DotLine);
+        // draw markers
+        if (isEnabled() && m_clip) {
+            QList < CommentedTime > markers = m_clip->commentedSnapMarkers();
+            QList < CommentedTime >::Iterator it = markers.begin();
+            GenTime pos;
+            double framepos;
+            QBrush markerBrush(QColor(120, 120, 0, 140));
+            QPen pen = painter->pen();
+            pen.setColor(QColor(255, 255, 255, 200));
+            pen.setStyle(Qt::DotLine);
 
-        for (; it != markers.end(); ++it) {
-            pos = GenTime((int)((*it).time().frames(m_fps) / qAbs(m_speed) + 0.5), m_fps) - cropStart();
-            if (pos > GenTime()) {
-                if (pos > cropDuration()) break;
-                QLineF l(rect().x() + pos.frames(m_fps), rect().y(), rect().x() + pos.frames(m_fps), rect().bottom());
-                QLineF l2 = painter->matrix().map(l);
-                painter->setPen(pen);
-                painter->drawLine(l2);
-                if (KdenliveSettings::showmarkers()) {
-                    framepos = rect().x() + pos.frames(m_fps);
-                    const QRectF r1(framepos + 0.04, 10, rect().width() - framepos - 2, rect().height() - 10);
-                    const QRectF r2 = painter->matrix().mapRect(r1);
-                    const QRectF txtBounding3 = painter->boundingRect(r2, Qt::AlignLeft | Qt::AlignTop, ' ' + (*it).comment() + ' ');
-                    painter->setBrush(markerBrush);
-                    painter->setPen(Qt::NoPen);
-                    painter->drawRoundedRect(txtBounding3, 3, 3);
-                    painter->setBrush(QBrush(Qt::NoBrush));
-                    painter->setPen(Qt::white);
-                    painter->drawText(txtBounding3, Qt::AlignCenter, (*it).comment());
+            for (; it != markers.end(); ++it) {
+                pos = GenTime((int)((*it).time().frames(m_fps) / qAbs(m_speed) + 0.5), m_fps) - cropStart();
+                if (pos > GenTime()) {
+                    if (pos > cropDuration()) break;
+                    QLineF l(rect().x() + pos.frames(m_fps), rect().y(), rect().x() + pos.frames(m_fps), rect().bottom());
+                    QLineF l2 = painter->matrix().map(l);
+                    painter->setPen(pen);
+                    painter->drawLine(l2);
+                    if (KdenliveSettings::showmarkers()) {
+                        framepos = rect().x() + pos.frames(m_fps);
+                        const QRectF r1(framepos + 0.04, 10, rect().width() - framepos - 2, rect().height() - 10);
+                        const QRectF r2 = painter->matrix().mapRect(r1);
+                        const QRectF txtBounding3 = painter->boundingRect(r2, Qt::AlignLeft | Qt::AlignTop, ' ' + (*it).comment() + ' ');
+                        painter->setBrush(markerBrush);
+                        painter->setPen(Qt::NoPen);
+                        painter->drawRoundedRect(txtBounding3, 3, 3);
+                        painter->setBrush(QBrush(Qt::NoBrush));
+                        painter->setPen(Qt::white);
+                        painter->drawText(txtBounding3, Qt::AlignCenter, (*it).comment());
+                    }
+                    //painter->fillRect(QRect(br.x() + framepos, br.y(), 10, br.height()), QBrush(QColor(0, 0, 0, 150)));
                 }
-                //painter->fillRect(QRect(br.x() + framepos, br.y(), 10, br.height()), QBrush(QColor(0, 0, 0, 150)));
             }
         }
+
+        // draw start / end fades
+        QBrush fades;
+        if (isSelected()) {
+            fades = QBrush(QColor(200, 50, 50, 150));
+        } else fades = QBrush(QColor(200, 200, 200, 200));
+
+        if (m_startFade != 0) {
+            QPainterPath fadeInPath;
+            fadeInPath.moveTo(0, 0);
+            fadeInPath.lineTo(0, rect().height());
+            fadeInPath.lineTo(m_startFade, 0);
+            fadeInPath.closeSubpath();
+            QPainterPath f1 = painter->matrix().map(fadeInPath);
+            painter->fillPath(f1/*.intersected(resultClipPath)*/, fades);
+            /*if (isSelected()) {
+                QLineF l(m_startFade * scale, 0, 0, itemHeight);
+                painter->drawLine(l);
+            }*/
+        }
+        if (m_endFade != 0) {
+            QPainterPath fadeOutPath;
+            fadeOutPath.moveTo(rect().width(), 0);
+            fadeOutPath.lineTo(rect().width(), rect().height());
+            fadeOutPath.lineTo(rect().width() - m_endFade, 0);
+            fadeOutPath.closeSubpath();
+            QPainterPath f1 = painter->matrix().map(fadeOutPath);
+            painter->fillPath(f1/*.intersected(resultClipPath)*/, fades);
+            /*if (isSelected()) {
+                QLineF l(itemWidth - m_endFade * scale, 0, itemWidth, itemHeight);
+                painter->drawLine(l);
+            }*/
+        }
+
+
+        painter->setPen(QPen(Qt::lightGray));
+        // draw effect or transition keyframes
+        drawKeyFrames(painter, m_limitedKeyFrames);
     }
-
-    // draw start / end fades
-    QBrush fades;
-    if (isSelected()) {
-        fades = QBrush(QColor(200, 50, 50, 150));
-    } else fades = QBrush(QColor(200, 200, 200, 200));
-
-    if (m_startFade != 0) {
-        QPainterPath fadeInPath;
-        fadeInPath.moveTo(0, 0);
-        fadeInPath.lineTo(0, rect().height());
-        fadeInPath.lineTo(m_startFade, 0);
-        fadeInPath.closeSubpath();
-        QPainterPath f1 = painter->matrix().map(fadeInPath);
-        painter->fillPath(f1/*.intersected(resultClipPath)*/, fades);
-        /*if (isSelected()) {
-            QLineF l(m_startFade * scale, 0, 0, itemHeight);
-            painter->drawLine(l);
-        }*/
-    }
-    if (m_endFade != 0) {
-        QPainterPath fadeOutPath;
-        fadeOutPath.moveTo(rect().width(), 0);
-        fadeOutPath.lineTo(rect().width(), rect().height());
-        fadeOutPath.lineTo(rect().width() - m_endFade, 0);
-        fadeOutPath.closeSubpath();
-        QPainterPath f1 = painter->matrix().map(fadeOutPath);
-        painter->fillPath(f1/*.intersected(resultClipPath)*/, fades);
-        /*if (isSelected()) {
-            QLineF l(itemWidth - m_endFade * scale, 0, itemWidth, itemHeight);
-            painter->drawLine(l);
-        }*/
-    }
-
-
-    painter->setPen(QPen(Qt::lightGray));
-    // draw effect or transition keyframes
-    if (mapped.width() > 20) drawKeyFrames(painter, m_limitedKeyFrames);
-
-    //painter->setMatrixEnabled(true);
-
+    
     // draw clip border
     // expand clip rect to allow correct painting of clip border
-    QPen pen1(frameColor);
-    painter->setPen(pen1);
     painter->setClipping(false);
-    painter->drawRect(painter->matrix().mapRect(rect()));
+    painter->setPen(framePen);
+    if (isSelected() || (parentItem() && parentItem()->isSelected())) {
+        painter->drawRect(mapped.adjusted(1.0, 0.5, -1.5, -0.5));
+    }
+    else {
+        painter->drawRect(mapped.adjusted(0, 0.5, -0.5, -0.5));
+    }
 }
 
 
@@ -997,6 +1014,12 @@ OPERATIONTYPE ClipItem::operationMode(QPointF pos)
 int ClipItem::itemHeight()
 {
     return KdenliveSettings::trackheight() - 2;
+}
+
+void ClipItem::resetFrameWidth(int width)
+{
+    FRAME_SIZE = width;
+    update();
 }
 
 QList <GenTime> ClipItem::snapMarkers() const

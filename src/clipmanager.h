@@ -105,6 +105,7 @@ Q_OBJECT public:
     void addFolder(const QString&, const QString&);
     void deleteFolder(const QString&);
     void clear();
+    void clearCache();
     AbstractGroupItem *createGroup();
     void removeGroup(AbstractGroupItem *group);
     QDomElement groupsXml() const;

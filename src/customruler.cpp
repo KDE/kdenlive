@@ -43,6 +43,7 @@ static const int LITTLE_MARK_LENGTH = (MIDDLE_MARK_LENGTH / 2);
 static const int LITTLE_MARK_X2 = LINE_END;
 static const int LITTLE_MARK_X1 = (LITTLE_MARK_X2 - LITTLE_MARK_LENGTH);
 
+static int FRAME_SIZE;
 static int LABEL_SIZE;
 static const int END_LABEL_X = 4;
 static const int END_LABEL_Y = (END_LABEL_X + LABEL_SIZE - 2);
@@ -62,16 +63,15 @@ CustomRuler::CustomRuler(Timecode tc, CustomTrackView *parent) :
         m_duration(0),
         m_offset(0),
         m_clickedGuide(-1),
-        m_mouseMove(NO_MOVE)
+        m_mouseMove(NO_MOVE),
+        m_rate(-1)
 {
     setFont(KGlobalSettings::toolBarFont());
     QFontMetricsF fontMetrics(font());
     LABEL_SIZE = fontMetrics.ascent() - 2;
+    updateFrameSize();
     m_scale = 3;
     m_zoneColor = KStatefulBrush(KColorScheme::View, KColorScheme::PositiveBackground, KSharedConfig::openConfig(KdenliveSettings::colortheme())).brush(this).color();
-    littleMarkDistance = FRAME_SIZE;
-    mediumMarkDistance = FRAME_SIZE * m_timecode.fps();
-    bigMarkDistance = FRAME_SIZE * m_timecode.fps() * 60;
     m_zoneStart = 0;
     m_zoneEnd = 100;
     m_contextMenu = new QMenu(this);
@@ -95,6 +95,17 @@ void CustomRuler::updateProjectFps(Timecode t)
     mediumMarkDistance = FRAME_SIZE * m_timecode.fps();
     bigMarkDistance = FRAME_SIZE * m_timecode.fps() * 60;
     update();
+}
+
+void CustomRuler::updateFrameSize()
+{
+    FRAME_SIZE = m_view->getFrameWidth();
+    kDebug()<<"// GOT FRM SZ: "<<FRAME_SIZE;
+    littleMarkDistance = FRAME_SIZE;
+    mediumMarkDistance = FRAME_SIZE * m_timecode.fps();
+    bigMarkDistance = FRAME_SIZE * m_timecode.fps() * 60;
+    updateProjectFps(m_timecode);
+    if (m_rate > 0) setPixelPerMark(m_rate);
 }
 
 void CustomRuler::slotEditGuide()
