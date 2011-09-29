@@ -43,13 +43,14 @@ ProjectListView::ProjectListView(QWidget *parent) :
     setDragEnabled(true);
     setAcceptDrops(true);
     setFrameShape(QFrame::NoFrame);
-    setRootIsDecorated(false);
+    setRootIsDecorated(true);
 
     setColumnCount(3);
     QStringList headers;
     headers << i18n("Clip") << i18n("Description") << i18n("Rating");
     setHeaderLabels(headers);
-
+    setIndentation(12);
+    
     QHeaderView* headerView = header();
     headerView->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(headerView, SIGNAL(customContextMenuRequested(const QPoint&)),

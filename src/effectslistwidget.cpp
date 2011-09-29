@@ -50,7 +50,8 @@ EffectsListWidget::EffectsListWidget(QMenu *contextMenu, QWidget *parent) :
     setHeaderHidden(true);
     setFrameShape(QFrame::NoFrame);
     setAutoFillBackground(false);
-    setRootIsDecorated(false);
+    setRootIsDecorated(true);
+    setIndentation(10);
     //setSelectionMode(QAbstractItemView::ExtendedSelection);
     setDragDropMode(QAbstractItemView::DragOnly);
     QPalette p = palette();
@@ -84,8 +85,6 @@ void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActi
             currentFolder = currentItem()->text(0);
     }
 
-    KIcon folderIcon("folder");
-
     QString effectCategory = KStandardDirs::locate("config", "kdenliveeffectscategory.rc");
     QDomDocument doc;
     QFile file(effectCategory);
@@ -112,10 +111,10 @@ void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActi
             item->setData(0, IdRole, groups.at(i).toElement().attribute("list"));
         } else {
             item = new QTreeWidgetItem((QTreeWidget*)0, QStringList(folderNames.at(i)));
-            item->setIcon(0, folderIcon);
             item->setData(0, TypeRole, QString::number((int) EFFECT_FOLDER));
             item->setData(0, IdRole, groups.at(i).toElement().attribute("list"));
             item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+            item->setChildIndicatorPolicy(QTreeWidgetItem::DontShowIndicatorWhenChildless);
             insertTopLevelItem(0, item);
         }
         folders.append(item);
@@ -124,7 +123,6 @@ void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActi
     QTreeWidgetItem *misc = findFolder(i18n("Misc"));
     if (misc == NULL) {
         misc = new QTreeWidgetItem((QTreeWidget*)0, QStringList(i18n("Misc")));
-        misc->setIcon(0, folderIcon);
         misc->setData(0, TypeRole, QString::number((int) EFFECT_FOLDER));
         misc->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
         insertTopLevelItem(0, misc);
@@ -133,7 +131,6 @@ void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActi
     QTreeWidgetItem *audio = findFolder(i18n("Audio"));
     if (audio == NULL) {
         audio = new QTreeWidgetItem((QTreeWidget*)0, QStringList(i18n("Audio")));
-        audio->setIcon(0, folderIcon);
         audio->setData(0, TypeRole, QString::number((int) EFFECT_FOLDER));
         audio->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
         insertTopLevelItem(0, audio);
@@ -142,7 +139,6 @@ void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActi
     QTreeWidgetItem *custom = findFolder(i18nc("Folder Name", "Custom"));
     if (custom == NULL) {
         custom = new QTreeWidgetItem((QTreeWidget*)0, QStringList(i18nc("Folder Name", "Custom")));
-        custom->setIcon(0, folderIcon);
         custom->setData(0, TypeRole, QString::number((int) EFFECT_FOLDER));
         custom->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
         insertTopLevelItem(0, custom);
