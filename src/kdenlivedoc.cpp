@@ -68,6 +68,18 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
     m_modified(false),
     m_projectFolder(projectFolder)
 {
+    // init m_profile struct
+    m_profile.frame_rate_num = 0;
+    m_profile.frame_rate_den = 0;
+    m_profile.width = 0;
+    m_profile.height = 0;
+    m_profile.progressive = 0;
+    m_profile.sample_aspect_num = 0;
+    m_profile.sample_aspect_den = 0;
+    m_profile.display_aspect_num = 0;
+    m_profile.display_aspect_den = 0;
+    m_profile.colorspace = 0;
+
     m_clipManager = new ClipManager(this);
     m_autoSaveTimer = new QTimer(this);
     m_autoSaveTimer->setSingleShot(true);
