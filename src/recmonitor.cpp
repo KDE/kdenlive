@@ -860,7 +860,7 @@ void RecMonitor::slotUpdateFreeSpace()
 {
 #if KDE_IS_VERSION(4,2,0)
     KDiskFreeSpaceInfo info = KDiskFreeSpaceInfo::freeSpaceInfo(m_capturePath);
-    if (info.isValid()) {
+    if (info.isValid() && info.size() > 0) {
         m_freeSpace->setValue(100 * info.used() / info.size());
         m_freeSpace->setText(i18n("Free space: %1", KIO::convertSize(info.available())));
         m_freeSpace->update();
