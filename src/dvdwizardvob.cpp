@@ -129,8 +129,9 @@ void DvdWizardVob::slotAddVobFile(KUrl url, const QString &chapters)
     }
     delete producer;
 
-    if (chapters.isEmpty() == false)
+    if (chapters.isEmpty() == false) {
         item->setData(1, Qt::UserRole + 1, chapters);
+    }
     else if (QFile::exists(url.path() + ".dvdchapter")) {
         // insert chapters as children
         QFile file(url.path() + ".dvdchapter");
@@ -246,7 +247,9 @@ QStringList DvdWizardVob::chapters() const
     int max = m_view.vobs_list->topLevelItemCount();
     for (int i = 0; i < max; i++) {
         QTreeWidgetItem *item = m_view.vobs_list->topLevelItem(i);
-        if (item) result.append(item->data(1, Qt::UserRole + 1).toString());
+        if (item) {
+            result.append(item->data(1, Qt::UserRole + 1).toString());
+        }
     }
     return result;
 }
@@ -256,7 +259,7 @@ void DvdWizardVob::updateChapters(QMap <QString, QString> chaptersdata)
     int max = m_view.vobs_list->topLevelItemCount();
     for (int i = 0; i < max; i++) {
         QTreeWidgetItem *item = m_view.vobs_list->topLevelItem(i);
-        item->setData(1, Qt::UserRole + 1, chaptersdata.value(item->text(0)));
+        if (chaptersdata.contains(item->text(0))) item->setData(1, Qt::UserRole + 1, chaptersdata.value(item->text(0)));
     }
 }
 
