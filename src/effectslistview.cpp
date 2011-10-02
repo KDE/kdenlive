@@ -35,8 +35,17 @@ EffectsListView::EffectsListView(QWidget *parent) :
 {
     setupUi(this);
 
+    QString style = "QTreeView::branch:has-siblings:!adjoins-item{border-image: none 0;} \
+    QTreeView::branch:has-siblings:adjoins-item {border-image: none 0;}      \
+    QTreeView::branch:!has-children:!has-siblings:adjoins-item {border-image: none 0;} \
+    QTreeView::branch:has-children:!has-siblings:closed,QTreeView::branch:closed:has-children:has-siblings {   \
+         border-image: none;image: url(:/images/stylesheet-branch-closed.png);}      \
+    QTreeView::branch:open:has-children:!has-siblings,QTreeView::branch:open:has-children:has-siblings  {    \
+         border-image: none;image: url(:/images/stylesheet-branch-open.png);}";
+
     QMenu *contextMenu = new QMenu(this);
     m_effectsList = new EffectsListWidget(contextMenu);
+    m_effectsList->setStyleSheet(style);
     QVBoxLayout *lyr = new QVBoxLayout(effectlistframe);
     lyr->addWidget(m_effectsList);
     lyr->setContentsMargins(0, 0, 0, 0);

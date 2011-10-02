@@ -318,6 +318,7 @@ message(STATUS "using dl library: ${DL_LIB}")
 
 kde4_add_kcfg_files(kdenlive_SRCS kdenlivesettings.kcfgc)
 qt4_add_dbus_adaptor(kdenlive_SRCS org.kdenlive.MainWindow.xml mainwindow.h MainWindow)
+qt4_add_resources(kdenlive_SRCS widgets/resources.qrc)
 kde4_add_executable(kdenlive ${kdenlive_SRCS} ${kdenlive_UI})
 
 if(${KDE_VERSION} VERSION_LESS 4.3.80)
