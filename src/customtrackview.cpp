@@ -1640,6 +1640,11 @@ void CustomTrackView::addEffect(int track, GenTime pos, QDomElement effect)
 {
     if (pos < GenTime()) {
         // Add track effect
+        if (effect.attribute("id") == "speed") {
+            // TODO: uncomment after 0.8.2 release
+            // emit displayMessage(i18n("Cannot add speed effect to track"));
+            return;
+        }
         clearSelection();
         m_document->addTrackEffect(track - 1, effect);
         m_document->renderer()->mltAddTrackEffect(track, getEffectArgs(effect));

@@ -168,8 +168,18 @@ void HeaderTrack::dropEvent(QDropEvent * event)
 //virtual
 void HeaderTrack::dragEnterEvent(QDragEnterEvent *event)
 {
-    if (buttonLock->isChecked()) event->setAccepted(false);
-    else event->setAccepted(event->mimeData()->hasFormat("kdenlive/effectslist"));
+    if (buttonLock->isChecked()) {
+        event->setAccepted(false);
+    } else {
+        if (event->mimeData()->hasFormat("kdenlive/effectslist")) {
+            const QString effects = QString::fromUtf8(event->mimeData()->data("kdenlive/effectslist"));
+            QDomDocument doc;
+            doc.setContent(effects, true);
+            if (doc.documentElement().attribute("id") != "speed") {
+                event->setAccepted(true);
+            }
+        }
+    }
 }
 
 void HeaderTrack::setSelectedIndex(int ix)
