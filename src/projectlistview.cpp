@@ -45,9 +45,9 @@ ProjectListView::ProjectListView(QWidget *parent) :
     setFrameShape(QFrame::NoFrame);
     setRootIsDecorated(true);
 
-    QString style = "QTreeView::branch:has-siblings:!adjoins-item{border-image: none 0;} \
-    QTreeView::branch:has-siblings:adjoins-item {border-image: none 0;}      \
-    QTreeView::branch:!has-children:!has-siblings:adjoins-item {border-image: none 0;} \
+    QString style = "QTreeView::branch:has-siblings:!adjoins-item{border-image: none;border:0px} \
+    QTreeView::branch:has-siblings:adjoins-item {border-image: none;border:0px}      \
+    QTreeView::branch:!has-children:!has-siblings:adjoins-item {border-image: none;border:0px} \
     QTreeView::branch:has-children:!has-siblings:closed,QTreeView::branch:closed:has-children:has-siblings {   \
          border-image: none;image: url(:/images/stylesheet-branch-closed.png);}      \
     QTreeView::branch:open:has-children:!has-siblings,QTreeView::branch:open:has-children:has-siblings  {    \
