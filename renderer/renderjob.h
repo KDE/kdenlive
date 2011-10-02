@@ -34,7 +34,7 @@ class RenderJob : public QObject
     Q_OBJECT
 
 public:
-    RenderJob(bool erase, bool usekuiserver, const QString& renderer, const QString& profile, const QString& rendermodule, const QString& player, const QString& scenelist, const QString& dest, const QStringList& preargs, const QStringList& args, int in = -1, int out = -1);
+    RenderJob(bool erase, bool usekuiserver, int pid, const QString& renderer, const QString& profile, const QString& rendermodule, const QString& player, const QString& scenelist, const QString& dest, const QStringList& preargs, const QStringList& args, int in = -1, int out = -1);
     ~RenderJob();
     void setLocale(const QString &locale);
 
@@ -70,6 +70,8 @@ private:
     QTemporaryFile m_logfile;
     /** @brief Used to write to the log file. */
     QTextStream m_logstream;
+    /** @brief The process id of the Kdenlive instance, used to get the dbus service. */
+    int m_pid;
 
 signals:
     void renderingFinished();

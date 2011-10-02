@@ -38,14 +38,14 @@ public:
     }
 };
 
-static QDBusConnection connection(QLatin1String(""));
 
-RenderJob::RenderJob(bool erase, bool usekuiserver, const QString& renderer, const QString& profile, const QString& rendermodule, const QString& player, const QString& scenelist, const QString& dest, const QStringList& preargs, const QStringList& args, int in, int out) :
+RenderJob::RenderJob(bool erase, bool usekuiserver, int pid, const QString& renderer, const QString& profile, const QString& rendermodule, const QString& player, const QString& scenelist, const QString& dest, const QStringList& preargs, const QStringList& args, int in, int out) :
     QObject(),
     m_jobUiserver(NULL),
     m_kdenliveinterface(NULL),
     m_usekuiserver(usekuiserver),
-    m_enablelog(false)
+    m_enablelog(false),
+    m_pid(pid)
 {
     m_scenelist = scenelist;
     m_dest = dest;
@@ -233,16 +233,24 @@ void RenderJob::start()
 
         if (interface->isServiceRegistered("org.kde.JobViewServer")) {
             QDBusInterface kuiserver("org.kde.JobViewServer", "/JobViewServer", "org.kde.JobViewServer");
-            QDBusReply<QDBusObjectPath> objectPath = kuiserver.call("requestView", "kdenlive", "kdenlive", 0x0001);
+            QDBusReply<QDBusObjectPath> objectPath = kuiserver.call("requestView", "Kdenlive", "kdenlive", 0x0001);
             QString reply = ((QDBusObjectPath) objectPath).path();
-            m_jobUiserver = new QDBusInterface("org.kde.JobViewServer", reply, "org.kde.JobView");
-            if (m_jobUiserver) {
+
+            // Use of the KDE JobViewServer is an ugly hack, it is not reliable
+            QString dbusView = "org.kde.JobViewV2";
+            m_jobUiserver = new QDBusInterface("org.kde.JobViewServer", reply, dbusView);
+            if (!m_jobUiserver || !m_jobUiserver->isValid()) {
+                dbusView = "org.kde.JobView";
+                m_jobUiserver = new QDBusInterface("org.kde.JobViewServer", reply, dbusView);
+            }
+                
+            if (m_jobUiserver && m_jobUiserver->isValid()) {
                 m_startTime = QTime::currentTime();
                 if (!m_args.contains("pass=2"))
                     m_jobUiserver->call("setPercent", (uint) 0);
-                m_jobUiserver->call("setInfoMessage", tr("Rendering %1").arg(QFileInfo(m_dest).fileName()));
-                //m_jobUiserver->call("setDescriptionField", (uint) 0, tr("Rendering to"), m_dest);
-                QDBusConnection::sessionBus().connect("org.kde.JobViewServer", reply, "org.kde.JobView", "cancelRequested", this, SLOT(slotAbort()));
+                //m_jobUiserver->call("setInfoMessage", tr("Rendering %1").arg(QFileInfo(m_dest).fileName()));
+                m_jobUiserver->call("setDescriptionField", (uint) 0, tr("Rendering"), m_dest);
+                QDBusConnection::sessionBus().connect("org.kde.JobViewServer", reply, dbusView, "cancelRequested", this, SLOT(slotAbort()));
             }
         }
     }
@@ -269,12 +277,17 @@ void RenderJob::initKdenliveDbusInterface()
     QString kdenliveId;
     QDBusConnection connection = QDBusConnection::sessionBus();
     QDBusConnectionInterface* ibus = connection.interface();
-    const QStringList services = ibus->registeredServiceNames();
-    foreach(const QString & service, services) {
-        if (!service.startsWith("org.kde.kdenlive"))
-            continue;
-        kdenliveId = service;
-        break;
+    kdenliveId = QString("org.kde.kdenlive-%1").arg(m_pid);
+    if (!ibus->isServiceRegistered(kdenliveId))
+    {
+        kdenliveId.clear();
+        const QStringList services = ibus->registeredServiceNames();
+        foreach(const QString & service, services) {
+            if (!service.startsWith("org.kde.kdenlive"))
+                continue;
+            kdenliveId = service;
+            break;
+        }
     }
     m_dbusargs.clear();
     if (kdenliveId.isEmpty()) return;

@@ -32,6 +32,7 @@ int main(int argc, char **argv)
     QStringList args = app.arguments();
     QStringList preargs;
     QString locale;
+    int pid = 0;
     int in = -1;
     int out = -1;
     if (args.count() >= 7) {
@@ -48,6 +49,11 @@ int main(int argc, char **argv)
             usekuiserver = true;
             args.removeFirst();
         }
+        if (QString(args.at(0)).startsWith("-pid:")) {
+            pid = QString(args.at(0)).section(':', 1).toInt();
+            args.removeFirst();
+        }
+
         if (QString(args.at(0)).startsWith("-locale:")) {
             locale = QString(args.at(0)).section(':', 1);
             args.removeFirst();
@@ -90,14 +96,14 @@ int main(int argc, char **argv)
         }
 
         qDebug() << "//STARTING RENDERING: " << erase << "," << usekuiserver << "," << render << "," << profile << "," << rendermodule << "," << player << "," << src << "," << dest << "," << preargs << "," << args << "," << in << "," << out ;
-        RenderJob *job = new RenderJob(doerase, usekuiserver, render, profile, rendermodule, player, src, dest, preargs, args, in, out);
+        RenderJob *job = new RenderJob(doerase, usekuiserver, pid, render, profile, rendermodule, player, src, dest, preargs, args, in, out);
         if (!locale.isEmpty()) job->setLocale(locale);
         job->start();
         if (dualpass) {
             if (vprelist.size()>1)
                 args.replaceInStrings(QRegExp("^vpre=.*"),QString("vpre=").append(vprelist.at(1)));
             args.replace(args.indexOf("pass=1"), "pass=2");
-            RenderJob *dualjob = new RenderJob(erase, usekuiserver, render, profile, rendermodule, player, src, dest, preargs, args, in, out);
+            RenderJob *dualjob = new RenderJob(erase, usekuiserver, pid, render, profile, rendermodule, player, src, dest, preargs, args, in, out);
             QObject::connect(job, SIGNAL(renderingFinished()), dualjob, SLOT(start()));
         }
         app.exec();

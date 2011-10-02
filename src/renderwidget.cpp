@@ -773,6 +773,9 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
     if (!scriptExport) render_process_args << "-erase";
     if (KdenliveSettings::usekuiserver()) render_process_args << "-kuiserver";
 
+    // get process id
+    render_process_args << QString("-pid:%1").arg(QCoreApplication::applicationPid());
+
     // Set locale for render process if required
     if (QLocale().decimalPoint() != QLocale::system().decimalPoint()) {
         render_process_args << QString("-locale:%1").arg(QLocale().name());
