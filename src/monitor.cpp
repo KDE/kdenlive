@@ -712,9 +712,6 @@ void Monitor::rendererStopped(int pos)
         checkOverlay();
         m_timePos->setValue(pos);
     }
-    disconnect(m_playAction, SIGNAL(triggered()), this, SLOT(slotPlay()));
-    //m_playAction->setChecked(false);
-    connect(m_playAction, SIGNAL(triggered()), this, SLOT(slotPlay()));
     m_playAction->setIcon(m_playIcon);
 }
 
@@ -769,11 +766,9 @@ void Monitor::slotPlay()
     if (render == NULL) return;
     activateMonitor();
     if (render->playSpeed() == 0) {
-        //m_playAction->setChecked(true);
         m_playAction->setIcon(m_pauseIcon);
         render->switchPlay(true);
     } else {
-        //m_playAction->setChecked(false);
         m_playAction->setIcon(m_playIcon);
         render->switchPlay(false);
     }
@@ -818,7 +813,9 @@ void Monitor::slotSetXml(DocClipBase *clip, QPoint zone, const int position)
         render->setProducer(NULL, -1);
         return;
     }
-    if (m_currentClip != NULL || clip != NULL) activateMonitor();
+    if (m_currentClip != NULL || clip != NULL) {
+        activateMonitor();
+    }
     if (clip != m_currentClip) {
         m_currentClip = clip;
         updateMarkers(clip);
