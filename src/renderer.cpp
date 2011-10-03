@@ -62,7 +62,6 @@ static void kdenlive_callback(void* /*ptr*/, int level, const char* fmt, va_list
 static void consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr)
 {
     // detect if the producer has finished playing. Is there a better way to do it?
-    if (self->m_isBlocked) return;
     Mlt::Frame frame(frame_ptr);
     if (!frame.is_valid()) return;
     self->emitFrameNumber(mlt_frame_get_position(frame_ptr));
@@ -82,7 +81,6 @@ static void consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr
 static void consumer_paused(mlt_consumer, Render * self, mlt_frame /*frame_ptr*/)
 {
     // detect if the producer has finished playing. Is there a better way to do it?
-    if (self->m_isBlocked) return;
     self->emitConsumerStopped();
 }
 
@@ -90,7 +88,6 @@ static void consumer_paused(mlt_consumer, Render * self, mlt_frame /*frame_ptr*/
 static void consumer_gl_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr)
 {
     // detect if the producer has finished playing. Is there a better way to do it?
-    if (self->m_isBlocked) return;
     Mlt::Frame frame(frame_ptr);
     self->showFrame(frame);
     if (frame.get_double("_speed") == 0.0) {
@@ -103,7 +100,6 @@ static void consumer_gl_frame_show(mlt_consumer, Render * self, mlt_frame frame_
 
 Render::Render(const QString & rendererName, int winid, QString profile, QWidget *parent) :
     AbstractRender(rendererName, parent),
-    m_isBlocked(0),
     analyseAudio(KdenliveSettings::monitor_audio()),
     m_name(rendererName),
     m_mltConsumer(NULL),
@@ -127,7 +123,6 @@ Render::Render(const QString & rendererName, int winid, QString profile, QWidget
 
 Render::~Render()
 {
-    m_isBlocked = 1;
     closeMlt();
     delete m_mltProfile;
 }
@@ -360,7 +355,6 @@ void Render::seek(GenTime time)
 {
     if (!m_mltProducer)
         return;
-    m_isBlocked = false;
     m_mltProducer->seek((int)(time.frames(m_fps)));
     refresh();
 }
@@ -369,7 +363,6 @@ void Render::seek(int time)
 {
     if (!m_mltProducer)
         return;
-    m_isBlocked = false;
     m_mltProducer->seek(time);
     refresh();
 }
@@ -939,7 +932,6 @@ int Render::setProducer(Mlt::Producer *producer, int position)
         return -1;
     }
 
-    m_isBlocked = true;
     if (m_mltProducer) {
         m_mltProducer->set_speed(0);
         delete m_mltProducer;
@@ -965,7 +957,6 @@ int Render::setProducer(Mlt::Producer *producer, int position)
         m_mltProducer->seek(position);
         emit rendererPosition(position);
     } else emit rendererPosition((int) m_mltProducer->position());
-    m_isBlocked = false;
     return error;
 }
 
@@ -977,7 +968,6 @@ int Render::setSceneList(QDomDocument list, int position)
 int Render::setSceneList(QString playlist, int position)
 {
     if (m_winid == -1) return -1;
-    m_isBlocked = true;
     int error = 0;
 
     //kDebug() << "//////  RENDER, SET SCENE LIST:\n" << playlist <<"\n..........:::.";
@@ -1088,8 +1078,6 @@ int Render::setSceneList(QString playlist, int position)
     if (error == 0) error = connectPlaylist();
     else connectPlaylist();
     fillSlowMotionProducers();
-
-    m_isBlocked = false;
     blockSignals(false);
 
     return error;
@@ -1256,11 +1244,9 @@ void Render::start()
             //KMessageBox::error(qApp->activeWindow(), i18n("Could not create the video preview window.\nThere is something wrong with your Kdenlive install or your driver settings, please fix it."));
             kDebug(QtWarningMsg) << "/ / / / CANNOT START MONITOR";
         } else {
-            m_isBlocked = false;
             refresh();
         }
     }
-    m_isBlocked = false;
 }
 
 void Render::stop()
@@ -1273,7 +1259,6 @@ void Render::stop()
         // delete m_mltConsumer;
         // m_mltConsumer = NULL;
     }
-    m_isBlocked = true;
 
     if (m_mltProducer) {
         if (m_isZoneMode) resetZoneMode();
@@ -1299,7 +1284,6 @@ void Render::pause()
         return;
     if (m_mltProducer->get_speed() == 0.0) return;
     if (m_isZoneMode) resetZoneMode();
-    m_isBlocked = true;
     m_mltConsumer->set("refresh", 0);
     m_mltProducer->set_speed(0.0);
     /*
@@ -1315,17 +1299,22 @@ void Render::switchPlay(bool play)
         return;
     if (m_isZoneMode) resetZoneMode();
     if (play && m_mltProducer->get_speed() == 0.0) {
-        m_isBlocked = false;
         if (m_name == "clip" && m_framePosition == (int) m_mltProducer->get_out()) m_mltProducer->seek(0);
         m_mltProducer->set_speed(1.0);
         m_mltConsumer->set("refresh", 1);
+        if (m_mltConsumer->is_stopped()) m_mltConsumer->start();
     } else if (!play) {
-        m_isBlocked = true;
-        m_mltConsumer->set("refresh", 0);
-        m_mltProducer->set_speed(0.0);
-        //emit rendererPosition(m_framePosition);
+        stop();
+        m_mltConsumer->set("refresh", "0");
+        m_framePosition++;
         m_mltProducer->seek(m_framePosition);
-        //m_mltConsumer->purge();
+        /*m_mltConsumer->set("refresh", 0);
+        m_mltConsumer->stop();
+        m_mltConsumer->purge();
+        m_mltProducer->set_speed(0.0);
+        //m_framePosition = m_mltProducer->position();
+        m_mltProducer->seek(m_framePosition);
+        emit rendererPosition(m_framePosition);*/
     }
 }
 
@@ -1334,7 +1323,6 @@ void Render::play(double speed)
     if (!m_mltProducer)
         return;
     // if (speed == 0.0) m_mltProducer->set("out", m_mltProducer->get_length() - 1);
-    m_isBlocked = false;
     m_mltProducer->set_speed(speed);
     /*if (speed == 0.0) {
     m_mltProducer->seek((int) m_framePosition + 1);
@@ -1347,7 +1335,6 @@ void Render::play(const GenTime & startTime)
 {
     if (!m_mltProducer || !m_mltConsumer)
         return;
-    m_isBlocked = false;
     m_mltProducer->seek((int)(startTime.frames(m_fps)));
     m_mltProducer->set_speed(1.0);
     m_mltConsumer->set("refresh", 1);
@@ -1367,7 +1354,6 @@ void Render::playZone(const GenTime & startTime, const GenTime & stopTime)
 {
     if (!m_mltProducer || !m_mltConsumer)
         return;
-    m_isBlocked = false;
     if (!m_isZoneMode) m_originalOut = m_mltProducer->get_playtime() - 1;
     m_mltProducer->set("out", (int)(stopTime.frames(m_fps)));
     m_mltProducer->seek((int)(startTime.frames(m_fps)));
@@ -1387,10 +1373,8 @@ void Render::resetZoneMode()
 
 void Render::seekToFrame(int pos)
 {
-    //kDebug()<<" *********  RENDER SEEK TO POS";
     if (!m_mltProducer)
         return;
-    m_isBlocked = false;
     resetZoneMode();
     m_mltProducer->seek(pos);
     refresh();
@@ -1398,10 +1382,8 @@ void Render::seekToFrame(int pos)
 
 void Render::seekToFrameDiff(int diff)
 {
-    //kDebug()<<" *********  RENDER SEEK TO POS";
     if (!m_mltProducer)
         return;
-    m_isBlocked = false;
     resetZoneMode();
     m_mltProducer->seek(m_mltProducer->position() + diff);
     refresh();
@@ -1410,15 +1392,19 @@ void Render::seekToFrameDiff(int diff)
 void Render::doRefresh()
 {
     // Use a Timer so that we don't refresh too much
-    if (!m_isBlocked && m_mltConsumer) m_mltConsumer->set("refresh", 1);
+    if (m_mltConsumer) {
+        if (m_mltConsumer->is_stopped()) m_mltConsumer->start();
+        m_mltConsumer->set("refresh", 1);
+    }
 }
 
 void Render::refresh()
 {
-    if (!m_mltProducer || m_isBlocked)
+    if (!m_mltProducer)
         return;
     if (m_mltConsumer) {
         m_mltConsumer->set("refresh", 1);
+        if (m_mltConsumer->is_stopped()) m_mltConsumer->start();
     }
 }
 
@@ -1714,8 +1700,6 @@ int Render::mltInsertClip(ItemInfo info, QDomElement element, Mlt::Producer *pro
 
 void Render::mltCutClip(int track, GenTime position)
 {
-    m_isBlocked = true;
-
     Mlt::Service service(m_mltProducer->parent().get_service());
     if (service.type() != tractor_type) {
         kWarning() << "// TRACTOR PROBLEM";
@@ -1742,7 +1726,6 @@ void Render::mltCutClip(int track, GenTime position)
     int clipIndex = trackPlaylist.get_clip_index_at(cutPos);
     if (trackPlaylist.is_blank(clipIndex)) {
         kDebug() << "// WARNING, TRYING TO CUT A BLANK";
-        m_isBlocked = false;
         return;
     }
     mlt_service_lock(service.get_service());
@@ -1791,7 +1774,6 @@ void Render::mltCutClip(int track, GenTime position)
     kDebug()<<"CLIP "<<i<<": ("<<blankStart<<'x'<<blankStart + blankDuration<<")"<<blk;
     }*/
 
-    m_isBlocked = false;
 }
 
 bool Render::mltUpdateClip(ItemInfo info, QDomElement element, Mlt::Producer *prod)
@@ -1876,7 +1858,6 @@ bool Render::mltRemoveClip(int track, GenTime position)
         //mlt_service_unlock(service.get_service());
         return false;
     }
-    m_isBlocked = true;
     Mlt::Producer *clip = trackPlaylist.replace_with_blank(clipIndex);
     if (clip) delete clip;
     trackPlaylist.consolidate_blanks(0);
@@ -1892,7 +1873,6 @@ bool Render::mltRemoveClip(int track, GenTime position)
     }*/
     //service.unlock();
     if (track != 0 && trackPlaylist.count() <= clipIndex) mltCheckLength(&tractor);
-    m_isBlocked = false;
     return true;
 }
 
@@ -2103,7 +2083,6 @@ void Render::mltPasteEffects(Mlt::Producer *source, Mlt::Producer *dest)
 
 int Render::mltChangeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, double speed, double /*oldspeed*/, int strobe, Mlt::Producer *prod)
 {
-    m_isBlocked = true;
     int newLength = 0;
     Mlt::Service service(m_mltProducer->parent().get_service());
     if (service.type() != tractor_type) {
@@ -2278,7 +2257,6 @@ int Render::mltChangeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, dou
     }
     delete original;
     if (clipIndex + 1 == trackPlaylist.count()) mltCheckLength(&tractor);
-    m_isBlocked = false;
     return newLength;
 }
 
@@ -2291,7 +2269,6 @@ bool Render::mltRemoveTrackEffect(int track, int index, bool updateIndex)
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
     Mlt::Service clipService(trackPlaylist.get_service());
 
-    m_isBlocked = true;
     mlt_service_lock(service.get_service());
     int ct = 0;
     Mlt::Filter *filter = clipService.filter(ct);
@@ -2305,7 +2282,6 @@ bool Render::mltRemoveTrackEffect(int track, int index, bool updateIndex)
         } else ct++;
         filter = clipService.filter(ct);
     }
-    m_isBlocked = false;
     mlt_service_unlock(service.get_service());
     refresh();
     return success;
@@ -2339,7 +2315,6 @@ bool Render::mltRemoveEffect(int track, GenTime position, int index, bool update
     }
     delete clip;
 
-    m_isBlocked = true;
     mlt_service_lock(service.get_service());
     int ct = 0;
     Mlt::Filter *filter = clipService.filter(ct);
@@ -2354,7 +2329,6 @@ bool Render::mltRemoveEffect(int track, GenTime position, int index, bool update
         } else ct++;
         filter = clipService.filter(ct);
     }
-    m_isBlocked = false;
     mlt_service_unlock(service.get_service());
     if (doRefresh) refresh();
     return success;
@@ -2403,7 +2377,6 @@ bool Render::mltAddEffect(Mlt::Service service, EffectsParameterList params, int
     const int filter_ix = params.paramValue("kdenlive_ix").toInt();
     const QString region =  params.paramValue("region");
     int ct = 0;
-    m_isBlocked = true;
     mlt_service_lock(service.get_service());
 
     Mlt::Filter *filter = service.filter(ct);
@@ -2428,7 +2401,6 @@ bool Render::mltAddEffect(Mlt::Service service, EffectsParameterList params, int
             ct++;
             filter = service.filter(ct);
         }
-        m_isBlocked = false;
         mlt_service_unlock(service.get_service());
         if (doRefresh) refresh();
         return true;
@@ -2532,7 +2504,6 @@ bool Render::mltAddEffect(Mlt::Service service, EffectsParameterList params, int
             }
         } else {
             kDebug() << "filter is NULL";
-            m_isBlocked = false;
             mlt_service_unlock(service.get_service());
             return false;
         }
@@ -2576,7 +2547,6 @@ bool Render::mltAddEffect(Mlt::Service service, EffectsParameterList params, int
             filter->set("kdenlive_ix", filter->get_int("kdenlive_ix") + 1);
         service.attach(*filter);
     }
-    m_isBlocked = false;
     mlt_service_unlock(service.get_service());
     if (doRefresh) refresh();
     return true;
@@ -2589,7 +2559,6 @@ bool Render::mltEditTrackEffect(int track, EffectsParameterList params)
     Mlt::Producer trackProducer(tractor.track(track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
     Mlt::Service clipService(trackPlaylist.get_service());
-    m_isBlocked = true;
     int ct = 0;
     QString index = params.paramValue("kdenlive_ix");
     QString tag =  params.paramValue("tag");
@@ -2608,7 +2577,6 @@ bool Render::mltEditTrackEffect(int track, EffectsParameterList params)
         // filter was not found, it was probably a disabled filter, so add it to the correct place...
 
         bool success = false;//mltAddTrackEffect(track, params);
-        m_isBlocked = false;
         return success;
     }
     QString prefix;
@@ -2620,7 +2588,6 @@ bool Render::mltEditTrackEffect(int track, EffectsParameterList params)
     }
     mlt_service_unlock(service.get_service());
 
-    m_isBlocked = false;
     refresh();
     return true;
 
@@ -2664,7 +2631,6 @@ bool Render::mltEditEffect(int track, GenTime position, EffectsParameterList par
     int diff = trackPlaylist.clip_start(clipIndex) + duration - m_mltProducer->position();
     if (diff < 0 || diff > duration)
         doRefresh = false;
-    m_isBlocked = true;
     int ct = 0;
 
     Mlt::Filter *filter = clip->filter(ct);
@@ -2681,7 +2647,6 @@ bool Render::mltEditEffect(int track, GenTime position, EffectsParameterList par
         // filter was not found, it was probably a disabled filter, so add it to the correct place...
 
         bool success = mltAddEffect(track, position, params);
-        m_isBlocked = false;
         return success;
     }
     QString prefix;
@@ -2700,7 +2665,6 @@ bool Render::mltEditEffect(int track, GenTime position, EffectsParameterList par
     delete clip;
     mlt_service_unlock(service.get_service());
 
-    m_isBlocked = false;
     if (doRefresh) refresh();
     return true;
 }
@@ -2727,7 +2691,6 @@ void Render::mltUpdateEffectPosition(int track, GenTime position, int oldPos, in
     if (diff < 0 || diff > duration) doRefresh = false;
     delete clip;
 
-    m_isBlocked = true;
     int ct = 0;
     Mlt::Filter *filter = clipService.filter(ct);
     while (filter) {
@@ -2737,8 +2700,6 @@ void Render::mltUpdateEffectPosition(int track, GenTime position, int oldPos, in
         } else ct++;
         filter = clipService.filter(ct);
     }
-
-    m_isBlocked = false;
     if (doRefresh) refresh();
 }
 
@@ -2768,7 +2729,6 @@ void Render::mltMoveEffect(int track, GenTime position, int oldPos, int newPos)
     if (diff < 0 || diff > duration) doRefresh = false;
     delete clip;
 
-    m_isBlocked = true;
     int ct = 0;
     QList <Mlt::Filter *> filtersList;
     Mlt::Filter *filter = clipService.filter(ct);
@@ -2820,7 +2780,6 @@ void Render::mltMoveEffect(int track, GenTime position, int oldPos, int newPos)
         clipService.attach(*(filtersList.at(i)));
     }
 
-    m_isBlocked = false;
     if (doRefresh) refresh();
 }
 
@@ -2830,10 +2789,7 @@ void Render::mltMoveTrackEffect(int track, int oldPos, int newPos)
     Mlt::Tractor tractor(service);
     Mlt::Producer trackProducer(tractor.track(track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
-
     Mlt::Service clipService(trackPlaylist.get_service());
-
-    m_isBlocked = true;
     int ct = 0;
     QList <Mlt::Filter *> filtersList;
     Mlt::Filter *filter = clipService.filter(ct);
@@ -2884,13 +2840,11 @@ void Render::mltMoveTrackEffect(int track, int oldPos, int newPos)
     for (int i = 0; i < filtersList.count(); i++) {
         clipService.attach(*(filtersList.at(i)));
     }
-    m_isBlocked = false;
     refresh();
 }
 
 bool Render::mltResizeClipEnd(ItemInfo info, GenTime clipDuration)
 {
-    m_isBlocked = true;
     Mlt::Service service(m_mltProducer->parent().get_service());
     Mlt::Tractor tractor(service);
     Mlt::Producer trackProducer(tractor.track(info.track));
@@ -2908,7 +2862,6 @@ bool Render::mltResizeClipEnd(ItemInfo info, GenTime clipDuration)
 
     if (trackPlaylist.is_blank_at((int) info.startPos.frames(m_fps))) {
         kDebug() << "////////  ERROR RSIZING BLANK CLIP!!!!!!!!!!!";
-        m_isBlocked = false;
         return false;
     }
     mlt_service_lock(service.get_service());
@@ -2968,7 +2921,6 @@ bool Render::mltResizeClipEnd(ItemInfo info, GenTime clipDuration)
         transpinfo.track = info.track;
         mltAddClipTransparency(transpinfo, info.track - 1, QString(clip->parent().get("id")).toInt());
     }*/
-    m_isBlocked = false;
     m_mltConsumer->set("refresh", 1);
     return true;
 }
@@ -3024,7 +2976,6 @@ void Render::fixAudioMixing(Mlt::Tractor tractor)
     mlt_service serv = m_mltProducer->parent().get_service();
     Mlt::Field *field = tractor.field();
     mlt_service_lock(serv);
-    m_isBlocked++;
 
     mlt_service nextservice = mlt_service_get_producer(serv);
     mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
@@ -3055,7 +3006,6 @@ void Render::fixAudioMixing(Mlt::Tractor tractor)
         field->plant_transition(*transition, lowestTrack, i);
     }
     mlt_service_unlock(serv);
-    m_isBlocked--;    
 }
 
 bool Render::mltResizeClipCrop(ItemInfo info, GenTime diff)
@@ -3080,9 +3030,7 @@ bool Render::mltResizeClipCrop(ItemInfo info, GenTime diff)
     int previousStart = clip->get_in();
     int previousOut = clip->get_out();
     delete clip;
-    m_isBlocked = true;
     trackPlaylist.resize_clip(clipIndex, previousStart + frameOffset, previousOut + frameOffset);
-    m_isBlocked = false;
     mlt_service_unlock(service.get_service());
     m_mltConsumer->set("refresh", 1);
     return true;
@@ -3111,7 +3059,6 @@ bool Render::mltResizeClipStart(ItemInfo info, GenTime diff)
     int previousStart = clip->get_in();
     int previousOut = clip->get_out();
 
-    m_isBlocked = true;
     previousStart += moveFrame;
 
     if (previousStart < 0) {
@@ -3155,7 +3102,6 @@ bool Render::mltResizeClipStart(ItemInfo info, GenTime diff)
         transpinfo.track = info.track;
         mltAddClipTransparency(transpinfo, info.track - 1, QString(clip->parent().get("id")).toInt());
     }*/
-    m_isBlocked = false;
     //m_mltConsumer->set("refresh", 1);
     mlt_service_unlock(service.get_service());
     m_mltConsumer->set("refresh", 1);
@@ -3174,7 +3120,6 @@ bool Render::mltUpdateClipProducer(int track, int pos, Mlt::Producer *prod)
         kDebug() << "// Warning, CLIP on track " << track << ", at: " << pos << " is invalid, cannot update it!!!";
         return false;
     }
-    m_isBlocked++;
     //kDebug() << "// TRYING TO UPDATE CLIP at: " << pos << ", TK: " << track;
     Mlt::Service service(m_mltProducer->parent().get_service());
     if (service.type() != tractor_type) {
@@ -3191,7 +3136,6 @@ bool Render::mltUpdateClipProducer(int track, int pos, Mlt::Producer *prod)
         kDebug() << "// ERROR UPDATING CLIP PROD";
         delete clipProducer;
         mlt_service_unlock(service.get_service());
-        m_isBlocked--;
         return false;
     }
     Mlt::Producer *clip = prod->cut(clipProducer->get_in(), clipProducer->get_out());
@@ -3199,7 +3143,6 @@ bool Render::mltUpdateClipProducer(int track, int pos, Mlt::Producer *prod)
         if (clip) delete clip;
         delete clipProducer;
         mlt_service_unlock(service.get_service());
-        m_isBlocked--;
         return false;
     }
     // move all effects to the correct producer
@@ -3208,14 +3151,11 @@ bool Render::mltUpdateClipProducer(int track, int pos, Mlt::Producer *prod)
     delete clip;
     delete clipProducer;
     mlt_service_unlock(service.get_service());
-    m_isBlocked--;
     return true;
 }
 
 bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEnd, Mlt::Producer *prod, bool overwrite, bool /*insert*/)
 {
-    m_isBlocked++;
-
     Mlt::Service service(m_mltProducer->parent().get_service());
     if (service.type() != tractor_type) {
         kWarning() << "// TRACTOR PROBLEM";
@@ -3240,7 +3180,6 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
             //int ix = trackPlaylist.get_clip_index_at(moveEnd);
             kDebug() << "// ERROR MOVING CLIP TO : " << moveEnd;
             mlt_service_unlock(service.get_service());
-            m_isBlocked--;
             return false;
         } else {
             trackPlaylist.consolidate_blanks(0);
@@ -3264,7 +3203,6 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
         if (!overwrite && !destTrackPlaylist.is_blank_at(moveEnd)) {
             // error, destination is not empty
             mlt_service_unlock(service.get_service());
-            m_isBlocked--;
             return false;
         } else {
             Mlt::Producer *clipProducer = trackPlaylist.replace_with_blank(clipIndex);
@@ -3274,7 +3212,6 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
                 if (clipProducer) delete clipProducer;
                 kDebug() << "// ERROR MOVING CLIP TO : " << moveEnd;
                 mlt_service_unlock(service.get_service());
-                m_isBlocked--;
                 return false;
             }
             trackPlaylist.consolidate_blanks(0);
@@ -3324,7 +3261,6 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
     }
     mlt_service_unlock(service.get_service());
     if (checkLength) mltCheckLength(&tractor);
-    m_isBlocked--;
     //askForRefresh();
     //m_mltConsumer->set("refresh", 1);
     return true;
@@ -3376,8 +3312,6 @@ bool Render::mltMoveTransition(QString type, int startTrack, int newTrack, int n
         diff = new_out - m_mltProducer->position();
         if (diff < 0 || diff > new_out - new_in) doRefresh = false;
     }
-
-    m_isBlocked++;
     mlt_service_lock(service.get_service());
 
     mlt_service nextservice = mlt_service_get_producer(service.get_service());
@@ -3414,7 +3348,6 @@ bool Render::mltMoveTransition(QString type, int startTrack, int newTrack, int n
         resource = mlt_properties_get(properties, "mlt_service");
     }
     mlt_service_unlock(service.get_service());
-    m_isBlocked--;
     if (doRefresh) refresh();
     //if (m_isBlocked == 0) m_mltConsumer->set("refresh", 1);
     return found;
@@ -3474,7 +3407,6 @@ void Render::mltUpdateTransitionParams(QString type, int a_track, int b_track, G
 {
     mlt_service serv = m_mltProducer->parent().get_service();
     mlt_service_lock(serv);
-    m_isBlocked++;
 
     mlt_service nextservice = mlt_service_get_producer(serv);
     mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
@@ -3534,7 +3466,6 @@ void Render::mltUpdateTransitionParams(QString type, int a_track, int b_track, G
         resource = mlt_properties_get(properties, "mlt_service");
     }
     mlt_service_unlock(serv);
-    m_isBlocked--;
     //askForRefresh();
     //if (m_isBlocked == 0) m_mltConsumer->set("refresh", 1);
 }
@@ -3542,7 +3473,6 @@ void Render::mltUpdateTransitionParams(QString type, int a_track, int b_track, G
 void Render::mltDeleteTransition(QString tag, int /*a_track*/, int b_track, GenTime in, GenTime out, QDomElement /*xml*/, bool /*do_refresh*/)
 {
     mlt_service serv = m_mltProducer->parent().get_service();
-    m_isBlocked++;
     mlt_service_lock(serv);
 
     Mlt::Service service(serv);
@@ -3577,7 +3507,6 @@ void Render::mltDeleteTransition(QString tag, int /*a_track*/, int b_track, GenT
         resource = mlt_properties_get(properties, "mlt_service");
     }
     mlt_service_unlock(serv);
-    m_isBlocked--;
     //askForRefresh();
     //if (m_isBlocked == 0) m_mltConsumer->set("refresh", 1);
 }
@@ -3680,7 +3609,6 @@ void Render::mltResizeTransparency(int oldStart, int newStart, int newEnd, int t
 
     mlt_service_lock(service.get_service());
     m_mltConsumer->set("refresh", 0);
-    m_isBlocked++;
 
     mlt_service serv = m_mltProducer->parent().get_service();
     mlt_service nextservice = mlt_service_get_producer(serv);
@@ -3707,8 +3635,7 @@ void Render::mltResizeTransparency(int oldStart, int newStart, int newEnd, int t
         resource = mlt_properties_get(properties, "mlt_service");
     }
     mlt_service_unlock(service.get_service());
-    m_isBlocked--;
-    if (m_isBlocked == 0) m_mltConsumer->set("refresh", 1);
+    m_mltConsumer->set("refresh", 1);
 
 }
 
@@ -3719,7 +3646,6 @@ void Render::mltMoveTransparency(int startTime, int endTime, int startTrack, int
 
     mlt_service_lock(service.get_service());
     m_mltConsumer->set("refresh", 0);
-    m_isBlocked++;
 
     mlt_service serv = m_mltProducer->parent().get_service();
     mlt_service nextservice = mlt_service_get_producer(serv);
@@ -3752,7 +3678,6 @@ void Render::mltMoveTransparency(int startTime, int endTime, int startTrack, int
         mlt_type = mlt_properties_get(properties, "mlt_type");
         resource = mlt_properties_get(properties, "mlt_service");
     }
-    m_isBlocked--;
     mlt_service_unlock(service.get_service());
     m_mltConsumer->set("refresh", 1);
 }
@@ -3788,12 +3713,10 @@ bool Render::mltAddTransition(QString tag, int a_track, int b_track, GenTime in,
         //kDebug() << " ------  ADDING TRANS PARAM: " << key << ": " << it.value();
     }
     // attach transition
-    m_isBlocked++;
     mlt_service_lock(service.get_service());
     mltPlantTransition(field, *transition, a_track, b_track);
     // field->plant_transition(*transition, a_track, b_track);
     mlt_service_unlock(service.get_service());
-    m_isBlocked--;
     if (do_refresh) refresh();
     return true;
 }
@@ -3881,7 +3804,6 @@ void Render::fillSlowMotionProducers()
 void Render::mltInsertTrack(int ix, bool videoTrack)
 {
     blockSignals(true);
-    m_isBlocked++;
 
     Mlt::Service service(m_mltProducer->parent().get_service());
     mlt_service_lock(service.get_service());
@@ -3956,7 +3878,6 @@ void Render::mltInsertTrack(int ix, bool videoTrack)
     mlt_service_unlock(service.get_service());
     //tractor.multitrack()->refresh();
     //tractor.refresh();
-    m_isBlocked--;
     blockSignals(false);
 }
 
