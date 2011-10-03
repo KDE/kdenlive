@@ -80,8 +80,6 @@ private:
     QList <AbstractMonitor *>m_monitorsList;
 
 signals:
-    /** @brief Emitted when the active monitor changes */
-    void raiseMonitor(AbstractMonitor *);
     /** @brief When the monitor changed, update the visible color scopes */
     void checkColorScopes();
     /** @brief When the active monitor renderer was deleted, reset color scopes */

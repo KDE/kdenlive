@@ -570,7 +570,6 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     connect(m_projectMonitorDock, SIGNAL(visibilityChanged(bool)), m_projectMonitor, SLOT(refreshMonitor(bool)));
     connect(m_clipMonitorDock, SIGNAL(visibilityChanged(bool)), m_clipMonitor, SLOT(refreshMonitor(bool)));
     //connect(m_monitorManager, SIGNAL(connectMonitors()), this, SLOT(slotConnectMonitors()));
-    connect(m_monitorManager, SIGNAL(raiseMonitor(AbstractMonitor *)), this, SLOT(slotRaiseMonitor(AbstractMonitor *)));
     connect(m_monitorManager, SIGNAL(checkColorScopes()), this, SLOT(slotUpdateColorScopes()));
     connect(m_monitorManager, SIGNAL(clearScopes()), this, SLOT(slotClearColorScopes()));
     connect(m_effectList, SIGNAL(addEffect(const QDomElement)), this, SLOT(slotAddEffect(const QDomElement)));
@@ -831,12 +830,6 @@ void MainWindow::slotAddEffect(const QDomElement effect)
     int ix = m_effectStack->isTrackMode(&ok);
     if (ok) m_activeTimeline->projectView()->slotAddTrackEffect(effectToAdd, m_activeDocument->tracksCount() - ix);
     else m_activeTimeline->projectView()->slotAddEffect(effectToAdd, GenTime(), -1);
-}
-
-void MainWindow::slotRaiseMonitor(AbstractMonitor *monitor)
-{
-    if (monitor == m_clipMonitor) m_clipMonitorDock->raise();
-    else if (monitor == m_projectMonitor) m_projectMonitorDock->raise();
 }
 
 void MainWindow::slotUpdateClip(const QString &id)

@@ -73,11 +73,13 @@ void MonitorManager::activateMonitor(QString name)
     for (int i = 0; i < m_monitorsList.count(); i++) {
         if (m_monitorsList.at(i)->name() == name) {
             m_activeMonitor = m_monitorsList.at(i);
-            emit raiseMonitor(m_activeMonitor);
         }
         else m_monitorsList.at(i)->stop();
     }
-    if (m_activeMonitor) m_activeMonitor->start();
+    if (m_activeMonitor) {
+        m_activeMonitor->parentWidget()->raise();
+        m_activeMonitor->start();
+    }
     emit checkColorScopes();
 }
 
@@ -195,7 +197,7 @@ void MonitorManager::slotResetProfiles()
     //m_projectMonitor->refreshMonitor(true);
     if (!active.isEmpty()) activateMonitor(active);
     blockSignals(false);
-    emit raiseMonitor(m_activeMonitor);
+    m_activeMonitor->parentWidget()->raise();
     emit checkColorScopes();
 }
 
