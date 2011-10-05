@@ -163,7 +163,7 @@ void OnMonitorCornersItem::paint(QPainter* painter, const QStyleOptionGraphicsIt
     if (polygon().count() != 4)
         return;
 
-    double baseSize = 1 / painter->matrix().m11();
+    double baseSize = 1 / painter->worldTransform().m11();
     painter->setRenderHint(QPainter::Antialiasing);
     painter->setBrush(QBrush(isEnabled() ? Qt::yellow : Qt::red));
     double handleSize = 4  * baseSize;

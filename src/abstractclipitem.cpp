@@ -273,7 +273,7 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, bool limitedKeyFrames)
         }
         y1 = br.bottom() - (m_keyframeDefault - m_keyframeOffset) * maxh;
         QLineF l(x1, y1, x2, y1);
-        QLineF l2 = painter->matrix().map(l);
+        QLineF l2 = painter->worldTransform().map(l);
         painter->setPen(QColor(168, 168, 168, 180));
         painter->drawLine(l2);
         painter->setPen(QColor(108, 108, 108, 180));
@@ -294,7 +294,7 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, bool limitedKeyFrames)
     // make sure line begins with clip beginning
     if (!limitedKeyFrames && i.key() != start) {
         QLineF l(br.x(), y1, x1, y1);
-        l2 = painter->matrix().map(l);
+        l2 = painter->worldTransform().map(l);
         painter->drawLine(l2);
     }
     while (i != m_keyframes.constEnd()) {
@@ -314,7 +314,7 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, bool limitedKeyFrames)
             y2 = br.bottom() - (i.value() - m_keyframeOffset) * maxh;
         }
         QLineF l(x1, y1, x2, y2);
-        l2 = painter->matrix().map(l);
+        l2 = painter->worldTransform().map(l);
         painter->drawLine(l2);
         if (active) {
             const QRectF frame(l2.x1() - 3, l2.y1() - 3, 6, 6);
@@ -327,7 +327,7 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, bool limitedKeyFrames)
     // make sure line ends at clip end
     if (!limitedKeyFrames && x1 != br.right()) {
         QLineF l(x1, y1, br.right(), y1);
-        painter->drawLine(painter->matrix().map(l));
+        painter->drawLine(painter->worldTransform().map(l));
     }
 
     if (active && m_keyframes.count() > 1) {

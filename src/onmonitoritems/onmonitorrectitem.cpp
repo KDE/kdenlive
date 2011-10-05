@@ -264,7 +264,7 @@ void OnMonitorRectItem::paint(QPainter* painter, const QStyleOptionGraphicsItem*
     painter->drawRect(option->rect);
 
     if (isEnabled()) {
-        double handleSize = 6 / painter->matrix().m11();
+        double handleSize = 6 / painter->worldTransform().m11();
         double halfHandleSize = handleSize / 2;
         painter->fillRect(-halfHandleSize, -halfHandleSize, handleSize, handleSize, QColor(Qt::yellow));
         painter->fillRect(option->rect.width() - halfHandleSize, -halfHandleSize, handleSize, handleSize, QColor(Qt::yellow));

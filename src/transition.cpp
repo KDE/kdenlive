@@ -58,8 +58,8 @@ Transition::Transition(const ItemInfo &info, int transitiontrack, double fps, QD
     m_info.cropStart = GenTime();
     m_maxDuration = GenTime(600);
 
-    if (m_automaticTransition) setBrush(QColor(200, 200, 50, 100));
-    else setBrush(QColor(200, 100, 50, 100));
+    if (m_automaticTransition) setBrush(QColor(200, 200, 50, 180));
+    else setBrush(QColor(200, 100, 50, 180));
 
     //m_referenceClip = clipa;
     if (params.isNull()) {
@@ -114,10 +114,10 @@ void Transition::setAutomatic(bool automatic)
     m_automaticTransition = automatic;
     if (automatic) {
         m_parameters.setAttribute("automatic", 1);
-        setBrush(QColor(200, 200, 50, 150));
+        setBrush(QColor(200, 200, 50, 180));
     } else {
         m_parameters.removeAttribute("automatic");
-        setBrush(QColor(200, 50, 50, 150));
+        setBrush(QColor(200, 100, 50, 180));
     }
     update();
 }
@@ -171,12 +171,12 @@ void Transition::paint(QPainter *painter,
     painter->setClipRect(exposed);
     const QRectF br = rect();
     QPen framePen;
-    const QRectF mapped = painter->matrix().mapRect(br);
+    const QRectF mapped = painter->worldTransform().mapRect(br);
 
     painter->fillRect(exposed, brush());
 
     QPointF p1(br.x(), br.y() + br.height() / 2 - 7);
-    painter->setMatrixEnabled(false);
+    painter->setWorldMatrixEnabled(false);
     const QString text = m_name + (m_forceTransitionTrack ? "|>" : QString());
 
     // Draw clip name
@@ -200,7 +200,7 @@ void Transition::paint(QPainter *painter,
     // Draw frame
     painter->setPen(framePen);
     painter->setClipping(false);
-    painter->drawRect(mapped.adjusted(1.0, 0, -1.0, 0));
+    painter->drawRect(mapped.adjusted(0, 0, -0.5, -0.5));
 }
 
 int Transition::type() const

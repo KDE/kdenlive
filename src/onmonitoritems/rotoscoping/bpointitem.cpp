@@ -82,7 +82,7 @@ void BPointItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
     }
     painter->setRenderHint(QPainter::Antialiasing);
 
-    double handleSize = 6 / painter->matrix().m11();
+    double handleSize = 6 / painter->worldTransform().m11();
     double handleSizeHalf = handleSize / 2;
 
     QPolygonF handle = QPolygonF() << QPointF(0, -handleSizeHalf) << QPointF(handleSizeHalf, 0) << QPointF(0, handleSizeHalf) << QPointF(-handleSizeHalf, 0);
