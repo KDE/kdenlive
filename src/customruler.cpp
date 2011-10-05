@@ -63,8 +63,8 @@ CustomRuler::CustomRuler(Timecode tc, CustomTrackView *parent) :
         m_duration(0),
         m_offset(0),
         m_clickedGuide(-1),
-        m_mouseMove(NO_MOVE),
-        m_rate(-1)
+        m_rate(-1),
+        m_mouseMove(NO_MOVE)
 {
     setFont(KGlobalSettings::toolBarFont());
     QFontMetricsF fontMetrics(font());
@@ -100,7 +100,6 @@ void CustomRuler::updateProjectFps(Timecode t)
 void CustomRuler::updateFrameSize()
 {
     FRAME_SIZE = m_view->getFrameWidth();
-    kDebug()<<"// GOT FRM SZ: "<<FRAME_SIZE;
     littleMarkDistance = FRAME_SIZE;
     mediumMarkDistance = FRAME_SIZE * m_timecode.fps();
     bigMarkDistance = FRAME_SIZE * m_timecode.fps() * 60;
