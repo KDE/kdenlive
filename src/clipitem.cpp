@@ -972,7 +972,7 @@ void ClipItem::paint(QPainter *painter,
         painter->drawRect(mapped.adjusted(0.5, 0.5, -0.5, -0.5));
     }
     else {
-        painter->drawRect(mapped.adjusted(0, 0, -0.5, -0.5));
+        painter->drawRect(mapped.adjusted(0, 0, -0.5, 0));
     }
 }
 

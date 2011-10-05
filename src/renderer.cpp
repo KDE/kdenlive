@@ -776,9 +776,6 @@ void Render::getFileProperties(const QDomElement &xml, const QString &clipId, in
                 filePropertyMap["type"] = "video";
 
             int variance;
-            mlt_image_format format = mlt_image_rgb24a;
-            int frame_width = imageWidth;
-            int frame_height = imageHeight;
             QImage img;
             do {
                 variance = 100;
