@@ -90,6 +90,7 @@ int main(int argc, char **argv)
             dualpass = true;
             doerase = false;
             args.replace(args.indexOf("pass=2"), "pass=1");
+            if (args.contains("vcodec=libx264")) args << QString("passlogfile=%1").arg(dest + ".log");
         } else {
             args.removeAll("pass=1");
             doerase = erase;
