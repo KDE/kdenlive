@@ -139,6 +139,7 @@ signals:
     void renderPosition(int);
     void durationChanged(int);
     void addProjectClip(KUrl);
+    void addProjectClipList(KUrl::List);
     void showConfigDialog(int, int);
 };
 

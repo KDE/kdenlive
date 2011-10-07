@@ -851,10 +851,7 @@ void RecMonitor::manageCapturedFiles()
     if (capturedFiles.count() > 0) {
         ManageCapturesDialog *d = new ManageCapturesDialog(capturedFiles, this);
         if (d->exec() == QDialog::Accepted) {
-            capturedFiles = d->importFiles();
-            foreach(const KUrl & url, capturedFiles) {
-                emit addProjectClip(url);
-            }
+            emit addProjectClipList(d->importFiles());
         }
         delete d;
     }

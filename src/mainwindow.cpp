@@ -218,6 +218,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     m_recMonitor = new RecMonitor("record", m_monitorManager);
     m_recMonitorDock->setWidget(m_recMonitor);
     connect(m_recMonitor, SIGNAL(addProjectClip(KUrl)), this, SLOT(slotAddProjectClip(KUrl)));
+    connect(m_recMonitor, SIGNAL(addProjectClipList(KUrl::List)), this, SLOT(slotAddProjectClipList(KUrl::List)));
     connect(m_recMonitor, SIGNAL(showConfigDialog(int, int)), this, SLOT(slotPreferences(int, int)));
 #endif
     m_monitorManager->initMonitors(m_clipMonitor, m_projectMonitor, m_recMonitor);
@@ -2994,6 +2995,12 @@ void MainWindow::slotAddProjectClip(KUrl url)
 {
     if (m_activeDocument)
         m_activeDocument->slotAddClipFile(url, QString());
+}
+
+void MainWindow::slotAddProjectClipList(KUrl::List urls)
+{
+    if (m_activeDocument)
+        m_activeDocument->slotAddClipList(urls, QString());
 }
 
 void MainWindow::slotAddTransition(QAction *result)
