@@ -22,10 +22,11 @@
 
 #include <QMouseEvent>
 #include <QHBoxLayout>
-#include <QPushButton>
+#include <QToolButton>
 #include <QLabel>
 #include <QSpinBox>
 #include <QDesktopWidget>
+#include <QFrame>
 
 #include <KApplication>
 #include <KIcon>
@@ -63,54 +64,45 @@ ColorPickerWidget::ColorPickerWidget(QWidget *parent) :
 #endif
 
     QHBoxLayout *layout = new QHBoxLayout(this);
+    layout->setContentsMargins(0, 0, 0, 0);
 
-    QPushButton *button = new QPushButton(this);
+    QToolButton *button = new QToolButton(this);
     button->setIcon(KIcon("color-picker"));
-    button->setToolTip(i18n("Pick a color on the screen"));
+    // TODO: make translatable after 0.8.2 release
+    button->setToolTip(i18n("Pick a color on the screen") + QString("\nBy pressing the mouse button and then moving your mouse you can select a section of the screen from which to get an average color."));
+    button->setAutoRaise(true);
     connect(button, SIGNAL(clicked()), this, SLOT(slotSetupEventFilter()));
 
-    m_size = new QSpinBox(this);
-    m_size->setMinimum(1);
-    // Use qMin here, as we might run into troubles with the cursor otherwise.
-    m_size->setMaximum(qMin(qApp->desktop()->geometry().width(), qApp->desktop()->geometry().height()));
-    m_size->setValue(1);
-
     layout->addWidget(button);
-    layout->addStretch(1);
-    layout->addWidget(new QLabel(i18n("Width of square to pick color from:")));
-    layout->addWidget(m_size);
+
+    m_grabRectFrame = new QFrame();
+    m_grabRectFrame->setFrameStyle(QFrame::Box | QFrame::Plain);
+    m_grabRectFrame->setWindowOpacity(0.5);
+    m_grabRectFrame->setWindowFlags(Qt::FramelessWindowHint);
+    m_grabRectFrame->hide();
 }
 
 ColorPickerWidget::~ColorPickerWidget()
 {
+    delete m_grabRectFrame;
 #ifdef Q_WS_X11
     if (m_filterActive && kapp)
         kapp->removeX11EventFilter(m_filter);
 #endif
 }
 
-QColor ColorPickerWidget::averagePickedColor(const QPoint pos)
+void ColorPickerWidget::slotGetAverageColor()
 {
-    int size = m_size->value();
-    int x0 = qMax(0, pos.x() - size / 2);
-    int y0 = qMax(0, pos.y() - size / 2);
-    int x1 = qMin(qApp->desktop()->geometry().width(), pos.x() + size / 2);
-    int y1 = qMin(qApp->desktop()->geometry().height(), pos.y() + size / 2);
+    m_grabRect = m_grabRect.normalized();
 
-    // take care of loss when dividing odd sizes
-    if (size % 2 != 0) {
-        if (x1 < qApp->desktop()->geometry().width()) ++x1;
-        if (y1 < qApp->desktop()->geometry().height()) ++y1;
-    }
-
-    int numPixel = (x1 - x0) * (y1 - y0);
+    int numPixel = m_grabRect.width() * m_grabRect.height();
 
     int sumR = 0;
     int sumG = 0;
     int sumB = 0;
 
-    // only show message for size > 200 because for smaller values it slows down to much
-    if (size > 200)
+    // only show message for larger rects because of the overhead displayMessage creates
+    if (numPixel > 40000)
         emit displayMessage(i18n("Requesting color information..."), 0);
 
     /*
@@ -119,24 +111,23 @@ QColor ColorPickerWidget::averagePickedColor(const QPoint pos)
     */
 #ifdef Q_WS_X11
     Window root = RootWindow(QX11Info::display(), QX11Info::appScreen());
-    m_image = XGetImage(QX11Info::display(), root, x0, y0, x1 - x0, y1 - y0, -1, ZPixmap);
+    m_image = XGetImage(QX11Info::display(), root, m_grabRect.x(), m_grabRect.y(), m_grabRect.width(), m_grabRect.height(), -1, ZPixmap);
 #else
     QWidget *desktop = QApplication::desktop();
-    m_image = QPixmap::grabWindow(desktop->winId(), x0, y0, x1 - x0, y1 - y0).toImage();
+    m_image = QPixmap::grabWindow(desktop->winId(), m_grabRect.x(), m_grabRect.y(), m_grabRect.width(), m_grabRect.height()).toImage();
 #endif
 
-    for (int i = x0; i < x1; ++i) {
-        for (int j = y0; j < y1; ++j) {
-            QColor color;
-            color = grabColor(QPoint(i - x0, j - y0), false);
+    for (int x = 0; x < m_grabRect.width(); ++x) {
+        for (int y = 0; y < m_grabRect.height(); ++y) {
+            QColor color = grabColor(QPoint(x, y), false);
             sumR += color.red();
             sumG += color.green();
             sumB += color.blue();
         }
 
         // Warning: slows things down, so don't do it for every pixel (the inner for loop)
-        if (size > 200)
-            emit displayMessage(i18n("Requesting color information..."), (int)(((i - x0) * (y1 - y0)) / (qreal)numPixel * 100));
+        if (numPixel > 40000)
+            emit displayMessage(i18n("Requesting color information..."), (int)(x * m_grabRect.height() / (qreal)numPixel * 100));
     }
 
 #ifdef Q_WS_X11
@@ -144,10 +135,10 @@ QColor ColorPickerWidget::averagePickedColor(const QPoint pos)
     m_image = NULL;
 #endif
 
-    if (size > 200)
+    if (numPixel > 40000)
         emit displayMessage(i18n("Calculated average color for rectangle."), -1);
 
-    return QColor(sumR / numPixel, sumG / numPixel, sumB / numPixel);
+    emit colorPicked(QColor(sumR / numPixel, sumG / numPixel, sumB / numPixel));
 }
 
 void ColorPickerWidget::mousePressEvent(QMouseEvent* event)
@@ -157,22 +148,46 @@ void ColorPickerWidget::mousePressEvent(QMouseEvent* event)
         event->accept();
         return;
     }
+
+    if (m_filterActive) {
+        m_grabRect = QRect(event->globalPos(), QSize(0, 0));
+        m_grabRectFrame->setGeometry(m_grabRect);
+        m_grabRectFrame->show();
+    }
+
     QWidget::mousePressEvent(event);
 }
 
 void ColorPickerWidget::mouseReleaseEvent(QMouseEvent *event)
 {
     if (m_filterActive) {
+        m_grabRectFrame->hide();
+
         closeEventFilter();
 
-        if (m_size->value() == 1)
+        m_grabRect.setWidth(event->globalX() - m_grabRect.x());
+        m_grabRect.setHeight(event->globalY() - m_grabRect.y());
+
+        if (m_grabRect.width() * m_grabRect.height() == 0) {
             emit colorPicked(grabColor(event->globalPos()));
-        else
-            emit colorPicked(averagePickedColor(event->globalPos()));
+        } else {
+            // delay because m_grabRectFrame does not hide immediately
+            QTimer::singleShot(50, this, SLOT(slotGetAverageColor()));
+        }
 
         return;
     }
     QWidget::mouseReleaseEvent(event);
+}
+
+void ColorPickerWidget::mouseMoveEvent(QMouseEvent* event)
+{
+    if (m_filterActive) {
+        m_grabRect.setWidth(event->globalX() - m_grabRect.x());
+        m_grabRect.setHeight(event->globalY() - m_grabRect.y());
+        m_grabRectFrame->setGeometry(m_grabRect.normalized());
+    }
+    QWidget::mouseMoveEvent(event);
 }
 
 void ColorPickerWidget::keyPressEvent(QKeyEvent *event)
@@ -194,10 +209,7 @@ void ColorPickerWidget::slotSetupEventFilter()
     m_filter = new KCDPickerFilter(this);
     kapp->installX11EventFilter(m_filter);
 #endif
-    if (m_size->value() < 10)
-        grabMouse(QCursor(KIcon("color-picker").pixmap(22, 22), 0, 21));
-    else
-        grabMouse(QCursor(KIcon("kdenlive-select-all").pixmap(m_size->value(), m_size->value())));
+    grabMouse(QCursor(KIcon("color-picker").pixmap(22, 22), 0, 21));
     grabKeyboard();
 }
 

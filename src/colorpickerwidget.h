@@ -25,6 +25,7 @@
 #include <QWidget>
 
 class QSpinBox;
+class QFrame;
 #ifdef Q_WS_X11
 #include <X11/Xlib.h>
 class KCDPickerFilter;
@@ -51,14 +52,12 @@ public:
 protected:
     virtual void mousePressEvent(QMouseEvent *event);
     virtual void mouseReleaseEvent(QMouseEvent *event);
+    virtual void mouseMoveEvent(QMouseEvent *event);
     virtual void keyPressEvent(QKeyEvent *event);
 
 private:
     /** @brief Closes the event filter and makes mouse and keyboard work again on other widgets/windows. */
     void closeEventFilter();
-
-    /** @brief Calculates the average color for a rect around @param pos with m_size->value() as width. */
-    QColor averagePickedColor(const QPoint pos);
 
     /** @brief Color of the screen at point @param p.
     * @param p Position of color requested
@@ -67,17 +66,21 @@ private:
     QColor grabColor(const QPoint &p, bool destroyImage = true);
 
     bool m_filterActive;
-    QSpinBox *m_size;
+    QRect m_grabRect;
+    QFrame *m_grabRectFrame;
 #ifdef Q_WS_X11
     XImage *m_image;
     KCDPickerFilter *m_filter;
 #else
     QImage m_image;
-#endif 
+#endif
 
 private slots:
     /** @brief Sets up an event filter for picking a color. */
     void slotSetupEventFilter();
+
+    /** @brief Calculates the average color for the pixels in the rect m_grabRect and emits colorPicked. */
+    void slotGetAverageColor();
 
 signals:
     void colorPicked(QColor);

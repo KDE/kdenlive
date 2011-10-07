@@ -22,8 +22,7 @@
 #include "colorpickerwidget.h"
 
 #include <QLabel>
-#include <QVBoxLayout>
-#include <QGroupBox>
+#include <QHBoxLayout>
 
 #include <KColorButton>
 #include <KLocalizedString>
@@ -32,16 +31,23 @@
 ChooseColorWidget::ChooseColorWidget(QString text, QColor color, QWidget *parent) :
         QWidget(parent)
 {
-    QVBoxLayout *l = new QVBoxLayout(this);
-    QGroupBox *box = new QGroupBox(text, this);
-    l->addWidget(box);
-    QVBoxLayout *layout = new QVBoxLayout(box);
+    QHBoxLayout *layout = new QHBoxLayout(this);
+    layout->setContentsMargins(0, 0, 0, 0);
+    layout->setSpacing(0);
 
+    QLabel *label = new QLabel(text, this);
     m_button = new KColorButton(color, this);
+    m_button->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
     ColorPickerWidget *picker = new ColorPickerWidget(this);
 
-    layout->addWidget(m_button);
-    layout->addWidget(picker);
+    layout->addWidget(label);
+
+    QHBoxLayout *subLayout = new QHBoxLayout(this);
+    subLayout->setContentsMargins(0, 0, 0, 0);
+    subLayout->setSpacing(0);
+    subLayout->addWidget(m_button);//, 1, Qt::AlignRight);
+    subLayout->addWidget(picker, 0, Qt::AlignRight);
+    layout->addLayout(subLayout);
 
     connect(picker, SIGNAL(colorPicked(QColor)), this, SLOT(setColor(QColor)));
     connect(picker, SIGNAL(displayMessage(const QString&, int)), this, SIGNAL(displayMessage(const QString&, int)));
