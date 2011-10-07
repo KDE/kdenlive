@@ -830,7 +830,19 @@ void RecMonitor::manageCapturedFiles()
         KUrl url = KUrl(dir.filePath(name));
         if (KIO::NetAccess::exists(url, KIO::NetAccess::SourceSide, this)) {
             KFileItem file(KFileItem::Unknown, KFileItem::Unknown, url, true);
-            if (file.time(KFileItem::ModificationTime) > m_captureTime) capturedFiles.append(url);
+            if (file.time(KFileItem::ModificationTime) > m_captureTime) {
+                // The file was captured in the last batch
+                if (url.fileName().contains(':')) {
+                    // Several dvgrab options (--timecode,...) use : in the file name, which is
+                    // not supported by MLT, so rename them
+                    QString newUrl = url.directory(KUrl::AppendTrailingSlash) + url.fileName().replace(':', '_');
+                    if (QFile::rename(url.path(), newUrl)) {
+                        url = KUrl(newUrl);
+                    }
+                    
+                }
+                capturedFiles.append(url);
+            }
         }
     }
     kDebug() << "Found : " << capturedFiles.count() << " new capture files";
