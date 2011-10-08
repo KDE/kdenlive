@@ -41,13 +41,8 @@ ChooseColorWidget::ChooseColorWidget(QString text, QColor color, QWidget *parent
     ColorPickerWidget *picker = new ColorPickerWidget(this);
 
     layout->addWidget(label);
-
-    QHBoxLayout *subLayout = new QHBoxLayout(this);
-    subLayout->setContentsMargins(0, 0, 0, 0);
-    subLayout->setSpacing(0);
-    subLayout->addWidget(m_button);//, 1, Qt::AlignRight);
-    subLayout->addWidget(picker, 0, Qt::AlignRight);
-    layout->addLayout(subLayout);
+    layout->addWidget(m_button);
+    layout->addWidget(picker, 0, Qt::AlignRight);
 
     connect(picker, SIGNAL(colorPicked(QColor)), this, SLOT(setColor(QColor)));
     connect(picker, SIGNAL(displayMessage(const QString&, int)), this, SIGNAL(displayMessage(const QString&, int)));

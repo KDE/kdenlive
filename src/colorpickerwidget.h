@@ -28,8 +28,8 @@ class QSpinBox;
 class QFrame;
 #ifdef Q_WS_X11
 #include <X11/Xlib.h>
-class KCDPickerFilter;
 #endif
+
 
 /**
  * @class ColorPickerWidget
@@ -53,7 +53,7 @@ protected:
     virtual void mousePressEvent(QMouseEvent *event);
     virtual void mouseReleaseEvent(QMouseEvent *event);
     virtual void mouseMoveEvent(QMouseEvent *event);
-    virtual void keyPressEvent(QKeyEvent *event);
+    bool eventFilter(QObject *object, QEvent *event);
 
 private:
     /** @brief Closes the event filter and makes mouse and keyboard work again on other widgets/windows. */
@@ -70,11 +70,10 @@ private:
     QFrame *m_grabRectFrame;
 #ifdef Q_WS_X11
     XImage *m_image;
-    KCDPickerFilter *m_filter;
 #else
     QImage m_image;
 #endif
-
+    
 private slots:
     /** @brief Sets up an event filter for picking a color. */
     void slotSetupEventFilter();

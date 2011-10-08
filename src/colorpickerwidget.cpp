@@ -30,27 +30,12 @@
 
 #include <KApplication>
 #include <KIcon>
+#include <KDebug>
 #include <KLocalizedString>
 
 #ifdef Q_WS_X11
 #include <X11/Xutil.h>
 #include <fixx11h.h>
-
-class KCDPickerFilter: public QWidget
-{
-public:
-    KCDPickerFilter(QWidget* parent): QWidget(parent) {}
-
-    virtual bool x11Event(XEvent* event) {
-        if (event->type == ButtonRelease) {
-            QMouseEvent e(QEvent::MouseButtonRelease, QPoint(),
-            QPoint(event->xmotion.x_root, event->xmotion.y_root) , Qt::NoButton, Qt::NoButton, Qt::NoModifier);
-            QApplication::sendEvent(parentWidget(), &e);
-            return true;
-        }
-        return false;
-    }
-};
 #endif 
 
 
@@ -59,7 +44,6 @@ ColorPickerWidget::ColorPickerWidget(QWidget *parent) :
         m_filterActive(false)
 {
 #ifdef Q_WS_X11
-    m_filter = 0;
     m_image = NULL;
 #endif
 
@@ -74,6 +58,7 @@ ColorPickerWidget::ColorPickerWidget(QWidget *parent) :
     connect(button, SIGNAL(clicked()), this, SLOT(slotSetupEventFilter()));
 
     layout->addWidget(button);
+    setFocusPolicy(Qt::StrongFocus);
 
     m_grabRectFrame = new QFrame();
     m_grabRectFrame->setFrameStyle(QFrame::Box | QFrame::Plain);
@@ -85,10 +70,7 @@ ColorPickerWidget::ColorPickerWidget(QWidget *parent) :
 ColorPickerWidget::~ColorPickerWidget()
 {
     delete m_grabRectFrame;
-#ifdef Q_WS_X11
-    if (m_filterActive && kapp)
-        kapp->removeX11EventFilter(m_filter);
-#endif
+    if (m_filterActive) removeEventFilter(this);
 }
 
 void ColorPickerWidget::slotGetAverageColor()
@@ -190,25 +172,11 @@ void ColorPickerWidget::mouseMoveEvent(QMouseEvent* event)
     QWidget::mouseMoveEvent(event);
 }
 
-void ColorPickerWidget::keyPressEvent(QKeyEvent *event)
-{
-    if (m_filterActive) {
-        // "special keys" (non letter, numeral) do not work, so close for every key
-        //if (event->key() == Qt::Key_Escape)
-        closeEventFilter();
-        event->accept();
-        return;
-    }
-    QWidget::keyPressEvent(event);
-}
-
 void ColorPickerWidget::slotSetupEventFilter()
 {
     m_filterActive = true;
-#ifdef Q_WS_X11
-    m_filter = new KCDPickerFilter(this);
-    kapp->installX11EventFilter(m_filter);
-#endif
+    setFocus();
+    installEventFilter(this);
     grabMouse(QCursor(KIcon("color-picker").pixmap(22, 22), 0, 21));
     grabKeyboard();
 }
@@ -216,13 +184,21 @@ void ColorPickerWidget::slotSetupEventFilter()
 void ColorPickerWidget::closeEventFilter()
 {
     m_filterActive = false;
-#ifdef Q_WS_X11
-    kapp->removeX11EventFilter(m_filter);
-    delete m_filter;
-    m_filter = 0;
-#endif
     releaseMouse();
     releaseKeyboard();
+    removeEventFilter(this);
+}
+
+bool ColorPickerWidget::eventFilter(QObject *object, QEvent *event)
+{
+    // Close color picker on any key press
+    if (event->type() == QEvent::KeyPress || event->type() == QEvent::ShortcutOverride) {
+        closeEventFilter();
+        event->setAccepted(true);
+        return true;
+    }
+    return QObject::eventFilter(object, event);
+
 }
 
 QColor ColorPickerWidget::grabColor(const QPoint &p, bool destroyImage)
