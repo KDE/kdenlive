@@ -145,6 +145,8 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     m_frameHeight = render->renderHeight();
     showToolbars(TITLE_SELECT);
 
+    splitter->setStretchFactor(0, 20);
+
     //If project is drop frame, set the input mask as such.
     title_duration->setInputMask("");
     title_duration->setValidator(m_tc.validator());

@@ -20,7 +20,10 @@
    <string>Title Clip</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_9">
-   <item row="0" column="0" colspan="7">
+   <property name="margin">
+    <number>0</number>
+   </property>
+   <item row="0" column="0">
     <widget class="QFrame" name="frame_toolbar">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
@@ -36,7 +39,7 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="7" colspan="7">
+   <item row="0" column="1">
     <widget class="QFrame" name="frame_properties">
      <property name="sizePolicy">
       <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
@@ -195,69 +198,7 @@
      </layout>
     </widget>
    </item>
-   <item row="3" column="0">
-    <widget class="QToolButton" name="buttonFitZoom">
-     <property name="text">
-      <string>V</string>
-     </property>
-     <property name="autoRaise">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="1">
-    <widget class="QToolButton" name="buttonRealSize">
-     <property name="text">
-      <string>V</string>
-     </property>
-     <property name="autoRaise">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="3">
-    <widget class="QSlider" name="zoom_slider">
-     <property name="minimumSize">
-      <size>
-       <width>100</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>150</width>
-       <height>16777215</height>
-      </size>
-     </property>
-     <property name="minimum">
-      <number>1</number>
-     </property>
-     <property name="maximum">
-      <number>150</number>
-     </property>
-     <property name="pageStep">
-      <number>30</number>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="4">
-    <widget class="QLabel" name="zoom_label">
-     <property name="text">
-      <string>x1</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="6" colspan="2">
-    <widget class="QCheckBox" name="displayBg">
-     <property name="text">
-      <string>Show background</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0" colspan="14">
+   <item row="1" column="0" colspan="2">
     <widget class="QStackedWidget" name="toolbar_stack">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
@@ -392,9 +333,6 @@
           <string>Font</string>
          </property>
         </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QFontComboBox" name="font_family"/>
        </item>
        <item row="0" column="2">
         <widget class="QSpinBox" name="font_size">
@@ -584,6 +522,9 @@
          </property>
         </spacer>
        </item>
+       <item row="0" column="1">
+        <widget class="KFontComboBox" name="font_family"/>
+       </item>
       </layout>
      </widget>
      <widget class="QWidget" name="page_4">
@@ -605,48 +546,7 @@
      </widget>
     </widget>
    </item>
-   <item row="3" column="11">
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="10">
-    <widget class="QComboBox" name="templateBox"/>
-   </item>
-   <item row="3" column="9">
-    <widget class="QLabel" name="label_22">
-     <property name="text">
-      <string>Template:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="8">
-    <widget class="Line" name="line_6">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="5">
-    <widget class="Line" name="line_7">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="2">
-    <widget class="Line" name="line_8">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0" colspan="13">
+   <item row="2" column="0" colspan="2">
     <widget class="QSplitter" name="splitter">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
@@ -1215,18 +1115,123 @@
      </widget>
     </widget>
    </item>
+   <item row="3" column="0" colspan="2">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="QToolButton" name="buttonFitZoom">
+       <property name="text">
+        <string>V</string>
+       </property>
+       <property name="autoRaise">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="buttonRealSize">
+       <property name="text">
+        <string>V</string>
+       </property>
+       <property name="autoRaise">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="Line" name="line_8">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSlider" name="zoom_slider">
+       <property name="minimumSize">
+        <size>
+         <width>100</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>150</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>150</number>
+       </property>
+       <property name="pageStep">
+        <number>30</number>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="zoom_label">
+       <property name="text">
+        <string>x1</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="Line" name="line_7">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="displayBg">
+       <property name="text">
+        <string>Show background</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="Line" name="line_6">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_22">
+       <property name="text">
+        <string>Template:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="templateBox"/>
+     </item>
+     <item>
+      <widget class="QDialogButtonBox" name="buttonBox">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="standardButtons">
+        <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
   </layout>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KIntSpinBox</class>
-   <extends>QSpinBox</extends>
-   <header>knuminput.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
+   <class>KFontComboBox</class>
+   <extends>KComboBox</extends>
+   <header>kfontcombobox.h</header>
   </customwidget>
   <customwidget>
    <class>KColorButton</class>
@@ -1234,9 +1239,24 @@
    <header>kcolorbutton.h</header>
   </customwidget>
   <customwidget>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>klineedit.h</header>
+  </customwidget>
+  <customwidget>
    <class>KRestrictedLine</class>
    <extends>KLineEdit</extends>
    <header>krestrictedline.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KIntSpinBox</class>
+   <extends>QSpinBox</extends>
+   <header>knuminput.h</header>
   </customwidget>
   <customwidget>
    <class>KoSliderCombo</class>
