@@ -133,10 +133,7 @@ void KThumb::doGetThumbs()
     while (!m_requestedThumbs.isEmpty()) {
         int frame = m_requestedThumbs.takeFirst();
         if (frame != -1) {
-            m_mutex.lock();
-            QImage img = getFrame(m_producer, frame, swidth, dwidth, theight);
-            m_mutex.unlock();
-            emit thumbReady(frame, img);
+            emit thumbReady(frame, getFrame(m_producer, frame, swidth, dwidth, theight));
         }
     }
 }
@@ -490,12 +487,10 @@ void KThumb::slotGetIntraThumbs()
     while (!m_intraFramesQueue.isEmpty()) {
         int pos = m_intraFramesQueue.takeFirst();
         if (!m_clipManager->pixmapCache->contains(path + QString::number(pos))) {
-            m_mutex.lock();
             if (m_clipManager->pixmapCache->insertImage(path + QString::number(pos), getFrame(m_producer, pos, frameWidth, displayWidth, theight))) {
                 addedThumbs = true;
             }
             else kDebug()<<"// INSERT FAILD FOR: "<<pos;
-            m_mutex.unlock();
         }
         m_intraFramesQueue.removeAll(pos);
     }
