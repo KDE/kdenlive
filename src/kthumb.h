@@ -118,6 +118,7 @@ private:
     int m_arrayWidth;
     /** @brief List of frame numbers from which we want to extract thumbnails. */
     QList <int> m_intraFramesQueue;
+    QMutex m_mutex;
     void doGetThumbs();
 
 signals:

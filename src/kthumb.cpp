@@ -74,7 +74,9 @@ void KThumb::setProducer(Mlt::Producer *producer)
     m_intraFramesQueue.clear();
     m_future.waitForFinished();
     m_intra.waitForFinished();
+    m_mutex.lock();
     m_producer = producer;
+    m_mutex.unlock();
     // FIXME: the profile() call leaks an object, but trying to free
     // it leads to a double-free in Profile::~Profile()
     if (producer) {
@@ -131,7 +133,9 @@ void KThumb::doGetThumbs()
     while (!m_requestedThumbs.isEmpty()) {
         int frame = m_requestedThumbs.takeFirst();
         if (frame != -1) {
+            m_mutex.lock();
             QImage img = getFrame(m_producer, frame, swidth, dwidth, theight);
+            m_mutex.unlock();
             emit thumbReady(frame, img);
         }
     }
@@ -139,7 +143,10 @@ void KThumb::doGetThumbs()
 
 QPixmap KThumb::extractImage(int frame, int width, int height)
 {
-    return QPixmap::fromImage(getFrame(m_producer, frame, (int) (height * m_ratio + 0.5), width, height));
+    m_mutex.lock();
+    QImage img = getFrame(m_producer, frame, (int) (height * m_ratio + 0.5), width, height);
+    m_mutex.unlock();
+    return QPixmap::fromImage(img);
 }
 
 //static
@@ -483,10 +490,12 @@ void KThumb::slotGetIntraThumbs()
     while (!m_intraFramesQueue.isEmpty()) {
         int pos = m_intraFramesQueue.takeFirst();
         if (!m_clipManager->pixmapCache->contains(path + QString::number(pos))) {
+            m_mutex.lock();
             if (m_clipManager->pixmapCache->insertImage(path + QString::number(pos), getFrame(m_producer, pos, frameWidth, displayWidth, theight))) {
                 addedThumbs = true;
             }
             else kDebug()<<"// INSERT FAILD FOR: "<<pos;
+            m_mutex.unlock();
         }
         m_intraFramesQueue.removeAll(pos);
     }
