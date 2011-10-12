@@ -31,6 +31,7 @@
 #include <QTimer>
 #include <QApplication>
 #include <QFuture>
+#include <QFutureSynchronizer>
 
 #include <KTreeWidgetSearchLine>
 #include <KUrl>
@@ -50,6 +51,13 @@
 namespace Mlt
 {
 class Producer;
+};
+
+struct PROXYINFO {
+    QString dest;
+    QString src;
+    CLIPTYPE type;
+    int exif;
 };
 
 class ProjectItem;
@@ -274,6 +282,9 @@ private:
     /** @brief Holds a list of proxy urls that are currently being created. */
     QStringList m_processingProxy;
     QMutex m_mutex;
+    bool m_abortAllProxies;
+    QList <PROXYINFO> m_proxyList;
+    QFutureSynchronizer<void> m_proxyThreads;
     
     void requestClipThumbnail(const QString id);
 
@@ -340,7 +351,7 @@ private slots:
     /** @brief Stop creation of this clip's proxy. */
     void slotAbortProxy(const QString id, const QString path);
     /** @brief Start creation of proxy clip. */
-    void slotGenerateProxy(const QString destPath, const QString sourcePath, int clipType, int exif);
+    void slotGenerateProxy();//const QString destPath, const QString sourcePath, int clipType, int exif);
 
 signals:
     void clipSelected(DocClipBase *, QPoint zone = QPoint());

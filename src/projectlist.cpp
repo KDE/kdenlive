@@ -78,7 +78,8 @@ ProjectList::ProjectList(QWidget *parent) :
     m_doc(NULL),
     m_refreshed(false),
     m_infoQueue(),
-    m_thumbnailQueue()
+    m_thumbnailQueue(),
+    m_abortAllProxies(false)
 {
     QVBoxLayout *layout = new QVBoxLayout;
     layout->setContentsMargins(0, 0, 0, 0);
@@ -141,6 +142,7 @@ ProjectList::ProjectList(QWidget *parent) :
 
 ProjectList::~ProjectList()
 {
+    m_abortAllProxies = true;
     delete m_menu;
     m_listView->blockSignals(true);
     m_listView->clear();
@@ -1081,7 +1083,7 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
 
 void ProjectList::slotGotProxy(const QString &proxyPath)
 {
-    if (proxyPath.isEmpty() || !m_refreshed) return;
+    if (proxyPath.isEmpty() || !m_refreshed || m_abortAllProxies) return;
     QTreeWidgetItemIterator it(m_listView);
     ProjectItem *item;
 
@@ -1120,11 +1122,15 @@ void ProjectList::slotGotProxy(ProjectItem *item)
 
 void ProjectList::slotResetProjectList()
 {
+    m_abortAllProxies = true;
+    m_proxyThreads.waitForFinished();
+    m_proxyThreads.clearFutures();
     m_listView->clear();
     emit clipSelected(NULL);
     m_thumbnailQueue.clear();
     m_infoQueue.clear();
     m_refreshed = false;
+    m_abortAllProxies = false;
 }
 
 void ProjectList::slotProcessNextClipInQueue()
@@ -1511,6 +1517,9 @@ QStringList ProjectList::getGroup() const
 void ProjectList::setDocument(KdenliveDoc *doc)
 {
     m_listView->blockSignals(true);
+    m_abortAllProxies = true;
+    m_proxyThreads.waitForFinished();
+    m_proxyThreads.clearFutures();
     m_listView->clear();
     m_processingClips.clear();
     m_listView->setSortingEnabled(false);
@@ -1522,6 +1531,7 @@ void ProjectList::setDocument(KdenliveDoc *doc)
     m_timecode = doc->timecode();
     m_commandStack = doc->commandStack();
     m_doc = doc;
+    m_abortAllProxies = false;
 
     QMap <QString, QString> flist = doc->clipManager()->documentFolderList();
     QStringList openedFolders = doc->getExpandedFolders();
@@ -1728,7 +1738,7 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
             monitorItemEditing(true);
     } else kDebug() << "////////  COULD NOT FIND CLIP TO UPDATE PRPS...";
     if (selectClip && m_infoQueue.isEmpty()) {
-        if (item && m_infoQueue.isEmpty() && m_thumbnailQueue.isEmpty()) {
+        if (item && m_infoQueue.isEmpty() && m_thumbnailQueue.isEmpty() && m_processingClips.isEmpty()) {
             m_listView->setCurrentItem(item);
             bool updatedProfile = false;
             if (item->parent()) {
@@ -1738,7 +1748,9 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
                 // this is the first clip loaded in project, check if we want to adjust project settings to the clip
                 updatedProfile = adjustProjectProfileToItem(item);
             }
-            if (updatedProfile == false) emit clipSelected(item->referencedClip());
+            if (updatedProfile == false) {
+                emit clipSelected(item->referencedClip());
+            }
         } else {
             int max = m_doc->clipManager()->clipsCount();
             emit displayMessage(i18n("Loading clips"), (int)(100 *(max - m_infoQueue.count()) / max));
@@ -2193,7 +2205,14 @@ void ProjectList::slotCreateProxy(const QString id)
         return;
     }
     m_processingProxy.append(path);
-    QtConcurrent::run(this, &ProjectList::slotGenerateProxy, path, item->clipUrl().path(), item->clipType(), QString(item->referencedClip()->producerProperty("_exif_orientation")).toInt());
+
+    PROXYINFO info;
+    info.dest = path;
+    info.src = item->clipUrl().path();
+    info.type = item->clipType();
+    info.exif = QString(item->referencedClip()->producerProperty("_exif_orientation")).toInt();
+    m_proxyList.append(info);
+    m_proxyThreads.addFuture(QtConcurrent::run(this, &ProjectList::slotGenerateProxy));
 }
 
 void ProjectList::slotAbortProxy(const QString id, const QString path)
@@ -2208,27 +2227,34 @@ void ProjectList::slotAbortProxy(const QString id, const QString path)
     }
 }
 
-void ProjectList::slotGenerateProxy(const QString destPath, const QString sourcePath, int clipType, int exif_orientation)
+void ProjectList::slotGenerateProxy()
 {
+    if (m_proxyList.isEmpty() || m_abortAllProxies) return;
     emit projectModified();
+    PROXYINFO info = m_proxyList.takeFirst();
+    if (m_abortProxy.contains(info.dest)) {
+        m_abortProxy.removeAll(info.dest);
+        return;
+    }
+
     // Make sure proxy path is writable
-    QFile file(destPath);
+    QFile file(info.dest);
     if (!file.open(QIODevice::WriteOnly)) {
-        setProxyStatus(destPath, PROXYCRASHED);
-        m_processingProxy.removeAll(destPath);
+        setProxyStatus(info.dest, PROXYCRASHED);
+        m_processingProxy.removeAll(info.dest);
         return;
     }
     file.close();
-    QFile::remove(destPath);
+    QFile::remove(info.dest);
     
-    setProxyStatus(destPath, CREATINGPROXY);
+    setProxyStatus(info.dest, CREATINGPROXY);
 
     // Special case: playlist clips (.mlt or .kdenlive project files)
-    if (clipType == PLAYLIST) {
+    if (info.type == PLAYLIST) {
         // change FFmpeg params to MLT format
         QStringList parameters;
-        parameters << sourcePath;
-        parameters << "-consumer" << "avformat:" + destPath;
+        parameters << info.src;
+        parameters << "-consumer" << "avformat:" + info.dest;
         QStringList params = m_doc->getDocumentProperty("proxyparams").simplified().split('-', QString::SkipEmptyParts);
         
         foreach(QString s, params) {
@@ -2243,7 +2269,7 @@ void ProjectList::slotGenerateProxy(const QString destPath, const QString source
         parameters.append(QString("real_time=-%1").arg(KdenliveSettings::mltthreads()));
 
         //TODO: currently, when rendering an xml file through melt, the display ration is lost, so we enforce it manualy
-        double display_ratio = KdenliveDoc::getDisplayRatio(sourcePath);
+        double display_ratio = KdenliveDoc::getDisplayRatio(info.src);
         parameters << "aspect=" + QString::number(display_ratio);
 
         //kDebug()<<"TRANSCOD: "<<parameters;
@@ -2253,40 +2279,40 @@ void ProjectList::slotGenerateProxy(const QString destPath, const QString source
         int result = -1;
         while (myProcess.state() != QProcess::NotRunning) {
             // building proxy file
-            if (m_abortProxy.contains(destPath)) {
+            if (m_abortProxy.contains(info.dest) || m_abortAllProxies) {
                 myProcess.close();
                 myProcess.waitForFinished();
-                m_abortProxy.removeAll(destPath);
-                m_processingProxy.removeAll(destPath);
-                QFile::remove(destPath);
-                setProxyStatus(destPath, NOPROXY);
+                QFile::remove(info.dest);
+                m_abortProxy.removeAll(info.dest);
+                m_processingProxy.removeAll(info.dest);
+                setProxyStatus(info.dest, NOPROXY);
                 result = -2;
 
             }
             myProcess.waitForFinished(500);
         }
         myProcess.waitForFinished();
-        m_processingProxy.removeAll(destPath);
+        m_processingProxy.removeAll(info.dest);
         if (result == -1) result = myProcess.exitStatus();
         if (result == 0) {
             // proxy successfully created
-            setProxyStatus(destPath, PROXYDONE);
-            slotGotProxy(destPath);
+            setProxyStatus(info.dest, PROXYDONE);
+            slotGotProxy(info.dest);
         }
         else if (result == 1) {
             // Proxy process crashed
-            QFile::remove(destPath);
-            setProxyStatus(destPath, PROXYCRASHED);
+            QFile::remove(info.dest);
+            setProxyStatus(info.dest, PROXYCRASHED);
         }   
 
     }
     
-    if (clipType == IMAGE) {
+    if (info.type == IMAGE) {
         // Image proxy
-        QImage i(sourcePath);
+        QImage i(info.src);
         if (i.isNull()) {
             // Cannot load image
-            setProxyStatus(destPath, PROXYCRASHED);
+            setProxyStatus(info.dest, PROXYCRASHED);
             return;
         }
         QImage proxy;
@@ -2294,12 +2320,12 @@ void ProjectList::slotGenerateProxy(const QString destPath, const QString source
         //TODO: Make it be configurable?
         if (i.width() > i.height()) proxy = i.scaledToWidth(m_render->frameRenderWidth());
         else proxy = i.scaledToHeight(m_render->renderHeight());
-        if (exif_orientation > 1) {
+        if (info.exif > 1) {
             // Rotate image according to exif data
             QImage processed;
             QMatrix matrix;
 
-            switch ( exif_orientation ) {
+            switch ( info.exif ) {
                 case 2:
                   matrix.scale( -1, 1 );
                   break;
@@ -2325,25 +2351,25 @@ void ProjectList::slotGenerateProxy(const QString destPath, const QString source
                   break;
               }
               processed = proxy.transformed( matrix );
-              processed.save(destPath);
+              processed.save(info.dest);
         }
-        else proxy.save(destPath);
-        setProxyStatus(destPath, PROXYDONE);
-        slotGotProxy(destPath);
-        m_abortProxy.removeAll(destPath);
-        m_processingProxy.removeAll(destPath);
+        else proxy.save(info.dest);
+        setProxyStatus(info.dest, PROXYDONE);
+        slotGotProxy(info.dest);
+        m_abortProxy.removeAll(info.dest);
+        m_processingProxy.removeAll(info.dest);
         return;
     }
 
     QStringList parameters;
-    parameters << "-i" << sourcePath;
+    parameters << "-i" << info.src;
     QString params = m_doc->getDocumentProperty("proxyparams").simplified();
     foreach(QString s, params.split(' '))
     parameters << s;
 
     // Make sure we don't block when proxy file already exists
     parameters << "-y";
-    parameters << destPath;
+    parameters << info.dest;
     kDebug()<<"// STARTING PROXY GEN: "<<parameters;
     QProcess myProcess;
     myProcess.start("ffmpeg", parameters);
@@ -2351,13 +2377,13 @@ void ProjectList::slotGenerateProxy(const QString destPath, const QString source
     int result = -1;
     while (myProcess.state() != QProcess::NotRunning) {
         // building proxy file
-        if (m_abortProxy.contains(destPath)) {
+        if (m_abortProxy.contains(info.dest) || m_abortAllProxies) {
             myProcess.close();
             myProcess.waitForFinished();
-            m_abortProxy.removeAll(destPath);
-            m_processingProxy.removeAll(destPath);
-            QFile::remove(destPath);
-            setProxyStatus(destPath, NOPROXY);
+            m_abortProxy.removeAll(info.dest);
+            m_processingProxy.removeAll(info.dest);
+            QFile::remove(info.dest);
+            setProxyStatus(info.dest, NOPROXY);
             result = -2;
             
         }
@@ -2367,16 +2393,16 @@ void ProjectList::slotGenerateProxy(const QString destPath, const QString source
     if (result == -1) result = myProcess.exitStatus();
     if (result == 0) {
         // proxy successfully created
-        setProxyStatus(destPath, PROXYDONE);
-        slotGotProxy(destPath);
+        setProxyStatus(info.dest, PROXYDONE);
+        slotGotProxy(info.dest);
     }
     else if (result == 1) {
         // Proxy process crashed
-        QFile::remove(destPath);
-        setProxyStatus(destPath, PROXYCRASHED);
+        QFile::remove(info.dest);
+        setProxyStatus(info.dest, PROXYCRASHED);
     }
-    m_abortProxy.removeAll(destPath);
-    m_processingProxy.removeAll(destPath);
+    m_abortProxy.removeAll(info.dest);
+    m_processingProxy.removeAll(info.dest);
 }
 
 void ProjectList::updateProxyConfig()
@@ -2530,7 +2556,7 @@ void ProjectList::slotDeleteProxy(const QString proxyPath)
 
 void ProjectList::setProxyStatus(const QString proxyPath, PROXYSTATUS status)
 {
-    if (proxyPath.isEmpty()) return;
+    if (proxyPath.isEmpty() || m_abortAllProxies) return;
     QTreeWidgetItemIterator it(m_listView);
     ProjectItem *item;
     while (*it) {
