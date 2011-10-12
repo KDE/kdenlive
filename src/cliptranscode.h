@@ -46,6 +46,7 @@ private slots:
 private:
     QProcess m_transcodeProcess;
     KUrl::List m_urls;
+    int m_duration;
 
 signals:
     void addClip(KUrl url);
