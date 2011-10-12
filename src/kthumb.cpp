@@ -121,7 +121,11 @@ void KThumb::extractImage(int frame, int frame2)
     if (!KdenliveSettings::videothumbnails() || m_producer == NULL) return;
     if (frame != -1 && !m_requestedThumbs.contains(frame)) m_requestedThumbs.append(frame);
     if (frame2 != -1 && !m_requestedThumbs.contains(frame2)) m_requestedThumbs.append(frame2);
-    if (!m_future.isRunning()) m_future = QtConcurrent::run(this, &KThumb::doGetThumbs);
+    if (!m_future.isRunning()) {
+        m_mutex.lock();
+        m_future = QtConcurrent::run(this, &KThumb::doGetThumbs);
+        m_mutex.unlock();
+    }
 }
 
 void KThumb::doGetThumbs()
@@ -473,7 +477,11 @@ void KThumb::queryIntraThumbs(QList <int> missingFrames)
         if (!m_intraFramesQueue.contains(i)) m_intraFramesQueue.append(i);
     }
     qSort(m_intraFramesQueue);
-    if (!m_intra.isRunning()) m_intra = QtConcurrent::run(this, &KThumb::slotGetIntraThumbs);
+    if (!m_intra.isRunning()) {
+        m_mutex.lock();
+        m_intra = QtConcurrent::run(this, &KThumb::slotGetIntraThumbs);
+        m_mutex.unlock();
+    }
 }
 
 void KThumb::slotGetIntraThumbs()
