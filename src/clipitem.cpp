@@ -142,7 +142,9 @@ ClipItem *ClipItem::clone(ItemInfo info) const
     if (m_clipType == IMAGE || m_clipType == TEXT) duplicate->slotSetStartThumb(m_startPix);
     else if (m_clipType != COLOR) {
         if (info.cropStart == m_info.cropStart) duplicate->slotSetStartThumb(m_startPix);
-        if (info.cropStart + (info.endPos - info.startPos) == m_info.cropStart + (m_info.endPos - m_info.startPos)) duplicate->slotSetEndThumb(m_endPix);
+        if (info.cropStart + (info.endPos - info.startPos) == m_info.cropStart + m_info.cropDuration) {
+            duplicate->slotSetEndThumb(m_endPix);
+        }
     }
     //kDebug() << "// CLoning clip: " << (info.cropStart + (info.endPos - info.startPos)).frames(m_fps) << ", CURRENT end: " << (cropStart() + duration()).frames(m_fps);
     duplicate->setEffectList(m_effectList);

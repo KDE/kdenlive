@@ -120,6 +120,7 @@ void KThumb::extractImage(int frame, int frame2)
     if (!KdenliveSettings::videothumbnails() || m_producer == NULL) return;
     if (frame != -1 && !m_requestedThumbs.contains(frame)) m_requestedThumbs.append(frame);
     if (frame2 != -1 && !m_requestedThumbs.contains(frame2)) m_requestedThumbs.append(frame2);
+    qSort(m_requestedThumbs);
     if (!m_future.isRunning()) {
         m_mutex.lock();
         m_future = QtConcurrent::run(this, &KThumb::doGetThumbs);
@@ -168,20 +169,21 @@ QPixmap KThumb::getImage(KUrl url, int frame, int width, int height)
 //static
 QImage KThumb::getFrame(Mlt::Producer *producer, int framepos, int frameWidth, int displayWidth, int height)
 {
-    QImage p(displayWidth, height, QImage::Format_ARGB32_Premultiplied);
     if (producer == NULL || !producer->is_valid()) {
-        p.fill(Qt::red);
+        QImage p(displayWidth, height, QImage::Format_ARGB32_Premultiplied);
+        p.fill(QColor(Qt::red).rgb());
         return p;
     }
 
     if (producer->is_blank()) {
-        p.fill(Qt::black);
+        QImage p(displayWidth, height, QImage::Format_ARGB32_Premultiplied);
+        p.fill(QColor(Qt::black).rgb());
         return p;
     }
 
     producer->seek(framepos);
     Mlt::Frame *frame = producer->get_frame();
-    p = getFrame(frame, frameWidth, displayWidth, height);
+    QImage p = getFrame(frame, frameWidth, displayWidth, height);
     delete frame;
     return p;
 }
@@ -192,7 +194,7 @@ QImage KThumb::getFrame(Mlt::Frame *frame, int frameWidth, int displayWidth, int
 {
     QImage p(displayWidth, height, QImage::Format_ARGB32_Premultiplied);
     if (frame == NULL || !frame->is_valid()) {
-        p.fill(Qt::red);
+        p.fill(QColor(Qt::red).rgb());
         return p;
     }
 
@@ -209,13 +211,12 @@ QImage KThumb::getFrame(Mlt::Frame *frame, int frameWidth, int displayWidth, int
         } else {
             image = image.scaled(displayWidth, height, Qt::IgnoreAspectRatio).rgbSwapped();
         }
+        p.fill(QColor(Qt::black).rgb());
         QPainter painter(&p);
-        painter.fillRect(p.rect(), Qt::black);
-        painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
         painter.drawImage(p.rect(), image);
         painter.end();
     } else
-        p.fill(Qt::red);
+        p.fill(QColor(Qt::red).rgb());
     return p;
 }
 
