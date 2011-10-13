@@ -273,8 +273,8 @@ bool ProjectItem::isProxyReady() const
 
 bool ProjectItem::isProxyRunning() const
 {
-    PROXYSTATUS s = (PROXYSTATUS) data(0, ProxyRole).toInt();
-    if (s == PROXYWAITING || s == CREATINGPROXY) return true;
+    int s = data(0, ProxyRole).toInt();
+    if (s == PROXYWAITING || s == CREATINGPROXY || s > 0) return true;
     return false;
 }
 
