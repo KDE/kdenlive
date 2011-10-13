@@ -2239,6 +2239,7 @@ void ProjectList::slotGenerateProxy()
 
         //kDebug()<<"TRANSCOD: "<<parameters;
         QProcess myProcess;
+        myProcess.setProcessChannelMode(QProcess::MergedChannels);
         myProcess.start(KdenliveSettings::rendererpath(), parameters);
         myProcess.waitForStarted();
         int result = -1;
@@ -2255,8 +2256,7 @@ void ProjectList::slotGenerateProxy()
                 result = -2;
             }
             else {
-                QString log = QString(myProcess.readAllStandardOutput());
-                log.append(QString(myProcess.readAllStandardError()));
+                QString log = QString(myProcess.readAll());
                 processLogInfo(info.dest, &duration, log);
             }
             myProcess.waitForFinished(500);
@@ -2342,6 +2342,7 @@ void ProjectList::slotGenerateProxy()
     parameters << info.dest;
     kDebug()<<"// STARTING PROXY GEN: "<<parameters;
     QProcess myProcess;
+    myProcess.setProcessChannelMode(QProcess::MergedChannels);
     myProcess.start("ffmpeg", parameters);
     myProcess.waitForStarted();
     int result = -1;
@@ -2359,8 +2360,7 @@ void ProjectList::slotGenerateProxy()
             
         }
         else {
-            QString log = QString(myProcess.readAllStandardOutput());
-            log.append(QString(myProcess.readAllStandardError()));
+            QString log = QString(myProcess.readAll());
             processLogInfo(info.dest, &duration, log);
         }
         myProcess.waitForFinished(500);
