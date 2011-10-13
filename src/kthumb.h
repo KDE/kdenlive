@@ -49,6 +49,8 @@ class Profile;
 
 class ClipManager;
 
+typedef QMap <int, QMap <int, QByteArray> > audioByteArray;
+
 class KThumb: public QObject
 {
 Q_OBJECT public:
@@ -124,7 +126,7 @@ private:
 signals:
     void thumbReady(int, QImage);
     void mainThumbReady(const QString &, QPixmap);
-    void audioThumbReady(QMap <int, QMap <int, QByteArray> >);
+    void audioThumbReady(const audioByteArray&);
     /** @brief We have finished caching all requested thumbs. */
     void thumbsCached();
 };

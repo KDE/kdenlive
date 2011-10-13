@@ -70,6 +70,7 @@ struct TrackInfo {
 };
 
 typedef QMap<QString, QString> stringMap;
+typedef QMap <int, QMap <int, QByteArray> > audioByteArray;
 
 struct ItemInfo {
     /** startPos is the position where the clip starts on the track */

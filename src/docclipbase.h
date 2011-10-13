@@ -256,7 +256,7 @@ private:   // Private attributes
 
    
 public slots:
-    void updateAudioThumbnail(QMap<int, QMap<int, QByteArray> > data);
+    void updateAudioThumbnail(const audioByteArray& data);
     bool slotGetAudioThumbs();
     QList < CommentedTime > commentedSnapMarkers() const;
     GenTime findNextSnapMarker(const GenTime & currTime);

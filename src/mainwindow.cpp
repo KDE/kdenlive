@@ -130,6 +130,7 @@ class Producer;
 
 Q_DECLARE_METATYPE(QVector<int16_t>)
 
+
 EffectsList MainWindow::videoEffects;
 EffectsList MainWindow::audioEffects;
 EffectsList MainWindow::customEffects;
@@ -150,6 +151,8 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
 {   
     qRegisterMetaType<QVector<int16_t> > ();
     qRegisterMetaType<stringMap> ("stringMap");
+    qRegisterMetaType<audioByteArray> ("audioByteArray");
+
     // Init locale
     QLocale systemLocale = QLocale();
     systemLocale.setNumberOptions(QLocale::OmitGroupSeparator);

@@ -350,7 +350,7 @@ void KThumb::getAudioThumbs(int channel, double frame, double frameLength, int a
         return;
     }
 
-    QMap <int, QMap <int, QByteArray> > storeIn;
+    audioByteArray storeIn;
     //FIXME: Hardcoded!!!
     m_frequency = 48000;
     m_channels = channel;
