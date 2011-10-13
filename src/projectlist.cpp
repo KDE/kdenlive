@@ -1657,7 +1657,7 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
         }
         clip->setProducer(producer, replace);
         clip->askForAudioThumbs();
-        if (refreshThumbnail) m_thumbnailQueue.append(clipId);
+        if (refreshThumbnail) requestClipThumbnail(clipId);
         // Proxy stuff
         QString size = properties.value("frame_size");
         if (!useProxy() && clip->getProperty("proxy").isEmpty()) setProxyStatus(item, NOPROXY);
