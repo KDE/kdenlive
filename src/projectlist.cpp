@@ -2277,6 +2277,7 @@ void ProjectList::slotGenerateProxy()
         myProcess.start(KdenliveSettings::rendererpath(), parameters);
         myProcess.waitForStarted();
         int result = -1;
+        int duration = 0;
         while (myProcess.state() != QProcess::NotRunning) {
             // building proxy file
             if (m_abortProxy.contains(info.dest) || m_abortAllProxies) {
@@ -2287,7 +2288,11 @@ void ProjectList::slotGenerateProxy()
                 m_processingProxy.removeAll(info.dest);
                 setProxyStatus(info.dest, NOPROXY);
                 result = -2;
-
+            }
+            else {
+                QString log = QString(myProcess.readAllStandardOutput());
+                log.append(QString(myProcess.readAllStandardError()));
+                processLogInfo(info.dest, &duration, log);
             }
             myProcess.waitForFinished(500);
         }
@@ -2375,6 +2380,7 @@ void ProjectList::slotGenerateProxy()
     myProcess.start("ffmpeg", parameters);
     myProcess.waitForStarted();
     int result = -1;
+    int duration = 0;
     while (myProcess.state() != QProcess::NotRunning) {
         // building proxy file
         if (m_abortProxy.contains(info.dest) || m_abortAllProxies) {
@@ -2386,6 +2392,11 @@ void ProjectList::slotGenerateProxy()
             setProxyStatus(info.dest, NOPROXY);
             result = -2;
             
+        }
+        else {
+            QString log = QString(myProcess.readAllStandardOutput());
+            log.append(QString(myProcess.readAllStandardError()));
+            processLogInfo(info.dest, &duration, log);
         }
         myProcess.waitForFinished(500);
     }
@@ -2403,6 +2414,28 @@ void ProjectList::slotGenerateProxy()
     }
     m_abortProxy.removeAll(info.dest);
     m_processingProxy.removeAll(info.dest);
+}
+
+
+void ProjectList::processLogInfo(const QString &path, int *duration, const QString &log)
+{
+    int progress;
+    if (*duration == 0) {
+        if (log.contains("Duration:")) {
+            QString data = log.section("Duration:", 1, 1).section(',', 0, 0).simplified();
+            QStringList numbers = data.split(':');
+            *duration = (int) (numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toDouble());
+        }
+    }
+    else if (log.contains("time=")) {
+        QString time = log.section("time=", 1, 1).simplified().section(' ', 0, 0);
+        if (time.contains(':')) {
+            QStringList numbers = time.split(':');
+            progress = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toDouble();
+        }
+        else progress = (int) time.toDouble();
+        setProxyStatus(path, CREATINGPROXY, (int) (100.0 * progress / (*duration)));
+    }
 }
 
 void ProjectList::updateProxyConfig()
@@ -2554,7 +2587,7 @@ void ProjectList::slotDeleteProxy(const QString proxyPath)
     QFile::remove(proxyPath);
 }
 
-void ProjectList::setProxyStatus(const QString proxyPath, PROXYSTATUS status)
+void ProjectList::setProxyStatus(const QString proxyPath, PROXYSTATUS status, int progress)
 {
     if (proxyPath.isEmpty() || m_abortAllProxies) return;
     QTreeWidgetItemIterator it(m_listView);
@@ -2563,18 +2596,18 @@ void ProjectList::setProxyStatus(const QString proxyPath, PROXYSTATUS status)
         if ((*it)->type() == PROJECTCLIPTYPE) {
             item = static_cast <ProjectItem *>(*it);
             if (item->referencedClip()->getProperty("proxy") == proxyPath) {
-                setProxyStatus(item, status);
+                setProxyStatus(item, status, progress);
             }
         }
         ++it;
     }
 }
 
-void ProjectList::setProxyStatus(ProjectItem *item, PROXYSTATUS status)
+void ProjectList::setProxyStatus(ProjectItem *item, PROXYSTATUS status, int progress)
 {
     if (item == NULL) return;
     monitorItemEditing(false);
-    item->setProxyStatus(status);
+    item->setProxyStatus(status, progress);
     monitorItemEditing(true);
 }
 

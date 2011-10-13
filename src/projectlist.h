@@ -113,12 +113,19 @@ public:
             painter->drawText(r2, Qt::AlignLeft | Qt::AlignVCenter , subText, &bounding);
             
             int proxy = index.data(Qt::UserRole + 5).toInt();
-            if (proxy > 0) {
+            if (proxy != 0) {
                 QRectF txtBounding;
                 QString proxyText;
                 QBrush brush;
                 QColor color;
-                if (proxy == PROXYDONE) {
+                if (proxy > 0) {
+                    proxyText = QString::number(proxy) + "% ";
+                    proxyText.append(i18n("Generating proxy ..."));
+                    brush = option.palette.highlight();
+                    color = option.palette.color(QPalette::HighlightedText);
+                    
+                }
+                else if (proxy == PROXYDONE) {
                     proxyText = i18n("Proxy");
                     brush = option.palette.mid();
                     color = option.palette.color(QPalette::WindowText);
@@ -307,9 +314,10 @@ private:
     /** @brief Set the Proxy status on a clip. 
      * @param item The clip item to set status
      * @param status The proxy status (see definitions.h) */
-    void setProxyStatus(const QString proxyPath, PROXYSTATUS status);
-    void setProxyStatus(ProjectItem *item, PROXYSTATUS status);
-
+    void setProxyStatus(const QString proxyPath, PROXYSTATUS status, int progress = 0);
+    void setProxyStatus(ProjectItem *item, PROXYSTATUS status, int progress = 0);
+    /** @brief Process ffmpeg output to find out process progress. */
+    void processLogInfo(const QString &path, int *duration, const QString &log);
     void monitorItemEditing(bool enable);
 
 private slots:

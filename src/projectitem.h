@@ -64,7 +64,7 @@ public:
     static int itemDefaultHeight();
     void slotSetToolTip();
     /** \brief Set the status of proxy clip creation. 0 = no proxy, 1 = creating proxy, 2 = proxy created. */
-    void setProxyStatus(PROXYSTATUS status);
+    void setProxyStatus(PROXYSTATUS status, int progress = 0);
     /** \brief Returns the proxy status for this clip (true means there is a proxy clip). */
     bool hasProxy() const;
     /** \brief Returns true if the proxy for this clip is ready. */

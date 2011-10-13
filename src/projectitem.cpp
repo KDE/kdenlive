@@ -253,9 +253,10 @@ void ProjectItem::setProperties(const QMap < QString, QString > &attributes, con
     }
 }
 
-void ProjectItem::setProxyStatus(PROXYSTATUS status)
+void ProjectItem::setProxyStatus(PROXYSTATUS status, int progress)
 {
-    setData(0, ProxyRole, status);
+    if (progress > 0) setData(0, ProxyRole, progress);
+    else setData(0, ProxyRole, status);
 }
 
 bool ProjectItem::hasProxy() const
