@@ -70,20 +70,19 @@ KThumb::~KThumb()
 
 void KThumb::setProducer(Mlt::Producer *producer)
 {
+    m_mutex.lock();
     m_requestedThumbs.clear();
     m_intraFramesQueue.clear();
     m_future.waitForFinished();
     m_intra.waitForFinished();
-    m_mutex.lock();
     m_producer = producer;
-    m_mutex.unlock();
     // FIXME: the profile() call leaks an object, but trying to free
     // it leads to a double-free in Profile::~Profile()
     if (producer) {
         m_dar = producer->profile()->dar();
         m_ratio = (double) producer->profile()->width() / producer->profile()->height();
     }
-        
+    m_mutex.unlock();
 }
 
 void KThumb::clearProducer()

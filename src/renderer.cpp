@@ -43,11 +43,13 @@
 #include <QDir>
 #include <QString>
 #include <QApplication>
+#include <QtConcurrentRun>
 
 #include <cstdlib>
 #include <cstdarg>
 
 #include <QDebug>
+
 
 static void kdenlive_callback(void* /*ptr*/, int level, const char* fmt, va_list vl)
 {
@@ -115,7 +117,6 @@ Render::Render(const QString & rendererName, int winid, QString profile, QWidget
 {
     if (profile.isEmpty()) profile = KdenliveSettings::current_profile();
     buildConsumer(profile);
-
     m_mltProducer = m_blackClip->cut(0, 50);
     m_mltConsumer->connect(*m_mltProducer);
     m_mltProducer->set_speed(0.0);
@@ -131,6 +132,8 @@ Render::~Render()
 void Render::closeMlt()
 {       
     //delete m_osdTimer;
+    m_requestList.clear();
+    m_infoThread.waitForFinished();
     if (m_mltConsumer) delete m_mltConsumer;
     if (m_mltProducer) delete m_mltProducer;
     /*if (m_mltProducer) {
@@ -317,6 +320,8 @@ int Render::resetProfile(const QString &profileName, bool dropSceneList)
     double current_dar = m_mltProfile->dar();
     delete m_blackClip;
     m_blackClip = NULL;
+    m_requestList.clear();
+    m_infoThread.waitForFinished();
 
     if (m_mltProducer) {
         pos = m_mltProducer->position();
@@ -548,47 +553,86 @@ void Render::slotSplitView(bool doit)
     }
 }
 
-void Render::getFileProperties(const QDomElement &xml, const QString &clipId, int imageHeight, bool replaceProducer, bool selectClip)
+void Render::getFileProperties(const QDomElement &xml, const QString &clipId, int imageHeight, bool replaceProducer)
 {
+    requestClipInfo info;
+    info.xml = xml;
+    info.clipId = clipId;
+    info.imageHeight = imageHeight;
+    info.replaceProducer = replaceProducer;
+    m_requestList.append(info);
+    if (!m_infoThread.isRunning())
+        m_infoThread = QtConcurrent::run(this, &Render::getFileProperties2);
+}
+
+void Render::forceProcessing(const QString &id)
+{
+    m_infoMutex.lock();
+    for (int i = 0; i < m_requestList.count(); i++) {
+        requestClipInfo info = m_requestList.at(i);
+        if (info.clipId == id) {
+            if (i == 0) break;
+            else {
+                m_requestList.removeAt(i);
+                m_requestList.prepend(info);
+                break;
+            }
+        }
+    }
+    m_infoMutex.unlock();
+}
+
+int Render::processingItems() const
+{
+    int count = m_requestList.count();
+    if (m_infoThread.isRunning()) count++;
+    return count;
+}
+
+void Render::getFileProperties2()
+{
+    while (!m_requestList.isEmpty()) {
+    m_infoMutex.lock();
+    requestClipInfo info = m_requestList.takeFirst();
+    m_infoMutex.unlock();
+    
     QString path;
     QLocale locale;
     bool proxyProducer;
-    if (xml.hasAttribute("proxy") && xml.attribute("proxy") != "-") {
-        path = xml.attribute("proxy");
+    if (info.xml.hasAttribute("proxy") && info.xml.attribute("proxy") != "-") {
+        path = info.xml.attribute("proxy");
         proxyProducer = true;
     }
     else {
-        path = xml.attribute("resource");
+        path = info.xml.attribute("resource");
         proxyProducer = false;
     }
 
     KUrl url(path);
     Mlt::Producer *producer = NULL;
-    CLIPTYPE type = (CLIPTYPE)xml.attribute("type").toInt();
-    //kDebug() << "PROFILE WIDT: "<< xml.attribute("mlt_service") << ": "<< m_mltProfile->width() << "\n...................\n\n";
-    /*if (xml.attribute("type").toInt() == TEXT && !QFile::exists(url.path())) {
+    CLIPTYPE type = (CLIPTYPE)info.xml.attribute("type").toInt();
+    //kDebug() << "PROFILE WIDT: "<< info.xml.attribute("mlt_service") << ": "<< m_mltProfile->width() << "\n...................\n\n";
+    /*if (info.xml.attribute("type").toInt() == TEXT && !QFile::exists(url.path())) {
         emit replyGetFileProperties(clipId, producer, QMap < QString, QString >(), QMap < QString, QString >(), replaceProducer);
         return;
     }*/
 
     if (type == COLOR) {
-        producer = new Mlt::Producer(*m_mltProfile, 0, ("colour:" + xml.attribute("colour")).toUtf8().constData());
+        producer = new Mlt::Producer(*m_mltProfile, 0, ("colour:" + info.xml.attribute("colour")).toUtf8().constData());
     } else if (type == TEXT) {
-        producer = new Mlt::Producer(*m_mltProfile, 0, ("kdenlivetitle:" + xml.attribute("resource")).toUtf8().constData());
-        if (producer && producer->is_valid() && xml.hasAttribute("xmldata"))
-            producer->set("xmldata", xml.attribute("xmldata").toUtf8().constData());
+        producer = new Mlt::Producer(*m_mltProfile, 0, ("kdenlivetitle:" + info.xml.attribute("resource")).toUtf8().constData());
+        if (producer && producer->is_valid() && info.xml.hasAttribute("xmldata"))
+            producer->set("xmldata", info.xml.attribute("xmldata").toUtf8().constData());
     } else if (url.isEmpty()) {
         QDomDocument doc;
         QDomElement mlt = doc.createElement("mlt");
         QDomElement play = doc.createElement("playlist");
         doc.appendChild(mlt);
         mlt.appendChild(play);
-        play.appendChild(doc.importNode(xml, true));
+        play.appendChild(doc.importNode(info.xml, true));
         producer = new Mlt::Producer(*m_mltProfile, "xml-string", doc.toString().toUtf8().constData());
     } else {
-        char *resTag = qstrdup(QString("nocache:" + path).toUtf8().constData());
         producer = new Mlt::Producer(*m_mltProfile, path.toUtf8().constData());
-        delete[] resTag;
     }
 
 
@@ -596,113 +640,110 @@ void Render::getFileProperties(const QDomElement &xml, const QString &clipId, in
         kDebug() << " / / / / / / / / ERROR / / / / // CANNOT LOAD PRODUCER: "<<path;
         if (proxyProducer) {
             // Proxy file is corrupted
-            emit removeInvalidProxy(clipId, false);
+            emit removeInvalidProxy(info.clipId, false);
         }
-        else emit removeInvalidClip(clipId, replaceProducer);
+        else emit removeInvalidClip(info.clipId, info.replaceProducer);
         delete producer;
-        return;
+        continue;
     }
 
-    if (proxyProducer && xml.hasAttribute("proxy_out")) {
-        producer->set("length", xml.attribute("proxy_out").toInt() + 1);
-        producer->set("out", xml.attribute("proxy_out").toInt());
-        if (producer->get_out() != xml.attribute("proxy_out").toInt()) {
+    if (proxyProducer && info.xml.hasAttribute("proxy_out")) {
+        producer->set("length", info.xml.attribute("proxy_out").toInt() + 1);
+        producer->set("out", info.xml.attribute("proxy_out").toInt());
+        if (producer->get_out() != info.xml.attribute("proxy_out").toInt()) {
             // Proxy file length is different than original clip length, this will corrupt project so disable this proxy clip
-            emit removeInvalidProxy(clipId, true);
+            emit removeInvalidProxy(info.clipId, true);
             delete producer;
-            return;
+            continue;
         }
     }
 
-    if (xml.hasAttribute("force_aspect_ratio")) {
-        double aspect = xml.attribute("force_aspect_ratio").toDouble();
+    if (info.xml.hasAttribute("force_aspect_ratio")) {
+        double aspect = info.xml.attribute("force_aspect_ratio").toDouble();
         if (aspect > 0) producer->set("force_aspect_ratio", aspect);
     }
 
-    if (xml.hasAttribute("force_aspect_num") && xml.hasAttribute("force_aspect_den")) {
-        int width = xml.attribute("frame_size").section('x', 0, 0).toInt();
-        int height = xml.attribute("frame_size").section('x', 1, 1).toInt();
-        int aspectNumerator = xml.attribute("force_aspect_num").toInt();
-        int aspectDenominator = xml.attribute("force_aspect_den").toInt();
+    if (info.xml.hasAttribute("force_aspect_num") && info.xml.hasAttribute("force_aspect_den")) {
+        int width = info.xml.attribute("frame_size").section('x', 0, 0).toInt();
+        int height = info.xml.attribute("frame_size").section('x', 1, 1).toInt();
+        int aspectNumerator = info.xml.attribute("force_aspect_num").toInt();
+        int aspectDenominator = info.xml.attribute("force_aspect_den").toInt();
         if (aspectDenominator != 0 && width != 0)
             producer->set("force_aspect_ratio", double(height) * aspectNumerator / aspectDenominator / width);
     }
 
-    if (xml.hasAttribute("force_fps")) {
-        double fps = xml.attribute("force_fps").toDouble();
+    if (info.xml.hasAttribute("force_fps")) {
+        double fps = info.xml.attribute("force_fps").toDouble();
         if (fps > 0) producer->set("force_fps", fps);
     }
 
-    if (xml.hasAttribute("force_progressive")) {
+    if (info.xml.hasAttribute("force_progressive")) {
         bool ok;
-        int progressive = xml.attribute("force_progressive").toInt(&ok);
+        int progressive = info.xml.attribute("force_progressive").toInt(&ok);
         if (ok) producer->set("force_progressive", progressive);
     }
-    if (xml.hasAttribute("force_tff")) {
+    if (info.xml.hasAttribute("force_tff")) {
         bool ok;
-        int fieldOrder = xml.attribute("force_tff").toInt(&ok);
+        int fieldOrder = info.xml.attribute("force_tff").toInt(&ok);
         if (ok) producer->set("force_tff", fieldOrder);
     }
-    if (xml.hasAttribute("threads")) {
-        int threads = xml.attribute("threads").toInt();
+    if (info.xml.hasAttribute("threads")) {
+        int threads = info.xml.attribute("threads").toInt();
         if (threads != 1) producer->set("threads", threads);
     }
-    if (xml.hasAttribute("video_index")) {
-        int vindex = xml.attribute("video_index").toInt();
+    if (info.xml.hasAttribute("video_index")) {
+        int vindex = info.xml.attribute("video_index").toInt();
         if (vindex != 0) producer->set("video_index", vindex);
     }
-    if (xml.hasAttribute("audio_index")) {
-        int aindex = xml.attribute("audio_index").toInt();
+    if (info.xml.hasAttribute("audio_index")) {
+        int aindex = info.xml.attribute("audio_index").toInt();
         if (aindex != 0) producer->set("audio_index", aindex);
     }
-    if (xml.hasAttribute("force_colorspace")) {
-        int colorspace = xml.attribute("force_colorspace").toInt();
+    if (info.xml.hasAttribute("force_colorspace")) {
+        int colorspace = info.xml.attribute("force_colorspace").toInt();
         if (colorspace != 0) producer->set("force_colorspace", colorspace);
     }
-    if (xml.hasAttribute("full_luma")) {
-        int full_luma = xml.attribute("full_luma").toInt();
+    if (info.xml.hasAttribute("full_luma")) {
+        int full_luma = info.xml.attribute("full_luma").toInt();
         if (full_luma != 0) producer->set("set.force_full_luma", full_luma);
     }
 
     int clipOut = 0;
     int duration = 0;
-    if (xml.hasAttribute("out")) clipOut = xml.attribute("out").toInt();
+    if (info.xml.hasAttribute("out")) clipOut = info.xml.attribute("out").toInt();
 
     // setup length here as otherwise default length (currently 15000 frames in MLT) will be taken even if outpoint is larger
     if (type == COLOR || type == TEXT || type == IMAGE || type == SLIDESHOW) {
         int length;
-        if (xml.hasAttribute("length")) {
+        if (info.xml.hasAttribute("length")) {
             if (clipOut > 0) duration = clipOut + 1;
-            length = xml.attribute("length").toInt();
+            length = info.xml.attribute("length").toInt();
             clipOut = length - 1;
         }
-        else length = xml.attribute("out").toInt() - xml.attribute("in").toInt();
+        else length = info.xml.attribute("out").toInt() - info.xml.attribute("in").toInt();
         producer->set("length", length);
     }
 
-    if (clipOut > 0) producer->set_in_and_out(xml.attribute("in").toInt(), clipOut);
+    if (clipOut > 0) producer->set_in_and_out(info.xml.attribute("in").toInt(), clipOut);
 
-    producer->set("id", clipId.toUtf8().constData());
+    producer->set("id", info.clipId.toUtf8().constData());
 
-    if (xml.hasAttribute("templatetext"))
-        producer->set("templatetext", xml.attribute("templatetext").toUtf8().constData());
+    if (info.xml.hasAttribute("templatetext"))
+        producer->set("templatetext", info.xml.attribute("templatetext").toUtf8().constData());
 
-    if ((!replaceProducer && xml.hasAttribute("file_hash")) || xml.hasAttribute("proxy")) {
+    if ((!info.replaceProducer && info.xml.hasAttribute("file_hash")) || info.xml.hasAttribute("proxy")) {
         // Clip  already has all properties
-        if (replaceProducer) emit blockClipMonitor(clipId);
-        // Querying a frame is required by MLT, otherwise the producer is not correctly initialised
-        //Mlt::Frame *frame = producer->get_frame();
-        //delete frame;
-        emit replyGetFileProperties(clipId, producer, QMap < QString, QString >(), QMap < QString, QString >(), replaceProducer, selectClip);
-        return;
+        if (info.replaceProducer) emit blockClipMonitor(info.clipId);
+        emit replyGetFileProperties(info.clipId, producer, stringMap(), stringMap(), info.replaceProducer, true);
+        continue;
     }
 
-    int imageWidth = (int)((double) imageHeight * m_mltProfile->width() / m_mltProfile->height() + 0.5);
-    int fullWidth = (int)((double) imageHeight * m_mltProfile->dar() + 0.5);
-    QMap < QString, QString > filePropertyMap;
-    QMap < QString, QString > metadataPropertyMap;
+    int imageWidth = (int)((double) info.imageHeight * m_mltProfile->width() / m_mltProfile->height() + 0.5);
+    int fullWidth = (int)((double) info.imageHeight * m_mltProfile->dar() + 0.5);
+    stringMap filePropertyMap;
+    stringMap metadataPropertyMap;
 
-    int frameNumber = xml.attribute("thumbnail", "0").toInt();
+    int frameNumber = info.xml.attribute("thumbnail", "0").toInt();
     if (frameNumber != 0) producer->seek(frameNumber);
 
     filePropertyMap["duration"] = QString::number(duration > 0 ? duration : producer->get_playtime());
@@ -711,15 +752,15 @@ void Render::getFileProperties(const QDomElement &xml, const QString &clipId, in
     Mlt::Frame *frame = producer->get_frame();
 
     if (type == SLIDESHOW) {
-        int ttl = xml.hasAttribute("ttl") ? xml.attribute("ttl").toInt() : 0;
+        int ttl = info.xml.hasAttribute("ttl") ? info.xml.attribute("ttl").toInt() : 0;
         if (ttl) producer->set("ttl", ttl);
-        if (!xml.attribute("animation").isEmpty()) {
+        if (!info.xml.attribute("animation").isEmpty()) {
             Mlt::Filter *filter = new Mlt::Filter(*m_mltProfile, "affine");
             if (filter && filter->is_valid()) {
                 int cycle = ttl;
-                QString geometry = SlideshowClip::animationToGeometry(xml.attribute("animation"), cycle);
+                QString geometry = SlideshowClip::animationToGeometry(info.xml.attribute("animation"), cycle);
                 if (!geometry.isEmpty()) {
-                    if (xml.attribute("animation").contains("low-pass")) {
+                    if (info.xml.attribute("animation").contains("low-pass")) {
                         Mlt::Filter *blur = new Mlt::Filter(*m_mltProfile, "boxblur");
                         if (blur && blur->is_valid())
                             producer->attach(*blur);
@@ -730,23 +771,23 @@ void Render::getFileProperties(const QDomElement &xml, const QString &clipId, in
                 }
             }
         }
-        if (xml.attribute("fade") == "1") {
+        if (info.xml.attribute("fade") == "1") {
             // user wants a fade effect to slideshow
             Mlt::Filter *filter = new Mlt::Filter(*m_mltProfile, "luma");
             if (filter && filter->is_valid()) {
                 if (ttl) filter->set("cycle", ttl);
-                if (xml.hasAttribute("luma_duration") && !xml.attribute("luma_duration").isEmpty()) filter->set("duration", xml.attribute("luma_duration").toInt());
-                if (xml.hasAttribute("luma_file") && !xml.attribute("luma_file").isEmpty()) {
-                    filter->set("luma.resource", xml.attribute("luma_file").toUtf8().constData());
-                    if (xml.hasAttribute("softness")) {
-                        int soft = xml.attribute("softness").toInt();
+                if (info.xml.hasAttribute("luma_duration") && !info.xml.attribute("luma_duration").isEmpty()) filter->set("duration", info.xml.attribute("luma_duration").toInt());
+                if (info.xml.hasAttribute("luma_file") && !info.xml.attribute("luma_file").isEmpty()) {
+                    filter->set("luma.resource", info.xml.attribute("luma_file").toUtf8().constData());
+                    if (info.xml.hasAttribute("softness")) {
+                        int soft = info.xml.attribute("softness").toInt();
                         filter->set("luma.softness", (double) soft / 100.0);
                     }
                 }
                 producer->attach(*filter);
             }
         }
-        if (xml.attribute("crop") == "1") {
+        if (info.xml.attribute("crop") == "1") {
             // user wants to center crop the slides
             Mlt::Filter *filter = new Mlt::Filter(*m_mltProfile, "crop");
             if (filter && filter->is_valid()) {
@@ -779,7 +820,7 @@ void Render::getFileProperties(const QDomElement &xml, const QString &clipId, in
             QImage img;
             do {
                 variance = 100;
-                img = KThumb::getFrame(frame, imageWidth, fullWidth, imageHeight);
+                img = KThumb::getFrame(frame, imageWidth, fullWidth, info.imageHeight);
                 variance = KThumb::imageVariance(img);
                 if (frameNumber == 0 && variance< 6) {
                     // Thumbnail is not interesting (for example all black, seek to fetch better thumb
@@ -790,12 +831,9 @@ void Render::getFileProperties(const QDomElement &xml, const QString &clipId, in
                     variance = -1;
                 }
             } while (variance == -1);
-            QPixmap pix = QPixmap::fromImage(img);
-            emit replyGetImage(clipId, pix);
-
+            emit replyGetImage(info.clipId, img);
         } else if (frame->get_int("test_audio") == 0) {
-            QPixmap pixmap = KIcon("audio-x-generic").pixmap(QSize(fullWidth, imageHeight));
-            emit replyGetImage(clipId, pixmap);
+            emit replyGetImage(info.clipId, "audio-x-generic", fullWidth, info.imageHeight);
             filePropertyMap["type"] = "audio";
         }
     }
@@ -870,10 +908,11 @@ void Render::getFileProperties(const QDomElement &xml, const QString &clipId, in
             metadataPropertyMap[ name.section('.', 0, -2)] = value;
     }
     producer->seek(0);
-    if (replaceProducer) emit blockClipMonitor(clipId);
-    emit replyGetFileProperties(clipId, producer, filePropertyMap, metadataPropertyMap, replaceProducer, selectClip);
+    if (info.replaceProducer) emit blockClipMonitor(info.clipId);
+    emit replyGetFileProperties(info.clipId, producer, filePropertyMap, metadataPropertyMap, info.replaceProducer);
     // FIXME: should delete this to avoid a leak...
     //delete producer;
+    }
 }
 
 
@@ -985,6 +1024,8 @@ int Render::setSceneList(QString playlist, int position)
         kWarning() << "///////  ERROR, TRYING TO USE NULL MLT CONSUMER";
         error = -1;
     }
+    m_requestList.clear();
+    m_infoThread.waitForFinished();
 
     if (m_mltProducer) {
         m_mltProducer->set_speed(0);
@@ -1031,7 +1072,6 @@ int Render::setSceneList(QString playlist, int position)
     }
 
     blockSignals(true);
-
     m_locale = QLocale();
 
     m_mltProducer = new Mlt::Producer(*m_mltProfile, "xml-string", playlist.toUtf8().constData());

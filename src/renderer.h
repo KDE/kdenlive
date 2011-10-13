@@ -42,6 +42,7 @@
 #include <QList>
 #include <QEvent>
 #include <QMutex>
+#include <QFuture>
 
 class QTimer;
 class QPixmap;
@@ -58,6 +59,13 @@ class Producer;
 class Filter;
 class Profile;
 class Service;
+};
+
+struct requestClipInfo {
+    QDomElement xml;
+    QString clipId;
+    int imageHeight;
+    bool replaceProducer;
 };
 
 class MltErrorEvent : public QEvent
@@ -270,6 +278,10 @@ Q_OBJECT public:
 
     /** @brief Returns a pointer to the main producer. */
     Mlt::Producer *getProducer();
+    /** @brief Returns the number of clips to process (When requesting clip info). */
+    int processingItems() const;
+    /** @brief Force processing of clip with selected id. */
+    void forceProcessing(const QString &id);
 
 private:
 
@@ -302,11 +314,14 @@ private:
 
     QTimer *m_osdTimer;
     QMutex m_mutex;
+    QMutex m_infoMutex;
 
     /** @brief A human-readable description of this renderer. */
     int m_winid;
 
     QLocale m_locale;
+    QFuture <void> m_infoThread;
+    QList <requestClipInfo> m_requestList;
 
     void closeMlt();
     void mltCheckLength(Mlt::Tractor *tractor);
@@ -337,10 +352,11 @@ private slots:
 signals:
 
     /** @brief The renderer received a reply to a getFileProperties request. */
-    void replyGetFileProperties(const QString &clipId, Mlt::Producer*, const QMap < QString, QString > &, const QMap < QString, QString > &, bool, bool);
+    void replyGetFileProperties(const QString &clipId, Mlt::Producer*, const stringMap &, const stringMap &, bool replaceProducer, bool refreshThumbnail = false);
 
     /** @brief The renderer received a reply to a getImage request. */
-    void replyGetImage(const QString &, const QPixmap &);
+    void replyGetImage(const QString &, const QString &, int, int);
+    void replyGetImage(const QString &, const QImage &);
 
     /** @brief The renderer stopped, either playing or rendering. */
     void stopped();
@@ -394,7 +410,9 @@ public slots:
         @param selectClip If true, clip item will be selected in project view
      * Upon return, the result will be emitted via replyGetFileProperties().
      * Wraps the VEML command of the same name. */
-    void getFileProperties(const QDomElement &xml, const QString &clipId, int imageHeight, bool replaceProducer = true, bool selectClip = false);
+    void getFileProperties(const QDomElement &xml, const QString &clipId, int imageHeight, bool replaceProducer = true);
+
+    void getFileProperties2();
 
     void exportFileToFirewire(QString srcFileName, int port, GenTime startTime, GenTime endTime);
     void mltSavePlaylist();

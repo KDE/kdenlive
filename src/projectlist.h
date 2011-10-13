@@ -225,8 +225,9 @@ public:
 public slots:
     void setDocument(KdenliveDoc *doc);
     void updateAllClips(bool displayRatioChanged, bool fpsChanged);
-    void slotReplyGetImage(const QString &clipId, const QPixmap &pix);
-    void slotReplyGetFileProperties(const QString &clipId, Mlt::Producer *producer, const QMap < QString, QString > &properties, const QMap < QString, QString > &metadata, bool replace, bool selectClip);
+    void slotReplyGetImage(const QString &clipId, const QImage &img);
+    void slotReplyGetImage(const QString &clipId, const QString &name, int width, int height);
+    void slotReplyGetFileProperties(const QString &clipId, Mlt::Producer *producer, const stringMap &properties, const stringMap &metadata, bool replace, bool refreshThumbnail);
     void slotAddClip(DocClipBase *clip, bool getProperties);
     void slotDeleteClip(const QString &clipId);
     void slotUpdateClip(const QString &id);
@@ -279,7 +280,7 @@ private:
     QToolButton *m_addButton;
     QToolButton *m_deleteButton;
     QToolButton *m_editButton;
-    QMap <QString, QDomElement> m_infoQueue;
+    //QMap <QString, QDomElement> m_infoQueue;
     QMap <QString, QDomElement> m_producerQueue;
     QList <QString> m_thumbnailQueue;
     QAction *m_proxyAction;
@@ -319,6 +320,8 @@ private:
     /** @brief Process ffmpeg output to find out process progress. */
     void processLogInfo(const QString &path, int *duration, const QString &log);
     void monitorItemEditing(bool enable);
+    /** @brief Set thumbnail for a project's clip. */
+    void setThumbnail(const QString &clipId, const QPixmap &pix);
 
 private slots:
     void slotClipSelected();
@@ -337,7 +340,6 @@ private slots:
     /** @brief This is triggered when a clip description has been modified. */
     void slotItemEdited(QTreeWidgetItem *item, int column);
     void slotUpdateClipProperties(ProjectItem *item, QMap <QString, QString> properties);
-    void slotProcessNextClipInQueue();
     void slotProcessNextThumbnail();
     void slotCheckForEmptyQueue();
     void slotPauseMonitor();
@@ -363,7 +365,7 @@ private slots:
 
 signals:
     void clipSelected(DocClipBase *, QPoint zone = QPoint());
-    void getFileProperties(const QDomElement, const QString &, int pixHeight, bool, bool);
+    void getFileProperties(const QDomElement, const QString &, int pixHeight, bool);
     void receivedClipDuration(const QString &);
     void showClipProperties(DocClipBase *);
     void showClipProperties(QList <DocClipBase *>, QMap<QString, QString> commonproperties);

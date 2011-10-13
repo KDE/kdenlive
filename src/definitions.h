@@ -69,6 +69,8 @@ struct TrackInfo {
     int duration;
 };
 
+typedef QMap<QString, QString> stringMap;
+
 struct ItemInfo {
     /** startPos is the position where the clip starts on the track */
     GenTime startPos;
