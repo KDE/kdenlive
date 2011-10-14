@@ -340,6 +340,8 @@ private:
 
     /** @brief Make sure our audio mixing transitions are applied to the lowest track */
     void fixAudioMixing(Mlt::Tractor tractor);
+    /** @brief Make sure we inform MLT if we need a lot of threads for avformat producer */
+    void checkMaxThreads();
 
 private slots:
 

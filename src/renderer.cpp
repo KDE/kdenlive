@@ -1080,6 +1080,7 @@ int Render::setSceneList(QString playlist, int position)
         m_mltProducer = m_blackClip->cut(0, 50);
         error = -1;
     }
+    checkMaxThreads();
     int volume = KdenliveSettings::volume();
     m_mltProducer->set("meta.volume", (double)volume / 100);
     m_mltProducer->optimise();
@@ -1120,6 +1121,27 @@ int Render::setSceneList(QString playlist, int position)
     return error;
     //kDebug()<<"// SETSCN LST, POS: "<<position;
     //if (position != 0) emit rendererPosition(position);
+}
+
+void Render::checkMaxThreads()
+{
+    // Make sure we don't use too much threads, MLT avformat does not cope with too much threads
+    // Currently, Kdenlive uses the following avformat threads:
+    // One thread to get info when adding a clip
+    // One thread to create the timeline video thumbnails
+    // One thread to create the audio thumbnails
+    Mlt::Service service(m_mltProducer->parent().get_service());
+    if (service.type() != tractor_type) {
+        kWarning() << "// TRACTOR PROBLEM";
+        return;
+    }
+    Mlt::Tractor tractor(service);
+    int mltMaxThreads = mlt_service_cache_get_size(service.get_service(), "producer_avformat");
+    int requestedThreads = tractor.count() + 4;
+    if (requestedThreads > mltMaxThreads) {
+        mlt_service_cache_set_size(service.get_service(), "producer_avformat", requestedThreads);
+        kDebug()<<"// MLT threads updated to: "<<mlt_service_cache_get_size(service.get_service(), "producer_avformat");
+    }
 }
 
 const QString Render::sceneList()
@@ -3875,6 +3897,8 @@ void Render::mltInsertTrack(int ix, bool videoTrack)
         Mlt::Producer newProd(tractor.track(ix));
         if (!videoTrack) newProd.set("hide", 1);
     }
+
+    checkMaxThreads();
 
     // Move transitions
     mlt_service serv = m_mltProducer->parent().get_service();
