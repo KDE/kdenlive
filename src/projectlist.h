@@ -32,6 +32,7 @@
 #include <QApplication>
 #include <QFuture>
 #include <QFutureSynchronizer>
+#include <QListWidget>
 
 #include <KTreeWidgetSearchLine>
 #include <KUrl>
@@ -47,6 +48,7 @@
 #include "kdenlivesettings.h"
 #include "folderprojectitem.h"
 #include "subprojectitem.h"
+#include <kdialog.h>
 
 namespace Mlt
 {
@@ -69,6 +71,19 @@ class DocClipBase;
 const int NameRole = Qt::UserRole;
 const int DurationRole = NameRole + 1;
 const int UsageRole = NameRole + 2;
+
+class InvalidDialog: public KDialog
+{
+    Q_OBJECT
+public:
+    InvalidDialog(const QString &caption, const QString &message, bool infoOnly, QWidget *parent = 0);
+    virtual ~InvalidDialog();
+    void addClip(const QString &id, const QString &path);
+    QStringList getIds() const;
+private:
+    QListWidget *m_clipList;
+};
+
 
 class ItemDelegate: public QStyledItemDelegate
 {
@@ -293,6 +308,7 @@ private:
     bool m_abortAllProxies;
     QList <PROXYINFO> m_proxyList;
     QFutureSynchronizer<void> m_proxyThreads;
+    InvalidDialog *m_invalidClipDialog;
     
     void requestClipThumbnail(const QString id);
 

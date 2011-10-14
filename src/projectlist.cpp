@@ -66,6 +66,44 @@
 #include <QHeaderView>
 #include <QInputDialog>
 #include <QtConcurrentRun>
+#include <QVBoxLayout>
+
+InvalidDialog::InvalidDialog(const QString &caption, const QString &message, bool infoOnly, QWidget *parent) : KDialog(parent)
+{
+    setCaption(caption);
+    if (infoOnly) setButtons(KDialog::Ok);
+    else setButtons(KDialog::Yes | KDialog::No);
+    QWidget *w = new QWidget(this);
+    QVBoxLayout *l = new QVBoxLayout;
+    l->addWidget(new QLabel(message));
+    m_clipList = new QListWidget;
+    l->addWidget(m_clipList);
+    w->setLayout(l);
+    setMainWidget(w);
+}
+
+InvalidDialog::~InvalidDialog()
+{
+    delete m_clipList;
+}
+
+
+void InvalidDialog::addClip(const QString &id, const QString &path)
+{
+    QListWidgetItem *item = new QListWidgetItem(path);
+    item->setData(Qt::UserRole, id);
+    m_clipList->addItem(item);
+}
+
+QStringList InvalidDialog::getIds() const
+{
+    QStringList ids;
+    for (int i = 0; i < m_clipList->count(); i++) {
+        ids << m_clipList->item(i)->data(Qt::UserRole).toString();
+    }
+    return ids;
+}
+
 
 ProjectList::ProjectList(QWidget *parent) :
     QWidget(parent),
@@ -78,7 +116,8 @@ ProjectList::ProjectList(QWidget *parent) :
     m_doc(NULL),
     m_refreshed(false),
     m_thumbnailQueue(),
-    m_abortAllProxies(false)
+    m_abortAllProxies(false),
+    m_invalidClipDialog(NULL)
 {
     QVBoxLayout *layout = new QVBoxLayout;
     layout->setContentsMargins(0, 0, 0, 0);
@@ -1342,13 +1381,28 @@ void ProjectList::slotRemoveInvalidClip(const QString &id, bool replace)
         const QString path = item->referencedClip()->fileURL().path();
         if (item->referencedClip()->isPlaceHolder()) replace = false;
         if (!path.isEmpty()) {
-            if (replace)
-                KMessageBox::sorry(kapp->activeWindow(), i18n("Clip <b>%1</b><br />is invalid, will be removed from project.", path));
-            else if (KMessageBox::questionYesNo(kapp->activeWindow(), i18n("Clip <b>%1</b><br />is missing or invalid. Remove it from project?", path), i18n("Invalid clip")) == KMessageBox::Yes)
-                replace = true;
+            if (m_invalidClipDialog) {
+                m_invalidClipDialog->addClip(id, path);
+                return;
+            }
+            else {
+                if (replace)
+                    m_invalidClipDialog = new InvalidDialog(i18n("Invalid clip"),  i18n("Clip <b>%1</b><br />is invalid, will be removed from project.", QString()), replace, kapp->activeWindow());
+                else {
+                    m_invalidClipDialog = new InvalidDialog(i18n("Invalid clip"),  i18n("Clip <b>%1</b><br />is missing or invalid. Remove it from project?", QString()), replace, kapp->activeWindow());
+                }
+                m_invalidClipDialog->addClip(id, path);
+                int result = m_invalidClipDialog->exec();
+                if (result == KDialog::Yes) replace = true;
+            }
         }
-        if (replace)
-            emit deleteProjectClips(QStringList() << id, QMap <QString, QString>());
+        if (m_invalidClipDialog) {
+            if (replace)
+                emit deleteProjectClips(m_invalidClipDialog->getIds(), QMap <QString, QString>());
+            delete m_invalidClipDialog;
+            m_invalidClipDialog = NULL;
+        }
+        
     }
 }
 
