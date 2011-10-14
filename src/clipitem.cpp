@@ -521,7 +521,7 @@ void ClipItem::resetThumbs(bool clearExistingThumbs)
         m_endPix = QPixmap();
         m_audioThumbCachePic.clear();
     }
-    kDebug()<<"...........  RESET THMBS";
+    //kDebug()<<"...........  RESET THMBS: "<<clearExistingThumbs;
     slotFetchThumbs();
 }
 

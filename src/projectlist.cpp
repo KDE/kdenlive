@@ -576,7 +576,6 @@ void ProjectList::setRenderer(Render *projectRender)
 
 void ProjectList::slotClipSelected()
 {
-    if (!m_listView->isEnabled()) return;
     if (m_listView->currentItem()) {
         if (m_listView->currentItem()->type() == PROJECTFOLDERTYPE) {
             emit clipSelected(NULL);
@@ -998,7 +997,7 @@ void ProjectList::deleteProjectFolder(QMap <QString, QString> map)
 
 void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
 {
-    m_listView->setEnabled(false);
+    //m_listView->setEnabled(false);
     const QString parent = clip->getProperty("groupid");
     ProjectItem *item = NULL;
     monitorItemEditing(false);
@@ -1041,15 +1040,6 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
     clip->askForAudioThumbs();
     
     KUrl url = clip->fileURL();
-    if (getProperties == false && !clip->getClipHash().isEmpty()) {
-        QString cachedPixmap = m_doc->projectFolder().path(KUrl::AddTrailingSlash) + "thumbs/" + clip->getClipHash() + ".png";
-        if (QFile::exists(cachedPixmap)) {
-            QPixmap pix(cachedPixmap);
-            if (pix.isNull())
-                KIO::NetAccess::del(KUrl(cachedPixmap), this);
-            item->setData(0, Qt::DecorationRole, pix);
-        }
-    }
 #ifdef NEPOMUK
     if (!url.isEmpty() && KdenliveSettings::activate_nepomuk()) {
         // if file has Nepomuk comment, use it
@@ -1076,9 +1066,7 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
         }
     }
     monitorItemEditing(true);
-    if (m_listView->isEnabled()) {
-        updateButtons();
-    }
+    updateButtons();
 }
 
 void ProjectList::slotGotProxy(const QString &proxyPath)
@@ -1133,6 +1121,23 @@ void ProjectList::slotUpdateClip(const QString &id)
     monitorItemEditing(false);
     if (item) item->setData(0, UsageRole, QString::number(item->numReferences()));
     monitorItemEditing(true);
+}
+
+void ProjectList::getCachedThumbnail(ProjectItem *item)
+{
+    if (!item) return;
+    DocClipBase *clip = item->referencedClip();
+    if (!clip) return;
+    QString cachedPixmap = m_doc->projectFolder().path(KUrl::AddTrailingSlash) + "thumbs/" + clip->getClipHash() + ".png";
+    if (QFile::exists(cachedPixmap)) {
+        QPixmap pix(cachedPixmap);
+        if (pix.isNull()) {
+            KIO::NetAccess::del(KUrl(cachedPixmap), this);
+            requestClipThumbnail(item->clipId());
+        }
+        else item->setData(0, Qt::DecorationRole, pix);
+    }
+    else requestClipThumbnail(item->clipId());
 }
 
 void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged)
@@ -1193,8 +1198,11 @@ void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged)
                     }
                 }
             } else {              
-                if (displayRatioChanged || item->data(0, Qt::DecorationRole).isNull())
+                if (displayRatioChanged)
                     requestClipThumbnail(clip->getId());
+                else if (item->data(0, Qt::DecorationRole).isNull()) {
+                    getCachedThumbnail(item);
+                }
                 if (item->data(0, DurationRole).toString().isEmpty()) {
                     item->changeDuration(item->referencedClip()->producer()->get_playtime());
                 }
@@ -1214,11 +1222,10 @@ void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged)
         }
         ++it;
     }
-    
-    if (m_listView->isEnabled())
-        monitorItemEditing(true);
+
     m_listView->setSortingEnabled(true);
     if (m_render->processingItems() == 0) {
+       monitorItemEditing(true);
        slotProcessNextThumbnail();
     }
 }
@@ -1546,8 +1553,6 @@ void ProjectList::slotCheckForEmptyQueue()
             emit displayMessage(QString(), -1);
             m_refreshed = true;
         }
-        m_listView->blockSignals(false);
-        m_listView->setEnabled(true);
         updateButtons();
     } else if (!m_refreshed) {
         QTimer::singleShot(300, this, SLOT(slotCheckForEmptyQueue()));
@@ -1644,7 +1649,6 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
         m_listView->setEnabled(true);
     }
     if (item && producer) {
-        //m_listView->blockSignals(true);
         monitorItemEditing(false);
         DocClipBase *clip = item->referencedClip();
         item->setProperties(properties, metadata);
@@ -1657,7 +1661,7 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
         }
         clip->setProducer(producer, replace);
         clip->askForAudioThumbs();
-        if (refreshThumbnail) requestClipThumbnail(clipId);
+        if (refreshThumbnail) getCachedThumbnail(item);
         // Proxy stuff
         QString size = properties.value("frame_size");
         if (!useProxy() && clip->getProperty("proxy").isEmpty()) setProxyStatus(item, NOPROXY);
@@ -1685,15 +1689,14 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
             }
         }
 
-        if (!replace && item->data(0, Qt::DecorationRole).isNull())
+        if (!replace && item->data(0, Qt::DecorationRole).isNull() && !refreshThumbnail) {
             requestClipThumbnail(clipId);
+        }
         if (!toReload.isEmpty())
             item->slotSetToolTip();
-
-        if (m_listView->isEnabled())
-            monitorItemEditing(true);
     } else kDebug() << "////////  COULD NOT FIND CLIP TO UPDATE PRPS...";
     if (queue == 0) {
+        monitorItemEditing(true);
         if (item && m_thumbnailQueue.isEmpty()) {
             m_listView->setCurrentItem(item);
             bool updatedProfile = false;
@@ -1713,13 +1716,17 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
         }
         processNextThumbnail();
     }
-    if (item && m_listView->isEnabled() && replace) {
-            // update clip in clip monitor
-            if (item->isSelected() && m_listView->selectedItems().count() == 1)
-                emit clipSelected(item->referencedClip());
-            //TODO: Make sure the line below has no side effect
-            toReload = clipId;
-        }
+    if (item && queue == 0 && replace) {
+        // update clip in clip monitor
+        if (item->isSelected() && m_listView->selectedItems().count() == 1)
+            emit clipSelected(item->referencedClip());
+        //TODO: Make sure the line below has no side effect
+        toReload = clipId;
+    }
+    if (!item) {
+        // no item for producer, delete it
+        delete producer;
+    }
     if (!toReload.isEmpty())
         emit clipNeedsReload(toReload, true);
 }
@@ -1824,8 +1831,6 @@ void ProjectList::setThumbnail(const QString &clipId, const QPixmap &pix)
         monitorItemEditing(true);
         //update();
         m_doc->cachePixmap(item->getClipHash(), pix);
-        if (m_listView->isEnabled())
-            m_listView->blockSignals(false);
     }
 }
 

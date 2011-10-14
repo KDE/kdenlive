@@ -322,6 +322,8 @@ private:
     void monitorItemEditing(bool enable);
     /** @brief Set thumbnail for a project's clip. */
     void setThumbnail(const QString &clipId, const QPixmap &pix);
+    /** @brief Get cached thumbnail for a project's clip or create it if no cache. */
+    void getCachedThumbnail(ProjectItem *item);
 
 private slots:
     void slotClipSelected();
