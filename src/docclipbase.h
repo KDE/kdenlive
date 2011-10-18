@@ -119,7 +119,7 @@ Q_OBJECT public:
     /** Sets producers for the current clip (one for each track due to a limitation in MLT's track mixing */
     void setProducer(Mlt::Producer *producer, bool reset = false, bool readPropertiesFromProducer = false);
     /** Retrieve a producer for a track */
-    Mlt::Producer *producer(int track = -1);
+    Mlt::Producer *getProducer(int track = -1);
     /** Retrieve the producer that shows only video */
     Mlt::Producer *videoProducer();
     /** Retrieve the producer that shows only audio */
@@ -181,7 +181,7 @@ Q_OBJECT public:
     const char *producerProperty(const char *name) const;
     void setProducerProperty(const char *name, const char *data);
     void resetProducerProperty(const char *name);
-    void deleteProducers(bool clearThumbCreator = true);
+    void deleteProducers();
 
     /** Set default play zone for clip monitor */
     void setZone(QPoint zone);
@@ -204,6 +204,9 @@ Q_OBJECT public:
     bool checkHash() const;
     void setPlaceHolder(bool place);
     QPixmap extractImage(int frame, int width, int height);
+    void clearThumbProducer();
+    void cleanupProducers();
+    bool isClean() const;
 
 private:   // Private attributes
 
@@ -212,6 +215,7 @@ private:   // Private attributes
     uint m_refcount;
     QList <Mlt::Producer *> m_baseTrackProducers;
     QList <Mlt::Producer *> m_audioTrackProducers;
+    QList <Mlt::Producer *> m_toDeleteProducers;
     Mlt::Producer *m_videoOnlyProducer;
     CLIPTYPE m_clipType;
 
@@ -242,6 +246,7 @@ private:   // Private attributes
     
     /** Try to make sure we don't delete a producer while using it */
     QMutex m_producerMutex;
+    QMutex m_replaceMutex;
 
     /** Create connections for audio thumbnails */
     void slotCreateAudioTimer();

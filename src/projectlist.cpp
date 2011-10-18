@@ -129,6 +129,10 @@ ProjectList::ProjectList(QWidget *parent) :
     QHBoxLayout *box = new QHBoxLayout;
     KTreeWidgetSearchLine *searchView = new KTreeWidgetSearchLine;
 
+    m_refreshMonitorTimer.setSingleShot(true);
+    m_refreshMonitorTimer.setInterval(100);
+    connect(&m_refreshMonitorTimer, SIGNAL(timeout()), this, SLOT(slotRefreshMonitor()));
+
     box->addWidget(searchView);
     //int s = style()->pixelMetric(QStyle::PM_SmallIconSize);
     //m_toolbar->setIconSize(QSize(s, s));
@@ -494,27 +498,35 @@ void ProjectList::slotReloadClip(const QString &id)
             continue;
         }
         item = static_cast <ProjectItem *>(selected.at(i));
-        if (item) {
+        if (item && !item->isProxyRunning()) {
+            DocClipBase *clip = item->referencedClip();
+            if (!clip->isClean()) {
+                // The clip is currently under processing (replacement in timeline), we cannot reload it now.
+                continue;
+            }
             CLIPTYPE t = item->clipType();
             if (t == TEXT) {
-                if (!item->referencedClip()->getProperty("xmltemplate").isEmpty())
+                if (clip && !clip->getProperty("xmltemplate").isEmpty())
                     regenerateTemplate(item);
-            } else if (t != COLOR && t != SLIDESHOW && item->referencedClip() &&  item->referencedClip()->checkHash() == false) {
+            } else if (t != COLOR && t != SLIDESHOW && clip && clip->checkHash() == false) {
                 item->referencedClip()->setPlaceHolder(true);
                 item->setProperty("file_hash", QString());
             } else if (t == IMAGE) {
-                item->referencedClip()->producer()->set("force_reload", 1);
+                clip->getProducer()->set("force_reload", 1);
             }
 
             QDomElement e = item->toXml();
             // Make sure we get the correct producer length if it was adjusted in timeline
             if (t == COLOR || t == IMAGE || t == SLIDESHOW || t == TEXT) {
-                int length = QString(item->referencedClip()->producerProperty("length")).toInt();
+                int length = QString(clip->producerProperty("length")).toInt();
                 if (length > 0 && !e.hasAttribute("length")) {
                     e.setAttribute("length", length);
                 }
-            }            
-            emit getFileProperties(e, item->clipId(), m_listView->iconSize().height(), true);
+            }
+            if (clip) {
+                clip->clearThumbProducer();
+            }
+            m_render->getFileProperties(e, item->clipId(), m_listView->iconSize().height(), true);
         }
     }
 }
@@ -560,9 +572,9 @@ void ProjectList::slotMissingClip(const QString &id)
                 return;
             }
             Mlt::Producer *newProd = m_render->invalidProducer(id);
-            if (item->referencedClip()->producer()) {
+            if (item->referencedClip()->getProducer()) {
                 Mlt::Properties props(newProd->get_properties());
-                Mlt::Properties src_props(item->referencedClip()->producer()->get_properties());
+                Mlt::Properties src_props(item->referencedClip()->getProducer()->get_properties());
                 props.inherit(src_props);
             }
             item->referencedClip()->setProducer(newProd, true);
@@ -615,28 +627,31 @@ void ProjectList::setRenderer(Render *projectRender)
 
 void ProjectList::slotClipSelected()
 {
-    if (m_listView->currentItem()) {
-        if (m_listView->currentItem()->type() == PROJECTFOLDERTYPE) {
+    m_refreshMonitorTimer.stop();
+    QTreeWidgetItem *item = m_listView->currentItem();
+    ProjectItem *clip = NULL;
+    if (item) {
+        if (item->type() == PROJECTFOLDERTYPE) {
             emit clipSelected(NULL);
-            m_editButton->defaultAction()->setEnabled(m_listView->currentItem()->childCount() > 0);
+            m_editButton->defaultAction()->setEnabled(item->childCount() > 0);
             m_deleteButton->defaultAction()->setEnabled(true);
             m_openAction->setEnabled(false);
             m_reloadAction->setEnabled(false);
             m_transcodeAction->setEnabled(false);
-            m_proxyAction->setEnabled(false);
         } else {
-            ProjectItem *clip;
-            if (m_listView->currentItem()->type() == PROJECTSUBCLIPTYPE) {
+            if (item->type() == PROJECTSUBCLIPTYPE) {
                 // this is a sub item, use base clip
                 m_deleteButton->defaultAction()->setEnabled(true);
-                clip = static_cast <ProjectItem*>(m_listView->currentItem()->parent());
+                clip = static_cast <ProjectItem*>(item->parent());
                 if (clip == NULL) kDebug() << "-----------ERROR";
-                SubProjectItem *sub = static_cast <SubProjectItem*>(m_listView->currentItem());
+                SubProjectItem *sub = static_cast <SubProjectItem*>(item);
                 emit clipSelected(clip->referencedClip(), sub->zone());
                 m_transcodeAction->setEnabled(false);
+                m_reloadAction->setEnabled(false);
+                adjustProxyActions(clip);
                 return;
             }
-            clip = static_cast <ProjectItem*>(m_listView->currentItem());
+            clip = static_cast <ProjectItem*>(item);
             if (clip && clip->referencedClip())
                 emit clipSelected(clip->referencedClip());
             m_editButton->defaultAction()->setEnabled(true);
@@ -665,6 +680,7 @@ void ProjectList::slotClipSelected()
         m_reloadAction->setEnabled(false);
         m_transcodeAction->setEnabled(false);
     }
+    adjustProxyActions(clip);
 }
 
 void ProjectList::adjustProxyActions(ProjectItem *clip) const
@@ -831,6 +847,7 @@ void ProjectList::slotContextMenu(const QPoint &pos, QTreeWidgetItem *item)
         if (m_listView->currentItem()->type() == PROJECTSUBCLIPTYPE) {
             clip = static_cast <ProjectItem*>(item->parent());
             m_transcodeAction->setEnabled(false);
+            adjustProxyActions(clip);
         } else if (m_listView->currentItem()->type() == PROJECTCLIPTYPE) {
             clip = static_cast <ProjectItem*>(item);
             // Display relevant transcoding actions only
@@ -917,7 +934,6 @@ void ProjectList::updateButtons() const
             m_openAction->setEnabled(true);
             m_reloadAction->setEnabled(true);
             m_transcodeAction->setEnabled(true);
-            m_proxyAction->setEnabled(useProxy());
             return;
         }
         else if (item && item->type() == PROJECTFOLDERTYPE && item->childCount() > 0) {
@@ -1071,7 +1087,8 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
         m_listView->processLayout();
         QDomElement e = clip->toXML().cloneNode().toElement();
         e.removeAttribute("file_hash");
-        emit getFileProperties(e, clip->getId(), m_listView->iconSize().height(), true);
+        clip->clearThumbProducer();
+        m_render->getFileProperties(e, clip->getId(), m_listView->iconSize().height(), true);
     }
     else if (item->hasProxy() && !item->isProxyRunning()) {
         slotCreateProxy(clip->getId());
@@ -1128,6 +1145,11 @@ void ProjectList::slotGotProxy(ProjectItem *item)
 {
     if (item == NULL || !m_refreshed) return;
     DocClipBase *clip = item->referencedClip();
+    if (!clip->isClean()) {
+        //WARNING: might result in clip said marked as proxy but not using proxy?
+        // The clip is currently under processing (replacement in timeline), we cannot reload it now.
+        return;
+    }
     // Proxy clip successfully created
     QDomElement e = clip->toXML().cloneNode().toElement();
 
@@ -1139,7 +1161,8 @@ void ProjectList::slotGotProxy(ProjectItem *item)
             e.setAttribute("length", length);
         }
     }
-    emit getFileProperties(e, clip->getId(), m_listView->iconSize().height(), true);
+    clip->clearThumbProducer();
+    m_render->getFileProperties(e, clip->getId(), m_listView->iconSize().height(), true);
 }
 
 void ProjectList::slotResetProjectList()
@@ -1213,7 +1236,7 @@ void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged)
         } else {
             item = static_cast <ProjectItem *>(*it);
             clip = item->referencedClip();
-            if (item->referencedClip()->producer() == NULL) {
+            if (item->referencedClip()->getProducer() == NULL) {
                 if (clip->isPlaceHolder() == false) {
                     QDomElement xml = clip->toXML();
                     if (fpsChanged) {
@@ -1221,7 +1244,9 @@ void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged)
                         xml.removeAttribute("file_hash");
                         xml.removeAttribute("proxy_out");
                     }
-                    emit getFileProperties(xml, clip->getId(), m_listView->iconSize().height(), xml.attribute("replace") == "1");
+                    bool replace = xml.attribute("replace") == "1";
+                    if (replace) clip->clearThumbProducer();
+                    m_render->getFileProperties(xml, clip->getId(), m_listView->iconSize().height(), replace);
                 }
                 else {
                     item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsDropEnabled);
@@ -1243,7 +1268,7 @@ void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged)
                     getCachedThumbnail(item);
                 }
                 if (item->data(0, DurationRole).toString().isEmpty()) {
-                    item->changeDuration(item->referencedClip()->producer()->get_playtime());
+                    item->changeDuration(item->referencedClip()->getProducer()->get_playtime());
                 }
                 if (clip->isPlaceHolder()) {
                     QPixmap pixmap = qVariantValue<QPixmap>(item->data(0, Qt::DecorationRole));
@@ -1673,9 +1698,10 @@ void ProjectList::slotRefreshClipThumbnail(QTreeWidgetItem *it, bool update)
         if (clip->clipType() == AUDIO)
             pix = KIcon("audio-x-generic").pixmap(QSize(dwidth, height));
         else if (clip->clipType() == IMAGE)
-            pix = QPixmap::fromImage(KThumb::getFrame(item->referencedClip()->producer(), 0, swidth, dwidth, height));
-        else
+            pix = QPixmap::fromImage(KThumb::getFrame(item->referencedClip()->getProducer(), 0, swidth, dwidth, height));
+        else {
             pix = item->referencedClip()->extractImage(frame, dwidth, height);
+        }
 
         if (!pix.isNull()) {
             monitorItemEditing(false);
@@ -1693,6 +1719,17 @@ void ProjectList::slotRefreshClipThumbnail(QTreeWidgetItem *it, bool update)
     }
 }
 
+void ProjectList::slotRefreshMonitor()
+{
+    if (m_listView->selectedItems().count() == 1 && m_render && m_render->processingItems() == 0) {
+        if (m_listView->currentItem() && m_listView->currentItem()->type() != PROJECTFOLDERTYPE) {
+            ProjectItem *item = static_cast <ProjectItem*>(m_listView->currentItem());
+            DocClipBase *clip = item->referencedClip();
+            if (clip && clip->isClean()) emit clipSelected(clip);
+        }
+    }
+}
+
 void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Producer *producer, const stringMap &properties, const stringMap &metadata, bool replace, bool refreshThumbnail)
 {
     QString toReload;
@@ -1705,7 +1742,6 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
     if (item && producer) {
         monitorItemEditing(false);
         DocClipBase *clip = item->referencedClip();
-        item->setProperties(properties, metadata);
         if (producer->is_valid()) {
             if (clip->isPlaceHolder()) {
                 clip->setValid();
@@ -1714,13 +1750,14 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
             item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsDropEnabled);
         }
         clip->setProducer(producer, replace);
+        item->setProperties(properties, metadata);
         clip->askForAudioThumbs();
         if (refreshThumbnail) getCachedThumbnail(item);
         // Proxy stuff
         QString size = properties.value("frame_size");
         if (!useProxy() && clip->getProperty("proxy").isEmpty()) setProxyStatus(item, NOPROXY);
         if (useProxy() && generateProxy() && clip->getProperty("proxy") == "-") setProxyStatus(item, NOPROXY);
-        else if (useProxy() && !item->isProxyRunning()) {
+        else if (useProxy() && !item->hasProxy() && !item->isProxyRunning()) {
             // proxy video and image clips
             int maxSize;
             CLIPTYPE t = item->clipType();
@@ -1762,7 +1799,7 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
                 updatedProfile = adjustProjectProfileToItem(item);
             }
             if (updatedProfile == false) {
-                emit clipSelected(item->referencedClip());
+                //emit clipSelected(item->referencedClip());
             }
         } else {
             int max = m_doc->clipManager()->clipsCount();
@@ -1770,12 +1807,12 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
         }
         processNextThumbnail();
     }
-    if (item && queue == 0 && replace) {
+    if (replace && item) {
+        if (item->numReferences() > 0) toReload = clipId;
+        else item->referencedClip()->cleanupProducers();
         // update clip in clip monitor
-        if (item->isSelected() && m_listView->selectedItems().count() == 1)
-            emit clipSelected(item->referencedClip());
-        //TODO: Make sure the line below has no side effect
-        toReload = clipId;
+        if (queue == 0 && item->isSelected() && m_listView->selectedItems().count() == 1)
+            m_refreshMonitorTimer.start();
     }
     if (!item) {
         // no item for producer, delete it
@@ -1966,7 +2003,6 @@ void ProjectList::slotSelectClip(const QString &ix)
         m_deleteButton->defaultAction()->setEnabled(true);
         m_reloadAction->setEnabled(true);
         m_transcodeAction->setEnabled(true);
-        m_proxyAction->setEnabled(useProxy());
         if (clip->clipType() == IMAGE && !KdenliveSettings::defaultimageapp().isEmpty()) {
             m_openAction->setIcon(KIcon(KdenliveSettings::defaultimageapp()));
             m_openAction->setEnabled(true);
@@ -2032,7 +2068,7 @@ void ProjectList::regenerateTemplate(const QString &id)
 void ProjectList::regenerateTemplate(ProjectItem *clip)
 {
     //TODO: remove this unused method, only force_reload is necessary
-    clip->referencedClip()->producer()->set("force_reload", 1);
+    clip->referencedClip()->getProducer()->set("force_reload", 1);
 }
 
 QDomDocument ProjectList::generateTemplateXml(QString path, const QString &replaceString)
@@ -2556,10 +2592,15 @@ void ProjectList::slotProxyCurrentItem(bool doProxy)
                 if (!list.contains(sub)) list.append(sub);
             }
         }
-        if (listItem->type() == PROJECTCLIPTYPE) {
+        else if (listItem->type() == PROJECTSUBCLIPTYPE) {
+            QTreeWidgetItem *sub = listItem->parent();
+            if (!list.contains(sub)) list.append(sub);
+        }
+        else if (listItem->type() == PROJECTCLIPTYPE) {
             ProjectItem *item = static_cast <ProjectItem*>(listItem);
             CLIPTYPE t = item->clipType();
             if ((t == VIDEO || t == AV || t == UNKNOWN || t == IMAGE || t == PLAYLIST) && item->referencedClip()) {
+                if ((doProxy && item->hasProxy()) || (!doProxy && !item->hasProxy())) continue;
                 oldProps = item->referencedClip()->properties();
                 if (doProxy) {
                     newProps.clear();

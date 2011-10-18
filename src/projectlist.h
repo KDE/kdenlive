@@ -309,6 +309,7 @@ private:
     QList <PROXYINFO> m_proxyList;
     QFutureSynchronizer<void> m_proxyThreads;
     InvalidDialog *m_invalidClipDialog;
+    QTimer m_refreshMonitorTimer;
     
     void requestClipThumbnail(const QString id);
 
@@ -380,10 +381,11 @@ private slots:
     void slotAbortProxy(const QString id, const QString path);
     /** @brief Start creation of proxy clip. */
     void slotGenerateProxy();//const QString destPath, const QString sourcePath, int clipType, int exif);
+    /** @brief Timer triggering a refresh of the clip monitor. */
+    void slotRefreshMonitor();
 
 signals:
     void clipSelected(DocClipBase *, QPoint zone = QPoint());
-    void getFileProperties(const QDomElement, const QString &, int pixHeight, bool);
     void receivedClipDuration(const QString &);
     void showClipProperties(DocClipBase *);
     void showClipProperties(QList <DocClipBase *>, QMap<QString, QString> commonproperties);

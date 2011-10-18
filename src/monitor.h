@@ -75,7 +75,7 @@ public:
     void setRenderer(Render* render);
 
 protected:
-    virtual void paintEvent(QPaintEvent *event);
+    virtual void resizeEvent(QResizeEvent *event);
 
 private:
     Render *m_renderer;

@@ -849,7 +849,6 @@ void MainWindow::slotConnectMonitors()
     connect(m_projectList, SIGNAL(deleteProjectClips(QStringList, QMap<QString, QString>)), this, SLOT(slotDeleteProjectClips(QStringList, QMap<QString, QString>)));
     connect(m_projectList, SIGNAL(showClipProperties(DocClipBase *)), this, SLOT(slotShowClipProperties(DocClipBase *)));
     connect(m_projectList, SIGNAL(showClipProperties(QList <DocClipBase *>, QMap<QString, QString>)), this, SLOT(slotShowClipProperties(QList <DocClipBase *>, QMap<QString, QString>)));
-    connect(m_projectList, SIGNAL(getFileProperties(const QDomElement, const QString &, int, bool)), m_projectMonitor->render, SLOT(getFileProperties(const QDomElement, const QString &, int, bool)));
     connect(m_projectMonitor->render, SIGNAL(replyGetImage(const QString &, const QString &, int, int)), m_projectList, SLOT(slotReplyGetImage(const QString &, const QString &, int, int)));
     connect(m_projectMonitor->render, SIGNAL(replyGetImage(const QString &, const QImage &)), m_projectList, SLOT(slotReplyGetImage(const QString &, const QImage &)));
     connect(m_projectMonitor->render, SIGNAL(replyGetFileProperties(const QString &, Mlt::Producer*, const stringMap &, const stringMap &, bool, bool)), m_projectList, SLOT(slotReplyGetFileProperties(const QString &, Mlt::Producer*, const stringMap &, const stringMap &, bool, bool)));

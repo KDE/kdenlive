@@ -70,11 +70,11 @@ KThumb::~KThumb()
 
 void KThumb::setProducer(Mlt::Producer *producer)
 {
-    m_mutex.lock();
     m_requestedThumbs.clear();
     m_intraFramesQueue.clear();
     m_future.waitForFinished();
     m_intra.waitForFinished();
+    m_mutex.lock();
     m_producer = producer;
     // FIXME: the profile() call leaks an object, but trying to free
     // it leads to a double-free in Profile::~Profile()
@@ -103,8 +103,6 @@ void KThumb::updateThumbUrl(const QString &hash)
 void KThumb::updateClipUrl(KUrl url, const QString &hash)
 {
     m_url = url;
-    //if (m_producer)
-        //m_producer->set("resource", url.path().toUtf8().constData());
     m_thumbFile = m_clipManager->projectFolder() + "/thumbs/" + hash + ".thumb";
 }
 
@@ -122,9 +120,7 @@ void KThumb::extractImage(int frame, int frame2)
     if (frame2 != -1 && !m_requestedThumbs.contains(frame2)) m_requestedThumbs.append(frame2);
     qSort(m_requestedThumbs);
     if (!m_future.isRunning()) {
-        m_mutex.lock();
         m_future = QtConcurrent::run(this, &KThumb::doGetThumbs);
-        m_mutex.unlock();
     }
 }
 
@@ -137,16 +133,20 @@ void KThumb::doGetThumbs()
     while (!m_requestedThumbs.isEmpty()) {
         int frame = m_requestedThumbs.takeFirst();
         if (frame != -1) {
-            emit thumbReady(frame, getFrame(m_producer, frame, swidth, dwidth, theight));
+            QImage img = getProducerFrame(frame, swidth, dwidth, theight);
+            emit thumbReady(frame, img);
         }
     }
 }
 
 QPixmap KThumb::extractImage(int frame, int width, int height)
 {
-    m_mutex.lock();
-    QImage img = getFrame(m_producer, frame, (int) (height * m_ratio + 0.5), width, height);
-    m_mutex.unlock();
+    if (m_producer == NULL) {
+        QPixmap p(width, height);
+        p.fill(Qt::black);
+        return p;
+    }
+    QImage img = getProducerFrame(frame, (int) (height * m_ratio + 0.5), width, height);
     return QPixmap::fromImage(img);
 }
 
@@ -166,6 +166,28 @@ QPixmap KThumb::getImage(KUrl url, int frame, int width, int height)
     return pix;
 }
 
+
+QImage KThumb::getProducerFrame(int framepos, int frameWidth, int displayWidth, int height)
+{
+    if (m_producer == NULL || !m_producer->is_valid()) {
+        QImage p(displayWidth, height, QImage::Format_ARGB32_Premultiplied);
+        p.fill(QColor(Qt::red).rgb());
+        return p;
+    }
+    if (m_producer->is_blank()) {
+        QImage p(displayWidth, height, QImage::Format_ARGB32_Premultiplied);
+        p.fill(QColor(Qt::black).rgb());
+        return p;
+    }
+    m_mutex.lock();
+    m_producer->seek(framepos);
+    Mlt::Frame *frame = m_producer->get_frame();
+    QImage p = getFrame(frame, frameWidth, displayWidth, height);
+    delete frame;
+    m_mutex.unlock();
+    return p;
+}
+
 //static
 QImage KThumb::getFrame(Mlt::Producer *producer, int framepos, int frameWidth, int displayWidth, int height)
 {
@@ -174,7 +196,6 @@ QImage KThumb::getFrame(Mlt::Producer *producer, int framepos, int frameWidth, i
         p.fill(QColor(Qt::red).rgb());
         return p;
     }
-
     if (producer->is_blank()) {
         QImage p(displayWidth, height, QImage::Format_ARGB32_Premultiplied);
         p.fill(QColor(Qt::black).rgb());
@@ -478,9 +499,7 @@ void KThumb::queryIntraThumbs(QList <int> missingFrames)
     }
     qSort(m_intraFramesQueue);
     if (!m_intra.isRunning()) {
-        m_mutex.lock();
         m_intra = QtConcurrent::run(this, &KThumb::slotGetIntraThumbs);
-        m_mutex.unlock();
     }
 }
 
@@ -495,7 +514,7 @@ void KThumb::slotGetIntraThumbs()
     while (!m_intraFramesQueue.isEmpty()) {
         int pos = m_intraFramesQueue.takeFirst();
         if (!m_clipManager->pixmapCache->contains(path + QString::number(pos))) {
-            if (m_clipManager->pixmapCache->insertImage(path + QString::number(pos), getFrame(m_producer, pos, frameWidth, displayWidth, theight))) {
+            if (m_clipManager->pixmapCache->insertImage(path + QString::number(pos), getProducerFrame(pos, frameWidth, displayWidth, theight))) {
                 addedThumbs = true;
             }
             else kDebug()<<"// INSERT FAILD FOR: "<<pos;

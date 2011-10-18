@@ -411,17 +411,46 @@ QString DocClipBase::markerComment(GenTime t)
     return QString();
 }
 
-void DocClipBase::deleteProducers(bool clearThumbCreator)
+void DocClipBase::clearThumbProducer()
 {
-    if (clearThumbCreator && m_thumbProd) m_thumbProd->clearProducer();
+    if (m_thumbProd) m_thumbProd->clearProducer();
+}
 
-    delete m_videoOnlyProducer;
+void DocClipBase::deleteProducers()
+{
+    m_thumbProd->clearProducer();
+    
+    if (numReferences() > 0) {
+        // Clip is used in timeline, delay producers deletion
+        if (m_videoOnlyProducer) m_toDeleteProducers.append(m_videoOnlyProducer);
+        for (int i = 0; i < m_baseTrackProducers.count(); i++) {
+            m_toDeleteProducers.append(m_baseTrackProducers.at(i));
+        }
+        for (int i = 0; i < m_audioTrackProducers.count(); i++) {
+            m_toDeleteProducers.append(m_audioTrackProducers.at(i));
+        }
+    }
+    else {
+        delete m_videoOnlyProducer;
+        qDeleteAll(m_baseTrackProducers);
+        qDeleteAll(m_audioTrackProducers);
+        m_replaceMutex.unlock();
+    }
     m_videoOnlyProducer = NULL;
-
-    qDeleteAll(m_baseTrackProducers);
     m_baseTrackProducers.clear();
-    qDeleteAll(m_audioTrackProducers);
     m_audioTrackProducers.clear();
+}
+
+void DocClipBase::cleanupProducers()
+{
+    qDeleteAll(m_toDeleteProducers);
+    m_toDeleteProducers.clear();
+    m_replaceMutex.unlock();
+}
+
+bool DocClipBase::isClean() const
+{
+    return m_toDeleteProducers.isEmpty();
 }
 
 void DocClipBase::setValid()
@@ -432,7 +461,12 @@ void DocClipBase::setValid()
 void DocClipBase::setProducer(Mlt::Producer *producer, bool reset, bool readPropertiesFromProducer)
 {
     if (producer == NULL) return;
-    if (reset) QMutexLocker locker(&m_producerMutex);
+    if (reset) {
+        QMutexLocker locker(&m_producerMutex);
+        m_replaceMutex.lock();
+        deleteProducers();
+    }
+    QString id = producer->get("id");
     if (m_placeHolder || !producer->is_valid()) {
         char *tmp = qstrdup(i18n("Missing clip").toUtf8().constData());
         producer->set("markup", tmp);
@@ -440,21 +474,12 @@ void DocClipBase::setProducer(Mlt::Producer *producer, bool reset, bool readProp
         producer->set("pad", "10");
         delete[] tmp;
     }
-    QString id = producer->get("id");
-    if (m_thumbProd) {
-        if (reset) m_thumbProd->setProducer(NULL);
-        if (!m_thumbProd->hasProducer()) {
-            if (m_clipType != AUDIO) {
-                if (!id.endsWith("_audio"))
-                    m_thumbProd->setProducer(producer);
-            }
-            else m_thumbProd->setProducer(producer);
+    else if (m_thumbProd && !m_thumbProd->hasProducer()) {
+        if (m_clipType != AUDIO) {
+            if (!id.endsWith("_audio"))
+                m_thumbProd->setProducer(producer);
         }
-    }
-    if (reset) {
-        // Clear all previous producers
-        kDebug() << "/+++++++++++++++   DELETE ALL PRODS " << producer->get("id");
-        deleteProducers(false);
+        else m_thumbProd->setProducer(producer);
     }
     bool updated = false;
     if (id.contains('_')) {
@@ -530,7 +555,7 @@ Mlt::Producer *DocClipBase::audioProducer(int track)
         if (i >= m_audioTrackProducers.count()) {
             // Could not find a valid producer for that clip
             locker.unlock();
-            base = producer();
+            base = getProducer();
             if (base == NULL) {
                 return NULL;
             }
@@ -556,7 +581,7 @@ void DocClipBase::adjustProducerProperties(Mlt::Producer *prod, const QString &i
         else if (m_properties.contains("audio_index")) prod->set("audio_index", m_properties.value("audio_index").toInt());
         if (blind) prod->set("video_index", -1);
         else if (m_properties.contains("video_index")) prod->set("video_index", m_properties.value("video_index").toInt());
-        prod->set("id", id.toUtf8().data());
+        prod->set("id", id.toUtf8().constData());
         if (m_properties.contains("force_colorspace")) prod->set("force_colorspace", m_properties.value("force_colorspace").toInt());
         if (m_properties.contains("full_luma")) prod->set("set.force_full_luma", m_properties.value("full_luma").toInt());
         if (m_properties.contains("proxy_out")) {
@@ -581,7 +606,7 @@ Mlt::Producer *DocClipBase::videoProducer()
     return m_videoOnlyProducer;
 }
 
-Mlt::Producer *DocClipBase::producer(int track)
+Mlt::Producer *DocClipBase::getProducer(int track)
 {
     QMutexLocker locker(&m_producerMutex);
     if (track == -1 || (m_clipType != AUDIO && m_clipType != AV && m_clipType != PLAYLIST)) {
@@ -621,9 +646,7 @@ Mlt::Producer *DocClipBase::cloneProducer(Mlt::Producer *source)
     Mlt::Producer *result = NULL;
     QString url = QString::fromUtf8(source->get("resource"));
     if (KIO::NetAccess::exists(KUrl(url), KIO::NetAccess::SourceSide, 0)) {
-        char *tmp = qstrdup(url.toUtf8().constData());
-        result = new Mlt::Producer(*source->profile(), tmp);
-        delete[] tmp;
+        result = new Mlt::Producer(*(source->profile()), url.toUtf8().constData());
     }
     if (result == NULL || !result->is_valid()) {
         // placeholder clip
@@ -632,21 +655,22 @@ Mlt::Producer *DocClipBase::cloneProducer(Mlt::Producer *source)
         result = new Mlt::Producer(*source->profile(), tmp);
         delete[] tmp;
         if (result == NULL || !result->is_valid())
-            result = new Mlt::Producer(*source->profile(), "colour:red");
+            result = new Mlt::Producer(*(source->profile()), "colour:red");
         else {
             result->set("bgcolour", "0xff0000ff");
             result->set("pad", "10");
         }
         return result;
     }
+    /*Mlt::Properties src_props(source->get_properties());
     Mlt::Properties props(result->get_properties());
-    Mlt::Properties src_props(source->get_properties());
-    props.inherit(src_props);
+    props.inherit(src_props);*/
     return result;
 }
 
 void DocClipBase::setProducerProperty(const char *name, int data)
 {
+    QMutexLocker locker(&m_producerMutex);
     for (int i = 0; i < m_baseTrackProducers.count(); i++) {
         if (m_baseTrackProducers.at(i) != NULL)
             m_baseTrackProducers[i]->set(name, data);
@@ -655,6 +679,7 @@ void DocClipBase::setProducerProperty(const char *name, int data)
 
 void DocClipBase::setProducerProperty(const char *name, double data)
 {
+    QMutexLocker locker(&m_producerMutex);
     for (int i = 0; i < m_baseTrackProducers.count(); i++) {
         if (m_baseTrackProducers.at(i) != NULL)
             m_baseTrackProducers[i]->set(name, data);
@@ -663,6 +688,7 @@ void DocClipBase::setProducerProperty(const char *name, double data)
 
 void DocClipBase::setProducerProperty(const char *name, const char *data)
 {
+    QMutexLocker locker(&m_producerMutex);
     for (int i = 0; i < m_baseTrackProducers.count(); i++) {
         if (m_baseTrackProducers.at(i) != NULL)
             m_baseTrackProducers[i]->set(name, data);
@@ -671,6 +697,7 @@ void DocClipBase::setProducerProperty(const char *name, const char *data)
 
 void DocClipBase::resetProducerProperty(const char *name)
 {
+    QMutexLocker locker(&m_producerMutex);
     for (int i = 0; i < m_baseTrackProducers.count(); i++) {
         if (m_baseTrackProducers.at(i) != NULL)
             m_baseTrackProducers[i]->set(name, (const char*) NULL);
@@ -692,10 +719,6 @@ void DocClipBase::slotRefreshProducer()
 {
     if (m_baseTrackProducers.count() == 0) return;
     if (m_clipType == SLIDESHOW) {
-        /*Mlt::Producer producer(*(m_clipProducer->profile()), getProperty("resource").toUtf8().data());
-        delete m_clipProducer;
-        m_clipProducer = new Mlt::Producer(producer.get_producer());
-        if (!getProperty("out").isEmpty()) m_clipProducer->set_in_and_out(getProperty("in").toInt(), getProperty("out").toInt());*/
         setProducerProperty("ttl", getProperty("ttl").toInt());
         //m_clipProducer->set("id", getProperty("id"));
         if (!getProperty("animation").isEmpty()) {

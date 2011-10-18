@@ -122,6 +122,7 @@ private:
     QList <int> m_intraFramesQueue;
     QMutex m_mutex;
     void doGetThumbs();
+    QImage getProducerFrame(int framepos, int frameWidth, int displayWidth, int height);
 
 signals:
     void thumbReady(int, QImage);

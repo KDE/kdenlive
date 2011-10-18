@@ -813,17 +813,16 @@ void Monitor::slotSetXml(DocClipBase *clip, QPoint zone, const int position)
         render->setProducer(NULL, -1);
         return;
     }
-    if (m_currentClip != NULL || clip != NULL) {
-        activateMonitor();
-    }
     if (clip != m_currentClip) {
         m_currentClip = clip;
+        if (m_currentClip) activateMonitor();
         updateMarkers(clip);
-        if (render->setProducer(clip->producer(), position) == -1) {
+        if (render->setProducer(clip->getProducer(), position) == -1) {
             // MLT CONSUMER is broken
             kDebug(QtWarningMsg) << "ERROR, Cannot start monitor";
         }
     } else {
+        if (m_currentClip) activateMonitor();
         if (position != -1) render->seek(position);
     }
     if (!zone.isNull()) {
@@ -1040,9 +1039,9 @@ void MonitorRefresh::setRenderer(Render* render)
     m_renderer = render;
 }
 
-void MonitorRefresh::paintEvent(QPaintEvent *event)
+
+void MonitorRefresh::resizeEvent(QResizeEvent *event)
 {
-    Q_UNUSED(event)
     if (m_renderer) m_renderer->doRefresh();
 }
 

@@ -258,7 +258,7 @@ void ClipManager::resetProducersList(const QList <Mlt::Producer *> prods, bool d
 {
     for (int i = 0; i < m_clipList.count(); i++) {
         if (m_clipList.at(i)->numReferences() > 0 || displayRatioChanged || fpsChanged) {
-            m_clipList.at(i)->deleteProducers(true);
+            m_clipList.at(i)->deleteProducers();
         }
     }
     QString id;

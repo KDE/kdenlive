@@ -99,9 +99,6 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, i
             connect(&m_startThumbTimer, SIGNAL(timeout()), this, SLOT(slotGetStartThumb()));
             m_endThumbTimer.setSingleShot(true);
             connect(&m_endThumbTimer, SIGNAL(timeout()), this, SLOT(slotGetEndThumb()));
-
-            connect(this, SIGNAL(getThumb(int, int)), m_clip, SLOT(slotExtractImage(int, int)));
-
             connect(m_clip->thumbProducer(), SIGNAL(thumbReady(int, QImage)), this, SLOT(slotThumbReady(int, QImage)));
             connect(m_clip, SIGNAL(gotAudioData()), this, SLOT(slotGotAudioData()));
             if (generateThumbs) QTimer::singleShot(200, this, SLOT(slotFetchThumbs()));
@@ -114,7 +111,6 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, i
     } else if (m_clipType == IMAGE || m_clipType == TEXT) {
         m_baseColor = QColor(141, 166, 215);
         if (m_clipType == TEXT) {
-            connect(this, SIGNAL(getThumb(int, int)), m_clip, SLOT(slotExtractImage(int, int)));
             connect(m_clip->thumbProducer(), SIGNAL(thumbReady(int, QImage)), this, SLOT(slotThumbReady(int, QImage)));
         }
         //m_startPix = KThumb::getImage(KUrl(clip->getProperty("resource")), (int)(KdenliveSettings::trackheight() * KdenliveSettings::project_display_ratio()), KdenliveSettings::trackheight());
@@ -570,7 +566,7 @@ void ClipItem::slotFetchThumbs()
     if (m_endPix.isNull() && m_startPix.isNull()) {
         m_startThumbRequested = true;
         m_endThumbRequested = true;
-        emit getThumb((int)m_speedIndependantInfo.cropStart.frames(m_fps), (int)(m_speedIndependantInfo.cropStart + m_speedIndependantInfo.cropDuration).frames(m_fps) - 1);
+        m_clip->slotExtractImage((int)m_speedIndependantInfo.cropStart.frames(m_fps), (int)(m_speedIndependantInfo.cropStart + m_speedIndependantInfo.cropDuration).frames(m_fps) - 1);
     } else {
         if (m_endPix.isNull()) {
             slotGetEndThumb();
@@ -584,13 +580,13 @@ void ClipItem::slotFetchThumbs()
 void ClipItem::slotGetStartThumb()
 {
     m_startThumbRequested = true;
-    emit getThumb((int)m_speedIndependantInfo.cropStart.frames(m_fps), -1);
+    m_clip->slotExtractImage((int)m_speedIndependantInfo.cropStart.frames(m_fps), -1);
 }
 
 void ClipItem::slotGetEndThumb()
 {
     m_endThumbRequested = true;
-    emit getThumb(-1, (int)(m_speedIndependantInfo.cropStart + m_speedIndependantInfo.cropDuration).frames(m_fps) - 1);
+    m_clip->slotExtractImage(-1, (int)(m_speedIndependantInfo.cropStart + m_speedIndependantInfo.cropDuration).frames(m_fps) - 1);
 }
 
 
@@ -1780,7 +1776,7 @@ Mlt::Producer *ClipItem::getProducer(int track, bool trackSpecific)
     else if (isVideoOnly())
         return m_clip->videoProducer();
     else
-        return m_clip->producer(trackSpecific ? track : -1);
+        return m_clip->getProducer(trackSpecific ? track : -1);
 }
 
 QMap<int, QDomElement> ClipItem::adjustEffectsToDuration(int width, int height, ItemInfo oldInfo)

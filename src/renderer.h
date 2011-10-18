@@ -66,6 +66,11 @@ struct requestClipInfo {
     QString clipId;
     int imageHeight;
     bool replaceProducer;
+
+bool operator==(const requestClipInfo &a)
+{
+    return clipId == a.clipId;
+}
 };
 
 class MltErrorEvent : public QEvent
@@ -283,6 +288,18 @@ Q_OBJECT public:
     /** @brief Force processing of clip with selected id. */
     void forceProcessing(const QString &id);
 
+    /** @brief Requests the file properties for the specified URL (will be put in a queue list)
+        @param xml The xml parameters for the clip
+        @param clipId The clip Id string
+        @param imageHeight The height (in pixels) of the returned thumbnail (height of a treewidgetitem in projectlist)
+        @param replaceProducer If true, the MLT producer will be recreated */
+    void getFileProperties(const QDomElement &xml, const QString &clipId, int imageHeight, bool replaceProducer = true);
+
+    /** @brief Lock the MLT service */
+    void lock();
+    /** @brief Unlock the MLT service */
+    void unlock();
+
 private:
 
     /** @brief The name of this renderer.
@@ -349,7 +366,8 @@ private slots:
     void refresh();
     void slotOsdTimeout();
     int connectPlaylist();
-    //void initSceneList();
+    /** @brief Process the clip info requests (in a separate thread). */
+    void processFileProperties();
 
 signals:
 
@@ -403,18 +421,6 @@ public slots:
 
     /** @brief Checks if the file is readable by MLT. */
     bool isValid(KUrl url);
-
-    /** @brief Requests the file properties for the specified URL.
-        @param xml The xml parameters for the clip
-        @param clipId The clip Id string
-        @param imageHeight The height (in pixels) of the returned thumbnail (height of a treewidgetitem in projectlist)
-        @param replaceProducer If true, the MLT producer will be recreated
-        @param selectClip If true, clip item will be selected in project view
-     * Upon return, the result will be emitted via replyGetFileProperties().
-     * Wraps the VEML command of the same name. */
-    void getFileProperties(const QDomElement &xml, const QString &clipId, int imageHeight, bool replaceProducer = true);
-
-    void getFileProperties2();
 
     void exportFileToFirewire(QString srcFileName, int port, GenTime startTime, GenTime endTime);
     void mltSavePlaylist();
