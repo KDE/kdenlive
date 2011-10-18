@@ -443,6 +443,20 @@ void DocClipBase::deleteProducers()
 
 void DocClipBase::cleanupProducers()
 {
+    /*
+    int ct = 0;
+    kDebug()<<"----------------------------------------------------------------------------------";
+    for (int i = 0; i < m_toDeleteProducers.count(); i++) {
+        if (m_toDeleteProducers.at(i) != NULL) {
+            Mlt::Properties props(m_toDeleteProducers.at(i)->get_properties());
+            if (props.ref_count() > 2) {
+                kDebug()<<"PRODUCER: "<<i<<", COUNTS: "<<props.ref_count();
+                //exit(1);
+            }
+            ct++;
+        }
+    }*/
+
     qDeleteAll(m_toDeleteProducers);
     m_toDeleteProducers.clear();
     m_replaceMutex.unlock();
@@ -496,12 +510,14 @@ void DocClipBase::setProducer(Mlt::Producer *producer, bool reset, bool readProp
                 m_audioTrackProducers[pos] = producer;
                 updated = true;
             }
+            else delete producer;
             return;
         } else if (id.endsWith("video")) {
             if (m_videoOnlyProducer == NULL) {
                 m_videoOnlyProducer = producer;
                 updated = true;
             }
+            else delete producer;
             return;
         }
         int pos = id.toInt();
@@ -514,6 +530,7 @@ void DocClipBase::setProducer(Mlt::Producer *producer, bool reset, bool readProp
             m_baseTrackProducers[pos] = producer;
             updated = true;
         }
+        else delete producer;
     } else {
         if (m_baseTrackProducers.isEmpty()) {
             m_baseTrackProducers.append(producer);
@@ -523,6 +540,7 @@ void DocClipBase::setProducer(Mlt::Producer *producer, bool reset, bool readProp
             m_baseTrackProducers[0] = producer;
             updated = true;
         }
+        else delete producer;
     }
     if (updated && readPropertiesFromProducer && (m_clipType != COLOR && m_clipType != IMAGE && m_clipType != TEXT))
         setDuration(GenTime(producer->get_length(), KdenliveSettings::project_fps()));
