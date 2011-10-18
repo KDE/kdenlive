@@ -64,9 +64,9 @@ static void kdenlive_callback(void* /*ptr*/, int level, const char* fmt, va_list
 static void consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr)
 {
     // detect if the producer has finished playing. Is there a better way to do it?
+    self->emitFrameNumber();
     Mlt::Frame frame(frame_ptr);
     if (!frame.is_valid()) return;
-    self->emitFrameNumber(mlt_frame_get_position(frame_ptr));
     if (self->sendFrameForAnalysis && frame_ptr->convert_image) {
         self->emitFrameUpdated(frame);
     }
@@ -107,7 +107,6 @@ Render::Render(const QString & rendererName, int winid, QString profile, QWidget
     m_mltConsumer(NULL),
     m_mltProducer(NULL),
     m_mltProfile(NULL),
-    m_framePosition(0),
     m_externalConsumer(false),
     m_isZoneMode(false),
     m_isLoopMode(false),
@@ -209,7 +208,6 @@ void Render::buildConsumer(const QString &profileName)
                     m_externalConsumer = true;
                     m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
                     m_mltConsumer->set("terminate_on_pause", 0);
-                    m_mltConsumer->set("buffer", 12);
                     m_mltConsumer->set("deinterlace_method", "onefield");
                     m_mltConsumer->set("real_time", KdenliveSettings::mltthreads());
                     mlt_log_set_callback(kdenlive_callback);
@@ -360,16 +358,22 @@ void Render::seek(GenTime time)
 {
     if (!m_mltProducer)
         return;
+
     m_mltProducer->seek((int)(time.frames(m_fps)));
-    refresh();
+    if (m_mltProducer->get_speed() == 0) {
+        refresh();
+    }
 }
 
 void Render::seek(int time)
 {
     if (!m_mltProducer)
         return;
+
     m_mltProducer->seek(time);
-    refresh();
+    if (m_mltProducer->get_speed() == 0) {
+        refresh();
+    }
 }
 
 //static
@@ -1232,25 +1236,6 @@ int Render::connectPlaylist()
     //refresh();
 }
 
-void Render::refreshDisplay()
-{
-
-    if (!m_mltProducer) return;
-    //m_mltConsumer->set("refresh", 0);
-
-    //mlt_properties properties = MLT_PRODUCER_PROPERTIES(m_mltProducer->get_producer());
-    /*if (KdenliveSettings::osdtimecode()) {
-        mlt_properties_set_int( properties, "meta.attr.timecode", 1);
-        mlt_properties_set( properties, "meta.attr.timecode.markup", "#timecode#");
-        m_osdInfo->set("dynamic", "1");
-        m_mltProducer->attach(*m_osdInfo);
-    }
-    else {
-        m_mltProducer->detach(*m_osdInfo);
-        m_osdInfo->set("dynamic", "0");
-    }*/
-    refresh();
-}
 
 int Render::volume() const
 {
@@ -1309,18 +1294,12 @@ void Render::stop()
 {
     if (m_mltProducer == NULL) return;
     if (m_mltConsumer && !m_mltConsumer->is_stopped()) {
-        //kDebug() << "/////////////   RENDER STOPPED: " << m_name;
-        //m_mltConsumer->set("refresh", 0);
         m_mltConsumer->stop();
-        // delete m_mltConsumer;
-        // m_mltConsumer = NULL;
     }
 
     if (m_mltProducer) {
         if (m_isZoneMode) resetZoneMode();
         m_mltProducer->set_speed(0.0);
-        //m_mltProducer->set("out", m_mltProducer->get_length() - 1);
-        //kDebug() << m_mltProducer->get_length();
     }
 }
 
@@ -1342,10 +1321,6 @@ void Render::pause()
     if (m_isZoneMode) resetZoneMode();
     m_mltConsumer->set("refresh", 0);
     m_mltProducer->set_speed(0.0);
-    /*
-    The 2 lines below create a flicker loop
-    emit rendererPosition(m_framePosition);
-    m_mltProducer->seek(m_framePosition);*/
     m_mltConsumer->purge();
 }
 
@@ -1355,15 +1330,17 @@ void Render::switchPlay(bool play)
         return;
     if (m_isZoneMode) resetZoneMode();
     if (play && m_mltProducer->get_speed() == 0.0) {
-        if (m_name == "clip" && m_framePosition == (int) m_mltProducer->get_out()) m_mltProducer->seek(0);
+        if (m_name == "clip" && m_mltConsumer->position() == m_mltProducer->get_out()) m_mltProducer->seek(0);
+        if (m_mltConsumer->is_stopped()) {
+            m_mltConsumer->start();
+        }
+        m_mltConsumer->set("refresh", "1");
         m_mltProducer->set_speed(1.0);
-        m_mltConsumer->set("refresh", 1);
-        if (m_mltConsumer->is_stopped()) m_mltConsumer->start();
     } else if (!play) {
+        m_mltConsumer->set("refresh", 0);
         stop();
-        m_mltConsumer->set("refresh", "0");
-        m_framePosition++;
-        m_mltProducer->seek(m_framePosition);
+        m_mltProducer->seek(m_mltConsumer->position());
+        //emitConsumerStopped();
         /*m_mltConsumer->set("refresh", 0);
         m_mltConsumer->stop();
         m_mltConsumer->purge();
@@ -1431,9 +1408,12 @@ void Render::seekToFrame(int pos)
 {
     if (!m_mltProducer)
         return;
+    
     resetZoneMode();
     m_mltProducer->seek(pos);
-    refresh();
+    if (m_mltProducer->get_speed() == 0) {
+        refresh();
+    }
 }
 
 void Render::seekToFrameDiff(int diff)
@@ -1459,8 +1439,9 @@ void Render::refresh()
     if (!m_mltProducer)
         return;
     if (m_mltConsumer) {
-        m_mltConsumer->set("refresh", 1);
         if (m_mltConsumer->is_stopped()) m_mltConsumer->start();
+        m_mltConsumer->purge();
+        m_mltConsumer->set("refresh", 1);
     }
 }
 
@@ -1516,10 +1497,9 @@ void Render::emitFrameUpdated(Mlt::Frame& frame)
     emit frameUpdated(qimage);
 }
 
-void Render::emitFrameNumber(double position)
+void Render::emitFrameNumber()
 {
-    m_framePosition = position;
-    emit rendererPosition((int) position);
+    if (m_mltConsumer) emit rendererPosition((int) m_mltConsumer->position());
 }
 
 void Render::emitConsumerStopped()
@@ -1567,8 +1547,7 @@ void Render::exportCurrentFrame(KUrl url, bool /*notify*/)
 
 void Render::showFrame(Mlt::Frame& frame)
 {
-    m_framePosition = qMax(frame.get_int("_position"), 0);
-    emit rendererPosition((int) m_framePosition);
+    emit rendererPosition((int) m_mltConsumer->position());
     mlt_image_format format = mlt_image_rgb24a;
     int width = 0;
     int height = 0;
@@ -3995,7 +3974,7 @@ void Render::mltDeleteTrack(int ix)
     }
     tractor.removeChild(track);
     //kDebug() << "/////////// RESULT SCENE: \n" << doc.toString();
-    setSceneList(doc.toString(), m_framePosition);
+    setSceneList(doc.toString(), m_mltConsumer->position());
     emit refreshDocumentProducers(false, false);
 }
 

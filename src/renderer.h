@@ -166,7 +166,7 @@ Q_OBJECT public:
     int seekFramePosition() const;
 
     void emitFrameUpdated(Mlt::Frame&);
-    void emitFrameNumber(double position);
+    void emitFrameNumber();
     void emitConsumerStopped();
 
     /** @brief Returns the aspect ratio of the consumer. */
@@ -177,8 +177,6 @@ Q_OBJECT public:
     /** @brief Saves current producer frame as an image. */
     void exportCurrentFrame(KUrl url, bool notify);
 
-    /** @brief Turns on or off on screen display. */
-    void refreshDisplay();
     /** @brief Change the Mlt PROFILE
      * @param profileName The MLT profile name
      * @param dropSceneList If true, the current playlist will be deleted
@@ -310,7 +308,6 @@ private:
     Mlt::Consumer * m_mltConsumer;
     Mlt::Producer * m_mltProducer;
     Mlt::Profile *m_mltProfile;
-    double m_framePosition;
     double m_fps;
     bool m_externalConsumer;
 

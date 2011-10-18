@@ -1042,6 +1042,7 @@ void MonitorRefresh::setRenderer(Render* render)
 
 void MonitorRefresh::resizeEvent(QResizeEvent *event)
 {
+    Q_UNUSED(event);
     if (m_renderer) m_renderer->doRefresh();
 }
 
