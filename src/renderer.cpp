@@ -1644,6 +1644,7 @@ void Render::mltCheckLength(Mlt::Tractor *tractor)
         }
 
         if (blackclip == NULL || blackTrackPlaylist.count() != 1) {
+            if (blackclip) delete blackclip;
             blackTrackPlaylist.clear();
             m_blackClip->set("length", duration + 1);
             m_blackClip->set("out", duration);
@@ -1880,7 +1881,6 @@ bool Render::mltUpdateClip(ItemInfo info, QDomElement element, Mlt::Producer *pr
     // keep effects
     QList <Mlt::Filter *> filtersList;
     Mlt::Service sourceService(clip->get_service());
-    sourceService.lock();
     int ct = 0;
     Mlt::Filter *filter = sourceService.filter(ct);
     while (filter) {
