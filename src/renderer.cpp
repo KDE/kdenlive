@@ -1518,7 +1518,6 @@ void Render::emitFrameUpdated(Mlt::Frame& frame)
 
 void Render::emitFrameNumber(double position)
 {
-    kDebug()<<"+++++++++++++++++++++++++++++++++++++++\n   "<<m_name<<" GOT POSITION: "<<position<<"\n++++++++++++++++++++++++++";
     m_framePosition = position;
     emit rendererPosition((int) position);
 }
@@ -1891,8 +1890,8 @@ bool Render::mltUpdateClip(ItemInfo info, QDomElement element, Mlt::Producer *pr
         ct++;
         filter = sourceService.filter(ct);
     }
-
-    trackPlaylist.replace_with_blank(clipIndex);
+    delete clip;
+    clip = trackPlaylist.replace_with_blank(clipIndex);
     delete clip;
     prod = checkSlowMotionProducer(prod, element);
     if (prod == NULL || !prod->is_valid()) {
