@@ -201,7 +201,7 @@ Q_OBJECT public:
      */
     Mlt::Producer *checkSlowMotionProducer(Mlt::Producer *prod, QDomElement element);
     int mltInsertClip(ItemInfo info, QDomElement element, Mlt::Producer *prod, bool overwrite = false, bool push = false);
-    bool mltUpdateClip(ItemInfo info, QDomElement element, Mlt::Producer *prod);
+    bool mltUpdateClip(Mlt::Tractor *tractor, ItemInfo info, QDomElement element, Mlt::Producer *prod);
     void mltCutClip(int track, GenTime position);
     void mltInsertSpace(QMap <int, int> trackClipStartList, QMap <int, int> trackTransitionStartList, int track, const GenTime &duration, const GenTime &timeOffset);
     int mltGetSpaceLength(const GenTime &pos, int track, bool fromBlankStart);
@@ -252,7 +252,7 @@ Q_OBJECT public:
     void mltResizeTransparency(int oldStart, int newStart, int newEnd, int track, int id);
     void mltInsertTrack(int ix, bool videoTrack);
     void mltDeleteTrack(int ix);
-    bool mltUpdateClipProducer(int track, int pos, Mlt::Producer *prod);
+    bool mltUpdateClipProducer(Mlt::Tractor *tractor, int track, int pos, Mlt::Producer *prod);
     void mltPlantTransition(Mlt::Field *field, Mlt::Transition &tr, int a_track, int b_track);
     Mlt::Producer *invalidProducer(const QString &id);
 
@@ -294,9 +294,9 @@ Q_OBJECT public:
     void getFileProperties(const QDomElement &xml, const QString &clipId, int imageHeight, bool replaceProducer = true);
 
     /** @brief Lock the MLT service */
-    void lock();
+    Mlt::Tractor *lockService();
     /** @brief Unlock the MLT service */
-    void unlock();
+    void unlockService(Mlt::Tractor *tractor);
 
 private:
 

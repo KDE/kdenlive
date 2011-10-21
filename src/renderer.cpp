@@ -1812,19 +1812,22 @@ void Render::mltCutClip(int track, GenTime position)
 
 }
 
-void Render::lock()
+Mlt::Tractor *Render::lockService()
 {
-    if (!m_mltProducer) return;
+    if (!m_mltProducer) return NULL;
     Mlt::Service service(m_mltProducer->parent().get_service());
     if (service.type() != tractor_type) {
         kWarning() << "// TRACTOR PROBLEM";
-        return;
+        return NULL;
     }
     service.lock();
+    return new Mlt::Tractor(service);
+    
 }
 
-void Render::unlock()
+void Render::unlockService(Mlt::Tractor *tractor)
 {
+    if (tractor) delete tractor;
     if (!m_mltProducer) return;
     Mlt::Service service(m_mltProducer->parent().get_service());
     if (service.type() != tractor_type) {
@@ -1834,21 +1837,15 @@ void Render::unlock()
     service.unlock();
 }
 
-bool Render::mltUpdateClip(ItemInfo info, QDomElement element, Mlt::Producer *prod)
+bool Render::mltUpdateClip(Mlt::Tractor *tractor, ItemInfo info, QDomElement element, Mlt::Producer *prod)
 {
     // TODO: optimize
-    if (prod == NULL) {
+    if (prod == NULL || tractor == NULL) {
         kDebug() << "Cannot update clip with null producer //////";
         return false;
     }
 
-    Mlt::Service service(m_mltProducer->parent().get_service());
-    if (service.type() != tractor_type) {
-        kWarning() << "// TRACTOR PROBLEM";
-        return false;
-    }
-    Mlt::Tractor tractor(service);
-    Mlt::Producer trackProducer(tractor.track(tractor.count() - 1 - info.track));
+    Mlt::Producer trackProducer(tractor->track(tractor->count() - 1 - info.track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
     int startPos = info.startPos.frames(m_fps);
     int clipIndex = trackPlaylist.get_clip_index_at(startPos);
@@ -3164,35 +3161,26 @@ bool Render::mltMoveClip(int startTrack, int endTrack, GenTime moveStart, GenTim
 }
 
 
-bool Render::mltUpdateClipProducer(int track, int pos, Mlt::Producer *prod)
+bool Render::mltUpdateClipProducer(Mlt::Tractor *tractor, int track, int pos, Mlt::Producer *prod)
 {
-    if (prod == NULL || !prod->is_valid()) {
+    if (prod == NULL || !prod->is_valid() || tractor == NULL || !tractor->is_valid()) {
         kDebug() << "// Warning, CLIP on track " << track << ", at: " << pos << " is invalid, cannot update it!!!";
         return false;
     }
-    //kDebug() << "// TRYING TO UPDATE CLIP at: " << pos << ", TK: " << track;
-    Mlt::Service service(m_mltProducer->parent().get_service());
-    if (service.type() != tractor_type) {
-        kWarning() << "// TRACTOR PROBLEM";
-        return false;
-    }
-    service.lock();
-    Mlt::Tractor tractor(service);
-    Mlt::Producer trackProducer(tractor.track(track));
+
+    Mlt::Producer trackProducer(tractor->track(track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
     int clipIndex = trackPlaylist.get_clip_index_at(pos);
     Mlt::Producer *clipProducer = trackPlaylist.replace_with_blank(clipIndex);
     if (clipProducer == NULL || clipProducer->is_blank()) {
         kDebug() << "// ERROR UPDATING CLIP PROD";
         delete clipProducer;
-        service.unlock();
         return false;
     }
     Mlt::Producer *clip = prod->cut(clipProducer->get_in(), clipProducer->get_out());
     if (!clip || !clip->is_valid()) {
         if (clip) delete clip;
         delete clipProducer;
-        service.unlock();
         return false;
     }
     // move all effects to the correct producer
@@ -3200,7 +3188,6 @@ bool Render::mltUpdateClipProducer(int track, int pos, Mlt::Producer *prod)
     trackPlaylist.insert_at(pos, clip, 1);
     delete clip;
     delete clipProducer;
-    service.unlock();
     return true;
 }
 
