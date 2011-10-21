@@ -74,10 +74,12 @@ bool DocumentChecker::hasErrorInClips()
     int clipType;
     QDomElement e;
     QString resource;
+    int max;
     QDomNodeList documentProducers = m_doc.elementsByTagName("producer");
     QList <QDomElement> wrongDurationClips;
     QList <QDomElement> missingProxies;
-    for (int i = 0; i < m_info.count(); i++) {
+    max = m_info.count();
+    for (int i = 0; i < max; i++) {
         e = m_info.item(i).toElement();
         clipType = e.attribute("type").toInt();
         if (clipType == COLOR) continue;
@@ -85,10 +87,13 @@ bool DocumentChecker::hasErrorInClips()
             QString id = e.attribute("id");
             int duration = e.attribute("duration").toInt();
             int mltDuration = -1;
+            QDomElement mltProd;
+            QString prodId;
             // Check that the duration is in sync between Kdenlive's info and MLT's playlist
-            for (int j = 0; j < documentProducers.count(); j++) {
-                QDomElement mltProd = documentProducers.at(j).toElement();
-                QString prodId = mltProd.attribute("id");
+            int prodsCount = documentProducers.count();
+            for (int j = 0; j < prodsCount; j++) {
+                mltProd = documentProducers.at(j).toElement();
+                prodId = mltProd.attribute("id");
                 // Don't check slowmotion clips for now... (TODO?)
                 if (prodId.startsWith("slowmotion")) continue;
                 if (prodId.contains("_")) prodId = prodId.section("_", 0, 0);
@@ -114,11 +119,16 @@ bool DocumentChecker::hasErrorInClips()
             }
         }
         
+        QStringList safeImages;
         if (clipType == TEXT) {
             //TODO: Check is clip template is missing (xmltemplate) or hash changed
             QStringList images = TitleWidget::extractImageList(e.attribute("xmldata"));
             QStringList fonts = TitleWidget::extractFontList(e.attribute("xmldata"));
-            checkMissingImages(images, fonts, e.attribute("id"), e.attribute("name"));
+            // Make sure we don't check the same images twice
+            foreach(const QString &existingImage, safeImages) {
+                images.removeAll(existingImage);
+            }
+            safeImages.append(checkMissingImages(images, fonts, e.attribute("id"), e.attribute("name")));
             continue;
         }
         resource = e.attribute("resource");
@@ -142,20 +152,29 @@ bool DocumentChecker::hasErrorInClips()
         }
     }
 
+    // Get list of used Luma files
     QStringList missingLumas;
+    QStringList filesToCheck;
+    QString filePath;
     QString root = m_doc.documentElement().attribute("root");
     if (!root.isEmpty()) root = KUrl(root).path(KUrl::AddTrailingSlash);
     QDomNodeList trans = m_doc.elementsByTagName("transition");
-    for (int i = 0; i < trans.count(); i++) {
+    max = trans.count();
+    for (int i = 0; i < max; i++) {
         QString luma = getProperty(trans.at(i).toElement(), "luma");
-        if (!luma.isEmpty()) {
-            QString lumaPath = luma;
-            if (!lumaPath.startsWith('/')) lumaPath.prepend(root);
-            if (!QFile::exists(lumaPath) && !missingLumas.contains(luma)) {
-                missingLumas.append(luma);
-            }
+        if (!luma.isEmpty() && !filesToCheck.contains(luma))
+            filesToCheck.append(luma);
+    }
+    // Check existence of luma files
+    foreach (const QString lumafile, filesToCheck) {
+        filePath = lumafile;
+        if (!filePath.startsWith('/')) filePath.prepend(root);
+        if (!QFile::exists(filePath)) {
+            missingLumas.append(lumafile);
         }
     }
+    
+    
 
     if (m_missingClips.isEmpty() && missingLumas.isEmpty() && wrongDurationClips.isEmpty() && missingProxies.isEmpty())
         return false;
@@ -172,7 +191,8 @@ bool DocumentChecker::hasErrorInClips()
     }
 
     m_ui.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
-    for (int i = 0; i < m_missingClips.count(); i++) {
+    max = m_missingClips.count();
+    for (int i = 0; i < max; i++) {
         e = m_missingClips.at(i).toElement();
         QString clipType;
         int t = e.attribute("type").toInt();
@@ -250,8 +270,9 @@ bool DocumentChecker::hasErrorInClips()
     m_ui.recursiveSearch->setEnabled(!m_missingClips.isEmpty() || !missingLumas.isEmpty());
     m_ui.usePlaceholders->setEnabled(!m_missingClips.isEmpty());
     m_ui.fixDuration->setEnabled(!wrongDurationClips.isEmpty());
-        
-    for (int i = 0; i < wrongDurationClips.count(); i++) {
+
+    max = wrongDurationClips.count();
+    for (int i = 0; i < max; i++) {
         e = wrongDurationClips.at(i).toElement();
         QString clipType;
         int t = e.attribute("type").toInt();
@@ -300,7 +321,8 @@ bool DocumentChecker::hasErrorInClips()
         item->setToolTip(0, i18n("Missing proxy"));
     }
 
-    for (int i = 0; i < missingProxies.count(); i++) {
+    max = missingProxies.count();
+    for (int i = 0; i < max; i++) {
         e = missingProxies.at(i).toElement();
         QString clipType;
         QString realPath = e.attribute("resource");
@@ -309,7 +331,8 @@ bool DocumentChecker::hasErrorInClips()
         QDomNodeList properties;
         QDomElement mltProd;
         QDomElement property;
-        for (int j = 0; j < documentProducers.count(); j++) {
+        int prodsCount = documentProducers.count();
+        for (int j = 0; j < prodsCount; j++) {
             mltProd = documentProducers.at(j).toElement();
             QString prodId = mltProd.attribute("id");
             bool slowmotion = false;
@@ -812,9 +835,10 @@ void DocumentChecker::slotDeleteSelected()
     }
 }
 
-void DocumentChecker::checkMissingImages(QStringList images, QStringList fonts, QString id, QString baseClip)
+QStringList DocumentChecker::checkMissingImages(QStringList images, QStringList fonts, QString id, QString baseClip)
 {
     QDomDocument doc;
+    QStringList safeImages;
     foreach(const QString &img, images) {
         if (!KIO::NetAccess::exists(KUrl(img), KIO::NetAccess::SourceSide, 0)) {
             QDomElement e = doc.createElement("missingclip");
@@ -824,6 +848,7 @@ void DocumentChecker::checkMissingImages(QStringList images, QStringList fonts, 
             e.setAttribute("name", baseClip);
             m_missingClips.append(e);
         }
+        else safeImages.append(img);
     }
     kDebug() << "/ / / CHK FONTS: " << fonts;
     foreach(const QString &fontelement, fonts) {
@@ -838,6 +863,7 @@ void DocumentChecker::checkMissingImages(QStringList images, QStringList fonts, 
             m_missingClips.append(e);
         }
     }
+    return safeImages;
 }
 
 
