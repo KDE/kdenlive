@@ -1,0 +1,357 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.2-Based Variant V1.1//EN" "dtd/kdex.dtd" [
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % English "INCLUDE">
+]>
+<book lang="&language;">
+<bookinfo>
+<title>Het Kdenlive Quick Start handboek</title>
+<authorgroup>
+<author>
+<personname>
+    <firstname>Deze handleiding is afgeleid van de KDE UserBase <ulink url=" http://userbase.kde.org/Kdenlive/Manual/QuickStart">Kdenlive/Manual/QuickStart</ulink> page.</firstname>
+<surname></surname>
+</personname>
+    </author>
+<!-- TRANS:ROLES_OF_TRANSLATORS -->
+    </authorgroup>
+<legalnotice>&FDLNotice;</legalnotice>
+<date>2011-06-17</date>
+    <releaseinfo>0.8.2</releaseinfo>
+<abstract>
+<para></para>
+    </abstract>
+    <keywordset>
+<keyword>KDE</keyword>
+<keyword>multimedia</keyword>
+<keyword>video</keyword>
+</keywordset>
+</bookinfo>
+<!--userbase <timestamp>2011-06-17T15:39:59Z</timestamp>-->
+
+<!--userbase-content-->
+<chapter id="creating-a-new-project"><title>Een nieuw project starten</title>
+<para>
+<screenshot>
+<screeninfo></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="Kdenlive_Quickstart-Folder-Structure.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase>Opbouw Kdenlive mappen</phrase>
+    </textobject>
+    <caption>
+      <para>Opbouw Kdenlive mappen</para>
+    </caption>
+  </mediaobject>
+</screenshot></para>
+<para>De eerste stap is een nieuwe (lege) map maken voor ons project. Ik noem het <filename>quickstart-tutorial/</filename> in deze les. Vervolgens moeten we een aantal video clips hebben, en anders download ze van hier:<ulink url="http://granjow.net/uploads/kdenlive/manual/kdenlive-tutorial-videos-2011-avi.tar.bz2">kdenlive-tutorial-videos-2011-avi.tar.bz2</ulink> (7 MB)<footnote><para>Als de voorkeur uitgaat naar Theora (wat waarschijnlijk niet het geval is omdat Ogg Video meestal problemen veroorzaakt), dan kan als alternatief ze ook hier gedownload worden <ulink url="http://granjow.net/uploads/kdenlive/manual/kdenlive-tutorial-videos-2011-ogv.tar.bz2">kdenlive-tutorial-videos-2011-ogv.tar.bz2</ulink>.</para></footnote>, en pak ze vervolgens uit in &eg; een <filename>quickstart-tutorial/Videos/</filename> submap in de project map.</para>
+<para>De afbeelding links toont de voorgestelde mappen-structuur: elk project heeft zijn eigen map, met de video-bestanden in de <filename>Videos</filename> submap, audio-bestanden in de <filename>Audio</filename> map, &etc; (<ulink url="http://userbase.kde.org/Special:myLanguage/Kdenlive/Manual/Projects_and_Files#File_Structure">Lees hier meer daarover</ulink>)</para>
+<para>In deze tutorial wordt ervan uitgegaan dat de gedownloade video's worden gebruikt, maar andere videos kunnen ook gebruikt worden.)</para>
+<para>
+<screenshot>
+<screeninfo></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="Kdenlive_Quickstart-New-Project.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase>Nieuw Project venster</phrase>
+    </textobject>
+    <caption>
+      <para>Nieuw Project venster</para>
+    </caption>
+  </mediaobject>
+</screenshot></para>
+<para>Open <application>Kdenlive</application> en start een een nieuw project (<menuchoice><guimenu>Bestand</guimenu><guimenuitem>Nieuw</guimenuitem></menuchoice>).</para>
+<para>Kies de eerder gemaakte project map (<filename>quickstart-tutorial/</filename>) en kies het juiste projekt-profiel. De video-bestanden die bovengenoemd zijn gegeven zijn 720p, 23.98 fps.<footnote><para><ulink url="http://en.wikipedia.org/wiki/720p">720</ulink> is de hoogte van de video, p betekent <ulink url="http://en.wikipedia.org/wiki/Progressive_scan">Progressive scan</ulink> in tegenstelling tot <ulink url="http://en.wikipedia.org/wiki/Interlaced_video">interlaced video</ulink>, en de fps nummer betekent het aantal volledige frames per seconde.</para></footnote> Als eigen bestanden worden gebruikt en onbekend is welk profiel er moet worden gekozen, dan zal <application>Kdenlive</application> met een voorstel komen wanneer de eerste clip wordt toegevoegd, laat dan deze waarde staan op wat al is ingevuld.</para>
+</chapter>
+<chapter id="adding-clips"><title>Clips toevoegen</title>
+<para>
+<screenshot>
+<screeninfo></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="Kdenlive_Quickstart-Add-Clips.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase>Project boom: voeg een Video clip toe</phrase>
+    </textobject>
+    <caption>
+      <para>Project boom: voeg een video clip toe</para>
+    </caption>
+  </mediaobject>
+</screenshot></para>
+<para>Nu het project is voorbereidt, laten we wat clips gaan toevoegen (&ie; diegene die net zijn gedownloaded). Dit gaat via de <emphasis>Project boom widget</emphasis>; een klik op de <guilabel>Voeg een clip toe</guilabel> icon opent direct een bestands-venster, een klik op het kleine pijltje laat een lijst zien van andere soorten clips die ook geïmporteerd kunnen worden.Video clips, audio clips, afbeeldingen, en andere <application>Kdenlive</application> projecten kunnen geïmporteerd worden via het gewone <guilabel>Voeg een clip toe</guilabel> venster.</para>
+<para>
+<screenshot>
+<screeninfo></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="Kdenlive_Quickstart-Mainwindow.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase>Kdenlive 0.8 window met de tutorial bestanden</phrase>
+    </textobject>
+    <caption>
+      <para>Kdenlive 0.8 window met de tutorial bestanden</para>
+    </caption>
+  </mediaobject>
+</screenshot></para>
+<para>Nadat de clips zijn toegevoegd, zal <application>Kdenlive</application> het eruitzien zoals dit. Linksboven is de al bekende project-boom, Rechts daarvan zijn monitors die video's laten zien; De clip monitor laat de orginele video zien, de project monitor laat het resultaat zien, met alle effecten, overgangen, &etc;. De derde ook erg belangrijk, onderdeel de tijdbalk (onder de monitors): dit is de plek waar de video clips bewerkt zullen worden. Hier zijn twee verschillende soorten tracks, Video en Audio. Video tracks kaunnen elk soort clip bevatten, audio tracks kunnen dat ook - maar wanneer een video bestand in een audio track wordt gestopt, dan zal alleen de audio worden gebruikt.</para>
+<para>
+<screenshot>
+<screeninfo></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="Kdenlive_Quickstart-Save-Project.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase>Een Kdenlive project opslaan</phrase>
+    </textobject>
+    <caption>
+      <para>Een Kdenlive project opslaan</para>
+    </caption>
+  </mediaobject>
+</screenshot></para>
+<para>Laten we het werk opslaan via <menuchoice><guimenu>Bestand</guimenu><guimenuitem>Opslaan</guimenuitem></menuchoice>. Dit bewaart ons project, &ie; waar we de clips op de tijdbalk hebben geplaatst, welke effecten we hebben toegepast, enzovoort. Dit kan nog <emphasis>niet</emphasis> worden afgespeeld.<footnote><para>Om precies te zijn, het <emphasis>kan</emphasis> worden afgespeeld door <screen>melt yourproject.kdenlive</screen> te gebruiken, maar dit is niet de manier waarop je het wilt presenteren omdat het (waarschijnlijk) te langzaam zal zijn. Ook werkt het alleen maar als melt is geïnstalleerd.</para></footnote> Het proces van het maken van de uiteindelijke video wordt <emphasis>Rendering</emphasis> genoemd.</para>
+</chapter>
+<chapter id="timeline"><title>Tijdbalk</title>
+<para>Nu komt het eigenlijke bewerken. De clips worden gecombineerd op de tijdsbalk om tot het uiteindelijke resultaat te komen. Ze kunnen gewoon daar naar toe gesleept worden: sleep enkele Napoli (aangenomen dat de gedownloade bestanden worden gebruikt,) en laat ze los boven de eerste track van de tijdsbalk.</para>
+<para>
+<screenshot>
+<screeninfo></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="Kdenlive_Quickstart-Timeline-Clips.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase>De eerste clips op de tijdsbalk</phrase>
+    </textobject>
+    <caption>
+      <para>De eerste clips in de tijdsbalk</para>
+    </caption>
+  </mediaobject>
+</screenshot></para>
+<para>Er is ook het nodige snijwerk nodig, Laat ook de Spoon op de eerste track vallen. Versleep de Napoli naar het begin van de tijdsbalk (anders begint de gerenderde video met enige seconden zwart), en de Spoon onmiddelijk achter de Napoli, zoals eruit ziet als het beeld links (waar ik heb ingezoomd met <keycombo>&Ctrl;<keycap>Wheel</keycap></keycombo>.)</para>
+<para>
+<screenshot>
+<screeninfo></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="Kdenlive_Quickstart-TimelineCursor.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase>Tijdsbalk cursor</phrase>
+    </textobject>
+    <caption>
+      <para>Tijdsbalk cursor</para>
+    </caption>
+  </mediaobject>
+</screenshot></para>
+<para>Het resultaat kan al gepreviewt worden door op <keycap>Spatie</keycap> te klikken (of op de <guilabel>Afspelen</guilabel> knop bij de project monitor). Napoli wordt getoond, onmiddelijk gevolgt door Spoon. Als de tijdsbalk cursor niet aan het begin staat, dan zal de project monitor ergens in het midden starten met afspelen; dit kan verandert worden door de cursor in de tijdsbalk of in de project monitor te verslepen. Als de voorkeur wordt gegeven aan shortcuts, <keycombo>&Ctrl;<keycap>Home</keycap></keycombo> doet hetzelfde als de monitor in werking is. (Selecteer de <guilabel>Project Monitor</guilabel> als het nog niet is gekozen voordat de shortcut wordt gebruikt.)</para>
+<para>
+<screenshot>
+<screeninfo></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="Kdenlive_Quickstart-Resize-Marker.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase>Markering verschalen</phrase>
+    </textobject>
+    <caption>
+      <para>Markering verschalen</para>
+    </caption>
+  </mediaobject>
+</screenshot></para>
+<para>Na het eten komt het spelen, er is een billard clip. voeg ook deze toe aan de tijdsbalk. Er gebeurt de eerste 1,5 seconde niets in de clip, we moeten daarom mischien gaan <guilabel>knippen</guilabel> om te voorkomen dat de video saai wordt. Een makkelijke manier <footnote><para>Op deze manier opgeschreven, geeft het het idee dat er meerdere manieren zijn om een clip te knippen. Dit is eigenlijk waar.</para></footnote> Beweeg hiervoor de cursor op de tijdsbalk naar de gewenste positie (&ie; de positie waar de video geknipt moet worden), versleep vervolgens de linker kant van de clip totdat de resize marker verschijnt. Het klikt aan de tijdsbalk cursor wanneer het er genoeg dichtbij is.</para>
+<para>
+<screenshot>
+<screeninfo></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="Kdenlive_Quickstart-Overlap-Clips.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase>Overlappende clips</phrase>
+    </textobject>
+    <caption>
+      <para>Overlappende clips</para>
+    </caption>
+  </mediaobject>
+</screenshot></para>
+<para>Om een <emphasis>overgang</emphasis> toe te voegen tussen het eten (de Spoon) en billard spelen, hebben de twee clips een overlap nodig. Om precies te zijn: de tweede clip moet onmiddelijk boven of onder de eerste clip zijn en enkele frames later eindigen als de tweede begint. Het is makkelijker als er zover ingezoomt is totdat de markeringen van de afzonderlijke frames zichtbaar zijn; het maakt het ook makkelijker om altijd dezelfde  tijdsduur voor een overgang te krijgen, zoals vijf frames in dit geval.</para>
+<para>Er kan ingezoomt worden door de <guilabel>zoom schuif</guilabel> onderaan het <application>Kdenlive</application> venster te bewegen, of met  <keycombo>&Ctrl;<keycap>muiswiel</keycap></keycombo>. <application>Kdenlive</application> in te zoomen op bij de tijdsbalk cursor, door eerst te klikken op de positie die vergroot moet worden, en vervolgens in te zoomen.</para>
+<para>
+<screenshot>
+<screeninfo></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="Kdenlive-Quickstart-Add-Transition.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase>Overgang markering</phrase>
+    </textobject>
+    <caption>
+      <para>Overgang markering</para>
+    </caption>
+  </mediaobject>
+</screenshot></para>
+<para>Nu de clips elkaar overlappen, kan de overgang worden aangebracht. Dit kan worden gedaan door rechtsklikken op de bovenste clip en vervolgens <guilabel>Overgang toevoegen</guilabel> te kiezen of, makkelijker, door op de hoek rechtsonder van de Spoon clip te klikken. Dit laatste voegt standaard een oplossende overgang toe, wat in dit geval een goed idee is omdat Spoon helemaal niet bedoeld is om af te spelen.</para>
+<para>De oplossende overgang laad de eerste clip vervagen naar de tweede clip.</para>
+<para>
+<screenshot>
+<screeninfo></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="Kdenlive-Quickstart-Add-Last-Clip.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase></phrase>
+    </textobject>
+    <caption>
+      <para></para>
+    </caption>
+  </mediaobject>
+</screenshot></para>
+<para>We gaan nu de laatste clip toevoegen, de Piano, en passen opnieuw een oplossende overgang toe. Wanneer het aan de eerste track van de tijdsbalk is toegevoegd, kan er op de linkeronderhoek worden geklikt om de overgang naar de vorige clip toe te voegen.</para>
+<sect1 id="effects"><title>Effecten</title>
+<para>
+<screenshot>
+<screeninfo></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="Kdenlive_Quickstart-Add-Effect.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase>Effecten lijst</phrase>
+    </textobject>
+    <caption>
+      <para>Effecten lijst</para>
+    </caption>
+  </mediaobject>
+</screenshot></para>
+<para>De Piano kan een kleurtje krijgen door een <emphasis>effect</emphasis> toe te voegen. Selecteer de piano clip, dubbelklik op de <guilabel>RGB instelling</guilabel> effect in de <guilabel>Effecten lijst</guilabel>. Als de lijst niet zichtbaar is, dan kan het ook via <menuchoice><guimenu>Bekijk</guimenu><guimenuitem>Effect Lijst</guimenuitem></menuchoice> ingeschakeld worden.</para>
+<para>
+<screenshot>
+<screeninfo></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="Kdenlive_Quickstart-Effect-Flag.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase></phrase>
+    </textobject>
+    <caption>
+      <para></para>
+    </caption>
+  </mediaobject>
+</screenshot></para>
+<para>Als het effect is aangebracht, dan zal de naam ervan worden toegevoegd aan de clip op de tijdsbalk. De naam ervan is ook te zien in de lijst met <guilabel>Gestapelde effecten</guilabel>.</para>
+<para>
+<screenshot>
+<screeninfo></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="Kdenlive-Quickstart-EffectStack.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase>Effecten stapel met RGB aanpassingen</phrase>
+    </textobject>
+    <caption>
+      <para>Effecten stapel met RGB aanpassingen</para>
+    </caption>
+  </mediaobject>
+</screenshot></para>
+<para>Om de afbeelding een warm geel-oranje kleur te geven, passend bij een comfortabele avond, moet er minder blauw en meer rood en groen komen.</para>
+<para>De waarden in de effecten stapel kunnen veranderd worden via de schuiven (klikken met de middelste muisknop laat het weer terugspringen naar de standaard waarden), of door de waarde direkt in te voeren in het vakje rechts naast de schuiven.</para>
+<para>Effecten kunnen ook worden toegevoegd via de <guilabel>Voeg een nieuw effect toe</guilabel> icoon (linksonder de lijst) in the <guilabel>Effecten stapel</guilabel>; Het verwijst altijd naar de geselecteerde clip op de tijdsbalk. Door de checkbox uit te vinken, worden de effecten tijdelijk uitgeschakeld (maar de instellingen blijven wel bewaard), dit is &eg; handig bij effecten die veel coputerkracht nodig hebben, zodat ze uitgeschakeld kunnen worden bij het editen en weer ingeschakeld kunnen worden bij het renderen.</para>
+<para>Voor sommige effecten,zoals die we hier hebben gebruikt, is het mogelijk om keyframes toe te voegen. Het stopwatch icoon in de afbeelding geeft dit aan. Keyframes kunnen worden gebruikt om de effecten over de tijd een andere instelling te geven. In onze clip maakt het mogelijk om de kleur van de piano te laten veranderen van een warme avond kleur naar een koele nacht kleur.</para>
+<para>
+<screenshot>
+<screeninfo></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="Kdenlive_Quickstart-Keyframes.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase>Keyframes for effects</phrase>
+    </textobject>
+    <caption>
+      <para>Keyframes for effects</para>
+    </caption>
+  </mediaobject>
+</screenshot></para>
+<para>Na het klikken op de <guilabel>keyframe</guilabel> icoon (het stopwatch icoon in de vorige afbeelding), zal de effecten stapel opnieuw worden geordend. Standaard zijn er twee keyframes, een aan het begin van de clip en een aan het eind. Beweeg de cursor op de tijdsbalk naar het eind van de clip op de tijdsbalk, zodat de project monitor de nieuwe kleuren laat zien wanneer de instellingen van de keyframe aan het eind worden veranderd.</para>
+<para>Zorg ervoor dat de laatste keyframe is geselecteerd in de lijst van de effecten stapel. Dan is alles klaar om de piano te overspoelen met een diep blauw.</para>
+<para>Beweeg de cursor over de tijdlijn naar het begin van het project en speel het af via  (met <keycap>Spatie</keycap>, of de <guilabel>Afspelen</guilabel> knop onder de <guilabel>Project Monitor</guilabel>), de piano zou nu volgens wens van kleur moeten veranderen.</para>
+<para>Keyframing was het moeilijkste gedeelte van deze handleiding. Als dit beheerst wordt, dan is de rest van <guilabel>Kdenlive</guilabel> makkelijk!</para>
+</sect1>
+<sect1 id="music"><title>Muziek</title>
+<para>
+<screenshot>
+<screeninfo></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="Kdenlive_Quickstart-Fadeout.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase>Audio fadeout</phrase>
+    </textobject>
+    <caption>
+      <para>Audio fadeout</para>
+    </caption>
+  </mediaobject>
+</screenshot></para>
+<para>Omdat de clips nog geen geluid hebben, laten we op zoek gaan naar wat leuke muziek, in de eigen verzameling of op web pagina's zoals <ulink url="http://www.jamendo.com">Jamendo</ulink>. Nadat de audio clip is toegevoegd, moet deze ook op een audio track op de tijdsbalk geplaatst worden.</para>
+<para>De audio clip kan in lengte verandert worden net zoals dat met de video clips is gedaan. De cursor zal automatisch vastklikken aan het eind van het project. Om een fade out effect toe te voegen aan het eind van de audio clip (behalve als de audio clip precies de juiste lengte heeft) kan er boven de rechterboven (of linkerboven) hoek van de clip op de tijdsbalk en versleep de groene schijf naar de plek waar de fade out zou moeten starten.<footnote><para>Deze groene schijf is een makkelijke manier om het effect  <menuchoice><guimenu>Fade</guimenu><guimenuitem>Fade out</guimenuitem></menuchoice> toe te voegen. Beide manieren geven het zelfde resultaat.</para></footnote></para>
+</sect1>
+</chapter>
+<chapter id="rendering"><title>Renderen</title>
+<para>
+<screenshot>
+<screeninfo></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="Kdenlive_Quickstart-Renderer.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase>Rendering venster</phrase>
+    </textobject>
+    <caption>
+      <para>Rendering venster</para>
+    </caption>
+  </mediaobject>
+</screenshot></para>
+<para>Nog een paar minuten en het project is klaar! Klik op de Render knop (of ga naar <menuchoice><guimenu>Project</guimenu><guimenuitem>Render</guimenuitem></menuchoice>, of druk op <keycombo>&Ctrl;&Enter;</keycombo>) om het venster dat links getoond wordt te krijgen. Kies het gewenste bestandsformaat voor onze nieuwe video met al zijn effecten en overgangen, kies MPEG4 (werkt bijna altijd en overal) en een bitrate van 2000k (hoe hoger de bitrate, des te groter het bestand en des te beter de kwaliteit - maar omdat de bitrate van de input clips al 2000k was, zal een hogere bitrate de kwaliteit niet verbeteren en is daarom onnodig), en klik op de <emphasis>Renderen naar bestand</emphasis> knop.</para>
+<para>
+<screenshot>
+<screeninfo></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="Kdenlive_Quickstart-Rendering.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase>Rendering voortgang</phrase>
+    </textobject>
+    <caption>
+      <para>Rendering voortgang</para>
+    </caption>
+  </mediaobject>
+</screenshot></para>
+<para>De rendering is na enkele secondes klaar en de eerste <application>Kdenlive</application> project is nu compleet. Gefeliciteerd!</para>
+</chapter>
+
+<!--userbase-content-->
+<chapter id="credits">
+<title>Dankbetuigingen en licenties</title>
+    <para>
+Copyright van de documentatie, zie de UserBase
+    <ulink url="http://userbase.kde.org/index.php?title=Kdenlive/Manual/QuickStart&amp;action=history">Kdenlive/Manual/QuickStart page history</ulink></para>
+    <!-- TRANS:CREDIT_FOR_TRANSLATORS -->
+&underFDL;
+</chapter>
+&documentation.index;
+</book>

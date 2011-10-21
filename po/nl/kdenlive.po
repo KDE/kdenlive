@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-07-22 16:43+0300\n"
-"PO-Revision-Date: 2011-07-24 21:19+0200\n"
+"PO-Revision-Date: 2011-09-10 15:01+0200\n"
 "Last-Translator: Ronald <stroet43@zonnet.nl>\n"
 "Language-Team: 07.7 <kde-i18n-doc@kde.org>\n"
 "Language: \n"
@@ -630,11 +630,11 @@ msgstr "Activeer crash-herstel (auto bewaren)"
 #: src/addeffectcommand.cpp:38 src/customtrackview.cpp:1685
 #: src/customtrackview.cpp:1732
 msgid "Add %1"
-msgstr "Voeg %1 toe"
+msgstr "%1 toevoegen"
 
 #: src/mainwindow.cpp:1545
 msgid "Add Clip"
-msgstr "Voeg een clip toe"
+msgstr "Clip toevoegen"
 
 #: src/mainwindow.cpp:1390
 msgid "Add Clip To Selection"
@@ -646,31 +646,31 @@ msgstr "Voeg kleur clip toe"
 
 #: src/mainwindow.cpp:430 rc.cpp:5612
 msgid "Add Effect"
-msgstr "Audio Effect"
+msgstr "Effect toevoegen"
 
 #: src/customruler.cpp:78 src/mainwindow.cpp:1483 src/customtrackview.cpp:5045
 msgid "Add Guide"
-msgstr "Voeg aanwijzing toe"
+msgstr "Aanwijzing toevoegen"
 
 #: src/titlewidget.cpp:389
 msgid "Add Image"
-msgstr "Voeg een afbeelding toe"
+msgstr "Afbeelding toevoegen"
 
 #: src/mainwindow.cpp:1415 src/mainwindow.cpp:2755 src/clipproperties.cpp:676
 msgid "Add Marker"
-msgstr "Voeg een markeerpunt toe"
+msgstr "Markering toevoegen"
 
 #: src/mainwindow.cpp:1432
 msgid "Add Marker/Guide quickly"
-msgstr "Voeg snel markeerpunt toe"
+msgstr "Markering snel toevoegen"
 
 #: rc.cpp:3337 rc.cpp:5367
 msgid "Add Profile"
-msgstr "Voeg een profiel toe"
+msgstr "Profiel toevoegen"
 
 #: src/titlewidget.cpp:383
 msgid "Add Rectangle"
-msgstr "Voeg rechthoek toe"
+msgstr "Rechthoek toevoegen"
 
 #: src/slideshowclip.cpp:37 src/mainwindow.cpp:1553
 msgid "Add Slideshow Clip"
@@ -678,15 +678,15 @@ msgstr "Voeg een dia-show clip toe"
 
 #: src/mainwindow.cpp:1561
 msgid "Add Template Title"
-msgstr "Template naam toevoegen"
+msgstr "Titel-template toevoegen"
 
 #: src/titlewidget.cpp:377
 msgid "Add Text"
-msgstr "Voeg een tekst toe"
+msgstr "Tekst toevoegen"
 
 #: src/mainwindow.cpp:1557
 msgid "Add Title Clip"
-msgstr "Voeg een titel-clip toe"
+msgstr "Titel-clip toevoegen"
 
 #: src/tracksconfigdialog.cpp:86
 msgid "Add Track"
@@ -694,7 +694,7 @@ msgstr "Spoor toevoegen"
 
 #: src/mainwindow.cpp:517
 msgid "Add Transition"
-msgstr "Voeg een overgang toe"
+msgstr "Overgang toevoegen"
 
 #: src/mainwindow.cpp:1405
 msgid "Add Transition To Selection"
@@ -702,12 +702,12 @@ msgstr "Overgang toevoegen aan selectie"
 
 #: rc.cpp:3454 rc.cpp:5484
 msgid "Add chapter"
-msgstr "Voeg een hoofdstuk toe"
+msgstr "Hoofdstuk toevoegen"
 
 #: src/clipmanager.cpp:338 src/addclipcommand.cpp:33
 msgid "Add clip"
 msgid_plural "Add clips"
-msgstr[0] "Voeg een clip toe"
+msgstr[0] "Clip toevoegen"
 msgstr[1] "Voeg clips toe"
 
 #: src/addclipcutcommand.cpp:35
@@ -730,18 +730,18 @@ msgstr "Stof en spikkels aan de video toevoegen, net als in oude films"
 
 #: src/addfoldercommand.cpp:33
 msgid "Add folder"
-msgstr "Voeg een map toe"
+msgstr "Map toevoegen"
 
 #: src/editguidecommand.cpp:33
 msgid "Add guide"
-msgstr "Voeg een aanwijzing toe"
+msgstr "Aanwijzing toevoegen"
 
 #: src/complexparameter.cpp:44 src/editkeyframecommand.cpp:38
 #: src/keyframeedit.cpp:45 src/geometryval.cpp:80 src/geometrywidget.cpp:79
 #: src/geometrywidget.cpp:365 src/simplekeyframes/simplekeyframewidget.cpp:42
 #: src/simplekeyframes/simplekeyframewidget.cpp:128
 msgid "Add keyframe"
-msgstr "Voeg een keyframe toe"
+msgstr "Keyframe toevoegen"
 
 #: rc.cpp:3385 rc.cpp:5415
 msgid "Add keyframes"
@@ -1097,7 +1097,6 @@ msgid "Ascii art library"
 msgstr "Ascii art bibliotheek"
 
 #: rc.cpp:1022
-#| msgid "Aspect ratio:"
 msgid "Aspect ratio"
 msgstr "Beeld verhouding:"
 
@@ -1382,7 +1381,6 @@ msgid "Blur"
 msgstr "Wazig"
 
 #: rc.cpp:1487
-#| msgid "Blur & hide"
 msgid "Blur and hide"
 msgstr "Wazig & verbergen"
 
@@ -2044,7 +2042,6 @@ msgid "Clear cache"
 msgstr "Cache legen"
 
 #: rc.cpp:1024
-#| msgid "Kernel size"
 msgid "Clear center size"
 msgstr "Middelpunt verwijderen"
 
@@ -2477,7 +2474,6 @@ msgid "Crop"
 msgstr "Inkorten"
 
 #: rc.cpp:1477
-#| msgid "Crop & transform"
 msgid "Crop and transform"
 msgstr "Inkorten & vervormen"
 
@@ -5349,7 +5345,6 @@ msgid "Nano X"
 msgstr "Nano X"
 
 #: rc.cpp:1020
-#| msgid "Problem editing effect"
 msgid "Natural lens vignetting effect"
 msgstr "Natural lens vignetting effect"
 
@@ -6366,7 +6361,6 @@ msgid "Reached end of project"
 msgstr "Einde van project bereikt"
 
 #: src/documentvalidator.cpp:64
-#| msgid "Reached end of project"
 msgid "Read only project"
 msgstr "Alleen-lezen project"
 
@@ -7877,9 +7871,8 @@ msgid ""
 "your system's locale."
 msgstr ""
 "Het geopende document is met een andere taalinstelling (%1) gemaakt dan dit "
-"systeem. "
-"Het kan alleen geopend en gerenderd worden, bewerken is niet mogelijk tenzij "
-"de taalinstelling van deze computer aangepast wordt."
+"systeem. Het kan alleen geopend en gerenderd worden, bewerken is niet "
+"mogelijk tenzij de taalinstelling van deze computer aangepast wordt."
 
 #: src/kdenlivedoc.cpp:1538
 msgid "The following effects were imported from the project:"
@@ -8592,7 +8585,6 @@ msgid "View"
 msgstr "Bekijk"
 
 #: rc.cpp:1018
-#| msgid "Vignette Effect"
 msgid "Vignette"
 msgstr "Vignette"
 
