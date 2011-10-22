@@ -624,23 +624,38 @@ Mlt::Producer *DocClipBase::videoProducer()
     return m_videoOnlyProducer;
 }
 
-Mlt::Producer *DocClipBase::getCloneProducer(Mlt::Producer *source)
+Mlt::Producer *DocClipBase::getCloneProducer()
 {
-    QMutexLocker locker(&m_producerMutex);
-    if (source == NULL) {
-        for (int i = 0; i < m_baseTrackProducers.count(); i++) {
-            if (m_baseTrackProducers.at(i) != NULL) {
-                source = m_baseTrackProducers.at(i);
-                break;
+    Mlt::Producer *source = NULL;
+    Mlt::Producer *prod = NULL;
+    if (m_clipType != AUDIO && m_clipType != AV && m_clipType != PLAYLIST) {
+        source = getProducer();
+        if (!source) return NULL;
+    }
+    if (m_clipType == COLOR) {
+        prod = new Mlt::Producer(*(source->profile()), 0, QString("colour:" + QString(source->get("resource"))).toUtf8().constData());
+    } else if (m_clipType == TEXT) {
+        prod = new Mlt::Producer(*(source->profile()), 0, QString("kdenlivetitle:" + QString(source->get("resource"))).toUtf8().constData());
+        if (prod && prod->is_valid() && m_properties.contains("xmldata"))
+            prod->set("xmldata", m_properties.value("xmldata").toUtf8().constData());
+    }
+    if (!prod) {
+        if (!source) {
+            QMutexLocker locker(&m_producerMutex);
+            for (int i = 0; i < m_baseTrackProducers.count(); i++) {
+                if (m_baseTrackProducers.at(i) != NULL) {
+                    source = m_baseTrackProducers.at(i);
+                    break;
+                }
             }
+            if (!source) return NULL;
         }
+        prod = cloneProducer(source);
     }
-    if (source) {
-        Mlt::Producer *prod = cloneProducer(source);
+    if (prod) {
         adjustProducerProperties(prod, getId() + "_monitor", false, false);
-        return prod;
     }
-    return NULL;
+    return prod;
 }
 
 Mlt::Producer *DocClipBase::getProducer(int track)

@@ -121,7 +121,7 @@ Q_OBJECT public:
     /** Retrieve a producer for a track */
     Mlt::Producer *getProducer(int track = -1);
     /** Get a copy of the producer, for use in the clip monitor */
-    Mlt::Producer *getCloneProducer(Mlt::Producer *source = NULL);
+    Mlt::Producer *getCloneProducer();
     /** Retrieve the producer that shows only video */
     Mlt::Producer *videoProducer();
     /** Retrieve the producer that shows only audio */

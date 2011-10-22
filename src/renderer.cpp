@@ -1839,7 +1839,12 @@ void Render::mltCutClip(int track, GenTime position)
 
 Mlt::Tractor *Render::lockService()
 {
+    // we are going to replace some clips, purge consumer
     if (!m_mltProducer) return NULL;
+    if (m_mltConsumer) {
+        if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
+        m_mltConsumer->purge();
+    }
     Mlt::Service service(m_mltProducer->parent().get_service());
     if (service.type() != tractor_type) {
         kWarning() << "// TRACTOR PROBLEM";
