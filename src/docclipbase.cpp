@@ -163,11 +163,6 @@ const QString &DocClipBase::getId() const
     return m_id;
 }
 
-void DocClipBase::setId(const QString &newId)
-{
-    m_id = newId;
-}
-
 const CLIPTYPE & DocClipBase::clipType() const
 {
     return m_clipType;
@@ -653,7 +648,7 @@ Mlt::Producer *DocClipBase::getCloneProducer()
         prod = cloneProducer(source);
     }
     if (prod) {
-        adjustProducerProperties(prod, getId() + "_monitor", false, false);
+        adjustProducerProperties(prod, getId() + "_", false, false);
     }
     return prod;
 }

@@ -82,7 +82,6 @@ Q_OBJECT public:
 
     /** Returns the internal unique id of the clip. */
     const QString &getId() const;
-    void setId(const QString &newId);
 
     //KThumb *thumbCreator;
     bool audioThumbCreated() const;

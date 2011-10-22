@@ -121,6 +121,7 @@ private:
     /** @brief List of frame numbers from which we want to extract thumbnails. */
     QList <int> m_intraFramesQueue;
     QMutex m_mutex;
+    QMutex m_listMutex;
     void doGetThumbs();
     QImage getProducerFrame(int framepos, int frameWidth, int displayWidth, int height);
 

@@ -977,13 +977,14 @@ int Render::setProducer(Mlt::Producer *producer, int position)
     QString currentId;
     int consumerPosition = 0;
     if (m_winid == -1) return -1;
+    if (m_mltProducer) m_mltProducer->set_speed(0);
     if (m_mltConsumer) {
+        m_mltConsumer->set("refresh", 0);
+        m_mltConsumer->purge();
         consumerPosition = m_mltConsumer->position();
         if (!m_mltConsumer->is_stopped()) {
             m_mltConsumer->stop();
-            m_mltConsumer->purge();
         }
-        m_mltConsumer->set("refresh", 0);
     }
     else {
         return -1;
@@ -991,7 +992,6 @@ int Render::setProducer(Mlt::Producer *producer, int position)
 
     if (m_mltProducer) {
         currentId = m_mltProducer->get("id");
-        m_mltProducer->set_speed(0);
         delete m_mltProducer;
         m_mltProducer = NULL;
         emit stopped();

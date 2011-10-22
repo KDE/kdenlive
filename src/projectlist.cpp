@@ -523,8 +523,8 @@ void ProjectList::slotReloadClip(const QString &id)
                     e.setAttribute("length", length);
                 }
             }
-            m_render->getFileProperties(e, item->clipId(), m_listView->iconSize().height(), true);
             resetThumbsProducer(clip);
+            m_render->getFileProperties(e, item->clipId(), m_listView->iconSize().height(), true);
         }
     }
 }
@@ -1085,8 +1085,8 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
         m_listView->processLayout();
         QDomElement e = clip->toXML().cloneNode().toElement();
         e.removeAttribute("file_hash");
-        m_render->getFileProperties(e, clip->getId(), m_listView->iconSize().height(), true);
         resetThumbsProducer(clip);
+        m_render->getFileProperties(e, clip->getId(), m_listView->iconSize().height(), true);
     }
     else if (item->hasProxy() && !item->isProxyRunning()) {
         slotCreateProxy(clip->getId());
@@ -1154,6 +1154,7 @@ void ProjectList::slotGotProxy(ProjectItem *item)
             e.setAttribute("length", length);
         }
     }
+    resetThumbsProducer(clip);
     m_render->getFileProperties(e, clip->getId(), m_listView->iconSize().height(), true);
 }
 
@@ -1237,8 +1238,8 @@ void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged)
                         xml.removeAttribute("proxy_out");
                     }
                     bool replace = xml.attribute("replace") == "1";
-                    m_render->getFileProperties(xml, clip->getId(), m_listView->iconSize().height(), replace);
                     if (replace) resetThumbsProducer(clip);
+                    m_render->getFileProperties(xml, clip->getId(), m_listView->iconSize().height(), replace);
                 }
                 else {
                     item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsDropEnabled);
@@ -1641,7 +1642,8 @@ void ProjectList::resetThumbsProducer(DocClipBase *clip)
 {
     if (!clip) return;
     clip->clearThumbProducer();
-    m_thumbnailQueue.removeAll(clip->getId());
+    QString id = clip->getId();
+    m_thumbnailQueue.removeAll(id);
 }
 
 void ProjectList::slotProcessNextThumbnail()

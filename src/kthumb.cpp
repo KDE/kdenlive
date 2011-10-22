@@ -57,7 +57,9 @@ KThumb::KThumb(ClipManager *clipManager, KUrl url, const QString &id, const QStr
 
 KThumb::~KThumb()
 {
+    m_listMutex.lock();
     m_requestedThumbs.clear();
+    m_listMutex.unlock();
     m_intraFramesQueue.clear();
     if (m_audioThumbProducer.isRunning()) {
         m_stopAudioThumbs = true;
@@ -70,7 +72,9 @@ KThumb::~KThumb()
 
 void KThumb::setProducer(Mlt::Producer *producer)
 {
+    m_listMutex.lock();
     m_requestedThumbs.clear();
+    m_listMutex.unlock();
     m_intraFramesQueue.clear();
     m_future.waitForFinished();
     m_intra.waitForFinished();
@@ -116,9 +120,11 @@ QPixmap KThumb::getImage(KUrl url, int width, int height)
 void KThumb::extractImage(int frame, int frame2)
 {
     if (!KdenliveSettings::videothumbnails() || m_producer == NULL) return;
+    m_listMutex.lock();
     if (frame != -1 && !m_requestedThumbs.contains(frame)) m_requestedThumbs.append(frame);
     if (frame2 != -1 && !m_requestedThumbs.contains(frame2)) m_requestedThumbs.append(frame2);
     qSort(m_requestedThumbs);
+    m_listMutex.unlock();
     if (!m_future.isRunning()) {
         m_future = QtConcurrent::run(this, &KThumb::doGetThumbs);
     }
@@ -131,7 +137,9 @@ void KThumb::doGetThumbs()
     const int dwidth = (int)(theight * m_dar + 0.5);
 
     while (!m_requestedThumbs.isEmpty()) {
+        m_listMutex.lock();
         int frame = m_requestedThumbs.takeFirst();
+        m_listMutex.unlock();
         if (frame != -1) {
             QImage img = getProducerFrame(frame, swidth, dwidth, theight);
             emit thumbReady(frame, img);
