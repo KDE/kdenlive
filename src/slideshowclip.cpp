@@ -23,6 +23,7 @@
 #include <KStandardDirs>
 #include <KDebug>
 #include <KFileItem>
+#include <kdeversion.h>
 
 #include <QDir>
 
@@ -262,7 +263,13 @@ void SlideshowClip::slotGenerateThumbs()
             }
         }
     }
-    m_thumbJob = new KIO::PreviewJob(fileList, 50, 0, 0, 0, true, true, 0);
+#if KDE_IS_VERSION(4,7,0)
+    m_thumbJob = new KIO::PreviewJob(fileList, QSize(50, 50));
+    m_thumbJob->setScaleType(KIO::PreviewJob::Scaled);
+#else
+    m_thumbJob = new KIO::PreviewJob(fileList, 50, 0, 0, 0, true, false, 0);
+#endif
+
     m_thumbJob->setAutoDelete(false);
     connect(m_thumbJob, SIGNAL(gotPreview(const KFileItem &, const QPixmap &)), this, SLOT(slotSetPixmap(const KFileItem &, const QPixmap &)));
     m_thumbJob->start();
