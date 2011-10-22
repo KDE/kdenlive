@@ -341,6 +341,8 @@ private:
     void setThumbnail(const QString &clipId, const QPixmap &pix);
     /** @brief Get cached thumbnail for a project's clip or create it if no cache. */
     void getCachedThumbnail(ProjectItem *item);
+    /** @brief The clip is about to be reloaded, cancel thumbnail requests. */
+    void resetThumbsProducer(DocClipBase *clip);
 
 private slots:
     void slotClipSelected();
@@ -393,7 +395,7 @@ signals:
     void loadingIsOver();
     void displayMessage(const QString, int progress);
     void clipNameChanged(const QString, const QString);
-    void clipNeedsReload(const QString&, bool);
+    void clipNeedsReload(const QString&);
     /** @brief A property affecting display was changed, so we need to update monitors and thumbnails
      *  @param id: The clip's id string
      *  @param resetThumbs Should we recreate the timeline thumbnails. */
@@ -404,6 +406,8 @@ signals:
     /** @brief Request a profile change for current document. */
     void updateProfile(const QString &);
     void processNextThumbnail();
+    /** @brief Activate the clip monitor. */
+    void raiseClipMonitor();
 };
 
 #endif

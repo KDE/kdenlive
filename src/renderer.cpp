@@ -565,8 +565,10 @@ void Render::getFileProperties(const QDomElement &xml, const QString &clipId, in
     info.imageHeight = imageHeight;
     info.replaceProducer = replaceProducer;
     // Make sure we don't request the info for same clip twice
+    m_infoMutex.lock();
     m_requestList.removeAll(info);
     m_requestList.append(info);
+    m_infoMutex.unlock();
     if (!m_infoThread.isRunning())
         m_infoThread = QtConcurrent::run(this, &Render::processFileProperties);
 }
@@ -595,6 +597,21 @@ int Render::processingItems() const
     return count;
 }
 
+bool Render::isProcessing(const QString &id)
+{
+    if (m_processingClipId == id) return true;
+    m_infoMutex.lock();
+    for (int i = 0; i < m_requestList.count(); i++) {
+        requestClipInfo info = m_requestList.at(i);
+        if (info.clipId == id) {
+            m_infoMutex.unlock();
+            return true;
+        }
+    }
+    m_infoMutex.unlock();
+    return false;
+}
+
 void Render::processFileProperties()
 {
     requestClipInfo info;
@@ -603,7 +620,7 @@ void Render::processFileProperties()
         m_infoMutex.lock();
         info = m_requestList.takeFirst();
         m_infoMutex.unlock();
-        if (info.replaceProducer) emit blockClipMonitor(info.clipId);
+        m_processingClipId = info.clipId;
         QString path;
         bool proxyProducer;
         if (info.xml.hasAttribute("proxy") && info.xml.attribute("proxy") != "-") {
@@ -644,6 +661,7 @@ void Render::processFileProperties()
             }
             else emit removeInvalidClip(info.clipId, info.replaceProducer);
             delete producer;
+            m_processingClipId.clear();
             continue;
         }
 
@@ -654,6 +672,7 @@ void Render::processFileProperties()
                 // Proxy file length is different than original clip length, this will corrupt project so disable this proxy clip
                 emit removeInvalidProxy(info.clipId, true);
                 delete producer;
+                m_processingClipId.clear();
                 continue;
             }
         }
@@ -734,6 +753,7 @@ void Render::processFileProperties()
         if ((!info.replaceProducer && info.xml.hasAttribute("file_hash")) || proxyProducer) {
             // Clip  already has all properties
             emit replyGetFileProperties(info.clipId, producer, stringMap(), stringMap(), info.replaceProducer, true);
+            m_processingClipId.clear();
             continue;
         }
 
@@ -830,6 +850,7 @@ void Render::processFileProperties()
                         variance = -1;
                     }
                 } while (variance == -1);
+                delete frame;
                 if (frameNumber > -1) filePropertyMap["thumbnail"] = frameNumber;
                 emit replyGetImage(info.clipId, img);
             } else if (frame->get_int("test_audio") == 0) {
@@ -837,7 +858,6 @@ void Render::processFileProperties()
                 filePropertyMap["type"] = "audio";
             }
         }
-        delete frame;
         // Retrieve audio / video codec name
 
         // If there is a
@@ -909,6 +929,7 @@ void Render::processFileProperties()
         producer->seek(0);
         emit replyGetFileProperties(info.clipId, producer, filePropertyMap, metadataPropertyMap, info.replaceProducer);
     }
+    m_processingClipId.clear();
 }
 
 
@@ -952,10 +973,12 @@ void Render::initSceneList()
 
 int Render::setProducer(Mlt::Producer *producer, int position)
 {
-    kDebug()<<"//////////\n SET CLIP PRODUCER  \n//////////";
     QMutexLocker locker(&m_mutex);
+    QString currentId;
+    int consumerPosition = 0;
     if (m_winid == -1) return -1;
     if (m_mltConsumer) {
+        consumerPosition = m_mltConsumer->position();
         if (!m_mltConsumer->is_stopped()) {
             m_mltConsumer->stop();
             m_mltConsumer->purge();
@@ -967,6 +990,7 @@ int Render::setProducer(Mlt::Producer *producer, int position)
     }
 
     if (m_mltProducer) {
+        currentId = m_mltProducer->get("id");
         m_mltProducer->set_speed(0);
         delete m_mltProducer;
         m_mltProducer = NULL;
@@ -974,13 +998,15 @@ int Render::setProducer(Mlt::Producer *producer, int position)
     }
     blockSignals(true);
     if (producer && producer->is_valid()) {
-        m_mltProducer = new Mlt::Producer(producer->get_producer());
+        m_mltProducer = producer;
     } else m_mltProducer = m_blackClip->cut(0, 1);
 
     if (!m_mltProducer || !m_mltProducer->is_valid()) {
         kDebug() << " WARNING - - - - -INVALID PLAYLIST: ";
         return -1;
     }
+    if (position == -1 && m_mltProducer->get("id") == currentId) position = consumerPosition;
+    if (position != -1) m_mltProducer->seek(position);
     int volume = KdenliveSettings::volume();
     m_mltProducer->set("meta.volume", (double)volume / 100);
     m_fps = m_mltProducer->get_fps();
@@ -990,10 +1016,7 @@ int Render::setProducer(Mlt::Producer *producer, int position)
         return error;
     }
 
-    if (position != -1) {
-        m_mltProducer->seek(position);
-        emit rendererPosition(position);
-    } else emit rendererPosition((int) m_mltProducer->position());
+    emit rendererPosition((int) m_mltProducer->position());
     return error;
 }
 
@@ -1280,6 +1303,7 @@ void Render::start()
         kDebug() << "-----  BROKEN MONITOR: " << m_name << ", RESTART";
         return;
     }
+
     if (m_mltConsumer && m_mltConsumer->is_stopped()) {
         if (m_mltConsumer->start() == -1) {
             //KMessageBox::error(qApp->activeWindow(), i18n("Could not create the video preview window.\nThere is something wrong with your Kdenlive install or your driver settings, please fix it."));
@@ -1338,8 +1362,8 @@ void Render::switchPlay(bool play)
         m_mltProducer->set_speed(1.0);
     } else if (!play) {
         m_mltConsumer->set("refresh", 0);
-        stop();
         m_mltProducer->seek(m_mltConsumer->position());
+        stop();
         //emitConsumerStopped();
         /*m_mltConsumer->set("refresh", 0);
         m_mltConsumer->stop();
@@ -1477,7 +1501,8 @@ GenTime Render::seekPosition() const
 
 int Render::seekFramePosition() const
 {
-    if (m_mltProducer) return (int) m_mltProducer->position();
+    //if (m_mltProducer) return (int) m_mltProducer->position();
+    if (m_mltConsumer) return (int) m_mltConsumer->position();
     return 0;
 }
 
@@ -1827,7 +1852,9 @@ Mlt::Tractor *Render::lockService()
 
 void Render::unlockService(Mlt::Tractor *tractor)
 {
-    if (tractor) delete tractor;
+    if (tractor) {
+        delete tractor;
+    }
     if (!m_mltProducer) return;
     Mlt::Service service(m_mltProducer->parent().get_service());
     if (service.type() != tractor_type) {

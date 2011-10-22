@@ -106,7 +106,6 @@ Q_OBJECT public:
     void seek(GenTime time);
     void seek(int time);
     void seekToFrameDiff(int diff);
-    int m_isBlocked;
 
     QPixmap getImageThumbnail(KUrl url, int width, int height);
 
@@ -285,6 +284,8 @@ Q_OBJECT public:
     int processingItems() const;
     /** @brief Force processing of clip with selected id. */
     void forceProcessing(const QString &id);
+    /** @brief Are we currently processing clip with selected id. */
+    bool isProcessing(const QString &id);
 
     /** @brief Requests the file properties for the specified URL (will be put in a queue list)
         @param xml The xml parameters for the clip
@@ -342,6 +343,8 @@ private:
     void mltPasteEffects(Mlt::Producer *source, Mlt::Producer *dest);
     QMap<QString, QString> mltGetTransitionParamsFromXml(QDomElement xml);
     QMap<QString, Mlt::Producer *> m_slowmotionProducers;
+    /** @brief The id of the clip that is currently being loaded for info query */
+    QString m_processingClipId;
 
     /** @brief Build the MLT Consumer object with initial settings.
      *  @param profileName The MLT profile to use for the consumer */
@@ -397,9 +400,6 @@ signals:
      */
     void removeInvalidProxy(const QString &id, bool durationError);
     void refreshDocumentProducers(bool displayRatioChanged, bool fpsChanged);
-    
-    /** @brief If we will delete the producer, make sure to pause the monitor */
-    void blockClipMonitor(const QString &);
 
     /** @brief A frame's image has to be shown.
      *

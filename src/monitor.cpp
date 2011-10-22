@@ -59,7 +59,6 @@ Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget
     m_selectedClip(NULL),
     m_loopClipTransition(true),
     m_editMarker(NULL)
-
 {
     QVBoxLayout *layout = new QVBoxLayout;
     layout->setContentsMargins(0, 0, 0, 0);
@@ -804,10 +803,17 @@ void Monitor::slotLoopClip()
     m_playAction->setIcon(m_pauseIcon);
 }
 
-void Monitor::slotSetXml(DocClipBase *clip, QPoint zone, const int position)
+void Monitor::updateClipProducer(Mlt::Producer *prod)
+{
+    if (render == NULL) return;
+    render->setProducer(prod, render->seekFramePosition());
+}
+
+void Monitor::slotSetClipProducer(DocClipBase *clip, QPoint zone, int position)
 {
     if (render == NULL) return;
     if (clip == NULL && m_currentClip != NULL) {
+        kDebug()<<"// SETTING NULL CLIP MONITOR";
         m_currentClip = NULL;
         m_length = -1;
         render->setProducer(NULL, -1);
@@ -817,13 +823,18 @@ void Monitor::slotSetXml(DocClipBase *clip, QPoint zone, const int position)
         m_currentClip = clip;
         if (m_currentClip) activateMonitor();
         updateMarkers(clip);
-        if (render->setProducer(clip->getProducer(), position) == -1) {
+        Mlt::Producer *prod = NULL;
+        if (clip) prod = clip->getCloneProducer();
+        if (render->setProducer(prod, position) == -1) {
             // MLT CONSUMER is broken
             kDebug(QtWarningMsg) << "ERROR, Cannot start monitor";
         }
     } else {
-        if (m_currentClip) activateMonitor();
-        if (position != -1) render->seek(position);
+        if (m_currentClip) {
+            activateMonitor();
+            if (position == -1) position = render->seekFramePosition();
+            render->seek(position);
+        }
     }
     if (!zone.isNull()) {
         m_ruler->setZone(zone.x(), zone.y());

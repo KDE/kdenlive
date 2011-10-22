@@ -624,6 +624,25 @@ Mlt::Producer *DocClipBase::videoProducer()
     return m_videoOnlyProducer;
 }
 
+Mlt::Producer *DocClipBase::getCloneProducer(Mlt::Producer *source)
+{
+    QMutexLocker locker(&m_producerMutex);
+    if (source == NULL) {
+        for (int i = 0; i < m_baseTrackProducers.count(); i++) {
+            if (m_baseTrackProducers.at(i) != NULL) {
+                source = m_baseTrackProducers.at(i);
+                break;
+            }
+        }
+    }
+    if (source) {
+        Mlt::Producer *prod = cloneProducer(source);
+        adjustProducerProperties(prod, getId() + "_monitor", false, false);
+        return prod;
+    }
+    return NULL;
+}
+
 Mlt::Producer *DocClipBase::getProducer(int track)
 {
     QMutexLocker locker(&m_producerMutex);

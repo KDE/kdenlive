@@ -222,13 +222,14 @@ QImage KThumb::getFrame(Mlt::Frame *frame, int frameWidth, int displayWidth, int
     int ow = frameWidth;
     int oh = height;
     mlt_image_format format = mlt_image_rgb24a;
-    uint8_t *data = frame->get_image(format, ow, oh, 0);
-    QImage image((uchar *)data, ow, oh, QImage::Format_ARGB32_Premultiplied);
+    
+    const uchar* imagedata = frame->get_image(format, ow, oh);
+    QImage image(imagedata, ow, oh, QImage::Format_ARGB32_Premultiplied);
+    
     if (!image.isNull()) {
         if (ow > (2 * displayWidth)) {
             // there was a scaling problem, do it manually
-            QImage scaled = image.scaled(displayWidth, height);
-            image = scaled.rgbSwapped();
+            image = image.scaled(displayWidth, height).rgbSwapped();
         } else {
             image = image.scaled(displayWidth, height, Qt::IgnoreAspectRatio).rgbSwapped();
         }

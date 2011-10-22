@@ -160,7 +160,7 @@ ProjectList::ProjectList(QWidget *parent) :
     connect(this, SIGNAL(processNextThumbnail()), this, SLOT(slotProcessNextThumbnail()));
     connect(m_listView, SIGNAL(projectModified()), this, SIGNAL(projectModified()));
     connect(m_listView, SIGNAL(itemSelectionChanged()), this, SLOT(slotClipSelected()));
-    connect(m_listView, SIGNAL(focusMonitor()), this, SLOT(slotClipSelected()));
+    connect(m_listView, SIGNAL(focusMonitor()), this, SIGNAL(raiseClipMonitor()));
     connect(m_listView, SIGNAL(pauseMonitor()), this, SLOT(slotPauseMonitor()));
     connect(m_listView, SIGNAL(requestMenu(const QPoint &, QTreeWidgetItem *)), this, SLOT(slotContextMenu(const QPoint &, QTreeWidgetItem *)));
     connect(m_listView, SIGNAL(addClip()), this, SLOT(slotAddClip()));
@@ -500,8 +500,8 @@ void ProjectList::slotReloadClip(const QString &id)
         item = static_cast <ProjectItem *>(selected.at(i));
         if (item && !item->isProxyRunning()) {
             DocClipBase *clip = item->referencedClip();
-            if (!clip->isClean()) {
-                // The clip is currently under processing (replacement in timeline), we cannot reload it now.
+            if (!clip || !clip->isClean() || m_render->isProcessing(item->clipId())) {
+                kDebug()<<"//// TRYING TO RELOAD: "<<item->clipId()<<", but it is busy";
                 continue;
             }
             CLIPTYPE t = item->clipType();
@@ -523,10 +523,8 @@ void ProjectList::slotReloadClip(const QString &id)
                     e.setAttribute("length", length);
                 }
             }
-            if (clip) {
-                clip->clearThumbProducer();
-            }
             m_render->getFileProperties(e, item->clipId(), m_listView->iconSize().height(), true);
+            resetThumbsProducer(clip);
         }
     }
 }
@@ -579,7 +577,7 @@ void ProjectList::slotMissingClip(const QString &id)
             }
             item->referencedClip()->setProducer(newProd, true);
             item->slotSetToolTip();
-            emit clipNeedsReload(id, true);
+            emit clipNeedsReload(id);
         }
     }
     update();
@@ -1087,8 +1085,8 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
         m_listView->processLayout();
         QDomElement e = clip->toXML().cloneNode().toElement();
         e.removeAttribute("file_hash");
-        clip->clearThumbProducer();
         m_render->getFileProperties(e, clip->getId(), m_listView->iconSize().height(), true);
+        resetThumbsProducer(clip);
     }
     else if (item->hasProxy() && !item->isProxyRunning()) {
         slotCreateProxy(clip->getId());
@@ -1145,11 +1143,6 @@ void ProjectList::slotGotProxy(ProjectItem *item)
 {
     if (item == NULL || !m_refreshed) return;
     DocClipBase *clip = item->referencedClip();
-    if (!clip->isClean()) {
-        //WARNING: might result in clip said marked as proxy but not using proxy?
-        // The clip is currently under processing (replacement in timeline), we cannot reload it now.
-        return;
-    }
     // Proxy clip successfully created
     QDomElement e = clip->toXML().cloneNode().toElement();
 
@@ -1161,7 +1154,6 @@ void ProjectList::slotGotProxy(ProjectItem *item)
             e.setAttribute("length", length);
         }
     }
-    clip->clearThumbProducer();
     m_render->getFileProperties(e, clip->getId(), m_listView->iconSize().height(), true);
 }
 
@@ -1245,8 +1237,8 @@ void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged)
                         xml.removeAttribute("proxy_out");
                     }
                     bool replace = xml.attribute("replace") == "1";
-                    if (replace) clip->clearThumbProducer();
                     m_render->getFileProperties(xml, clip->getId(), m_listView->iconSize().height(), replace);
+                    if (replace) resetThumbsProducer(clip);
                 }
                 else {
                     item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsDropEnabled);
@@ -1645,6 +1637,13 @@ void ProjectList::requestClipThumbnail(const QString id)
     slotProcessNextThumbnail();
 }
 
+void ProjectList::resetThumbsProducer(DocClipBase *clip)
+{
+    if (!clip) return;
+    clip->clearThumbProducer();
+    m_thumbnailQueue.removeAll(clip->getId());
+}
+
 void ProjectList::slotProcessNextThumbnail()
 {
     if (m_render->processingItems() > 0) {
@@ -1725,7 +1724,7 @@ void ProjectList::slotRefreshMonitor()
         if (m_listView->currentItem() && m_listView->currentItem()->type() != PROJECTFOLDERTYPE) {
             ProjectItem *item = static_cast <ProjectItem*>(m_listView->currentItem());
             DocClipBase *clip = item->referencedClip();
-            if (clip && clip->isClean()) emit clipSelected(clip);
+            if (clip && clip->isClean() && !m_render->isProcessing(item->clipId())) emit clipSelected(clip);
         }
     }
 }
@@ -1749,8 +1748,8 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
             }
             item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsDropEnabled);
         }
-        clip->setProducer(producer, replace);
         item->setProperties(properties, metadata);
+        clip->setProducer(producer, replace);
         clip->askForAudioThumbs();
         if (refreshThumbnail) getCachedThumbnail(item);
         // Proxy stuff
@@ -1808,18 +1807,17 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
         processNextThumbnail();
     }
     if (replace && item) {
-        if (item->numReferences() > 0) toReload = clipId;
-        else item->referencedClip()->cleanupProducers();
+        toReload = clipId;
         // update clip in clip monitor
-        if (queue == 0 && item->isSelected() && m_listView->selectedItems().count() == 1)
-            m_refreshMonitorTimer.start();
+        /*if (queue == 0 && item->isSelected() && m_listView->selectedItems().count() == 1)
+            m_refreshMonitorTimer.start();*/
     }
     if (!item) {
         // no item for producer, delete it
         delete producer;
     }
     if (!toReload.isEmpty())
-        emit clipNeedsReload(toReload, true);
+        emit clipNeedsReload(toReload);
 }
 
 bool ProjectList::adjustProjectProfileToItem(ProjectItem *item)
@@ -2601,12 +2599,15 @@ void ProjectList::slotProxyCurrentItem(bool doProxy)
             CLIPTYPE t = item->clipType();
             if ((t == VIDEO || t == AV || t == UNKNOWN || t == IMAGE || t == PLAYLIST) && item->referencedClip()) {
                 if ((doProxy && item->hasProxy()) || (!doProxy && !item->hasProxy())) continue;
-                oldProps = item->referencedClip()->properties();
+                DocClipBase *clip = item->referencedClip();
+                if (!clip->isClean() || m_render->isProcessing(item->clipId())) continue;
+                resetThumbsProducer(clip);
+                oldProps = clip->properties();
                 if (doProxy) {
                     newProps.clear();
-                    QString path = proxydir + item->referencedClip()->getClipHash() + "." + (t == IMAGE ? "png" : m_doc->getDocumentProperty("proxyextension"));
+                    QString path = proxydir + clip->getClipHash() + "." + (t == IMAGE ? "png" : m_doc->getDocumentProperty("proxyextension"));
                     // insert required duration for proxy
-                    newProps.insert("proxy_out", item->referencedClip()->producerProperty("out"));
+                    newProps.insert("proxy_out", clip->producerProperty("out"));
                     newProps.insert("proxy", path);
                     // We need to insert empty proxy so that undo will work
                     oldProps.insert("proxy", QString());

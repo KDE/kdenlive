@@ -4200,12 +4200,9 @@ void CustomTrackView::slotUpdateClip(const QString &clipId, bool reload)
             }
         }
     }
-    m_document->renderer()->unlockService(tractor);
     for (int i = 0; i < clipList.count(); i++)
         clipList.at(i)->refreshClip(true, true);
-    if (baseClip) {
-        baseClip->cleanupProducers();
-    }
+    m_document->renderer()->unlockService(tractor);
 }
 
 ClipItem *CustomTrackView::getClipItemAtEnd(GenTime pos, int track)

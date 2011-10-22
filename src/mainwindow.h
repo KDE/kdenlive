@@ -544,8 +544,8 @@ private slots:
     void slotInsertNotesTimecode();
     /** @brief Open the project's backupdialog. */
     void slotOpenBackupDialog(const KUrl url = KUrl());
-    /** @brief Make sure to block clip monitor before deleting a clip's producer. */
-    void slotBlockClipMonitor(const QString id);
+    /** @brief Make sure to update clip monitor before deleting a clip's producer. */
+    void slotReplyGetFileProperties(const QString &clipId, Mlt::Producer *producer, const stringMap &properties, const stringMap &metadata, bool replace, bool refreshThumbnail);
     /** @brief Disable proxies for this project. */
     void slotDisableProxies();
 

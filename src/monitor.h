@@ -176,6 +176,7 @@ private:
     /** true if selected clip is transition, false = selected clip is clip.
      *  Necessary because sometimes we get two signals, e.g. we get a clip and we get selected transition = NULL. */
     bool m_loopClipTransition;
+
 #if defined(Q_WS_MAC) || defined(USE_OPEN_GL)
     VideoGLWidget *m_glWidget;
     bool createOpenGlWidget(QWidget *parent, const QString profile);
@@ -207,7 +208,8 @@ private slots:
 
 public slots:
     void slotOpenFile(const QString &);
-    void slotSetXml(DocClipBase *clip, QPoint zone = QPoint(), const int position = -1);
+    void slotSetClipProducer(DocClipBase *clip, QPoint zone = QPoint(), int position = -1);
+    void updateClipProducer(Mlt::Producer *prod);
     void refreshMonitor(bool visible);
     void refreshMonitor();
     void slotSeek(int pos);
