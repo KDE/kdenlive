@@ -372,7 +372,7 @@ private slots:
 signals:
 
     /** @brief The renderer received a reply to a getFileProperties request. */
-    void replyGetFileProperties(const QString &clipId, Mlt::Producer*, const stringMap &, const stringMap &, bool replaceProducer, bool refreshThumbnail = false);
+    void replyGetFileProperties(const QString &clipId, Mlt::Producer*, const stringMap &, const stringMap &, bool replaceProducer);
 
     /** @brief The renderer received a reply to a getImage request. */
     void replyGetImage(const QString &, const QString &, int, int);

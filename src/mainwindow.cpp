@@ -840,6 +840,7 @@ void MainWindow::slotAddEffect(const QDomElement effect)
 void MainWindow::slotUpdateClip(const QString &id)
 {
     if (!m_activeDocument) return;
+    kDebug()<<"//\n\n RECIEVED UPDATED PRODUCER FOR: "<<id<<"\n\n--------------------";
     DocClipBase *clip = m_activeDocument->clipManager()->getClipById(id);
     if (clip->numReferences() > 0) m_activeTimeline->projectView()->slotUpdateClip(id);
     if (m_clipMonitor->activeClip() && m_clipMonitor->activeClip()->getId() == id) {
@@ -859,7 +860,7 @@ void MainWindow::slotConnectMonitors()
     connect(m_projectList, SIGNAL(showClipProperties(QList <DocClipBase *>, QMap<QString, QString>)), this, SLOT(slotShowClipProperties(QList <DocClipBase *>, QMap<QString, QString>)));
     connect(m_projectMonitor->render, SIGNAL(replyGetImage(const QString &, const QString &, int, int)), m_projectList, SLOT(slotReplyGetImage(const QString &, const QString &, int, int)));
     connect(m_projectMonitor->render, SIGNAL(replyGetImage(const QString &, const QImage &)), m_projectList, SLOT(slotReplyGetImage(const QString &, const QImage &)));
-    connect(m_projectMonitor->render, SIGNAL(replyGetFileProperties(const QString &, Mlt::Producer*, const stringMap &, const stringMap &, bool, bool)), this, SLOT(slotReplyGetFileProperties(const QString &, Mlt::Producer*, const stringMap &, const stringMap &, bool, bool)));
+    connect(m_projectMonitor->render, SIGNAL(replyGetFileProperties(const QString &, Mlt::Producer*, const stringMap &, const stringMap &, bool)), m_projectList, SLOT(slotReplyGetFileProperties(const QString &, Mlt::Producer*, const stringMap &, const stringMap &, bool)));
 
     connect(m_projectMonitor->render, SIGNAL(removeInvalidClip(const QString &, bool)), m_projectList, SLOT(slotRemoveInvalidClip(const QString &, bool)));
     
@@ -4385,12 +4386,6 @@ void MainWindow::slotOpenBackupDialog(const KUrl url)
     }
     delete dia;
 }
-
-void MainWindow::slotReplyGetFileProperties(const QString &clipId, Mlt::Producer *producer, const stringMap &properties, const stringMap &metadata, bool replace, bool refreshThumbnail)
-{
-    m_projectList->slotReplyGetFileProperties(clipId, producer, properties, metadata, replace, refreshThumbnail);
-}
-
 
 void MainWindow::slotElapsedTime()
 {

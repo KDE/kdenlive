@@ -748,20 +748,30 @@ void Render::processFileProperties()
 
         if (info.xml.hasAttribute("templatetext"))
             producer->set("templatetext", info.xml.attribute("templatetext").toUtf8().constData());
+
+        int imageWidth = (int)((double) info.imageHeight * m_mltProfile->width() / m_mltProfile->height() + 0.5);
+        int fullWidth = (int)((double) info.imageHeight * m_mltProfile->dar() + 0.5);
+        int frameNumber = info.xml.attribute("thumbnail", "-1").toInt();
         
         if ((!info.replaceProducer && info.xml.hasAttribute("file_hash")) || proxyProducer) {
             // Clip  already has all properties
-            emit replyGetFileProperties(info.clipId, producer, stringMap(), stringMap(), info.replaceProducer, true);
+            if (proxyProducer) {
+                // Recreate clip thumb
+                if (frameNumber > 0) producer->seek(frameNumber);
+                Mlt::Frame *frame = producer->get_frame();
+                if (frame && frame->is_valid()) {
+                    QImage img = KThumb::getFrame(frame, imageWidth, fullWidth, info.imageHeight);
+                    delete frame;
+                    emit replyGetImage(info.clipId, img);
+                }
+            }
+            emit replyGetFileProperties(info.clipId, producer, stringMap(), stringMap(), info.replaceProducer);
             m_processingClipId.clear();
             continue;
         }
 
-        int imageWidth = (int)((double) info.imageHeight * m_mltProfile->width() / m_mltProfile->height() + 0.5);
-        int fullWidth = (int)((double) info.imageHeight * m_mltProfile->dar() + 0.5);
         stringMap filePropertyMap;
         stringMap metadataPropertyMap;
-
-        int frameNumber = info.xml.attribute("thumbnail", "-1").toInt();
         if (frameNumber > 0) producer->seek(frameNumber);
         
         duration = duration > 0 ? duration : producer->get_playtime();

@@ -242,7 +242,7 @@ public slots:
     void updateAllClips(bool displayRatioChanged, bool fpsChanged);
     void slotReplyGetImage(const QString &clipId, const QImage &img);
     void slotReplyGetImage(const QString &clipId, const QString &name, int width, int height);
-    void slotReplyGetFileProperties(const QString &clipId, Mlt::Producer *producer, const stringMap &properties, const stringMap &metadata, bool replace, bool refreshThumbnail);
+    void slotReplyGetFileProperties(const QString &clipId, Mlt::Producer *producer, const stringMap &properties, const stringMap &metadata, bool replace);
     void slotAddClip(DocClipBase *clip, bool getProperties);
     void slotDeleteClip(const QString &clipId);
     void slotUpdateClip(const QString &id);
@@ -309,7 +309,6 @@ private:
     QList <PROXYINFO> m_proxyList;
     QFutureSynchronizer<void> m_proxyThreads;
     InvalidDialog *m_invalidClipDialog;
-    QTimer m_refreshMonitorTimer;
     
     void requestClipThumbnail(const QString id);
 
@@ -382,9 +381,7 @@ private slots:
     /** @brief Stop creation of this clip's proxy. */
     void slotAbortProxy(const QString id, const QString path);
     /** @brief Start creation of proxy clip. */
-    void slotGenerateProxy();//const QString destPath, const QString sourcePath, int clipType, int exif);
-    /** @brief Timer triggering a refresh of the clip monitor. */
-    void slotRefreshMonitor();
+    void slotGenerateProxy();
 
 signals:
     void clipSelected(DocClipBase *, QPoint zone = QPoint());
