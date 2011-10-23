@@ -840,7 +840,6 @@ void MainWindow::slotAddEffect(const QDomElement effect)
 void MainWindow::slotUpdateClip(const QString &id)
 {
     if (!m_activeDocument) return;
-    kDebug()<<"//\n\n RECIEVED UPDATED PRODUCER FOR: "<<id<<"\n\n--------------------";
     DocClipBase *clip = m_activeDocument->clipManager()->getClipById(id);
     if (clip->numReferences() > 0) m_activeTimeline->projectView()->slotUpdateClip(id);
     if (m_clipMonitor->activeClip() && m_clipMonitor->activeClip()->getId() == id) {
