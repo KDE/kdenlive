@@ -187,7 +187,6 @@ void Render::buildConsumer(const QString &profileName)
     setenv("MLT_PROFILE", tmp, 1);
     m_mltProfile = new Mlt::Profile(tmp);
     m_mltProfile->set_explicit(true);
-    kDebug()<<"// *********  PROFILE AR: "<<m_mltProfile->dar();
     delete[] tmp;
 
     m_blackClip = new Mlt::Producer(*m_mltProfile, "colour", "black");
@@ -976,26 +975,22 @@ int Render::setProducer(Mlt::Producer *producer, int position)
     QMutexLocker locker(&m_mutex);
     QString currentId;
     int consumerPosition = 0;
-    if (m_winid == -1) return -1;
-    if (m_mltProducer) m_mltProducer->set_speed(0);
-    if (m_mltConsumer) {
-        m_mltConsumer->set("refresh", 0);
-        m_mltConsumer->purge();
-        consumerPosition = m_mltConsumer->position();
-        if (!m_mltConsumer->is_stopped()) {
-            m_mltConsumer->stop();
-        }
+    if (m_winid == -1 || !m_mltConsumer) return -1;
+    m_mltConsumer->set("refresh", 0);
+    if (!m_mltConsumer->is_stopped()) {
+        m_mltConsumer->stop();
     }
-    else {
-        return -1;
-    }
+    m_mltConsumer->purge();
+    consumerPosition = m_mltConsumer->position();
 
     if (m_mltProducer) {
+        m_mltProducer->set_speed(0);
         currentId = m_mltProducer->get("id");
         delete m_mltProducer;
         m_mltProducer = NULL;
         emit stopped();
     }
+
     blockSignals(true);
     if (producer && producer->is_valid()) {
         m_mltProducer = producer;
@@ -1012,11 +1007,15 @@ int Render::setProducer(Mlt::Producer *producer, int position)
     m_fps = m_mltProducer->get_fps();
     blockSignals(false);
     int error = connectPlaylist();
-    if (producer == NULL) {
-        return error;
-    }
 
-    emit rendererPosition((int) m_mltProducer->position());
+    position = m_mltProducer->position();
+    m_mltConsumer->set("refresh", 1);
+    // Make sure the first frame is displayed, otherwise if we change producer too fast
+    // We can crash the avformat producer
+    Mlt::Event *ev = m_mltConsumer->setup_wait_for("consumer-frame-show");
+    m_mltConsumer->wait_for(ev);
+    delete ev;
+    emit rendererPosition(position);
     return error;
 }
 
@@ -1027,6 +1026,7 @@ int Render::setSceneList(QDomDocument list, int position)
 
 int Render::setSceneList(QString playlist, int position)
 {
+    QMutexLocker locker(&m_mutex);
     if (m_winid == -1) return -1;
     int error = 0;
 
@@ -1244,7 +1244,6 @@ double Render::fps() const
 int Render::connectPlaylist()
 {
     if (!m_mltConsumer) return -1;
-    //m_mltConsumer->set("refresh", "0");
     m_mltConsumer->connect(*m_mltProducer);
     m_mltProducer->set_speed(0);
     if (m_mltConsumer->start() == -1) {
@@ -1256,7 +1255,6 @@ int Render::connectPlaylist()
     }
     emit durationChanged(m_mltProducer->get_playtime());
     return 0;
-    //refresh();
 }
 
 
@@ -1299,6 +1297,7 @@ void Render::slotOsdTimeout()
 
 void Render::start()
 {
+    QMutexLocker locker(&m_mutex);
     if (m_winid == -1) {
         kDebug() << "-----  BROKEN MONITOR: " << m_name << ", RESTART";
         return;
@@ -1309,16 +1308,19 @@ void Render::start()
             //KMessageBox::error(qApp->activeWindow(), i18n("Could not create the video preview window.\nThere is something wrong with your Kdenlive install or your driver settings, please fix it."));
             kDebug(QtWarningMsg) << "/ / / / CANNOT START MONITOR";
         } else {
-            refresh();
+            m_mltConsumer->purge();
+            m_mltConsumer->set("refresh", 1);
         }
     }
 }
 
 void Render::stop()
 {
+    QMutexLocker locker(&m_mutex);
     if (m_mltProducer == NULL) return;
     if (m_mltConsumer && !m_mltConsumer->is_stopped()) {
         m_mltConsumer->stop();
+        m_mltConsumer->purge();
     }
 
     if (m_mltProducer) {
@@ -1329,6 +1331,7 @@ void Render::stop()
 
 void Render::stop(const GenTime & startTime)
 {
+    QMutexLocker locker(&m_mutex);
     if (m_mltProducer) {
         if (m_isZoneMode) resetZoneMode();
         m_mltProducer->set_speed(0.0);
@@ -1350,6 +1353,7 @@ void Render::pause()
 
 void Render::switchPlay(bool play)
 {
+    QMutexLocker locker(&m_mutex);
     if (!m_mltProducer || !m_mltConsumer)
         return;
     if (m_isZoneMode) resetZoneMode();
@@ -1361,9 +1365,12 @@ void Render::switchPlay(bool play)
         m_mltConsumer->set("refresh", "1");
         m_mltProducer->set_speed(1.0);
     } else if (!play) {
+        m_mltProducer->set_speed(0.0);
         m_mltConsumer->set("refresh", 0);
         m_mltProducer->seek(m_mltConsumer->position());
-        stop();
+        if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
+        if (m_isZoneMode) resetZoneMode();
+        
         //emitConsumerStopped();
         /*m_mltConsumer->set("refresh", 0);
         m_mltConsumer->stop();
@@ -1452,6 +1459,7 @@ void Render::seekToFrameDiff(int diff)
 void Render::doRefresh()
 {
     // Use a Timer so that we don't refresh too much
+    QMutexLocker locker(&m_mutex);
     if (m_mltConsumer) {
         if (m_mltConsumer->is_stopped()) m_mltConsumer->start();
         m_mltConsumer->set("refresh", 1);
@@ -1460,6 +1468,7 @@ void Render::doRefresh()
 
 void Render::refresh()
 {
+    QMutexLocker locker(&m_mutex);
     if (!m_mltProducer)
         return;
     if (m_mltConsumer) {
@@ -1471,6 +1480,7 @@ void Render::refresh()
 
 void Render::setDropFrames(bool show)
 {
+    QMutexLocker locker(&m_mutex);
     if (m_mltConsumer) {
         int dropFrames = KdenliveSettings::mltthreads();
         if (show == false) dropFrames = -dropFrames;
@@ -1840,6 +1850,7 @@ void Render::mltCutClip(int track, GenTime position)
 Mlt::Tractor *Render::lockService()
 {
     // we are going to replace some clips, purge consumer
+    QMutexLocker locker(&m_mutex);
     if (!m_mltProducer) return NULL;
     if (m_mltConsumer) {
         if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
@@ -4003,6 +4014,7 @@ void Render::updatePreviewSettings()
     kDebug() << "////// RESTARTING CONSUMER";
     if (!m_mltConsumer || !m_mltProducer) return;
     if (m_mltProducer->get_playtime() == 0) return;
+    QMutexLocker locker(&m_mutex);
     Mlt::Service service(m_mltProducer->parent().get_service());
     if (service.type() != tractor_type) return;
 

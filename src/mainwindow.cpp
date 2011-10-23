@@ -843,7 +843,8 @@ void MainWindow::slotUpdateClip(const QString &id)
     DocClipBase *clip = m_activeDocument->clipManager()->getClipById(id);
     if (clip->numReferences() > 0) m_activeTimeline->projectView()->slotUpdateClip(id);
     if (m_clipMonitor->activeClip() && m_clipMonitor->activeClip()->getId() == id) {
-        if (clip) m_clipMonitor->updateClipProducer(clip->getCloneProducer());
+        Mlt::Producer *monitorProducer = clip->getCloneProducer();
+        if (clip) m_clipMonitor->updateClipProducer(monitorProducer);
     }
     if (clip) {
         clip->cleanupProducers();
