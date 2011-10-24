@@ -46,9 +46,9 @@ private slots:
     void slotDeleteSelected();
     QString getProperty(QDomElement effect, const QString &name);
     void setProperty(QDomElement effect, const QString &name, const QString value);
-    QString searchLuma(QString file) const;
+    QString searchLuma(const QString &file) const;
     /** @brief Check if images and fonts in this clip exists, returns a list of images that do exist so we don't check twice. */
-    QStringList checkMissingImages(QStringList images, QStringList fonts, QString id, QString baseClip);
+    void checkMissingImagesAndFonts(QStringList images, QStringList fonts, const QString &id, const QString &baseClip);
     void slotCheckButtons();
     /** @brief Fix duration mismatch issues. */
     void slotFixDuration();
@@ -64,6 +64,8 @@ private:
     QMap <QString, QString> m_missingTitleImages;
     QMap <QString, QString> m_missingTitleFonts;
     QList <QDomElement> m_missingClips;
+    QStringList m_safeImages;
+    QStringList m_safeFonts;
 };
 
 

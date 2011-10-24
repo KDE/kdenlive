@@ -1054,10 +1054,16 @@ void DocumentValidator::updateEffects()
     }
 
     QDomNodeList effects = m_doc.elementsByTagName("filter");
-
-    for(int i = 0; i < effects.count(); ++i) {
+    int max = effects.count();
+    QStringList safeEffects;
+    for(int i = 0; i < max; ++i) {
         QDomElement effect = effects.at(i).toElement();
         QString effectId = EffectsList::property(effect, "kdenlive_id");
+        if (safeEffects.contains(effectId)) {
+            // Do not check the same effect twice if it is at the correct version
+            // (assume we don't have different versions of the same effect in a project file)
+            continue;
+        }
         QString effectTag = EffectsList::property(effect, "tag");
         QString effectVersionStr = EffectsList::property(effect, "version");
         double effectVersion = effectVersionStr.isNull() ? -1 : effectVersionStr.toDouble();
@@ -1124,6 +1130,7 @@ void DocumentValidator::updateEffects()
                     EffectsList::setProperty(effect, "version", QLocale().toString(serviceVersion));
                 }
             }
+            else safeEffects.append(effectId);
         }
     }
 }

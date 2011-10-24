@@ -78,6 +78,8 @@ bool DocumentChecker::hasErrorInClips()
     QDomNodeList documentProducers = m_doc.elementsByTagName("producer");
     QList <QDomElement> wrongDurationClips;
     QList <QDomElement> missingProxies;
+    m_safeImages.clear();
+    m_safeFonts.clear();
     max = m_info.count();
     for (int i = 0; i < max; i++) {
         e = m_info.item(i).toElement();
@@ -119,16 +121,11 @@ bool DocumentChecker::hasErrorInClips()
             }
         }
         
-        QStringList safeImages;
         if (clipType == TEXT) {
             //TODO: Check is clip template is missing (xmltemplate) or hash changed
             QStringList images = TitleWidget::extractImageList(e.attribute("xmldata"));
             QStringList fonts = TitleWidget::extractFontList(e.attribute("xmldata"));
-            // Make sure we don't check the same images twice
-            foreach(const QString &existingImage, safeImages) {
-                images.removeAll(existingImage);
-            }
-            safeImages.append(checkMissingImages(images, fonts, e.attribute("id"), e.attribute("name")));
+            checkMissingImagesAndFonts(images, fonts, e.attribute("id"), e.attribute("name"));
             continue;
         }
         resource = e.attribute("resource");
@@ -459,7 +456,7 @@ void DocumentChecker::slotSearchClips()
 }
 
 
-QString DocumentChecker::searchLuma(QString file) const
+QString DocumentChecker::searchLuma(const QString &file) const
 {
     KUrl searchPath(KdenliveSettings::mltpath());
     if (file.contains("PAL"))
@@ -835,11 +832,11 @@ void DocumentChecker::slotDeleteSelected()
     }
 }
 
-QStringList DocumentChecker::checkMissingImages(QStringList images, QStringList fonts, QString id, QString baseClip)
+void DocumentChecker::checkMissingImagesAndFonts(QStringList images, QStringList fonts, const QString &id, const QString &baseClip)
 {
     QDomDocument doc;
-    QStringList safeImages;
     foreach(const QString &img, images) {
+        if (m_safeImages.contains(img)) continue;
         if (!KIO::NetAccess::exists(KUrl(img), KIO::NetAccess::SourceSide, 0)) {
             QDomElement e = doc.createElement("missingclip");
             e.setAttribute("type", TITLE_IMAGE_ELEMENT);
@@ -848,12 +845,12 @@ QStringList DocumentChecker::checkMissingImages(QStringList images, QStringList 
             e.setAttribute("name", baseClip);
             m_missingClips.append(e);
         }
-        else safeImages.append(img);
+        else m_safeImages.append(img);
     }
-    kDebug() << "/ / / CHK FONTS: " << fonts;
     foreach(const QString &fontelement, fonts) {
+        if (m_safeFonts.contains(fontelement)) continue;
         QFont f(fontelement);
-        kDebug() << "/ / / CHK FONTS: " << fontelement << " = " << QFontInfo(f).family();
+        //kDebug() << "/ / / CHK FONTS: " << fontelement << " = " << QFontInfo(f).family();
         if (fontelement != QFontInfo(f).family()) {
             QDomElement e = doc.createElement("missingclip");
             e.setAttribute("type", TITLE_FONT_ELEMENT);
@@ -862,8 +859,8 @@ QStringList DocumentChecker::checkMissingImages(QStringList images, QStringList 
             e.setAttribute("name", baseClip);
             m_missingClips.append(e);
         }
+        else m_safeFonts.append(fontelement);
     }
-    return safeImages;
 }
 
 
