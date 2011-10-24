@@ -732,7 +732,7 @@ void Monitor::stop()
 
 void Monitor::start()
 {
-    if (render && (m_name != "clip" || m_currentClip != NULL)) render->start();
+    if (render) render->start();
     connect(render, SIGNAL(rendererPosition(int)), this, SLOT(seekCursor(int)));
 }
 
@@ -806,7 +806,7 @@ void Monitor::slotLoopClip()
 void Monitor::updateClipProducer(Mlt::Producer *prod)
 {
     if (render == NULL) return;
-    render->setProducer(prod, render->seekFramePosition());
+   render->setProducer(prod, render->seekFramePosition());
 }
 
 void Monitor::slotSetClipProducer(DocClipBase *clip, QPoint zone, int position)
@@ -819,6 +819,7 @@ void Monitor::slotSetClipProducer(DocClipBase *clip, QPoint zone, int position)
         render->setProducer(NULL, -1);
         return;
     }
+    
     if (clip != m_currentClip) {
         m_currentClip = clip;
         if (m_currentClip) activateMonitor();
@@ -1054,7 +1055,7 @@ void MonitorRefresh::setRenderer(Render* render)
 void MonitorRefresh::resizeEvent(QResizeEvent *event)
 {
     Q_UNUSED(event);
-    if (m_renderer) m_renderer->doRefresh();
+    if (m_renderer && isVisible()) m_renderer->doRefresh();
 }
 
 Overlay::Overlay(QWidget* parent) :
