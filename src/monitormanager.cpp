@@ -26,14 +26,13 @@
 
 #include <QObject>
 #include <QTimer>
-
+#include <KDebug>
 
 MonitorManager::MonitorManager(QWidget *parent) :
         QObject(parent),
         m_clipMonitor(NULL),
         m_projectMonitor(NULL),
-        m_activeMonitor(NULL),
-        m_blocked(false)
+        m_activeMonitor(NULL)
 {
 }
 
@@ -65,7 +64,7 @@ void MonitorManager::removeMonitor(AbstractMonitor *monitor)
 
 void MonitorManager::activateMonitor(QString name)
 {
-    if (m_blocked || m_clipMonitor == NULL || m_projectMonitor == NULL)
+    if (m_clipMonitor == NULL || m_projectMonitor == NULL)
         return;
     if (m_activeMonitor && m_activeMonitor->name() == name)
         return;
@@ -98,7 +97,6 @@ void MonitorManager::slotSwitchMonitors(bool activateClip)
 
 void MonitorManager::stopActiveMonitor()
 {
-    if (m_blocked) return;
     if (m_activeMonitor == m_clipMonitor) m_clipMonitor->pause();
     else m_projectMonitor->pause();
 }
@@ -176,7 +174,6 @@ void MonitorManager::slotEnd()
 
 void MonitorManager::resetProfiles(Timecode tc)
 {
-    if (m_blocked) return;
     m_timecode = tc;
     slotResetProfiles();
     //QTimer::singleShot(300, this, SLOT(slotResetProfiles()));
@@ -184,20 +181,22 @@ void MonitorManager::resetProfiles(Timecode tc)
 
 void MonitorManager::slotResetProfiles()
 {
-    if (m_blocked) return;
     if (m_projectMonitor == NULL || m_clipMonitor == NULL) return;
     blockSignals(true);
     QString active = m_activeMonitor ? m_activeMonitor->name() : QString();
-    activateMonitor("clip");
-    m_clipMonitor->resetProfile(KdenliveSettings::current_profile());
-    m_clipMonitor->updateTimecodeFormat();
-    activateMonitor("project");
-    m_projectMonitor->resetProfile(KdenliveSettings::current_profile());
-    m_projectMonitor->updateTimecodeFormat();
-    //m_projectMonitor->refreshMonitor(true);
+    if (!m_clipMonitor->render->hasProfile(KdenliveSettings::current_profile())) {
+        activateMonitor("clip");
+        m_clipMonitor->resetProfile(KdenliveSettings::current_profile());
+        m_clipMonitor->updateTimecodeFormat();
+    }
+    if (!m_projectMonitor->render->hasProfile(KdenliveSettings::current_profile())) {
+        activateMonitor("project");
+        m_projectMonitor->resetProfile(KdenliveSettings::current_profile());
+        m_projectMonitor->updateTimecodeFormat();
+    }
     if (!active.isEmpty()) activateMonitor(active);
     blockSignals(false);
-    m_activeMonitor->parentWidget()->raise();
+    if (m_activeMonitor) m_activeMonitor->parentWidget()->raise();
     emit checkColorScopes();
 }
 

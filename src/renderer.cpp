@@ -288,10 +288,13 @@ Mlt::Producer *Render::invalidProducer(const QString &id)
     return clip;
 }
 
+bool Render::hasProfile(const QString &profileName) const
+{
+    return m_activeProfile == profileName;
+}
+
 int Render::resetProfile(const QString &profileName, bool dropSceneList)
 {
-    QString scene;
-    if (!dropSceneList) scene = sceneList();
     if (m_mltConsumer) {
         if (m_externalConsumer == KdenliveSettings::external_display()) {
             if (KdenliveSettings::external_display() && m_activeProfile == profileName) return 1;
@@ -312,6 +315,8 @@ int Render::resetProfile(const QString &profileName, bool dropSceneList)
         delete m_mltConsumer;
         m_mltConsumer = NULL;
     }
+    QString scene;
+    if (!dropSceneList) scene = sceneList();
     int pos = 0;
     double current_fps = m_mltProfile->fps();
     double current_dar = m_mltProfile->dar();

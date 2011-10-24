@@ -76,7 +76,6 @@ private:
     Monitor *m_projectMonitor;
     Timecode m_timecode;
     AbstractMonitor *m_activeMonitor;
-    bool m_blocked;
     QList <AbstractMonitor *>m_monitorsList;
 
 signals:

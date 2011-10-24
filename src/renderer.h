@@ -179,8 +179,11 @@ Q_OBJECT public:
     /** @brief Change the Mlt PROFILE
      * @param profileName The MLT profile name
      * @param dropSceneList If true, the current playlist will be deleted
+     * @return true if the profile was changed
      * . */
     int resetProfile(const QString& profileName, bool dropSceneList = false);
+    /** @brief Returns true if the render uses profileName as current profile. */
+    bool hasProfile(const QString& profileName) const;
     double fps() const;
 
     /** @brief Returns the width of a frame for this profile. */
