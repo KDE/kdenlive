@@ -343,6 +343,7 @@ private:
     void setThumbnail(const QString &clipId, const QPixmap &pix);
     /** @brief Get cached thumbnail for a project's clip or create it if no cache. */
     void getCachedThumbnail(ProjectItem *item);
+    void getCachedThumbnail(SubProjectItem *item);
     /** @brief The clip is about to be reloaded, cancel thumbnail requests. */
     void resetThumbsProducer(DocClipBase *clip);
 

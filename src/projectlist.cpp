@@ -1200,6 +1200,26 @@ void ProjectList::getCachedThumbnail(ProjectItem *item)
     else requestClipThumbnail(item->clipId());
 }
 
+void ProjectList::getCachedThumbnail(SubProjectItem *item)
+{
+    if (!item) return;
+    ProjectItem *parentItem = static_cast <ProjectItem *>(item->parent());
+    if (!parentItem) return;
+    DocClipBase *clip = parentItem->referencedClip();
+    if (!clip) return;
+    int pos = item->zone().x();
+    QString cachedPixmap = m_doc->projectFolder().path(KUrl::AddTrailingSlash) + "thumbs/" + clip->getClipHash() + "#" + QString::number(pos) + ".png";
+    if (QFile::exists(cachedPixmap)) {
+        QPixmap pix(cachedPixmap);
+        if (pix.isNull()) {
+            KIO::NetAccess::del(KUrl(cachedPixmap), this);
+            requestClipThumbnail(parentItem->clipId() + '#' + QString::number(pos));
+        }
+        else item->setData(0, Qt::DecorationRole, pix);
+    }
+    else requestClipThumbnail(parentItem->clipId() + '#' + QString::number(pos));
+}
+
 void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged)
 {
     m_listView->setSortingEnabled(false);
@@ -1221,9 +1241,12 @@ void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged)
         if ((*it)->type() == PROJECTSUBCLIPTYPE) {
             // subitem
             SubProjectItem *sub = static_cast <SubProjectItem *>(*it);
-            if (displayRatioChanged || sub->data(0, Qt::DecorationRole).isNull()) {
+            if (displayRatioChanged) {
                 item = static_cast <ProjectItem *>((*it)->parent());
                 requestClipThumbnail(item->clipId() + '#' + QString::number(sub->zone().x()));
+            }
+            else if (sub->data(0, Qt::DecorationRole).isNull()) {
+                getCachedThumbnail(sub);
             }
             ++it;
             continue;
