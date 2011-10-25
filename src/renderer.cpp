@@ -107,6 +107,8 @@ Render::Render(const QString & rendererName, int winid, QString profile, QWidget
     m_mltConsumer(NULL),
     m_mltProducer(NULL),
     m_mltProfile(NULL),
+    m_showFrameEvent(NULL),
+    m_pauseEvent(NULL),
     m_externalConsumer(false),
     m_isZoneMode(false),
     m_isLoopMode(false),
@@ -133,6 +135,8 @@ void Render::closeMlt()
     //delete m_osdTimer;
     m_requestList.clear();
     m_infoThread.waitForFinished();
+    if (m_showFrameEvent) delete m_showFrameEvent;
+    if (m_pauseEvent) delete m_pauseEvent;
     if (m_mltConsumer) delete m_mltConsumer;
     if (m_mltProducer) delete m_mltProducer;
     /*if (m_mltProducer) {
@@ -205,7 +209,7 @@ void Render::buildConsumer(const QString &profileName)
                 delete[] tmp;
                 if (m_mltConsumer->is_valid()) {
                     m_externalConsumer = true;
-                    m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
+                    m_showFrameEvent = m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
                     m_mltConsumer->set("terminate_on_pause", 0);
                     m_mltConsumer->set("deinterlace_method", "onefield");
                     m_mltConsumer->set("real_time", KdenliveSettings::mltthreads());
@@ -233,12 +237,11 @@ void Render::buildConsumer(const QString &profileName)
         m_mltConsumer = new Mlt::Consumer(*m_mltProfile, "sdl_audio");
         m_mltConsumer->set("preview_off", 1);
         m_mltConsumer->set("preview_format", mlt_image_rgb24a);
-        m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_gl_frame_show);
+        m_showFrameEvent = m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_gl_frame_show);
     } else {
         m_mltConsumer = new Mlt::Consumer(*m_mltProfile, "sdl_preview");
-        // FIXME: the event object returned by the listen gets leaked...
-        m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
-        m_mltConsumer->listen("consumer-sdl-paused", this, (mlt_listener) consumer_paused);
+        m_showFrameEvent = m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
+        m_pauseEvent = m_mltConsumer->listen("consumer-sdl-paused", this, (mlt_listener) consumer_paused);
         m_mltConsumer->set("window_id", m_winid);
     }
     m_mltConsumer->set("resize", 1);
@@ -312,6 +315,10 @@ int Render::resetProfile(const QString &profileName, bool dropSceneList)
         if (m_isSplitView) slotSplitView(false);
         if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
         m_mltConsumer->purge();
+        if (m_showFrameEvent) delete m_showFrameEvent;
+        m_showFrameEvent = NULL;
+        if (m_pauseEvent) delete m_pauseEvent;
+        m_pauseEvent = NULL;
         delete m_mltConsumer;
         m_mltConsumer = NULL;
     }
@@ -1264,6 +1271,10 @@ int Render::connectPlaylist()
     if (m_mltConsumer->start() == -1) {
         // ARGH CONSUMER BROKEN!!!!
         KMessageBox::error(qApp->activeWindow(), i18n("Could not create the video preview window.\nThere is something wrong with your Kdenlive install or your driver settings, please fix it."));
+        if (m_showFrameEvent) delete m_showFrameEvent;
+        m_showFrameEvent = NULL;
+        if (m_pauseEvent) delete m_pauseEvent;
+        m_pauseEvent = NULL;
         delete m_mltConsumer;
         m_mltConsumer = NULL;
         return -1;
@@ -1512,7 +1523,7 @@ void Render::setDropFrames(bool show)
     }
 }
 
-double Render::playSpeed()
+double Render::playSpeed() const
 {
     if (m_mltProducer) return m_mltProducer->get_speed();
     return 0.0;

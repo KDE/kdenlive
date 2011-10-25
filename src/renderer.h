@@ -59,6 +59,7 @@ class Producer;
 class Filter;
 class Profile;
 class Service;
+class Event;
 };
 
 struct requestClipInfo {
@@ -158,7 +159,7 @@ Q_OBJECT public:
     /** @brief Returns the speed at which the renderer is currently playing.
      *
      * It returns 0.0 when the renderer is not playing anything. */
-    double playSpeed();
+    double playSpeed() const;
 
     /** @brief Returns the current seek position of the renderer. */
     GenTime seekPosition() const;
@@ -312,6 +313,8 @@ private:
     Mlt::Consumer * m_mltConsumer;
     Mlt::Producer * m_mltProducer;
     Mlt::Profile *m_mltProfile;
+    Mlt::Event *m_showFrameEvent;
+    Mlt::Event *m_pauseEvent;
     double m_fps;
     bool m_externalConsumer;
 
