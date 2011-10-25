@@ -1180,9 +1180,9 @@ int Render::setSceneList(QString playlist, int position)
     kDebug() << "// NEW SCENE LIST DURATION SET TO: " << m_mltProducer->get_playtime();
     m_mltConsumer->connect(*m_mltProducer);
     m_mltProducer->set_speed(0);
-    emit durationChanged(m_mltProducer->get_playtime());
     fillSlowMotionProducers();
     blockSignals(false);
+    emit durationChanged(m_mltProducer->get_playtime());
 
     return error;
     //kDebug()<<"// SETSCN LST, POS: "<<position;
