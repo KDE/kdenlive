@@ -240,7 +240,6 @@ public:
     void clearSelection();
 
 public slots:
-    void slotClipSelected();
     void setDocument(KdenliveDoc *doc);
     void updateAllClips(bool displayRatioChanged, bool fpsChanged);
     void slotReplyGetImage(const QString &clipId, const QImage &img);
@@ -295,6 +294,8 @@ private:
     ItemDelegate *m_listViewDelegate;
     /** @brief False if we have not yet finished opening the document. */
     bool m_refreshed;
+    /** @brief False if we have not yet finished checking all project tree thumbs. */
+    bool m_allClipsProcessed;
     QToolButton *m_addButton;
     QToolButton *m_deleteButton;
     QToolButton *m_editButton;
@@ -348,6 +349,7 @@ private:
     void resetThumbsProducer(DocClipBase *clip);
 
 private slots:
+    void slotClipSelected();
     void slotAddSlideshowClip();
     void slotAddTitleClip();
     void slotAddTitleTemplateClip();

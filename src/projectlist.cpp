@@ -115,6 +115,7 @@ ProjectList::ProjectList(QWidget *parent) :
     m_transcodeAction(NULL),
     m_doc(NULL),
     m_refreshed(false),
+    m_allClipsProcessed(false),
     m_thumbnailQueue(),
     m_abortAllProxies(false),
     m_invalidClipDialog(NULL)
@@ -1172,6 +1173,7 @@ void ProjectList::slotResetProjectList()
     m_listView->clear();
     emit clipSelected(NULL);
     m_refreshed = false;
+    m_allClipsProcessed = false;
     m_abortAllProxies = false;
 }
 
@@ -1197,7 +1199,9 @@ void ProjectList::getCachedThumbnail(ProjectItem *item)
         }
         else item->setData(0, Qt::DecorationRole, pix);
     }
-    else requestClipThumbnail(item->clipId());
+    else {
+        requestClipThumbnail(item->clipId());
+    }
 }
 
 void ProjectList::getCachedThumbnail(SubProjectItem *item)
@@ -1222,8 +1226,8 @@ void ProjectList::getCachedThumbnail(SubProjectItem *item)
 
 void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged)
 {
+    if (!m_allClipsProcessed) m_listView->setEnabled(false);
     m_listView->setSortingEnabled(false);
-
     QTreeWidgetItemIterator it(m_listView);
     DocClipBase *clip;
     ProjectItem *item;
@@ -1236,8 +1240,13 @@ void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged)
     QPainter p(&missingPixmap);
     p.drawPixmap(3, 3, icon.pixmap(width - 6, height - 6));
     p.end();
-    kDebug()<<"//////////////7  UPDATE ALL CLPS";
+    
+    int max = m_doc->clipManager()->clipsCount();
+    max = qMax(1, max);
+    int ct = 0;
+
     while (*it) {
+        emit displayMessage(i18n("Loading thumbnails"), (int)(100 *(max - ct++) / max));
         if ((*it)->type() == PROJECTSUBCLIPTYPE) {
             // subitem
             SubProjectItem *sub = static_cast <SubProjectItem *>(*it);
@@ -1309,6 +1318,7 @@ void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged)
     }
 
     m_listView->setSortingEnabled(true);
+    m_allClipsProcessed = true;
     if (m_render->processingItems() == 0) {
        monitorItemEditing(true);
        slotProcessNextThumbnail();
@@ -1590,6 +1600,7 @@ void ProjectList::setDocument(KdenliveDoc *doc)
     m_listView->setSortingEnabled(false);
     emit clipSelected(NULL);
     m_refreshed = false;
+    m_allClipsProcessed = false;
     m_fps = doc->fps();
     m_timecode = doc->timecode();
     m_commandStack = doc->commandStack();
@@ -1606,7 +1617,11 @@ void ProjectList::setDocument(KdenliveDoc *doc)
     }
 
     QList <DocClipBase*> list = doc->clipManager()->documentClipList();
-    if (list.isEmpty()) m_refreshed = true;
+    if (list.isEmpty()) {
+        // blank document
+        m_refreshed = true;
+        m_allClipsProcessed = true;
+    }
     for (int i = 0; i < list.count(); i++)
         slotAddClip(list.at(i), false);
 
@@ -1648,7 +1663,10 @@ QDomElement ProjectList::producersList()
 void ProjectList::slotCheckForEmptyQueue()
 {
     if (m_render->processingItems() == 0 && m_thumbnailQueue.isEmpty()) {
-        if (!m_refreshed) {
+        if (!m_refreshed && m_allClipsProcessed) {
+            kDebug()<<"// LOADING IS OVER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
+            m_listView->setEnabled(true);
+            slotClipSelected();
             emit loadingIsOver();
             emit displayMessage(QString(), -1);
             m_refreshed = true;
@@ -1755,9 +1773,6 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
     ProjectItem *item = getItemById(clipId);
 
     int queue = m_render->processingItems();
-    if (queue == 0) {
-        m_listView->setEnabled(true);
-    }
     if (item && producer) {
         monitorItemEditing(false);
         DocClipBase *clip = item->referencedClip();
@@ -1799,8 +1814,8 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
             }
         }
 
-        if (!replace && item->data(0, Qt::DecorationRole).isNull()) {
-            requestClipThumbnail(clipId);
+        if (!replace && m_allClipsProcessed && item->data(0, Qt::DecorationRole).isNull()) {
+            getCachedThumbnail(item);
         }
         if (!toReload.isEmpty())
             item->slotSetToolTip();
@@ -1824,7 +1839,7 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
             int max = m_doc->clipManager()->clipsCount();
             emit displayMessage(i18n("Loading clips"), (int)(100 *(max - queue) / max));
         }
-        processNextThumbnail();
+        if (m_allClipsProcessed) processNextThumbnail();
     }
     if (replace && item) {
         toReload = clipId;

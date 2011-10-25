@@ -2459,6 +2459,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     KdenliveSettings::setCurrent_profile(doc->profilePath());
     KdenliveSettings::setProject_fps(doc->fps());
     m_monitorManager->resetProfiles(doc->timecode());
+    m_clipMonitorDock->raise();
     m_projectList->setDocument(doc);
     m_transitionConfig->updateProjectFormat(doc->mltProfile(), doc->timecode(), doc->tracksList());
     m_effectStack->updateProjectFormat(doc->mltProfile(), doc->timecode());
@@ -2570,7 +2571,6 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     //Update the mouse position display so it will display in DF/NDF format by default based on the project setting.
     slotUpdateMousePosition(0);
     m_monitorManager->activateMonitor("clip");
-    m_projectList->slotClipSelected();
     // set tool to select tool
     m_buttonSelectTool->setChecked(true);
 }
