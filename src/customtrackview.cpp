@@ -4470,7 +4470,7 @@ void CustomTrackView::moveGroup(QList <ItemInfo> startClip, QList <ItemInfo> sta
     } else kDebug() << "///////// WARNING; NO GROUP TO MOVE";
 }
 
-void CustomTrackView::moveTransition(const ItemInfo &start, const ItemInfo &end, bool m_refresh)
+void CustomTrackView::moveTransition(const ItemInfo &start, const ItemInfo &end, bool refresh)
 {
     Transition *item = getTransitionItemAt(start.startPos, start.track);
     if (!item) {
@@ -4514,7 +4514,7 @@ void CustomTrackView::moveTransition(const ItemInfo &start, const ItemInfo &end,
         }
         emit transitionItemSelected(item, getPreviousVideoTrack(item->track()), p);
     }
-    if (m_refresh) m_document->renderer()->doRefresh();
+    if (refresh) m_document->renderer()->doRefresh();
     setDocumentModified();
 }
 
