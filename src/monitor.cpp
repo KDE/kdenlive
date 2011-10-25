@@ -587,9 +587,9 @@ bool Monitor::isActive() const
     return m_monitorManager->isActive(m_name);
 }
 
-void Monitor::activateMonitor()
+bool Monitor::activateMonitor()
 {
-    m_monitorManager->activateMonitor(m_name);
+    return m_monitorManager->activateMonitor(m_name);
 }
 
 void Monitor::setTimePos(const QString &pos)
@@ -739,8 +739,10 @@ void Monitor::start()
 void Monitor::refreshMonitor(bool visible)
 {
     if (visible && render) {
-        activateMonitor();
-        render->doRefresh(); //askForRefresh();
+        if (!activateMonitor()) {
+            // the monitor was already active, simply refreshClipThumbnail
+            render->doRefresh();
+        }
     }
 }
 
@@ -764,7 +766,7 @@ void Monitor::slotPlay()
 {
     if (render == NULL) return;
     activateMonitor();
-    if (render->playSpeed() == 0) {
+    if (render->playSpeed() == 0.0) {
         m_playAction->setIcon(m_pauseIcon);
         render->switchPlay(true);
     } else {

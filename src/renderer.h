@@ -334,6 +334,7 @@ private:
     QString m_activeProfile;
 
     QTimer *m_osdTimer;
+    QTimer m_refreshTimer;
     QMutex m_mutex;
     QMutex m_infoMutex;
 

@@ -62,12 +62,12 @@ void MonitorManager::removeMonitor(AbstractMonitor *monitor)
     m_monitorsList.removeAll(monitor);
 }
 
-void MonitorManager::activateMonitor(QString name)
+bool MonitorManager::activateMonitor(const QString &name)
 {
     if (m_clipMonitor == NULL || m_projectMonitor == NULL)
-        return;
+        return false;
     if (m_activeMonitor && m_activeMonitor->name() == name)
-        return;
+        return false;
     m_activeMonitor = NULL;
     for (int i = 0; i < m_monitorsList.count(); i++) {
         if (m_monitorsList.at(i)->name() == name) {
@@ -76,10 +76,13 @@ void MonitorManager::activateMonitor(QString name)
         else m_monitorsList.at(i)->stop();
     }
     if (m_activeMonitor) {
+        m_activeMonitor->blockSignals(true);
         m_activeMonitor->parentWidget()->raise();
         m_activeMonitor->start();
+        m_activeMonitor->blockSignals(false);
     }
     emit checkColorScopes();
+    return (m_activeMonitor != NULL);
 }
 
 bool MonitorManager::isActive(const QString &name) const

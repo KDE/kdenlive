@@ -215,7 +215,7 @@ public slots:
     void slotSeek(int pos);
     void stop();
     void start();
-    void activateMonitor();
+    bool activateMonitor();
     void slotPlay();
     void slotPlayZone();
     void slotLoopZone();

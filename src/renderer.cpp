@@ -121,6 +121,9 @@ Render::Render(const QString & rendererName, int winid, QString profile, QWidget
     m_mltProducer = m_blackClip->cut(0, 1);
     m_mltConsumer->connect(*m_mltProducer);
     m_mltProducer->set_speed(0.0);
+    m_refreshTimer.setSingleShot(true);
+    m_refreshTimer.setInterval(50);
+    connect(&m_refreshTimer, SIGNAL(timeout()), this, SLOT(refresh()));
 }
 
 Render::~Render()
@@ -298,6 +301,7 @@ bool Render::hasProfile(const QString &profileName) const
 
 int Render::resetProfile(const QString &profileName, bool dropSceneList)
 {
+    m_refreshTimer.stop();
     if (m_mltConsumer) {
         if (m_externalConsumer == KdenliveSettings::external_display()) {
             if (KdenliveSettings::external_display() && m_activeProfile == profileName) return 1;
@@ -994,6 +998,7 @@ void Render::initSceneList()
 
 int Render::setProducer(Mlt::Producer *producer, int position)
 {
+    m_refreshTimer.stop();
     QMutexLocker locker(&m_mutex);
     QString currentId;
     int consumerPosition = 0;
@@ -1048,6 +1053,7 @@ int Render::setSceneList(QDomDocument list, int position)
 
 int Render::setSceneList(QString playlist, int position)
 {
+    m_refreshTimer.stop();
     QMutexLocker locker(&m_mutex);
     if (m_winid == -1) return -1;
     int error = 0;
@@ -1388,8 +1394,8 @@ void Render::switchPlay(bool play)
         if (m_mltConsumer->is_stopped()) {
             m_mltConsumer->start();
         }
-        m_mltConsumer->set("refresh", "1");
         m_mltProducer->set_speed(1.0);
+        m_mltConsumer->set("refresh", "1");
     } else if (!play) {
         m_mltProducer->set_speed(0.0);
         m_mltConsumer->set("refresh", 0);
@@ -1484,12 +1490,16 @@ void Render::seekToFrameDiff(int diff)
 
 void Render::doRefresh()
 {
-    // Use a Timer so that we don't refresh too much
-    QMutexLocker locker(&m_mutex);
+    m_refreshTimer.start();
+    /*QMutexLocker locker(&m_mutex);
     if (m_mltConsumer) {
-        if (m_mltConsumer->is_stopped()) m_mltConsumer->start();
+        if (m_mltConsumer->is_stopped()) {
+            kDebug()<<"pppppppppppppppp\n\nSTARTING CONSUMER: "<<m_name<<m_mltConsumer->start();
+        }
+        //m_mltProducer->set_speed(1);
         m_mltConsumer->set("refresh", 1);
-    }
+        //m_mltProducer->set_speed(0);
+    }*/
 }
 
 void Render::refresh()

@@ -649,6 +649,11 @@ Mlt::Producer *DocClipBase::getCloneProducer()
     }
     if (prod) {
         adjustProducerProperties(prod, getId() + "_", false, false);
+        if (!m_properties.contains("proxy_out")) {
+            // Adjust length in case...
+            prod->set("length", m_properties.value("duration").toInt());
+            prod->set("out", m_properties.value("out").toInt());
+        }
     }
     return prod;
 }
