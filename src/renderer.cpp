@@ -1033,7 +1033,20 @@ int Render::setProducer(Mlt::Producer *producer, int position)
     m_mltProducer->set("meta.volume", (double)volume / 100);
     m_fps = m_mltProducer->get_fps();
     blockSignals(false);
-    int error = connectPlaylist();
+    m_mltConsumer->connect(*m_mltProducer);
+    m_mltProducer->set_speed(0);
+    emit durationChanged(m_mltProducer->get_playtime());
+    if (m_mltConsumer->start() == -1) {
+        // ARGH CONSUMER BROKEN!!!!
+        KMessageBox::error(qApp->activeWindow(), i18n("Could not create the video preview window.\nThere is something wrong with your Kdenlive install or your driver settings, please fix it."));
+        if (m_showFrameEvent) delete m_showFrameEvent;
+        m_showFrameEvent = NULL;
+        if (m_pauseEvent) delete m_pauseEvent;
+        m_pauseEvent = NULL;
+        delete m_mltConsumer;
+        m_mltConsumer = NULL;
+        return -1;
+    }
 
     position = m_mltProducer->position();
     m_mltConsumer->set("refresh", 1);
@@ -1043,7 +1056,7 @@ int Render::setProducer(Mlt::Producer *producer, int position)
     m_mltConsumer->wait_for(ev);
     delete ev;
     emit rendererPosition(position);
-    return error;
+    return 0;
 }
 
 int Render::setSceneList(QDomDocument list, int position)
@@ -1165,8 +1178,9 @@ int Render::setSceneList(QString playlist, int position)
     }
 
     kDebug() << "// NEW SCENE LIST DURATION SET TO: " << m_mltProducer->get_playtime();
-    if (error == 0) error = connectPlaylist();
-    else connectPlaylist();
+    m_mltConsumer->connect(*m_mltProducer);
+    m_mltProducer->set_speed(0);
+    emit durationChanged(m_mltProducer->get_playtime());
     fillSlowMotionProducers();
     blockSignals(false);
 
@@ -1269,27 +1283,6 @@ double Render::fps() const
     return m_fps;
 }
 
-int Render::connectPlaylist()
-{
-    if (!m_mltConsumer) return -1;
-    m_mltConsumer->connect(*m_mltProducer);
-    m_mltProducer->set_speed(0);
-    if (m_mltConsumer->start() == -1) {
-        // ARGH CONSUMER BROKEN!!!!
-        KMessageBox::error(qApp->activeWindow(), i18n("Could not create the video preview window.\nThere is something wrong with your Kdenlive install or your driver settings, please fix it."));
-        if (m_showFrameEvent) delete m_showFrameEvent;
-        m_showFrameEvent = NULL;
-        if (m_pauseEvent) delete m_pauseEvent;
-        m_pauseEvent = NULL;
-        delete m_mltConsumer;
-        m_mltConsumer = NULL;
-        return -1;
-    }
-    emit durationChanged(m_mltProducer->get_playtime());
-    return 0;
-}
-
-
 int Render::volume() const
 {
     if (!m_mltConsumer || !m_mltProducer) return -1;
@@ -1329,13 +1322,14 @@ void Render::slotOsdTimeout()
 
 void Render::start()
 {
+    m_refreshTimer.stop();
     QMutexLocker locker(&m_mutex);
     if (m_winid == -1) {
         kDebug() << "-----  BROKEN MONITOR: " << m_name << ", RESTART";
         return;
     }
-
-    if (m_mltConsumer && m_mltConsumer->is_stopped()) {
+    if (!m_mltConsumer) return;
+    if (m_mltConsumer->is_stopped()) {
         if (m_mltConsumer->start() == -1) {
             //KMessageBox::error(qApp->activeWindow(), i18n("Could not create the video preview window.\nThere is something wrong with your Kdenlive install or your driver settings, please fix it."));
             kDebug(QtWarningMsg) << "/ / / / CANNOT START MONITOR";
@@ -1348,6 +1342,7 @@ void Render::start()
 
 void Render::stop()
 {
+    m_refreshTimer.stop();
     QMutexLocker locker(&m_mutex);
     if (m_mltProducer == NULL) return;
     if (m_mltConsumer && !m_mltConsumer->is_stopped()) {
@@ -1363,6 +1358,7 @@ void Render::stop()
 
 void Render::stop(const GenTime & startTime)
 {
+    m_refreshTimer.stop();
     QMutexLocker locker(&m_mutex);
     if (m_mltProducer) {
         if (m_isZoneMode) resetZoneMode();
@@ -1491,15 +1487,6 @@ void Render::seekToFrameDiff(int diff)
 void Render::doRefresh()
 {
     m_refreshTimer.start();
-    /*QMutexLocker locker(&m_mutex);
-    if (m_mltConsumer) {
-        if (m_mltConsumer->is_stopped()) {
-            kDebug()<<"pppppppppppppppp\n\nSTARTING CONSUMER: "<<m_name<<m_mltConsumer->start();
-        }
-        //m_mltProducer->set_speed(1);
-        m_mltConsumer->set("refresh", 1);
-        //m_mltProducer->set_speed(0);
-    }*/
 }
 
 void Render::refresh()

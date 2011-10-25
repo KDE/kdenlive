@@ -2091,8 +2091,6 @@ void MainWindow::doOpenFile(const KUrl &url, KAutoSaveFile *stale)
     slotGotProgressInfo(QString(), -1);
     m_projectMonitor->adjustRulerSize(trackView->duration());
     m_projectMonitor->slotZoneMoved(trackView->inPoint(), trackView->outPoint());
-    m_clipMonitor->refreshMonitor(true);
-
     progressDialog.progressBar()->setValue(4);
     if (openBackup) slotOpenBackupDialog(url);
 }
@@ -2571,6 +2569,8 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
 #endif
     //Update the mouse position display so it will display in DF/NDF format by default based on the project setting.
     slotUpdateMousePosition(0);
+    m_monitorManager->activateMonitor("clip");
+    m_projectList->slotClipSelected();
     // set tool to select tool
     m_buttonSelectTool->setChecked(true);
 }

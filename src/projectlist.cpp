@@ -253,6 +253,10 @@ void ProjectList::setupGeneratorMenu(QMenu *addMenu, QMenu *transcodeMenu, QMenu
     m_menu->insertSeparator(m_deleteButton->defaultAction());
 }
 
+void ProjectList::clearSelection()
+{
+    m_listView->clearSelection();
+}
 
 QByteArray ProjectList::headerInfo() const
 {

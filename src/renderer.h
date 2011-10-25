@@ -372,7 +372,6 @@ private slots:
     /** @brief Refreshes the monitor display. */
     void refresh();
     void slotOsdTimeout();
-    int connectPlaylist();
     /** @brief Process the clip info requests (in a separate thread). */
     void processFileProperties();
 

@@ -732,6 +732,7 @@ void Monitor::stop()
 
 void Monitor::start()
 {
+    if (!isVisible()) return;
     if (render) render->start();
     connect(render, SIGNAL(rendererPosition(int)), this, SLOT(seekCursor(int)));
 }

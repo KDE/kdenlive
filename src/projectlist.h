@@ -236,8 +236,11 @@ public:
     bool generateImageProxy() const;
     /** @brief Returns a list of the expanded folder ids. */
     QStringList expandedFolders() const;
+    /** @brief Deselect all clips in project tree. */
+    void clearSelection();
 
 public slots:
+    void slotClipSelected();
     void setDocument(KdenliveDoc *doc);
     void updateAllClips(bool displayRatioChanged, bool fpsChanged);
     void slotReplyGetImage(const QString &clipId, const QImage &img);
@@ -344,7 +347,6 @@ private:
     void resetThumbsProducer(DocClipBase *clip);
 
 private slots:
-    void slotClipSelected();
     void slotAddSlideshowClip();
     void slotAddTitleClip();
     void slotAddTitleTemplateClip();

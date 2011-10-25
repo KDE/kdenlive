@@ -686,8 +686,9 @@ Mlt::Producer *DocClipBase::getProducer(int track)
             // Could not find a valid producer for that clip, check in 
             return NULL;
         }
-        m_baseTrackProducers[track] = cloneProducer(m_baseTrackProducers.at(i));
-        adjustProducerProperties(m_baseTrackProducers.at(track), QString(getId() + '_' + QString::number(track)), false, false);
+        Mlt::Producer *prod = cloneProducer(m_baseTrackProducers.at(i));
+        adjustProducerProperties(prod, QString(getId() + '_' + QString::number(track)), false, false);
+        m_baseTrackProducers[track] = prod;
     }
     return m_baseTrackProducers.at(track);
 }
