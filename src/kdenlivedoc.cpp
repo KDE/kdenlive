@@ -1574,7 +1574,9 @@ void KdenliveDoc::updateProjectFolderPlacesEntry()
 
     const QString file = KStandardDirs::locateLocal("data", "kfileplaces/bookmarks.xml");
     KBookmarkManager *bookmarkManager = KBookmarkManager::managerForFile(file, "kfilePlaces");
+    if (!bookmarkManager) return;
     KBookmarkGroup root = bookmarkManager->root();
+    
     KBookmark bookmark = root.first();
 
     QString kdenliveName = KGlobal::mainComponent().componentName();
