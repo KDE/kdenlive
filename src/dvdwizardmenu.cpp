@@ -36,6 +36,14 @@ DvdWizardMenu::DvdWizardMenu(const QString &profile, QWidget *parent) :
     m_view.menu_preview->setMouseTracking(true);
     connect(m_view.create_menu, SIGNAL(toggled(bool)), m_view.menu_box, SLOT(setEnabled(bool)));
     connect(m_view.create_menu, SIGNAL(toggled(bool)), this, SIGNAL(completeChanged()));
+    
+#if KDE_IS_VERSION(4,7,0)
+    m_menuMessage = new KMessageWidget;
+    QGridLayout *s =  static_cast <QGridLayout*> (layout());
+    s->addWidget(m_menuMessage, 7, 0, 1, -1);
+    m_menuMessage->hide();
+    m_view.error_message->hide();
+#endif
 
     m_view.add_button->setIcon(KIcon("document-new"));
     m_view.delete_button->setIcon(KIcon("trash-empty"));
@@ -148,8 +156,14 @@ bool DvdWizardMenu::isComplete() const
             if (!collisions.isEmpty()) {
                 for (int j = 0; j < collisions.count(); j++) {
                     if (collisions.at(j)->type() == button->type()) {
+#if KDE_IS_VERSION(4,7,0)
+                        m_menuMessage->setText(i18n("Buttons overlapping"));
+                        m_menuMessage->setMessageType(KMessageWidget::Warning);
+                        m_menuMessage->animatedShow();
+#else
                         m_view.error_message->setText(i18n("Buttons overlapping"));
                         m_view.error_message->setHidden(false);
+#endif
                         return false;
                     }
                 }
@@ -159,19 +173,35 @@ bool DvdWizardMenu::isComplete() const
     }
     if (buttonCount == 0) {
         //We need at least one button
+#if KDE_IS_VERSION(4,7,0)
+        m_menuMessage->setText(i18n("No button in menu"));
+        m_menuMessage->setMessageType(KMessageWidget::Warning);
+        m_menuMessage->animatedShow();
+#else
         m_view.error_message->setText(i18n("No button in menu"));
         m_view.error_message->setHidden(false);
+#endif
         return false;
     }
 
     if (!m_view.background_image->isHidden()) {
         // Make sure user selected a valid image / video file
         if (!QFile::exists(m_view.background_image->url().path())) {
+#if KDE_IS_VERSION(4,7,0)
+            m_menuMessage->setText(i18n("Missing background image"));
+            m_menuMessage->setMessageType(KMessageWidget::Warning);
+            m_menuMessage->animatedShow();
+#else
             m_view.error_message->setText(i18n("Missing background image"));
             m_view.error_message->setHidden(false);
+#endif
             return false;
         }
     }
+    
+#if KDE_IS_VERSION(4,7,0)
+    m_menuMessage->animatedHide();
+#endif
 
     // check that we have a "Play all" entry
     if (targets.contains(0)) return true;
@@ -179,8 +209,14 @@ bool DvdWizardMenu::isComplete() const
     for (int i = m_view.target_list->count() - 1; i > 0; i--) {
         // If there is a vob file entry and it has no button assigned, don't allow to go further
         if (m_view.target_list->itemIcon(i).isNull() == false && !targets.contains(i)) {
+#if KDE_IS_VERSION(4,7,0)
+            m_menuMessage->setText(i18n("No menu entry for %1", m_view.target_list->itemText(i)));
+            m_menuMessage->setMessageType(KMessageWidget::Warning);
+            m_menuMessage->animatedShow();
+#else
             m_view.error_message->setText(i18n("No menu entry for %1", m_view.target_list->itemText(i)));
             m_view.error_message->setHidden(false);
+#endif
             return false;
         }
     }

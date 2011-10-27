@@ -29,6 +29,11 @@
 #include <QDomElement>
 
 #include <KDebug>
+#include <kdeversion.h>
+
+#if KDE_IS_VERSION(4,7,0)
+#include <KMessageWidget>
+#endif
 
 #include "ui_dvdwizardmenu_ui.h"
 
@@ -149,6 +154,9 @@ private:
     QGraphicsRectItem *m_safeRect;
     int m_width;
     int m_height;
+#if KDE_IS_VERSION(4,7,0)
+    KMessageWidget *m_menuMessage;
+#endif
 
 private slots:
     void buildButton();

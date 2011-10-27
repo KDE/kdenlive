@@ -36,6 +36,7 @@
 #include <QTimer>
 #include <QDomDocument>
 #include <QMenu>
+#include <QGridLayout>
 
 
 DvdWizard::DvdWizard(const QString &url, const QString &profile, QWidget *parent) :
@@ -73,6 +74,13 @@ DvdWizard::DvdWizard(const QString &url, const QString &profile, QWidget *parent
     m_status.iso_image->setFilter("*.iso");
     m_status.iso_image->setMode(KFile::File);
     m_status.iso_image->fileDialog()->setOperationMode(KFileDialog::Saving);
+
+#if KDE_IS_VERSION(4,7,0)
+    m_isoMessage = new KMessageWidget;
+    QGridLayout *s =  static_cast <QGridLayout*> (page4->layout());
+    s->addWidget(m_isoMessage, 5, 0, 1, -1);
+    m_isoMessage->hide();
+#endif
 
     addPage(page4);
 
@@ -154,6 +162,9 @@ void DvdWizard::slotPageChanged(int page)
 
 void DvdWizard::generateDvd()
 {
+#if KDE_IS_VERSION(4,7,0)
+    m_isoMessage->animatedHide();
+#endif
     m_status.error_box->setHidden(true);
     m_status.error_box->setCurrentIndex(0);
     m_status.error_box->setTabBarHidden(true);
@@ -233,9 +244,9 @@ void DvdWizard::generateDvd()
             args.append("out=100");
             args << "-consumer" << "avformat:" + temp5.fileName();
             if (m_pageMenu->isPalMenu()) {
-                args << "f=dvd" << "vcodec=mpeg2video" << "acodec=ac3" << "b=5000k" << "maxrate=8000k" << "minrate=0" << "bufsize=1835008" << "mux_packet_s=2048" << "mux_rate=10080000" << "ab=192k" << "ar=48000" << "s=720x576" << "g=15" << "me_range=63" << "trellis=1" << "profile=dv_pal";
+                args << "f=dvd" << "acodec=ac3" << "ab=192k" << "ar=48000" << "vcodec=mpeg2video" << "vb=5000k" << "maxrate=8000k" << "minrate=0" << "bufsize=1835008" << "mux_packet_s=2048" << "mux_rate=10080000" << "s=720x576" << "g=15" << "me_range=63" << "trellis=1";
             } else {
-                args << "f=dvd" << "vcodec=mpeg2video" << "acodec=ac3" << "b=6000k" << "maxrate=9000k" << "minrate=0" << "bufsize=1835008" << "mux_packet_s=2048" << "mux_rate=10080000" << "ab=192k" << "ar=48000" << "s=720x480" << "g=18" << "me_range=63" << "trellis=1" << "profile=dv_ntsc";
+                args << "f=dvd" << "acodec=ac3" << "ab=192k" << "ar=48000" << "vcodec=mpeg2video" << "vb=6000k" << "maxrate=9000k" << "minrate=0" << "bufsize=1835008" << "mux_packet_s=2048" << "mux_rate=10080000" << "s=720x480" << "g=18" << "me_range=63" << "trellis=1";
             }
 
             kDebug() << "MLT ARGS: " << args;
@@ -243,6 +254,7 @@ void DvdWizard::generateDvd()
             renderbg.start(KdenliveSettings::rendererpath(), args);
             if (renderbg.waitForFinished()) {
                 if (renderbg.exitStatus() == QProcess::CrashExit) {
+                    //TODO: inform user via the m_isoMessage widget after string freeze
                     kDebug() << "/// RENDERING MENU vob crashed";
                     QByteArray result = renderbg.readAllStandardError();
                     vobitem->setIcon(KIcon("dialog-close"));
@@ -254,6 +266,11 @@ void DvdWizard::generateDvd()
                 }
             } else {
                 kDebug() << "/// RENDERING MENU vob timed out";
+#if KDE_IS_VERSION(4,7,0)
+                m_isoMessage->setText(i18n("Rendering job timed out"));
+                m_isoMessage->setMessageType(KMessageWidget::Error);
+                m_isoMessage->animatedShow();
+#endif
                 vobitem->setIcon(KIcon("dialog-close"));
                 m_status.error_log->append("<a name=\"result\" /><br /><strong>" + i18n("Rendering job timed out"));
                 m_status.error_log->scrollToAnchor("result");
@@ -344,6 +361,7 @@ void DvdWizard::generateDvd()
         if (spumux.waitForFinished()) {
             m_status.error_log->append(spumux.readAllStandardError());
             if (spumux.exitStatus() == QProcess::CrashExit) {
+                //TODO: inform user via messagewidget after string freeze
                 QByteArray result = spumux.readAllStandardError();
                 spuitem->setIcon(KIcon("dialog-close"));
                 m_status.error_log->append(result);
@@ -357,6 +375,11 @@ void DvdWizard::generateDvd()
             }
         } else {
             kDebug() << "/// RENDERING SPUMUX MENU timed out";
+#if KDE_IS_VERSION(4,7,0)
+            m_isoMessage->setText(i18n("Rendering job timed out"));
+            m_isoMessage->setMessageType(KMessageWidget::Error);
+            m_isoMessage->animatedShow();
+#endif
             spuitem->setIcon(KIcon("dialog-close"));
             m_status.error_log->append("<a name=\"result\" /><br /><strong>" + i18n("Menu job timed out"));
             m_status.error_log->scrollToAnchor("result");
@@ -527,6 +550,14 @@ void DvdWizard::slotRenderFinished(int exitCode, QProcess::ExitStatus status)
 {
     QListWidgetItem *authitem =  m_status.job_progress->item(3);
     if (status == QProcess::CrashExit || exitCode != 0) {
+#if KDE_IS_VERSION(4,7,0)
+        //TODO: Clean up message string after string freeze
+        QString message = i18n("DVDAuthor process crashed.</strong><br />");
+        message.remove(QRegExp("<[^>]*>"));
+        m_isoMessage->setText(message);
+        m_isoMessage->setMessageType(KMessageWidget::Error);
+        m_isoMessage->animatedShow();
+#endif
         QString result(m_dvdauthor->readAllStandardError());
         result.append("<a name=\"result\" /><br /><strong>");
         result.append(i18n("DVDAuthor process crashed.</strong><br />"));
@@ -554,6 +585,11 @@ void DvdWizard::slotRenderFinished(int exitCode, QProcess::ExitStatus status)
 
     // Check if DVD structure has the necessary infos
     if (!QFile::exists(m_status.tmp_folder->url().path() + "/DVD/VIDEO_TS/VIDEO_TS.IFO")) {
+#if KDE_IS_VERSION(4,7,0)
+        m_isoMessage->setText(i18n("DVD structure broken"));
+        m_isoMessage->setMessageType(KMessageWidget::Error);
+        m_isoMessage->animatedShow();
+#endif
         m_status.error_log->append(m_creationLog + "<a name=\"result\" /><br /><strong>" + i18n("DVD structure broken"));
         m_status.error_log->scrollToAnchor("result");
         m_status.error_box->setHidden(false);
@@ -603,6 +639,11 @@ void DvdWizard::slotIsoFinished(int exitCode, QProcess::ExitStatus status)
     button(QWizard::FinishButton)->setEnabled(true);
     QListWidgetItem *isoitem =  m_status.job_progress->item(4);
     if (status == QProcess::CrashExit || exitCode != 0) {
+#if KDE_IS_VERSION(4,7,0)
+        m_isoMessage->setText(i18n("ISO creation process crashed."));
+        m_isoMessage->setMessageType(KMessageWidget::Error);
+        m_isoMessage->animatedShow();
+#endif
         QString result(m_mkiso->readAllStandardError());
         result.append("<a name=\"result\" /><br /><strong>");
         result.append(i18n("ISO creation process crashed."));
@@ -635,6 +676,11 @@ void DvdWizard::slotIsoFinished(int exitCode, QProcess::ExitStatus status)
         if (iso.exists()) {
             KIO::NetAccess::del(m_status.iso_image->url(), this);
         }
+#if KDE_IS_VERSION(4,7,0)
+        m_isoMessage->setText(i18n("DVD ISO is broken"));
+        m_isoMessage->setMessageType(KMessageWidget::Error);
+        m_isoMessage->animatedShow();
+#endif
         m_status.error_log->append(m_creationLog + "<br /><a name=\"result\" /><strong>" + i18n("DVD ISO is broken") + "</strong>");
         m_status.error_log->scrollToAnchor("result");
         m_status.error_box->setHidden(false);
@@ -650,6 +696,11 @@ void DvdWizard::slotIsoFinished(int exitCode, QProcess::ExitStatus status)
     kDebug() << "ISO IMAGE " << m_status.iso_image->url().path() << " Successfully created";
     cleanup();
     kDebug() << m_creationLog;
+#if KDE_IS_VERSION(4,7,0)
+        m_isoMessage->setText(i18n("DVD ISO image %1 successfully created.", m_status.iso_image->url().path()));
+        m_isoMessage->setMessageType(KMessageWidget::Positive);
+        m_isoMessage->animatedShow();
+#endif    
 
     m_status.error_log->append("<a name=\"result\" /><strong>" + i18n("DVD ISO image %1 successfully created.", m_status.iso_image->url().path()) + "</strong>");
     m_status.error_log->scrollToAnchor("result");
