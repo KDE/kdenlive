@@ -57,26 +57,20 @@ KThumb::KThumb(ClipManager *clipManager, KUrl url, const QString &id, const QStr
 
 KThumb::~KThumb()
 {
-    m_listMutex.lock();
-    m_requestedThumbs.clear();
-    m_listMutex.unlock();
+    m_clipManager->stopThumbs(m_id);
     m_intraFramesQueue.clear();
     if (m_audioThumbProducer.isRunning()) {
         m_stopAudioThumbs = true;
         m_audioThumbProducer.waitForFinished();
         slotAudioThumbOver();
     }
-    m_future.waitForFinished();
     m_intra.waitForFinished();
 }
 
 void KThumb::setProducer(Mlt::Producer *producer)
 {
-    m_listMutex.lock();
-    m_requestedThumbs.clear();
-    m_listMutex.unlock();
+    m_clipManager->stopThumbs(m_id);
     m_intraFramesQueue.clear();
-    m_future.waitForFinished();
     m_intra.waitForFinished();
     m_mutex.lock();
     m_producer = producer;
@@ -117,34 +111,21 @@ QPixmap KThumb::getImage(KUrl url, int width, int height)
     return getImage(url, 0, width, height);
 }
 
-void KThumb::extractImage(int frame, int frame2)
+void KThumb::extractImage(QList <int>frames)
 {
     if (!KdenliveSettings::videothumbnails() || m_producer == NULL) return;
-    m_listMutex.lock();
-    if (frame != -1 && !m_requestedThumbs.contains(frame)) m_requestedThumbs.append(frame);
-    if (frame2 != -1 && !m_requestedThumbs.contains(frame2)) m_requestedThumbs.append(frame2);
-    qSort(m_requestedThumbs);
-    m_listMutex.unlock();
-    if (!m_future.isRunning()) {
-        m_future = QtConcurrent::run(this, &KThumb::doGetThumbs);
-    }
+    m_clipManager->requestThumbs(m_id, frames);
 }
 
-void KThumb::doGetThumbs()
+
+void KThumb::getThumb(int frame)
 {
     const int theight = KdenliveSettings::trackheight();
     const int swidth = (int)(theight * m_ratio + 0.5);
     const int dwidth = (int)(theight * m_dar + 0.5);
 
-    while (!m_requestedThumbs.isEmpty()) {
-        m_listMutex.lock();
-        int frame = m_requestedThumbs.takeFirst();
-        m_listMutex.unlock();
-        if (frame != -1) {
-            QImage img = getProducerFrame(frame, swidth, dwidth, theight);
-            emit thumbReady(frame, img);
-        }
-    }
+    QImage img = getProducerFrame(frame, swidth, dwidth, theight);
+    emit thumbReady(frame, img);
 }
 
 QPixmap KThumb::extractImage(int frame, int width, int height)
@@ -230,9 +211,13 @@ QImage KThumb::getFrame(Mlt::Frame *frame, int frameWidth, int displayWidth, int
     int ow = frameWidth;
     int oh = height;
     mlt_image_format format = mlt_image_rgb24a;
-    
+
     const uchar* imagedata = frame->get_image(format, ow, oh);
-    QImage image(imagedata, ow, oh, QImage::Format_ARGB32_Premultiplied);
+    QImage image(ow, oh, QImage::Format_ARGB32_Premultiplied);
+    memcpy(image.bits(), imagedata, ow * oh * 4);//.byteCount());
+    
+    //const uchar* imagedata = frame->get_image(format, ow, oh);
+    //QImage image(imagedata, ow, oh, QImage::Format_ARGB32_Premultiplied);
     
     if (!image.isNull()) {
         if (ow > (2 * displayWidth)) {
@@ -430,8 +415,8 @@ void KThumb::getAudioThumbs(int channel, double frame, double frameLength, int a
 
 void KThumb::slotCreateAudioThumbs()
 {
-    Mlt::Profile prof((char*) KdenliveSettings::current_profile().toUtf8().data());
-    Mlt::Producer producer(prof, m_url.path().toUtf8().data());
+    Mlt::Profile prof((char*) KdenliveSettings::current_profile().toUtf8().constData());
+    Mlt::Producer producer(prof, m_url.path().toUtf8().constData());
     if (!producer.is_valid()) {
         kDebug() << "++++++++  INVALID CLIP: " << m_url.path();
         return;
@@ -451,7 +436,10 @@ void KThumb::slotCreateAudioThumbs()
 
     int last_val = 0;
     int val = 0;
-    //kDebug() << "for " << m_frame << " " << m_frameLength << " " << m_producer.is_valid();
+    mlt_audio_format m_audioFormat = mlt_audio_pcm;
+    double framesPerSecond = mlt_producer_get_fps(producer.get_producer());
+    Mlt::Frame *mlt_frame;
+    
     for (int z = (int) m_frame; z < (int)(m_frame + m_frameLength) && producer.is_valid(); z++) {
         if (m_stopAudioThumbs) break;
         val = (int)((z - m_frame) / (m_frame + m_frameLength) * 100.0);
@@ -460,13 +448,10 @@ void KThumb::slotCreateAudioThumbs()
             last_val = val;
         }
         producer.seek(z);
-        Mlt::Frame *mlt_frame = producer.get_frame();
+        mlt_frame = producer.get_frame();
         if (mlt_frame && mlt_frame->is_valid()) {
-            double m_framesPerSecond = mlt_producer_get_fps(producer.get_producer());
-            int m_samples = mlt_sample_calculator(m_framesPerSecond, m_frequency, mlt_frame_get_position(mlt_frame->get_frame()));
-            mlt_audio_format m_audioFormat = mlt_audio_pcm;
+            int m_samples = mlt_sample_calculator(framesPerSecond, m_frequency, mlt_frame_get_position(mlt_frame->get_frame()));
             qint16* m_pcm = static_cast<qint16*>(mlt_frame->get_audio(m_audioFormat, m_frequency, m_channels, m_samples));
-
             for (int c = 0; c < m_channels; c++) {
                 QByteArray m_array;
                 m_array.resize(m_arrayWidth);

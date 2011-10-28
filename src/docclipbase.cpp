@@ -1207,10 +1207,10 @@ bool DocClipBase::hasAudioCodec(const QString &codec) const
 }
 
 
-void DocClipBase::slotExtractImage(int frame, int frame2)
+void DocClipBase::slotExtractImage(QList <int> frames)
 {
     if (m_thumbProd == NULL) return;
-    m_thumbProd->extractImage(frame, frame2);
+    m_thumbProd->extractImage(frames);
 }
 
 QPixmap DocClipBase::extractImage(int frame, int width, int height)

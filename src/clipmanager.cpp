@@ -26,6 +26,7 @@
 #include "abstractclipitem.h"
 #include "abstractgroupitem.h"
 #include "titledocument.h"
+#include "kthumb.h"
 
 #include <mlt++/Mlt.h>
 
@@ -36,6 +37,7 @@
 #include <kio/netaccess.h>
 
 #include <QGraphicsItemGroup>
+#include <QtConcurrentRun>
 
 #include <KFileMetaInfo>
 
@@ -43,7 +45,8 @@ ClipManager::ClipManager(KdenliveDoc *doc) :
     QObject(),
     m_audioThumbsQueue(),
     m_doc(doc),
-    m_generatingAudioId()
+    m_generatingAudioId(),
+    m_abortThumb(false)
 {
     m_clipIdCounter = 1;
     m_folderIdCounter = 1;
@@ -62,8 +65,16 @@ ClipManager::ClipManager(KdenliveDoc *doc) :
 
 ClipManager::~ClipManager()
 {
+    m_thumbsMutex.lock();
+    m_requestedThumbs.clear();
+    m_thumbsMutex.unlock();
+    m_abortThumb = true;
+    m_thumbsThread.waitForFinished();
     m_audioThumbsQueue.clear();
     m_generatingAudioId.clear();
+    m_thumbsMutex.lock();
+    m_requestedThumbs.clear();
+    m_thumbsMutex.unlock();
     qDeleteAll(m_clipList);
     m_clipList.clear();
 #if KDE_IS_VERSION(4,5,0)
@@ -73,6 +84,12 @@ ClipManager::~ClipManager()
 
 void ClipManager::clear()
 {
+    m_thumbsMutex.lock();
+    m_requestedThumbs.clear();
+    m_thumbsMutex.unlock();
+    m_abortThumb = true;
+    m_thumbsThread.waitForFinished();
+    m_abortThumb = false;
     m_folderList.clear();
     m_audioThumbsQueue.clear();
     m_modifiedClips.clear();
@@ -90,6 +107,58 @@ void ClipManager::clearCache()
 #if KDE_IS_VERSION(4,5,0)
     pixmapCache->clear();
 #endif
+}
+
+void ClipManager::requestThumbs(const QString id, QList <int> frames)
+{
+    kDebug()<<"// Request thbs: "<<id<<": "<<frames;
+    m_thumbsMutex.lock();
+    foreach (int frame, frames) {
+        m_requestedThumbs.insertMulti(id, frame);
+    }
+    m_thumbsMutex.unlock();
+    if (!m_thumbsThread.isRunning() && !m_abortThumb) {
+        m_thumbsThread = QtConcurrent::run(this, &ClipManager::slotGetThumbs);
+    }
+}
+
+void ClipManager::stopThumbs(const QString &id)
+{
+    m_abortThumb = true;
+    m_thumbsThread.waitForFinished();
+    m_thumbsMutex.lock();
+    m_requestedThumbs.remove(id);
+    m_thumbsMutex.unlock();
+    m_abortThumb = false;
+    if (!m_thumbsThread.isRunning()) {
+        m_thumbsThread = QtConcurrent::run(this, &ClipManager::slotGetThumbs);
+    }
+}
+
+void ClipManager::slotGetThumbs()
+{
+    QMap<QString, int>::const_iterator i = m_requestedThumbs.constBegin();
+    while (i != m_requestedThumbs.constEnd() && !m_abortThumb) {
+        const QString producerId = i.key();
+        m_thumbsMutex.lock();
+        QList<int> values = m_requestedThumbs.values(producerId);
+        m_requestedThumbs.remove(producerId);
+        m_thumbsMutex.unlock();
+        qSort(values);
+        DocClipBase *clip = getClipById(producerId);
+        if (!clip) continue;
+        while (!values.isEmpty() && clip->thumbProducer() && !m_abortThumb) {
+            clip->thumbProducer()->getThumb(values.takeFirst());
+        }
+        if (m_abortThumb) {
+            // keep the requested frames that were not processed
+            m_thumbsMutex.lock();
+            foreach (int frame, values)
+                m_requestedThumbs.insertMulti(producerId, frame);
+            m_thumbsMutex.unlock();
+        }
+        i = m_requestedThumbs.constBegin();
+    }
 }
 
 void ClipManager::checkAudioThumbs()

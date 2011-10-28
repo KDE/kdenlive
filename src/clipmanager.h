@@ -30,6 +30,8 @@
 #include <QPixmap>
 #include <QObject>
 #include <QTimer>
+#include <QMutex>
+#include <QFuture>
 
 #include <KUrl>
 #include <KUndoStack>
@@ -110,6 +112,10 @@ Q_OBJECT public:
     void removeGroup(AbstractGroupItem *group);
     QDomElement groupsXml() const;
     int clipsCount() const;
+    /** @brief Request creation of a clip thumbnail for specified frames. */
+    void requestThumbs(const QString id, QList <int> frames);
+    /** @brief remove a clip id from the queue list. */
+    void stopThumbs(const QString &id);
 
 #if KDE_IS_VERSION(4,5,0)
     KImageCache* pixmapCache;
@@ -122,6 +128,7 @@ private slots:
     void slotClipAvailable(const QString &path);
     /** Check the list of externally modified clips, and process them if they were not modified in the last 1500 milliseconds */
     void slotProcessModifiedClips();
+    void slotGetThumbs();
 
 private:   // Private attributes
     /** the list of clips in the document */
@@ -140,6 +147,12 @@ private:   // Private attributes
     QTimer m_modifiedTimer;
     /** List of the clip IDs that need to be reloaded after being externally modified */
     QMap <QString, QTime> m_modifiedClips;
+    /** Struct containing the list of clip thumbnails to request (clip id and frames) */
+    QMap <QString, int> m_requestedThumbs;
+    QMutex m_thumbsMutex;
+    QFuture<void> m_thumbsThread;
+    /** @brief If true, abort processing of clip thumbs before removing a clip. */
+    bool m_abortThumb;
 
 signals:
     void reloadClip(const QString &);

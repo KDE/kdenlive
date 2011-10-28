@@ -63,7 +63,7 @@ Q_OBJECT public:
     bool hasProducer() const;
     void clearProducer();
     void updateThumbUrl(const QString &hash);
-    void extractImage(int frame, int frame2);
+    void extractImage(QList <int> frames);
     QPixmap extractImage(int frame, int width, int height);
 #if KDE_IS_VERSION(4,5,0)
     /** @brief Request thumbnails for the frame range. */
@@ -71,6 +71,7 @@ Q_OBJECT public:
     /** @brief Query cached thumbnail. */
     QImage findCachedThumb(const QString path);
 #endif
+    void getThumb(int frame);
 
 public slots:
     void updateClipUrl(KUrl url, const QString &hash);
@@ -106,9 +107,6 @@ private:
     Mlt::Producer *m_producer;
     ClipManager *m_clipManager;
     QString m_id;
-    QList <int> m_requestedThumbs;
-    /** @brief Controls the thumbnails process. */
-    QFuture<void> m_future;
     /** @brief Controls the intra frames thumbnails process (cached thumbnails). */
     QFuture<void> m_intra;
     QFile m_audioThumbFile;
@@ -121,8 +119,6 @@ private:
     /** @brief List of frame numbers from which we want to extract thumbnails. */
     QList <int> m_intraFramesQueue;
     QMutex m_mutex;
-    QMutex m_listMutex;
-    void doGetThumbs();
     QImage getProducerFrame(int framepos, int frameWidth, int displayWidth, int height);
 
 signals:

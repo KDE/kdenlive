@@ -279,7 +279,7 @@ public slots:
     void setMetadata(QMap <QString, QString> properties);
     QMap <QString, QString> properties() const;
     QMap <QString, QString> metadata() const;
-    void slotExtractImage(int frame, int frame2);
+    void slotExtractImage(QList <int> frames);
 
 signals:
     void gotAudioData();

@@ -517,7 +517,6 @@ void ClipItem::resetThumbs(bool clearExistingThumbs)
         m_endPix = QPixmap();
         m_audioThumbCachePic.clear();
     }
-    //kDebug()<<"...........  RESET THMBS: "<<clearExistingThumbs;
     slotFetchThumbs();
 }
 
@@ -563,30 +562,30 @@ void ClipItem::slotFetchThumbs()
         return;
     }
 
-    if (m_endPix.isNull() && m_startPix.isNull()) {
+    QList <int> frames;
+    if (m_startPix.isNull()) {
         m_startThumbRequested = true;
-        m_endThumbRequested = true;
-        m_clip->slotExtractImage((int)m_speedIndependantInfo.cropStart.frames(m_fps), (int)(m_speedIndependantInfo.cropStart + m_speedIndependantInfo.cropDuration).frames(m_fps) - 1);
-    } else {
-        if (m_endPix.isNull()) {
-            slotGetEndThumb();
-        }
-        if (m_startPix.isNull()) {
-            slotGetStartThumb();
-        }
+        frames.append((int)m_speedIndependantInfo.cropStart.frames(m_fps));
     }
+
+    if (m_endPix.isNull()) {
+        m_endThumbRequested = true;
+        frames.append((int)(m_speedIndependantInfo.cropStart + m_speedIndependantInfo.cropDuration).frames(m_fps) - 1);
+    }
+
+    m_clip->slotExtractImage(frames);
 }
 
 void ClipItem::slotGetStartThumb()
 {
     m_startThumbRequested = true;
-    m_clip->slotExtractImage((int)m_speedIndependantInfo.cropStart.frames(m_fps), -1);
+    m_clip->slotExtractImage(QList<int>() << (int)m_speedIndependantInfo.cropStart.frames(m_fps));
 }
 
 void ClipItem::slotGetEndThumb()
 {
     m_endThumbRequested = true;
-    m_clip->slotExtractImage(-1, (int)(m_speedIndependantInfo.cropStart + m_speedIndependantInfo.cropDuration).frames(m_fps) - 1);
+    m_clip->slotExtractImage(QList<int>() << (int)(m_speedIndependantInfo.cropStart + m_speedIndependantInfo.cropDuration).frames(m_fps) - 1);
 }
 
 

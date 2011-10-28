@@ -1646,7 +1646,6 @@ QDomElement ProjectList::producersList()
     QDomDocument doc;
     QDomElement prods = doc.createElement("producerlist");
     doc.appendChild(prods);
-    kDebug() << "////////////  PRO LIST BUILD PRDSLIST ";
     QTreeWidgetItemIterator it(m_listView);
     while (*it) {
         if ((*it)->type() != PROJECTCLIPTYPE) {
@@ -1664,10 +1663,9 @@ void ProjectList::slotCheckForEmptyQueue()
 {
     if (m_render->processingItems() == 0 && m_thumbnailQueue.isEmpty()) {
         if (!m_refreshed && m_allClipsProcessed) {
-            kDebug()<<"// LOADING IS OVER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
             m_listView->setEnabled(true);
             slotClipSelected();
-            emit loadingIsOver();
+            QTimer::singleShot(500, this, SIGNAL(loadingIsOver()));
             emit displayMessage(QString(), -1);
             m_refreshed = true;
         }
