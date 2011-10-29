@@ -1,5 +1,10 @@
 
 HEAD
+    * Load zone thumbnails from disk if available.
+    * Optimise document loading.
+    * In case of missing or invalid clips, open only one dialog box instead of one for each clip.
+    * Display proxy creation progress in project tree.
+    * Improve way of picking an average color of an area.
     * Make audio bitrate in render dialog selectable.
     * Add support for handling different versions of filters and add rules to convert between them.
     * Move all cached data in one operation, so that user does not get one dialog box for each file in case of duplicates. (http://kdenlive.org/mantis/view.php?id=2297)
@@ -28,8 +33,18 @@ HEAD
     * Allow use of different ffmpeg preset for 1st and 2nd render pass.
     * Notes widget: context menu now allows to insert clickable timecode to make easy reference to some place in the project.
 
-    * Fix audio issues in rendered file when using a recent ffmpeg version by replacing 'b' with 'vb' (ffmpeg bitrate parameter). (http://www.kdenlive.org/mantis/view.php?id=2318)
-    * Fix rendering to Flash could be broken by setting the number of encoder threads. (http://www.kdenlive.org/mantis/view.php?id=2312)
+    * Fix encoding of dvd vob menu file.
+    * Fix possible crash when doing fast start/stop.
+    * Fix multiple concurrency crashes related to thumbnail and proxy creation.
+    * Fix name of dvgrab captured file. (http://kdenlive.org/mantis/view.php?id=2344)
+    * Fix issues with simultaneous 2-pass rendering (x264). (http://kdenlive.org/mantis/view.php?id=2338)
+    * Fix rendering progress not shown if multiple copies of Kdenlive are open. (http://kdenlive.org/mantis/view.php?id=1265)
+    * Fix DVD chapters discarded when opening from render dialog. (http://kdenlive.org/mantis/view.php?id=2335)
+    * Fix possible corruption caused by vertical offset of transitions in timeline.
+    * Fix aspect ratio of thumbnails to correctly use the project's arpect ratio.
+    * Fix bitrate broken when editing render profile or making it a favorite. (http://kdenlive.org/mantis/view.php?id=2321)
+    * Fix audio issues in rendered file when using a recent ffmpeg version by replacing 'b' with 'vb' (ffmpeg bitrate parameter). (http://kdenlive.org/mantis/view.php?id=2318)
+    * Fix rendering to Flash could be broken by setting the number of encoder threads. (http://kdenlive.org/mantis/view.php?id=2312)
     * Fix DVD wizard losing chapters data when switching to menu page.
     * Fix previewing of affine transitions with transparent png.
     * Fix timeline corruption when using 'Remove space' tool (transitions could overlap).
