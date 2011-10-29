@@ -419,7 +419,7 @@ bool MltDeviceCapture::slotStartCapture(const QString &params, const QString &pa
     }
     
     // FIXME: the event object returned by the listen gets leaked...
-    m_mltConsumer->listen("consumer-frame-render", this, (mlt_listener) rec_consumer_frame_show);
+    if (m_livePreview < 2) m_mltConsumer->listen("consumer-frame-render", this, (mlt_listener) rec_consumer_frame_show);
     tmp = qstrdup(playlist.toUtf8().constData());
     if (xmlPlaylist) {
         // create an xml producer
