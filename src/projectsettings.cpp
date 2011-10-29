@@ -94,8 +94,7 @@ ProjectSettings::ProjectSettings(ProjectList *projectlist, QStringList lumas, in
 
 
     // load proxy profiles
-    QString profileFile = KStandardDirs::locateLocal("appdata", "encodingprofiles.rc");
-    KConfig conf(profileFile, KConfig::SimpleConfig);
+    KConfig conf("encodingprofiles.rc", KConfig::FullConfig, "appdata");
     KConfigGroup group(&conf, "proxy");
     QMap <QString, QString> values = group.entryMap();
     QMapIterator<QString, QString> k(values);

@@ -1,0 +1,11 @@
+[decklink]
+DNxHD=vcodec=dnxhd vb=145000k acodec=pcm_s16le threads=%threads;mov
+Normal MPEG=vcodec=mpeg2video qscale=10 acodec=mp2 ac=2 ab=128k ar=48000 threads=%threads;mpg
+
+[proxy]
+Normal MPEG=-f mpegts -acodec libmp3lame -ac 2 -ab 128k -ar 48000 -vcodec mpeg2video -g 5 -deinterlace -s 480x270 -vb 400k;ts
+
+[video4linux]
+Normal MPEG=f=mpeg acodec=mp2 ab=128k ar=48000 vcodec=mpeg2video minrate=0 vb=4000k;mpg
+
+

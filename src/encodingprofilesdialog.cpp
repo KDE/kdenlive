@@ -46,12 +46,7 @@ EncodingProfilesDialog::EncodingProfilesDialog(int profileType, QWidget * parent
     button_delete->setIcon(KIcon("list-remove"));
     button_download->setIcon(KIcon("download"));
     
-    QString profileFile = KStandardDirs::locateLocal("appdata", "encodingprofiles.rc");
-    if (!QFile::exists(profileFile)) {
-        // todo: copy global config file to local
-        //KIO::NetAccess::copy()
-    }
-    m_configFile = new KConfig(profileFile, KConfig::SimpleConfig);
+    m_configFile = new KConfig("encodingprofiles.rc", KConfig::FullConfig, "appdata");
     profile_type->setCurrentIndex(profileType);
     connect(profile_type, SIGNAL(currentIndexChanged(int)), this, SLOT(slotLoadProfiles()));
     connect(profile_list, SIGNAL(currentRowChanged(int)), this, SLOT(slotShowParams()));

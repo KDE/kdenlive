@@ -64,6 +64,7 @@
 #include "archivewidget.h"
 #include "databackup/backupwidget.h"
 
+
 #include <KApplication>
 #include <KAction>
 #include <KLocale>
@@ -612,6 +613,45 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
 
     actionCollection()->addAssociatedWidget(m_clipMonitor->container());
     actionCollection()->addAssociatedWidget(m_projectMonitor->container());
+    
+    // Populate encoding profiles
+    KConfig conf("encodingprofiles.rc", KConfig::FullConfig, "appdata");
+    if (KdenliveSettings::proxyparams().isEmpty()) {
+        KConfigGroup group(&conf, "proxy");
+        QMap< QString, QString > values = group.entryMap();
+        QMapIterator<QString, QString> i(values);
+        if (i.hasNext()) {
+            i.next();
+            KdenliveSettings::setProxy_profile(i.key());
+            QString data = i.value();
+            KdenliveSettings::setProxyparams(data.section(';', 0, 0));
+            KdenliveSettings::setProxyextension(data.section(';', 1, 1));
+        }
+    }
+    if (KdenliveSettings::v4l_parameters().isEmpty()) {
+        KConfigGroup group(&conf, "video4linux");
+        QMap< QString, QString > values = group.entryMap();
+        QMapIterator<QString, QString> i(values);
+        if (i.hasNext()) {
+            i.next();
+            KdenliveSettings::setV4l_profile(i.key());
+            QString data = i.value();
+            KdenliveSettings::setV4l_parameters(data.section(';', 0, 0));
+            KdenliveSettings::setV4l_extension(data.section(';', 1, 1));
+        }
+    }
+    if (KdenliveSettings::decklink_parameters().isEmpty()) {
+        KConfigGroup group(&conf, "decklink");
+        QMap< QString, QString > values = group.entryMap();
+        QMapIterator<QString, QString> i(values);
+        if (i.hasNext()) {
+            i.next();
+            KdenliveSettings::setDecklink_profile(i.key());
+            QString data = i.value();
+            KdenliveSettings::setDecklink_parameters(data.section(';', 0, 0));
+            KdenliveSettings::setDecklink_extension(data.section(';', 1, 1));
+        }
+    }
 }
 
 MainWindow::~MainWindow()
@@ -1778,14 +1818,6 @@ void MainWindow::newFile(bool showProjectSettings, bool force)
     QMap <QString, QString> documentProperties;
     QPoint projectTracks(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks());
     if (!showProjectSettings) {
-        // set up default properties
-        documentProperties.insert("enableproxy", QString::number((int) KdenliveSettings::enableproxy()));
-        documentProperties.insert("generateproxy", QString::number((int) KdenliveSettings::generateproxy()));
-        documentProperties.insert("proxyminsize", QString::number(KdenliveSettings::proxyminsize()));
-        documentProperties.insert("proxyparams", KdenliveSettings::proxyparams());
-        documentProperties.insert("proxyextension", KdenliveSettings::proxyextension());
-        documentProperties.insert("generateimageproxy", QString::number((int) KdenliveSettings::generateimageproxy()));
-        documentProperties.insert("proxyimageminsize", QString::number(KdenliveSettings::proxyimageminsize()));
         if (!KdenliveSettings::activatetabs())
             if (!closeCurrentDocument())
                 return;

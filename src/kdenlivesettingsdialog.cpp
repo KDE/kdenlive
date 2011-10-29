@@ -934,16 +934,7 @@ void KdenliveSettingsDialog::slotManageEncodingProfile()
 
 void KdenliveSettingsDialog::loadEncodingProfiles()
 {
-    QString profileFile = KStandardDirs::locateLocal("appdata", "encodingprofiles.rc");
-    KConfig conf(profileFile, KConfig::SimpleConfig);
-    if (!QFile::exists(profileFile)) {
-        KConfigGroup g1(&conf, "video4linux");
-        g1.writeEntry("Normal MPEG", KdenliveSettings::v4l_parameters() + ";" + KdenliveSettings::v4l_extension());
-        KConfigGroup g2(&conf, "decklink");
-        g2.writeEntry("Normal MPEG", KdenliveSettings::decklink_parameters() + ";" + KdenliveSettings::decklink_extension());
-        KConfigGroup g3(&conf, "proxy");
-        g3.writeEntry("Normal MPEG", KdenliveSettings::proxyparams() + ";" + KdenliveSettings::proxyextension());
-    }
+    KConfig conf("encodingprofiles.rc", KConfig::FullConfig, "appdata");
 
     // Load v4l profiles
     m_configCapture.kcfg_v4l_profile->blockSignals(true);

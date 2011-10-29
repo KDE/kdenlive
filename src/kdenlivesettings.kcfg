@@ -114,17 +114,17 @@
     
     <entry name="proxyextension" type="String">
       <label>File extension for proxy clips.</label>
-      <default>ts</default>
+      <default></default>
     </entry>
     
     <entry name="proxy_profile" type="UInt">
-      <label>default v4l encoding profile.</label>
+      <label>default proxy encoding profile.</label>
       <default>0</default>
     </entry>
     
     <entry name="proxyparams" type="String">
       <label>Proxy clips transcoding parameters.</label>
-      <default>-f mpegts -acodec libmp3lame -ac 2 -ab 128k -ar 48000 -vcodec mpeg2video -g 5 -deinterlace -s 480x270 -vb 400k</default>
+      <default></default>
     </entry>
 
   </group>
@@ -334,12 +334,12 @@
 
     <entry name="v4l_parameters" type="String">
       <label>Default video4linux format.</label>
-      <default>f=mpeg acodec=mp2 ab=128k ar=48000 vcodec=mpeg2video minrate=0 b=4000k</default>
+      <default></default>
     </entry>
 
     <entry name="v4l_extension" type="String">
       <label>Default video4linux file extension.</label>
-      <default>mpg</default>
+      <default></default>
     </entry>
 
     <entry name="v4l_format" type="UInt">
@@ -504,12 +504,12 @@
   
   <entry name="decklink_parameters" type="String">
       <label>Default Decklink encoding parameters.</label>
-      <default>vcodec=mpeg2video qscale=10 acodec=mp2 ac=2 ab=128k ar=48000 threads=%threads</default>
+      <default></default>
   </entry>
 
   <entry name="decklink_extension" type="String">
       <label>Default Decklink capture file extension.</label>
-      <default>mpg</default>
+      <default></default>
   </entry>
   </group>
 
