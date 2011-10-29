@@ -622,7 +622,6 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
         QMapIterator<QString, QString> i(values);
         if (i.hasNext()) {
             i.next();
-            KdenliveSettings::setProxy_profile(i.key());
             QString data = i.value();
             KdenliveSettings::setProxyparams(data.section(';', 0, 0));
             KdenliveSettings::setProxyextension(data.section(';', 1, 1));
@@ -634,7 +633,6 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
         QMapIterator<QString, QString> i(values);
         if (i.hasNext()) {
             i.next();
-            KdenliveSettings::setV4l_profile(i.key());
             QString data = i.value();
             KdenliveSettings::setV4l_parameters(data.section(';', 0, 0));
             KdenliveSettings::setV4l_extension(data.section(';', 1, 1));
@@ -646,7 +644,6 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
         QMapIterator<QString, QString> i(values);
         if (i.hasNext()) {
             i.next();
-            KdenliveSettings::setDecklink_profile(i.key());
             QString data = i.value();
             KdenliveSettings::setDecklink_parameters(data.section(';', 0, 0));
             KdenliveSettings::setDecklink_extension(data.section(';', 1, 1));
