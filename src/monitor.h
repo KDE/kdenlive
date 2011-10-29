@@ -74,16 +74,8 @@ public:
     MonitorRefresh(QWidget *parent = 0);
     void setRenderer(Render* render);
 
-protected:
-    virtual void resizeEvent(QResizeEvent *event);
-
 private:
     Render *m_renderer;
-
-signals:
-    void switchFullScreen();
-    void switchPlay();
-    void mouseSeek(int, bool);
 };
 
 class Overlay : public QLabel
@@ -133,6 +125,7 @@ public:
 protected:
     virtual void mousePressEvent(QMouseEvent * event);
     virtual void mouseReleaseEvent(QMouseEvent * event);
+    virtual void resizeEvent(QResizeEvent *event);
 
     /** @brief Move to another position on mouse wheel event.
      *

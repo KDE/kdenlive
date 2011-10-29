@@ -1486,7 +1486,7 @@ void Render::seekToFrameDiff(int diff)
 
 void Render::doRefresh()
 {
-    m_refreshTimer.start();
+    if (m_mltProducer && m_mltProducer->get_speed() == 0) m_refreshTimer.start();
 }
 
 void Render::refresh()

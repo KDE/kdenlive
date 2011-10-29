@@ -455,6 +455,13 @@ void Monitor::mousePressEvent(QMouseEvent * event)
     }
 }
 
+void Monitor::resizeEvent(QResizeEvent *event)
+{
+    Q_UNUSED(event);
+    if (render && isVisible() && isActive()) render->doRefresh();
+}
+
+
 void Monitor::slotSwitchFullScreen()
 {
     m_videoBox->switchFullScreen();
@@ -605,8 +612,8 @@ void Monitor::slotSeek()
 
 void Monitor::slotSeek(int pos)
 {
-    //activateMonitor();
     if (render == NULL) return;
+    activateMonitor();
     render->seekToFrame(pos);
 }
 
@@ -1054,12 +1061,6 @@ void MonitorRefresh::setRenderer(Render* render)
     m_renderer = render;
 }
 
-
-void MonitorRefresh::resizeEvent(QResizeEvent *event)
-{
-    Q_UNUSED(event);
-    if (m_renderer && isVisible()) m_renderer->doRefresh();
-}
 
 Overlay::Overlay(QWidget* parent) :
     QLabel(parent)
