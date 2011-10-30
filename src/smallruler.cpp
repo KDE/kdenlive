@@ -140,6 +140,11 @@ bool SmallRuler::slotNewValue(int value)
     return true;
 }
 
+int SmallRuler::position() const
+{
+    return m_cursorFramePosition;
+}
+
 //virtual
 void SmallRuler::resizeEvent(QResizeEvent *)
 {

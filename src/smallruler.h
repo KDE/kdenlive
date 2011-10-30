@@ -37,6 +37,7 @@ public:
     void setZone(int start, int end);
     QPoint zone();
     void setMarkers(QList < int > list);
+    int position() const;
 
 protected:
     virtual void paintEvent(QPaintEvent *e);

@@ -428,7 +428,7 @@ void Monitor::slotZoneMoved(int start, int end)
 
 void Monitor::slotSetZoneStart()
 {
-    m_ruler->setZone(render->seekFramePosition(), -1);
+    m_ruler->setZone(m_ruler->position(), -1);
     emit zoneUpdated(m_ruler->zone());
     checkOverlay();
     setClipZone(m_ruler->zone());
@@ -436,7 +436,7 @@ void Monitor::slotSetZoneStart()
 
 void Monitor::slotSetZoneEnd()
 {
-    m_ruler->setZone(-1, render->seekFramePosition());
+    m_ruler->setZone(-1, m_ruler->position());
     emit zoneUpdated(m_ruler->zone());
     checkOverlay();
     setClipZone(m_ruler->zone());
@@ -549,7 +549,7 @@ void Monitor::slotMouseSeek(int eventDelta, bool fast)
     if (fast) {
         int delta = m_monitorManager->timecode().fps();
         if (eventDelta > 0) delta = 0 - delta;
-        slotSeek(render->seekFramePosition() - delta);
+        slotSeek(m_ruler->position() - delta);
     } else {
         if (eventDelta >= 0) slotForwardOneFrame();
         else slotRewindOneFrame();
@@ -620,7 +620,7 @@ void Monitor::slotSeek(int pos)
 void Monitor::checkOverlay()
 {
     if (m_overlay == NULL) return;
-    int pos = render->seekFramePosition();
+    int pos = m_ruler->position();
     QPoint zone = m_ruler->zone();
     if (pos == zone.x())
         m_overlay->setOverlayText(i18n("In Point"));
