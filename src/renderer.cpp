@@ -788,6 +788,8 @@ void Render::processFileProperties()
 
         stringMap filePropertyMap;
         stringMap metadataPropertyMap;
+        char property[200];
+        
         if (frameNumber > 0) producer->seek(frameNumber);
         
         duration = duration > 0 ? duration : producer->get_playtime();
@@ -839,10 +841,20 @@ void Render::processFileProperties()
                 }
             }
         }
+        
+        // Get frame rate
+        int vindex = producer->get_int("video_index");     
+        if (vindex > -1) {
+            snprintf(property, sizeof(property), "meta.media.%d.stream.frame_rate", vindex);
+            if (producer->get(property))
+                filePropertyMap["fps"] = producer->get(property);
+        }
 
-        if (producer->get_double("meta.media.frame_rate_den") > 0) {
-            filePropertyMap["fps"] = locale.toString(producer->get_double("meta.media.frame_rate_num") / producer->get_double("meta.media.frame_rate_den"));
-        } else filePropertyMap["fps"] = producer->get("source_fps");
+        if (!filePropertyMap.contains("fps")) {
+            if (producer->get_double("meta.media.frame_rate_den") > 0) {
+                filePropertyMap["fps"] = locale.toString(producer->get_double("meta.media.frame_rate_num") / producer->get_double("meta.media.frame_rate_den"));
+            } else filePropertyMap["fps"] = producer->get("source_fps");
+        }
 
         Mlt::Frame *frame = producer->get_frame();
         if (frame && frame->is_valid()) {
@@ -884,10 +896,9 @@ void Render::processFileProperties()
             }
         }
         // Retrieve audio / video codec name
-
         // If there is a
-        char property[200];
-        if (producer->get_int("video_index") > -1) {
+
+        if (vindex > -1) {
             /*if (context->duration == AV_NOPTS_VALUE) {
             kDebug() << " / / / / / / / /ERROR / / / CLIP HAS UNKNOWN DURATION";
                 emit removeInvalidClip(clipId);
@@ -895,7 +906,6 @@ void Render::processFileProperties()
             return;
             }*/
             // Get the video_index
-            int default_video = producer->get_int("video_index");
             int video_max = 0;
             int default_audio = producer->get_int("audio_index");
             int audio_max = 0;
@@ -909,21 +919,21 @@ void Render::processFileProperties()
                 else if (type == "audio")
                     audio_max = ix;
             }
-            filePropertyMap["default_video"] = QString::number(default_video);
+            filePropertyMap["default_video"] = QString::number(vindex);
             filePropertyMap["video_max"] = QString::number(video_max);
             filePropertyMap["default_audio"] = QString::number(default_audio);
             filePropertyMap["audio_max"] = QString::number(audio_max);
 
-            snprintf(property, sizeof(property), "meta.media.%d.codec.long_name", default_video);
+            snprintf(property, sizeof(property), "meta.media.%d.codec.long_name", vindex);
             if (producer->get(property)) {
                 filePropertyMap["videocodec"] = producer->get(property);
             } else {
-                snprintf(property, sizeof(property), "meta.media.%d.codec.name", default_video);
+                snprintf(property, sizeof(property), "meta.media.%d.codec.name", vindex);
                 if (producer->get(property))
                     filePropertyMap["videocodec"] = producer->get(property);
             }
             QString query;
-            query = QString("meta.media.%1.codec.pix_fmt").arg(default_video);
+            query = QString("meta.media.%1.codec.pix_fmt").arg(vindex);
             filePropertyMap["pix_fmt"] = producer->get(query.toUtf8().constData());
             filePropertyMap["colorspace"] = producer->get("meta.media.colorspace");
 
@@ -1002,7 +1012,11 @@ int Render::setProducer(Mlt::Producer *producer, int position)
     QMutexLocker locker(&m_mutex);
     QString currentId;
     int consumerPosition = 0;
-    if (m_winid == -1 || !m_mltConsumer) return -1;
+    if (m_winid == -1 || !m_mltConsumer) {
+        kDebug()<<" / / / / WARNING, MONITOR NOT READY";
+        if (producer) delete producer;
+        return -1;
+    }
     m_mltConsumer->set("refresh", 0);
     if (!m_mltConsumer->is_stopped()) {
         m_mltConsumer->stop();
