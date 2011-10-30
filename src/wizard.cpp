@@ -336,16 +336,19 @@ void Wizard::checkMltComponents()
             for (int i = 0; i < vcodecs.count(); i++)
                 result << QString(vcodecs.get(i));
             m_mltCheck.vcodecs_list->addItems(result);
+            KdenliveSettings::setVideocodecs(result);
             result.clear();
             Mlt::Properties acodecs((mlt_properties) consumer->get_data("acodec"));
             for (int i = 0; i < acodecs.count(); i++)
                 result << QString(acodecs.get(i));
             m_mltCheck.acodecs_list->addItems(result);
+            KdenliveSettings::setAudiocodecs(result);
             result.clear();
             Mlt::Properties formats((mlt_properties) consumer->get_data("f"));
             for (int i = 0; i < formats.count(); i++)
                 result << QString(formats.get(i));
             m_mltCheck.formats_list->addItems(result);
+            KdenliveSettings::setSupportedformats(result);
             delete consumer;
         }
 

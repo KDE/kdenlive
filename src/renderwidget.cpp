@@ -223,6 +223,19 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, QWidg
 
     focusFirstVisibleItem();
     adjustSize();
+
+#if KDE_IS_VERSION(4,7,0)
+    m_infoMessage = new KMessageWidget;
+    QGridLayout *s =  static_cast <QGridLayout*> (m_view.tab->layout());
+    s->addWidget(m_infoMessage, 12, 0, 1, -1);
+    m_infoMessage->hide();
+#endif
+}
+
+QSize RenderWidget::sizeHint() const
+{
+    // Make sure the widget has minimum size on opening
+    return QSize(200, 200);
 }
 
 RenderWidget::~RenderWidget()
@@ -2030,12 +2043,23 @@ void RenderWidget::missingClips(bool hasMissing)
 void RenderWidget::errorMessage(const QString &message)
 {
     if (!message.isEmpty()) {
+#if KDE_IS_VERSION(4,7,0)
+        m_infoMessage->setMessageType(KMessageWidget::Warning);
+        m_infoMessage->setText(message);
+        m_infoMessage->animatedShow();
+#else
         m_view.errorLabel->setText(message);
         m_view.errorBox->setHidden(false);
+#endif
     }
     else {
+#if KDE_IS_VERSION(4,7,0)
+        m_infoMessage->animatedHide();
+#else
         m_view.errorBox->setHidden(true);
         m_view.errorLabel->setText(QString());
+#endif
+
     }
 }
 

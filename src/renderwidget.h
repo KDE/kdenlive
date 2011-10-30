@@ -21,6 +21,11 @@
 #ifndef RENDERWIDGET_H
 #define RENDERWIDGET_H
 
+#include <kdeversion.h>
+#if KDE_IS_VERSION(4,7,0)
+#include <KMessageWidget>
+#endif
+
 #include <QPushButton>
 #include <QPainter>
 #include <QStyledItemDelegate>
@@ -132,6 +137,9 @@ public:
     /** @brief Should we render using proxy clips. */
     bool proxyRendering();
 
+protected:
+    virtual QSize sizeHint() const;
+
 public slots:
     void slotExport(bool scriptExport, int zoneIn, int zoneOut, const QString &playlistPath, const QString &scriptPath, bool exportAudio);
 
@@ -179,6 +187,11 @@ private:
     RenderViewDelegate *m_jobsDelegate;
     bool m_blockProcessing;
     QString m_renderer;
+
+#if KDE_IS_VERSION(4,7,0)
+    KMessageWidget *m_infoMessage;
+#endif
+
     void parseProfiles(QString meta = QString(), QString group = QString(), QString profile = QString());
     void parseFile(QString exportFile, bool editable);
     void updateButtons();
