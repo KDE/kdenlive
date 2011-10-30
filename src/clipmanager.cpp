@@ -65,11 +65,11 @@ ClipManager::ClipManager(KdenliveDoc *doc) :
 
 ClipManager::~ClipManager()
 {
+    m_abortThumb = true;
+    m_thumbsThread.waitForFinished();
     m_thumbsMutex.lock();
     m_requestedThumbs.clear();
     m_thumbsMutex.unlock();
-    m_abortThumb = true;
-    m_thumbsThread.waitForFinished();
     m_audioThumbsQueue.clear();
     m_generatingAudioId.clear();
     m_thumbsMutex.lock();
@@ -84,11 +84,11 @@ ClipManager::~ClipManager()
 
 void ClipManager::clear()
 {
+    m_abortThumb = true;
+    m_thumbsThread.waitForFinished();
     m_thumbsMutex.lock();
     m_requestedThumbs.clear();
     m_thumbsMutex.unlock();
-    m_abortThumb = true;
-    m_thumbsThread.waitForFinished();
     m_abortThumb = false;
     m_folderList.clear();
     m_audioThumbsQueue.clear();
@@ -111,7 +111,6 @@ void ClipManager::clearCache()
 
 void ClipManager::requestThumbs(const QString id, QList <int> frames)
 {
-    kDebug()<<"// Request thbs: "<<id<<": "<<frames;
     m_thumbsMutex.lock();
     foreach (int frame, frames) {
         m_requestedThumbs.insertMulti(id, frame);
@@ -137,12 +136,12 @@ void ClipManager::stopThumbs(const QString &id)
 
 void ClipManager::slotGetThumbs()
 {
-    QMap<QString, int>::const_iterator i = m_requestedThumbs.constBegin();
-    while (i != m_requestedThumbs.constEnd() && !m_abortThumb) {
-        const QString producerId = i.key();
+    QMap<QString, int>::iterator i = m_requestedThumbs.begin();
+    while (i != m_requestedThumbs.end() && !m_abortThumb) {
+        QString producerId = i.key();
         m_thumbsMutex.lock();
         QList<int> values = m_requestedThumbs.values(producerId);
-        m_requestedThumbs.remove(producerId);
+        i = m_requestedThumbs.erase(i);
         m_thumbsMutex.unlock();
         qSort(values);
         DocClipBase *clip = getClipById(producerId);
@@ -157,7 +156,6 @@ void ClipManager::slotGetThumbs()
                 m_requestedThumbs.insertMulti(producerId, frame);
             m_thumbsMutex.unlock();
         }
-        i = m_requestedThumbs.constBegin();
     }
 }
 
