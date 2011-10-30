@@ -1267,7 +1267,7 @@ void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged)
             item = static_cast <ProjectItem *>(*it);
             clip = item->referencedClip();
             if (item->referencedClip()->getProducer() == NULL) {
-                if (clip->isPlaceHolder() == false) {
+                if (clip->isPlaceHolder() == false && !item->isProxyRunning()) {
                     QDomElement xml = clip->toXML();
                     if (fpsChanged) {
                         xml.removeAttribute("out");
@@ -1837,7 +1837,7 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
             int max = m_doc->clipManager()->clipsCount();
             emit displayMessage(i18n("Loading clips"), (int)(100 *(max - queue) / max));
         }
-        if (m_allClipsProcessed) processNextThumbnail();
+        if (m_allClipsProcessed) emit processNextThumbnail();
     }
     if (replace && item) {
         toReload = clipId;
