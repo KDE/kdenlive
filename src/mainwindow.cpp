@@ -3967,6 +3967,7 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
                     // We need to delete the "aspect_ratio" property because proxy clips
                     // sometimes have different ratio than original clips
                     EffectsList::removeProperty(e, "aspect_ratio");
+                    EffectsList::removeMetaProperties(e);
                 }
             }
         }

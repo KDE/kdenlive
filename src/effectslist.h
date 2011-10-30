@@ -81,6 +81,8 @@ public:
     static QString property(QDomElement effect, const QString &name);
     /** @brief Delete a 'property' element from the effect node. */
     static void removeProperty(QDomElement effect, const QString &name);
+    /** @brief Remove all 'meta.*' properties from a producer, used when replacing proxy producers in xml for rendering. */
+    static void removeMetaProperties(QDomElement producer);
     void clearList();
 
 private:

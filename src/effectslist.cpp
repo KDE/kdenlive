@@ -273,6 +273,19 @@ void EffectsList::removeProperty(QDomElement effect, const QString &name)
     }
 }
 
+// static
+void EffectsList::removeMetaProperties(QDomElement producer)
+{
+    QDomNodeList params = producer.elementsByTagName("property");
+    for (int i = 0; i < params.count(); i++) {
+        QDomElement e = params.item(i).toElement();
+        if (e.attribute("name").startsWith("meta")) {
+            producer.removeChild(params.item(i));
+            i--;
+        }
+    }
+}
+
 void EffectsList::append(QDomElement e)
 {
     m_baseElement.appendChild(importNode(e, true));
