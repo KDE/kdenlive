@@ -57,7 +57,7 @@ KThumb::KThumb(ClipManager *clipManager, KUrl url, const QString &id, const QStr
 
 KThumb::~KThumb()
 {
-    m_clipManager->stopThumbs(m_id);
+    if (m_producer) m_clipManager->stopThumbs(m_id);
     m_intraFramesQueue.clear();
     if (m_audioThumbProducer.isRunning()) {
         m_stopAudioThumbs = true;
@@ -69,7 +69,7 @@ KThumb::~KThumb()
 
 void KThumb::setProducer(Mlt::Producer *producer)
 {
-    m_clipManager->stopThumbs(m_id);
+    if (m_producer) m_clipManager->stopThumbs(m_id);
     m_intraFramesQueue.clear();
     m_intra.waitForFinished();
     m_mutex.lock();
@@ -77,15 +77,16 @@ void KThumb::setProducer(Mlt::Producer *producer)
     // FIXME: the profile() call leaks an object, but trying to free
     // it leads to a double-free in Profile::~Profile()
     if (producer) {
-        m_dar = producer->profile()->dar();
-        m_ratio = (double) producer->profile()->width() / producer->profile()->height();
+        Mlt::Profile *profile = producer->profile();
+        m_dar = profile->dar();
+        m_ratio = (double) profile->width() / profile->height();
     }
     m_mutex.unlock();
 }
 
 void KThumb::clearProducer()
 {
-    setProducer(NULL);
+    if (m_producer) setProducer(NULL);
 }
 
 bool KThumb::hasProducer() const
@@ -518,7 +519,7 @@ void KThumb::slotGetIntraThumbs()
     if (addedThumbs) emit thumbsCached();
 }
 
-QImage KThumb::findCachedThumb(const QString path)
+QImage KThumb::findCachedThumb(const QString &path)
 {
     QImage img;
     m_clipManager->pixmapCache->findImage(path, &img);

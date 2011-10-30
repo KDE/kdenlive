@@ -46,7 +46,8 @@ ClipManager::ClipManager(KdenliveDoc *doc) :
     m_audioThumbsQueue(),
     m_doc(doc),
     m_generatingAudioId(),
-    m_abortThumb(false)
+    m_abortThumb(false),
+    m_closing(false)
 {
     m_clipIdCounter = 1;
     m_folderIdCounter = 1;
@@ -65,6 +66,7 @@ ClipManager::ClipManager(KdenliveDoc *doc) :
 
 ClipManager::~ClipManager()
 {
+    m_closing = true;
     m_abortThumb = true;
     m_thumbsThread.waitForFinished();
     m_thumbsMutex.lock();
@@ -123,6 +125,7 @@ void ClipManager::requestThumbs(const QString id, QList <int> frames)
 
 void ClipManager::stopThumbs(const QString &id)
 {
+    if (m_requestedThumbs.isEmpty() || m_closing) return;
     m_abortThumb = true;
     m_thumbsThread.waitForFinished();
     m_thumbsMutex.lock();
@@ -148,13 +151,6 @@ void ClipManager::slotGetThumbs()
         if (!clip) continue;
         while (!values.isEmpty() && clip->thumbProducer() && !m_abortThumb) {
             clip->thumbProducer()->getThumb(values.takeFirst());
-        }
-        if (m_abortThumb) {
-            // keep the requested frames that were not processed
-            m_thumbsMutex.lock();
-            foreach (int frame, values)
-                m_requestedThumbs.insertMulti(producerId, frame);
-            m_thumbsMutex.unlock();
         }
     }
 }

@@ -1129,7 +1129,7 @@ void ProjectList::slotGotProxy(const QString &proxyPath)
     QTreeWidgetItemIterator it(m_listView);
     ProjectItem *item;
 
-    while (*it) {
+    while (*it && !m_abortAllProxies) {
         if ((*it)->type() == PROJECTCLIPTYPE) {
             item = static_cast <ProjectItem *>(*it);
             if (item->referencedClip()->getProperty("proxy") == proxyPath)
@@ -1166,6 +1166,7 @@ void ProjectList::slotGotProxy(ProjectItem *item)
 
 void ProjectList::slotResetProjectList()
 {
+    m_listView->blockSignals(true);
     m_abortAllProxies = true;
     m_proxyThreads.waitForFinished();
     m_proxyThreads.clearFutures();
@@ -1175,6 +1176,7 @@ void ProjectList::slotResetProjectList()
     m_refreshed = false;
     m_allClipsProcessed = false;
     m_abortAllProxies = false;
+    m_listView->blockSignals(false);
 }
 
 void ProjectList::slotUpdateClip(const QString &id)
@@ -2396,8 +2398,8 @@ void ProjectList::slotGenerateProxy()
             // Proxy process crashed
             QFile::remove(info.dest);
             setProxyStatus(info.dest, PROXYCRASHED);
-        }   
-
+        }
+        return;
     }
     
     if (info.type == IMAGE) {
@@ -2478,7 +2480,7 @@ void ProjectList::slotGenerateProxy()
             m_abortProxy.removeAll(info.dest);
             m_processingProxy.removeAll(info.dest);
             QFile::remove(info.dest);
-            setProxyStatus(info.dest, NOPROXY);
+            if (!m_abortAllProxies) setProxyStatus(info.dest, NOPROXY);
             result = -2;
             
         }
@@ -2688,7 +2690,7 @@ void ProjectList::setProxyStatus(const QString proxyPath, PROXYSTATUS status, in
     if (proxyPath.isEmpty() || m_abortAllProxies) return;
     QTreeWidgetItemIterator it(m_listView);
     ProjectItem *item;
-    while (*it) {
+    while (*it && !m_abortAllProxies) {
         if ((*it)->type() == PROJECTCLIPTYPE) {
             item = static_cast <ProjectItem *>(*it);
             if (item->referencedClip()->getProperty("proxy") == proxyPath) {

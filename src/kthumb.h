@@ -69,7 +69,7 @@ Q_OBJECT public:
     /** @brief Request thumbnails for the frame range. */
     void queryIntraThumbs(QList <int> missingFrames);
     /** @brief Query cached thumbnail. */
-    QImage findCachedThumb(const QString path);
+    QImage findCachedThumb(const QString &path);
 #endif
     void getThumb(int frame);
 

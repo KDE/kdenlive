@@ -153,6 +153,8 @@ private:   // Private attributes
     QFuture<void> m_thumbsThread;
     /** @brief If true, abort processing of clip thumbs before removing a clip. */
     bool m_abortThumb;
+    /** @brief We are about to delete the clip producer, stop processing thumbs. */
+    bool m_closing;
 
 signals:
     void reloadClip(const QString &);

@@ -182,7 +182,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     closeTabButton->adjustSize();
     closeTabButton->setToolTip(i18n("Close the current tab"));
     m_timelineArea->setCornerWidget(closeTabButton);
-    connect(m_timelineArea, SIGNAL(currentChanged(int)), this, SLOT(activateDocument()));
+    //connect(m_timelineArea, SIGNAL(currentChanged(int)), this, SLOT(activateDocument()));
 
     connect(&m_findTimer, SIGNAL(timeout()), this, SLOT(findTimeout()));
     m_findTimer.setSingleShot(true);
@@ -1903,6 +1903,7 @@ bool MainWindow::closeCurrentDocument(bool saveChanges)
         }
     }
     m_clipMonitor->slotSetClipProducer(NULL);
+    m_projectList->slotResetProjectList();
     m_timelineArea->removeTab(m_timelineArea->indexOf(w));
     if (m_timelineArea->count() == 1) {
         m_timelineArea->setTabBarHidden(true);
@@ -2099,7 +2100,7 @@ void MainWindow::doOpenFile(const KUrl &url, KAutoSaveFile *stale)
 
     bool ok;
     TrackView *trackView = new TrackView(doc, &ok, this);
-
+    connectDocument(trackView, doc);
     progressDialog.progressBar()->setValue(3);
     qApp->processEvents();
 

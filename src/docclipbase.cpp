@@ -98,6 +98,8 @@ DocClipBase::~DocClipBase()
         m_audioTimer->stop();
         delete m_audioTimer;
     }
+    qDeleteAll(m_toDeleteProducers);
+    m_toDeleteProducers.clear();
     qDeleteAll(m_baseTrackProducers);
     m_baseTrackProducers.clear();
     qDeleteAll(m_audioTrackProducers);
@@ -413,7 +415,7 @@ void DocClipBase::clearThumbProducer()
 
 void DocClipBase::deleteProducers()
 {
-    m_thumbProd->clearProducer();
+    if (m_thumbProd) m_thumbProd->clearProducer();
     
     if (numReferences() > 0) {
         // Clip is used in timeline, delay producers deletion
