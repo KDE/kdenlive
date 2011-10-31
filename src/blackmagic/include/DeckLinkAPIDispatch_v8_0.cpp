@@ -1,5 +1,5 @@
 /* -LICENSE-START-
-** Copyright (c) 2009 Blackmagic Design
+** Copyright (c) 2011 Blackmagic Design
 **
 ** Permission is hereby granted, free of charge, to any person or organization
 ** obtaining a copy of the software and accompanying documentation covered by
@@ -29,12 +29,12 @@
 #include <pthread.h>
 #include <dlfcn.h>
 
-#include "DeckLinkAPI.h"
+#include "DeckLinkAPI_v8_0.h"
 
 #define kDeckLinkAPI_Name "libDeckLinkAPI.so"
 #define KDeckLinkPreviewAPI_Name "libDeckLinkPreviewAPI.so"
 
-typedef IDeckLinkIterator* (*CreateIteratorFunc)(void);
+typedef IDeckLinkIterator_v8_0* (*CreateIteratorFunc)(void);
 typedef IDeckLinkAPIInformation* (*CreateAPIInformationFunc)(void);
 typedef IDeckLinkGLScreenPreviewHelper* (*CreateOpenGLScreenPreviewHelperFunc)(void);
 typedef IDeckLinkVideoConversion* (*CreateVideoConversionInstanceFunc)(void);
@@ -62,7 +62,7 @@ void	InitDeckLinkAPI (void)
 	
 	gLoadedDeckLinkAPI = true;
 	
-	gCreateIteratorFunc = (CreateIteratorFunc)dlsym(libraryHandle, "CreateDeckLinkIteratorInstance_0002");
+	gCreateIteratorFunc = (CreateIteratorFunc)dlsym(libraryHandle, "CreateDeckLinkIteratorInstance_0001");
 	if (!gCreateIteratorFunc)
 		fprintf(stderr, "%s\n", dlerror());
 	gCreateAPIInformationFunc = (CreateAPIInformationFunc)dlsym(libraryHandle, "CreateDeckLinkAPIInformationInstance_0001");
@@ -94,7 +94,7 @@ bool		IsDeckLinkAPIPresent (void)
 	return gLoadedDeckLinkAPI;
 }
 
-IDeckLinkIterator*		CreateDeckLinkIteratorInstance (void)
+IDeckLinkIterator_v8_0*		CreateDeckLinkIteratorInstance (void)
 {
 	pthread_once(&gDeckLinkOnceControl, InitDeckLinkAPI);
 	
