@@ -1,5 +1,5 @@
 
-HEAD
+0.8.2
     * Load zone thumbnails from disk if available.
     * Optimise document loading.
     * In case of missing or invalid clips, open only one dialog box instead of one for each clip.
