@@ -91,12 +91,38 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, QWidg
     m_view.buttonFavorite->setToolTip(i18n("Copy profile to favorites"));
     
     m_view.advanced_params->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 5);
-
+    
+    m_view.buttonRender->setEnabled(false);
+    m_view.buttonGenerateScript->setEnabled(false);
+    m_view.rescale_box->setEnabled(false);
+    m_view.guides_box->setVisible(false);
+    m_view.open_dvd->setVisible(false);
+    m_view.create_chapter->setVisible(false);
+    m_view.open_browser->setVisible(false);
+    m_view.error_box->setVisible(false);
+    m_view.tc_type->setEnabled(false);
+    m_view.checkTwoPass->setEnabled(false);
+    
     if (KdenliveSettings::showrenderparams()) {
         m_view.buttonInfo->setDown(true);
     } else m_view.advanced_params->hide();
     
     m_view.proxy_render->setHidden(!enableProxy);
+
+    KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Window, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
+    QColor bg = scheme.background(KColorScheme::NegativeBackground).color();
+    m_view.errorBox->setStyleSheet(QString("QGroupBox { background-color: rgb(%1, %2, %3); border-radius: 5px;}; ").arg(bg.red()).arg(bg.green()).arg(bg.blue()));
+    int height = QFontInfo(font()).pixelSize();
+    m_view.errorIcon->setPixmap(KIcon("dialog-warning").pixmap(height, height));
+    m_view.errorBox->setHidden(true);
+
+#if KDE_IS_VERSION(4,7,0)
+    m_infoMessage = new KMessageWidget;
+    QGridLayout *s =  static_cast <QGridLayout*> (m_view.tab->layout());
+    s->addWidget(m_infoMessage, 16, 0, 1, -1);
+    m_infoMessage->setCloseButtonVisible(false);
+    m_infoMessage->hide();
+#endif
 
     m_view.encoder_threads->setMaximum(QThread::idealThreadCount());
     m_view.encoder_threads->setValue(KdenliveSettings::encodethreads());
@@ -118,13 +144,6 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, QWidg
 
     m_view.format_list->setAlternatingRowColors(true);
     m_view.size_list->setAlternatingRowColors(true);
-
-    KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Window, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
-    QColor bg = scheme.background(KColorScheme::NegativeBackground).color();
-    m_view.errorBox->setStyleSheet(QString("QGroupBox { background-color: rgb(%1, %2, %3); border-radius: 5px;}; ").arg(bg.red()).arg(bg.green()).arg(bg.blue()));
-    int height = QFontInfo(font()).pixelSize();
-    m_view.errorIcon->setPixmap(KIcon("dialog-warning").pixmap(height, height));
-    m_view.errorBox->setHidden(true);
 
     connect(m_view.export_audio, SIGNAL(stateChanged(int)), this, SLOT(slotUpdateAudioLabel(int)));
     m_view.export_audio->setCheckState(Qt::PartiallyChecked);
@@ -172,17 +191,6 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, QWidg
 
     connect(m_view.tc_overlay, SIGNAL(toggled(bool)), m_view.tc_type, SLOT(setEnabled(bool)));
 
-    m_view.buttonRender->setEnabled(false);
-    m_view.buttonGenerateScript->setEnabled(false);
-    m_view.rescale_box->setEnabled(false);
-    m_view.guides_box->setVisible(false);
-    m_view.open_dvd->setVisible(false);
-    m_view.create_chapter->setVisible(false);
-    m_view.open_browser->setVisible(false);
-    m_view.error_box->setVisible(false);
-    m_view.tc_type->setEnabled(false);
-    m_view.checkTwoPass->setEnabled(false);
-
     m_view.splitter->setStretchFactor(1, 5);
     m_view.splitter->setStretchFactor(0, 2);
 
@@ -223,13 +231,6 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, QWidg
 
     focusFirstVisibleItem();
     adjustSize();
-
-#if KDE_IS_VERSION(4,7,0)
-    m_infoMessage = new KMessageWidget;
-    QGridLayout *s =  static_cast <QGridLayout*> (m_view.tab->layout());
-    s->addWidget(m_infoMessage, 12, 0, 1, -1);
-    m_infoMessage->hide();
-#endif
 }
 
 QSize RenderWidget::sizeHint() const
