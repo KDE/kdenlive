@@ -1,7 +1,7 @@
 project(kdenlive)
 
 set(BASE_VERSION 0.8.1)
-set(LIBMLT_REQUIRED_VERSION 0.7.4)
+set(LIBMLT_REQUIRED_VERSION 0.7.6)
 
 option(RELEASE_BUILD "Remove compilation date from program version (use for stable releases)" OFF)
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)

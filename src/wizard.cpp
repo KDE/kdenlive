@@ -44,7 +44,7 @@
 // Recommended MLT version
 const int mltVersionMajor = 0;
 const int mltVersionMinor = 7;
-const int mltVersionRevision = 4;
+const int mltVersionRevision = 6;
 
 static const char kdenlive_version[] = VERSION;
 
