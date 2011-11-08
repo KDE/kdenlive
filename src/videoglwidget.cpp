@@ -1,6 +1,7 @@
 
 #include <QtGui>
 #include <QtOpenGL>
+#include <GL/glu.h>
 #include "videoglwidget.h"
 
 #ifndef GL_TEXTURE_RECTANGLE_EXT
