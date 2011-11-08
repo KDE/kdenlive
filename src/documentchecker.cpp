@@ -33,6 +33,7 @@
 #include <KApplication>
 #include <KUrlRequesterDialog>
 #include <KMessageBox>
+#include <KStandardDirs>
 
 #include <QTreeWidgetItem>
 #include <QFile>
@@ -423,7 +424,7 @@ void DocumentChecker::slotSearchClips()
                 child->setData(0, statusRole, CLIPOK);
             }
         } else if (child->data(0, statusRole).toInt() == LUMAMISSING) {
-            QString fileName = searchLuma(child->data(0, idRole).toString());
+            QString fileName = searchLuma(searchDir, child->data(0, idRole).toString());
             if (!fileName.isEmpty()) {
                 fixed = true;
                 child->setText(1, fileName);
@@ -456,24 +457,29 @@ void DocumentChecker::slotSearchClips()
 }
 
 
-QString DocumentChecker::searchLuma(const QString &file) const
+QString DocumentChecker::searchLuma(const QDir &dir, const QString &file) const
 {
     KUrl searchPath(KdenliveSettings::mltpath());
+    QString fname = KUrl(file).fileName();
     if (file.contains("PAL"))
         searchPath.cd("../lumas/PAL");
     else
         searchPath.cd("../lumas/NTSC");
-    QString result = searchPath.path(KUrl::AddTrailingSlash) + KUrl(file).fileName();
+    QString result = searchPath.path(KUrl::AddTrailingSlash) + fname;
     if (QFile::exists(result))
         return result;
     // try to find luma in application path
     searchPath.clear();
     searchPath = KUrl(QCoreApplication::applicationDirPath());
     searchPath.cd("../share/apps/kdenlive/lumas");
-    result = searchPath.path(KUrl::AddTrailingSlash) + KUrl(file).fileName();
+    result = searchPath.path(KUrl::AddTrailingSlash) + fname;
     if (QFile::exists(result))
         return result;
-    return QString();
+    // Try in Kdenlive's standard KDE path
+    result = KStandardDirs::locate("appdata", "lumas/" + fname);
+    if (!result.isEmpty()) return result;
+    // Try in user's chosen folder 
+    return searchPathRecursively(dir, fname);
 }
 
 QString DocumentChecker::searchPathRecursively(const QDir &dir, const QString &fileName) const
