@@ -888,7 +888,7 @@ void Render::processFileProperties()
                     }
                 } while (variance == -1);
                 delete frame;
-                if (frameNumber > -1) filePropertyMap["thumbnail"] = frameNumber;
+                if (frameNumber > -1) filePropertyMap["thumbnail"] = QString::number(frameNumber);
                 emit replyGetImage(info.clipId, img);
             } else if (frame->get_int("test_audio") == 0) {
                 emit replyGetImage(info.clipId, "audio-x-generic", fullWidth, info.imageHeight);
