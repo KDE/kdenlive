@@ -712,9 +712,7 @@ void KdenliveSettingsDialog::updateSettings()
 	KdenliveSettings::setShuttlebuttons(maps);
 #endif
 
-#if KDE_IS_VERSION(4,3,0)
     KConfigDialog::settingsChangedSlot();
-#endif
 
     //KConfigDialog::updateSettings();
     if (resetProfile) emit doResetProfile();
@@ -801,17 +799,13 @@ void KdenliveSettingsDialog::slotShuttleModified()
     QString maps = JogShuttleConfig::actionMap(actions);
     m_shuttleModified = KdenliveSettings::shuttlebuttons() != maps;
 #endif
-#if KDE_IS_VERSION(4,3,0)
     KConfigDialog::updateButtons();
-#endif
 }
 
 void KdenliveSettingsDialog::slotDialogModified()
 {
     m_modified = true;
-#if KDE_IS_VERSION(4,3,0)
     KConfigDialog::updateButtons();
-#endif
 }
 
 //virtual

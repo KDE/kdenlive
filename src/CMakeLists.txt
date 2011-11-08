@@ -321,11 +321,7 @@ qt4_add_dbus_adaptor(kdenlive_SRCS org.kdenlive.MainWindow.xml mainwindow.h Main
 qt4_add_resources(kdenlive_SRCS widgets/resources.qrc)
 kde4_add_executable(kdenlive ${kdenlive_SRCS} ${kdenlive_UI})
 
-if(${KDE_VERSION} VERSION_LESS 4.3.80)
-  set(KNEWSTUFF_LIBS ${KDE4_KNEWSTUFF2_LIBS})
-else(${KDE_VERSION} VERSION_LESS 4.3.80)
-  set(KNEWSTUFF_LIBS ${KDE4_KNEWSTUFF3_LIBS})
-endif(${KDE_VERSION} VERSION_LESS 4.3.80)
+set(KNEWSTUFF_LIBS ${KDE4_KNEWSTUFF3_LIBS})
 
 target_link_libraries(kdenlive
   ${KDE4_KDEUI_LIBS}

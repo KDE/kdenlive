@@ -36,9 +36,7 @@
 #include <KMessageBox>
 #include <KApplication>
 
-#if KDE_IS_VERSION(4,2,0)
 #include <KDiskFreeSpaceInfo>
-#endif
 
 #include <QMouseEvent>
 #include <QMenu>
@@ -112,7 +110,6 @@ RecMonitor::RecMonitor(QString name, MonitorManager *manager, QWidget *parent) :
     m_logger.setFrame(false);
     //m_logger.setInsertPolicy(QComboBox::InsertAtTop);
 
-#if KDE_IS_VERSION(4,2,0)
     m_freeSpace = new KCapacityBar(KCapacityBar::DrawTextInline, this);
     m_freeSpace->setMaximumWidth(150);
     QFontMetricsF fontMetrics(font());
@@ -122,7 +119,6 @@ RecMonitor::RecMonitor(QString name, MonitorManager *manager, QWidget *parent) :
     connect(&m_spaceTimer, SIGNAL(timeout()), this, SLOT(slotUpdateFreeSpace()));
     m_spaceTimer.setInterval(30000);
     m_spaceTimer.setSingleShot(false);
-#endif
 
     control_frame_firewire->setLayout(layout);
     m_displayProcess = new QProcess;
@@ -165,9 +161,7 @@ RecMonitor::RecMonitor(QString name, MonitorManager *manager, QWidget *parent) :
 
 RecMonitor::~RecMonitor()
 {
-#if KDE_IS_VERSION(4,2,0)
     m_spaceTimer.stop();
-#endif
     delete m_captureProcess;
     delete m_displayProcess;
     if (m_captureDevice) delete m_captureDevice;
@@ -203,10 +197,8 @@ void RecMonitor::slotUpdateCaptureFolder(const QString &currentProjectFolder)
         else KMessageBox::information(this, i18n("You need to stop capture before your changes can be applied"), i18n("Capturing"));
     } else slotVideoDeviceChanged(device_selector->currentIndex());
 
-#if KDE_IS_VERSION(4,2,0)
     // update free space info
     slotUpdateFreeSpace();
-#endif
 }
 
 void RecMonitor::slotVideoDeviceChanged(int ix)
@@ -539,9 +531,7 @@ void RecMonitor::slotRecord()
         m_isCapturing = true;
         m_didCapture = true;
         m_captureProcess->write("c\n", 3);
-#if KDE_IS_VERSION(4,2,0)
         m_spaceTimer.start();
-#endif
         return;
     }
     if (m_captureProcess->state() == QProcess::NotRunning) {
@@ -792,12 +782,9 @@ void RecMonitor::slotProcessStatus(QProcess::ProcessState status)
         }
         m_isCapturing = false;
 
-#if KDE_IS_VERSION(4,2,0)
         m_spaceTimer.stop();
         // update free space info
         slotUpdateFreeSpace();
-#endif
-
     } else {
         if (device_selector->currentIndex() != SCREENGRAB) m_stopAction->setEnabled(true);
         device_selector->setEnabled(false);
@@ -860,21 +847,17 @@ void RecMonitor::manageCapturedFiles()
 // virtual
 void RecMonitor::mousePressEvent(QMouseEvent * /*event*/)
 {
-#if KDE_IS_VERSION(4,2,0)
     if (m_freeSpace->underMouse()) slotUpdateFreeSpace();
-#endif
 }
 
 void RecMonitor::slotUpdateFreeSpace()
 {
-#if KDE_IS_VERSION(4,2,0)
     KDiskFreeSpaceInfo info = KDiskFreeSpaceInfo::freeSpaceInfo(m_capturePath);
     if (info.isValid() && info.size() > 0) {
         m_freeSpace->setValue(100 * info.used() / info.size());
         m_freeSpace->setText(i18n("Free space: %1", KIO::convertSize(info.available())));
         m_freeSpace->update();
     }
-#endif
 }
 
 void RecMonitor::refreshRecMonitor(bool visible)
