@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 
-#include "commands/configtrackscommand.h"
+#include "configtrackscommand.h"
 #include "customtrackview.h"
 
 

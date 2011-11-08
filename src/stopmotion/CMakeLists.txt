@@ -1,5 +1,5 @@
 set(kdenlive_SRCS
   ${kdenlive_SRCS}
-  rotoscoping/rotowidget.cpp
+  stopmotion/stopmotion.cpp
   PARENT_SCOPE
 )

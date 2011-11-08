@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 
-#include "commands/addfoldercommand.h"
+#include "addfoldercommand.h"
 #include "projectlist.h"
 
 #include <KLocale>

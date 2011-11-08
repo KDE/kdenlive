@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 
-#include "commands/groupclipscommand.h"
+#include "groupclipscommand.h"
 #include "customtrackview.h"
 
 #include <KLocale>

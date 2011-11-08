@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 
-#include "commands/resizeclipcommand.h"
+#include "resizeclipcommand.h"
 #include "customtrackview.h"
 
 #include <KLocale>

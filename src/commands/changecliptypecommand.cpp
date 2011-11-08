@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 
-#include "commands/changecliptypecommand.h"
+#include "changecliptypecommand.h"
 #include "customtrackview.h"
 
 #include <KLocale>

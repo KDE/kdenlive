@@ -8,12 +8,11 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-#include "qtconcurrentrun.h"
-
 #include "abstractgfxscopewidget.h"
 #include "renderer.h"
 #include "monitormanager.h"
 
+#include <QtConcurrentRun>
 #include <QFuture>
 #include <QColor>
 #include <QMenu>

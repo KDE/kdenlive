@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 
-#include "commands/editeffectcommand.h"
+#include "editeffectcommand.h"
 #include "customtrackview.h"
 
 #include <KLocale>

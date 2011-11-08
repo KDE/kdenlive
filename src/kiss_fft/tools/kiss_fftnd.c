@@ -15,7 +15,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 */
 
 #include "kiss_fftnd.h"
-#include "_kiss_fft_guts.h"
+#include "../_kiss_fft_guts.h"
 
 struct kiss_fftnd_state{
     int dimprod; /* dimsum would be mighty tasty right now */

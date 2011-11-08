@@ -16,7 +16,7 @@
  ***************************************************************************/
 
 
-#include "commands/addmarkercommand.h"
+#include "addmarkercommand.h"
 #include "customtrackview.h"
 
 #include <KLocale>

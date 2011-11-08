@@ -16,7 +16,7 @@
  ***************************************************************************/
 
 
-#include "commands/editguidecommand.h"
+#include "editguidecommand.h"
 #include "customtrackview.h"
 
 #include <KLocale>

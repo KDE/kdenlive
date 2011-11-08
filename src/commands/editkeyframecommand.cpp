@@ -16,7 +16,7 @@
  ***************************************************************************/
 
 
-#include "commands/editkeyframecommand.h"
+#include "editkeyframecommand.h"
 #include "customtrackview.h"
 
 #include <KLocale>

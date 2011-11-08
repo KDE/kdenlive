@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 
-#include "commands/razorgroupcommand.h"
+#include "razorgroupcommand.h"
 #include "customtrackview.h"
 
 RazorGroupCommand::RazorGroupCommand(CustomTrackView *view, QList <ItemInfo> clips1, QList <ItemInfo> transitions1, QList <ItemInfo> clipsCut, QList <ItemInfo> transitionsCut, QList <ItemInfo> clips2, QList <ItemInfo> transitions2, GenTime cutPos, QUndoCommand * parent) :

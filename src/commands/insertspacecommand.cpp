@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 
-#include "commands/insertspacecommand.h"
+#include "insertspacecommand.h"
 #include "customtrackview.h"
 
 #include <KLocale>

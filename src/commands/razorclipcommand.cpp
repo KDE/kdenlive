@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 
-#include "commands/razorclipcommand.h"
+#include "razorclipcommand.h"
 #include "customtrackview.h"
 
 #include <KLocale>

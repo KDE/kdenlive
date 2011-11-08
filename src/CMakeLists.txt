@@ -1,15 +1,32 @@
+macro_optional_find_package(Nepomuk)
+macro_optional_find_package(QJSON)
+
+add_subdirectory(audioscopes)
 add_subdirectory(beziercurve)
+add_subdirectory(blackmagic)
 add_subdirectory(colorcorrection)
+add_subdirectory(colorscopes)
+add_subdirectory(commands)
+add_subdirectory(databackup)
 add_subdirectory(kiss_fft)
 add_subdirectory(mimetypes)
 add_subdirectory(onmonitoritems)
-add_subdirectory(rotoscoping)
-add_subdirectory(widgets)
-add_subdirectory(databackup)
-add_subdirectory(commands)
+add_subdirectory(simplekeyframes)
+add_subdirectory(stopmotion)
 
-macro_optional_find_package(Nepomuk)
-macro_optional_find_package(QJSON)
+if(QJSON_FOUND)
+  add_subdirectory(rotoscoping)
+  add_subdirectory(onmonitoritems/rotoscoping)
+  include_directories(QJSON_INCLUDE_DIR)
+  set(optional_libs ${optional_libs} ${QJSON_LIBRARIES})
+  add_definitions(-DQJSON)
+else(QJSON_FOUND)
+  message(STATUS "Install QJson to use the rotoscoping filter")
+endif(QJSON_FOUND)
+
+if(NOT APPLE AND NOT CMAKE_SYSTEM_NAME STREQUAL "FreeBSD" AND NOT CMAKE_SYSTEM_NAME STREQUAL "GNU/kFreeBSD")
+  add_subdirectory(v4l)
+endif(NOT APPLE AND NOT CMAKE_SYSTEM_NAME STREQUAL "FreeBSD" AND NOT CMAKE_SYSTEM_NAME STREQUAL "GNU/kFreeBSD")
 
 include_directories(
   ${KDE4_INCLUDE_DIR}
@@ -18,31 +35,15 @@ include_directories(
   ${LIBMLT_INCLUDE_DIR}
   ${LIBMLTPLUS_INCLUDE_DIR}
   ${QDBUS_INCLUDE_DIRS}
-  ${CMAKE_SOURCE_DIR}
+  ${CMAKE_CURRENT_BINARY_DIR}
   ${CMAKE_BINARY_DIR}
-  ${CMAKE_SOURCE_DIR}/src/audioscopes
-  ${CMAKE_SOURCE_DIR}/src/beziercurve
-  ${CMAKE_SOURCE_DIR}/src/colorcorrection
-  ${CMAKE_SOURCE_DIR}/src/kiss_fft
-  ${CMAKE_SOURCE_DIR}/src/onmonitoritems
-  ${CMAKE_SOURCE_DIR}/src/onmonitoritems/rotoscoping
-  ${CMAKE_SOURCE_DIR}/src/widgets
 )
-
 
 if(Nepomuk_FOUND)
   include_directories(NEPOMUK_INCLUDES)
-  set(optional_libs ${NEPOMUK_LIBRARIES})
+  set(optional_libs ${optional_libs} ${NEPOMUK_LIBRARIES})
   add_definitions(-DNEPOMUK)
 endif(Nepomuk_FOUND)
-
-if(QJSON_FOUND)
-  include_directories(QJSON_INCLUDE_DIR)
-  set(optional_libs ${optional_libs} ${QJSON_LIBRARIES})
-  add_definitions(-DQJSON)
-else(QJSON_FOUND)
-  message(STATUS "Install QJson to use the rotoscoping filter")
-endif(QJSON_FOUND)
 
 if(Q_WS_X11)
   include_directories(${X11_Xlib_INCLUDE_PATH})
@@ -203,44 +204,17 @@ set(kdenlive_SRCS
   timecodedisplay.cpp
   tracksconfigdialog.cpp
   abstractscopewidget.cpp
-  audioscopes/abstractaudioscopewidget.cpp
-  audioscopes/audiospectrum.cpp
-  audioscopes/spectrogram.cpp
-  audioscopes/ffttools.cpp
-  colorscopes/abstractgfxscopewidget.cpp
-  colorscopes/histogram.cpp
-  colorscopes/rgbparade.cpp
-  colorscopes/vectorscope.cpp
-  colorscopes/waveform.cpp
   colorplaneexport.cpp
   colortools.cpp
-  colorcorrection/histogramgenerator.cpp
-  colorcorrection/rgbparadegenerator.cpp
-  colorcorrection/vectorscopegenerator.cpp
-  colorcorrection/waveformgenerator.cpp
   colorpickerwidget.cpp
   choosecolorwidget.cpp
   monitorscene.cpp
   geometrywidget.cpp
   doubleparameterwidget.cpp
   audiosignal.cpp
-  blackmagic/include/DeckLinkAPIDispatch.cpp
-  stopmotion/stopmotion.cpp
-  blackmagic/devices.cpp
-  onmonitoritems/onmonitorrectitem.cpp
-  onmonitoritems/onmonitorcornersitem.cpp
   cornerswidget.cpp
-  kiss_fft/_kiss_fft_guts.h
-  kiss_fft/kiss_fft.c
-  kiss_fft/tools/kiss_fftr.c
-  beziercurve/beziersplineeditor.cpp
-  beziercurve/beziersplinewidget.cpp
-  beziercurve/bpoint.cpp
-  beziercurve/cubicbezierspline.cpp
   dragvalue.cpp
   monitoreditwidget.cpp
-  simplekeyframes/simpletimelinewidget.cpp
-  simplekeyframes/simplekeyframewidget.cpp
   noteswidget.cpp
   archivewidget.cpp
   mltdevicecapture.cpp
@@ -264,24 +238,6 @@ if(APPLE OR OPENGL_FOUND)
   add_definitions(-DUSE_OPEN_GL)
   set(kdenlive_SRCS videoglwidget.cpp ${kdenlive_SRCS})
 endif(APPLE OR OPENGL_FOUND)
-
-if(NOT APPLE AND NOT CMAKE_SYSTEM_NAME STREQUAL "FreeBSD" AND NOT CMAKE_SYSTEM_NAME STREQUAL "GNU/kFreeBSD")
-  set(kdenlive_SRCS
-    ${kdenlive_SRCS}
-    v4l/v4lcapture.cpp
-    v4l/src.c
-  )
-endif(NOT APPLE AND NOT CMAKE_SYSTEM_NAME STREQUAL "FreeBSD" AND NOT CMAKE_SYSTEM_NAME STREQUAL "GNU/kFreeBSD")
-
-if(QJSON_FOUND)
-  set(kdenlive_SRCS
-    ${kdenlive_SRCS}
-    onmonitoritems/rotoscoping/bpointitem.cpp
-    onmonitoritems/rotoscoping/nearestpoint.cpp
-    onmonitoritems/rotoscoping/splineitem.cpp
-    rotoscoping/rotowidget.cpp
-  )
-endif(QJSON_FOUND)
 
 # Add libdl
 find_library(DL_LIB NAMES ${CMAKE_DL_LIBS})

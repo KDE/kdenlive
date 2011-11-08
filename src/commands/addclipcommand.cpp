@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 
-#include "commands/addclipcommand.h"
+#include "addclipcommand.h"
 #include "kdenlivedoc.h"
 
 #include <KLocale>

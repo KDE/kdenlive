@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 
-#include "commands/splitaudiocommand.h"
+#include "splitaudiocommand.h"
 #include "customtrackview.h"
 
 #include <KLocale>

@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 
-#include "commands/changespeedcommand.h"
+#include "changespeedcommand.h"
 #include "customtrackview.h"
 
 #include <KLocale>

@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "commands/edittransitioncommand.h"
+#include "edittransitioncommand.h"
 #include "customtrackview.h"
 
 #include <KLocale>

@@ -59,8 +59,8 @@
 #include "colorscopes/waveform.h"
 #include "colorscopes/rgbparade.h"
 #include "colorscopes/histogram.h"
-#include "audiospectrum.h"
-#include "spectrogram.h"
+#include "audioscopes/audiospectrum.h"
+#include "audioscopes/spectrogram.h"
 #include "archivewidget.h"
 #include "databackup/backupwidget.h"
 

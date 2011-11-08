@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 
-#include "commands/moveclipcommand.h"
+#include "moveclipcommand.h"
 #include "customtrackview.h"
 
 #include <KLocale>

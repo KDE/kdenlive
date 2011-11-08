@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "commands/movetransitioncommand.h"
+#include "movetransitioncommand.h"
 #include "customtrackview.h"
 
 #include <KLocale>

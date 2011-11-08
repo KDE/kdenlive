@@ -19,7 +19,7 @@
 #ifndef BPOINTITEM_H
 #define BPOINTITEM_H
 
-#include "bpoint.h"
+#include "beziercurve/bpoint.h"
 
 #include <QtCore>
 #include <QAbstractGraphicsShapeItem>

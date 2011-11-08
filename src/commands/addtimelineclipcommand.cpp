@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 
-#include "commands/addtimelineclipcommand.h"
+#include "addtimelineclipcommand.h"
 #include "customtrackview.h"
 
 #include <KLocale>

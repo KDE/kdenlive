@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 
-#include "commands/rebuildgroupcommand.h"
+#include "rebuildgroupcommand.h"
 #include "customtrackview.h"
 
 RebuildGroupCommand::RebuildGroupCommand(CustomTrackView* view, int childTrack, GenTime childPos, QUndoCommand* parent) :

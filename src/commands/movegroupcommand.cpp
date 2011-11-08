@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 
-#include "commands/movegroupcommand.h"
+#include "movegroupcommand.h"
 #include "customtrackview.h"
 
 #include <KLocale>

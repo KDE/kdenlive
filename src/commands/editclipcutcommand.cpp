@@ -17,7 +17,7 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include "commands/editclipcutcommand.h"
+#include "editclipcutcommand.h"
 #include "projectlist.h"
 
 #include <KLocale>

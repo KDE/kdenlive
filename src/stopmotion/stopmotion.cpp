@@ -16,18 +16,17 @@
  ***************************************************************************/
 
 #include "stopmotion.h"
-#include "../blackmagic/devices.h"
+#include "blackmagic/devices.h"
 #if !defined(Q_OS_FREEBSD) && !defined(Q_OS_KFREEBSD)
-#include "../v4l/v4lcapture.h"
+#include "v4l/v4lcapture.h"
 #endif
-#include "../slideshowclip.h"
-#include "../profilesdialog.h"
-#include "../mltdevicecapture.h"
-#include "../recmonitor.h"
-#include "../monitormanager.h"
+#include "slideshowclip.h"
+#include "profilesdialog.h"
+#include "mltdevicecapture.h"
+#include "recmonitor.h"
+#include "monitormanager.h"
 #include "ui_smconfig_ui.h"
 #include "kdenlivesettings.h"
-
 
 #include <KDebug>
 #include <KGlobalSettings>

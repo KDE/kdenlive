@@ -12,7 +12,7 @@
 
 #include "audiospectrum.h"
 #include "ffttools.h"
-#include "tools/kiss_fftr.h"
+#include "kiss_fft/tools/kiss_fftr.h"
 
 #include <QMenu>
 #include <QPainter>

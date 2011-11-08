@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 
-#include "commands/addtrackcommand.h"
+#include "addtrackcommand.h"
 #include "customtrackview.h"
 
 #include <KLocale>

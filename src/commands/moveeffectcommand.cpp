@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 
-#include "commands/moveeffectcommand.h"
+#include "moveeffectcommand.h"
 #include "customtrackview.h"
 
 #include <KLocale>
