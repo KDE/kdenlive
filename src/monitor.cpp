@@ -879,7 +879,10 @@ void Monitor::resetProfile(const QString &profile)
 {
     m_timePos->updateTimeCode(m_monitorManager->timecode());
     if (render == NULL) return;
-    render->resetProfile(profile);
+    if (!render->hasProfile(profile)) {
+        activateMonitor();
+        render->resetProfile(profile);
+    }
     if (m_effectWidget)
         m_effectWidget->resetProfile(render);
 }
@@ -1003,8 +1006,8 @@ void Monitor::slotEffectScene(bool show)
         emit requestFrameForAnalysis(show);
         if (show) {
             m_effectWidget->getScene()->slotZoomFit();
-            render->doRefresh();
         }
+        render->doRefresh();
     }
 }
 
