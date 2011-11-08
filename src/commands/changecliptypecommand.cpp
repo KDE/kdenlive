@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2010 by Till Theato (root@ttill.de)                     *
+ *   Copyright (C) 2007 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,27 +18,34 @@
  ***************************************************************************/
 
 
-#include "configtrackscommand.h"
+#include "commands/changecliptypecommand.h"
 #include "customtrackview.h"
 
+#include <KLocale>
 
-ConfigTracksCommand::ConfigTracksCommand(CustomTrackView* view, QList< TrackInfo > oldInfos, QList< TrackInfo > newInfos, QUndoCommand* parent) :
+ChangeClipTypeCommand::ChangeClipTypeCommand(CustomTrackView *view, const int track, const GenTime &pos, bool videoOnly, bool audioOnly, bool originalVideo, bool originalAudio, QUndoCommand * parent) :
         QUndoCommand(parent),
         m_view(view),
-        m_oldInfos(oldInfos),
-        m_newInfos(newInfos)
+        m_pos(pos),
+        m_track(track),
+        m_videoOnly(videoOnly),
+        m_audioOnly(audioOnly),
+        m_originalVideoOnly(originalVideo),
+        m_originalAudioOnly(originalAudio)
 {
-    setText(i18n("Configure Tracks"));
+    setText(i18n("Change clip type"));
 }
 
 // virtual
-void ConfigTracksCommand::undo()
+void ChangeClipTypeCommand::undo()
 {
-    m_view->configTracks(m_oldInfos);
+// kDebug()<<"----  undoing action";
+    m_view->doChangeClipType(m_pos, m_track, m_originalVideoOnly, m_originalAudioOnly);
+}
+// virtual
+void ChangeClipTypeCommand::redo()
+{
+    kDebug() << "----  redoing action";
+    m_view->doChangeClipType(m_pos, m_track, m_videoOnly, m_audioOnly);
 }
 
-// virtual
-void ConfigTracksCommand::redo()
-{
-    m_view->configTracks(m_newInfos);
-}

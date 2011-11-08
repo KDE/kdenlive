@@ -18,35 +18,36 @@
  ***************************************************************************/
 
 
-#include "addtrackcommand.h"
+#include "commands/movegroupcommand.h"
 #include "customtrackview.h"
 
 #include <KLocale>
 
-AddTrackCommand::AddTrackCommand(CustomTrackView *view, int ix, TrackInfo info, bool addTrack, QUndoCommand * parent) :
+MoveGroupCommand::MoveGroupCommand(CustomTrackView *view, const QList <ItemInfo> startClip, const QList <ItemInfo> startTransition, const GenTime offset, const int trackOffset, bool doIt, QUndoCommand * parent) :
         QUndoCommand(parent),
         m_view(view),
-        m_ix(ix),
-        m_addTrack(addTrack),
-        m_info(info)
+        m_startClip(startClip),
+        m_startTransition(startTransition),
+        m_offset(offset),
+        m_trackOffset(trackOffset),
+        m_doIt(doIt)
 {
-    if (addTrack) setText(i18n("Add track"));
-    else setText(i18n("Delete track"));
+    setText(i18n("Move group"));
 }
 
 
 // virtual
-void AddTrackCommand::undo()
+void MoveGroupCommand::undo()
 {
 // kDebug()<<"----  undoing action";
-    if (m_addTrack) m_view->removeTrack(m_ix);
-    else m_view->addTrack(m_info, m_ix);
+    m_doIt = true;
+    m_view->moveGroup(m_startClip, m_startTransition, GenTime() - m_offset, - m_trackOffset, true);
 }
 // virtual
-void AddTrackCommand::redo()
+void MoveGroupCommand::redo()
 {
-    kDebug() << "----  redoing action";
-    if (m_addTrack) m_view->addTrack(m_info, m_ix);
-    else m_view->removeTrack(m_ix);
+    if (m_doIt)
+        m_view->moveGroup(m_startClip, m_startTransition, m_offset, m_trackOffset, false);
+    m_doIt = true;
 }
 

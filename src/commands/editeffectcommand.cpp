@@ -18,34 +18,54 @@
  ***************************************************************************/
 
 
-#include "changecliptypecommand.h"
+#include "commands/editeffectcommand.h"
 #include "customtrackview.h"
 
 #include <KLocale>
 
-ChangeClipTypeCommand::ChangeClipTypeCommand(CustomTrackView *view, const int track, const GenTime &pos, bool videoOnly, bool audioOnly, bool originalVideo, bool originalAudio, QUndoCommand * parent) :
+EditEffectCommand::EditEffectCommand(CustomTrackView *view, const int track, GenTime pos, QDomElement oldeffect, QDomElement effect, int stackPos, bool doIt, QUndoCommand *parent) :
         QUndoCommand(parent),
         m_view(view),
-        m_pos(pos),
         m_track(track),
-        m_videoOnly(videoOnly),
-        m_audioOnly(audioOnly),
-        m_originalVideoOnly(originalVideo),
-        m_originalAudioOnly(originalAudio)
+        m_oldeffect(oldeffect),
+        m_effect(effect),
+        m_pos(pos),
+        m_stackPos(stackPos),
+        m_doIt(doIt)
 {
-    setText(i18n("Change clip type"));
+    QString effectName;
+    QDomElement namenode = effect.firstChildElement("name");
+    if (!namenode.isNull()) effectName = i18n(namenode.text().toUtf8().data());
+    else effectName = i18n("effect");
+    setText(i18n("Edit effect %1", effectName));
 }
 
 // virtual
-void ChangeClipTypeCommand::undo()
+int EditEffectCommand::id() const
 {
-// kDebug()<<"----  undoing action";
-    m_view->doChangeClipType(m_pos, m_track, m_originalVideoOnly, m_originalAudioOnly);
+    return 1;
+}
+
+// virtual
+bool EditEffectCommand::mergeWith(const QUndoCommand * other)
+{
+    if (other->id() != id()) return false;
+    if (m_track != static_cast<const EditEffectCommand*>(other)->m_track) return false;
+    if (m_pos != static_cast<const EditEffectCommand*>(other)->m_pos) return false;
+    m_effect = static_cast<const EditEffectCommand*>(other)->m_effect.cloneNode().toElement();
+    return true;
+}
+
+// virtual
+void EditEffectCommand::undo()
+{
+    m_view->updateEffect(m_track, m_pos, m_oldeffect, m_stackPos, false);
 }
 // virtual
-void ChangeClipTypeCommand::redo()
+void EditEffectCommand::redo()
 {
-    kDebug() << "----  redoing action";
-    m_view->doChangeClipType(m_pos, m_track, m_videoOnly, m_audioOnly);
+    m_view->updateEffect(m_track, m_pos, m_effect, m_stackPos, m_doIt);
+    m_doIt = false;
 }
+
 

@@ -1,7 +1,7 @@
 /***************************************************************************
-                          movetransitioncommand.h  -  description
+                          addtransitioncommand.cpp  -  description
                              -------------------
-    begin                : Mar 15 2008
+    begin                : 2008
     copyright            : (C) 2008 by Marco Gittler
     email                : g.marco@freenet.de
  ***************************************************************************/
@@ -15,39 +15,39 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "movetransitioncommand.h"
+
+#include "commands/editguidecommand.h"
 #include "customtrackview.h"
 
 #include <KLocale>
 
-MoveTransitionCommand::MoveTransitionCommand(CustomTrackView *view, const ItemInfo start, const ItemInfo end, bool doIt, QUndoCommand * parent) :
+EditGuideCommand::EditGuideCommand(CustomTrackView *view, const GenTime oldPos, const QString &oldcomment, const GenTime pos, const QString &comment, bool doIt, QUndoCommand * parent) :
         QUndoCommand(parent),
         m_view(view),
-        m_startPos(start),
-        m_endPos(end),
+        m_oldcomment(oldcomment),
+        m_comment(comment),
+        m_oldPos(oldPos),
+        m_pos(pos),
         m_doIt(doIt)
 {
-    setText(i18n("Move transition"));
-    if (parent) {
-        // command has a parent, so there are several operations ongoing, do not refresh monitor
-        m_refresh = false;
-    } else m_refresh = true;
+    if (m_oldcomment.isEmpty()) setText(i18n("Add guide"));
+    else if (m_oldPos == m_pos) setText(i18n("Edit guide"));
+    else if (m_pos <= GenTime()) setText(i18n("Delete guide"));
+    else setText(i18n("Move guide"));
 }
 
 
 // virtual
-void MoveTransitionCommand::undo()
+void EditGuideCommand::undo()
 {
-// kDebug()<<"----  undoing action";
-    m_doIt = true;
-    m_view->moveTransition(m_endPos, m_startPos, m_refresh);
+    m_view->editGuide(m_pos, m_oldPos, m_oldcomment);
 }
 // virtual
-void MoveTransitionCommand::redo()
+void EditGuideCommand::redo()
 {
-    //kDebug() << "----  redoing action";
-    if (m_doIt) m_view->moveTransition(m_startPos, m_endPos, m_refresh);
+    if (m_doIt) {
+        m_view->editGuide(m_oldPos, m_pos, m_comment);
+    }
     m_doIt = true;
 }
-
 

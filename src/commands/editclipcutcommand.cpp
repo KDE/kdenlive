@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *   Copyright (C) 2008 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,36 +17,36 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
-#include "changespeedcommand.h"
-#include "customtrackview.h"
+#include "commands/editclipcutcommand.h"
+#include "projectlist.h"
 
 #include <KLocale>
 
-ChangeSpeedCommand::ChangeSpeedCommand(CustomTrackView *view, ItemInfo info, ItemInfo speedIndependantInfo, double old_speed, double new_speed, int old_strobe, int new_strobe, const QString &clipId, QUndoCommand * parent) :
+EditClipCutCommand::EditClipCutCommand(ProjectList *list, const QString &id, const QPoint oldZone, const QPoint newZone, const QString &oldComment, const QString &newComment, bool doIt, QUndoCommand * parent) :
         QUndoCommand(parent),
-        m_view(view),
-        m_clipInfo(info),
-        m_speedIndependantInfo(speedIndependantInfo),
-        m_clipId(clipId),
-        m_old_speed(old_speed),
-        m_new_speed(new_speed),
-        m_old_strobe(old_strobe),
-        m_new_strobe(new_strobe)
+        m_list(list),
+        m_id(id),
+        m_oldZone(oldZone),
+        m_newZone(newZone),
+        m_oldComment(oldComment),
+        m_newComment(newComment),
+        m_doIt(doIt)
 {
-    setText(i18n("Adjust clip length"));
+    setText(i18n("Edit clip cut"));
 }
 
 
 // virtual
-void ChangeSpeedCommand::undo()
+void EditClipCutCommand::undo()
 {
-    m_view->doChangeClipSpeed(m_clipInfo, m_speedIndependantInfo, m_old_speed, m_new_speed, m_old_strobe, m_clipId);
+    kDebug() << "----  undoing action";
+    m_list->doUpdateClipCut(m_id, m_newZone, m_oldZone, m_oldComment);
 }
 // virtual
-void ChangeSpeedCommand::redo()
+void EditClipCutCommand::redo()
 {
-    m_view->doChangeClipSpeed(m_clipInfo, m_speedIndependantInfo, m_new_speed, m_old_speed, m_new_strobe, m_clipId);
+    kDebug() << "----  redoing action";
+    if (m_doIt) m_list->doUpdateClipCut(m_id, m_oldZone, m_newZone, m_newComment);
+    m_doIt = true;
 }
-
 

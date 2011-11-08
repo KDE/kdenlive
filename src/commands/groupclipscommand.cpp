@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2008 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *   Copyright (C) 2007 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,36 +17,34 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include "editclipcutcommand.h"
-#include "projectlist.h"
+
+#include "commands/groupclipscommand.h"
+#include "customtrackview.h"
 
 #include <KLocale>
 
-EditClipCutCommand::EditClipCutCommand(ProjectList *list, const QString &id, const QPoint oldZone, const QPoint newZone, const QString &oldComment, const QString &newComment, bool doIt, QUndoCommand * parent) :
+GroupClipsCommand::GroupClipsCommand(CustomTrackView *view, const QList <ItemInfo> clipInfos, const QList <ItemInfo> transitionInfos, bool group, QUndoCommand * parent) :
         QUndoCommand(parent),
-        m_list(list),
-        m_id(id),
-        m_oldZone(oldZone),
-        m_newZone(newZone),
-        m_oldComment(oldComment),
-        m_newComment(newComment),
-        m_doIt(doIt)
+        m_view(view),
+        m_clips(clipInfos),
+        m_transitions(transitionInfos),
+        m_group(group)
 {
-    setText(i18n("Edit clip cut"));
+    if (m_group) setText(i18n("Group clips"));
+    else setText(i18n("Ungroup clips"));
 }
 
 
 // virtual
-void EditClipCutCommand::undo()
+void GroupClipsCommand::undo()
 {
-    kDebug() << "----  undoing action";
-    m_list->doUpdateClipCut(m_id, m_newZone, m_oldZone, m_oldComment);
+// kDebug()<<"----  undoing action";
+    m_view->doGroupClips(m_clips, m_transitions, !m_group);
 }
 // virtual
-void EditClipCutCommand::redo()
+void GroupClipsCommand::redo()
 {
     kDebug() << "----  redoing action";
-    if (m_doIt) m_list->doUpdateClipCut(m_id, m_oldZone, m_newZone, m_newComment);
-    m_doIt = true;
+    m_view->doGroupClips(m_clips, m_transitions, m_group);
 }
 

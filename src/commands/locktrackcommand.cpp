@@ -17,34 +17,31 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
-#include "addfoldercommand.h"
-#include "projectlist.h"
+#include "commands/locktrackcommand.h"
+#include "customtrackview.h"
 
 #include <KLocale>
 
-AddFolderCommand::AddFolderCommand(ProjectList *view, const QString folderName, const QString &clipId, bool doIt, QUndoCommand *parent) :
+LockTrackCommand::LockTrackCommand(CustomTrackView *view, int ix, bool lock, QUndoCommand * parent) :
         QUndoCommand(parent),
         m_view(view),
-        m_name(folderName),
-        m_id(clipId),
-        m_doIt(doIt)
+        m_ix(ix),
+        m_lock(lock)
 {
-    if (doIt) setText(i18n("Add folder"));
-    else setText(i18n("Delete folder"));
+    if (lock) setText(i18n("Lock track"));
+    else setText(i18n("Unlock track"));
 }
 
+
 // virtual
-void AddFolderCommand::undo()
+void LockTrackCommand::undo()
 {
-    if (m_doIt) m_view->slotAddFolder(m_name, m_id, true);
-    else m_view->slotAddFolder(m_name, m_id, false);
+    m_view->lockTrack(m_ix, !m_lock);
 }
 // virtual
-void AddFolderCommand::redo()
+void LockTrackCommand::redo()
 {
-    if (m_doIt) m_view->slotAddFolder(m_name, m_id, false);
-    else m_view->slotAddFolder(m_name, m_id, true);
+    m_view->lockTrack(m_ix, m_lock);
 }
 
 

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2010 by Till Theato (root@ttill.de)                     *
+ *   Copyright (C) 2007 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,26 +18,32 @@
  ***************************************************************************/
 
 
-#include "rebuildgroupcommand.h"
-#include "customtrackview.h"
+#include "commands/editfoldercommand.h"
+#include "projectlist.h"
 
-RebuildGroupCommand::RebuildGroupCommand(CustomTrackView* view, int childTrack, GenTime childPos, QUndoCommand* parent) :
+#include <KLocale>
+
+EditFolderCommand::EditFolderCommand(ProjectList *view, const QString newfolderName, const QString oldfolderName, const QString &clipId, bool doIt, QUndoCommand *parent) :
         QUndoCommand(parent),
         m_view(view),
-        m_childTrack(childTrack),
-        m_childPos(childPos)
+        m_name(newfolderName),
+        m_oldname(oldfolderName),
+        m_id(clipId),
+        m_doIt(doIt)
 {
-    setText(i18n("Rebuild Group"));
+    setText(i18n("Rename folder"));
 }
 
 // virtual
-void RebuildGroupCommand::undo()
+void EditFolderCommand::undo()
 {
-    m_view->rebuildGroup(m_childTrack, m_childPos);
+    m_view->slotAddFolder(m_oldname, m_id, false, true);
+}
+// virtual
+void EditFolderCommand::redo()
+{
+    if (m_doIt) m_view->slotAddFolder(m_name, m_id, false, true);
+    m_doIt = true;
 }
 
-// virtual
-void RebuildGroupCommand::redo()
-{
-    m_view->rebuildGroup(m_childTrack, m_childPos);
-}
+

@@ -16,38 +16,43 @@
  ***************************************************************************/
 
 
-#include "editguidecommand.h"
+#include "commands/addtransitioncommand.h"
 #include "customtrackview.h"
 
 #include <KLocale>
 
-EditGuideCommand::EditGuideCommand(CustomTrackView *view, const GenTime oldPos, const QString &oldcomment, const GenTime pos, const QString &comment, bool doIt, QUndoCommand * parent) :
+AddTransitionCommand::AddTransitionCommand(CustomTrackView *view, ItemInfo info, int transitiontrack, QDomElement params, bool remove, bool doIt, QUndoCommand * parent) :
         QUndoCommand(parent),
         m_view(view),
-        m_oldcomment(oldcomment),
-        m_comment(comment),
-        m_oldPos(oldPos),
-        m_pos(pos),
-        m_doIt(doIt)
+        m_info(info),
+        m_params(params),
+        m_track(transitiontrack),
+        m_doIt(doIt),
+        m_remove(remove)
 {
-    if (m_oldcomment.isEmpty()) setText(i18n("Add guide"));
-    else if (m_oldPos == m_pos) setText(i18n("Edit guide"));
-    else if (m_pos <= GenTime()) setText(i18n("Delete guide"));
-    else setText(i18n("Move guide"));
+    if (m_remove) setText(i18n("Delete transition from clip"));
+    else setText(i18n("Add transition to clip"));
+    if (parent) {
+        // command has a parent, so there are several operations ongoing, do not refresh monitor
+        m_refresh = false;
+    } else m_refresh = true;
 }
 
 
 // virtual
-void EditGuideCommand::undo()
+void AddTransitionCommand::undo()
 {
-    m_view->editGuide(m_pos, m_oldPos, m_oldcomment);
+    if (m_remove) m_view->addTransition(m_info, m_track, m_params, m_refresh);
+    else m_view->deleteTransition(m_info, m_track, m_params, m_refresh);
 }
 // virtual
-void EditGuideCommand::redo()
+void AddTransitionCommand::redo()
 {
     if (m_doIt) {
-        m_view->editGuide(m_oldPos, m_pos, m_comment);
+        if (m_remove) m_view->deleteTransition(m_info, m_track, m_params, m_refresh);
+        else m_view->addTransition(m_info, m_track, m_params, m_refresh);
     }
     m_doIt = true;
 }
+
 

@@ -6,6 +6,7 @@ add_subdirectory(onmonitoritems)
 add_subdirectory(rotoscoping)
 add_subdirectory(widgets)
 add_subdirectory(databackup)
+add_subdirectory(commands)
 
 macro_optional_find_package(Nepomuk)
 macro_optional_find_package(QJSON)
@@ -131,7 +132,6 @@ kde4_add_ui_files(kdenlive_UI
 
 set(kdenlive_SRCS
   ${kdenlive_SRCS}
-  addclipcommand.cpp
   main.cpp
   mainwindow.cpp
   customruler.cpp
@@ -150,19 +150,11 @@ set(kdenlive_SRCS
   headertrack.cpp
   customtrackview.cpp
   clipitem.cpp
-  moveclipcommand.cpp
-  resizeclipcommand.cpp
-  razorclipcommand.cpp
-  addtimelineclipcommand.cpp
-  addmarkercommand.cpp
   kthumb.cpp
   clipmanager.cpp
   effectslist.cpp
   initeffects.cpp
   effectslistview.cpp
-  addeffectcommand.cpp
-  editeffectcommand.cpp
-  moveeffectcommand.cpp
   effectstackview.cpp
   effectstackedit.cpp
   parameterplotter.cpp
@@ -180,38 +172,22 @@ set(kdenlive_SRCS
   abstractclipitem.cpp
   transitionsettings.cpp
   recmonitor.cpp
-  addtransitioncommand.cpp
-  edittransitioncommand.cpp
-  addfoldercommand.cpp
-  editfoldercommand.cpp
   clipproperties.cpp
-  movetransitioncommand.cpp
   slideshowclip.cpp
   markerdialog.cpp
   guide.cpp
-  editguidecommand.cpp
   statusbarmessagelabel.cpp
-  editkeyframecommand.cpp
   clipdurationdialog.cpp
   managecapturesdialog.cpp
-  changespeedcommand.cpp
   geometryval.cpp
   wizard.cpp
   customtrackscene.cpp
   abstractgroupitem.cpp
   keyframehelper.cpp
-  editclipcommand.cpp
-  insertspacecommand.cpp
   spacerdialog.cpp
-  addtrackcommand.cpp
-  movegroupcommand.cpp
   dvdwizardvob.cpp
   dvdwizardmenu.cpp
   dvdwizard.cpp
-  locktrackcommand.cpp
-  groupclipscommand.cpp
-  splitaudiocommand.cpp
-  changecliptypecommand.cpp
   documentchecker.cpp
   dvdwizardchapters.cpp
   documentvalidator.cpp
@@ -221,20 +197,16 @@ set(kdenlive_SRCS
   trackdialog.cpp
   subprojectitem.cpp
   folderprojectitem.cpp
-  addclipcutcommand.cpp
-  editclipcutcommand.cpp
   KoSliderCombo.cpp
   kis_cubic_curve.cpp
   kis_curve_widget.cpp
   timecodedisplay.cpp
   tracksconfigdialog.cpp
-  configtrackscommand.cpp
   abstractscopewidget.cpp
   audioscopes/abstractaudioscopewidget.cpp
   audioscopes/audiospectrum.cpp
   audioscopes/spectrogram.cpp
   audioscopes/ffttools.cpp
-  rebuildgroupcommand.cpp
   colorscopes/abstractgfxscopewidget.cpp
   colorscopes/histogram.cpp
   colorscopes/rgbparade.cpp
@@ -246,7 +218,6 @@ set(kdenlive_SRCS
   colorcorrection/rgbparadegenerator.cpp
   colorcorrection/vectorscopegenerator.cpp
   colorcorrection/waveformgenerator.cpp
-  razorgroupcommand.cpp
   colorpickerwidget.cpp
   choosecolorwidget.cpp
   monitorscene.cpp

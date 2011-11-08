@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2010 by Till Theato (root@ttill.de)                     *
+ *   Copyright (C) 2007 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,31 +18,35 @@
  ***************************************************************************/
 
 
-#include "razorgroupcommand.h"
+#include "commands/changespeedcommand.h"
 #include "customtrackview.h"
 
-RazorGroupCommand::RazorGroupCommand(CustomTrackView *view, QList <ItemInfo> clips1, QList <ItemInfo> transitions1, QList <ItemInfo> clipsCut, QList <ItemInfo> transitionsCut, QList <ItemInfo> clips2, QList <ItemInfo> transitions2, GenTime cutPos, QUndoCommand * parent) :
-    QUndoCommand(parent),
-    m_view(view),
-    m_clips1(clips1),
-    m_transitions1(transitions1),
-    m_clipsCut(clipsCut),
-    m_transitionsCut(transitionsCut),
-    m_clips2(clips2),
-    m_transitions2(transitions2),
-    m_cutPos(cutPos)
+#include <KLocale>
+
+ChangeSpeedCommand::ChangeSpeedCommand(CustomTrackView *view, ItemInfo info, ItemInfo speedIndependantInfo, double old_speed, double new_speed, int old_strobe, int new_strobe, const QString &clipId, QUndoCommand * parent) :
+        QUndoCommand(parent),
+        m_view(view),
+        m_clipInfo(info),
+        m_speedIndependantInfo(speedIndependantInfo),
+        m_clipId(clipId),
+        m_old_speed(old_speed),
+        m_new_speed(new_speed),
+        m_old_strobe(old_strobe),
+        m_new_strobe(new_strobe)
 {
-    setText(i18n("Cut Group"));
+    setText(i18n("Adjust clip length"));
 }
 
-// virtual
-void RazorGroupCommand::undo()
-{
-    m_view->slotRazorGroup(m_clips1, m_transitions1, m_clipsCut, m_transitionsCut, m_clips2, m_transitions2, m_cutPos, false);
-}
 
 // virtual
-void RazorGroupCommand::redo()
+void ChangeSpeedCommand::undo()
 {
-    m_view->slotRazorGroup(m_clips1, m_transitions1, m_clipsCut, m_transitionsCut, m_clips2, m_transitions2, m_cutPos, true);
+    m_view->doChangeClipSpeed(m_clipInfo, m_speedIndependantInfo, m_old_speed, m_new_speed, m_old_strobe, m_clipId);
 }
+// virtual
+void ChangeSpeedCommand::redo()
+{
+    m_view->doChangeClipSpeed(m_clipInfo, m_speedIndependantInfo, m_new_speed, m_old_speed, m_new_strobe, m_clipId);
+}
+
+

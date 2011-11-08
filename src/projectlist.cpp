@@ -19,7 +19,7 @@
 
 #include "projectlist.h"
 #include "projectitem.h"
-#include "addfoldercommand.h"
+#include "commands/addfoldercommand.h"
 #include "kdenlivesettings.h"
 #include "slideshowclip.h"
 #include "ui_colorclip_ui.h"
@@ -33,10 +33,10 @@
 #include "projectlistview.h"
 #include "timecodedisplay.h"
 #include "profilesdialog.h"
-#include "editclipcommand.h"
-#include "editclipcutcommand.h"
-#include "editfoldercommand.h"
-#include "addclipcutcommand.h"
+#include "commands/editclipcommand.h"
+#include "commands/editclipcutcommand.h"
+#include "commands/editfoldercommand.h"
+#include "commands/addclipcutcommand.h"
 
 #include "ui_templateclip_ui.h"
 

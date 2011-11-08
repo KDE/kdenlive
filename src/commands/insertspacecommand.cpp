@@ -18,32 +18,37 @@
  ***************************************************************************/
 
 
-#include "editfoldercommand.h"
-#include "projectlist.h"
+#include "commands/insertspacecommand.h"
+#include "customtrackview.h"
 
 #include <KLocale>
 
-EditFolderCommand::EditFolderCommand(ProjectList *view, const QString newfolderName, const QString oldfolderName, const QString &clipId, bool doIt, QUndoCommand *parent) :
+InsertSpaceCommand::InsertSpaceCommand(CustomTrackView *view, QList<ItemInfo> clipsToMove, QList<ItemInfo> transToMove, int track, const GenTime &duration, bool doIt, QUndoCommand * parent) :
         QUndoCommand(parent),
         m_view(view),
-        m_name(newfolderName),
-        m_oldname(oldfolderName),
-        m_id(clipId),
+        m_clipsToMove(clipsToMove),
+        m_transToMove(transToMove),
+        m_duration(duration),
+        m_track(track),
         m_doIt(doIt)
 {
-    setText(i18n("Rename folder"));
+    if (duration > GenTime()) setText(i18n("Insert space"));
+    else setText(i18n("Remove space"));
 }
 
 // virtual
-void EditFolderCommand::undo()
+void InsertSpaceCommand::undo()
 {
-    m_view->slotAddFolder(m_oldname, m_id, false, true);
+    // kDebug()<<"----  undoing action";
+    m_view->insertSpace(m_clipsToMove, m_transToMove, m_track, GenTime() - m_duration, m_duration);
 }
 // virtual
-void EditFolderCommand::redo()
+void InsertSpaceCommand::redo()
 {
-    if (m_doIt) m_view->slotAddFolder(m_name, m_id, false, true);
+    // kDebug() << "----  redoing action cut: " << m_cutTime.frames(25);
+    if (m_doIt) {
+        m_view->insertSpace(m_clipsToMove, m_transToMove, m_track, m_duration, GenTime());
+    }
     m_doIt = true;
 }
-
 

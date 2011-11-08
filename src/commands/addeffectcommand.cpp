@@ -18,54 +18,41 @@
  ***************************************************************************/
 
 
-#include "editeffectcommand.h"
+#include "commands/addeffectcommand.h"
 #include "customtrackview.h"
 
 #include <KLocale>
 
-EditEffectCommand::EditEffectCommand(CustomTrackView *view, const int track, GenTime pos, QDomElement oldeffect, QDomElement effect, int stackPos, bool doIt, QUndoCommand *parent) :
+AddEffectCommand::AddEffectCommand(CustomTrackView *view, const int track, GenTime pos, QDomElement effect, bool doIt, QUndoCommand * parent) :
         QUndoCommand(parent),
         m_view(view),
         m_track(track),
-        m_oldeffect(oldeffect),
-        m_effect(effect),
+        m_effect(effect.cloneNode().toElement()),
         m_pos(pos),
-        m_stackPos(stackPos),
         m_doIt(doIt)
 {
     QString effectName;
-    QDomElement namenode = effect.firstChildElement("name");
+    QDomElement namenode = m_effect.firstChildElement("name");
     if (!namenode.isNull()) effectName = i18n(namenode.text().toUtf8().data());
     else effectName = i18n("effect");
-    setText(i18n("Edit effect %1", effectName));
+    if (doIt) setText(i18n("Add %1", effectName));
+    else setText(i18n("Delete %1", effectName));
 }
 
-// virtual
-int EditEffectCommand::id() const
-{
-    return 1;
-}
 
 // virtual
-bool EditEffectCommand::mergeWith(const QUndoCommand * other)
+void AddEffectCommand::undo()
 {
-    if (other->id() != id()) return false;
-    if (m_track != static_cast<const EditEffectCommand*>(other)->m_track) return false;
-    if (m_pos != static_cast<const EditEffectCommand*>(other)->m_pos) return false;
-    m_effect = static_cast<const EditEffectCommand*>(other)->m_effect.cloneNode().toElement();
-    return true;
-}
-
-// virtual
-void EditEffectCommand::undo()
-{
-    m_view->updateEffect(m_track, m_pos, m_oldeffect, m_stackPos, false);
+    kDebug() << "----  undoing action";
+    if (m_doIt) m_view->deleteEffect(m_track, m_pos, m_effect);
+    else m_view->addEffect(m_track, m_pos, m_effect);
 }
 // virtual
-void EditEffectCommand::redo()
+void AddEffectCommand::redo()
 {
-    m_view->updateEffect(m_track, m_pos, m_effect, m_stackPos, m_doIt);
-    m_doIt = false;
+    kDebug() << "----  redoing action";
+    if (m_doIt) m_view->addEffect(m_track, m_pos, m_effect);
+    else m_view->deleteEffect(m_track, m_pos, m_effect);
 }
 
 

@@ -18,39 +18,35 @@
  ***************************************************************************/
 
 
-#include "moveclipcommand.h"
-#include "customtrackview.h"
+#include "commands/addclipcommand.h"
+#include "kdenlivedoc.h"
 
 #include <KLocale>
 
-MoveClipCommand::MoveClipCommand(CustomTrackView *view, const ItemInfo start, const ItemInfo end, bool doIt, QUndoCommand * parent) :
+AddClipCommand::AddClipCommand(KdenliveDoc *doc, const QDomElement &xml, const QString &id, bool doIt, QUndoCommand * parent) :
         QUndoCommand(parent),
-        m_view(view),
-        m_startPos(start),
-        m_endPos(end),
+        m_doc(doc),
+        m_xml(xml),
+        m_id(id),
         m_doIt(doIt)
 {
-    setText(i18n("Move clip"));
-    if (parent) {
-        // command has a parent, so there are several operations ongoing, do not refresh monitor
-        m_refresh = false;
-    } else m_refresh = true;
+    if (doIt) setText(i18n("Add clip"));
+    else setText(i18n("Delete clip"));
 }
 
 
 // virtual
-void MoveClipCommand::undo()
+void AddClipCommand::undo()
 {
-// kDebug()<<"----  undoing action";
-    m_doIt = true;
-    m_view->moveClip(m_endPos, m_startPos, m_refresh);
+    kDebug() << "----  undoing action";
+    if (m_doIt) m_doc->deleteClip(m_id);
+    else m_doc->addClip(m_xml, m_id);
 }
 // virtual
-void MoveClipCommand::redo()
+void AddClipCommand::redo()
 {
-    //kDebug() << "----  redoing action";
-    if (m_doIt)
-        m_view->moveClip(m_startPos, m_endPos, m_refresh);
-    m_doIt = true;
+    kDebug() << "----  redoing action";
+    if (m_doIt) m_doc->addClip(m_xml, m_id);
+    else m_doc->deleteClip(m_id);
 }
 

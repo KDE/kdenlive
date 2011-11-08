@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *   Copyright (C) 2008 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,37 +17,34 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
-#include "movegroupcommand.h"
-#include "customtrackview.h"
+#include "commands/editclipcommand.h"
+#include "projectlist.h"
 
 #include <KLocale>
 
-MoveGroupCommand::MoveGroupCommand(CustomTrackView *view, const QList <ItemInfo> startClip, const QList <ItemInfo> startTransition, const GenTime offset, const int trackOffset, bool doIt, QUndoCommand * parent) :
+EditClipCommand::EditClipCommand(ProjectList *list, const QString &id, QMap <QString, QString> oldparams, QMap <QString, QString> newparams, bool doIt, QUndoCommand * parent) :
         QUndoCommand(parent),
-        m_view(view),
-        m_startClip(startClip),
-        m_startTransition(startTransition),
-        m_offset(offset),
-        m_trackOffset(trackOffset),
+        m_list(list),
+        m_oldparams(oldparams),
+        m_newparams(newparams),
+        m_id(id),
         m_doIt(doIt)
 {
-    setText(i18n("Move group"));
+    setText(i18n("Edit clip"));
 }
 
 
 // virtual
-void MoveGroupCommand::undo()
+void EditClipCommand::undo()
 {
-// kDebug()<<"----  undoing action";
-    m_doIt = true;
-    m_view->moveGroup(m_startClip, m_startTransition, GenTime() - m_offset, - m_trackOffset, true);
+    kDebug() << "----  undoing action";
+    m_list->slotUpdateClipProperties(m_id, m_oldparams);
 }
 // virtual
-void MoveGroupCommand::redo()
+void EditClipCommand::redo()
 {
-    if (m_doIt)
-        m_view->moveGroup(m_startClip, m_startTransition, m_offset, m_trackOffset, false);
+    kDebug() << "----  redoing action";
+    if (m_doIt) m_list->slotUpdateClipProperties(m_id, m_newparams);
     m_doIt = true;
 }
 

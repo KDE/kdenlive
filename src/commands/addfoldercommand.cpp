@@ -18,31 +18,33 @@
  ***************************************************************************/
 
 
-#include "resizeclipcommand.h"
-#include "customtrackview.h"
+#include "commands/addfoldercommand.h"
+#include "projectlist.h"
 
 #include <KLocale>
 
-ResizeClipCommand::ResizeClipCommand(CustomTrackView *view, const ItemInfo start, const ItemInfo end, bool doIt, bool dontWorry, QUndoCommand * parent) :
+AddFolderCommand::AddFolderCommand(ProjectList *view, const QString folderName, const QString &clipId, bool doIt, QUndoCommand *parent) :
         QUndoCommand(parent),
         m_view(view),
-        m_startPos(start),
-        m_endPos(end),
-        m_doIt(doIt),
-        m_dontWorry(dontWorry)
+        m_name(folderName),
+        m_id(clipId),
+        m_doIt(doIt)
 {
-    setText(i18n("Resize clip"));
+    if (doIt) setText(i18n("Add folder"));
+    else setText(i18n("Delete folder"));
 }
 
 // virtual
-void ResizeClipCommand::undo()
+void AddFolderCommand::undo()
 {
-    m_view->resizeClip(m_endPos, m_startPos, m_dontWorry);
+    if (m_doIt) m_view->slotAddFolder(m_name, m_id, true);
+    else m_view->slotAddFolder(m_name, m_id, false);
 }
 // virtual
-void ResizeClipCommand::redo()
+void AddFolderCommand::redo()
 {
-    if (m_doIt) m_view->resizeClip(m_startPos, m_endPos, m_dontWorry);
-    m_doIt = true;
+    if (m_doIt) m_view->slotAddFolder(m_name, m_id, false);
+    else m_view->slotAddFolder(m_name, m_id, true);
 }
+
 

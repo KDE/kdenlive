@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *   Copyright (C) 2008 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,36 +17,35 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
-#include "addclipcommand.h"
-#include "kdenlivedoc.h"
+#include "commands/addclipcutcommand.h"
+#include "projectlist.h"
 
 #include <KLocale>
 
-AddClipCommand::AddClipCommand(KdenliveDoc *doc, const QDomElement &xml, const QString &id, bool doIt, QUndoCommand * parent) :
+AddClipCutCommand::AddClipCutCommand(ProjectList *list, const QString &id, int in, int out, const QString desc, bool newItem, bool remove, QUndoCommand * parent) :
         QUndoCommand(parent),
-        m_doc(doc),
-        m_xml(xml),
+        m_list(list),
         m_id(id),
-        m_doIt(doIt)
+        m_in(in),
+        m_out(out),
+        m_desc(desc),
+        m_newItem(newItem),
+        m_remove(remove)
 {
-    if (doIt) setText(i18n("Add clip"));
-    else setText(i18n("Delete clip"));
+    setText(i18n("Add clip cut"));
 }
 
 
 // virtual
-void AddClipCommand::undo()
+void AddClipCutCommand::undo()
 {
-    kDebug() << "----  undoing action";
-    if (m_doIt) m_doc->deleteClip(m_id);
-    else m_doc->addClip(m_xml, m_id);
+    if (m_remove) m_list->addClipCut(m_id, m_in, m_out, m_desc, m_newItem);
+    else m_list->removeClipCut(m_id, m_in, m_out);
 }
 // virtual
-void AddClipCommand::redo()
+void AddClipCutCommand::redo()
 {
-    kDebug() << "----  redoing action";
-    if (m_doIt) m_doc->addClip(m_xml, m_id);
-    else m_doc->deleteClip(m_id);
+    if (m_remove) m_list->removeClipCut(m_id, m_in, m_out);
+    else m_list->addClipCut(m_id, m_in, m_out, m_desc, m_newItem);
 }
 

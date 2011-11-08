@@ -18,37 +18,35 @@
  ***************************************************************************/
 
 
-#include "insertspacecommand.h"
+#include "commands/addtrackcommand.h"
 #include "customtrackview.h"
 
 #include <KLocale>
 
-InsertSpaceCommand::InsertSpaceCommand(CustomTrackView *view, QList<ItemInfo> clipsToMove, QList<ItemInfo> transToMove, int track, const GenTime &duration, bool doIt, QUndoCommand * parent) :
+AddTrackCommand::AddTrackCommand(CustomTrackView *view, int ix, TrackInfo info, bool addTrack, QUndoCommand * parent) :
         QUndoCommand(parent),
         m_view(view),
-        m_clipsToMove(clipsToMove),
-        m_transToMove(transToMove),
-        m_duration(duration),
-        m_track(track),
-        m_doIt(doIt)
+        m_ix(ix),
+        m_addTrack(addTrack),
+        m_info(info)
 {
-    if (duration > GenTime()) setText(i18n("Insert space"));
-    else setText(i18n("Remove space"));
+    if (addTrack) setText(i18n("Add track"));
+    else setText(i18n("Delete track"));
 }
 
+
 // virtual
-void InsertSpaceCommand::undo()
+void AddTrackCommand::undo()
 {
-    // kDebug()<<"----  undoing action";
-    m_view->insertSpace(m_clipsToMove, m_transToMove, m_track, GenTime() - m_duration, m_duration);
+// kDebug()<<"----  undoing action";
+    if (m_addTrack) m_view->removeTrack(m_ix);
+    else m_view->addTrack(m_info, m_ix);
 }
 // virtual
-void InsertSpaceCommand::redo()
+void AddTrackCommand::redo()
 {
-    // kDebug() << "----  redoing action cut: " << m_cutTime.frames(25);
-    if (m_doIt) {
-        m_view->insertSpace(m_clipsToMove, m_transToMove, m_track, m_duration, GenTime());
-    }
-    m_doIt = true;
+    kDebug() << "----  redoing action";
+    if (m_addTrack) m_view->addTrack(m_info, m_ix);
+    else m_view->removeTrack(m_ix);
 }
 

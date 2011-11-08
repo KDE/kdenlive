@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2008 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *   Copyright (C) 2007 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,35 +17,30 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include "addclipcutcommand.h"
-#include "projectlist.h"
+
+#include "commands/splitaudiocommand.h"
+#include "customtrackview.h"
 
 #include <KLocale>
 
-AddClipCutCommand::AddClipCutCommand(ProjectList *list, const QString &id, int in, int out, const QString desc, bool newItem, bool remove, QUndoCommand * parent) :
+SplitAudioCommand::SplitAudioCommand(CustomTrackView *view, const int track, const GenTime &pos, EffectsList effects, QUndoCommand * parent) :
         QUndoCommand(parent),
-        m_list(list),
-        m_id(id),
-        m_in(in),
-        m_out(out),
-        m_desc(desc),
-        m_newItem(newItem),
-        m_remove(remove)
+        m_view(view),
+        m_pos(pos),
+        m_track(track),
+        m_effects(effects)
 {
-    setText(i18n("Add clip cut"));
+    setText(i18n("Split audio"));
 }
 
-
 // virtual
-void AddClipCutCommand::undo()
+void SplitAudioCommand::undo()
 {
-    if (m_remove) m_list->addClipCut(m_id, m_in, m_out, m_desc, m_newItem);
-    else m_list->removeClipCut(m_id, m_in, m_out);
+    m_view->doSplitAudio(m_pos, m_track, m_effects, false);
 }
 // virtual
-void AddClipCutCommand::redo()
+void SplitAudioCommand::redo()
 {
-    if (m_remove) m_list->removeClipCut(m_id, m_in, m_out);
-    else m_list->addClipCut(m_id, m_in, m_out, m_desc, m_newItem);
+    m_view->doSplitAudio(m_pos, m_track, m_effects, true);
 }
 

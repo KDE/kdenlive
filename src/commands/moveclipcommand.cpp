@@ -17,31 +17,40 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include "locktrackcommand.h"
+
+#include "commands/moveclipcommand.h"
 #include "customtrackview.h"
 
 #include <KLocale>
 
-LockTrackCommand::LockTrackCommand(CustomTrackView *view, int ix, bool lock, QUndoCommand * parent) :
+MoveClipCommand::MoveClipCommand(CustomTrackView *view, const ItemInfo start, const ItemInfo end, bool doIt, QUndoCommand * parent) :
         QUndoCommand(parent),
         m_view(view),
-        m_ix(ix),
-        m_lock(lock)
+        m_startPos(start),
+        m_endPos(end),
+        m_doIt(doIt)
 {
-    if (lock) setText(i18n("Lock track"));
-    else setText(i18n("Unlock track"));
+    setText(i18n("Move clip"));
+    if (parent) {
+        // command has a parent, so there are several operations ongoing, do not refresh monitor
+        m_refresh = false;
+    } else m_refresh = true;
 }
 
 
 // virtual
-void LockTrackCommand::undo()
+void MoveClipCommand::undo()
 {
-    m_view->lockTrack(m_ix, !m_lock);
+// kDebug()<<"----  undoing action";
+    m_doIt = true;
+    m_view->moveClip(m_endPos, m_startPos, m_refresh);
 }
 // virtual
-void LockTrackCommand::redo()
+void MoveClipCommand::redo()
 {
-    m_view->lockTrack(m_ix, m_lock);
+    //kDebug() << "----  redoing action";
+    if (m_doIt)
+        m_view->moveClip(m_startPos, m_endPos, m_refresh);
+    m_doIt = true;
 }
-
 

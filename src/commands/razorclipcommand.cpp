@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2008 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *   Copyright (C) 2007 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,34 +17,33 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include "editclipcommand.h"
-#include "projectlist.h"
+
+#include "commands/razorclipcommand.h"
+#include "customtrackview.h"
 
 #include <KLocale>
 
-EditClipCommand::EditClipCommand(ProjectList *list, const QString &id, QMap <QString, QString> oldparams, QMap <QString, QString> newparams, bool doIt, QUndoCommand * parent) :
+RazorClipCommand::RazorClipCommand(CustomTrackView *view, const ItemInfo info, const GenTime cutTime, bool doIt, QUndoCommand * parent) :
         QUndoCommand(parent),
-        m_list(list),
-        m_oldparams(oldparams),
-        m_newparams(newparams),
-        m_id(id),
+        m_view(view),
+        m_info(info),
+        m_cutTime(cutTime),
         m_doIt(doIt)
 {
-    setText(i18n("Edit clip"));
+    setText(i18n("Razor clip"));
 }
 
-
 // virtual
-void EditClipCommand::undo()
+void RazorClipCommand::undo()
 {
-    kDebug() << "----  undoing action";
-    m_list->slotUpdateClipProperties(m_id, m_oldparams);
+    // kDebug()<<"----  undoing action";
+    m_view->cutClip(m_info, m_cutTime, false);
 }
 // virtual
-void EditClipCommand::redo()
+void RazorClipCommand::redo()
 {
-    kDebug() << "----  redoing action";
-    if (m_doIt) m_list->slotUpdateClipProperties(m_id, m_newparams);
+    // kDebug() << "----  redoing action cut: " << m_cutTime.frames(25);
+    if (m_doIt) m_view->cutClip(m_info, m_cutTime, true);
     m_doIt = true;
 }
 

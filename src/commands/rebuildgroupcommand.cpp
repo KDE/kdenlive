@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *   Copyright (C) 2010 by Till Theato (root@ttill.de)                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,33 +18,26 @@
  ***************************************************************************/
 
 
-#include "groupclipscommand.h"
+#include "commands/rebuildgroupcommand.h"
 #include "customtrackview.h"
 
-#include <KLocale>
-
-GroupClipsCommand::GroupClipsCommand(CustomTrackView *view, const QList <ItemInfo> clipInfos, const QList <ItemInfo> transitionInfos, bool group, QUndoCommand * parent) :
+RebuildGroupCommand::RebuildGroupCommand(CustomTrackView* view, int childTrack, GenTime childPos, QUndoCommand* parent) :
         QUndoCommand(parent),
         m_view(view),
-        m_clips(clipInfos),
-        m_transitions(transitionInfos),
-        m_group(group)
+        m_childTrack(childTrack),
+        m_childPos(childPos)
 {
-    if (m_group) setText(i18n("Group clips"));
-    else setText(i18n("Ungroup clips"));
+    setText(i18n("Rebuild Group"));
 }
-
 
 // virtual
-void GroupClipsCommand::undo()
+void RebuildGroupCommand::undo()
 {
-// kDebug()<<"----  undoing action";
-    m_view->doGroupClips(m_clips, m_transitions, !m_group);
-}
-// virtual
-void GroupClipsCommand::redo()
-{
-    kDebug() << "----  redoing action";
-    m_view->doGroupClips(m_clips, m_transitions, m_group);
+    m_view->rebuildGroup(m_childTrack, m_childPos);
 }
 
+// virtual
+void RebuildGroupCommand::redo()
+{
+    m_view->rebuildGroup(m_childTrack, m_childPos);
+}

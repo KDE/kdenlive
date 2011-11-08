@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *   Copyright (C) 2010 by Till Theato (root@ttill.de)                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,29 +18,31 @@
  ***************************************************************************/
 
 
-#include "splitaudiocommand.h"
+#include "commands/razorgroupcommand.h"
 #include "customtrackview.h"
 
-#include <KLocale>
-
-SplitAudioCommand::SplitAudioCommand(CustomTrackView *view, const int track, const GenTime &pos, EffectsList effects, QUndoCommand * parent) :
-        QUndoCommand(parent),
-        m_view(view),
-        m_pos(pos),
-        m_track(track),
-        m_effects(effects)
+RazorGroupCommand::RazorGroupCommand(CustomTrackView *view, QList <ItemInfo> clips1, QList <ItemInfo> transitions1, QList <ItemInfo> clipsCut, QList <ItemInfo> transitionsCut, QList <ItemInfo> clips2, QList <ItemInfo> transitions2, GenTime cutPos, QUndoCommand * parent) :
+    QUndoCommand(parent),
+    m_view(view),
+    m_clips1(clips1),
+    m_transitions1(transitions1),
+    m_clipsCut(clipsCut),
+    m_transitionsCut(transitionsCut),
+    m_clips2(clips2),
+    m_transitions2(transitions2),
+    m_cutPos(cutPos)
 {
-    setText(i18n("Split audio"));
+    setText(i18n("Cut Group"));
 }
 
 // virtual
-void SplitAudioCommand::undo()
+void RazorGroupCommand::undo()
 {
-    m_view->doSplitAudio(m_pos, m_track, m_effects, false);
-}
-// virtual
-void SplitAudioCommand::redo()
-{
-    m_view->doSplitAudio(m_pos, m_track, m_effects, true);
+    m_view->slotRazorGroup(m_clips1, m_transitions1, m_clipsCut, m_transitionsCut, m_clips2, m_transitions2, m_cutPos, false);
 }
 
+// virtual
+void RazorGroupCommand::redo()
+{
+    m_view->slotRazorGroup(m_clips1, m_transitions1, m_clipsCut, m_transitionsCut, m_clips2, m_transitions2, m_cutPos, true);
+}

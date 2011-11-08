@@ -18,54 +18,31 @@
  ***************************************************************************/
 
 
-#include "moveeffectcommand.h"
+#include "commands/resizeclipcommand.h"
 #include "customtrackview.h"
 
 #include <KLocale>
 
-MoveEffectCommand::MoveEffectCommand(CustomTrackView *view, const int track, GenTime pos, int oldPos, int newPos, QUndoCommand * parent) :
+ResizeClipCommand::ResizeClipCommand(CustomTrackView *view, const ItemInfo start, const ItemInfo end, bool doIt, bool dontWorry, QUndoCommand * parent) :
         QUndoCommand(parent),
         m_view(view),
-        m_track(track),
-        m_oldindex(oldPos),
-        m_newindex(newPos),
-        m_pos(pos)
+        m_startPos(start),
+        m_endPos(end),
+        m_doIt(doIt),
+        m_dontWorry(dontWorry)
 {
-    /*    QString effectName;
-        QDomElement namenode = effect.firstChildElement("name");
-        if (!namenode.isNull()) effectName = i18n(namenode.text().toUtf8().data());
-        else effectName = i18n("effect");
-        setText(i18n("Move effect %1", effectName));*/
-    setText(i18n("Move effect"));
+    setText(i18n("Resize clip"));
 }
 
 // virtual
-int MoveEffectCommand::id() const
+void ResizeClipCommand::undo()
 {
-    return 2;
-}
-
-// virtual
-bool MoveEffectCommand::mergeWith(const QUndoCommand * other)
-{
-    if (other->id() != id()) return false;
-    if (m_track != static_cast<const MoveEffectCommand*>(other)->m_track) return false;
-    if (m_pos != static_cast<const MoveEffectCommand*>(other)->m_pos) return false;
-    m_oldindex = static_cast<const MoveEffectCommand*>(other)->m_oldindex;
-    m_newindex = static_cast<const MoveEffectCommand*>(other)->m_newindex;
-    return true;
-}
-
-// virtual
-void MoveEffectCommand::undo()
-{
-    kDebug() << "----  undoing action";
-    m_view->moveEffect(m_track, m_pos, m_newindex, m_oldindex);
+    m_view->resizeClip(m_endPos, m_startPos, m_dontWorry);
 }
 // virtual
-void MoveEffectCommand::redo()
+void ResizeClipCommand::redo()
 {
-    kDebug() << "----  redoing action";
-    m_view->moveEffect(m_track, m_pos, m_oldindex, m_newindex);
+    if (m_doIt) m_view->resizeClip(m_startPos, m_endPos, m_dontWorry);
+    m_doIt = true;
 }
 

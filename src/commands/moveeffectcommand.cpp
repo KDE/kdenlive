@@ -18,41 +18,54 @@
  ***************************************************************************/
 
 
-#include "addeffectcommand.h"
+#include "commands/moveeffectcommand.h"
 #include "customtrackview.h"
 
 #include <KLocale>
 
-AddEffectCommand::AddEffectCommand(CustomTrackView *view, const int track, GenTime pos, QDomElement effect, bool doIt, QUndoCommand * parent) :
+MoveEffectCommand::MoveEffectCommand(CustomTrackView *view, const int track, GenTime pos, int oldPos, int newPos, QUndoCommand * parent) :
         QUndoCommand(parent),
         m_view(view),
         m_track(track),
-        m_effect(effect.cloneNode().toElement()),
-        m_pos(pos),
-        m_doIt(doIt)
+        m_oldindex(oldPos),
+        m_newindex(newPos),
+        m_pos(pos)
 {
-    QString effectName;
-    QDomElement namenode = m_effect.firstChildElement("name");
-    if (!namenode.isNull()) effectName = i18n(namenode.text().toUtf8().data());
-    else effectName = i18n("effect");
-    if (doIt) setText(i18n("Add %1", effectName));
-    else setText(i18n("Delete %1", effectName));
+    /*    QString effectName;
+        QDomElement namenode = effect.firstChildElement("name");
+        if (!namenode.isNull()) effectName = i18n(namenode.text().toUtf8().data());
+        else effectName = i18n("effect");
+        setText(i18n("Move effect %1", effectName));*/
+    setText(i18n("Move effect"));
 }
 
+// virtual
+int MoveEffectCommand::id() const
+{
+    return 2;
+}
 
 // virtual
-void AddEffectCommand::undo()
+bool MoveEffectCommand::mergeWith(const QUndoCommand * other)
+{
+    if (other->id() != id()) return false;
+    if (m_track != static_cast<const MoveEffectCommand*>(other)->m_track) return false;
+    if (m_pos != static_cast<const MoveEffectCommand*>(other)->m_pos) return false;
+    m_oldindex = static_cast<const MoveEffectCommand*>(other)->m_oldindex;
+    m_newindex = static_cast<const MoveEffectCommand*>(other)->m_newindex;
+    return true;
+}
+
+// virtual
+void MoveEffectCommand::undo()
 {
     kDebug() << "----  undoing action";
-    if (m_doIt) m_view->deleteEffect(m_track, m_pos, m_effect);
-    else m_view->addEffect(m_track, m_pos, m_effect);
+    m_view->moveEffect(m_track, m_pos, m_newindex, m_oldindex);
 }
 // virtual
-void AddEffectCommand::redo()
+void MoveEffectCommand::redo()
 {
     kDebug() << "----  redoing action";
-    if (m_doIt) m_view->addEffect(m_track, m_pos, m_effect);
-    else m_view->deleteEffect(m_track, m_pos, m_effect);
+    m_view->moveEffect(m_track, m_pos, m_oldindex, m_newindex);
 }
-
 

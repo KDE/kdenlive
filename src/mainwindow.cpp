@@ -47,7 +47,7 @@
 #endif /* NO_JOGSHUTTLE */
 #include "clipproperties.h"
 #include "wizard.h"
-#include "editclipcommand.h"
+#include "commands/editclipcommand.h"
 #include "titlewidget.h"
 #include "markerdialog.h"
 #include "clipitem.h"

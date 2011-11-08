@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *   Copyright (C) 2010 by Till Theato (root@ttill.de)                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,32 +18,27 @@
  ***************************************************************************/
 
 
-#include "razorclipcommand.h"
+#include "commands/configtrackscommand.h"
 #include "customtrackview.h"
 
-#include <KLocale>
 
-RazorClipCommand::RazorClipCommand(CustomTrackView *view, const ItemInfo info, const GenTime cutTime, bool doIt, QUndoCommand * parent) :
+ConfigTracksCommand::ConfigTracksCommand(CustomTrackView* view, QList< TrackInfo > oldInfos, QList< TrackInfo > newInfos, QUndoCommand* parent) :
         QUndoCommand(parent),
         m_view(view),
-        m_info(info),
-        m_cutTime(cutTime),
-        m_doIt(doIt)
+        m_oldInfos(oldInfos),
+        m_newInfos(newInfos)
 {
-    setText(i18n("Razor clip"));
+    setText(i18n("Configure Tracks"));
 }
 
 // virtual
-void RazorClipCommand::undo()
+void ConfigTracksCommand::undo()
 {
-    // kDebug()<<"----  undoing action";
-    m_view->cutClip(m_info, m_cutTime, false);
-}
-// virtual
-void RazorClipCommand::redo()
-{
-    // kDebug() << "----  redoing action cut: " << m_cutTime.frames(25);
-    if (m_doIt) m_view->cutClip(m_info, m_cutTime, true);
-    m_doIt = true;
+    m_view->configTracks(m_oldInfos);
 }
 
+// virtual
+void ConfigTracksCommand::redo()
+{
+    m_view->configTracks(m_newInfos);
+}

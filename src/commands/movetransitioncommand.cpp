@@ -1,7 +1,7 @@
 /***************************************************************************
-                          addtransitioncommand.cpp  -  description
+                          movetransitioncommand.h  -  description
                              -------------------
-    begin                : 2008
+    begin                : Mar 15 2008
     copyright            : (C) 2008 by Marco Gittler
     email                : g.marco@freenet.de
  ***************************************************************************/
@@ -15,23 +15,19 @@
  *                                                                         *
  ***************************************************************************/
 
-
-#include "addtransitioncommand.h"
+#include "commands/movetransitioncommand.h"
 #include "customtrackview.h"
 
 #include <KLocale>
 
-AddTransitionCommand::AddTransitionCommand(CustomTrackView *view, ItemInfo info, int transitiontrack, QDomElement params, bool remove, bool doIt, QUndoCommand * parent) :
+MoveTransitionCommand::MoveTransitionCommand(CustomTrackView *view, const ItemInfo start, const ItemInfo end, bool doIt, QUndoCommand * parent) :
         QUndoCommand(parent),
         m_view(view),
-        m_info(info),
-        m_params(params),
-        m_track(transitiontrack),
-        m_doIt(doIt),
-        m_remove(remove)
+        m_startPos(start),
+        m_endPos(end),
+        m_doIt(doIt)
 {
-    if (m_remove) setText(i18n("Delete transition from clip"));
-    else setText(i18n("Add transition to clip"));
+    setText(i18n("Move transition"));
     if (parent) {
         // command has a parent, so there are several operations ongoing, do not refresh monitor
         m_refresh = false;
@@ -40,18 +36,17 @@ AddTransitionCommand::AddTransitionCommand(CustomTrackView *view, ItemInfo info,
 
 
 // virtual
-void AddTransitionCommand::undo()
+void MoveTransitionCommand::undo()
 {
-    if (m_remove) m_view->addTransition(m_info, m_track, m_params, m_refresh);
-    else m_view->deleteTransition(m_info, m_track, m_params, m_refresh);
+// kDebug()<<"----  undoing action";
+    m_doIt = true;
+    m_view->moveTransition(m_endPos, m_startPos, m_refresh);
 }
 // virtual
-void AddTransitionCommand::redo()
+void MoveTransitionCommand::redo()
 {
-    if (m_doIt) {
-        if (m_remove) m_view->deleteTransition(m_info, m_track, m_params, m_refresh);
-        else m_view->addTransition(m_info, m_track, m_params, m_refresh);
-    }
+    //kDebug() << "----  redoing action";
+    if (m_doIt) m_view->moveTransition(m_startPos, m_endPos, m_refresh);
     m_doIt = true;
 }
 
