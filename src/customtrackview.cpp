@@ -6420,9 +6420,7 @@ QStringList CustomTrackView::extractTransitionsLumas()
             if (!luma.isEmpty()) urls << KUrl(luma).path();
         }
     }
-#if QT_VERSION >= 0x040500
     urls.removeDuplicates();
-#endif
     return urls;
 }
 

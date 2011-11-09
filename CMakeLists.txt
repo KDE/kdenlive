@@ -7,8 +7,8 @@ set(KDENLIVE_VERSION 0.8.3)
 
 # Minimum versions of main dependencies.
 set(LIBMLT_MIN_VERSION 0.7.6)
-set(QT_MIN_VERSION 4.6.0)
-set(KDE_MIN_VERSION 4.4.0)
+set(QT_MIN_VERSION 4.5.0)
+set(KDE_MIN_VERSION 4.3.0)
 
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)
 
