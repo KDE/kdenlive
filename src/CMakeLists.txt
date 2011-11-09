@@ -281,11 +281,10 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} --std=c99")
 add_definitions(${KDE4_DEFINITIONS})
 
 include_directories(
+  ${CMAKE_BINARY_DIR}
   ${KDE4_INCLUDES} # Adds Qt include directories too.
   ${LIBMLT_INCLUDE_DIR}
   ${LIBMLTPLUS_INCLUDE_DIR}
-  ${CMAKE_BINARY_DIR}
-  ${CMAKE_CURRENT_BINARY_DIR}
 )
 
 # Adds Qt definitions and include directories, and sets QT_LIBRARIES according
