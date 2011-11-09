@@ -7,8 +7,8 @@ set(KDENLIVE_VERSION 0.8.3)
 
 # Minimum versions of main dependencies.
 set(LIBMLT_MIN_VERSION 0.7.6)
-set(QT_MIN_VERSION 4.6.0)
-set(KDE_MIN_VERSION 4.4.0)
+set(QT_MIN_VERSION 4.5.0)
+set(KDE_MIN_VERSION 4.3.0)
 
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)
 
@@ -58,16 +58,8 @@ macro_log_feature(KDE4_FOUND
   ${KDE_MIN_VERSION}
 )
 
-# Find Qt core modules (QtCore and QtGui are searched by default).
-find_package(Qt4 ${QT_MIN_VERSION} REQUIRED QtDBus)
-macro_log_feature(QT_QTDBUS_FOUND
-  "QtDBus"
-  "Qt bindings for the D-Bus library"
-  "http://qt.nokia.com/products/qt"
-  TRUE
-  ${QT_MIN_VERSION}
-  "QtDBus library (most likely called libqt4-dbus)"
-)
+# Find Qt core modules.
+find_package(Qt4 ${QT_MIN_VERSION} REQUIRED QtCore QtDBus)
 
 # Search MLT package.
 find_package(LIBMLT REQUIRED)

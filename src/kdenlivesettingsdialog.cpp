@@ -713,7 +713,6 @@ void KdenliveSettingsDialog::updateSettings()
 #endif
 
     KConfigDialog::settingsChangedSlot();
-
     //KConfigDialog::updateSettings();
     if (resetProfile) emit doResetProfile();
 }

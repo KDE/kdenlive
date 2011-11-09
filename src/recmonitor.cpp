@@ -35,9 +35,7 @@
 #include <KFileItem>
 #include <KMessageBox>
 #include <KApplication>
-
 #include <KDiskFreeSpaceInfo>
-
 #include <QMouseEvent>
 #include <QMenu>
 #include <QToolButton>

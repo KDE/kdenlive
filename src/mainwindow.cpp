@@ -92,8 +92,14 @@
 #include <KFileItem>
 #include <KNotification>
 #include <KNotifyConfigWidget>
+#if KDE_IS_VERSION(4,3,80)
 #include <knewstuff3/downloaddialog.h>
 #include <knewstuff3/knewstuffaction.h>
+#else
+#include <knewstuff2/engine.h>
+#include <knewstuff2/ui/knewstuffaction.h>
+#define KNS3 KNS
+#endif
 #include <KToolBar>
 #include <KColorScheme>
 #include <KProgressDialog>
@@ -239,7 +245,9 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     connect(m_notesWidget, SIGNAL(seekProject(int)), m_projectMonitor->render, SLOT(seekToFrame(int)));
     
     m_notesWidget->setTabChangesFocus(true);
+#if KDE_IS_VERSION(4,4,0)
     m_notesWidget->setClickMessage(i18n("Enter your project notes here ..."));
+#endif
     m_notesDock->setWidget(m_notesWidget);
     addDockWidget(Qt::TopDockWidgetArea, m_notesDock);
 
@@ -3661,6 +3669,7 @@ void MainWindow::slotResizeItemEnd()
 int MainWindow::getNewStuff(const QString &configFile)
 {
     KNS3::Entry::List entries;
+#if KDE_IS_VERSION(4,3,80)
     KNS3::DownloadDialog dialog(configFile);
     dialog.exec();
     entries = dialog.changedEntries();
@@ -3668,6 +3677,15 @@ int MainWindow::getNewStuff(const QString &configFile)
         if (entry.status() == KNS3::Entry::Installed)
             kDebug() << "// Installed files: " << entry.installedFiles();
     }
+#else
+    KNS::Engine engine(0);
+    if (engine.init(configFile))
+        entries = engine.downloadDialogModal(this);
+    foreach(KNS::Entry * entry, entries) {
+        if (entry->status() == KNS::Entry::Installed)
+            kDebug() << "// Installed files: " << entry->installedFiles();
+    }
+#endif
     return entries.size();
 }
 

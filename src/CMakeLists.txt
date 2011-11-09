@@ -1,5 +1,5 @@
 find_package(OpenGL REQUIRED)
-find_package(Qt4 ${QT_MIN_VERSION} REQUIRED QtOpenGL QtScript)
+find_package(Qt4 ${QT_MIN_VERSION} REQUIRED QtGui QtOpenGL QtScript)
 if(APPLE)
   find_package(SDL REQUIRED)
 endif(APPLE)
@@ -281,21 +281,26 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} --std=c99")
 add_definitions(${KDE4_DEFINITIONS})
 
 include_directories(
+  ${CMAKE_BINARY_DIR}
   ${KDE4_INCLUDES} # Adds Qt include directories too.
   ${LIBMLT_INCLUDE_DIR}
   ${LIBMLTPLUS_INCLUDE_DIR}
-  ${CMAKE_BINARY_DIR}
-  ${CMAKE_CURRENT_BINARY_DIR}
 )
 
 # Adds Qt definitions and include directories, and sets QT_LIBRARIES according
 # to the components requested in find_package().
-include(UseQt4)
+include(${QT_USE_FILE})
+
+if(${KDE_VERSION} VERSION_LESS 4.3.80)
+  set(KDE4_KNEWSTUFF_LIBS ${KDE4_KNEWSTUFF2_LIBS})
+else(${KDE_VERSION} VERSION_LESS 4.3.80)
+  set(KDE4_KNEWSTUFF_LIBS ${KDE4_KNEWSTUFF3_LIBS})
+endif(${KDE_VERSION} VERSION_LESS 4.3.80)
 
 target_link_libraries(kdenlive
   ${KDE4_KDEUI_LIBS}
   ${KDE4_KIO_LIBS}
-  ${KDE4_KNEWSTUFF3_LIBS}
+  ${KDE4_KNEWSTUFF_LIBS}
   ${KDE4_KNOTIFYCONFIG_LIBRARY}
   ${KDE4_KROSSUI_LIBS}
   ${QT_LIBRARIES}

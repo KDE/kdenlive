@@ -40,7 +40,6 @@
 #include <KDateTime>
 #include <kdeversion.h>
 #include <KComboBox>
-
 #include <kcapacitybar.h>
 
 class MonitorManager;
