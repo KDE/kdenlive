@@ -1608,7 +1608,6 @@ void KdenliveDoc::updateProjectFolderPlacesEntry()
         bookmark.setMetaDataItem("OnlyInApp", kdenliveName);
         bookmarkManager->emitChanged(root);
     }
-    delete bookmarkManager;
 }
 
 QStringList KdenliveDoc::getExpandedFolders()
