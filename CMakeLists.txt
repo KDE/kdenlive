@@ -60,14 +60,6 @@ macro_log_feature(KDE4_FOUND
 
 # Find Qt core modules (QtCore and QtGui are searched by default).
 find_package(Qt4 ${QT_MIN_VERSION} REQUIRED QtDBus)
-macro_log_feature(QT_QTDBUS_FOUND
-  "QtDBus"
-  "Qt bindings for the D-Bus library"
-  "http://qt.nokia.com/products/qt"
-  TRUE
-  ${QT_MIN_VERSION}
-  "QtDBus library (most likely called libqt4-dbus)"
-)
 
 # Search MLT package.
 find_package(LIBMLT REQUIRED)
