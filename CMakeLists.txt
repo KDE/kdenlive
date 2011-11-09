@@ -67,7 +67,6 @@ add_subdirectory(icons)
 add_subdirectory(data)
 add_subdirectory(lumas)
 add_subdirectory(titles)
-add_subdirectory(po)
 add_subdirectory(man)
 add_subdirectory(doc)
 

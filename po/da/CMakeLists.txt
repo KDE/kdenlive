@@ -1,2 +1,0 @@
-GETTEXT_PROCESS_PO_FILES(da ALL INSTALL_DESTINATION share/locale/ kdenlive.po)
-
