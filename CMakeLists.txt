@@ -39,17 +39,10 @@ include(CheckIncludeFiles)
 check_include_files(malloc.h HAVE_MALLOC_H)
 check_include_files(pthread.h HAVE_PTHREAD_H)
 
-find_package(MSGFMT REQUIRED)
-find_program(EXTRACTRC_EXECUTABLE extractrc)
-find_program(MSGFMT_EXECUTABLE msgfmt)
-find_program(MSGMERGE_EXECUTABLE msgmerge)
-find_program(XGETTEXT_EXECUTABLE xgettext)
-
 # Search KDE and dependent packages.
 find_package(KDE4 ${KDE_MIN_VERSION} REQUIRED)
 include(KDE4Defaults)
 include(MacroLibrary)
-include(FindGettext)
 macro_log_feature(KDE4_FOUND
   "KDELibs"
   "KDE core libraries"
