@@ -1,7 +1,7 @@
 #ifndef KISS_NDR_H
 #define KISS_NDR_H
 
-#include "kiss_fft.h"
+#include "../kiss_fft.h"
 #include "kiss_fftr.h"
 #include "kiss_fftnd.h"
 

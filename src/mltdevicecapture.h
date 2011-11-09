@@ -26,7 +26,8 @@
 #include "gentime.h"
 #include "definitions.h"
 #include "abstractmonitor.h"
-#include "mlt/framework/mlt_types.h"
+
+#include <mlt/framework/mlt_types.h>
 
 #include <QtConcurrentRun>
 

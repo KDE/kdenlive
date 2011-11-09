@@ -59,10 +59,10 @@ class Monitor;
 class RecMonitor;
 class CustomTrackView;
 class RenderWidget;
-#ifndef NO_JOGSHUTTLE
+#ifdef USE_JOGSHUTTLE
 class JogShuttle;
 class JogShuttleAction;
-#endif /* NO_JOGSHUTTLE */
+#endif
 class DocClipBase;
 class Render;
 class Transition;
@@ -222,10 +222,10 @@ private:
 
     RenderWidget *m_renderWidget;
 
-#ifndef NO_JOGSHUTTLE
+#ifdef USE_JOGSHUTTLE
     JogShuttle *m_jogProcess;
     JogShuttleAction* m_jogShuttle;
-#endif /* NO_JOGSHUTTLE */
+#endif
 
     KRecentFilesAction *m_fileOpenRecent;
     KAction *m_fileRevert;
@@ -267,9 +267,9 @@ private:
 
     void readOptions();
     void saveOptions();
-#ifndef NO_JOGSHUTTLE
+#ifdef USE_JOGSHUTTLE
     void activateShuttleDevice();
-#endif /* NO_JOGSHUTTLE */
+#endif
     void connectDocumentInfo(KdenliveDoc *doc);
     void findAhead();
     void doOpenFile(const KUrl &url, KAutoSaveFile *stale);

@@ -1,6 +1,6 @@
 #ifndef KFC_H
 #define KFC_H
-#include "kiss_fft.h"
+#include "../kiss_fft.h"
 
 #ifdef __cplusplus
 extern "C" {

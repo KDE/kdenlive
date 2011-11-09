@@ -19,7 +19,7 @@
 
 #include "renderer.h"
 #include "waveform.h"
-#include "waveformgenerator.h"
+#include "colorcorrection/waveformgenerator.h"
 
 
 const QSize Waveform::m_textWidth(35,0);

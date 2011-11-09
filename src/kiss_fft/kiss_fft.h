@@ -1,11 +1,13 @@
 #ifndef KISS_FFT_H
 #define KISS_FFT_H
 
+#include "kdenlive-config.h"
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
 #include <string.h>
-#if !defined(__APPLE__) && !defined(__FreeBSD__)
+#ifdef HAVE_MALLOC_H
 #include <malloc.h>
 #endif
 

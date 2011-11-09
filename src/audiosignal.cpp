@@ -18,7 +18,6 @@
  ***************************************************************************/
 
 #include "audiosignal.h"
-#include "math.h"
 
 #include <KLocale>
 
@@ -29,6 +28,7 @@
 #include <QDebug>
 #include <QList>
 
+#include <math.h>
 
 AudioSignal::AudioSignal(QWidget *parent): QWidget(parent)
 {

@@ -30,7 +30,7 @@
 #include "customtrackview.h"
 #include "initeffects.h"
 #include "profilesdialog.h"
-#include "configtrackscommand.h"
+#include "commands/configtrackscommand.h"
 
 #include <KDebug>
 #include <KMessageBox>

@@ -155,7 +155,7 @@ Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget
     createOpenGlWidget(m_videoBox, profile);
     monitorCreated = true;
     //m_glWidget->setFixedSize(width, height);
-#elif defined (USE_OPEN_GL)
+#elif defined(USE_OPENGL)
     if (KdenliveSettings::openglmonitors()) {
         monitorCreated = createOpenGlWidget(m_videoBox, profile);
     }
@@ -169,7 +169,7 @@ Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget
         render = new Render(m_name, (int) m_monitorRefresh->winId(), profile, this);
         m_monitorRefresh->setRenderer(render);
     }
-#if defined (USE_OPEN_GL)
+#ifdef USE_OPENGL
     else if (m_glWidget) {
         lay->addWidget(m_glWidget);
         m_videoBox->setLayout(lay);
@@ -229,7 +229,7 @@ const QString Monitor::name() const
     return m_name;
 }
 
-#if defined(Q_WS_MAC) || defined(USE_OPEN_GL)
+#ifdef USE_OPENGL
 bool Monitor::createOpenGlWidget(QWidget *parent, const QString profile)
 {
     render = new Render(m_name, 0, profile, this);
@@ -577,9 +577,7 @@ void Monitor::slotExtractCurrentFrame()
     KFileDialog *fs = new KFileDialog(KUrl(), "image/png", this);
     fs->setOperationMode(KFileDialog::Saving);
     fs->setMode(KFile::File);
-#if KDE_IS_VERSION(4,2,0)
     fs->setConfirmOverwrite(true);
-#endif
     fs->setKeepLocation(true);
     fs->exec();
     QString path = fs->selectedFile();
@@ -917,7 +915,7 @@ void Monitor::slotSwitchMonitorInfo(bool show)
         if (m_overlay) return;
         if (m_monitorRefresh == NULL) {
             // Using OpenGL display
-#if defined(Q_WS_MAC) || defined(USE_OPEN_GL)
+#ifdef USE_OPENGL
             if (m_glWidget->layout()) delete m_glWidget->layout();
             m_overlay = new Overlay();
             connect(m_overlay, SIGNAL(editMarker()), this, SLOT(slotEditMarker()));
@@ -997,7 +995,7 @@ void Monitor::slotEffectScene(bool show)
         if (m_monitorRefresh) {
             m_monitorRefresh->setVisible(!show);
         } else {
-#if defined(Q_WS_MAC) || defined(USE_OPEN_GL)
+#ifdef USE_OPENGL
             m_glWidget->setVisible(!show);
 #endif
         }

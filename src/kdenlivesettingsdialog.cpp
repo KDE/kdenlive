@@ -19,7 +19,7 @@
 
 #include "kdenlivesettingsdialog.h"
 #include "profilesdialog.h"
-#if !defined(Q_OS_FREEBSD) && !defined(Q_OS_KFREEBSD)
+#ifdef USE_V4L
 #include "v4l/v4lcapture.h"
 #endif
 #include "blackmagic/devices.h"
@@ -43,11 +43,11 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <fcntl.h>
-#ifndef NO_JOGSHUTTLE
+#ifdef USE_JOGSHUTTLE
 #include "jogaction.h"
 #include "jogshuttleconfig.h"
 #include <linux/input.h>
-#endif /* NO_JOGSHUTTLE */
+#endif
 
 
 KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& mappable_actions, QWidget * parent) :
@@ -97,7 +97,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     QWidget *p4 = new QWidget;
     m_configCapture.setupUi(p4);
 
-#if !defined(Q_WS_MAC) && !defined(Q_OS_FREEBSD) && !defined(Q_OS_KFREEBSD)
+#ifdef USE_V4L
 
     // Video 4 Linux device detection
     for (int i = 0; i < 10; i++) {
@@ -120,18 +120,15 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
 
     m_page4 = addPage(p4, i18n("Capture"), "media-record");
     m_configCapture.tabWidget->setCurrentIndex(KdenliveSettings::defaultcapture());
-#ifdef Q_WS_MAC
+#ifndef USE_V4L
     m_configCapture.tabWidget->setEnabled(false);
     m_configCapture.kcfg_defaultcapture->setEnabled(false);
-    m_configCapture.label->setText(i18n("Capture is not yet available on OS X."));
+    m_configCapture.label->setText(i18n("Capture is not yet available on this platform."));
 #endif
 
     QWidget *p5 = new QWidget;
     m_configShuttle.setupUi(p5);
-#ifdef NO_JOGSHUTTLE
-    m_configShuttle.kcfg_enableshuttle->hide();
-    m_configShuttle.kcfg_enableshuttle->setDisabled(true);
-#else
+#ifdef USE_JOGSHUTTLE
     connect(m_configShuttle.kcfg_enableshuttle, SIGNAL(stateChanged(int)), this, SLOT(slotCheckShuttle(int)));
     connect(m_configShuttle.shuttledevicelist, SIGNAL(activated(int)), this, SLOT(slotUpdateShuttleDevice(int)));
     slotCheckShuttle(KdenliveSettings::enableshuttle());
@@ -171,13 +168,16 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
       if (i < actions_map.size())
         button->setCurrentIndex(action_pos[actions_map[i]]);
     }
-#endif /* NO_JOGSHUTTLE */
+#else /* ! USE_JOGSHUTTLE */
+    m_configShuttle.kcfg_enableshuttle->hide();
+    m_configShuttle.kcfg_enableshuttle->setDisabled(true);
+#endif /* USE_JOGSHUTTLE */
     m_page5 = addPage(p5, i18n("JogShuttle"), "input-mouse");
 
     QWidget *p6 = new QWidget;
     m_configSdl.setupUi(p6);
 
-#if not defined(Q_WS_MAC) && not defined(USE_OPEN_GL)
+#ifndef USE_OPENGL
     m_configSdl.kcfg_openglmonitors->setHidden(true);
 #endif
 
@@ -506,7 +506,7 @@ void KdenliveSettingsDialog::slotEditImageApplication()
     m_configEnv.kcfg_defaultimageapp->setText(service->exec());
 }
 
-#ifndef NO_JOGSHUTTLE
+#ifdef USE_JOGSHUTTLE
 void KdenliveSettingsDialog::slotCheckShuttle(int state)
 {
     m_configShuttle.config_group->setEnabled(state);
@@ -536,13 +536,13 @@ void KdenliveSettingsDialog::slotUpdateShuttleDevice(int ix)
     m_configShuttle.kcfg_shuttledevice->setText(device);
 }
 
-#endif /* NO_JOGSHUTTLE */
+#endif /* USE_JOGSHUTTLE */
 
 void KdenliveSettingsDialog::updateWidgets()
 {
     // Revert widgets to last saved state (for example when user pressed "Cancel")
     // kDebug() << "// // // KCONFIG Revert called";
-#ifndef NO_JOGSHUTTLE
+#ifdef USE_JOGSHUTTLE
     // revert jog shuttle device
     if (m_configShuttle.shuttledevicelist->count() > 0) {
 	for (int i = 0; i < m_configShuttle.shuttledevicelist->count(); i++) {
@@ -573,7 +573,7 @@ void KdenliveSettingsDialog::updateWidgets()
       if (i < actions_map.size())
         button->setCurrentIndex(action_pos[actions_map[i]]);
     }
-#endif
+#endif /* USE_JOGSHUTTLE */
 }
 
 void KdenliveSettingsDialog::updateSettings()
@@ -698,7 +698,7 @@ void KdenliveSettingsDialog::updateSettings()
         saveTranscodeProfiles();
     }
 
-#ifndef NO_JOGSHUTTLE
+#ifdef USE_JOGSHUTTLE
     m_shuttleModified = false;
 
     QStringList actions;
@@ -712,9 +712,7 @@ void KdenliveSettingsDialog::updateSettings()
 	KdenliveSettings::setShuttlebuttons(maps);
 #endif
 
-#if KDE_IS_VERSION(4,3,0)
     KConfigDialog::settingsChangedSlot();
-#endif
 
     //KConfigDialog::updateSettings();
     if (resetProfile) emit doResetProfile();
@@ -792,7 +790,7 @@ void KdenliveSettingsDialog::slotDeleteTranscode()
 
 void KdenliveSettingsDialog::slotShuttleModified()
 {
-#ifndef NO_JOGSHUTTLE
+#ifdef USE_JOGSHUTTLE
     QStringList actions;
     actions << "monitor_pause";  // the Job rest position action.
     foreach (KComboBox* button, m_shuttle_buttons) {
@@ -801,17 +799,13 @@ void KdenliveSettingsDialog::slotShuttleModified()
     QString maps = JogShuttleConfig::actionMap(actions);
     m_shuttleModified = KdenliveSettings::shuttlebuttons() != maps;
 #endif
-#if KDE_IS_VERSION(4,3,0)
     KConfigDialog::updateButtons();
-#endif
 }
 
 void KdenliveSettingsDialog::slotDialogModified()
 {
     m_modified = true;
-#if KDE_IS_VERSION(4,3,0)
     KConfigDialog::updateButtons();
-#endif
 }
 
 //virtual

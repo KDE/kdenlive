@@ -25,7 +25,7 @@
 #include "renderer.h"
 #include "timecodedisplay.h"
 #include "abstractmonitor.h"
-#if defined(Q_WS_MAC) || defined(USE_OPEN_GL)
+#ifdef USE_OPENGL
 #include "videoglwidget.h"
 #endif
 
@@ -170,7 +170,7 @@ private:
      *  Necessary because sometimes we get two signals, e.g. we get a clip and we get selected transition = NULL. */
     bool m_loopClipTransition;
 
-#if defined(Q_WS_MAC) || defined(USE_OPEN_GL)
+#ifdef USE_OPENGL
     VideoGLWidget *m_glWidget;
     bool createOpenGlWidget(QWidget *parent, const QString profile);
 #endif

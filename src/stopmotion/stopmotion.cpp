@@ -16,18 +16,17 @@
  ***************************************************************************/
 
 #include "stopmotion.h"
-#include "../blackmagic/devices.h"
-#if !defined(Q_OS_FREEBSD) && !defined(Q_OS_KFREEBSD)
-#include "../v4l/v4lcapture.h"
+#include "blackmagic/devices.h"
+#ifdef USE_V4L
+#include "v4l/v4lcapture.h"
 #endif
-#include "../slideshowclip.h"
-#include "../profilesdialog.h"
-#include "../mltdevicecapture.h"
-#include "../recmonitor.h"
-#include "../monitormanager.h"
+#include "slideshowclip.h"
+#include "profilesdialog.h"
+#include "mltdevicecapture.h"
+#include "recmonitor.h"
+#include "monitormanager.h"
 #include "ui_smconfig_ui.h"
 #include "kdenlivesettings.h"
-
 
 #include <KDebug>
 #include <KGlobalSettings>
@@ -257,7 +256,7 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, KUrl projectFolder, 
         // Found a BlackMagic device
     }
     if (QFile::exists(KdenliveSettings::video4vdevice())) {
-#if !defined(Q_WS_MAC) && !defined(Q_OS_FREEBSD) && !defined(Q_OS_KFREEBSD)
+#ifdef USE_V4L
         // Video 4 Linux device detection
         for (int i = 0; i < 10; i++) {
             QString path = "/dev/video" + QString::number(i);
@@ -271,7 +270,7 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, KUrl projectFolder, 
                 }
             }
         }
-#endif
+#endif /* USE_V4L */
     }
 
     connect(capture_device, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateDeviceHandler()));
@@ -400,7 +399,7 @@ void StopmotionWidget::slotUpdateDeviceHandler()
     }
     m_layout->removeWidget(m_frame_preview);
     if (data == "v4l") {
-#if !defined(Q_WS_MAC) && !defined(Q_OS_FREEBSD) && !defined(Q_OS_KFREEBSD)
+#ifdef USE_V4L
         m_bmCapture = new V4lCaptureHandler(m_layout);
         m_bmCapture->setDevice(capture_device->itemData(capture_device->currentIndex(), Qt::UserRole + 1).toString(), capture_device->itemData(capture_device->currentIndex(), Qt::UserRole + 2).toString());
 #endif

@@ -35,7 +35,7 @@
 #include "doubleparameterwidget.h"
 #include "cornerswidget.h"
 #include "beziercurve/beziersplinewidget.h"
-#ifdef QJSON
+#ifdef USE_QJSON
 #include "rotoscoping/rotowidget.h"
 #endif
 
@@ -457,7 +457,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement &d, ItemInfo info, boo
             QString depends = pa.attribute("depends");
             if (!depends.isEmpty())
                 meetDependency(paramName, type, EffectsList::parameter(d, depends));
-#ifdef QJSON
+#ifdef USE_QJSON
         } else if (type == "roto-spline") {
             RotoWidget *roto = new RotoWidget(value, m_monitor, info, m_timecode, this);
             roto->slotShowScene(!disable);
@@ -751,7 +751,7 @@ void EffectStackEdit::collectAllParameters()
             QString depends = pa.attributes().namedItem("depends").nodeValue();
             if (!depends.isEmpty())
                 meetDependency(paramName, type, EffectsList::parameter(newparam, depends));
-#ifdef QJSON
+#ifdef USE_QJSON
         } else if (type == "roto-spline") {
             RotoWidget *widget = static_cast<RotoWidget *>(m_valueItems.value(paramName));
             setValue = widget->getSpline();

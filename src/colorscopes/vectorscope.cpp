@@ -22,7 +22,7 @@
 #include "colortools.h"
 #include "renderer.h"
 #include "vectorscope.h"
-#include "vectorscopegenerator.h"
+#include "colorcorrection/vectorscopegenerator.h"
 
 const float P75 = .75;
 const unsigned char DEFAULT_Y = 255;
